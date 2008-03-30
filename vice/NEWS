@@ -7,6 +7,23 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Changes in VICE 1.6
+=====================
+
+** OS/2 changes
+---------------
+
+- CBM Restore Key is now mapped to F12
+
+- Readonly flag added to drive dialog
+
+- now only valid drives can be attached to the different emulators
+
+- switched to lpng 1.08
+
+- now all keys are available if not pressed together with ALT
+
+
 * Changes in VICE 1.5
 =====================
 
@@ -21,7 +38,7 @@ list of all the changes in the code.
 - The Z80 emulation has been improved.  CP/M will boot now.
 
 ** OS/2 changes
------------------
+---------------
 
 - fixed the bug in the joystick support of 1.4
 

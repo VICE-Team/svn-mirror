@@ -32,14 +32,16 @@
 
 typedef struct _convmap
 {
-    keyconv *map[2];      // Conversion Map
-                          // 0 = unshifted, 1 = shifted
-    int lshift_row;       // Location of virt shift key
-    int lshift_col;       // Location of virt shift key
-    int rshift_row;       // Location of virt shift key
-    int rshift_col;       // Location of virt shift key
+    keyconv map[2][0x100];  // Conversion Map
+                            // 0 = unshifted, 1 = shifted
+    int lshift_row;         // Location of virt shift key
+    int lshift_col;         // Location of virt shift key
+    int rshift_row;         // Location of virt shift key
+    int rshift_col;         // Location of virt shift key
 
-    int symbolic;         // this is true if we have a symbolic map
+    int entries;            // number of valid entries
+
+    int symbolic;           // this is true if we have a symbolic map
 } convmap;
 
 extern convmap keyconvmap;

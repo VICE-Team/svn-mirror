@@ -72,6 +72,7 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_FINAL_I            13
 #define CARTRIDGE_MAGIC_FORMEL       14
 #define CARTRIDGE_GS                 15
+#define CARTRIDGE_WARPSPEED          16
 
 /* Expert cartridge has three modes: */
 #define CARTRIDGE_MODE_OFF			0

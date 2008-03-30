@@ -1,12 +1,17 @@
 //
-//  OS/2 keyboard mapping file for PET 3032/4032 keyboard
+//  OS/2 keyboard mapping file
 //
 //       The default keyboard file 'default.vkm' is read always.
 //       Every other keyboard file in read as a patch
 //
 //  comments are starting with /
 //
-//  the position of the left and right shift key on the cbm keyboard:
+// This is a scancode mapping file
+
+!KSCODE
+!CLEAR
+
+//  the position of th left and right shift key on the cbm keyboard:
 //     !LSHIFT row col
 //     !RSHIFT row col
 //  e.g.
@@ -22,16 +27,16 @@
 //      row     cbm keyboard row
 //      col     cbm keyboard column
 //      vshift  should the cbm key pressed?
-//               0 key can be shifted or not with this keysym
+//               0 key is shifted if shift is pressed
 //               1 left shifted        
 //               2 right shifted        
-//               3 key is not shifted for this scancode
+//               3 unshifted     
 //  e.g.
 //         S44: 1, 7, 2 
 //  means
 //         If the key with the scancode 44 is pressed together with shift
 //         the cbm emulator will receive the pressing of a key at
-//         row 1, column 7 together with the right shift key (defined by !RSHIFT)
+//         row 1, column 7 together with the right virtual shift key (defined by !RSHIFT)
 //
 
 #00:  -1, -1, 0               /*           (no key)           */

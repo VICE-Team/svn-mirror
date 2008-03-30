@@ -24,15 +24,31 @@
  *
  */
 
+#define INCL_WINSTDSPIN // WinSetSpinVal
+#define INCL_WINDIALOGS // WinSendDlgItemMsg
 #include "vice.h"
 #include "dialogs.h"
+
+#include "psid.h"
 
 static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
     static int first=TRUE;
     extern int trigger_shutdown;
+
     switch (msg)
     {
+    case WM_PAINT:
+        if (first)
+        {
+            int tunes;
+            int default_tune;
+            tunes = psid_tunes(&default_tune);
+            WinSetSpinVal(hwnd, SPB_TUNENO, default_tune);
+            WinSetSpinVal(hwnd, SPB_TUNES, tunes);
+            first = FALSE;
+        }
+        break;
     case WM_CLOSE:
         trigger_shutdown = 1;
         break;
@@ -47,9 +63,10 @@ static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     return WinDefDlgProc (hwnd, msg, mp1, mp2);
 }
 
+HWND hwndVsid;
 
 void vsid_dialog()
 {
-    WinLoadDlg(HWND_DESKTOP, HWND_DESKTOP, pm_vsid, NULLHANDLE,
-               DLG_VSID, NULL);
+    hwndVsid = WinLoadDlg(HWND_DESKTOP, HWND_DESKTOP, pm_vsid, NULLHANDLE,
+                          DLG_VSID, NULL);
 }

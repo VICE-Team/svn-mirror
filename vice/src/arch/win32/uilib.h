@@ -56,8 +56,7 @@ extern void ui_show_text(HWND hParent, const char *szCaption,
 #define FILE_SELECTOR_DISK_STYLE            2
 #define FILE_SELECTOR_DISK_AND_TAPE_STYLE   3
 
-extern int ui_messagebox( HWND hWnd, LPCTSTR lpText, 
-                         LPCTSTR lpCaption, UINT uType );
+extern int ui_messagebox( LPCTSTR lpText, LPCTSTR lpCaption, UINT uType );
 
 #endif
 

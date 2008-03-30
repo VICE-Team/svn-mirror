@@ -9,24 +9,23 @@
 // This is a scancode mapping file
 
 !KSCODE
-!CLEAR
 
 //
 //  the position of th left and right shift key on the cbm keyboard:
-//     !LSHIFT row col
-//     !RSHIFT row col
+//     !LSHIFT col row
+//     !RSHIFT col row
 //  e.g.
 
 !LSHIFT 1 7
 !RSHIFT 6 4
 
 // the keyboard is mapped with the keyboard scancodes:
-//      Xcode: row col vshift
+//      Xcode: col row vshift
 //
 //      X       # (shifted and unshifted), S (shifted), U (unshifted)
 //      code    keyboard scancode
-//      row     cbm keyboard row
-//      col     cbm keyboard column
+//      col     cbm keyboard: column
+//      row     cbm keyboard: row    
 //      vshift  should the cbm key pressed? (use 0 for the shiftkeys itself)
 //               0 key is shifted if shift is pressed
 //               1 left shifted        
@@ -37,7 +36,7 @@
 //  means
 //         If the key with the scancode 44 is pressed together with shift
 //         the cbm emulator will receive the pressing of a key at
-//         row 1, column 7 together with the right shift key (defined by !RSHIFT)
+//         column 1, row 7 together with the right shift key (defined by !RSHIFT)
 //
 
 #00: -1, -1, 0    /*   0       (no key)           */

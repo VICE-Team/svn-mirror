@@ -51,8 +51,7 @@ typedef enum {
 
 int set_joyA_autoCal(const char *value, void *extra_param);
 int set_joyB_autoCal(const char *value, void *extra_param);
-int get_joyA_autoCal();
-int get_joyB_autoCal();
+int get_joy_autoCal(const int nr);
 
 /****************************************************************************/
 #define GAMEPDDNAME	"GAME$   "

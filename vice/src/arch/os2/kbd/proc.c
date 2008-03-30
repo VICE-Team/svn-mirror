@@ -57,45 +57,57 @@ static void mon_trap(ADDRESS addr, void *unused_data)
     mon(addr);
 }
 
-inline void kbd_set_key(CHAR usScancode, USHORT release, USHORT fsFlags)
+inline void kbd_set_key(const CHAR code1, const CHAR code2,
+                        const USHORT release, const USHORT shift)
 {
-    if (!joystick_handle_key((kbd_code_t)usScancode, release))
+    int nr;
+    for (nr=0; nr<keyconvmap.entries; nr++)
     {
-        int shift = fsFlags&KC_SHIFT?1:0;
+        if (keyconvmap.map[shift][nr].code==(code1 | code2<<8))
+            break;
+    }
 
-        // send pressed key to CBM
-        keyboard_set_keyarr(keyconvmap.map[shift][usScancode].row,
-                            keyconvmap.map[shift][usScancode].column,
+    if (nr==keyconvmap.entries)
+    {
+        if (!release)
+            log_message(LOG_DEFAULT, "proc.c: Unknown key %d %d pressed by user.", code1, code2);
+        return;
+    }
+
+    // send pressed key to CBM
+    keyboard_set_keyarr(keyconvmap.map[shift][nr].row,
+                        keyconvmap.map[shift][nr].column,
+                        release);
+    /*
+     if (!release)
+     log_debug("key  %3i %3i  -%d->  %3i %3i %i",
+     code1, code2, fsFlags&KC_CHAR,
+     keyconvmap.map[shift][nr].row,
+     keyconvmap.map[shift][nr].column,
+     keyconvmap.map[shift][nr].vshift);
+     */
+
+    // process virtual shift key
+    switch (keyconvmap.map[shift][nr].vshift)
+    {
+    case 0x1: // left shifted, press/release left shift
+        keyboard_set_keyarr(keyconvmap.lshift_row,
+                            keyconvmap.lshift_col,
                             release);
-        /*
-         log_debug("key  %3i  -->  %3i %3i %i  %s",usScancode,
-         keyconvmap.map[shift][usScancode].row,
-         keyconvmap.map[shift][usScancode].column,
-         keyconvmap.map[shift][usScancode].vshift,
-         release?"press":"release");
-         */
-        // process virtual shift key
-        switch (keyconvmap.map[shift][usScancode].vshift)
-        {
-        case 0x1: // left shifted, press/release left shift
-            keyboard_set_keyarr(keyconvmap.lshift_row,
-                                keyconvmap.lshift_col,
-                                release);
-            break;
-        case 0x2: // right shifted, press/release right shift
-            keyboard_set_keyarr(keyconvmap.rshift_row,
-                                keyconvmap.rshift_col,
-                                release);
-            break;
-        case 0x3: // unshifted, release virtual shift keys
-            keyboard_set_keyarr(keyconvmap.lshift_row,
-                                keyconvmap.lshift_col,
-                                0);
-            keyboard_set_keyarr(keyconvmap.rshift_row,
-                                keyconvmap.rshift_col,
-                                0);
-            break;
-            }
+        break;
+    case 0x2: // right shifted, press/release right shift
+        keyboard_set_keyarr(keyconvmap.rshift_row,
+                            keyconvmap.rshift_col,
+                            release);
+        break;
+    case 0x3: // unshifted, release virtual shift keys
+        keyboard_set_keyarr(keyconvmap.lshift_row,
+                            keyconvmap.lshift_col,
+                            0);
+        keyboard_set_keyarr(keyconvmap.rshift_row,
+                            keyconvmap.rshift_col,
+                            0);
+        break;
     }
 }
 
@@ -209,7 +221,7 @@ void kbd_proc(HWND hwnd, MPARAM mp1, MPARAM mp2)
             resources_set_value("WarpMode",
                                 (resource_value_t)(fsFlags&KC_TOGGLE));
             return;
-        case VK_PAGEUP:      // restore key pressed
+        case VK_F12:      // restore key pressed
             machine_set_restore_key(release);
             return;
         }
@@ -218,7 +230,15 @@ void kbd_proc(HWND hwnd, MPARAM mp1, MPARAM mp2)
     // ----- give all keypresses without Alt to Vice -----
     if (!(fsFlags&KC_ALT))
     {
-        kbd_set_key(keyconvmap.symbolic?usKeycode:usScancode, release, fsFlags);
+        if (fsFlags&KC_PREVDOWN)
+            return;
+
+        if (joystick_handle_key((kbd_code_t)usScancode, release))
+            return;
+
+        kbd_set_key(keyconvmap.symbolic?usKeycode:usScancode,
+                    keyconvmap.symbolic?usVK:0,
+                    release, fsFlags&KC_SHIFT?1:0);
         return;
     }
 

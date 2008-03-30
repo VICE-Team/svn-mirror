@@ -43,7 +43,7 @@ convmap keyconvmap;
 int load_keymap_file(const char *fname)
 {
     FILE *fp;
-    char buffer[1025];
+    int num = 0;
     char *complete_path;
 
     if (!fname)
@@ -69,7 +69,8 @@ int load_keymap_file(const char *fname)
 
     while (!feof(fp))
     {
-        if (get_line(buffer, 1024, fp))
+        char buffer[81];
+        if (get_line(buffer, 80, fp))
             switch (buffer[0])
             {
             case 0:
@@ -82,14 +83,35 @@ int load_keymap_file(const char *fname)
                 {
                     // FIXME: ERROR LOGGING MISSING
                     char *p;
-                    int num, row, col, shift;
+                    char *dummy;
+                    unsigned long code1, code2;
+                    int row, col, shift;
 
-                    p = strtok(buffer+1, " \t:");
-                    if (!p)
-                        break;
-                    num = atoi(p);
-                    if (num<0 || num>254)
-                        break;
+                    if (keyconvmap.symbolic == 1)
+                    {
+                        p = strtok(buffer+1, " \t,");
+                        if (!p)
+                            break;
+                        code1 = strtoul(p, &dummy, 10);
+                        if (code1>0xff)
+                            break;
+                        p = strtok(NULL, " \t:");
+                        if (!p)
+                            break;
+                        code2 = strtoul(p, &dummy, 10);
+                        if (code2>0xff)
+                            break;
+                    }
+                    else
+                    {
+                        p = strtok(buffer+1, " \t:");
+                        if (!p)
+                            break;
+                        code1 = strtoul(p, &dummy, 10);
+                        if (code1>0xff)
+                            break;
+                        code2 = 0;
+                    }
                     p = strtok(NULL, " \t,");
                     if (!p)
                         break;
@@ -110,25 +132,32 @@ int load_keymap_file(const char *fname)
                         switch (buffer[0])
                         {
                         case '#':
+                            keyconvmap.map[0][num].code   = code1 | code2<<8;
                             keyconvmap.map[0][num].row    = row;
                             keyconvmap.map[0][num].column = col;
                             keyconvmap.map[0][num].vshift = shift;
+                            keyconvmap.map[1][num].code   = code1 | code2<<8;
                             keyconvmap.map[1][num].row    = row;
                             keyconvmap.map[1][num].column = col;
                             keyconvmap.map[1][num].vshift = shift;
+                            num++;
                             break;
                         case 'S':
+                            keyconvmap.map[1][num].code   = code1 | code2<<8;
                             keyconvmap.map[1][num].row    = row;
                             keyconvmap.map[1][num].column = col;
                             keyconvmap.map[1][num].vshift = shift;
+                            num++;
                             break;
                         case 'U':
+                            keyconvmap.map[0][num].code   = code1 | code2<<8;
                             keyconvmap.map[0][num].row    = row;
                             keyconvmap.map[0][num].column = col;
                             keyconvmap.map[0][num].vshift = shift;
+                            num++;
                             break;
                         }
-//                        log_debug("setting %i (%i) to c%i r%i s%i", num, s, row, col, shift);
+                        // log_debug("setting %i (%i) to r%i c%i = %i s%i", num, s, row, col, code1|code2<<8, shift);
                     }
                 }
             case '!': // keyword handling
@@ -168,15 +197,6 @@ int load_keymap_file(const char *fname)
                         keyconvmap.rshift_row = row;
                         keyconvmap.rshift_col = col;
                     }
-                    if (!strcmp(p, "CLEAR"))
-                    {
-                        int i;
-                        for (i=0; i<255; i++)
-                        {
-                            keyconvmap.map[0][i].row    = -1;
-                            keyconvmap.map[1][i].column = -1;
-                        }
-                    }
                     if (!strcmp(p, "KSCODE"))
                         keyconvmap.symbolic = 0;  // FALSE
                     if (!strcmp(p, "KSYM"))
@@ -187,7 +207,13 @@ int load_keymap_file(const char *fname)
             default:
                 break;
             }
+        if (num==0x100)
+        {
+            log_message(LOG_DEFAULT, "parse.c: Warning: keyboard file contains more than 255 entries.");
+            break;
+        }
     }
+    keyconvmap.entries = num;
 
     fclose(fp);
 

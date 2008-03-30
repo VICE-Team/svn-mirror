@@ -190,6 +190,10 @@ typedef struct {
 #define Icon_Conf_DriveFile9	6
 #define Icon_Conf_DriveFile10	9
 #define Icon_Conf_DriveFile11	12
+#define Icon_Conf_DriveRdOnly8	24
+#define Icon_Conf_DriveRdOnly9	25
+#define Icon_Conf_DriveRdOnly10	26
+#define Icon_Conf_DriveRdOnly11	36
 
 /* Tape config */
 #define Icon_Conf_TapeFile	2

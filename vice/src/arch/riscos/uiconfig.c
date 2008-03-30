@@ -149,6 +149,10 @@ static const char Rsrc_VDCsize[] = "VDC_64KB";
 static const char Rsrc_Z80Bios[] = "Z80BiosName";
 static const char Rsrc_VDCdblsze[] = "VDC_DoubleSize";
 static const char Rsrc_VDCdblscn[] = "VDC_DoubleScan";
+static const char Rsrc_ReadOnly8[] = "AttachDevice8Readonly";
+static const char Rsrc_ReadOnly9[] = "AttachDevice9Readonly";
+static const char Rsrc_ReadOnly10[] = "AttachDevice10Readonly";
+static const char Rsrc_ReadOnly11[] = "AttachDevice11Readonly";
 
 
 
@@ -1363,5 +1367,9 @@ config_item Configurations[] = {
   {Rsrc_Z80Bios, CONFIG_STRING, {CONF_WIN_C128, Icon_Conf_C128z80bios}},
   {Rsrc_VDCdblsze, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf_C128dblsize}},
   {Rsrc_VDCdblscn, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf_C128dblscan}},
+  {Rsrc_ReadOnly8, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_Conf_DriveRdOnly8}},
+  {Rsrc_ReadOnly9, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_Conf_DriveRdOnly9}},
+  {Rsrc_ReadOnly10, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_Conf_DriveRdOnly10}},
+  {Rsrc_ReadOnly11, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_Conf_DriveRdOnly11}},
   {NULL, 0, {0, 0}}
 };

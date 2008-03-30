@@ -30,20 +30,15 @@
 
 #include "types.h"
 
-#define KBD_COLS        8
-#define KBD_ROWS        16
-
-extern int keyarr    [KBD_ROWS];
-extern int rev_keyarr[KBD_COLS];
-
 /* Keymap definition structure.  */
 typedef struct {
+    WORD code;
     BYTE row;
     BYTE column;
     int vshift;
 } keyconv;
 
-/* Warning: this might not be 100% correct.  */
+/* Keyboard scancodes. Warning: this might not be 100% correct.  */
 typedef enum {
     K_NONE, K_ESC, K1, K_2, K_3, K_4, K_5, K_6, K_7, K_8, K_9, K_0, K_MINUS,    /*11*/
     K_EQUAL, K_BS, K_TAB, K_Q, K_W, K_E, K_R, K_T, K_Y, K_U, K_I, K_O, K_P,     /*24*/

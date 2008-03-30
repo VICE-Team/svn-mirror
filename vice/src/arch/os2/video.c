@@ -29,6 +29,7 @@
 #define INCL_WINSYS          // SV_CYTITLEBAR
 #define INCL_WININPUT        // WM_CHAR
 #define INCL_DOSPROCESS      // DosSleep
+#define INCL_WINFRAMEMGR     // WM_TRANSLATEACCEL
 #define INCL_WINWINDOWMGR    // QWL_USER
 #define INCL_DOSSEMAPHORES   // HMTX
 #include <os2.h>
@@ -178,6 +179,7 @@ int video_init_cmdline_options(void)
 /* ------------------------------------------------------------------------ */
 const int DIVE_RECTLS  = 50;
 static HDIVE hDiveInst =  0;  // DIVE instance
+static int initialized = FALSE;
 static SETUP_BLITTER divesetup;
 
 extern HMTX hmtxKey;
@@ -219,6 +221,8 @@ int video_init(void) // initialize Dive
     else
         if (rc)
             log_debug("video.c: DosCreateMutexSem (rc=%li)", rc);
+
+    initialized = TRUE;
 
     return 0;
 }
@@ -395,8 +399,8 @@ void wmSetSelection(MPARAM mp1)
 
 void wmVrn(HWND hwnd)
 {
-    HPS   hps  = WinGetPS(hwnd);
-    HRGN  hrgn = GpiCreateRegion(hps, 0L, NULL);
+    HPS  hps  = WinGetPS(hwnd);
+    HRGN hrgn = GpiCreateRegion(hps, 0L, NULL);
     if (hrgn) {  // this should be controlled again (clr/home, stretch 3)
         RGNRECT rgnCtl;
         WinQueryVisibleRegion(hwnd, hrgn);
@@ -424,38 +428,42 @@ void wmVrn(HWND hwnd)
 
 void wmVrnEnabled(HWND hwnd)
 {
-    if (hDiveInst)
-    {
-        canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwnd,QWL_USER);
+    canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwnd,QWL_USER);
 
-        DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);
-        wmVrn(hwnd);
-        c->vrenabled=TRUE;
+    DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);
+    if (!hDiveInst || !initialized)
+    {
         DosReleaseMutexSem(hmtx);
-        //
-        // blit the whole visible area to the screen at next blit time
-        //
-        c->exposure_handler(c->width, c->height);
+        return;
     }
+    wmVrn(hwnd);
+    c->vrenabled=TRUE;
+    DosReleaseMutexSem(hmtx);
+    //
+    // blit the whole visible area to the screen at next blit time
+    //
+    c->exposure_handler(c->width, c->height);
 }
 
 void wmVrnDisabled(HWND hwnd)
 {
-    if (hDiveInst)
-    {
-        canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwnd,QWL_USER);
+    canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwnd,QWL_USER);
 
-        DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);
-        //
-        // FIXME: This is system wide...
-        //
-        DiveSetupBlitter(hDiveInst, NULL);
-        //
-        // ...and this is only for one canvas.
-        //
-        c->vrenabled=FALSE;
+    DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);
+    if (!hDiveInst)
+    {
         DosReleaseMutexSem(hmtx);
+        return;
     }
+    //
+    // FIXME: This is system wide...
+    //
+    DiveSetupBlitter(hDiveInst, NULL);
+    //
+    // ...and this is only for one canvas.
+    //
+    c->vrenabled=FALSE;
+    DosReleaseMutexSem(hmtx);
 }
 
 MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
@@ -471,6 +479,13 @@ MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     case WM_SETSELECTION: wmSetSelection(mp1);       break;
     case WM_VRNDISABLED:  wmVrnDisabled(hwnd);       break;
     case WM_VRNENABLED:   wmVrnEnabled(hwnd);        break;
+
+    case WM_TRANSLATEACCEL:
+        if (SHORT1FROMMP(((QMSG*)mp1)->mp1)&KC_ALT)
+            break;
+        else
+            return FALSE;
+
     case WM_MOVE:
         {
             SWP swp;
@@ -479,6 +494,7 @@ MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             posy=swp.y;
         }
         break;
+
 #ifdef HAVE_MOUSE
     case WM_MOUSEMOVE:
     case WM_BUTTON1DOWN:
@@ -558,13 +574,10 @@ void PM_mainloop(VOID *arg)
         WinDispatchMsg (hab, &qmsg);
 
     //
-    // make sure, that the state of the VRN doesn't change anymore
+    // make sure, that the state of the VRN doesn't change anymore, don't blit anymore
     //
-    WinSetVisibleRegionNotify(c->hwndClient, FALSE);
-    //
-    // don't blit anymore!
-    //
-    c->vrenabled = FALSE;
+    initialized = FALSE;
+    wmVrnDisabled(c->hwndClient);
 
     log_debug("Window '%s': Quit!", c->title);
     free(c->title);
@@ -620,9 +633,9 @@ canvas_t *canvas_create(const char *title, UINT *width,
 {
     canvas_t *canvas_new;
 
-    if (palette->num_entries > 255)
+    if (palette->num_entries > 0x10)
     {
-        log_error(LOG_DEFAULT, "video.c: Too many colors requested.");
+        log_error(LOG_DEFAULT, "video.c: Error! More than 16 colors requested for '%s'", title);
         return (canvas_t *) NULL;
     }
 
@@ -631,6 +644,7 @@ canvas_t *canvas_create(const char *title, UINT *width,
     canvas_new->title            =  concat(szTitleBarText, " - ", title+6, NULL);
     canvas_new->width            = *width;
     canvas_new->height           = *height;
+    canvas_new->palette          =  0;
     canvas_new->exposure_handler =  exposure_handler;
     canvas_new->vrenabled        =  FALSE;
 
@@ -686,22 +700,49 @@ int canvas_set_palette(canvas_t *c, const palette_t *p, PIXEL *pixel_return)
     //
     int i;
     ULONG rc;
+    int offset;
 
-    RGB2 *palette = xcalloc(1, p->num_entries*sizeof(RGB2));
+    //
+    // number of already used blocks of color data
+    //
+    static int blocks = 0;
+
+    RGB2 *palette = xcalloc(p->num_entries, sizeof(RGB2));
+
+    //
+    // if this is the first or a new block of color data
+    //
+    if (!blocks || !c->palette)
+    {
+        if (blocks==0x10)
+        {
+            log_message(LOG_DEFAULT, "video.c: All 256 palette entries are in use.");
+            free(palette);
+            return -1;
+        }
+        blocks++;
+        c->palette = blocks;
+    }
+
+    //
+    // calculate offset for actual block of color data
+    //
+    offset = (c->palette-1) * 0x10;
 
     for (i=0; i<p->num_entries; i++)
     {
-        palette[i].bRed  =p->entries[i].red;
-        palette[i].bGreen=p->entries[i].green;
-        palette[i].bBlue =p->entries[i].blue;
-        pixel_return[i]=i;
+        palette[i].bRed   = p->entries[i].red;
+        palette[i].bGreen = p->entries[i].green;
+        palette[i].bBlue  = p->entries[i].blue;
+
+        pixel_return[i] = i + offset;
     }
 
-    rc=DiveSetSourcePalette(hDiveInst, 0, p->num_entries, (BYTE*)palette);
+    rc=DiveSetSourcePalette(hDiveInst, offset, p->num_entries, (BYTE*)palette);
     if (rc)
         log_message(LOG_DEFAULT,"video.c: Error DiveSetSourcePalette (rc=0x%x).",rc);
     else
-        log_message(LOG_DEFAULT,"video.c: Palette set.",rc);
+        log_message(LOG_DEFAULT,"video.c: Palette realized.",rc);
 
     free(palette);
 
@@ -714,7 +755,7 @@ void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
                     unsigned int xi, unsigned int yi,
                     unsigned int w,  unsigned int h)
 {
-    if (DosRequestMutexSem(hmtx, SEM_IMMEDIATE_RETURN) || !hDiveInst)
+    if (DosRequestMutexSem(hmtx, SEM_IMMEDIATE_RETURN) || !hDiveInst || !initialized)
         return;
 
     if (c->vrenabled)

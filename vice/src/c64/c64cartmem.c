@@ -165,6 +165,8 @@ BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
       case CARTRIDGE_GS:
         cartridge_config_changed(0);
         return rand();
+      case CARTRIDGE_WARPSPEED:
+        return roml_banks[0x1e00 + (addr & 0xff)];
       case CARTRIDGE_SUPER_SNAPSHOT:
         return export_ram0[0x1e00 + (addr & 0xff)];
       case CARTRIDGE_SUPER_SNAPSHOT_V5:
@@ -223,6 +225,9 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
         cartridge_config_changed(0x42);
         break;
       case CARTRIDGE_SIMONS_BASIC:
+        cartridge_config_changed(1);
+        break;
+      case CARTRIDGE_WARPSPEED:
         cartridge_config_changed(1);
         break;
       case CARTRIDGE_SUPER_SNAPSHOT:
@@ -355,6 +360,8 @@ BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
         else
             cartridge_config_changed(0);
         return 0;
+      case CARTRIDGE_WARPSPEED:
+        return roml_banks[0x1f00 + (addr & 0xff)];
     }
     return rand();
 }
@@ -375,6 +382,9 @@ void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
         break;
       case CARTRIDGE_KCS_POWER:
         export_ram0[0x1f00 + (addr & 0xff)] = value;
+        break;
+      case CARTRIDGE_WARPSPEED:
+        cartridge_config_changed(2);
         break;
       case CARTRIDGE_SUPER_SNAPSHOT:
         if ((addr & 0xff) == 0) {
@@ -501,6 +511,7 @@ void cartridge_init_config(void)
       case CARTRIDGE_SIMONS_BASIC:
       case CARTRIDGE_GENERIC_16KB:
       case CARTRIDGE_WESTERMANN:
+      case CARTRIDGE_WARPSPEED:
         cartridge_config_changed(1);
         break;
       case CARTRIDGE_ULTIMAX:
@@ -559,6 +570,7 @@ void cartridge_attach(int type, BYTE *rawcart)
       case CARTRIDGE_SIMONS_BASIC:
       case CARTRIDGE_WESTERMANN:
       case CARTRIDGE_FINAL_I:
+      case CARTRIDGE_WARPSPEED:
         memcpy(roml_banks, rawcart, 0x2000);
         memcpy(romh_banks, &rawcart[0x2000], 0x2000);
         cartridge_config_changed(1);

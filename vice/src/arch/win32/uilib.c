@@ -280,7 +280,7 @@ char    *extension;
                         }
                         if (file_exists_p(filename)) {
                             int ret;
-                            ret = ui_messagebox(hwnd, "Overwrite existing image?",
+                            ret = ui_messagebox("Overwrite existing image?",
                                 "VICE question", MB_YESNO | MB_ICONQUESTION);
                             if (ret != IDYES)
                                 return -1;
@@ -418,7 +418,7 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
                         }
                         if (file_exists_p(filename)) {
                             int ret;
-                            ret = ui_messagebox(hwnd, "Overwrite existing image?",
+                            ret = ui_messagebox("Overwrite existing image?",
                                 "VICE question", MB_YESNO | MB_ICONQUESTION);
                             if (ret != IDYES)
                                 return -1;
@@ -679,13 +679,4 @@ BOOL CALLBACK TextDlgProc(HWND hwndDlg,		// handle to dialog box
             break;
     }
     return FALSE;
-}
-
-int ui_messagebox( HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType )
-{
-    int ret;
-    SuspendFullscreenMode(hWnd);
-    ret = MessageBox( hWnd, lpText, lpCaption, uType );
-    ResumeFullscreenMode(hWnd);
-    return ret;
 }

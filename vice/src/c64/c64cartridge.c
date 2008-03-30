@@ -199,6 +199,7 @@ int cartridge_attach_image(int type, const char *filename)
         break;
       case CARTRIDGE_GENERIC_16KB:
       case CARTRIDGE_WESTERMANN:
+      case CARTRIDGE_WARPSPEED:
         fd = fopen(filename, MODE_READ);
         if (!fd)
             goto done;
@@ -273,8 +274,6 @@ int cartridge_attach_image(int type, const char *filename)
         crttype = header[0x17] + header[0x16] * 256;
         switch (crttype) {
           case CARTRIDGE_CRT:
-          case CARTRIDGE_WESTERMANN:
-          case CARTRIDGE_FINAL_I:
             if (fread(chipheader, 0x10, 1, fd) < 1) {
                 fclose(fd);
                 goto done;
@@ -285,9 +284,8 @@ int cartridge_attach_image(int type, const char *filename)
                     fclose(fd);
                     goto done;
                 }
-                if (crttype != CARTRIDGE_WESTERMANN && crttype != CARTRIDGE_FINAL_I)
-                    crttype = (chipheader[0xe] <= 0x20) ? CARTRIDGE_GENERIC_8KB
-                              : CARTRIDGE_GENERIC_16KB;
+                crttype = (chipheader[0xe] <= 0x20) ? CARTRIDGE_GENERIC_8KB
+                          : CARTRIDGE_GENERIC_16KB;
                 /* try to read next CHIP header in case of 16k Ultimax cart */
                 if (fread(chipheader, 0x10, 1, fd) < 1) {
                     fclose(fd);
@@ -307,6 +305,24 @@ int cartridge_attach_image(int type, const char *filename)
             }
             fclose(fd);
             goto done;
+          case CARTRIDGE_WESTERMANN:
+          case CARTRIDGE_FINAL_I:
+          case CARTRIDGE_WARPSPEED:
+            if (fread(chipheader, 0x10, 1, fd) < 1) {
+                fclose(fd);
+                goto done;
+            }
+            if (chipheader[0xc] != 0x80 || chipheader[0xe] != 0x40) {
+                fclose(fd);
+                goto done;
+            }
+
+            if (fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1) {
+                fclose(fd);
+                goto done;
+            }
+            fclose(fd);
+            break;
           case CARTRIDGE_ACTION_REPLAY:
           case CARTRIDGE_ATOMIC_POWER:
             for (i = 0; i <= 3; i++) {

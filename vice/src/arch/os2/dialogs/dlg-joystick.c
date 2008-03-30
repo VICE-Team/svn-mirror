@@ -24,13 +24,20 @@
  *
  */
 
+#define INCL_WININPUT     // WM_CHAR
 #define INCL_WINBUTTONS
 #define INCL_WINDIALOGS
 #define INCL_WINSTDSPIN
+#define INCL_WINFRAMEMGR  // WM_TANSLATEACCEL
 
 #include "vice.h"
 #include "dialogs.h"
 
+#include <ctype.h>        // isprint
+#include <stdlib.h>       // free
+
+#include "log.h"
+#include "utils.h"        // xmsprintf
 #include "joystick.h"
 #include "resources.h"
 
@@ -40,8 +47,8 @@
 #define JOY_PORT1 0x100
 #define JOY_PORT2 0x200
 
-extern int get_joyA_autoCal(void);
-extern int get_joyB_autoCal(void);
+#define JOYDEV_ALL (JOYDEV_HW1|JOYDEV_HW2|JOYDEV_NUMPAD| \
+                    JOYDEV_KEYSET1|JOYDEV_KEYSET2)
 
 static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
@@ -55,11 +62,15 @@ static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
         setDlgOpen(DLGO_JOYSTICK);
         first = TRUE;
         break;
+    case WM_DESTROY:
     case WM_CLOSE:
         if (dlgOpen(DLGO_CALIBRATE))
             WinSendDlgItemMsg(hwnd, DLG_CALIBRATE, WM_CLOSE, 0, 0);
+        if (dlgOpen(DLGO_KEYSET))
+            WinSendDlgItemMsg(hwnd, DLG_KEYSET, WM_CLOSE, 0, 0);
         delDlgOpen(DLGO_JOYSTICK);
         delDlgOpen(DLGO_CALIBRATE);
+        delDlgOpen(DLGO_KEYSET);
         break;
     case WM_PAINT:
         {
@@ -69,10 +80,7 @@ static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                 first=FALSE;
                 resources_get_value("JoyDevice1", (resource_value_t*) &joy1);
                 resources_get_value("JoyDevice2", (resource_value_t*) &joy2);
-                WinCheckButton(hwnd, CB_JOY11,(JOYDEV_HW1 & joy1) ? 1 : 0);
-                WinCheckButton(hwnd, CB_JOY12,(JOYDEV_HW1 & joy2) ? 1 : 0);
-                WinCheckButton(hwnd, CB_JOY21,(JOYDEV_HW2 & joy1) ? 1 : 0);
-                WinCheckButton(hwnd, CB_JOY22,(JOYDEV_HW2 & joy2) ? 1 : 0);
+                WinSendMsg(hwnd, WM_SETCBS, (void*)joy1, (void*)joy2);
             }
         }
         break;
@@ -82,55 +90,76 @@ static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
         case DID_CLOSE:
             delDlgOpen(DLGO_JOYSTICK);
             delDlgOpen(DLGO_CALIBRATE);
+            delDlgOpen(DLGO_KEYSET);
             break;
         case ID_SWAP:
             {
-                int joy1, joy2, swp;
+                int joy1, joy2;
 
                 resources_get_value("JoyDevice1", (resource_value_t*) &joy1);
                 resources_get_value("JoyDevice2", (resource_value_t*) &joy2);
 
-                swp  = (joy1 & ~(JOYDEV_HW1|JOYDEV_HW2)) | (joy2 & (JOYDEV_HW1|JOYDEV_HW2));
-                joy2 = (joy2 & ~(JOYDEV_HW1|JOYDEV_HW2)) | (joy1 & (JOYDEV_HW1|JOYDEV_HW2));
-                joy1 = swp;
+                resources_set_value("JoyDevice1", (resource_value_t) joy2);
+                resources_set_value("JoyDevice2", (resource_value_t) joy1);
 
-                resources_set_value("JoyDevice1", (resource_value_t) joy1);
-                resources_set_value("JoyDevice2", (resource_value_t) joy2);
-
-                WinCheckButton(hwnd, CB_JOY11,(JOYDEV_HW1 & joy1) ? 1 : 0);
-                WinCheckButton(hwnd, CB_JOY12,(JOYDEV_HW1 & joy2) ? 1 : 0);
-                WinCheckButton(hwnd, CB_JOY21,(JOYDEV_HW2 & joy1) ? 1 : 0);
-                WinCheckButton(hwnd, CB_JOY22,(JOYDEV_HW2 & joy2) ? 1 : 0);
+                WinSendMsg(hwnd, WM_SETCBS,  (void*)joy2, (void*)joy1);
             }
             return FALSE;
         case ID_CALIBRATE:
             calibrate_dialog(hwnd);
             return FALSE;;
+        case ID_KEYSET:
+            keyset_dialog(hwnd);
+            return FALSE;;
         }
         break;
     case WM_CONTROL:
         {
-            int button = SHORT1FROMMP(mp1);
-            int joy_hw = (button & JOYDEV_HW1)? JOYDEV_HW1:JOYDEV_HW2;
-            if (button & JOY_ALL)
-            {
-                int state = SHORT2FROMMP(mp1);
-                int joy;
-                resources_get_value((button & JOY_PORT1)?"JoyDevice1":"JoyDevice2",
-                                    (resource_value_t*) &joy);
+            int button =SHORT1FROMMP(mp1);
+            int state=WinQueryButtonCheckstate(hwnd, button);
+            int port = button & JOY_PORT1;
+            int joya, joyb;
+            resources_get_value(port?"JoyDevice1":"JoyDevice2",
+                                (resource_value_t*) &joya);
+            resources_get_value(port?"JoyDevice2":"JoyDevice1",
+                                (resource_value_t*) &joyb);
+            if (state)
+                joya |= button & JOYDEV_ALL;
+            else
+                joya &= ~(button & JOYDEV_ALL);
 
-                if (joy & joy_hw) joy &= ~joy_hw;
-                else              joy |=  joy_hw;
+            resources_set_value(port?"JoyDevice1":"JoyDevice2",
+                                (resource_value_t) joya);
+            WinSendMsg(hwnd, WM_SETDLGS,
+                       (void*)(port?joya:joyb), (void*)(port?joyb:joya));
 
-                resources_set_value((button & JOY_PORT1)?"JoyDevice1":"JoyDevice2",
-                                    (resource_value_t) joy);
-                if (dlgOpen(DLGO_CALIBRATE))
-                {
-                    WinSendDlgMsg(hwnd, DLG_CALIBRATE, WM_SETJOY,
-                                  ((joy_hw&JOYDEV_HW1)?0:1), (joy&joy_hw));
-                }
-            }
         }
+        break;
+    case WM_SETDLGS:
+        {
+            int joy1 = (int)mp1;
+            int joy2 = (int)mp2;
+            int joys = joy1 | joy2;
+
+            if (dlgOpen(DLGO_CALIBRATE))
+                WinSendDlgMsg(hwnd, DLG_CALIBRATE, WM_SETJOY,
+                              (void*)(joys&JOYDEV_HW1), (void*)(joys&JOYDEV_HW2));
+            if (dlgOpen(DLGO_KEYSET))
+                WinSendDlgMsg(hwnd, DLG_KEYSET, WM_SETKEY,
+                              (void*)(joys&JOYDEV_KEYSET1), (void*)(joys&JOYDEV_KEYSET2));
+        }
+        break;
+    case WM_SETCBS:
+        WinCheckButton(hwnd, CB_JOY11,   (JOYDEV_HW1     & (int)mp1) ? 1 : 0);
+        WinCheckButton(hwnd, CB_JOY12,   (JOYDEV_HW1     & (int)mp2) ? 1 : 0);
+        WinCheckButton(hwnd, CB_JOY21,   (JOYDEV_HW2     & (int)mp1) ? 1 : 0);
+        WinCheckButton(hwnd, CB_JOY22,   (JOYDEV_HW2     & (int)mp2) ? 1 : 0);
+        WinCheckButton(hwnd, CB_NUMJOY1, (JOYDEV_NUMPAD  & (int)mp1) ? 1 : 0);
+        WinCheckButton(hwnd, CB_NUMJOY2, (JOYDEV_NUMPAD  & (int)mp2) ? 1 : 0);
+        WinCheckButton(hwnd, CB_KS1JOY1, (JOYDEV_KEYSET1 & (int)mp1) ? 1 : 0);
+        WinCheckButton(hwnd, CB_KS1JOY2, (JOYDEV_KEYSET1 & (int)mp2) ? 1 : 0);
+        WinCheckButton(hwnd, CB_KS2JOY1, (JOYDEV_KEYSET2 & (int)mp1) ? 1 : 0);
+        WinCheckButton(hwnd, CB_KS2JOY2, (JOYDEV_KEYSET2 & (int)mp2) ? 1 : 0);
         break;
     }
     return WinDefDlgProc (hwnd, msg, mp1, mp2);
@@ -147,6 +176,7 @@ static MRESULT EXPENTRY pm_calibrate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
         setDlgOpen(DLGO_CALIBRATE);
         first = TRUE;
         break;
+    case WM_DESTROY:
     case WM_CLOSE:
         delDlgOpen(DLGO_CALIBRATE);
         break;
@@ -159,8 +189,8 @@ static MRESULT EXPENTRY pm_calibrate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
                 resources_get_value("JoyDevice1", (resource_value_t*) &j1);
                 resources_get_value("JoyDevice2", (resource_value_t*) &j2);
                 WinSendMsg(hwnd, WM_PROCESS,
-                           (void*)!!((j1&JOYDEV_HW1)|(j2&JOYDEV_HW1)),
-                           (void*)!!((j1&JOYDEV_HW2)|(j2&JOYDEV_HW2)));
+                           (void*)!!((j1|j2)&JOYDEV_HW1),
+                           (void*)!!((j1|j2)&JOYDEV_HW2));
             }
         }
         break;
@@ -174,8 +204,7 @@ static MRESULT EXPENTRY pm_calibrate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
                 if (!(ctrl==RB_JOY1 && joy1) && !(ctrl==RB_JOY2 && !joy1))
                 {
                     joy1 = !joy1;
-                    WinSendMsg(hwnd, WM_ENABLECTRL, 0,
-                               (void*)(joy1?get_joyA_autoCal():get_joyB_autoCal()));
+                    WinSendMsg(hwnd, WM_ENABLECTRL, 0, (void*)(get_joy_autoCal(joy1?0:1)));
                     WinSendMsg(hwnd, WM_FILLSPB, 0, 0);
                 }
                 break;
@@ -207,31 +236,33 @@ static MRESULT EXPENTRY pm_calibrate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
             case ID_START:
             case ID_RESET:
             case ID_STOP:
-                {
-                    if (joy1) set_joyA_autoCal(NULL,   (void*)(cmd!=ID_STOP));
-                    else      set_joyB_autoCal(NULL,   (void*)(cmd!=ID_STOP));
-                    WinSendMsg(hwnd, WM_ENABLECTRL, 0, (void*)(cmd!=ID_STOP));
-                    WinSendMsg(hwnd, WM_FILLSPB, 0, 0);
-                    return FALSE;
-                }
+                if (joy1) set_joyA_autoCal(NULL,   (void*)(cmd!=ID_STOP));
+                else      set_joyB_autoCal(NULL,   (void*)(cmd!=ID_STOP));
+                WinSendMsg(hwnd, WM_ENABLECTRL, 0, (void*)(cmd!=ID_STOP));
+                WinSendMsg(hwnd, WM_FILLSPB, 0, 0);
+                return FALSE;
             }
+            break;
         }
     case WM_PROCESS:
-        if (((int)mp1^(int)mp2)&1) joy1 = (int)mp1;
+        if (((int)mp1^(int)mp2)&1)
+            joy1 = (int)mp1;
+
         WinCheckButton(hwnd, joy1?RB_JOY1:RB_JOY2, 1);
         WinEnableControl(hwnd, RB_JOY1, (ULONG)mp1);
         WinEnableControl(hwnd, RB_JOY2, (ULONG)mp2);
 
         WinSendMsg(hwnd, WM_ENABLECTRL, (void*)(!mp1 && !mp2),
-                   (void*)(joy1?get_joyA_autoCal():get_joyB_autoCal()));
+                   (void*)get_joy_autoCal(joy1?0:1));
         WinSendMsg(hwnd, WM_FILLSPB, 0, 0);
         break;
     case WM_SETJOY:
         {
-            WinEnableControl(hwnd, mp1?RB_JOY2:RB_JOY1, (ULONG)mp2);
-            WinSendMsg(hwnd, WM_PROCESS,
-                       (void*)WinIsDlgEnabled(hwnd, RB_JOY1),
-                       (void*)WinIsDlgEnabled(hwnd, RB_JOY2));
+            ULONG state1 = mp1?1:0;
+            ULONG state2 = mp2?1:0;
+            WinEnableControl(hwnd, RB_JOY1, state1);
+            WinEnableControl(hwnd, RB_JOY2, state2);
+            WinSendMsg(hwnd, WM_PROCESS, (void*)state1, (void*)state2);
         }
         break;
     case WM_ENABLECTRL:
@@ -259,6 +290,227 @@ static MRESULT EXPENTRY pm_calibrate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
     }
     return WinDefDlgProc (hwnd, msg, mp1, mp2);
 }
+
+static MRESULT EXPENTRY pm_keyset(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
+{
+    static int first = TRUE;
+    static int set1  = TRUE;
+
+    static int id = 0;
+
+    switch (msg)
+    {
+    case WM_INITDLG:
+        setDlgOpen(DLGO_KEYSET);
+        first = TRUE;
+        break;
+    case WM_DESTROY:
+    case WM_CLOSE:
+        delDlgOpen(DLGO_KEYSET);
+        break;
+    case WM_PAINT:
+        {
+            if (first)
+            {
+                int j1, j2;
+                first = FALSE;
+                resources_get_value("JoyDevice1", (resource_value_t*) &j1);
+                resources_get_value("JoyDevice2", (resource_value_t*) &j2);
+                WinSendMsg(hwnd, WM_KPROCESS,
+                           (void*)!!((j1|j2)&JOYDEV_KEYSET1),
+                           (void*)!!((j1|j2)&JOYDEV_KEYSET2));
+            }
+        }
+        break;
+    case WM_CONTROL:
+        {
+            int ctrl = SHORT1FROMMP(mp1);
+            switch (ctrl)
+            {
+            case RB_SET1:
+            case RB_SET2:
+                if (!(ctrl==RB_SET1 && set1) && !(ctrl==RB_SET2 && !set1))
+                {
+                    set1 = !set1;
+                    WinSendMsg(hwnd, WM_KENABLECTRL, 0, 0);
+                    WinSendMsg(hwnd, WM_KFILLSPB, 0, 0);
+                }
+                break;
+            case SPB_N:
+            case SPB_NE:
+            case SPB_E:
+            case SPB_SE:
+            case SPB_S:
+            case SPB_SW:
+            case SPB_W:
+            case SPB_NW:
+            case SPB_FIRE:
+                if (SHORT2FROMMP(mp1)==SPBN_SETFOCUS)
+                    id = ctrl;
+                break;
+            }
+            break;
+        }
+    case WM_COMMAND:
+        if (LONGFROMMP(mp1)==DID_CLOSE)
+            delDlgOpen(DLGO_KEYSET);
+        break;
+    case WM_KPROCESS:
+        if (((int)mp1^(int)mp2)&1)
+            set1 = (int)mp1;
+
+        WinCheckButton(hwnd, set1?RB_SET1:RB_SET2, 1);
+        WinEnableControl(hwnd, RB_SET1, (ULONG)mp1);
+        WinEnableControl(hwnd, RB_SET2, (ULONG)mp2);
+
+        WinSendMsg(hwnd, WM_KENABLECTRL, (void*)(!mp1 && !mp2), NULL);
+        WinSendMsg(hwnd, WM_KFILLSPB, 0, 0);
+        break;
+    case WM_TRANSLATEACCEL:
+        {
+            if (SHORT1FROMMP(((QMSG*)mp1)->mp1)&KC_ALT)
+                break;
+            else
+                return FALSE;
+        }
+    case WM_CHAR:
+        {
+            char *out;
+            CHAR usScancode = CHAR4FROMMP(mp1);   //fsFlags&KC_SCANCODE
+            //USHORT fsFlags    = SHORT1FROMMP(mp1);
+            //CHAR   usKeycode  = SHORT1FROMMP(mp2);  //fsFlags&KC_CHAR
+            //CHAR   usVK       = SHORT2FROMMP(mp2);  //fsFlags&KC_VIRTUALKEY VK_TAB/LEFT/RIGHT/UP/DOWN
+
+            switch (id)
+            {
+            case SPB_N:
+                resources_set_value(set1?"KeySet1North":"KeySet2North",
+                                    (resource_value_t) usScancode);
+                break;
+            case SPB_NE:
+                resources_set_value(set1?"KeySet1NorthEast":"KeySet2NorthEast",
+                                    (resource_value_t) usScancode);
+                break;
+            case SPB_E:
+                resources_set_value(set1?"KeySet1East":"KeySet2East",
+                                    (resource_value_t) usScancode);
+                break;
+           case SPB_SE:
+                resources_set_value(set1?"KeySet1SouthEast":"KeySet2SouthEast",
+                                    (resource_value_t) usScancode);
+                break;
+            case SPB_S:
+                resources_set_value(set1?"KeySet1South":"KeySet2South",
+                                    (resource_value_t) usScancode);
+                break;
+            case SPB_SW:
+                resources_set_value(set1?"KeySet1SouthWest":"KeySet2SouthWest",
+                                    (resource_value_t) usScancode);
+                break;
+            case SPB_W:
+                resources_set_value(set1?"KeySet1West":"KeySet2West",
+                                    (resource_value_t) usScancode);
+                break;
+            case SPB_NW:
+                resources_set_value(set1?"KeySet1NorthWest":"KeySet2NorthWest",
+                                    (resource_value_t) usScancode);
+                break;
+            case SPB_FIRE:
+                resources_set_value(set1?"KeySet1Fire":"KeySet2Fire",
+                                    (resource_value_t) usScancode);
+                break;
+            default:
+                return FALSE;
+            }
+            out = xmsprintf("#%d", usScancode);
+            WinSendDlgItemMsg(hwnd, id, SPBM_SETARRAY, (MPARAM)&out,(MPARAM)1);
+            WinSetSpinVal(hwnd, id, 0);
+            free(out);
+        }
+        break;
+    case WM_SETKEY:
+        {
+            ULONG state1 = mp1?1:0;
+            ULONG state2 = mp2?1:0;
+            WinEnableControl(hwnd, RB_SET1, state1);
+            WinEnableControl(hwnd, RB_SET2, state2);
+            WinSendMsg(hwnd, WM_KPROCESS, (void*)state1, (void*)state2);
+        }
+        break;
+    case WM_KENABLECTRL:
+        WinEnableControl(hwnd, SPB_N,  mp1?0:1);
+        WinEnableControl(hwnd, SPB_NE, mp1?0:1);
+        WinEnableControl(hwnd, SPB_E,  mp1?0:1);
+        WinEnableControl(hwnd, SPB_SE, mp1?0:1);
+        WinEnableControl(hwnd, SPB_S,  mp1?0:1);
+        WinEnableControl(hwnd, SPB_SW, mp1?0:1);
+        WinEnableControl(hwnd, SPB_W,  mp1?0:1);
+        WinEnableControl(hwnd, SPB_NW, mp1?0:1);
+        WinEnableControl(hwnd, SPB_FIRE, mp1?0:1);
+        return FALSE;
+    case WM_KFILLSPB:
+        {
+            int val;
+            char *msg;
+            resources_get_value(set1?"KeySet1North":"KeySet2North",
+                                (resource_value_t*) &val);
+            msg=xmsprintf("#%d", val);
+            WinSendDlgItemMsg(hwnd, SPB_N, SPBM_SETARRAY, (MPARAM)&msg,(MPARAM)1);
+            WinSetSpinVal(hwnd, SPB_N, 0);
+            free(msg);
+            resources_get_value(set1?"KeySet1NorthEast":"KeySet2NorthEast",
+                                (resource_value_t*) &val);
+            msg=xmsprintf("#%d", val);
+            WinSendDlgItemMsg(hwnd, SPB_NE, SPBM_SETARRAY, (MPARAM)&msg,(MPARAM)1);
+            WinSetSpinVal(hwnd, SPB_NE, 0);
+            free(msg);
+            resources_get_value(set1?"KeySet1East":"KeySet2East",
+                                (resource_value_t*) &val);
+            msg=xmsprintf("#%d", val);
+            WinSendDlgItemMsg(hwnd, SPB_E, SPBM_SETARRAY, (MPARAM)&msg,(MPARAM)1);
+            WinSetSpinVal(hwnd, SPB_E, 0);
+            free(msg);
+            resources_get_value(set1?"KeySet1SouthEast":"KeySet2SouthEast",
+                                (resource_value_t*) &val);
+            msg=xmsprintf("#%d", val);
+            WinSendDlgItemMsg(hwnd, SPB_SE, SPBM_SETARRAY, (MPARAM)&msg,(MPARAM)1);
+            WinSetSpinVal(hwnd, SPB_SE, 0);
+            free(msg);
+            resources_get_value(set1?"KeySet1South":"KeySet2South",
+                                (resource_value_t*) &val);
+            msg=xmsprintf("#%d", val);
+            WinSendDlgItemMsg(hwnd, SPB_S, SPBM_SETARRAY, (MPARAM)&msg,(MPARAM)1);
+            WinSetSpinVal(hwnd, SPB_S, 0);
+            free(msg);
+            resources_get_value(set1?"KeySet1SouthWest":"KeySet2SouthWest",
+                                (resource_value_t*) &val);
+            msg=xmsprintf("#%d", val);
+            WinSendDlgItemMsg(hwnd, SPB_SW, SPBM_SETARRAY, (MPARAM)&msg,(MPARAM)1);
+            WinSetSpinVal(hwnd, SPB_SW, 0);
+            free(msg);
+            resources_get_value(set1?"KeySet1West":"KeySet2West",
+                                (resource_value_t*) &val);
+            msg=xmsprintf("#%d", val);
+            WinSendDlgItemMsg(hwnd, SPB_W, SPBM_SETARRAY, (MPARAM)&msg,(MPARAM)1);
+            WinSetSpinVal(hwnd, SPB_W, 0);
+            free(msg);
+            resources_get_value(set1?"KeySet1NorthWest":"KeySet2NorthWest",
+                                (resource_value_t*) &val);
+            msg=xmsprintf("#%d", val);
+            WinSendDlgItemMsg(hwnd, SPB_NW, SPBM_SETARRAY, (MPARAM)&msg,(MPARAM)1);
+            WinSetSpinVal(hwnd, SPB_NW, 0);
+            free(msg);
+            resources_get_value(set1?"KeySet1Fire":"KeySet2Fire",
+                                (resource_value_t*) &val);
+            msg=xmsprintf("#%d", val);
+            WinSendDlgItemMsg(hwnd, SPB_FIRE, SPBM_SETARRAY, (MPARAM)&msg,(MPARAM)1);
+            WinSetSpinVal(hwnd, SPB_FIRE, 0);
+            free(msg);
+        }
+        return FALSE;
+    }
+    return WinDefDlgProc (hwnd, msg, mp1, mp2);
+}
 #endif
 
 /* call to open dialog                                              */
@@ -277,6 +529,13 @@ void calibrate_dialog(HWND hwnd)
     if (dlgOpen(DLGO_CALIBRATE)) return;
     WinLoadDlg(HWND_DESKTOP, hwnd, pm_calibrate, NULLHANDLE,
                DLG_CALIBRATE, NULL);
+}
+
+void keyset_dialog(HWND hwnd)
+{
+    if (dlgOpen(DLGO_KEYSET)) return;
+    WinLoadDlg(HWND_DESKTOP, hwnd, pm_keyset, NULLHANDLE,
+               DLG_KEYSET, NULL);
 }
 #endif
 

@@ -617,14 +617,14 @@ void ui_error(const char *format, ...)
     vsprintf(tmp, format, args);
     va_end(args);
     log_debug(tmp);
-    ui_messagebox(window_handles[0], tmp, "VICE Error!", MB_OK | MB_ICONSTOP);
+    ui_messagebox(tmp, "VICE Error!", MB_OK | MB_ICONSTOP);
 }
 
 /* Report an error to the user (one string).  */
 void ui_error_string(const char *text)
 {
     log_debug(text);
-    ui_messagebox(window_handles[0], text, "VICE Error!", MB_OK | MB_ICONSTOP);
+    ui_messagebox(text, "VICE Error!", MB_OK | MB_ICONSTOP);
 }
 
 /* Report a message to the user (`printf()' style).  */
@@ -636,8 +636,7 @@ void ui_message(const char *format,...)
     va_start(args, format);
     vsprintf(tmp, format, args);
     va_end(args);
-    ui_messagebox(window_handles[0], tmp, "VICE Information",
-               MB_OK | MB_ICONASTERISK);
+    ui_messagebox(tmp, "VICE Information", MB_OK | MB_ICONASTERISK);
 }
 
 /* Handle the "CPU JAM" case.  */
@@ -650,8 +649,7 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
     va_start(ap, format);
     txt = xmvsprintf(format, ap);
     txt2 = xmsprintf("%s\n\nStart monitor?", txt );
-    ret = ui_messagebox(window_handles[0], txt2,
-                  "VICE CPU JAM", MB_YESNO);
+    ret = ui_messagebox(txt2, "VICE CPU JAM", MB_YESNO);
     free(txt2);
     free(txt);
     return (ret==IDYES) ? UI_JAM_MONITOR : UI_JAM_HARD_RESET;
@@ -664,7 +662,7 @@ int ui_extend_image_dialog(void)
 {
     int ret;
 
-    ret = ui_messagebox(window_handles[0], "Extend image to 40-track format?",
+    ret = ui_messagebox("Extend image to 40-track format?",
                      "VICE question", MB_YESNO | MB_ICONQUESTION);
     return ret == IDYES;
 }
@@ -1286,8 +1284,7 @@ char *dname;
       case IDM_HARD_RESET:
       case IDM_SOFT_RESET:
         keyboard_clear_keymatrix();
-// @@@        SuspendFullscreenMode(hwnd);
-        if (ui_messagebox(hwnd,
+        if (ui_messagebox(
                        "Do you really want to reset the emulated machine?",
                        ((wparam&0xffff) == IDM_HARD_RESET ? "Hard reset"
                         : "Soft reset"),
@@ -1298,7 +1295,6 @@ char *dname;
                 maincpu_trigger_reset();
             }
         }
-// @@@        ResumeFullscreenMode(hwnd);
         break;
       case IDM_REFRESH_RATE_AUTO:
         resources_set_value("RefreshRate", (resource_value_t) 0);
@@ -1706,3 +1702,53 @@ int     window_index;
     return DefWindowProc(window, msg, wparam, lparam);
 }
 
+/*
+ The following shows a messagebox on the screen.
+ It first searches the current active window of VICE, and then 
+ suspends fullscreen mode, shows the messagebox, and then resumes
+ fullscreen mode.
+ If it can't find the current active window of VICE (e.g., no one
+ is currently active), it does not suspend and resume fullscreen
+ mode. This should be correct because when fullscreen, that window
+ has to be active.
+*/
+int ui_messagebox( LPCTSTR lpText, LPCTSTR lpCaption, UINT uType )
+{
+    int ret;
+    HWND hWnd = NULL;
+    
+    if (number_of_windows==1)
+    {
+        /* we only have one window, so use that one */
+        hWnd = window_handles[0];
+    }
+    else
+    {
+        int window_index;
+
+        HWND hWndActive = GetActiveWindow();
+
+        for (window_index=0; window_index<number_of_windows; window_index++)
+        {
+            if (window_handles[window_index] == hWndActive)
+            {
+                hWnd = hWndActive;
+                break;
+            }
+        }
+    }
+
+    if (hWnd!=NULL)
+    {
+        SuspendFullscreenMode(hWnd);
+    }
+
+    ret = MessageBox( hWnd, lpText, lpCaption, uType );
+
+    if (hWnd!=NULL)
+    {
+        ResumeFullscreenMode(hWnd);
+    }
+
+    return ret;
+}

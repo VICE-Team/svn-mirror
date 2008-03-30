@@ -38,6 +38,7 @@
 
 #include "log.h"
 #include "vsync.h"
+#include "drive.h"
 #include "resources.h"
 
 #if defined __X64__ || defined __X128__ || defined __XVIC__
@@ -94,7 +95,7 @@ void screenshot_check_name(HWND hwnd, const char *psz)
             WinCheckButton(hwnd, RB_PNG, 1);
             return;
         }
-#endif
+#endif // HAVE_PNG
     }
     strcat(strcpy(pszScreenshotName, psz), iSsType?".png":".bmp");
 }
@@ -180,7 +181,22 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                 WinCheckButton(hwnd, CB_SSCOLL, val);
                 resources_get_value("EmuID", (resource_value_t *) &val);
                 WinCheckButton(hwnd, CB_EMUID, val);
-#endif
+                resources_get_value("VideoStandard", (resource_value_t*) &val);
+                switch (val)
+                {
+                case DRIVE_SYNC_PAL:
+                    WinCheckButton(hwnd, RB_PAL, 1);
+                    break;
+                case DRIVE_SYNC_NTSC:
+                    WinCheckButton(hwnd, RB_NTSC, 1);
+                    break;
+#ifdef __X64__
+                case DRIVE_SYNC_NTSCOLD:
+                    WinCheckButton(hwnd, RB_NTSCOLD, 1);
+                    break;
+#endif // __X64__
+                }
+#endif // __X64__ || __X128__
 #ifdef HAVE_MOUSE
                 resources_get_value("Mouse", (resource_value_t *) &val);
                 WinCheckButton(hwnd, CB_MOUSE, val);
@@ -195,7 +211,7 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                     WinCheckButton(hwnd, CB_HIDEMOUSE, 0);
                     WinEnableControl(hwnd, CB_HIDEMOUSE, 0);
                 }
-#endif
+#endif // HAVE_MOUSE
                 val=0;
                 while (val<10 && screenshotHist[val][0])
                     WinLboxInsertItem(hwnd, CBS_SSNAME, screenshotHist[val++]);
@@ -265,8 +281,22 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             case CB_HIDEMOUSE:
                 toggle("HideMousePtr");
                 break;
-#endif
+#endif // HAVE_MOUSE
 #if defined __X64__ || defined __X128__
+            case RB_PAL:
+                resources_set_value("VideoStandard",
+                                    (resource_value_t*) DRIVE_SYNC_PAL);
+                break;
+            case RB_NTSC:
+                resources_set_value("VideoStandard",
+                                    (resource_value_t*) DRIVE_SYNC_NTSC);
+                break;
+#ifdef __X64__
+            case RB_NTSCOLD:
+                resources_set_value("VideoStandard",
+                                    (resource_value_t*) DRIVE_SYNC_NTSCOLD);
+                break;
+#endif // __X64__
             case CB_SBCOLL:
                 toggle("CheckSbColl");
                 break;
@@ -276,7 +306,7 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             case CB_EMUID:
                 toggle("EmuID");
                 break;
-#endif
+#endif // __X64__ || __X128__
             case CBS_SSNAME:
                 {
                     char psz[CCHMAXPATH]="";

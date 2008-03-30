@@ -29,6 +29,8 @@
  */
 
 #define INCL_DOSPROCESS // DosSetPriority
+#define INCL_WINSTDSPIN // WinSetSpinVal
+#define INCL_WINDIALOGS // WinSendDlgItemMsg
 #include "vice.h"
 
 #include <stdlib.h>
@@ -79,6 +81,7 @@ int vsid_ui_init(void)
 
 void vsid_set_tune(int tune)
 {
-    log_message(LOG_DEFAULT, "vsid_set_tune");
+    WinSetSpinVal(hwndVsid, SPB_TUNENO, tune);
+    log_message(LOG_DEFAULT, "vsid_set_tune %d", tune);
 }
 

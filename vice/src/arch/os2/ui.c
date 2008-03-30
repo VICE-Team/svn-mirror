@@ -152,11 +152,6 @@ void ui_display_tape_counter(int counter)
     WinSendMsg(hwndDatasette, WM_COUNTER, (void*)counter, 0);
 }
 
-void ui_display_tape_current_image(const char *image)
-{
-}
-
-
 /* --------------------------- Drive related UI ------------------------ */
 
 void ui_display_drive_led(int drive_number, int status)
@@ -232,7 +227,7 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
     va_start(ap, format);
     txt = xmvsprintf(format, ap);
     WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
-                  txt, "VICE/2 CPU JAM happened", 0, MB_OK);
+                  txt, "VICE/2 CPU JAM happend", 0, MB_OK);
     free(txt);
     return UI_JAM_HARD_RESET;  // Always hard reset.
 }

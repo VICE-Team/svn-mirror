@@ -53,6 +53,8 @@
 #define STY_STATUSDLG         WC_SPINBUTTON, SPBS_JUSTCENTER  | SPBS_NOBORDER | \
                               SPBS_NUMERICONLY | SPBS_READONLY | \
                               SPBS_PADWITHZEROS  | WS_VISIBLE
+#define STY_DISPVAL           WC_SPINBUTTON, SPBS_JUSTCENTER  | \
+                              SPBS_PADWITHZEROS  | WS_VISIBLE
 
 #define TEXT(txt,x,y,w,h) CONTROL txt, ID_NONE, x, y, w, h, WC_STATIC, \
                                        SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE
@@ -77,27 +79,34 @@ DEFAULTICON "..\\icons\\x128.ico"
 DEFAULTICON "..\\icons\\xvic.ico"
 #endif
 
-#ifdef HAS_JOYSTICK
 DLGTEMPLATE DLG_JOYSTICK 850 MOVEABLE DISCARDABLE
 BEGIN
-    DIALOG "Joystick Setup", DLG_JOYSTICK, 162, 122, 135, 88, STY_DIALOG
+    DIALOG "Joystick Setup", DLG_JOYSTICK, 162, 122, 169, 98, STY_DIALOG
     PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
-        CONTROL "Close",        DID_CLOSE,     5,  5,  38, 12, STY_CLOSEBUTTON |
+        CONTROL "Close",        DID_CLOSE,      5,  5,  38, 12, STY_CLOSEBUTTON |
                                 WS_GROUP 
-        CONTROL "Calib",        ID_CALIBRATE, 48,  5,  38, 12, STY_PUSHBUTTON
-        CONTROL "Swap",         ID_SWAP,      91,  5,  38, 12, STY_PUSHBUTTON
-        CONTROL "Joystick",     ID_NONE,       7, 22, 118, 62, STY_GROUPBOX
-        CONTROL "",             CB_JOY11,     67, 53,   9,  9, STY_AUTOCHECKBOX
-        CONTROL "",             CB_JOY21,     67, 38,   9,  9, STY_AUTOCHECKBOX
-        CONTROL "",             CB_JOY12,    100, 53,   9,  9, STY_AUTOCHECKBOX
-        CONTROL "",             CB_JOY22,    100, 38,   9,  9, STY_AUTOCHECKBOX
-        TEXT("PC",        12, 46, 11, 8)
-        TEXT("Commodore", 62, 26, 50, 8)
-        TEXT("Port#1",    57, 66, 29, 8)
-        TEXT("Port#2",    89, 66, 29, 8)
-        TEXT("Joy#1",     30, 54, 26, 8)
-        TEXT("Joy#2",     30, 39, 26, 8)
+        CONTROL "Joystick",     ID_NONE,        7, 22, 155, 72, STY_GROUPBOX
+        CONTROL "",             CB_JOY11,      67, 65,   9,  9, STY_AUTOCHECKBOX
+        CONTROL "",             CB_JOY12,     100, 65,   9,  9, STY_AUTOCHECKBOX
+        CONTROL "",             CB_JOY21,      67, 55,   9,  9, STY_AUTOCHECKBOX
+        CONTROL "",             CB_JOY22,     100, 55,   9,  9, STY_AUTOCHECKBOX
+        CONTROL "",             CB_NUMJOY1,    67, 45,   9,  9, STY_AUTOCHECKBOX
+        CONTROL "",             CB_NUMJOY2,   100, 45,   9,  9, STY_AUTOCHECKBOX
+        CONTROL "",             CB_KS1JOY1,    67, 35,   9,  9, STY_AUTOCHECKBOX
+        CONTROL "",             CB_KS1JOY2,   100, 35,   9,  9, STY_AUTOCHECKBOX
+        CONTROL "",             CB_KS2JOY1,    67, 25,   9,  9, STY_AUTOCHECKBOX
+        CONTROL "",             CB_KS2JOY2,   100, 25,   9,  9, STY_AUTOCHECKBOX
+        CONTROL "Calib",        ID_CALIBRATE, 115, 58,  38, 13, STY_PUSHBUTTON
+        CONTROL "Keyset",       ID_KEYSET,    115, 28,  38, 13, STY_PUSHBUTTON
+        TEXT("Port#1",    57, 75, 29, 8)
+        TEXT("Port#2",    89, 75, 29, 8)
+        TEXT("Joy#1",     13, 65, 35, 8)
+        TEXT("Joy#2",     13, 55, 35, 8)
+        TEXT("NumPad",    13, 45, 35, 8)
+        TEXT("KeySet#1",  13, 35, 40, 8)
+        TEXT("KeySet#2",  13, 25, 40, 8)
+        CONTROL "Swap",         ID_SWAP,       69,  5,  38, 12, STY_PUSHBUTTON
     END
 END
 
@@ -127,7 +136,49 @@ BEGIN
         CONTROL "Reset",        ID_RESET, 99, 27, 38, 12, STY_PUSHBUTTON
     END
 END
-#endif
+
+DLGTEMPLATE DLG_KEYSET 850 MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Joystick Keysets", DLG_KEYSET, 162, 122, 115, 103, STY_DIALOG
+    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
+    BEGIN
+        CONTROL "Close",        DID_CLOSE, 5,  5,  38, 12,   STY_CLOSEBUTTON |
+                                WS_GROUP 
+        CONTROL "Keyset",       ID_NONE,   7, 22, 100, 77,   STY_GROUPBOX
+        CONTROL "Set#1",        RB_SET1,  15, 80,  35,  8,   STY_AUTORADIOBUTTON |
+                                WS_GROUP
+        CONTROL "Set#2",        RB_SET2,  15, 70,  35,  8,   STY_AUTORADIOBUTTON
+        CONTROL "",             SPB_NW,   16, 53,  25, 12, STY_DISPVAL
+                CTLDATA 24, 0, 4, 0, 0, 0, 255, 0, 0, 0, 0, 0
+        CONTROL "",             SPB_N,    44, 55, 25, 12,  STY_DISPVAL
+                CTLDATA 24, 0, 4, 0, 0, 0, 255, 0, 0, 0, 0, 0
+        CONTROL "",             SPB_NE,   72, 53, 25, 12,  STY_DISPVAL
+                CTLDATA 24, 0, 4, 0, 0, 0, 255, 0, 0, 0, 0, 0
+        CONTROL "",             SPB_W,    14, 41, 25, 12, STY_DISPVAL
+                CTLDATA 24, 0, 4, 0, 0, 0, 255, 0, 0, 0, 0, 0
+        CONTROL "",             SPB_FIRE, 44, 41,  25, 12, STY_DISPVAL
+                CTLDATA 24, 0, 4, 0, 0, 0, 255, 0, 0, 0, 0, 0
+        CONTROL "",             SPB_E,    74, 41, 25, 12,  STY_DISPVAL
+                CTLDATA 24, 0, 4, 0, 0, 0, 255, 0, 0, 0, 0, 0
+        CONTROL "",             SPB_SW,   16, 29, 25, 12,  STY_DISPVAL
+                CTLDATA 24, 0, 4, 0, 0, 0, 255, 0, 0, 0, 0, 0
+        CONTROL "",             SPB_S,    44, 27, 25, 12, STY_DISPVAL
+                CTLDATA 24, 0, 4, 0, 0, 0, 255, 0, 0, 0, 0, 0
+        CONTROL "",             SPB_SE,   72, 29, 25, 12, STY_DISPVAL
+                CTLDATA 24, 0, 4, 0, 0, 0, 255, 0, 0, 0, 0, 0
+        TEXT("NW",   61, 82, 13, 8)
+        TEXT("W",    59, 75, 10, 8)
+        TEXT("SW",   61, 68, 13, 8)
+ 
+        TEXT("N",    77, 84, 10, 8)
+        TEXT("Fire", 72, 75, 15, 8)
+        TEXT("S",    77, 66, 10, 8)
+        
+        TEXT("NE",   87, 82, 10, 8)
+        TEXT("E",    94, 75, 10, 8)
+        TEXT("SE",   86, 68, 10, 8)
+    END
+END
 
 DLGTEMPLATE DLG_SOUND 850 MOVEABLE DISCARDABLE
 BEGIN
@@ -164,10 +215,10 @@ BEGIN
                                 WS_GROUP
         CONTROL "8580",         RB_8580,    77,  69, 30, 10, STY_AUTORADIOBUTTON
         CONTROL "Sid Filters",  CB_SIDFILTER, 17, 55, 50, 9, STY_AUTOCHECKBOX
-#endif
+#endif // __X64__ || __X128__ || __XCBM__
 #ifdef HAVE_RESID
         CONTROL "HiFi (reSID)", CB_RESID,   70,  55, 60,  9, STY_AUTOCHECKBOX
-#endif
+#endif // HAVE_RESID
         TEXT("Buffer Size (msec)", 16, 40, 80, 8)
         TEXT("[100-1000]",         16, 30, 55, 8)
         CONTROL "",             SPB_BUFFER, 70, 29, 32, 12, STY_SPINBUTTON
@@ -192,19 +243,15 @@ BEGIN
 	CONTROL "+",           SS_HALFTRACK8, 55, 109+16,  5, 8, WC_STATIC, 
                                SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
 
-        CONTROL "",            SPB_TRACK9, 61, 109+16, 15, 12,  STY_STATUSDLG
+        CONTROL "",            SPB_TRACK9, 63, 109+16, 15, 12,  STY_STATUSDLG
                 CTLDATA 24, 0, 2, 0, 0, 0, 50, 0, 0, 0, 0, 0
-	CONTROL "+",           SS_HALFTRACK9, 77, 109+16,  5, 8, WC_STATIC, 
+	CONTROL "+",           SS_HALFTRACK9, 79, 109+16,  5, 8, WC_STATIC, 
                                SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
-	CONTROL "LED8",        SS_LED8,  83, 109+16,  22, 8, WC_STATIC, 
+	CONTROL "LED8",        SS_LED8,  86, 109+16,  22, 8, WC_STATIC, 
                                SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
-	CONTROL "LED9",        SS_LED9, 105, 109+16,  22, 8, WC_STATIC, 
+	CONTROL "LED9",        SS_LED9, 108, 109+16,  22, 8, WC_STATIC, 
                                SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
 
-        TEXT("Drive Sync Factor:", 173, 133+16,  77, 8)
-        CONTROL "PAL",         RB_PAL,     173, 121+16,  29, 10, STY_AUTORADIOBUTTON |
-                                                              WS_GROUP
-        CONTROL "NTSC",        RB_NTSC,    205, 121+16,  39, 10, STY_AUTORADIOBUTTON
         CONTROL "Readonly",    CB_READONLY,173, 109+16,  50, 10, STY_AUTOCHECKBOX
         TEXT("Drive:", 12, 120+16, 26, 8)
         CONTROL "8",           RB_DRIVE8,   40, 119+16,  16, 10, STY_AUTORADIOBUTTON |
@@ -308,30 +355,40 @@ END
 
 DLGTEMPLATE DLG_EMULATOR 850 MOVEABLE DISCARDABLE
 BEGIN
-    DIALOG "Emulator Setup", DLG_EMULATOR, 162, 122, 152+35, 168, STY_DIALOG
+    DIALOG "Emulator Setup", DLG_EMULATOR, 162, 122, 152+35, 192, STY_DIALOG
     PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
         CONTROL "Close",     DID_CLOSE,  5,  5,  38, 12, STY_CLOSEBUTTON |
                              WS_GROUP 
-        CONTROL "Emulator",  ID_NONE,    7, 22, 128+43, 142, STY_GROUPBOX
+        CONTROL "Emulator",  ID_NONE,    7, 22, 128+43, 166, STY_GROUPBOX
 
-        CONTROL "Pause",                       CB_PAUSE,  14, 145,  40,  9, STY_AUTOCHECKBOX
+        CONTROL "Pause",                       CB_PAUSE,  14, 169,  40,  9, STY_AUTOCHECKBOX
+ 
+#if defined __X64__ || defined __X128__
+        TEXT("Video Standard:", 14, 157,  70, 8)
+        CONTROL "PAL",                         RB_PAL,      14, 147,  40, 10, STY_AUTORADIOBUTTON |
+                                                                              WS_GROUP
+        CONTROL "NTSC",                        RB_NTSC,     47, 147,  40, 10, STY_AUTORADIOBUTTON
+#ifdef __X64__        
+        CONTROL "old NTSC",                    RB_NTSCOLD,  84, 147,  50, 10, STY_AUTORADIOBUTTON
+#endif // __X64__
+#endif // __X64__ || __X128__
 #ifdef HAVE_MOUSE
         CONTROL "Mouse 1531 Emulation",        CB_MOUSE,  14, 135, 100,  9, STY_AUTOCHECKBOX
         CONTROL "Hide Mouse Ptr in Window",    CB_HIDEMOUSE, 14,125,125,  9, STY_AUTOCHECKBOX
-#endif        
+#endif // HAVE_MOUSE
         CONTROL "Emulator Identification",     CB_EMUID,  14, 115, 105,  9, STY_AUTOCHECKBOX
         CONTROL "Video Cache",                 CB_VCACHE, 14, 105,  70,  9, STY_AUTOCHECKBOX
 #if defined __X64__ || defined __X128__
         CONTROL "Sprite-Background Collision", CB_SBCOLL, 14, 95, 125,  9, STY_AUTOCHECKBOX
         CONTROL "Sprite-Sprite Collision",     CB_SSCOLL, 14, 85, 105,  9, STY_AUTOCHECKBOX
-#endif
+#endif // __X64__ || __X128__
         TEXT("Save Screenshot as:", 14, 73,  85, 10)
 #ifdef HAVE_PNG
 	CONTROL "BMP",         RB_BMP,   110, 74, 30, 10, STY_AUTORADIOBUTTON |
                                                               WS_GROUP
         CONTROL "PNG",         RB_PNG,   145, 74, 30, 10, STY_AUTORADIOBUTTON
-#endif	
+#endif // HAVE_PNG
         CONTROL "",            CBS_SSNAME, 14, 8+16, 216/*234*/-75, 79-30, WC_COMBOBOX, 
                                CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | 
                                WS_VISIBLE
@@ -389,6 +446,12 @@ BEGIN
     DIALOG "Vice/2 SID Player", DLG_VSID, 162, 122, 135, 88, STY_DIALOG
     PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
+	TEXT("Playing Tune Nr.", 14, 30, 70, 8)
+	TEXT("Nr of Tunes",      14, 40, 60, 8)
+        CONTROL "",          SPB_TUNENO, 90, 30, 15, 11,  STY_STATUSDLG
+                CTLDATA 24, 0, 2, 0, 1, 0, 99, 0, 0, 0, 0, 0
+        CONTROL "",          SPB_TUNES,  70, 40, 15, 11,  STY_STATUSDLG
+                CTLDATA 24, 0, 2, 0, 1, 0, 99, 0, 0, 0, 0, 0
         CONTROL "Close",        DID_CLOSE,     5,  5,  38, 12, STY_CLOSEBUTTON |
                                 WS_GROUP 
     END

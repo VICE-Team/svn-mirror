@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "kbd.h"
+#include "log.h"
 #include "parse.h"
 #include "utils.h"
 #include "cmdline.h"
@@ -45,12 +46,13 @@ static char *keymapfile;//[CCHMAXPATH];
 
 int kbd_init(int num, ...)
 {
-    keyconvmap.map[0] = xmalloc(256*sizeof(keyconv));
-    keyconvmap.map[1] = xmalloc(256*sizeof(keyconv));
+    //    if (load_keymap_file(keymapfile)==-1)
+    //        log_message(LOG_DEFAULT, "kbd.c: Error loading keymapfile `%s'.", keymapfile);
+    char *name;
+    resources_get_value("KeymapFile", (resource_value_t)&name);
 
-    load_keymap_file("os2.vkm");
-    if (strcmp(keymapfile, "os2.vkm"))
-        load_keymap_file(keymapfile);
+    if (!name)
+        resources_set_value("KeymapFile", "os2.vkm");
     return 0;
 }
 
@@ -63,14 +65,17 @@ static int set_keymap_index(resource_value_t v)
 
 static int set_keymap_file(resource_value_t v, void *param)
 {
-    string_set(&keymapfile, (const char*) v);
+    if (load_keymap_file((const char *)v)==-1)
+        log_message(LOG_DEFAULT, "kbd.c: Error loading keymapfile `%s'.", keymapfile);
+    else
+        string_set(&keymapfile, (const char*) v);
 
     return 0;
 }
 
 
 static resource_t resources[] = {
-    { "KeymapFile", RES_STRING, (resource_value_t) "os2.vkm",
+    { "KeymapFile", RES_STRING, (resource_value_t) NULL,
       (resource_value_t *) &keymapfile, set_keymap_file, NULL },
     { NULL }
 };

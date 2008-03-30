@@ -394,89 +394,70 @@ int autostart_snapshot(const char *file_name, const char *program_name)
 int autostart_tape(const char *file_name, const char *program_name,
                    unsigned int program_number)
 {
-    char *number_name = NULL;
+    char *name = NULL;
 
-    if (file_name == NULL || !autostart_enabled)
+    if (!file_name || !autostart_enabled)
 	return -1;
 
     /* get program name first to avoid more than one file handle open on image */
-    if (program_name == NULL && program_number > 0) {
-        number_name = image_contents_tape_filename_by_number(file_name,
-                                                             program_number);
+    if (!program_name && program_number > 0)
+        name = image_contents_tape_filename_by_number(file_name,
+                                                      program_number);
+    else
+        name = stralloc(program_name);
 
-        if (number_name == NULL) {
-            autostartmode = AUTOSTART_ERROR;
-            deallocate_program_name();
-            return -1;
+    if (name)
+        if (!(tape_attach_image(file_name) < 0))
+        {
+            log_message(autostart_log,
+                        "Attached file `%s' as a tape image.", file_name);
+            reboot_for_autostart(name, AUTOSTART_HASTAPE);
+            free (name);
+
+            return 0;
         }
-    }
 
-    if (tape_attach_image(file_name) < 0) {
-	autostartmode = AUTOSTART_ERROR;
-	deallocate_program_name();
-	if (number_name != NULL)
-	    free(number_name);
-	return -1;
-    }
+    autostartmode = AUTOSTART_ERROR;
+    deallocate_program_name();
+    if (name)
+        free(name);
 
-    log_message(autostart_log, "Attached file `%s' as a tape image.",
-                file_name);
-    autostartmode = AUTOSTART_HASTAPE;
-
-    if (number_name != NULL) {
-        reboot_for_autostart(number_name, AUTOSTART_HASTAPE);
-        free (number_name);
-    } else {
-        reboot_for_autostart(program_name, AUTOSTART_HASTAPE);
-    }
-
-    return 0;
+    return -1;
 }
 
 /* Autostart disk image `file_name'.  */
 int autostart_disk(const char *file_name, const char *program_name,
                    unsigned int program_number)
 {
-    char *number_name = NULL;
+    char *name = NULL;
 
-    if (file_name == NULL || !autostart_enabled)
+    if (!file_name || !autostart_enabled)
 	return -1;
 
     /* get program name first to avoid more than one file handle open on image */
-    if (program_name == NULL && program_number > 0) {
-        number_name = image_contents_disk_filename_by_number(file_name,
-                                                             program_number);
+    if (!program_name && program_number > 0)
+        name = image_contents_disk_filename_by_number(file_name,
+                                                      program_number);
+    else
+        name = stralloc(program_name);
 
-        if (number_name == NULL) {
-            file_system_detach_disk(8);
-            autostartmode = AUTOSTART_ERROR;
-            deallocate_program_name();
-            return -1;
+    if (name)
+        if (!(file_system_attach_disk(8, file_name) < 0))
+        {
+            log_message(autostart_log,
+                        "Attached file `%s' as a tape image.", file_name);
+            reboot_for_autostart(name, AUTOSTART_HASDISK);
+            free (name);
+
+            return 0;
         }
-    }
 
-    if (file_system_attach_disk(8, file_name) < 0) {
-	file_system_detach_disk(8);
-	autostartmode = AUTOSTART_ERROR;
-	deallocate_program_name();
-	if (number_name != NULL)
-	    free(number_name);
-	return -1;
-    }
+    autostartmode = AUTOSTART_ERROR;
+    deallocate_program_name();
+    if (name)
+        free(name);
 
-    log_message(autostart_log, "Attached file `%s' as a disk image to device #8.",
-                file_name);
-
-    autostartmode = AUTOSTART_HASDISK;
-
-    if (number_name != NULL) {
-        reboot_for_autostart(number_name, AUTOSTART_HASDISK);
-        free(number_name);
-    } else {
-        reboot_for_autostart(program_name, AUTOSTART_HASDISK);
-    }
-
-    return 0;
+    return -1;
 }
 
 /* Autostart PRG file `file_name'.  The PRG file can either be a raw CBM file
