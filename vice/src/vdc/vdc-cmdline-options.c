@@ -39,25 +39,25 @@
 
 static cmdline_option_t cmdline_options[] =
 {
-  { "-VDC_vcache", SET_RESOURCE, 0, NULL, NULL,
-    "VDC_VideoCache", (resource_value_t)1,
-    NULL, "Enable the video cache"},
-  { "+VDC_vcache", SET_RESOURCE, 0, NULL, NULL,
-    "VDC_VideoCache", (resource_value_t)0,
-    NULL, "Disable the video cache"},
-  { "-VDC_palette", SET_RESOURCE, 1, NULL, NULL,
-    "VDC_PaletteFile", NULL,
-    "<name>", "Specify palette file name"},
-  { "-16KB", SET_RESOURCE, 0, NULL, NULL,
-    "VDC_64KB", (resource_value_t)0,
-    NULL, "Set the VDC memory size to 16KB"},
-  { "-64KB", SET_RESOURCE, 0, NULL, NULL,
-    "VDC_64KB", (resource_value_t)1,
-    NULL, "Set the VDC memory size to 64KB"},
-  { "-VDC_Revision", SET_RESOURCE, 1, NULL, NULL,
-    "VDC_Revision", (resource_value_t)2,
-    "<number>", "Set VDC revision (0..2)" },
-  { NULL }
+    { "-VDC_vcache", SET_RESOURCE, 0, NULL, NULL,
+      "VDC_VideoCache", (void *)1,
+      NULL, "Enable the video cache" },
+    { "+VDC_vcache", SET_RESOURCE, 0, NULL, NULL,
+      "VDC_VideoCache", (void *)0,
+      NULL, "Disable the video cache" },
+    { "-VDC_palette", SET_RESOURCE, 1, NULL, NULL,
+      "VDC_PaletteFile", NULL,
+      "<name>", "Specify palette file name" },
+    { "-16KB", SET_RESOURCE, 0, NULL, NULL,
+      "VDC_64KB", (void *)0,
+      NULL, "Set the VDC memory size to 16KB" },
+    { "-64KB", SET_RESOURCE, 0, NULL, NULL,
+      "VDC_64KB", (void *)1,
+      NULL, "Set the VDC memory size to 64KB" },
+    { "-VDC_Revision", SET_RESOURCE, 1, NULL, NULL,
+      "VDC_Revision", (void *)2,
+      "<number>", "Set VDC revision (0..2)" },
+    { NULL }
 };
 
 
@@ -65,19 +65,15 @@ static cmdline_option_t cmdline_options[] =
 
 static cmdline_option_t cmdline_options_2x[] =
 {
-  { "-VDC_dsize", SET_RESOURCE, 0, NULL, NULL,
-    "VDC_DoubleSize", (resource_value_t)1,
-    NULL, "Enable double size"},
-  { "+VDC_dsize", SET_RESOURCE, 0, NULL, NULL,
-    "VDC_DoubleSize", (resource_value_t)0,
-    NULL, "Disable double size"},
-  { "-VDC_dscan", SET_RESOURCE, 0, NULL, NULL,
-    "VDC_DoubleScan", (resource_value_t)1,
-    NULL, "Enable double scan"},
-  { "+VDC_dscan", SET_RESOURCE, 0, NULL, NULL,
-    "VDC_DoubleScan", (resource_value_t)0,
-    NULL, "Disable double scan"},
-  { NULL }
+    { "-VDC_dsize", SET_RESOURCE, 0, NULL, NULL, "VDC_DoubleSize",
+      (void *)1, NULL, "Enable double size" },
+    { "+VDC_dsize", SET_RESOURCE, 0, NULL, NULL, "VDC_DoubleSize",
+      (void *)0, NULL, "Disable double size" },
+    { "-VDC_dscan", SET_RESOURCE, 0, NULL, NULL, "VDC_DoubleScan",
+      (void *)1, NULL, "Enable double scan" },
+    { "+VDC_dscan", SET_RESOURCE, 0, NULL, NULL, "VDC_DoubleScan",
+      (void *)0, NULL, "Disable double scan" },
+    { NULL }
 };
 
 

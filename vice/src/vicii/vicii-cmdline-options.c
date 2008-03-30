@@ -4,6 +4,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,40 +34,41 @@
 #include "vicii.h"
 #include "viciitypes.h"
 
+
 /* VIC-II command-line options.  */
 
 static cmdline_option_t cmdline_options[] =
 {
     { "-vcache", SET_RESOURCE, 0, NULL, NULL, "VideoCache",
-      (resource_value_t) 1, NULL, "Enable the video cache"},
+      (void *)1, NULL, "Enable the video cache" },
     { "+vcache", SET_RESOURCE, 0, NULL, NULL, "VideoCache",
-      (resource_value_t) 0, NULL, "Disable the video cache"},
+      (void *)0, NULL, "Disable the video cache" },
     { "-checksb", SET_RESOURCE, 0, NULL, NULL, "CheckSbColl",
-      (resource_value_t) 1, NULL, "Enable sprite-background collision registers"},
+      (void *)1, NULL, "Enable sprite-background collision registers" },
     { "+checksb", SET_RESOURCE, 0, NULL, NULL, "CheckSbColl",
-      (resource_value_t) 0, NULL, "Disable sprite-background collision registers"},
+      (void *)0, NULL, "Disable sprite-background collision registers" },
     { "-checkss", SET_RESOURCE, 0, NULL, NULL, "CheckSsColl",
-      (resource_value_t) 1, NULL, "Enable sprite-sprite collision registers"},
+      (void *)1, NULL, "Enable sprite-sprite collision registers" },
     { "+checkss", SET_RESOURCE, 0, NULL, NULL, "CheckSsColl",
-      (resource_value_t) 0, NULL, "Disable sprite-sprite collision registers"},
+      (void *)0, NULL, "Disable sprite-sprite collision registers" },
     { "-saturation", SET_RESOURCE, 1, NULL, NULL, "ColorSaturation", NULL,
-      "<0-2000>", "Set saturation of internal calculated palette [1000]"},
+      "<0-2000>", "Set saturation of internal calculated palette [1000]" },
     { "-contrast", SET_RESOURCE, 1, NULL, NULL, "ColorContrast", NULL,
-      "<0-2000>", "Set contrast of internal calculated palette [1100]"},
+      "<0-2000>", "Set contrast of internal calculated palette [1100]" },
     { "-brightness", SET_RESOURCE, 1, NULL, NULL, "ColorBrightness", NULL,
-      "<0-2000>", "Set brightness of internal calculated palette [1100]"},
+      "<0-2000>", "Set brightness of internal calculated palette [1100]" },
     { "-gamma", SET_RESOURCE, 1, NULL, NULL, "ColorGamma", NULL,
-      "<0-2000>", "Set gamma of internal calculated palette [900]"},
+      "<0-2000>", "Set gamma of internal calculated palette [900]" },
     { "-newluminance", SET_RESOURCE, 0, NULL, NULL, "NewLuminances",
-      (resource_value_t)1, NULL, "Use new luminances"},
+      (void *)1, NULL, "Use new luminances" },
     { "+newluminance", SET_RESOURCE, 0, NULL, NULL, "NewLuminances",
-      (resource_value_t)0, NULL, "Use old luminances"},
+      (void *)0, NULL, "Use old luminances" },
     { "-intpal", SET_RESOURCE, 0, NULL, NULL, "ExternalPalette",
-      (resource_value_t)0, NULL, "Use an internal calculated palette"},
+      (void *)0, NULL, "Use an internal calculated palette" },
     { "-extpal", SET_RESOURCE, 0, NULL, NULL, "ExternalPalette",
-      (resource_value_t)1, NULL, "Use an external palette (file)"},
+      (void *)1, NULL, "Use an external palette (file)" },
     { "-palette", SET_RESOURCE, 1, NULL, NULL, "PaletteFile",
-      NULL, "<name>", "Specify name of file of external palette"},
+      NULL, "<name>", "Specify name of file of external palette" },
     { NULL }
 };
 
@@ -75,19 +77,15 @@ static cmdline_option_t cmdline_options[] =
 #ifdef VIC_II_NEED_2X
 static cmdline_option_t cmdline_options_2x[] =
 {
-  { "-dsize", SET_RESOURCE, 0, NULL, NULL,
-    "DoubleSize", (resource_value_t) 1,
-    NULL, "Enable double size"},
-  { "+dsize", SET_RESOURCE, 0, NULL, NULL,
-    "DoubleSize", (resource_value_t) 0,
-    NULL, "Disable double size"},
-  { "-dscan", SET_RESOURCE, 0, NULL, NULL,
-    "DoubleScan", (resource_value_t) 1,
-    NULL, "Enable double scan"},
-  { "+dscan", SET_RESOURCE, 0, NULL, NULL,
-    "DoubleScan", (resource_value_t) 0,
-    NULL, "Disable double scan"},
-  { NULL }
+    { "-dsize", SET_RESOURCE, 0, NULL, NULL, "DoubleSize",
+      (void *)1, NULL, "Enable double size" },
+    { "+dsize", SET_RESOURCE, 0, NULL, NULL, "DoubleSize",
+      (void *)0, NULL, "Disable double size" },
+    { "-dscan", SET_RESOURCE, 0, NULL, NULL, "DoubleScan",
+      (void *)1, NULL, "Enable double scan" },
+    { "+dscan", SET_RESOURCE, 0, NULL, NULL, "DoubleScan",
+      (void *)0, NULL, "Disable double scan" },
+    { NULL }
 };
 #endif
 

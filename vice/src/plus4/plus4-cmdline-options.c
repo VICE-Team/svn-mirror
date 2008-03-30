@@ -30,16 +30,15 @@
 
 #include "cmdline.h"
 #include "machine.h"
-#include "resources.h"
 
 
 static cmdline_option_t cmdline_options[] =
 {
     { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (resource_value_t)MACHINE_SYNC_PAL,
+      (void *)MACHINE_SYNC_PAL,
       NULL, "Use PAL sync factor" },
     { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (resource_value_t)MACHINE_SYNC_NTSC,
+      (void *)MACHINE_SYNC_NTSC,
       NULL, "Use NTSC sync factor" },
     { "-kernal", SET_RESOURCE, 1, NULL, NULL, "KernalName", NULL,
       "<name>", "Specify name of Kernal ROM image" },
@@ -51,6 +50,14 @@ static cmdline_option_t cmdline_options[] =
       "<name>", "Specify name of 3plus1 high ROM image" },
     { "-ramsize", SET_RESOURCE, 1, NULL, NULL, "RamSize", NULL,
       "<ramsize>", "Specify size of RAM installed in kb (16/32/64)" },
+#ifdef COMMON_KBD
+    { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapIndex", NULL,
+      "<number>", N_("Specify index of keymap file (0=symbol, 1=positional)") },
+    { "-symkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapSymFile", NULL,
+      "<name>", N_("Specify name of symbolic keymap file") },
+    { "-poskeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapPosFile", NULL,
+      "<name>", N_("Specify name of positional keymap file") },
+#endif
     { NULL }
 };
 

@@ -31,29 +31,29 @@
 #include <stdio.h>
 
 #include "cmdline.h"
-#include "resources.h"
+
 
 static cmdline_option_t cmdline_options[] = {
     { "-htmlbrowser", SET_RESOURCE, 1, NULL, NULL, "HTMLBrowserCommand", NULL,
       "<command>", N_("Specify an HTML browser for the on-line help") },
     { "-install", SET_RESOURCE, 0, NULL, NULL,
-      "PrivateColormap", (resource_value_t) 1,
+      "PrivateColormap", (void *)1,
       NULL, N_("Install a private colormap") },
     { "+install", SET_RESOURCE, 0, NULL, NULL,
-      "PrivateColormap", (resource_value_t) 0,
+      "PrivateColormap", (void *)0,
       NULL, N_("Use the default colormap") },
     { "-saveres", SET_RESOURCE, 0, NULL, NULL,
-      "SaveResourcesOnExit", (resource_value_t) 1,
+      "SaveResourcesOnExit", (void *)1,
       NULL, N_("Save settings (resources) on exit") },
     { "+saveres", SET_RESOURCE, 0, NULL, NULL,
-      "SaveResourcesOnExit", (resource_value_t) 0,
+      "SaveResourcesOnExit", (void *)0,
       NULL, N_("Never save settings (resources) on exit") },
 #ifdef USE_XF86_EXTENSIONS
     { "-fullscreen", SET_RESOURCE, 0, NULL, NULL,
-      "UseFullscreen", (resource_value_t) 1,
+      "UseFullscreen", (void *)1,
       NULL, N_("Enable fullscreen") },
     { "+fullscreen", SET_RESOURCE, 0, NULL, NULL,
-      "UseFullscreen", (resource_value_t) 0,
+      "UseFullscreen", (void *)0,
       NULL, N_("Disable fullscreen") },
 #endif
     { "-displaydepth", SET_RESOURCE, 1, NULL, NULL,

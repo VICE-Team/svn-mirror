@@ -59,6 +59,9 @@ extern void joystick_set_value_or(unsigned int joyport, BYTE value);
 extern void joystick_set_value_and(unsigned int joyport, BYTE value);
 extern void joystick_clear(unsigned int joyport);
 
+extern int keyboard_set_keymap_index(void *v, void *param);
+extern int keyboard_set_keymap_file(void *v, void *param);
+
 /* This ugly externs will go away sooner or later.  */
 extern int keyarr[KBD_ROWS];
 extern int rev_keyarr[KBD_COLS];

@@ -28,15 +28,15 @@
 #define __vidmode_h__
 
 #include <X11/Xlib.h>
-#include "resources.h"
 
 extern int vm_selected_videomode;
 extern int vm_is_enabled;
 
 int vidmode_init(Display *display, int screen);
-int vidmode_set_bestmode(resource_value_t v, void *p);
-int vidmode_set_mode(resource_value_t v, void *p);
+int vidmode_set_bestmode(void *v, void *p);
+int vidmode_set_mode(void *v, void *p);
 int vidmode_available(void);
 void vidmode_create_menus(void);
 
 #endif /* __vidmode_h__ */
+

@@ -4,6 +4,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,34 +28,37 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "cmdline.h"
 #include "crtc-cmdline-options.h"
+
 
 /* CRTC command-line options.  */
 
 static cmdline_option_t cmdline_options[] =
 {
     { "-crtcvcache", SET_RESOURCE, 0, NULL, NULL,
-      "CrtcVideoCache", (resource_value_t) 1,
+      "CrtcVideoCache", (void *)1,
       NULL, "Enable the video cache" },
     { "+crtcvcache", SET_RESOURCE, 0, NULL, NULL,
-      "CrtcVideoCache", (resource_value_t) 0,
+      "CrtcVideoCache", (void *)0,
       NULL, "Disable the video cache" },
     { "-crtcpalette", SET_RESOURCE, 1, NULL, NULL,
       "CrtcPaletteFile", NULL,
       "<name>", "Specify palette file name" },
 #ifdef CRTC_NEED_2X
     { "-crtcdsize", SET_RESOURCE, 0, NULL, NULL,
-      "CrtcDoubleSize", (resource_value_t) 1,
+      "CrtcDoubleSize", (void *)1,
       NULL, "Enable double size" },
     { "+crtcdsize", SET_RESOURCE, 0, NULL, NULL,
-      "CrtcDoubleSize", (resource_value_t) 0,
+      "CrtcDoubleSize", (void *)0,
       NULL, "Disable double size" },
     { "-crtcdscan", SET_RESOURCE, 0, NULL, NULL,
-      "CrtcDoubleScan", (resource_value_t) 1,
+      "CrtcDoubleScan", (void *)1,
       NULL, "Enable double scan" },
     { "+crtcdscan", SET_RESOURCE, 0, NULL, NULL,
-      "CrtcDoubleScan", (resource_value_t) 0,
+      "CrtcDoubleScan", (void *)0,
       NULL, "Disable double scan" },
 #endif
     { NULL }
@@ -63,5 +67,6 @@ static cmdline_option_t cmdline_options[] =
 
 int crtc_cmdline_options_init(void)
 {
-    return cmdline_register_options (cmdline_options);
+    return cmdline_register_options(cmdline_options);
 }
+

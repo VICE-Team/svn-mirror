@@ -33,12 +33,15 @@
 
 #include "archdep.h"
 #include "cmdline.h"
+#include "resources.h"
 #include "types.h"
 #include "uicmdline.h"
 #include "utils.h"
 
+
 static unsigned int num_options, num_allocated_options;
 static cmdline_option_t *options;
+
 
 int cmdline_init(void)
 {

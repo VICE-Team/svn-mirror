@@ -32,19 +32,20 @@
 #include "vic.h"
 #include "vic-cmdline-options.h"
 
+
 /* VIC command-line options.  */
 
 static cmdline_option_t cmdline_options[] =
 {
   { "-vcache", SET_RESOURCE, 0, NULL, NULL,
-    "VideoCache", (resource_value_t) 1,
-    NULL, "Enable the video cache"},
+    "VideoCache", (void *)1,
+    NULL, "Enable the video cache" },
   { "+vcache", SET_RESOURCE, 0, NULL, NULL,
-    "VideoCache", (resource_value_t) 0,
-    NULL, "Disable the video cache"},
+    "VideoCache", (void *)0,
+    NULL, "Disable the video cache" },
   { "-palette", SET_RESOURCE, 1, NULL, NULL,
     "PaletteFile", NULL,
-    "<name>", "Specify palette file name"},
+    "<name>", "Specify palette file name" },
   { NULL }
 };
 
@@ -54,19 +55,15 @@ static cmdline_option_t cmdline_options[] =
 
 static cmdline_option_t cmdline_options_2x[] =
 {
-  { "-dsize", SET_RESOURCE, 0, NULL, NULL,
-    "DoubleSize", (resource_value_t) 1,
-    NULL, "Enable double size"},
-  { "+dsize", SET_RESOURCE, 0, NULL, NULL,
-    "DoubleSize", (resource_value_t) 0,
-    NULL, "Disable double size"},
-  { "-dscan", SET_RESOURCE, 0, NULL, NULL,
-    "DoubleScan", (resource_value_t) 1,
-    NULL, "Enable double scan"},
-  { "+dscan", SET_RESOURCE, 0, NULL, NULL,
-    "DoubleScan", (resource_value_t) 0,
-    NULL, "Disable double scan"},
-  { NULL }
+    { "-dsize", SET_RESOURCE, 0, NULL, NULL, "DoubleSize",
+      (void *)1, NULL, "Enable double size" },
+    { "+dsize", SET_RESOURCE, 0, NULL, NULL, "DoubleSize",
+      (void *)0, NULL, "Disable double size" },
+    { "-dscan", SET_RESOURCE, 0, NULL, NULL, "DoubleScan",
+      (void *)1, NULL, "Enable double scan" },
+    { "+dscan", SET_RESOURCE, 0, NULL, NULL, "DoubleScan",
+      (void *)0, NULL, "Disable double scan" },
+    { NULL }
 };
 
 #endif /* VIC_NEED_2X */

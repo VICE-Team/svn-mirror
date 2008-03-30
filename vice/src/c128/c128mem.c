@@ -51,6 +51,7 @@
 #include "maincpu.h"
 #include "mon.h"
 #include "parallel.h"
+#include "resources.h"
 #include "reu.h"
 #include "rs232.h"
 #include "sid.h"

@@ -28,7 +28,6 @@
 #ifndef _FULLSCREEN_H
 #define _FULLSCREEN_H
 
-#include "resources.h"
 #include "types.h"
 
 #ifdef USE_XF86_EXTENSIONS
@@ -52,8 +51,8 @@ extern int fullscreen_available(void);
 extern int fullscreen_vidmode_available(void);
 extern int fullscreen_available_modes(void);
 extern char *fullscreen_mode_name(int);
-extern int fullscreen_set_bestmode(resource_value_t v, void *p);
-extern int fullscreen_set_mode(resource_value_t v, void *p);
+extern int fullscreen_set_bestmode(void *v, void *p);
+extern int fullscreen_set_mode(void *v, void *p);
 extern void fullscreen_refresh_func(BYTE *draw_buffer, 
 				    unsigned int draw_buffer_line_size,
                                     int src_x, int src_y,

@@ -30,15 +30,14 @@
 
 #include "cmdline.h"
 #include "machine.h"
-#include "resources.h"
 
 
 static cmdline_option_t cmdline_options[] = {
     { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (resource_value_t)MACHINE_SYNC_PAL,
+      (void *)MACHINE_SYNC_PAL,
       NULL, "Use PAL sync factor" },
     { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (resource_value_t)MACHINE_SYNC_NTSC,
+      (void *)MACHINE_SYNC_NTSC,
       NULL, "Use NTSC sync factor" },
     { "-kernal", SET_RESOURCE, 1, NULL, NULL, "KernalName", NULL,
       "<name>", "Specify name of Kernal ROM image" },
@@ -52,27 +51,35 @@ static cmdline_option_t cmdline_options[] = {
       "<name>", "Specify name of C64 mode BASIC ROM image" },
     { "-chargen64", SET_RESOURCE, 1, NULL, NULL, "Chargen64Name", NULL,
       "<name>", "Specify name of C64 mode character generator ROM image" },
-    { "-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t)1,
+    { "-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (void *)1,
       NULL, "Enable emulator identification" },
-    { "+emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t)0,
+    { "+emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (void *)0,
       NULL, "Disable emulator identification" },
-    { "-ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t)1,
+    { "-ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (void *)1,
       NULL, "Enable the IEEE488 interface emulation" },
-    { "+ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t)0,
+    { "+ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (void *)0,
       NULL, "Disable the IEEE488 interface emulation" },
     { "-kernalrev", SET_RESOURCE, 1, NULL, NULL, "KernalRev", NULL,
       "<revision>", "Patch the Kernal ROM to the specified <revision>" },
 #ifdef HAVE_RS232
-    { "-acia1", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (resource_value_t)1,
+    { "-acia1", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (void *)1,
       NULL, "Enable the $DE** ACIA RS232 interface emulation" },
-    { "+acia1", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (resource_value_t)0,
+    { "+acia1", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (void *)0,
       NULL, "Disable the $DE** ACIA RS232 interface emulation" },
 #if 0
-    { "-acia2", SET_RESOURCE, 0, NULL, NULL, "AciaD7", (resource_value_t)1,
+    { "-acia2", SET_RESOURCE, 0, NULL, NULL, "AciaD7", (void *)1,
       NULL, "Enable the $D7** ACIA RS232 interface emulation" },
-    { "+acia2", SET_RESOURCE, 0, NULL, NULL, "AciaD7", (resource_value_t)0,
+    { "+acia2", SET_RESOURCE, 0, NULL, NULL, "AciaD7", (void *)0,
       NULL, "Disable the $D7** ACIA RS232 interface emulation" },
 #endif
+#endif
+#ifdef COMMON_KBD
+    { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapIndex", NULL,
+      "<number>", N_("Specify index of keymap file (0=symbol, 1=positional)") },
+    { "-symkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapSymFile", NULL,
+      "<name>", N_("Specify name of symbolic keymap file") },
+    { "-poskeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapPosFile", NULL,
+      "<name>", N_("Specify name of positional keymap file") },
 #endif
     { NULL }
 };
