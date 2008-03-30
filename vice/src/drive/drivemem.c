@@ -78,6 +78,23 @@ static void REGPARM3 drive_store_watch(drive_context_t *drv, WORD address,
 
 /* ------------------------------------------------------------------------- */
 
+void drivemem_set_func(drivecpud_context_t *cpud,
+                       unsigned int start, unsigned int stop,
+                       drive_read_func_t *read_func,
+                       drive_store_func_t *store_func)
+{
+    unsigned int i;
+
+    if (read_func != NULL) {
+        for (i = start; i < stop; i++)
+            cpud->read_func_nowatch[i] = read_func;
+    }
+    if (store_func != NULL) {
+        for (i = start; i < stop; i++)
+            cpud->store_func_nowatch[i] = store_func;
+    }
+}
+
 #ifdef _MSC_VER
 #pragma optimize("",off)
 #endif

@@ -27,12 +27,18 @@
 #ifndef _DRIVEMEM_H
 #define _DRIVEMEM_H
 
+#include "drivetypes.h"
 #include "types.h"
 
 struct drive_context_s;
+struct drivecpud_context_s;
 struct mem_ioreg_list_s;
 
 extern void drivemem_init(struct drive_context_s *drv, unsigned int type);
+extern void drivemem_set_func(struct drivecpud_context_s *cpud,
+                              unsigned int start, unsigned int stop,
+                              drive_read_func_t *read_func,
+                              drive_store_func_t *store_func);
 
 extern struct mem_ioreg_list_s *drivemem_ioreg_list_get(void *context);
 
