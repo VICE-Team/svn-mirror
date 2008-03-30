@@ -136,6 +136,11 @@ char *file_system_get_disk_name(int unit)
     vdrive_t *vdrive;
     vdrive = file_system_get_vdrive(unit);
 
+    if (vdrive == NULL)
+        return NULL;
+    if (vdrive->image == NULL)
+        return NULL;
+
     return vdrive->image->name;
 }
 

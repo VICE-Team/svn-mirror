@@ -62,8 +62,11 @@
 #include "traps.h"
 #include "utils.h"
 #include "vicii.h"
-#include "vsidui.h"
 #include "vsync.h"
+
+#ifdef USE_VSID
+#include "vsidui.h"
+#endif
 
 #ifdef HAVE_RS232
 #include "c64acia.h"
@@ -239,6 +242,7 @@ int machine_init(void)
 
     maincpu_init();
 
+#ifdef USE_VSID
     if (psid_mode) {
 	mem_powerup();
 
@@ -278,6 +282,7 @@ int machine_init(void)
 
 	return 0;
     }
+#endif
 
     if (mem_load() < 0)
         return -1;
@@ -320,6 +325,7 @@ int machine_init(void)
     if (vic_ii_init() == NULL && !console_mode)
         return -1;
     vic_ii_enable_extended_keyboard_rows(0);
+
     cia1_enable_extended_keyboard_rows(0);
 
     ciat_init_table();
@@ -351,6 +357,7 @@ int machine_init(void)
 
     /* Initialize the C64-specific part of the UI.  */
     c64_ui_init();
+    log_message(LOG_DEFAULT, "C64 UI initialized successfully.");
 
     /* Initialize the REU.  */
     reu_init();
@@ -414,9 +421,11 @@ void machine_shutdown(void)
         file_system_detach_disk(-1);
     }
 
+#ifdef USE_VSID
     if (!console_mode && psid_mode) {
         vsid_ui_exit();
     }
+#endif
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)
