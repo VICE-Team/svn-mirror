@@ -147,32 +147,90 @@ int drive_check_type(unsigned int drive_type, unsigned int dnr)
     return 1;
 }
 
-int drive_check_extend_policy(unsigned int drive_type)
+int drive_check_expansion(int drive_type)
 {
-    if ((drive_type == DRIVE_TYPE_1541) ||
-        (drive_type == DRIVE_TYPE_1541II) ||
-        (drive_type == DRIVE_TYPE_1551) ||
-        (drive_type == DRIVE_TYPE_1570) ||
-        (drive_type == DRIVE_TYPE_1571) ||
-        (drive_type == DRIVE_TYPE_1571CR) ||
-        (drive_type == DRIVE_TYPE_2031))
+    if ((drive_type == DRIVE_TYPE_1541)
+        || (drive_type == DRIVE_TYPE_1541II)
+        || (drive_type == DRIVE_TYPE_1570)
+        || (drive_type == DRIVE_TYPE_1571)
+        || (drive_type == DRIVE_TYPE_1571CR))
         return 1;
     return 0;
 }
 
-int drive_check_idle_method(unsigned int drive_type)
+int drive_check_expansion2000(int drive_type)
 {
-    if ((drive_type == DRIVE_TYPE_1541) ||
-        (drive_type == DRIVE_TYPE_1541II) ||
-        (drive_type == DRIVE_TYPE_1551))
+    if ((drive_type == DRIVE_TYPE_1541)
+        || (drive_type == DRIVE_TYPE_1541II))
         return 1;
     return 0;
 }
 
-int drive_check_parallel_cable(unsigned int drive_type)
+int drive_check_expansion4000(int drive_type)
 {
-    if ((drive_type == DRIVE_TYPE_1541) ||
-        (drive_type == DRIVE_TYPE_1541II))
+    if ((drive_type == DRIVE_TYPE_1541)
+        || (drive_type == DRIVE_TYPE_1541II))
         return 1;
     return 0;
 }
+
+int drive_check_expansion6000(int drive_type)
+{
+    if ((drive_type == DRIVE_TYPE_1541)
+        || (drive_type == DRIVE_TYPE_1541II)
+        || (drive_type == DRIVE_TYPE_1570)
+        || (drive_type == DRIVE_TYPE_1571)
+        || (drive_type == DRIVE_TYPE_1571CR))
+        return 1;
+    return 0;
+}
+
+int drive_check_expansion8000(int drive_type)
+{
+    if ((drive_type == DRIVE_TYPE_1541)
+        || (drive_type == DRIVE_TYPE_1541II))
+        return 1;
+    return 0;
+}
+
+int drive_check_expansionA000(int drive_type)
+{
+    if ((drive_type == DRIVE_TYPE_1541)
+        || (drive_type == DRIVE_TYPE_1541II))
+        return 1;
+    return 0;
+}
+
+int drive_check_parallel_cable(int drive_type)
+{
+    if ((drive_type == DRIVE_TYPE_1541)
+        || (drive_type == DRIVE_TYPE_1541II)
+        || (drive_type == DRIVE_TYPE_1570)
+        || (drive_type == DRIVE_TYPE_1571)
+        || (drive_type == DRIVE_TYPE_1571CR))
+        return 1;
+    return 0;
+}
+
+int drive_check_extend_policy(int drive_type)
+{
+    if ((drive_type == DRIVE_TYPE_1541)
+        || (drive_type == DRIVE_TYPE_1541II)
+        || (drive_type == DRIVE_TYPE_1551)
+        || (drive_type == DRIVE_TYPE_1570)
+        || (drive_type == DRIVE_TYPE_1571)
+        || (drive_type == DRIVE_TYPE_1571CR)
+        || (drive_type == DRIVE_TYPE_2031))
+        return 1;
+    return 0;
+}
+
+int drive_check_idle_method(int drive_type)
+{
+    if ((drive_type == DRIVE_TYPE_1541)
+        || (drive_type == DRIVE_TYPE_1541II)
+        || (drive_type == DRIVE_TYPE_1551))
+        return 1;
+    return 0;
+}
+

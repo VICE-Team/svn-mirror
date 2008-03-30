@@ -106,15 +106,15 @@ static void enable_controls_for_drive_settings(HWND hwnd, int type)
                  drive_check_parallel_cable(drive_type));
 
     EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_2000),
-                 DRIVE_EXPANSION_2000(drive_type));
+                 drive_check_expansion2000(drive_type));
     EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_4000),
-                 DRIVE_EXPANSION_4000(drive_type));
+                 drive_check_expansion4000(drive_type));
     EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_6000),
-                 DRIVE_EXPANSION_6000(drive_type));
+                 drive_check_expansion6000(drive_type));
     EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_8000),
-                 DRIVE_EXPANSION_8000(drive_type));
+                 drive_check_expansion8000(drive_type));
     EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_A000),
-                 DRIVE_EXPANSION_A000(drive_type));
+                 drive_check_expansionA000(drive_type));
 }
 
 static void init_dialog(HWND hwnd, int num)

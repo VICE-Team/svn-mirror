@@ -69,32 +69,6 @@
 #define DRIVE_ACTIVE_RED     0
 #define DRIVE_ACTIVE_GREEN   1
 
-#define DRIVE_EXPANSION_2000(type) (        \
-        ((type) == DRIVE_TYPE_1541)         \
-        || ((type) == DRIVE_TYPE_1541II)    \
-        )
-
-#define DRIVE_EXPANSION_4000(type) (        \
-        ((type) == DRIVE_TYPE_1541)         \
-        || ((type) == DRIVE_TYPE_1541II)    \
-        )
-
-#define DRIVE_EXPANSION_6000(type) (        \
-        ((type) == DRIVE_TYPE_1541)         \
-        || ((type) == DRIVE_TYPE_1541II)    \
-        )
-
-#define DRIVE_EXPANSION_8000(type) (        \
-        ((type) == DRIVE_TYPE_1541)         \
-        || ((type) == DRIVE_TYPE_1541II)    \
-        )
-
-#define DRIVE_EXPANSION_A000(type) (        \
-        ((type) == DRIVE_TYPE_1541)         \
-        || ((type) == DRIVE_TYPE_1541II)    \
-        )
-
-
 /* Number of cycles before an attached disk becomes visible to the R/W head.
    This is mostly to make routines that auto-detect disk changes happy.  */
 #define DRIVE_ATTACH_DELAY           (3*600000)
@@ -278,9 +252,17 @@ extern void drive_set_last_read(unsigned int track, unsigned int sector,
                                 BYTE *buffer, struct drive_context_s *drv);
 
 extern int drive_check_type(unsigned int drive_type, unsigned int dnr);
-extern int drive_check_extend_policy(unsigned int drive_type);
-extern int drive_check_idle_method(unsigned int drive_type);
-extern int drive_check_parallel_cable(unsigned int drive_type);
+extern int drive_check_extend_policy(int drive_type);
+extern int drive_check_idle_method(int drive_type);
+extern int drive_check_expansion(int drive_type);
+extern int drive_check_expansion2000(int drive_type);
+extern int drive_check_expansion4000(int drive_type);
+extern int drive_check_expansion6000(int drive_type);
+extern int drive_check_expansion8000(int drive_type);
+extern int drive_check_expansionA000(int drive_type);
+extern int drive_check_parallel_cable(int drive_type);
+extern int drive_check_extend_policy(int drive_type);
+extern int drive_check_idle_method(int drive_type);
 
 extern int drive_num_leds(unsigned int dnr);
 
