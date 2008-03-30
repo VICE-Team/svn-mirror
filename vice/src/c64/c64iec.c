@@ -38,14 +38,13 @@
 #include "c64cia.h"
 #include "c64iec.h"
 #include "cartridge.h"
-#include "ciad.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "drivetypes.h"
 #include "maincpu.h"
 #include "iecdrive.h"
 #include "types.h"
 #include "via.h"
-#include "viad.h"
 
 
 /* Status of the IEC bus signals.  */

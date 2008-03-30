@@ -30,6 +30,7 @@
 #include "types.h"
 
 struct cia_context_s;
+struct cia_initdesc_s;
 struct drive_context_s;
 
 extern void cia1571_setup_context(struct drive_context_s *ctxptr);
@@ -50,18 +51,5 @@ extern BYTE REGPARM2 cia1581_read(struct drive_context_s *ctxptr,
                                   WORD addr);
 extern BYTE REGPARM2 cia1581_peek(struct drive_context_s *ctxptr,
                                   WORD addr);
-
-typedef struct cia_initdesc_s {
-    struct cia_context_s *cia_ptr;
-    void (*clk)(CLOCK, void*);
-    void (*int_ta)(CLOCK);
-    void (*int_tb)(CLOCK);
-    void (*int_tod)(CLOCK);
-} cia_initdesc_t;
-
-/* init callbacks, shared by both cias; defined in cia1571d. */
-extern void cia_drive_init(struct drive_context_s *ctxptr,
-                           const cia_initdesc_t *cia_desc);
-
 #endif
 

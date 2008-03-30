@@ -30,14 +30,13 @@
 
 #include <stdio.h>
 
-#include "ciad.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "drivetypes.h"
 #include "iecdrive.h"
 #include "maincpu.h"
 #include "resources.h"
 #include "types.h"
-#include "viad.h"
 #include "via.h"
 #include "vic20iec.h"
 

@@ -33,13 +33,12 @@
 #include "c128.h"
 #include "c64cia.h"
 #include "c64iec.h"
-#include "ciad.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "drivetypes.h"
 #include "iecdrive.h"
 #include "maincpu.h"
 #include "types.h"
-#include "viad.h"
 #include "via.h"
 
 

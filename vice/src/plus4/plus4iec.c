@@ -29,15 +29,14 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "ciad.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "drivetypes.h"
 #include "maincpu.h"
 #include "iecdrive.h"
 #include "plus4iec.h"
 #include "types.h"
 #include "via.h"
-#include "viad.h"
 
 
 /* Status of the IEC bus signals.  */
