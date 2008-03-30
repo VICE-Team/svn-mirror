@@ -323,19 +323,24 @@ static snddata_t snddata;
 /* device registration code */
 static sound_device_t *sound_devices[32];
 
+static char *devlist;
+
 int sound_register_device(sound_device_t *pdevice)
 {
-    const int max=sizeof(sound_devices)/sizeof(sound_devices[0]);
+    const int max = sizeof(sound_devices) / sizeof(sound_devices[0]);
     int i;
+    char *tmplist;
 
-    for (i = 0; sound_devices[i] && i<max; i++);
-    if(i<max)
-      {
-	sound_devices[i] = pdevice;
-	log_message(sound_log, "Device: %s", pdevice->name);
-      }
-    else
-      log_error(sound_log, "available sound devices exceed VICEs storage");
+    for (i = 0; sound_devices[i] && i < max; i++);
+
+    if (i < max) {
+        sound_devices[i] = pdevice;
+        tmplist = lib_msprintf("%s %s", devlist, pdevice->name);
+        lib_free(devlist);
+        devlist = tmplist;
+    } else {
+        log_error(sound_log, "available sound devices exceed VICEs storage");
+    }
 
     return 0;
 }
@@ -1186,7 +1191,7 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
     clk_guard_add_callback(maincpu_clk_guard, prevent_clk_overflow_callback,
                            NULL);
 
-    log_message(sound_log, "available Sound Devices:");
+    devlist = lib_stralloc("");
 
 #if defined(USE_ARTS)
     sound_init_arts_device();
@@ -1195,7 +1200,12 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
     sound_init_alsa_device();
 #endif
 #if defined(HAVE_LINUX_SOUNDCARD_H) || defined(HAVE_MACHINE_SOUNDCARD_H) || defined(HAVE_SYS_SOUNDCARD_H)
+
+/* don't use uss for FreeBSD */
+
+#ifndef __FreeBSD__
     sound_init_uss_device();
+#endif
 #endif
 #if defined(HAVE_ESD_H) && defined(HAVE_LIBESD)
     sound_init_esd_device();
@@ -1260,6 +1270,10 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #if 0
     sound_init_test_device();   /* XXX: missing */
 #endif
+
+    log_message(sound_log, "Available sound devices:%s", devlist);
+
+    lib_free(devlist);
 }
 
 long sound_sample_position(void)

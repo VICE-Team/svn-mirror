@@ -1,3 +1,33 @@
+2005-05-23  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.12.
+
+	* sound.c: Print available sound devices within one line.
+
+2005-05-23  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* vic20/vic20memsnapshot.c: Fixed an unchecked memory.h
+	include.
+
+2005-05-19  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* sound.c, sounddrv/sounduss.c: Fix to make FreeBSD not use
+	sounduss.
+
+2005-05-16  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/x11/xaw/widgets/Directory.h,
+	fsdevice/fsdevice-cmdline-options.c,
+	fsdevice/fsdevicetypes.h, ioutil.c: PATH_MAX fix for unix
+	platforms.
+
+2005-05-15  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/x128.dsp, arch/win32/x64.dsp,
+	arch/win32/xcbm2.dsp, arch/win32/xpet.dsp,
+	arch/win32/xplus4.dsp, arch/win32/xvic.dsp: Concatenate
+	resource files into master resource file for compilation.
+
 2005-05-15  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.11.

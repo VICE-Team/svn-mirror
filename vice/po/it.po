@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.16\n"
-"POT-Creation-Date: 2005-05-15 22:50+0200\n"
+"POT-Creation-Date: 2005-05-24 00:33+0200\n"
 "PO-Revision-Date: 2005-01-17 18:49+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -43,87 +43,87 @@ msgstr "Le registrazioni multiple non sono supportate."
 msgid "Cannot load snapshot file."
 msgstr "Non è possibile caricare il file di snapshot."
 
-#: src/sound.c:426
+#: src/sound.c:431
 msgid "write to sound device failed."
 msgstr "scrittura sulla scheda audio fallita."
 
-#: src/sound.c:441
+#: src/sound.c:446
 msgid "Cannot open SID engine"
 msgstr "Non è possibile aprire il motore SID"
 
-#: src/sound.c:480
+#: src/sound.c:485
 msgid "Cannot initialize SID engine"
 msgstr "Non è possibile inizializzare il motore SID"
 
-#: src/sound.c:586
+#: src/sound.c:591
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr "inizializzazione fallita per il device `%s'."
 
-#: src/sound.c:595
+#: src/sound.c:600
 msgid "sound device lacks stereo capability"
 msgstr "la scheda audio non dispone di una modalità stereofonica"
 
-#: src/sound.c:644
+#: src/sound.c:649
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr "il device '%s' non è stato trovato oppure non è supportato."
 
-#: src/sound.c:665
+#: src/sound.c:670
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr "Il device di registrazione %s non esiste!"
 
-#: src/sound.c:673
+#: src/sound.c:678
 msgid "Recording device must be different from playback device"
 msgstr ""
 "Il device di registrazione deve essere differente da quello di riproduzione"
 
-#: src/sound.c:683
+#: src/sound.c:688
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr ""
 "Attenzione! Il device di registrazione %s sembra essere un dispositivo "
 "realtime!"
 
-#: src/sound.c:693
+#: src/sound.c:698
 #, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Inizializzazione fallita per il device `%s'."
 
-#: src/sound.c:708
+#: src/sound.c:713
 msgid "The recording device doesn't support current sound parameters"
 msgstr "Il device di registrazione non supporta i parametri attuali"
 
-#: src/sound.c:789
+#: src/sound.c:794
 msgid "Sound buffer overflow (cycle based)"
 msgstr "Overflow del buffer sonoro (cycle based)"
 
-#: src/sound.c:803
+#: src/sound.c:808
 msgid "Sound buffer overflow."
 msgstr "Overflow del buffer sonoro."
 
-#: src/sound.c:929
+#: src/sound.c:934
 msgid "cannot flush."
 msgstr "non è possibile svuotare."
 
-#: src/sound.c:978
+#: src/sound.c:983
 msgid "fragment problems."
 msgstr "problemi di frammentazione."
 
-#: src/sound.c:1008
+#: src/sound.c:1013
 msgid "Buffer drained"
 msgstr "Buffer vuoto"
 
-#: src/sound.c:1047
+#: src/sound.c:1052
 msgid "running too slow."
 msgstr "esecuzione troppo lenta."
 
-#: src/sound.c:1063 src/sound.c:1073
+#: src/sound.c:1068 src/sound.c:1078
 msgid "write to sounddevice failed."
 msgstr "scrittura sulla scheda audio fallita."
 
-#: src/sound.c:1306
+#: src/sound.c:1320
 msgid "store to sounddevice failed."
 msgstr "memorizzazione sulla scheda audio fallita."
 
