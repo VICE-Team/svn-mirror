@@ -60,6 +60,7 @@ static ui_menu_entry_t palette_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_TOGGLE(VICIIDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
 UI_MENU_DEFINE_TOGGLE(VICIICheckSsColl)
 UI_MENU_DEFINE_TOGGLE(VICIICheckSbColl)
@@ -67,6 +68,8 @@ UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
 UI_MENU_DEFINE_TOGGLE(ExternalPalette)
 
 ui_menu_entry_t vic_submenu[] = {
+    { N_("*Double scan"),
+      (ui_callback_t)toggle_VICIIDoubleScan, NULL, NULL },
     { N_("*Video cache"),
       (ui_callback_t)toggle_VICIIVideoCache, NULL, NULL },
     { "--" },
