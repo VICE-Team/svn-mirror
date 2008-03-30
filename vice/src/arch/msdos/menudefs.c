@@ -221,7 +221,7 @@ static TUI_MENU_CALLBACK(detach_tape_callback)
 static TUI_MENU_CALLBACK(flip_add_callback)
 {
     if (been_activated)
-        flip_add_image();
+        flip_add_image(8);
     return NULL;
 }
 
@@ -235,14 +235,14 @@ static TUI_MENU_CALLBACK(flip_remove_callback)
 static TUI_MENU_CALLBACK(flip_next_callback)
 {
     if (been_activated)
-        flip_attach_head(1);
+        flip_attach_head(8, 1);
     return NULL;
 }
 
 static TUI_MENU_CALLBACK(flip_previous_callback)
 {
     if (been_activated)
-        flip_attach_head(0);
+        flip_attach_head(8, 0);
     return NULL;
 }
 

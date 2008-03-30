@@ -1,3 +1,43 @@
+1999-05-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.27.
+
+	* datasette.c (datasette_read_bit): Adjusted zero delay value.
+	(datasette_set_motor): Set motor on delay to 10000 clock ticks.
+
+	* drive/drive.c (drive_set_clock_frequency): New function.
+
+	* findpath.c, fsdevice.c, mon.c, utils.c, vdrive.c, zfile.c,
+	c1541.c, drive/drive.c: Include `unistd.h' if present.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c, cbm2/c610.c,
+	snapshot.c: Use `remove_file' instead of `unlink'.
+	Removed #include <unistd.h>.
+
+	* utils.c, utils.h (remove_file): New function.
+
+	* findpath.h, tape.c, vdrive-iec.c, zipcode.c: Removed #include
+	<unistd.h>.
+
+	* arch/unix/archdep.h, arch/msdos/archdep.h, arch/win32/archdep.h,
+	arch/riscos/archdep.h: Moved path separator here.
+
+	* sysfile.c: #include <unistd.h>.
+
+	* fsdevice.c, zfile.c: Use `remove_file' instead of `unlink'.
+
+	* main.c Removed #include "findpath.h".
+
+	* resource.c, utils.c, arch/win32/archdep.c: Include `dir.h' if
+	present.
+
+	* arch/unix/readline/editline.h, os9.h,
+	arch/unix/readline/Makefile.am, arch/unix/readline/sysos9.c:
+	Removed obsolete OS9 support.
+
+	* arch/msdos/kbd.c, arch/msdos/menudefs.c: Added drive parameter
+	for `flip_add_image' and `flip_attach_head'.
+
 1999-05-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.26.

@@ -346,6 +346,134 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+archdep.o: archdep.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/findpath.h archdep.h ../../../src/archapi.h \
+	../../../src/log.h ../../../src/utils.h types.h video.h \
+	../../../src/palette.h
+c128kbd.o: c128kbd.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/cartridge.h types.h kbd.h
+c128ui.o: c128ui.c ../../../src/vice.h ../../../src/config.h c128ui.h \
+	../../../src/cartridge.h types.h menudefs.h tuimenu.h \
+	../../../src/resources.h sidui.h tui.h tuifs.h \
+	../../../src/imagecontents.h tui_backend.h ui.h \
+	../../../src/uiapi.h ../../../src/utils.h
+c610kbd.o: c610kbd.c ../../../src/vice.h ../../../src/config.h kbd.h \
+	types.h
+c610ui.o: c610ui.c ../../../src/vice.h ../../../src/config.h c610ui.h \
+	menudefs.h tuimenu.h ../../../src/resources.h sidui.h tui.h \
+	tuifs.h ../../../src/imagecontents.h types.h tui_backend.h ui.h \
+	../../../src/uiapi.h
+c64kbd.o: c64kbd.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/cartridge.h types.h kbd.h
+c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h c64ui.h \
+	../../../src/cartridge.h types.h menudefs.h tuimenu.h \
+	../../../src/resources.h sidui.h tui.h tuifs.h \
+	../../../src/imagecontents.h tui_backend.h ui.h \
+	../../../src/uiapi.h ../../../src/utils.h
+cbmcharsets.o: cbmcharsets.c ../../../src/vice.h ../../../src/config.h \
+	types.h cbmcharsets.h
+grabkey.o: grabkey.c ../../../src/vice.h ../../../src/config.h kbd.h \
+	types.h
+joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
+	joystick.h kbd.h types.h ../../../src/cmdline.h \
+	../../../src/resources.h
+kbd.o: kbd.c ../../../src/vice.h ../../../src/config.h kbd.h types.h \
+	../../../src/cmdline.h ../../../src/resources.h \
+	../../../src/fliplist.h ../../../src/interrupt.h \
+	../../../src/6510core.h ../../../src/mem.h \
+	../../../src/snapshot.h joystick.h ../../../src/keyboard.h \
+	../../../src/log.h ../../../src/machine.h ui.h tuimenu.h \
+	../../../src/uiapi.h vsync.h
+menudefs.o: menudefs.c ../../../src/vice.h ../../../src/config.h \
+	menudefs.h tuimenu.h ../../../src/resources.h \
+	../../../src/datasette.h ../../../src/tap.h types.h grabkey.h \
+	kbd.h ../../../src/imagecontents.h joystick.h \
+	../../../src/log.h ../../../src/maincpu.h \
+	../../../src/6510core.h ../../../src/mem.h \
+	../../../src/snapshot.h ../../../src/alarm.h \
+	../../../src/clkguard.h ../../../src/mon.h \
+	../../../src/mos6510.h ../../../src/interrupt.h \
+	../../../src/romset.h ../../../src/sound.h ../../../src/warn.h \
+	../../../src/tape.h ../../../src/traps.h tui.h tuifs.h \
+	tui_backend.h tuiview.h ui.h ../../../src/uiapi.h uisnapshot.h \
+	../../../src/attach.h ../../../src/vdrive.h \
+	../../../src/fs_cbm.h ../../../src/serial.h \
+	../../../src/autostart.h ../../../src/fliplist.h \
+	../../../src/fsdevice.h ../../../src/info.h \
+	../../../src/machine.h ../../../src/drive/drive.h \
+	../../../src/drive/drivecpu.h ../../../src/utils.h video.h \
+	../../../src/palette.h
+mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h mouse.h \
+	types.h kbd.h ../../../src/log.h ../../../src/resources.h \
+	../../../src/cmdline.h
+petkbd.o: petkbd.c ../../../src/vice.h ../../../src/config.h kbd.h \
+	types.h
+petui.o: petui.c ../../../src/vice.h ../../../src/config.h petui.h \
+	menudefs.h tuimenu.h ../../../src/resources.h \
+	../../../src/pet/pets.h types.h tui.h tuifs.h \
+	../../../src/imagecontents.h tui_backend.h ui.h \
+	../../../src/uiapi.h
+sidui.o: sidui.c ../../../src/vice.h ../../../src/config.h sidui.h \
+	tuimenu.h ../../../src/resources.h
+tui.o: tui.c ../../../src/vice.h ../../../src/config.h tui.h tuifs.h \
+	../../../src/imagecontents.h types.h tui_backend.h \
+	../../../src/utils.h
+tui_backend.o: tui_backend.c ../../../src/vice.h ../../../src/config.h \
+	tui.h tuifs.h ../../../src/imagecontents.h types.h \
+	tui_backend.h ../../../src/utils.h
+tuicharset.o: tuicharset.c ../../../src/vice.h ../../../src/config.h \
+	cbmcharsets.h types.h ../../../src/log.h tuicharset.h
+tuifs.o: tuifs.c ../../../src/vice.h ../../../src/config.h tui.h tuifs.h \
+	../../../src/imagecontents.h types.h tui_backend.h \
+	../../../src/utils.h tuiimagebrowser.h tuiview.h
+tuiimagebrowser.o: tuiimagebrowser.c ../../../src/vice.h \
+	../../../src/config.h cbmcharsets.h types.h \
+	../../../src/imagecontents.h tui.h tuifs.h tui_backend.h \
+	../../../src/utils.h tuiimagebrowser.h
+tuimenu.o: tuimenu.c ../../../src/vice.h ../../../src/config.h tui.h \
+	tuifs.h ../../../src/imagecontents.h types.h tui_backend.h \
+	tuimenu.h ../../../src/resources.h ../../../src/utils.h
+tuiview.o: tuiview.c ../../../src/vice.h ../../../src/config.h tui.h \
+	tuifs.h ../../../src/imagecontents.h types.h tui_backend.h \
+	../../../src/utils.h
+ui.o: ui.c ../../../src/vice.h ../../../src/config.h ui.h types.h \
+	tuimenu.h ../../../src/resources.h ../../../src/uiapi.h \
+	../../../src/cmdline.h ../../../src/machine.h menudefs.h \
+	../../../src/mon.h ../../../src/mos6510.h ../../../src/mem.h \
+	../../../src/snapshot.h ../../../src/interrupt.h \
+	../../../src/6510core.h ../../../src/sound.h \
+	../../../src/warn.h tui.h tuifs.h ../../../src/imagecontents.h \
+	tui_backend.h tuicharset.h ../../../src/utils.h video.h \
+	../../../src/palette.h vsync.h
+uisnapshot.o: uisnapshot.c ../../../src/vice.h ../../../src/config.h \
+	uisnapshot.h tui.h tuifs.h ../../../src/imagecontents.h types.h \
+	tui_backend.h tuimenu.h ../../../src/resources.h \
+	../../../src/machine.h ui.h ../../../src/uiapi.h \
+	../../../src/utils.h
+vic20kbd.o: vic20kbd.c ../../../src/vice.h ../../../src/config.h kbd.h \
+	types.h
+vic20ui.o: vic20ui.c ../../../src/vice.h ../../../src/config.h vic20ui.h \
+	../../../src/cartridge.h types.h ../../../src/log.h menudefs.h \
+	tuimenu.h ../../../src/resources.h tui.h tuifs.h \
+	../../../src/imagecontents.h tui_backend.h ui.h \
+	../../../src/uiapi.h ../../../src/utils.h
+vicesb.o: vicesb.c ../../../src/log.h
+video.o: video.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/log.h video.h types.h ../../../src/palette.h \
+	../../../src/cmdline.h ../../../src/resources.h kbd.h tui.h \
+	tuifs.h ../../../src/imagecontents.h tui_backend.h
+vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h vsync.h \
+	types.h ../../../src/cmdline.h ../../../src/resources.h \
+	../../../src/drive/drive.h ../../../src/vdrive.h \
+	../../../src/fs_cbm.h ../../../src/serial.h \
+	../../../src/traps.h ../../../src/log.h \
+	../../../src/drive/drivecpu.h ../../../src/alarm.h \
+	../../../src/clkguard.h ../../../src/mos6510.h \
+	../../../src/mon.h ../../../src/mem.h ../../../src/snapshot.h \
+	../../../src/interrupt.h ../../../src/6510core.h joystick.h \
+	kbd.h ../../../src/kbdbuf.h ../../../src/machine.h \
+	../../../src/sound.h ../../../src/warn.h ui.h tuimenu.h \
+	../../../src/uiapi.h
 
 info: info-recursive
 dvi: dvi-recursive
