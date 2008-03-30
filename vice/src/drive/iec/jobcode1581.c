@@ -39,16 +39,19 @@
 
 /*#define JOBCODE1581_DEBUG*/
 
-#define READ_DV    0x80
-#define RESET_DV   0x82
-#define MOTOFF_DV  0x86
-#define WRTSD_DV   0x90
-#define DISKIN_DV  0x92
-#define TRKWRT_DV  0xa2
-#define TREAD_DV   0xaa
-#define SEEKHD_DV  0xb0
-#define DETWP_DV   0xb6
-#define RESTORE_DV 0xc0
+#define READ_DV     0x80
+#define RESET_DV    0x82
+#define MOTOFF_DV   0x86
+#define WRTSD_DV    0x90
+#define DISKIN_DV   0x92
+#define SIDE_DV     0x9c
+#define TRKWRT_DV   0xa2
+#define TREAD_DV    0xaa
+#define TWRT_DV     0xac
+#define SEEKHD_DV   0xb0
+#define DETWP_DV    0xb6
+#define RESTORE_DV  0xc0
+#define FORMATDK_DV 0xf0
 
 #define OK_DV          0x00
 #define MISHD_DV_ER    0x02
@@ -56,8 +59,12 @@
 #define NODSKPRS_DV_ER 0x0f
 
 #define OFFSET_SECPOS 0x9f
+#define OFFSET_SIDS   0x1ce
 #define OFFSET_BUFFER 0x300
 #define OFFSET_TCACHE 0xc00
+
+#define NUM_PHYS_TRACK  80
+#define NUM_PHYS_SECTOR 10
 
 static unsigned int track_cache_track[2];
 static unsigned int track_cache_sector[2];
@@ -65,6 +72,23 @@ static unsigned int track_cache_valid[2];
 
 static log_t jobcode1581_log = LOG_DEFAULT;
 
+
+static void conv_phys_to_log(unsigned int dnr, unsigned int *track,
+                             unsigned int *sector, unsigned int buffer)
+{
+    unsigned int sid;
+
+    *track += 1;
+    *sector = (*sector - 1) * 2;
+
+    if (dnr == 0)
+        sid = drive_read(&drive0_context, (WORD)(OFFSET_SIDS + buffer));
+    else
+        sid = drive_read(&drive1_context, (WORD)(OFFSET_SIDS + buffer));
+
+    if (sid > 0)
+        *sector += 20;
+}
 
 static void sector_to_mem(unsigned int dnr, BYTE *sector_data, WORD dst_base)
 {
@@ -75,6 +99,18 @@ static void sector_to_mem(unsigned int dnr, BYTE *sector_data, WORD dst_base)
             drive_store(&drive0_context, (WORD)(dst_base + i), sector_data[i]);
         else
             drive_store(&drive1_context, (WORD)(dst_base + i), sector_data[i]);
+    }
+}
+
+static void mem_to_sector(unsigned int dnr, BYTE *sector_data, WORD src_base)
+{
+    unsigned int i;
+
+    for (i = 0; i < 256; i++) {
+        if (dnr == 0)
+            sector_data[i] = drive_read(&drive0_context, (WORD)(src_base + i));
+        else
+            sector_data[i] = drive_read(&drive1_context, (WORD)(src_base + i));
     }
 }
 
@@ -95,6 +131,26 @@ static void mem_to_mem(unsigned int dnr, WORD src_base, WORD dst_base)
     }
 }
 #endif
+
+static int sector_write(unsigned int dnr, unsigned int track,
+                        unsigned int sector, WORD base)
+{
+    int rc;
+    BYTE sector_data[256];
+
+    mem_to_sector(dnr, sector_data, base);
+
+    rc = disk_image_write_sector(wd1770[dnr].image, sector_data, track, sector);
+
+    if (rc < 0) {
+        log_error(jobcode1581_log,
+                  "Could not update T:%d S:%d on disk image.",
+                  track, sector);
+        return MISHD_DV_ER;
+    }
+
+    return OK_DV;
+}
 
 static int track_cache_read(unsigned int dnr, unsigned int track,
                             unsigned int sector, unsigned int buffer)
@@ -140,8 +196,18 @@ static int track_cache_read(unsigned int dnr, unsigned int track,
     else
         drive_store(&drive1_context, (WORD)(OFFSET_SECPOS + buffer), pos);
 
-
     return OK_DV;
+}
+
+static int track_cache_write(unsigned int dnr, unsigned int track,
+                             unsigned int sector, unsigned int buffer)
+{
+    WORD base;
+
+    base = (WORD)((((track_cache_sector[dnr] + sector) % 20) << 8)
+           + OFFSET_TCACHE);
+
+    return sector_write(dnr, track, sector, base);
 }
 
 static int jobcode_read(unsigned int dnr, unsigned int track,
@@ -158,8 +224,9 @@ static int jobcode_read(unsigned int dnr, unsigned int track,
     if (rc != 0)
         return rc;
 
-    base_src = (WORD)((((sector + track_cache_sector[dnr]) % 20) << 8) + 0xc00);
-    base_trg = (WORD)((buffer << 8) + 0x300);
+    base_src = (WORD)((((sector + track_cache_sector[dnr]) % 20) << 8)
+               + OFFSET_TCACHE);
+    base_trg = (WORD)((buffer << 8) + OFFSET_BUFFER);
 
     for (i = 0; i < 256; i++) {
         if (dnr == 0) {
@@ -176,7 +243,7 @@ static int jobcode_read(unsigned int dnr, unsigned int track,
 
     disk_image_read_sector(wd1770[dnr].image, sector_data, track, sector);
 
-    base = (WORD)((buffer << 8) + 0x300);
+    base = (WORD)((buffer << 8) + OFFSET_BUFFER);
 
     for (i = 0; i < 256; i++) {
         if (dnr == 0) {
@@ -204,27 +271,10 @@ static int jobcode_wrtsd(unsigned int dnr, unsigned int track,
                          unsigned int sector, unsigned int buffer)
 {
     WORD base;
-    int rc, i;
-    BYTE sector_data[256];
 
-    base = (WORD)((buffer << 8) + 0x300);
+    base = (WORD)((buffer << 8) + OFFSET_BUFFER);
 
-    for (i = 0; i < 256; i++) {
-        if (dnr == 0)
-            sector_data[i] = drive_read(&drive0_context, (WORD)(base + i));
-        else
-            sector_data[i] = drive_read(&drive1_context, (WORD)(base + i));
-    }
-
-    rc = disk_image_write_sector(wd1770[dnr].image, sector_data, track, sector);
-
-    if (rc < 0) {
-        log_error(jobcode1581_log,
-                  "Could not update T:%d S:%d on disk image.",
-                  track, sector);
-        return MISHD_DV_ER;
-    }
-    return OK_DV;
+    return sector_write(dnr, track, sector, base);
 }
 
 static int jobcode_diskin(unsigned int dnr)
@@ -233,6 +283,11 @@ static int jobcode_diskin(unsigned int dnr)
         || wd1770[dnr].image->type != DISK_IMAGE_TYPE_D81)
         return NODSKPRS_DV_ER;
 
+    return OK_DV;
+}
+
+static int jobcode_side(unsigned int dnr)
+{
     return OK_DV;
 }
 
@@ -248,8 +303,54 @@ static int jobcode_tread(unsigned int dnr, unsigned int track,
     return track_cache_read(dnr, track, sector, buffer);
 }
 
+static int jobcode_twrite(unsigned int dnr, unsigned int track,
+                          unsigned int sector, unsigned int buffer)
+{
+    return track_cache_write(dnr, track, sector, buffer);
+}
+
 static int jobcode_seekhd(unsigned int dnr)
 {
+    return OK_DV;
+}
+
+int jobcode_tpread(unsigned int dnr, unsigned int track,
+                   unsigned int sector, unsigned int buffer)
+{
+    conv_phys_to_log(dnr, &track, &sector, buffer);
+
+    return track_cache_read(dnr, track, sector, buffer);
+}
+
+int jobcode_tpwrite(unsigned int dnr, unsigned int track,
+                    unsigned int sector, unsigned int buffer)
+{
+    WORD base;
+    int rc;
+    unsigned int psec;
+
+    psec = sector;
+
+    if (psec == 0 || psec > NUM_PHYS_SECTOR)
+        return MISHD_DV_ER;
+
+    if (track >= NUM_PHYS_TRACK)
+        return MISHD_DV_ER;
+
+    conv_phys_to_log(dnr, &track, &sector, buffer);
+
+    base = (WORD)(((psec - 1) << 9) + OFFSET_TCACHE);
+
+    rc = sector_write(dnr, track, sector, base);
+
+    if (rc != OK_DV)
+        return rc;
+
+    rc = sector_write(dnr, track, sector + 1, (WORD)(base + 0x100));
+
+    if (rc != OK_DV)
+        return rc;
+
     return OK_DV;
 }
 
@@ -266,6 +367,11 @@ static int jobcode_detwp(unsigned int dnr)
 }
 
 static int jobcode_restore(unsigned int dnr)
+{
+    return OK_DV;
+}
+
+static int jobcode_format(unsigned int dnr)
 {
     return OK_DV;
 }
@@ -314,6 +420,9 @@ void jobcode1581_handle_job_code(unsigned int dnr)
                   case DISKIN_DV:
                     rcode = jobcode_diskin(dnr);
                     break;
+                  case SIDE_DV:
+                    rcode = jobcode_side(dnr);
+                    break;
                   case TRKWRT_DV:
                     wd1770[dnr].led_delay_clk = drive_clk[dnr];
                     rcode = jobcode_trkwrt(dnr);
@@ -321,6 +430,10 @@ void jobcode1581_handle_job_code(unsigned int dnr)
                   case TREAD_DV:
                     wd1770[dnr].led_delay_clk = drive_clk[dnr];
                     rcode = jobcode_tread(dnr, track, sector, buffer);
+                    break;
+                  case TWRT_DV:
+                    wd1770[dnr].led_delay_clk = drive_clk[dnr];
+                    rcode = jobcode_twrite(dnr, track, sector, buffer);
                     break;
                   case SEEKHD_DV:
                     wd1770[dnr].led_delay_clk = drive_clk[dnr];
@@ -332,6 +445,10 @@ void jobcode1581_handle_job_code(unsigned int dnr)
                   case RESTORE_DV:
                     wd1770[dnr].led_delay_clk = drive_clk[dnr];
                     rcode = jobcode_restore(dnr);
+                    break;
+                  case FORMATDK_DV:
+                    wd1770[dnr].led_delay_clk = drive_clk[dnr];
+                    rcode = jobcode_format(dnr);
                     break;
                   default:
 #ifdef JOBCODE1581_DEBUG
