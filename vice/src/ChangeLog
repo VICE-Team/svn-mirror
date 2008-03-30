@@ -1,3 +1,17 @@
+2002-02-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.23.
+
+	* vicii/viciitypes.h: New define `VIC_II_IS_TEXT_MODE'.
+
+	* vicii/vicii-draw.c (_draw_idle): Improved background color
+	and idle data handling.
+
+	* debug.c, debug.h (debug_init_cmdline_options): New function.
+
+	* init.c (init_cmdline_options): Initialize debug command line
+	options.
+
 2002-02-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.22.
@@ -97,7 +111,7 @@
 	* raster/raster-line.c: now #includes video.h so that it
 	compiles
 
-2002-02-20 Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+2002-02-20  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
 
 	* resources.{c,h}: added hash index over resource names for
 	improved speed; added resources_register_callback() function
@@ -121,7 +135,7 @@
 	* vic20/vic-mem.c (vic_store): Don't set blank_this_line if
 	number of columns is 0.
 
-2002-02-18 Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+2002-02-18  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
 
 	* arch/riscos/video.c, arch/riscos/videoarch.h: completed
 	migration to new interface.
@@ -228,7 +242,7 @@
 	* zipcode.c:
 	- simplified code structure in a loop
      
-2002-02-13 Dag Lem <resid@nimrod.no>
+2002-02-13  Dag Lem  <resid@nimrod.no>
 
 	* arch/unix/x11/gnome/gnomevideo.c (GDK_PUTIMAGE): Draw
 	directly into window instead of to pixmap.
@@ -300,7 +314,7 @@
 	* arch/unix/readline/editline.c,
 	arch/unix/readline/editline2.c: Removed `^L'.
 
-2002-02-10 Tibor Biczo <crown@axelero.hu> 
+2002-02-10  Tibor Biczo  <crown@axelero.hu> 
 
 	* plus4/plus4mem.c (mem_proc_port_read): Mask in IEC inputs
 	correctly. 
