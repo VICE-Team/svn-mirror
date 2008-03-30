@@ -482,8 +482,6 @@ int vdc_load_palette(const char *name)
 /* Set proper functions and constants for the current video settings. */
 void vdc_resize(void)
 {
-    vdc.raster_ycounter_divide = 1;
-
     if (!vdc.initialized)
         return;
 

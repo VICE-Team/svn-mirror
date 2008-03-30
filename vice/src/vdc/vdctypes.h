@@ -105,7 +105,6 @@ struct vdc_s {
     unsigned int border_height;
     unsigned int border_width;
     unsigned int raster_ycounter_max;
-    unsigned int raster_ycounter_divide;
     unsigned int screen_textlines;
 
     /* Additional left shift.  */
