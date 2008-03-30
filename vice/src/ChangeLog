@@ -1,3 +1,23 @@
+2003-12-13  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.39.
+
+	* fileio/fileio.c, fileio.h, fileio/cbmfile.c, fileio/p00.c,
+	fileio/cbmfile.h, p00.h, fsdevice/fsdevicetypes.h,
+	fsdevice/fsdevice-open.c, fsdevice/fsdevice-close.c,
+	fsdevice/fsdevice.c: Added more P00 functionallity to the
+	fileio layer.
+
+2003-12-13  Andreas Dehmel  <zarquon@t-online.de>
+
+	* resid/filter.cc: init f0_6581 and f0_8580 to avoid floating
+	point exceptions later on in set_w0()
+
+2003-12-13  David Hansel  <hansel@reactive-systems.com>
+
+	* printerdrv/drv-nl10.c:  implemented vertical tabs,
+	top and bottom margins.  Fixed bug in mapping table.
+
 2003-12-10  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.38.

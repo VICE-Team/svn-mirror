@@ -37,6 +37,7 @@
 
 #include <stdio.h>
 
+#include "fileio.h"
 #include "fsdevice-close.h"
 #include "fsdevicetypes.h"
 #include "ioutil.h"
@@ -61,11 +62,20 @@ int fsdevice_close(vdrive_t *vdrive, unsigned int secondary)
       case Append:
         if (fs_info[secondary].tape.name) {
             tape_image_close(&(fs_info[secondary].tape));
-        } else if (fs_info[secondary].fd) {
-            fclose(fs_info[secondary].fd);
-            fs_info[secondary].fd = NULL;
-        } else
-            return FLOPPY_ERROR;
+        } else {
+            if (fs_info[secondary].info != NULL) {
+                fileio_close(fs_info[secondary].info);
+                fs_info[secondary].info = NULL;
+                fs_info[secondary].fd = NULL;
+            } else {
+                if (fs_info[secondary].fd) {
+                    fclose(fs_info[secondary].fd);
+                    fs_info[secondary].fd = NULL;
+                } else {
+                    return FLOPPY_ERROR;
+                }
+            }
+        }
         break;
       case Directory:
         if (fs_info[secondary].ioutil_dir == NULL)

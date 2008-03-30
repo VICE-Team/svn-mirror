@@ -32,18 +32,18 @@
 #include "fileio.h"
 #include "lib.h"
 #include "p00.h"
-#include "rawfile.h"
 #include "types.h"
 #include "util.h"
 
 
 fileio_info_t *fileio_open(const char *file_name, const char *path,
-                           unsigned int format, unsigned int command)
+                           unsigned int format, unsigned int command,
+                           unsigned int type)
 {
     fileio_info_t *info = NULL;
     char *new_file, *new_path;
 
-    if (path == NULL) {
+    if ((command & FILEIO_COMMAND_FSNAME) && path == NULL) {
         util_fname_split(file_name, &new_path, &new_file);
     } else {
         new_file = lib_stralloc(file_name);
@@ -52,13 +52,13 @@ fileio_info_t *fileio_open(const char *file_name, const char *path,
 
     do {
         if (format & FILEIO_FORMAT_P00)
-            info = p00_info(new_file, new_path, command);
+            info = p00_open(new_file, new_path, command, type);
 
         if (info != NULL)
             break;
 
         if (format & FILEIO_FORMAT_RAW)
-           info = cbmfile_info(new_file, new_path, command);
+           info = cbmfile_open(new_file, new_path, command, type);
 
         if (info != NULL)
             break;
@@ -70,10 +70,17 @@ fileio_info_t *fileio_open(const char *file_name, const char *path,
     return info;
 }
 
-void fileio_destroy(fileio_info_t *info)
+void fileio_close(fileio_info_t *info)
 {
     if (info != NULL) {
-        rawfile_destroy(info->rawfile);
+        switch (info->format) {
+          case FILEIO_FORMAT_RAW:
+            cbmfile_close(info);
+            break;
+          case FILEIO_FORMAT_P00:
+            p00_close(info);
+            break;
+        }
         lib_free(info->name);
         lib_free(info);
     }

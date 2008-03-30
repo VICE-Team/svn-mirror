@@ -130,6 +130,10 @@ Filter::Filter()
 
   enable_filter(true);
 
+  // Init cutoff frequency tables to avoid floating point exceptions
+  f0_6581[fc] = 10000;
+  f0_8580[fc] = 10000;
+
   // Create mappings from FC to cutoff frequency.
   set_chip_model(MOS8580);
   interpolate(f0_points, f0_points + f0_count - 1, fc_plotter(), 1.0);
