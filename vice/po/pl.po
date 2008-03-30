@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.15\n"
-"POT-Creation-Date: 2004-08-07 21:35+0200\n"
+"POT-Creation-Date: 2004-08-21 21:55+0200\n"
 "PO-Revision-Date: 2004-05-04 21:34+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -127,44 +127,44 @@ msgstr ""
 msgid "store to sounddevice failed."
 msgstr ""
 
-#: src/event.c:466
+#: src/event.c:520
 #, fuzzy, c-format
 msgid "Could not create start snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:480 src/event.c:723
+#: src/event.c:535 src/event.c:798
 #, fuzzy, c-format
 msgid "Error reading end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:531 src/event.c:694
+#: src/event.c:598 src/event.c:769
 #, fuzzy, c-format
 msgid "Could not create end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:590
+#: src/event.c:659
 #, fuzzy, c-format
 msgid "Could not open end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:601
+#: src/event.c:670
 msgid "Could not find event section in end snapshot file."
 msgstr ""
 
-#: src/event.c:621
+#: src/event.c:690
 #, fuzzy, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr "B³±d czytania urz±dzenia cyfrowego joysticka."
 
-#: src/event.c:641
+#: src/event.c:716
 #, fuzzy
 msgid "Error reading start snapshot file."
 msgstr "B³±d czytania urz±dzenia cyfrowego joysticka."
@@ -1180,7 +1180,7 @@ msgstr ""
 "Nie mo¿na zapisaæ pliku migawki\n"
 "`%s'\n"
 
-#: src/arch/unix/uicommands.c:324 src/arch/unix/uicommands.c:447
+#: src/arch/unix/uicommands.c:324 src/arch/unix/uicommands.c:449
 #, fuzzy
 msgid "Select history directory"
 msgstr "Katalog systemu plików..."
@@ -1214,86 +1214,90 @@ msgstr "Za³aduj zrzut"
 msgid "*Start with reset"
 msgstr "*Rozpocznij z restartem"
 
-#: src/arch/unix/uicommands.c:433
+#: src/arch/unix/uicommands.c:429
+msgid "*Overwrite running playback"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:435
 msgid "Load snapshot..."
 msgstr "Za³aduj zrzut..."
 
-#: src/arch/unix/uicommands.c:436
+#: src/arch/unix/uicommands.c:438
 msgid "Save snapshot..."
 msgstr "Zapisz zrzut..."
 
-#: src/arch/unix/uicommands.c:440
+#: src/arch/unix/uicommands.c:442
 msgid "Quickload snapshot"
 msgstr "Szybkie za³adowanie zrzutu"
 
-#: src/arch/unix/uicommands.c:443
+#: src/arch/unix/uicommands.c:445
 msgid "Quicksave snapshot"
 msgstr "Szybki zapis zrzutu"
 
-#: src/arch/unix/uicommands.c:449
+#: src/arch/unix/uicommands.c:451
 msgid "Start recording events"
 msgstr "Rozpocznij zapisywanie wydarzen"
 
-#: src/arch/unix/uicommands.c:451
+#: src/arch/unix/uicommands.c:453
 msgid "Stop recording events"
 msgstr "Zatrzymaj zapisywanie wydarzen "
 
-#: src/arch/unix/uicommands.c:453
+#: src/arch/unix/uicommands.c:455
 msgid "Start playing back events"
 msgstr "Rozpocznij odtwarzanie wydarzen"
 
-#: src/arch/unix/uicommands.c:455
+#: src/arch/unix/uicommands.c:457
 msgid "Stop playing back events"
 msgstr "Zatrzymaj odtwarzanie wydarzen"
 
-#: src/arch/unix/uicommands.c:457
+#: src/arch/unix/uicommands.c:459
 #, fuzzy
 msgid "Set recording milestone"
 msgstr "Zatrzymaj zapisywanie wydarzen "
 
-#: src/arch/unix/uicommands.c:459
+#: src/arch/unix/uicommands.c:461
 msgid "Return to milestone"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:462
+#: src/arch/unix/uicommands.c:464
 msgid "Recording start mode"
 msgstr "Rozpocznij tryb zapisu"
 
-#: src/arch/unix/uicommands.c:468
+#: src/arch/unix/uicommands.c:470
 msgid "Snapshot commands"
 msgstr "Komendy zapisywania zrzutu"
 
-#: src/arch/unix/uicommands.c:474
+#: src/arch/unix/uicommands.c:476
 msgid "Sound record..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:481
+#: src/arch/unix/uicommands.c:483
 msgid "Activate monitor"
 msgstr "Aktywacja monitora"
 
-#: src/arch/unix/uicommands.c:484
+#: src/arch/unix/uicommands.c:486
 msgid "Run C1541"
 msgstr "Uruchom C1541"
 
-#: src/arch/unix/uicommands.c:492
+#: src/arch/unix/uicommands.c:494
 msgid "Browse manuals"
 msgstr "Przegl±daj podrêcznik"
 
-#: src/arch/unix/uicommands.c:494
+#: src/arch/unix/uicommands.c:496
 msgid "About VICE..."
 msgstr "O VICE..."
 
-#: src/arch/unix/uicommands.c:500 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:502 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
 #: src/arch/unix/x11/gnome/x11ui.c:1942
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:502
+#: src/arch/unix/uicommands.c:504
 msgid "*Pause"
 msgstr "*Pauza"
 
-#: src/arch/unix/uicommands.c:509
+#: src/arch/unix/uicommands.c:511
 msgid "Exit emulator"
 msgstr "Wyjd¼ z emulatora"
 

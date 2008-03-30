@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.15\n"
-"POT-Creation-Date: 2004-08-07 21:35+0200\n"
-"PO-Revision-Date: 2004-05-04 21:35+0200\n"
+"POT-Creation-Date: 2004-08-21 21:55+0200\n"
+"PO-Revision-Date: 2004-08-16 23:30+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -122,36 +122,36 @@ msgstr "misslyckades skriva till ljudenheten."
 msgid "store to sounddevice failed."
 msgstr "misslyckades spara i ljudenheten."
 
-#: src/event.c:466
-#, fuzzy, c-format
+#: src/event.c:520
+#, c-format
 msgid "Could not create start snapshot file %s."
-msgstr "Kunde inte skapa startögonblicksbildfil."
+msgstr "Kunde inte skapa startögonblicksbildfilen %s."
 
-#: src/event.c:480 src/event.c:723
-#, fuzzy, c-format
+#: src/event.c:535 src/event.c:798
+#, c-format
 msgid "Error reading end snapshot file %s."
-msgstr "Fel vid läsning av slutögonblicksbildfil."
+msgstr "Fel vid läsning av slutögonblicksbildfilen %s."
 
-#: src/event.c:531 src/event.c:694
-#, fuzzy, c-format
+#: src/event.c:598 src/event.c:769
+#, c-format
 msgid "Could not create end snapshot file %s."
-msgstr "Kunde inte skapa slutögonblicksbildfil."
+msgstr "Kunde inte skapa slutögonblicksbildfilen %s."
 
-#: src/event.c:590
-#, fuzzy, c-format
+#: src/event.c:659
+#, c-format
 msgid "Could not open end snapshot file %s."
-msgstr "Kunde inte öppna slutögonblicksbildfil."
+msgstr "Kunde inte öppna slutögonblicksbildfilen %s."
 
-#: src/event.c:601
+#: src/event.c:670
 msgid "Could not find event section in end snapshot file."
 msgstr "Kunde inte hinna händelsedelen i slutögonblicksbilden."
 
-#: src/event.c:621
-#, fuzzy, c-format
+#: src/event.c:690
+#, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
-msgstr "Fel vid läsning av startögonblicksbildfil."
+msgstr "Fel vid läsning av startögonblicksbildfil. Försökte med %s och %s"
 
-#: src/event.c:641
+#: src/event.c:716
 msgid "Error reading start snapshot file."
 msgstr "Fel vid läsning av startögonblicksbildfil."
 
@@ -250,14 +250,12 @@ msgid "RAM Expansion Unit"
 msgstr "RAM-expansion"
 
 #: src/arch/unix/c128ui.c:238 src/arch/unix/c64ui.c:266
-#, fuzzy
 msgid "IDE64 emulation"
-msgstr "Exakt emulering"
+msgstr "IDE64-emulering"
 
 #: src/arch/unix/c128ui.c:241 src/arch/unix/c64ui.c:269
-#, fuzzy
 msgid "Ethernet emulation"
-msgstr "*Använd reSID-emulering"
+msgstr "Ethernetemulering"
 
 #: src/arch/unix/c128ui.c:244 src/arch/unix/c64ui.c:272
 #: src/arch/unix/petui.c:300 src/arch/unix/vic20ui.c:194
@@ -300,9 +298,8 @@ msgstr "Ladda standard-ROM"
 #: src/arch/unix/c128ui.c:281 src/arch/unix/c64ui.c:301
 #: src/arch/unix/cbm2ui.c:96 src/arch/unix/petui.c:200
 #: src/arch/unix/plus4ui.c:99 src/arch/unix/vic20ui.c:135
-#, fuzzy
 msgid "Load new computer ROM"
-msgstr "Ladda ny teckengenerator-ROM"
+msgstr "Ladda ny dator-ROM"
 
 #: src/arch/unix/c128ui.c:283 src/arch/unix/c64ui.c:303
 #: src/arch/unix/cbm2ui.c:98 src/arch/unix/petui.c:202
@@ -313,23 +310,20 @@ msgstr "Ladda ny diskettstation-ROM"
 #: src/arch/unix/c128ui.c:286 src/arch/unix/c64ui.c:306
 #: src/arch/unix/cbm2ui.c:101 src/arch/unix/petui.c:205
 #: src/arch/unix/plus4ui.c:104 src/arch/unix/vic20ui.c:140
-#, fuzzy
 msgid "ROM set type"
-msgstr "ROM-inställningsfil:"
+msgstr "ROM-uppsättningstyp"
 
 #: src/arch/unix/c128ui.c:289 src/arch/unix/c64ui.c:309
 #: src/arch/unix/cbm2ui.c:132 src/arch/unix/petui.c:239
 #: src/arch/unix/plus4ui.c:107 src/arch/unix/vic20ui.c:143
-#, fuzzy
 msgid "ROM set archive"
-msgstr "ROM-inställningsfil:"
+msgstr "ROM-uppsättningsarkiv"
 
 #: src/arch/unix/c128ui.c:291 src/arch/unix/c64ui.c:311
 #: src/arch/unix/cbm2ui.c:134 src/arch/unix/petui.c:241
 #: src/arch/unix/plus4ui.c:109 src/arch/unix/vic20ui.c:145
-#, fuzzy
 msgid "ROM set file"
-msgstr "ROM-inställningsfil:"
+msgstr "ROM-uppsättningsfil"
 
 #: src/arch/unix/c128ui.c:314
 msgid "VIC II Screenshot"
@@ -442,9 +436,8 @@ msgid "ROM settings"
 msgstr "ROM-inställningar"
 
 #: src/arch/unix/c64ui.c:348
-#, fuzzy
 msgid "I/O extensions"
-msgstr "I/O-utökningar på $DFxx"
+msgstr "I/O-utökningar"
 
 #: src/arch/unix/cbm2ui.c:74
 msgid "Load new Kernal"
@@ -783,14 +776,12 @@ msgid "*PET userport diagnostic pin"
 msgstr "*PET-diagnostik på användarporten"
 
 #: src/arch/unix/plus4ui.c:85
-#, fuzzy
 msgid "Load new 3 plus 1 LO ROM"
-msgstr "Ladda ny 2031-ROM"
+msgstr "Ladda ny 3 plus 1 låg-ROM"
 
 #: src/arch/unix/plus4ui.c:88
-#, fuzzy
 msgid "Load new 3 plus 1 HI ROM"
-msgstr "Ladda ny 2031-ROM"
+msgstr "Ladda ny 3 plus 1 hög-ROM"
 
 #: src/arch/unix/plus4ui.c:119
 msgid "*16KB"
@@ -997,9 +988,8 @@ msgid "Smart-attach disk/tape..."
 msgstr "Smartanslut diskett/band..."
 
 #: src/arch/unix/uic64cart.c:57 src/arch/unix/uic64cart.c:74
-#, fuzzy
 msgid "Cannot attach cartridge"
-msgstr "Smartanslut insticksmodulfil..."
+msgstr "Kan inte ansluta insticksmodul"
 
 #: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:217
 msgid "Attach cartridge image"
@@ -1164,9 +1154,9 @@ msgstr ""
 "Kan inte skriva ögonblicksbildfil\n"
 "\"%s\"\n"
 
-#: src/arch/unix/uicommands.c:324 src/arch/unix/uicommands.c:447
+#: src/arch/unix/uicommands.c:324 src/arch/unix/uicommands.c:449
 msgid "Select history directory"
-msgstr ""
+msgstr "Ange historikkatalog"
 
 #: src/arch/unix/uicommands.c:380
 msgid "Record sound to file"
@@ -1196,85 +1186,89 @@ msgstr "*Ladda existerande ögonblicksbild"
 msgid "*Start with reset"
 msgstr "*Starta med nollställning"
 
-#: src/arch/unix/uicommands.c:433
+#: src/arch/unix/uicommands.c:429
+msgid "*Overwrite running playback"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:435
 msgid "Load snapshot..."
 msgstr "Ladda ögonblicksbild..."
 
-#: src/arch/unix/uicommands.c:436
+#: src/arch/unix/uicommands.c:438
 msgid "Save snapshot..."
 msgstr "Spara ögonblicksbild..."
 
-#: src/arch/unix/uicommands.c:440
+#: src/arch/unix/uicommands.c:442
 msgid "Quickload snapshot"
 msgstr "Snabbladda ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:443
+#: src/arch/unix/uicommands.c:445
 msgid "Quicksave snapshot"
 msgstr "Snabbspara ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:449
+#: src/arch/unix/uicommands.c:451
 msgid "Start recording events"
 msgstr "Börja spela in händelser"
 
-#: src/arch/unix/uicommands.c:451
+#: src/arch/unix/uicommands.c:453
 msgid "Stop recording events"
 msgstr "Sluta spela in händelser"
 
-#: src/arch/unix/uicommands.c:453
+#: src/arch/unix/uicommands.c:455
 msgid "Start playing back events"
 msgstr "Börja spela upp händelser"
 
-#: src/arch/unix/uicommands.c:455
+#: src/arch/unix/uicommands.c:457
 msgid "Stop playing back events"
 msgstr "Sluta spela upp händelser"
 
-#: src/arch/unix/uicommands.c:457
-msgid "Set recording milestone"
-msgstr ""
-
 #: src/arch/unix/uicommands.c:459
-msgid "Return to milestone"
-msgstr ""
+msgid "Set recording milestone"
+msgstr "Ange inspelningsbokmärke"
 
-#: src/arch/unix/uicommands.c:462
+#: src/arch/unix/uicommands.c:461
+msgid "Return to milestone"
+msgstr "Åtegå till bokmärke"
+
+#: src/arch/unix/uicommands.c:464
 msgid "Recording start mode"
 msgstr "Spelar in startläge"
 
-#: src/arch/unix/uicommands.c:468
+#: src/arch/unix/uicommands.c:470
 msgid "Snapshot commands"
 msgstr "Kommandon för ögonblicksbilder"
 
-#: src/arch/unix/uicommands.c:474
+#: src/arch/unix/uicommands.c:476
 msgid "Sound record..."
 msgstr "Ljudinspelning..."
 
-#: src/arch/unix/uicommands.c:481
+#: src/arch/unix/uicommands.c:483
 msgid "Activate monitor"
 msgstr "Aktivera monitor"
 
-#: src/arch/unix/uicommands.c:484
+#: src/arch/unix/uicommands.c:486
 msgid "Run C1541"
 msgstr "Kör C1541"
 
-#: src/arch/unix/uicommands.c:492
+#: src/arch/unix/uicommands.c:494
 msgid "Browse manuals"
 msgstr "Läs manualer"
 
-#: src/arch/unix/uicommands.c:494
+#: src/arch/unix/uicommands.c:496
 msgid "About VICE..."
 msgstr "Om VICE..."
 
-#: src/arch/unix/uicommands.c:500 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:502 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
 #: src/arch/unix/x11/gnome/x11ui.c:1942
 msgid "Reset"
 msgstr "Återställ"
 
-#: src/arch/unix/uicommands.c:502
+#: src/arch/unix/uicommands.c:504
 msgid "*Pause"
 msgstr "*Paus"
 
-#: src/arch/unix/uicommands.c:509
+#: src/arch/unix/uicommands.c:511
 msgid "Exit emulator"
 msgstr "Avsluta emulator"
 
@@ -1565,24 +1559,20 @@ msgid "Load new 2031 ROM"
 msgstr "Ladda ny 2031-ROM"
 
 #: src/arch/unix/uidrivec128.c:226 src/arch/unix/uidrivepetcbm2.c:146
-#, fuzzy
 msgid "Load new 2040 ROM"
-msgstr "Ladda ny 2031-ROM"
+msgstr "Ladda ny 2040-ROM"
 
 #: src/arch/unix/uidrivec128.c:229 src/arch/unix/uidrivepetcbm2.c:149
-#, fuzzy
 msgid "Load new 3040 ROM"
-msgstr "Ladda ny 2031-ROM"
+msgstr "Ladda ny 3040-ROM"
 
 #: src/arch/unix/uidrivec128.c:232 src/arch/unix/uidrivepetcbm2.c:152
-#, fuzzy
 msgid "Load new 4040 ROM"
-msgstr "Ladda ny 2031-ROM"
+msgstr "Ladda ny 4040-ROM"
 
 #: src/arch/unix/uidrivec128.c:235 src/arch/unix/uidrivepetcbm2.c:155
-#, fuzzy
 msgid "Load new 1001 ROM"
-msgstr "Ladda ny 2031-ROM"
+msgstr "Ladda ny 1001-ROM"
 
 #: src/arch/unix/uidriveiec.c:67 src/arch/unix/uidriveiec.c:81
 #: src/arch/unix/uidriveiec.c:95 src/arch/unix/uidriveiec.c:109
@@ -1656,9 +1646,8 @@ msgid "Drive #11 floppy disk type"
 msgstr "Diskettyp i enhet 11"
 
 #: src/arch/unix/uidriveplus4.c:185
-#, fuzzy
 msgid "Load new 1551 ROM"
-msgstr "Ladda ny 1581-ROM"
+msgstr "Ladda ny 1551-ROM"
 
 #: src/arch/unix/uifliplist.c:87
 msgid "Load "
@@ -1756,9 +1745,8 @@ msgid "Remove: "
 msgstr "Ta bort: "
 
 #: src/arch/unix/uiide64.c:42
-#, fuzzy
 msgid "IDE64 image name"
-msgstr "Filnamn för minnesexpansionsavbildning"
+msgstr "Avbildningsfil för IDE64"
 
 #: src/arch/unix/uiide64.c:43 src/arch/unix/uireu.c:42
 #: src/arch/unix/uitfe.c:44
@@ -1767,49 +1755,47 @@ msgstr "Namn:"
 
 #: src/arch/unix/uiide64.c:73
 msgid "Enter number of cylinders"
-msgstr ""
+msgstr "Ange antal cylindrar"
 
 #: src/arch/unix/uiide64.c:74
 msgid "IDE64 cylinders"
-msgstr ""
+msgstr "IDE64-cylindra"
 
 #: src/arch/unix/uiide64.c:112
 msgid "Enter number of heads"
-msgstr ""
+msgstr "Ange antal huvuden"
 
 #: src/arch/unix/uiide64.c:113
 msgid "IDE64 heads"
-msgstr ""
+msgstr "IDE64-huvuden"
 
 #: src/arch/unix/uiide64.c:151
 msgid "Enter number of sectors"
-msgstr ""
+msgstr "Ange antal sektorer"
 
 #: src/arch/unix/uiide64.c:152
 msgid "IDE64 sectors"
-msgstr ""
+msgstr "IDE64-sektorer"
 
 #: src/arch/unix/uiide64.c:166
-#, fuzzy
 msgid "IDE64 image name..."
-msgstr "Filnamn för minnesexpansionsavbildning..."
+msgstr "Namn för IDE64-avbildning..."
 
 #: src/arch/unix/uiide64.c:169
 msgid "*Autodetect image size"
-msgstr ""
+msgstr "*Autodetektera storlek på avbildning"
 
 #: src/arch/unix/uiide64.c:171
 msgid "*Cylinders..."
-msgstr ""
+msgstr "*Cylindrar..."
 
 #: src/arch/unix/uiide64.c:173
 msgid "*Heads..."
-msgstr ""
+msgstr "*Huvuden..."
 
 #: src/arch/unix/uiide64.c:175
-#, fuzzy
 msgid "*Sectors..."
-msgstr "Ljudinspelning..."
+msgstr "*Sektorer..."
 
 #: src/arch/unix/uijoystick2.c:81 src/arch/unix/uijoystick2.c:118
 #: src/arch/unix/vic20ui.c:303
@@ -1843,15 +1829,13 @@ msgstr "*Digital styrspak 1"
 
 #: src/arch/unix/uijoystick2.c:103 src/arch/unix/uijoystick2.c:140
 #: src/arch/unix/vic20ui.c:325
-#, fuzzy
 msgid "*USB Joystick 0"
-msgstr "*Analog styrspak 0"
+msgstr "*USB styrspak 0"
 
 #: src/arch/unix/uijoystick2.c:106 src/arch/unix/uijoystick2.c:143
 #: src/arch/unix/vic20ui.c:328
-#, fuzzy
 msgid "*USB Joystick 1"
-msgstr "*Analog styrspak 1"
+msgstr "*USB styrspak 1"
 
 #: src/arch/unix/uijoystick2.c:153
 msgid "Joystick device in port 1"
@@ -2171,92 +2155,77 @@ msgstr ""
 "\"%s\""
 
 #: src/arch/unix/uiromset.c:102
-#, fuzzy
 msgid "Load custom ROM set archive"
-msgstr "Ladda egen ROM-uppsättning från fil"
+msgstr "Ladda eget ROM-uppsättningsarkiv"
 
 #: src/arch/unix/uiromset.c:109
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not load ROM set archive\n"
 "'%s'"
 msgstr ""
-"Kunde inte ladda ROM-inställningsfil\n"
+"Kunde inte ladda ROM-uppsättningsarkiv\n"
 "\"%s\""
 
 #: src/arch/unix/uiromset.c:136
-#, fuzzy
 msgid "File to save ROM set archive to"
-msgstr "Fil att spara ROM-inställning till"
+msgstr "Fil att spara ROM-uppsättningsarkiv till"
 
 #: src/arch/unix/uiromset.c:137
-#, fuzzy
 msgid "ROM set archive:"
-msgstr "ROM-inställningsfil:"
+msgstr "ROM-uppsättningsarkiv:"
 
 #: src/arch/unix/uiromset.c:151
-#, fuzzy
 msgid "Current ROM set archive"
-msgstr "ROM-inställningsfil:"
+msgstr "Nuvarande ROM-uppsättningsarkiv:"
 
 #: src/arch/unix/uiromset.c:167
 msgid "ROM set item name to create"
-msgstr ""
+msgstr "ROM-uppsättningspostnamn att skapa"
 
 #: src/arch/unix/uiromset.c:168
-#, fuzzy
 msgid "ROM set name:"
-msgstr "ROM-inställningsfil:"
+msgstr "ROM-uppsättningsnamn:"
 
 #: src/arch/unix/uiromset.c:183
-#, fuzzy
 msgid "Delete configuration"
-msgstr "Vanliga inställningar"
+msgstr "Ta bort inställningar"
 
 #: src/arch/unix/uiromset.c:183 src/arch/unix/uiromset.c:205
-#, fuzzy
 msgid "Enter name"
-msgstr "Ange hastighet"
+msgstr "Ange namn"
 
 #: src/arch/unix/uiromset.c:205
-#, fuzzy
 msgid "Active configuration"
-msgstr "Vanliga inställningar"
+msgstr "Aktiva inställningar"
 
 #: src/arch/unix/uiromset.c:216
-#, fuzzy
 msgid "Load ROM set archive"
-msgstr "ROM-inställningsfil:"
+msgstr "Ladda ROM-uppsättningsarkiv"
 
 #: src/arch/unix/uiromset.c:218
-#, fuzzy
 msgid "Save ROM set archive"
-msgstr "ROM-inställningsfil:"
+msgstr "Spara ROM-uppsättningsarkiv"
 
 #: src/arch/unix/uiromset.c:220
-#, fuzzy
 msgid "List current ROM set archive"
-msgstr "Ladda egen ROM-uppsättning från fil"
+msgstr "Lista eget ROM-uppsättningsarkiv"
 
 #: src/arch/unix/uiromset.c:223
-#, fuzzy
 msgid "Create ROM set item"
-msgstr "ROM-uppsättningar"
+msgstr "Skapa ROM-uppsättningspost"
 
 #: src/arch/unix/uiromset.c:225
-#, fuzzy
 msgid "Delete ROM set item"
-msgstr "ROM-uppsättningar"
+msgstr "Ta bort ROM-uppsättningspost"
 
 #: src/arch/unix/uiromset.c:227
-#, fuzzy
 msgid "Select ROM set item"
-msgstr "ROM-uppsättningar"
+msgstr "Välj en ROM-uppsättningspost"
 
 #: src/arch/unix/uiromset.c:244
-#, fuzzy
 msgid "Load custom ROM set file"
-msgstr "Ladda egen ROM-uppsättning från fil"
+msgstr "Ladda egen ROM-uppsättningsfil"
 
 #: src/arch/unix/uiromset.c:251
 #, c-format
@@ -2264,22 +2233,20 @@ msgid ""
 "Could not load ROM set file\n"
 "'%s'"
 msgstr ""
-"Kunde inte ladda ROM-inställningsfil\n"
+"Kunde inte ladda ROM-uppsättningsfil\n"
 "\"%s\""
 
 #: src/arch/unix/uiromset.c:278
-#, fuzzy
 msgid "File to save ROM set definition to"
-msgstr "Fil att spara ROM-inställning till"
+msgstr "Fil att spara ROM-uppsättningsdefinition till"
 
 #: src/arch/unix/uiromset.c:279
 msgid "ROM set file:"
-msgstr "ROM-inställningsfil:"
+msgstr "ROM-uppsättningsfil:"
 
 #: src/arch/unix/uiromset.c:293
-#, fuzzy
 msgid "Current ROM set"
-msgstr "ROM-uppsättningar"
+msgstr "Nuvarande ROM-uppsättningar"
 
 #: src/arch/unix/uiromset.c:299
 msgid "Load custom ROM set from file"
@@ -2291,7 +2258,7 @@ msgstr "Spara ROM-uppsättning till fil"
 
 #: src/arch/unix/uiromset.c:303
 msgid "List current ROM set"
-msgstr ""
+msgstr "Lista nuvarande ROM-uppsättning"
 
 #: src/arch/unix/uirs232.c:44 src/arch/unix/uirs232.c:58
 msgid "*Serial 1"
@@ -2334,9 +2301,8 @@ msgid "File to dump RS232 to"
 msgstr "Fil att dumpa RS232 till"
 
 #: src/arch/unix/uirs232.c:146
-#, fuzzy
 msgid "Dump file:"
-msgstr "*Dumpa till fil"
+msgstr "Dumpafil:"
 
 #: src/arch/unix/uirs232.c:154
 msgid "*ACIA $DExx RS232 interface emulation"
@@ -2496,9 +2462,8 @@ msgid "*Resampling"
 msgstr "*Omsamplande"
 
 #: src/arch/unix/uisid.c:78
-#, fuzzy
 msgid "*Fast Resampling"
-msgstr "*Omsamplande"
+msgstr "*Snabb omsampling"
 
 #: src/arch/unix/uisid.c:95
 msgid ""
@@ -2623,20 +2588,19 @@ msgstr "PAL-emulering"
 
 #: src/arch/unix/uitfe.c:43
 msgid "Ethernet interface"
-msgstr ""
+msgstr "Ethernetgränssnitt"
 
 #: src/arch/unix/uitfe.c:48
-#, fuzzy
 msgid "*Enable Ethernet"
-msgstr "*Aktivera minnesexpansion"
+msgstr "*Aktivera Ethernet"
 
 #: src/arch/unix/uitfe.c:50
 msgid "*RR-NET compatibity mode"
-msgstr ""
+msgstr "*RR-NET-kompatibilitetsläge"
 
 #: src/arch/unix/uitfe.c:52
 msgid "Interface..."
-msgstr ""
+msgstr "Gränssnitt..."
 
 #: src/arch/unix/uivdc.c:40 src/arch/unix/uivic.c:51
 #: src/arch/unix/uivicii.c:47
@@ -3584,7 +3548,7 @@ msgid "Successfully initialized without shared memory."
 msgstr "Initierade utan delat minne."
 
 #~ msgid "Load custom ROM set definition"
-#~ msgstr "Ladda egen ROM-inställning"
+#~ msgstr "Ladda egen ROM-uppsättningsdefinition"
 
 #~ msgid "Unload Basic ROM"
 #~ msgstr "Ladda ur Basic-ROM"

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.15\n"
-"POT-Creation-Date: 2004-08-07 21:35+0200\n"
+"POT-Creation-Date: 2004-08-21 21:55+0200\n"
 "PO-Revision-Date: 2004-05-04 21:13+0200\n"
 "Last-Translator: Paul Dubé (alias Kaddict) <dube.paul@sympatico.ca>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -21,7 +21,7 @@ msgstr "Limiter la vitesse d'émulation à la valeur specifiée"
 
 #: src/vsync.c:125
 msgid "Update every <value> frames (`0' for automatic)"
-msgstr "Mise à jour toutes les <value> frames (`0' pour automatique)"
+msgstr "Mise à jour toutes les <valeur> frames (`0' pour automatique)"
 
 #: src/vsync.c:127
 msgid "Enable warp mode"
@@ -84,13 +84,13 @@ msgstr ""
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr ""
-"Attention! Le périphérique d'enregistrement %s ne semble pas être un "
-"périphérique en temps réel (realtime device) !"
+"Attention! Le périphérique d'enregistrement %s semble être un périphérique "
+"en temps réel"
 
 #: src/sound.c:647
 #, c-format
 msgid "Initialization failed for device `%s'."
-msgstr "Erreur lors de l'initialisation du périphérique `%s':"
+msgstr "Erreur lors de l'initialisation du périphérique `%s'."
 
 #: src/sound.c:658
 msgid "The recording device doesn't support current sound parameters"
@@ -130,37 +130,37 @@ msgstr "erreur d'écriture sur périphérique de son."
 msgid "store to sounddevice failed."
 msgstr "erreur d'enregistrement sur périphérique de son."
 
-#: src/event.c:466
+#: src/event.c:520
 #, fuzzy, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Erreur de création de la sauvegarde de départ."
 
-#: src/event.c:480 src/event.c:723
+#: src/event.c:535 src/event.c:798
 #, fuzzy, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Erreur de lecture de la sauvegarde de fin."
 
-#: src/event.c:531 src/event.c:694
+#: src/event.c:598 src/event.c:769
 #, fuzzy, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Erreur de création de la sauvegarde de fin."
 
-#: src/event.c:590
+#: src/event.c:659
 #, fuzzy, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Erreur d'ouverture de la sauvegarde de fin."
 
-#: src/event.c:601
+#: src/event.c:670
 msgid "Could not find event section in end snapshot file."
 msgstr ""
 "Impossible de trouver la section des événements dans la sauvegarde de fin."
 
-#: src/event.c:621
+#: src/event.c:690
 #, fuzzy, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr "Erreur de lecture de la sauvegarde de départ."
 
-#: src/event.c:641
+#: src/event.c:716
 msgid "Error reading start snapshot file."
 msgstr "Erreur de lecture de la sauvegarde de départ."
 
@@ -848,11 +848,11 @@ msgstr "Spécifiez la vitesse du 2e port RS232"
 #: src/arch/unix/rs232.c:132
 msgid "Specify command to pipe data in/out, preceed with '|' (|lpr)"
 msgstr ""
-"Spécifiez la commande pour insérer des données, précédée d'une '|' (|lpr)"
+"Spécifiez la commande de transfer de données, précédée d'une '|' (|lpr)"
 
 #: src/arch/unix/rs232.c:134
 msgid "Specify baudrate of 4th RS232 device"
-msgstr "Spécifiez la vitesse du 4e port RS232"
+msgstr "Spécifiez la vitesse du 4ième port RS232"
 
 #: src/arch/unix/rs232.c:265
 msgid "No more devices available."
@@ -1174,7 +1174,7 @@ msgstr ""
 "Impossible d'écrire le fichier de sauvegarde\n"
 "`%s'\n"
 
-#: src/arch/unix/uicommands.c:324 src/arch/unix/uicommands.c:447
+#: src/arch/unix/uicommands.c:324 src/arch/unix/uicommands.c:449
 msgid "Select history directory"
 msgstr "Sélectionnez le répertoire des captures"
 
@@ -1206,85 +1206,89 @@ msgstr "*Charger une sauvegarde"
 msgid "*Start with reset"
 msgstr "*Démarrer en réinitialisant"
 
-#: src/arch/unix/uicommands.c:433
+#: src/arch/unix/uicommands.c:429
+msgid "*Overwrite running playback"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:435
 msgid "Load snapshot..."
 msgstr "Charger une sauvegarde...."
 
-#: src/arch/unix/uicommands.c:436
+#: src/arch/unix/uicommands.c:438
 msgid "Save snapshot..."
 msgstr "Enregistrer une sauvegarde..."
 
-#: src/arch/unix/uicommands.c:440
+#: src/arch/unix/uicommands.c:442
 msgid "Quickload snapshot"
 msgstr "Chargement de la sauvegarde rapide"
 
-#: src/arch/unix/uicommands.c:443
+#: src/arch/unix/uicommands.c:445
 msgid "Quicksave snapshot"
 msgstr "Enregistrement de la sauvegarde rapide"
 
-#: src/arch/unix/uicommands.c:449
+#: src/arch/unix/uicommands.c:451
 msgid "Start recording events"
 msgstr "Démarrer les événements d'enregistrement"
 
-#: src/arch/unix/uicommands.c:451
+#: src/arch/unix/uicommands.c:453
 msgid "Stop recording events"
 msgstr "Arrêter les événements d'enregistrements"
 
-#: src/arch/unix/uicommands.c:453
+#: src/arch/unix/uicommands.c:455
 msgid "Start playing back events"
 msgstr "Démarrer la lecture des événements"
 
-#: src/arch/unix/uicommands.c:455
+#: src/arch/unix/uicommands.c:457
 msgid "Stop playing back events"
 msgstr "Arrêter la lecture des événements"
 
-#: src/arch/unix/uicommands.c:457
+#: src/arch/unix/uicommands.c:459
 msgid "Set recording milestone"
 msgstr "Lever le signet d'enregistrement"
 
-#: src/arch/unix/uicommands.c:459
+#: src/arch/unix/uicommands.c:461
 msgid "Return to milestone"
 msgstr "Retourner au signet d'enregistrement"
 
-#: src/arch/unix/uicommands.c:462
+#: src/arch/unix/uicommands.c:464
 msgid "Recording start mode"
 msgstr "Mode de départ d'enregistrement"
 
-#: src/arch/unix/uicommands.c:468
+#: src/arch/unix/uicommands.c:470
 msgid "Snapshot commands"
 msgstr "Commandes d'enregistrement"
 
-#: src/arch/unix/uicommands.c:474
+#: src/arch/unix/uicommands.c:476
 msgid "Sound record..."
 msgstr "Enregistrement du son..."
 
-#: src/arch/unix/uicommands.c:481
+#: src/arch/unix/uicommands.c:483
 msgid "Activate monitor"
 msgstr "Activer le moniteur"
 
-#: src/arch/unix/uicommands.c:484
+#: src/arch/unix/uicommands.c:486
 msgid "Run C1541"
 msgstr "Lancer C1541"
 
-#: src/arch/unix/uicommands.c:492
+#: src/arch/unix/uicommands.c:494
 msgid "Browse manuals"
 msgstr "Lire les manuels"
 
-#: src/arch/unix/uicommands.c:494
+#: src/arch/unix/uicommands.c:496
 msgid "About VICE..."
 msgstr "À propos de VICE..."
 
-#: src/arch/unix/uicommands.c:500 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:502 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
 #: src/arch/unix/x11/gnome/x11ui.c:1942
 msgid "Reset"
 msgstr "Réinitialiser"
 
-#: src/arch/unix/uicommands.c:502
+#: src/arch/unix/uicommands.c:504
 msgid "*Pause"
 msgstr "*Pause"
 
-#: src/arch/unix/uicommands.c:509
+#: src/arch/unix/uicommands.c:511
 msgid "Exit emulator"
 msgstr "Quitter l'émulateur"
 
@@ -1528,7 +1532,7 @@ msgstr "*Activer l'utilisation du câble parralèle pour le lecteur #11"
 #: src/arch/unix/uidrivec128.c:189 src/arch/unix/uidrivec64vic20.c:181
 #: src/arch/unix/uidrivepetcbm2.c:126 src/arch/unix/uidriveplus4.c:163
 msgid "Drive #11 40-track image support"
-msgstr ""
+msgstr "Support d'images de 40 pistes sur le lecteur #11"
 
 #: src/arch/unix/uidrivec128.c:191 src/arch/unix/uidrivec64vic20.c:183
 #: src/arch/unix/uidrivepetcbm2.c:128 src/arch/unix/uidriveplus4.c:165
@@ -1777,27 +1781,27 @@ msgstr "Nom:"
 
 #: src/arch/unix/uiide64.c:73
 msgid "Enter number of cylinders"
-msgstr ""
+msgstr "Entrez le nombre de cylindres"
 
 #: src/arch/unix/uiide64.c:74
 msgid "IDE64 cylinders"
-msgstr ""
+msgstr "Cylindres IDE64"
 
 #: src/arch/unix/uiide64.c:112
 msgid "Enter number of heads"
-msgstr ""
+msgstr "Entrez le nombre de têtes"
 
 #: src/arch/unix/uiide64.c:113
 msgid "IDE64 heads"
-msgstr ""
+msgstr "Têtes IDE64"
 
 #: src/arch/unix/uiide64.c:151
 msgid "Enter number of sectors"
-msgstr ""
+msgstr "Entrez le nombre de secteurs"
 
 #: src/arch/unix/uiide64.c:152
 msgid "IDE64 sectors"
-msgstr ""
+msgstr "Secteurs IDE64"
 
 #: src/arch/unix/uiide64.c:166
 #, fuzzy
@@ -1806,20 +1810,20 @@ msgstr "Nom du fichier image REU..."
 
 #: src/arch/unix/uiide64.c:169
 msgid "*Autodetect image size"
-msgstr ""
+msgstr "*Autodétection de la taille de l'image"
 
 #: src/arch/unix/uiide64.c:171
 msgid "*Cylinders..."
-msgstr ""
+msgstr "*Cylindres..."
 
 #: src/arch/unix/uiide64.c:173
 msgid "*Heads..."
-msgstr ""
+msgstr "*Têtes..."
 
 #: src/arch/unix/uiide64.c:175
 #, fuzzy
 msgid "*Sectors..."
-msgstr "Enregistrement du son..."
+msgstr "*Secteurs..."
 
 #: src/arch/unix/uijoystick2.c:81 src/arch/unix/uijoystick2.c:118
 #: src/arch/unix/vic20ui.c:303
@@ -2211,17 +2215,17 @@ msgstr "Fichier image ROM:"
 
 #: src/arch/unix/uiromset.c:167
 msgid "ROM set item name to create"
-msgstr ""
+msgstr "Nom de l'item fichier image à créer"
 
 #: src/arch/unix/uiromset.c:168
 #, fuzzy
 msgid "ROM set name:"
-msgstr "Fichier image ROM:"
+msgstr "Nom du fichier image ROM:"
 
 #: src/arch/unix/uiromset.c:183
 #, fuzzy
 msgid "Delete configuration"
-msgstr "Configurations communes"
+msgstr "Supprimer la configuration"
 
 #: src/arch/unix/uiromset.c:183 src/arch/unix/uiromset.c:205
 #, fuzzy
@@ -2231,7 +2235,7 @@ msgstr "Entrez la vitesse"
 #: src/arch/unix/uiromset.c:205
 #, fuzzy
 msgid "Active configuration"
-msgstr "Configurations communes"
+msgstr "Configuration active"
 
 #: src/arch/unix/uiromset.c:216
 #, fuzzy
@@ -2301,7 +2305,7 @@ msgstr "Dupliquer une ROM dans un fichier"
 
 #: src/arch/unix/uiromset.c:303
 msgid "List current ROM set"
-msgstr ""
+msgstr "Lister le fichier image"
 
 #: src/arch/unix/uirs232.c:44 src/arch/unix/uirs232.c:58
 msgid "*Serial 1"
@@ -2633,7 +2637,7 @@ msgstr "Émulation PAL"
 
 #: src/arch/unix/uitfe.c:43
 msgid "Ethernet interface"
-msgstr ""
+msgstr "Interface Ethernet"
 
 #: src/arch/unix/uitfe.c:48
 #, fuzzy
@@ -2642,11 +2646,11 @@ msgstr "*Activer REU"
 
 #: src/arch/unix/uitfe.c:50
 msgid "*RR-NET compatibity mode"
-msgstr ""
+msgstr "*Mode de compatibilité RR-NET"
 
 #: src/arch/unix/uitfe.c:52
 msgid "Interface..."
-msgstr ""
+msgstr "Interface..."
 
 #: src/arch/unix/uivdc.c:40 src/arch/unix/uivic.c:51
 #: src/arch/unix/uivicii.c:47
@@ -3082,9 +3086,7 @@ msgstr "Cet affichage ne supporte pas de mode visuel utilisable %dbits."
 
 #: src/arch/unix/x11/gnome/x11ui.c:627 src/arch/unix/x11/xaw/x11ui.c:490
 msgid "Please select a bit depth supported by your display."
-msgstr ""
-"SVP, veuillez sélectionner une profondeur de couleurs supportée par votre "
-"affichage."
+msgstr "SVP, veuillez sélectionner une profondeur de couleurs supportée."
 
 #: src/arch/unix/x11/gnome/x11ui.c:630 src/arch/unix/x11/gnome/x11ui.c:654
 #: src/arch/unix/x11/xaw/x11ui.c:493 src/arch/unix/x11/xaw/x11ui.c:510
@@ -3099,9 +3101,7 @@ msgstr "Détecté une capacité visuelle de %dbits."
 
 #: src/arch/unix/x11/gnome/x11ui.c:662 src/arch/unix/x11/xaw/x11ui.c:518
 msgid "Cannot autodetect a proper visual."
-msgstr ""
-"Impossible de détecter automatiquement une configuration visuelle "
-"fonctionnelle."
+msgstr "Impossible de détecter une configuration visuelle fonctionnelle."
 
 #: src/arch/unix/x11/gnome/x11ui.c:670
 #, c-format
@@ -3161,11 +3161,11 @@ msgstr "Aide"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1333 src/arch/unix/x11/xaw/x11ui.c:1024
 msgid " emulator"
-msgstr ""
+msgstr " émulateur"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1340 src/arch/unix/x11/xaw/x11ui.c:1028
 msgid "Do you really want to exit?"
-msgstr ""
+msgstr "Voulez-vous vraiment quitter?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1347 src/arch/unix/x11/xaw/x11ui.c:1036
 msgid "Save the current settings?"
@@ -3302,14 +3302,14 @@ msgstr "Fork DGA réussi"
 #: src/arch/unix/x11/dga2.c:426
 msgid "Unable to query video extension version - disabling fullscreen."
 msgstr ""
-"Impossible de déterminer la version d'extension vidéo - désactivation du "
-"mode plein écran."
+"Impossible de déterminer la version de l'extension vidéo - mode plein écran "
+"désactivé."
 
 #: src/arch/unix/x11/dga2.c:431
 msgid "Unable to query video extension information - disabling fullscreen."
 msgstr ""
-"Impossible d'obtenir de l'information sur l'extension vidéo - désactivation "
-"du mode plein écran."
+"Impossible de déterminer les information de l'extension vidéo - mode plein "
+"écran désactivé."
 
 #: src/arch/unix/x11/dga2.c:440
 #, c-format

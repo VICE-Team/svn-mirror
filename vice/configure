@@ -1568,7 +1568,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.14.39
+ VERSION=1.14.40
 
 
 cat >>confdefs.h <<_ACEOF
@@ -1696,11 +1696,6 @@ INSTALL_STRIP_PROGRAM="\${SHELL} \$(install_sh) -c -s"
 
           ac_config_headers="$ac_config_headers src/config.h"
 
-
-
-cat >>confdefs.h <<\_ACEOF
-#define UNSTABLE
-_ACEOF
 
 
 is_dos=no
@@ -16659,6 +16654,17 @@ fi
 
     fi
   fi
+else
+
+
+if false; then
+  HAVE_REALDEVICE_TRUE=
+  HAVE_REALDEVICE_FALSE='#'
+else
+  HAVE_REALDEVICE_TRUE='#'
+  HAVE_REALDEVICE_FALSE=
+fi
+
 fi
 
 
@@ -17406,6 +17412,13 @@ if test -z "${NEED_READLINE_TRUE}" && test -z "${NEED_READLINE_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"NEED_READLINE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"NEED_READLINE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${HAVE_REALDEVICE_TRUE}" && test -z "${HAVE_REALDEVICE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"HAVE_REALDEVICE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"HAVE_REALDEVICE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi

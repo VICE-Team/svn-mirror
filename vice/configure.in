@@ -6,10 +6,10 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.14.39)
+AM_INIT_AUTOMAKE(vice, 1.14.40)
 AM_CONFIG_HEADER(src/config.h)
 
-AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])
+dnl AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])
 
 is_dos=no
 is_win32=no
@@ -1022,6 +1022,8 @@ if test x"$enable_realdevice" != x"no"; then
       AM_CONDITIONAL(HAVE_REALDEVICE, false)
     fi
   fi
+else
+  AM_CONDITIONAL(HAVE_REALDEVICE, false)
 fi
 
 AC_SUBST(x64_LDFLAGS)
