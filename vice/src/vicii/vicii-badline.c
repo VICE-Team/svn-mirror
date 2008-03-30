@@ -38,18 +38,18 @@
 
 inline static void switch_to_display_state(const int cycle)
 {
-    raster_add_int_change_foreground(&vic_ii.raster, VIC_II_RASTER_CHAR(cycle),
-                                     &vic_ii.raster.draw_idle_state, 0);
-    raster_add_int_change_background(&vic_ii.raster, VIC_II_RASTER_X(cycle),
-                                     &vic_ii.raster.draw_idle_state, 0);
-    vic_ii.idle_state = 0;
-    vic_ii.idle_data_location = IDLE_NONE;
+    raster_add_int_change_foreground(&vicii.raster, VICII_RASTER_CHAR(cycle),
+                                     &vicii.raster.draw_idle_state, 0);
+    raster_add_int_change_background(&vicii.raster, VICII_RASTER_X(cycle),
+                                     &vicii.raster.draw_idle_state, 0);
+    vicii.idle_state = 0;
+    vicii.idle_data_location = IDLE_NONE;
 }
 
 inline static void line_becomes_good(const int cycle)
 {
-    if (cycle < VIC_II_FETCH_CYCLE)
-        vic_ii.bad_line = 0;
+    if (cycle < VICII_FETCH_CYCLE)
+        vicii.bad_line = 0;
 
     /* By changing the values in the registers, one can make the VIC-II
        switch from idle to display state, but not from display to idle
@@ -59,39 +59,39 @@ inline static void line_becomes_good(const int cycle)
     if (cycle > 0) {
         switch_to_display_state(cycle);
 
-        if (cycle > VIC_II_FETCH_CYCLE + 2
-            && !vic_ii.ycounter_reset_checked) {
-            vic_ii.raster.ycounter = 0;
-            vic_ii.ycounter_reset_checked = 1;
+        if (cycle > VICII_FETCH_CYCLE + 2
+            && !vicii.ycounter_reset_checked) {
+            vicii.raster.ycounter = 0;
+            vicii.ycounter_reset_checked = 1;
         }
     }
 }
 
 inline static void line_becomes_bad(const int cycle)
 {
-    if (cycle >= VIC_II_FETCH_CYCLE
-        && cycle < VIC_II_FETCH_CYCLE + VIC_II_SCREEN_TEXTCOLS + 3) {
+    if (cycle >= VICII_FETCH_CYCLE
+        && cycle < VICII_FETCH_CYCLE + VICII_SCREEN_TEXTCOLS + 3) {
         int xpos;           /* Current X position */
         int pos;            /* Value of line counter when this happens.  */
         int inc;            /* Total increment for the line counter.  */
         int num_chars;      /* Total number of characters to fetch.  */
         int num_0xff_fetches; /* Number of 0xff fetches to do.  */
 
-        vic_ii.bad_line = 1;
+        vicii.bad_line = 1;
 
-        if (cycle <= VIC_II_FETCH_CYCLE + 2)
-            vic_ii.raster.ycounter = 0;
+        if (cycle <= VICII_FETCH_CYCLE + 2)
+            vicii.raster.ycounter = 0;
 
-        vic_ii.ycounter_reset_checked = 1;
+        vicii.ycounter_reset_checked = 1;
 
-        xpos = cycle - (VIC_II_FETCH_CYCLE + 3);
+        xpos = cycle - (VICII_FETCH_CYCLE + 3);
 
-        num_chars = VIC_II_SCREEN_TEXTCOLS - xpos;
+        num_chars = VICII_SCREEN_TEXTCOLS - xpos;
 
         /* Take over the bus until the memory fetch is done.  */
         dma_maincpu_steal_cycles(maincpu_clk, num_chars, 0);
 
-        if (num_chars <= VIC_II_SCREEN_TEXTCOLS) {
+        if (num_chars <= VICII_SCREEN_TEXTCOLS) {
             /* Matrix fetches starts immediately, but the VICII needs
                at least 3 cycles to become the bus master.  Before
                this happens, it fetches 0xff.  */
@@ -99,28 +99,28 @@ inline static void line_becomes_bad(const int cycle)
 
             /* If we were in idle state before creating the bad
                line, the counters have not been incremented.  */
-            if (vic_ii.idle_state) {
+            if (vicii.idle_state) {
                 pos = 0;
                 inc = num_chars;
                 if (inc < 0)
                     inc = 0;
             } else {
                 pos = xpos;
-                if (pos > VIC_II_SCREEN_TEXTCOLS - 1)
-                    pos = VIC_II_SCREEN_TEXTCOLS - 1;
-                inc = VIC_II_SCREEN_TEXTCOLS;
+                if (pos > VICII_SCREEN_TEXTCOLS - 1)
+                    pos = VICII_SCREEN_TEXTCOLS - 1;
+                inc = VICII_SCREEN_TEXTCOLS;
             }
         } else {
             pos = 0;
-            num_chars = inc = VIC_II_SCREEN_TEXTCOLS;
-            num_0xff_fetches = cycle - VIC_II_FETCH_CYCLE;
+            num_chars = inc = VICII_SCREEN_TEXTCOLS;
+            num_0xff_fetches = cycle - VICII_FETCH_CYCLE;
         }
 
-        /* This is normally done at cycle `VIC_II_FETCH_CYCLE + 2'.  */
-        vic_ii.mem_counter = vic_ii.memptr;
+        /* This is normally done at cycle `VICII_FETCH_CYCLE + 2'.  */
+        vicii.mem_counter = vicii.memptr;
 
-        if (vic_ii.idle_state && xpos > 0)
-            vic_ii.buf_offset = xpos;
+        if (vicii.idle_state && xpos > 0)
+            vicii.buf_offset = xpos;
 
         /* As we are on a bad line, switch to display state.  */
         switch_to_display_state(cycle);
@@ -129,25 +129,25 @@ inline static void line_becomes_bad(const int cycle)
         if (num_chars > 0)
             vicii_fetch_matrix(pos, num_chars, num_0xff_fetches);
 
-        /* Set the value by which `vic_ii.mem_counter' is incremented on
+        /* Set the value by which `vicii.mem_counter' is incremented on
            this line.  */
-        vic_ii.mem_counter_inc = inc;
+        vicii.mem_counter_inc = inc;
 
         /* Remember we have done a DMA.  */
-        vic_ii.memory_fetch_done = 2;
+        vicii.memory_fetch_done = 2;
 
         /* Force screen on even if the store that triggered the DMA has
            set the blank bit.  */
-        vic_ii.raster.blank_off = 1;
-    } else if (cycle <= VIC_II_FETCH_CYCLE + VIC_II_SCREEN_TEXTCOLS + 6) {
+        vicii.raster.blank_off = 1;
+    } else if (cycle <= VICII_FETCH_CYCLE + VICII_SCREEN_TEXTCOLS + 6) {
         /* Bad line has been generated after fetch interval, but
-           before `vic_ii.raster.ycounter' is incremented.  */
+           before `vicii.raster.ycounter' is incremented.  */
 
-        vic_ii.bad_line = 1;
+        vicii.bad_line = 1;
 
         /* If in idle state, counter is not incremented.  */
-        if (vic_ii.idle_state)
-            vic_ii.mem_counter_inc = 0;
+        if (vicii.idle_state)
+            vicii.mem_counter_inc = 0;
 
         /* As we are on a bad line, switch to display state.  */
         switch_to_display_state(cycle);
@@ -155,7 +155,7 @@ inline static void line_becomes_bad(const int cycle)
         /* Line is now bad, so we must switch to display state.
            Anyway, we cannot do it here as the `ycounter' handling
            must happen in as in idle state.  */
-        vic_ii.force_display_state = 1;
+        vicii.force_display_state = 1;
     }
 }
 
@@ -167,8 +167,8 @@ void vicii_badline_check_state(BYTE value, const int cycle,
 
     /* Check whether bad line state has changed.  */
     was_bad_line = (old_allow_bad_lines
-                    && (vic_ii.raster.ysmooth == (int)(line & 7)));
-    now_bad_line = (vic_ii.allow_bad_lines
+                    && (vicii.raster.ysmooth == (int)(line & 7)));
+    now_bad_line = (vicii.allow_bad_lines
                     && ((int)(value & 7) == (int)(line & 7)));
 
     if (was_bad_line && !now_bad_line) {

@@ -38,11 +38,11 @@
 
 /* base saturation of all colors except the grey tones */
 
-#define VIC_II_SATURATION       48.0f
+#define VICII_SATURATION 48.0f
 
 /* phase shift of all colors */
 
-#define VIC_II_PHASE            -4.5f
+#define VICII_PHASE -4.5f
 
 /* chroma angles in UV space */
 
@@ -87,7 +87,7 @@ static char vicii_color_dither[16] =
 
 /* very old vic-ii palette with less luminances */
 
-static video_cbm_color_t vicii_colors_old[VIC_II_NUM_COLORS] =
+static video_cbm_color_t vicii_colors_old[VICII_NUM_COLORS] =
 {
     { LUMO0, ANGLE_ORN, -0, "Black"       },
     { LUMO4, ANGLE_BRN,  0, "White"       },
@@ -109,15 +109,15 @@ static video_cbm_color_t vicii_colors_old[VIC_II_NUM_COLORS] =
 
 static video_cbm_palette_t vicii_palette_old =
 {
-    VIC_II_NUM_COLORS,
+    VICII_NUM_COLORS,
     vicii_colors_old,
-    VIC_II_SATURATION,
-    VIC_II_PHASE
+    VICII_SATURATION,
+    VICII_PHASE
 };
 
 /* the wellknown vic-ii palette used for 99% of all vic-ii chips */
 
-static video_cbm_color_t vicii_colors[VIC_II_NUM_COLORS] =
+static video_cbm_color_t vicii_colors[VICII_NUM_COLORS] =
 {
     { LUMN0, ANGLE_ORN, -0, "Black"       },
     { LUMN8, ANGLE_BRN,  0, "White"       },
@@ -139,10 +139,10 @@ static video_cbm_color_t vicii_colors[VIC_II_NUM_COLORS] =
 
 static video_cbm_palette_t vicii_palette =
 {
-    VIC_II_NUM_COLORS,
+    VICII_NUM_COLORS,
     vicii_colors,
-    VIC_II_SATURATION,
-    VIC_II_PHASE
+    VICII_SATURATION,
+    VICII_PHASE
 };
 
 int vicii_color_update_palette(void)
