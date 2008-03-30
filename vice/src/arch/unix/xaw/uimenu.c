@@ -268,6 +268,8 @@ int ui_menu_init(XtAppContext app_context, Display *d, int s)
     XtAppAddActions(app_context, actions, XtNumber(actions));
     XawSimpleMenuAddGlobalActions(app_context);
 
+    ui_create_dynamic_menues();
+
     return 0;
 }
 
@@ -278,6 +280,7 @@ Widget ui_menu_create(const char *name, ...)
     unsigned int i, j;
     ui_menu_entry_t *list;
     va_list ap;
+
 
     level++;
     w = XtCreatePopupShell(name, simpleMenuWidgetClass, _ui_top_level,

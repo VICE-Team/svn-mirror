@@ -255,35 +255,11 @@ UI_MENU_DEFINE_TOGGLE(SaveResourcesOnExit)
 
 UI_MENU_DEFINE_TOGGLE(WarpMode)
 
-#ifdef USE_VIDMODE_EXTENSION
-
-UI_MENU_DEFINE_TOGGLE(UseFullscreen)
-
-static UI_CALLBACK(toggle_DoubleSize)
-{
-    int current_value, fullscreen;
-
-    if (resources_get_value("DoubleSize",
-                            (resource_value_t *) &current_value) < 0)
-        return;
-
-    resources_get_value("UseFullscreen", (resource_value_t *) &fullscreen);
-    if (!call_data) {
-        if (!fullscreen) {
-            resources_set_value("DoubleSize", 
-                                (resource_value_t) !current_value);
-            ui_update_menus();
-        }
-    } else {
-        ui_menu_set_tick(w, current_value);
-    }
-    ui_menu_set_sensitive(w, !fullscreen);
-}
-#else
 UI_MENU_DEFINE_TOGGLE(DoubleSize)
-#endif
 
 UI_MENU_DEFINE_TOGGLE(DoubleScan)
+
+
 /* ------------------------------------------------------------------------- */
 
 /* this is modelled after the toggle_* calls */
@@ -1165,6 +1141,33 @@ static ui_menu_entry_t par_drive_settings_submenu[] = {
     { NULL }
 };
 
+/* ------------------------------------------------------------------------- */
+
+#ifdef USE_VIDMODE_EXTENSION
+
+UI_MENU_DEFINE_TOGGLE(UseFullscreen)
+
+UI_MENU_DEFINE_TOGGLE(FullscreenDoubleSize)
+
+UI_MENU_DEFINE_TOGGLE(FullscreenDoubleScan)
+
+ui_menu_entry_t ui_fullscreen_settings_submenu[] = {
+    { "*Enable",
+      (ui_callback_t) toggle_UseFullscreen, NULL, NULL, XK_d, UI_HOTMOD_META },
+    { "--"},
+    { "*Double size",
+      (ui_callback_t) toggle_FullscreenDoubleSize, NULL, NULL },
+    { "*Double scan",
+      (ui_callback_t) toggle_FullscreenDoubleScan, NULL, NULL },
+    { "--"},
+    { "Resolutions",
+      (ui_callback_t) NULL, NULL, NULL },
+    { NULL }
+};
+#endif 
+
+/* ------------------------------------------------------------------------- */
+
 static ui_menu_entry_t video_settings_submenu[] = {
     { "*Video cache",
       (ui_callback_t) toggle_VideoCache, NULL, NULL },
@@ -1174,10 +1177,6 @@ static ui_menu_entry_t video_settings_submenu[] = {
       (ui_callback_t) toggle_DoubleScan, NULL, NULL },
     { "*Use XSync()",
       (ui_callback_t) toggle_UseXSync, NULL, NULL },
-#ifdef USE_VIDMODE_EXTENSION
-    { "*Fullscreen",
-      (ui_callback_t) toggle_UseFullscreen, NULL, NULL, XK_d, UI_HOTMOD_META },
-#endif 
     { NULL }
 };
 
@@ -1192,6 +1191,15 @@ ui_menu_entry_t ui_performance_settings_menu[] = {
       (ui_callback_t) toggle_WarpMode, NULL, NULL, XK_w, UI_HOTMOD_META },
     { NULL }
 };
+
+#ifdef USE_VIDMODE_EXTENSION
+ui_menu_entry_t ui_fullscreen_settings_menu[] = {
+    { "Fullscreen settings",
+      NULL, NULL, ui_fullscreen_settings_submenu },
+    { NULL }
+};
+#endif 
+
 
 ui_menu_entry_t ui_video_settings_menu[] = {
     { "Video settings",

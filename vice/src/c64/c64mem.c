@@ -1018,19 +1018,13 @@ int mem_get_numromsets()
 } 
 
 #define ELIMINATE_NEWLINES(s)\
-{char *c;for(c=s;*c!='\0';c++)if(*c=='\n'||*c=='\r')*c='\0';}
-
-#ifndef __msdos__
-#warning have we already a function for converting dos<->unix paths
-#define MAKE_UNIX(s)\
-{char *c;for(c=s;*c!='\0';c++)if(*c=='\\')*c='/';}
-#endif
 
 int mem_load_romset_file(const char *name)
 {
     FILE *fp = NULL;
     char *complete_path;
     char romsetname[101], romsetpath[101];
+    char *c;
     
     romsets = calloc(sizeof(mem_romset_t*), 20);
 
@@ -1045,10 +1039,12 @@ int mem_load_romset_file(const char *name)
       if(!fgets(romsetpath,100,fp) || !fgets(romsetname,100,fp)) {
 	break;
       }
-      ELIMINATE_NEWLINES(romsetpath);
-      MAKE_UNIX(romsetpath);
-      ELIMINATE_NEWLINES(romsetname);
-      MAKE_UNIX(romsetpath);
+      for(c=romsetpath; *c != '\0'; c++)
+	  if( *c=='\n'|| *c=='\r')
+	      *c='\0';
+      for(c=romsetname; *c != '\0'; c++)
+	  if( *c=='\n'|| *c=='\r')
+	      *c='\0';
       romsets[number_romsets] = (mem_romset_t*) malloc(sizeof(mem_romset_t));
       romsets[number_romsets]->name = strdup(romsetname);
       romsets[number_romsets]->path = strdup(romsetpath);

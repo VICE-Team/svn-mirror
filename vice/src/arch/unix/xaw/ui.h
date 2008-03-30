@@ -85,6 +85,13 @@ extern Visual *visual;
 extern int depth;
 
 /* ------------------------------------------------------------------------- */
+#ifdef USE_VIDMODE_EXTENSION
+typedef struct {
+  int modeindex;
+  char name[17];
+} ui_bestvideomode;
+#endif
+/* ------------------------------------------------------------------------- */
 
 /* This is used by `ui_enable_drive_status()'.  */
 typedef enum {
@@ -136,12 +143,12 @@ void ui_popdown(Widget w);
 void ui_popup(Widget w, const char *title, Boolean wait_popdown);
 void ui_pause_emulation(int flag);
 int ui_emulation_is_paused(void);
+void ui_create_dynamic_menues(void);
 
 #ifdef USE_VIDMODE_EXTENSION
 int ui_set_windowmode(void);
 int ui_set_fullscreenmode(void);
 void ui_set_fullscreenmode_init(void);
-int ui_is_fullscreen(void);
 #endif
 
 #endif /* !defined (_UI_XAW_H) */

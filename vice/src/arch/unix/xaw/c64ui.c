@@ -333,6 +333,7 @@ static ui_menu_entry_t c64_menu[] = {
 
 int c64_ui_init(void)
 {
+
     int num_romsets;
     mem_romset_t** romsets;
 
@@ -359,19 +360,19 @@ int c64_ui_init(void)
     romset_submenu[0].hotkey_modifier = (ui_hotkey_modifier_t) 0;      
 
     romset_submenu[1].string = "--";
-
         
     for(num_romsets = 0; num_romsets < mem_get_numromsets(); num_romsets++) {
-      romset_submenu[2+num_romsets].string = romsets[num_romsets]->name; 
-      romset_submenu[2+num_romsets].callback = (ui_callback_t) radio_RomSet;
-      romset_submenu[2+num_romsets].callback_data = (ui_callback_data_t) 
-	romsets[num_romsets]->name;
-      romset_submenu[2+num_romsets].sub_menu = NULL;
-      romset_submenu[2+num_romsets].hotkey_keysym = 0;
-      romset_submenu[2+num_romsets].hotkey_modifier = (ui_hotkey_modifier_t) 0;
+        romset_submenu[2+num_romsets].string = romsets[num_romsets]->name; 
+	romset_submenu[2+num_romsets].callback = (ui_callback_t) radio_RomSet;
+	romset_submenu[2+num_romsets].callback_data = (ui_callback_data_t) 
+	  romsets[num_romsets]->name;
+	romset_submenu[2+num_romsets].sub_menu = NULL;
+	romset_submenu[2+num_romsets].hotkey_keysym = 0;
+	romset_submenu[2+num_romsets].hotkey_modifier = (ui_hotkey_modifier_t) 0;
     }
 
     c64_menu[0].sub_menu = romset_submenu;
+
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,
@@ -398,6 +399,9 @@ int c64_ui_init(void)
                                      ui_performance_settings_menu,
                                      ui_menu_separator,
                                      ui_video_settings_menu,
+#ifdef USE_VIDMODE_EXTENSION
+				     ui_fullscreen_settings_menu,
+#endif
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_drive_settings_menu,

@@ -273,6 +273,9 @@ int c128_ui_init(void)
                                      ui_performance_settings_menu,
                                      ui_menu_separator,
                                      ui_video_settings_menu,
+#ifdef USE_VIDMODE_EXTENSION
+				     ui_fullscreen_settings_menu,
+#endif
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_drive_settings_menu,

@@ -79,18 +79,19 @@ INCLUDES
 
 #ifdef __MSDOS__
 
-#ifdef USE_VIDMODE_EXTENSION
-#define	DOUBLE_SIZE_ENABLED()	(double_size_enabled || fullscreen || (screen_xpix > 320))
-#else
 #define	DOUBLE_SIZE_ENABLED()	(double_size_enabled || (screen_xpix > 320))
-#endif
 
 #else /* __MSDOS__ */
 
 #ifdef USE_VIDMODE_EXTENSION
-#define	DOUBLE_SIZE_ENABLED()	(double_size_enabled || fullscreen)
+
+#define	DOUBLE_SIZE_ENABLED() \
+(fullscreen?fullscreen_double_size_enabled:double_size_enabled)
+
 #else
+
 #define	DOUBLE_SIZE_ENABLED()	(double_size_enabled)
+
 #endif
 
 #endif /* __MSDOS__ */
@@ -179,9 +180,18 @@ static int video_cache_enabled;
 /* Flag: Do we copy lines in double size mode?  */
 static int double_scan_enabled;
 
-/* Flag: Fullscreenmode?  */
 #ifdef USE_VIDMODE_EXTENSION
+/* Flag: Fullscreenmode?  */
 static int fullscreen = 0; 
+
+/* Flag: Do we use double size?  */
+static int fullscreen_double_size_enabled;
+
+/* Flag: Do we copy lines in double size mode?  */
+static int fullscreen_double_scan_enabled;
+
+static int fullscreen_width;
+static int fullscreen_height;
 #endif
 
 static int set_video_cache_enabled(resource_value_t v)
@@ -197,17 +207,45 @@ static int set_palette_file_name(resource_value_t v);
 static int set_double_size_enabled(resource_value_t v)
 {
     double_size_enabled = (int) v;
-    video_resize();
+#ifdef USE_VIDMODE_EXTENSION
+    if(!fullscreen)
+#endif
+        video_resize();
     return 0;
 }
-#endif
 
 static int set_double_scan_enabled(resource_value_t v)
 {
     double_scan_enabled = (int) v;
-    video_resize();
+#ifdef USE_VIDMODE_EXTENSION
+    if(!fullscreen)
+#endif
+        video_resize();
     return 0;
 }
+#endif
+
+#ifdef USE_VIDMODE_EXTENSION
+
+void fullscreen_forcerepaint();
+
+#ifdef NEED_2x
+static int set_fullscreen_double_size_enabled(resource_value_t v)
+{
+    fullscreen_double_size_enabled = (int) v;
+    fullscreen_forcerepaint();
+    return 0;
+}
+#endif
+
+static int set_fullscreen_double_scan_enabled(resource_value_t v)
+{
+    fullscreen_double_scan_enabled = (int) v;
+    fullscreen_forcerepaint();
+    return 0;
+}
+
+#endif
 
 static resource_t resources[] = {
     { "PaletteFile", RES_STRING, (resource_value_t) "default",
@@ -220,6 +258,18 @@ static resource_t resources[] = {
     { "DoubleScan", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &double_scan_enabled, set_double_scan_enabled },
 #endif
+
+#ifdef USE_VIDMODE_EXTENSION
+#ifdef NEED_2x
+    { "FullscreenDoubleSize", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &fullscreen_double_size_enabled,
+      set_fullscreen_double_size_enabled },
+#endif
+    { "FullscreenDoubleScan", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &fullscreen_double_scan_enabled,
+      set_fullscreen_double_scan_enabled },
+#endif
+
 #ifndef __MSDOS__
     { "VideoCache", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &video_cache_enabled, set_video_cache_enabled },
@@ -449,6 +499,7 @@ void video_free(void)
 
 static void crtc_arrange_window(int width, int height)
 {
+    if(fullscreen) return;
     resize(width, height);
     refresh_changed();
     refresh_all();
@@ -1201,11 +1252,27 @@ fail:
 }
 
 #ifdef USE_VIDMODE_EXTENSION
-void video_setfullscreen(int v, int width, int height) {
-  fullscreen = v;
-  video_resize();
-  if(v) {
-    crtc_arrange_window(width, height);
-  }
+void video_setfullscreen(int v,int width, int height) {
+    fullscreen = v;
+    fullscreen_width = width;
+    fullscreen_height = height;
+
+    video_resize();
+    if(v) {
+        resize(width, height);
+	refresh_changed();
+	refresh_all();
+    }
+    video_resize();
+}
+
+void fullscreen_forcerepaint() {
+    if(fullscreen) {
+	video_resize();
+        resize(fullscreen_width, fullscreen_height);
+	refresh_changed();
+	refresh_all();
+	video_resize();
+    }
 }
 #endif

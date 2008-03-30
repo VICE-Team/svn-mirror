@@ -76,9 +76,19 @@ static int double_scan_enabled;
 /* Name of palette file.  */
 static char *palette_file_name;
 
-/* Flag: Fullscreenmode?  */
 #ifdef USE_VIDMODE_EXTENSION
+/* Flag: Fullscreenmode?  */
 static int fullscreen = 0; 
+
+/* Flag: Do we use double size?  */
+static int fullscreen_double_size_enabled;
+
+/* Flag: Do we copy lines in double size mode?  */
+static int fullscreen_double_scan_enabled;
+
+static int fullscreen_width;
+static int fullscreen_height;
+
 #endif
 
 static int set_video_cache_enabled(resource_value_t v)
@@ -90,25 +100,65 @@ static int set_video_cache_enabled(resource_value_t v)
 /* Prototype for resources - new function from raster.c.  */
 static int set_palette_file_name(resource_value_t v);
 
+#ifdef NEED_2x
 static int set_double_size_enabled(resource_value_t v)
 {
     double_size_enabled = (int) v;
-    video_resize();
+#ifdef USE_VIDMODE_EXTENSION
+    if(!fullscreen)
+#endif
+        video_resize();
     return 0;
 }
 
 static int set_double_scan_enabled(resource_value_t v)
 {
     double_scan_enabled = (int) v;
-    video_resize();
+#ifdef USE_VIDMODE_EXTENSION
+    if(!fullscreen)
+#endif
+        video_resize();
     return 0;
 }
+#endif
+
+#ifdef USE_VIDMODE_EXTENSION
+
+void fullscreen_forcerepaint();
+
+#ifdef NEED_2x
+static int set_fullscreen_double_size_enabled(resource_value_t v)
+{
+    fullscreen_double_size_enabled = (int) v;
+    fullscreen_forcerepaint();
+    return 0;
+}
+#endif
+
+static int set_fullscreen_double_scan_enabled(resource_value_t v)
+{
+    fullscreen_double_scan_enabled = (int) v;
+    fullscreen_forcerepaint();
+    return 0;
+}
+
+#endif
 
 static resource_t resources[] = {
     { "DoubleSize", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &double_size_enabled, set_double_size_enabled },
     { "DoubleScan", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &double_scan_enabled, set_double_scan_enabled },
+#ifdef USE_VIDMODE_EXTENSION
+#ifdef NEED_2x
+    { "FullscreenDoubleSize", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &fullscreen_double_size_enabled,
+      set_fullscreen_double_size_enabled },
+#endif
+    { "FullscreenDoubleScan", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &fullscreen_double_scan_enabled,
+      set_fullscreen_double_scan_enabled },
+#endif
     { "PaletteFile", RES_STRING, (resource_value_t) "default",
       (resource_value_t *) &palette_file_name, set_palette_file_name },
 #ifndef __MSDOS__
@@ -285,7 +335,7 @@ void video_resize(void)
     static int old_size = 0;
 
 #ifdef USE_VIDMODE_EXTENSION
-    if (double_size_enabled || fullscreen) {
+    if (fullscreen?fullscreen_double_size_enabled:double_size_enabled) {
 #else
     if (double_size_enabled) {
 #endif
@@ -317,7 +367,7 @@ void video_resize(void)
     }
 
 #ifdef USE_VIDMODE_EXTENSION
-    old_size = (double_size_enabled || fullscreen) ? 2 : 1;
+    old_size = (fullscreen?fullscreen_double_size_enabled:double_size_enabled) ? 2 : 1;
 #else
     old_size = (double_size_enabled) ? 2 : 1;
 #endif
@@ -678,6 +728,7 @@ static void draw_reverse_line_cached_2x(struct line_cache *l, int xs, int xe)
 
 void vic_exposure_handler(unsigned int width, unsigned int height)
 {
+    if(fullscreen) return;
     resize(width, height);
     force_repaint();
 }
@@ -791,12 +842,25 @@ int vic_read_snapshot_module(snapshot_t *s)
 }
 
 #ifdef USE_VIDMODE_EXTENSION
-void video_setfullscreen(int v, int width, int height)
-{
-  fullscreen = v;
-  video_resize();
-  if(v) {
-    vic_exposure_handler(width, height);
-  }
+void video_setfullscreen(int v,int width, int height) {
+    fullscreen = v;
+    fullscreen_width = width;
+    fullscreen_height = height;
+
+    video_resize();
+    if(v) {
+        resize(width, height);
+	force_repaint();
+    }
+    video_resize();
+}
+
+void fullscreen_forcerepaint() {
+    if(fullscreen) {
+	video_resize();
+        resize(fullscreen_width, fullscreen_height);
+	force_repaint();
+	video_resize();
+    }
 }
 #endif
