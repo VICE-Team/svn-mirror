@@ -302,9 +302,8 @@ drivecpu.o: drivecpu.c ../../src/vice.h ../../src/config.h \
 	drivemem.h drivetypes.h ../../src/ciatimer.h \
 	../../src/snapshot.h ../../src/clkguard.h ../../src/interrupt.h \
 	../../src/monitor/mon.h ../../src/mos6510.h fdc.h \
-	../../src/mem.h riotd.h ../../src/arch/unix/ui.h \
-	../../src/uiapi.h ../../src/arch/unix/x11/xaw/uiarch.h viad.h \
-	wd1770.h ../../src/6510core.c
+	../../src/machine.h ../../src/mem.h riotd.h viad.h wd1770.h \
+	../../src/6510core.c
 drivemem.o: drivemem.c ../../src/vice.h ../../src/config.h ciad.h \
 	../../src/arch/unix/types.h drive.h ../../src/log.h \
 	drivetypes.h ../../src/alarm.h ../../src/ciatimer.h \

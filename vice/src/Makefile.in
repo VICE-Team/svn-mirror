@@ -140,7 +140,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	attach.h 	autostart.h 	cartridge.h 	charsets.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	color.h 	config.h.in 	console.h 	datasette.h 	diskimage.h 	emuid.h 	fixpoint.h 	findpath.h 	fsdevice.h 	fliplist.h 	fullscreen.h 	gcr.h 	iecdrive.h 	imagecontents.h 	info.h 	interrupt.h 	kbdbuf.h 	keyboard.h 	log.h 	machine.h 	maincpu.h 	mem.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	prdevice.h 	print.h 	pruser.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rs232.h 	screenshot.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	t64.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	uicolor.h 	uimon.h 	usleep.h 	utils.h 	version.h.in 	version.h 	via.h 	viacore.h 	vice.h 	video.h 	vsidui.h 	vsync.h 	vsyncapi.h 	zfile.h 	zipcode.h
 
 
-base_sources =  	alarm.c 	attach.c 	autostart.c 	charsets.c 	ciatimer.c 	clkguard.c 	cmdline.c 	color.c 	datasette.c 	diskimage.c 	emuid.c 	findpath.c 	fsdevice.c 	fliplist.c 	gcr.c 	info.c 	interrupt.c 	imagecontents.c 	kbdbuf.c 	keyboard.c 	log.c 	main.c 	p00.c 	palette.c 	parallel.c 	resources.c 	prdevice.c 	print.c 	pruser.c 	romset.c 	screenshot.c 	serial.c 	snapshot.c 	sound.c 	sysfile.c 	t64.c 	tap.c 	tape.c 	traps.c 	utils.c 	vsync.c 	zfile.c 	zipcode.c
+base_sources =  	alarm.c 	attach.c 	autostart.c 	charsets.c 	ciatimer.c 	clkguard.c 	cmdline.c 	color.c 	datasette.c 	diskimage.c 	emuid.c 	findpath.c 	fsdevice.c 	fliplist.c 	gcr.c 	info.c 	interrupt.c 	imagecontents.c 	kbdbuf.c 	keyboard.c 	log.c 	machine.c 	main.c 	p00.c 	palette.c 	parallel.c 	resources.c 	prdevice.c 	print.c 	pruser.c 	romset.c 	screenshot.c 	serial.c 	snapshot.c 	sound.c 	sysfile.c 	t64.c 	tap.c 	tape.c 	traps.c 	utils.c 	vsync.c 	zfile.c 	zipcode.c
 
 
 cpucore_sources =  	6510core.c
@@ -254,38 +254,38 @@ X_PRE_LIBS = @X_PRE_LIBS@
 x64_OBJECTS =  alarm.o attach.o autostart.o charsets.o ciatimer.o \
 clkguard.o cmdline.o color.o datasette.o diskimage.o emuid.o findpath.o \
 fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
-keyboard.o log.o main.o p00.o palette.o parallel.o resources.o \
-prdevice.o print.o pruser.o romset.o screenshot.o serial.o snapshot.o \
-sound.o sysfile.o t64.o tap.o tape.o traps.o utils.o vsync.o zfile.o \
-zipcode.o maincpu.o
+keyboard.o log.o machine.o main.o p00.o palette.o parallel.o \
+resources.o prdevice.o print.o pruser.o romset.o screenshot.o serial.o \
+snapshot.o sound.o sysfile.o t64.o tap.o tape.o traps.o utils.o vsync.o \
+zfile.o zipcode.o maincpu.o
 x128_OBJECTS =  alarm.o attach.o autostart.o charsets.o ciatimer.o \
 clkguard.o cmdline.o color.o datasette.o diskimage.o emuid.o findpath.o \
 fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
-keyboard.o log.o main.o p00.o palette.o parallel.o resources.o \
-prdevice.o print.o pruser.o romset.o screenshot.o serial.o snapshot.o \
-sound.o sysfile.o t64.o tap.o tape.o traps.o utils.o vsync.o zfile.o \
-zipcode.o
+keyboard.o log.o machine.o main.o p00.o palette.o parallel.o \
+resources.o prdevice.o print.o pruser.o romset.o screenshot.o serial.o \
+snapshot.o sound.o sysfile.o t64.o tap.o tape.o traps.o utils.o vsync.o \
+zfile.o zipcode.o
 xvic_OBJECTS =  alarm.o attach.o autostart.o charsets.o ciatimer.o \
 clkguard.o cmdline.o color.o datasette.o diskimage.o emuid.o findpath.o \
 fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
-keyboard.o log.o main.o p00.o palette.o parallel.o resources.o \
-prdevice.o print.o pruser.o romset.o screenshot.o serial.o snapshot.o \
-sound.o sysfile.o t64.o tap.o tape.o traps.o utils.o vsync.o zfile.o \
-zipcode.o maincpu.o
+keyboard.o log.o machine.o main.o p00.o palette.o parallel.o \
+resources.o prdevice.o print.o pruser.o romset.o screenshot.o serial.o \
+snapshot.o sound.o sysfile.o t64.o tap.o tape.o traps.o utils.o vsync.o \
+zfile.o zipcode.o maincpu.o
 xpet_OBJECTS =  alarm.o attach.o autostart.o charsets.o ciatimer.o \
 clkguard.o cmdline.o color.o datasette.o diskimage.o emuid.o findpath.o \
 fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
-keyboard.o log.o main.o p00.o palette.o parallel.o resources.o \
-prdevice.o print.o pruser.o romset.o screenshot.o serial.o snapshot.o \
-sound.o sysfile.o t64.o tap.o tape.o traps.o utils.o vsync.o zfile.o \
-zipcode.o maincpu.o
+keyboard.o log.o machine.o main.o p00.o palette.o parallel.o \
+resources.o prdevice.o print.o pruser.o romset.o screenshot.o serial.o \
+snapshot.o sound.o sysfile.o t64.o tap.o tape.o traps.o utils.o vsync.o \
+zfile.o zipcode.o maincpu.o
 xcbm2_OBJECTS =  alarm.o attach.o autostart.o charsets.o ciatimer.o \
 clkguard.o cmdline.o color.o datasette.o diskimage.o emuid.o findpath.o \
 fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
-keyboard.o log.o main.o p00.o palette.o parallel.o resources.o \
-prdevice.o print.o pruser.o romset.o screenshot.o serial.o snapshot.o \
-sound.o sysfile.o t64.o tap.o tape.o traps.o utils.o vsync.o zfile.o \
-zipcode.o
+keyboard.o log.o machine.o main.o p00.o palette.o parallel.o \
+resources.o prdevice.o print.o pruser.o romset.o screenshot.o serial.o \
+snapshot.o sound.o sysfile.o t64.o tap.o tape.o traps.o utils.o vsync.o \
+zfile.o zipcode.o
 c1541_OBJECTS =  c1541.o charsets.o cmdline.o diskimage.o findpath.o \
 gcr.o info.o log.o p00.o resources.o t64.o utils.o zfile.o zipcode.o
 c1541_DEPENDENCIES =  @ARCH_DIR@/archdep.o @ARCH_DIR@/uicmdline.o \
@@ -597,6 +597,8 @@ keyboard.o: keyboard.c vice.h config.h alarm.h arch/unix/types.h \
 	keyboard.h maincpu.h 6510core.h
 log.o: log.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	resources.h log.h utils.h arch/unix/types.h
+machine.o: machine.c machine.h arch/unix/ui.h vice.h config.h \
+	arch/unix/types.h uiapi.h arch/unix/x11/xaw/uiarch.h utils.h
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	autostart.h arch/unix/types.h cartridge.h charsets.h cmdline.h \
 	resources.h console.h diskimage.h drive/drive.h log.h \
@@ -609,8 +611,7 @@ main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	version.h video.h arch/unix/mouse.h
 maincpu.o: maincpu.c vice.h config.h 6510core.h arch/unix/types.h \
 	alarm.h clkguard.h interrupt.h log.h machine.h maincpu.h mem.h \
-	monitor/mon.h mos6510.h snapshot.h traps.h arch/unix/ui.h \
-	uiapi.h arch/unix/x11/xaw/uiarch.h vsync.h 6510core.c
+	monitor/mon.h mos6510.h snapshot.h traps.h vsync.h 6510core.c
 p00.o: p00.c vice.h config.h p00.h arch/unix/types.h vdrive/vdrive.h
 palette.o: palette.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	palette.h arch/unix/types.h sysfile.h utils.h

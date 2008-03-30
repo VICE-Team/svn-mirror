@@ -284,15 +284,14 @@ mon.o: mon.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drivecpu.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/mem.h mon.h mon_parse.h \
 	../../src/mos6510.h ../../src/resources.h ../../src/sysfile.h \
-	../../src/uimon.h mon_util.h ../../src/utils.h \
+	../../src/uimon.h ../../src/utils.h \
 	../../src/vdrive/vdrive-command.h ../../src/vdrive/vdrive.h \
 	../../src/vsync.h
 mon_lex.o: mon_lex.c ../../src/vice.h ../../src/config.h mon.h \
 	../../src/arch/unix/types.h mon_parse.h ../../src/utils.h
 mon_parse.o: mon_parse.c ../../src/vice.h ../../src/config.h asm.h \
 	../../src/arch/unix/types.h ../../src/console.h \
-	../../src/uimon.h mon.h mon_util.h ../../src/machine.h \
-	../../src/utils.h
+	../../src/uimon.h ../../src/machine.h mon.h ../../src/utils.h
 mon_util.o: mon_util.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/console.h ../../src/mem.h ../../src/arch/unix/types.h \
