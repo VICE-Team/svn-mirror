@@ -102,7 +102,7 @@ static trap_t vic20_serial_traps[] = {
         0xEE2E,
         0xEEB2,
         { 0x20, 0xA0, 0xE4 },
-        serialattention,
+        serial_trap_attention,
         rom_read,
         rom_store
     },
@@ -111,7 +111,7 @@ static trap_t vic20_serial_traps[] = {
         0xEE40,
         0xEEB2,
         { 0x20, 0x8D, 0xEF },
-        serialattention,
+        serial_trap_attention,
         rom_read,
         rom_store
     },
@@ -120,7 +120,7 @@ static trap_t vic20_serial_traps[] = {
         0xEE49,
         0xEEB2,
         { 0x78, 0x20, 0xA0 },
-        serialsendbyte,
+        serial_trap_send,
         rom_read,
         rom_store
     },
@@ -129,7 +129,7 @@ static trap_t vic20_serial_traps[] = {
         0xEF19,
         0xEEB2,
         { 0x78, 0xA9, 0x00 },
-        serialreceivebyte,
+        serial_trap_receive,
         rom_read,
         rom_store
     },
@@ -138,7 +138,7 @@ static trap_t vic20_serial_traps[] = {
         0xE4B2,
         0xEEB2,
         { 0xAD, 0x1F, 0x91 },
-        trap_serial_ready,
+        serial_trap_ready,
         rom_read,
         rom_store
     },

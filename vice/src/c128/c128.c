@@ -121,7 +121,7 @@ static trap_t c128_serial_traps[] = {
         0xE355,
         0xE5BA,
         { 0x20, 0x73, 0xE5 },
-        serialattention,
+        serial_trap_attention,
         rom_read,
         rom_store
     },
@@ -130,7 +130,7 @@ static trap_t c128_serial_traps[] = {
         0xE37C,
         0xE5BA,
         { 0x20, 0x73, 0xE5 },
-        serialattention,
+        serial_trap_attention,
         rom_read,
         rom_store
     },
@@ -139,7 +139,7 @@ static trap_t c128_serial_traps[] = {
         0xE38C,
         0xE5BA,
         { 0x20, 0x73, 0xE5 },
-        serialsendbyte,
+        serial_trap_send,
         rom_read,
         rom_store
     },
@@ -148,7 +148,7 @@ static trap_t c128_serial_traps[] = {
         0xE43E,
         0xE5BA,
         { 0x20, 0x73, 0xE5 },
-        serialreceivebyte,
+        serial_trap_receive,
         rom_read,
         rom_store
     },
@@ -157,7 +157,7 @@ static trap_t c128_serial_traps[] = {
         0xE569,
         0xE572,
         { 0xAD, 0x00, 0xDD },
-        trap_serial_ready,
+        serial_trap_ready,
         rom_read,
         rom_store
     },
@@ -166,7 +166,7 @@ static trap_t c128_serial_traps[] = {
         0xE4F5,
         0xE572,
         { 0xAD, 0x00, 0xDD },
-        trap_serial_ready,
+        serial_trap_ready,
         rom_read,
         rom_store
     },
@@ -175,7 +175,7 @@ static trap_t c128_serial_traps[] = {
         0xED24,
         0xEDAB,
         { 0x20, 0x97, 0xEE },
-        serialattention,
+        serial_trap_attention,
         rom64_read,
         rom64_store
     },
@@ -184,7 +184,7 @@ static trap_t c128_serial_traps[] = {
         0xED36,
         0xEDAB,
         { 0x78, 0x20, 0x8E },
-        serialattention,
+        serial_trap_attention,
         rom64_read,
         rom64_store
     },
@@ -193,7 +193,7 @@ static trap_t c128_serial_traps[] = {
         0xED40,
         0xEDAB,
         { 0x78, 0x20, 0x97 },
-        serialsendbyte,
+        serial_trap_send,
         rom64_read,
         rom64_store
     },
@@ -202,7 +202,7 @@ static trap_t c128_serial_traps[] = {
         0xEE13,
         0xEDAB,
         { 0x78, 0xA9, 0x00 },
-        serialreceivebyte,
+        serial_trap_receive,
         rom64_read,
         rom64_store
     },
@@ -211,7 +211,7 @@ static trap_t c128_serial_traps[] = {
         0xEEA9,
         0xEDAB,
         { 0xAD, 0x00, 0xDD },
-        trap_serial_ready,
+        serial_trap_ready,
         rom64_read,
         rom64_store
     },

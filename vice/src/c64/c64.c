@@ -118,7 +118,7 @@ static trap_t c64_serial_traps[] = {
         0xED24,
         0xEDAB,
         { 0x20, 0x97, 0xEE },
-        serialattention,
+        serial_trap_attention,
         rom_read,
         rom_store
     },
@@ -127,7 +127,7 @@ static trap_t c64_serial_traps[] = {
         0xED36,
         0xEDAB,
         { 0x78, 0x20, 0x8E },
-        serialattention,
+        serial_trap_attention,
         rom_read,
         rom_store
     },
@@ -136,7 +136,7 @@ static trap_t c64_serial_traps[] = {
         0xED40,
         0xEDAB,
         { 0x78, 0x20, 0x97 },
-        serialsendbyte,
+        serial_trap_send,
         rom_read,
         rom_store
     },
@@ -145,7 +145,7 @@ static trap_t c64_serial_traps[] = {
         0xEE13,
         0xEDAB,
         { 0x78, 0xA9, 0x00 },
-        serialreceivebyte,
+        serial_trap_receive,
         rom_read,
         rom_store
     },
@@ -154,7 +154,7 @@ static trap_t c64_serial_traps[] = {
         0xEEA9,
         0xEDAB,
         { 0xAD, 0x00, 0xDD },
-        trap_serial_ready,
+        serial_trap_ready,
         rom_read,
         rom_store
     },
