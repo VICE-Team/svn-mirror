@@ -161,7 +161,7 @@ TUI_MENU_DEFINE_TOGGLE(IEEE488)
 
 static tui_menu_item_def_t special_menu_items[] = {
     { "--" },
-    { "1531 _Mouse Emulation:",
+    { "1351 _Mouse Emulation:",
       "Emulate a Commodore 1351 proportional mouse connected to joystick port #1",
       toggle_Mouse_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
