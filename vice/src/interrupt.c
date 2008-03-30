@@ -152,6 +152,48 @@ enum cpu_int get_int(cpu_int_status_t *cs, int int_num)
 
 /* ------------------------------------------------------------------------- */
 
+/* Trigger a RESET.  This resets the machine.  */
+void trigger_reset(cpu_int_status_t *cs, CLOCK clk)
+{
+    cs->global_pending_int |= IK_RESET;
+}
+
+/* Acknowledge a RESET condition, by removing it.  */
+void ack_reset(cpu_int_status_t *cs)
+{
+    cs->global_pending_int &= ~IK_RESET;
+}
+
+/* Trigger a TRAP.  This is a special condition that can be used for
+   debugging.  `trap_func' will be called with PC as the argument when this
+   condition is detected.  */
+void trigger_trap(cpu_int_status_t *cs, void (*trap_func)(ADDRESS, void *data),
+                  void *data, CLOCK clk)
+{
+    cs->global_pending_int |= IK_TRAP;
+    cs->trap_func = trap_func;
+    cs->trap_data = data;
+}
+
+/* Dispatch the TRAP condition.  */
+void do_trap(cpu_int_status_t *cs, ADDRESS reg_pc)
+{
+    cs->global_pending_int &= ~IK_TRAP;
+    cs->trap_func(reg_pc, cs->trap_data);
+}
+
+void monitor_trap_on(cpu_int_status_t *cs)
+{
+    cs->global_pending_int |= IK_MONITOR;
+}
+
+void monitor_trap_off(cpu_int_status_t *cs)
+{
+    cs->global_pending_int &= ~IK_MONITOR;
+}
+
+/* ------------------------------------------------------------------------- */
+
 int interrupt_write_snapshot(cpu_int_status_t *cs, snapshot_module_t *m)
 {
     /* FIXME: could we avoid some of this info?  */
