@@ -39,34 +39,38 @@
 
 
 /* IO is enabled at memory configs 5, 6, 7 and Ultimax.  */
-const int c64meminit_io_config[32] = { 0, 0, 0, 0, 0, 1, 1, 1,
-                                       0, 0, 0, 0, 0, 1, 1, 1,
-                                       1, 1, 1, 1, 1, 1, 1, 1,
-                                       0, 0, 0, 0, 0, 1, 1, 1 };
+const unsigned int c64meminit_io_config[32] = 
+    { 0, 0, 0, 0, 0, 1, 1, 1,
+      0, 0, 0, 0, 0, 1, 1, 1,
+      1, 1, 1, 1, 1, 1, 1, 1,
+      0, 0, 0, 0, 0, 1, 1, 1 };
 
 /* ROML is enabled at memory configs 11, 15, 27, 31 and Ultimax.  */
-static const int c64meminit_roml_config[32] = { 0, 0, 0, 0, 0, 0, 0, 0,
-                                                0, 0, 0, 1, 0, 0, 0, 1,
-                                                1, 1, 1, 1, 1, 1, 1, 1,
-                                                0, 0, 0, 1, 0, 0, 0, 1 };
+static const unsigned int c64meminit_roml_config[32] = 
+    { 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 1, 0, 0, 0, 1,
+      1, 1, 1, 1, 1, 1, 1, 1,
+      0, 0, 0, 1, 0, 0, 0, 1 };
 
 /* ROMH is enabled at memory configs 10, 11, 14, 15, 26, 27, 30, 31
    and Ultimax.  */
-static const int c64meminit_romh_config[32] = { 0, 0, 0, 0, 0, 0, 0, 0,
-                                                0, 0, 0, 0, 0, 0, 0, 0,
-                                                1, 1, 1, 1, 1, 1, 1, 1,
-                                                0, 0, 1, 1, 0, 0, 1, 1 };
+static const unsigned int c64meminit_romh_config[32] =
+    { 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0,
+      1, 1, 1, 1, 1, 1, 1, 1,
+      0, 0, 1, 1, 0, 0, 1, 1 };
 
 /* ROMH is mapped to $A000-$BFFF at memory configs 10, 11, 14, 15, 26,
    27, 30, 31.  If Ultimax is enabled it is mapped to $E000-$FFFF.  */
-static const int c64meminit_romh_mapping[32] = { 0x00, 0x00, 0x00, 0x00,
-                                                 0x00, 0x00, 0x00, 0x00,
-                                                 0x00, 0x00, 0x00, 0x00,
-                                                 0x00, 0x00, 0x00, 0x00,
-                                                 0xe0, 0xe0, 0xe0, 0xe0,
-                                                 0xe0, 0xe0, 0xe0, 0xe0,
-                                                 0x00, 0x00, 0xa0, 0xa0,
-                                                 0x00, 0x00, 0xa0, 0xa0 };
+static const unsigned int c64meminit_romh_mapping[32] = 
+    { 0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00,
+      0xe0, 0xe0, 0xe0, 0xe0,
+      0xe0, 0xe0, 0xe0, 0xe0,
+      0x00, 0x00, 0xa0, 0xa0,
+      0x00, 0x00, 0xa0, 0xa0 };
 
 void c64meminit(unsigned int base)
 {

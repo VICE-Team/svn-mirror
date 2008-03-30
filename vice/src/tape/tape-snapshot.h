@@ -1,8 +1,8 @@
 /*
- * c64meminit.h -- Initialize C64 memory.
+ * tape-snapshot.h - tape snapshot module.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,11 +24,13 @@
  *
  */
 
-#ifndef _C64MEMINIT_H
-#define _C64MEMINIT_H
+#ifndef _TAPE_SNAPSHOT_H
+#define _TAPE_SNAPSHOT_H
 
-extern void c64meminit(unsigned int base);
-extern const unsigned int c64meminit_io_config[32];
+struct snapshot_s;
+
+extern int tape_snapshot_write_module(struct snapshot_s *s, int save_image);
+extern int tape_snapshot_read_module(struct snapshot_s *s);
 
 #endif
 

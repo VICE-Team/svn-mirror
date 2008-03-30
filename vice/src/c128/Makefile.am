@@ -5,6 +5,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/sid \
+	-I$(top_srcdir)/src/tape \
 	-I$(top_srcdir)/src/vicii \
 	-I$(top_srcdir)/src/vdc
 

@@ -3,7 +3,8 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/crtc \
-	-I$(top_srcdir)/src/drive
+	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/tape
 
 noinst_LIBRARIES = libpet.a
 

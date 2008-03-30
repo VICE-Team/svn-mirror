@@ -199,7 +199,7 @@ void resid_state_write(sound_t *psid, sid_snapshot_state_t *sid_state)
         state.rate_counter[i] = (reg16)sid_state->rate_counter[i];
         state.exponential_counter[i] = (reg16)sid_state->exponential_counter[i];
         state.envelope_counter[i] = (reg8)sid_state->envelope_counter[i];
-        state.hold_zero[i] = (bool)sid_state->hold_zero[i];
+        state.hold_zero[i] = (sid_state->hold_zero[i] != 0);
     }
 
     psid->sid.write_state((const SID::State)state);

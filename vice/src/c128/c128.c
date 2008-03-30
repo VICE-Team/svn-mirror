@@ -85,6 +85,7 @@
 #include "snapshot.h"
 #include "sound.h"
 #include "tape.h"
+#include "tape-snapshot.h"
 #include "traps.h"
 #include "types.h"
 #include "vicii.h"
@@ -645,7 +646,8 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks,
         || sid_snapshot_write_module(s) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
         || vicii_snapshot_write_module(s) < 0
-        || event_snapshot_write_module(s, event_mode) < 0) {
+        || event_snapshot_write_module(s, event_mode) < 0
+        || tape_snapshot_write_module(s, save_disks) < 0) {
         snapshot_close(s);
         ioutil_remove(name);
         return -1;
@@ -680,7 +682,8 @@ int machine_read_snapshot(const char *name, int event_mode)
         || sid_snapshot_read_module(s) < 0
         || drive_snapshot_read_module(s) < 0
         || vicii_snapshot_read_module(s) < 0
-        || event_snapshot_read_module(s, event_mode) < 0)
+        || event_snapshot_read_module(s, event_mode) < 0
+        || tape_snapshot_read_module(s) < 0)
        goto fail;
 
     snapshot_close(s);

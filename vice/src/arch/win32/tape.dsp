@@ -94,6 +94,10 @@ SOURCE="..\..\tape\tape-internal.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\tape\tape-snapshot.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\tape\tape.c"
 # End Source File
 # Begin Source File

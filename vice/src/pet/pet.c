@@ -76,6 +76,7 @@
 #include "snapshot.h"
 #include "sound.h"
 #include "tape.h"
+#include "tape-snapshot.h"
 #include "traps.h"
 #include "types.h"
 #include "utils.h"
@@ -457,7 +458,8 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks,
         || pia2_snapshot_write_module(s) < 0
         || via_snapshot_write_module(s) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
-        || event_snapshot_write_module(s, event_mode) < 0) {
+        || event_snapshot_write_module(s, event_mode) < 0
+        || tape_snapshot_write_module(s, save_disks) < 0) {
         ef = -1;
     }
 
@@ -499,7 +501,8 @@ int machine_read_snapshot(const char *name, int event_mode)
         || pia2_snapshot_read_module(s) < 0
         || via_snapshot_read_module(s) < 0
         || drive_snapshot_read_module(s) < 0
-        || event_snapshot_read_module(s, event_mode) < 0) {
+        || event_snapshot_read_module(s, event_mode) < 0
+        || tape_snapshot_read_module(s) < 0) {
         ef = -1;
     }
 

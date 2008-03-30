@@ -11,6 +11,8 @@ libtape_a_SOURCES = \
 	tap.c \
 	tape-internal.c \
 	tape-internal.h \
+	tape-snapshot.c \
+	tape-snapshot.h \
 	tape.c \
 	tapeimage.c \
 	tapeimage.h
