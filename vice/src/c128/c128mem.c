@@ -994,9 +994,21 @@ void initialize_memory(void)
 {
     int i, j, k;
 
-    int limit_tab[7][NUM_CONFIGS] = {
-    /* 0000-3fff */
+    int limit_tab[11][NUM_CONFIGS] = {
+    /* 0000-01ff */
     {     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
+          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 },
+    /* 0200-03ff */
+    { 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd,
+          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 },
+    /* 0400-0fff */
+    { 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd,
+          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 },
+    /* 1000-1fff */
+    { 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd,
+          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 },
+    /* 2000-3fff */
+    { 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd,
           -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 },
     /* 4000-7fff */
     { 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd,
@@ -1018,9 +1030,11 @@ void initialize_memory(void)
           -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 } };
 
     for (i = 0; i < NUM_CONFIGS; i++) {
-        int mstart[7] = { 0x00, 0x40, 0x80, 0xc0, 0xd0, 0xe0, 0xff };
-        int mend[7]   = { 0x3f, 0x7f, 0xbf, 0xcf, 0xdf, 0xfe, 0xff};
-        for (j = 0; j < 7; j++) {
+        int mstart[11] = { 0x00, 0x02, 0x04, 0x10, 0x20, 0x40, 0x80, 0xc0,
+                           0xd0, 0xe0, 0xff };
+        int mend[11]   = { 0x01, 0x03, 0x0f, 0x1f, 0x3f, 0x7f, 0xbf, 0xcf,
+                           0xdf, 0xfe, 0xff};
+        for (j = 0; j < 11; j++) {
             for (k = mstart[j]; k <= mend[j]; k++) {
                 mem_read_limit_tab[i][k] = limit_tab[j][i];
             }
@@ -1037,11 +1051,58 @@ void initialize_memory(void)
         mem_write_tab[j][0] = store_zero;
         mem_read_tab[j][1] = read_one;
         mem_write_tab[j][1] = store_one;
+    }
 
-        for (i = 0x02; i <= 0x3f; i++) {
-            mem_read_tab[j][i] = read_lo;
-            mem_write_tab[j][i] = store_lo;
-        }
+
+    for (i = 0x02; i <= 0x3f; i++) {
+        mem_read_tab[0][i] = read_ram;
+        mem_read_tab[1][i] = read_ram;
+        mem_read_tab[2][i] = read_ram;
+        mem_read_tab[3][i] = read_ram;
+        mem_read_tab[4][i] = read_ram;
+        mem_read_tab[5][i] = read_ram;
+        mem_read_tab[6][i] = read_ram;
+        mem_read_tab[7][i] = read_ram;
+        mem_read_tab[8][i] = read_lo;
+        mem_read_tab[9][i] = read_lo;
+        mem_read_tab[10][i] = read_lo;
+        mem_read_tab[11][i] = read_lo;
+        mem_read_tab[12][i] = read_lo;
+        mem_read_tab[13][i] = read_lo;
+        mem_read_tab[14][i] = read_lo;
+        mem_read_tab[15][i] = read_lo;
+        mem_write_tab[0][i] = store_ram;
+        mem_write_tab[1][i] = store_ram;
+        mem_write_tab[2][i] = store_ram;
+        mem_write_tab[3][i] = store_ram;
+        mem_write_tab[4][i] = store_ram;
+        mem_write_tab[5][i] = store_ram;
+        mem_write_tab[6][i] = store_ram;
+        mem_write_tab[7][i] = store_ram;
+        mem_write_tab[8][i] = store_lo;
+        mem_write_tab[9][i] = store_lo;
+        mem_write_tab[10][i] = store_lo;
+        mem_write_tab[11][i] = store_lo;
+        mem_write_tab[12][i] = store_lo;
+        mem_write_tab[13][i] = store_lo;
+        mem_write_tab[14][i] = store_lo;
+        mem_write_tab[15][i] = store_lo;
+        mem_read_base_tab[0][i] = ram + (i << 8);
+        mem_read_base_tab[1][i] = ram + (i << 8);
+        mem_read_base_tab[2][i] = ram + (i << 8);
+        mem_read_base_tab[3][i] = ram + (i << 8);
+        mem_read_base_tab[4][i] = ram + (i << 8);
+        mem_read_base_tab[5][i] = ram + (i << 8);
+        mem_read_base_tab[6][i] = ram + (i << 8);
+        mem_read_base_tab[7][i] = ram + (i << 8);
+        mem_read_base_tab[8][i] = NULL;
+        mem_read_base_tab[9][i] = NULL;
+        mem_read_base_tab[10][i] = NULL;
+        mem_read_base_tab[11][i] = NULL;
+        mem_read_base_tab[12][i] = NULL;
+        mem_read_base_tab[13][i] = NULL;
+        mem_read_base_tab[14][i] = NULL;
+        mem_read_base_tab[15][i] = NULL;
     }
 
     for (i = 0x40; i <= 0x7f; i++) {

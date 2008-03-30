@@ -1,3 +1,46 @@
+1999-02-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+    * Version 0.16.1.29.
+
+	* c64/cartridge.c (cartridge_attach_image): Free scratch buffer.
+
+	* c128/c128mem.c (initialize_memory): Use fast opcode fetch for
+	RAM $0200-$3fff of bank 0 too.
+
+1998-02-15  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* data/PET/posg_de.vkm: add KP_Enter to emulate "=" char in
+	positional mapping.
+
+1998-02-15  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* sysfile.c (set_system_path): when expanding the path, make 
+	relative paths absolute by prepending the current directory.
+	Include <string.h> for strstr().
+
+1998-02-15  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/ui.c (ui_select_file): save current directory
+	and restore it after selecting a file. Save the fileselector 
+	directory and restore it before opening it again.
+
+	* drive/drive.c (drive_read_rom_snapshot_module): if drive type
+	is 1541, do a checksum on the ROM.
+
+1999-02-15  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/unix/xaw/ui.c (drive_led_on_red_pixel, drive_led_on_green_pixel):
+	  Split drive_led_on_pixel into drive_led_on_red_pixel &
+	  drive_led_on_green_pixel.
+	  (do_alloc_colors): Allocate green pixel for drive led.
+	  (ui_display_drive_led): Display green or red active drive led.
+
+	* arch/win32/ui.c (window_proc): Display green or red active drive
+	  led.
+
+	* drive/drive.c (drive_enable): Fixed typo. Drive led type was
+	  always selected with drive type of unit #8.
+
 1999-02-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.28.
