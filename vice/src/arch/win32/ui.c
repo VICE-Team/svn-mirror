@@ -760,6 +760,9 @@ int syscolorchanged, displaychanged, querynewpalette, palettechanged;
 
 static void handle_wm_command(WPARAM wparam, LPARAM lparam)
 {
+char *fname;
+char *dname;
+
     /* Handle machine specific commands first.  */
     if (ui_machine_specific)
         ui_machine_specific(wparam, main_hwnd);
@@ -776,6 +779,13 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
         DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_ABOUT), main_hwnd,
                   (DLGPROC) about_dialog_proc);
         break;
+        case IDM_HELP:
+            fname=concat(archdep_boot_path(),"\\DOC\\vice_toc.html",NULL);
+            dname=concat(archdep_boot_path(),"\\DOC",NULL);
+            ShellExecute(main_hwnd,"open",fname,NULL,dname,0);
+            free(fname);
+            free(dname);
+            break;
       case IDM_ATTACH_8|0x00010000:
       case IDM_ATTACH_9|0x00010000:
       case IDM_ATTACH_10|0x00010000:

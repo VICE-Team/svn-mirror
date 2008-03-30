@@ -458,9 +458,8 @@ inline static int drive0_trap_handler(void)
         MOS6510_REGS_SET_PC(&drive0_cpu_regs, 0xebff);
         if (drive[0].idling_method == DRIVE_IDLE_TRAP_IDLE) {
             CLOCK next_clk;
-            
-            drive_clk[0] = next_clk;
             next_clk = alarm_context_next_pending_clk(&drive0_alarm_context);
+            drive_clk[0] = next_clk;
         }
         return 0;
     }

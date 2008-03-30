@@ -78,6 +78,7 @@ libarch_a_SOURCES = \
 	video.h \
 	vsync.c \
 	vsync.h \
+        winhack.h \
 	winmain.c \
 	winmain.h
 

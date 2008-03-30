@@ -138,6 +138,8 @@ BEGIN
     END
     POPUP "&Help"
     BEGIN
+        MENUITEM "H&elp",                           IDM_HELP
+        MENUITEM SEPARATOR
         MENUITEM "&About...",                       IDM_ABOUT
     END
 END

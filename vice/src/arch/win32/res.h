@@ -230,6 +230,7 @@
 #define IDM_CART_FREEZE                 40148
 #define IDM_SAVEQUICK                   40149
 #define IDM_LOADQUICK                   40150
+#define IDM_HELP                        40151
 
 // Next default values for new objects
 //

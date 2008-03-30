@@ -98,9 +98,12 @@ const char *archdep_default_sysfile_pathlist(const char *emu_id)
     if (default_path == NULL) {
         const char *boot_path = archdep_boot_path();
 
-        default_path = concat(boot_path, "\\", emu_id,
+/*        default_path = concat(boot_path, "\\", emu_id,
                               FINDPATH_SEPARATOR_STRING,
-                              boot_path, "\\DRIVES", NULL);
+                              boot_path, "\\DRIVES", NULL);*/
+        default_path = concat(emu_id,
+                              FINDPATH_SEPARATOR_STRING,
+                              "DRIVES", NULL);
     }
 
     return default_path;
