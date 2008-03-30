@@ -1,3 +1,53 @@
+2001-06-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.41.
+
+	* printerdrv/interface-serial.c, printerdrv/driver-select.c,
+	printerdrv/interface-serial.h, printerdrv/driver-select.h,
+	printerdrv/interface-userport.c, printerdrv/drv-ascii.c,
+	printerdrv/drv-mps803.c, printerdrv/output-file.c,
+	printerdrv/output-file.h, printer.h: Added support for
+	multiple printer.  Pass down secondary to printer driver.
+
+	* arch/unix/uisettings.c, arch/riscos/uiconfig.c: Renamed
+	resource `PrUserDev' to `PrinterUserportDevice'.
+
+	* arch/unix/uisettings.c: Added menu entries for printer #5
+	and printer drivers, separated printer related menu entries.
+
+	* serial.c (serial_init): Added error handling.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	cbm2/c610.c (machine_init): Check for serial init error.
+
+	* arch/unix/uiprinter.c, arch/unix/uiprinter.h: New files.
+
+	* arch/unix/Makefile.am: Added new files.
+
+2001-06-17  Dag Lem  <resid@nimrod.no>
+
+	* arch/msdos/vsync.c (vsync_sync_reset): New function.
+
+	* arch/riscos/vsync.c (vsync_sync_reset): New function.
+
+	* sound.c (sound_flush): Call vsync_sync_reset instead of
+	vsync_suspend_speed_eval on "Buffer drained".
+
+	* vsync.c (vsync_sync_reset): New function.
+	(set_timer_speed,vsync_suspend_speed_eval): Call
+	vsync_sync_reset.
+	(vsync_do_vsync): Separated vsync_suspend_speed_eval and
+	vsync_sync_reset. Period for speed statistics lowered from
+	three to one second.
+
+	* vsync.h (vsync_sync_reset): New function.
+
+2001-06-17  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* arch/win32/printerdrv.dsp,arch/win32/makefile.am:
+	Reintroduce the printerdrv.dsp file, make it known in the
+	makefile.am
+
 2001-06-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.40.

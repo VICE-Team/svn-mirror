@@ -45,10 +45,10 @@ typedef struct driver_select_list_s driver_select_list_t;
 
 
 /* Names of currently used printer driver.  To be removed.  */
-static char *printer_driver[] = { NULL, NULL };
+static char *printer_driver[] = { NULL, NULL, NULL };
 
 /* Currently used printer driver.  */
-static driver_select_t driver_select[2];
+static driver_select_t driver_select[3];
 
 /* Pointer to registered printer driver.  */
 static driver_select_list_t *driver_select_list = NULL;
@@ -82,6 +82,8 @@ static resource_t resources[] = {
       (resource_value_t *)&printer_driver[0], set_printer_driver, (void *)0 },
     {"Printer5Driver", RES_STRING, (resource_value_t)"ascii",
       (resource_value_t *)&printer_driver[1], set_printer_driver, (void *)1 },
+    {"PrinterUserportDriver", RES_STRING, (resource_value_t)"ascii",
+      (resource_value_t *)&printer_driver[2], set_printer_driver, (void *)2 },
     {NULL}
 };
 
@@ -92,10 +94,12 @@ int driver_select_init_resources(void)
 
 static cmdline_option_t cmdline_options[] =
 {
-    { "-printer4drv", SET_RESOURCE, 1, NULL, NULL, "Printer4Driver", NULL,
+    { "-pr4drv", SET_RESOURCE, 1, NULL, NULL, "Printer4Driver", NULL,
      "<name>", "Specify name of printer driver for device #4" },
-    { "-printer5drv", SET_RESOURCE, 1, NULL, NULL, "Printer5Driver", NULL,
+    { "-pr5drv", SET_RESOURCE, 1, NULL, NULL, "Printer5Driver", NULL,
      "<name>", "Specify name of printer driver for device #5" },
+    { "-pruserdrv", SET_RESOURCE, 1, NULL, NULL, "PrinterUserportDriver", NULL,
+     "<name>", "Specify name of printer driver for the userport printer" },
     { NULL }
 };
 
@@ -110,6 +114,7 @@ void driver_select_init(void)
 
 }
 
+/* ------------------------------------------------------------------------- */
 
 void driver_select_register(driver_select_t *driver_select)
 {
@@ -129,29 +134,30 @@ void driver_select_register(driver_select_t *driver_select)
         driver_select_list = list;
 }
 
+/* ------------------------------------------------------------------------- */
 
-int driver_select_open(int device)
+int driver_select_open(unsigned int prnr, unsigned int secondary)
 {
-    return driver_select[0].drv_open(device);
+    return driver_select[prnr].drv_open(prnr, secondary);
 }
 
-void driver_select_close(int fi)
+void driver_select_close(unsigned int prnr, unsigned int secondary)
 {
-    driver_select[0].drv_close(fi);
+    driver_select[prnr].drv_close(prnr, secondary);
 }
 
-int driver_select_putc(int fi, BYTE b)
+int driver_select_putc(unsigned int prnr, unsigned int secondary, BYTE b)
 {
-    return driver_select[0].drv_putc(fi, b);
+    return driver_select[prnr].drv_putc(prnr, secondary, b);
 }
 
-int driver_select_getc(int fi, BYTE *b)
+int driver_select_getc(unsigned int prnr, unsigned int secondary, BYTE *b)
 {
-    return driver_select[0].drv_getc(fi, b);
+    return driver_select[prnr].drv_getc(prnr, secondary, b);
 }
 
-int driver_select_flush(int fi)
+int driver_select_flush(unsigned int prnr, unsigned int secondary)
 {
-    return driver_select[0].drv_flush(fi);
+    return driver_select[prnr].drv_flush(prnr, secondary);
 }
 
