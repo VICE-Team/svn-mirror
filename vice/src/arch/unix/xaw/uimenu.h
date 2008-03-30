@@ -51,6 +51,8 @@ extern int ui_menu_any_open(void);
 extern void ui_menu_update_all(void);
 extern Widget ui_menu_create(const char *name, ...);
 
+/* ------------------------------------------------------------------------- */
+
 /* These are the callbacks for the toggle and radio menus (the ones with a
    checkmark on the left).  If call_data is NULL, they simply set/unset the
    checkmark according to the value of the corrisponding resource.  If not
@@ -58,58 +60,36 @@ extern Widget ui_menu_create(const char *name, ...);
    For this reason, to update the checkmarks, we simply have to call all the
    callbacks with a NULL `call_data' parameter.  */
 
-#define UI_MENU_DEFINE_TOGGLE(resource)         			    \
-    static UI_CALLBACK(toggle_##resource)				    \
-    {									    \
-        int current_value;						    \
-									    \
-        if (resources_get_value(#resource,				    \
-                                (resource_value_t *) &current_value) < 0)   \
-           return;							    \
-	if (!call_data) {						    \
-            resources_set_value(#resource,				    \
-                                (resource_value_t) !current_value);	    \
-	    ui_update_menus();						    \
-	} else {							    \
-	    ui_menu_set_tick(w, current_value);				    \
-	}								    \
+#define UI_MENU_DEFINE_TOGGLE(resource)                                 \
+    static UI_CALLBACK(toggle_##resource)                               \
+    {                                                                   \
+        _ui_menu_toggle_helper(w, client_data, call_data, #resource);   \
     }
 
-#define UI_MENU_DEFINE_RADIO(resource)					     \
-    static UI_CALLBACK(radio_##resource)				     \
-    {									     \
-        int current_value;						     \
-									     \
-        resources_get_value(#resource, (resource_value_t *) &current_value); \
-        if (!call_data) {						     \
-            if (current_value != (int) client_data) {			     \
-                resources_set_value(#resource,				     \
-                                    (resource_value_t) client_data);	     \
-                ui_update_menus();					     \
-            }								     \
-        } else {							     \
-            ui_menu_set_tick(w, current_value == (int) client_data);	     \
-        }								     \
+#define UI_MENU_DEFINE_RADIO(resource)                                  \
+    static UI_CALLBACK(radio_##resource)                                \
+    {                                                                   \
+        _ui_menu_radio_helper(w, client_data, call_data, #resource);    \
     }
 
-#define UI_MENU_DEFINE_STRING_RADIO(resource)                                \
-    static UI_CALLBACK(radio_##resource)                                     \
-    {                                                                        \
-        resource_value_t current_value;                                      \
-                                                                             \
-        resources_get_value(#resource, &current_value);                      \
-        if (!call_data) {                                                    \
-            if (strcmp((const char *) current_value,                         \
-                       (const char *) client_data) != 0) {                   \
-                resources_set_value(#resource,                               \
-                                    (resource_value_t) client_data);         \
-                ui_update_menus();                                           \
-            }                                                                \
-        } else {                                                             \
-            ui_menu_set_tick(w,                                              \
-                             strcmp((const char *) current_value,            \
-                                    (const char *) client_data) == 0);       \
-        }                                                                    \
+#define UI_MENU_DEFINE_STRING_RADIO(resource)                               \
+    static UI_CALLBACK(radio_##resource)                                    \
+    {                                                                       \
+        _ui_menu_string_radio_helper(w, client_data, call_data, #resource); \
     }
+
+/* Private helper functions for toggle and radio menu items.  */
+extern void _ui_menu_toggle_helper(Widget w,
+                                   ui_callback_data_t client_data,
+                                   ui_callback_data_t call_data,
+                                   const char *resource_name);
+extern void _ui_menu_radio_helper(Widget w,
+                                  ui_callback_data_t client_data,
+                                  ui_callback_data_t call_data,
+                                  const char *resource_name);
+extern void _ui_menu_string_radio_helper(Widget w,
+                                         ui_callback_data_t client_data,
+                                         ui_callback_data_t call_data,
+                                         const char *resource_name);
 
 #endif /* _UIMENU_H */
