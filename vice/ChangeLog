@@ -1,3 +1,9 @@
+2004-09-04  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.15.2.
+
+	* configure.in: Renamed VIC20 resource file.
+
 2004-09-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.15.1.
