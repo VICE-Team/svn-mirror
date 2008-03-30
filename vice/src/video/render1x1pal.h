@@ -30,28 +30,36 @@
 
 #include "types.h"
 
-extern void render_16_1x1_palyc(const DWORD *colortab, const BYTE *src, BYTE *trg,
-							  unsigned int width,        const unsigned int height,
-							  const unsigned int xs,     const unsigned int ys,
-							  const unsigned int xt,     const unsigned int yt,
-							  const unsigned int pitchs, const unsigned int pitcht);
+extern void render_16_1x1_palyc(const DWORD *colortab,
+                                const BYTE *src, BYTE *trg,
+                                unsigned int width, const unsigned int height,
+                                const unsigned int xs, const unsigned int ys,
+                                const unsigned int xt, const unsigned int yt,
+                                const unsigned int pitchs,
+                                const unsigned int pitcht);
 
-extern void render_32_1x1_palyc(const DWORD *colortab, const BYTE *src, BYTE *trg,
-							  unsigned int width,        const unsigned int height,
-							  const unsigned int xs,     const unsigned int ys,
-							  const unsigned int xt,     const unsigned int yt,
-							  const unsigned int pitchs, const unsigned int pitcht);
+extern void render_32_1x1_palyc(const DWORD *colortab,
+                                const BYTE *src, BYTE *trg,
+                                unsigned int width, const unsigned int height,
+                                const unsigned int xs, const unsigned int ys,
+                                const unsigned int xt, const unsigned int yt,
+                                const unsigned int pitchs,
+                                const unsigned int pitcht);
 
-extern void render_16_1x1_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
-							  unsigned int width,        const unsigned int height,
-							  const unsigned int xs,     const unsigned int ys,
-							  const unsigned int xt,     const unsigned int yt,
-							  const unsigned int pitchs, const unsigned int pitcht);
+extern void render_16_1x1_pal(const DWORD *colortab,
+                              const BYTE *src, BYTE *trg,
+                              unsigned int width, const unsigned int height,
+                              const unsigned int xs, const unsigned int ys,
+                              const unsigned int xt, const unsigned int yt,
+                              const unsigned int pitchs,
+                              const unsigned int pitcht);
 
-extern void render_32_1x1_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
-							  unsigned int width,        const unsigned int height,
-							  const unsigned int xs,     const unsigned int ys,
-							  const unsigned int xt,     const unsigned int yt,
-							  const unsigned int pitchs, const unsigned int pitcht);
+extern void render_32_1x1_pal(const DWORD *colortab,
+                              const BYTE *src, BYTE *trg,
+                              unsigned int width, const unsigned int height,
+                              const unsigned int xs, const unsigned int ys,
+                              const unsigned int xt, const unsigned int yt,
+                              const unsigned int pitchs,
+                              const unsigned int pitcht);
 #endif
 
