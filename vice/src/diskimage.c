@@ -370,7 +370,7 @@ int disk_image_read_gcr_image(disk_image_t *image)
             if (track_len < 5000 || track_len > 7928) {
                 log_error(disk_image_log,
                           "Track field length %i is not supported.",
-                          track_len);
+                          (int)track_len);
                 return -1;
             }
 
