@@ -182,9 +182,9 @@ static void lib_debug_guard_add(char *ptr, unsigned int size)
         printf("lib_debug_guard_add(): Out of debug address slots.\n");
         return;
     }
-
+#if 0
     printf("ADD BASE %p SLOT %d SIZE %d\n", ptr, index, size);
-
+#endif
     lib_debug_guard_base[index] = ptr;
     lib_debug_guard_size[index] = (unsigned int)size;
 
@@ -217,9 +217,9 @@ static void lib_debug_guard_remove(char *ptr)
             printf("Memory corruption in higher part of base %p!\n",
                    ptr - LIB_DEBUG_GUARD);
     }
-
+#if 0
     printf("REM BASE %p SLOT %d\n", ptr - LIB_DEBUG_GUARD, index);
-
+#endif
     lib_debug_guard_base[index] = NULL;
 }
 

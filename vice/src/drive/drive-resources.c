@@ -176,7 +176,6 @@ int drive1_resources_type(resource_value_t v, void *param)
 
     if (drive[0].enable && DRIVE_IS_DUAL(drive[0].type)) {
         /* dual disk drives disable second emulated unit */
-
         log_warning(drive[1].log,
                     "Dual disk drive disables second emulated drive");
 
