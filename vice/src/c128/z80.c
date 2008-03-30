@@ -155,6 +155,9 @@ inline static int z80mem_read_limit(int addr)
 #define IX_WORD() ((reg_ixh << 8) | reg_ixl)
 #define IY_WORD() ((reg_iyh << 8) | reg_iyl)
 
+#define IX_WORD_OFF(offset) (IX_WORD() + (signed char)(offset))
+#define IY_WORD_OFF(offset) (IY_WORD() + (signed char)(offset))
+
 #define DEC_BC_WORD() \
   do {                \
       if (!reg_c)     \
@@ -1015,14 +1018,15 @@ static BYTE daa_reg_f[2048] = {
       INC_PC(pc_inc);                           \
   } while (0)
 
-#define BIT(reg_val, value, clk_inc)              \
-  do {                                            \
-      LOCAL_SET_NADDSUB(0);                       \
-      LOCAL_SET_HALFCARRY(1);                     \
-      LOCAL_SET_ZERO(!(reg_val & (1 << value)));  \
-      /***LOCAL_SET_PARITY(LOCAL_ZERO());***/     \
-      CLK += clk_inc;                             \
-      INC_PC(2);                                  \
+#define BIT(reg_val, value, clk_inc1, clk_inc2, pc_inc)  \
+  do {                                                   \
+      CLK += clk_inc1;                                   \
+      LOCAL_SET_NADDSUB(0);                              \
+      LOCAL_SET_HALFCARRY(1);                            \
+      LOCAL_SET_ZERO(!((reg_val) & (1 << value)));       \
+      /***LOCAL_SET_PARITY(LOCAL_ZERO());***/            \
+      CLK += clk_inc2;                                   \
+      INC_PC(pc_inc);                                    \
   } while (0)
 
 #define BRANCH(cond, value, pc_inc)                                \
@@ -1123,16 +1127,16 @@ static BYTE daa_reg_f[2048] = {
       }                                                       \
   } while (0)
 
-#define CPL()                  \
+#define CPL(clk_inc, pc_inc)   \
   do {                         \
       reg_a ^= 0xff;           \
       LOCAL_SET_NADDSUB(1);    \
       LOCAL_SET_HALFCARRY(1);  \
-      CLK += 4;                \
-      INC_PC(1);               \
+      CLK += clk_inc;          \
+      INC_PC(pc_inc);          \
   } while (0)
 
-#define DAA()                                    \
+#define DAA(clk_inc, pc_inc)                     \
   do {                                           \
       WORD tmp;                                  \
                                                  \
@@ -1141,8 +1145,8 @@ static BYTE daa_reg_f[2048] = {
               | (LOCAL_NADDSUB() ? 0x400 : 0);   \
       reg_a = daa_reg_a[tmp];                    \
       reg_f = daa_reg_f[tmp];                    \
-      CLK += 4;                                  \
-      INC_PC(1);                                 \
+      CLK += clk_inc;                            \
+      INC_PC(pc_inc);                            \
   } while (0)
 
 #define DECXXIND(reg_val, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
@@ -1185,18 +1189,18 @@ static BYTE daa_reg_f[2048] = {
       BRANCH(reg_b, value, pc_inc);  \
   } while (0)
 
-#define DI()            \
-  do {                  \
-      reg_iff &= 0xfe;  \
-      CLK += 4;         \
-      INC_PC(1);        \
+#define DI(clk_inc, pc_inc)  \
+  do {                       \
+      reg_iff &= 0xfe;       \
+      CLK += clk_inc;        \
+      INC_PC(pc_inc);        \
   } while (0)
 
-#define EI()            \
-  do {                  \
-      reg_iff |= 0x01;  \
-      CLK += 4;         \
-      INC_PC(1);        \
+#define EI(clk_inc, pc_inc)  \
+  do {                       \
+      reg_iff |= 0x01;       \
+      CLK += clk_inc;        \
+      INC_PC(pc_inc);        \
   } while (0)
 
 #define EXAFAF(clk_inc, pc_inc)  \
@@ -1213,30 +1217,30 @@ static BYTE daa_reg_f[2048] = {
       INC_PC(pc_inc);            \
   } while (0)
 
-#define EXX()           \
-  do {                  \
-      BYTE tmpl, tmph;  \
-                        \
-      tmph = reg_b;     \
-      tmpl = reg_c;     \
-      reg_b = reg_b2;   \
-      reg_c = reg_c2;   \
-      reg_b2 = tmph;    \
-      reg_c2 = tmpl;    \
-      tmph = reg_d;     \
-      tmpl = reg_e;     \
-      reg_d = reg_d2;   \
-      reg_e = reg_e2;   \
-      reg_d2 = tmph;    \
-      reg_e2 = tmpl;    \
-      tmph = reg_h;     \
-      tmpl = reg_l;     \
-      reg_h = reg_h2;   \
-      reg_l = reg_l2;   \
-      reg_h2 = tmph;    \
-      reg_l2 = tmpl;    \
-      CLK += 8;         \
-      INC_PC(1);        \
+#define EXX(clk_inc, pc_inc)  \
+  do {                        \
+      BYTE tmpl, tmph;        \
+                              \
+      tmph = reg_b;           \
+      tmpl = reg_c;           \
+      reg_b = reg_b2;         \
+      reg_c = reg_c2;         \
+      reg_b2 = tmph;          \
+      reg_c2 = tmpl;          \
+      tmph = reg_d;           \
+      tmpl = reg_e;           \
+      reg_d = reg_d2;         \
+      reg_e = reg_e2;         \
+      reg_d2 = tmph;          \
+      reg_e2 = tmpl;          \
+      tmph = reg_h;           \
+      tmpl = reg_l;           \
+      reg_h = reg_h2;         \
+      reg_l = reg_l2;         \
+      reg_h2 = tmph;          \
+      reg_l2 = tmpl;          \
+      CLK += clk_inc;         \
+      INC_PC(pc_inc);         \
   } while (0)
 
 #define EXDEHL(clk_inc, pc_inc)  \
@@ -1277,20 +1281,21 @@ static BYTE daa_reg_f[2048] = {
       CLK += 4;  \
   } while (0)
 
-#define IM(value)                        \
-  do {                                   \
+#define IM(value)                          \
+  do {                                     \
       reg_iff = value | (reg_iff & 0xf9);  \
+      log_message(LOG_DEFAULT, "IM %x.", value); \
       CLK += 8;                            \
       INC_PC(2);                           \
   } while (0)
 
-#define INA(value)        \
-  do {                    \
-      CLK += 4;           \
-      reg_a = IN(value);  \
+#define INA(value, clk_inc1, clk_inc2, pc_inc)   \
+  do {                                           \
+      CLK += clk_inc1;                           \
+      reg_a = IN(value);                         \
       /***reg_a = IN((reg_a << 8) | value);***/  \
-      CLK += 7;           \
-      INC_PC(2);          \
+      CLK += clk_inc2;                           \
+      INC_PC(pc_inc);                            \
   } while (0)
 
 #define INBC(reg_val, clk_inc1, clk_inc2, pc_inc)   \
@@ -1403,18 +1408,6 @@ static BYTE daa_reg_f[2048] = {
       INC_PC(pc_inc);                                                         \
   } while (0)
 
-/* Can be replaced by LDREG */
-#define LDINDD(reg_dst, reg_valh, reg_vall, disp)                \
-  do {                                                           \
-      ADDRESS tmp;                                               \
-                                                                 \
-      CLK += 8;                                                  \
-      tmp = ((reg_valh << 8) | reg_vall) + (signed char)(disp);  \
-      reg_dst = LOAD(tmp);                                       \
-      CLK += 11;                                                 \
-      INC_PC(3);                                                 \
-  } while (0)
-
 #define LDSP(value, clk_inc1, clk_inc2, pc_inc)  \
   do {                                           \
       CLK += clk_inc1;                           \
@@ -1482,13 +1475,13 @@ static BYTE daa_reg_f[2048] = {
       INC_PC(pc_inc);                            \
   } while (0)
 
-#define OUTA(value)       \
-  do {                    \
-      CLK += 4;           \
-      OUT(value, reg_a);  \
-      /***OUT((reg_a << 8) | value, reg_a);***/ \
-      CLK += 7;           \
-      INC_PC(2);          \
+#define OUTA(value, clk_inc1, clk_inc2, pc_inc)  \
+  do {                                           \
+      CLK += clk_inc1;                           \
+      OUT(value, reg_a);                         \
+      /***OUT((reg_a << 8) | value, reg_a);***/  \
+      CLK += clk_inc2;                           \
+      INC_PC(pc_inc);                            \
   } while (0)
 
 #define OUTBC(value, clk_inc1, clk_inc2, pc_inc)  \
@@ -2349,204 +2342,196 @@ void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         SRL(reg_a);
         break;
       case 0x40: /* BIT B 0 */
-        BIT(reg_b, 0, 8);
+        BIT(reg_b, 0, 0, 8, 2);
         break;
       case 0x41: /* BIT C 0 */
-        BIT(reg_c, 0, 8);
+        BIT(reg_c, 0, 0, 8, 2);
         break;
       case 0x42: /* BIT D 0 */
-        BIT(reg_d, 0, 8);
+        BIT(reg_d, 0, 0, 8, 2);
         break;
       case 0x43: /* BIT E 0 */
-        BIT(reg_e, 0, 8);
+        BIT(reg_e, 0, 0, 8, 2);
         break;
       case 0x44: /* BIT H 0 */
-        BIT(reg_h, 0, 8);
+        BIT(reg_h, 0, 0, 8, 2);
         break;
       case 0x45: /* BIT L 0 */
-        BIT(reg_l, 0, 8);
+        BIT(reg_l, 0, 0, 8, 2);
         break;
       case 0x46: /* BIT (HL) 0 */
-        BIT(LOAD(HL_WORD()), 0, 12);
+        BIT(LOAD(HL_WORD()), 0, 4, 8, 2);
         break;
       case 0x47: /* BIT A 0 */
-        BIT(reg_a, 0, 8);
+        BIT(reg_a, 0, 0, 8, 2);
         break;
       case 0x48: /* BIT B 1 */
-        BIT(reg_b, 1, 8);
+        BIT(reg_b, 1, 0, 8, 2);
         break;
       case 0x49: /* BIT C 1 */
-        BIT(reg_c, 1, 8);
+        BIT(reg_c, 1, 0, 8, 2);
         break;
       case 0x4a: /* BIT D 1 */
-        BIT(reg_d, 1, 8);
+        BIT(reg_d, 1, 0, 8, 2);
         break;
       case 0x4b: /* BIT E 1 */
-        BIT(reg_e, 1, 8);
+        BIT(reg_e, 1, 0, 8, 2);
         break;
       case 0x4c: /* BIT H 1 */
-        BIT(reg_h, 1, 8);
+        BIT(reg_h, 1, 0, 8, 2);
         break;
       case 0x4d: /* BIT L 1 */
-        BIT(reg_l, 1, 8);
+        BIT(reg_l, 1, 0, 8, 2);
         break;
       case 0x4e: /* BIT (HL) 1 */
-        BIT(LOAD(HL_WORD()), 1, 12);
+        BIT(LOAD(HL_WORD()), 1, 4, 8, 2);
         break;
       case 0x4f: /* BIT A 1 */
-        BIT(reg_a, 1, 8);
+        BIT(reg_a, 1, 0, 8, 2);
         break;
       case 0x50: /* BIT B 2 */
-        BIT(reg_b, 2, 8);
+        BIT(reg_b, 2, 0, 8, 2);
         break;
       case 0x51: /* BIT C 2 */
-        BIT(reg_c, 2, 8);
+        BIT(reg_c, 2, 0, 8, 2);
         break;
       case 0x52: /* BIT D 2 */
-        BIT(reg_d, 2, 8);
+        BIT(reg_d, 2, 0, 8, 2);
         break;
       case 0x53: /* BIT E 2 */
-        BIT(reg_e, 2, 8);
+        BIT(reg_e, 2, 0, 8, 2);
         break;
       case 0x54: /* BIT H 2 */
-        BIT(reg_h, 2, 8);
+        BIT(reg_h, 2, 0, 8, 2);
         break;
       case 0x55: /* BIT L 2 */
-        BIT(reg_l, 2, 8);
+        BIT(reg_l, 2, 0, 8, 2);
         break;
       case 0x56: /* BIT (HL) 2 */
-        BIT(LOAD(HL_WORD()), 2, 12);
+        BIT(LOAD(HL_WORD()), 2, 4, 8, 2);
         break;
       case 0x57: /* BIT A 2 */
-        BIT(reg_a, 2, 8);
+        BIT(reg_a, 2, 0, 8, 2);
         break;
       case 0x58: /* BIT B 3 */
-        BIT(reg_b, 3, 8);
+        BIT(reg_b, 3, 0, 8, 2);
         break;
       case 0x59: /* BIT C 3 */
-        BIT(reg_c, 3, 8);
+        BIT(reg_c, 3, 0, 8, 2);
         break;
       case 0x5a: /* BIT D 3 */
-        BIT(reg_d, 3, 8);
+        BIT(reg_d, 3, 0, 8, 2);
         break;
       case 0x5b: /* BIT E 3 */
-        BIT(reg_e, 3, 8);
+        BIT(reg_e, 3, 0, 8, 2);
         break;
       case 0x5c: /* BIT H 3 */
-        BIT(reg_h, 3, 8);
+        BIT(reg_h, 3, 0, 8, 2);
         break;
       case 0x5d: /* BIT L 3 */
-        BIT(reg_l, 3, 8);
+        BIT(reg_l, 3, 0, 8, 2);
         break;
       case 0x5e: /* BIT (HL) 3 */
-        BIT(LOAD(HL_WORD()), 3, 12);
+        BIT(LOAD(HL_WORD()), 3, 4, 8, 2);
         break;
       case 0x5f: /* BIT A 3 */
-        BIT(reg_a, 3, 8);
+        BIT(reg_a, 3, 0, 8, 2);
         break;
       case 0x60: /* BIT B 4 */
-        BIT(reg_b, 4, 8);
+        BIT(reg_b, 4, 0, 8, 2);
         break;
       case 0x61: /* BIT C 4 */
-        BIT(reg_c, 4, 8);
+        BIT(reg_c, 4, 0, 8, 2);
         break;
       case 0x62: /* BIT D 4 */
-        BIT(reg_d, 4, 8);
+        BIT(reg_d, 4, 0, 8, 2);
         break;
       case 0x63: /* BIT E 4 */
-        BIT(reg_e, 4, 8);
+        BIT(reg_e, 4, 0, 8, 2);
         break;
       case 0x64: /* BIT H 4 */
-        BIT(reg_h, 4, 8);
+        BIT(reg_h, 4, 0, 8, 2);
         break;
       case 0x65: /* BIT L 4 */
-        BIT(reg_l, 4, 8);
+        BIT(reg_l, 4, 0, 8, 2);
         break;
       case 0x66: /* BIT (HL) 4 */
-        BIT(LOAD(HL_WORD()), 4, 12);
+        BIT(LOAD(HL_WORD()), 4, 4, 8, 2);
         break;
       case 0x67: /* BIT A 4 */
-        BIT(reg_a, 4, 8);
+        BIT(reg_a, 4, 0, 8, 2);
         break;
       case 0x68: /* BIT B 5 */
-        BIT(reg_b, 5, 8);
+        BIT(reg_b, 5, 0, 8, 2);
         break;
       case 0x69: /* BIT C 5 */
-        BIT(reg_c, 5, 8);
+        BIT(reg_c, 5, 0, 8, 2);
         break;
       case 0x6a: /* BIT D 5 */
-        BIT(reg_d, 5, 8);
+        BIT(reg_d, 5, 0, 8, 2);
         break;
       case 0x6b: /* BIT E 5 */
-        BIT(reg_e, 5, 8);
+        BIT(reg_e, 5, 0, 8, 2);
         break;
       case 0x6c: /* BIT H 5 */
-        BIT(reg_h, 5, 8);
+        BIT(reg_h, 5, 0, 8, 2);
         break;
       case 0x6d: /* BIT L 5 */
-        BIT(reg_l, 5, 8);
+        BIT(reg_l, 5, 0, 8, 2);
         break;
       case 0x6e: /* BIT (HL) 5 */
-        BIT(LOAD(HL_WORD()), 5, 12);
+        BIT(LOAD(HL_WORD()), 5, 4, 8, 2);
         break;
       case 0x6f: /* BIT A 5 */
-        BIT(reg_a, 5, 8);
+        BIT(reg_a, 5, 0, 8, 2);
         break;
       case 0x70: /* BIT B 6 */
-        BIT(reg_b, 6, 8);
+        BIT(reg_b, 6, 0, 8, 2);
         break;
       case 0x71: /* BIT C 6 */
-        BIT(reg_c, 6, 8);
+        BIT(reg_c, 6, 0, 8, 2);
         break;
       case 0x72: /* BIT D 6 */
-        BIT(reg_d, 6, 8);
+        BIT(reg_d, 6, 0, 8, 2);
         break;
       case 0x73: /* BIT E 6 */
-        BIT(reg_e, 6, 8);
+        BIT(reg_e, 6, 0, 8, 2);
         break;
       case 0x74: /* BIT H 6 */
-        BIT(reg_h, 6, 8);
+        BIT(reg_h, 6, 0, 8, 2);
         break;
       case 0x75: /* BIT L 6 */
-        BIT(reg_l, 6, 8);
+        BIT(reg_l, 6, 0, 8, 2);
         break;
       case 0x76: /* BIT (HL) 6 */
-        BIT(LOAD(HL_WORD()), 6, 12);
+        BIT(LOAD(HL_WORD()), 6, 4, 8, 2);
         break;
       case 0x77: /* BIT A 6 */
-        BIT(reg_a, 6, 8);
+        BIT(reg_a, 6, 0, 8, 2);
         break;
       case 0x78: /* BIT B 7 */
-        BIT(reg_b, 7, 8);
-        /***LOCAL_SET_SIGN(LOCAL_ZERO() ? LOCAL_SIGN() : 1);***/
+        BIT(reg_b, 7, 0, 8, 2);
         break;
       case 0x79: /* BIT C 7 */
-        BIT(reg_c, 7, 8);
-        /***LOCAL_SET_SIGN(LOCAL_ZERO() ? LOCAL_SIGN() : 1);***/
+        BIT(reg_c, 7, 0, 8, 2);
         break;
       case 0x7a: /* BIT D 7 */
-        BIT(reg_d, 7, 8);
-        /***LOCAL_SET_SIGN(LOCAL_ZERO() ? LOCAL_SIGN() : 1);***/
+        BIT(reg_d, 7, 0, 8, 2);
         break;
       case 0x7b: /* BIT E 7 */
-        BIT(reg_e, 7, 8);
-        /***LOCAL_SET_SIGN(LOCAL_ZERO() ? LOCAL_SIGN() : 1);***/
+        BIT(reg_e, 7, 0, 8, 2);
         break;
       case 0x7c: /* BIT H 7 */
-        BIT(reg_h, 7, 8);
-        /***LOCAL_SET_SIGN(LOCAL_ZERO() ? LOCAL_SIGN() : 1);***/
+        BIT(reg_h, 7, 0, 8, 2);
         break;
       case 0x7d: /* BIT L 7 */
-        BIT(reg_l, 7, 8);
-        /***LOCAL_SET_SIGN(LOCAL_ZERO() ? LOCAL_SIGN() : 1);***/
+        BIT(reg_l, 7, 0, 8, 2);
         break;
       case 0x7e: /* BIT (HL) 7 */
-        BIT(LOAD(HL_WORD()), 7, 12);
-        /***LOCAL_SET_SIGN(LOCAL_ZERO() ? LOCAL_SIGN() : 1);***/
+        BIT(LOAD(HL_WORD()), 7, 4, 8, 2);
         break;
       case 0x7f: /* BIT A 7 */
-        BIT(reg_a, 7, 8);
-        /***LOCAL_SET_SIGN(LOCAL_ZERO() ? LOCAL_SIGN() : 1);***/
+        BIT(reg_a, 7, 0, 8, 2);
         break;
       case 0x80: /* RES B 0 */
         RES(reg_b, 0);
@@ -2944,582 +2929,662 @@ void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
 
 void opcode_dd_cb(BYTE iip2, BYTE iip3, WORD iip23)
 {
-    switch (iip2) {
+    switch (iip3) {
       case 0x00: /* RLC (IX+d),B */
-        RLCXXREG(reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLCXXREG(reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x01: /* RLC (IX+d),C */
-        RLCXXREG(reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLCXXREG(reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x02: /* RLC (IX+d),D */
-        RLCXXREG(reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLCXXREG(reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x03: /* RLC (IX+d),E */
-        RLCXXREG(reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLCXXREG(reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x04: /* RLC (IX+d),H */
-        RLCXXREG(reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLCXXREG(reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x05: /* RLC (IX+d),L */
-        RLCXXREG(reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLCXXREG(reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x06: /* RLC (IX+d) */
-        RLCXX(IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLCXX(IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x07: /* RLC (IX+d),A */
-        RLCXXREG(reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLCXXREG(reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x08: /* RRC (IX+d),B */
-        RRCXXREG(reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRCXXREG(reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x09: /* RRC (IX+d),C */
-        RRCXXREG(reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRCXXREG(reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x0a: /* RRC (IX+d),D */
-        RRCXXREG(reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRCXXREG(reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x0b: /* RRC (IX+d),E */
-        RRCXXREG(reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRCXXREG(reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x0c: /* RRC (IX+d),H */
-        RRCXXREG(reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRCXXREG(reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x0d: /* RRC (IX+d),L */
-        RRCXXREG(reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRCXXREG(reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x0e: /* RRC (IX+d) */
-        RRCXX(IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRCXX(IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x0f: /* RRC (IX+d),A */
-        RRCXXREG(reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRCXXREG(reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x10: /* RL (IX+d),B */
-        RLXXREG(reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLXXREG(reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x11: /* RL (IX+d),C */
-        RLXXREG(reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLXXREG(reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x12: /* RL (IX+d),D */
-        RLXXREG(reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLXXREG(reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x13: /* RL (IX+d),E */
-        RLXXREG(reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLXXREG(reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x14: /* RL (IX+d),H */
-        RLXXREG(reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLXXREG(reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x15: /* RL (IX+d),L */
-        RLXXREG(reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLXXREG(reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x16: /* RL (IX+d) */
-        RLXX(IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLXX(IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x17: /* RL (IX+d),A */
-        RLXXREG(reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLXXREG(reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x18: /* RR (IX+d),B */
-        RRXXREG(reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRXXREG(reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x19: /* RR (IX+d),C */
-        RRXXREG(reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRXXREG(reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x1a: /* RR (IX+d),D */
-        RRXXREG(reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRXXREG(reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x1b: /* RR (IX+d),E */
-        RRXXREG(reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRXXREG(reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x1c: /* RR (IX+d),H */
-        RRXXREG(reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRXXREG(reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x1d: /* RR (IX+d),L */
-        RRXXREG(reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRXXREG(reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x1e: /* RR (IX+d) */
-        RRXX(IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRXX(IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x1f: /* RR (IX+d),A */
-        RRXXREG(reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRXXREG(reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x20: /* SLA (IX+d),B */
-        SLAXXREG(reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLAXXREG(reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x21: /* SLA (IX+d),C */
-        SLAXXREG(reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLAXXREG(reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x22: /* SLA (IX+d),D */
-        SLAXXREG(reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLAXXREG(reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x23: /* SLA (IX+d),E */
-        SLAXXREG(reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLAXXREG(reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x24: /* SLA (IX+d),H */
-        SLAXXREG(reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLAXXREG(reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x25: /* SLA (IX+d),L */
-        SLAXXREG(reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLAXXREG(reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x26: /* SLA (IX+d) */
-        SLAXX(IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLAXX(IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x27: /* SLA (IX+d),A */
-        SLAXXREG(reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLAXXREG(reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x28: /* SRA (IX+d),B */
-        SRAXXREG(reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRAXXREG(reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x29: /* SRA (IX+d),C */
-        SRAXXREG(reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRAXXREG(reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x2a: /* SRA (IX+d),D */
-        SRAXXREG(reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRAXXREG(reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x2b: /* SRA (IX+d),E */
-        SRAXXREG(reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRAXXREG(reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x2c: /* SRA (IX+d),H */
-        SRAXXREG(reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRAXXREG(reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x2d: /* SRA (IX+d),L */
-        SRAXXREG(reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRAXXREG(reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x2e: /* SRA (IX+d) */
-        SRAXX(IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRAXX(IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x2f: /* SRA (IX+d),A */
-        SRAXXREG(reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRAXXREG(reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x30: /* SLL (IX+d),B */
-        SLLXXREG(reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLLXXREG(reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x31: /* SLL (IX+d),C */
-        SLLXXREG(reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLLXXREG(reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x32: /* SLL (IX+d),D */
-        SLLXXREG(reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLLXXREG(reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x33: /* SLL (IX+d),E */
-        SLLXXREG(reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLLXXREG(reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x34: /* SLL (IX+d),H */
-        SLLXXREG(reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLLXXREG(reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x35: /* SLL (IX+d),L */
-        SLLXXREG(reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLLXXREG(reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x36: /* SLL (IX+d) */
-        SLLXX(IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLLXX(IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x37: /* SLL (IX+d),A */
-        SLLXXREG(reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLLXXREG(reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x38: /* SRL (IX+d),B */
-        SRLXXREG(reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRLXXREG(reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x39: /* SRL (IX+d),C */
-        SRLXXREG(reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRLXXREG(reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x3a: /* SRL (IX+d),D */
-        SRLXXREG(reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRLXXREG(reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x3b: /* SRL (IX+d),E */
-        SRLXXREG(reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRLXXREG(reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x3c: /* SRL (IX+d),H */
-        SRLXXREG(reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRLXXREG(reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x3d: /* SRL (IX+d),L */
-        SRLXXREG(reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRLXXREG(reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x3e: /* SRL (IX+d) */
-        SRLXX(IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRLXX(IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x3f: /* SRL (IX+d),A */
-        SRLXXREG(reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRLXXREG(reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
+        break;
+      case 0x40: /* BIT (IX+d) 0 */
+      case 0x41:
+      case 0x42:
+      case 0x43:
+      case 0x44:
+      case 0x45:
+      case 0x46:
+      case 0x47:
+        BIT(LOAD(IX_WORD_OFF(iip2)), 0, 8, 12, 4);
+        break;
+      case 0x48: /* BIT (IX+d) 1 */
+      case 0x49:
+      case 0x4a:
+      case 0x4b:
+      case 0x4c:
+      case 0x4d:
+      case 0x4e:
+      case 0x4f:
+        BIT(LOAD(IX_WORD_OFF(iip2)), 1, 8, 12, 4);
+        break;
+      case 0x50: /* BIT (IX+d) 2 */
+      case 0x51:
+      case 0x52:
+      case 0x53:
+      case 0x54:
+      case 0x55:
+      case 0x56:
+      case 0x57:
+        BIT(LOAD(IX_WORD_OFF(iip2)), 2, 8, 12, 4);
+        break;
+      case 0x58: /* BIT (IX+d) 3 */
+      case 0x59:
+      case 0x5a:
+      case 0x5b:
+      case 0x5c:
+      case 0x5d:
+      case 0x5e:
+      case 0x5f:
+        BIT(LOAD(IX_WORD_OFF(iip2)), 3, 8, 12, 4);
+        break;
+      case 0x60: /* BIT (IX+d) 4 */
+      case 0x61:
+      case 0x62:
+      case 0x63:
+      case 0x64:
+      case 0x65:
+      case 0x66:
+      case 0x67:
+        BIT(LOAD(IX_WORD_OFF(iip2)), 4, 8, 12, 4);
+        break;
+      case 0x68: /* BIT (IX+d) 5 */
+      case 0x69:
+      case 0x6a:
+      case 0x6b:
+      case 0x6c:
+      case 0x6d:
+      case 0x6e:
+      case 0x6f:
+        BIT(LOAD(IX_WORD_OFF(iip2)), 5, 8, 12, 4);
+        break;
+      case 0x70: /* BIT (IX+d) 6 */
+      case 0x71:
+      case 0x72:
+      case 0x73:
+      case 0x74:
+      case 0x75:
+      case 0x76:
+      case 0x77:
+        BIT(LOAD(IX_WORD_OFF(iip2)), 6, 8, 12, 4);
+        break;
+      case 0x78: /* BIT (IX+d) 7 */
+      case 0x79:
+      case 0x7a:
+      case 0x7b:
+      case 0x7c:
+      case 0x7d:
+      case 0x7e:
+      case 0x7f:
+        BIT(LOAD(IX_WORD_OFF(iip2)), 7, 8, 12, 4);
         break;
       case 0x80: /* RES (IX+d),B 0 */
-        RESXXREG(0, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(0, reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x81: /* RES (IX+d),C 0 */
-        RESXXREG(0, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(0, reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x82: /* RES (IX+d),D 0 */
-        RESXXREG(0, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(0, reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x83: /* RES (IX+d),E 0 */
-        RESXXREG(0, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(0, reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x84: /* RES (IX+d),H 0 */
-        RESXXREG(0, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(0, reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x85: /* RES (IX+d),L 0 */
-        RESXXREG(0, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(0, reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x86: /* RES (IX+d) 0 */
-        RESXX(0, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXX(0, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x87: /* RES (IX+d),A 0 */
-        RESXXREG(0, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(0, reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x88: /* RES (IX+d),B 1 */
-        RESXXREG(1, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(1, reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x89: /* RES (IX+d),C 1 */
-        RESXXREG(1, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(1, reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x8a: /* RES (IX+d),D 1 */
-        RESXXREG(1, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(1, reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x8b: /* RES (IX+d),E 1 */
-        RESXXREG(1, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(1, reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x8c: /* RES (IX+d),H 1 */
-        RESXXREG(1, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(1, reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x8d: /* RES (IX+d),L 1 */
-        RESXXREG(1, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(1, reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x8e: /* RES (IX+d) 1 */
-        RESXX(1, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXX(1, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x8f: /* RES (IX+d),A 1 */
-        RESXXREG(1, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(1, reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x90: /* RES (IX+d),B 2 */
-        RESXXREG(2, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(2, reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x91: /* RES (IX+d),C 2 */
-        RESXXREG(2, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(2, reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x92: /* RES (IX+d),D 2 */
-        RESXXREG(2, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(2, reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x93: /* RES (IX+d),E 2 */
-        RESXXREG(2, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(2, reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x94: /* RES (IX+d),H 2 */
-        RESXXREG(2, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(2, reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x95: /* RES (IX+d),L 2 */
-        RESXXREG(2, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(2, reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x96: /* RES (IX+d) 2 */
-        RESXX(2, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXX(2, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x97: /* RES (IX+d),A 2 */
-        RESXXREG(2, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(2, reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x98: /* RES (IX+d),B 3 */
-        RESXXREG(3, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(3, reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x99: /* RES (IX+d),C 3 */
-        RESXXREG(3, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(3, reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x9a: /* RES (IX+d),D 3 */
-        RESXXREG(3, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(3, reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x9b: /* RES (IX+d),E 3 */
-        RESXXREG(3, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(3, reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x9c: /* RES (IX+d),H 3 */
-        RESXXREG(3, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(3, reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x9d: /* RES (IX+d),L 3 */
-        RESXXREG(3, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(3, reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x9e: /* RES (IX+d) 3 */
-        RESXX(3, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXX(3, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x9f: /* RES (IX+d),A 3 */
-        RESXXREG(3, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(3, reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xa0: /* RES (IX+d),B 4 */
-        RESXXREG(4, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(4, reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xa1: /* RES (IX+d),C 4 */
-        RESXXREG(4, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(4, reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xa2: /* RES (IX+d),D 4 */
-        RESXXREG(4, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(4, reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xa3: /* RES (IX+d),E 4 */
-        RESXXREG(4, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(4, reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xa4: /* RES (IX+d),H 4 */
-        RESXXREG(4, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(4, reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xa5: /* RES (IX+d),L 4 */
-        RESXXREG(4, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(4, reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xa6: /* RES (IX+d) 4 */
-        RESXX(4, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXX(4, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xa7: /* RES (IX+d),A 4 */
-        RESXXREG(4, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(4, reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xa8: /* RES (IX+d),B 5 */
-        RESXXREG(5, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(5, reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xa9: /* RES (IX+d),C 5 */
-        RESXXREG(5, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(5, reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xaa: /* RES (IX+d),D 5 */
-        RESXXREG(5, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(5, reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xab: /* RES (IX+d),E 5 */
-        RESXXREG(5, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(5, reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xac: /* RES (IX+d),H 5 */
-        RESXXREG(5, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(5, reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xad: /* RES (IX+d),L 5 */
-        RESXXREG(5, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(5, reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xae: /* RES (IX+d) 5 */
-        RESXX(5, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXX(5, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xaf: /* RES (IX+d),A 5 */
-        RESXXREG(5, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(5, reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xb0: /* RES (IX+d),B 6 */
-        RESXXREG(6, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(6, reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xb1: /* RES (IX+d),C 6 */
-        RESXXREG(6, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(6, reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xb2: /* RES (IX+d),D 6 */
-        RESXXREG(6, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(6, reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xb3: /* RES (IX+d),E 6 */
-        RESXXREG(6, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(6, reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xb4: /* RES (IX+d),H 6 */
-        RESXXREG(6, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(6, reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xb5: /* RES (IX+d),L 6 */
-        RESXXREG(6, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(6, reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xb6: /* RES (IX+d) 6 */
-        RESXX(6, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXX(6, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xb7: /* RES (IX+d),A 6 */
-        RESXXREG(6, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(6, reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xb8: /* RES (IX+d),B 7 */
-        RESXXREG(7, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(7, reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xb9: /* RES (IX+d),C 7 */
-        RESXXREG(7, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(7, reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xba: /* RES (IX+d),D 7 */
-        RESXXREG(7, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(7, reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xbb: /* RES (IX+d),E 7 */
-        RESXXREG(7, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(7, reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xbc: /* RES (IX+d),H 7 */
-        RESXXREG(7, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(7, reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xbd: /* RES (IX+d),L 7 */
-        RESXXREG(7, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(7, reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xbe: /* RES (IX+d) 7 */
-        RESXX(7, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXX(7, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xbf: /* RES (IX+d),A 7 */
-        RESXXREG(7, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(7, reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xc0: /* SET (IX+d),B 0 */
-        SETXXREG(0, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(0, reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xc1: /* SET (IX+d),C 0 */
-        SETXXREG(0, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(0, reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xc2: /* SET (IX+d),D 0 */
-        SETXXREG(0, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(0, reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xc3: /* SET (IX+d),E 0 */
-        SETXXREG(0, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(0, reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xc4: /* SET (IX+d),H 0 */
-        SETXXREG(0, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(0, reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xc5: /* SET (IX+d),L 0 */
-        SETXXREG(0, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(0, reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xc6: /* SET (IX+d) 0 */
-        SETXX(0, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXX(0, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xc7: /* SET (IX+d),A 0 */
-        SETXXREG(0, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(0, reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xc8: /* SET (IX+d),B 1 */
-        SETXXREG(1, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(1, reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xc9: /* SET (IX+d),C 1 */
-        SETXXREG(1, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(1, reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xca: /* SET (IX+d),D 1 */
-        SETXXREG(1, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(1, reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xcb: /* SET (IX+d),E 1 */
-        SETXXREG(1, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(1, reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xcc: /* SET (IX+d),H 1 */
-        SETXXREG(1, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(1, reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xcd: /* SET (IX+d),L 1 */
-        SETXXREG(1, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(1, reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xce: /* SET (IX+d) 1 */
-        SETXX(1, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXX(1, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xcf: /* SET (IX+d),A 1 */
-        SETXXREG(1, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(1, reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xd0: /* SET (IX+d),B 2 */
-        SETXXREG(2, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(2, reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xd1: /* SET (IX+d),C 2 */
-        SETXXREG(2, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(2, reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xd2: /* SET (IX+d),D 2 */
-        SETXXREG(2, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(2, reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xd3: /* SET (IX+d),E 2 */
-        SETXXREG(2, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(2, reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xd4: /* SET (IX+d),H 2 */
-        SETXXREG(2, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(2, reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xd5: /* SET (IX+d),L 2 */
-        SETXXREG(2, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(2, reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xd6: /* SET (IX+d) 2 */
-        SETXX(2, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXX(2, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xd7: /* SET (IX+d),A 2 */
-        SETXXREG(2, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(2, reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xd8: /* SET (IX+d),B 3 */
-        SETXXREG(3, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(3, reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xd9: /* SET (IX+d),C 3 */
-        SETXXREG(3, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(3, reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xda: /* SET (IX+d),D 3 */
-        SETXXREG(3, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(3, reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xdb: /* SET (IX+d),E 3 */
-        SETXXREG(3, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(3, reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xdc: /* SET (IX+d),H 3 */
-        SETXXREG(3, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(3, reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xdd: /* SET (IX+d),L 3 */
-        SETXXREG(3, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(3, reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xde: /* SET (IX+d) 3 */
-        SETXX(3, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXX(3, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xdf: /* SET (IX+d),A 3 */
-        SETXXREG(3, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(3, reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xe0: /* SET (IX+d),B 4 */
-        SETXXREG(4, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(4, reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xe1: /* SET (IX+d),C 4 */
-        SETXXREG(4, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(4, reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xe2: /* SET (IX+d),D 4 */
-        SETXXREG(4, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(4, reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xe3: /* SET (IX+d),E 4 */
-        SETXXREG(4, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(4, reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xe4: /* SET (IX+d),H 4 */
-        SETXXREG(4, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(4, reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xe5: /* SET (IX+d),L 4 */
-        SETXXREG(4, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(4, reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xe6: /* SET (IX+d) 4 */
-        SETXX(4, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXX(4, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xe7: /* SET (IX+d),A 4 */
-        SETXXREG(4, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(4, reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xe8: /* SET (IX+d),B 5 */
-        SETXXREG(5, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(5, reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xe9: /* SET (IX+d),C 5 */
-        SETXXREG(5, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(5, reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xea: /* SET (IX+d),D 5 */
-        SETXXREG(5, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(5, reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xeb: /* SET (IX+d),E 5 */
-        SETXXREG(5, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(5, reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xec: /* SET (IX+d),H 5 */
-        SETXXREG(5, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(5, reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xed: /* SET (IX+d),L 5 */
-        SETXXREG(5, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(5, reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xee: /* SET (IX+d) 5 */
-        SETXX(5, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXX(5, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xef: /* SET (IX+d),A 5 */
-        SETXXREG(5, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(5, reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xf0: /* SET (IX+d),B 6 */
-        SETXXREG(6, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(6, reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xf1: /* SET (IX+d),C 6 */
-        SETXXREG(6, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(6, reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xf2: /* SET (IX+d),D 6 */
-        SETXXREG(6, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(6, reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xf3: /* SET (IX+d),E 6 */
-        SETXXREG(6, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(6, reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xf4: /* SET (IX+d),H 6 */
-        SETXXREG(6, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(6, reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xf5: /* SET (IX+d),L 6 */
-        SETXXREG(6, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(6, reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xf6: /* SET (IX+d) 6 */
-        SETXX(6, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXX(6, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xf7: /* SET (IX+d),A 6 */
-        SETXXREG(6, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(6, reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xf8: /* SET (IX+d),B 7 */
-        SETXXREG(7, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(7, reg_b, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xf9: /* SET (IX+d),C 7 */
-        SETXXREG(7, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(7, reg_c, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xfa: /* SET (IX+d),D 7 */
-        SETXXREG(7, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(7, reg_d, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xfb: /* SET (IX+d),E 7 */
-        SETXXREG(7, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(7, reg_e, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xfc: /* SET (IX+d),H 7 */
-        SETXXREG(7, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(7, reg_h, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xfd: /* SET (IX+d),L 7 */
-        SETXXREG(7, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(7, reg_l, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xfe: /* SET (IX+d) 7 */
-        SETXX(7, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXX(7, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xff: /* SET (IX+d),A 7 */
-        SETXXREG(7, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(7, reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       default:
         log_message(LOG_DEFAULT,
@@ -3624,6 +3689,9 @@ void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
       case 0x26: /* LD H # */
         LDREG(reg_h, ip2, 4, 5, 3);
         break;
+      case 0x27: /* DAA */
+        DAA(8, 2);
+        break;
       case 0x29: /* ADD IX IX */
         ADDXXREG(reg_ixh, reg_ixl, reg_ixh, reg_ixl, 15, 2);
         break;
@@ -3645,6 +3713,9 @@ void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
       case 0x2e: /* LD L # */
         LDREG(reg_l, ip2, 4, 5, 3);
         break;
+      case 0x2f: /* CPL */
+        CPL(8, 2);
+        break;
       case 0x30: /* JR NC */
         BRANCH(!LOCAL_CARRY(), ip2, 3);
         break;
@@ -3658,13 +3729,13 @@ void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         DECINC(reg_sp++, 10, 2);
         break;
       case 0x34: /* INC (IX+d) */
-        INCXXIND(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2), 4, 7, 12, 3);
+        INCXXIND(IX_WORD_OFF(ip2), 4, 7, 12, 3);
         break;
       case 0x35: /* DEC (IX+d) */
-        DECXXIND(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2), 4, 7, 12, 3);
+        DECXXIND(IX_WORD_OFF(ip2), 4, 7, 12, 3);
         break;
       case 0x36: /* LD (IX+d) # */
-        STREG(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2), ip3, 8, 11, 4);
+        STREG(IX_WORD_OFF(ip2), ip3, 8, 11, 4);
         break;
       case 0x37: /* SCF */
         SCF(8, 2);
@@ -3712,7 +3783,7 @@ void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         LDREG(reg_b, reg_l, 0, 4, 2);
         break;
       case 0x46: /* LD B (IX+d) */
-        LDINDD(reg_b, reg_ixh, reg_ixl, ip2);
+        LDREG(reg_b, LOAD(IX_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x47: /* LD B A */
         LDREG(reg_b, reg_a, 0, 4, 2);
@@ -3736,7 +3807,7 @@ void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         LDREG(reg_c, reg_l, 0, 4, 2);
         break;
       case 0x4e: /* LD C (IX+d) */
-        LDINDD(reg_c, reg_ixh, reg_ixl, ip2);
+        LDREG(reg_c, LOAD(IX_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x4f: /* LD C A */
         LDREG(reg_c, reg_a, 0, 4, 2);
@@ -3760,7 +3831,7 @@ void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         LDREG(reg_d, reg_l, 0, 4, 2);
         break;
       case 0x56: /* LD D (IX+d) */
-        LDINDD(reg_d, reg_ixh, reg_ixl, ip2);
+        LDREG(reg_d, LOAD(IX_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x57: /* LD D A */
         LDREG(reg_d, reg_a, 0, 4, 2);
@@ -3784,7 +3855,7 @@ void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         LDREG(reg_e, reg_l, 0, 4, 2);
         break;
       case 0x5e: /* LD E (IX+d) */
-        LDINDD(reg_e, reg_ixh, reg_ixl, ip2);
+        LDREG(reg_e, LOAD(IX_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x5f: /* LD E A */
         LDREG(reg_e, reg_a, 0, 4, 2);
@@ -3808,7 +3879,7 @@ void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         LDREG(reg_h, reg_l, 0, 4, 2);
         break;
       case 0x66: /* LD H (IX+d) */
-        LDINDD(reg_h, reg_ixh, reg_ixl, ip2);
+        LDREG(reg_h, LOAD(IX_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x67: /* LD H A */
         LDREG(reg_h, reg_a, 0, 4, 2);
@@ -3832,34 +3903,34 @@ void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         LDREG(reg_l, reg_l, 0, 4, 2);
         break;
       case 0x6e: /* LD L (IX+d) */
-        LDINDD(reg_l, reg_ixh, reg_ixl, ip2);
+        LDREG(reg_l, LOAD(IX_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x6f: /* LD L A */
         LDREG(reg_l, reg_a, 0, 4, 2);
         break;
       case 0x70: /* LD (IX+d) B */
-        STREG(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2), reg_b, 8, 11, 3);
+        STREG(IX_WORD_OFF(ip2), reg_b, 8, 11, 3);
         break;
       case 0x71: /* LD (IX+d) C */
-        STREG(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2), reg_c, 8, 11, 3);
+        STREG(IX_WORD_OFF(ip2), reg_c, 8, 11, 3);
         break;
       case 0x72: /* LD (IX+d) D */
-        STREG(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2), reg_d, 8, 11, 3);
+        STREG(IX_WORD_OFF(ip2), reg_d, 8, 11, 3);
         break;
       case 0x73: /* LD (IX+d) E */
-        STREG(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2), reg_e, 8, 11, 3);
+        STREG(IX_WORD_OFF(ip2), reg_e, 8, 11, 3);
         break;
       case 0x74: /* LD (IX+d) H */
-        STREG(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2), reg_h, 8, 11, 3);
+        STREG(IX_WORD_OFF(ip2), reg_h, 8, 11, 3);
         break;
       case 0x75: /* LD (IX+d) L */
-        STREG(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2), reg_l, 8, 11, 3);
+        STREG(IX_WORD_OFF(ip2), reg_l, 8, 11, 3);
         break;
       case 0x76: /* HALT */
         HALT();
         break;
       case 0x77: /* LD (IX+d) A */
-        STREG(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2), reg_a, 8, 11, 3);
+        STREG(IX_WORD_OFF(ip2), reg_a, 8, 11, 3);
         break;
       case 0x78: /* LD A B */
         LDREG(reg_a, reg_b, 0, 4, 2);
@@ -3880,7 +3951,7 @@ void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         LDREG(reg_a, reg_l, 0, 4, 2);
         break;
       case 0x7e: /* LD A (IX+d) */
-        LDINDD(reg_a, reg_ixh, reg_ixl, ip2);
+        LDREG(reg_a, LOAD(IX_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x7f: /* LD A A */
         LDREG(reg_a, reg_a, 0, 4, 2);
@@ -3904,7 +3975,7 @@ void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         ADD(reg_l, 0, 4, 2);
         break;
       case 0x86: /* ADD (IX+d) */
-        ADD(LOAD(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2)), 8, 11, 3);
+        ADD(LOAD(IX_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x87: /* ADD A */
         ADD(reg_a, 0, 4, 2);
@@ -3928,7 +3999,7 @@ void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         ADC(reg_l, 0, 4, 2);
         break;
       case 0x8e: /* ADC (IX+d) */
-        ADC(LOAD(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2)), 8, 11, 3);
+        ADC(LOAD(IX_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x8f: /* ADC A */
         ADC(reg_a, 0, 4, 2);
@@ -3952,7 +4023,7 @@ void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         SUB(reg_l, 0, 4, 2);
         break;
       case 0x96: /* SUB (IX+d) */
-        SUB(LOAD(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2)), 8, 11, 3);
+        SUB(LOAD(IX_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x97: /* SUB A */
         SUB(reg_a, 0, 4, 2);
@@ -3976,7 +4047,7 @@ void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         SBC(reg_l, 0, 4, 2);
         break;
       case 0x9e: /* SBC (IX+d) */
-        SBC(LOAD(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2)), 8, 11, 3);
+        SBC(LOAD(IX_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x9f: /* SBC A */
         SBC(reg_a, 0, 4, 2);
@@ -4000,7 +4071,7 @@ void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         AND(reg_l, 0, 4, 2);
         break;
       case 0xa6: /* AND (IX+d) */
-        AND(LOAD(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2)), 8, 11, 3);
+        AND(LOAD(IX_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0xa7: /* AND A */
         AND(reg_a, 0, 4, 2);
@@ -4024,7 +4095,7 @@ void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         XOR(reg_l, 0, 4, 2);
         break;
       case 0xae: /* XOR (IX+d) */
-        XOR(LOAD(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2)), 8, 11, 3);
+        XOR(LOAD(IX_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0xaf: /* XOR A */
         XOR(reg_a, 0, 4, 2);
@@ -4048,7 +4119,7 @@ void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         OR(reg_l, 0, 4, 2);
         break;
       case 0xb6: /* OR (IX+d) */
-        OR(LOAD(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2)), 8, 11, 3);
+        OR(LOAD(IX_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0xb7: /* OR A */
         OR(reg_a, 0, 4, 2);
@@ -4072,7 +4143,7 @@ void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         CP(reg_l, 0, 4, 2);
         break;
       case 0xbe: /* CP (IX+d) */
-        CP(LOAD(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2)), 8, 11, 3);
+        CP(LOAD(IX_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0xbf: /* CP A */
         CP(reg_a, 0, 4, 2);
@@ -4089,8 +4160,17 @@ void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
       case 0xd1: /* POP DE */
         POP(reg_d, reg_e, 2);
         break;
+      case 0xd3: /* OUT A */
+        OUTA(ip2, 8, 7, 3);
+        break;
       case 0xd5: /* PUSH DE */
         PUSH(reg_d, reg_e, 2);
+        break;
+      case 0xd9: /* EXX */
+        EXX(12, 2);
+        break;
+      case 0xdb: /* IN A */
+        INA(ip2, 8, 7, 3);
         break;
       case 0xe1: /* POP IX */
         POP(reg_ixh, reg_ixl, 2);
@@ -4102,17 +4182,23 @@ void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         PUSH(reg_ixh, reg_ixl, 2);
         break;
       /* case 0xe9: LD PC IX */
-      case 0xeb: /* EX DE HL FIXME: Is this correct? */
+      case 0xeb:
         EXDEHL(8, 2);
         break;
       case 0xf1: /* POP AF */
         POP(reg_a, reg_f, 2);
+        break;
+      case 0xf3: /* DI */
+        DI(8, 2);
         break;
       case 0xf5: /* PUSH AF */
         PUSH(reg_a, reg_f, 2);
         break;
       case 0xf9: /* LD SP IX */
         LDSP(IX_WORD(), 4, 6, 2);
+        break;
+      case 0xfb: /* EI */
+        EI(8, 2);
         break;
       default:
         log_message(LOG_DEFAULT,
@@ -4283,582 +4369,662 @@ inline void opcode_ed(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
 
 void opcode_fd_cb(BYTE iip2, BYTE iip3, WORD iip23)
 {
-    switch (iip2) {
+    switch (iip3) {
       case 0x00: /* RLC (IY+d),B */
-        RLCXXREG(reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLCXXREG(reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x01: /* RLC (IY+d),C */
-        RLCXXREG(reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLCXXREG(reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x02: /* RLC (IY+d),D */
-        RLCXXREG(reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLCXXREG(reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x03: /* RLC (IY+d),E */
-        RLCXXREG(reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLCXXREG(reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x04: /* RLC (IY+d),H */
-        RLCXXREG(reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLCXXREG(reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x05: /* RLC (IY+d),L */
-        RLCXXREG(reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLCXXREG(reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x06: /* RLC (IY+d) */
-        RLCXX(IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLCXX(IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x07: /* RLC (IY+d),A */
-        RLCXXREG(reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLCXXREG(reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x08: /* RRC (IY+d),B */
-        RRCXXREG(reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRCXXREG(reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x09: /* RRC (IY+d),C */
-        RRCXXREG(reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRCXXREG(reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x0a: /* RRC (IY+d),D */
-        RRCXXREG(reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRCXXREG(reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x0b: /* RRC (IY+d),E */
-        RRCXXREG(reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRCXXREG(reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x0c: /* RRC (IY+d),H */
-        RRCXXREG(reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRCXXREG(reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x0d: /* RRC (IY+d),L */
-        RRCXXREG(reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRCXXREG(reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x0e: /* RRC (IY+d) */
-        RRCXX(IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRCXX(IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x0f: /* RRC (IY+d),A */
-        RRCXXREG(reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRCXXREG(reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x10: /* RL (IY+d),B */
-        RLXXREG(reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLXXREG(reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x11: /* RL (IY+d),C */
-        RLXXREG(reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLXXREG(reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x12: /* RL (IY+d),D */
-        RLXXREG(reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLXXREG(reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x13: /* RL (IY+d),E */
-        RLXXREG(reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLXXREG(reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x14: /* RL (IY+d),H */
-        RLXXREG(reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLXXREG(reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x15: /* RL (IY+d),L */
-        RLXXREG(reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLXXREG(reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x16: /* RL (IY+d) */
-        RLXX(IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLXX(IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x17: /* RL (IY+d),A */
-        RLXXREG(reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RLXXREG(reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x18: /* RR (IY+d),B */
-        RRXXREG(reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRXXREG(reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x19: /* RR (IY+d),C */
-        RRXXREG(reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRXXREG(reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x1a: /* RR (IY+d),D */
-        RRXXREG(reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRXXREG(reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x1b: /* RR (IY+d),E */
-        RRXXREG(reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRXXREG(reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x1c: /* RR (IY+d),H */
-        RRXXREG(reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRXXREG(reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x1d: /* RR (IY+d),L */
-        RRXXREG(reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRXXREG(reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x1e: /* RR (IY+d) */
-        RRXX(IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRXX(IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x1f: /* RR (IY+d),A */
-        RRXXREG(reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RRXXREG(reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x20: /* SLA (IY+d),B */
-        SLAXXREG(reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLAXXREG(reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x21: /* SLA (IY+d),C */
-        SLAXXREG(reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLAXXREG(reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x22: /* SLA (IY+d),D */
-        SLAXXREG(reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLAXXREG(reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x23: /* SLA (IY+d),E */
-        SLAXXREG(reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLAXXREG(reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x24: /* SLA (IY+d),H */
-        SLAXXREG(reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLAXXREG(reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x25: /* SLA (IY+d),L */
-        SLAXXREG(reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLAXXREG(reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x26: /* SLA (IY+d) */
-        SLAXX(IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLAXX(IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x27: /* SLA (IY+d),A */
-        SLAXXREG(reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLAXXREG(reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x28: /* SRA (IY+d),B */
-        SRAXXREG(reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRAXXREG(reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x29: /* SRA (IY+d),C */
-        SRAXXREG(reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRAXXREG(reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x2a: /* SRA (IY+d),D */
-        SRAXXREG(reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRAXXREG(reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x2b: /* SRA (IY+d),E */
-        SRAXXREG(reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRAXXREG(reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x2c: /* SRA (IY+d),H */
-        SRAXXREG(reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRAXXREG(reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x2d: /* SRA (IY+d),L */
-        SRAXXREG(reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRAXXREG(reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x2e: /* SRA (IY+d) */
-        SRAXX(IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRAXX(IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x2f: /* SRA (IY+d),A */
-        SRAXXREG(reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRAXXREG(reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x30: /* SLL (IY+d),B */
-        SLLXXREG(reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLLXXREG(reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x31: /* SLL (IY+d),C */
-        SLLXXREG(reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLLXXREG(reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x32: /* SLL (IY+d),D */
-        SLLXXREG(reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLLXXREG(reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x33: /* SLL (IY+d),E */
-        SLLXXREG(reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLLXXREG(reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x34: /* SLL (IY+d),H */
-        SLLXXREG(reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLLXXREG(reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x35: /* SLL (IY+d),L */
-        SLLXXREG(reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLLXXREG(reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x36: /* SLL (IY+d) */
-        SLLXX(IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLLXX(IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x37: /* SLL (IY+d),A */
-        SLLXXREG(reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SLLXXREG(reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x38: /* SRL (IY+d),B */
-        SRLXXREG(reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRLXXREG(reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x39: /* SRL (IY+d),C */
-        SRLXXREG(reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRLXXREG(reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x3a: /* SRL (IY+d),D */
-        SRLXXREG(reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRLXXREG(reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x3b: /* SRL (IY+d),E */
-        SRLXXREG(reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRLXXREG(reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x3c: /* SRL (IY+d),H */
-        SRLXXREG(reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRLXXREG(reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x3d: /* SRL (IY+d),L */
-        SRLXXREG(reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRLXXREG(reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x3e: /* SRL (IY+d) */
-        SRLXX(IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRLXX(IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x3f: /* SRL (IY+d),A */
-        SRLXXREG(reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SRLXXREG(reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
+        break;
+      case 0x40: /* BIT (IY+d) 0 */
+      case 0x41:
+      case 0x42:
+      case 0x43:
+      case 0x44:
+      case 0x45:
+      case 0x46:
+      case 0x47:
+        BIT(LOAD(IY_WORD_OFF(iip2)), 0, 8, 12, 4);
+        break;
+      case 0x48: /* BIT (IY+d) 1 */
+      case 0x49:
+      case 0x4a:
+      case 0x4b:
+      case 0x4c:
+      case 0x4d:
+      case 0x4e:
+      case 0x4f:
+        BIT(LOAD(IY_WORD_OFF(iip2)), 1, 8, 12, 4);
+        break;
+      case 0x50: /* BIT (IY+d) 2 */
+      case 0x51:
+      case 0x52:
+      case 0x53:
+      case 0x54:
+      case 0x55:
+      case 0x56:
+      case 0x57:
+        BIT(LOAD(IY_WORD_OFF(iip2)), 2, 8, 12, 4);
+        break;
+      case 0x58: /* BIT (IY+d) 3 */
+      case 0x59:
+      case 0x5a:
+      case 0x5b:
+      case 0x5c:
+      case 0x5d:
+      case 0x5e:
+      case 0x5f:
+        BIT(LOAD(IY_WORD_OFF(iip2)), 3, 8, 12, 4);
+        break;
+      case 0x60: /* BIT (IY+d) 4 */
+      case 0x61:
+      case 0x62:
+      case 0x63:
+      case 0x64:
+      case 0x65:
+      case 0x66:
+      case 0x67:
+        BIT(LOAD(IY_WORD_OFF(iip2)), 4, 8, 12, 4);
+        break;
+      case 0x68: /* BIT (IY+d) 5 */
+      case 0x69:
+      case 0x6a:
+      case 0x6b:
+      case 0x6c:
+      case 0x6d:
+      case 0x6e:
+      case 0x6f:
+        BIT(LOAD(IY_WORD_OFF(iip2)), 5, 8, 12, 4);
+        break;
+      case 0x70: /* BIT (IY+d) 6 */
+      case 0x71:
+      case 0x72:
+      case 0x73:
+      case 0x74:
+      case 0x75:
+      case 0x76:
+      case 0x77:
+        BIT(LOAD(IY_WORD_OFF(iip2)), 6, 8, 12, 4);
+        break;
+      case 0x78: /* BIT (IY+d) 7 */
+      case 0x79:
+      case 0x7a:
+      case 0x7b:
+      case 0x7c:
+      case 0x7d:
+      case 0x7e:
+      case 0x7f:
+        BIT(LOAD(IY_WORD_OFF(iip2)), 7, 8, 12, 4);
         break;
       case 0x80: /* RES (IY+d),B 0 */
-        RESXXREG(0, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(0, reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x81: /* RES (IY+d),C 0 */
-        RESXXREG(0, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(0, reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x82: /* RES (IY+d),D 0 */
-        RESXXREG(0, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(0, reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x83: /* RES (IY+d),E 0 */
-        RESXXREG(0, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(0, reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x84: /* RES (IY+d),H 0 */
-        RESXXREG(0, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(0, reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x85: /* RES (IY+d),L 0 */
-        RESXXREG(0, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(0, reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x86: /* RES (IY+d) 0 */
-        RESXX(0, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXX(0, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x87: /* RES (IY+d),A 0 */
-        RESXXREG(0, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(0, reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x88: /* RES (IY+d),B 1 */
-        RESXXREG(1, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(1, reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x89: /* RES (IY+d),C 1 */
-        RESXXREG(1, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(1, reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x8a: /* RES (IY+d),D 1 */
-        RESXXREG(1, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(1, reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x8b: /* RES (IY+d),E 1 */
-        RESXXREG(1, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(1, reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x8c: /* RES (IY+d),H 1 */
-        RESXXREG(1, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(1, reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x8d: /* RES (IY+d),L 1 */
-        RESXXREG(1, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(1, reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x8e: /* RES (IY+d) 1 */
-        RESXX(1, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXX(1, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x8f: /* RES (IY+d),A 1 */
-        RESXXREG(1, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(1, reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x90: /* RES (IY+d),B 2 */
-        RESXXREG(2, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(2, reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x91: /* RES (IY+d),C 2 */
-        RESXXREG(2, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(2, reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x92: /* RES (IY+d),D 2 */
-        RESXXREG(2, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(2, reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x93: /* RES (IY+d),E 2 */
-        RESXXREG(2, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(2, reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x94: /* RES (IY+d),H 2 */
-        RESXXREG(2, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(2, reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x95: /* RES (IY+d),L 2 */
-        RESXXREG(2, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(2, reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x96: /* RES (IY+d) 2 */
-        RESXX(2, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXX(2, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x97: /* RES (IY+d),A 2 */
-        RESXXREG(2, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(2, reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x98: /* RES (IY+d),B 3 */
-        RESXXREG(3, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(3, reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x99: /* RES (IY+d),C 3 */
-        RESXXREG(3, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(3, reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x9a: /* RES (IY+d),D 3 */
-        RESXXREG(3, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(3, reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x9b: /* RES (IY+d),E 3 */
-        RESXXREG(3, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(3, reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x9c: /* RES (IY+d),H 3 */
-        RESXXREG(3, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(3, reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x9d: /* RES (IY+d),L 3 */
-        RESXXREG(3, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(3, reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x9e: /* RES (IY+d) 3 */
-        RESXX(3, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXX(3, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0x9f: /* RES (IY+d),A 3 */
-        RESXXREG(3, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(3, reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xa0: /* RES (IY+d),B 4 */
-        RESXXREG(4, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(4, reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xa1: /* RES (IY+d),C 4 */
-        RESXXREG(4, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(4, reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xa2: /* RES (IY+d),D 4 */
-        RESXXREG(4, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(4, reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xa3: /* RES (IY+d),E 4 */
-        RESXXREG(4, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(4, reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xa4: /* RES (IY+d),H 4 */
-        RESXXREG(4, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(4, reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xa5: /* RES (IY+d),L 4 */
-        RESXXREG(4, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(4, reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xa6: /* RES (IY+d) 4 */
-        RESXX(4, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXX(4, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xa7: /* RES (IY+d),A 4 */
-        RESXXREG(4, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(4, reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xa8: /* RES (IY+d),B 5 */
-        RESXXREG(5, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(5, reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xa9: /* RES (IY+d),C 5 */
-        RESXXREG(5, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(5, reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xaa: /* RES (IY+d),D 5 */
-        RESXXREG(5, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(5, reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xab: /* RES (IY+d),E 5 */
-        RESXXREG(5, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(5, reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xac: /* RES (IY+d),H 5 */
-        RESXXREG(5, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(5, reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xad: /* RES (IY+d),L 5 */
-        RESXXREG(5, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(5, reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xae: /* RES (IY+d) 5 */
-        RESXX(5, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXX(5, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xaf: /* RES (IY+d),A 5 */
-        RESXXREG(5, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(5, reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xb0: /* RES (IY+d),B 6 */
-        RESXXREG(6, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(6, reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xb1: /* RES (IY+d),C 6 */
-        RESXXREG(6, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(6, reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xb2: /* RES (IY+d),D 6 */
-        RESXXREG(6, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(6, reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xb3: /* RES (IY+d),E 6 */
-        RESXXREG(6, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(6, reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xb4: /* RES (IY+d),H 6 */
-        RESXXREG(6, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(6, reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xb5: /* RES (IY+d),L 6 */
-        RESXXREG(6, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(6, reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xb6: /* RES (IY+d) 6 */
-        RESXX(6, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXX(6, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xb7: /* RES (IY+d),A 6 */
-        RESXXREG(6, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(6, reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xb8: /* RES (IY+d),B 7 */
-        RESXXREG(7, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(7, reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xb9: /* RES (IY+d),C 7 */
-        RESXXREG(7, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(7, reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xba: /* RES (IY+d),D 7 */
-        RESXXREG(7, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(7, reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xbb: /* RES (IY+d),E 7 */
-        RESXXREG(7, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(7, reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xbc: /* RES (IY+d),H 7 */
-        RESXXREG(7, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(7, reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xbd: /* RES (IY+d),L 7 */
-        RESXXREG(7, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(7, reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xbe: /* RES (IY+d) 7 */
-        RESXX(7, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXX(7, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xbf: /* RES (IY+d),A 7 */
-        RESXXREG(7, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        RESXXREG(7, reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xc0: /* SET (IY+d),B 0 */
-        SETXXREG(0, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(0, reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xc1: /* SET (IY+d),C 0 */
-        SETXXREG(0, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(0, reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xc2: /* SET (IY+d),D 0 */
-        SETXXREG(0, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(0, reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xc3: /* SET (IY+d),E 0 */
-        SETXXREG(0, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(0, reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xc4: /* SET (IY+d),H 0 */
-        SETXXREG(0, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(0, reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xc5: /* SET (IY+d),L 0 */
-        SETXXREG(0, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(0, reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xc6: /* SET (IY+d) 0 */
-        SETXX(0, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXX(0, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xc7: /* SET (IY+d),A 0 */
-        SETXXREG(0, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(0, reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xc8: /* SET (IY+d),B 1 */
-        SETXXREG(1, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(1, reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xc9: /* SET (IY+d),C 1 */
-        SETXXREG(1, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(1, reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xca: /* SET (IY+d),D 1 */
-        SETXXREG(1, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(1, reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xcb: /* SET (IY+d),E 1 */
-        SETXXREG(1, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(1, reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xcc: /* SET (IY+d),H 1 */
-        SETXXREG(1, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(1, reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xcd: /* SET (IY+d),L 1 */
-        SETXXREG(1, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(1, reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xce: /* SET (IY+d) 1 */
-        SETXX(1, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXX(1, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xcf: /* SET (IY+d),A 1 */
-        SETXXREG(1, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(1, reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xd0: /* SET (IY+d),B 2 */
-        SETXXREG(2, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(2, reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xd1: /* SET (IY+d),C 2 */
-        SETXXREG(2, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(2, reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xd2: /* SET (IY+d),D 2 */
-        SETXXREG(2, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(2, reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xd3: /* SET (IY+d),E 2 */
-        SETXXREG(2, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(2, reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xd4: /* SET (IY+d),H 2 */
-        SETXXREG(2, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(2, reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xd5: /* SET (IY+d),L 2 */
-        SETXXREG(2, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(2, reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xd6: /* SET (IY+d) 2 */
-        SETXX(2, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXX(2, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xd7: /* SET (IY+d),A 2 */
-        SETXXREG(2, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(2, reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xd8: /* SET (IY+d),B 3 */
-        SETXXREG(3, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(3, reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xd9: /* SET (IY+d),C 3 */
-        SETXXREG(3, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(3, reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xda: /* SET (IY+d),D 3 */
-        SETXXREG(3, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(3, reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xdb: /* SET (IY+d),E 3 */
-        SETXXREG(3, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(3, reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xdc: /* SET (IY+d),H 3 */
-        SETXXREG(3, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(3, reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xdd: /* SET (IY+d),L 3 */
-        SETXXREG(3, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(3, reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xde: /* SET (IY+d) 3 */
-        SETXX(3, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXX(3, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xdf: /* SET (IY+d),A 3 */
-        SETXXREG(3, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(3, reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xe0: /* SET (IY+d),B 4 */
-        SETXXREG(4, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(4, reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xe1: /* SET (IY+d),C 4 */
-        SETXXREG(4, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(4, reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xe2: /* SET (IY+d),D 4 */
-        SETXXREG(4, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(4, reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xe3: /* SET (IY+d),E 4 */
-        SETXXREG(4, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(4, reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xe4: /* SET (IY+d),H 4 */
-        SETXXREG(4, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(4, reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xe5: /* SET (IY+d),L 4 */
-        SETXXREG(4, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(4, reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xe6: /* SET (IY+d) 4 */
-        SETXX(4, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXX(4, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xe7: /* SET (IY+d),A 4 */
-        SETXXREG(4, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(4, reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xe8: /* SET (IY+d),B 5 */
-        SETXXREG(5, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(5, reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xe9: /* SET (IY+d),C 5 */
-        SETXXREG(5, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(5, reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xea: /* SET (IY+d),D 5 */
-        SETXXREG(5, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(5, reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xeb: /* SET (IY+d),E 5 */
-        SETXXREG(5, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(5, reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xec: /* SET (IY+d),H 5 */
-        SETXXREG(5, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(5, reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xed: /* SET (IY+d),L 5 */
-        SETXXREG(5, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(5, reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xee: /* SET (IY+d) 5 */
-        SETXX(5, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXX(5, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xef: /* SET (IY+d),A 5 */
-        SETXXREG(5, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(5, reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xf0: /* SET (IY+d),B 6 */
-        SETXXREG(6, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(6, reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xf1: /* SET (IY+d),C 6 */
-        SETXXREG(6, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(6, reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xf2: /* SET (IY+d),D 6 */
-        SETXXREG(6, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(6, reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xf3: /* SET (IY+d),E 6 */
-        SETXXREG(6, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(6, reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xf4: /* SET (IY+d),H 6 */
-        SETXXREG(6, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(6, reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xf5: /* SET (IY+d),L 6 */
-        SETXXREG(6, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(6, reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xf6: /* SET (IY+d) 6 */
-        SETXX(6, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXX(6, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xf7: /* SET (IY+d),A 6 */
-        SETXXREG(6, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(6, reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xf8: /* SET (IY+d),B 7 */
-        SETXXREG(7, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(7, reg_b, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xf9: /* SET (IY+d),C 7 */
-        SETXXREG(7, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(7, reg_c, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xfa: /* SET (IY+d),D 7 */
-        SETXXREG(7, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(7, reg_d, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xfb: /* SET (IY+d),E 7 */
-        SETXXREG(7, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(7, reg_e, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xfc: /* SET (IY+d),H 7 */
-        SETXXREG(7, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(7, reg_h, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xfd: /* SET (IY+d),L 7 */
-        SETXXREG(7, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(7, reg_l, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xfe: /* SET (IY+d) 7 */
-        SETXX(7, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXX(7, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       case 0xff: /* SET (IY+d),A 7 */
-        SETXXREG(7, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        SETXXREG(7, reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       default:
         log_message(LOG_DEFAULT,
@@ -4964,6 +5130,9 @@ void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
       case 0x26: /* LD H # */
         LDREG(reg_h, ip2, 4, 5, 3);
         break;
+      case 0x27: /* DAA */
+        DAA(8, 2);
+        break;
       case 0x28: /* JR Z */
         BRANCH(LOCAL_ZERO(), ip2, 3);
         break;
@@ -4985,6 +5154,9 @@ void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
       case 0x2e: /* LD L # */
         LDREG(reg_l, ip2, 4, 5, 3);
         break;
+      case 0x2f: /* CPL */
+        CPL(8, 2);
+        break;
       case 0x30: /* JR NC */
         BRANCH(!LOCAL_CARRY(), ip2, 3);
         break;
@@ -4998,13 +5170,13 @@ void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         DECINC(reg_sp++, 10, 2);
         break;
       case 0x34: /* INC (IY+d) */
-        INCXXIND(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2), 4, 7, 12, 3);
+        INCXXIND(IY_WORD_OFF(ip2), 4, 7, 12, 3);
         break;
       case 0x35: /* DEC (IY+d) */
-        DECXXIND(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2), 4, 7, 12, 3);
+        DECXXIND(IY_WORD_OFF(ip2), 4, 7, 12, 3);
         break;
       case 0x36: /* LD (IY+d) # */
-        STREG(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2), ip3, 8, 11, 4);
+        STREG(IY_WORD_OFF(ip2), ip3, 8, 11, 4);
         break;
       case 0x37: /* SCF */
         SCF(8, 2);
@@ -5052,7 +5224,7 @@ void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         LDREG(reg_b, reg_l, 0, 4, 2);
         break;
       case 0x46: /* LD B (IY+d) */
-        LDINDD(reg_b, reg_iyh, reg_iyl, ip2);
+        LDREG(reg_b, LOAD(IY_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x47: /* LD B A */
         LDREG(reg_b, reg_a, 0, 4, 2);
@@ -5076,7 +5248,7 @@ void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         LDREG(reg_c, reg_l, 0, 4, 2);
         break;
       case 0x4e: /* LD C (IY+d) */
-        LDINDD(reg_c, reg_iyh, reg_iyl, ip2);
+        LDREG(reg_c, LOAD(IY_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x4f: /* LD C A */
         LDREG(reg_c, reg_a, 0, 4, 2);
@@ -5100,7 +5272,7 @@ void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         LDREG(reg_d, reg_l, 0, 4, 2);
         break;
       case 0x56: /* LD D (IY+d) */
-        LDINDD(reg_d, reg_iyh, reg_iyl, ip2);
+        LDREG(reg_d, LOAD(IY_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x57: /* LD D A */
         LDREG(reg_d, reg_a, 0, 4, 2);
@@ -5124,7 +5296,7 @@ void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         LDREG(reg_e, reg_l, 0, 4, 2);
         break;
       case 0x5e: /* LD E (IY+d) */
-        LDINDD(reg_e, reg_iyh, reg_iyl, ip2);
+        LDREG(reg_e, LOAD(IY_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x5f: /* LD E A */
         LDREG(reg_e, reg_a, 0, 4, 2);
@@ -5148,7 +5320,7 @@ void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         LDREG(reg_h, reg_l, 0, 4, 2);
         break;
       case 0x66: /* LD H (IY+d) */
-        LDINDD(reg_h, reg_iyh, reg_iyl, ip2);
+        LDREG(reg_h, LOAD(IY_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x67: /* LD H A */
         LDREG(reg_h, reg_a, 0, 4, 2);
@@ -5172,34 +5344,34 @@ void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         LDREG(reg_l, reg_l, 0, 4, 2);
         break;
       case 0x6e: /* LD L (IY+d) */
-        LDINDD(reg_l, reg_iyh, reg_iyl, ip2);
+        LDREG(reg_l, LOAD(IY_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x6f: /* LD L A */
         LDREG(reg_l, reg_a, 0, 4, 2);
         break;
       case 0x70: /* LD (IY+d) B */
-        STREG(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2), reg_b, 8, 11, 3);
+        STREG(IY_WORD_OFF(ip2), reg_b, 8, 11, 3);
         break;
       case 0x71: /* LD (IY+d) C */
-        STREG(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2), reg_c, 8, 11, 3);
+        STREG(IY_WORD_OFF(ip2), reg_c, 8, 11, 3);
         break;
       case 0x72: /* LD (IY+d) D */
-        STREG(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2), reg_d, 8, 11, 3);
+        STREG(IY_WORD_OFF(ip2), reg_d, 8, 11, 3);
         break;
       case 0x73: /* LD (IY+d) E */
-        STREG(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2), reg_e, 8, 11, 3);
+        STREG(IY_WORD_OFF(ip2), reg_e, 8, 11, 3);
         break;
       case 0x74: /* LD (IY+d) H */
-        STREG(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2), reg_h, 8, 11, 3);
+        STREG(IY_WORD_OFF(ip2), reg_h, 8, 11, 3);
         break;
       case 0x75: /* LD (IY+d) L */
-        STREG(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2), reg_l, 8, 11, 3);
+        STREG(IY_WORD_OFF(ip2), reg_l, 8, 11, 3);
         break;
       case 0x76: /* HALT */
         HALT();
         break;
       case 0x77: /* LD (IY+d) A */
-        STREG(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2), reg_a, 8, 11, 3);
+        STREG(IY_WORD_OFF(ip2), reg_a, 8, 11, 3);
         break;
       case 0x78: /* LD A B */
         LDREG(reg_a, reg_b, 0, 4, 2);
@@ -5220,7 +5392,7 @@ void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         LDREG(reg_a, reg_l, 0, 4, 2);
         break;
       case 0x7e: /* LD A (IY+d) */
-        LDINDD(reg_a, reg_iyh, reg_iyl, ip2);
+        LDREG(reg_a, LOAD(IY_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x7f: /* LD A A */
         LDREG(reg_a, reg_a, 0, 4, 2);
@@ -5244,7 +5416,7 @@ void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         ADD(reg_l, 0, 4, 2);
         break;
       case 0x86: /* ADD (IY+d) */
-        ADD(LOAD(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2)), 8, 11, 3);
+        ADD(LOAD(IY_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x87: /* ADD A */
         ADD(reg_a, 0, 4, 2);
@@ -5268,7 +5440,7 @@ void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         ADC(reg_l, 0, 4, 2);
         break;
       case 0x8e: /* ADC (IY+d) */
-        ADC(LOAD(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2)), 8, 11, 3);
+        ADC(LOAD(IY_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x8f: /* ADC A */
         ADC(reg_a, 0, 4, 2);
@@ -5292,7 +5464,7 @@ void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         SUB(reg_l, 0, 4, 2);
         break;
       case 0x96: /* SUB (IY+d) */
-        SUB(LOAD(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2)), 8, 11, 3);
+        SUB(LOAD(IY_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x97: /* SUB A */
         SUB(reg_a, 0, 4, 2);
@@ -5316,7 +5488,7 @@ void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         SBC(reg_l, 0, 4, 2);
         break;
       case 0x9e: /* SBC (IY+d) */
-        SBC(LOAD(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2)), 8, 11, 3);
+        SBC(LOAD(IY_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0x9f: /* SBC A */
         SBC(reg_a, 0, 4, 2);
@@ -5340,7 +5512,7 @@ void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         AND(reg_l, 0, 4, 2);
         break;
       case 0xa6: /* AND (IY+d) */
-        AND(LOAD(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2)), 8, 11, 3);
+        AND(LOAD(IY_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0xa7: /* AND A */
         AND(reg_a, 0, 4, 2);
@@ -5364,7 +5536,7 @@ void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         XOR(reg_l, 0, 4, 2);
         break;
       case 0xae: /* XOR (IY+d) */
-        XOR(LOAD(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2)), 8, 11, 3);
+        XOR(LOAD(IY_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0xaf: /* XOR A */
         XOR(reg_a, 0, 4, 2);
@@ -5388,7 +5560,7 @@ void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         OR(reg_l, 0, 4, 2);
         break;
       case 0xb6: /* OR (IY+d) */
-        OR(LOAD(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2)), 8, 11, 3);
+        OR(LOAD(IY_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0xb7: /* OR A */
         OR(reg_a, 0, 4, 2);
@@ -5412,7 +5584,7 @@ void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         CP(reg_l, 0, 4, 2);
         break;
       case 0xbe: /* CP (IY+d) */
-        CP(LOAD(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2)), 8, 11, 3);
+        CP(LOAD(IY_WORD_OFF(ip2)), 8, 11, 3);
         break;
       case 0xbf: /* CP A */
         CP(reg_a, 0, 4, 2);
@@ -5429,8 +5601,17 @@ void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
       case 0xd1: /* POP DE */
         POP(reg_d, reg_e, 2);
         break;
+      case 0xd3: /* OUT A */
+        OUTA(ip2, 8, 7, 3);
+        break;
       case 0xd5: /* PUSH DE */
         PUSH(reg_d, reg_e, 2);
+        break;
+      case 0xd9: /* EXX */
+        EXX(12, 2);
+        break;
+      case 0xdb: /* IN A */
+        INA(ip2, 8, 7, 3);
         break;
       case 0xe1: /* POP IY */
         POP(reg_iyh, reg_iyl, 2);
@@ -5442,17 +5623,23 @@ void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         PUSH(reg_iyh, reg_iyl, 2);
         break;
       /* case 0xe9: LD PC IY */
-      case 0xeb: /* EX DE HL FIXME: Is this correct? */
+      case 0xeb:
         EXDEHL(8, 2);
         break;
       case 0xf1: /* POP AF */
         POP(reg_a, reg_f, 2);
+        break;
+      case 0xf3: /* DI */
+        DI(8, 2);
         break;
       case 0xf5: /* PUSH AF */
         PUSH(reg_a, reg_f, 2);
         break;
       case 0xf9: /* LD SP IY */
         LDSP(IY_WORD(), 4, 6, 2);
+        break;
+      case 0xfb: /* EI */
+        EI(8, 2);
         break;
       default:
         log_message(LOG_DEFAULT,
@@ -5500,10 +5687,10 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
 
 #ifdef TRACE
         log_message(LOG_DEFAULT,
-                    "%i PC %04x A%02x F%02x B%02x C%02x D%02x E%02x "
-                    "H%02x L%02x SP%04x OP %02x %02x %02x %02x",
+                    "%i P%04x A%02x F%02x B%02x C%02x D%02x E%02x "
+                    "H%02x L%02x S%04x X%04x Y%04x O%02x %02x %02x %02x",
                     CLK, z80_reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
-                    reg_h, reg_l, reg_sp, p0, p1, p2, p3);
+                    reg_h, reg_l, reg_sp, IX_WORD(), IY_WORD(), p0, p1, p2, p3);
 #endif
 
         switch (p0) {
@@ -5625,7 +5812,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             LDREG(reg_h, p1, 4, 3, 2);
             break;
           case 0x27: /* DAA */
-            DAA();
+            DAA(4, 1);
             break;
           case 0x28: /* JR Z */
             BRANCH(LOCAL_ZERO(), p1, 2);
@@ -5649,7 +5836,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             LDREG(reg_l, p1, 4, 3, 2);
             break;
           case 0x2f: /* CPL */
-            CPL();
+            CPL(4, 1);
             break;
           case 0x30: /* JR NC */
             BRANCH(!LOCAL_CARRY(), p1, 2);
@@ -6142,7 +6329,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             JMP_COND(p12, !LOCAL_CARRY(), 10, 10);
             break;
           case 0xd3: /* OUT A */
-            OUTA(p1);
+            OUTA(p1, 4, 7, 2);
             break;
           case 0xd4: /* CALL NC */
             CALL_COND(p12, !LOCAL_CARRY(), 10, 10, 3);
@@ -6160,13 +6347,13 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             RET_COND(LOCAL_CARRY());
             break;
           case 0xd9: /* EXX */
-            EXX();
+            EXX(8, 1);
             break;
           case 0xda: /* JP C */
             JMP_COND(p12, LOCAL_CARRY(), 10, 10);
             break;
           case 0xdb: /* IN A */
-            INA(p1);
+            INA(p1, 4, 7, 2);
             break;
           case 0xdc: /* CALL C */
             CALL_COND(p12, LOCAL_CARRY(), 10, 10, 3);
@@ -6244,7 +6431,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             JMP_COND(p12, !LOCAL_SIGN(), 10, 10);
             break;
           case 0xf3: /* DI */
-            DI();
+            DI(4, 1);
             break;
           case 0xf4: /* CALL P */
             CALL_COND(p12, !LOCAL_SIGN(), 10, 10, 3);
@@ -6268,7 +6455,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             JMP_COND(p12, LOCAL_SIGN(), 10, 10);
             break;
           case 0xfb: /* EI */
-            EI();
+            EI(4, 1);
             break;
           case 0xfc: /* CALL M */
             CALL_COND(p12, LOCAL_SIGN(), 10, 10, 3);
