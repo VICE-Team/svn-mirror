@@ -72,9 +72,6 @@ static void vdc_set_geometry(void)
 
     raster = &vdc.raster;
 
-    /* FIXME? y should be vdc_resources.double_size_enabled */
-    /*raster_enable_double_size(raster, 0, 0);*/
-
     screen_width = VDC_SCREEN_WIDTH;
     screen_height = vdc.screen_height;
 
@@ -120,10 +117,6 @@ printf("LD: %03i FD: %03i\n", last_displayed_line, first_displayed_line);
         raster_set_pixel_size(raster, 1, 2, VIDEO_RENDER_RGB_1X2);
     } else
         raster_set_pixel_size(raster, 1, 1, VIDEO_RENDER_RGB_1X1);
-
-
-    raster_enable_double_size(raster,
-                              0, vdc_resources.double_size_enabled);
 
     raster->display_ystart = vdc_25row_start_line;
     raster->display_ystop = vdc_25row_stop_line;
@@ -207,7 +200,6 @@ raster_t *vdc_init(void)
     vdc.force_repaint = 0;
 
     vdc_draw_init();
-    vdc_draw_set_double_size(0);
 
     vdc.initialized = 1;
 

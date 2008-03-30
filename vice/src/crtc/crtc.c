@@ -438,14 +438,8 @@ raster_t *crtc_init(void)
     crtc_update_disp_char();
     crtc_reset_screen_ptr();
 
-    crtc_draw_init ();
-#ifdef USE_XF86_EXTENSIONS
-    crtc_draw_set_double_size(fullscreen_is_enabled
-                              ? crtc_resources.fullscreen_double_size_enabled
-                              : crtc_resources.double_size_enabled);
-#else
-    crtc_draw_set_double_size(crtc_resources.double_size_enabled);
-#endif
+    crtc_draw_init();
+
     crtc_reset();
 /*
     raster->display_ystart = CRTC_SCREEN_BORDERHEIGHT;
@@ -518,7 +512,7 @@ int crtc_load_palette (const char *name)
 
 
 /* Set proper functions and constants for the current video settings. */
-void crtc_resize (void)
+void crtc_resize(void)
 {
     int double_w, double_h, mode;
 
@@ -536,9 +530,9 @@ void crtc_resize (void)
                : crtc_resources.double_size_enabled) : 0;
 #else
     double_w = (crtc.screen_width <= 400)
-                ? crtc_resources.double_size_enabled : 0;
+               ? crtc_resources.double_size_enabled : 0;
     double_h = (crtc.screen_height <= 350)
-                ? crtc_resources.double_size_enabled : 0;
+               ? crtc_resources.double_size_enabled : 0;
 #endif
 
 	if (double_h)
@@ -548,14 +542,8 @@ void crtc_resize (void)
 	}
 	else mode = VIDEO_RENDER_RGB_1X1;
 
-    if (! crtc.initialized)
+    if (!crtc.initialized)
         return;
-
-#ifdef USE_XF86_EXTENSIONS
-    if (!fullscreen_is_enabled)
-#endif
-        raster_enable_double_size(&crtc.raster, 0,
-                                  crtc_resources.double_size_enabled);
 
     if (double_h) {
         if (crtc.raster.viewport.pixel_size.height == 1
@@ -609,16 +597,14 @@ void crtc_resize (void)
         }
     }
 
-    crtc_draw_set_double_size((double_h ? 1 : 0) | (double_w ? 2 : 0));
-
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled)
-	    raster_enable_double_scan(&crtc.raster,
-		                          crtc_resources.fullscreen_double_scan_enabled);
-	else
+        raster_enable_double_scan(&crtc.raster,
+                                  crtc_resources.fullscreen_double_scan_enabled);
+        else
 #endif
-	    raster_enable_double_scan(&crtc.raster,
-	                              crtc_resources.double_scan_enabled);
+        raster_enable_double_scan(&crtc.raster,
+                                  crtc_resources.double_scan_enabled);
 }
 
 

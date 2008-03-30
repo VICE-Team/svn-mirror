@@ -49,6 +49,7 @@
 #include "ted-cmdline-options.h"
 #include "ted-color.h"
 #include "ted-draw.h"
+#include "ted-fetch.h"
 #include "ted-mem.h"
 #include "ted-resources.h"
 #include "ted-snapshot.h"
@@ -267,105 +268,6 @@ static int init_raster(void)
     return 0;
 }
 
-/* Emulate a matrix line fetch, `num' bytes starting from `offs'.  This takes
-   care of the 10-bit counter wraparound.  */
-inline void ted_fetch_matrix(int offs, int num)
-{
-    BYTE *p;
-    int start_char;
-    int c;
-
-    /* Matrix fetches are done during Phi2, the fabulous "bad lines" */
-    p = ted.screen_ptr;
-
-    start_char = (ted.mem_counter + offs) & 0x3ff;
-    c = 0x3ff - start_char + 1;
-
-    if (c >= num) {
-        memcpy(ted.vbuf + offs, p + start_char, num);
-    } else {
-        memcpy(ted.vbuf + offs, p + start_char, c);
-        memcpy(ted.vbuf + offs + c, p, num - c);
-    }
-    memcpy(ted.cbuf, ted.cbuf_tmp, TED_SCREEN_TEXTCOLS);
-}
-
-inline void ted_fetch_color(int offs, int num)
-{
-    int start_char;
-    int c;
-
-    start_char = (ted.memptr_col + offs) & 0x3ff;
-    c = 0x3ff - start_char + 1;
-
-    if (c >= num) {
-        memcpy(ted.cbuf_tmp + offs,  ted.color_ptr + start_char, num);
-    } else {
-        memcpy(ted.cbuf_tmp + offs,  ted.color_ptr + start_char, c);
-        memcpy(ted.cbuf_tmp + offs + c, ted.color_ptr, num - c);
-    }
-}
-
-/* If we are on a bad line, do the DMA.  Return nonzero if cycles have been
-   stolen.  */
-inline static int do_matrix_fetch(CLOCK sub)
-{
-    if (!ted.memory_fetch_done) {
-        raster_t *raster;
-
-        raster = &ted.raster;
-
-        ted.memory_fetch_done = 1;
-        ted.mem_counter = ted.memptr;
-
-        if ((raster->current_line & 7)
-            == (unsigned int)((raster->ysmooth + 1) & 7)
-            && ted.allow_bad_lines
-            && raster->current_line >= ted.first_dma_line
-            && raster->current_line <= ted.last_dma_line) {
-            ted_fetch_matrix(0, TED_SCREEN_TEXTCOLS);
-
-            raster->draw_idle_state = 0;
-            raster->ycounter = 0;
-
-            ted.idle_state = 0;
-            ted.idle_data_location = IDLE_NONE;
-            ted.ycounter_reset_checked = 1;
-            ted.memory_fetch_done = 2;
-
-            maincpu_steal_cycles(ted.fetch_clk,
-                                 TED_SCREEN_TEXTCOLS + 3 - sub, 0);
-
-            ted.bad_line = 1;
-            return 1;
-        }
-
-        if ((raster->current_line & 7) == (unsigned int)raster->ysmooth
-            && ted.allow_bad_lines
-            && raster->current_line >= ted.first_dma_line
-            && raster->current_line <= ted.last_dma_line) {
-            ted_fetch_color(0, TED_SCREEN_TEXTCOLS);
-/*
-            raster->draw_idle_state = 0;
-            raster->ycounter = 0;
-
-            ted.idle_state = 0;
-            ted.idle_data_location = IDLE_NONE;
-            ted.ycounter_reset_checked = 1;
-            ted.memory_fetch_done = 2;
-*/
-            maincpu_steal_cycles(ted.fetch_clk,
-                                 TED_SCREEN_TEXTCOLS + 3 - sub, 0);
-
-/*            ted.bad_line = 1;*/
-            return 1;
-        }
-
-    }
-
-    return 0;
-}
-
 /* Initialize the TED emulation.  */
 raster_t *ted_init(void)
 {
@@ -395,17 +297,6 @@ raster_t *ted_init(void)
     ted_update_memory_ptrs(0);
 
     ted_draw_init();
-#ifdef VIC_II_NEED_2X
-#ifdef USE_XF86_EXTENSIONS
-    ted_draw_set_double_size(fullscreen_is_enabled
-                             ? ted_resources.fullscreen_double_size_enabled
-                             : ted_resources.double_size_enabled);
-#else
-    ted_draw_set_double_size(ted_resources.double_size_enabled);
-#endif
-#else
-    ted_draw_set_double_size(0);
-#endif
 
     ted.initialized = 1;
 
@@ -862,96 +753,6 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
     alarm_set(ted.raster_draw_alarm, ted.draw_clk);
 }
 
-inline static void handle_fetch_matrix(long offset, CLOCK sub,
-                                       CLOCK *write_offset)
-{
-    raster_t *raster;
-
-    *write_offset = 0;
-
-    raster = &ted.raster;
-
-    do_matrix_fetch(sub);
-
-    if (raster->current_line < ted.first_dma_line) {
-        ted.fetch_clk += ((ted.first_dma_line
-                         - raster->current_line)
-                         * ted.cycles_per_line);
-    } else {
-        if (raster->current_line >= ted.last_dma_line)
-            ted.fetch_clk += ((ted.screen_height
-                             - raster->current_line
-                             + ted.first_dma_line)
-                             * ted.cycles_per_line);
-        else
-            ted.fetch_clk += ted.cycles_per_line;
-    }
-
-    alarm_set(ted.raster_fetch_alarm, ted.fetch_clk);
-
-    return;
-}
-
-/* Handle matrix fetch events.  FIXME: could be made slightly faster.  */
-void ted_raster_fetch_alarm_handler(CLOCK offset)
-{
-    CLOCK last_opcode_first_write_clk, last_opcode_last_write_clk;
-
-    /* This kludgy thing is used to emulate the behavior of the 6510 when BA
-       goes low.  When BA goes low, every read access stops the processor
-       until BA is high again; write accesses happen as usual instead.  */
-
-    if (offset > 0) {
-        switch (OPINFO_NUMBER(last_opcode_info)) {
-          case 0:
-            /* In BRK, IRQ and NMI the 3rd, 4th and 5th cycles are write
-               accesses, while the 1st, 2nd, 6th and 7th are read accesses.  */
-            last_opcode_first_write_clk = maincpu_clk - 5;
-            last_opcode_last_write_clk = maincpu_clk - 3;
-            break;
-
-          case 0x20:
-            /* In JSR, the 4th and 5th cycles are write accesses, while the
-               1st, 2nd, 3rd and 6th are read accesses.  */
-            last_opcode_first_write_clk = maincpu_clk - 3;
-            last_opcode_last_write_clk = maincpu_clk - 2;
-            break;
-
-          default:
-            /* In all the other opcodes, all the write accesses are the last
-               ones.  */
-            if (maincpu_num_write_cycles() != 0) {
-                last_opcode_last_write_clk = maincpu_clk - 1;
-                last_opcode_first_write_clk = maincpu_clk
-                                              - maincpu_num_write_cycles();
-            } else {
-                last_opcode_first_write_clk = (CLOCK) 0;
-                last_opcode_last_write_clk = last_opcode_first_write_clk;
-            }
-            break;
-        }
-    } else { /* offset <= 0, i.e. offset == 0 */
-        /* If we are called with no offset, we don't have to care about write
-           accesses.  */
-        last_opcode_first_write_clk = last_opcode_last_write_clk = 0;
-    }
-
-    {
-        CLOCK sub;
-        CLOCK write_offset;
-
-        if (ted.fetch_clk < last_opcode_first_write_clk
-            || ted.fetch_clk > last_opcode_last_write_clk)
-            sub = 0;
-        else
-            sub = last_opcode_last_write_clk - ted.fetch_clk + 1;
-
-        handle_fetch_matrix(offset, sub, &write_offset);
-        last_opcode_first_write_clk += write_offset;
-        last_opcode_last_write_clk += write_offset;
-    }
-}
-
 /* If necessary, emulate a raster compare IRQ. This is called when the raster
    line counter matches the value stored in the raster line register.  */
 static void ted_raster_irq_alarm_handler(CLOCK offset)
@@ -979,15 +780,6 @@ void ted_resize(void)
 
 #ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
-    if (!fullscreen_is_enabled)
-#endif
-        raster_enable_double_size(&ted.raster,
-                                  ted_resources.double_size_enabled,
-                                  ted_resources.double_size_enabled);
-#endif
-
-#ifdef VIC_II_NEED_2X
-#ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled
         ? ted_resources.fullscreen_double_size_enabled
         : ted_resources.double_size_enabled)
@@ -1000,15 +792,13 @@ void ted_resize(void)
     {
         if (ted.raster.viewport.pixel_size.width == 1
             && ted.raster.viewport.canvas != NULL) {
-          raster_set_pixel_size(&ted.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
-          raster_resize_viewport(&ted.raster,
-                                 ted.raster.viewport.width * 2,
-                                 ted.raster.viewport.height * 2);
+            raster_set_pixel_size(&ted.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
+            raster_resize_viewport(&ted.raster,
+                                   ted.raster.viewport.width * 2,
+                                   ted.raster.viewport.height * 2);
         } else {
             raster_set_pixel_size(&ted.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
         }
-
-        ted_draw_set_double_size(1);
     } else {
         if (ted.raster.viewport.pixel_size.width == 2
             && ted.raster.viewport.canvas != NULL) {
@@ -1019,8 +809,6 @@ void ted_resize(void)
         } else {
             raster_set_pixel_size(&ted.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
         }
-
-        ted_draw_set_double_size(0);
     }
 
 #ifdef VIC_II_NEED_2X
