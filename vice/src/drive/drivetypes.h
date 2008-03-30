@@ -28,7 +28,6 @@
 #ifndef _DRIVETYPES_H
 #define _DRIVETYPES_H
 
-#include "6510core.h"
 #include "ciatimer.h"
 #include "drive.h"
 #include "log.h"
@@ -90,7 +89,7 @@ typedef struct drivecpu_context_s {
     int d_bank_limit;     /* init to -1 */
 
     /* Information about the last executed opcode.  */
-    opcode_info_t last_opcode_info;
+    DWORD last_opcode_info;
 
     /* Public copy of the registers.  */
     mos6510_regs_t cpu_regs;

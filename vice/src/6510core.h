@@ -28,11 +28,6 @@
 #ifndef _6510CORE_H
 #define _6510CORE_H
 
-#include "types.h"
-
-/* Information for one executed opcode.  */
-typedef DWORD opcode_info_t;
-
 /* Masks to extract information. */
 #define OPINFO_DELAYS_INTERRUPT_MSK     (1 << 8)
 #define OPINFO_DISABLES_IRQ_MSK         (1 << 9)
@@ -66,27 +61,27 @@ typedef DWORD opcode_info_t;
 
 /* Set whether the opcode causes the 1-cycle interrupt delay according to
    `delay'.  */
-#define OPINFO_SET_DELAYS_INTERRUPT(opinfo, delay)      \
-    do {                                                \
-        if ((delay))                                    \
-            (opinfo) |= OPINFO_DELAYS_INTERRUPT_MSK;    \
+#define OPINFO_SET_DELAYS_INTERRUPT(opinfo, delay)   \
+    do {                                             \
+        if ((delay))                                 \
+            (opinfo) |= OPINFO_DELAYS_INTERRUPT_MSK; \
     } while (0)
 
 /* Set whether the opcode disables previously enabled IRQs according to
    `disable'.  */
-#define OPINFO_SET_DISABLES_IRQ(opinfo, disable)        \
-    do {                                                \
-        if ((disable))                                  \
-            (opinfo) |= OPINFO_DISABLES_IRQ_MSK;        \
+#define OPINFO_SET_DISABLES_IRQ(opinfo, disable) \
+    do {                                         \
+        if ((disable))                           \
+            (opinfo) |= OPINFO_DISABLES_IRQ_MSK; \
     } while (0)
 
 /* Set whether the opcode enables previously disabled IRQs according to
    `enable'.  */
-#define OPINFO_SET_ENABLES_IRQ(opinfo, enable)          \
-    do {                                                \
-        if ((enable))                                   \
-            (opinfo) |= OPINFO_ENABLES_IRQ_MSK;         \
+#define OPINFO_SET_ENABLES_IRQ(opinfo, enable)  \
+    do {                                        \
+        if ((enable))                           \
+            (opinfo) |= OPINFO_ENABLES_IRQ_MSK; \
     } while (0)
 
-#endif /* _6510CORE_H */
+#endif
 

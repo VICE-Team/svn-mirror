@@ -40,7 +40,7 @@
 
 /* Initialization.  */
 void interrupt_cpu_status_init(cpu_int_status_t *cs, int num_ints,
-                               opcode_info_t *last_opcode_info_ptr)
+                               DWORD *last_opcode_info_ptr)
 {
     memset(cs, 0, sizeof(cpu_int_status_t));
     cs->num_ints = num_ints;
