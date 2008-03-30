@@ -67,15 +67,15 @@
 #define CAS_TYPE_EOF	5	/* End of Tape marker */
 
 /* CPU addresses for tape routine variables.  */
-static int buffer_pointer_addr;
-static int st_addr;
-static int verify_flag_addr;
-static int stal_addr;
-static int eal_addr;
-static int kbd_buf_addr;
-static int kbd_buf_pending_addr;
+static ADDRESS buffer_pointer_addr;
+static ADDRESS st_addr;
+static ADDRESS verify_flag_addr;
+static ADDRESS stal_addr;
+static ADDRESS eal_addr;
+static ADDRESS kbd_buf_addr;
+static ADDRESS kbd_buf_pending_addr;
 static int irqval;
-static int irqtmp;
+static ADDRESS irqtmp;
 
 /* Flag: has tape been initialized?  */
 static int tape_is_initialized = 0;
@@ -138,16 +138,16 @@ int tape_init(int _buffer_pointer_addr,
         tape_log = log_open("Tape");
 
     /* Set addresses of tape routine variables.  */
-    st_addr = _st_addr;
-    buffer_pointer_addr = _buffer_pointer_addr;
-    verify_flag_addr = _verify_flag_addr;
-    irqtmp = _irqtmp;
+    st_addr = (ADDRESS)_st_addr;
+    buffer_pointer_addr = (ADDRESS)_buffer_pointer_addr;
+    verify_flag_addr = (ADDRESS)_verify_flag_addr;
+    irqtmp = (ADDRESS)_irqtmp;
     irqval = _irqval;
-    stal_addr = _stal_addr;
-    eal_addr = _eal_addr;
+    stal_addr = (ADDRESS)_stal_addr;
+    eal_addr = (ADDRESS)_eal_addr;
 
-    kbd_buf_addr = _kbd_buf_addr;
-    kbd_buf_pending_addr = _kbd_buf_pending_addr;
+    kbd_buf_addr = (ADDRESS)_kbd_buf_addr;
+    kbd_buf_pending_addr = (ADDRESS)_kbd_buf_pending_addr;
 
     tape_traps = trap_list;
     tape_traps_install();
@@ -372,8 +372,8 @@ void tape_receive_trap(void)
     /* Set registers and flags like the Kernal routine does.  */
 
     if (irqtmp) {
-	mem_store(irqtmp, irqval & 0xff);
-	mem_store(irqtmp + 1, (irqval >> 8) & 0xff);
+	mem_store(irqtmp, (BYTE)(irqval & 0xff));
+	mem_store(irqtmp + 1, (BYTE)((irqval >> 8) & 0xff));
     }
 
     set_st(st);			/* EOF and possible errors */
