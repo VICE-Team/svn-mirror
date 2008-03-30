@@ -56,7 +56,7 @@
 
 /* ------------------------------------------------------------------------- */
 
-/* #define DEBUG_KBD */
+#define DEBUG_KBD
 /* #define DEBUG_JOY */
 
 /* Keyboard array. */
