@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  Tibor Biczo <crown@axelero.hu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -45,6 +46,7 @@
 #include "plus4tcbm.h"
 #include "ram.h"
 #include "resources.h"
+#include "ted.h"
 #include "ted-mem.h"
 #include "types.h"
 #include "utils.h"
@@ -175,6 +177,10 @@ static BYTE tape_read = 0xff;
 
 inline static void mem_proc_port_store(void)
 {
+
+    /*  Correct clock */
+    ted_handle_pending_alarms(maincpu_rmw_flag + 1);
+
     pport.data_out = (pport.data_out & ~pport.dir)
                      | (pport.data & pport.dir);
 
@@ -189,19 +195,22 @@ inline static void mem_proc_port_store(void)
 inline static BYTE mem_proc_port_read(WORD addr)
 {
     BYTE tmp;
+    BYTE input;
+
+    /*  Correct clock */
+    ted_handle_pending_alarms(0);
 
     if (addr == 0)
         return pport.dir;
 
-    tmp = (pport.data | ~pport.dir) & (pport.data_out | 0x3f);
-
-    tmp = (iec_cpu_read() & 0xc0) | (tmp & 0x3f);
-
+    input = (iec_cpu_read() & 0xc0);
     if (tape_read) {
-        tmp |= 0x10;
+        input |= 0x10;
     } else {
-        tmp &= ~0x10;
+        input &= ~0x10;
     }
+
+    tmp = ((input & ~pport.dir) | (pport.data_out & pport.dir)) & 0xdf ;
 
     return tmp;
 }
@@ -233,7 +242,7 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
     switch ((BYTE)addr) {
       case 0:
         if (pport.dir != value) {
-            pport.dir = value;
+            pport.dir = value & 0xdf;
             mem_proc_port_store();
         }
         mem_ram[addr] = value;

@@ -70,6 +70,7 @@
 
 ted_t ted;
 static CLOCK old_maincpu_clk = 0;
+static CLOCK old_cycle = 0;
 
 
 static void ted_set_geometry(void);
@@ -97,6 +98,7 @@ void ted_change_timing(machine_timing_t *machine_timing)
 void ted_delay_oldclk(CLOCK num)
 {
     old_maincpu_clk += num;
+    old_cycle += num;
 }
 
 inline void ted_delay_clk(void)
@@ -106,18 +108,72 @@ inline void ted_delay_clk(void)
     /*log_debug("MCLK %d OMCLK %d", maincpu_clk, old_maincpu_clk);*/
 
     if (ted.fastmode == 0) {
-        diff = maincpu_clk - old_maincpu_clk;
+        diff = maincpu_clk - old_maincpu_clk - ((old_cycle & 1) ^ 1);
         dma_maincpu_steal_cycles(maincpu_clk, diff, 0);
+    } else {
+fastloop:
+        diff = maincpu_clk - old_maincpu_clk;
+
+        if (ted.character_fetch_on) {
+            /* Fast mode, with character fetches,
+               every even cycle is stolen from cycle 4 till cycle 100
+               this covers 5 RAM refresh, 40 graphic fetch, and 4 idle fetch
+               before the window.
+            */
+            if ((old_cycle < 101) && (old_cycle + diff >= 4)) {
+                CLOCK max = 49;
+                if (old_cycle > 3) {
+                    max = (101 - old_cycle) / 2;
+                } else {
+                    diff -= 3 - old_cycle;
+                }
+                if (diff > max) diff = max;
+                dma_maincpu_steal_cycles(maincpu_clk, diff, 0);
+            } else if (old_cycle + diff >= 118) {
+                /* Instruction crosses into next line, and potentially
+                   crossing into area where clocking changes.
+                   Call draw alarm, and check if clocking changed.
+                */
+                old_maincpu_clk += 118 - (old_cycle + diff);
+                old_cycle = 4;
+                ted_raster_draw_alarm_handler(0);
+                goto fastloop;
+            }
+        } else {
+            /* Fast mode, no character fetches,
+               we only have to deal with 5 RAM refresh cycles
+               the following cycles are stolen 92,94,96,98,100.
+            */
+            if ((old_cycle < 101) && (old_cycle + diff >= 92)) {
+                CLOCK max = 5;
+                if (old_cycle > 91) {
+                    max = (101 - old_cycle) / 2;
+                } else {
+                    diff -= 91 - old_cycle;
+                }
+                if (diff > max) diff = max;
+                dma_maincpu_steal_cycles(maincpu_clk, diff, 0);
+            } else if (old_cycle + diff >= 118) {
+                /* Instruction crosses into next line, and potentially
+                   crossing into area where clocking changes.
+                   Call draw alarm, and check if clocking changed.
+                */
+                old_maincpu_clk += 118 - (old_cycle + diff);
+                old_cycle = 4;
+                ted_raster_draw_alarm_handler(0);
+                goto fastloop;
+            }
+        }
     }
 
     old_maincpu_clk = maincpu_clk;
+    old_cycle = TED_RASTER_CYCLE(maincpu_clk) % 114;
 
     return;
 }
 
 inline void ted_handle_pending_alarms(int num_write_cycles)
 {
-    ted_delay_clk();
 
     if (num_write_cycles != 0) {
         int f;
@@ -132,6 +188,7 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
         /* Go back to the time when the read accesses happened and serve TED
            events.  */
         maincpu_clk -= num_write_cycles;
+        ted_delay_clk();
 
         do {
             f = 0;
@@ -139,12 +196,10 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
                 ted_raster_draw_alarm_handler((long)(maincpu_clk
                                               - ted.draw_clk));
                 f = 1;
-                ted_delay_clk();
             }
             if (maincpu_clk >= ted.fetch_clk) {
                 ted_fetch_alarm_handler(0);
                 f = 1;
-                ted_delay_clk();
             }
         }
         while (f);
@@ -155,21 +210,22 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
            old value in the first write access, and then store the new one in
            the second write access).  */
         maincpu_clk += num_write_cycles;
+        ted_delay_clk();
 
       } else {
         int f;
+
+        ted_delay_clk();
 
         do {
             f = 0;
             if (maincpu_clk >= ted.draw_clk) {
                 ted_raster_draw_alarm_handler(0);
                 f = 1;
-                ted_delay_clk();
             }
             if (maincpu_clk >= ted.fetch_clk) {
                 ted_fetch_alarm_handler(0);
                 f = 1;
-                ted_delay_clk();
             }
         }
         while (f);
@@ -367,6 +423,8 @@ void ted_powerup(void)
     ted.raster.display_ystart = ted.raster.display_ystop = -1;
 
     ted.raster.ysmooth = 0;
+
+    ted.character_fetch_on = 0;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -615,8 +673,11 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
         ted.memptr_col = 0;
         ted.mem_counter = 0;
         ted.ted_raster_counter = 0;
+        if (!ted.raster.blank) ted.character_fetch_on = 1;
     }
     if (ted.ted_raster_counter == 512) ted.ted_raster_counter = 0;
+
+    if (ted.ted_raster_counter == 0xcc) ted.character_fetch_on = 0;
 
     if (ted.regs[0x06] & 8) {
         if (ted.ted_raster_counter == ted.row_25_start_line && (!ted.raster.blank

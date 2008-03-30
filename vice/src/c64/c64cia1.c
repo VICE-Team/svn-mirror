@@ -125,43 +125,39 @@ static void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 
 }
 
-/* read_* functions must return 0xff if nothing to read!!! */
 static BYTE read_ciapa(cia_context_t *cia_context)
 {
     BYTE byte;
-    {
-        BYTE val = ~(cia_context->c_cia[CIA_DDRA]);
-        BYTE msk = cia_context->old_pb & ~joystick_value[1];
-        BYTE m;
-        int i;
+    BYTE val = 0xff;
+    BYTE msk = cia_context->old_pb & ~joystick_value[1];
+    BYTE m;
+    int i;
 
-        for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
-            if (!(msk & m))
-                val &= ~rev_keyarr[i];
+    for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
+        if (!(msk & m))
+            val &= ~rev_keyarr[i];
 
-        byte = (val | (cia_context->c_cia[CIA_PRA]
-               & cia_context->c_cia[CIA_DDRA])) & ~joystick_value[2];
-    }
+    byte = (val & (cia_context->c_cia[CIA_PRA]
+           | ~(cia_context->c_cia[CIA_DDRA]))) & ~joystick_value[2];
+
     return byte;
 }
 
-/* read_* functions must return 0xff if nothing to read!!! */
 static BYTE read_ciapb(cia_context_t *cia_context)
 {
     BYTE byte;
-    {
-        BYTE val = ~(cia_context->c_cia[CIA_DDRB]);
-        BYTE msk = cia_context->old_pa & ~joystick_value[2];
-        BYTE m;
-        int i;
+    BYTE val = 0xff;
+    BYTE msk = cia_context->old_pa & ~joystick_value[2];
+    BYTE m;
+    int i;
 
-        for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
-            if (!(msk & m))
-                val &= ~keyarr[i];
+    for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
+        if (!(msk & m))
+            val &= ~keyarr[i];
 
-        byte = (val | (cia_context->c_cia[CIA_PRB]
-               & cia_context->c_cia[CIA_DDRB])) & ~joystick_value[1];
-    }
+    byte = (val & (cia_context->c_cia[CIA_PRB]
+           | ~(cia_context->c_cia[CIA_DDRB]))) & ~joystick_value[1];
+
     return byte;
 }
 

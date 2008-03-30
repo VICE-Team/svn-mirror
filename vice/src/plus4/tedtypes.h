@@ -127,7 +127,7 @@ typedef enum ted_video_mode_s ted_video_mode_t;
 
 /* Current horizontal position (in pixels) of the raster.  < 0 or >=
    SCREEN_WIDTH if outside the visible range.  */
-#define TED_RASTER_X(cycle)         (((int)(cycle) - 16) * 4)
+#define TED_RASTER_X(cycle)         (((int)(cycle) - 9) * 4)
 
 /* Current vertical position of the raster.  Unlike `rasterline', which is
    only accurate if a pending drawing event has been served, this is
@@ -325,6 +325,8 @@ struct ted_s {
 
     /* TED clock mode.  */
     unsigned int fastmode;
+
+    int character_fetch_on;
 
     /* Last value read from TED (used for RMW access).  */
     BYTE last_read;

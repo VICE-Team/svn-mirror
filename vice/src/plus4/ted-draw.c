@@ -4,6 +4,7 @@
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Tibor Biczo <crown@axelero.hu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -645,8 +646,8 @@ inline static void _draw_mc_bitmap(BYTE *p, unsigned int xs, unsigned int xe,
 
         d = bmptr[j];
 
-        c[1] = (ted.vbuf[i] & 0x0f) + ((ted.cbuf[i] & 0x07) << 4);
-        c[2] = (ted.vbuf[i] >> 4) + (ted.cbuf[i] & 0x70);
+        c[1] = (ted.vbuf[i] >> 4) + ((ted.cbuf[i] & 0x07) << 4);
+        c[2] = (ted.vbuf[i] & 0x0f) + (ted.cbuf[i] & 0x70);
 
         ptmp[1] = ptmp[0] = c[mc_table[0x100 + d]];
         ptmp[3] = ptmp[2] = c[mc_table[0x300 + d]];
@@ -685,8 +686,8 @@ static void draw_mc_bitmap_foreground(unsigned int start_char,
         BYTE c1, c2, c3;
         BYTE b;
 
-        c1 = (ted.vbuf[i] & 0x0f) + ((ted.cbuf[i] & 0x07) << 4);
-        c2 = (ted.vbuf[i] >> 4) + (ted.cbuf[i] & 0x70);
+        c1 = (ted.vbuf[i] >> 4) + ((ted.cbuf[i] & 0x07) << 4);
+        c2 = (ted.vbuf[i] & 0x0f) + (ted.cbuf[i] & 0x70);
         c3 = ted.ext_background_color[0];
         b = bmptr[j];
 

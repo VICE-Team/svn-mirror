@@ -178,24 +178,24 @@ void ted_fetch_alarm_handler(CLOCK offset)
           case 0:
             /* In BRK, IRQ and NMI the 3rd, 4th and 5th cycles are write
                accesses, while the 1st, 2nd, 6th and 7th are read accesses.  */
-            last_opcode_first_write_clk = maincpu_clk - 5;
-            last_opcode_last_write_clk = maincpu_clk - 3;
+            last_opcode_first_write_clk = maincpu_clk - 10;
+            last_opcode_last_write_clk = maincpu_clk - 6;
             break;
 
           case 0x20:
             /* In JSR, the 4th and 5th cycles are write accesses, while the
                1st, 2nd, 3rd and 6th are read accesses.  */
-            last_opcode_first_write_clk = maincpu_clk - 3;
-            last_opcode_last_write_clk = maincpu_clk - 2;
+            last_opcode_first_write_clk = maincpu_clk - 6;
+            last_opcode_last_write_clk = maincpu_clk - 4;
             break;
 
           default:
             /* In all the other opcodes, all the write accesses are the last
                ones.  */
             if (maincpu_num_write_cycles() != 0) {
-                last_opcode_last_write_clk = maincpu_clk - 1;
+                last_opcode_last_write_clk = maincpu_clk - 2;
                 last_opcode_first_write_clk = maincpu_clk
-                                              - maincpu_num_write_cycles();
+                                              - maincpu_num_write_cycles() * 2;
             } else {
                 last_opcode_first_write_clk = (CLOCK)0;
                 last_opcode_last_write_clk = last_opcode_first_write_clk;
@@ -212,7 +212,7 @@ void ted_fetch_alarm_handler(CLOCK offset)
         CLOCK sub;
         CLOCK write_offset;
 
-        if (ted.fetch_clk < last_opcode_first_write_clk
+        if (ted.fetch_clk < (last_opcode_first_write_clk - 1)
             || ted.fetch_clk > last_opcode_last_write_clk)
             sub = 0;
         else
@@ -221,6 +221,10 @@ void ted_fetch_alarm_handler(CLOCK offset)
         handle_fetch_matrix(offset, sub, &write_offset);
         last_opcode_first_write_clk += write_offset;
         last_opcode_last_write_clk += write_offset;
+    }
+    if ((offset > 11) && (ted.fastmode)) {
+        dma_maincpu_steal_cycles(ted.fetch_clk, -(((signed)offset - 11) / 2), 0);
+        ted_delay_oldclk(-(((signed)offset - 11) / 2));
     }
 }
 

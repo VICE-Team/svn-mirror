@@ -506,10 +506,10 @@ inline static void ted13_store(const BYTE value)
     if ((ted.regs[0x13] & 2) ^ (value & 2)) {
         if (value & 2) {
             ted.fastmode = 0;
-            log_debug("Slow mode");
+/*            log_debug("Slow mode");*/
         } else {
             ted.fastmode = 1;
-            log_debug("Fast mode");
+/*            log_debug("Fast mode");*/
         }
     }
 
@@ -534,8 +534,8 @@ inline static void ted15_store(BYTE value)
 
     TED_DEBUG_REGISTER(("Background #0 color register: $%02X", value));
 
-    if (ted.regs[0x15] == value)
-        return;
+/*    if (ted.regs[0x15] == value)
+        return;*/
 
     x_pos = TED_RASTER_X(TED_RASTER_CYCLE(maincpu_clk));
 
@@ -563,8 +563,8 @@ inline static void ted161718_store(WORD addr, BYTE value)
     TED_DEBUG_REGISTER(("Background color #%d register: $%02X",
                        addr - 0x15, value));
 
-    if (ted.regs[addr] == value)
-        return;
+/*    if (ted.regs[addr] == value)
+        return;*/
 
     ted.regs[addr] = value;
 
@@ -582,8 +582,8 @@ inline static void ted19_store(BYTE value)
 
     value &= 0x7f;
 
-    if (ted.regs[0x19] == value)
-        return;
+/*    if (ted.regs[0x19] == value)
+        return;*/
 
     ted.regs[0x19] = value;
 
@@ -818,7 +818,7 @@ inline static BYTE ted1c1d_read(WORD addr)
     unsigned int tmp = TED_RASTER_Y(maincpu_clk);
 
     if (addr == 0x1c)
-        return (tmp & 0x100) >> 8;
+        return (((tmp & 0x100) >> 8) | 0xfe) & 0xff;
     else
         return tmp & 0xff;
 }
@@ -827,11 +827,12 @@ inline static BYTE ted1e_read(void)
 {
     int xpos;
 
-    xpos = TED_RASTER_X(maincpu_clk % ted.cycles_per_line);
+    xpos = TED_RASTER_X(TED_RASTER_CYCLE(maincpu_clk) - 7);
     if (xpos < 0)
-        xpos = ted.cycles_per_line * 8 + xpos;
+        xpos = ted.cycles_per_line * 4 + xpos;
 
-    xpos = xpos / 2 + 2;
+    xpos = (xpos / 2) & 0xfe;
+
 
     return (BYTE)xpos;
 }
