@@ -2,8 +2,8 @@
  * vic20mem.c -- VIC20 memory handling.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * Multiple memory configuration support originally by
  *  Alexander Lehmann (alex@mathematik.th-darmstadt.de)
@@ -33,8 +33,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "vic20mem.h"
-
 #include "cartridge.h"
 #include "cmdline.h"
 #include "emuid.h"
@@ -49,6 +47,7 @@
 #include "utils.h"
 #include "vic.h"
 #include "vic20ieeevia.h"
+#include "vic20mem.h"
 #include "vic20via.h"
 
 #define IS_NULL(s)  (s == NULL || *s == '\0')
@@ -88,6 +87,8 @@ const char *mem_romset_resources_list[] = {
 #define	VIC_ROM_BLK0B	0
 
 /*----------------------------------------------------------------------*/
+
+static log_t vic20_mem_log = LOG_ERR;
 
 static int mem_load_kernal(void);
 static int mem_load_basic(void);
@@ -306,10 +307,8 @@ static int cmdline_memory(const char *param, void *extra_param)
 		       || strcmp(opt, "A0") == 0) {
 		memconf |= VIC_BLK5;
 	    } else {
-		/* FIXME: this is before log is initialized, right? */
-		fprintf(stdout,
-                        "Unsupported memory extension option: \"%s\".\n",
-			opt);
+		log_error(vic20_mem_log,
+                          "Unsupported memory extension option: `%s'.", opt);
 		return -1;
 	    }
 	    memstring = optend;
@@ -319,40 +318,39 @@ static int cmdline_memory(const char *param, void *extra_param)
     }
 
     /* FIXME: this is before log is initialized, right? */
-    printf("Extension memory enabled: ");
+    log_message(vic20_mem_log, "Extension memory enabled: ");
     if (memconf & VIC_BLK0) {
 	set_ram_block_0_enabled((resource_value_t) 1);
-	printf("blk0 ");
+	log_message(vic20_mem_log, "blk0 ");
     } else {
 	set_ram_block_0_enabled((resource_value_t) 0);
     }
     if (memconf & VIC_BLK1) {
 	set_ram_block_1_enabled((resource_value_t) 1);
-	printf("blk1 ");
+	log_message(vic20_mem_log, "blk1 ");
     } else {
 	set_ram_block_1_enabled((resource_value_t) 0);
     }
     if (memconf & VIC_BLK2) {
 	set_ram_block_2_enabled((resource_value_t) 1);
-	printf("blk2 ");
+	log_message(vic20_mem_log, "blk2 ");
     } else {
 	set_ram_block_2_enabled((resource_value_t) 0);
     }
     if (memconf & VIC_BLK3) {
 	set_ram_block_3_enabled((resource_value_t) 1);
-	printf("blk3 ");
+	log_message(vic20_mem_log, "blk3 ");
     } else {
 	set_ram_block_3_enabled((resource_value_t) 0);
     }
     if (memconf & VIC_BLK5) {
 	set_ram_block_5_enabled((resource_value_t) 1);
-	printf("blk5");
+	log_message(vic20_mem_log, "blk5");
     } else {
 	set_ram_block_5_enabled((resource_value_t) 0);
     }
     if (memconf == 0)
-	printf("none");
-    printf("\n");
+	log_message(vic20_mem_log, "none");
 
     return 0;
 }
@@ -419,8 +417,6 @@ int *mem_read_limit_tab_ptr;
 
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
 static int rom_loaded = 0;
-
-static log_t vic20_mem_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
