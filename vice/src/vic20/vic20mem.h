@@ -64,6 +64,7 @@
 extern BYTE ram[VIC20_RAM_SIZE];
 extern BYTE rom[VIC20_BASIC_ROM_SIZE + VIC20_KERNAL_ROM_SIZE];
 extern BYTE chargen_rom[0x400 + VIC20_CHARGEN_ROM_SIZE + 0x400];
+extern BYTE cartrom[0x10000];
 
 extern read_func_t read_basic, read_kernal, read_chargen, read_via;
 extern store_func_t store_via;
@@ -80,6 +81,9 @@ extern int mem_load_kernal(const char *rom_name);
 extern int mem_load_basic(const char *rom_name);
 extern int mem_load_chargen(const char *rom_name);
 extern int mem_patch_kernal(void);
+
+extern int mem_kernal_checksum(void);
+extern int mem_basic_checksum(void);
 
 #endif
 
