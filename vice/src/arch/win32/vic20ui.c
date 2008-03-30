@@ -117,7 +117,7 @@ static const uikeyboard_mapping_entry_t mapping_entry[VIC20UI_KBD_NUM_MAP] = {
 
 static uikeyboard_config_t uikeyboard_config =
     { IDD_VIC20KBD_MAPPING_SETTINGS_DIALOG, VIC20UI_KBD_NUM_MAP,
-      mapping_entry };
+      mapping_entry, IDC_VIC20KBD_MAPPING_DUMP };
 
 static const uicart_params_t vic20_ui_cartridges[] = {
     {

@@ -113,7 +113,8 @@ static const uikeyboard_mapping_entry_t mapping_entry[PETUI_KBD_NUM_MAP] = {
 };
 
 static uikeyboard_config_t uikeyboard_config =
-    { IDD_PETKBD_MAPPING_SETTINGS_DIALOG, PETUI_KBD_NUM_MAP, mapping_entry };
+    { IDD_PETKBD_MAPPING_SETTINGS_DIALOG, PETUI_KBD_NUM_MAP, mapping_entry,
+      IDC_PETKBD_MAPPING_DUMP };
 
 
 static void pet_ui_specific(WPARAM wparam, HWND hwnd)

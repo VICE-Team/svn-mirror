@@ -119,7 +119,8 @@ static const uikeyboard_mapping_entry_t mapping_entry[CBM2UI_KBD_NUM_MAP] = {
 };
 
 static uikeyboard_config_t uikeyboard_config =
-    { IDD_CBM2KBD_MAPPING_SETTINGS_DIALOG, CBM2UI_KBD_NUM_MAP, mapping_entry };
+    { IDD_CBM2KBD_MAPPING_SETTINGS_DIALOG, CBM2UI_KBD_NUM_MAP, mapping_entry,
+      IDC_CBM2KBD_MAPPING_DUMP };
 
 
 static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)

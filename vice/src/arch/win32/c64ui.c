@@ -120,7 +120,8 @@ static const uikeyboard_mapping_entry_t mapping_entry[C64UI_KBD_NUM_MAP] = {
 };
 
 static uikeyboard_config_t uikeyboard_config =
-    { IDD_C64KBD_MAPPING_SETTINGS_DIALOG, C64UI_KBD_NUM_MAP, mapping_entry };
+    { IDD_C64KBD_MAPPING_SETTINGS_DIALOG, C64UI_KBD_NUM_MAP, mapping_entry,
+      IDC_C64KBD_MAPPING_DUMP };
 
 
 static void c64_ui_specific(WPARAM wparam, HWND hwnd)

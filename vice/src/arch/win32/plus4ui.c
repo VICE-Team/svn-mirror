@@ -108,7 +108,8 @@ static const uikeyboard_mapping_entry_t mapping_entry[PLUS4UI_KBD_NUM_MAP] = {
 };
 
 static uikeyboard_config_t uikeyboard_config =
-   { IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG, PLUS4UI_KBD_NUM_MAP, mapping_entry };
+   { IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG, PLUS4UI_KBD_NUM_MAP, mapping_entry,
+     IDC_PLUS4KBD_MAPPING_DUMP };
 
 
 static void plus4_ui_specific(WPARAM wparam, HWND hwnd)

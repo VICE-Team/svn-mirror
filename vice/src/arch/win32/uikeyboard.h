@@ -39,6 +39,7 @@ struct uikeyboard_config_s {
     int idd_mapping;
     unsigned int num_mapping;
     const uikeyboard_mapping_entry_t *mapping_entry;
+    int idc_dump;
 };
 typedef struct uikeyboard_config_s uikeyboard_config_t;
 
