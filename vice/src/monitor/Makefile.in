@@ -289,7 +289,7 @@ mon_lex.o: mon_lex.c ../../src/vice.h ../../src/config.h mon.h \
 	../../src/arch/unix/types.h mon_parse.h ../../src/utils.h
 mon_parse.o: mon_parse.c ../../src/vice.h ../../src/config.h asm.h \
 	../../src/arch/unix/types.h ../../src/console.h \
-	../../src/machine.h mon.h ../../src/utils.h
+	../../src/uimon.h ../../src/machine.h mon.h ../../src/utils.h
 
 info-am:
 info: info-am

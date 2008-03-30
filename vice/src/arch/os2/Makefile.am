@@ -59,6 +59,7 @@ EXTRA_DIST = \
 	unused/vsync.c \
 	unused/vsync.h \
 	unused/ui_status.c \
+        unused/dlg-contents.c \
 	icons/folder.pal \
 	icons/folder1.ico \
 	icons/folder2.ico \
@@ -68,15 +69,20 @@ EXTRA_DIST = \
 	icons/x128.ico \
 	icons/xcbm2.ico \
 	icons/c1541.ico \
+	icons/check.ico \
+	icons/info.ico \
+ 	icons/note.ico \
+        icons/skull.ico \
 	texi2ipf/readme \
 	texi2ipf/texi2ipf.exe \
 	texi2ipf/texi2ipf.INF \
 	doc/Vice_for_OS2.txt \
 	fonts/bdf2fnt.cc \
-	fonts/dbf2fnt.icc \
-	fonts/header.FNT \
-	fonts/vice-cbm.asm \
+	fonts/bdf2fnt.icc \
+	fonts/chargen2fnt.cc \
+	fonts/chargen2fnt.icc \
 	fonts/vice-cbm.cmd \
-	fonts/vice-cbm.def \
-	fonts/vice-cbm.rc
+	fonts/vice2.asm \
+	fonts/vice2.def \
+	fonts/vice2.rc
 

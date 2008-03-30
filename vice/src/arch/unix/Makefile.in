@@ -370,8 +370,9 @@ c610ui.o: c610ui.c ../../../src/vice.h ../../../src/config.h videoarch.h \
 	x11/xaw/videoarch.h ui.h types.h ../../../src/uiapi.h \
 	x11/xaw/uiarch.h x11/xaw/../videoarch.h x11/xaw/../c610icon.xpm \
 	../../../src/cbm2/c610mem.h ../../../src/datasette.h joystick.h \
-	petui.h ../../../src/resources.h uicommands.h uimenu.h \
-	x11/xaw/uimenu.h x11/xaw/uihotkey.h x11/xaw/../x11menu.h \
+	../../../src/drive/drive.h ../../../src/log.h petui.h \
+	../../../src/resources.h uicommands.h uimenu.h x11/xaw/uimenu.h \
+	x11/xaw/uihotkey.h x11/xaw/../x11menu.h \
 	x11/xaw/../xaw/uihotkey.h uiscreenshot.h uisettings.h \
 	../../../src/vsync.h
 c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h videoarch.h \

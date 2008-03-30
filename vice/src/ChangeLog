@@ -1,3 +1,207 @@
+2001-02-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.6.
+
+	* arch/os2/vac++/Makefile.am: Fixed names.
+
+	* arch/os2/Makefile.am: Removed files that do not exist.
+
+	* uimon.h: Replaced `DWORD' by `unsigned long int'.
+
+2001-02-08  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vic20/vic.c: (vic_update_memory_ptrs) fixed timing for
+	change of memory pointers
+
+2001-02-07  Andre Fachat  <a.fachat@gmx.net>
+
+        * arch/unix/c610ui.c: include drive.h
+        (set_video_standard_submenu, radio_PaletteFile, palette_submenu,
+        toggle_CheckSsColl, toggle_CheckSbColl, vic_submenu): new
+        code to set VIC-II settings
+        (Cbm2modelMenu, model_settings_submenu): make model defaults
+        submenu depend on whether the emulation is C500 or not.
+        (CrtcMenu, VicMenu, c610_menu): make submenues for CRTC and VIC-II
+        depend on whether the emulation is C500 or not.
+
+        * cbm2/c610.c (cbm2_is_c500): export isC500 flag
+
+        * cbm2/c610.h (C610_PAL_CYCLES_PER_SEC): slow CBM-II down about 1.3%,
+        to fix handshake with 2031 disk drive
+        (c500_write_snapshot_module, c500_read_snapshot_module): remove
+        prototypes
+        (cbm2_is_c500): new prototype
+
+2001-02-06  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* fliplist.{c,h}: added clear/load/save functionality
+
+	* arch/riscos/ui.c: added clear/load/save of fliplist
+
+2001-02-04  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/archdep.c: small changes
+   
+	* arch/os2/archdep.h: Renamed default Printer to Vice2.prn
+   
+	* arch/os2/console.c: included pmwin2.h
+   
+	* arch/os2/dialogs/dialogs.c: added ViceErrorDlg
+   
+	* arch/os2/dialogs/dialogs.h: move many statements to dlg-*.h
+   
+	* arch/os2/dialogs/dialogs.rc: moved many statements to
+	dlg-*.rc
+   
+	* arch/os2/dialogs/dlg-attach.c,
+	arch/os2/dialogs/dlg-autostart.c,
+	arch/os2/dialogs/dlg-cartridge.c: removed
+
+	* arch/os2/dialogs/dlg-cmdopt.c: included os2.h
+   
+	* arch/os2/dialogs/dlg-contents.c: removed
+   
+	* arch/os2/dialogs/dlg-create.c,
+	arch/os2/dialogs/dlg-datasette.c: small changes
+   
+	* arch/os2/dialogs/dlg-datasette.h,
+	arch/os2/dialogs/dlg-datasette.rc: added
+   
+	* arch/os2/dialogs/dlg-drive.c: small changes
+   
+	* arch/os2/dialogs/dlg-drive.h, arch/os2/dialogs/dlg-drive.rc:
+	added
+   
+	* arch/os2/dialogs/dlg-emulator.c: small changes
+
+	* arch/os2/dialogs/dlg-emulator.h,
+	arch/os2/dialogs/dlg-emulator.rc,
+	arch/os2/dialogs/dlg-fileio.c, arch/os2/dialogs/dlg-fileio.h,
+	arch/os2/dialogs/dlg-fileio.rc: added
+   
+	* arch/os2/dialogs/dlg-joystick.c: small changes
+   
+	* arch/os2/dialogs/dlg-joystick.h,
+	arch/os2/dialogs/dlg-joystick.rc: added
+   
+	* arch/os2/dialogs/dlg-monitor.c: small chenages
+   
+	* arch/os2/dialogs/dlg-reset.c: WinMessageBox ->
+	WinMessageBox2
+   
+	* arch/os2/dialogs/dlg-screenshot.c,
+	arch/os2/dialogs/dlg-snapshot.c: removed
+   
+	* arch/os2/dialogs/dlg-vsid.c: small changes
+   
+	* arch/os2/dialogs/dlg-vsid.h, arch/os2/dialogs/dlg-vsid.rc,
+	arch/os2/dialogs/dragndrop, carch/os2/dialogs/dragndrop.h:
+	added
+   
+	* arch/os2/dialogs/Makefile.am: updated
+   
+	* arch/os2/dialogs/menubar.c: small changes
+   
+	* arch/os2/dialogs/menubar.h, arch/os2/dialogs/menubar.rc,
+	arch/os2/fonts/bdf2fnt.icc, arch/os2/fonts/chargen2fnt.cc,
+	arch/os2/fonts/chargen2fnt.icc: added
+   
+	* arch/os2/fonts/dbf2fnt.icc, arch/os2/fonts/vice-cbm.asm:
+	removed
+   
+	* arch/os2/fonts/vice-cbm.cmd: changed
+   
+	* arch/os2/fonts/vice-cbm.def, arch/os2/fonts/vice-cbm.rc:
+	removed
+   
+	* arch/os2/fonts/vice2.asm, arch/os2/fonts/vice2.def: added
+   
+	* arch/os2/fonts/vice2.fon, arch/os2/makedist.cmd: changed for
+	all fonts
+   
+	* arch/os2/Makefile.am: changed
+   
+	* arch/os2/snippets/filedlg.c, arch/os2/snippets/filedlg.h:
+	small changes
+   
+	* arch/os2/snippets/Makefile.am: changed
+   
+	* arch/os2/snippets/pmwin2.c, arch/os2/snippets/pmwin2.h:
+	added
+   
+	* arch/os2/ui.c: small changes, replaces WinMessageBox with
+	WinMessageBox2
+   
+	* arch/os2/uicmdline.c: small changes 
+   
+	* arch/os2/unused/dlg-contents.c: added
+   
+	* arch/os2/vac++/incl/archdep.icc,
+	arch/os2/vac++/incl/dialogs.icc: updated
+   
+	* arch/os2/vac++/incl/resources.icc: added
+   
+	* arch/os2/vac++/incl/vsid.icc: added dlg-vsid.c,rc
+   
+	* arch/os2/vac++/Makefile.am: added vicedll.icc, resoucrces.icc
+   
+	* arch/os2/vac++/vicedll.icc: added
+
+	* arch/os2/vac++/*.ICC: dll added, resources included
+   
+	* arch/os2/video.c: status bas added, dragndrop support added
+   
+	* arch/os2/videoarch.h: removed INCL_GPIBITMAPS
+   
+	* arch/os2/vsidui.c: small changes
+   
+	* print.c: "ab+" -> MODE_APPEND
+   
+	* vsync.c diff/src/vsync.c: made do_vsync more 'readable'
+   
+2001-02-04  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/console.c, arch/win32/uimon.c:
+	Fixed some bugs, store latest dimensions on closing.
+
+	* monitor/mon_parse.y, monitor/mon_parse.c:
+	Changed console_out() calls to arch_mon_out() calls
+	(these used to generate segmentation faults).
+
+	* arch/win32/vice.dsw, arch/win32/cbm2.dsp:
+	VC++ now includes the VICII project into cbm2.
+
+2001-02-04  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/uisnapshot.c(ui_soundshot_save_dialog): bug fix;
+	checks for devicename==NULL
+
+	* arch/win32/uisound.c(dialog_proc): changes statustext when
+	sounddriver is changed
+
+	* vic20/vic-draw.c: PUT_PIXEL(2) handles a transparent mode to
+	prevent foreground drawing change the background; draw(2x) uses
+	vic.mc_border_color instead of vic.raster.border_color; new
+	functions draw_std_background(_2x), draw_std_foreground(_2x),
+	draw_rev_foreground(_2x) for (handle_line_with_changes), these
+	are installed by vic_draw_init
+
+	* vic20/vic-mem.c(vic_store): registers 0x00,0x01,0x02,0x03,
+	0x0e,0x0f completely rewritten using the raster_add_change api;
+	all the results of timing tests with real VIC20 are imlemented
+	(some have to be validated)
+
+	* vic20/vic.h: new macros VIC_RASTER_X, VIC_RASTER_CHAR; new
+	members mc_border, row_increase_line, pending_ystart,
+	pending_text_lines, row_counter, row_offset, area, draw_clk,
+	last_emulate_line_clk in struct vic_s; new prototype for
+	(vic_raster_draw_alarm_handler)
+
+	* vic20/vic.c: (vic_raster_draw_alarm_handler) now public and
+	completely rewritten; (vic_init),(vic_reset) initialize new
+	struct members; (vic_update_memory_ptrs) use the
+	raster_add_change api to make changes be placed correctly
+
 2001-02-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.5.

@@ -576,8 +576,8 @@ diskimage.o: diskimage.c vice.h config.h arch/unix/archdep.h archapi.h \
 emuid.o: emuid.c arch/unix/types.h vice.h config.h
 findpath.o: findpath.c vice.h config.h arch/unix/archdep.h archapi.h \
 	findpath.h utils.h arch/unix/types.h
-fliplist.o: fliplist.c vice.h config.h attach.h fliplist.h log.h utils.h \
-	arch/unix/types.h
+fliplist.o: fliplist.c vice.h config.h arch/unix/archdep.h archapi.h \
+	attach.h fliplist.h log.h utils.h arch/unix/types.h
 fsdevice.o: fsdevice.c vice.h config.h arch/unix/archdep.h archapi.h \
 	attach.h charsets.h cmdline.h resources.h fsdevice.h log.h \
 	p00.h arch/unix/types.h serial.h utils.h \
