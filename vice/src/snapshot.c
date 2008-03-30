@@ -31,12 +31,15 @@
 #include <stdlib.h>
 #include <string.h>
 #ifdef __IBMC__
-#include <io.h>
 #include <direct.h>
 #endif
 #ifdef __riscos
 typedef int off_t;
 #endif
+#endif
+
+#ifdef HAVE_IO_H
+#include <io.h>
 #endif
 
 #include "log.h"

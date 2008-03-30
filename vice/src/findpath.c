@@ -32,14 +32,15 @@
 
 #ifdef STDC_HEADERS
 #ifdef __IBMC__
-#include <io.h>
-#endif
-#ifdef __IBMC__
 #include <direct.h>
 #endif
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#endif
+
+#ifdef HAVE_IO_H
+#include <io.h>
 #endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>

@@ -31,10 +31,13 @@
 
 #include <windows.h>
 #include <stdlib.h>
-#include <io.h>
 
-#include "utils.h"
+#ifdef HAVE_IO_H
+#include <io.h>
+#endif
+
 #include "dirent.h"
+#include "utils.h"
 
 struct _vice_dir {
     WIN32_FIND_DATA find_data;

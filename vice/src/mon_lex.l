@@ -28,11 +28,14 @@
 %{
 
 /* Lexer for x64 monitor */
+
 #include "vice.h"
+
 #ifdef STDC_HEADERS
 #include <assert.h>
 #include <string.h>
 #endif
+
 #include "types.h"
 #include "mon.h"
 #include "mon_parse.h"

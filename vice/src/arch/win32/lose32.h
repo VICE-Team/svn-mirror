@@ -29,9 +29,15 @@
 
 /* These are needed by a few of the functions that we use.  To avoid messing
    with the sources, let's put them in here and that's it.  */
+
+#include "vice.h"
+
 #include <direct.h>
 #include <process.h>
+
+#ifdef HAVE_IO_H
 #include <io.h>
+#endif
 
 /* The M$ version of this one has no permissions.  */
 #define mkdir(s, p)         _mkdir(s)
