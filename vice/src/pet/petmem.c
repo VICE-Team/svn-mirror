@@ -37,6 +37,7 @@
 
 #include "autostart.h"
 #include "cmdline.h"
+#include "crtc-mem.h"
 #include "crtc.h"
 #include "emuid.h"
 #include "interrupt.h"
@@ -1443,7 +1444,7 @@ static int mem_load_chargen(void)
        for the CRTC, filling the rest with zeros */
 
     if (sysfile_load(petres.chargenName, chargen_rom, 0x800, 0x800) < 0) {
-        log_error(pet_mem_log, "Couldn't load character ROM.");
+        log_error(pet_mem_log, "Couldn't load character ROM (%s).", petres.chargenName);
         return -1;
     }
 

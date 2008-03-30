@@ -97,7 +97,7 @@ int log_init(void)
     } else {
         if (strcmp(log_file_name, "-") == 0)
             log_file = stdout;
-        log_file = fopen(log_file_name, "wt");
+        log_file = fopen(log_file_name, MODE_WRITE_TEXT);
     }
 
     /* flush all data direct to the output stream. */

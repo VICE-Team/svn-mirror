@@ -27,7 +27,7 @@
 #ifndef _RASTER_SPRITE_H
 #define _RASTER_SPRITE_H
 
-struct _raster_sprite
+struct raster_sprite_s
   {
     /* Physical X, Y coordinates.  Note: `x' can be negative, when the sprite
        "wraps" to the left!  It can also be different from the value in the
@@ -59,11 +59,12 @@ struct _raster_sprite
        sprite.  */
     int dma_flag;
   };
-typedef struct _raster_sprite raster_sprite_t;
+typedef struct raster_sprite_s raster_sprite_t;
 
 
 
 void raster_sprite_init (raster_sprite_t *s);
 raster_sprite_t *raster_sprite_new (void);
 
-#endif /* _RASTER_SPRITE_H */
+#endif
+

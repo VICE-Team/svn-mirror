@@ -29,7 +29,6 @@
 #define _VICII_H
 
 #include "types.h"
-#include "vicii-mem.h"
 
 struct snapshot_s;
 
@@ -40,7 +39,7 @@ extern void vic_ii_reset (void);
 extern void vic_ii_exposure_handler (unsigned int width, unsigned int height);
 extern void vic_ii_trigger_light_pen (CLOCK mclk);
 extern void vic_ii_set_vbank (int new_vbank);
-extern void vic_ii_set_ram_base (BYTE * base);
+extern void vic_ii_set_ram_base (BYTE *base);
 extern void vic_ii_enable_extended_keyboard_rows (int flag);
 extern void vic_ii_prepare_for_snapshot (void);
 extern void vic_ii_powerup (void);

@@ -34,7 +34,6 @@
 
 #include "vice.h"
 
-#include "crtc-mem.h"
 #include "types.h"
 
 typedef void (*machine_crtc_retrace_signal_t)(unsigned int);

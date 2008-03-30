@@ -38,6 +38,7 @@
 #include <io.h>
 #endif
 
+#include "archdep.h"
 #include "log.h"
 #include "snapshot.h"
 #include "types.h"
@@ -428,7 +429,7 @@ snapshot_t *snapshot_create(const char *filename,
     FILE *f;
     snapshot_t *s;
 
-    f = fopen(filename, "wb");
+    f = fopen(filename, MODE_WRITE);
     if (f == NULL)
         return NULL;
 
@@ -471,7 +472,7 @@ snapshot_t *snapshot_open(const char *filename,
     snapshot_t *s = NULL;
     int machine_name_len;
 
-    f = zfopen(filename, "rb");
+    f = zfopen(filename, MODE_READ);
     if (f == NULL)
         return NULL;
 

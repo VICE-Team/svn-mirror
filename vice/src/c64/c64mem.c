@@ -56,6 +56,7 @@
 #include "sysfile.h"
 #include "ui.h"
 #include "utils.h"
+#include "vicii-mem.h"
 #include "vicii.h"
 
 #ifdef HAVE_RS232

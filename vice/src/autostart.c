@@ -477,7 +477,7 @@ int autostart_prg(const char *file_name)
     char *directory;
     char *file;
 
-    f = fopen(file_name, "rb");
+    f = fopen(file_name, MODE_READ);
     if (f == NULL) {
 #ifdef HAVE_ERRNO_H
         log_error(autostart_log, "Cannot open `%s': %s",

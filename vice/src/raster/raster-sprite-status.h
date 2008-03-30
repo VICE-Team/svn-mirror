@@ -27,17 +27,18 @@
 #ifndef _RASTER_SPRITE_STATUS_H
 #define _RASTER_SPRITE_STATUS_H
 
-#include "raster-sprite.h"
 #include "types.h"
 
 typedef void (*raster_sprite_status_draw_function_t) (PIXEL * line_ptr,
                                                       BYTE * gfx_msk_ptr);
 
-struct _raster_sprite_status
+struct raster_sprite_s;
+
+struct raster_sprite_status_s
   {
     unsigned int num_sprites;
 
-    raster_sprite_t *sprites;
+    struct raster_sprite_s *sprites;
 
     raster_sprite_status_draw_function_t draw_function;
 
@@ -70,7 +71,7 @@ struct _raster_sprite_status
     DWORD *sprite_data;
     DWORD *new_sprite_data;
   };
-typedef struct _raster_sprite_status raster_sprite_status_t;
+typedef struct raster_sprite_status_s raster_sprite_status_t;
 
 
 
@@ -80,4 +81,5 @@ raster_sprite_status_t *raster_sprite_status_new (unsigned int num_sprites);
 void raster_sprite_status_set_draw_function (raster_sprite_status_t *status,
                              raster_sprite_status_draw_function_t function);
 
-#endif /* _RASTER_SPRITE_STATUS_H */
+#endif
+

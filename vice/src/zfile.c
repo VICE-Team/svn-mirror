@@ -386,7 +386,7 @@ static const char *try_uncompress_archive(const char *name, int write_mode,
     ZDEBUG(("try_uncompress_archive: `%s %s' successful.", program,
 	    listopts));
 
-    fd = fopen(tmp_name, "rb");
+    fd = fopen(tmp_name, MODE_READ);
     if (!fd) {
 	ZDEBUG(("try_uncompress_archive: cannot read `%s %s' output.",
 		program, tmp_name));

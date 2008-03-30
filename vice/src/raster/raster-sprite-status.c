@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include "raster-sprite-status.h"
+#include "raster-sprite.h"
 #include "types.h"
 #include "utils.h"
 

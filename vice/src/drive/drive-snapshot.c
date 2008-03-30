@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "archdep.h"
 #include "attach.h"
 #include "ciad.h"
 #include "diskimage.h"
@@ -598,7 +599,7 @@ static int drive_read_image_snapshot_module(snapshot_t *s, int dnr)
         snapshot_module_close(m);
 	return -1;
     }
-    fp = fopen(filename, "w+b");
+    fp = fopen(filename, MODE_WRITE);
     if (!fp) {
 	log_error(drive_snapshot_log, "Could not create temporary file");
 	log_error(drive_snapshot_log, "filename=%s", filename);

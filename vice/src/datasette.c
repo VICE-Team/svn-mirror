@@ -37,6 +37,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
+#include "tap.h"
 #include "types.h"
 #include "ui.h"
 

@@ -27,8 +27,6 @@
 #ifndef _DATASETTE_H
 #define _DATASETTE_H
 
-#include "tap.h"
-
 #define DATASETTE_CONTROL_STOP    0
 #define DATASETTE_CONTROL_START   1
 #define DATASETTE_CONTROL_FORWARD 2
@@ -53,8 +51,10 @@
 /* at FF/REWIND, Datasette-counter makes ~4 rounds per second */
 #define DS_RPS_FAST 4.00
 
+struct tap_s;
+
 extern void datasette_init(void);
-extern void datasette_set_tape_image(tap_t *image);
+extern void datasette_set_tape_image(struct tap_s *image);
 extern void datasette_control(int command);
 extern void datasette_set_motor(int flag);
 extern void datasette_toggle_write_bit(int write_bit);

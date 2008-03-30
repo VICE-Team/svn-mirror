@@ -35,6 +35,7 @@
 #include "c610mem.h"
 #include "c610tpi.h"
 #include "cmdline.h"
+#include "crtc-mem.h"
 #include "crtc.h"
 #include "emuid.h"
 #include "interrupt.h"

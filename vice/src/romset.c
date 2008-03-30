@@ -35,6 +35,7 @@
 #include <errno.h>
 #endif
 
+#include "archdep.h"
 #include "log.h"
 #include "mem.h"
 #include "resources.h"
@@ -91,7 +92,7 @@ int romset_dump(const char *filename, const char **resource_list) {
     FILE *fp;
     const char *s;
 
-    fp = fopen(filename, "w");
+    fp = fopen(filename, MODE_WRITE);
     if (fp) {
         log_message(LOG_DEFAULT, "Dumping ROM set to file '%s'",filename);
 	s = *resource_list++;
@@ -136,7 +137,7 @@ int romset_load_archive(const char *filename, int autostart)
     char buffer[256];
     string_link_t *autoset = NULL;
 
-    if ((fp = fopen(filename, "r")) == NULL)
+    if ((fp = fopen(filename, MODE_READ)) == NULL)
     {
         log_warning(LOG_DEFAULT, "Could not open file '%s' for reading!", filename);
         return -1;
@@ -228,7 +229,7 @@ int romset_dump_archive(const char *filename)
     string_link_t *item;
     int i;
 
-    if ((fp = fopen(filename, "w")) == NULL)
+    if ((fp = fopen(filename, MODE_WRITE)) == NULL)
     {
         log_warning(LOG_DEFAULT, "Could not open file '%s' for writing!", filename);
         return -1;
@@ -265,7 +266,7 @@ int romset_save_item(const char *filename, const char *romset_name)
             string_link_t *item;
             FILE *fp;
 
-            if ((fp = fopen(filename, "w")) == NULL)
+            if ((fp = fopen(filename, MODE_WRITE)) == NULL)
             {
                 log_warning(LOG_DEFAULT, "Could not open file '%s' for writing", filename);
                 return -1;

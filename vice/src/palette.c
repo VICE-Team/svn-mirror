@@ -206,7 +206,7 @@ int palette_load(const char *file_name, palette_t *palette_return)
 int palette_save(const char *file_name, const palette_t *palette)
 {
     int i;
-    FILE *f = fopen(file_name, "w");
+    FILE *f = fopen(file_name, MODE_WRITE);
 
     if (f == NULL)
         return -1;
@@ -224,3 +224,4 @@ int palette_save(const char *file_name, const palette_t *palette)
 
     return fclose(f);
 }
+

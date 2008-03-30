@@ -554,7 +554,7 @@ int MAIN_PROGRAM(int argc, char **argv)
                 autostart_file = stralloc(autostart_string);
                 autostart_prg = strrchr(autostart_file, ':');
                 *autostart_prg++ = '\0';
-                autostart_fd = fopen(autostart_file, "rb");
+                autostart_fd = fopen(autostart_file, MODE_READ);
                 /* Does the image exist?  */
                 if (autostart_fd) {
                     char *name;

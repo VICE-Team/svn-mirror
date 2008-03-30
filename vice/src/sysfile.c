@@ -171,7 +171,7 @@ FILE *sysfile_open(const char *name, char **complete_path_return)
     {
         if (complete_path_return != NULL)
             *complete_path_return = stralloc(name);
-        return fopen(name, "r");
+        return fopen(name, MODE_READ);
     }
 
     f = NULL;
@@ -184,7 +184,7 @@ FILE *sysfile_open(const char *name, char **complete_path_return)
             buffer[0] = '\0';
         }
     }
-    if (buffer[0] != '\0') f = fopen(buffer, "r");
+    if (buffer[0] != '\0') f = fopen(buffer, MODE_READ);
     if (f == NULL)
     {
         if (complete_path_return != NULL)

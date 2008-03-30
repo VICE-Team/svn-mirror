@@ -41,6 +41,7 @@
 #include "types.h"
 #include "utils.h"
 #include "vdc.h"
+#include "vicii-mem.h"
 #include "vicii.h"
 #include "z80mem.h"
 

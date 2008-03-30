@@ -34,6 +34,7 @@
 #include <unistd.h>
 #endif
 
+#include "archdep.h"
 #include "c64mem.h"
 #include "cmdline.h"
 #include "drive.h"
@@ -128,7 +129,7 @@ int psid_load_file(const char* filename)
   BYTE* ptr = buf;
   unsigned int length;
 
-  if (!(f = zfopen(filename, "rb"))) {
+  if (!(f = zfopen(filename, MODE_READ))) {
     return -1;
   }
 

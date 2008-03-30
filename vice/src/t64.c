@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "log.h"
 #include "t64.h"
 #include "types.h"
@@ -176,7 +177,7 @@ t64_t *t64_open(const char *name)
     t64_t *new;
     int i;
 
-    fd = zfopen(name, "rb");
+    fd = zfopen(name, MODE_READ);
     if (fd == NULL)
         return NULL;
 

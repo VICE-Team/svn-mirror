@@ -557,7 +557,7 @@ int file_exists_p(const char *name)
 {
     FILE *f;
 
-    f = fopen(name, "r");
+    f = fopen(name, MODE_READ);
     if (f != NULL) {
         fclose(f);
         return 1;
