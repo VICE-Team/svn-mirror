@@ -29,6 +29,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "log.h"
 #include "mem.h"
@@ -37,6 +38,7 @@
 #include "types.h"
 #include "util.h"
 #include "vic20mem.h"
+#include "vic20memrom.h"
 #include "vic20rom.h"
 
 
@@ -53,7 +55,7 @@ int vic20rom_kernal_checksum(void)
 
     /* Check Kernal ROM.  */
     for (i = 0, sum = 0; i < VIC20_KERNAL_ROM_SIZE; i++)
-        sum += mem_kernal_rom[i];
+        sum += vic20memrom_kernal_rom[i];
 
     if (sum != VIC20_KERNAL_CHECKSUM) {
         log_error(vic20rom_log,
@@ -74,20 +76,20 @@ int vic20rom_load_kernal(const char *rom_name)
     resources_get_value("VirtualDevices", (void *)&trapfl);
     resources_set_value("VirtualDevices", (resource_value_t)1);
 
-    if (!util_check_null_string(rom_name)) {
-        /* Load Kernal ROM. */
-        if (sysfile_load(rom_name,
-            mem_kernal_rom, VIC20_KERNAL_ROM_SIZE,
-            VIC20_KERNAL_ROM_SIZE) < 0) {
-            log_error(vic20rom_log, "Couldn't load kernal ROM.");
-            resources_set_value("VirtualDevices", (resource_value_t) trapfl);
-            return -1;
-        }
+    /* Load Kernal ROM. */
+    if (sysfile_load(rom_name,
+        vic20memrom_kernal_rom, VIC20_KERNAL_ROM_SIZE,
+        VIC20_KERNAL_ROM_SIZE) < 0) {
+        log_error(vic20rom_log, "Couldn't load kernal ROM.");
+        resources_set_value("VirtualDevices", (resource_value_t) trapfl);
+        return -1;
     }
+    memcpy(vic20memrom_kernal_trap_rom, vic20memrom_kernal_rom,
+           VIC20_KERNAL_ROM_SIZE);
 
     vic20rom_kernal_checksum();
 
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
 
     return 0;
 }
@@ -99,7 +101,7 @@ int vic20rom_basic_checksum(void)
 
     /* Check Basic ROM. */
     for (i = 0, sum = 0; i < VIC20_BASIC_ROM_SIZE; i++)
-        sum += mem_basic_rom[i];
+        sum += vic20memrom_basic_rom[i];
 
     if (sum != VIC20_BASIC_CHECKSUM)
         log_error(vic20rom_log,
@@ -116,7 +118,7 @@ int vic20rom_load_basic(const char *rom_name)
     if (!util_check_null_string(rom_name)) {
         /* Load Basic ROM. */
         if (sysfile_load(rom_name,
-            mem_basic_rom, VIC20_BASIC_ROM_SIZE,
+            vic20memrom_basic_rom, VIC20_BASIC_ROM_SIZE,
             VIC20_BASIC_ROM_SIZE) < 0) {
             log_error(vic20rom_log, "Couldn't load basic ROM.");
             return -1;
@@ -133,7 +135,7 @@ int vic20rom_load_chargen(const char *rom_name)
     if (!util_check_null_string(rom_name)) {
         /* Load chargen ROM. */
         if (sysfile_load(rom_name,
-            mem_chargen_rom + 0x400, VIC20_CHARGEN_ROM_SIZE,
+            vic20memrom_chargen_rom + 0x400, VIC20_CHARGEN_ROM_SIZE,
             VIC20_CHARGEN_ROM_SIZE) < 0) {
             log_error(vic20rom_log, "Couldn't load character ROM.");
             return -1;

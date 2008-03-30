@@ -49,6 +49,7 @@
 #include "vic20-resources.h"
 #include "vic20ieeevia.h"
 #include "vic20mem.h"
+#include "vic20memrom.h"
 #include "vic20via.h"
 
 
@@ -63,14 +64,8 @@ unsigned int mem_old_reg_pc;
 
 /* The VIC20 memory. */
 BYTE mem_ram[VIC20_RAM_SIZE];
-BYTE mem_rom[VIC20_BASIC_ROM_SIZE + VIC20_KERNAL_ROM_SIZE];
 
 BYTE mem_cartrom[0x10000];
-
-/* The second 0x400 handles a possible segfault by a wraparound of the
-   chargen by setting it to $8c00.  FIXME: This does not cause the exact
-   behavior to be emulated though!  */
-BYTE mem_chargen_rom[0x400 + VIC20_CHARGEN_ROM_SIZE + 0x400];
 
 /* Memory read and write tables.  */
 /*
@@ -96,25 +91,10 @@ int *mem_read_limit_tab_ptr;
 static void REGPARM2 store_wrap(WORD addr, BYTE value)
 {
     mem_ram[addr & (VIC20_RAM_SIZE - 1)] = value;
-    mem_chargen_rom[addr & 0x3ff] = value;
+    vic20memrom_chargen_rom[addr & 0x3ff] = value;
 }
 
 /* ------------------------------------------------------------------------- */
-
-static BYTE REGPARM1 basic_read(WORD addr)
-{
-    return mem_basic_rom[addr & 0x1fff];
-}
-
-static BYTE REGPARM1 kernal_read(WORD addr)
-{
-    return mem_kernal_rom[addr & 0x1fff];
-}
-
-static BYTE REGPARM1 chargen_read(WORD addr)
-{
-    return mem_chargen_rom[0x400 + (addr & 0xfff)];
-}
 
 BYTE REGPARM1 zero_read(WORD addr)
 {
@@ -150,39 +130,6 @@ static BYTE REGPARM1 colorram_read(WORD addr)
 static void REGPARM2 colorram_store(WORD addr, BYTE value)
 {
     mem_ram[addr & (VIC20_RAM_SIZE - 1)] = value & 0xf;
-}
-
-BYTE REGPARM1 rom_read(WORD addr)
-{
-    switch (addr & 0xf000) {
-      case 0x8000:
-        return chargen_read(addr);
-      case 0xc000:
-      case 0xd000:
-        return basic_read(addr);
-      case 0xe000:
-      case 0xf000:
-        return kernal_read(addr);
-    }
-
-    return 0;
-}
-
-void REGPARM2 rom_store(WORD addr, BYTE value)
-{
-    switch (addr & 0xf000) {
-      case 0x8000:
-        mem_chargen_rom[0x400 + (addr & 0x0fff)] = value;
-        break;
-      case 0xc000:
-      case 0xd000:
-        mem_basic_rom[addr & 0x1fff] = value;
-        break;
-      case 0xe000:
-      case 0xf000:
-        mem_kernal_rom[addr & 0x1fff] = value;
-        break;
-    }
 }
 
 static void REGPARM2 via_store(WORD addr, BYTE value)
@@ -447,8 +394,8 @@ void mem_initialize_memory(void)
 
     /* Setup character generator ROM at $8000-$8FFF. */
     set_mem(0x80, 0x8f,
-            chargen_read, store_dummy,
-            mem_chargen_rom + 0x400, 0x0fff);
+            vic20memrom_chargen_read, store_dummy,
+            vic20memrom_chargen_rom + 0x400, 0x0fff);
 
     /* Setup VIC-I at $9000-$90FF. */
     set_mem(0x90, 0x90,
@@ -480,13 +427,13 @@ void mem_initialize_memory(void)
 
     /* Setup BASIC ROM at $C000-$DFFF. */
     set_mem(0xc0, 0xdf,
-            basic_read, store_dummy,
-            mem_basic_rom, 0x1fff);
+            vic20memrom_basic_read, store_dummy,
+            vic20memrom_basic_rom, 0x1fff);
 
     /* Setup Kernal ROM at $E000-$FFFF. */
     set_mem(0xe0, 0xff,
-            kernal_read, store_dummy,
-            mem_kernal_rom, 0x1fff);
+            vic20memrom_kernal_read, store_dummy,
+            vic20memrom_kernal_trap_rom, 0x1fff);
 
     _mem_read_tab_nowatch[0x100] = _mem_read_tab_nowatch[0];
     _mem_write_tab_nowatch[0x100] = _mem_write_tab_nowatch[0];

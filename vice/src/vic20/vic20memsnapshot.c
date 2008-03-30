@@ -42,6 +42,7 @@
 #include "types.h"
 #include "vic20-resources.h"
 #include "vic20mem.h"
+#include "vic20memrom.h"
 #include "vic20memsnapshot.h"
 #include "vic20rom.h"
 
@@ -140,7 +141,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     SMR_BA(m, mem_ram, 0x0400);
     SMR_BA(m, mem_ram + 0x1000, 0x1000);
     /* setup wraparound copy of chargen */
-    memcpy(mem_chargen_rom, mem_ram + 0x1c00, 0x400);
+    memcpy(vic20memrom_chargen_rom, mem_ram + 0x1c00, 0x400);
 
     SMR_BA(m, mem_ram + 0x9400, 0x0800);
 
@@ -227,11 +228,11 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     SMW_B(m, config);
 
     /* save kernal */
-    SMW_BA(m, mem_rom + 0x2000, 0x2000);
+    SMW_BA(m, vic20memrom_kernal_rom, 0x2000);
     /* save basic */
-    SMW_BA(m, mem_rom + 0x0000, 0x2000);
+    SMW_BA(m, vic20memrom_basic_rom, 0x2000);
 
-    SMW_BA(m, mem_chargen_rom + 0x400, 0x1000);
+    SMW_BA(m, vic20memrom_chargen_rom + 0x400, 0x1000);
 
     if (config & 1) {
         SMW_BA(m, mem_cartrom + 0x2000, 0x1000);
@@ -289,11 +290,11 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     SMR_B(m, &config);
 
     /* read kernal */
-    SMR_BA(m, mem_rom + 0x2000, 0x2000);
+    SMR_BA(m, vic20memrom_kernal_rom, 0x2000);
     /* read basic */
-    SMR_BA(m, mem_rom + 0x0000, 0x2000);
+    SMR_BA(m, vic20memrom_basic_rom, 0x2000);
 
-    SMR_BA(m, mem_chargen_rom + 0x400, 0x1000);
+    SMR_BA(m, vic20memrom_chargen_rom + 0x400, 0x1000);
 
     mem_rom_blocks = 0;
 

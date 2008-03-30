@@ -60,12 +60,7 @@
 #define VIC_BLK5 16
 #define VIC_BLK_ALL (VIC_BLK0 | VIC_BLK1 | VIC_BLK2 | VIC_BLK3 | VIC_BLK5)
 
-extern BYTE mem_rom[VIC20_BASIC_ROM_SIZE + VIC20_KERNAL_ROM_SIZE];
-extern BYTE mem_chargen_rom[0x400 + VIC20_CHARGEN_ROM_SIZE + 0x400];
 extern BYTE mem_cartrom[0x10000];
-
-#define mem_kernal_rom (mem_rom + VIC20_BASIC_ROM_SIZE)
-#define mem_basic_rom (mem_rom)
 
 extern int vic20_mem_init_resources(void);
 extern int vic20_mem_init_cmdline_options(void);
