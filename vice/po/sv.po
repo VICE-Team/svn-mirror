@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.13\n"
 "POT-Creation-Date: 2003-09-13 15:28+0200\n"
-"PO-Revision-Date: 2003-09-07 19:09+0200\n"
+"PO-Revision-Date: 2003-09-20 10:27+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -998,9 +998,8 @@ msgid "Detach #%d"
 msgstr "Koppla från %d"
 
 #: src/arch/unix/uicommands.c:687
-#, fuzzy
 msgid "*Write Protect"
-msgstr "Anslut skrivskyddat"
+msgstr "*Skrivskydda"
 
 #: src/arch/unix/uicommands.c:713
 msgid "Next: "
@@ -1125,18 +1124,16 @@ msgid "Change working directory..."
 msgstr "Byt arbetskatalog..."
 
 #: src/arch/unix/uicommands.c:963
-#, fuzzy
 msgid "*Save new snapshot"
-msgstr "Spara ögonblicksbild"
+msgstr "*Spara ny ögonblicksbild"
 
 #: src/arch/unix/uicommands.c:965
-#, fuzzy
 msgid "*Load existing snapshot"
-msgstr "Laddar ögonblicksbild"
+msgstr "*Ladda existerande ögonblicksbild"
 
 #: src/arch/unix/uicommands.c:967
 msgid "*Start with reset"
-msgstr ""
+msgstr "*Starta med nollställning"
 
 #: src/arch/unix/uicommands.c:973
 msgid "Load snapshot..."
@@ -1172,7 +1169,7 @@ msgstr "Sluta spela upp händelser"
 
 #: src/arch/unix/uicommands.c:996
 msgid "Recording start mode"
-msgstr ""
+msgstr "Spelar in startläge"
 
 #: src/arch/unix/uicommands.c:1002
 msgid "Snapshot commands"
@@ -1249,7 +1246,7 @@ msgstr "*Grafikcache"
 #: src/arch/unix/uicrtc.c:100 src/arch/unix/uited.c:111
 #: src/arch/unix/uivic.c:112 src/arch/unix/uivicii.c:127
 msgid "*Scale 2x render"
-msgstr ""
+msgstr "*Skala 2x-rendrering"
 
 #: src/arch/unix/uicrtc.c:104 src/arch/unix/uited.c:115
 #: src/arch/unix/uivdc.c:111 src/arch/unix/uivic.c:116
@@ -3032,26 +3029,6 @@ msgstr "Initierade utan delat minne."
 
 #~ msgid "TED Video settings"
 #~ msgstr "TED-grafikinställningar"
-
-#, fuzzy
-#~ msgid "Found suitable mode for fullscreen."
-#~ msgstr "Aktivera fullskärm"
-
-#, fuzzy
-#~ msgid "Couldn't allocate pixel value cache."
-#~ msgstr "Kunde inte skapa diskettavbildningsfil"
-
-#, fuzzy
-#~ msgid "*PAL emulation"
-#~ msgstr "-emulator"
-
-#, fuzzy
-#~ msgid "*Enable DGA2 fullscreen"
-#~ msgstr "Aktivera fullskärm"
-
-#, fuzzy
-#~ msgid "*Enable VidMode fullscreen"
-#~ msgstr "Aktivera fullskärm"
 
 #~ msgid "*Fullscreen settings"
 #~ msgstr "*Fullskärmsinställningar"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.13\n"
 "POT-Creation-Date: 2003-09-13 15:28+0200\n"
-"PO-Revision-Date: 2003-09-07 19:08+0200\n"
+"PO-Revision-Date: 2003-09-20 10:19+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1000,7 +1000,6 @@ msgid "Detach #%d"
 msgstr "Wyjmij #%d"
 
 #: src/arch/unix/uicommands.c:687
-#, fuzzy
 msgid "*Write Protect"
 msgstr "W³ó¿ zabezpieczone przed zapisem"
 
@@ -1127,7 +1126,6 @@ msgid "Change working directory..."
 msgstr "Zmieñ katalog roboczy..."
 
 #: src/arch/unix/uicommands.c:963
-#, fuzzy
 msgid "*Save new snapshot"
 msgstr "Zapisz obraz"
 
@@ -1138,7 +1136,7 @@ msgstr "Za³aduj zrzut"
 
 #: src/arch/unix/uicommands.c:967
 msgid "*Start with reset"
-msgstr ""
+msgstr "*Rozpocznij z restartem"
 
 #: src/arch/unix/uicommands.c:973
 msgid "Load snapshot..."
@@ -1174,7 +1172,7 @@ msgstr "Zatrzymaj odtwarzanie wydarzen"
 
 #: src/arch/unix/uicommands.c:996
 msgid "Recording start mode"
-msgstr ""
+msgstr "Rozpocznij tryb zapisu"
 
 #: src/arch/unix/uicommands.c:1002
 msgid "Snapshot commands"
@@ -1251,7 +1249,7 @@ msgstr "*Cache video"
 #: src/arch/unix/uicrtc.c:100 src/arch/unix/uited.c:111
 #: src/arch/unix/uivic.c:112 src/arch/unix/uivicii.c:127
 msgid "*Scale 2x render"
-msgstr ""
+msgstr "*Skala renderowania: x2"
 
 #: src/arch/unix/uicrtc.c:104 src/arch/unix/uited.c:115
 #: src/arch/unix/uivdc.c:111 src/arch/unix/uivic.c:116
