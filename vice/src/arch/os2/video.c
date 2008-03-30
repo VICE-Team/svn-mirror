@@ -509,10 +509,14 @@ static const resource_t resources2[] = {
     NULL
 };
 
-int video_arch_init_resources(void)
+int video_arch_resources_init(void)
 {
     return (vsid_mode?0:resources_register(resources1)) |
         resources_register(resources2);
+}
+
+void video_arch_resources_shutdown(void)
+{
 }
 
 static const cmdline_option_t cmdline_options1[] = {

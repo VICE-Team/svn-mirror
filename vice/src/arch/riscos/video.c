@@ -411,11 +411,14 @@ static const resource_t resources[] = {
 };
 
 
-int video_arch_init_resources(void)
+int video_arch_resources_init(void)
 {
   return resources_register(resources);
 }
 
+void video_arch_resources_shutdown(void)
+{
+}
 
 int video_init_cmdline_options(void)
 {

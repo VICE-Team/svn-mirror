@@ -236,6 +236,7 @@ int machine_resources_init(void)
 
 void machine_resources_shutdown(void)
 {
+    video_resources_shutdown();
     vic20_resources_shutdown();
     sound_resources_shutdown();
     rs232drv_resources_shutdown();

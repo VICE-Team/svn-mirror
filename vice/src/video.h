@@ -155,6 +155,9 @@ extern void video_viewport_get(struct video_canvas_s *canvas,
                                struct viewport_s **viewport,
                                struct geometry_s **geometry);
 extern void video_viewport_resize(struct video_canvas_s *canvas);
+extern void video_viewport_title_set(struct video_canvas_s *canvas,
+                                     const char *title);
+extern void video_viewport_title_free(viewport_t *viewport);
 
 typedef struct video_draw_buffer_callback_s {
     int (*draw_buffer_alloc)(struct video_canvas_s *canvas, BYTE **draw_buffer,
@@ -169,13 +172,15 @@ typedef struct video_draw_buffer_callback_s {
 struct raster_s;
 
 extern int video_resources_init(void);
+extern void video_resources_shutdown(void);
 extern int video_resources_pal_init(void);
 extern int video_resources_chip_init(const char *chipname,
                                      struct video_canvas_s **canvas,
                                      video_chip_cap_t *video_chip_cap);
 extern int video_cmdline_options_chip_init(const char *chipname,
                                            video_chip_cap_t *video_chip_cap);
-extern int video_arch_init_resources(void);
+extern int video_arch_resources_init(void);
+extern void video_arch_resources_shutdown(void);
 
 /* Video render interface */
 

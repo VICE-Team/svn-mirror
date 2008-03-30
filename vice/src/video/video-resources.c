@@ -41,8 +41,7 @@
 video_resources_t video_resources =
 {
     1000, 1100, 1100, 880,
-    0, 0,
-    0, 0,
+    0, NULL, 0, 0, 0
 };
 
 static int set_ext_palette(resource_value_t v, void *param)
@@ -69,7 +68,13 @@ static const resource_t resources[] =
 
 int video_resources_init(void)
 {
-    return resources_register(resources) | video_arch_init_resources();
+    return resources_register(resources) | video_arch_resources_init();
+}
+
+void video_resources_shutdown(void)
+{
+    video_arch_resources_shutdown();
+    lib_free(video_resources.palette_file_name);
 }
 
 /*-----------------------------------------------------------------------*/

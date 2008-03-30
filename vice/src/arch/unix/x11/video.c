@@ -124,7 +124,7 @@ static int set_fourcc(resource_value_t v, void *param)
 }
 
 static double aspect_ratio;
-static const char *aspect_ratio_s = NULL;
+static char *aspect_ratio_s = NULL;
 
 static int set_aspect_ratio(resource_value_t v, void *param)
 {
@@ -169,9 +169,14 @@ static const resource_t resources[] = {
     { NULL }
 };
 
-int video_arch_init_resources(void)
+int video_arch_resources_init(void)
 {
     return resources_register(resources);
+}
+
+void video_arch_resources_shutdown(void)
+{
+    lib_free(aspect_ratio_s);
 }
 
 /* ------------------------------------------------------------------------- */
