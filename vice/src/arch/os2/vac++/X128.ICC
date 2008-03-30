@@ -1,6 +1,6 @@
 option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     link(pmtype, "pm"),     gen(arch, "pentium"),
-    link(debug, "no"),      gen(debug, "no"),
+    link(debug, "no"),      gen(debug, "yes"),
     opt(level, "2"),        opt(tune, "pentium"),
     opt(autoinline, "yes"), opt(inline, "yes"),
     info(cnd, "no"),        info(ppc, "no"),
@@ -29,7 +29,6 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     target type(exe) "..\\..\\..\\..\\data\\x128.exe"
     {
         source type (lib) "mmpm2.lib"
-        source type (lib) "resid.lib"
         source type (rc)  "dialogs/dialogs.rc"
 
         source type(c)
@@ -53,10 +52,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "incl/vdrive.icc"
         include "incl/sounddrv.icc"
         include "incl/vicii.icc"
-
-        source type (cpp) "resid.cc"
-        source type (c)   "sid.c"
-
+        include "incl/resid.icc"
     }
 }
 

@@ -132,8 +132,9 @@
 #define CBS_REFRATE    0x1093
 #define CB_PAUSE       0x1094
 #define CB_VCACHE      0x1095
-#define CB_SBCOLL      0x1096
-#define CB_SSCOLL      0x1097
+#define CB_EMUID       0x1096
+#define CB_SBCOLL      0x1097
+#define CB_SSCOLL      0x1098
 
 // Monitor Dialog
 #define DLG_MONITOR    0x10a0

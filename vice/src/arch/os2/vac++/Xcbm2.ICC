@@ -1,7 +1,7 @@
 option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     link(pmtype, "pm"),     gen(arch, "pentium"),
-    link(debug, "no"),      gen(debug, "no"),
-    opt(level, "2"),        opt(tune, "pentium"),
+    link(debug, "yes"),     gen(debug, "yes"),
+    opt(level, "1"),        opt(tune, "pentium"),
     opt(autoinline, "yes"), opt(inline, "yes"),
     info(cnd, "no"),        info(ppc, "no"),
     info(ppt, "no"),        file(genobject, "Yes"),
@@ -39,18 +39,12 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "incl/vdrive.icc"
         include "incl/monitor.icc"
         include "incl/sounddrv.icc"
+        include "incl/resid.icc"
 
         source type(c)
             "c610ui.c",
             "kbd\\kbd-c610.c",
             "kbd\\kbd-pet.c"
-
-        source type (cpp) "resid.cc"
-        source type (c)   "sid.c"
-
-        source type (lib) "resid.lib"
-
-
     }
 }
 

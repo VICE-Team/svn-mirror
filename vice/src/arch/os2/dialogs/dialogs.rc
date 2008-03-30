@@ -31,6 +31,8 @@
 #define INCL_WINSTDDLGS
 #define INCL_WINSTDSPIN
 
+// Don't change the order of the include files!
+#include "../config.h"
 #include "dialogs.h"
 #include "../../../version.h"
 
@@ -146,11 +148,13 @@ BEGIN
         CONTROL "2x",           RB_2X,      77, 105, 25, 10, STY_AUTORADIOBUTTON
         CONTROL "4x",           RB_4X,      77,  95, 25, 10, STY_AUTORADIOBUTTON
         CONTROL "8x",           RB_8X,      77,  85, 25, 10, STY_AUTORADIOBUTTON
+#if defined __X64__ || defined __X128__ || defined __XCBM__
         TEXT("SID:", 17, 70, 20, 8)
         CONTROL "6581",         RB_6581,    37,  69, 30, 10, STY_AUTORADIOBUTTON |
                                 WS_GROUP
         CONTROL "8580",         RB_8580,    77,  69, 30, 10, STY_AUTORADIOBUTTON
         CONTROL "Sid Filters",  CB_SIDFILTER, 17, 55, 50, 9, STY_AUTOCHECKBOX
+#endif
 #ifdef HAVE_RESID
         CONTROL "HiFi (reSID)", CB_RESID,   70,  55, 60,  9, STY_AUTOCHECKBOX
 #endif
@@ -264,13 +268,14 @@ END
 
 DLGTEMPLATE DLG_EMULATOR 850 MOVEABLE DISCARDABLE
 BEGIN
-    DIALOG "Emulator Setup", DLG_EMULATOR, 162, 122, 142, 128, STY_DIALOG
+    DIALOG "Emulator Setup", DLG_EMULATOR, 162, 122, 152, 128, STY_DIALOG
     BEGIN
         CONTROL "Close",     DID_CLOSE,  5,  5,  38, 12, STY_CLOSEBUTTON |
                              WS_GROUP 
-        CONTROL "Emulator",  ID_NONE,    7, 22, 128, 82, STY_GROUPBOX
+        CONTROL "Emulator",  ID_NONE,    7, 22, 128, 102, STY_GROUPBOX
 
-        CONTROL "Pause",                       CB_PAUSE,  14, 85,  40,  9, STY_AUTOCHECKBOX
+        CONTROL "Pause",                       CB_PAUSE,  14, 95,  40,  9, STY_AUTOCHECKBOX
+        CONTROL "Emulator Identification",     CB_EMUID,  14, 85, 105,  9, STY_AUTOCHECKBOX
         CONTROL "Video Cache",                 CB_VCACHE, 14, 75,  60,  9, STY_AUTOCHECKBOX
 #if defined __X64__ || defined __X128__
         CONTROL "Sprite-Background Collision", CB_SBCOLL, 14, 65, 115,  9, STY_AUTOCHECKBOX

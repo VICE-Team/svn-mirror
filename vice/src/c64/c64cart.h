@@ -46,6 +46,9 @@ extern BYTE roml_banks[], romh_banks[];
 /* Expansion port ROML/ROMH/RAM banking.  */
 extern int roml_bank, romh_bank, export_ram;
 
+/* Cartridge RAM limit = 32Kb */
+#define C64CART_RAM_LIMIT		0x8000
+
 /* Expansion port signals.  */
 typedef struct {
     BYTE exrom;

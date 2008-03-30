@@ -862,7 +862,7 @@ void mem_powerup(void)
 
 	roml_banks = xmalloc(0x20000);
 	romh_banks = xmalloc(0x20000);
-	export_ram0 = xmalloc(0x2000);
+	export_ram0 = xmalloc(C64CART_RAM_LIMIT);
     }
 #endif
 

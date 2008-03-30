@@ -44,6 +44,7 @@ libarch_a_SOURCES = \
 EXTRA_DIST = \
 	vice.def \
         install.cmd \
+        makedist.cmd \
         unused/contentsdlg.c \
         unused/contentsdlg.h \
         unused/video_gpi.h \

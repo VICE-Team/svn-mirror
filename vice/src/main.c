@@ -174,10 +174,17 @@ static cmdline_option_t cmdline_options[] = {
       "<name>", "Attach <name> as a disk image in drive #11" },
     { "-console", CALL_FUNCTION, 0, cmdline_console, NULL, NULL, NULL,
       NULL, "Console mode (for playing music)" },
+#ifdef OS2
+    { "-debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 1,
+      NULL, "Don't call exception handler" },
+    { "+debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 0,
+      NULL, "Call exception handler (default)" },
+#else
     { "-core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 1,
       NULL, "Allow production of core dumps" },
     { "+core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 0,
       NULL, "Do not produce core dumps" },
+#endif
     { NULL }
 };
 
@@ -194,7 +201,7 @@ static int set_do_core_dumps(resource_value_t v)
 static resource_t resources[] =
 {
     {"DoCoreDump", RES_INTEGER, (resource_value_t) 0,
-     (resource_value_t *) & do_core_dumps, set_do_core_dumps},
+    (resource_value_t *) & do_core_dumps, set_do_core_dumps},
     {NULL}
 };
 

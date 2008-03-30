@@ -53,7 +53,7 @@ BYTE roml_banks[0x20000], romh_banks[0x20000];
 #ifdef AVOID_STATIC_ARRAYS
 BYTE *export_ram0;
 #else
-BYTE export_ram0[0x2000];
+BYTE export_ram0[C64CART_RAM_LIMIT];
 #endif
 
 /* Expansion port ROML/ROMH/RAM banking.  */
@@ -64,6 +64,7 @@ int ultimax = 0;
 
 /* Super Snapshot configuration flags.  */
 static BYTE ramconfig = 0xff, romconfig = 9;
+static int ram_bank = 0;		/* Version 5 supports 4 - 8Kb RAM banks. */
 
 /* Atomic Power RAM hack.  */
 static int export_ram_at_a000 = 0;
@@ -117,6 +118,8 @@ BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
 
 void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
 {
+	int banknr;
+
     switch (mem_cartridge_type) {
       case CARTRIDGE_ACTION_REPLAY:
         cartridge_config_changed(value);
@@ -143,47 +146,27 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
         if (((addr & 0xff) == 0)
 	    || ((addr & 0xff) == 1)) {
 
-            romconfig = 0;
-
             if ((value & 1) == 1) {
                 cartridge_release_freeze();
             }
 
             /* D0 = ~GAME */
-            romconfig |= ((value & 1) ^ 1);
+            romconfig = ((value & 1) ^ 1);
 
-            /*
-             * Mask: D1, D2 & D4
-             */
-            value = value & 0x16;
+			/* Calc RAM/ROM bank nr. */
+			banknr = ((value >> 2) & 0x1) | ((value >> 3) & 0x2);
 
-            switch (value) {
-              /* ROM mapping */
-              case (0x02) :
-                romconfig |= (0 << 3);  /* Bank 0 */
-                break;
-              case (0x06) :
-                romconfig |= (1 << 3);  /* Bank 1 */
-                break;
-              case (0x12) :
-                romconfig |= (2 << 3);  /* Bank 2 */
-                break;
-              case (0x16) :
-                romconfig |= (3 << 3);  /* Bank 3 */
-                break;
-
-              /* RAM mapping */
-              case (0x00) :
-              case (0x04) :
-              case (0x10) :
-              case (0x14) :
-                /* Map RAM only when NOT in normal mode! */
-                if ((value & 1) == 0) {
-                    romconfig |= (1 << 1);  /* exrom */
-                    romconfig |= (1 << 5);  /* export */
-                }
-                break;
-            }
+			/* ROM ~OE set? */
+			if (((value >> 3) & 1) == 0) {
+				romconfig |= (banknr << 3);		/* Select ROM banknr. */
+			}
+				
+			/* RAM ~OE set? */
+			if (((value >> 1) & 1) == 0) {
+				ram_bank = banknr;				/* Select RAM banknr. */
+				romconfig |= (1 << 5);  		/* export_ram */
+				romconfig |= (1 << 1); 			/* exrom */
+			}
             cartridge_config_changed(romconfig);
         }
         break;
@@ -326,7 +309,16 @@ void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
 BYTE REGPARM1 read_roml(ADDRESS addr)
 {
     if (export_ram)
-        return export_ram0[addr & 0x1fff];
+		{
+		if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT_V5)
+			{
+			return export_ram0[(addr & 0x1fff) + (ram_bank << 13)];
+			}
+		else 
+			{
+			return export_ram0[addr & 0x1fff];
+			}
+		}
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
@@ -340,7 +332,16 @@ BYTE REGPARM1 read_romh(ADDRESS addr)
 void REGPARM2 store_roml(ADDRESS addr, BYTE value)
 {
     if (export_ram)
-        export_ram0[addr & 0x1fff] = value;
+		{
+		if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT_V5)
+			{
+			export_ram0[(addr & 0x1fff) + (ram_bank << 13)] = value;
+			}
+		else
+			{
+			export_ram0[addr & 0x1fff] = value;
+			}
+		}
     return;
 }
 

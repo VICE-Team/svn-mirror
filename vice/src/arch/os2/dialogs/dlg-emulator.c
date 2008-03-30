@@ -42,9 +42,8 @@
 
 #if defined __X64__ || defined __X128__ || defined __XVIC__
 #define VIDEO_CACHE "VideoCache"
-#endif
-
-#if defined __XPET__ || defined __XCBM__
+#else
+//#if defined __XPET__ || defined __XCBM__
 #define VIDEO_CACHE "CrtcVideoCache"
 #endif
 
@@ -98,11 +97,13 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                 WinCheckButton(hwnd, CB_PAUSE, isEmulatorPaused());
                 resources_get_value(VIDEO_CACHE,  (resource_value_t *) &val);
                 WinCheckButton(hwnd, CB_VCACHE, val);
-#ifdef __X64__
+#if defined __X64__ || defined __X128__
                 resources_get_value("CheckSbColl", (resource_value_t *) &val);
                 WinCheckButton(hwnd, CB_SBCOLL, val);
                 resources_get_value("CheckSsColl", (resource_value_t *) &val);
                 WinCheckButton(hwnd, CB_SSCOLL, val);
+                resources_get_value("EmuID", (resource_value_t *) &val);
+                WinCheckButton(hwnd, CB_EMUID, val);
 #endif
                 for (val=0; val<11; val++)
                     WinLboxInsertItem(hwnd, CBS_REFRATE, psz[val]);
@@ -144,12 +145,15 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             case CB_VCACHE:
                 toggle(VIDEO_CACHE);
                 break;
-#ifdef __X64__
+#if defined __X64__ || defined __X128__
             case CB_SBCOLL:
                 toggle("CheckSbColl");
                 break;
             case CB_SSCOLL:
                 toggle("CheckSsColl");
+                break;
+            case CB_EMUID:
+                toggle("EmuID");
                 break;
 #endif
             }

@@ -64,7 +64,9 @@ static ULONG flFrameFlags =
 
 /* ------------------------------------------------------------------------ */
 /* Video-related resources.  */
+
 static int stretch;  // Strech factor for window (1,2,3,...)
+static int border;   // PM Border Type
 
 static int set_stretch_factor(resource_value_t v)
 {
@@ -72,9 +74,29 @@ static int set_stretch_factor(resource_value_t v)
     return 0;
 }
 
+static int set_border_type(resource_value_t v)
+{
+    switch ((int)v)
+    {
+    case 1:
+        flFrameFlags |= FCF_BORDER;
+        border = 1;
+        break;
+    case 2:
+        flFrameFlags |= FCF_DLGBORDER;
+        border = 2;
+        break;
+    default:
+        border = 0;
+    }
+    return 0;
+}
+
 static resource_t resources[] = {
     { "WindowStretchFactor", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &stretch, set_stretch_factor},
+    { "PMBorderType", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &border, set_border_type},
     { NULL }
 };
 
@@ -86,6 +108,8 @@ int video_init_resources(void)
 static cmdline_option_t cmdline_options[] = {
     { "-stretch", SET_RESOURCE, 1, NULL, NULL, "WindowStretchFactor", NULL,
       "<number>", "Specify stretch factor for PM Windows (1,2,3,...)" },
+    { "-border",  SET_RESOURCE, 1, NULL, NULL, "PMBorderType", NULL,
+      "<number>", "Specify the PM border type of the emulator window (1=small border, 2=dialog border, else=no border)" },
     { NULL },
 };
 
@@ -371,12 +395,17 @@ void PM_mainloop(VOID *arg)
     (*ptr)->vrenabled = TRUE;
 
     while (WinGetMsg (hab, &qmsg, NULLHANDLE, 0, 0))
-        WinDispatchMsg (hab, &qmsg) ;
+        WinDispatchMsg (hab, &qmsg);
 
-    resources_set_value("Sound", (resource_value_t)FALSE);
+    //    resources_set_value("Sound", (resource_value_t)FALSE);
 
-    if (WinDestroyWindow ((*ptr)->hwndFrame))
-        log_message(LOG_DEFAULT,"video.c: Error! Graphic window destroy. (rc=%li)",rc);
+    /*
+     ----------------------------------------------------------
+     Is this right, that I couldn't call this for xpet & xcbm2?
+     ----------------------------------------------------------
+     if (WinDestroyWindow ((*ptr)->hwndFrame))
+     log_message(LOG_DEFAULT,"video.c: Error! Graphic window destroy. (rc=%li)",rc);*/
+    DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);
     if (!WinDestroyMsgQueue(hmq))
         log_message(LOG_DEFAULT,"video.c: Error! Msg Queue destroy.");
     if (!WinTerminate (hab))
@@ -386,7 +415,10 @@ void PM_mainloop(VOID *arg)
     //      free((*ptr)->palette);       // cannot be destroyed because main thread is already working!!
     //      free(*ptr);
     trigger_shutdown = 1;
-//    exit(0); // Kill VICE, All went OK
+    //    exit(0); // Kill VICE, All went OK
+    DosSleep(10*1000); // wait 10 seconds
+    exit(0);           // end VICE in all cases
+    
 }
 
 

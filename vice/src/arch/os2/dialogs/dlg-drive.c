@@ -37,6 +37,7 @@
 #include <string.h>
 
 #include "log.h"
+#include "drive.h"
 #include "attach.h"
 #include "fliplist.h"
 #include "resources.h"
@@ -94,6 +95,8 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                     if (image_hist[i][0])
                         WinLboxInsertItem(hwnd, CBS_IMAGE, image_hist[i]);
                 WinLboxInsertItem(hwnd, CBS_IMAGE, "");
+                resources_get_value("VideoStandard", (resource_value_t*) &val);
+                WinCheckButton(hwnd, val==DRIVE_SYNC_PAL?RB_PAL:RB_NTSC, 1);
                 resources_get_value("DriveTrueEmulation", (resource_value_t*) &val);
                 WinCheckButton(hwnd, CB_TRUEDRIVE, val);
                 WinCheckButton(hwnd, RB_DRIVE8|drive, 1);
@@ -160,6 +163,12 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 if (drive==0 || drive==1)
                     set_drive_res("Drive%dIdleMethod", drive,
                                   SHORT1FROMMP(mp1)&0x3);
+                break;
+            case RB_PAL:
+                resources_set_value("VideoStandard", (resource_value_t*) DRIVE_SYNC_PAL);
+                break;
+            case RB_NTSC:
+                resources_set_value("VideoStandard", (resource_value_t*) DRIVE_SYNC_NTSC);
                 break;
             case CBS_IMAGE:
                 {

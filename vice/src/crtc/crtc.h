@@ -32,6 +32,8 @@
 #ifndef _CRTC_H
 #define _CRTC_H
 
+#include "vice.h"
+
 #include "types.h"
 
 typedef void (*machine_crtc_retrace_signal_t)(unsigned int);

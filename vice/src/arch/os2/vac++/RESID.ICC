@@ -1,10 +1,16 @@
-option ProjectOptions = gen(arch, "pentium"),
-    link(linkwithmultithreadlib, "yes"), link(pmtype, "pm"), opt(autoinline, "yes"),
-    opt(inline, "yes"), opt(level, "2"), opt(tune, "pentium"),
-    define("HAVE_CONFIG_H", ), define("HAS_JOYSTICK", ),
-    define("HAVE_RESID", ), incl(searchpath, "..\\..\\.."),
+option ProjectOptions = link(linkwithmultithreadlib, "yes"),
+    link(pmtype, "pm"),
+    gen(arch, "pentium"),
+    opt(tune, "pentium"),
+    opt(level, "2"),
+    opt(inline, "yes"),
+    opt(autoinline, "yes"),
+    define("HAVE_CONFIG_H", ),
+    define("HAVE_RESID", ),
+    incl(searchpath, ".."),
+    incl(searchpath, "..\\..\\.."),
     incl(searchpath, "..\\..\\..\\resid"),
-    incl(searchpath, ".."), incl(searchpathfirst, "yes")
+    incl(searchpathfirst, "yes")
 {
     target type(lib) "resid"
     {

@@ -1,13 +1,13 @@
-link(linkwithmultithreadlib, "yes"),  
+option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     link(pmtype, "pm"),     gen(arch, "pentium"),
-    link(debug, "no"),      gen(debug, "no"),
-    opt(level, "2"),        opt(tune, "pentium"), 
+    link(debug, "yes"),     gen(debug, "yes"),
+    opt(level, "2"),        opt(tune, "pentium"),
     opt(autoinline, "yes"), opt(inline, "yes"),
-    info(cnd, "no"),        info(ppc, "no"),      
+    info(cnd, "no"),        info(ppc, "no"),
     info(ppt, "no"),        file(genobject, "Yes"),
     file(genpch, "no"),     file(usepch, "no"),
     define("HAVE_CONFIG_H", ),
-    incl(searchpath, ".."), 
+    incl(searchpath, ".."),
     incl(searchpath, "..\\ui"),
     incl(searchpath, "..\\dialogs"),
     incl(searchpath, "..\\..\\.."),
@@ -22,6 +22,7 @@ link(linkwithmultithreadlib, "yes"),
     incl(searchpathfirst, "yes"),
     define("__XVIC__", ),
     res_rc_options("-i ..\\dialogs -x1 -d __XVIC__")
+
 {
     target type(exe) "..\\..\\..\\..\\data\\xvic.exe"
     {
@@ -39,8 +40,7 @@ link(linkwithmultithreadlib, "yes"),
         include "incl/sounddrv.icc"
 
         source type(c)
-            "maincpu.c",
-            "vic20/cartridge.c"
+            "maincpu.c"
         source type(c)
             "rs232.c",
             "vic20ui.c",

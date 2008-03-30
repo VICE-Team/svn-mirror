@@ -71,7 +71,9 @@
 //#define HAVE_PRINTER 1
 
 /* Do we want to enable the ReSID code support?  */
+#if defined __X64__ || defined __X128__ || defined __XCBM__
 #define HAVE_RESID            1
+#endif
 
 /* Do we support a 1351 mouse?  */
 //#define HAVE_MOUSE 1

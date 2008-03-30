@@ -9,7 +9,7 @@ source type(c)
     "c64cartmem.c",
     "c64rsuser.c",
     "c64tpi.c",
-    "c64/cartridge.c",
+    "cartridge64.c",
     "patchrom.c",
     "reu.c",
     "psid.c"
