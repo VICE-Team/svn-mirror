@@ -41,14 +41,32 @@
 
 /* ------------------------------------------------------------------------- */
 
+UI_MENU_DEFINE_STRING_RADIO(PaletteFile)
+
+static ui_menu_entry_t palette_submenu[] = {
+    { "*Default",
+      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "default", NULL },
+    { "*CCS64",
+      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "ccs64", NULL },
+    { "*Frodo",
+      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "frodo", NULL },
+    { "*GoDot",
+      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "godot", NULL },
+    { NULL }
+};
+
 UI_MENU_DEFINE_TOGGLE(CheckSsColl)
 UI_MENU_DEFINE_TOGGLE(CheckSbColl)
 
 static ui_menu_entry_t vic_submenu[] = {
-    { "Sprite-sprite collisions",
+    { "*Sprite-sprite collisions",
       (ui_callback_t) toggle_CheckSsColl, NULL, NULL },
-    { "Sprite-background collisions",
+    { "*Sprite-background collisions",
       (ui_callback_t) toggle_CheckSsColl, NULL, NULL },
+    { "--",
+      NULL, NULL, NULL },
+    { "Color set",
+      NULL, NULL, palette_submenu },
     { NULL }
 };
 

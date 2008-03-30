@@ -374,7 +374,7 @@ static int open_output_window(char *win_name, unsigned int width,
 
 /* Read length bytes from src and store them in dest, checking for differences
    between the two arrays.  The smallest interval that contains different bytes
-   is returned as [*xs; *xe]. */
+   is returned as [*xs; *xe].  */
 inline static int _fill_cache(BYTE *dest, BYTE *src, int length, int srcstep,
 			      int *xs, int *xe, int no_check)
 {
