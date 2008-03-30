@@ -332,9 +332,9 @@ vic20.o: vic20.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h vic20.h \
 	vic20mem.h vic20sound.h ../../src/sound.h ../../src/warn.h \
 	../../src/arch/unix/xaw/vic20ui.h vic20via.h ../../src/via.h \
-	../../src/arch/unix/vsync.h ../../src/print.h \
-	../../src/prdevice.h ../../src/pruser.h ../../src/rs232.h \
-	../../src/rsuser.h vic20rsuser.h
+	../../src/arch/unix/vsync.h ../../src/ciatimer.h \
+	../../src/print.h ../../src/prdevice.h ../../src/pruser.h \
+	../../src/rs232.h ../../src/rsuser.h vic20rsuser.h
 vic20datasette.o: vic20datasette.c ../../src/vice.h ../../src/config.h \
 	../../src/datasette.h ../../src/tap.h ../../src/types.h
 vic20iec.o: vic20iec.c ../../src/vice.h ../../src/config.h \

@@ -355,10 +355,10 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/machine.h \
 	../../src/utils.h ../../src/vicii/vicii.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/resources.h ../../src/arch/unix/vsync.h c64acia.h \
-	c64rsuser.h ../../src/rs232.h ../../src/rsuser.h \
-	../../src/print.h ../../src/prdevice.h ../../src/pruser.h \
-	../../src/arch/unix/mouse.h
+	../../src/resources.h ../../src/arch/unix/vsync.h \
+	../../src/ciatimer.h c64acia.h c64rsuser.h ../../src/rs232.h \
+	../../src/rsuser.h ../../src/print.h ../../src/prdevice.h \
+	../../src/pruser.h ../../src/arch/unix/mouse.h
 c64acia1.o: c64acia1.c ../../src/maincpu.h ../../src/config.h \
 	../../src/6510core.h ../../src/mem.h ../../src/types.h \
 	../../src/snapshot.h ../../src/alarm.h ../../src/log.h \

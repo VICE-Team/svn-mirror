@@ -25,8 +25,8 @@ What are we going to do next
 - Filtering video output to make it look more like an old monitor or
   a TV set. (-> done (on Unix) with palettes?)
 
-- More ports.  Any volunteers?  An Acorn RISC-OS port is in the works;
-  if you want to help, please let us know.
+- More ports.  Any volunteers?  An Acorn RISC-OS port and an OS2 port
+  are in the works; if you want to help, please let us know.
 
 * C64 improvements
 ------------------

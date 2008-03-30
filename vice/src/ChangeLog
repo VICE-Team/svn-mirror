@@ -1,3 +1,60 @@
+1999-03-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.49.
+
+	* vdrive.c (floppy_read_block, floppy_write_block): Only use drive
+	emulation for drive #8 and #9.
+
+	* imagecontents.c (open_image): Use fake drive instead of drive
+	#8.
+
+1998-03-31  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* c128/c128.c: include ciatimer.h
+	(machine_init): call ciat_init_table to init CIA tables.
+	* c64/c64.c: likewise
+	* cbm2/c610.c: likewise	
+	* vic20/vic20.c: likewise (VC1571 emulation)
+	
+	* ciacore.c (cia_strobe_ta, cia_strobe_tb): removed.
+	(clk_overflow_callback): fix timer update
+	(mycia_init): remove strobe function from call to ciat_init.
+	(store_mycia): before storing to CRB, always update TA, just in case
+	for cascade mode
+	(int_ciata): step timer b only when timer b is startet!
+	(mycia_write_snapshot_module, mycia_read_snapshot_module):
+	fix and adapt to ciat_* code. bump minor version from 0 to 1.
+
+	* ciacore.h (cia_tap, cia_tbp): removed
+
+	* ciatimer.c (ciat_init_table): new function, Fills in the 
+	CIA timer propagation table: new state = table[old state],
+	where the state is a simple int value.
+
+	* ciatimer.h: new cia timer implementation. The timer state
+	consists of a bit array, the counter and the latch value.
+	a clk tells when this description is valid.
+	ciat_update propagates the timer from the clock where it is
+	valid to the current clock.
+	ciat_set_alarm computes the clock of the next underflow
+	from the state.
+
+1999-03-31  Daniel Sladic  <sladic@eecg.toronto.edu>
+
+	* mon.c [Ullrich von Bassewitz]: (mon_disassemble_to_string) Print
+	operand bytes before instruction. Check for "label+1" in absolute
+	addressing.
+	(disassemble_instr) Change the way labels are printed; print them
+	before the instruction on a separate line.
+	(mon_add_name_to_symbol_table) Don't issue multiple label warning if
+	they have the same value.
+
+	* mon_lex.l [Ullrich von Bassewitz]: Extend acceptable symbols
+	for label names.
+
+	* mon_parse.y: Handle undefined labels. Fix segfaults from loading
+	labels.
+
 1999-03-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.48.

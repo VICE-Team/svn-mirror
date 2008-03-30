@@ -1394,7 +1394,7 @@ int floppy_read_block(file_desc_t fd, int format, BYTE *buf, int track,
     if (fd == ILLEGAL_FILE_DESC)
         return -1;
 
-    if (g64) {
+    if (g64 && (unit == 8 || unit == 9)) {
         if (drive_read_block(track, sector, buf, unit - 8) < 0) {
             log_error(vdrive_log, "Error reading from disk image.");
             return(-2);
@@ -1429,7 +1429,7 @@ int floppy_write_block(file_desc_t fd, int format, BYTE *buf, int track,
     if (fd == ILLEGAL_FILE_DESC)
         return -1;
 
-    if (g64) {
+    if (g64 && (unit == 8 || unit == 9)) {
         if (drive_write_block(track, sector, buf, unit - 8) < 0) {
             log_error(vdrive_log, "Error writing disk image.\n");
             return(-2);
@@ -1938,7 +1938,7 @@ static void vdrive_bam_clear_all(int type, BYTE *bam)
 int vdrive_bam_read_bam(DRIVE *floppy)
 {
     int err = 0;
-printf("Unit: %x\n",floppy->unit);
+
     switch(floppy->ImageFormat) {
       case 1541:
         err = floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,

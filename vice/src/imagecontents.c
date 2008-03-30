@@ -209,7 +209,7 @@ static DRIVE *open_image(const char *name)
     floppy->ErrFlg    = hdr.errblk;
     floppy->D64_Header= hdr.d64 | hdr.d71 | hdr.d81;
     floppy->ReadOnly = 1;	/* Just to be sure... */
-    floppy->unit = 8;
+    floppy->unit = 0;
 
     /* This fake is necessary to `open_1541'...  Ugly, but that is the only
        way I know with the existing functions.  */
