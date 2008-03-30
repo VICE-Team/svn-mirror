@@ -135,9 +135,6 @@ void drive_cpu_setup_context(drive_context_t *drv)
 {
     monitor_interface_t *mi;
 
-    drv->cpu.alarm_context
-        = (alarm_context_t *)xmalloc(sizeof(alarm_context_t));
-    drv->cpu.clk_guard = (clk_guard_t *)xmalloc(sizeof(clk_guard_t));
     drv->cpu.int_status = (cpu_int_status_t *)xmalloc(sizeof(cpu_int_status_t));
     drv->cpu.rmw_flag = 0;
     drv->cpu.d_bank_limit = -1;
@@ -308,14 +305,22 @@ void drive_cpu_reset(drive_context_t *drv)
 
 void drive_cpu_early_init(drive_context_t *drv)
 {
-    clk_guard_init(drv->cpu.clk_guard, drv->clk_ptr, CLOCK_MAX
-                   - CLKGUARD_SUB_MIN);
+    drv->cpu.clk_guard = clk_guard_new(drv->clk_ptr, CLOCK_MAX
+                                       - CLKGUARD_SUB_MIN);
 
-    alarm_context_init(drv->cpu.alarm_context, drv->cpu.identification_string);
+    drv->cpu.alarm_context = alarm_context_new(drv->cpu.identification_string);
 
     via1d_init(drv);
     via2d_init(drv);
     machine_drive_init(drv);
+}
+
+void drive_cpu_shutdown(drive_context_t *drv)
+{
+    if (drv->cpu.alarm_context != NULL)
+        alarm_context_destroy(drv->cpu.alarm_context);
+    if (drv->cpu.clk_guard != NULL)
+        clk_guard_destroy(drv->cpu.clk_guard);
 }
 
 void drive_cpu_init(drive_context_t *drv, int type)
@@ -688,7 +693,7 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
         || SMR_B(m, &sp) < 0
         || SMR_W(m, &pc) < 0
         || SMR_B(m, &status) < 0
-        || SMR_DW(m, &(drv->cpu.last_opcode_info)) < 0
+        || SMR_DW_INT(m, (unsigned int *)&(drv->cpu.last_opcode_info)) < 0
         || SMR_DW(m, &(drv->cpu.last_clk)) < 0
         || SMR_DW(m, &(drv->cpu.cycle_accum)) < 0
         || SMR_DW(m, &(drv->cpu.last_exc_cycles)) < 0
