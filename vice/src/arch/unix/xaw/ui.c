@@ -311,6 +311,10 @@ static String fallback_resources[] = {
 /* Initialize the GUI and parse the command line. */
 int ui_init(int *argc, char **argv)
 {
+    static XtActionsRec actions[] = {
+	{ "Close", close_action },
+    };
+
     /* Create the toplevel. */
     _ui_top_level = XtAppInitialize(&app_context, "VICE", NULL, 0, argc, argv,
 				    fallback_resources, NULL, 0);
@@ -320,6 +324,9 @@ int ui_init(int *argc, char **argv)
     display = XtDisplay(_ui_top_level);
     screen = XDefaultScreen(display);
     atexit(ui_autorepeat_on);
+
+    wm_delete_window = XInternAtom(display, "WM_DELETE_WINDOW", False);
+    XtAppAddActions(app_context, actions, XtNumber(actions));
 
     ui_hotkey_init();
 
@@ -334,9 +341,6 @@ typedef struct {
 /* Continue GUI initialization after resources are set. */
 int ui_init_finish(void)
 {
-    static XtActionsRec actions[] = {
-	{ "Close", close_action },
-    };
     static namedvisual_t classes[] = {
 	{ "PseudoColor", PseudoColor },
 	{ "TrueColor", TrueColor },
@@ -462,10 +466,6 @@ int ui_init_finish(void)
 	    XtFree(wm_command_data);
 	}
     }
-
-    wm_delete_window = XInternAtom(display, "WM_DELETE_WINDOW", False);
-
-    XtAppAddActions(app_context, actions, XtNumber(actions));
 
     return ui_menu_init(app_context, display, screen);
 }
@@ -610,16 +610,16 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
     XChangeWindowAttributes(display, XtWindow(canvas),
     	 		    CWBackingStore, &attr);
 
-    XSetWMProtocols(display, XtWindow(shell), &wm_delete_window, 1);
-    XtOverrideTranslations(shell, XtParseTranslationTable
-                           ("<Message>WM_PROTOCOLS: Close()"));
-
     app_shells[num_app_shells - 1].shell = shell;
     app_shells[num_app_shells - 1].canvas = canvas;
     app_shells[num_app_shells - 1].title = stralloc(title);
     app_shells[num_app_shells - 1].speed_label = speed_label;
     app_shells[num_app_shells - 1].drive_track_label = drive_track_label;
     app_shells[num_app_shells - 1].drive_led = drive_led;
+
+    XSetWMProtocols(display, XtWindow(shell), &wm_delete_window, 1);
+    XtOverrideTranslations(shell, XtParseTranslationTable
+                           ("<Message>WM_PROTOCOLS: Close()"));
 
     return canvas;
 }
@@ -1378,8 +1378,7 @@ Widget ui_create_transient_shell(Widget parent, const char *name)
 
     w = XtVaCreatePopupShell
 	(name, transientShellWidgetClass, parent, XtNinput, True, NULL);
-    XtOverrideTranslations(w, XtParseTranslationTable
-			   ("<Message>WM_PROTOCOLS: Close()"));
+
     return w;
 }
 
@@ -1403,7 +1402,7 @@ void ui_popup(Widget w, const char *title, Boolean wait_popdown)
 	    }
     }
 
-    if (s) {
+    {
 	/* Center the popup. */
 	Dimension my_width, my_height, shell_width, shell_height;
 	Dimension my_x, my_y;
@@ -1413,26 +1412,34 @@ void ui_popup(Widget w, const char *title, Boolean wait_popdown)
 
 	XtRealizeWidget(w);
 	XtVaGetValues(w, XtNwidth, &my_width, XtNheight, &my_height, NULL);
-	XtVaGetValues(s, XtNwidth, &shell_width, XtNheight, &shell_height,
-		      XtNx, &tlx, XtNy, &tly, NULL);
-	XtTranslateCoords(XtParent(s), tlx, tly, &tlx, &tly);
-	my_x = tlx + (shell_width - my_width) / 2;
-	my_y = tly + (shell_height - my_height) / 2;
 
         /* Now make sure the whole widget is visible.  */
         XGetGeometry(display, RootWindow(display, screen), &foowin, &foo,
                      &foo, &root_width, &root_height, &foo, &foo);
 
-        /* FIXME: Is it really OK to cast to `signed short'?  */
-        if ((signed short)my_x < 0)
-            my_x = 0;
-        else if ((signed short)my_x + my_width > root_width)
-            my_x = root_width - my_width;
+        if (s != NULL) {
+            XtVaGetValues(s, XtNwidth, &shell_width, XtNheight, &shell_height,
+                          XtNx, &tlx, XtNy, &tly, NULL);
+            XtTranslateCoords(XtParent(s), tlx, tly, &tlx, &tly);
+            my_x = tlx + (shell_width - my_width) / 2;
+            my_y = tly + (shell_height - my_height) / 2;
 
-        if ((signed short)my_y < 0)
-            my_y = 0;
-        else if ((signed short)my_y + my_height > root_height)
-            my_y = root_height - my_height;
+            /* FIXME: Is it really OK to cast to `signed short'?  */
+            if ((signed short)my_x < 0)
+                my_x = 0;
+            else if ((signed short)my_x + my_width > root_width)
+                my_x = root_width - my_width;
+
+            if ((signed short)my_y < 0)
+                my_y = 0;
+            else if ((signed short)my_y + my_height > root_height)
+                my_y = root_height - my_height;
+        } else {
+            /* We don't have an AppWindow to refer to: center to the root
+               window.  */
+            my_x = (root_width - my_width) / 2;
+            my_y = (root_height - my_height) / 2;
+        }
 
 	XtVaSetValues(w, XtNx, my_x, XtNy, my_y, NULL);
     }
