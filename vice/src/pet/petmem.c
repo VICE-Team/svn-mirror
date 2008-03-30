@@ -35,6 +35,7 @@
 
 #include "types.h"
 #include "memutils.h"
+#include "snapshot.h"
 #include "pia.h"
 #include "pet.h"
 #include "petvia.h"
@@ -1239,3 +1240,51 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
     }
     ram[addr] = byte;
 }
+
+/*-----------------------------------------------------------------------*/
+
+/*
+ * PET memory dump should be 4-32k or 128k, depending on the config, as RAM.
+ * Plus 64k expansion RAM (8096 or SuperPET) if necessary. Also there 
+ * is the 1/2k video RAM as "VRAM".
+ * In this prototype we save the full ram......
+ */
+#define	PETMEM_DUMP_VER_MAJOR	0
+#define	PETMEM_DUMP_VER_MINOR	0
+
+int petmem_dump(FILE *p) 
+{
+    snapshot_write_module_header(p, "RAM", 
+		PETMEM_DUMP_VER_MAJOR, PETMEM_DUMP_VER_MINOR);
+
+    snapshot_write_byte_array(p, ram, RAM_ARRAY);
+/*
+    snapshot_write_module_header(p, "VRAM", 
+		PETMEM_DUMP_VER_MAJOR, PETMEM_DUMP_VER_MINOR);
+
+    snapshot_write_byte_array(p, ram + 0x8000, 0x800);
+*/
+
+    return 0;
+}
+
+int petmem_undump(FILE *p) 
+{
+    char name[SNAPSHOT_MODULE_NAME_LEN];
+    BYTE vmajor, vminor;
+
+    snapshot_read_module_header(p, name, &vmajor, &vminor);
+
+    if(strcmp(name, "RAM") || vmajor != PETMEM_DUMP_VER_MAJOR) return -1;
+
+    snapshot_read_byte_array(p, ram, RAM_ARRAY);
+/*
+    snapshot_read_module_header(p, name, vmajor, vminor);
+
+    if(strcmp(name, "VRAM") || vmajor != PETMEM_DUMP_VER_MAJOR) return -1;
+
+    snapshot_read_byte_array(p, ram + 0x8000, 0x800);
+*/
+    return 0;
+}
+

@@ -101,6 +101,11 @@ STORE_CIAPA()
     if (cia2[addr] != byte) {
 	 BYTE tmp;
 
+#ifdef HAVE_RS232
+	 if(rsuser_enabled) {
+             rsuser_set_tx_bit(byte & 4);
+	 }
+#endif
 	 cia2[addr] = byte;
 	 tmp = ~cia2[CIA_PRA] & cia2[CIA_DDRA];
 	 mem_set_vbank(tmp & 3);
@@ -115,8 +120,9 @@ STORE_CIAPB()
 {
     cia2[addr] = byte;
     byte = cia2[CIA_PRB] | ~cia2[CIA_DDRB];
-    if (drive_parallel_cable_enabled)
+    if (drive_parallel_cable_enabled) {
 	parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
+    }
 #ifdef HAVE_PRINTER
     userport_printer_write_data(byte);
 #endif

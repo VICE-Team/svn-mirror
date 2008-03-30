@@ -48,5 +48,10 @@ BYTE userport_serial_read_ctrl();
 int int_rsuser(long offset);
 void rsuser_reset(void);
 
+void rsuser_prevent_clk_overflow(CLOCK sub);
+
+BYTE rsuser_get_rx_bit(void);
+void rsuser_set_tx_bit(int);
+
 #endif
 

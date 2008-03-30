@@ -37,7 +37,7 @@
 
 typedef struct PetInfo {
 	/* hardware options (resources) */
-	int		ramSize;	/* 0 = 2001, 1 = later */
+	int		ramSize;
 	int		IOSize;		/* 256 Byte / 2k I/O */
 	int		crtc;		/* 0 = no CRTC, 1 = has one */
 	int		video;		/* 0 = autodetect, 40, or 80 */

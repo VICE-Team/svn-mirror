@@ -467,7 +467,7 @@ static UI_CALLBACK(set_rs232_exec_file)
 }
 
 UI_MENU_DEFINE_TOGGLE(AciaDE)
-UI_MENU_DEFINE_TOGGLE(RsUser)
+UI_MENU_DEFINE_RADIO(RsUser)
 
 ui_menu_entry_t rs232_submenu[] = {
     { "*ACIA $DExx RS232 interface emulation",
@@ -475,8 +475,14 @@ ui_menu_entry_t rs232_submenu[] = {
     { "ACIA $DExx device",
       NULL, NULL, acia1_device_submenu },
     { "--" },
-    { "*Userport 9600 baud RS232 emulation",
-      (ui_callback_t) toggle_RsUser, NULL, NULL },
+    { "*No Userport RS232 emulation",
+      (ui_callback_t) radio_RsUser, (ui_callback_data_t) 0, NULL },
+    { "*Userport 300 baud RS232 emulation",
+      (ui_callback_t) radio_RsUser, (ui_callback_data_t) 300, NULL },
+    { "*Userport 1200 baud RS232 emulation",
+      (ui_callback_t) radio_RsUser, (ui_callback_data_t) 1200, NULL },
+    { "*CIA 9600 baud RS232 emulation",
+      (ui_callback_t) radio_RsUser, (ui_callback_data_t) 9600, NULL },
     { "Userport RS232 device",
       NULL, NULL, rsuser_device_submenu },
     { "--" },
@@ -705,7 +711,7 @@ static ui_menu_entry_t set_drive9_type_submenu[] = {
       (ui_callback_data_t) DRIVE_TYPE_1541, NULL },
     { "*1571", (ui_callback_t) radio_Drive9Type,
       (ui_callback_data_t) DRIVE_TYPE_1571, NULL },
-    { "*1581", (ui_callback_t) radio_Drive8Type,
+    { "*1581", (ui_callback_t) radio_Drive9Type,
       (ui_callback_data_t) DRIVE_TYPE_1581, NULL },
     { NULL }
 };

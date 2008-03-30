@@ -48,6 +48,7 @@
 #include "petacia.h"
 #include "pia.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "sound.h"
 #include "traps.h"
 #include "utils.h"
@@ -55,6 +56,10 @@
 #include "via.h"
 #include "vmachine.h"
 #include "vsync.h"
+
+#ifdef HAVE_RS232
+#include "rs232.h"
+#endif
 
 #ifdef HAVE_PRINTER
 #include "print.h"
@@ -290,3 +295,72 @@ int machine_set_restore_key(int v)
 {
     return 0;	/* key not used -> lookup in keymap */
 }
+
+/* ------------------------------------------------------------------------- */
+
+/* PET machine config dump 
+ *
+ * 
+ * 
+ */
+#define	PET_DUMP_VER_MAJOR	0
+#define	PET_DUMP_VER_MINOR	0
+
+int pet_dump(FILE *p) 
+{
+    snapshot_write_module_header(p, "PET", 
+		PET_DUMP_VER_MAJOR, PET_DUMP_VER_MINOR);
+
+    snapshot_write_word(p, pet.ramSize);	/* in k */
+    snapshot_write_word(p, pet.IOSize);		/* in byte */
+    snapshot_write_byte(p, pet.video);		/* screen width */
+    snapshot_write_byte(p, (pet.mem9 ? 1 : 0) | (pet.memA ? 2 : 0)
+		| (pet.pet2k ? 4 : 0) | (pet.superpet ? 8 : 0)
+		| (pet.crtc ? 16 : 0) );
+    snapshot_write_byte(p, pet.kbd_type);	/* 1 = graph, 0 = business */
+
+    return 0;
+}
+
+int pet_undump(FILE *p) 
+{
+    char name[SNAPSHOT_MODULE_NAME_LEN];
+    BYTE vmajor, vminor;
+    BYTE byte;
+    WORD word;
+    int ival;
+
+    snapshot_read_module_header(p, name, &vmajor, &vminor);
+
+    if(strcmp(name, "PET") || vmajor != PET_DUMP_VER_MAJOR) return -1;
+
+    snapshot_read_word(p, &word); ival = word;
+    resources_set_value("RamSize", (resource_value_t) ival);
+    snapshot_read_word(p, &word); ival = word;
+    resources_set_value("IOSize", (resource_value_t) ival);
+    snapshot_read_byte(p, &byte); ival = byte;
+    resources_set_value("VideoSize", (resource_value_t) ival);
+
+    snapshot_read_byte(p, &byte);
+    ival = byte & 1;
+    resources_set_value("Ram9", (resource_value_t) ival);
+    ival = (byte & 2) ? 1 : 0;
+    resources_set_value("RamA", (resource_value_t) ival);
+    ival = (byte & 4) ? 1 : 0;
+    pet.pet2k = ival;	/* hm... */
+    ival = (byte & 8) ? 1 : 0;
+    resources_set_value("SuperPET", (resource_value_t) ival);
+    ival = (byte & 16) ? 1 : 0;
+    resources_set_value("Crtc", (resource_value_t) ival);
+
+    snapshot_read_byte(p, &byte);
+    resources_get_value("KeymapIndex", (resource_value_t *) &ival);
+    resources_set_value("KeymapIndex", (resource_value_t) ((ival & 1)
+                                       + 2 * (byte ? 1 : 0)));
+
+    /* what about the ROM names? */
+    mem_load();
+
+    return 0;
+}
+

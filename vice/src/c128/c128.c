@@ -375,6 +375,9 @@ static void vsync_hook(void)
     sub = maincpu_prevent_clk_overflow(C128_PAL_CYCLES_PER_RFSH);
     if (sub > 0) {
 	vic_ii_prevent_clk_overflow(sub);
+#ifdef HAVE_RS232
+	rsuser_prevent_clk_overflow(sub);
+#endif
 	cia1_prevent_clk_overflow(sub);
 	cia2_prevent_clk_overflow(sub);
 	sound_prevent_clk_overflow(sub);

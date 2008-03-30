@@ -48,4 +48,7 @@ extern int pet_mem_init_cmdline_options(void);
 extern void superpet_reset(void);
 extern int superpet_diag(void);
 
+extern int petmem_dump(FILE *fp);
+extern int petmem_undump(FILE *fp);
+
 #endif

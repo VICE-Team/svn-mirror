@@ -48,21 +48,29 @@ static int rts;
 
 static int rxstate;
 static BYTE rxdata;
+static BYTE txdata;
+static BYTE txbit;
+
+CLOCK clk_start_rx = 0;
+CLOCK clk_start_tx = 0;
+CLOCK clk_start_bit = 0;
 
 #undef DEBUG
 
-#define	RSUSER_TICS	21111
+#define	RSUSER_TICKS	21111
 
 /***********************************************************************
  * resource handling
  */
 
-int rsuser_enabled = 0;
+int rsuser_enabled = 0;		/* saves the baud rate given */
+int char_clk_ticks = 0;		/* clk ticks per character */
+int bit_clk_ticks = 0;		/* clk ticks per character */
 
 static int rsuser_device;
 
 static int set_up_enabled(resource_value_t v) {
-    int newval = ((int) v) ? 1 : 0;
+    int newval = ((int) v);
 
     if(newval && !rsuser_enabled) {
 	dtr = DTR_OUT;	/* inactive */
@@ -70,12 +78,24 @@ static int set_up_enabled(resource_value_t v) {
 	fd = -1;
     }
     if(rsuser_enabled && !newval) {
-	if(fd>=0) rs232_close(fd);
+	if(fd>=0) {
+	    /* if(clk_start_tx) rs232_putc(fd, rxdata); */
+	    rs232_close(fd);
+	}
 	maincpu_unset_alarm(A_RSUSER);
 	fd = -1;
     }
 
     rsuser_enabled = newval;
+    if(newval) {
+	char_clk_ticks = 1000000.0 * (10.0 / (double)newval);
+    } else {
+	char_clk_ticks = RSUSER_TICKS;
+    }
+    bit_clk_ticks = char_clk_ticks / 10;
+#ifdef DEBUG
+    printf("RS232: %d cycles per char\n", char_clk_ticks);
+#endif
     return 0;
 }
 
@@ -97,12 +117,9 @@ int rsuser_init_resources(void) {
 }
 
 static cmdline_option_t cmdline_options[] = {
-    { "-rsuser", SET_RESOURCE, 0, NULL, NULL, "RsUser",
-        (resource_value_t) 1, NULL,
-        "Enable the userport 9600 baud RS232 emulation" },
-    { "+rsuser", SET_RESOURCE, 0, NULL, NULL, "RsUser",
-        (resource_value_t) 0, NULL,
-        "Disable the userport 9600 baud RS232 emulation" },
+    { "-rsuser", SET_RESOURCE, 1, NULL, NULL, "RsUser",
+        (resource_value_t) 0, "<baud>",
+        "Enable the userport RS232 emulation baud=0: off; baud=9600: CIA interface." },
     { "-rsuserdev", SET_RESOURCE, 1, NULL, NULL, "RsUserDev",
         (resource_value_t) 0,
       "<0-2>", "Specify VICE RS232 device for userport" },
@@ -147,11 +164,28 @@ void rsuser_init(void) {
 
 void rsuser_reset(void) {
 	rxstate = 0;
-	if(fd >= 0) rs232_close(fd);
+	clk_start_rx = 0;
+	clk_start_tx = 0;
+	clk_start_bit = 0;
+	if(fd >= 0) {
+	    rs232_close(fd);
+	}
 	maincpu_unset_alarm(A_RSUSER);
 	fd = -1;
 
 	maincpu_unset_alarm(A_RSUSER);
+}
+
+static void rsuser_setup(void) 
+{
+    /* switch rs232 on */
+/*printf("switch rs232 on\n");*/
+    rxstate = 0;
+    clk_start_rx = 0;
+    clk_start_tx = 0;
+    clk_start_bit = 0;
+    fd = rs232_open(rsuser_device);
+    maincpu_set_alarm(A_RSUSER, char_clk_ticks / 8);
 }
 
 void userport_serial_write_ctrl(int b) {
@@ -159,20 +193,20 @@ void userport_serial_write_ctrl(int b) {
     int new_rts = b & RTS_OUT;	/* = 0 is active, != 0 is inactive */
 
 #ifdef DEBUG
-printf("userport_serial_write_ctrl(b=%02x)\n",b);
+printf("userport_serial_write_ctrl(b=%02x (dtr=%02x, rts=%02x)\n",
+		b, new_dtr, new_rts);
 #endif
     if(rsuser_enabled) {
         if(dtr && !new_dtr) {
-/*printf("switch rs232 on\n");*/
-            /* switch rs232 on */
-            fd = rs232_open(rsuser_device);
-	    maincpu_set_alarm(A_RSUSER, RSUSER_TICS);
+	    rsuser_setup();
         }
         if(new_dtr && !dtr && fd>=0) {
 /*printf("switch rs232 off\n");*/
+#if 0	/* This is a bug in the X-line handshake of the C64... */
 	    maincpu_unset_alarm(A_RSUSER);
             rs232_close(fd);
 	    fd = -1;
+#endif
         }
     }
 
@@ -180,15 +214,8 @@ printf("userport_serial_write_ctrl(b=%02x)\n",b);
     rts = new_rts;
 }
 
-BYTE userport_serial_read_ctrl(void) {
-    return CTS_IN | (rsuser_enabled ? 0 : (CTS_IN | DCD_IN));
-}
-
-void userport_serial_write_sr(BYTE b) {
+static void check_tx_buffer(void) {
     BYTE c;
-
-    buf = (buf << 8) | b;
-    valid += 8;
 
     while(valid >= 10 && (buf & masks[valid-1])) valid--;
 
@@ -201,41 +228,140 @@ void userport_serial_write_sr(BYTE b) {
 	    c = (buf >> (valid-9)) & 0xff;
 	    /*printf("rsuser_send %c (%02x), buf=%x, valid=%d\n",
 						code[c],code[c], buf, valid);*/
-	    if(fd>=0) rs232_putc(fd, code[c]);
+	    if(fd>=0) {
+#ifdef DEBUG
+		printf("\"%c\"", code[c]);
+#endif
+		rs232_putc(fd, code[c]);
+	    }
 	}
 	valid -= 10;
     }
 }
 
+static void keepup_tx_buffer(void) {
+
+    if((!clk_start_bit) || clk < clk_start_bit) return;
+
+    while(clk_start_bit < (clk_start_tx + char_clk_ticks)) {
+#ifdef DEBUG
+	printf("keeup: clk=%d, _bit=%d, _tx=%d\n",
+		clk, clk_start_bit-clk_start_tx, clk_start_tx);
+#endif
+	buf= buf<< 1;
+	if(txbit) buf|= 1;
+	valid ++;
+	if(valid >=10) check_tx_buffer();
+
+	clk_start_bit += bit_clk_ticks;
+
+	if(clk_start_bit >= clk) break;
+    }
+    if(clk_start_bit > clk_start_tx + char_clk_ticks) {
+	clk_start_tx = 0;
+	clk_start_bit = 0;
+    }
+}
+
+void rsuser_set_tx_bit(int b) {
+    int bit=0;
+#ifdef DEBUG
+    printf("rsuser_set_tx(clk=%d, clk_start_tx=%d, b=%d)\n", 
+		clk, clk_start_tx, b);
+#endif
+
+    if(fd<0 || rsuser_enabled > 2400) {
+	clk_start_tx = 0;
+	return;
+    }
+
+    /* feeds the output buffer with enough bits till clk */
+    keepup_tx_buffer();
+    txbit = b;
+ 
+    if(!clk_start_tx && !b) {
+	/* the clock where we start sampling - in the middle of the bit */
+	clk_start_tx = clk + (bit_clk_ticks / 2) ;
+	clk_start_bit = clk_start_tx;
+	txdata = 0;
+#ifdef DEBUG
+printf("\n");
+#endif
+    }
+}
+
+BYTE rsuser_get_rx_bit(void) {
+    int bit=0, byte=1;
+    if(clk_start_rx) {
+	byte = 0;
+	bit = (clk - clk_start_rx)/(bit_clk_ticks);
+#ifdef DEBUG
+	printf("read ctrl(clk-start_rx=%d -> bit=%d)\n",clk-clk_start_rx, bit);
+#endif
+	if(!bit) {
+	    byte = 0;	/* start bit */
+	} else 
+	if(bit<9) {	/* 8 data bits */
+	    byte = rxdata & (1 << (bit-1));
+	    if(byte) byte=1;
+	} else {	/* stop bits */
+	    byte = 1;
+	}
+    }
+    return byte;
+}
+
+BYTE userport_serial_read_ctrl(void) {
+    return rsuser_get_rx_bit() | CTS_IN | (rsuser_enabled > 2400 ? 0 : DCD_IN);
+}
+
+void userport_serial_write_sr(BYTE b) {
+
+    buf = (buf << 8) | b;
+    valid += 8;
+
+    check_tx_buffer();
+}
+
+
 
 int int_rsuser(long offset) {
-#ifdef DEBUG
+	CLOCK rclk = clk - offset;
+#if 0 /* def DEBUG */
         printf("int_rsuser(clk=%d, rclk=%ld)\n",clk, clk-offset);
 #endif
+
+        keepup_tx_buffer();
 
 	switch(rxstate) {
 	case 0:
         	if( fd>=0 && rs232_getc(fd, &rxdata)) {
-
 		  /* byte received, signal startbit on flag */
                   rxstate ++;
 		  cia2_set_flag();
-		  maincpu_set_alarm(A_RSUSER, RSUSER_TICS);
-
-		} else {
-		  /* no byte received */
-		  maincpu_set_alarm(A_RSUSER, RSUSER_TICS);
+		  clk_start_rx = rclk;
 		}
+		maincpu_set_alarm(A_RSUSER, char_clk_ticks);
 		break;
 	case 1:
 		/* now byte should be in shift register */
 		cia2_set_sdr(code[rxdata]);
 		rxstate = 0;
-		maincpu_set_alarm(A_RSUSER, RSUSER_TICS);
+		clk_start_rx = 0;
+		maincpu_set_alarm(A_RSUSER, char_clk_ticks / 8);
 		break;
         }
 
         return 0;
 }
 
+void rsuser_prevent_clk_overflow(CLOCK sub) 
+{
+    if(clk_start_tx) 
+	clk_start_tx -= sub;
+    if(clk_start_rx) 
+	clk_start_rx -= sub;
+    if(clk_start_bit) 
+	clk_start_bit -= sub;
+}
 
