@@ -119,8 +119,8 @@ static int  disk_help ( void );
 static int  disk_quit ( void );
 static int  disk_system ( void );
 
-extern char sector_map[43]; /* Ugly: FIXME! */
-extern int speed_map[42];
+extern char sector_map_1541[43]; /* Ugly: FIXME! */
+extern int speed_map_1541[42];
 
 struct ms_table disk_cmds[] = {
     {"format", 1, 2, disk_format,
@@ -475,7 +475,7 @@ static int  disk_gcrformat (void)
     for (track = 0; track < MAX_TRACKS_1541; track++) {
 	gcr_track_p[track * 2] = 12 + MAX_TRACKS_1541 * 16 + track * 7930;
 	gcr_track_p[track * 2 + 1] = 0;
-	gcr_speed_p[track * 2] = speed_map[track];
+	gcr_speed_p[track * 2] = speed_map_1541[track];
 	gcr_speed_p[track * 2 + 1] = 0;
     }
 
@@ -496,11 +496,11 @@ static int  disk_gcrformat (void)
 	int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
 
 	memset(&gcr_track[2], 0xff, 7928);
-	gcr_track[0] = raw_track_size[speed_map[track]] % 256;
-	gcr_track[1] = raw_track_size[speed_map[track]] / 256;
+	gcr_track[0] = raw_track_size[speed_map_1541[track]] % 256;
+	gcr_track[1] = raw_track_size[speed_map_1541[track]] / 256;
 	gcrptr = &gcr_track[2];
 
-	for (sector = 0; sector < sector_map[track+1]; sector++) {
+	for (sector = 0; sector < sector_map_1541[track+1]; sector++) {
 	    BYTE chksum;
 	    int i;
 	    memset(rawdata, 0, 260);
@@ -517,7 +517,7 @@ static int  disk_gcrformat (void)
 		rdat[BAM_DISK_ID] = id[0];
 		rdat[BAM_DISK_ID + 1] = id[1];
 		for (t = 1; t <= 35; t++)
-		    for (s = 0; s < sector_map[t]; s++)
+		    for (s = 0; s < sector_map_1541[t]; s++)
 			free_sector(rdat, t, s);
 		allocate_sector(rdat, DSK_BAM_TRACK, 0);
 		allocate_sector(rdat, DSK_BAM_TRACK, 1);
@@ -1013,7 +1013,7 @@ static int  disk_import_zipfile (void)
 	    }
 	}
 
-       for (count = 0; count < sector_map[track]; count++) {
+       for (count = 0; count < sector_map_1541[track]; count++) {
           if ( (zipcode_read_sector(fsfd, track, &sector, floppy->buffers[channel].buffer)) != 0) {
 	      close(fsfd);
 	      return (FD_BADIMAGE);
