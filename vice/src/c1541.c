@@ -1534,6 +1534,8 @@ static int quit_cmd(int nargs, char **args)
 	    detach_floppy_image(drives[i]);
 
     exit(0);
+
+    return 0; 	/* OSF1 cc complains */
 }
 
 static int read_cmd(int nargs, char **args)
