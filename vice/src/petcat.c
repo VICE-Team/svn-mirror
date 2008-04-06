@@ -104,6 +104,7 @@
 #define B_BLARG         26
 #define B_VIC4          27
 #define B_VIC5          28
+#define B_WSF           29
 
 /* Limits */
 
@@ -138,6 +139,7 @@
 #define NUM_BASLCC      51      /* Basic Lightning (c64) */
 #define NUM_MAGICCC     50      /* Magic Basic (c64) */
 #define NUM_EASYCC      51      /* Easy Basic (vic20) */
+#define NUM_WSFCC       51      /* WS basic final (c64) */
 
 #define NUM_BLARGE0     11      /* Blarg (c64) */
 
@@ -166,6 +168,7 @@
 #define MAX_BASLCC      0xFE    /* Basic Lightning (c64) */
 #define MAX_MAGICCC     0xFD    /* Magic Basic (c64) */
 #define MAX_EASYCC      0xFE    /* Easy Basic (vic20) */
+#define MAX_WSFCC       0xFE    /* WS basic final (c64) */
 
 #define MAX_BLARGE0     0xEA    /* Blarg (c64) */
 
@@ -306,6 +309,7 @@ const char *VersNames[] = {
     "Basic 2.0 with Blarg",
     "Basic 4.0 extension for VIC20",
     "Basic 5.0 extension for VIC20",
+    "Basic 2.0 with WS basic final",
     ""
 };
 
@@ -532,8 +536,7 @@ const char *graphicsbasickwcc[] = {
 };
 
 
-/* WS (WohnzimmerSoft) basic (c64) Keywords (Tokens CC - FE) -- Marco van den
-                                                                Heuvel */
+/* WS (WohnzimmerSoft) basic (c64) Keywords (Tokens CC - FE) -- Marco van den Heuvel */
 
 const char *wsbasickwcc[] = {
     "copy",   "old",    "port",  "doke",  "vpoke",  "fill",   "error",
@@ -544,6 +547,20 @@ const char *wsbasickwcc[] = {
     "subend", "do",     "loop",  "exit",  "deek",   "rsc",    "rsm",
     "dec",    "hex$",   "hi",    "lo",    "ds$",    "line",   "vpeek",
     "row",    "joy"
+};
+
+
+/* WS (WohnzimmerSoft) basic final (c64) Keywords (Tokens CC - FE) -- Marco van den Heuvel */
+
+const char *wsfbasickwcc[] = {
+    "copy",   "bank",   "old",   "doke",  "display", "fill",   "error",
+    "send",   "call",   "bit",   "dir",   "bload",   "bsave",  "find",
+    "speed",  "pitch",  "say",   "fast",  "slow",    "talk",   "shutup",
+    "stash",  "fetch",  "swap",  "off",   "mode",    "device", "object",
+    "vstash", "vfetch", "latch", "color", "cls",     "curpos", "monitor",
+    "subend", "do",     "loop",  "exit",  "deek",    "col",    "rsm",
+    "dec",    "hex$",   "hi",    "lo",    "ds$",     "line",   "bnk",
+    "ypos",   "joy"
 };
 
 
@@ -822,6 +839,7 @@ int main(int argc, char **argv)
                 "\tultra\tBasic v2.0 with Ultrabasic-64 (C64)\n"
                 "\tgraph\tBasic v2.0 with Graphics basic (C64)\n"
                 "\tWSB\tBasic v2.0 with WS basic (C64)\n"
+                "\tWSBF\tBasic v2.0 with WS basic final (C64)\n"
                 "\tPegasus\tBasic v2.0 with Pegasus basic 4.0 (C64)\n"
                 "\tXbasic\tBasic v2.0 with Xbasic (C64)\n"
                 "\tDrago\tBasic v2.0 with Drago basic 2.2 (C64)\n"
@@ -1127,7 +1145,28 @@ static int parse_version(char *str)
         break;
 
       case 'W':
-        version = B_WS;
+        if (str[1]!='S')
+        {
+          fprintf(stderr, "Please, select one of the following: WSB, WSBF\n");
+        }
+        else
+        {
+          if (str[2]!='B')
+          {
+            fprintf(stderr, "Please, select one of the following: WSB, WSBF\n");
+          }
+          else
+          {
+            if (str[3]=='F')
+            {
+              version = B_WSF;
+            }
+            else
+            {
+              version = B_WS;
+            }
+          }
+        }
         break;
 
       case 'M':
@@ -1295,6 +1334,11 @@ static void list_keywords(int version)
       case B_WS:
         for (n = 0; n < NUM_WSCC; n++)
             printf("%s\t", wsbasickwcc[n] /*, n + 0xcc*/);
+        break;
+
+      case B_WSF:
+        for (n = 0; n < NUM_WSFCC; n++)
+            printf("%s\t", wsfbasickwcc[n] /*, n + 0xcc*/);
         break;
 
       case B_PEG:
@@ -1556,6 +1600,11 @@ static int p_expand(int version, int addr, int ctrls)
                   case B_WS:
                     if (c >= 0xcc && c <= MAX_WSCC)
                         fprintf(dest, "%s", wsbasickwcc[c - 0xcc]);
+                    break;
+
+                  case B_WSF:
+                    if (c >= 0xcc && c <= MAX_WSFCC)
+                        fprintf(dest, "%s", wsfbasickwcc[c - 0xcc]);
                     break;
 
                   case B_PEG:
@@ -1941,6 +1990,14 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
                   case B_WS:
                     if ((c = sstrcmp(p2 , wsbasickwcc, 0, NUM_WSCC)) !=KW_NONE) {
+                        *p1++ = c + 0xcc;
+                        p2 += kwlen;
+                        match++;
+                    }
+                    break;
+
+                  case B_WSF:
+                    if ((c = sstrcmp(p2 , wsfbasickwcc, 0, NUM_WSCC)) !=KW_NONE) {
                         *p1++ = c + 0xcc;
                         p2 += kwlen;
                         match++;
