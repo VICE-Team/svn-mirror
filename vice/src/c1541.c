@@ -110,7 +110,7 @@ static int drive_number = 0;
 
 static int check_drive(int dev, int mode);
 static int open_image(int dev, char *name, int create, int disktype);
-static int create_image(file_desc_t fd, int devtyp, int tracks, int errb,
+static int create_image(FILE *fd, int devtyp, int tracks, int errb,
 			char *label, int disktype);
 
 static int raw_cmd(int nargs, char **args); /* @ */
@@ -584,8 +584,8 @@ static void pager_print(const char *text)
 /* ------------------------------------------------------------------------- */
 
 /* Create a new floppy image.  */
-static int create_image(file_desc_t fd, int devtype, int tracks, int errb,
-			char *label, int disktype)
+static int create_image(FILE *fd, int devtype, int tracks, int errb,
+                        char *label, int disktype)
 {
     BYTE header[HEADER_LENGTH];
     BYTE block[256];
@@ -619,7 +619,7 @@ static int create_image(file_desc_t fd, int devtype, int tracks, int errb,
 	header[HEADER_LABEL_OFFSET + HEADER_LABEL_LEN] = 0;	/* terminator */
 
 	printf("Writing header.\n");
-	if (write(fd, (char *) header, sizeof(header)) != sizeof(header)) {
+	if (fwrite((char *) header, sizeof(header), 1, fd) < 1) {
 	    fprintf(stderr, "Cannot write header.\n");
             return -1;
 	}
@@ -627,7 +627,7 @@ static int create_image(file_desc_t fd, int devtype, int tracks, int errb,
 
     printf("Creating blocks...\n");
     for (i = 0; i < blks; i++) {
-	if (write(fd, (char *) block, sizeof(block)) != sizeof(block)) {
+	if (fwrite((char *) block, sizeof(block), 1, fd) < 1) {
 	    fprintf(stderr, "Cannot write block %d.\n", i);
             return -1;
 	}
@@ -646,7 +646,7 @@ static int create_image(file_desc_t fd, int devtype, int tracks, int errb,
     return 0;
 }
 
-static int set_label(file_desc_t fd, const char *label)
+static int set_label(FILE *fd, const char *label)
 {
     int siz = HEADER_LABEL_LEN + 1;
     char buf[HEADER_LABEL_LEN + 2];
@@ -656,9 +656,9 @@ static int set_label(file_desc_t fd, const char *label)
     if (label)
 	strncpy(buf, label, HEADER_LABEL_LEN);
 
-    lseek(fd, (off_t) HEADER_LABEL_OFFSET, SEEK_SET);
+    fseek(fd, (off_t) HEADER_LABEL_OFFSET, SEEK_SET);
 
-    if (write(fd, (char *) buf, siz) != siz) {
+    if (fwrite((char *) buf, siz, 1, fd) < 1) {
 	return FD_WRTERR;
     }
     return FD_OK;
@@ -666,7 +666,7 @@ static int set_label(file_desc_t fd, const char *label)
 
 /* These 4 bytes are disk type flags (set upon create or format).  They
    contain: Device Type, Max Tracks, Side, and Error Flag.  */
-static int set_disk_size(file_desc_t fd, int tracks, int sides, int errblk)
+static int set_disk_size(FILE *fd, int tracks, int sides, int errblk)
 {
     int siz = HEADER_FLAGS_LEN;
     char buf[HEADER_FLAGS_LEN + 1];
@@ -676,9 +676,9 @@ static int set_disk_size(file_desc_t fd, int tracks, int sides, int errblk)
     buf[2] = sides;
     buf[3] = errblk;
 
-    lseek(fd, (off_t) HEADER_FLAGS_OFFSET, SEEK_SET);
+    fseek(fd, (off_t) HEADER_FLAGS_OFFSET, SEEK_SET);
 
-    if (write(fd, (char *) buf, siz) != siz) {
+    if (fwrite((char *) buf, siz, 1, fd) < 1) {
 	return FD_WRTERR;
     }
     return FD_OK;
@@ -689,7 +689,7 @@ static int set_disk_size(file_desc_t fd, int tracks, int sides, int errblk)
 static int open_image(int dev, char *name, int create, int disktype)
 {
     DRIVE *floppy;
-    file_desc_t fd;
+    FILE *fd;
     int cdev = DT_1541, num_tracks = NUM_TRACKS_1541;
 
     if (dev < 0 || dev > MAXDRIVE)
@@ -698,7 +698,7 @@ static int open_image(int dev, char *name, int create, int disktype)
     floppy = drives[dev & 3];
 
     if (create) {
-	if ((fd = open(name, O_RDWR | O_CREAT, 0666)) == ILLEGAL_FILE_DESC) {
+	if ((fd = fopen(name, MODE_READ_WRITE /*, 0666*/)) == NULL) {
 	    fprintf(stderr, "Cannot create image `%s': %s.\n", name, strerror(errno));
 	    return -1;
 	}
@@ -734,7 +734,7 @@ static int open_image(int dev, char *name, int create, int disktype)
 	}
 
 	create_image(fd, cdev, num_tracks, 0, NULL, disktype);
-	close(fd);
+	fclose(fd);
     }
     attach_floppy_image(floppy, name, 0);
 
@@ -754,7 +754,7 @@ static int check_drive(int dev, int flags)
 
     floppy = drives[dev & 3];
 
-    if (!floppy || (flags != CHK_NUM && floppy->ActiveFd == ILLEGAL_FILE_DESC)) {
+    if (!floppy || (flags != CHK_NUM && floppy->ActiveFd == NULL)) {
 	return FD_NOTREADY;
     }
     return FD_OK;
@@ -877,7 +877,7 @@ static int create_cmd(int nargs, char **args)
     DRIVE *floppy = drives[drive_number];
     DiskFormats *format;
     char tmp[256];
-    file_desc_t fsfd;
+    FILE *fsfd;
     int len, blk, errblk;
 
     blk = 0;
@@ -888,7 +888,7 @@ static int create_cmd(int nargs, char **args)
     if (open_image(drive_number, args[1], 1, DISK_IMAGE_TYPE_X64) < 0)
 	return FD_BADIMAGE;
 
-    if ((fsfd = open(args[2], O_RDONLY)) == ILLEGAL_FILE_DESC) {
+    if ((fsfd = fopen(args[2], MODE_READ)) == NULL) {
 	fprintf(stderr, "Cannot open `%s'.\n", args[2]);
 	perror(args[2]);
 	return FD_NOTRD;
@@ -900,14 +900,14 @@ static int create_cmd(int nargs, char **args)
        Data Block.  */
 
     printf("Copying blocks.\n");
-    lseek(floppy->ActiveFd, HEADER_LENGTH, SEEK_SET);
+    fseek(floppy->ActiveFd, HEADER_LENGTH, SEEK_SET);
 
-    while ((len = read(fsfd, tmp, 256)) == 256) {
+    while ((len = fread(tmp, 1, 256, fsfd)) == 256) {
 	if (++blk > MAX_BLOCKS_ANY) {
 	    fprintf(stderr, "\nNice try.\n");
 	    break;
 	}
-	if (write(floppy->ActiveFd, tmp, 256) != 256) {
+	if (fwrite(tmp, 256, 1, floppy->ActiveFd) < 1) {
 	    fprintf(stderr, "Cannot write block %d of `%s'.\n", blk, args[2]);
 	    return FD_WRTERR;
 	}
@@ -940,23 +940,23 @@ static int create_cmd(int nargs, char **args)
 	    fprintf(stderr, "Cannot read block %d of `%s'.\n", blk, args[2]);
 	    return FD_NOTRD;
 	}
-	if (write(floppy->ActiveFd, tmp, len) != len) {
+	if (fwrite(tmp, len, 1, floppy->ActiveFd) < 1) {
 	    fprintf(stderr, "Cannot write block %d of `%s'.\n", blk, args[2]);
 	    return FD_WRTERR;
 	}
     }
     /* Update Format and Label information on Disk Header */
 
-    lseek(floppy->ActiveFd, (off_t) HEADER_LABEL_OFFSET + 0, SEEK_SET);
+    fseek(floppy->ActiveFd, (off_t) HEADER_LABEL_OFFSET + 0, SEEK_SET);
 
-    if (write(floppy->ActiveFd, &(format->ImageFormat), 1) != 1)
+    if (fwrite(&(format->ImageFormat), 1, 1, floppy->ActiveFd) < 1)
 	return FD_WRTERR;
 
     set_disk_size(floppy->ActiveFd, format->TracksSide, format->Sides, errblk);
 
     set_label(floppy->ActiveFd, (args[3] ? args[3] : NULL));	/* Fix the note */
 
-    close(fsfd);
+    fclose(fsfd);
 
     vdrive_command_execute(floppy, (BYTE *) "I", 1);
 
@@ -1278,7 +1278,7 @@ static int format_cmd(int nargs, char **args)
 
 static int gcrformat_cmd(int nargs, char **args)
 {
-    file_desc_t fd;
+    FILE *fd;
     int track, sector;
     BYTE gcr_header[12], id[2];
     char name[16], *idptr;
@@ -1316,7 +1316,7 @@ static int gcrformat_cmd(int nargs, char **args)
 	}
     }
 
-    if ((fd = open(args[2], O_RDWR | O_CREAT, 0666)) == ILLEGAL_FILE_DESC) {
+    if ((fd = fopen(args[2], MODE_READ_WRITE /*, 0666*/)) == NULL) {
 	fprintf(stderr, "Cannot create image `%s': %s.\n", args[2], strerror(errno));
 	return FD_BADIMAGE;
     }
@@ -1327,11 +1327,10 @@ static int gcrformat_cmd(int nargs, char **args)
     gcr_header[10] = 7928 % 256;
     gcr_header[11] = 7928 / 256;
 
-    if (write(fd, (char *) gcr_header, sizeof(gcr_header))
-	!= sizeof(gcr_header)) {
-	fprintf(stderr, "Cannot write header.\n");
-	close(fd);
-	return FD_OK;
+    if (fwrite((char *) gcr_header, sizeof(gcr_header), 1, fd) < 1) {
+        fprintf(stderr, "Cannot write header.\n");
+        fclose(fd);
+        return FD_OK;
     }
     for (track = 0; track < MAX_TRACKS_1541; track++) {
 	gcr_track_p[track * 2] = 12 + MAX_TRACKS_1541 * 16 + track * 7930;
@@ -1342,12 +1341,12 @@ static int gcrformat_cmd(int nargs, char **args)
 
     if (write_dword(fd, gcr_track_p, sizeof(gcr_track_p)) < 0) {
 	fprintf(stderr, "Cannot write track header.\n");
-	close(fd);
+	fclose(fd);
 	return FD_OK;
     }
     if (write_dword(fd, gcr_speed_p, sizeof(gcr_speed_p)) < 0) {
 	fprintf(stderr, "Cannot write speed header.\n");
-	close(fd);
+	fclose(fd);
 	return FD_OK;
     }
     for (track = 0; track < MAX_TRACKS_1541; track++) {
@@ -1390,15 +1389,14 @@ static int gcrformat_cmd(int nargs, char **args)
 	    gcrptr += 360;
 	}
 
-	if (write(fd, (char *) gcr_track, sizeof(gcr_track))
-	    != sizeof(gcr_track)) {
+	if (fwrite((char *) gcr_track, sizeof(gcr_track), 1, fd) < 1 ) {
 	    fprintf(stderr, "Cannot write track data.\n");
-	    close(fd);
+	    fclose(fd);
 	    return FD_OK;
 	}
     }
 
-    close(fd);
+    fclose(fd);
     return FD_OK;
 }
 
@@ -2162,7 +2160,7 @@ static int zcreate_cmd(int nargs, char **args)
     DRIVE *floppy = drives[drive_number];
     DiskFormats *format = Legal_formats;
     char tmp[256];
-    file_desc_t fsfd = ILLEGAL_FILE_DESC;
+    FILE *fsfd = NULL;
     int errblk = 0;
     int track, sector, count;
     char fname[MAXPATHLEN], dirname[MAXPATHLEN], oname[MAXPATHLEN];
@@ -2207,11 +2205,11 @@ static int zcreate_cmd(int nargs, char **args)
     set_label(floppy->ActiveFd, "*** Truncated image."); /* Notify of errors */
 
     printf("Copying blocks to image\n");
-    lseek(floppy->ActiveFd, HEADER_LENGTH, SEEK_SET);
+    fseek(floppy->ActiveFd, HEADER_LENGTH, SEEK_SET);
 
     /* Write out all the sectors */
     for (count = 0; count < format->TotalBks; count++) {
-        if (write(floppy->ActiveFd, tmp, 256) != 256) {
+        if (fwrite(tmp, 1, 256, floppy->ActiveFd) != 256) {
             fprintf(stderr, "Cannot write block %d of `%s'\n", count, args[2]);
             return FD_WRTERR;
         }
@@ -2229,14 +2227,14 @@ static int zcreate_cmd(int nargs, char **args)
                    correctly.  */
                 strcpy(oname, dirname);
                 strcat(oname, fname + 2);
-                fsfd = open(oname, O_RDONLY);
-                if (fsfd != ILLEGAL_FILE_DESC) {
+                fsfd = fopen(oname, MODE_READ);
+                if (fsfd != NULL) {
                     printf("Reading zipfile on one-file mode\n");
                     singlefilemode = 1;
-                    lseek(fsfd, 4, SEEK_SET);
+                    fseek(fsfd, 4, SEEK_SET);
                 }
             } else if (track == 9 || track == 17 || track == 26) {
-                lseek(fsfd, 2, SEEK_CUR);
+                fseek(fsfd, 2, SEEK_CUR);
             }
         }
         if (!singlefilemode) {
@@ -2246,23 +2244,23 @@ static int zcreate_cmd(int nargs, char **args)
               case 17:
               case 26:
                 fname[0]++;
-                if (fsfd != ILLEGAL_FILE_DESC)
-                    close(fsfd);
+                if (fsfd != NULL)
+                    fclose(fsfd);
                 strcpy(oname, dirname);
                 strcat(oname, fname);
-                if ((fsfd = open(oname, O_RDONLY)) == ILLEGAL_FILE_DESC) {
+                if ((fsfd = fopen(oname, MODE_READ)) == NULL) {
                     fprintf(stderr, "Cannot open `%s'.\n", fname);
                     perror(fname);
                     return FD_NOTRD;
                 }
-                lseek(fsfd, (track == 1) ? 4 : 2, SEEK_SET);
+                fseek(fsfd, (track == 1) ? 4 : 2, SEEK_SET);
                 break;
             }
         }
         for (count = 0; count < sector_map_1541[track]; count++) {
             if ((zipcode_read_sector(fsfd, track, &sector,
                 (char *) (floppy->buffers[channel].buffer))) != 0) {
-                close(fsfd);
+                fclose(fsfd);
                 return FD_BADIMAGE;
             }
             /* Write one block */
@@ -2272,7 +2270,7 @@ static int zcreate_cmd(int nargs, char **args)
                 strlen((char *) str)) != 0) {
                 track = DIR_TRACK_1541;
                 sector = 0;
-                close(fsfd);
+                fclose(fsfd);
                 return FD_RDERR;
             }
         }
@@ -2280,14 +2278,14 @@ static int zcreate_cmd(int nargs, char **args)
     vdrive_close(floppy, channel);
 
     /* Update Format and Label information on Disk Header */
-    lseek(floppy->ActiveFd, (off_t) HEADER_LABEL_OFFSET + 0, SEEK_SET);
+    fseek(floppy->ActiveFd, (off_t) HEADER_LABEL_OFFSET + 0, SEEK_SET);
 
-    if (write(floppy->ActiveFd, &(format->ImageFormat), 1) != 1)
+    if (fwrite(&(format->ImageFormat), 1, 1, floppy->ActiveFd) < 1)
         return FD_WRTERR;
 
     set_disk_size(floppy->ActiveFd, format->TracksSide, format->Sides, errblk);
     set_label(floppy->ActiveFd, (args[3] ? args[3] : NULL)); /* Fix the note */
-    close(fsfd);
+    fclose(fsfd);
 
     vdrive_command_execute(floppy, (BYTE *) "I", 1);
     return FD_OK;
