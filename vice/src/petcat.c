@@ -1082,7 +1082,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 {
     static char line[256];
     unsigned char *p1, *p2, quote, c;
-    unsigned char rem_data_mode, rem_data_endchar;
+    unsigned char rem_data_mode, rem_data_endchar = '\0';
     int len = 0, match;
     unsigned int linum = 10;
 
