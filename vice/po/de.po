@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2002-01-26 19:50+0100\n"
+"POT-Creation-Date: 2002-01-27 18:16+0100\n"
 "PO-Revision-Date: 2002-01-02 23:24+01:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -313,8 +313,8 @@ msgstr "Optionen"
 #: src/arch/unix/c128ui.c:488 src/arch/unix/c610ui.c:493
 #: src/arch/unix/c64ui.c:454 src/arch/unix/petui.c:416
 #: src/arch/unix/plus4ui.c:196 src/arch/unix/vic20ui.c:528
-#: src/arch/unix/vsidui.c:267 src/arch/unix/x11/gnome/ui.c:1129
-#: src/arch/unix/x11/gnome/ui.c:1221
+#: src/arch/unix/vsidui.c:267 src/arch/unix/x11/gnome/ui.c:1125
+#: src/arch/unix/x11/gnome/ui.c:1217
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -1053,8 +1053,8 @@ msgid "Next: "
 msgstr "Nächstes: "
 
 #: src/arch/unix/uicommands.c:667 src/arch/unix/uicommands.c:682
-#: src/arch/unix/x11/gnome/ui.c:788 src/arch/unix/x11/gnome/ui.c:798
-#: src/arch/unix/x11/gnome/ui.c:1473
+#: src/arch/unix/x11/gnome/ui.c:784 src/arch/unix/x11/gnome/ui.c:794
+#: src/arch/unix/x11/gnome/ui.c:1469
 msgid "<empty>"
 msgstr "<leer>"
 
@@ -1199,7 +1199,7 @@ msgid "About VICE..."
 msgstr "Über VICE..."
 
 #: src/arch/unix/uicommands.c:947 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/ui.c:1841
+#: src/arch/unix/x11/gnome/ui.c:1837
 msgid "Reset"
 msgstr "Reset"
 
@@ -1694,8 +1694,8 @@ msgstr "Maximale Geschwindigkeit"
 msgid "Invalid speed value"
 msgstr "Ungültige Geschwindigkeit"
 
-#: src/arch/unix/uisettings.c:219 src/arch/unix/x11/gnome/ui.c:1268
-#: src/arch/unix/x11/xaw/ui.c:1065
+#: src/arch/unix/uisettings.c:219 src/arch/unix/x11/gnome/ui.c:1264
+#: src/arch/unix/x11/xaw/ui.c:1060
 msgid "Cannot save settings."
 msgstr "Fehler beim Speichern der Einstellungen."
 
@@ -2162,7 +2162,7 @@ msgstr "Garantiebestimmungen"
 msgid "Contributors"
 msgstr "VICE Hackers"
 
-#: src/arch/unix/x11/gnome/gnomevideo.c:105
+#: src/arch/unix/x11/gnome/gnomevideo.c:100
 msgid "Successfully initialized video."
 msgstr "Video erfolgreich initialisiert."
 
@@ -2176,7 +2176,7 @@ msgstr "Schriftpfad hinzufügen ist fehlgeschlagen: `%s'.\n"
 msgid "Set fontpath: `%s'.\n"
 msgstr "Setze Fontpfad: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/ui.c:638 src/arch/unix/x11/xaw/ui.c:472
+#: src/arch/unix/x11/gnome/ui.c:639 src/arch/unix/x11/xaw/ui.c:473
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Dieses Display unterstützt keine passende %dbit Farbtiefe."
@@ -2185,135 +2185,131 @@ msgstr "Dieses Display unterstützt keine passende %dbit Farbtiefe."
 msgid "Please select a bit depth supported by your display."
 msgstr "Bitte genaue Farbtiefe für Ihr Display spezifizieren."
 
-#: src/arch/unix/x11/gnome/ui.c:645 src/arch/unix/x11/xaw/ui.c:479
-msgid "Please recompile the program for a supported bit depth."
-msgstr "Bitte VICE mit passender Farbtiefe neu übersetzen."
-
-#: src/arch/unix/x11/gnome/ui.c:649 src/arch/unix/x11/gnome/ui.c:667
-#: src/arch/unix/x11/xaw/ui.c:483 src/arch/unix/x11/xaw/ui.c:500
+#: src/arch/unix/x11/gnome/ui.c:645 src/arch/unix/x11/gnome/ui.c:663
+#: src/arch/unix/x11/xaw/ui.c:479 src/arch/unix/x11/xaw/ui.c:496
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "%dbit/%s Farbtiefe erkannt."
 
-#: src/arch/unix/x11/gnome/ui.c:675 src/arch/unix/x11/xaw/ui.c:508
+#: src/arch/unix/x11/gnome/ui.c:671 src/arch/unix/x11/xaw/ui.c:504
 msgid "Cannot autodetect a proper visual."
 msgstr "Fehler beim automatischen erkennen der Farbtiefe."
 
-#: src/arch/unix/x11/gnome/ui.c:682
+#: src/arch/unix/x11/gnome/ui.c:678
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Laden der Textschrift `%s' fehlgeschlagen."
 
-#: src/arch/unix/x11/gnome/ui.c:689
+#: src/arch/unix/x11/gnome/ui.c:685
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Laden der CBM font `%s' fehlgeschlagen."
 
-#: src/arch/unix/x11/gnome/ui.c:753
+#: src/arch/unix/x11/gnome/ui.c:749
 msgid "PAL Controls"
 msgstr "PAL Steuerung"
 
-#: src/arch/unix/x11/gnome/ui.c:774
+#: src/arch/unix/x11/gnome/ui.c:770
 #, c-format
 msgid "Drive %d: "
 msgstr "Laufwerk %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/ui.c:884
+#: src/arch/unix/x11/gnome/ui.c:880
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/ui.c:957 src/arch/unix/x11/xaw/ui.c:593
+#: src/arch/unix/x11/gnome/ui.c:953 src/arch/unix/x11/xaw/ui.c:588
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximale Anzahl an Hauptfenster erreicht."
 
-#: src/arch/unix/x11/gnome/ui.c:1127 src/arch/unix/x11/gnome/ui.c:1210
+#: src/arch/unix/x11/gnome/ui.c:1123 src/arch/unix/x11/gnome/ui.c:1206
 msgid "Commands"
 msgstr "Kommandos"
 
-#: src/arch/unix/x11/gnome/ui.c:1133
+#: src/arch/unix/x11/gnome/ui.c:1129
 msgid "Help"
 msgstr "Hilfe"
 
-#: src/arch/unix/x11/gnome/ui.c:1252 src/arch/unix/x11/xaw/ui.c:1049
+#: src/arch/unix/x11/gnome/ui.c:1248 src/arch/unix/x11/xaw/ui.c:1044
 msgid " emulator"
 msgstr " Emulator"
 
-#: src/arch/unix/x11/gnome/ui.c:1254 src/arch/unix/x11/xaw/ui.c:1055
+#: src/arch/unix/x11/gnome/ui.c:1250 src/arch/unix/x11/xaw/ui.c:1050
 msgid "Do you really want to exit?"
 msgstr "Wirklich beenden?"
 
-#: src/arch/unix/x11/gnome/ui.c:1264 src/arch/unix/x11/xaw/ui.c:1062
+#: src/arch/unix/x11/gnome/ui.c:1260 src/arch/unix/x11/xaw/ui.c:1057
 msgid "Save the current settings?"
 msgstr "Einstellungen speichern?"
 
-#: src/arch/unix/x11/gnome/ui.c:1311 src/arch/unix/x11/xaw/ui.c:1099
+#: src/arch/unix/x11/gnome/ui.c:1307 src/arch/unix/x11/xaw/ui.c:1094
 msgid "Using private colormap."
 msgstr "Benutze private Farbpalette."
 
-#: src/arch/unix/x11/gnome/ui.c:1331 src/arch/unix/x11/gnome/ui.c:1334
-#: src/arch/unix/x11/xaw/ui.c:1120 src/arch/unix/x11/xaw/ui.c:1126
+#: src/arch/unix/x11/gnome/ui.c:1327 src/arch/unix/x11/gnome/ui.c:1330
+#: src/arch/unix/x11/xaw/ui.c:1115 src/arch/unix/x11/xaw/ui.c:1121
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/ui.c:1625
+#: src/arch/unix/x11/gnome/ui.c:1621
 #, c-format
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/ui.c:1662 src/arch/unix/x11/xaw/ui.c:1336
+#: src/arch/unix/x11/gnome/ui.c:1658 src/arch/unix/x11/xaw/ui.c:1331
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausiert)"
 
-#: src/arch/unix/x11/gnome/ui.c:1800
+#: src/arch/unix/x11/gnome/ui.c:1796
 msgid "VICE Message"
 msgstr "VICE Nachricht"
 
-#: src/arch/unix/x11/gnome/ui.c:1815
+#: src/arch/unix/x11/gnome/ui.c:1811
 msgid "VICE Error"
 msgstr "VICE Fehler"
 
-#: src/arch/unix/x11/gnome/ui.c:1841
+#: src/arch/unix/x11/gnome/ui.c:1837
 msgid "Hard Reset"
 msgstr "Harter Reset"
 
-#: src/arch/unix/x11/gnome/ui.c:1841
+#: src/arch/unix/x11/gnome/ui.c:1837
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/ui.c:1885 src/arch/unix/x11/xaw/ui.c:1576
+#: src/arch/unix/x11/gnome/ui.c:1881 src/arch/unix/x11/xaw/ui.c:1571
 msgid "Extend disk image"
 msgstr "Erweiterung Disk Image"
 
-#: src/arch/unix/x11/gnome/ui.c:1886
+#: src/arch/unix/x11/gnome/ui.c:1882
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Soll das Diskimage auf 40 Spuren erweitert werden?"
 
-#: src/arch/unix/x11/gnome/ui.c:1899
+#: src/arch/unix/x11/gnome/ui.c:1895
 msgid "Autostart not possible for unit 9"
 msgstr "Autostart für Laufwerk 9 nicht möglich."
 
-#: src/arch/unix/x11/gnome/ui.c:1907 src/arch/unix/x11/gnome/ui.c:1916
+#: src/arch/unix/x11/gnome/ui.c:1903 src/arch/unix/x11/gnome/ui.c:1912
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Autostart von Selektion Nr. %d in Image %s fehlgeschlagen."
 
-#: src/arch/unix/x11/gnome/ui.c:2044 src/arch/unix/x11/gnome/ui.c:2049
+#: src/arch/unix/x11/gnome/ui.c:2040 src/arch/unix/x11/gnome/ui.c:2045
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "KEIN IMAGE VERZEICHNIS VERFUEGBAR."
 
-#: src/arch/unix/x11/gnome/ui.c:2507
+#: src/arch/unix/x11/gnome/ui.c:2503
 msgid "Contents"
 msgstr "Verzeichnis"
 
-#: src/arch/unix/x11/gnome/ui.c:2554
+#: src/arch/unix/x11/gnome/ui.c:2550
 msgid "Attach write protected"
 msgstr "Attach schreibgeschützt"
 
-#: src/arch/unix/x11/gnome/ui.c:2580
+#: src/arch/unix/x11/gnome/ui.c:2576
 msgid "Autostart"
 msgstr "Autostart"
 
@@ -2350,11 +2346,11 @@ msgstr "Kann Erweiterunsmodule Imagedatei `%s' nicht speichern.\n"
 msgid "Successfully wrote `%s'\n"
 msgstr "`%s' erfolgreich gespeichert\n"
 
-#: src/arch/unix/x11/gnome/uicolor.c:155 src/arch/unix/x11/xaw/uicolor.c:131
+#: src/arch/unix/x11/gnome/uicolor.c:153 src/arch/unix/x11/xaw/uicolor.c:129
 msgid "XCreateImage failed."
 msgstr "XCreateImage failed."
 
-#: src/arch/unix/x11/gnome/uicolor.c:164 src/arch/unix/x11/xaw/uicolor.c:141
+#: src/arch/unix/x11/gnome/uicolor.c:162 src/arch/unix/x11/xaw/uicolor.c:139
 #, c-format
 msgid "Cannot allocate color \"#%04X%04X%04X\"."
 msgstr "Cannot allocate color \"#%04X%04X%04X\"."
@@ -2624,76 +2620,66 @@ msgstr "Falsche Wert für Zeile/Spalte (%d/%d) Bei Key Symbol `%s'."
 msgid "Loading keymap `%s'."
 msgstr "Lade Keymap `%s'."
 
-#: src/arch/unix/x11/ui-cmdline-options.c:35
+#: src/arch/unix/x11/ui-cmdline-options.c:38
 msgid "Specify an HTML browser for the on-line help"
 msgstr "Bitte HTML Browser für online Hilfe definieren"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:38
+#: src/arch/unix/x11/ui-cmdline-options.c:41
 msgid "Install a private colormap"
 msgstr "Private Farbpalette installieren."
 
-#: src/arch/unix/x11/ui-cmdline-options.c:41
+#: src/arch/unix/x11/ui-cmdline-options.c:44
 msgid "Use the default colormap"
 msgstr "Benutze standard Farbtabelle"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:44
+#: src/arch/unix/x11/ui-cmdline-options.c:47
 msgid "Save settings (resources) on exit"
 msgstr "Einstellungen (Resourcen) beim Beenden speichern"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:47
+#: src/arch/unix/x11/ui-cmdline-options.c:50
 msgid "Never save settings (resources) on exit"
 msgstr "Einstellungen beim Beenden nie speichern"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:51
+#: src/arch/unix/x11/ui-cmdline-options.c:54
 msgid "Enable fullscreen"
 msgstr "Aktiviere Vollbild Modus"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:54
+#: src/arch/unix/x11/ui-cmdline-options.c:57
 msgid "Disable fullscreen"
 msgstr "Deaktiviere Vollbild Modus"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:58
+#: src/arch/unix/x11/ui-cmdline-options.c:61
 msgid "Specify X display depth (1..32)"
 msgstr "X Display Farbtiefe (1..32) definieren"
 
-#: src/arch/unix/x11/video.c:126
+#: src/arch/unix/x11/video.c:134
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "`XSync()' nach jeder Aktualisierung des Emulator Fensters aufrufen"
 
-#: src/arch/unix/x11/video.c:129
+#: src/arch/unix/x11/video.c:137
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr ""
 "`XSync()' nicht nach jeder Aktualisierung des Emulator Fensters aufrufen"
 
-#: src/arch/unix/x11/video.c:132
+#: src/arch/unix/x11/video.c:140
 msgid "Never use shared memory (slower)"
 msgstr "Shared Memory nicht benutzen (langsamer)"
 
-#: src/arch/unix/x11/video.c:283
-#, c-format
-msgid "Only %ibpp supported by this emulator."
-msgstr "Lediglich %ibpp wird von diesem Emulator unterstützt."
+#: src/arch/unix/x11/video.c:143
+msgid "Use X Video Extension (hardware scaling)"
+msgstr ""
 
-#: src/arch/unix/x11/video.c:285
-#, c-format
-msgid "Current X server depth is %ibpp."
-msgstr "Aktuelle X Server Farbtiefe ist %ibpp"
-
-#: src/arch/unix/x11/video.c:288
-msgid "Switch X server depth or recompile with --enable-autobpp."
-msgstr "Switch X server depth or recompile with --enable-autobpp."
-
-#: src/arch/unix/x11/video.c:340
+#: src/arch/unix/x11/video.c:343
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
 "Die MITSHM X Server Erweiterung ist auf diesem Display nicht unterstützt."
 
-#: src/arch/unix/x11/video.c:344
+#: src/arch/unix/x11/video.c:347
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM X Server Eweiterung in Version %d.%d erkannt."
 
-#: src/arch/unix/x11/video.c:395
+#: src/arch/unix/x11/video.c:408
 msgid "Cannot release shared memory!"
 msgstr "Kann Shared Memory nicht freigeben!"
 
@@ -2701,16 +2687,16 @@ msgstr "Kann Shared Memory nicht freigeben!"
 msgid "VICE Information"
 msgstr "VICE Information"
 
-#: src/arch/unix/x11/xaw/ui.c:1209
+#: src/arch/unix/x11/xaw/ui.c:1204
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Spur %.1f"
 
-#: src/arch/unix/x11/xaw/ui.c:1464
+#: src/arch/unix/x11/xaw/ui.c:1459
 msgid "VICE Error!"
 msgstr "VICE Fehler!"
 
-#: src/arch/unix/x11/xaw/ui.c:1644
+#: src/arch/unix/x11/xaw/ui.c:1639
 msgid "Unknown image type."
 msgstr "Unbekannter Image Typ."
 
@@ -2750,7 +2736,7 @@ msgstr "Erweiterungsmodul speichern"
 msgid "Automatically using a private colormap."
 msgstr "Benutze private Farbpalette."
 
-#: src/arch/unix/x11/xaw/uicolor.c:162
+#: src/arch/unix/x11/xaw/uicolor.c:158
 msgid "XFreeColors failed."
 msgstr "XFreeColors failed."
 
@@ -2812,50 +2798,67 @@ msgstr "Aktuelle ROMs mitspeichern:"
 msgid "Save snapshot"
 msgstr "Snapshot Speichern"
 
-#: src/arch/unix/x11/xaw/x11video.c:95
+#: src/arch/unix/x11/xaw/x11video.c:99
+#, fuzzy
+msgid "Successfully initialized using X Video."
+msgstr "Video erfolgreich initialisiert."
+
+#: src/arch/unix/x11/xaw/x11video.c:114
 msgid ""
 "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."
 msgstr "Kann XImage with XShm nicht allokieren; MITSHM wird nicht benutzt."
 
-#: src/arch/unix/x11/xaw/x11video.c:108
+#: src/arch/unix/x11/xaw/x11video.c:127
 msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
 msgstr "Kann Shared Memory nicht allokieren; MITSHM wird nicht benutzt."
 
-#: src/arch/unix/x11/xaw/x11video.c:119
+#: src/arch/unix/x11/xaw/x11video.c:138
 msgid ""
 "Cannot get shared memory address; falling back to non MITSHM extension mode."
 msgstr ""
 "Kann Shared Memory Adresse nicht feststellen; MITSHM wird nicht benutzt."
 
-#: src/arch/unix/x11/xaw/x11video.c:134 src/arch/unix/x11/xaw/x11video.c:151
+#: src/arch/unix/x11/xaw/x11video.c:153 src/arch/unix/x11/xaw/x11video.c:170
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
 msgstr ""
 "Cannot attach shared memory; falling back to non MITSHM extension mode."
 
-#: src/arch/unix/x11/xaw/x11video.c:158
+#: src/arch/unix/x11/xaw/x11video.c:177
 msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM erfolgreich initialisiert.\n"
 
-#: src/arch/unix/x11/xaw/x11video.c:179
+#: src/arch/unix/x11/xaw/x11video.c:198
 #, c-format
 msgid "Successfully initialized%s shared memory."
 msgstr "Video erfolgreich%s Shared Memory initialisiert."
 
-#: src/arch/unix/x11/xaw/x11video.c:180
+#: src/arch/unix/x11/xaw/x11video.c:199
 msgid ", using"
 msgstr ", mit"
 
-#: src/arch/unix/x11/xaw/x11video.c:180
+#: src/arch/unix/x11/xaw/x11video.c:199
 msgid " without"
 msgstr " ohne"
 
-#: src/arch/unix/x11/xaw/x11video.c:183
+#: src/arch/unix/x11/xaw/x11video.c:202
 msgid "Performance will be poor."
 msgstr "Performance wird nicht optimal sein."
 
-#: src/arch/unix/x11/xaw/x11video.c:186
+#: src/arch/unix/x11/xaw/x11video.c:205
 msgid "Successfully initialized without shared memory."
 msgstr "Video erfolgreich ohne Shared Memroy initialisiert."
+
+#~ msgid "Please recompile the program for a supported bit depth."
+#~ msgstr "Bitte VICE mit passender Farbtiefe neu übersetzen."
+
+#~ msgid "Only %ibpp supported by this emulator."
+#~ msgstr "Lediglich %ibpp wird von diesem Emulator unterstützt."
+
+#~ msgid "Current X server depth is %ibpp."
+#~ msgstr "Aktuelle X Server Farbtiefe ist %ibpp"
+
+#~ msgid "Switch X server depth or recompile with --enable-autobpp."
+#~ msgstr "Switch X server depth or recompile with --enable-autobpp."
 
 #~ msgid "*Model defaults"
 #~ msgstr "*Modell Standardeinstellungen"
