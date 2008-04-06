@@ -328,6 +328,31 @@ static void file_selector_update(struct file_list *fl,
 
 /* ------------------------------------------------------------------------- */
 
+/* Convert an "alt + letter" key into a drive number, from 0 to 25.  Return
+   0 if this is not an "alt + letter" keycode. */
+static int alt_key_to_drive_num(int keycode)
+{
+    static int key_table[0x100] = {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 17, 23, 5, 18, 20,
+        25, 21, 9, 15, 16, 0, 0, 0, 0, 1, 19, 4, 6, 7, 8, 10, 11, 12, 0, 0,
+        0, 0, 0, 26, 24, 3, 22, 2, 14, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    };
+
+    if (keycode < 0x100 || keycode >= 0x200)
+        return 0;
+    else
+        return key_table[keycode - 0x100];
+}
+
 /* Make sure there is a trailing '/' in `*path'.  */
 static void slashize_path(char **path)
 {
@@ -419,7 +444,7 @@ char *tui_file_selector(const char *title, const char *directory,
 				 field_width, num_lines, num_cols);
             tui_set_attr(FIRST_LINE_FORE, FIRST_LINE_BACK, 0);
             tui_display(0, tui_num_lines() - 1, tui_num_cols(),
-                        "\030\031\033\032: Move  <enter>: Select  %s<ctrl>-<letter>: Change drive",
+                        "\030\031\033\032: Move  <enter>: Select  %s<alt>-<letter>: Change drive",
                         read_contents_func != NULL ? "<space>: Preview  " : "");
 	    need_update = 0;
 	}
@@ -603,66 +628,71 @@ char *tui_file_selector(const char *title, const char *directory,
 	    } else
                 tui_beep();
 	  default:
-            if (key >= 1 && key <= 26) {
-                /* `C-a ... C-z' change the current drive.  */
-                int num_available_drives;
-                int current_drive;
-                int drive = (int) key;
+            {
+                int drive_num;
 
-                _dos_getdrive(&current_drive);
-                _dos_setdrive(current_drive, &num_available_drives);
-                if (drive <= num_available_drives) {
-                    char *new_path;
+                drive_num = alt_key_to_drive_num(key);
 
-                    /* FIXME: This is a hack...  Maybe there is a cleaner way
-                       to do it, but for now I just don't know.  */
-                    _dos_setdrive(drive, &num_available_drives);
-                    new_path = get_current_dir();
-                    if (new_path != NULL) {
-                        slashize_path(&new_path);
-                        _dos_setdrive(current_drive, &num_available_drives);
+                if (drive_num > 0) {
+                    /* `A-a' ... `A-z' change the current drive.  */
+                    int num_available_drives;
+                    int current_drive;
 
+                    _dos_getdrive(&current_drive);
+                    _dos_setdrive(current_drive, &num_available_drives);
+                    if (drive_num <= num_available_drives) {
+                        char *new_path;
+
+                        /* FIXME: This is a hack...  Maybe there is a cleaner
+                           way to do it, but for now I just don't know.  */
+                        _dos_setdrive(drive_num, &num_available_drives);
+                        new_path = get_current_dir();
                         if (new_path != NULL) {
-                            struct file_list *new_fl;
+                            slashize_path(&new_path);
+                            _dos_setdrive(current_drive, &num_available_drives);
 
-                            new_fl = file_list_read(new_path, pattern);
-                            if (new_fl != NULL) {
-                                file_list_free(fl);
-                                fl = new_fl;
-                                first_item = curr_item = 0;
-                                free(return_path);
-                                return_path = new_path;
-                                need_update = 1;
-                                chdir(return_path);
-                            } else {
-                                free(new_path);
+                            if (new_path != NULL) {
+                                struct file_list *new_fl;
+
+                                new_fl = file_list_read(new_path, pattern);
+                                if (new_fl != NULL) {
+                                    file_list_free(fl);
+                                    fl = new_fl;
+                                    first_item = curr_item = 0;
+                                    free(return_path);
+                                    return_path = new_path;
+                                    need_update = 1;
+                                    chdir(return_path);
+                                } else {
+                                    free(new_path);
+                                }
                             }
+                        } else {
+                            _dos_setdrive(current_drive, &num_available_drives);
+                            tui_beep();
                         }
                     } else {
-                        _dos_setdrive(current_drive, &num_available_drives);
                         tui_beep();
                     }
-                } else {
-                    tui_beep();
+                } else if (isprint(key) && str_len < 0x100) {
+                    int n;
+                    str[str_len] = key;
+                    n = file_list_find(fl, str, str_len + 1);
+                    if (n < 0) {
+                        tui_beep();
+                    } else {
+                        str_len++;
+                        curr_item = n;
+                        if (curr_item < first_item) {
+                            first_item = curr_item;
+                            need_update = 1;
+                        } else if (first_item + num_files <= curr_item) {
+                            first_item = curr_item - num_files + 1;
+                            need_update = 1;
+                        }
+                    }
                 }
-            } else if (isprint(key) && str_len < 0x100) {
-		int n;
-		str[str_len] = key;
-		n = file_list_find(fl, str, str_len + 1);
-		if (n < 0) {
-		    tui_beep();
-		} else {
-		    str_len++;
-		    curr_item = n;
-		    if (curr_item < first_item) {
-			first_item = curr_item;
-			need_update = 1;
-		    } else if (first_item + num_files <= curr_item) {
-			first_item = curr_item - num_files + 1;
-			need_update = 1;
-		    }
-		}
-	    }
+            }
 	    break;
 	}
     }
