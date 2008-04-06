@@ -44,6 +44,7 @@
 #include "mem.h"
 #include "resources.h"
 #include "resources.h"
+#include "ui.h"
 #include "vmachine.h"
 #include "vsync.h"
 
@@ -57,9 +58,6 @@ int rev_keyarr[KBD_COLS];
 
 /* Joystick status. We use 3 elements to avoid `-1'.  */
 BYTE joy[3] = { 0, 0, 0 };
-
-/* This is nonzero if the user wants the menus.  */
-int _escape_requested = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -156,10 +154,12 @@ int kbd_init_cmdline_options(void)
    interrupt.  They are dispatched via `kbd_flush_commands()'.  */
 
 typedef enum {
+    KCMD_ESC_PRESSED,
     KCMD_RESET,
     KCMD_HARD_RESET,
     KCMD_RESTORE_PRESSED,
     KCMD_RESTORE_RELEASED,
+    KCMD_TOGGLE_WARP,
     KCMD_FREEZE
 } kbd_command_t;
 
@@ -207,6 +207,14 @@ void kbd_flush_commands(void)
           case KCMD_FREEZE:
             if (freeze_function != NULL)
                 freeze_function();
+            break;
+
+          case KCMD_TOGGLE_WARP:
+            resources_toggle("WarpMode", NULL);
+            break;
+
+          case KCMD_ESC_PRESSED:
+            maincpu_trigger_trap(ui_main);
             break;
 
 	  default:
@@ -291,7 +299,7 @@ static void my_kbd_interrupt_handler(void)
 
 	switch (kcode) {
 	  case K_ESC:
-	    _escape_requested = 1;
+            queue_command(KCMD_ESC_PRESSED);
 	    break;
 	  case K_PGUP: /* Restore */
 	    queue_command(KCMD_RESTORE_PRESSED);
@@ -305,8 +313,12 @@ static void my_kbd_interrupt_handler(void)
 		queue_command(KCMD_RESET);
 	    break;
           case K_PAUSE:
-            /* Freeze.  */
-            queue_command(KCMD_FREEZE);
+            /* Alt-Pause enables cartridge freezing.  */
+            if (modifiers.left_alt || modifiers.right_alt)
+                queue_command(KCMD_FREEZE);
+            break;
+          case K_SCROLLOCK:
+            queue_command(KCMD_TOGGLE_WARP);
             break;
 	  default:
 	    if (!joystick_handle_key(kcode, 1)) {
@@ -463,7 +475,6 @@ int kbd_init(int shift_column, int shift_row, ...)
     _go32_dpmi_lock_data(keyarr, sizeof(keyarr));
     _go32_dpmi_lock_data(rev_keyarr, sizeof(rev_keyarr));
     _go32_dpmi_lock_data(joy, sizeof(joy));
-    _go32_dpmi_lock_data(&_escape_requested, sizeof(_escape_requested));
     _go32_dpmi_lock_data(&modifiers, sizeof(modifiers));
     _go32_dpmi_lock_data(&virtual_shift_row, sizeof(virtual_shift_row));
     _go32_dpmi_lock_data(&virtual_shift_column, sizeof(virtual_shift_column));

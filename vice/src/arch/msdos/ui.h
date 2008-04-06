@@ -51,6 +51,8 @@ extern void ui_main(ADDRESS);
 extern void ui_toggle_drive_status(int state);
 extern void ui_display_drive_track(double track_number);
 extern void ui_display_drive_led(int status);
+extern void ui_set_warp_status(int status);
+extern void ui_dispatch_events(void);
 extern int ui_extend_image_dialog(void);
 
 #endif

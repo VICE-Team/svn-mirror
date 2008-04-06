@@ -31,6 +31,7 @@
 #include <io.h>
 #include <math.h>
 #include <stdio.h>
+#include <sys/movedata.h>
 #include <unistd.h>
 
 #include "ui.h"
@@ -47,7 +48,32 @@
 #include "video.h"
 #include "vsync.h"
 
-static int drive_led_status;
+/* Status of keyboard LEDs.  */
+static int real_kbd_led_status = -1;
+static int kbd_led_status;
+
+/* ------------------------------------------------------------------------- */
+
+int ui_init_resources(void)
+{
+    return 0;
+}
+
+int ui_init_cmdline_options(void)
+{
+    return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
+inline static void set_kbd_leds(int value)
+{
+    /* FIXME: Is this the 100% correct way to do it?  */
+    outportb(0x60, 0xed);
+    delay(1);
+    outportb(0x60, value);
+    delay(1);
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -80,16 +106,30 @@ void ui_main(ADDRESS addr)
     double speed_index, frame_rate;
     int old_stdin_mode = setmode(STDIN_FILENO, O_BINARY);
 
-    sound_close();
+    sound_suspend();
 
     speed_index = vsync_get_avg_speed_index();
     frame_rate = vsync_get_avg_frame_rate();
-
     if (speed_index > 0.0 && frame_rate > 0.0)
 	sprintf(s, "%s emulator at %d%% speed, %d fps",
 		machine_name, (int)floor(speed_index), (int)floor(frame_rate));
     else
 	sprintf(s, "%s emulator", machine_name);
+
+    /* Get the BIOS LED status and restore it.  */
+    {
+        BYTE bios_leds;
+        int leds = 0;
+
+        _dosmemgetb(0x417, 1, &bios_leds);
+        if (bios_leds & 16)
+            leds |= 1;          /* Scroll Lock */
+        if (bios_leds & 32)
+            leds |= 2;          /* Num Lock */
+        if (bios_leds & 64)
+            leds |= 4;          /* Caps Lock */
+        set_kbd_leds(leds);
+    }
 
     enable_text();
 
@@ -104,6 +144,8 @@ void ui_main(ADDRESS addr)
 
     disable_text();
     suspend_speed_eval();
+
+    set_kbd_leds(real_kbd_led_status);
 
     setmode(STDIN_FILENO, old_stdin_mode);
 }
@@ -169,7 +211,18 @@ void ui_display_drive_track(double track_number)
 
 void ui_display_drive_led(int status)
 {
-    drive_led_status = status;
+    if (status)
+        kbd_led_status |= 4;
+    else
+        kbd_led_status &= ~4;
+}
+
+void ui_set_warp_status(int status)
+{
+    if (status)
+        kbd_led_status |= 1;
+    else
+        kbd_led_status &= ~1;
 }
 
 int ui_extend_image_dialog(void)
@@ -179,12 +232,11 @@ int ui_extend_image_dialog(void)
 
 /* ------------------------------------------------------------------------- */
 
-int ui_init_resources(void)
+void ui_dispatch_events(void)
 {
-    return 0;
-}
-
-int ui_init_cmdline_options(void)
-{
-    return 0;
+    /* Update keyboard LED status.  */
+    if (kbd_led_status != real_kbd_led_status) {
+        set_kbd_leds(kbd_led_status);
+        real_kbd_led_status = kbd_led_status;
+    }
 }
