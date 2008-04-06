@@ -419,9 +419,7 @@ int tui_menu_handle(tui_menu_t menu, char hotkey)
     int need_update;
     int y;
 
-#ifdef __MSDOS__
     _setcursortype(_NOCURSOR);
-#endif
 
     tui_flush_keys();
 
