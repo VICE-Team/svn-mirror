@@ -75,6 +75,7 @@
 #include "log.h"
 #include "p00.h"
 #include "serial.h"
+#include "snapshot.h"
 #include "t64.h"
 #include "types.h"
 #include "utils.h"
@@ -2242,3 +2243,23 @@ void *file_system_get_vdrive(int unit)
     return (void *)(drives[unit - 8]);
 }
 
+snapshot_module_t *snapshot_module_create(snapshot_t *s,
+                                          const char *name,
+                                          BYTE major_version,
+                                          BYTE minor_version)
+{
+    return NULL;
+}
+
+snapshot_module_t *snapshot_module_open(snapshot_t *s,
+                                        const char *name,
+                                        BYTE *major_version_return,
+                                        BYTE *minor_version_return)
+{
+    return NULL;
+}
+
+int snapshot_module_close(snapshot_module_t *m)
+{
+    return 0;
+}
