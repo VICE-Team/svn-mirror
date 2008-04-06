@@ -41,11 +41,12 @@
 #include "types.h"
 #include "utils.h"
 #include "video.h"
+#include "videoarch.h"
 
 /* #define DEBUG_VIDEO */
 
 vga_mode_t vga_modes[] = {
-    /* VGA_320x200 */ {	320, 200, "320x200" },
+    /* VGA_320x200 */ { 320, 200, "320x200" },
     /* VGA_360x240 */ { 360, 240, "360x240" },
     /* VGA_360x270 */ { 360, 270, "360x270" },
     /* VGA_376x282 */ { 376, 282, "376x282" },
@@ -101,12 +102,12 @@ static int set_try_triple_buffering(resource_value_t v, void *param)
 #endif
 
 static resource_t resources[] = {
-    { "VGAMode", RES_INTEGER, (resource_value_t) VGA_320x200,
-      (resource_value_t *) &vga_mode,
+    { "VGAMode", RES_INTEGER, (resource_value_t)VGA_320x200,
+      (resource_value_t *)&vga_mode,
       set_vga_mode, NULL },
 #ifndef USE_MIDAS_SOUND
-    { "TripleBuffering", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &try_triple_buffering,
+    { "TripleBuffering", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&try_triple_buffering,
       set_try_triple_buffering, NULL },
 #endif
     { NULL }
@@ -127,10 +128,10 @@ static cmdline_option_t cmdline_options[] = {
       "<mode>", "Set VGA mode to <mode>" },
 #ifndef USE_MIDAS_SOUND
     { "-triplebuf", SET_RESOURCE, 0, NULL, NULL,
-      "TripleBuffering", (resource_value_t) 1,
+      "TripleBuffering", (resource_value_t)1,
       NULL, "Try to use triple buffering when possible" },
     { "+triplebuf", SET_RESOURCE, 0, NULL, NULL,
-      "TripleBuffering", (resource_value_t) 1,
+      "TripleBuffering", (resource_value_t)1,
       NULL, "Disable usage of triple buffering" },
 #endif
     { NULL }
@@ -149,7 +150,7 @@ int video_init(void)
         video_log = log_open("Video");
 
     if (allegro_init())
-	log_error(video_log, "Cannot initialize Allegro.");
+        log_error(video_log, "Cannot initialize Allegro.");
 
     log_message(video_log, "Allegro initialized.");
 
@@ -174,17 +175,16 @@ int video_frame_buffer_alloc(video_frame_buffer_t **i, unsigned int width,
     {
         int j;
         for (j = 0; j < height; j++) {
-            DEBUG(("Checking line %d at 0x%x",j,(unsigned int)((*i)->line[j])));
-        }
+            DEBUG(("Checking line %d at 0x%x",j,(unsigned int)((*i)->line[j])));        }
     }
 #endif
 
     if (*i == NULL) {
-	DEBUG(("Bitmap allocation failed."));
-	return -1;
+        DEBUG(("Bitmap allocation failed."));
+        return -1;
     } else {
-	DEBUG(("Bitmap allocation successful. Buffer at %p", *i));
-	return 0;
+        DEBUG(("Bitmap allocation successful. Buffer at %p", *i));
+        return 0;
     }
 }
 
@@ -202,11 +202,11 @@ void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
     int i;
 
     DEBUG(("Clearing frame buffer 0x%x with value 0x%x",
-	   (unsigned int)f, value));
+           (unsigned int)f, value));
     DEBUG(("width=%d, height=%d", f->w, f->h));
     for (i = 0; i < f->h; i++) {
         DEBUG(("Clearing line %d at 0x%x",i,(unsigned int)(f->line[i])));
-	memset(f->line[i], value, f->w);
+        memset(f->line[i], value, f->w);
     }
 }
 
@@ -277,19 +277,19 @@ static void canvas_set_vga_mode(canvas_t *c)
 /* Note: `mapped' is ignored.  */
 canvas_t *canvas_create(const char *win_name, unsigned int *width,
                         unsigned int *height, int mapped,
-                        canvas_redraw_t exposure_handler,
+                        void_t exposure_handler,
                         const palette_t *palette, PIXEL *pixel_return)
 {
     canvas_t *new_canvas;
 
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
     if (palette->num_entries > NUM_AVAILABLE_COLORS) {
-	log_error(video_log, "Too many colors requested.");
-	return (canvas_t *) NULL;
+        log_error(video_log, "Too many colors requested.");
+        return (canvas_t *) NULL;
     }
     new_canvas = (canvas_t *)xmalloc(sizeof(struct canvas_s));
     if (!new_canvas)
-	return (canvas_t *) NULL;
+        return (canvas_t *) NULL;
 
     canvas_set_palette(new_canvas, palette, pixel_return);
 
@@ -301,7 +301,7 @@ canvas_t *canvas_create(const char *win_name, unsigned int *width,
     DEBUG(("Setting VGA mode"));
     canvas_set_vga_mode(new_canvas);
 
-    new_canvas->exposure_handler = exposure_handler;
+    new_canvas->exposure_handler = (canvas_redraw_t)exposure_handler;
     new_canvas->back_page = 1;
 
     last_canvas = new_canvas;
@@ -310,7 +310,7 @@ canvas_t *canvas_create(const char *win_name, unsigned int *width,
 
 void canvas_destroy(canvas_t *c)
 {
-	/* FIXME: Just a dummy so far */
+        /* FIXME: Just a dummy so far */
 }
 
 int canvas_set_palette(canvas_t *c, const palette_t *palette,
@@ -329,10 +329,10 @@ int canvas_set_palette(canvas_t *c, const palette_t *palette,
     DEBUG(("Allocating colors"));
 
     for (i = 0; i < palette->num_entries; i++) {
-	c->colors[i].r = palette->entries[i].red >> 2;
-	c->colors[i].g = palette->entries[i].green >> 2;
-	c->colors[i].b = palette->entries[i].blue >> 2;
-	pixel_return[i] = i;
+        c->colors[i].r = palette->entries[i].red >> 2;
+        c->colors[i].g = palette->entries[i].green >> 2;
+        c->colors[i].b = palette->entries[i].blue >> 2;
+        pixel_return[i] = i;
         if (in_gfx_mode)
             set_color(i, &c->colors[i]);
     }
@@ -366,11 +366,11 @@ void canvas_unmap(canvas_t *c)
    canvas size according to the `VGAMode' resource. */
 void canvas_resize(canvas_t *c, unsigned int width, unsigned int height)
 {
-    /* 
+    /*
     FIXME: the possible height for the statusbar isn't calculated,
     it's only checked whether VGA-mode has >200 lines
     */
-    statusbar_set_height(vga_modes[vga_mode].height>200 ? 
+    statusbar_set_height(vga_modes[vga_mode].height>200 ?
         STATUSBAR_HEIGHT : 0);
 
     DEBUG(("Resizing, vga_mode=%d", vga_mode));
@@ -406,17 +406,16 @@ void disable_text(void)
     if (last_canvas->width > 0 && last_canvas->height > 0) {
         int i;
 
-	video_ack_vga_mode();
-	canvas_set_vga_mode(last_canvas);
+        video_ack_vga_mode();
+        canvas_set_vga_mode(last_canvas);
 
-	for (i = 0; i < NUM_AVAILABLE_COLORS; i++)
-	    set_color(i, &last_canvas->colors[i]);
+        for (i = 0; i < NUM_AVAILABLE_COLORS; i++)
+            set_color(i, &last_canvas->colors[i]);
 
-	last_canvas->exposure_handler(last_canvas->width, last_canvas->height);
-	in_gfx_mode = 1;
+        last_canvas->exposure_handler(last_canvas->width, last_canvas->height);
+        in_gfx_mode = 1;
     statusbar_update();
     }
     DEBUG(("Successful"));
 }
-
 
