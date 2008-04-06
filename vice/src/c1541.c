@@ -959,8 +959,11 @@ static int copy_cmd(int nargs, char **args)
         if (vdrive_iec_open(drives[src_unit], src_name_petscii,
                         (int)strlen(src_name_petscii), 0)) {
             fprintf(stderr, "Cannot read `%s'.\n", src_name_ascii);
-            if (dest_name_ascii != NULL)
-                free(dest_name_ascii), free(dest_name_petscii);
+            if (dest_name_ascii != NULL) {
+                free(dest_name_ascii);
+                free(dest_name_petscii);
+            }
+
             free(src_name_ascii), free(src_name_petscii);
             return FD_RDERR;
         }
@@ -1132,10 +1135,10 @@ static int extract_cmd(int nargs, char **args)
                     }
                 }
 
-                charset_petconvstring((char *) name, 1);
+                charset_petconvstring((char *)name, 1);
                 printf("%s\n", name);
-                unix_filename((char *) name); /* For now, convert '/' to '_'. */
-                if (vdrive_iec_open(floppy, (char *) cbm_name, len, 0)) {
+                unix_filename((char *)name); /* For now, convert '/' to '_'. */
+                if (vdrive_iec_open(floppy, (char *)cbm_name, len, 0)) {
                     fprintf(stderr,
                             "Cannot open `%s' on unit %d.\n", name, dnr + 8);
                     continue;
@@ -2907,13 +2910,14 @@ int serial_attach_device(unsigned int device, const char *name,
     return 0;
 }
 
-void *file_system_get_vdrive(unsigned int unit)
+struct vdrive_s *file_system_get_vdrive(unsigned int unit)
 {
     if (unit < 8 || unit > 11) {
         printf("Wrong unit for vdrive");
         return NULL;
     }
-    return (void *)(drives[unit - 8]);
+
+    return drives[unit - 8];
 }
 
 snapshot_module_t *snapshot_module_create(snapshot_t *s,
