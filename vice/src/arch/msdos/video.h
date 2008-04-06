@@ -132,11 +132,11 @@ inline static void canvas_refresh(canvas_t c, frame_buffer_t f,
 
     if (c->use_triple_buffering) {
         /* Make sure we have finished flipping the previous frame.  */
-        while (poll_modex_scroll())
-            ;
-        blit(f, c->pages[c->back_page], xs, ys, xi, yi, w, h);
-        request_modex_scroll(0, c->back_page * c->height);
-        c->back_page = 1 - c->back_page;
+        if (!poll_modex_scroll()) {
+            blit(f, c->pages[c->back_page], xs, ys, xi, yi, w, h);
+            request_modex_scroll(0, c->back_page * c->height);
+            c->back_page = 1 - c->back_page;
+        }
     } else {
         blit(f, screen, xs, ys, xi, yi, w, h);
     }
