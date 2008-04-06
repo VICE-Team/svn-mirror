@@ -45,6 +45,7 @@
 #endif
 
 #include "imagecontents.h"
+#include "ioutil.h"
 #include "utils.h"
 #include "tui.h"
 #include "tui_backend.h"
@@ -211,14 +212,14 @@ static struct file_list *file_list_read_lfn(const char *path,
 static struct file_list *file_list_read_nolfn(const char *path,
                                               const char *pattern)
 {
-    char *cwd = util_get_current_dir();
+    char *cwd = ioutil_current_dir();
     struct file_list *fl = NULL;
     struct find_t f;
 
     if (cwd == NULL)
         return NULL;
 
-    if (chdir(path) < 0)
+    if (ioutil_chdir(path) < 0)
         goto end;
 
     if (_dos_findfirst("*.*", (_A_NORMAL | _A_RDONLY | _A_HIDDEN
@@ -254,7 +255,7 @@ static struct file_list *file_list_read_nolfn(const char *path,
     file_list_sort(fl);
 
 end:
-    chdir(cwd);
+    ioutil_chdir(cwd);
     return fl;
 }
 
@@ -424,7 +425,7 @@ char *tui_file_selector(const char *title, const char *directory,
     if (directory != NULL)
         return_path = stralloc(directory);
     else
-        return_path = util_get_current_dir();
+        return_path = ioutil_current_dir();
 
     slashize_path(&return_path);
 
@@ -600,7 +601,7 @@ char *tui_file_selector(const char *title, const char *directory,
 		    free(return_path);
 		    return_path = new_path;
 		    need_update = 1;
-                    chdir(return_path);
+                    ioutil_chdir(return_path);
 		} else {
 		    free(new_path);
 		}
@@ -681,7 +682,7 @@ char *tui_file_selector(const char *title, const char *directory,
                         /* FIXME: This is a hack...  Maybe there is a cleaner
                            way to do it, but for now I just don't know.  */
                         _dos_setdrive(drive_num, &num_available_drives);
-                        new_path = util_get_current_dir();
+                        new_path = ioutil_current_dir();
                         if (new_path != NULL) {
                             slashize_path(&new_path);
                             _dos_setdrive(current_drive, &num_available_drives);
@@ -697,7 +698,7 @@ char *tui_file_selector(const char *title, const char *directory,
                                     free(return_path);
                                     return_path = new_path;
                                     need_update = 1;
-                                    chdir(return_path);
+                                    ioutil_chdir(return_path);
                                 } else {
                                     free(new_path);
                                 }
