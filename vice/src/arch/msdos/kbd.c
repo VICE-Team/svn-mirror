@@ -324,12 +324,6 @@ static void my_kbd_interrupt_handler(void)
             modifiers.right_alt = 1;
             break;
         }
-#if 0
-        /* This must be done separately because some machines (eg. the PETs)
-           might want to map this differently.  */
-        if (kcode == K_PGUP)  /* Restore */
-            queue_command(KCMD_RESTORE_PRESSED, (kbd_command_data_t)0);
-#endif
         switch (kcode) {
           case K_ESC:           /* Menu */
             queue_command(KCMD_MENU, (kbd_command_data_t)0);
@@ -337,18 +331,6 @@ static void my_kbd_interrupt_handler(void)
           case K_SCROLLOCK:     /* Warp mode on/off */
             queue_command(KCMD_TOGGLE_WARP, (kbd_command_data_t)0);
             break;
-#if 0
-          case K_F4:
-          case K_F7: /* 40/80 column screen switch */
-            if (kcode == K_F7 && key_ctrl_column4080_func != NULL) {
-                key_ctrl_column4080_func();
-                break;
-            }
-            if (kcode == K_F4 && key_ctrl_caps_func != NULL) {
-                key_ctrl_caps_func();
-                break;
-            }
-#endif
             /* Fall through */
           default:
             if (modifiers.left_alt && modifiers.left_ctrl) {
@@ -424,17 +406,9 @@ static void my_kbd_interrupt_handler(void)
                             (kbd_command_data_t)kcode_to_ascii(kcode));
                 }
             } else {
-                keyboard_key_pressed((signed long)kcode);
-#if 0
                 /* "Normal" key.  */
-                if (!joystick_handle_key(kcode, 1)) {
-                    keyboard_set_keyarr(keyconv_base->map[kcode].row,
-                               keyconv_base->map[kcode].column, 1);
-                    if (keyconv_base->map[kcode].vshift)
-                        keyboard_set_keyarr(keyconv_base->virtual_shift_row,
-                                   keyconv_base->virtual_shift_column, 1);
-                }
-#endif
+                if (!joystick_handle_key(kcode, 1))
+                    keyboard_key_pressed((signed long)kcode);
             }
         }
 
@@ -467,23 +441,11 @@ static void my_kbd_interrupt_handler(void)
             modifiers.right_alt = 0;
             break;
         }
-        /* This must be done separately because some machines (eg. the PETs)
-           might want to map this differently.  */
-#if 0
-        if (kcode == K_PGUP)
-            queue_command(KCMD_RESTORE_RELEASED, (kbd_command_data_t)0);
-#endif
+
         if (!modifiers.left_alt && !modifiers.right_alt) {
-            keyboard_key_released((signed long)kcode);
-#if 0
-            if (!joystick_handle_key(kcode, 0)) {
-                keyboard_set_keyarr(keyconv_base->map[kcode].row,
-                           keyconv_base->map[kcode].column, 0);
-                if (keyconv_base->map[kcode].vshift)
-                    keyboard_set_keyarr(keyconv_base->virtual_shift_row,
-                               keyconv_base->virtual_shift_column, 0);
-            }
-#endif
+            /* "Normal" key.  */
+            if (!joystick_handle_key(kcode, 0))
+                keyboard_key_released((signed long)kcode);
         }
 
     }
