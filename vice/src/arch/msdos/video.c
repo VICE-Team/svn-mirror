@@ -42,7 +42,6 @@
 #include "tui_backend.h"
 #include "types.h"
 #include "ui.h"
-#include "util.h"
 #include "video.h"
 #include "videoarch.h"
 
