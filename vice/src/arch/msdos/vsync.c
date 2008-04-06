@@ -416,7 +416,7 @@ void vsync_init(void (*hook)(void))
     vsync_suspend_speed_eval();
     vsync_disable_timer();
 
-    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
+    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 }
 
 int vsync_disable_timer(void)
