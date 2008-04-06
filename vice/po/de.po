@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2000-10-01 21:21+0200\n"
+"POT-Creation-Date: 2000-10-14 19:25+0200\n"
 "PO-Revision-Date: 2000-07-16 13:41+02:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -1707,57 +1707,6 @@ msgstr "Keymap Datei für German business keyboard symbolic definieren"
 msgid "Specify name of German business keyboard positional keymap file"
 msgstr "Keymap Datei für German business keyboard positional definieren"
 
-#: src/arch/unix/print.c:99
-msgid "Specify name of printer dump file (print.dump)"
-msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
-
-#: src/arch/unix/print.c:101
-msgid "Specify command for printer 1 (|petlp |lpr)"
-msgstr "Command für Drucker 1 definieren (|petlp |lpr)"
-
-#: src/arch/unix/print.c:103
-msgid "Specify command for printer 2 (|lpr)"
-msgstr "Kommando für Drucker 2 definieren (|lpr)"
-
-#: src/arch/unix/print.c:161 src/arch/unix/rs232.c:270
-msgid "No more devices available."
-msgstr "Keine Devices mehr verfügbar"
-
-#: src/arch/unix/print.c:166
-#, c-format
-msgid "print_open(device=%d)."
-msgstr "print_open(device=%d)."
-
-#: src/arch/unix/print.c:200 src/arch/unix/rs232.c:317
-#, c-format
-msgid "Attempt to close invalid fd %d."
-msgstr "Attempt to close invalid fd %d."
-
-#: src/arch/unix/print.c:204 src/arch/unix/rs232.c:321
-#, c-format
-msgid "Attempt to close non-open fd %d."
-msgstr "Attempt to close non-open fd %d."
-
-#: src/arch/unix/print.c:219
-#, c-format
-msgid "Trying to write to invalid fd %d."
-msgstr "Trying to write to invalid fd %d."
-
-#: src/arch/unix/print.c:223
-#, c-format
-msgid "Trying to write to non-open fd %d."
-msgstr "Trying to write to non-open fd %d."
-
-#: src/arch/unix/print.c:235
-#, c-format
-msgid "Trying to flush invalid fd %d."
-msgstr "Trying to flush invalid fd %d."
-
-#: src/arch/unix/print.c:239
-#, c-format
-msgid "Trying to flush non-open fd %d."
-msgstr "Trying to flush non-open fd %d."
-
 #: src/arch/unix/rs232.c:126
 msgid "Specify name of first RS232 device (/dev/ttyS0)"
 msgstr "Device Name für erstes RS232 Gerät definieren (/dev/ttyS0)"
@@ -1790,6 +1739,10 @@ msgstr "Kommando für Daten in-/output definieren, '|' voranstellen (|lpr)"
 msgid "Specify baudrate of 4th RS232 device"
 msgstr "Baudrate für viertes RS232 Gerät definieren"
 
+#: src/arch/unix/rs232.c:270
+msgid "No more devices available."
+msgstr "Keine Devices mehr verfügbar"
+
 #: src/arch/unix/rs232.c:275
 #, c-format
 msgid "rs232_open(device=%d)."
@@ -1799,6 +1752,16 @@ msgstr "rs232_open(device=%d)."
 #, c-format
 msgid "Cannot open file \"%s\": %s"
 msgstr "Cannot open file \"%s\": %s"
+
+#: src/arch/unix/rs232.c:317
+#, c-format
+msgid "Attempt to close invalid fd %d."
+msgstr "Attempt to close invalid fd %d."
+
+#: src/arch/unix/rs232.c:321
+#, c-format
+msgid "Attempt to close non-open fd %d."
+msgstr "Attempt to close non-open fd %d."
 
 #: src/arch/unix/rs232.c:341
 #, c-format
@@ -1994,23 +1957,23 @@ msgstr "Keine Garantie!"
 msgid "Contributors to the VICE project"
 msgstr "Beträge zum VICE Projekt"
 
-#: src/arch/unix/x11/gnome/about.c:57
+#: src/arch/unix/x11/gnome/about.c:58
 msgid "The VICE Team"
 msgstr "Das VICE Team"
 
-#: src/arch/unix/x11/gnome/about.c:72 src/arch/unix/x11/xaw/about.c:150
+#: src/arch/unix/x11/gnome/about.c:77 src/arch/unix/x11/xaw/about.c:150
 msgid "Official VICE homepage:"
 msgstr "Offizielle VICE Homepage:"
 
-#: src/arch/unix/x11/gnome/about.c:82
+#: src/arch/unix/x11/gnome/about.c:90
 msgid "License"
 msgstr "Lizenz"
 
-#: src/arch/unix/x11/gnome/about.c:88
+#: src/arch/unix/x11/gnome/about.c:96
 msgid "Warranty"
 msgstr "Garantiebestimmungen"
 
-#: src/arch/unix/x11/gnome/about.c:94
+#: src/arch/unix/x11/gnome/about.c:102
 msgid "Contributors"
 msgstr "VICE Hackers"
 
@@ -2567,6 +2530,30 @@ msgstr "Performance wird nicht optimal sein."
 #: src/arch/unix/x11/xaw/x11video.c:186
 msgid "Successfully initialized without shared memory."
 msgstr "Video erfolgreich ohne Shared Memroy initialisiert."
+
+#~ msgid "Specify name of printer dump file (print.dump)"
+#~ msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
+
+#~ msgid "Specify command for printer 1 (|petlp |lpr)"
+#~ msgstr "Command für Drucker 1 definieren (|petlp |lpr)"
+
+#~ msgid "Specify command for printer 2 (|lpr)"
+#~ msgstr "Kommando für Drucker 2 definieren (|lpr)"
+
+#~ msgid "print_open(device=%d)."
+#~ msgstr "print_open(device=%d)."
+
+#~ msgid "Trying to write to invalid fd %d."
+#~ msgstr "Trying to write to invalid fd %d."
+
+#~ msgid "Trying to write to non-open fd %d."
+#~ msgstr "Trying to write to non-open fd %d."
+
+#~ msgid "Trying to flush invalid fd %d."
+#~ msgstr "Trying to flush invalid fd %d."
+
+#~ msgid "Trying to flush non-open fd %d."
+#~ msgstr "Trying to flush non-open fd %d."
 
 #~ msgid "Color request for canvas %p."
 #~ msgstr "Color request for canvas %p."

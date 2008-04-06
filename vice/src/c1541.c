@@ -12,6 +12,7 @@
  *
  * Patches by
  *  Olaf Seibert <rhialto@mbfys.kun.nl>
+ *  Dirk Schnorpfeil <D.Schnorpfeil@web.de> (GEOS stuff)
  *
  * Zipcode implementation based on `zip2disk' by
  *  Paul David Doherty <h0142kdd@rz.hu-berlin.de>
@@ -86,6 +87,8 @@
 #include "vdrive.h"
 #include "zipcode.h"
 
+#define GEOS	/* DiSc */
+
 #define MAXARG		256
 #define MAXDRIVE	1
 
@@ -124,6 +127,17 @@ static int unlynx_cmd(int nargs, char **args);
 static int validate_cmd(int nargs, char **args);
 static int write_cmd(int nargs, char **args);
 static int zcreate_cmd(int nargs, char **args);
+
+#ifdef GEOS
+int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii);
+static int read_geos_cmd(int nargs, char **args);
+static int fix_ts(int unit, 
+				  unsigned int trk, unsigned int sec, 
+				  unsigned int next_trk, unsigned int next_sec,
+				  unsigned int blk_offset);
+static int internal_write_geos_file(int unit, FILE* f);
+static int write_geos_cmd(int nargs, char **args);
+#endif
 
 static char *floppy_read_directory(vdrive_t *vdrive, const char *pattern);
 
@@ -211,6 +225,18 @@ command_t command_list[] = {
       "`d82' (CBM8250). Otherwise, format the disk in the current unit, if any.",
       1, 4,
       format_cmd },
+#ifdef GEOS
+    { "geosread",
+      "geosread <source> [<destination>]",
+      "Read GEOS <source> from the disk image and copy it as a Convert file into \n"
+	  "<destination> in the file system.  If <destination> is not specified, copy \n"
+	  "it into a file with the same name as <source>.",
+      1, 2, read_geos_cmd },
+    { "geoswrite",
+      "geoswrite <source>",
+      "Write GOES Convert file <source> from the file system on a disk image.",
+      1, 1, write_geos_cmd },
+#endif
     { "help",
       "help [<command>]",
       "Explain specified command.  If no command is specified, list available\n"
@@ -1463,6 +1489,603 @@ static int read_cmd(int nargs, char **args)
 
     return FD_OK;
 }
+
+#ifdef GEOS
+
+#define SLOT_GEOS_FILE_STRUC  23	/* Offset to geos file structure byte */
+#define SLOT_GEOS_FILE_TYPE	  24	/* Offset to geos file type			  */
+
+#define GEOS_FILE_STRUC_SEQ   0		/* Geos file structure sequential (no vlir) */
+#define GEOS_FILE_STRUC_VLIR  1		/* Geos file structure VLIR (index block, max. 127 chains) */
+
+/* Author:	DiSc
+ * Date:	2000-07-28
+ *
+ * companion to geos_read_cmd. Expects an opened file in drives[unit]->buffers[0].slot
+ */
+int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii)
+{
+	int  n;
+
+	/* Get TS of info block */
+	BYTE infoTrk = drives[unit]->buffers[0].slot[SLOT_SIDE_TRACK];
+	BYTE infoSec = drives[unit]->buffers[0].slot[SLOT_SIDE_SECTOR];
+
+	/* Get TS of first data block or vlir block (depends on the geos file type) */
+	BYTE firstTrk = drives[unit]->buffers[0].slot[SLOT_FIRST_TRACK];
+	BYTE firstSec = drives[unit]->buffers[0].slot[SLOT_FIRST_SECTOR];
+
+	/* get geos file structure and geos file type */
+	BYTE geosFileStruc = drives[unit]->buffers[0].slot[SLOT_GEOS_FILE_STRUC];
+	BYTE geosFileType  = drives[unit]->buffers[0].slot[SLOT_GEOS_FILE_TYPE];
+
+	BYTE infoBlock[256];
+	BYTE vlirBlock[256];
+	BYTE block[256];
+	BYTE vlirTrans[256];
+
+	int aktTrk, aktSec, vlirIdx, NoOfBlocks, BytesInLastSector;
+
+	/* the first block in a cvt file is the directory entry padded with zeros */
+	for (n = 2; n < 32; n++) {
+		BYTE c = drives[unit]->buffers[0].slot[n];
+		fputc(c, outf);
+	}
+	for (n = 32; n < 256; n++) fputc(0, outf);
+
+	/* read info block */
+	
+	if (disk_image_read_sector(drives[unit]->image, infoBlock, infoTrk, infoSec) != 0) {
+		fprintf(stderr, "Cannot read input file info block `%s': %s.\n", src_name_ascii, strerror(errno));
+		return FD_RDERR;
+	}
+	/* the next block is the info sector
+	 * write info block
+	 */
+	for (n = 2; n < 256; n++) fputc(infoBlock[n], outf);
+
+	/* read first data block or vlir block */
+	if (disk_image_read_sector(drives[unit]->image, vlirBlock, firstTrk, firstSec) != 0) {
+		fprintf(stderr, "Cannot read input file data `%s': %s.\n", src_name_ascii, strerror(errno));
+		return FD_RDERR;
+	}
+
+	if (geosFileStruc == GEOS_FILE_STRUC_SEQ) {	
+		/* sequential file contained in cvt file
+		 * since vlir block is the first data block simply put it to disk 
+		 */
+		
+		for (n = 2; n < 256; n++) fputc(vlirBlock[n], outf);
+
+		/* the rest is like standard cbm file TS-Chains. Put them to disk */
+		
+		aktTrk = vlirBlock[0];
+		aktSec = vlirBlock[1];
+		while (aktTrk != 0) {
+			if (disk_image_read_sector(drives[unit]->image, block, aktTrk, aktSec) != 0) {
+				fprintf(stderr, "Cannot read input file data block `%s': %s.\n", src_name_ascii, strerror(errno));
+				return FD_RDERR;
+			}
+			aktTrk = block[0];
+			aktSec = block[1];
+			BytesInLastSector = aktTrk != 0 ? 256 : aktSec + 1; 
+			for (n = 2; n < BytesInLastSector; n++)
+				fputc(block[n], outf);
+		}
+	} else if (geosFileStruc == GEOS_FILE_STRUC_VLIR) {
+		/* The vlir block in cvt files is a conversion of the vlir block on cbm disks.
+		 * Every non empty or non existent TS pointer is replaced with 
+		 * (NoOfBlocks in Record, Bytes in last Record block). Therefore the vlirBlock
+		 * is translated to vlirTrans according this rule.
+		 *
+		 * Copy vlir block to vlirTrans
+		 */
+		for (n = 2; n < 256; n++) vlirTrans[n] = vlirBlock[n];
+
+		/* Replace the TS-chain-origins with NoOfBlocks/BytesInLastSector */
+		
+		vlirIdx = 2;
+		aktTrk = vlirBlock[vlirIdx];
+		aktSec = vlirBlock[vlirIdx + 1];
+		NoOfBlocks = 0;
+		BytesInLastSector = 255;
+		while (aktTrk != 0 && vlirIdx <= 254) {
+			if (aktTrk != 0) { /* Record exists and is not empty */
+				while (aktTrk != 0) { 
+					/* Read the chain and collect No Of Blocks */
+					
+					if (disk_image_read_sector(drives[unit]->image, block, aktTrk, aktSec) != 0) {
+						fprintf(stderr, "Cannot read input file data block `%s': %s.\n", src_name_ascii, strerror(errno));
+						return FD_RDERR;
+					}
+					
+					/* Read TS for next sector*/
+					
+					aktTrk = block[0];
+					aktSec = block[1];
+
+					if (aktTrk != 0) /* Next Sector exists */
+						NoOfBlocks++;
+					else {			 /* Current was last sector of chain */
+						NoOfBlocks++;
+						BytesInLastSector = aktSec;
+					}
+				}
+			}
+			if (NoOfBlocks != 0) {	/* Entries for empty or non existing entries
+									 * in vlir block are the same in cvt and vlir files */
+				vlirTrans[vlirIdx] = NoOfBlocks;
+				vlirTrans[vlirIdx+1] = BytesInLastSector;
+			}
+
+			/* Prepare for next loop iteration */
+			
+			vlirIdx += 2;
+			if (vlirIdx <= 254) {
+				aktTrk = vlirBlock[vlirIdx];
+				aktSec = vlirBlock[vlirIdx + 1];
+			}
+			NoOfBlocks = 0;
+			BytesInLastSector = 255;
+		}
+
+		/* output transformed vlir block */
+		
+		for (n = 2; n < 256; n++) fputc(vlirTrans[n], outf);
+
+		/* now output the record chains (leave the TS-Pointers since they are usesless now) */
+		
+		vlirIdx = 2;
+		aktTrk = vlirBlock[vlirIdx];
+		aktSec = vlirBlock[vlirIdx + 1];
+		while (aktTrk != 0 && vlirIdx <= 254) {
+			if (aktTrk != 0) {
+				/* Record exists */
+				while (aktTrk != 0) {
+					if (disk_image_read_sector(drives[unit]->image, block, aktTrk, aktSec) != 0) {
+						fprintf(stderr, "Cannot read input file data block `%s': %s.\n", src_name_ascii, strerror(errno));
+						return FD_RDERR;
+					}
+					aktTrk = block[0];
+					aktSec = block[1];
+					BytesInLastSector = aktTrk != 0 ? 256 : aktSec + 1;
+					for (n = 2; n < BytesInLastSector; n++) fputc(block[n], outf);
+				}
+			}
+			vlirIdx += 2;
+			if (vlirIdx <= 254) {
+				aktTrk = vlirBlock[vlirIdx];
+				aktSec = vlirBlock[vlirIdx + 1];
+			}
+		}
+	} else {
+		fprintf(stderr, "Unknown GEOS-File structure\n");
+		return FD_RDERR;
+	}
+	return FD_OK;
+}
+
+/* Author:	DiSc
+ * Date:	2000-07-28
+ * Reads a geos file from the diskimage and writes it to a convert file
+ * This code was copied from the write_cmd function. 
+ */
+static int read_geos_cmd(int nargs, char **args)
+{
+    char *src_name_petscii, *src_name_ascii;
+    char *dest_name_ascii;
+    char *actual_name;
+    char *p;
+    int unit;
+    FILE *outf;
+	int err_code;
+	
+    p = extract_unit_from_file_name(args[1], &unit);
+    if (p == NULL) unit = drive_number;
+	
+    if (check_drive(unit, CHK_RDY) < 0) return FD_NOTREADY;
+	
+    if (p == NULL) src_name_ascii = stralloc(args[1]);
+    else           src_name_ascii = stralloc(p);
+	
+    if (!is_valid_cbm_file_name(src_name_ascii)) {
+        fprintf(stderr, "`%s' is not a valid CBM DOS file name.\n", src_name_ascii);
+        free(src_name_ascii);
+        return FD_OK;               /* FIXME */
+    }
+	
+    src_name_petscii = stralloc(src_name_ascii);
+    petconvstring(src_name_petscii, 0);
+	
+    if (vdrive_iec_open(drives[unit],
+						src_name_petscii, 
+						(int)strlen(src_name_petscii), 0)) {
+		fprintf(stderr, "Cannot read `%s' on unit %d.\n", src_name_ascii, unit + 8);
+        free(src_name_ascii), free(src_name_petscii);
+		return FD_BADNAME;
+    }
+	
+    /* Get real filename from the disk file.  Slot must be defined by vdrive_iec_open().  */
+    actual_name = xmalloc(17);  /* FIXME: Should be a #define.  */
+    memcpy(actual_name, drives[unit]->buffers[0].slot + SLOT_NAME_OFFSET, 16);
+    actual_name[16] = 0;
+	
+    if (nargs == 3) {
+		dest_name_ascii = args[2];
+    } else {
+		int l;
+		
+		dest_name_ascii = actual_name;
+		vdrive_dir_no_a0_pads((BYTE *) dest_name_ascii, 16);
+		l = strlen(dest_name_ascii) - 1;
+		while (dest_name_ascii[l] == ' ') {
+			dest_name_ascii[l] = 0;
+			l--;
+		}
+		petconvstring(dest_name_ascii, 1);
+    }
+	
+    outf = fopen(dest_name_ascii, MODE_WRITE);
+	if (outf == NULL) {
+		fprintf(stderr, "Cannot create output file `%s': %s.\n", dest_name_ascii, strerror(errno));
+		vdrive_iec_close(drives[unit], 0);
+        free(src_name_petscii);
+		free(src_name_ascii);
+		free(actual_name);
+		return FD_NOTWRT;
+	}
+	
+    printf("Reading file `%s' from unit %d.\n", src_name_ascii, unit + 8);
+
+	err_code = internal_read_geos_file(unit, outf, src_name_ascii);
+
+    fclose(outf);
+    vdrive_iec_close(drives[unit], 0);
+	
+    free(src_name_petscii), free(src_name_ascii), free(actual_name);
+	
+    return err_code;
+}
+
+/* Author: DiSc
+ * Date:   2000-07-28
+ * Put the NTS-Chain on a block. Can also be a vlir block if blk_offset is > 1
+ */
+static int fix_ts(int unit, 
+				  unsigned int trk, unsigned int sec, 
+				  unsigned int next_trk, unsigned int next_sec,
+				  unsigned int blk_offset)
+{
+	BYTE block[256];
+	if (disk_image_read_sector(drives[unit]->image, block, trk, sec) == 0) {
+		block[blk_offset] = next_trk;
+		block[blk_offset + 1] = next_sec;
+		if (disk_image_write_sector(drives[unit]->image, block, trk, sec) == 0) 
+			return 1;
+	}
+	return 0;
+}
+
+/* Author:	DiSc
+ * Date:	2000-07-28
+ * Companion to write_geos_cmd. Expects an file opened for writing in
+ * drives[unit]->buffers[1].slot
+ */
+static int internal_write_geos_file(int unit, FILE* f)
+{
+	BYTE dirBlock[256];
+	BYTE infoBlock[256];
+	BYTE vlirBlock[256];
+	BYTE block[256];
+	unsigned int infoTrk, infoSec;
+	unsigned int vlirTrk, vlirSec;
+	unsigned int aktTrk, aktSec;
+	unsigned int lastTrk, lastSec;
+	BYTE geosFileStruc;
+	BYTE geosFileType;
+	int c = 0;
+	int n;
+	int bContinue;
+	int numBlks, bytesInLastBlock;
+
+	/* First block of cvt file is the directory entry, rest padded with zeros */
+	
+	for (n = 2; n < 256; n++) {
+		c = fgetc(f);
+		dirBlock[n] = c;
+	}
+	
+	/* copy to the already created slot */
+	
+	for (n = 2; n < 32; n++) {
+		drives[unit]->buffers[1].slot[n] = dirBlock[n];
+	}
+	
+	geosFileStruc = drives[unit]->buffers[1].slot[SLOT_GEOS_FILE_STRUC];
+	geosFileType  = drives[unit]->buffers[1].slot[SLOT_GEOS_FILE_TYPE];
+
+	/* next is the geos info block */
+	
+	infoBlock[0] = 0;
+	infoBlock[1] = 0xFF;
+	for (n = 2; n < 256; n++) {
+		c = fgetc(f);
+		infoBlock[n] = c;
+	}
+
+	/* put it on disk */
+	
+	if (vdrive_bam_alloc_first_free_sector(drives[unit], 
+										   drives[unit]->bam,
+										   &infoTrk,
+										   &infoSec) < 0) {
+		fprintf(stderr, "Disk full\n");
+		return FD_WRTERR;
+	}
+	if (disk_image_write_sector(drives[unit]->image, infoBlock, infoTrk, infoSec) != 0) {
+		fprintf(stderr, "Disk full\n");
+		return FD_WRTERR;
+	}
+
+	/* and put the blk/sec in the dir entry */
+	
+	drives[unit]->buffers[1].slot[SLOT_SIDE_TRACK] = infoTrk;
+	drives[unit]->buffers[1].slot[SLOT_SIDE_SECTOR] = infoSec;
+	
+	/* now read the first data block. if its a vlir-file its the vlir index block
+	 * else its already a data block */
+	for (n = 2; n < 256; n++) {
+		c = fgetc(f);
+		vlirBlock[n] = c;
+	}
+
+	/* the vlir index block always has a NTS-chain of (0, FF) */
+	
+	if (geosFileStruc == GEOS_FILE_STRUC_VLIR) {
+		vlirBlock[0] = 0;
+		vlirBlock[1] = 0xFF;
+	}
+
+	/* write the block */
+	
+	if (vdrive_bam_alloc_next_free_sector(drives[unit], 
+										  drives[unit]->bam,
+										  &vlirTrk,
+										  &vlirSec) < 0) {
+		fprintf(stderr, "Disk full\n");
+		return FD_WRTERR;
+	}
+
+	if (disk_image_write_sector(drives[unit]->image, vlirBlock, vlirTrk, vlirSec) != 0) {
+		fprintf(stderr, "Disk full\n");
+		return FD_WRTERR;
+	}
+	
+	/* put the TS in the dir entry */
+	
+	drives[unit]->buffers[1].slot[SLOT_FIRST_TRACK] = vlirTrk;
+	drives[unit]->buffers[1].slot[SLOT_FIRST_SECTOR] = vlirSec;
+
+	if (geosFileStruc == GEOS_FILE_STRUC_SEQ) {	/* normal seq file (rest like commodore files) */
+		lastTrk = vlirTrk;
+		lastSec = vlirSec;
+		bContinue = (vlirBlock[0] != 0);
+		while (bContinue) {
+			block[0] = 0;
+			block[1] = 255;
+			
+			/* read next block */
+			
+			for (n = 2; n < 256; n++) {
+				c = fgetc(f);
+				if (c == EOF) {
+					block[0] = 0;
+					block[1] = n - 2;
+					while (n < 256) 
+						block[n++] = 0x00;
+					bContinue = 0;
+					break;
+				}
+				block[n] = c;
+			}
+			
+			/* allocate it */
+			
+			if (vdrive_bam_alloc_next_free_sector(drives[unit], 
+												  drives[unit]->bam,
+												  &aktTrk,
+												  &aktSec) < 0) {
+				fprintf(stderr, "Disk full\n");
+				return FD_WRTERR;
+			}
+			
+			/* write it to disk */
+			
+			if (disk_image_write_sector(drives[unit]->image, block, aktTrk, aktSec) != 0) {
+				fprintf(stderr, "Disk full\n");
+				return FD_WRTERR;
+			}
+			
+			/* put the TS of the current block to the predecessor block */
+			
+			if (!fix_ts(unit, lastTrk, lastSec, aktTrk, aktSec, 0)) {
+				fprintf(stderr, "Internal error.\n");
+				return FD_WRTERR;
+			}
+			lastTrk = aktTrk;
+			lastSec = aktSec;
+		}
+	} else if (geosFileStruc == GEOS_FILE_STRUC_VLIR) {  
+		/* in a cvt file containing a vlir file the vlir block contains
+		 * a pair (NoOfBlocksForChain, BytesInLastBlock + 2) for every vlir
+		 * record that exists. Non-existing record have a (0, 0) pair,
+		 * empty records a (0, 255) pair. There can be empty or non 
+		 * existing records between data records.
+		 */
+		
+		int vlirIdx = 2;
+		while (vlirIdx <= 254) {
+			if (vlirBlock[vlirIdx] != 0) {
+				lastTrk = vlirTrk;
+				lastSec = vlirSec;
+				numBlks = vlirBlock[vlirIdx];				/* How many blocks in record */
+				bytesInLastBlock = vlirBlock[vlirIdx + 1];	/* Bytes in last blocks */
+				while (numBlks > 0) {
+					/* read next block */
+					
+					block[0] = 0;
+					block[1] = 0xFF;
+					for (n = 2; n < 256; n++) {
+						c = fgetc(f);
+						if (c == EOF && numBlks > 1) {
+							fprintf(stderr, "unexpected EOF encountered\n");
+							return FD_RDERR;
+						} else {
+							while (n < 256)
+								block[n++] = 0x00;
+							break;
+						}
+						block[n] = c;
+					}
+					if (numBlks == 1) { /* last block */
+						block[0] = 0;
+						block[1] = bytesInLastBlock;
+					}
+					
+					/* allocate it */
+					
+					if (vdrive_bam_alloc_next_free_sector(drives[unit], 
+														  drives[unit]->bam,
+														  &aktTrk,
+														  &aktSec) < 0) {
+						fprintf(stderr, "Disk full\n");
+						return FD_WRTERR;
+					}
+					
+					/* write it to disk */
+					
+					if (disk_image_write_sector(drives[unit]->image, block, aktTrk, aktSec) != 0) {
+						fprintf(stderr, "Disk full\n");
+						return FD_WRTERR;
+					}
+					/* 
+					 * write the TS to the predecessor block or if this is the first
+					 * block of a vlir record write it to the vlir index block at the
+					 * correct offset.
+					 */
+					if (!fix_ts(unit, lastTrk, lastSec, aktTrk, aktSec, 
+							    lastTrk == vlirTrk && lastSec == vlirSec ? vlirIdx : 0)) {
+						fprintf(stderr, "Internal error.\n");
+						return FD_WRTERR;
+					}
+					lastTrk = aktTrk;
+					lastSec = aktSec;
+					numBlks--;
+				}
+			}
+			vlirIdx += 2;
+		}
+	}
+	return FD_OK;
+}
+	
+
+/* Author:	DiSc
+ * Date:	2000-07-28
+ * Write a geos .cvt file to the diskimage
+ * This code was copied from the write_cmd function. 
+ */
+static int write_geos_cmd(int nargs, char **args)
+{
+    int unit, erg;
+    char *dest_name_ascii, *dest_name_petscii;
+    FILE *f;
+	BYTE* e;
+    char *slashp;
+	
+    /* geoswrite <source> */
+    dest_name_ascii = NULL;
+    unit = drive_number;
+	
+    if (check_drive(unit, CHK_RDY) < 0) return FD_NOTREADY;
+	
+    f = fopen(args[1], MODE_READ);
+    if (f == NULL) {
+        fprintf(stderr, "Cannot read file `%s': %s.\n", args[1], strerror(errno));
+        return FD_NOTRD;
+    }
+	
+	/* User did not specify a destination name...  Let's try to make an
+	   educated guess at what she expects.  
+	
+	   Convert file have a directory and info block which contains the 
+	   resulting filename. Because i am using the vdrive functions to create
+	   a directory entry lets get a temporary name out of the source file for
+	   initial creating of the USR file.
+	 */
+	
+    slashp = strrchr(args[1], '/');
+    if (slashp == NULL) dest_name_ascii = stralloc(args[1]);
+    else dest_name_ascii = stralloc(slashp + 1);
+    dest_name_petscii = stralloc(dest_name_ascii);
+    petconvstring(dest_name_petscii, 0);
+	
+    if (vdrive_iec_open(drives[unit],
+		dest_name_petscii, (int)strlen(dest_name_petscii), 1)) {
+        fprintf(stderr, "Cannot open `%s' for writing on image.\n",
+			dest_name_ascii);
+		return FD_WRTERR;
+    }
+	
+	/* the following function reuses the fresh created dir entry ... */
+	
+	erg = internal_write_geos_file(unit, f);
+    fclose(f);
+
+	/* Start: copied from vdrive_iec_close
+	 * The bam and directory entry must be copied to the disk. the code
+	 * from the vdrive routines does that thing.
+	 */
+    vdrive_dir_find_first_slot(drives[unit], NULL, -1, 0);
+    e = vdrive_dir_find_next_slot(drives[unit]);
+
+    if (!e) {
+        drives[unit]->buffers[1].mode = BUFFER_NOT_IN_USE;
+        free(drives[unit]->buffers[1].buffer);
+        drives[unit]->buffers[1].buffer = NULL;
+
+        vdrive_command_set_error(drives[unit], IPE_DISK_FULL, 0, 0);
+        return SERIAL_ERROR;
+    }
+	/* The buffer MUST be mark as closed to avoid the vdrive functions
+	 * to add an empty block at the end of the file that was allocated
+	 * when the file was created!!!!
+	 */
+    drives[unit]->buffers[1].slot[SLOT_TYPE_OFFSET] |= 0x80; /* Closed */
+
+    memcpy(&drives[unit]->Dir_buffer[drives[unit]->SlotNumber * 32 + 2], 
+		   drives[unit]->buffers[1].slot + 2, 
+		   30);
+
+#ifdef DEBUG_DRIVE
+    log_debug("DEBUG: closing, write DIR slot (%d %d) and BAM.", drives[unit]->Curr_track, drives[unit]->Curr_sector);
+#endif
+    disk_image_write_sector(drives[unit]->image, drives[unit]->Dir_buffer,
+                            drives[unit]->Curr_track, drives[unit]->Curr_sector);
+    vdrive_bam_write_bam(drives[unit]);
+    drives[unit]->buffers[1].mode = BUFFER_NOT_IN_USE;
+    free((char *)drives[unit]->buffers[1].buffer);
+    drives[unit]->buffers[1].buffer = NULL;
+	
+	/* End: copied from vdrive_iec_close */
+	
+    free(dest_name_ascii), free(dest_name_petscii);
+	
+    return erg;
+}
+
+
+#endif
 
 static int rename_cmd(int nargs, char **args)
 {
