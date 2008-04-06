@@ -727,7 +727,7 @@ static int check_drive(int dev, int flags)
 
     vdrive = drives[dev & 3];
 
-    if (flags != CHK_NUM && vdrive->image == NULL)
+    if (flags != CHK_NUM && (vdrive == NULL || vdrive->image == NULL))
         return FD_NOTREADY;
 
     return FD_OK;
