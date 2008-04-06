@@ -275,10 +275,11 @@ static void canvas_set_vga_mode(struct video_canvas_s *c)
 }
 
 /* Note: `mapped' is ignored.  */
-video_canvas_t *canvas_create(const char *win_name, unsigned int *width,
+video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
                               unsigned int *height, int mapped,
                               void_t exposure_handler,
-                              const palette_t *palette, PIXEL *pixel_return)
+                              const palette_t *palette, PIXEL *pixel_return,
+                              struct video_frame_buffer_s *fb)
 {
     video_canvas_t *new_canvas;
 
