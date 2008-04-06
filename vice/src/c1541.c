@@ -282,7 +282,7 @@ command_t command_list[] = {
 
 /* ------------------------------------------------------------------------- */
 
-#ifndef EDIT
+#ifndef HAVE_READLINE
 
 static char *read_line(char *prompt)
 {
@@ -303,10 +303,10 @@ static char *read_line(const char *prompt)
     static char *line;
 
     if (line != NULL)
-	free(line);
+        free(line);
     line = readline(prompt);
     if (line != 0 && *line != 0)
-	add_history(line);
+        add_history(line);
     return line;
 }
 
