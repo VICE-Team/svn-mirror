@@ -47,7 +47,7 @@ extern void ui_show_text(const char *title, const char *text);
 extern void ui_update_menus(void);
 extern void ui_autorepeat_on(void);
 extern void ui_autorepeat_off(void);
-extern void ui_main(ADDRESS);
+extern void ui_main(char hotkey);
 extern void ui_toggle_drive_status(int state);
 extern void ui_display_drive_track(double track_number);
 extern void ui_display_drive_led(int status);
