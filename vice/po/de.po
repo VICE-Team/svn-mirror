@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.16\n"
-"POT-Creation-Date: 2005-07-24 23:19+0200\n"
+"POT-Creation-Date: 2005-07-30 17:23+0200\n"
 "PO-Revision-Date: 2005-05-12 21:34+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -72,16 +72,16 @@ msgstr "Gerät '%s' konnte nicht gefunden werden oder ist nicht unterstützt."
 #: src/sound.c:694
 #, c-format
 msgid "Recording device %s doesn't exist!"
-msgstr "Aufnahme Gerät %s existiert nicht!"
+msgstr "Aufnahmegerät %s existiert nicht!"
 
 #: src/sound.c:702
 msgid "Recording device must be different from playback device"
-msgstr "Aufnahme Gerät muß unteschiedlich vom Abspielgerät sein"
+msgstr "Aufnahmegerät muß unteschiedlich vom Abspielgerät sein"
 
 #: src/sound.c:712
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
-msgstr "Warnung! Aufnahme Gerät %s scheint ein Echtzeitgerät zu sein!"
+msgstr "Warnung! Aufnahmegerät %s scheint ein Echtzeitgerät zu sein!"
 
 #: src/sound.c:722
 #, c-format
@@ -125,14 +125,14 @@ msgid "store to sounddevice failed."
 msgstr "Speichern auf Sound Gerät ist fehlgeschlagen."
 
 #: src/event.c:221
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create image file %s"
-msgstr "Kann Image `%s' nicht erzeugen."
+msgstr "Kann Datei `%s' nicht erzeugen"
 
 #: src/event.c:230
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot write image file %s"
-msgstr "Kann Erweiterunsmodule Imagedatei `%s' nicht speichern.\n"
+msgstr "Kann Datei %s nicht schreiben"
 
 #: src/event.c:242
 #, fuzzy, c-format
@@ -178,7 +178,7 @@ msgstr "Fehler beim Lesen der Start Snapshot Datei."
 #: src/c64/c64export.c:76 src/c64/c64export.c:86 src/c64/c64export.c:96
 #, c-format
 msgid "Resource %s blocked by %s."
-msgstr ""
+msgstr "Resource %s wird von %s blockiert."
 
 #: src/arch/unix/c128ui.c:68 src/arch/unix/c64ui.c:68
 #: src/arch/unix/cbm2ui.c:64 src/arch/unix/uited.c:53 src/arch/unix/uivic.c:42
