@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-08-31 22:30+0200\n"
+"POT-Creation-Date: 2002-09-07 16:43+0200\n"
 "PO-Revision-Date: 2002-05-05 18:45+02:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -2330,27 +2330,27 @@ msgstr "Leeres Disk Image erzeugen"
 msgid "Can't create image `%s'."
 msgstr "Kann Image `%s' nicht erzeugen."
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:51
+#: src/arch/unix/x11/gnome/uipalcontrol.c:45
 msgid "Saturation"
 msgstr "Sättigung"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:52
+#: src/arch/unix/x11/gnome/uipalcontrol.c:46
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:53
+#: src/arch/unix/x11/gnome/uipalcontrol.c:47
 msgid "Brightness"
 msgstr "Helligkeit"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:54
+#: src/arch/unix/x11/gnome/uipalcontrol.c:48
 msgid "Gamma"
 msgstr "Gamma"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:123
+#: src/arch/unix/x11/gnome/uipalcontrol.c:82
 msgid "PAL Settings"
 msgstr "PAL Einstellungen"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:186
+#: src/arch/unix/x11/gnome/uipalcontrol.c:118
 msgid "Reset PAL Settings"
 msgstr "Standard PAL Einstellungen"
 
