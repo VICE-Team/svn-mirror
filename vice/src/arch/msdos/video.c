@@ -171,11 +171,6 @@ int video_init(void)
 
     video_log = log_open("Video");
 
-    if (allegro_init())
-        log_error(video_log, "Cannot initialize Allegro.");
-
-    log_message(video_log, "Allegro initialized.");
-
     in_gfx_mode = 0;
 
     last_canvas = NULL;
@@ -344,14 +339,12 @@ void video_canvas_destroy(video_canvas_t *canvas)
     if (canvas == NULL)
         return;
 
+    canvas_free_bitmaps(canvas);
     video_canvas_shutdown(canvas);
 
     for (i = 0; i < MAX_CANVAS_NUM; i++)
         if (canvaslist[i] == canvas)
             canvaslist[i] = NULL;
-
-    canvas_free_bitmaps(canvas);
-    lib_free(canvas);
 }
 
 static void canvas_change_palette(video_canvas_t *c)
@@ -587,11 +580,11 @@ inline void video_canvas_refresh(video_canvas_t *c,
         while (poll_modex_scroll())
             /* Make sure we have finished flipping the previous frame.  */ ;
 #else
-        if (poll_modex_scroll())
+        if (poll_scroll())
             return;
 #endif
         blit(c->render_bitmap, c->pages[c->back_page], xi, yi, xi, yi, w, h);
-        request_modex_scroll(0, c->back_page * c->height);
+        request_scroll(0, c->back_page * c->height);
         c->back_page = 1 - c->back_page;
     } else {
         blit(c->render_bitmap, screen, xi, yi, xi, yi, w, h);

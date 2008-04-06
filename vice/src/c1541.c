@@ -57,13 +57,13 @@
 #include "cbmimage.h"
 #include "charset.h"
 #include "diskimage.h"
+#include "fileio.h"
 #include "gcr.h"
 #include "info.h"
 #include "imagecontents.h"
 #include "ioutil.h"
 #include "lib.h"
 #include "log.h"
-#include "p00.h"
 #include "serial.h"
 #include "snapshot.h"
 #include "tape.h"
@@ -394,9 +394,9 @@ static int arg_to_int(const char *arg, int *return_value)
 {
     char *tailptr;
 
-    errno = 0;
     *return_value = (int)strtol(arg, &tailptr, 10);
-    if (errno)                  /* Overflow */
+
+    if (ioutil_errno(IOUTIL_ERRNO_ERANGE))
         return -1;
 
     /* Only whitespace is allowed after the last valid character.  */
@@ -524,11 +524,12 @@ static int lookup_and_execute_command(int nargs, char **args)
     }
 }
 
-static char *extract_unit_from_file_name(const char *name, int *unit_return)
-{
+static char *extract_unit_from_file_name(const char *name,
+                                         unsigned int *unit_return)
+{ 
     if (name[0] == '@' && name[2] == ':'
         && (name[1] == '8' || name[1] == '9')) {
-        *unit_return = (int)(name[1] - '8');
+        *unit_return = (unsigned int)(name[1] - '8');
         return (char *)name + 3;
     } else {
         return NULL;
@@ -1346,16 +1347,21 @@ static int read_cmd(int nargs, char **args)
     char *dest_name_ascii;
     char *actual_name;
     char *p;
-    int unit;
-    int is_p00;
-    FILE *outf;
+    int dnr;
+    FILE *outf = NULL;
+    fileio_info_t *finfo = NULL;
+    unsigned int format = FILEIO_FORMAT_RAW;
+    BYTE c;
 
-    p = extract_unit_from_file_name(args[1], &unit);
+    p = extract_unit_from_file_name(args[1], &dnr);
     if (p == NULL)
-        unit = drive_number;
+        dnr = drive_number;
 
-    if (check_drive(unit, CHK_RDY) < 0)
+    if (check_drive(dnr, CHK_RDY) < 0)
         return FD_NOTREADY;
+
+    if (p00save[dnr])
+        format = FILEIO_FORMAT_P00;
 
     if (p == NULL)
         src_name_ascii = lib_stralloc(args[1]);
@@ -1372,10 +1378,10 @@ static int read_cmd(int nargs, char **args)
     src_name_petscii = lib_stralloc(src_name_ascii);
     charset_petconvstring((BYTE *)src_name_petscii, 0);
 
-    if (vdrive_iec_open(drives[unit], src_name_petscii,
+    if (vdrive_iec_open(drives[dnr], src_name_petscii,
         (int)strlen(src_name_petscii), 0)) {
         fprintf(stderr,
-                "Cannot read `%s' on unit %d.\n", src_name_ascii, unit + 8);
+                "Cannot read `%s' on unit %d.\n", src_name_ascii, dnr + 8);
         lib_free(src_name_ascii);
         lib_free(src_name_petscii);
         return FD_BADNAME;
@@ -1384,19 +1390,24 @@ static int read_cmd(int nargs, char **args)
     /* Get real filename from the disk file.  Slot must be defined by
        vdrive_iec_open().  */
     actual_name = lib_malloc(17);  /* FIXME: Should be a #define.  */
-    memcpy(actual_name, drives[unit]->buffers[0].slot + SLOT_NAME_OFFSET, 16);
+    memcpy(actual_name, drives[dnr]->buffers[0].slot + SLOT_NAME_OFFSET, 16);
     actual_name[16] = 0;
 
     if (nargs == 3) {
         if (strcmp(args[2], "-") == 0) {
             dest_name_ascii = NULL;      /* stdout */
-            is_p00 = 0;
         } else {
+            char *open_petscii_name;
+
             dest_name_ascii = args[2];
-            is_p00 = (p00_check_name(args[2]) >= 0);
+            open_petscii_name = lib_stralloc(dest_name_ascii);
+            charset_petconvstring((BYTE *)open_petscii_name, 0);
+            finfo = fileio_open(open_petscii_name, NULL, format,
+                                FILEIO_COMMAND_WRITE, FILEIO_TYPE_PRG);
+            lib_free(open_petscii_name);
         }
     } else {
-        int l;
+        size_t l;
 
         dest_name_ascii = actual_name;
         vdrive_dir_no_a0_pads((BYTE *)dest_name_ascii, 16);
@@ -1405,45 +1416,39 @@ static int read_cmd(int nargs, char **args)
             dest_name_ascii[l] = 0;
             l--;
         }
-        charset_petconvstring((BYTE *)dest_name_ascii, 1);
-        is_p00 = 0;
+
+        finfo = fileio_open(dest_name_ascii, NULL, format,
+                            FILEIO_COMMAND_WRITE, FILEIO_TYPE_PRG);
     }
 
-    if (dest_name_ascii == NULL)
+    if (dest_name_ascii == NULL) {
         outf = stdout;
-    else {
-        outf = fopen(dest_name_ascii, MODE_WRITE);
-        if (outf == NULL) {
+    } else {
+        if (finfo == NULL) {
             fprintf(stderr, "Cannot create output file `%s': %s.\n",
                    dest_name_ascii, strerror(errno));
-            vdrive_iec_close(drives[unit], 0);
+            vdrive_iec_close(drives[dnr], 0);
             lib_free(src_name_petscii);
             lib_free(src_name_ascii);
             lib_free(actual_name);
             return FD_NOTWRT;
         }
-        if (is_p00) {
-            if (p00_write_header(outf, (BYTE *)dest_name_ascii,
-                ((BYTE)(0))) < 0)
-                fprintf(stderr, "Cannot write P00 header.\n");
-            else
-                printf("Written P00 header.\n");
-        }
     }                           /* stdout */
 
-    printf("Reading file `%s' from unit %d.\n", src_name_ascii, unit + 8);
+    printf("Reading file `%s' from unit %d.\n", src_name_ascii, dnr + 8);
 
-    /* Copy.  */
-    {
-        BYTE c;
-
-        while (!vdrive_iec_read(drives[unit], (BYTE *)&c, 0))
+    while (!vdrive_iec_read(drives[dnr], &c, 0)) {
+        if (dest_name_ascii == NULL) {
             fputc(c, outf);
+        } else {
+            fileio_write(finfo, &c, 1);
+        }
     }
 
-    if (outf != stdout)
-        fclose(outf);
-    vdrive_iec_close(drives[unit], 0);
+    if (dest_name_ascii != NULL)
+        fileio_close(finfo);
+
+    vdrive_iec_close(drives[dnr], 0);
 
     lib_free(src_name_petscii);
     lib_free(src_name_ascii);
@@ -1652,8 +1657,8 @@ int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii)
             }
         }
     } else {
-            fprintf(stderr, "Unknown GEOS-File structure\n");
-            return FD_RDERR;
+        fprintf(stderr, "Unknown GEOS-File structure\n");
+        return FD_RDERR;
     }
     return FD_OK;
 }
@@ -2509,16 +2514,16 @@ static int validate_cmd(int nargs, char **args)
 
 static int write_cmd(int nargs, char **args)
 {
-    int unit;
-    char *dest_name_ascii, *dest_name_petscii;
+    unsigned int dnr;
+    char *dest_name_ascii;
     char *p;
-    FILE *f;
+    fileio_info_t *finfo;
 
     if (nargs == 3) {
         /* write <source> <dest> */
-        p = extract_unit_from_file_name(args[2], &unit);
+        p = extract_unit_from_file_name(args[2], &dnr);
         if (p == NULL) {
-            unit = drive_number;
+            dnr = drive_number;
             dest_name_ascii = lib_stralloc(args[2]);
         } else {
             if (*p != 0)
@@ -2529,72 +2534,48 @@ static int write_cmd(int nargs, char **args)
     } else {
         /* write <source> */
         dest_name_ascii = NULL;
-        unit = drive_number;
+        dnr = drive_number;
     }
 
-    if (check_drive(unit, CHK_RDY) < 0)
+    if (check_drive(dnr, CHK_RDY) < 0)
         return FD_NOTREADY;
 
-    f = fopen(args[1], MODE_READ);
-    if (f == NULL) {
+    finfo = fileio_open(args[1], NULL, FILEIO_FORMAT_RAW | FILEIO_FORMAT_P00,
+                        FILEIO_COMMAND_READ | FILEIO_COMMAND_FSNAME,
+                        FILEIO_TYPE_PRG);
+
+    if (finfo == NULL) {
         fprintf(stderr, "Cannot read file `%s': %s.\n", args[1],
                 strerror(errno));
         return FD_NOTRD;
     }
 
-    if (dest_name_ascii == NULL) {
-        char realname[17];      /* FIXME: Should be a #define.  */
-        unsigned int reclen;    /* And we don't really need this stuff!  */
-
-        /* User did not specify a destination name...  Let's try to make an
-           educated guess at what she expects.  */
-        /* FIXME: We should create files according to the P00 file type.  */
-        if (p00_check_name(args[1]) >= 0
-            && p00_read_header(f, (BYTE *)realname, &reclen) >= 0) {
-            dest_name_petscii = lib_stralloc(realname);
-            dest_name_ascii = lib_stralloc(dest_name_petscii);
-            charset_petconvstring((BYTE *)dest_name_ascii, 1);
-        } else {
-            char *slashp;
-
-            rewind(f);          /* There is no P00 header.  */
-            slashp = strrchr(args[1], '/');
-            if (slashp == NULL)
-                dest_name_ascii = lib_stralloc(args[1]);
-            else
-                dest_name_ascii = lib_stralloc(slashp + 1);
-            dest_name_petscii = lib_stralloc(dest_name_ascii);
-            charset_petconvstring((BYTE *)dest_name_petscii, 0);
-        }
-    } else {
-        dest_name_petscii = lib_stralloc(dest_name_ascii);
-        charset_petconvstring((BYTE *)dest_name_petscii, 0);
-    }
-
-    if (vdrive_iec_open(drives[unit],
-                    dest_name_petscii, (int)strlen(dest_name_petscii), 1)) {
+    if (vdrive_iec_open(drives[dnr], (char *)finfo->name,
+                        (int)finfo->length, 1)) {
         fprintf(stderr, "Cannot open `%s' for writing on image.\n",
                 dest_name_ascii);
+        fileio_close(finfo);
+        lib_free(dest_name_ascii);
         return FD_WRTERR;
     }
 
-    printf("Writing file `%s' to unit %d.\n", dest_name_ascii, unit + 8);
-    {
-        int c;
+    printf("Writing file `%s' to unit %d.\n", dest_name_ascii, dnr + 8);
+    while (1) {
+        BYTE c;
 
-        while (EOF != (c = fgetc(f))) {
-            if (vdrive_iec_write(drives[unit], (BYTE) c, 1)) {
-                fprintf(stderr, "No space on image ?\n");
-                break;
-            }
+        if (fileio_read(finfo, &c, 1) != 1)
+            break;
+
+        if (vdrive_iec_write(drives[dnr], c, 1)) {
+            fprintf(stderr, "No space on image?\n");
+            break;
         }
     }
 
-    fclose(f);
-    vdrive_iec_close(drives[unit], 1);
+    fileio_close(finfo);
+    vdrive_iec_close(drives[dnr], 1);
 
     lib_free(dest_name_ascii);
-    lib_free(dest_name_petscii);
 
     return FD_OK;
 }
