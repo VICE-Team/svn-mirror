@@ -115,6 +115,7 @@
 #endif
 
 #include "charsets.h"		/* ctrl1, ctrl2, cbmkeys */
+#include "p00.h"
 
 #ifndef SEEK_SET
 #define SEEK_SET 0
@@ -370,6 +371,16 @@ char   *a_ctrl2[] = {
     "grey2", "lt green", "lt blue", "grey3", "pur", "left", "yel", "cyn"
 };
 
+/* ------------------------------------------------------------------------- */
+
+static int parse_version(char *str);
+static void list_keywords(int version);
+static void pet_2_asc (int ctrls);
+static void _p_toascii(int c, int ctrls);
+static int p_expand(int version, int addr, int ctrls);
+static void p_tokenize(int version, int addr, int ctrls);
+static unsigned char sstrcmp(unsigned char *line, char **wordlist,
+                             int token, int maxitems);
 
 /* ------------------------------------------------------------------------- */
 
