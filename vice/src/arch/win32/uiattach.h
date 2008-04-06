@@ -27,9 +27,7 @@
 #ifndef _UIATTACH_H
 #define _UIATTACH_H
 
-extern void ui_attach_disk_dialog(WPARAM wparam, HWND hwnd);
-extern void ui_attach_tape_dialog(HWND hwnd);
-extern void ui_attach_autostart_dialog(HWND hwnd);
+extern void uiattach_command(HWND hwnd, WPARAM wparam);
 
 #endif
 
