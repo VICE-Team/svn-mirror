@@ -2949,6 +2949,11 @@ void vsync_suspend_speed_eval(void)
 {
 }
 
+int machine_drive_rom_read(unsigned int type, ADDRESS addr, BYTE *data)
+{
+    return -1;
+}
+
 #ifdef WIN32
 #undef BYTE
 #undef WORD
