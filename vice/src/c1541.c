@@ -100,7 +100,6 @@ static int raw_cmd(int nargs, char **args); /* @ */
 static int attach_cmd(int nargs, char **args);
 static int block_cmd(int nargs, char **args);
 static int copy_cmd(int nargs, char **args);
-static int create_cmd(int nargs, char **args);
 static int delete_cmd(int nargs, char **args);
 static int extract_cmd(int nargs, char **args);
 static int format_cmd(int nargs, char **args);
@@ -175,12 +174,6 @@ const command_t command_list[] = {
       "block <track> <sector> <disp> [<drive>]",
       "Show specified disk block in hex form.",
       3, 4, block_cmd },
-#if 0
-    { "create",
-      "create <x64name> <d64name>",
-      "Create an X64 disk image out of a D64 disk image.",
-      2, 2, create_cmd },
-#endif
     { "copy",
       "copy <source1> [<source2> ... <sourceN>] <destination>",
       "Copy `source1' ... `sourceN' into destination.  If N > 1, `destination'\n"
@@ -796,100 +789,6 @@ static int block_cmd(int nargs, char **args)
                 track = vdrive->Dir_Track;
         }
     }
-    return FD_OK;
-}
-
-static int create_cmd(int nargs, char **args)
-{
-#if 0
-XXX
-    vdrive_t *floppy = drives[drive_number];
-    DiskFormats *format;
-    char tmp[256];
-    FILE *fsfd;
-    int len, blk, errblk;
-
-    blk = 0;
-    errblk = 0;
-
-    /* Open image or create a new one.  If the file exists, it must have
-       valid header.  */
-    if (open_image(drive_number, args[1], 1, DISK_IMAGE_TYPE_X64) < 0)
-        return FD_BADIMAGE;
-
-    if ((fsfd = fopen(args[2], MODE_READ)) == NULL) {
-        fprintf(stderr, "Cannot open `%s'.\n", args[2]);
-        perror(args[2]);
-        return FD_NOTRD;
-    }
-
-    set_label(floppy->ActiveFd, "*** Truncated image."); /* Notify of errors */
-
-    /* First copy all available blocks and then check existence of the Error
-       Data Block.  */
-
-    printf("Copying blocks.\n");
-    fseek(floppy->ActiveFd, HEADER_LENGTH, SEEK_SET);
-
-    while ((len = fread(tmp, 1, 256, fsfd)) == 256) {
-        if (++blk > MAX_BLOCKS_ANY) {
-            fprintf(stderr, "\nNice try.\n");
-            break;
-        }
-        if (fwrite(tmp, 256, 1, floppy->ActiveFd) < 1) {
-            fprintf(stderr, "Cannot write block %d of `%s'.\n", blk, args[2]);
-            return FD_WRTERR;
-        }
-    }
-
-    /* Now recognize the format and verify block count on it. */
-
-    if (blk < NUM_BLOCKS_1541) {
-        fprintf(stderr, "Cannot read block %d of `%s'.\n", blk, args[2]);
-        return FD_NOTRD;
-    }
-    for (format = Legal_formats; format->ImageFormat >= 0; ++format) {
-        if (blk == format->TotalBks) {
-            errblk = 0;
-            break;
-        }
-        if (blk == (format->TotalBks + (format->TotalBks >> 8))) {
-            errblk = 1;
-            break;
-        }
-    }
-
-    if (format->ImageFormat < 0)
-        return FD_BADIMAGE;
-
-    /* Check and write the last (short) sector of error bytes */
-
-    if (len) {
-        if (len != (format->TotalBks % 256)) {
-            fprintf(stderr, "Cannot read block %d of `%s'.\n", blk, args[2]);
-            return FD_NOTRD;
-        }
-        if (fwrite(tmp, len, 1, floppy->ActiveFd) < 1) {
-            fprintf(stderr, "Cannot write block %d of `%s'.\n", blk, args[2]);
-            return FD_WRTERR;
-        }
-    }
-    /* Update Format and Label information on Disk Header */
-
-    fseek(floppy->ActiveFd, (off_t) HEADER_LABEL_OFFSET + 0, SEEK_SET);
-
-    if (fwrite(&(format->ImageFormat), 1, 1, floppy->ActiveFd) < 1)
-        return FD_WRTERR;
-
-    set_disk_size(floppy->ActiveFd, format->TracksSide, format->Sides, errblk);
-
-    /* Fix the note */
-    set_label(floppy->ActiveFd, (args[3] ? args[3] : NULL));
-
-    fclose(fsfd);
-
-    vdrive_command_execute(floppy, (BYTE *) "I", 1);
-#endif
     return FD_OK;
 }
 
