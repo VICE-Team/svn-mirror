@@ -97,8 +97,7 @@ extern void canvas_destroy(canvas_t s);
 extern void canvas_map(canvas_t s);
 extern void canvas_unmap(canvas_t s);
 extern void canvas_resize(canvas_t s, unsigned int width, unsigned int height);
-extern void canvas_set_palette(canvas_t c, const palette_t *p,
-			       PIXEL *pixel_return);
+extern int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return);
 extern void enable_text(void);
 extern void disable_text(void);
 extern int num_text_lines(void);
