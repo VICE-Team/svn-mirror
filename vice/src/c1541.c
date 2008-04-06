@@ -45,26 +45,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef HAVE_IO_H
-#include <io.h>
-#endif
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
-#endif
-#ifdef HAVE_FCNTL_H
-#include <fcntl.h>
-#endif
-#ifdef HAVE_STRINGS_H
-#include <strings.h>
-#endif
-#ifdef HAVE_SYS_STAT_H
-#include <sys/stat.h>
-#endif
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
 #endif
 
 #include "archdep.h"
@@ -72,6 +54,7 @@
 #include "diskimage.h"
 #include "gcr.h"
 #include "info.h"
+#include "ioutil.h"
 #include "log.h"
 #include "p00.h"
 #include "serial.h"
@@ -85,6 +68,7 @@
 #include "vdrive-iec.h"
 #include "vdrive.h"
 #include "zipcode.h"
+
 
 #define GEOS    /* DiSc */
 
@@ -560,7 +544,7 @@ static int pager_x, pager_y, pager_num_cols, pager_num_lines;
 
 static void pager_init(void)
 {
-    if (isatty(fileno(stdout))) {
+    if (ioutil_isatty(fileno(stdout))) {
         pager_x = pager_y = 0;
         pager_num_lines = archdep_num_text_lines();
         pager_num_cols = archdep_num_text_columns();
