@@ -490,7 +490,8 @@ int tui_menu_handle(tui_menu_t menu, char hotkey)
 	    tui_menu_display_item(item_ptr, total_width - 2, menu_x + 1, y, 0);
 
 	switch (key) {
-	  case K_Escape:
+          case K_Escape:
+          case K_Left:
 	    tui_area_put(backing_store, menu_x, menu_y);
 	    tui_area_free(backing_store);
 	    return 0;           /* Leave this menu.  */
@@ -530,8 +531,17 @@ int tui_menu_handle(tui_menu_t menu, char hotkey)
 		}
 	    }
 	    break;
-	  case ' ':
-	  case K_Return:
+          case K_Home:
+            item_ptr = menu->item_list;
+            current_item = 0;
+            break;
+          case K_End:
+            current_item = menu->num_items - 1;
+            item_ptr = tui_menu_find_last_item(menu);
+            break;
+          case ' ':
+          case K_Return:
+          case K_Right:
 	    if (item_ptr != NULL) {
 		int ret = 0;
                 int become_default = 1;

@@ -392,7 +392,7 @@ int main(int argc, char **argv)
     char   *progname, *outfilename = NULL;
     char    realname[24];
     unsigned int reclen;
-    int     c;
+    int     c = 0;
 
     long    offset = 0;
     int     wr_mode = 0, version = B_7;		/* best defaults */
