@@ -314,7 +314,7 @@ static char *read_line(const char *prompt)
     static char *line;
 
     if (line != NULL)
-        free(line);
+        lib_free(line);
     line = readline(prompt);
     if (line != 0 && *line != 0)
         add_history(line);
@@ -630,7 +630,7 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
 
     if (disk_image_open(image) < 0) {
         disk_image_media_destroy(image);
-        free(image);
+        lib_free(image);
         fprintf(stderr, "Cannot open file `%s'.\n", name);
         return -1;
     }
@@ -654,7 +654,7 @@ static void close_disk_image(vdrive_t *vdrive, int unit)
             serial_realdevice_disable();
         disk_image_close(image);
         disk_image_media_destroy(image);
-        free(image);
+        lib_free(image);
         vdrive->image = NULL;
     }
 }
@@ -950,7 +950,7 @@ static int copy_cmd(int nargs, char **args)
 
         if (!is_valid_cbm_file_name(src_name_ascii)) {
             fprintf(stderr, "`%s' is not a valid CBM DOS file name: ignored.\n",                   src_name_ascii);
-            free(src_name_ascii);
+            lib_free(src_name_ascii);
             continue;
         }
 
@@ -961,11 +961,12 @@ static int copy_cmd(int nargs, char **args)
                         (int)strlen(src_name_petscii), 0)) {
             fprintf(stderr, "Cannot read `%s'.\n", src_name_ascii);
             if (dest_name_ascii != NULL) {
-                free(dest_name_ascii);
-                free(dest_name_petscii);
+                lib_free(dest_name_ascii);
+                lib_free(dest_name_petscii);
             }
 
-            free(src_name_ascii), free(src_name_petscii);
+            lib_free(src_name_ascii);
+            lib_free(src_name_petscii);
             return FD_RDERR;
         }
 
@@ -974,8 +975,10 @@ static int copy_cmd(int nargs, char **args)
                             (int)strlen(dest_name_petscii), 1)) {
                 fprintf(stderr, "Cannot write `%s'.\n", dest_name_petscii);
                 vdrive_iec_close(drives[src_unit], 0);
-                free(dest_name_ascii), free(dest_name_petscii);
-                free(src_name_ascii), free(src_name_petscii);
+                lib_free(dest_name_ascii);
+                lib_free(dest_name_petscii);
+                lib_free(src_name_ascii);
+                lib_free(src_name_petscii);
                 return FD_OK;
             }
         } else {
@@ -983,7 +986,8 @@ static int copy_cmd(int nargs, char **args)
                             (int)strlen(src_name_petscii), 1)) {
                 fprintf(stderr, "Cannot write `%s'.\n", src_name_petscii);
                 vdrive_iec_close(drives[src_unit], 0);
-                free(src_name_ascii), free(src_name_petscii);
+                lib_free(src_name_ascii);
+                lib_free(src_name_petscii);
                 return FD_OK;
             }
         }
@@ -1004,12 +1008,12 @@ static int copy_cmd(int nargs, char **args)
         vdrive_iec_close(drives[src_unit], 0);
         vdrive_iec_close(drives[dest_unit], 1);
 
-        free(src_name_ascii);
-        free(src_name_petscii);
+        lib_free(src_name_ascii);
+        lib_free(src_name_petscii);
     }
 
-    free(dest_name_ascii);
-    free(dest_name_petscii);
+    lib_free(dest_name_ascii);
+    lib_free(dest_name_petscii);
     return FD_OK;
 }
 
@@ -1048,7 +1052,7 @@ static int delete_cmd(int nargs, char **args)
         status = vdrive_command_execute(drives[dnr], (BYTE *)command,
                                         strlen(command));
 
-        free(command);
+        lib_free(command);
 
         printf("ERRORCODE %i\n", status);
     }
@@ -1103,10 +1107,10 @@ static int extract_cmd(int nargs, char **args)
     while (1) {
         int i, res;
 
-        str = (BYTE *)xmsprintf("B-R:%d 0 %d %d", channel, track, sector);
+        str = (BYTE *)lib_msprintf("B-R:%d 0 %d %d", channel, track, sector);
         res = vdrive_command_execute(floppy, str, strlen((char *)str));
 
-        free(str);
+        lib_free(str);
 
         if (res)
             return FD_RDERR;
@@ -1246,7 +1250,7 @@ static int format_cmd(int nargs, char **args)
     printf("Formatting in unit %d...\n", unit + 8);
     vdrive_command_execute(drives[unit], (BYTE *)command, strlen(command));
 
-    free(command);
+    lib_free(command);
     return FD_OK;
 }
 
@@ -1364,7 +1368,7 @@ static int list_cmd(int nargs, char **args)
     if (listing != NULL) {
         pager_init();
         pager_print(listing);
-        free(listing);
+        lib_free(listing);
     }
 
     return FD_OK;
@@ -1450,7 +1454,7 @@ static int read_cmd(int nargs, char **args)
     if (!is_valid_cbm_file_name(src_name_ascii)) {
         fprintf(stderr, "`%s' is not a valid CBM DOS file name.\n",
                 src_name_ascii);
-        free(src_name_ascii);
+        lib_free(src_name_ascii);
         return FD_OK;               /* FIXME */
     }
 
@@ -1461,7 +1465,8 @@ static int read_cmd(int nargs, char **args)
                     src_name_petscii, (int)strlen(src_name_petscii), 0)) {
         fprintf(stderr,
                 "Cannot read `%s' on unit %d.\n", src_name_ascii, unit + 8);
-        free(src_name_ascii), free(src_name_petscii);
+        lib_free(src_name_ascii);
+        lib_free(src_name_petscii);
         return FD_BADNAME;
     }
 
@@ -1501,7 +1506,9 @@ static int read_cmd(int nargs, char **args)
             fprintf(stderr, "Cannot create output file `%s': %s.\n",
                    dest_name_ascii, strerror(errno));
             vdrive_iec_close(drives[unit], 0);
-            free(src_name_petscii), free(src_name_ascii), free(actual_name);
+            lib_free(src_name_petscii);
+            lib_free(src_name_ascii);
+            lib_free(actual_name);
             return FD_NOTWRT;
         }
         if (is_p00) {
@@ -1527,7 +1534,9 @@ static int read_cmd(int nargs, char **args)
         fclose(outf);
     vdrive_iec_close(drives[unit], 0);
 
-    free(src_name_petscii), free(src_name_ascii), free(actual_name);
+    lib_free(src_name_petscii);
+    lib_free(src_name_ascii);
+    lib_free(actual_name);
 
     return FD_OK;
 }
@@ -1768,7 +1777,7 @@ static int read_geos_cmd(int nargs, char **args)
     if (!is_valid_cbm_file_name(src_name_ascii)) {
         fprintf(stderr,
                 "`%s' is not a valid CBM DOS file name.\n", src_name_ascii);
-        free(src_name_ascii);
+        lib_free(src_name_ascii);
         return FD_OK;               /* FIXME */
     }
 
@@ -1779,7 +1788,8 @@ static int read_geos_cmd(int nargs, char **args)
         (int)strlen(src_name_petscii), 0)) {
         fprintf(stderr,
                 "Cannot read `%s' on unit %d.\n", src_name_ascii, unit + 8);
-        free(src_name_ascii), free(src_name_petscii);
+        lib_free(src_name_ascii);
+        lib_free(src_name_petscii);
         return FD_BADNAME;
     }
 
@@ -1810,9 +1820,9 @@ static int read_geos_cmd(int nargs, char **args)
                 "Cannot create output file `%s': %s.\n",
                 dest_name_ascii, strerror(errno));
         vdrive_iec_close(drives[unit], 0);
-        free(src_name_petscii);
-        free(src_name_ascii);
-        free(actual_name);
+        lib_free(src_name_petscii);
+        lib_free(src_name_ascii);
+        lib_free(actual_name);
         return FD_NOTWRT;
     }
 
@@ -1823,7 +1833,9 @@ static int read_geos_cmd(int nargs, char **args)
     fclose(outf);
     vdrive_iec_close(drives[unit], 0);
 
-    free(src_name_petscii), free(src_name_ascii), free(actual_name);
+    lib_free(src_name_petscii);
+    lib_free(src_name_ascii);
+    lib_free(actual_name);
 
     return err_code;
 }
@@ -2133,7 +2145,7 @@ static int write_geos_cmd(int nargs, char **args)
 
     if (!e) {
         drives[unit]->buffers[1].mode = BUFFER_NOT_IN_USE;
-        free(drives[unit]->buffers[1].buffer);
+        lib_free(drives[unit]->buffers[1].buffer);
         drives[unit]->buffers[1].buffer = NULL;
 
         vdrive_command_set_error(drives[unit], IPE_DISK_FULL, 0, 0);
@@ -2157,12 +2169,13 @@ static int write_geos_cmd(int nargs, char **args)
                             drives[unit]->Curr_sector);
     vdrive_bam_write_bam(drives[unit]);
     drives[unit]->buffers[1].mode = BUFFER_NOT_IN_USE;
-    free((char *)drives[unit]->buffers[1].buffer);
+    lib_free((char *)drives[unit]->buffers[1].buffer);
     drives[unit]->buffers[1].buffer = NULL;
 
     /* End: copied from vdrive_iec_close */
 
-    free(dest_name_ascii), free(dest_name_petscii);
+    lib_free(dest_name_ascii);
+    lib_free(dest_name_petscii);
 
     return erg;
 }
@@ -2195,24 +2208,28 @@ static int rename_cmd(int nargs, char **args)
 
     if (dest_unit != src_unit) {
         fprintf(stderr, "Source and destination must be on the same unit.\n");
-        free(src_name), free(dest_name);
+        lib_free(src_name);
+        lib_free(dest_name);
         return FD_OK;               /* FIXME */
     }
 
     if (check_drive(dest_unit, CHK_RDY) < 0) {
-        free(src_name), free(dest_name);
+        lib_free(src_name);
+        lib_free(dest_name);
         return FD_NOTREADY;
     }
 
     if (!is_valid_cbm_file_name(src_name)) {
         fprintf(stderr, "`%s' is not a valid CBM DOS file name.\n", src_name);
-        free(src_name), free(dest_name);
+        lib_free(src_name);
+        lib_free(dest_name);
         return FD_OK;               /* FIXME */
     }
 
     if (!is_valid_cbm_file_name(dest_name)) {
         fprintf(stderr, "`%s' is not a valid CBM DOS file name.\n", dest_name);
-        free(src_name), free(dest_name);
+        lib_free(src_name);
+        lib_free(dest_name);
         return FD_OK;               /* FIXME */
     }
 
@@ -2224,7 +2241,9 @@ static int rename_cmd(int nargs, char **args)
     vdrive_command_execute(drives[dest_unit],
                            (BYTE *)command, strlen(command));
 
-    free(command), free(dest_name), free(src_name);
+    lib_free(command);
+    lib_free(dest_name);
+    lib_free(src_name);
 
     return FD_OK;
 }
@@ -2311,8 +2330,8 @@ static int tape_cmd(int nargs, char **args)
             if (vdrive_iec_open(drive, dest_name_petscii, (int)name_len, 1)) {
                 fprintf(stderr, "Cannot open `%s' for writing on drive %d.\n",
                        dest_name_ascii, drive_number + 8);
-                free(dest_name_petscii);
-                free(dest_name_ascii);
+                lib_free(dest_name_petscii);
+                lib_free(dest_name_ascii);
                 continue;
             }
 
@@ -2339,17 +2358,17 @@ static int tape_cmd(int nargs, char **args)
                     if (vdrive_iec_write(drives[drive_number],
                         ((BYTE)(buf[i])), 1)) {
                         tape_internal_close_tape_image(tape_image);
-                        free(dest_name_petscii);
-                        free(dest_name_ascii);
-                        free(buf);
+                        lib_free(dest_name_petscii);
+                        lib_free(dest_name_ascii);
+                        lib_free(buf);
                         return FD_WRTERR;
                     }
             }
 
             vdrive_iec_close(drive, 1);
-            free(dest_name_petscii);
-            free(dest_name_ascii);
-            free(buf);
+            lib_free(dest_name_petscii);
+            lib_free(dest_name_ascii);
+            lib_free(buf);
             count++;
         }
     }
@@ -2663,7 +2682,8 @@ static int write_cmd(int nargs, char **args)
     fclose(f);
     vdrive_iec_close(drives[unit], 1);
 
-    free(dest_name_ascii), free(dest_name_petscii);
+    lib_free(dest_name_ascii);
+    lib_free(dest_name_petscii);
 
     return FD_OK;
 }
@@ -2786,7 +2806,7 @@ static int raw_cmd(int nargs, char **args)
 
         charset_petconvstring((BYTE *)command, 0);
         vdrive_command_execute(floppy, (BYTE *)command, strlen(command));
-        free(command);
+        lib_free(command);
     }
 
     /* Print the error now.  */
@@ -2848,8 +2868,8 @@ int main(int argc, char **argv)
 
         while (1) {
             if (buf != NULL)
-                free(buf);
-            buf = xmsprintf("c1541 #%d> ", drive_number | 8);
+                lib_free(buf);
+            buf = lib_msprintf("c1541 #%d> ", drive_number | 8);
             line = read_line(buf);
 
             if (line == NULL) {

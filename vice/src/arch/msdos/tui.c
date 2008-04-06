@@ -38,12 +38,11 @@
 
 #include <allegro.h>
 
+#include "lib.h"
 #include "tui.h"
 #include "tui_backend.h"
 #include "tuifs.h"
-#include "utils.h"
 
-/* ------------------------------------------------------------------------- */
 
 static int _tui_input_string(int x, int y, char *buf, int max_length,
 			     int displayed_length, int foreground_color,
@@ -180,7 +179,7 @@ void tui_error(const char *format,...)
     tui_area_t backing_store = NULL;
 
     va_start(ap, format);
-    str = xmvsprintf(format, ap);
+    str = lib_mvsprintf(format, ap);
     str_length = strlen(str);
     if (str_length > tui_num_cols() - 10) {
 	str_length = tui_num_cols() - 10;
@@ -199,7 +198,7 @@ void tui_error(const char *format,...)
 
     tui_area_put(backing_store, x, y);
     tui_area_free(backing_store);
-    free(str);
+    lib_free(str);
 }
 
 void tui_message(const char *format,...)
@@ -211,7 +210,7 @@ void tui_message(const char *format,...)
     tui_area_t backing_store = NULL;
 
     va_start(ap, format);
-    str = xmvsprintf(format, ap);
+    str = lib_mvsprintf(format, ap);
     str_length = strlen(str);
     if (str_length > tui_num_cols() - 10) {
 	str_length = tui_num_cols() - 10;
@@ -230,7 +229,7 @@ void tui_message(const char *format,...)
 
     tui_area_put(backing_store, x, y);
     tui_area_free(backing_store);
-    free(str);
+    lib_free(str);
 }
 
 int tui_ask_confirmation(const char *format, ...)
@@ -243,7 +242,7 @@ int tui_ask_confirmation(const char *format, ...)
     int c;
 
     va_start(ap, format);
-    str = xmvsprintf(format, ap);
+    str = lib_mvsprintf(format, ap);
     str_length = strlen(str);
     if (str_length > tui_num_cols() - 10) {
 	str_length = tui_num_cols() - 10;
@@ -266,7 +265,7 @@ int tui_ask_confirmation(const char *format, ...)
     tui_area_put(backing_store, x, y);
     tui_area_free(backing_store);
 
-    free(str);
+    lib_free(str);
 
     return toupper(c) == 'Y';
 }

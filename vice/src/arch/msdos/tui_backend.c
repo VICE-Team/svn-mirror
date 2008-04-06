@@ -39,6 +39,7 @@
 
 #include <allegro.h>
 
+#include "lib.h"
 #include "tui.h"
 #include "tui_backend.h"
 #include "types.h"
@@ -159,7 +160,7 @@ void tui_display(int x, int y, int len, const char *format, ...)
     va_list vl;
 
     va_start(vl, format);
-    buf = xmvsprintf(format, vl);
+    buf = lib_mvsprintf(format, vl);
     buf_len = strlen(buf);
     if (len == 0)
         len = buf_len;
@@ -177,7 +178,7 @@ void tui_display(int x, int y, int len, const char *format, ...)
         _farnspokeb(addr + 1, attr_byte);
         addr += 2;
     }
-    free(buf);
+    lib_free(buf);
 }
 
 void tui_beep(void)
@@ -193,10 +194,10 @@ void tui_area_get(tui_area_t *a, int x, int y, int width, int height)
     int i, j;
 
     if (*a == NULL) {
-        *a = xmalloc(sizeof (struct tui_area));
-        (*a)->mem = xmalloc(2 * width * height);
+        *a = lib_malloc(sizeof (struct tui_area));
+        (*a)->mem = lib_malloc(2 * width * height);
     } else {
-        (*a)->mem = xrealloc((*a)->mem, 2 * width * height);
+        (*a)->mem = lib_realloc((*a)->mem, 2 * width * height);
     }
     (*a)->width = width;
     (*a)->height = height;
@@ -229,8 +230,8 @@ void tui_area_put(tui_area_t a, int x, int y)
 void tui_area_free(tui_area_t a)
 {
     if (a != NULL) {
-        free(a->mem);
-        free(a);
+        lib_free(a->mem);
+        lib_free(a);
     }
 }
 

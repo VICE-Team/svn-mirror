@@ -34,6 +34,7 @@
 
 #include "cmdline.h"
 #include "kbd.h"
+#include "lib.h"
 #include "log.h"
 #include "palette.h"
 #include "resources.h"
@@ -44,6 +45,7 @@
 #include "utils.h"
 #include "video.h"
 #include "videoarch.h"
+
 
 /* #define DEBUG_VIDEO */
 
@@ -346,7 +348,7 @@ void video_canvas_destroy(video_canvas_t *canvas)
             canvaslist[i] = NULL;
 
     canvas_free_bitmaps(canvas);
-    free(canvas);
+    lib_free(canvas);
 }
 
 static void canvas_change_palette(video_canvas_t *c)

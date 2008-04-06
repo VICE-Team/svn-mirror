@@ -39,6 +39,7 @@
 #include "cmdline.h"
 #include "datasette.h"
 #include "dos.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "menudefs.h"
@@ -52,7 +53,6 @@
 #include "tuimenu.h"
 #include "types.h"
 #include "ui.h"
-#include "utils.h"
 #include "video.h"
 #include "videoarch.h"
 #include "version.h"
@@ -223,11 +223,11 @@ void ui_main(char hotkey)
     tui_set_attr(FIRST_LINE_FORE, FIRST_LINE_BACK, 0);
 
     if (speed_index > 0.0 && frame_rate > 0.0)
-        str = xmsprintf("%s emulator at %d%% speed, %d fps",
-                        machine_name, (int)floor(speed_index),
-                        (int)floor(frame_rate));
+        str = lib_msprintf("%s emulator at %d%% speed, %d fps",
+                           machine_name, (int)floor(speed_index),
+                           (int)floor(frame_rate));
     else
-        str = xmsprintf("%s emulator", machine_name);
+        str = lib_msprintf("%s emulator", machine_name);
     tui_display(tui_num_cols() - strlen(str), 0, 0, "%s", str);
 
     /* FIXME: This should not be necessary.  */
@@ -241,7 +241,7 @@ void ui_main(char hotkey)
     set_kbd_leds(real_kbd_led_status);
 
     setmode(STDIN_FILENO, old_stdin_mode);
-    free(str);
+    lib_free(str);
 }
 
 void ui_error(const char *format,...)
@@ -253,11 +253,11 @@ void ui_error(const char *format,...)
     tui_clear_screen();
 
     va_start(ap, format);
-    tmp = xmvsprintf(format, ap);
+    tmp = lib_mvsprintf(format, ap);
     tui_error(tmp);
 
     disable_text();
-    free(tmp);
+    lib_free(tmp);
 }
 
 ui_jam_action_t ui_jam_dialog(const char *format,...)
@@ -269,11 +269,11 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
     tui_clear_screen();
 
     va_start(ap, format);
-    tmp = xmvsprintf(format, ap);
+    tmp = lib_mvsprintf(format, ap);
     tui_error(tmp);
 
     disable_text();
-    free(tmp);
+    lib_free(tmp);
 
     /* Always hard reset.  */
     return UI_JAM_HARD_RESET;

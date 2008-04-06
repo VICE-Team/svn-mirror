@@ -47,6 +47,7 @@
 
 #include "imagecontents.h"
 #include "ioutil.h"
+#include "lib.h"
 #include "utils.h"
 #include "tui.h"
 #include "tui_backend.h"
@@ -73,7 +74,7 @@ static struct file_list *file_list_create(void)
 {
     struct file_list *new_list;
 
-    new_list = (struct file_list *)xmalloc(sizeof(struct file_list));
+    new_list = (struct file_list *)lib_malloc(sizeof(struct file_list));
     new_list->num_items = new_list->num_used_items = 0;
     new_list->items = NULL;
 
@@ -83,7 +84,7 @@ static struct file_list *file_list_create(void)
 static void file_list_clear(struct file_list *fl)
 {
     if (fl->items != NULL)
-        free(fl->items);
+        lib_free(fl->items);
 
     fl->items = NULL;
     fl->num_used_items = fl->num_items = 0;
@@ -93,7 +94,7 @@ static void file_list_free(struct file_list *fl)
 {
     if (fl != NULL) {
         file_list_clear(fl);
-        free(fl);
+        lib_free(fl);
     }
 }
 
@@ -103,12 +104,12 @@ static void file_list_add_item(struct file_list *fl, const char *name,
     if (fl->num_items == fl->num_used_items) {
         fl->num_items += 100;
         if (fl->items != NULL)
-            fl->items = (struct file_item *)xrealloc(fl->items,
-                                                     fl->num_items
-                                                     * sizeof(*fl->items));
+            fl->items = (struct file_item *)lib_realloc(fl->items,
+                                                        fl->num_items
+                                                        * sizeof(*fl->items));
         else
-            fl->items = (struct file_item *)xmalloc(fl->num_items
-                                                    * sizeof(*fl->items));
+            fl->items = (struct file_item *)lib_malloc(fl->num_items
+                                                       * sizeof(*fl->items));
     }
 
     strcpy(fl->items[fl->num_used_items].name, name);
@@ -187,7 +188,7 @@ static struct file_list *file_list_read_lfn(const char *path,
                     continue;
                 }
                 {
-                    char *p = stralloc(pattern);
+                    char *p = lib_stralloc(pattern);
                     char *element;
 
                     element = strtok(p, ";");
@@ -196,7 +197,7 @@ static struct file_list *file_list_read_lfn(const char *path,
                             file_list_add_item(fl, d->d_name, type);
                         element = strtok(NULL, ";");
                     } while (element != NULL);
-                    free(p);
+                    lib_free(p);
                 }
             }
         }
@@ -239,7 +240,7 @@ static struct file_list *file_list_read_nolfn(const char *path,
             continue;
         }
         {
-            char *p = stralloc(pattern);
+            char *p = lib_stralloc(pattern);
             char *element;
 
             element = strtok(p, ";");
@@ -249,7 +250,7 @@ static struct file_list *file_list_read_nolfn(const char *path,
                                   (f.attrib & _A_SUBDIR) ? FT_DIR : FT_NORMAL);
                 element = strtok(NULL, ";");
             } while (element != NULL);
-            free(p);
+            lib_free(p);
         }
     }
 
@@ -395,7 +396,7 @@ static void slashize_path(char **path)
     int len = strlen(*path);
 
     if ((*path)[len - 1] != '/') {
-        *path = xrealloc(*path, len + 2);
+        *path = lib_realloc(*path, len + 2);
         (*path)[len] = '/';
         (*path)[len + 1] = '\0';
     }
@@ -414,9 +415,9 @@ static char *change_path(struct file_list *fl, char *return_path,
         for (; *p != '/' && p > return_path; p--)
                     ;
         if (p == return_path)
-            new_path = stralloc(return_path);
+            new_path = lib_stralloc(return_path);
         else {
-            new_path = xmalloc(p - return_path + 2);
+            new_path = lib_malloc(p - return_path + 2);
             memcpy(new_path, return_path, p - return_path + 1);
             new_path[p - return_path + 1] = '\0';
         }
@@ -454,7 +455,7 @@ char *tui_file_selector(const char *title, const char *directory,
         *browse_file_number_return = 0;
 
     if (directory != NULL)
-        return_path = stralloc(directory);
+        return_path = lib_stralloc(directory);
     else
         return_path = ioutil_current_dir();
 
@@ -614,18 +615,18 @@ char *tui_file_selector(const char *title, const char *directory,
                     file_list_free(fl);
                     fl = new_fl;
                     first_item = curr_item = 0;
-                    free(return_path);
+                    lib_free(return_path);
                     return_path = new_path;
                     need_update = 1;
                     ioutil_chdir(return_path);
                 } else {
-                    free(new_path);
+                    lib_free(new_path);
                 }
             } else {
                 char *p = util_concat(return_path, fl->items[curr_item].name,
                                       NULL);
 
-                free(return_path);
+                lib_free(return_path);
                 return_path = p;
                 tui_area_put(backing_store, x, y);
                 tui_area_free(backing_store);
@@ -669,7 +670,7 @@ char *tui_file_selector(const char *title, const char *directory,
                     char *p = util_concat(return_path,
                                           fl->items[curr_item].name, NULL);
 
-                    free(return_path);
+                    lib_free(return_path);
                     return_path = p;
                     tui_area_put(backing_store, x, y);
                     tui_area_free(backing_store);
@@ -711,12 +712,12 @@ char *tui_file_selector(const char *title, const char *directory,
                                     file_list_free(fl);
                                     fl = new_fl;
                                     first_item = curr_item = 0;
-                                    free(return_path);
+                                    lib_free(return_path);
                                     return_path = new_path;
                                     need_update = 1;
                                     ioutil_chdir(return_path);
                                 } else {
-                                    free(new_path);
+                                    lib_free(new_path);
                                 }
                             }
                         } else {
