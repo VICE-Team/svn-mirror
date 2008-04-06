@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-12-28 21:32+0100\n"
+"POT-Creation-Date: 2002-12-31 01:52+0100\n"
 "PO-Revision-Date: 2002-05-05 18:45+02:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -466,64 +466,64 @@ msgstr "Crtc Einstellungen"
 msgid "*VIC-II settings"
 msgstr "*VIC-II Einstellungen"
 
-#: src/arch/unix/joy.c:82
+#: src/arch/unix/joy.c:83
 msgid "Set device for joystick port 1"
 msgstr "Gerät für Port 1 definieren"
 
-#: src/arch/unix/joy.c:84
+#: src/arch/unix/joy.c:85
 msgid "Set device for joystick port 2"
 msgstr "Gerät für Port 2 definieren"
 
-#: src/arch/unix/joy.c:199 src/arch/unix/joy.c:248 src/arch/unix/joy.c:397
+#: src/arch/unix/joy.c:200 src/arch/unix/joy.c:249 src/arch/unix/joy.c:401
 #, c-format
 msgid "Cannot open joystick device `%s'."
 msgstr "Kann Joystick Device `%s' nicht öffnen."
 
-#: src/arch/unix/joy.c:210
+#: src/arch/unix/joy.c:211
 #, c-format
 msgid "Error reading joystick device `%s'."
 msgstr "Fehler beim Lesen von Joystick Device `%s'."
 
-#: src/arch/unix/joy.c:229
+#: src/arch/unix/joy.c:230
 #, c-format
 msgid "Hardware joystick calibration for device `%s':"
 msgstr "Hardware Joystick Kalibrierung für Device `%s':"
 
-#: src/arch/unix/joy.c:282
+#: src/arch/unix/joy.c:283
 msgid "Error reading digital joystick device."
 msgstr "Fehler beim Lesen vom digitalen Joystick Device."
 
-#: src/arch/unix/joy.c:299
+#: src/arch/unix/joy.c:303
 msgid "Error reading joystick device."
 msgstr "Fehler beim Lesen vom Joystick Device."
 
-#: src/arch/unix/joy.c:345
+#: src/arch/unix/joy.c:349
 msgid "Linux joystick interface initialization..."
 msgstr "Linux Joystick Schnittstellen Initialisierung..."
 
-#: src/arch/unix/joy.c:371
+#: src/arch/unix/joy.c:375
 #, c-format
 msgid "%s unknown type"
 msgstr "%s unbekannter Typ"
 
-#: src/arch/unix/joy.c:373 src/arch/unix/joy.c:389
+#: src/arch/unix/joy.c:377 src/arch/unix/joy.c:393
 #, c-format
 msgid "Built in driver version: %d.%d.%d"
 msgstr "Eingebauter Treiber Version: %d.%d.%d"
 
-#: src/arch/unix/joy.c:376
+#: src/arch/unix/joy.c:380
 msgid "Kernel driver version  : 0.8 ??"
 msgstr "Kernel Treiber Version  : 0.8 ??"
 
-#: src/arch/unix/joy.c:378
+#: src/arch/unix/joy.c:382
 msgid "Please update your Joystick driver !"
 msgstr "Bitte Joystick Treiber aktualisieren !"
 
-#: src/arch/unix/joy.c:379
+#: src/arch/unix/joy.c:383
 msgid "Fall back to old api routine"
 msgstr "Benutze alte API Routinen"
 
-#: src/arch/unix/joy.c:392
+#: src/arch/unix/joy.c:396
 #, c-format
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr "Kernel Treiber Version  : %d.%d.%d"
