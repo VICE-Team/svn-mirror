@@ -72,6 +72,8 @@
 
 #define MAXDRIVE	1
 
+#define C1541_VERSION_MAJOR	2
+#define C1541_VERSION_MINOR	4
 
 /* Global */
 
@@ -1527,10 +1529,6 @@ static int  disk_info (void)
 	return (set_label(floppy -> ActiveFd, args[1]));
     }
     else {
-	/*printf("Disk image version %d.%02d, emulator format V %d.%02d\n",
-	       hdr.v_major, hdr.v_minor,
-	       HEADER_VERSION_MAJOR, HEADER_VERSION_MINOR);*/
-
 	printf ("\nDescription: %s\n",
 		(*hdr.description ? hdr.description : "None."));
 	printf ("Drive Type : %d.\n", floppy->ImageFormat);  /* Compatible drive */
