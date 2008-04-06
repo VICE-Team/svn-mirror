@@ -2,16 +2,16 @@
  * c1541.c - Stand-alone disk image maintenance program.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Teemu Rantanen   (tvr@cs.hut.fi)
- *  Jouko Valta      (jopi@zombie.oulu.fi)
- *  Gerhard Wesp     (gwesp@cosy.sbg.ac.at)
- *  Daniel Sladic    (sladic@eecg.toronto.edu)
- *  Ricardo Ferreira (storm@esoterica.pt)
- *  Andreas Boose    (boose@unixserv.rz.fh-hannover.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Teemu Rantanen   <tvr@cs.hut.fi>
+ *  Jouko Valta      <jopi@zombie.oulu.fi>
+ *  Gerhard Wesp     <gwesp@cosy.sbg.ac.at>
+ *  Daniel Sladic    <sladic@eecg.toronto.edu>
+ *  Ricardo Ferreira <storm@esoterica.pt>
+ *  Andreas Boose    <boose@linux.rz.fh-hannover.de>
  *
  * Patches by
- *  Olaf Seibert     (rhialto@mbfys.kun.nl)
+ *  Olaf Seibert     <rhialto@mbfys.kun.nl>
  *
  * Zipcode implementation based on `zip2disk' by
  *  Paul David Doherty (h0142kdd@rz.hu-berlin.de)
@@ -86,9 +86,7 @@
 #define C1541_VERSION_MAJOR	3
 #define C1541_VERSION_MINOR	0
 
-/* Global */
-
-vdrive_t *drives[4] = {NULL, NULL, NULL, NULL};
+static vdrive_t *drives[4] = {NULL, NULL, NULL, NULL};
 
 #if 0
 XXX
@@ -116,9 +114,8 @@ static int drive_number = 0;
 
 static int check_drive(int dev, int mode);
 static int open_image(int dev, char *name, int create, int disktype);
-static int create_image(FILE *fd, int devtyp, int tracks, int errb,
-			char *label, int disktype);
-
+static int create_image(FILE *fd, int devtyp, int errb, char *label,
+                        int disktype);
 static int raw_cmd(int nargs, char **args); /* @ */
 static int attach_cmd(int nargs, char **args);
 static int block_cmd(int nargs, char **args);
@@ -142,6 +139,8 @@ static int unlynx_cmd(int nargs, char **args);
 static int validate_cmd(int nargs, char **args);
 static int write_cmd(int nargs, char **args);
 static int zcreate_cmd(int nargs, char **args);
+
+static char *floppy_read_directory(vdrive_t *vdrive, const char *pattern);
 
 extern int speed_map_1541[42];
 
@@ -617,17 +616,20 @@ static void close_disk_image(vdrive_t *vdrive, int unit)
 
     image = vdrive->image;
 
-    vdrive_detach_image(image, unit, vdrive);
-    gcr_destroy_image(image->gcr);
-    disk_image_close(image);
-
-    free(image);
+    if (image != NULL) {
+        vdrive_detach_image(image, unit, vdrive);
+        gcr_destroy_image(image->gcr);
+        disk_image_close(image);
+        free(image);
+    }
 }
 
 /* Create a new floppy image.  */
-static int create_image(FILE *fd, int devtype, int tracks, int errb,
+static int create_image(FILE *fd, int devtype, int errb,
                         char *label, int disktype)
 {
+#if 0
+XXX
     BYTE header[HEADER_LENGTH];
     BYTE block[256];
     int blks;
@@ -637,9 +639,8 @@ static int create_image(FILE *fd, int devtype, int tracks, int errb,
     memset(block, 0, sizeof(block));
 
     /* Check values */
-
     if (vdrive_check_track_sector(get_diskformat(devtype), tracks, 1) < 0)
-	exit(-1);
+        exit(-1);
 
     blks = num_blocks(get_diskformat(devtype), tracks);
 
@@ -683,28 +684,31 @@ static int create_image(FILE *fd, int devtype, int tracks, int errb,
 	}
     }
 #endif
-
+#endif
     return 0;
 }
 
 static int set_label(FILE *fd, const char *label)
 {
+#if 0
     int siz = HEADER_LABEL_LEN + 1;
     char buf[HEADER_LABEL_LEN + 2];
 
     memset(buf, 0, siz);
 
     if (label)
-	strncpy(buf, label, HEADER_LABEL_LEN);
+        strncpy(buf, label, HEADER_LABEL_LEN);
 
     fseek(fd, (off_t) HEADER_LABEL_OFFSET, SEEK_SET);
 
     if (fwrite((char *) buf, siz, 1, fd) < 1) {
-	return FD_WRTERR;
+        return FD_WRTERR;
     }
+#endif
     return FD_OK;
 }
 
+#if 0
 /* These 4 bytes are disk type flags (set upon create or format).  They
    contain: Device Type, Max Tracks, Side, and Error Flag.  */
 static int set_disk_size(FILE *fd, int tracks, int sides, int errblk)
@@ -712,7 +716,7 @@ static int set_disk_size(FILE *fd, int tracks, int sides, int errblk)
     int siz = HEADER_FLAGS_LEN;
     char buf[HEADER_FLAGS_LEN + 1];
 
-    buf[0] = DEFAULT_DEVICE_TYPE;
+    buf[0] = DISK_IMAGE_TYPE_D64;
     buf[1] = tracks;
     buf[2] = sides;
     buf[3] = errblk;
@@ -720,64 +724,31 @@ static int set_disk_size(FILE *fd, int tracks, int sides, int errblk)
     fseek(fd, (off_t) HEADER_FLAGS_OFFSET, SEEK_SET);
 
     if (fwrite((char *) buf, siz, 1, fd) < 1) {
-	return FD_WRTERR;
+        return FD_WRTERR;
     }
     return FD_OK;
 }
+#endif
 
 /* Open image or create a new one.  If the file exists, it must have valid
    header.  */
 static int open_image(int dev, char *name, int create, int disktype)
 {
-    vdrive_t *floppy;
     FILE *fd;
-    int cdev = DISK_IMAGE_TYPE_D64, num_tracks = NUM_TRACKS_1541;
+    int cdev = DISK_IMAGE_TYPE_D64;
 
     if (dev < 0 || dev > MAXDRIVE)
         return -1;
 
-    floppy = drives[dev & 3];
-
     if (create) {
         if ((fd = fopen(name, MODE_READ_WRITE)) == NULL) {
             fprintf(stderr, "Cannot create image `%s': %s.\n", name, strerror(errno));
-        return -1;
-	}
-
-	/* Get default geometry.  Make a new image file and format it.  */
-
-	switch (disktype) {
-	  case DISK_IMAGE_TYPE_X64:
-	      /* FIXME: X64 images can also contain other image types.  */
-	      cdev = DT_1541;
-	      num_tracks = NUM_TRACKS_1541;
-	      break;
-	  case DISK_IMAGE_TYPE_D64:
-	      cdev = DT_1541;
-	      num_tracks = NUM_TRACKS_1541;
-	      break;
-	  case DISK_IMAGE_TYPE_D71:
-	      cdev = DT_1571;
-	      num_tracks = NUM_TRACKS_1571;
-	      break;
-	  case DISK_IMAGE_TYPE_D81:
-	      cdev = DT_1581;
-	      num_tracks = NUM_TRACKS_1571;
-	      break;
-	  case DISK_IMAGE_TYPE_D80:
-	      cdev = DT_8050;
-	      num_tracks = NUM_TRACKS_8050;
-	      break;
-	  case DISK_IMAGE_TYPE_D82:
-	      cdev = DT_8250;
-	      num_tracks = NUM_TRACKS_8250;
-	      break;
-	}
-
-	create_image(fd, cdev, num_tracks, 0, NULL, disktype);
-	fclose(fd);
+            return -1;
+        }
+        create_image(fd, cdev, 0, NULL, disktype);
+        fclose(fd);
     }
-    if (open_disk_image(floppy, name, dev + 8) < 0)
+    if (open_disk_image(drives[dev], name, dev + 8) < 0)
         return -1;
     return 0;
 }
@@ -788,12 +759,12 @@ static int check_drive(int dev, int flags)
 
     dev &= 7;
     if (dev < 0 || dev > 3)
-	return FD_BADDEV;
+        return FD_BADDEV;
 
     floppy = drives[dev & 3];
 
-    if (!floppy || (flags != CHK_NUM && floppy->ActiveFd == NULL)) {
-	return FD_NOTREADY;
+    if (!floppy || (flags != CHK_NUM && floppy->image == NULL)) {
+        return FD_NOTREADY;
     }
     return FD_OK;
 }
@@ -827,12 +798,14 @@ static int attach_cmd(int nargs, char **args)
     if (check_drive(dev, CHK_NUM) < 0)
         return FD_BADDEV;
 
-    open_disk_image(drives[dev & 3], argv[i], (dev & 3) + 8);
+    open_disk_image(drives[dev & 3], args[1], (dev & 3) + 8);
     return FD_OK;
 }
 
 static int block_cmd(int nargs, char **args)
 {
+#if 0
+XXX
     int drive, track, sector, disp;
     vdrive_t *floppy;
     BYTE *buf, str[20];
@@ -907,11 +880,14 @@ static int block_cmd(int nargs, char **args)
         }
     }
     vdrive_close(floppy, channel);
+#endif
     return FD_OK;
 }
 
 static int create_cmd(int nargs, char **args)
 {
+#if 0
+XXX
     vdrive_t *floppy = drives[drive_number];
     DiskFormats *format;
     char tmp[256];
@@ -997,7 +973,7 @@ static int create_cmd(int nargs, char **args)
     fclose(fsfd);
 
     vdrive_command_execute(floppy, (BYTE *) "I", 1);
-
+#endif
     return FD_OK;
 }
 
@@ -1477,6 +1453,8 @@ static int help_cmd(int nargs, char **args)
 
 static int info_cmd(int nargs, char **args)
 {
+#if 0
+XXX
     vdrive_t *floppy;
     hdrinfo hdr;
     int err;
@@ -1507,7 +1485,7 @@ static int info_cmd(int nargs, char **args)
     printf("Tracks\t   : %d.\n", hdr.tracks);
     printf((hdr.errblk ? "Error Block present.\n" : "No Error Block.\n"));
     printf("Write protect: %s.\n", hdr.wprot ? "On" : "Off");
-
+#endif
     return FD_OK;
 }
 
@@ -2192,11 +2170,11 @@ static int write_cmd(int nargs, char **args)
     return FD_OK;
 }
 
-#if 0
-XXX
 /* FIXME: 1541 only? */
 static int zcreate_cmd(int nargs, char **args)
 {
+#if 0
+XXX
     vdrive_t *floppy = drives[drive_number];
     DiskFormats *format = Legal_formats;
     char tmp[256];
@@ -2330,9 +2308,9 @@ static int zcreate_cmd(int nargs, char **args)
     fclose(fsfd);
 
     vdrive_command_execute(floppy, (BYTE *) "I", 1);
+#endif
     return FD_OK;
 }
-#endif
 
 static int raw_cmd(int nargs, char **args)
 {
@@ -2449,6 +2427,48 @@ int main(int argc, char **argv)
 
 /* ------------------------------------------------------------------------- */
 
+/* Read the directory and return it as a long malloc'ed ASCII string.
+   FIXME: Should probably be made more robust.  */
+static char *floppy_read_directory(vdrive_t *vdrive, const char *pattern)
+{
+    BYTE *p;
+    int outbuf_size, max_outbuf_size, len;
+    char line[256], *outbuf;
+
+    /* Open the directory. */
+    if (pattern != NULL)
+        sprintf(line, "$:%s", pattern);
+    else
+        sprintf(line, "$");
+    if (vdrive_open(vdrive, line, 1, 0) != SERIAL_OK)
+        return NULL;
+
+    /* Allocate a buffer. */
+    max_outbuf_size = 4096;
+    outbuf = xmalloc(max_outbuf_size);
+    outbuf_size = 0;
+
+    p = vdrive->buffers[0].buffer + 2; /* Skip load address. */
+    while ((p[0] | (p[1] << 8)) != 0) {
+        len = sprintf(line, "%d ", p[2] | (p[3] << 8));
+        p += 4;
+        while (*p != '\0') {
+            line[len++] = p_toascii(*p, 0);
+            p++;
+        }
+        p++;
+        line[len++] = '\n';
+        bufcat(outbuf, &outbuf_size, &max_outbuf_size, line, len);
+    }
+    vdrive_close(vdrive, 0);
+
+    /* Add trailing zero. */
+    *(outbuf + outbuf_size) = '\0';
+
+    return outbuf;
+}
+
+/* ------------------------------------------------------------------------- */
 /* FIXME: Can we get rid of this stuff?  */
 
 void enable_text(void)
@@ -2457,5 +2477,24 @@ void enable_text(void)
 
 void disable_text(void)
 {
+}
+
+int serial_attach_device(int device, const char *name,
+                         int (*getf)(void *, BYTE *, int),
+                         int (*putf)(void *, BYTE, int),
+                         int (*openf)(void *, const char *, int, int),
+                         int (*closef)(void *, int),
+                         void (*flushf)(void *, int))
+{
+    return 0;
+}
+
+void *file_system_get_vdrive(int unit)
+{
+    if (unit < 8 || unit > 11) {
+        printf("Wrong unit for vdrive");
+        return NULL;
+    }
+    return (void *)(drives[unit - 8]);
 }
 
