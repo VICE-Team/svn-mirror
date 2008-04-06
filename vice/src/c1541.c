@@ -70,6 +70,7 @@
 #include "charsets.h"
 #include "tape.h"
 #include "utils.h"
+#include "vdrive-iec.h"
 #include "zipcode.h"
 
 #define MAXARG		16
@@ -746,7 +747,7 @@ static int  disk_copy (void)
     strcpy((char *)newname, dest);
     petconvstring(newname, 1);
 
-    if (open_1541(floppy2, newname, (int)strlen(newname), 1)) {
+    if (vdrive_open(floppy2, newname, (int)strlen(newname), 1)) {
 	printf("cannot open `%s' for writing on image.\n", dest);
 	return (FD_WRTERR);
     }
@@ -770,30 +771,30 @@ static int  disk_copy (void)
 
 	strcpy((char *)newname, name);
 	petconvstring(newname, 1);
-	if (open_1541(floppy1, newname, strlen(newname), 0)) {
+	if (vdrive_open(floppy1, newname, strlen(newname), 0)) {
 	    printf("u%d: cannot open `%s' on image.\n", dev, name);
-	    close_1541(floppy2, 1);
+	    vdrive_close(floppy2, 1);
 	    return (FD_RDERR);
 	}
 
 	printf("copying %s\n", args[i]);
 
-	while (!read_1541(floppy1, (BYTE *)&c, 0)) {
-	    if (write_1541(floppy2, c, 1)) {
+	while (!vdrive_read(floppy1, (BYTE *)&c, 0)) {
+	    if (vdrive_write(floppy2, c, 1)) {
 		printf("No space on image ?\n");
 		break;
 	    }
 	}
 
-	close_1541(floppy1, 0);
+	vdrive_close(floppy1, 0);
     } /* for */
 
-    close_1541(floppy2, 1);
+    vdrive_close(floppy2, 1);
     return(0);
 }
 
 
-static int  disk_rename (void)
+static int disk_rename(void)
 {
     DRIVE *floppy2;
     int    dev, err;
@@ -856,14 +857,14 @@ static int  disk_read (void)
     strcpy((char *)newname, name);
     petconvstring(newname, 0);			/* To PETscii */
 
-    if (open_1541(floppy, newname, strlen(newname), 0)) {
+    if (vdrive_open(floppy, newname, strlen(newname), 0)) {
 	printf("u%d: cannot open `%s' on image.\n", dev, name);
 	return (FD_BADNAME);
     }
 
 
     /* Get real filename from the disk file.
-     * slot must be defined by open_1541().
+     * slot must be defined by vdrive_open().
      */
 
     memcpy (newname, floppy->buffers[0].slot + SLOT_NAME_OFFSET, 16);
@@ -888,7 +889,7 @@ static int  disk_read (void)
 	f = stdout;
     else {
 	if (!(f = fopen(fsname, WRITE))) {
-	    close_1541(floppy, 0);
+	    vdrive_close(floppy, 0);
 	    printf("cannot open %s for writing.\n", fsname);
 	    return (FD_NOTWRT);
 	}
@@ -904,11 +905,11 @@ static int  disk_read (void)
 
     fprintf(stderr, "reading file `%s' from image.\n", name);
 
-    while (!read_1541(floppy, (BYTE *)&c, 0))
+    while (!vdrive_read(floppy, (BYTE *)&c, 0))
 	fputc(c, f);
 
     fclose(f);
-    close_1541(floppy, 0);
+    vdrive_close(floppy, 0);
 
     return(0);
 }
@@ -959,7 +960,7 @@ static int  disk_write (void)
 	floppy = DriveData[dev & 3];
 
 
-    if (open_1541(floppy, newname, strlen(newname), 1)) {
+    if (vdrive_open(floppy, newname, strlen(newname), 1)) {
 	printf("cannot open %s for writing on image.\n", newname);
 	return (FD_WRTERR);
     }
@@ -967,14 +968,14 @@ static int  disk_write (void)
     printf("writing file `%s' to image\n", newname);
 
     while (EOF != (c = fgetc(f))) {
-	if (write_1541(floppy, c, 1)) {
+	if (vdrive_write(floppy, c, 1)) {
 	    printf("No space on image ?\n");
 	    break;
 	}
     }
 
     fclose(f);
-    close_1541(floppy, 1);
+    vdrive_close(floppy, 1);
     return(0);
 }
 
@@ -1041,7 +1042,7 @@ static int  disk_import_zipfile (void)
        }
     }
 
-    if (open_1541(floppy, "#", 1, channel)) {
+    if (vdrive_open(floppy, "#", 1, channel)) {
        printf("u%d: cannot open buffer #%d.\n", drive, channel);
        return (FD_RDERR);
     }
@@ -1096,7 +1097,7 @@ static int  disk_import_zipfile (void)
           }
        }
     }
-    close_1541(floppy, channel);
+    vdrive_close(floppy, channel);
 
     /* Update Format and Label information on Disk Header */
 
@@ -1300,7 +1301,7 @@ static int  disk_copy_tape (void)
 	    len = (dirp[4] | (dirp[5]<<8)) - (dirp[2] | (dirp[3]<<8));
 
 
-	    if (open_1541(floppy, newname, strlen(newname), 1)) {
+	    if (vdrive_open(floppy, newname, strlen(newname), 1)) {
 		printf("Cannot open `%s' for writing on image.\n", asciiname);
 		free(tapebuf);
 		return (FD_WRTERR);
@@ -1310,19 +1311,19 @@ static int  disk_copy_tape (void)
 	    printf("Writing file to image. %d bytes\n", len);
 
 	    /* PRG file */
-	    write_1541(floppy, dirp[2], 1);
-	    write_1541(floppy, dirp[3], 1);
+	    vdrive_write(floppy, dirp[2], 1);
+	    vdrive_write(floppy, dirp[3], 1);
 
 	    fseek(f, loc, 0);
 	    while ((len--) > 0 && (EOF != (c = fgetc(f))))
-		if (write_1541(floppy, c, 1)) {
+		if (vdrive_write(floppy, c, 1)) {
 		    printf("No space on image ?\n");
-		    close_1541(floppy, 1);
+		    vdrive_close(floppy, 1);
 		    free(tapebuf);
 		    return (FD_WRTERR);
 		}
 
-	    close_1541(floppy, 1);
+	    vdrive_close(floppy, 1);
 
 	    if (len > 0)
 		fprintf(stderr,
@@ -1388,7 +1389,7 @@ static int  disk_sectordump(void)
 
     /* Read one block */
 
-    if (open_1541(floppy, "#", 1, channel)) {
+    if (vdrive_open(floppy, "#", 1, channel)) {
 	printf("u%d: cannot open buffer #%d.\n", drive, channel);
 	return (FD_RDERR);
     }
@@ -1427,7 +1428,7 @@ static int  disk_sectordump(void)
 	    track = DIR_TRACK_1541;
     }
 
-    close_1541(floppy, channel);
+    vdrive_close(floppy, channel);
     return (FD_OK);
 }
 
@@ -1474,7 +1475,7 @@ static int  disk_extract(void)
 	return (err);
     floppy = DriveData[drive & 3];
 
-    if (open_1541(floppy, "#", 1, channel)) {
+    if (vdrive_open(floppy, "#", 1, channel)) {
 	printf("u%d: cannot open buffer #%d.\n", drive, channel);
 	return (FD_RDERR);
     }
@@ -1516,21 +1517,21 @@ static int  disk_extract(void)
 
 		unix_filename((char*)name);	/* for now, convert '/' to '_' */
 
-		if (open_1541(floppy,(char*)(entry->FileName),len,0)) {
+		if (vdrive_open(floppy,(char*)(entry->FileName),len,0)) {
 		    printf("u%d: cannot open `%s' on image.\n", drive, name);
 		    continue;
 		}
 
 		if (!(fd= fopen((char*)name,"wb"))) {
 		    perror("Couldn't open unix file");
-		    close_1541(floppy,0);
+		    vdrive_close(floppy,0);
 		    continue;
 		}
 
-		while (!read_1541(floppy,&c,0))
+		while (!vdrive_read(floppy,&c,0))
 		    fputc(c,fd);
 
-		close_1541(floppy,0);
+		vdrive_close(floppy,0);
 
 		if (fclose(fd)) {
 		    perror("fclose");
@@ -1545,7 +1546,7 @@ static int  disk_extract(void)
 	else break;
     }
 
-    close_1541(floppy, channel);
+    vdrive_close(floppy, channel);
     return (FD_OK);
 }
 
@@ -1560,7 +1561,7 @@ static int disk_raw_command(void)
 #endif
 
 #if OPEN15
-    if (open_1541(floppy, "", 0, 15)) {
+    if (vdrive_open(floppy, "", 0, 15)) {
 	printf("Can't open channel 15\n");
 	return (FD_NOTREADY);
     }
@@ -1593,7 +1594,7 @@ static int disk_raw_command(void)
 	putchar(c);
     }
 
-    close_1541(floppy, 15);
+    vdrive_close(floppy, 15);
 #else
     printf("%s\n", floppy->buffers[15].buffer);
 #endif
@@ -1799,7 +1800,7 @@ static int disk_unlynx(void)
 	    return (FD_RDERR);
 	}
 
-	/* FIXME: This is a temporary hack!  How can we persuade `open_1541()'
+	/* FIXME: This is a temporary hack!  How can we persuade `vdrive_open()'
 	   to write `DEL' files without breaking compatibility with CBM
 	   DOS?  -- [EP] 98.04.17  */
 	if (ftype == 'D')
@@ -1838,7 +1839,7 @@ static int disk_unlynx(void)
 
 	floppy = DriveData[dev & 3];
 
-	if (open_1541(floppy, cname, strlen(cname), 1)) {
+	if (vdrive_open(floppy, cname, strlen(cname), 1)) {
 	    printf("couldn't open '%s' for writing.\n", cname);
 	    return (FD_WRTERR);
 	}
@@ -1847,13 +1848,13 @@ static int disk_unlynx(void)
 
 	while (cnt != 0) {
 	    fread(&val, 1, 1, f2);
-	    if (write_1541(floppy, val, 1)) {
+	    if (vdrive_write(floppy, val, 1)) {
 		printf("no space on image ?\n");
 		break;
 	    }
 	    cnt--;
 	}
-	close_1541(floppy, 1);
+	vdrive_close(floppy, 1);
 
 	/* Adjust for the last block */
 	fread(buff, 1, 254 - lbsize, f2);
