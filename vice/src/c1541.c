@@ -456,7 +456,7 @@ static int  disk_cdd(void)
  * Creates a raw GCR disk image.
  */
 
-static int  disk_gcrformat (void)
+static int disk_gcrformat (void)
 {
     file_desc_t fd;
     int track, sector;
@@ -560,9 +560,9 @@ static int  disk_gcrformat (void)
 		rdat[BAM_ID_1541 + 1] = id[1];
 		for (t = 1; t <= 35; t++)
 		    for (s = 0; s < sector_map_1541[t]; s++)
-			free_sector(rdat, t, s);
-		allocate_sector(rdat, BAM_TRACK_1541, 0);
-		allocate_sector(rdat, BAM_TRACK_1541, 1);
+			vdrive_free_sector(1541, rdat, t, s);
+		vdrive_allocate_sector(1541, rdat, BAM_TRACK_1541, 0);
+		vdrive_allocate_sector(1541, rdat, BAM_TRACK_1541, 1);
 	    }
 	    rawdata[0] = 7;
 	    chksum = rawdata[1];

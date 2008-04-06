@@ -49,7 +49,6 @@ int usleep(unsigned long int microSeconds)
                 || microSeconds > (unsigned long) 4000000 )
         {
                 errno = ERANGE;         /* value out of range */
-                perror( "usleep time out of range ( 0 -> 4000000 ) " );
                 return -1;
         }
 
@@ -60,10 +59,7 @@ int usleep(unsigned long int microSeconds)
         Timer.tv_usec           = uSec;
 
         if( select( nfds, &readfds, &writefds, &exceptfds, &Timer ) < 0 )
-        {
-                perror( "usleep (select) failed" );
                 return -1;
-        }
 
         return 0;
 }
