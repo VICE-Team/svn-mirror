@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.16\n"
-"POT-Creation-Date: 2005-07-30 17:23+0200\n"
-"PO-Revision-Date: 2005-05-12 21:34+0200\n"
+"POT-Creation-Date: 2005-08-21 21:17+0200\n"
+"PO-Revision-Date: 2005-08-07 14:55+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -55,72 +55,72 @@ msgstr "Kann SID Engine nicht öffnen"
 msgid "Cannot initialize SID engine"
 msgstr "Kann SID Engine nicht initialisieren"
 
-#: src/sound.c:615
+#: src/sound.c:616
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr "Initialisierung von Gerät `%s' fehlgeschlagen."
 
-#: src/sound.c:624
+#: src/sound.c:625
 msgid "sound device lacks stereo capability"
 msgstr "Sound Gerät unterstützt keine Stereo Ausgabe"
 
-#: src/sound.c:673
+#: src/sound.c:675
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr "Gerät '%s' konnte nicht gefunden werden oder ist nicht unterstützt."
 
-#: src/sound.c:694
+#: src/sound.c:696
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr "Aufnahmegerät %s existiert nicht!"
 
-#: src/sound.c:702
+#: src/sound.c:704
 msgid "Recording device must be different from playback device"
 msgstr "Aufnahmegerät muß unteschiedlich vom Abspielgerät sein"
 
-#: src/sound.c:712
+#: src/sound.c:714
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr "Warnung! Aufnahmegerät %s scheint ein Echtzeitgerät zu sein!"
 
-#: src/sound.c:722
+#: src/sound.c:725
 #, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Initialisierung von Gerät `%s' fehlgeschlagen."
 
-#: src/sound.c:737
+#: src/sound.c:740
 msgid "The recording device doesn't support current sound parameters"
 msgstr "Aufnahmegerät unterstützt derzeitige Soundeinstellungen nicht"
 
-#: src/sound.c:818
+#: src/sound.c:821
 msgid "Sound buffer overflow (cycle based)"
 msgstr "Sound Puffer Überlauf (Zyklus basiert)"
 
-#: src/sound.c:832
+#: src/sound.c:835
 msgid "Sound buffer overflow."
 msgstr "Sound Puffer Überlauf."
 
-#: src/sound.c:958
+#: src/sound.c:961
 msgid "cannot flush."
 msgstr "Entleerung nicht möglich."
 
-#: src/sound.c:1007
+#: src/sound.c:1010
 msgid "fragment problems."
 msgstr "Fragmentierungsproblem."
 
-#: src/sound.c:1037
+#: src/sound.c:1040
 msgid "Buffer drained"
 msgstr "Puffer geleert"
 
-#: src/sound.c:1076
+#: src/sound.c:1079
 msgid "running too slow."
 msgstr "Ablauf zu langsam."
 
-#: src/sound.c:1092 src/sound.c:1102
+#: src/sound.c:1095 src/sound.c:1105
 msgid "write to sounddevice failed."
 msgstr "Schreiben auf Sound Gerät ist fehlgeschlagen."
 
-#: src/sound.c:1346
+#: src/sound.c:1352
 msgid "store to sounddevice failed."
 msgstr "Speichern auf Sound Gerät ist fehlgeschlagen."
 
@@ -135,9 +135,9 @@ msgid "Cannot write image file %s"
 msgstr "Kann Datei %s nicht schreiben"
 
 #: src/event.c:242
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find mapped name for %s"
-msgstr "Laden der Textschrift `%s' fehlgeschlagen."
+msgstr "Kann zugeordneten Namen für `%s' nicht finden."
 
 #: src/event.c:540
 #, c-format
@@ -446,9 +446,8 @@ msgid "*Old NTSC-M"
 msgstr "*NTSC-M alt"
 
 #: src/arch/unix/c64ui.c:273
-#, fuzzy
 msgid "+60K RAM Expansion Hack"
-msgstr "RAM Speichererweiterungsmodul"
+msgstr "+60K RAM Expansion Hack"
 
 #: src/arch/unix/c64ui.c:293 src/arch/unix/petui.c:169
 #: src/arch/unix/plus4ui.c:79
@@ -1837,24 +1836,20 @@ msgid "*Analog Joystick 1"
 msgstr "*Analog Joystick 1"
 
 #: src/arch/unix/uijoystick2.c:94 src/arch/unix/uijoystick2.c:143
-#, fuzzy
 msgid "*Analog Joystick 2"
-msgstr "*Analog Joystick 1"
+msgstr "*Analog Joystick 2"
 
 #: src/arch/unix/uijoystick2.c:97 src/arch/unix/uijoystick2.c:146
-#, fuzzy
 msgid "*Analog Joystick 3"
-msgstr "*Analog Joystick 1"
+msgstr "*Analog Joystick 3"
 
 #: src/arch/unix/uijoystick2.c:100 src/arch/unix/uijoystick2.c:149
-#, fuzzy
 msgid "*Analog Joystick 4"
-msgstr "*Analog Joystick 1"
+msgstr "*Analog Joystick 4"
 
 #: src/arch/unix/uijoystick2.c:103 src/arch/unix/uijoystick2.c:152
-#, fuzzy
 msgid "*Analog Joystick 5"
-msgstr "*Analog Joystick 1"
+msgstr "*Analog Joystick 5"
 
 #: src/arch/unix/uijoystick2.c:107 src/arch/unix/uijoystick2.c:156
 #: src/arch/unix/vic20ui.c:318
@@ -2171,9 +2166,8 @@ msgid "*Enable RAMCART"
 msgstr "*Aktivieren der RAMCART"
 
 #: src/arch/unix/uiramcart.c:57
-#, fuzzy
 msgid "*Readonly"
-msgstr "*Schreibgeschützter Zugriff"
+msgstr "*Schreibgschutz"
 
 #: src/arch/unix/uiramcart.c:59
 msgid "RAMCART size"
@@ -2519,8 +2513,8 @@ msgid "*ReSID"
 msgstr "*ReSID"
 
 #: src/arch/unix/uisid.c:50
-msgid "*Catweasle MKIII"
-msgstr "*Catweasle MKIII"
+msgid "*Catweasel MKIII"
+msgstr "*Catweasel MKIII"
 
 #: src/arch/unix/uisid.c:59
 msgid "*6581 (old)"
@@ -2918,19 +2912,19 @@ msgstr "Beträge zum VICE Projekt"
 msgid "The VICE Team"
 msgstr "Das VICE Team"
 
-#: src/arch/unix/x11/gnome/about.c:75 src/arch/unix/x11/xaw/about.c:146
+#: src/arch/unix/x11/gnome/about.c:76 src/arch/unix/x11/xaw/about.c:147
 msgid "Official VICE homepage:"
 msgstr "Offizielle VICE Homepage:"
 
-#: src/arch/unix/x11/gnome/about.c:88
+#: src/arch/unix/x11/gnome/about.c:89
 msgid "License"
 msgstr "Lizenz"
 
-#: src/arch/unix/x11/gnome/about.c:94
+#: src/arch/unix/x11/gnome/about.c:95
 msgid "Warranty"
 msgstr "Garantiebestimmungen"
 
-#: src/arch/unix/x11/gnome/about.c:100
+#: src/arch/unix/x11/gnome/about.c:101
 msgid "Contributors"
 msgstr "VICE Hackers"
 
@@ -3483,7 +3477,7 @@ msgid "Error getting video mode information - disabling vidmode extension."
 msgstr ""
 "Fehler beim Abfragen der Video Modus Information - deaktiviere Vollbildmodus"
 
-#: src/arch/unix/x11/xaw/about.c:152
+#: src/arch/unix/x11/xaw/about.c:153
 msgid "VICE Information"
 msgstr "VICE Information"
 
