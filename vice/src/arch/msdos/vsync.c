@@ -42,7 +42,6 @@
 #include "clkguard.h"
 #include "cmdline.h"
 #include "drive.h"
-#include "interrupt.h"
 #include "joy.h"
 #include "kbd.h"
 #include "kbdbuf.h"
