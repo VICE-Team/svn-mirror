@@ -54,6 +54,7 @@
 #include "ui.h"
 #include "utils.h"
 #include "video.h"
+#include "videoarch.h"
 #include "version.h"
 #include "vsync.h"
 
