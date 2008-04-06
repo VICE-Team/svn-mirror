@@ -203,7 +203,7 @@ static void queue_command_end(void) { }
 /* CPU trap to enter the main menu.  */
 static void menu_trap(ADDRESS addr, void *data)
 {
-    ui_main((char) data);
+    ui_main((char) (unsigned long) data);
 }
 
 /* Dispatch all the pending keyboard commands.  */

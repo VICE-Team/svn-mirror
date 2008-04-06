@@ -439,8 +439,8 @@ char *tui_file_selector(const char *title, const char *directory,
 				 field_width, num_lines, num_cols);
             tui_set_attr(FIRST_LINE_FORE, FIRST_LINE_BACK, 0);
             tui_display(0, tui_num_lines() - 1, tui_num_cols(),
-                        "\030\031\033\032: Move  <enter>: Select  %s<alt>-<letter>: Change drive",
-                        contents_func != NULL ? "<space>: Preview  " : "");
+                        "\030\031\033\032: Move  <Enter>: Select  %s<Alt>-<letter>: Change drive",
+                        contents_func != NULL ? "<Space>: Preview  " : "");
 	    need_update = 0;
 	}
 	tui_set_attr(MENU_FORE, MENU_HIGHLIGHT, 0);
