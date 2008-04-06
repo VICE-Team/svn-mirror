@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 1.12\n"
-"POT-Creation-Date: 2003-09-06 22:31+0200\n"
-"PO-Revision-Date: 2003-06-12 19:30+0200\n"
+"Project-Id-Version: VICE 1.13\n"
+"POT-Creation-Date: 2003-09-07 19:30+0200\n"
+"PO-Revision-Date: 2003-09-07 19:08+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1120,18 +1120,17 @@ msgid "Change working directory..."
 msgstr "Arbeitsverzeichnis ändern."
 
 #: src/arch/unix/uicommands.c:963
-#, fuzzy
 msgid "*Save new snapshot"
-msgstr "Snapshot Speichern"
+msgstr "*Speichere neuen Snapshot"
 
 #: src/arch/unix/uicommands.c:965
 #, fuzzy
-msgid "*Load existing snapsot"
-msgstr "Snapshot Laden..."
+msgid "*Load existing snapshot"
+msgstr "*Lade existierenden Snapshot"
 
 #: src/arch/unix/uicommands.c:967
 msgid "*Start with reset"
-msgstr ""
+msgstr "*Mit Reset starten"
 
 #: src/arch/unix/uicommands.c:973
 msgid "Load snapshot..."
@@ -1167,7 +1166,7 @@ msgstr "Aufnahme Wiedergabe Stop"
 
 #: src/arch/unix/uicommands.c:996
 msgid "Recording start mode"
-msgstr ""
+msgstr "Aufnahme Start Modus"
 
 #: src/arch/unix/uicommands.c:1002
 msgid "Snapshot commands"
@@ -1244,7 +1243,7 @@ msgstr "*Video Cache"
 #: src/arch/unix/uicrtc.c:100 src/arch/unix/uited.c:111
 #: src/arch/unix/uivic.c:112 src/arch/unix/uivicii.c:127
 msgid "*Scale 2x render"
-msgstr ""
+msgstr "*Scale 2x Renderer"
 
 #: src/arch/unix/uicrtc.c:104 src/arch/unix/uited.c:115
 #: src/arch/unix/uivdc.c:111 src/arch/unix/uivic.c:116
