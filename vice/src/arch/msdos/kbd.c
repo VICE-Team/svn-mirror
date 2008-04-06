@@ -246,6 +246,7 @@ void kbd_flush_commands(void)
 
           case KCMD_MENU:
             maincpu_trigger_trap(menu_trap, (void *) command_queue[i].data);
+            puts("Trigger menu trap");
             break;
 
 	  default:

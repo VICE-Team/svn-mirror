@@ -48,7 +48,6 @@
 #include "kbd.h"
 #include "kbdbuf.h"
 #include "resources.h"
-#include "sid.h"
 #include "sound.h"
 #include "ui.h"
 #include "vmachine.h"
