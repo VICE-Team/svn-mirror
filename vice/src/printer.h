@@ -35,6 +35,7 @@ extern void printer_resources_shutdown(void);
 extern int printer_cmdline_options_init(void);
 extern void printer_init(void);
 extern void printer_reset(void);
+extern void printer_formfeed(unsigned int unit);
 extern void printer_shutdown(void);
 
 /* Serial interface.  */
