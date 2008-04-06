@@ -1,8 +1,8 @@
 /*
- * prdevice.h - Printer device.
+ * printer.h - Common external printer interface.
  *
  * Written by
- *  André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,23 +24,25 @@
  *
  */
 
-#ifndef _PRDEVICE_H
-#define _PRDEVICE_H
+#ifndef _PRINTER_H
+#define _PRINTER_H
 
-typedef int PRINTER;
+#include "types.h"
 
-extern int prdevice_init_resources(void);
-extern int prdevice_init_cmdline_options(void);
+/* Generic interface.  */
+extern int printer_init_resources(void);
+extern int printer_init_cmdline_options(void);
+extern void printer_init(void);
+extern void printer_reset(void);
 
-extern int detach_prdevice(PRINTER *info);
-extern int attach_prdevice(PRINTER *info, const char *file, int mode);
+/* Serial interface.  */
+extern int printer_interface_serial_close(unsigned int unit);
+extern void printer_interface_serial_late_init(void);
 
-/* This is needed because not all CLOSE are sent to the IEC bus... :-( */
-extern int prdevice_close_printer(unsigned int unit);
-
-/* This is called at the end of serial_init to enable possibly
-   attached printers */
-extern void prdevice_late_init(void);
+/* Userport interface.  */
+extern void printer_interface_userport_write_data(BYTE b);
+extern void printer_interface_userport_write_strobe(int s);
+extern void printer_interface_userport_set_busy(int);
 
 #endif
 
