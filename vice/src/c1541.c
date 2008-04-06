@@ -63,7 +63,6 @@
 
 #include "archdep.h"
 #include "charsets.h"
-#include "file.h"
 #include "gcr.h"
 #include "info.h"
 #include "p00.h"
@@ -1606,7 +1605,7 @@ static int read_cmd(int nargs, char **args)
     if (dest_name_ascii == NULL)
 	outf = stdout;
     else {
-        outf = fopen(dest_name_ascii, WRITE);
+        outf = fopen(dest_name_ascii, MODE_WRITE);
 	if (outf == NULL) {
 	    fprintf(stderr, "Cannot create output file `%s': %s.\n",
                    dest_name_ascii, strerror(errno));
@@ -1860,7 +1859,7 @@ static int unlynx_cmd(int nargs, char **args)
     if (check_drive(dev, CHK_RDY) < 0)
         return FD_NOTREADY;
 
-    if (!(f = fopen(args[1], READ))) {
+    if (!(f = fopen(args[1], MODE_READ))) {
 	fprintf(stderr, "Cannot open `%s' for reading.\n", args[1]);
 	return FD_NOTRD;
     }
@@ -1910,7 +1909,7 @@ static int unlynx_cmd(int nargs, char **args)
     }
 
     /* Open the file for reading of the chained data */
-    f2 = fopen(args[1], READ);
+    f2 = fopen(args[1], MODE_READ);
     fseek(f2, (dirsize * 254), SEEK_SET);
 
     /* Loop */
@@ -2070,7 +2069,7 @@ static int write_cmd(int nargs, char **args)
     if (check_drive(unit, CHK_RDY) < 0)
 	return FD_NOTREADY;
 
-    f = fopen(args[1], READ);
+    f = fopen(args[1], MODE_READ);
     if (f == NULL) {
 	fprintf(stderr, "Cannot read file `%s': %s.\n", args[1], strerror(errno));
 	return FD_NOTRD;
