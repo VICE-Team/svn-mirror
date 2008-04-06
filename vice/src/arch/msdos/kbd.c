@@ -37,6 +37,7 @@
 #include <stdlib.h>
 
 #include "vmachine.h"
+#include "machine.h"
 #include "kbd.h"
 #include "interrupt.h"
 #include "resources.h"
@@ -131,11 +132,13 @@ void kbd_flush_commands(void)
 	    break;
 
 	  case KCMD_RESTORE_PRESSED:
-	    maincpu_set_nmi(I_RESTORE, 1);
+	    machine_set_restore_key(1);
+	    /*maincpu_set_nmi(I_RESTORE, 1);*/
 	    break;
 
 	  case KCMD_RESTORE_RELEASED:
-	    maincpu_set_nmi(I_RESTORE, 0);
+	    machine_set_restore_key(0);
+	    /*maincpu_set_nmi(I_RESTORE, 0);*/
 	    break;
 
 	  default:
