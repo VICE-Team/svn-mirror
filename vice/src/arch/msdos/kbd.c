@@ -181,16 +181,16 @@ void kbd_flush_commands(void)
                 freeze_function();
             break;
           case KCMD_FLIP_NEXT:
-            flip_attach_head(8, 1);
+            fliplist_attach_head(8, 1);
             break;
           case KCMD_FLIP_PREVIOUS:
-            flip_attach_head(8, 0);
+            fliplist_attach_head(8, 0);
             break;
           case KCMD_FLIP_ADD:
-            flip_add_image(8);
+            fliplist_add_image(8);
             break;
           case KCMD_FLIP_REMOVE:
-            flip_remove(-1, NULL);
+            fliplist_remove(-1, NULL);
             break;
           case KCMD_TOGGLE_WARP:
             resources_toggle("WarpMode", NULL);

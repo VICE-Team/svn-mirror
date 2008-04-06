@@ -378,7 +378,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 	frame_counter++;
 
     kbd_flush_commands();
-    kbd_buf_flush();
+    kbdbuf_flush();
     joystick_update();
 
     ui_set_warp_status(warp_mode_enabled);
