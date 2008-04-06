@@ -168,12 +168,10 @@ int network_connected(void)
   return 0;
 }
 
-#ifdef HAVE_NETWORK
 int network_get_mode(void)
 {
   return NETWORK_IDLE;
 }
-#endif
 
 void network_event_record(unsigned int type, void *data, unsigned int size)
 {
