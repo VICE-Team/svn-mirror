@@ -610,6 +610,7 @@ static void close_disk_image(vdrive_t *vdrive, int unit)
     image = vdrive->image;
 
     if (image != NULL) {
+
         vdrive_detach_image(image, unit, vdrive);
         gcr_destroy_image(image->gcr);
         disk_image_close(image);
