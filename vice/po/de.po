@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2004-04-03 17:33+0200\n"
+"POT-Creation-Date: 2004-04-10 16:03+0200\n"
 "PO-Revision-Date: 2004-01-21 23:15+0100\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -123,29 +123,29 @@ msgstr "Schreiben auf Sound Gerät ist fehlgeschlagen."
 msgid "store to sounddevice failed."
 msgstr "Speichern auf Sound Gerät ist fehlgeschlagen."
 
-#: src/event.c:266
+#: src/event.c:286
 msgid "Could not create start snapshot file."
 msgstr "Kann Start Snapshot Datei nicht erzeugen."
 
-#: src/event.c:277 src/event.c:395 src/event.c:412
-msgid "Error reading start snapshot file."
-msgstr "Fehler beim Lesen der Start Snapshot Datei."
+#: src/event.c:299 src/event.c:525
+msgid "Error reading end snapshot file."
+msgstr "Kann Ende Snapshot Datei nicht lesen."
 
-#: src/event.c:319 src/event.c:463
+#: src/event.c:349 src/event.c:500
 msgid "Could not create end snapshot file."
 msgstr "Kann Ende Snapshot Datei nicht erzeugen."
 
-#: src/event.c:371
+#: src/event.c:407
 msgid "Could not open end snapshot file."
 msgstr "Kann Ende Snapshot Datei nicht öffnen."
 
-#: src/event.c:380
+#: src/event.c:416
 msgid "Could not find event section in end snapshot file."
 msgstr "Kann Sektion in Ende Snapshotdatei nicht finden."
 
-#: src/event.c:484
-msgid "Error reading end snapshot file."
-msgstr "Kann Ende Snapshot Datei nicht lesen."
+#: src/event.c:431 src/event.c:448
+msgid "Error reading start snapshot file."
+msgstr "Fehler beim Lesen der Start Snapshot Datei."
 
 #: src/arch/unix/c128ui.c:65 src/arch/unix/c64ui.c:64
 #: src/arch/unix/cbm2ui.c:63 src/arch/unix/uited.c:52 src/arch/unix/uivic.c:41
