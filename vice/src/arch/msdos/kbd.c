@@ -40,6 +40,7 @@
 #include "kbd.h"
 
 #include "cmdline.h"
+#include "datasette.h"
 #include "fliplist.h"
 #include "interrupt.h"
 #include "joystick.h"
@@ -171,7 +172,12 @@ typedef enum {
         KCMD_FLIP_PREVIOUS,
         KCMD_FLIP_ADD,
         KCMD_FLIP_REMOVE,
-        KCMD_TOGGLE_STATUSBAR
+        KCMD_TOGGLE_STATUSBAR,
+        KCMD_DATASETTE_START,
+        KCMD_DATASETTE_STOP,
+        KCMD_DATASETTE_FORWARD,
+        KCMD_DATASETTE_REWIND,
+        KCMD_DATASETTE_RECORD
 } kbd_command_type_t;
 
 typedef DWORD kbd_command_data_t;
@@ -256,7 +262,28 @@ void kbd_flush_commands(void)
             maincpu_trigger_trap(menu_trap, (void *) command_queue[i].data);
             break;
         case KCMD_TOGGLE_STATUSBAR:
-            resources_toggle("ShowStatusbar", NULL);
+            if (statusbar_enabled()) {
+	        resources_set_value("ShowStatusbar",
+                    (resource_value_t) STATUSBAR_MODE_OFF);
+            } else {
+	        resources_set_value("ShowStatusbar",
+                    (resource_value_t) STATUSBAR_MODE_ON);
+            }
+            break;
+        case KCMD_DATASETTE_START:
+            datasette_control(DATASETTE_CONTROL_START);
+            break;
+        case KCMD_DATASETTE_STOP:
+            datasette_control(DATASETTE_CONTROL_STOP);
+            break;
+        case KCMD_DATASETTE_FORWARD:
+            datasette_control(DATASETTE_CONTROL_FORWARD);
+            break;
+        case KCMD_DATASETTE_REWIND:
+            datasette_control(DATASETTE_CONTROL_REWIND);
+            break;
+        case KCMD_DATASETTE_RECORD:
+            datasette_control(DATASETTE_CONTROL_RECORD);
             break;
 
 	  default:
@@ -361,16 +388,39 @@ static void my_kbd_interrupt_handler(void)
             } 
             /* Fall through */
           default:
-            if (modifiers.left_alt || modifiers.right_alt) {
+            if (modifiers.left_alt && modifiers.left_ctrl) {
+               switch (kcode) {
+                  case K_F12:
+                    /* Ctrl-Alt-F12 does a hard reset. */
+                    queue_command(KCMD_HARD_RESET, (kbd_command_data_t) 0);
+                    break;
+                  case K_F4:
+                    /* Ctrl-Alt-F4 is RECORD on the datasette. */
+                    queue_command(KCMD_DATASETTE_RECORD, (kbd_command_data_t) 0);
+                    break;
+                  case K_F5:
+                    /* Ctrl-Alt-F5 is PLAY on the datasette. */
+                    queue_command(KCMD_DATASETTE_START, (kbd_command_data_t) 0);
+                    break;
+                  case K_F6:
+                    /* Ctrl-Alt-F6 is REWIND on the datasette. */
+                    queue_command(KCMD_DATASETTE_REWIND, (kbd_command_data_t) 0);
+                    break;
+                  case K_F7:
+                    /* Ctrl-Alt-F7 is FF on the datasette. */
+                    queue_command(KCMD_DATASETTE_FORWARD, (kbd_command_data_t) 0);
+                    break;
+                  case K_F8:
+                    /* Ctrl-Alt-F8 is STOP on the datasette. */
+                    queue_command(KCMD_DATASETTE_STOP, (kbd_command_data_t) 0);
+                    break;
+               }
+            } else if (modifiers.left_alt || modifiers.right_alt) {
                 /* Handle Alt-... hotkeys.  */
                 switch (kcode) {
                   case K_F12:
-                    /* Alt-F12 does a reset, Alt-Ctrl-F12 does a reset and
-                       clears the memory.  */
-                    if (modifiers.left_ctrl || modifiers.right_ctrl)
-                        queue_command(KCMD_HARD_RESET, (kbd_command_data_t) 0);
-                    else
-                        queue_command(KCMD_RESET, (kbd_command_data_t) 0);
+                    /* Alt-F12 does a reset.  */
+                    queue_command(KCMD_RESET, (kbd_command_data_t) 0);
                     break;
                   case K_F1:
                     /* Alt-F1 Next image in flip list.  */
