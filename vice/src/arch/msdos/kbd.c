@@ -116,57 +116,6 @@ BYTE _kbd_extended_key_tab[256] = {
 
 /* ------------------------------------------------------------------------- */
 
-#ifndef COMMON_KBD
-static int keymap_index;
-
-static int set_keymap_index(resource_value_t v, void *param)
-{
-    int real_index;
-
-    keymap_index = (int) v;
-
-    /* The `>> 1' is a temporary hack to avoid the positional/symbol mapping
-       which is not implemented in the MS-DOS version.  */
-    real_index = keymap_index >> 1;
-
-#if 0
-    if (real_index >= num_keyconvmaps)
-        return -1;
-#else
-    /* Argh, we cannot do the sanity check because we initialize the keyboard
-       /after/ this resource is set.  FIXME: Something we should definitely
-       fix some day.  */
-#endif
-
-    keyconv_base = &keyconvmaps[real_index];
-    return 0;
-}
-
-static resource_t resources[] = {
-    { "KeymapIndex", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &keymap_index, set_keymap_index, NULL },
-    { NULL }
-};
-
-int kbd_resources_init(void)
-{
-    return resources_register(resources);
-}
-
-static cmdline_option_t cmdline_options[] = {
-    { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapIndex", NULL,
-      "<number>", "Specify index of used keymap" },
-    { NULL },
-};
-
-int kbd_cmdline_options_init(void)
-{
-    return cmdline_register_options(cmdline_options);
-}
-#endif
-
-/* ------------------------------------------------------------------------- */
-
 /* These are the keyboard commands that cannot be handled within a keyboard
    interrupt.  They are dispatched via `kbd_flush_commands()'.  */
 
@@ -934,19 +883,6 @@ const char *kbd_code_to_string(kbd_code_t kcode)
 
 /* ------------------------------------------------------------------------ */
 
-#ifndef COMMON_KBD
-void keyboard_register_column4080_key(key_ctrl_column4080_func_t func)
-{
-    key_ctrl_column4080_func = func;
-}
-
-void keyboard_register_caps_key(key_ctrl_caps_func_t func)
-{
-    key_ctrl_caps_func = func;
-}
-#endif
-
-#ifdef COMMON_KBD
 void kbd_arch_init(void)
 {
     kbd_init_common();
@@ -967,5 +903,4 @@ const char *kbd_arch_keynum_to_keyname(signed long keynum)
 
     return keyname;
 }
-#endif
 
