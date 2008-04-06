@@ -404,12 +404,12 @@ static int arg_to_int(const char *arg, int *return_value)
     char *tailptr;
 
     errno = 0;
-    *return_value = (int) strtol(arg, &tailptr, 10);
+    *return_value = (int)strtol(arg, &tailptr, 10);
     if (errno)                  /* Overflow */
         return -1;
 
     /* Only whitespace is allowed after the last valid character.  */
-    if (tailptr != NULL && *tailptr != 0) {
+    if (!util_check_null_string(tailptr)) {
         while (isspace(*tailptr))
             tailptr++;
         if (*tailptr != 0)
