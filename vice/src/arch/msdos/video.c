@@ -53,7 +53,7 @@ vga_mode_t vga_modes[] = {
     /* VGA_640x480 */ { 640, 480, "640x480" }
 };
 
-canvas_t last_canvas;
+canvas_t *last_canvas;
 
 #ifdef DEBUG_VIDEO
 #define DEBUG(x) log_debug x
@@ -208,7 +208,7 @@ void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
     }
 }
 
-static void canvas_set_vga_mode(canvas_t c)
+static void canvas_set_vga_mode(canvas_t *c)
 {
     int i;
 
@@ -273,21 +273,21 @@ static void canvas_set_vga_mode(canvas_t c)
 }
 
 /* Note: `mapped' is ignored.  */
-canvas_t canvas_create(const char *win_name, unsigned int *width,
-		       unsigned int *height, int mapped,
-		       canvas_redraw_t exposure_handler,
-		       const palette_t *palette, PIXEL *pixel_return)
+canvas_t *canvas_create(const char *win_name, unsigned int *width,
+                        unsigned int *height, int mapped,
+                        canvas_redraw_t exposure_handler,
+                        const palette_t *palette, PIXEL *pixel_return)
 {
-    canvas_t new_canvas;
+    canvas_t *new_canvas;
 
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
     if (palette->num_entries > NUM_AVAILABLE_COLORS) {
 	log_error(video_log, "Too many colors requested.");
-	return (canvas_t) NULL;
+	return (canvas_t *) NULL;
     }
-    new_canvas = (canvas_t)xmalloc(sizeof(struct _canvas));
+    new_canvas = (canvas_t *)xmalloc(sizeof(struct canvas_s));
     if (!new_canvas)
-	return (canvas_t) NULL;
+	return (canvas_t *) NULL;
 
     canvas_set_palette(new_canvas, palette, pixel_return);
 
@@ -306,7 +306,7 @@ canvas_t canvas_create(const char *win_name, unsigned int *width,
     return new_canvas;
 }
 
-int canvas_set_palette(canvas_t c, const palette_t *palette,
+int canvas_set_palette(canvas_t *c, const palette_t *palette,
                        PIXEL *pixel_return)
 {
     int i;
@@ -345,19 +345,19 @@ int canvas_set_palette(canvas_t c, const palette_t *palette,
     return 0;
 }
 
-void canvas_map(canvas_t c)
+void canvas_map(canvas_t *c)
 {
     /* Not implemented. */
 }
 
-void canvas_unmap(canvas_t c)
+void canvas_unmap(canvas_t *c)
 {
     /* Not implemented. */
 }
 
 /* Warning: this does not do what you would expect from it.  It just sets the
    canvas size according to the `VGAMode' resource. */
-void canvas_resize(canvas_t c, unsigned int width, unsigned int height)
+void canvas_resize(canvas_t *c, unsigned int width, unsigned int height)
 {
     /* 
     FIXME: the possible height for the statusbar isn't calculated,
