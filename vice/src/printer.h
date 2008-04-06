@@ -46,12 +46,16 @@ extern void printer_shutdown(void);
 
 extern void printer_serial_init(void);
 
+extern int printer_interface_serial_init_resources(void);
+extern int printer_interface_serial_init_cmdline_options(void);
 extern int printer_interface_serial_close(unsigned int unit);
 extern int printer_interface_serial_late_init(void);
 
 /* Userport interface.  */
 extern void printer_userport_init(void);
 
+extern int printer_interface_userport_init_resources(void);
+extern int printer_interface_userport_init_cmdline_options(void);
 extern void printer_interface_userport_write_data(BYTE b);
 extern void printer_interface_userport_write_strobe(int s);
 extern void printer_interface_userport_set_busy(int b);
