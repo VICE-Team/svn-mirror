@@ -250,7 +250,7 @@ static double avg_frame_rate;
 
 static int speed_eval_suspended = 1;
 
-void suspend_speed_eval(void)
+void vsync_suspend_speed_eval(void)
 {
     speed_eval_suspended = 1;
 }
@@ -306,7 +306,7 @@ static void clk_overflow_callback(CLOCK amount, void *data)
 
 /* ------------------------------------------------------------------------- */
 
-int do_vsync(int been_skipped)
+int vsync_do_vsync(int been_skipped)
 {
     static long skip_counter = 0;
     static int num_skipped_frames = 0;
@@ -408,7 +408,7 @@ void vsync_init(void (*hook)(void))
 #endif /* !USE_MIDAS_SOUND */
 
     vsync_hook = hook;
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     vsync_disable_timer();
 
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
