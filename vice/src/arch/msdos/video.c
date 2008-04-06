@@ -546,11 +546,12 @@ void disable_text(void)
 }
 
 
-inline void video_canvas_refresh(video_canvas_t *c,
-                                        video_frame_buffer_t *f,
-                                        unsigned int xs, unsigned int ys,
-                                        unsigned int xi, unsigned int yi,
-                                        unsigned int w, unsigned int h)
+inline void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
+                                 unsigned int draw_buffer_line_size,
+                                 video_frame_buffer_t *f,
+                                 unsigned int xs, unsigned int ys,
+                                 unsigned int xi, unsigned int yi,
+                                 unsigned int w, unsigned int h)
 {
     int y_diff;
 
