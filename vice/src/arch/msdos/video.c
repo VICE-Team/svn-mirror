@@ -280,17 +280,9 @@ static int canvas_set_vga_mode(struct video_canvas_s *c)
     return 0;
 }
 
-video_canvas_t *video_canvas_init(video_render_config_t *videoconfig)
+void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
-    video_canvas_t *canvas;
-
-    canvas = (video_canvas_t *)xcalloc(1, sizeof(video_canvas_t));
-
     canvas->video_draw_buffer_callback = NULL;
-
-    canvas->videoconfig = videoconfig;
-
-    return canvas;
 }
 
 /* Note: `mapped' is ignored.  */
@@ -454,7 +446,7 @@ void video_ack_vga_mode(void)
 {
     if (last_canvas != NULL) {
         video_canvas_resize(last_canvas, last_canvas->width,
-                        last_canvas->height);
+                            last_canvas->height);
         last_canvas->exposure_handler(last_canvas->width, last_canvas->height);
         DEBUG(("Acknowledged vgaMode %d", vga_mode));
     }
@@ -509,8 +501,7 @@ void disable_text(void)
 }
 
 
-inline void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
-                                 unsigned int draw_buffer_line_size,
+inline void video_canvas_refresh(video_canvas_t *c,
                                  unsigned int xs, unsigned int ys,
                                  unsigned int xi, unsigned int yi,
                                  unsigned int w, unsigned int h)
@@ -558,15 +549,13 @@ inline void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
         h -= y_diff;
     }
 
-    video_render_main(c->videoconfig,
-                      draw_buffer,
-                      (BYTE *)(c->render_bitmap->line[0]),
-                      w, h,
-                      xs, ys,
-                      xi, yi,
-                      draw_buffer_line_size,
-                      c->bytes_per_line,
-                      c->depth);
+    video_canvas_render(c,
+                        (BYTE *)(c->render_bitmap->line[0]),
+                        w, h,
+                        xs, ys,
+                        xi, yi,
+                        c->bytes_per_line,
+                        c->depth);
 
     DEBUG(("video_render_main: FB:%p VR:%p w=%d h=%d xs=%d ys=%d xi=%d yi=%d linef=%d linev=%d",
                       (BYTE *)(VIDEO_FRAME_BUFFER_START(f)),
