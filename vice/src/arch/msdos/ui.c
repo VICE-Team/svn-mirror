@@ -42,7 +42,7 @@
 #include "log.h"
 #include "machine.h"
 #include "menudefs.h"
-#include "mon.h"
+#include "monitor.h"
 #include "resources.h"
 #include "sound.h"
 #include "statusbar.h"
@@ -57,6 +57,7 @@
 #include "videoarch.h"
 #include "version.h"
 #include "vsync.h"
+
 
 /* Status of keyboard LEDs.  */
 static int real_kbd_led_status = -1;

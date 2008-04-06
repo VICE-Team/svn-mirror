@@ -339,6 +339,8 @@ void video_canvas_destroy(video_canvas_t *canvas)
     if (canvas == NULL)
         return;
 
+    video_canvas_shutdown(canvas);
+
     for (i = 0; i < MAX_CANVAS_NUM; i++)
         if (canvaslist[i] == canvas)
             canvaslist[i] = NULL;
