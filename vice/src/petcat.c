@@ -98,6 +98,7 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -105,6 +106,7 @@
 #define strchr index
 #else
 #include <string.h>
+#endif
 #endif
 
 #include "charsets.h"		/* ctrl1, ctrl2, cbmkeys */
