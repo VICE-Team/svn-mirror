@@ -58,7 +58,7 @@ int keyarr[KBD_ROWS];
 int rev_keyarr[KBD_COLS];
 
 /* Joystick status. We use 3 elements to avoid `-1'.  */
-BYTE joy[3] = { 0, 0, 0 };
+BYTE joystick_value[3] = { 0, 0, 0 };
 
 /* ------------------------------------------------------------------------- */
 
@@ -516,7 +516,7 @@ int kbd_init(int num, ...)
     _go32_dpmi_lock_data(keyconvmaps, sizeof(keyconvmaps));
     _go32_dpmi_lock_data(keyarr, sizeof(keyarr));
     _go32_dpmi_lock_data(rev_keyarr, sizeof(rev_keyarr));
-    _go32_dpmi_lock_data(joy, sizeof(joy));
+    _go32_dpmi_lock_data(joystick_value, sizeof(joystick_value));
     _go32_dpmi_lock_data(&modifiers, sizeof(modifiers));
     _go32_dpmi_lock_data(&num_queued_commands, sizeof(num_queued_commands));
     _go32_dpmi_lock_data(&command_queue, sizeof(command_queue));
