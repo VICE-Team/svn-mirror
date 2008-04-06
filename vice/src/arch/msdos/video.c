@@ -595,3 +595,8 @@ void canvas_set_border_color(video_canvas_t *canvas, BYTE color)
     outportb(0x3c0, color);
 }
 
+void video_fullscreen_cap(cap_fullscreen_t *cap_fullscreen)
+{
+    cap_fullscreen->device_num = 0;
+}
+
