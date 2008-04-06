@@ -190,11 +190,14 @@ static void register_timer_callback(void)
     if (timer_speed == 0) {
         remove_int(my_timer_callback);
     } else {
-        int rate = (int) ((1.0 / (refresh_frequency
-                                  * ((double) timer_speed / 100.0)))
-                          * 1000.0 + .5);
+        int rate = (int) ((double) TIMERS_PER_SECOND
+                          / (refresh_frequency * ((double) timer_speed
+                                                  / 100.0))
+                          + .5);
 
-        if (install_int(my_timer_callback, rate) < 0) {
+        /* We use `install_int_ex()' instead of `install_int()' for increased
+           accuracy.  */
+        if (install_int_ex(my_timer_callback, rate) < 0) {
             /* FIXME: Maybe we could handle this better?  Well, it is not
                very likely to happen after all...  */
 	    relative_speed = timer_speed = 0;
