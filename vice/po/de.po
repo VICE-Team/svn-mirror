@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.16\n"
-"POT-Creation-Date: 2005-08-21 21:17+0200\n"
+"POT-Creation-Date: 2005-09-14 22:40+0200\n"
 "PO-Revision-Date: 2005-08-07 14:55+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -14,9 +14,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
 
+#: src/vsync.c:139 src/sid/sid-cmdline-options.c:102
+#: src/sid/sid-cmdline-options.c:105
+msgid "<percent>"
+msgstr ""
+
 #: src/vsync.c:139
 msgid "Limit emulation speed to specified value"
 msgstr "Emulationsgeschwindigkeit auf Wert beschränken."
+
+#: src/vsync.c:141 src/sound.c:247 src/sound.c:249 src/debug.c:205
+#: src/c64/cart/ide64.c:270 src/c64/cart/ide64.c:272 src/c64/cart/ide64.c:274
+#: src/datasette.c:180 src/datasette.c:183 src/gfxoutputdrv/ffmpegdrv.c:133
+#: src/gfxoutputdrv/ffmpegdrv.c:136 src/mouse.c:97 src/ram.c:101
+msgid "<value>"
+msgstr ""
 
 #: src/vsync.c:141
 msgid "Update every <value> frames (`0' for automatic)"
@@ -42,6 +54,125 @@ msgstr ""
 #: src/autostart.c:186
 msgid "Cannot load snapshot file."
 msgstr "Kann Snapshot Datei nicht laden."
+
+#: src/sound.c:243
+#, fuzzy
+msgid "Enable sound playback"
+msgstr "*Sound Einschalten"
+
+#: src/sound.c:245
+#, fuzzy
+msgid "Disable sound playback"
+msgstr "*Sound Einschalten"
+
+#: src/sound.c:247
+msgid "Set sound sample rate to <value> Hz"
+msgstr ""
+
+#: src/sound.c:249
+msgid "Set sound buffer size to <value> msec"
+msgstr ""
+
+#: src/sound.c:251 src/sound.c:255 src/c128/c128-cmdline-options.c:108
+#: src/c128/c128-cmdline-options.c:110 src/c128/c128-cmdline-options.c:112
+#: src/c128/c128-cmdline-options.c:114 src/c128/c128-cmdline-options.c:116
+#: src/c128/c128-cmdline-options.c:118 src/c128/c128-cmdline-options.c:120
+#: src/c128/c128-cmdline-options.c:122 src/c128/c128-cmdline-options.c:124
+#: src/c128/c128-cmdline-options.c:126 src/c128/c128-cmdline-options.c:128
+#: src/c128/c128-cmdline-options.c:130 src/c128/c128-cmdline-options.c:132
+#: src/c128/c128-cmdline-options.c:134 src/c128/c128-cmdline-options.c:136
+#: src/c128/c128-cmdline-options.c:157 src/c128/c128-cmdline-options.c:159
+#: src/c128/functionrom.c:143 src/c128/functionrom.c:145
+#: src/c64/c64-cmdline-options.c:91 src/c64/c64-cmdline-options.c:93
+#: src/c64/c64-cmdline-options.c:95 src/c64/c64-cmdline-options.c:112
+#: src/c64/c64-cmdline-options.c:114 src/c64/c64-cmdline-options.c:116
+#: src/c64/cart/c64cart.c:218 src/c64/cart/c64cart.c:221
+#: src/c64/cart/c64cart.c:224 src/c64/cart/c64cart.c:227
+#: src/c64/cart/c64cart.c:230 src/c64/cart/c64cart.c:233
+#: src/c64/cart/c64cart.c:236 src/c64/cart/c64cart.c:239
+#: src/c64/cart/c64cart.c:242 src/c64/cart/c64cart.c:245
+#: src/c64/cart/c64cart.c:248 src/c64/cart/c64cart.c:251
+#: src/c64/cart/ide64.c:268 src/c64/georam.c:215 src/c64/plus60k.c:206
+#: src/c64/ramcart.c:228 src/c64/reu.c:250 src/cbm2/cbm2-cmdline-options.c:132
+#: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
+#: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
+#: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
+#: src/cbm2/cbm2-cmdline-options.c:178 src/cbm2/cbm2-cmdline-options.c:181
+#: src/cbm2/cbm2-cmdline-options.c:184 src/cbm2/cbm2-cmdline-options.c:187
+#: src/cbm2/cbm2-cmdline-options.c:190 src/cbm2/cbm2-cmdline-options.c:193
+#: src/drive/iec/iec-cmdline-options.c:86
+#: src/drive/iec/iec-cmdline-options.c:88
+#: src/drive/iec/iec-cmdline-options.c:90
+#: src/drive/iec/iec-cmdline-options.c:92
+#: src/drive/iec/iec-cmdline-options.c:94
+#: src/drive/iec128dcr/iec128dcr-cmdline-options.c:45
+#: src/drive/ieee/ieee-cmdline-options.c:53
+#: src/drive/ieee/ieee-cmdline-options.c:55
+#: src/drive/ieee/ieee-cmdline-options.c:57
+#: src/drive/ieee/ieee-cmdline-options.c:59
+#: src/drive/ieee/ieee-cmdline-options.c:61
+#: src/drive/tcbm/tcbm-cmdline-options.c:45 src/fliplist.c:122
+#: src/fsdevice/fsdevice-cmdline-options.c:82
+#: src/fsdevice/fsdevice-cmdline-options.c:84
+#: src/fsdevice/fsdevice-cmdline-options.c:86
+#: src/fsdevice/fsdevice-cmdline-options.c:88 src/initcmdline.c:208
+#: src/initcmdline.c:210 src/initcmdline.c:212 src/initcmdline.c:214
+#: src/initcmdline.c:216 src/initcmdline.c:218 src/initcmdline.c:220
+#: src/log.c:110 src/pet/pet-cmdline-options.c:116
+#: src/pet/pet-cmdline-options.c:118 src/pet/pet-cmdline-options.c:120
+#: src/pet/pet-cmdline-options.c:122 src/pet/pet-cmdline-options.c:124
+#: src/pet/pet-cmdline-options.c:126 src/pet/pet-cmdline-options.c:128
+#: src/pet/pet-cmdline-options.c:163 src/pet/pet-cmdline-options.c:166
+#: src/pet/pet-cmdline-options.c:169 src/pet/pet-cmdline-options.c:172
+#: src/pet/pet-cmdline-options.c:175 src/pet/pet-cmdline-options.c:178
+#: src/plus4/plus4-cmdline-options.c:80 src/plus4/plus4-cmdline-options.c:82
+#: src/plus4/plus4-cmdline-options.c:84 src/plus4/plus4-cmdline-options.c:86
+#: src/plus4/plus4-cmdline-options.c:88 src/plus4/plus4-cmdline-options.c:90
+#: src/plus4/plus4-cmdline-options.c:92 src/plus4/plus4-cmdline-options.c:94
+#: src/plus4/plus4-cmdline-options.c:101 src/plus4/plus4-cmdline-options.c:103
+#: src/printerdrv/driver-select.c:126 src/printerdrv/driver-select.c:128
+#: src/printerdrv/driver-select.c:130 src/printerdrv/output-select.c:121
+#: src/printerdrv/output-select.c:123 src/printerdrv/output-select.c:126
+#: src/printerdrv/output-text.c:113 src/printerdrv/output-text.c:115
+#: src/printerdrv/output-text.c:117 src/rs232drv/rs232drv.c:101
+#: src/rs232drv/rs232drv.c:103 src/rs232drv/rs232drv.c:105
+#: src/rs232drv/rs232drv.c:107 src/vic20/vic20-cmdline-options.c:209
+#: src/vic20/vic20-cmdline-options.c:211 src/vic20/vic20-cmdline-options.c:213
+#: src/vic20/vic20-cmdline-options.c:228 src/vic20/vic20-cmdline-options.c:230
+#: src/vic20/vic20cartridge.c:216 src/vic20/vic20cartridge.c:218
+#: src/vic20/vic20cartridge.c:220 src/vic20/vic20cartridge.c:222
+#: src/vic20/vic20cartridge.c:224 src/video/video-cmdline-options.c:192
+msgid "<name>"
+msgstr ""
+
+#: src/sound.c:251
+msgid "Specify sound driver"
+msgstr ""
+
+#: src/sound.c:253 src/sound.c:257
+msgid "<args>"
+msgstr ""
+
+#: src/sound.c:253
+msgid "Specify initialization parameters for sound driver"
+msgstr ""
+
+#: src/sound.c:255
+#, fuzzy
+msgid "Specify recording sound driver"
+msgstr "Setze Aufnahme Meilenstein"
+
+#: src/sound.c:257
+msgid "Specify initialization parameters for recording sound driver"
+msgstr ""
+
+#: src/sound.c:259
+msgid "<sync>"
+msgstr ""
+
+#: src/sound.c:259
+msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
+msgstr ""
 
 #: src/sound.c:455
 msgid "write to sound device failed."
@@ -174,11 +305,1550 @@ msgstr ""
 msgid "Error reading start snapshot file."
 msgstr "Fehler beim Lesen der Start Snapshot Datei."
 
+#: src/event.c:1132
+#, fuzzy
+msgid "Playback recorded events"
+msgstr "Aufnahme Start"
+
 #: src/c64/c64export.c:50 src/c64/c64export.c:58 src/c64/c64export.c:68
 #: src/c64/c64export.c:76 src/c64/c64export.c:86 src/c64/c64export.c:96
 #, c-format
 msgid "Resource %s blocked by %s."
 msgstr "Resource %s wird von %s blockiert."
+
+#: src/debug.c:171
+msgid "Trace the main CPU"
+msgstr ""
+
+#: src/debug.c:174
+msgid "Do not trace the main CPU"
+msgstr ""
+
+#: src/debug.c:177
+msgid "Trace the drive0 CPU"
+msgstr ""
+
+#: src/debug.c:180
+msgid "Do not trace the drive0 CPU"
+msgstr ""
+
+#: src/debug.c:183
+msgid "Trace the drive1 CPU"
+msgstr ""
+
+#: src/debug.c:186
+msgid "Do not trace the drive1 CPU"
+msgstr ""
+
+#: src/debug.c:190
+msgid "Trace the drive2 CPU"
+msgstr ""
+
+#: src/debug.c:193
+msgid "Do not trace the drive2 CPU"
+msgstr ""
+
+#: src/debug.c:198
+msgid "Trace the drive3 CPU"
+msgstr ""
+
+#: src/debug.c:201
+msgid "Do not trace the drive3 CPU"
+msgstr ""
+
+#: src/debug.c:205
+msgid "Trace mode (0=normal 1=small 2=history)"
+msgstr ""
+
+#: src/debug.c:438
+#, c-format
+msgid "Playback error: %s different from line %d of file debug%06d"
+msgstr ""
+
+#: src/aciacore.c:142
+msgid "Specify RS232 device this ACIA should work on"
+msgstr ""
+
+#: src/attach.c:158 src/attach.c:161 src/attach.c:164 src/attach.c:167
+#: src/drive/drive-cmdline-options.c:68 src/printerdrv/interface-serial.c:124
+#: src/printerdrv/interface-serial.c:127
+#, fuzzy
+msgid "<type>"
+msgstr "<leer>"
+
+#: src/attach.c:159
+msgid "Set device type for device #8 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
+msgstr ""
+
+#: src/attach.c:162
+msgid "Set device type for device #9 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
+msgstr ""
+
+#: src/attach.c:165
+msgid "Set device type for device #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
+msgstr ""
+
+#: src/attach.c:168
+msgid "Set device type for device #11 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
+msgstr ""
+
+#: src/attach.c:171
+#, fuzzy
+msgid "Attach disk image for drive #8 read only"
+msgstr "Disk Image als Laufwerk #%d benutzen"
+
+#: src/attach.c:174
+msgid "Attach disk image for drive #8 read write (if possible)"
+msgstr ""
+
+#: src/attach.c:177
+#, fuzzy
+msgid "Attach disk image for drive #9 read only"
+msgstr "Disk Image als Laufwerk #%d benutzen"
+
+#: src/attach.c:180
+msgid "Attach disk image for drive #9 read write (if possible)"
+msgstr ""
+
+#: src/attach.c:183
+#, fuzzy
+msgid "Attach disk image for drive #10 read only"
+msgstr "Disk Image als Laufwerk #%d benutzen"
+
+#: src/attach.c:186
+msgid "Attach disk image for drive #10 read write (if possible)"
+msgstr ""
+
+#: src/attach.c:189
+#, fuzzy
+msgid "Attach disk image for drive #11 read only"
+msgstr "Disk Image als Laufwerk #%d benutzen"
+
+#: src/attach.c:192
+msgid "Attach disk image for drive #11 read write (if possible)"
+msgstr ""
+
+#: src/c128/c128-cmdline-options.c:104 src/c64/c64-cmdline-options.c:84
+#: src/c64/psid.c:152 src/plus4/plus4-cmdline-options.c:76
+#: src/vic20/vic20-cmdline-options.c:205
+msgid "Use PAL sync factor"
+msgstr ""
+
+#: src/c128/c128-cmdline-options.c:106 src/c64/c64-cmdline-options.c:86
+#: src/c64/psid.c:155 src/plus4/plus4-cmdline-options.c:78
+#: src/vic20/vic20-cmdline-options.c:207
+msgid "Use NTSC sync factor"
+msgstr ""
+
+#: src/c128/c128-cmdline-options.c:108
+#, fuzzy
+msgid "Specify name of international Kernal ROM image"
+msgstr "Bitte Namen für positions Keymap Datei definieren"
+
+#: src/c128/c128-cmdline-options.c:110
+#, fuzzy
+msgid "Specify name of German Kernal ROM image"
+msgstr "Deutsches Kernal ROM Laden"
+
+#: src/c128/c128-cmdline-options.c:112
+#, fuzzy
+msgid "Specify name of Finnish Kernal ROM image"
+msgstr "Bitte Namen für positions Keymap Datei definieren"
+
+#: src/c128/c128-cmdline-options.c:114
+#, fuzzy
+msgid "Specify name of French Kernal ROM image"
+msgstr "Bitte Namen für symbolische Keymap Datei definieren"
+
+#: src/c128/c128-cmdline-options.c:116
+#, fuzzy
+msgid "Specify name of Italian Kernal ROM image"
+msgstr "Bitte Namen für positions Keymap Datei definieren"
+
+#: src/c128/c128-cmdline-options.c:118
+#, fuzzy
+msgid "Specify name of Norwegain Kernal ROM image"
+msgstr "Bitte Namen für positions Keymap Datei definieren"
+
+#: src/c128/c128-cmdline-options.c:120
+#, fuzzy
+msgid "Specify name of Swedish Kernal ROM image"
+msgstr "Bitte Namen für positions Keymap Datei definieren"
+
+#: src/c128/c128-cmdline-options.c:122
+msgid "Specify name of BASIC ROM image (lower part)"
+msgstr ""
+
+#: src/c128/c128-cmdline-options.c:124
+msgid "Specify name of BASIC ROM image (higher part)"
+msgstr ""
+
+#: src/c128/c128-cmdline-options.c:126
+#, fuzzy
+msgid "Specify name of international character generator ROM image"
+msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
+
+#: src/c128/c128-cmdline-options.c:128
+#, fuzzy
+msgid "Specify name of German character generator ROM image"
+msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
+
+#: src/c128/c128-cmdline-options.c:130
+#, fuzzy
+msgid "Specify name of French character generator ROM image"
+msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
+
+#: src/c128/c128-cmdline-options.c:132
+#, fuzzy
+msgid "Specify name of Swedish character generator ROM image"
+msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
+
+#: src/c128/c128-cmdline-options.c:134
+#, fuzzy
+msgid "Specify name of C64 mode Kernal ROM image"
+msgstr "Bitte Namen für symbolische Keymap Datei definieren"
+
+#: src/c128/c128-cmdline-options.c:136
+msgid "Specify name of C64 mode BASIC ROM image"
+msgstr ""
+
+#: src/c128/c128-cmdline-options.c:138 src/c64/c64-cmdline-options.c:97
+#: src/cbm2/cbm2-cmdline-options.c:171 src/pet/pet-cmdline-options.c:156
+#: src/vic20/vic20-cmdline-options.c:217
+#, fuzzy
+msgid "Enable emulator identification"
+msgstr "*Emulator Identifikation"
+
+#: src/c128/c128-cmdline-options.c:140 src/c64/c64-cmdline-options.c:99
+#: src/cbm2/cbm2-cmdline-options.c:173 src/pet/pet-cmdline-options.c:158
+#: src/vic20/vic20-cmdline-options.c:219
+#, fuzzy
+msgid "Disable emulator identification"
+msgstr "*Emulator Identifikation"
+
+#: src/c128/c128-cmdline-options.c:142
+#, fuzzy
+msgid "Enable the IEEE488 interface emulation"
+msgstr "*IEEE488 Schnittstellen-Emulation"
+
+#: src/c128/c128-cmdline-options.c:144
+#, fuzzy
+msgid "Disable the IEEE488 interface emulation"
+msgstr "*IEEE488 Schnittstellen-Emulation"
+
+#: src/c128/c128-cmdline-options.c:146 src/c64/c64-cmdline-options.c:101
+#, fuzzy
+msgid "<revision>"
+msgstr "Revision"
+
+#: src/c128/c128-cmdline-options.c:146 src/c64/c64-cmdline-options.c:101
+msgid "Patch the Kernal ROM to the specified <revision>"
+msgstr ""
+
+#: src/c128/c128-cmdline-options.c:149 src/c64/c64-cmdline-options.c:104
+#, fuzzy
+msgid "Enable the $DE** ACIA RS232 interface emulation"
+msgstr "*ACIA $DExx RS232 Schnittstellen-Emulation"
+
+#: src/c128/c128-cmdline-options.c:155 src/c64/c64-cmdline-options.c:110
+#: src/c64/psid.c:164 src/cbm2/cbm2-cmdline-options.c:176
+#: src/pet/pet-cmdline-options.c:161 src/plus4/plus4-cmdline-options.c:99
+#: src/vdc/vdc-cmdline-options.c:68 src/vic20/vic20-cmdline-options.c:226
+msgid "<number>"
+msgstr ""
+
+#: src/c128/c128-cmdline-options.c:155 src/plus4/plus4-cmdline-options.c:99
+#: src/vic20/vic20-cmdline-options.c:226
+msgid "Specify index of keymap file (0=symbol, 1=positional)"
+msgstr "Index für Kymap Datei festlegen (0=symbol, 1=positional)"
+
+#: src/c128/c128-cmdline-options.c:157 src/c64/c64-cmdline-options.c:112
+#: src/plus4/plus4-cmdline-options.c:101 src/vic20/vic20-cmdline-options.c:228
+msgid "Specify name of symbolic keymap file"
+msgstr "Bitte Namen für symbolische Keymap Datei definieren"
+
+#: src/c128/c128-cmdline-options.c:159 src/c64/c64-cmdline-options.c:116
+#: src/plus4/plus4-cmdline-options.c:103 src/vic20/vic20-cmdline-options.c:230
+msgid "Specify name of positional keymap file"
+msgstr "Bitte Namen für positions Keymap Datei definieren"
+
+#: src/c128/c128mmu.c:106
+#, fuzzy
+msgid "Activate 40 column mode"
+msgstr "Monitor Aktivieren"
+
+#: src/c128/c128mmu.c:109
+#, fuzzy
+msgid "Activate 80 column mode"
+msgstr "Monitor Aktivieren"
+
+#: src/c128/functionrom.c:143
+#, fuzzy
+msgid "Specify name of internal Function ROM image"
+msgstr "*Aktivieren des internen Function ROM"
+
+#: src/c128/functionrom.c:145
+#, fuzzy
+msgid "Specify name of external Function ROM image"
+msgstr "*Aktivieren des externen Function ROM"
+
+#: src/c128/functionrom.c:147
+#, fuzzy
+msgid "Enable the internal Function ROM"
+msgstr "*Aktivieren des internen Function ROM"
+
+#: src/c128/functionrom.c:149
+#, fuzzy
+msgid "Disable the internal Function ROM"
+msgstr "*Aktivieren des internen Function ROM"
+
+#: src/c128/functionrom.c:151
+#, fuzzy
+msgid "Enable the external Function ROM"
+msgstr "*Aktivieren des externen Function ROM"
+
+#: src/c128/functionrom.c:153
+#, fuzzy
+msgid "Disable the external Function ROM"
+msgstr "*Aktivieren des externen Function ROM"
+
+#: src/c64/c64-cmdline-options.c:89 src/c64/psid.c:158
+msgid "Use old NTSC sync factor"
+msgstr ""
+
+#: src/c64/c64-cmdline-options.c:91 src/cbm2/cbm2-cmdline-options.c:132
+#: src/pet/pet-cmdline-options.c:116 src/plus4/plus4-cmdline-options.c:80
+#: src/vic20/vic20-cmdline-options.c:209
+#, fuzzy
+msgid "Specify name of Kernal ROM image"
+msgstr "Bitte Namen für positions Keymap Datei definieren"
+
+#: src/c64/c64-cmdline-options.c:93 src/cbm2/cbm2-cmdline-options.c:134
+#: src/pet/pet-cmdline-options.c:118 src/plus4/plus4-cmdline-options.c:82
+#: src/vic20/vic20-cmdline-options.c:211
+msgid "Specify name of BASIC ROM image"
+msgstr ""
+
+#: src/c64/c64-cmdline-options.c:95 src/cbm2/cbm2-cmdline-options.c:136
+#: src/pet/pet-cmdline-options.c:122 src/vic20/vic20-cmdline-options.c:213
+#, fuzzy
+msgid "Specify name of character generator ROM image"
+msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
+
+#: src/c64/c64-cmdline-options.c:106
+#, fuzzy
+msgid "Disable the $DE** ACIA RS232 interface emulation"
+msgstr "*ACIA $DExx RS232 Schnittstellen-Emulation"
+
+#: src/c64/c64-cmdline-options.c:110
+#, fuzzy
+msgid "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
+msgstr "Index für Kymap Datei festlegen (0=symbol, 1=positional)"
+
+#: src/c64/c64-cmdline-options.c:114
+#, fuzzy
+msgid "Specify name of symbolic German keymap file"
+msgstr "Bitte Namen für symbolische Keymap Datei definieren"
+
+#: src/c64/cart/c64cart.c:212
+msgid "Reset machine if a cartridge is attached or detached"
+msgstr ""
+
+#: src/c64/cart/c64cart.c:215
+msgid "Do not reset machine if a cartridge is attached or detached"
+msgstr ""
+
+#: src/c64/cart/c64cart.c:218
+#, fuzzy
+msgid "Attach CRT cartridge image"
+msgstr "Erweiterungsmodul Image einlegen"
+
+#: src/c64/cart/c64cart.c:221
+#, fuzzy
+msgid "Attach generic 8KB cartridge image"
+msgstr "Erweiterungsmodul Image einlegen"
+
+#: src/c64/cart/c64cart.c:224
+#, fuzzy
+msgid "Attach generic 16KB cartridge image"
+msgstr "Universal 16Kb Image einlegen..."
+
+#: src/c64/cart/c64cart.c:227
+#, fuzzy
+msgid "Attach raw 32KB Action Replay cartridge image"
+msgstr "Action Replay Image einlegen..."
+
+#: src/c64/cart/c64cart.c:230
+#, fuzzy
+msgid "Attach raw 64KB Retro Replay cartridge image"
+msgstr "Erweiterungsmodul Image einlegen"
+
+#: src/c64/cart/c64cart.c:233
+#, fuzzy
+msgid "Attach raw 64KB IDE64 cartridge image"
+msgstr "Erweiterungsmodul Image einlegen"
+
+#: src/c64/cart/c64cart.c:236
+#, fuzzy
+msgid "Attach raw 32KB Atomic Power cartridge image"
+msgstr "Erweiterungsmodul Image einlegen"
+
+#: src/c64/cart/c64cart.c:239
+#, fuzzy
+msgid "Attach raw 8KB Epyx fastload cartridge image"
+msgstr "Epyx Fastload Image einlegen..."
+
+#: src/c64/cart/c64cart.c:242
+#, fuzzy
+msgid "Attach raw 32KB Super Snapshot cartridge image"
+msgstr "Super Snapshot 4 Image einlegen..."
+
+#: src/c64/cart/c64cart.c:245
+#, fuzzy
+msgid "Attach raw 64KB Super Snapshot cartridge image"
+msgstr "Super Snapshot 4 Image einlegen..."
+
+#: src/c64/cart/c64cart.c:248
+#, fuzzy
+msgid "Attach CBM IEEE488 cartridge image"
+msgstr "Erweiterungsmodul Image einlegen"
+
+#: src/c64/cart/c64cart.c:251
+#, fuzzy
+msgid "Attach raw 16KB Westermann learning cartridge image"
+msgstr "Erweiterungsmodul Image einlegen"
+
+#: src/c64/cart/c64cart.c:254
+#, fuzzy
+msgid "Enable expert cartridge"
+msgstr "Expert Cartridge aktivieren..."
+
+#: src/c64/cart/ide64.c:268
+#, fuzzy
+msgid "Specify name of IDE64 image file"
+msgstr "Bitte Namen für symbolische Keymap Datei definieren"
+
+#: src/c64/cart/ide64.c:270
+msgid "Set number of cylinders for the IDE64 emulation"
+msgstr ""
+
+#: src/c64/cart/ide64.c:272
+msgid "Set number of heads for the IDE64 emulation"
+msgstr ""
+
+#: src/c64/cart/ide64.c:274
+msgid "Set number of sectors for the IDE64 emulation"
+msgstr ""
+
+#: src/c64/cart/ide64.c:277
+msgid "Autodetect geometry of formatted images"
+msgstr ""
+
+#: src/c64/cart/ide64.c:280
+msgid "Do not autodetect geometry of formatted images"
+msgstr ""
+
+#: src/c64/cart/ide64.c:782
+#, c-format
+msgid "IDE64: Using imagefile `%s'."
+msgstr ""
+
+#: src/c64/cart/ide64.c:785
+#, c-format
+msgid "IDE64: Cannot use image file `%s'. NO DRIVE EMULATION!"
+msgstr ""
+
+#: src/c64/cart/ide64.c:801
+msgid "IDE64: Couldn't read disk geometry from image, using default 8MB."
+msgstr ""
+
+#: src/c64/cart/ide64.c:835
+msgid "IDE64: Disk is not formatted, using default 8MB."
+msgstr ""
+
+#: src/c64/cart/ide64.c:843
+#, c-format
+msgid "IDE64: using %i/%i/%i CHS geometry, %lu sectors total."
+msgstr ""
+
+#: src/c64/cart/ide64.c:845
+#, c-format
+msgid "IDE64: LBA geometry, %lu sectors total."
+msgstr ""
+
+#: src/c64/georam.c:211
+#, fuzzy
+msgid "Enable the GEORAM expansion unit"
+msgstr "GEORAM Erweiterung"
+
+#: src/c64/georam.c:213
+#, fuzzy
+msgid "Disable the GEORAM expansion unit"
+msgstr "GEORAM Erweiterung"
+
+#: src/c64/georam.c:215
+#, fuzzy
+msgid "Specify name of GEORAM image"
+msgstr "Bitte Namen für symbolische Keymap Datei definieren"
+
+#: src/c64/georam.c:217 src/c64/ramcart.c:230 src/c64/reu.c:252
+msgid "<size in KB>"
+msgstr ""
+
+#: src/c64/georam.c:217
+#, fuzzy
+msgid "Size of the GEORAM expansion unit"
+msgstr "GEORAM Erweiterung"
+
+#: src/c64/plus60k.c:202
+#, fuzzy
+msgid "Enable the +60K RAM expansion"
+msgstr "+60K RAM Expansion Hack"
+
+#: src/c64/plus60k.c:204
+#, fuzzy
+msgid "Disable the +60K RAM expansion"
+msgstr "Laufwerk #10 RAM Erweiterung"
+
+#: src/c64/plus60k.c:206
+#, fuzzy
+msgid "Specify name of +60K image"
+msgstr "Bitte Namen für symbolische Keymap Datei definieren"
+
+#: src/c64/psid.c:160
+msgid "SID player mode"
+msgstr ""
+
+#: src/c64/psid.c:162
+msgid "Override PSID settings for Video standard and SID model"
+msgstr ""
+
+#: src/c64/psid.c:164
+msgid "Specify PSID tune <number>"
+msgstr ""
+
+#: src/c64/ramcart.c:224
+#, fuzzy
+msgid "Enable the RAMCART expansion"
+msgstr "*Aktivieren der RAMCART"
+
+#: src/c64/ramcart.c:226
+#, fuzzy
+msgid "Disable the RAMCART expansion"
+msgstr "Laufwerk #8 RAM Erweiterung"
+
+#: src/c64/ramcart.c:228
+#, fuzzy
+msgid "Specify name of RAMCART image"
+msgstr "Bitte Namen für symbolische Keymap Datei definieren"
+
+#: src/c64/ramcart.c:230
+#, fuzzy
+msgid "Size of the RAMCART expansion"
+msgstr "Laufwerk #9 RAM Erweiterung"
+
+#: src/c64/reu.c:246
+#, fuzzy
+msgid "Enable the RAM expansion unit"
+msgstr "RAM Speichererweiterung"
+
+#: src/c64/reu.c:248
+#, fuzzy
+msgid "Disable the RAM expansion unit"
+msgstr "Laufwerk #9 RAM Erweiterung"
+
+#: src/c64/reu.c:250
+#, fuzzy
+msgid "Specify name of REU image"
+msgstr "Bitte Namen für symbolische Keymap Datei definieren"
+
+#: src/c64/reu.c:252
+#, fuzzy
+msgid "Size of the RAM expansion unit"
+msgstr "RAM Speichererweiterung"
+
+#: src/c64/tfe.c:1514
+msgid "Enable the TFE (\"the final ethernet\") unit"
+msgstr ""
+
+#: src/c64/tfe.c:1516
+msgid "Disable the TFE (\"the final ethernet\") unit"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:121 src/pet/pet-cmdline-options.c:114
+msgid "<modelnumber>"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:121
+msgid "Specify CBM-II model to emulate"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:123
+msgid "Specify to use VIC-II"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:125
+msgid "Specify to use CRTC"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:127
+msgid "<linenumber>"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:127
+msgid "Specify CBM-II model hardware (0=6x0, 1=7x0)"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:129 src/plus4/plus4-cmdline-options.c:96
+msgid "<ramsize>"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:129
+msgid "Specify size of RAM (64/128/256/512/1024 kByte)"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:139
+#, fuzzy
+msgid "Specify name of cartridge ROM image for $1000"
+msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
+
+#: src/cbm2/cbm2-cmdline-options.c:141
+msgid "Specify name of cartridge ROM image for $2000-$3fff"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:143
+msgid "Specify name of cartridge ROM image for $4000-$5fff"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:145
+msgid "Specify name of cartridge ROM image for $6000-$7fff"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:147
+msgid "Enable RAM mapping in $0800-$0FFF"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:149
+msgid "Disable RAM mapping in $0800-$0FFF"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:151
+msgid "Enable RAM mapping in $1000-$1FFF"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:153
+msgid "Disable RAM mapping in $1000-$1FFF"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:155
+msgid "Enable RAM mapping in $2000-$3FFF"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:157
+msgid "Disable RAM mapping in $2000-$3FFF"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:159
+msgid "Enable RAM mapping in $4000-$5FFF"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:161
+msgid "Disable RAM mapping in $4000-$5FFF"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:163
+msgid "Enable RAM mapping in $6000-$7FFF"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:165
+msgid "Disable RAM mapping in $6000-$7FFF"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:167
+msgid "Enable RAM mapping in $C000-$CFFF"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:169
+msgid "Disable RAM mapping in $C000-$CFFF"
+msgstr ""
+
+#: src/cbm2/cbm2-cmdline-options.c:176 src/pet/pet-cmdline-options.c:161
+#, fuzzy
+msgid "Specify index of keymap file"
+msgstr "Bitte Namen für symbolische Keymap Datei definieren"
+
+#: src/cbm2/cbm2-cmdline-options.c:179 src/pet/pet-cmdline-options.c:164
+msgid "Specify name of graphics keyboard symbolic keymap file"
+msgstr "Keymap Datei für graphics keyboard symbolic definieren"
+
+#: src/cbm2/cbm2-cmdline-options.c:182 src/pet/pet-cmdline-options.c:167
+msgid "Specify name of graphics keyboard positional keymap file"
+msgstr "Keymap Datei für graphics keyboard positional definieren"
+
+#: src/cbm2/cbm2-cmdline-options.c:185 src/pet/pet-cmdline-options.c:170
+msgid "Specify name of UK business keyboard symbolic keymap file"
+msgstr "Keymap Datei für UK business keyboard symbolic definieren"
+
+#: src/cbm2/cbm2-cmdline-options.c:188 src/pet/pet-cmdline-options.c:173
+msgid "Specify name of UK business keyboard positional keymap file"
+msgstr "Keymap Datei für UK business keyboard positional definieren"
+
+#: src/cbm2/cbm2-cmdline-options.c:191 src/pet/pet-cmdline-options.c:176
+msgid "Specify name of German business keyboard symbolic keymap file"
+msgstr "Keymap Datei für German business keyboard symbolic definieren"
+
+#: src/cbm2/cbm2-cmdline-options.c:194 src/pet/pet-cmdline-options.c:179
+msgid "Specify name of German business keyboard positional keymap file"
+msgstr "Keymap Datei für German business keyboard positional definieren"
+
+#: src/datasette.c:174
+msgid "Enable automatic Datasette-Reset"
+msgstr ""
+
+#: src/datasette.c:177
+msgid "Disable automatic Datasette-Reset"
+msgstr ""
+
+#: src/datasette.c:180
+msgid "Set delay in cycles for a zero in the tap"
+msgstr ""
+
+#: src/datasette.c:183
+msgid "Set number of cycles added to each gap in the tap"
+msgstr ""
+
+#: src/drive/drive-cmdline-options.c:51
+msgid "Enable hardware-level emulation of disk drives"
+msgstr ""
+
+#: src/drive/drive-cmdline-options.c:53
+msgid "Disable hardware-level emulation of disk drives"
+msgstr ""
+
+#: src/drive/drive-cmdline-options.c:69
+msgid "Set drive type (0: no drive)"
+msgstr ""
+
+#: src/drive/drive-cmdline-options.c:70
+#: src/drive/iec/iec-cmdline-options.c:104 src/sid/sid-cmdline-options.c:99
+msgid "<method>"
+msgstr ""
+
+#: src/drive/drive-cmdline-options.c:71
+msgid "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
+msgstr ""
+
+#: src/drive/iec/iec-cmdline-options.c:86
+msgid "Specify name of 1541 DOS ROM image"
+msgstr ""
+
+#: src/drive/iec/iec-cmdline-options.c:88
+msgid "Specify name of 1541-II DOS ROM image"
+msgstr ""
+
+#: src/drive/iec/iec-cmdline-options.c:90
+msgid "Specify name of 1570 DOS ROM image"
+msgstr ""
+
+#: src/drive/iec/iec-cmdline-options.c:92
+msgid "Specify name of 1571 DOS ROM image"
+msgstr ""
+
+#: src/drive/iec/iec-cmdline-options.c:94
+msgid "Specify name of 1581 DOS ROM image"
+msgstr ""
+
+#: src/drive/iec/iec-cmdline-options.c:100
+#, fuzzy
+msgid "Enable SpeedDOS-compatible parallel cable"
+msgstr "*Parallel Kabel für Laufwerk #8 aktivieren"
+
+#: src/drive/iec/iec-cmdline-options.c:102
+#, fuzzy
+msgid "Disable SpeedDOS-compatible parallel cable"
+msgstr "*Parallel Kabel für Laufwerk #9 aktivieren"
+
+#: src/drive/iec/iec-cmdline-options.c:105
+msgid "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
+msgstr ""
+
+#: src/drive/iec/iec-cmdline-options.c:107
+msgid "Enable 8KB RAM expansion at $2000-$3FFF"
+msgstr ""
+
+#: src/drive/iec/iec-cmdline-options.c:109
+#, fuzzy
+msgid "Disable 8KB RAM expansion at $2000-$3FFF"
+msgstr "Laufwerk #8 RAM Erweiterung"
+
+#: src/drive/iec/iec-cmdline-options.c:111
+msgid "Enable 8KB RAM expansion at $4000-$5FFF"
+msgstr ""
+
+#: src/drive/iec/iec-cmdline-options.c:113
+#, fuzzy
+msgid "Disable 8KB RAM expansion at $4000-$5FFF"
+msgstr "Laufwerk #8 RAM Erweiterung"
+
+#: src/drive/iec/iec-cmdline-options.c:115
+msgid "Enable 8KB RAM expansion at $6000-$7FFF"
+msgstr ""
+
+#: src/drive/iec/iec-cmdline-options.c:117
+#, fuzzy
+msgid "Disable 8KB RAM expansion at $6000-$7FFF"
+msgstr "Laufwerk #8 RAM Erweiterung"
+
+#: src/drive/iec/iec-cmdline-options.c:119
+msgid "Enable 8KB RAM expansion at $8000-$9FFF"
+msgstr ""
+
+#: src/drive/iec/iec-cmdline-options.c:121
+#, fuzzy
+msgid "Disable 8KB RAM expansion at $8000-$9FFF"
+msgstr "Laufwerk #8 RAM Erweiterung"
+
+#: src/drive/iec/iec-cmdline-options.c:123
+msgid "Enable 8KB RAM expansion at $A000-$BFFF"
+msgstr ""
+
+#: src/drive/iec/iec-cmdline-options.c:125
+#, fuzzy
+msgid "Disable 8KB RAM expansion at $A000-$BFFF"
+msgstr "Laufwerk #8 RAM Erweiterung"
+
+#: src/drive/iec128dcr/iec128dcr-cmdline-options.c:45
+msgid "Specify name of 1571CR DOS ROM image"
+msgstr ""
+
+#: src/drive/ieee/ieee-cmdline-options.c:53
+msgid "Specify name of 2031 DOS ROM image"
+msgstr ""
+
+#: src/drive/ieee/ieee-cmdline-options.c:55
+msgid "Specify name of 2040 DOS ROM image"
+msgstr ""
+
+#: src/drive/ieee/ieee-cmdline-options.c:57
+msgid "Specify name of 3040 DOS ROM image"
+msgstr ""
+
+#: src/drive/ieee/ieee-cmdline-options.c:59
+msgid "Specify name of 4040 DOS ROM image"
+msgstr ""
+
+#: src/drive/ieee/ieee-cmdline-options.c:61
+msgid "Specify name of 1001/8050/8250 DOS ROM image"
+msgstr ""
+
+#: src/drive/tcbm/tcbm-cmdline-options.c:45
+msgid "Specify name of 1551 DOS ROM image"
+msgstr ""
+
+#: src/fliplist.c:122
+#, fuzzy
+msgid "Specify name of the flip list file image"
+msgstr "Bitte Namen für positions Keymap Datei definieren"
+
+#: src/fsdevice/fsdevice-cmdline-options.c:82
+msgid "Use <name> as directory for file system device #8"
+msgstr ""
+
+#: src/fsdevice/fsdevice-cmdline-options.c:84
+msgid "Use <name> as directory for file system device #9"
+msgstr ""
+
+#: src/fsdevice/fsdevice-cmdline-options.c:86
+msgid "Use <name> as directory for file system device #10"
+msgstr ""
+
+#: src/fsdevice/fsdevice-cmdline-options.c:88
+msgid "Use <name> as directory for file system device #11"
+msgstr ""
+
+#: src/gfxoutputdrv/ffmpegdrv.c:133
+msgid "Set bitrate for audio stream in media file"
+msgstr ""
+
+#: src/gfxoutputdrv/ffmpegdrv.c:136
+msgid "Set bitrate for video stream in media file"
+msgstr ""
+
+#: src/gfxoutputdrv/ffmpegdrv.c:491
+msgid "ffmpegdrv: Cannot open video stream"
+msgstr ""
+
+#: src/gfxoutputdrv/ffmpegdrv.c:496
+msgid "ffmpegdrv: Cannot open audio stream"
+msgstr ""
+
+#: src/gfxoutputdrv/ffmpegdrv.c:505
+#, c-format
+msgid "ffmpegdrv: Cannot open %s"
+msgstr ""
+
+#: src/initcmdline.c:155 src/initcmdline.c:157 src/initcmdline.c:159
+msgid "Show a list of the available options and exit normally"
+msgstr ""
+
+#: src/initcmdline.c:162
+msgid "Console mode (for music playback)"
+msgstr ""
+
+#: src/initcmdline.c:164
+msgid "Allow production of core dumps"
+msgstr ""
+
+#: src/initcmdline.c:166
+msgid "Do not produce core dumps"
+msgstr ""
+
+#: src/initcmdline.c:169
+msgid "Don't call exception handler"
+msgstr ""
+
+#: src/initcmdline.c:171
+msgid "Call exception handler (default)"
+msgstr ""
+
+#: src/initcmdline.c:206
+#, fuzzy
+msgid "Restore default (factory) settings"
+msgstr "Wiederherstellen Standard Einstellungen"
+
+#: src/initcmdline.c:208
+#, fuzzy
+msgid "Attach and autostart tape/disk image <name>"
+msgstr "Disk Image einlegen"
+
+#: src/initcmdline.c:210
+#, fuzzy
+msgid "Attach and autoload tape/disk image <name>"
+msgstr "Disk Image einlegen"
+
+#: src/initcmdline.c:212
+#, fuzzy
+msgid "Attach <name> as a tape image"
+msgstr "Band Image einlegen"
+
+#: src/initcmdline.c:214
+#, fuzzy
+msgid "Attach <name> as a disk image in drive #8"
+msgstr "Disk Image einlegen"
+
+#: src/initcmdline.c:216
+#, fuzzy
+msgid "Attach <name> as a disk image in drive #9"
+msgstr "Disk Image einlegen"
+
+#: src/initcmdline.c:218
+#, fuzzy
+msgid "Attach <name> as a disk image in drive #10"
+msgstr "Disk Image einlegen"
+
+#: src/initcmdline.c:220
+#, fuzzy
+msgid "Attach <name> as a disk image in drive #11"
+msgstr "Disk Image einlegen"
+
+#: src/kbdbuf.c:136
+msgid "<string>"
+msgstr ""
+
+#: src/kbdbuf.c:136
+msgid "Put the specified string into the keyboard buffer"
+msgstr ""
+
+#: src/log.c:110
+msgid "Specify log file name"
+msgstr ""
+
+#: src/mouse.c:93
+msgid "Enable emulation of the 1351 proportional mouse"
+msgstr "Emulation der 1351 Proportional Mouse aktivieren"
+
+#: src/mouse.c:95
+msgid "Disable emulation of the 1351 proportional mouse"
+msgstr "Emulation der 1351 Proportional Mouse deaktivieren"
+
+#: src/mouse.c:97
+msgid "Select the joystick port the mouse is attached to"
+msgstr ""
+
+#: src/pet/pet-cmdline-options.c:114
+msgid "Specify PET model to emulate"
+msgstr ""
+
+#: src/pet/pet-cmdline-options.c:120
+#, fuzzy
+msgid "Specify name of Editor ROM image"
+msgstr "Bitte Namen für positions Keymap Datei definieren"
+
+#: src/pet/pet-cmdline-options.c:124
+msgid "Specify 4K extension ROM name at $9***"
+msgstr ""
+
+#: src/pet/pet-cmdline-options.c:126
+msgid "Specify 4K extension ROM name at $A***"
+msgstr ""
+
+#: src/pet/pet-cmdline-options.c:128
+msgid "Specify 4K extension ROM name at $B***"
+msgstr ""
+
+#: src/pet/pet-cmdline-options.c:130
+msgid "Enable PET8296 4K RAM mapping at $9***"
+msgstr ""
+
+#: src/pet/pet-cmdline-options.c:132
+msgid "Disable PET8296 4K RAM mapping at $9***"
+msgstr ""
+
+#: src/pet/pet-cmdline-options.c:134
+msgid "Enable PET8296 4K RAM mapping at $A***"
+msgstr ""
+
+#: src/pet/pet-cmdline-options.c:136
+msgid "Disable PET8296 4K RAM mapping at $A***"
+msgstr ""
+
+#: src/pet/pet-cmdline-options.c:138
+#, fuzzy
+msgid "Enable SuperPET I/O"
+msgstr "SuperPET ACIA"
+
+#: src/pet/pet-cmdline-options.c:140
+#, fuzzy
+msgid "Disable SuperPET I/O"
+msgstr "SuperPET ACIA"
+
+#: src/pet/pet-cmdline-options.c:142
+msgid "Enable ROM 1 Kernal patches"
+msgstr ""
+
+#: src/pet/pet-cmdline-options.c:144
+msgid "Disable ROM 1 Kernal patches"
+msgstr ""
+
+#: src/pet/pet-cmdline-options.c:147
+msgid "Switch upper/lower case charset"
+msgstr ""
+
+#: src/pet/pet-cmdline-options.c:150
+msgid "Do not switch upper/lower case charset"
+msgstr ""
+
+#: src/pet/pet-cmdline-options.c:152
+msgid "EOI blanks screen"
+msgstr ""
+
+#: src/pet/pet-cmdline-options.c:154
+msgid "EOI does not blank screen"
+msgstr ""
+
+#: src/pet/petpia1.c:121
+#, fuzzy
+msgid "Enable userport diagnostic pin"
+msgstr "*PET Userport Diagnose Pin"
+
+#: src/pet/petpia1.c:123
+#, fuzzy
+msgid "Disable userport diagnostic pin"
+msgstr "*PET Userport Diagnose Pin"
+
+#: src/plus4/plus4-cmdline-options.c:84
+#, fuzzy
+msgid "Specify name of Function low ROM image"
+msgstr "Bitte Namen für positions Keymap Datei definieren"
+
+#: src/plus4/plus4-cmdline-options.c:86
+#, fuzzy
+msgid "Specify name of Function high ROM image"
+msgstr "Function ROM Image Datei"
+
+#: src/plus4/plus4-cmdline-options.c:88
+#, fuzzy
+msgid "Specify name of Cartridge 1 low ROM image"
+msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
+
+#: src/plus4/plus4-cmdline-options.c:90
+#, fuzzy
+msgid "Specify name of Cartridge 1 high ROM image"
+msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
+
+#: src/plus4/plus4-cmdline-options.c:92
+#, fuzzy
+msgid "Specify name of Cartridge 2 low ROM image"
+msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
+
+#: src/plus4/plus4-cmdline-options.c:94
+#, fuzzy
+msgid "Specify name of Cartridge 2 high ROM image"
+msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
+
+#: src/plus4/plus4-cmdline-options.c:96
+msgid "Specify size of RAM installed in kb (16/32/64)"
+msgstr ""
+
+#: src/plus4/ted-cmdline-options.c:56 src/vicii/vicii-cmdline-options.c:83
+msgid "Set saturation of internal calculated palette [1000]"
+msgstr ""
+
+#: src/plus4/ted-cmdline-options.c:58 src/vicii/vicii-cmdline-options.c:85
+msgid "Set contrast of internal calculated palette [1100]"
+msgstr ""
+
+#: src/plus4/ted-cmdline-options.c:60 src/vicii/vicii-cmdline-options.c:87
+msgid "Set brightness of internal calculated palette [1100]"
+msgstr ""
+
+#: src/plus4/ted-cmdline-options.c:62 src/vicii/vicii-cmdline-options.c:89
+msgid "Set gamma of internal calculated palette [900]"
+msgstr ""
+
+#: src/printerdrv/driver-select.c:126
+#, fuzzy
+msgid "Specify name of printer driver for device #4"
+msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
+
+#: src/printerdrv/driver-select.c:128
+#, fuzzy
+msgid "Specify name of printer driver for device #5"
+msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
+
+#: src/printerdrv/driver-select.c:130
+#, fuzzy
+msgid "Specify name of printer driver for the userport printer"
+msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
+
+#: src/printerdrv/interface-serial.c:125
+msgid "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)"
+msgstr ""
+
+#: src/printerdrv/interface-serial.c:128
+msgid "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"
+msgstr ""
+
+#: src/printerdrv/interface-userport.c:93
+#, fuzzy
+msgid "Enable the userport printer emulation"
+msgstr "*Userport Drucker Emulation"
+
+#: src/printerdrv/interface-userport.c:96
+#, fuzzy
+msgid "Disable the userport printer emulation"
+msgstr "*Userport Drucker Emulation"
+
+#: src/printerdrv/output-select.c:121
+#, fuzzy
+msgid "Specify name of output device for device #4"
+msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
+
+#: src/printerdrv/output-select.c:123
+#, fuzzy
+msgid "Specify name of output device for device #5"
+msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
+
+#: src/printerdrv/output-select.c:126
+#, fuzzy
+msgid "Specify name of output device for the userport printer"
+msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
+
+#: src/printerdrv/output-text.c:113 src/printerdrv/output-text.c:115
+#: src/printerdrv/output-text.c:117
+#, fuzzy
+msgid "Specify name of printer text device or dump file"
+msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
+
+#: src/printerdrv/output-text.c:120
+#, fuzzy
+msgid "Specify printer text output device for IEC printer #4"
+msgstr "Userport Drucker Text Ausgabegerät"
+
+#: src/printerdrv/output-text.c:123
+#, fuzzy
+msgid "Specify printer text output device for IEC printer #5"
+msgstr "Userport Drucker Text Ausgabegerät"
+
+#: src/printerdrv/output-text.c:126
+#, fuzzy
+msgid "Specify printer text output device for userport printer"
+msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
+
+#: src/ram.c:101
+msgid "Set the value for the very first RAM address after powerup"
+msgstr ""
+
+#: src/ram.c:104 src/ram.c:107
+msgid "<num of bytes>"
+msgstr ""
+
+#: src/ram.c:104
+msgid "Length of memory block initialized with the same value"
+msgstr ""
+
+#: src/ram.c:107
+msgid "Length of memory block initialized with the same pattern"
+msgstr ""
+
+#: src/raster/raster-cmdline-options.c:59
+#, fuzzy
+msgid "Enable the video cache"
+msgstr "*IEC Gerät aktivieren"
+
+#: src/raster/raster-cmdline-options.c:61
+msgid "Disable the video cache"
+msgstr ""
+
+#: src/rs232drv/rs232drv.c:101
+#, fuzzy
+msgid "Specify name of first RS232 device"
+msgstr "Baudrate für erstes RS232 Gerät definieren"
+
+#: src/rs232drv/rs232drv.c:103
+#, fuzzy
+msgid "Specify name of second RS232 device"
+msgstr "Baudrate für zweites RS232 Gerät definieren"
+
+#: src/rs232drv/rs232drv.c:105
+#, fuzzy
+msgid "Specify name of third RS232 device"
+msgstr "Baudrate für drittes RS232 Gerät definieren"
+
+#: src/rs232drv/rs232drv.c:107
+#, fuzzy
+msgid "Specify name of fourth RS232 device"
+msgstr "Baudrate für erstes RS232 Gerät definieren"
+
+#: src/rs232drv/rsuser.c:185
+#, fuzzy
+msgid "Enable RS232 userport emulation"
+msgstr "*Präzise Floppy Emulation"
+
+#: src/rs232drv/rsuser.c:187
+#, fuzzy
+msgid "Disable RS232 userport emulation"
+msgstr "*Userport RS232 Emulation"
+
+#: src/rs232drv/rsuser.c:189
+msgid "<baud>"
+msgstr ""
+
+#: src/rs232drv/rsuser.c:190
+#, fuzzy
+msgid "Set the baud rate of the RS232 userport emulation."
+msgstr "Baudrate für viertes RS232 Gerät definieren"
+
+#: src/rs232drv/rsuser.c:193
+#, fuzzy
+msgid "Specify VICE RS232 device for userport"
+msgstr "RS232 Gerät Datei selektieren"
+
+#: src/serial/serial-iec-device.c:148
+#, fuzzy
+msgid "Enable IEC device emulation for device #4"
+msgstr "*Präzise Floppy Emulation"
+
+#: src/serial/serial-iec-device.c:151
+msgid "Disable IEC device emulation for device #4"
+msgstr ""
+
+#: src/serial/serial-iec-device.c:154
+#, fuzzy
+msgid "Enable IEC device emulation for device #5"
+msgstr "*Präzise Floppy Emulation"
+
+#: src/serial/serial-iec-device.c:157
+msgid "Disable IEC device emulation for device #5"
+msgstr ""
+
+#: src/serial/serial-iec-device.c:160
+#, fuzzy
+msgid "Enable IEC device emulation for device #8"
+msgstr "*Präzise Floppy Emulation"
+
+#: src/serial/serial-iec-device.c:163
+msgid "Disable IEC device emulation for device #8"
+msgstr ""
+
+#: src/serial/serial-iec-device.c:166
+#, fuzzy
+msgid "Enable IEC device emulation for device #9"
+msgstr "*Präzise Floppy Emulation"
+
+#: src/serial/serial-iec-device.c:169
+msgid "Disable IEC device emulation for device #9"
+msgstr ""
+
+#: src/serial/serial-iec-device.c:172
+#, fuzzy
+msgid "Enable IEC device emulation for device #10"
+msgstr "*Präzise Floppy Emulation"
+
+#: src/serial/serial-iec-device.c:175
+msgid "Disable IEC device emulation for device #10"
+msgstr ""
+
+#: src/serial/serial-iec-device.c:178
+#, fuzzy
+msgid "Enable IEC device emulation for device #11"
+msgstr "*Präzise Floppy Emulation"
+
+#: src/serial/serial-iec-device.c:181
+msgid "Disable IEC device emulation for device #11"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:72
+#, fuzzy
+msgid "<engine>"
+msgstr "SID Engine"
+
+#: src/sid/sid-cmdline-options.c:85
+#, fuzzy
+msgid "Enable second SID"
+msgstr "*Zweiter SID"
+
+#: src/sid/sid-cmdline-options.c:88
+#, fuzzy
+msgid "<base address>"
+msgstr "*Zweiter SID Chip, Basisadresse auf $DE00"
+
+#: src/sid/sid-cmdline-options.c:88
+msgid "Specify base address for 2nd SID"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:90
+msgid "<model>"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:90
+msgid "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:93
+#, fuzzy
+msgid "Emulate SID filters"
+msgstr "*Filter Emulation"
+
+#: src/sid/sid-cmdline-options.c:96
+#, fuzzy
+msgid "Do not emulate SID filters"
+msgstr "*Filter Emulation"
+
+#: src/sid/sid-cmdline-options.c:100
+msgid ""
+"reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast "
+"resampling)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:103
+#, fuzzy
+msgid "reSID resampling passband in percentage of total bandwidth (0 - 90)"
+msgstr ""
+"Bitte Passband Prozentwert der gesamte Bandbreite eingeben\n"
+"(0 - 90, niedrig ist schneller, höher ist besser)"
+
+#: src/sid/sid-cmdline-options.c:106
+msgid "reSID gain in percent (90 - 100)"
+msgstr ""
+
+#: src/sysfile.c:127
+#, fuzzy
+msgid "<path>"
+msgstr "<leer>"
+
+#: src/sysfile.c:127
+msgid "Define search path to locate system files"
+msgstr ""
+
+#: src/traps.c:125
+msgid "Enable general mechanisms for fast disk/tape emulation"
+msgstr ""
+
+#: src/traps.c:128
+msgid "Disable general mechanisms for fast disk/tape emulation"
+msgstr ""
+
+#: src/vdc/vdc-cmdline-options.c:62
+msgid "Set the VDC memory size to 16KB"
+msgstr ""
+
+#: src/vdc/vdc-cmdline-options.c:65
+msgid "Set the VDC memory size to 64KB"
+msgstr ""
+
+#: src/vdc/vdc-cmdline-options.c:68
+msgid "Set VDC revision (0..2)"
+msgstr ""
+
+#: src/vic20/vic20-cmdline-options.c:215
+msgid "<spec>"
+msgstr ""
+
+#: src/vic20/vic20-cmdline-options.c:215
+#, fuzzy
+msgid "Specify memory configuration"
+msgstr "Aktive Konfiguration"
+
+#: src/vic20/vic20-cmdline-options.c:221
+msgid "Enable VIC-1112 IEEE488 interface"
+msgstr ""
+
+#: src/vic20/vic20-cmdline-options.c:223
+msgid "Disable VIC-1112 IEEE488 interface"
+msgstr ""
+
+#: src/vic20/vic20cartridge.c:216
+msgid "Specify 4/8/16K extension ROM name at $2000"
+msgstr ""
+
+#: src/vic20/vic20cartridge.c:218
+msgid "Specify 4/8/16K extension ROM name at $4000"
+msgstr ""
+
+#: src/vic20/vic20cartridge.c:220
+msgid "Specify 4/8/16K extension ROM name at $6000"
+msgstr ""
+
+#: src/vic20/vic20cartridge.c:222
+msgid "Specify 4/8K extension ROM name at $A000"
+msgstr ""
+
+#: src/vic20/vic20cartridge.c:224
+msgid "Specify 4K extension ROM name at $B000"
+msgstr ""
+
+#: src/vicii/vicii-cmdline-options.c:71
+#, fuzzy
+msgid "Enable sprite-background collision registers"
+msgstr "*Sprite-Hintergrund Kollisionen"
+
+#: src/vicii/vicii-cmdline-options.c:73
+#, fuzzy
+msgid "Disable sprite-background collision registers"
+msgstr "*Sprite-Hintergrund Kollisionen"
+
+#: src/vicii/vicii-cmdline-options.c:75
+#, fuzzy
+msgid "Enable sprite-sprite collision registers"
+msgstr "*Sprite-sprite Kollisionen"
+
+#: src/vicii/vicii-cmdline-options.c:77
+#, fuzzy
+msgid "Disable sprite-sprite collision registers"
+msgstr "*Sprite-sprite Kollisionen"
+
+#: src/vicii/vicii-cmdline-options.c:79
+#, fuzzy
+msgid "Use new luminances"
+msgstr "*Neue Helligkeitsemulation"
+
+#: src/vicii/vicii-cmdline-options.c:81
+#, fuzzy
+msgid "Use old luminances"
+msgstr "*Neue Helligkeitsemulation"
+
+#: src/video/video-cmdline-options.c:60
+#, fuzzy
+msgid "Enable double size"
+msgstr "*Doppelte Größe"
+
+#: src/video/video-cmdline-options.c:62
+#, fuzzy
+msgid "Disable double size"
+msgstr "*Doppelte Größe"
+
+#: src/video/video-cmdline-options.c:87
+#, fuzzy
+msgid "Enable double scan"
+msgstr "Aktiviere Vollbild Modus"
+
+#: src/video/video-cmdline-options.c:89
+#, fuzzy
+msgid "Disable double scan"
+msgstr "*Doppelt Scan"
+
+#: src/video/video-cmdline-options.c:114
+#, fuzzy
+msgid "Enable hardware scaling"
+msgstr "*Hardwareunterstützung"
+
+#: src/video/video-cmdline-options.c:116
+#, fuzzy
+msgid "Disable hardware scaling"
+msgstr "*Hardwareunterstützung"
+
+#: src/video/video-cmdline-options.c:141
+#, fuzzy
+msgid "Enable Scale2x"
+msgstr "*Warp Mode Aktivieren"
+
+#: src/video/video-cmdline-options.c:143
+#, fuzzy
+msgid "Disable Scale2x"
+msgstr "*Warp Mode Deaktivieren"
+
+#: src/video/video-cmdline-options.c:168
+msgid "Use an internal calculated palette"
+msgstr ""
+
+#: src/video/video-cmdline-options.c:170
+msgid "Use an external palette (file)"
+msgstr ""
+
+#: src/video/video-cmdline-options.c:192
+#, fuzzy
+msgid "Specify name of file of external palette"
+msgstr "Bitte Namen für positions Keymap Datei definieren"
+
+#: src/video/video-cmdline-options.c:232
+#, fuzzy
+msgid "Enable fullscreen mode"
+msgstr "Aktiviere Vollbild Modus"
+
+#: src/video/video-cmdline-options.c:234
+#, fuzzy
+msgid "Disable fullscreen mode"
+msgstr "Deaktiviere Vollbild Modus"
+
+#: src/video/video-cmdline-options.c:236
+#, fuzzy
+msgid "<device>"
+msgstr "ACIA Gerät"
+
+#: src/video/video-cmdline-options.c:236
+#, fuzzy
+msgid "Select fullscreen device"
+msgstr "Vollbild Gerät"
+
+#: src/video/video-cmdline-options.c:238
+#, fuzzy
+msgid "Enable double size in fullscreen mode"
+msgstr "*Aktiviere VidMode Vollbild Modus"
+
+#: src/video/video-cmdline-options.c:240
+#, fuzzy
+msgid "Disable double size in fullscreen mode"
+msgstr "Deaktiviere Vollbild Modus"
+
+#: src/video/video-cmdline-options.c:242
+#, fuzzy
+msgid "Enable double scan in fullscreen mode"
+msgstr "*Aktiviere VidMode Vollbild Modus"
+
+#: src/video/video-cmdline-options.c:244
+#, fuzzy
+msgid "Disable double scan in fullscreen mode"
+msgstr "Deaktiviere Vollbild Modus"
+
+#: src/video/video-cmdline-options.c:266
+msgid "<mode>"
+msgstr ""
+
+#: src/video/video-cmdline-options.c:266
+#, fuzzy
+msgid "Select fullscreen mode"
+msgstr "Aktiviere Vollbild Modus"
 
 #: src/arch/unix/c128ui.c:68 src/arch/unix/c64ui.c:68
 #: src/arch/unix/cbm2ui.c:64 src/arch/unix/uited.c:53 src/arch/unix/uivic.c:42
@@ -3683,12 +5353,6 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgid "*Drive #11 enable IEC device"
 #~ msgstr "*Parallel Kabel für Laufwerk #9 aktivieren"
 
-#~ msgid "Enable emulation of the 1351 proportional mouse"
-#~ msgstr "Emulation der 1351 Proportional Mouse aktivieren"
-
-#~ msgid "Disable emulation of the 1351 proportional mouse"
-#~ msgstr "Emulation der 1351 Proportional Mouse deaktivieren"
-
 #~ msgid "Reset Settings"
 #~ msgstr "Standard Einstellungen"
 
@@ -3725,9 +5389,6 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgid "*Enable DGA2 fullscreen"
 #~ msgstr "*Aktiviere DGA2 Vollbild Modus"
 
-#~ msgid "*Enable VidMode fullscreen"
-#~ msgstr "*Aktiviere VidMode Vollbild Modus"
-
 #~ msgid "*Fullscreen settings"
 #~ msgstr "*Vollbild Einstellungen"
 
@@ -3744,30 +5405,6 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ "Vice läuft nicht mit root Privilegiern, DGA Erweiterung nicht möglich - "
 #~ "deaktivier Vollbildmodus."
 
-#~ msgid "Specify name of symbolic keymap file"
-#~ msgstr "Bitte Namen für symbolische Keymap Datei definieren"
-
-#~ msgid "Specify name of positional keymap file"
-#~ msgstr "Bitte Namen für positions Keymap Datei definieren"
-
-#~ msgid "Specify name of graphics keyboard symbolic keymap file"
-#~ msgstr "Keymap Datei für graphics keyboard symbolic definieren"
-
-#~ msgid "Specify name of graphics keyboard positional keymap file"
-#~ msgstr "Keymap Datei für graphics keyboard positional definieren"
-
-#~ msgid "Specify name of UK business keyboard symbolic keymap file"
-#~ msgstr "Keymap Datei für UK business keyboard symbolic definieren"
-
-#~ msgid "Specify name of UK business keyboard positional keymap file"
-#~ msgstr "Keymap Datei für UK business keyboard positional definieren"
-
-#~ msgid "Specify name of German business keyboard symbolic keymap file"
-#~ msgstr "Keymap Datei für German business keyboard symbolic definieren"
-
-#~ msgid "Specify name of German business keyboard positional keymap file"
-#~ msgstr "Keymap Datei für German business keyboard positional definieren"
-
 #~ msgid "Could not find KeySym `%s'!"
 #~ msgstr "Kann Key Symbol `%s' nicht finden!"
 
@@ -3782,9 +5419,6 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 
 #~ msgid "(null)"
 #~ msgstr "(null)"
-
-#~ msgid "Specify index of keymap file (0=symbol, 1=positional)"
-#~ msgstr "Index für Kymap Datei festlegen (0=symbol, 1=positional)"
 
 #~ msgid "*Enable"
 #~ msgstr "*Aktivieren"
@@ -3808,9 +5442,6 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 
 #~ msgid "*Model defaults"
 #~ msgstr "*Modell Standardeinstellungen"
-
-#~ msgid "Specify name of printer device or dump file"
-#~ msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
 
 #~ msgid "Screen color"
 #~ msgstr "Bildschirmfarbe"
