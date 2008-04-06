@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-07-25 22:57+0200\n"
+"POT-Creation-Date: 2002-08-02 00:04+0200\n"
 "PO-Revision-Date: 2002-05-05 18:45+02:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -2210,7 +2210,7 @@ msgstr "VICE Hackers"
 msgid "Successfully initialized using XVideo (%dx%d %.4s)."
 msgstr "XVideo erfolgreich initialisiert (%dx%d %.4s)."
 
-#: src/arch/unix/x11/gnome/gnomevideo.c:114
+#: src/arch/unix/x11/gnome/gnomevideo.c:111
 msgid "Successfully initialized video."
 msgstr "Video erfolgreich initialisiert."
 
