@@ -42,10 +42,31 @@ struct _canvas {
     unsigned int width, height;
     RGB colors[NUM_AVAILABLE_COLORS];
     canvas_redraw_t exposure_handler;
+
+    /* If set to nonzero, it means we are doing triple buffering on this
+       canvas.  */
+    int use_triple_buffering;
+
+    /* Pages for triple buffering (the third page is the off-screen frame
+       buffer).  */
+    BITMAP *pages[2];
+
+    /* Currently invisible page.  */
+    int back_page;
 };
 typedef struct _canvas *canvas_t;
 
+#define CANVAS_USES_TRIPLE_BUFFERING(c) (c->use_triple_buffering)
+
+/* ------------------------------------------------------------------------- */
+
 typedef BITMAP *frame_buffer_t;
+
+#define FRAME_BUFFER_LINE_SIZE(f)	((f)->w)
+#define FRAME_BUFFER_LINE_START(f, n)   ((f)->line[(n)])
+#define FRAME_BUFFER_START(f)		(FRAME_BUFFER_LINE_START(f, 0))
+
+/* ------------------------------------------------------------------------- */
 
 struct _color_def {
     unsigned short red;
@@ -54,10 +75,6 @@ struct _color_def {
     unsigned char dither;
 };
 typedef struct _color_def color_def_t;
-
-#define FRAME_BUFFER_LINE_SIZE(f)	((f)->w)
-#define FRAME_BUFFER_LINE_START(f, n)   ((f)->line[(n)])
-#define FRAME_BUFFER_START(f)		(FRAME_BUFFER_LINE_START(f, 0))
 
 /* ------------------------------------------------------------------------- */
 
@@ -104,12 +121,25 @@ extern int num_text_lines(void);
 
 extern void video_ack_vga_mode(void);
 
+/* ------------------------------------------------------------------------- */
+
 inline static void canvas_refresh(canvas_t c, frame_buffer_t f,
 				  int xs, int ys, int xi, int yi, int w, int h)
 {
-    /* Just be safe... */
-    if (screen != NULL)
-	blit(f, screen, xs, ys, xi, yi, w, h);
+    /* Just to be sure...  */
+    if (screen == NULL)
+        return;
+
+    if (c->use_triple_buffering) {
+        /* Make sure we have finished flipping the previous frame.  */
+        while (poll_modex_scroll())
+            ;
+        blit(f, c->pages[c->back_page], xs, ys, xi, yi, w, h);
+        request_modex_scroll(0, c->back_page * c->height);
+        c->back_page = 1 - c->back_page;
+    } else {
+        blit(f, screen, xs, ys, xi, yi, w, h);
+    }
 }
 
 inline static void canvas_set_border_color(canvas_t canvas, BYTE color)

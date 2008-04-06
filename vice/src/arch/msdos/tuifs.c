@@ -26,17 +26,19 @@
 
 #include "vice.h"
 
-#include <sys/stat.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <limits.h>
+#include <ctype.h>
 #include <dirent.h>
+#include <dos.h>
+#include <errno.h>
 #include <fnmatch.h>
 #include <keys.h>
-#include <string.h>
+#include <limits.h>
 #include <pc.h>
-#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #include "tui.h"
 #include "utils.h"
@@ -125,13 +127,13 @@ static void file_list_sort(struct file_list *fl)
 	  file_list_sort_func);
 }
 
+/* XXX: Assumes `path' ends with a slash.  */
 static struct file_list *file_list_read(const char *path, const char *pattern)
 {
     struct dirent *d;
     struct file_list *fl;
     DIR *ds;
     int pathlen = strlen(path);
-    char *p = alloca(pathlen + 1);
 
     if (path == NULL || *path == '\0')
 	ds = opendir(".");
@@ -197,12 +199,24 @@ static int file_list_find(const struct file_list *fl, const char *str, int len)
 
 /* ------------------------------------------------------------------------- */
 
-static void file_selector_display_path(const char *path)
+static void file_selector_display_path(const char *path,
+                                       int x, int y, int width)
 {
+    int i, xx;
+
     tui_set_attr(FIRST_LINE_FORE, FIRST_LINE_BACK, 0);
-    textcolor(FIRST_LINE_FORE);
-    textbackground(FIRST_LINE_BACK);
-    tui_display(0, tui_num_lines() - 1, 80, path);
+    for (i = strlen(path) - 1, xx = MIN(x + width - 1, x + i);
+         i >= 0 && xx >= x;
+         i--, xx--) {
+        char c;
+
+        /* Display ellipsis on the left if longer than the line.  */
+        if (xx <= x + 1 && i > 1)
+            c = '.';
+        else
+            c = path[i] == '/' ? '\\' : path[i];
+        tui_put_char(xx, y, c);
+    }
 }
 
 static void file_selector_display_item(struct file_list *fl, int num,
@@ -253,6 +267,18 @@ static void file_selector_update(struct file_list *fl,
 
 /* ------------------------------------------------------------------------- */
 
+/* Make sure there is a trailing '/' in `*path'.  */
+static void slashize_path(char **path)
+{
+    int len = strlen(*path);
+
+    if ((*path)[len - 1] != '/') {
+        *path = xrealloc(*path, len + 2);
+        (*path)[len] = '/';
+        (*path)[len + 1] = '\0';
+    }
+}
+
 /* Display a file selector with title `title' and containing the files
    that match `pattern' in directory `directory' (if NULL, uses the
    current one).  If `default_item' is not NULL, position the file
@@ -284,16 +310,7 @@ char *tui_file_selector(const char *title, const char *directory,
     else
 	return_path = get_current_dir();
 
-    /* Make sure there is a trailing '/'.  */
-    {
-	int len = strlen(return_path);
-
-	if (return_path[len - 1] != '/') {
-	    return_path = xrealloc(return_path, len + 2);
-	    return_path[len] = '/';
-	    return_path[len + 1] = '\0';
-	}
-    }
+    slashize_path(&return_path);
 
     fl = file_list_read(return_path, pattern);
     if (fl == NULL)
@@ -323,18 +340,25 @@ char *tui_file_selector(const char *title, const char *directory,
     x = CENTER_X(width);
     y = CENTER_Y(height);
 
-    tui_display_window(x, y, width, height, MENU_FORE, MENU_BACK, title,
-		       &backing_store);
-    file_selector_display_path(return_path);
     need_update = 1;
+
+    tui_area_get(&backing_store, x, y, width + 2, height + 1);
 
     while (1) {
 	int key;
 
 	tui_set_attr(MENU_FORE, MENU_BACK, 0);
 	if (need_update) {
+            tui_display_window(x, y, width, height, MENU_FORE, MENU_BACK,
+                               title, NULL);
+            file_selector_display_path(return_path, x + 1, y + height - 1,
+                                       width - 2);
 	    file_selector_update(fl, first_item, x + 2, y + 1,
 				 field_width, num_lines, num_cols);
+            tui_set_attr(FIRST_LINE_FORE, FIRST_LINE_BACK, 0);
+            tui_display(0, tui_num_lines() - 1, tui_num_cols(),
+                        "\030\031\033\032: Move  <enter>: Select  %s<ctrl>-<letter>: Change drive",
+                        read_contents_func != NULL ? "<space>: Preview  " : "");
 	    need_update = 0;
 	}
 	tui_set_attr(MENU_FORE, MENU_HIGHLIGHT, 0);
@@ -458,7 +482,6 @@ char *tui_file_selector(const char *title, const char *directory,
 		    first_item = curr_item = 0;
 		    free(return_path);
 		    return_path = new_path;
-		    file_selector_display_path(return_path);
 		    need_update = 1;
 		} else {
 		    free(new_path);
@@ -499,7 +522,7 @@ char *tui_file_selector(const char *title, const char *directory,
 	    }
 	    break;
 	  case ' ':
-	    {
+	    if (read_contents_func != NULL) {
 		char *name;
 		char *contents;
 
@@ -509,12 +532,51 @@ char *tui_file_selector(const char *title, const char *directory,
 		sprintf(name, "%s%s", return_path, fl->items[curr_item].name);
 
 		contents = read_contents_func(name);
+                tui_display(0, tui_num_lines() - 1, tui_num_cols(), "");
 		if (contents != NULL)
 		    tui_view_text(40, 20, fl->items[curr_item].name, contents);
+                need_update = 1;
 		break;
-	    }
+	    } else
+                tui_beep();
 	  default:
-	    if (isprint(key) && str_len < 0x100) {
+            if (key >= 1 && key <= 26) {
+                /* `C-a ... C-z' change the current drive.  */
+                int num_available_drives;
+                int current_drive;
+                int drive = (int) key;
+
+                _dos_getdrive(&current_drive);
+                _dos_setdrive(current_drive, &num_available_drives);
+                if (drive <= num_available_drives) {
+                    char *new_path;
+
+                    /* FIXME: This is a hack...  Maybe there is a cleaner way
+                       to do it, but for now I just don't know.  */
+                    _dos_setdrive(drive, &num_available_drives);
+                    new_path = get_current_dir();
+                    slashize_path(&new_path);
+                    _dos_setdrive(current_drive, &num_available_drives);
+
+                    if (new_path != NULL) {
+                        struct file_list *new_fl;
+
+                        new_fl = file_list_read(new_path, pattern);
+                        if (new_fl != NULL) {
+                            file_list_free(fl);
+                            fl = new_fl;
+                            first_item = curr_item = 0;
+                            free(return_path);
+                            return_path = new_path;
+                            need_update = 1;
+                        } else {
+                            free(new_path);
+                        }
+                    }
+                } else {
+                    tui_beep();
+                }
+            } else if (isprint(key) && str_len < 0x100) {
 		int n;
 		str[str_len] = key;
 		n = file_list_find(fl, str, str_len + 1);

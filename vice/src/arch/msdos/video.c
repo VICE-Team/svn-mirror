@@ -71,18 +71,29 @@ static int in_gfx_mode;
 /* VGA Video mode to use.  */
 static int vga_mode;
 
+/* Flag: do we try to use triple buffering if possible?  */
+static int try_triple_buffering;
+
 static int set_vga_mode(resource_value_t v)
 {
     /* FIXME: Sanity check!  */
     vga_mode = (int) v;
-    printf("%s(%d)\n", __FUNCTION__, (int) v);
+    return 0;
+}
 
+static int set_try_triple_buffering(resource_value_t v)
+{
+    /* FIXME: this has only effect when we switch to gfx mode.  This is OK
+       for now, but is not the correct behavior.  */
+    try_triple_buffering = (int) v;
     return 0;
 }
 
 static resource_t resources[] = {
     { "VGAMode", RES_INTEGER, (resource_value_t) VGA_320x200,
       (resource_value_t *) &vga_mode, set_vga_mode },
+    { "TripleBuffering", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &try_triple_buffering, set_try_triple_buffering },
     { NULL }
 };
 
@@ -99,6 +110,12 @@ static cmdline_option_t cmdline_options[] = {
     { "-vgamode", SET_RESOURCE, 1, NULL, NULL,
       "VGAMode", NULL,
       "<mode>", "Set VGA mode to <mode>" },
+    { "-triplebuf", SET_RESOURCE, 0, NULL, NULL,
+      "TripleBuffering", (resource_value_t) 1,
+      NULL, "Try to use triple buffering when possible" },
+    { "+triplebuf", SET_RESOURCE, 0, NULL, NULL,
+      "TripleBuffering", (resource_value_t) 1,
+      NULL, "Disable usage of triple buffering" },
     { NULL }
 };
 
@@ -155,27 +172,52 @@ static void canvas_set_vga_mode(canvas_t c)
 {
     int i;
 
-    /* Try to get a VESA linear mode first, which might not be the
-       default. */
-    if (set_gfx_mode(GFX_VESA2L, c->width, c->height, 0, 0) >= 0) {
-	DEBUG(("GFX_VESA2L successful with width=%d height=%d",
-	       c->width, c->height));
+    /* If the user wants triple buffering, try Mode X first of all, as that
+       is (currently) the only reliable way to achieve the result.  Virtual
+       height is twice visible height to allow smooth page flipping.  */
+    if (try_triple_buffering
+        && (set_gfx_mode(GFX_MODEX, c->width, c->height, 0, c->height * 2)
+            >= 0)) {
+        DEBUG(("GFX_MODEX successful with width=%d height=%d vheight=%d",
+               c->width, c->height, c->height * 2));
+        c->use_triple_buffering = 1;
+    }
+    /* If we don't want triple buffering, try to get a VESA linear mode
+       first, which might not be the default. */
+    else if (set_gfx_mode(GFX_VESA2L, c->width, c->height, 0, 0) >= 0) {
+        DEBUG(("GFX_VESA2L successful with width=%d height=%d",
+               c->width, c->height));
+        c->use_triple_buffering = 0;
     } else if (set_gfx_mode(GFX_AUTODETECT, c->width, c->height, 0, 0) >= 0) {
-	DEBUG(("GFX_AUTODETECT successful with width=%d height=%d",
-	       c->width, c->height));
+        DEBUG(("GFX_AUTODETECT successful with width=%d height=%d",
+               c->width, c->height));
+        c->use_triple_buffering = 0;
     } else {
-	fprintf(stderr, "Cannot enable %dx%dx256 graphics.\n",
-		c->width, c->height);
-	exit(-1);
+        fprintf(stderr, "Cannot enable %dx%dx256 graphics.\n",
+                c->width, c->height);
+        exit(-1);
     }
 
-    printf("Using mode %dx%dx256 (%s).\n",
+    printf("Using mode %dx%dx256 (%s)%s.\n",
 	   c->width, c->height,
-	   is_linear_bitmap(screen) ? "linear" : "planar");
+	   is_linear_bitmap(screen) ? "linear" : "planar",
+           c->use_triple_buffering ? "; triple buffering possible" : "");
     in_gfx_mode = 1;
 
+    /* If using triple buffering, setup the timer used by Allegro to emulate
+       vertical retrace interrupts.  Wish I had $D012/$D011 on VGA.  */
+    timer_simulate_retrace(c->use_triple_buffering);
+
+    if (c->use_triple_buffering) {
+        c->pages[0] = create_sub_bitmap(screen,
+                                        0, 0, c->width, c->height);
+        c->pages[1] = create_sub_bitmap(screen,
+                                        0, c->height, c->width, c->height);
+        c->back_page = 1;
+    }
+
     for (i = 0; i < NUM_AVAILABLE_COLORS; i++)
-         set_color(i, &c->colors[i]);
+        set_color(i, &c->colors[i]);
 }
 
 /* Note: `mapped' is ignored.  */
@@ -207,8 +249,9 @@ canvas_t canvas_create(const char *win_name, unsigned int *width,
     canvas_set_vga_mode(new_canvas);
 
     new_canvas->exposure_handler = exposure_handler;
-    last_canvas = new_canvas;
+    new_canvas->back_page = 1;
 
+    last_canvas = new_canvas;
     return new_canvas;
 }
 

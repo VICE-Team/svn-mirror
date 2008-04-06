@@ -48,6 +48,7 @@ static int set_joystick_device_1(resource_value_t v)
     joystick_device_t dev = (joystick_device_t) v;
 
     joystick_device_1 = dev;
+    printf("joystick_device_1 %d\n", joystick_device_1);
     return 0;
 }
 
@@ -56,6 +57,7 @@ static int set_joystick_device_2(resource_value_t v)
     joystick_device_t dev = (joystick_device_t) v;
 
     joystick_device_2 = dev;
+    printf("joystick_device_2 %d\n", joystick_device_2);
     return 0;
 }
 
@@ -147,10 +149,11 @@ void joystick_update(void)
             value |= 2;
         if (joy_b1 || joy_b2)
             value |= 16;
+        /* ??? FIXME: Shouldn't it be the opposite?  */
+        if (joystick_device_1 == JOYDEV_HW1)
+            joy[2] = value;
         if (joystick_device_1 == JOYDEV_HW1)
             joy[1] = value;
-        if (joystick_device_2 == JOYDEV_HW1)
-            joy[2] = value;
     }
 
     if (num_joysticks >= 2
@@ -168,10 +171,11 @@ void joystick_update(void)
             value |= 2;
         if (joy2_b1 || joy2_b2)
             value |= 16;
+        /* ??? FIXME: Shouldn't it be the opposite?  */
         if (joystick_device_1 == JOYDEV_HW2)
-            joy[1] = value;
-        if (joystick_device_2 == JOYDEV_HW2)
             joy[2] = value;
+        if (joystick_device_2 == JOYDEV_HW2)
+            joy[1] = value;
     }
 }
 
@@ -204,15 +208,17 @@ int joystick_handle_key(int kcode, int pressed)
     }
 
     if (pressed) {
+        /* ??? FIXME: Shouldn't it be the opposite?  */
         if (joystick_device_1 == JOYDEV_NUMPAD)
-            joy[1] |= value;
-        if (joystick_device_2 == JOYDEV_NUMPAD)
             joy[2] |= value;
-    } else {
-        if (joystick_device_1 == JOYDEV_NUMPAD)
-            joy[1] &= ~value;
         if (joystick_device_2 == JOYDEV_NUMPAD)
+            joy[1] |= value;
+    } else {
+        /* ??? FIXME: Shouldn't it be the opposite?  */
+        if (joystick_device_1 == JOYDEV_NUMPAD)
             joy[2] &= ~value;
+        if (joystick_device_2 == JOYDEV_NUMPAD)
+            joy[1] &= ~value;
     }
 
     return 1;
