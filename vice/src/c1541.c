@@ -98,6 +98,8 @@ static unsigned int p00save[4] = { 0, 0, 0, 0 };
 
 static int drive_number = 0;
 
+static int interactive_mode = 0;
+
 /* Local functions.  */
 static int attach_cmd(int nargs, char **args);
 static int block_cmd(int nargs, char **args);
@@ -331,9 +333,11 @@ static char *read_line(const char *prompt)
 {
     static char line[1024];
 
+    line[sizeof(line)-1] = 0; /* Make sure there is a 0 at the end of the string */
+
     fputs(prompt, stdout);
     fflush(stdout);
-    return fgets(line, 255, stdin);
+    return fgets(line, sizeof(line)-1, stdin);
 }
 
 #else
@@ -609,7 +613,7 @@ static void pager_print(const char *text)
                 pager_y++;
             }
 
-            if (pager_y == pager_num_lines - 1) {
+            if (interactive_mode && (pager_y == pager_num_lines - 1)) {
                 char *s;
 
                 if (*p == '\n')
@@ -2865,6 +2869,7 @@ int main(int argc, char **argv)
         char *buf = NULL;
 
         /* Interactive mode.  */
+        interactive_mode = 1;
         printf("C1541 Version %d.%02d.\n",
                C1541_VERSION_MAJOR, C1541_VERSION_MINOR);
         printf("Copyright 1995-2003 The VICE Development Team.\n"
