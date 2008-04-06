@@ -1361,8 +1361,8 @@ static int read_cmd(int nargs, char **args)
     src_name_petscii = lib_stralloc(src_name_ascii);
     charset_petconvstring((BYTE *)src_name_petscii, 0);
 
-    if (vdrive_iec_open(drives[unit],
-                    src_name_petscii, (int)strlen(src_name_petscii), 0)) {
+    if (vdrive_iec_open(drives[unit], src_name_petscii,
+        (int)strlen(src_name_petscii), 0)) {
         fprintf(stderr,
                 "Cannot read `%s' on unit %d.\n", src_name_ascii, unit + 8);
         lib_free(src_name_ascii);
@@ -1388,7 +1388,7 @@ static int read_cmd(int nargs, char **args)
         int l;
 
         dest_name_ascii = actual_name;
-        vdrive_dir_no_a0_pads((BYTE *) dest_name_ascii, 16);
+        vdrive_dir_no_a0_pads((BYTE *)dest_name_ascii, 16);
         l = strlen(dest_name_ascii) - 1;
         while (dest_name_ascii[l] == ' ') {
             dest_name_ascii[l] = 0;
@@ -1426,7 +1426,7 @@ static int read_cmd(int nargs, char **args)
     {
         BYTE c;
 
-        while (!vdrive_iec_read(drives[unit], (BYTE *) & c, 0))
+        while (!vdrive_iec_read(drives[unit], (BYTE *)&c, 0))
             fputc(c, outf);
     }
 
