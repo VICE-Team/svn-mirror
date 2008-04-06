@@ -107,6 +107,9 @@
 #else
 #include <string.h>
 #endif
+#ifdef __riscos
+#include "ROlib.h"
+#endif
 #endif
 
 #include "charsets.h"		/* ctrl1, ctrl2, cbmkeys */
@@ -171,6 +174,7 @@
 #define CLARIF_LP	'<'	/* control code left delimiter */
 #define CLARIF_RP	'>'	/* control code right delimiter */
 
+FILE *logfile, *errfile;
 
 #if (!defined(GEMDOS) && defined(__STDC__))
 static int    parse_version ( char *str );
@@ -429,6 +433,8 @@ int    main(argc, argv)
     int     fil = 0, outf = 0, overwrt = 0, textmode = 0;
     int     flg = 0;				/* files on stdin */
 
+    logfile = stdout;
+    errfile = stderr;
 
     /* Parse arguments */
 
