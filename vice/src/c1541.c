@@ -2637,8 +2637,7 @@ static int zcreate_cmd(int nargs, char **args)
     FILE *fsfd = NULL;
     unsigned int track, sector;
     unsigned int count;
-    char fname[MAXPATHLEN], dirname[MAXPATHLEN], oname[MAXPATHLEN];
-    char *p;
+    char *p, *fname, *dirname, *oname;
     int singlefilemode = 0, err;
     BYTE sector_data[256];
 
@@ -2646,6 +2645,9 @@ static int zcreate_cmd(int nargs, char **args)
        valid header.  */
     if (open_image(drive_number, args[1], 1, DISK_IMAGE_TYPE_D64) < 0)
         return FD_BADIMAGE;
+
+    fname = lib_malloc((size_t)ioutil_maxpathlen());
+    dirname = lib_malloc((size_t)ioutil_maxpathlen());
 
     p = strrchr(args[2], FSDEV_DIR_SEP_CHR);
     if (p == NULL) {
@@ -2661,8 +2663,12 @@ static int zcreate_cmd(int nargs, char **args)
         size_t len_path;
 
         len_path = (size_t)(p - args[2]);
-        if (len_path == strlen(args[2]) - 1)
+        if (len_path == strlen(args[2]) - 1) {
+            /* FIXME: Close image?  */
+            lib_free(fname);
+            lib_free(dirname);
             return FD_RDERR;
+        }
         strncpy(dirname, args[2], len_path + 1);
         dirname[len_path + 1] = '\0';
 
@@ -2675,6 +2681,8 @@ static int zcreate_cmd(int nargs, char **args)
         fname[0] = '0';
         fname[1] = '!';
     }
+
+    oname = lib_malloc((size_t)ioutil_maxpathlen());
 
     printf("Copying blocks to image.\n");
 
@@ -2708,6 +2716,9 @@ static int zcreate_cmd(int nargs, char **args)
                 strcat(oname, fname);
                 if ((fsfd = fopen(oname, MODE_READ)) == NULL) {
                     fprintf(stderr, "Cannot open `%s'.\n", fname);
+                    lib_free(fname);
+                    lib_free(dirname);
+                    lib_free(oname);
                     return FD_NOTRD;
                 }
                 fseek(fsfd, (track == 1) ? 4 : 2, SEEK_SET);
@@ -2721,12 +2732,18 @@ static int zcreate_cmd(int nargs, char **args)
                                       (char *)sector_data);
             if (err) {
                 fclose(fsfd);
+                lib_free(fname);
+                lib_free(dirname);
+                lib_free(oname);
                 return FD_BADIMAGE;
             }
             /* Write one block */
             if (disk_image_write_sector(vdrive->image, sector_data, track,
                 sector) < 0) {
                 fclose(fsfd);
+                lib_free(fname);
+                lib_free(dirname);
+                lib_free(oname);
                 return FD_RDERR;
             }
         }
@@ -2735,6 +2752,11 @@ static int zcreate_cmd(int nargs, char **args)
     fclose(fsfd);
 
     vdrive_command_execute(vdrive, (BYTE *)"I", 1);
+
+    lib_free(fname);
+    lib_free(dirname);
+    lib_free(oname);
+
     return FD_OK;
 }
 
