@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-10-10 14:47+0200\n"
-"PO-Revision-Date: 2005-10-02 12:59+0200\n"
+"POT-Creation-Date: 2005-10-23 18:01+0200\n"
+"PO-Revision-Date: 2005-10-12 22:03+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2453,97 +2453,97 @@ msgstr "*Dump Dateiname"
 msgid "*Exec process"
 msgstr "*Prozess ausführen"
 
-#: src/arch/unix/uiattach.c:74
+#: src/arch/unix/uiattach.c:75
 #, c-format
 msgid "Attach Disk Image as unit #%d"
 msgstr "Disk Image als Laufwerk #%d benutzen"
 
-#: src/arch/unix/uiattach.c:89 src/arch/unix/uiattach.c:142
+#: src/arch/unix/uiattach.c:90 src/arch/unix/uiattach.c:143
 msgid "Invalid Disk Image"
 msgstr "Ungültiges Disk Image."
 
-#: src/arch/unix/uiattach.c:97
+#: src/arch/unix/uiattach.c:98
 msgid "Invalid Disk Image or Filename"
 msgstr "Ungültiges Disk Image oder Dateiname falsch."
 
-#: src/arch/unix/uiattach.c:112 src/arch/unix/uiattach.c:146
+#: src/arch/unix/uiattach.c:113 src/arch/unix/uiattach.c:147
 msgid "Unit #8..."
 msgstr "Laufwerk #8..."
 
-#: src/arch/unix/uiattach.c:115 src/arch/unix/uiattach.c:148
+#: src/arch/unix/uiattach.c:116 src/arch/unix/uiattach.c:149
 msgid "Unit #9..."
 msgstr "Laufwerk #9..."
 
-#: src/arch/unix/uiattach.c:118 src/arch/unix/uiattach.c:150
+#: src/arch/unix/uiattach.c:119 src/arch/unix/uiattach.c:151
 msgid "Unit #10..."
 msgstr "Laufwerk #10..."
 
-#: src/arch/unix/uiattach.c:121 src/arch/unix/uiattach.c:152
+#: src/arch/unix/uiattach.c:122 src/arch/unix/uiattach.c:153
 msgid "Unit #11..."
 msgstr "Laufwerk #11..."
 
-#: src/arch/unix/uiattach.c:166 src/arch/unix/uicommands.c:403
+#: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:403
 msgid "Unit #8"
 msgstr "Laufwerk #8..."
 
-#: src/arch/unix/uiattach.c:168 src/arch/unix/uicommands.c:405
+#: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:405
 msgid "Unit #9"
 msgstr "Laufwerk #9..."
 
-#: src/arch/unix/uiattach.c:170 src/arch/unix/uicommands.c:407
+#: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:407
 msgid "Unit #10"
 msgstr "Laufwerk #10..."
 
-#: src/arch/unix/uiattach.c:172 src/arch/unix/uicommands.c:409
+#: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:409
 msgid "Unit #11"
 msgstr "Laufwerk #11..."
 
-#: src/arch/unix/uiattach.c:175
+#: src/arch/unix/uiattach.c:176
 msgid "All"
 msgstr "Alle"
 
-#: src/arch/unix/uiattach.c:181
+#: src/arch/unix/uiattach.c:182
 msgid "Attach a disk image"
 msgstr "Disk Image einlegen"
 
-#: src/arch/unix/uiattach.c:183
+#: src/arch/unix/uiattach.c:184
 msgid "Create and attach an empty disk"
 msgstr "Leeres Disk Image erzeugen"
 
-#: src/arch/unix/uiattach.c:185
+#: src/arch/unix/uiattach.c:186
 msgid "Detach disk image"
 msgstr "Disk Image entfernen"
 
-#: src/arch/unix/uiattach.c:187
+#: src/arch/unix/uiattach.c:188
 msgid "Fliplist"
 msgstr "Flipliste"
 
-#: src/arch/unix/uiattach.c:212
+#: src/arch/unix/uiattach.c:213
 msgid "Attach a tape image"
 msgstr "Band Image einlegen"
 
-#: src/arch/unix/uiattach.c:220 src/arch/unix/uiattach.c:228
+#: src/arch/unix/uiattach.c:221 src/arch/unix/uiattach.c:229
 msgid "Invalid Tape Image"
 msgstr "Ungültiges Band Image."
 
-#: src/arch/unix/uiattach.c:247
+#: src/arch/unix/uiattach.c:248
 msgid "Attach a tape image..."
 msgstr "Band Image einlegen..."
 
-#: src/arch/unix/uiattach.c:250
+#: src/arch/unix/uiattach.c:251
 msgid "Detach tape image"
 msgstr "Band Image entfernen"
 
-#: src/arch/unix/uiattach.c:275
+#: src/arch/unix/uiattach.c:287
 msgid "Smart-attach a file"
 msgstr "Smart Datei einleigen"
 
-#: src/arch/unix/uiattach.c:284 src/arch/unix/uiattach.c:293
+#: src/arch/unix/uiattach.c:302 src/arch/unix/uiattach.c:311
 #: src/arch/unix/x11/xaw/x11ui.c:1673
 msgid "Unknown image type"
 msgstr "Unbekannter Image Typ."
 
-#: src/arch/unix/uiattach.c:307
+#: src/arch/unix/uiattach.c:325
 msgid "Smart-attach disk/tape..."
 msgstr "Smart-Einlegen von Disk/Tape Image..."
 
@@ -2553,7 +2553,7 @@ msgstr "Kann Modul Image nicht einlegen"
 
 #: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:218
 msgid "Attach cartridge image"
-msgstr "Erweiterungsmodule einlegen"
+msgstr "Erweiterungsmodul einlegen"
 
 #: src/arch/unix/uic64cart.c:137
 msgid "Save cartridge image..."
@@ -2604,9 +2604,8 @@ msgid "Attach Super Snapshot 5 image..."
 msgstr "Super Snapshot 5 Image einlegen..."
 
 #: src/arch/unix/uic64cart.c:177
-#, fuzzy
 msgid "Attach Structured Basic image..."
-msgstr "Erweiterungsmodule einlegen..."
+msgstr "Erweiterungsmodul Structured Basic einlegen..."
 
 #: src/arch/unix/uic64cart.c:181
 msgid "Enable Expert Cartridge..."
@@ -2639,7 +2638,7 @@ msgid ""
 "\n"
 msgstr ""
 "\n"
-"Zulässige Kommandozeielen Optionen:\n"
+"Zulässige Kommandozeilen Optionen:\n"
 "\n"
 
 #: src/arch/unix/uicommands.c:66 src/arch/unix/uicommands.c:323
@@ -4077,9 +4076,8 @@ msgid "*Catweasel MKIII"
 msgstr "*Catweasel MKIII"
 
 #: src/arch/unix/uisid.c:54
-#, fuzzy
 msgid "*HardSID"
-msgstr "Hart"
+msgstr "*HardSID"
 
 #: src/arch/unix/uisid.c:63
 msgid "*6581 (old)"
@@ -6929,22 +6927,22 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "&64 kByte"
 
 #~ msgid "Attach cartridge image for Function Low"
-#~ msgstr "Funktions ROM (low) Erweiterungsmodule einlegen"
+#~ msgstr "Funktions ROM (low) Erweiterungsmodul einlegen"
 
 #~ msgid "Attach cartridge image for Function High"
-#~ msgstr "Funktions ROM (high) Erweiterungsmodule einlegen"
+#~ msgstr "Funktions ROM (high) Erweiterungsmodul einlegen"
 
 #~ msgid "Attach cartridge image for Cartridge1 Low"
-#~ msgstr "Cartridge1 (low) Erweiterungsmodule einlegen"
+#~ msgstr "Cartridge1 (low) Erweiterungsmodul einlegen"
 
 #~ msgid "Attach cartridge image for Cartridge1 High"
-#~ msgstr "Cartridge1 (high) Erweiterungsmodule einlegen"
+#~ msgstr "Cartridge1 (high) Erweiterungsmodul einlegen"
 
 #~ msgid "Attach cartridge image for Cartridge2 Low"
-#~ msgstr "Cartridge2 (low) Erweiterungsmodule einlegen"
+#~ msgstr "Cartridge2 (low) Erweiterungsmodul einlegen"
 
 #~ msgid "Attach cartridge image for Cartridge2 High"
-#~ msgstr "Cartridge1 (high) Erweiterungsmodule einlegen"
+#~ msgstr "Cartridge1 (high) Erweiterungsmodul einlegen"
 
 #~ msgid "+60K Settings"
 #~ msgstr "+60K Einstellungen"
