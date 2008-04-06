@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-11-27 18:10+0100\n"
+"POT-Creation-Date: 2005-12-11 13:44+0100\n"
 "PO-Revision-Date: 2005-10-12 22:03+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -14,39 +14,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
 
-#: src/vsync.c:139 src/sid/sid-cmdline-options.c:123
+#: src/vsync.c:140 src/sid/sid-cmdline-options.c:123
 #: src/sid/sid-cmdline-options.c:126
 msgid "<percent>"
 msgstr "<prozent>"
 
-#: src/vsync.c:139
+#: src/vsync.c:140
 msgid "Limit emulation speed to specified value"
 msgstr "Emulationsgeschwindigkeit auf Wert beschränken."
 
-#: src/vsync.c:141 src/sound.c:247 src/sound.c:249 src/debug.c:205
+#: src/vsync.c:142 src/sound.c:247 src/sound.c:249 src/debug.c:205
 #: src/c64/cart/ide64.c:270 src/c64/cart/ide64.c:272 src/c64/cart/ide64.c:274
-#: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:134
-#: src/gfxoutputdrv/ffmpegdrv.c:137 src/mouse.c:97 src/ram.c:101
+#: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:198
+#: src/gfxoutputdrv/ffmpegdrv.c:201 src/mouse.c:97 src/ram.c:101
 msgid "<value>"
 msgstr "<Wert>"
 
-#: src/vsync.c:141
+#: src/vsync.c:142
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Jedes <Wert> Bild aktualisieren (`0' für Automatik)"
 
-#: src/vsync.c:143
+#: src/vsync.c:144
 msgid "Enable warp mode"
 msgstr "Warp Mode Aktivieren"
 
-#: src/vsync.c:145
+#: src/vsync.c:146
 msgid "Disable warp mode"
 msgstr "Warp Mode Deaktivieren"
 
-#: src/vsync.c:460
+#: src/vsync.c:462
 msgid "Your machine is too slow for current settings!"
 msgstr "Deine Maschine ist zu langsam für aktuelle Einstellungen!"
 
-#: src/screenshot.c:162
+#: src/screenshot.c:171
 msgid "Sorry. Multiple recording is not supported."
 msgstr ""
 "Eine Aufnahme ist zur Zeit aktiv. Mehrfache Aufnahme ist nicht möglich."
@@ -253,57 +253,57 @@ msgstr "Schreiben auf Sound Gerät ist fehlgeschlagen."
 msgid "store to sounddevice failed."
 msgstr "Speichern auf Sound Gerät ist fehlgeschlagen."
 
-#: src/event.c:213
+#: src/event.c:222
 #, c-format
 msgid "Cannot create image file %s"
 msgstr "Kann Datei `%s' nicht erzeugen"
 
-#: src/event.c:222
+#: src/event.c:231
 #, c-format
 msgid "Cannot write image file %s"
 msgstr "Kann Datei %s nicht schreiben"
 
-#: src/event.c:234
+#: src/event.c:243
 #, c-format
 msgid "Cannot find mapped name for %s"
 msgstr "Kann zugeordneten Namen für `%s' nicht finden."
 
-#: src/event.c:586
+#: src/event.c:618
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Kann Start Snapshot Datei nicht erzeugen: %s"
 
-#: src/event.c:605 src/event.c:899
+#: src/event.c:637 src/event.c:931
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Kann Ende Snapshot Datei nicht lesen: %s"
 
-#: src/event.c:672 src/event.c:866
+#: src/event.c:704 src/event.c:898
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Kann Ende Snapshot Datei nicht erzeugen: %s"
 
-#: src/event.c:740
+#: src/event.c:772
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Kann Ende Snapshot Datei nicht öffnen: %s"
 
-#: src/event.c:755
+#: src/event.c:787
 msgid "Could not find event section in end snapshot file."
 msgstr "Kann Sektion in Ende Snapshotdatei nicht finden."
 
-#: src/event.c:779
+#: src/event.c:811
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr ""
 "Fehler beim Lesen der Start Snapshot Datei. Versuch gescheitert bei %s und %"
 "s."
 
-#: src/event.c:809
+#: src/event.c:841
 msgid "Error reading start snapshot file."
 msgstr "Fehler beim Lesen der Start Snapshot Datei."
 
-#: src/event.c:1190
+#: src/event.c:1222
 msgid "Playback recorded events"
 msgstr "Wiedergabe von aufgenommener Ereignisse"
 
@@ -367,57 +367,57 @@ msgstr ""
 msgid "Specify RS232 device this ACIA should work on"
 msgstr "RS232 Gerät für welches ACIA funktionieren soll ist zu spezifizieren"
 
-#: src/attach.c:158 src/attach.c:161 src/attach.c:164 src/attach.c:167
+#: src/attach.c:159 src/attach.c:162 src/attach.c:165 src/attach.c:168
 #: src/drive/drive-cmdline-options.c:68 src/printerdrv/interface-serial.c:124
 #: src/printerdrv/interface-serial.c:127
 msgid "<type>"
 msgstr "<Typ>"
 
-#: src/attach.c:159
+#: src/attach.c:160
 msgid "Set device type for device #8 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr "Geräte Typ für Gerät #8 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 
-#: src/attach.c:162
+#: src/attach.c:163
 msgid "Set device type for device #9 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr "Geräte Typ für Gerät #9 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 
-#: src/attach.c:165
+#: src/attach.c:166
 msgid "Set device type for device #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr "Geräte Typ für Gerät #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 
-#: src/attach.c:168
+#: src/attach.c:169
 msgid "Set device type for device #11 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr "Geräte Typ für Gerät #11 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 
-#: src/attach.c:171
+#: src/attach.c:172
 msgid "Attach disk image for drive #8 read only"
 msgstr "Disk Image als Laufwerk #8 benutzen (schreibgeschützt)"
 
-#: src/attach.c:174
+#: src/attach.c:175
 msgid "Attach disk image for drive #8 read write (if possible)"
 msgstr "Disk Image als Laufwerk #8 benutzen (Schreibzugriff, wenn möglich)"
 
-#: src/attach.c:177
+#: src/attach.c:178
 msgid "Attach disk image for drive #9 read only"
 msgstr "Disk Image als Laufwerk #9 benutzen (schreibgeschützt)"
 
-#: src/attach.c:180
+#: src/attach.c:181
 msgid "Attach disk image for drive #9 read write (if possible)"
 msgstr "Disk Image als Laufwerk #9 benutzen (Schreibzugriff, wenn möglich)"
 
-#: src/attach.c:183
+#: src/attach.c:184
 msgid "Attach disk image for drive #10 read only"
 msgstr "Disk Image als Laufwerk #10 benutzen (schreibgeschützt)"
 
-#: src/attach.c:186
+#: src/attach.c:187
 msgid "Attach disk image for drive #10 read write (if possible)"
 msgstr "Disk Image als Laufwerk #10 benutzen (Schreibzugriff, wenn möglich)"
 
-#: src/attach.c:189
+#: src/attach.c:190
 msgid "Attach disk image for drive #11 read only"
 msgstr "Disk Image als Laufwerk #11 benutzen (schreibgeschützt)"
 
-#: src/attach.c:192
+#: src/attach.c:193
 msgid "Attach disk image for drive #11 read write (if possible)"
 msgstr "Disk Image als Laufwerk #11 benutzen (Schreibzugriff, wenn möglich)"
 
@@ -1104,23 +1104,23 @@ msgstr "Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #10"
 msgid "Use <name> as directory for file system device #11"
 msgstr "Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #11"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:134
+#: src/gfxoutputdrv/ffmpegdrv.c:198
 msgid "Set bitrate for audio stream in media file"
 msgstr "Bitrate für Audio Stream für Media Datei setzen"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:137
+#: src/gfxoutputdrv/ffmpegdrv.c:201
 msgid "Set bitrate for video stream in media file"
 msgstr "Bitrate für Video Stream für Media Datei setzen"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:492
+#: src/gfxoutputdrv/ffmpegdrv.c:559
 msgid "ffmpegdrv: Cannot open video stream"
 msgstr "ffmpegdrv: Kann video stream nicht öffnen"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:497
+#: src/gfxoutputdrv/ffmpegdrv.c:564
 msgid "ffmpegdrv: Cannot open audio stream"
 msgstr "ffmpegdrv: Kann audio stream nicht öffnen"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:506
+#: src/gfxoutputdrv/ffmpegdrv.c:573
 #, c-format
 msgid "ffmpegdrv: Cannot open %s"
 msgstr "ffmpegdrv: Öffnen von %s fehlgeschlagen"

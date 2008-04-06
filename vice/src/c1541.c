@@ -1230,7 +1230,7 @@ static int info_cmd(int nargs, char **args)
 
     vdrive = drives[drive_number];
 
-        switch(vdrive->image_format) {
+    switch(vdrive->image_format) {
       case VDRIVE_IMAGE_FORMAT_1541:
         format_name = "1541";
         break;
