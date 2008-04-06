@@ -10,6 +10,7 @@ source type(c)
     "cart\\generic.c",
     "cart\\kcs.c",
     "cart\\retroreplay.c",
+    "cart\\ide64.c",
     "cart\\supergames.c",
     "cart\\supersnapshot.c",
     "cart\\zaxxon.c"

@@ -2281,7 +2281,8 @@ static int tape_cmd(int nargs, char **args)
             if (vdrive_iec_open(drive, dest_name_petscii, (int)name_len, 1)) {
                 fprintf(stderr, "Cannot open `%s' for writing on drive %d.\n",
                        dest_name_ascii, drive_number + 8);
-                free(dest_name_petscii), free(dest_name_ascii);
+                free(dest_name_petscii);
+                free(dest_name_ascii);
                 continue;
             }
 
