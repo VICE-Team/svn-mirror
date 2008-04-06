@@ -479,6 +479,11 @@ void ui_display_tape_counter(int counter)
 }
 
 
+void ui_display_tape_current_image(const char *image)
+{
+}
+
+
 void ui_set_warp_status(int status)
 {
     if (status)
