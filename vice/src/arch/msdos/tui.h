@@ -50,6 +50,7 @@
 
 void tui_error(const char *format, ...);
 void tui_message(const char *format, ...);
+int tui_ask_confirmation(const char *format, ...);
 int tui_input_string(const char *title, const char *prompt, char *buf,
                      int buflen);
 
