@@ -7,6 +7,7 @@
  *  Gerhard Wesp     (gwesp@cosy.sbg.ac.at)
  *  Daniel Sladic    (sladic@eecg.toronto.edu)
  *  Ricardo Ferreira (storm@esoterica.pt)
+ *  Andreas Boose    (boose@unixserv.rz.fh-hannover.de)
  *
  * Patches by
  *  Olaf Seibert     (rhialto@mbfys.kun.nl)
@@ -414,14 +415,41 @@ static int  disk_cdd(void)
 
 static int  disk_gcrformat (void)
 {
-    int fd, track;
-    BYTE gcr_header[12];
+    int fd, track, sector;
+    BYTE gcr_header[12], id[2];
+    char name[16], *idptr;
     DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
     DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
-    BYTE gcr_track[7930];
+    BYTE gcr_track[7930], rawdata[260];
+    BYTE *gcrptr;
 
     if (nargs < 2)
 	return 0;
+
+    memset(name, 0xa0, 16);
+    id[0] = id[1] = 0xa0;
+
+    if (nargs > 2) {
+	strcpy(newname, args[2]);
+	petconvstring(newname, 1);
+	idptr = memchr(newname, ',', strlen(newname));
+	if (idptr == NULL) {
+	    int i;
+	    for (i = 0; i < 16 && newname[i] != '\0'; i++)
+		name[i] = newname[i];
+	} else {
+	    int i;
+	    *idptr = '\0';
+	    for (i = 0; i < 16 && newname[i] != '\0'; i++)
+		name[i] = newname[i];
+	    strncpy(id, ++idptr, 2);
+	    if (idptr[1] != '\0') {
+		id[0] = idptr[1];
+		if (idptr[2] != '\0')
+		    id[1] = idptr[2];
+	    }
+	}
+    }
 
     if ((fd = open(args[1], O_RDWR | O_CREAT, 0666)) < 0) {
 	printf("could not create image %s\n", args[1]);
@@ -435,42 +463,74 @@ static int  disk_gcrformat (void)
     gcr_header[10] = 7928 % 256;
     gcr_header[11] = 7928 / 256;
 
-    if(write(fd, (char *)gcr_header, sizeof(gcr_header)) !=
+    if (write(fd, (char *)gcr_header, sizeof(gcr_header)) !=
 						sizeof(gcr_header)) {
 	printf("Cannot write header.\n");
 	close(fd);
 	return 0;
     }
 
-    for(track = 0; track < MAX_TRACKS_1541; track++) {
+    for (track = 0; track < MAX_TRACKS_1541; track++) {
 	gcr_track_p[track * 2] = 12 + MAX_TRACKS_1541 * 16 + track * 7930;
 	gcr_track_p[track * 2 + 1] = 0;
 	gcr_speed_p[track * 2] = speed_map[track];
 	gcr_speed_p[track * 2 + 1] = 0;
     }
 
-    if(write(fd, (char *)gcr_track_p, sizeof(gcr_track_p)) != 
+    if (write(fd, (char *)gcr_track_p, sizeof(gcr_track_p)) != 
 						sizeof(gcr_track_p)) {
 	printf("Cannot write track header.\n");
 	close(fd);
 	return 0;
     }
 
-    if(write(fd, (char *)gcr_speed_p, sizeof(gcr_speed_p)) !=
+    if (write(fd, (char *)gcr_speed_p, sizeof(gcr_speed_p)) !=
 						sizeof(gcr_speed_p)) {
 	printf("Cannot write speed header.\n");
 	close(fd);
 	return 0;
     }
 
-    memset(&gcr_track[2], 0, 7928);
-
-    for(track = 0; track < MAX_TRACKS_1541; track++) {
+    for (track = 0; track < MAX_TRACKS_1541; track++) {
 
 	int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
 
+	memset(&gcr_track[2], 0xff, 7928);
 	gcr_track[0] = raw_track_size[speed_map[track]] % 256;
 	gcr_track[1] = raw_track_size[speed_map[track]] / 256;
+	gcrptr = &gcr_track[2];
+
+	for (sector = 0; sector < sector_map[track+1]; sector++) {
+	    BYTE chksum;
+	    int i;
+	    memset(rawdata, 0, 260);
+	    if (track == 17 && sector == 0) {
+		BYTE *rdat = &rawdata[1];
+		int s, t;
+		memset(rdat + BAM_DISK_NAME, 0xa0, 27);
+		rdat[0] = DSK_DIR_TRACK;
+		rdat[1] = DSK_DIR_SECTOR;
+		rdat[2] = 65;
+		rdat[BAM_VERSION] = 50;
+		rdat[BAM_VERSION + 1] = 65;
+		memcpy(rdat + BAM_DISK_NAME, (BYTE *)name, 16);
+		rdat[BAM_DISK_ID] = id[0];
+		rdat[BAM_DISK_ID + 1] = id[1];
+		for (t = 1; t <= 35; t++)
+		    for (s = 0; s < sector_map[t]; s++)
+			free_sector(rdat, t, s);
+		allocate_sector(rdat, DSK_BAM_TRACK, 0);
+		allocate_sector(rdat, DSK_BAM_TRACK, 1);
+	    }
+	    rawdata[0] = 7;
+	    chksum = rawdata[1];
+	    for (i = 1; i < 256; i++)
+		chksum ^= rawdata[i + 1];
+	    rawdata[257] = chksum;
+
+	    convert_sector_to_GCR(rawdata, gcrptr, track+1, sector, id[0], id[1]);
+	    gcrptr += 360;
+	}
 
 	if(write(fd, (char *)gcr_track, sizeof(gcr_track)) != 
 						sizeof(gcr_track)) {
