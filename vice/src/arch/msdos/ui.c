@@ -269,6 +269,12 @@ void ui_display_drive_led(int drive_number, int status)
     }
 }
 
+/* display current image */
+void ui_display_drive_current_image(int drivenum, char *image)
+{
+    /* just a dummy so far */
+}
+
 void ui_set_warp_status(int status)
 {
     if (status)
