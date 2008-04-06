@@ -646,10 +646,9 @@ const char *_tui_menu_toggle_helper(int been_activated,
     if (been_activated) {
         r = resources_toggle(resource_name, (resource_value_t *)&value);
         if (r < 0)
-            r = resources_get_value(resource_name,
-            (resource_value_t *)&value);
+            r = resources_get_value(resource_name, (void *)&value);
     } else
-        r = resources_get_value(resource_name, (resource_value_t *)&value);
+        r = resources_get_value(resource_name, (void *)&value);
 
     if (r < 0)
         return "Unknown";
@@ -667,7 +666,7 @@ const char *_tui_menu_radio_helper(int been_activated,
         *become_default = 1;
     } else {
         resource_value_t v;
-        resources_get_value(resource_name, &v);
+        resources_get_value(resource_name, (void *)&v);
         if (v == (resource_value_t)param)
             *become_default = 1;
     }
