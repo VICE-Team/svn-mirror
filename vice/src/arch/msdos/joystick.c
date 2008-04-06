@@ -2,7 +2,7 @@
  * joystick.c - Joystick support for MS-DOS.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -31,12 +31,11 @@
 
 #include <allegro.h>
 
-#include "joystick.h"
-
 #include "cmdline.h"
-#include "resources.h"
 #include "kbd.h"              /* FIXME: Maybe we should move `joystick_value[]'
                                  here...  */
+#include "joystick.h"
+#include "resources.h"
 
 /* Notice that this has to be `int' to make resources work.  */
 static int keyset1[9], keyset2[9];

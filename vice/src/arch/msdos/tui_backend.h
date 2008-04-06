@@ -2,7 +2,7 @@
  * tui_backend.h - MS-DOS backend for the text-based user interface.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,10 +27,6 @@
 #ifndef _TUI_BACKEND_H
 #define _TUI_BACKEND_H
 
-#include <conio.h>
-#include <stdarg.h>
-
-#include "tuifs.h"
 #include "types.h"
 
 #define BACKCHAR		' '
@@ -58,26 +54,27 @@
 
 typedef struct tui_area *tui_area_t;
 
-void tui_init(void);
-int tui_num_lines(void);
-int tui_num_cols(void);
-void tui_set_attr(int foreground_color, int background_color, int blink);
-void tui_put_char(int x, int y, BYTE c);
-void tui_clear_screen(void);
-void tui_hline(int x, int y, BYTE c, int count);
-void tui_vline(int x, int y, BYTE c, int count);
-void tui_display_window(int x, int y, int width, int height, int fore,
-                        int back, const char *title, tui_area_t *backing_store);
-int tui_input_string(const char *title, const char *prompt, char *buf,
-                     int buflen);
-void tui_beep(void);
-void tui_gotoxy(int x, int y);
-void tui_flush_keys(void);
-void tui_display(int x, int y, int len, const char *format, ...);
-void tui_area_get(tui_area_t *a, int x, int y, int width, int height);
-void tui_area_put(tui_area_t a, int x, int y);
-void tui_area_free(tui_area_t a);
-void tui_make_shadow(int x, int y, int width, int height);
+extern void tui_init(void);
+extern int tui_num_lines(void);
+extern int tui_num_cols(void);
+extern void tui_set_attr(int foreground_color, int background_color, int blink);
+extern void tui_put_char(int x, int y, BYTE c);
+extern void tui_clear_screen(void);
+extern void tui_hline(int x, int y, BYTE c, int count);
+extern void tui_vline(int x, int y, BYTE c, int count);
+extern void tui_display_window(int x, int y, int width, int height, int fore,
+                               int back, const char *title,
+                               tui_area_t *backing_store);
+extern int tui_input_string(const char *title, const char *prompt, char *buf,
+                            int buflen);
+extern void tui_beep(void);
+extern void tui_gotoxy(int x, int y);
+extern void tui_flush_keys(void);
+extern void tui_display(int x, int y, int len, const char *format, ...);
+extern void tui_area_get(tui_area_t *a, int x, int y, int width, int height);
+extern void tui_area_put(tui_area_t a, int x, int y);
+extern void tui_area_free(tui_area_t a);
+extern void tui_make_shadow(int x, int y, int width, int height);
 
 
 #endif /* _TUI_BACKEND_H */

@@ -2,7 +2,7 @@
  * ui.h - A (very) simple user interface for MS-DOS.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,8 +27,6 @@
 #ifndef _UI_DOS_H
 #define _UI_DOS_H
 
-#include "types.h"
-#include "tuimenu.h"
 #include "uiapi.h"
 
 /* ------------------------------------------------------------------------- */

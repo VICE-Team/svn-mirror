@@ -3,7 +3,7 @@
  * Hargreaves (http://www.talula.demon.co.uk/allegro).
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,16 +27,18 @@
 
 #include "vice.h"
 
+#include <conio.h>
 #include <stdio.h>
 #include <string.h>
 
-#include "log.h"
-#include "video.h"
-
 #include "cmdline.h"
 #include "kbd.h"
+#include "log.h"
 #include "resources.h"
 #include "tui.h"
+#include "tui_backend.h"
+#include "utils.h"
+#include "video.h"
 
 /* #define DEBUG_VIDEO */
 

@@ -2,7 +2,7 @@
  * tuiview.h - A (very) simple text viewer.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,5 +24,10 @@
  *
  */
 
+#ifndef _TUI_VIEW_H
+#define _TUI_VIEW_H
+
 extern void tui_view_text(int width, int height, const char *title,
 			  const char *text);
+#endif
+

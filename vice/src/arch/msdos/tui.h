@@ -2,7 +2,7 @@
  * tui.h - A (very) simple text-based user interface.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,14 +27,6 @@
 #ifndef _TUI_H
 #define _TUI_H
 
-#include <conio.h>
-#include <stdarg.h>
-
-#include "tuifs.h"
-#include "types.h"
-
-#include "tui_backend.h"
-
 #define CENTER_X(w)	 ((tui_num_cols() - (w)) / 2)
 #define CENTER_Y(h)      ((tui_num_lines() - (h)) / 2)
 
@@ -48,11 +40,13 @@
 #define MIN(a, b)	 ((a) < (b) ? (a) : (b))
 #define MAX(a, b)	 ((a) > (b) ? (a) : (b))
 
-void tui_error(const char *format, ...);
-void tui_message(const char *format, ...);
-int tui_ask_confirmation(const char *format, ...);
-int tui_input_string(const char *title, const char *prompt, char *buf,
-                     int buflen);
-void tui_display_text(int x, int y, int width, int height, const char *text);
+extern void tui_error(const char *format, ...);
+extern void tui_message(const char *format, ...);
+extern int tui_ask_confirmation(const char *format, ...);
+extern int tui_input_string(const char *title, const char *prompt, char *buf,
+                            int buflen);
+extern void tui_display_text(int x, int y, int width, int height,
+                             const char *text);
 
 #endif /* _TUI_H */
+

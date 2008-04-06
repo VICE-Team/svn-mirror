@@ -40,10 +40,10 @@
  *
  *
  * Written by
- *   Jouko Valta (jopi@stekt.oulu.fi)
+ *   Jouko Valta <jopi@stekt.oulu.fi>
  * 
  * With additional changes by
- *   Ettore Perazzoli (ettore@comm2000.it)
+ *   Ettore Perazzoli <ettore@comm2000.it>
  *
  * $Log: petcat.c,v $
  * Revision 2.3  1997/05/04 16:23:04  ettore
@@ -95,7 +95,7 @@
  *
  */
 
-/* Ettore Perazzoli (ettore@comm2000.it) 1997/10/27: Renamed `p_toascii' to
+/* Ettore Perazzoli <ettore@comm2000.it> 1997/10/27: Renamed `p_toascii' to
    `_p_toascii' to avoid conflicts with `charsets.h'. */
 
 #include "vice.h"
@@ -108,9 +108,6 @@
 #define strchr index
 #else
 #include <string.h>
-#endif
-#ifdef __riscos
-#include "ROlib.h"
 #endif
 
 #include "charsets.h"		/* ctrl1, ctrl2, cbmkeys */
