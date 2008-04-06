@@ -42,7 +42,8 @@ typedef enum tui_menu_item_behavior {
    function must return a pointer to the parameter string to be displayed on
    the right of the menu item.  `behavior' defines the behavior of the item
    after it has been activated (default is `TUI_ITEM_BEH_CONTINUE'). */
-typedef char *(*tui_menu_callback_t)(int been_activated, void *callback_param);
+typedef const char *(*tui_menu_callback_t)(int been_activated,
+                                           void *callback_param);
 
 /* Menu type. */
 typedef struct tui_menu *tui_menu_t;
@@ -72,7 +73,7 @@ void tui_menu_update(tui_menu_t menu);
 /* ------------------------------------------------------------------------- */
 
 #define TUI_MENU_CALLBACK(name) \
-    char *name(int been_activated, void *param)
+    const char *name(int been_activated, void *param)
 
 #define TUI_MENU_DEFINE_TOGGLE(resource)                                     \
     static TUI_MENU_CALLBACK(toggle_##resource##_callback)                   \
