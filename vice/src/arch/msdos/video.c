@@ -296,14 +296,15 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
     if (palette->num_entries > NUM_AVAILABLE_COLORS) {
         log_error(video_log, "Too many colors requested.");
-        return (video_canvas_t *) NULL;
+        return (video_canvas_t *)NULL;
     }
     new_canvas = (video_canvas_t *)xmalloc(sizeof(struct video_canvas_s));
     if (!new_canvas)
-        return (video_canvas_t *) NULL;
+        return (video_canvas_t *)NULL;
 
     new_canvas->pages[0] = new_canvas->pages[1] = NULL;
     new_canvas->render_bitmap = NULL;
+    new_canvas->video_draw_buffer_callback = NULL;
 
     video_render_initconfig(&new_canvas->videoconfig);
 
@@ -322,7 +323,7 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
         if (result == -2)
         {
             log_error(video_log, "Even default VGA mode doesn't work. Exiting...");
-            exit (-1);
+            exit(-1);
         }
     } while (result < 0);
 
@@ -331,7 +332,7 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
     new_canvas->exposure_handler = (canvas_redraw_t)exposure_handler;
     new_canvas->back_page = 1;
 
-    while (canvaslist[next_canvas] != NULL && next_canvas < MAX_CANVAS_NUM-1)
+    while (canvaslist[next_canvas] != NULL && next_canvas < MAX_CANVAS_NUM - 1)
         next_canvas++;
     canvaslist[next_canvas] = new_canvas;
 
