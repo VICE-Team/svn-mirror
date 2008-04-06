@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2001-12-16 21:31+0100\n"
+"POT-Creation-Date: 2001-12-18 22:19+0100\n"
 "PO-Revision-Date: 2001-07-15 15:36+02:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -1268,7 +1268,7 @@ msgid "Datassette control"
 msgstr "Bandlaufwerk Kontrolle"
 
 #: src/arch/unix/uidrive.c:100 src/arch/unix/uidrive.c:128
-#: src/arch/unix/uijoystick2.c:80 src/arch/unix/uijoystick2.c:109
+#: src/arch/unix/uijoystick2.c:84 src/arch/unix/uijoystick2.c:113
 #: src/arch/unix/vic20ui.c:283
 msgid "*None"
 msgstr "*Kein"
@@ -1374,49 +1374,49 @@ msgstr "Laufwerk #9 Floppy Disk Typ"
 msgid "Drive settings"
 msgstr "Floppy Einstellungen"
 
-#: src/arch/unix/uijoystick2.c:83 src/arch/unix/uijoystick2.c:112
+#: src/arch/unix/uijoystick2.c:87 src/arch/unix/uijoystick2.c:116
 #: src/arch/unix/vic20ui.c:286
 msgid "*Numpad"
 msgstr "*Ziffernblock"
 
-#: src/arch/unix/uijoystick2.c:86 src/arch/unix/uijoystick2.c:115
+#: src/arch/unix/uijoystick2.c:90 src/arch/unix/uijoystick2.c:119
 #: src/arch/unix/vic20ui.c:289
 msgid "*Custom Keys"
 msgstr "*Benutzerdefiniert"
 
-#: src/arch/unix/uijoystick2.c:90 src/arch/unix/uijoystick2.c:119
+#: src/arch/unix/uijoystick2.c:94 src/arch/unix/uijoystick2.c:123
 #: src/arch/unix/vic20ui.c:293
 msgid "*Analog Joystick 0"
 msgstr "*Analog Joystick 0"
 
-#: src/arch/unix/uijoystick2.c:93 src/arch/unix/uijoystick2.c:122
+#: src/arch/unix/uijoystick2.c:97 src/arch/unix/uijoystick2.c:126
 #: src/arch/unix/vic20ui.c:296
 msgid "*Analog Joystick 1"
 msgstr "*Analog Joystick 1"
 
-#: src/arch/unix/uijoystick2.c:97 src/arch/unix/uijoystick2.c:126
+#: src/arch/unix/uijoystick2.c:101 src/arch/unix/uijoystick2.c:130
 #: src/arch/unix/vic20ui.c:300
 msgid "*Digital Joystick 0"
 msgstr "*Digital Joystick 0"
 
-#: src/arch/unix/uijoystick2.c:100 src/arch/unix/uijoystick2.c:129
+#: src/arch/unix/uijoystick2.c:104 src/arch/unix/uijoystick2.c:133
 #: src/arch/unix/vic20ui.c:303
 msgid "*Digital Joystick 1"
 msgstr "*Digital Joystick 1"
 
-#: src/arch/unix/uijoystick2.c:139
+#: src/arch/unix/uijoystick2.c:143
 msgid "Joystick device in port 1"
 msgstr "Joystick in port 1"
 
-#: src/arch/unix/uijoystick2.c:141
+#: src/arch/unix/uijoystick2.c:145
 msgid "Joystick device in port 2"
 msgstr "Joystick in port 2"
 
-#: src/arch/unix/uijoystick2.c:144 src/arch/unix/uijoystick2.c:150
+#: src/arch/unix/uijoystick2.c:148 src/arch/unix/uijoystick2.c:154
 msgid "Swap joystick ports"
 msgstr "Joystick ports austauschen"
 
-#: src/arch/unix/uijoystick2.c:156 src/arch/unix/vic20ui.c:312
+#: src/arch/unix/uijoystick2.c:160 src/arch/unix/vic20ui.c:312
 msgid "Joystick settings"
 msgstr "Joystick Einstellungen..."
 
