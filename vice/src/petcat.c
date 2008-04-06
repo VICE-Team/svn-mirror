@@ -123,13 +123,6 @@
 
 const char machine_name[] = "PETCAT";
 
-/* PC64 files need this */
-
-const char *slot_type[] =
-{
-    "DEL", "SEQ", "PRG", "USR", "REL", "CBM", "DJJ", "FAB"
-};
-
 static const unsigned char MagicHeaderP00[8] = "C64File\0";
 
  /*
