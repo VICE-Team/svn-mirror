@@ -2635,7 +2635,7 @@ static int zcreate_cmd(int nargs, char **args)
     unsigned int count;
     char fname[MAXPATHLEN], dirname[MAXPATHLEN], oname[MAXPATHLEN];
     char *p;
-    int singlefilemode = 0;
+    int singlefilemode = 0, err;
     BYTE sector_data[256];
 
     /* Open image or create a new one.  If the file exists, it must have
@@ -2712,14 +2712,14 @@ static int zcreate_cmd(int nargs, char **args)
             }
         }
         for (count = 0;
-             count < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track);
-             count++) {
-            if (zipcode_read_sector(fsfd, track, (int*)&sector,
-                (char *)sector_data) != 0) {
+            count < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track);
+            count++) {
+            err = zipcode_read_sector(fsfd, track, (int *)&sector,
+                                      (char *)sector_data);
+            if (err) {
                 fclose(fsfd);
                 return FD_BADIMAGE;
             }
-
             /* Write one block */
             if (disk_image_write_sector(vdrive->image, sector_data, track,
                 sector) < 0) {
