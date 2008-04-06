@@ -349,9 +349,9 @@ static void ui_draw_drive_status(int drive_bar)
 void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
     if (!(state & UI_DRIVE_ENABLE_0))
-        ui_display_drive_led(0, 0);
+        ui_display_drive_led(0, 0, 0);
     if (!(state & UI_DRIVE_ENABLE_1))
-        ui_display_drive_led(1, 0);
+        ui_display_drive_led(1, 0, 0);
     ui_drive_enabled = state;
     ui_drive_active_led = drive_led_color;
     ui_draw_drive_status(0);
@@ -370,8 +370,16 @@ void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base,
 
 }
 
-void ui_display_drive_led(int drive_number, int status)
+void ui_display_drive_led(int drive_number, unsigned int led_pwm1,
+                          unsigned int led_pwm2)
 {
+    int status = 0;
+
+    if (led_pwm1 > 100)
+        status |= 1;
+    if (led_pwm2 > 100)
+        status |= 2;
+
     switch (drive_number) {
       case 0:
         if (status)
