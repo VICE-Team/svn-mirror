@@ -215,7 +215,8 @@ void kbd_flush_commands(void)
             break;
 
           case KCMD_MENU:
-            maincpu_trigger_trap(menu_trap, (void *) command_queue[i].data);
+            interrupt_maincpu_trigger_trap(menu_trap,
+                                           (void *)command_queue[i].data);
             break;
           case KCMD_TOGGLE_STATUSBAR:
             if (statusbar_enabled()) {
