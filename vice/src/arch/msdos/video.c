@@ -74,6 +74,10 @@ static log_t video_log = LOG_ERR;
 /* VGA Video mode to use.  */
 static int vga_mode;
 
+int video_in_gfx_mode() {
+    return in_gfx_mode;
+}
+
 static int set_vga_mode(resource_value_t v)
 {
     /* FIXME: Sanity check!  */
@@ -186,6 +190,8 @@ static void canvas_set_vga_mode(canvas_t c)
 {
     int i;
 
+    statusbar_reset_bitmaps_to_update();
+
 #ifndef USE_MIDAS_SOUND
     /* If the user wants triple buffering, try Mode X first of all, as that
        is (currently) the only reliable way to achieve the result.  Virtual
@@ -204,10 +210,12 @@ static void canvas_set_vga_mode(canvas_t c)
         DEBUG(("GFX_VESA2L successful with width=%d height=%d",
                c->width, c->height));
         c->use_triple_buffering = 0;
+        statusbar_append_bitmap_to_update(screen);
     } else if (set_gfx_mode(GFX_AUTODETECT, c->width, c->height, 0, 0) >= 0) {
         DEBUG(("GFX_AUTODETECT successful with width=%d height=%d",
                c->width, c->height));
         c->use_triple_buffering = 0;
+        statusbar_append_bitmap_to_update(screen);
     } else {
         log_error(video_log, "Cannot enable %dx%dx256 graphics.",
                   c->width, c->height);
@@ -232,7 +240,11 @@ static void canvas_set_vga_mode(canvas_t c)
         c->pages[1] = create_sub_bitmap(screen,
                                         0, c->height, c->width, c->height);
         c->back_page = 1;
+
+        statusbar_append_bitmap_to_update(c->pages[0]);
+        statusbar_append_bitmap_to_update(c->pages[1]);
     }
+    statusbar_set_width(c->width);
 
     for (i = 0; i < NUM_AVAILABLE_COLORS; i++)
         set_color(i, &c->colors[i]);
@@ -276,8 +288,15 @@ int canvas_set_palette(canvas_t c, const palette_t *palette,
                        PIXEL *pixel_return)
 {
     int i;
+    RGB rgb_white = {63, 63, 63};
+    RGB rgb_black = {0, 0, 0};
+    RGB rgb_red = {63, 0, 0};
+    RGB rgb_green = {0, 63, 0};
+    RGB rgb_yellow = {63, 63, 0};
+    RGB rgb_grey = {31, 31, 31};
 
     DEBUG(("Allocating colors"));
+
     for (i = 0; i < palette->num_entries; i++) {
 	c->colors[i].r = palette->entries[i].red >> 2;
 	c->colors[i].g = palette->entries[i].green >> 2;
@@ -286,6 +305,16 @@ int canvas_set_palette(canvas_t c, const palette_t *palette,
         if (in_gfx_mode)
             set_color(i, &c->colors[i]);
     }
+    /* colors for the statusbar */
+    c->colors[STATUSBAR_COLOR_BLACK] = rgb_black;
+    c->colors[STATUSBAR_COLOR_WHITE] = rgb_white;
+    c->colors[STATUSBAR_COLOR_RED] = rgb_red;
+    c->colors[STATUSBAR_COLOR_YELLOW] = rgb_yellow;
+    c->colors[STATUSBAR_COLOR_GREEN] = rgb_green;
+    c->colors[STATUSBAR_COLOR_GREY] = rgb_grey;
+
+    for (i = STATUSBAR_COLOR_BLACK; i < NUM_AVAILABLE_COLORS; i++)
+        set_color(i, &c->colors[i]);
 
     return 0;
 }
@@ -345,7 +374,9 @@ void disable_text(void)
 
 	last_canvas->exposure_handler(last_canvas->width, last_canvas->height);
 	in_gfx_mode = 1;
+    statusbar_update();
     }
     DEBUG(("Successful"));
 }
+
 

@@ -35,6 +35,7 @@ extern void ui_show_text(const char *title, const char *text);
 extern void ui_main(char hotkey);
 extern void ui_set_warp_status(int status);
 extern void ui_dispatch_events(void);
+extern void ui_display_speed(float percent, float framerate, int warp_flag);
 
 #endif
 

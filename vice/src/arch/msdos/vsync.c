@@ -366,6 +366,9 @@ int do_vsync(int been_skipped)
 	calc_avg_performance(frame_counter + 1 - num_skipped_frames);
 	num_skipped_frames = 0;
 	frame_counter = 0;
+    ui_display_speed(vsync_get_avg_speed_index(),
+        vsync_get_avg_frame_rate(),warp_mode_enabled);
+
     } else
 	frame_counter++;
 

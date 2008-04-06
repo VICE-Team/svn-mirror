@@ -263,7 +263,9 @@ static struct file_list *file_list_read(const char *path,
     /* XXX: This check is only half-OK.  We actually need Allegro to be up
        and running for this to work properly.  */
 #ifdef HAVE_ALLEGRO_H
-    if (os_type == OSTYPE_WIN95)
+    if ((os_type == OSTYPE_WIN95)
+        || (os_type == OSTYPE_WIN98)
+        || (os_type == OSTYPE_WINNT))
         return file_list_read_lfn(path, pattern);
     else
         return file_list_read_nolfn(path, pattern);
