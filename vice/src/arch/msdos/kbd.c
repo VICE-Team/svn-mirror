@@ -164,11 +164,11 @@ void kbd_flush_commands(void)
         switch (command_queue[i].type) {
           case KCMD_HARD_RESET:
             vsync_suspend_speed_eval();
-            machine_powerup();
+            machine_trigger_reset(MACHINE_RESET_MODE_HARD);
             break;
           case KCMD_RESET:
             vsync_suspend_speed_eval();
-            maincpu_trigger_reset();
+            machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
             break;
           case KCMD_RESTORE_PRESSED:
             machine_set_restore_key(1);
