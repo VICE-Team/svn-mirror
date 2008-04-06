@@ -90,6 +90,8 @@
 
 vdrive_t *drives[4] = {NULL, NULL, NULL, NULL};
 
+#if 0
+XXX
 typedef struct {
     signed char ImageFormat;		/* 1541/71/81 */
     int TracksSide;
@@ -106,6 +108,7 @@ static DiskFormats Legal_formats[] = {
     { DT_8250, 72, 1, 4166 },
     {-1, 0, 0, 0 }
 };
+#endif
 
 static int drive_number = 0;
 
@@ -140,7 +143,6 @@ static int validate_cmd(int nargs, char **args);
 static int write_cmd(int nargs, char **args);
 static int zcreate_cmd(int nargs, char **args);
 
-extern char sector_map_1541[43];	/* Ugly: FIXME! */
 extern int speed_map_1541[42];
 
 /* ------------------------------------------------------------------------- */
@@ -275,11 +277,14 @@ command_t command_list[] = {
       "write <source> [<destination>]",
       "Write <source> from the file system into <destination> on a disk image.",
       1, 2, write_cmd },
+#if 0
+XXX
     { "zcreate",
       "zcreate <x64name> <zipname> [<label,id>]",
       "Create an X64 disk image out of a set of four Zipcoded files named\n"
       "`1!<zipname>', `2!<zipname>', `3!<zipname>' and `4!<zipname>'.",
       2, 3, zcreate_cmd },
+#endif
     { NULL, NULL, NULL, 0, 0, NULL }
 };
 
@@ -586,6 +591,39 @@ static void pager_print(const char *text)
 
 /* ------------------------------------------------------------------------- */
 
+static int open_disk_image(vdrive_t *vdrive, const char *name, int unit)
+{
+    disk_image_t *image;
+
+    image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
+    image->name = stralloc(name);
+    image->gcr = gcr_create_image();
+
+    if (disk_image_open(image) < 0) {
+        free(image->name);
+        fprintf(stderr, "Cannot open file `%s'", name);
+        return -1;
+    }
+
+    vdrive_setup_device(vdrive, unit);
+    vdrive->image = image;
+    vdrive_attach_image(image, unit, vdrive);
+    return 0;
+}
+
+static void close_disk_image(vdrive_t *vdrive, int unit)
+{
+    disk_image_t *image;
+
+    image = vdrive->image;
+
+    vdrive_detach_image(image, unit, vdrive);
+    gcr_destroy_image(image->gcr);
+    disk_image_close(image);
+
+    free(image);
+}
+
 /* Create a new floppy image.  */
 static int create_image(FILE *fd, int devtype, int tracks, int errb,
                         char *label, int disktype)
@@ -693,17 +731,17 @@ static int open_image(int dev, char *name, int create, int disktype)
 {
     vdrive_t *floppy;
     FILE *fd;
-    int cdev = DT_1541, num_tracks = NUM_TRACKS_1541;
+    int cdev = DISK_IMAGE_TYPE_D64, num_tracks = NUM_TRACKS_1541;
 
     if (dev < 0 || dev > MAXDRIVE)
-	return -1;		/* FD_BADDEV */
+        return -1;
 
     floppy = drives[dev & 3];
 
     if (create) {
-	if ((fd = fopen(name, MODE_READ_WRITE /*, 0666*/)) == NULL) {
-	    fprintf(stderr, "Cannot create image `%s': %s.\n", name, strerror(errno));
-	    return -1;
+        if ((fd = fopen(name, MODE_READ_WRITE)) == NULL) {
+            fprintf(stderr, "Cannot create image `%s': %s.\n", name, strerror(errno));
+        return -1;
 	}
 
 	/* Get default geometry.  Make a new image file and format it.  */
@@ -739,11 +777,8 @@ static int open_image(int dev, char *name, int create, int disktype)
 	create_image(fd, cdev, num_tracks, 0, NULL, disktype);
 	fclose(fd);
     }
-    attach_floppy_image(floppy, name, 0);
-
-    if (floppy->ActiveFd < 0)
-	return -1;
-
+    if (open_disk_image(floppy, name, dev + 8) < 0)
+        return -1;
     return 0;
 }
 
@@ -790,9 +825,9 @@ static int attach_cmd(int nargs, char **args)
     }
 
     if (check_drive(dev, CHK_NUM) < 0)
-	return FD_BADDEV;
+        return FD_BADDEV;
 
-    attach_floppy_image(drives[dev & 3], args[1], 0);
+    open_disk_image(drives[dev & 3], argv[i], (dev & 3) + 8);
     return FD_OK;
 }
 
@@ -1360,7 +1395,9 @@ static int gcrformat_cmd(int nargs, char **args)
 	gcr_track[1] = raw_track_size[speed_map_1541[track]] / 256;
 	gcrptr = &gcr_track[2];
 
-	for (sector = 0; sector < sector_map_1541[track + 1]; sector++) {
+	for (sector = 0;
+        sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track + 1);
+        sector++) {
 	    BYTE chksum;
 	    int i;
 	    memset(rawdata, 0, 260);
@@ -1377,7 +1414,7 @@ static int gcrformat_cmd(int nargs, char **args)
 		rdat[BAM_ID_1541] = id[0];
 		rdat[BAM_ID_1541 + 1] = id[1];
 		for (t = 1; t <= 35; t++)
-		    for (s = 0; s < sector_map_1541[t]; s++)
+		    for (s = 0; s < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, t); s++)
 			vdrive_bam_free_sector(1541, rdat, t, s);
 		vdrive_bam_allocate_sector(1541, rdat, BAM_TRACK_1541, 0);
 		vdrive_bam_allocate_sector(1541, rdat, BAM_TRACK_1541, 1);
@@ -1555,11 +1592,9 @@ static int quit_cmd(int nargs, char **args)
     int i;
 
     for (i = 0; i <= MAXDRIVE; i++)
-	if (drives[i] != NULL)
-	    detach_floppy_image(drives[i]);
+        close_disk_image(drives[i], i + 8);
 
     exit(0);
-
     return 0; 	/* OSF1 cc complains */
 }
 
@@ -2157,6 +2192,8 @@ static int write_cmd(int nargs, char **args)
     return FD_OK;
 }
 
+#if 0
+XXX
 /* FIXME: 1541 only? */
 static int zcreate_cmd(int nargs, char **args)
 {
@@ -2260,7 +2297,9 @@ static int zcreate_cmd(int nargs, char **args)
                 break;
             }
         }
-        for (count = 0; count < sector_map_1541[track]; count++) {
+        for (count = 0; 
+             count < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track);
+             count++) {
             if ((zipcode_read_sector(fsfd, track, &sector,
                 (char *) (floppy->buffers[channel].buffer))) != 0) {
                 fclose(fsfd);
@@ -2293,6 +2332,7 @@ static int zcreate_cmd(int nargs, char **args)
     vdrive_command_execute(floppy, (BYTE *) "I", 1);
     return FD_OK;
 }
+#endif
 
 static int raw_cmd(int nargs, char **args)
 {
@@ -2334,14 +2374,10 @@ int main(int argc, char **argv)
 	args[i] = NULL;
     nargs = 0;
 
-    drives[0] = (vdrive_t)xmalloc(sizeof(vdrive_t));
-    drives[1] = (vdrive_t)xmalloc(sizeof(vdrive_t));
-
-    drives[0]->image = xmalloc(sizeof(disk_image_t));
-    drives[1]->image = xmalloc(sizeof(disk_image_t));
-
-    vdrive_setup_device(drives[0], 8, DT_DISK);
-    vdrive_setup_device(drives[1], 9, DT_DISK);
+    drives[0] = (vdrive_t *)xmalloc(sizeof(vdrive_t));
+    drives[1] = (vdrive_t *)xmalloc(sizeof(vdrive_t));
+    memset(drives[0], 0, sizeof(vdrive_t));
+    memset(drives[1], 0, sizeof(vdrive_t));
 
     retval = 0;
 
@@ -2351,7 +2387,7 @@ int main(int argc, char **argv)
         if (i - 1 > MAXDRIVE)
             fprintf(stderr, "Ignoring disk image `%s'.\n", argv[i]);
         else
-            attach_floppy_image(drives[i - 1], argv[i], 0);
+            open_disk_image(drives[i - 1], argv[i], i - 1 + 8);
     }
 
     if (i == argc) {
@@ -2361,11 +2397,14 @@ int main(int argc, char **argv)
         /* Interactive mode.  */
 	printf("C1541 Version %d.%02d.\n",
                C1541_VERSION_MAJOR, C1541_VERSION_MINOR);
-        printf("Copyright 1995-1999 The VICE Development Team.\n"
-               "C1541 is free software, covered by the GNU General Public License, and you are\n"
-               "welcome to change it and/or distribute copies of it under certain conditions.\n"
-               "Type `show copying' to see the conditions.\n"
-               "There is absolutely no warranty for C1541.  Type `show warranty' for details.\n");
+    printf("Copyright 1995-1999 The VICE Development Team.\n"
+           "C1541 is free software, covered by the GNU General Public License,"
+           " and you are\n"
+           "welcome to change it and/or distribute copies of it under certain"
+           " conditions.\n"
+           "Type `show copying' to see the conditions.\n"
+           "There is absolutely no warranty for C1541.  Type `show warranty'"
+           " for details.\n");
 
 	while (1) {
 	    sprintf(buf, "c1541 #%d> ", drive_number | 8);
@@ -2401,8 +2440,8 @@ int main(int argc, char **argv)
     }
 
     for (i = 0; i <= MAXDRIVE; i++) {
-	if (drives[i])
-	    detach_floppy_image(drives[i]);
+        if (drives[i])
+            close_disk_image(drives[i], i + 8);
     }
 
     return retval;
@@ -2411,35 +2450,6 @@ int main(int argc, char **argv)
 /* ------------------------------------------------------------------------- */
 
 /* FIXME: Can we get rid of this stuff?  */
-
-int attach_fsdevice(int device, char *var, const char *name)
-{
-    drives[device & 3] = (vdrive_t *) var;
-    return 0;
-}
-
-int serial_attach_device(int device, char *var, char const *name,
-			 int (*getf) (void *, BYTE *, int),
-			 int (*putf) (void *, BYTE, int),
-			 int (*openf) (void *, const char *, int, int),
-			 int (*closef) (void *, int),
-			 void (*flushf) (void *, int))
-{
-    drives[device & 3] = (vdrive_t *) var;
-    return 0;
-}
-
-int drive_read_block(int track, int sector, BYTE *readdata, int dnr)
-{
-    /* We don't have support for G64 images.  */
-    return -1;
-}
-
-int drive_write_block(int track, int sector, BYTE *readdata, int dnr)
-{
-    /* We don't have support for G64 images.  */
-    return -1;
-}
 
 void enable_text(void)
 {
