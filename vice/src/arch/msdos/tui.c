@@ -174,13 +174,13 @@ int tui_input_string(const char *title, const char *prompt, char *buf,
 void tui_error(const char *format,...)
 {
     int x, y, width, height;
-    char str[1024];
+    char *str;
     int str_length;
     va_list ap;
     tui_area_t backing_store = NULL;
 
     va_start(ap, format);
-    vsprintf(str, format, ap);
+    str = xmvsprintf(format, ap);
     str_length = strlen(str);
     if (str_length > tui_num_cols() - 10) {
 	str_length = tui_num_cols() - 10;
@@ -199,18 +199,19 @@ void tui_error(const char *format,...)
 
     tui_area_put(backing_store, x, y);
     tui_area_free(backing_store);
+    free(str);
 }
 
 void tui_message(const char *format,...)
 {
     int x, y, width, height;
-    char str[1024];
+    char *str;
     int str_length;
     va_list ap;
     tui_area_t backing_store = NULL;
 
     va_start(ap, format);
-    vsprintf(str, format, ap);
+    str = xmvsprintf(format, ap);
     str_length = strlen(str);
     if (str_length > tui_num_cols() - 10) {
 	str_length = tui_num_cols() - 10;
@@ -229,19 +230,20 @@ void tui_message(const char *format,...)
 
     tui_area_put(backing_store, x, y);
     tui_area_free(backing_store);
+    free(str);
 }
 
 int tui_ask_confirmation(const char *format, ...)
 {
     int x, y, width, height;
-    char str[1024];
+    char *str;
     int str_length;
     va_list ap;
     tui_area_t backing_store = NULL;
     int c;
 
     va_start(ap, format);
-    vsprintf(str, format, ap);
+    str = xmvsprintf(format, ap);
     str_length = strlen(str);
     if (str_length > tui_num_cols() - 10) {
 	str_length = tui_num_cols() - 10;
@@ -263,6 +265,8 @@ int tui_ask_confirmation(const char *format, ...)
 
     tui_area_put(backing_store, x, y);
     tui_area_free(backing_store);
+
+    free(str);
 
     return toupper(c) == 'Y';
 }

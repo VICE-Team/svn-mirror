@@ -49,6 +49,7 @@
 #include "tui.h"
 #include "tui_backend.h"
 #include "tuiimagebrowser.h"
+#include "tuifs.h"
 #include "tuiview.h"
 
 /* ------------------------------------------------------------------------- */
@@ -402,7 +403,8 @@ static void slashize_path(char **path)
 char *tui_file_selector(const char *title, const char *directory,
 			const char *pattern, const char *default_item,
 			image_contents_t *(*contents_func)(const char*),
-                        char **browse_file_return)
+                        char **browse_file_return,
+                        unsigned int *browse_file_number_return)
 {
     static char *return_path = NULL;
     struct file_list *fl;
@@ -416,8 +418,12 @@ char *tui_file_selector(const char *title, const char *directory,
     if (contents_func != NULL)
         *browse_file_return = NULL;
 
-    if (return_path == NULL)
+    if (browse_file_number_return != NULL)
+        *browse_file_number_return = 0;
+
+    if (return_path != NULL)
         free(return_path);
+
     if (directory != NULL)
         return_path = stralloc(directory);
     else
@@ -640,15 +646,10 @@ char *tui_file_selector(const char *title, const char *directory,
 	    if (contents_func != NULL
                 && fl->items[curr_item].type != FT_DIR
                 && browse_file_return != NULL) {
-		char *name;
-
-		name = alloca(strlen(return_path)
-                              + strlen(fl->items[curr_item].name) + 1);
-		sprintf(name, "%s%s", return_path, fl->items[curr_item].name);
-
                 tui_display(0, tui_num_lines() - 1, tui_num_cols(), "");
                 *browse_file_return = tui_image_browser(fl->items[curr_item].name,
-                                                        contents_func);
+                                                        contents_func,
+                                                        browse_file_number_return);
                 if (*browse_file_return != NULL) {
                     char *p = concat(return_path, fl->items[curr_item].name,
                                      NULL);

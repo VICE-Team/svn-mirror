@@ -187,7 +187,7 @@ extern double vsync_get_avg_speed_index(void);
 
 void ui_main(char hotkey)
 {
-    char s[256];
+    char *str;
     double speed_index, frame_rate;
     int old_stdin_mode = setmode(STDIN_FILENO, O_BINARY);
 
@@ -218,11 +218,12 @@ void ui_main(char hotkey)
     tui_set_attr(FIRST_LINE_FORE, FIRST_LINE_BACK, 0);
 
     if (speed_index > 0.0 && frame_rate > 0.0)
-	sprintf(s, "%s emulator at %d%% speed, %d fps",
-		machine_name, (int)floor(speed_index), (int)floor(frame_rate));
+	str = xmsprintf("%s emulator at %d%% speed, %d fps",
+		        machine_name, (int)floor(speed_index),
+                        (int)floor(frame_rate));
     else
-	sprintf(s, "%s emulator", machine_name);
-    tui_display(tui_num_cols() - strlen(s), 0, 0, "%s", s);
+        str = xmsprintf("%s emulator", machine_name);
+    tui_display(tui_num_cols() - strlen(str), 0, 0, "%s", str);
 
     /* FIXME: This should not be necessary.  */
     tui_menu_update(ui_main_menu);
@@ -235,36 +236,39 @@ void ui_main(char hotkey)
     set_kbd_leds(real_kbd_led_status);
 
     setmode(STDIN_FILENO, old_stdin_mode);
+    free(str);
 }
 
 void ui_error(const char *format,...)
 {
-    char tmp[1024];
+    char *tmp;
     va_list ap;
 
     enable_text();
     tui_clear_screen();
 
     va_start(ap, format);
-    vsprintf(tmp, format, ap);
+    tmp = xmvsprintf(format, ap);
     tui_error(tmp);
 
     disable_text();
+    free(tmp);
 }
 
 ui_jam_action_t ui_jam_dialog(const char *format,...)
 {
-    char tmp[1024];
+    char *tmp;
     va_list ap;
 
     enable_text();
     tui_clear_screen();
 
     va_start(ap, format);
-    vsprintf(tmp, format, ap);
+    tmp = xmvsprintf(format, ap);
     tui_error(tmp);
 
     disable_text();
+    free(tmp);
 
     /* Always hard reset.  */
     return UI_JAM_HARD_RESET;
