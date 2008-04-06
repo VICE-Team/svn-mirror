@@ -39,6 +39,7 @@
 #include "kbd.h"
 
 #include "cmdline.h"
+#include "fliplist.h"
 #include "interrupt.h"
 #include "joystick.h"
 #include "log.h"
@@ -163,7 +164,11 @@ typedef enum {
         KCMD_RESTORE_PRESSED,
         KCMD_RESTORE_RELEASED,
         KCMD_TOGGLE_WARP,
-        KCMD_FREEZE
+        KCMD_FREEZE,
+        KCMD_FLIP_NEXT,
+        KCMD_FLIP_PREVIOUS,
+        KCMD_FLIP_ADD,
+        KCMD_FLIP_REMOVE
 } kbd_command_type_t;
 
 typedef DWORD kbd_command_data_t;
@@ -228,7 +233,18 @@ void kbd_flush_commands(void)
             if (freeze_function != NULL)
                 freeze_function();
             break;
-
+          case KCMD_FLIP_NEXT:
+            flip_attach_head(1);
+            break;
+          case KCMD_FLIP_PREVIOUS:
+            flip_attach_head(0);
+            break;
+          case KCMD_FLIP_ADD:
+            flip_add_image();
+            break;
+          case KCMD_FLIP_REMOVE:
+            flip_remove(-1, NULL);
+            break;
           case KCMD_TOGGLE_WARP:
             resources_toggle("WarpMode", NULL);
             break;
@@ -356,6 +372,22 @@ static void my_kbd_interrupt_handler(void)
                         queue_command(KCMD_HARD_RESET, (kbd_command_data_t) 0);
                     else
                         queue_command(KCMD_RESET, (kbd_command_data_t) 0);
+                    break;
+                  case K_F1:
+                    /* Alt-F1 Next image in flip list.  */
+                    queue_command(KCMD_FLIP_NEXT, (kbd_command_data_t) 0);
+                    break;
+                  case K_F2:
+                    /* Alt-F2 Previous image in flip list.  */
+                    queue_command(KCMD_FLIP_PREVIOUS, (kbd_command_data_t) 0);
+                    break;
+                  case K_F3:
+                    /* Alt-F3 Add image to flip list.  */
+                    queue_command(KCMD_FLIP_ADD, (kbd_command_data_t) 0);
+                    break;
+                  case K_F4:
+                    /* Alt-F4 remove image from flip list.  */
+                    queue_command(KCMD_FLIP_REMOVE, (kbd_command_data_t) 0);
                     break;
                   case K_PAUSE:
                     /* Alt-Pause enables cartridge freezing.  */
