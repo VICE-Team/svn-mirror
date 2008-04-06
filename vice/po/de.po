@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2004-02-07 14:59+0100\n"
+"POT-Creation-Date: 2004-02-15 17:48+0100\n"
 "PO-Revision-Date: 2004-01-21 23:15+0100\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -859,17 +859,14 @@ msgstr "Attempt to read from invalid fd %d."
 msgid "Attempt to read from non-open fd %d."
 msgstr "Attempt to read from non-open fd %d."
 
-#: src/arch/unix/uic64cart.c:57
-msgid "Invalid cartridge"
-msgstr "Ungültiges Erweiterungsmodul"
+#: src/arch/unix/uic64cart.c:57 src/arch/unix/uic64cart.c:74
+#, fuzzy
+msgid "Cannot attach cartridge"
+msgstr "Smart-Einlegen Modul Image..."
 
 #: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:205
 msgid "Attach cartridge image"
 msgstr "Erweiterungsmodule einlegen"
-
-#: src/arch/unix/uic64cart.c:74 src/arch/unix/vic20ui.c:211
-msgid "Invalid cartridge image"
-msgstr "Ungültiges Erweiterungsmodul Image"
 
 #: src/arch/unix/uic64cart.c:137
 msgid "Save cartridge image..."
@@ -2499,6 +2496,10 @@ msgstr "*Block 5 (8K bei $A000-$BFFF)"
 msgid "Memory expansions"
 msgstr "Speicher Erweiterungen"
 
+#: src/arch/unix/vic20ui.c:211
+msgid "Invalid cartridge image"
+msgstr "Ungültiges Erweiterungsmodul Image"
+
 #: src/arch/unix/vic20ui.c:236
 msgid "Smart-attach cartridge image..."
 msgstr "Smart-Einlegen Modul Image..."
@@ -3307,6 +3308,9 @@ msgstr "Performance wird nicht optimal sein."
 #: src/arch/unix/x11/xaw/x11video.c:218
 msgid "Successfully initialized without shared memory."
 msgstr "Video erfolgreich ohne Shared Memroy initialisiert."
+
+#~ msgid "Invalid cartridge"
+#~ msgstr "Ungültiges Erweiterungsmodul"
 
 #~ msgid "Could not create milestone snapshot file."
 #~ msgstr "Kann Meilenstein Snapshot Datei nicht erzeugen."
