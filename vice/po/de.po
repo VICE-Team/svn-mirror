@@ -5,12 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.19\n"
-"POT-Creation-Date: 2006-06-26 16:21+0200\n"
-"PO-Revision-Date: 2006-06-18 19:32+0200\n"
+"POT-Creation-Date: 2006-07-03 14:24+0200\n"
+"PO-Revision-Date: 2006-07-01 14:45+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
 
@@ -1191,11 +1191,13 @@ msgstr "Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #9"
 
 #: src/fsdevice/fsdevice-cmdline-options.c:80
 msgid "Use <name> as directory for file system device #10"
-msgstr "Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #10"
+msgstr ""
+"Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #10"
 
 #: src/fsdevice/fsdevice-cmdline-options.c:82
 msgid "Use <name> as directory for file system device #11"
-msgstr "Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #11"
+msgstr ""
+"Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #11"
 
 #: src/gfxoutputdrv/ffmpegdrv.c:203
 msgid "Set bitrate for audio stream in media file"
@@ -1521,7 +1523,8 @@ msgstr "Länge des Speicherblocks der mit dem gleichen Wert initialisiert ist"
 
 #: src/ram.c:110
 msgid "Length of memory block initialized with the same pattern"
-msgstr "Länge des Speicherblocks der mit dem gleichen Muster initialisiert ist"
+msgstr ""
+"Länge des Speicherblocks der mit dem gleichen Muster initialisiert ist"
 
 #: src/raster/raster-cmdline-options.c:59
 msgid "Enable the video cache"
@@ -1624,7 +1627,8 @@ msgid ""
 "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: "
 "ParSID)"
 msgstr ""
-"SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
+"SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: "
+"ParSID)"
 
 #: src/sid/sid-cmdline-options.c:79
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
@@ -4903,7 +4907,7 @@ msgid ""
 "Martin Pottendorfer - German\n"
 "Peter Karlsson - Swedish\n"
 "Andrea Musuruane - Italian\n"
-"Paul Dub - French\n"
+"Paul Dube - French\n"
 "Marco van den Heuvel - Dutch\n"
 "Flooder - Polish\n"
 msgstr ""
@@ -5464,7 +5468,8 @@ msgstr "Aktiviere Vollbild Modus%s"
 
 #: src/arch/unix/x11/dga2.c:582
 msgid "Need root privileges for DGA2 fullscreen"
-msgstr "Super User Privilegien sind nötig um den Vollbild Modus zu aktivieren."
+msgstr ""
+"Super User Privilegien sind nötig um den Vollbild Modus zu aktivieren."
 
 #: src/arch/unix/x11/dga2.c:596
 #, c-format
