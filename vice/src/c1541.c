@@ -57,6 +57,7 @@
 #include "diskimage.h"
 #include "gcr.h"
 #include "info.h"
+#include "imagecontents.h"
 #include "ioutil.h"
 #include "log.h"
 #include "p00.h"
@@ -125,8 +126,6 @@ static int fix_ts(int unit, unsigned int trk, unsigned int sec,
 static int internal_write_geos_file(int unit, FILE* f);
 static int write_geos_cmd(int nargs, char **args);
 #endif
-
-static char *floppy_read_directory(vdrive_t *vdrive, const char *pattern);
 
 int rom1541_loaded = 0;
 int rom1541ii_loaded = 0;
@@ -200,9 +199,9 @@ command_t command_list[] = {
       "Exit (same as `quit').",
       0, 0, quit_cmd },
     { "extract",
-      "extract",
+      "extract [<unit>]",
       "Extract all the files to the file system.",
-      0, 0, extract_cmd },
+      0, 1, extract_cmd },
     { "format",
       "format <diskname,id> [<type> <imagename>] [<unit>]",
       "If <unit> is specified, format the disk in unit <unit>.\n"
@@ -604,18 +603,23 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
 
     image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
 
-    image->device = DISK_IMAGE_DEVICE_FS;
+    if (!strcmp("/dev/fd0", name))
+        image->device = DISK_IMAGE_DEVICE_RAW;
+    else
+        image->device = DISK_IMAGE_DEVICE_FS;
+
     disk_image_media_create(image);
 
     image->gcr = gcr_create_image();
     image->read_only = 0;
 
-    disk_image_fsimage_name_set(image, stralloc(name));
+    if (image->device == DISK_IMAGE_DEVICE_FS)
+        disk_image_fsimage_name_set(image, stralloc(name));
 
     if (disk_image_open(image) < 0) {
         disk_image_media_destroy(image);
         free(image);
-        fprintf(stderr, "Cannot open file `%s'", name);
+        fprintf(stderr, "Cannot open file `%s'.\n", name);
         return -1;
     }
 
@@ -1043,19 +1047,30 @@ static void unix_filename(char *p)
 
 static int extract_cmd(int nargs, char **args)
 {
-    int drive = 8, track, sector;
+    int dnr = 0, track, sector;
     vdrive_t *floppy;
     BYTE *buf, *str;
     int err;
     int channel = 2;
 
-    if ((err = check_drive(drive, CHK_RDY)) < 0)
+    if (nargs == 2) {
+        if (arg_to_int(args[1], &dnr) < 0)
+            return FD_BADDEV;
+        if (check_drive(dnr, CHK_NUM) < 0)
+            return FD_BADDEV;
+        dnr -= 8;
+    }
+
+    err = check_drive(dnr, CHK_RDY);
+
+    if (err < 0)
         return err;
-    floppy = drives[drive & 3];
+
+    floppy = drives[dnr & 3];
 
     if (vdrive_iec_open(floppy, "#", 1, channel)) {
         fprintf(stderr, "Cannot open buffer #%d in unit %d.\n", channel,
-                drive + 8);
+                dnr + 8);
         return FD_RDERR;
     }
 
@@ -1103,10 +1118,10 @@ static int extract_cmd(int nargs, char **args)
                 unix_filename((char *) name); /* For now, convert '/' to '_'. */
                 if (vdrive_iec_open(floppy, (char *) cbm_name, len, 0)) {
                     fprintf(stderr,
-                            "Cannot open `%s' on unit %d.\n", name, drive + 8);
+                            "Cannot open `%s' on unit %d.\n", name, dnr + 8);
                     continue;
                 }
-                fd = fopen((char *) name, MODE_WRITE);
+                fd = fopen((char *)name, MODE_WRITE);
                 if (fd == NULL) {
                     fprintf(stderr, "Cannot create file `%s': %s.",
                     name, strerror(errno));
@@ -1302,25 +1317,27 @@ static int list_cmd(int nargs, char **args)
 {
     char *listing;
     char *pattern;
-    int unit;
+    int drv;
 
     if (nargs > 1) {
         /* list <pattern> */
-        pattern = extract_unit_from_file_name(args[1], &unit);
+        pattern = extract_unit_from_file_name(args[1], &drv);
         if (pattern == NULL)
-            unit = drive_number;
+            drv = drive_number;
         else if (*pattern == 0)
             pattern = NULL;
     } else {
         /* list */
         pattern = NULL;
-        unit = drive_number;
+        drv = drive_number;
     }
 
-    if (check_drive(unit, CHK_RDY) < 0)
+    if (check_drive(drv, CHK_RDY) < 0)
         return FD_NOTREADY;
 
-    listing = floppy_read_directory(drives[unit], pattern);
+    listing = image_contents_read_string(IMAGE_CONTENTS_DISK, NULL, drv + 8,
+                                         IMAGE_CONTENTS_STRING_ASCII);
+
     if (listing != NULL) {
         pager_init();
         pager_print(listing);
@@ -2847,58 +2864,6 @@ int main(int argc, char **argv)
     }
 
     return retval;
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* Read the directory and return it as a long malloc'ed ASCII string.
-   FIXME: Should probably be made more robust.  */
-static char *floppy_read_directory(vdrive_t *vdrive, const char *pattern)
-{
-    BYTE *p;
-    int outbuf_size, max_outbuf_size, len, res;
-    char *command, *outbuf;
-
-    /* Open the directory. */
-    if (pattern != NULL)
-        command = xmsprintf("$:%s", pattern);
-    else
-        command = stralloc("$");
-
-    res = vdrive_iec_open(vdrive, command, 1, 0);
-
-    free(command);
-
-    if (res != SERIAL_OK)
-        return NULL;
-
-    /* Allocate a buffer. */
-    max_outbuf_size = 4096;
-    outbuf = xmalloc(max_outbuf_size);
-    outbuf_size = 0;
-
-    p = vdrive->buffers[0].buffer + 2; /* Skip load address. */
-    while ((p[0] | (p[1] << 8)) != 0) {
-        char line[1024];
-
-        len = sprintf(line, "%d ", p[2] | (p[3] << 8));
-        p += 4;
-        while (*p != '\0') {
-            line[len++] = charset_p_toascii(*p, 0);
-            p++;
-        }
-        p++;
-        line[len++] = '\n';
-        outbuf = util_bufcat(outbuf, &outbuf_size, (size_t *)&max_outbuf_size,
-                             line, len);
-    }
-    vdrive_iec_close(vdrive, 0);
-
-    /* Add trailing zero. */
-    outbuf = util_bufcat(outbuf, &outbuf_size, (size_t *)&max_outbuf_size, "",
-                         1);
-
-    return outbuf;
 }
 
 /* ------------------------------------------------------------------------- */
