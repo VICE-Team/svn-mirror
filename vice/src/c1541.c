@@ -94,6 +94,8 @@
 #define C1541_VERSION_MAJOR     4
 #define C1541_VERSION_MINOR     0
 
+const char machine_name[] = "C1541";
+
 /* Global clock counter.  */
 CLOCK clk = 0L;
 

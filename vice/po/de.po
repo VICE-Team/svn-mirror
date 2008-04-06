@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.9\n"
-"POT-Creation-Date: 2002-03-14 21:33+0100\n"
+"POT-Creation-Date: 2002-03-23 17:36+0100\n"
 "PO-Revision-Date: 2002-03-14 22:04+01:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -33,12 +33,12 @@ msgstr "*Warp Mode Deaktivieren"
 msgid "Your machine is too slow for current settings!"
 msgstr "Deine Maschine ist zu langsam für aktuelle Einstellungen!"
 
-#: src/arch/unix/archdep.c:233
+#: src/arch/unix/archdep.c:246
 #, c-format
 msgid "Received signal %d (%s)."
 msgstr "Received signal %d (%s)."
 
-#: src/arch/unix/archdep.c:236
+#: src/arch/unix/archdep.c:249
 #, c-format
 msgid "Received signal %d."
 msgstr "Received signal %d."
@@ -78,17 +78,17 @@ msgid "*Revison 2"
 msgstr "*Revision 2"
 
 #: src/arch/unix/c128ui.c:101 src/arch/unix/uicrtc.c:56
-#: src/arch/unix/uisettings.c:528
+#: src/arch/unix/uisettings.c:530
 msgid "*Video cache"
 msgstr "*Video Cache"
 
 #: src/arch/unix/c128ui.c:103 src/arch/unix/uicrtc.c:58
-#: src/arch/unix/uisettings.c:510 src/arch/unix/uisettings.c:530
+#: src/arch/unix/uisettings.c:512 src/arch/unix/uisettings.c:532
 msgid "*Double size"
 msgstr "*Doppelte Größe"
 
 #: src/arch/unix/c128ui.c:105 src/arch/unix/uicrtc.c:60
-#: src/arch/unix/uisettings.c:512 src/arch/unix/uisettings.c:532
+#: src/arch/unix/uisettings.c:514 src/arch/unix/uisettings.c:534
 msgid "*Double scan"
 msgstr "*Doppelt Scan"
 
@@ -970,7 +970,7 @@ msgstr "Smart Datei einleigen"
 msgid "Unknown image type"
 msgstr "Unbekannter Image Typ."
 
-#: src/arch/unix/uicommands.c:289 src/arch/unix/uisettings.c:331
+#: src/arch/unix/uicommands.c:289 src/arch/unix/uisettings.c:333
 msgid "VICE setting"
 msgstr "VICE Einstellungen"
 
@@ -1042,176 +1042,219 @@ msgid ""
 "`%s'\n"
 msgstr "Kann Snapshot Datei `%s' nicht speichern.\n"
 
-#: src/arch/unix/uicommands.c:630
+#: src/arch/unix/uicommands.c:608
+msgid "Load "
+msgstr "Lade "
+
+#: src/arch/unix/uicommands.c:608 src/arch/unix/x11/xaw/uicartridge.c:164
+#: src/arch/unix/x11/xaw/uiedisk.c:397
+#: src/arch/unix/x11/xaw/uiscreenshot.c:251
+#: src/arch/unix/x11/xaw/uisnapshot.c:282
+msgid "Save"
+msgstr "Speichern"
+
+#: src/arch/unix/uicommands.c:608
+msgid "Fliplist File"
+msgstr "Flipliste"
+
+#: src/arch/unix/uicommands.c:618
+#, c-format
+msgid "Successfully read `%s'."
+msgstr "`%s' erfolgreich gelesen."
+
+#: src/arch/unix/uicommands.c:620
+#, c-format
+msgid "Error reading `%s'."
+msgstr "Fehler beim Schreiben: %s."
+
+#: src/arch/unix/uicommands.c:625
+#, c-format
+msgid "Successfully wrote `%s'."
+msgstr "`%s' erfolgreich gespeichert."
+
+#: src/arch/unix/uicommands.c:627
+#, c-format
+msgid "Error writing `%s'."
+msgstr "Fehler beim Schreiben: %s."
+
+#: src/arch/unix/uicommands.c:669
 #, c-format
 msgid "Attach #%d"
 msgstr "Laufwerk #%d"
 
-#: src/arch/unix/uicommands.c:637
+#: src/arch/unix/uicommands.c:676
 #, c-format
 msgid "Detach #%d"
 msgstr "Entfernen #%d"
 
-#: src/arch/unix/uicommands.c:679
+#: src/arch/unix/uicommands.c:718
 msgid "Next: "
 msgstr "Nächstes: "
 
-#: src/arch/unix/uicommands.c:679 src/arch/unix/uicommands.c:694
+#: src/arch/unix/uicommands.c:718 src/arch/unix/uicommands.c:733
 #: src/arch/unix/x11/gnome/ui.c:785 src/arch/unix/x11/gnome/ui.c:795
 #: src/arch/unix/x11/gnome/ui.c:1491
 msgid "<empty>"
 msgstr "<leer>"
 
-#: src/arch/unix/uicommands.c:694
+#: src/arch/unix/uicommands.c:733
 msgid "Previous: "
 msgstr "Vorheriges: "
 
-#: src/arch/unix/uicommands.c:709
+#: src/arch/unix/uicommands.c:748
 msgid "Add: "
 msgstr "Hinzufügen: "
 
-#: src/arch/unix/uicommands.c:724
+#: src/arch/unix/uicommands.c:763
 msgid "Remove: "
 msgstr "Entfernen: "
 
-#: src/arch/unix/uicommands.c:815 src/arch/unix/uicommands.c:827
+#: src/arch/unix/uicommands.c:854 src/arch/unix/uicommands.c:866
 msgid "Unit #8..."
 msgstr "Laufwerk #8..."
 
-#: src/arch/unix/uicommands.c:817 src/arch/unix/uicommands.c:830
+#: src/arch/unix/uicommands.c:856 src/arch/unix/uicommands.c:869
 msgid "Unit #9..."
 msgstr "Laufwerk #9..."
 
-#: src/arch/unix/uicommands.c:819 src/arch/unix/uicommands.c:833
+#: src/arch/unix/uicommands.c:858 src/arch/unix/uicommands.c:872
 msgid "Unit #10..."
 msgstr "Laufwerk #10..."
 
-#: src/arch/unix/uicommands.c:821 src/arch/unix/uicommands.c:836
+#: src/arch/unix/uicommands.c:860 src/arch/unix/uicommands.c:875
 msgid "Unit #11..."
 msgstr "Laufwerk #11..."
 
-#: src/arch/unix/uicommands.c:843 src/arch/unix/uicommands.c:865
+#: src/arch/unix/uicommands.c:882 src/arch/unix/uicommands.c:904
 msgid "Unit #8"
 msgstr "Laufwerk #8..."
 
-#: src/arch/unix/uicommands.c:845 src/arch/unix/uicommands.c:867
+#: src/arch/unix/uicommands.c:884 src/arch/unix/uicommands.c:906
 msgid "Unit #9"
 msgstr "Laufwerk #9..."
 
-#: src/arch/unix/uicommands.c:847
+#: src/arch/unix/uicommands.c:886
 msgid "Unit #10"
 msgstr "Laufwerk #10..."
 
-#: src/arch/unix/uicommands.c:849
+#: src/arch/unix/uicommands.c:888
 msgid "Unit #11"
 msgstr "Laufwerk #11..."
 
-#: src/arch/unix/uicommands.c:852
+#: src/arch/unix/uicommands.c:891
 msgid "All"
 msgstr "Alle"
 
-#: src/arch/unix/uicommands.c:858
+#: src/arch/unix/uicommands.c:897
 msgid "Soft"
 msgstr "Weich"
 
-#: src/arch/unix/uicommands.c:861
+#: src/arch/unix/uicommands.c:900
 msgid "Hard"
 msgstr "Hart"
 
-#: src/arch/unix/uicommands.c:873
-msgid "Add current image"
-msgstr "Aktuelles Image hinzufügen"
+#: src/arch/unix/uicommands.c:912
+msgid "Add current image (Unit 8)"
+msgstr "Aktuelles Image hinzufügen (Gerät 8)"
 
-#: src/arch/unix/uicommands.c:876
-msgid "Remove current image"
-msgstr "Aktuelles Image entfernen"
+#: src/arch/unix/uicommands.c:915
+msgid "Remove current image (Unit 8)"
+msgstr "Aktuelles Image entfernen (Gerät 8)"
 
-#: src/arch/unix/uicommands.c:879
-msgid "Attach next image"
-msgstr "Nächstes Image"
+#: src/arch/unix/uicommands.c:918
+msgid "Attach next image (Unit 8)"
+msgstr "Nächstes Image (Gerät 8)"
 
-#: src/arch/unix/uicommands.c:882
-msgid "Attach previous image"
-msgstr "Voriges Image"
+#: src/arch/unix/uicommands.c:921
+msgid "Attach previous image (Unit 8)"
+msgstr "Voriges Image (Gerät 8)"
 
-#: src/arch/unix/uicommands.c:889
+#: src/arch/unix/uicommands.c:924
+msgid "Load fliplist file"
+msgstr "Fliplist Datei Laden"
+
+#: src/arch/unix/uicommands.c:926
+msgid "Save fliplist file"
+msgstr "Fliplist Datei Speichern"
+
+#: src/arch/unix/uicommands.c:932
 msgid "Attach a disk image"
 msgstr "Disk Image einlegen"
 
-#: src/arch/unix/uicommands.c:891
+#: src/arch/unix/uicommands.c:934
 msgid "Create and attach an empty disk"
 msgstr "Leeres Disk Image erzeugen"
 
-#: src/arch/unix/uicommands.c:893
+#: src/arch/unix/uicommands.c:936
 msgid "Detach disk image"
 msgstr "Disk Image entfernen"
 
-#: src/arch/unix/uicommands.c:895
-msgid "Fliplist for drive #8"
-msgstr "Flipliste für Laufwerk #8"
+#: src/arch/unix/uicommands.c:938
+msgid "Fliplist"
+msgstr "Flipliste"
 
-#: src/arch/unix/uicommands.c:901
+#: src/arch/unix/uicommands.c:944
 msgid "Attach a tape image..."
 msgstr "Band Image einlegen..."
 
-#: src/arch/unix/uicommands.c:904
+#: src/arch/unix/uicommands.c:947
 msgid "Detach tape image"
 msgstr "Band Image entfernen"
 
-#: src/arch/unix/uicommands.c:910
+#: src/arch/unix/uicommands.c:953
 msgid "Smart-attach disk/tape..."
 msgstr "Smart-Einlegen von Disk/Tape Image..."
 
-#: src/arch/unix/uicommands.c:917
+#: src/arch/unix/uicommands.c:960
 msgid "Change working directory..."
 msgstr "Arbeitsverzeichnis ändern."
 
-#: src/arch/unix/uicommands.c:923
+#: src/arch/unix/uicommands.c:966
 msgid "Load snapshot..."
 msgstr "Snapshot Laden..."
 
-#: src/arch/unix/uicommands.c:926
+#: src/arch/unix/uicommands.c:969
 msgid "Save snapshot..."
 msgstr "Snapshot Speichern..."
 
-#: src/arch/unix/uicommands.c:930
+#: src/arch/unix/uicommands.c:973
 msgid "Quickload snapshot"
 msgstr "Snapshot schnell Laden..."
 
-#: src/arch/unix/uicommands.c:933
+#: src/arch/unix/uicommands.c:976
 msgid "Quicksave snapshot"
 msgstr "Snapshot schnell Speichern"
 
-#: src/arch/unix/uicommands.c:940
+#: src/arch/unix/uicommands.c:983
 msgid "Snapshot commands"
 msgstr "Snapshot Kommandos"
 
-#: src/arch/unix/uicommands.c:946
+#: src/arch/unix/uicommands.c:989
 msgid "Activate monitor"
 msgstr "Monitor Aktivieren"
 
-#: src/arch/unix/uicommands.c:948
+#: src/arch/unix/uicommands.c:991
 msgid "Run C1541"
 msgstr "C1541 starten"
 
-#: src/arch/unix/uicommands.c:956
+#: src/arch/unix/uicommands.c:999
 msgid "Browse manuals"
 msgstr "Dokumentation durchstöbern"
 
-#: src/arch/unix/uicommands.c:958
+#: src/arch/unix/uicommands.c:1001
 msgid "About VICE..."
 msgstr "Über VICE..."
 
-#: src/arch/unix/uicommands.c:964 src/arch/unix/uidatasette.c:101
+#: src/arch/unix/uicommands.c:1007 src/arch/unix/uidatasette.c:101
 #: src/arch/unix/x11/gnome/ui.c:1859
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:966
+#: src/arch/unix/uicommands.c:1009
 msgid "*Pause"
 msgstr "*Pause"
 
-#: src/arch/unix/uicommands.c:973
+#: src/arch/unix/uicommands.c:1016
 msgid "Exit emulator"
 msgstr "Emulator beenden"
 
@@ -1227,7 +1270,7 @@ msgstr "*Amber"
 msgid "*White"
 msgstr "*Weiß"
 
-#: src/arch/unix/uicrtc.c:62 src/arch/unix/uisettings.c:534
+#: src/arch/unix/uicrtc.c:62 src/arch/unix/uisettings.c:536
 msgid "*Use XSync()"
 msgstr "*XSync() benutzen"
 
@@ -1678,36 +1721,36 @@ msgstr "*CIA 9600 Baud RS232 Emulation"
 msgid "Userport RS232 device"
 msgstr "Userport RS232 Gerät"
 
-#: src/arch/unix/uisettings.c:121
+#: src/arch/unix/uisettings.c:122
 msgid "Enter refresh rate"
 msgstr "Wiederholrate einstellen"
 
-#: src/arch/unix/uisettings.c:122 src/arch/unix/uisettings.c:560
+#: src/arch/unix/uisettings.c:123 src/arch/unix/uisettings.c:562
 msgid "Refresh rate"
 msgstr "Wiederholrate"
 
-#: src/arch/unix/uisettings.c:194
+#: src/arch/unix/uisettings.c:195
 msgid "Enter speed"
 msgstr "Geschwindigkeit einstellen"
 
-#: src/arch/unix/uisettings.c:195
+#: src/arch/unix/uisettings.c:196
 msgid "Maximum run speed"
 msgstr "Maximale Geschwindigkeit"
 
-#: src/arch/unix/uisettings.c:209
+#: src/arch/unix/uisettings.c:210
 msgid "Invalid speed value"
 msgstr "Ungültige Geschwindigkeit"
 
-#: src/arch/unix/uisettings.c:221 src/arch/unix/x11/gnome/ui.c:1286
+#: src/arch/unix/uisettings.c:222 src/arch/unix/x11/gnome/ui.c:1286
 #: src/arch/unix/x11/xaw/ui.c:1064
 msgid "Cannot save settings."
 msgstr "Fehler beim Speichern der Einstellungen."
 
-#: src/arch/unix/uisettings.c:224
+#: src/arch/unix/uisettings.c:225
 msgid "Settings saved successfully."
 msgstr "Einstellungen erfolgreich gespeichert"
 
-#: src/arch/unix/uisettings.c:238
+#: src/arch/unix/uisettings.c:240
 msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
@@ -1715,7 +1758,7 @@ msgstr ""
 "Kann Einstellungen nicht Laden:\n"
 "Ungültige Resource Datei."
 
-#: src/arch/unix/uisettings.c:240
+#: src/arch/unix/uisettings.c:242
 msgid ""
 "Cannot load settings:\n"
 "resource file not found."
@@ -1723,133 +1766,133 @@ msgstr ""
 "Kann Einstellungen nicht Laden:\n"
 "Resource Datei nicht gefunden."
 
-#: src/arch/unix/uisettings.c:244
+#: src/arch/unix/uisettings.c:246
 msgid "Settings loaded."
 msgstr "Einstellungen geladen."
 
-#: src/arch/unix/uisettings.c:286
+#: src/arch/unix/uisettings.c:288
 msgid "*Symbolic mapping"
 msgstr "*Symbolische Zuordnung"
 
-#: src/arch/unix/uisettings.c:288
+#: src/arch/unix/uisettings.c:290
 msgid "*Positional mapping (US)"
 msgstr "*Positions Zuordnung (US)"
 
-#: src/arch/unix/uisettings.c:306
+#: src/arch/unix/uisettings.c:308
 msgid "Read Keymap File"
 msgstr "Keymap Datei Laden"
 
-#: src/arch/unix/uisettings.c:331
+#: src/arch/unix/uisettings.c:333
 msgid "Write to Keymap File:"
 msgstr "Keymap in Datei speichern:"
 
-#: src/arch/unix/uisettings.c:340
+#: src/arch/unix/uisettings.c:342
 msgid "Keyboard mapping type"
 msgstr "Tastatur Mapping"
 
-#: src/arch/unix/uisettings.c:343
+#: src/arch/unix/uisettings.c:345
 msgid "Set symbolic keymap file"
 msgstr "Symbolische Keymap Datei definieren"
 
-#: src/arch/unix/uisettings.c:345
+#: src/arch/unix/uisettings.c:347
 msgid "Set positional keymap file"
 msgstr "Positions Keymap Datei definieren"
 
-#: src/arch/unix/uisettings.c:348
+#: src/arch/unix/uisettings.c:350
 msgid "Dump keymap to file"
 msgstr "Aktuelle Keymap auf Datei speichern"
 
-#: src/arch/unix/uisettings.c:370
+#: src/arch/unix/uisettings.c:372
 msgid "Load custom ROM set definition"
 msgstr "Benutzerdefinierten ROM Satz Laden"
 
-#: src/arch/unix/uisettings.c:378
+#: src/arch/unix/uisettings.c:380
 #, c-format
 msgid ""
 "Could not load ROM set file\n"
 "'%s'"
 msgstr "Kann ROM Satz `%s' nicht laden."
 
-#: src/arch/unix/uisettings.c:399
+#: src/arch/unix/uisettings.c:401
 msgid "File to dump ROM set definition to"
 msgstr "Aktuellen Rom Satz speichern unter"
 
-#: src/arch/unix/uisettings.c:404
+#: src/arch/unix/uisettings.c:406
 msgid "ROM set file:"
 msgstr "ROM Satz Datei:"
 
-#: src/arch/unix/uisettings.c:420
+#: src/arch/unix/uisettings.c:422
 msgid "Load ROM file"
 msgstr "Benutzerdefinierten ROM Satz Laden"
 
-#: src/arch/unix/uisettings.c:429
+#: src/arch/unix/uisettings.c:431
 #, c-format
 msgid ""
 "Could not load ROM file\n"
 "'%s'"
 msgstr "Kann ROM Datei `%s' nicht laden."
 
-#: src/arch/unix/uisettings.c:451
+#: src/arch/unix/uisettings.c:453
 msgid "*Auto"
 msgstr "*Automatisch"
 
-#: src/arch/unix/uisettings.c:474 src/arch/unix/uisettings.c:493
+#: src/arch/unix/uisettings.c:476 src/arch/unix/uisettings.c:495
 msgid "*Custom..."
 msgstr "*Benutzerdefiniert..."
 
-#: src/arch/unix/uisettings.c:490
+#: src/arch/unix/uisettings.c:492
 msgid "*No limit"
 msgstr "*Kein Limit"
 
-#: src/arch/unix/uisettings.c:507
+#: src/arch/unix/uisettings.c:509
 msgid "*Enable"
 msgstr "*Aktivieren"
 
-#: src/arch/unix/uisettings.c:515
+#: src/arch/unix/uisettings.c:517
 msgid "Resolutions"
 msgstr "Auflösungen"
 
-#: src/arch/unix/uisettings.c:540
+#: src/arch/unix/uisettings.c:542
 msgid "VIC-II Video settings"
 msgstr "VIC-II Einstellungen"
 
-#: src/arch/unix/uisettings.c:546
+#: src/arch/unix/uisettings.c:548
 msgid "VIC Video settings"
 msgstr "VIC Video Einstellungen"
 
-#: src/arch/unix/uisettings.c:552
+#: src/arch/unix/uisettings.c:554
 msgid "TED Video settings"
 msgstr "TED Video Einstellungen"
 
-#: src/arch/unix/uisettings.c:562
+#: src/arch/unix/uisettings.c:564
 msgid "Maximum speed"
 msgstr "Maximale Geschwindigkeit"
 
-#: src/arch/unix/uisettings.c:564
+#: src/arch/unix/uisettings.c:566
 msgid "*Enable warp mode"
 msgstr "*Warp Mode Aktivieren"
 
-#: src/arch/unix/uisettings.c:579
+#: src/arch/unix/uisettings.c:581
 msgid "*Fullscreen settings"
 msgstr "*Vollbild Einstellungen"
 
-#: src/arch/unix/uisettings.c:587
+#: src/arch/unix/uisettings.c:589
 msgid "Keyboard settings"
 msgstr "Tastatur Einstellungen"
 
-#: src/arch/unix/uisettings.c:593
+#: src/arch/unix/uisettings.c:595
 msgid "Save settings"
 msgstr "Einstellungen speichern"
 
-#: src/arch/unix/uisettings.c:595
+#: src/arch/unix/uisettings.c:597
 msgid "Load settings"
 msgstr "Einstellungen Laden"
 
-#: src/arch/unix/uisettings.c:597
+#: src/arch/unix/uisettings.c:599
 msgid "Restore default settings"
 msgstr "Wiederherstellen Standard Einstellungen"
 
-#: src/arch/unix/uisettings.c:599
+#: src/arch/unix/uisettings.c:601
 msgid "*Save settings on exit"
 msgstr "*Einstellungen beim Beenden speichern"
 
@@ -2386,12 +2429,12 @@ msgstr "Kann Erweiterunsmodule Imagedatei `%s' nicht speichern.\n"
 msgid "Successfully wrote `%s'\n"
 msgstr "`%s' erfolgreich gespeichert\n"
 
-#: src/arch/unix/x11/gnome/uicolor.c:153 src/arch/unix/x11/xaw/uicolor.c:129
+#: src/arch/unix/x11/gnome/uicolor.c:151 src/arch/unix/x11/xaw/uicolor.c:129
 msgid "XCreateImage failed."
 msgstr "XCreateImage failed."
 
-#: src/arch/unix/x11/gnome/uicolor.c:162 src/arch/unix/x11/gnome/uicolor.c:221
-#: src/arch/unix/x11/gnome/uicolor.c:226 src/arch/unix/x11/gnome/uicolor.c:231
+#: src/arch/unix/x11/gnome/uicolor.c:160 src/arch/unix/x11/gnome/uicolor.c:223
+#: src/arch/unix/x11/gnome/uicolor.c:228 src/arch/unix/x11/gnome/uicolor.c:233
 #: src/arch/unix/x11/xaw/uicolor.c:139 src/arch/unix/x11/xaw/uicolor.c:195
 #: src/arch/unix/x11/xaw/uicolor.c:200 src/arch/unix/x11/xaw/uicolor.c:205
 #, c-format
@@ -2699,32 +2742,36 @@ msgstr ""
 "`XSync()' nicht nach jeder Aktualisierung des Emulator Fensters aufrufen"
 
 #: src/arch/unix/x11/video.c:162
+msgid "Use shared memory"
+msgstr "Benutze Shared Memory !"
+
+#: src/arch/unix/x11/video.c:165
 msgid "Never use shared memory (slower)"
 msgstr "Shared Memory nicht benutzen (langsamer)"
 
-#: src/arch/unix/x11/video.c:166
+#: src/arch/unix/x11/video.c:169
 msgid "Use XVideo Extension (hardware scaling)"
 msgstr "XVideo Erweiterung nutzen (Hardware Skalierung)"
 
-#: src/arch/unix/x11/video.c:169
+#: src/arch/unix/x11/video.c:172
 msgid "Use software rendering"
 msgstr "Software Rendering benutzen"
 
-#: src/arch/unix/x11/video.c:171
+#: src/arch/unix/x11/video.c:174
 msgid "Request YUV FOURCC format"
 msgstr "YUV FOURCC Format"
 
-#: src/arch/unix/x11/video.c:378
+#: src/arch/unix/x11/video.c:354
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
 "Die MITSHM X Server Erweiterung ist auf diesem Display nicht unterstützt."
 
-#: src/arch/unix/x11/video.c:382
+#: src/arch/unix/x11/video.c:358
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM X Server Eweiterung in Version %d.%d erkannt."
 
-#: src/arch/unix/x11/video.c:443
+#: src/arch/unix/x11/video.c:419
 msgid "Cannot release shared memory!"
 msgstr "Kann Shared Memory nicht freigeben!"
 
@@ -2760,12 +2807,6 @@ msgstr "Dateiname:"
 #: src/arch/unix/x11/xaw/uisnapshot.c:167
 msgid "Browse..."
 msgstr "Stöbern..."
-
-#: src/arch/unix/x11/xaw/uicartridge.c:164 src/arch/unix/x11/xaw/uiedisk.c:397
-#: src/arch/unix/x11/xaw/uiscreenshot.c:251
-#: src/arch/unix/x11/xaw/uisnapshot.c:282
-msgid "Save"
-msgstr "Speichern"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:171 src/arch/unix/x11/xaw/uiedisk.c:404
 #: src/arch/unix/x11/xaw/uiscreenshot.c:258

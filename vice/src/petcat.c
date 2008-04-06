@@ -175,6 +175,8 @@
 
 /* ------------------------------------------------------------------------- */
 
+const char machine_name[] = "PETCAT";
+
 /* PC64 files need this */
 
 const char *slot_type[] =
