@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2001-07-08 23:41+0200\n"
-"PO-Revision-Date: 2000-12-01 21:31+01:00\n"
+"POT-Creation-Date: 2001-07-15 15:48+0200\n"
+"PO-Revision-Date: 2001-07-15 15:36+02:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -149,8 +149,8 @@ msgid "Next: "
 msgstr "Nächstes: "
 
 #: src/arch/unix/uicommands.c:666 src/arch/unix/uicommands.c:681
-#: src/arch/unix/x11/gnome/ui.c:759 src/arch/unix/x11/gnome/ui.c:769
-#: src/arch/unix/x11/gnome/ui.c:1433
+#: src/arch/unix/x11/gnome/ui.c:758 src/arch/unix/x11/gnome/ui.c:768
+#: src/arch/unix/x11/gnome/ui.c:1432
 msgid "<empty>"
 msgstr "<leer>"
 
@@ -295,7 +295,7 @@ msgid "About VICE..."
 msgstr "Über VICE..."
 
 #: src/arch/unix/uicommands.c:946 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/ui.c:1783
+#: src/arch/unix/x11/gnome/ui.c:1782
 msgid "Reset"
 msgstr "Reset"
 
@@ -617,7 +617,7 @@ msgstr "Optionen"
 #: src/arch/unix/c128ui.c:507 src/arch/unix/c610ui.c:536
 #: src/arch/unix/c64ui.c:635 src/arch/unix/petui.c:533
 #: src/arch/unix/vic20ui.c:523 src/arch/unix/vsidui.c:259
-#: src/arch/unix/x11/gnome/ui.c:1089 src/arch/unix/x11/gnome/ui.c:1181
+#: src/arch/unix/x11/gnome/ui.c:1088 src/arch/unix/x11/gnome/ui.c:1180
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -949,7 +949,7 @@ msgstr "Maximale Geschwindigkeit"
 msgid "Invalid speed value"
 msgstr "Ungültige Geschwindigkeit"
 
-#: src/arch/unix/uisettings.c:218 src/arch/unix/x11/gnome/ui.c:1228
+#: src/arch/unix/uisettings.c:218 src/arch/unix/x11/gnome/ui.c:1227
 #: src/arch/unix/x11/xaw/ui.c:1061
 msgid "Cannot save settings."
 msgstr "Fehler beim Speichern der Einstellungen."
@@ -1513,21 +1513,20 @@ msgstr "REU Image Name..."
 
 #: src/arch/unix/uidatasette.c:53 src/arch/unix/uidatasette.c:88
 msgid "Datasette speed tuning"
-msgstr ""
+msgstr "Bandlaufwerk Geschwindigkeitskontrolle"
 
 #: src/arch/unix/uidatasette.c:58 src/arch/unix/uidatasette.c:86
-#, fuzzy
 msgid "Datasette zero gap delay"
-msgstr "Bandlaufwerk Kontrolle"
+msgstr "Bandlaufwerk Zero Gap Verzögerung"
 
 #: src/arch/unix/uidatasette.c:70
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid value: %s"
-msgstr "Ungültige Geschwindigkeit"
+msgstr "Ungültiger Wert: %s"
 
 #: src/arch/unix/uidatasette.c:84
 msgid "*Reset Datasette on CPU Reset"
-msgstr ""
+msgstr "*Zurücksetzen des Bandlaufwerks bei CPU Reset"
 
 #: src/arch/unix/uidatasette.c:91
 msgid "Stop"
@@ -2128,150 +2127,150 @@ msgstr "VICE Hackers"
 msgid "Successfully initialized video."
 msgstr "Video erfolgreich initialisiert."
 
-#: src/arch/unix/x11/gnome/ui.c:400
+#: src/arch/unix/x11/gnome/ui.c:399
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr "Schriftpfad hinzufügen ist fehlgeschlagen: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/ui.c:402
+#: src/arch/unix/x11/gnome/ui.c:401
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr "Setze Fontpfad: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/ui.c:636 src/arch/unix/x11/xaw/ui.c:472
+#: src/arch/unix/x11/gnome/ui.c:635 src/arch/unix/x11/xaw/ui.c:472
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Dieses Display unterstützt keine passende %dbit Farbtiefe."
 
-#: src/arch/unix/x11/gnome/ui.c:640 src/arch/unix/x11/xaw/ui.c:476
+#: src/arch/unix/x11/gnome/ui.c:639 src/arch/unix/x11/xaw/ui.c:476
 msgid "Please select a bit depth supported by your display."
 msgstr "Bitte genaue Farbtiefe für Ihr Display spezifizieren."
 
-#: src/arch/unix/x11/gnome/ui.c:643 src/arch/unix/x11/xaw/ui.c:479
+#: src/arch/unix/x11/gnome/ui.c:642 src/arch/unix/x11/xaw/ui.c:479
 msgid "Please recompile the program for a supported bit depth."
 msgstr "Bitte VICE mit passender Farbtiefe neu übersetzen."
 
-#: src/arch/unix/x11/gnome/ui.c:647 src/arch/unix/x11/gnome/ui.c:665
+#: src/arch/unix/x11/gnome/ui.c:646 src/arch/unix/x11/gnome/ui.c:664
 #: src/arch/unix/x11/xaw/ui.c:483 src/arch/unix/x11/xaw/ui.c:500
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "%dbit/%s Farbtiefe erkannt."
 
-#: src/arch/unix/x11/gnome/ui.c:673 src/arch/unix/x11/xaw/ui.c:508
+#: src/arch/unix/x11/gnome/ui.c:672 src/arch/unix/x11/xaw/ui.c:508
 msgid "Cannot autodetect a proper visual."
 msgstr "Fehler beim automatischen erkennen der Farbtiefe."
 
-#: src/arch/unix/x11/gnome/ui.c:680
+#: src/arch/unix/x11/gnome/ui.c:679
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Laden der Textschrift `%s' fehlgeschlagen."
 
-#: src/arch/unix/x11/gnome/ui.c:687
+#: src/arch/unix/x11/gnome/ui.c:686
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Laden der CBM font `%s' fehlgeschlagen."
 
-#: src/arch/unix/x11/gnome/ui.c:745
+#: src/arch/unix/x11/gnome/ui.c:744
 #, c-format
 msgid "Drive %d: "
 msgstr "Laufwerk %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/ui.c:855
+#: src/arch/unix/x11/gnome/ui.c:854
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/ui.c:928 src/arch/unix/x11/xaw/ui.c:589
+#: src/arch/unix/x11/gnome/ui.c:927 src/arch/unix/x11/xaw/ui.c:589
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximale Anzahl an Hauptfenster erreicht."
 
-#: src/arch/unix/x11/gnome/ui.c:1087 src/arch/unix/x11/gnome/ui.c:1170
+#: src/arch/unix/x11/gnome/ui.c:1086 src/arch/unix/x11/gnome/ui.c:1169
 msgid "Commands"
 msgstr "Kommandos"
 
-#: src/arch/unix/x11/gnome/ui.c:1093
+#: src/arch/unix/x11/gnome/ui.c:1092
 msgid "Help"
 msgstr "Hilfe"
 
-#: src/arch/unix/x11/gnome/ui.c:1212 src/arch/unix/x11/xaw/ui.c:1045
+#: src/arch/unix/x11/gnome/ui.c:1211 src/arch/unix/x11/xaw/ui.c:1045
 msgid " emulator"
 msgstr " Emulator"
 
-#: src/arch/unix/x11/gnome/ui.c:1214 src/arch/unix/x11/xaw/ui.c:1051
+#: src/arch/unix/x11/gnome/ui.c:1213 src/arch/unix/x11/xaw/ui.c:1051
 msgid "Do you really want to exit?"
 msgstr "Wirklich beenden?"
 
-#: src/arch/unix/x11/gnome/ui.c:1224 src/arch/unix/x11/xaw/ui.c:1058
+#: src/arch/unix/x11/gnome/ui.c:1223 src/arch/unix/x11/xaw/ui.c:1058
 msgid "Save the current settings?"
 msgstr "Einstellungen speichern?"
 
-#: src/arch/unix/x11/gnome/ui.c:1271 src/arch/unix/x11/xaw/ui.c:1095
+#: src/arch/unix/x11/gnome/ui.c:1270 src/arch/unix/x11/xaw/ui.c:1095
 msgid "Using private colormap."
 msgstr "Benutze private Farbpalette."
 
-#: src/arch/unix/x11/gnome/ui.c:1291 src/arch/unix/x11/gnome/ui.c:1294
+#: src/arch/unix/x11/gnome/ui.c:1290 src/arch/unix/x11/gnome/ui.c:1293
 #: src/arch/unix/x11/xaw/ui.c:1116 src/arch/unix/x11/xaw/ui.c:1122
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/ui.c:1585
+#: src/arch/unix/x11/gnome/ui.c:1584
 #, c-format
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/ui.c:1622 src/arch/unix/x11/xaw/ui.c:1332
+#: src/arch/unix/x11/gnome/ui.c:1621 src/arch/unix/x11/xaw/ui.c:1332
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausiert)"
 
-#: src/arch/unix/x11/gnome/ui.c:1742
+#: src/arch/unix/x11/gnome/ui.c:1741
 msgid "VICE Message"
 msgstr "VICE Nachricht"
 
-#: src/arch/unix/x11/gnome/ui.c:1757
+#: src/arch/unix/x11/gnome/ui.c:1756
 msgid "VICE Error"
 msgstr "VICE Fehler"
 
-#: src/arch/unix/x11/gnome/ui.c:1783
+#: src/arch/unix/x11/gnome/ui.c:1782
 msgid "Hard Reset"
 msgstr "Harter Reset"
 
-#: src/arch/unix/x11/gnome/ui.c:1783
+#: src/arch/unix/x11/gnome/ui.c:1782
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/ui.c:1827 src/arch/unix/x11/xaw/ui.c:1572
+#: src/arch/unix/x11/gnome/ui.c:1826 src/arch/unix/x11/xaw/ui.c:1572
 msgid "Extend disk image"
 msgstr "Erweiterung Disk Image"
 
-#: src/arch/unix/x11/gnome/ui.c:1828
+#: src/arch/unix/x11/gnome/ui.c:1827
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Soll das Diskimage auf 40 Spuren erweitert werden?"
 
-#: src/arch/unix/x11/gnome/ui.c:1841
+#: src/arch/unix/x11/gnome/ui.c:1840
 msgid "Autostart not possible for unit 9"
 msgstr "Autostart für Laufwerk 9 nicht möglich."
 
-#: src/arch/unix/x11/gnome/ui.c:1849 src/arch/unix/x11/gnome/ui.c:1858
+#: src/arch/unix/x11/gnome/ui.c:1848 src/arch/unix/x11/gnome/ui.c:1857
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Autostart von Selektion Nr. %d in Image %s fehlgeschlagen."
 
-#: src/arch/unix/x11/gnome/ui.c:1986 src/arch/unix/x11/gnome/ui.c:1991
+#: src/arch/unix/x11/gnome/ui.c:1985 src/arch/unix/x11/gnome/ui.c:1990
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "KEIN IMAGE VERZEICHNIS VERFUEGBAR."
 
-#: src/arch/unix/x11/gnome/ui.c:2449
+#: src/arch/unix/x11/gnome/ui.c:2448
 msgid "Contents"
 msgstr "Verzeichnis"
 
-#: src/arch/unix/x11/gnome/ui.c:2496
+#: src/arch/unix/x11/gnome/ui.c:2495
 msgid "Attach write protected"
 msgstr "Attach schreibgeschützt"
 
-#: src/arch/unix/x11/gnome/ui.c:2522
+#: src/arch/unix/x11/gnome/ui.c:2521
 msgid "Autostart"
 msgstr "Autostart"
 
