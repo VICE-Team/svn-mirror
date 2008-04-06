@@ -60,12 +60,12 @@ static _go32_dpmi_seginfo std_kbd_handler_seginfo;
 /* This takes account of the status of the modifier keys on the real PC
    keyboard.  */
 static struct {
-    int left_ctrl:1;
-    int right_ctrl:1;
-    int left_shift:1;
-    int right_shift:1;
-    int left_alt:1;
-    int right_alt:1;
+    unsigned int left_ctrl:1;
+    unsigned int right_ctrl:1;
+    unsigned int left_shift:1;
+    unsigned int right_shift:1;
+    unsigned int left_alt:1;
+    unsigned int right_alt:1;
 } modifiers;
 
 /* Pointer to the keyboard conversion map.  */
@@ -152,94 +152,6 @@ void kbd_flush_commands(void)
 
     DEBUG(("Successful"));
 }
-
-/* -------------------------------------------------------------------------- */
-
-#if 0
-
-static keyconv *keyconvmap;
-
-void set80key(void)
-{
-    DEBUG(("Enabling PET business keyboard"));
-    keyconvmap = keyconvmap80;
-    virtual_shift_row = 6;
-    virtual_shift_column = 0;
-}
-
-void set40key(void)
-{
-    DEBUG(("Enabling PET graphics keyboard"));
-    keyconvmap = keyconvmap40;
-    virtual_shift_row = 8;
-    virtual_shift_column = 0;
-}
-
-#endif /* PET */
-
-/* ------------------------------------------------------------------------- */
-
-#if defined(VIC20) || defined(CBM64) || defined(C128)
-
-/* Emulate the joystick via keypad.  */
-static int handle_joy_emu(int kcode, int pressed)
-{
-    if (pressed) {
-	switch (kcode) {
-	  case K_KP8:
-	    joy[app_resources.joyPort] |= 1;
-	    break;
-	  case K_KP2:
-          case K_KP5:
-	    joy[app_resources.joyPort] |= 2;
-	    break;
-	  case K_KP4:
-	    joy[app_resources.joyPort] |= 4;
-	    break;
-	  case K_KP6:
-	    joy[app_resources.joyPort] |= 8;
-	    break;
-	  case K_KP0:
-	  case K_RIGHTCTRL:
-	    joy[app_resources.joyPort] |= 16;
-	    break;
-	  default:
-	    return 0;
-	}
-    } else {
-	switch (kcode) {
-	  case K_KP8:
-	    joy[app_resources.joyPort] &= ~1;
-	    break;
-	  case K_KP2:
-          case K_KP5:
-	    joy[app_resources.joyPort] &= ~2;
-	    break;
-	  case K_KP4:
-	    joy[app_resources.joyPort] &= ~4;
-	    break;
-	  case K_KP6:
-	    joy[app_resources.joyPort] &= ~8;
-	    break;
-	  case K_KP0:
-	  case K_RIGHTCTRL:
-	    joy[app_resources.joyPort] &= ~16;
-	    break;
-	  default:
-	    return 0;
-	}
-    }
-    return 1;
-}
-
-#else  /* no joystick */
-
-inline static int handle_joy_emu(int kcode, int pressed)
-{
-    return 0;
-}
-
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -339,7 +251,7 @@ static void my_kbd_interrupt_handler(void)
 		queue_command(KCMD_RESET);
 	    break;
 	  default:
-	    if (!handle_joy_emu(kcode, 1)) {
+	    if (!joystick_handle_key(kcode, 1)) {
 		set_keyarr(keyconvmap[kcode].row, keyconvmap[kcode].column, 1);
 		if (keyconvmap[kcode].vshift)
 		    set_keyarr(virtual_shift_row, virtual_shift_column, 1);
@@ -386,7 +298,7 @@ static void my_kbd_interrupt_handler(void)
 	    break;
 #endif
 	  default:
-	    if (!handle_joy_emu(kcode, 0)) {
+	    if (!joystick_handle_key(kcode, 0)) {
 		set_keyarr(keyconvmap[kcode].row, keyconvmap[kcode].column, 0);
 		if (keyconvmap[kcode].vshift)
 		    set_keyarr(virtual_shift_row, virtual_shift_column, 0);

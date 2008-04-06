@@ -44,65 +44,65 @@
 typedef struct tui_menu_item tui_menu_item_t;
 
 struct tui_menu_item {
-    /* Item type. */
+    /* Item type.  */
     enum {
-	TUI_MENU_COMMAND,	/* Call a callback function. */
-	TUI_MENU_SUBMENU,	/* Activate a submenu. */
-	TUI_MENU_SEPARATOR	/* Unreachable separator. */
+	TUI_MENU_COMMAND,	/* Call a callback function.  */
+	TUI_MENU_SUBMENU,	/* Activate a submenu.  */
+	TUI_MENU_SEPARATOR	/* Unreachable separator.  */
     } type;
 
-    /* Label for this menu item. */
+    /* Label for this menu item.  */
     char *label;
 
-    /* Help string for this menu item. */
+    /* Help string for this menu item.  */
     char *help_string;
 
-    /* Hot key. */
+    /* Hot key.  */
     char hot_key;
 
-    /* Place of the hot key on the label. */
+    /* Place of the hot key on the label.  */
     int hot_key_offset;
 
-    /* Function to call when this item is activated. */
+    /* Function to call when this item is activated.  */
     tui_menu_callback_t callback;
 
-    /* Extra parameter to pass to the callback function. */
+    /* Extra parameter to pass to the callback function.  */
     void *callback_param;
 
     /* Optional parameter string.  If NULL, no parameter is displayed.
-       (always NULL for separators and submenus). */
+       (Always NULL for separators and submenus.)  */
     char *par_string;
 
-    /* Maximum length of the parameter string.  (always zero fo separators
-       and submenus). */
+    /* Maximum length of the parameter string.  (Always zero for separators
+       and submenus.)  */
     int par_string_max_len;
 
-    /* Behavior of this item when activated. */
+    /* Behavior of this item when activated.  */
     tui_menu_item_behavior_t behavior;
 
-    /* Link to the submenu (if needed). */
+    /* Link to the submenu (if needed).  */
     tui_menu_t submenu;
 
-    /* Links to the next and previous items. */
+    /* Links to the next and previous items.  */
     tui_menu_item_t *next, *prev;
 };
 
 struct tui_menu {
-    /* Menu title (can be NULL). */
+    /* Menu title (can be NULL).  */
     char *title;
 
-    /* Number of items in this menu. */
+    /* Number of items in this menu.  */
     int num_items;
 
     /* Maximum width of the largest item.  This also considers the parameter
-       on the right. */
+       on the right.  */
     int width;
 
     /* Specifies the number of lines between menu items; e.g. 1 means one
-       item per line, 2 one item every two lines. */
+       item per line, 2 one item every two lines.  */
     int spacing;
 
-    /* Menu items. */
+    /* Menu items.  */
     tui_menu_item_t *item_list;
 };
 
@@ -237,7 +237,7 @@ static int set_label(tui_menu_item_t *item, const char *label)
     char *p;
 
     /* Find the hot key and allocate the label removing the corresponding
-       hot key prefix. */
+       hot key prefix.  */
     p = strchr(label, TUI_MENU_HOT_KEY_PREFIX);
     if (p == NULL) {
 	item->hot_key_offset = -1;
@@ -282,7 +282,7 @@ void tui_menu_add_item(tui_menu_t menu, const char *label,
     if (width > menu->width)
 	menu->width = width;
 
-    /* Make sure `par_string' is initialized. */
+    /* Make sure `par_string' is initialized.  */
     tui_menu_call_callback(new, 0);
 }
 
@@ -333,9 +333,9 @@ void tui_menu_add(tui_menu_t menu, const tui_menu_item_def_t *def)
 	    tui_menu_add(s, p->submenu);
             tui_menu_add_submenu(menu,
 			         p->label,
-			         p->help_string, 
+			         p->help_string,
 				 s,
-			         p->callback, 
+			         p->callback,
 				 p->callback_param,
 			         p->par_string_max_len);
 	} else if (*p->label == '-') {
@@ -343,9 +343,9 @@ void tui_menu_add(tui_menu_t menu, const tui_menu_item_def_t *def)
         } else {
             tui_menu_add_item(menu,
 	    		      p->label,
-		              p->help_string, 
+		              p->help_string,
 			      p->callback,
-		              p->callback_param, 
+		              p->callback_param,
 			      p->par_string_max_len,
 		              p->behavior);
         }
@@ -442,7 +442,7 @@ int tui_menu_handle(tui_menu_t menu)
 	if (need_update) {
 	    tui_menu_item_t *p;
 
-	    /* Redraw the menu. */
+	    /* Redraw the menu.  */
 	    for (p = menu->item_list, y = menu_y + 1;
 		 p != NULL;
 		 p = p->next, y += menu->spacing) {
