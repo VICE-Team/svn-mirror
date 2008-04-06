@@ -48,7 +48,7 @@
 #include "imagecontents.h"
 #include "ioutil.h"
 #include "lib.h"
-#include "utils.h"
+#include "util.h"
 #include "tui.h"
 #include "tui_backend.h"
 #include "tuiimagebrowser.h"
