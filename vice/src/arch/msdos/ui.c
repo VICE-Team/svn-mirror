@@ -248,7 +248,10 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
         ui_display_drive_led(1, 0);
 }
 
-void ui_display_drive_track(int drive_number, double track_number)
+/* drive_base is either 8 or 0 depending on unit or drive display.
+   Dual drives display drive 0: and 1: instead of unit 8: and 9: */
+void ui_display_drive_track(int drive_number, int drive_base, 
+						double track_number)
 {
 }
 

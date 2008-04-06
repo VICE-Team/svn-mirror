@@ -1105,6 +1105,8 @@ static int format_cmd(int nargs, char **args)
             disk_type = DISK_IMAGE_TYPE_D82;
         else if (strcmp(args[2], "g64") == 0)
             disk_type = DISK_IMAGE_TYPE_GCR;
+        else if (strcmp(args[2], "x64") == 0)
+            disk_type = DISK_IMAGE_TYPE_X64;
         else
             return FD_BADVAL;
         if (open_image(drive_number, args[3], 1, disk_type) < 0)
