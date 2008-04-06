@@ -2899,6 +2899,16 @@ int machine_bus_lib_write_sector(unsigned int unit, unsigned int track,
     return serial_iec_lib_write_sector(unit, track, sector, buf);
 }
 
+unsigned int machine_bus_device_fsimage_state_get(unsigned int unit)
+{
+    return serial_device_fsimage_state_get(unit);
+}
+
+unsigned int machine_bus_device_realdevice_state_get(unsigned int unit)
+{
+    return serial_device_realdevice_state_get(unit);
+}
+
 #ifdef WIN32
 #undef BYTE
 #undef WORD
