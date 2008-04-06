@@ -308,6 +308,11 @@ canvas_t *canvas_create(const char *win_name, unsigned int *width,
     return new_canvas;
 }
 
+void canvas_destroy(canvas_t *c)
+{
+	/* FIXME: Just a dummy so far */
+}
+
 int canvas_set_palette(canvas_t *c, const palette_t *palette,
                        PIXEL *pixel_return)
 {
