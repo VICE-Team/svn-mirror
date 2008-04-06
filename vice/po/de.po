@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-10-01 17:51+0200\n"
+"POT-Creation-Date: 2005-10-09 20:54+0200\n"
 "PO-Revision-Date: 2005-10-02 12:59+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -84,21 +84,21 @@ msgstr "Setze Source Buffer Größe zu <Wert> msek"
 #: src/c64/c64-cmdline-options.c:91 src/c64/c64-cmdline-options.c:93
 #: src/c64/c64-cmdline-options.c:95 src/c64/c64-cmdline-options.c:112
 #: src/c64/c64-cmdline-options.c:114 src/c64/c64-cmdline-options.c:116
-#: src/c64/cart/c64cart.c:218 src/c64/cart/c64cart.c:221
-#: src/c64/cart/c64cart.c:224 src/c64/cart/c64cart.c:227
-#: src/c64/cart/c64cart.c:230 src/c64/cart/c64cart.c:233
-#: src/c64/cart/c64cart.c:236 src/c64/cart/c64cart.c:239
-#: src/c64/cart/c64cart.c:242 src/c64/cart/c64cart.c:245
-#: src/c64/cart/c64cart.c:248 src/c64/cart/c64cart.c:251
-#: src/c64/cart/ide64.c:268 src/c64/georam.c:215 src/c64/plus60k.c:206
-#: src/c64/ramcart.c:228 src/c64/reu.c:250 src/cbm2/cbm2-cmdline-options.c:132
-#: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
-#: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
-#: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
-#: src/cbm2/cbm2-cmdline-options.c:178 src/cbm2/cbm2-cmdline-options.c:181
-#: src/cbm2/cbm2-cmdline-options.c:184 src/cbm2/cbm2-cmdline-options.c:187
-#: src/cbm2/cbm2-cmdline-options.c:190 src/cbm2/cbm2-cmdline-options.c:193
-#: src/drive/iec/iec-cmdline-options.c:86
+#: src/c64/cart/c64cart.c:222 src/c64/cart/c64cart.c:225
+#: src/c64/cart/c64cart.c:228 src/c64/cart/c64cart.c:231
+#: src/c64/cart/c64cart.c:234 src/c64/cart/c64cart.c:237
+#: src/c64/cart/c64cart.c:240 src/c64/cart/c64cart.c:243
+#: src/c64/cart/c64cart.c:246 src/c64/cart/c64cart.c:249
+#: src/c64/cart/c64cart.c:252 src/c64/cart/c64cart.c:255
+#: src/c64/cart/c64cart.c:258 src/c64/cart/ide64.c:268 src/c64/georam.c:215
+#: src/c64/plus60k.c:206 src/c64/ramcart.c:228 src/c64/reu.c:250
+#: src/cbm2/cbm2-cmdline-options.c:132 src/cbm2/cbm2-cmdline-options.c:134
+#: src/cbm2/cbm2-cmdline-options.c:136 src/cbm2/cbm2-cmdline-options.c:139
+#: src/cbm2/cbm2-cmdline-options.c:141 src/cbm2/cbm2-cmdline-options.c:143
+#: src/cbm2/cbm2-cmdline-options.c:145 src/cbm2/cbm2-cmdline-options.c:178
+#: src/cbm2/cbm2-cmdline-options.c:181 src/cbm2/cbm2-cmdline-options.c:184
+#: src/cbm2/cbm2-cmdline-options.c:187 src/cbm2/cbm2-cmdline-options.c:190
+#: src/cbm2/cbm2-cmdline-options.c:193 src/drive/iec/iec-cmdline-options.c:86
 #: src/drive/iec/iec-cmdline-options.c:88
 #: src/drive/iec/iec-cmdline-options.c:90
 #: src/drive/iec/iec-cmdline-options.c:92
@@ -612,66 +612,66 @@ msgstr "Index für Keymap Datei festlegen (0=symbol, 1=symDE, 2=positional)"
 msgid "Specify name of symbolic German keymap file"
 msgstr "Name von symbolischer Keymap Datei definieren"
 
-#: src/c64/cart/c64cart.c:212
+#: src/c64/cart/c64cart.c:216
 msgid "Reset machine if a cartridge is attached or detached"
 msgstr ""
 "Reset der Maschine wenn ein Erweiterungsmodul eingelegt oder entfernt wird"
 
-#: src/c64/cart/c64cart.c:215
+#: src/c64/cart/c64cart.c:219
 msgid "Do not reset machine if a cartridge is attached or detached"
 msgstr ""
 "Kein Reset der Maschine wenn ein Erweiterungsmodul eingelegt oder entfernt "
 "wird"
 
-#: src/c64/cart/c64cart.c:218
+#: src/c64/cart/c64cart.c:222
 msgid "Attach CRT cartridge image"
 msgstr "CRT Erweiterungsmodul Image einlegen"
 
-#: src/c64/cart/c64cart.c:221
+#: src/c64/cart/c64cart.c:225
 msgid "Attach generic 8KB cartridge image"
 msgstr "Generisches 8K Erweiterungsmodul Image einlegen"
 
-#: src/c64/cart/c64cart.c:224
+#: src/c64/cart/c64cart.c:228
 msgid "Attach generic 16KB cartridge image"
 msgstr "Generisches 16K Erweiterungsmodul Image einlegen"
 
-#: src/c64/cart/c64cart.c:227
+#: src/c64/cart/c64cart.c:231
 msgid "Attach raw 32KB Action Replay cartridge image"
 msgstr "32K Action Replay Image einlegen"
 
-#: src/c64/cart/c64cart.c:230
+#: src/c64/cart/c64cart.c:234
 msgid "Attach raw 64KB Retro Replay cartridge image"
 msgstr "64K Retro Replay Image einlegen"
 
-#: src/c64/cart/c64cart.c:233
+#: src/c64/cart/c64cart.c:237
 msgid "Attach raw 64KB IDE64 cartridge image"
 msgstr "64KB IDE64 Image einlegen"
 
-#: src/c64/cart/c64cart.c:236
+#: src/c64/cart/c64cart.c:240
 msgid "Attach raw 32KB Atomic Power cartridge image"
 msgstr "32KB Atomic Power Image einlegen"
 
-#: src/c64/cart/c64cart.c:239
+#: src/c64/cart/c64cart.c:243
 msgid "Attach raw 8KB Epyx fastload cartridge image"
 msgstr "8KB Epyx Fastload Image einlegen"
 
-#: src/c64/cart/c64cart.c:242
+#: src/c64/cart/c64cart.c:246
 msgid "Attach raw 32KB Super Snapshot cartridge image"
 msgstr "32KB Super Snapshot (raw) Image einlegen"
 
-#: src/c64/cart/c64cart.c:245
+#: src/c64/cart/c64cart.c:249
 msgid "Attach raw 64KB Super Snapshot cartridge image"
 msgstr "64KB Super Snapshot (raw) Image einlegen"
 
-#: src/c64/cart/c64cart.c:248
+#: src/c64/cart/c64cart.c:252
 msgid "Attach CBM IEEE488 cartridge image"
 msgstr "CBM IEEE488 Erweiterungsmodul einlegen"
 
-#: src/c64/cart/c64cart.c:251
+#: src/c64/cart/c64cart.c:255
 msgid "Attach raw 16KB Westermann learning cartridge image"
 msgstr "16KB Westermann learning (raw) Image einlegen"
 
-#: src/c64/cart/c64cart.c:254
+#: src/c64/cart/c64cart.c:261
 msgid "Enable expert cartridge"
 msgstr "Expert Cartridge aktivieren"
 
@@ -2603,27 +2603,32 @@ msgstr "Super Snapshot 4 Image einlegen..."
 msgid "Attach Super Snapshot 5 image..."
 msgstr "Super Snapshot 5 Image einlegen..."
 
-#: src/arch/unix/uic64cart.c:178
+#: src/arch/unix/uic64cart.c:177
+#, fuzzy
+msgid "Attach Structured Basic image..."
+msgstr "Erweiterungsmodule einlegen..."
+
+#: src/arch/unix/uic64cart.c:181
 msgid "Enable Expert Cartridge..."
 msgstr "Expert Cartridge aktivieren..."
 
-#: src/arch/unix/uic64cart.c:182 src/arch/unix/vic20ui.c:270
+#: src/arch/unix/uic64cart.c:185 src/arch/unix/vic20ui.c:270
 msgid "Set cartridge as default"
 msgstr "Aktuelles Erweiterungsmodul als standard aktivieren"
 
-#: src/arch/unix/uic64cart.c:188 src/arch/unix/vic20ui.c:276
+#: src/arch/unix/uic64cart.c:191 src/arch/unix/vic20ui.c:276
 msgid "Attach a cartridge image"
 msgstr "Erweiterungsmodul Image einlegen"
 
-#: src/arch/unix/uic64cart.c:190
+#: src/arch/unix/uic64cart.c:193
 msgid "Detach cartridge image"
 msgstr "Erweiterungsmodul Image entfernen"
 
-#: src/arch/unix/uic64cart.c:192
+#: src/arch/unix/uic64cart.c:195
 msgid "Cartridge freeze"
 msgstr "Erweiterungsmodul Freeze"
 
-#: src/arch/unix/uic64cart.c:194
+#: src/arch/unix/uic64cart.c:197
 msgid "*Cartridge control"
 msgstr "*Erweiterungsmodul Einstellungen"
 
@@ -6131,9 +6136,6 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 
 #~ msgid "Reset C&ounter"
 #~ msgstr "Z&ähler zurücksetzen"
-
-#~ msgid "Attach &cartridge image..."
-#~ msgstr "Erweiterungsmodule einlegen..."
 
 #~ msgid "&CRT image..."
 #~ msgstr "&CRT Image..."
