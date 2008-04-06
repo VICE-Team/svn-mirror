@@ -46,15 +46,7 @@
  * Support for Final Cartridge III extensions to c64 2.0 basic
  *   Matti 'ccr' Hämäläinen <ccr@tnsp.org>
  *
- * Support for Ultrabasic-64 extensions to c64 2.0 basic and
- * support for graphics-basic extensions to c64 2.0 basic and
- * support for WS (WohnzimmerSoft) basic extensions to c64 2.0 basic and
- * support for Mighty basic extensions to vic20 2.0 basic and
- * support for Pegasus basic 4.0 extensions to c64 2.0 basic and
- * support for X-basic extensions to c64 2.0 basic and
- * support for Drago basic 2.2 extensions to c64 2.0 basic and
- * support for REU-basic extensions to c64 2.0 basic and
- * support for Basic Lightning extensions to c64 2.0 basic by
+ * Support for many of the other extensions by
  *   Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  */
@@ -77,7 +69,7 @@
 #include "types.h"
 
 
-#define PETCATVERSION   2.12
+#define PETCATVERSION   2.15
 #define PETCATLEVEL     1
 
 #define B_1              1
@@ -105,6 +97,9 @@
 #define B_REU           21
 #define B_BASL          22
 #define B_71            23
+#define B_MAGIC         24
+#define B_EASY          25
+#define B_BLARG         26
 
 /* Limits */
 
@@ -135,6 +130,10 @@
 #define NUM_DRAGOCC     13      /* Drago basic 2.2 (c64) */
 #define NUM_REUCC       14      /* REU-basic (c64) */
 #define NUM_BASLCC      51      /* Basic Lightning (c64) */
+#define NUM_MAGICCC     50      /* Magic Basic (c64) */
+#define NUM_EASYCC      51      /* Easy Basic (vic20) */
+
+#define NUM_BLARGE0     11      /* Blarg (c64) */
 
 
 #define MAX_COMM        0xCB    /* common for all versions */
@@ -157,6 +156,10 @@
 #define MAX_DRAGOCC     0xD8    /* Drago basic 2.2 (c64) */
 #define MAX_REUCC       0xDA    /* REU-basic (c64) */
 #define MAX_BASLCC      0xFE    /* Basic Lightning (c64) */
+#define MAX_MAGICCC     0xFD    /* Magic Basic (c64) */
+#define MAX_EASYCC      0xFE    /* Easy Basic (vic20) */
+
+#define MAX_BLARGE0     0xEA    /* Blarg (c64) */
 
 #define MAX_KWCE        0x0A
 #define MAX_V7FE        0x26
@@ -204,7 +207,7 @@ static const char *cbmkeys[] = {
     "CBM-U", "CBM-O", "SHIFT-@", "CBM-F", "CBM-C", "CBM-X", "CBM-V", "CBM-B"
 };
 
-#define NUM_VERSIONS  23
+#define NUM_VERSIONS  26
 
 const char *VersNames[] = {
     "Basic 1.0",
@@ -234,6 +237,10 @@ const char *VersNames[] = {
     "Basic 2.0 with Basic Lightning",
 
     "Basic 7.1 extension",
+
+    "Basic 2.0 with Magic Basic",
+    "Basic 2.0 with Easy Basic",
+    "Basic 2.0 with Blarg",
     ""
 };
 
@@ -349,6 +356,26 @@ const char *turtlekwcc[] = {
     "deek",  "joy"
 };
 
+/* Blarg Keywords */
+const char *blargkwe0[] = {
+    "plot",  "line",   "circle", "gron", "groff", "mode", "origin",
+    "clear", "buffer", "swap",   "color"
+};
+
+
+/* Easy Basic Keywords */
+
+const char *easykwcc[] = {
+    "delete", "old",     "renumber",  "dump",   "merge", "plot",
+    "trace",  "kill",    "help",      "dload",  "dsave", "dverify",
+    "append", "screen",  "directory", "key",    "send",  "pop",
+    "off",    "pout",    "header",    "find",   "auto",  "pprint",
+    "accept", "reset",   "scratch",   "color",  "take",  "pause",
+    "base",   "copychr", "char",      "clk",    "cls",   "fill",
+    "retime", "sound",   "poff",      "plist",  "put",   "volume",
+    "joy",    "msb",     "lsb",       "vector", "rkey",  "dec",
+    "hex$",   "grab",    "ds$"
+};
 
 /* Mighty basic Keywords */
 
@@ -485,6 +512,20 @@ const char *baslkwcc[] = {
     "rpt",   "setatr"
 };
 
+/* Magic Basic (c64) Keywords (Tokens CC - FD) -- Marco van den Heuvel */
+
+const char *magickwcc[] = {
+    "assembler", "auto",   "cdrive", "cat",     "dappend", "delete",
+    "dez",       "dir",    "dload",  "dsave",   "dverify", "config",
+    "find",      " ",      " ",      "help",    "hex",     "jump",
+    "llist",     "lprint", "off",    "old",     "renum",   "crun",
+    "send",      "status", "hires",  "multi",   "clear",   "plot",
+    "invert",    "line",   "text",   "graphik", "page",    "box",
+    "draw",      "mix",    "copy",   "circle",  "gsave",   "gload",
+    "frame",     "hprint", "vprint", "block",   "fill",    " ",
+    "replace",   "lrun"
+};
+
 /* Simon's Basic Keywords */
 
 const char *simonskw[] = {
@@ -563,6 +604,7 @@ int cmdline_register_options(const cmdline_option_t *c)
 
 int network_connected(void)
 {
+  return 0;
 }
 
 int network_get_mode(void)
@@ -720,6 +762,9 @@ int main(int argc, char **argv)
                 "\tDrago\tBasic v2.0 with Drago basic 2.2 (C64)\n"
                 "\tREU\tBasic v2.0 with REU-basic (C64)\n"
                 "\tLightning\tBasic v2.0 with Basic Lightning (C64)\n"
+                "\tmagic\tBasic v2.0 with Magic Basic (C64)\n"
+                "\teasy\tBasic v2.0 with Easy Basic (VIC20)\n"
+                "\tblarg\tBasic v2.0 with Blarg (C64)\n"
                 "\t4 -w4e\tPET Basic v4.0 program (PET/C64)\n"
                 "\t3\tBasic v3.5 program (C16)\n"
                 "\t70\tBasic v7.0 program (C128)\n"
@@ -788,6 +833,9 @@ int main(int argc, char **argv)
             break;
           case B_ULTRA:
             load_addr = 0x2c01;
+            break;
+          case B_EASY:
+            load_addr = 0x3001;
             break;
           case B_MIGHTY:
             load_addr = 0x3201;
@@ -1012,7 +1060,17 @@ static int parse_version(char *str)
         break;
 
       case 'M':
-        version = B_MIGHTY;
+        switch (str[1]) {
+          case 'i':
+            version = B_MIGHTY;
+            break;
+          case 'a':
+            version = B_MAGIC;
+            break;
+          default:
+            fprintf (stderr,
+                "Please, select one of the following: magic, mighty\n");
+        }
         break;
 
       case 'P':
@@ -1033,6 +1091,14 @@ static int parse_version(char *str)
 
       case 'L':
         version = B_BASL;
+        break;
+
+      case 'E':
+        version = B_EASY;
+        break;
+
+      case 'B':
+        version = B_BLARG;
         break;
 
       default:
@@ -1099,13 +1165,28 @@ static void list_keywords(int version)
             printf("%s\t", mightykwcc[n] /*, n + 0xcc*/);
         break;
 
-        case B_4:
-        case B_4E:
+      case B_MAGIC:
+        for (n = 0; n < NUM_MAGICCC; n++)
+            printf("%s\t", magickwcc[n] /*, n + 0xcc*/);
+        break;
+
+      case B_EASY:
+        for (n = 0; n < NUM_EASYCC; n++)
+            printf("%s\t", easykwcc[n] /*, n + 0xcc*/);
+        break;
+
+      case B_BLARG:
+        for (n = 0; n < NUM_BLARGE0; n++)
+            printf("%s\t", blargkwe0[n] /*, n + 0xe0*/);
+        break;
+
+      case B_4:
+      case B_4E:
         for (n = 0; n < ((version == B_4) ? NUM_V4CC : NUM_4ECC); n++)
             printf("%s\t", petkwcc[n] /*, n + 0xcc*/);
         break;
 
-        case B_SIMON:
+      case B_SIMON:
         for (n = 1; n < 0x80; n++)
             printf("%s\t", simonskw[n] /*, 0x64, n*/);
         break;
@@ -1349,6 +1430,21 @@ static int p_expand(int version, int addr, int ctrls)
                   case B_MIGHTY:        /* VIC Mightyb basic */
                     if (c >= 0xcc && c <= MAX_MIGHTYCC)
                         fprintf(dest, "%s", mightykwcc[c - 0xcc]);
+                    break;
+
+                  case B_MAGIC:
+                    if (c >= 0xcc && c <= MAX_MAGICCC)
+                        fprintf(dest, "%s", magickwcc[c - 0xcc]);
+                    break;
+
+                  case B_EASY:
+                    if (c >= 0xcc && c <= MAX_EASYCC)
+                        fprintf(dest, "%s", easykwcc[c - 0xcc]);
+                    break;
+
+                  case B_BLARG:
+                    if (c >= 0xe0 && c <= MAX_BLARGE0)
+                        fprintf(dest, "%s", easykwcc[c - 0xe0]);
                     break;
 
                   case B_SPEECH:        /* C64 Speech basic */
@@ -1597,11 +1693,35 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     }
                     break;
 
+                  case B_EASY:
+                    if ((c = sstrcmp(p2, easykwcc, 0, NUM_EASYCC)) !=KW_NONE) {
+                        *p1++ = c + 0xcc;
+                        p2 += kwlen;
+                        match++;
+                    }
+                    break;
+
+                  case B_BLARG:
+                    if ((c = sstrcmp(p2, blargkwe0, 0, NUM_BLARGE0)) !=KW_NONE) {
+                        *p1++ = c + 0xe0;
+                        p2 += kwlen;
+                        match++;
+                    }
+                    break;
+
                   case B_MIGHTY:
                     if ((c = sstrcmp(p2, mightykwcc, 0, NUM_MIGHTYCC)) !=KW_NONE) {
                         *p1++ = c + 0xcc;
                         p2 += kwlen;
                         match++;
+                    }
+                    break;
+
+                  case B_MAGIC:
+                    if ((c = sstrcmp(p2, magickwcc, 0, NUM_MAGICCC)) !=KW_NONE) {
+                        *p1++ = c + 0xcc;
+                        p2 += kwlen;
+                        match;
                     }
                     break;
 
