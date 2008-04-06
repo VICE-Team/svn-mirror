@@ -31,11 +31,11 @@
 #include <string.h>
 
 #include "video.h"
+
 #include "cmdline.h"
-#include "resources.h"
 #include "kbd.h"
-#include "tui.h"
 #include "resources.h"
+#include "tui.h"
 
 /* #define DEBUG_VIDEO */
 

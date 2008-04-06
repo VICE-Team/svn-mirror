@@ -45,8 +45,6 @@ extern void ui_error(const char *format, ...);
 extern ui_jam_action_t ui_jam_dialog(const char *format, ...);
 extern void ui_show_text(const char *title, const char *text);
 extern void ui_update_menus(void);
-extern void ui_autorepeat_on(void);
-extern void ui_autorepeat_off(void);
 extern void ui_main(char hotkey);
 extern void ui_toggle_drive_status(int state);
 extern void ui_display_drive_track(double track_number);

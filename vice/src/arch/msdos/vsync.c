@@ -187,17 +187,17 @@ END_OF_FUNCTION(my_timer_callback)
 
 static void register_timer_callback(void)
 {
-    printf("Installing Allegro timer callback...  ");
     if (timer_speed == 0) {
         remove_int(my_timer_callback);
     } else {
-        int rate = (int) ((1.0 / refresh_frequency) * 1000.0 + .5);
+        int rate = (int) ((1.0 / (refresh_frequency
+                                  * ((double) timer_speed / 100.0)))
+                          * 1000.0 + .5);
 
         if (install_int(my_timer_callback, rate) < 0) {
-	    fprintf(stderr, "Failed!\n");
+            /* FIXME: Maybe we could handle this better?  Well, it is not
+               very likely to happen after all...  */
 	    relative_speed = timer_speed = 0;
-	} else {
-            printf("OK.\n");
         }
     }
 }
@@ -209,7 +209,7 @@ static void set_timer_speed(void)
     int new_timer_speed;
 
     /* Force 100% speed if using automatic refresh rate and there is no speed
-       limit. */
+       limit.  */
     if (warp_mode_enabled)
         new_timer_speed = 0;
     else if (relative_speed == 0 && refresh_rate == 0)
