@@ -408,7 +408,7 @@ static int arg_to_int(const char *arg, int *return_value)
 
 static void print_error_message(int errval)
 {
-    if (errval < 0)
+    if (errval < 0) {
         switch (errval) {
           case FD_OK:
             break;
@@ -451,6 +451,7 @@ static void print_error_message(int errval)
           default:
             fprintf(stderr, "Unknown error.\n");
         }
+    }
 }
 
 #define LOOKUP_NOTFOUND         -1
@@ -524,8 +525,8 @@ static char *extract_unit_from_file_name(const char *name, int *unit_return)
 {
     if (name[0] == '@' && name[2] == ':'
         && (name[1] == '8' || name[1] == '9')) {
-        *unit_return = (int) (name[1] - '8');
-        return (char *) name + 3;
+        *unit_return = (int)(name[1] - '8');
+        return (char *)name + 3;
     } else {
         return NULL;
     }
@@ -603,18 +604,28 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
 
     image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
 
-    if (!strcmp("/dev/fd0", name))
+    if (archdep_file_is_blockdev(name)) {
         image->device = DISK_IMAGE_DEVICE_RAW;
-    else
-        image->device = DISK_IMAGE_DEVICE_FS;
+        serial_device_type_set(SERIAL_DEVICE_RAW, unit);
+        serial_realdevice_disable();
+    } else {
+        if (archdep_file_is_chardev(name)) {
+            image->device = DISK_IMAGE_DEVICE_REAL;
+            serial_device_type_set(SERIAL_DEVICE_REAL, unit);
+            serial_realdevice_enable();
+        } else {
+            image->device = DISK_IMAGE_DEVICE_FS;
+            serial_device_type_set(SERIAL_DEVICE_FS, unit);
+            serial_realdevice_disable();
+        }
+    }
 
     disk_image_media_create(image);
 
     image->gcr = gcr_create_image();
     image->read_only = 0;
 
-    if (image->device == DISK_IMAGE_DEVICE_FS)
-        disk_image_fsimage_name_set(image, stralloc(name));
+    disk_image_name_set(image, stralloc(name));
 
     if (disk_image_open(image) < 0) {
         disk_image_media_destroy(image);
@@ -638,6 +649,8 @@ static void close_disk_image(vdrive_t *vdrive, int unit)
     if (image != NULL) {
         vdrive_detach_image(image, unit, vdrive);
         gcr_destroy_image(image->gcr);
+        if (image->device == DISK_IMAGE_DEVICE_REAL)
+            serial_realdevice_disable();
         disk_image_close(image);
         disk_image_media_destroy(image);
         free(image);
@@ -653,10 +666,10 @@ static int open_image(int dev, char *name, int create, int disktype)
         return -1;
 
     if (create) {
-        if (disk_image_create(name, disktype) < 0) {
+        if (disk_image_fsimage_create(name, disktype) < 0) {
             printf("Cannot create disk image.\n");
             return -1;
-       }
+        }
     }
 
     if (open_disk_image(drives[dev], name, dev + 8) < 0) {
@@ -741,9 +754,10 @@ static int block_cmd(int nargs, char **args)
 
     if (check_drive(drive, CHK_RDY) < 0)
         return FD_NOTREADY;
+
     vdrive = drives[drive & 3];
 
-    if (disk_image_check_sector(vdrive->image->type, track, sector) < 0)
+    if (disk_image_check_sector(vdrive->image, track, sector) < 0)
         return FD_BAD_TS;
 
     /* Read one block */
@@ -774,8 +788,7 @@ static int block_cmd(int nargs, char **args)
         track = buf[0];
         sector = buf[1];
     } else {
-        if (disk_image_check_sector(vdrive->image->type, track,
-            ++sector) < 0) {
+        if (disk_image_check_sector(vdrive->image, track, ++sector) < 0) {
             sector = 0;
             if ((unsigned int)(++track) > vdrive->image->tracks)
                 track = vdrive->Dir_Track;
