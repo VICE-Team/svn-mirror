@@ -177,6 +177,11 @@ int ui_init_finish(void)
     return 0;
 }
 
+int ui_init_finalize(void)
+{
+    return 0;
+}
+
 extern double vsync_get_avg_frame_rate(void);
 extern double vsync_get_avg_speed_index(void);
 
