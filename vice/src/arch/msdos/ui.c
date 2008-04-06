@@ -52,6 +52,7 @@
 #include "ui.h"
 #include "utils.h"
 #include "video.h"
+#include "version.h"
 #include "vsync.h"
 
 /* Status of keyboard LEDs.  */

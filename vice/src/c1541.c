@@ -42,9 +42,12 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <memory.h>
+#include <string.h>
 
+#ifdef HAVE_IO_H
+#include <io.h>
+#endif
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
 #endif
@@ -87,6 +90,9 @@
 
 #define C1541_VERSION_MAJOR	4
 #define C1541_VERSION_MINOR	0
+
+/* Global clock counter.  */
+CLOCK clk = 0L;
 
 static vdrive_t *drives[4] = {NULL, NULL, NULL, NULL};
 
@@ -683,7 +689,7 @@ static int attach_cmd(int nargs, char **args)
 static int block_cmd(int nargs, char **args)
 {
     int drive, disp;
-    unsigned int track, sector;
+    int track, sector;
     vdrive_t *vdrive;
     BYTE *buf, str[20], sector_data[256];
     int cnt;
@@ -712,7 +718,7 @@ static int block_cmd(int nargs, char **args)
         return FD_BAD_TS;
 
     /* Read one block */
-    if (disk_image_read_sector(vdrive->image, sector_data, track, sector) 
+    if (disk_image_read_sector(vdrive->image, sector_data, track, sector)
         != 0) {
         fprintf(stderr, "Cannot read track %i sector %i.", track, sector);
         return FD_RDERR;
@@ -1978,7 +1984,7 @@ static int zcreate_cmd(int nargs, char **args)
         dirname[len_path + 1] = '\0';
 
         /* ignore '[0-4]!' if found */
-        if (args[2][len_path + 1] >= '1' && args[2][len_path + 1] <= '4' 
+        if (args[2][len_path + 1] >= '1' && args[2][len_path + 1] <= '4'
             && args[2][len_path + 1 + 1] == '!')
             strcpy(fname + 2, &(args[2][len_path + 1]) + 2);
         else
@@ -2026,10 +2032,10 @@ static int zcreate_cmd(int nargs, char **args)
                 break;
             }
         }
-        for (count = 0; 
+        for (count = 0;
              count < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track);
              count++) {
-            if (zipcode_read_sector(fsfd, track, &sector,
+            if (zipcode_read_sector(fsfd, track, (int*)&sector,
                 (char *)sector_data) != 0) {
                 fclose(fsfd);
                 return FD_BADIMAGE;
@@ -2196,7 +2202,7 @@ static char *floppy_read_directory(vdrive_t *vdrive, const char *pattern)
         }
         p++;
         line[len++] = '\n';
-        bufcat(outbuf, &outbuf_size, &max_outbuf_size, line, len);
+        bufcat(outbuf, &outbuf_size, (unsigned int*)&max_outbuf_size, line, len);
     }
     vdrive_close(vdrive, 0);
 
