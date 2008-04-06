@@ -1,6 +1,4 @@
- /*
- * $Id: petcat.c,v 2.3 1997/05/04 16:23:04 ettore Exp ettore $
- *
+/*
  * This file is part of Commodore 64 emulator
  *      and Program Development System.
  *
@@ -38,65 +36,13 @@
  * or
  *  tr '\015A-Za-z\\\|\[\{\]\}' '\012a-zA-Z\|\\\{\[\}\]'
  *
- *
  * Written by
  *   Jouko Valta <jopi@stekt.oulu.fi>
  *
  * With additional changes by
  *   Ettore Perazzoli <ettore@comm2000.it>
  *
- *
- * $Log: petcat.c,v $
- * Revision 2.3  1997/05/04 16:23:04  ettore
- * Assignment of const pointer to non-const one fixed.
- *
- * Revision 2.2  1996/06/07  20:52:35  jopi
- * All conversions sped up significantly.
- *
- * Revision 2.1  1996/04/01  09:01:41  jopi
- * AtBasic added
- * P00 support implemented
- * offset for listing directly from archives.
- *
- * Revision 2.0  1995/06/28  19:48:14  jopi
- * Turtle Basic V1.0 and PET BASIC 1.0
- * CBM-x Graphic characters named
- *
- * Revision 1.9  1995/04/01  07:54:09  jopi
- * X64 0.3 PL 0
- * Suppressing header added.
- *
- * Revision 1.8  1994/12/12  16:59:44  jopi
- * PET Basic V4.0, Basic 10.0 and Speech Basic added.
- * New options for selecting version. Can set load address and
- * output file.
- *
- * Revision 1.7  1994/06/16  17:19:26  jopi
- * Alternate Control code set.
- *
- * Revision 1.6  1994/06/08  16:19:50  jopi
- * X64 version 0.2 PL 2
- * Operation improved, Basic 3.5 and new options.
- * Ported to Atari ST. Control code cruncher added.
- *
- * Revision 1.5  1994/01/26  16:08:37  jopi
- * X64 version 0.2 PL 1
- * Text mode, directory mode, Super Expander and Basic 4 ext. added.
- * Arithmetics tokenizing fixed, and crunches appreviated keywords too.
- *
- * Revision 1.4  1993/11/10  01:55:34  jopi
- * Text converter. Unused tokens skipped.
- *
- * Revision 1.3  93/06/21  13:38:03  jopi
- * X64 version 0.2 PL 0
- *
- * Revision 1.2  1993/06/13  08:19:36  sonninen
- * *** empty log message ***
- *
  */
-
-/* Ettore Perazzoli <ettore@comm2000.it> 1997/10/27: Renamed `p_toascii' to
-   `_p_toascii' to avoid conflicts with `charsets.h'. */
 
 #include "vice.h"
 
@@ -409,8 +355,8 @@ static unsigned char sstrcmp(unsigned char *line, const char **wordlist,
 
 /* ------------------------------------------------------------------------- */
 
-static FILE    *source, *dest;
-static int     kwlen;
+static FILE *source, *dest;
+static int kwlen;
 
 int main(int argc, char **argv)
 {
@@ -431,7 +377,8 @@ int main(int argc, char **argv)
     while (--argc && ((*++argv)[0] == '-')) {
 
         if (!strcmp(argv[0], "--")) {
-            --argc; ++argv;
+            --argc;
+            ++argv;
             break;
         }
 
@@ -446,10 +393,11 @@ int main(int argc, char **argv)
         if (!strcmp(argv[0], "-c")) {
             ctrls = 1;
             continue;
-        }
-        else if (!strcmp(argv[0], "-nc")) {
-            ctrls = 0;
-            continue;
+        } else {
+            if (!strcmp(argv[0], "-nc")) {
+                ctrls = 0;
+                continue;
+            }
         }
 
         if (!strcmp(argv[0], "-h")) {
@@ -471,7 +419,7 @@ int main(int argc, char **argv)
                 outfilename = argv[1];
                 ++outf;
                 --argc; ++argv;
-            continue;
+                continue;
             }
             fprintf (stderr, "\nOutput filename missing\n");
             /* Fall to error */
@@ -582,15 +530,20 @@ int main(int argc, char **argv)
     if (!load_addr) {
         switch (version) {
           case B_SUPER:
-            load_addr = 0x0401; break;
+            load_addr = 0x0401;
+            break;
           case B_TURTLE:
-            load_addr = 0x3701; break;
+            load_addr = 0x3701;
+            break;
           case B_35:
-            load_addr = 0x1001; break;
+            load_addr = 0x1001;
+            break;
           case B_7:
-            load_addr = 0x1c01; break;
+            load_addr = 0x1c01;
+            break;
           case B_10:
-            load_addr = 0x2001; break;
+            load_addr = 0x2001;
+            break;
           default:
             load_addr = 0x0801;
         }
@@ -746,11 +699,9 @@ int main(int argc, char **argv)
 
 /* Parse given version name and return its code, or -1 if not recognized. */
 
-static int    parse_version(str)
-    char   *str;
+static int parse_version(char *str)
 {
     int version = -1;
-
 
     if (str == NULL || !*str)
         return 0;
@@ -813,10 +764,9 @@ static int    parse_version(str)
 }
 
 
-static void   list_keywords(version)
-     int version;
+static void list_keywords(int version)
 {
-    int   n, max;
+    int n, max;
 
     if (version <= 0 || version > NUM_VERSIONS) {
         printf ("\n  The following versions are supported on  %s V%4.2f\n\n",
@@ -828,8 +778,7 @@ static void   list_keywords(version)
         return;
     }
 
-
-    printf ("\n  Available Keywords on %s\n\n", VersNames[version - 1]);
+    printf("\n  Available Keywords on %s\n\n", VersNames[version - 1]);
 
     if (version == B_1)
         max = NUM_B_1;
@@ -896,11 +845,9 @@ static void   list_keywords(version)
  * Conversion Routines
  */
 
-static void   pet_2_asc (ctrls)
-     int ctrls;
+static void pet_2_asc(int ctrls)
 {
     int c;
-
 
     while ((c = getc(source)) != EOF) {
         _p_toascii(c, ctrls);           /* convert character */
@@ -908,63 +855,61 @@ static void   pet_2_asc (ctrls)
 }
 
 
-static void   _p_toascii(c, ctrls)
-     int c;
-     int ctrls;
+static void _p_toascii(int c, int ctrls)
 {
     switch (c) {
-    case 0x00:                          /* 00 for SEQ */
-    case 0x0a:
-    case 0x0d:
-      fputc ('\n', dest);
-      break;
-    case 0x60:
-      fprintf(dest, "(SHIFT-*)");
-      break;
-    case 0x7c:
-      fprintf(dest, "(CBM--)");         /* Conflicts with Scandinavian Chars */
-      break;
-    case 0x7f:
-      fprintf(dest, "(CBM-*)");
-      break;
-    case 0xa0:                          /* CBM: Shifted Space */
-    case 0xe0:
-      if (!ctrls)
-          fputc (' ', dest);
-      else
-          fprintf(dest, "($%02x)", c & 0xff);
-      break;
-    case 0xff:
-      fputc (0x7e, dest);
-      break;
-
-    default:
-      switch (c & 0xe0) {
-      case 0x40:                /* 41 - 7F */
+      case 0x00:                          /* 00 for SEQ */
+      case 0x0a:
+      case 0x0d:
+        fputc ('\n', dest);
+        break;
       case 0x60:
-        fputc (c ^ 0x20, dest);
+        fprintf(dest, "(SHIFT-*)");
         break;
-      case 0xa0:                /* A1 - BF */
-      case 0xe0:                /* E1 - FE */
-        fprintf(dest, "(%s)", cbmkeys[c & 0x1f]);
+      case 0x7c:
+        fprintf(dest, "(CBM--)"); /* Conflicts with Scandinavian Chars */
         break;
-      case 0xc0:                /* C0 - DF */
-        fputc (c ^ 0x80, dest);
+      case 0x7f:
+        fprintf(dest, "(CBM-*)");
+        break;
+      case 0xa0:                          /* CBM: Shifted Space */
+      case 0xe0:
+        if (!ctrls)
+            fputc (' ', dest);
+        else
+            fprintf(dest, "($%02x)", c & 0xff);
+        break;
+      case 0xff:
+        fputc (0x7e, dest);
         break;
 
       default:
-        if (isprint(c))
-           fputc (c, dest);
+        switch (c & 0xe0) {
+          case 0x40:                /* 41 - 7F */
+          case 0x60:
+            fputc (c ^ 0x20, dest);
+            break;
+          case 0xa0:                /* A1 - BF */
+          case 0xe0:                /* E1 - FE */
+            fprintf(dest, "(%s)", cbmkeys[c & 0x1f]);
+            break;
+          case 0xc0:                /* C0 - DF */
+            fputc (c ^ 0x80, dest);
+            break;
 
-        else if (ctrls) {
-          if ((c < 0x20) && *ctrl1[c])
-             fprintf(dest, "(%s)", ctrl1[c]);
-          else if ((c > 0x7f) && (c < 0xa0) && *ctrl2[c & 0x1f])
-             fprintf(dest, "(%s)", ctrl2[c & 0x1f]);
-          else
-             fprintf(dest, "($%02x)", c & 0xff);
-        }  /* ctrls */
-      }  /* switch */
+          default:
+            if (isprint(c))
+               fputc(c, dest);
+
+            else if (ctrls) {
+              if ((c < 0x20) && *ctrl1[c])
+                 fprintf(dest, "(%s)", ctrl1[c]);
+              else if ((c > 0x7f) && (c < 0xa0) && *ctrl2[c & 0x1f])
+                 fprintf(dest, "(%s)", ctrl2[c & 0x1f]);
+              else
+                 fprintf(dest, "($%02x)", c & 0xff);
+            }  /* ctrls */
+        }  /* switch */
     }  /* switch */
 }
 
@@ -975,14 +920,12 @@ static void   _p_toascii(c, ctrls)
  * RAM dump.
  */
 
-static int   p_expand(version, addr, ctrls)
-     int addr, ctrls, version;
+static int p_expand(int version, int addr, int ctrls)
 {
     static char line[4];
     unsigned int c;
     int quote, spnum, directory = 0;
     int sysflg = 0;
-
 
     /*
      * It seems to be common mistake not to terminate BASIC properly
@@ -1113,18 +1056,14 @@ static int   p_expand(version, addr, ctrls)
 }
 
 
-static void   p_tokenize(version, addr, ctrls)
-     int version;
-     unsigned int addr;
-     int ctrls;
+static void p_tokenize(int version, unsigned int addr, int ctrls)
 {
-    static char    line[256];
+    static char line[256];
     unsigned char *p1, *p2, quote, c;
-    int            len = 0, match;
-    unsigned int   linum = 10;
+    int len = 0, match;
+    unsigned int linum = 10;
 
-    fprintf(dest, "%c%c", (addr & 255), ((addr >> 8) & 255) );
-
+    fprintf(dest, "%c%c", (addr & 255), ((addr >> 8) & 255));
 
     /* Copies from p2 to p1 */
 
@@ -1171,7 +1110,6 @@ static void   p_tokenize(version, addr, ctrls)
                         if (*p == ' ')
                             ++p;
                     }
-                    /*fprintf(stderr, "count %d\n", len);*/
 
                     if (( ((c = sstrcmp(p, ctrl1, 0, 0x20)) != KW_NONE) ||
                          ((c = sstrcmp(p, a_ctrl1, 0, 0x20)) !=KW_NONE) ||
@@ -1324,13 +1262,11 @@ static void   p_tokenize(version, addr, ctrls)
 }
 
 
-static unsigned char sstrcmp(line, wordlist, token, maxitems)
-     unsigned char *line;
-     const char **wordlist;
-     int token, maxitems;
+static unsigned char sstrcmp(unsigned char *line, const char **wordlist,
+                            int token, int maxitems)
 {
-    int     j;
-    const char   *p, *q;
+    int j;
+    const char *p, *q;
 
     kwlen = 1;
     /* search for keyword */
@@ -1379,3 +1315,4 @@ void ui_show_text(HWND hParent, const char *szCaption,
 void archdep_ui_init(int argc, char *argv[])
 {
 }
+
