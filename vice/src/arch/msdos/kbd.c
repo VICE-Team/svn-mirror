@@ -202,11 +202,9 @@ void kbd_flush_commands(void)
             break;
           case KCMD_TOGGLE_STATUSBAR:
             if (statusbar_enabled()) {
-                resources_set_value("ShowStatusbar",
-                                    (resource_value_t)STATUSBAR_MODE_OFF);
+                resources_set_int("ShowStatusbar", STATUSBAR_MODE_OFF);
             } else {
-                resources_set_value("ShowStatusbar",
-                                    (resource_value_t)STATUSBAR_MODE_ON);
+                resources_set_int("ShowStatusbar", STATUSBAR_MODE_ON);
             }
             break;
           case KCMD_DATASETTE_START:

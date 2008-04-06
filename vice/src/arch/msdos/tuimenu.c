@@ -647,9 +647,9 @@ const char *_tui_menu_toggle_helper(int been_activated,
     if (been_activated) {
         r = resources_toggle(resource_name, &value);
         if (r < 0)
-            r = resources_get_value(resource_name, (void *)&value);
+            r = resources_get_int(resource_name, &value);
     } else
-        r = resources_get_value(resource_name, (void *)&value);
+        r = resources_get_int(resource_name, &value);
 
     if (r < 0)
         return "Unknown";
