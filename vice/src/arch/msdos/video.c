@@ -286,9 +286,8 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 }
 
 /* Note: `mapped' is ignored.  */
-int video_canvas_create(video_canvas_t *canvas, const char *win_name,
-                        unsigned int *width, unsigned int *height, int mapped,
-                        void_t exposure_handler,
+int video_canvas_create(video_canvas_t *canvas, unsigned int *width,
+                        unsigned int *height, int mapped,
                         const struct palette_s *palette)
 {
     int result = 0;
@@ -322,7 +321,8 @@ int video_canvas_create(video_canvas_t *canvas, const char *win_name,
 
     video_canvas_set_palette(canvas, palette);
 
-    canvas->exposure_handler = (canvas_redraw_t)exposure_handler;
+    canvas->exposure_handler
+        = (canvas_redraw_t)canvas->viewport->exposure_handler;
     canvas->back_page = 1;
 
     while (canvaslist[next_canvas] != NULL && next_canvas < MAX_CANVAS_NUM - 1)
