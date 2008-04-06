@@ -184,6 +184,10 @@ int video_init(void)
     return 0;
 }
 
+void video_shutdown(void)
+{
+}
+
 static void canvas_free_bitmaps(video_canvas_t *c)
 {
     int i;
