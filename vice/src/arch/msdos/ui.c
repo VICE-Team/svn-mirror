@@ -572,3 +572,8 @@ void ui_dispatch_events(void)
     }
 }
 
+void ui_display_statustext(const char *text, int fade_out)
+{
+}
+
+
