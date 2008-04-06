@@ -230,13 +230,13 @@ void kbd_flush_commands(void)
                 freeze_function();
             break;
           case KCMD_FLIP_NEXT:
-            flip_attach_head(1);
+            flip_attach_head(8, 1);
             break;
           case KCMD_FLIP_PREVIOUS:
-            flip_attach_head(0);
+            flip_attach_head(8, 0);
             break;
           case KCMD_FLIP_ADD:
-            flip_add_image();
+            flip_add_image(8);
             break;
           case KCMD_FLIP_REMOVE:
             flip_remove(-1, NULL);

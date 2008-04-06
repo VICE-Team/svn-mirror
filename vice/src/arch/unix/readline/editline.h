@@ -19,11 +19,6 @@
 #include "unix.h"
 #endif	/* defined(SYS_UNIX) */
 
-#if defined(SYS_OS9)
-#include "os9.h"
-#endif	/* defined(SYS_OS9) */
-
-
 /*#if	!defined(SIZE_T)*/ /* configure already does this for us! [EP] */
 #define SIZE_T size_t
 /*#endif*/	/* !defined(SIZE_T) */

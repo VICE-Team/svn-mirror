@@ -131,7 +131,7 @@ libreadline_a_SOURCES = \
 	sysunix.c \
 	version.c
 
-EXTRA_DIST = README os9.h sysos9.c testit.c
+EXTRA_DIST = README testit.c
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../src/config.h
 CONFIG_CLEAN_FILES = 
