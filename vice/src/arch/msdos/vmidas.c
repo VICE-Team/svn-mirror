@@ -33,6 +33,7 @@
 #include <dir.h>
 
 #include "log.h"
+#include "types.h"
 #include "utils.h"
 
 #define MIDAS_ERRMSG()	MIDASgetErrorMessage(MIDASgetLastError())

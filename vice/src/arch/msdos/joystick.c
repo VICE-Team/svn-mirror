@@ -32,10 +32,10 @@
 #include <allegro.h>
 
 #include "cmdline.h"
-#include "kbd.h"              /* FIXME: Maybe we should move `joystick_value[]'
-                                 here...  */
+#include "kbd.h"
 #include "joystick.h"
 #include "resources.h"
+#include "types.h"
 
 /* Notice that this has to be `int' to make resources work.  */
 static int keyset1[9], keyset2[9];

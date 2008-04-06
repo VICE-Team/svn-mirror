@@ -112,6 +112,7 @@
 
 #include "charsets.h"		/* ctrl1, ctrl2, cbmkeys */
 #include "p00.h"
+#include "types.h"
 
 #ifndef SEEK_SET
 #define SEEK_SET 0
@@ -656,7 +657,7 @@ int main(int argc, char **argv)
 
 	    if (p00_check_name(outfilename) >= 0) {
 		printf("writing PC64 header.\n");
-		p00_write_header(dest, (BYTE *)argv[0], 0);
+		p00_write_header(dest, (BYTE *)argv[0], (BYTE)0);
 	    }
 
 	    p_tokenize(version, load_addr, ctrls);
@@ -1071,7 +1072,7 @@ static int   p_expand(version, addr, ctrls)
 		continue;
 	    }
 
-	    _p_toascii(c, ctrls);	/* convert character */
+	    _p_toascii((int)c, ctrls);	/* convert character */
 
 	} while ((c = getc(source)) != EOF && c);
 	printf("\n");

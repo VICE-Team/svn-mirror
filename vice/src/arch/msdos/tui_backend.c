@@ -41,6 +41,7 @@
 
 #include "tui.h"
 #include "tui_backend.h"
+#include "types.h"
 #include "utils.h"
 
 typedef BYTE attr_t;
