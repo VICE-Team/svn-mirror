@@ -46,6 +46,7 @@
 static void uiattach_disk_dialog(HWND hwnd, WPARAM wparam)
 {
     TCHAR *st_name;
+    char *resource;
     int unit = 8;
     int autostart_index = -1;
 
@@ -64,10 +65,11 @@ static void uiattach_disk_dialog(HWND hwnd, WPARAM wparam)
         unit = 11;
         break;
     }
+    resource = lib_msprintf("AttachDevice%dReadonly", unit);
     if ((st_name = uilib_select_file_autostart(hwnd, TEXT("Attach disk image"),
         UILIB_FILTER_DISK | UILIB_FILTER_ZIP | UILIB_FILTER_ALL,
         UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_DISK,
-        &autostart_index)) != NULL) {
+        &autostart_index, resource)) != NULL) {
         char *name;
 
         name = system_wcstombs_alloc(st_name);
@@ -83,6 +85,7 @@ static void uiattach_disk_dialog(HWND hwnd, WPARAM wparam)
         lib_free(st_name);
     }
     ResumeFullscreenModeKeep(hwnd);
+    lib_free(resource);
 }
 
 static void uiattach_tape_dialog(HWND hwnd)
@@ -94,7 +97,7 @@ static void uiattach_tape_dialog(HWND hwnd)
     if ((st_name = uilib_select_file_autostart(hwnd, TEXT("Attach tape image"),
         UILIB_FILTER_TAPE | UILIB_FILTER_ZIP | UILIB_FILTER_ALL,
         UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_TAPE,
-        &autostart_index)) != NULL) {
+        &autostart_index, NULL)) != NULL) {
         char *name;
 
         name = system_wcstombs_alloc(st_name);
@@ -121,7 +124,7 @@ static void uiattach_autostart_dialog(HWND hwnd)
         TEXT("Autostart disk/tape image"),
         UILIB_FILTER_DISK | UILIB_FILTER_TAPE | UILIB_FILTER_ZIP
         | UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD,
-        UILIB_SELECTOR_STYLE_DISK_AND_TAPE, &autostart_index)) != NULL) {
+        UILIB_SELECTOR_STYLE_DISK_AND_TAPE, &autostart_index, NULL)) != NULL) {
         char *name;
 
         name = system_wcstombs_alloc(st_name);
