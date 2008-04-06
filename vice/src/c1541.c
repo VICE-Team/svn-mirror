@@ -613,7 +613,7 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
 {
     disk_image_t *image;
 
-    image = (disk_image_t *)lib_malloc(sizeof(disk_image_t));
+    image = disk_image_create();
 
     if (archdep_file_is_blockdev(name)) {
         image->device = DISK_IMAGE_DEVICE_RAW;
@@ -640,7 +640,7 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
 
     if (disk_image_open(image) < 0) {
         disk_image_media_destroy(image);
-        lib_free(image);
+        disk_image_destroy(image);
         fprintf(stderr, "Cannot open file `%s'.\n", name);
         return -1;
     }
@@ -664,7 +664,7 @@ static void close_disk_image(vdrive_t *vdrive, int unit)
             serial_realdevice_disable();
         disk_image_close(image);
         disk_image_media_destroy(image);
-        lib_free(image);
+        disk_image_destroy(image);
         vdrive->image = NULL;
     }
 }
@@ -1213,22 +1213,24 @@ static int info_cmd(int nargs, char **args)
 {
     vdrive_t *vdrive;
     const char *format_name;
-    int unit;
+    int dnr;
 
     if (nargs == 2) {
+        int unit;
+
         if (arg_to_int(args[1], &unit) < 0)
             return FD_BADDEV;
         if (check_drive(unit, CHK_NUM) < 0)
             return FD_BADDEV;
-        unit -= 8;
+        dnr = unit - 8;
     } else {
-        unit = drive_number;
+        dnr = drive_number;
     }
 
-    if (check_drive(unit, CHK_RDY) < 0)
+    if (check_drive(dnr, CHK_RDY) < 0)
         return FD_NOTREADY;
 
-    vdrive = drives[drive_number];
+    vdrive = drives[dnr];
 
     switch(vdrive->image_format) {
       case VDRIVE_IMAGE_FORMAT_1541:
@@ -1245,6 +1247,9 @@ static int info_cmd(int nargs, char **args)
         break;
       case VDRIVE_IMAGE_FORMAT_8250:
         format_name = "8250";
+        break;
+      case VDRIVE_IMAGE_FORMAT_2040:
+        format_name = "2040";
         break;
       default:
         return FD_NOTREADY;
@@ -2535,28 +2540,32 @@ static int unlynx_cmd(int nargs, char **args)
 
 static int validate_cmd(int nargs, char **args)
 {
-    int unit;
+    int dnr;
 
     switch (nargs) {
       case 1:
         /* validate */
-        unit = drive_number;
+        dnr = drive_number;
         break;
       case 2:
-        /* validate <unit> */
-        if (arg_to_int(args[1], &unit) < 0)
-            return FD_BADDEV;
-        unit -= 8;
-        break;
+        {
+            int unit;
+
+            /* validate <unit> */
+            if (arg_to_int(args[1], &unit) < 0)
+                return FD_BADDEV;
+            dnr = unit - 8;
+            break;
+        }
       default:
         return FD_BADVAL;
     }
 
-    if (check_drive(unit, CHK_RDY) < 0)
+    if (check_drive(dnr, CHK_RDY) < 0)
         return FD_NOTREADY;
 
-    printf("Validating in unit %d...\n", unit + 8);
-    vdrive_command_validate(drives[unit]);
+    printf("Validating in unit %d...\n", dnr + 8);
+    vdrive_command_validate(drives[dnr]);
 
     return FD_OK;
 }
