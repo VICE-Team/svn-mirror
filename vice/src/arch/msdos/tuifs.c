@@ -282,7 +282,7 @@ static int file_list_find(const struct file_list *fl, const char *str, int len)
     int i;
 
     for (i = 0; i < fl->num_used_items; i++)
-	if (strncmp(fl->items[i].name, str, len) == 0)
+	if (strncasecmp(fl->items[i].name, str, len) == 0)
 	    return i;
     return -1;
 }
