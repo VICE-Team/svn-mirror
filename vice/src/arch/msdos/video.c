@@ -337,6 +337,13 @@ void canvas_unmap(canvas_t c)
    canvas size according to the `VGAMode' resource. */
 void canvas_resize(canvas_t c, unsigned int width, unsigned int height)
 {
+    /* 
+    FIXME: the possible height for the statusbar isn't calculated,
+    it's only checked whether VGA-mode has >200 lines
+    */
+    statusbar_set_height(vga_modes[vga_mode].height>200 ? 
+        STATUSBAR_HEIGHT : 0);
+
     DEBUG(("Resizing, vga_mode=%d", vga_mode));
     c->width = vga_modes[vga_mode].width;
     c->height = vga_modes[vga_mode].height;
