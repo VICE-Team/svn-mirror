@@ -41,6 +41,7 @@
  *
  * With additional changes by
  *   Ettore Perazzoli <ettore@comm2000.it>
+ *   Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
  *
  * Support for Final Cartridge III extensions to c64 2.0 basic
  *   Matti 'ccr' Hämäläinen <ccr@tnsp.org>
@@ -48,6 +49,8 @@
  */
 
 #include "vice.h"
+
+#include "version.h"
 
 #include <ctype.h>
 #include <stdio.h>
@@ -117,8 +120,11 @@
 
 #define KW_NONE         0xFE    /* flag unused token */
 
-#define CLARIF_LP       '<'     /* control code left delimiter */
-#define CLARIF_RP       '>'     /* control code right delimiter */
+#define CLARIF_LP       '{'     /* control code left delimiter */
+#define CLARIF_RP       '}'     /* control code right delimiter */
+
+#define CLARIF_LP_ST    "{"     /* control code left delimiter, "string version" */
+#define CLARIF_RP_ST    "}"     /* control code right delimiter, "string version" */
 
 /* ------------------------------------------------------------------------- */
 
@@ -161,7 +167,7 @@ const char *VersNames[] = {
     "Basic 2.0 with Super Expander",
     "Basic 2.0 with Turtle Basic v1.0",
 
-    "Basic 2.0 and Simon's Basic",
+    "Basic 2.0 with Simon's Basic",
     "Basic 2.0 with Speech Basic v2.7",
     "Basic 2.0 with @Basic",
 
@@ -173,6 +179,13 @@ const char *VersNames[] = {
     "Basic 2.0 with Final Cartridge III",
     ""
 };
+
+
+/*
+ * Two BASIC tokens which need some special care
+ */
+#define TOKEN_REM  (0x8F - 0x80)
+#define TOKEN_DATA (0x83 - 0x80)
 
 
 /*
@@ -370,7 +383,7 @@ int main(int argc, char **argv)
 
     long offset = 0;
     int wr_mode = 0, version = B_7;         /* best defaults */
-    int load_addr = 0, ctrls= -1, hdr = 1, show_words = 0;
+    int load_addr = 0, ctrls= -1, hdr = -1, show_words = 0;
     int fil = 0, outf = 0, overwrt = 0, textmode = 0;
     int flg = 0;                            /* files on stdin */
 
@@ -441,7 +454,7 @@ int main(int argc, char **argv)
         } else if (!strcmp(argv[0], "-help") ||
                  !strncmp(argv[0], "-v", 2)) {  /* version ID */
             fprintf(stderr,
-                    "\n\t%s V%4.2f PL %d -- Basic list/crunch utility.\n",
+                    "\n\t%s V%4.2f PL %d -- Basic list/crunch utility.\n\tPart of "PACKAGE" "VERSION"\n",
                     progname, (float)PETCATVERSION, PETCATLEVEL );
 
             /* Fall to error for Usage */
@@ -461,33 +474,50 @@ int main(int argc, char **argv)
         }
 
         fprintf(stderr,
-                "\nUsage: %7s  [-c | -nc]  [-text | -<version> | -w<version>]\
-\n\t\t[-skip bytes] [-l hex]  [--] [file list]\n\t\t[-k[<version>]]\n",
+                "\nUsage: %7s  [-c | -nc]  [-h | -nh]  [-text | -<version> | -w<version>]"
+                "\n\t\t[-skip <bytes>] [-l <hex>]  [--] [file list]\n\t\t[-k[<version>]]\n",
                 progname);
 
-        fprintf(stderr, "\n\
-   -c\t\tcontrols (interpret also control codes)\n\
-   -nc\t\tno controls (suppress control codes in printout)\n\
-   -skip <n>\tSkip <n> bytes in the beginning of input file. Ignored on P00.\n\
-   -<version>\tuse keywords for <version> instead of the v7.0 ones\n\
-   -w<version>\t\ttokenize using keywords on specified Basic version.\n\
-   -k<version>\tlist all keywords for the specified Basic version\n\
-\t\t  without <version>, list all Basic versions available.\n\
-   -l\t\tSpecify load address for program.\n");
+        fprintf(stderr, "\n"
+            "   -help\tOutput this help screen here\n"
+            "   -v\t\tSame as above\n"
+            "   -c\t\tcontrols (interpret also control codes) <default if textmode>\n"
+            "   -nc\t\tno controls (suppress control codes in printout)\n"
+            "   \t\t<default if non-textmode>\n"
+            "   -h\t\twrite header <default if output is stdout>\n"
+            "   -nh\t\tno header <default if output is a file>\n"
+            "   -skip <n>\tSkip <n> bytes in the beginning of input file. Ignored on P00.\n"
+            "   -text\tForce text mode\n"
+            "   -<version>\tuse keywords for <version> instead of the v7.0 ones\n"
+            "   -w<version>\ttokenize using keywords on specified Basic version.\n"
+            "   -k<version>\tlist all keywords for the specified Basic version\n"
+            "   -k\t\tlist all Basic versions available.\n"
+            "   -l\t\tSpecify load address for program (in hex, no loading chars!).\n"
+            "   -o<name>\tSpecify the output file name\n"
+            "   -f\t\tForce overwritten the output file\n"
+            "   \t\tThe default depends on the BASIC version.\n");
 
-        fprintf(stderr, "\n\tVersions:\n\
-\t1\t\tPET Basic V1.0\n\
-\t2\t\tBasic v2.0\n\
-\tsuper\tv2 with Super Expander (VIC)\n\
-\tturtle\tv2 with Turtle Basic by Craig Bruce (VIC)\n\
-\ta\tv2 with AtBasic (C64)\n\
-\tsimon\tlike previous but using Simon's Basic extension (C64)\n\
-\tspeech\tlike previous but using Speech Basic v2.7 (C64)\n\
-\t4 -w4e\tPET Basic v4.0 program (PET/C64)\n\
-\t3\t\tBasic v3.5 program (C16)\n\
-\t7\t\tBasic v7.0 program (C128)\n\
-\t10\t\tBasic v10.0 program (C64DX)\n\
-\tF\t\tBasic v2.0 with Final Cartridge III (C64)\n\n");
+        fprintf(stderr, "\n\tVersions:\n"
+                "\t1\tPET Basic V1.0\n"
+                "\t2\tBasic v2.0\n"
+                "\tsuper\tBasic v2.0 with Super Expander (VIC)\n"
+                "\tturtle\tBasic v2.0 with Turtle Basic by Craig Bruce (VIC)\n"
+                "\ta\tBasic v2.0 with AtBasic (C64)\n"
+                "\tsimon\tBasic v2.0 with Simon's Basic extension (C64)\n"
+                "\tspeech\tBasic v2.0 with Speech Basic v2.7 (C64)\n"
+                "\tF\tBasic v2.0 with Final Cartridge III (C64)\n"
+                "\t4 -w4e\tPET Basic v4.0 program (PET/C64)\n"
+                "\t3\tBasic v3.5 program (C16)\n"
+                "\t7\tBasic v7.0 program (C128)\n"
+                "\t10\tBasic v10.0 program (C64DX)\n\n");
+
+        fprintf(stderr, "\tUsage examples:\n"
+            "\tpetcat -w2 -o outputfile.txt -- inputfile.prg\n"
+            "\t\tConvert inputfile.prg to a text file in outputfile.txt,\n"
+            "\t\tusing BASIC V2 only\n"
+            "\tpetcat -wsimon -o outputfile.prg -- inputfile.txt\n"
+            "\t\tConvert inputfile.txt to a PRG file in outputfile.prg,\n"
+            "\t\tusing Simon's BASIC\n");
         exit(1);
     }
 
@@ -499,8 +529,8 @@ int main(int argc, char **argv)
     if (argc)
         fil++;
 
-    if (outf)
-        hdr = 0;
+    if (hdr==-1)
+        hdr = outf ? 0 : 1;
 
     if (version == B_10) {
         keyword[0x63] = "paste";
@@ -616,7 +646,7 @@ int main(int argc, char **argv)
             p_tokenize(version, load_addr, ctrls);
         } else {
             if (hdr)
-                printf("\n\n%s ", (fil ? argv[0] : "<stdin>"));
+                fprintf(dest, "\n\n%s ", (fil ? argv[0] : "<stdin>"));
 
             /*
              * Use TEXT mode if the offset doesn't equal BASIC load addresses
@@ -639,10 +669,11 @@ int main(int argc, char **argv)
 
                 /* get load address */
                 load_addr =(getc(source) & 0xff) + ((getc(source) & 0xff)<< 8);
-                fprintf(dest, "==%04x==\n", load_addr);
+                if (hdr)
+                    fprintf(dest, "==%04x==\n", load_addr);
 
                 if (p_expand(version, load_addr, ctrls)) {
-                    printf ("\n*** Machine language part skipped. ***\n");
+                    fprintf(dest, "\n*** Machine language part skipped. ***\n");
                 }
                 else    /* End of BASIC on stdin. Is there more ? */
                     if (!fil && (c = getc(source)) != EOF &&
@@ -848,20 +879,20 @@ static void _p_toascii(int c, int ctrls)
         fputc ('\n', dest);
         break;
       case 0x60:
-        fprintf(dest, "(SHIFT-*)");
+        fprintf(dest, CLARIF_LP_ST "SHIFT-*" CLARIF_RP_ST);
         break;
       case 0x7c:
-        fprintf(dest, "(CBM--)"); /* Conflicts with Scandinavian Chars */
+        fprintf(dest, CLARIF_LP_ST "CBM--" CLARIF_RP_ST); /* Conflicts with Scandinavian Chars */
         break;
       case 0x7f:
-        fprintf(dest, "(CBM-*)");
+        fprintf(dest, CLARIF_LP_ST "CBM-*" CLARIF_RP_ST);
         break;
       case 0xa0:                          /* CBM: Shifted Space */
       case 0xe0:
         if (!ctrls)
             fputc (' ', dest);
         else
-            fprintf(dest, "($%02x)", c & 0xff);
+            fprintf(dest, CLARIF_LP_ST "$%02x" CLARIF_RP_ST, c & 0xff);
         break;
       case 0xff:
         fputc (0x7e, dest);
@@ -875,7 +906,7 @@ static void _p_toascii(int c, int ctrls)
             break;
           case 0xa0:                /* A1 - BF */
           case 0xe0:                /* E1 - FE */
-            fprintf(dest, "(%s)", cbmkeys[c & 0x1f]);
+            fprintf(dest, CLARIF_LP_ST "%s" CLARIF_RP_ST, cbmkeys[c & 0x1f]);
             break;
           case 0xc0:                /* C0 - DF */
             fputc (c ^ 0x80, dest);
@@ -887,11 +918,11 @@ static void _p_toascii(int c, int ctrls)
 
             else if (ctrls) {
               if ((c < 0x20) && *ctrl1[c])
-                 fprintf(dest, "(%s)", ctrl1[c]);
+                 fprintf(dest, CLARIF_LP_ST "%s" CLARIF_RP_ST, ctrl1[c]);
               else if ((c > 0x7f) && (c < 0xa0) && *ctrl2[c & 0x1f])
-                 fprintf(dest, "(%s)", ctrl2[c & 0x1f]);
+                 fprintf(dest, CLARIF_LP_ST "%s" CLARIF_RP_ST, ctrl2[c & 0x1f]);
               else
-                 fprintf(dest, "($%02x)", c & 0xff);
+                 fprintf(dest, CLARIF_LP_ST "$%02x" CLARIF_RP_ST, c & 0xff);
             }  /* ctrls */
         }  /* switch */
     }  /* switch */
@@ -1034,7 +1065,7 @@ static int p_expand(int version, int addr, int ctrls)
             _p_toascii((int)c, ctrls);  /* convert character */
 
         } while (((int)c = getc(source)) != EOF && c);
-        printf("\n");
+        fprintf(dest, "\n");
 
     }      /* line */
 
@@ -1051,6 +1082,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 {
     static char line[256];
     unsigned char *p1, *p2, quote, c;
+    unsigned char rem_data_mode, rem_data_endchar;
     int len = 0, match;
     unsigned int linum = 10;
 
@@ -1068,6 +1100,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
             while (isspace(*p2) || isdigit(*p2)) p2++;
 #endif
         quote = 0;
+        rem_data_mode = 0;
         while (isspace(*p2)) p2++;
 
         while (*p2) {
@@ -1121,6 +1154,13 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     }
                 }
             }
+            else if (rem_data_mode) {
+                /* if we have already encountered a REM or a DATA, 
+                   simply copy the char */
+
+                /* DO NOTHING! As we do not set "match", the if (!match) will be true,
+                 * and this part will copy the char over to the new buffer */
+            }
             else if (isalpha(*p2) || strchr("+-*/^>=<", *p2)) {
 
                 /* FE and CE prefixes are checked first */
@@ -1161,6 +1201,19 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                             *p1++ = c | 0x80;
                             p2 += kwlen;
                             match++;
+
+                            /* Check if the keyword is a REM or a DATA */
+                            switch (c) {
+                            case TOKEN_DATA:
+                                rem_data_mode = 1;
+                                rem_data_endchar = ':';
+                                break;
+
+                            case TOKEN_REM:
+                                rem_data_mode = 1;
+                                rem_data_endchar = '\0';
+                                break;
+                            }
                         }
                     }
                 }
@@ -1241,6 +1294,10 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
                 else
                     *p1++ = *p2;
+
+                /* check if the REM/DATA mode has to be stopped: */
+                if (*p2 == rem_data_endchar)
+                    rem_data_mode = 0;
 
                 ++p2;
             } /* match */
