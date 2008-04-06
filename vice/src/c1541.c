@@ -2817,13 +2817,13 @@ void disable_text(void)
 {
 }
 
-int serial_attach_device(unsigned int device, const char *name,
-                         int (*getf)(vdrive_t *, BYTE *, unsigned int),
-                         int (*putf)(vdrive_t *, BYTE, unsigned int),
-                         int (*openf)(vdrive_t *, const char *, int,
-                         unsigned int),
-                         int (*closef)(vdrive_t *, unsigned int),
-                         void (*flushf)(vdrive_t *, unsigned int))
+int machine_bus_device_attach(unsigned int device, const char *name,
+                              int (*getf)(vdrive_t *, BYTE *, unsigned int),
+                              int (*putf)(vdrive_t *, BYTE, unsigned int),
+                              int (*openf)(vdrive_t *, const char *, int,
+                              unsigned int),
+                              int (*closef)(vdrive_t *, unsigned int),
+                              void (*flushf)(vdrive_t *, unsigned int))
 {
     return 0;
 }
