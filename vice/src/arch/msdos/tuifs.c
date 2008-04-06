@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -82,7 +83,7 @@ static struct file_list *file_list_create(void)
 static void file_list_clear(struct file_list *fl)
 {
     if (fl->items != NULL)
-	free(fl->items);
+        free(fl->items);
 
     fl->items = NULL;
     fl->num_used_items = fl->num_items = 0;
@@ -91,22 +92,22 @@ static void file_list_clear(struct file_list *fl)
 static void file_list_free(struct file_list *fl)
 {
     if (fl != NULL) {
-	file_list_clear(fl);
-	free(fl);
+        file_list_clear(fl);
+        free(fl);
     }
 }
 
 static void file_list_add_item(struct file_list *fl, const char *name,
-			       enum file_type type)
+                               enum file_type type)
 {
     if (fl->num_items == fl->num_used_items) {
-	fl->num_items += 100;
-	if (fl->items != NULL)
-	    fl->items = (struct file_item *)xrealloc(fl->items,
+        fl->num_items += 100;
+        if (fl->items != NULL)
+            fl->items = (struct file_item *)xrealloc(fl->items,
                                                      fl->num_items
                                                      * sizeof(*fl->items));
-	else
-	    fl->items = (struct file_item *)xmalloc(fl->num_items
+        else
+            fl->items = (struct file_item *)xmalloc(fl->num_items
                                                     * sizeof(*fl->items));
     }
 
@@ -122,10 +123,10 @@ static int file_list_sort_func(const void *e1, const void *e2)
 
     /* Directories always come first. */
     if (f1->type != f2->type) {
-	if (f1->type == FT_DIR)
-	    return -1;
-	if (f2->type == FT_DIR)
-	    return +1;
+        if (f1->type == FT_DIR)
+            return -1;
+        if (f2->type == FT_DIR)
+            return +1;
     }
     return strcasecmp(f1->name, f2->name);
 }
@@ -133,7 +134,7 @@ static int file_list_sort_func(const void *e1, const void *e2)
 static void file_list_sort(struct file_list *fl)
 {
     qsort(fl->items, fl->num_used_items, sizeof(struct file_item),
-	  file_list_sort_func);
+          file_list_sort_func);
 }
 
 /* XXX: Assumes `path' ends with a slash.  */
@@ -146,12 +147,12 @@ static struct file_list *file_list_read_lfn(const char *path,
     int pathlen = strlen(path);
 
     if (path == NULL || *path == '\0')
-	ds = opendir(".");
+        ds = opendir(".");
     else
-	ds = opendir(path);
+        ds = opendir(path);
 
     if (ds == NULL)
-	return NULL;
+        return NULL;
 
     fl = file_list_create();
 
@@ -159,28 +160,28 @@ static struct file_list *file_list_read_lfn(const char *path,
     readdir(ds);
 
     {
-	unsigned short old_djstat = _djstat_flags;
+        unsigned short old_djstat = _djstat_flags;
 
-	/* This makes `stat()' faster.  FIXME: but it's still too slow
+        /* This makes `stat()' faster.  FIXME: but it's still too slow
            imo...  */
-	_djstat_flags = (_STAT_INODE
-			 | _STAT_EXEC_EXT
-			 | _STAT_EXEC_MAGIC
-			 | _STAT_DIRSIZE
-			 | _STAT_ROOT_TIME
-			 | _STAT_WRITEBIT);
+        _djstat_flags = (_STAT_INODE
+                         | _STAT_EXEC_EXT
+                         | _STAT_EXEC_MAGIC
+                         | _STAT_DIRSIZE
+                         | _STAT_ROOT_TIME
+                         | _STAT_WRITEBIT);
 
-	while((d = readdir(ds)) != NULL) {
-	    struct stat s;
-	    int type;
-	    /* Warning: Assumes `path' has a trailing '/'.  */
-	    char *name = alloca(d->d_namlen + pathlen + 1);
+        while((d = readdir(ds)) != NULL) {
+            struct stat s;
+            int type;
+            /* Warning: Assumes `path' has a trailing '/'.  */
+            char *name = alloca(d->d_namlen + pathlen + 1);
 
-	    memcpy(name, path, pathlen);
-	    strcpy(name + pathlen, d->d_name);
+            memcpy(name, path, pathlen);
+            strcpy(name + pathlen, d->d_name);
 
-	    if (stat(name, &s) != -1) {
-		type = S_ISDIR(s.st_mode) ? FT_DIR : FT_NORMAL;
+            if (stat(name, &s) != -1) {
+                type = S_ISDIR(s.st_mode) ? FT_DIR : FT_NORMAL;
                 if (pattern == NULL || type == FT_DIR) {
                     file_list_add_item(fl, d->d_name, type);
                     continue;
@@ -198,9 +199,9 @@ static struct file_list *file_list_read_lfn(const char *path,
                     free(p);
                 }
             }
-	}
+        }
 
-	_djstat_flags = old_djstat;
+        _djstat_flags = old_djstat;
     }
 
     file_list_sort(fl);
@@ -283,8 +284,8 @@ static int file_list_find(const struct file_list *fl, const char *str, int len)
     int i;
 
     for (i = 0; i < fl->num_used_items; i++)
-	if (strncasecmp(fl->items[i].name, str, len) == 0)
-	    return i;
+        if (strncasecmp(fl->items[i].name, str, len) == 0)
+            return i;
     return -1;
 }
 
@@ -297,7 +298,7 @@ static void file_selector_display_path(const char *path,
 
     tui_set_attr(MENU_BORDER, MENU_BACK, 0);
     tui_hline(x, y, 0xcd, width);
-    
+
     tui_set_attr(MENU_FORE, MENU_BACK, 0);
 
     for (i = strlen(path) - 1, xx = MIN(x + width - 1, x + i);
@@ -315,50 +316,50 @@ static void file_selector_display_path(const char *path,
 }
 
 static void file_selector_display_item(struct file_list *fl, int num,
-				       int first_item_num, int x, int y,
-				       int width, int height, int num_cols)
+                                       int first_item_num, int x, int y,
+                                       int width, int height, int num_cols)
 {
     y += (num - first_item_num) % height;
     x += ((num - first_item_num) / height) * width;
 
     if (num >= fl->num_used_items) {
-	tui_hline(x, y, ' ', width);
+        tui_hline(x, y, ' ', width);
     } else {
         int len = strlen(fl->items[num].name);
 
-	/* XXX: Assumes `width' is > 5!  */
-	if (len > width - 2) {
-	    char *name = alloca(width - 2 + 1);
+        /* XXX: Assumes `width' is > 5!  */
+        if (len > width - 2) {
+            char *name = alloca(width - 2 + 1);
 
-	    if (fl->items[num].type == FT_DIR) {
-		memcpy(name, fl->items[num].name, width - 3);
-		name[width - 4] = name[width - 5] = '.';
-		name[width - 3] = '/';
-	    } else {
-		memcpy(name, fl->items[num].name, width - 2);
-		name[width - 3] = name[width - 4] = '.';
-	    }
-	    name[width - 2] = '\0';
-	    tui_display(x, y, width, " %s ", name);
-	} else {
-	    if (fl->items[num].type == FT_DIR)
-	      /* tui_display(x, y, width, " %s\\ ", fl->items[num].name); */
+            if (fl->items[num].type == FT_DIR) {
+                memcpy(name, fl->items[num].name, width - 3);
+                name[width - 4] = name[width - 5] = '.';
+                name[width - 3] = '/';
+            } else {
+                memcpy(name, fl->items[num].name, width - 2);
+                name[width - 3] = name[width - 4] = '.';
+            }
+            name[width - 2] = '\0';
+            tui_display(x, y, width, " %s ", name);
+        } else {
+            if (fl->items[num].type == FT_DIR)
+              /* tui_display(x, y, width, " %s\\ ", fl->items[num].name); */
                 tui_display(x, y, width, " %s/ ", fl->items[num].name);
-	    else
-	      tui_display(x, y, width, " %s ", fl->items[num].name);
-	}
+            else
+              tui_display(x, y, width, " %s ", fl->items[num].name);
+        }
     }
 }
 
 static void file_selector_update(struct file_list *fl,
-				 int first_item_num, int x, int y,
-				 int width, int height, int num_cols)
+                                 int first_item_num, int x, int y,
+                                 int width, int height, int num_cols)
 {
     int i;
 
     for (i = 0; i < num_cols * height; i++)
-	file_selector_display_item(fl, first_item_num + i, first_item_num,
-				   x, y, width, height, num_cols);
+        file_selector_display_item(fl, first_item_num + i, first_item_num,
+                                   x, y, width, height, num_cols);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -400,10 +401,40 @@ static void slashize_path(char **path)
     }
 }
 
+static char *change_path(struct file_list *fl, char *return_path,
+                         int curr_item)
+{
+    char *new_path;
+
+    if (strcmp(fl->items[curr_item].name, "..") == 0) {
+        char *p = return_path + strlen(return_path) - 1;
+
+        if (*p == '/')
+            p--;
+        for (; *p != '/' && p > return_path; p--)
+                    ;
+        if (p == return_path)
+            new_path = stralloc(return_path);
+        else {
+            new_path = xmalloc(p - return_path + 2);
+            memcpy(new_path, return_path, p - return_path + 1);
+            new_path[p - return_path + 1] = '\0';
+        }
+    } else {
+        new_path = concat(return_path,
+                          fl->items[curr_item].name, "/", NULL);
+    }
+
+    return new_path;
+}
+
 /* FIXME: documentation.  */
 char *tui_file_selector(const char *title, const char *directory,
-			const char *pattern, const char *default_item,
-			image_contents_t *(*contents_func)(const char*),
+                        const char *pattern, const char *default_item,
+                        unsigned int type,
+                        image_contents_t *(*contents_func)(unsigned int,
+                        const char *, unsigned int),
+                        unsigned int unit,
                         char **browse_file_return,
                         unsigned int *browse_file_number_return)
 {
@@ -442,16 +473,16 @@ char *tui_file_selector(const char *title, const char *directory,
     num_files = num_cols * num_lines;
 
     if (default_item != NULL && *default_item) {
-	int i;
+        int i;
 
-	for (i = 0; i < fl->num_items; i++) {
-	    if (!strcasecmp(default_item, fl->items[i].name)) {
-		curr_item = i;
-		while (curr_item - first_item >= num_files)
-		    first_item += num_lines;
-		break;
-	    }
-	}
+        for (i = 0; i < fl->num_items; i++) {
+            if (!strcasecmp(default_item, fl->items[i].name)) {
+                curr_item = i;
+                while (curr_item - first_item >= num_files)
+                    first_item += num_lines;
+                break;
+            }
+        }
     }
 
     x = CENTER_X(width);
@@ -465,189 +496,175 @@ char *tui_file_selector(const char *title, const char *directory,
                        title, NULL);
 
     while (1) {
-	int key;
+        int key;
 
-	tui_set_attr(MENU_FORE, MENU_BACK, 0);
-	if (need_update) {
+        tui_set_attr(MENU_FORE, MENU_BACK, 0);
+        if (need_update) {
             file_selector_display_path(return_path, x + 1, y + height - 1,
                                        width - 2);
-	    file_selector_update(fl, first_item, x + 2, y + 1,
-				 field_width, num_lines, num_cols);
+            file_selector_update(fl, first_item, x + 2, y + 1,
+                                 field_width, num_lines, num_cols);
             tui_set_attr(FIRST_LINE_FORE, FIRST_LINE_BACK, 0);
             tui_display(0, tui_num_lines() - 1, tui_num_cols(),
                         "\030\031\033\032: Move  <Enter>: Select  %s<Alt>-<letter>: Change drive",
                         contents_func != NULL ? "<Space>: Preview  " : "");
-	    need_update = 0;
-	}
-	tui_set_attr(MENU_FORE, MENU_HIGHLIGHT, 0);
-	file_selector_display_item(fl, curr_item, first_item, x + 2, y + 1,
-				   field_width, num_lines, num_cols);
-	key = getkey();
-	tui_set_attr(MENU_FORE, MENU_BACK, 0);
-	file_selector_display_item(fl, curr_item, first_item, x + 2, y + 1,
-				   field_width, num_lines, num_cols);
+            need_update = 0;
+        }
+        tui_set_attr(MENU_FORE, MENU_HIGHLIGHT, 0);
+        file_selector_display_item(fl, curr_item, first_item, x + 2, y + 1,
+                                   field_width, num_lines, num_cols);
+        key = getkey();
+        tui_set_attr(MENU_FORE, MENU_BACK, 0);
+        file_selector_display_item(fl, curr_item, first_item, x + 2, y + 1,
+                                   field_width, num_lines, num_cols);
 
-	switch (key) {
-	  case K_Escape:
-	    tui_area_put(backing_store, x, y);
-	    tui_area_free(backing_store);
-	    return NULL;
-	  case K_Left:
-	    str_len = 0;
-	    if (curr_item - num_lines >= 0) {
-		curr_item -= num_lines;
-		if (curr_item < first_item) {
-		    if (first_item >= num_lines) {
-			first_item -= num_lines;
-			need_update = 1;
-		    } else
-			curr_item += num_lines;
-		}
-	    }
-	    break;
-	  case K_Up:
-	    str_len = 0;
-	    if (curr_item > 0) {
-		curr_item--;
-		if (curr_item < first_item) {
-		    first_item = curr_item;
-		    need_update = 1;
-		}
-	    }
-	    break;
-	  case K_Right:
-	    str_len = 0;
-	    if (curr_item + num_lines < fl->num_used_items) {
-		curr_item += num_lines;
-		if (curr_item - first_item >= num_files) {
-		    first_item += num_lines;
-		    need_update = 1;
-		}
-	    }
-	    break;
-	  case K_Down:
-	    str_len = 0;
-	    if (curr_item < fl->num_used_items - 1) {
-		curr_item++;
-		if (curr_item == first_item + num_files) {
-		    first_item++;
-		    need_update = 1;
-		}
-	    }
-	    break;
-	  case K_PageDown:
-	    str_len = 0;
-	    if (curr_item + num_files < fl->num_used_items) {
-		curr_item += num_files;
-		first_item += num_files;
-	    }
-	    need_update = 1;
-	    break;
-	  case K_PageUp:
-	    str_len = 0;
-	    if (curr_item - num_files >= 0) {
-		curr_item -= num_files;
-		first_item -= num_files;
-		if (first_item < 0)
-		    first_item = 0;
-		need_update = 1;
-	    }
-	    break;
-	  case K_Home:
-	    str_len = 0;
-	    curr_item = 0;
-	    if (first_item != 0) {
-		first_item = 0;
-		need_update = 1;
-	    }
-	    break;
-	  case K_End:
-	    str_len = 0;
-	    curr_item = fl->num_used_items - 1;
-	    first_item = curr_item - num_files + 1;
-	    if (first_item < 0)
-		first_item = 0;
-	    need_update = 1;
-	    break;
-	  case K_Return:
-	    str_len = 0;
-	    if (fl->items[curr_item].type == FT_DIR) {
-		struct file_list *new_fl;
-		char *new_path;
+        switch (key) {
+          case K_Escape:
+            tui_area_put(backing_store, x, y);
+            tui_area_free(backing_store);
+            return NULL;
+          case K_Left:
+            str_len = 0;
+            if (curr_item - num_lines >= 0) {
+                curr_item -= num_lines;
+                if (curr_item < first_item) {
+                    if (first_item >= num_lines) {
+                        first_item -= num_lines;
+                        need_update = 1;
+                    } else
+                        curr_item += num_lines;
+                }
+            }
+            break;
+          case K_Up:
+            str_len = 0;
+            if (curr_item > 0) {
+                curr_item--;
+                if (curr_item < first_item) {
+                    first_item = curr_item;
+                    need_update = 1;
+                }
+            }
+            break;
+          case K_Right:
+            str_len = 0;
+            if (curr_item + num_lines < fl->num_used_items) {
+                curr_item += num_lines;
+                if (curr_item - first_item >= num_files) {
+                    first_item += num_lines;
+                    need_update = 1;
+                }
+            }
+            break;
+          case K_Down:
+            str_len = 0;
+            if (curr_item < fl->num_used_items - 1) {
+                curr_item++;
+                if (curr_item == first_item + num_files) {
+                    first_item++;
+                    need_update = 1;
+                }
+            }
+            break;
+          case K_PageDown:
+            str_len = 0;
+            if (curr_item + num_files < fl->num_used_items) {
+                curr_item += num_files;
+                first_item += num_files;
+            }
+            need_update = 1;
+            break;
+          case K_PageUp:
+            str_len = 0;
+            if (curr_item - num_files >= 0) {
+                curr_item -= num_files;
+                first_item -= num_files;
+                if (first_item < 0)
+                    first_item = 0;
+                need_update = 1;
+            }
+            break;
+          case K_Home:
+            str_len = 0;
+            curr_item = 0;
+            if (first_item != 0) {
+                first_item = 0;
+                need_update = 1;
+            }
+            break;
+          case K_End:
+            str_len = 0;
+            curr_item = fl->num_used_items - 1;
+            first_item = curr_item - num_files + 1;
+            if (first_item < 0)
+                first_item = 0;
+            need_update = 1;
+            break;
+          case K_Return:
+            str_len = 0;
+            if (fl->items[curr_item].type == FT_DIR) {
+                struct file_list *new_fl;
+                char *new_path;
 
-		if (strcmp(fl->items[curr_item].name, "..") == 0) {
-		    char *p = return_path + strlen(return_path) - 1;
+                new_path = change_path(fl, return_path, curr_item);
 
-		    if (*p == '/')
-			p--;
-		    for (; *p != '/' && p > return_path; p--)
-		        ;
-		    if (p == return_path)
-			new_path = stralloc(return_path);
-		    else {
-			new_path = xmalloc(p - return_path + 2);
-			memcpy(new_path, return_path, p - return_path + 1);
-			new_path[p - return_path + 1] = '\0';
-		    }
-		} else {
-		    new_path = concat(return_path,
-				      fl->items[curr_item].name, "/", NULL);
-		}
-		new_fl = file_list_read(new_path, pattern);
-		if (new_fl != NULL) {
-		    file_list_free(fl);
-		    fl = new_fl;
-		    first_item = curr_item = 0;
-		    free(return_path);
-		    return_path = new_path;
-		    need_update = 1;
+                new_fl = file_list_read(new_path, pattern);
+
+                if (new_fl != NULL) {
+                    file_list_free(fl);
+                    fl = new_fl;
+                    first_item = curr_item = 0;
+                    free(return_path);
+                    return_path = new_path;
+                    need_update = 1;
                     ioutil_chdir(return_path);
-		} else {
-		    free(new_path);
-		}
-	    } else {
-		char *p = concat(return_path, fl->items[curr_item].name,
-				 NULL);
+                } else {
+                    free(new_path);
+                }
+            } else {
+                char *p = concat(return_path, fl->items[curr_item].name,
+                                 NULL);
 
-		free(return_path);
-		return_path = p;
-		tui_area_put(backing_store, x, y);
-		tui_area_free(backing_store);
-		return return_path;
-	    }
-	    break;
-	  case K_BackSpace:
-	    if (str_len > 1) {
-		int n;
-		str_len--;
-		n = file_list_find(fl, str, str_len);
-		if (n >= 0) {
-		    curr_item = n;
-		    if (curr_item < first_item) {
-			first_item = curr_item;
-			need_update = 1;
-		    } else if (first_item + num_files <= curr_item) {
-			first_item = curr_item - num_files + 1;
-			need_update = 1;
-		    }
-		}
-	    } else {
-		str_len = 0;
-		curr_item = 0;
-		if (first_item != 0) {
-		    first_item = 0;
-		    need_update = 1;
-		}
-	    }
-	    break;
-	  case ' ':
-	    if (contents_func != NULL
+                free(return_path);
+                return_path = p;
+                tui_area_put(backing_store, x, y);
+                tui_area_free(backing_store);
+                return return_path;
+            }
+            break;
+          case K_BackSpace:
+            if (str_len > 1) {
+                int n;
+                str_len--;
+                n = file_list_find(fl, str, str_len);
+                if (n >= 0) {
+                    curr_item = n;
+                    if (curr_item < first_item) {
+                        first_item = curr_item;
+                        need_update = 1;
+                    } else if (first_item + num_files <= curr_item) {
+                        first_item = curr_item - num_files + 1;
+                        need_update = 1;
+                    }
+                }
+            } else {
+                str_len = 0;
+                curr_item = 0;
+                if (first_item != 0) {
+                    first_item = 0;
+                    need_update = 1;
+                }
+            }
+            break;
+          case ' ':
+            if (contents_func != NULL
                 && fl->items[curr_item].type != FT_DIR
                 && browse_file_return != NULL) {
                 tui_display(0, tui_num_lines() - 1, tui_num_cols(), "");
-                *browse_file_return = tui_image_browser(fl->items[curr_item].name,
-                                                        contents_func,
-                                                        browse_file_number_return);
+                *browse_file_return = tui_image_browser(type,
+                                          fl->items[curr_item].name,
+                                          contents_func, unit,
+                                          browse_file_number_return);
                 if (*browse_file_return != NULL) {
                     char *p = concat(return_path, fl->items[curr_item].name,
                                      NULL);
@@ -659,11 +676,11 @@ char *tui_file_selector(const char *title, const char *directory,
                     return return_path;
                 }
                 need_update = 1;
-		break;
-	    } else {
+                break;
+            } else {
                 tui_beep();
             }
-	  default:
+          default:
             {
                 int drive_num;
 
@@ -686,7 +703,6 @@ char *tui_file_selector(const char *title, const char *directory,
                         if (new_path != NULL) {
                             slashize_path(&new_path);
                             _dos_setdrive(current_drive, &num_available_drives);
-
                             if (new_path != NULL) {
                                 struct file_list *new_fl;
 
@@ -704,8 +720,7 @@ char *tui_file_selector(const char *title, const char *directory,
                                 }
                             }
                         } else {
-                            _dos_setdrive(current_drive, &num_available_drives);
-                            tui_beep();
+                            _dos_setdrive(current_drive, &num_available_drives);                            tui_beep();
                         }
                     } else {
                         tui_beep();
@@ -729,7 +744,8 @@ char *tui_file_selector(const char *title, const char *directory,
                     }
                 }
             }
-	    break;
-	}
+            break;
+        }
     }
 }
+

@@ -610,7 +610,7 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
     image->gcr = gcr_create_image();
     image->read_only = 0;
 
-    ((fsimage_t *)(image->media))->name = stralloc(name);
+    disk_image_fsimage_name_set(image, stralloc(name));
 
     if (disk_image_open(image) < 0) {
         disk_image_media_destroy(image);
