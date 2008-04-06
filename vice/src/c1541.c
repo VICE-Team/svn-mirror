@@ -115,8 +115,6 @@ static int zcreate_cmd(int nargs, char **args);
 
 static char *floppy_read_directory(vdrive_t *vdrive, const char *pattern);
 
-extern int speed_map_1541[42];
-
 /* ------------------------------------------------------------------------- */
 
 struct command {
