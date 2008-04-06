@@ -211,7 +211,7 @@ static struct file_list *file_list_read_lfn(const char *path,
 static struct file_list *file_list_read_nolfn(const char *path,
                                               const char *pattern)
 {
-    char *cwd = get_current_dir();
+    char *cwd = util_get_current_dir();
     struct file_list *fl = NULL;
     struct find_t f;
 
@@ -424,7 +424,7 @@ char *tui_file_selector(const char *title, const char *directory,
     if (directory != NULL)
         return_path = stralloc(directory);
     else
-        return_path = get_current_dir();
+        return_path = util_get_current_dir();
 
     slashize_path(&return_path);
 
@@ -681,7 +681,7 @@ char *tui_file_selector(const char *title, const char *directory,
                         /* FIXME: This is a hack...  Maybe there is a cleaner
                            way to do it, but for now I just don't know.  */
                         _dos_setdrive(drive_num, &num_available_drives);
-                        new_path = get_current_dir();
+                        new_path = util_get_current_dir();
                         if (new_path != NULL) {
                             slashize_path(&new_path);
                             _dos_setdrive(current_drive, &num_available_drives);
