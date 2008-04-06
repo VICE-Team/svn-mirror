@@ -42,6 +42,9 @@
  * With additional changes by
  *   Ettore Perazzoli <ettore@comm2000.it>
  *
+ * Support for Final Cartridge III extensions to c64 2.0 basic
+ *   Matti 'ccr' Hämäläinen <ccr@tnsp.org>
+ *
  */
 
 #include "vice.h"
@@ -64,7 +67,7 @@
 #define SEEK_SET 0
 #endif
 
-#define PETCATVERSION   2.02
+#define PETCATVERSION   2.03
 #define PETCATLEVEL     1
 
 #define B_1              1
@@ -81,6 +84,7 @@
 #define B_35            10
 #define B_7             11
 #define B_10            12
+#define B_FC3           13
 
 
 /* Limits */
@@ -96,6 +100,8 @@
 #define NUM_SPECC       27      /* Speech Basic */
 #define NUM_ATBCC       43      /* Atbasic */
 
+#define NUM_FC3CC       29      /* Final Cartridge III */
+
 #define NUM_KWCE        11
 #define NUM_V7FE        39
 #define NUM_V10FE       62
@@ -109,6 +115,8 @@
 #define MAX_4ECC        0xE3    /* 4.0 extension (C64) */
 #define MAX_SPECC       0xE6    /* Speech Basic */
 #define MAX_ATBCC       0xF6    /* Atbasic */
+
+#define MAX_FC3CC       0xE8    /* Final Cartridge III */
 
 #define MAX_KWCE        0x0A
 #define MAX_V7FE        0x26
@@ -159,7 +167,7 @@ static const char *cbmkeys[] = {
     "CBM-U", "CBM-O", "SHIFT-@", "CBM-F", "CBM-C", "CBM-X", "CBM-V", "CBM-B"
 };
 
-#define NUM_VERSIONS  12
+#define NUM_VERSIONS  13
 
 const char *VersNames[] = {
     "Basic 1.0",
@@ -176,6 +184,7 @@ const char *VersNames[] = {
     "Basic 3.5",
     "Basic 7.0",
     "Basic 10.0",
+    "Basic 2.0 with Final Cartridge III",
     ""
 };
 
@@ -317,6 +326,16 @@ const char *simonskw[] = {
     "mob off", "off", "angl", "arc", "cold", "scrsv", "scrld", "text",
     "cset",  "vol",  "disk", "hrdcpy", "key", "paint", "low col", "copy",
     "merge", "renumber", "mem", "detect", "check", "display", "err", "out"
+};
+
+
+/* Final Cartridge III Keywords -- Matti 'ccr' Hämäläinen */
+
+const char *fc3kw[] = {
+    "off", "auto",  "del", "renum", "?ERROR?", "find", "old", "dload",
+    "dverify", "dsave", "append", "dappend", "dos", "kill",
+    "mon", "pdir", "plist", "bar", "desktop", "dump", "array", "mem",
+    "trace", "replace", "order", "pack", "unpack", "mread", "mwrite"
 };
 
 
@@ -492,8 +511,8 @@ int main(int argc, char **argv)
 \t4 -w4e\tPET Basic v4.0 program (PET/C64)\n\
 \t3\t\tBasic v3.5 program (C16)\n\
 \t7\t\tBasic v7.0 program (C128)\n\
-\t10\t\tBasic v10.0 program (C64DX)\n\n");
-
+\t10\t\tBasic v10.0 program (C64DX)\n\
+\tF\t\tBasic v2.0 with Final Cartridge III (C64)\n\n");
         exit(1);
     }
 
@@ -755,6 +774,10 @@ static int parse_version(char *str)
         version = B_7;
         break;
 
+      case 'F':
+      	version = B_FC3;
+      	break;
+
       default:
         fprintf (stderr, "\nUnimplemented version '%s'\n", str);
         version = -1;
@@ -833,6 +856,13 @@ static void list_keywords(int version)
       case B_ATBAS:
         for (n = 0; n < NUM_ATBCC; n++)
             printf("%s\t", atbasickwcc[n] /*, n + 0xcc*/);
+        break;
+        
+      case B_FC3:
+        for (n = 0; n < NUM_FC3CC; n++)
+            printf("%s\t", fc3kw[n] /*, n + 0xcc*/);
+      break;
+      
     }  /* switch */
 
     printf("\n\n");
@@ -914,6 +944,8 @@ static void _p_toascii(int c, int ctrls)
 }
 
 
+
+
 /*
  * This routine starts from the beginning of Basic, and not from the
  * load address included on program files. That way it can list from
@@ -986,7 +1018,7 @@ static int p_expand(int version, int addr, int ctrls)
                     }
                     continue;
                 }
-                if (version != B_35) {
+                if (version != B_35 && version != B_FC3) {
                     if (c == 0xce) {            /* 'rlum' on V3.5*/
                         if ((c = getc(source)) <= MAX_KWCE)
                             fprintf(dest,"%s", kwce[c]);
@@ -1023,8 +1055,13 @@ static int p_expand(int version, int addr, int ctrls)
                         fprintf(dest, "%s", atbasickwcc[c - 0xcc]);
                     break;
 
+                  case B_FC3:		/* C64 FC3 */
+                    if (c >= 0xcc && c <= MAX_FC3CC)
+                        fprintf(dest, "%s", fc3kw[c - 0xcc]);
+                    break;
+
                   case B_4:             /* PET V4.0 */
-                  case B_4E:    /* V4.0 extension */
+                  case B_4E:            /* V4.0 extension */
                     if (c >= 0xcc && c <= MAX_4ECC)
                         fprintf(dest, "%s", petkwcc[c - 0xcc]);
                     break;
@@ -1213,8 +1250,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     break;
 
                   case B_SPEECH:
-                    if ((c = sstrcmp(p2, speechkwcc, 0, NUM_SPECC))
-                        != KW_NONE) {
+                    if ((c = sstrcmp(p2, speechkwcc, 0, NUM_SPECC)) != KW_NONE) {
                         *p1++ = c + 0xcc;
                         p2 += kwlen;
                         match++;
@@ -1222,12 +1258,20 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     break;
 
                   case B_ATBAS:
-                    if ((c = sstrcmp(p2, atbasickwcc, 0, NUM_ATBCC))
-                        != KW_NONE) {
+                    if ((c = sstrcmp(p2, atbasickwcc, 0, NUM_ATBCC)) != KW_NONE) {
                         *p1++ = c + 0xcc;
                         p2 += kwlen;
                         match++;
                     }
+                    break;
+
+                  case B_FC3:
+                    if ((c = sstrcmp(p2, fc3kw, 0, NUM_FC3CC)) != KW_NONE) {
+                        *p1++ = c + 0xcc;
+                        p2 += kwlen;
+                        match++;
+                    }
+
                 }  /* switch */
             } /* !quote */
 
@@ -1315,4 +1359,3 @@ void ui_show_text(HWND hParent, const char *szCaption,
 void archdep_ui_init(int argc, char *argv[])
 {
 }
-
