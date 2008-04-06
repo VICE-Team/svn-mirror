@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2000-11-08 23:13+0100\n"
+"POT-Creation-Date: 2000-11-26 15:38+0100\n"
 "PO-Revision-Date: 2000-07-16 13:41+02:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -289,10 +289,12 @@ msgid "Exit emulator"
 msgstr "Emulator beenden"
 
 #: src/arch/unix/c128ui.c:49 src/arch/unix/c64ui.c:241
+#: src/arch/unix/vsidui.c:116
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/c128ui.c:51 src/arch/unix/c64ui.c:243
+#: src/arch/unix/vsidui.c:118
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
@@ -321,6 +323,7 @@ msgstr "Benutzerdefiniert..."
 
 #: src/arch/unix/c128ui.c:82 src/arch/unix/c128ui.c:98
 #: src/arch/unix/c64ui.c:276 src/arch/unix/c64ui.c:292
+#: src/arch/unix/vsidui.c:163
 msgid "Video standard"
 msgstr "Video Standard"
 
@@ -375,7 +378,7 @@ msgid "*Use reSID emulation"
 msgstr "*Benutze reSID Emulation"
 
 #: src/arch/unix/c128ui.c:168 src/arch/unix/c64ui.c:330
-#: src/arch/unix/uisettings.c:1051 src/arch/unix/vsidui.c:130
+#: src/arch/unix/uisettings.c:1051 src/arch/unix/vsidui.c:142
 msgid "*Enable sound playback"
 msgstr "*Sound Einschalten"
 
@@ -548,7 +551,7 @@ msgstr "VDC Einstellungen"
 
 #: src/arch/unix/c128ui.c:406 src/arch/unix/c128ui.c:422
 #: src/arch/unix/c64ui.c:537 src/arch/unix/c64ui.c:551
-#: src/arch/unix/vsidui.c:149
+#: src/arch/unix/vsidui.c:161
 msgid "SID settings"
 msgstr "SID Einstellungen"
 
@@ -885,7 +888,7 @@ msgstr "Erweiterungsmodul Freeze"
 msgid "*Cartridge control"
 msgstr "*Erweiterungsmodul Einstellungen"
 
-#: src/arch/unix/c64ui.c:245
+#: src/arch/unix/c64ui.c:245 src/arch/unix/vsidui.c:120
 msgid "*Old NTSC-M"
 msgstr "*NTSC-M alt"
 
@@ -1164,7 +1167,7 @@ msgstr "*Zyklen auslassen"
 msgid "*Trap idle"
 msgstr "*Trap Idle"
 
-#: src/arch/unix/uisettings.c:990 src/arch/unix/vsidui.c:118
+#: src/arch/unix/uisettings.c:990 src/arch/unix/vsidui.c:130
 msgid "*1.00 sec"
 msgstr "*1.00 sec"
 
@@ -1172,7 +1175,7 @@ msgstr "*1.00 sec"
 msgid "*0.75 sec"
 msgstr "*0.75 sec"
 
-#: src/arch/unix/uisettings.c:994 src/arch/unix/vsidui.c:120
+#: src/arch/unix/uisettings.c:994 src/arch/unix/vsidui.c:132
 msgid "*0.50 sec"
 msgstr "*0.50 sec"
 
@@ -1196,7 +1199,7 @@ msgstr "*0.20 sec"
 msgid "*0.15 sec"
 msgstr "*0.15 sec"
 
-#: src/arch/unix/uisettings.c:1006 src/arch/unix/vsidui.c:122
+#: src/arch/unix/uisettings.c:1006 src/arch/unix/vsidui.c:134
 msgid "*0.10 sec"
 msgstr "*0.10 sec"
 
@@ -1236,11 +1239,11 @@ msgstr "*Exakt"
 msgid "Sound synchronization"
 msgstr "Sound Synchronisation"
 
-#: src/arch/unix/uisettings.c:1057 src/arch/unix/vsidui.c:133
+#: src/arch/unix/uisettings.c:1057 src/arch/unix/vsidui.c:145
 msgid "Sample rate"
 msgstr "Sample Rate"
 
-#: src/arch/unix/uisettings.c:1059 src/arch/unix/vsidui.c:135
+#: src/arch/unix/uisettings.c:1059 src/arch/unix/vsidui.c:147
 msgid "Buffer size"
 msgstr "Puffergröße"
 
@@ -1248,7 +1251,7 @@ msgstr "Puffergröße"
 msgid "Suspend time"
 msgstr "Unterbrechungs Zeit"
 
-#: src/arch/unix/uisettings.c:1063 src/arch/unix/vsidui.c:137
+#: src/arch/unix/uisettings.c:1063 src/arch/unix/vsidui.c:149
 msgid "Oversample"
 msgstr "Oversample"
 
@@ -1446,7 +1449,7 @@ msgstr "*Vollbild Einstellungen"
 msgid "Keyboard settings"
 msgstr "Tastatur Einstellungen"
 
-#: src/arch/unix/uisettings.c:1434 src/arch/unix/vsidui.c:143
+#: src/arch/unix/uisettings.c:1434 src/arch/unix/vsidui.c:155
 msgid "Sound settings"
 msgstr "Sound Einstellungen"
 
@@ -1805,15 +1808,15 @@ msgstr "`%s' ist keine gültige PSID Datei."
 msgid "Load PSID file..."
 msgstr "PSID Datei Laden..."
 
-#: src/arch/unix/vsidui.c:116
+#: src/arch/unix/vsidui.c:128
 msgid "*3.00 sec"
 msgstr "*3.00 sec"
 
-#: src/arch/unix/vsidui.c:168
+#: src/arch/unix/vsidui.c:182
 msgid "*Default Tune"
 msgstr "*Default Tune"
 
-#: src/arch/unix/vsidui.c:191
+#: src/arch/unix/vsidui.c:205
 #, c-format
 msgid "*Tune %d"
 msgstr "*Tune %d"
