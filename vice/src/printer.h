@@ -42,7 +42,7 @@ extern int printer_interface_serial_late_init(void);
 /* Userport interface.  */
 extern void printer_interface_userport_write_data(BYTE b);
 extern void printer_interface_userport_write_strobe(int s);
-extern void printer_interface_userport_set_busy(int);
+extern void printer_interface_userport_set_busy(int b);
 
 #endif
 
