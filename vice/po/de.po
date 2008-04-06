@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-05-12 18:40+0200\n"
+"POT-Creation-Date: 2002-05-19 21:01+0200\n"
 "PO-Revision-Date: 2002-05-05 18:45+02:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -582,11 +582,11 @@ msgstr "Benutze alte API Routinen"
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr "Kernel Treiber Version  : %d.%d.%d"
 
-#: src/arch/unix/kmap.c:116
+#: src/arch/unix/kmap.c:73
 msgid "Specify name of symbolic keymap file"
 msgstr "Bitte Namen für symbolische Keymap Datei definieren"
 
-#: src/arch/unix/kmap.c:118
+#: src/arch/unix/kmap.c:75
 msgid "Specify name of positional keymap file"
 msgstr "Bitte Namen für positions Keymap Datei definieren"
 
@@ -606,27 +606,27 @@ msgstr "Emulation der 1351 Proportional Mouse aktivieren"
 msgid "Disable emulation of the 1351 proportional mouse"
 msgstr "Emulation der 1351 Proportional Mouse deaktivieren"
 
-#: src/arch/unix/petkmap.c:145
+#: src/arch/unix/petkmap.c:117
 msgid "Specify name of graphics keyboard symbolic keymap file"
 msgstr "Keymap Datei für graphics keyboard symbolic definieren"
 
-#: src/arch/unix/petkmap.c:148
+#: src/arch/unix/petkmap.c:120
 msgid "Specify name of graphics keyboard positional keymap file"
 msgstr "Keymap Datei für graphics keyboard positional definieren"
 
-#: src/arch/unix/petkmap.c:151
+#: src/arch/unix/petkmap.c:123
 msgid "Specify name of UK business keyboard symbolic keymap file"
 msgstr "Keymap Datei für UK business keyboard symbolic definieren"
 
-#: src/arch/unix/petkmap.c:154
+#: src/arch/unix/petkmap.c:126
 msgid "Specify name of UK business keyboard positional keymap file"
 msgstr "Keymap Datei für UK business keyboard positional definieren"
 
-#: src/arch/unix/petkmap.c:157
+#: src/arch/unix/petkmap.c:129
 msgid "Specify name of German business keyboard symbolic keymap file"
 msgstr "Keymap Datei für German business keyboard symbolic definieren"
 
-#: src/arch/unix/petkmap.c:160
+#: src/arch/unix/petkmap.c:132
 msgid "Specify name of German business keyboard positional keymap file"
 msgstr "Keymap Datei für German business keyboard positional definieren"
 
@@ -2700,30 +2700,17 @@ msgstr "Fehler beim Umschalten auf Vollbild Modus %ix%i"
 msgid "Couldn't allocate color cache"
 msgstr "Nicht genügend Speicher für Farbcache vorhanden"
 
-#: src/arch/unix/x11/kbd.c:118
-#, c-format
-msgid "Cannot load keymap `%s'."
-msgstr "Kann Keymap Datei `%s' nicht laden."
-
-#: src/arch/unix/x11/kbd.c:119
-msgid "(null)"
-msgstr "(null)"
-
-#: src/arch/unix/x11/kbd.c:140
-msgid "Specify index of keymap file (0=symbol, 1=positional)"
-msgstr "Index für Kymap Datei festlegen (0=symbol, 1=positional)"
-
-#: src/arch/unix/x11/kbd.c:365
+#: src/arch/unix/x11/kbd.c:319
 #, c-format
 msgid "Could not find KeySym `%s'!"
 msgstr "Kann Key Symbol `%s' nicht finden!"
 
-#: src/arch/unix/x11/kbd.c:422
+#: src/arch/unix/x11/kbd.c:376
 #, c-format
 msgid "Bad row/column value (%d/%d) for keysym `%s'."
 msgstr "Falsche Wert für Zeile/Spalte (%d/%d) Bei Key Symbol `%s'."
 
-#: src/arch/unix/x11/kbd.c:446
+#: src/arch/unix/x11/kbd.c:400
 #, c-format
 msgid "Loading keymap `%s'."
 msgstr "Lade Keymap `%s'."
@@ -2956,6 +2943,15 @@ msgstr "Performance wird nicht optimal sein."
 #: src/arch/unix/x11/xaw/x11video.c:202
 msgid "Successfully initialized without shared memory."
 msgstr "Video erfolgreich ohne Shared Memroy initialisiert."
+
+#~ msgid "Cannot load keymap `%s'."
+#~ msgstr "Kann Keymap Datei `%s' nicht laden."
+
+#~ msgid "(null)"
+#~ msgstr "(null)"
+
+#~ msgid "Specify index of keymap file (0=symbol, 1=positional)"
+#~ msgstr "Index für Kymap Datei festlegen (0=symbol, 1=positional)"
 
 #~ msgid "*Enable"
 #~ msgstr "*Aktivieren"
