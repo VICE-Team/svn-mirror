@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.9\n"
-"POT-Creation-Date: 2002-03-10 16:30+0100\n"
-"PO-Revision-Date: 2002-02-11 21:27+01:00\n"
+"POT-Creation-Date: 2002-03-14 21:33+0100\n"
+"PO-Revision-Date: 2002-03-14 22:04+01:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2198,9 +2198,9 @@ msgid "Contributors"
 msgstr "VICE Hackers"
 
 #: src/arch/unix/x11/gnome/gnomevideo.c:87 src/arch/unix/x11/xaw/x11video.c:95
-#, fuzzy, c-format
+#, c-format
 msgid "Successfully initialized using XVideo (%dx%d %.4s)."
-msgstr "XVideo erfolgreich initialisiert (%dx%d %4s)."
+msgstr "XVideo erfolgreich initialisiert (%dx%d %.4s)."
 
 #: src/arch/unix/x11/gnome/gnomevideo.c:108
 msgid "Successfully initialized video."
@@ -2712,7 +2712,7 @@ msgstr "Software Rendering benutzen"
 
 #: src/arch/unix/x11/video.c:171
 msgid "Request YUV FOURCC format"
-msgstr ""
+msgstr "YUV FOURCC Format"
 
 #: src/arch/unix/x11/video.c:378
 msgid "The MITSHM extension is not supported on this display."
