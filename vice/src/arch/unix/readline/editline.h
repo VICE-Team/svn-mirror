@@ -1,6 +1,6 @@
 /*
 **  Internal header file for editline library.
-**  Modified by Ettore Perazzoli (ettore@comm2000.it) for use with
+**  Modified by Ettore Perazzoli <ettore@comm2000.it> for use with
 **  the GNU `configure' script.
 */
 
