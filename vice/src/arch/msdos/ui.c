@@ -281,6 +281,25 @@ void ui_display_drive_current_image(int drivenum, const char *image)
     /* just a dummy so far */
 }
 
+
+/* tape-related ui, dummies so far */
+void ui_set_tape_status(int tape_status)
+{
+}
+
+void ui_display_tape_motor_status(int motor)
+{
+}
+
+void ui_display_tape_control_status(int control)
+{
+}
+
+void ui_display_tape_counter(int counter)
+{
+}
+
+
 void ui_set_warp_status(int status)
 {
     if (status)
