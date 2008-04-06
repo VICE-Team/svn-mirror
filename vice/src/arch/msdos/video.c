@@ -400,7 +400,7 @@ int video_canvas_set_palette(struct video_canvas_s *canvas,
 {
     DEBUG(("Allocating %d colors", palette->num_entries));
 
-    canvas->palette = (palette_t *)palette;
+    canvas->palette = palette;
 
     canvas_change_palette(canvas);
 
