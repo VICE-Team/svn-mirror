@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2002-01-13 17:39+0100\n"
+"POT-Creation-Date: 2002-01-19 11:53+0100\n"
 "PO-Revision-Date: 2002-01-02 23:24+01:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -45,13 +45,13 @@ msgstr "Received signal %d."
 
 #: src/arch/unix/c128ui.c:60 src/arch/unix/c610ui.c:59
 #: src/arch/unix/c64ui.c:61 src/arch/unix/plus4ui.c:54
-#: src/arch/unix/vic20ui.c:401 src/arch/unix/vsidui.c:120
+#: src/arch/unix/vic20ui.c:401 src/arch/unix/vsidui.c:121
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/c128ui.c:62 src/arch/unix/c610ui.c:61
 #: src/arch/unix/c64ui.c:63 src/arch/unix/plus4ui.c:56
-#: src/arch/unix/vic20ui.c:403 src/arch/unix/vsidui.c:122
+#: src/arch/unix/vic20ui.c:403 src/arch/unix/vsidui.c:123
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
@@ -147,7 +147,7 @@ msgstr "reSID resampling Passband"
 
 #: src/arch/unix/c128ui.c:221 src/arch/unix/c610ui.c:309
 #: src/arch/unix/c64ui.c:240 src/arch/unix/uisound.c:120
-#: src/arch/unix/vsidui.c:146
+#: src/arch/unix/vsidui.c:147
 msgid "*Enable sound playback"
 msgstr "*Sound Einschalten"
 
@@ -273,7 +273,7 @@ msgstr "VDC Einstellungen"
 
 #: src/arch/unix/c128ui.c:376 src/arch/unix/c128ui.c:392
 #: src/arch/unix/c610ui.c:378 src/arch/unix/c64ui.c:346
-#: src/arch/unix/c64ui.c:360 src/arch/unix/vsidui.c:165
+#: src/arch/unix/c64ui.c:360 src/arch/unix/vsidui.c:170
 msgid "SID settings"
 msgstr "SID Einstellungen"
 
@@ -294,7 +294,7 @@ msgstr "Speicher Einstellungen"
 #: src/arch/unix/c128ui.c:447 src/arch/unix/c610ui.c:456
 #: src/arch/unix/c64ui.c:413 src/arch/unix/petui.c:381
 #: src/arch/unix/plus4ui.c:163 src/arch/unix/vic20ui.c:493
-#: src/arch/unix/vsidui.c:249
+#: src/arch/unix/vsidui.c:254
 msgid "File"
 msgstr "Datei"
 
@@ -313,8 +313,8 @@ msgstr "Optionen"
 #: src/arch/unix/c128ui.c:488 src/arch/unix/c610ui.c:493
 #: src/arch/unix/c64ui.c:454 src/arch/unix/petui.c:416
 #: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:528
-#: src/arch/unix/vsidui.c:262 src/arch/unix/x11/gnome/ui.c:1126
-#: src/arch/unix/x11/gnome/ui.c:1218
+#: src/arch/unix/vsidui.c:267 src/arch/unix/x11/gnome/ui.c:1129
+#: src/arch/unix/x11/gnome/ui.c:1221
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -495,7 +495,7 @@ msgstr "*VIC-II Einstellungen"
 msgid "Screenshot..."
 msgstr "Screenshot..."
 
-#: src/arch/unix/c64ui.c:65 src/arch/unix/vsidui.c:124
+#: src/arch/unix/c64ui.c:65 src/arch/unix/vsidui.c:125
 msgid "*Old NTSC-M"
 msgstr "*NTSC-M alt"
 
@@ -1054,7 +1054,7 @@ msgstr "Nächstes: "
 
 #: src/arch/unix/uicommands.c:667 src/arch/unix/uicommands.c:682
 #: src/arch/unix/x11/gnome/ui.c:788 src/arch/unix/x11/gnome/ui.c:798
-#: src/arch/unix/x11/gnome/ui.c:1470
+#: src/arch/unix/x11/gnome/ui.c:1473
 msgid "<empty>"
 msgstr "<leer>"
 
@@ -1199,7 +1199,7 @@ msgid "About VICE..."
 msgstr "Über VICE..."
 
 #: src/arch/unix/uicommands.c:947 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/ui.c:1838
+#: src/arch/unix/x11/gnome/ui.c:1841
 msgid "Reset"
 msgstr "Reset"
 
@@ -1694,8 +1694,8 @@ msgstr "Maximale Geschwindigkeit"
 msgid "Invalid speed value"
 msgstr "Ungültige Geschwindigkeit"
 
-#: src/arch/unix/uisettings.c:219 src/arch/unix/x11/gnome/ui.c:1265
-#: src/arch/unix/x11/xaw/ui.c:1061
+#: src/arch/unix/uisettings.c:219 src/arch/unix/x11/gnome/ui.c:1268
+#: src/arch/unix/x11/xaw/ui.c:1065
 msgid "Cannot save settings."
 msgstr "Fehler beim Speichern der Einstellungen."
 
@@ -1881,7 +1881,7 @@ msgstr ""
 msgid "Passband percentage"
 msgstr "Passband Prozent"
 
-#: src/arch/unix/uisound.c:59 src/arch/unix/vsidui.c:134
+#: src/arch/unix/uisound.c:59 src/arch/unix/vsidui.c:135
 msgid "*1.00 sec"
 msgstr "*1.00 sec"
 
@@ -1889,7 +1889,7 @@ msgstr "*1.00 sec"
 msgid "*0.75 sec"
 msgstr "*0.75 sec"
 
-#: src/arch/unix/uisound.c:63 src/arch/unix/vsidui.c:136
+#: src/arch/unix/uisound.c:63 src/arch/unix/vsidui.c:137
 msgid "*0.50 sec"
 msgstr "*0.50 sec"
 
@@ -1913,7 +1913,7 @@ msgstr "*0.20 sec"
 msgid "*0.15 sec"
 msgstr "*0.15 sec"
 
-#: src/arch/unix/uisound.c:75 src/arch/unix/vsidui.c:138
+#: src/arch/unix/uisound.c:75 src/arch/unix/vsidui.c:139
 msgid "*0.10 sec"
 msgstr "*0.10 sec"
 
@@ -1953,11 +1953,11 @@ msgstr "*Exakt"
 msgid "Sound synchronization"
 msgstr "Sound Synchronisation"
 
-#: src/arch/unix/uisound.c:126 src/arch/unix/vsidui.c:149
+#: src/arch/unix/uisound.c:126 src/arch/unix/vsidui.c:150
 msgid "Sample rate"
 msgstr "Sample Rate"
 
-#: src/arch/unix/uisound.c:128 src/arch/unix/vsidui.c:151
+#: src/arch/unix/uisound.c:128 src/arch/unix/vsidui.c:152
 msgid "Buffer size"
 msgstr "Puffergröße"
 
@@ -1965,11 +1965,11 @@ msgstr "Puffergröße"
 msgid "Suspend time"
 msgstr "Unterbrechungs Zeit"
 
-#: src/arch/unix/uisound.c:132 src/arch/unix/vsidui.c:153
+#: src/arch/unix/uisound.c:132 src/arch/unix/vsidui.c:154
 msgid "Oversample"
 msgstr "Oversample"
 
-#: src/arch/unix/uisound.c:138 src/arch/unix/vsidui.c:159
+#: src/arch/unix/uisound.c:138 src/arch/unix/vsidui.c:160
 msgid "Sound settings"
 msgstr "Sound Einstellungen"
 
@@ -1986,7 +1986,7 @@ msgid "*GoDot"
 msgstr "*GoDot"
 
 #: src/arch/unix/uivicii.c:97 src/arch/unix/vic20ui.c:420
-#: src/arch/unix/vsidui.c:167
+#: src/arch/unix/vsidui.c:172
 msgid "Video standard"
 msgstr "Video Standard"
 
@@ -2091,35 +2091,44 @@ msgstr "Erweiterungsmodul Image(s) entfernen"
 msgid "VIC settings"
 msgstr "VIC Einstellungen"
 
-#: src/arch/unix/vsidui.c:64
+#: src/arch/unix/vsidui.c:65
 msgid "Tunes"
 msgstr "Tunes"
 
-#: src/arch/unix/vsidui.c:74
+#: src/arch/unix/vsidui.c:75
 msgid "Load PSID file"
 msgstr "PSID Datei Laden"
 
-#: src/arch/unix/vsidui.c:82
+#: src/arch/unix/vsidui.c:83
 #, c-format
 msgid "`%s' is not a valid PSID file."
 msgstr "`%s' ist keine gültige PSID Datei."
 
-#: src/arch/unix/vsidui.c:108
+#: src/arch/unix/vsidui.c:109
 msgid "Load PSID file..."
 msgstr "PSID Datei Laden..."
 
-#: src/arch/unix/vsidui.c:132
+#: src/arch/unix/vsidui.c:133
 msgid "*3.00 sec"
 msgstr "*3.00 sec"
 
-#: src/arch/unix/vsidui.c:186
+#: src/arch/unix/vsidui.c:168
+#, fuzzy
+msgid "*Override PSID settings"
+msgstr "SID Einstellungen"
+
+#: src/arch/unix/vsidui.c:191
 msgid "*Default Tune"
 msgstr "*Default Tune"
 
-#: src/arch/unix/vsidui.c:209
+#: src/arch/unix/vsidui.c:214
 #, c-format
 msgid "*Tune %d"
 msgstr "*Tune %d"
+
+#: src/arch/unix/vsidui.c:281
+msgid "VSID: The SID Emulator"
+msgstr "VSID: DER SID Emulator"
 
 #: src/arch/unix/x11/gnome/about.c:38 src/arch/unix/x11/xaw/about.c:60
 msgid "VICE is FREE software!"
@@ -2214,97 +2223,97 @@ msgstr "Laufwerk %d: "
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/ui.c:957 src/arch/unix/x11/xaw/ui.c:589
+#: src/arch/unix/x11/gnome/ui.c:957 src/arch/unix/x11/xaw/ui.c:593
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximale Anzahl an Hauptfenster erreicht."
 
-#: src/arch/unix/x11/gnome/ui.c:1124 src/arch/unix/x11/gnome/ui.c:1207
+#: src/arch/unix/x11/gnome/ui.c:1127 src/arch/unix/x11/gnome/ui.c:1210
 msgid "Commands"
 msgstr "Kommandos"
 
-#: src/arch/unix/x11/gnome/ui.c:1130
+#: src/arch/unix/x11/gnome/ui.c:1133
 msgid "Help"
 msgstr "Hilfe"
 
-#: src/arch/unix/x11/gnome/ui.c:1249 src/arch/unix/x11/xaw/ui.c:1045
+#: src/arch/unix/x11/gnome/ui.c:1252 src/arch/unix/x11/xaw/ui.c:1049
 msgid " emulator"
 msgstr " Emulator"
 
-#: src/arch/unix/x11/gnome/ui.c:1251 src/arch/unix/x11/xaw/ui.c:1051
+#: src/arch/unix/x11/gnome/ui.c:1254 src/arch/unix/x11/xaw/ui.c:1055
 msgid "Do you really want to exit?"
 msgstr "Wirklich beenden?"
 
-#: src/arch/unix/x11/gnome/ui.c:1261 src/arch/unix/x11/xaw/ui.c:1058
+#: src/arch/unix/x11/gnome/ui.c:1264 src/arch/unix/x11/xaw/ui.c:1062
 msgid "Save the current settings?"
 msgstr "Einstellungen speichern?"
 
-#: src/arch/unix/x11/gnome/ui.c:1308 src/arch/unix/x11/xaw/ui.c:1095
+#: src/arch/unix/x11/gnome/ui.c:1311 src/arch/unix/x11/xaw/ui.c:1099
 msgid "Using private colormap."
 msgstr "Benutze private Farbpalette."
 
-#: src/arch/unix/x11/gnome/ui.c:1328 src/arch/unix/x11/gnome/ui.c:1331
-#: src/arch/unix/x11/xaw/ui.c:1116 src/arch/unix/x11/xaw/ui.c:1122
+#: src/arch/unix/x11/gnome/ui.c:1331 src/arch/unix/x11/gnome/ui.c:1334
+#: src/arch/unix/x11/xaw/ui.c:1120 src/arch/unix/x11/xaw/ui.c:1126
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/ui.c:1622
+#: src/arch/unix/x11/gnome/ui.c:1625
 #, c-format
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/ui.c:1659 src/arch/unix/x11/xaw/ui.c:1332
+#: src/arch/unix/x11/gnome/ui.c:1662 src/arch/unix/x11/xaw/ui.c:1336
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausiert)"
 
-#: src/arch/unix/x11/gnome/ui.c:1797
+#: src/arch/unix/x11/gnome/ui.c:1800
 msgid "VICE Message"
 msgstr "VICE Nachricht"
 
-#: src/arch/unix/x11/gnome/ui.c:1812
+#: src/arch/unix/x11/gnome/ui.c:1815
 msgid "VICE Error"
 msgstr "VICE Fehler"
 
-#: src/arch/unix/x11/gnome/ui.c:1838
+#: src/arch/unix/x11/gnome/ui.c:1841
 msgid "Hard Reset"
 msgstr "Harter Reset"
 
-#: src/arch/unix/x11/gnome/ui.c:1838
+#: src/arch/unix/x11/gnome/ui.c:1841
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/ui.c:1882 src/arch/unix/x11/xaw/ui.c:1572
+#: src/arch/unix/x11/gnome/ui.c:1885 src/arch/unix/x11/xaw/ui.c:1576
 msgid "Extend disk image"
 msgstr "Erweiterung Disk Image"
 
-#: src/arch/unix/x11/gnome/ui.c:1883
+#: src/arch/unix/x11/gnome/ui.c:1886
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Soll das Diskimage auf 40 Spuren erweitert werden?"
 
-#: src/arch/unix/x11/gnome/ui.c:1896
+#: src/arch/unix/x11/gnome/ui.c:1899
 msgid "Autostart not possible for unit 9"
 msgstr "Autostart für Laufwerk 9 nicht möglich."
 
-#: src/arch/unix/x11/gnome/ui.c:1904 src/arch/unix/x11/gnome/ui.c:1913
+#: src/arch/unix/x11/gnome/ui.c:1907 src/arch/unix/x11/gnome/ui.c:1916
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Autostart von Selektion Nr. %d in Image %s fehlgeschlagen."
 
-#: src/arch/unix/x11/gnome/ui.c:2041 src/arch/unix/x11/gnome/ui.c:2046
+#: src/arch/unix/x11/gnome/ui.c:2044 src/arch/unix/x11/gnome/ui.c:2049
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "KEIN IMAGE VERZEICHNIS VERFUEGBAR."
 
-#: src/arch/unix/x11/gnome/ui.c:2504
+#: src/arch/unix/x11/gnome/ui.c:2507
 msgid "Contents"
 msgstr "Verzeichnis"
 
-#: src/arch/unix/x11/gnome/ui.c:2551
+#: src/arch/unix/x11/gnome/ui.c:2554
 msgid "Attach write protected"
 msgstr "Attach schreibgeschützt"
 
-#: src/arch/unix/x11/gnome/ui.c:2577
+#: src/arch/unix/x11/gnome/ui.c:2580
 msgid "Autostart"
 msgstr "Autostart"
 
@@ -2692,16 +2701,16 @@ msgstr "Kann Shared Memory nicht freigeben!"
 msgid "VICE Information"
 msgstr "VICE Information"
 
-#: src/arch/unix/x11/xaw/ui.c:1205
+#: src/arch/unix/x11/xaw/ui.c:1209
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Spur %.1f"
 
-#: src/arch/unix/x11/xaw/ui.c:1460
+#: src/arch/unix/x11/xaw/ui.c:1464
 msgid "VICE Error!"
 msgstr "VICE Fehler!"
 
-#: src/arch/unix/x11/xaw/ui.c:1640
+#: src/arch/unix/x11/xaw/ui.c:1644
 msgid "Unknown image type."
 msgstr "Unbekannter Image Typ."
 
