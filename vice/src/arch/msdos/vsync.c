@@ -77,6 +77,7 @@ static int warp_mode_enabled;
 static int set_relative_speed(resource_value_t v, void *param)
 {
     relative_speed = (int) v;
+    sound_set_relative_speed(relative_speed);
     return 0;
 }
 
