@@ -4,6 +4,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -46,15 +47,28 @@
 /* #define DEBUG_VIDEO */
 
 vga_mode_t vga_modes[] = {
-    /* VGA_320x200 */ { 320, 200, "320x200" },
-    /* VGA_360x240 */ { 360, 240, "360x240" },
-    /* VGA_360x270 */ { 360, 270, "360x270" },
-    /* VGA_376x282 */ { 376, 282, "376x282" },
-    /* VGA_400x300 */ { 400, 300, "400x300" },
-    /* VGA_640x480 */ { 640, 480, "640x480" }
+    { 320, 200,  8, " 320x200  8Bit" },
+    { 360, 240,  8, " 360x240  8Bit" },
+    { 360, 270,  8, " 360x270  8Bit" },
+    { 376, 282,  8, " 376x282  8Bit" },
+    { 400, 300,  8, " 400x300  8Bit" },
+    { 640, 480,  8, " 640x480  8Bit" },
+    { 800, 600,  8, " 800x600  8Bit" },
+    { 1024,768,  8, "1024x768  8Bit" },
+    { 320, 200, 16, " 320x200 16Bit" },
+    { 400, 300, 16, " 400x300 16Bit" },
+    { 640, 480, 16, " 640x480 16Bit" },
+    { 800, 600, 16, " 800x600 16Bit" },
+    { 1024,768, 16, "1024x768 16Bit" },
+    { 640, 480, 32, " 640x480 32Bit" },
+    { 800, 600, 32, " 800x600 32Bit" },
+    { 1024,768, 32, "1024x768 32Bit" }
 };
 
 video_canvas_t *last_canvas;
+
+#define MAX_CANVAS_NUM 2
+static video_canvas_t *canvaslist[MAX_CANVAS_NUM];
 
 #ifdef DEBUG_VIDEO
 #define DEBUG(x) log_debug x
@@ -68,6 +82,8 @@ static int in_gfx_mode;
 /* Logging goes here.  */
 static log_t video_log = LOG_ERR;
 
+/* forward declaration */
+static void canvas_change_palette(video_canvas_t *c);
 /* ------------------------------------------------------------------------- */
 
 /* Video-related resources.  */
@@ -102,7 +118,7 @@ static int set_try_triple_buffering(resource_value_t v, void *param)
 #endif
 
 static resource_t resources[] = {
-    { "VGAMode", RES_INTEGER, (resource_value_t)VGA_320x200,
+    { "VGAMode", RES_INTEGER, (resource_value_t)VGA_320x200x8,
       (resource_value_t *)&vga_mode,
       set_vga_mode, NULL },
 #ifndef USE_MIDAS_SOUND
@@ -146,6 +162,8 @@ int video_init_cmdline_options(void)
 
 int video_init(void)
 {
+    int depth, mode, i;
+
     if (video_log == LOG_ERR)
         video_log = log_open("Video");
 
@@ -156,46 +174,43 @@ int video_init(void)
 
     in_gfx_mode = 0;
 
+    last_canvas = NULL;
+
+    for (i=0; i<MAX_CANVAS_NUM; i++)
+        canvaslist[i] = NULL;
+
     return 0;
 }
+
 
 int video_frame_buffer_alloc(video_frame_buffer_t **i, unsigned int width,
                              unsigned int height)
 {
-    if (sizeof(BITMAP) != sizeof(video_frame_buffer_t)) {
-        log_error(video_log,
-                  "Allegro BITMAP size does not match! (see videoarch.h)");
-        return -1;
-    }
-
-    DEBUG(("Allocating bitmap width=%d, height=%d", width, height));
-    *i = (video_frame_buffer_t *)create_bitmap(width, height);
-
-#ifdef DEBUG_VIDEO
-    {
-        int j;
-        for (j = 0; j < height; j++) {
-            DEBUG(("Checking line %d at 0x%x",j,(unsigned int)((*i)->line[j])));        }
-    }
-#endif
+   	*i = (video_frame_buffer_t *) xmalloc(sizeof(video_frame_buffer_t));
 
     if (*i == NULL) {
         DEBUG(("Bitmap allocation failed."));
         return -1;
     } else {
         DEBUG(("Bitmap allocation successful. Buffer at %p", *i));
+    	(*i)->width = width;
+	    (*i)->height = height;
+	    (*i)->buffer = (PIXEL*) xmalloc(width*height);
         return 0;
     }
 }
+
 
 void video_frame_buffer_free(video_frame_buffer_t *i)
 {
     if (!i)
         return;
 
-    DEBUG(("Freeing frame buffer 0x%x", (unsigned int)i));
-    destroy_bitmap((BITMAP *)i);
+    DEBUG(("Freeing frame buffer %x with buffer at %p", (unsigned int)i, i->buffer));
+    free(i->buffer);
+    free(i);
 }
+
 
 void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 {
@@ -203,18 +218,50 @@ void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 
     DEBUG(("Clearing frame buffer 0x%x with value 0x%x",
            (unsigned int)f, value));
-    DEBUG(("width=%d, height=%d", f->w, f->h));
-    for (i = 0; i < f->h; i++) {
-        DEBUG(("Clearing line %d at 0x%x",i,(unsigned int)(f->line[i])));
-        memset(f->line[i], value, f->w);
+    DEBUG(("width=%d, height=%d", f->width, f->height));
+    for (i = 0; i < f->height; i++) {
+        memset(VIDEO_FRAME_BUFFER_LINE_START(f,i), value, f->width);
     }
 }
 
-static void canvas_set_vga_mode(struct video_canvas_s *c)
+
+static void canvas_free_bitmaps(video_canvas_t *c)
+{
+    int i;
+
+    for (i=0; i<2; i++)
+    {
+        if (c->pages[i])
+        {
+            destroy_bitmap(c->pages[i]);
+            c->pages[i] = NULL;
+        }
+    }
+
+    if (c->render_bitmap)
+    {
+        destroy_bitmap(c->render_bitmap);
+        c->render_bitmap = NULL;
+    }
+}
+
+
+static void canvas_update_colors(video_canvas_t *c)
+{
+    int i;
+
+    if (c == NULL) return;
+    for (i = 0; i < NUM_AVAILABLE_COLORS; i++)
+            set_color(i, &c->colors[i]);
+}
+
+
+static int canvas_set_vga_mode(struct video_canvas_s *c)
 {
     int i;
 
     statusbar_reset_bitmaps_to_update();
+    set_color_depth(c->depth);
 
 #ifndef USE_MIDAS_SOUND
     /* If the user wants triple buffering, try Mode X first of all, as that
@@ -241,13 +288,13 @@ static void canvas_set_vga_mode(struct video_canvas_s *c)
         c->use_triple_buffering = 0;
         statusbar_append_bitmap_to_update(screen);
     } else {
-        log_error(video_log, "Cannot enable %dx%dx256 graphics.",
-                  c->width, c->height);
-        exit(-1);
+        log_error(video_log, "Cannot enable %dx%d (%dBit) graphics.",
+                  c->width, c->height, c->depth);
+        return -1;
     }
 
-    log_message(video_log, "Using mode %dx%dx256 (%s)%s.",
-                c->width, c->height,
+    log_message(video_log, "Using mode %dx%d (%dBit) (%s)%s.",
+                c->width, c->height, c->depth,
                 is_linear_bitmap(screen) ? "linear" : "planar",
                 c->use_triple_buffering ? "; triple buffering possible" : "");
     in_gfx_mode = 1;
@@ -258,6 +305,9 @@ static void canvas_set_vga_mode(struct video_canvas_s *c)
     timer_simulate_retrace(c->use_triple_buffering);
 #endif
 
+    canvas_free_bitmaps(c);
+
+    c->render_bitmap = create_bitmap(c->width, c->height);
     if (c->use_triple_buffering) {
         c->pages[0] = create_sub_bitmap(screen,
                                         0, 0, c->width, c->height);
@@ -268,10 +318,12 @@ static void canvas_set_vga_mode(struct video_canvas_s *c)
         statusbar_append_bitmap_to_update(c->pages[0]);
         statusbar_append_bitmap_to_update(c->pages[1]);
     }
+
     statusbar_set_width(c->width);
 
-    for (i = 0; i < NUM_AVAILABLE_COLORS; i++)
-        set_color(i, &c->colors[i]);
+    canvas_update_colors(c);
+
+    return 0;
 }
 
 /* Note: `mapped' is ignored.  */
@@ -282,6 +334,8 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
                               struct video_frame_buffer_s *fb)
 {
     video_canvas_t *new_canvas;
+    int result = 0;
+    int next_canvas = 0;
 
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
     if (palette->num_entries > NUM_AVAILABLE_COLORS) {
@@ -292,63 +346,111 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
     if (!new_canvas)
         return (video_canvas_t *) NULL;
 
-    video_canvas_set_palette(new_canvas, palette, pixel_return);
+    new_canvas->pages[0] = new_canvas->pages[1] = NULL;
+    new_canvas->render_bitmap = NULL;
 
-    /* Set width and height.  */
-    video_canvas_resize(new_canvas, 0, 0);
-    *width = new_canvas->width;
-    *height = new_canvas->height;
+    video_render_initconfig(&new_canvas->videoconfig);
 
     DEBUG(("Setting VGA mode"));
-    canvas_set_vga_mode(new_canvas);
+    do
+    {
+        video_canvas_resize(new_canvas, 0, 0);
+        *width = new_canvas->width;
+        *height = new_canvas->height;
+        result += canvas_set_vga_mode(new_canvas);
+        if (result == -1)
+        {
+            log_error(video_log, "Falling back to default VGA mode.");
+            resources_set_value("VGAMode", (resource_value_t)VGA_640x480x32);
+        }
+        if (result == -2)
+        {
+            log_error(video_log, "Even default VGA mode doesn't work. Exiting...");
+            exit (-1);
+        }
+    } while (result < 0);
+
+    video_canvas_set_palette(new_canvas, palette, pixel_return);
 
     new_canvas->exposure_handler = (canvas_redraw_t)exposure_handler;
     new_canvas->back_page = 1;
 
-    last_canvas = new_canvas;
+    while (canvaslist[next_canvas] != NULL && next_canvas < MAX_CANVAS_NUM-1)
+        next_canvas++;
+    canvaslist[next_canvas] = new_canvas;
+
     return new_canvas;
 }
 
 void video_canvas_destroy(video_canvas_t *c)
 {
-        /* FIXME: Just a dummy so far */
+    int i;
+
+    if (c == NULL)
+        return;
+
+    for (i=0; i<MAX_CANVAS_NUM; i++)
+        if (canvaslist[i] == c) canvaslist[i] = NULL;
+
+    canvas_free_bitmaps(c);
+    free(c);
 }
+
+static void canvas_change_palette(video_canvas_t *c)
+{
+    int i;
+    int col;
+    int next_avail = 0;
+        
+    for (i = 0; i < c->palette->num_entries; i++)
+    {
+        if (c->depth == 8)
+        {
+            /* For 8-bit-mode we need to use the global palette */
+            c->colors[i].r = c->palette->entries[i].red >> 2;
+            c->colors[i].g = c->palette->entries[i].green >> 2;
+            c->colors[i].b = c->palette->entries[i].blue >> 2;
+
+            col = i;
+            next_avail++;
+
+            DEBUG(("canvas_change_palette: palette entry %d: %d-%d-%d", i,
+                c->colors[i].r,
+                c->colors[i].g,
+                c->colors[i].b));
+        } else {
+            col = makecol_depth(c->depth,
+                c->palette->entries[i].red,
+                c->palette->entries[i].green,
+                c->palette->entries[i].blue);
+        }
+
+        DEBUG(("canvas_change_palette: videoconfig col %d: %d", i, col));
+
+        video_render_setphysicalcolor(&c->videoconfig, i, col, c->depth);
+    }
+
+    canvas_update_colors(c);
+
+    statusbar_register_colors(next_avail, c->colors);
+
+}
+
 
 int video_canvas_set_palette(struct video_canvas_s *c, const palette_t *palette,
                              PIXEL *pixel_return)
 {
     int i;
-    RGB rgb_white = {55, 55, 55};
-    RGB rgb_black = {0, 0, 0};
-    RGB rgb_red = {63, 0, 0};
-    RGB rgb_green = {0, 63, 0};
-    RGB rgb_yellow = {63, 63, 0};
-    RGB rgb_grey = {31, 31, 31};
-    RGB rgb_darkgrey = {15, 15, 15};
-    RGB rgb_blue = {10, 10, 50 };
 
-    DEBUG(("Allocating colors"));
+    DEBUG(("Allocating %d colors",palette->num_entries));
+    c->palette = (palette_t*) palette;
 
-    for (i = 0; i < palette->num_entries; i++) {
-        c->colors[i].r = palette->entries[i].red >> 2;
-        c->colors[i].g = palette->entries[i].green >> 2;
-        c->colors[i].b = palette->entries[i].blue >> 2;
+    for (i = 0; i < palette->num_entries; i++)
+    {
         pixel_return[i] = i;
-        if (in_gfx_mode)
-            set_color(i, &c->colors[i]);
     }
-    /* colors for the statusbar */
-    c->colors[STATUSBAR_COLOR_BLACK] = rgb_black;
-    c->colors[STATUSBAR_COLOR_WHITE] = rgb_white;
-    c->colors[STATUSBAR_COLOR_RED] = rgb_red;
-    c->colors[STATUSBAR_COLOR_YELLOW] = rgb_yellow;
-    c->colors[STATUSBAR_COLOR_GREEN] = rgb_green;
-    c->colors[STATUSBAR_COLOR_GREY] = rgb_grey;
-    c->colors[STATUSBAR_COLOR_DARKGREY] = rgb_darkgrey;
-    c->colors[STATUSBAR_COLOR_BLUE] = rgb_blue;
 
-    for (i = STATUSBAR_COLOR_BLACK; i < NUM_AVAILABLE_COLORS; i++)
-        set_color(i, &c->colors[i]);
+    canvas_change_palette(c);
 
     return 0;
 }
@@ -378,13 +480,16 @@ void video_canvas_resize(video_canvas_t *c, unsigned int width,
     DEBUG(("Resizing, vga_mode=%d", vga_mode));
     c->width = vga_modes[vga_mode].width;
     c->height = vga_modes[vga_mode].height;
+    c->depth = vga_modes[vga_mode].depth;
+    c->bytes_per_line = c->width * c->depth / 8;
 }
 
 void video_ack_vga_mode(void)
 {
-    if (last_canvas != NULL) {
+    if (last_canvas != NULL)
+    {
         video_canvas_resize(last_canvas, last_canvas->width,
-                            last_canvas->height);
+                        last_canvas->height);
         last_canvas->exposure_handler(last_canvas->width, last_canvas->height);
         DEBUG(("Acknowledged vgaMode %d", vga_mode));
     }
@@ -404,21 +509,126 @@ void enable_text(void)
 
 void disable_text(void)
 {
+    int i;
+    video_canvas_t *canvas;
+
+
     DEBUG(("Enabling gfx mode"));
     kbd_install();
-    if (last_canvas->width > 0 && last_canvas->height > 0) {
-        int i;
 
-        video_ack_vga_mode();
-        canvas_set_vga_mode(last_canvas);
+    video_ack_vga_mode();
 
-        for (i = 0; i < NUM_AVAILABLE_COLORS; i++)
-            set_color(i, &last_canvas->colors[i]);
+    for (i=0; i<MAX_CANVAS_NUM; i++)
+    {
+        canvas = canvaslist[i];
+        if (canvas != NULL)
+        {
+            video_canvas_resize(canvas,0,0);
+            if (canvas_set_vga_mode(canvas) < 0)
+            {
+                resources_set_value("VGAMode", (resource_value_t)VGA_320x200x8);
+                video_canvas_resize(canvas,0,0);
+                canvas_set_vga_mode(canvas);
+                ui_error("Cannot enable the selected VGA mode, falling back to default.");
+            }
+            canvas_change_palette(canvas);
 
-        last_canvas->exposure_handler(last_canvas->width, last_canvas->height);
-        in_gfx_mode = 1;
-    statusbar_update();
+            canvas->exposure_handler(canvas->width, canvas->height);
+        }
     }
+    
+    canvas_update_colors(last_canvas);
+
+    in_gfx_mode = 1;
+
+    statusbar_update();
+
     DEBUG(("Successful"));
 }
 
+
+inline void video_canvas_refresh(video_canvas_t *c,
+                                        video_frame_buffer_t *f,
+                                        unsigned int xs, unsigned int ys,
+                                        unsigned int xi, unsigned int yi,
+                                        unsigned int w, unsigned int h)
+{
+    int y_diff, l;
+
+    /* Just to be sure...  */
+    if (screen == NULL)
+        return;
+
+    /* this is a hack for F7 change between VICII and VDC */
+    if (last_canvas != c)
+    {
+        last_canvas = c;
+        canvas_update_colors(c);
+        clear(screen);
+    }
+
+    w = MIN(w, vga_modes[vga_mode].width - xi);
+	h = MIN(h, vga_modes[vga_mode].height - yi);
+
+    /* don't overwrite statusbar */
+    if (statusbar_enabled() && (yi < STATUSBAR_HEIGHT)) {
+        y_diff = STATUSBAR_HEIGHT - yi;
+        ys += y_diff;
+        yi += y_diff;
+        h -= y_diff;
+    }
+    if (statusbar_enabled() && (c->use_triple_buffering)
+        && (yi >= c->height) && (yi < c->height + STATUSBAR_HEIGHT)) {
+        y_diff = STATUSBAR_HEIGHT + c->height - yi;
+        ys += y_diff;
+        yi += y_diff;
+        h -= y_diff;
+    }
+
+    video_render_main(&c->videoconfig,
+                      (BYTE *)(VIDEO_FRAME_BUFFER_START(f)),
+                      (BYTE *)(c->render_bitmap->line[0]),
+                      w, h,
+                      xs, ys,
+                      xi, yi,
+                      VIDEO_FRAME_BUFFER_LINE_SIZE(f),
+                      c->bytes_per_line,
+                      c->depth);
+
+    DEBUG(("video_render_main: FB:%p VR:%p w=%d h=%d xs=%d ys=%d xi=%d yi=%d linef=%d linev=%d",
+                      (BYTE *)(VIDEO_FRAME_BUFFER_START(f)),
+                      (BYTE *)(c->render_bitmap->line[0]),
+                      w, h,
+                      xs, ys,
+                      xi, yi,
+                      VIDEO_FRAME_BUFFER_LINE_SIZE(f),
+                      c->bytes_per_line,
+                      c->depth));
+
+    if (c->use_triple_buffering) {
+#if 0
+        /* (This should be theoretically correct, but in practice it makes us
+           loose time, and sometimes click.  So it's better to just discard
+           the frame if this happens, as we do in the #else case.  */
+        while (poll_modex_scroll())
+            /* Make sure we have finished flipping the previous frame.  */ ;
+#else
+        if (poll_modex_scroll())
+            return;
+#endif
+        blit(c->render_bitmap, c->pages[c->back_page], xi, yi, xi, yi, w, h);
+        request_modex_scroll(0, c->back_page * c->height);
+        c->back_page = 1 - c->back_page;
+    } else {
+        blit(c->render_bitmap, screen, xi, yi, xi, yi, w, h);
+    }
+}
+
+
+
+inline void canvas_set_border_color(video_canvas_t *canvas, BYTE color)
+{
+    inportb(0x3da);
+    outportb(0x3c0, 0x31);
+    outportb(0x3c0, color);
+}
