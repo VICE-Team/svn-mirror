@@ -139,11 +139,7 @@ static void uiattach_autostart_dialog(HWND hwnd)
 
 void uiattach_command(HWND hwnd, WPARAM wparam)
 {
-    switch (wparam) {
-      case IDM_ATTACH_8 | 0x00010000:
-      case IDM_ATTACH_9 | 0x00010000:
-      case IDM_ATTACH_10 | 0x00010000:
-      case IDM_ATTACH_11 | 0x00010000:
+    switch (wparam & 0xffff) {
       case IDM_ATTACH_8:
       case IDM_ATTACH_9:
       case IDM_ATTACH_10:
@@ -162,14 +158,12 @@ void uiattach_command(HWND hwnd, WPARAM wparam)
       case IDM_DETACH_11:
         file_system_detach_disk(11);
         break;
-      case IDM_DETACH_ALL | 0x00010000:
       case IDM_DETACH_ALL:
         file_system_detach_disk(8);
         file_system_detach_disk(9);
         file_system_detach_disk(10);
         file_system_detach_disk(11);
         break;
-      case IDM_ATTACH_TAPE | 0x00010000:
       case IDM_ATTACH_TAPE:
         uiattach_tape_dialog(hwnd);
         break;
