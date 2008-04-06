@@ -124,7 +124,7 @@ static void uiattach_autostart_dialog(HWND hwnd)
     if ((st_name = uilib_select_file_autostart(hwnd,
         translate_text(IDS_AUTOSTART_IMAGE),
         UILIB_FILTER_DISK | UILIB_FILTER_TAPE | UILIB_FILTER_ZIP
-        | UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD,
+        | UILIB_FILTER_PRGP00 | UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD,
         UILIB_SELECTOR_STYLE_DISK_AND_TAPE, &autostart_index, NULL)) != NULL) {
         char *name;
 
