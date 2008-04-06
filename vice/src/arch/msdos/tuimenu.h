@@ -84,38 +84,23 @@ void tui_menu_update(tui_menu_t menu);
     const char *name(int been_activated, void *param, int *become_default, \
                      tui_menu_item_behavior_t *behavior)
 
-#define TUI_MENU_DEFINE_TOGGLE(resource)                                     \
-    static TUI_MENU_CALLBACK(toggle_##resource##_callback)                   \
-    {                                                                        \
-        int value, r;                                                        \
-                                                                             \
-        if (been_activated) {                                                \
-            r = resources_toggle(#resource, (resource_value_t *) &value);    \
-            if (r < 0)                                                       \
-                r = resources_get_value(#resource,                           \
-                                        (resource_value_t *) &value);        \
-        } else                                                               \
-            r = resources_get_value(#resource, (resource_value_t *) &value); \
-                                                                             \
-        if (r < 0)                                                           \
-            return "Unknown";                                                \
-        else                                                                 \
-            return value ? "On" : "Off";                                     \
+#define TUI_MENU_DEFINE_TOGGLE(resource)                                \
+    static TUI_MENU_CALLBACK(toggle_##resource##_callback)              \
+    {                                                                   \
+        return _tui_menu_toggle_helper(been_activated, #resource);      \
     }
 
 #define TUI_MENU_DEFINE_RADIO(resource)                                 \
     static TUI_MENU_CALLBACK(radio_##resource##_callback)               \
     {                                                                   \
-        if (been_activated) {                                           \
-            resources_set_value(#resource, (resource_value_t) param);   \
-            *become_default = 1;                                        \
-        } else {                                                        \
-            resource_value_t v;                                         \
-            resources_get_value(#resource, &v);                         \
-            if (v == (resource_value_t) param)                          \
-                *become_default = 1;                                    \
-        }                                                               \
-        return NULL;                                                    \
+        return _tui_menu_radio_helper(been_activated, param,            \
+                                      become_default,#resource);        \
     }
 
+extern const char *_tui_menu_toggle_helper(int been_activated,
+                                           const char *resource_name);
+extern const char *_tui_menu_radio_helper(int been_activated,
+                                          void *param,
+                                          int *become_default,
+                                          const char *resource_name);
 #endif
