@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.19\n"
-"POT-Creation-Date: 2006-04-23 21:58+0200\n"
+"POT-Creation-Date: 2006-04-28 09:52+0200\n"
 "PO-Revision-Date: 2006-01-22 11:22+0100\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -315,17 +315,17 @@ msgstr "Wiedergabe von aufgenommener Ereignisse"
 msgid "Resource %s blocked by %s."
 msgstr "Resource %s wird von %s blockiert."
 
-#: src/c64/c64io.c:178
+#: src/c64/c64io.c:179
 #, c-format
 msgid "I/O read collision at %X from "
 msgstr ""
 
-#: src/c64/c64io.c:196
+#: src/c64/c64io.c:197
 #, fuzzy
 msgid " and "
 msgstr "Lade "
 
-#: src/c64/c64io.c:197
+#: src/c64/c64io.c:198
 msgid ""
 ".\n"
 "All the named devices will be detached."
@@ -381,74 +381,74 @@ msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 "Wiedergabe Fehler: %s ist unterschiedlich von Zeile %d in Datei debug%06d"
 
-#: src/network.c:173
+#: src/network.c:201
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr "Kann zwischen IPV4/IPV6 nicht wechseln, solange netplay aktiv ist."
 
-#: src/network.c:398
+#: src/network.c:426
 msgid "Testing best frame delay..."
 msgstr "Teste optimale Framerate..."
 
-#: src/network.c:446
+#: src/network.c:474
 #, c-format
 msgid "Using %d frames delay."
 msgstr "Benutze %d Frameverzögerung."
 
-#: src/network.c:470
+#: src/network.c:498
 msgid "Cannot load snapshot file for transfer"
 msgstr "Kann Snapshot Datei für Transfer nicht laden"
 
-#: src/network.c:483
+#: src/network.c:511
 msgid "Sending snapshot to client..."
 msgstr "Sende Snapshot zu Client..."
 
-#: src/network.c:492
+#: src/network.c:520
 msgid "Cannot send snapshot to client"
 msgstr "Kann Snapshot Datei nicht senden"
 
-#: src/network.c:518
+#: src/network.c:546
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Kann Snapshot Datei `%s' nicht erzeugen"
 
-#: src/network.c:556
+#: src/network.c:584
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Kann Snapshot Datei `%s' nicht öffnen."
 
-#: src/network.c:715
+#: src/network.c:743
 msgid "Server is waiting for a client..."
 msgstr "Server wartet auf Client..."
 
-#: src/network.c:752
+#: src/network.c:780
 #, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 "Kann Snapshot Datei `%s' nicht erzeugen. Verwende ein anderes Verzeichnis!"
 
-#: src/network.c:772
+#: src/network.c:800
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Kann %s nicht auflösen"
 
-#: src/network.c:817
+#: src/network.c:845
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr "Kann zu %s nicht verbinden (Kein Server aktiv auf Port %d)."
 
-#: src/network.c:831
+#: src/network.c:859
 msgid "Receiving snapshot from server..."
 msgstr "Empfange Snapshot von Server..."
 
-#: src/network.c:962
+#: src/network.c:990
 msgid "Remote host disconnected."
 msgstr "Entfernter Rechner getrennt."
 
-#: src/network.c:973
+#: src/network.c:1001
 msgid "Remote host suspending..."
 msgstr "Entfernter Rechner angehaltedn..."
 
-#: src/network.c:1015
+#: src/network.c:1043
 msgid "Network out of sync - disconnecting."
 msgstr "Netzwerksynchronisationsproblem - Trenne Verbindung."
 
