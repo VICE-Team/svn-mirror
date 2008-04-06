@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2001-07-18 22:41+0200\n"
+"POT-Creation-Date: 2001-08-12 23:47+0200\n"
 "PO-Revision-Date: 2001-07-15 15:36+02:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -1076,7 +1076,7 @@ msgstr "RS232 Gerät Datei selektieren"
 msgid "Command to execute for RS232 (preceed with '|')"
 msgstr "Kommando zur Ausführung für RS232 Geräte ('|' voranstellen!)"
 
-#: src/arch/unix/uiprinter.c:154 src/arch/unix/uisettings.c:564
+#: src/arch/unix/uiprinter.c:157 src/arch/unix/uisettings.c:564
 #: src/arch/unix/uisettings.c:593
 msgid "Command:"
 msgstr "Kommando:"
@@ -1563,83 +1563,89 @@ msgid ""
 "'%s'"
 msgstr "Kann Paletten Datei `%s' nicht laden."
 
-#: src/arch/unix/uiprinter.c:72 src/arch/unix/uiprinter.c:84
-#: src/arch/unix/uiprinter.c:96
+#: src/arch/unix/uiprinter.c:72 src/arch/unix/uiprinter.c:87
+#: src/arch/unix/uiprinter.c:99
 msgid "*Printer 1 (file dump)"
 msgstr "*Drucker 1 (auf Datei)"
 
-#: src/arch/unix/uiprinter.c:74 src/arch/unix/uiprinter.c:86
-#: src/arch/unix/uiprinter.c:98
+#: src/arch/unix/uiprinter.c:75 src/arch/unix/uiprinter.c:89
+#: src/arch/unix/uiprinter.c:101
 msgid "*Printer 2 (exec)"
 msgstr "*Drucker 2 (Ausführung)"
 
-#: src/arch/unix/uiprinter.c:76 src/arch/unix/uiprinter.c:88
-#: src/arch/unix/uiprinter.c:100
+#: src/arch/unix/uiprinter.c:78 src/arch/unix/uiprinter.c:91
+#: src/arch/unix/uiprinter.c:103
 msgid "*Printer 3 (exec)"
 msgstr "*Drucker 3 (Ausführung)"
 
-#: src/arch/unix/uiprinter.c:116
+#: src/arch/unix/uiprinter.c:119
 msgid "Select printer dump file"
 msgstr "Drucker Ausgabedatei definieren"
 
-#: src/arch/unix/uiprinter.c:144
+#: src/arch/unix/uiprinter.c:147
 msgid "Command to execute for printing (preceed with '|')"
 msgstr "Kommand für Druckerausgabe definieren ('|' voranstellen!)"
 
-#: src/arch/unix/uiprinter.c:175
+#: src/arch/unix/uiprinter.c:178
 msgid "*IEC printer #4 emulation"
 msgstr "*IEC Drucker #4 Emulation"
 
-#: src/arch/unix/uiprinter.c:177
+#: src/arch/unix/uiprinter.c:180
 msgid "IEC printer #4 driver"
 msgstr "IEC Drucker #4 Treiber"
 
-#: src/arch/unix/uiprinter.c:179
-msgid "IEC printer #4 output device"
+#: src/arch/unix/uiprinter.c:182
+#, fuzzy
+msgid "IEC printer #4 text output device"
 msgstr "IEC Drucker #4 Ausgabe Gerät"
 
-#: src/arch/unix/uiprinter.c:181
+#: src/arch/unix/uiprinter.c:184
 msgid "Flush IEC printer #4 device"
 msgstr "Leeren vom IEC Drucker #4 Gerät"
 
-#: src/arch/unix/uiprinter.c:184
+#: src/arch/unix/uiprinter.c:187
 msgid "*IEC printer #5 emulation"
 msgstr "*IEC Drucker #5 Emulation"
 
-#: src/arch/unix/uiprinter.c:186
+#: src/arch/unix/uiprinter.c:189
 msgid "IEC printer #5 driver"
 msgstr "IEC Drucker #5 Treiber"
 
-#: src/arch/unix/uiprinter.c:188
-msgid "IEC printer #5 output device"
+#: src/arch/unix/uiprinter.c:191
+#, fuzzy
+msgid "IEC printer #5 text output device"
 msgstr "IEC Drucker #5 Ausgabe Gerät"
 
-#: src/arch/unix/uiprinter.c:190
+#: src/arch/unix/uiprinter.c:193
 msgid "Flush IEC printer #5 device"
 msgstr "Leeren vom IEC Drucker #5 Gerät"
 
-#: src/arch/unix/uiprinter.c:193
+#: src/arch/unix/uiprinter.c:196
 msgid "*Userport printer emulation"
 msgstr "*Userport Drucker Emulation"
 
-#: src/arch/unix/uiprinter.c:195
+#: src/arch/unix/uiprinter.c:198
 msgid "Userport printer driver"
 msgstr "Userport Drucker Driver"
 
-#: src/arch/unix/uiprinter.c:197
-msgid "Userport printer output device"
+#: src/arch/unix/uiprinter.c:200
+#, fuzzy
+msgid "Userport printer text output device"
 msgstr "Userport Drucker Ausgabe Gerät"
 
-#: src/arch/unix/uiprinter.c:200
-msgid "Printer device 1..."
+#: src/arch/unix/uiprinter.c:203
+#, fuzzy
+msgid "Printer text device 1..."
 msgstr "Drucker Gerät 1..."
 
-#: src/arch/unix/uiprinter.c:202
-msgid "Printer device 2..."
+#: src/arch/unix/uiprinter.c:205
+#, fuzzy
+msgid "Printer text device 2..."
 msgstr "Drucker Gerät 2..."
 
-#: src/arch/unix/uiprinter.c:204
-msgid "Printer device 3..."
+#: src/arch/unix/uiprinter.c:207
+#, fuzzy
+msgid "Printer text device 3..."
 msgstr "Drucker Gerät 3..."
 
 #: src/arch/unix/petui.c:214
