@@ -58,9 +58,11 @@
 
 #include "c1541.h"
 
+#include "archdep.h"
 #include "charsets.h"
 #include "file.h"
 #include "gcr.h"
+#include "info.h"
 #include "p00.h"
 #include "serial.h"
 #include "t64.h"
@@ -122,6 +124,7 @@ static int list_cmd(int nargs, char **args);
 static int quit_cmd(int nargs, char **args);
 static int read_cmd(int nargs, char **args);
 static int rename_cmd(int nargs, char **args);
+static int show_cmd(int nargs, char **args);
 static int tape_cmd(int nargs, char **args);
 static int unit_cmd(int nargs, char **args);
 static int unlynx_cmd(int nargs, char **args);
@@ -177,6 +180,11 @@ command_t command_list[] = {
       "Delete the specified files.",
       1, MAXARG,
       delete_cmd },
+    { "dir",
+      "dir [<pattern>]",
+      "List files matching <pattern> (default is all files).",
+      0, 1,
+      list_cmd },
     { "exit",
       "exit",
       "Exit (same as `quit').",
@@ -221,12 +229,17 @@ command_t command_list[] = {
       "read <source> [<destination>]",
       "Read <source> from the disk image and copy it into <destination> in\n"
       "the file system.  If <destination> is not specified, copy it into a\n"
-      "file with the same name as <source>.", 
+      "file with the same name as <source>.",
       1, 2, read_cmd },
     { "rename",
       "rename <oldname> <newname>",
       "Rename <oldname> into <newname>.  The files must be on the same drive.",
       2, 2, rename_cmd },
+    { "show",
+      "show [copying | warranty]",
+      "Show conditions for redistributing copies of C1541 (`copying') or the\n"
+      "various kinds of warranty you do not have with C1541 (`warranty').",
+      1, 1, show_cmd },
     { "tape",
       "tape <t64name> [<file1> ... <fileN>]",
       "Extract files from a T64 image into the current drive.",
@@ -313,6 +326,8 @@ static int split_args(const char *line, int *nargs, char **args)
 	      *(d++) = *(++s);
 	      continue;
 	  case ' ':
+          case '\t':
+          case '\n':
 	  case 0:
 	      if (*s == 0 && in_quote) {
 		  fprintf(stderr, "Unbalanced quotes.\n");
@@ -378,43 +393,43 @@ static void print_error_message(int errval)
 	  case FD_OK:
             break;
 	  case FD_NOTREADY:
-            printf("Drive not ready.\n");
+            fprintf(stderr, "Drive not ready.\n");
             break;
 	  case FD_CHANGED:
-            printf("Image file has changed on disk.\n");
+            fprintf(stderr, "Image file has changed on disk.\n");
             break;
 	  case FD_NOTRD:
-            printf("Cannot read file.\n");
+            fprintf(stderr, "Cannot read file.\n");
             break;
 	  case FD_NOTWRT:
-            printf("Cannot write file.\n");
+            fprintf(stderr, "Cannot write file.\n");
             break;
 	  case FD_WRTERR:
-            printf("Floppy write failed.\n");
+            fprintf(stderr, "Floppy write failed.\n");
             break;
 	  case FD_RDERR:
-            printf("Floppy read failed.\n");
+            fprintf(stderr, "Floppy read failed.\n");
             break;
 	  case FD_INCOMP:
-            printf("Incompatible DOS version.\n");
+            fprintf(stderr, "Incompatible DOS version.\n");
             break;
 	  case FD_BADIMAGE:
-            printf("Invalid image.\n");	/* Disk or tape */
+            fprintf(stderr, "Invalid image.\n");	/* Disk or tape */
             break;
 	  case FD_BADNAME:
-            printf("Invalid filename.\n");
+            fprintf(stderr, "Invalid filename.\n");
             break;
 	  case FD_BADVAL:
-            printf("Illegal value.\n");
+            fprintf(stderr, "Illegal value.\n");
             break;
 	  case FD_BADDEV:
-            printf("Illegal device number.\n");
+            fprintf(stderr, "Illegal device number.\n");
             break;
 	  case FD_BAD_TS:
-            printf("Inaccessible Track or Sector.\n");
+            fprintf(stderr, "Inaccessible Track or Sector.\n");
             break;
 	  default:
-            printf("Unknown error.\n");
+            fprintf(stderr, "Unknown error.\n");
 	}
 }
 
@@ -460,8 +475,8 @@ static int lookup_and_execute_command(int nargs, char **args)
 
         cp = &command_list[match];
         if (nargs - 1 < cp->min_args || nargs - 1 > cp->max_args) {
-            printf("Wrong number of arguments.\n");
-            printf("Syntax: %s\n", cp->syntax);
+            fprintf(stderr, "Wrong number of arguments.\n");
+            fprintf(stderr, "Syntax: %s\n", cp->syntax);
             return -1;
         } else {
             int retval;
@@ -475,9 +490,9 @@ static int lookup_and_execute_command(int nargs, char **args)
         }
     } else {
         if (match == LOOKUP_AMBIGUOUS)
-            printf("Command `%s' is ambiguous.  Try `help'.\n", args[0]);
+            fprintf(stderr, "Command `%s' is ambiguous.  Try `help'.\n", args[0]);
         else
-            printf("Command `%s' unrecognized.  Try `help'.\n", args[0]);
+            fprintf(stderr, "Command `%s' unrecognized.  Try `help'.\n", args[0]);
 	return -1;
     }
 }
@@ -497,6 +512,63 @@ static int is_valid_cbm_file_name(const char *name)
 {
     /* Notice that ':' is the same on PETSCII and ASCII.  */
     return strchr(name, ':') == NULL;
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* A simple pager.  */
+/* It would be cool to have it in the monitor too.  */
+
+static int pager_x, pager_y, pager_num_cols, pager_num_lines;
+
+static void pager_init(void)
+{
+    if (isatty(fileno(stdout))) {
+        pager_x = pager_y = 0;
+        pager_num_lines = archdep_num_text_lines();
+        pager_num_cols = archdep_num_text_columns();
+    } else {
+        pager_num_lines = pager_num_cols = -1;
+    }
+}
+
+static void pager_print(const char *text)
+{
+    const char *p;
+
+    if (pager_num_lines < 0 || pager_num_cols < 0) {
+        fputs(text, stdout);
+    } else {
+        for (p = text; *p != 0; p++) {
+            if (*p != '\n') {
+                pager_x++;
+                if (pager_x > pager_num_cols) {
+                    pager_y++;
+                    pager_x = 0;
+                }
+            } else {
+                pager_x = 0;
+                pager_y++;
+            }
+
+            if (pager_y == pager_num_lines - 1) {
+                char *s;
+
+                if (*p == '\n')
+                    putchar(*p);
+
+                s = read_line("---Type <return> to continue, or q <return> to quit---");
+                if (s != NULL && toupper((int) *s) == 'Q')
+                    break;
+
+                pager_x = pager_y = 0;
+                if (*p != '\n')
+                    putchar(*p);
+            } else {
+                putchar(*p);
+            }
+        }
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -538,7 +610,7 @@ static int create_image(file_desc_t fd, int devtype, int tracks, int errb,
 
 	printf("Writing header.\n");
 	if (write(fd, (char *) header, sizeof(header)) != sizeof(header)) {
-	    printf("Cannot write header.\n");
+	    fprintf(stderr, "Cannot write header.\n");
             return -1;
 	}
     }
@@ -546,7 +618,7 @@ static int create_image(file_desc_t fd, int devtype, int tracks, int errb,
     printf("Creating blocks...\n");
     for (i = 0; i < blks; i++) {
 	if (write(fd, (char *) block, sizeof(block)) != sizeof(block)) {
-	    printf("Cannot write block %d.\n", i);
+	    fprintf(stderr, "Cannot write block %d.\n", i);
             return -1;
 	}
     }
@@ -555,7 +627,7 @@ static int create_image(file_desc_t fd, int devtype, int tracks, int errb,
     if (errb) {
 	printf("Creating error data...\n");
 	if (set_error_data(floppy, 5) < 0) {	/* clear and write */
-	    printf("Cannot write error data block.\n");
+	    fprintf(stderr, "Cannot write error data block.\n");
 	    exit(1);
 	}
     }
@@ -617,7 +689,7 @@ static int open_image(int dev, char *name, int create, int disktype)
 
     if (create) {
 	if ((fd = open(name, O_RDWR | O_CREAT, 0666)) == ILLEGAL_FILE_DESC) {
-	    printf("Cannot create image `%s': %s.\n", name, strerror(errno));
+	    fprintf(stderr, "Cannot create image `%s': %s.\n", name, strerror(errno));
 	    return -1;
 	}
 
@@ -740,7 +812,7 @@ static int block_cmd(int nargs, char **args)
     /* Read one block */
 
     if (vdrive_open(floppy, "#", 1, channel)) {
-	printf("Cannot open buffer #%d in unit %d.\n", channel, drive + 8);
+	fprintf(stderr, "Cannot open buffer #%d in unit %d.\n", channel, drive + 8);
 	return FD_RDERR;
     }
     sprintf((char *) str, "B-R:%d 0 %d %d", channel, track, sector);
@@ -793,7 +865,7 @@ static int create_cmd(int nargs, char **args)
 	return FD_BADIMAGE;
 
     if ((fsfd = open(args[2], O_RDONLY)) == ILLEGAL_FILE_DESC) {
-	printf("Cannot open `%s'.\n", args[2]);
+	fprintf(stderr, "Cannot open `%s'.\n", args[2]);
 	perror(args[2]);
 	return FD_NOTRD;
     }
@@ -808,11 +880,11 @@ static int create_cmd(int nargs, char **args)
 
     while ((len = read(fsfd, tmp, 256)) == 256) {
 	if (++blk > MAX_BLOCKS_ANY) {
-	    printf("\nNice try.\n");
+	    fprintf(stderr, "\nNice try.\n");
 	    break;
 	}
 	if (write(floppy->ActiveFd, tmp, 256) != 256) {
-	    printf("Cannot write block %d of `%s'.\n", blk, args[2]);
+	    fprintf(stderr, "Cannot write block %d of `%s'.\n", blk, args[2]);
 	    return FD_WRTERR;
 	}
     }
@@ -820,7 +892,7 @@ static int create_cmd(int nargs, char **args)
     /* Now recognize the format and verify block count on it. */
 
     if (blk < NUM_BLOCKS_1541) {
-	printf("Cannot read block %d of `%s'.\n", blk, args[2]);
+	fprintf(stderr, "Cannot read block %d of `%s'.\n", blk, args[2]);
 	return FD_NOTRD;
     }
     for (format = Legal_formats; format->ImageFormat >= 0; ++format) {
@@ -841,11 +913,11 @@ static int create_cmd(int nargs, char **args)
 
     if (len) {
 	if (len != (format->TotalBks % 256)) {
-	    printf("Cannot read block %d of `%s'.\n", blk, args[2]);
+	    fprintf(stderr, "Cannot read block %d of `%s'.\n", blk, args[2]);
 	    return FD_NOTRD;
 	}
 	if (write(floppy->ActiveFd, tmp, len) != len) {
-	    printf("Cannot write block %d of `%s'.\n", blk, args[2]);
+	    fprintf(stderr, "Cannot write block %d of `%s'.\n", blk, args[2]);
 	    return FD_WRTERR;
 	}
     }
@@ -877,7 +949,7 @@ static int copy_cmd(int nargs, char **args)
     p = extract_unit_from_file_name(args[nargs - 1], &dest_unit);
     if (p == NULL) {
         if (nargs > 3) {
-            printf("The destination must be a drive if multiple sources are specified.\n");
+            fprintf(stderr, "The destination must be a drive if multiple sources are specified.\n");
             return FD_OK;           /* FIXME */
         }
         dest_name_ascii = stralloc(args[nargs - 1]);
@@ -887,7 +959,7 @@ static int copy_cmd(int nargs, char **args)
     } else {
         if (*p != 0) {
             if (nargs > 3) {
-                printf("The destination must be a drive if multiple sources are specified.\n");
+                fprintf(stderr, "The destination must be a drive if multiple sources are specified.\n");
                 return FD_OK;           /* FIXME */
             }
             dest_name_ascii = stralloc(p);
@@ -899,7 +971,7 @@ static int copy_cmd(int nargs, char **args)
     }
 
     if (dest_name_ascii != NULL && !is_valid_cbm_file_name(dest_name_ascii)) {
-        printf("`%s' is not a valid CBM DOS file name.\n", dest_name_ascii);
+        fprintf(stderr, "`%s' is not a valid CBM DOS file name.\n", dest_name_ascii);
         return FD_OK;               /* FIXME */
     }
 
@@ -921,7 +993,7 @@ static int copy_cmd(int nargs, char **args)
         }
 
         if (!is_valid_cbm_file_name(src_name_ascii)) {
-            printf("`%s' is not a valid CBM DOS file name: ignored.\n",
+            fprintf(stderr, "`%s' is not a valid CBM DOS file name: ignored.\n",
                    src_name_ascii);
             free(src_name_ascii);
             continue;
@@ -932,7 +1004,7 @@ static int copy_cmd(int nargs, char **args)
 
 	if (vdrive_open(drives[src_unit],
                         src_name_petscii, strlen(src_name_petscii), 0)) {
-	    printf("Cannot read `%s'.\n", src_name_ascii);
+	    fprintf(stderr, "Cannot read `%s'.\n", src_name_ascii);
             if (dest_name_ascii != NULL)
                 free(dest_name_ascii), free(dest_name_petscii);
             free(src_name_ascii), free(src_name_petscii);
@@ -942,7 +1014,7 @@ static int copy_cmd(int nargs, char **args)
         if (dest_name_ascii != NULL) {
             if (vdrive_open(drives[dest_unit],
                             dest_name_petscii, strlen(dest_name_petscii), 1)) {
-                printf("Cannot write `%s'.\n", dest_name_petscii);
+                fprintf(stderr, "Cannot write `%s'.\n", dest_name_petscii);
                 vdrive_close(drives[src_unit], 0);
                 free(dest_name_ascii), free(dest_name_petscii);
                 free(src_name_ascii), free(src_name_petscii);
@@ -951,7 +1023,7 @@ static int copy_cmd(int nargs, char **args)
         } else {
             if (vdrive_open(drives[dest_unit],
                             src_name_petscii, strlen(src_name_petscii), 1)) {
-                printf("Cannot write `%s'.\n", src_name_petscii);
+                fprintf(stderr, "Cannot write `%s'.\n", src_name_petscii);
                 vdrive_close(drives[src_unit], 0);
                 free(src_name_ascii), free(src_name_petscii);
                 return FD_OK;
@@ -965,7 +1037,7 @@ static int copy_cmd(int nargs, char **args)
 
             while (!vdrive_read(drives[src_unit], (BYTE *) &c, 0)) {
                 if (vdrive_write(drives[dest_unit], c, 1)) {
-                    printf("No space on image ?\n");
+                    fprintf(stderr, "No space on image ?\n");
                     break;
                 }
             }
@@ -1005,10 +1077,10 @@ static int delete_cmd(int nargs, char **args)
         }
 
         if (!is_valid_cbm_file_name(name)) {
-            printf("`%s' is not a valid CBM DOS file name: ignored.\n", name);
+            fprintf(stderr, "`%s' is not a valid CBM DOS file name: ignored.\n", name);
             continue;
         }
-        
+
         command = concat("s:", name, NULL);
         petconvstring(command, 0);
 
@@ -1036,7 +1108,7 @@ static int extract_cmd(int nargs, char **args)
     floppy = drives[drive & 3];
 
     if (vdrive_open(floppy, "#", 1, channel)) {
-	printf("Cannot open buffer #%d in unit %d.\n", channel, drive + 8);
+	fprintf(stderr, "Cannot open buffer #%d in unit %d.\n", channel, drive + 8);
 	return FD_RDERR;
     }
 
@@ -1077,7 +1149,7 @@ static int extract_cmd(int nargs, char **args)
 		unix_filename((char *) name);	/* For now, convert '/' to '_'. */
 
 		if (vdrive_open(floppy, (char *) cbm_name, len, 0)) {
-		    printf("Cannot open `%s' on unit %d.\n", name, drive + 8);
+		    fprintf(stderr, "Cannot open `%s' on unit %d.\n", name, drive + 8);
 		    continue;
 		}
                 fd = fopen((char *) name, "wb");
@@ -1155,7 +1227,7 @@ static int format_cmd(int nargs, char **args)
     }
 
     if (!strchr(args[1], ',')) {
-	printf("There must be ID on the name.\n");
+	fprintf(stderr, "There must be ID on the name.\n");
 	return FD_OK;
     }
 
@@ -1212,7 +1284,7 @@ static int gcrformat_cmd(int nargs, char **args)
 	}
     }
     if ((fd = open(args[1], O_RDWR | O_CREAT, 0666)) == ILLEGAL_FILE_DESC) {
-	printf("Cannot create image `%s': %s.\n", args[1], strerror(errno));
+	fprintf(stderr, "Cannot create image `%s': %s.\n", args[1], strerror(errno));
 	return FD_BADIMAGE;
     }
     strcpy((char *) gcr_header, "GCR-1541");
@@ -1224,7 +1296,7 @@ static int gcrformat_cmd(int nargs, char **args)
 
     if (write(fd, (char *) gcr_header, sizeof(gcr_header))
 	!= sizeof(gcr_header)) {
-	printf("Cannot write header.\n");
+	fprintf(stderr, "Cannot write header.\n");
 	close(fd);
 	return FD_OK;
     }
@@ -1236,12 +1308,12 @@ static int gcrformat_cmd(int nargs, char **args)
     }
 
     if (write_dword(fd, gcr_track_p, sizeof(gcr_track_p)) < 0) {
-	printf("Cannot write track header.\n");
+	fprintf(stderr, "Cannot write track header.\n");
 	close(fd);
 	return FD_OK;
     }
     if (write_dword(fd, gcr_speed_p, sizeof(gcr_speed_p)) < 0) {
-	printf("Cannot write speed header.\n");
+	fprintf(stderr, "Cannot write speed header.\n");
 	close(fd);
 	return FD_OK;
     }
@@ -1287,7 +1359,7 @@ static int gcrformat_cmd(int nargs, char **args)
 
 	if (write(fd, (char *) gcr_track, sizeof(gcr_track))
 	    != sizeof(gcr_track)) {
-	    printf("Cannot write track data.\n");
+	    fprintf(stderr, "Cannot write track data.\n");
 	    close(fd);
 	    return FD_OK;
 	}
@@ -1302,19 +1374,23 @@ static int help_cmd(int nargs, char **args)
     if (nargs == 1) {
         int i;
 
-        printf("Available commands are:\n");
-        for (i = 0; command_list[i].name != NULL; i++)
-            printf("  %s\n", command_list[i].syntax);
+        pager_init();
+        pager_print("Available commands are:");
+        for (i = 0; command_list[i].name != NULL; i++) {
+            pager_print("\n  ");
+            pager_print(command_list[i].syntax);
+        }
+        pager_print("\n");
     } else {
         int match;
 
         match = lookup_command(args[1]);
         switch (match) {
           case LOOKUP_AMBIGUOUS:
-            printf("Command `%s' is ambiguous.\n", args[1]);
+            fprintf(stderr, "Command `%s' is ambiguous.\n", args[1]);
             break;
           case LOOKUP_NOTFOUND:
-            printf("Unknown command `%s'.\n", args[1]);
+            fprintf(stderr, "Unknown command `%s'.\n", args[1]);
             break;
           default:
             if (LOOKUP_SUCCESSFUL(match)) {
@@ -1387,9 +1463,9 @@ static int list_cmd(int nargs, char **args)
         return FD_NOTREADY;
 
     listing = floppy_read_directory(drives[unit], pattern);
-
     if (listing != NULL) {
-	printf("\n === Listing for drive %d ===\n\n%s", unit + 8, listing);
+        pager_init();
+        pager_print(listing);
 	free(listing);
     }
 
@@ -1430,7 +1506,7 @@ static int read_cmd(int nargs, char **args)
         src_name_ascii = stralloc(p);
 
     if (!is_valid_cbm_file_name(src_name_ascii)) {
-        printf("`%s' is not a valid CBM DOS file name.\n", src_name_ascii);
+        fprintf(stderr, "`%s' is not a valid CBM DOS file name.\n", src_name_ascii);
         free(src_name_ascii);
         return FD_OK;               /* FIXME */
     }
@@ -1440,7 +1516,7 @@ static int read_cmd(int nargs, char **args)
 
     if (vdrive_open(drives[unit],
                     src_name_petscii, strlen(src_name_petscii), 0)) {
-	printf("Cannot read `%s' on unit %d.\n", src_name_ascii, unit + 8);
+	fprintf(stderr, "Cannot read `%s' on unit %d.\n", src_name_ascii, unit + 8);
         free(src_name_ascii), free(src_name_petscii);
 	return FD_BADNAME;
     }
@@ -1478,7 +1554,7 @@ static int read_cmd(int nargs, char **args)
     else {
         outf = fopen(dest_name_ascii, WRITE);
 	if (outf == NULL) {
-	    printf("Cannot create output file `%s': %s.\n",
+	    fprintf(stderr, "Cannot create output file `%s': %s.\n",
                    dest_name_ascii, strerror(errno));
 	    vdrive_close(drives[unit], 0);
             free(src_name_petscii), free(src_name_ascii), free(actual_name);
@@ -1486,14 +1562,13 @@ static int read_cmd(int nargs, char **args)
 	}
         if (is_p00) {
 	    if (p00_write_header(outf, dest_name_ascii, 0) < 0)
-                printf("Cannot write P00 header.\n");
+                fprintf(stderr, "Cannot write P00 header.\n");
             else
                 printf("Written P00 header.\n");
 	}
     }				/* stdout */
 
-    fprintf(stderr, "Reading file `%s' from unit %d.\n",
-            src_name_ascii, unit + 8);
+    printf("Reading file `%s' from unit %d.\n", src_name_ascii, unit + 8);
 
     /* Copy.  */
     {
@@ -1532,7 +1607,7 @@ static int rename_cmd(int nargs, char **args)
     }
 
     if (dest_unit != src_unit) {
-        printf("Source and destination must be on the same unit.\n");
+        fprintf(stderr, "Source and destination must be on the same unit.\n");
         free(src_name), free(dest_name);
         return FD_OK;               /* FIXME */
     }
@@ -1543,13 +1618,13 @@ static int rename_cmd(int nargs, char **args)
     }
 
     if (!is_valid_cbm_file_name(src_name)) {
-        printf("`%s' is not a valid CBM DOS file name.\n", src_name);
+        fprintf(stderr, "`%s' is not a valid CBM DOS file name.\n", src_name);
         free(src_name), free(dest_name);
         return FD_OK;               /* FIXME */
     }
 
     if (!is_valid_cbm_file_name(dest_name)) {
-        printf("`%s' is not a valid CBM DOS file name.\n", dest_name);
+        fprintf(stderr, "`%s' is not a valid CBM DOS file name.\n", dest_name);
         free(src_name), free(dest_name);
         return FD_OK;               /* FIXME */
     }
@@ -1563,7 +1638,29 @@ static int rename_cmd(int nargs, char **args)
                            (BYTE *) command, strlen(command));
 
     free(command), free(dest_name), free(src_name);
-    
+
+    return FD_OK;
+}
+
+static int show_cmd(int nargs, char **args)
+{
+    const char *text;
+    const char *p;
+    int x, y;
+    int num_lines, num_cols;
+
+    if (strcasecmp(args[1], "copying") == 0) {
+        text = license_text;
+    } else if (strcasecmp(args[1], "warranty") == 0) {
+        text = warranty_text;
+    } else {
+        fprintf(stderr, "Use either `show copying' or `show warranty'.\n");
+        return FD_OK;           /* FIXME? */
+    }
+
+    pager_init();
+    pager_print(text);
+
     return FD_OK;
 }
 
@@ -1580,7 +1677,7 @@ static int tape_cmd(int nargs, char **args)
 
     t64 = t64_open(args[1]);
     if (t64 == NULL) {
-        printf("Cannot read T64 file `%s'.\n", args[1]);
+        fprintf(stderr, "Cannot read T64 file `%s'.\n", args[1]);
         return FD_BADNAME;
     }
 
@@ -1628,13 +1725,13 @@ static int tape_cmd(int nargs, char **args)
 
             /* FIXME: This does not write the actual file type.  */
 	    if (vdrive_open(drive, dest_name_petscii, name_len, 1)) {
-		printf("Cannot open `%s' for writing on drive %d.\n",
+		fprintf(stderr, "Cannot open `%s' for writing on drive %d.\n",
                        dest_name_ascii, drive_number + 8);
                 free(dest_name_petscii), free(dest_name_ascii);
                 continue;
 	    }
 
-	    printf("Writing `%s' ($%04X - $%04X) to drive %d.\n",
+	    fprintf(stderr, "Writing `%s' ($%04X - $%04X) to drive %d.\n",
                    dest_name_ascii, rec->start_addr, rec->end_addr,
                    drive_number + 8);
 
@@ -1646,7 +1743,7 @@ static int tape_cmd(int nargs, char **args)
             memset(buf, 0, (size_t) file_size);
             retval = t64_read(t64, buf, file_size);
             if (retval < 0 || retval != (int) file_size)
-                printf("Unexpected end of tape: file may be truncated.\n");
+                fprintf(stderr, "Unexpected end of tape: file may be truncated.\n");
 
             {
                 int i;
@@ -1709,7 +1806,7 @@ static int unlynx_cmd(int nargs, char **args)
         return FD_NOTREADY;
 
     if (!(f = fopen(args[1], READ))) {
-	printf("Cannot open `%s' for reading.\n", args[1]);
+	fprintf(stderr, "Cannot open `%s' for reading.\n", args[1]);
 	return FD_NOTRD;
     }
 
@@ -1738,7 +1835,7 @@ static int unlynx_cmd(int nargs, char **args)
     }
     buff[cnt] = 0;
     if (string_to_long(buff, NULL, 10, &dirsize) < 0 || dirsize <= 0) {
-	printf("Invalid Lynx file.\n");
+	fprintf(stderr, "Invalid Lynx file.\n");
 	return FD_RDERR;
     }
 
@@ -1753,7 +1850,7 @@ static int unlynx_cmd(int nargs, char **args)
     }
     buff[cnt] = 0;
     if (string_to_long(buff, NULL, 10, &dentries) < 0 || dentries <= 0) {
-	printf("Invalid Lynx file.\n");
+	fprintf(stderr, "Invalid Lynx file.\n");
 	return FD_RDERR;
     }
 
@@ -1786,7 +1883,7 @@ static int unlynx_cmd(int nargs, char **args)
 	buff[cnt] = 0;
 
 	if (string_to_long(buff, NULL, 10, &bsize) < 0) {
-	    printf("Invalid Lynx file.\n");
+	    fprintf(stderr, "Invalid Lynx file.\n");
 	    return FD_RDERR;
 	}
 	/* Get the file type (P[RG], S[EQ], R[EL], U[SR]) */
@@ -1795,7 +1892,7 @@ static int unlynx_cmd(int nargs, char **args)
 
 	/* FIXME: REL type files unsupported */
 	if (ftype == 'R') {
-	    printf("REL not supported.\n");
+	    fprintf(stderr, "REL not supported.\n");
 	    return FD_RDERR;
 	}
 	/* FIXME: This is a temporary hack!  How can we persuade `vdrive_open()'
@@ -1822,7 +1919,7 @@ static int unlynx_cmd(int nargs, char **args)
 	buff[cnt] = 0;
 
 	if (string_to_long(buff, NULL, 10, &lbsize) < 0) {
-	    printf("Invalid Lynx file.\n");
+	    fprintf(stderr, "Invalid Lynx file.\n");
 	    return FD_RDERR;
 	}
 	/* Calculate byte size of file */
@@ -1842,7 +1939,7 @@ static int unlynx_cmd(int nargs, char **args)
 	while (cnt != 0) {
 	    fread(&val, 1, 1, f2);
 	    if (vdrive_write(floppy, val, 1)) {
-		printf("No space on image ?\n");
+		fprintf(stderr, "No space on image ?\n");
 		break;
 	    }
 	    cnt--;
@@ -1918,7 +2015,7 @@ static int write_cmd(int nargs, char **args)
 
     f = fopen(args[1], READ);
     if (f == NULL) {
-	printf("Cannot read file `%s': %s.\n", args[1], strerror(errno));
+	fprintf(stderr, "Cannot read file `%s': %s.\n", args[1], strerror(errno));
 	return FD_NOTRD;
     }
 
@@ -1953,7 +2050,7 @@ static int write_cmd(int nargs, char **args)
 
     if (vdrive_open(drives[unit],
                     dest_name_petscii, strlen(dest_name_petscii), 1)) {
-	printf("Cannot open %s for writing on image.\n", dest_name_ascii);
+	fprintf(stderr, "Cannot open `%s' for writing on image.\n", dest_name_ascii);
 	return FD_WRTERR;
     }
 
@@ -1963,7 +2060,7 @@ static int write_cmd(int nargs, char **args)
 
         while (EOF != (c = fgetc(f))) {
             if (vdrive_write(drives[unit], (BYTE) c, 1)) {
-                printf("No space on image ?\n");
+                fprintf(stderr, "No space on image ?\n");
                 break;
             }
         }
@@ -2014,13 +2111,13 @@ static int zcreate_cmd(int nargs, char **args)
     /* Write out all the sectors */
     for (count = 0; count < format->TotalBks; count++) {
 	if (write(floppy->ActiveFd, tmp, 256) != 256) {
-	    printf("Cannot write block %d of `%s'\n", count, args[2]);
+	    fprintf(stderr, "Cannot write block %d of `%s'\n", count, args[2]);
 	    return FD_WRTERR;
 	}
     }
 
     if (vdrive_open(floppy, "#", 1, channel)) {
-	printf("Cannot open buffer #%d on unit %d.\n", channel, drive + 8);
+	fprintf(stderr, "Cannot open buffer #%d on unit %d.\n", channel, drive + 8);
 	return FD_RDERR;
     }
     for (track = 1; track <= 35; track++) {
@@ -2046,7 +2143,7 @@ static int zcreate_cmd(int nargs, char **args)
                 if (fsfd != ILLEGAL_FILE_DESC)
                     close(fsfd);
                 if ((fsfd = open(fname, O_RDONLY)) == ILLEGAL_FILE_DESC) {
-                    printf("Cannot open %s\n", fname);
+                    fprintf(stderr, "Cannot open `%s'.\n", fname);
                     perror(fname);
                     return FD_NOTRD;
                 }
@@ -2151,8 +2248,13 @@ int main(int argc, char **argv)
 	char buf[16];
 
         /* Interactive mode.  */
-	printf("\nC1541 Version %d.%02d.\n\n",
+	printf("C1541 Version %d.%02d.\n",
                C1541_VERSION_MAJOR, C1541_VERSION_MINOR);
+        printf("Copyright 1995-1998 The VICE Development Team.\n"
+               "C1541 is free software, covered by the GNU General Public License, and you are\n"
+               "welcome to change it and/or distribute copies of it under certain conditions.\n"
+               "Type `show copying' to see the conditions.\n"
+               "There is absolutely no warranty for C1541.  Type `show warranty' for details.\n");
 
 	while (1) {
 	    sprintf(buf, "c1541 #%d> ", drive_number | 8);
