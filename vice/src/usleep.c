@@ -28,6 +28,8 @@
  *      internet:  mike@sherlock.med.ge.com     GEMS WIZARD e-mail: DYER
  */
 
+#include "vice.h"
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -37,13 +39,27 @@
 #include <sys/param.h>
 #include <sys/types.h>
 
+#ifdef OS2
+#include <sys/select.h>
+#endif
+
 int usleep(unsigned long int microSeconds)
 {
         unsigned int            Seconds, uSec;
+#ifdef OS2
+        int nfds;
+        fd_set readfds, writefds, exceptfds;
+#else
         int                     nfds, readfds, writefds, exceptfds;
+#endif
+
         struct  timeval         Timer;
 
+#ifdef OS2
+        nfds = 0;
+#else
         nfds = readfds = writefds = exceptfds = 0;
+#endif
 
         if( (microSeconds == (unsigned long) 0)
                 || microSeconds > (unsigned long) 4000000 )
