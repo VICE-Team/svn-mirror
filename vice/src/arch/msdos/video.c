@@ -286,9 +286,9 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 }
 
 /* Note: `mapped' is ignored.  */
-int video_canvas_create(video_canvas_t *canvas, unsigned int *width,
-                        unsigned int *height, int mapped,
-                        const struct palette_s *palette)
+video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
+                                    unsigned int *height, int mapped,
+                                    const struct palette_s *palette)
 {
     int result = 0;
     int next_canvas = 0;
@@ -296,7 +296,7 @@ int video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
     if (palette->num_entries > NUM_AVAILABLE_COLORS) {
         log_error(video_log, "Too many colors requested.");
-        return -1;
+        return NULL;
     }
 
     canvas->pages[0] = canvas->pages[1] = NULL;
@@ -329,7 +329,7 @@ int video_canvas_create(video_canvas_t *canvas, unsigned int *width,
         next_canvas++;
     canvaslist[next_canvas] = canvas;
 
-    return 0;
+    return canvas;
 }
 
 void video_canvas_destroy(video_canvas_t *canvas)
