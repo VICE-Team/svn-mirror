@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  * Based on the X11 code by
  *  Jouko Valta <jopi@stekt.oulu.fi>
  *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
@@ -36,6 +37,7 @@ extern void kbd_arch_init(void);
 
 extern signed long kbd_arch_keyname_to_keynum(char *keyname);
 extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
+extern void kbd_initialize_numpad_joykeys(int *joykeys);
 
 #define KBD_C64_SYM_US  "dos_sym.vkm"
 #define KBD_C64_SYM_DE  "dos_sym.vkm"
