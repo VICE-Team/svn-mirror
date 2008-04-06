@@ -718,7 +718,7 @@ static int check_drive(int dev, int flags)
 
 static int attach_cmd(int nargs, char **args)
 {
-    int dev;
+    int dev = 0;
 
     switch (nargs) {
       case 2:
