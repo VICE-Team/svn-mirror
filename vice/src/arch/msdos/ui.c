@@ -50,7 +50,6 @@
 #include "types.h"
 #include "utils.h"
 #include "video.h"
-#include "vsync.h"
 
 /* Status of keyboard LEDs.  */
 static int real_kbd_led_status = -1;
@@ -144,6 +143,9 @@ int ui_init_finish(void)
     atexit(ui_exit);
     return 0;
 }
+
+extern double vsync_get_avg_frame_rate(void);
+extern double vsync_get_avg_speed_index(void);
 
 void ui_main(char hotkey)
 {
