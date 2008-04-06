@@ -54,7 +54,6 @@
 #include <fcntl.h>
 #endif
 #include <memory.h>
-#include <assert.h>
 #endif
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
@@ -79,39 +78,16 @@
 #include "zipcode.h"
 
 #define MAXARG		256
-#define MAXVAL		0xffff
-
 #define MAXDRIVE	1
 
-#define C1541_VERSION_MAJOR	3
+#define C1541_VERSION_MAJOR	4
 #define C1541_VERSION_MINOR	0
 
 static vdrive_t *drives[4] = {NULL, NULL, NULL, NULL};
 
-#if 0
-XXX
-typedef struct {
-    signed char ImageFormat;		/* 1541/71/81 */
-    int TracksSide;
-    int Sides;
-    int TotalBks;
-} DiskFormats;
-static DiskFormats Legal_formats[] = {
-    { DT_1541, 35, 0, 683 },
-    { DT_1541, 40, 0, 768 },
-    /*{ DT_1541, 42, 0,  785 }, */
-    { DT_1571, 35, 1, 1366 },
-    { DT_1581, 80, 0, 3200 },
-    { DT_8050, 77, 0, 2083 },
-    { DT_8250, 72, 1, 4166 },
-    {-1, 0, 0, 0 }
-};
-#endif
-
 static int drive_number = 0;
 
 /* Local functions.  */
-
 static int check_drive(int dev, int mode);
 static int open_image(int dev, char *name, int create, int disktype);
 static int raw_cmd(int nargs, char **args); /* @ */
@@ -122,7 +98,6 @@ static int create_cmd(int nargs, char **args);
 static int delete_cmd(int nargs, char **args);
 static int extract_cmd(int nargs, char **args);
 static int format_cmd(int nargs, char **args);
-static int gcrformat_cmd(int nargs, char **args);
 static int help_cmd(int nargs, char **args);
 static int info_cmd(int nargs, char **args);
 static int list_cmd(int nargs, char **args);
@@ -173,10 +148,12 @@ command_t command_list[] = {
       "block <track> <sector> <disp> [<drive>]",
       "Show specified disk block in hex form.",
       3, 4, block_cmd },
+#if 0
     { "create",
       "create <x64name> <d64name>",
       "Create an X64 disk image out of a D64 disk image.",
       2, 2, create_cmd },
+#endif
     { "copy",
       "copy <source1> [<source2> ... <sourceN>] <destination>",
       "Copy `source1' ... `sourceN' into destination.  If N > 1, `destination'\n"
@@ -210,10 +187,6 @@ command_t command_list[] = {
       "Otherwise, format the disk in the current unit, if any.",
       1, 3,
       format_cmd },
-    { "gcrformat",
-      "gcrformat <diskname,id> <imagename>",
-      "Create and format a G64 disk image named <imagename>.",
-      1, 2, gcrformat_cmd },
     { "help",
       "help [<command>]",
       "Explain specified command.  If no command is specified, list available\n"
@@ -274,14 +247,11 @@ command_t command_list[] = {
       "write <source> [<destination>]",
       "Write <source> from the file system into <destination> on a disk image.",
       1, 2, write_cmd },
-#if 0
-XXX
     { "zcreate",
-      "zcreate <x64name> <zipname> [<label,id>]",
-      "Create an X64 disk image out of a set of four Zipcoded files named\n"
+      "zcreate <d64name> <zipname> [<label,id>]",
+      "Create a D64 disk image out of a set of four Zipcoded files named\n"
       "`1!<zipname>', `2!<zipname>', `3!<zipname>' and `4!<zipname>'.",
       2, 3, zcreate_cmd },
-#endif
     { NULL, NULL, NULL, 0, 0, NULL }
 };
 
@@ -622,48 +592,6 @@ static void close_disk_image(vdrive_t *vdrive, int unit)
     }
 }
 
-static int set_label(FILE *fd, const char *label)
-{
-#if 0
-    int siz = HEADER_LABEL_LEN + 1;
-    char buf[HEADER_LABEL_LEN + 2];
-
-    memset(buf, 0, siz);
-
-    if (label)
-        strncpy(buf, label, HEADER_LABEL_LEN);
-
-    fseek(fd, (off_t) HEADER_LABEL_OFFSET, SEEK_SET);
-
-    if (fwrite((char *) buf, siz, 1, fd) < 1) {
-        return FD_WRTERR;
-    }
-#endif
-    return FD_OK;
-}
-
-#if 0
-/* These 4 bytes are disk type flags (set upon create or format).  They
-   contain: Device Type, Max Tracks, Side, and Error Flag.  */
-static int set_disk_size(FILE *fd, int tracks, int sides, int errblk)
-{
-    int siz = HEADER_FLAGS_LEN;
-    char buf[HEADER_FLAGS_LEN + 1];
-
-    buf[0] = DISK_IMAGE_TYPE_D64;
-    buf[1] = tracks;
-    buf[2] = sides;
-    buf[3] = errblk;
-
-    fseek(fd, (off_t) HEADER_FLAGS_OFFSET, SEEK_SET);
-
-    if (fwrite((char *) buf, siz, 1, fd) < 1) {
-        return FD_WRTERR;
-    }
-    return FD_OK;
-}
-#endif
-
 /* Open image or create a new one.  If the file exists, it must have valid
    header.  */
 static int open_image(int dev, char *name, int create, int disktype)
@@ -672,12 +600,16 @@ static int open_image(int dev, char *name, int create, int disktype)
         return -1;
 
     if (create) {
-        if (disk_image_create(name, disktype) < 0)
+        if (disk_image_create(name, disktype) < 0) {
+            printf("Cannot create disk image.\n");
             return -1;
+       }
     }
 
-    if (open_disk_image(drives[dev], name, dev + 8) < 0)
+    if (open_disk_image(drives[dev], name, dev + 8) < 0) {
+        printf("Cannot open disk image.\n");
         return -1;
+    }
     return 0;
 }
 
@@ -732,15 +664,12 @@ static int attach_cmd(int nargs, char **args)
 
 static int block_cmd(int nargs, char **args)
 {
-#if 0
-XXX
     int drive, track, sector, disp;
-    vdrive_t *floppy;
-    BYTE *buf, str[20];
+    vdrive_t *vdrive;
+    BYTE *buf, str[20], sector_data[256];
     int cnt;
-    int channel = 2;
 
-    /* block <track> <sector> <disp> [<drive>]  show disk blocks in hex form */
+    /* block <track> <sector> <disp> [<drive>] show disk blocks in hex form */
     if (arg_to_int(args[1], &track) < 0 || arg_to_int(args[2], &sector) < 0)
         return FD_BAD_TS;
     if (arg_to_int(args[3], &disp) < 0)
@@ -758,28 +687,19 @@ XXX
 
     if (check_drive(drive, CHK_RDY) < 0)
         return FD_NOTREADY;
-    floppy = drives[drive & 3];
+    vdrive = drives[drive & 3];
 
-    if (vdrive_check_track_sector(floppy->ImageFormat, track, sector) < 0) {
-        sector = 0;
-        track = floppy->Dir_Track;
+    if (disk_image_check_sector(vdrive->image->type, track, sector) < 0)
         return FD_BAD_TS;
-    }
-    /* Read one block */
 
-    if (vdrive_open(floppy, "#", 1, channel)) {
-        fprintf(stderr,
-                "Cannot open buffer #%d in unit %d.\n", channel, drive + 8);
+    /* Read one block */
+    if (disk_image_read_sector(vdrive->image, sector_data, track, sector) 
+        < 0) {
+        fprintf(stderr, "Cannot read track %i sector %i.", track, sector);
         return FD_RDERR;
     }
-    sprintf((char *) str, "B-R:%d 0 %d %d", channel, track, sector);
-    if (vdrive_command_execute(floppy, (BYTE *) str,
-                               strlen((char *) str)) != 0) {
-        track = floppy->Dir_Track;
-        sector = 0;
-        return FD_RDERR;
-    }
-    buf = floppy->buffers[channel].buffer;
+
+    buf = sector_data;
 
     /* Show block */
 
@@ -800,15 +720,13 @@ XXX
         track = buf[0];
         sector = buf[1];
     } else {
-        if (vdrive_check_track_sector(floppy->ImageFormat, track,
+        if (disk_image_check_sector(vdrive->image->type, track,
             ++sector) < 0) {
             sector = 0;
-            if (++track > floppy->NumTracks)
-                track = floppy->Dir_Track;
+            if (++track > vdrive->image->tracks)
+                track = vdrive->Dir_Track;
         }
     }
-    vdrive_close(floppy, channel);
-#endif
     return FD_OK;
 }
 
@@ -1177,9 +1095,7 @@ static int format_cmd(int nargs, char **args)
         /* Create a new image.  */
         /* FIXME: I want a unit number here too.  */
         *args[2] = tolower(*args[2]);
-        if (strcmp(args[2], "x64") == 0)
-            disk_type = DISK_IMAGE_TYPE_X64;
-        else if (strcmp(args[2], "d64") == 0)
+        if (strcmp(args[2], "d64") == 0)
             disk_type = DISK_IMAGE_TYPE_D64;
         else if (strcmp(args[2], "d71") == 0)
             disk_type = DISK_IMAGE_TYPE_D71;
@@ -1189,6 +1105,8 @@ static int format_cmd(int nargs, char **args)
             disk_type = DISK_IMAGE_TYPE_D80;
         else if (strcmp(args[2], "d82") == 0)
             disk_type = DISK_IMAGE_TYPE_D82;
+        else if (strcmp(args[2], "g64") == 0)
+            disk_type = DISK_IMAGE_TYPE_GCR;
         else
             return FD_BADVAL;
         if (open_image(drive_number, args[3], 1, disk_type) < 0)
@@ -1201,8 +1119,8 @@ static int format_cmd(int nargs, char **args)
     }
 
     if (!strchr(args[1], ',')) {
-	fprintf(stderr, "There must be ID on the name.\n");
-	return FD_OK;
+        fprintf(stderr, "There must be ID on the name.\n");
+        return FD_OK;
     }
 
     if (check_drive(unit, CHK_RDY) < 0)
@@ -1212,135 +1130,9 @@ static int format_cmd(int nargs, char **args)
     petconvstring(command, 0);
 
     printf("Formatting in unit %d...\n", unit + 8);
-    vdrive_command_execute(drives[unit], (BYTE *) command, strlen(command));
+    vdrive_command_execute(drives[unit], (BYTE *)command, strlen(command));
 
     free(command);
-    return FD_OK;
-}
-
-static int gcrformat_cmd(int nargs, char **args)
-{
-    FILE *fd;
-    int track, sector;
-    BYTE gcr_header[12], id[2];
-    char name[16], *idptr;
-    DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
-    DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
-    BYTE gcr_track[7930], rawdata[260];
-    BYTE *gcrptr;
-    char newname[256];
-
-    if (nargs < 2)
-	return FD_OK;
-
-    memset(name, 0xa0, 16);
-    id[0] = id[1] = 0xa0;
-
-    if (nargs > 2) {
-	strcpy(newname, args[1]);
-	petconvstring(newname, 0);
-	idptr = memchr(newname, ',', strlen(newname));
-	if (idptr == NULL) {
-	    int i;
-	    for (i = 0; i < 16 && newname[i] != '\0'; i++)
-		name[i] = newname[i];
-	} else {
-	    int i;
-	    *idptr = '\0';
-	    for (i = 0; i < 16 && newname[i] != '\0'; i++)
-		name[i] = newname[i];
-	    strncpy((char *) id, ++idptr, 2);
-	    if (idptr[1] != '\0') {
-		id[0] = idptr[1];
-		if (idptr[2] != '\0')
-		    id[1] = idptr[2];
-	    }
-	}
-    }
-
-    if ((fd = fopen(args[2], MODE_READ_WRITE /*, 0666*/)) == NULL) {
-	fprintf(stderr, "Cannot create image `%s': %s.\n", args[2], strerror(errno));
-	return FD_BADIMAGE;
-    }
-    strcpy((char *) gcr_header, "GCR-1541");
-
-    gcr_header[8] = 0;
-    gcr_header[9] = MAX_TRACKS_1541 * 2;
-    gcr_header[10] = 7928 % 256;
-    gcr_header[11] = 7928 / 256;
-
-    if (fwrite((char *) gcr_header, sizeof(gcr_header), 1, fd) < 1) {
-        fprintf(stderr, "Cannot write header.\n");
-        fclose(fd);
-        return FD_OK;
-    }
-    for (track = 0; track < MAX_TRACKS_1541; track++) {
-	gcr_track_p[track * 2] = 12 + MAX_TRACKS_1541 * 16 + track * 7930;
-	gcr_track_p[track * 2 + 1] = 0;
-	gcr_speed_p[track * 2] = speed_map_1541[track];
-	gcr_speed_p[track * 2 + 1] = 0;
-    }
-
-    if (write_dword(fd, gcr_track_p, sizeof(gcr_track_p)) < 0) {
-	fprintf(stderr, "Cannot write track header.\n");
-	fclose(fd);
-	return FD_OK;
-    }
-    if (write_dword(fd, gcr_speed_p, sizeof(gcr_speed_p)) < 0) {
-	fprintf(stderr, "Cannot write speed header.\n");
-	fclose(fd);
-	return FD_OK;
-    }
-    for (track = 0; track < MAX_TRACKS_1541; track++) {
-	int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
-
-	memset(&gcr_track[2], 0xff, 7928);
-	gcr_track[0] = raw_track_size[speed_map_1541[track]] % 256;
-	gcr_track[1] = raw_track_size[speed_map_1541[track]] / 256;
-	gcrptr = &gcr_track[2];
-
-	for (sector = 0;
-        sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track + 1);
-        sector++) {
-	    BYTE chksum;
-	    int i;
-	    memset(rawdata, 0, 260);
-	    if (track == 17 && sector == 0) {
-		BYTE *rdat = &rawdata[1];
-		int s, t;
-		memset(rdat + BAM_NAME_1541, 0xa0, 27);
-		rdat[0] = DIR_TRACK_1541;
-		rdat[1] = DIR_SECTOR_1541;
-		rdat[2] = 65;
-		rdat[BAM_VERSION_1541] = 50;
-		rdat[BAM_VERSION_1541 + 1] = 65;
-		memcpy(rdat + BAM_NAME_1541, (BYTE *) name, 16);
-		rdat[BAM_ID_1541] = id[0];
-		rdat[BAM_ID_1541 + 1] = id[1];
-		for (t = 1; t <= 35; t++)
-		    for (s = 0; s < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, t); s++)
-			vdrive_bam_free_sector(1541, rdat, t, s);
-		vdrive_bam_allocate_sector(1541, rdat, BAM_TRACK_1541, 0);
-		vdrive_bam_allocate_sector(1541, rdat, BAM_TRACK_1541, 1);
-	    }
-	    rawdata[0] = 7;
-	    chksum = rawdata[1];
-	    for (i = 1; i < 256; i++)
-		chksum ^= rawdata[i + 1];
-	    rawdata[257] = chksum;
-
-	    convert_sector_to_GCR(rawdata, gcrptr, track + 1, sector, id[0], id[1]);
-	    gcrptr += 360;
-	}
-
-	if (fwrite((char *) gcr_track, sizeof(gcr_track), 1, fd) < 1 ) {
-	    fprintf(stderr, "Cannot write track data.\n");
-	    fclose(fd);
-	    return FD_OK;
-	}
-    }
-
-    fclose(fd);
     return FD_OK;
 }
 
@@ -1469,7 +1261,7 @@ static int name_cmd(int nargs, char **args)
     BYTE *dst;
     int i;
     int unit;
-    vdrive_t *floppy;
+    vdrive_t *vdrive;
 
     if (nargs > 2) {
         if (arg_to_int(args[2], &unit) < 0)
@@ -1484,25 +1276,25 @@ static int name_cmd(int nargs, char **args)
     if (check_drive(unit, CHK_RDY) < 0)
        return FD_NOTREADY;
 
-    floppy = drives[unit];
-    vdrive_bam_read_bam(floppy);
+    vdrive = drives[unit];
+    vdrive_bam_read_bam(vdrive);
     name = args[1];
     petconvstring(name, 0);
     id = strrchr(args[1], ',');
     if (id)
        *id++ = '\0';
 
-    dst = &floppy->bam[floppy->bam_name];
+    dst = &vdrive->bam[vdrive->bam_name];
     for (i = 0; i < 16; i++)
        *dst++ = *name ? *name++ : 0xa0;
 
     if (id) {
-       dst = &floppy->bam[floppy->bam_id];
+       dst = &vdrive->bam[vdrive->bam_id];
        for (i = 0; i < 5 && *id; i++)
            *dst++ = *id++;
     }
 
-    vdrive_bam_write_bam(floppy);
+    vdrive_bam_write_bam(vdrive);
     return FD_OK;
 }
 
@@ -1532,7 +1324,7 @@ static int read_cmd(int nargs, char **args)
         unit = drive_number;
 
     if (check_drive(unit, CHK_RDY) < 0)
-	return FD_NOTREADY;
+        return FD_NOTREADY;
 
     if (p == NULL)
         src_name_ascii = stralloc(args[1]);
@@ -1540,7 +1332,8 @@ static int read_cmd(int nargs, char **args)
         src_name_ascii = stralloc(p);
 
     if (!is_valid_cbm_file_name(src_name_ascii)) {
-        fprintf(stderr, "`%s' is not a valid CBM DOS file name.\n", src_name_ascii);
+        fprintf(stderr, "`%s' is not a valid CBM DOS file name.\n",
+                src_name_ascii);
         free(src_name_ascii);
         return FD_OK;               /* FIXME */
     }
@@ -1820,7 +1613,7 @@ static int unit_cmd(int nargs, char **args)
    1998-02-07.  Various fixes by Andreas Boose.  */
 static int unlynx_cmd(int nargs, char **args)
 {
-    vdrive_t *floppy;
+    vdrive_t *vdrive;
     FILE *f, *f2;
     int dev, cnt = 0;
     long dentries, lbsize, bsize, dirsize;
@@ -1841,19 +1634,19 @@ static int unlynx_cmd(int nargs, char **args)
         return FD_NOTREADY;
 
     if (!(f = fopen(args[1], MODE_READ))) {
-	fprintf(stderr, "Cannot open `%s' for reading.\n", args[1]);
-	return FD_NOTRD;
+        fprintf(stderr, "Cannot open `%s' for reading.\n", args[1]);
+        return FD_NOTRD;
     }
 
     /* Look for the 0, 0, 0 sign of the end of BASIC.  */
     while (1) {
-	fread(&val, 1, 1, f);
-	if (val == 0)
-	    cnt++;
-	else
-	    cnt = 0;
-	if (cnt == 3)
-	    break;
+        fread(&val, 1, 1, f);
+        if (val == 0)
+            cnt++;
+        else
+            cnt = 0;
+        if (cnt == 3)
+            break;
     }
 
     /* Bypass the 1st return in the file */
@@ -1862,34 +1655,34 @@ static int unlynx_cmd(int nargs, char **args)
     /* Get the directory block size */
     cnt = 0;
     while (1) {
-	fread(&val, 1, 1, f);
-	if (val != 13)
-	    buff[cnt++] = val;
-	else
-	    break;
+        fread(&val, 1, 1, f);
+        if (val != 13)
+            buff[cnt++] = val;
+        else
+            break;
     }
     buff[cnt] = 0;
     if (string_to_long(buff, NULL, 10, &dirsize) < 0 || dirsize <= 0) {
-	fprintf(stderr, "Invalid Lynx file.\n");
-	return FD_RDERR;
+        fprintf(stderr, "Invalid Lynx file.\n");
+        return FD_RDERR;
     }
 
     /* Get the number of dir entries */
     cnt = 0;
     while (1) {
-	fread(&val, 1, 1, f);
-	if (val != 13)
-	    buff[cnt++] = val;
-	else
-	    break;
+        fread(&val, 1, 1, f);
+        if (val != 13)
+            buff[cnt++] = val;
+        else
+            break;
     }
     buff[cnt] = 0;
     if (string_to_long(buff, NULL, 10, &dentries) < 0 || dentries <= 0) {
-	fprintf(stderr, "Invalid Lynx file.\n");
-	return FD_RDERR;
+        fprintf(stderr, "Invalid Lynx file.\n");
+        return FD_RDERR;
     }
 
-    /* Open the file for reading of the chained data */
+            /* Open the file for reading of the chained data */
     f2 = fopen(args[1], MODE_READ);
     fseek(f2, (dirsize * 254), SEEK_SET);
 
@@ -1897,35 +1690,35 @@ static int unlynx_cmd(int nargs, char **args)
     while (dentries != 0) {
         int filetype = FT_PRG;
 
-	/* Read CBM filename */
-	cnt = 0;
-	while (1) {
-	    fread(&val, 1, 1, f);
-	    if (val != 13)
-		cname[cnt++] = val;
-	    else
-		break;
-	}
-	cname[cnt] = 0;
+        /* Read CBM filename */
+        cnt = 0;
+        while (1) {
+            fread(&val, 1, 1, f);
+            if (val != 13)
+                cname[cnt++] = val;
+            else
+                break;
+        }
+        cname[cnt] = 0;
 
-	/* Read the block size */
-	cnt = 0;
-	while (1) {
-	    fread(&val, 1, 1, f);
-	    if (val != 13)
-		buff[cnt++] = val;
-	    else
-		break;
-	}
-	buff[cnt] = 0;
+        /* Read the block size */
+        cnt = 0;
+        while (1) {
+            fread(&val, 1, 1, f);
+            if (val != 13)
+                buff[cnt++] = val;
+            else
+                break;
+        }
+        buff[cnt] = 0;
 
-	if (string_to_long(buff, NULL, 10, &bsize) < 0) {
-	    fprintf(stderr, "Invalid Lynx file.\n");
-	    return FD_RDERR;
-	}
-	/* Get the file type (P[RG], S[EQ], R[EL], U[SR]) */
-	ftype = fgetc(f);
-	fgetc(f);
+        if (string_to_long(buff, NULL, 10, &bsize) < 0) {
+            fprintf(stderr, "Invalid Lynx file.\n");
+            return FD_RDERR;
+        }
+        /* Get the file type (P[RG], S[EQ], R[EL], U[SR]) */
+        ftype = fgetc(f);
+        fgetc(f);
 
         switch (ftype) {
           case 'D':
@@ -1944,49 +1737,48 @@ static int unlynx_cmd(int nargs, char **args)
             fprintf(stderr, "REL not supported.\n");
             return FD_RDERR;
         }
+        /* Get the byte size of the last block +1 */
+        cnt = 0;
+        while (1) {
+            fread(&val, 1, 1, f);
+            if (val != 13)
+                buff[cnt++] = val;
+            else
+                break;
+        }
+        buff[cnt] = 0;
 
-	/* Get the byte size of the last block +1 */
-	cnt = 0;
-	while (1) {
-	    fread(&val, 1, 1, f);
-	    if (val != 13)
-		buff[cnt++] = val;
-	    else
-		break;
-	}
-	buff[cnt] = 0;
-
-	if (string_to_long(buff, NULL, 10, &lbsize) < 0) {
-	    fprintf(stderr, "Invalid Lynx file.\n");
-	    return FD_RDERR;
-	}
+        if (string_to_long(buff, NULL, 10, &lbsize) < 0) {
+            fprintf(stderr, "Invalid Lynx file.\n");
+            return FD_RDERR;
+        }
         /* Calculate byte size of file */
         cnt = (bsize - 1) * 254 + lbsize - 1;
 
-	printf("Writing file '%s' to image.\n", cname);
+        printf("Writing file '%s' to image.\n", cname);
 
-	floppy = drives[dev & 3];
+        vdrive = drives[dev & 3];
 
-	/* We cannot use normal vdrive_open as it does not allow to
-	   create invalid file names.  */
-	floppy->buffers[1].readmode = FAM_WRITE;
-	vdrive_open_create_dir_slot(&(floppy->buffers[1]), cname,
-				    strlen(cname), filetype);
+        /* We cannot use normal vdrive_open as it does not allow to
+           create invalid file names.  */
+        vdrive->buffers[1].readmode = FAM_WRITE;
+        vdrive_open_create_dir_slot(&(vdrive->buffers[1]), cname,
+                                    strlen(cname), filetype);
 
-	while (cnt != 0) {
-	    fread(&val, 1, 1, f2);
-	    if (vdrive_write(floppy, val, 1)) {
-		fprintf(stderr, "No space on image ?\n");
-		break;
-	    }
-	    cnt--;
-	}
-	vdrive_close(floppy, 1);
+        while (cnt != 0) {
+            fread(&val, 1, 1, f2);
+            if (vdrive_write(vdrive, val, 1)) {
+                fprintf(stderr, "No space on image ?\n");
+                break;
+            }
+            cnt--;
+        }
+        vdrive_close(vdrive, 1);
 
-	/* Adjust for the last block */
+        /* Adjust for the last block */
         if (lbsize < 255)
             fread(buff, 1, 254 + 1 - lbsize, f2);
-	dentries--;
+        dentries--;
     }
     fclose(f);
     fclose(f2);
@@ -2005,8 +1797,8 @@ static int validate_cmd(int nargs, char **args)
         break;
       case 2:
         /* validate <unit> */
-	if (arg_to_int(args[1], &unit) < 0)
-	    return FD_BADDEV;
+        if (arg_to_int(args[1], &unit) < 0)
+            return FD_BADDEV;
         unit -= 8;
         break;
       default:
@@ -2014,7 +1806,7 @@ static int validate_cmd(int nargs, char **args)
     }
 
     if (check_drive(unit, CHK_RDY) < 0)
-	return FD_NOTREADY;
+        return FD_NOTREADY;
 
     printf("Validating in unit %d...\n", unit + 8);
     vdrive_command_validate(drives[unit]);
@@ -2048,12 +1840,13 @@ static int write_cmd(int nargs, char **args)
     }
 
     if (check_drive(unit, CHK_RDY) < 0)
-	return FD_NOTREADY;
+        return FD_NOTREADY;
 
     f = fopen(args[1], MODE_READ);
     if (f == NULL) {
-	fprintf(stderr, "Cannot read file `%s': %s.\n", args[1], strerror(errno));
-	return FD_NOTRD;
+        fprintf(stderr, "Cannot read file `%s': %s.\n", args[1],
+                strerror(errno));
+        return FD_NOTRD;
     }
 
     if (dest_name_ascii == NULL) {
@@ -2111,27 +1904,19 @@ static int write_cmd(int nargs, char **args)
     return FD_OK;
 }
 
-/* FIXME: 1541 only? */
 static int zcreate_cmd(int nargs, char **args)
 {
-#if 0
-XXX
-    vdrive_t *floppy = drives[drive_number];
-    DiskFormats *format = Legal_formats;
-    char tmp[256];
+    vdrive_t *vdrive = drives[drive_number];
     FILE *fsfd = NULL;
-    int errblk = 0;
     int track, sector, count;
     char fname[MAXPATHLEN], dirname[MAXPATHLEN], oname[MAXPATHLEN];
     char *p;
-    int channel = 2;
-    BYTE str[20];
-    static int drive = 8;
     int singlefilemode = 0;
+    BYTE sector_data[256];
 
     /* Open image or create a new one.  If the file exists, it must have
        valid header.  */
-    if (open_image(drive_number, args[1], 1, DISK_IMAGE_TYPE_X64) < 0)
+    if (open_image(drive_number, args[1], 1, DISK_IMAGE_TYPE_D64) < 0)
         return FD_BADIMAGE;
 
     p = strrchr(args[2], FSDEV_DIR_SEP_CHR);
@@ -2161,24 +1946,9 @@ XXX
         fname[0] = '0';
         fname[1] = '!';
     }
-    set_label(floppy->ActiveFd, "*** Truncated image."); /* Notify of errors */
 
-    printf("Copying blocks to image\n");
-    fseek(floppy->ActiveFd, HEADER_LENGTH, SEEK_SET);
+    printf("Copying blocks to image.\n");
 
-    /* Write out all the sectors */
-    for (count = 0; count < format->TotalBks; count++) {
-        if (fwrite(tmp, 1, 256, floppy->ActiveFd) != 256) {
-            fprintf(stderr, "Cannot write block %d of `%s'\n", count, args[2]);
-            return FD_WRTERR;
-        }
-    }
-
-    if (vdrive_open(floppy, "#", 1, channel)) {
-        fprintf(stderr, "Cannot open buffer #%d on unit %d.\n", channel,
-                drive + 8);
-        return FD_RDERR;
-    }
     for (track = 1; track <= 35; track++) {
         if (singlefilemode || track == 1) {
             if (track == 1) {
@@ -2219,37 +1989,23 @@ XXX
         for (count = 0; 
              count < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track);
              count++) {
-            if ((zipcode_read_sector(fsfd, track, &sector,
-                (char *) (floppy->buffers[channel].buffer))) != 0) {
+            if (zipcode_read_sector(fsfd, track, &sector, sector_data) != 0) {
                 fclose(fsfd);
                 return FD_BADIMAGE;
             }
-            /* Write one block */
 
-            sprintf((char *) str, "B-W:%d 0 %d %d", channel, track, sector);
-            if (vdrive_command_execute(floppy, (BYTE *) str,
-                strlen((char *) str)) != 0) {
-                track = DIR_TRACK_1541;
-                sector = 0;
+            /* Write one block */
+            if (disk_image_write_sector(vdrive->image, sector_data, track,
+                sector) < 0) {
                 fclose(fsfd);
                 return FD_RDERR;
             }
         }
     }
-    vdrive_close(floppy, channel);
 
-    /* Update Format and Label information on Disk Header */
-    fseek(floppy->ActiveFd, (off_t) HEADER_LABEL_OFFSET + 0, SEEK_SET);
-
-    if (fwrite(&(format->ImageFormat), 1, 1, floppy->ActiveFd) < 1)
-        return FD_WRTERR;
-
-    set_disk_size(floppy->ActiveFd, format->TracksSide, format->Sides, errblk);
-    set_label(floppy->ActiveFd, (args[3] ? args[3] : NULL)); /* Fix the note */
     fclose(fsfd);
 
-    vdrive_command_execute(floppy, (BYTE *) "I", 1);
-#endif
+    vdrive_command_execute(vdrive, (BYTE *)"I", 1);
     return FD_OK;
 }
 
@@ -2311,12 +2067,12 @@ int main(int argc, char **argv)
 
     if (i == argc) {
         char *line;
-	char buf[16];
+        char buf[16];
 
         /* Interactive mode.  */
-	printf("C1541 Version %d.%02d.\n",
+        printf("C1541 Version %d.%02d.\n",
                C1541_VERSION_MAJOR, C1541_VERSION_MINOR);
-    printf("Copyright 1995-1999 The VICE Development Team.\n"
+        printf("Copyright 1995-1999 The VICE Development Team.\n"
            "C1541 is free software, covered by the GNU General Public License,"
            " and you are\n"
            "welcome to change it and/or distribute copies of it under certain"
@@ -2325,14 +2081,14 @@ int main(int argc, char **argv)
            "There is absolutely no warranty for C1541.  Type `show warranty'"
            " for details.\n");
 
-	while (1) {
-	    sprintf(buf, "c1541 #%d> ", drive_number | 8);
-	    line = read_line(buf);
+        while (1) {
+            sprintf(buf, "c1541 #%d> ", drive_number | 8);
+            line = read_line(buf);
 
             if (line == NULL) {
                 putchar('\n');
                 fflush(stdout), fflush(stderr);
-		break;
+                break;
             }
 
             if (*line=='!') {
@@ -2343,7 +2099,7 @@ int main(int argc, char **argv)
                 if (nargs > 0)
                     lookup_and_execute_command(nargs, args);
             }
-	}
+        }
     } else {
         while (i < argc) {
             args[0] = argv[i] + 1;
