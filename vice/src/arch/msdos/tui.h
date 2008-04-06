@@ -27,7 +27,7 @@
 #ifndef _TUI_H
 #define _TUI_H
 
-#define CENTER_X(w)	 ((tui_num_cols() - (w)) / 2)
+#define CENTER_X(w)      ((tui_num_cols() - (w)) / 2)
 #define CENTER_Y(h)      ((tui_num_lines() - (h)) / 2)
 
 #ifdef MIN
@@ -37,8 +37,8 @@
 #undef MAX
 #endif
 
-#define MIN(a, b)	 ((a) < (b) ? (a) : (b))
-#define MAX(a, b)	 ((a) > (b) ? (a) : (b))
+#define MIN(a, b)        ((a) < (b) ? (a) : (b))
+#define MAX(a, b)        ((a) > (b) ? (a) : (b))
 
 extern void tui_error(const char *format, ...);
 extern void tui_message(const char *format, ...);
