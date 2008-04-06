@@ -42,21 +42,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
-#include <limits.h>
 #include <ctype.h>
 #include <string.h>
-#include <errno.h>
 #ifdef __riscos
 #include "ROlib.h"
-#else
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 #endif
 #include <memory.h>
 #endif
+
+#ifdef HAVE_ERRNO_H
+#include <errno.h>
+#endif
+#ifdef HAVE_FCNTL_H
+#include <fcntl.h>
+#endif
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
+#endif
+#ifdef HAVE_SYS_STAT_H
+#include <sys/stat.h>
+#endif
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
 #endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
