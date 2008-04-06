@@ -1300,15 +1300,6 @@ void ui_error_string(const char *text)
 }
 
 #ifdef WIN32
-#undef BYTE
-#undef WORD
-#undef DWORD
-#include <windows.h>
-void ui_show_text(HWND hParent, const char *szCaption,
-                  const char *szHeader, const char *szText)
-{
-}
-
 /* Kludge! Will be removed someday.  */
 size_t system_wcstombs(char *mbs, const char *wcs, size_t len)
 {

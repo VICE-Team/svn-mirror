@@ -2973,15 +2973,6 @@ unsigned int machine_bus_device_realdevice_state_get(unsigned int unit)
 }
 
 #ifdef WIN32
-#undef BYTE
-#undef WORD
-#undef DWORD
-#include <windows.h>
-void ui_show_text(HWND hParent, const char *szCaption,
-                  const char *szHeader, const char *szText)
-{
-}
-
 /* Kludge! Will be removed someday.  */
 size_t system_wcstombs(char *mbs, const char *wcs, size_t len)
 {
