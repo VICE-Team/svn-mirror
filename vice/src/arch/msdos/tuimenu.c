@@ -112,9 +112,11 @@ struct tui_menu {
 /* ------------------------------------------------------------------------- */
 
 static void tui_menu_call_callback(tui_menu_item_t *item, int param,
-                                   int *become_default)
+                                   int *become_default,
+                                   tui_menu_item_behavior_t *behavior)
 {
     tui_menu_callback_t callback = item->callback;
+    tui_menu_item_behavior_t dummy;
     const char *new_par_string;
 
     if (callback == NULL) {
@@ -124,7 +126,8 @@ static void tui_menu_call_callback(tui_menu_item_t *item, int param,
 	return;
     }
 
-    new_par_string = (*callback)(param, item->callback_param, become_default);
+    new_par_string = (*callback)(param, item->callback_param, become_default,
+                                 behavior == NULL ? &dummy : behavior);
 
     if (new_par_string == NULL) {
 	if (item->par_string != NULL)
@@ -151,10 +154,10 @@ void tui_menu_update(tui_menu_t menu)
 
 	switch (p->type) {
 	  case TUI_MENU_COMMAND:
-	    tui_menu_call_callback(p, 0, &become_default);
+	    tui_menu_call_callback(p, 0, &become_default, NULL);
 	    break;
 	  case TUI_MENU_SUBMENU:
-	    tui_menu_call_callback(p, 0, &become_default);
+	    tui_menu_call_callback(p, 0, &become_default, NULL);
 	    tui_menu_update(p->submenu);
 	    break;
 	  default:
@@ -294,7 +297,7 @@ void tui_menu_add_item(tui_menu_t menu, const char *label,
 	menu->width = width;
 
     /* Make sure `par_string' is initialized.  */
-    tui_menu_call_callback(new, 0, &dummy);
+    tui_menu_call_callback(new, 0, &dummy, NULL);
 }
 
 void tui_menu_add_separator(tui_menu_t menu)
@@ -532,6 +535,7 @@ int tui_menu_handle(tui_menu_t menu, char hotkey)
 	    if (item_ptr != NULL) {
 		int ret = 0;
                 int become_default = 1;
+                tui_menu_item_behavior_t behavior;
 
 		tui_menu_display_item(item_ptr, total_width - 2,
 				      menu_x + 1, y, 1);
@@ -539,14 +543,17 @@ int tui_menu_handle(tui_menu_t menu, char hotkey)
 		if (item_ptr->type == TUI_MENU_SUBMENU)
 		    ret = tui_menu_handle(item_ptr->submenu, 0);
 
-		tui_menu_call_callback(item_ptr, 1, &become_default);
+                behavior = item_ptr->behavior;
+
+		tui_menu_call_callback(item_ptr, 1, &become_default,
+                                       &behavior);
                 if (become_default)
                     menu->default_item = current_item;
 
-		if (ret || item_ptr->behavior != TUI_MENU_BEH_CONTINUE) {
+		if (ret || behavior != TUI_MENU_BEH_CONTINUE) {
 		    tui_area_put(backing_store, menu_x, menu_y);
 		    tui_area_free(backing_store);
-		    if (item_ptr->behavior == TUI_MENU_BEH_RESUME)
+		    if (behavior == TUI_MENU_BEH_RESUME)
 			return 1;
 		    else
 			return ret;
@@ -565,6 +572,7 @@ int tui_menu_handle(tui_menu_t menu, char hotkey)
 		    if (p->hot_key == key_char) {
 			int ret = 0;
                         int become_default = 1;
+                        tui_menu_item_behavior_t behavior;
 
 			item_ptr = p;
 			current_item = i;
@@ -579,14 +587,17 @@ int tui_menu_handle(tui_menu_t menu, char hotkey)
 			if (p->type == TUI_MENU_SUBMENU)
 			    ret = tui_menu_handle(p->submenu, 0);
 
-			tui_menu_call_callback(p, 1, &become_default);
+                        behavior = p->behavior;
+
+			tui_menu_call_callback(p, 1, &become_default,
+                                               &behavior);
                         if (become_default)
                             menu->default_item = current_item;
 
-			if (ret || p->behavior != TUI_MENU_BEH_CONTINUE) {
+			if (ret || behavior != TUI_MENU_BEH_CONTINUE) {
 			    tui_area_put(backing_store, menu_x, menu_y);
 			    tui_area_free(backing_store);
-			    if (p->behavior == TUI_MENU_BEH_RESUME)
+			    if (behavior == TUI_MENU_BEH_RESUME)
 				return 1;
 			    else
 				return ret;

@@ -38,13 +38,20 @@ typedef enum tui_menu_item_behavior {
 } tui_menu_item_behavior_t;
 
 /* Menu item callback: every menu item is associated with a function of this
-   type.  `is_activated' is nonzero if the menu has been activated; the
+   type.  `been_activated' is nonzero if the menu has been activated; the
    function must return a pointer to the parameter string to be displayed on
-   the right of the menu item.  `behavior' defines the behavior of the item
-   after it has been activated (default is `TUI_ITEM_BEH_CONTINUE'). */
+   the right of the menu item.
+   If `*become_default' is set to a nonzero value when the callback returns,
+   the item that triggered the callback becomes the default item for this
+   menu next time the menu is open.  It is nonzero when the callback is
+   called, but the callback can set it to zero if needed.
+   Likewise, `*behavior' defines the behavior of the item after it has been
+   activated; the callback can leave it to the default (specified when the
+   menu is created), or change it. */
 typedef const char *(*tui_menu_callback_t)(int been_activated,
                                            void *callback_param,
-                                           int *become_default);
+                                           int *become_default,
+                                           tui_menu_item_behavior_t *behavior);
 
 /* Menu type. */
 typedef struct tui_menu *tui_menu_t;
@@ -73,8 +80,9 @@ void tui_menu_update(tui_menu_t menu);
 
 /* ------------------------------------------------------------------------- */
 
-#define TUI_MENU_CALLBACK(name) \
-    const char *name(int been_activated, void *param, int *become_default)
+#define TUI_MENU_CALLBACK(name)                                            \
+    const char *name(int been_activated, void *param, int *become_default, \
+                     tui_menu_item_behavior_t *behavior)
 
 #define TUI_MENU_DEFINE_TOGGLE(resource)                                     \
     static TUI_MENU_CALLBACK(toggle_##resource##_callback)                   \
