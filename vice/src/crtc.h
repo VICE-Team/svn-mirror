@@ -38,36 +38,31 @@
 #include "types.h"
 #include "video.h"
 
-#define CRTC_CYCLES_PER_LINE         71
-#define CRTC_RFSH_PER_SEC            50
-
-#define CYCLES_PER_LINE              CRTC_CYCLES_PER_LINE
-
-#ifdef _CRTC_C
-static int crtc_cols = 40;
-#define CRTC_SCREEN_TEXTCOLS		 crtc_cols
-#define CRTC_SCREEN_HEIGHT	         312
-#endif
-
-/* Warning: Some of these values are *bogus*! */
-/* This is a mess.  */
-#define CRTC_SCREEN_XPIX		 (CRTC_SCREEN_TEXTCOLS * 8)
-#define CRTC_SCREEN_YPIX		 200
-#define CRTC_SCREEN_MAX_TEXTCOLS	 80
-#define CRTC_SCREEN_MAX_TEXTLINES	 CRTC_SCREEN_TEXTLINES
-#define CRTC_SCREEN_MAX_XPIX		 (CRTC_SCREEN_MAX_TEXTCOLS * 8)
-#define CRTC_SCREEN_MAX_YPIX		 CRTC_SCREEN_YPIX
-#define CRTC_SCREEN_TEXTLINES		 25
+/* border around the crtc screen in the window. */
 #define CRTC_SCREEN_BORDERWIDTH		 12
-#define CRTC_SCREEN_BORDERHEIGHT	 51
-#define CRTC_SCREEN_MAX_HEIGHT		 CRTC_SCREEN_HEIGHT
-#define CRTC_SCREEN_WIDTH		 (CRTC_SCREEN_XPIX \
-				          + CRTC_SCREEN_BORDERWIDTH * 2)
-#define CRTC_SCREEN_CHARHEIGHT		 screen_charheight
-#define CRTC_NUM_SPRITES		 0
-#define CRTC_SCREEN_FIRST_DISPLAYED_LINE 0x10
-#define CRTC_SCREEN_LAST_DISPLAYED_LINE  0x11f
+#define CRTC_SCREEN_BORDERHEIGHT	 12
 
+/* cycles per rasterline */
+#define CYCLES_PER_LINE			crtc_cycles_per_line
+
+/* size of crtc window - variable */
+#define	CRTC_SCREEN_HEIGHT		screen_height
+#define	CRTC_SCREEN_WIDTH		screen_width
+
+/* size of character-filled window part - variable */
+#define	CRTC_SCREEN_TEXTCOLS		memptr_inc
+#define	CRTC_SCREEN_TEXTLINES		crtc_screen_textlines
+
+/* size of character in pixels, and derived window size in pixels */
+#define	CRTC_SCREEN_CHARHEIGHT		screen_charheight
+#define	CRTC_SCREEN_XPIX		screen_xpix
+#define	CRTC_SCREEN_YPIX		screen_ypix
+
+/* size of the bitmaped rasterline cache */
+#define CRTC_SCREEN_MAX_YPIX		(16*25)
+#define CRTC_SCREEN_MAX_TEXTCOLS	(120)
+
+/* some constants */
 #define CRTC_NUM_COLORS 2
 
 #define CRTC_STANDARD_MODE	    0
@@ -75,30 +70,31 @@ static int crtc_cols = 40;
 #define CRTC_NUM_VMODES		    2
 #define CRTC_IDLE_MODE		    CRTC_STANDARD_MODE
 
+
 /*  Define proper screen constants for raster.c. */
 #ifdef _CRTC_C
 #define __CRTC__
 #define NEEDS_GetCharData
+
+#define SCREEN_BORDERWIDTH		CRTC_SCREEN_BORDERWIDTH
+#define SCREEN_BORDERHEIGHT		CRTC_SCREEN_BORDERHEIGHT
+#define SCREEN_MAX_HEIGHT		(CRTC_SCREEN_MAX_YPIX \
+						+ 2*SCREEN_BORDERHEIGHT)
+#define SCREEN_MAX_TEXTCOLS		CRTC_SCREEN_MAX_TEXTCOLS
+#define SCREEN_FIRST_DISPLAYED_LINE	SCREEN_BORDERHEIGHT
+#define SCREEN_LAST_DISPLAYED_LINE      (SCREEN_BORDERHEIGHT-1+CRTC_SCREEN_YPIX)
+
 #define SCREEN_WIDTH			CRTC_SCREEN_WIDTH
 #define SCREEN_HEIGHT			CRTC_SCREEN_HEIGHT
 #define SCREEN_XPIX			CRTC_SCREEN_XPIX
 #define SCREEN_YPIX			CRTC_SCREEN_YPIX
 #define SCREEN_TEXTCOLS			CRTC_SCREEN_TEXTCOLS
-#define SCREEN_TEXTLINES		CRTC_SCREEN_TEXTLINES
-#define SCREEN_MAX_TEXTCOLS		CRTC_SCREEN_MAX_TEXTCOLS
-#define SCREEN_MAX_XPIX			CRTC_SCREEN_MAX_XPIX
-#define SCREEN_MAX_YPIX			CRTC_SCREEN_MAX_YPIX
-#define SCREEN_MAX_HEIGHT		CRTC_SCREEN_MAX_HEIGHT
-#define SCREEN_BORDERWIDTH		CRTC_SCREEN_BORDERWIDTH
-#define SCREEN_BORDERHEIGHT		CRTC_SCREEN_BORDERHEIGHT
-#define SCREEN_NUM_VMODES		CRTC_NUM_VMODES
-#define SCREEN_CYCLES_PER_LINE		CRTC_CYCLES_PER_LINE
-#define SCREEN_RFSH_PER_SEC             CRTC_RFSH_PER_SEC
+
 #define SCREEN_CHARHEIGHT		CRTC_SCREEN_CHARHEIGHT
+
+#define SCREEN_NUM_VMODES		CRTC_NUM_VMODES
 #define SCREEN_NUM_SPRITES              CRTC_NUM_SPRITES
 #define SCREEN_NUM_COLORS               CRTC_NUM_COLORS
-#define SCREEN_FIRST_DISPLAYED_LINE	CRTC_SCREEN_FIRST_DISPLAYED_LINE
-#define SCREEN_LAST_DISPLAYED_LINE      CRTC_SCREEN_LAST_DISPLAYED_LINE
 #define SCREEN_IDLE_MODE		CRTC_IDLE_MODE
 
 #define	BYTES_PER_CHAR			16
