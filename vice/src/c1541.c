@@ -2879,6 +2879,29 @@ int machine_drive_rom_read(unsigned int type, WORD addr, BYTE *data)
     return -1;
 }
 
+struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit)
+{
+    return diskcontents_iec_read(unit);
+}
+
+int machine_bus_lib_directory(unsigned int unit, const char *pattern,
+                              BYTE **buf)
+{
+    return serial_iec_lib_directory(unit, pattern, buf);
+}
+
+int machine_bus_lib_read_sector(unsigned int unit, unsigned int track,
+                                unsigned int sector, BYTE *buf)
+{
+    return serial_iec_lib_read_sector(unit, track, sector, buf);
+}
+
+int machine_bus_lib_write_sector(unsigned int unit, unsigned int track,
+                                 unsigned int sector, BYTE *buf)
+{
+    return serial_iec_lib_write_sector(unit, track, sector, buf);
+}
+
 #ifdef WIN32
 #undef BYTE
 #undef WORD
