@@ -1180,7 +1180,7 @@ static int extract_cmd(int nargs, char **args)
                             "Cannot open `%s' on unit %d.\n", name, drive + 8);
                     continue;
                 }
-                fd = fopen((char *) name, "wb");
+                fd = fopen((char *) name, MODE_WRITE);
                 if (fd == NULL) {
                     fprintf(stderr, "Cannot create file `%s': %s.",
                     name, strerror(errno));
