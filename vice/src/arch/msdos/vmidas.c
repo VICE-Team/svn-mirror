@@ -71,7 +71,7 @@ void vmidas_close(void)
 
 static void vmidas_set_config_fname(void)
 {
-    config_fname = concat(boot_path, "/midas.cfg", NULL);
+    config_fname = util_concat(boot_path, "/midas.cfg", NULL);
 }
 
 BOOL vmidas_startup(void)

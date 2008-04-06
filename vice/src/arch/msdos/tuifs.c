@@ -421,8 +421,8 @@ static char *change_path(struct file_list *fl, char *return_path,
             new_path[p - return_path + 1] = '\0';
         }
     } else {
-        new_path = concat(return_path,
-                          fl->items[curr_item].name, "/", NULL);
+        new_path = util_concat(return_path,
+                               fl->items[curr_item].name, "/", NULL);
     }
 
     return new_path;
@@ -622,8 +622,8 @@ char *tui_file_selector(const char *title, const char *directory,
                     free(new_path);
                 }
             } else {
-                char *p = concat(return_path, fl->items[curr_item].name,
-                                 NULL);
+                char *p = util_concat(return_path, fl->items[curr_item].name,
+                                      NULL);
 
                 free(return_path);
                 return_path = p;
@@ -666,8 +666,8 @@ char *tui_file_selector(const char *title, const char *directory,
                                           contents_func, unit,
                                           browse_file_number_return);
                 if (*browse_file_return != NULL) {
-                    char *p = concat(return_path, fl->items[curr_item].name,
-                                     NULL);
+                    char *p = util_concat(return_path,
+                                          fl->items[curr_item].name, NULL);
 
                     free(return_path);
                     return_path = p;
