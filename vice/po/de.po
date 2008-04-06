@@ -1001,7 +1001,7 @@ msgstr "Atomic Power Image einlegen..."
 
 #: src/arch/unix/uic64cart.c:159
 msgid "Attach Epyx fastload image..."
-msgstr "Epy Fasload Image einlegen..."
+msgstr "Epyx Fastload Image einlegen..."
 
 #: src/arch/unix/uic64cart.c:162
 msgid "Attach IEEE488 interface image..."
