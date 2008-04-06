@@ -78,7 +78,7 @@ int video_in_gfx_mode() {
     return in_gfx_mode;
 }
 
-static int set_vga_mode(resource_value_t v)
+static int set_vga_mode(resource_value_t v, void *param)
 {
     /* FIXME: Sanity check!  */
     vga_mode = (int) v;
@@ -90,7 +90,7 @@ static int set_vga_mode(resource_value_t v)
 /* Flag: do we try to use triple buffering if possible?  */
 static int try_triple_buffering;
 
-static int set_try_triple_buffering(resource_value_t v)
+static int set_try_triple_buffering(resource_value_t v, void *param)
 {
     /* FIXME: this has only effect when we switch to gfx mode.  This is OK
        for now, but is not the correct behavior.  */
@@ -102,10 +102,12 @@ static int set_try_triple_buffering(resource_value_t v)
 
 static resource_t resources[] = {
     { "VGAMode", RES_INTEGER, (resource_value_t) VGA_320x200,
-      (resource_value_t *) &vga_mode, set_vga_mode },
+      (resource_value_t *) &vga_mode,
+      set_vga_mode, NULL },
 #ifndef USE_MIDAS_SOUND
     { "TripleBuffering", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &try_triple_buffering, set_try_triple_buffering },
+      (resource_value_t *) &try_triple_buffering,
+      set_try_triple_buffering, NULL },
 #endif
     { NULL }
 };
