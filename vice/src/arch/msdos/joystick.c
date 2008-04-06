@@ -48,7 +48,6 @@ static int set_joystick_device_1(resource_value_t v)
     joystick_device_t dev = (joystick_device_t) v;
 
     joystick_device_1 = dev;
-    printf("joystick_device_1 %d\n", joystick_device_1);
     return 0;
 }
 
@@ -57,7 +56,6 @@ static int set_joystick_device_2(resource_value_t v)
     joystick_device_t dev = (joystick_device_t) v;
 
     joystick_device_2 = dev;
-    printf("joystick_device_2 %d\n", joystick_device_2);
     return 0;
 }
 
@@ -186,18 +184,26 @@ int joystick_handle_key(int kcode, int pressed)
     int value = 0;
 
     switch (kcode) {
-      case K_KP8:
+      case K_KP7:               /* North-West */
+        value |= 5;
+      case K_KP8:               /* North */
         value |= 1;
         break;
-      case K_KP2:
+      case K_KP9:               /* North-East */
+        value |= 9;
+      case K_KP6:               /* East */
+        value |= 8;
+        break;
+      case K_KP3:               /* South-East */
+        value |= 10;
+      case K_KP2:               /* South */
       case K_KP5:
         value |= 2;
         break;
-      case K_KP4:
+      case K_KP1:               /* South-West */
+        value |= 6;
+      case K_KP4:               /* West */
         value |= 4;
-        break;
-      case K_KP6:
-        value |= 8;
         break;
       case K_KP0:
       case K_RIGHTCTRL:
