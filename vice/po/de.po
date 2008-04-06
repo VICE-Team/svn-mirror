@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-08-17 22:10+0200\n"
+"POT-Creation-Date: 2002-08-25 23:04+0200\n"
 "PO-Revision-Date: 2002-05-05 18:45+02:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -212,17 +212,15 @@ msgstr "VDC Screenshot"
 msgid "Screenshots..."
 msgstr "Screenshots..."
 
-#: src/arch/unix/c128ui.c:321 src/arch/unix/c128ui.c:337
-#: src/arch/unix/c64ui.c:342 src/arch/unix/c64ui.c:356
+#: src/arch/unix/c128ui.c:321 src/arch/unix/c64ui.c:342
 msgid "VIC-II settings"
 msgstr "VIC-II Einstellungen"
 
-#: src/arch/unix/c128ui.c:323 src/arch/unix/c128ui.c:339
+#: src/arch/unix/c128ui.c:323
 msgid "VDC settings"
 msgstr "VDC Einstellungen"
 
-#: src/arch/unix/c128ui.c:325 src/arch/unix/c128ui.c:341
-#: src/arch/unix/c64ui.c:344 src/arch/unix/c64ui.c:358
+#: src/arch/unix/c128ui.c:325 src/arch/unix/c64ui.c:344
 #: src/arch/unix/cbm2ui.c:377 src/arch/unix/vsidui.c:171
 msgid "SID settings"
 msgstr "SID Einstellungen"
@@ -231,36 +229,35 @@ msgstr "SID Einstellungen"
 msgid "Memory and I/O extensions"
 msgstr "Speicher und I/O Erweiterungen"
 
-#: src/arch/unix/c128ui.c:329 src/arch/unix/c128ui.c:343
-#: src/arch/unix/c64ui.c:348 src/arch/unix/c64ui.c:360
+#: src/arch/unix/c128ui.c:329 src/arch/unix/c64ui.c:348
 #: src/arch/unix/cbm2ui.c:370 src/arch/unix/vic20ui.c:348
 msgid "RS232 settings"
 msgstr "RS232 Einstellungen"
 
-#: src/arch/unix/c128ui.c:331 src/arch/unix/c128ui.c:345
+#: src/arch/unix/c128ui.c:331
 msgid "Memory settings"
 msgstr "Speicher Einstellungen"
 
-#: src/arch/unix/c128ui.c:404 src/arch/unix/c64ui.c:418
+#: src/arch/unix/c128ui.c:390 src/arch/unix/c64ui.c:406
 #: src/arch/unix/cbm2ui.c:460 src/arch/unix/petui.c:385
 #: src/arch/unix/plus4ui.c:150 src/arch/unix/vic20ui.c:464
 #: src/arch/unix/vsidui.c:255
 msgid "File"
 msgstr "Datei"
 
-#: src/arch/unix/c128ui.c:423 src/arch/unix/c64ui.c:437
+#: src/arch/unix/c128ui.c:409 src/arch/unix/c64ui.c:425
 #: src/arch/unix/cbm2ui.c:477 src/arch/unix/petui.c:402
 #: src/arch/unix/plus4ui.c:167 src/arch/unix/vic20ui.c:483
 msgid "Snapshot"
 msgstr "Snapshot"
 
-#: src/arch/unix/c128ui.c:429 src/arch/unix/c64ui.c:443
+#: src/arch/unix/c128ui.c:415 src/arch/unix/c64ui.c:431
 #: src/arch/unix/cbm2ui.c:483 src/arch/unix/petui.c:408
 #: src/arch/unix/plus4ui.c:173 src/arch/unix/vic20ui.c:489
 msgid "Options"
 msgstr "Optionen"
 
-#: src/arch/unix/c128ui.c:441 src/arch/unix/c64ui.c:455
+#: src/arch/unix/c128ui.c:427 src/arch/unix/c64ui.c:443
 #: src/arch/unix/cbm2ui.c:493 src/arch/unix/petui.c:416
 #: src/arch/unix/plus4ui.c:181 src/arch/unix/vic20ui.c:495
 #: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1099
@@ -270,9 +267,9 @@ msgstr "Einstellungen"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
-#: src/arch/unix/c128ui.c:455 src/arch/unix/c64ui.c:469
-#: src/arch/unix/cbm2ui.c:509 src/arch/unix/petui.c:431
-#: src/arch/unix/plus4ui.c:194 src/arch/unix/vic20ui.c:512
+#: src/arch/unix/c128ui.c:442 src/arch/unix/c64ui.c:458
+#: src/arch/unix/cbm2ui.c:508 src/arch/unix/petui.c:430
+#: src/arch/unix/plus4ui.c:196 src/arch/unix/vic20ui.c:511
 msgid "RJHelp"
 msgstr "RJHilfe"
 
@@ -298,7 +295,7 @@ msgstr "Zeichensatz ROM Laden"
 msgid "Screenshot..."
 msgstr "Screenshot..."
 
-#: src/arch/unix/c64ui.c:340 src/arch/unix/c64ui.c:354
+#: src/arch/unix/c64ui.c:340
 msgid "ROM settings"
 msgstr "ROM Einstellungen"
 
@@ -2435,9 +2432,9 @@ msgid "Found %dbit/%s visual."
 msgstr "%dbit/%s Farbtiefe erkannt."
 
 #: src/arch/unix/x11/gnome/x11ui.c:635
-#, fuzzy, c-format
+#, c-format
 msgid "Found %dbit visual."
-msgstr "%dbit/%s Farbtiefe erkannt."
+msgstr "%dbit Farbtiefe erkannt."
 
 #: src/arch/unix/x11/gnome/x11ui.c:658 src/arch/unix/x11/xaw/x11ui.c:487
 msgid "Cannot autodetect a proper visual."
@@ -2596,82 +2593,82 @@ msgstr "Fehler beim Umschalten auf Vollbild Modus%s"
 msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
 msgstr "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
 
-#: src/arch/unix/x11/dga1.c:250 src/arch/unix/x11/dga2.c:772
+#: src/arch/unix/x11/dga1.c:250 src/arch/unix/x11/dga2.c:773
 msgid "Switch to windowmode"
 msgstr "Umschalten auf Fenster Modus"
 
-#: src/arch/unix/x11/dga2.c:189
+#: src/arch/unix/x11/dga2.c:190
 #, c-format
 msgid "Selected mode: %s"
 msgstr "Gewählter Modus: %s"
 
-#: src/arch/unix/x11/dga2.c:308
+#: src/arch/unix/x11/dga2.c:309
 #, c-format
 msgid "Attach debugger to pid %d..."
 msgstr "Attach debugger to pid %d..."
 
-#: src/arch/unix/x11/dga2.c:344
+#: src/arch/unix/x11/dga2.c:345
 msgid "refresh, not ready, skipping frame"
 msgstr "Bildrefresh nicht fertig, überspringe Bild"
 
-#: src/arch/unix/x11/dga2.c:413
+#: src/arch/unix/x11/dga2.c:414
 msgid "Successfully forked DGA"
 msgstr "Successfully forked DGA"
 
-#: src/arch/unix/x11/dga2.c:418
+#: src/arch/unix/x11/dga2.c:419
 msgid "Unable to query video extension version - disabling fullscreen."
 msgstr ""
 "Kann Version von Video Erweiterung nicht feststellen - deaktivier "
 "Vollbildmodus"
 
-#: src/arch/unix/x11/dga2.c:423
+#: src/arch/unix/x11/dga2.c:424
 msgid "Unable to query video extension information - disabling fullscreen."
 msgstr ""
 "Kann nötige Information für Video Erweiterung nicht abfragen - deaktivier "
 "Vollbildmodus"
 
-#: src/arch/unix/x11/dga2.c:432
+#: src/arch/unix/x11/dga2.c:433
 #, c-format
 msgid "Xserver is running an old XFree86-DGA version (%d.%d) "
 msgstr "Alte Version der XFree86-VidMode Erweiterung erkannt (%d.  %d)"
 
-#: src/arch/unix/x11/dga2.c:435
+#: src/arch/unix/x11/dga2.c:436
 #, c-format
 msgid "Minimum required version is %d.%d - disabling fullscreen."
 msgstr "Minimal erforderliche Version ist %d.%d - deaktivier Vollbildmodus"
 
-#: src/arch/unix/x11/dga2.c:566
+#: src/arch/unix/x11/dga2.c:567
 #, c-format
 msgid "Switch to fullscreen%s"
 msgstr "Aktiviere Vollbild Modus%s"
 
-#: src/arch/unix/x11/dga2.c:572
+#: src/arch/unix/x11/dga2.c:573
 msgid "Need root privileges for DGA2 fullscreen"
 msgstr "Super User Privilegien sind nötig um den Vollbild Modus zu aktivieren."
 
-#: src/arch/unix/x11/dga2.c:586
+#: src/arch/unix/x11/dga2.c:587
 #, c-format
 msgid "Error switching to fullscreen (SetMode) %ix%i"
 msgstr "Fehler beim Umschalten auf Vollbild Modus %ix%i"
 
-#: src/arch/unix/x11/dga2.c:596
+#: src/arch/unix/x11/dga2.c:597
 #, c-format
 msgid "Error switching to fullscreen (pixmap) %ix%i"
 msgstr "Fehler beim Umschalten auf Vollbild Modus %ix%i"
 
-#: src/arch/unix/x11/dga2.c:630
+#: src/arch/unix/x11/dga2.c:631
 #, c-format
 msgid "Not enough video memory pages in mode %s, disabling fullscreen (%d,%d)."
 msgstr ""
 "Nicht genügend Speicher für Vollbild Modus %s vorhanden - deaktiviere "
 "Vollbildmodus (%d,%d)"
 
-#: src/arch/unix/x11/dga2.c:644
+#: src/arch/unix/x11/dga2.c:645
 #, c-format
 msgid "Error switching to fullscreen (CreateGC) %ix%i"
 msgstr "Fehler beim Umschalten auf Vollbild Modus %ix%i"
 
-#: src/arch/unix/x11/dga2.c:699
+#: src/arch/unix/x11/dga2.c:700
 msgid "Couldn't allocate color cache"
 msgstr "Nicht genügend Speicher für Farbcache vorhanden"
 
