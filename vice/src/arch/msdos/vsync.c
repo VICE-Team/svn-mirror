@@ -307,18 +307,14 @@ int do_vsync(int been_skipped)
     if (been_skipped)
 	num_skipped_frames++;
 
-    if (speed_eval_suspended) {
-        elapsed_frames = 0;
-        speed_eval_suspended = 0;
-        frame_counter = num_skipped_frames = 0;
-    } else if (warp_mode_enabled) { /* Warp mode: run as fast as possible.  */
+    if (warp_mode_enabled) { /* Warp mode: run as fast as possible.  */
 	if (skip_counter < MAX_SKIPPED_FRAMES) {
 	    skip_next_frame = 1;
 	    skip_counter++;
 	} else {
 	    skip_counter = elapsed_frames = 0;
 	}
-        sound_flush(0);
+        /* sound_flush(0); */
     } else if (refresh_rate != 0) { /* Fixed refresh rate.  */
 	if (timer_speed != 0 && skip_counter >= elapsed_frames)
 	    while (skip_counter >= elapsed_frames)

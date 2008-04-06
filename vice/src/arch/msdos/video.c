@@ -306,9 +306,9 @@ void video_ack_vga_mode(void)
 void enable_text(void)
 {
     DEBUG(("Enabling text mode"));
+    kbd_uninstall();
     set_gfx_mode(GFX_TEXT, 80, 25, 0, 0);
     _set_screen_lines(25);
-    kbd_uninstall();
     DEBUG(("Successful"));
     in_gfx_mode = 0;
 }

@@ -61,7 +61,7 @@ BYTE joy[3] = { 0, 0, 0 };
 
 /* ------------------------------------------------------------------------- */
 
-/* Segment info for the custom keyboard handler.  */
+/* Segment info for the standard keyboard handler.  */
 static _go32_dpmi_seginfo std_kbd_handler_seginfo;
 
 /* This takes account of the status of the modifier keys on the real PC
@@ -98,6 +98,16 @@ static void (*freeze_function)(void);
 #else
 #define DEBUG(x)
 #endif
+
+BYTE _kbd_extended_key_tab[256] = {
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, K_KPENTER, K_RIGHTCTRL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, K_HOME, K_UP, K_PGUP, 0, K_LEFT, 0, K_RIGHT, 0, K_END,
+    K_DOWN, K_PGDOWN, K_INS, K_DEL, 0, 0, 0, 0, 0, 0, 0, K_LEFTW95,
+    K_RIGHTW95, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+};
 
 /* ------------------------------------------------------------------------- */
 
@@ -273,7 +283,7 @@ static void my_kbd_interrupt_handler(void)
 
 	/* Derive the extended keycode.  */
 	if (extended == 1)
-	    kcode = extended_key_tab[kcode];
+	    kcode = _kbd_extended_key_tab[kcode];
 
 	/* Handle modifiers.  */
 	switch (kcode) {
@@ -336,7 +346,7 @@ static void my_kbd_interrupt_handler(void)
 
 	/* Derive the extended keycode.  */
 	if (extended == 1)
-	    kcode = extended_key_tab[kcode];
+	    kcode = _kbd_extended_key_tab[kcode];
 
 	/* Handle modifiers.  */
 	switch (kcode) {
@@ -439,7 +449,6 @@ static void kbd_exit(void)
 }
 
 /* Initialize the keyboard driver.  */
-/* keyconv *map, int sizeof_map, */
 int kbd_init(int shift_column, int shift_row, ...)
 {
     DEBUG(("Getting standard int 9 seginfo"));
@@ -448,7 +457,7 @@ int kbd_init(int shift_column, int shift_row, ...)
 
     DEBUG(("Locking custom keyboard handler code"));
     _go32_dpmi_lock_code(my_kbd_interrupt_handler, (unsigned long)my_kbd_interrupt_handler_end - (unsigned long)my_kbd_interrupt_handler);
-    _go32_dpmi_lock_code(queue_command, (unsigned long)queue_command_end - (unsigned long)queue_command);
+    _go32_dpmi_lock_data(queue_command, (unsigned long)queue_command_end - (unsigned long)queue_command);
 
     DEBUG(("Locking keyboard handler variables"));
     {
@@ -496,7 +505,32 @@ int kbd_init(int shift_column, int shift_row, ...)
     return 0;
 }
 
+/* ------------------------------------------------------------------------- */
+
 void kbd_set_freeze_function(void (*f)())
 {
     freeze_function = f;
+}
+
+/* ------------------------------------------------------------------------- */
+
+const char *kbd_code_to_string(kbd_code_t kcode)
+{
+    static char *tab[256] = {
+        "None", "Esc", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-",
+        "=", "Backspace", "Tab", "Q", "W", "E", "R", "T", "Y", "U", "I", "O",
+        "P", "{", "}", "Enter", "Left Ctrl", "A", "S", "D", "F", "G", "H", "J",
+        "K", "L", ";", "'", "`", "Left Shift", "\\", "Z", "X", "C", "V", "B",
+        "N", "M", ",", ".", "/", "Right Shift", "Numpad *", "Left Alt",
+        "Space", "Caps Lock", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8",
+        "F9", "F10", "Num Lock", "Scroll Lock", "Numpad 7", "Numpad ",
+        "Numpad 9", "Numpad -", "Numpad 4", "Numpad 5", "Numpad 6",
+        "Numpad +", "Numpad 1", "Numpad 2", "Numpad 3", "Numpad 0",
+        "Numpad .", "SysReq", "85", "86", "F11", "F12", "Home",
+        "Up", "PgUp", "Left", "Right", "End", "Down", "PgDown", "Ins", "Del",
+        "Numpad Enter", "Right Ctrl", "Pause", "PrtScr", "Numpad /",
+        "Right Alt", "Break", "Left Win95", "Right Win95"
+    };
+
+    return tab[(int) kcode];
 }
