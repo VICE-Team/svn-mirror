@@ -37,7 +37,7 @@ extern void printer_reset(void);
 
 /* Serial interface.  */
 extern int printer_interface_serial_close(unsigned int unit);
-extern void printer_interface_serial_late_init(void);
+extern int printer_interface_serial_late_init(void);
 
 /* Userport interface.  */
 extern void printer_interface_userport_write_data(BYTE b);
