@@ -56,8 +56,6 @@
 #include <assert.h>
 #endif
 
-#include "c1541.h"
-
 #include "archdep.h"
 #include "charsets.h"
 #include "file.h"
@@ -636,7 +634,7 @@ static int create_image(file_desc_t fd, int devtype, int tracks, int errb,
     return 0;
 }
 
-static int set_label(file_desc_t fd, char *label)
+static int set_label(file_desc_t fd, const char *label)
 {
     int siz = HEADER_LABEL_LEN + 1;
     char buf[HEADER_LABEL_LEN + 2];
@@ -1083,7 +1081,7 @@ static int delete_cmd(int nargs, char **args)
         petconvstring(command, 0);
 
         printf("Deleting `%s' on unit %d.\n", name, unit + 8);
-	vdrive_command_execute(drives[unit], command, strlen(command));
+        vdrive_command_execute(drives[unit], (BYTE *)command, strlen(command));
         free(command);
     }
 
@@ -1560,7 +1558,7 @@ static int read_cmd(int nargs, char **args)
 	    return FD_NOTWRT;
 	}
         if (is_p00) {
-	    if (p00_write_header(outf, dest_name_ascii, 0) < 0)
+	    if (p00_write_header(outf, (BYTE *)dest_name_ascii, 0) < 0)
                 fprintf(stderr, "Cannot write P00 header.\n");
             else
                 printf("Written P00 header.\n");
@@ -2023,13 +2021,13 @@ static int write_cmd(int nargs, char **args)
 
     if (dest_name_ascii == NULL) {
         char realname[17];      /* FIXME: Should be a #define.  */
-        int reclen;             /* And we don't really need this stuff!  */
+        unsigned int reclen;    /* And we don't really need this stuff!  */
 
         /* User did not specify a destination name...  Let's try to make an
            educated guess at what she expects.  */
         /* FIXME: We should create files according to the P00 file type.  */
         if (p00_check_name(args[1]) >= 0
-            && p00_read_header(f, realname, &reclen) >= 0) {
+            && p00_read_header(f, (BYTE *)realname, &reclen) >= 0) {
             dest_name_petscii = stralloc(realname);
             dest_name_ascii = stralloc(dest_name_petscii);
             petconvstring(dest_name_ascii, 0);
@@ -2084,7 +2082,8 @@ static int zcreate_cmd(int nargs, char **args)
     file_desc_t fsfd = ILLEGAL_FILE_DESC;
     int errblk = 0;
     int track, sector, count;
-    char *fname;
+    char fname[MAXPATHLEN], dirname[MAXPATHLEN], oname[MAXPATHLEN];
+    char *p;
     int channel = 2;
     BYTE str[20];
     static int drive = 8;
@@ -2093,18 +2092,35 @@ static int zcreate_cmd(int nargs, char **args)
     /* Open image or create a new one.  If the file exists, it must have
        valid header.  */
     if (open_image(drive_number, args[1], 1, DISK_IMAGE_TYPE_X64) < 0)
-	return FD_BADIMAGE;
+        return FD_BADIMAGE;
 
-    fname = (char *) malloc(sizeof(char) * strlen(args[2]) + 3);
+    p = strrchr(args[2], FSDEV_DIR_SEP_CHR);
+    if (p == NULL) {
+        /* ignore '[0-4]!' if found */
+        if (args[2][0] >= '1' && args[2][0] <= '4' && args[2][1] == '!')
+            strcpy(fname + 2, args[2] + 2);
+        else
+            strcpy(fname + 2, args[2]);
+        fname[0] = '0';
+        fname[1] = '!';
+        strcpy(dirname, "");
+    } else {
+        int len_path;
+        len_path = (int)(p - args[2]);
+        if (len_path == strlen(args[2]) - 1)
+            return FD_RDERR;
+        strncpy(dirname, args[2], len_path + 1);
+        dirname[len_path + 1] = '\0';
 
-    /* ignore '[0-4]!' if found */
-    if (args[2][0] >= '1' && args[2][0] <= '4' && args[2][1] == '!')
-	strcpy(fname + 2, args[2] + 2);
-    else
-	strcpy(fname + 2, args[2]);
-    fname[0] = '0';
-    fname[1] = '!';
-
+        /* ignore '[0-4]!' if found */
+        if (args[2][len_path + 1] >= '1' && args[2][len_path + 1] <= '4' 
+            && args[2][len_path + 1 + 1] == '!')
+            strcpy(fname + 2, &(args[2][len_path + 1]) + 2);
+        else
+            strcpy(fname + 2, &(args[2][len_path + 1]));
+        fname[0] = '0';
+        fname[1] = '!';
+    }
     set_label(floppy->ActiveFd, "*** Truncated image."); /* Notify of errors */
 
     printf("Copying blocks to image\n");
@@ -2112,82 +2128,85 @@ static int zcreate_cmd(int nargs, char **args)
 
     /* Write out all the sectors */
     for (count = 0; count < format->TotalBks; count++) {
-	if (write(floppy->ActiveFd, tmp, 256) != 256) {
-	    fprintf(stderr, "Cannot write block %d of `%s'\n", count, args[2]);
-	    return FD_WRTERR;
-	}
+        if (write(floppy->ActiveFd, tmp, 256) != 256) {
+            fprintf(stderr, "Cannot write block %d of `%s'\n", count, args[2]);
+            return FD_WRTERR;
+        }
     }
 
     if (vdrive_open(floppy, "#", 1, channel)) {
-	fprintf(stderr, "Cannot open buffer #%d on unit %d.\n", channel, drive + 8);
-	return FD_RDERR;
+        fprintf(stderr, "Cannot open buffer #%d on unit %d.\n", channel,
+                drive + 8);
+        return FD_RDERR;
     }
     for (track = 1; track <= 35; track++) {
-	if (singlefilemode || track == 1) {
-	    if (track == 1) {
-		fsfd = open(fname + 2, O_RDONLY);
-		if (fsfd != ILLEGAL_FILE_DESC) {
-		    printf("Reading zipfile on one-file mode\n");
-		    singlefilemode = 1;
-		    lseek(fsfd, 4, SEEK_SET);
-		}
-	    } else if (track == 9 || track == 17 || track == 26) {
-		lseek(fsfd, 2, SEEK_CUR);
-	    }
-	}
-	if (!singlefilemode) {
-	    switch (track) {
-	      case 1:
-	      case 9:
-	      case 17:
-	      case 26:
+        if (singlefilemode || track == 1) {
+            if (track == 1) {
+                /* For now we disable one-file more, because it is not detected
+                   correctly.  */
+                strcpy(oname, dirname);
+                strcat(oname, fname + 2);
+                fsfd = open(oname, O_RDONLY);
+                if (fsfd != ILLEGAL_FILE_DESC) {
+                    printf("Reading zipfile on one-file mode\n");
+                    singlefilemode = 1;
+                    lseek(fsfd, 4, SEEK_SET);
+                }
+            } else if (track == 9 || track == 17 || track == 26) {
+                lseek(fsfd, 2, SEEK_CUR);
+            }
+        }
+        if (!singlefilemode) {
+            switch (track) {
+              case 1:
+              case 9:
+              case 17:
+              case 26:
                 fname[0]++;
                 if (fsfd != ILLEGAL_FILE_DESC)
                     close(fsfd);
-                if ((fsfd = open(fname, O_RDONLY)) == ILLEGAL_FILE_DESC) {
+                strcpy(oname, dirname);
+                strcat(oname, fname);
+                if ((fsfd = open(oname, O_RDONLY)) == ILLEGAL_FILE_DESC) {
                     fprintf(stderr, "Cannot open `%s'.\n", fname);
                     perror(fname);
                     return FD_NOTRD;
                 }
                 lseek(fsfd, (track == 1) ? 4 : 2, SEEK_SET);
                 break;
-	    }
-	}
-	for (count = 0; count < sector_map_1541[track]; count++) {
-	    if ((zipcode_read_sector(fsfd, track, &sector,
-                                     (char *) (floppy->buffers[channel].buffer))) != 0) {
-		close(fsfd);
-		return FD_BADIMAGE;
-	    }
-	    /* Write one block */
+            }
+        }
+        for (count = 0; count < sector_map_1541[track]; count++) {
+            if ((zipcode_read_sector(fsfd, track, &sector,
+                (char *) (floppy->buffers[channel].buffer))) != 0) {
+                close(fsfd);
+                return FD_BADIMAGE;
+            }
+            /* Write one block */
 
-	    sprintf((char *) str, "B-W:%d 0 %d %d", channel, track, sector);
-	    if (vdrive_command_execute(floppy, (BYTE *) str,
-				       strlen((char *) str)) != 0) {
-		track = DIR_TRACK_1541;
-		sector = 0;
-		close(fsfd);
-		return FD_RDERR;
-	    }
-	}
+            sprintf((char *) str, "B-W:%d 0 %d %d", channel, track, sector);
+            if (vdrive_command_execute(floppy, (BYTE *) str,
+                strlen((char *) str)) != 0) {
+                track = DIR_TRACK_1541;
+                sector = 0;
+                close(fsfd);
+                return FD_RDERR;
+            }
+        }
     }
     vdrive_close(floppy, channel);
 
     /* Update Format and Label information on Disk Header */
-
     lseek(floppy->ActiveFd, (off_t) HEADER_LABEL_OFFSET + 0, SEEK_SET);
 
     if (write(floppy->ActiveFd, &(format->ImageFormat), 1) != 1)
-	return FD_WRTERR;
+        return FD_WRTERR;
 
     set_disk_size(floppy->ActiveFd, format->TracksSide, format->Sides, errblk);
-
-    set_label(floppy->ActiveFd, (args[3] ? args[3] : NULL));	/* Fix the note */
-
+    set_label(floppy->ActiveFd, (args[3] ? args[3] : NULL)); /* Fix the note */
     close(fsfd);
 
     vdrive_command_execute(floppy, (BYTE *) "I", 1);
-
     return FD_OK;
 }
 
@@ -2205,7 +2224,7 @@ static int raw_cmd(int nargs, char **args)
     }
 
     /* Print the error now.  */
-    puts(floppy->buffers[15].buffer);
+    puts((char *)floppy->buffers[15].buffer);
     return FD_OK;
 }
 
@@ -2269,8 +2288,6 @@ int main(int argc, char **argv)
             }
 
             if (*line=='!') {
-                int retval;
-
                 retval = system(line + 1);
                 printf("Exit code: %d.\n", retval);
             } else {
@@ -2305,16 +2322,16 @@ int main(int argc, char **argv)
 
 /* FIXME: Can we get rid of this stuff?  */
 
-int attach_fsdevice(int device, char *var, char *name)
+int attach_fsdevice(int device, char *var, const char *name)
 {
     drives[device & 3] = (DRIVE *) var;
     return 0;
 }
 
-int serial_attach_device(int device, char *var, char *name,
+int serial_attach_device(int device, char *var, char const *name,
 			 int (*getf) (void *, BYTE *, int),
 			 int (*putf) (void *, BYTE, int),
-			 int (*openf) (void *, char *, int, int),
+			 int (*openf) (void *, const char *, int, int),
 			 int (*closef) (void *, int),
 			 void (*flushf) (void *, int))
 {

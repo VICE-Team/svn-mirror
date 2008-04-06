@@ -180,7 +180,7 @@
 
 /* PC64 files need this */
 
-char *slot_type[] =
+const char *slot_type[] =
 {
     "DEL", "SEQ", "PRG", "USR", "REL", "CBM", "DJJ", "FAB"
 };
@@ -190,7 +190,7 @@ static const unsigned char MagicHeaderP00[8] = "C64File\0";
 
 #define NUM_VERSIONS  12
 
-char   *VersNames[] = {
+const char *VersNames[] = {
     "Basic 1.0",
     "Basic 2.0",
     "Basic 2.0 with Super Expander",
@@ -213,7 +213,7 @@ char   *VersNames[] = {
  * CBM Basic Keywords
  */
 
-char   *keyword[] = {
+const char *keyword[] = {
     /* Common Keywords, 80 - cb */
     "end",   "for",  "next", "data", "input#", "input",  "dim", "read",
     "let",   "goto", "run",  "if",   "restore", "gosub", "return", "rem",
@@ -245,13 +245,13 @@ char   *keyword[] = {
  * On 10.0 stash, fetch, and swap are replaced with dma.
  */
 
-char   *kwce[] = {
+const char *kwce[] = {
     "", "", "pot", "bump", "pen", "rsppos", "rsprite", "rspcolor",
     "xor", "rwindow", "pointer"
 };
 
 
-char   *kwfe[] = {
+const char *kwfe[] = {
     "", "",  "bank", "filter",  "play", "tempo", "movspr", "sprite",
     "sprcolor", "rreg", "envelope", "sleep", "catalog", "dopen", "append",
     "dclose", "bsave",
@@ -266,14 +266,14 @@ char   *kwfe[] = {
 };
 
 
-char  *superkwcc[] = { /* VIC Super Expander commands 0xcc - 0xdd */
+const char *superkwcc[] = { /* VIC Super Expander commands 0xcc - 0xdd */
     "key", "graphic", "scnclr", "circle", "draw", "region", "color", "point",
     "sound", "char",  "paint",  "rpot",   "rpen", "rsnd",   "rcolr", "rgr",
     "rjoy",  "rdot"
 };
 
 
-char *petkwcc[] = {	/* PET Basic 4.0 0xcc - 0xda */
+const char *petkwcc[] = {	/* PET Basic 4.0 0xcc - 0xda */
     "concat", "dopen", "dclose", "record",
     "header", "collect", "backup", "copy","append", "dsave","dload", "catalog",
     "rename", "scratch", "directory",
@@ -291,7 +291,7 @@ char *petkwcc[] = {	/* PET Basic 4.0 0xcc - 0xda */
 
 /* Turtle Basic v1.0 Keywords  -- Craig Bruce */
 
-char   *turtlekwcc[] = {
+const char *turtlekwcc[] = {
     "graphic", "old",  "turn",   "pen",  "draw",  "move", "point", "kill",
     "write", "repeat", "screen", "doke", "reloc", "fill", "rtime", "base",
     "pause", "pop",    "color", "merge", "char",  "take", "sound", "vol",
@@ -307,7 +307,7 @@ char   *turtlekwcc[] = {
 
 /* Speech Basic v2.7  Keywords (Tokens CC - E6) */
 
-char   *speechkwcc[] = {
+const char *speechkwcc[] = {
     "reset",  "basic", "help",  "key",
     "himem",  "disk",  "dir",   "bload", "bsave",  "map",    "mem", "pause",
     "block",  "hear", "record", "play",  "voldef", "coldef", "hex", "dez",
@@ -317,7 +317,7 @@ char   *speechkwcc[] = {
 
 /* @Basic (Atbasic) Keywords (Tokens CC - F6) -- André Fachat */
 
-char   *atbasickwcc[] = {
+const char *atbasickwcc[] = {
     "trace", "delete",  "auto", "old", "dump", "find", "renumber", "dload",
     "dsave", "dverify", "directory", "catalog", "scratch", "collect",
     "rename", "copy", "backup", "disk", "header", "append", "merge", "mload",
@@ -329,7 +329,7 @@ char   *atbasickwcc[] = {
 
 /* Simon's Basic Keywords */
 
-char   *simonskw[] = {
+const char *simonskw[] = {
     "", "hires", "plot", "line", "block", "fchr", "fcol", "fill",
     "rec", "rot", "draw", "char", "hi col", "inv", "frac",  "move",
     "place", "upb", "upw", "leftw", "leftb", "downb", "downw", "rightb",
@@ -357,14 +357,14 @@ char   *simonskw[] = {
  * These are used by MikroBITTI for clarification
  */
 
-char   *a_ctrl1[] = {
+const char *a_ctrl1[] = {
     "", "", "", "", "", "wht", "", "",
     "up/lo lock on", "up/lo lock off", "", "", "", "return", "lower case", "",
     "", "down", "rvs on", "home", "delete", "", "", "",
     "",  "",  "",  "esc", "red", "right", "grn", "blu"
 };
 
-char   *a_ctrl2[] = {
+const char *a_ctrl2[] = {
     "", "orange", "", "", "", "f1", "f3", "f5",
     "f7", "f2", "f4", "f6", "f8", "shift return", "upper case", "",
     "blk",  "up", "rvs off", "clr", "insert", "brown", "lt red", "grey1",
@@ -379,7 +379,7 @@ static void pet_2_asc (int ctrls);
 static void _p_toascii(int c, int ctrls);
 static int p_expand(int version, int addr, int ctrls);
 static void p_tokenize(int version, int addr, int ctrls);
-static unsigned char sstrcmp(unsigned char *line, char **wordlist,
+static unsigned char sstrcmp(unsigned char *line, const char **wordlist,
                              int token, int maxitems);
 
 /* ------------------------------------------------------------------------- */
@@ -387,13 +387,11 @@ static unsigned char sstrcmp(unsigned char *line, char **wordlist,
 static FILE    *source, *dest;
 static int     kwlen;
 
-int    main(argc, argv)
-    int     argc;
-    char   *argv[];
+int main(int argc, char **argv)
 {
     char   *progname, *outfilename = NULL;
     char    realname[24];
-    int     reclen;
+    unsigned int reclen;
     int     c;
 
     long    offset = 0;
@@ -630,7 +628,7 @@ int    main(argc, argv)
 		exit(1);
 	    }
 
-	    if (p00_read_header(source, realname, &reclen) == 0) {
+	    if (p00_read_header(source, (BYTE *)realname, &reclen) == 0) {
 		printf ("p00 file.\n");
 		/*outfilename = realname;*/
 	    }
@@ -662,7 +660,7 @@ int    main(argc, argv)
 
 	    if (p00_check_name(outfilename) >= 0) {
 		printf("writing PC64 header.\n");
-		p00_write_header(dest, argv[0], 0);
+		p00_write_header(dest, (BYTE *)argv[0], 0);
 	    }
 
 	    p_tokenize(version, load_addr, ctrls);
@@ -1301,11 +1299,11 @@ static void   p_tokenize(version, addr, ctrls)
 
 static unsigned char sstrcmp(line, wordlist, token, maxitems)
      unsigned char *line;
-     char **wordlist;
-     int    token, maxitems;
+     const char **wordlist;
+     int token, maxitems;
 {
     int     j;
-    char   *p, *q;
+    const char   *p, *q;
 
     kwlen = 1;
     /* search for keyword */
