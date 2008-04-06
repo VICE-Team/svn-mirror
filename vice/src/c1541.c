@@ -2434,3 +2434,11 @@ int drive_write_block(int track, int sector, BYTE *readdata, int dnr)
     return -1;
 }
 
+void enable_text(void)
+{
+}
+
+void disable_text(void)
+{
+}
+

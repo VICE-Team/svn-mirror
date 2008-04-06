@@ -1325,3 +1325,12 @@ static unsigned char sstrcmp(line, wordlist, token, maxitems)
 
     return (KW_NONE);
 }
+
+void enable_text(void)
+{
+}
+
+void disable_text(void)
+{
+}
+
