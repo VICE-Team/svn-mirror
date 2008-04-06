@@ -122,7 +122,7 @@ extern int speed_map[42];
 
 struct ms_table disk_cmds[] = {
     {"format", 1, 2, disk_format,
-    "format  [imagename] 'diskname,id'\t(create D64 disk & format)\n"},
+    "format  [imagename] 'diskname,id'\t(create X64 disk & format)\n"},
     {"gcrformat", 1, 2, disk_gcrformat,
     "gcrformat  imagename ['diskname,id']\t(create GCR disk & format)\n"},
     {"delete", 1, MAXARG, disk_delete,
