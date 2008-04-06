@@ -33,6 +33,7 @@
 #include <pc.h>
 #include <keys.h>
 
+#include "log.h"
 #include "tui.h"
 #include "tuimenu.h"
 #include "utils.h"
@@ -274,8 +275,15 @@ void tui_menu_add_item(tui_menu_t menu, const char *label,
 		       void *callback_param, int par_string_max_len,
 		       tui_menu_item_behavior_t behavior)
 {
-    tui_menu_item_t *new = tui_menu_add_generic(menu);
+    tui_menu_item_t *new;
     int width, dummy;
+
+    if (menu == NULL) {
+        log_message(LOG_DEFAULT, "Invalid menu!");
+        return;
+    }
+
+    new = tui_menu_add_generic(menu);
 
     width = set_label(new, label);
 

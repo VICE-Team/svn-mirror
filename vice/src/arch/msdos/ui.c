@@ -38,6 +38,7 @@
 
 #include "cmdline.h"
 #include "dos.h"
+#include "log.h"
 #include "machine.h"
 #include "menudefs.h"
 #include "mon.h"
@@ -137,7 +138,9 @@ int ui_init(int *argc, char **argv)
 
 int ui_init_finish(void)
 {
+    log_message(LOG_DEFAULT, "Initializing TUI.");
     tui_init();
+    log_message(LOG_DEFAULT, "Initialized TUI.");
     atexit(ui_exit);
     return 0;
 }
