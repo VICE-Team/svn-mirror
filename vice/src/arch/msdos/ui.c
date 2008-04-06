@@ -123,7 +123,7 @@ static void ui_exit(void)
     cprintf("VICE version %s.\n\r", VERSION);
 #endif
 
-    cprintf("\nOfficial VICE homepage: http://www.tu-chemnitz.de/~fachat/vice/vice.html\n\n\r");
+    cprintf("\nOfficial VICE homepage: http://www.cs.cmu.edu/~dsladic/vice/vice.html\n\n\r");
 }
 
 int ui_init(int *argc, char **argv)

@@ -240,7 +240,6 @@ canvas_t canvas_create(const char *win_name, unsigned int *width,
 		       canvas_redraw_t exposure_handler,
 		       const palette_t *palette, PIXEL *pixel_return)
 {
-    int i;
     canvas_t new_canvas;
 
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
