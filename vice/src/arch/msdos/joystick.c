@@ -32,7 +32,7 @@
 #include <allegro.h>
 
 #include "cmdline.h"
-#include "kbd.h"
+#include "keyboard.h"
 #include "joystick.h"
 #include "resources.h"
 #include "types.h"

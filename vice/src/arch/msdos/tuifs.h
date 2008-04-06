@@ -25,12 +25,13 @@
  */
 
 #ifndef _TUIFS_H
+#define _TUIFS_H
 
-#include "imagecontents.h"
+struct image_contents_s;
 
 extern char *tui_file_selector(const char *title, const char *directory,
 			       const char *pattern, const char *default_item,
-			       image_contents_t *(*contents_func)(const char*),
+			       struct image_contents_s *(*contents_func)(const char*),
                                char **browse_file_return);
 
 #endif

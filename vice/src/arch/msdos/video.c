@@ -34,6 +34,7 @@
 #include "cmdline.h"
 #include "kbd.h"
 #include "log.h"
+#include "palette.h"
 #include "resources.h"
 #include "tui.h"
 #include "tui_backend.h"

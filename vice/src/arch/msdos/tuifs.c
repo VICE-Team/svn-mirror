@@ -44,6 +44,7 @@
 #include <allegro.h>
 #endif
 
+#include "imagecontents.h"
 #include "utils.h"
 #include "tui.h"
 #include "tui_backend.h"
