@@ -45,6 +45,7 @@
 #include "resources.h"
 #include "sound.h"
 #include "tui.h"
+#include "tuicharset.h"
 #include "tuimenu.h"
 #include "types.h"
 #include "utils.h"
@@ -153,11 +154,6 @@ void ui_main(char hotkey)
 
     speed_index = vsync_get_avg_speed_index();
     frame_rate = vsync_get_avg_frame_rate();
-    if (speed_index > 0.0 && frame_rate > 0.0)
-	sprintf(s, "%s emulator at %d%% speed, %d fps",
-		machine_name, (int)floor(speed_index), (int)floor(frame_rate));
-    else
-	sprintf(s, "%s emulator", machine_name);
 
     /* Get the BIOS LED status and restore it.  */
     {
@@ -175,9 +171,16 @@ void ui_main(char hotkey)
     }
 
     enable_text();
+    tui_charset_set(TUI_CHARSET_CBM_2);
 
     tui_clear_screen();
     tui_set_attr(FIRST_LINE_FORE, FIRST_LINE_BACK, 0);
+
+    if (speed_index > 0.0 && frame_rate > 0.0)
+	sprintf(s, "%s emulator at %d%% speed, %d fps",
+		machine_name, (int)floor(speed_index), (int)floor(frame_rate));
+    else
+	sprintf(s, "%s emulator", machine_name);
     tui_display(tui_num_cols() - strlen(s), 0, 0, "%s", s);
 
     /* FIXME: This should not be necessary.  */
