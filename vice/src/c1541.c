@@ -913,7 +913,7 @@ static int copy_cmd(int nargs, char **args)
         src_name_petscii = stralloc(src_name_ascii);
 	petconvstring(src_name_petscii, 0);
 
-	if (vdrive_open(drives[src_unit], src_name_petscii,
+	if (vdrive_iec_open(drives[src_unit], src_name_petscii,
                         (int)strlen(src_name_petscii), 0)) {
 	    fprintf(stderr, "Cannot read `%s'.\n", src_name_ascii);
             if (dest_name_ascii != NULL)
@@ -923,19 +923,19 @@ static int copy_cmd(int nargs, char **args)
 	}
 
         if (dest_name_ascii != NULL) {
-            if (vdrive_open(drives[dest_unit], dest_name_petscii,
+            if (vdrive_iec_open(drives[dest_unit], dest_name_petscii,
                             (int)strlen(dest_name_petscii), 1)) {
                 fprintf(stderr, "Cannot write `%s'.\n", dest_name_petscii);
-                vdrive_close(drives[src_unit], 0);
+                vdrive_iec_close(drives[src_unit], 0);
                 free(dest_name_ascii), free(dest_name_petscii);
                 free(src_name_ascii), free(src_name_petscii);
                 return FD_OK;
             }
         } else {
-            if (vdrive_open(drives[dest_unit], src_name_petscii,
+            if (vdrive_iec_open(drives[dest_unit], src_name_petscii,
                             (int)strlen(src_name_petscii), 1)) {
                 fprintf(stderr, "Cannot write `%s'.\n", src_name_petscii);
-                vdrive_close(drives[src_unit], 0);
+                vdrive_iec_close(drives[src_unit], 0);
                 free(src_name_ascii), free(src_name_petscii);
                 return FD_OK;
             }
@@ -946,16 +946,16 @@ static int copy_cmd(int nargs, char **args)
         {
             BYTE c;
 
-            while (!vdrive_read(drives[src_unit], ((BYTE *)&c), 0)) {
-                if (vdrive_write(drives[dest_unit], ((BYTE)(c)), 1)) {
+            while (!vdrive_iec_read(drives[src_unit], ((BYTE *)&c), 0)) {
+                if (vdrive_iec_write(drives[dest_unit], ((BYTE)(c)), 1)) {
                     fprintf(stderr, "No space on image ?\n");
                     break;
                 }
             }
         }
 
-	vdrive_close(drives[src_unit], 0);
-        vdrive_close(drives[dest_unit], 1);
+	vdrive_iec_close(drives[src_unit], 0);
+        vdrive_iec_close(drives[dest_unit], 1);
 
         free(src_name_ascii);
         free(src_name_petscii);
@@ -1026,7 +1026,7 @@ static int extract_cmd(int nargs, char **args)
         return err;
     floppy = drives[drive & 3];
 
-    if (vdrive_open(floppy, "#", 1, channel)) {
+    if (vdrive_iec_open(floppy, "#", 1, channel)) {
         fprintf(stderr, "Cannot open buffer #%d in unit %d.\n", channel,
                 drive + 8);
         return FD_RDERR;
@@ -1071,7 +1071,7 @@ static int extract_cmd(int nargs, char **args)
                 printf("%s\n", name);
                 unix_filename((char *) name); /* For now, convert '/' to '_'. */
 
-                if (vdrive_open(floppy, (char *) cbm_name, len, 0)) {
+                if (vdrive_iec_open(floppy, (char *) cbm_name, len, 0)) {
                     fprintf(stderr,
                             "Cannot open `%s' on unit %d.\n", name, drive + 8);
                     continue;
@@ -1080,13 +1080,13 @@ static int extract_cmd(int nargs, char **args)
                 if (fd == NULL) {
                     fprintf(stderr, "Cannot create file `%s': %s.",
                     name, strerror(errno));
-                    vdrive_close(floppy, 0);
+                    vdrive_iec_close(floppy, 0);
                     continue;
                 }
-                while (!vdrive_read(floppy, &c, 0))
+                while (!vdrive_iec_read(floppy, &c, 0))
                     fputc(c, fd);
 
-                vdrive_close(floppy, 0);
+                vdrive_iec_close(floppy, 0);
 
                 if (fclose(fd)) {
                     perror("fclose");
@@ -1101,7 +1101,7 @@ static int extract_cmd(int nargs, char **args)
             break;
         }
     }
-    vdrive_close(floppy, channel);
+    vdrive_iec_close(floppy, channel);
     return FD_OK;
 }
 
@@ -1385,7 +1385,7 @@ static int read_cmd(int nargs, char **args)
     src_name_petscii = stralloc(src_name_ascii);
     petconvstring(src_name_petscii, 0);
 
-    if (vdrive_open(drives[unit],
+    if (vdrive_iec_open(drives[unit],
                     src_name_petscii, (int)strlen(src_name_petscii), 0)) {
 	fprintf(stderr, "Cannot read `%s' on unit %d.\n", src_name_ascii, unit + 8);
         free(src_name_ascii), free(src_name_petscii);
@@ -1393,7 +1393,7 @@ static int read_cmd(int nargs, char **args)
     }
 
     /* Get real filename from the disk file.  Slot must be defined by
-       vdrive_open().  */
+       vdrive_iec_open().  */
     actual_name = xmalloc(17);  /* FIXME: Should be a #define.  */
     memcpy(actual_name, drives[unit]->buffers[0].slot + SLOT_NAME_OFFSET, 16);
     actual_name[16] = 0;
@@ -1427,7 +1427,7 @@ static int read_cmd(int nargs, char **args)
 	if (outf == NULL) {
 	    fprintf(stderr, "Cannot create output file `%s': %s.\n",
                    dest_name_ascii, strerror(errno));
-	    vdrive_close(drives[unit], 0);
+	    vdrive_iec_close(drives[unit], 0);
             free(src_name_petscii), free(src_name_ascii), free(actual_name);
 	    return FD_NOTWRT;
 	}
@@ -1446,13 +1446,13 @@ static int read_cmd(int nargs, char **args)
     {
         BYTE c;
 
-        while (!vdrive_read(drives[unit], (BYTE *) & c, 0))
+        while (!vdrive_iec_read(drives[unit], (BYTE *) & c, 0))
             fputc(c, outf);
     }
 
     if (outf != stdout)
         fclose(outf);
-    vdrive_close(drives[unit], 0);
+    vdrive_iec_close(drives[unit], 0);
 
     free(src_name_petscii), free(src_name_ascii), free(actual_name);
 
@@ -1597,7 +1597,7 @@ static int tape_cmd(int nargs, char **args)
             }
 
             /* FIXME: This does not write the actual file type.  */
-	    if (vdrive_open(drive, dest_name_petscii, (int)name_len, 1)) {
+	    if (vdrive_iec_open(drive, dest_name_petscii, (int)name_len, 1)) {
 		fprintf(stderr, "Cannot open `%s' for writing on drive %d.\n",
                        dest_name_ascii, drive_number + 8);
                 free(dest_name_petscii), free(dest_name_ascii);
@@ -1608,8 +1608,8 @@ static int tape_cmd(int nargs, char **args)
                    dest_name_ascii, rec->start_addr, rec->end_addr,
                    drive_number + 8);
 
-	    vdrive_write(drive, ((BYTE)(rec->start_addr & 0xff)), 1);
-	    vdrive_write(drive, ((BYTE)(rec->start_addr >> 8)), 1);
+	    vdrive_iec_write(drive, ((BYTE)(rec->start_addr & 0xff)), 1);
+	    vdrive_iec_write(drive, ((BYTE)(rec->start_addr >> 8)), 1);
 
             file_size = rec->end_addr - rec->start_addr;
             buf = alloca((unsigned int) file_size);
@@ -1622,7 +1622,7 @@ static int tape_cmd(int nargs, char **args)
                 int i;
 
                 for (i = 0; i < file_size; i++)
-                    if (vdrive_write(drives[drive_number], ((BYTE)(buf[i])),
+                    if (vdrive_iec_write(drives[drive_number], ((BYTE)(buf[i])),
                         1)) {
                         t64_close(t64);
                         free(dest_name_petscii), free(dest_name_ascii);
@@ -1630,7 +1630,7 @@ static int tape_cmd(int nargs, char **args)
                     }
             }
 
-	    vdrive_close(drive, 1);
+	    vdrive_iec_close(drive, 1);
             free(dest_name_petscii), free(dest_name_ascii);
 
             count++;
@@ -1805,21 +1805,21 @@ static int unlynx_cmd(int nargs, char **args)
 
         vdrive = drives[dev & 3];
 
-        /* We cannot use normal vdrive_open as it does not allow to
+        /* We cannot use normal vdrive_iec_open as it does not allow to
            create invalid file names.  */
         vdrive->buffers[1].readmode = FAM_WRITE;
-        vdrive_open_create_dir_slot(&(vdrive->buffers[1]), cname,
-                                    strlen(cname), filetype);
+        vdrive_dir_create_slot(&(vdrive->buffers[1]), cname,
+                               strlen(cname), filetype);
 
         while (cnt != 0) {
             fread(&val, 1, 1, f2);
-            if (vdrive_write(vdrive, val, 1)) {
+            if (vdrive_iec_write(vdrive, val, 1)) {
                 fprintf(stderr, "No space on image ?\n");
                 break;
             }
             cnt--;
         }
-        vdrive_close(vdrive, 1);
+        vdrive_iec_close(vdrive, 1);
 
         /* Adjust for the last block */
         if (lbsize < 255)
@@ -1924,7 +1924,7 @@ static int write_cmd(int nargs, char **args)
         petconvstring(dest_name_petscii, 0);
     }
 
-    if (vdrive_open(drives[unit],
+    if (vdrive_iec_open(drives[unit],
                     dest_name_petscii, (int)strlen(dest_name_petscii), 1)) {
         fprintf(stderr, "Cannot open `%s' for writing on image.\n",
                 dest_name_ascii);
@@ -1936,7 +1936,7 @@ static int write_cmd(int nargs, char **args)
         int c;
 
         while (EOF != (c = fgetc(f))) {
-            if (vdrive_write(drives[unit], (BYTE) c, 1)) {
+            if (vdrive_iec_write(drives[unit], (BYTE) c, 1)) {
                 fprintf(stderr, "No space on image ?\n");
                 break;
             }
@@ -1944,7 +1944,7 @@ static int write_cmd(int nargs, char **args)
     }
 
     fclose(f);
-    vdrive_close(drives[unit], 1);
+    vdrive_iec_close(drives[unit], 1);
 
     free(dest_name_ascii), free(dest_name_petscii);
 
@@ -2186,7 +2186,7 @@ static char *floppy_read_directory(vdrive_t *vdrive, const char *pattern)
         sprintf(line, "$:%s", pattern);
     else
         sprintf(line, "$");
-    if (vdrive_open(vdrive, line, 1, 0) != SERIAL_OK)
+    if (vdrive_iec_open(vdrive, line, 1, 0) != SERIAL_OK)
         return NULL;
 
     /* Allocate a buffer. */
@@ -2207,7 +2207,7 @@ static char *floppy_read_directory(vdrive_t *vdrive, const char *pattern)
         outbuf = bufcat(outbuf, &outbuf_size, (size_t *)&max_outbuf_size,
                         line, len);
     }
-    vdrive_close(vdrive, 0);
+    vdrive_iec_close(vdrive, 0);
 
     /* Add trailing zero. */
     outbuf = bufcat(outbuf, &outbuf_size, (size_t *)&max_outbuf_size, "", 1);
