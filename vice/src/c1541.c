@@ -94,8 +94,6 @@ static int  nargs;
 
 char    newname[256];
 
-FILE *logfile, *errfile;
-
 #ifdef __riscos
 void ui_set_drive_leds(unsigned int led, int status)
 {
@@ -145,9 +143,9 @@ struct ms_table disk_cmds[] = {
     {"d64format", 1, 2, disk_format_d64,
     "d64format  imagename 'diskname,id'\t(create D64 disk & format)\n"},
     {"d71format", 1, 2, disk_format_d71,
-    "d71format  imagename\t\t\t(create D71 disk)\n"},
+    "d71format  imagename 'diskname,id'\t(create D71 disk & format)\n"},
     {"d81format", 1, 2, disk_format_d81,
-    "d81format  imagename\t\t\t(create D81 disk)\n"},
+    "d81format  imagename 'diskname,id'\t(create D81 disk & format)\n"},
     {"gcrformat", 1, 2, disk_gcrformat,
     "gcrformat  imagename ['diskname,id']\t(create GCR disk & format)\n"},
     {"delete", 1, MAXARG, disk_delete,
@@ -236,7 +234,7 @@ static int create_image (file_desc_t fd, int devtype, int tracks, int errb,
 
     /* Check values */
 
-    if (check_track_sector(get_diskformat (devtype), tracks, 1) < 0)
+    if (vdrive_check_track_sector(get_diskformat (devtype), tracks, 1) < 0)
 	exit (-1);
 
     blks = num_blocks (get_diskformat (devtype), tracks);
@@ -553,16 +551,16 @@ static int disk_gcrformat (void)
 		rdat[0] = DIR_TRACK_1541;
 		rdat[1] = DIR_SECTOR_1541;
 		rdat[2] = 65;
-		rdat[BAM_VERSION] = 50;
-		rdat[BAM_VERSION + 1] = 65;
+		rdat[BAM_VERSION_1541] = 50;
+		rdat[BAM_VERSION_1541 + 1] = 65;
 		memcpy(rdat + BAM_NAME_1541, (BYTE *)name, 16);
 		rdat[BAM_ID_1541] = id[0];
 		rdat[BAM_ID_1541 + 1] = id[1];
 		for (t = 1; t <= 35; t++)
 		    for (s = 0; s < sector_map_1541[t]; s++)
-			vdrive_free_sector(1541, rdat, t, s);
-		vdrive_allocate_sector(1541, rdat, BAM_TRACK_1541, 0);
-		vdrive_allocate_sector(1541, rdat, BAM_TRACK_1541, 1);
+			vdrive_bam_free_sector(1541, rdat, t, s);
+		vdrive_bam_allocate_sector(1541, rdat, BAM_TRACK_1541, 0);
+		vdrive_bam_allocate_sector(1541, rdat, BAM_TRACK_1541, 1);
 	    }
 	    rawdata[0] = 7;
 	    chksum = rawdata[1];
@@ -592,15 +590,12 @@ static int disk_gcrformat (void)
 
 static int disk_format(int disktype)
 {
-
     strcpy(newname, "N:");
     strcpy(newname + 2, ((nargs > 2) ? args[2] : args[1]) );
 
-    if (disktype == DISK_IMAGE_TYPE_X64 || disktype == DISK_IMAGE_TYPE_D64) {
-        if (!memchr(newname, ',', strlen(newname))) {
-            printf("There must be ID on the name\n");
-            return 0;
-        }
+    if (!memchr(newname, ',', strlen(newname))) {
+        printf("There must be ID on the name\n");
+        return 0;
     }
 
     /* Open image or create a new one.
@@ -614,14 +609,10 @@ static int disk_format(int disktype)
             return (FD_BADIMAGE);
     }
 
-    if (disktype == DISK_IMAGE_TYPE_X64 || disktype == DISK_IMAGE_TYPE_D64) {
-        printf("formatting image\n");
-        petconvstring(newname +2, 1);
-        ip_execute(DriveData[DriveNum], (BYTE *)newname, strlen(newname));
-    } else {
-        detach_floppy_image(DriveData[DriveNum]);
-        printf("C1541: Use the emulator to format this disk.\n");
-    }
+    printf("formatting image\n");
+    petconvstring(newname +2, 1);
+    vdrive_command_execute(DriveData[DriveNum], (BYTE *)newname,
+                           strlen(newname));
     return(0);
 }
 
@@ -663,7 +654,7 @@ static int  disk_delete (void)
 	strcpy(tmp, "S:");
 	strcat(tmp, name);
 
-	ip_execute(floppy, (BYTE *)tmp, strlen(tmp));
+	vdrive_command_execute(floppy, (BYTE *)tmp, strlen(tmp));
     } while (++i < nargs);
 
     return(0);
@@ -680,7 +671,7 @@ static int  disk_validate (void)
 	return (err);
 
     printf("validating\n");
-    do_validate(DriveData[dev & 3]);
+    vdrive_command_validate(DriveData[dev & 3]);
 
     return(0);
 }
@@ -824,7 +815,7 @@ static int disk_rename(void)
     sprintf (newname, "R:%s=%s", dest, src);		/* Rename File */
     petconvstring(newname +2, 1);
 
-    ip_execute(floppy2, (BYTE *)newname, strlen(newname));
+    vdrive_command_execute(floppy2, (BYTE *)newname, strlen(newname));
 
     return(0);
 }
@@ -874,7 +865,7 @@ static int  disk_read (void)
 	int l;
 
 	fsname = newname;
-	no_a0_pads((BYTE *)fsname, 16);
+	vdrive_dir_no_a0_pads((BYTE *)fsname, 16);
 	l = strlen (fsname) - 1; /* EP */
 	while (fsname[l] == ' ') {
 	    fsname[l] = '\0';
@@ -1089,7 +1080,8 @@ static int  disk_import_zipfile (void)
           /* Write one block */
 
           sprintf((char *)str, "B-W:%d 0 %d %d", channel, track, sector);
-          if (ip_execute(floppy, (BYTE *)str, strlen((char *)str)) != 0) {
+          if (vdrive_command_execute(floppy, (BYTE *)str,
+                                     strlen((char *)str)) != 0) {
 	      track = DIR_TRACK_1541;
 	      sector= 0;
 	      close(fsfd);
@@ -1113,7 +1105,7 @@ static int  disk_import_zipfile (void)
 
     close(fsfd);
 
-    ip_execute(floppy, (BYTE *)"I", 1);
+    vdrive_command_execute(floppy, (BYTE *)"I", 1);
 
     return(0);
 }
@@ -1212,7 +1204,7 @@ static int  disk_import (void)
 
     close(fsfd);
 
-    ip_execute(floppy, (BYTE *)"I", 1);
+    vdrive_command_execute(floppy, (BYTE *)"I", 1);
 
     return(0);
 }
@@ -1380,7 +1372,7 @@ static int  disk_sectordump(void)
 	return (err);
     floppy = DriveData[drive & 3];
 
-    if (check_track_sector(floppy->ImageFormat, track, sector) < 0) {
+    if (vdrive_check_track_sector(floppy->ImageFormat, track, sector) < 0) {
 	sector = 0;
 	track = DIR_TRACK_1541;
 	return FD_BAD_TS;
@@ -1394,7 +1386,7 @@ static int  disk_sectordump(void)
 	return (FD_RDERR);
     }
     sprintf((char *)str, "B-R:%d 0 %d %d", channel, track, sector);
-    if (ip_execute(floppy, (BYTE *)str, strlen((char *)str)) != 0) {
+    if (vdrive_command_execute(floppy, (BYTE *)str, strlen((char *)str)) != 0) {
 	track = DIR_TRACK_1541;
 	sector= 0;
 	return (FD_RDERR);
@@ -1422,7 +1414,8 @@ static int  disk_sectordump(void)
 	track  = buf[0];
 	sector = buf[1];
     }
-    else if (check_track_sector(floppy->ImageFormat, track, ++sector) < 0) {
+    else if (vdrive_check_track_sector(floppy->ImageFormat, track,
+             ++sector) < 0) {
 	sector = 0;
 	if (++track > floppy->NumTracks)
 	    track = DIR_TRACK_1541;
@@ -1486,7 +1479,7 @@ static int  disk_extract(void)
 	/* Read one block */
 
 	sprintf((char *)str, "B-R:%d 0 %d %d", channel, track, sector);
-	if (ip_execute(floppy, (BYTE *)str, strlen((char *)str))) {
+	if (vdrive_command_execute(floppy, (BYTE *)str, strlen((char *)str))) {
 	    return (FD_RDERR);
 	}
 
@@ -1584,7 +1577,7 @@ static int disk_raw_command(void)
 	}
 	flush_1541(floppy, 15);
 #else
-        ip_execute(floppy, (BYTE *)newname, strlen(newname));
+        vdrive_command_execute(floppy, (BYTE *)newname, strlen(newname));
 #endif
     }
 
@@ -1869,7 +1862,7 @@ static int disk_unlynx(void)
    1998-02-07.  */
 int disk_system(void)
 {
-	return system(args[1]);
+    return system(args[1]);
 }
 
 
@@ -1888,8 +1881,10 @@ int     main(argc, argv)
     /* Set the default file mode.  */
     _fmode = O_BINARY;
 #endif
-    logfile = stdout;
-    errfile = stderr;
+
+    /* This causes all the logging messages from the various VICE modules to
+       appear on stdout.  */
+    log_init_with_fd(stdout);
 
     progname = argv[0];
     nargs    = 0;
