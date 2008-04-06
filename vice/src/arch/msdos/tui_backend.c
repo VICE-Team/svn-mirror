@@ -102,13 +102,35 @@ void tui_set_attr(int foreground_color, int background_color,
     current_attr = make_attr(foreground_color, background_color, blink);
 }
 
+BYTE tui_ascii_conversion_table[] = {
+    128, 129, 130, 131, 132, 133, 134, 135,
+    136, 137, 'S', 139, 'E', 141, 'Z', 143,
+    144, 145, 146, 147, 148, 149, 150, 151,
+    152, 153, 's', 155, 156, 157, 'z', 'Y',
+    160, 161, 162, 163, 'Y', 165, 'S', 167,
+    168, 169, 170, 171, 172, 173, 174, 175,
+    176, 177, 178, 179, 180, 'u', 182, 183,
+    184, 185, 186, 187, 188, 189, 190, 191,
+    'A', 'A', 'A', 'A', 'A', 'A', 198, 'C',
+    200, 201, 'E', 'E', 'I', 'I', 'I', 'I',
+    'D', 'N', 'O', 'O', 'O', 'O', 'O', 215,
+    'O', 'U', 'U', 'U', 'U', 'Y', 222, 223,
+    'a', 'a', 'a', 'a', 'a', 'a', 230, 'c',
+    'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i',
+    240, 'n', 'o', 'o', 'o', 'o', 'o', 247,
+    248, 'u', 'u', 'u', 'u', 'y', 254, 'y',
+};
+
 void tui_put_char(int x, int y, BYTE c)
 {
     unsigned long addr = screen_addr(x, y);
     BYTE attr_byte = (BYTE)current_attr;
 
     _farsetsel(_dos_ds);
-    _farnspokeb(addr, c);
+    if (c>127)
+      _farnspokeb(addr, tui_ascii_conversion_table[c-128]);
+    else
+      _farnspokeb(addr, c);
     _farnspokeb(addr + 1, attr_byte);
 }
 
