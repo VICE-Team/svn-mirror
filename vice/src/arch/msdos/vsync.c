@@ -47,6 +47,7 @@
 #include "joystick.h"
 #include "kbd.h"
 #include "kbdbuf.h"
+#include "machine.h"
 #include "resources.h"
 #include "sound.h"
 #include "ui.h"
@@ -400,5 +401,8 @@ void vsync_init(double hertz, long cycles, void (*hook)(void))
 
 int vsync_disable_timer(void)
 {
+    /* FIXME: Find a more generic solution.  */
+    if (machine_class == VICE_MACHINE_CBM2)
+        timer_speed = 0;
     return 0;
 }
