@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2001-08-12 23:47+0200\n"
+"POT-Creation-Date: 2001-08-16 21:16+0200\n"
 "PO-Revision-Date: 2001-07-15 15:36+02:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -1781,7 +1781,7 @@ msgid "Set device for joystick port 2"
 msgstr "Gerät für Port 2 definieren"
 
 #: src/arch/unix/joystick.c:197 src/arch/unix/joystick.c:246
-#: src/arch/unix/joystick.c:380
+#: src/arch/unix/joystick.c:393
 #, c-format
 msgid "Cannot open joystick device `%s'."
 msgstr "Kann Joystick Device `%s' nicht öffnen."
@@ -1804,33 +1804,33 @@ msgstr "Fehler beim Lesen vom digitalen Joystick Device."
 msgid "Error reading joystick device."
 msgstr "Fehler beim Lesen vom Joystick Device."
 
-#: src/arch/unix/joystick.c:337
+#: src/arch/unix/joystick.c:342
 msgid "Linux joystick interface initialization..."
 msgstr "Linux Joystick Schnittstellen Initialisierung..."
 
-#: src/arch/unix/joystick.c:356
+#: src/arch/unix/joystick.c:369
 #, c-format
 msgid "%s unknown type"
 msgstr "%s unbekannter Typ"
 
-#: src/arch/unix/joystick.c:357 src/arch/unix/joystick.c:372
+#: src/arch/unix/joystick.c:370 src/arch/unix/joystick.c:385
 #, c-format
 msgid "Built in driver version: %d.%d.%d"
 msgstr "Eingebauter Treiber Version: %d.%d.%d"
 
-#: src/arch/unix/joystick.c:360
+#: src/arch/unix/joystick.c:373
 msgid "Kernel driver version  : 0.8 ??"
 msgstr "Kernel Treiber Version  : 0.8 ??"
 
-#: src/arch/unix/joystick.c:361
+#: src/arch/unix/joystick.c:374
 msgid "Please update your Joystick driver !"
 msgstr "Bitte Joystick Treiber aktualisieren !"
 
-#: src/arch/unix/joystick.c:362
+#: src/arch/unix/joystick.c:375
 msgid "Fall back to old api routine"
 msgstr "Benutze alte API Routinen"
 
-#: src/arch/unix/joystick.c:375
+#: src/arch/unix/joystick.c:388
 #, c-format
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr "Kernel Treiber Version  : %d.%d.%d"
