@@ -1,4 +1,0 @@
-{
-   target type(dll) "..\\..\\..\\..\\data\\fonts.fon"
-   source type(rc)  "fonts.rc"
-}
