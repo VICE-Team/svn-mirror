@@ -1070,7 +1070,6 @@ static int extract_cmd(int nargs, char **args)
                 vdrive_iec_close(floppy, 0);
 
                 if (fclose(fd)) {
-                    perror("fclose");
                     return FD_RDERR;
                 }
             }
@@ -2697,7 +2696,6 @@ static int zcreate_cmd(int nargs, char **args)
                 strcat(oname, fname);
                 if ((fsfd = fopen(oname, MODE_READ)) == NULL) {
                     fprintf(stderr, "Cannot open `%s'.\n", fname);
-                    perror(fname);
                     return FD_NOTRD;
                 }
                 fseek(fsfd, (track == 1) ? 4 : 2, SEEK_SET);
