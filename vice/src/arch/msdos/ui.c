@@ -80,13 +80,13 @@ static int statusbar_is_enabled;
 
 static int set_use_leds(resource_value_t v, void *param)
 {
-    use_leds = (int) v;
+    use_leds = (int)v;
     return 0;
 }
 
 static int set_statusbar_enabled(resource_value_t v, void *param) 
 {
-    statusbar_is_enabled = (int) v;
+    statusbar_is_enabled = (int)v;
     if (statusbar_enabled()) {
         statusbar_prepare();
         statusbar_update();
@@ -96,12 +96,12 @@ static int set_statusbar_enabled(resource_value_t v, void *param)
     return 0;
 }
 
-static resource_t resources[] = {
-    { "UseLeds", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &use_leds,
+static const resource_t resources[] = {
+    { "UseLeds", RES_INTEGER,(resource_value_t)1,
+      (resource_value_t *)&use_leds,
       set_use_leds, NULL },
-    { "ShowStatusbar", RES_INTEGER, (resource_value_t) STATUSBAR_MODE_AUTO,
-      (resource_value_t *) &statusbar_is_enabled,
+    { "ShowStatusbar", RES_INTEGER, (resource_value_t)STATUSBAR_MODE_AUTO,
+      (resource_value_t *)&statusbar_is_enabled,
       set_statusbar_enabled, NULL },
     { NULL }
 };
@@ -117,10 +117,10 @@ static const cmdline_option_t cmdline_options[] = {
     { "+leds", SET_RESOURCE, 0, NULL, NULL, "UseLeds", (resource_value_t)0,
       NULL, "Disable usage of PC keyboard LEDs" },
     { "-statusbar", SET_RESOURCE, 0, NULL, NULL, "ShowStatusbar",
-      (resource_value_t) 0,
+      (resource_value_t)0,
       NULL, "Disable the Statusbar" },
     { "+statusbar", SET_RESOURCE, 0, NULL, NULL, "ShowStatusbar",
-      (resource_value_t) 1,
+      (resource_value_t)1,
       NULL, "Enable the Statusbar" },
     { NULL },
 };

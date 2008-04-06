@@ -76,7 +76,7 @@ static int warp_mode_enabled;
 /* FIXME: This should call `set_timers'.  */
 static int set_relative_speed(resource_value_t v, void *param)
 {
-    relative_speed = (int) v;
+    relative_speed = (int)v;
     sound_set_relative_speed(relative_speed);
     return 0;
 }
@@ -85,27 +85,27 @@ static int set_refresh_rate(resource_value_t v, void *param)
 {
     if ((int) v < 0)
         return -1;
-    refresh_rate = (int) v;
+    refresh_rate = (int)v;
     return 0;
 }
 
 static int set_warp_mode(resource_value_t v, void *param)
 {
-    warp_mode_enabled = (int) v;
+    warp_mode_enabled = (int)v;
     sound_set_warp_mode(warp_mode_enabled);
     return 0;
 }
 
 /* Vsync-related resources.  */
-static resource_t resources[] = {
-    { "Speed", RES_INTEGER, (resource_value_t) 100,
-      (resource_value_t *) &relative_speed,
+static const resource_t resources[] = {
+    { "Speed", RES_INTEGER, (resource_value_t)100,
+      (resource_value_t *)&relative_speed,
       set_relative_speed, NULL },
-    { "RefreshRate", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &refresh_rate,
+    { "RefreshRate", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&refresh_rate,
       set_refresh_rate, NULL },
-    { "WarpMode", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &warp_mode_enabled,
+    { "WarpMode", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&warp_mode_enabled,
       set_warp_mode, NULL },
     { NULL }
 };
@@ -123,9 +123,9 @@ static const cmdline_option_t cmdline_options[] = {
       "<percent>", "Limit emulation speed to specified value" },
     { "-refresh", SET_RESOURCE, 1, NULL, NULL, "RefreshRate", NULL,
       "<value>", "Update every <value> frames (`0' for automatic)" },
-    { "-warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t) 1,
+    { "-warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t)1,
       NULL, "Enable warp mode" },
-    { "+warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t) 0,
+    { "+warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t)0,
       NULL, "Disable warp mode" },
     { NULL }
 };
@@ -426,3 +426,4 @@ int vsync_disable_timer(void)
         timer_speed = 0;
     return 0;
 }
+

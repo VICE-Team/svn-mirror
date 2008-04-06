@@ -34,6 +34,7 @@ extern int printer_resources_init(void);
 extern int printer_cmdline_options_init(void);
 extern void printer_init(void);
 extern void printer_reset(void);
+extern void printer_shutdown(void);
 
 /* Serial interface.  */
 #define PRINTER_DEVICE_NONE 0
