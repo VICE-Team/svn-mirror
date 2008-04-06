@@ -264,3 +264,25 @@ int tui_ask_confirmation(const char *format, ...)
 
     return toupper(c) == 'Y';
 }
+
+/* ------------------------------------------------------------------------- */
+
+void tui_display_text(int x, int y, int width, int height, const char *text)
+{
+    const char *p = text;
+    int i, j;
+
+    for (j = 0; j < height; j++) {
+	for (i = 0; i < width; i++) {
+	    if (*p != '\n' && *p != '\0') {
+		tui_put_char(x + i, y + j, *p);
+		p++;
+	    } else {
+		tui_put_char(x + i, y + j, ' ');
+	    }
+	}
+	if (*p == '\n')
+	    p++;
+    }
+}
+

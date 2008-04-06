@@ -53,5 +53,6 @@ void tui_message(const char *format, ...);
 int tui_ask_confirmation(const char *format, ...);
 int tui_input_string(const char *title, const char *prompt, char *buf,
                      int buflen);
+void tui_display_text(int x, int y, int width, int height, const char *text);
 
 #endif /* _TUI_H */
