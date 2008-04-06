@@ -2394,3 +2394,10 @@ int serial_attach_device(int device, char *var, char const *name,
     drives[device & 3] = (DRIVE *) var;
     return 0;
 }
+
+int drive_read_block(int track, int sector, BYTE *readdata, int dnr)
+{
+    /* We don't have support for G64 images.  */
+    return -1;
+}
+
