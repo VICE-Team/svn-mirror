@@ -48,7 +48,8 @@ typedef sound_sample fc_point[2];
 
 enum chip_model { MOS6581, MOS8580 };
 
-enum sampling_method { SAMPLE_FAST, SAMPLE_INTERPOLATE, SAMPLE_RESAMPLE };
+enum sampling_method { SAMPLE_FAST, SAMPLE_INTERPOLATE,
+		       SAMPLE_RESAMPLE_INTERPOLATE, SAMPLE_RESAMPLE_FAST };
 
 extern "C"
 {

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.15\n"
-"POT-Creation-Date: 2004-05-10 22:00+0200\n"
+"POT-Creation-Date: 2004-05-20 13:21+0200\n"
 "PO-Revision-Date: 2004-05-04 21:34+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -29,7 +29,7 @@ msgstr "*Warp Mode Aktivieren"
 msgid "Disable warp mode"
 msgstr "*Warp Mode Deaktivieren"
 
-#: src/vsync.c:429
+#: src/vsync.c:434
 msgid "Your machine is too slow for current settings!"
 msgstr "Deine Maschine ist zu langsam für aktuelle Einstellungen!"
 
@@ -128,7 +128,7 @@ msgstr "Speichern auf Sound Gerät ist fehlgeschlagen."
 msgid "Could not create start snapshot file %s."
 msgstr "Kann Start Snapshot Datei nicht erzeugen: %s"
 
-#: src/event.c:480 src/event.c:720
+#: src/event.c:480 src/event.c:723
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Kann Ende Snapshot Datei nicht lesen: %s"
@@ -2399,7 +2399,12 @@ msgstr "*Interpolierend"
 msgid "*Resampling"
 msgstr "*Resampling"
 
-#: src/arch/unix/uisid.c:93
+#: src/arch/unix/uisid.c:78
+#, fuzzy
+msgid "*Fast Resampling"
+msgstr "*Resampling"
+
+#: src/arch/unix/uisid.c:95
 msgid ""
 "Enter passband in percentage of total bandwidth\n"
 "(0 - 90, lower is faster, higher is better)"
@@ -2407,7 +2412,7 @@ msgstr ""
 "Bitte Passband Prozentwert der gesamte Bandbreite eingeben\n"
 "(0 - 90, niedrig ist schneller, höher ist besser)"
 
-#: src/arch/unix/uisid.c:94
+#: src/arch/unix/uisid.c:96
 msgid "Passband percentage"
 msgstr "Passband Prozent"
 
