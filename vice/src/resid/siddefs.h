@@ -20,6 +20,15 @@
 #ifndef __SIDDEFS_H__
 #define __SIDDEFS_H__
 
+// Define bool, true, and false for C++ compilers that lack these keywords.
+#define RESID_HAVE_BOOL 1
+
+#if !RESID_HAVE_BOOL
+typedef int bool;
+const bool true = 1;
+const bool false = 0;
+#endif
+
 // We could have used the smallest possible data type for each SID register,
 // however this would give a slower engine because of data type conversions.
 // An int is assumed to be at least 32 bits (necessary in the types reg24,
