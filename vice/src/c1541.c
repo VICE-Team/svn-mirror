@@ -2723,10 +2723,7 @@ int main(int argc, char **argv)
     int i;
     int retval;
 
-#if defined __MSDOS__ || defined WIN32
-    /* Set the default file mode.  */
-    _fmode = O_BINARY;
-#endif
+    archdep_init(&argc, argv);
 
     /* This causes all the logging messages from the various VICE modules to
        appear on stdout.  */
