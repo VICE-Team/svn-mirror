@@ -61,6 +61,9 @@ canvas_t last_canvas;
 #define DEBUG(x)
 #endif
 
+/* Flag: are we in graphics mode?  */
+static int in_gfx_mode;
+
 /* ------------------------------------------------------------------------- */
 
 /* Video-related resources.  */
@@ -113,6 +116,7 @@ int video_init(void)
 	exit(-1);
     }
     printf("Allegro initialized.\n");
+    in_gfx_mode = 0;
 
     return 0;
 }
@@ -149,6 +153,8 @@ void frame_buffer_clear(frame_buffer_t * f, BYTE value)
 
 static void canvas_set_vga_mode(canvas_t c)
 {
+    int i;
+
     /* Try to get a VESA linear mode first, which might not be the
        default. */
     if (set_gfx_mode(GFX_VESA2L, c->width, c->height, 0, 0) >= 0) {
@@ -166,9 +172,13 @@ static void canvas_set_vga_mode(canvas_t c)
     printf("Using mode %dx%dx256 (%s).\n",
 	   c->width, c->height,
 	   is_linear_bitmap(screen) ? "linear" : "planar");
+    in_gfx_mode = 1;
+
+    for (i = 0; i < NUM_AVAILABLE_COLORS; i++)
+         set_color(i, &c->colors[i]);
 }
 
-/* Note: `mapped' is ignored. */
+/* Note: `mapped' is ignored.  */
 canvas_t canvas_create(const char *win_name, unsigned int *width,
 		       unsigned int *height, int mapped,
 		       canvas_redraw_t exposure_handler,
@@ -213,6 +223,8 @@ int canvas_set_palette(canvas_t c, const palette_t *palette,
 	c->colors[i].g = palette->entries[i].green >> 2;
 	c->colors[i].b = palette->entries[i].blue >> 2;
 	pixel_return[i] = i;
+        if (in_gfx_mode)
+            set_color(i, &c->colors[i]);
     }
 
     return 0;
@@ -255,6 +267,7 @@ void enable_text(void)
     _set_screen_lines(25);
     kbd_uninstall();
     DEBUG(("Successful"));
+    in_gfx_mode = 0;
 }
 
 void disable_text(void)
@@ -271,6 +284,7 @@ void disable_text(void)
 	    set_color(i, &last_canvas->colors[i]);
 
 	last_canvas->exposure_handler(last_canvas->width, last_canvas->height);
+	in_gfx_mode = 1;
     }
     DEBUG(("Successful"));
 }
@@ -279,3 +293,4 @@ int num_text_lines(void)
 {
     return tui_num_lines();
 }
+
