@@ -40,6 +40,10 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+#ifdef HAVE_ALLEGRO_H
+#include <allegro.h>
+#endif
+
 #include "tui.h"
 #include "utils.h"
 #include "tuiview.h"
@@ -128,7 +132,8 @@ static void file_list_sort(struct file_list *fl)
 }
 
 /* XXX: Assumes `path' ends with a slash.  */
-static struct file_list *file_list_read(const char *path, const char *pattern)
+static struct file_list *file_list_read_lfn(const char *path,
+                                            const char *pattern)
 {
     struct dirent *d;
     struct file_list *fl;
@@ -185,6 +190,58 @@ static struct file_list *file_list_read(const char *path, const char *pattern)
     closedir(ds);
 
     return fl;
+}
+
+static struct file_list *file_list_read_nolfn(const char *path,
+                                              const char *pattern)
+{
+    char *cwd = get_current_dir();
+    struct file_list *fl = NULL;
+    struct find_t f;
+
+    if (cwd == NULL)
+        return NULL;
+
+    if (chdir(path) < 0)
+        goto end;
+
+    if (_dos_findfirst("*.*", (_A_NORMAL | _A_RDONLY | _A_HIDDEN
+                               | _A_SYSTEM | _A_SUBDIR | _A_ARCH), &f))
+        goto end;
+
+    fl = file_list_create();
+
+    /* (We skip `.' here.) */
+
+    while (!_dos_findnext(&f)) {
+        strlwr(f.name);
+        if (pattern == NULL || (f.attrib & _A_SUBDIR)
+            || fnmatch(pattern, f.name, 0) == 0) {
+            file_list_add_item(fl, f.name,
+                               (f.attrib & _A_SUBDIR) ? FT_DIR : FT_NORMAL);
+        }
+    }
+
+    file_list_sort(fl);
+
+end:
+    chdir(cwd);
+    return fl;
+}
+
+static struct file_list *file_list_read(const char *path,
+                                        const char *pattern)
+{
+    /* XXX: This check is only half-OK.  We actually need Allegro to be up
+       and running for this to work properly.  */
+#ifdef HAVE_ALLEGRO_H
+    if (os_type == OSTYPE_WIN95)
+        return file_list_read_lfn(path, pattern);
+    else
+        return file_list_read_nolfn(path, pattern);
+#else
+    return file_list_read_lfn(path, pattern);
+#endif
 }
 
 static int file_list_find(const struct file_list *fl, const char *str, int len)
@@ -247,7 +304,8 @@ static void file_selector_display_item(struct file_list *fl, int num,
 	    tui_display(x, y, width, " %s ", name);
 	} else {
 	    if (fl->items[num].type == FT_DIR)
-	      tui_display(x, y, width, " %s\\ ", fl->items[num].name);
+	      /* tui_display(x, y, width, " %s\\ ", fl->items[num].name); */
+                tui_display(x, y, width, " %s/ ", fl->items[num].name);
 	    else
 	      tui_display(x, y, width, " %s ", fl->items[num].name);
 	}
@@ -344,13 +402,14 @@ char *tui_file_selector(const char *title, const char *directory,
 
     tui_area_get(&backing_store, x, y, width + 2, height + 1);
 
+    tui_display_window(x, y, width, height, MENU_FORE, MENU_BACK,
+                       title, NULL);
+
     while (1) {
 	int key;
 
 	tui_set_attr(MENU_FORE, MENU_BACK, 0);
 	if (need_update) {
-            tui_display_window(x, y, width, height, MENU_FORE, MENU_BACK,
-                               title, NULL);
             file_selector_display_path(return_path, x + 1, y + height - 1,
                                        width - 2);
 	    file_selector_update(fl, first_item, x + 2, y + 1,
