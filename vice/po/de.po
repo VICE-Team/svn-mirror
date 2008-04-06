@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2001-04-02 23:37+0200\n"
+"POT-Creation-Date: 2001-04-06 15:46+0200\n"
 "PO-Revision-Date: 2000-12-01 21:31+01:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -2027,19 +2027,19 @@ msgstr "Beträge zum VICE Projekt"
 msgid "The VICE Team"
 msgstr "Das VICE Team"
 
-#: src/arch/unix/x11/gnome/about.c:77 src/arch/unix/x11/xaw/about.c:150
+#: src/arch/unix/x11/gnome/about.c:76 src/arch/unix/x11/xaw/about.c:149
 msgid "Official VICE homepage:"
 msgstr "Offizielle VICE Homepage:"
 
-#: src/arch/unix/x11/gnome/about.c:90
+#: src/arch/unix/x11/gnome/about.c:89
 msgid "License"
 msgstr "Lizenz"
 
-#: src/arch/unix/x11/gnome/about.c:96
+#: src/arch/unix/x11/gnome/about.c:95
 msgid "Warranty"
 msgstr "Garantiebestimmungen"
 
-#: src/arch/unix/x11/gnome/about.c:102
+#: src/arch/unix/x11/gnome/about.c:101
 msgid "Contributors"
 msgstr "VICE Hackers"
 
@@ -2466,7 +2466,7 @@ msgstr "MITSHM X Server Eweiterung in Version %d.%d erkannt."
 msgid "Cannot release shared memory!"
 msgstr "Kann Shared Memory nicht freigeben!"
 
-#: src/arch/unix/x11/xaw/about.c:156
+#: src/arch/unix/x11/xaw/about.c:155
 msgid "VICE Information"
 msgstr "VICE Information"
 
