@@ -2591,7 +2591,7 @@ static int write_cmd(int nargs, char **args)
     }
 
     if (dest_name == NULL) {
-        dest_name = (char *)finfo->name;
+        dest_name = lib_stralloc(finfo->name);
         dest_len = finfo->length;
     } else {
         dest_len = strlen(dest_name);
