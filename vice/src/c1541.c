@@ -1143,7 +1143,7 @@ static int format_cmd(int nargs, char **args)
         else if (strcmp(args[2], "d82") == 0)
             disk_type = DISK_IMAGE_TYPE_D82;
         else if (strcmp(args[2], "g64") == 0)
-            disk_type = DISK_IMAGE_TYPE_GCR;
+            disk_type = DISK_IMAGE_TYPE_G64;
         else if (strcmp(args[2], "x64") == 0)
             disk_type = DISK_IMAGE_TYPE_X64;
         else
