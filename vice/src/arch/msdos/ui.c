@@ -111,10 +111,10 @@ int ui_resources_init(void)
     return resources_register(resources);
 }
 
-static cmdline_option_t cmdline_options[] = {
-    { "-leds", SET_RESOURCE, 0, NULL, NULL, "UseLeds", (resource_value_t) 1,
+static const cmdline_option_t cmdline_options[] = {
+    { "-leds", SET_RESOURCE, 0, NULL, NULL, "UseLeds", (resource_value_t)1,
       NULL, "Enable usage of PC keyboard LEDs" },
-    { "+leds", SET_RESOURCE, 0, NULL, NULL, "UseLeds", (resource_value_t) 0,
+    { "+leds", SET_RESOURCE, 0, NULL, NULL, "UseLeds", (resource_value_t)0,
       NULL, "Disable usage of PC keyboard LEDs" },
     { "-statusbar", SET_RESOURCE, 0, NULL, NULL, "ShowStatusbar",
       (resource_value_t) 0,
