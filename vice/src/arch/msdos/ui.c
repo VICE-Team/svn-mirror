@@ -114,6 +114,15 @@ static void ui_exit(void)
 {
     _setcursortype(_NORMALCURSOR);
     normvideo();
+    _set_screen_lines(25);
+
+#ifdef UNSTABLE
+    cprintf("VICE version %s (unstable).\n\r", VERSION);
+#else
+    cprintf("VICE version %s.\n\r", VERSION);
+#endif
+
+    cprintf("\nOfficial VICE homepage: http://www.tu-chemnitz.de/~fachat/vice/vice.html\n\n");
 }
 
 int ui_init(int *argc, char **argv)
