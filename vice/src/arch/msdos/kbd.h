@@ -34,7 +34,7 @@
 #include "types.h"
 
 /* This is actually the maximum number of rows we need (the C128 value).  */
-#define	KBD_ROWS	11
+#define	KBD_ROWS	16
 
 /* (This is actually the same for all the machines.)  */
 #define KBD_COLS	8
