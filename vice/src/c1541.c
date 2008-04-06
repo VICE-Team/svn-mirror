@@ -155,7 +155,7 @@ struct command {
 };
 typedef struct command command_t;
 
-command_t command_list[] = {
+const command_t command_list[] = {
     { "@",
       "@ [<command>]",
       "Execute specified CBM DOS command and print the current status of the\n"
@@ -493,7 +493,7 @@ static int lookup_and_execute_command(int nargs, char **args)
     match = lookup_command(args[0]);
 
     if (LOOKUP_SUCCESSFUL(match)) {
-        command_t *cp;
+        const command_t *cp;
 
         cp = &command_list[match];
         if (nargs - 1 < (int)(cp->min_args)
