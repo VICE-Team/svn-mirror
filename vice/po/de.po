@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.12\n"
-"POT-Creation-Date: 2003-06-01 20:12+0200\n"
-"PO-Revision-Date: 2003-04-24 16:13+0200\n"
+"POT-Creation-Date: 2003-06-21 20:30+0200\n"
+"PO-Revision-Date: 2003-06-12 19:30+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -992,6 +992,10 @@ msgstr "Laufwerk #%d"
 #, c-format
 msgid "Detach #%d"
 msgstr "Entfernen #%d"
+
+#: src/arch/unix/uicommands.c:687
+msgid "*Write Protect"
+msgstr "*Schreibschutz"
 
 #: src/arch/unix/uicommands.c:713
 msgid "Next: "
