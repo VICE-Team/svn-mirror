@@ -97,19 +97,17 @@ static int set_statusbar_enabled(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "UseLeds", RES_INTEGER,(resource_value_t)1,
-      RES_EVENT_NO, NULL,
-      (void *)&use_leds, set_use_leds, NULL },
-    { "ShowStatusbar", RES_INTEGER, (resource_value_t)STATUSBAR_MODE_AUTO,
-      RES_EVENT_NO, NULL,
-      (void *)&statusbar_is_enabled, set_statusbar_enabled, NULL },
+static const resource_int_t resources_int[] = {
+    { "UseLeds", 1, RES_EVENT_NO, NULL,
+      &use_leds, set_use_leds, NULL },
+    { "ShowStatusbar", STATUSBAR_MODE_AUTO, RES_EVENT_NO, NULL,
+      &statusbar_is_enabled, set_statusbar_enabled, NULL },
     { NULL }
 };
 
 int ui_resources_init(void)
 {
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 void ui_resources_shutdown(void)
