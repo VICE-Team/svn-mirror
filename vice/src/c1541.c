@@ -68,7 +68,7 @@
 #endif
 
 #include "archdep.h"
-#include "charsets.h"
+#include "charset.h"
 #include "diskimage.h"
 #include "gcr.h"
 #include "info.h"
@@ -478,7 +478,7 @@ static int lookup_command(const char *cmd)
     cmd_len = strlen(cmd);
 
     for (i = 0; command_list[i].name != NULL; i++) {
-        int len;
+        size_t len;
 
         len = strlen(command_list[i].name);
         if (len < cmd_len)
@@ -506,7 +506,8 @@ static int lookup_and_execute_command(int nargs, char **args)
         command_t *cp;
 
         cp = &command_list[match];
-        if (nargs - 1 < cp->min_args || nargs - 1 > cp->max_args) {
+        if (nargs - 1 < (int)(cp->min_args)
+            || nargs - 1 > (int)(cp->max_args)) {
             fprintf(stderr, "Wrong number of arguments.\n");
             fprintf(stderr, "Syntax: %s\n", cp->syntax);
             return -1;
@@ -687,9 +688,9 @@ static int check_drive(int dev, int flags)
 
 /* Note: The double ASCII/PETSCII copies of file names we keep in some
    functions are needed because we want to print the names of the files being
-   copied in ASCII and we don't trust `petconvstring()' to be reliable to get
-   the original value back when we convert ASCII -> PETSCII and then PETSCII
-   -> ASCII again.  */
+   copied in ASCII and we don't trust `charset_petconvstring()' to be
+   reliable to get the original value back when we convert ASCII -> PETSCII
+   and then PETSCII -> ASCII again.  */
 
 static int attach_cmd(int nargs, char **args)
 {
@@ -763,7 +764,7 @@ static int block_cmd(int nargs, char **args)
         for (cnt = 0; cnt < 16; cnt++, disp++) {
             printf(" %02X", buf[disp & 255]);
             str[cnt] = (buf[disp & 255] < ' ' ?
-            '.' : p_toascii(buf[disp & 255], 0));
+            '.' : charset_p_toascii(buf[disp & 255], 0));
         }
         printf("  ;%s\n", str);
     }
@@ -776,7 +777,7 @@ static int block_cmd(int nargs, char **args)
         if (disk_image_check_sector(vdrive->image->type, track,
             ++sector) < 0) {
             sector = 0;
-            if (++track > vdrive->image->tracks)
+            if ((unsigned int)(++track) > vdrive->image->tracks)
                 track = vdrive->Dir_Track;
         }
     }
@@ -893,7 +894,7 @@ static int copy_cmd(int nargs, char **args)
         }
         dest_name_ascii = stralloc(args[nargs - 1]);
         dest_name_petscii = stralloc(dest_name_ascii);
-        petconvstring(dest_name_petscii, 0);
+        charset_petconvstring(dest_name_petscii, 0);
         dest_unit = drive_number;
     } else {
         if (*p != 0) {
@@ -904,7 +905,7 @@ static int copy_cmd(int nargs, char **args)
             }
             dest_name_ascii = stralloc(p);
             dest_name_petscii = stralloc(dest_name_ascii);
-            petconvstring(dest_name_petscii, 0);
+            charset_petconvstring(dest_name_petscii, 0);
         } else {
             dest_name_ascii = dest_name_petscii = NULL;
         }
@@ -940,7 +941,7 @@ static int copy_cmd(int nargs, char **args)
         }
 
         src_name_petscii = stralloc(src_name_ascii);
-        petconvstring(src_name_petscii, 0);
+        charset_petconvstring(src_name_petscii, 0);
 
         if (vdrive_iec_open(drives[src_unit], src_name_petscii,
                         (int)strlen(src_name_petscii), 0)) {
@@ -1022,7 +1023,7 @@ static int delete_cmd(int nargs, char **args)
         }
 
         command = concat("s:", name, NULL);
-        petconvstring(command, 0);
+        charset_petconvstring(command, 0);
 
         printf("Deleting `%s' on unit %d.\n", name, unit + 8);
         vdrive_command_execute(drives[unit], (BYTE *)command, strlen(command));
@@ -1101,7 +1102,7 @@ static int extract_cmd(int nargs, char **args)
                     }
                 }
 
-                petconvstring((char *) name, 1);
+                charset_petconvstring((char *) name, 1);
                 printf("%s\n", name);
                 unix_filename((char *) name); /* For now, convert '/' to '_'. */
                 if (vdrive_iec_open(floppy, (char *) cbm_name, len, 0)) {
@@ -1206,7 +1207,7 @@ static int format_cmd(int nargs, char **args)
         return FD_NOTREADY;
 
     command = concat("n:", args[1], NULL);
-    petconvstring(command, 0);
+    charset_petconvstring(command, 0);
 
     printf("Formatting in unit %d...\n", unit + 8);
     vdrive_command_execute(drives[unit], (BYTE *)command, strlen(command));
@@ -1358,7 +1359,7 @@ static int name_cmd(int nargs, char **args)
     vdrive = drives[unit];
     vdrive_bam_read_bam(vdrive);
     name = args[1];
-    petconvstring(name, 0);
+    charset_petconvstring(name, 0);
     id = strrchr(args[1], ',');
     if (id)
        *id++ = '\0';
@@ -1418,7 +1419,7 @@ static int read_cmd(int nargs, char **args)
     }
 
     src_name_petscii = stralloc(src_name_ascii);
-    petconvstring(src_name_petscii, 0);
+    charset_petconvstring(src_name_petscii, 0);
 
     if (vdrive_iec_open(drives[unit],
                     src_name_petscii, (int)strlen(src_name_petscii), 0)) {
@@ -1452,7 +1453,7 @@ static int read_cmd(int nargs, char **args)
             dest_name_ascii[l] = 0;
             l--;
         }
-        petconvstring(dest_name_ascii, 1);
+        charset_petconvstring(dest_name_ascii, 1);
         is_p00 = 0;
     }
 
@@ -1736,7 +1737,7 @@ static int read_geos_cmd(int nargs, char **args)
     }
 
     src_name_petscii = stralloc(src_name_ascii);
-    petconvstring(src_name_petscii, 0);
+    charset_petconvstring(src_name_petscii, 0);
 
     if (vdrive_iec_open(drives[unit], src_name_petscii,
         (int)strlen(src_name_petscii), 0)) {
@@ -1764,7 +1765,7 @@ static int read_geos_cmd(int nargs, char **args)
             dest_name_ascii[l] = 0;
             l--;
         }
-        petconvstring(dest_name_ascii, 1);
+        charset_petconvstring(dest_name_ascii, 1);
     }
 
     outf = fopen(dest_name_ascii, MODE_WRITE);
@@ -2073,7 +2074,7 @@ static int write_geos_cmd(int nargs, char **args)
     if (slashp == NULL) dest_name_ascii = stralloc(args[1]);
     else dest_name_ascii = stralloc(slashp + 1);
     dest_name_petscii = stralloc(dest_name_ascii);
-    petconvstring(dest_name_petscii, 0);
+    charset_petconvstring(dest_name_petscii, 0);
 
     if (vdrive_iec_open(drives[unit], dest_name_petscii,
         (int)strlen(dest_name_petscii), 1)) {
@@ -2182,7 +2183,7 @@ static int rename_cmd(int nargs, char **args)
     printf("Renaming `%s' to `%s'\n", src_name, dest_name);
 
     command = concat("r:", dest_name, "=", src_name, NULL);
-    petconvstring(command, 0);
+    charset_petconvstring(command, 0);
 
     vdrive_command_execute(drives[dest_unit],
                            (BYTE *) command, strlen(command));
@@ -2254,7 +2255,7 @@ static int tape_cmd(int nargs, char **args)
             dest_name_ascii = xmalloc(name_len + 1);
             memcpy(dest_name_ascii, dest_name_petscii, name_len);
             dest_name_ascii[name_len] = 0;
-            petconvstring(dest_name_ascii, 1);
+            charset_petconvstring(dest_name_ascii, 1);
 
             if (nargs > 2) {
                 int i, found;
@@ -2581,7 +2582,7 @@ static int write_cmd(int nargs, char **args)
             && p00_read_header(f, (BYTE *)realname, &reclen) >= 0) {
             dest_name_petscii = stralloc(realname);
             dest_name_ascii = stralloc(dest_name_petscii);
-            petconvstring(dest_name_ascii, 1);
+            charset_petconvstring(dest_name_ascii, 1);
         } else {
             char *slashp;
 
@@ -2592,11 +2593,11 @@ static int write_cmd(int nargs, char **args)
             else
                 dest_name_ascii = stralloc(slashp + 1);
             dest_name_petscii = stralloc(dest_name_ascii);
-            petconvstring(dest_name_petscii, 0);
+            charset_petconvstring(dest_name_petscii, 0);
         }
     } else {
         dest_name_petscii = stralloc(dest_name_ascii);
-        petconvstring(dest_name_petscii, 0);
+        charset_petconvstring(dest_name_petscii, 0);
     }
 
     if (vdrive_iec_open(drives[unit],
@@ -2631,7 +2632,7 @@ static int zcreate_cmd(int nargs, char **args)
     vdrive_t *vdrive = drives[drive_number];
     FILE *fsfd = NULL;
     unsigned int track, sector;
-    int count;
+    unsigned int count;
     char fname[MAXPATHLEN], dirname[MAXPATHLEN], oname[MAXPATHLEN];
     char *p;
     int singlefilemode = 0;
@@ -2653,8 +2654,9 @@ static int zcreate_cmd(int nargs, char **args)
         fname[1] = '!';
         strcpy(dirname, "");
     } else {
-        int len_path;
-        len_path = (int)(p - args[2]);
+        size_t len_path;
+
+        len_path = (size_t)(p - args[2]);
         if (len_path == strlen(args[2]) - 1)
             return FD_RDERR;
         strncpy(dirname, args[2], len_path + 1);
@@ -2741,7 +2743,7 @@ static int raw_cmd(int nargs, char **args)
     if (nargs >= 2) {
         char *command = stralloc(args[1]);
 
-        petconvstring(command, 0);
+        charset_petconvstring(command, 0);
         vdrive_command_execute(floppy, (BYTE *) command, strlen(command));
         free(command);
     }
@@ -2883,7 +2885,7 @@ static char *floppy_read_directory(vdrive_t *vdrive, const char *pattern)
         len = sprintf(line, "%d ", p[2] | (p[3] << 8));
         p += 4;
         while (*p != '\0') {
-            line[len++] = p_toascii(*p, 0);
+            line[len++] = charset_p_toascii(*p, 0);
             p++;
         }
         p++;
