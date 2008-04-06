@@ -99,7 +99,7 @@ static DiskFormats Legal_formats[] = {
     /*{ DT_1541, 42, 0,  785 }, */
     { DT_1571, 35, 1, 1366 },
     { DT_1581, 80, 0, 3200 },
-    { DT_8050, 77, 0, 2088 },
+    { DT_8050, 77, 0, 2083 },
     { DT_8250, 72, 1, 4166 },
     {-1, 0, 0, 0 }
 };
@@ -203,7 +203,8 @@ command_t command_list[] = {
       "If <unit> is specified, format the disk in unit <unit>.\n"
       "If <type> and <imagename> are specified, create a new image named\n"
       "<imagename>, attach it to unit 8 and format it.  <type> is a disk image\n"
-      "type, and must be either `x64', `d64', `d71' or `d81'.\n"
+      "type, and must be either `x64', `d64' (both VC1541/2031), `d71' (VC1571),\n" 
+      "`d81' (VC1581), `d80' (CBM8050) or `d82' (CBM8250).\n"
       "Otherwise, format the disk in the current unit, if any.",
       1, 3,
       format_cmd },
@@ -722,6 +723,14 @@ static int open_image(int dev, char *name, int create, int disktype)
 	      cdev = DT_1581;
 	      num_tracks = NUM_TRACKS_1571;
 	      break;
+	  case DISK_IMAGE_TYPE_D80:
+	      cdev = DT_8050;
+	      num_tracks = NUM_TRACKS_8050;
+	      break;
+	  case DISK_IMAGE_TYPE_D82:
+	      cdev = DT_8250;
+	      num_tracks = NUM_TRACKS_8250;
+	      break;
 	}
 
 	create_image(fd, cdev, num_tracks, 0, NULL, disktype);
@@ -813,6 +822,7 @@ static int block_cmd(int nargs, char **args)
     floppy = drives[drive & 3];
 
     if (vdrive_check_track_sector(floppy->ImageFormat, track, sector) < 0) {
+	/* FIXME: disk drives other than 1541? */
 	sector = 0;
 	track = DIR_TRACK_1541;
 	return FD_BAD_TS;
@@ -825,6 +835,7 @@ static int block_cmd(int nargs, char **args)
     }
     sprintf((char *) str, "B-R:%d 0 %d %d", channel, track, sector);
     if (vdrive_command_execute(floppy, (BYTE *) str, strlen((char *) str)) != 0) {
+	/* FIXME: disk drives other than 1541? */
 	track = DIR_TRACK_1541;
 	sector = 0;
 	return FD_RDERR;
@@ -852,6 +863,7 @@ static int block_cmd(int nargs, char **args)
     } else if (vdrive_check_track_sector(floppy->ImageFormat, track,
 					 ++sector) < 0) {
 	sector = 0;
+	/* FIXME: disk drives other than 1541? */
 	if (++track > floppy->NumTracks)
 	    track = DIR_TRACK_1541;
     }
@@ -1107,6 +1119,7 @@ static int delete_cmd(int nargs, char **args)
 
 static int extract_cmd(int nargs, char **args)
 {
+    /* FIXME: disk drives other than 1541? */
     int drive = 8, track = DIR_TRACK_1541, sector = DIR_SECTOR_1541;
     DRIVE *floppy;
     BYTE *buf, str[20];
@@ -1225,6 +1238,10 @@ static int format_cmd(int nargs, char **args)
             disk_type = DISK_IMAGE_TYPE_D71;
         else if (strcmp(args[2], "d81") == 0)
             disk_type = DISK_IMAGE_TYPE_D81;
+        else if (strcmp(args[2], "d80") == 0)
+            disk_type = DISK_IMAGE_TYPE_D80;
+        else if (strcmp(args[2], "d82") == 0)
+            disk_type = DISK_IMAGE_TYPE_D82;
         else
             return FD_BADVAL;
         if (open_image(drive_number, args[3], 1, disk_type) < 0)
@@ -2134,6 +2151,7 @@ static int write_cmd(int nargs, char **args)
     return FD_OK;
 }
 
+/* FIXME: 1541 only? */
 static int zcreate_cmd(int nargs, char **args)
 {
     DRIVE *floppy = drives[drive_number];
