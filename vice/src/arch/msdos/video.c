@@ -348,7 +348,3 @@ void disable_text(void)
     DEBUG(("Successful"));
 }
 
-int num_text_lines(void)
-{
-    return tui_num_lines();
-}
