@@ -2204,12 +2204,13 @@ static char *floppy_read_directory(vdrive_t *vdrive, const char *pattern)
         }
         p++;
         line[len++] = '\n';
-        bufcat(outbuf, &outbuf_size, (size_t *)&max_outbuf_size, line, len);
+        outbuf = bufcat(outbuf, &outbuf_size, (size_t *)&max_outbuf_size,
+                        line, len);
     }
     vdrive_close(vdrive, 0);
 
     /* Add trailing zero. */
-    *(outbuf + outbuf_size) = '\0';
+    outbuf = bufcat(outbuf, &outbuf_size, (size_t *)&max_outbuf_size, "", 1);
 
     return outbuf;
 }
