@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.19\n"
-"POT-Creation-Date: 2006-05-28 23:46+0200\n"
+"POT-Creation-Date: 2006-06-12 00:35+0200\n"
 "PO-Revision-Date: 2006-01-22 11:22+0100\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -762,7 +762,7 @@ msgstr "16KB Westermann learning (raw) Image einlegen"
 
 #: src/c64/cart/c64cart.c:262
 msgid "Attach Structured Basic cartridge image"
-msgstr "Erweiterungsmodul Structured Basic einlegen..."
+msgstr "Erweiterungsmodul Structured Basic einlegen"
 
 #: src/c64/cart/c64cart.c:265
 msgid "Enable expert cartridge"
@@ -5472,7 +5472,7 @@ msgstr "Einstellungen (Ressourcen) beim Beenden speichern"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:51
 msgid "Never confirm quiting VICE"
-msgstr "Keine Bestätigung beim Beenden von Vice"
+msgstr "Keine Bestätigung beim Beenden von VICE"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:54
 msgid "Confirm quiting VICE"
@@ -5494,42 +5494,42 @@ msgstr "Deaktiviere Vollbild Modus"
 msgid "Specify X display depth (1..32)"
 msgstr "X Display Farbtiefe (1..32) definieren"
 
-#: src/arch/unix/x11/video.c:191
+#: src/arch/unix/x11/video.c:190
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "`XSync()' nach jeder Aktualisierung des Emulator Fensters aufrufen"
 
-#: src/arch/unix/x11/video.c:194
+#: src/arch/unix/x11/video.c:193
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr ""
 "`XSync()' nicht nach jeder Aktualisierung des Emulator Fensters aufrufen"
 
-#: src/arch/unix/x11/video.c:197
+#: src/arch/unix/x11/video.c:196
 msgid "Use shared memory"
 msgstr "Benutze Shared Memory !"
 
-#: src/arch/unix/x11/video.c:200
+#: src/arch/unix/x11/video.c:199
 msgid "Never use shared memory (slower)"
 msgstr "Shared Memory nicht benutzen (langsamer)"
 
-#: src/arch/unix/x11/video.c:203
+#: src/arch/unix/x11/video.c:202
 msgid "Request YUV FOURCC format"
 msgstr "YUV FOURCC Format"
 
-#: src/arch/unix/x11/video.c:205
+#: src/arch/unix/x11/video.c:204
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr "Seitenverhältnis (0.8 - 1.2)"
 
-#: src/arch/unix/x11/video.c:286
+#: src/arch/unix/x11/video.c:285
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
 "Die MITSHM X Server Erweiterung ist auf diesem Display nicht unterstützt."
 
-#: src/arch/unix/x11/video.c:290
+#: src/arch/unix/x11/video.c:289
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM X Server Eweiterung in Version %d.%d erkannt."
 
-#: src/arch/unix/x11/video.c:360
+#: src/arch/unix/x11/video.c:359
 msgid "Cannot release shared memory!"
 msgstr "Kann Shared Memory nicht freigeben!"
 
