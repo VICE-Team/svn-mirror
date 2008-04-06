@@ -99,8 +99,10 @@ static int set_statusbar_enabled(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "UseLeds", RES_INTEGER,(resource_value_t)1,
+      RES_EVENT_NO, NULL,
       (void *)&use_leds, set_use_leds, NULL },
     { "ShowStatusbar", RES_INTEGER, (resource_value_t)STATUSBAR_MODE_AUTO,
+      RES_EVENT_NO, NULL,
       (void *)&statusbar_is_enabled, set_statusbar_enabled, NULL },
     { NULL }
 };
