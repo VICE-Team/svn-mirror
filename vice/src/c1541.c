@@ -59,7 +59,7 @@
 #include "c1541.h"
 #include "mshell.h"
 #include "serial.h"
-#include "drive.h"
+#include "vdrive.h"
 #include "gcr.h"
 #include "file.h"
 #include "charsets.h"
