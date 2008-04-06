@@ -5,12 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.19\n"
-"POT-Creation-Date: 2006-01-21 15:06+0100\n"
-"PO-Revision-Date: 2006-01-16 20:00+0100\n"
+"POT-Creation-Date: 2006-01-22 13:08+0100\n"
+"PO-Revision-Date: 2006-01-22 11:22+0100\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
 
@@ -21,7 +21,7 @@ msgstr "<prozent>"
 
 #: src/vsync.c:143
 msgid "Limit emulation speed to specified value"
-msgstr "Emulationsgeschwindigkeit auf Wert beschränken."
+msgstr "Emulationsgeschwindigkeit auf Wert beschrÃ¤nken."
 
 #: src/vsync.c:145 src/sound.c:257 src/sound.c:259 src/debug.c:213
 #: src/c64/cart/ide64.c:276 src/c64/cart/ide64.c:278 src/c64/cart/ide64.c:280
@@ -32,7 +32,7 @@ msgstr "<Wert>"
 
 #: src/vsync.c:145
 msgid "Update every <value> frames (`0' for automatic)"
-msgstr "Jedes <Wert> Bild aktualisieren (`0' für Automatik)"
+msgstr "Jedes <Wert> Bild aktualisieren (`0' fÃ¼r Automatik)"
 
 #: src/vsync.c:147
 msgid "Enable warp mode"
@@ -44,12 +44,12 @@ msgstr "Warp Mode Deaktivieren"
 
 #: src/vsync.c:465
 msgid "Your machine is too slow for current settings!"
-msgstr "Deine Maschine ist zu langsam für aktuelle Einstellungen!"
+msgstr "Deine Maschine ist zu langsam fÃ¼r aktuelle Einstellungen!"
 
 #: src/screenshot.c:171
 msgid "Sorry. Multiple recording is not supported."
 msgstr ""
-"Eine Aufnahme ist zur Zeit aktiv. Mehrfache Aufnahme ist nicht möglich."
+"Eine Aufnahme ist zur Zeit aktiv. Mehrfache Aufnahme ist nicht mÃ¶glich."
 
 #: src/autostart.c:186
 msgid "Cannot load snapshot file."
@@ -69,7 +69,7 @@ msgstr "Setze Sound Sample Rate zu <Wert> Hz"
 
 #: src/sound.c:259
 msgid "Set sound buffer size to <value> msec"
-msgstr "Setze Source Buffer Größe zu <Wert> msek"
+msgstr "Setze Source Buffer GrÃ¶ÃŸe zu <Wert> msek"
 
 #: src/sound.c:261 src/sound.c:265 src/c128/c128-cmdline-options.c:108
 #: src/c128/c128-cmdline-options.c:110 src/c128/c128-cmdline-options.c:112
@@ -159,11 +159,11 @@ msgstr "Initialisierungsparameter des Sound Treibers spezifizieren"
 
 #: src/sound.c:265
 msgid "Specify recording sound driver"
-msgstr "Sound Treiber für Aufnahme spezifizieren"
+msgstr "Sound Treiber fÃ¼r Aufnahme spezifizieren"
 
 #: src/sound.c:267
 msgid "Specify initialization parameters for recording sound driver"
-msgstr "Initialisierungsparameter für Aufnahme Sound Treiber spezifieren"
+msgstr "Initialisierungsparameter fÃ¼r Aufnahme Sound Treiber spezifieren"
 
 #: src/sound.c:269
 msgid "<sync>"
@@ -176,11 +176,11 @@ msgstr ""
 
 #: src/sound.c:465
 msgid "write to sound device failed."
-msgstr "Schreiben auf Sound Gerät ist fehlgeschlagen."
+msgstr "Schreiben auf Sound GerÃ¤t ist fehlgeschlagen."
 
 #: src/sound.c:480
 msgid "Cannot open SID engine"
-msgstr "Kann SID Engine nicht öffnen"
+msgstr "Kann SID Engine nicht Ã¶ffnen"
 
 #: src/sound.c:519
 msgid "Cannot initialize SID engine"
@@ -189,51 +189,51 @@ msgstr "Kann SID Engine nicht initialisieren"
 #: src/sound.c:626
 #, c-format
 msgid "initialization failed for device `%s'."
-msgstr "Initialisierung von Gerät `%s' fehlgeschlagen."
+msgstr "Initialisierung von GerÃ¤t `%s' fehlgeschlagen."
 
 #: src/sound.c:635
 msgid "sound device lacks stereo capability"
-msgstr "Sound Gerät unterstützt keine Stereo Ausgabe"
+msgstr "Sound GerÃ¤t unterstÃ¼tzt keine Stereo Ausgabe"
 
 #: src/sound.c:685
 #, c-format
 msgid "device '%s' not found or not supported."
-msgstr "Gerät '%s' konnte nicht gefunden werden oder ist nicht unterstützt."
+msgstr "GerÃ¤t '%s' konnte nicht gefunden werden oder ist nicht unterstÃ¼tzt."
 
 #: src/sound.c:706
 #, c-format
 msgid "Recording device %s doesn't exist!"
-msgstr "Aufnahmegerät %s existiert nicht!"
+msgstr "AufnahmegerÃ¤t %s existiert nicht!"
 
 #: src/sound.c:714
 msgid "Recording device must be different from playback device"
-msgstr "Aufnahmegerät muß unteschiedlich vom Abspielgerät sein"
+msgstr "AufnahmegerÃ¤t muÃŸ unteschiedlich vom AbspielgerÃ¤t sein"
 
 #: src/sound.c:724
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
-msgstr "Warnung! Aufnahmegerät %s scheint ein Echtzeitgerät zu sein!"
+msgstr "Warnung! AufnahmegerÃ¤t %s scheint ein EchtzeitgerÃ¤t zu sein!"
 
 #: src/sound.c:735
 #, c-format
 msgid "Initialization failed for device `%s'."
-msgstr "Initialisierung von Gerät `%s' fehlgeschlagen."
+msgstr "Initialisierung von GerÃ¤t `%s' fehlgeschlagen."
 
 #: src/sound.c:750
 msgid "The recording device doesn't support current sound parameters"
-msgstr "Aufnahmegerät unterstützt derzeitige Soundeinstellungen nicht"
+msgstr "AufnahmegerÃ¤t unterstÃ¼tzt derzeitige Soundeinstellungen nicht"
 
 #: src/sound.c:831
 msgid "Sound buffer overflow (cycle based)"
-msgstr "Sound Puffer Überlauf (Zyklus basiert)"
+msgstr "Sound Puffer Ãœberlauf (Zyklus basiert)"
 
 #: src/sound.c:845
 msgid "Sound buffer overflow."
-msgstr "Sound Puffer Überlauf."
+msgstr "Sound Puffer Ãœberlauf."
 
 #: src/sound.c:971
 msgid "cannot flush."
-msgstr "Entleerung nicht möglich."
+msgstr "Entleerung nicht mÃ¶glich."
 
 #: src/sound.c:1020
 msgid "fragment problems."
@@ -249,11 +249,11 @@ msgstr "Ablauf zu langsam."
 
 #: src/sound.c:1105 src/sound.c:1115
 msgid "write to sounddevice failed."
-msgstr "Schreiben auf Sound Gerät ist fehlgeschlagen."
+msgstr "Schreiben auf Sound GerÃ¤t ist fehlgeschlagen."
 
 #: src/sound.c:1362
 msgid "store to sounddevice failed."
-msgstr "Speichern auf Sound Gerät ist fehlgeschlagen."
+msgstr "Speichern auf Sound GerÃ¤t ist fehlgeschlagen."
 
 #: src/event.c:224
 #, c-format
@@ -268,7 +268,7 @@ msgstr "Kann Datei %s nicht schreiben"
 #: src/event.c:245
 #, c-format
 msgid "Cannot find mapped name for %s"
-msgstr "Kann zugeordneten Namen für `%s' nicht finden."
+msgstr "Kann zugeordneten Namen fÃ¼r `%s' nicht finden."
 
 #: src/event.c:624
 #, c-format
@@ -288,7 +288,7 @@ msgstr "Kann Ende Snapshot Datei nicht erzeugen: %s"
 #: src/event.c:778
 #, c-format
 msgid "Could not open end snapshot file %s."
-msgstr "Kann Ende Snapshot Datei nicht öffnen: %s"
+msgstr "Kann Ende Snapshot Datei nicht Ã¶ffnen: %s"
 
 #: src/event.c:793
 msgid "Could not find event section in end snapshot file."
@@ -377,11 +377,11 @@ msgstr "Teste optimale Framerate..."
 #: src/network.c:427
 #, c-format
 msgid "Using %d frames delay."
-msgstr "Benutze %d Frameverzögerung."
+msgstr "Benutze %d FrameverzÃ¶gerung."
 
 #: src/network.c:447
 msgid "Cannot load snapshot file for transfer"
-msgstr "Kann Snapshot Datei für Transfer nicht laden"
+msgstr "Kann Snapshot Datei fÃ¼r Transfer nicht laden"
 
 #: src/network.c:460
 msgid "Sending snapshot to client..."
@@ -399,7 +399,7 @@ msgstr "Kann Snapshot Datei `%s' nicht erzeugen"
 #: src/network.c:498
 #, c-format
 msgid "Cannot open snapshot file %s"
-msgstr "Kann Snapshot Datei `%s' nicht öffnen."
+msgstr "Kann Snapshot Datei `%s' nicht Ã¶ffnen."
 
 #: src/network.c:606
 msgid "Server is waiting for a client..."
@@ -414,7 +414,7 @@ msgstr ""
 #: src/network.c:661
 #, c-format
 msgid "Cannot resolve %s"
-msgstr "Kann %s nicht auflösen"
+msgstr "Kann %s nicht auflÃ¶sen"
 
 #: src/network.c:706
 #, c-format
@@ -439,7 +439,7 @@ msgstr "Netzwerksynchronisationsproblem - Trenne Verbindung."
 
 #: src/aciacore.c:211
 msgid "Specify RS232 device this ACIA should work on"
-msgstr "RS232 Gerät für welches ACIA funktionieren soll ist zu spezifizieren"
+msgstr "RS232 GerÃ¤t fÃ¼r welches ACIA funktionieren soll ist zu spezifizieren"
 
 #: src/attach.c:167 src/attach.c:170 src/attach.c:173 src/attach.c:176
 #: src/drive/drive-cmdline-options.c:68 src/printerdrv/interface-serial.c:126
@@ -449,51 +449,51 @@ msgstr "<Typ>"
 
 #: src/attach.c:168
 msgid "Set device type for device #8 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
-msgstr "Geräte Typ für Gerät #8 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
+msgstr "GerÃ¤te Typ fÃ¼r GerÃ¤t #8 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 
 #: src/attach.c:171
 msgid "Set device type for device #9 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
-msgstr "Geräte Typ für Gerät #9 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
+msgstr "GerÃ¤te Typ fÃ¼r GerÃ¤t #9 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 
 #: src/attach.c:174
 msgid "Set device type for device #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
-msgstr "Geräte Typ für Gerät #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
+msgstr "GerÃ¤te Typ fÃ¼r GerÃ¤t #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 
 #: src/attach.c:177
 msgid "Set device type for device #11 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
-msgstr "Geräte Typ für Gerät #11 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
+msgstr "GerÃ¤te Typ fÃ¼r GerÃ¤t #11 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 
 #: src/attach.c:180
 msgid "Attach disk image for drive #8 read only"
-msgstr "Disk Image als Laufwerk #8 benutzen (schreibgeschützt)"
+msgstr "Disk Image als Laufwerk #8 benutzen (schreibgeschÃ¼tzt)"
 
 #: src/attach.c:183
 msgid "Attach disk image for drive #8 read write (if possible)"
-msgstr "Disk Image als Laufwerk #8 benutzen (Schreibzugriff, wenn möglich)"
+msgstr "Disk Image als Laufwerk #8 benutzen (Schreibzugriff, wenn mÃ¶glich)"
 
 #: src/attach.c:186
 msgid "Attach disk image for drive #9 read only"
-msgstr "Disk Image als Laufwerk #9 benutzen (schreibgeschützt)"
+msgstr "Disk Image als Laufwerk #9 benutzen (schreibgeschÃ¼tzt)"
 
 #: src/attach.c:189
 msgid "Attach disk image for drive #9 read write (if possible)"
-msgstr "Disk Image als Laufwerk #9 benutzen (Schreibzugriff, wenn möglich)"
+msgstr "Disk Image als Laufwerk #9 benutzen (Schreibzugriff, wenn mÃ¶glich)"
 
 #: src/attach.c:192
 msgid "Attach disk image for drive #10 read only"
-msgstr "Disk Image als Laufwerk #10 benutzen (schreibgeschützt)"
+msgstr "Disk Image als Laufwerk #10 benutzen (schreibgeschÃ¼tzt)"
 
 #: src/attach.c:195
 msgid "Attach disk image for drive #10 read write (if possible)"
-msgstr "Disk Image als Laufwerk #10 benutzen (Schreibzugriff, wenn möglich)"
+msgstr "Disk Image als Laufwerk #10 benutzen (Schreibzugriff, wenn mÃ¶glich)"
 
 #: src/attach.c:198
 msgid "Attach disk image for drive #11 read only"
-msgstr "Disk Image als Laufwerk #11 benutzen (schreibgeschützt)"
+msgstr "Disk Image als Laufwerk #11 benutzen (schreibgeschÃ¼tzt)"
 
 #: src/attach.c:201
 msgid "Attach disk image for drive #11 read write (if possible)"
-msgstr "Disk Image als Laufwerk #11 benutzen (Schreibzugriff, wenn möglich)"
+msgstr "Disk Image als Laufwerk #11 benutzen (Schreibzugriff, wenn mÃ¶glich)"
 
 #: src/c128/c128-cmdline-options.c:104 src/c64/c64-cmdline-options.c:84
 #: src/c64/psid.c:154 src/plus4/plus4-cmdline-options.c:76
@@ -509,63 +509,63 @@ msgstr "NTSC Sync Faktor benutzen"
 
 #: src/c128/c128-cmdline-options.c:108
 msgid "Specify name of international Kernal ROM image"
-msgstr "Bitte Namen für internationale Kernal ROM Datei definieren"
+msgstr "Bitte Namen fÃ¼r internationale Kernal ROM Datei definieren"
 
 #: src/c128/c128-cmdline-options.c:110
 msgid "Specify name of German Kernal ROM image"
-msgstr "Name für deutsche Kernal ROM Datei definieren"
+msgstr "Name fÃ¼r deutsche Kernal ROM Datei definieren"
 
 #: src/c128/c128-cmdline-options.c:112
 msgid "Specify name of Finnish Kernal ROM image"
-msgstr "Name für finnische Kernal ROM Datei definieren"
+msgstr "Name fÃ¼r finnische Kernal ROM Datei definieren"
 
 #: src/c128/c128-cmdline-options.c:114
 msgid "Specify name of French Kernal ROM image"
-msgstr "Name für französische Kernal ROM Datei definieren"
+msgstr "Name fÃ¼r franzÃ¶sische Kernal ROM Datei definieren"
 
 #: src/c128/c128-cmdline-options.c:116
 msgid "Specify name of Italian Kernal ROM image"
-msgstr "Name für italienische Kernal ROM Datei definieren"
+msgstr "Name fÃ¼r italienische Kernal ROM Datei definieren"
 
 #: src/c128/c128-cmdline-options.c:118
 msgid "Specify name of Norwegain Kernal ROM image"
-msgstr "Name für norwegische Kernal ROM Datei definieren"
+msgstr "Name fÃ¼r norwegische Kernal ROM Datei definieren"
 
 #: src/c128/c128-cmdline-options.c:120
 msgid "Specify name of Swedish Kernal ROM image"
-msgstr "Name für schwedische Kernal ROM Datei definieren"
+msgstr "Name fÃ¼r schwedische Kernal ROM Datei definieren"
 
 #: src/c128/c128-cmdline-options.c:122
 msgid "Specify name of BASIC ROM image (lower part)"
-msgstr "Namen für Basic ROM Datei spezifizieren (unterer Teil)"
+msgstr "Namen fÃ¼r Basic ROM Datei spezifizieren (unterer Teil)"
 
 #: src/c128/c128-cmdline-options.c:124
 msgid "Specify name of BASIC ROM image (higher part)"
-msgstr "Namen für Basic ROM Datei spezifizieren (oberer Teil)"
+msgstr "Namen fÃ¼r Basic ROM Datei spezifizieren (oberer Teil)"
 
 #: src/c128/c128-cmdline-options.c:126
 msgid "Specify name of international character generator ROM image"
-msgstr "Name für internationale Charakter ROM Datei definieren"
+msgstr "Name fÃ¼r internationale Charakter ROM Datei definieren"
 
 #: src/c128/c128-cmdline-options.c:128
 msgid "Specify name of German character generator ROM image"
-msgstr "Name für deutsche Charakter ROM Datei definieren"
+msgstr "Name fÃ¼r deutsche Charakter ROM Datei definieren"
 
 #: src/c128/c128-cmdline-options.c:130
 msgid "Specify name of French character generator ROM image"
-msgstr "Name für französische Charakter ROM Datei definieren"
+msgstr "Name fÃ¼r franzÃ¶sische Charakter ROM Datei definieren"
 
 #: src/c128/c128-cmdline-options.c:132
 msgid "Specify name of Swedish character generator ROM image"
-msgstr "Name für schwedische Charakter ROM Datei definieren"
+msgstr "Name fÃ¼r schwedische Charakter ROM Datei definieren"
 
 #: src/c128/c128-cmdline-options.c:134
 msgid "Specify name of C64 mode Kernal ROM image"
-msgstr "Name für C64 Modus Kernal ROM Datei definieren"
+msgstr "Name fÃ¼r C64 Modus Kernal ROM Datei definieren"
 
 #: src/c128/c128-cmdline-options.c:136
 msgid "Specify name of C64 mode BASIC ROM image"
-msgstr "Name für C64 Modus Basic ROM Datei spezifizieren"
+msgstr "Name fÃ¼r C64 Modus Basic ROM Datei spezifizieren"
 
 #: src/c128/c128-cmdline-options.c:138 src/c64/c64-cmdline-options.c:97
 #: src/cbm2/cbm2-cmdline-options.c:171 src/pet/pet-cmdline-options.c:156
@@ -593,7 +593,7 @@ msgstr "<Revision>"
 
 #: src/c128/c128-cmdline-options.c:146 src/c64/c64-cmdline-options.c:101
 msgid "Patch the Kernal ROM to the specified <revision>"
-msgstr "Kernal ROM auf spezifizierte <Revision> verändern"
+msgstr "Kernal ROM auf spezifizierte <Revision> verÃ¤ndern"
 
 #: src/c128/c128-cmdline-options.c:149 src/c64/c64-cmdline-options.c:104
 msgid "Enable the $DE** ACIA RS232 interface emulation"
@@ -609,17 +609,17 @@ msgstr "<Nummer>"
 #: src/c128/c128-cmdline-options.c:155 src/plus4/plus4-cmdline-options.c:99
 #: src/vic20/vic20-cmdline-options.c:226
 msgid "Specify index of keymap file (0=symbol, 1=positional)"
-msgstr "Index für Kymap Datei festlegen (0=symbol, 1=positional)"
+msgstr "Index fÃ¼r Kymap Datei festlegen (0=symbol, 1=positional)"
 
 #: src/c128/c128-cmdline-options.c:157 src/c64/c64-cmdline-options.c:112
 #: src/plus4/plus4-cmdline-options.c:101 src/vic20/vic20-cmdline-options.c:228
 msgid "Specify name of symbolic keymap file"
-msgstr "Bitte Namen für symbolische Keymap Datei definieren"
+msgstr "Bitte Namen fÃ¼r symbolische Keymap Datei definieren"
 
 #: src/c128/c128-cmdline-options.c:159 src/c64/c64-cmdline-options.c:116
 #: src/plus4/plus4-cmdline-options.c:103 src/vic20/vic20-cmdline-options.c:230
 msgid "Specify name of positional keymap file"
-msgstr "Bitte Namen für positions Keymap Datei definieren"
+msgstr "Bitte Namen fÃ¼r positions Keymap Datei definieren"
 
 #: src/c128/c128mmu.c:107
 msgid "Activate 40 column mode"
@@ -680,7 +680,7 @@ msgstr "ACIA $DExx RS232 Schnittstellen-Emulation deaktivieren"
 
 #: src/c64/c64-cmdline-options.c:110
 msgid "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
-msgstr "Index für Keymap Datei festlegen (0=symbol, 1=symDE, 2=positional)"
+msgstr "Index fÃ¼r Keymap Datei festlegen (0=symbol, 1=symDE, 2=positional)"
 
 #: src/c64/c64-cmdline-options.c:114
 msgid "Specify name of symbolic German keymap file"
@@ -755,19 +755,19 @@ msgstr "Expert Cartridge aktivieren"
 
 #: src/c64/cart/ide64.c:274
 msgid "Specify name of IDE64 image file"
-msgstr "Namen für IDE64 Image Datei definieren"
+msgstr "Namen fÃ¼r IDE64 Image Datei definieren"
 
 #: src/c64/cart/ide64.c:276
 msgid "Set number of cylinders for the IDE64 emulation"
-msgstr "Anzahl der Zylinder für IDE64 Emulation"
+msgstr "Anzahl der Zylinder fÃ¼r IDE64 Emulation"
 
 #: src/c64/cart/ide64.c:278
 msgid "Set number of heads for the IDE64 emulation"
-msgstr "Anzahl der Laufwerksköpfe für IDE64 Emulation"
+msgstr "Anzahl der LaufwerkskÃ¶pfe fÃ¼r IDE64 Emulation"
 
 #: src/c64/cart/ide64.c:280
 msgid "Set number of sectors for the IDE64 emulation"
-msgstr "Anzahl der Sektoren für IDE64 Emulation"
+msgstr "Anzahl der Sektoren fÃ¼r IDE64 Emulation"
 
 #: src/c64/cart/ide64.c:283
 msgid "Autodetect geometry of formatted images"
@@ -796,7 +796,7 @@ msgstr "<Basis Adresse>"
 
 #: src/c64/c64_256k.c:258
 msgid "Base address of the 256K expansion"
-msgstr "Basis Adresse für 256K RAM Erweiterung"
+msgstr "Basis Adresse fÃ¼r 256K RAM Erweiterung"
 
 #: src/c64/georam.c:214
 msgid "Enable the GEORAM expansion unit"
@@ -813,46 +813,39 @@ msgstr "GEORAM Image Datei definieren"
 #: src/c64/georam.c:220 src/c64/ramcart.c:236 src/c64/reu.c:255
 #: src/pet/petreu.c:220
 msgid "<size in KB>"
-msgstr "<Größe in KB>"
+msgstr "<GrÃ¶ÃŸe in KB>"
 
 #: src/c64/georam.c:220
 msgid "Size of the GEORAM expansion unit"
-msgstr "Größe der GEORAM Erweiterung"
+msgstr "GrÃ¶ÃŸe der GEORAM Erweiterung"
 
 #: src/c64/plus256k.c:178
-#, fuzzy
 msgid "Enable the PLUS256K RAM expansion"
-msgstr "256K RAM Erweiterung aktivieren"
+msgstr "PLUS256K RAM Erweiterung aktivieren"
 
 #: src/c64/plus256k.c:180
-#, fuzzy
 msgid "Disable the PLUS256K RAM expansion"
-msgstr "256K RAM Erweiterung deaktivieren"
+msgstr "PLUS256K RAM Erweiterung deaktivieren"
 
 #: src/c64/plus256k.c:182
-#, fuzzy
 msgid "Specify name of PLUS256K image"
-msgstr "Name der 256K Image Datei definieren"
+msgstr "Name der PLUS256K Image Datei definieren"
 
 #: src/c64/plus60k.c:253
-#, fuzzy
 msgid "Enable the PLUS60K RAM expansion"
-msgstr "+60K RAM Erweiterung aktivieren"
+msgstr "PLUS60K RAM Erweiterung aktivieren"
 
 #: src/c64/plus60k.c:255
-#, fuzzy
 msgid "Disable the PLUS60K RAM expansion"
-msgstr "+60K RAM Erweiterung deaktivieren"
+msgstr "PLUS60K RAM Erweiterung deaktivieren"
 
 #: src/c64/plus60k.c:257
-#, fuzzy
 msgid "Specify name of PLUS60K image"
-msgstr "Name der +60K Image Datei definieren"
+msgstr "Name der PLUS60K Image Datei definieren"
 
 #: src/c64/plus60k.c:259
-#, fuzzy
 msgid "Base address of the PLUS60K expansion"
-msgstr "Basis Adresse für +60K Erweiterung"
+msgstr "Basis Adresse fÃ¼r PLUS60K Erweiterung"
 
 #: src/c64/psid.c:162
 msgid "SID player mode"
@@ -860,11 +853,11 @@ msgstr "SID Player Modus"
 
 #: src/c64/psid.c:164
 msgid "Override PSID settings for Video standard and SID model"
-msgstr "PSID Einstellung für Video Standard und SID Modell verändern"
+msgstr "PSID Einstellung fÃ¼r Video Standard und SID Modell verÃ¤ndern"
 
 #: src/c64/psid.c:166
 msgid "Specify PSID tune <number>"
-msgstr "PSID Stück <Nummer> definieren"
+msgstr "PSID StÃ¼ck <Nummer> definieren"
 
 #: src/c64/ramcart.c:230
 msgid "Enable the RAMCART expansion"
@@ -876,11 +869,11 @@ msgstr "RAMCART Erweiterung deaktivieren"
 
 #: src/c64/ramcart.c:234
 msgid "Specify name of RAMCART image"
-msgstr "Name für RAMCART Image Datei definieren"
+msgstr "Name fÃ¼r RAMCART Image Datei definieren"
 
 #: src/c64/ramcart.c:236
 msgid "Size of the RAMCART expansion"
-msgstr "Größe der RAMCART Erweiterung"
+msgstr "GrÃ¶ÃŸe der RAMCART Erweiterung"
 
 #: src/c64/reu.c:249
 msgid "Enable the RAM expansion unit"
@@ -892,11 +885,11 @@ msgstr "RAM Speichererweiterung deaktivieren"
 
 #: src/c64/reu.c:253
 msgid "Specify name of REU image"
-msgstr "Namen für REU Image Datei definieren"
+msgstr "Namen fÃ¼r REU Image Datei definieren"
 
 #: src/c64/reu.c:255
 msgid "Size of the RAM expansion unit"
-msgstr "Größe der RAM Speichererweiterung"
+msgstr "GrÃ¶ÃŸe der RAM Speichererweiterung"
 
 #: src/c64/tfe.c:1518
 msgid "Enable the TFE (\"the final ethernet\") unit"
@@ -912,15 +905,15 @@ msgstr "<Modell Nummer>"
 
 #: src/cbm2/cbm2-cmdline-options.c:121
 msgid "Specify CBM-II model to emulate"
-msgstr "CBM-II Modell für Emulation definieren"
+msgstr "CBM-II Modell fÃ¼r Emulation definieren"
 
 #: src/cbm2/cbm2-cmdline-options.c:123
 msgid "Specify to use VIC-II"
-msgstr "VIC-II Unterstützung aktivieren"
+msgstr "VIC-II UnterstÃ¼tzung aktivieren"
 
 #: src/cbm2/cbm2-cmdline-options.c:125
 msgid "Specify to use CRTC"
-msgstr "CRTC Unterstützung aktivieren"
+msgstr "CRTC UnterstÃ¼tzung aktivieren"
 
 #: src/cbm2/cbm2-cmdline-options.c:127
 msgid "<linenumber>"
@@ -932,27 +925,27 @@ msgstr "CBM-II Hardware Modell definieren (0=6x0, 1=7x0)"
 
 #: src/cbm2/cbm2-cmdline-options.c:129 src/plus4/plus4-cmdline-options.c:96
 msgid "<ramsize>"
-msgstr "<RAM Größe>"
+msgstr "<RAM GrÃ¶ÃŸe>"
 
 #: src/cbm2/cbm2-cmdline-options.c:129
 msgid "Specify size of RAM (64/128/256/512/1024 kByte)"
-msgstr "RAM Größe definieren (64/128/256/512/1024 kByte)"
+msgstr "RAM GrÃ¶ÃŸe definieren (64/128/256/512/1024 kByte)"
 
 #: src/cbm2/cbm2-cmdline-options.c:139
 msgid "Specify name of cartridge ROM image for $1000"
-msgstr "Name für ROM Module Image Datei ($1000)"
+msgstr "Name fÃ¼r ROM Module Image Datei ($1000)"
 
 #: src/cbm2/cbm2-cmdline-options.c:141
 msgid "Specify name of cartridge ROM image for $2000-$3fff"
-msgstr "Name für ROM Module Image Datei ($2000-3fff)"
+msgstr "Name fÃ¼r ROM Module Image Datei ($2000-3fff)"
 
 #: src/cbm2/cbm2-cmdline-options.c:143
 msgid "Specify name of cartridge ROM image for $4000-$5fff"
-msgstr "Name für ROM Module Image Datei ($4000-5fff)"
+msgstr "Name fÃ¼r ROM Module Image Datei ($4000-5fff)"
 
 #: src/cbm2/cbm2-cmdline-options.c:145
 msgid "Specify name of cartridge ROM image for $6000-$7fff"
-msgstr "Name für ROM Module Image Datei ($6000-7fff)"
+msgstr "Name fÃ¼r ROM Module Image Datei ($6000-7fff)"
 
 #: src/cbm2/cbm2-cmdline-options.c:147
 msgid "Enable RAM mapping in $0800-$0FFF"
@@ -1008,27 +1001,27 @@ msgstr "Index der Keymap Datei definieren"
 
 #: src/cbm2/cbm2-cmdline-options.c:179 src/pet/pet-cmdline-options.c:164
 msgid "Specify name of graphics keyboard symbolic keymap file"
-msgstr "Keymap Datei für graphics keyboard symbolic definieren"
+msgstr "Keymap Datei fÃ¼r graphics keyboard symbolic definieren"
 
 #: src/cbm2/cbm2-cmdline-options.c:182 src/pet/pet-cmdline-options.c:167
 msgid "Specify name of graphics keyboard positional keymap file"
-msgstr "Keymap Datei für graphics keyboard positional definieren"
+msgstr "Keymap Datei fÃ¼r graphics keyboard positional definieren"
 
 #: src/cbm2/cbm2-cmdline-options.c:185 src/pet/pet-cmdline-options.c:170
 msgid "Specify name of UK business keyboard symbolic keymap file"
-msgstr "Keymap Datei für UK business keyboard symbolic definieren"
+msgstr "Keymap Datei fÃ¼r UK business keyboard symbolic definieren"
 
 #: src/cbm2/cbm2-cmdline-options.c:188 src/pet/pet-cmdline-options.c:173
 msgid "Specify name of UK business keyboard positional keymap file"
-msgstr "Keymap Datei für UK business keyboard positional definieren"
+msgstr "Keymap Datei fÃ¼r UK business keyboard positional definieren"
 
 #: src/cbm2/cbm2-cmdline-options.c:191 src/pet/pet-cmdline-options.c:176
 msgid "Specify name of German business keyboard symbolic keymap file"
-msgstr "Keymap Datei für German business keyboard symbolic definieren"
+msgstr "Keymap Datei fÃ¼r German business keyboard symbolic definieren"
 
 #: src/cbm2/cbm2-cmdline-options.c:194 src/pet/pet-cmdline-options.c:179
 msgid "Specify name of German business keyboard positional keymap file"
-msgstr "Keymap Datei für German business keyboard positional definieren"
+msgstr "Keymap Datei fÃ¼r German business keyboard positional definieren"
 
 #: src/datasette.c:178
 msgid "Enable automatic Datasette-Reset"
@@ -1040,19 +1033,19 @@ msgstr "Automatisches Datasette-Reset deaktivieren"
 
 #: src/datasette.c:184
 msgid "Set delay in cycles for a zero in the tap"
-msgstr "Verzögerung für Zero in Zyklen im Tap"
+msgstr "VerzÃ¶gerung fÃ¼r Zero in Zyklen im Tap"
 
 #: src/datasette.c:187
 msgid "Set number of cycles added to each gap in the tap"
-msgstr "Setze Anzahl der Zyklen für jedes Loch im Tap"
+msgstr "Setze Anzahl der Zyklen fÃ¼r jedes Loch im Tap"
 
 #: src/drive/drive-cmdline-options.c:51
 msgid "Enable hardware-level emulation of disk drives"
-msgstr "Hardware Emulation für Disklaufwerke aktivieren"
+msgstr "Hardware Emulation fÃ¼r Disklaufwerke aktivieren"
 
 #: src/drive/drive-cmdline-options.c:53
 msgid "Disable hardware-level emulation of disk drives"
-msgstr "Hardware Emulation für Disklaufwerke deaktivieren"
+msgstr "Hardware Emulation fÃ¼r Disklaufwerke deaktivieren"
 
 #: src/drive/drive-cmdline-options.c:69
 msgid "Set drive type (0: no drive)"
@@ -1065,7 +1058,7 @@ msgstr "<Methode>"
 
 #: src/drive/drive-cmdline-options.c:71
 msgid "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
-msgstr "40 Spur Erweiterungsmethode (0: nie, 1: Rückfrage, 2: bei Bedarf)"
+msgstr "40 Spur Erweiterungsmethode (0: nie, 1: RÃ¼ckfrage, 2: bei Bedarf)"
 
 #: src/drive/iec/iec-cmdline-options.c:86
 msgid "Specify name of 1541 DOS ROM image"
@@ -1170,56 +1163,56 @@ msgstr "Name der 1551 DOS ROM Datei definieren"
 
 #: src/fliplist.c:122
 msgid "Specify name of the flip list file image"
-msgstr "Namen für Fliplist Datei definieren"
+msgstr "Namen fÃ¼r Fliplist Datei definieren"
 
 #: src/fsdevice/fsdevice-cmdline-options.c:82
 msgid "Use <name> as directory for file system device #8"
-msgstr "Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #8"
+msgstr "Benutze <Name> fÃ¼r Verzeichnis beim Verzeichniszugriff fÃ¼r GerÃ¤t #8"
 
 #: src/fsdevice/fsdevice-cmdline-options.c:84
 msgid "Use <name> as directory for file system device #9"
-msgstr "Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #9"
+msgstr "Benutze <Name> fÃ¼r Verzeichnis beim Verzeichniszugriff fÃ¼r GerÃ¤t #9"
 
 #: src/fsdevice/fsdevice-cmdline-options.c:86
 msgid "Use <name> as directory for file system device #10"
-msgstr "Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #10"
+msgstr "Benutze <Name> fÃ¼r Verzeichnis beim Verzeichniszugriff fÃ¼r GerÃ¤t #10"
 
 #: src/fsdevice/fsdevice-cmdline-options.c:88
 msgid "Use <name> as directory for file system device #11"
-msgstr "Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #11"
+msgstr "Benutze <Name> fÃ¼r Verzeichnis beim Verzeichniszugriff fÃ¼r GerÃ¤t #11"
 
 #: src/gfxoutputdrv/ffmpegdrv.c:203
 msgid "Set bitrate for audio stream in media file"
-msgstr "Bitrate für Audio Stream für Media Datei setzen"
+msgstr "Bitrate fÃ¼r Audio Stream fÃ¼r Media Datei setzen"
 
 #: src/gfxoutputdrv/ffmpegdrv.c:206
 msgid "Set bitrate for video stream in media file"
-msgstr "Bitrate für Video Stream für Media Datei setzen"
+msgstr "Bitrate fÃ¼r Video Stream fÃ¼r Media Datei setzen"
 
 #: src/gfxoutputdrv/ffmpegdrv.c:567
 msgid "ffmpegdrv: Cannot open video stream"
-msgstr "ffmpegdrv: Kann video stream nicht öffnen"
+msgstr "ffmpegdrv: Kann video stream nicht Ã¶ffnen"
 
 #: src/gfxoutputdrv/ffmpegdrv.c:576
 msgid "ffmpegdrv: Cannot open audio stream"
-msgstr "ffmpegdrv: Kann audio stream nicht öffnen"
+msgstr "ffmpegdrv: Kann audio stream nicht Ã¶ffnen"
 
 #: src/gfxoutputdrv/ffmpegdrv.c:589
 #, c-format
 msgid "ffmpegdrv: Cannot open %s"
-msgstr "ffmpegdrv: Öffnen von %s fehlgeschlagen"
+msgstr "ffmpegdrv: Ã–ffnen von %s fehlgeschlagen"
 
 #: src/initcmdline.c:155 src/initcmdline.c:157 src/initcmdline.c:159
 msgid "Show a list of the available options and exit normally"
-msgstr "Liste von verfügbaren Optionen zeigen und beenden"
+msgstr "Liste von verfÃ¼gbaren Optionen zeigen und beenden"
 
 #: src/initcmdline.c:162
 msgid "Console mode (for music playback)"
-msgstr "Konsolenmodus (für Musikwiedergabe)"
+msgstr "Konsolenmodus (fÃ¼r Musikwiedergabe)"
 
 #: src/initcmdline.c:164
 msgid "Allow production of core dumps"
-msgstr "Core Dumps ermöglichen"
+msgstr "Core Dumps ermÃ¶glichen"
 
 #: src/initcmdline.c:166
 msgid "Do not produce core dumps"
@@ -1287,7 +1280,7 @@ msgstr "Emulation der 1351 Proportional Mouse deaktivieren"
 
 #: src/mouse.c:99
 msgid "Select the joystick port the mouse is attached to"
-msgstr "Joystickport für Maus auswählen"
+msgstr "Joystickport fÃ¼r Maus auswÃ¤hlen"
 
 #: src/pet/pet-cmdline-options.c:114
 msgid "Specify PET model to emulate"
@@ -1295,7 +1288,7 @@ msgstr "PET Modell spezifizieren"
 
 #: src/pet/pet-cmdline-options.c:120
 msgid "Specify name of Editor ROM image"
-msgstr "Name für Editor ROM Image Datei definieren"
+msgstr "Name fÃ¼r Editor ROM Image Datei definieren"
 
 #: src/pet/pet-cmdline-options.c:124
 msgid "Specify 4K extension ROM name at $9***"
@@ -1343,19 +1336,19 @@ msgstr "ROM 1 Kernal patches deaktivieren"
 
 #: src/pet/pet-cmdline-options.c:147
 msgid "Switch upper/lower case charset"
-msgstr "Wechsel Groß-/Kleinschreibung Zeichensatz"
+msgstr "Wechsel GroÃŸ-/Kleinschreibung Zeichensatz"
 
 #: src/pet/pet-cmdline-options.c:150
 msgid "Do not switch upper/lower case charset"
-msgstr "Kein Wechsel Groß-/Kleinschreibung Zeichensatz"
+msgstr "Kein Wechsel GroÃŸ-/Kleinschreibung Zeichensatz"
 
 #: src/pet/pet-cmdline-options.c:152
 msgid "EOI blanks screen"
-msgstr "EOI löscht Bildschirm"
+msgstr "EOI lÃ¶scht Bildschirm"
 
 #: src/pet/pet-cmdline-options.c:154
 msgid "EOI does not blank screen"
-msgstr "EIO löscht Bildschirm nicht"
+msgstr "EIO lÃ¶scht Bildschirm nicht"
 
 #: src/pet/petpia1.c:122
 msgid "Enable userport diagnostic pin"
@@ -1375,75 +1368,75 @@ msgstr "PET RAM Speicher und Erweiterungsmodul dektivieren"
 
 #: src/pet/petreu.c:218
 msgid "Specify name of PET Ram and Expansion Unit image"
-msgstr "Namen für PET RAM Speicher und Erweiterungsmodul definieren"
+msgstr "Namen fÃ¼r PET RAM Speicher und Erweiterungsmodul definieren"
 
 #: src/pet/petreu.c:220
 msgid "Size of the PET Ram and Expansion Unit"
-msgstr "Größe des PET RAM Speicher und Erweiterungsmodul"
+msgstr "GrÃ¶ÃŸe des PET RAM Speicher und Erweiterungsmodul"
 
 #: src/plus4/plus4-cmdline-options.c:84
 msgid "Specify name of Function low ROM image"
-msgstr "Namen für Funktions ROM Datei (unterer Bereich) definieren"
+msgstr "Namen fÃ¼r Funktions ROM Datei (unterer Bereich) definieren"
 
 #: src/plus4/plus4-cmdline-options.c:86
 msgid "Specify name of Function high ROM image"
-msgstr "Namen für Funktions ROM Datei (oberer Bereich) definieren"
+msgstr "Namen fÃ¼r Funktions ROM Datei (oberer Bereich) definieren"
 
 #: src/plus4/plus4-cmdline-options.c:88
 msgid "Specify name of Cartridge 1 low ROM image"
-msgstr "Name für Erweiterungsmodul 1 ROM Datei (unterer Bereich) definieren"
+msgstr "Name fÃ¼r Erweiterungsmodul 1 ROM Datei (unterer Bereich) definieren"
 
 #: src/plus4/plus4-cmdline-options.c:90
 msgid "Specify name of Cartridge 1 high ROM image"
-msgstr "Name für Erweiterungsmodul 1 ROM Datei (oberer Bereich) definieren"
+msgstr "Name fÃ¼r Erweiterungsmodul 1 ROM Datei (oberer Bereich) definieren"
 
 #: src/plus4/plus4-cmdline-options.c:92
 msgid "Specify name of Cartridge 2 low ROM image"
-msgstr "Name für Erweiterungsmodul 2 ROM Datei (unterer Bereich) definieren"
+msgstr "Name fÃ¼r Erweiterungsmodul 2 ROM Datei (unterer Bereich) definieren"
 
 #: src/plus4/plus4-cmdline-options.c:94
 msgid "Specify name of Cartridge 2 high ROM image"
-msgstr "Name für Erweiterungsmodul 2 ROM Datei (oberer Bereich) definieren"
+msgstr "Name fÃ¼r Erweiterungsmodul 2 ROM Datei (oberer Bereich) definieren"
 
 #: src/plus4/plus4-cmdline-options.c:96
 msgid "Specify size of RAM installed in kb (16/32/64)"
-msgstr "Größe des emulierten RAM Speichers in kb (16/32/64) spezifizieren"
+msgstr "GrÃ¶ÃŸe des emulierten RAM Speichers in kb (16/32/64) spezifizieren"
 
 #: src/plus4/ted-cmdline-options.c:56 src/vicii/vicii-cmdline-options.c:83
 msgid "Set saturation of internal calculated palette [1000]"
-msgstr "Sättigung für intern berechneten Palette setzen [1000]"
+msgstr "SÃ¤ttigung fÃ¼r intern berechneten Palette setzen [1000]"
 
 #: src/plus4/ted-cmdline-options.c:58 src/vicii/vicii-cmdline-options.c:85
 msgid "Set contrast of internal calculated palette [1100]"
-msgstr "Kontrast für intern berechneten Palette setzen [1100]"
+msgstr "Kontrast fÃ¼r intern berechneten Palette setzen [1100]"
 
 #: src/plus4/ted-cmdline-options.c:60 src/vicii/vicii-cmdline-options.c:87
 msgid "Set brightness of internal calculated palette [1100]"
-msgstr "Helliogkeit für intern berechneten Palette setzen [1100]"
+msgstr "Helliogkeit fÃ¼r intern berechneten Palette setzen [1100]"
 
 #: src/plus4/ted-cmdline-options.c:62 src/vicii/vicii-cmdline-options.c:89
 msgid "Set gamma of internal calculated palette [900]"
-msgstr "Gamma für intern berechneten Palette setzen [900]"
+msgstr "Gamma fÃ¼r intern berechneten Palette setzen [900]"
 
 #: src/printerdrv/driver-select.c:129
 msgid "Specify name of printer driver for device #4"
-msgstr "Name für Druckertreiber Gerät #4 definieren"
+msgstr "Name fÃ¼r Druckertreiber GerÃ¤t #4 definieren"
 
 #: src/printerdrv/driver-select.c:131
 msgid "Specify name of printer driver for device #5"
-msgstr "Name für Druckertreiber Gerät #5 definieren"
+msgstr "Name fÃ¼r Druckertreiber GerÃ¤t #5 definieren"
 
 #: src/printerdrv/driver-select.c:133
 msgid "Specify name of printer driver for the userport printer"
-msgstr "Name für Userport Druckertreiber definieren"
+msgstr "Name fÃ¼r Userport Druckertreiber definieren"
 
 #: src/printerdrv/interface-serial.c:127
 msgid "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)"
-msgstr "Geräte Typ für Gerät #4 (0: NONE, 1: FS, 2: REAL) setzen"
+msgstr "GerÃ¤te Typ fÃ¼r GerÃ¤t #4 (0: NONE, 1: FS, 2: REAL) setzen"
 
 #: src/printerdrv/interface-serial.c:130
 msgid "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"
-msgstr "Geräte Typ für Gerät #5 (0: NONE, 1: FS, 2: REAL) setzen"
+msgstr "GerÃ¤te Typ fÃ¼r GerÃ¤t #5 (0: NONE, 1: FS, 2: REAL) setzen"
 
 #: src/printerdrv/interface-userport.c:94
 msgid "Enable the userport printer emulation"
@@ -1455,36 +1448,36 @@ msgstr "Userport Drucker Emulation deaktivieren"
 
 #: src/printerdrv/output-select.c:124
 msgid "Specify name of output device for device #4"
-msgstr "Name für Druckerausgabe Datei Gerät #4 definieren"
+msgstr "Name fÃ¼r Druckerausgabe Datei GerÃ¤t #4 definieren"
 
 #: src/printerdrv/output-select.c:126
 msgid "Specify name of output device for device #5"
-msgstr "Name für Druckerausgabe Datei Gerät #5 definieren"
+msgstr "Name fÃ¼r Druckerausgabe Datei GerÃ¤t #5 definieren"
 
 #: src/printerdrv/output-select.c:129
 msgid "Specify name of output device for the userport printer"
-msgstr "Name für Druckerausgabe Datei Userport definieren"
+msgstr "Name fÃ¼r Druckerausgabe Datei Userport definieren"
 
 #: src/printerdrv/output-text.c:119 src/printerdrv/output-text.c:121
 #: src/printerdrv/output-text.c:123
 msgid "Specify name of printer text device or dump file"
-msgstr "Name für Druckerausgabe Textgerät oder Dump Datei definieren"
+msgstr "Name fÃ¼r Druckerausgabe TextgerÃ¤t oder Dump Datei definieren"
 
 #: src/printerdrv/output-text.c:126
 msgid "Specify printer text output device for IEC printer #4"
-msgstr "IEC Drucker #4 Gerät für Textausgabe definieren"
+msgstr "IEC Drucker #4 GerÃ¤t fÃ¼r Textausgabe definieren"
 
 #: src/printerdrv/output-text.c:129
 msgid "Specify printer text output device for IEC printer #5"
-msgstr "IEC Drucker #5 Gerät für Textausgabe definieren"
+msgstr "IEC Drucker #5 GerÃ¤t fÃ¼r Textausgabe definieren"
 
 #: src/printerdrv/output-text.c:132
 msgid "Specify printer text output device for userport printer"
-msgstr "IEC Userport Drucker Gerät für Textausgabe definieren"
+msgstr "IEC Userport Drucker GerÃ¤t fÃ¼r Textausgabe definieren"
 
 #: src/ram.c:104
 msgid "Set the value for the very first RAM address after powerup"
-msgstr "Wert für erstes Byte im RAM nach Kaltstart setzen"
+msgstr "Wert fÃ¼r erstes Byte im RAM nach Kaltstart setzen"
 
 #: src/ram.c:107 src/ram.c:110
 msgid "<num of bytes>"
@@ -1492,11 +1485,11 @@ msgstr "<Anzahl an Bytes>"
 
 #: src/ram.c:107
 msgid "Length of memory block initialized with the same value"
-msgstr "Länge des Speicherblocks der mit dem gleichen Wert initialisiert ist"
+msgstr "LÃ¤nge des Speicherblocks der mit dem gleichen Wert initialisiert ist"
 
 #: src/ram.c:110
 msgid "Length of memory block initialized with the same pattern"
-msgstr "Länge des Speicherblocks der mit dem gleichen Muster initialisiert ist"
+msgstr "LÃ¤nge des Speicherblocks der mit dem gleichen Muster initialisiert ist"
 
 #: src/raster/raster-cmdline-options.c:59
 msgid "Enable the video cache"
@@ -1508,19 +1501,19 @@ msgstr "Video Cache deaktivieren"
 
 #: src/rs232drv/rs232drv.c:105
 msgid "Specify name of first RS232 device"
-msgstr "Name für erstes RS232 Gerät definieren"
+msgstr "Name fÃ¼r erstes RS232 GerÃ¤t definieren"
 
 #: src/rs232drv/rs232drv.c:107
 msgid "Specify name of second RS232 device"
-msgstr "Name für zweites RS232 Gerät definieren"
+msgstr "Name fÃ¼r zweites RS232 GerÃ¤t definieren"
 
 #: src/rs232drv/rs232drv.c:109
 msgid "Specify name of third RS232 device"
-msgstr "Name für drittes RS232 Gerät definieren"
+msgstr "Name fÃ¼r drittes RS232 GerÃ¤t definieren"
 
 #: src/rs232drv/rs232drv.c:111
 msgid "Specify name of fourth RS232 device"
-msgstr "Name für viertes RS232 Gerät definieren"
+msgstr "Name fÃ¼r viertes RS232 GerÃ¤t definieren"
 
 #: src/rs232drv/rsuser.c:188
 msgid "Enable RS232 userport emulation"
@@ -1536,59 +1529,59 @@ msgstr "<Baud>"
 
 #: src/rs232drv/rsuser.c:193
 msgid "Set the baud rate of the RS232 userport emulation."
-msgstr "Baudrate für RS232 Userport Emulation setzen"
+msgstr "Baudrate fÃ¼r RS232 Userport Emulation setzen"
 
 #: src/rs232drv/rsuser.c:196
 msgid "Specify VICE RS232 device for userport"
-msgstr "VICE RS232 Gerät für Userport definieren"
+msgstr "VICE RS232 GerÃ¤t fÃ¼r Userport definieren"
 
 #: src/serial/serial-iec-device.c:154
 msgid "Enable IEC device emulation for device #4"
-msgstr "IEC Geräte Emulation für Gerät #4 aktivieren"
+msgstr "IEC GerÃ¤te Emulation fÃ¼r GerÃ¤t #4 aktivieren"
 
 #: src/serial/serial-iec-device.c:157
 msgid "Disable IEC device emulation for device #4"
-msgstr "IEC Geräte Emulation für Gerät #4 deaktivieren"
+msgstr "IEC GerÃ¤te Emulation fÃ¼r GerÃ¤t #4 deaktivieren"
 
 #: src/serial/serial-iec-device.c:160
 msgid "Enable IEC device emulation for device #5"
-msgstr "IEC Geräte Emulation für Gerät #5 aktivieren"
+msgstr "IEC GerÃ¤te Emulation fÃ¼r GerÃ¤t #5 aktivieren"
 
 #: src/serial/serial-iec-device.c:163
 msgid "Disable IEC device emulation for device #5"
-msgstr "IEC Geräte Emulation für Gerät #5 deaktivieren"
+msgstr "IEC GerÃ¤te Emulation fÃ¼r GerÃ¤t #5 deaktivieren"
 
 #: src/serial/serial-iec-device.c:166
 msgid "Enable IEC device emulation for device #8"
-msgstr "IEC Geräte Emulation für Gerät #8 aktivieren"
+msgstr "IEC GerÃ¤te Emulation fÃ¼r GerÃ¤t #8 aktivieren"
 
 #: src/serial/serial-iec-device.c:169
 msgid "Disable IEC device emulation for device #8"
-msgstr "IEC Geräte Emulation für Gerät #8 deaktivieren"
+msgstr "IEC GerÃ¤te Emulation fÃ¼r GerÃ¤t #8 deaktivieren"
 
 #: src/serial/serial-iec-device.c:172
 msgid "Enable IEC device emulation for device #9"
-msgstr "IEC Geräte Emulation für Gerät #9 aktivieren"
+msgstr "IEC GerÃ¤te Emulation fÃ¼r GerÃ¤t #9 aktivieren"
 
 #: src/serial/serial-iec-device.c:175
 msgid "Disable IEC device emulation for device #9"
-msgstr "IEC Geräte Emulation für Gerät #9 deaktivieren"
+msgstr "IEC GerÃ¤te Emulation fÃ¼r GerÃ¤t #9 deaktivieren"
 
 #: src/serial/serial-iec-device.c:178
 msgid "Enable IEC device emulation for device #10"
-msgstr "IEC Geräte Emulation für Gerät #10 aktivieren"
+msgstr "IEC GerÃ¤te Emulation fÃ¼r GerÃ¤t #10 aktivieren"
 
 #: src/serial/serial-iec-device.c:181
 msgid "Disable IEC device emulation for device #10"
-msgstr "IEC Geräte Emulation für Gerät #10 deaktivieren"
+msgstr "IEC GerÃ¤te Emulation fÃ¼r GerÃ¤t #10 deaktivieren"
 
 #: src/serial/serial-iec-device.c:184
 msgid "Enable IEC device emulation for device #11"
-msgstr "IEC Geräte Emulation für Gerät #11 aktivieren"
+msgstr "IEC GerÃ¤te Emulation fÃ¼r GerÃ¤t #11 aktivieren"
 
 #: src/serial/serial-iec-device.c:187
 msgid "Disable IEC device emulation for device #11"
-msgstr "IEC Geräte Emulation für Gerät #11 deaktivieren"
+msgstr "IEC GerÃ¤te Emulation fÃ¼r GerÃ¤t #11 deaktivieren"
 
 #: src/sid/sid-cmdline-options.c:72
 msgid "<engine>"
@@ -1596,35 +1589,35 @@ msgstr "<Engine>"
 
 #: src/sid/sid-cmdline-options.c:76
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
-msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
+msgstr "SID Engine wÃ¤hlen (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
 
 #: src/sid/sid-cmdline-options.c:78
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)"
-msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel)"
+msgstr "SID Engine wÃ¤hlen (0: FastSID, 1: ReSID, 2: Catweasel)"
 
 #: src/sid/sid-cmdline-options.c:82
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID)"
-msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 3: HardSID)"
+msgstr "SID Engine wÃ¤hlen (0: FastSID, 1: ReSID, 3: HardSID)"
 
 #: src/sid/sid-cmdline-options.c:84
 msgid "Specify SID engine (0: FastSID, 1: ReSID)"
-msgstr "SID Engine wählen (0: FastSID, 1: ReSID)"
+msgstr "SID Engine wÃ¤hlen (0: FastSID, 1: ReSID)"
 
 #: src/sid/sid-cmdline-options.c:90
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)"
-msgstr "SID Engine wählen (0: FastSID, 2: Catweasel, 3: HardSID)"
+msgstr "SID Engine wÃ¤hlen (0: FastSID, 2: Catweasel, 3: HardSID)"
 
 #: src/sid/sid-cmdline-options.c:92
 msgid "Specify SID engine (0: FastSID, 2: Catweasel)"
-msgstr "SID Engine wählen (0: FastSID, 2: Catweasel)"
+msgstr "SID Engine wÃ¤hlen (0: FastSID, 2: Catweasel)"
 
 #: src/sid/sid-cmdline-options.c:96
 msgid "Specify SID engine (0: FastSID, 3: HardSID)"
-msgstr "SID Engine wählen (0: FastSID, 3: HardSID)"
+msgstr "SID Engine wÃ¤hlen (0: FastSID, 3: HardSID)"
 
 #: src/sid/sid-cmdline-options.c:98
 msgid "Specify SID engine (0: FastSID)"
-msgstr "SID Engine wählen (0: FastSID)"
+msgstr "SID Engine wÃ¤hlen (0: FastSID)"
 
 #: src/sid/sid-cmdline-options.c:106
 msgid "Enable second SID"
@@ -1632,7 +1625,7 @@ msgstr "Zweiten SID aktivieren"
 
 #: src/sid/sid-cmdline-options.c:109
 msgid "Specify base address for 2nd SID"
-msgstr "Basis Adresse für zweiten SID definieren"
+msgstr "Basis Adresse fÃ¼r zweiten SID definieren"
 
 #: src/sid/sid-cmdline-options.c:111
 msgid "<model>"
@@ -1662,7 +1655,7 @@ msgstr ""
 msgid "reSID resampling passband in percentage of total bandwidth (0 - 90)"
 msgstr ""
 "reSID Resampling Passband Prozentwert der gesamte Bandbreite (0 - 90)\n"
-"(0 - 90, niedrig ist schneller, höher ist besser)"
+"(0 - 90, niedrig ist schneller, hÃ¶her ist besser)"
 
 #: src/sid/sid-cmdline-options.c:127
 msgid "reSID gain in percent (90 - 100)"
@@ -1674,23 +1667,23 @@ msgstr "<Pfad>"
 
 #: src/sysfile.c:128
 msgid "Define search path to locate system files"
-msgstr "Suchpfad für Systemdateien definieren"
+msgstr "Suchpfad fÃ¼r Systemdateien definieren"
 
 #: src/traps.c:126
 msgid "Enable general mechanisms for fast disk/tape emulation"
-msgstr "Allgemeine Mechanismen für schnelle Disk/Band Emulation aktivieren"
+msgstr "Allgemeine Mechanismen fÃ¼r schnelle Disk/Band Emulation aktivieren"
 
 #: src/traps.c:129
 msgid "Disable general mechanisms for fast disk/tape emulation"
-msgstr "Allgemeine Mechanismen für schnelle Disk/Band Emulation deaktivieren"
+msgstr "Allgemeine Mechanismen fÃ¼r schnelle Disk/Band Emulation deaktivieren"
 
 #: src/vdc/vdc-cmdline-options.c:62
 msgid "Set the VDC memory size to 16KB"
-msgstr "VDC Speichgröße auf 16KB setzen"
+msgstr "VDC SpeichgrÃ¶ÃŸe auf 16KB setzen"
 
 #: src/vdc/vdc-cmdline-options.c:65
 msgid "Set the VDC memory size to 64KB"
-msgstr "VDC Speichgröße auf 64KB setzen"
+msgstr "VDC SpeichgrÃ¶ÃŸe auf 64KB setzen"
 
 #: src/vdc/vdc-cmdline-options.c:68
 msgid "Set VDC revision (0..2)"
@@ -1714,23 +1707,23 @@ msgstr "VIC-1112 IEEE488 Schnittstelle deaktivieren"
 
 #: src/vic20/vic20cartridge.c:221
 msgid "Specify 4/8/16K extension ROM name at $2000"
-msgstr "4/8/16K Erweiterungs ROM Datei Name für $2000 definieren"
+msgstr "4/8/16K Erweiterungs ROM Datei Name fÃ¼r $2000 definieren"
 
 #: src/vic20/vic20cartridge.c:223
 msgid "Specify 4/8/16K extension ROM name at $4000"
-msgstr "4/8/16K Erweiterungs ROM Datei Name für $4000 definieren"
+msgstr "4/8/16K Erweiterungs ROM Datei Name fÃ¼r $4000 definieren"
 
 #: src/vic20/vic20cartridge.c:225
 msgid "Specify 4/8/16K extension ROM name at $6000"
-msgstr "4/8/16K Erweiterungs ROM Datei Name für $6000 definieren"
+msgstr "4/8/16K Erweiterungs ROM Datei Name fÃ¼r $6000 definieren"
 
 #: src/vic20/vic20cartridge.c:227
 msgid "Specify 4/8K extension ROM name at $A000"
-msgstr "4/8/16K Erweiterungs ROM Datei Name für $A000 definieren"
+msgstr "4/8/16K Erweiterungs ROM Datei Name fÃ¼r $A000 definieren"
 
 #: src/vic20/vic20cartridge.c:229
 msgid "Specify 4K extension ROM name at $B000"
-msgstr "4/8/16K Erweiterungs ROM Datei Name für $B000 definieren"
+msgstr "4/8/16K Erweiterungs ROM Datei Name fÃ¼r $B000 definieren"
 
 #: src/vicii/vicii-cmdline-options.c:71
 msgid "Enable sprite-background collision registers"
@@ -1758,11 +1751,11 @@ msgstr "Alte Helligkeitsemulation"
 
 #: src/video/video-cmdline-options.c:60
 msgid "Enable double size"
-msgstr "Doppelte Größe aktivieren"
+msgstr "Doppelte GrÃ¶ÃŸe aktivieren"
 
 #: src/video/video-cmdline-options.c:62
 msgid "Disable double size"
-msgstr "Doppelte Größe deaktivieren"
+msgstr "Doppelte GrÃ¶ÃŸe deaktivieren"
 
 #: src/video/video-cmdline-options.c:87
 msgid "Enable double scan"
@@ -1774,11 +1767,11 @@ msgstr "Doppelt Scan deaktivieren"
 
 #: src/video/video-cmdline-options.c:114
 msgid "Enable hardware scaling"
-msgstr "Hardwareunterstützung für Skalierung aktivieren"
+msgstr "HardwareunterstÃ¼tzung fÃ¼r Skalierung aktivieren"
 
 #: src/video/video-cmdline-options.c:116
 msgid "Disable hardware scaling"
-msgstr "Hardwareunterstützung für Skalierung deaktivieren"
+msgstr "HardwareunterstÃ¼tzung fÃ¼r Skalierung deaktivieren"
 
 #: src/video/video-cmdline-options.c:141
 msgid "Enable Scale2x"
@@ -1798,7 +1791,7 @@ msgstr "Benutze externe Palette (Datei)"
 
 #: src/video/video-cmdline-options.c:192
 msgid "Specify name of file of external palette"
-msgstr "Dateiname für externe Palette definieren"
+msgstr "Dateiname fÃ¼r externe Palette definieren"
 
 #: src/video/video-cmdline-options.c:232
 msgid "Enable fullscreen mode"
@@ -1810,19 +1803,19 @@ msgstr "Vollbild Modus deaktivieren"
 
 #: src/video/video-cmdline-options.c:236
 msgid "<device>"
-msgstr "<Gerät>"
+msgstr "<GerÃ¤t>"
 
 #: src/video/video-cmdline-options.c:236
 msgid "Select fullscreen device"
-msgstr "Vollbild Gerät selektieren"
+msgstr "Vollbild GerÃ¤t selektieren"
 
 #: src/video/video-cmdline-options.c:238
 msgid "Enable double size in fullscreen mode"
-msgstr "Doppelte Größe im Vollbild Modus aktivieren"
+msgstr "Doppelte GrÃ¶ÃŸe im Vollbild Modus aktivieren"
 
 #: src/video/video-cmdline-options.c:240
 msgid "Disable double size in fullscreen mode"
-msgstr "Doppelte Große im Vollbild Modus deaktivieren"
+msgstr "Doppelte GroÃŸe im Vollbild Modus deaktivieren"
 
 #: src/video/video-cmdline-options.c:242
 msgid "Enable double scan in fullscreen mode"
@@ -1838,7 +1831,7 @@ msgstr "<Modus>"
 
 #: src/video/video-cmdline-options.c:266
 msgid "Select fullscreen mode"
-msgstr "Vollbild Modus wählen"
+msgstr "Vollbild Modus wÃ¤hlen"
 
 #: src/arch/unix/c128ui.c:68 src/arch/unix/c64ui.c:70
 #: src/arch/unix/cbm2ui.c:64 src/arch/unix/uited.c:53 src/arch/unix/uivic.c:42
@@ -2106,19 +2099,16 @@ msgid "*Old NTSC-M"
 msgstr "*NTSC-M alt"
 
 #: src/arch/unix/c64ui.c:275
-#, fuzzy
 msgid "PLUS60K RAM Expansion"
-msgstr "+60K RAM Expansion Hack"
+msgstr "PLUS60K RAM Erweiterung"
 
 #: src/arch/unix/c64ui.c:277
-#, fuzzy
 msgid "PLUS256K RAM Expansion"
-msgstr "256K RAM Expansion Hack"
+msgstr "PLUS256K RAM Erweiterung"
 
 #: src/arch/unix/c64ui.c:279
-#, fuzzy
 msgid "256K RAM Expansion"
-msgstr "256K RAM Expansion Hack"
+msgstr "256K RAM Erweiterung"
 
 #: src/arch/unix/c64ui.c:299 src/arch/unix/petui.c:170
 #: src/arch/unix/plus4ui.c:79
@@ -2222,7 +2212,7 @@ msgstr "Modell Standardeinstellungen"
 
 #: src/arch/unix/cbm2ui.c:243 src/arch/unix/petui.c:268
 msgid "Memory size"
-msgstr "Speichergröße"
+msgstr "SpeichergrÃ¶ÃŸe"
 
 #: src/arch/unix/cbm2ui.c:245
 msgid "Hardwired switches"
@@ -2270,16 +2260,16 @@ msgstr "*VIC-II Einstellungen"
 
 #: src/arch/unix/joy.c:85
 msgid "Set device for joystick port 1"
-msgstr "Gerät für Port 1 definieren"
+msgstr "GerÃ¤t fÃ¼r Port 1 definieren"
 
 #: src/arch/unix/joy.c:87
 msgid "Set device for joystick port 2"
-msgstr "Gerät für Port 2 definieren"
+msgstr "GerÃ¤t fÃ¼r Port 2 definieren"
 
 #: src/arch/unix/joy.c:213 src/arch/unix/joy.c:262 src/arch/unix/joy.c:418
 #, c-format
 msgid "Cannot open joystick device `%s'."
-msgstr "Kann Joystick Device `%s' nicht öffnen."
+msgstr "Kann Joystick Device `%s' nicht Ã¶ffnen."
 
 #: src/arch/unix/joy.c:224
 #, c-format
@@ -2289,7 +2279,7 @@ msgstr "Fehler beim Lesen von Joystick Device `%s'."
 #: src/arch/unix/joy.c:243
 #, c-format
 msgid "Hardware joystick calibration for device `%s':"
-msgstr "Hardware Joystick Kalibrierung für Device `%s':"
+msgstr "Hardware Joystick Kalibrierung fÃ¼r Device `%s':"
 
 #: src/arch/unix/joy.c:296
 msgid "Error reading digital joystick device."
@@ -2420,11 +2410,11 @@ msgstr "$B*** ROM Entfernen"
 
 #: src/arch/unix/petui.c:266
 msgid "Video size"
-msgstr "Videospeichergröße"
+msgstr "VideospeichergrÃ¶ÃŸe"
 
 #: src/arch/unix/petui.c:270
 msgid "I/O size"
-msgstr "I/O Größe"
+msgstr "I/O GrÃ¶ÃŸe"
 
 #: src/arch/unix/petui.c:272
 msgid "*CRTC chip enable"
@@ -2484,23 +2474,23 @@ msgstr "TED Einstellungen"
 
 #: src/arch/unix/rs232.c:105
 msgid "Specify baudrate of first RS232 device"
-msgstr "Baudrate für erstes RS232 Gerät definieren"
+msgstr "Baudrate fÃ¼r erstes RS232 GerÃ¤t definieren"
 
 #: src/arch/unix/rs232.c:107
 msgid "Specify baudrate of second RS232 device"
-msgstr "Baudrate für zweites RS232 Gerät definieren"
+msgstr "Baudrate fÃ¼r zweites RS232 GerÃ¤t definieren"
 
 #: src/arch/unix/rs232.c:109
 msgid "Specify baudrate of third RS232 device"
-msgstr "Baudrate für drittes RS232 Gerät definieren"
+msgstr "Baudrate fÃ¼r drittes RS232 GerÃ¤t definieren"
 
 #: src/arch/unix/rs232.c:111
 msgid "Specify baudrate of 4th RS232 device"
-msgstr "Baudrate für viertes RS232 Gerät definieren"
+msgstr "Baudrate fÃ¼r viertes RS232 GerÃ¤t definieren"
 
 #: src/arch/unix/rs232.c:242
 msgid "No more devices available."
-msgstr "Keine Devices mehr verfügbar"
+msgstr "Keine Devices mehr verfÃ¼gbar"
 
 #: src/arch/unix/rs232.c:247
 #, c-format
@@ -2571,7 +2561,7 @@ msgstr "*Dump Dateiname"
 
 #: src/arch/unix/uiacia1.c:45 src/arch/unix/uirs232user.c:45
 msgid "*Exec process"
-msgstr "*Prozess ausführen"
+msgstr "*Prozess ausfÃ¼hren"
 
 #: src/arch/unix/uiattach.c:75
 #, c-format
@@ -2580,11 +2570,11 @@ msgstr "Disk Image als Laufwerk #%d benutzen"
 
 #: src/arch/unix/uiattach.c:90 src/arch/unix/uiattach.c:143
 msgid "Invalid Disk Image"
-msgstr "Ungültiges Disk Image."
+msgstr "UngÃ¼ltiges Disk Image."
 
 #: src/arch/unix/uiattach.c:98
 msgid "Invalid Disk Image or Filename"
-msgstr "Ungültiges Disk Image oder Dateiname falsch."
+msgstr "UngÃ¼ltiges Disk Image oder Dateiname falsch."
 
 #: src/arch/unix/uiattach.c:113 src/arch/unix/uiattach.c:147
 msgid "Unit #8..."
@@ -2644,7 +2634,7 @@ msgstr "Band Image einlegen"
 
 #: src/arch/unix/uiattach.c:221 src/arch/unix/uiattach.c:229
 msgid "Invalid Tape Image"
-msgstr "Ungültiges Band Image."
+msgstr "UngÃ¼ltiges Band Image."
 
 #: src/arch/unix/uiattach.c:248
 msgid "Attach a tape image..."
@@ -2782,7 +2772,7 @@ msgid ""
 "\n"
 msgstr ""
 "\n"
-"Zulässige Kommandozeilen Optionen:\n"
+"ZulÃ¤ssige Kommandozeilen Optionen:\n"
 "\n"
 
 #: src/arch/unix/uicommands.c:68 src/arch/unix/uicommands.c:75
@@ -2792,7 +2782,7 @@ msgstr "VICE Einstellungen"
 
 #: src/arch/unix/uicommands.c:69 src/arch/unix/uicommands.c:76
 msgid "Change current working directory"
-msgstr "Arbeitsverzeichnis ändern."
+msgstr "Arbeitsverzeichnis Ã¤ndern."
 
 #: src/arch/unix/uicommands.c:72 src/arch/unix/uicommands.c:79
 #: src/arch/unix/uicommands.c:338
@@ -2823,7 +2813,7 @@ msgstr "Browser Kommando zu lang."
 #: src/arch/unix/uicommands.c:209
 #, c-format
 msgid "Executing `%s'..."
-msgstr "Führe `%s' aus..."
+msgstr "FÃ¼hre `%s' aus..."
 
 #: src/arch/unix/uicommands.c:211
 msgid "Cannot run HTML browser."
@@ -2861,7 +2851,7 @@ msgstr "Kann Snapshot Datei `%s' nicht speichern.\n"
 
 #: src/arch/unix/uicommands.c:334 src/arch/unix/uicommands.c:459
 msgid "Select history directory"
-msgstr "Verzeichnis für Event Aufnahme..."
+msgstr "Verzeichnis fÃ¼r Event Aufnahme..."
 
 #: src/arch/unix/uicommands.c:390
 msgid "Record sound to file"
@@ -2877,7 +2867,7 @@ msgstr "Hart"
 
 #: src/arch/unix/uicommands.c:425
 msgid "Change working directory..."
-msgstr "Arbeitsverzeichnis ändern."
+msgstr "Arbeitsverzeichnis Ã¤ndern."
 
 #: src/arch/unix/uicommands.c:433
 msgid "*Save new snapshot"
@@ -2893,7 +2883,7 @@ msgstr "*Mit Reset starten"
 
 #: src/arch/unix/uicommands.c:439
 msgid "*Overwrite running playback"
-msgstr "*Laufende Aufnahme überschreiben"
+msgstr "*Laufende Aufnahme Ã¼berschreiben"
 
 #: src/arch/unix/uicommands.c:445
 msgid "Load snapshot..."
@@ -2933,7 +2923,7 @@ msgstr "Setze Aufnahme Meilenstein"
 
 #: src/arch/unix/uicommands.c:471
 msgid "Return to milestone"
-msgstr "Rückkehr zum Meilenstein"
+msgstr "RÃ¼ckkehr zum Meilenstein"
 
 #: src/arch/unix/uicommands.c:474
 msgid "Recording start mode"
@@ -2961,11 +2951,11 @@ msgstr "C1541 starten"
 
 #: src/arch/unix/uicommands.c:509
 msgid "Browse manuals"
-msgstr "Dokumentation durchstöbern"
+msgstr "Dokumentation durchstÃ¶bern"
 
 #: src/arch/unix/uicommands.c:511
 msgid "About VICE..."
-msgstr "Über VICE..."
+msgstr "Ãœber VICE..."
 
 #: src/arch/unix/uicommands.c:517 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
@@ -2983,7 +2973,7 @@ msgstr "Emulator beenden"
 
 #: src/arch/unix/uicrtc.c:41
 msgid "*Default (Green)"
-msgstr "*Default (Grün)"
+msgstr "*Default (GrÃ¼n)"
 
 #: src/arch/unix/uicrtc.c:43
 msgid "*Amber"
@@ -2991,7 +2981,7 @@ msgstr "*Amber"
 
 #: src/arch/unix/uicrtc.c:45
 msgid "*White"
-msgstr "*Weiß"
+msgstr "*WeiÃŸ"
 
 #: src/arch/unix/uicrtc.c:48 src/arch/unix/uited.c:45 src/arch/unix/uivdc.c:43
 #: src/arch/unix/uivic.c:54 src/arch/unix/uivicii.c:62
@@ -3004,7 +2994,7 @@ msgstr "Benutzerdefiniert..."
 #: src/arch/unix/uivic.c:119 src/arch/unix/uivic.c:144
 #: src/arch/unix/uivicii.c:130 src/arch/unix/uivicii.c:157
 msgid "*Double size"
-msgstr "*Doppelte Größe"
+msgstr "*Doppelte GrÃ¶ÃŸe"
 
 #: src/arch/unix/uicrtc.c:95 src/arch/unix/uicrtc.c:108
 #: src/arch/unix/uited.c:122 src/arch/unix/uited.c:151
@@ -3035,25 +3025,25 @@ msgstr "*Vollbild Modus aktivieren"
 #: src/arch/unix/uivdc.c:115 src/arch/unix/uivic.c:148
 #: src/arch/unix/uivicii.c:161
 msgid "Fullscreen device"
-msgstr "Vollbild Gerät"
+msgstr "Vollbild GerÃ¤t"
 
 #: src/arch/unix/uicrtc.c:115 src/arch/unix/uited.c:158
 #: src/arch/unix/uivdc.c:120 src/arch/unix/uivic.c:153
 #: src/arch/unix/uivicii.c:166
 msgid "VidMode Resolutions"
-msgstr "VidMode Auflösungen"
+msgstr "VidMode AuflÃ¶sungen"
 
 #: src/arch/unix/uicrtc.c:119 src/arch/unix/uited.c:162
 #: src/arch/unix/uivdc.c:124 src/arch/unix/uivic.c:157
 #: src/arch/unix/uivicii.c:170
 msgid "DGA1 Resolutions"
-msgstr "DGA1 Auflösungen"
+msgstr "DGA1 AuflÃ¶sungen"
 
 #: src/arch/unix/uicrtc.c:123 src/arch/unix/uited.c:166
 #: src/arch/unix/uivdc.c:128 src/arch/unix/uivic.c:161
 #: src/arch/unix/uivicii.c:174
 msgid "DGA2 Resolutions"
-msgstr "DGA2 Auflösungen"
+msgstr "DGA2 AuflÃ¶sungen"
 
 #: src/arch/unix/uicrtc.c:128
 msgid "*CRTC Screen color"
@@ -3071,16 +3061,16 @@ msgstr "Bandlaufwerk Geschwindigkeitskontrolle"
 
 #: src/arch/unix/uidatasette.c:56 src/arch/unix/uidatasette.c:83
 msgid "Datasette zero gap delay"
-msgstr "Bandlaufwerk Zero Gap Verzögerung"
+msgstr "Bandlaufwerk Zero Gap VerzÃ¶gerung"
 
 #: src/arch/unix/uidatasette.c:67 src/arch/unix/uipalemu.c:100
 #, c-format
 msgid "Invalid value: %s"
-msgstr "Ungültiger Wert: %s"
+msgstr "UngÃ¼ltiger Wert: %s"
 
 #: src/arch/unix/uidatasette.c:81
 msgid "*Reset Datasette on CPU Reset"
-msgstr "*Zurücksetzen des Bandlaufwerks bei CPU Reset"
+msgstr "*ZurÃ¼cksetzen des Bandlaufwerks bei CPU Reset"
 
 #: src/arch/unix/uidatasette.c:88
 msgid "Stop"
@@ -3110,7 +3100,7 @@ msgstr "Bandlaufwerk Kontrolle"
 #: src/arch/unix/uidrivec64vic20.c:139 src/arch/unix/uidrivepetcbm2.c:93
 #: src/arch/unix/uidriveplus4.c:121
 msgid "*Enable true drive emulation"
-msgstr "*Präzise Floppy Emulation"
+msgstr "*PrÃ¤zise Floppy Emulation"
 
 #: src/arch/unix/uidrivec128.c:47 src/arch/unix/uidrivec128.c:79
 #: src/arch/unix/uidrivec128.c:101 src/arch/unix/uidrivec128.c:123
@@ -3141,12 +3131,12 @@ msgstr "Laufwerk #8 RAM Erweiterung"
 #: src/arch/unix/uidrivec128.c:154 src/arch/unix/uidrivec64vic20.c:146
 #: src/arch/unix/uidriveplus4.c:128
 msgid "*Drive #8 enable parallel cable"
-msgstr "*Parallel Kabel für Laufwerk #8 aktivieren"
+msgstr "*Parallel Kabel fÃ¼r Laufwerk #8 aktivieren"
 
 #: src/arch/unix/uidrivec128.c:156 src/arch/unix/uidrivec64vic20.c:148
 #: src/arch/unix/uidrivepetcbm2.c:99 src/arch/unix/uidriveplus4.c:130
 msgid "Drive #8 40-track image support"
-msgstr "Laufwerk #8 40-Spur Image Unterstützung"
+msgstr "Laufwerk #8 40-Spur Image UnterstÃ¼tzung"
 
 #: src/arch/unix/uidrivec128.c:158 src/arch/unix/uidrivec64vic20.c:150
 #: src/arch/unix/uidrivepetcbm2.c:101 src/arch/unix/uidriveplus4.c:132
@@ -3166,12 +3156,12 @@ msgstr "Laufwerk #9 RAM Erweiterung"
 #: src/arch/unix/uidrivec128.c:165 src/arch/unix/uidrivec64vic20.c:157
 #: src/arch/unix/uidriveplus4.c:139
 msgid "*Drive #9 enable parallel cable"
-msgstr "*Parallel Kabel für Laufwerk #9 aktivieren"
+msgstr "*Parallel Kabel fÃ¼r Laufwerk #9 aktivieren"
 
 #: src/arch/unix/uidrivec128.c:167 src/arch/unix/uidrivec64vic20.c:159
 #: src/arch/unix/uidrivepetcbm2.c:108 src/arch/unix/uidriveplus4.c:141
 msgid "Drive #9 40-track image support"
-msgstr "Laufwerk #9 40-Spur Image Unterstützung"
+msgstr "Laufwerk #9 40-Spur Image UnterstÃ¼tzung"
 
 #: src/arch/unix/uidrivec128.c:169 src/arch/unix/uidrivec64vic20.c:161
 #: src/arch/unix/uidrivepetcbm2.c:110 src/arch/unix/uidriveplus4.c:143
@@ -3191,12 +3181,12 @@ msgstr "Laufwerk #10 RAM Erweiterung"
 #: src/arch/unix/uidrivec128.c:176 src/arch/unix/uidrivec64vic20.c:168
 #: src/arch/unix/uidriveplus4.c:150
 msgid "*Drive #10 enable parallel cable"
-msgstr "*Parallel Kabel für Laufwerk #10 aktivieren"
+msgstr "*Parallel Kabel fÃ¼r Laufwerk #10 aktivieren"
 
 #: src/arch/unix/uidrivec128.c:178 src/arch/unix/uidrivec64vic20.c:170
 #: src/arch/unix/uidrivepetcbm2.c:117 src/arch/unix/uidriveplus4.c:152
 msgid "Drive #10 40-track image support"
-msgstr "Laufwerk #10 40-Spur Image Unterstützung"
+msgstr "Laufwerk #10 40-Spur Image UnterstÃ¼tzung"
 
 #: src/arch/unix/uidrivec128.c:180 src/arch/unix/uidrivec64vic20.c:172
 #: src/arch/unix/uidrivepetcbm2.c:119 src/arch/unix/uidriveplus4.c:154
@@ -3216,12 +3206,12 @@ msgstr "Laufwerk #11 RAM Erweiterung"
 #: src/arch/unix/uidrivec128.c:187 src/arch/unix/uidrivec64vic20.c:179
 #: src/arch/unix/uidriveplus4.c:161
 msgid "*Drive #11 enable parallel cable"
-msgstr "*Parallel Kabel für Laufwerk #11 aktivieren"
+msgstr "*Parallel Kabel fÃ¼r Laufwerk #11 aktivieren"
 
 #: src/arch/unix/uidrivec128.c:189 src/arch/unix/uidrivec64vic20.c:181
 #: src/arch/unix/uidrivepetcbm2.c:126 src/arch/unix/uidriveplus4.c:163
 msgid "Drive #11 40-track image support"
-msgstr "Laufwerk #11 40-Spur Image Unterstützung"
+msgstr "Laufwerk #11 40-Spur Image UnterstÃ¼tzung"
 
 #: src/arch/unix/uidrivec128.c:191 src/arch/unix/uidrivec64vic20.c:183
 #: src/arch/unix/uidrivepetcbm2.c:128 src/arch/unix/uidriveplus4.c:165
@@ -3316,12 +3306,12 @@ msgstr "*Nie Erweitern"
 #: src/arch/unix/uidriveiec.c:125 src/arch/unix/uidriveiec.c:135
 #: src/arch/unix/uidriveiec.c:145 src/arch/unix/uidriveiec.c:155
 msgid "*Ask on extend"
-msgstr "*Bei Erweiterung Rückfrage"
+msgstr "*Bei Erweiterung RÃ¼ckfrage"
 
 #: src/arch/unix/uidriveiec.c:127 src/arch/unix/uidriveiec.c:137
 #: src/arch/unix/uidriveiec.c:147 src/arch/unix/uidriveiec.c:157
 msgid "*Extend on access"
-msgstr "*Erweitern wenn nötig"
+msgstr "*Erweitern wenn nÃ¶tig"
 
 #: src/arch/unix/uidriveiec.c:163 src/arch/unix/uidriveiec.c:173
 #: src/arch/unix/uidriveiec.c:183 src/arch/unix/uidriveiec.c:193
@@ -3395,19 +3385,19 @@ msgstr "Fehler beim Schreiben: %s."
 
 #: src/arch/unix/uifliplist.c:117
 msgid "Add current image (Unit 8)"
-msgstr "Aktuelles Image hinzufügen (Gerät 8)"
+msgstr "Aktuelles Image hinzufÃ¼gen (GerÃ¤t 8)"
 
 #: src/arch/unix/uifliplist.c:120
 msgid "Remove current image (Unit 8)"
-msgstr "Aktuelles Image entfernen (Gerät 8)"
+msgstr "Aktuelles Image entfernen (GerÃ¤t 8)"
 
 #: src/arch/unix/uifliplist.c:123
 msgid "Attach next image (Unit 8)"
-msgstr "Nächstes Image (Gerät 8)"
+msgstr "NÃ¤chstes Image (GerÃ¤t 8)"
 
 #: src/arch/unix/uifliplist.c:126
 msgid "Attach previous image (Unit 8)"
-msgstr "Voriges Image (Gerät 8)"
+msgstr "Voriges Image (GerÃ¤t 8)"
 
 #: src/arch/unix/uifliplist.c:129
 msgid "Load fliplist file"
@@ -3433,7 +3423,7 @@ msgstr "*Schreibschutz"
 
 #: src/arch/unix/uifliplist.c:245
 msgid "Next: "
-msgstr "Nächstes: "
+msgstr "NÃ¤chstes: "
 
 #: src/arch/unix/uifliplist.c:245 src/arch/unix/uifliplist.c:260
 #: src/arch/unix/x11/gnome/x11ui.c:903 src/arch/unix/x11/gnome/x11ui.c:913
@@ -3447,7 +3437,7 @@ msgstr "Vorheriges: "
 
 #: src/arch/unix/uifliplist.c:275
 msgid "Add: "
-msgstr "Hinzufügen: "
+msgstr "HinzufÃ¼gen: "
 
 #: src/arch/unix/uifliplist.c:290
 msgid "Remove: "
@@ -3463,7 +3453,7 @@ msgstr "*Aktivieren der GEORAM"
 
 #: src/arch/unix/uigeoram.c:66
 msgid "GEORAM size"
-msgstr "GEORAM Größe"
+msgstr "GEORAM GrÃ¶ÃŸe"
 
 #: src/arch/unix/uigeoram.c:68
 msgid "GEORAM image name..."
@@ -3483,11 +3473,11 @@ msgstr "IDE64 Zylinder"
 
 #: src/arch/unix/uiide64.c:112
 msgid "Enter number of heads"
-msgstr "Anzahl der Köpfe eingeben"
+msgstr "Anzahl der KÃ¶pfe eingeben"
 
 #: src/arch/unix/uiide64.c:113
 msgid "IDE64 heads"
-msgstr "IDE64 Köpfe"
+msgstr "IDE64 KÃ¶pfe"
 
 #: src/arch/unix/uiide64.c:151
 msgid "Enter number of sectors"
@@ -3503,7 +3493,7 @@ msgstr "IDE64 Image Name..."
 
 #: src/arch/unix/uiide64.c:169
 msgid "*Autodetect image size"
-msgstr "*Image Größe automatisch erkennen"
+msgstr "*Image GrÃ¶ÃŸe automatisch erkennen"
 
 #: src/arch/unix/uiide64.c:171
 msgid "*Cylinders..."
@@ -3511,7 +3501,7 @@ msgstr "*Zylinder..."
 
 #: src/arch/unix/uiide64.c:173
 msgid "*Heads..."
-msgstr "*Köpfe..."
+msgstr "*KÃ¶pfe..."
 
 #: src/arch/unix/uiide64.c:175
 msgid "*Sectors..."
@@ -3635,7 +3625,7 @@ msgstr "Netplay TCP Port"
 
 #: src/arch/unix/uinetplay.c:82
 msgid "Invalid TCP port"
-msgstr "Ungültige Port Nummer"
+msgstr "UngÃ¼ltige Port Nummer"
 
 #: src/arch/unix/uinetplay.c:90
 msgid "Error starting the netplay server."
@@ -3687,11 +3677,11 @@ msgstr "Scanline Schatten in Prozent"
 
 #: src/arch/unix/uipalemu.c:92 src/arch/unix/uipalemu.c:127
 msgid "PAL Blurredness"
-msgstr "PAL Unschärfe"
+msgstr "PAL UnschÃ¤rfe"
 
 #: src/arch/unix/uipalemu.c:93
 msgid "Blurredness in percent"
-msgstr "Unschärfe in Prozent"
+msgstr "UnschÃ¤rfe in Prozent"
 
 #: src/arch/unix/uipalemu.c:116
 msgid "*Activate PAL emulation"
@@ -3734,31 +3724,31 @@ msgstr "*Dateisystem Zugriff"
 #: src/arch/unix/uiperipheral.c:93 src/arch/unix/uiperipheral.c:107
 #: src/arch/unix/uiprinter.c:163 src/arch/unix/uiprinter.c:175
 msgid "*Real device access"
-msgstr "*Echter Geräte Zugriff"
+msgstr "*Echter GerÃ¤te Zugriff"
 
 #: src/arch/unix/uiperipheral.c:68 src/arch/unix/uiperipheral.c:82
 #: src/arch/unix/uiperipheral.c:96 src/arch/unix/uiperipheral.c:110
 msgid "*Raw device access"
-msgstr "*Echter Geräte Zugriff"
+msgstr "*Echter GerÃ¤te Zugriff"
 
 #: src/arch/unix/uiperipheraliec.c:64 src/arch/unix/uiperipheraliec.c:83
 #: src/arch/unix/uiperipheraliec.c:102 src/arch/unix/uiperipheraliec.c:121
 #: src/arch/unix/uiperipheralieee.c:62 src/arch/unix/uiperipheralieee.c:79
 #: src/arch/unix/uiperipheralieee.c:96 src/arch/unix/uiperipheralieee.c:113
 msgid "Device type"
-msgstr "Geräte Typ"
+msgstr "GerÃ¤te Typ"
 
 #: src/arch/unix/uiperipheraliec.c:66 src/arch/unix/uiperipheraliec.c:85
 #: src/arch/unix/uiperipheraliec.c:104 src/arch/unix/uiperipheraliec.c:123
 msgid "*Enable IEC device"
-msgstr "*IEC Gerät aktivieren"
+msgstr "*IEC GerÃ¤t aktivieren"
 
 #: src/arch/unix/uiperipheraliec.c:68 src/arch/unix/uiperipheraliec.c:87
 #: src/arch/unix/uiperipheraliec.c:106 src/arch/unix/uiperipheraliec.c:125
 #: src/arch/unix/uiperipheralieee.c:64 src/arch/unix/uiperipheralieee.c:81
 #: src/arch/unix/uiperipheralieee.c:98 src/arch/unix/uiperipheralieee.c:115
 msgid "*Read only access"
-msgstr "*Schreibgeschützter Zugriff"
+msgstr "*SchreibgeschÃ¼tzter Zugriff"
 
 #: src/arch/unix/uiperipheraliec.c:71 src/arch/unix/uiperipheraliec.c:90
 #: src/arch/unix/uiperipheraliec.c:109 src/arch/unix/uiperipheraliec.c:128
@@ -3810,7 +3800,7 @@ msgstr "Drucker Einstellungen"
 
 #: src/arch/unix/uiperipheraliec.c:147 src/arch/unix/uiperipheralieee.c:137
 msgid "*Enable Virtual Devices"
-msgstr "*Virtuelle Geräte aktivieren"
+msgstr "*Virtuelle GerÃ¤te aktivieren"
 
 #: src/arch/unix/uiperipheraliec.c:153 src/arch/unix/uiperipheralieee.c:143
 msgid "Peripheral settings"
@@ -3826,46 +3816,39 @@ msgstr "*Aktivieren der PETREU"
 
 #: src/arch/unix/uipetreu.c:54
 msgid "PET REU size"
-msgstr "PET REU Größe"
+msgstr "PET REU GrÃ¶ÃŸe"
 
 #: src/arch/unix/uipetreu.c:56
 msgid "PET REU image name..."
 msgstr "PET REU Image Name..."
 
 #: src/arch/unix/uiplus256k.c:40
-#, fuzzy
 msgid "PLUS256K image name"
-msgstr "256K Image Name"
+msgstr "PLUS256K Image Name"
 
 #: src/arch/unix/uiplus256k.c:45
-#, fuzzy
 msgid "*Enable PLUS256K"
-msgstr "*256K aktivieren"
+msgstr "*PLUS256K aktivieren"
 
 #: src/arch/unix/uiplus256k.c:47
-#, fuzzy
 msgid "PLUS256K image name..."
-msgstr "256K Image Name..."
+msgstr "PLUS256K Image Name..."
 
 #: src/arch/unix/uiplus60k.c:41
-#, fuzzy
 msgid "PLUS60K image name"
-msgstr "+60K Image Name"
+msgstr "PLUS60K Image Name"
 
 #: src/arch/unix/uiplus60k.c:54
-#, fuzzy
 msgid "*Enable PLUS60K"
-msgstr "*+60K aktivieren"
+msgstr "*PLUS60K aktivieren"
 
 #: src/arch/unix/uiplus60k.c:56
-#, fuzzy
 msgid "PLUS60K base address"
-msgstr "+60K Basis Adresse"
+msgstr "PLUS60K Basis Adresse"
 
 #: src/arch/unix/uiplus60k.c:58
-#, fuzzy
 msgid "PLUS60K image name..."
-msgstr "+60K Image Name..."
+msgstr "PLUS60K Image Name..."
 
 #: src/arch/unix/uiprinter.c:80 src/arch/unix/uiprinter.c:95
 #: src/arch/unix/uiprinter.c:107
@@ -3875,12 +3858,12 @@ msgstr "*Drucker 1 (auf Datei)"
 #: src/arch/unix/uiprinter.c:83 src/arch/unix/uiprinter.c:97
 #: src/arch/unix/uiprinter.c:109
 msgid "*Printer 2 (exec)"
-msgstr "*Drucker 2 (Ausführung)"
+msgstr "*Drucker 2 (AusfÃ¼hrung)"
 
 #: src/arch/unix/uiprinter.c:86 src/arch/unix/uiprinter.c:99
 #: src/arch/unix/uiprinter.c:111
 msgid "*Printer 3 (exec)"
-msgstr "*Drucker 3 (Ausführung)"
+msgstr "*Drucker 3 (AusfÃ¼hrung)"
 
 #: src/arch/unix/uiprinter.c:127
 msgid "Select printer dump file"
@@ -3888,7 +3871,7 @@ msgstr "Drucker Ausgabedatei definieren"
 
 #: src/arch/unix/uiprinter.c:148
 msgid "Command to execute for printing (preceed with '|')"
-msgstr "Kommand für Druckerausgabe definieren ('|' voranstellen!)"
+msgstr "Kommand fÃ¼r Druckerausgabe definieren ('|' voranstellen!)"
 
 #: src/arch/unix/uiprinter.c:149 src/arch/unix/uirs232.c:140
 msgid "Command:"
@@ -3908,7 +3891,7 @@ msgstr "IEC Drucker #4 Treiber"
 
 #: src/arch/unix/uiprinteriec.c:48 src/arch/unix/uiprinterieee.c:44
 msgid "IEC printer #4 text output device"
-msgstr "IEC Drucker #4 Text Ausgabegerät"
+msgstr "IEC Drucker #4 Text AusgabegerÃ¤t"
 
 #: src/arch/unix/uiprinteriec.c:50 src/arch/unix/uiprinterieee.c:46
 msgid "IEC printer #4 formfeed"
@@ -3928,7 +3911,7 @@ msgstr "IEC Drucker #5 Treiber"
 
 #: src/arch/unix/uiprinteriec.c:60 src/arch/unix/uiprinterieee.c:54
 msgid "IEC printer #5 text output device"
-msgstr "IEC Drucker #5 Ausgabe Text Ausgabegerät"
+msgstr "IEC Drucker #5 Ausgabe Text AusgabegerÃ¤t"
 
 #: src/arch/unix/uiprinteriec.c:62 src/arch/unix/uiprinterieee.c:56
 msgid "IEC printer #5 formfeed"
@@ -3944,7 +3927,7 @@ msgstr "Userport Drucker Treiber"
 
 #: src/arch/unix/uiprinteriec.c:70 src/arch/unix/uiprinterieee.c:64
 msgid "Userport printer text output device"
-msgstr "Userport Drucker Text Ausgabegerät"
+msgstr "Userport Drucker Text AusgabegerÃ¤t"
 
 #: src/arch/unix/uiprinteriec.c:72 src/arch/unix/uiprinterieee.c:66
 msgid "Userport printer formfeed"
@@ -3952,15 +3935,15 @@ msgstr "Userport Drucker Seitenvorschub"
 
 #: src/arch/unix/uiprinteriec.c:75 src/arch/unix/uiprinterieee.c:69
 msgid "Printer text device 1..."
-msgstr "Drucker Text Gerät 1..."
+msgstr "Drucker Text GerÃ¤t 1..."
 
 #: src/arch/unix/uiprinteriec.c:77 src/arch/unix/uiprinterieee.c:71
 msgid "Printer text device 2..."
-msgstr "Drucker Text Gerät 2..."
+msgstr "Drucker Text GerÃ¤t 2..."
 
 #: src/arch/unix/uiprinteriec.c:79 src/arch/unix/uiprinterieee.c:73
 msgid "Printer text device 3..."
-msgstr "Drucker Text Gerät 3..."
+msgstr "Drucker Text GerÃ¤t 3..."
 
 #: src/arch/unix/uiramcart.c:42
 msgid "RAMCART image name"
@@ -3976,7 +3959,7 @@ msgstr "*Schreibgschutz"
 
 #: src/arch/unix/uiramcart.c:59
 msgid "RAMCART size"
-msgstr "RAMCART Größe"
+msgstr "RAMCART GrÃ¶ÃŸe"
 
 #: src/arch/unix/uiramcart.c:61
 msgid "RAMCART image name..."
@@ -3992,7 +3975,7 @@ msgstr "*Aktivieren der REU"
 
 #: src/arch/unix/uireu.c:68
 msgid "REU size"
-msgstr "REU Größe"
+msgstr "REU GrÃ¶ÃŸe"
 
 #: src/arch/unix/uireu.c:70
 msgid "REU image name..."
@@ -4042,7 +4025,7 @@ msgstr "ROM Satz Name:"
 
 #: src/arch/unix/uiromset.c:183
 msgid "Delete configuration"
-msgstr "Konfiguration löschen"
+msgstr "Konfiguration lÃ¶schen"
 
 #: src/arch/unix/uiromset.c:183 src/arch/unix/uiromset.c:205
 msgid "Enter name"
@@ -4070,11 +4053,11 @@ msgstr "ROM Satz Eintrag erstellen"
 
 #: src/arch/unix/uiromset.c:225
 msgid "Delete ROM set item"
-msgstr "ROM Satz Eintrag löschen"
+msgstr "ROM Satz Eintrag lÃ¶schen"
 
 #: src/arch/unix/uiromset.c:227
 msgid "Select ROM set item"
-msgstr "ROM Satz Eintrag wählen"
+msgstr "ROM Satz Eintrag wÃ¤hlen"
 
 #: src/arch/unix/uiromset.c:244
 msgid "Load custom ROM set file"
@@ -4125,15 +4108,15 @@ msgstr "*115200 (nur Turbo232)"
 
 #: src/arch/unix/uirs232.c:121
 msgid "Select RS232 device file"
-msgstr "RS232 Gerät Datei selektieren"
+msgstr "RS232 GerÃ¤t Datei selektieren"
 
 #: src/arch/unix/uirs232.c:139
 msgid "Command to execute for RS232 (preceed with '|')"
-msgstr "Kommando zur Ausführung für RS232 Geräte ('|' voranstellen!)"
+msgstr "Kommando zur AusfÃ¼hrung fÃ¼r RS232 GerÃ¤te ('|' voranstellen!)"
 
 #: src/arch/unix/uirs232.c:145
 msgid "File to dump RS232 to"
-msgstr "Datei für RS232 Ausgabe"
+msgstr "Datei fÃ¼r RS232 Ausgabe"
 
 #: src/arch/unix/uirs232.c:146
 msgid "Dump file:"
@@ -4169,7 +4152,7 @@ msgstr "*ACIA $DExx RS232 Schnittstellen-Emulation"
 
 #: src/arch/unix/uirs232c64c128.c:69
 msgid "ACIA $DExx device"
-msgstr "ACIA $DExx Gerät"
+msgstr "ACIA $DExx GerÃ¤t"
 
 #: src/arch/unix/uirs232c64c128.c:71
 msgid "ACIA $DExx Interrupt"
@@ -4189,12 +4172,12 @@ msgstr "Userport RS232 Baud Rate"
 
 #: src/arch/unix/uirs232c64c128.c:80 src/arch/unix/vic20ui.c:358
 msgid "Userport RS232 device"
-msgstr "Userport RS232 Gerät"
+msgstr "Userport RS232 GerÃ¤t"
 
 #: src/arch/unix/uirs232c64c128.c:83 src/arch/unix/uirs232petplus4cbm2.c:42
 #: src/arch/unix/vic20ui.c:361
 msgid "Serial 1 device..."
-msgstr "Serielles Gerät 1..."
+msgstr "Serielles GerÃ¤t 1..."
 
 #: src/arch/unix/uirs232c64c128.c:85 src/arch/unix/uirs232petplus4cbm2.c:44
 #: src/arch/unix/vic20ui.c:363
@@ -4214,15 +4197,15 @@ msgstr "Dump Dateiname"
 #: src/arch/unix/uirs232c64c128.c:96 src/arch/unix/uirs232petplus4cbm2.c:55
 #: src/arch/unix/vic20ui.c:374
 msgid "Program name to exec..."
-msgstr "Auszuführendes Programm..."
+msgstr "AuszufÃ¼hrendes Programm..."
 
 #: src/arch/unix/uirs232petplus4cbm2.c:39
 msgid "ACIA device"
-msgstr "ACIA Gerät"
+msgstr "ACIA GerÃ¤t"
 
 #: src/arch/unix/uirs232petplus4cbm2.c:47 src/arch/unix/vic20ui.c:366
 msgid "Serial 2 device..."
-msgstr "Serielles Geräte 2..."
+msgstr "Serielles GerÃ¤te 2..."
 
 #: src/arch/unix/uirs232user.c:53
 msgid "*300 baud"
@@ -4266,7 +4249,7 @@ msgstr "Maximale Geschwindigkeit"
 
 #: src/arch/unix/uisettings.c:200
 msgid "Invalid speed value"
-msgstr "Ungültige Geschwindigkeit"
+msgstr "UngÃ¼ltige Geschwindigkeit"
 
 #: src/arch/unix/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1392
 #: src/arch/unix/x11/xaw/x11ui.c:1088
@@ -4283,7 +4266,7 @@ msgid ""
 "resource file not valid."
 msgstr ""
 "Kann Einstellungen nicht Laden:\n"
-"Ungültige Ressource-Datei."
+"UngÃ¼ltige Ressource-Datei."
 
 #: src/arch/unix/uisettings.c:236
 msgid ""
@@ -4335,7 +4318,7 @@ msgstr "*Einstellungen beim Beenden speichern"
 
 #: src/arch/unix/uisettings.c:330
 msgid "*Confirm on exit"
-msgstr "*Bestätigung beim Beenden"
+msgstr "*BestÃ¤tigung beim Beenden"
 
 #: src/arch/unix/uisid.c:43
 msgid "*Fast SID"
@@ -4387,7 +4370,7 @@ msgid ""
 "(0 - 90, lower is faster, higher is better)"
 msgstr ""
 "Bitte Passband Prozentwert der gesamte Bandbreite eingeben\n"
-"(0 - 90, niedrig ist schneller, höher ist besser)"
+"(0 - 90, niedrig ist schneller, hÃ¶her ist besser)"
 
 #: src/arch/unix/uisid.c:100
 msgid "Passband percentage"
@@ -4431,7 +4414,7 @@ msgstr "*0.10 sec"
 
 #: src/arch/unix/uisound.c:80
 msgid "*Keep going"
-msgstr "*Weiter Ausführen"
+msgstr "*Weiter AusfÃ¼hren"
 
 #: src/arch/unix/uisound.c:82
 msgid "*1 sec suspend"
@@ -4471,7 +4454,7 @@ msgstr "Sample Rate"
 
 #: src/arch/unix/uisound.c:127
 msgid "Buffer size"
-msgstr "Puffergröße"
+msgstr "PuffergrÃ¶ÃŸe"
 
 #: src/arch/unix/uisound.c:129
 msgid "Suspend time"
@@ -4502,7 +4485,7 @@ msgstr "*Schnelle PAL Emulation"
 #: src/arch/unix/uited.c:137 src/arch/unix/uivic.c:132
 #: src/arch/unix/uivicii.c:145
 msgid "*Hardware scaling"
-msgstr "*Hardwareunterstützung"
+msgstr "*HardwareunterstÃ¼tzung"
 
 #: src/arch/unix/uited.c:140 src/arch/unix/uivicii.c:148
 msgid "PAL Emulation"
@@ -4625,15 +4608,15 @@ msgstr "8K (Block 1)"
 
 #: src/arch/unix/vic20ui.c:162
 msgid "16K (blocks 1/2)"
-msgstr "16K (Blöcke 1/2)"
+msgstr "16K (BlÃ¶cke 1/2)"
 
 #: src/arch/unix/vic20ui.c:165
 msgid "24K (blocks 1/2/3)"
-msgstr "24K (Blöcke 1/2/3)"
+msgstr "24K (BlÃ¶cke 1/2/3)"
 
 #: src/arch/unix/vic20ui.c:169
 msgid "All (blocks 0/1/2/3/5)"
-msgstr "Alle (Blöcke 0/1/2/3/5)"
+msgstr "Alle (BlÃ¶cke 0/1/2/3/5)"
 
 #: src/arch/unix/vic20ui.c:184
 msgid "Common configurations"
@@ -4665,7 +4648,7 @@ msgstr "Speicher Erweiterungen"
 
 #: src/arch/unix/vic20ui.c:230
 msgid "Invalid cartridge image"
-msgstr "Ungültiges Erweiterungsmodul Image"
+msgstr "UngÃ¼ltiges Erweiterungsmodul Image"
 
 #: src/arch/unix/vic20ui.c:255
 msgid "Smart-attach cartridge image..."
@@ -4710,7 +4693,7 @@ msgstr "PSID Datei Laden"
 #: src/arch/unix/vsidui.c:86
 #, c-format
 msgid "`%s' is not a valid PSID file."
-msgstr "`%s' ist keine gültige PSID Datei."
+msgstr "`%s' ist keine gÃ¼ltige PSID Datei."
 
 #: src/arch/unix/vsidui.c:113
 msgid "Load PSID file..."
@@ -4743,7 +4726,7 @@ msgstr "Keine Garantie!"
 
 #: src/arch/unix/x11/gnome/about.c:48 src/arch/unix/x11/xaw/about.c:70
 msgid "Contributors to the VICE project"
-msgstr "Beträge zum VICE Projekt"
+msgstr "BetrÃ¤ge zum VICE Projekt"
 
 #: src/arch/unix/x11/gnome/about.c:59
 msgid "The VICE Team"
@@ -4754,19 +4737,20 @@ msgid "Official VICE homepage:"
 msgstr "Offizielle VICE Homepage:"
 
 #: src/arch/unix/x11/gnome/about.c:86
+#, fuzzy
 msgid ""
 "Martin Pottendorfer - German\n"
 "Peter Karlsson - Swedish\n"
 "Andrea Musuruane - Italian\n"
-"Paul Dube - French\n"
+"Paul Dub - French\n"
 "Marco van den Heuvel - Dutch\n"
 "Flooder - Polish\n"
 msgstr ""
 "Martin Pottendorfer - Deutsch\n"
 "Peter Karlsson - Schwedisch\n"
 "Andrea Musuruane - Italienisch\n"
-"Paul Dube - Französisch\n"
-"Marco van den Heuvel - Niederländisch\n"
+"Paul DubÃ© - FranzÃ¶sisch\n"
+"Marco van den Heuvel - NiederlÃ¤ndisch\n"
 "Flooder - Polnisch\n"
 
 #: src/arch/unix/x11/gnome/about.c:98
@@ -4805,7 +4789,7 @@ msgstr "Erweiterungsmodul speichern"
 #: src/arch/unix/x11/gnome/uiscreenshot.c:464
 #: src/arch/unix/x11/gnome/uisnapshot.c:115
 msgid "Invalid filename"
-msgstr "Ungültiger Dateiname"
+msgstr "UngÃ¼ltiger Dateiname"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:100
 #: src/arch/unix/x11/xaw/uicartridge.c:103
@@ -4860,7 +4844,7 @@ msgstr "Kann Image `%s' nicht erzeugen."
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:50
 msgid "Blurredness"
-msgstr "Unschärfe"
+msgstr "UnschÃ¤rfe"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:51
 msgid "Scanline Shade"
@@ -4868,7 +4852,7 @@ msgstr "Scanline Schatten"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:52
 msgid "Saturation"
-msgstr "Sättigung"
+msgstr "SÃ¤ttigung"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:53
 msgid "Contrast"
@@ -4896,7 +4880,7 @@ msgstr "Exakte Emulation"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:54
 msgid "Invalid Port number"
-msgstr "Ungültige Port Nummer"
+msgstr "UngÃ¼ltige Port Nummer"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:74
 msgid "Idle"
@@ -4954,7 +4938,7 @@ msgstr "Verbinden mit "
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:239
 msgid "No gfxoutputdrivers available"
-msgstr "Kein Ausgabe Treiber verfügbar"
+msgstr "Kein Ausgabe Treiber verfÃ¼gbar"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:243
 #: src/arch/unix/x11/gnome/uiscreenshot.c:455
@@ -5044,7 +5028,7 @@ msgid ""
 "IRQ: %s"
 msgstr ""
 "Name: %s\n"
-"Stück: %d\n"
+"StÃ¼ck: %d\n"
 "Autor: %s\n"
 "Copyright: %s\n"
 "%s\n"
@@ -5059,7 +5043,7 @@ msgstr "Alle Dateien (*.*)"
 #: src/arch/unix/x11/gnome/x11ui.c:428
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
-msgstr "Schriftpfad hinzufügen ist fehlgeschlagen: `%s'.\n"
+msgstr "Schriftpfad hinzufÃ¼gen ist fehlgeschlagen: `%s'.\n"
 
 #: src/arch/unix/x11/gnome/x11ui.c:430
 #, c-format
@@ -5069,11 +5053,11 @@ msgstr "Setze Fontpfad: `%s'.\n"
 #: src/arch/unix/x11/gnome/x11ui.c:638 src/arch/unix/x11/xaw/x11ui.c:506
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
-msgstr "Dieses Display unterstützt keine passende %dbit Farbtiefe."
+msgstr "Dieses Display unterstÃ¼tzt keine passende %dbit Farbtiefe."
 
 #: src/arch/unix/x11/gnome/x11ui.c:641 src/arch/unix/x11/xaw/x11ui.c:509
 msgid "Please select a bit depth supported by your display."
-msgstr "Bitte genaue Farbtiefe für Ihr Display spezifizieren."
+msgstr "Bitte genaue Farbtiefe fÃ¼r Ihr Display spezifizieren."
 
 #: src/arch/unix/x11/gnome/x11ui.c:644 src/arch/unix/x11/gnome/x11ui.c:668
 #: src/arch/unix/x11/xaw/x11ui.c:512 src/arch/unix/x11/xaw/x11ui.c:529
@@ -5206,7 +5190,7 @@ msgstr "Soll das Diskimage auf 40 Spuren erweitert werden?"
 #: src/arch/unix/x11/gnome/x11ui.c:2075
 #, c-format
 msgid "Autostart not possible for unit %d"
-msgstr "Autostart für Laufwerk %d nicht möglich."
+msgstr "Autostart fÃ¼r Laufwerk %d nicht mÃ¶glich."
 
 #: src/arch/unix/x11/gnome/x11ui.c:2083 src/arch/unix/x11/gnome/x11ui.c:2092
 #, c-format
@@ -5215,7 +5199,7 @@ msgstr "Autostart von Selektion Nr. %d in Image %s fehlgeschlagen."
 
 #: src/arch/unix/x11/gnome/x11ui.c:2218 src/arch/unix/x11/gnome/x11ui.c:2228
 msgid "NO IMAGE CONTENTS AVAILABLE"
-msgstr "KEIN IMAGE VERZEICHNIS VERFÜGBAR."
+msgstr "KEIN IMAGE VERZEICHNIS VERFÃœGBAR."
 
 #: src/arch/unix/x11/gnome/x11ui.c:2673
 msgid "Contents"
@@ -5223,7 +5207,7 @@ msgstr "Verzeichnis"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2719
 msgid "Attach write protected"
-msgstr "Attach schreibgeschützt"
+msgstr "Attach schreibgeschÃ¼tzt"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2727
 msgid "Autostart"
@@ -5252,7 +5236,7 @@ msgstr "DGA1 Version kann nicht abgefragt werden."
 
 #: src/arch/unix/x11/dga1.c:140
 msgid "Root permissions required to use DGA1."
-msgstr "Superuser Privilegien werden für DGA1 benötigt."
+msgstr "Superuser Privilegien werden fÃ¼r DGA1 benÃ¶tigt."
 
 #: src/arch/unix/x11/dga1.c:146
 msgid "Problems with DGA - disabling fullscreen."
@@ -5275,7 +5259,7 @@ msgstr "Umschalten auf Fenster Modus"
 #: src/arch/unix/x11/dga2.c:193
 #, c-format
 msgid "Selected mode: %s"
-msgstr "Gewählter Modus: %s"
+msgstr "GewÃ¤hlter Modus: %s"
 
 #: src/arch/unix/x11/dga2.c:316
 #, c-format
@@ -5284,7 +5268,7 @@ msgstr "Attach debugger to pid %d..."
 
 #: src/arch/unix/x11/dga2.c:352
 msgid "refresh, not ready, skipping frame"
-msgstr "Bildrefresh nicht fertig, überspringe Bild"
+msgstr "Bildrefresh nicht fertig, Ã¼berspringe Bild"
 
 #: src/arch/unix/x11/dga2.c:421
 msgid "Successfully forked DGA"
@@ -5299,7 +5283,7 @@ msgstr ""
 #: src/arch/unix/x11/dga2.c:431
 msgid "Unable to query video extension information - disabling fullscreen."
 msgstr ""
-"Kann nötige Information für Video Erweiterung nicht abfragen - deaktivier "
+"Kann nÃ¶tige Information fÃ¼r Video Erweiterung nicht abfragen - deaktivier "
 "Vollbildmodus"
 
 #: src/arch/unix/x11/dga2.c:440
@@ -5319,7 +5303,7 @@ msgstr "Aktiviere Vollbild Modus%s"
 
 #: src/arch/unix/x11/dga2.c:582
 msgid "Need root privileges for DGA2 fullscreen"
-msgstr "Super User Privilegien sind nötig um den Vollbild Modus zu aktivieren."
+msgstr "Super User Privilegien sind nÃ¶tig um den Vollbild Modus zu aktivieren."
 
 #: src/arch/unix/x11/dga2.c:596
 #, c-format
@@ -5335,7 +5319,7 @@ msgstr "Fehler beim Umschalten auf Vollbild Modus %ix%i"
 #, c-format
 msgid "Not enough video memory pages in mode %s, disabling fullscreen (%d,%d)."
 msgstr ""
-"Nicht genügend Speicher für Vollbild Modus %s vorhanden - deaktiviere "
+"Nicht genÃ¼gend Speicher fÃ¼r Vollbild Modus %s vorhanden - deaktiviere "
 "Vollbildmodus (%d,%d)"
 
 #: src/arch/unix/x11/dga2.c:653
@@ -5345,11 +5329,11 @@ msgstr "Fehler beim Umschalten auf Vollbild Modus %ix%i"
 
 #: src/arch/unix/x11/dga2.c:707
 msgid "Couldn't allocate color cache"
-msgstr "Nicht genügend Speicher für Farbcache vorhanden"
+msgstr "Nicht genÃ¼gend Speicher fÃ¼r Farbcache vorhanden"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:39
 msgid "Specify an HTML browser for the on-line help"
-msgstr "Bitte HTML Browser für online Hilfe definieren"
+msgstr "Bitte HTML Browser fÃ¼r online Hilfe definieren"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:42
 msgid "Install a private colormap"
@@ -5365,11 +5349,11 @@ msgstr "Einstellungen (Ressourcen) beim Beenden speichern"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:51
 msgid "Never confirm quiting VICE"
-msgstr "Keine Bestätigung beim Beenden von Vice"
+msgstr "Keine BestÃ¤tigung beim Beenden von Vice"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:54
 msgid "Confirm quiting VICE"
-msgstr "Bestätige beenden von VICE"
+msgstr "BestÃ¤tige beenden von VICE"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:57
 msgid "Never save settings (resources) on exit"
@@ -5410,12 +5394,12 @@ msgstr "YUV FOURCC Format"
 
 #: src/arch/unix/x11/video.c:205
 msgid "Set aspect ratio (0.8 - 1.2)"
-msgstr "Seitenverhältnis (0.8 - 1.2)"
+msgstr "SeitenverhÃ¤ltnis (0.8 - 1.2)"
 
 #: src/arch/unix/x11/video.c:286
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
-"Die MITSHM X Server Erweiterung ist auf diesem Display nicht unterstützt."
+"Die MITSHM X Server Erweiterung ist auf diesem Display nicht unterstÃ¼tzt."
 
 #: src/arch/unix/x11/video.c:290
 #, c-format
@@ -5449,7 +5433,7 @@ msgstr "Dateiname:"
 #: src/arch/unix/x11/xaw/uiscreenshot.c:199
 #: src/arch/unix/x11/xaw/uisnapshot.c:170
 msgid "Browse..."
-msgstr "Stöbern..."
+msgstr "StÃ¶bern..."
 
 #: src/arch/unix/x11/xaw/uicartridge.c:174 src/arch/unix/x11/xaw/uiedisk.c:411
 #: src/arch/unix/x11/xaw/uiscreenshot.c:269
@@ -5633,7 +5617,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "&Datei"
 
 #~ msgid "&Open"
-#~ msgstr "&Öffnen"
+#~ msgstr "&Ã–ffnen"
 
 #~ msgid "&Save"
 #~ msgstr "&Speichern"
@@ -5651,13 +5635,13 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "&Stop Debug"
 
 #~ msgid "Stop E&xecution"
-#~ msgstr "Stop &Ausführung"
+#~ msgstr "Stop &AusfÃ¼hrung"
 
 #~ msgid "Step &into"
 #~ msgstr "Step &in"
 
 #~ msgid "Step &over"
-#~ msgstr "Step &über"
+#~ msgstr "Step &Ã¼ber"
 
 #~ msgid "Step until &return"
 #~ msgstr "Step bis &return"
@@ -5714,7 +5698,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Icons &Anordnen"
 
 #~ msgid "&Use IEC Device"
-#~ msgstr "IEC Gerät &aktivieren"
+#~ msgstr "IEC GerÃ¤t &aktivieren"
 
 #~ msgid "Disk &image"
 #~ msgstr "Disk &Image"
@@ -5723,22 +5707,22 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "&Directory"
 
 #~ msgid "Rea&l IEC device"
-#~ msgstr "Rea&les IEC Gerät"
+#~ msgstr "Rea&les IEC GerÃ¤t"
 
 #~ msgid "&None"
 #~ msgstr "Kei&n"
 
 #~ msgid "&Browse..."
-#~ msgstr "Stö&bern..."
+#~ msgstr "StÃ¶&bern..."
 
 #~ msgid "&Autostart"
 #~ msgstr "&Autostart"
 
 #~ msgid "Attach read only"
-#~ msgstr "Schreibgeschützt einlegen"
+#~ msgstr "SchreibgeschÃ¼tzt einlegen"
 
 #~ msgid "Bro&wse..."
-#~ msgstr "Stö&bern..."
+#~ msgstr "StÃ¶&bern..."
 
 #~ msgid "&Options"
 #~ msgstr "&Optionen"
@@ -5756,16 +5740,16 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Datasette Einstellungen"
 
 #~ msgid "&Reset Datasette with CPU"
-#~ msgstr "Zu&rücksetzen des Bandlaufwerks bei CPU Reset"
+#~ msgstr "Zu&rÃ¼cksetzen des Bandlaufwerks bei CPU Reset"
 
 #~ msgid "Speed of motor while reading"
 #~ msgstr "Motorgeschwindigkeit beim Lesen"
 
 #~ msgid "cycle(s) additional &delay each trigger"
-#~ msgstr "Zyklen zusätzliche Verzögerung bei je&dem Trigger"
+#~ msgstr "Zyklen zusÃ¤tzliche VerzÃ¶gerung bei je&dem Trigger"
 
 #~ msgid "cycles delay at &zero-values"
-#~ msgstr "Zyklen Verzögerung bei &Zero-Werte"
+#~ msgstr "Zyklen VerzÃ¶gerung bei &Zero-Werte"
 
 #~ msgid "OK"
 #~ msgstr "OK"
@@ -5795,13 +5779,13 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Joysticks &kalibrieren"
 
 #~ msgid "S&outh West"
-#~ msgstr "Süd West"
+#~ msgstr "SÃ¼d West"
 
 #~ msgid "&South"
-#~ msgstr "&Süden"
+#~ msgstr "&SÃ¼den"
 
 #~ msgid "So&uth East"
-#~ msgstr "Süd Ost"
+#~ msgstr "SÃ¼d Ost"
 
 #~ msgid "&West"
 #~ msgstr "&Westen"
@@ -5822,7 +5806,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "&Feuerknopf"
 
 #~ msgid "Configure Sound Device Settings"
-#~ msgstr "Sound Gerät Einstellungen konfigurieren"
+#~ msgstr "Sound GerÃ¤t Einstellungen konfigurieren"
 
 #~ msgid "DirectX driver"
 #~ msgstr "DirectX Treiber"
@@ -5834,7 +5818,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Sample &Frequenz"
 
 #~ msgid "Sound Buffer &Size :"
-#~ msgstr "Sound Puffergröße"
+#~ msgstr "Sound PuffergrÃ¶ÃŸe"
 
 #~ msgid "&Oversampling Factor :"
 #~ msgstr "&Oversampling Faktor :"
@@ -5873,7 +5857,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Speichern als"
 
 #~ msgid "&Append log to existing file"
-#~ msgstr "An bestehende Log Datei &anhängen"
+#~ msgstr "An bestehende Log Datei &anhÃ¤ngen"
 
 #~ msgid "Dialog"
 #~ msgstr "Dialog"
@@ -5888,7 +5872,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Farbtiefe:"
 
 #~ msgid "Resolution:"
-#~ msgstr "Auflösung:"
+#~ msgstr "AuflÃ¶sung:"
 
 #~ msgid "Refreshrate:"
 #~ msgstr "Wiederholrate:"
@@ -5897,7 +5881,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "VBLANK Synchronisation"
 
 #~ msgid "Render to DX Primary surface"
-#~ msgstr "DX Primary Oberflächenrendering"
+#~ msgstr "DX Primary OberflÃ¤chenrendering"
 
 #~ msgid "Phase"
 #~ msgstr "Phase"
@@ -5906,7 +5890,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "PAL Schatten"
 
 #~ msgid "PAL Blur"
-#~ msgstr "PAL Unschärfe"
+#~ msgstr "PAL UnschÃ¤rfe"
 
 #~ msgid "PAL Mode"
 #~ msgstr "PAL Modus"
@@ -5924,10 +5908,10 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Wert erstes Byte"
 
 #~ msgid "Length of constant values"
-#~ msgstr "Länge der konstaten Werte"
+#~ msgstr "LÃ¤nge der konstaten Werte"
 
 #~ msgid "Length of constant pattern"
-#~ msgstr "Länge des konstanten Musters"
+#~ msgstr "LÃ¤nge des konstanten Musters"
 
 #~ msgid "Custom speed"
 #~ msgstr "Benutzerdefinierte Geschwindigkeit"
@@ -5972,7 +5956,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "ROM Satz Archiv"
 
 #~ msgid "Browse"
-#~ msgstr "Stöbern"
+#~ msgstr "StÃ¶bern"
 
 #~ msgid "Load archive"
 #~ msgstr "Archiv laden"
@@ -5984,13 +5968,13 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "&Konfigurationen"
 
 #~ msgid "Apply"
-#~ msgstr "Bestätigen"
+#~ msgstr "BestÃ¤tigen"
 
 #~ msgid "New"
 #~ msgstr "Neu"
 
 #~ msgid "Delete"
-#~ msgstr "Löschen"
+#~ msgstr "LÃ¶schen"
 
 #~ msgid "Romset file"
 #~ msgstr "ROM Satz Datei"
@@ -6017,16 +6001,16 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "RS232 Einstellungen"
 
 #~ msgid "RS232 device 1"
-#~ msgstr "RS232 Gerät 1"
+#~ msgstr "RS232 GerÃ¤t 1"
 
 #~ msgid "RS232 device 2"
-#~ msgstr "RS232 Gerät 2"
+#~ msgstr "RS232 GerÃ¤t 2"
 
 #~ msgid "RS232 device 3"
-#~ msgstr "RS232 Gerät 3"
+#~ msgstr "RS232 GerÃ¤t 3"
 
 #~ msgid "RS232 device 4"
-#~ msgstr "RS232 Gerät 4"
+#~ msgstr "RS232 GerÃ¤t 4"
 
 #~ msgid "None"
 #~ msgstr "Kein"
@@ -6065,10 +6049,10 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Image Dateu auf 40-Spur Format erweitern?"
 
 #~ msgid "Detached device %s"
-#~ msgstr "Gerät %s entfernt"
+#~ msgstr "GerÃ¤t %s entfernt"
 
 #~ msgid "Attached %s to device#%s"
-#~ msgstr "%s mit Gerät#%s verbunden"
+#~ msgstr "%s mit GerÃ¤t#%s verbunden"
 
 #~ msgid "Detached tape"
 #~ msgstr "Band Image entfernt"
@@ -6112,7 +6096,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Autostart von Disk/Band Image"
 
 #~ msgid "Invalid cartridge"
-#~ msgstr "Ungültiges Erweiterungsmodul"
+#~ msgstr "UngÃ¼ltiges Erweiterungsmodul"
 
 #~ msgid "Bad cartridge config in UI!"
 #~ msgstr "Fehlerhafte Modul Konfiguration im UI!"
@@ -6154,7 +6138,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Bitte Dateinamen eingeben."
 
 #~ msgid "Overwrite existing image?"
-#~ msgstr "Existierende Datei überschreiben?"
+#~ msgstr "Existierende Datei Ã¼berschreiben?"
 
 #~ msgid "Cannot create image"
 #~ msgstr "Kann Image Datei nicht erzeugen"
@@ -6163,11 +6147,11 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Kommandozeilen Paramteter"
 
 #~ msgid "Which command line options are available?"
-#~ msgstr "Welche Kommandozeilen Parameter sind verfügber?"
+#~ msgstr "Welche Kommandozeilen Parameter sind verfÃ¼gber?"
 
 #~ msgid "No driver selected or selected driver not supported"
 #~ msgstr ""
-#~ "Kein Treiber ausgewählt oder gewählter Treiber wird nicht unterstützt"
+#~ "Kein Treiber ausgewÃ¤hlt oder gewÃ¤hlter Treiber wird nicht unterstÃ¼tzt"
 
 #~ msgid "Cannot write screenshot file `%s'."
 #~ msgstr "Kann Snapshot Datei `%s' nicht speichern."
@@ -6176,7 +6160,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Autostart Disk Image"
 
 #~ msgid "Select file system directory"
-#~ msgstr "Systemverzeichnis wählen"
+#~ msgstr "Systemverzeichnis wÃ¤hlen"
 
 #~ msgid "Printer 4"
 #~ msgstr "Drucker 4"
@@ -6203,7 +6187,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Lade %s ROM Image Datei"
 
 #~ msgid "Select romset archive"
-#~ msgstr "ROM Satz Archiv wählen"
+#~ msgstr "ROM Satz Archiv wÃ¤hlen"
 
 #~ msgid "Cannot load romset archive!"
 #~ msgstr "Kann ROM Satz Archiv nicht laden!"
@@ -6218,7 +6202,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Fehler beim Speichern der ROM Satz Datei!"
 
 #~ msgid "Select romset file"
-#~ msgstr "ROM Satz Datei wählen"
+#~ msgstr "ROM Satz Datei wÃ¤hlen"
 
 #~ msgid "Romset"
 #~ msgstr "Rom Satz"
@@ -6248,10 +6232,10 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Dateisystem"
 
 #~ msgid "Real IEC device"
-#~ msgstr "Reales IEC Gerät"
+#~ msgstr "Reales IEC GerÃ¤t"
 
 #~ msgid "RS232 device %i"
-#~ msgstr "RS232 Gerät %i"
+#~ msgstr "RS232 GerÃ¤t %i"
 
 #~ msgid "Attach raw 8KB cartridge image"
 #~ msgstr "8KB Erweiterungsmodul (raw) Image einlegen"
@@ -6290,7 +6274,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Floppy Einstellungen"
 
 #~ msgid "Select start snapshot for event history"
-#~ msgstr "Startsnapshot für Ereignishistory festlegen"
+#~ msgstr "Startsnapshot fÃ¼r Ereignishistory festlegen"
 
 #~ msgid "Version %s *UNSTABLE*"
 #~ msgstr "Version %s *INSTABIL*"
@@ -6308,31 +6292,31 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "VICE ist ohne Garantie"
 
 #~ msgid "Press key for NorthWest"
-#~ msgstr "Drücke Taste für NordWest"
+#~ msgstr "DrÃ¼cke Taste fÃ¼r NordWest"
 
 #~ msgid "Press key for North"
-#~ msgstr "Drücke Taste für Nord"
+#~ msgstr "DrÃ¼cke Taste fÃ¼r Nord"
 
 #~ msgid "Press key for NorthEast"
-#~ msgstr "Drücke Taste für NordOst"
+#~ msgstr "DrÃ¼cke Taste fÃ¼r NordOst"
 
 #~ msgid "Press key for East"
-#~ msgstr "Drücke Taste für Ost"
+#~ msgstr "DrÃ¼cke Taste fÃ¼r Ost"
 
 #~ msgid "Press key for SouthEast"
-#~ msgstr "Drücke Taste für SüdOst"
+#~ msgstr "DrÃ¼cke Taste fÃ¼r SÃ¼dOst"
 
 #~ msgid "Press key for South"
-#~ msgstr "Drücke Taste für Süd"
+#~ msgstr "DrÃ¼cke Taste fÃ¼r SÃ¼d"
 
 #~ msgid "Press key for SouthWest"
-#~ msgstr "Drücke Taste für SüdWest"
+#~ msgstr "DrÃ¼cke Taste fÃ¼r SÃ¼dWest"
 
 #~ msgid "Press key for West"
-#~ msgstr "Drücke Taste für West"
+#~ msgstr "DrÃ¼cke Taste fÃ¼r West"
 
 #~ msgid "Press key for Fire"
-#~ msgstr "Drücke Taste für Feuer"
+#~ msgstr "DrÃ¼cke Taste fÃ¼r Feuer"
 
 #~ msgid "Numpad + RCtrl"
 #~ msgstr "Numpad + RCtrl"
@@ -6344,7 +6328,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Tastaturbelegung B"
 
 #~ msgid "All buttons used as fire"
-#~ msgstr "Alle Knöpfe als Feuer"
+#~ msgstr "Alle KnÃ¶pfe als Feuer"
 
 #~ msgid "numeric (see above)"
 #~ msgstr "Numerisch (siehe oben)"
@@ -6439,10 +6423,10 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ "%02d:%02d (%02d:%02d)"
 
 #~ msgid "Set input device for joystick #1"
-#~ msgstr "Input Gerät für Joystick #1 definieren"
+#~ msgstr "Input GerÃ¤t fÃ¼r Joystick #1 definieren"
 
 #~ msgid "Set input device for joystick #2"
-#~ msgstr "Input Gerät für Joystick #2 definieren"
+#~ msgstr "Input GerÃ¤t fÃ¼r Joystick #2 definieren"
 
 #~ msgid "Use all CPU on SMP systems"
 #~ msgstr "Alle SMP CPUs benutzen"
@@ -6505,13 +6489,13 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "&Flipliste"
 
 #~ msgid "&Add current image\tAlt+I"
-#~ msgstr "&Aktuelles Image hinzufügen\tAlt+I"
+#~ msgstr "&Aktuelles Image hinzufÃ¼gen\tAlt+I"
 
 #~ msgid "&Remove current image\tAlt+K"
 #~ msgstr "Aktuelles Image entfe&rnen\tAlt+K"
 
 #~ msgid "Attach &next image\tAlt+N"
-#~ msgstr "Nächstes Image\tAlt+N"
+#~ msgstr "NÃ¤chstes Image\tAlt+N"
 
 #~ msgid "Attach &previous image\tAlt+B"
 #~ msgstr "Voriges Image\tAlt+B"
@@ -6550,7 +6534,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "R&eset"
 
 #~ msgid "Reset C&ounter"
-#~ msgstr "Z&ähler zurücksetzen"
+#~ msgstr "Z&Ã¤hler zurÃ¼cksetzen"
 
 #~ msgid "&CRT image..."
 #~ msgstr "&CRT Image..."
@@ -6679,7 +6663,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Setze Aufnahme Meilenstein\tAlt+G"
 
 #~ msgid "Return to Milestone\tAlt+H"
-#~ msgstr "Rückkehr zum Meilenstein\tAlt+H"
+#~ msgstr "RÃ¼ckkehr zum Meilenstein\tAlt+H"
 
 #~ msgid "&Save new snapshot"
 #~ msgstr "&Speichere neuen Snapshot"
@@ -6691,10 +6675,10 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Mit &Reset starten"
 
 #~ msgid "Overwrite &Playback"
-#~ msgstr "Laufende Aufnahme überschreiben"
+#~ msgstr "Laufende Aufnahme Ã¼berschreiben"
 
 #~ msgid "Select History files/directory"
-#~ msgstr "Verzeichnis für Event Aufnahme"
+#~ msgstr "Verzeichnis fÃ¼r Event Aufnahme"
 
 #~ msgid "Save/stop media file...\tAlt+C"
 #~ msgstr "Speichern/stop media Datei...\tAlt+C"
@@ -6721,7 +6705,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Video &cache"
 
 #~ msgid "&Double size"
-#~ msgstr "&Doppelte Größe"
+#~ msgstr "&Doppelte GrÃ¶ÃŸe"
 
 #~ msgid "Dou&ble scan"
 #~ msgstr "Do&ppelt Scan"
@@ -6742,10 +6726,10 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "&Sound Einschalten"
 
 #~ msgid "&True drive emulation"
-#~ msgstr "&Präzise Floppy Emulation"
+#~ msgstr "&PrÃ¤zise Floppy Emulation"
 
 #~ msgid "&Virtual device traps"
-#~ msgstr "&Virtuelle Geräte Traps"
+#~ msgstr "&Virtuelle GerÃ¤te Traps"
 
 #~ msgid "Vide&o standard"
 #~ msgstr "Vide&o Standard"
@@ -6844,7 +6828,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Einstellungen beim Beenden speichern"
 
 #~ msgid "&Confirm on exit"
-#~ msgstr "&Bestätigung beim Beenden"
+#~ msgstr "&BestÃ¤tigung beim Beenden"
 
 #~ msgid "&Language"
 #~ msgstr "Sprache"
@@ -6856,13 +6840,13 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "&Deutsch"
 
 #~ msgid "&French"
-#~ msgstr "&Französisch"
+#~ msgstr "&FranzÃ¶sisch"
 
 #~ msgid "&Italian"
 #~ msgstr "&Italienisch"
 
 #~ msgid "&Dutch"
-#~ msgstr "&Holländisch"
+#~ msgstr "&HollÃ¤ndisch"
 
 #~ msgid "&Polish"
 #~ msgstr "&Polnisch"
@@ -6874,7 +6858,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "&Hilfe"
 
 #~ msgid "&About..."
-#~ msgstr "&Über VICE..."
+#~ msgstr "&Ãœber VICE..."
 
 #~ msgid "Command line &options"
 #~ msgstr "Kommandozeilen &Optionen"
@@ -6949,7 +6933,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Finnischer Kernal"
 
 #~ msgid "French Kernal"
-#~ msgstr "Französischer Kernal"
+#~ msgstr "FranzÃ¶sischer Kernal"
 
 #~ msgid "Italian Kernal"
 #~ msgstr "Italienischer Kernal"
@@ -6967,7 +6951,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Deutscher Zeichensatz"
 
 #~ msgid "French Character"
-#~ msgstr "Französischer Zeichensatz"
+#~ msgstr "FranzÃ¶sischer Zeichensatz"
 
 #~ msgid "Swedish Character"
 #~ msgstr "Schwedischer Zeichensatz"
@@ -7000,7 +6984,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Externes Funktions ROM aktivieren"
 
 #~ msgid "&Drive type"
-#~ msgstr "&Geräte Typ"
+#~ msgstr "&GerÃ¤te Typ"
 
 #~ msgid "40 &track handling"
 #~ msgstr "40 &Spur Umgang"
@@ -7009,10 +6993,10 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Nie Erweitern"
 
 #~ msgid "Ask on extend"
-#~ msgstr "Bei Erweiterung Rückfrage"
+#~ msgstr "Bei Erweiterung RÃ¼ckfrage"
 
 #~ msgid "Extend on access"
-#~ msgstr "Erweitern wenn nötig"
+#~ msgstr "Erweitern wenn nÃ¶tig"
 
 #~ msgid "Id&le method"
 #~ msgstr "Id&le Methode"
@@ -7120,7 +7104,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "1024 kByt&e"
 
 #~ msgid "&Ram banks"
-#~ msgstr "&Ram Bänke"
+#~ msgstr "&Ram BÃ¤nke"
 
 #~ msgid "Bank 15 $&0800-$0FFF RAM"
 #~ msgstr "Bank 15 $&0800-$0FFF RAM"
@@ -7174,7 +7158,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "GEORAM Datei"
 
 #~ msgid "Select file for GEORAM"
-#~ msgstr "Datei für GEORAM selektieren"
+#~ msgstr "Datei fÃ¼r GEORAM selektieren"
 
 #~ msgid "IDE64 Settings"
 #~ msgstr "IDE64 Einstellungen"
@@ -7192,13 +7176,13 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Zylinder"
 
 #~ msgid "Heads"
-#~ msgstr "Köpfe"
+#~ msgstr "KÃ¶pfe"
 
 #~ msgid "Sectors"
 #~ msgstr "Sektoren"
 
 #~ msgid "Total size: %iKB"
-#~ msgstr "Gesamtgröße: %iKB"
+#~ msgstr "GesamtgrÃ¶ÃŸe: %iKB"
 
 #~ msgid "Select HD image file"
 #~ msgstr "HD Image Datei selektieren"
@@ -7246,7 +7230,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "&80 Spalten"
 
 #~ msgid "&IO Size"
-#~ msgstr "&I/O Größe"
+#~ msgstr "&I/O GrÃ¶ÃŸe"
 
 #~ msgid "2&56 Byte"
 #~ msgstr "2&56 Byte"
@@ -7357,7 +7341,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "+60K Datei"
 
 #~ msgid "Select file for +60K"
-#~ msgstr "Datei für +60K selektieren"
+#~ msgstr "Datei fÃ¼r +60K selektieren"
 
 #~ msgid "RAMCART Settings"
 #~ msgstr "RAMCART Einstellungen"
@@ -7372,7 +7356,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "RAMCART Datei"
 
 #~ msgid "Select file for RAMCART"
-#~ msgstr "Datei für RAMCART selektieren"
+#~ msgstr "Datei fÃ¼r RAMCART selektieren"
 
 #~ msgid "REU Settings"
 #~ msgstr "REU Einstellungen"
@@ -7384,7 +7368,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "REU Datei"
 
 #~ msgid "Select file for REU"
-#~ msgstr "Datei für REU selektieren"
+#~ msgstr "Datei fÃ¼r REU selektieren"
 
 #~ msgid "RS232 Userport Settings"
 #~ msgstr "RS232 Userport Einstellungen"
@@ -7393,13 +7377,13 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "RS232 Userport Emulation aktivi&eren"
 
 #~ msgid "Userport device"
-#~ msgstr "Userport Gerät"
+#~ msgstr "Userport GerÃ¤t"
 
 #~ msgid "Userport baud rate"
 #~ msgstr "Userport Baud Rate"
 
 #~ msgid "This machine may not have a SID"
-#~ msgstr "Diese Maschine hat möglicherweise keinen SID"
+#~ msgstr "Diese Maschine hat mÃ¶glicherweise keinen SID"
 
 #~ msgid "General"
 #~ msgstr "Allgemein"
@@ -7447,13 +7431,13 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Passband (0-90%)"
 
 #~ msgid "Device selection"
-#~ msgstr "Geräte Auswahl"
+#~ msgstr "GerÃ¤te Auswahl"
 
 #~ msgid "Left/Main device"
-#~ msgstr "Links/Haupt Gerät"
+#~ msgstr "Links/Haupt GerÃ¤t"
 
 #~ msgid "Right device"
-#~ msgstr "Rechtes Gerät"
+#~ msgstr "Rechtes GerÃ¤t"
 
 #~ msgid "Ethernet Settings"
 #~ msgstr "Ethernet Einstellungen"
@@ -7501,13 +7485,13 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "&8K (block 1)"
 
 #~ msgid "1&6K (blocks 1/2)"
-#~ msgstr "1&6K (Blöcke 1/2)"
+#~ msgstr "1&6K (BlÃ¶cke 1/2)"
 
 #~ msgid "2&4K (blocks 1/2/3)"
-#~ msgstr "2&4K (Blöcke 1/2/3)"
+#~ msgstr "2&4K (BlÃ¶cke 1/2/3)"
 
 #~ msgid "&Full (blocks 0/1/2/3/5)"
-#~ msgstr "&Alle (Blöcke 0/1/2/3/5)"
+#~ msgstr "&Alle (BlÃ¶cke 0/1/2/3/5)"
 
 #~ msgid "&custom"
 #~ msgstr "Benutzerdefiniert..."
@@ -7558,16 +7542,16 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Neue Helligkeitsemulation"
 
 #~ msgid "Specify name of first RS232 device (/dev/ttyS0)"
-#~ msgstr "Device Name für erstes RS232 Gerät definieren (/dev/ttyS0)"
+#~ msgstr "Device Name fÃ¼r erstes RS232 GerÃ¤t definieren (/dev/ttyS0)"
 
 #~ msgid "Specify name of second RS232 device (/dev/ttyS1)"
-#~ msgstr "Name für zweites RS232 Gerät definieren (/dev/ttyS1)"
+#~ msgstr "Name fÃ¼r zweites RS232 GerÃ¤t definieren (/dev/ttyS1)"
 
 #~ msgid "Specify name of third RS232 device (rs232.dump)"
-#~ msgstr "Name für drittes RS232 Gerät definieren (rs232.dump)"
+#~ msgstr "Name fÃ¼r drittes RS232 GerÃ¤t definieren (rs232.dump)"
 
 #~ msgid "Specify command to pipe data in/out, preceed with '|' (|lpr)"
-#~ msgstr "Kommando für Daten in-/output definieren, '|' voranstellen (|lpr)"
+#~ msgstr "Kommando fÃ¼r Daten in-/output definieren, '|' voranstellen (|lpr)"
 
 #~ msgid "Unknown image type."
 #~ msgstr "Unbekannter Image Typ."
@@ -7597,18 +7581,18 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Kann Meilenstein Snapshot Datei nicht erzeugen."
 
 #~ msgid "Flush IEC printer #4 device"
-#~ msgstr "Leeren vom IEC Drucker #4 Gerät"
+#~ msgstr "Leeren vom IEC Drucker #4 GerÃ¤t"
 
 #~ msgid "Flush IEC printer #5 device"
-#~ msgstr "Leeren vom IEC Drucker #5 Gerät"
+#~ msgstr "Leeren vom IEC Drucker #5 GerÃ¤t"
 
 #, fuzzy
 #~ msgid "*Drive #10 enable IEC device"
-#~ msgstr "*Parallel Kabel für Laufwerk #9 aktivieren"
+#~ msgstr "*Parallel Kabel fÃ¼r Laufwerk #9 aktivieren"
 
 #, fuzzy
 #~ msgid "*Drive #11 enable IEC device"
-#~ msgstr "*Parallel Kabel für Laufwerk #9 aktivieren"
+#~ msgstr "*Parallel Kabel fÃ¼r Laufwerk #9 aktivieren"
 
 #~ msgid "*Sharp PAL Emulation (Y/C Input)"
 #~ msgstr "*Sharfe PAL Emulation (Y/C Eingang)"
@@ -7629,10 +7613,10 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "TED Video Einstellungen"
 
 #~ msgid "Found suitable mode for fullscreen."
-#~ msgstr "Passender Auflösung für Vollbild Modus vorhanden."
+#~ msgstr "Passender AuflÃ¶sung fÃ¼r Vollbild Modus vorhanden."
 
 #~ msgid "Couldn't allocate pixel value cache."
-#~ msgstr "Zuwenig Speicher für Pixel Cache."
+#~ msgstr "Zuwenig Speicher fÃ¼r Pixel Cache."
 
 #~ msgid "*PAL emulation"
 #~ msgstr "*PAL Emulation"
@@ -7650,14 +7634,14 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ "Vice is not running as root, DGA extension not possible - disabling "
 #~ "fullscreen."
 #~ msgstr ""
-#~ "Vice läuft nicht mit root Privilegiern, DGA Erweiterung nicht möglich - "
+#~ "Vice lÃ¤uft nicht mit root Privilegiern, DGA Erweiterung nicht mÃ¶glich - "
 #~ "deaktivier Vollbildmodus."
 
 #~ msgid "Could not find KeySym `%s'!"
 #~ msgstr "Kann Key Symbol `%s' nicht finden!"
 
 #~ msgid "Bad row/column value (%d/%d) for keysym `%s'."
-#~ msgstr "Falsche Wert für Zeile/Spalte (%d/%d) Bei Key Symbol `%s'."
+#~ msgstr "Falsche Wert fÃ¼r Zeile/Spalte (%d/%d) Bei Key Symbol `%s'."
 
 #~ msgid "Loading keymap `%s'."
 #~ msgstr "Lade Keymap `%s'."
@@ -7671,13 +7655,13 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgid ""
 #~ "Couldn't allocate backbuffer for DGA PAL rendering; disabling fullscreen."
 #~ msgstr ""
-#~ "Zuwenig Zwischenspeicher für PAL Rendering - deaktiviere Vollbild Modus."
+#~ "Zuwenig Zwischenspeicher fÃ¼r PAL Rendering - deaktiviere Vollbild Modus."
 
 #~ msgid "Please recompile the program for a supported bit depth."
-#~ msgstr "Bitte VICE mit passender Farbtiefe neu übersetzen."
+#~ msgstr "Bitte VICE mit passender Farbtiefe neu Ã¼bersetzen."
 
 #~ msgid "Only %ibpp supported by this emulator."
-#~ msgstr "Lediglich %ibpp wird von diesem Emulator unterstützt."
+#~ msgstr "Lediglich %ibpp wird von diesem Emulator unterstÃ¼tzt."
 
 #~ msgid "Current X server depth is %ibpp."
 #~ msgstr "Aktuelle X Server Farbtiefe ist %ibpp"
@@ -7695,10 +7679,10 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Umaschalten auf Vollbild Modus %ix%i"
 
 #~ msgid "Specify command for printer 1 (|petlp |lpr)"
-#~ msgstr "Command für Drucker 1 definieren (|petlp |lpr)"
+#~ msgstr "Command fÃ¼r Drucker 1 definieren (|petlp |lpr)"
 
 #~ msgid "Specify command for printer 2 (|lpr)"
-#~ msgstr "Kommando für Drucker 2 definieren (|lpr)"
+#~ msgstr "Kommando fÃ¼r Drucker 2 definieren (|lpr)"
 
 #~ msgid "print_open(device=%d)."
 #~ msgstr "print_open(device=%d)."
