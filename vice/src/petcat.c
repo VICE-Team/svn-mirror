@@ -71,11 +71,13 @@
 #include "archdep.h"
 #include "charset.h"            /* ctrl1, ctrl2, cbmkeys */
 #include "cmdline.h"
+#include "event.h"
 #include "lib.h"
+#include "network.h"
 #include "types.h"
 
 
-#define PETCATVERSION   2.11
+#define PETCATVERSION   2.12
 #define PETCATLEVEL     1
 
 #define B_1              1
@@ -102,6 +104,7 @@
 #define B_DRAGO         20
 #define B_REU           21
 #define B_BASL          22
+#define B_71            23
 
 /* Limits */
 
@@ -120,6 +123,7 @@
 
 #define NUM_KWCE        11
 #define NUM_V7FE        39
+#define NUM_V71FE       56
 #define NUM_V10FE       62
 
 #define NUM_ULTRCC      51      /* Ultrabasic-64 */
@@ -156,6 +160,7 @@
 
 #define MAX_KWCE        0x0A
 #define MAX_V7FE        0x26
+#define MAX_V71FE       0x39
 #define MAX_V10FE       0x3D
 
 #define KW_NONE         0xFE    /* flag unused token */
@@ -199,7 +204,7 @@ static const char *cbmkeys[] = {
     "CBM-U", "CBM-O", "SHIFT-@", "CBM-F", "CBM-C", "CBM-X", "CBM-V", "CBM-B"
 };
 
-#define NUM_VERSIONS  22
+#define NUM_VERSIONS  23
 
 const char *VersNames[] = {
     "Basic 1.0",
@@ -216,6 +221,7 @@ const char *VersNames[] = {
     "Basic 3.5",
     "Basic 7.0",
     "Basic 10.0",
+
     "Basic 2.0 with Final Cartridge III",
     "Basic 2.0 with Ultrabasic-64",
     "Basic 2.0 with graphics basic",
@@ -226,6 +232,8 @@ const char *VersNames[] = {
     "Basic 2.0 with Drago basic 2.2",
     "Basic 2.0 with REU-basic",
     "Basic 2.0 with Basic Lightning",
+
+    "Basic 7.1 extension",
     ""
 };
 
@@ -269,7 +277,7 @@ const char *keyword[] = {
 
 
 /*
- * 7.0 and 10.0 only.
+ * 7.0, 7.1 and 10.0 only.
  * On 10.0 stash, fetch, and swap are replaced with dma.
  */
 
@@ -293,6 +301,20 @@ const char *kwfe[] = {
     "genlock", "foreground", "", "background", "border", "highlight"
 };
 
+/* Basic 7.1 extension */
+
+const char *kwfe71[] = {
+    "", "",  "bank", "filter",  "play", "tempo", "movspr", "sprite",
+    "sprcolor", "rreg", "envelope", "sleep", "catalog", "dopen", "append",
+    "dclose", "bsave",
+     "bload", "record", "concat", "dverify", "dclear", "sprsav", "collision",
+    "begin", "bend",  "window", "boot", "width", "sprdef", "quit", "stash",
+    "",  "fetch", "",  "swap",  "off",  "fast",  "slow",
+    /* Basic 7.1 extension only (fe27 - fe37) */
+    "cwind",
+    "sscrn", "lscrn", "hide", "show", "sfont", "lfont", "view", "fcopy",
+    "esave", "send", "check", "esc", "old", "find", "dump", "merge"
+};
 
 const char *superkwcc[] = { /* VIC Super Expander commands 0xcc - 0xdd */
     "key", "graphic", "scnclr", "circle", "draw", "region", "color", "point",
@@ -533,11 +555,31 @@ static unsigned char sstrcmp(unsigned char *line, const char **wordlist,
 static FILE *source, *dest;
 static int kwlen;
 
-/* dummy function */
+/* dummy functions */
 int cmdline_register_options(const cmdline_option_t *c)
 {
   return 0;
 }
+
+int network_connected(void)
+{
+}
+
+int network_get_mode(void)
+{
+  return NETWORK_IDLE;
+}
+
+void network_event_record(unsigned int type, void *data, unsigned int size)
+{
+}
+
+void event_record_in_list(event_list_state_t *list, unsigned int type,
+                          void *data, unsigned int size)
+{
+}
+
+/* ------------------------------------------------------------------------- */
 
 int main(int argc, char **argv)
 {
@@ -680,7 +722,8 @@ int main(int argc, char **argv)
                 "\tLightning\tBasic v2.0 with Basic Lightning (C64)\n"
                 "\t4 -w4e\tPET Basic v4.0 program (PET/C64)\n"
                 "\t3\tBasic v3.5 program (C16)\n"
-                "\t7\tBasic v7.0 program (C128)\n"
+                "\t70\tBasic v7.0 program (C128)\n"
+                "\t71\tBasic v7.1 program (C128)\n"
                 "\t10\tBasic v10.0 program (C64DX)\n\n");
 
         fprintf(stdout, "\tUsage examples:\n"
@@ -732,9 +775,11 @@ int main(int argc, char **argv)
           case B_TURTLE:
             load_addr = 0x3701;
             break;
+          case B_GRAPH:
           case B_35:
             load_addr = 0x1001;
             break;
+          case B_71:
           case B_7:
             load_addr = 0x1c01;
             break;
@@ -743,9 +788,6 @@ int main(int argc, char **argv)
             break;
           case B_ULTRA:
             load_addr = 0x2c01;
-            break;
-          case B_GRAPH:
-            load_addr = 0x1001;
             break;
           case B_MIGHTY:
             load_addr = 0x3201;
@@ -779,7 +821,7 @@ int main(int argc, char **argv)
 
         /*
          * Try to figure out whether input file is in P00 format or not.
-         * If the header is found, the real filaname is feches and any other
+         * If the header is found, the real filaname is feched and any other
          * offset specified is overruled.
          * This is particularly difficult on <stdin>, as only _one_ character
          * of pushback is guaranteed on all cases. So, the lost bytes "C64File"
@@ -938,8 +980,19 @@ static int parse_version(char *str)
       case '3':
         version = B_35; /* 3.5 */
         break;
+
       case '7':
-        version = B_7;
+        switch (str[1]) {
+          case '0':
+            version = B_7;
+            break;
+          case '1':
+            version = B_71;
+            break;
+          default:
+            fprintf (stderr,
+                "Please, select one of the following: 70, 71\n");
+        }
         break;
 
       case 'F':
@@ -1009,7 +1062,7 @@ static void list_keywords(int version)
 
     if (version == B_1)
         max = NUM_B_1;
-    else if (version==B_35 || version==B_7 || version == B_10)
+    else if (version==B_35 || version==B_7 || version==B_71 || version == B_10)
         max = 0x7E;
     else
         max = NUM_COMM;
@@ -1021,9 +1074,9 @@ static void list_keywords(int version)
     printf("%s\n", keyword[127]);
 
 
-    if (version == B_7 || version == B_10) {
-        for (n = 2; n < ((version == B_10) ? NUM_V10FE : NUM_V7FE); n++)
-            printf("%s\t", kwfe[n] /*, 0xfe, n*/);
+    if (version == B_7 || version == B_71 || version == B_10) {
+        for (n = 2; n < ((version == B_10) ? NUM_V10FE : ((version == B_71) ? NUM_V71FE : NUM_V7FE)); n++)
+            printf("%s\t", (version == B_71) ? kwfe71[n] : kwfe[n] /*, 0xfe, n*/);
 
         for (n = 2; n < NUM_KWCE; n++)
             printf("%s\t", kwce[n] /*, 0xce, n*/);
@@ -1275,7 +1328,7 @@ static int p_expand(int version, int addr, int ctrls)
                         continue;
                     } else if (c == 0xfe) {
                         if ((c = getc(source)) <= MAX_V10FE)
-                            fprintf(dest, "%s", kwfe[c]);
+                            fprintf(dest, "%s", (version==B_71) ? kwfe71[c] : kwfe[c]);
                         else
                             fprintf(dest, "($fe%02x)", c);
                         continue;
@@ -1472,10 +1525,10 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
             else if (isalpha(*p2) || strchr("+-*/^>=<", *p2)) {
 
                 /* FE and CE prefixes are checked first */
-                if (version == B_7 || version == B_10) {
+                if (version == B_7 || version == B_71 || version == B_10) {
                     if ((c = sstrcmp(p2, kwfe, 2,
                         ((version == B_10)
-                        ? NUM_V10FE : NUM_V7FE))) != KW_NONE) {
+                        ? NUM_V10FE : ((version == B_71) ? NUM_V71FE : NUM_V7FE)))) != KW_NONE) {
                         *p1++ = 0xfe;
                         *p1++ = c;
                         p2 += kwlen;
@@ -1498,7 +1551,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
                     if (version == B_1)
                         max = NUM_B_1;
-                    else if (version==B_35 || version== B_7 || version == B_10)
+                    else if (version==B_35 || version==B_7 || version==B_71 || version==B_10)
                         max = 0x7E;
                     else
                         max = NUM_COMM;

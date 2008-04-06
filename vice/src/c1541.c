@@ -58,6 +58,7 @@
 #include "charset.h"
 #include "cmdline.h"
 #include "diskimage.h"
+#include "event.h"
 #include "fileio.h"
 #include "gcr.h"
 #include "info.h"
@@ -65,6 +66,7 @@
 #include "ioutil.h"
 #include "lib.h"
 #include "log.h"
+#include "network.h"
 #include "serial.h"
 #include "snapshot.h"
 #include "tape.h"
@@ -151,11 +153,31 @@ BYTE *drive_rom2040;
 
 /* ------------------------------------------------------------------------- */
 
-/* dummy function */
+/* dummy functions */
 int cmdline_register_options(const cmdline_option_t *c)
 {
   return 0;
 }
+
+int network_connected(void)
+{
+}
+
+int network_get_mode(void)
+{
+  return NETWORK_IDLE;
+}
+
+void network_event_record(unsigned int type, void *data, unsigned int size)
+{
+}
+
+void event_record_in_list(event_list_state_t *list, unsigned int type,
+                          void *data, unsigned int size)
+{
+}
+
+/* ------------------------------------------------------------------------- */
 
 struct command {
     const char *name;
