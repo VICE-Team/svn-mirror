@@ -30,12 +30,12 @@
 
 #include "vice.h"
 
+#include <dpmi.h>
+#include <go32.h>
+#include <pc.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <pc.h>
-#include <dpmi.h>
-#include <go32.h>
 
 #include <allegro.h>
 

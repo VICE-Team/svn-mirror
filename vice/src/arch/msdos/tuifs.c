@@ -33,7 +33,6 @@
 #include <errno.h>
 #include <fnmatch.h>
 #include <keys.h>
-#include <limits.h>
 #include <pc.h>
 #include <stdio.h>
 #include <stdlib.h>
