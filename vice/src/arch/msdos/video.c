@@ -286,8 +286,7 @@ static int canvas_set_vga_mode(struct video_canvas_s *c)
 video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
                                     unsigned int *height, int mapped,
                                     void_t exposure_handler,
-                                    const palette_t *palette,
-                                    BYTE *pixel_return)
+                                    const palette_t *palette);
 {
     video_canvas_t *new_canvas;
     int result = 0;
@@ -327,7 +326,7 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
         }
     } while (result < 0);
 
-    video_canvas_set_palette(new_canvas, palette, pixel_return);
+    video_canvas_set_palette(new_canvas, palette);
 
     new_canvas->exposure_handler = (canvas_redraw_t)exposure_handler;
     new_canvas->back_page = 1;
@@ -406,19 +405,20 @@ static void canvas_change_palette(video_canvas_t *c)
 }
 
 
-int video_canvas_set_palette(struct video_canvas_s *c, const palette_t *palette,
-                             BYTE *pixel_return)
+int video_canvas_set_palette(struct video_canvas_s *c,
+                             const palette_t *palette)
 {
     int i;
 
     DEBUG(("Allocating %d colors",palette->num_entries));
+#if 0
     c->palette = (palette_t*) palette;
 
     for (i = 0; i < palette->num_entries; i++)
     {
         pixel_return[i] = i;
     }
-
+#endif
     canvas_change_palette(c);
 
     return 0;
