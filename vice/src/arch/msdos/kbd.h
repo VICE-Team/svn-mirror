@@ -33,12 +33,6 @@
 
 #include "types.h"
 
-/* This is actually the maximum number of rows we need (the C128 value).  */
-#define	KBD_ROWS	16
-
-/* (This is actually the same for all the machines.)  */
-#define KBD_COLS	8
-
 /* Keymap definition structure.  */
 typedef struct {
     BYTE row;
@@ -74,8 +68,6 @@ extern void kbd_flush_commands(void);
 extern void kbd_set_freeze_function(void (*f)(void));
 extern const char *kbd_code_to_string(kbd_code_t kcode);
 
-extern int keyarr[KBD_ROWS];
-extern int rev_keyarr[KBD_COLS];
 extern BYTE joystick_value[3];
 
 extern int c64_kbd_init(void);
