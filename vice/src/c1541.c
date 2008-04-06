@@ -147,6 +147,7 @@ int rom1571_loaded = 0;
 int rom1581_loaded = 0;
 int rom2031_loaded = 0;
 int rom1001_loaded = 0;
+int rom2040_loaded = 0;
 
 BYTE *drive_rom1541;
 BYTE *drive_rom1541ii;
@@ -154,6 +155,7 @@ BYTE *drive_rom1571;
 BYTE *drive_rom1581;
 BYTE *drive_rom2031;
 BYTE *drive_rom1001;
+BYTE *drive_rom2040;
 
 /* ------------------------------------------------------------------------- */
 
@@ -221,8 +223,9 @@ command_t command_list[] = {
       "If <type> and <imagename> are specified, create a new image named\n"
       "<imagename>, attach it to unit 8 and format it.  <type> is a disk image\n"
       "type, and must be either `x64', `d64' (both VC1541/2031), `g64' (VC1541/2031,\n"
-      "but in GCR coding, `d71' (VC1571), `d81' (VC1581), `d80' (CBM8050) or \n"
-      "`d82' (CBM8250). Otherwise, format the disk in the current unit, if any.",
+      "but in GCR coding, `d67' (2040 DOS1), `d71' (VC1571), `d81' (VC1581), \n"
+      "`d80' (CBM8050) or `d82' (CBM8250). Otherwise, format the disk in \n"
+      "the current unit, if any.",
       1, 4,
       format_cmd },
 #ifdef GEOS
@@ -1165,6 +1168,8 @@ static int format_cmd(int nargs, char **args)
         *args[2] = tolower(*args[2]);
         if (strcmp(args[2], "d64") == 0)
             disk_type = DISK_IMAGE_TYPE_D64;
+        else if (strcmp(args[2], "d67") == 0)
+            disk_type = DISK_IMAGE_TYPE_D67;
         else if (strcmp(args[2], "d71") == 0)
             disk_type = DISK_IMAGE_TYPE_D71;
         else if (strcmp(args[2], "d81") == 0)
