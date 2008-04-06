@@ -57,6 +57,7 @@
 #include "diskimage.h"
 #include "gcr.h"
 #include "info.h"
+#include "image.h"
 #include "imagecontents.h"
 #include "ioutil.h"
 #include "lib.h"
@@ -667,7 +668,7 @@ static int open_image(int dev, char *name, int create, int disktype)
         return -1;
 
     if (create) {
-        if (disk_image_fsimage_create(name, disktype) < 0) {
+        if (image_create_image(name, disktype) < 0) {
             printf("Cannot create disk image.\n");
             return -1;
         }
