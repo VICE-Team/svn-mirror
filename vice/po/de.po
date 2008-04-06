@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 1.21\n"
+"Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-16 00:55+0200\n"
-"PO-Revision-Date: 2007-02-26 20:53+0100\n"
+"POT-Creation-Date: 2007-08-04 15:35+0200\n"
+"PO-Revision-Date: 2007-07-26 11:54+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -657,11 +657,11 @@ msgstr "80 Spalten Modus aktivieren"
 
 #: src/c128/c128mmu.c:131 src/translate.c.po.c:958
 msgid "Always switch to C64 mode on reset"
-msgstr ""
+msgstr "Immer bei Reset in C64 Modus schalten"
 
 #: src/c128/c128mmu.c:134 src/translate.c.po.c:968
 msgid "Always switch to C128 mode on reset"
-msgstr ""
+msgstr "Immer be Reset in C128 Modus schalten"
 
 #: src/c128/functionrom.c:151 src/translate.c.po.c:978
 msgid "Specify name of internal Function ROM image"
@@ -1917,7 +1917,7 @@ msgstr "<Modus>"
 
 #: src/vicii/vicii-cmdline-options.c:98 src/translate.c.po.c:3608
 msgid "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"
-msgstr ""
+msgstr "VIC-II Rahmen Darstellung Modus (0: normal, 1: full, 2: debug)"
 
 #: src/vicii/vicii-cmdline-options.c:100 src/translate.c.po.c:3618
 msgid "Enable sprite-background collision registers"
@@ -2386,7 +2386,7 @@ msgstr "ROM Satz"
 
 #: src/arch/unix/gui/c128ui.c:368
 msgid "*Always switch to C64 mode"
-msgstr ""
+msgstr "*Immer auf C64 Modus schalten"
 
 #: src/arch/unix/gui/c128ui.c:376 src/arch/unix/gui/c64ui.c:364
 msgid "VIC-II settings"
@@ -2441,7 +2441,7 @@ msgstr "Optionen"
 #: src/arch/unix/gui/cbm2ui.c:511 src/arch/unix/gui/petui.c:493
 #: src/arch/unix/gui/plus4ui.c:319 src/arch/unix/gui/vic20ui.c:609
 #: src/arch/unix/gui/vsidui.c:233 src/arch/unix/x11/gnome/uinetplay.c:65
-#: src/arch/unix/x11/gnome/x11ui.c:1312 src/arch/unix/x11/gnome/x11ui.c:1377
+#: src/arch/unix/x11/gnome/x11ui.c:1278 src/arch/unix/x11/gnome/x11ui.c:1343
 #: src/arch/win32/res.rc.po.c:4418 src/arch/amigaos/intl.c.po.c:1230
 msgid "Settings"
 msgstr "Einstellungen"
@@ -2912,7 +2912,7 @@ msgid "Smart-attach a file"
 msgstr "Smart Datei einleigen"
 
 #: src/arch/unix/gui/uiattach.c:301 src/arch/unix/gui/uiattach.c:310
-#: src/arch/unix/x11/xaw/x11ui.c:1785
+#: src/arch/unix/x11/xaw/x11ui.c:1791
 msgid "Unknown image type"
 msgstr "Unbekannter Image Typ."
 
@@ -3256,7 +3256,7 @@ msgstr "Über VICE..."
 
 #: src/arch/unix/gui/uicommands.c:569 src/arch/unix/gui/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:153
-#: src/arch/unix/x11/gnome/x11ui.c:2075 src/arch/amigaos/intl.c.po.c:312
+#: src/arch/unix/x11/gnome/x11ui.c:2021 src/arch/amigaos/intl.c.po.c:312
 msgid "Reset"
 msgstr "Reset"
 
@@ -3288,7 +3288,7 @@ msgstr "Benutzerdefiniert..."
 
 #: src/arch/unix/gui/uicrtc.c:93 src/arch/unix/gui/uicrtc.c:106
 #: src/arch/unix/gui/uited.c:120 src/arch/unix/gui/uited.c:149
-#: src/arch/unix/gui/uivdc.c:98 src/arch/unix/gui/uivdc.c:111
+#: src/arch/unix/gui/uivdc.c:105 src/arch/unix/gui/uivdc.c:118
 #: src/arch/unix/gui/uivic.c:119 src/arch/unix/gui/uivic.c:144
 #: src/arch/unix/gui/uivicii.c:153 src/arch/unix/gui/uivicii.c:185
 msgid "*Double size"
@@ -3296,14 +3296,14 @@ msgstr "*Doppelte Größe"
 
 #: src/arch/unix/gui/uicrtc.c:95 src/arch/unix/gui/uicrtc.c:108
 #: src/arch/unix/gui/uited.c:122 src/arch/unix/gui/uited.c:151
-#: src/arch/unix/gui/uivdc.c:100 src/arch/unix/gui/uivdc.c:113
+#: src/arch/unix/gui/uivdc.c:107 src/arch/unix/gui/uivdc.c:120
 #: src/arch/unix/gui/uivic.c:121 src/arch/unix/gui/uivic.c:146
 #: src/arch/unix/gui/uivicii.c:155 src/arch/unix/gui/uivicii.c:187
 msgid "*Double scan"
 msgstr "*Doppelt Scan"
 
 #: src/arch/unix/gui/uicrtc.c:97 src/arch/unix/gui/uited.c:124
-#: src/arch/unix/gui/uivdc.c:102 src/arch/unix/gui/uivic.c:123
+#: src/arch/unix/gui/uivdc.c:109 src/arch/unix/gui/uivic.c:123
 #: src/arch/unix/gui/uivicii.c:157
 msgid "*Video cache"
 msgstr "*Video Cache"
@@ -3314,31 +3314,31 @@ msgid "*Scale 2x render"
 msgstr "*Scale 2x Renderer"
 
 #: src/arch/unix/gui/uicrtc.c:104 src/arch/unix/gui/uited.c:147
-#: src/arch/unix/gui/uivdc.c:109 src/arch/unix/gui/uivic.c:142
+#: src/arch/unix/gui/uivdc.c:116 src/arch/unix/gui/uivic.c:142
 #: src/arch/unix/gui/uivicii.c:183
 msgid "*Enable fullscreen"
 msgstr "*Vollbild Modus aktivieren"
 
 #: src/arch/unix/gui/uicrtc.c:110 src/arch/unix/gui/uited.c:153
-#: src/arch/unix/gui/uivdc.c:115 src/arch/unix/gui/uivic.c:148
+#: src/arch/unix/gui/uivdc.c:122 src/arch/unix/gui/uivic.c:148
 #: src/arch/unix/gui/uivicii.c:189
 msgid "Fullscreen device"
 msgstr "Vollbild Gerät"
 
 #: src/arch/unix/gui/uicrtc.c:115 src/arch/unix/gui/uited.c:158
-#: src/arch/unix/gui/uivdc.c:120 src/arch/unix/gui/uivic.c:153
+#: src/arch/unix/gui/uivdc.c:127 src/arch/unix/gui/uivic.c:153
 #: src/arch/unix/gui/uivicii.c:194
 msgid "VidMode Resolutions"
 msgstr "VidMode Auflösungen"
 
 #: src/arch/unix/gui/uicrtc.c:119 src/arch/unix/gui/uited.c:162
-#: src/arch/unix/gui/uivdc.c:124 src/arch/unix/gui/uivic.c:157
+#: src/arch/unix/gui/uivdc.c:131 src/arch/unix/gui/uivic.c:157
 #: src/arch/unix/gui/uivicii.c:198
 msgid "DGA1 Resolutions"
 msgstr "DGA1 Auflösungen"
 
 #: src/arch/unix/gui/uicrtc.c:123 src/arch/unix/gui/uited.c:166
-#: src/arch/unix/gui/uivdc.c:128 src/arch/unix/gui/uivic.c:161
+#: src/arch/unix/gui/uivdc.c:135 src/arch/unix/gui/uivic.c:161
 #: src/arch/unix/gui/uivicii.c:202
 msgid "DGA2 Resolutions"
 msgstr "DGA2 Auflösungen"
@@ -3348,7 +3348,7 @@ msgid "*CRTC Screen color"
 msgstr "*CRTC Bildschirmfarbe"
 
 #: src/arch/unix/gui/uicrtc.c:131 src/arch/unix/gui/uited.c:174
-#: src/arch/unix/gui/uivdc.c:105 src/arch/unix/gui/uivic.c:169
+#: src/arch/unix/gui/uivdc.c:112 src/arch/unix/gui/uivic.c:169
 #: src/arch/unix/gui/uivicii.c:224
 msgid "*Use XSync()"
 msgstr "*XSync() benutzen"
@@ -3758,8 +3758,8 @@ msgid "Next: "
 msgstr "Nächstes: "
 
 #: src/arch/unix/gui/uifliplist.c:245 src/arch/unix/gui/uifliplist.c:260
-#: src/arch/unix/x11/gnome/x11ui.c:912 src/arch/unix/x11/gnome/x11ui.c:922
-#: src/arch/unix/x11/gnome/x11ui.c:1644
+#: src/arch/unix/x11/gnome/x11ui.c:894 src/arch/unix/x11/gnome/x11ui.c:904
+#: src/arch/unix/x11/gnome/x11ui.c:1610
 msgid "<empty>"
 msgstr "<leer>"
 
@@ -4705,7 +4705,7 @@ msgstr "Maximale Geschwindigkeit"
 msgid "Invalid speed value"
 msgstr "Ungültige Geschwindigkeit"
 
-#: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1426
+#: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1392
 #: src/arch/unix/x11/xaw/x11ui.c:1100 src/arch/win32/res.rc.po.c:4900
 #: src/arch/amigaos/intl.c.po.c:1908
 msgid "Cannot save settings."
@@ -5018,15 +5018,21 @@ msgstr "*Revision 1"
 msgid "*Revison 2"
 msgstr "*Revision 2"
 
-#: src/arch/unix/gui/uivdc.c:133
+#. Translators: `XRandR' must remain in the beginning of the translation:
+#. e.g. German: "XRandR Aufloesungen"
+#: src/arch/unix/gui/uivdc.c:141 src/arch/unix/gui/uivicii.c:208
+msgid "XRandR Resolutions"
+msgstr "XRandR Auflösungen"
+
+#: src/arch/unix/gui/uivdc.c:146
 msgid "*64KB display memory"
 msgstr "*64KB Bildschirm Speicher"
 
-#: src/arch/unix/gui/uivdc.c:135
+#: src/arch/unix/gui/uivdc.c:148
 msgid "Revision"
 msgstr "Revision"
 
-#: src/arch/unix/gui/uivdc.c:138
+#: src/arch/unix/gui/uivdc.c:151
 msgid "Color set"
 msgstr "Farbpalette..."
 
@@ -5048,12 +5054,11 @@ msgstr "*GoDot"
 
 #: src/arch/unix/gui/uivicii.c:73
 msgid "*Full"
-msgstr ""
+msgstr "*Voll"
 
 #: src/arch/unix/gui/uivicii.c:75
-#, fuzzy
 msgid "*Debug"
-msgstr "&Debug"
+msgstr "*Debug"
 
 #: src/arch/unix/gui/uivicii.c:160
 msgid "*New Luminances"
@@ -5063,15 +5068,9 @@ msgstr "*Neue Helligkeitsemulation"
 msgid "*OpenGL Rastersynchronization"
 msgstr "*OpenGL Rastersynchronisation"
 
-#. Translators: `XRandR' must remain in the beginning of the translation:
-#. e.g. German: "XRandR Aufloesungen"
-#: src/arch/unix/gui/uivicii.c:208
-msgid "XRandR Resolutions"
-msgstr "XRandR Auflösungen"
-
 #: src/arch/unix/gui/uivicii.c:216
 msgid "*Border mode"
-msgstr ""
+msgstr "*Rahmen Modus"
 
 #: src/arch/unix/gui/uivicii.c:219
 msgid "*Sprite-sprite collisions"
@@ -5244,7 +5243,6 @@ msgid "Official VICE homepage:"
 msgstr "Offizielle VICE Homepage:"
 
 #: src/arch/unix/x11/gnome/about.c:91
-#, fuzzy
 msgid ""
 "Martin Pottendorfer - German\n"
 "Peter Karlsson - Swedish\n"
@@ -5260,7 +5258,7 @@ msgstr ""
 "Paul Dubé - Französisch\n"
 "Marco van den Heuvel - Niederländisch\n"
 "Flooder - Polnisch\n"
-"Karai Csaba - Ungarisch\n"
+"Czirkos Zoltan, Karai Csaba - Ungarisch\n"
 
 #: src/arch/unix/x11/gnome/about.c:104
 msgid "(c) 1998 - 2007 The Vice Team"
@@ -5580,189 +5578,189 @@ msgstr ""
 "IRQ: %s"
 
 #: src/arch/unix/x11/gnome/uifileentry.c:52
-#: src/arch/unix/x11/gnome/x11ui.c:2720
+#: src/arch/unix/x11/gnome/x11ui.c:2666
 msgid "all files"
 msgstr "Alle Dateien (*.*)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:433
+#: src/arch/unix/x11/gnome/x11ui.c:432
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr "Schriftpfad hinzufügen ist fehlgeschlagen: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:435
+#: src/arch/unix/x11/gnome/x11ui.c:434
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr "Setze Fontpfad: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:643 src/arch/unix/x11/xaw/x11ui.c:512
+#: src/arch/unix/x11/gnome/x11ui.c:642 src/arch/unix/x11/xaw/x11ui.c:512
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Dieses Display unterstützt keine passende %dbit Farbtiefe."
 
-#: src/arch/unix/x11/gnome/x11ui.c:646 src/arch/unix/x11/xaw/x11ui.c:515
+#: src/arch/unix/x11/gnome/x11ui.c:645 src/arch/unix/x11/xaw/x11ui.c:515
 msgid "Please select a bit depth supported by your display."
 msgstr "Bitte genaue Farbtiefe für Ihr Display spezifizieren."
 
-#: src/arch/unix/x11/gnome/x11ui.c:649 src/arch/unix/x11/gnome/x11ui.c:673
+#: src/arch/unix/x11/gnome/x11ui.c:648 src/arch/unix/x11/gnome/x11ui.c:672
 #: src/arch/unix/x11/xaw/x11ui.c:518 src/arch/unix/x11/xaw/x11ui.c:535
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "%dbit/%s Farbtiefe erkannt."
 
-#: src/arch/unix/x11/gnome/x11ui.c:658
+#: src/arch/unix/x11/gnome/x11ui.c:657
 #, c-format
 msgid "Found %dbit visual."
 msgstr "%dbit Farbtiefe erkannt."
 
-#: src/arch/unix/x11/gnome/x11ui.c:681 src/arch/unix/x11/xaw/x11ui.c:543
+#: src/arch/unix/x11/gnome/x11ui.c:680 src/arch/unix/x11/xaw/x11ui.c:543
 msgid "Cannot autodetect a proper visual."
 msgstr "Fehler beim automatischen erkennen der Farbtiefe."
 
-#: src/arch/unix/x11/gnome/x11ui.c:689
+#: src/arch/unix/x11/gnome/x11ui.c:688
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Laden der Textschrift `%s' fehlgeschlagen."
 
-#: src/arch/unix/x11/gnome/x11ui.c:696
+#: src/arch/unix/x11/gnome/x11ui.c:695
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Laden der CBM font `%s' fehlgeschlagen."
 
-#: src/arch/unix/x11/gnome/x11ui.c:814
+#: src/arch/unix/x11/gnome/x11ui.c:796
 msgid "PAL Controls"
 msgstr "PAL Steuerung"
 
-#: src/arch/unix/x11/gnome/x11ui.c:833
+#: src/arch/unix/x11/gnome/x11ui.c:815
 msgid "audio/video recording"
 msgstr "Audio/Video Aufnahme"
 
-#: src/arch/unix/x11/gnome/x11ui.c:847 src/arch/unix/x11/gnome/x11ui.c:866
+#: src/arch/unix/x11/gnome/x11ui.c:829 src/arch/unix/x11/gnome/x11ui.c:848
 msgid "click to stop recording"
 msgstr "Klick um Aufnahme zu stoppen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:852
+#: src/arch/unix/x11/gnome/x11ui.c:834
 msgid "event recording"
 msgstr "Event Aufnahme"
 
-#: src/arch/unix/x11/gnome/x11ui.c:872
+#: src/arch/unix/x11/gnome/x11ui.c:854
 msgid "event playback"
 msgstr "Event Wiedergabe"
 
-#: src/arch/unix/x11/gnome/x11ui.c:886
+#: src/arch/unix/x11/gnome/x11ui.c:868
 msgid "click to stop playback"
 msgstr "Klick um Wiedergabe zu stoppen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:898
+#: src/arch/unix/x11/gnome/x11ui.c:880
 #, c-format
 msgid "Drive %d: "
 msgstr "Laufwerk %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:1009
+#: src/arch/unix/x11/gnome/x11ui.c:991
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1094 src/arch/unix/x11/xaw/x11ui.c:629
+#: src/arch/unix/x11/gnome/x11ui.c:1076 src/arch/unix/x11/xaw/x11ui.c:629
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximale Anzahl an Hauptfenster erreicht."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1310 src/arch/unix/x11/gnome/x11ui.c:1366
+#: src/arch/unix/x11/gnome/x11ui.c:1276 src/arch/unix/x11/gnome/x11ui.c:1332
 msgid "Commands"
 msgstr "Kommandos"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1316 src/arch/amigaos/intl.c.po.c:1626
+#: src/arch/unix/x11/gnome/x11ui.c:1282 src/arch/amigaos/intl.c.po.c:1626
 msgid "Help"
 msgstr "Hilfe"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1409 src/arch/unix/x11/xaw/x11ui.c:1086
+#: src/arch/unix/x11/gnome/x11ui.c:1375 src/arch/unix/x11/xaw/x11ui.c:1086
 msgid " emulator"
 msgstr " Emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1416 src/arch/unix/x11/xaw/x11ui.c:1090
+#: src/arch/unix/x11/gnome/x11ui.c:1382 src/arch/unix/x11/xaw/x11ui.c:1090
 msgid "Do you really want to exit?"
 msgstr "Wirklich beenden?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1423 src/arch/unix/x11/xaw/x11ui.c:1097
+#: src/arch/unix/x11/gnome/x11ui.c:1389 src/arch/unix/x11/xaw/x11ui.c:1097
 msgid "Save the current settings?"
 msgstr "Einstellungen speichern?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1468 src/arch/unix/x11/xaw/x11ui.c:1138
+#: src/arch/unix/x11/gnome/x11ui.c:1434 src/arch/unix/x11/xaw/x11ui.c:1138
 msgid "Using private colormap."
 msgstr "Benutze private Farbpalette."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1488 src/arch/unix/x11/gnome/x11ui.c:1491
+#: src/arch/unix/x11/gnome/x11ui.c:1454 src/arch/unix/x11/gnome/x11ui.c:1457
 #: src/arch/unix/x11/xaw/x11ui.c:1166 src/arch/unix/x11/xaw/x11ui.c:1171
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1793
+#: src/arch/unix/x11/gnome/x11ui.c:1759
 #, c-format
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1865 src/arch/unix/x11/xaw/x11ui.c:1413
+#: src/arch/unix/x11/gnome/x11ui.c:1811 src/arch/unix/x11/xaw/x11ui.c:1413
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausiert)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2034 src/arch/amigaos/intl.c.po.c:1854
+#: src/arch/unix/x11/gnome/x11ui.c:1980 src/arch/amigaos/intl.c.po.c:1854
 msgid "VICE Message"
 msgstr "VICE Nachricht"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2045 src/arch/amigaos/intl.c.po.c:1926
+#: src/arch/unix/x11/gnome/x11ui.c:1991 src/arch/amigaos/intl.c.po.c:1926
 msgid "VICE Error"
 msgstr "VICE Fehler"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2076
+#: src/arch/unix/x11/gnome/x11ui.c:2022
 msgid "Hard Reset"
 msgstr "Harter Reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2077 src/arch/amigaos/intl.c.po.c:636
+#: src/arch/unix/x11/gnome/x11ui.c:2023 src/arch/amigaos/intl.c.po.c:636
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2121 src/arch/unix/x11/xaw/x11ui.c:1717
+#: src/arch/unix/x11/gnome/x11ui.c:2067 src/arch/unix/x11/xaw/x11ui.c:1723
 msgid "Extend disk image"
 msgstr "Erweiterung Disk Image"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2122
+#: src/arch/unix/x11/gnome/x11ui.c:2068
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Soll das Diskimage auf 40 Spuren erweitert werden?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2135
+#: src/arch/unix/x11/gnome/x11ui.c:2081
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Autostart für Laufwerk %d nicht möglich."
 
-#: src/arch/unix/x11/gnome/x11ui.c:2143 src/arch/unix/x11/gnome/x11ui.c:2152
+#: src/arch/unix/x11/gnome/x11ui.c:2089 src/arch/unix/x11/gnome/x11ui.c:2098
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Autostart von Selektion Nr. %d in Image %s fehlgeschlagen."
 
-#: src/arch/unix/x11/gnome/x11ui.c:2279 src/arch/unix/x11/gnome/x11ui.c:2289
+#: src/arch/unix/x11/gnome/x11ui.c:2225 src/arch/unix/x11/gnome/x11ui.c:2235
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "KEIN IMAGE VERZEICHNIS VERFÜGBAR."
 
-#: src/arch/unix/x11/gnome/x11ui.c:2743
+#: src/arch/unix/x11/gnome/x11ui.c:2689
 msgid "Contents"
 msgstr "Verzeichnis"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2791
+#: src/arch/unix/x11/gnome/x11ui.c:2737
 msgid "Attach write protected"
 msgstr "Attach schreibgeschützt"
 
 #. show hidden files
-#: src/arch/unix/x11/gnome/x11ui.c:2797
+#: src/arch/unix/x11/gnome/x11ui.c:2743
 msgid "Show hidden files"
 msgstr "Versteckte Dateien anzeigen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2809
+#: src/arch/unix/x11/gnome/x11ui.c:2755
 msgid "Autostart"
 msgstr "Autostart"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2826
+#: src/arch/unix/x11/gnome/x11ui.c:2772
 msgid "Text cannot be displayed.\n"
 msgstr "Text kann nicht dargestellt werden.\n"
 
@@ -5924,42 +5922,42 @@ msgstr "Deaktiviere Vollbild Modus"
 msgid "Specify X display depth (1..32)"
 msgstr "X Display Farbtiefe (1..32) definieren"
 
-#: src/arch/unix/x11/video.c:195
+#: src/arch/unix/x11/video.c:198
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "`XSync()' nach jeder Aktualisierung des Emulator Fensters aufrufen"
 
-#: src/arch/unix/x11/video.c:198
+#: src/arch/unix/x11/video.c:201
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr ""
 "`XSync()' nicht nach jeder Aktualisierung des Emulator Fensters aufrufen"
 
-#: src/arch/unix/x11/video.c:201
+#: src/arch/unix/x11/video.c:204
 msgid "Use shared memory"
 msgstr "Benutze Shared Memory !"
 
-#: src/arch/unix/x11/video.c:204
+#: src/arch/unix/x11/video.c:207
 msgid "Never use shared memory (slower)"
 msgstr "Shared Memory nicht benutzen (langsamer)"
 
-#: src/arch/unix/x11/video.c:207
+#: src/arch/unix/x11/video.c:210
 msgid "Request YUV FOURCC format"
 msgstr "YUV FOURCC Format"
 
-#: src/arch/unix/x11/video.c:209
+#: src/arch/unix/x11/video.c:212
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr "Seitenverhältnis (0.8 - 1.2)"
 
-#: src/arch/unix/x11/video.c:290
+#: src/arch/unix/x11/video.c:293
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
 "Die MITSHM X Server Erweiterung ist auf diesem Display nicht unterstützt."
 
-#: src/arch/unix/x11/video.c:294
+#: src/arch/unix/x11/video.c:297
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM X Server Eweiterung in Version %d.%d erkannt."
 
-#: src/arch/unix/x11/video.c:364
+#: src/arch/unix/x11/video.c:367
 msgid "Cannot release shared memory!"
 msgstr "Kann Shared Memory nicht freigeben!"
 
@@ -5968,7 +5966,7 @@ msgid "Error getting video mode information - disabling vidmode extension."
 msgstr ""
 "Fehler beim Abfragen der Video Modus Information - deaktiviere Vollbildmodus"
 
-#: src/arch/unix/x11/xrandr.c:241
+#: src/arch/unix/x11/xrandr.c:254
 msgid "*Desktop"
 msgstr "*Desktop"
 
@@ -6145,7 +6143,7 @@ msgstr "Event Aufnahme..."
 msgid "%d: Track %.1f"
 msgstr "%d: Spur %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1602 src/arch/win32/res.rc.po.c:4895
+#: src/arch/unix/x11/xaw/x11ui.c:1608 src/arch/win32/res.rc.po.c:4895
 msgid "VICE Error!"
 msgstr "VICE Fehler!"
 
@@ -6385,9 +6383,8 @@ msgid "Copyright (c) 2005-2007 Marco van den Heuvel"
 msgstr "Copyright (c) 2005-2007 Marco van den Heuvel"
 
 #: src/arch/win32/res.rc.po.c:568
-#, fuzzy
 msgid "Copyright (c) 2006-2007 Christian Vogelgsang"
-msgstr "Copyright (c) 2003-2005 David Hansel"
+msgstr "Copyright (c) 2006-2007 Christian Vogelgsang"
 
 #: src/arch/win32/res.rc.po.c:569
 msgid "Copyright (c) 1999-2005 Thomas Bretz"
@@ -6965,7 +6962,7 @@ msgstr "pausiert"
 
 #: src/arch/win32/res.rc.po.c:4913
 msgid "frame #"
-msgstr ""
+msgstr "Rahmen #"
 
 #: src/arch/win32/res.rc.po.c:4914
 msgid "resumed"
@@ -9920,12 +9917,11 @@ msgstr "VIC-II Einstellungen"
 
 #: src/arch/win32/resvicii.rc.po.c:35
 msgid "Borders"
-msgstr ""
+msgstr "Rahmen"
 
 #: src/arch/win32/resvicii.rc.po.c:37
-#, fuzzy
 msgid "&Full"
-msgstr "&Datei"
+msgstr "&Voll"
 
 #: src/arch/win32/resvicii.rc.po.c:39
 msgid "Sprite Collisions"
@@ -9940,9 +9936,8 @@ msgid "Sprite-background &collisions"
 msgstr "Sprite-Hintergrund &Kollisionen"
 
 #: src/arch/win32/resvicii.rc.po.c:42
-#, fuzzy
 msgid "New &Luminances"
-msgstr "Neue Helligkeitsemulation"
+msgstr "Neue He&lligkeitsemulation"
 
 #: src/translate.c.po.c:620
 msgid ""
@@ -11196,23 +11191,20 @@ msgid "Sound Record Settings"
 msgstr "Tonaufnahme Einstellungen"
 
 #: src/arch/amigaos/intl.c.po.c:4637
-#, fuzzy
 msgid "Border mode"
-msgstr "Aktueller Modus"
+msgstr "Rahmen Modus"
 
 #: src/arch/amigaos/intl.c.po.c:4655
-#, fuzzy
 msgid "Full"
-msgstr "&Datei"
+msgstr "Full"
 
 #: src/arch/amigaos/intl.c.po.c:4664
-#, fuzzy
 msgid "Debug"
-msgstr "&Debug"
+msgstr "Debug"
 
 #: src/arch/amigaos/intl.c.po.c:4673
 msgid "Volume (0-100%)"
-msgstr ""
+msgstr "Lautstärke (0-100%)"
 
 #~ msgid "glXWaitVideoSyncSGI() returned %d"
 #~ msgstr "glXWaitVideoSyncSGI() lieferte %d"
