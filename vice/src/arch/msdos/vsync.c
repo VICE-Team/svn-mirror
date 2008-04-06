@@ -311,7 +311,7 @@ static void clk_overflow_callback(CLOCK amount, void *data)
 
 /* ------------------------------------------------------------------------- */
 
-int vsync_do_vsync(int been_skipped)
+int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 {
     static long skip_counter = 0;
     static int num_skipped_frames = 0;
