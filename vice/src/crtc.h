@@ -119,4 +119,6 @@ extern void crtc_screen_enable(int);
 extern int crtc_write_snapshot_module(snapshot_t *s);
 extern int crtc_read_snapshot_module(snapshot_t *s);
 
+extern void video_setfullscreen(int v);
+
 #endif				/* _CRTC_H */
