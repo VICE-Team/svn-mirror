@@ -1,3 +1,12 @@
+2008-04-09  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 1.22.10.
+
+2008-04-08  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* data/<machine>/Makefile.am: Added new file
+	win_shortcuts.vsc.
+
 2008-03-24  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.22.9.

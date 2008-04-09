@@ -36,6 +36,7 @@ c128_DATA = \
 	ROdflt.vkm \
 	vdc_deft.vpl \
 	vice.vpl \
+	win_shortcuts.vsc \
 	win_sym.vkm \
 	win_pos.vkm \
 	x11_sym.vkm \

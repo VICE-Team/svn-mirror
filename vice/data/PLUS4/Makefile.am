@@ -16,6 +16,7 @@ plus4_DATA = \
 	os2.vkm \
 	ROdflt.vkm \
 	vice.vpl \
+	win_shortcuts.vsc \
 	win_sym.vkm \
 	win_pos.vkm \
 	x11_pos.vkm \

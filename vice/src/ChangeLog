@@ -1,3 +1,22 @@
+2008-04-09  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 1.22.10.
+
+2008-04-08  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/msvc/config.h: Define HAVE_GETCWD.
+
+	* arch/win32/*.rc: Removed all the tab-seperated shortcut
+	markers. This is done dynamically now.
+
+	* arch/win32/ui.c: Removed static shortcut stuff and call
+	uikeyboard_create_accelerator_table and
+	uikeyboard_menu_shortcuts instead.
+
+	* arch/win32/uikeyboard.c: New function
+	uikeyboard_menu_shortcuts.  uikeyboard_create_accelerator_table
+	now remembers strings to add in the menu items.
+
 2008-03-24  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.22.9.

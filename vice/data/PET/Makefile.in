@@ -113,6 +113,7 @@ GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GNOMEUI_FALSE = @GNOMEUI_FALSE@
 GNOMEUI_TRUE = @GNOMEUI_TRUE@
+GREP = @GREP@
 GTKGL_CFLAGS = @GTKGL_CFLAGS@
 GTKGL_LIBS = @GTKGL_LIBS@
 GTK_CFLAGS = @GTK_CFLAGS@
@@ -249,6 +250,7 @@ X128_WINRES = @X128_WINRES@
 X64_WINRES = @X64_WINRES@
 XCBM2_WINRES = @XCBM2_WINRES@
 XGETTEXT = @XGETTEXT@
+XMKMF = @XMKMF@
 XPET_WINRES = @XPET_WINRES@
 XPLUS4_WINRES = @XPLUS4_WINRES@
 XVIC_WINRES = @XVIC_WINRES@
@@ -257,12 +259,10 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_LIBS = @X_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 YACC = @YACC@
+YFLAGS = @YFLAGS@
 ZLIB_LIBS = @ZLIB_LIBS@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
-ac_ct_RANLIB = @ac_ct_RANLIB@
-ac_ct_STRIP = @ac_ct_STRIP@
-ac_pt_PKG_CONFIG = @ac_pt_PKG_CONFIG@
 am__fastdepCC_FALSE = @am__fastdepCC_FALSE@
 am__fastdepCC_TRUE = @am__fastdepCC_TRUE@
 am__fastdepCXX_FALSE = @am__fastdepCXX_FALSE@
@@ -283,23 +283,30 @@ build_os = @build_os@
 build_vendor = @build_vendor@
 cxx = @cxx@
 datadir = @datadir@
+datarootdir = @datarootdir@
+docdir = @docdir@
+dvidir = @dvidir@
 exec_prefix = @exec_prefix@
 host = @host@
 host_alias = @host_alias@
 host_cpu = @host_cpu@
 host_os = @host_os@
 host_vendor = @host_vendor@
+htmldir = @htmldir@
 includedir = @includedir@
 infodir = @infodir@
 install_sh = @install_sh@
 libdir = @libdir@
 libexecdir = @libexecdir@
+localedir = @localedir@
 localstatedir = @localstatedir@
 mandir = @mandir@
 mkdir_p = @mkdir_p@
 oldincludedir = @oldincludedir@
+pdfdir = @pdfdir@
 prefix = @prefix@
 program_transform_name = @program_transform_name@
+psdir = @psdir@
 sbindir = @sbindir@
 sdl_config = @sdl_config@
 sharedstatedir = @sharedstatedir@
@@ -344,6 +351,7 @@ keymaps = \
 	os2_40.vkm \
 	RObusi.vkm \
 	ROgrph.vkm \
+	win_shortcuts.vsc \
 	win_sym_gr.vkm \
 	win_sym_uk.vkm \
 	x11_bdep.vkm \

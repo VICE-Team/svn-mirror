@@ -15,6 +15,7 @@ vic20_DATA = \
 	kernal \
 	os2.vkm \
 	ROdflt.vkm \
+	win_shortcuts.vsc \
 	win_sym.vkm \
 	win_pos.vkm \
 	x11_pos.vkm \

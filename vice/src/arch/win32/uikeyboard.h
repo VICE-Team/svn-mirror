@@ -48,5 +48,7 @@ extern void uikeyboard_settings_dialog(HWND hwnd,
                                        uikeyboard_config_t *uikeyboard_config);
 
 extern HACCEL uikeyboard_create_accelerator_table(void);
+extern void uikeyboard_menu_shortcuts(HMENU menu);
+
 #endif
 

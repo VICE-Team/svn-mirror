@@ -25,6 +25,7 @@ c64_DATA = \
 	pc64.vpl \
 	ROdflt.vkm \
 	vice.vpl \
+	win_shortcuts.vsc \
 	win_sym_de.vkm \
 	win_sym_us.vkm \
 	win_pos.vkm \

@@ -32,6 +32,7 @@ cbm2_DATA = \
 	rom256l.vrs \
 	rom256h.vrs \
 	white.vpl \
+	win_shortcuts.vsc \
 	win_pos_uk.vkm \
 	win_sym_uk.vkm \
 	x11_buks.vkm

@@ -217,79 +217,6 @@ static const struct {
 };
 
 /* ------------------------------------------------------------------------ */
-#ifdef DEBUG
-#define UI_DEBUG_HOTKEYS                                                \
-    { FVIRTKEY | FALT | FNOINVERT, VK_F10, IDM_TOGGLE_MAINCPU_TRACE },     \
-    { FVIRTKEY | FALT | FNOINVERT, VK_F11, IDM_TOGGLE_DRIVE0CPU_TRACE },   \
-    { FVIRTKEY | FALT | FNOINVERT, VK_F12, IDM_TOGGLE_DRIVE1CPU_TRACE },
-#else
-#define UI_DEBUG_HOTKEYS
-#endif /* DEBUG*/
-
-#define UI_COMMON_HOTKEYS                                                   \
-    { FVIRTKEY | FCONTROL | FALT | FNOINVERT, 'R', IDM_RESET_HARD },        \
-    { FVIRTKEY | FALT | FNOINVERT, 'R', IDM_RESET_SOFT },                   \
-    { FVIRTKEY | FALT | FNOINVERT, '4', IDM_FORMFEED_PRINTERIEC4 },         \
-    { FVIRTKEY | FALT | FNOINVERT, '5', IDM_FORMFEED_PRINTERIEC5 },         \
-    { FVIRTKEY | FALT | FNOINVERT, '8', IDM_ATTACH_8 },                     \
-    { FVIRTKEY | FALT | FNOINVERT, '9', IDM_ATTACH_9 },                     \
-    { FVIRTKEY | FALT | FNOINVERT, '0', IDM_ATTACH_10 },                    \
-    { FVIRTKEY | FALT | FNOINVERT, '1', IDM_ATTACH_11 },                    \
-    { FVIRTKEY | FALT | FNOINVERT, 'A', IDM_DETACH_ALL },                   \
-    { FVIRTKEY | FALT | FNOINVERT, 'T', IDM_ATTACH_TAPE },                  \
-    { FVIRTKEY | FALT | FNOINVERT, 'L', IDM_LOADQUICK },                    \
-    { FVIRTKEY | FALT | FNOINVERT, 'S', IDM_SAVEQUICK },                    \
-    { FVIRTKEY | FALT | FNOINVERT, 'M', IDM_MONITOR },                      \
-    { FVIRTKEY | FALT | FNOINVERT, 'X', IDM_EXIT },                         \
-    { FVIRTKEY | FALT | FNOINVERT, 'W', IDM_TOGGLE_WARP_MODE },             \
-    { FVIRTKEY | FALT | FNOINVERT, 'I', IDM_FLIP_ADD },                     \
-    { FVIRTKEY | FALT | FNOINVERT, 'K', IDM_FLIP_REMOVE },                  \
-    { FVIRTKEY | FALT | FNOINVERT, 'N', IDM_FLIP_NEXT },                    \
-    { FVIRTKEY | FALT | FNOINVERT, 'B', IDM_FLIP_PREVIOUS },                \
-    { FVIRTKEY | FALT | FNOINVERT, 'J', IDM_SWAP_JOYSTICK },                \
-    { FVIRTKEY | FALT | FNOINVERT, 'C', IDM_MEDIAFILE },                    \
-    { FVIRTKEY | FALT | FNOINVERT, 'G', IDM_EVENT_SETMILESTONE },           \
-    { FVIRTKEY | FALT | FNOINVERT, 'H', IDM_EVENT_RESETMILESTONE },         \
-    { FVIRTKEY | FALT | FNOINVERT, 'D', IDM_TOGGLE_FULLSCREEN },            \
-    { FVIRTKEY | FALT | FNOINVERT, VK_RETURN, IDM_TOGGLE_FULLSCREEN },      \
-    { FVIRTKEY | FALT | FNOINVERT, VK_PAUSE, IDM_PAUSE },                   \
-    { FVIRTKEY | FALT | FNOINVERT, VK_OEM_PLUS, IDM_SINGLE_FRAME_ADVANCE }, \
-    { FVIRTKEY | FALT | FNOINVERT, VK_ADD, IDM_SINGLE_FRAME_ADVANCE }
-
-static ACCEL c64_accel[] = {
-    { FVIRTKEY | FALT | FNOINVERT, 'Z', IDM_CART_FREEZE },
-    { FVIRTKEY | FALT | FNOINVERT, 'Q', IDM_MOUSE },
-    UI_DEBUG_HOTKEYS
-    UI_COMMON_HOTKEYS
-};
-
-static ACCEL c128_accel[] = {
-    { FVIRTKEY | FALT | FNOINVERT, 'Q', IDM_MOUSE },
-    UI_DEBUG_HOTKEYS
-    UI_COMMON_HOTKEYS
-};
-
-static ACCEL cbm2_accel[] = {
-    UI_DEBUG_HOTKEYS
-    UI_COMMON_HOTKEYS
-};
-
-static ACCEL vic_accel[] = {
-    UI_DEBUG_HOTKEYS
-    UI_COMMON_HOTKEYS
-};
-
-static ACCEL pet_accel[] = {
-    UI_DEBUG_HOTKEYS
-    UI_COMMON_HOTKEYS
-};
-
-static ACCEL plus4_accel[] = {
-    { FVIRTKEY | FALT | FNOINVERT, 'Q', IDM_MOUSE },
-    UI_DEBUG_HOTKEYS
-    UI_COMMON_HOTKEYS
-};
-
 static HWND main_hwnd;
 static HWND slider_hwnd;
 
@@ -305,40 +232,29 @@ int ui_init(int *argc, char **argv)
     switch (machine_class) {
       case VICE_MACHINE_C64:
         emu_menu = IDR_MENUC64;
-        ui_accelerator = uikeyboard_create_accelerator_table();
         break;
       case VICE_MACHINE_C128:
         emu_menu = IDR_MENUC128;
-        ui_accelerator = CreateAcceleratorTable(c128_accel, 
-            sizeof(c128_accel) / sizeof(ACCEL));
         break;
       case VICE_MACHINE_VIC20:
         emu_menu = IDR_MENUVIC;
-        ui_accelerator = CreateAcceleratorTable(vic_accel,
-            sizeof(vic_accel)/ sizeof(ACCEL));
         break;
       case VICE_MACHINE_PET:
         emu_menu = IDR_MENUPET;
-        ui_accelerator = CreateAcceleratorTable(pet_accel,
-            sizeof(pet_accel) / sizeof(ACCEL));
         break;
       case VICE_MACHINE_PLUS4:
         emu_menu = IDR_MENUPLUS4;
-        ui_accelerator = CreateAcceleratorTable(plus4_accel,
-            sizeof(plus4_accel) / sizeof(ACCEL));
         break;
       case VICE_MACHINE_CBM2:
         emu_menu = IDR_MENUCBM2;
-        ui_accelerator = CreateAcceleratorTable(cbm2_accel,
-            sizeof(cbm2_accel) / sizeof(ACCEL));
         break;
       default:
         log_debug("UI: No menu entries for this machine defined!");
         log_debug("UI: Using C64 type UI menues.");
         emu_menu = IDR_MENUC64;
-        ui_accelerator = CreateAcceleratorTable(c64_accel,
-            sizeof(c64_accel) / sizeof(ACCEL));
     }
+
+    ui_accelerator = uikeyboard_create_accelerator_table();
 
     /* Register the window class.  */
     window_class.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
@@ -374,7 +290,6 @@ int ui_init(int *argc, char **argv)
        needs an application window to be created to initialize itself, and
        because this might allow us to support more than one emulation window
        in the future.  */
-#if 1
     main_hwnd = CreateWindow(APPLICATION_CLASS_MAIN,
                              TEXT("No title"), /* (for now) */
                              WS_OVERLAPPED | WS_CLIPCHILDREN | WS_BORDER
@@ -388,7 +303,6 @@ int ui_init(int *argc, char **argv)
                              NULL,
                              winmain_instance,
                              NULL);
-#endif
     InitCommonControls();
 
     number_of_windows = 0;
@@ -474,6 +388,7 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
 
     menu=LoadMenu(winmain_instance, MAKEINTRESOURCE(translate_res(emu_menu)));
     SetMenu(hwnd,menu);
+    uikeyboard_menu_shortcuts(menu);
     ShowWindow(hwnd, winmain_cmd_show);
     return hwnd;
 

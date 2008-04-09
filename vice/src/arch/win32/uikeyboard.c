@@ -56,7 +56,8 @@
 static int uikeyboard_mapping_num;
 static const uikeyboard_mapping_entry_t *mapping_entry;
 static int mapping_idc_dump;
-
+static char **menuitemmodifier;
+static int menuitemmodifier_len;
 
 static int mapping_index_get(void)
 {
@@ -238,11 +239,19 @@ HACCEL uikeyboard_create_accelerator_table(void)
     FILE *fshortcuts;
     char *complete_path;
     char buffer[1000];
-    char *p, *menustr, *metastr, *keystr;
+    char *p, *menustr, *metastr, *keystr, *displaystr;
     int i;
 
     ACCEL accellist[MAXACCEL];
     int accelnum = 0;
+
+    menuitemmodifier_len = 0;
+    for (i = 0; idmlist[i].str != NULL; i++)
+        if (idmlist[i].cmd >= menuitemmodifier_len)
+            menuitemmodifier_len = idmlist[i].cmd + 1;
+
+    menuitemmodifier = (char**) lib_calloc(menuitemmodifier_len, sizeof(char*));
+    memset(menuitemmodifier, 0, menuitemmodifier_len * sizeof(char*));
 
     fshortcuts = sysfile_open("win_shortcuts.vsc", &complete_path, MODE_READ_TEXT);
     lib_free(complete_path);
@@ -265,6 +274,9 @@ HACCEL uikeyboard_create_accelerator_table(void)
             metastr = strtok(buffer, " \t:");
             keystr = strtok(NULL, " \t:");
             menustr = strtok(NULL, " \t:");
+            displaystr = strtok(NULL, " \t:");
+	        if (displaystr && (p = strchr(displaystr, '#')))
+	            *p=0;
 
             if (metastr && keystr && menustr) {
                 for (i = 0; idmlist[i].str; i++) {
@@ -281,15 +293,29 @@ HACCEL uikeyboard_create_accelerator_table(void)
                     if (strstr(strlwr(metastr), "alt") != NULL)
                         accel.fVirt |= FALT;
 
-                    if (keystr[0] == '\'' && keystr[2] == '\'')
+                    if (keystr[0] == '\'' && keystr[2] == '\'') {
                         accel.key = keystr[1];
-                    else
+                        if (displaystr == NULL || displaystr[0] == 0) {
+                            displaystr = keystr + 1;
+                            keystr[2] = 0;
+                        }
+                    } else {
                         accel.key = (unsigned short)strtol(keystr, NULL, 0);
+                    }
 
                     accel.cmd = idmlist[i].cmd;
 
                     if (accel.key > 0 && accel.cmd > 0 && accelnum < MAXACCEL)
                         accellist[accelnum++] = accel;
+
+                    if (displaystr != NULL) {
+                        p = util_concat("\t",
+                                    ((accel.fVirt & FCONTROL) ? "Ctrl+" : ""),
+                                    ((accel.fVirt & FALT) ? "Alt+" : ""),
+                                    displaystr, NULL);
+
+                        menuitemmodifier[accel.cmd] = p;
+                    }
                 }
             }
         }
@@ -298,3 +324,36 @@ HACCEL uikeyboard_create_accelerator_table(void)
 
     return CreateAcceleratorTable(accellist, accelnum);
 }
+
+
+void uikeyboard_menu_shortcuts(HMENU menu)
+{
+    int i;
+    MENUITEMINFO mii;
+    LPTSTR  buf, newbuf;
+
+    for (i = 0; idmlist[i].cmd > 0; i++) {
+        if (menuitemmodifier[idmlist[i].cmd] != NULL) {
+            mii.fMask = MIIM_STRING;
+            mii.dwTypeData = NULL;
+            mii.cbSize = sizeof(MENUITEMINFO);
+            if (GetMenuItemInfo(menu, idmlist[i].cmd, FALSE, &mii)) {
+                mii.cch++;
+                buf = lib_malloc(mii.cch);
+                mii.dwTypeData = buf;
+                if (GetMenuItemInfo(menu, idmlist[i].cmd, FALSE, &mii)) {
+                    newbuf = util_concat(buf, menuitemmodifier[idmlist[i].cmd], NULL);
+                    mii.dwTypeData = newbuf;
+                    SetMenuItemInfo(menu, idmlist[i].cmd, FALSE, &mii);
+                    lib_free(newbuf);
+                }
+                lib_free(buf);
+            }
+        }
+    }
+
+    for (i = 0; i < menuitemmodifier_len; i++)
+        lib_free(menuitemmodifier[i]);
+    lib_free(menuitemmodifier);
+}
+

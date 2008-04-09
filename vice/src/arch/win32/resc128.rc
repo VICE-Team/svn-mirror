@@ -26,10 +26,10 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Attach &disk image"
         BEGIN
-            MENUITEM "Drive &8\tAlt+8",  IDM_ATTACH_8
-            MENUITEM "Drive &9\tAlt+9",  IDM_ATTACH_9
-            MENUITEM "Drive 1&0\tAlt+0", IDM_ATTACH_10
-            MENUITEM "Drive &11\tAlt+1", IDM_ATTACH_11
+            MENUITEM "Drive &8",  IDM_ATTACH_8
+            MENUITEM "Drive &9",  IDM_ATTACH_9
+            MENUITEM "Drive 1&0", IDM_ATTACH_10
+            MENUITEM "Drive &11", IDM_ATTACH_11
         END
         POPUP "D&etach disk image"
         BEGIN
@@ -38,20 +38,20 @@ BEGIN
             MENUITEM "Drive 1&0", IDM_DETACH_10
             MENUITEM "Drive &11", IDM_DETACH_11
             MENUITEM SEPARATOR
-            MENUITEM "&All\tAlt+A", IDM_DETACH_ALL
+            MENUITEM "&All", IDM_DETACH_ALL
         END
         POPUP "&Flip list"
         BEGIN
-            MENUITEM "&Add current image\tAlt+I",     IDM_FLIP_ADD
-            MENUITEM "&Remove current image\tAlt+K",  IDM_FLIP_REMOVE
-            MENUITEM "Attach &next image\tAlt+N",     IDM_FLIP_NEXT
-            MENUITEM "Attach &previous image\tAlt+B", IDM_FLIP_PREVIOUS
+            MENUITEM "&Add current image",     IDM_FLIP_ADD
+            MENUITEM "&Remove current image",  IDM_FLIP_REMOVE
+            MENUITEM "Attach &next image",     IDM_FLIP_NEXT
+            MENUITEM "Attach &previous image", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
             MENUITEM "&Load flip list", IDM_FLIP_LOAD
             MENUITEM "&Save flip list", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Attach &tape image...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "Attach &tape image...", IDM_ATTACH_TAPE
         MENUITEM "Detac&h tape image",           IDM_DETACH_TAPE
         POPUP "Datassette contro&l"
         BEGIN
@@ -92,14 +92,14 @@ BEGIN
             MENUITEM "Reset &on cart change", IDM_TOGGLE_CART_RESET
         END
         MENUITEM "Detach cartridge &image",  IDM_CART_DETACH
-        MENUITEM "Cartridge free&ze\tAlt+Z", IDM_CART_FREEZE
+        MENUITEM "Cartridge free&ze", IDM_CART_FREEZE
         MENUITEM SEPARATOR
-        MENUITEM "&Pause\tAlt+Pause", IDM_PAUSE, CHECKED
-        MENUITEM "&Monitor\tAlt+M", IDM_MONITOR
+        MENUITEM "&Pause", IDM_PAUSE, CHECKED
+        MENUITEM "&Monitor", IDM_MONITOR
         POPUP "&Reset"
         BEGIN
-            MENUITEM "&Hard\tCtrl+Alt+R", IDM_RESET_HARD
-            MENUITEM "&Soft\tAlt+R",      IDM_RESET_SOFT
+            MENUITEM "&Hard", IDM_RESET_HARD
+            MENUITEM "&Soft",      IDM_RESET_SOFT
             MENUITEM SEPARATOR
             MENUITEM "Drive #&8",         IDM_RESET_DRIVE8
             MENUITEM "Drive #&9",         IDM_RESET_DRIVE9
@@ -116,25 +116,25 @@ BEGIN
                 MENUITEM "&History", IDM_DEBUG_MODE_HISTORY
                 MENUITEM "&History Autoplay", IDM_DEBUG_MODE_AUTOPLAY
             END
-            MENUITEM "&Main CPU Trace\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
-            MENUITEM "Drive&0 CPU Trace\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
-            MENUITEM "Drive&1 CPU Trace\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
+            MENUITEM "&Main CPU Trace", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
+            MENUITEM "Drive&0 CPU Trace", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
+            MENUITEM "Drive&1 CPU Trace", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
         END
 #endif
         MENUITEM SEPARATOR
-        MENUITEM "E&xit\tAlt+X", IDM_EXIT
+        MENUITEM "E&xit", IDM_EXIT
     END
     POPUP "Sna&pshot"
     BEGIN
         MENUITEM "Load snapshot &image...",          IDM_SNAPSHOT_LOAD
         MENUITEM "Save sna&pshot image...",          IDM_SNAPSHOT_SAVE
-        MENUITEM "&Load quicksnapshot image\tAlt+L", IDM_LOADQUICK
-        MENUITEM "&Save quicksnapshot image\tAlt+S", IDM_SAVEQUICK
+        MENUITEM "&Load quicksnapshot image", IDM_LOADQUICK
+        MENUITEM "&Save quicksnapshot image", IDM_SAVEQUICK
         MENUITEM SEPARATOR
         MENUITEM "Start/Stop &Recording History",       IDM_EVENT_TOGGLE_RECORD
         MENUITEM "Start/Stop Pl&ayback History",        IDM_EVENT_TOGGLE_PLAYBACK
-        MENUITEM "Set Recording Milestone\tAlt+G",  IDM_EVENT_SETMILESTONE
-        MENUITEM "Return to Milestone\tAlt+H",      IDM_EVENT_RESETMILESTONE
+        MENUITEM "Set Recording Milestone",  IDM_EVENT_SETMILESTONE
+        MENUITEM "Return to Milestone",      IDM_EVENT_RESETMILESTONE
         POPUP "Recording start mode"
         BEGIN
             MENUITEM "&Save new snapshot",      IDM_EVENT_START_MODE_SAVE
@@ -144,7 +144,7 @@ BEGIN
         END
         MENUITEM "Select History files/directory",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
-        MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM "Save/stop media file...", IDM_MEDIAFILE
         MENUITEM SEPARATOR
         MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
         MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
@@ -180,9 +180,9 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "&Custom",   IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "&Warp mode\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
+        MENUITEM "&Warp mode", IDM_TOGGLE_WARP_MODE, CHECKED
 //        MENUITEM SEPARATOR
-//        MENUITEM "Fullscreen\tAlt+D", IDM_TOGGLE_FULLSCREEN
+//        MENUITEM "Fullscreen", IDM_TOGGLE_FULLSCREEN
         MENUITEM SEPARATOR
         MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM "Video &cache", IDM_TOGGLE_VIDEOCACHE, CHECKED
@@ -198,7 +198,7 @@ BEGIN
             MENUITEM "64KB video &memory", IDM_TOGGLE_VDC64KB
         END
         MENUITEM SEPARATOR
-        MENUITEM "Swap &Joystick\tAlt+J", IDM_SWAP_JOYSTICK
+        MENUITEM "Swap &Joystick", IDM_SWAP_JOYSTICK
         MENUITEM SEPARATOR
         MENUITEM "&Sound playback", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
@@ -213,7 +213,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Emulator &Identification", IDM_TOGGLE_EMUID
         MENUITEM "IEEE&488 Interface emulation",    IDM_IEEE488
-        MENUITEM "&Grab mouse events\tAlt+Q",    IDM_MOUSE
+        MENUITEM "&Grab mouse events",    IDM_MOUSE
     END
     POPUP "S&ettings"
     BEGIN
@@ -291,10 +291,10 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "&Disk Image einlegen"
         BEGIN
-            MENUITEM "Laufwerk &8\tAlt+8",  IDM_ATTACH_8
-            MENUITEM "Laufwerk &9\tAlt+9",  IDM_ATTACH_9
-            MENUITEM "Laufwerk 1&0\tAlt+0", IDM_ATTACH_10
-            MENUITEM "Laufwerk &11\tAlt+1", IDM_ATTACH_11
+            MENUITEM "Laufwerk &8",  IDM_ATTACH_8
+            MENUITEM "Laufwerk &9",  IDM_ATTACH_9
+            MENUITEM "Laufwerk 1&0", IDM_ATTACH_10
+            MENUITEM "Laufwerk &11", IDM_ATTACH_11
         END
         POPUP "Disk Image &entfernen"
         BEGIN
@@ -303,20 +303,20 @@ BEGIN
             MENUITEM "Laufwerk 1&0", IDM_DETACH_10
             MENUITEM "Laufwerk &11", IDM_DETACH_11
             MENUITEM SEPARATOR
-            MENUITEM "&Alle\tAlt+A", IDM_DETACH_ALL
+            MENUITEM "&Alle", IDM_DETACH_ALL
         END
         POPUP "&Flipliste"
         BEGIN
-            MENUITEM "&Aktuelles Image hinzufügen\tAlt+I", IDM_FLIP_ADD
-            MENUITEM "Aktuelles Image entfe&rnen\tAlt+K",  IDM_FLIP_REMOVE
-            MENUITEM "Nächstes Image\tAlt+N",             IDM_FLIP_NEXT
-            MENUITEM "Voriges Image\tAlt+B",              IDM_FLIP_PREVIOUS
+            MENUITEM "&Aktuelles Image hinzufügen", IDM_FLIP_ADD
+            MENUITEM "Aktuelles Image entfe&rnen",  IDM_FLIP_REMOVE
+            MENUITEM "Nächstes Image",             IDM_FLIP_NEXT
+            MENUITEM "Voriges Image",              IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
             MENUITEM "Fliplist Datei &Laden",     IDM_FLIP_LOAD
             MENUITEM "Fliplist Datei &Speichern", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Band Image einlegen...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "Band Image einlegen...", IDM_ATTACH_TAPE
         MENUITEM "Band Image entfernen",          IDM_DETACH_TAPE
         POPUP "Bandlaufwerk Kontro&lle"
         BEGIN
@@ -357,14 +357,14 @@ BEGIN
             MENUITEM "Reset bei Wechsel von Erweiterungsmodulen",       IDM_TOGGLE_CART_RESET
         END
         MENUITEM "Erweiterungsmodul &Image entfernen",  IDM_CART_DETACH
-        MENUITEM "Erweiterungsmodul Freeze\tAlt+Z", IDM_CART_FREEZE
+        MENUITEM "Erweiterungsmodul Freeze", IDM_CART_FREEZE
         MENUITEM SEPARATOR
-        MENUITEM "&Pause\tAlt+Pause", IDM_PAUSE, CHECKED
-        MENUITEM "&Monitor\tAlt+M", IDM_MONITOR
+        MENUITEM "&Pause", IDM_PAUSE, CHECKED
+        MENUITEM "&Monitor", IDM_MONITOR
         POPUP "&Reset"
         BEGIN
-            MENUITEM "&Hart\tCtrl+Alt+R", IDM_RESET_HARD
-            MENUITEM "&Soft\tAlt+R",      IDM_RESET_SOFT
+            MENUITEM "&Hart", IDM_RESET_HARD
+            MENUITEM "&Soft",      IDM_RESET_SOFT
             MENUITEM SEPARATOR
             MENUITEM "Laufwerk #&8",  IDM_RESET_DRIVE8
             MENUITEM "Laufwerk #&9",  IDM_RESET_DRIVE9
@@ -381,25 +381,25 @@ BEGIN
                 MENUITEM "&History", IDM_DEBUG_MODE_HISTORY
                 MENUITEM "&History Automatische Wiedergabe", IDM_DEBUG_MODE_AUTOPLAY
             END
-            MENUITEM "&Main CPU Trace\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
-            MENUITEM "Laufwerk&0 CPU Trace\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
-            MENUITEM "Laufwerk&1 CPU Trace\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
+            MENUITEM "&Main CPU Trace", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
+            MENUITEM "Laufwerk&0 CPU Trace", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
+            MENUITEM "Laufwerk&1 CPU Trace", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
         END
 #endif
         MENUITEM SEPARATOR
-        MENUITEM "E&xit\tAlt+X", IDM_EXIT
+        MENUITEM "E&xit", IDM_EXIT
     END
     POPUP "Sna&pshot"
     BEGIN
         MENUITEM "Snapshot &Image Laden...", IDM_SNAPSHOT_LOAD
         MENUITEM "Sna&pshot Image Speichern...", IDM_SNAPSHOT_SAVE
-        MENUITEM "Schnell&laden von Snapshot Image\tAlt+L", IDM_LOADQUICK
-        MENUITEM "&Schnellspeichern von Snapshot\tAlt+S", IDM_SAVEQUICK
+        MENUITEM "Schnell&laden von Snapshot Image", IDM_LOADQUICK
+        MENUITEM "&Schnellspeichern von Snapshot", IDM_SAVEQUICK
         MENUITEM SEPARATOR
         MENUITEM "Sta&rt/Stop Aufnahme History",       IDM_EVENT_TOGGLE_RECORD
         MENUITEM "St&art/Stop Wiedergabe History",        IDM_EVENT_TOGGLE_PLAYBACK
-        MENUITEM "Setze Aufnahme Meilenstein\tAlt+G",  IDM_EVENT_SETMILESTONE
-        MENUITEM "Rückkehr zum Meilenstein\tAlt+H",      IDM_EVENT_RESETMILESTONE
+        MENUITEM "Setze Aufnahme Meilenstein",  IDM_EVENT_SETMILESTONE
+        MENUITEM "Rückkehr zum Meilenstein",      IDM_EVENT_RESETMILESTONE
         POPUP "Aufnahme Start Modus"
         BEGIN
             MENUITEM "&Speichere neuen Snapshot",      IDM_EVENT_START_MODE_SAVE
@@ -409,7 +409,7 @@ BEGIN
         END
         MENUITEM "Verzeichnis für Event Aufnahme",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
-        MENUITEM "Speichern/stop media Datei...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM "Speichern/stop media Datei...", IDM_MEDIAFILE
         MENUITEM SEPARATOR
         MENUITEM "Aufnahme...", IDM_SOUND_RECORD_START
         MENUITEM "Aufnahme Stop", IDM_SOUND_RECORD_STOP
@@ -445,9 +445,9 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "&Benutzerdefiniert", IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "&Warp modus\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
+        MENUITEM "&Warp modus", IDM_TOGGLE_WARP_MODE, CHECKED
 //        MENUITEM SEPARATOR
-//        MENUITEM "Vollbild\tAlt+D", IDM_TOGGLE_FULLSCREEN
+//        MENUITEM "Vollbild", IDM_TOGGLE_FULLSCREEN
         MENUITEM SEPARATOR
         MENUITEM "Immer im Vordergrund", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM "Video &cache", IDM_TOGGLE_VIDEOCACHE, CHECKED
@@ -463,7 +463,7 @@ BEGIN
             MENUITEM "64KB Bildschirm Speicher", IDM_TOGGLE_VDC64KB
         END
         MENUITEM SEPARATOR
-        MENUITEM "Joystick ports austauschen\tAlt+J", IDM_SWAP_JOYSTICK
+        MENUITEM "Joystick ports austauschen", IDM_SWAP_JOYSTICK
         MENUITEM SEPARATOR
         MENUITEM "&Sound Einschalten", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
@@ -478,7 +478,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Emulator &Identifikation", IDM_TOGGLE_EMUID
         MENUITEM "IEEE&488 Schnittstellen-Emulation",    IDM_IEEE488
-        MENUITEM "&Maus Ereignisse abfangen\tAlt+Q",    IDM_MOUSE
+        MENUITEM "&Maus Ereignisse abfangen",    IDM_MOUSE
     END
     POPUP "&Einstellungen"
     BEGIN
@@ -554,10 +554,10 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Insérer une image de &disque"
         BEGIN
-            MENUITEM "Lecteur #&8\tAlt+8",  IDM_ATTACH_8
-            MENUITEM "Lecteur #&9\tAlt+9",  IDM_ATTACH_9
-            MENUITEM "Lecteur #1&0\tAlt+0", IDM_ATTACH_10
-            MENUITEM "Lecteur #&11\tAlt+1", IDM_ATTACH_11
+            MENUITEM "Lecteur #&8",  IDM_ATTACH_8
+            MENUITEM "Lecteur #&9",  IDM_ATTACH_9
+            MENUITEM "Lecteur #1&0", IDM_ATTACH_10
+            MENUITEM "Lecteur #&11", IDM_ATTACH_11
         END
         POPUP "&Retirer une image de disque"
         BEGIN
@@ -566,20 +566,20 @@ BEGIN
             MENUITEM "Lecteur #1&0", IDM_DETACH_10
             MENUITEM "Lecteur #&11", IDM_DETACH_11
             MENUITEM SEPARATOR
-            MENUITEM "&Tout\tAlt+A", IDM_DETACH_ALL
+            MENUITEM "&Tout", IDM_DETACH_ALL
         END
         POPUP "&Groupement de disques"
         BEGIN
-            MENUITEM "&Ajouter l'image de disque courante\tAlt+I",     IDM_FLIP_ADD
-            MENUITEM "&Retirer l'image de disque courante\tAlt+K",  IDM_FLIP_REMOVE
-            MENUITEM "Insérer la &prochaine image\tAlt+N",     IDM_FLIP_NEXT
-            MENUITEM "Insérer l'image p&récédente\tAlt+B", IDM_FLIP_PREVIOUS
+            MENUITEM "&Ajouter l'image de disque courante",     IDM_FLIP_ADD
+            MENUITEM "&Retirer l'image de disque courante",  IDM_FLIP_REMOVE
+            MENUITEM "Insérer la &prochaine image",     IDM_FLIP_NEXT
+            MENUITEM "Insérer l'image p&récédente", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
             MENUITEM "&Charger un groupement de disques", IDM_FLIP_LOAD
             MENUITEM "&Enregistrer le groupement de disques", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Insérer une image &datassette...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "Insérer une image &datassette...", IDM_ATTACH_TAPE
         MENUITEM "Reti&rer une image datassette",           IDM_DETACH_TAPE
         POPUP "Contrô&le datassette"
         BEGIN
@@ -620,14 +620,14 @@ BEGIN
             MENUITEM "Réinialiser sur c&hangement de cartouche", IDM_TOGGLE_CART_RESET
         END
         MENUITEM "Retirer une cart&ouche",  IDM_CART_DETACH
-        MENUITEM "Geler la cartouche\tAlt+Z", IDM_CART_FREEZE
+        MENUITEM "Geler la cartouche", IDM_CART_FREEZE
         MENUITEM SEPARATOR
-        MENUITEM "&Pause\tAlt+Pause", IDM_PAUSE, CHECKED
-        MENUITEM "&Tracer\tAlt+M", IDM_MONITOR
+        MENUITEM "&Pause", IDM_PAUSE, CHECKED
+        MENUITEM "&Tracer", IDM_MONITOR
         POPUP "&Réinitialiser"
         BEGIN
-            MENUITEM "&Physiquement\tCtrl+Alt+R", IDM_RESET_HARD
-            MENUITEM "&Logiciellement\tAlt+R",      IDM_RESET_SOFT
+            MENUITEM "&Physiquement", IDM_RESET_HARD
+            MENUITEM "&Logiciellement",      IDM_RESET_SOFT
             MENUITEM SEPARATOR
             MENUITEM "Lecteur #&8",         IDM_RESET_DRIVE8
             MENUITEM "Lecteur #&9",         IDM_RESET_DRIVE9
@@ -644,25 +644,25 @@ BEGIN
                 MENUITEM "&Historique", IDM_DEBUG_MODE_HISTORY
                 MENUITEM "H&istorique automatique", IDM_DEBUG_MODE_AUTOPLAY
             END
-            MENUITEM "Tracer CPU &Principal\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
-            MENUITEM "Tracer CPU Drive&0\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
-            MENUITEM "Tracer CPU Drive&1\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
+            MENUITEM "Tracer CPU &Principal", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
+            MENUITEM "Tracer CPU Drive&0", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
+            MENUITEM "Tracer CPU Drive&1", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
         END
 #endif
         MENUITEM SEPARATOR
-        MENUITEM "&Quitter\tAlt+X", IDM_EXIT
+        MENUITEM "&Quitter", IDM_EXIT
     END
     POPUP "&Sauvegarde"
     BEGIN
         MENUITEM "C&harger une sauvegarde....", IDM_SNAPSHOT_LOAD
         MENUITEM "E&nregistrer une sauvegarde...", IDM_SNAPSHOT_SAVE
-        MENUITEM "&Charger la sauvegarde rapide\tAlt+L", IDM_LOADQUICK
-        MENUITEM "&Enregistrer la sauvegarde rapide\tAlt+S", IDM_SAVEQUICK
+        MENUITEM "&Charger la sauvegarde rapide", IDM_LOADQUICK
+        MENUITEM "&Enregistrer la sauvegarde rapide", IDM_SAVEQUICK
         MENUITEM SEPARATOR
         MENUITEM "Démarrer/Arrêter l'historique de l'enre&gistrement",       IDM_EVENT_TOGGLE_RECORD
         MENUITEM "Démarrer/Arrêter l'historique de la &lecture",        IDM_EVENT_TOGGLE_PLAYBACK
-        MENUITEM "Lever le Signet d'enregistrement\tAlt+G",  IDM_EVENT_SETMILESTONE
-        MENUITEM "Retourner au Signet d'enregistrement\tAlt+H",      IDM_EVENT_RESETMILESTONE
+        MENUITEM "Lever le Signet d'enregistrement",  IDM_EVENT_SETMILESTONE
+        MENUITEM "Retourner au Signet d'enregistrement",      IDM_EVENT_RESETMILESTONE
         POPUP "Mode de départ d'enregistrement"
         BEGIN
             MENUITEM "&Enregistrer une nouvelle sauvegarde",      IDM_EVENT_START_MODE_SAVE
@@ -672,7 +672,7 @@ BEGIN
         END
         MENUITEM "Sélectionnez le répertoire des captures",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
-        MENUITEM "Enregistrer/Arrêter fichier média...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM "Enregistrer/Arrêter fichier média...", IDM_MEDIAFILE
         MENUITEM SEPARATOR
         MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
         MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
@@ -708,9 +708,9 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "&Personnalisé", IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "&Mode turbo\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
+        MENUITEM "&Mode turbo", IDM_TOGGLE_WARP_MODE, CHECKED
 //        MENUITEM SEPARATOR
-//        MENUITEM "Fullscreen\tAlt+D", IDM_TOGGLE_FULLSCREEN
+//        MENUITEM "Fullscreen", IDM_TOGGLE_FULLSCREEN
         MENUITEM SEPARATOR
         MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM "&Cache vidéo", IDM_TOGGLE_VIDEOCACHE, CHECKED
@@ -726,7 +726,7 @@ BEGIN
             MENUITEM "Mémoire d'affichage de 64Ko", IDM_TOGGLE_VDC64KB
         END
         MENUITEM SEPARATOR
-        MENUITEM "Interchanger les joysticks\tAlt+J", IDM_SWAP_JOYSTICK
+        MENUITEM "Interchanger les joysticks", IDM_SWAP_JOYSTICK
         MENUITEM SEPARATOR
         MENUITEM "Lecture &audio", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
@@ -741,7 +741,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Identification de l'émulateur", IDM_TOGGLE_EMUID
         MENUITEM "Interface d'émulation &IEEE488",    IDM_IEEE488
-        MENUITEM "&Grab mouse events\tAlt+Q",    IDM_MOUSE
+        MENUITEM "&Grab mouse events",    IDM_MOUSE
     END
     POPUP "&Paramètres"
     BEGIN
@@ -818,10 +818,10 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Lemezképmás csatolása"
         BEGIN
-            MENUITEM "#&8-as lemezegység\tAlt+8",  IDM_ATTACH_8
-            MENUITEM "#&9-as lemezegység\tAlt+9",  IDM_ATTACH_9
-            MENUITEM "#1&0-es lemezegység\tAlt+0", IDM_ATTACH_10
-            MENUITEM "#1&0-es lemezegység\tAlt+1", IDM_ATTACH_11
+            MENUITEM "#&8-as lemezegység",  IDM_ATTACH_8
+            MENUITEM "#&9-as lemezegység",  IDM_ATTACH_9
+            MENUITEM "#1&0-es lemezegység", IDM_ATTACH_10
+            MENUITEM "#1&0-es lemezegység", IDM_ATTACH_11
         END
         POPUP "Lemezképmás &leválasztása"
         BEGIN
@@ -830,20 +830,20 @@ BEGIN
             MENUITEM "#1&0-es lemezegység", IDM_DETACH_10
             MENUITEM "#&11-es lemezegység", IDM_DETACH_11
             MENUITEM SEPARATOR
-            MENUITEM "Ö&sszes\tAlt+A", IDM_DETACH_ALL
+            MENUITEM "Ö&sszes", IDM_DETACH_ALL
         END
         POPUP "Lemezl&ista"
         BEGIN
-            MENUITEM "Az aktuális képmás ho&zzáadása\tAlt+I",     IDM_FLIP_ADD
-            MENUITEM "Az aktuális képmás el&távolítása\tAlt+K",  IDM_FLIP_REMOVE
-            MENUITEM "&Következõ képmás csatolása\tAlt+N",     IDM_FLIP_NEXT
-            MENUITEM "&Elõzõ képmás csatolása\tAlt+B", IDM_FLIP_PREVIOUS
+            MENUITEM "Az aktuális képmás ho&zzáadása",     IDM_FLIP_ADD
+            MENUITEM "Az aktuális képmás el&távolítása",  IDM_FLIP_REMOVE
+            MENUITEM "&Következõ képmás csatolása",     IDM_FLIP_NEXT
+            MENUITEM "&Elõzõ képmás csatolása", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
             MENUITEM "&Lemezlista betöltése", IDM_FLIP_LOAD
             MENUITEM "Lemezlista menté&se", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Szalag képmás csatolása...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "Szalag képmás csatolása...", IDM_ATTACH_TAPE
         MENUITEM "Sz&alag képmás leválasztása",           IDM_DETACH_TAPE
         POPUP "Magnó &vezérlés"
         BEGIN
@@ -884,14 +884,14 @@ BEGIN
             MENUITEM "Újraindítás cartridge &cserénél", IDM_TOGGLE_CART_RESET
         END
         MENUITEM "Cartridge képmás &leválasztása",  IDM_CART_DETACH
-        MENUITEM "Fagyasztás Cartridge-el\tAlt+Z", IDM_CART_FREEZE
+        MENUITEM "Fagyasztás Cartridge-el", IDM_CART_FREEZE
         MENUITEM SEPARATOR
-        MENUITEM "&Szünet\tAlt+Pause", IDM_PAUSE, CHECKED
-        MENUITEM "&Monitor\tAlt+M", IDM_MONITOR
+        MENUITEM "&Szünet", IDM_PAUSE, CHECKED
+        MENUITEM "&Monitor", IDM_MONITOR
         POPUP "Új&raindítás"
         BEGIN
-            MENUITEM "&Hideg\tCtrl+Alt+R", IDM_RESET_HARD
-            MENUITEM "&Meleg\tAlt+R",      IDM_RESET_SOFT
+            MENUITEM "&Hideg", IDM_RESET_HARD
+            MENUITEM "&Meleg",      IDM_RESET_SOFT
             MENUITEM SEPARATOR
             MENUITEM "#&8-as lemezegység",         IDM_RESET_DRIVE8
             MENUITEM "#&9-es lemezegység",         IDM_RESET_DRIVE9
@@ -908,25 +908,25 @@ BEGIN
                 MENUITEM "&Elõzmények", IDM_DEBUG_MODE_HISTORY
                 MENUITEM "E&lõzmények lejátszása", IDM_DEBUG_MODE_AUTOPLAY
             END
-            MENUITEM "&Fõ CPU követése\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
-            MENUITEM "&0. lemezegység CPU követése\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
-            MENUITEM "&1. lemezegység CPU követése\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
+            MENUITEM "&Fõ CPU követése", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
+            MENUITEM "&0. lemezegység CPU követése", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
+            MENUITEM "&1. lemezegység CPU követése", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
         END
 #endif
         MENUITEM SEPARATOR
-        MENUITEM "&Kilépés\tAlt+X", IDM_EXIT
+        MENUITEM "&Kilépés", IDM_EXIT
     END
     POPUP "&Pillanatkép"
     BEGIN
         MENUITEM "Pillanatkép &betöltése...",          IDM_SNAPSHOT_LOAD
         MENUITEM "Pillanatkép &mentése...",          IDM_SNAPSHOT_SAVE
-        MENUITEM "Gyors pillanatkép b&etöltése\tAlt+L", IDM_LOADQUICK
-        MENUITEM "Gyors pillanatkép me&ntése\tAlt+S", IDM_SAVEQUICK
+        MENUITEM "Gyors pillanatkép b&etöltése", IDM_LOADQUICK
+        MENUITEM "Gyors pillanatkép me&ntése", IDM_SAVEQUICK
         MENUITEM SEPARATOR
         MENUITEM "Esemény &felvétel indítása/leállítása",       IDM_EVENT_TOGGLE_RECORD
         MENUITEM "Esemény &visszajátszás indítása/leállítása",        IDM_EVENT_TOGGLE_PLAYBACK
-        MENUITEM "Kilóméterkõ elhelyezése a felvételben\tAlt+G",  IDM_EVENT_SETMILESTONE
-        MENUITEM "Visszatérés az elõzõ kilóméterkõhöz\tAlt+H",      IDM_EVENT_RESETMILESTONE
+        MENUITEM "Kilóméterkõ elhelyezése a felvételben",  IDM_EVENT_SETMILESTONE
+        MENUITEM "Visszatérés az elõzõ kilóméterkõhöz",      IDM_EVENT_RESETMILESTONE
         POPUP "Rögzítés indításának módja"
         BEGIN
             MENUITEM "Új pillanatkép &mentése",      IDM_EVENT_START_MODE_SAVE
@@ -936,7 +936,7 @@ BEGIN
         END
         MENUITEM "Válassza ki a felvételeket/könyvtárat",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
-        MENUITEM "Videó készítése/megállítása...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM "Videó készítése/megállítása...", IDM_MEDIAFILE
         MENUITEM SEPARATOR
         MENUITEM "Hang felvétele...", IDM_SOUND_RECORD_START
         MENUITEM "Hangfelvétel leállítása", IDM_SOUND_RECORD_STOP
@@ -972,9 +972,9 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "&Egyéni",   IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "&Hipergyors mód\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
+        MENUITEM "&Hipergyors mód", IDM_TOGGLE_WARP_MODE, CHECKED
 //        MENUITEM SEPARATOR
-//        MENUITEM "Fullscreen\tAlt+D", IDM_TOGGLE_FULLSCREEN
+//        MENUITEM "Fullscreen", IDM_TOGGLE_FULLSCREEN
         MENUITEM SEPARATOR
         MENUITEM "Mindig felül", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM "Videó gyorsítótár", IDM_TOGGLE_VIDEOCACHE, CHECKED
@@ -990,7 +990,7 @@ BEGIN
             MENUITEM "64KB képernyõ &memória", IDM_TOGGLE_VDC64KB
         END
         MENUITEM SEPARATOR
-        MENUITEM "Botkormányok felcserélése\tAlt+J", IDM_SWAP_JOYSTICK
+        MENUITEM "Botkormányok felcserélése", IDM_SWAP_JOYSTICK
         MENUITEM SEPARATOR
         MENUITEM "&Hangok engedélyezése", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
@@ -1005,7 +1005,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Emulátor &azonosító", IDM_TOGGLE_EMUID
         MENUITEM "IEEE&488 interfész emuláció",    IDM_IEEE488
-        MENUITEM "&Grab mouse events\tAlt+Q",    IDM_MOUSE
+        MENUITEM "&Grab mouse events",    IDM_MOUSE
     END
     POPUP "B&eállítások"
     BEGIN
@@ -1082,10 +1082,10 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Seleziona l'immagine di un &disco"
         BEGIN
-            MENUITEM "Drive &8\tAlt+8",  IDM_ATTACH_8
-            MENUITEM "Drive &9\tAlt+9",  IDM_ATTACH_9
-            MENUITEM "Drive 1&0\tAlt+0", IDM_ATTACH_10
-            MENUITEM "Drive &11\tAlt+1", IDM_ATTACH_11
+            MENUITEM "Drive &8",  IDM_ATTACH_8
+            MENUITEM "Drive &9",  IDM_ATTACH_9
+            MENUITEM "Drive 1&0", IDM_ATTACH_10
+            MENUITEM "Drive &11", IDM_ATTACH_11
         END
         POPUP "&Rimuovi l'immagine di un disco"
         BEGIN
@@ -1094,20 +1094,20 @@ BEGIN
             MENUITEM "Drive 1&0", IDM_DETACH_10
             MENUITEM "Drive &11", IDM_DETACH_11
             MENUITEM SEPARATOR
-            MENUITEM "&Tutti\tAlt+A", IDM_DETACH_ALL
+            MENUITEM "&Tutti", IDM_DETACH_ALL
         END
         POPUP "&Flip list"
         BEGIN
-            MENUITEM "&Aggiungi l'immagine attuale\tAlt+I",     IDM_FLIP_ADD
-            MENUITEM "&Rimuovi l'immagine attuale\tAlt+K",  IDM_FLIP_REMOVE
-            MENUITEM "Seleziona l'immagine successiva\tAlt+N",     IDM_FLIP_NEXT
-            MENUITEM "Seleziona l'immagine &precedente\tAlt+B", IDM_FLIP_PREVIOUS
+            MENUITEM "&Aggiungi l'immagine attuale",     IDM_FLIP_ADD
+            MENUITEM "&Rimuovi l'immagine attuale",  IDM_FLIP_REMOVE
+            MENUITEM "Seleziona l'immagine successiva",     IDM_FLIP_NEXT
+            MENUITEM "Seleziona l'immagine &precedente", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
             MENUITEM "&Carica fliplist", IDM_FLIP_LOAD
             MENUITEM "&Salva fliplist", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Seleziona l'immagine di una &cassetta...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "Seleziona l'immagine di una &cassetta...", IDM_ATTACH_TAPE
         MENUITEM "Rimuo&vi l'immagine della cassetta",           IDM_DETACH_TAPE
         POPUP "Contro&llo del registratore"
         BEGIN
@@ -1148,14 +1148,14 @@ BEGIN
             MENUITEM "Reset &al cambio di cartuccia", IDM_TOGGLE_CART_RESET
         END
         MENUITEM "Rimuovi l'&immagine della cartuccia",  IDM_CART_DETACH
-        MENUITEM "Free&ze della cartuccia\tAlt+Z", IDM_CART_FREEZE
+        MENUITEM "Free&ze della cartuccia", IDM_CART_FREEZE
         MENUITEM SEPARATOR
-        MENUITEM "&Pausa\tAlt+Pause", IDM_PAUSE, CHECKED
-        MENUITEM "&Monitor\tAlt+M", IDM_MONITOR
+        MENUITEM "&Pausa", IDM_PAUSE, CHECKED
+        MENUITEM "&Monitor", IDM_MONITOR
         POPUP "&Reset"
         BEGIN
-            MENUITEM "&Hard\tCtrl+Alt+R", IDM_RESET_HARD
-            MENUITEM "&Soft\tAlt+R",      IDM_RESET_SOFT
+            MENUITEM "&Hard", IDM_RESET_HARD
+            MENUITEM "&Soft",      IDM_RESET_SOFT
             MENUITEM SEPARATOR
             MENUITEM "Drive #&8",         IDM_RESET_DRIVE8
             MENUITEM "Drive #&9",         IDM_RESET_DRIVE9
@@ -1172,25 +1172,25 @@ BEGIN
                 MENUITEM "&Cronologia", IDM_DEBUG_MODE_HISTORY
                 MENUITEM "Autoplay &Cronologia", IDM_DEBUG_MODE_AUTOPLAY
             END
-            MENUITEM "Traccia della CPU &principale\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
-            MENUITEM "Traccia della CPU del drive&0\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
-            MENUITEM "Traccia della CPU del drive&1\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
+            MENUITEM "Traccia della CPU &principale", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
+            MENUITEM "Traccia della CPU del drive&0", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
+            MENUITEM "Traccia della CPU del drive&1", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
         END
 #endif
         MENUITEM SEPARATOR
-        MENUITEM "E&sci\tAlt+X", IDM_EXIT
+        MENUITEM "E&sci", IDM_EXIT
     END
     POPUP "Sna&pshot"
     BEGIN
         MENUITEM "Carica &immagine dello snapshot...", IDM_SNAPSHOT_LOAD
         MENUITEM "Salva immagine dello sna&pshot...", IDM_SNAPSHOT_SAVE
-        MENUITEM "&Carica immagine quicksnapshot\tAlt+L", IDM_LOADQUICK
-        MENUITEM "Salva immagine quicksnapshot\tAlt+S", IDM_SAVEQUICK
+        MENUITEM "&Carica immagine quicksnapshot", IDM_LOADQUICK
+        MENUITEM "Salva immagine quicksnapshot", IDM_SAVEQUICK
         MENUITEM SEPARATOR
         MENUITEM "Avvia/termina la &registrazione della cronologia",       IDM_EVENT_TOGGLE_RECORD
         MENUITEM "Avvia/termina la r&iproduzione della cronologia",        IDM_EVENT_TOGGLE_PLAYBACK
-        MENUITEM "Imposta segnalibro\tAlt+G",  IDM_EVENT_SETMILESTONE
-        MENUITEM "Vai al segnalibro\tAlt+H",      IDM_EVENT_RESETMILESTONE
+        MENUITEM "Imposta segnalibro",  IDM_EVENT_SETMILESTONE
+        MENUITEM "Vai al segnalibro",      IDM_EVENT_RESETMILESTONE
         POPUP "Modalità di inizio registrazione"
         BEGIN
             MENUITEM "&Salva nuovo snapshot",      IDM_EVENT_START_MODE_SAVE
@@ -1200,7 +1200,7 @@ BEGIN
         END
         MENUITEM "Seleziona i file/directory della cronologia",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
-        MENUITEM "Salva/arresta file multimediale...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM "Salva/arresta file multimediale...", IDM_MEDIAFILE
         MENUITEM SEPARATOR
         MENUITEM "Registra audio...", IDM_SOUND_RECORD_START
         MENUITEM "Interrompi la registrazione audio", IDM_SOUND_RECORD_STOP
@@ -1236,9 +1236,9 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "&Personalizzata", IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "Modalità &turbo\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
+        MENUITEM "Modalità &turbo", IDM_TOGGLE_WARP_MODE, CHECKED
 //        MENUITEM SEPARATOR
-//        MENUITEM "Fullscreen\tAlt+D", IDM_TOGGLE_FULLSCREEN
+//        MENUITEM "Fullscreen", IDM_TOGGLE_FULLSCREEN
         MENUITEM SEPARATOR
         MENUITEM "Sempre in primo piano", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM "&Cache video", IDM_TOGGLE_VIDEOCACHE, CHECKED
@@ -1254,7 +1254,7 @@ BEGIN
             MENUITEM "64KB di &memoria video", IDM_TOGGLE_VDC64KB
         END
         MENUITEM SEPARATOR
-        MENUITEM "Scambia &joystick\tAlt+J", IDM_SWAP_JOYSTICK
+        MENUITEM "Scambia &joystick", IDM_SWAP_JOYSTICK
         MENUITEM SEPARATOR
         MENUITEM "Riproduzione del &suono", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
@@ -1269,7 +1269,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Identificazione dell'emulatore", IDM_TOGGLE_EMUID
         MENUITEM "Emulazione dell'interfaccia IEEE&488",    IDM_IEEE488
-        MENUITEM "&Grab mouse events\tAlt+Q",    IDM_MOUSE
+        MENUITEM "&Grab mouse events",    IDM_MOUSE
     END
     POPUP "I&mpostazioni"
     BEGIN
@@ -1345,10 +1345,10 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Koppel &schijfbestand aan"
         BEGIN
-            MENUITEM "Drive &8\tAlt+8",  IDM_ATTACH_8
-            MENUITEM "Drive &9\tAlt+9",  IDM_ATTACH_9
-            MENUITEM "Drive 1&0\tAlt+0", IDM_ATTACH_10
-            MENUITEM "Drive &11\tAlt+1", IDM_ATTACH_11
+            MENUITEM "Drive &8",  IDM_ATTACH_8
+            MENUITEM "Drive &9",  IDM_ATTACH_9
+            MENUITEM "Drive 1&0", IDM_ATTACH_10
+            MENUITEM "Drive &11", IDM_ATTACH_11
         END
         POPUP "Ontkopp&el schijfbestand"
         BEGIN
@@ -1357,20 +1357,20 @@ BEGIN
             MENUITEM "Drive 1&0", IDM_DETACH_10
             MENUITEM "Drive &11", IDM_DETACH_11
             MENUITEM SEPARATOR
-            MENUITEM "&Alles\tAlt+A", IDM_DETACH_ALL
+            MENUITEM "&Alles", IDM_DETACH_ALL
         END
         POPUP "&Flip lijst"
         BEGIN
-            MENUITEM "Voeg huidig best&and toe\tAlt+I",     IDM_FLIP_ADD
-            MENUITEM "Ve&rwijder huidig bestand\tAlt+K",  IDM_FLIP_REMOVE
-            MENUITEM "Koppel volge&nd bestand\tAlt+N",     IDM_FLIP_NEXT
-            MENUITEM "Koppel vori&g bestand\tAlt+B", IDM_FLIP_PREVIOUS
+            MENUITEM "Voeg huidig best&and toe",     IDM_FLIP_ADD
+            MENUITEM "Ve&rwijder huidig bestand",  IDM_FLIP_REMOVE
+            MENUITEM "Koppel volge&nd bestand",     IDM_FLIP_NEXT
+            MENUITEM "Koppel vori&g bestand", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
             MENUITEM "&Laad fliplijst", IDM_FLIP_LOAD
             MENUITEM "Op&slaan fliplijst", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Koppel &tapebestand...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "Koppel &tapebestand...", IDM_ATTACH_TAPE
         MENUITEM "Ontkoppe&l tapeimage",           IDM_DETACH_TAPE
         POPUP "Datassette bedie&ning"
         BEGIN
@@ -1411,14 +1411,14 @@ BEGIN
             MENUITEM "Reset bij cart wisse&ling", IDM_TOGGLE_CART_RESET
         END
         MENUITEM "Ontkoppel cartr&idgebestand",  IDM_CART_DETACH
-        MENUITEM "Cartridge free&ze\tAlt+Z", IDM_CART_FREEZE
+        MENUITEM "Cartridge free&ze", IDM_CART_FREEZE
         MENUITEM SEPARATOR
-        MENUITEM "&Pauze\tAlt+Pause", IDM_PAUSE, CHECKED
-        MENUITEM "&Monitor\tAlt+M", IDM_MONITOR
+        MENUITEM "&Pauze", IDM_PAUSE, CHECKED
+        MENUITEM "&Monitor", IDM_MONITOR
         POPUP "&Reset"
         BEGIN
-            MENUITEM "&Hard\tCtrl+Alt+R", IDM_RESET_HARD
-            MENUITEM "&Zacht\tAlt+R",      IDM_RESET_SOFT
+            MENUITEM "&Hard", IDM_RESET_HARD
+            MENUITEM "&Zacht",      IDM_RESET_SOFT
             MENUITEM SEPARATOR
             MENUITEM "Drive #&8",         IDM_RESET_DRIVE8
             MENUITEM "Drive #&9",         IDM_RESET_DRIVE9
@@ -1435,25 +1435,25 @@ BEGIN
                 MENUITEM "&Geschiedenis", IDM_DEBUG_MODE_HISTORY
                 MENUITEM "&Geschiedenis Autospeel", IDM_DEBUG_MODE_AUTOPLAY
             END
-            MENUITEM "&Hoofd CPU Trace\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
-            MENUITEM "Drive&0 CPU Trace\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
-            MENUITEM "Drive&1 CPU Trace\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
+            MENUITEM "&Hoofd CPU Trace", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
+            MENUITEM "Drive&0 CPU Trace", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
+            MENUITEM "Drive&1 CPU Trace", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
         END
 #endif
         MENUITEM SEPARATOR
-        MENUITEM "Af&sluiten\tAlt+X", IDM_EXIT
+        MENUITEM "Af&sluiten", IDM_EXIT
     END
     POPUP "Momento&pname"
     BEGIN
         MENUITEM "Laad momentopnamebest&and...",          IDM_SNAPSHOT_LOAD
         MENUITEM "Opslaan momento&pnamebestand...",          IDM_SNAPSHOT_SAVE
-        MENUITEM "Snel&laad momentopnamebestand\tAlt+L", IDM_LOADQUICK
-        MENUITEM "&Snelopslaan momentopnamebestand\tAlt+S", IDM_SAVEQUICK
+        MENUITEM "Snel&laad momentopnamebestand", IDM_LOADQUICK
+        MENUITEM "&Snelopslaan momentopnamebestand", IDM_SAVEQUICK
         MENUITEM SEPARATOR
         MENUITEM "Sta&rt/Stop opnamegeschiedenis",       IDM_EVENT_TOGGLE_RECORD
         MENUITEM "Start/Stop &Afspeelgeschiedenis",        IDM_EVENT_TOGGLE_PLAYBACK
-        MENUITEM "Zet Opname Mijlpaal\tAlt+G",  IDM_EVENT_SETMILESTONE
-        MENUITEM "Ga terug naar Mijlpaal\tAlt+H",      IDM_EVENT_RESETMILESTONE
+        MENUITEM "Zet Opname Mijlpaal",  IDM_EVENT_SETMILESTONE
+        MENUITEM "Ga terug naar Mijlpaal",      IDM_EVENT_RESETMILESTONE
         POPUP "Opname start modus"
         BEGIN
             MENUITEM "Op&slaan nieuwe momentopname",      IDM_EVENT_START_MODE_SAVE
@@ -1463,7 +1463,7 @@ BEGIN
         END
         MENUITEM "Selecteer geschiedenisdirectory",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
-        MENUITEM "Opslaan/stop mediabestand...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM "Opslaan/stop mediabestand...", IDM_MEDIAFILE
         MENUITEM SEPARATOR
         MENUITEM "Geluidsopname...", IDM_SOUND_RECORD_START
         MENUITEM "Stop geluidsopname", IDM_SOUND_RECORD_STOP
@@ -1499,9 +1499,9 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "&Aangepast", IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "&Warpmodus\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
+        MENUITEM "&Warpmodus", IDM_TOGGLE_WARP_MODE, CHECKED
 //        MENUITEM SEPARATOR
-//        MENUITEM "Fullscreen\tAlt+D", IDM_TOGGLE_FULLSCREEN
+//        MENUITEM "Fullscreen", IDM_TOGGLE_FULLSCREEN
         MENUITEM SEPARATOR
         MENUITEM "Altijd Boven", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM "Video &cache", IDM_TOGGLE_VIDEOCACHE, CHECKED
@@ -1517,7 +1517,7 @@ BEGIN
             MENUITEM "64KB video&geheugen", IDM_TOGGLE_VDC64KB
         END
         MENUITEM SEPARATOR
-        MENUITEM "Verwissel &Joysticks\tAlt+J", IDM_SWAP_JOYSTICK
+        MENUITEM "Verwissel &Joysticks", IDM_SWAP_JOYSTICK
         MENUITEM SEPARATOR
         MENUITEM "Geluid&suitvoer", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
@@ -1532,7 +1532,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Emulator &Identificatie", IDM_TOGGLE_EMUID
         MENUITEM "IEEE&488 Interface emulatie",    IDM_IEEE488
-        MENUITEM "&Pak mouse gebeurtenissen\tAlt+Q",    IDM_MOUSE
+        MENUITEM "&Pak mouse gebeurtenissen",    IDM_MOUSE
     END
     POPUP "Inst&ellingen"
     BEGIN
@@ -1609,10 +1609,10 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "W³ó¿ obraz &dyskietki"
         BEGIN
-            MENUITEM "Napêdu &8\tAlt+8",  IDM_ATTACH_8
-            MENUITEM "Napêdu &9\tAlt+9",  IDM_ATTACH_9
-            MENUITEM "Napêdu 1&0\tAlt+0", IDM_ATTACH_10
-            MENUITEM "Napêdu &11\tAlt+1", IDM_ATTACH_11
+            MENUITEM "Napêdu &8",  IDM_ATTACH_8
+            MENUITEM "Napêdu &9",  IDM_ATTACH_9
+            MENUITEM "Napêdu 1&0", IDM_ATTACH_10
+            MENUITEM "Napêdu &11", IDM_ATTACH_11
         END
         POPUP "Wyjmij obraz dyski&etki"
         BEGIN
@@ -1621,20 +1621,20 @@ BEGIN
             MENUITEM "Napêdu 1&0", IDM_DETACH_10
             MENUITEM "Napêdu &11", IDM_DETACH_11
             MENUITEM SEPARATOR
-            MENUITEM "&Wszystko\tAlt+A", IDM_DETACH_ALL
+            MENUITEM "&Wszystko", IDM_DETACH_ALL
         END
         POPUP "&Zmieñ listê"
         BEGIN
-            MENUITEM "Dodaj &aktualny obraz\tAlt+I",     IDM_FLIP_ADD
-            MENUITEM "Usuñ aktualny ob&raz\tAlt+K",  IDM_FLIP_REMOVE
-            MENUITEM "W³ó¿ &nastêpny obraz\tAlt+N",     IDM_FLIP_NEXT
-            MENUITEM "W³ó¿ &poprzedni obraz\tAlt+B", IDM_FLIP_PREVIOUS
+            MENUITEM "Dodaj &aktualny obraz",     IDM_FLIP_ADD
+            MENUITEM "Usuñ aktualny ob&raz",  IDM_FLIP_REMOVE
+            MENUITEM "W³ó¿ &nastêpny obraz",     IDM_FLIP_NEXT
+            MENUITEM "W³ó¿ &poprzedni obraz", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
             MENUITEM "Za³aduj plik &listy", IDM_FLIP_LOAD
             MENUITEM "Zapi&sz plik listy", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "W³ó¿ &obraz kasety...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "W³ó¿ &obraz kasety...", IDM_ATTACH_TAPE
         MENUITEM "Wyjmij obraz &kasety",           IDM_DETACH_TAPE
         POPUP "Zarz±dzanie ma&gnetofonem"
         BEGIN
@@ -1675,14 +1675,14 @@ BEGIN
             MENUITEM "Reset &on cart change", IDM_TOGGLE_CART_RESET
         END
         MENUITEM "Wjm&ij obraz kartrid¿a",  IDM_CART_DETACH
-        MENUITEM "Cartridge free&ze\tAlt+Z", IDM_CART_FREEZE
+        MENUITEM "Cartridge free&ze", IDM_CART_FREEZE
         MENUITEM SEPARATOR
-        MENUITEM "&Pauza\tAlt+Pause", IDM_PAUSE, CHECKED
-        MENUITEM "&Monitor\tAlt+M", IDM_MONITOR
+        MENUITEM "&Pauza", IDM_PAUSE, CHECKED
+        MENUITEM "&Monitor", IDM_MONITOR
         POPUP "&Reset"
         BEGIN
-            MENUITEM "T&wardy\tCtrl+Alt+R", IDM_RESET_HARD
-            MENUITEM "&Miêkki\tAlt+R",      IDM_RESET_SOFT
+            MENUITEM "T&wardy", IDM_RESET_HARD
+            MENUITEM "&Miêkki",      IDM_RESET_SOFT
             MENUITEM SEPARATOR
             MENUITEM "Napêdu #&8",         IDM_RESET_DRIVE8
             MENUITEM "Napêdu #&9",         IDM_RESET_DRIVE9
@@ -1699,25 +1699,25 @@ BEGIN
                 MENUITEM "&History", IDM_DEBUG_MODE_HISTORY
                 MENUITEM "&History Autoplay", IDM_DEBUG_MODE_AUTOPLAY
             END
-            MENUITEM "&Main CPU Trace\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
-            MENUITEM "Drive&0 CPU Trace\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
-            MENUITEM "Drive&1 CPU Trace\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
+            MENUITEM "&Main CPU Trace", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
+            MENUITEM "Drive&0 CPU Trace", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
+            MENUITEM "Drive&1 CPU Trace", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
         END
 #endif
         MENUITEM SEPARATOR
-        MENUITEM "W&yjd¼\tAlt+X", IDM_EXIT
+        MENUITEM "W&yjd¼", IDM_EXIT
     END
     POPUP "z&rzutu"
     BEGIN
         MENUITEM "Za³adu&j zrzut...", IDM_SNAPSHOT_LOAD
         MENUITEM "Zapisz z&rzut...", IDM_SNAPSHOT_SAVE
-        MENUITEM "Szybkie &za³adowanie zrzutu\tAlt+L", IDM_LOADQUICK
-        MENUITEM "&Szybki zapis zrzutu\tAlt+S", IDM_SAVEQUICK
+        MENUITEM "Szybkie &za³adowanie zrzutu", IDM_LOADQUICK
+        MENUITEM "&Szybki zapis zrzutu", IDM_SAVEQUICK
         MENUITEM SEPARATOR
         MENUITEM "Rozpocznij/Zatrzymaj zapisywanie wyda&rzen",       IDM_EVENT_TOGGLE_RECORD
         MENUITEM "Rozpocznij/Zatrzymaj odtwarz&anie wydarzen",        IDM_EVENT_TOGGLE_PLAYBACK
-        MENUITEM "Zatrzymaj zapisywanie wydarzen\tAlt+G",  IDM_EVENT_SETMILESTONE
-        MENUITEM "Return to Milestone\tAlt+H",      IDM_EVENT_RESETMILESTONE
+        MENUITEM "Zatrzymaj zapisywanie wydarzen",  IDM_EVENT_SETMILESTONE
+        MENUITEM "Return to Milestone",      IDM_EVENT_RESETMILESTONE
         POPUP "Rozpocznij tryb zapisu"
         BEGIN
             MENUITEM "Zapi&sz obraz",      IDM_EVENT_START_MODE_SAVE
@@ -1727,7 +1727,7 @@ BEGIN
         END
         MENUITEM "Katalog systemu plików",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
-        MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM "Save/stop media file...", IDM_MEDIAFILE
         MENUITEM SEPARATOR
         MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
         MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
@@ -1763,9 +1763,9 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "&W³asne", IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "tr&yb przy¶pieszony (Turbo)\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
+        MENUITEM "tr&yb przy¶pieszony (Turbo)", IDM_TOGGLE_WARP_MODE, CHECKED
 //        MENUITEM SEPARATOR
-//        MENUITEM "Fullscreen\tAlt+D", IDM_TOGGLE_FULLSCREEN
+//        MENUITEM "Fullscreen", IDM_TOGGLE_FULLSCREEN
         MENUITEM SEPARATOR
         MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM "&Cache video", IDM_TOGGLE_VIDEOCACHE, CHECKED
@@ -1781,7 +1781,7 @@ BEGIN
             MENUITEM "Wy¶wietl pa&miêæ 64KB", IDM_TOGGLE_VDC64KB
         END
         MENUITEM SEPARATOR
-        MENUITEM "Zamieñ por&ty (1/2)\tAlt+J", IDM_SWAP_JOYSTICK
+        MENUITEM "Zamieñ por&ty (1/2)", IDM_SWAP_JOYSTICK
         MENUITEM SEPARATOR
         MENUITEM "d¼wiê&k", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
@@ -1796,7 +1796,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Idyntifikacja emulatora", IDM_TOGGLE_EMUID
         MENUITEM "Emulacja interfejsu IEEE&488",    IDM_IEEE488
-        MENUITEM "&Grab mouse events\tAlt+Q",    IDM_MOUSE
+        MENUITEM "&Grab mouse events",    IDM_MOUSE
     END
     POPUP "Ustawi&enia"
     BEGIN
@@ -1873,10 +1873,10 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Anslut &diskettavbildningsfil"
         BEGIN
-            MENUITEM "Enhet &8\tAlt+8",  IDM_ATTACH_8
-            MENUITEM "Enhet &9\tAlt+9",  IDM_ATTACH_9
-            MENUITEM "Enhet 1&0\tAlt+0", IDM_ATTACH_10
-            MENUITEM "Enhet &11\tAlt+1", IDM_ATTACH_11
+            MENUITEM "Enhet &8",  IDM_ATTACH_8
+            MENUITEM "Enhet &9",  IDM_ATTACH_9
+            MENUITEM "Enhet 1&0", IDM_ATTACH_10
+            MENUITEM "Enhet &11", IDM_ATTACH_11
         END
         POPUP "Koppla &från diskettavbildningsfil"
         BEGIN
@@ -1885,20 +1885,20 @@ BEGIN
             MENUITEM "Enhet 1&0", IDM_DETACH_10
             MENUITEM "Enhet &11", IDM_DETACH_11
             MENUITEM SEPARATOR
-            MENUITEM "&Alla\tAlt+A", IDM_DETACH_ALL
+            MENUITEM "&Alla", IDM_DETACH_ALL
         END
         POPUP "&Vallista"
         BEGIN
-            MENUITEM "&Lägg till aktuell avbildning\tAlt+I",     IDM_FLIP_ADD
-            MENUITEM "&Ta bort aktuell avbildning\tAlt+K",  IDM_FLIP_REMOVE
-            MENUITEM "Anslut &nästa avbildning\tAlt+N",     IDM_FLIP_NEXT
-            MENUITEM "Anslut &föregående avbildning\tAlt+B", IDM_FLIP_PREVIOUS
+            MENUITEM "&Lägg till aktuell avbildning",     IDM_FLIP_ADD
+            MENUITEM "&Ta bort aktuell avbildning",  IDM_FLIP_REMOVE
+            MENUITEM "Anslut &nästa avbildning",     IDM_FLIP_NEXT
+            MENUITEM "Anslut &föregående avbildning", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
             MENUITEM "&Läs in vallistefil", IDM_FLIP_LOAD
             MENUITEM "&Spara vallistefil", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Anslut en &bandavbildningsfil...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "Anslut en &bandavbildningsfil...", IDM_ATTACH_TAPE
         MENUITEM "Koppla f&rån bandavbildningsfil",           IDM_DETACH_TAPE
         POPUP "Datasette&styrning"
         BEGIN
@@ -1939,14 +1939,14 @@ BEGIN
             MENUITEM "Nollställ &vid modulbyte", IDM_TOGGLE_CART_RESET
         END
         MENUITEM "Koppla &från insticksmodulfil",  IDM_CART_DETACH
-        MENUITEM "Frys\tAlt+Z", IDM_CART_FREEZE
+        MENUITEM "Frys", IDM_CART_FREEZE
         MENUITEM SEPARATOR
-        MENUITEM "&Paus\tAlt+Pause", IDM_PAUSE, CHECKED
-        MENUITEM "&Monitor\tAlt+M", IDM_MONITOR
+        MENUITEM "&Paus", IDM_PAUSE, CHECKED
+        MENUITEM "&Monitor", IDM_MONITOR
         POPUP "&Nollställ"
         BEGIN
-            MENUITEM "&Hård\tCtrl+Alt+R", IDM_RESET_HARD
-            MENUITEM "&Mjuk\tAlt+R",      IDM_RESET_SOFT
+            MENUITEM "&Hård", IDM_RESET_HARD
+            MENUITEM "&Mjuk",      IDM_RESET_SOFT
             MENUITEM SEPARATOR
             MENUITEM "Enhet &8",         IDM_RESET_DRIVE8
             MENUITEM "Enhet &9",         IDM_RESET_DRIVE9
@@ -1963,25 +1963,25 @@ BEGIN
                 MENUITEM "&Historik", IDM_DEBUG_MODE_HISTORY
                 MENUITEM "&Spela upp historik automatiskt", IDM_DEBUG_MODE_AUTOPLAY
             END
-            MENUITEM "Spåra &huvud-CPU\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
-            MENUITEM "Spåra CPU för enhet &0\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
-            MENUITEM "Spåra CPU för enhet &1\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
+            MENUITEM "Spåra &huvud-CPU", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
+            MENUITEM "Spåra CPU för enhet &0", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
+            MENUITEM "Spåra CPU för enhet &1", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
         END
 #endif
         MENUITEM SEPARATOR
-        MENUITEM "&Avsluta\tAlt+X", IDM_EXIT
+        MENUITEM "&Avsluta", IDM_EXIT
     END
     POPUP "&Ögonblicksbild"
     BEGIN
         MENUITEM "&Läs in ögonblicksbild...", IDM_SNAPSHOT_LOAD
         MENUITEM "Spara &ögonblicksbildfil...", IDM_SNAPSHOT_SAVE
-        MENUITEM "Läs in &snabbögonblicksbild\tAlt+L", IDM_LOADQUICK
-        MENUITEM "Spara sna&bbögonblicksbildfil\tAlt+S", IDM_SAVEQUICK
+        MENUITEM "Läs in &snabbögonblicksbild", IDM_LOADQUICK
+        MENUITEM "Spara sna&bbögonblicksbildfil", IDM_SAVEQUICK
         MENUITEM SEPARATOR
         MENUITEM "Börja/sluta spela in &händelser",       IDM_EVENT_TOGGLE_RECORD
         MENUITEM "Börja/sluta spela &upp händelser",        IDM_EVENT_TOGGLE_PLAYBACK
-        MENUITEM "Ange inspelningsbokmärke\tAlt+G",  IDM_EVENT_SETMILESTONE
-        MENUITEM "Återgå till bokmärke\tAlt+H",      IDM_EVENT_RESETMILESTONE
+        MENUITEM "Ange inspelningsbokmärke",  IDM_EVENT_SETMILESTONE
+        MENUITEM "Återgå till bokmärke",      IDM_EVENT_RESETMILESTONE
         POPUP "Spelar in startläge"
         BEGIN
             MENUITEM "&Spara ny ögonblicksbild",      IDM_EVENT_START_MODE_SAVE
@@ -1991,7 +1991,7 @@ BEGIN
         END
         MENUITEM "Välj historikfiler/-katalog",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
-        MENUITEM "Starta/stoppa mediafil...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM "Starta/stoppa mediafil...", IDM_MEDIAFILE
         MENUITEM SEPARATOR
         MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
         MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
@@ -2027,9 +2027,9 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "&Egen", IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "&Warpläge\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
+        MENUITEM "&Warpläge", IDM_TOGGLE_WARP_MODE, CHECKED
 //        MENUITEM SEPARATOR
-//        MENUITEM "Fullscreen\tAlt+D", IDM_TOGGLE_FULLSCREEN
+//        MENUITEM "Fullscreen", IDM_TOGGLE_FULLSCREEN
         MENUITEM SEPARATOR
         MENUITEM "Grafik&cache", IDM_TOGGLE_VIDEOCACHE, CHECKED
         MENUITEM "&Dubbel storlek", IDM_TOGGLE_DOUBLESIZE, CHECKED
@@ -2044,7 +2044,7 @@ BEGIN
             MENUITEM "64KB grafik&minne", IDM_TOGGLE_VDC64KB
         END
         MENUITEM SEPARATOR
-        MENUITEM "Vä&xla spelportarna\tAlt+J", IDM_SWAP_JOYSTICK
+        MENUITEM "Vä&xla spelportarna", IDM_SWAP_JOYSTICK
         MENUITEM SEPARATOR
         MENUITEM "Aktivera &ljudåtergivning", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
@@ -2059,7 +2059,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Emulator&identifiering", IDM_TOGGLE_EMUID
         MENUITEM "Emulering av IEEE&488-gränssnitt",    IDM_IEEE488
-        MENUITEM "&Grab mouse events\tAlt+Q",    IDM_MOUSE
+        MENUITEM "&Grab mouse events",    IDM_MOUSE
     END
     POPUP "&Inställningar"
     BEGIN
