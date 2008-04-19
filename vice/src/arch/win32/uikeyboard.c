@@ -35,6 +35,15 @@
 #define DUMMYUNIONNAME  u1
 #endif
 
+#ifndef MIIM_STRING
+/*
+ * workaround for MS VS 6 which has WINVER == 0x0400 as default.
+ * OTOH, if setting WINVER to 0x0500, it warns that the headers are
+ * only beta, and that serious problems can occur.
+ */
+#define MIIM_STRING      0x00000040
+#endif
+
 #include "archdep.h"
 #include "keyboard.h"
 #include "lib.h"

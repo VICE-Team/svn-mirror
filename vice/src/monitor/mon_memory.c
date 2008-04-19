@@ -218,12 +218,13 @@ static void set_addr_location(MON_ADDR *a, unsigned l)
 
 void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, mon_display_format_t format)
 {
-    unsigned int i, v, cnt = 0, len, max_width, real_width;
+    unsigned int i, cnt = 0, len, max_width, real_width;
     WORD addr = 0;
     char printables[50];
     char prefix;
     MEMSPACE mem;
     WORD display_number;
+    BYTE v;
 
     prefix = (format == DF_PETSCII) ? '>' : '*';
 

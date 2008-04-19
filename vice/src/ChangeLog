@@ -1,3 +1,12 @@
+2008-04-19  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* monitor/mon_memory.c: In mon_memory_display(), define variable
+	v as BYTE instead of "unsigned int" to prevent a warning for an
+	implicit cast which might loose information.
+
+	* arch/win32/uikeyboard.c: Define MIIM_STRING "by hand" if it is
+	not defined yet.  This fixed compilation for MSVC6.
+
 2008-04-09  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.10.
