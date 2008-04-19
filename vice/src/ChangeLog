@@ -1,3 +1,8 @@
+2008-04-19  Greg King  <greg.king4@verizon.net>
+
+	* src/c64/cart/ide64.c: adds a working RTC to the emulation of
+	the IDE64 cartridge.
+
 2008-04-19  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* monitor/mon_memory.c: In mon_memory_display(), define variable

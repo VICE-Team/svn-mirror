@@ -4,6 +4,9 @@
  * Written by
  *  Kajtar Zsolt <soci@c64.rulez.org>
  *
+ * Real-Time-Clock patches by
+ *  Greg King <greg.king4@verizon.net>
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -29,6 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "archdep.h"
 #include "c64cart.h"
@@ -422,7 +426,7 @@ BYTE REGPARM1 ide64_io1_read(WORD addr)
         return 0x10 | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1)
                | (current_cfg >> 1);
       case 0x5f:
-        if ((kill_port ^ 0x02) & 0x02)
+        if ((kill_port & 0x02) == 0)
             return 1;
 
         if (clock_tick < 17)
@@ -451,6 +455,17 @@ BYTE REGPARM1 ide64_io1_read(WORD addr)
         return i;
     }
     return vicii_read_phi1();
+}
+
+/* Convert an 8-bit binary number into two Binary-Coded Decimal digits.
+*/
+static BYTE REGPARM1 byte2bcd(unsigned int byte) {
+    /* Compilers are allowwed to re-arrange the operations in an expression; but,
+    ** this truncating division _must be done before_ the multiplication!  So,
+    ** we use two expressions.
+    */
+    unsigned int nybble = byte / 10u;
+    return (BYTE)(nybble * 6u + byte);
 }
 
 void REGPARM2 ide64_io1_store(WORD addr, BYTE value)
@@ -669,25 +684,40 @@ aborted_command:
         current_bank = 3;
         break;
       case 0x5f:
-        if ((kill_port ^ 0x02) & 0x02)
+        if ((kill_port & 0x02) == 0)
             break;
         clock_data = (clock_data >> 1) | ((value & 1) << 7);
         if (clock_tick < 17)
             clock_tick++;
-        if (clock_tick == 8) {
+        if (clock_tick == 8) {		/* is it a chip command byte? */
 
             clock_address=clock_data;
 
             clock_burst=(clock_address >> 1) & 0x1f;
-            if (clock_burst == 0x1f)
-                clock_burst = 0x20;
+            if (clock_burst == 0x1f)	/* is it a burst command? */
+                clock_burst = 0x20;	/* set burst mode */
 
-            if (clock_address & 0x01)
-                clock_tick = 15;
+            if (clock_address & 0x01) {	/* read from chip? */
+                clock_tick = 16 - 1;
+
+                if ((clock_address & 0x40) == 0) {  /* read clock? */
+		    /* Preset the clock with the current host system time. */
+		    time_t now = time(NULL);
+		    struct tm *local = localtime(&now);
+
+		    export_ram0[0] = byte2bcd(local->tm_sec);
+		    export_ram0[1] = byte2bcd(local->tm_min);
+		    export_ram0[2] = byte2bcd(local->tm_hour);
+		    export_ram0[3] = byte2bcd(local->tm_mday);
+		    export_ram0[4] = byte2bcd(local->tm_mon + 1);
+		    export_ram0[5] = local->tm_wday + 1;
+		    export_ram0[6] = byte2bcd(local->tm_year % 100);
+		}
+	    }
 
         } else
 
-            if (clock_tick == 16) {
+            if (clock_tick == 16) {	/* is it a chip data byte? */
                 if (clock_address & 0x01)
                     break;
 
@@ -699,19 +729,20 @@ aborted_command:
                 } else
                     export_ram0[clock_burst & 0x1f] = clock_data; /* clock */
 
-            if (clock_burst & 0x20)
+            if (clock_burst & 0x20)	/* is it burst mode? */
                 clock_burst++;
 
             clock_tick = 8;
         }
         return;
       case 0xfb:
-        if (((kill_port ^ 0x02) & 0x02) && (value & 0x02))
+        if (((kill_port & 0x02) == 0) && (value & 0x02))
             clock_tick = 0;
         kill_port = value;
-        if (kill_port & 1)
-            current_cfg = 2;
-        break;
+        if ((kill_port & 1) == 0)
+	    return;
+	current_cfg = 2;
+	break;
       case 0xfc:
         current_cfg = 1;
         break;
@@ -741,6 +772,8 @@ void ide64_config_init(void)
     clock_data = 0;
     ide64_reset();
 
+#if 0
+    /* Set an initial time for the Real-Time-Clock. */
     export_ram0[0x0000] = 0x80;
     export_ram0[0x0001] = 0x00;
     export_ram0[0x0002] = 0x00;
@@ -748,6 +781,7 @@ void ide64_config_init(void)
     export_ram0[0x0004] = 0x08;
     export_ram0[0x0005] = 0x06;
     export_ram0[0x0006] = 0x03;
+#endif
 }
 
 void ide64_config_setup(BYTE *rawcart)
@@ -810,11 +844,11 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
         /* read header */
         res = fread(idebuf, 1, 24, ide_disk);
         if (res < 24) {
-            log_message(LOG_DEFAULT, "IDE64: Couldn't read disk geometry from image, using default 8MB.");
+            log_message(LOG_DEFAULT, "IDE64: Couldn't read disk geometry from image, using default 8 MiB.");
             return 0;
         }
         /* check signature */
-	
+
 	for (;;) {
 
     	    res = memcmp(idebuf,"C64-IDE V", 9);
@@ -843,8 +877,8 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
 		}
 		break;		/* OK */
 	    }
-	    
-            log_message(LOG_DEFAULT, "IDE64: Disk is not formatted, using default 8MB.");
+
+            log_message(LOG_DEFAULT, "IDE64: Disk is not formatted, using default 8 MiB.");
             return 0;
 	}
 
@@ -878,4 +912,3 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
 
     return 0;
 }
-
