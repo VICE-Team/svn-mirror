@@ -39,6 +39,7 @@
 
 #include "archdep.h"
 #include "charset.h"
+#include "cmdline.h"
 #include "console.h"
 #include "drive.h"
 #include "interrupt.h"
@@ -46,6 +47,9 @@
 #include "kbdbuf.h"
 #include "lib.h"
 #include "log.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 
 #ifdef WATCOM_COMPILE
 #include "../mem.h"
@@ -164,6 +168,7 @@ static char *recording_name;
 bool playback;
 char *playback_name;
 static void playback_commands(const char *filename);
+static int set_playback_name(const char *param, void *extra_param);
 
 /* Disassemble the current opcode on entry.  Used for single step.  */
 static int disassemble_on_entry = 0;
@@ -543,6 +548,7 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     int i, j;
     unsigned int dnr;
     monitor_cpu_type_list_t *monitor_cpu_type_list_ptr;
+    char* freeme;
 
     yydebug = 0;
     sidefx = e_OFF;
@@ -556,7 +562,6 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     asm_mode = 0;
     next_or_step_stop = 0;
     recording = FALSE;
-    playback = FALSE;
 
     mon_ui_init();
 
@@ -597,6 +602,12 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++)
         mon_interfaces[monitor_diskspace_mem(dnr)] = drive_interface_init[dnr];
+
+    if (playback) {
+        freeme = playback_name;
+        playback_commands(playback_name);
+        free(freeme);
+    }
 }
 
 void monitor_shutdown(void)
@@ -610,6 +621,25 @@ void monitor_shutdown(void)
         montor_list_destroy(list);
         list = list_next;
     }
+}
+
+#ifdef HAS_TRANSLATION
+static const cmdline_option_t cmdline_options[] = {
+    { "-moncommands", CALL_FUNCTION, 1, set_playback_name, NULL, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_EXECUTE_MONITOR_FROM_FILE },
+    { NULL }
+};
+#else
+static const cmdline_option_t cmdline_options[] = {
+    { "-moncommands", CALL_FUNCTION, 1, set_playback_name, NULL, NULL, NULL,
+      N_("<name>"), N_("Execute monitor commands from file") },
+    { NULL }
+};
+#endif
+
+int monitor_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options);
 }
 
 monitor_interface_t *monitor_interface_new(void)
@@ -728,57 +758,6 @@ void mon_load_symbols(MEMSPACE mem, const char *filename)
      * single memory space.
      */
     playback_commands(filename);
-#if 0
-    FILE   *fp;
-    WORD adr;
-    char memspace[MAX_MEMSPACE_NAME_LEN], name[MAX_LABEL_LEN];
-    char *name_ptr;
-    bool found = FALSE;
-    int rc, line_num = 2;
-
-    if (NULL == (fp = fopen(filename, MODE_READ))) {
-        mon_out("Loading for `%s' failed.\n", filename);
-        return;
-    }
-
-    mon_out("Loading symbol table from `%s'...\n", filename);
-
-    if (mem == e_default_space) {
-        if (fscanf(fp, "%10s\n", name) == 1) {
-            for (mem = FIRST_SPACE; mem <= LAST_SPACE; mem++) {
-                if (strcmp(name, mon_memspace_string[mem]) == 0) {
-                    found = TRUE;
-                    break;
-                }
-            }
-        }
-        if (!found) {
-            mon_out(
-                      "Bad label file : expecting a memory space in the first line but found %s\n",
-                      name);
-            return;
-        }
-    }
-
-    while (!feof(fp)) {
-        rc = fscanf(fp, "%6x %255s\n", (int *) &adr, name);
-        if (rc != 2) {
-            mon_out(
-                      "Bad label file: (line %d) cannot parse argument %d.\n",
-                      line_num, rc + 1);
-            break;
-        }
-        /* FIXME: Check name is a valid label name */
-        name_ptr = (char *)lib_malloc((strlen(name) + 1) * sizeof(char));
-        strcpy(name_ptr, name);
-        mon_out("Read ($%x:%s)\n", adr, name_ptr);
-        mon_add_name_to_symbol_table(new_addr(mem, adr), name_ptr);
-
-        line_num++;
-    }
-
-    fclose(fp);
-#endif
 }
 
 void mon_save_symbols(MEMSPACE mem, const char *filename)
@@ -841,6 +820,15 @@ void mon_end_recording(void)
     fclose(recording_fp);
     mon_out("Closed file %s.\n", recording_name);
     recording = FALSE;
+}
+
+static int set_playback_name(const char *param, void *extra_param)
+{
+    if (!playback_name) {
+        playback_name = strdup(param);
+        playback = TRUE;
+    }
+    return 0;
 }
 
 static void playback_commands(const char *filename)
@@ -938,6 +926,15 @@ int mon_symbol_table_lookup_addr(MEMSPACE mem, char *name)
     return -1;
 }
 
+char* mon_prepend_dot_to_name(char* name)
+{
+    char* s = malloc(strlen(name) + 2);
+    strcpy(s, ".");
+    strcat(s, name);
+    free(name);
+    return s;
+}
+
 void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
 {
     symbol_entry_t *sym_ptr;
@@ -963,6 +960,7 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
     if (old_addr >= 0 && old_addr != loc) {
         mon_out("Changing address of label %s from $%04x to $%04x\n",
                   name, old_addr, loc);
+        mon_remove_name_from_symbol_table(mem, name);
     }
 
     /* Add name to name list */

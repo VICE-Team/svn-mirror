@@ -207,6 +207,7 @@ extern void mon_jump(MON_ADDR addr);
 extern void mon_keyboard_feed(const char *string);
 extern char *mon_symbol_table_lookup_name(MEMSPACE mem, WORD addr);
 extern int mon_symbol_table_lookup_addr(MEMSPACE mem, char *name);
+extern char* mon_prepend_dot_to_name(char *name);
 extern void mon_add_name_to_symbol_table(MON_ADDR addr, char *name);
 extern void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name);
 extern void mon_print_symbol_table(MEMSPACE mem);

@@ -57,10 +57,10 @@
      MEM_DISK9 = 273,
      MEM_DISK10 = 274,
      MEM_DISK11 = 275,
-     REG_ASGN_SEP = 276,
-     EQUALS = 277,
-     TRAIL = 278,
-     CMD_SEP = 279,
+     EQUALS = 276,
+     TRAIL = 277,
+     CMD_SEP = 278,
+     LABEL_ASGN_COMMENT = 279,
      CMD_SIDEFX = 280,
      CMD_RETURN = 281,
      CMD_BLOCK_READ = 282,
@@ -124,45 +124,47 @@
      CMD_SCREEN = 340,
      CMD_UNTIL = 341,
      CMD_CPU = 342,
-     L_PAREN = 343,
-     R_PAREN = 344,
-     ARG_IMMEDIATE = 345,
-     REG_A = 346,
-     REG_X = 347,
-     REG_Y = 348,
-     COMMA = 349,
-     INST_SEP = 350,
-     REG_B = 351,
-     REG_C = 352,
-     REG_D = 353,
-     REG_E = 354,
-     REG_H = 355,
-     REG_L = 356,
-     REG_AF = 357,
-     REG_BC = 358,
-     REG_DE = 359,
-     REG_HL = 360,
-     REG_IX = 361,
-     REG_IY = 362,
-     REG_SP = 363,
-     REG_IXH = 364,
-     REG_IXL = 365,
-     REG_IYH = 366,
-     REG_IYL = 367,
-     STRING = 368,
-     FILENAME = 369,
-     R_O_L = 370,
-     OPCODE = 371,
-     LABEL = 372,
-     BANKNAME = 373,
-     CPUTYPE = 374,
-     REGISTER = 375,
-     COMPARE_OP = 376,
-     RADIX_TYPE = 377,
-     INPUT_SPEC = 378,
-     CMD_CHECKPT_ON = 379,
-     CMD_CHECKPT_OFF = 380,
-     TOGGLE = 381
+     CMD_YYDEBUG = 343,
+     CMD_LABEL_ASGN = 344,
+     L_PAREN = 345,
+     R_PAREN = 346,
+     ARG_IMMEDIATE = 347,
+     REG_A = 348,
+     REG_X = 349,
+     REG_Y = 350,
+     COMMA = 351,
+     INST_SEP = 352,
+     REG_B = 353,
+     REG_C = 354,
+     REG_D = 355,
+     REG_E = 356,
+     REG_H = 357,
+     REG_L = 358,
+     REG_AF = 359,
+     REG_BC = 360,
+     REG_DE = 361,
+     REG_HL = 362,
+     REG_IX = 363,
+     REG_IY = 364,
+     REG_SP = 365,
+     REG_IXH = 366,
+     REG_IXL = 367,
+     REG_IYH = 368,
+     REG_IYL = 369,
+     STRING = 370,
+     FILENAME = 371,
+     R_O_L = 372,
+     OPCODE = 373,
+     LABEL = 374,
+     BANKNAME = 375,
+     CPUTYPE = 376,
+     REGISTER = 377,
+     COMPARE_OP = 378,
+     RADIX_TYPE = 379,
+     INPUT_SPEC = 380,
+     CMD_CHECKPT_ON = 381,
+     CMD_CHECKPT_OFF = 382,
+     TOGGLE = 383
    };
 #endif
 /* Tokens.  */
@@ -184,10 +186,10 @@
 #define MEM_DISK9 273
 #define MEM_DISK10 274
 #define MEM_DISK11 275
-#define REG_ASGN_SEP 276
-#define EQUALS 277
-#define TRAIL 278
-#define CMD_SEP 279
+#define EQUALS 276
+#define TRAIL 277
+#define CMD_SEP 278
+#define LABEL_ASGN_COMMENT 279
 #define CMD_SIDEFX 280
 #define CMD_RETURN 281
 #define CMD_BLOCK_READ 282
@@ -251,52 +253,54 @@
 #define CMD_SCREEN 340
 #define CMD_UNTIL 341
 #define CMD_CPU 342
-#define L_PAREN 343
-#define R_PAREN 344
-#define ARG_IMMEDIATE 345
-#define REG_A 346
-#define REG_X 347
-#define REG_Y 348
-#define COMMA 349
-#define INST_SEP 350
-#define REG_B 351
-#define REG_C 352
-#define REG_D 353
-#define REG_E 354
-#define REG_H 355
-#define REG_L 356
-#define REG_AF 357
-#define REG_BC 358
-#define REG_DE 359
-#define REG_HL 360
-#define REG_IX 361
-#define REG_IY 362
-#define REG_SP 363
-#define REG_IXH 364
-#define REG_IXL 365
-#define REG_IYH 366
-#define REG_IYL 367
-#define STRING 368
-#define FILENAME 369
-#define R_O_L 370
-#define OPCODE 371
-#define LABEL 372
-#define BANKNAME 373
-#define CPUTYPE 374
-#define REGISTER 375
-#define COMPARE_OP 376
-#define RADIX_TYPE 377
-#define INPUT_SPEC 378
-#define CMD_CHECKPT_ON 379
-#define CMD_CHECKPT_OFF 380
-#define TOGGLE 381
+#define CMD_YYDEBUG 343
+#define CMD_LABEL_ASGN 344
+#define L_PAREN 345
+#define R_PAREN 346
+#define ARG_IMMEDIATE 347
+#define REG_A 348
+#define REG_X 349
+#define REG_Y 350
+#define COMMA 351
+#define INST_SEP 352
+#define REG_B 353
+#define REG_C 354
+#define REG_D 355
+#define REG_E 356
+#define REG_H 357
+#define REG_L 358
+#define REG_AF 359
+#define REG_BC 360
+#define REG_DE 361
+#define REG_HL 362
+#define REG_IX 363
+#define REG_IY 364
+#define REG_SP 365
+#define REG_IXH 366
+#define REG_IXL 367
+#define REG_IYH 368
+#define REG_IYL 369
+#define STRING 370
+#define FILENAME 371
+#define R_O_L 372
+#define OPCODE 373
+#define LABEL 374
+#define BANKNAME 375
+#define CPUTYPE 376
+#define REGISTER 377
+#define COMPARE_OP 378
+#define RADIX_TYPE 379
+#define INPUT_SPEC 380
+#define CMD_CHECKPT_ON 381
+#define CMD_CHECKPT_OFF 382
+#define TOGGLE 383
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 116 "mon_parse.y"
+#line 118 "mon_parse.y"
 {
     MON_ADDR a;
     MON_ADDR range[2];
@@ -308,8 +312,8 @@ typedef union YYSTYPE
     ACTION action;
     char *str;
 }
-/* Line 1529 of yacc.c.  */
-#line 313 "mon_parse.h"
+/* Line 1489 of yacc.c.  */
+#line 317 "mon_parse.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

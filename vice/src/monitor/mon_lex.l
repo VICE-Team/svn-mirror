@@ -62,7 +62,7 @@ YY_BUFFER_STATE my_state;
 
 HDIGIT  [0-9a-fA-F]
 
-%x FNAME CMD STR ROL ASM_MODE COND_MODE REG_ASGN BNAME CTYPE
+%x FNAME CMD STR ROL ASM_MODE COND_MODE REG_ASGN LABEL_ASGN BNAME CTYPE
 
 %%
 
@@ -139,7 +139,10 @@ HDIGIT  [0-9a-fA-F]
         until|un        { BEGIN(INITIAL);       return CMD_UNTIL; }
         undump          { BEGIN(INITIAL);       return CMD_UNDUMP; }
         watch|w         { BEGIN(INITIAL);       return CMD_WATCH; }
+        yydebug         { BEGIN(INITIAL);       return CMD_YYDEBUG; }
 }
+ /* this is not a real command, but could be a label name for a label assignment */
+<CMD>[_a-zA-Z][_a-zA-Z0-9]* { BEGIN(LABEL_ASGN); yylval.str = lib_stralloc(yytext); return CMD_LABEL_ASGN; }
 
 ;		{ new_cmd = 1; return CMD_SEP; }
 
@@ -185,7 +188,7 @@ O|o		{ yylval.i = e_octal; return RADIX_TYPE; }
  /* TA		{ yylval.i = e_text_ascii; return RADIX_TYPE; } */
  /* TP		{ yylval.i = e_text_petscii; return RADIX_TYPE; } */
 
-<BNAME,INITIAL,COND_MODE>(c|C):            { return MEM_COMP; }
+<BNAME,INITIAL,COND_MODE>(c|C):          { return MEM_COMP; }
 <BNAME,INITIAL,COND_MODE>8:              { return MEM_DISK8; }
 <BNAME,INITIAL,COND_MODE>9:              { return MEM_DISK9; }
 <BNAME,INITIAL,COND_MODE>10:             { return MEM_DISK10; }
@@ -216,7 +219,6 @@ O|o		{ yylval.i = e_octal; return RADIX_TYPE; }
 	Y|y 		{ yylval.i = e_Y; return REGISTER; }
 	[Pp][Cc]	{ yylval.i = e_PC; return REGISTER; }
 	[Ss][Pp]	{ yylval.i = e_SP; return REGISTER; }
-	=		{ BEGIN (COND_MODE); return EQUALS; }
 }
 
 <COND_MODE>{
@@ -235,9 +237,8 @@ O|o		{ yylval.i = e_octal; return RADIX_TYPE; }
 	\.PC 		{ yylval.i = e_PC; return REGISTER; }
 	\.SP		{ yylval.i = e_SP; return REGISTER; }
 
-	,		{ BEGIN (REG_ASGN); return REG_ASGN_SEP; }
-        \(		{ return L_PAREN; }
-        \)		{ return R_PAREN; }
+	\(		{ return L_PAREN; }
+	\)		{ return R_PAREN; }
 }
 
 <ASM_MODE>[a-zA-Z][a-zA-Z]\ [a-zA-Z]\,[a-zA-Z] {
@@ -286,7 +287,7 @@ O|o		{ yylval.i = e_octal; return RADIX_TYPE; }
 <ASM_MODE>#             { dont_match_reg_a = 1; return ARG_IMMEDIATE; }
 <ASM_MODE>:             { dont_match_reg_a = 0; return INST_SEP; }
 
-<ASM_MODE,INITIAL,COND_MODE>{
+<ASM_MODE,INITIAL,COND_MODE,REG_ASGN,LABEL_ASGN>{
 	{HDIGIT}{8}             { yylval.str = lib_stralloc(yytext); return H_RANGE_GUESS; }
 	1[01]*                  { yylval.str = lib_stralloc(yytext); return B_NUMBER_GUESS; }
 	%[01]+                  { yylval.i = strtol(yytext+1, NULL, 2); return B_NUMBER; }
@@ -298,7 +299,11 @@ O|o		{ yylval.i = e_octal; return RADIX_TYPE; }
 	{HDIGIT}+               { yylval.i = strtol(yytext, NULL, 16); return H_NUMBER; }
 }
 
-<*>,     { return COMMA; }
+<*>=	{ return EQUALS; }
+<*>,	{ return COMMA; }
+
+ /* After a label assignment there may be a ; comment to EOL */
+<LABEL_ASGN>;.*[^\n]	{ return LABEL_ASGN_COMMENT; }
 
 <*>[^ \t]		{ return yytext[0]; }
 

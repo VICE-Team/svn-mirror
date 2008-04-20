@@ -130,6 +130,7 @@ extern void monitor_init(monitor_interface_t *maincpu_interface,
                          monitor_interface_t *drive_interface_init[],
                          struct monitor_cpu_type_s **asmarray);
 extern void monitor_shutdown(void);
+extern int monitor_cmdline_options_init(void);
 extern void monitor_startup(void);
 extern void monitor_startup_trap(void);
 

@@ -1,3 +1,16 @@
+2008-04-20  Thomas Giesel  <skoe@directbox.com>
+
+	* init.c, monitor.h, monitor/monitor.c, translate.txt, translate.c: New
+	command line switch "-moncommands <name>" to execute monitor
+	commands
+
+	* monitor/mon_lex.l, monitor/mon_parse.y, monitor/montypes.h,: Implemented debug
+	command for monitor grammar; Monitor accepts labels created by
+	the Acme assembler now; Minor clean up of monitor interpreter
+	code.
+
+	* monitor/mon_command.c: Re-arranged monitor help output.
+
 2008-04-19  Greg King  <greg.king4@verizon.net>
 
 	* src/c64/cart/ide64.c: adds a working RTC to the emulation of

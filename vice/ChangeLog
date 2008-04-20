@@ -1,3 +1,8 @@
+2008-04-20  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* doc/vice.texi: Updates manual to reflect latest monitor
+	changes.
+
 2008-04-09  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.10.

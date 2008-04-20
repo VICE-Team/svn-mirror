@@ -4241,6 +4241,16 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_PLAYBACK_RECORDED_EVENTS_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_PLAYBACK_RECORDED_EVENTS_SV, "Spela upp inspelade händelser"},
 
+/* monitor.c */
+/* en */ {IDCLS_EXECUTE_MONITOR_FROM_FILE,    "Execute monitor commands from file"},
+/* de */ {IDCLS_EXECUTE_MONITOR_FROM_FILE_DE, "Kommandos aus Datei im Monitor ausführen"},
+/* fr */ {IDCLS_EXECUTE_MONITOR_FROM_FILE_FR, ""}, /* fuzzy */
+/* hu */ {IDCLS_EXECUTE_MONITOR_FROM_FILE_HU, ""}, /* fuzzy */
+/* it */ {IDCLS_EXECUTE_MONITOR_FROM_FILE_IT, ""}, /* fuzzy */
+/* nl */ {IDCLS_EXECUTE_MONITOR_FROM_FILE_NL, ""}, /* fuzzy */
+/* pl */ {IDCLS_EXECUTE_MONITOR_FROM_FILE_PL, ""}, /* fuzzy */
+/* sv */ {IDCLS_EXECUTE_MONITOR_FROM_FILE_SV, ""}, /* fuzzy */
+
 /* fliplist.c */
 /* en */ {IDCLS_SPECIFY_FLIP_LIST_NAME,    "Specify name of the flip list file image"},
 /* de */ {IDCLS_SPECIFY_FLIP_LIST_NAME_DE, "Namen für Fliplist Datei definieren"},

@@ -47,30 +47,74 @@ typedef struct mon_cmds_s {
 } mon_cmds_t;
 
 static const mon_cmds_t mon_cmd_array[] = {
-   { "~",               "",
-     "<number>",
-     "Display the specified number in decimal, hex, octal and binary." },
+   { "", "", "", "Available commands are:" },
 
-   { ">",               "",
-     "[<address>] <data_list>",
-     "Write the specified data at `address'." },
+   { "", "", "", "Machine state commands:" },
 
-   { "@",               "",
-     "<disk command>",
-     "Perform a disk command on the currently attached disk image on drive 8.\n"
-     "The specified disk command is sent to the drive's channel #15." },
+   { "bank",            "",
+     "[<memspace>] [bankname]",
+     "If bankname is not given, print the possible banks for the memspace.\n"
+     "If bankname is given set the current bank in the memspace to the given\n"
+     "bank." },
+
+   { "cpu",             "",
+     "<type>",
+     "Specify the type of CPU currently used (6502/z80)." },
+
+   { "dump",            "",
+     "\"<filename>\"",
+     "Write a snapshot of the machine into the file specified.\n"
+     "This snapshot is compatible with a snapshot written out by the UI.\n"
+     "Note: No ROM images are included into the dump." },
 
 /*
-   { "]",               "",
+   { "down",            "",
      NULL,
      "*** unimplemented ***" },
 */
 
-   { "a",               "",
-     "<address> [ <instruction> [: <instruction>]* ]",
-     "Assemble instructions to the specified address.  If only one\n"
-     "instruction is specified, enter assembly mode (enter an empty line to\n"
-     "exit assembly mode)." },
+   { "goto",            "g",
+     "<address>",
+     "Change the PC to ADDRESS and continue execution" },
+
+   { "io",              "",
+     NULL,
+     "Print out the I/O area of the emulated machine." },
+
+   { "next",            "n",
+     NULL,
+     "Advance to the next instruction.  Subroutines are treated as\n"
+     "a single instruction." },
+
+   { "registers",       "r",
+     "[<reg_name> = <number> [, <reg_name> = <number>]*]",
+     "Assign respective registers.  With no parameters, display register\n"
+     "values." },
+
+   { "return",          "ret",
+     NULL,
+     "Continues execution and returns to the monitor just before the next\n"
+     "RTS or RTI is executed." },
+
+   { "screen",         "sc",
+     NULL,
+     "Displays the contents of the screen." },
+
+   { "step",            "z",
+     "[<count>]",
+     "Single-step through instructions.  COUNT allows stepping\n"
+     "more than a single instruction at a time." },
+
+   { "undump",          "",
+     "\"<filename>\"",
+     "Read a snapshot of the machine from the file specified." },
+
+/*
+   { "up",              "",
+     NULL,
+     "*** unimplemented ***" },
+*/
+   { "", "", "", "Symbol table commands:" },
 
    { "add_label",       "al",
      "[<memspace>] <address> <label>",
@@ -81,57 +125,40 @@ static const mon_cmds_t mon_cmd_array[] = {
      "assembly code and is shown during disassembly.  Additionally, it can\n"
      "be used whenever an address must be specified." },
 
-   { "bank",            "",
-     "[<memspace>] [bankname]",
-     "If bankname is not given, print the possible banks for the memspace.\n"
-     "If bankname is given set the current bank in the memspace to the given\n"
-     "bank." },
+   { "delete_label",    "dl",
+     "[<memspace>] <label>",
+     "<memspace> is one of: C: 8: 9: 10: 11:\n"
+     "<label>    is the name of the label; it must start with a dot (\".\").\n\n"
+     "Delete a previously defined label." },
 
-   { "bload",           "bl",
-     "\"<filename>\" <device> <address>",
-     "Load the specified file into memory at the specified address.\n"
-     "If device is 0, the file is read from the file system." },
+   { "load_labels",     "ll",
+     "[<memspace>] \"<filename>\"",
+     "Load a file containing a mapping of labels to addresses.  If no memory\n"
+     "space is specified, the default readspace is used.\n\n" 
+     "The format of the file is the one written out by the `save_labels' command;\n" 
+     "it consists of some `add_label' commands, written one after the other." },
 
-   { "block_read",      "br",
-     "<track> <sector> [<address>]",
-     "Read the block at the specified track and sector.  If an address is\n"
-     "specified, the data is loaded into memory.  If no address is given, the\n"
-     "data is displayed using the default datatype." },
+   { "save_labels",     "sl",
+     "[<memspace>] \"<filename>\"",
+     "Save labels to a file.  If no memory space is specified, all of the\n"
+     "labels are saved." },
 
-   { "break",           "",
-     "[<address> [if <cond_expr>] ]",
-     "If no address is given, the currently valid watchpoints are printed.\n"
-     "If an address is given, a breakpoint is set for that address and the\n"
-     "breakpoint number is printed.  A conditional expression can also be\n"
-     "specified for the breakpoint.  For more information on conditions, see\n"
-     "the CONDITION command." },
+   { "show_labels",     "shl",
+     "[<memspace>]",
+     "Display current label mappings.  If no memory space is specified, show\n"
+     "all labels." },
 
-/*
-   { "brmon",           "",
-     NULL,
-     "*** unimplemented ***" },
-*/
+   { "", "", "", "Assembler and memory commands:" },
 
-   { "bsave",           "bs",
-     "\"<filename>\" <device> <address1> <address2>",
-     "Save the memory from address1 to address2 to the specified file.\n"
-     "If device is 0, the file is written to the file system." },
+   { ">",               "",
+     "[<address>] <data_list>",
+     "Write the specified data at `address'." },
 
-   { "block_write",     "bw",
-     "<track> <sector> <address>",
-     "Write a block of data at `address' on the specified track and sector\n"
-     "of disk in drive 8." },
-
-   { "cd",              "",
-     "<directory>",
-     "Change the working directory." },
-
-   { "command",         "",
-     "<checknum> \"<command>\"",
-     "Specify `command' as the command to execute when checkpoint `checknum'\n"
-     "is hit.  Note that the `x' command is not yet supported as a\n"
-     "command argument." },
-
+   { "a",               "",
+     "<address> [ <instruction> [: <instruction>]* ]",
+     "Assemble instructions to the specified address.  If only one\n"
+     "instruction is specified, enter assembly mode (enter an empty line to\n"
+     "exit assembly mode)." },
 
    { "compare",         "c",
      "<address_range> <address>",
@@ -139,22 +166,9 @@ static const mon_cmds_t mon_cmd_array[] = {
      "destination specified by the address.  The regions may overlap.  Any\n"
      "values that miscompare are displayed using the default displaytype." },
 
-   { "condition",       "cond",
-     "<checknum> if <cond_expr>",
-     "Each time the specified checkpoint is examined, the condition is\n"
-     "evaluated.  If it evalutes to true, the checkpoint is activated.\n"
-     "Otherwise, it is ignored.  If registers are specified in the expression,\n"
-     "the values used are those at the time the checkpoint is examined, not\n"
-     "when the condition is set.\n"
-     "The condition can make use of registers (.A, .X, .Y, .PC, .SP) and\n"
-     "compare them (==, !=, <, >, <=, >=) again other registers or constants.\n"
-     "Registers can be the registers of other devices; this is denoted by\n"
-     "a memspace prefix (i.e., c:, 8:, 9:, 10:, 11:\n"
-     "Examples: .A == 0, .X == .Y, 8:.X == .X\n" },
-
-   { "cpu",             "",
-     "<type>",
-     "Specify the type of CPU currently used (6502/z80)." },
+   { "delete",          "del",
+     "<checknum>",
+     "Delete checkpoint `checknum'." },
 
    { "disass",          "d",
      "[<address> [<address>]]",
@@ -164,59 +178,11 @@ static const mon_cmds_t mon_cmd_array[] = {
      "disassembled.  If no addresses are specified, a default number of\n"
      "instructions are disassembled from the dot address." },
 
-   { "delete",          "del",
-     "<checknum>",
-     "Delete checkpoint `checknum'." },
-
-   { "delete_label",    "dl",
-     "[<memspace>] <label>",
-     "<memspace> is one of: C: 8: 9: 10: 11:\n"
-     "<label>    is the name of the label; it must start with a dot (\".\").\n\n"
-     "Delete a previously defined label." },
-
-   { "device",          "dev",
-     "[c:|8:|9:|10:|11:]",
-     "Set the default memory device to either the computer `c:' or the\n"
-     "specified disk drive (`8:', `9:')." },
-
-   { "disable",         "",
-     "<checknum>",
-     "Disable checkpoint `checknum'." },
-
-/*
-   { "down",            "",
-     NULL,
-     "*** unimplemented ***" },
-*/
-
-   { "dump",            "",
-     "\"<filename>\"",
-     "Write a snapshot of the machine into the file specified.\n"
-     "This snapshot is compatible with a snapshot written out by the UI.\n"
-     "Note: No ROM images are included into the dump." },
-
-   { "enable",          "",
-     "<checknum>",
-     "Enable checkpoint `checknum'." },
-
-   { "exit",            "x",
-     NULL,
-     "Leave the monitor and return to execution." },
-
    { "fill",            "f",
      "<address_range> <data_list>",
      "Fill memory in the specified address range with the data in\n"
      "<data_list>.  If the size of the address range is greater than the size\n"
      "of the data_list, the data_list is repeated." },
-
-   { "goto",            "g",
-     "<address>",
-     "Change the PC to ADDRESS and continue execution" },
-
-   { "help",            "?",
-     "[<command>]",
-     "If no argument is given, prints out a list of all available commands\n" 
-     "If an argument is given, prints out specific help for that command." },
 
    { "hunt",            "h",
      "<address_range> <data_list>",
@@ -232,34 +198,6 @@ static const mon_cmds_t mon_cmd_array[] = {
      "<address_opt_range>",
      "Display memory contents as screen code text." },
 
-   { "ignore",          "",
-     "<checknum> [<count>]",
-     "Ignore a checkpoint a given number of crossings.  If no count is given,\n"
-     "the default value is 1." },
-
-   { "io",              "",
-     NULL,
-     "Print out the I/O area of the emulated machine." },
-
-   { "keybuf",          "",
-     "\"<string>\"",
-     "Put the specified string into the keyboard buffer." },
-
-   { "load",            "l",
-     "\"<filename>\" <device> [<address>]",
-     "Load the specified file into memory at the specified address. Set BASIC\n"
-     "pointers appropriately if loaded into computer memory (not all emulators).\n"
-     "Use (otherwise ignored) two-byte load address from file if no address\n"
-     "specified.\n"
-     "If device is 0, the file is read from the file system." },
-
-   { "load_labels",     "ll",
-     "[<memspace>] \"<filename>\"",
-     "Load a file containing a mapping of labels to addresses.  If no memory\n"
-     "space is specified, the default readspace is used.\n\n" 
-     "The format of the file is the one written out by the `save_labels' command;\n" 
-     "it consists of some `add_label' commands, written one after the other." },
-
    { "mem",             "m",
      "[<data_type>] [<address_opt_range>]",
      "Display the contents of memory.  If no datatype is given, the default\n"
@@ -273,30 +211,91 @@ static const mon_cmds_t mon_cmd_array[] = {
      "is specified, only one character is displayed.  If no addresses are\n"
      "given, the ``dot'' address is used." },
 
-   { "move",            "t",
-     "<address_range> <address>",
-     "Move memory from the source specified by the address range to\n"
-     "the destination specified by the address.  The regions may overlap." },
-
    { "memsprite",       "ms",
      "[<data_type>] [<address_opt_range>]",
      "Display the contents of memory as sprite data.  If only one address is\n"
      "specified, only one sprite is displayed.  If no addresses are given,\n"
      "the ``dot'' address is used." },
 
-   { "next",            "n",
+   { "move",            "t",
+     "<address_range> <address>",
+     "Move memory from the source specified by the address range to\n"
+     "the destination specified by the address.  The regions may overlap." },
+
+   { "", "", "", "Checkpoint commands:" },
+
+   { "break",           "",
+     "[<address> [if <cond_expr>] ]",
+     "If no address is given, the currently valid watchpoints are printed.\n"
+     "If an address is given, a breakpoint is set for that address and the\n"
+     "breakpoint number is printed.  A conditional expression can also be\n"
+     "specified for the breakpoint.  For more information on conditions, see\n"
+     "the CONDITION command." },
+
+   { "command",         "",
+     "<checknum> \"<command>\"",
+     "Specify `command' as the command to execute when checkpoint `checknum'\n"
+     "is hit.  Note that the `x' command is not yet supported as a\n"
+     "command argument." },
+
+   { "condition",       "cond",
+     "<checknum> if <cond_expr>",
+     "Each time the specified checkpoint is examined, the condition is\n"
+     "evaluated.  If it evalutes to true, the checkpoint is activated.\n"
+     "Otherwise, it is ignored.  If registers are specified in the expression,\n"
+     "the values used are those at the time the checkpoint is examined, not\n"
+     "when the condition is set.\n"
+     "The condition can make use of registers (.A, .X, .Y, .PC, .SP) and\n"
+     "compare them (==, !=, <, >, <=, >=) again other registers or constants.\n"
+     "Registers can be the registers of other devices; this is denoted by\n"
+     "a memspace prefix (i.e., c:, 8:, 9:, 10:, 11:\n"
+     "Examples: .A == 0, .X == .Y, 8:.X == .X\n" },
+
+   { "disable",         "",
+     "<checknum>",
+     "Disable checkpoint `checknum'." },
+
+   { "enable",          "",
+     "<checknum>",
+     "Enable checkpoint `checknum'." },
+
+   { "ignore",          "",
+     "<checknum> [<count>]",
+     "Ignore a checkpoint a given number of crossings.  If no count is given,\n"
+     "the default value is 1." },
+
+   { "until",           "un",
+     "[<address>]",
+     "If no address is given, the currently valid breakpoints are printed.\n"
+     "If an address is given, a temporary breakpoint is set for that address\n"
+     "and the breakpoint number is printed.  Control is returned to the\n"
+    "emulator by this command.  The breakpoint is deleted once it is hit." },
+
+   { "watch",           "w",
+     "[loadstore] [address [address]]",
+     "Set a watchpoint.  If a single address is specified, set a watchpoint\n"
+     "for that address.  If two addresses are specified, set a watchpoint\n"
+     "for the memory locations between the two addresses.\n"
+     "`loadstore' is either `load' or `store' to specify on which operation\n"
+     "the monitor breaks. If not specified, the monitor breaks on both\n"
+     "operations." },
+
+   { "trace",           "tr",
+     "[address [address]]",
+     "Set a tracepoint.  If a single address is specified, set a tracepoint\n"
+     "for that address.  If two addresses are specified, set a tracepoint\n"
+     "for the memory locations between the two addresses." },
+
+   { "", "", "", "Monitor state commands:" },
+
+   { "device",          "dev",
+     "[c:|8:|9:|10:|11:]",
+     "Set the default memory device to either the computer `c:' or the\n"
+     "specified disk drive (`8:', `9:')." },
+
+   { "exit",            "x",
      NULL,
-     "Advance to the next instruction.  Subroutines are treated as\n"
-     "a single instruction." },
-
-   { "playback",        "pb",
-     "\"<filename>\"",
-     "Monitor commands from the specified file are read and executed.  This\n"
-     "command stops at the end of file or when a STOP command is read." },
-
-   { "print",           "p",
-     "<expression>",
-     "Evaluate the specified expression and output the result." },
+     "Leave the monitor and return to execution." },
 
    { "quit",            "",
      NULL,
@@ -311,41 +310,6 @@ static const mon_cmds_t mon_cmd_array[] = {
      "Set the default radix to hex, decimal, octal, or binary.  With no\n"
      "argument, the current radix is printed." },
 
-   { "record",          "rec",
-     "\"<filename>\"",
-     "After this command, all commands entered are written to the specified\n"
-     "file until the STOP command is entered." },
-
-   { "registers",       "r",
-     "[<reg_name> = <number> [, <reg_name> = <number>]*]",
-     "Assign respective registers.  With no parameters, display register\n"
-     "values." },
-
-   { "return",          "ret",
-     NULL,
-     "Continues execution and returns to the monitor just before the next\n"
-     "RTS or RTI is executed." },
-
-   { "save",            "s",
-     "\"<filename>\" <device> <address1> <address2>",
-     "Save the memory from address1 to address2 to the specified file.\n"
-     "Write two-byte load address.\n"
-     "If device is 0, the file is written to the file system." },
-
-   { "save_labels",     "sl",
-     "[<memspace>] \"<filename>\"",
-     "Save labels to a file.  If no memory space is specified, all of the\n"
-     "labels are saved." },
-
-   { "screen",         "sc",
-     NULL,
-     "Displays the contents of the screen." },
-
-   { "show_labels",     "shl",
-     "[<memspace>]",
-     "Display current label mappings.  If no memory space is specified, show\n"
-     "all labels." },
-
    { "sidefx",          "sfx",
      "[on|off|toggle]",
      "Control how monitor generated reads affect memory locations that have\n"
@@ -354,40 +318,99 @@ static const mon_cmds_t mon_cmd_array[] = {
      "side-effects.  If the argument is 'toggle' then the current mode is\n"
      "switched.  No argument displays the current state." },
 
-   { "step",            "z",
-     "[<count>]",
-     "Single-step through instructions.  COUNT allows stepping\n"
-     "more than a single instruction at a time." },
+   { "", "", "", "Disk commands:" },
+
+   { "@",               "",
+     "<disk command>",
+     "Perform a disk command on the currently attached disk image on drive 8.\n"
+     "The specified disk command is sent to the drive's channel #15." },
+
+   { "bload",           "bl",
+     "\"<filename>\" <device> <address>",
+     "Load the specified file into memory at the specified address.\n"
+     "If device is 0, the file is read from the file system." },
+
+   { "block_read",      "br",
+     "<track> <sector> [<address>]",
+     "Read the block at the specified track and sector.  If an address is\n"
+     "specified, the data is loaded into memory.  If no address is given, the\n"
+     "data is displayed using the default datatype." },
+
+   { "bsave",           "bs",
+     "\"<filename>\" <device> <address1> <address2>",
+     "Save the memory from address1 to address2 to the specified file.\n"
+     "If device is 0, the file is written to the file system." },
+
+   { "block_write",     "bw",
+     "<track> <sector> <address>",
+     "Write a block of data at `address' on the specified track and sector\n"
+     "of disk in drive 8." },
+
+   { "cd",              "",
+     "<directory>",
+     "Change the working directory." },
+
+   { "load",            "l",
+     "\"<filename>\" <device> [<address>]",
+     "Load the specified file into memory at the specified address. Set BASIC\n"
+     "pointers appropriately if loaded into computer memory (not all emulators).\n"
+     "Use (otherwise ignored) two-byte load address from file if no address\n"
+     "specified.\n"
+     "If device is 0, the file is read from the file system." },
+
+   { "save",            "s",
+     "\"<filename>\" <device> <address1> <address2>",
+     "Save the memory from address1 to address2 to the specified file.\n"
+     "Write two-byte load address.\n"
+     "If device is 0, the file is written to the file system." },
+
+   { "", "", "", "Other commands:" },
+
+   { "~",               "",
+     "<number>",
+     "Display the specified number in decimal, hex, octal and binary." },
+
+   { "help",            "?",
+     "[<command>]",
+     "If no argument is given, prints out a list of all available commands\n" 
+     "If an argument is given, prints out specific help for that command." },
+
+   { "keybuf",          "",
+     "\"<string>\"",
+     "Put the specified string into the keyboard buffer." },
+
+   { "playback",        "pb",
+     "\"<filename>\"",
+     "Monitor commands from the specified file are read and executed.  This\n"
+     "command stops at the end of file or when a STOP command is read." },
+
+   { "print",           "p",
+     "<expression>",
+     "Evaluate the specified expression and output the result." },
+
+   { "record",          "rec",
+     "\"<filename>\"",
+     "After this command, all commands entered are written to the specified\n"
+     "file until the STOP command is entered." },
 
    { "stop",            "",
      NULL,
      "Stop recording commands.  See `record'." },
 
 /*
-   { "system",          "sys",
+   { "]",               "",
      NULL,
      "*** unimplemented ***" },
 */
 
-   { "trace",           "tr",
-     "[address [address]]",
-     "Set a tracepoint.  If a single address is specified, set a tracepoint\n"
-     "for that address.  If two addresses are specified, set a tracepoint\n"
-     "for the memory locations between the two addresses." },
-
-   { "until",           "un",
-     "[<address>]",
-     "If no address is given, the currently valid breakpoints are printed.\n"
-     "If an address is given, a temporary breakpoint is set for that address\n"
-     "and the breakpoint number is printed.  Control is returned to the\n"
-    "emulator by this command.  The breakpoint is deleted once it is hit." },
-
-   { "undump",          "",
-     "\"<filename>\"",
-     "Read a snapshot of the machine from the file specified." },
+/*
+   { "brmon",           "",
+     NULL,
+     "*** unimplemented ***" },
+*/
 
 /*
-   { "up",              "",
+   { "system",          "sys",
      NULL,
      "*** unimplemented ***" },
 */
@@ -397,15 +420,6 @@ static const mon_cmds_t mon_cmd_array[] = {
      NULL,
      "*** unimplemented ***" },
 */
-
-   { "watch",           "w",
-     "[loadstore] [address [address]]",
-     "Set a watchpoint.  If a single address is specified, set a watchpoint\n"
-     "for that address.  If two addresses are specified, set a watchpoint\n"
-     "for the memory locations between the two addresses.\n"
-     "`loadstore' is either `load' or `store' to specify on which operation\n"
-     "the monitor breaks. If not specified, the monitor breaks on both\n"
-     "operations." },
 
    { NULL }
 
@@ -431,18 +445,39 @@ static int mon_command_lookup_index(const char *str)
 
 void mon_command_print_help(const char *cmd)
 {
+    const mon_cmds_t *c;
+    int column;
+    int len;
+    int longest;
+    int max_col;
+
     if (cmd == NULL) {
-        const mon_cmds_t *c;
-        int column = 0;
-
-        /* Print on two columns.  This could be a lot nicer, but I am lazy.  */
-        mon_out("\nAvailable commands are:\n\n");
+        longest = 0;
         for (c = mon_cmd_array; c->str != NULL; c++) {
-            int tot = 0;
+            len = strlen(c->str);
+            if (!util_check_null_string(c->abbrev))
+                len += 3 + strlen(c->abbrev); /* 3 => " ()" */
 
-            tot += strlen(c->str);
-            if (tot == 0)        /* "Empty" command?  */
+            if (len > longest)
+                longest = len;
+        }
+        longest += 2; /* some space */
+        max_col = 80 / longest - 1;
+
+        column = 0;
+        for (c = mon_cmd_array; c->str != NULL; c++) {
+            int tot = strlen(c->str);
+
+            /* "Empty" command, that's a head line  */
+            if (tot == 0) {
+                if (column != 0) {
+                    mon_out("\n");
+                    column = 0;
+                }
+                mon_out("\n%s\n", c->description);
                 continue;
+            }
+
             mon_out("%s", c->str);
 
             if (!util_check_null_string(c->abbrev)) {
@@ -450,13 +485,13 @@ void mon_command_print_help(const char *cmd)
                 tot += 3 + strlen(c->abbrev);
             }
 
-            if (tot > 40 || column == 1) {
+            if (column >= max_col) {
                 mon_out("\n");
                 column = 0;
             } else {
-                for (; tot < 40; tot++)
+                for (; tot < longest; tot++)
                     mon_out(" ");
-                column = 1;
+                column++;
             }
             if (mon_stop_output != 0) break;
         }

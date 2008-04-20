@@ -1998,6 +1998,7 @@ using command-line options.
 * Drive settings::              Settings that control disk-drive emulation.
 * Peripheral settings::         Settings for emulated external devices.
 * RS232 settings::              Settings for the RS232 emulation.
+* Monitor settings::            Settings for the built-in monitor.
 * Misc settings::               Other settings.
 @end menu
 
@@ -3180,7 +3181,7 @@ virtual devices.
 
 @c ----------------------------------------------------------------
 
-@node RS232 settings, Misc settings, Peripheral settings, Settings and resources
+@node RS232 settings, Monitor settings, Peripheral settings, Settings and resources
 @section RS232 settings
 
 The VICE emulators can emulate the RS232 device most of the machines
@@ -3394,9 +3395,31 @@ If it is able to detect an
 
 @end table
 
+@node Monitor settings, Misc settings, RS232 settings, Settings and resources
+@section Monitor settings
+
+This section lists command-line options specific to the built-in monitor.
+
+@menu
+* Monitor options::                
+@end menu
+
+@node Monitor options,  ,  , Monitor settings
+@subsection Monitor command-line options
+
+@table @code
+@cindex -moncommand
+@item -moncommand FILENAME
+Execute the commands from the file @code{FILENAME} in the monitor after starting up. This
+command line switch is mainly thought to load labels and to set breakpoints.
+Not all other commands are useful to be executed in this way, some may even
+lead to strange effects.
+@end table
+
+
 @c ----------------------------------------------------------------
 
-@node Misc settings,  , RS232 settings, Settings and resources
+@node Misc settings,  , Monitor settings, Settings and resources
 @section Miscellaneous settings
 
 This section lists generic resources that do not fit in the other
@@ -6411,6 +6434,9 @@ is displayed.  The entire range is searched for all possible matches.
 @item i <address_opt_range>
 Display memory contents as PETSCII text.
 
+@item ii <address_opt_range>
+Display memory contents as screen code text
+
 @item m [<data_type>] [<address_opt_range>]
 Display the contents of memory.  If no datatype is given, the default
 is used.  If only one address is specified, the length of data
@@ -6621,6 +6647,16 @@ checked, all tables are checked.
 @item load_labels [<memspace>] "<filename>"
 Load a file containing a mapping of labels to addresses.  If no memory
 space is specified, the default readspace is used.
+
+The file must contain commands the monitor understands, e.g. add_label. The
+compiler cc65 can create such label files.
+
+Vice can also load label files created by the Acme assembler. Their syntax is
+e.g. "labelname = $1234 ; Maybe a comment". A dot will be added automatically
+to label names assigned in this way to fit to the Vice label syntax. Normally
+the semicolon seperates commands but after an assignment of this kind it may be
+used to start a comment to end of line, so unchanged Acme label files can be
+fed into Vice.
 
 @item save_labels [<memspace>] "<filename>"
 Save labels to a file.  If no memory space is specified, all of the

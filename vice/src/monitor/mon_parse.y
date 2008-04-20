@@ -111,6 +111,8 @@ extern int cur_len, last_len;
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
 #define CHECK_ADDR(x) ((x) == LO16(x))
 
+#define YYDEBUG 1
+
 %}
 
 %union {
@@ -127,8 +129,8 @@ extern int cur_len, last_len;
 
 %token<i> H_NUMBER D_NUMBER O_NUMBER B_NUMBER CONVERT_OP B_DATA
 %token<str> H_RANGE_GUESS D_NUMBER_GUESS O_NUMBER_GUESS B_NUMBER_GUESS
-%token<i> BAD_CMD MEM_OP IF MEM_COMP MEM_DISK8 MEM_DISK9 MEM_DISK10 MEM_DISK11 REG_ASGN_SEP EQUALS
-%token TRAIL CMD_SEP
+%token<i> BAD_CMD MEM_OP IF MEM_COMP MEM_DISK8 MEM_DISK9 MEM_DISK10 MEM_DISK11 EQUALS
+%token TRAIL CMD_SEP LABEL_ASGN_COMMENT
 %token CMD_SIDEFX CMD_RETURN CMD_BLOCK_READ CMD_BLOCK_WRITE CMD_UP CMD_DOWN
 %token CMD_LOAD CMD_SAVE CMD_VERIFY CMD_IGNORE CMD_HUNT CMD_FILL CMD_MOVE
 %token CMD_GOTO CMD_REGISTERS CMD_READSPACE CMD_WRITESPACE CMD_RADIX
@@ -139,7 +141,8 @@ extern int cur_len, last_len;
 %token CMD_LOAD_LABELS CMD_SAVE_LABELS CMD_ADD_LABEL CMD_DEL_LABEL CMD_SHOW_LABELS
 %token CMD_RECORD CMD_STOP CMD_PLAYBACK CMD_CHAR_DISPLAY CMD_SPRITE_DISPLAY
 %token CMD_TEXT_DISPLAY CMD_SCREENCODE_DISPLAY CMD_ENTER_DATA CMD_ENTER_BIN_DATA CMD_KEYBUF
-%token CMD_BLOAD CMD_BSAVE CMD_SCREEN CMD_UNTIL CMD_CPU
+%token CMD_BLOAD CMD_BSAVE CMD_SCREEN CMD_UNTIL CMD_CPU CMD_YYDEBUG
+%token<str> CMD_LABEL_ASGN
 %token<i> L_PAREN R_PAREN ARG_IMMEDIATE REG_A REG_X REG_Y COMMA INST_SEP
 %token<i> REG_B REG_C REG_D REG_E REG_H REG_L
 %token<i> REG_AF REG_BC REG_DE REG_HL REG_IX REG_IY REG_SP
@@ -188,6 +191,7 @@ command: machine_state_rules
        | disk_rules
        | cmd_file_rules
        | data_entry_rules
+       | monitor_debug_rules
        | BAD_CMD { return ERR_BAD_CMD; }
        ;
 
@@ -265,6 +269,14 @@ symbol_table_rules: CMD_LOAD_LABELS memspace opt_sep filename end_cmd
                     { mon_print_symbol_table($2); }
                   | CMD_SHOW_LABELS end_cmd
                     { mon_print_symbol_table(e_default_space); }
+                  | CMD_LABEL_ASGN EQUALS address end_cmd
+                    {
+                        mon_add_name_to_symbol_table($3, mon_prepend_dot_to_name($1));
+                    }
+                  | CMD_LABEL_ASGN EQUALS address LABEL_ASGN_COMMENT end_cmd
+                    {
+                        mon_add_name_to_symbol_table($3, mon_prepend_dot_to_name($1));
+                    }
                   ;
 
 asm_rules: CMD_ASSEMBLE address
@@ -462,6 +474,10 @@ data_entry_rules: CMD_ENTER_DATA address data_list end_cmd
                   { printf("Not yet.\n"); }
                 ;
 
+monitor_debug_rules: CMD_YYDEBUG end_cmd
+                     { yydebug = 1; }
+                   ;
+
 rest_of_line: R_O_L { $$ = $1; }
             ;
 
@@ -481,7 +497,7 @@ register: REGISTER          { $$ = new_reg(default_memspace, $1); }
         | memspace REGISTER { $$ = new_reg($1, $2); }
         ;
 
-reg_list: reg_list REG_ASGN_SEP reg_asgn
+reg_list: reg_list COMMA reg_asgn
         | reg_asgn
         ;
 

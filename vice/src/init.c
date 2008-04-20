@@ -47,6 +47,7 @@
 #include "log.h"
 #include "machine-bus.h"
 #include "machine.h"
+#include "monitor.h"
 #include "maincpu.h"
 #include "network.h"
 #include "palette.h"
@@ -179,6 +180,10 @@ int init_cmdline_options(void)
     }
     if (event_cmdline_options_init() < 0) {
         init_cmdline_options_fail("event");
+        return -1;
+    }
+    if (monitor_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("monitor");
         return -1;
     }
 #ifdef DEBUG
