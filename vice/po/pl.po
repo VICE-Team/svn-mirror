@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-24 20:25+0100\n"
+"POT-Creation-Date: 2008-04-20 13:45+0200\n"
 "PO-Revision-Date: 2007-07-26 11:55+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -19,27 +19,27 @@ msgstr ""
 msgid "<percent>"
 msgstr ""
 
-#: src/vsync.c:147 src/translate.c.po.c:4595
+#: src/vsync.c:147 src/translate.c.po.c:4605
 msgid "Limit emulation speed to specified value"
 msgstr "Ograniczaj prêdko¶æ emulacji do podanej warto¶ci"
 
 #: src/vsync.c:149 src/sound.c:275 src/sound.c:277 src/debug.c:205
-#: src/c64/cart/ide64.c:279 src/c64/cart/ide64.c:281 src/c64/cart/ide64.c:283
+#: src/c64/cart/ide64.c:283 src/c64/cart/ide64.c:285 src/c64/cart/ide64.c:287
 #: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:201
 #: src/gfxoutputdrv/ffmpegdrv.c:204 src/mouse.c:362 src/mouse.c:364
 #: src/ram.c:101 src/translate.c.po.c:1592
 msgid "<value>"
 msgstr ""
 
-#: src/vsync.c:149 src/translate.c.po.c:4605
+#: src/vsync.c:149 src/translate.c.po.c:4615
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Aktualizuj co <warto¶æ> klatek (`0' - automatycznie)"
 
-#: src/vsync.c:151 src/translate.c.po.c:4615
+#: src/vsync.c:151 src/translate.c.po.c:4625
 msgid "Enable warp mode"
 msgstr "W³±cz tryb przy¶pieszony (Turbo)"
 
-#: src/vsync.c:153 src/translate.c.po.c:4625
+#: src/vsync.c:153 src/translate.c.po.c:4635
 msgid "Disable warp mode"
 msgstr "Wy³±cz tryb przy¶pieszony (Turbo)"
 
@@ -58,21 +58,21 @@ msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/sound.c:271 src/translate.c.po.c:4445
+#: src/sound.c:271 src/translate.c.po.c:4455
 #, fuzzy
 msgid "Enable sound playback"
 msgstr "*W³±cz d¼wiêk"
 
-#: src/sound.c:273 src/translate.c.po.c:4455
+#: src/sound.c:273 src/translate.c.po.c:4465
 #, fuzzy
 msgid "Disable sound playback"
 msgstr "*W³±cz d¼wiêk"
 
-#: src/sound.c:275 src/translate.c.po.c:4465
+#: src/sound.c:275 src/translate.c.po.c:4475
 msgid "Set sound sample rate to <value> Hz"
 msgstr ""
 
-#: src/sound.c:277 src/translate.c.po.c:4475
+#: src/sound.c:277 src/translate.c.po.c:4485
 msgid "Set sound buffer size to <value> msec"
 msgstr ""
 
@@ -96,7 +96,7 @@ msgstr ""
 #: src/c64/cart/c64cart.c:259 src/c64/cart/c64cart.c:262
 #: src/c64/cart/c64cart.c:265 src/c64/cart/c64cart.c:268
 #: src/c64/cart/c64cart.c:271 src/c64/cart/c64cart.c:274
-#: src/c64/cart/ide64.c:277 src/c64/c64_256k.c:210 src/c64/georam.c:209
+#: src/c64/cart/ide64.c:281 src/c64/c64_256k.c:210 src/c64/georam.c:209
 #: src/c64/mmc64.c:907 src/c64/mmc64.c:909 src/c64/plus256k.c:175
 #: src/c64/plus60k.c:249 src/c64/ramcart.c:239 src/c64/reu.c:247
 #: src/c64/tfe.c:1934 src/cbm2/cbm2-cmdline-options.c:132
@@ -153,32 +153,32 @@ msgstr ""
 msgid "<name>"
 msgstr ""
 
-#: src/sound.c:279 src/translate.c.po.c:4485
+#: src/sound.c:279 src/translate.c.po.c:4495
 msgid "Specify sound driver"
 msgstr ""
 
-#: src/sound.c:281 src/sound.c:285 src/translate.c.po.c:4495
+#: src/sound.c:281 src/sound.c:285 src/translate.c.po.c:4505
 msgid "<args>"
 msgstr ""
 
-#: src/sound.c:281 src/translate.c.po.c:4505
+#: src/sound.c:281 src/translate.c.po.c:4515
 msgid "Specify initialization parameters for sound driver"
 msgstr ""
 
-#: src/sound.c:283 src/translate.c.po.c:4515
+#: src/sound.c:283 src/translate.c.po.c:4525
 #, fuzzy
 msgid "Specify recording sound driver"
 msgstr "Zatrzymaj zapisywanie wydarzen "
 
-#: src/sound.c:285 src/translate.c.po.c:4525
+#: src/sound.c:285 src/translate.c.po.c:4535
 msgid "Specify initialization parameters for recording sound driver"
 msgstr ""
 
-#: src/sound.c:287 src/translate.c.po.c:4535
+#: src/sound.c:287 src/translate.c.po.c:4545
 msgid "<sync>"
 msgstr ""
 
-#: src/sound.c:287 src/translate.c.po.c:4545
+#: src/sound.c:287 src/translate.c.po.c:4555
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 
@@ -860,7 +860,7 @@ msgstr "W³ó¿ obraz kartrid¿a"
 msgid "Attach raw 16KB Westermann learning cartridge image"
 msgstr "W³ó¿ obraz kartrid¿a"
 
-#: src/c64/cart/c64cart.c:274 src/translate.c.po.c:4765
+#: src/c64/cart/c64cart.c:274 src/translate.c.po.c:4775
 #, fuzzy
 msgid "Attach raw Structured Basic cartridge image"
 msgstr "W³ó¿ obraz kartrid¿a"
@@ -870,42 +870,42 @@ msgstr "W³ó¿ obraz kartrid¿a"
 msgid "Enable expert cartridge"
 msgstr "W³±cz Expert Cartridge..."
 
-#: src/c64/cart/ide64.c:277 src/translate.c.po.c:1582
+#: src/c64/cart/ide64.c:281 src/translate.c.po.c:1582
 #, fuzzy
 msgid "Specify name of IDE64 image file"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/c64/cart/ide64.c:279 src/translate.c.po.c:1602
+#: src/c64/cart/ide64.c:283 src/translate.c.po.c:1602
 msgid "Set number of cylinders for the IDE64 emulation"
 msgstr ""
 
-#: src/c64/cart/ide64.c:281 src/translate.c.po.c:1612
+#: src/c64/cart/ide64.c:285 src/translate.c.po.c:1612
 msgid "Set number of heads for the IDE64 emulation"
 msgstr ""
 
-#: src/c64/cart/ide64.c:283 src/translate.c.po.c:1622
+#: src/c64/cart/ide64.c:287 src/translate.c.po.c:1622
 msgid "Set number of sectors for the IDE64 emulation"
 msgstr ""
 
-#: src/c64/cart/ide64.c:286 src/translate.c.po.c:1632
+#: src/c64/cart/ide64.c:290 src/translate.c.po.c:1632
 msgid "Autodetect geometry of formatted images"
 msgstr ""
 
-#: src/c64/cart/ide64.c:289 src/translate.c.po.c:1642
+#: src/c64/cart/ide64.c:293 src/translate.c.po.c:1642
 msgid "Do not autodetect geometry of formatted images"
 msgstr ""
 
-#: src/c64/c64_256k.c:206 src/translate.c.po.c:4725
+#: src/c64/c64_256k.c:206 src/translate.c.po.c:4735
 #, fuzzy
 msgid "Enable the 256K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/c64/c64_256k.c:208 src/translate.c.po.c:4735
+#: src/c64/c64_256k.c:208 src/translate.c.po.c:4745
 #, fuzzy
 msgid "Disable the 256K RAM expansion"
 msgstr "Rozszerzenie RAM napêdu #8 "
 
-#: src/c64/c64_256k.c:210 src/translate.c.po.c:4745
+#: src/c64/c64_256k.c:210 src/translate.c.po.c:4755
 #, fuzzy
 msgid "Specify name of 256K image"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
@@ -916,7 +916,7 @@ msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 msgid "<base address>"
 msgstr "*Adres bazowy drugiego SID"
 
-#: src/c64/c64_256k.c:212 src/translate.c.po.c:4755
+#: src/c64/c64_256k.c:212 src/translate.c.po.c:4765
 #, fuzzy
 msgid "Base address of the 256K expansion"
 msgstr "Rozszerzenie RAM napêdu #8 "
@@ -927,17 +927,17 @@ msgid ""
 "Please switch SID Engine to FastSID"
 msgstr ""
 
-#: src/c64/digimax.c:137 src/translate.c.po.c:4815
+#: src/c64/digimax.c:137 src/translate.c.po.c:4825
 #, fuzzy
 msgid "Enable the digimax cartridge"
 msgstr "W³±cz Expert Cartridge..."
 
-#: src/c64/digimax.c:139 src/translate.c.po.c:4825
+#: src/c64/digimax.c:139 src/translate.c.po.c:4835
 #, fuzzy
 msgid "Disable the digimax cartridge"
 msgstr "W³±cz Expert Cartridge..."
 
-#: src/c64/digimax.c:141 src/translate.c.po.c:4835
+#: src/c64/digimax.c:141 src/translate.c.po.c:4845
 #, fuzzy
 msgid "Base address of the digimax cartridge"
 msgstr "Rozszerzenie RAM napêdu #8 "
@@ -999,37 +999,37 @@ msgstr ""
 msgid "Save the MMC64 bios when changed"
 msgstr ""
 
-#: src/c64/plus256k.c:171 src/translate.c.po.c:4655
+#: src/c64/plus256k.c:171 src/translate.c.po.c:4665
 #, fuzzy
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/c64/plus256k.c:173 src/translate.c.po.c:4665
+#: src/c64/plus256k.c:173 src/translate.c.po.c:4675
 #, fuzzy
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "Rozszerzenie RAM napêdu #8 "
 
-#: src/c64/plus256k.c:175 src/translate.c.po.c:4675
+#: src/c64/plus256k.c:175 src/translate.c.po.c:4685
 #, fuzzy
 msgid "Specify name of PLUS256K image"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/c64/plus60k.c:245 src/translate.c.po.c:4685
+#: src/c64/plus60k.c:245 src/translate.c.po.c:4695
 #, fuzzy
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/c64/plus60k.c:247 src/translate.c.po.c:4695
+#: src/c64/plus60k.c:247 src/translate.c.po.c:4705
 #, fuzzy
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "Rozszerzenie RAM napêdu #8 "
 
-#: src/c64/plus60k.c:249 src/translate.c.po.c:4705
+#: src/c64/plus60k.c:249 src/translate.c.po.c:4715
 #, fuzzy
 msgid "Specify name of PLUS60K image"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/c64/plus60k.c:251 src/translate.c.po.c:4715
+#: src/c64/plus60k.c:251 src/translate.c.po.c:4725
 #, fuzzy
 msgid "Base address of the PLUS60K expansion"
 msgstr "Rozszerzenie RAM napêdu #8 "
@@ -1406,7 +1406,7 @@ msgstr ""
 msgid "Specify name of 1551 DOS ROM image"
 msgstr ""
 
-#: src/fliplist.c:121 src/translate.c.po.c:4184
+#: src/fliplist.c:121 src/translate.c.po.c:4194
 #, fuzzy
 msgid "Specify name of the flip list file image"
 msgstr "Okre¶l nazwê pliku pozycyjnej mapy klawiatury"
@@ -1449,97 +1449,97 @@ msgid "ffmpegdrv: Cannot open %s"
 msgstr ""
 
 #: src/initcmdline.c:155 src/initcmdline.c:157 src/initcmdline.c:159
-#: src/translate.c.po.c:4193
+#: src/translate.c.po.c:4203
 msgid "Show a list of the available options and exit normally"
 msgstr ""
 
-#: src/initcmdline.c:162 src/translate.c.po.c:4204
+#: src/initcmdline.c:162 src/translate.c.po.c:4214
 msgid "Console mode (for music playback)"
 msgstr ""
 
-#: src/initcmdline.c:164 src/translate.c.po.c:4214
+#: src/initcmdline.c:164 src/translate.c.po.c:4224
 msgid "Allow production of core dumps"
 msgstr ""
 
-#: src/initcmdline.c:166 src/translate.c.po.c:4224
+#: src/initcmdline.c:166 src/translate.c.po.c:4234
 msgid "Do not produce core dumps"
 msgstr ""
 
-#: src/initcmdline.c:169 src/translate.c.po.c:4234
+#: src/initcmdline.c:169 src/translate.c.po.c:4244
 msgid "Don't call exception handler"
 msgstr ""
 
-#: src/initcmdline.c:171 src/translate.c.po.c:4244
+#: src/initcmdline.c:171 src/translate.c.po.c:4254
 msgid "Call exception handler (default)"
 msgstr ""
 
-#: src/initcmdline.c:206 src/translate.c.po.c:4255
+#: src/initcmdline.c:206 src/translate.c.po.c:4265
 #, fuzzy
 msgid "Restore default (factory) settings"
 msgstr "Przywróæ domy¶lne ustawienia"
 
-#: src/initcmdline.c:208 src/translate.c.po.c:4265
+#: src/initcmdline.c:208 src/translate.c.po.c:4275
 #, fuzzy
 msgid "Attach and autostart tape/disk image <name>"
 msgstr "W³ó¿ obraz dyskietki"
 
-#: src/initcmdline.c:210 src/translate.c.po.c:4275
+#: src/initcmdline.c:210 src/translate.c.po.c:4285
 #, fuzzy
 msgid "Attach and autoload tape/disk image <name>"
 msgstr "W³ó¿ obraz dyskietki"
 
-#: src/initcmdline.c:212 src/translate.c.po.c:4285
+#: src/initcmdline.c:212 src/translate.c.po.c:4295
 #, fuzzy
 msgid "Attach <name> as a tape image"
 msgstr "W³ó¿ obraz kasety"
 
-#: src/initcmdline.c:214 src/translate.c.po.c:4295
+#: src/initcmdline.c:214 src/translate.c.po.c:4305
 #, fuzzy
 msgid "Attach <name> as a disk image in drive #8"
 msgstr "W³ó¿ obraz dyskietki"
 
-#: src/initcmdline.c:216 src/translate.c.po.c:4305
+#: src/initcmdline.c:216 src/translate.c.po.c:4315
 #, fuzzy
 msgid "Attach <name> as a disk image in drive #9"
 msgstr "W³ó¿ obraz dyskietki"
 
-#: src/initcmdline.c:218 src/translate.c.po.c:4315
+#: src/initcmdline.c:218 src/translate.c.po.c:4325
 #, fuzzy
 msgid "Attach <name> as a disk image in drive #10"
 msgstr "W³ó¿ obraz dyskietki"
 
-#: src/initcmdline.c:220 src/translate.c.po.c:4325
+#: src/initcmdline.c:220 src/translate.c.po.c:4335
 #, fuzzy
 msgid "Attach <name> as a disk image in drive #11"
 msgstr "W³ó¿ obraz dyskietki"
 
-#: src/kbdbuf.c:136 src/translate.c.po.c:4335
+#: src/kbdbuf.c:136 src/translate.c.po.c:4345
 msgid "<string>"
 msgstr ""
 
-#: src/kbdbuf.c:136 src/translate.c.po.c:4345
+#: src/kbdbuf.c:136 src/translate.c.po.c:4355
 msgid "Put the specified string into the keyboard buffer"
 msgstr ""
 
-#: src/log.c:110 src/translate.c.po.c:4355
+#: src/log.c:110 src/translate.c.po.c:4365
 msgid "Specify log file name"
 msgstr ""
 
-#: src/mouse.c:358 src/translate.c.po.c:4365
+#: src/mouse.c:358 src/translate.c.po.c:4375
 #, fuzzy
 msgid "Enable mouse grab"
 msgstr "*W³±cz tryb przy¶pieszony (Turbo)"
 
-#: src/mouse.c:360 src/translate.c.po.c:4375
+#: src/mouse.c:360 src/translate.c.po.c:4385
 #, fuzzy
 msgid "Disable mouse grab"
 msgstr "*Podwójne scanlines "
 
-#: src/mouse.c:362 src/translate.c.po.c:4385
+#: src/mouse.c:362 src/translate.c.po.c:4395
 msgid "Select the joystick port the mouse is attached to"
 msgstr ""
 
-#: src/mouse.c:364 src/translate.c.po.c:4395
+#: src/mouse.c:364 src/translate.c.po.c:4405
 msgid "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga)"
 msgstr ""
 
@@ -1674,22 +1674,22 @@ msgstr ""
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr ""
 
-#: src/plus4/plus4memcsory256k.c:120 src/translate.c.po.c:4775
+#: src/plus4/plus4memcsory256k.c:120 src/translate.c.po.c:4785
 #, fuzzy
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/plus4/plus4memhannes256k.c:135 src/translate.c.po.c:4785
+#: src/plus4/plus4memhannes256k.c:135 src/translate.c.po.c:4795
 #, fuzzy
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/plus4/plus4memhannes256k.c:137 src/translate.c.po.c:4795
+#: src/plus4/plus4memhannes256k.c:137 src/translate.c.po.c:4805
 #, fuzzy
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/plus4/plus4memhannes256k.c:139 src/translate.c.po.c:4805
+#: src/plus4/plus4memhannes256k.c:139 src/translate.c.po.c:4815
 #, fuzzy
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
@@ -1781,19 +1781,19 @@ msgstr "Textowe urz±dzenie wyj¶cia dla drukarki na porcie u¿ytkownika"
 msgid "Specify printer text output device for userport printer"
 msgstr "Textowe urz±dzenie wyj¶cia dla drukarki na porcie u¿ytkownika"
 
-#: src/ram.c:101 src/translate.c.po.c:4405
+#: src/ram.c:101 src/translate.c.po.c:4415
 msgid "Set the value for the very first RAM address after powerup"
 msgstr ""
 
-#: src/ram.c:104 src/ram.c:107 src/translate.c.po.c:4415
+#: src/ram.c:104 src/ram.c:107 src/translate.c.po.c:4425
 msgid "<num of bytes>"
 msgstr ""
 
-#: src/ram.c:104 src/translate.c.po.c:4425
+#: src/ram.c:104 src/translate.c.po.c:4435
 msgid "Length of memory block initialized with the same value"
 msgstr ""
 
-#: src/ram.c:107 src/translate.c.po.c:4435
+#: src/ram.c:107 src/translate.c.po.c:4445
 msgid "Length of memory block initialized with the same pattern"
 msgstr ""
 
@@ -2036,20 +2036,20 @@ msgstr "*Emuluj filtry"
 msgid "Do not emulate SID filters"
 msgstr "*Emuluj filtry"
 
-#: src/sysfile.c:127 src/translate.c.po.c:4555
+#: src/sysfile.c:127 src/translate.c.po.c:4565
 #, fuzzy
 msgid "<path>"
 msgstr "<pusty>"
 
-#: src/sysfile.c:127 src/translate.c.po.c:4565
+#: src/sysfile.c:127 src/translate.c.po.c:4575
 msgid "Define search path to locate system files"
 msgstr ""
 
-#: src/traps.c:123 src/translate.c.po.c:4575
+#: src/traps.c:123 src/translate.c.po.c:4585
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr ""
 
-#: src/traps.c:126 src/translate.c.po.c:4585
+#: src/traps.c:126 src/translate.c.po.c:4595
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr ""
 
@@ -6576,17 +6576,23 @@ msgstr "Rozmiar pamiêci"
 msgid "&Computer"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:112 src/arch/win32/resc128.rc.po.c:29
-#: src/arch/win32/resc64.rc.po.c:29 src/arch/win32/rescbm2.rc.po.c:28
-#: src/arch/win32/respet.rc.po.c:28 src/arch/win32/resplus4.rc.po.c:28
+#: src/arch/win32/res.rc.po.c:112 src/arch/win32/resc128.rc.po.c:22
+#: src/arch/win32/resc128.rc.po.c:29 src/arch/win32/resc64.rc.po.c:22
+#: src/arch/win32/resc64.rc.po.c:29 src/arch/win32/rescbm2.rc.po.c:21
+#: src/arch/win32/rescbm2.rc.po.c:28 src/arch/win32/respet.rc.po.c:21
+#: src/arch/win32/respet.rc.po.c:28 src/arch/win32/resplus4.rc.po.c:21
+#: src/arch/win32/resplus4.rc.po.c:28 src/arch/win32/resvic20.rc.po.c:21
 #: src/arch/win32/resvic20.rc.po.c:28
 #, fuzzy
 msgid "Drive &8"
 msgstr "Napêd %d: "
 
-#: src/arch/win32/res.rc.po.c:113 src/arch/win32/resc128.rc.po.c:30
-#: src/arch/win32/resc64.rc.po.c:30 src/arch/win32/rescbm2.rc.po.c:29
-#: src/arch/win32/respet.rc.po.c:29 src/arch/win32/resplus4.rc.po.c:29
+#: src/arch/win32/res.rc.po.c:113 src/arch/win32/resc128.rc.po.c:23
+#: src/arch/win32/resc128.rc.po.c:30 src/arch/win32/resc64.rc.po.c:23
+#: src/arch/win32/resc64.rc.po.c:30 src/arch/win32/rescbm2.rc.po.c:22
+#: src/arch/win32/rescbm2.rc.po.c:29 src/arch/win32/respet.rc.po.c:22
+#: src/arch/win32/respet.rc.po.c:29 src/arch/win32/resplus4.rc.po.c:22
+#: src/arch/win32/resplus4.rc.po.c:29 src/arch/win32/resvic20.rc.po.c:22
 #: src/arch/win32/resvic20.rc.po.c:29
 #, fuzzy
 msgid "Drive &9"
@@ -7649,7 +7655,10 @@ msgstr ""
 msgid "Load VICE palette file"
 msgstr "Za³aduj plik listy"
 
-#: src/arch/win32/res.rc.po.c:4974 src/arch/amigaos/intl.c.po.c:1023
+#: src/arch/win32/res.rc.po.c:4974 src/arch/win32/resc64.rc.po.c:181
+#: src/arch/win32/rescbm2.rc.po.c:150 src/arch/win32/respet.rc.po.c:149
+#: src/arch/win32/resplus4.rc.po.c:161 src/arch/win32/resvic20.rc.po.c:159
+#: src/arch/amigaos/intl.c.po.c:1023
 #, fuzzy
 msgid "Fullscreen"
 msgstr "Ustawienia pe³nego ekranu"
@@ -8108,32 +8117,24 @@ msgstr "W³ó¿ obraz kasety..."
 msgid "Attach &disk image"
 msgstr "W³ó¿ obraz dyskietki"
 
-#: src/arch/win32/resc128.rc.po.c:22 src/arch/win32/resc64.rc.po.c:22
-#: src/arch/win32/rescbm2.rc.po.c:21 src/arch/win32/respet.rc.po.c:21
-#: src/arch/win32/resplus4.rc.po.c:21 src/arch/win32/resvic20.rc.po.c:21
+#: src/arch/win32/resc128.rc.po.c:24 src/arch/win32/resc128.rc.po.c:31
+#: src/arch/win32/resc64.rc.po.c:24 src/arch/win32/resc64.rc.po.c:31
+#: src/arch/win32/rescbm2.rc.po.c:23 src/arch/win32/rescbm2.rc.po.c:30
+#: src/arch/win32/respet.rc.po.c:23 src/arch/win32/respet.rc.po.c:30
+#: src/arch/win32/resplus4.rc.po.c:23 src/arch/win32/resplus4.rc.po.c:30
+#: src/arch/win32/resvic20.rc.po.c:23 src/arch/win32/resvic20.rc.po.c:30
 #, fuzzy
-msgid "Drive &8\tAlt+8"
+msgid "Drive 1&0"
 msgstr "Model napêdu #8"
 
-#: src/arch/win32/resc128.rc.po.c:23 src/arch/win32/resc64.rc.po.c:23
-#: src/arch/win32/rescbm2.rc.po.c:22 src/arch/win32/respet.rc.po.c:22
-#: src/arch/win32/resplus4.rc.po.c:22 src/arch/win32/resvic20.rc.po.c:22
+#: src/arch/win32/resc128.rc.po.c:25 src/arch/win32/resc128.rc.po.c:32
+#: src/arch/win32/resc64.rc.po.c:25 src/arch/win32/resc64.rc.po.c:32
+#: src/arch/win32/rescbm2.rc.po.c:24 src/arch/win32/rescbm2.rc.po.c:31
+#: src/arch/win32/respet.rc.po.c:24 src/arch/win32/respet.rc.po.c:31
+#: src/arch/win32/resplus4.rc.po.c:24 src/arch/win32/resplus4.rc.po.c:31
+#: src/arch/win32/resvic20.rc.po.c:24 src/arch/win32/resvic20.rc.po.c:31
 #, fuzzy
-msgid "Drive &9\tAlt+9"
-msgstr "Model napêdu #8"
-
-#: src/arch/win32/resc128.rc.po.c:24 src/arch/win32/resc64.rc.po.c:24
-#: src/arch/win32/rescbm2.rc.po.c:23 src/arch/win32/respet.rc.po.c:23
-#: src/arch/win32/resplus4.rc.po.c:23 src/arch/win32/resvic20.rc.po.c:23
-#, fuzzy
-msgid "Drive 1&0\tAlt+0"
-msgstr "Model napêdu #8"
-
-#: src/arch/win32/resc128.rc.po.c:25 src/arch/win32/resc64.rc.po.c:25
-#: src/arch/win32/rescbm2.rc.po.c:24 src/arch/win32/respet.rc.po.c:24
-#: src/arch/win32/resplus4.rc.po.c:24 src/arch/win32/resvic20.rc.po.c:24
-#, fuzzy
-msgid "Drive &11\tAlt+1"
+msgid "Drive &11"
 msgstr "Model napêdu #8"
 
 #: src/arch/win32/resc128.rc.po.c:27 src/arch/win32/resc64.rc.po.c:27
@@ -8143,25 +8144,12 @@ msgstr "Model napêdu #8"
 msgid "D&etach disk image"
 msgstr "Wyjmij obraz dyskietki"
 
-#: src/arch/win32/resc128.rc.po.c:31 src/arch/win32/resc64.rc.po.c:31
-#: src/arch/win32/rescbm2.rc.po.c:30 src/arch/win32/respet.rc.po.c:30
-#: src/arch/win32/resplus4.rc.po.c:30 src/arch/win32/resvic20.rc.po.c:30
-#, fuzzy
-msgid "Drive 1&0"
-msgstr "Model napêdu #8"
-
-#: src/arch/win32/resc128.rc.po.c:32 src/arch/win32/resc64.rc.po.c:32
-#: src/arch/win32/rescbm2.rc.po.c:31 src/arch/win32/respet.rc.po.c:31
-#: src/arch/win32/resplus4.rc.po.c:31 src/arch/win32/resvic20.rc.po.c:31
-#, fuzzy
-msgid "Drive &11"
-msgstr "Model napêdu #8"
-
 #: src/arch/win32/resc128.rc.po.c:34 src/arch/win32/resc64.rc.po.c:34
 #: src/arch/win32/rescbm2.rc.po.c:33 src/arch/win32/respet.rc.po.c:33
 #: src/arch/win32/resplus4.rc.po.c:33 src/arch/win32/resvic20.rc.po.c:33
-msgid "&All\tAlt+A"
-msgstr ""
+#, fuzzy
+msgid "&All"
+msgstr "Wszystko"
 
 #: src/arch/win32/resc128.rc.po.c:36 src/arch/win32/resc64.rc.po.c:36
 #: src/arch/win32/rescbm2.rc.po.c:35 src/arch/win32/respet.rc.po.c:35
@@ -8174,28 +8162,28 @@ msgstr "Zmieñ listê"
 #: src/arch/win32/rescbm2.rc.po.c:37 src/arch/win32/respet.rc.po.c:37
 #: src/arch/win32/resplus4.rc.po.c:37 src/arch/win32/resvic20.rc.po.c:37
 #, fuzzy
-msgid "&Add current image\tAlt+I"
+msgid "&Add current image"
 msgstr "Dodaj aktualny obraz (jednostka 8)"
 
 #: src/arch/win32/resc128.rc.po.c:39 src/arch/win32/resc64.rc.po.c:39
 #: src/arch/win32/rescbm2.rc.po.c:38 src/arch/win32/respet.rc.po.c:38
 #: src/arch/win32/resplus4.rc.po.c:38 src/arch/win32/resvic20.rc.po.c:38
 #, fuzzy
-msgid "&Remove current image\tAlt+K"
+msgid "&Remove current image"
 msgstr "Usuñ aktualny obraz (jednostka 8)"
 
 #: src/arch/win32/resc128.rc.po.c:40 src/arch/win32/resc64.rc.po.c:40
 #: src/arch/win32/rescbm2.rc.po.c:39 src/arch/win32/respet.rc.po.c:39
 #: src/arch/win32/resplus4.rc.po.c:39 src/arch/win32/resvic20.rc.po.c:39
 #, fuzzy
-msgid "Attach &next image\tAlt+N"
+msgid "Attach &next image"
 msgstr "W³ó¿ nastêpny obraz (jednostka 8)"
 
 #: src/arch/win32/resc128.rc.po.c:41 src/arch/win32/resc64.rc.po.c:41
 #: src/arch/win32/rescbm2.rc.po.c:40 src/arch/win32/respet.rc.po.c:40
 #: src/arch/win32/resplus4.rc.po.c:40 src/arch/win32/resvic20.rc.po.c:40
 #, fuzzy
-msgid "Attach &previous image\tAlt+B"
+msgid "Attach &previous image"
 msgstr "W³ó¿ poprzedni obraz (jednostka 8)"
 
 #: src/arch/win32/resc128.rc.po.c:43 src/arch/win32/resc64.rc.po.c:43
@@ -8216,7 +8204,7 @@ msgstr "Zapisz plik listy"
 #: src/arch/win32/rescbm2.rc.po.c:46 src/arch/win32/respet.rc.po.c:46
 #: src/arch/win32/resplus4.rc.po.c:46 src/arch/win32/resvic20.rc.po.c:46
 #, fuzzy
-msgid "Attach &tape image...\tAlt+T"
+msgid "Attach &tape image..."
 msgstr "W³ó¿ obraz kasety..."
 
 #: src/arch/win32/resc128.rc.po.c:48 src/arch/win32/resc64.rc.po.c:48
@@ -8381,20 +8369,21 @@ msgstr "Wjmij obraz kartrid¿a"
 
 #: src/arch/win32/resc128.rc.po.c:88 src/arch/win32/resc64.rc.po.c:89
 #, fuzzy
-msgid "Cartridge free&ze\tAlt+Z"
+msgid "Cartridge free&ze"
 msgstr "Cartridge freeze"
 
 #: src/arch/win32/resc128.rc.po.c:90 src/arch/win32/resc64.rc.po.c:91
 #: src/arch/win32/rescbm2.rc.po.c:61 src/arch/win32/respet.rc.po.c:59
 #: src/arch/win32/resplus4.rc.po.c:71 src/arch/win32/resvic20.rc.po.c:69
-msgid "&Pause\tAlt+Pause"
-msgstr ""
+#, fuzzy
+msgid "&Pause"
+msgstr "*Pauza"
 
 #: src/arch/win32/resc128.rc.po.c:91 src/arch/win32/resc64.rc.po.c:92
 #: src/arch/win32/rescbm2.rc.po.c:63 src/arch/win32/respet.rc.po.c:61
 #: src/arch/win32/resplus4.rc.po.c:73 src/arch/win32/resvic20.rc.po.c:71
 #, fuzzy
-msgid "&Monitor\tAlt+M"
+msgid "&Monitor"
 msgstr "Monitor"
 
 #: src/arch/win32/resc128.rc.po.c:92 src/arch/win32/resc64.rc.po.c:93
@@ -8407,15 +8396,16 @@ msgstr "Reset"
 #: src/arch/win32/resc128.rc.po.c:94 src/arch/win32/resc64.rc.po.c:95
 #: src/arch/win32/rescbm2.rc.po.c:66 src/arch/win32/respet.rc.po.c:64
 #: src/arch/win32/resplus4.rc.po.c:76 src/arch/win32/resvic20.rc.po.c:74
-msgid "&Hard\tCtrl+Alt+R"
-msgstr ""
+#, fuzzy
+msgid "&Hard"
+msgstr "Twardy"
 
 #: src/arch/win32/resc128.rc.po.c:95 src/arch/win32/resc64.rc.po.c:96
 #: src/arch/win32/rescbm2.rc.po.c:67 src/arch/win32/respet.rc.po.c:65
 #: src/arch/win32/resplus4.rc.po.c:77 src/arch/win32/resvic20.rc.po.c:75
 #, fuzzy
-msgid "&Soft\tAlt+R"
-msgstr "Monitor"
+msgid "&Soft"
+msgstr "Miêkki"
 
 #: src/arch/win32/resc128.rc.po.c:97 src/arch/win32/resc64.rc.po.c:98
 #: src/arch/win32/rescbm2.rc.po.c:69 src/arch/win32/respet.rc.po.c:67
@@ -8484,29 +8474,29 @@ msgstr "Katalog nie znaleziony"
 #: src/arch/win32/rescbm2.rc.po.c:84 src/arch/win32/respet.rc.po.c:82
 #: src/arch/win32/resplus4.rc.po.c:94 src/arch/win32/resvic20.rc.po.c:92
 #, fuzzy
-msgid "&Main CPU Trace\tAlt+F10"
+msgid "&Main CPU Trace"
 msgstr "Model napêdu #8"
 
 #: src/arch/win32/resc128.rc.po.c:113 src/arch/win32/resc64.rc.po.c:114
 #: src/arch/win32/rescbm2.rc.po.c:85 src/arch/win32/respet.rc.po.c:83
 #: src/arch/win32/resplus4.rc.po.c:95 src/arch/win32/resvic20.rc.po.c:93
 #, fuzzy
-msgid "Drive&0 CPU Trace\tAlt+F11"
+msgid "Drive&0 CPU Trace"
 msgstr "Model napêdu #8"
 
 #: src/arch/win32/resc128.rc.po.c:114 src/arch/win32/resc64.rc.po.c:115
 #: src/arch/win32/rescbm2.rc.po.c:86 src/arch/win32/respet.rc.po.c:84
 #: src/arch/win32/resplus4.rc.po.c:96 src/arch/win32/resvic20.rc.po.c:94
 #, fuzzy
-msgid "Drive&1 CPU Trace\tAlt+F12"
+msgid "Drive&1 CPU Trace"
 msgstr "Model napêdu #8"
 
 #: src/arch/win32/resc128.rc.po.c:118 src/arch/win32/resc64.rc.po.c:119
 #: src/arch/win32/rescbm2.rc.po.c:90 src/arch/win32/respet.rc.po.c:88
 #: src/arch/win32/resplus4.rc.po.c:100 src/arch/win32/resvic20.rc.po.c:98
 #, fuzzy
-msgid "E&xit\tAlt+X"
-msgstr "Monitor"
+msgid "E&xit"
+msgstr "*Wymu¶"
 
 #: src/arch/win32/resc128.rc.po.c:120 src/arch/win32/resc64.rc.po.c:121
 #: src/arch/win32/rescbm2.rc.po.c:92 src/arch/win32/respet.rc.po.c:90
@@ -8533,14 +8523,14 @@ msgstr "Zapisz plik"
 #: src/arch/win32/rescbm2.rc.po.c:96 src/arch/win32/respet.rc.po.c:94
 #: src/arch/win32/resplus4.rc.po.c:106 src/arch/win32/resvic20.rc.po.c:104
 #, fuzzy
-msgid "&Load quicksnapshot image\tAlt+L"
-msgstr "Zapisz plik"
+msgid "&Load quicksnapshot image"
+msgstr "Za³aduj zrzut"
 
 #: src/arch/win32/resc128.rc.po.c:125 src/arch/win32/resc64.rc.po.c:126
 #: src/arch/win32/rescbm2.rc.po.c:97 src/arch/win32/respet.rc.po.c:95
 #: src/arch/win32/resplus4.rc.po.c:107 src/arch/win32/resvic20.rc.po.c:105
 #, fuzzy
-msgid "&Save quicksnapshot image\tAlt+S"
+msgid "&Save quicksnapshot image"
 msgstr "Zapisz plik"
 
 #: src/arch/win32/resc128.rc.po.c:127 src/arch/win32/resc64.rc.po.c:128
@@ -8560,15 +8550,17 @@ msgstr "Rozpocznij zapisywanie wydarzen"
 #: src/arch/win32/resc128.rc.po.c:129 src/arch/win32/resc64.rc.po.c:130
 #: src/arch/win32/rescbm2.rc.po.c:101 src/arch/win32/respet.rc.po.c:99
 #: src/arch/win32/resplus4.rc.po.c:111 src/arch/win32/resvic20.rc.po.c:109
+#: src/arch/amigaos/intl.c.po.c:735
 #, fuzzy
-msgid "Set Recording Milestone\tAlt+G"
+msgid "Set Recording Milestone"
 msgstr "Zatrzymaj zapisywanie wydarzen "
 
 #: src/arch/win32/resc128.rc.po.c:130 src/arch/win32/resc64.rc.po.c:131
 #: src/arch/win32/rescbm2.rc.po.c:102 src/arch/win32/respet.rc.po.c:100
 #: src/arch/win32/resplus4.rc.po.c:112 src/arch/win32/resvic20.rc.po.c:110
+#: src/arch/amigaos/intl.c.po.c:744
 #, fuzzy
-msgid "Return to Milestone\tAlt+H"
+msgid "Return to Milestone"
 msgstr "Zatrzymaj zapisywanie wydarzen "
 
 #: src/arch/win32/resc128.rc.po.c:133 src/arch/win32/resc64.rc.po.c:134
@@ -8610,8 +8602,9 @@ msgstr "Katalog systemu plików..."
 #: src/arch/win32/resc128.rc.po.c:140 src/arch/win32/resc64.rc.po.c:141
 #: src/arch/win32/rescbm2.rc.po.c:112 src/arch/win32/respet.rc.po.c:110
 #: src/arch/win32/resplus4.rc.po.c:122 src/arch/win32/resvic20.rc.po.c:120
+#: src/arch/amigaos/intl.c.po.c:807
 #, fuzzy
-msgid "Save/stop media file...\tAlt+C"
+msgid "Save/stop media file..."
 msgstr "Zapisz obraz kartrid¿a"
 
 #: src/arch/win32/resc128.rc.po.c:142 src/arch/win32/resc64.rc.po.c:143
@@ -8759,8 +8752,9 @@ msgstr "*Bez limitu"
 #: src/arch/win32/resc128.rc.po.c:176 src/arch/win32/resc64.rc.po.c:179
 #: src/arch/win32/rescbm2.rc.po.c:148 src/arch/win32/respet.rc.po.c:146
 #: src/arch/win32/resplus4.rc.po.c:158 src/arch/win32/resvic20.rc.po.c:156
-msgid "&Warp mode\tAlt+W"
-msgstr ""
+#, fuzzy
+msgid "&Warp mode"
+msgstr "W³±cz tryb przy¶pieszony (Turbo)"
 
 #: src/arch/win32/resc128.rc.po.c:178 src/arch/win32/resc64.rc.po.c:182
 #: src/arch/win32/rescbm2.rc.po.c:151 src/arch/win32/respet.rc.po.c:150
@@ -8812,7 +8806,7 @@ msgstr "*Wy¶wietl pamiêæ 64KB"
 #: src/arch/win32/rescbm2.rc.po.c:160 src/arch/win32/respet.rc.po.c:156
 #: src/arch/win32/resplus4.rc.po.c:175 src/arch/win32/resvic20.rc.po.c:173
 #, fuzzy
-msgid "Swap &Joystick\tAlt+J"
+msgid "Swap &Joystick"
 msgstr "Zamieñ porty (1/2)"
 
 #: src/arch/win32/resc128.rc.po.c:194 src/arch/win32/resc64.rc.po.c:192
@@ -8868,7 +8862,7 @@ msgstr "*Emulacja interfejsu IEEE488"
 
 #: src/arch/win32/resc128.rc.po.c:207 src/arch/win32/resc64.rc.po.c:205
 #, fuzzy
-msgid "&Grab mouse events\tAlt+Q"
+msgid "&Grab mouse events"
 msgstr "*Emulacja myszki 1351"
 
 #: src/arch/win32/resc128.rc.po.c:209 src/arch/win32/resc64.rc.po.c:207
@@ -9474,13 +9468,6 @@ msgstr "W³ó¿ obraz Action Replay..."
 #: src/arch/win32/resc64.rc.po.c:146 src/arch/amigaos/intl.c.po.c:816
 msgid "Netplay (experimental)..."
 msgstr ""
-
-#: src/arch/win32/resc64.rc.po.c:181 src/arch/win32/rescbm2.rc.po.c:150
-#: src/arch/win32/respet.rc.po.c:149 src/arch/win32/resplus4.rc.po.c:161
-#: src/arch/win32/resvic20.rc.po.c:159
-#, fuzzy
-msgid "Fullscreen\tAlt+D"
-msgstr "*Ustawienia pe³nego ekranu"
 
 #: src/arch/win32/resc64.rc.po.c:201
 #, fuzzy
@@ -10871,11 +10858,15 @@ msgstr ""
 msgid "Specify SID engine (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"
 msgstr ""
 
-#: src/translate.c.po.c:4635
-msgid "<iso language code>"
+#: src/translate.c.po.c:4184
+msgid "Execute monitor commands from file"
 msgstr ""
 
 #: src/translate.c.po.c:4645
+msgid "<iso language code>"
+msgstr ""
+
+#: src/translate.c.po.c:4655
 msgid "Specify the iso code of the language"
 msgstr ""
 
@@ -11067,16 +11058,6 @@ msgstr "Rozpocznij zapisywanie wydarzen"
 msgid "Start/Stop Playback History"
 msgstr "Rozpocznij zapisywanie wydarzen"
 
-#: src/arch/amigaos/intl.c.po.c:735
-#, fuzzy
-msgid "Set Recording Milestone"
-msgstr "Zatrzymaj zapisywanie wydarzen "
-
-#: src/arch/amigaos/intl.c.po.c:744
-#, fuzzy
-msgid "Return to Milestone"
-msgstr "Zatrzymaj zapisywanie wydarzen "
-
 #: src/arch/amigaos/intl.c.po.c:762
 #, fuzzy
 msgid "Save new snapshot"
@@ -11096,11 +11077,6 @@ msgstr "*Rozpocznij z restartem"
 #, fuzzy
 msgid "Overwrite Playback"
 msgstr "*W³±cz d¼wiêk"
-
-#: src/arch/amigaos/intl.c.po.c:807
-#, fuzzy
-msgid "Save/stop media file..."
-msgstr "Zapisz obraz kartrid¿a"
 
 #: src/arch/amigaos/intl.c.po.c:843
 #, fuzzy
@@ -12353,6 +12329,86 @@ msgstr "*W³±cz tryb przy¶pieszony (Turbo)"
 #: src/arch/amigaos/intl.c.po.c:4727
 msgid "Amiga mouse"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Drive &8\tAlt+8"
+#~ msgstr "Model napêdu #8"
+
+#, fuzzy
+#~ msgid "Drive &9\tAlt+9"
+#~ msgstr "Model napêdu #8"
+
+#, fuzzy
+#~ msgid "Drive 1&0\tAlt+0"
+#~ msgstr "Model napêdu #8"
+
+#, fuzzy
+#~ msgid "Drive &11\tAlt+1"
+#~ msgstr "Model napêdu #8"
+
+#, fuzzy
+#~ msgid "&Add current image\tAlt+I"
+#~ msgstr "Dodaj aktualny obraz (jednostka 8)"
+
+#, fuzzy
+#~ msgid "&Remove current image\tAlt+K"
+#~ msgstr "Usuñ aktualny obraz (jednostka 8)"
+
+#, fuzzy
+#~ msgid "Attach &next image\tAlt+N"
+#~ msgstr "W³ó¿ nastêpny obraz (jednostka 8)"
+
+#, fuzzy
+#~ msgid "Attach &previous image\tAlt+B"
+#~ msgstr "W³ó¿ poprzedni obraz (jednostka 8)"
+
+#, fuzzy
+#~ msgid "Attach &tape image...\tAlt+T"
+#~ msgstr "W³ó¿ obraz kasety..."
+
+#, fuzzy
+#~ msgid "Cartridge free&ze\tAlt+Z"
+#~ msgstr "Cartridge freeze"
+
+#, fuzzy
+#~ msgid "&Monitor\tAlt+M"
+#~ msgstr "Monitor"
+
+#, fuzzy
+#~ msgid "&Soft\tAlt+R"
+#~ msgstr "Monitor"
+
+#, fuzzy
+#~ msgid "E&xit\tAlt+X"
+#~ msgstr "Monitor"
+
+#, fuzzy
+#~ msgid "&Load quicksnapshot image\tAlt+L"
+#~ msgstr "Zapisz plik"
+
+#, fuzzy
+#~ msgid "&Save quicksnapshot image\tAlt+S"
+#~ msgstr "Zapisz plik"
+
+#, fuzzy
+#~ msgid "Set Recording Milestone\tAlt+G"
+#~ msgstr "Zatrzymaj zapisywanie wydarzen "
+
+#, fuzzy
+#~ msgid "Return to Milestone\tAlt+H"
+#~ msgstr "Zatrzymaj zapisywanie wydarzen "
+
+#, fuzzy
+#~ msgid "Save/stop media file...\tAlt+C"
+#~ msgstr "Zapisz obraz kartrid¿a"
+
+#, fuzzy
+#~ msgid "Swap &Joystick\tAlt+J"
+#~ msgstr "Zamieñ porty (1/2)"
+
+#, fuzzy
+#~ msgid "Fullscreen\tAlt+D"
+#~ msgstr "*Ustawienia pe³nego ekranu"
 
 #~ msgid "Can't add fontpath `%s'.\n"
 #~ msgstr "Nie mo¿na dodaæ ¶cie¿ki czcionki: `%s'.\n"

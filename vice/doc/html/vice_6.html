@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 27 January 2008 -->
+     from ../vice.texi on 20 April 2008 -->
 
 <TITLE>VICE Manual - 6  Settings and resources</TITLE>
 </HEAD>
@@ -1754,7 +1754,32 @@ If it is able to detect an
 
 
 
-<H2><A NAME="SEC71" HREF="vice_toc.html#TOC71">6.10  Miscellaneous settings</A></H2>
+<H2><A NAME="SEC71" HREF="vice_toc.html#TOC71">6.10  Monitor settings</A></H2>
+
+<P>
+This section lists command-line options specific to the built-in monitor.
+
+</P>
+
+
+
+<H3><A NAME="SEC72" HREF="vice_toc.html#TOC72">6.10.1  Monitor command-line options</A></H3>
+
+<DL COMPACT>
+
+<DT><CODE>-moncommand FILENAME</CODE>
+<DD>
+<A NAME="IDX172"></A>
+ 
+Execute the commands from the file <CODE>FILENAME</CODE> in the monitor after starting up. This
+command line switch is mainly thought to load labels and to set breakpoints.
+Not all other commands are useful to be executed in this way, some may even
+lead to strange effects.
+</DL>
+
+
+
+<H2><A NAME="SEC73" HREF="vice_toc.html#TOC73">6.11  Miscellaneous settings</A></H2>
 
 <P>
 This section lists generic resources that do not fit in the other
@@ -1764,13 +1789,13 @@ categories.
 
 
 
-<H3><A NAME="SEC72" HREF="vice_toc.html#TOC72">6.10.1  Miscellaneous resources</A></H3>
+<H3><A NAME="SEC74" HREF="vice_toc.html#TOC74">6.11.1  Miscellaneous resources</A></H3>
 
 <DL COMPACT>
 
 <DT><CODE>Directory</CODE>
 <DD>
-<A NAME="IDX172"></A>
+<A NAME="IDX173"></A>
  
 String specifying the search path for system files.  It is defined as a
 sequence of directory names, separated by colons (<SAMP>`:'</SAMP>), just like
@@ -1814,7 +1839,7 @@ speeddos or JiffyDos) can be stored for example.
 See section <A HREF="vice_4.html#SEC23">4  System files</A>. for a description of the method used to load the
 emulator's system files.
 
-<A NAME="IDX173"></A>
+<A NAME="IDX174"></A>
 <DT><CODE>HTMLBrowserCommand</CODE>
 <DD>
 String specifying the command to run the help browser.  The help browser
@@ -1822,20 +1847,20 @@ can be any HTML browser, and every <SAMP>`%s'</SAMP> in the string is replaced
 with the name of the toplevel file of the VICE documentation.  For
 example, the default value <SAMP>`netscape %s'</SAMP> runs Netscape Navigator.
 
-<A NAME="IDX174"></A>
+<A NAME="IDX175"></A>
 <DT><CODE>SaveResourcesOnExit</CODE>
 <DD>
 Boolean specifying whether the emulator should save changed settings
 before exiting.  If this is enabled, the user will be always prompted
 first, in case the settings have changed.
 
-<A NAME="IDX175"></A>
+<A NAME="IDX176"></A>
 <DT><CODE>DoCoreDump</CODE>
 <DD>
 Boolean specifying whether the emulator should dump core when it gets a
 signal.
 
-<A NAME="IDX176"></A>
+<A NAME="IDX177"></A>
 <DT><CODE>JoyDevice1</CODE>
 <DD>
 <DT><CODE>JoyDevice2</CODE>
@@ -1852,21 +1877,21 @@ available for example).
 
 
 
-<H3><A NAME="SEC73" HREF="vice_toc.html#TOC73">6.10.2  Miscellaneous command-line options</A></H3>
+<H3><A NAME="SEC75" HREF="vice_toc.html#TOC75">6.11.2  Miscellaneous command-line options</A></H3>
 
 <DL COMPACT>
 
 <DT><CODE>-directory SEARCHPATH</CODE>
 <DD>
-<A NAME="IDX177"></A>
+<A NAME="IDX178"></A>
  
 Specify the system file search path (<CODE>Directory</CODE>).
-<A NAME="IDX178"></A>
+<A NAME="IDX179"></A>
 <DT><CODE>-htmlbrowser COMMAND</CODE>
 <DD>
 Specify the command to run the HTML browser for the on-line help
 (<CODE>HTMLBrowserCommand</CODE>).
-<A NAME="IDX179"></A>
+<A NAME="IDX180"></A>
 <DT><CODE>-saveres</CODE>
 <DD>
 <DT><CODE>+saveres</CODE>
@@ -1874,7 +1899,7 @@ Specify the command to run the HTML browser for the on-line help
 Enable/disable automatic saving of settings on exit
 (<CODE>SaveResourcesOnExit=1</CODE>, <CODE>SaveResourcesOnExit=0</CODE>).
 
-<A NAME="IDX180"></A>
+<A NAME="IDX181"></A>
 <DT><CODE>-core</CODE>
 <DD>
 <DT><CODE>+core</CODE>
@@ -1882,7 +1907,7 @@ Enable/disable automatic saving of settings on exit
 Enable/disable generation of core dumps (<CODE>DoCoreDump=1</CODE>,
 <CODE>DoCoreDump=0</CODE>).
 
-<A NAME="IDX181"></A>
+<A NAME="IDX182"></A>
 <DT><CODE>-joydev1</CODE>
 <DD>
 <DT><CODE>-joydev2</CODE>

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-24 20:25+0100\n"
+"POT-Creation-Date: 2008-04-20 13:45+0200\n"
 "PO-Revision-Date: 2007-07-30 20:49+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -19,27 +19,27 @@ msgstr ""
 msgid "<percent>"
 msgstr "<procent>"
 
-#: src/vsync.c:147 src/translate.c.po.c:4595
+#: src/vsync.c:147 src/translate.c.po.c:4605
 msgid "Limit emulation speed to specified value"
 msgstr "Begränsa emuleringshastighet till angivet värde"
 
 #: src/vsync.c:149 src/sound.c:275 src/sound.c:277 src/debug.c:205
-#: src/c64/cart/ide64.c:279 src/c64/cart/ide64.c:281 src/c64/cart/ide64.c:283
+#: src/c64/cart/ide64.c:283 src/c64/cart/ide64.c:285 src/c64/cart/ide64.c:287
 #: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:201
 #: src/gfxoutputdrv/ffmpegdrv.c:204 src/mouse.c:362 src/mouse.c:364
 #: src/ram.c:101 src/translate.c.po.c:1592
 msgid "<value>"
 msgstr "<värde>"
 
-#: src/vsync.c:149 src/translate.c.po.c:4605
+#: src/vsync.c:149 src/translate.c.po.c:4615
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Uppdatera varje <värde> ramar (\"0\" för automatiskt)"
 
-#: src/vsync.c:151 src/translate.c.po.c:4615
+#: src/vsync.c:151 src/translate.c.po.c:4625
 msgid "Enable warp mode"
 msgstr "Aktivera warpläge"
 
-#: src/vsync.c:153 src/translate.c.po.c:4625
+#: src/vsync.c:153 src/translate.c.po.c:4635
 msgid "Disable warp mode"
 msgstr "Inaktivera warpläge"
 
@@ -55,19 +55,19 @@ msgstr "Endast en inspelning kan göras åt gången."
 msgid "Cannot load snapshot file."
 msgstr "Kan inte läsa in ögonblicksbildfil."
 
-#: src/sound.c:271 src/translate.c.po.c:4445
+#: src/sound.c:271 src/translate.c.po.c:4455
 msgid "Enable sound playback"
 msgstr "Aktivera ljudåtergivning"
 
-#: src/sound.c:273 src/translate.c.po.c:4455
+#: src/sound.c:273 src/translate.c.po.c:4465
 msgid "Disable sound playback"
 msgstr "Inaktivera ljudåtergivning"
 
-#: src/sound.c:275 src/translate.c.po.c:4465
+#: src/sound.c:275 src/translate.c.po.c:4475
 msgid "Set sound sample rate to <value> Hz"
 msgstr "Sätt ljudsamplingshastighet till <värde> Hz"
 
-#: src/sound.c:277 src/translate.c.po.c:4475
+#: src/sound.c:277 src/translate.c.po.c:4485
 msgid "Set sound buffer size to <value> msec"
 msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 
@@ -91,7 +91,7 @@ msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 #: src/c64/cart/c64cart.c:259 src/c64/cart/c64cart.c:262
 #: src/c64/cart/c64cart.c:265 src/c64/cart/c64cart.c:268
 #: src/c64/cart/c64cart.c:271 src/c64/cart/c64cart.c:274
-#: src/c64/cart/ide64.c:277 src/c64/c64_256k.c:210 src/c64/georam.c:209
+#: src/c64/cart/ide64.c:281 src/c64/c64_256k.c:210 src/c64/georam.c:209
 #: src/c64/mmc64.c:907 src/c64/mmc64.c:909 src/c64/plus256k.c:175
 #: src/c64/plus60k.c:249 src/c64/ramcart.c:239 src/c64/reu.c:247
 #: src/c64/tfe.c:1934 src/cbm2/cbm2-cmdline-options.c:132
@@ -148,31 +148,31 @@ msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 msgid "<name>"
 msgstr "<namn>"
 
-#: src/sound.c:279 src/translate.c.po.c:4485
+#: src/sound.c:279 src/translate.c.po.c:4495
 msgid "Specify sound driver"
 msgstr "Ange ljuddrivrutin"
 
-#: src/sound.c:281 src/sound.c:285 src/translate.c.po.c:4495
+#: src/sound.c:281 src/sound.c:285 src/translate.c.po.c:4505
 msgid "<args>"
 msgstr "<flaggor>"
 
-#: src/sound.c:281 src/translate.c.po.c:4505
+#: src/sound.c:281 src/translate.c.po.c:4515
 msgid "Specify initialization parameters for sound driver"
 msgstr "Ange initieringsflaggor för ljuddrivrutin"
 
-#: src/sound.c:283 src/translate.c.po.c:4515
+#: src/sound.c:283 src/translate.c.po.c:4525
 msgid "Specify recording sound driver"
 msgstr "Ange ljuddrivrutin för inspelning"
 
-#: src/sound.c:285 src/translate.c.po.c:4525
+#: src/sound.c:285 src/translate.c.po.c:4535
 msgid "Specify initialization parameters for recording sound driver"
 msgstr "Ange initieringsflaggor för ljuddrivrutin för inspelning"
 
-#: src/sound.c:287 src/translate.c.po.c:4535
+#: src/sound.c:287 src/translate.c.po.c:4545
 msgid "<sync>"
 msgstr "<synk>"
 
-#: src/sound.c:287 src/translate.c.po.c:4545
+#: src/sound.c:287 src/translate.c.po.c:4555
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 "Ställ in ljudhastighetsjustering (0: flexibel, 1: justerande, 2: exakt)"
@@ -783,7 +783,7 @@ msgstr "Anslut CBM IEEE488-insticksmodulfil"
 msgid "Attach raw 16KB Westermann learning cartridge image"
 msgstr "Anslut rå 16KB-Westermann learning-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:274 src/translate.c.po.c:4765
+#: src/c64/cart/c64cart.c:274 src/translate.c.po.c:4775
 msgid "Attach raw Structured Basic cartridge image"
 msgstr "Anslut rå Strucured Basic-insticksmodulfil"
 
@@ -791,39 +791,39 @@ msgstr "Anslut rå Strucured Basic-insticksmodulfil"
 msgid "Enable expert cartridge"
 msgstr "Aktivera Expert Cartridge"
 
-#: src/c64/cart/ide64.c:277 src/translate.c.po.c:1582
+#: src/c64/cart/ide64.c:281 src/translate.c.po.c:1582
 msgid "Specify name of IDE64 image file"
 msgstr "Ange namn på IDE64-insticksmodulfil"
 
-#: src/c64/cart/ide64.c:279 src/translate.c.po.c:1602
+#: src/c64/cart/ide64.c:283 src/translate.c.po.c:1602
 msgid "Set number of cylinders for the IDE64 emulation"
 msgstr "Välj antal cylindrar för IDE64-emuleringen"
 
-#: src/c64/cart/ide64.c:281 src/translate.c.po.c:1612
+#: src/c64/cart/ide64.c:285 src/translate.c.po.c:1612
 msgid "Set number of heads for the IDE64 emulation"
 msgstr "Ange antal huvuden för IDE64-emuleringen"
 
-#: src/c64/cart/ide64.c:283 src/translate.c.po.c:1622
+#: src/c64/cart/ide64.c:287 src/translate.c.po.c:1622
 msgid "Set number of sectors for the IDE64 emulation"
 msgstr "Ange antal sektorer för IDE64-emuleringen"
 
-#: src/c64/cart/ide64.c:286 src/translate.c.po.c:1632
+#: src/c64/cart/ide64.c:290 src/translate.c.po.c:1632
 msgid "Autodetect geometry of formatted images"
 msgstr "Autodetektera geometri från formaterad avbildningsfil"
 
-#: src/c64/cart/ide64.c:289 src/translate.c.po.c:1642
+#: src/c64/cart/ide64.c:293 src/translate.c.po.c:1642
 msgid "Do not autodetect geometry of formatted images"
 msgstr "Autodetektera inte geometri från formaterad avbildningsfil"
 
-#: src/c64/c64_256k.c:206 src/translate.c.po.c:4725
+#: src/c64/c64_256k.c:206 src/translate.c.po.c:4735
 msgid "Enable the 256K RAM expansion"
 msgstr "Aktivera 256K RAM-expansion"
 
-#: src/c64/c64_256k.c:208 src/translate.c.po.c:4735
+#: src/c64/c64_256k.c:208 src/translate.c.po.c:4745
 msgid "Disable the 256K RAM expansion"
 msgstr "Inaktivera 256K RAM-expansion"
 
-#: src/c64/c64_256k.c:210 src/translate.c.po.c:4745
+#: src/c64/c64_256k.c:210 src/translate.c.po.c:4755
 msgid "Specify name of 256K image"
 msgstr "Ange namn på 256K-avbildning"
 
@@ -832,7 +832,7 @@ msgstr "Ange namn på 256K-avbildning"
 msgid "<base address>"
 msgstr "<basadress>"
 
-#: src/c64/c64_256k.c:212 src/translate.c.po.c:4755
+#: src/c64/c64_256k.c:212 src/translate.c.po.c:4765
 msgid "Base address of the 256K expansion"
 msgstr "Basadress för 256K-expansionen"
 
@@ -844,15 +844,15 @@ msgstr ""
 "Digimax kan inte användas med ReSID\n"
 "Byt SID-motor till FastSID"
 
-#: src/c64/digimax.c:137 src/translate.c.po.c:4815
+#: src/c64/digimax.c:137 src/translate.c.po.c:4825
 msgid "Enable the digimax cartridge"
 msgstr "Aktivera Digimax-cartridge"
 
-#: src/c64/digimax.c:139 src/translate.c.po.c:4825
+#: src/c64/digimax.c:139 src/translate.c.po.c:4835
 msgid "Disable the digimax cartridge"
 msgstr "Inaktivera Digimax Cartridge"
 
-#: src/c64/digimax.c:141 src/translate.c.po.c:4835
+#: src/c64/digimax.c:141 src/translate.c.po.c:4845
 msgid "Base address of the digimax cartridge"
 msgstr "Basadress för Digimax-cartridge"
 
@@ -905,31 +905,31 @@ msgstr "Tillåt skrivning på MMC64-kort"
 msgid "Save the MMC64 bios when changed"
 msgstr "Spara MMC64-BIOS vid ändring"
 
-#: src/c64/plus256k.c:171 src/translate.c.po.c:4655
+#: src/c64/plus256k.c:171 src/translate.c.po.c:4665
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "Aktivera PLUS256K RAM-expansion"
 
-#: src/c64/plus256k.c:173 src/translate.c.po.c:4665
+#: src/c64/plus256k.c:173 src/translate.c.po.c:4675
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "Inaktivera PLUS256K RAM-expansion"
 
-#: src/c64/plus256k.c:175 src/translate.c.po.c:4675
+#: src/c64/plus256k.c:175 src/translate.c.po.c:4685
 msgid "Specify name of PLUS256K image"
 msgstr "Ange namn på PLUS256K-avbildning"
 
-#: src/c64/plus60k.c:245 src/translate.c.po.c:4685
+#: src/c64/plus60k.c:245 src/translate.c.po.c:4695
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "Aktivera PLUS60K RAM-expansionen"
 
-#: src/c64/plus60k.c:247 src/translate.c.po.c:4695
+#: src/c64/plus60k.c:247 src/translate.c.po.c:4705
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "Inaktivera PLUS60K RAM-expansion"
 
-#: src/c64/plus60k.c:249 src/translate.c.po.c:4705
+#: src/c64/plus60k.c:249 src/translate.c.po.c:4715
 msgid "Specify name of PLUS60K image"
 msgstr "Ange namn på plUS60K-avbildning"
 
-#: src/c64/plus60k.c:251 src/translate.c.po.c:4715
+#: src/c64/plus60k.c:251 src/translate.c.po.c:4725
 msgid "Base address of the PLUS60K expansion"
 msgstr "Basadress för PLUS60K-expansion"
 
@@ -1294,7 +1294,7 @@ msgstr "Ange namn på 1001/8050/8250-DOS-ROM-avbildning"
 msgid "Specify name of 1551 DOS ROM image"
 msgstr "Ange namn på 1551-DOS-ROM-avbildning"
 
-#: src/fliplist.c:121 src/translate.c.po.c:4184
+#: src/fliplist.c:121 src/translate.c.po.c:4194
 msgid "Specify name of the flip list file image"
 msgstr "Ange namn på vallistefilavbildningen"
 
@@ -1336,89 +1336,89 @@ msgid "ffmpegdrv: Cannot open %s"
 msgstr "ffmpegdrv: Kan inte öppna %s"
 
 #: src/initcmdline.c:155 src/initcmdline.c:157 src/initcmdline.c:159
-#: src/translate.c.po.c:4193
+#: src/translate.c.po.c:4203
 msgid "Show a list of the available options and exit normally"
 msgstr "Visa lista över tillgängliga flaggor och avsluta normalt"
 
-#: src/initcmdline.c:162 src/translate.c.po.c:4204
+#: src/initcmdline.c:162 src/translate.c.po.c:4214
 msgid "Console mode (for music playback)"
 msgstr "Konsolläge (för musikspelning)"
 
-#: src/initcmdline.c:164 src/translate.c.po.c:4214
+#: src/initcmdline.c:164 src/translate.c.po.c:4224
 msgid "Allow production of core dumps"
 msgstr "Tillåt skapa minnesutskrift"
 
-#: src/initcmdline.c:166 src/translate.c.po.c:4224
+#: src/initcmdline.c:166 src/translate.c.po.c:4234
 msgid "Do not produce core dumps"
 msgstr "Skapa inte minnesutskrift"
 
-#: src/initcmdline.c:169 src/translate.c.po.c:4234
+#: src/initcmdline.c:169 src/translate.c.po.c:4244
 msgid "Don't call exception handler"
 msgstr "Anropa inte undantagshanterare"
 
-#: src/initcmdline.c:171 src/translate.c.po.c:4244
+#: src/initcmdline.c:171 src/translate.c.po.c:4254
 msgid "Call exception handler (default)"
 msgstr "Anropa undantagshanterare (standard)"
 
-#: src/initcmdline.c:206 src/translate.c.po.c:4255
+#: src/initcmdline.c:206 src/translate.c.po.c:4265
 msgid "Restore default (factory) settings"
 msgstr "Återställ förvalda inställningar"
 
-#: src/initcmdline.c:208 src/translate.c.po.c:4265
+#: src/initcmdline.c:208 src/translate.c.po.c:4275
 msgid "Attach and autostart tape/disk image <name>"
 msgstr "Anslut och starta band-/diskettavbildning <namn>"
 
-#: src/initcmdline.c:210 src/translate.c.po.c:4275
+#: src/initcmdline.c:210 src/translate.c.po.c:4285
 msgid "Attach and autoload tape/disk image <name>"
 msgstr "Anslut och läs in band-/diskettavbildning <namn>"
 
-#: src/initcmdline.c:212 src/translate.c.po.c:4285
+#: src/initcmdline.c:212 src/translate.c.po.c:4295
 msgid "Attach <name> as a tape image"
 msgstr "Anslut <namn> som bandavbildning"
 
-#: src/initcmdline.c:214 src/translate.c.po.c:4295
+#: src/initcmdline.c:214 src/translate.c.po.c:4305
 msgid "Attach <name> as a disk image in drive #8"
 msgstr "Anslut <namn> som diskettavbildning i enhet 8"
 
-#: src/initcmdline.c:216 src/translate.c.po.c:4305
+#: src/initcmdline.c:216 src/translate.c.po.c:4315
 msgid "Attach <name> as a disk image in drive #9"
 msgstr "Anslut <namn> som diskettavbildning i enhet 9"
 
-#: src/initcmdline.c:218 src/translate.c.po.c:4315
+#: src/initcmdline.c:218 src/translate.c.po.c:4325
 msgid "Attach <name> as a disk image in drive #10"
 msgstr "Anslut <namn> som diskettavbildning i enhet 10"
 
-#: src/initcmdline.c:220 src/translate.c.po.c:4325
+#: src/initcmdline.c:220 src/translate.c.po.c:4335
 msgid "Attach <name> as a disk image in drive #11"
 msgstr "Anslut <namn> som diskettavbildning i enhet 11"
 
-#: src/kbdbuf.c:136 src/translate.c.po.c:4335
+#: src/kbdbuf.c:136 src/translate.c.po.c:4345
 msgid "<string>"
 msgstr "<sträng>"
 
-#: src/kbdbuf.c:136 src/translate.c.po.c:4345
+#: src/kbdbuf.c:136 src/translate.c.po.c:4355
 msgid "Put the specified string into the keyboard buffer"
 msgstr "Lägg den angivna strängen i tangentbordsbufferten"
 
-#: src/log.c:110 src/translate.c.po.c:4355
+#: src/log.c:110 src/translate.c.po.c:4365
 msgid "Specify log file name"
 msgstr "Ange namn på loggfil"
 
-#: src/mouse.c:358 src/translate.c.po.c:4365
+#: src/mouse.c:358 src/translate.c.po.c:4375
 #, fuzzy
 msgid "Enable mouse grab"
 msgstr "*Aktivera mus"
 
-#: src/mouse.c:360 src/translate.c.po.c:4375
+#: src/mouse.c:360 src/translate.c.po.c:4385
 #, fuzzy
 msgid "Disable mouse grab"
 msgstr "Inaktivera dubbelskanning"
 
-#: src/mouse.c:362 src/translate.c.po.c:4385
+#: src/mouse.c:362 src/translate.c.po.c:4395
 msgid "Select the joystick port the mouse is attached to"
 msgstr "Ange vilken spelport musen är ansluten till"
 
-#: src/mouse.c:364 src/translate.c.po.c:4395
+#: src/mouse.c:364 src/translate.c.po.c:4405
 msgid "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga)"
 msgstr ""
 
@@ -1542,19 +1542,19 @@ msgstr "Ange namn på ROM-avbildning för högt insticksmodul 2-ROM"
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Ange storlek på installerat RAM i kb (16/32/64)"
 
-#: src/plus4/plus4memcsory256k.c:120 src/translate.c.po.c:4775
+#: src/plus4/plus4memcsory256k.c:120 src/translate.c.po.c:4785
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "Aktivera CSORY 256K RAM-expansion"
 
-#: src/plus4/plus4memhannes256k.c:135 src/translate.c.po.c:4785
+#: src/plus4/plus4memhannes256k.c:135 src/translate.c.po.c:4795
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "Aktivera HANNES 256K RAM-expansion"
 
-#: src/plus4/plus4memhannes256k.c:137 src/translate.c.po.c:4795
+#: src/plus4/plus4memhannes256k.c:137 src/translate.c.po.c:4805
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "Aktivera HANNES 1024K RAM-expansion"
 
-#: src/plus4/plus4memhannes256k.c:139 src/translate.c.po.c:4805
+#: src/plus4/plus4memhannes256k.c:139 src/translate.c.po.c:4815
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "Aktivera HANNES 4096K RAM-expansion"
 
@@ -1635,19 +1635,19 @@ msgstr "Ange skrivartextutenhet för IEC-skrivare 5"
 msgid "Specify printer text output device for userport printer"
 msgstr "Ange skrivartextutenhet för användarportsskrivare"
 
-#: src/ram.c:101 src/translate.c.po.c:4405
+#: src/ram.c:101 src/translate.c.po.c:4415
 msgid "Set the value for the very first RAM address after powerup"
 msgstr "Ange värdet på den allra första RAM-adressen efter strömpåslag"
 
-#: src/ram.c:104 src/ram.c:107 src/translate.c.po.c:4415
+#: src/ram.c:104 src/ram.c:107 src/translate.c.po.c:4425
 msgid "<num of bytes>"
 msgstr "<antal byte>"
 
-#: src/ram.c:104 src/translate.c.po.c:4425
+#: src/ram.c:104 src/translate.c.po.c:4435
 msgid "Length of memory block initialized with the same value"
 msgstr "Längd på minnesblock som initierats med samma värde"
 
-#: src/ram.c:107 src/translate.c.po.c:4435
+#: src/ram.c:107 src/translate.c.po.c:4445
 msgid "Length of memory block initialized with the same pattern"
 msgstr "Längd på minnesblock som initierats med samma mönster"
 
@@ -1867,19 +1867,19 @@ msgstr "Emulera SID-filter"
 msgid "Do not emulate SID filters"
 msgstr "Emulera inte SID-filter"
 
-#: src/sysfile.c:127 src/translate.c.po.c:4555
+#: src/sysfile.c:127 src/translate.c.po.c:4565
 msgid "<path>"
 msgstr "<sökväg>"
 
-#: src/sysfile.c:127 src/translate.c.po.c:4565
+#: src/sysfile.c:127 src/translate.c.po.c:4575
 msgid "Define search path to locate system files"
 msgstr "Ange sökväg för att hitta systemfiler"
 
-#: src/traps.c:123 src/translate.c.po.c:4575
+#: src/traps.c:123 src/translate.c.po.c:4585
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr "Aktivera generella mekanismer för snabb disk-/bandemulering"
 
-#: src/traps.c:126 src/translate.c.po.c:4585
+#: src/traps.c:126 src/translate.c.po.c:4595
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr "Inaktivera generella mekanismer för snabb disk-/bandemulering"
 
@@ -6170,16 +6170,22 @@ msgstr "&Konsolfönster"
 msgid "&Computer"
 msgstr "&Dator"
 
-#: src/arch/win32/res.rc.po.c:112 src/arch/win32/resc128.rc.po.c:29
-#: src/arch/win32/resc64.rc.po.c:29 src/arch/win32/rescbm2.rc.po.c:28
-#: src/arch/win32/respet.rc.po.c:28 src/arch/win32/resplus4.rc.po.c:28
+#: src/arch/win32/res.rc.po.c:112 src/arch/win32/resc128.rc.po.c:22
+#: src/arch/win32/resc128.rc.po.c:29 src/arch/win32/resc64.rc.po.c:22
+#: src/arch/win32/resc64.rc.po.c:29 src/arch/win32/rescbm2.rc.po.c:21
+#: src/arch/win32/rescbm2.rc.po.c:28 src/arch/win32/respet.rc.po.c:21
+#: src/arch/win32/respet.rc.po.c:28 src/arch/win32/resplus4.rc.po.c:21
+#: src/arch/win32/resplus4.rc.po.c:28 src/arch/win32/resvic20.rc.po.c:21
 #: src/arch/win32/resvic20.rc.po.c:28
 msgid "Drive &8"
 msgstr "Enhet &8"
 
-#: src/arch/win32/res.rc.po.c:113 src/arch/win32/resc128.rc.po.c:30
-#: src/arch/win32/resc64.rc.po.c:30 src/arch/win32/rescbm2.rc.po.c:29
-#: src/arch/win32/respet.rc.po.c:29 src/arch/win32/resplus4.rc.po.c:29
+#: src/arch/win32/res.rc.po.c:113 src/arch/win32/resc128.rc.po.c:23
+#: src/arch/win32/resc128.rc.po.c:30 src/arch/win32/resc64.rc.po.c:23
+#: src/arch/win32/resc64.rc.po.c:30 src/arch/win32/rescbm2.rc.po.c:22
+#: src/arch/win32/rescbm2.rc.po.c:29 src/arch/win32/respet.rc.po.c:22
+#: src/arch/win32/respet.rc.po.c:29 src/arch/win32/resplus4.rc.po.c:22
+#: src/arch/win32/resplus4.rc.po.c:29 src/arch/win32/resvic20.rc.po.c:22
 #: src/arch/win32/resvic20.rc.po.c:29
 msgid "Drive &9"
 msgstr "Enhet &9"
@@ -7084,7 +7090,10 @@ msgstr "Kunde inte läsa in palettfil."
 msgid "Load VICE palette file"
 msgstr "Läs in VICE-palettfil"
 
-#: src/arch/win32/res.rc.po.c:4974 src/arch/amigaos/intl.c.po.c:1023
+#: src/arch/win32/res.rc.po.c:4974 src/arch/win32/resc64.rc.po.c:181
+#: src/arch/win32/rescbm2.rc.po.c:150 src/arch/win32/respet.rc.po.c:149
+#: src/arch/win32/resplus4.rc.po.c:161 src/arch/win32/resvic20.rc.po.c:159
+#: src/arch/amigaos/intl.c.po.c:1023
 msgid "Fullscreen"
 msgstr "Fullskärm"
 
@@ -7492,29 +7501,23 @@ msgstr "&Autostarta disk-/bandavbildningsfil..."
 msgid "Attach &disk image"
 msgstr "Anslut &diskettavbildningsfil"
 
-#: src/arch/win32/resc128.rc.po.c:22 src/arch/win32/resc64.rc.po.c:22
-#: src/arch/win32/rescbm2.rc.po.c:21 src/arch/win32/respet.rc.po.c:21
-#: src/arch/win32/resplus4.rc.po.c:21 src/arch/win32/resvic20.rc.po.c:21
-msgid "Drive &8\tAlt+8"
-msgstr "Enhet &8\tAlt+8"
+#: src/arch/win32/resc128.rc.po.c:24 src/arch/win32/resc128.rc.po.c:31
+#: src/arch/win32/resc64.rc.po.c:24 src/arch/win32/resc64.rc.po.c:31
+#: src/arch/win32/rescbm2.rc.po.c:23 src/arch/win32/rescbm2.rc.po.c:30
+#: src/arch/win32/respet.rc.po.c:23 src/arch/win32/respet.rc.po.c:30
+#: src/arch/win32/resplus4.rc.po.c:23 src/arch/win32/resplus4.rc.po.c:30
+#: src/arch/win32/resvic20.rc.po.c:23 src/arch/win32/resvic20.rc.po.c:30
+msgid "Drive 1&0"
+msgstr "Enhet 1&0"
 
-#: src/arch/win32/resc128.rc.po.c:23 src/arch/win32/resc64.rc.po.c:23
-#: src/arch/win32/rescbm2.rc.po.c:22 src/arch/win32/respet.rc.po.c:22
-#: src/arch/win32/resplus4.rc.po.c:22 src/arch/win32/resvic20.rc.po.c:22
-msgid "Drive &9\tAlt+9"
-msgstr "Enhet &9\tAlt+9"
-
-#: src/arch/win32/resc128.rc.po.c:24 src/arch/win32/resc64.rc.po.c:24
-#: src/arch/win32/rescbm2.rc.po.c:23 src/arch/win32/respet.rc.po.c:23
-#: src/arch/win32/resplus4.rc.po.c:23 src/arch/win32/resvic20.rc.po.c:23
-msgid "Drive 1&0\tAlt+0"
-msgstr "Enhet 1&0\tAlt+0"
-
-#: src/arch/win32/resc128.rc.po.c:25 src/arch/win32/resc64.rc.po.c:25
-#: src/arch/win32/rescbm2.rc.po.c:24 src/arch/win32/respet.rc.po.c:24
-#: src/arch/win32/resplus4.rc.po.c:24 src/arch/win32/resvic20.rc.po.c:24
-msgid "Drive &11\tAlt+1"
-msgstr "Enhet &11\tAlt+1"
+#: src/arch/win32/resc128.rc.po.c:25 src/arch/win32/resc128.rc.po.c:32
+#: src/arch/win32/resc64.rc.po.c:25 src/arch/win32/resc64.rc.po.c:32
+#: src/arch/win32/rescbm2.rc.po.c:24 src/arch/win32/rescbm2.rc.po.c:31
+#: src/arch/win32/respet.rc.po.c:24 src/arch/win32/respet.rc.po.c:31
+#: src/arch/win32/resplus4.rc.po.c:24 src/arch/win32/resplus4.rc.po.c:31
+#: src/arch/win32/resvic20.rc.po.c:24 src/arch/win32/resvic20.rc.po.c:31
+msgid "Drive &11"
+msgstr "Enhet &11"
 
 #: src/arch/win32/resc128.rc.po.c:27 src/arch/win32/resc64.rc.po.c:27
 #: src/arch/win32/rescbm2.rc.po.c:26 src/arch/win32/respet.rc.po.c:26
@@ -7522,23 +7525,12 @@ msgstr "Enhet &11\tAlt+1"
 msgid "D&etach disk image"
 msgstr "Koppla &från diskettavbildningsfil"
 
-#: src/arch/win32/resc128.rc.po.c:31 src/arch/win32/resc64.rc.po.c:31
-#: src/arch/win32/rescbm2.rc.po.c:30 src/arch/win32/respet.rc.po.c:30
-#: src/arch/win32/resplus4.rc.po.c:30 src/arch/win32/resvic20.rc.po.c:30
-msgid "Drive 1&0"
-msgstr "Enhet 1&0"
-
-#: src/arch/win32/resc128.rc.po.c:32 src/arch/win32/resc64.rc.po.c:32
-#: src/arch/win32/rescbm2.rc.po.c:31 src/arch/win32/respet.rc.po.c:31
-#: src/arch/win32/resplus4.rc.po.c:31 src/arch/win32/resvic20.rc.po.c:31
-msgid "Drive &11"
-msgstr "Enhet &11"
-
 #: src/arch/win32/resc128.rc.po.c:34 src/arch/win32/resc64.rc.po.c:34
 #: src/arch/win32/rescbm2.rc.po.c:33 src/arch/win32/respet.rc.po.c:33
 #: src/arch/win32/resplus4.rc.po.c:33 src/arch/win32/resvic20.rc.po.c:33
-msgid "&All\tAlt+A"
-msgstr "&Alla\tAlt+A"
+#, fuzzy
+msgid "&All"
+msgstr "Alla"
 
 #: src/arch/win32/resc128.rc.po.c:36 src/arch/win32/resc64.rc.po.c:36
 #: src/arch/win32/rescbm2.rc.po.c:35 src/arch/win32/respet.rc.po.c:35
@@ -7549,26 +7541,30 @@ msgstr "&Vallista"
 #: src/arch/win32/resc128.rc.po.c:38 src/arch/win32/resc64.rc.po.c:38
 #: src/arch/win32/rescbm2.rc.po.c:37 src/arch/win32/respet.rc.po.c:37
 #: src/arch/win32/resplus4.rc.po.c:37 src/arch/win32/resvic20.rc.po.c:37
-msgid "&Add current image\tAlt+I"
-msgstr "&Lägg till aktuell avbildning\tAlt+I"
+#, fuzzy
+msgid "&Add current image"
+msgstr "Lägg till aktuell avbildning"
 
 #: src/arch/win32/resc128.rc.po.c:39 src/arch/win32/resc64.rc.po.c:39
 #: src/arch/win32/rescbm2.rc.po.c:38 src/arch/win32/respet.rc.po.c:38
 #: src/arch/win32/resplus4.rc.po.c:38 src/arch/win32/resvic20.rc.po.c:38
-msgid "&Remove current image\tAlt+K"
-msgstr "&Ta bort aktuell avbildning\tAlt+K"
+#, fuzzy
+msgid "&Remove current image"
+msgstr "Ta bort aktuell avbildning"
 
 #: src/arch/win32/resc128.rc.po.c:40 src/arch/win32/resc64.rc.po.c:40
 #: src/arch/win32/rescbm2.rc.po.c:39 src/arch/win32/respet.rc.po.c:39
 #: src/arch/win32/resplus4.rc.po.c:39 src/arch/win32/resvic20.rc.po.c:39
-msgid "Attach &next image\tAlt+N"
-msgstr "Anslut &nästa avbildning\tAlt+N"
+#, fuzzy
+msgid "Attach &next image"
+msgstr "Anslut nästa avbildning"
 
 #: src/arch/win32/resc128.rc.po.c:41 src/arch/win32/resc64.rc.po.c:41
 #: src/arch/win32/rescbm2.rc.po.c:40 src/arch/win32/respet.rc.po.c:40
 #: src/arch/win32/resplus4.rc.po.c:40 src/arch/win32/resvic20.rc.po.c:40
-msgid "Attach &previous image\tAlt+B"
-msgstr "Anslut &föregående avbildning\tAlt+B"
+#, fuzzy
+msgid "Attach &previous image"
+msgstr "Anslut föregående avbildning"
 
 #: src/arch/win32/resc128.rc.po.c:43 src/arch/win32/resc64.rc.po.c:43
 #: src/arch/win32/rescbm2.rc.po.c:42 src/arch/win32/respet.rc.po.c:42
@@ -7585,8 +7581,9 @@ msgstr "&Spara vallistefil"
 #: src/arch/win32/resc128.rc.po.c:47 src/arch/win32/resc64.rc.po.c:47
 #: src/arch/win32/rescbm2.rc.po.c:46 src/arch/win32/respet.rc.po.c:46
 #: src/arch/win32/resplus4.rc.po.c:46 src/arch/win32/resvic20.rc.po.c:46
-msgid "Attach &tape image...\tAlt+T"
-msgstr "Anslut en &bandavbildningsfil...\tAlt+T"
+#, fuzzy
+msgid "Attach &tape image..."
+msgstr "Anslut en bandavbildningsfil..."
 
 #: src/arch/win32/resc128.rc.po.c:48 src/arch/win32/resc64.rc.po.c:48
 #: src/arch/win32/rescbm2.rc.po.c:47 src/arch/win32/respet.rc.po.c:47
@@ -7724,20 +7721,23 @@ msgid "Detach cartridge &image"
 msgstr "Koppla &från insticksmodulfil"
 
 #: src/arch/win32/resc128.rc.po.c:88 src/arch/win32/resc64.rc.po.c:89
-msgid "Cartridge free&ze\tAlt+Z"
-msgstr "Frys\tAlt+Z"
+#, fuzzy
+msgid "Cartridge free&ze"
+msgstr "Insticksmodulens frysfunktion"
 
 #: src/arch/win32/resc128.rc.po.c:90 src/arch/win32/resc64.rc.po.c:91
 #: src/arch/win32/rescbm2.rc.po.c:61 src/arch/win32/respet.rc.po.c:59
 #: src/arch/win32/resplus4.rc.po.c:71 src/arch/win32/resvic20.rc.po.c:69
-msgid "&Pause\tAlt+Pause"
-msgstr "&Paus\tAlt+Pause"
+#, fuzzy
+msgid "&Pause"
+msgstr "Paus"
 
 #: src/arch/win32/resc128.rc.po.c:91 src/arch/win32/resc64.rc.po.c:92
 #: src/arch/win32/rescbm2.rc.po.c:63 src/arch/win32/respet.rc.po.c:61
 #: src/arch/win32/resplus4.rc.po.c:73 src/arch/win32/resvic20.rc.po.c:71
-msgid "&Monitor\tAlt+M"
-msgstr "&Monitor\tAlt+M"
+#, fuzzy
+msgid "&Monitor"
+msgstr "Monitor"
 
 #: src/arch/win32/resc128.rc.po.c:92 src/arch/win32/resc64.rc.po.c:93
 #: src/arch/win32/rescbm2.rc.po.c:64 src/arch/win32/respet.rc.po.c:62
@@ -7748,14 +7748,16 @@ msgstr "&Nollställ"
 #: src/arch/win32/resc128.rc.po.c:94 src/arch/win32/resc64.rc.po.c:95
 #: src/arch/win32/rescbm2.rc.po.c:66 src/arch/win32/respet.rc.po.c:64
 #: src/arch/win32/resplus4.rc.po.c:76 src/arch/win32/resvic20.rc.po.c:74
-msgid "&Hard\tCtrl+Alt+R"
-msgstr "&Hård\tCtrl+Alt+R"
+#, fuzzy
+msgid "&Hard"
+msgstr "Hård"
 
 #: src/arch/win32/resc128.rc.po.c:95 src/arch/win32/resc64.rc.po.c:96
 #: src/arch/win32/rescbm2.rc.po.c:67 src/arch/win32/respet.rc.po.c:65
 #: src/arch/win32/resplus4.rc.po.c:77 src/arch/win32/resvic20.rc.po.c:75
-msgid "&Soft\tAlt+R"
-msgstr "&Mjuk\tAlt+R"
+#, fuzzy
+msgid "&Soft"
+msgstr "Mjuk"
 
 #: src/arch/win32/resc128.rc.po.c:97 src/arch/win32/resc64.rc.po.c:98
 #: src/arch/win32/rescbm2.rc.po.c:69 src/arch/win32/respet.rc.po.c:67
@@ -7815,26 +7817,30 @@ msgstr "&Spela upp historik automatiskt"
 #: src/arch/win32/resc128.rc.po.c:112 src/arch/win32/resc64.rc.po.c:113
 #: src/arch/win32/rescbm2.rc.po.c:84 src/arch/win32/respet.rc.po.c:82
 #: src/arch/win32/resplus4.rc.po.c:94 src/arch/win32/resvic20.rc.po.c:92
-msgid "&Main CPU Trace\tAlt+F10"
+#, fuzzy
+msgid "&Main CPU Trace"
 msgstr "Spåra &huvud-CPU\tAlt+F10"
 
 #: src/arch/win32/resc128.rc.po.c:113 src/arch/win32/resc64.rc.po.c:114
 #: src/arch/win32/rescbm2.rc.po.c:85 src/arch/win32/respet.rc.po.c:83
 #: src/arch/win32/resplus4.rc.po.c:95 src/arch/win32/resvic20.rc.po.c:93
-msgid "Drive&0 CPU Trace\tAlt+F11"
+#, fuzzy
+msgid "Drive&0 CPU Trace"
 msgstr "Spåra CPU för enhet &0\tAlt+F11"
 
 #: src/arch/win32/resc128.rc.po.c:114 src/arch/win32/resc64.rc.po.c:115
 #: src/arch/win32/rescbm2.rc.po.c:86 src/arch/win32/respet.rc.po.c:84
 #: src/arch/win32/resplus4.rc.po.c:96 src/arch/win32/resvic20.rc.po.c:94
-msgid "Drive&1 CPU Trace\tAlt+F12"
+#, fuzzy
+msgid "Drive&1 CPU Trace"
 msgstr "Spåra CPU för enhet &1\tAlt+F12"
 
 #: src/arch/win32/resc128.rc.po.c:118 src/arch/win32/resc64.rc.po.c:119
 #: src/arch/win32/rescbm2.rc.po.c:90 src/arch/win32/respet.rc.po.c:88
 #: src/arch/win32/resplus4.rc.po.c:100 src/arch/win32/resvic20.rc.po.c:98
-msgid "E&xit\tAlt+X"
-msgstr "&Avsluta\tAlt+X"
+#, fuzzy
+msgid "E&xit"
+msgstr "Avsluta"
 
 #: src/arch/win32/resc128.rc.po.c:120 src/arch/win32/resc64.rc.po.c:121
 #: src/arch/win32/rescbm2.rc.po.c:92 src/arch/win32/respet.rc.po.c:90
@@ -7857,14 +7863,16 @@ msgstr "Spara &ögonblicksbildfil..."
 #: src/arch/win32/resc128.rc.po.c:124 src/arch/win32/resc64.rc.po.c:125
 #: src/arch/win32/rescbm2.rc.po.c:96 src/arch/win32/respet.rc.po.c:94
 #: src/arch/win32/resplus4.rc.po.c:106 src/arch/win32/resvic20.rc.po.c:104
-msgid "&Load quicksnapshot image\tAlt+L"
-msgstr "Läs in &snabbögonblicksbild\tAlt+L"
+#, fuzzy
+msgid "&Load quicksnapshot image"
+msgstr "Läs in snabbögonblicksbild"
 
 #: src/arch/win32/resc128.rc.po.c:125 src/arch/win32/resc64.rc.po.c:126
 #: src/arch/win32/rescbm2.rc.po.c:97 src/arch/win32/respet.rc.po.c:95
 #: src/arch/win32/resplus4.rc.po.c:107 src/arch/win32/resvic20.rc.po.c:105
-msgid "&Save quicksnapshot image\tAlt+S"
-msgstr "Spara sna&bbögonblicksbildfil\tAlt+S"
+#, fuzzy
+msgid "&Save quicksnapshot image"
+msgstr "Spara snabbögonblicksbildfil"
 
 #: src/arch/win32/resc128.rc.po.c:127 src/arch/win32/resc64.rc.po.c:128
 #: src/arch/win32/rescbm2.rc.po.c:99 src/arch/win32/respet.rc.po.c:97
@@ -7881,14 +7889,16 @@ msgstr "Börja/sluta spela &upp händelser"
 #: src/arch/win32/resc128.rc.po.c:129 src/arch/win32/resc64.rc.po.c:130
 #: src/arch/win32/rescbm2.rc.po.c:101 src/arch/win32/respet.rc.po.c:99
 #: src/arch/win32/resplus4.rc.po.c:111 src/arch/win32/resvic20.rc.po.c:109
-msgid "Set Recording Milestone\tAlt+G"
-msgstr "Ange inspelningsbokmärke\tAlt+G"
+#: src/arch/amigaos/intl.c.po.c:735
+msgid "Set Recording Milestone"
+msgstr "Ange inspelningsbokmärke"
 
 #: src/arch/win32/resc128.rc.po.c:130 src/arch/win32/resc64.rc.po.c:131
 #: src/arch/win32/rescbm2.rc.po.c:102 src/arch/win32/respet.rc.po.c:100
 #: src/arch/win32/resplus4.rc.po.c:112 src/arch/win32/resvic20.rc.po.c:110
-msgid "Return to Milestone\tAlt+H"
-msgstr "Återgå till bokmärke\tAlt+H"
+#: src/arch/amigaos/intl.c.po.c:744
+msgid "Return to Milestone"
+msgstr "Återgå till bokmärke"
 
 #: src/arch/win32/resc128.rc.po.c:133 src/arch/win32/resc64.rc.po.c:134
 #: src/arch/win32/rescbm2.rc.po.c:105 src/arch/win32/respet.rc.po.c:103
@@ -7924,8 +7934,9 @@ msgstr "Välj historikfiler/-katalog"
 #: src/arch/win32/resc128.rc.po.c:140 src/arch/win32/resc64.rc.po.c:141
 #: src/arch/win32/rescbm2.rc.po.c:112 src/arch/win32/respet.rc.po.c:110
 #: src/arch/win32/resplus4.rc.po.c:122 src/arch/win32/resvic20.rc.po.c:120
-msgid "Save/stop media file...\tAlt+C"
-msgstr "Starta/stoppa mediafil...\tAlt+C"
+#: src/arch/amigaos/intl.c.po.c:807
+msgid "Save/stop media file..."
+msgstr "Starta/stoppa mediafil..."
 
 #: src/arch/win32/resc128.rc.po.c:142 src/arch/win32/resc64.rc.po.c:143
 #: src/arch/win32/rescbm2.rc.po.c:114 src/arch/win32/respet.rc.po.c:112
@@ -8065,8 +8076,9 @@ msgstr "Ingen &gräns"
 #: src/arch/win32/resc128.rc.po.c:176 src/arch/win32/resc64.rc.po.c:179
 #: src/arch/win32/rescbm2.rc.po.c:148 src/arch/win32/respet.rc.po.c:146
 #: src/arch/win32/resplus4.rc.po.c:158 src/arch/win32/resvic20.rc.po.c:156
-msgid "&Warp mode\tAlt+W"
-msgstr "&Warpläge\tAlt+W"
+#, fuzzy
+msgid "&Warp mode"
+msgstr "Warpläge"
 
 #: src/arch/win32/resc128.rc.po.c:178 src/arch/win32/resc64.rc.po.c:182
 #: src/arch/win32/rescbm2.rc.po.c:151 src/arch/win32/respet.rc.po.c:150
@@ -8111,8 +8123,9 @@ msgstr "64KB grafik&minne"
 #: src/arch/win32/resc128.rc.po.c:192 src/arch/win32/resc64.rc.po.c:190
 #: src/arch/win32/rescbm2.rc.po.c:160 src/arch/win32/respet.rc.po.c:156
 #: src/arch/win32/resplus4.rc.po.c:175 src/arch/win32/resvic20.rc.po.c:173
-msgid "Swap &Joystick\tAlt+J"
-msgstr "Vä&xla spelportarna\tAlt+J"
+#, fuzzy
+msgid "Swap &Joystick"
+msgstr "Växla spelportarna"
 
 #: src/arch/win32/resc128.rc.po.c:194 src/arch/win32/resc64.rc.po.c:192
 #: src/arch/win32/rescbm2.rc.po.c:162 src/arch/win32/respet.rc.po.c:158
@@ -8159,7 +8172,7 @@ msgstr "Emulering av IEEE&488-gränssnitt"
 
 #: src/arch/win32/resc128.rc.po.c:207 src/arch/win32/resc64.rc.po.c:205
 #, fuzzy
-msgid "&Grab mouse events\tAlt+Q"
+msgid "&Grab mouse events"
 msgstr "&1351-musemulering\tAlt+Q"
 
 #: src/arch/win32/resc128.rc.po.c:209 src/arch/win32/resc64.rc.po.c:207
@@ -8684,12 +8697,6 @@ msgstr "Action Replay &III-avbildning..."
 #: src/arch/win32/resc64.rc.po.c:146 src/arch/amigaos/intl.c.po.c:816
 msgid "Netplay (experimental)..."
 msgstr "Nätverksspel (experimentellt)..."
-
-#: src/arch/win32/resc64.rc.po.c:181 src/arch/win32/rescbm2.rc.po.c:150
-#: src/arch/win32/respet.rc.po.c:149 src/arch/win32/resplus4.rc.po.c:161
-#: src/arch/win32/resvic20.rc.po.c:159
-msgid "Fullscreen\tAlt+D"
-msgstr "Fullskärm\tAlt+D"
 
 #: src/arch/win32/resc64.rc.po.c:201
 msgid "&Old NTSC-M"
@@ -9883,11 +9890,15 @@ msgstr "Ange SID-motor (0: FastSID, 2: HardSID, 3: ParSID)"
 msgid "Specify SID engine (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"
 msgstr "Ange SID-motor (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"
 
-#: src/translate.c.po.c:4635
+#: src/translate.c.po.c:4184
+msgid "Execute monitor commands from file"
+msgstr ""
+
+#: src/translate.c.po.c:4645
 msgid "<iso language code>"
 msgstr "<iso-språkkod>"
 
-#: src/translate.c.po.c:4645
+#: src/translate.c.po.c:4655
 msgid "Specify the iso code of the language"
 msgstr "Ange ISO-koden för språket"
 
@@ -10043,14 +10054,6 @@ msgstr "Börja/sluta spela in händelser"
 msgid "Start/Stop Playback History"
 msgstr "Börja/sluta spela upp händelser"
 
-#: src/arch/amigaos/intl.c.po.c:735
-msgid "Set Recording Milestone"
-msgstr "Ange inspelningsbokmärke"
-
-#: src/arch/amigaos/intl.c.po.c:744
-msgid "Return to Milestone"
-msgstr "Återgå till bokmärke"
-
 #: src/arch/amigaos/intl.c.po.c:762
 msgid "Save new snapshot"
 msgstr "Spara ny ögonblicksbild"
@@ -10066,10 +10069,6 @@ msgstr "Starta med nollställning"
 #: src/arch/amigaos/intl.c.po.c:789
 msgid "Overwrite Playback"
 msgstr "Skriv över aktiv uppspelning"
-
-#: src/arch/amigaos/intl.c.po.c:807
-msgid "Save/stop media file..."
-msgstr "Starta/stoppa mediafil..."
 
 #: src/arch/amigaos/intl.c.po.c:843
 msgid "Auto"
@@ -11132,6 +11131,78 @@ msgstr "*Aktivera mus"
 #: src/arch/amigaos/intl.c.po.c:4727
 msgid "Amiga mouse"
 msgstr ""
+
+#~ msgid "Drive &8\tAlt+8"
+#~ msgstr "Enhet &8\tAlt+8"
+
+#~ msgid "Drive &9\tAlt+9"
+#~ msgstr "Enhet &9\tAlt+9"
+
+#~ msgid "Drive 1&0\tAlt+0"
+#~ msgstr "Enhet 1&0\tAlt+0"
+
+#~ msgid "Drive &11\tAlt+1"
+#~ msgstr "Enhet &11\tAlt+1"
+
+#~ msgid "&All\tAlt+A"
+#~ msgstr "&Alla\tAlt+A"
+
+#~ msgid "&Add current image\tAlt+I"
+#~ msgstr "&Lägg till aktuell avbildning\tAlt+I"
+
+#~ msgid "&Remove current image\tAlt+K"
+#~ msgstr "&Ta bort aktuell avbildning\tAlt+K"
+
+#~ msgid "Attach &next image\tAlt+N"
+#~ msgstr "Anslut &nästa avbildning\tAlt+N"
+
+#~ msgid "Attach &previous image\tAlt+B"
+#~ msgstr "Anslut &föregående avbildning\tAlt+B"
+
+#~ msgid "Attach &tape image...\tAlt+T"
+#~ msgstr "Anslut en &bandavbildningsfil...\tAlt+T"
+
+#~ msgid "Cartridge free&ze\tAlt+Z"
+#~ msgstr "Frys\tAlt+Z"
+
+#~ msgid "&Pause\tAlt+Pause"
+#~ msgstr "&Paus\tAlt+Pause"
+
+#~ msgid "&Monitor\tAlt+M"
+#~ msgstr "&Monitor\tAlt+M"
+
+#~ msgid "&Hard\tCtrl+Alt+R"
+#~ msgstr "&Hård\tCtrl+Alt+R"
+
+#~ msgid "&Soft\tAlt+R"
+#~ msgstr "&Mjuk\tAlt+R"
+
+#~ msgid "E&xit\tAlt+X"
+#~ msgstr "&Avsluta\tAlt+X"
+
+#~ msgid "&Load quicksnapshot image\tAlt+L"
+#~ msgstr "Läs in &snabbögonblicksbild\tAlt+L"
+
+#~ msgid "&Save quicksnapshot image\tAlt+S"
+#~ msgstr "Spara sna&bbögonblicksbildfil\tAlt+S"
+
+#~ msgid "Set Recording Milestone\tAlt+G"
+#~ msgstr "Ange inspelningsbokmärke\tAlt+G"
+
+#~ msgid "Return to Milestone\tAlt+H"
+#~ msgstr "Återgå till bokmärke\tAlt+H"
+
+#~ msgid "Save/stop media file...\tAlt+C"
+#~ msgstr "Starta/stoppa mediafil...\tAlt+C"
+
+#~ msgid "&Warp mode\tAlt+W"
+#~ msgstr "&Warpläge\tAlt+W"
+
+#~ msgid "Swap &Joystick\tAlt+J"
+#~ msgstr "Vä&xla spelportarna\tAlt+J"
+
+#~ msgid "Fullscreen\tAlt+D"
+#~ msgstr "Fullskärm\tAlt+D"
 
 #~ msgid "Can't add fontpath `%s'.\n"
 #~ msgstr "Kan inte lägga till typsnittssökväg \"%s\".\n"

@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 27 January 2008 -->
+     from ../vice.texi on 20 April 2008 -->
 
 <TITLE>VICE Manual - 9  Monitor</TITLE>
 </HEAD>
@@ -10,7 +10,7 @@ Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_8.html">previous</A>, <
 <P><HR><P>
 
 
-<H1><A NAME="SEC136" HREF="vice_toc.html#TOC136">9  Monitor</A></H1>
+<H1><A NAME="SEC138" HREF="vice_toc.html#TOC138">9  Monitor</A></H1>
 
 <P>
 Every VICE emulator has a complete built-in monitor, which can be used
@@ -29,7 +29,7 @@ and some of the features are not fully working yet.
 
 
 
-<H2><A NAME="SEC137" HREF="vice_toc.html#TOC137">9.1  Terminology</A></H2>
+<H2><A NAME="SEC139" HREF="vice_toc.html#TOC139">9.1  Terminology</A></H2>
 
 <DL COMPACT>
 
@@ -111,7 +111,7 @@ An optional argument.
 
 
 
-<H2><A NAME="SEC138" HREF="vice_toc.html#TOC138">9.2  Machine state commands</A></H2>
+<H2><A NAME="SEC140" HREF="vice_toc.html#TOC140">9.2  Machine state commands</A></H2>
 
 <DL COMPACT>
 
@@ -147,7 +147,7 @@ more than a single instruction at a time.
 
 
 
-<H2><A NAME="SEC139" HREF="vice_toc.html#TOC139">9.3  Memory commands</A></H2>
+<H2><A NAME="SEC141" HREF="vice_toc.html#TOC141">9.3  Memory commands</A></H2>
 
 <DL COMPACT>
 
@@ -184,6 +184,10 @@ is displayed.  The entire range is searched for all possible matches.
 <DT><CODE>i &#60;address_opt_range&#62;</CODE>
 <DD>
 Display memory contents as PETSCII text.
+
+<DT><CODE>ii &#60;address_opt_range&#62;</CODE>
+<DD>
+Display memory contents as screen code text
 
 <DT><CODE>m [&#60;data_type&#62;] [&#60;address_opt_range&#62;]</CODE>
 <DD>
@@ -226,7 +230,7 @@ Write the specified data at <CODE>address</CODE>.
 
 
 
-<H2><A NAME="SEC140" HREF="vice_toc.html#TOC140">9.4  Assembly commands</A></H2>
+<H2><A NAME="SEC142" HREF="vice_toc.html#TOC142">9.4  Assembly commands</A></H2>
 
 <DL COMPACT>
 
@@ -248,7 +252,7 @@ instructions are disassembled from the dot address.
 
 
 
-<H2><A NAME="SEC141" HREF="vice_toc.html#TOC141">9.5  Checkpoint commands</A></H2>
+<H2><A NAME="SEC143" HREF="vice_toc.html#TOC143">9.5  Checkpoint commands</A></H2>
 
 <DL COMPACT>
 
@@ -313,7 +317,7 @@ breaks on both operations.
 
 
 
-<H2><A NAME="SEC142" HREF="vice_toc.html#TOC142">9.6  General commands</A></H2>
+<H2><A NAME="SEC144" HREF="vice_toc.html#TOC144">9.6  General commands</A></H2>
 
 <DL COMPACT>
 
@@ -347,7 +351,7 @@ Nothing yet.
 
 
 
-<H2><A NAME="SEC143" HREF="vice_toc.html#TOC143">9.7  Disk commands</A></H2>
+<H2><A NAME="SEC145" HREF="vice_toc.html#TOC145">9.7  Disk commands</A></H2>
 
 <DL COMPACT>
 
@@ -384,7 +388,7 @@ device is 0, the file is written to the file system.
 
 
 
-<H2><A NAME="SEC144" HREF="vice_toc.html#TOC144">9.8  Command file commands</A></H2>
+<H2><A NAME="SEC146" HREF="vice_toc.html#TOC146">9.8  Command file commands</A></H2>
 
 <DL COMPACT>
 
@@ -406,7 +410,7 @@ Stop recording commands.  See <CODE>record</CODE>.
 
 
 
-<H2><A NAME="SEC145" HREF="vice_toc.html#TOC145">9.9  Label commands</A></H2>
+<H2><A NAME="SEC147" HREF="vice_toc.html#TOC147">9.9  Label commands</A></H2>
 
 <DL COMPACT>
 
@@ -425,6 +429,16 @@ checked, all tables are checked.
 Load a file containing a mapping of labels to addresses.  If no memory
 space is specified, the default readspace is used.
 
+The file must contain commands the monitor understands, e.g. add_label. The
+compiler cc65 can create such label files.
+
+Vice can also load label files created by the Acme assembler. Their syntax is
+e.g. "labelname = $1234 ; Maybe a comment". A dot will be added automatically
+to label names assigned in this way to fit to the Vice label syntax. Normally
+the semicolon seperates commands but after an assignment of this kind it may be
+used to start a comment to end of line, so unchanged Acme label files can be
+fed into Vice.
+
 <DT><CODE>save_labels [&#60;memspace&#62;] "&#60;filename&#62;"</CODE>
 <DD>
 Save labels to a file.  If no memory space is specified, all of the
@@ -439,7 +453,7 @@ all labels.
 
 
 
-<H2><A NAME="SEC146" HREF="vice_toc.html#TOC146">9.10  Miscellaneous commands</A></H2>
+<H2><A NAME="SEC148" HREF="vice_toc.html#TOC148">9.10  Miscellaneous commands</A></H2>
 
 <DL COMPACT>
 

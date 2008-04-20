@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 27 January 2008 -->
+     from ../vice.texi on 20 April 2008 -->
 
 <TITLE>VICE Manual - 7  Machine-specific features</TITLE>
 </HEAD>
@@ -10,11 +10,11 @@ Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_6.html">previous</A>, <
 <P><HR><P>
 
 
-<H1><A NAME="SEC74" HREF="vice_toc.html#TOC74">7  Machine-specific features</A></H1>
+<H1><A NAME="SEC76" HREF="vice_toc.html#TOC76">7  Machine-specific features</A></H1>
 
 
 
-<H2><A NAME="SEC75" HREF="vice_toc.html#TOC75">7.1  C64/128-specific commands and settings</A></H2>
+<H2><A NAME="SEC77" HREF="vice_toc.html#TOC77">7.1  C64/128-specific commands and settings</A></H2>
 
 <P>
 This section lists the settings and commands that are C64/128 specific
@@ -24,7 +24,7 @@ and thus are not present in the other emulators.
 
 
 
-<H3><A NAME="SEC76" HREF="vice_toc.html#TOC76">7.1.1  Using cartridge images</A></H3>
+<H3><A NAME="SEC78" HREF="vice_toc.html#TOC78">7.1.1  Using cartridge images</A></H3>
 
 <P>
 <EM>Cartridge images</EM> are like disk images, but mirror the contents of
@@ -100,7 +100,7 @@ interface emulation on the <CODE>$DE**</CODE> I/O ports.
 </P>
 
 
-<H3><A NAME="SEC77" HREF="vice_toc.html#TOC77">7.1.2  VIC-II settings</A></H3>
+<H3><A NAME="SEC79" HREF="vice_toc.html#TOC79">7.1.2  VIC-II settings</A></H3>
 
 <P>
 These settings control the emulation of the VIC-II (MOS6569) video chip
@@ -112,7 +112,7 @@ used in both the C64 and the C128.
 
 <LI>
 
-<A NAME="IDX182"></A>
+<A NAME="IDX183"></A>
  
 "Sprite-sprite collisions" and "Sprite-background collisions", if
 enabled, cause the hardware detection of sprite-to-sprite and
@@ -121,7 +121,7 @@ feature is used by many games, and disabling either of the two detection
 systems can sometimes make you invincible (although there is also a
 chance that also enemies become invincible then).
 
-<A NAME="IDX183"></A>
+<A NAME="IDX184"></A>
 <LI>
 
 "Color set" can be used to dynamically change the palette file
@@ -160,18 +160,18 @@ C64 graphics package GoDot
 
 
 
-<H4><A NAME="SEC78" HREF="vice_toc.html#TOC78">7.1.2.1  VIC-II resources</A></H4>
+<H4><A NAME="SEC80" HREF="vice_toc.html#TOC80">7.1.2.1  VIC-II resources</A></H4>
 
 <DL COMPACT>
 
 <DT><CODE>CheckSsColl</CODE>
 <DD>
-<A NAME="IDX184"></A>
+<A NAME="IDX185"></A>
  
 Boolean specifying whether the sprite-sprite hardware collision
 detection must be emulated.
 
-<A NAME="IDX185"></A>
+<A NAME="IDX186"></A>
 <DT><CODE>CheckSbColl</CODE>
 <DD>
 Boolean specifying whether the sprite-background hardware collision
@@ -181,21 +181,21 @@ detection must be emulated.
 
 
 
-<H4><A NAME="SEC79" HREF="vice_toc.html#TOC79">7.1.2.2  VIC-II command-line options</A></H4>
+<H4><A NAME="SEC81" HREF="vice_toc.html#TOC81">7.1.2.2  VIC-II command-line options</A></H4>
 
 <DL COMPACT>
 
 <DT><CODE>-checkss</CODE>
 <DD>
-<A NAME="IDX186"></A>
+<A NAME="IDX187"></A>
  
 <DT><CODE>+checkss</CODE>
 <DD>
 Enable (<CODE>CheckSsColl=1</CODE>) and disable (<CODE>CheckSsColl=0</CODE>)
 emulation of hardware sprite-sprite collision detection, respectively.
-<A NAME="IDX187"></A>
-
 <A NAME="IDX188"></A>
+
+<A NAME="IDX189"></A>
 <DT><CODE>-checksb</CODE>
 <DD>
 <DT><CODE>+checksb</CODE>
@@ -208,7 +208,7 @@ respectively.
 
 
 
-<H3><A NAME="SEC80" HREF="vice_toc.html#TOC80">7.1.3  SID settings</A></H3>
+<H3><A NAME="SEC82" HREF="vice_toc.html#TOC82">7.1.3  SID settings</A></H3>
 
 <P>
 These settings control the emulation of the SID (MOS6581 or MOS8580)
@@ -220,7 +220,7 @@ audio chip.
 
 <LI>
 
-<A NAME="IDX189"></A>
+<A NAME="IDX190"></A>
  
 "Second SID" maps a second SID chip into the address space for stereo
 sound. This emulates e.g. the "SID Symphony Stereo Cartridge" from
@@ -228,7 +228,7 @@ Dr. Evil Laboratories. The second SID can be used with software such as
 "Stereo SID Player" by Mark Dickenson or "The Enhanced Sidplayer" by
 Craig Chamberlain.
 
-<A NAME="IDX190"></A>
+<A NAME="IDX191"></A>
 <LI>
 
 "Second SID base address" sets the start address for the second SID
@@ -236,27 +236,27 @@ chip. Software normally uses $DE00 or $DF00, since $DE00-$DEFF and
 $DF00-$DFFF can be mapped through the cartridge port of the C64. The
 default start address is $DE00.
 
-<A NAME="IDX191"></A>
+<A NAME="IDX192"></A>
 <LI>
 
 "Emulate filters" causes the built-in programmable filters of the SID
 chip to be emulated.  A lot of C64 music requires them to be emulated
 properly, but their emulation requires some additional processor power.
 
-<A NAME="IDX192"></A>
+<A NAME="IDX193"></A>
 <LI>
 
 "ChipModel" specifies the model of the SID chip being emulated: there
 are two slightly different generations of SID chips: MOS6581 ones and
 MOS8580 ones.
 
-<A NAME="IDX193"></A>
+<A NAME="IDX194"></A>
 <LI>
 
 "Use reSID emulation" specifies whether the more accurate (and
 resource hungry) reSID emulation is turned on or off.
 
-<A NAME="IDX194"></A>
+<A NAME="IDX195"></A>
 <LI>
 
 "reSID sampling method" selects the method for conversion of the SID
@@ -286,7 +286,7 @@ for non-interactive sound generation. Unless you have a very fast
 machine, that is.
 </UL>
 
-<A NAME="IDX195"></A>
+<A NAME="IDX196"></A>
 <LI>"reSID resampling passband" specifies the percentage of the
 
 total bandwidth allocated to the resampling filter passband. The work
@@ -301,44 +301,44 @@ almost 20kHz).
 
 
 
-<H4><A NAME="SEC81" HREF="vice_toc.html#TOC81">7.1.3.1  SID resources</A></H4>
+<H4><A NAME="SEC83" HREF="vice_toc.html#TOC83">7.1.3.1  SID resources</A></H4>
 
 <DL COMPACT>
 
 <DT><CODE>SidStereo</CODE>
 <DD>
-<A NAME="IDX196"></A>
+<A NAME="IDX197"></A>
  
 Boolean selecting emulation of a second SID.
 
-<A NAME="IDX197"></A>
+<A NAME="IDX198"></A>
 <DT><CODE>SidStereoAddressStart</CODE>
 <DD>
 Integer specifying the start address for the second SID.
 
-<A NAME="IDX198"></A>
+<A NAME="IDX199"></A>
 <DT><CODE>SidFilters</CODE>
 <DD>
 Boolean specifying whether the built-in SID filters must be emulated.
 
-<A NAME="IDX199"></A>
+<A NAME="IDX200"></A>
 <DT><CODE>SidModel</CODE>
 <DD>
 Integer specifying what model of the SID must be emulated (<CODE>0</CODE>:
 MOS6581, <CODE>1</CODE>: MOS8580).
 
-<A NAME="IDX200"></A>
+<A NAME="IDX201"></A>
 <DT><CODE>SidUseResid</CODE>
 <DD>
 Boolean specifying whether the accurate reSID emulation is being used.
 
-<A NAME="IDX201"></A>
+<A NAME="IDX202"></A>
 <DT><CODE>SidResidSampling</CODE>
 <DD>
 Integer specifying the sampling method (<CODE>0</CODE>: Fast, <CODE>1</CODE>:
 Interpolation, <CODE>2</CODE>: Resampling)
 
-<A NAME="IDX202"></A>
+<A NAME="IDX203"></A>
 <DT><CODE>SidResidPassband</CODE>
 <DD>
 Integer specifying the resampling filter passband in percentage of the
@@ -348,29 +348,29 @@ total bandwidth (<CODE>0 - 90</CODE>).
 
 
 
-<H4><A NAME="SEC82" HREF="vice_toc.html#TOC82">7.1.3.2  SID command-line options</A></H4>
+<H4><A NAME="SEC84" HREF="vice_toc.html#TOC84">7.1.3.2  SID command-line options</A></H4>
 
 <DL COMPACT>
 
 <DT><CODE>-sidstereo</CODE>
 <DD>
-<A NAME="IDX203"></A>
+<A NAME="IDX204"></A>
  
 Emulates a second SID chip for stereo sound (<CODE>SidStereo</CODE>).
 
-<A NAME="IDX204"></A>
+<A NAME="IDX205"></A>
 <DT><CODE>-sidstereoaddress <CODE>ADDRESS</CODE></CODE>
 <DD>
 Specifies the start address for the second SID chip
 (<CODE>SidStereoAddressStart</CODE>).
 
-<A NAME="IDX205"></A>
+<A NAME="IDX206"></A>
 <DT><CODE>-sidmodel MODEL</CODE>
 <DD>
 Specifies <CODE>MODEL</CODE> as the emulated model of the SID chip
 (<CODE>SidModel</CODE>).
 
-<A NAME="IDX206"></A>
+<A NAME="IDX207"></A>
 <DT><CODE>-sidfilters</CODE>
 <DD>
 <DT><CODE>+sidfilters</CODE>
@@ -378,7 +378,7 @@ Specifies <CODE>MODEL</CODE> as the emulated model of the SID chip
 Enable (<CODE>SidFilters=1</CODE>) or disable (<CODE>SidFilters=0</CODE>) emulation
 of the built-in SID filters.
 
-<A NAME="IDX207"></A>
+<A NAME="IDX208"></A>
 <DT><CODE>-resid</CODE>
 <DD>
 <DT><CODE>+resid</CODE>
@@ -386,14 +386,14 @@ of the built-in SID filters.
 Enable (<CODE>SidFilters=1</CODE>) or disable (<CODE>SidFilters=0</CODE>) usage of
 the reSID emulator.
 
-<A NAME="IDX208"></A>
+<A NAME="IDX209"></A>
 <DT><CODE>-residsamp <CODE>METHOD</CODE></CODE>
 <DD>
 Specifies the sampling method; fast (<CODE>SidResidSampling=0</CODE>),
 interpolating (<CODE>SidResidSampling=1</CODE>), or resampling
 (<CODE>SidResidSampling=2</CODE>).
 
-<A NAME="IDX209"></A>
+<A NAME="IDX210"></A>
 <DT><CODE>-residpass <CODE>PERCENTAGE</CODE></CODE>
 <DD>
 Specifies the resampling filter passband in percentage of the total
@@ -403,7 +403,7 @@ bandwidth (<CODE>SidResidPassband=0-90</CODE>).
 
 
 
-<H3><A NAME="SEC83" HREF="vice_toc.html#TOC83">7.1.4  C64 I/O extension settings</A></H3>
+<H3><A NAME="SEC85" HREF="vice_toc.html#TOC85">7.1.4  C64 I/O extension settings</A></H3>
 
 <P>
 There are three I/O extensions available: they are located at the
@@ -417,7 +417,7 @@ might cause compatibility problems.
 
 <LI>
 
-<A NAME="IDX210"></A>
+<A NAME="IDX211"></A>
  
 The "emulator identification" extension allows programs to
 identify the kind of emulator they are running on, according to the
@@ -427,7 +427,7 @@ returns some values which identify the emulator itself, its version and
 a copyright message.  If this extension is disabled, programs will have
 virtually no way to realize they are running on an emulator.
 
-<A NAME="IDX211"></A>
+<A NAME="IDX212"></A>
 <LI>
 
 The "512K RAM Expansion Unit" extension emulates a standard 512K
@@ -435,31 +435,31 @@ Commodore RAM Expansion Unit; this can be used with GEOS and other
 programs that are designed to take advantage of it.  This currently
 works only in the C64 emulator.
 
-<A NAME="IDX212"></A>
+<A NAME="IDX213"></A>
 <LI>FIXME
 
 </UL>
 
 
 
-<H4><A NAME="SEC84" HREF="vice_toc.html#TOC84">7.1.4.1  C64 I/O extension resources</A></H4>
+<H4><A NAME="SEC86" HREF="vice_toc.html#TOC86">7.1.4.1  C64 I/O extension resources</A></H4>
 
 <DL COMPACT>
 
 <DT><CODE>IEEE488</CODE>
 <DD>
-<A NAME="IDX213"></A>
+<A NAME="IDX214"></A>
  
 Boolean specifying whether the IEEE488 interface should
 be emulated or not.
 
-<A NAME="IDX214"></A>
+<A NAME="IDX215"></A>
 <DT><CODE>REU</CODE>
 <DD>
 Boolean specifying whether the 512K RAM Expansion Unit should be
 emulated or not.
 
-<A NAME="IDX215"></A>
+<A NAME="IDX216"></A>
 <DT><CODE>EmuID</CODE>
 <DD>
 Boolean specifying whether the emulation identification extension should
@@ -469,20 +469,20 @@ be emulated or not.
 
 
 
-<H4><A NAME="SEC85" HREF="vice_toc.html#TOC85">7.1.4.2  C64 I/O extension command-line options</A></H4>
+<H4><A NAME="SEC87" HREF="vice_toc.html#TOC87">7.1.4.2  C64 I/O extension command-line options</A></H4>
 
 <DL COMPACT>
 
 <DT><CODE>-ieee488</CODE>
 <DD>
-<A NAME="IDX216"></A>
+<A NAME="IDX217"></A>
  
 <DT><CODE>+ieee488</CODE>
 <DD>
 Enable (<CODE>IEEE488=1</CODE>) or disable (<CODE>IEEE488=0</CODE>) emulation of the
 IEEE488 interface.
 
-<A NAME="IDX217"></A>
+<A NAME="IDX218"></A>
 <DT><CODE>-reu</CODE>
 <DD>
 <DT><CODE>+reu</CODE>
@@ -490,7 +490,7 @@ IEEE488 interface.
 Enable (<CODE>REU=1</CODE>) or disable (<CODE>REU=0</CODE>) emulation of the
 512K RAM Expansion Unit.
 
-<A NAME="IDX218"></A>
+<A NAME="IDX219"></A>
 <DT><CODE>-emuid</CODE>
 <DD>
 <DT><CODE>+emuid</CODE>
@@ -502,7 +502,7 @@ identification extension.
 
 
 
-<H3><A NAME="SEC86" HREF="vice_toc.html#TOC86">7.1.5  C64/128 system ROM settings</A></H3>
+<H3><A NAME="SEC88" HREF="vice_toc.html#TOC88">7.1.5  C64/128 system ROM settings</A></H3>
 
 <P>
 These settings can be used to control what system ROMs are loaded in the
@@ -512,29 +512,29 @@ C64/128 emulators at startup.  They cannot be changed from the menus.
 
 
 
-<H4><A NAME="SEC87" HREF="vice_toc.html#TOC87">7.1.5.1  C64/128 system ROM resources</A></H4>
+<H4><A NAME="SEC89" HREF="vice_toc.html#TOC89">7.1.5.1  C64/128 system ROM resources</A></H4>
 
 <DL COMPACT>
 
 <DT><CODE>KernalName</CODE>
 <DD>
-<A NAME="IDX219"></A>
+<A NAME="IDX220"></A>
  
 String specifying the name of the Kernal ROM (default <TT>`kernal'</TT>).
 
-<A NAME="IDX220"></A>
+<A NAME="IDX221"></A>
 <DT><CODE>BasicName</CODE>
 <DD>
 String specifying the name of the Basic ROM (default <TT>`basic'</TT>).  In
 the C128 emulator, the ROM image must actually include the editor ROM too.
 
-<A NAME="IDX221"></A>
+<A NAME="IDX222"></A>
 <DT><CODE>ChargenName</CODE>
 <DD>
 String specifying the name of the character generator ROM (default
 <TT>`chargen'</TT>).
 
-<A NAME="IDX222"></A>
+<A NAME="IDX223"></A>
 <DT><CODE>KernalRev</CODE>
 <DD>
 String specifying the Kernal revision.  This resource can be used to
@@ -568,28 +568,28 @@ Commodore 4064 (also known as "PET64" or "Educator 64") ROM.
 
 
 
-<H4><A NAME="SEC88" HREF="vice_toc.html#TOC88">7.1.5.2  C64/128 system ROM command-line options</A></H4>
+<H4><A NAME="SEC90" HREF="vice_toc.html#TOC90">7.1.5.2  C64/128 system ROM command-line options</A></H4>
 
 <DL COMPACT>
 
 <DT><CODE>-kernal NAME</CODE>
 <DD>
-<A NAME="IDX223"></A>
+<A NAME="IDX224"></A>
  
 Specify <TT>`NAME'</TT> as the Kernal ROM file (<CODE>KernalName</CODE>).
 
-<A NAME="IDX224"></A>
+<A NAME="IDX225"></A>
 <DT><CODE>-basic NAME</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the Basic ROM file (<CODE>BasicName</CODE>).
 
-<A NAME="IDX225"></A>
+<A NAME="IDX226"></A>
 <DT><CODE>-chargen NAME</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the character generator ROM file
 (<CODE>ChargenName</CODE>).
 
-<A NAME="IDX226"></A>
+<A NAME="IDX227"></A>
 <DT><CODE>-kernalrev REVISION</CODE>
 <DD>
 Specify Kernal revision (<CODE>KernalRev</CODE>).
@@ -598,7 +598,7 @@ Specify Kernal revision (<CODE>KernalRev</CODE>).
 
 
 
-<H2><A NAME="SEC89" HREF="vice_toc.html#TOC89">7.2  VIC20-specific commands and settings</A></H2>
+<H2><A NAME="SEC91" HREF="vice_toc.html#TOC91">7.2  VIC20-specific commands and settings</A></H2>
 
 <P>
 This section lists the settings and commands that are VIC20-specific and
@@ -608,10 +608,10 @@ thus are not present in the other emulators.
 
 
 
-<H3><A NAME="SEC90" HREF="vice_toc.html#TOC90">7.2.1  Using cartridge images</A></H3>
+<H3><A NAME="SEC92" HREF="vice_toc.html#TOC92">7.2.1  Using cartridge images</A></H3>
 
 <P>
-As with the C64 (see section <A HREF="vice_7.html#SEC76">7.1.1  Using cartridge images</A>), it is possible to attach
+As with the C64 (see section <A HREF="vice_7.html#SEC78">7.1.1  Using cartridge images</A>), it is possible to attach
 several types of cartridge images:
 
 </P>
@@ -668,7 +668,7 @@ but you also have to enable the IEEE488 hardware by menu.
 </P>
 
 
-<H3><A NAME="SEC91" HREF="vice_toc.html#TOC91">7.2.2  Changing memory configuration</A></H3>
+<H3><A NAME="SEC93" HREF="vice_toc.html#TOC93">7.2.2  Changing memory configuration</A></H3>
 
 <P>
 It is possible to change the VIC20 memory configuration in two ways: by
@@ -737,7 +737,7 @@ all RAM expansion blocks enabled;
 </UL>
 
 <P>
-As with the X64 (see section <A HREF="vice_7.html#SEC83">7.1.4  C64 I/O extension settings</A>), it is also
+As with the X64 (see section <A HREF="vice_7.html#SEC85">7.1.4  C64 I/O extension settings</A>), it is also
 possible to enable a special emulator identification mechanism that uses
 certain memory locations to let a running program query information
 about the emulator itself; this is enabled by the "Emulator
@@ -747,29 +747,29 @@ identification" option.
 
 
 
-<H4><A NAME="SEC92" HREF="vice_toc.html#TOC92">7.2.2.1  VIC20 memory configuration resources</A></H4>
+<H4><A NAME="SEC94" HREF="vice_toc.html#TOC94">7.2.2.1  VIC20 memory configuration resources</A></H4>
 
 <DL COMPACT>
 
 <DT><CODE>RAMBlock0</CODE>
 <DD>
-<A NAME="IDX227"></A>
- 
 <A NAME="IDX228"></A>
+ 
+<A NAME="IDX229"></A>
 <DT><CODE>RAMBlock1</CODE>
 <DD>
-<A NAME="IDX229"></A>
+<A NAME="IDX230"></A>
 <DT><CODE>RAMBlock2</CODE>
 <DD>
-<A NAME="IDX230"></A>
+<A NAME="IDX231"></A>
 <DT><CODE>RAMBlock3</CODE>
 <DD>
-<A NAME="IDX231"></A>
+<A NAME="IDX232"></A>
 <DT><CODE>RAMBlock5</CODE>
 <DD>
 Booleans specifying whether RAM blocks 0, 1, 2, 3 and 5 must be enabled.
 
-<A NAME="IDX232"></A>
+<A NAME="IDX233"></A>
 <DT><CODE>EmuID</CODE>
 <DD>
 Boolean specifying whether the emulation identification extension must
@@ -779,13 +779,13 @@ be enabled.
 
 
 
-<H4><A NAME="SEC93" HREF="vice_toc.html#TOC93">7.2.2.2  VIC20 memory configuration command-line options</A></H4>
+<H4><A NAME="SEC95" HREF="vice_toc.html#TOC95">7.2.2.2  VIC20 memory configuration command-line options</A></H4>
 
 <DL COMPACT>
 
 <DT><CODE>-memory CONFIG</CODE>
 <DD>
-<A NAME="IDX233"></A>
+<A NAME="IDX234"></A>
  
 Specify memory configuration.  It must be a comma-separated list of
 options, each of which can be one the following:
@@ -844,7 +844,7 @@ xvic -memory 3,5
 enables memory in blocks 3 and 5, which is the usual configuration for
 16k ROM modules.
 
-<A NAME="IDX234"></A>
+<A NAME="IDX235"></A>
 <DT><CODE>-emuid</CODE>
 <DD>
 <DT><CODE>+emuid</CODE>
@@ -856,7 +856,7 @@ identification extension.
 
 
 
-<H3><A NAME="SEC94" HREF="vice_toc.html#TOC94">7.2.3  VIC20 system ROM settings</A></H3>
+<H3><A NAME="SEC96" HREF="vice_toc.html#TOC96">7.2.3  VIC20 system ROM settings</A></H3>
 
 <P>
 These settings can be used to control what system ROMs are loaded in the
@@ -866,32 +866,32 @@ VIC20 emulator at startup.  They cannot be changed from the menus.
 
 
 
-<H4><A NAME="SEC95" HREF="vice_toc.html#TOC95">7.2.3.1  VIC20 system ROM resources</A></H4>
+<H4><A NAME="SEC97" HREF="vice_toc.html#TOC97">7.2.3.1  VIC20 system ROM resources</A></H4>
 
 <DL COMPACT>
 
 <DT><CODE>KernalName</CODE>
 <DD>
-<A NAME="IDX235"></A>
+<A NAME="IDX236"></A>
  
 String specifying the name of the Kernal ROM (default <TT>`kernal'</TT>).
 
-<A NAME="IDX236"></A>
+<A NAME="IDX237"></A>
 <DT><CODE>BasicName</CODE>
 <DD>
 String specifying the name of the Basic ROM (default <TT>`basic'</TT>).
 
-<A NAME="IDX237"></A>
+<A NAME="IDX238"></A>
 <DT><CODE>ChargenName</CODE>
 <DD>
 String specifying the name of the character generator ROM (default
 <TT>`chargen'</TT>).
 
-<A NAME="IDX238"></A>
 <A NAME="IDX239"></A>
 <A NAME="IDX240"></A>
 <A NAME="IDX241"></A>
 <A NAME="IDX242"></A>
+<A NAME="IDX243"></A>
 <DT><CODE>CartridgeFile2000</CODE>
 <DD>
 <DT><CODE>CartridgeFile4000</CODE>
@@ -908,32 +908,32 @@ String specifying the name of the respective cartridge ROM images.
 
 
 
-<H4><A NAME="SEC96" HREF="vice_toc.html#TOC96">7.2.3.2  VIC20 system ROM command-line options</A></H4>
+<H4><A NAME="SEC98" HREF="vice_toc.html#TOC98">7.2.3.2  VIC20 system ROM command-line options</A></H4>
 
 <DL COMPACT>
 
 <DT><CODE>-kernal NAME</CODE>
 <DD>
-<A NAME="IDX243"></A>
+<A NAME="IDX244"></A>
  
 Specify <TT>`NAME'</TT> as the Kernal ROM file (<CODE>KernalName</CODE>).
 
-<A NAME="IDX244"></A>
+<A NAME="IDX245"></A>
 <DT><CODE>-basic NAME</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the Basic ROM file (<CODE>BasicName</CODE>).
 
-<A NAME="IDX245"></A>
+<A NAME="IDX246"></A>
 <DT><CODE>-chargen NAME</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the character generator ROM file
 (<CODE>ChargenName</CODE>).
 
-<A NAME="IDX246"></A>
 <A NAME="IDX247"></A>
 <A NAME="IDX248"></A>
 <A NAME="IDX249"></A>
 <A NAME="IDX250"></A>
+<A NAME="IDX251"></A>
 <DT><CODE>-cart2 NAME</CODE>
 <DD>
 <DT><CODE>-cart4 NAME</CODE>
@@ -951,7 +951,7 @@ Specify <TT>`NAME'</TT> as the cartridge image to attach.
 
 
 
-<H2><A NAME="SEC97" HREF="vice_toc.html#TOC97">7.3  PET-specific commands and settings</A></H2>
+<H2><A NAME="SEC99" HREF="vice_toc.html#TOC99">7.3  PET-specific commands and settings</A></H2>
 
 <P>
 This section lists the settings and commands that are PET-specific and
@@ -961,7 +961,7 @@ thus are not present in the other emulators.
 
 
 
-<H3><A NAME="SEC98" HREF="vice_toc.html#TOC98">7.3.1  Changing PET model settings</A></H3>
+<H3><A NAME="SEC100" HREF="vice_toc.html#TOC100">7.3.1  Changing PET model settings</A></H3>
 
 <P>
 With <CODE>xpet</CODE>, it is possible to change at runtime the
@@ -979,101 +979,101 @@ file, command line options or right-menu items):
 
 <DT><CODE>RamSize</CODE>
 <DD>
-<A NAME="IDX251"></A>
+<A NAME="IDX252"></A>
  
 Size of memory in kByte. 96k denotes a 8096, 128k a 8296.
 
-<A NAME="IDX252"></A>
+<A NAME="IDX253"></A>
 <DT><CODE>IOSize</CODE>
 <DD>
 Size of I/O area in Byte.  Either 2048 or 256 for 8296.
 
-<A NAME="IDX253"></A>
+<A NAME="IDX254"></A>
 <DT><CODE>Crtc</CODE>
 <DD>
 Enables CRTC 6545 emulation (all models from 40xx and above)
 
-<A NAME="IDX254"></A>
+<A NAME="IDX255"></A>
 <DT><CODE>VideoSize</CODE>
 <DD>
 The number of columns on the screen (40 or 80).  A 0 auto-detects this
 from the ROM.
 
-<A NAME="IDX255"></A>
+<A NAME="IDX256"></A>
 <DT><CODE>Ram9</CODE>
 <DD>
 The 8296 can map RAM into the address range $9***
 
-<A NAME="IDX256"></A>
+<A NAME="IDX257"></A>
 <DT><CODE>RamA</CODE>
 <DD>
 The 8296 can map RAM into the address range $A***
 
-<A NAME="IDX257"></A>
+<A NAME="IDX258"></A>
 <DT><CODE>SuperPET</CODE>
 <DD>
 This resource enables the SuperPET (MicroMainFrame 9000) I/O
 and disables the 8x96 mappings.
 
-<A NAME="IDX258"></A>
+<A NAME="IDX259"></A>
 <DT><CODE>Basic1</CODE>
 <DD>
 If (by checksum) a version 1 kernal is detected, then the 
 kernal ROM is patched to make the IEEE488 interface work.
 
-<A NAME="IDX259"></A>
+<A NAME="IDX260"></A>
 <DT><CODE>Basic1Chars</CODE>
 <DD>
 Exchanges some character in the character ROM that have changed
 between the first PET 2001 and all newer versions.
 
-<A NAME="IDX260"></A>
+<A NAME="IDX261"></A>
 <DT><CODE>EoiBlank</CODE>
 <DD>
 This resource enables the "blank screen on EOI" feature of the 
 oldest PET 2001.
 
-<A NAME="IDX261"></A>
+<A NAME="IDX262"></A>
 <DT><CODE>EmuID</CODE>
 <DD>
 Enable emulator ID (at <CODE>$e8a0-$e8ff</CODE>, for use see C64).
 
-<A NAME="IDX262"></A>
+<A NAME="IDX263"></A>
 <DT><CODE>DiagPin</CODE>
 <DD>
 Set the diagnositc pin on the PET userport (see below).
 
-<A NAME="IDX263"></A>
+<A NAME="IDX264"></A>
 <DT><CODE>ChargenName</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the character generator ROM file
 
-<A NAME="IDX264"></A>
+<A NAME="IDX265"></A>
 <DT><CODE>KernalName</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the kernal ROM file.  This file contains the
 complete BASIC, EDITOR and KERNAL ROMs and is either 16k (BASIC 1 and 2)
 or 20k (BASIC 4) in size.
 
-<A NAME="IDX265"></A>
+<A NAME="IDX266"></A>
 <DT><CODE>EditorName</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the editor ROM file.  This file contains
 an overlay for the editor ROM at $E000-$E7FF if necessary.
 
-<A NAME="IDX266"></A>
+<A NAME="IDX267"></A>
 <DT><CODE>RomModule9Name</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the $9*** Expansion ROM file.  This file contains
 an expansion ROM image of 4k.
 
-<A NAME="IDX267"></A>
+<A NAME="IDX268"></A>
 <DT><CODE>RomModuleAName</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the $A*** Expansion ROM file.  This file contains
 an expansion ROM image of 4k.
 
-<A NAME="IDX268"></A>
+<A NAME="IDX269"></A>
 <DT><CODE>RomModuleBName</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the $B*** Expansion ROM file.  This file contains
@@ -1142,7 +1142,7 @@ will emulate a PET 3032 while <SAMP>`xpet -model 8296'</SAMP> will emulate a PET
 
 
 
-<H3><A NAME="SEC99" HREF="vice_toc.html#TOC99">7.3.2  The PET diagnostic pin</A></H3>
+<H3><A NAME="SEC101" HREF="vice_toc.html#TOC101">7.3.2  The PET diagnostic pin</A></H3>
 
 <P>
 It is possible to enable or disable emulation of the PET diagnostic pin
@@ -1157,7 +1157,7 @@ the BASIC, but directly jumps into the builtin machine monitor.
 </P>
 
 
-<H3><A NAME="SEC100" HREF="vice_toc.html#TOC100">7.3.3  PET command line options</A></H3>
+<H3><A NAME="SEC102" HREF="vice_toc.html#TOC102">7.3.3  PET command line options</A></H3>
 
 <P>
 These are the commandline options specific for the CBM-II models.
@@ -1167,71 +1167,71 @@ These are the commandline options specific for the CBM-II models.
 
 <DT><CODE>-model MODEL</CODE>
 <DD>
-<A NAME="IDX269"></A>
+<A NAME="IDX270"></A>
  
 Specify the PET model you want to emulate.
 
-<A NAME="IDX270"></A>
+<A NAME="IDX271"></A>
 <DT><CODE>-kernal NAME</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the Kernal/BASIC ROM file (<CODE>KernalName</CODE>).
 
-<A NAME="IDX271"></A>
+<A NAME="IDX272"></A>
 <DT><CODE>-editor NAME</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the editor ROM file (<CODE>EditorName</CODE>).
 
-<A NAME="IDX272"></A>
+<A NAME="IDX273"></A>
 <DT><CODE>-chargen NAME</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the character generator ROM file
 (<CODE>ChargenName</CODE>).
 
-<A NAME="IDX273"></A>
 <A NAME="IDX274"></A>
 <A NAME="IDX275"></A>
+<A NAME="IDX276"></A>
 <DT><CODE>-rom9 NAME, -romA NAME, -romB NAME</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the ROM image file for the respective 
 cartridge areas (<CODE>RomModule9Name</CODE>, <CODE>RomModuleAName</CODE>, 
 <CODE>RomModuleBName</CODE>).
 
-<A NAME="IDX276"></A>
 <A NAME="IDX277"></A>
+<A NAME="IDX278"></A>
 <DT><CODE>-petramA, -petramB</CODE>
 <DD>
 Switch on RAM mapping on addresses 
 $9000-$9fff, $a000-$afff
 (<CODE>Ram9</CODE>, <CODE>RamA</CODE>).
 
-<A NAME="IDX278"></A>
 <A NAME="IDX279"></A>
+<A NAME="IDX280"></A>
 <DT><CODE>-superpet, +superpet</CODE>
 <DD>
 Enable/Disable SuperPET I/O emulation (<CODE>SuperPET</CODE>).
 
-<A NAME="IDX280"></A>
 <A NAME="IDX281"></A>
+<A NAME="IDX282"></A>
 <DT><CODE>-basic1, +basic1</CODE>
 <DD>
 Enable/Disable patching the IEEE488 section of the PET2001 ROM when detected
 (<CODE>Basic1</CODE>).
 
-<A NAME="IDX282"></A>
 <A NAME="IDX283"></A>
+<A NAME="IDX284"></A>
 <DT><CODE>-basic1char, +basic1char</CODE>
 <DD>
 Enable/Disable PET 2001 character generator
 (<CODE>Basic1Chars</CODE>).
 
-<A NAME="IDX284"></A>
 <A NAME="IDX285"></A>
+<A NAME="IDX286"></A>
 <DT><CODE>-eoiblank, +eoiblank</CODE>
 <DD>
 Enable/Disable EOI blanking the screen
 (<CODE>EoiBlank</CODE>).
 
-<A NAME="IDX286"></A>
+<A NAME="IDX287"></A>
 <DT><CODE>-emuid</CODE>
 <DD>
 <DT><CODE>+emuid</CODE>
@@ -1239,7 +1239,7 @@ Enable/Disable EOI blanking the screen
 Enable (<CODE>EmuID=1</CODE>) or disable (<CODE>EmuID=0</CODE>) the emulation
 identification extension (at <CODE>$e8a0-$e8ff</CODE>).
 
-<A NAME="IDX287"></A>
+<A NAME="IDX288"></A>
 <DT><CODE>-diagpin</CODE>
 <DD>
 <DT><CODE>+diagpin</CODE>
@@ -1251,7 +1251,7 @@ diagnostic pin at the PET userport.
 
 
 
-<H3><A NAME="SEC101" HREF="vice_toc.html#TOC101">7.3.4  Changing screen colors</A></H3>
+<H3><A NAME="SEC103" HREF="vice_toc.html#TOC103">7.3.4  Changing screen colors</A></H3>
 
 <P>
 It is also possible to choose what color set is used for the emulation
@@ -1275,7 +1275,7 @@ feeling;
 
 
 
-<H2><A NAME="SEC102" HREF="vice_toc.html#TOC102">7.4  CBM-II-specific commands and settings</A></H2>
+<H2><A NAME="SEC104" HREF="vice_toc.html#TOC104">7.4  CBM-II-specific commands and settings</A></H2>
 
 <P>
 This section lists the settings and commands that are CBM-II-specific and
@@ -1285,7 +1285,7 @@ thus are not present in the other emulators.
 
 
 
-<H3><A NAME="SEC103" HREF="vice_toc.html#TOC103">7.4.1  Changing CBM-II model</A></H3>
+<H3><A NAME="SEC105" HREF="vice_toc.html#TOC105">7.4.1  Changing CBM-II model</A></H3>
 
 <P>
 With <CODE>xcbm2</CODE>, it is possible to change at runtime the
@@ -1303,37 +1303,37 @@ file, command line options or right-menu items):
 
 <DT><CODE>UseVicII</CODE>
 <DD>
-<A NAME="IDX288"></A>
+<A NAME="IDX289"></A>
  
 Whether to use VIC-II for video output (value 1) or the CRTC for the
 other machines (value 0)
 
-<A NAME="IDX289"></A>
+<A NAME="IDX290"></A>
 <DT><CODE>RamSize</CODE>
 <DD>
 Size of memory in kByte.  Possible values are 128, 256, 512 and 1024
 
-<A NAME="IDX290"></A>
 <A NAME="IDX291"></A>
 <A NAME="IDX292"></A>
 <A NAME="IDX293"></A>
 <A NAME="IDX294"></A>
 <A NAME="IDX295"></A>
+<A NAME="IDX296"></A>
 <DT><CODE>Ram08, Ram1, Ram2, Ram4, Ram6, RamC</CODE>
 <DD>
 Expanded CBM-II models could map RAM to the expansion ROM areas
 at $0800-$0fff, $1000-$1fff, $2000-$3FFF, $4000-$5FFF, $6000-$7FFF
 and $c000-$cfff respectively.
 
-<A NAME="IDX296"></A>
 <A NAME="IDX297"></A>
 <A NAME="IDX298"></A>
+<A NAME="IDX299"></A>
 <DT><CODE>Cart2Name, Cart4Name, Cart6Name</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the $2000-$3FFF, $4000-$5FFF or $6000-$6FFF
 Expansion ROM file.  This file contains an 8k ROM dump.
 
-<A NAME="IDX299"></A>
+<A NAME="IDX300"></A>
 <DT><CODE>ModelLine</CODE>
 <DD>
 The CBM-II business models have two hardcoded lines at one of the I/O ports.
@@ -1394,7 +1394,7 @@ will emulate a CBM 610 while <SAMP>`xcbm2 -model 620'</SAMP> will emulate a CBM
 </P>
 
 
-<H3><A NAME="SEC104" HREF="vice_toc.html#TOC104">7.4.2  CBM-II command line options</A></H3>
+<H3><A NAME="SEC106" HREF="vice_toc.html#TOC106">7.4.2  CBM-II command line options</A></H3>
 
 <P>
 These are the commandline options specific for the CBM-II models.
@@ -1404,43 +1404,43 @@ These are the commandline options specific for the CBM-II models.
 
 <DT><CODE>-usevicii</CODE>
 <DD>
-<A NAME="IDX300"></A>
+<A NAME="IDX301"></A>
  
 <DT><CODE>+usevicii</CODE>
 <DD>
 Specify whether to use (-usevicii) or not to use (+usevicii) the VIC-II 
 emulation.
 
-<A NAME="IDX301"></A>
+<A NAME="IDX302"></A>
 <DT><CODE>-kernal NAME</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the Kernal ROM file (<CODE>KernalName</CODE>).
 
-<A NAME="IDX302"></A>
+<A NAME="IDX303"></A>
 <DT><CODE>-basic NAME</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the Basic ROM file (<CODE>BasicName</CODE>).
 
-<A NAME="IDX303"></A>
+<A NAME="IDX304"></A>
 <DT><CODE>-chargen NAME</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the character generator ROM file
 (<CODE>ChargenName</CODE>).
 
-<A NAME="IDX304"></A>
 <A NAME="IDX305"></A>
 <A NAME="IDX306"></A>
+<A NAME="IDX307"></A>
 <DT><CODE>-cart2 NAME, -cart4 NAME, -cart6 NAME</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the ROM image file for the respective 
 cartridge areas (<CODE>Cart2Name</CODE>, <CODE>Cart4Name</CODE>, <CODE>Cart6Name</CODE>).
 
-<A NAME="IDX307"></A>
 <A NAME="IDX308"></A>
 <A NAME="IDX309"></A>
 <A NAME="IDX310"></A>
 <A NAME="IDX311"></A>
 <A NAME="IDX312"></A>
+<A NAME="IDX313"></A>
 <DT><CODE>-ram08, -ram1, -ram2, -ram4, -ram6, -ramC</CODE>
 <DD>
 Switch on RAM mapping in bank 15 on addresses 
@@ -1448,7 +1448,7 @@ $0800-$0fff, $1000-$1fff, $2000-$3fff, $4000-$5fff, $6000-$7fff resp
 (<CODE>Ram08</CODE>, <CODE>Ram1</CODE>, <CODE>Ram2</CODE>, <CODE>Ram4</CODE>, <CODE>Ram6</CODE>,
 <CODE>RamC</CODE>).
 
-<A NAME="IDX313"></A>
+<A NAME="IDX314"></A>
 <DT><CODE>-modelline</CODE>
 <DD>
 Define the hardcoded model switch in the CBM-II models.
@@ -1457,7 +1457,7 @@ Define the hardcoded model switch in the CBM-II models.
 
 
 
-<H3><A NAME="SEC105" HREF="vice_toc.html#TOC105">7.4.3  Changing screen colors</A></H3>
+<H3><A NAME="SEC107" HREF="vice_toc.html#TOC107">7.4.3  Changing screen colors</A></H3>
 
 <P>
 It is also possible to choose what color set is used for the emulation

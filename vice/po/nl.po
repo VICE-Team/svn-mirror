@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-24 20:25+0100\n"
+"POT-Creation-Date: 2008-04-20 13:45+0200\n"
 "PO-Revision-Date: 2007-07-26 11:57+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -20,27 +20,27 @@ msgstr ""
 msgid "<percent>"
 msgstr "<procent>"
 
-#: src/vsync.c:147 src/translate.c.po.c:4595
+#: src/vsync.c:147 src/translate.c.po.c:4605
 msgid "Limit emulation speed to specified value"
 msgstr "Beperk emulatiesnelheid tot de opgegeven waarde"
 
 #: src/vsync.c:149 src/sound.c:275 src/sound.c:277 src/debug.c:205
-#: src/c64/cart/ide64.c:279 src/c64/cart/ide64.c:281 src/c64/cart/ide64.c:283
+#: src/c64/cart/ide64.c:283 src/c64/cart/ide64.c:285 src/c64/cart/ide64.c:287
 #: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:201
 #: src/gfxoutputdrv/ffmpegdrv.c:204 src/mouse.c:362 src/mouse.c:364
 #: src/ram.c:101 src/translate.c.po.c:1592
 msgid "<value>"
 msgstr "<waarde>"
 
-#: src/vsync.c:149 src/translate.c.po.c:4605
+#: src/vsync.c:149 src/translate.c.po.c:4615
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Elke <waarde> beeld vernieuwen (`0' voor automatisch)"
 
-#: src/vsync.c:151 src/translate.c.po.c:4615
+#: src/vsync.c:151 src/translate.c.po.c:4625
 msgid "Enable warp mode"
 msgstr "Activeer warpmodus"
 
-#: src/vsync.c:153 src/translate.c.po.c:4625
+#: src/vsync.c:153 src/translate.c.po.c:4635
 msgid "Disable warp mode"
 msgstr "Warpmodus uitschakelen"
 
@@ -56,19 +56,19 @@ msgstr "Sorry. Meerdere opnamen wordt niet ondersteund."
 msgid "Cannot load snapshot file."
 msgstr "Kan momentopnamebestand niet laden."
 
-#: src/sound.c:271 src/translate.c.po.c:4445
+#: src/sound.c:271 src/translate.c.po.c:4455
 msgid "Enable sound playback"
 msgstr "Activeer geluidsweergave"
 
-#: src/sound.c:273 src/translate.c.po.c:4455
+#: src/sound.c:273 src/translate.c.po.c:4465
 msgid "Disable sound playback"
 msgstr "Geluid uitschakelen"
 
-#: src/sound.c:275 src/translate.c.po.c:4465
+#: src/sound.c:275 src/translate.c.po.c:4475
 msgid "Set sound sample rate to <value> Hz"
 msgstr "Zet de geluid sample rate naar <waarde> Hz"
 
-#: src/sound.c:277 src/translate.c.po.c:4475
+#: src/sound.c:277 src/translate.c.po.c:4485
 msgid "Set sound buffer size to <value> msec"
 msgstr "Zet de geluidsbuffergrootte naar <waarde> msec"
 
@@ -92,7 +92,7 @@ msgstr "Zet de geluidsbuffergrootte naar <waarde> msec"
 #: src/c64/cart/c64cart.c:259 src/c64/cart/c64cart.c:262
 #: src/c64/cart/c64cart.c:265 src/c64/cart/c64cart.c:268
 #: src/c64/cart/c64cart.c:271 src/c64/cart/c64cart.c:274
-#: src/c64/cart/ide64.c:277 src/c64/c64_256k.c:210 src/c64/georam.c:209
+#: src/c64/cart/ide64.c:281 src/c64/c64_256k.c:210 src/c64/georam.c:209
 #: src/c64/mmc64.c:907 src/c64/mmc64.c:909 src/c64/plus256k.c:175
 #: src/c64/plus60k.c:249 src/c64/ramcart.c:239 src/c64/reu.c:247
 #: src/c64/tfe.c:1934 src/cbm2/cbm2-cmdline-options.c:132
@@ -149,32 +149,32 @@ msgstr "Zet de geluidsbuffergrootte naar <waarde> msec"
 msgid "<name>"
 msgstr "<naam>"
 
-#: src/sound.c:279 src/translate.c.po.c:4485
+#: src/sound.c:279 src/translate.c.po.c:4495
 msgid "Specify sound driver"
 msgstr "Geef geluidsstuurprogramma"
 
-#: src/sound.c:281 src/sound.c:285 src/translate.c.po.c:4495
+#: src/sound.c:281 src/sound.c:285 src/translate.c.po.c:4505
 msgid "<args>"
 msgstr "<parameters>"
 
-#: src/sound.c:281 src/translate.c.po.c:4505
+#: src/sound.c:281 src/translate.c.po.c:4515
 msgid "Specify initialization parameters for sound driver"
 msgstr "Geef de initialisatieparameters voor het geluidsstuurprogramma"
 
-#: src/sound.c:283 src/translate.c.po.c:4515
+#: src/sound.c:283 src/translate.c.po.c:4525
 msgid "Specify recording sound driver"
 msgstr "Geef geluidsstuurprogramma voor opname"
 
-#: src/sound.c:285 src/translate.c.po.c:4525
+#: src/sound.c:285 src/translate.c.po.c:4535
 msgid "Specify initialization parameters for recording sound driver"
 msgstr ""
 "Geef initialisatieparameters voor het geluidsstuurprogramma voor opname"
 
-#: src/sound.c:287 src/translate.c.po.c:4535
+#: src/sound.c:287 src/translate.c.po.c:4545
 msgid "<sync>"
 msgstr "<sync>"
 
-#: src/sound.c:287 src/translate.c.po.c:4545
+#: src/sound.c:287 src/translate.c.po.c:4555
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr "Zet geluidssnelheid aanpassing (0: flexibel, 1: aanpassend, 2: exact)"
 
@@ -788,7 +788,7 @@ msgstr "Koppel CBM IEEE488-cartridgebestand aan"
 msgid "Attach raw 16KB Westermann learning cartridge image"
 msgstr "Koppel binair 16KB Westermann-learning-cartridgebestand aan"
 
-#: src/c64/cart/c64cart.c:274 src/translate.c.po.c:4765
+#: src/c64/cart/c64cart.c:274 src/translate.c.po.c:4775
 msgid "Attach raw Structured Basic cartridge image"
 msgstr "Koppel binair Structured-Basic-cartridgebestand aan"
 
@@ -796,39 +796,39 @@ msgstr "Koppel binair Structured-Basic-cartridgebestand aan"
 msgid "Enable expert cartridge"
 msgstr "Activeer expertcartridge"
 
-#: src/c64/cart/ide64.c:277 src/translate.c.po.c:1582
+#: src/c64/cart/ide64.c:281 src/translate.c.po.c:1582
 msgid "Specify name of IDE64 image file"
 msgstr "Geef de naam van het IDE64-bestand"
 
-#: src/c64/cart/ide64.c:279 src/translate.c.po.c:1602
+#: src/c64/cart/ide64.c:283 src/translate.c.po.c:1602
 msgid "Set number of cylinders for the IDE64 emulation"
 msgstr "Stel het aantal cylinders voor de IDE64-emulatie in"
 
-#: src/c64/cart/ide64.c:281 src/translate.c.po.c:1612
+#: src/c64/cart/ide64.c:285 src/translate.c.po.c:1612
 msgid "Set number of heads for the IDE64 emulation"
 msgstr "Stel het aantal koppen voor de IDE64-emulatie in"
 
-#: src/c64/cart/ide64.c:283 src/translate.c.po.c:1622
+#: src/c64/cart/ide64.c:287 src/translate.c.po.c:1622
 msgid "Set number of sectors for the IDE64 emulation"
 msgstr "Stel het aantal sectors voor de IDE64-emulatie in"
 
-#: src/c64/cart/ide64.c:286 src/translate.c.po.c:1632
+#: src/c64/cart/ide64.c:290 src/translate.c.po.c:1632
 msgid "Autodetect geometry of formatted images"
 msgstr "Automatisch de grootte van de geformateerde bestanden detecteren"
 
-#: src/c64/cart/ide64.c:289 src/translate.c.po.c:1642
+#: src/c64/cart/ide64.c:293 src/translate.c.po.c:1642
 msgid "Do not autodetect geometry of formatted images"
 msgstr "Niet automatisch de grootte van de geformateerde bestanden detecteren"
 
-#: src/c64/c64_256k.c:206 src/translate.c.po.c:4725
+#: src/c64/c64_256k.c:206 src/translate.c.po.c:4735
 msgid "Enable the 256K RAM expansion"
 msgstr "Activeer de 256K-geheugenuitbreiding"
 
-#: src/c64/c64_256k.c:208 src/translate.c.po.c:4735
+#: src/c64/c64_256k.c:208 src/translate.c.po.c:4745
 msgid "Disable the 256K RAM expansion"
 msgstr "De 256K-geheugenuitbreiding uitschakelen"
 
-#: src/c64/c64_256k.c:210 src/translate.c.po.c:4745
+#: src/c64/c64_256k.c:210 src/translate.c.po.c:4755
 msgid "Specify name of 256K image"
 msgstr "Geef de naam van het 256K-bestand"
 
@@ -837,7 +837,7 @@ msgstr "Geef de naam van het 256K-bestand"
 msgid "<base address>"
 msgstr "<basisadres>"
 
-#: src/c64/c64_256k.c:212 src/translate.c.po.c:4755
+#: src/c64/c64_256k.c:212 src/translate.c.po.c:4765
 msgid "Base address of the 256K expansion"
 msgstr "Basisadres van de 256K-geheugenuitbreiding"
 
@@ -849,15 +849,15 @@ msgstr ""
 "Digmax kan niet gebruikt worden met ReSID\n"
 "Schakel de SID-kern over naar FastSID"
 
-#: src/c64/digimax.c:137 src/translate.c.po.c:4815
+#: src/c64/digimax.c:137 src/translate.c.po.c:4825
 msgid "Enable the digimax cartridge"
 msgstr "Activeer de digimaxcartridge"
 
-#: src/c64/digimax.c:139 src/translate.c.po.c:4825
+#: src/c64/digimax.c:139 src/translate.c.po.c:4835
 msgid "Disable the digimax cartridge"
 msgstr "De digimaxcartridge uitschakelen"
 
-#: src/c64/digimax.c:141 src/translate.c.po.c:4835
+#: src/c64/digimax.c:141 src/translate.c.po.c:4845
 msgid "Base address of the digimax cartridge"
 msgstr "Basisadres van de digimaxcartridge"
 
@@ -910,31 +910,31 @@ msgstr "Zet de MMC64 als lezen/schrijven"
 msgid "Save the MMC64 bios when changed"
 msgstr "Sla de MMC64-bios op als er veranderingen zijn gemaakt"
 
-#: src/c64/plus256k.c:171 src/translate.c.po.c:4655
+#: src/c64/plus256k.c:171 src/translate.c.po.c:4665
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "Activeer de PLUS256K-geheugenuitbreiding"
 
-#: src/c64/plus256k.c:173 src/translate.c.po.c:4665
+#: src/c64/plus256k.c:173 src/translate.c.po.c:4675
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "De PLUS256K-geheugenuitbreiding uitschakelen"
 
-#: src/c64/plus256k.c:175 src/translate.c.po.c:4675
+#: src/c64/plus256k.c:175 src/translate.c.po.c:4685
 msgid "Specify name of PLUS256K image"
 msgstr "Geef de naam van het PLUS256K-bestand"
 
-#: src/c64/plus60k.c:245 src/translate.c.po.c:4685
+#: src/c64/plus60k.c:245 src/translate.c.po.c:4695
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "Activeer de PLUS60K-geheugenuitbreiding"
 
-#: src/c64/plus60k.c:247 src/translate.c.po.c:4695
+#: src/c64/plus60k.c:247 src/translate.c.po.c:4705
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "De PLUS60K-geheugenuitbreiding uitschakelen"
 
-#: src/c64/plus60k.c:249 src/translate.c.po.c:4705
+#: src/c64/plus60k.c:249 src/translate.c.po.c:4715
 msgid "Specify name of PLUS60K image"
 msgstr "Geef de naam van het PLUS60K-bestand"
 
-#: src/c64/plus60k.c:251 src/translate.c.po.c:4715
+#: src/c64/plus60k.c:251 src/translate.c.po.c:4725
 msgid "Base address of the PLUS60K expansion"
 msgstr "Basisadres van de PLUS60K-geheugenuitbreiding"
 
@@ -1298,7 +1298,7 @@ msgstr "Geef de naam van het 1001/8050/8250 DOS ROM-bestand"
 msgid "Specify name of 1551 DOS ROM image"
 msgstr "Geef de naam van het 1551 DOS ROM-bestand"
 
-#: src/fliplist.c:121 src/translate.c.po.c:4184
+#: src/fliplist.c:121 src/translate.c.po.c:4194
 msgid "Specify name of the flip list file image"
 msgstr "Geef de naam van het fliplijstbestand"
 
@@ -1340,87 +1340,87 @@ msgid "ffmpegdrv: Cannot open %s"
 msgstr "ffmpegdrv: Kan %s niet openen"
 
 #: src/initcmdline.c:155 src/initcmdline.c:157 src/initcmdline.c:159
-#: src/translate.c.po.c:4193
+#: src/translate.c.po.c:4203
 msgid "Show a list of the available options and exit normally"
 msgstr "Toon een lijst van de beschikbare opties en exit zoals normaal"
 
-#: src/initcmdline.c:162 src/translate.c.po.c:4204
+#: src/initcmdline.c:162 src/translate.c.po.c:4214
 msgid "Console mode (for music playback)"
 msgstr "Consolemodus (voor afspelen voor muziek)"
 
-#: src/initcmdline.c:164 src/translate.c.po.c:4214
+#: src/initcmdline.c:164 src/translate.c.po.c:4224
 msgid "Allow production of core dumps"
 msgstr "Maken van core dumps toestaan"
 
-#: src/initcmdline.c:166 src/translate.c.po.c:4224
+#: src/initcmdline.c:166 src/translate.c.po.c:4234
 msgid "Do not produce core dumps"
 msgstr "Maken van core dumps niet toestaan"
 
-#: src/initcmdline.c:169 src/translate.c.po.c:4234
+#: src/initcmdline.c:169 src/translate.c.po.c:4244
 msgid "Don't call exception handler"
 msgstr "Geen gebruik maken van de exception handler"
 
-#: src/initcmdline.c:171 src/translate.c.po.c:4244
+#: src/initcmdline.c:171 src/translate.c.po.c:4254
 msgid "Call exception handler (default)"
 msgstr "Gebruik maken van de exception handler (standaard)"
 
-#: src/initcmdline.c:206 src/translate.c.po.c:4255
+#: src/initcmdline.c:206 src/translate.c.po.c:4265
 msgid "Restore default (factory) settings"
 msgstr "Herstel standaardinstellingen"
 
-#: src/initcmdline.c:208 src/translate.c.po.c:4265
+#: src/initcmdline.c:208 src/translate.c.po.c:4275
 msgid "Attach and autostart tape/disk image <name>"
 msgstr "Koppel en autostart een tape/diskbestand <naam>"
 
-#: src/initcmdline.c:210 src/translate.c.po.c:4275
+#: src/initcmdline.c:210 src/translate.c.po.c:4285
 msgid "Attach and autoload tape/disk image <name>"
 msgstr "Koppel en autolaad een tape-/diskbestand <naam>"
 
-#: src/initcmdline.c:212 src/translate.c.po.c:4285
+#: src/initcmdline.c:212 src/translate.c.po.c:4295
 msgid "Attach <name> as a tape image"
 msgstr "Koppel <naam> als een tapebestand"
 
-#: src/initcmdline.c:214 src/translate.c.po.c:4295
+#: src/initcmdline.c:214 src/translate.c.po.c:4305
 msgid "Attach <name> as a disk image in drive #8"
 msgstr "Koppel <naam> aan als een schijfbestand in drive #8"
 
-#: src/initcmdline.c:216 src/translate.c.po.c:4305
+#: src/initcmdline.c:216 src/translate.c.po.c:4315
 msgid "Attach <name> as a disk image in drive #9"
 msgstr "Koppel <naam> aan als een schijfbestand in drive #9"
 
-#: src/initcmdline.c:218 src/translate.c.po.c:4315
+#: src/initcmdline.c:218 src/translate.c.po.c:4325
 msgid "Attach <name> as a disk image in drive #10"
 msgstr "Koppel <naam> aan als een schijfbestand in drive #10"
 
-#: src/initcmdline.c:220 src/translate.c.po.c:4325
+#: src/initcmdline.c:220 src/translate.c.po.c:4335
 msgid "Attach <name> as a disk image in drive #11"
 msgstr "Koppel <naam> aan als een schijfbestand in drive #11"
 
-#: src/kbdbuf.c:136 src/translate.c.po.c:4335
+#: src/kbdbuf.c:136 src/translate.c.po.c:4345
 msgid "<string>"
 msgstr "<string>"
 
-#: src/kbdbuf.c:136 src/translate.c.po.c:4345
+#: src/kbdbuf.c:136 src/translate.c.po.c:4355
 msgid "Put the specified string into the keyboard buffer"
 msgstr "Plaats de opgegeven string in de toetsenbordbuffer"
 
-#: src/log.c:110 src/translate.c.po.c:4355
+#: src/log.c:110 src/translate.c.po.c:4365
 msgid "Specify log file name"
 msgstr "Geef de naam van het logbestand"
 
-#: src/mouse.c:358 src/translate.c.po.c:4365
+#: src/mouse.c:358 src/translate.c.po.c:4375
 msgid "Enable mouse grab"
 msgstr "Gebruiken van de muis inschakelen"
 
-#: src/mouse.c:360 src/translate.c.po.c:4375
+#: src/mouse.c:360 src/translate.c.po.c:4385
 msgid "Disable mouse grab"
 msgstr "Gebruiken van de muis uitschakelen"
 
-#: src/mouse.c:362 src/translate.c.po.c:4385
+#: src/mouse.c:362 src/translate.c.po.c:4395
 msgid "Select the joystick port the mouse is attached to"
 msgstr "Selecteer de joystickpoort waar de muis aan gekoppelt is"
 
-#: src/mouse.c:364 src/translate.c.po.c:4395
+#: src/mouse.c:364 src/translate.c.po.c:4405
 msgid "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga)"
 msgstr ""
 
@@ -1544,19 +1544,19 @@ msgstr "Geef de naam van het Cartridge 2 high ROM-bestand"
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Geef de hoeveelheid RAM in kb (16/32/64)"
 
-#: src/plus4/plus4memcsory256k.c:120 src/translate.c.po.c:4775
+#: src/plus4/plus4memcsory256k.c:120 src/translate.c.po.c:4785
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "Activeer de CSORY 256K-geheugenuitbreiding"
 
-#: src/plus4/plus4memhannes256k.c:135 src/translate.c.po.c:4785
+#: src/plus4/plus4memhannes256k.c:135 src/translate.c.po.c:4795
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "Activeer de HANNES 256K-geheugenuitbreiding"
 
-#: src/plus4/plus4memhannes256k.c:137 src/translate.c.po.c:4795
+#: src/plus4/plus4memhannes256k.c:137 src/translate.c.po.c:4805
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "Activeer de HANNES 1024K-geheugenuitbreiding"
 
-#: src/plus4/plus4memhannes256k.c:139 src/translate.c.po.c:4805
+#: src/plus4/plus4memhannes256k.c:139 src/translate.c.po.c:4815
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "Activeer de HANNES 4096K-geheugenuitbreiding"
 
@@ -1637,19 +1637,19 @@ msgstr "Geef het text uitvoer apparaat voor IEC printer #5"
 msgid "Specify printer text output device for userport printer"
 msgstr "Geef het text uitvoer apparaat voor de userport printer"
 
-#: src/ram.c:101 src/translate.c.po.c:4405
+#: src/ram.c:101 src/translate.c.po.c:4415
 msgid "Set the value for the very first RAM address after powerup"
 msgstr "Zet de waarde voor het allereerste RAM adres na koude start"
 
-#: src/ram.c:104 src/ram.c:107 src/translate.c.po.c:4415
+#: src/ram.c:104 src/ram.c:107 src/translate.c.po.c:4425
 msgid "<num of bytes>"
 msgstr "<aantal bytes>"
 
-#: src/ram.c:104 src/translate.c.po.c:4425
+#: src/ram.c:104 src/translate.c.po.c:4435
 msgid "Length of memory block initialized with the same value"
 msgstr "Geheugenblokgrootte die dezelfde waarde krijgt bij initialisatie"
 
-#: src/ram.c:107 src/translate.c.po.c:4435
+#: src/ram.c:107 src/translate.c.po.c:4445
 msgid "Length of memory block initialized with the same pattern"
 msgstr "Geheugenblokgrootte met hetzelfde patroon bij initialisatie"
 
@@ -1890,19 +1890,19 @@ msgstr "Emuleer SID-filters"
 msgid "Do not emulate SID filters"
 msgstr "SID-filters niet emuleren"
 
-#: src/sysfile.c:127 src/translate.c.po.c:4555
+#: src/sysfile.c:127 src/translate.c.po.c:4565
 msgid "<path>"
 msgstr "<pad>"
 
-#: src/sysfile.c:127 src/translate.c.po.c:4565
+#: src/sysfile.c:127 src/translate.c.po.c:4575
 msgid "Define search path to locate system files"
 msgstr "Geef het zoek pad waar de systeem bestanden te vinden zijn"
 
-#: src/traps.c:123 src/translate.c.po.c:4575
+#: src/traps.c:123 src/translate.c.po.c:4585
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr "Activeer algemene methoden voor snelle disk/tape emulatie"
 
-#: src/traps.c:126 src/translate.c.po.c:4585
+#: src/traps.c:126 src/translate.c.po.c:4595
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr "Algemene methoden voor snelle disk/tape emulatie uitschakelen"
 
@@ -6201,16 +6201,22 @@ msgstr "&Console venster"
 msgid "&Computer"
 msgstr "&Computer"
 
-#: src/arch/win32/res.rc.po.c:112 src/arch/win32/resc128.rc.po.c:29
-#: src/arch/win32/resc64.rc.po.c:29 src/arch/win32/rescbm2.rc.po.c:28
-#: src/arch/win32/respet.rc.po.c:28 src/arch/win32/resplus4.rc.po.c:28
+#: src/arch/win32/res.rc.po.c:112 src/arch/win32/resc128.rc.po.c:22
+#: src/arch/win32/resc128.rc.po.c:29 src/arch/win32/resc64.rc.po.c:22
+#: src/arch/win32/resc64.rc.po.c:29 src/arch/win32/rescbm2.rc.po.c:21
+#: src/arch/win32/rescbm2.rc.po.c:28 src/arch/win32/respet.rc.po.c:21
+#: src/arch/win32/respet.rc.po.c:28 src/arch/win32/resplus4.rc.po.c:21
+#: src/arch/win32/resplus4.rc.po.c:28 src/arch/win32/resvic20.rc.po.c:21
 #: src/arch/win32/resvic20.rc.po.c:28
 msgid "Drive &8"
 msgstr "Drive &8"
 
-#: src/arch/win32/res.rc.po.c:113 src/arch/win32/resc128.rc.po.c:30
-#: src/arch/win32/resc64.rc.po.c:30 src/arch/win32/rescbm2.rc.po.c:29
-#: src/arch/win32/respet.rc.po.c:29 src/arch/win32/resplus4.rc.po.c:29
+#: src/arch/win32/res.rc.po.c:113 src/arch/win32/resc128.rc.po.c:23
+#: src/arch/win32/resc128.rc.po.c:30 src/arch/win32/resc64.rc.po.c:23
+#: src/arch/win32/resc64.rc.po.c:30 src/arch/win32/rescbm2.rc.po.c:22
+#: src/arch/win32/rescbm2.rc.po.c:29 src/arch/win32/respet.rc.po.c:22
+#: src/arch/win32/respet.rc.po.c:29 src/arch/win32/resplus4.rc.po.c:22
+#: src/arch/win32/resplus4.rc.po.c:29 src/arch/win32/resvic20.rc.po.c:22
 #: src/arch/win32/resvic20.rc.po.c:29
 msgid "Drive &9"
 msgstr "Drive &9"
@@ -7117,7 +7123,10 @@ msgstr "Kon paletbestand niet laden."
 msgid "Load VICE palette file"
 msgstr "Laad VICE paletbestand"
 
-#: src/arch/win32/res.rc.po.c:4974 src/arch/amigaos/intl.c.po.c:1023
+#: src/arch/win32/res.rc.po.c:4974 src/arch/win32/resc64.rc.po.c:181
+#: src/arch/win32/rescbm2.rc.po.c:150 src/arch/win32/respet.rc.po.c:149
+#: src/arch/win32/resplus4.rc.po.c:161 src/arch/win32/resvic20.rc.po.c:159
+#: src/arch/amigaos/intl.c.po.c:1023
 msgid "Fullscreen"
 msgstr "Volscherm"
 
@@ -7526,29 +7535,23 @@ msgstr "&Autostart disk-/tapebestand..."
 msgid "Attach &disk image"
 msgstr "Koppel &schijfbestand aan"
 
-#: src/arch/win32/resc128.rc.po.c:22 src/arch/win32/resc64.rc.po.c:22
-#: src/arch/win32/rescbm2.rc.po.c:21 src/arch/win32/respet.rc.po.c:21
-#: src/arch/win32/resplus4.rc.po.c:21 src/arch/win32/resvic20.rc.po.c:21
-msgid "Drive &8\tAlt+8"
-msgstr "Drive &8\tAlt+8"
+#: src/arch/win32/resc128.rc.po.c:24 src/arch/win32/resc128.rc.po.c:31
+#: src/arch/win32/resc64.rc.po.c:24 src/arch/win32/resc64.rc.po.c:31
+#: src/arch/win32/rescbm2.rc.po.c:23 src/arch/win32/rescbm2.rc.po.c:30
+#: src/arch/win32/respet.rc.po.c:23 src/arch/win32/respet.rc.po.c:30
+#: src/arch/win32/resplus4.rc.po.c:23 src/arch/win32/resplus4.rc.po.c:30
+#: src/arch/win32/resvic20.rc.po.c:23 src/arch/win32/resvic20.rc.po.c:30
+msgid "Drive 1&0"
+msgstr "Drive 1&0"
 
-#: src/arch/win32/resc128.rc.po.c:23 src/arch/win32/resc64.rc.po.c:23
-#: src/arch/win32/rescbm2.rc.po.c:22 src/arch/win32/respet.rc.po.c:22
-#: src/arch/win32/resplus4.rc.po.c:22 src/arch/win32/resvic20.rc.po.c:22
-msgid "Drive &9\tAlt+9"
-msgstr "Drive &9\tAlt+9"
-
-#: src/arch/win32/resc128.rc.po.c:24 src/arch/win32/resc64.rc.po.c:24
-#: src/arch/win32/rescbm2.rc.po.c:23 src/arch/win32/respet.rc.po.c:23
-#: src/arch/win32/resplus4.rc.po.c:23 src/arch/win32/resvic20.rc.po.c:23
-msgid "Drive 1&0\tAlt+0"
-msgstr "Drive 1&0\tAlt+0"
-
-#: src/arch/win32/resc128.rc.po.c:25 src/arch/win32/resc64.rc.po.c:25
-#: src/arch/win32/rescbm2.rc.po.c:24 src/arch/win32/respet.rc.po.c:24
-#: src/arch/win32/resplus4.rc.po.c:24 src/arch/win32/resvic20.rc.po.c:24
-msgid "Drive &11\tAlt+1"
-msgstr "Drive &11\tAlt+1"
+#: src/arch/win32/resc128.rc.po.c:25 src/arch/win32/resc128.rc.po.c:32
+#: src/arch/win32/resc64.rc.po.c:25 src/arch/win32/resc64.rc.po.c:32
+#: src/arch/win32/rescbm2.rc.po.c:24 src/arch/win32/rescbm2.rc.po.c:31
+#: src/arch/win32/respet.rc.po.c:24 src/arch/win32/respet.rc.po.c:31
+#: src/arch/win32/resplus4.rc.po.c:24 src/arch/win32/resplus4.rc.po.c:31
+#: src/arch/win32/resvic20.rc.po.c:24 src/arch/win32/resvic20.rc.po.c:31
+msgid "Drive &11"
+msgstr "Drive &11"
 
 #: src/arch/win32/resc128.rc.po.c:27 src/arch/win32/resc64.rc.po.c:27
 #: src/arch/win32/rescbm2.rc.po.c:26 src/arch/win32/respet.rc.po.c:26
@@ -7556,23 +7559,12 @@ msgstr "Drive &11\tAlt+1"
 msgid "D&etach disk image"
 msgstr "Ontkopp&el schijfbestand"
 
-#: src/arch/win32/resc128.rc.po.c:31 src/arch/win32/resc64.rc.po.c:31
-#: src/arch/win32/rescbm2.rc.po.c:30 src/arch/win32/respet.rc.po.c:30
-#: src/arch/win32/resplus4.rc.po.c:30 src/arch/win32/resvic20.rc.po.c:30
-msgid "Drive 1&0"
-msgstr "Drive 1&0"
-
-#: src/arch/win32/resc128.rc.po.c:32 src/arch/win32/resc64.rc.po.c:32
-#: src/arch/win32/rescbm2.rc.po.c:31 src/arch/win32/respet.rc.po.c:31
-#: src/arch/win32/resplus4.rc.po.c:31 src/arch/win32/resvic20.rc.po.c:31
-msgid "Drive &11"
-msgstr "Drive &11"
-
 #: src/arch/win32/resc128.rc.po.c:34 src/arch/win32/resc64.rc.po.c:34
 #: src/arch/win32/rescbm2.rc.po.c:33 src/arch/win32/respet.rc.po.c:33
 #: src/arch/win32/resplus4.rc.po.c:33 src/arch/win32/resvic20.rc.po.c:33
-msgid "&All\tAlt+A"
-msgstr "&Alles"
+#, fuzzy
+msgid "&All"
+msgstr "Alles"
 
 #: src/arch/win32/resc128.rc.po.c:36 src/arch/win32/resc64.rc.po.c:36
 #: src/arch/win32/rescbm2.rc.po.c:35 src/arch/win32/respet.rc.po.c:35
@@ -7583,26 +7575,30 @@ msgstr "&Flip lijst"
 #: src/arch/win32/resc128.rc.po.c:38 src/arch/win32/resc64.rc.po.c:38
 #: src/arch/win32/rescbm2.rc.po.c:37 src/arch/win32/respet.rc.po.c:37
 #: src/arch/win32/resplus4.rc.po.c:37 src/arch/win32/resvic20.rc.po.c:37
-msgid "&Add current image\tAlt+I"
-msgstr "Voeg huidig best&and toe\tAlt+I"
+#, fuzzy
+msgid "&Add current image"
+msgstr "Voeg huidig bestand toe"
 
 #: src/arch/win32/resc128.rc.po.c:39 src/arch/win32/resc64.rc.po.c:39
 #: src/arch/win32/rescbm2.rc.po.c:38 src/arch/win32/respet.rc.po.c:38
 #: src/arch/win32/resplus4.rc.po.c:38 src/arch/win32/resvic20.rc.po.c:38
-msgid "&Remove current image\tAlt+K"
-msgstr "Ve&rwijder huidig bestand\tAlt+K"
+#, fuzzy
+msgid "&Remove current image"
+msgstr "Verwijder huidig bestand"
 
 #: src/arch/win32/resc128.rc.po.c:40 src/arch/win32/resc64.rc.po.c:40
 #: src/arch/win32/rescbm2.rc.po.c:39 src/arch/win32/respet.rc.po.c:39
 #: src/arch/win32/resplus4.rc.po.c:39 src/arch/win32/resvic20.rc.po.c:39
-msgid "Attach &next image\tAlt+N"
-msgstr "Koppel volge&nd bestand\tAlt+N"
+#, fuzzy
+msgid "Attach &next image"
+msgstr "Koppel volgend bestand"
 
 #: src/arch/win32/resc128.rc.po.c:41 src/arch/win32/resc64.rc.po.c:41
 #: src/arch/win32/rescbm2.rc.po.c:40 src/arch/win32/respet.rc.po.c:40
 #: src/arch/win32/resplus4.rc.po.c:40 src/arch/win32/resvic20.rc.po.c:40
-msgid "Attach &previous image\tAlt+B"
-msgstr "Koppel vori&g bestand\tAlt+B"
+#, fuzzy
+msgid "Attach &previous image"
+msgstr "Koppel vorig bestand"
 
 #: src/arch/win32/resc128.rc.po.c:43 src/arch/win32/resc64.rc.po.c:43
 #: src/arch/win32/rescbm2.rc.po.c:42 src/arch/win32/respet.rc.po.c:42
@@ -7619,8 +7615,9 @@ msgstr "Op&slaan fliplijst"
 #: src/arch/win32/resc128.rc.po.c:47 src/arch/win32/resc64.rc.po.c:47
 #: src/arch/win32/rescbm2.rc.po.c:46 src/arch/win32/respet.rc.po.c:46
 #: src/arch/win32/resplus4.rc.po.c:46 src/arch/win32/resvic20.rc.po.c:46
-msgid "Attach &tape image...\tAlt+T"
-msgstr "Koppel &tapebestand...\t+Alt+T"
+#, fuzzy
+msgid "Attach &tape image..."
+msgstr "Koppel tapebestand..."
 
 #: src/arch/win32/resc128.rc.po.c:48 src/arch/win32/resc64.rc.po.c:48
 #: src/arch/win32/rescbm2.rc.po.c:47 src/arch/win32/respet.rc.po.c:47
@@ -7758,20 +7755,23 @@ msgid "Detach cartridge &image"
 msgstr "Ontkoppel cartr&idgebestand"
 
 #: src/arch/win32/resc128.rc.po.c:88 src/arch/win32/resc64.rc.po.c:89
-msgid "Cartridge free&ze\tAlt+Z"
-msgstr "Cartridge free&ze\tAlt+Z"
+#, fuzzy
+msgid "Cartridge free&ze"
+msgstr "Cartridge freeze"
 
 #: src/arch/win32/resc128.rc.po.c:90 src/arch/win32/resc64.rc.po.c:91
 #: src/arch/win32/rescbm2.rc.po.c:61 src/arch/win32/respet.rc.po.c:59
 #: src/arch/win32/resplus4.rc.po.c:71 src/arch/win32/resvic20.rc.po.c:69
-msgid "&Pause\tAlt+Pause"
-msgstr "&Pauze\tAlt+Pause"
+#, fuzzy
+msgid "&Pause"
+msgstr "Pauze"
 
 #: src/arch/win32/resc128.rc.po.c:91 src/arch/win32/resc64.rc.po.c:92
 #: src/arch/win32/rescbm2.rc.po.c:63 src/arch/win32/respet.rc.po.c:61
 #: src/arch/win32/resplus4.rc.po.c:73 src/arch/win32/resvic20.rc.po.c:71
-msgid "&Monitor\tAlt+M"
-msgstr "&Monitor\tAlt+M"
+#, fuzzy
+msgid "&Monitor"
+msgstr "Monitor"
 
 #: src/arch/win32/resc128.rc.po.c:92 src/arch/win32/resc64.rc.po.c:93
 #: src/arch/win32/rescbm2.rc.po.c:64 src/arch/win32/respet.rc.po.c:62
@@ -7782,14 +7782,16 @@ msgstr "&Reset"
 #: src/arch/win32/resc128.rc.po.c:94 src/arch/win32/resc64.rc.po.c:95
 #: src/arch/win32/rescbm2.rc.po.c:66 src/arch/win32/respet.rc.po.c:64
 #: src/arch/win32/resplus4.rc.po.c:76 src/arch/win32/resvic20.rc.po.c:74
-msgid "&Hard\tCtrl+Alt+R"
-msgstr "&Hard\tCtrl+Alt+R"
+#, fuzzy
+msgid "&Hard"
+msgstr "Hard"
 
 #: src/arch/win32/resc128.rc.po.c:95 src/arch/win32/resc64.rc.po.c:96
 #: src/arch/win32/rescbm2.rc.po.c:67 src/arch/win32/respet.rc.po.c:65
 #: src/arch/win32/resplus4.rc.po.c:77 src/arch/win32/resvic20.rc.po.c:75
-msgid "&Soft\tAlt+R"
-msgstr "&Zacht\tAlt+R"
+#, fuzzy
+msgid "&Soft"
+msgstr "Zacht"
 
 #: src/arch/win32/resc128.rc.po.c:97 src/arch/win32/resc64.rc.po.c:98
 #: src/arch/win32/rescbm2.rc.po.c:69 src/arch/win32/respet.rc.po.c:67
@@ -7849,26 +7851,30 @@ msgstr "&Geschiedenis Autospeel"
 #: src/arch/win32/resc128.rc.po.c:112 src/arch/win32/resc64.rc.po.c:113
 #: src/arch/win32/rescbm2.rc.po.c:84 src/arch/win32/respet.rc.po.c:82
 #: src/arch/win32/resplus4.rc.po.c:94 src/arch/win32/resvic20.rc.po.c:92
-msgid "&Main CPU Trace\tAlt+F10"
+#, fuzzy
+msgid "&Main CPU Trace"
 msgstr "&Hoofd CPU Trace\tAlt+F10"
 
 #: src/arch/win32/resc128.rc.po.c:113 src/arch/win32/resc64.rc.po.c:114
 #: src/arch/win32/rescbm2.rc.po.c:85 src/arch/win32/respet.rc.po.c:83
 #: src/arch/win32/resplus4.rc.po.c:95 src/arch/win32/resvic20.rc.po.c:93
-msgid "Drive&0 CPU Trace\tAlt+F11"
+#, fuzzy
+msgid "Drive&0 CPU Trace"
 msgstr "Drive&0 CPU Trace\tAlt+F11"
 
 #: src/arch/win32/resc128.rc.po.c:114 src/arch/win32/resc64.rc.po.c:115
 #: src/arch/win32/rescbm2.rc.po.c:86 src/arch/win32/respet.rc.po.c:84
 #: src/arch/win32/resplus4.rc.po.c:96 src/arch/win32/resvic20.rc.po.c:94
-msgid "Drive&1 CPU Trace\tAlt+F12"
+#, fuzzy
+msgid "Drive&1 CPU Trace"
 msgstr "Drive&1 CPU Trace\tAlt+F12"
 
 #: src/arch/win32/resc128.rc.po.c:118 src/arch/win32/resc64.rc.po.c:119
 #: src/arch/win32/rescbm2.rc.po.c:90 src/arch/win32/respet.rc.po.c:88
 #: src/arch/win32/resplus4.rc.po.c:100 src/arch/win32/resvic20.rc.po.c:98
-msgid "E&xit\tAlt+X"
-msgstr "Af&sluiten\tAlt+X"
+#, fuzzy
+msgid "E&xit"
+msgstr "Afsluiten"
 
 #: src/arch/win32/resc128.rc.po.c:120 src/arch/win32/resc64.rc.po.c:121
 #: src/arch/win32/rescbm2.rc.po.c:92 src/arch/win32/respet.rc.po.c:90
@@ -7891,14 +7897,16 @@ msgstr "Opslaan momento&pnamebestand..."
 #: src/arch/win32/resc128.rc.po.c:124 src/arch/win32/resc64.rc.po.c:125
 #: src/arch/win32/rescbm2.rc.po.c:96 src/arch/win32/respet.rc.po.c:94
 #: src/arch/win32/resplus4.rc.po.c:106 src/arch/win32/resvic20.rc.po.c:104
-msgid "&Load quicksnapshot image\tAlt+L"
-msgstr "Snel&laad momentopnamebestand\tAlt+L"
+#, fuzzy
+msgid "&Load quicksnapshot image"
+msgstr "Snellaad momentopnamebestand"
 
 #: src/arch/win32/resc128.rc.po.c:125 src/arch/win32/resc64.rc.po.c:126
 #: src/arch/win32/rescbm2.rc.po.c:97 src/arch/win32/respet.rc.po.c:95
 #: src/arch/win32/resplus4.rc.po.c:107 src/arch/win32/resvic20.rc.po.c:105
-msgid "&Save quicksnapshot image\tAlt+S"
-msgstr "&Snelopslaan momentopnamebestand\tAlt+S"
+#, fuzzy
+msgid "&Save quicksnapshot image"
+msgstr "Snelopslaan momentopnamebestand"
 
 #: src/arch/win32/resc128.rc.po.c:127 src/arch/win32/resc64.rc.po.c:128
 #: src/arch/win32/rescbm2.rc.po.c:99 src/arch/win32/respet.rc.po.c:97
@@ -7915,14 +7923,16 @@ msgstr "Start/Stop &Afspeelgeschiedenis"
 #: src/arch/win32/resc128.rc.po.c:129 src/arch/win32/resc64.rc.po.c:130
 #: src/arch/win32/rescbm2.rc.po.c:101 src/arch/win32/respet.rc.po.c:99
 #: src/arch/win32/resplus4.rc.po.c:111 src/arch/win32/resvic20.rc.po.c:109
-msgid "Set Recording Milestone\tAlt+G"
-msgstr "Zet Opname Mijlpaal\tAlt+G"
+#: src/arch/amigaos/intl.c.po.c:735
+msgid "Set Recording Milestone"
+msgstr "Zet Opname Mijlpaal"
 
 #: src/arch/win32/resc128.rc.po.c:130 src/arch/win32/resc64.rc.po.c:131
 #: src/arch/win32/rescbm2.rc.po.c:102 src/arch/win32/respet.rc.po.c:100
 #: src/arch/win32/resplus4.rc.po.c:112 src/arch/win32/resvic20.rc.po.c:110
-msgid "Return to Milestone\tAlt+H"
-msgstr "Ga terug naar Mijlpaal\tAlt+H"
+#: src/arch/amigaos/intl.c.po.c:744
+msgid "Return to Milestone"
+msgstr "Ga terug naar mijlpaal"
 
 #: src/arch/win32/resc128.rc.po.c:133 src/arch/win32/resc64.rc.po.c:134
 #: src/arch/win32/rescbm2.rc.po.c:105 src/arch/win32/respet.rc.po.c:103
@@ -7958,8 +7968,9 @@ msgstr "Selecteer geschiedenisdirectory"
 #: src/arch/win32/resc128.rc.po.c:140 src/arch/win32/resc64.rc.po.c:141
 #: src/arch/win32/rescbm2.rc.po.c:112 src/arch/win32/respet.rc.po.c:110
 #: src/arch/win32/resplus4.rc.po.c:122 src/arch/win32/resvic20.rc.po.c:120
-msgid "Save/stop media file...\tAlt+C"
-msgstr "Opslaan/stop mediabestand...\tAlt+C"
+#: src/arch/amigaos/intl.c.po.c:807
+msgid "Save/stop media file..."
+msgstr "Opslaan/stop mediabestand..."
 
 #: src/arch/win32/resc128.rc.po.c:142 src/arch/win32/resc64.rc.po.c:143
 #: src/arch/win32/rescbm2.rc.po.c:114 src/arch/win32/respet.rc.po.c:112
@@ -8099,8 +8110,9 @@ msgstr "Geen &limiet"
 #: src/arch/win32/resc128.rc.po.c:176 src/arch/win32/resc64.rc.po.c:179
 #: src/arch/win32/rescbm2.rc.po.c:148 src/arch/win32/respet.rc.po.c:146
 #: src/arch/win32/resplus4.rc.po.c:158 src/arch/win32/resvic20.rc.po.c:156
-msgid "&Warp mode\tAlt+W"
-msgstr "&Warpmodus\tAlt+W"
+#, fuzzy
+msgid "&Warp mode"
+msgstr "Warpmodus"
 
 #: src/arch/win32/resc128.rc.po.c:178 src/arch/win32/resc64.rc.po.c:182
 #: src/arch/win32/rescbm2.rc.po.c:151 src/arch/win32/respet.rc.po.c:150
@@ -8145,8 +8157,9 @@ msgstr "64KB video&geheugen"
 #: src/arch/win32/resc128.rc.po.c:192 src/arch/win32/resc64.rc.po.c:190
 #: src/arch/win32/rescbm2.rc.po.c:160 src/arch/win32/respet.rc.po.c:156
 #: src/arch/win32/resplus4.rc.po.c:175 src/arch/win32/resvic20.rc.po.c:173
-msgid "Swap &Joystick\tAlt+J"
-msgstr "Verwissel &Joysticks\tAlt+J"
+#, fuzzy
+msgid "Swap &Joystick"
+msgstr "Verwissel joysticks"
 
 #: src/arch/win32/resc128.rc.po.c:194 src/arch/win32/resc64.rc.po.c:192
 #: src/arch/win32/rescbm2.rc.po.c:162 src/arch/win32/respet.rc.po.c:158
@@ -8192,7 +8205,8 @@ msgid "IEEE&488 Interface emulation"
 msgstr "IEEE&488 Interface emulatie"
 
 #: src/arch/win32/resc128.rc.po.c:207 src/arch/win32/resc64.rc.po.c:205
-msgid "&Grab mouse events\tAlt+Q"
+#, fuzzy
+msgid "&Grab mouse events"
 msgstr "&Pak muis bewegingen\tAlt+Q"
 
 #: src/arch/win32/resc128.rc.po.c:209 src/arch/win32/resc64.rc.po.c:207
@@ -8716,12 +8730,6 @@ msgstr "Action Replay &III-bestand..."
 #: src/arch/win32/resc64.rc.po.c:146 src/arch/amigaos/intl.c.po.c:816
 msgid "Netplay (experimental)..."
 msgstr "Netplay (experimenteel)..."
-
-#: src/arch/win32/resc64.rc.po.c:181 src/arch/win32/rescbm2.rc.po.c:150
-#: src/arch/win32/respet.rc.po.c:149 src/arch/win32/resplus4.rc.po.c:161
-#: src/arch/win32/resvic20.rc.po.c:159
-msgid "Fullscreen\tAlt+D"
-msgstr "Volscherm\tAlt+D"
 
 #: src/arch/win32/resc64.rc.po.c:201
 msgid "&Old NTSC-M"
@@ -9923,11 +9931,15 @@ msgstr ""
 "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: Catweasel, 2: "
 "HardSID, 3: ParSID)"
 
-#: src/translate.c.po.c:4635
+#: src/translate.c.po.c:4184
+msgid "Execute monitor commands from file"
+msgstr ""
+
+#: src/translate.c.po.c:4645
 msgid "<iso language code>"
 msgstr "<iso taalcode>"
 
-#: src/translate.c.po.c:4645
+#: src/translate.c.po.c:4655
 msgid "Specify the iso code of the language"
 msgstr "Geef de isocode van de taal"
 
@@ -10083,14 +10095,6 @@ msgstr "Start/Stop Opnamegeschiedenis"
 msgid "Start/Stop Playback History"
 msgstr "Start/Stop Afspeelgeschiedenis"
 
-#: src/arch/amigaos/intl.c.po.c:735
-msgid "Set Recording Milestone"
-msgstr "Zet Opname Mijlpaal"
-
-#: src/arch/amigaos/intl.c.po.c:744
-msgid "Return to Milestone"
-msgstr "Ga terug naar mijlpaal"
-
 #: src/arch/amigaos/intl.c.po.c:762
 msgid "Save new snapshot"
 msgstr "Opslaan nieuwe momentopname"
@@ -10106,10 +10110,6 @@ msgstr "Start met reset"
 #: src/arch/amigaos/intl.c.po.c:789
 msgid "Overwrite Playback"
 msgstr "Overschrijf weergave"
-
-#: src/arch/amigaos/intl.c.po.c:807
-msgid "Save/stop media file..."
-msgstr "Opslaan/stop mediabestand..."
 
 #: src/arch/amigaos/intl.c.po.c:843
 msgid "Auto"
@@ -11165,6 +11165,78 @@ msgstr "*Activeer muis"
 #: src/arch/amigaos/intl.c.po.c:4727
 msgid "Amiga mouse"
 msgstr ""
+
+#~ msgid "Drive &8\tAlt+8"
+#~ msgstr "Drive &8\tAlt+8"
+
+#~ msgid "Drive &9\tAlt+9"
+#~ msgstr "Drive &9\tAlt+9"
+
+#~ msgid "Drive 1&0\tAlt+0"
+#~ msgstr "Drive 1&0\tAlt+0"
+
+#~ msgid "Drive &11\tAlt+1"
+#~ msgstr "Drive &11\tAlt+1"
+
+#~ msgid "&All\tAlt+A"
+#~ msgstr "&Alles"
+
+#~ msgid "&Add current image\tAlt+I"
+#~ msgstr "Voeg huidig best&and toe\tAlt+I"
+
+#~ msgid "&Remove current image\tAlt+K"
+#~ msgstr "Ve&rwijder huidig bestand\tAlt+K"
+
+#~ msgid "Attach &next image\tAlt+N"
+#~ msgstr "Koppel volge&nd bestand\tAlt+N"
+
+#~ msgid "Attach &previous image\tAlt+B"
+#~ msgstr "Koppel vori&g bestand\tAlt+B"
+
+#~ msgid "Attach &tape image...\tAlt+T"
+#~ msgstr "Koppel &tapebestand...\t+Alt+T"
+
+#~ msgid "Cartridge free&ze\tAlt+Z"
+#~ msgstr "Cartridge free&ze\tAlt+Z"
+
+#~ msgid "&Pause\tAlt+Pause"
+#~ msgstr "&Pauze\tAlt+Pause"
+
+#~ msgid "&Monitor\tAlt+M"
+#~ msgstr "&Monitor\tAlt+M"
+
+#~ msgid "&Hard\tCtrl+Alt+R"
+#~ msgstr "&Hard\tCtrl+Alt+R"
+
+#~ msgid "&Soft\tAlt+R"
+#~ msgstr "&Zacht\tAlt+R"
+
+#~ msgid "E&xit\tAlt+X"
+#~ msgstr "Af&sluiten\tAlt+X"
+
+#~ msgid "&Load quicksnapshot image\tAlt+L"
+#~ msgstr "Snel&laad momentopnamebestand\tAlt+L"
+
+#~ msgid "&Save quicksnapshot image\tAlt+S"
+#~ msgstr "&Snelopslaan momentopnamebestand\tAlt+S"
+
+#~ msgid "Set Recording Milestone\tAlt+G"
+#~ msgstr "Zet Opname Mijlpaal\tAlt+G"
+
+#~ msgid "Return to Milestone\tAlt+H"
+#~ msgstr "Ga terug naar Mijlpaal\tAlt+H"
+
+#~ msgid "Save/stop media file...\tAlt+C"
+#~ msgstr "Opslaan/stop mediabestand...\tAlt+C"
+
+#~ msgid "&Warp mode\tAlt+W"
+#~ msgstr "&Warpmodus\tAlt+W"
+
+#~ msgid "Swap &Joystick\tAlt+J"
+#~ msgstr "Verwissel &Joysticks\tAlt+J"
+
+#~ msgid "Fullscreen\tAlt+D"
+#~ msgstr "Volscherm\tAlt+D"
 
 #~ msgid "Can't add fontpath `%s'.\n"
 #~ msgstr "Kan fontpad `%s' niet toevoegen.\n"
