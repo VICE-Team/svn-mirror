@@ -1,13 +1,28 @@
+2008-04-20  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* arch/win32/rescbm2.rc, arch/win32/resplus4.rc,
+	arch/win32/resvic20.rc, arch/win32/resc128.rc,
+	arch/win32/resc64.rc, arch/win32/res.rc, arch/win32/respet.rc:
+	Allow for scrolling in the edit boxes of the ROM settings
+	dialogs.
+
+	* arch/win32/rescommon.h: Include winres.h instead of doubling
+	all definitions.
+
+2008-04-20  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 1.22.11.
+
 2008-04-20  Thomas Giesel  <skoe@directbox.com>
 
-	* init.c, monitor.h, monitor/monitor.c, translate.txt, translate.c: New
-	command line switch "-moncommands <name>" to execute monitor
+	* init.c, monitor.h, monitor/monitor.c, translate.txt, translate.c:
+	New command line switch "-moncommands <name>" to execute monitor
 	commands
 
-	* monitor/mon_lex.l, monitor/mon_parse.y, monitor/montypes.h,: Implemented debug
-	command for monitor grammar; Monitor accepts labels created by
-	the Acme assembler now; Minor clean up of monitor interpreter
-	code.
+	* monitor/mon_lex.l, monitor/mon_parse.y, monitor/montypes.h,:
+	Implemented debug command for monitor grammar; Monitor accepts labels
+	created by the Acme assembler now; Minor clean up of monitor
+	interpreter code.
 
 	* monitor/mon_command.c: Re-arranged monitor help output.
 
