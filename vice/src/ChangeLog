@@ -1,3 +1,10 @@
+2008-04-26  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 1.22.12.
+
+	* arch/win32/rescommon.h: Undid the last change: Now, do not
+	include winres.h, as it is not available for mingw compilations.
+
 2008-04-20  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* arch/win32/rescbm2.rc, arch/win32/resplus4.rc,

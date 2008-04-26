@@ -1,7 +1,3 @@
-#include <winres.h>
-
-#if 0
-
 #define DS_3DLOOK		0x0004L
 #define DS_CONTROL		0x0400L
 #define DS_MODALFRAME		0x80L
@@ -34,6 +30,7 @@
 #define TBS_BOTH                0x0008
 #define TBS_NOTICKS             0x0010
 #define ES_READONLY             0x0800L
+#define ES_AUTOHSCROLL          0x0080L
 
 #define RT_MANIFEST		24
 
@@ -239,5 +236,3 @@
 #define SUBLANG_UZBEK_LATIN              0x01    // Uzbek (Latin)
 #define SUBLANG_UZBEK_CYRILLIC           0x02    // Uzbek (Cyrillic)
 
-
-#endif
