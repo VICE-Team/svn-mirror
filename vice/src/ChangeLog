@@ -1,3 +1,11 @@
+2008-04-27  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 1.22.13.
+
+	* romset.c: romset_archive_save() now opens the VRA file to
+	write in binary mode, as the contents written already contain
+	the "right" delimiters for the platform.
+
 2008-04-20  Christian Vogelgsang  <chris@vogelgsang.org>
 
 	* arch/unix/archdep.c, arch/unix/archdep.h: added global

@@ -302,12 +302,14 @@ check_compiler()
   if [ -f "$LOCAL_PREFIX/bin/$TARGET-gcc" ]; then
     echo "Local mingw32 compiler environment found."
     PREFIX="$LOCAL_PREFIX"
+    PATH="$PREFIX/bin:$PATH"
   else
     echo "No local mingw32 compiler environment found."
     echo "Checking for global mingw32 compiler environment."
     if [ -f "$GLOBAL_PREFIX/bin/$TARGET-gcc" ]; then
       echo "Global mingw32 compiler environment found."
       PREFIX="$GLOBAL_PREFIX"
+      PATH="$PREFIX/bin:$PATH"
     else
       echo "No global mingw32 compiler environment found."
       setup_compiler
