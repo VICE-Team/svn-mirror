@@ -1,3 +1,9 @@
+2008-04-20  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/archdep.c, arch/unix/archdep.h: added global
+	'archdep_pref_path' to relocate preferences to System Directory
+	in Mac OS X Cocoa Port.
+
 2008-04-26  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.12.

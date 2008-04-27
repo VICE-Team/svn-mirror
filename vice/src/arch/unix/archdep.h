@@ -105,6 +105,9 @@
 
 extern const char *archdep_home_path(void);
 
+/* set this path to customize the preference storage */ 
+extern char *archdep_pref_path;
+
 /* Define the default system directory (where the ROMs are).  */
 #ifdef __NetBSD__
 #define LIBDIR          PREFIX "/share/vice"

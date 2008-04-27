@@ -177,7 +177,8 @@ set_compiler_env () {
   #  EXTRA_OPT="--host=$ARCH-apple-darwin`uname -r`"
   #fi
   
-  export CC="gcc -arch $ARCH -isysroot $SDK -mmacosx-version-min=$SDK_VERSION"
-  export CXX="g++ -arch $ARCH -isysroot $SDK -mmacosx-version-min=$SDK_VERSION"
-  export LD="gcc -arch $ARCH -isysroot $SDK -mmacosx-version-min=$SDK_VERSION"
+  export COMPILE_TAG="-arch $ARCH -isysroot $SDK -mmacosx-version-min=$SDK_VERSION"
+  export CC="gcc $COMPILE_TAG"
+  export CXX="g++ $COMPILE_TAG"
+  export LD="gcc $COMPILE_TAG"
 }

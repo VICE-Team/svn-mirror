@@ -1,3 +1,8 @@
+2008-04-20  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* build/macosx/build-inc.sh, build/macosx/build-ffmpeglame.sh:
+	updated Mac OS X build scripts.
+
 2008-04-26  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.12.

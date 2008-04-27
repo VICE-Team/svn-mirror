@@ -60,6 +60,9 @@
 static char *argv0 = NULL;
 static char *boot_path = NULL;
 
+/* alternate storage of preferences */
+char *archdep_pref_path = NULL; /* NULL -> use home_path + ".vice" */
+
 int archdep_init(int *argc, char **argv)
 {
     argv0 = lib_stralloc(argv[0]);
@@ -227,37 +230,50 @@ char *archdep_make_backup_filename(const char *fname)
 
 char *archdep_default_resource_file_name(void)
 {
-    const char *home;
-
-    home = archdep_home_path();
-    return util_concat(home, "/.vice/vicerc", NULL);
+    if(archdep_pref_path==NULL) {
+      const char *home;
+      
+      home = archdep_home_path();
+      return util_concat(home, "/.vice/vicerc", NULL);
+    } else {
+      return util_concat(archdep_pref_path, "/vicerc", NULL);
+    }
 }
 
 char *archdep_default_fliplist_file_name(void)
 {
-    const char *home;
+    if(archdep_pref_path==NULL) {
+      const char *home;
 
-    home = archdep_home_path();
-    return util_concat(home, "/.vice/fliplist-", machine_name, ".vfl", NULL);
+      home = archdep_home_path();
+      return util_concat(home, "/.vice/fliplist-", machine_name, ".vfl", NULL);
+    } else {
+      return util_concat(archdep_pref_path, "/fliplist-", machine_name, ".vfl", NULL);
+    }
 }
 
 char *archdep_default_save_resource_file_name(void)
-{
+{ 
     char *fname;
     const char *home;
     char *viceuserdir;
 
-    home = archdep_home_path();
-
-    viceuserdir = util_concat(home, "/.vice", NULL);
+    if(archdep_pref_path==NULL) {
+      home = archdep_home_path();
+      viceuserdir = util_concat(home, "/.vice", NULL);
+    } else {
+      viceuserdir = archdep_pref_path;
+    }
 
     if (access(viceuserdir, F_OK)) {
         mkdir(viceuserdir, 0700);
     }
 
     fname = util_concat(viceuserdir, "/vicerc", NULL);
-
-    lib_free(viceuserdir);
+    
+    if(archdep_pref_path==NULL) {
+      lib_free(viceuserdir);
+    }
 
     return fname;
 }
