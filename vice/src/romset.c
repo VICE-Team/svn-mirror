@@ -350,7 +350,17 @@ int romset_archive_save(const char *filename)
 
     newname = util_add_extension_const(filename, "vra");
 
-    if ((fp = fopen(newname, MODE_WRITE_TEXT)) == NULL) {
+    /*
+     * spiro-20080427:
+     * The fopen() is *not* performed with MODE_WRITE_TEXT, but with
+     * MODE_WRITE (binary), as the list already contains the
+     * platform-specific delimiters! Compare romset_archive_list()
+     * below!
+     * Otherwise, the .vra file would contain too many delimiters,
+     * as it was the case with WinVICE 1.22.
+     */
+
+    if ((fp = fopen(newname, MODE_WRITE)) == NULL) {
         log_warning(romset_log,
                     "Could not open file '%s' for writing!", newname);
         lib_free(newname);
