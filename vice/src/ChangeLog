@@ -1,3 +1,11 @@
+2008-04-28  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/ui.c (ui_shutdown): Call uikeyboard_shutdown.
+
+	* arch/win32/uikeyboard.c,arch/win32/uikeyboard.h: New function
+	uikeyboard_shutdown. Moved cleanup of menuitemmodifier to this
+	function.
+
 2008-04-27  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.13.

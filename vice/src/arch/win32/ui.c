@@ -315,6 +315,7 @@ int ui_init(int *argc, char **argv)
 void ui_shutdown(void)
 {
    statusbar_delete_brushes();
+   uikeyboard_shutdown();
 }
 
 /* Initialize the UI after setting all the resource values.  */

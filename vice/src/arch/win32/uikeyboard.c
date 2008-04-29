@@ -360,6 +360,11 @@ void uikeyboard_menu_shortcuts(HMENU menu)
             }
         }
     }
+}
+
+void uikeyboard_shutdown(void)
+{
+    int i;
 
     for (i = 0; i < menuitemmodifier_len; i++)
         lib_free(menuitemmodifier[i]);
