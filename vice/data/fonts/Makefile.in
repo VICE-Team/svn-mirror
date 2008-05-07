@@ -103,6 +103,7 @@ ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
+FCCACHE = @FCCACHE@
 FFMPEG_INCLUDES = @FFMPEG_INCLUDES@
 FFMPEG_LIBS = @FFMPEG_LIBS@
 FULLSCREEN_DRIVERS = @FULLSCREEN_DRIVERS@
@@ -118,6 +119,8 @@ GTKGL_CFLAGS = @GTKGL_CFLAGS@
 GTKGL_LIBS = @GTKGL_LIBS@
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_LIBS = @GTK_LIBS@
+HAVE_FC_CACHE_FALSE = @HAVE_FC_CACHE_FALSE@
+HAVE_FC_CACHE_TRUE = @HAVE_FC_CACHE_TRUE@
 HAVE_RAWDRIVE_FALSE = @HAVE_RAWDRIVE_FALSE@
 HAVE_RAWDRIVE_TRUE = @HAVE_RAWDRIVE_TRUE@
 HAVE_READLINE = @HAVE_READLINE@
@@ -321,6 +324,7 @@ xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 fontsdir = $(VICEDIR)/fonts
 fonts_DATA = \
+	vice-cbm.bdf \
 	CBM.ttf
 
 EXTRA_DIST = $(fonts_DATA) cbm-directory-charset.fon 
@@ -495,18 +499,23 @@ uninstall-am: uninstall-fontsDATA uninstall-info-am
 
 
 install: install-data-am
-	@echo "Preparing fontdir, please wait..." ; \
-	if [ ! `fc-cache --list > /dev/null 2>&1` ] ; then \
-	  if test "x${HOME}" != "x" ; then \
-	    mkdir ${HOME}/.fonts > /dev/null 2>&1 ; \
-	    cp $(fontsdir)/CBM.ttf ${HOME}/.fonts ; \
-	    fc-cache ; \
-	  else \
-	    echo '$$HOME not set... giving up.' ; \
-	  fi \
-	else \
-	  echo 'fc-cache not available... giving up.' ; \
-	fi
+@HAVE_FC_CACHE_TRUE@	@echo "Preparing fontdir, please wait..." ; \
+@HAVE_FC_CACHE_TRUE@	if [ ! `fc-cache --list > /dev/null 2>&1` ] ; then \
+@HAVE_FC_CACHE_TRUE@	  if test "x${HOME}" != "x" ; then \
+@HAVE_FC_CACHE_TRUE@	    mkdir ${HOME}/.fonts > /dev/null 2>&1 ; \
+@HAVE_FC_CACHE_TRUE@	    cp $(fontsdir)/CBM.ttf ${HOME}/.fonts ; \
+@HAVE_FC_CACHE_TRUE@	    fc-cache ; \
+@HAVE_FC_CACHE_TRUE@	  else \
+@HAVE_FC_CACHE_TRUE@	    echo '$$HOME not set... giving up.' ; \
+@HAVE_FC_CACHE_TRUE@	  fi \
+@HAVE_FC_CACHE_TRUE@	else \
+@HAVE_FC_CACHE_TRUE@	  echo 'fc-cache not available... giving up.' ; \
+@HAVE_FC_CACHE_TRUE@	fi
+@HAVE_FC_CACHE_FALSE@	@echo "Preparing fontdir..." ; \
+@HAVE_FC_CACHE_FALSE@	cd $(DESTDIR)$(fontsdir) ; \
+@HAVE_FC_CACHE_FALSE@	bdftopcf -o vice-cbm.pcf vice-cbm.bdf ; \
+@HAVE_FC_CACHE_FALSE@	rm vice-cbm.bdf ; \
+@HAVE_FC_CACHE_FALSE@	mkfontdir .
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

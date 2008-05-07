@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-26 19:39+0200\n"
+"POT-Creation-Date: 2008-05-07 19:29+0200\n"
 "PO-Revision-Date: 2007-07-26 11:57+0200\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -6249,7 +6249,7 @@ msgstr "Les performances vont être médiocres."
 msgid "Successfully initialized without shared memory."
 msgstr "Initialisation réussie sans mémoire partagée."
 
-#: src/arch/unix/x11/xaw/x11video.c:694
+#: src/arch/unix/x11/xaw/x11video.c:693
 #, fuzzy
 msgid "HW scaling not available"
 msgstr "Quelles sont les lignes de commandes disponibles?"

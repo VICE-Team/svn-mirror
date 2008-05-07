@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-26 19:39+0200\n"
+"POT-Creation-Date: 2008-05-07 19:29+0200\n"
 "PO-Revision-Date: 2007-07-30 20:49+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -6082,7 +6082,7 @@ msgstr "Prestanda kommer att bli dålig."
 msgid "Successfully initialized without shared memory."
 msgstr "Initierade utan delat minne."
 
-#: src/arch/unix/x11/xaw/x11video.c:694
+#: src/arch/unix/x11/xaw/x11video.c:693
 #, fuzzy
 msgid "HW scaling not available"
 msgstr "Vilka kommandoradsflaggor är tillgängliga?"
