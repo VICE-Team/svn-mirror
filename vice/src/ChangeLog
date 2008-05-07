@@ -1,3 +1,15 @@
+2008-05-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in, data/fonts/vice-cbm.bdf,
+	data/fonts/Makefile.am: Added a check for the 'fc-cache'
+	command, and use the .bdf font if not present.
+
+	* doc/html/Makefile.am, doc/Makefile.am: Fixed the
+	ALTERNATE_DOCDIR problems with automake.
+
+	* arch/unix/x11/xaw/x11video.c: Added #ifdef HAVE_XVIDEO for
+	some xvideo specific code.
+
 2008-04-28  Andreas Matthies  <andreas.matthies@gmx.net>
 
 	* arch/win32/ui.c (ui_shutdown): Call uikeyboard_shutdown.

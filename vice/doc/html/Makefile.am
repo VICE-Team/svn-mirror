@@ -1,8 +1,5 @@
-if ALTERNATE_DOCDIR
-docdir = $(prefix)/share/doc/vice
-else
-docdir = $(VICEDIR)/doc
-endif
+@ALTERNATE_DOCDIR_TRUE@docdir = $(prefix)/share/doc/vice
+@ALTERNATE_DOCDIR_FALSE@docdir = $(VICEDIR)/doc
 
 doc_DATA = \
 	amigaos.html \

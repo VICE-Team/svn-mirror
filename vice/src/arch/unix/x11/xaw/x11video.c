@@ -686,7 +686,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 #ifdef HAVE_XVIDEO
     /* Request specified video format. */
     canvas->xv_format.id = fourcc;
-#endif
 
     if (!find_yuv_port(x11ui_get_display_ptr(), &canvas->xv_port, &canvas->xv_format))
     {
@@ -696,6 +695,9 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
         }
         resources_set_int("HwScalePossible", 0);
     }
+#else
+    resources_set_int("HwScalePossible", 0);
+#endif
 
     if (video_arch_frame_buffer_alloc(canvas, new_width, new_height) < 0) {
         return NULL;
