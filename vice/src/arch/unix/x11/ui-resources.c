@@ -112,7 +112,7 @@ static const resource_string_t resources_string[] = {
 #ifdef MACOSX_SUPPORT    
       "/usr/bin/open %s",
 #else
-      "netscape %s",
+      "firefox %s",
 #endif
       RES_EVENT_NO, NULL,
       &ui_resources.html_browser_command,
