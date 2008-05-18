@@ -1,5 +1,12 @@
 2008-05-18  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* src/arch/win32/signals.c: break64() now has a full back text
+	in case translate_text() fails. This prevents empty dialog boxes
+	in the case of an error, which occurs rather frequently on
+	Windows, as these calls fail.
+
+2008-05-18  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
 	* Version 1.22.15.
 
 2008-05-18  Marco van den Heuvel  <blackystardust68@yahoo.com>

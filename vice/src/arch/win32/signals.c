@@ -45,12 +45,22 @@
 
 static RETSIGTYPE break64(int sig)
 {
+    const char * translated_text;
+    const char * signalname = "";
+
+    translated_text = translate_text(IDS_RECEIVED_SIGNAL_D_S);
+
+    /* provide a default text in case we could not translated the text. */
+
+    if (0 == translated_text || 0 == *translated_text) {
+        translated_text = "An unexpected error occured. Received signal %d (%s).";
+    }
+
 #ifdef SYS_SIGLIST_DECLARED
-    ui_error(translate_text(IDS_RECEIVED_SIGNAL_D_S),
-                sig, sys_siglist[sig]);
-#else
-    ui_error(translate_text(IDS_RECEIVED_SIGNAL_D_S), sig);
+    signalname = sys_siglist[sig]
 #endif
+
+    ui_error(translated_text, sig, signalname);
 
     exit(-1);
 }
