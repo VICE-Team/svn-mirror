@@ -43,4 +43,4 @@ libmonitor_a_SOURCES = \
 	monitor.c \
 	montypes.h
 
-BUILT_SOURCES = mon_parse.h mon_parse.c
+BUILT_SOURCES = mon_parse.c

@@ -18,8 +18,8 @@ n_2sn
 1
 4
 MCommand
-167
-genwinres ..\res.h ..\res.txt ..\resdialogs.txt ..\resmenu.txt ..\resstrings.txt
+179
+genwinres ..\res.h ..\menuid.h ..\res.txt ..\resdialogs.txt ..\resmenu.txt ..\resstrings.txt
 gentranslate ..\..\..\translate.txt ..\..\..\translate.h ..\..\..\translate_table.h
 
 5

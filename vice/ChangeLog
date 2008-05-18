@@ -1,3 +1,23 @@
+2008-05-16  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/Makefile.am, doc/Makefile.am: Changed the way the
+	docdir is dealt with, old way made some autotools versions end
+	up with an error.
+
+2008-05-13  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* autogen.sh: generates (almost) all files which can be
+	auto-generated. Exceptions: Files which are needed for platforms
+	which cannot built them themselves, or which are deliberately
+	changed from the auto-generated forms. These files are:
+	config.guess, config.sub (deliberately changed), and
+	src/monitor/mon_parse.c, src/monitor/mon_parse.h,
+	src/monitor/mon_lex.c (their absense would break compilation for
+	some platforms).
+
+	* src/config.h.in, doc/texinfo.tex, po/cat-id-tbl.c,
+	*/Makefile.in: removed files which can be auto-generated.
+
 2008-05-07  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.14.

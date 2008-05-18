@@ -1,5 +1,7 @@
-@ALTERNATE_DOCDIR_TRUE@docdir = $(prefix)/share/doc/vice
-@ALTERNATE_DOCDIR_FALSE@docdir = $(VICEDIR)/doc
+@ALTERNATE_DOCDIR_TRUE@realdocdir = $(prefix)/share/doc/vice
+@ALTERNATE_DOCDIR_FALSE@realdocdir = $(VICEDIR)/doc
+
+docdir = $(realdocdir)
 
 doc_DATA = \
 	Minix-Howto.txt \

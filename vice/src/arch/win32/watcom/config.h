@@ -42,6 +42,7 @@
 #define HAVE_STRNCASECMP        1
 #define HAVE_PROCESS_H          1
 #define HAVE_GUIDLIB            1
+#define HAVE_GETCWD             1
 
 #define __i386__                1
 
