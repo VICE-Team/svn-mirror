@@ -1,3 +1,7 @@
+2008-05-18  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 1.22.15.
+
 2008-05-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* arch/amigaos/uiapi.c, arch/win32/ui-resources.c: The

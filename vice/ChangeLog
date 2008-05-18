@@ -1,3 +1,7 @@
+2008-05-18  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 1.22.15.
+
 2008-05-16  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* doc/html/Makefile.am, doc/Makefile.am: Changed the way the
