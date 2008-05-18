@@ -1,5 +1,10 @@
 2008-05-18  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* arch/unix/x11/gnome/uifileentry.c: #include
+	<gtk/gtkfilechooserwidget.h> for missing prototypes. This fixed
+	debian bug #449427
+	(http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=449427)
+
 	* arch/unix/x11/ui-resources.c: Use firefox instead of netscape
 	as default browser. This partially fixes debian bug #480714.
 	(http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=480714)

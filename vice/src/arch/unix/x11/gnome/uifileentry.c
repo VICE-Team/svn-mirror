@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 #include <gtk/gtkfilechooser.h>
+#include <gtk/gtkfilechooserwidget.h>
 
 #include "uifileentry.h"
 
