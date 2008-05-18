@@ -1,3 +1,11 @@
+2008-05-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/uiapi.c, arch/win32/ui-resources.c: The
+	-confirmexit/+confirmexit (both platforms) and
+	-singlecpu/+singlecpu (Win32 only) command-line options had a
+	reversed logic for switching on and off w.r.t. the
+	documentation; fixed that.
+
 2008-05-16  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* ioutil.c: Riscos already has getcwd, even though it's not

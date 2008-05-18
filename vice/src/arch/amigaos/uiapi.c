@@ -220,10 +220,10 @@ static const cmdline_option_t cmdline_options[] = {
       "SaveResourcesOnExit", (resource_value_t)0,
       0, IDS_NEVER_SAVE_SETTINGS_EXIT },
     { "-confirmexit", SET_RESOURCE, 0, NULL, NULL,
-      "ConfirmOnExit", (resource_value_t)0,
+      "ConfirmOnExit", (resource_value_t)1,
       0, IDS_CONFIRM_QUITING_VICE },
     { "+confirmexit", SET_RESOURCE, 0, NULL, NULL,
-      "ConfirmOnExit", (resource_value_t)1,
+      "ConfirmOnExit", (resource_value_t)0,
       0, IDS_NEVER_CONFIRM_QUITING_VICE },
     { NULL }
 };
