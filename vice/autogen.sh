@@ -89,7 +89,7 @@ done
 
 buildfiles
 
-if [ x"$1" == x"--dist" ]; then
+if [ x"$1" = x"--dist" ]; then
 
 	./configure
 	(cd src/monitor/; make mon_lex.c mon_parse.c)

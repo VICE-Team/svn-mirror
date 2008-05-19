@@ -1,5 +1,10 @@
 2008-05-19  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* autogen.sh: Removed "bash-ism" from script (compare with "=="
+	instead of "=").
+
+2008-05-19  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
 	* depcomp, missing, aclocal.m4, po/stamp-cat-id, po/vice.pot,
 	po/fr.gmo, po/nl.gmo, po/pl.gmo, po/hu.gmo, po/it.gmo,
 	po/de.gmo, po/sv.gmo: Removed some more auto-generated or
