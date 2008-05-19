@@ -1,3 +1,10 @@
+2008-05-19  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* resid/configure, resid/depcomp, resid/config.guess,
+	resid/config.sub, resid/mkinstalldirs, resid/missing,
+	resid/aclocal.m4, resid/install-sh: Removed some more
+	auto-generated or unnecessary files.
+
 2008-05-18  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* src/arch/win32/signals.c: break64() now has a full backup text
