@@ -77,12 +77,13 @@
 
 - (void)appendText:(NSString*)text
 {
-    BOOL doFlush = false;
     if(buffer==nil)
         buffer = [[NSMutableString alloc] initWithCapacity:BUFFER_SIZE];
 
     [buffer appendString:text];
-    if([buffer length] >= BUFFER_SIZE)
+    
+    unichar lastChar = [text characterAtIndex:[text length]-1];
+    if(([buffer length] >= BUFFER_SIZE)||(lastChar == '\n'))
         [self flushBuffer];
 }
 

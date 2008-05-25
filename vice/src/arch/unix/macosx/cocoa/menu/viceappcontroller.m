@@ -46,8 +46,13 @@
 {
     // release dialog controllers
     [driveSettingsController release];
+    [iecDriveSettingsController release];
+    [printerSettingsController release];
+    [keyboardSettingsController release];
     [joystickSettingsController release];
+    [soundSettingsController release];
     [infoController release];
+    [resourceEditorController release];
     
     [super dealloc];
 }
@@ -93,11 +98,16 @@
 
 - (IBAction)attachDiskImage:(id)sender
 {
+    int unit = [sender tag];
+    [self attachDiskImageForUnit:unit];
+}
+
+- (void)attachDiskImageForUnit:(int)unit
+{    
     NSArray *types = [NSArray arrayWithObjects:
       @"d64", @"d67", @"d71", @"d80", @"d81", @"d82", @"g64", @"x64", nil];
     NSString *path = [self pickOpenFileWithTitle:@"Attach Disk Image" types:types];
     if(path!=nil) {
-        int unit = [sender tag];
         if(![[VICEApplication theMachineController] attachDiskImage:unit 
                                                                path:path]) {
             [VICEApplication runErrorMessage:@"Error attaching image!"];
@@ -219,6 +229,80 @@
     [[VICEApplication theMachineController] detachTapeImage];
 }
 
+// ----- Snapshot -----
+
+- (IBAction)loadSnapshot:(id)sender
+{
+    NSArray *types = [NSArray arrayWithObject:@"vsf"];
+    NSString *path = [self pickOpenFileWithTitle:@"Load Snapshot" types:types];
+    if(path!=nil) {
+        [[VICEApplication theMachineController] loadSnapshot:path];
+    }
+}
+
+- (IBAction)saveSnapshot:(id)sender
+{
+    NSArray *types = [NSArray arrayWithObject:@"vsf"];
+
+    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+    NSSavePanel * panel = [NSSavePanel savePanel];
+    NSView * accessories = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, 125, 62)];
+    [accessories autorelease];
+
+    NSButton * saveRomsCheck = [[NSButton alloc] initWithFrame:NSMakeRect(16, 32, 91, 18)];
+    [saveRomsCheck autorelease];
+    [saveRomsCheck setButtonType:NSSwitchButton];
+    [saveRomsCheck setTitle:@"Save ROMS"];
+
+    NSButton * saveDisksCheck = [[NSButton alloc] initWithFrame:NSMakeRect(16, 12, 91, 18)];
+    [saveDisksCheck autorelease];
+    [saveDisksCheck setButtonType:NSSwitchButton];
+    [saveDisksCheck setTitle:@"Save Disks"];
+
+    [accessories addSubview:saveRomsCheck];
+    [accessories addSubview:saveDisksCheck];
+
+    [panel setAccessoryView:accessories];
+    [panel setTitle:@"Save Snapshot"];
+    [panel setAllowedFileTypes:types];
+
+    if ([panel runModalForDirectory:nil file:nil] == NSOKButton) {
+        BOOL saveRoms  = ([saveRomsCheck state] == NSOnState);
+        BOOL saveDisks = ([saveDisksCheck state] == NSOnState);
+        NSString * path = [panel filename];
+        if(path!=nil) {
+            [[VICEApplication theMachineController] saveSnapshot:path withROMS:saveRoms andDisks:saveDisks];
+        }
+    }
+    [pool release];
+}
+
+- (IBAction)loadQuickSnapshot:(id)sender
+{
+    [[VICEApplication theMachineController] loadQuickSnapshot];
+}
+
+- (IBAction)saveQuickSnapshot:(id)sender
+{
+    [[VICEApplication theMachineController] saveQuickSnapshot];
+}
+
+- (IBAction)showRecordSnapshot:(id)sender
+{
+}
+
+- (IBAction)showRecordMedia:(id)sender
+{
+    if(!recordMediaController) {
+        recordMediaController = [[RecordMediaWindowController alloc] init];
+    }
+    [recordMediaController showWindow:self];
+}
+
+- (IBAction)showNetplay:(id)sender
+{
+}
+
 // ----- Options -----
 
 - (IBAction)pickRefreshRate:(id)sender
@@ -245,6 +329,12 @@
 - (IBAction)toggleWarpMode:(id)sender
 {
     [self setIntResource:@"WarpMode" toValue:![sender state]];
+    [self updateOptionsResources];
+}
+
+- (IBAction)toggleMachineVideoStandard:(id)sender
+{
+    [self setIntResource:@"MachineVideoStandard" toValue:[sender tag]];
     [self updateOptionsResources];
 }
 
@@ -292,6 +382,30 @@
     [driveSettingsController showWindow:self];
 }
 
+- (IBAction)showIECDriveSettings:(id)sender
+{
+    if(!iecDriveSettingsController) {
+        iecDriveSettingsController = [[IECDriveSettingsWindowController alloc] init];
+    }
+    [iecDriveSettingsController showWindow:self];
+}
+
+- (IBAction)showPrinterSettings:(id)sender
+{
+    if(!printerSettingsController) {
+        printerSettingsController = [[PrinterSettingsWindowController alloc] init];
+    }
+    [printerSettingsController showWindow:self];
+}
+
+- (IBAction)showKeyboardSettings:(id)sender
+{
+    if(!keyboardSettingsController) {
+        keyboardSettingsController = [[KeyboardSettingsWindowController alloc] init];
+    }
+    [keyboardSettingsController showWindow:self];
+}
+
 - (IBAction)showJoystickSettings:(id)sender
 {
     if(!joystickSettingsController) {
@@ -300,7 +414,23 @@
     [joystickSettingsController showWindow:self];
 }
 
+- (IBAction)showSoundSettings:(id)sender
+{
+    if(!soundSettingsController) {
+        soundSettingsController = [[SoundSettingsWindowController alloc] init];
+    }
+    [soundSettingsController showWindow:self];
+}
+
 // ----- Resources -----
+
+- (IBAction)showResourceEditor:(id)sender
+{
+    if(!resourceEditorController) {
+        resourceEditorController = [[ResourceEditorController alloc] init];
+    }
+    [resourceEditorController showWindow:self];
+}
 
 - (IBAction)saveResources:(id)sender
 {
@@ -364,32 +494,40 @@
 {
 }
 
+- (BOOL)updateSubMenuCheckState:(NSMenu *)menu withTag:(int)tagValue
+{
+    int numItems = [menu numberOfItems];
+    int i;
+    BOOL foundTag = NO;
+    for(i=0;i<numItems;i++) {
+        NSMenuItem *item = [menu itemAtIndex:i];
+        BOOL check = ([item tag] == tagValue);
+        [item setState:check ? NSOnState : NSOffState];
+        if(check)
+            foundTag = YES;
+    }
+    return foundTag;
+}
+
+
 - (void)updateOptionsResources
 {   
     // RefreshRate
-    int i;
-    int refreshRate = [self getIntResource:@"RefreshRate"];
-    for(i=0;i<11;i++) {
-        id<NSMenuItem> item = [refreshRateMenu itemAtIndex:i];
-        BOOL check = ([item tag] == refreshRate);
-        [item setState:check ? NSOnState : NSOffState]; 
-    }
+    [self updateSubMenuCheckState:refreshRateMenu 
+                          withTag:[self getIntResource:@"RefreshRate"]];
     
     // Speed
-    BOOL foundSpeed = NO;
-    int speed = [self getIntResource:@"Speed"];
-    for(i=0;i<6;i++) {
-        id<NSMenuItem> item = [maximumSpeedMenu itemAtIndex:i];
-        BOOL check = ([item tag] == speed);
-        if(check)
-            foundSpeed = YES;
-        [item setState:check ? NSOnState : NSOffState];
-    }
-    // custom speed entry
+    BOOL foundSpeed = [self updateSubMenuCheckState:maximumSpeedMenu
+                                withTag:[self getIntResource:@"Speed"]];
     [[maximumSpeedMenu itemAtIndex:7] setState:foundSpeed ? NSOffState : NSOnState];
     
     // WarpMode
     [warpModeMenuItem setState:[self getIntResource:@"WarpMode"]];
+    
+    // Machine Video Standard
+    [self updateSubMenuCheckState:machineVideoStandardMenu 
+        withTag:[self getIntResource:@"MachineVideoStandard"]];
+    
     // Sound
     [soundPlaybackMenuItem setState:[self getIntResource:@"Sound"]];
     // TrueDriveEmulation
@@ -426,10 +564,29 @@
     return nil;
 }
 
+- (NSString *)pickSaveFileWithTitle:(NSString *)title types:(NSArray *)types
+{
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    [panel setTitle:title];    
+    [panel setAllowedFileTypes:types];
+    
+    int result = [panel runModalForDirectory:nil file:nil];
+    if(result==NSOKButton) {
+        return [panel filename];
+    }    
+    return nil;
+}
+
+- (NSString *)pickDirectoryWithTitle:(NSString *)title
+{
+    return nil;
+}
+
 - (BOOL)setIntResource:(NSString *)name toValue:(int)value
 {
     [[VICEApplication theMachineController] 
         setIntResource:name value:[NSNumber numberWithInt:value]];
+    return TRUE;
 }
 
 - (int)getIntResource:(NSString *)name

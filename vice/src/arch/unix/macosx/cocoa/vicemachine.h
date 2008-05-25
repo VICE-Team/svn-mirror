@@ -30,6 +30,8 @@
 #import "vicemachinecontroller.h"
 #import "vicemachinenotifier.h"
 
+struct video_canvas_s;
+
 @interface VICEMachine : NSObject <VICEMachineProtocol>
 {
   id<VICEApplicationProtocol > app;
@@ -38,6 +40,10 @@
   BOOL isPaused;
   VICEMachineController *machineController;
   VICEMachineNotifier *machineNotifier;
+
+  #define MAX_CANVAS 2
+  int canvasNum;
+  struct video_canvas_s *canvasArray[MAX_CANVAS];
 }
 
 // start the machine thread and establish connection
@@ -59,6 +65,12 @@
 
 // access the notifier
 -(VICEMachineNotifier *)machineNotifier;
+
+// ----- Canvas Registry -----
+// register a canvas and return id
+-(int)registerCanvas:(struct video_canvas_s *)canvas;
+// get canvas for id
+-(struct video_canvas_s *)getCanvasForId:(int)canvasId;
 
 @end
 

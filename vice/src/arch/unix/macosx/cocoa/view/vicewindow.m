@@ -150,11 +150,7 @@
                                                  name:VICEDisplayJoystickNotification
                                                object:nil];
 
-    // make top-level window
-    [self makeKeyAndOrderFront:nil];
-    
     isFullscreen = false;
-    
     return self;
 }
 
@@ -194,6 +190,7 @@
     [canvasView setupTexture:size];
 
     [self setContentMinSize:NSMakeSize(size.width / 2, STATUS_HEIGHT + size.height / 2)];
+    [self resizeToCanvasSize:nil];
 }
 
 - (void)resizeToCanvasSize:(id)sender

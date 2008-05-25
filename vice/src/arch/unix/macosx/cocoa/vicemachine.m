@@ -25,6 +25,8 @@
  */
 
 #include "main.h"
+#include "vsync.h"
+#include "machine.h"
 
 #import "vicemachine.h"
 #import "vicemachinecontroller.h"
@@ -77,7 +79,7 @@ VICEMachine *theVICEMachine = nil;
     int i;
     for(i=0;i<argc;i++) {
         NSString *str = (NSString *)[args objectAtIndex:i];
-        argv[i] = strdup([str cString]);
+        argv[i] = strdup([str cStringUsingEncoding:NSUTF8StringEncoding]);
     }
     
     // store global
@@ -139,7 +141,7 @@ VICEMachine *theVICEMachine = nil;
     
     // run machine thread runloop once: 5ms
     [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
-                                beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.005]];
+                                beforeDate:[NSDate dateWithTimeIntervalSinceNow:0]];
 
     // the stop machine call triggered the die flag
     if(shallIDie) {
@@ -156,6 +158,28 @@ VICEMachine *theVICEMachine = nil;
         // release pool for machine thread
         [pool release];
     }    
+}
+
+// ----- Canvas Management -----
+
+-(int)registerCanvas:(struct video_canvas_s *)canvas
+{
+    if(canvasNum==MAX_CANVAS) {
+        NSLog(@"FATAL: too many canvas registered!");
+        return -1;
+    }
+    
+    int canvasId = canvasNum;
+    canvasNum++;
+    canvasArray[canvasId] = canvas;
+    return TRUE;
+}
+
+-(struct video_canvas_s *)getCanvasForId:(int)canvasId
+{
+    if((canvasId<0)||(canvasId>=canvasNum))
+        return NULL;
+    return canvasArray[canvasId];
 }
 
 // ---------- ViceMachineProtocol -------------------------------------------

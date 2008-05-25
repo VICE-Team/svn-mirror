@@ -75,7 +75,7 @@ ROM_REMOVE="{beos,amiga,dos,os2,win,RO}*.vkm"
 DOC_REMOVE="texi2html *.tex *.texi MSDOS* Minix* *.beos *.dos Win32*"
 # define droppable file types
 DROP_TYPES="x64|g64|d64|d71|d81|t64|tap|prg|p00"
-DROP_FORMATS="x64 g64 d64 d71 d81 t64 tap prg p00"
+DROP_FORMATS="x64 g64 d64 d71 d81 t64 tap prg p00 crt"
 
 # launcher script
 LAUNCHER=x11-launcher.sh
@@ -93,8 +93,8 @@ if [ "$UI_TYPE" != "cocoa" ]; then
 fi
 
 # make sure icon is available
-if [ ! -e $RUN_PATH/VICE.icns ]; then
-  echo "ERROR: missing icon: $RUNPATH/VICE.icns"
+if [ ! -e $RUN_PATH/Resources/VICE.icns ]; then
+  echo "ERROR: missing icon: $RUNPATH/Resources/VICE.icns"
   exit 1
 fi
 
@@ -117,6 +117,8 @@ copy_tree () {
   (cd "$1" && tar --exclude 'Makefile*' --exclude .svn -c -f - .) | (cd "$2" && tar xf -)
 }
 
+ALL_ICONS="VICEFile floppy525 tape cartridge"
+
 create_info_plist () {
   SRC="$1"
   TGT="$2"
@@ -125,9 +127,22 @@ create_info_plist () {
   if [ "$UI_TYPE" = "cocoa" ]; then
     ADDON="  <key>CFBundleDocumentTypes</key><array>"
     for type in $DROP_FORMATS ; do
+      # default icon
+      ICON="VICEFile"
+      case "$type" in
+      [xgd][678][41])
+        ICON="floppy525"
+        ;;
+      tap|t64)
+        ICON="tape"
+        ;;
+      crt)
+        ICON="cartridge"
+        ;;
+      esac
       ADDLINE="<dict><key>CFBundleTypeExtensions</key><array><string>$type</string></array>"
-      ADDLINE="$ADDLINE <key>CFBundleTypeIconFile</key><string>VICEFile</string>"
-      ADDLINE="$ADDLINE <key>CFBundleTypeName</key><string>$type VICE File</string></dict>"
+      ADDLINE="$ADDLINE <key>CFBundleTypeIconFile</key><string>$ICON</string>"
+      ADDLINE="$ADDLINE <key>CFBundleTypeName</key><string>$type VICE File</string>"
       ADDLINE="$ADDLINE <key>CFBundleTypeRole</key><string>Editor</string></dict>"
       ADDON="$ADDON $ADDLINE"
     done
@@ -161,7 +176,8 @@ for bundle in $BUNDLES ; do
     APP_ETC=$APP_RESOURCES/etc
   fi
 
-  echo -n "  bundling $bundle.app: "
+  echo "  bundling $bundle.app: "
+  echo -n "    "
   
   if [ "$PLATYPUS" = "1" ]; then
     # --- use platypus for bundling ---
@@ -169,7 +185,7 @@ for bundle in $BUNDLES ; do
     $PLATYPUS_PATH \
         -a VICE \
         -o none \
-        -i $RUN_PATH/VICE.icns \
+        -i $RUN_PATH/Resources/VICE.icns \
         -V "$VICE_VERSION" \
         -u "The VICE Team" \
         -I "org.viceteam.VICE" \
@@ -189,12 +205,29 @@ for bundle in $BUNDLES ; do
     mkdir -p $APP_RESOURCES
 
     # copy icons
-    echo -n "[icons] "
-    cp $RUN_PATH/VICE.icns $APP_RESOURCES/
+    ICON="$RUN_PATH/Resources/$bundle.icns"
+    if [ ! -e "$ICON" ]; then
+      ICON="$RUN_PATH/Resources/VICE.icns"
+    fi
+    ICON_BASE="`basename \"$ICON\"`"
+    echo -n "[icon=$ICON_BASE] "
+    cp $ICON $APP_RESOURCES/
 
     # setup Info.plist
     echo -n "[Info.plist] "
     create_info_plist "$RUN_PATH/Info.plist" "$APP_CONTENTS/Info.plist"
+    
+    # copy extra icons
+    echo -n "[FTIcons:"
+    for icon in $ALL_ICONS ; do
+      ICON_FILE="$RUN_PATH/Resources/$icon.icns"
+      if [ -e "$ICON_FILE" ]; then
+        echo -n "$icon "
+        cp $ICON_FILE $APP_RESOURCES/
+      fi
+    done
+    echo "] "
+    echo -n "    "
 
     # copy launcher for non-cocoa
     if [ "$UI_TYPE" != "cocoa" ]; then

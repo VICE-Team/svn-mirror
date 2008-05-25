@@ -75,7 +75,7 @@ int console_out(console_t *log, const char *format, ...)
     va_end(ap);
 
     if(log && (log->private!=nil))
-        [(ConsoleWindow*)log->private appendText:[NSString stringWithCString:tmp]];
+        [(ConsoleWindow*)log->private appendText:[NSString stringWithCString:tmp encoding:NSUTF8StringEncoding]];
 
     lib_free(tmp);
     return 0;
@@ -85,8 +85,8 @@ char *console_in(console_t * log, const char * prompt)
 {
     if(log && (log->private!=nil)) {
         NSString * s = [(ConsoleWindow*)log->private 
-                            readline:[NSString stringWithCString:prompt]];
-        return s ? lib_stralloc([s cString]) : NULL;
+                            readline:[NSString stringWithCString:prompt encoding:NSUTF8StringEncoding]];
+        return s ? lib_stralloc([s cStringUsingEncoding:NSUTF8StringEncoding]) : NULL;
     } else
         return NULL;
 }

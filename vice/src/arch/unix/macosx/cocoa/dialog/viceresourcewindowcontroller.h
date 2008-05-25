@@ -30,6 +30,7 @@
 @interface VICEResourceWindowController : NSWindowController
 
 -(void)registerForResourceUpdate:(SEL)selector;
+-(void)triggerResourceUpdate:(id)sender;
 
 // Resource convenience methods
 -(int)getIntResource:(NSString *)name;
@@ -37,5 +38,16 @@
 
 -(BOOL)setIntResource:(NSString *)name toValue:(int)value;
 -(BOOL)setIntResource:(NSString *)format withNumber:(int)number toValue:(int)value;
+
+-(NSString *)getStringResource:(NSString *)name;
+-(NSString *)getStringResource:(NSString *)name withNumber:(int)number;
+
+-(BOOL)setStringResource:(NSString *)name toValue:(NSString *)string;
+-(BOOL)setStringResource:(NSString *)name withNumber:(int)number toValue:(NSString *)string;
+
+// File Tools
+- (NSString *)pickOpenFileWithTitle:(NSString *)title types:(NSArray *)types;
+- (NSString *)pickSaveFileWithTitle:(NSString *)title types:(NSArray *)types;
+- (NSString *)pickDirectoryWithTitle:(NSString *)title;
 
 @end

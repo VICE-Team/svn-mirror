@@ -33,7 +33,7 @@
 
 - (BOOL)attachCartridge:(int)type image:(NSString *)imageFile
 {
-    return cartridge_attach_image(type,[imageFile cString]) == 0;
+    return cartridge_attach_image(type,[imageFile cStringUsingEncoding:NSUTF8StringEncoding]) == 0;
 }
 
 - (BOOL)attachExpertCartridge

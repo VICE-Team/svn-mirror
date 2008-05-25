@@ -39,6 +39,15 @@
                                                object:nil];
 }
 
+-(void)triggerResourceUpdate:(id)sender
+{
+    // post notification in our UI thread's default notification center
+    [[NSNotificationCenter defaultCenter] postNotificationName:VICEChangedResourcesNotification
+                                                        object:sender];
+}
+
+// ----- Int Resources -----
+
 -(int)getIntResource:(NSString *)name
 {
     NSNumber *number = [[VICEApplication theMachineController] 
@@ -65,6 +74,48 @@
 {
     NSString *formatString = [NSString stringWithFormat:format,number];
     return [self setIntResource:formatString toValue:value];
+}
+
+// ----- String Resources -----
+
+-(NSString *)getStringResource:(NSString *)name
+{
+    return [[VICEApplication theMachineController] getStringResource:name];
+}
+
+-(NSString *)getStringResource:(NSString *)format withNumber:(int)number
+{
+    NSString *formatString = [NSString stringWithFormat:format,number];
+    return [self getStringResource:formatString];
+}
+
+-(BOOL)setStringResource:(NSString *)name toValue:(NSString *)string
+{
+    return [[VICEApplication theMachineController] setStringResource:name
+                                                               value:string];
+}
+
+-(BOOL)setStringResource:(NSString *)format withNumber:(int)number toValue:(NSString *)string
+{
+    NSString *formatString = [NSString stringWithFormat:format,number];
+    return [self setStringResource:formatString toValue:string];
+}
+
+// ----- File Tools -----
+
+- (NSString *)pickOpenFileWithTitle:(NSString *)title types:(NSArray *)types
+{
+    return [[VICEApplication theAppController] pickOpenFileWithTitle:title types:types];
+}
+
+- (NSString *)pickSaveFileWithTitle:(NSString *)title types:(NSArray *)types
+{
+    return [[VICEApplication theAppController] pickSaveFileWithTitle:title types:types];
+}
+
+- (NSString *)pickDirectoryWithTitle:(NSString *)title
+{
+    return [[VICEApplication theAppController] pickDirectoryWithTitle:title];
 }
 
 @end

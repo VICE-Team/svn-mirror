@@ -40,12 +40,13 @@
 {
     NSOpenGLPixelFormatAttribute attrs[] =
     {
-        NSOpenGLPFAFullScreen,
+//        NSOpenGLPFAFullScreen,
+        NSOpenGLPFAWindow,
         NSOpenGLPFAAccelerated,
         NSOpenGLPFADoubleBuffer,
-        NSOpenGLPFANoRecovery,
-        NSOpenGLPFAColorSize, 8,
-        nil
+        NSOpenGLPFAColorSize, (NSOpenGLPixelFormatAttribute)8,
+//        NSOpenGLPFADepthSize, (NSOpenGLPixelFormatAttribute)16,
+        (NSOpenGLPixelFormatAttribute)nil
     };
     
     // init with given format
@@ -71,7 +72,7 @@
                                              selector:@selector(toggleMouse:)
                                                  name:VICEToggleMouseNotification
                                                object:nil];
-
+    mouseHideTimer = nil;
     return self;
 }
 
@@ -96,6 +97,10 @@
 // prepare open gl
 - (void)prepareOpenGL
 {
+    // sync to VBlank
+    GLint swapInt = 1;
+    [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
+    
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, 1);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -110,11 +115,25 @@
 
     NSRect rect = [self bounds];
     NSSize size = rect.size;
-    glViewport(0, 0, size.width, size.height);
+    
+    float ratio = size.width / size.height;
+    viewSize    = size;
+    viewOrigin  = NSMakePoint(0.0,0.0);
+    if(ratio < (textureRatio-0.01)) {
+        // place along y
+        viewSize.height = viewSize.width / textureRatio;
+        viewOrigin.y = (size.height - viewSize.height) / 2.0; 
+    } else if(ratio > (textureRatio+0.01)) {
+        // place along x
+        viewSize.width = viewSize.height * textureRatio;
+        viewOrigin.x = (size.width - viewSize.width) / 2.0;
+    }
+    
+    glViewport(viewOrigin.x, viewOrigin.y, viewSize.width, viewSize.height);
     
     // adjust mouse scales
-    mouseXScale = textureSize.width  / size.width;
-    mouseYScale = textureSize.height / size.height;
+    mouseXScale = textureSize.width  / viewSize.width;
+    mouseYScale = textureSize.height / viewSize.height;
 }
 
 // redraw view
@@ -123,6 +142,8 @@
     [[self openGLContext] makeCurrentContext];
 
     NSSize size = textureSize;
+
+    glClear(GL_COLOR_BUFFER_BIT);
 
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
     glBegin(GL_QUADS);
@@ -133,12 +154,14 @@
         glTexCoord2i(size.width, size.height); glVertex2i(1, -1);
     }
     glEnd();
-    glFlush();
+    
+    [[self openGLContext] flushBuffer];
 }
 
 - (void)setupTexture:(NSSize)size
 {
     textureSize = size;
+    textureRatio = size.width / size.height;
     unsigned int dataSize = size.width * size.height * 4;
 
     if(textureData==NULL)
@@ -274,37 +297,121 @@
 
 // ----- Mouse -----
 
+- (void)startHideTimer
+{
+    if(mouseHideTimer==nil) {
+        // setup timer for mouse hide
+        mouseHideInterval = MOUSE_HIDE_DELAY;
+        mouseHideTimer = [NSTimer scheduledTimerWithTimeInterval: 0.5
+                                                          target: self 
+                                                        selector: @selector(hideTimer:)
+                                                        userInfo: nil 
+                                                         repeats: YES];
+        [mouseHideTimer fire];
+        [mouseHideTimer retain];
+    }
+}
+
+- (void)stopHideTimer:(BOOL)shown
+{
+    if(mouseHideTimer!=nil) {
+        // remove timer
+        [mouseHideTimer invalidate];
+        [mouseHideTimer release];
+        mouseHideTimer = nil;
+    }
+    
+    if(shown) {
+        if(mouseHideInterval != MOUSE_IS_SHOWN) {
+            [NSCursor setHiddenUntilMouseMoves:NO];
+            mouseHideInterval = MOUSE_IS_SHOWN;
+        }
+    } else {
+        if(mouseHideInterval != MOUSE_IS_HIDDEN) {
+            [NSCursor setHiddenUntilMouseMoves:YES];
+            mouseHideInterval = MOUSE_IS_HIDDEN;
+        }
+    }
+}
+
+- (void)hideTimer:(NSTimer *)timer
+{
+    if(mouseHideInterval>0) {
+        mouseHideInterval--;
+    } else if(mouseHideInterval==0) {
+        [self stopHideTimer:FALSE];
+    }
+}
+
+- (void)ensureMouseShown
+{
+    // in mouse tracking the mouse is always visible
+    if(trackMouse)
+        return;
+    
+    // reshow mouse if it was hidden
+    if(mouseHideInterval == MOUSE_IS_HIDDEN) {
+        [NSCursor setHiddenUntilMouseMoves:NO];
+    }
+    mouseHideInterval = MOUSE_HIDE_DELAY;
+    [self startHideTimer];
+}
+
 - (BOOL)becomeFirstResponder
 {
-    if(trackMouse)
-        [[self window] setAcceptsMouseMovedEvents:YES];
+    [[self window] setAcceptsMouseMovedEvents:YES];
+    
+    // report current canvas id to app controller
+    [VICEApplication setCurrentCanvasId:canvasId];
+    
+    // start mouse hide timer
+    if(!trackMouse) {
+        [self startHideTimer];
+    }
+
     return [super becomeFirstResponder];
 }
 
 - (BOOL)resignFirstResponder
 {
-    if(trackMouse)
-        [[self window] setAcceptsMouseMovedEvents:NO];    
+    [[self window] setAcceptsMouseMovedEvents:NO];
+    
+    // show mouse again
+    if(!trackMouse) {
+        [self stopHideTimer:TRUE];
+    }
+
     return [super resignFirstResponder];
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent
 {
-    [self mouseMove:[theEvent locationInWindow]];
+    NSPoint location = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    [self mouseMove:location];
+    
+    // check if mouse is in view
+    BOOL inView = NSPointInRect(location,[self bounds]);
+    if(inView) {
+        [self ensureMouseShown];        
+    } else {
+        [self stopHideTimer:TRUE];
+    }
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
-    [self mouseMove:[theEvent locationInWindow]];
+    NSPoint location = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    [self mouseMove:location];
 }
 
 - (void)mouseMove:(NSPoint)pos
 {
     if(trackMouse) {
-        int px = (int)(pos.x * mouseXScale);
-        int py = (int)(pos.y * mouseYScale);
         int w = (int)textureSize.width;
         int h = (int)textureSize.height;
+        int px = (int)((pos.x-viewOrigin.x) * mouseXScale);
+        int py = (int)((pos.y-viewOrigin.y) * mouseYScale);
+        py = h - 1 - py;
         if((px>=0)&&(px<w)&&(py>=0)&&(py<h)) {
             [[VICEApplication theMachineController] mouseMoveToX:px andY:py];
         }
@@ -313,18 +420,22 @@
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    if(trackMouse) {
-        if([theEvent type]==NSLeftMouseDown) {
+    if([theEvent type]==NSLeftMouseDown) {
+        if(trackMouse) {
             [[VICEApplication theMachineController] mousePressed];
+        } else {
+            [self stopHideTimer:TRUE];
         }
     }
 }
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
-    if(trackMouse) {
-        if([theEvent type]==NSLeftMouseUp) {
+    if([theEvent type]==NSLeftMouseUp) {
+        if(trackMouse) {
             [[VICEApplication theMachineController] mouseReleased];
+        } else {
+            [self startHideTimer];
         }
     }
 }
@@ -334,8 +445,23 @@
     NSDictionary *dict = [notification userInfo];
     trackMouse = [[dict objectForKey:@"mouse"] boolValue];
 
-    if(trackMouse)
-        [[self window] setAcceptsMouseMovedEvents:YES];
+    if(trackMouse) {
+        [self stopHideTimer:TRUE];
+    } else {
+        [self startHideTimer];
+    }
+}
+
+// manager canvas id
+
+- (void)setCanvasId:(int)c
+{
+    canvasId = c;
+}
+
+- (int)canvasId
+{
+    return canvasId;
 }
 
 @end

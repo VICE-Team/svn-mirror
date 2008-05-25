@@ -61,7 +61,7 @@ static char *argv0 = NULL;
 static char *boot_path = NULL;
 
 /* alternate storage of preferences */
-char *archdep_pref_path = NULL; /* NULL -> use home_path + ".vice" */
+const char *archdep_pref_path = NULL; /* NULL -> use home_path + ".vice" */
 
 int archdep_init(int *argc, char **argv)
 {

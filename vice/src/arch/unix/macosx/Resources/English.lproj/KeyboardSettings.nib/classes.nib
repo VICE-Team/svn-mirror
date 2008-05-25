@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>triggerResourceUpdate</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>VICEResourceWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>changedKeymapFile</key>
+				<string>id</string>
+				<key>dumpKeymap</key>
+				<string>id</string>
+				<key>pickKeymap</key>
+				<string>id</string>
+				<key>selectKeymap</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>KeyboardSettingsWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>keymapSelector</key>
+				<string>NSMatrix</string>
+				<key>posFile</key>
+				<string>NSTextField</string>
+				<key>symDEFile</key>
+				<string>NSTextField</string>
+				<key>symUSFile</key>
+				<string>NSTextField</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>VICEResourceWindowController</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

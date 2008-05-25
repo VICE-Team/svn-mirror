@@ -27,6 +27,9 @@
 
 #import "fullscreenwindow.h"
 
+// for SetSystemUIMode:
+#include <QuickTime/QuickTime.h>
+
 @implementation FullscreenWindow
 
 -(id)init
@@ -80,10 +83,12 @@
 -(void)becomeKeyWindow
 {
     [super becomeKeyWindow];
+    SetSystemUIMode( kUIModeAllHidden, kUIOptionAutoShowMenuBar);
 }
 
 -(void)resignKeyWindow
 {
+    SetSystemUIMode( kUIModeNormal, 0);
     [super resignKeyWindow];
 }
 

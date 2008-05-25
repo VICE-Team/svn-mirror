@@ -24,7 +24,6 @@ libarchmacosx_a_SOURCES = \
 	joy.h
 
 EXTRA_DIST = \
-	VICE.icns \
 	Info.plist \
 	make-bindist.sh \
 	x11-launcher.sh \

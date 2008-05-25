@@ -59,22 +59,13 @@
 -(void)windowDidLoad
 {
     // setup tab view labels
+    [driveChooser setSegmentCount:driveCount];
     int i;
     for(i=0;i<driveCount;i++) {
-        NSTabViewItem *item = [tabView tabViewItemAtIndex:i];
         NSString *driveName = [NSString stringWithFormat:@"Drive %d",i+driveOffset];
-        [item setLabel:driveName];
+        [driveChooser setLabel:driveName forSegment:i];
     }
-    
-    // remove unused views
-    while(i<4) {
-        NSTabViewItem *item = [tabView tabViewItemAtIndex:driveCount];
-        [tabView removeTabViewItem:item];
-        i++;
-    }
-    
-    // select first tab
-    [tabView selectFirstTabViewItem:self];
+    [driveChooser setSelectedSegment:0];
     
     [self updateResources:nil];
     [super windowDidLoad];
@@ -82,107 +73,86 @@
 
 -(void)updateResources:(NSNotification *)notification
 {
-    NSMatrix *driveType[4] = { driveType0,driveType1,
-                               driveType2,driveType3 };
-    NSMatrix *trackHandling[4] = { trackHandling0,trackHandling1,
-                                   trackHandling2,trackHandling3 };
-    NSMatrix *idleMethod[4] = { idleMethod0, idleMethod1,
-                                idleMethod2, idleMethod3 };
-    NSButton *parallelCable[4] = { parallelCable0,parallelCable1,
-                                   parallelCable1,parallelCable3 };
-    NSButton *driveExpansion2000[4] = { driveExpansion0_2000,driveExpansion1_2000,
-                                       driveExpansion2_2000,driveExpansion3_2000 };
-    NSButton *driveExpansion4000[4] = { driveExpansion0_4000,driveExpansion1_4000,
-                                       driveExpansion2_4000,driveExpansion3_4000 };
-    NSButton *driveExpansion6000[4] = { driveExpansion0_6000,driveExpansion1_6000,
-                                       driveExpansion2_6000,driveExpansion3_6000 };
-    NSButton *driveExpansion8000[4] = { driveExpansion0_8000,driveExpansion1_8000,
-                                       driveExpansion2_8000,driveExpansion3_8000 };
-    NSButton *driveExpansionA000[4] = { driveExpansion0_A000,driveExpansion1_A000,
-                                       driveExpansion2_A000,driveExpansion3_A000 };
-        
     int trueEmu = [self getIntResource:@"DriveTrueEmulation"];
-    int i;
-    for(i=0;i<driveCount;i++) {
-        int driveNum = driveOffset + i;
-        int isIecDrive = [self getIntResource:@"IECDevice%d" withNumber:driveNum];
-        int driveEnabled = trueEmu && !isIecDrive;
+    int driveId  = [driveChooser selectedSegment];
+    int driveNum = driveId + driveOffset;
+    int isIecDrive = [self getIntResource:@"IECDevice%d" withNumber:driveNum];
+    int driveEnabled = trueEmu && !isIecDrive;
         
-        // drive is enabled
-        if(driveEnabled) {
-            // type selector is enabled
-            [driveType[i] setEnabled:true];
+    // drive is enabled
+    if(driveEnabled) {
+        // type selector is enabled
+        [driveType setEnabled:true];
 
-            // enable valid drive types
-            int j;
-            for(j=0;j<numDriveTypes;j++) {
-                int isDriveValid = drive_check_type([self mapToDriveType:j],i);
-                id cell = [driveType[i] cellAtRow:j column:0];
-                [cell setEnabled:isDriveValid];
-            }
-        
-            // set current drive type
-            int driveTypeVal = [self getIntResource:@"Drive%dType" withNumber:driveNum];
-            int driveId = [self mapFromDriveType:driveTypeVal];
-            [driveType[i] selectCellAtRow:driveId column:0];
-
-            // extend track policy
-            int canExtendPolicy = drive_check_extend_policy(driveTypeVal);
-            [trackHandling[i] setEnabled:canExtendPolicy];
-            int extendPolicyVal = [self getIntResource:@"Drive%dExtendImagePolicy" withNumber:driveNum];
-            [trackHandling[i] selectCellAtRow:extendPolicyVal column:0];
-
-            // idle method
-            int canIdleMethod = drive_check_idle_method(driveTypeVal);
-            [idleMethod[i] setEnabled:canIdleMethod];
-            int idleMethodVal = [self getIntResource:@"Drive%dIdleMethod" withNumber:driveNum];
-            [idleMethod[i] selectCellAtRow:idleMethodVal column:0];
-
-            // expansion ram
-            int canRam,hasRam;
-            canRam = drive_check_expansion2000(driveTypeVal);
-            [driveExpansion2000[i] setEnabled:canRam];
-            hasRam = [self getIntResource:@"Drive%dRAM2000" withNumber:driveNum];
-            [driveExpansion2000[i] setState:hasRam];
-
-            canRam = drive_check_expansion4000(driveTypeVal);
-            [driveExpansion4000[i] setEnabled:canRam];
-            hasRam = [self getIntResource:@"Drive%dRAM4000" withNumber:driveNum];
-            [driveExpansion4000[i] setState:hasRam];
-
-            canRam = drive_check_expansion6000(driveTypeVal);
-            [driveExpansion6000[i] setEnabled:canRam];
-            hasRam = [self getIntResource:@"Drive%dRAM6000" withNumber:driveNum];
-            [driveExpansion6000[i] setState:hasRam];
-
-            canRam = drive_check_expansion8000(driveTypeVal);
-            [driveExpansion8000[i] setEnabled:canRam];
-            hasRam = [self getIntResource:@"Drive%dRAM8000" withNumber:driveNum];
-            [driveExpansion8000[i] setState:hasRam];
-
-            canRam = drive_check_expansionA000(driveTypeVal);
-            [driveExpansionA000[i] setEnabled:canRam];
-            hasRam = [self getIntResource:@"Drive%dRAMA000" withNumber:driveNum];
-            [driveExpansionA000[i] setState:hasRam];
-
-            // select current driv
-            int canParallel = drive_check_parallel_cable(driveTypeVal);
-            [parallelCable[i] setEnabled:canParallel];
-            int parallelCableVal = [self getIntResource:@"Drive%dParallelCable" withNumber:driveNum];
-            [parallelCable[i] setState:parallelCableVal];
-            
-        } else {
-            // disable all controls
-            [driveType[i] setEnabled:false];
-            [trackHandling[i] setEnabled:false];
-            [driveExpansion2000[i] setEnabled:false];
-            [driveExpansion4000[i] setEnabled:false];
-            [driveExpansion6000[i] setEnabled:false];
-            [driveExpansion8000[i] setEnabled:false];
-            [driveExpansionA000[i] setEnabled:false];
-            [idleMethod[i] setEnabled:false];
-            [parallelCable[i] setEnabled:false];
+        // enable valid drive types
+        int j;
+        for(j=0;j<numDriveTypes;j++) {
+            int isDriveValid = drive_check_type([self mapToDriveType:j],driveId);
+            id cell = [driveType cellAtRow:j column:0];
+            [cell setEnabled:isDriveValid];
         }
+    
+        // set current drive type
+        int driveTypeVal = [self getIntResource:@"Drive%dType" withNumber:driveNum];
+        int driveId = [self mapFromDriveType:driveTypeVal];
+        [driveType selectCellAtRow:driveId column:0];
+
+        // extend track policy
+        int canExtendPolicy = drive_check_extend_policy(driveTypeVal);
+        [trackHandling setEnabled:canExtendPolicy];
+        int extendPolicyVal = [self getIntResource:@"Drive%dExtendImagePolicy" withNumber:driveNum];
+        [trackHandling selectCellAtRow:extendPolicyVal column:0];
+
+        // idle method
+        int canIdleMethod = drive_check_idle_method(driveTypeVal);
+        [idleMethod setEnabled:canIdleMethod];
+        int idleMethodVal = [self getIntResource:@"Drive%dIdleMethod" withNumber:driveNum];
+        [idleMethod selectCellAtRow:idleMethodVal column:0];
+
+        // expansion ram
+        int canRam,hasRam;
+        canRam = drive_check_expansion2000(driveTypeVal);
+        [driveExpansion_2000 setEnabled:canRam];
+        hasRam = [self getIntResource:@"Drive%dRAM2000" withNumber:driveNum];
+        [driveExpansion_2000 setState:hasRam];
+
+        canRam = drive_check_expansion4000(driveTypeVal);
+        [driveExpansion_4000 setEnabled:canRam];
+        hasRam = [self getIntResource:@"Drive%dRAM4000" withNumber:driveNum];
+        [driveExpansion_4000 setState:hasRam];
+
+        canRam = drive_check_expansion6000(driveTypeVal);
+        [driveExpansion_6000 setEnabled:canRam];
+        hasRam = [self getIntResource:@"Drive%dRAM6000" withNumber:driveNum];
+        [driveExpansion_6000 setState:hasRam];
+
+        canRam = drive_check_expansion8000(driveTypeVal);
+        [driveExpansion_8000 setEnabled:canRam];
+        hasRam = [self getIntResource:@"Drive%dRAM8000" withNumber:driveNum];
+        [driveExpansion_8000 setState:hasRam];
+
+        canRam = drive_check_expansionA000(driveTypeVal);
+        [driveExpansion_A000 setEnabled:canRam];
+        hasRam = [self getIntResource:@"Drive%dRAMA000" withNumber:driveNum];
+        [driveExpansion_A000 setState:hasRam];
+
+        // select current driv
+        int canParallel = drive_check_parallel_cable(driveTypeVal);
+        [parallelCable setEnabled:canParallel];
+        int parallelCableVal = [self getIntResource:@"Drive%dParallelCable" withNumber:driveNum];
+        [parallelCable setState:parallelCableVal];
+        
+    } else {
+        // disable all controls
+        [driveType setEnabled:false];
+        [trackHandling setEnabled:false];
+        [driveExpansion_2000 setEnabled:false];
+        [driveExpansion_4000 setEnabled:false];
+        [driveExpansion_6000 setEnabled:false];
+        [driveExpansion_8000 setEnabled:false];
+        [driveExpansion_A000 setEnabled:false];
+        [idleMethod setEnabled:false];
+        [parallelCable setEnabled:false];
     }
 }
 
@@ -193,11 +163,11 @@
     return DRIVE_TYPE_NONE;
 }
 
--(int)mapFromDriveType:(int)driveType
+-(int)mapFromDriveType:(int)driveTypeId
 {
     int i;
     for(i=0;i<numDriveTypes;i++) {
-        if(driveType == driveTypeMap[i])
+        if(driveTypeId == driveTypeMap[i])
             return i;
     }
     return numDriveTypes;
@@ -205,22 +175,27 @@
 
 // ----- Actions -----
 
+-(void)toggleDrive:(id)sender
+{
+    [self updateResources:nil];
+}
+
 -(void)changedDriveType:(id)sender
 {
-    int driveNum = [sender tag] + driveOffset;
+    int driveNum = [driveChooser selectedSegment] + driveOffset;
     id cell = [sender selectedCell];
     int driveId = [cell tag];
-    int driveType = [self mapToDriveType:driveId];
+    int driveTypeVar = [self mapToDriveType:driveId];
         
     [self setIntResource:@"Drive%dType" 
               withNumber:driveNum
-                 toValue:driveType];
+                 toValue:driveTypeVar];
     [self updateResources:nil];
 }
 
 -(void)changedTrackHandling:(id)sender
 {
-    int driveNum = [sender tag] + driveOffset;
+    int driveNum = [driveChooser selectedSegment] + driveOffset;
     id cell = [sender selectedCell];
     int type = [cell tag];
     
@@ -231,7 +206,7 @@
 
 -(void)changedDriveExpansion2000:(id)sender
 {
-    int driveNum = [sender tag] + driveOffset;
+    int driveNum = [driveChooser selectedSegment] + driveOffset;
     id cell = [sender selectedCell];
     int on = [cell state];
     
@@ -242,7 +217,7 @@
 
 -(void)changedDriveExpansion4000:(id)sender
 {
-    int driveNum = [sender tag] + driveOffset;
+    int driveNum = [driveChooser selectedSegment] + driveOffset;
     id cell = [sender selectedCell];
     int on = [cell state];
 
@@ -253,7 +228,7 @@
 
 -(void)changedDriveExpansion6000:(id)sender
 {
-    int driveNum = [sender tag] + driveOffset;
+    int driveNum = [driveChooser selectedSegment] + driveOffset;
     id cell = [sender selectedCell];
     int on = [cell state];
 
@@ -264,7 +239,7 @@
 
 -(void)changedDriveExpansion8000:(id)sender
 {
-    int driveNum = [sender tag] + driveOffset;
+    int driveNum = [driveChooser selectedSegment] + driveOffset;
     id cell = [sender selectedCell];
     int on = [cell state];
     
@@ -275,7 +250,7 @@
 
 -(void)changedDriveExpansionA000:(id)sender
 {
-    int driveNum = [sender tag] + driveOffset;
+    int driveNum = [driveChooser selectedSegment] + driveOffset;
     id cell = [sender selectedCell];
     int on = [cell state];
 
@@ -286,7 +261,7 @@
 
 -(void)changedIdleMethod:(id)sender
 {
-    int driveNum = [sender tag] + driveOffset;
+    int driveNum = [driveChooser selectedSegment] + driveOffset;
     id cell = [sender selectedCell];
     int type = [cell tag];
 
@@ -297,7 +272,7 @@
 
 -(void)toggledParallelCable:(id)sender
 {
-    int driveNum = [sender tag] + driveOffset;
+    int driveNum = [driveChooser selectedSegment] + driveOffset;
     int on = [sender state];
 
     [self setIntResource:@"Drive%dParallelCable"

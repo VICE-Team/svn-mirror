@@ -37,6 +37,7 @@ typedef void VICEWindow;
 #endif
 
 struct video_draw_buffer_callback_s;
+struct video_resource_chip_s;
 
 struct video_canvas_s
 {
@@ -48,11 +49,13 @@ struct video_canvas_s
     struct viewport_s *viewport;
     struct geometry_s *geometry;
     struct palette_s *palette;
+    struct video_resource_chip_s *video_resource_chip;
 
     /* MacVICE stuff: */
     BYTE *buffer;
     int pitch;
     VICEWindow *window;
+    int canvasId;
 
     struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 };

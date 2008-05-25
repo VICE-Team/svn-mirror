@@ -32,15 +32,28 @@
 @interface VICEGLView : NSOpenGLView
 {
     NSSize  textureSize;
+    float   textureRatio;
     BYTE   *textureData;
+    NSSize  viewSize;
+    NSPoint viewOrigin;
+    
     unsigned int lastKeyModifierFlags;
     #define NUM_MODIFIERS 32
     unsigned int modifierKeyCode[NUM_MODIFIERS];
+    
     BOOL trackMouse;
     float mouseXScale;
     float mouseYScale;
     int oldX;
     int oldY;
+    
+    #define MOUSE_HIDE_DELAY 4
+    #define MOUSE_IS_HIDDEN  -1
+    #define MOUSE_IS_SHOWN   -2
+    NSTimer *mouseHideTimer;
+    int mouseHideInterval;
+    
+    int canvasId;
 }
 
 - (id)initWithFrame:(NSRect)rect;
@@ -70,6 +83,14 @@
 - (void)mouseUp:(NSEvent *)theEvent;
 - (void)mouseMove:(NSPoint)pos;
 - (void)toggleMouse:(NSNotification *)notification;
+
+- (void)startHideTimer;
+- (void)stopHideTimer:(BOOL)shown;
+- (void)hideTimer:(NSTimer *)timer;
+- (void)ensureMouseShown;
+
+- (void)setCanvasId:(int)canvasId;
+- (int)canvasId;
 
 @end
 

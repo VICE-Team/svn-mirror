@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Cartridges</key>
+	<dict>
+		<key>256K</key>
+		<dict>
+			<key>Base Address</key>
+			<string>C64_256Kbase,E,$DE00,$DE80,$DF00,$DF80</string>
+			<key>Enable</key>
+			<string>C64_256K,b</string>
+			<key>Image File</key>
+			<string>C64_256Kfilename,fs</string>
+		</dict>
+		<key>ACIA</key>
+		<dict>
+			<key>Device</key>
+			<string>Acia1Dev,e,RS232 Device 1,RS232 Device 2,RS232 Device 3,RS232 Device 4</string>
+			<key>Enable</key>
+			<string>Acia1Enable,b</string>
+			<key>Interrupt</key>
+			<string>Acia1Irq,e,None,IRQ,NMI</string>
+			<key>Mode</key>
+			<string>Acia1Mode,e,Normal,Swiftlink,Turbo232</string>
+		</dict>
+		<key>DIGIMAX</key>
+		<dict>
+			<key>Base Address</key>
+			<string>DIGIMAXbase,E,$DD00,$DE00,$DE20,$DE40,$DE60,$DE80,$DEA0,$DEC0,$DEE0,$DF00,$DF20,$DF40,$DF60,$DF80,$DFA0,$DFC0,$DFE0</string>
+			<key>Enable</key>
+			<string>DIGIMAX,b</string>
+		</dict>
+		<key>GEORAM</key>
+		<dict>
+			<key>Enable</key>
+			<string>GEORAM,b</string>
+			<key>Image File</key>
+			<string>GEORAMsize,E,64,128,256,512,1024,2048,4096</string>
+			<key>Size (KiB)</key>
+			<string>GEORAMfilename,fs</string>
+		</dict>
+		<key>IDE64</key>
+		<dict>
+			<key>Autodetect Size</key>
+			<string>IDE64AutodetectSize,b</string>
+			<key>Cylinders</key>
+			<string>IDE64Cylinders,i</string>
+			<key>HD Image File</key>
+			<string>IDE64Image,fs</string>
+			<key>Heads</key>
+			<string>IDE64Heads,i</string>
+			<key>Sectors</key>
+			<string>IDE64Sectors,i</string>
+		</dict>
+		<key>MMC64</key>
+		<dict>
+			<key>BIOS File</key>
+			<string>MMC64BIOSfilename,fs</string>
+			<key>BIOS Revision</key>
+			<string>MMC64_revision,e,Rev A,Rev B</string>
+			<key>Enable</key>
+			<string>MMC64,b</string>
+			<key>Enable BIOS Flash Jumper</key>
+			<string>MMC64_flashjumper,b</string>
+			<key>MMC/SD Image</key>
+			<string>MMC64imagefilename,fs</string>
+			<key>MMC/SD Image read-only</key>
+			<string>MMC64_RO,b</string>
+			<key>Save BIOS when changed</key>
+			<string>MMC64_bios_write,b</string>
+		</dict>
+		<key>Plus256k</key>
+		<dict>
+			<key>Enable</key>
+			<string>PLUS256K,b</string>
+			<key>Image File</key>
+			<string>PLUS256Kfilename,fs</string>
+		</dict>
+		<key>Plus60k</key>
+		<dict>
+			<key>Base Address</key>
+			<string>PLUS60Kbase,E,$D040,$D100</string>
+			<key>Enable</key>
+			<string>PLUS60K,b</string>
+			<key>Image File</key>
+			<string>PLUS60Kfilename,fs</string>
+		</dict>
+		<key>RAMCART</key>
+		<dict>
+			<key>Enable</key>
+			<string>RAMCART,b</string>
+			<key>Image File</key>
+			<string>RAMCARTfilename,fs</string>
+			<key>Read Only</key>
+			<string>RAMCART_RO,b</string>
+			<key>Size (KiB)</key>
+			<string>RAMCARTsize,E,64,128</string>
+		</dict>
+		<key>REU</key>
+		<dict>
+			<key>Enable</key>
+			<string>REU,b</string>
+			<key>Image File</key>
+			<string>REUfilename,fs</string>
+			<key>Size (KiB)</key>
+			<string>REUsize,E,128,256,512,1024,2048,4096,8192,16384</string>
+		</dict>
+		<key>TFE/RRNet</key>
+		<dict>
+			<key>Enable</key>
+			<string>ETHERNET_ACTIVE,b</string>
+			<key>Interface</key>
+			<string>ETHERNET_INTERFACE,s</string>
+			<key>RRNet</key>
+			<string>ETHERNET_AS_RR,b</string>
+		</dict>
+	</dict>
+	<key>Datasette</key>
+	<dict>
+		<key>Reset with CPU</key>
+		<string>DatasetteResetWithCPU,b</string>
+		<key>Speed Tuning</key>
+		<string>DatasetteSpeedTuning,E,0,1,2,3,4,5,6,7</string>
+		<key>Zero Gap Delay</key>
+		<string>DatasetteZeroGapDelay,E,1000,2000,5000,10000,20000,50000,100000</string>
+	</dict>
+	<key>Peripherals</key>
+	<dict>
+		<key>RS232</key>
+		<dict>
+			<key>Device 1</key>
+			<string>RsDevice1,s</string>
+			<key>Device 2</key>
+			<string>RsDevice2,s</string>
+			<key>Device 3</key>
+			<string>RsDevice3,s</string>
+			<key>Device 4</key>
+			<string>RsDevice4,s</string>
+		</dict>
+		<key>Userport RS232</key>
+		<dict>
+			<key>Baud Rate</key>
+			<string>RsUserBaud,E,300,600,1200,2400,4800,9600</string>
+			<key>Enable</key>
+			<string>RsUserEnable,b</string>
+			<key>RS232 Device</key>
+			<string>RsUserDev,e,Device 1,Device 2,Device 3,Device 4</string>
+		</dict>
+	</dict>
+	<key>RAM</key>
+	<dict>
+		<key>Length of constant pattern</key>
+		<string>RAMInitPatternInvert,i</string>
+		<key>Length of constant values</key>
+		<string>RAMInitValueInvert,i</string>
+		<key>Value of first Byte</key>
+		<string>RAMInitStartValue,i</string>
+	</dict>
+	<key>SID</key>
+	<dict>
+		<key>Engine</key>
+		<string>SidEngine,e,Fast SID,ReSID</string>
+		<key>Filters</key>
+		<string>SidFilters,b</string>
+		<key>Model</key>
+		<string>SidModel,e,6581,8580</string>
+		<key>ReSID</key>
+		<dict>
+			<key>Passband (0-90%)</key>
+			<string>SidResidPassband,r,0,90</string>
+			<key>Sample Method</key>
+			<string>SidResidSampling,e,Fast,Interpolating,Resampling,Fast Resampling</string>
+		</dict>
+		<key>Stereo SID</key>
+		<dict>
+			<key>Base Address</key>
+			<string>SidStereoStartAddress,e,$D4,$D5,$D6,$D7,$DE,$DF</string>
+			<key>Enable</key>
+			<string>SidStereo,b</string>
+		</dict>
+	</dict>
+	<key>VIC II</key>
+	<dict>
+		<key>Border Mode</key>
+		<string>VICIIBorderMode,e,Normal,Full,Debug</string>
+		<key>Check Sprite Background Collision</key>
+		<string>VICIICheckSbColl,b</string>
+		<key>Check Sprite Sprite Collision</key>
+		<string>VICIICheckSsColl,b</string>
+		<key>New Luminances</key>
+		<string>VICIINewLuminances,b</string>
+	</dict>
+</dict>
+</plist>

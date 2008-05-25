@@ -33,8 +33,8 @@ extern void kbd_arch_init(void);
 extern signed long kbd_arch_keyname_to_keynum(char *keyname);
 extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
 
-#define KBD_C64_SYM_US  "osx_sym.vkm"
-#define KBD_C64_SYM_DE  "osx_sym.vkm"
+#define KBD_C64_SYM_US  "osx_sym_us.vkm"
+#define KBD_C64_SYM_DE  "osx_sym_de.vkm"
 #define KBD_C64_POS     "osx_pos.vkm"
 #define KBD_C128_SYM    "osx_sym.vkm"
 #define KBD_C128_POS    "osx_pos.vkm"

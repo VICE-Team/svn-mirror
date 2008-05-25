@@ -28,6 +28,7 @@
 #include <string.h>
 
 #include "main.h"
+#include "archdep.h"
 
 #import "viceapplication.h"
 
@@ -40,6 +41,15 @@ int main(int argc, char **argv)
     // create pool for app
     NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
  
+    // fetch bundle identifier
+    NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
+    
+    // build preferences path
+    NSString *basePath = @"~/Library/Preferences/";
+    NSString *prefPath = [basePath stringByAppendingString:bundleId];
+    prefPath = [prefPath stringByExpandingTildeInPath];
+    archdep_pref_path = [prefPath cStringUsingEncoding:NSUTF8StringEncoding];
+    
     // fetch instance
     [VICEApplication sharedApplication];
     

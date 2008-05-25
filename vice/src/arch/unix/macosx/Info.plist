@@ -7,7 +7,7 @@
   <key>CFBundleGetInfoString</key>
      <string>XNAMEX XVERSIONX (C)2008 The VICE Team</string>
   <key>CFBundleIconFile</key>
-     <string>VICE.icns</string>
+     <string>XNAMEX.icns</string>
   <key>CFBundleIdentifier</key>
      <string>org.viceteam.XNAMEX</string>
   <key>CFBundleInfoDictionaryVersion</key>

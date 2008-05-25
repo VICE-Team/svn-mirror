@@ -21,7 +21,8 @@ c64_DATA = \
 	os2.vkm \
 	os2_sym.vkm \
 	osx_pos.vkm \
-	osx_sym.vkm \
+	osx_sym_de.vkm \
+	osx_sym_us.vkm \
 	pc64.vpl \
 	ROdflt.vkm \
 	vice.vpl \

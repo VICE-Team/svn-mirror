@@ -61,11 +61,43 @@
 // activate monitor
 -(void)activateMonitor;
 
+// ----- Snapshot -----
+// read a snapshot from a file
+-(void)loadSnapshot:(NSString *)path;
+// write a snapshot to a file
+-(void)saveSnapshot:(NSString *)path withROMS:(BOOL)saveRoms andDisks:(BOOL)saveDisks;
+// scan for quick snapshot files
+- (NSString *)getQuickSnapshotFileName:(BOOL)load;
+// read a quick snapshot from a file
+-(void)loadQuickSnapshot;
+// save a quick snapshot to a file
+-(void)saveQuickSnapshot;
+
+// ----- Media -----
+// start recording media/save screen shot
+-(BOOL)startRecordingMedia:(NSString *)driver 
+                fromCanvas:(int)canvasId
+                    toFile:(NSString *)path;
+// is recording a screenshot
+-(BOOL)isRecordingMedia;
+// stop recording screenshot
+-(void)stopRecordingMedia;
+// enumerate media
+-(NSArray *)enumMediaDrivers;
+// has driver container
+-(BOOL)mediaDriverHasOptions:(NSString *)driver;
+// enumerate media formats
+-(NSArray *)enumMediaFormats:(NSString *)driver;
+// extension for media 
+-(NSString *)defaultExtensionForMediaDriver:(NSString *)driver andFormat:(NSString *)format;
+
 // ----- Keyboard -----
 // key pressed
 -(void)keyPressed:(unsigned int)code;
 // key release
 -(void)keyReleased:(unsigned int)code;
+// dump keymap
+-(BOOL)dumpKeymap:(NSString *)path;
 
 // ----- Mouse -----
 // mouse moved
@@ -85,11 +117,18 @@
 // create disk image
 -(BOOL)createDiskImage:(int)type path:(NSString *)path name:(NSString *)name;
 
+// query disk name
+-(NSString *)getDiskName:(int)unit;
+
 // ----- Tape Commands -----
 // attach tape image
 -(BOOL)attachTapeImage:(NSString *)path;
 // detach tape image
 -(void)detachTapeImage;
+
+// ----- Printer -----
+// send form feed (unit #4=0,#5=1,Userport=2)
+-(void)printerFormFeed:(int)unit;
 
 @end
 

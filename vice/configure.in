@@ -102,7 +102,9 @@ AC_PROG_CC
 
 dnl --- setup Objective-C ---
 OBJC="${CC}"
-OBJCFLAGS="${CFLAGS}"
+if [ "x${OBJCFLAGS}" = x ]; then
+  OBJCFLAGS="${CFLAGS}"
+fi
 OBJCDEPMODE="depmode=${CC}"
 AC_SUBST(OBJC)
 AC_SUBST(OBJCFLAGS)
@@ -1834,7 +1836,7 @@ if test x"$is_unix" = "xyes"; then
       ARCH_LIBS="$ARCH_DIR/macosx/cocoa/menu/libarchmacosxcocoamenu.a $ARCH_DIR/macosx/cocoa/dialog/libarchmacosxcocoadialog.a $ARCH_DIR/macosx/cocoa/libarchmacosxcocoa.a $ARCH_DIR/macosx/cocoa/view/libarchmacosxcocoaview.a $ARCH_DIR/macosx/libarchmacosx.a $ARCH_DIR/libarch.a $ARCH_LIBS"
       ARCH_INCLUDES="-I$ARCH_SRC_DIR/macosx/cocoa/menu -I$ARCH_SRC_DIR/macosx/cocoa/dialog -I$ARCH_SRC_DIR/macosx/cocoa/view -I$ARCH_SRC_DIR/macosx/cocoa -I$ARCH_SRC_DIR $ARCH_INCLUDES"
       ARCH_EXTRA_SUBDIR="macosx macosx/cocoa macosx/cocoa/view macosx/cocoa/menu macosx/cocoa/dialog"
-      UI_LIBS="-framework Cocoa -framework OpenGL"
+      UI_LIBS="-framework Cocoa -framework OpenGL -framework Carbon"
       UNIX_MACOSX_UITYPE=cocoa
     else
       ARCH_LIBS="$ARCH_DIR/macosx/libarchmacosx.a $ARCH_LIBS"

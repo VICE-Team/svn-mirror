@@ -119,6 +119,19 @@ extern FILE *default_log_file;
     return [app machineController];
 }
 
+// appController
+
+- (VICEAppController *)appController
+{
+    return appController;
+}
+
++ (VICEAppController *)theAppController
+{
+    VICEApplication *app = (VICEApplication *)[self sharedApplication];
+    return [app appController];
+}
+
 // ----- Termination -----
 
 // ask the user if the application should be terminated
@@ -136,8 +149,8 @@ extern FILE *default_log_file;
     if([confirmOnExit intValue]) {
         int result = NSRunAlertPanel(@"Quit Application",
                                      @"Do you really want to exit?",
-                                     @"No",@"Yes",nil);
-        if(result!=NSAlertAlternateReturn)
+                                     @"Yes",@"No",nil);
+        if(result==NSAlertAlternateReturn)
             return NSTerminateCancel;
     }
 
@@ -207,12 +220,20 @@ extern FILE *default_log_file;
 
     // embedded gl view
     VICEGLView *glView = [window getVICEGLView];
+    [glView setCanvasId:canvas->canvasId];
 
     // fill canvas structure
     canvas->window = window;
     canvas->buffer = [glView getCanvasBuffer];
     canvas->pitch  = [glView getCanvasPitch];
     canvas->depth  = [glView getCanvasDepth];
+    
+    // make top-level window
+    [window makeKeyAndOrderFront:nil];
+
+    // activate app if not already done
+    if(![self isActive])
+        [self activateIgnoringOtherApps:YES];
 }
 
 -(void)destroyCanvas:(NSData *)canvasPtr
@@ -241,6 +262,28 @@ extern FILE *default_log_file;
 {
     video_canvas_t *canvas = *(video_canvas_t **)[canvasPtr bytes];
     [[canvas->window getVICEGLView] updateTexture];
+}
+
+- (void)setCurrentCanvasId:(int)c
+{
+    currentCanvasId = c;
+}
+
+- (int)currentCanvasId
+{
+    return currentCanvasId;
+}
+
++ (void)setCurrentCanvasId:(int)canvasId
+{
+    VICEApplication *app = (VICEApplication *)[self sharedApplication];
+    [app setCurrentCanvasId:canvasId];
+}
+
++ (int)currentCanvasId
+{
+    VICEApplication *app = (VICEApplication *)[self sharedApplication];
+    return [app currentCanvasId];
 }
 
 // ----- Monitor -----
@@ -377,7 +420,7 @@ extern FILE *default_log_file;
     
     if(result==NSAlertFirstButtonReturn)
         return 0;
-    else if(result=NSAlertSecondButtonReturn)
+    else if(result==NSAlertSecondButtonReturn)
         return 1;
     else
         return 2;

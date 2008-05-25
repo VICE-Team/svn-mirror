@@ -1,3 +1,17 @@
+2008-05-25  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* configure.in: honor OBJCFLAGS if available. added Carbon lib
+	for Cocoa linking.
+
+	* build/Makefile.am, build/macosx/build-vice-release.sh: added
+	build-vice-release script
+
+	* Makefile.am: make bindist on Macs need the bash
+
+	* data/C64/Makefile.am, data/C64/osx_sym_de.vkm,
+	data/C64/osx_pos.vkm, data/C64/osx_sym_us.vkm: fixed Cocoa key
+	maps
+
 2008-05-19  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* autogen.sh: Removed "bash-ism" from script (compare with "=="

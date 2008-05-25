@@ -27,11 +27,6 @@
 #include "vice.h"
 #include "video.h"
 
-static int fullscreen_enable(struct video_canvas_s* canvas, int enable)
-{
-    return 0;
-}
-
 void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
 {
     // fullscreen is handled in VICEWindow itself

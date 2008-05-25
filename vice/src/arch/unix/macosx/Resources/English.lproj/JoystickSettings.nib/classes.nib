@@ -1,46 +1,99 @@
-{
-    IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            ACTIONS = {
-                changeJoystick1Mode = id; 
-                changeJoystick2Mode = id; 
-                defineKeysetAButton = id; 
-                defineKeysetBButton = id; 
-            }; 
-            CLASS = JoystickSettingsWindowController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                buttonAEast = NSButton; 
-                buttonAFire = NSButton; 
-                buttonANorth = NSButton; 
-                buttonANorthEast = NSButton; 
-                buttonANorthWest = NSButton; 
-                buttonASouth = NSButton; 
-                buttonASouthEast = NSButton; 
-                buttonASouthWest = NSButton; 
-                buttonAWest = NSButton; 
-                buttonBEast = NSButton; 
-                buttonBFire = NSButton; 
-                buttonBNorth = NSButton; 
-                buttonBNorthEast = NSButton; 
-                buttonBNorthWest = NSButton; 
-                buttonBSouth = NSButton; 
-                buttonBSouthEast = NSButton; 
-                buttonBSouthWest = NSButton; 
-                buttonBWest = NSButton; 
-                joystick1Mode = NSPopUpButton; 
-                joystick2Mode = NSPopUpButton; 
-                keyPressView = KeyPressView; 
-            }; 
-            SUPERCLASS = VICEResourceWindowController; 
-        }, 
-        {CLASS = KeyPressView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {
-            CLASS = VICEResourceWindowController; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSWindowController; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>VICEResourceWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>KeyPressView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>changeJoystick1Mode</key>
+				<string>id</string>
+				<key>changeJoystick2Mode</key>
+				<string>id</string>
+				<key>defineKeysetAButton</key>
+				<string>id</string>
+				<key>defineKeysetBButton</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>JoystickSettingsWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>buttonAEast</key>
+				<string>NSButton</string>
+				<key>buttonAFire</key>
+				<string>NSButton</string>
+				<key>buttonANorth</key>
+				<string>NSButton</string>
+				<key>buttonANorthEast</key>
+				<string>NSButton</string>
+				<key>buttonANorthWest</key>
+				<string>NSButton</string>
+				<key>buttonASouth</key>
+				<string>NSButton</string>
+				<key>buttonASouthEast</key>
+				<string>NSButton</string>
+				<key>buttonASouthWest</key>
+				<string>NSButton</string>
+				<key>buttonAWest</key>
+				<string>NSButton</string>
+				<key>buttonBEast</key>
+				<string>NSButton</string>
+				<key>buttonBFire</key>
+				<string>NSButton</string>
+				<key>buttonBNorth</key>
+				<string>NSButton</string>
+				<key>buttonBNorthEast</key>
+				<string>NSButton</string>
+				<key>buttonBNorthWest</key>
+				<string>NSButton</string>
+				<key>buttonBSouth</key>
+				<string>NSButton</string>
+				<key>buttonBSouthEast</key>
+				<string>NSButton</string>
+				<key>buttonBSouthWest</key>
+				<string>NSButton</string>
+				<key>buttonBWest</key>
+				<string>NSButton</string>
+				<key>joystick1Mode</key>
+				<string>NSPopUpButton</string>
+				<key>joystick2Mode</key>
+				<string>NSPopUpButton</string>
+				<key>keyPressView</key>
+				<string>KeyPressView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>VICEResourceWindowController</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

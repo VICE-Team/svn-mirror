@@ -1,66 +1,81 @@
-{
-    IBClasses = (
-        {
-            ACTIONS = {
-                changedDriveExpansion2000 = id; 
-                changedDriveExpansion4000 = id; 
-                changedDriveExpansion6000 = id; 
-                changedDriveExpansion8000 = id; 
-                changedDriveExpansionA000 = id; 
-                changedDriveType = id; 
-                changedIdleMethod = id; 
-                changedTrackHandling = id; 
-                toggledParallelCable = id; 
-            }; 
-            CLASS = DriveSettingsWindowController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "driveExpansion0_2000" = NSButton; 
-                "driveExpansion0_4000" = NSButton; 
-                "driveExpansion0_6000" = NSButton; 
-                "driveExpansion0_8000" = NSButton; 
-                "driveExpansion0_A000" = NSButton; 
-                "driveExpansion1_2000" = NSButton; 
-                "driveExpansion1_4000" = NSButton; 
-                "driveExpansion1_6000" = NSButton; 
-                "driveExpansion1_8000" = NSButton; 
-                "driveExpansion1_A000" = NSButton; 
-                "driveExpansion2_2000" = NSButton; 
-                "driveExpansion2_4000" = NSButton; 
-                "driveExpansion2_6000" = NSButton; 
-                "driveExpansion2_8000" = NSButton; 
-                "driveExpansion2_A000" = NSButton; 
-                "driveExpansion3_2000" = NSButton; 
-                "driveExpansion3_4000" = NSButton; 
-                "driveExpansion3_6000" = NSButton; 
-                "driveExpansion3_8000" = NSButton; 
-                "driveExpansion3_A000" = NSButton; 
-                driveType0 = NSMatrix; 
-                driveType1 = NSMatrix; 
-                driveType2 = NSMatrix; 
-                driveType3 = NSMatrix; 
-                idleMethod0 = NSMatrix; 
-                idleMethod1 = NSMatrix; 
-                idleMethod2 = NSMatrix; 
-                idleMethod3 = NSMatrix; 
-                parallelCable0 = NSButton; 
-                parallelCable1 = NSButton; 
-                parallelCable2 = NSButton; 
-                parallelCable3 = NSButton; 
-                tabView = NSTabView; 
-                trackHandling0 = NSMatrix; 
-                trackHandling1 = NSMatrix; 
-                trackHandling2 = NSMatrix; 
-                trackHandling3 = NSMatrix; 
-            }; 
-            SUPERCLASS = VICEResourceWindowController; 
-        }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            CLASS = VICEResourceWindowController; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSWindowController; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>VICEResourceWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>changedDriveExpansion2000</key>
+				<string>id</string>
+				<key>changedDriveExpansion4000</key>
+				<string>id</string>
+				<key>changedDriveExpansion6000</key>
+				<string>id</string>
+				<key>changedDriveExpansion8000</key>
+				<string>id</string>
+				<key>changedDriveExpansionA000</key>
+				<string>id</string>
+				<key>changedDriveType</key>
+				<string>id</string>
+				<key>changedIdleMethod</key>
+				<string>id</string>
+				<key>changedTrackHandling</key>
+				<string>id</string>
+				<key>toggleDrive</key>
+				<string>id</string>
+				<key>toggledParallelCable</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>DriveSettingsWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>driveChooser</key>
+				<string>NSSegmentedControl</string>
+				<key>driveExpansion_2000</key>
+				<string>NSButton</string>
+				<key>driveExpansion_4000</key>
+				<string>NSButton</string>
+				<key>driveExpansion_6000</key>
+				<string>NSButton</string>
+				<key>driveExpansion_8000</key>
+				<string>NSButton</string>
+				<key>driveExpansion_A000</key>
+				<string>NSButton</string>
+				<key>driveType</key>
+				<string>NSMatrix</string>
+				<key>idleMethod</key>
+				<string>NSMatrix</string>
+				<key>parallelCable</key>
+				<string>NSButton</string>
+				<key>trackHandling</key>
+				<string>NSMatrix</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>VICEResourceWindowController</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

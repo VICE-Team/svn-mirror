@@ -118,6 +118,9 @@ void video_canvas_resize(video_canvas_t * canvas,
     canvas->width = width;
     canvas->height = height;
 
+    // register canvas in machine controller (to allow access via id)
+    canvas->canvasId = [theVICEMachine registerCanvas:canvas];
+
     // encapsulate canvas ptr
     video_canvas_t *canvasPtr = canvas;
     NSData *data = [NSData dataWithBytes:&canvasPtr length:sizeof(video_canvas_t *)];

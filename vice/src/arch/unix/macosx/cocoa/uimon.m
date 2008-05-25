@@ -57,18 +57,18 @@ console_t *uimon_window_resume( void )
 
 int uimon_out(const char *buffer)
 {
-    [[theVICEMachine app] printMonitorMessage:[NSString stringWithCString:buffer]];
+    [[theVICEMachine app] printMonitorMessage:[NSString stringWithCString:buffer encoding:NSUTF8StringEncoding]];
     return 0;
 }
 
 char *uimon_get_in(char **ppchCommandLine, const char *prompt)
 {
-    NSString *line = [[theVICEMachine app] readMonitorLine:[NSString stringWithCString:prompt]];
+    NSString *line = [[theVICEMachine app] readMonitorLine:[NSString stringWithCString:prompt encoding:NSUTF8StringEncoding]];
     char *ret;
     if(line==nil)
         ret = lib_stralloc("exit");
     else
-        ret = lib_stralloc([line cString]);
+        ret = lib_stralloc([line cStringUsingEncoding:NSUTF8StringEncoding]);
     return ret;
 }
 

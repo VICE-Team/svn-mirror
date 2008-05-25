@@ -1,0 +1,628 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		83E499CD0DE4CA54001DE90F /* IECDriveSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E4997B0DE4C8C8001DE90F /* IECDriveSettings.nib */; };
+		83E499CE0DE4CA54001DE90F /* SoundSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E4998D0DE4C8C8001DE90F /* SoundSettings.nib */; };
+		83E499CF0DE4CA54001DE90F /* KeyboardSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E4997F0DE4C8C8001DE90F /* KeyboardSettings.nib */; };
+		83E499D00DE4CA54001DE90F /* DriveSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E499790DE4C8C8001DE90F /* DriveSettings.nib */; };
+		83E499D20DE4CA54001DE90F /* PrinterSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E499850DE4C8C8001DE90F /* PrinterSettings.nib */; };
+		83E499D30DE4CA54001DE90F /* VICEInformation.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E4998F0DE4C8C8001DE90F /* VICEInformation.nib */; };
+		83E499D40DE4CA54001DE90F /* ResourceEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E499890DE4C8C8001DE90F /* ResourceEditor.nib */; };
+		83E499D50DE4CA54001DE90F /* x64.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E499910DE4C8C8001DE90F /* x64.nib */; };
+		83E499D60DE4CA54001DE90F /* JoystickSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E4997D0DE4C8C8001DE90F /* JoystickSettings.nib */; };
+		83E49A3F0DE4CCA9001DE90F /* console.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E499E40DE4CCA9001DE90F /* console.m */; };
+		83E49A400DE4CCA9001DE90F /* drivesettingswindowcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E499E70DE4CCA9001DE90F /* drivesettingswindowcontroller.m */; };
+		83E49A410DE4CCA9001DE90F /* iecdrivesettingswindowcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E499E90DE4CCA9001DE90F /* iecdrivesettingswindowcontroller.m */; };
+		83E49A420DE4CCA9001DE90F /* joysticksettingswindowcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E499EB0DE4CCA9001DE90F /* joysticksettingswindowcontroller.m */; };
+		83E49A430DE4CCA9001DE90F /* keyboardsettingswindowcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E499ED0DE4CCA9001DE90F /* keyboardsettingswindowcontroller.m */; };
+		83E49A440DE4CCA9001DE90F /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = 83E499EE0DE4CCA9001DE90F /* Makefile.am */; };
+		83E49A460DE4CCA9001DE90F /* printersettingswindowcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E499F10DE4CCA9001DE90F /* printersettingswindowcontroller.m */; };
+		83E49A470DE4CCA9001DE90F /* resourceeditorcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E499F30DE4CCA9001DE90F /* resourceeditorcontroller.m */; };
+		83E49A480DE4CCA9001DE90F /* resourcetreeitem.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E499F50DE4CCA9001DE90F /* resourcetreeitem.m */; };
+		83E49A490DE4CCA9001DE90F /* soundsettingswindowcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E499F70DE4CCA9001DE90F /* soundsettingswindowcontroller.m */; };
+		83E49A4A0DE4CCA9001DE90F /* viceinformationwindowcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E499F90DE4CCA9001DE90F /* viceinformationwindowcontroller.m */; };
+		83E49A4B0DE4CCA9001DE90F /* viceresourcewindowcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E499FB0DE4CCA9001DE90F /* viceresourcewindowcontroller.m */; };
+		83E49A4C0DE4CCA9001DE90F /* fullscreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E499FC0DE4CCA9001DE90F /* fullscreen.m */; };
+		83E49A4D0DE4CCA9001DE90F /* kbd.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E499FE0DE4CCA9001DE90F /* kbd.m */; };
+		83E49A4E0DE4CCA9001DE90F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E499FF0DE4CCA9001DE90F /* main.m */; };
+		83E49A4F0DE4CCA9001DE90F /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = 83E49A000DE4CCA9001DE90F /* Makefile.am */; };
+		83E49A510DE4CCA9001DE90F /* c128controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A040DE4CCA9001DE90F /* c128controller.m */; };
+		83E49A520DE4CCA9001DE90F /* c128machinecontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A060DE4CCA9001DE90F /* c128machinecontroller.m */; };
+		83E49A530DE4CCA9001DE90F /* c128ui.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A070DE4CCA9001DE90F /* c128ui.m */; };
+		83E49A540DE4CCA9001DE90F /* c64controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A090DE4CCA9001DE90F /* c64controller.m */; };
+		83E49A550DE4CCA9001DE90F /* c64machinecontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A0B0DE4CCA9001DE90F /* c64machinecontroller.m */; };
+		83E49A560DE4CCA9001DE90F /* c64ui.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A0C0DE4CCA9001DE90F /* c64ui.m */; };
+		83E49A570DE4CCA9001DE90F /* cbm2ui.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A0D0DE4CCA9001DE90F /* cbm2ui.m */; };
+		83E49A580DE4CCA9001DE90F /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = 83E49A0E0DE4CCA9001DE90F /* Makefile.am */; };
+		83E49A5A0DE4CCA9001DE90F /* petui.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A100DE4CCA9001DE90F /* petui.m */; };
+		83E49A5B0DE4CCA9001DE90F /* plus4ui.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A110DE4CCA9001DE90F /* plus4ui.m */; };
+		83E49A5C0DE4CCA9001DE90F /* vic20ui.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A120DE4CCA9001DE90F /* vic20ui.m */; };
+		83E49A5D0DE4CCA9001DE90F /* viceappcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A140DE4CCA9001DE90F /* viceappcontroller.m */; };
+		83E49A5E0DE4CCA9001DE90F /* vicemachinecontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A160DE4CCA9001DE90F /* vicemachinecontroller.m */; };
+		83E49A5F0DE4CCA9001DE90F /* mousedrv.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A170DE4CCA9001DE90F /* mousedrv.m */; };
+		83E49A600DE4CCA9001DE90F /* ui-cmdline-options.c in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A180DE4CCA9001DE90F /* ui-cmdline-options.c */; };
+		83E49A610DE4CCA9001DE90F /* ui-resources.c in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A190DE4CCA9001DE90F /* ui-resources.c */; };
+		83E49A620DE4CCA9001DE90F /* ui.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A1A0DE4CCA9001DE90F /* ui.m */; };
+		83E49A630DE4CCA9001DE90F /* uimon.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A1B0DE4CCA9001DE90F /* uimon.m */; };
+		83E49A640DE4CCA9001DE90F /* viceapplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A1D0DE4CCA9001DE90F /* viceapplication.m */; };
+		83E49A650DE4CCA9001DE90F /* vicemachine.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A200DE4CCA9001DE90F /* vicemachine.m */; };
+		83E49A660DE4CCA9001DE90F /* vicemachinenotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A220DE4CCA9001DE90F /* vicemachinenotifier.m */; };
+		83E49A670DE4CCA9001DE90F /* video.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A250DE4CCA9001DE90F /* video.m */; };
+		83E49A680DE4CCA9001DE90F /* consolewindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A290DE4CCA9001DE90F /* consolewindow.m */; };
+		83E49A690DE4CCA9001DE90F /* driveview.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A2B0DE4CCA9001DE90F /* driveview.m */; };
+		83E49A6A0DE4CCA9001DE90F /* fullscreenwindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A2D0DE4CCA9001DE90F /* fullscreenwindow.m */; };
+		83E49A6B0DE4CCA9001DE90F /* joystickview.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A2F0DE4CCA9001DE90F /* joystickview.m */; };
+		83E49A6C0DE4CCA9001DE90F /* keypressview.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A310DE4CCA9001DE90F /* keypressview.m */; };
+		83E49A6D0DE4CCA9001DE90F /* logview.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A330DE4CCA9001DE90F /* logview.m */; };
+		83E49A6E0DE4CCA9001DE90F /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = 83E49A340DE4CCA9001DE90F /* Makefile.am */; };
+		83E49A700DE4CCA9001DE90F /* peripheraldrawer.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A370DE4CCA9001DE90F /* peripheraldrawer.m */; };
+		83E49A710DE4CCA9001DE90F /* tapeview.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A390DE4CCA9001DE90F /* tapeview.m */; };
+		83E49A720DE4CCA9001DE90F /* viceglview.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A3B0DE4CCA9001DE90F /* viceglview.m */; };
+		83E49A730DE4CCA9001DE90F /* vicewindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A3D0DE4CCA9001DE90F /* vicewindow.m */; };
+		83E49A740DE4CCA9001DE90F /* vsidui.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A3E0DE4CCA9001DE90F /* vsidui.m */; };
+		83E49A830DE6B688001DE90F /* recordmediawindowcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A820DE6B688001DE90F /* recordmediawindowcontroller.m */; };
+		83E49A880DE6B6AA001DE90F /* RecordMedia.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E49A860DE6B6AA001DE90F /* RecordMedia.nib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		83E4997A0DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = DriveSettings.nib; sourceTree = "<group>"; };
+		83E4997C0DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = IECDriveSettings.nib; sourceTree = "<group>"; };
+		83E4997E0DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = JoystickSettings.nib; sourceTree = "<group>"; };
+		83E499800DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = KeyboardSettings.nib; sourceTree = "<group>"; };
+		83E499860DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = PrinterSettings.nib; sourceTree = "<group>"; };
+		83E4998A0DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = ResourceEditor.nib; sourceTree = "<group>"; };
+		83E4998E0DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = SoundSettings.nib; sourceTree = "<group>"; };
+		83E499900DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = VICEInformation.nib; sourceTree = "<group>"; };
+		83E499920DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = x64.nib; sourceTree = "<group>"; };
+		83E499C70DE4CA1B001DE90F /* VICE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VICE.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		83E499E40DE4CCA9001DE90F /* console.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = console.m; sourceTree = "<group>"; };
+		83E499E60DE4CCA9001DE90F /* drivesettingswindowcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = drivesettingswindowcontroller.h; sourceTree = "<group>"; };
+		83E499E70DE4CCA9001DE90F /* drivesettingswindowcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = drivesettingswindowcontroller.m; sourceTree = "<group>"; };
+		83E499E80DE4CCA9001DE90F /* iecdrivesettingswindowcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iecdrivesettingswindowcontroller.h; sourceTree = "<group>"; };
+		83E499E90DE4CCA9001DE90F /* iecdrivesettingswindowcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iecdrivesettingswindowcontroller.m; sourceTree = "<group>"; };
+		83E499EA0DE4CCA9001DE90F /* joysticksettingswindowcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = joysticksettingswindowcontroller.h; sourceTree = "<group>"; };
+		83E499EB0DE4CCA9001DE90F /* joysticksettingswindowcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = joysticksettingswindowcontroller.m; sourceTree = "<group>"; };
+		83E499EC0DE4CCA9001DE90F /* keyboardsettingswindowcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = keyboardsettingswindowcontroller.h; sourceTree = "<group>"; };
+		83E499ED0DE4CCA9001DE90F /* keyboardsettingswindowcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = keyboardsettingswindowcontroller.m; sourceTree = "<group>"; };
+		83E499EE0DE4CCA9001DE90F /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
+		83E499F00DE4CCA9001DE90F /* printersettingswindowcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = printersettingswindowcontroller.h; sourceTree = "<group>"; };
+		83E499F10DE4CCA9001DE90F /* printersettingswindowcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = printersettingswindowcontroller.m; sourceTree = "<group>"; };
+		83E499F20DE4CCA9001DE90F /* resourceeditorcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = resourceeditorcontroller.h; sourceTree = "<group>"; };
+		83E499F30DE4CCA9001DE90F /* resourceeditorcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = resourceeditorcontroller.m; sourceTree = "<group>"; };
+		83E499F40DE4CCA9001DE90F /* resourcetreeitem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = resourcetreeitem.h; sourceTree = "<group>"; };
+		83E499F50DE4CCA9001DE90F /* resourcetreeitem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = resourcetreeitem.m; sourceTree = "<group>"; };
+		83E499F60DE4CCA9001DE90F /* soundsettingswindowcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = soundsettingswindowcontroller.h; sourceTree = "<group>"; };
+		83E499F70DE4CCA9001DE90F /* soundsettingswindowcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = soundsettingswindowcontroller.m; sourceTree = "<group>"; };
+		83E499F80DE4CCA9001DE90F /* viceinformationwindowcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = viceinformationwindowcontroller.h; sourceTree = "<group>"; };
+		83E499F90DE4CCA9001DE90F /* viceinformationwindowcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = viceinformationwindowcontroller.m; sourceTree = "<group>"; };
+		83E499FA0DE4CCA9001DE90F /* viceresourcewindowcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = viceresourcewindowcontroller.h; sourceTree = "<group>"; };
+		83E499FB0DE4CCA9001DE90F /* viceresourcewindowcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = viceresourcewindowcontroller.m; sourceTree = "<group>"; };
+		83E499FC0DE4CCA9001DE90F /* fullscreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = fullscreen.m; sourceTree = "<group>"; };
+		83E499FD0DE4CCA9001DE90F /* kbd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kbd.h; sourceTree = "<group>"; };
+		83E499FE0DE4CCA9001DE90F /* kbd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = kbd.m; sourceTree = "<group>"; };
+		83E499FF0DE4CCA9001DE90F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		83E49A000DE4CCA9001DE90F /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
+		83E49A030DE4CCA9001DE90F /* c128controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = c128controller.h; sourceTree = "<group>"; };
+		83E49A040DE4CCA9001DE90F /* c128controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = c128controller.m; sourceTree = "<group>"; };
+		83E49A050DE4CCA9001DE90F /* c128machinecontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = c128machinecontroller.h; sourceTree = "<group>"; };
+		83E49A060DE4CCA9001DE90F /* c128machinecontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = c128machinecontroller.m; sourceTree = "<group>"; };
+		83E49A070DE4CCA9001DE90F /* c128ui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = c128ui.m; sourceTree = "<group>"; };
+		83E49A080DE4CCA9001DE90F /* c64controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = c64controller.h; sourceTree = "<group>"; };
+		83E49A090DE4CCA9001DE90F /* c64controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = c64controller.m; sourceTree = "<group>"; };
+		83E49A0A0DE4CCA9001DE90F /* c64machinecontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = c64machinecontroller.h; sourceTree = "<group>"; };
+		83E49A0B0DE4CCA9001DE90F /* c64machinecontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = c64machinecontroller.m; sourceTree = "<group>"; };
+		83E49A0C0DE4CCA9001DE90F /* c64ui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = c64ui.m; sourceTree = "<group>"; };
+		83E49A0D0DE4CCA9001DE90F /* cbm2ui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cbm2ui.m; sourceTree = "<group>"; };
+		83E49A0E0DE4CCA9001DE90F /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
+		83E49A100DE4CCA9001DE90F /* petui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = petui.m; sourceTree = "<group>"; };
+		83E49A110DE4CCA9001DE90F /* plus4ui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = plus4ui.m; sourceTree = "<group>"; };
+		83E49A120DE4CCA9001DE90F /* vic20ui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = vic20ui.m; sourceTree = "<group>"; };
+		83E49A130DE4CCA9001DE90F /* viceappcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = viceappcontroller.h; sourceTree = "<group>"; };
+		83E49A140DE4CCA9001DE90F /* viceappcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = viceappcontroller.m; sourceTree = "<group>"; };
+		83E49A150DE4CCA9001DE90F /* vicemachinecontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vicemachinecontroller.h; sourceTree = "<group>"; };
+		83E49A160DE4CCA9001DE90F /* vicemachinecontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = vicemachinecontroller.m; sourceTree = "<group>"; };
+		83E49A170DE4CCA9001DE90F /* mousedrv.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mousedrv.m; sourceTree = "<group>"; };
+		83E49A180DE4CCA9001DE90F /* ui-cmdline-options.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ui-cmdline-options.c"; sourceTree = "<group>"; };
+		83E49A190DE4CCA9001DE90F /* ui-resources.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ui-resources.c"; sourceTree = "<group>"; };
+		83E49A1A0DE4CCA9001DE90F /* ui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ui.m; sourceTree = "<group>"; };
+		83E49A1B0DE4CCA9001DE90F /* uimon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = uimon.m; sourceTree = "<group>"; };
+		83E49A1C0DE4CCA9001DE90F /* viceapplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = viceapplication.h; sourceTree = "<group>"; };
+		83E49A1D0DE4CCA9001DE90F /* viceapplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = viceapplication.m; sourceTree = "<group>"; };
+		83E49A1E0DE4CCA9001DE90F /* viceapplicationprotocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = viceapplicationprotocol.h; sourceTree = "<group>"; };
+		83E49A1F0DE4CCA9001DE90F /* vicemachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vicemachine.h; sourceTree = "<group>"; };
+		83E49A200DE4CCA9001DE90F /* vicemachine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = vicemachine.m; sourceTree = "<group>"; };
+		83E49A210DE4CCA9001DE90F /* vicemachinenotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vicemachinenotifier.h; sourceTree = "<group>"; };
+		83E49A220DE4CCA9001DE90F /* vicemachinenotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = vicemachinenotifier.m; sourceTree = "<group>"; };
+		83E49A230DE4CCA9001DE90F /* vicemachineprotocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vicemachineprotocol.h; sourceTree = "<group>"; };
+		83E49A240DE4CCA9001DE90F /* vicenotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vicenotifications.h; sourceTree = "<group>"; };
+		83E49A250DE4CCA9001DE90F /* video.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = video.m; sourceTree = "<group>"; };
+		83E49A260DE4CCA9001DE90F /* videoarch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = videoarch.h; sourceTree = "<group>"; };
+		83E49A280DE4CCA9001DE90F /* consolewindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = consolewindow.h; sourceTree = "<group>"; };
+		83E49A290DE4CCA9001DE90F /* consolewindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = consolewindow.m; sourceTree = "<group>"; };
+		83E49A2A0DE4CCA9001DE90F /* driveview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = driveview.h; sourceTree = "<group>"; };
+		83E49A2B0DE4CCA9001DE90F /* driveview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = driveview.m; sourceTree = "<group>"; };
+		83E49A2C0DE4CCA9001DE90F /* fullscreenwindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fullscreenwindow.h; sourceTree = "<group>"; };
+		83E49A2D0DE4CCA9001DE90F /* fullscreenwindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = fullscreenwindow.m; sourceTree = "<group>"; };
+		83E49A2E0DE4CCA9001DE90F /* joystickview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = joystickview.h; sourceTree = "<group>"; };
+		83E49A2F0DE4CCA9001DE90F /* joystickview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = joystickview.m; sourceTree = "<group>"; };
+		83E49A300DE4CCA9001DE90F /* keypressview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = keypressview.h; sourceTree = "<group>"; };
+		83E49A310DE4CCA9001DE90F /* keypressview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = keypressview.m; sourceTree = "<group>"; };
+		83E49A320DE4CCA9001DE90F /* logview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = logview.h; sourceTree = "<group>"; };
+		83E49A330DE4CCA9001DE90F /* logview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = logview.m; sourceTree = "<group>"; };
+		83E49A340DE4CCA9001DE90F /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
+		83E49A360DE4CCA9001DE90F /* peripheraldrawer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = peripheraldrawer.h; sourceTree = "<group>"; };
+		83E49A370DE4CCA9001DE90F /* peripheraldrawer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = peripheraldrawer.m; sourceTree = "<group>"; };
+		83E49A380DE4CCA9001DE90F /* tapeview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tapeview.h; sourceTree = "<group>"; };
+		83E49A390DE4CCA9001DE90F /* tapeview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tapeview.m; sourceTree = "<group>"; };
+		83E49A3A0DE4CCA9001DE90F /* viceglview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = viceglview.h; sourceTree = "<group>"; };
+		83E49A3B0DE4CCA9001DE90F /* viceglview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = viceglview.m; sourceTree = "<group>"; };
+		83E49A3C0DE4CCA9001DE90F /* vicewindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vicewindow.h; sourceTree = "<group>"; };
+		83E49A3D0DE4CCA9001DE90F /* vicewindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = vicewindow.m; sourceTree = "<group>"; };
+		83E49A3E0DE4CCA9001DE90F /* vsidui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = vsidui.m; sourceTree = "<group>"; };
+		83E49A810DE6B688001DE90F /* recordmediawindowcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = recordmediawindowcontroller.h; sourceTree = "<group>"; };
+		83E49A820DE6B688001DE90F /* recordmediawindowcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = recordmediawindowcontroller.m; sourceTree = "<group>"; };
+		83E49A870DE6B6AA001DE90F /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = RecordMedia.nib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		83E499C50DE4CA1B001DE90F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		83E4995C0DE4C808001DE90F = {
+			isa = PBXGroup;
+			children = (
+				83E499E30DE4CCA9001DE90F /* cocoa */,
+				83E499780DE4C8C8001DE90F /* English.lproj */,
+				83E499A60DE4C96B001DE90F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		83E499780DE4C8C8001DE90F /* English.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				83E49A860DE6B6AA001DE90F /* RecordMedia.nib */,
+				83E499790DE4C8C8001DE90F /* DriveSettings.nib */,
+				83E4997B0DE4C8C8001DE90F /* IECDriveSettings.nib */,
+				83E4997D0DE4C8C8001DE90F /* JoystickSettings.nib */,
+				83E4997F0DE4C8C8001DE90F /* KeyboardSettings.nib */,
+				83E499850DE4C8C8001DE90F /* PrinterSettings.nib */,
+				83E499890DE4C8C8001DE90F /* ResourceEditor.nib */,
+				83E4998D0DE4C8C8001DE90F /* SoundSettings.nib */,
+				83E4998F0DE4C8C8001DE90F /* VICEInformation.nib */,
+				83E499910DE4C8C8001DE90F /* x64.nib */,
+			);
+			name = English.lproj;
+			path = Resources/English.lproj;
+			sourceTree = "<group>";
+		};
+		83E499A60DE4C96B001DE90F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				83E499C70DE4CA1B001DE90F /* VICE.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		83E499E30DE4CCA9001DE90F /* cocoa */ = {
+			isa = PBXGroup;
+			children = (
+				83E499E40DE4CCA9001DE90F /* console.m */,
+				83E499E50DE4CCA9001DE90F /* dialog */,
+				83E499FC0DE4CCA9001DE90F /* fullscreen.m */,
+				83E499FD0DE4CCA9001DE90F /* kbd.h */,
+				83E499FE0DE4CCA9001DE90F /* kbd.m */,
+				83E499FF0DE4CCA9001DE90F /* main.m */,
+				83E49A000DE4CCA9001DE90F /* Makefile.am */,
+				83E49A020DE4CCA9001DE90F /* menu */,
+				83E49A170DE4CCA9001DE90F /* mousedrv.m */,
+				83E49A180DE4CCA9001DE90F /* ui-cmdline-options.c */,
+				83E49A190DE4CCA9001DE90F /* ui-resources.c */,
+				83E49A1A0DE4CCA9001DE90F /* ui.m */,
+				83E49A1B0DE4CCA9001DE90F /* uimon.m */,
+				83E49A1C0DE4CCA9001DE90F /* viceapplication.h */,
+				83E49A1D0DE4CCA9001DE90F /* viceapplication.m */,
+				83E49A1E0DE4CCA9001DE90F /* viceapplicationprotocol.h */,
+				83E49A1F0DE4CCA9001DE90F /* vicemachine.h */,
+				83E49A200DE4CCA9001DE90F /* vicemachine.m */,
+				83E49A210DE4CCA9001DE90F /* vicemachinenotifier.h */,
+				83E49A220DE4CCA9001DE90F /* vicemachinenotifier.m */,
+				83E49A230DE4CCA9001DE90F /* vicemachineprotocol.h */,
+				83E49A240DE4CCA9001DE90F /* vicenotifications.h */,
+				83E49A250DE4CCA9001DE90F /* video.m */,
+				83E49A260DE4CCA9001DE90F /* videoarch.h */,
+				83E49A270DE4CCA9001DE90F /* view */,
+				83E49A3E0DE4CCA9001DE90F /* vsidui.m */,
+			);
+			path = cocoa;
+			sourceTree = "<group>";
+		};
+		83E499E50DE4CCA9001DE90F /* dialog */ = {
+			isa = PBXGroup;
+			children = (
+				83E49A810DE6B688001DE90F /* recordmediawindowcontroller.h */,
+				83E49A820DE6B688001DE90F /* recordmediawindowcontroller.m */,
+				83E499E60DE4CCA9001DE90F /* drivesettingswindowcontroller.h */,
+				83E499E70DE4CCA9001DE90F /* drivesettingswindowcontroller.m */,
+				83E499E80DE4CCA9001DE90F /* iecdrivesettingswindowcontroller.h */,
+				83E499E90DE4CCA9001DE90F /* iecdrivesettingswindowcontroller.m */,
+				83E499EA0DE4CCA9001DE90F /* joysticksettingswindowcontroller.h */,
+				83E499EB0DE4CCA9001DE90F /* joysticksettingswindowcontroller.m */,
+				83E499EC0DE4CCA9001DE90F /* keyboardsettingswindowcontroller.h */,
+				83E499ED0DE4CCA9001DE90F /* keyboardsettingswindowcontroller.m */,
+				83E499EE0DE4CCA9001DE90F /* Makefile.am */,
+				83E499F00DE4CCA9001DE90F /* printersettingswindowcontroller.h */,
+				83E499F10DE4CCA9001DE90F /* printersettingswindowcontroller.m */,
+				83E499F20DE4CCA9001DE90F /* resourceeditorcontroller.h */,
+				83E499F30DE4CCA9001DE90F /* resourceeditorcontroller.m */,
+				83E499F40DE4CCA9001DE90F /* resourcetreeitem.h */,
+				83E499F50DE4CCA9001DE90F /* resourcetreeitem.m */,
+				83E499F60DE4CCA9001DE90F /* soundsettingswindowcontroller.h */,
+				83E499F70DE4CCA9001DE90F /* soundsettingswindowcontroller.m */,
+				83E499F80DE4CCA9001DE90F /* viceinformationwindowcontroller.h */,
+				83E499F90DE4CCA9001DE90F /* viceinformationwindowcontroller.m */,
+				83E499FA0DE4CCA9001DE90F /* viceresourcewindowcontroller.h */,
+				83E499FB0DE4CCA9001DE90F /* viceresourcewindowcontroller.m */,
+			);
+			path = dialog;
+			sourceTree = "<group>";
+		};
+		83E49A020DE4CCA9001DE90F /* menu */ = {
+			isa = PBXGroup;
+			children = (
+				83E49A030DE4CCA9001DE90F /* c128controller.h */,
+				83E49A040DE4CCA9001DE90F /* c128controller.m */,
+				83E49A050DE4CCA9001DE90F /* c128machinecontroller.h */,
+				83E49A060DE4CCA9001DE90F /* c128machinecontroller.m */,
+				83E49A070DE4CCA9001DE90F /* c128ui.m */,
+				83E49A080DE4CCA9001DE90F /* c64controller.h */,
+				83E49A090DE4CCA9001DE90F /* c64controller.m */,
+				83E49A0A0DE4CCA9001DE90F /* c64machinecontroller.h */,
+				83E49A0B0DE4CCA9001DE90F /* c64machinecontroller.m */,
+				83E49A0C0DE4CCA9001DE90F /* c64ui.m */,
+				83E49A0D0DE4CCA9001DE90F /* cbm2ui.m */,
+				83E49A0E0DE4CCA9001DE90F /* Makefile.am */,
+				83E49A100DE4CCA9001DE90F /* petui.m */,
+				83E49A110DE4CCA9001DE90F /* plus4ui.m */,
+				83E49A120DE4CCA9001DE90F /* vic20ui.m */,
+				83E49A130DE4CCA9001DE90F /* viceappcontroller.h */,
+				83E49A140DE4CCA9001DE90F /* viceappcontroller.m */,
+				83E49A150DE4CCA9001DE90F /* vicemachinecontroller.h */,
+				83E49A160DE4CCA9001DE90F /* vicemachinecontroller.m */,
+			);
+			path = menu;
+			sourceTree = "<group>";
+		};
+		83E49A270DE4CCA9001DE90F /* view */ = {
+			isa = PBXGroup;
+			children = (
+				83E49A280DE4CCA9001DE90F /* consolewindow.h */,
+				83E49A290DE4CCA9001DE90F /* consolewindow.m */,
+				83E49A2A0DE4CCA9001DE90F /* driveview.h */,
+				83E49A2B0DE4CCA9001DE90F /* driveview.m */,
+				83E49A2C0DE4CCA9001DE90F /* fullscreenwindow.h */,
+				83E49A2D0DE4CCA9001DE90F /* fullscreenwindow.m */,
+				83E49A2E0DE4CCA9001DE90F /* joystickview.h */,
+				83E49A2F0DE4CCA9001DE90F /* joystickview.m */,
+				83E49A300DE4CCA9001DE90F /* keypressview.h */,
+				83E49A310DE4CCA9001DE90F /* keypressview.m */,
+				83E49A320DE4CCA9001DE90F /* logview.h */,
+				83E49A330DE4CCA9001DE90F /* logview.m */,
+				83E49A340DE4CCA9001DE90F /* Makefile.am */,
+				83E49A360DE4CCA9001DE90F /* peripheraldrawer.h */,
+				83E49A370DE4CCA9001DE90F /* peripheraldrawer.m */,
+				83E49A380DE4CCA9001DE90F /* tapeview.h */,
+				83E49A390DE4CCA9001DE90F /* tapeview.m */,
+				83E49A3A0DE4CCA9001DE90F /* viceglview.h */,
+				83E49A3B0DE4CCA9001DE90F /* viceglview.m */,
+				83E49A3C0DE4CCA9001DE90F /* vicewindow.h */,
+				83E49A3D0DE4CCA9001DE90F /* vicewindow.m */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		83E499C60DE4CA1B001DE90F /* VICE */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 83E499CC0DE4CA1C001DE90F /* Build configuration list for PBXNativeTarget "VICE" */;
+			buildPhases = (
+				83E499C30DE4CA1B001DE90F /* Resources */,
+				83E499C40DE4CA1B001DE90F /* Sources */,
+				83E499C50DE4CA1B001DE90F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VICE;
+			productName = VICE;
+			productReference = 83E499C70DE4CA1B001DE90F /* VICE.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		83E4995E0DE4C808001DE90F /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 83E499610DE4C808001DE90F /* Build configuration list for PBXProject "VICE" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 0;
+			mainGroup = 83E4995C0DE4C808001DE90F;
+			productRefGroup = 83E499A60DE4C96B001DE90F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				83E499C60DE4CA1B001DE90F /* VICE */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		83E499C30DE4CA1B001DE90F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				83E499CD0DE4CA54001DE90F /* IECDriveSettings.nib in Resources */,
+				83E499CE0DE4CA54001DE90F /* SoundSettings.nib in Resources */,
+				83E499CF0DE4CA54001DE90F /* KeyboardSettings.nib in Resources */,
+				83E499D00DE4CA54001DE90F /* DriveSettings.nib in Resources */,
+				83E499D20DE4CA54001DE90F /* PrinterSettings.nib in Resources */,
+				83E499D30DE4CA54001DE90F /* VICEInformation.nib in Resources */,
+				83E499D40DE4CA54001DE90F /* ResourceEditor.nib in Resources */,
+				83E499D50DE4CA54001DE90F /* x64.nib in Resources */,
+				83E499D60DE4CA54001DE90F /* JoystickSettings.nib in Resources */,
+				83E49A440DE4CCA9001DE90F /* Makefile.am in Resources */,
+				83E49A4F0DE4CCA9001DE90F /* Makefile.am in Resources */,
+				83E49A580DE4CCA9001DE90F /* Makefile.am in Resources */,
+				83E49A6E0DE4CCA9001DE90F /* Makefile.am in Resources */,
+				83E49A880DE6B6AA001DE90F /* RecordMedia.nib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		83E499C40DE4CA1B001DE90F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				83E49A3F0DE4CCA9001DE90F /* console.m in Sources */,
+				83E49A400DE4CCA9001DE90F /* drivesettingswindowcontroller.m in Sources */,
+				83E49A410DE4CCA9001DE90F /* iecdrivesettingswindowcontroller.m in Sources */,
+				83E49A420DE4CCA9001DE90F /* joysticksettingswindowcontroller.m in Sources */,
+				83E49A430DE4CCA9001DE90F /* keyboardsettingswindowcontroller.m in Sources */,
+				83E49A460DE4CCA9001DE90F /* printersettingswindowcontroller.m in Sources */,
+				83E49A470DE4CCA9001DE90F /* resourceeditorcontroller.m in Sources */,
+				83E49A480DE4CCA9001DE90F /* resourcetreeitem.m in Sources */,
+				83E49A490DE4CCA9001DE90F /* soundsettingswindowcontroller.m in Sources */,
+				83E49A4A0DE4CCA9001DE90F /* viceinformationwindowcontroller.m in Sources */,
+				83E49A4B0DE4CCA9001DE90F /* viceresourcewindowcontroller.m in Sources */,
+				83E49A4C0DE4CCA9001DE90F /* fullscreen.m in Sources */,
+				83E49A4D0DE4CCA9001DE90F /* kbd.m in Sources */,
+				83E49A4E0DE4CCA9001DE90F /* main.m in Sources */,
+				83E49A510DE4CCA9001DE90F /* c128controller.m in Sources */,
+				83E49A520DE4CCA9001DE90F /* c128machinecontroller.m in Sources */,
+				83E49A530DE4CCA9001DE90F /* c128ui.m in Sources */,
+				83E49A540DE4CCA9001DE90F /* c64controller.m in Sources */,
+				83E49A550DE4CCA9001DE90F /* c64machinecontroller.m in Sources */,
+				83E49A560DE4CCA9001DE90F /* c64ui.m in Sources */,
+				83E49A570DE4CCA9001DE90F /* cbm2ui.m in Sources */,
+				83E49A5A0DE4CCA9001DE90F /* petui.m in Sources */,
+				83E49A5B0DE4CCA9001DE90F /* plus4ui.m in Sources */,
+				83E49A5C0DE4CCA9001DE90F /* vic20ui.m in Sources */,
+				83E49A5D0DE4CCA9001DE90F /* viceappcontroller.m in Sources */,
+				83E49A5E0DE4CCA9001DE90F /* vicemachinecontroller.m in Sources */,
+				83E49A5F0DE4CCA9001DE90F /* mousedrv.m in Sources */,
+				83E49A600DE4CCA9001DE90F /* ui-cmdline-options.c in Sources */,
+				83E49A610DE4CCA9001DE90F /* ui-resources.c in Sources */,
+				83E49A620DE4CCA9001DE90F /* ui.m in Sources */,
+				83E49A630DE4CCA9001DE90F /* uimon.m in Sources */,
+				83E49A640DE4CCA9001DE90F /* viceapplication.m in Sources */,
+				83E49A650DE4CCA9001DE90F /* vicemachine.m in Sources */,
+				83E49A660DE4CCA9001DE90F /* vicemachinenotifier.m in Sources */,
+				83E49A670DE4CCA9001DE90F /* video.m in Sources */,
+				83E49A680DE4CCA9001DE90F /* consolewindow.m in Sources */,
+				83E49A690DE4CCA9001DE90F /* driveview.m in Sources */,
+				83E49A6A0DE4CCA9001DE90F /* fullscreenwindow.m in Sources */,
+				83E49A6B0DE4CCA9001DE90F /* joystickview.m in Sources */,
+				83E49A6C0DE4CCA9001DE90F /* keypressview.m in Sources */,
+				83E49A6D0DE4CCA9001DE90F /* logview.m in Sources */,
+				83E49A700DE4CCA9001DE90F /* peripheraldrawer.m in Sources */,
+				83E49A710DE4CCA9001DE90F /* tapeview.m in Sources */,
+				83E49A720DE4CCA9001DE90F /* viceglview.m in Sources */,
+				83E49A730DE4CCA9001DE90F /* vicewindow.m in Sources */,
+				83E49A740DE4CCA9001DE90F /* vsidui.m in Sources */,
+				83E49A830DE6B688001DE90F /* recordmediawindowcontroller.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		83E499790DE4C8C8001DE90F /* DriveSettings.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				83E4997A0DE4C8C8001DE90F /* English */,
+			);
+			name = DriveSettings.nib;
+			sourceTree = "<group>";
+		};
+		83E4997B0DE4C8C8001DE90F /* IECDriveSettings.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				83E4997C0DE4C8C8001DE90F /* English */,
+			);
+			name = IECDriveSettings.nib;
+			sourceTree = "<group>";
+		};
+		83E4997D0DE4C8C8001DE90F /* JoystickSettings.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				83E4997E0DE4C8C8001DE90F /* English */,
+			);
+			name = JoystickSettings.nib;
+			sourceTree = "<group>";
+		};
+		83E4997F0DE4C8C8001DE90F /* KeyboardSettings.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				83E499800DE4C8C8001DE90F /* English */,
+			);
+			name = KeyboardSettings.nib;
+			sourceTree = "<group>";
+		};
+		83E499850DE4C8C8001DE90F /* PrinterSettings.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				83E499860DE4C8C8001DE90F /* English */,
+			);
+			name = PrinterSettings.nib;
+			sourceTree = "<group>";
+		};
+		83E499890DE4C8C8001DE90F /* ResourceEditor.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				83E4998A0DE4C8C8001DE90F /* English */,
+			);
+			name = ResourceEditor.nib;
+			sourceTree = "<group>";
+		};
+		83E4998D0DE4C8C8001DE90F /* SoundSettings.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				83E4998E0DE4C8C8001DE90F /* English */,
+			);
+			name = SoundSettings.nib;
+			sourceTree = "<group>";
+		};
+		83E4998F0DE4C8C8001DE90F /* VICEInformation.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				83E499900DE4C8C8001DE90F /* English */,
+			);
+			name = VICEInformation.nib;
+			sourceTree = "<group>";
+		};
+		83E499910DE4C8C8001DE90F /* x64.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				83E499920DE4C8C8001DE90F /* English */,
+			);
+			name = x64.nib;
+			sourceTree = "<group>";
+		};
+		83E49A860DE6B6AA001DE90F /* RecordMedia.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				83E49A870DE6B6AA001DE90F /* English */,
+			);
+			name = RecordMedia.nib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		83E4995F0DE4C808001DE90F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
+			};
+			name = Debug;
+		};
+		83E499600DE4C808001DE90F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
+			};
+			name = Release;
+		};
+		83E499CA0DE4CA1C001DE90F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "VICE-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = VICE;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		83E499CB0DE4CA1C001DE90F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "VICE-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = VICE;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		83E499610DE4C808001DE90F /* Build configuration list for PBXProject "VICE" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				83E4995F0DE4C808001DE90F /* Debug */,
+				83E499600DE4C808001DE90F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		83E499CC0DE4CA1C001DE90F /* Build configuration list for PBXNativeTarget "VICE" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				83E499CA0DE4CA1C001DE90F /* Debug */,
+				83E499CB0DE4CA1C001DE90F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 83E4995E0DE4C808001DE90F /* Project object */;
+}

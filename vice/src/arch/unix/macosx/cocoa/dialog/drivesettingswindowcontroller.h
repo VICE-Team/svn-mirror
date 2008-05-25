@@ -30,51 +30,18 @@
 
 @interface DriveSettingsWindowController : VICEResourceWindowController
 {
-    IBOutlet NSTabView *tabView;
+    IBOutlet NSSegmentedControl *driveChooser;
     
-    IBOutlet NSMatrix *driveType0;
-    IBOutlet NSMatrix *trackHandling0;
-    IBOutlet NSMatrix *idleMethod0;
-    IBOutlet NSButton *parallelCable0;
-    IBOutlet NSButton *driveExpansion0_2000;
-    IBOutlet NSButton *driveExpansion0_4000;
-    IBOutlet NSButton *driveExpansion0_6000;
-    IBOutlet NSButton *driveExpansion0_8000;
-    IBOutlet NSButton *driveExpansion0_A000;
+    IBOutlet NSMatrix *driveType;
+    IBOutlet NSMatrix *trackHandling;
+    IBOutlet NSMatrix *idleMethod;
+    IBOutlet NSButton *parallelCable;
+    IBOutlet NSButton *driveExpansion_2000;
+    IBOutlet NSButton *driveExpansion_4000;
+    IBOutlet NSButton *driveExpansion_6000;
+    IBOutlet NSButton *driveExpansion_8000;
+    IBOutlet NSButton *driveExpansion_A000;
 
-    IBOutlet NSMatrix *driveType1;
-    IBOutlet NSMatrix *trackHandling1;
-    IBOutlet NSMatrix *driveExpansion1;
-    IBOutlet NSMatrix *idleMethod1;
-    IBOutlet NSButton *parallelCable1;
-    IBOutlet NSButton *driveExpansion1_2000;
-    IBOutlet NSButton *driveExpansion1_4000;
-    IBOutlet NSButton *driveExpansion1_6000;
-    IBOutlet NSButton *driveExpansion1_8000;
-    IBOutlet NSButton *driveExpansion1_A000;
-
-    IBOutlet NSMatrix *driveType2;
-    IBOutlet NSMatrix *trackHandling2;
-    IBOutlet NSMatrix *driveExpansion2;
-    IBOutlet NSMatrix *idleMethod2;
-    IBOutlet NSButton *parallelCable2;
-    IBOutlet NSButton *driveExpansion2_2000;
-    IBOutlet NSButton *driveExpansion2_4000;
-    IBOutlet NSButton *driveExpansion2_6000;
-    IBOutlet NSButton *driveExpansion2_8000;
-    IBOutlet NSButton *driveExpansion2_A000;
-
-    IBOutlet NSMatrix *driveType3;
-    IBOutlet NSMatrix *trackHandling3;
-    IBOutlet NSMatrix *driveExpansion3;
-    IBOutlet NSMatrix *idleMethod3;
-    IBOutlet NSButton *parallelCable3;
-    IBOutlet NSButton *driveExpansion3_2000;
-    IBOutlet NSButton *driveExpansion3_4000;
-    IBOutlet NSButton *driveExpansion3_6000;
-    IBOutlet NSButton *driveExpansion3_8000;
-    IBOutlet NSButton *driveExpansion3_A000;
-    
     int driveTypeMap[14];
     int numDriveTypes;
     int driveOffset;
@@ -83,6 +50,7 @@
 
 -(void)updateResources:(NSNotification *)notification;
 
+-(IBAction)toggleDrive:(id)sender;
 -(IBAction)changedDriveType:(id)sender;
 -(IBAction)changedTrackHandling:(id)sender;
 -(IBAction)changedDriveExpansion2000:(id)sender;

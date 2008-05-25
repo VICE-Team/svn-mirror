@@ -30,7 +30,7 @@
 
 - (id)initWithFrame:(NSRect)rect
 {
-    if(self = [super initWithFrame:rect]) {
+    if((self = [super initWithFrame:rect])) {
         stringAttr = [[NSMutableDictionary alloc] init];
         [stringAttr setObject:[NSFont messageFontOfSize:0.0]
             forKey:NSFontAttributeName];

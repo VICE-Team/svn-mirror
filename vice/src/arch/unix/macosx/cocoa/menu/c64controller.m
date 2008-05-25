@@ -149,14 +149,14 @@
     int expertCartridgeMode = [self getIntResource:@"CartridgeMode"];
     int i;
     for(i=0;i<3;i++) {
-        id<NSMenuItem> item = [expertCartridgeModeMenu itemAtIndex:i];
+        NSMenuItem *item = [expertCartridgeModeMenu itemAtIndex:i];
         [item setState:(i == expertCartridgeMode) ? NSOnState : NSOffState];
     }
     
     [super updateMachineResources];
 }
 
--  (BOOL)validateMenuItem:(id<NSMenuItem>)item
+-  (BOOL)validateMenuItem:(NSMenuItem *)item
 {
     if(item==cartridgeFreezeMenuItem) {
         return [self getIntResource:@"CartridgeType"] != CARTRIDGE_NONE;
@@ -169,9 +169,43 @@
 
 // ----- Options -----
 
+// Mouse
+
 - (IBAction)toggleMouseEmulation:(id)sender
 {
     [self setIntResource:@"Mouse" toValue:![sender state]];
+    [self updateOptionsResources];
+}
+
+// Video Rendering
+
+- (IBAction)toggleVICIIVideoCache:(id)sender
+{
+    [self setIntResource:@"VICIIVideoCache" toValue:![sender state]];
+    [self updateOptionsResources];
+}
+
+- (IBAction)toggleVICIIDoubleSize:(id)sender
+{
+    [self setIntResource:@"VICIIDoubleSize" toValue:![sender state]];
+    [self updateOptionsResources];
+}
+
+- (IBAction)toggleVICIIDoubleScan:(id)sender
+{
+    [self setIntResource:@"VICIIDoubleScan" toValue:![sender state]];
+    [self updateOptionsResources];
+}
+
+- (IBAction)toggleVICIIScale2x:(id)sender
+{
+    [self setIntResource:@"VICIIScale2x" toValue:![sender state]];
+    [self updateOptionsResources];
+}
+
+- (IBAction)togglePALEmulation:(id)sender
+{
+    [self setIntResource:@"PALEmulation" toValue:![sender state]];
     [self updateOptionsResources];
 }
 
@@ -180,9 +214,15 @@
 - (void)updateOptionsResources
 {
     // Mouse
-    int mouseEmulation = [self getIntResource:@"Mouse"];
-    [mouseEmulationMenuItem setState:mouseEmulation];
+    [mouseEmulationMenuItem setState:[self getIntResource:@"Mouse"]];
     
+    // Video Rendering
+    [vicIIVideoCacheMenuItem setState:[self getIntResource:@"VICIIVideoCache"]];
+    [vicIIDoubleSizeMenuItem setState:[self getIntResource:@"VICIIDoubleSize"]];
+    [vicIIDoubleScanMenuItem setState:[self getIntResource:@"VICIIDoubleScan"]];
+    [vicIIScale2xMenuItem setState:[self getIntResource:@"VICIIScale2x"]];
+    [palEmulationMenuItem setState:[self getIntResource:@"PALEmulation"]];
+        
     [super updateOptionsResources];
 }
 

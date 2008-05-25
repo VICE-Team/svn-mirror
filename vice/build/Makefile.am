@@ -11,6 +11,7 @@ EXTRA_DIST = \
 	macosx/build-readline.sh \
 	macosx/build-vice-dist.sh \
 	macosx/build-ffmpeglame.sh \
+	macosx/build-vice-release.sh \
 	minix3/build.sh \
 	minix3/build-package.sh \
 	qnx4/build.sh \
