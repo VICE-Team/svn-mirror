@@ -1,3 +1,7 @@
+2008-05-25  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 1.22.16.
+
 2008-05-25  Christian Vogelgsang  <chris@vogelgsang.org>
 
 	* configure.in: honor OBJCFLAGS if available. added Carbon lib

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-07 19:29+0200\n"
+"POT-Creation-Date: 2008-05-25 21:02+0200\n"
 "PO-Revision-Date: 2007-07-30 20:49+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -19,7 +19,7 @@ msgstr ""
 msgid "<percent>"
 msgstr "<procent>"
 
-#: src/vsync.c:147 src/translate.c.po.c:4605
+#: src/vsync.c:147 src/translate.c.po.c:4615
 msgid "Limit emulation speed to specified value"
 msgstr "Begränsa emuleringshastighet till angivet värde"
 
@@ -31,15 +31,15 @@ msgstr "Begränsa emuleringshastighet till angivet värde"
 msgid "<value>"
 msgstr "<värde>"
 
-#: src/vsync.c:149 src/translate.c.po.c:4615
+#: src/vsync.c:149 src/translate.c.po.c:4625
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Uppdatera varje <värde> ramar (\"0\" för automatiskt)"
 
-#: src/vsync.c:151 src/translate.c.po.c:4625
+#: src/vsync.c:151 src/translate.c.po.c:4635
 msgid "Enable warp mode"
 msgstr "Aktivera warpläge"
 
-#: src/vsync.c:153 src/translate.c.po.c:4635
+#: src/vsync.c:153 src/translate.c.po.c:4645
 msgid "Disable warp mode"
 msgstr "Inaktivera warpläge"
 
@@ -55,19 +55,19 @@ msgstr "Endast en inspelning kan göras åt gången."
 msgid "Cannot load snapshot file."
 msgstr "Kan inte läsa in ögonblicksbildfil."
 
-#: src/sound.c:271 src/translate.c.po.c:4455
+#: src/sound.c:271 src/translate.c.po.c:4465
 msgid "Enable sound playback"
 msgstr "Aktivera ljudåtergivning"
 
-#: src/sound.c:273 src/translate.c.po.c:4465
+#: src/sound.c:273 src/translate.c.po.c:4475
 msgid "Disable sound playback"
 msgstr "Inaktivera ljudåtergivning"
 
-#: src/sound.c:275 src/translate.c.po.c:4475
+#: src/sound.c:275 src/translate.c.po.c:4485
 msgid "Set sound sample rate to <value> Hz"
 msgstr "Sätt ljudsamplingshastighet till <värde> Hz"
 
-#: src/sound.c:277 src/translate.c.po.c:4485
+#: src/sound.c:277 src/translate.c.po.c:4495
 msgid "Set sound buffer size to <value> msec"
 msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 
@@ -84,13 +84,13 @@ msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 #: src/c64/c64-cmdline-options.c:91 src/c64/c64-cmdline-options.c:93
 #: src/c64/c64-cmdline-options.c:95 src/c64/c64-cmdline-options.c:112
 #: src/c64/c64-cmdline-options.c:114 src/c64/c64-cmdline-options.c:116
-#: src/c64/cart/c64cart.c:235 src/c64/cart/c64cart.c:238
-#: src/c64/cart/c64cart.c:241 src/c64/cart/c64cart.c:244
-#: src/c64/cart/c64cart.c:247 src/c64/cart/c64cart.c:250
-#: src/c64/cart/c64cart.c:253 src/c64/cart/c64cart.c:256
-#: src/c64/cart/c64cart.c:259 src/c64/cart/c64cart.c:262
-#: src/c64/cart/c64cart.c:265 src/c64/cart/c64cart.c:268
-#: src/c64/cart/c64cart.c:271 src/c64/cart/c64cart.c:274
+#: src/c64/cart/c64cart.c:236 src/c64/cart/c64cart.c:239
+#: src/c64/cart/c64cart.c:242 src/c64/cart/c64cart.c:245
+#: src/c64/cart/c64cart.c:248 src/c64/cart/c64cart.c:251
+#: src/c64/cart/c64cart.c:254 src/c64/cart/c64cart.c:257
+#: src/c64/cart/c64cart.c:260 src/c64/cart/c64cart.c:263
+#: src/c64/cart/c64cart.c:266 src/c64/cart/c64cart.c:269
+#: src/c64/cart/c64cart.c:272 src/c64/cart/c64cart.c:275
 #: src/c64/cart/ide64.c:281 src/c64/c64_256k.c:210 src/c64/georam.c:209
 #: src/c64/mmc64.c:907 src/c64/mmc64.c:909 src/c64/plus256k.c:175
 #: src/c64/plus60k.c:249 src/c64/ramcart.c:239 src/c64/reu.c:247
@@ -141,38 +141,38 @@ msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 #: src/rs232drv/rs232drv.c:105 src/rs232drv/rs232drv.c:107
 #: src/vic20/vic20-cmdline-options.c:209 src/vic20/vic20-cmdline-options.c:211
 #: src/vic20/vic20-cmdline-options.c:213 src/vic20/vic20-cmdline-options.c:228
-#: src/vic20/vic20-cmdline-options.c:230 src/vic20/vic20cartridge.c:211
-#: src/vic20/vic20cartridge.c:213 src/vic20/vic20cartridge.c:215
-#: src/vic20/vic20cartridge.c:217 src/vic20/vic20cartridge.c:219
+#: src/vic20/vic20-cmdline-options.c:230 src/vic20/vic20cartridge.c:212
+#: src/vic20/vic20cartridge.c:214 src/vic20/vic20cartridge.c:216
+#: src/vic20/vic20cartridge.c:218 src/vic20/vic20cartridge.c:220
 #: src/video/video-cmdline-options.c:192 src/translate.c.po.c:654
 msgid "<name>"
 msgstr "<namn>"
 
-#: src/sound.c:279 src/translate.c.po.c:4495
+#: src/sound.c:279 src/translate.c.po.c:4505
 msgid "Specify sound driver"
 msgstr "Ange ljuddrivrutin"
 
-#: src/sound.c:281 src/sound.c:285 src/translate.c.po.c:4505
+#: src/sound.c:281 src/sound.c:285 src/translate.c.po.c:4515
 msgid "<args>"
 msgstr "<flaggor>"
 
-#: src/sound.c:281 src/translate.c.po.c:4515
+#: src/sound.c:281 src/translate.c.po.c:4525
 msgid "Specify initialization parameters for sound driver"
 msgstr "Ange initieringsflaggor för ljuddrivrutin"
 
-#: src/sound.c:283 src/translate.c.po.c:4525
+#: src/sound.c:283 src/translate.c.po.c:4535
 msgid "Specify recording sound driver"
 msgstr "Ange ljuddrivrutin för inspelning"
 
-#: src/sound.c:285 src/translate.c.po.c:4535
+#: src/sound.c:285 src/translate.c.po.c:4545
 msgid "Specify initialization parameters for recording sound driver"
 msgstr "Ange initieringsflaggor för ljuddrivrutin för inspelning"
 
-#: src/sound.c:287 src/translate.c.po.c:4545
+#: src/sound.c:287 src/translate.c.po.c:4555
 msgid "<sync>"
 msgstr "<synk>"
 
-#: src/sound.c:287 src/translate.c.po.c:4555
+#: src/sound.c:287 src/translate.c.po.c:4565
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 "Ställ in ljudhastighetsjustering (0: flexibel, 1: justerande, 2: exakt)"
@@ -722,72 +722,72 @@ msgstr ""
 msgid "Specify name of symbolic German keymap file"
 msgstr "Ange fil för tysk symbolisk tangentbordsemulering"
 
-#: src/c64/cart/c64cart.c:229 src/translate.c.po.c:1422
+#: src/c64/cart/c64cart.c:230 src/translate.c.po.c:1422
 msgid "Reset machine if a cartridge is attached or detached"
 msgstr "Nollställ maskinen om en insticksmodul kopplas till eller från"
 
-#: src/c64/cart/c64cart.c:232 src/translate.c.po.c:1432
+#: src/c64/cart/c64cart.c:233 src/translate.c.po.c:1432
 msgid "Do not reset machine if a cartridge is attached or detached"
 msgstr "Nollställ inte maskinen om en insticksmodul kopplas till eller från"
 
-#: src/c64/cart/c64cart.c:235 src/arch/win32/res.rc.po.c:4998
+#: src/c64/cart/c64cart.c:236 src/arch/win32/res.rc.po.c:4998
 #: src/translate.c.po.c:1442 src/arch/amigaos/intl.c.po.c:2333
 msgid "Attach CRT cartridge image"
 msgstr "Anslut CRT-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:238 src/translate.c.po.c:1452
+#: src/c64/cart/c64cart.c:239 src/translate.c.po.c:1452
 msgid "Attach generic 8KB cartridge image"
 msgstr "Anslut vanlig 8KB-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:241 src/translate.c.po.c:1462
+#: src/c64/cart/c64cart.c:242 src/translate.c.po.c:1462
 msgid "Attach generic 16KB cartridge image"
 msgstr "Anslut vanlig 16KB-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:244 src/translate.c.po.c:1482
+#: src/c64/cart/c64cart.c:245 src/translate.c.po.c:1482
 msgid "Attach raw 32KB Action Replay cartridge image"
 msgstr "Anslut rå 32KB-Action Replay-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:247 src/translate.c.po.c:1472
+#: src/c64/cart/c64cart.c:248 src/translate.c.po.c:1472
 msgid "Attach raw 16KB Action Replay III cartridge image"
 msgstr "Anslut rå 16KB-Action Replay III-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:250 src/translate.c.po.c:1492
+#: src/c64/cart/c64cart.c:251 src/translate.c.po.c:1492
 msgid "Attach raw 64KB Retro Replay cartridge image"
 msgstr "Anslut rå 64KB-Retro Replay-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:253 src/translate.c.po.c:1502
+#: src/c64/cart/c64cart.c:254 src/translate.c.po.c:1502
 msgid "Attach raw 64KB IDE64 cartridge image"
 msgstr "Anslut rå 64KB IDE64-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:256 src/translate.c.po.c:1512
+#: src/c64/cart/c64cart.c:257 src/translate.c.po.c:1512
 msgid "Attach raw 32KB Atomic Power cartridge image"
 msgstr "Anslut rå 32KB Atomic Power-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:259 src/translate.c.po.c:1522
+#: src/c64/cart/c64cart.c:260 src/translate.c.po.c:1522
 msgid "Attach raw 8KB Epyx fastload cartridge image"
 msgstr "Anslut rå 8KB Epyx fastload-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:262 src/translate.c.po.c:1532
+#: src/c64/cart/c64cart.c:263 src/translate.c.po.c:1532
 msgid "Attach raw 32KB Super Snapshot cartridge image"
 msgstr "Anslut rå 32KB Super Snapshot-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:265 src/translate.c.po.c:1542
+#: src/c64/cart/c64cart.c:266 src/translate.c.po.c:1542
 msgid "Attach raw 64KB Super Snapshot cartridge image"
 msgstr "Anslut rå 64KB-Super Snapshot-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:268 src/translate.c.po.c:1552
+#: src/c64/cart/c64cart.c:269 src/translate.c.po.c:1552
 msgid "Attach CBM IEEE488 cartridge image"
 msgstr "Anslut CBM IEEE488-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:271 src/translate.c.po.c:1562
+#: src/c64/cart/c64cart.c:272 src/translate.c.po.c:1562
 msgid "Attach raw 16KB Westermann learning cartridge image"
 msgstr "Anslut rå 16KB-Westermann learning-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:274 src/translate.c.po.c:4775
+#: src/c64/cart/c64cart.c:275 src/translate.c.po.c:4785
 msgid "Attach raw Structured Basic cartridge image"
 msgstr "Anslut rå Strucured Basic-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:277 src/translate.c.po.c:1572
+#: src/c64/cart/c64cart.c:278 src/translate.c.po.c:1572
 msgid "Enable expert cartridge"
 msgstr "Aktivera Expert Cartridge"
 
@@ -815,15 +815,15 @@ msgstr "Autodetektera geometri från formaterad avbildningsfil"
 msgid "Do not autodetect geometry of formatted images"
 msgstr "Autodetektera inte geometri från formaterad avbildningsfil"
 
-#: src/c64/c64_256k.c:206 src/translate.c.po.c:4735
+#: src/c64/c64_256k.c:206 src/translate.c.po.c:4745
 msgid "Enable the 256K RAM expansion"
 msgstr "Aktivera 256K RAM-expansion"
 
-#: src/c64/c64_256k.c:208 src/translate.c.po.c:4745
+#: src/c64/c64_256k.c:208 src/translate.c.po.c:4755
 msgid "Disable the 256K RAM expansion"
 msgstr "Inaktivera 256K RAM-expansion"
 
-#: src/c64/c64_256k.c:210 src/translate.c.po.c:4755
+#: src/c64/c64_256k.c:210 src/translate.c.po.c:4765
 msgid "Specify name of 256K image"
 msgstr "Ange namn på 256K-avbildning"
 
@@ -832,7 +832,7 @@ msgstr "Ange namn på 256K-avbildning"
 msgid "<base address>"
 msgstr "<basadress>"
 
-#: src/c64/c64_256k.c:212 src/translate.c.po.c:4765
+#: src/c64/c64_256k.c:212 src/translate.c.po.c:4775
 msgid "Base address of the 256K expansion"
 msgstr "Basadress för 256K-expansionen"
 
@@ -844,15 +844,15 @@ msgstr ""
 "Digimax kan inte användas med ReSID\n"
 "Byt SID-motor till FastSID"
 
-#: src/c64/digimax.c:137 src/translate.c.po.c:4825
+#: src/c64/digimax.c:137 src/translate.c.po.c:4835
 msgid "Enable the digimax cartridge"
 msgstr "Aktivera Digimax-cartridge"
 
-#: src/c64/digimax.c:139 src/translate.c.po.c:4835
+#: src/c64/digimax.c:139 src/translate.c.po.c:4845
 msgid "Disable the digimax cartridge"
 msgstr "Inaktivera Digimax Cartridge"
 
-#: src/c64/digimax.c:141 src/translate.c.po.c:4845
+#: src/c64/digimax.c:141 src/translate.c.po.c:4855
 msgid "Base address of the digimax cartridge"
 msgstr "Basadress för Digimax-cartridge"
 
@@ -905,31 +905,31 @@ msgstr "Tillåt skrivning på MMC64-kort"
 msgid "Save the MMC64 bios when changed"
 msgstr "Spara MMC64-BIOS vid ändring"
 
-#: src/c64/plus256k.c:171 src/translate.c.po.c:4665
+#: src/c64/plus256k.c:171 src/translate.c.po.c:4675
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "Aktivera PLUS256K RAM-expansion"
 
-#: src/c64/plus256k.c:173 src/translate.c.po.c:4675
+#: src/c64/plus256k.c:173 src/translate.c.po.c:4685
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "Inaktivera PLUS256K RAM-expansion"
 
-#: src/c64/plus256k.c:175 src/translate.c.po.c:4685
+#: src/c64/plus256k.c:175 src/translate.c.po.c:4695
 msgid "Specify name of PLUS256K image"
 msgstr "Ange namn på PLUS256K-avbildning"
 
-#: src/c64/plus60k.c:245 src/translate.c.po.c:4695
+#: src/c64/plus60k.c:245 src/translate.c.po.c:4705
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "Aktivera PLUS60K RAM-expansionen"
 
-#: src/c64/plus60k.c:247 src/translate.c.po.c:4705
+#: src/c64/plus60k.c:247 src/translate.c.po.c:4715
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "Inaktivera PLUS60K RAM-expansion"
 
-#: src/c64/plus60k.c:249 src/translate.c.po.c:4715
+#: src/c64/plus60k.c:249 src/translate.c.po.c:4725
 msgid "Specify name of PLUS60K image"
 msgstr "Ange namn på plUS60K-avbildning"
 
-#: src/c64/plus60k.c:251 src/translate.c.po.c:4725
+#: src/c64/plus60k.c:251 src/translate.c.po.c:4735
 msgid "Base address of the PLUS60K expansion"
 msgstr "Basadress för PLUS60K-expansion"
 
@@ -1294,7 +1294,7 @@ msgstr "Ange namn på 1001/8050/8250-DOS-ROM-avbildning"
 msgid "Specify name of 1551 DOS ROM image"
 msgstr "Ange namn på 1551-DOS-ROM-avbildning"
 
-#: src/fliplist.c:121 src/translate.c.po.c:4194
+#: src/fliplist.c:121 src/translate.c.po.c:4204
 msgid "Specify name of the flip list file image"
 msgstr "Ange namn på vallistefilavbildningen"
 
@@ -1336,89 +1336,89 @@ msgid "ffmpegdrv: Cannot open %s"
 msgstr "ffmpegdrv: Kan inte öppna %s"
 
 #: src/initcmdline.c:155 src/initcmdline.c:157 src/initcmdline.c:159
-#: src/translate.c.po.c:4203
+#: src/translate.c.po.c:4213
 msgid "Show a list of the available options and exit normally"
 msgstr "Visa lista över tillgängliga flaggor och avsluta normalt"
 
-#: src/initcmdline.c:162 src/translate.c.po.c:4214
+#: src/initcmdline.c:162 src/translate.c.po.c:4224
 msgid "Console mode (for music playback)"
 msgstr "Konsolläge (för musikspelning)"
 
-#: src/initcmdline.c:164 src/translate.c.po.c:4224
+#: src/initcmdline.c:164 src/translate.c.po.c:4234
 msgid "Allow production of core dumps"
 msgstr "Tillåt skapa minnesutskrift"
 
-#: src/initcmdline.c:166 src/translate.c.po.c:4234
+#: src/initcmdline.c:166 src/translate.c.po.c:4244
 msgid "Do not produce core dumps"
 msgstr "Skapa inte minnesutskrift"
 
-#: src/initcmdline.c:169 src/translate.c.po.c:4244
+#: src/initcmdline.c:169 src/translate.c.po.c:4254
 msgid "Don't call exception handler"
 msgstr "Anropa inte undantagshanterare"
 
-#: src/initcmdline.c:171 src/translate.c.po.c:4254
+#: src/initcmdline.c:171 src/translate.c.po.c:4264
 msgid "Call exception handler (default)"
 msgstr "Anropa undantagshanterare (standard)"
 
-#: src/initcmdline.c:206 src/translate.c.po.c:4265
+#: src/initcmdline.c:206 src/translate.c.po.c:4275
 msgid "Restore default (factory) settings"
 msgstr "Återställ förvalda inställningar"
 
-#: src/initcmdline.c:208 src/translate.c.po.c:4275
+#: src/initcmdline.c:208 src/translate.c.po.c:4285
 msgid "Attach and autostart tape/disk image <name>"
 msgstr "Anslut och starta band-/diskettavbildning <namn>"
 
-#: src/initcmdline.c:210 src/translate.c.po.c:4285
+#: src/initcmdline.c:210 src/translate.c.po.c:4295
 msgid "Attach and autoload tape/disk image <name>"
 msgstr "Anslut och läs in band-/diskettavbildning <namn>"
 
-#: src/initcmdline.c:212 src/translate.c.po.c:4295
+#: src/initcmdline.c:212 src/translate.c.po.c:4305
 msgid "Attach <name> as a tape image"
 msgstr "Anslut <namn> som bandavbildning"
 
-#: src/initcmdline.c:214 src/translate.c.po.c:4305
+#: src/initcmdline.c:214 src/translate.c.po.c:4315
 msgid "Attach <name> as a disk image in drive #8"
 msgstr "Anslut <namn> som diskettavbildning i enhet 8"
 
-#: src/initcmdline.c:216 src/translate.c.po.c:4315
+#: src/initcmdline.c:216 src/translate.c.po.c:4325
 msgid "Attach <name> as a disk image in drive #9"
 msgstr "Anslut <namn> som diskettavbildning i enhet 9"
 
-#: src/initcmdline.c:218 src/translate.c.po.c:4325
+#: src/initcmdline.c:218 src/translate.c.po.c:4335
 msgid "Attach <name> as a disk image in drive #10"
 msgstr "Anslut <namn> som diskettavbildning i enhet 10"
 
-#: src/initcmdline.c:220 src/translate.c.po.c:4335
+#: src/initcmdline.c:220 src/translate.c.po.c:4345
 msgid "Attach <name> as a disk image in drive #11"
 msgstr "Anslut <namn> som diskettavbildning i enhet 11"
 
-#: src/kbdbuf.c:136 src/translate.c.po.c:4345
+#: src/kbdbuf.c:136 src/translate.c.po.c:4355
 msgid "<string>"
 msgstr "<sträng>"
 
-#: src/kbdbuf.c:136 src/translate.c.po.c:4355
+#: src/kbdbuf.c:136 src/translate.c.po.c:4365
 msgid "Put the specified string into the keyboard buffer"
 msgstr "Lägg den angivna strängen i tangentbordsbufferten"
 
-#: src/log.c:110 src/translate.c.po.c:4365
+#: src/log.c:110 src/translate.c.po.c:4375
 msgid "Specify log file name"
 msgstr "Ange namn på loggfil"
 
-#: src/mouse.c:358 src/translate.c.po.c:4375
+#: src/mouse.c:358 src/translate.c.po.c:4385
 #, fuzzy
 msgid "Enable mouse grab"
 msgstr "*Aktivera mus"
 
-#: src/mouse.c:360 src/translate.c.po.c:4385
+#: src/mouse.c:360 src/translate.c.po.c:4395
 #, fuzzy
 msgid "Disable mouse grab"
 msgstr "Inaktivera dubbelskanning"
 
-#: src/mouse.c:362 src/translate.c.po.c:4395
+#: src/mouse.c:362 src/translate.c.po.c:4405
 msgid "Select the joystick port the mouse is attached to"
 msgstr "Ange vilken spelport musen är ansluten till"
 
-#: src/mouse.c:364 src/translate.c.po.c:4405
+#: src/mouse.c:364 src/translate.c.po.c:4415
 msgid "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga)"
 msgstr ""
 
@@ -1542,19 +1542,19 @@ msgstr "Ange namn på ROM-avbildning för högt insticksmodul 2-ROM"
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Ange storlek på installerat RAM i kb (16/32/64)"
 
-#: src/plus4/plus4memcsory256k.c:120 src/translate.c.po.c:4785
+#: src/plus4/plus4memcsory256k.c:120 src/translate.c.po.c:4795
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "Aktivera CSORY 256K RAM-expansion"
 
-#: src/plus4/plus4memhannes256k.c:135 src/translate.c.po.c:4795
+#: src/plus4/plus4memhannes256k.c:135 src/translate.c.po.c:4805
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "Aktivera HANNES 256K RAM-expansion"
 
-#: src/plus4/plus4memhannes256k.c:137 src/translate.c.po.c:4805
+#: src/plus4/plus4memhannes256k.c:137 src/translate.c.po.c:4815
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "Aktivera HANNES 1024K RAM-expansion"
 
-#: src/plus4/plus4memhannes256k.c:139 src/translate.c.po.c:4815
+#: src/plus4/plus4memhannes256k.c:139 src/translate.c.po.c:4825
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "Aktivera HANNES 4096K RAM-expansion"
 
@@ -1635,19 +1635,19 @@ msgstr "Ange skrivartextutenhet för IEC-skrivare 5"
 msgid "Specify printer text output device for userport printer"
 msgstr "Ange skrivartextutenhet för användarportsskrivare"
 
-#: src/ram.c:101 src/translate.c.po.c:4415
+#: src/ram.c:101 src/translate.c.po.c:4425
 msgid "Set the value for the very first RAM address after powerup"
 msgstr "Ange värdet på den allra första RAM-adressen efter strömpåslag"
 
-#: src/ram.c:104 src/ram.c:107 src/translate.c.po.c:4425
+#: src/ram.c:104 src/ram.c:107 src/translate.c.po.c:4435
 msgid "<num of bytes>"
 msgstr "<antal byte>"
 
-#: src/ram.c:104 src/translate.c.po.c:4435
+#: src/ram.c:104 src/translate.c.po.c:4445
 msgid "Length of memory block initialized with the same value"
 msgstr "Längd på minnesblock som initierats med samma värde"
 
-#: src/ram.c:107 src/translate.c.po.c:4445
+#: src/ram.c:107 src/translate.c.po.c:4455
 msgid "Length of memory block initialized with the same pattern"
 msgstr "Längd på minnesblock som initierats med samma mönster"
 
@@ -1867,19 +1867,19 @@ msgstr "Emulera SID-filter"
 msgid "Do not emulate SID filters"
 msgstr "Emulera inte SID-filter"
 
-#: src/sysfile.c:127 src/translate.c.po.c:4565
+#: src/sysfile.c:127 src/translate.c.po.c:4575
 msgid "<path>"
 msgstr "<sökväg>"
 
-#: src/sysfile.c:127 src/translate.c.po.c:4575
+#: src/sysfile.c:127 src/translate.c.po.c:4585
 msgid "Define search path to locate system files"
 msgstr "Ange sökväg för att hitta systemfiler"
 
-#: src/traps.c:123 src/translate.c.po.c:4585
+#: src/traps.c:123 src/translate.c.po.c:4595
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr "Aktivera generella mekanismer för snabb disk-/bandemulering"
 
-#: src/traps.c:126 src/translate.c.po.c:4595
+#: src/traps.c:126 src/translate.c.po.c:4605
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr "Inaktivera generella mekanismer för snabb disk-/bandemulering"
 
@@ -1911,23 +1911,23 @@ msgstr "Aktivera VIC-1112-IEEE488-gränssnitt"
 msgid "Disable VIC-1112 IEEE488 interface"
 msgstr "Inaktivera VIC-1112-IEEE488-gränssnitt"
 
-#: src/vic20/vic20cartridge.c:211 src/translate.c.po.c:3558
+#: src/vic20/vic20cartridge.c:212 src/translate.c.po.c:3558
 msgid "Specify 4/8/16K extension ROM name at $2000"
 msgstr "Ange namn för 4/8/16K-utöknings-ROM på $2000"
 
-#: src/vic20/vic20cartridge.c:213 src/translate.c.po.c:3568
+#: src/vic20/vic20cartridge.c:214 src/translate.c.po.c:3568
 msgid "Specify 4/8/16K extension ROM name at $4000"
 msgstr "Ange namn för 4/8/16K-utöknings-ROM på $4000"
 
-#: src/vic20/vic20cartridge.c:215 src/translate.c.po.c:3578
+#: src/vic20/vic20cartridge.c:216 src/translate.c.po.c:3578
 msgid "Specify 4/8/16K extension ROM name at $6000"
 msgstr "Ange namn för 4/8/16K-utöknings-ROM på $6000"
 
-#: src/vic20/vic20cartridge.c:217 src/translate.c.po.c:3588
+#: src/vic20/vic20cartridge.c:218 src/translate.c.po.c:3588
 msgid "Specify 4/8K extension ROM name at $A000"
 msgstr "Ange namn för 4/8K-utöknings-ROM på $A000"
 
-#: src/vic20/vic20cartridge.c:219 src/translate.c.po.c:3598
+#: src/vic20/vic20cartridge.c:220 src/translate.c.po.c:3598
 msgid "Specify 4K extension ROM name at $B000"
 msgstr "Ange namn för 4K-utöknings-ROM på $B000"
 
@@ -2191,13 +2191,13 @@ msgstr ""
 
 #: src/arch/unix/gui/c128ui.c:71 src/arch/unix/gui/c64ui.c:74
 #: src/arch/unix/gui/cbm2ui.c:64 src/arch/unix/gui/uited.c:56
-#: src/arch/unix/gui/uivic.c:45 src/arch/unix/gui/vsidui.c:286
+#: src/arch/unix/gui/uivic.c:45 src/arch/unix/gui/vsidui.c:290
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/gui/c128ui.c:73 src/arch/unix/gui/c64ui.c:76
 #: src/arch/unix/gui/cbm2ui.c:66 src/arch/unix/gui/uited.c:58
-#: src/arch/unix/gui/uivic.c:47 src/arch/unix/gui/vsidui.c:288
+#: src/arch/unix/gui/uivic.c:47 src/arch/unix/gui/vsidui.c:292
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
@@ -2205,21 +2205,21 @@ msgstr "*NTSC-M"
 #: src/arch/unix/gui/c64ui.c:225 src/arch/unix/gui/c64ui.c:250
 #: src/arch/unix/gui/cbm2ui.c:293 src/arch/unix/gui/cbm2ui.c:318
 #: src/arch/unix/gui/petui.c:119 src/arch/unix/gui/plus4ui.c:106
-#: src/arch/unix/gui/vic20ui.c:142 src/arch/unix/gui/vsidui.c:198
+#: src/arch/unix/gui/vic20ui.c:142 src/arch/unix/gui/vsidui.c:202
 msgid "SID engine"
 msgstr "SID-motor"
 
 #: src/arch/unix/gui/c128ui.c:157 src/arch/unix/gui/c128ui.c:183
 #: src/arch/unix/gui/c64ui.c:228 src/arch/unix/gui/c64ui.c:254
 #: src/arch/unix/gui/cbm2ui.c:296 src/arch/unix/gui/cbm2ui.c:322
-#: src/arch/unix/gui/vsidui.c:201
+#: src/arch/unix/gui/vsidui.c:205
 msgid "*Second SID"
 msgstr "*Andra SID"
 
 #: src/arch/unix/gui/c128ui.c:159 src/arch/unix/gui/c128ui.c:185
 #: src/arch/unix/gui/c64ui.c:230 src/arch/unix/gui/c64ui.c:256
 #: src/arch/unix/gui/cbm2ui.c:298 src/arch/unix/gui/cbm2ui.c:324
-#: src/arch/unix/gui/vsidui.c:203
+#: src/arch/unix/gui/vsidui.c:207
 msgid "*Second SID base address"
 msgstr "*Basadress för andra SID"
 
@@ -2227,7 +2227,7 @@ msgstr "*Basadress för andra SID"
 #: src/arch/unix/gui/c64ui.c:233 src/arch/unix/gui/c64ui.c:258
 #: src/arch/unix/gui/cbm2ui.c:301 src/arch/unix/gui/cbm2ui.c:327
 #: src/arch/unix/gui/petui.c:123 src/arch/unix/gui/plus4ui.c:110
-#: src/arch/unix/gui/vic20ui.c:146 src/arch/unix/gui/vsidui.c:206
+#: src/arch/unix/gui/vic20ui.c:146 src/arch/unix/gui/vsidui.c:210
 msgid "*Emulate filters"
 msgstr "*Emulera filter"
 
@@ -2235,17 +2235,17 @@ msgstr "*Emulera filter"
 #: src/arch/unix/gui/c64ui.c:235 src/arch/unix/gui/c64ui.c:260
 #: src/arch/unix/gui/cbm2ui.c:303 src/arch/unix/gui/cbm2ui.c:329
 #: src/arch/unix/gui/petui.c:121 src/arch/unix/gui/plus4ui.c:108
-#: src/arch/unix/gui/vic20ui.c:144 src/arch/unix/gui/vsidui.c:208
+#: src/arch/unix/gui/vic20ui.c:144 src/arch/unix/gui/vsidui.c:212
 msgid "Chip model"
 msgstr "Kretsmodell"
 
 #: src/arch/unix/gui/c128ui.c:168 src/arch/unix/gui/c64ui.c:239
-#: src/arch/unix/gui/cbm2ui.c:307 src/arch/unix/gui/vsidui.c:212
+#: src/arch/unix/gui/cbm2ui.c:307 src/arch/unix/gui/vsidui.c:216
 msgid "reSID sampling method"
 msgstr "reSID-samplingsmetod"
 
 #: src/arch/unix/gui/c128ui.c:170 src/arch/unix/gui/c64ui.c:241
-#: src/arch/unix/gui/cbm2ui.c:309 src/arch/unix/gui/vsidui.c:214
+#: src/arch/unix/gui/cbm2ui.c:309 src/arch/unix/gui/vsidui.c:218
 msgid "reSID resampling passband..."
 msgstr "reSID-omsamplingspassband..."
 
@@ -2422,7 +2422,7 @@ msgid "VDC settings"
 msgstr "VDC-inställningar"
 
 #: src/arch/unix/gui/c128ui.c:380 src/arch/unix/gui/c64ui.c:366
-#: src/arch/unix/gui/cbm2ui.c:360 src/arch/unix/gui/vsidui.c:336
+#: src/arch/unix/gui/cbm2ui.c:360 src/arch/unix/gui/vsidui.c:340
 #: src/arch/win32/ressid.rc.po.c:59
 msgid "SID settings"
 msgstr "SID-inställningar"
@@ -2444,7 +2444,7 @@ msgstr "Modellinställningar"
 #: src/arch/unix/gui/c128ui.c:510 src/arch/unix/gui/c64ui.c:494
 #: src/arch/unix/gui/cbm2ui.c:505 src/arch/unix/gui/petui.c:487
 #: src/arch/unix/gui/plus4ui.c:314 src/arch/unix/gui/vic20ui.c:603
-#: src/arch/unix/gui/vsidui.c:393 src/arch/amigaos/intl.c.po.c:96
+#: src/arch/unix/gui/vsidui.c:397 src/arch/amigaos/intl.c.po.c:96
 msgid "File"
 msgstr "Arkiv"
 
@@ -2465,7 +2465,7 @@ msgstr "Alternativ"
 #: src/arch/unix/gui/c128ui.c:516 src/arch/unix/gui/c64ui.c:500
 #: src/arch/unix/gui/cbm2ui.c:511 src/arch/unix/gui/petui.c:493
 #: src/arch/unix/gui/plus4ui.c:320 src/arch/unix/gui/vic20ui.c:609
-#: src/arch/unix/gui/vsidui.c:395 src/arch/unix/x11/gnome/uinetplay.c:66
+#: src/arch/unix/gui/vsidui.c:399 src/arch/unix/x11/gnome/uinetplay.c:66
 #: src/arch/win32/res.rc.po.c:4434 src/arch/amigaos/intl.c.po.c:1221
 msgid "Settings"
 msgstr "Inställningar"
@@ -2478,7 +2478,7 @@ msgstr "Inställningar"
 msgid "RJHelp"
 msgstr "RJHjälp"
 
-#: src/arch/unix/gui/c64ui.c:78 src/arch/unix/gui/vsidui.c:290
+#: src/arch/unix/gui/c64ui.c:78 src/arch/unix/gui/vsidui.c:294
 msgid "*Old NTSC-M"
 msgstr "*Gammal NTSC-M"
 
@@ -3279,7 +3279,7 @@ msgid "About VICE..."
 msgstr "Om VICE..."
 
 #: src/arch/unix/gui/uicommands.c:569 src/arch/unix/gui/uidatasette.c:98
-#: src/arch/unix/x11/gnome/uipalcontrol.c:171
+#: src/arch/unix/x11/gnome/uipalcontrol.c:173
 #: src/arch/unix/x11/gnome/x11ui.c:1822 src/arch/amigaos/intl.c.po.c:312
 msgid "Reset"
 msgstr "Återställ"
@@ -4988,7 +4988,7 @@ msgstr "Paustid"
 msgid "Oversample"
 msgstr "Översampling"
 
-#: src/arch/unix/gui/uisound.c:154 src/arch/unix/gui/vsidui.c:326
+#: src/arch/unix/gui/uisound.c:154 src/arch/unix/gui/vsidui.c:330
 msgid "Sound settings"
 msgstr "Ljudinställningar"
 
@@ -5014,7 +5014,7 @@ msgid "PAL Emulation"
 msgstr "PAL-emulering"
 
 #: src/arch/unix/gui/uited.c:116 src/arch/unix/gui/uivic.c:111
-#: src/arch/unix/gui/uivicii.c:138 src/arch/unix/gui/vsidui.c:338
+#: src/arch/unix/gui/uivicii.c:138 src/arch/unix/gui/vsidui.c:342
 #: src/arch/amigaos/intl.c.po.c:1149
 msgid "Video standard"
 msgstr "TV-standard"
@@ -5216,37 +5216,37 @@ msgstr "Koppla från insticksmodulfil(er)"
 msgid "VIC settings"
 msgstr "VIC-inställningar"
 
-#: src/arch/unix/gui/vsidui.c:229
+#: src/arch/unix/gui/vsidui.c:233
 msgid "Tunes"
 msgstr "Låtar"
 
-#: src/arch/unix/gui/vsidui.c:239
+#: src/arch/unix/gui/vsidui.c:243
 msgid "Load PSID file"
 msgstr "Läs PSID-fil"
 
-#: src/arch/unix/gui/vsidui.c:247
+#: src/arch/unix/gui/vsidui.c:251
 #, c-format
 msgid "`%s' is not a valid PSID file."
 msgstr "\"%s\" är inte en giltig PSID-fil."
 
-#: src/arch/unix/gui/vsidui.c:274
+#: src/arch/unix/gui/vsidui.c:278
 msgid "Load PSID file..."
 msgstr "Läs PSID-fil..."
 
-#: src/arch/unix/gui/vsidui.c:334
+#: src/arch/unix/gui/vsidui.c:338
 msgid "*Override PSID settings"
 msgstr "*Överskugga PSID-inställningar"
 
-#: src/arch/unix/gui/vsidui.c:413
+#: src/arch/unix/gui/vsidui.c:417
 msgid "*Default Tune"
 msgstr "*Förvald låt"
 
-#: src/arch/unix/gui/vsidui.c:436
+#: src/arch/unix/gui/vsidui.c:440
 #, c-format
 msgid "*Tune %d"
 msgstr "*Låt %d"
 
-#: src/arch/unix/gui/vsidui.c:464
+#: src/arch/unix/gui/vsidui.c:468
 msgid "VSID: The SID Emulator"
 msgstr "VSID: SID-emulatorn"
 
@@ -5384,15 +5384,15 @@ msgstr "Ljusstyrka"
 msgid "Gamma"
 msgstr "Gamma"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:127
+#: src/arch/unix/x11/gnome/uipalcontrol.c:129
 msgid "PAL Settings"
 msgstr "PAL-inställningar"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:180
+#: src/arch/unix/x11/gnome/uipalcontrol.c:182
 msgid "Fast Emulation"
 msgstr "Snabb emulering"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:187
+#: src/arch/unix/x11/gnome/uipalcontrol.c:189
 msgid "Exact Emulation"
 msgstr "Exakt emulering"
 
@@ -5587,7 +5587,7 @@ msgstr ""
 "Modell: %s\n"
 "IRQ: %s"
 
-#: src/arch/unix/x11/gnome/uifileentry.c:52
+#: src/arch/unix/x11/gnome/uifileentry.c:53
 #: src/arch/unix/x11/gnome/x11ui.c:2496
 msgid "all files"
 msgstr "alla filer"
@@ -5997,92 +5997,92 @@ msgstr ""
 msgid "VICE Error!"
 msgstr "VICE-fel!"
 
-#: src/arch/unix/x11/xaw/x11video.c:218
+#: src/arch/unix/x11/xaw/x11video.c:223
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "Anropa \"XSync()\" efter uppdatering av emuleringsfönstret"
 
-#: src/arch/unix/x11/xaw/x11video.c:221
+#: src/arch/unix/x11/xaw/x11video.c:226
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr "Anropa ej \"XSync()\" efter uppdatering av emuleringsfönstret"
 
-#: src/arch/unix/x11/xaw/x11video.c:224
+#: src/arch/unix/x11/xaw/x11video.c:229
 msgid "Use shared memory"
 msgstr "Använder delat minne"
 
-#: src/arch/unix/x11/xaw/x11video.c:227
+#: src/arch/unix/x11/xaw/x11video.c:232
 msgid "Never use shared memory (slower)"
 msgstr "Använd aldrig delat minne (långsammare)"
 
-#: src/arch/unix/x11/xaw/x11video.c:230
+#: src/arch/unix/x11/xaw/x11video.c:235
 msgid "Request YUV FOURCC format"
 msgstr "Be om YUV FOURCC-format"
 
-#: src/arch/unix/x11/xaw/x11video.c:232
+#: src/arch/unix/x11/xaw/x11video.c:237
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr "Välj bredd-/höjdförhållande (0,8-1,2)"
 
-#: src/arch/unix/x11/xaw/x11video.c:311
+#: src/arch/unix/x11/xaw/x11video.c:316
 msgid "The MITSHM extension is not supported on this display."
 msgstr "MITSHM-utökningarna stöds inte för denna display."
 
-#: src/arch/unix/x11/xaw/x11video.c:315
+#: src/arch/unix/x11/xaw/x11video.c:320
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM-utökningar version %d.%d hittades."
 
-#: src/arch/unix/x11/xaw/x11video.c:383
+#: src/arch/unix/x11/xaw/x11video.c:388
 msgid "Cannot release shared memory!"
 msgstr "Kan inte släppa delat minne!"
 
-#: src/arch/unix/x11/xaw/x11video.c:512
+#: src/arch/unix/x11/xaw/x11video.c:517
 #, c-format
 msgid "Successfully initialized using XVideo (%dx%d %.4s)."
 msgstr "Initierade med XVideo (%dx%d %.4s)."
 
-#: src/arch/unix/x11/xaw/x11video.c:532
+#: src/arch/unix/x11/xaw/x11video.c:537
 msgid ""
 "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."
 msgstr "Kunde inte allokera XImage med XShm; återgår till icke-MITSHM-läge."
 
-#: src/arch/unix/x11/xaw/x11video.c:545
+#: src/arch/unix/x11/xaw/x11video.c:550
 msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
 msgstr "Fick inte tillgång till delat minne; återgår till icke-MITSHM-läge."
 
-#: src/arch/unix/x11/xaw/x11video.c:556
+#: src/arch/unix/x11/xaw/x11video.c:561
 msgid ""
 "Cannot get shared memory address; falling back to non MITSHM extension mode."
 msgstr "Fick inte adress till delat minne; återgår till icke-MITSHM-läge."
 
-#: src/arch/unix/x11/xaw/x11video.c:571 src/arch/unix/x11/xaw/x11video.c:588
+#: src/arch/unix/x11/xaw/x11video.c:576 src/arch/unix/x11/xaw/x11video.c:593
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
 msgstr "Kunde inte ansluta delat minne; återgår till icke-MITSHM-läge."
 
-#: src/arch/unix/x11/xaw/x11video.c:595
+#: src/arch/unix/x11/xaw/x11video.c:600
 msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM-initiering färdig.\n"
 
-#: src/arch/unix/x11/xaw/x11video.c:616
+#: src/arch/unix/x11/xaw/x11video.c:621
 #, c-format
 msgid "Successfully initialized%s shared memory."
 msgstr "Initierade%s delat minne."
 
-#: src/arch/unix/x11/xaw/x11video.c:617
+#: src/arch/unix/x11/xaw/x11video.c:622
 msgid ", using"
 msgstr " med"
 
-#: src/arch/unix/x11/xaw/x11video.c:617
+#: src/arch/unix/x11/xaw/x11video.c:622
 msgid " without"
 msgstr " utan"
 
-#: src/arch/unix/x11/xaw/x11video.c:620
+#: src/arch/unix/x11/xaw/x11video.c:625
 msgid "Performance will be poor."
 msgstr "Prestanda kommer att bli dålig."
 
-#: src/arch/unix/x11/xaw/x11video.c:623
+#: src/arch/unix/x11/xaw/x11video.c:628
 msgid "Successfully initialized without shared memory."
 msgstr "Initierade utan delat minne."
 
-#: src/arch/unix/x11/xaw/x11video.c:693
+#: src/arch/unix/x11/xaw/x11video.c:698
 #, fuzzy
 msgid "HW scaling not available"
 msgstr "Vilka kommandoradsflaggor är tillgängliga?"
@@ -9904,11 +9904,15 @@ msgstr "Ange SID-motor (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"
 msgid "Execute monitor commands from file"
 msgstr ""
 
-#: src/translate.c.po.c:4645
+#: src/translate.c.po.c:4194
+msgid "Set an initial breakpoint for the monitor"
+msgstr ""
+
+#: src/translate.c.po.c:4655
 msgid "<iso language code>"
 msgstr "<iso-språkkod>"
 
-#: src/translate.c.po.c:4655
+#: src/translate.c.po.c:4665
 msgid "Specify the iso code of the language"
 msgstr "Ange ISO-koden för språket"
 

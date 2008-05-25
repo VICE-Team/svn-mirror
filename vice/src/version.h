@@ -28,11 +28,11 @@
 #define __VERSION_H__
 
 #ifndef VERSION
-#define VERSION "1.22.15"
+#define VERSION "1.22.16"
 #endif
 
 #ifndef VERSION_RC_NUMBER
-#define VERSION_RC_NUMBER 1,22,15,0
+#define VERSION_RC_NUMBER 1,22,16,0
 #endif
 
 #ifndef PACKAGE

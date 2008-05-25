@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-07 19:29+0200\n"
+"POT-Creation-Date: 2008-05-25 21:02+0200\n"
 "PO-Revision-Date: 2007-07-26 11:57+0200\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "<percent>"
 msgstr "<pourcent>"
 
-#: src/vsync.c:147 src/translate.c.po.c:4605
+#: src/vsync.c:147 src/translate.c.po.c:4615
 msgid "Limit emulation speed to specified value"
 msgstr "Limiter la vitesse d'émulation à une valeur specifiée"
 
@@ -36,15 +36,15 @@ msgstr "Limiter la vitesse d'émulation à une valeur specifiée"
 msgid "<value>"
 msgstr "<valeur>"
 
-#: src/vsync.c:149 src/translate.c.po.c:4615
+#: src/vsync.c:149 src/translate.c.po.c:4625
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Mise à jour toutes les <valeur> images (`0' pour auto.)"
 
-#: src/vsync.c:151 src/translate.c.po.c:4625
+#: src/vsync.c:151 src/translate.c.po.c:4635
 msgid "Enable warp mode"
 msgstr "Activer mode turbo"
 
-#: src/vsync.c:153 src/translate.c.po.c:4635
+#: src/vsync.c:153 src/translate.c.po.c:4645
 msgid "Disable warp mode"
 msgstr "Désactiver mode turbo"
 
@@ -60,19 +60,19 @@ msgstr "Désolé. L'enregistrement multiple n'est pas supporté."
 msgid "Cannot load snapshot file."
 msgstr "Impossible de charger la sauvegarde."
 
-#: src/sound.c:271 src/translate.c.po.c:4455
+#: src/sound.c:271 src/translate.c.po.c:4465
 msgid "Enable sound playback"
 msgstr "Activer le son"
 
-#: src/sound.c:273 src/translate.c.po.c:4465
+#: src/sound.c:273 src/translate.c.po.c:4475
 msgid "Disable sound playback"
 msgstr "Désactiver le son"
 
-#: src/sound.c:275 src/translate.c.po.c:4475
+#: src/sound.c:275 src/translate.c.po.c:4485
 msgid "Set sound sample rate to <value> Hz"
 msgstr "Régler le taux d'échantillonage à <valeur> Hz"
 
-#: src/sound.c:277 src/translate.c.po.c:4485
+#: src/sound.c:277 src/translate.c.po.c:4495
 msgid "Set sound buffer size to <value> msec"
 msgstr "Régler la taille du tampon à <valeur> ms"
 
@@ -89,13 +89,13 @@ msgstr "Régler la taille du tampon à <valeur> ms"
 #: src/c64/c64-cmdline-options.c:91 src/c64/c64-cmdline-options.c:93
 #: src/c64/c64-cmdline-options.c:95 src/c64/c64-cmdline-options.c:112
 #: src/c64/c64-cmdline-options.c:114 src/c64/c64-cmdline-options.c:116
-#: src/c64/cart/c64cart.c:235 src/c64/cart/c64cart.c:238
-#: src/c64/cart/c64cart.c:241 src/c64/cart/c64cart.c:244
-#: src/c64/cart/c64cart.c:247 src/c64/cart/c64cart.c:250
-#: src/c64/cart/c64cart.c:253 src/c64/cart/c64cart.c:256
-#: src/c64/cart/c64cart.c:259 src/c64/cart/c64cart.c:262
-#: src/c64/cart/c64cart.c:265 src/c64/cart/c64cart.c:268
-#: src/c64/cart/c64cart.c:271 src/c64/cart/c64cart.c:274
+#: src/c64/cart/c64cart.c:236 src/c64/cart/c64cart.c:239
+#: src/c64/cart/c64cart.c:242 src/c64/cart/c64cart.c:245
+#: src/c64/cart/c64cart.c:248 src/c64/cart/c64cart.c:251
+#: src/c64/cart/c64cart.c:254 src/c64/cart/c64cart.c:257
+#: src/c64/cart/c64cart.c:260 src/c64/cart/c64cart.c:263
+#: src/c64/cart/c64cart.c:266 src/c64/cart/c64cart.c:269
+#: src/c64/cart/c64cart.c:272 src/c64/cart/c64cart.c:275
 #: src/c64/cart/ide64.c:281 src/c64/c64_256k.c:210 src/c64/georam.c:209
 #: src/c64/mmc64.c:907 src/c64/mmc64.c:909 src/c64/plus256k.c:175
 #: src/c64/plus60k.c:249 src/c64/ramcart.c:239 src/c64/reu.c:247
@@ -146,39 +146,39 @@ msgstr "Régler la taille du tampon à <valeur> ms"
 #: src/rs232drv/rs232drv.c:105 src/rs232drv/rs232drv.c:107
 #: src/vic20/vic20-cmdline-options.c:209 src/vic20/vic20-cmdline-options.c:211
 #: src/vic20/vic20-cmdline-options.c:213 src/vic20/vic20-cmdline-options.c:228
-#: src/vic20/vic20-cmdline-options.c:230 src/vic20/vic20cartridge.c:211
-#: src/vic20/vic20cartridge.c:213 src/vic20/vic20cartridge.c:215
-#: src/vic20/vic20cartridge.c:217 src/vic20/vic20cartridge.c:219
+#: src/vic20/vic20-cmdline-options.c:230 src/vic20/vic20cartridge.c:212
+#: src/vic20/vic20cartridge.c:214 src/vic20/vic20cartridge.c:216
+#: src/vic20/vic20cartridge.c:218 src/vic20/vic20cartridge.c:220
 #: src/video/video-cmdline-options.c:192 src/translate.c.po.c:654
 msgid "<name>"
 msgstr "<nom>"
 
-#: src/sound.c:279 src/translate.c.po.c:4495
+#: src/sound.c:279 src/translate.c.po.c:4505
 msgid "Specify sound driver"
 msgstr "Spécifier le pilote son"
 
-#: src/sound.c:281 src/sound.c:285 src/translate.c.po.c:4505
+#: src/sound.c:281 src/sound.c:285 src/translate.c.po.c:4515
 msgid "<args>"
 msgstr "<args>"
 
-#: src/sound.c:281 src/translate.c.po.c:4515
+#: src/sound.c:281 src/translate.c.po.c:4525
 msgid "Specify initialization parameters for sound driver"
 msgstr "Spécifier les paramètres d'initialisation pour le pilote son"
 
-#: src/sound.c:283 src/translate.c.po.c:4525
+#: src/sound.c:283 src/translate.c.po.c:4535
 msgid "Specify recording sound driver"
 msgstr "Spécifier le pilote d'enregistrement son"
 
-#: src/sound.c:285 src/translate.c.po.c:4535
+#: src/sound.c:285 src/translate.c.po.c:4545
 msgid "Specify initialization parameters for recording sound driver"
 msgstr ""
 "Spécifier les paramètres d'initialisation pour le pilote d'enregistrement son"
 
-#: src/sound.c:287 src/translate.c.po.c:4545
+#: src/sound.c:287 src/translate.c.po.c:4555
 msgid "<sync>"
 msgstr "<sync>"
 
-#: src/sound.c:287 src/translate.c.po.c:4555
+#: src/sound.c:287 src/translate.c.po.c:4565
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr "Régler l'ajustement son (0: flexible, 1: ajusté 2: exact"
 
@@ -750,74 +750,74 @@ msgstr "Spécifier l'index du fichier keymap (0=sym, 1=symDE, 2=pos)"
 msgid "Specify name of symbolic German keymap file"
 msgstr "Spécifier le nom du fichier symbolique de mappage clavier"
 
-#: src/c64/cart/c64cart.c:229 src/translate.c.po.c:1422
+#: src/c64/cart/c64cart.c:230 src/translate.c.po.c:1422
 msgid "Reset machine if a cartridge is attached or detached"
 msgstr "Réinitialiser si une cartouche est insérée ou retirée"
 
-#: src/c64/cart/c64cart.c:232 src/translate.c.po.c:1432
+#: src/c64/cart/c64cart.c:233 src/translate.c.po.c:1432
 msgid "Do not reset machine if a cartridge is attached or detached"
 msgstr "Ne pas réinitialiser si une cartouche est insérée ou retirée"
 
-#: src/c64/cart/c64cart.c:235 src/arch/win32/res.rc.po.c:4998
+#: src/c64/cart/c64cart.c:236 src/arch/win32/res.rc.po.c:4998
 #: src/translate.c.po.c:1442 src/arch/amigaos/intl.c.po.c:2333
 msgid "Attach CRT cartridge image"
 msgstr "Insérer une cartouche CRT"
 
-#: src/c64/cart/c64cart.c:238 src/translate.c.po.c:1452
+#: src/c64/cart/c64cart.c:239 src/translate.c.po.c:1452
 msgid "Attach generic 8KB cartridge image"
 msgstr "Insérer une cartouche générique 8KO"
 
-#: src/c64/cart/c64cart.c:241 src/translate.c.po.c:1462
+#: src/c64/cart/c64cart.c:242 src/translate.c.po.c:1462
 msgid "Attach generic 16KB cartridge image"
 msgstr "Insérer une cartouche générique de 16KO"
 
-#: src/c64/cart/c64cart.c:244 src/translate.c.po.c:1482
+#: src/c64/cart/c64cart.c:245 src/translate.c.po.c:1482
 msgid "Attach raw 32KB Action Replay cartridge image"
 msgstr "Insérer une cartouche Action Replay 32KO"
 
-#: src/c64/cart/c64cart.c:247 src/translate.c.po.c:1472
+#: src/c64/cart/c64cart.c:248 src/translate.c.po.c:1472
 #, fuzzy
 msgid "Attach raw 16KB Action Replay III cartridge image"
 msgstr "Insérer une cartouche Action Replay 32KO"
 
-#: src/c64/cart/c64cart.c:250 src/translate.c.po.c:1492
+#: src/c64/cart/c64cart.c:251 src/translate.c.po.c:1492
 msgid "Attach raw 64KB Retro Replay cartridge image"
 msgstr "Insérer une cartouche Retro Replay 64KO"
 
-#: src/c64/cart/c64cart.c:253 src/translate.c.po.c:1502
+#: src/c64/cart/c64cart.c:254 src/translate.c.po.c:1502
 msgid "Attach raw 64KB IDE64 cartridge image"
 msgstr "Insérer une cartouche IDE64 64KO"
 
-#: src/c64/cart/c64cart.c:256 src/translate.c.po.c:1512
+#: src/c64/cart/c64cart.c:257 src/translate.c.po.c:1512
 msgid "Attach raw 32KB Atomic Power cartridge image"
 msgstr "Insérer une cartouche Atomic Power 32KO"
 
-#: src/c64/cart/c64cart.c:259 src/translate.c.po.c:1522
+#: src/c64/cart/c64cart.c:260 src/translate.c.po.c:1522
 msgid "Attach raw 8KB Epyx fastload cartridge image"
 msgstr "Insérer une cartouche Epyx FastLoad 8KO"
 
-#: src/c64/cart/c64cart.c:262 src/translate.c.po.c:1532
+#: src/c64/cart/c64cart.c:263 src/translate.c.po.c:1532
 msgid "Attach raw 32KB Super Snapshot cartridge image"
 msgstr "Insérer une cartouche Super Snapshot 32KO"
 
-#: src/c64/cart/c64cart.c:265 src/translate.c.po.c:1542
+#: src/c64/cart/c64cart.c:266 src/translate.c.po.c:1542
 msgid "Attach raw 64KB Super Snapshot cartridge image"
 msgstr "Insérer une cartouche Super Snapshot 64KO"
 
-#: src/c64/cart/c64cart.c:268 src/translate.c.po.c:1552
+#: src/c64/cart/c64cart.c:269 src/translate.c.po.c:1552
 msgid "Attach CBM IEEE488 cartridge image"
 msgstr "Insérer une cartouche CBM IEEE488"
 
-#: src/c64/cart/c64cart.c:271 src/translate.c.po.c:1562
+#: src/c64/cart/c64cart.c:272 src/translate.c.po.c:1562
 msgid "Attach raw 16KB Westermann learning cartridge image"
 msgstr "Insérer une cartouche Westermann Learning 16KO"
 
-#: src/c64/cart/c64cart.c:274 src/translate.c.po.c:4775
+#: src/c64/cart/c64cart.c:275 src/translate.c.po.c:4785
 #, fuzzy
 msgid "Attach raw Structured Basic cartridge image"
 msgstr "Insérer une &cartouche"
 
-#: src/c64/cart/c64cart.c:277 src/translate.c.po.c:1572
+#: src/c64/cart/c64cart.c:278 src/translate.c.po.c:1572
 msgid "Enable expert cartridge"
 msgstr "Activer les paramètres experts de cartouches"
 
@@ -845,17 +845,17 @@ msgstr "Détecter automatiquement la géométrie des images formattées"
 msgid "Do not autodetect geometry of formatted images"
 msgstr "Ne pas détecter automatiquement la géométrie des images formattées"
 
-#: src/c64/c64_256k.c:206 src/translate.c.po.c:4735
+#: src/c64/c64_256k.c:206 src/translate.c.po.c:4745
 #, fuzzy
 msgid "Enable the 256K RAM expansion"
 msgstr "Activer l'expansion RAM +60K"
 
-#: src/c64/c64_256k.c:208 src/translate.c.po.c:4745
+#: src/c64/c64_256k.c:208 src/translate.c.po.c:4755
 #, fuzzy
 msgid "Disable the 256K RAM expansion"
 msgstr "Désactiver l'expansion RAM +60K"
 
-#: src/c64/c64_256k.c:210 src/translate.c.po.c:4755
+#: src/c64/c64_256k.c:210 src/translate.c.po.c:4765
 #, fuzzy
 msgid "Specify name of 256K image"
 msgstr "Spécifier le nom de l'image +60K"
@@ -865,7 +865,7 @@ msgstr "Spécifier le nom de l'image +60K"
 msgid "<base address>"
 msgstr "<adresse de base>"
 
-#: src/c64/c64_256k.c:212 src/translate.c.po.c:4765
+#: src/c64/c64_256k.c:212 src/translate.c.po.c:4775
 #, fuzzy
 msgid "Base address of the 256K expansion"
 msgstr "Désactiver l'expansion RAM +60K"
@@ -876,17 +876,17 @@ msgid ""
 "Please switch SID Engine to FastSID"
 msgstr ""
 
-#: src/c64/digimax.c:137 src/translate.c.po.c:4825
+#: src/c64/digimax.c:137 src/translate.c.po.c:4835
 #, fuzzy
 msgid "Enable the digimax cartridge"
 msgstr "Activer les paramètres experts de cartouches"
 
-#: src/c64/digimax.c:139 src/translate.c.po.c:4835
+#: src/c64/digimax.c:139 src/translate.c.po.c:4845
 #, fuzzy
 msgid "Disable the digimax cartridge"
 msgstr "Activer les paramètres experts de cartouches"
 
-#: src/c64/digimax.c:141 src/translate.c.po.c:4845
+#: src/c64/digimax.c:141 src/translate.c.po.c:4855
 #, fuzzy
 msgid "Base address of the digimax cartridge"
 msgstr "Désactiver l'expansion RAM +60K"
@@ -944,37 +944,37 @@ msgstr ""
 msgid "Save the MMC64 bios when changed"
 msgstr ""
 
-#: src/c64/plus256k.c:171 src/translate.c.po.c:4665
+#: src/c64/plus256k.c:171 src/translate.c.po.c:4675
 #, fuzzy
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "Activer l'expansion RAM +60K"
 
-#: src/c64/plus256k.c:173 src/translate.c.po.c:4675
+#: src/c64/plus256k.c:173 src/translate.c.po.c:4685
 #, fuzzy
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "Désactiver l'expansion RAM +60K"
 
-#: src/c64/plus256k.c:175 src/translate.c.po.c:4685
+#: src/c64/plus256k.c:175 src/translate.c.po.c:4695
 #, fuzzy
 msgid "Specify name of PLUS256K image"
 msgstr "Spécifier le nom de l'image +60K"
 
-#: src/c64/plus60k.c:245 src/translate.c.po.c:4695
+#: src/c64/plus60k.c:245 src/translate.c.po.c:4705
 #, fuzzy
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "Activer l'expansion RAM +60K"
 
-#: src/c64/plus60k.c:247 src/translate.c.po.c:4705
+#: src/c64/plus60k.c:247 src/translate.c.po.c:4715
 #, fuzzy
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "Désactiver l'expansion RAM +60K"
 
-#: src/c64/plus60k.c:249 src/translate.c.po.c:4715
+#: src/c64/plus60k.c:249 src/translate.c.po.c:4725
 #, fuzzy
 msgid "Specify name of PLUS60K image"
 msgstr "Spécifier le nom de l'image +60K"
 
-#: src/c64/plus60k.c:251 src/translate.c.po.c:4725
+#: src/c64/plus60k.c:251 src/translate.c.po.c:4735
 #, fuzzy
 msgid "Base address of the PLUS60K expansion"
 msgstr "Désactiver l'expansion RAM +60K"
@@ -1336,7 +1336,7 @@ msgstr "Spécifier le nom de l'image 1001/8050/8250 DOS ROM"
 msgid "Specify name of 1551 DOS ROM image"
 msgstr "Spécifier le nom de l'image 1551 DOS ROM"
 
-#: src/fliplist.c:121 src/translate.c.po.c:4194
+#: src/fliplist.c:121 src/translate.c.po.c:4204
 msgid "Specify name of the flip list file image"
 msgstr "Spécifier le nom de l'image du fichier de groupement de disques"
 
@@ -1382,89 +1382,89 @@ msgid "ffmpegdrv: Cannot open %s"
 msgstr "ffmpegdrv: Impossible d'ouvrir %s"
 
 #: src/initcmdline.c:155 src/initcmdline.c:157 src/initcmdline.c:159
-#: src/translate.c.po.c:4203
+#: src/translate.c.po.c:4213
 msgid "Show a list of the available options and exit normally"
 msgstr "Montrer une liste des options disponibles et terminer normalement"
 
-#: src/initcmdline.c:162 src/translate.c.po.c:4214
+#: src/initcmdline.c:162 src/translate.c.po.c:4224
 msgid "Console mode (for music playback)"
 msgstr "Mode console (pour l'écoute de musique)"
 
-#: src/initcmdline.c:164 src/translate.c.po.c:4224
+#: src/initcmdline.c:164 src/translate.c.po.c:4234
 msgid "Allow production of core dumps"
 msgstr "Permettre la production de \"core dumps\""
 
-#: src/initcmdline.c:166 src/translate.c.po.c:4234
+#: src/initcmdline.c:166 src/translate.c.po.c:4244
 msgid "Do not produce core dumps"
 msgstr "Ne pas produire de \"core dumps\""
 
-#: src/initcmdline.c:169 src/translate.c.po.c:4244
+#: src/initcmdline.c:169 src/translate.c.po.c:4254
 msgid "Don't call exception handler"
 msgstr "Ne pas utiliser l'assistant d'exception"
 
-#: src/initcmdline.c:171 src/translate.c.po.c:4254
+#: src/initcmdline.c:171 src/translate.c.po.c:4264
 msgid "Call exception handler (default)"
 msgstr "Utiliser l'assistant d'exception par défaut"
 
-#: src/initcmdline.c:206 src/translate.c.po.c:4265
+#: src/initcmdline.c:206 src/translate.c.po.c:4275
 msgid "Restore default (factory) settings"
 msgstr "Rétablir les paramètres par défaut"
 
-#: src/initcmdline.c:208 src/translate.c.po.c:4275
+#: src/initcmdline.c:208 src/translate.c.po.c:4285
 msgid "Attach and autostart tape/disk image <name>"
 msgstr "Insérer et démarrer l'image de disque/datassette <nom>"
 
-#: src/initcmdline.c:210 src/translate.c.po.c:4285
+#: src/initcmdline.c:210 src/translate.c.po.c:4295
 msgid "Attach and autoload tape/disk image <name>"
 msgstr "Insérer et charger l'image de disque/datassette <nom>"
 
-#: src/initcmdline.c:212 src/translate.c.po.c:4295
+#: src/initcmdline.c:212 src/translate.c.po.c:4305
 msgid "Attach <name> as a tape image"
 msgstr "Insérer <nom> comme image de datassette"
 
-#: src/initcmdline.c:214 src/translate.c.po.c:4305
+#: src/initcmdline.c:214 src/translate.c.po.c:4315
 msgid "Attach <name> as a disk image in drive #8"
 msgstr "Insérer <nom> comme image de disque dans le lecteur #8"
 
-#: src/initcmdline.c:216 src/translate.c.po.c:4315
+#: src/initcmdline.c:216 src/translate.c.po.c:4325
 msgid "Attach <name> as a disk image in drive #9"
 msgstr "Insérer <nom> comme image de disque dans le lecteur #9"
 
-#: src/initcmdline.c:218 src/translate.c.po.c:4325
+#: src/initcmdline.c:218 src/translate.c.po.c:4335
 msgid "Attach <name> as a disk image in drive #10"
 msgstr "Insérer <nom> comme image de disque dans le lecteur #10"
 
-#: src/initcmdline.c:220 src/translate.c.po.c:4335
+#: src/initcmdline.c:220 src/translate.c.po.c:4345
 msgid "Attach <name> as a disk image in drive #11"
 msgstr "Insérer <nom> comme image de disque dans le lecteur #11"
 
-#: src/kbdbuf.c:136 src/translate.c.po.c:4345
+#: src/kbdbuf.c:136 src/translate.c.po.c:4355
 msgid "<string>"
 msgstr "<chaine>"
 
-#: src/kbdbuf.c:136 src/translate.c.po.c:4355
+#: src/kbdbuf.c:136 src/translate.c.po.c:4365
 msgid "Put the specified string into the keyboard buffer"
 msgstr "Placer la chaîne de caractères spécifiée dans le tampon clavier"
 
-#: src/log.c:110 src/translate.c.po.c:4365
+#: src/log.c:110 src/translate.c.po.c:4375
 msgid "Specify log file name"
 msgstr "Spécifier le nom du fichier log"
 
-#: src/mouse.c:358 src/translate.c.po.c:4375
+#: src/mouse.c:358 src/translate.c.po.c:4385
 #, fuzzy
 msgid "Enable mouse grab"
 msgstr "*Activer le mode Turbo"
 
-#: src/mouse.c:360 src/translate.c.po.c:4385
+#: src/mouse.c:360 src/translate.c.po.c:4395
 #, fuzzy
 msgid "Disable mouse grab"
 msgstr "Désactiver le mode double scan"
 
-#: src/mouse.c:362 src/translate.c.po.c:4395
+#: src/mouse.c:362 src/translate.c.po.c:4405
 msgid "Select the joystick port the mouse is attached to"
 msgstr "Sélectionner le port joystick sur lequel la souris est attachée"
 
-#: src/mouse.c:364 src/translate.c.po.c:4405
+#: src/mouse.c:364 src/translate.c.po.c:4415
 msgid "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga)"
 msgstr ""
 
@@ -1592,22 +1592,22 @@ msgstr "Spécifier le nom de l'image haute ROM Cartouche 2"
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Spécifier la taille du RAM installé (16/32/64)"
 
-#: src/plus4/plus4memcsory256k.c:120 src/translate.c.po.c:4785
+#: src/plus4/plus4memcsory256k.c:120 src/translate.c.po.c:4795
 #, fuzzy
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "Activer l'expansion RAM +60K"
 
-#: src/plus4/plus4memhannes256k.c:135 src/translate.c.po.c:4795
+#: src/plus4/plus4memhannes256k.c:135 src/translate.c.po.c:4805
 #, fuzzy
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "Activer l'expansion RAM +60K"
 
-#: src/plus4/plus4memhannes256k.c:137 src/translate.c.po.c:4805
+#: src/plus4/plus4memhannes256k.c:137 src/translate.c.po.c:4815
 #, fuzzy
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "Activer l'expansion RAM +60K"
 
-#: src/plus4/plus4memhannes256k.c:139 src/translate.c.po.c:4815
+#: src/plus4/plus4memhannes256k.c:139 src/translate.c.po.c:4825
 #, fuzzy
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "Activer l'expansion RAM +60K"
@@ -1689,20 +1689,20 @@ msgstr "Spécifier le périphérique de sortie text pour l'imprimante IEC #5"
 msgid "Specify printer text output device for userport printer"
 msgstr "Spécifier le périphérique de sortie text pour l'imprimante userport"
 
-#: src/ram.c:101 src/translate.c.po.c:4415
+#: src/ram.c:101 src/translate.c.po.c:4425
 msgid "Set the value for the very first RAM address after powerup"
 msgstr ""
 "Spécifier la valeur de la première adresse RAM après la mise sous tension"
 
-#: src/ram.c:104 src/ram.c:107 src/translate.c.po.c:4425
+#: src/ram.c:104 src/ram.c:107 src/translate.c.po.c:4435
 msgid "<num of bytes>"
 msgstr "<nombre d'octets>"
 
-#: src/ram.c:104 src/translate.c.po.c:4435
+#: src/ram.c:104 src/translate.c.po.c:4445
 msgid "Length of memory block initialized with the same value"
 msgstr "Longeur du premier bloc mémoire initialisé avec la même valeur"
 
-#: src/ram.c:107 src/translate.c.po.c:4445
+#: src/ram.c:107 src/translate.c.po.c:4455
 msgid "Length of memory block initialized with the same pattern"
 msgstr "Longeur du premier bloc mémoire initialisé avec le même pattern"
 
@@ -1924,20 +1924,20 @@ msgstr "Émuler les filtres SID"
 msgid "Do not emulate SID filters"
 msgstr "Ne pas émuler les filtres SID"
 
-#: src/sysfile.c:127 src/translate.c.po.c:4565
+#: src/sysfile.c:127 src/translate.c.po.c:4575
 msgid "<path>"
 msgstr "<chemin>"
 
-#: src/sysfile.c:127 src/translate.c.po.c:4575
+#: src/sysfile.c:127 src/translate.c.po.c:4585
 msgid "Define search path to locate system files"
 msgstr "Définir le chemin de recherche pour trouver les fichiers systèmes"
 
-#: src/traps.c:123 src/translate.c.po.c:4585
+#: src/traps.c:123 src/translate.c.po.c:4595
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr ""
 "Activer les méchanismes généraux pour l'émulation disque/datassette rapide"
 
-#: src/traps.c:126 src/translate.c.po.c:4595
+#: src/traps.c:126 src/translate.c.po.c:4605
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr ""
 "Désactiver les méchanismes généraux pour l'émulation disque/datassette rapide"
@@ -1970,23 +1970,23 @@ msgstr "Activer l'interface VIC-1112 IEEE488"
 msgid "Disable VIC-1112 IEEE488 interface"
 msgstr "Désactiver l'interface VIC-1112 IEEE488"
 
-#: src/vic20/vic20cartridge.c:211 src/translate.c.po.c:3558
+#: src/vic20/vic20cartridge.c:212 src/translate.c.po.c:3558
 msgid "Specify 4/8/16K extension ROM name at $2000"
 msgstr "Spécifier le nom de l'extension ROM 4/8/16K à $2000"
 
-#: src/vic20/vic20cartridge.c:213 src/translate.c.po.c:3568
+#: src/vic20/vic20cartridge.c:214 src/translate.c.po.c:3568
 msgid "Specify 4/8/16K extension ROM name at $4000"
 msgstr "Spécifier le nom de l'extension ROM 4/8/16K à $4000"
 
-#: src/vic20/vic20cartridge.c:215 src/translate.c.po.c:3578
+#: src/vic20/vic20cartridge.c:216 src/translate.c.po.c:3578
 msgid "Specify 4/8/16K extension ROM name at $6000"
 msgstr "Spécifier le nom de l'extension ROM 4/8/16K à $6000"
 
-#: src/vic20/vic20cartridge.c:217 src/translate.c.po.c:3588
+#: src/vic20/vic20cartridge.c:218 src/translate.c.po.c:3588
 msgid "Specify 4/8K extension ROM name at $A000"
 msgstr "Spécifier le nom de l'extension ROM 4/8K à $A000"
 
-#: src/vic20/vic20cartridge.c:219 src/translate.c.po.c:3598
+#: src/vic20/vic20cartridge.c:220 src/translate.c.po.c:3598
 msgid "Specify 4K extension ROM name at $B000"
 msgstr "Spécifier le nom de l'extension ROM 4K à $B000"
 
@@ -2250,13 +2250,13 @@ msgstr ""
 
 #: src/arch/unix/gui/c128ui.c:71 src/arch/unix/gui/c64ui.c:74
 #: src/arch/unix/gui/cbm2ui.c:64 src/arch/unix/gui/uited.c:56
-#: src/arch/unix/gui/uivic.c:45 src/arch/unix/gui/vsidui.c:286
+#: src/arch/unix/gui/uivic.c:45 src/arch/unix/gui/vsidui.c:290
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/gui/c128ui.c:73 src/arch/unix/gui/c64ui.c:76
 #: src/arch/unix/gui/cbm2ui.c:66 src/arch/unix/gui/uited.c:58
-#: src/arch/unix/gui/uivic.c:47 src/arch/unix/gui/vsidui.c:288
+#: src/arch/unix/gui/uivic.c:47 src/arch/unix/gui/vsidui.c:292
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
@@ -2264,21 +2264,21 @@ msgstr "*NTSC-M"
 #: src/arch/unix/gui/c64ui.c:225 src/arch/unix/gui/c64ui.c:250
 #: src/arch/unix/gui/cbm2ui.c:293 src/arch/unix/gui/cbm2ui.c:318
 #: src/arch/unix/gui/petui.c:119 src/arch/unix/gui/plus4ui.c:106
-#: src/arch/unix/gui/vic20ui.c:142 src/arch/unix/gui/vsidui.c:198
+#: src/arch/unix/gui/vic20ui.c:142 src/arch/unix/gui/vsidui.c:202
 msgid "SID engine"
 msgstr "Engin SID"
 
 #: src/arch/unix/gui/c128ui.c:157 src/arch/unix/gui/c128ui.c:183
 #: src/arch/unix/gui/c64ui.c:228 src/arch/unix/gui/c64ui.c:254
 #: src/arch/unix/gui/cbm2ui.c:296 src/arch/unix/gui/cbm2ui.c:322
-#: src/arch/unix/gui/vsidui.c:201
+#: src/arch/unix/gui/vsidui.c:205
 msgid "*Second SID"
 msgstr "*Second SID"
 
 #: src/arch/unix/gui/c128ui.c:159 src/arch/unix/gui/c128ui.c:185
 #: src/arch/unix/gui/c64ui.c:230 src/arch/unix/gui/c64ui.c:256
 #: src/arch/unix/gui/cbm2ui.c:298 src/arch/unix/gui/cbm2ui.c:324
-#: src/arch/unix/gui/vsidui.c:203
+#: src/arch/unix/gui/vsidui.c:207
 msgid "*Second SID base address"
 msgstr "*Adresse de base du second SID"
 
@@ -2286,7 +2286,7 @@ msgstr "*Adresse de base du second SID"
 #: src/arch/unix/gui/c64ui.c:233 src/arch/unix/gui/c64ui.c:258
 #: src/arch/unix/gui/cbm2ui.c:301 src/arch/unix/gui/cbm2ui.c:327
 #: src/arch/unix/gui/petui.c:123 src/arch/unix/gui/plus4ui.c:110
-#: src/arch/unix/gui/vic20ui.c:146 src/arch/unix/gui/vsidui.c:206
+#: src/arch/unix/gui/vic20ui.c:146 src/arch/unix/gui/vsidui.c:210
 msgid "*Emulate filters"
 msgstr "*Émuler les filtres"
 
@@ -2294,17 +2294,17 @@ msgstr "*Émuler les filtres"
 #: src/arch/unix/gui/c64ui.c:235 src/arch/unix/gui/c64ui.c:260
 #: src/arch/unix/gui/cbm2ui.c:303 src/arch/unix/gui/cbm2ui.c:329
 #: src/arch/unix/gui/petui.c:121 src/arch/unix/gui/plus4ui.c:108
-#: src/arch/unix/gui/vic20ui.c:144 src/arch/unix/gui/vsidui.c:208
+#: src/arch/unix/gui/vic20ui.c:144 src/arch/unix/gui/vsidui.c:212
 msgid "Chip model"
 msgstr "Modèle de puce"
 
 #: src/arch/unix/gui/c128ui.c:168 src/arch/unix/gui/c64ui.c:239
-#: src/arch/unix/gui/cbm2ui.c:307 src/arch/unix/gui/vsidui.c:212
+#: src/arch/unix/gui/cbm2ui.c:307 src/arch/unix/gui/vsidui.c:216
 msgid "reSID sampling method"
 msgstr "Méthode d'échantillonnage reSID"
 
 #: src/arch/unix/gui/c128ui.c:170 src/arch/unix/gui/c64ui.c:241
-#: src/arch/unix/gui/cbm2ui.c:309 src/arch/unix/gui/vsidui.c:214
+#: src/arch/unix/gui/cbm2ui.c:309 src/arch/unix/gui/vsidui.c:218
 msgid "reSID resampling passband..."
 msgstr "Bande passante de rééchantillonnage reSID..."
 
@@ -2485,7 +2485,7 @@ msgid "VDC settings"
 msgstr "Paramètres VDC"
 
 #: src/arch/unix/gui/c128ui.c:380 src/arch/unix/gui/c64ui.c:366
-#: src/arch/unix/gui/cbm2ui.c:360 src/arch/unix/gui/vsidui.c:336
+#: src/arch/unix/gui/cbm2ui.c:360 src/arch/unix/gui/vsidui.c:340
 #: src/arch/win32/ressid.rc.po.c:59
 msgid "SID settings"
 msgstr "Paramètres SID"
@@ -2507,7 +2507,7 @@ msgstr "Paramètres du modèle"
 #: src/arch/unix/gui/c128ui.c:510 src/arch/unix/gui/c64ui.c:494
 #: src/arch/unix/gui/cbm2ui.c:505 src/arch/unix/gui/petui.c:487
 #: src/arch/unix/gui/plus4ui.c:314 src/arch/unix/gui/vic20ui.c:603
-#: src/arch/unix/gui/vsidui.c:393 src/arch/amigaos/intl.c.po.c:96
+#: src/arch/unix/gui/vsidui.c:397 src/arch/amigaos/intl.c.po.c:96
 msgid "File"
 msgstr "Fichier"
 
@@ -2528,7 +2528,7 @@ msgstr "Options"
 #: src/arch/unix/gui/c128ui.c:516 src/arch/unix/gui/c64ui.c:500
 #: src/arch/unix/gui/cbm2ui.c:511 src/arch/unix/gui/petui.c:493
 #: src/arch/unix/gui/plus4ui.c:320 src/arch/unix/gui/vic20ui.c:609
-#: src/arch/unix/gui/vsidui.c:395 src/arch/unix/x11/gnome/uinetplay.c:66
+#: src/arch/unix/gui/vsidui.c:399 src/arch/unix/x11/gnome/uinetplay.c:66
 #: src/arch/win32/res.rc.po.c:4434 src/arch/amigaos/intl.c.po.c:1221
 msgid "Settings"
 msgstr "Paramètres"
@@ -2541,7 +2541,7 @@ msgstr "Paramètres"
 msgid "RJHelp"
 msgstr "RJAide"
 
-#: src/arch/unix/gui/c64ui.c:78 src/arch/unix/gui/vsidui.c:290
+#: src/arch/unix/gui/c64ui.c:78 src/arch/unix/gui/vsidui.c:294
 msgid "*Old NTSC-M"
 msgstr "*Ancien NTSC-M"
 
@@ -3364,7 +3364,7 @@ msgid "About VICE..."
 msgstr "À propos de VICE..."
 
 #: src/arch/unix/gui/uicommands.c:569 src/arch/unix/gui/uidatasette.c:98
-#: src/arch/unix/x11/gnome/uipalcontrol.c:171
+#: src/arch/unix/x11/gnome/uipalcontrol.c:173
 #: src/arch/unix/x11/gnome/x11ui.c:1822 src/arch/amigaos/intl.c.po.c:312
 msgid "Reset"
 msgstr "Réinitialiser"
@@ -5128,7 +5128,7 @@ msgstr "Temps de veille"
 msgid "Oversample"
 msgstr "Suréchantillonage"
 
-#: src/arch/unix/gui/uisound.c:154 src/arch/unix/gui/vsidui.c:326
+#: src/arch/unix/gui/uisound.c:154 src/arch/unix/gui/vsidui.c:330
 msgid "Sound settings"
 msgstr "Paramètres son"
 
@@ -5154,7 +5154,7 @@ msgid "PAL Emulation"
 msgstr "Émulation PAL"
 
 #: src/arch/unix/gui/uited.c:116 src/arch/unix/gui/uivic.c:111
-#: src/arch/unix/gui/uivicii.c:138 src/arch/unix/gui/vsidui.c:338
+#: src/arch/unix/gui/uivicii.c:138 src/arch/unix/gui/vsidui.c:342
 #: src/arch/amigaos/intl.c.po.c:1149
 msgid "Video standard"
 msgstr "Standard vidéo"
@@ -5357,37 +5357,37 @@ msgstr "Retirer une cartouche"
 msgid "VIC settings"
 msgstr "Paramètres VIC"
 
-#: src/arch/unix/gui/vsidui.c:229
+#: src/arch/unix/gui/vsidui.c:233
 msgid "Tunes"
 msgstr "Tons"
 
-#: src/arch/unix/gui/vsidui.c:239
+#: src/arch/unix/gui/vsidui.c:243
 msgid "Load PSID file"
 msgstr "Charger le fichier PSID"
 
-#: src/arch/unix/gui/vsidui.c:247
+#: src/arch/unix/gui/vsidui.c:251
 #, c-format
 msgid "`%s' is not a valid PSID file."
 msgstr "`%s' n'est pas un fichier PSID valide."
 
-#: src/arch/unix/gui/vsidui.c:274
+#: src/arch/unix/gui/vsidui.c:278
 msgid "Load PSID file..."
 msgstr "Charger un fichier PSID..."
 
-#: src/arch/unix/gui/vsidui.c:334
+#: src/arch/unix/gui/vsidui.c:338
 msgid "*Override PSID settings"
 msgstr "*Écraser les paramètres PSID"
 
-#: src/arch/unix/gui/vsidui.c:413
+#: src/arch/unix/gui/vsidui.c:417
 msgid "*Default Tune"
 msgstr "*Ton par défaut"
 
-#: src/arch/unix/gui/vsidui.c:436
+#: src/arch/unix/gui/vsidui.c:440
 #, c-format
 msgid "*Tune %d"
 msgstr "Ton %d"
 
-#: src/arch/unix/gui/vsidui.c:464
+#: src/arch/unix/gui/vsidui.c:468
 msgid "VSID: The SID Emulator"
 msgstr "VSID: L'émulateur SID"
 
@@ -5525,15 +5525,15 @@ msgstr "Luminosité"
 msgid "Gamma"
 msgstr "Intensité"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:127
+#: src/arch/unix/x11/gnome/uipalcontrol.c:129
 msgid "PAL Settings"
 msgstr "Paramètres PAL"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:180
+#: src/arch/unix/x11/gnome/uipalcontrol.c:182
 msgid "Fast Emulation"
 msgstr "Émulation rapide"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:187
+#: src/arch/unix/x11/gnome/uipalcontrol.c:189
 msgid "Exact Emulation"
 msgstr "Émulation exacte"
 
@@ -5744,7 +5744,7 @@ msgstr ""
 "Modèle: %s\n"
 "IRQ: %s"
 
-#: src/arch/unix/x11/gnome/uifileentry.c:52
+#: src/arch/unix/x11/gnome/uifileentry.c:53
 #: src/arch/unix/x11/gnome/x11ui.c:2496
 #, fuzzy
 msgid "all files"
@@ -6156,100 +6156,100 @@ msgstr ""
 msgid "VICE Error!"
 msgstr "Erreur VICE!"
 
-#: src/arch/unix/x11/xaw/x11video.c:218
+#: src/arch/unix/x11/xaw/x11video.c:223
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "Appeller `XSync()' après la mise à jour de la fenêtre d'émulation"
 
-#: src/arch/unix/x11/xaw/x11video.c:221
+#: src/arch/unix/x11/xaw/x11video.c:226
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr ""
 "Ne pas appeller `XSync()' après la mise à jour de la fenêtre d'émulation"
 
-#: src/arch/unix/x11/xaw/x11video.c:224
+#: src/arch/unix/x11/xaw/x11video.c:229
 msgid "Use shared memory"
 msgstr "Utiliser la mémoire partagée"
 
-#: src/arch/unix/x11/xaw/x11video.c:227
+#: src/arch/unix/x11/xaw/x11video.c:232
 msgid "Never use shared memory (slower)"
 msgstr "Ne pas utiliser la mémoire partagée (plus lent)"
 
-#: src/arch/unix/x11/xaw/x11video.c:230
+#: src/arch/unix/x11/xaw/x11video.c:235
 msgid "Request YUV FOURCC format"
 msgstr "Demander le format YUV FOURCC"
 
-#: src/arch/unix/x11/xaw/x11video.c:232
+#: src/arch/unix/x11/xaw/x11video.c:237
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr "Définir le ratio d'aspect (0.8 - 1.2)"
 
-#: src/arch/unix/x11/xaw/x11video.c:311
+#: src/arch/unix/x11/xaw/x11video.c:316
 msgid "The MITSHM extension is not supported on this display."
 msgstr "L'extension MITSHM n'est pas supportée sur cet affichage."
 
-#: src/arch/unix/x11/xaw/x11video.c:315
+#: src/arch/unix/x11/xaw/x11video.c:320
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Détecté extensions MITSHM version %d.%d."
 
-#: src/arch/unix/x11/xaw/x11video.c:383
+#: src/arch/unix/x11/xaw/x11video.c:388
 msgid "Cannot release shared memory!"
 msgstr "Impossible de relâcher la mémoire partagée!"
 
-#: src/arch/unix/x11/xaw/x11video.c:512
+#: src/arch/unix/x11/xaw/x11video.c:517
 #, c-format
 msgid "Successfully initialized using XVideo (%dx%d %.4s)."
 msgstr "Initialisation réussie avec XVideo (%dx%d %.4s)."
 
-#: src/arch/unix/x11/xaw/x11video.c:532
+#: src/arch/unix/x11/xaw/x11video.c:537
 msgid ""
 "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."
 msgstr ""
 "Impossible d'allouer XImage avec XShm; retour au mode sans extension MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:545
+#: src/arch/unix/x11/xaw/x11video.c:550
 msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
 msgstr ""
 "Impossible d'accéder à la mémoire partagée; retour au mode sans extension "
 "MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:556
+#: src/arch/unix/x11/xaw/x11video.c:561
 msgid ""
 "Cannot get shared memory address; falling back to non MITSHM extension mode."
 msgstr ""
 "Impossible d'obtenir l'adresse de la mémoire partagée; retour au mode sans "
 "extension MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:571 src/arch/unix/x11/xaw/x11video.c:588
+#: src/arch/unix/x11/xaw/x11video.c:576 src/arch/unix/x11/xaw/x11video.c:593
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
 msgstr ""
 "Impossible d'attacher la mémoire partagée; retour au mode extension non "
 "MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:595
+#: src/arch/unix/x11/xaw/x11video.c:600
 msgid "MITSHM initialization succeed.\n"
 msgstr "Initialisation MITSHM réussie.\n"
 
-#: src/arch/unix/x11/xaw/x11video.c:616
+#: src/arch/unix/x11/xaw/x11video.c:621
 #, c-format
 msgid "Successfully initialized%s shared memory."
 msgstr "Initialisation réussie %s mémoire partagée."
 
-#: src/arch/unix/x11/xaw/x11video.c:617
+#: src/arch/unix/x11/xaw/x11video.c:622
 msgid ", using"
 msgstr ", avec"
 
-#: src/arch/unix/x11/xaw/x11video.c:617
+#: src/arch/unix/x11/xaw/x11video.c:622
 msgid " without"
 msgstr " sans"
 
-#: src/arch/unix/x11/xaw/x11video.c:620
+#: src/arch/unix/x11/xaw/x11video.c:625
 msgid "Performance will be poor."
 msgstr "Les performances vont être médiocres."
 
-#: src/arch/unix/x11/xaw/x11video.c:623
+#: src/arch/unix/x11/xaw/x11video.c:628
 msgid "Successfully initialized without shared memory."
 msgstr "Initialisation réussie sans mémoire partagée."
 
-#: src/arch/unix/x11/xaw/x11video.c:693
+#: src/arch/unix/x11/xaw/x11video.c:698
 #, fuzzy
 msgid "HW scaling not available"
 msgstr "Quelles sont les lignes de commandes disponibles?"
@@ -10157,11 +10157,15 @@ msgstr ""
 msgid "Execute monitor commands from file"
 msgstr ""
 
-#: src/translate.c.po.c:4645
-msgid "<iso language code>"
+#: src/translate.c.po.c:4194
+msgid "Set an initial breakpoint for the monitor"
 msgstr ""
 
 #: src/translate.c.po.c:4655
+msgid "<iso language code>"
+msgstr ""
+
+#: src/translate.c.po.c:4665
 msgid "Specify the iso code of the language"
 msgstr ""
 
