@@ -32,6 +32,10 @@
 
 #include <stdlib.h>
 
+#ifdef WATCOM_COMPILE
+#include <process.h>
+#endif
+
 #include "dialogs.h"
 #include "dlg-vsid.h"
 #include "dlg-emulator.h" // hwndVsidEmulator

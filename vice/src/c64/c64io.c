@@ -408,12 +408,12 @@ BYTE REGPARM1 c64io2_read(WORD addr)
         io_source_counter++;
     }
     if (georam_enabled && addr >= 0xdf80) {
-        return georam_reg_read((WORD)(addr & 1));
+        return_value = georam_reg_read((WORD)(addr & 1));
         io_source_check(io_source_counter);
         io_source_counter++;
     }
     if (mmc64_enabled && addr >= 0xdf10 && addr <= 0xdf13) {
-        return mmc64_io2_read((WORD)(addr));
+        return_value = mmc64_io2_read((WORD)(addr));
         io_source_check(io_source_counter);
         io_source_counter++;
     }

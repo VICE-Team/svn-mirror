@@ -53,18 +53,11 @@ int input_y=0;
 int input_select=0;
 
 void gp2x_poll_input() {
-	static int swap_button;
 	static int stats_button;
 	static int prefs_button;
 	static int vkeyb_button;
-#if 0
-	static int choose_button;
-#endif
 	static int joy_time=0;
-	static int a_held=0;
-	static int b_held=0;
 	static int x_held=0;
-	static int y_held=0;
 
 	unsigned int joy_state=gp2x_joystick_read();
 
@@ -72,9 +65,6 @@ void gp2x_poll_input() {
 	if(!(joy_state&GP2X_SELECT)) prefs_button=0;
 	if(joy_state&GP2X_SELECT && !prefs_button) {
 		prefs_open=~prefs_open;
-#if 0
-		ui_pause_emulation(1);
-#endif
 		prefs_button=1;
 	}
 
@@ -91,11 +81,8 @@ void gp2x_poll_input() {
 		if(!rrate) rrate++;
 		if(joy_state&(GP2X_UP|GP2X_DOWN|GP2X_LEFT|GP2X_RIGHT)) joy_time+=rrate;
 		else joy_time=0;
-#if 0
-		if(joy_time==rrate || !(joy_time%(4+rrate)) || joy_time>35) {
-#endif
 		if(joy_time==rrate || (joy_time>6)) {
-			if(joy_time>4) joy_time==rrate;
+			if(joy_time>4) joy_time=rrate;
 			input_up=joy_state&GP2X_UP;
 			input_down=joy_state&GP2X_DOWN;
 			input_select=joy_state&GP2X_SELECT;
@@ -103,15 +90,6 @@ void gp2x_poll_input() {
 			input_right=joy_state&GP2X_RIGHT;
 		}
 
-#if 0
-		/* B button */
-		if(!(joy_state&(GP2X_B|GP2X_PUSH))) {
-			input_b=0;
-			input_b_deselected=1;
-		} else if(input_b_deselected && (joy_state&(GP2X_B|GP2X_PUSH))) {
-			input_b=1;
-		}
-#endif
 		/* B button */
 		if((joy_state&(GP2X_B|GP2X_PUSH))!=input_b_last) {
 			input_b=joy_state&(GP2X_B|GP2X_PUSH);
@@ -144,40 +122,11 @@ void gp2x_poll_input() {
 		keyboard_set_keyarr(7,4,0);
 	}
 
-#if 0
-	/* a */
-	if((joy_state&GP2X_A)&&!a_held) {
-		a_held=1;
-		keyboard_set_keyarr(1,2,1);
-	} else if(a_held&&(!(joy_state&GP2X_A))) {
-		a_held=0;
-		keyboard_set_keyarr(1,2,0);
-	}
-
-	if((joy_state&GP2X_Y)&&!y_held) {
-		y_held=1;
-		keyboard_set_keyarr(1,7,1);
-	} else if(y_held&&(!(joy_state&GP2X_Y))) {
-		y_held=0;
-		keyboard_set_keyarr(1,7,0);
-	}
-#endif
 
 	if(gp2x_joystick_read()&GP2X_VOL_UP) volume_up();
 	else if(gp2x_joystick_read()&GP2X_VOL_DOWN) volume_down();
 
 	if(prefs_open||vkeyb_open) return;
-
-#if 0
-	BYTE j=0xff;
-	unsigned int joy_state=gp2x_joystick_read();
-	if(joy_state&GP2X_UP) j&=0xfe;
-	else if(joy_state&GP2X_DOWN) j&=0xfd;
-	if(joy_state&GP2X_LEFT) j&=0xfb;
-	else if(joy_state&GP2X_RIGHT) j&=0xf7;
-	if(joy_state&GP2X_B) j&=0xef; /* fire */
-      joystick_value[cur_port]=~j;
-#endif
 
 	BYTE j=joystick_value[cur_port];
 	if(joy_state&GP2X_UP) j|=0x01;

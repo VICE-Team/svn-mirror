@@ -71,8 +71,8 @@ static int mp3_init(const char *param, int *speed, int *fragsize, int *fragnr, i
 
 static int mp3_write(SWORD *pbuf, size_t nr)
 {
-  int mp3_size;
-  int i;
+  unsigned int mp3_size;
+  unsigned int i;
 
   for (i=0; i<nr; i++)
   {

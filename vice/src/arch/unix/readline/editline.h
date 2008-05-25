@@ -13,6 +13,10 @@
 #include <string.h>
 #endif  /* defined(HAVE_STDLIB) */
 
+#if defined(HAVE_UNISTD_H)
+#include <unistd.h>
+#endif
+
 #if defined(SYS_UNIX)
 #include "unix.h"
 #endif  /* defined(SYS_UNIX) */
@@ -58,16 +62,15 @@ extern int      rl_erase;
 extern int      rl_intr;
 extern int      rl_kill;
 extern int      rl_quit;
-extern char     *rl_complete();
-extern int      rl_list_possib();
-extern void     rl_ttyset();
-extern void     rl_add_slash();
+extern char *rl_complete(char *pathname, int *unique);
+extern int rl_list_possib(char *pathname, char ***avp);
+extern void rl_ttyset(int Reset);
+extern void rl_add_slash(char *path, char *p);
 
-extern void     rl_reset_terminal();
-extern void     rl_initialize();
-extern char     *readline();
-extern void     add_history();
-
+extern void rl_reset_terminal(char *p);
+extern void rl_initialize(void);
+extern char *readline(CONST char *prompt);
+extern void add_history(char *p);
 
 #if     !defined(HAVE_STDLIB)
 extern char     *getenv();
@@ -83,4 +86,3 @@ extern int      strcmp();
 extern int      strlen();
 extern int      strncmp();
 #endif  /* !defined(HAVE_STDLIB) */
-

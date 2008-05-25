@@ -122,12 +122,14 @@ static filter_t FilterTape[] = {
     {NULL}
 };
 
+#if defined(__X64__) || defined(__X128__) || defined(__XPET__) || defined(__XCBM__)
 static filter_t FilterCart[] = {
     {"*.crt; *.bin",   "All Cartridge Images" },
     {"*.crt",          "CRT"                  },
     {"*.bin",          "BIN"                  },
     {NULL}
 };
+#endif
 
 static filter_t FilterPal[]     = {{"*.vpl", "Vice/2 Color Palette"     }, {NULL}};
 static filter_t FilterVsf[]     = {{"*.vsf", "Vice/2 Snapshot File"     }, {NULL}};
@@ -140,7 +142,11 @@ static filter_t FilterFlip[]    = {{"*.vfl",    "Vice/2 Fliplist"       }, {NULL
 static filter_t FilterKernal[]  = {{"kernal*",  "Kernal ROM"            }, {NULL}};
 static filter_t FilterBasic[]   = {{"basic*",   "Basic ROM"             }, {NULL}};
 static filter_t FilterChargen[] = {{"charg*",   "Character ROM"         }, {NULL}};
+
+#ifdef __X128__
 static filter_t FilterZ80[]     = {{"z80bios*", "Z80 BIOS"              }, {NULL}};
+#endif
+
 static filter_t Filter1541[]    = {{"dos1541*", "1541 ROM"              }, {NULL}};
 static filter_t Filter15412[]   = {{"d1541II*", "1541-II ROM"           }, {NULL}};
 static filter_t Filter1571[]    = {{"dos1571*", "1571 ROM"              }, {NULL}};
@@ -168,7 +174,11 @@ static subaction_t SubFlip[] = {
 static subaction_t SubTape[]   = {{ "as Tape to Datasette",    FilterTape }, {NULL}};
 static subaction_t SubKbd[]    = {{ "as new keyboard mapping", FilterKbd },  {NULL}};
 static subaction_t SubCfg[]    = {{ "as new configuration",    FilterCfg },  {NULL}};
+
+#if defined __X64__ || defined __X128__
 static subaction_t SubCart2[]  = {{ "as cartridge image",      FilterCart }, {NULL}};
+#endif
+
 static subaction_t SubVsf[]    = {{ "as Vice/2 snapshot file", FilterVsf },  {NULL}};
 static subaction_t SubRomSet[] = {{ "as Vice/2 rom set",       FilterRomSet},{NULL}};
 
@@ -629,8 +639,6 @@ static void LboxFreeContents(HWND hwnd)
 
 static void ShowContents(HWND hwnd, char *image_name)
 {
-    int   ascii;
-    char *text;
     image_contents_t            *image;
     image_contents_screencode_t *line;
     image_contents_screencode_t *lines;

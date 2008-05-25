@@ -48,6 +48,12 @@ extern int joystick_init_cmdline_options(void);
 
 extern int joystick_port_map[2];
 
+#ifdef HAS_USB_JOYSTICK
+extern int usb_joystick_init(void);
+extern void usb_joystick_close(void);
+extern void usb_joystick(void);
+#endif
+
 #define JOYDEV_NONE         0
 #define JOYDEV_NUMPAD       1
 #define JOYDEV_KEYSET1      2

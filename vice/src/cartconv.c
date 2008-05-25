@@ -37,6 +37,9 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+#if defined(WATCOM_COMPILE) && defined(HAVE_IO_H)
+#include <io.h>
+#endif
 
 #define GENERIC_CRT             0
 #define ACTION_REPLAY_CRT       1

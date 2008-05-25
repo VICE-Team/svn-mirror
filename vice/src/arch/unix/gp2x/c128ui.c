@@ -29,8 +29,11 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "cartridge.h"
+#include "keyboard.h"
 #include "prefs_gp2x.h"
 #include "resources.h"
+#include "uitext_gp2x.h"
 #include "videoarch.h"
 #include "vkeyboard_gp2x.h"
 

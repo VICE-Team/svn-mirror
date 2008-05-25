@@ -110,7 +110,9 @@ static int keyboard_set_latch_keyarr(int row, int col, int value)
 }
 
 /*-----------------------------------------------------------------------*/
+#ifdef COMMON_KBD
 static void keyboard_key_clear_internal(void);
+#endif
 
 static void keyboard_event_record(void)
 {

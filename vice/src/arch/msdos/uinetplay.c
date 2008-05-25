@@ -104,7 +104,7 @@ static TUI_MENU_CALLBACK(ui_netplay_set_port_callback)
     char buf[10];
 
     resources_get_int("NetworkServerPort", &current_port);
-    sprintf(buf,"%d\0",current_port);
+    sprintf(buf,"%d",current_port);
 
     if (tui_input_string("TCP Port", "Enter TCP Port to use:", buf, 10) == 0)
     {

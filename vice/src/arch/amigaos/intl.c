@@ -4802,7 +4802,7 @@ char *intl_convert_cp(char *text, int cp)
 
 static char *intl_get_string_by_id(int id)
 {
-  int k;
+  unsigned int k;
 
   for (k = 0; k < countof(intl_string_table); k++)
   {
@@ -4814,7 +4814,7 @@ static char *intl_get_string_by_id(int id)
 
 char *intl_translate_text(int en_resource)
 {
-  int i;
+  unsigned int i;
 
   for (i = 0; i < countof(intl_translate_text_table); i++)
   {
@@ -4840,7 +4840,7 @@ char *intl_speed_at_text;
 
 void intl_init(void)
 {
-  int i,j;
+  unsigned int i,j;
 
   for (i = 0; i < countof(language_table); i++)
   {

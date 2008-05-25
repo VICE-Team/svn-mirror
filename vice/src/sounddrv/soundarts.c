@@ -57,7 +57,6 @@ static int artsdrv_bits;
 static int artsdrv_fragsize;
 static int artsdrv_fragnr;
 static double artsdrv_bufsize;
-static int artsdrv_lastbs=0;
 static int artsdrv_suspended=0;
 /*
  * static int artsdrv_bs=0;
@@ -135,6 +134,7 @@ static void artsdrv_close(void)
 }
 
 
+#if 0
 /*
 ** As the aRts C API doesn't support a DSP_SNDCTL_POST equivalent
 ** function, i tried to emulate but apparently its not needed so
@@ -152,6 +152,7 @@ static int artsdrv_suspend(void)
     return 0;
 
 };
+#endif
 
 int artsdrv_resume(void)
 {
@@ -172,8 +173,8 @@ static sound_device_t artsdrv_device =
     NULL,
     artsdrv_bufferspace,
     artsdrv_close,
-    NULL,//artsdrv_suspend,
-    NULL,//artsdrv_resume
+    NULL,  /* artsdrv_suspend */
+    NULL, /* artsdrv_resume */
     1
 };
 

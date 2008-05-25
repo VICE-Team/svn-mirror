@@ -1,3 +1,61 @@
+2008-05-24  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am: Added a '@' in front of the 'make install' echo.
+
+2008-05-24  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* joystick.c, keyboard.c: Added #ifdef COMMON_KBD around common
+	keyboard specific elements.
+
+	* vic20/vic20cartridge.c, c64/cart/c64cart.c,
+	monitor/mon_parse.c, monitor/mon_command.c, monitor/mon_parse.h,
+	monitor/mon_lex.c, monitor/mon_parse.y, monitor/mon_lex.l,
+	monitor/mon_memory.c, monitor/montypes.h, monitor/monitor.c,
+	monitor/mon_file.c, monitor/mon_file.h, translate.txt,
+	monitor.h: Added most of the new VICEplus monitor features, as
+	provided by Hannu Nuotio <hannu.nuotio@tut.fi> and Daniel Kahlin
+	<daniel@kahlin.net>.
+
+	* network.c, sounddrv/soundallegro.c, sounddrv/soundvoc.c,
+	sounddrv/soundmmos2.c, sounddrv/soundwav.c, sounddrv/soundmp3.c,
+	sounddrv/soundarts.c, c64/c64io.c, c64/mmc64.c, tape/tape.c,
+	translate.c, fsdevice/fsdevice-close.c, crtc/crtc.c,
+	drive/rotation.c, arch/amigaos/intl.c, arch/amigaos/video.c,
+	arch/amigaos/mui/uivideoc128.c, arch/amigaos/mui/mui.h,
+	arch/amigaos/mui/uisnapshot.c, arch/amigaos/catweaselmkiii.c,
+	arch/amigaos/joyai.c, arch/amigaos/screen-shot.c,
+	arch/riscos/videoarch.h, arch/riscos/ui.c, arch/riscos/video.c,
+	arch/riscos/spritedrv.c, arch/win32/intl.c, arch/win32/ui.c,
+	arch/win32/watcom/monitor.tgt, arch/win32/watcom/vic20.tgt,
+	arch/win32/watcom/plus4.tgt, arch/win32/watcom/c64.tgt,
+	arch/os2/archdep.c, arch/os2/fullscr.c, arch/os2/ui.c,
+	arch/os2/dialogs/dlg-joystick.c, arch/os2/dialogs/menubar.c,
+	arch/os2/dialogs/dlg-fileio.c, arch/os2/dialogs/dlg-drive.c,
+	arch/os2/dialogs/dlg-cmdopt.c, arch/os2/dialogs/dlg-monitor.c,
+	arch/os2/vsidui.c, arch/os2/video.c, arch/os2/kbd/parse.c,
+	arch/os2/uimon.c, arch/os2/blockdev.c, arch/unix/joy.h,
+	arch/unix/gp2x/vic20ui.c, arch/unix/gp2x/minimal.c,
+	arch/unix/gp2x/vkeyboard_gp2x.c, arch/unix/gp2x/c64ui.c,
+	arch/unix/gp2x/input_gp2x.c, arch/unix/gp2x/audio_gp2x.c,
+	arch/unix/gp2x/vsidui.c, arch/unix/gp2x/input_gp2x.h,
+	arch/unix/gp2x/plus4ui.c, arch/unix/gp2x/video.c,
+	arch/unix/gp2x/c128ui.c, arch/unix/gp2x/prefs_gp2x.c,
+	arch/unix/gp2x/uiarch.h, arch/unix/gp2x/cbm2ui.c,
+	arch/unix/gp2x/petui.c, arch/unix/gui/vsidui.c,
+	arch/unix/x11/xaw/x11video.c,
+	arch/unix/x11/xaw/widgets/FileSel.c,
+	arch/unix/x11/gnome/uipalcontrol.c,
+	arch/unix/x11/gnome/uicolor.c, arch/msdos/joy.c,
+	arch/msdos/console.c, arch/msdos/uiperipherial.c,
+	arch/msdos/uinetplay.c, arch/msdos/video.c, arch/msdos/petui.c,
+	arch/msdos/ui.c, arch/msdos/plus4ui.c, arch/msdos/cbm2ui.c,
+	arch/msdos/uijoystick.c, zfile.c, cartconv.c: Fixed some
+	warnings and other issues.
+
+	* arch/unix/readline/editline2.c, arch/unix/readline/editline.h,
+	arch/unix/readline/sysunix.c, arch/unix/readline/complete.c,
+	arch/unix/readline/editline.c: Updated the prototypes.
+
 2008-05-19  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* resid/configure, resid/depcomp, resid/config.guess,

@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "keyboard.h"
 #include "prefs_gp2x.h"
 #include "resources.h"
 #include "videoarch.h"
@@ -37,9 +38,6 @@
 /* reserved for future sid cart support */
 void petui_handle_sidengine_resource(int value)
 {
-#if 0
-  resources_set_int("SidEngine", value);
-#endif
 }
 
 int petui_handle_X(int Xvalue)
@@ -50,19 +48,6 @@ int petui_handle_X(int Xvalue)
 /* reserved for future sid cart support */
 void petui_draw_resid_string(unsigned char *screen, int menu_x, int menu_y)
 {
-#if 0
-  int sidengine;
-
-  resources_get_int("SidEngine", &sidengine);
-  if(sidengine)
-  {
-    draw_ascii_string(screen, display_width, menu_x, menu_y, "ReSID", menu_fg, menu_bg);
-  }
-  else
-  {
-    draw_ascii_string(screen, display_width, menu_x, menu_y, "FastSID", menu_fg, menu_bg);
-  }
-#endif
 }
 
 void petui_draw_memory_string(unsigned char *screen, int menu_x, int menu_y, int mem)
@@ -176,15 +161,6 @@ int pet_keytable[] = {
 	10,5, 0,0, /* runstop fixme */
 	11,5, 0,0, /* runstop fixme */
 
-#if 0
-	4,5, 8,2, /* space */
-	5,5, 8,2, /* */
-	6,5, 8,2, /* */
-	7,5, 8,2, /* */
-	8,5, 8,2, /* */
-/* keys found  1,4 is 7(diff keypad?)  0,4 is 8 (diff keypad?)   1,5, is an up arrow */
-/*  0,6 odd screen effect? moves it up */
-#endif
 	0
 };
 

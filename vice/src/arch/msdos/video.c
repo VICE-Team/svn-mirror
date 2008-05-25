@@ -348,7 +348,7 @@ void video_canvas_destroy(video_canvas_t *canvas)
 
 static void canvas_change_palette(video_canvas_t *c)
 {
-    int i;
+    unsigned int i;
     int col;
     int next_avail = 0;
         

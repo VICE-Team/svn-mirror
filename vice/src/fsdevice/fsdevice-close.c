@@ -36,6 +36,10 @@
 
 #include <stdio.h>
 
+#ifdef __riscos
+#include "archdep.h"
+#endif
+
 #include "cbmdos.h"
 #include "fileio.h"
 #include "fsdevice-close.h"

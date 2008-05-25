@@ -142,6 +142,9 @@ extern int cur_len, last_len;
 %token CMD_RECORD CMD_STOP CMD_PLAYBACK CMD_CHAR_DISPLAY CMD_SPRITE_DISPLAY
 %token CMD_TEXT_DISPLAY CMD_SCREENCODE_DISPLAY CMD_ENTER_DATA CMD_ENTER_BIN_DATA CMD_KEYBUF
 %token CMD_BLOAD CMD_BSAVE CMD_SCREEN CMD_UNTIL CMD_CPU CMD_YYDEBUG
+%token CMD_BACKTRACE CMD_SCREENSHOT CMD_PWD CMD_DIR
+%token CMD_RESOURCE_GET CMD_RESOURCE_SET
+%token CMD_ATTACH CMD_DETACH CMD_RESET CMD_TAPECTRL CMD_CARTFREEZE
 %token<str> CMD_LABEL_ASGN
 %token<i> L_PAREN R_PAREN ARG_IMMEDIATE REG_A REG_X REG_Y COMMA INST_SEP
 %token<i> REG_B REG_C REG_D REG_E REG_H REG_L
@@ -159,7 +162,9 @@ extern int cur_len, last_len;
 %type<i> memspace memloc memaddr breakpt_num opt_mem_op
 %type<i> top_level value
 %type<i> asm_operand_mode assembly_instruction register
-%type<str> rest_of_line data_list data_element filename
+%type<str> rest_of_line opt_rest_of_line data_list data_element filename 
+%token<i> MASK
+%type<str> hunt_list hunt_element
 
 %left '+' '-'
 %left '*' '/'
@@ -296,7 +301,7 @@ memory_rules: CMD_MOVE address_range opt_sep address end_cmd
               { mon_memory_compare($2[0], $2[0], $4); }
             | CMD_FILL address_range opt_sep data_list end_cmd
               { mon_memory_fill($2[0], $2[1],(unsigned char *)$4); }
-            | CMD_HUNT address_range opt_sep data_list end_cmd
+            | CMD_HUNT address_range opt_sep hunt_list end_cmd
               { mon_memory_hunt($2[0], $2[1],(unsigned char *)$4); }
             | CMD_MEM_DISPLAY RADIX_TYPE opt_sep address_opt_range end_cmd
               { mon_memory_display($2, $4[0], $4[1], DF_PETSCII); }
@@ -434,6 +439,29 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd
                     { mon_change_dir($2); }
                   | CMD_KEYBUF rest_of_line end_cmd
                     { mon_keyboard_feed($2); }
+                  | CMD_BACKTRACE end_cmd
+                    { mon_backtrace(); }
+                  | CMD_DIR opt_rest_of_line end_cmd
+                     { mon_show_dir($2); }
+                  | CMD_PWD end_cmd
+                     { mon_show_pwd(); }
+                  | CMD_SCREENSHOT filename end_cmd
+                    { mon_screenshot_save($2,-1); }
+                  | CMD_SCREENSHOT filename opt_sep expression end_cmd
+                    { mon_screenshot_save($2,$4); }
+                  | CMD_RESOURCE_GET STRING end_cmd
+                    { mon_resource_get($2); }
+                  | CMD_RESOURCE_SET STRING STRING end_cmd
+                    { mon_resource_set($2,$3); }
+                  | CMD_RESET end_cmd
+                    { mon_reset_machine(-1); }
+                  | CMD_RESET opt_sep expression end_cmd
+                    { mon_reset_machine($3); }
+                  | CMD_TAPECTRL opt_sep expression end_cmd
+                    { mon_tape_ctrl($3); }
+                  | CMD_CARTFREEZE end_cmd
+                    { mon_cart_freeze(); }
+
                   ;
 
 disk_rules: CMD_LOAD filename device_num opt_address end_cmd
@@ -458,6 +486,10 @@ disk_rules: CMD_LOAD filename device_num opt_address end_cmd
             { mon_drive_block_cmd(0,$2,$3,$4); }
           | CMD_BLOCK_WRITE expression expression address end_cmd
             { mon_drive_block_cmd(1,$2,$3,$4); }
+          | CMD_ATTACH filename expression end_cmd
+            { mon_attach($2,$3); }
+          | CMD_DETACH expression end_cmd
+            { mon_detach($2); }
           ;
 
 cmd_file_rules: CMD_RECORD filename end_cmd
@@ -480,6 +512,10 @@ monitor_debug_rules: CMD_YYDEBUG end_cmd
 
 rest_of_line: R_O_L { $$ = $1; }
             ;
+
+opt_rest_of_line: R_O_L { $$ = $1; }
+                  | { $$ = NULL; }
+                  ;
 
 filename: FILENAME
         | error { return ERR_EXPECT_FILENAME; }
@@ -602,6 +638,15 @@ data_list: data_list opt_sep data_element
          ;
 
 data_element: number { mon_add_number_to_buffer($1); }
+            | STRING { mon_add_string_to_buffer($1); }
+            ;
+
+hunt_list: hunt_list hunt_element
+         | hunt_element
+         ;
+
+hunt_element: number { mon_add_number_to_buffer($1); }
+            | MASK   { mon_add_number_masked_to_buffer($1, 0x00); }
             | STRING { mon_add_string_to_buffer($1); }
             ;
 

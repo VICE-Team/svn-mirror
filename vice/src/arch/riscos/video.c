@@ -646,7 +646,7 @@ static void video_canvas_ensure_translation(video_canvas_t *canvas)
           trans[i] = ct[i];
         }
       }
-      for (; i<maxVideoCanvasColours; i++) trans[i] = 0;
+      for (; i<(unsigned int)maxVideoCanvasColours; i++) trans[i] = 0;
     }
 
     canvas->fb.transdirty = 0;
@@ -1080,7 +1080,7 @@ int video_canvas_set_palette(video_canvas_t *canvas, palette_t *palette)
   const palette_entry_t *p;
   unsigned int numsprpal;
   unsigned int *ct;
-  int i;
+  unsigned int i;
 
   if (palette == NULL) return 0;
 
@@ -1089,7 +1089,7 @@ int video_canvas_set_palette(video_canvas_t *canvas, palette_t *palette)
     lib_free(canvas->current_palette);
   }
   canvas->num_colours = palette->num_entries;
-  if (canvas->num_colours > maxVideoCanvasColours)
+  if (canvas->num_colours > (unsigned int)maxVideoCanvasColours)
     canvas->num_colours = maxVideoCanvasColours;
 
   canvas->current_palette = lib_malloc((canvas->num_colours)*sizeof(int));
@@ -1185,7 +1185,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     canvas->height *= 2;
 
   canvas->num_colours = (canvas->palette == NULL) ? 16 : canvas->palette->num_entries;
-  if (canvas->num_colours > maxVideoCanvasColours)
+  if (canvas->num_colours > (unsigned int)maxVideoCanvasColours)
     canvas->num_colours = maxVideoCanvasColours;
   canvas->current_palette = NULL;
   canvas->shiftx = 0; canvas->shifty = 0; canvas->scale = 1;

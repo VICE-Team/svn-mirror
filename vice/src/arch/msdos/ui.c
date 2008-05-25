@@ -35,6 +35,7 @@
 #include <stdio.h>
 #include <sys/movedata.h>
 #include <unistd.h>
+#include <string.h>
 
 #include "cmdline.h"
 #include "datasette.h"
@@ -75,19 +76,19 @@ extern BITMAP *status_bitmap;
 /* UI-related resources and command-line options.  */
 
 /* Flag: Use keyboard LEDs?  */
-static int use_leds;
+static unsigned int use_leds;
 
-static int statusbar_is_enabled;
+static unsigned int statusbar_is_enabled;
 
-static int set_use_leds(resource_value_t v, void *param)
+static int set_use_leds(int v, void *param)
 {
-    use_leds = (int)v;
+    use_leds = v;
     return 0;
 }
 
-static int set_statusbar_enabled(resource_value_t v, void *param) 
+static int set_statusbar_enabled(int v, void *param) 
 {
-    statusbar_is_enabled = (int)v;
+    statusbar_is_enabled = v;
     if (statusbar_enabled()) {
         statusbar_prepare();
         statusbar_update();

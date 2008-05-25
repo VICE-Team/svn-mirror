@@ -41,12 +41,16 @@
 #include "charset.h"
 #include "cmdline.h"
 #include "console.h"
+#include "datasette.h"
 #include "drive.h"
+#include "drivecpu.h"
 #include "interrupt.h"
 #include "ioutil.h"
 #include "kbdbuf.h"
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
+#include "machine-video.h"
 #ifdef HAS_TRANSLATION
 #include "translate.h"
 #endif
@@ -66,14 +70,19 @@
 #include "mon_util.h"
 #include "monitor.h"
 #include "montypes.h"
+#include "resources.h"
+#include "screenshot.h"
 #include "signals.h"
 #include "sysfile.h"
 #include "types.h"
+#include "uiapi.h"
 #include "uimon.h"
 #include "vsync.h"
 
 
 int mon_stop_output;
+
+int mon_init_break = -1;
 
 /* Defines */
 
@@ -101,6 +110,8 @@ extern void add_history(const char *str);
 #endif
 
 extern void parse_and_execute_line(char *input);
+
+monitor_cartridge_commands_t mon_cart_cmd;
 
 /* Types */
 
@@ -153,6 +164,7 @@ monitor_interface_t *mon_interfaces[NUM_MEMSPACES];
 
 MON_ADDR dot_addr[NUM_MEMSPACES];
 unsigned char data_buf[256];
+unsigned char data_mask_buf[256];
 unsigned int data_buf_len;
 bool asm_mode;
 MON_ADDR asm_mode_addr;
@@ -514,18 +526,34 @@ void mon_print_convert(int val)
 
 void mon_add_number_to_buffer(int number)
 {
+    unsigned int i = data_buf_len;
     data_buf[data_buf_len++] = (number & 0xff);
     if (number > 0xff)
         data_buf[data_buf_len++] = ( (number>>8) & 0xff);
+    data_buf[data_buf_len] = '\0';
+
+    for (; i < data_buf_len; i++)
+      data_mask_buf[i]=0xff;
+}
+
+void mon_add_number_masked_to_buffer(int number, int mask)
+{
+    data_buf[data_buf_len] = (number & 0xff);
+    data_mask_buf[data_buf_len] = mask;
+    data_buf_len++;
     data_buf[data_buf_len] = '\0';
 }
 
 void mon_add_string_to_buffer(char *str)
 {
+    unsigned int i = data_buf_len;
     strcpy((char *) &(data_buf[data_buf_len]), str);
     data_buf_len += strlen(str);
     data_buf[data_buf_len] = '\0';
     lib_free(str);
+
+    for (; i < data_buf_len; i++)
+      data_mask_buf[i]=0xff;
 }
 
 static monitor_cpu_type_list_t *montor_list_new(void)
@@ -537,6 +565,158 @@ static monitor_cpu_type_list_t *montor_list_new(void)
 static void montor_list_destroy(monitor_cpu_type_list_t *list)
 {
     lib_free(list);
+}
+
+void mon_backtrace()
+{
+    BYTE opc;
+    WORD sp, i, addr, n;
+
+    /* TODO support DTV stack relocation, check memspace handling, move somewhere else */
+    n = 0;
+    sp = (monitor_cpu_type.mon_register_get_val)(default_memspace, e_SP);
+    for(i = sp + 0x100 + 1; i < 0x1ff; i++) {
+        addr = mon_get_mem_val(default_memspace, i);
+        addr += ((WORD)mon_get_mem_val(default_memspace, (WORD)(i + 1))) << 8;
+        addr -= 2;
+        opc = mon_get_mem_val(default_memspace, addr);
+        if(opc == 0x20 /* JSR */) {
+            mon_out("(%d) %04x\n", n, addr);
+        }
+        n++;
+    }
+}
+
+void mon_screenshot_save(const char* filename, int format)
+{
+    const char* drvname;
+
+    switch(format) {
+        case 1:
+            drvname = "PCX";
+            break;
+        case 2:
+            drvname = "PNG";
+            break;
+        case 3:
+            drvname = "GIF";
+            break;
+        case 4:
+            drvname = "IFF";
+            break;
+        default:
+            drvname = "BMP";
+            break;
+    }
+    if(screenshot_save(drvname, filename, machine_video_canvas_get(0))) {
+        mon_out("Failed.\n");
+    }
+}
+
+void mon_show_pwd(void)
+{
+    mon_out("%s\n", ioutil_current_dir());
+}
+
+void mon_show_dir(const char *path)
+{
+    struct ioutil_dir_s *dir;
+    char *name;
+    char *mpath;
+
+    if (path) {
+        mpath=(char *)path;
+    } else {
+        mpath=ioutil_current_dir();
+    }
+    mon_out("Displaying directory: `%s'\n", mpath);
+
+    dir = ioutil_opendir(mpath);
+    if (!dir) {
+        mon_out("Couldn't open directory.\n");
+        return;
+    }
+
+    while ( (name = ioutil_readdir(dir)) ) {
+        unsigned int len, isdir;
+        int ret;
+        ret = ioutil_stat(name, &len, &isdir);
+        if (!ret) {
+            if (isdir)
+                mon_out("     <dir> %s\n", name);
+            else
+                mon_out("%10d %s\n", len, name);
+        } else
+            mon_out("%-20s?????\n", name);
+    }
+    ioutil_closedir(dir);
+}
+
+void mon_resource_get(const char *name)
+{
+    switch(resources_query_type(name)) {
+        case RES_INTEGER:
+        case RES_STRING:
+            mon_out("%s\n",resources_write_item_to_string(name,""));
+            break;
+        default:
+            mon_out("Unknown resource \"%s\".\n",name);
+            return;
+    }
+}
+
+void mon_resource_set(const char *name, const char* value)
+{
+    switch(resources_query_type(name)) {
+        case RES_INTEGER:
+        case RES_STRING:
+            if(resources_set_value_string(name,value)) {
+                mon_out("Failed.\n");
+            }
+            ui_update_menus();
+            break;
+        default:
+            mon_out("Unknown resource \"%s\".\n",name);
+            return;
+    }
+}
+
+void mon_reset_machine(int type)
+{
+    switch(type) {
+        case 1:
+            machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+            exit_mon = 1;
+            break;
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+            drivecpu_trigger_reset(type-8);
+            break;
+        default:
+            machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+            exit_mon = 1;
+            break;
+    }
+}
+
+void mon_tape_ctrl(int command)
+{
+    if((command<0)||(command>6)) {
+        mon_out("Unknown command.\n");
+    } else {
+        datasette_control(command);
+    }
+}
+
+void mon_cart_freeze(void)
+{
+    if(mon_cart_cmd.cartridge_trigger_freeze != NULL) {
+        (mon_cart_cmd.cartridge_trigger_freeze)();
+    } else {
+        mon_out("Unsupported.\n");
+   }
 }
 
 /* *** MISC COMMANDS *** */
@@ -603,6 +783,9 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     for (dnr = 0; dnr < DRIVE_NUM; dnr++)
         mon_interfaces[monitor_diskspace_mem(dnr)] = drive_interface_init[dnr];
 
+    if (mon_init_break != -1)
+        mon_breakpoint_add_checkpoint((WORD)mon_init_break, BAD_ADDR, FALSE, FALSE,FALSE, FALSE);
+
     if (playback) {
         freeme = playback_name;
         playback_commands(playback_name);
@@ -623,22 +806,42 @@ void monitor_shutdown(void)
     }
 }
 
+static int monitor_set_initial_breakpoint(const char *param, void *extra_param)
+{
+    int val;
+
+    val = strtoul(param, NULL, 0);
+    if (val >= 0 && val < 65536)
+        mon_init_break = val;
+
+    return 0;
+}
+
 #ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] = {
     { "-moncommands", CALL_FUNCTION, 1, set_playback_name, NULL, NULL, NULL,
       IDCLS_P_NAME, IDCLS_EXECUTE_MONITOR_FROM_FILE },
+    { "-initbreak", CALL_FUNCTION, 1, monitor_set_initial_breakpoint, NULL, NULL, NULL,
+      IDCLS_P_VALUE, IDCLS_SET_INITIAL_BREAKPOINT },
     { NULL }
 };
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-moncommands", CALL_FUNCTION, 1, set_playback_name, NULL, NULL, NULL,
       N_("<name>"), N_("Execute monitor commands from file") },
+    { "-initbreak", CALL_FUNCTION, 1, monitor_set_initial_breakpoint, NULL, NULL, NULL,
+      N_("<value>"), N_("Set an initial breakpoint for the monitor") },
     { NULL }
 };
 #endif
 
 int monitor_cmdline_options_init(void)
 {
+    mon_cart_cmd.cartridge_attach_image = NULL;
+    mon_cart_cmd.cartridge_detach_image = NULL;
+    mon_cart_cmd.cartridge_trigger_freeze = NULL;
+    mon_cart_cmd.cartridge_trigger_freeze_nmi_only = NULL;
+
     return cmdline_register_options(cmdline_options);
 }
 

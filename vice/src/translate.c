@@ -4251,6 +4251,16 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_EXECUTE_MONITOR_FROM_FILE_PL, ""}, /* fuzzy */
 /* sv */ {IDCLS_EXECUTE_MONITOR_FROM_FILE_SV, ""}, /* fuzzy */
 
+/* monitor.c */
+/* en */ {IDCLS_SET_INITIAL_BREAKPOINT,    "Set an initial breakpoint for the monitor"},
+/* de */ {IDCLS_SET_INITIAL_BREAKPOINT_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_INITIAL_BREAKPOINT_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_INITIAL_BREAKPOINT_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_INITIAL_BREAKPOINT_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_INITIAL_BREAKPOINT_NL, "Zet een beginnende breekpunt voor de monitor"},
+/* pl */ {IDCLS_SET_INITIAL_BREAKPOINT_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_INITIAL_BREAKPOINT_SV, ""},  /* fuzzy */
+
 /* fliplist.c */
 /* en */ {IDCLS_SPECIFY_FLIP_LIST_NAME,    "Specify name of the flip list file image"},
 /* de */ {IDCLS_SPECIFY_FLIP_LIST_NAME_DE, "Namen für Fliplist Datei definieren"},
@@ -4922,7 +4932,7 @@ static char *text_table[countof(translate_text_table)][countof(language_table)];
 
 static char *get_string_by_id(int id)
 {
-  int k;
+  unsigned int k;
 
   for (k = 0; k < countof(string_table); k++)
   {
@@ -4934,7 +4944,7 @@ static char *get_string_by_id(int id)
 
 static void translate_text_init(void)
 {
-  int i,j;
+  unsigned int i,j;
   char *temp;
 
   for (i = 0; i < countof(language_table); i++)
@@ -4954,7 +4964,7 @@ static void translate_text_init(void)
 
 char *translate_text(int en_resource)
 {
-  int i;
+  unsigned int i;
 
   if (en_resource==0)
     return NULL;
@@ -4986,7 +4996,7 @@ int translate_res(int en_resource)
 
 static int set_current_language(const char *lang, void *param)
 {
-    int i;
+    unsigned int i;
 
     util_string_set(&current_language, "en");
     current_language_index = 0;
@@ -5022,7 +5032,7 @@ int translate_resources_init(void)
 
 void translate_resources_shutdown(void)
 {
-  int i,j;
+  unsigned int i,j;
 
   for (i = 0; i < countof(language_table); i++)
   {

@@ -64,7 +64,7 @@ static int been_suspended;
 /* Number of samples already written; if this value is greater than the
    buffer size, it's equal to the buffer size.  This is a hack for the first
    few writes.  */
-static int written_samples;
+static unsigned int written_samples;
 
 /* ------------------------------------------------------------------------- */
 
@@ -96,7 +96,7 @@ static int allegro_startup(unsigned int freq)
 static int allegro_init_sound(const char *param, int *speed,
                               int *fragsize, int *fragnr, int *channels)
 {
-    int i;
+    unsigned int i;
 
     /* No stereo capability. */
     *channels = 1;
@@ -155,8 +155,8 @@ static int allegro_write(SWORD *pbuf, size_t nr)
                Notice that we also assume that the part of the buffer we are
                going to lock is small enough to fit in the safe space.  */
             while (1) {
-                int pos = sizeof(SWORD) * voice_get_position(voice);
-                int pos2 = pos + fragment_size;
+                unsigned int pos = sizeof(SWORD) * voice_get_position(voice);
+                unsigned int pos2 = pos + fragment_size;
 
                 if (pos2 < buffer_len) {
                     if (buffer_offset >= pos2 || write_end < pos)
@@ -171,7 +171,7 @@ static int allegro_write(SWORD *pbuf, size_t nr)
 
         /* Write fragment.  */
 	{
-	    int j;
+	    unsigned int j;
 	    WORD *p = (WORD *) (buffer->data + buffer_offset);
 
             /* XXX: Maybe the SID engine could already produce samples in
@@ -200,7 +200,7 @@ static int allegro_write(SWORD *pbuf, size_t nr)
 
 static int allegro_bufferspace(void)
 {
-    int pos, ret;
+    int ret, pos;
 
     /* voice_get_position returns current position in samples. */
     pos = voice_get_position(voice) * sizeof(SWORD);
@@ -210,7 +210,7 @@ static int allegro_bufferspace(void)
 
     ret /= sizeof(SWORD);
 
-    if (ret > written_samples)
+    if (ret > (int)written_samples)
         ret = written_samples;
 
     return buffer_len/sizeof(SWORD) - ret;

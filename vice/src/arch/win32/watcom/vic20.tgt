@@ -68,7 +68,7 @@ n????Include directories:
 17
 WString
 100
-$(%watcom)\h;$(%watcom)\h\nt;.;..;..\..\..;..\..\..\raster;..\..\..\sid;..\..\..\drive;..\..\..\tape
+.;..;..\..\..;..\..\..\raster;..\..\..\sid;..\..\..\drive;..\..\..\tape;$(%watcom)\h;$(%watcom)\h\nt
 0
 18
 WVList

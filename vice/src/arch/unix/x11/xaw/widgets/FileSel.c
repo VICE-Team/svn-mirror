@@ -1234,7 +1234,9 @@ XtPointer call_data;
 	Widget cur_dir_text;
 	Arg args[10];
 	String path;
+#if defined VICE && (defined HAVE_REGEXP_H || defined HAVE_REGEX_H)
 	char *fpath, *fpattern;
+#endif
 
 	/* what is this actually needed for? */
 	XtSetArg(args[0],XtNstring,(XtArgVal)(&path));

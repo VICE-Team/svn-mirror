@@ -40,9 +40,6 @@
 #include "types.h"
 
 
-/* Notice that this has to be `int' to make resources work.  */
-static int keyset1[9], keyset2[9];
-
 #ifdef COMMON_KBD
 int joystick_port_map[2];
 #endif

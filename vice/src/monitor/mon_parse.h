@@ -125,46 +125,58 @@
      CMD_UNTIL = 341,
      CMD_CPU = 342,
      CMD_YYDEBUG = 343,
-     CMD_LABEL_ASGN = 344,
-     L_PAREN = 345,
-     R_PAREN = 346,
-     ARG_IMMEDIATE = 347,
-     REG_A = 348,
-     REG_X = 349,
-     REG_Y = 350,
-     COMMA = 351,
-     INST_SEP = 352,
-     REG_B = 353,
-     REG_C = 354,
-     REG_D = 355,
-     REG_E = 356,
-     REG_H = 357,
-     REG_L = 358,
-     REG_AF = 359,
-     REG_BC = 360,
-     REG_DE = 361,
-     REG_HL = 362,
-     REG_IX = 363,
-     REG_IY = 364,
-     REG_SP = 365,
-     REG_IXH = 366,
-     REG_IXL = 367,
-     REG_IYH = 368,
-     REG_IYL = 369,
-     STRING = 370,
-     FILENAME = 371,
-     R_O_L = 372,
-     OPCODE = 373,
-     LABEL = 374,
-     BANKNAME = 375,
-     CPUTYPE = 376,
-     REGISTER = 377,
-     COMPARE_OP = 378,
-     RADIX_TYPE = 379,
-     INPUT_SPEC = 380,
-     CMD_CHECKPT_ON = 381,
-     CMD_CHECKPT_OFF = 382,
-     TOGGLE = 383
+     CMD_BACKTRACE = 344,
+     CMD_SCREENSHOT = 345,
+     CMD_PWD = 346,
+     CMD_DIR = 347,
+     CMD_RESOURCE_GET = 348,
+     CMD_RESOURCE_SET = 349,
+     CMD_ATTACH = 350,
+     CMD_DETACH = 351,
+     CMD_RESET = 352,
+     CMD_TAPECTRL = 353,
+     CMD_CARTFREEZE = 354,
+     CMD_LABEL_ASGN = 355,
+     L_PAREN = 356,
+     R_PAREN = 357,
+     ARG_IMMEDIATE = 358,
+     REG_A = 359,
+     REG_X = 360,
+     REG_Y = 361,
+     COMMA = 362,
+     INST_SEP = 363,
+     REG_B = 364,
+     REG_C = 365,
+     REG_D = 366,
+     REG_E = 367,
+     REG_H = 368,
+     REG_L = 369,
+     REG_AF = 370,
+     REG_BC = 371,
+     REG_DE = 372,
+     REG_HL = 373,
+     REG_IX = 374,
+     REG_IY = 375,
+     REG_SP = 376,
+     REG_IXH = 377,
+     REG_IXL = 378,
+     REG_IYH = 379,
+     REG_IYL = 380,
+     STRING = 381,
+     FILENAME = 382,
+     R_O_L = 383,
+     OPCODE = 384,
+     LABEL = 385,
+     BANKNAME = 386,
+     CPUTYPE = 387,
+     REGISTER = 388,
+     COMPARE_OP = 389,
+     RADIX_TYPE = 390,
+     INPUT_SPEC = 391,
+     CMD_CHECKPT_ON = 392,
+     CMD_CHECKPT_OFF = 393,
+     TOGGLE = 394,
+     MASK = 395
    };
 #endif
 /* Tokens.  */
@@ -254,46 +266,58 @@
 #define CMD_UNTIL 341
 #define CMD_CPU 342
 #define CMD_YYDEBUG 343
-#define CMD_LABEL_ASGN 344
-#define L_PAREN 345
-#define R_PAREN 346
-#define ARG_IMMEDIATE 347
-#define REG_A 348
-#define REG_X 349
-#define REG_Y 350
-#define COMMA 351
-#define INST_SEP 352
-#define REG_B 353
-#define REG_C 354
-#define REG_D 355
-#define REG_E 356
-#define REG_H 357
-#define REG_L 358
-#define REG_AF 359
-#define REG_BC 360
-#define REG_DE 361
-#define REG_HL 362
-#define REG_IX 363
-#define REG_IY 364
-#define REG_SP 365
-#define REG_IXH 366
-#define REG_IXL 367
-#define REG_IYH 368
-#define REG_IYL 369
-#define STRING 370
-#define FILENAME 371
-#define R_O_L 372
-#define OPCODE 373
-#define LABEL 374
-#define BANKNAME 375
-#define CPUTYPE 376
-#define REGISTER 377
-#define COMPARE_OP 378
-#define RADIX_TYPE 379
-#define INPUT_SPEC 380
-#define CMD_CHECKPT_ON 381
-#define CMD_CHECKPT_OFF 382
-#define TOGGLE 383
+#define CMD_BACKTRACE 344
+#define CMD_SCREENSHOT 345
+#define CMD_PWD 346
+#define CMD_DIR 347
+#define CMD_RESOURCE_GET 348
+#define CMD_RESOURCE_SET 349
+#define CMD_ATTACH 350
+#define CMD_DETACH 351
+#define CMD_RESET 352
+#define CMD_TAPECTRL 353
+#define CMD_CARTFREEZE 354
+#define CMD_LABEL_ASGN 355
+#define L_PAREN 356
+#define R_PAREN 357
+#define ARG_IMMEDIATE 358
+#define REG_A 359
+#define REG_X 360
+#define REG_Y 361
+#define COMMA 362
+#define INST_SEP 363
+#define REG_B 364
+#define REG_C 365
+#define REG_D 366
+#define REG_E 367
+#define REG_H 368
+#define REG_L 369
+#define REG_AF 370
+#define REG_BC 371
+#define REG_DE 372
+#define REG_HL 373
+#define REG_IX 374
+#define REG_IY 375
+#define REG_SP 376
+#define REG_IXH 377
+#define REG_IXL 378
+#define REG_IYH 379
+#define REG_IYL 380
+#define STRING 381
+#define FILENAME 382
+#define R_O_L 383
+#define OPCODE 384
+#define LABEL 385
+#define BANKNAME 386
+#define CPUTYPE 387
+#define REGISTER 388
+#define COMPARE_OP 389
+#define RADIX_TYPE 390
+#define INPUT_SPEC 391
+#define CMD_CHECKPT_ON 392
+#define CMD_CHECKPT_OFF 393
+#define TOGGLE 394
+#define MASK 395
 
 
 
@@ -313,7 +337,7 @@ typedef union YYSTYPE
     char *str;
 }
 /* Line 1489 of yacc.c.  */
-#line 317 "mon_parse.h"
+#line 341 "mon_parse.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

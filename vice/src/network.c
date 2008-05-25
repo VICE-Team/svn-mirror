@@ -56,7 +56,7 @@ struct Library *SocketBase;
 #define __USE_INLINE__
 #include <proto/bsdsocket.h>
 #endif
-#ifndef AMIGA_AROS
+#if !defined(AMIGA_AROS) && !defined(AMIGA_MORPHOS)
 #define select(nfds, read_fds, write_fds, except_fds, timeout) \
         WaitSelect(nfds, read_fds, write_fds, except_fds, timeout, NULL)
 #endif
@@ -95,9 +95,9 @@ typedef struct timeval TIMEVAL;
 #if !defined(AMIGA_SUPPORT) && !defined(VMS)
 #include <sys/select.h>
 #endif
+#endif
 #if !defined(AMIGA_M68K) && !defined(AMIGA_AROS)
 #include <unistd.h>
-#endif
 #endif
 
 #ifdef OPENSERVER6_COMPILE

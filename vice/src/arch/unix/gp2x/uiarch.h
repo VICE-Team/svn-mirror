@@ -33,11 +33,6 @@
 #define UI_CALLBACK(name)                               \
     void name(void)
 
-#if 0
-    void name(Widget w, ui_callback_data_t client_data, 
-              ui_callback_data_t call_data)
-#endif
-
 typedef void * ui_callback_t;
 typedef void * ui_callback_data_t;
 typedef void * ui_keysym_t;

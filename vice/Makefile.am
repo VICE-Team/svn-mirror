@@ -147,7 +147,7 @@ bindistzip:
 endif
 
 @MAKE_BINDIST_TRUE@installvice:
-@MAKE_BINDIST_TRUE@	echo this platform doesn\'t use \"make install\", use \"make bindist\" instead
+@MAKE_BINDIST_TRUE@	@echo this platform doesn\'t use \"make install\", use \"make bindist\" instead
 
 @MAKE_BINDIST_FALSE@installvice: install-recursive
 

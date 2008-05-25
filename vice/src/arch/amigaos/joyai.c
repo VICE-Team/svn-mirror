@@ -312,7 +312,7 @@ static void get_cfg(int joy)
 {
   keysym_type *keysym = (joy == 2) ? keysym_2 : keysym_1;
   char *tmp, txt[256];
-  int i;
+  unsigned int i;
 
   sprintf(txt, "JOYAI%d_ID", joy);
   tmp = NULL;
@@ -335,7 +335,7 @@ static void set_cfg(int joy)
 {
   keysym_type *keysym = (joy == 2) ? keysym_2 : keysym_1;
   char tmp[256], txt[256];
-  int i;
+  unsigned int i;
 
   sprintf(txt, "JOYAI%d_ID", joy);
   sprintf(tmp, "%lu", joy_id[joy-1]);
@@ -400,7 +400,7 @@ static void ai_release(void)
 
 static void ai_attach(void)
 {
-  int i;
+  unsigned int i;
   for (i=0; i<2; i++) {
     get_cfg(i+1);
     if ((CTX != NULL) && (joy_id[i] != -1)) {
@@ -553,7 +553,8 @@ static struct {
 static void update_inputs(ULONG ID)
 {
   char name[256];
-  int i, num, offset;
+  unsigned int i;
+  int num, offset;
 
   for (i=0; i<inputs.count; i++) {
     if (inputs.names[i] != NULL) {
@@ -616,7 +617,8 @@ static void update_inputs(ULONG ID)
 
 static int offset_to_index(int offset)
 {
-  int i;
+  unsigned int i;
+
   for (i=0; i<inputs.count; i++) {
     if ((inputs.types[i] != TYPE_NONE) && (inputs.offsets[i] == offset)) {
       return i;
@@ -643,7 +645,8 @@ BOOL enumfunc(AIN_Device *device, void *UserData)
 
 static int offset_to_active(int type, int offset)
 {
-  int i;
+  unsigned int i;
+
   for (i=0; i<inputs.count; i++) {
     if ((inputs.types[i] == type) && (inputs.offsets[i] == offset)) {
       return i;
@@ -747,7 +750,7 @@ End,
          End;
 
       if (app) {
-	int i;
+	unsigned int i;
 
 	DoMethod(window,
 	MUIM_Notify, MUIA_Window_CloseRequest, TRUE,
@@ -824,7 +827,7 @@ End,
        }
 
       if (app) {
-        int i;
+        unsigned int i;
         set(window, MUIA_Window_Open, TRUE);
         while (running) {
           unsigned long retval = DoMethod(app, MUIM_Application_Input, &signals);
@@ -898,7 +901,8 @@ int joyai_update(int joy, int dst)
     }
 
     if (AIN_ReadDevice(CTX, ai_handle[joy-1], &ptr) == TRUE) {
-      int i, *data = ptr;
+      unsigend int i, *data = ptr;
+
       for (i=0; i<NUM_KEYSYM; i++) {
         switch (keysym[i].type) {
 
@@ -998,7 +1002,7 @@ int joyai_key(int joy, int dst, unsigned long kcode, int pressed)
 {
     BYTE value = 0;
     keysym_type *keysym = (joy == 2) ? keysym_2 : keysym_1;
-    int i;
+    unsigend int i;
 
     for (i=0; i<NUM_KEYSYM; i++) {
         if ((keysym[i].type == TYPE_NONE) && (keysym[i].rawkey == kcode)) {

@@ -47,6 +47,9 @@
 #ifdef AMIGA_MORPHOS
 #include <proto/alib.h> /* for DoMethod */
 #endif
+#ifdef AMIGA_M68K
+#include <clib/alib_protos.h> /* for DoMethod */
+#endif
 #ifdef AMIGA_AROS
 #define MUI_OBSOLETE
 #endif

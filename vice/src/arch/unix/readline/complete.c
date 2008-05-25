@@ -9,9 +9,7 @@
 /*
 **  Return an allocated copy of a string.
 */
-char *
-strdup(p)
-    char        *p;
+char *strdup(char *p)
 {
     char        *new;
 
@@ -24,10 +22,7 @@ strdup(p)
 /*
 **  strcmp-like sorting predicate for qsort.
 */
-STATIC int
-compare(p1, p2)
-    CONST void  *p1;
-    CONST void  *p2;
+STATIC int compare(CONST void *p1, CONST void *p2)
 {
     CONST char  **v1;
     CONST char  **v2;
@@ -41,11 +36,7 @@ compare(p1, p2)
 **  Fill in *avp with an array of names that match file, up to its length.
 **  Ignore . and .. .
 */
-STATIC int
-FindMatches(dir, file, avp)
-    char        *dir;
-    char        *file;
-    char        ***avp;
+STATIC int FindMatches(char *dir, char *file, char ***avp)
 {
     char        **av;
     char        **new;
@@ -96,11 +87,7 @@ FindMatches(dir, file, avp)
 /*
 **  Split a pathname into allocated directory and trailing filename parts.
 */
-STATIC int
-SplitPath(path, dirpart, filepart)
-    char        *path;
-    char        **dirpart;
-    char        **filepart;
+STATIC int SplitPath(char *path, char **dirpart, char **filepart)
 {
     static char DOT[] = ".";
     char        *dpart;
@@ -132,10 +119,7 @@ SplitPath(path, dirpart, filepart)
 **  Attempt to complete the pathname, returning an allocated copy.
 **  Fill in *unique if we completed it, or set it to 0 if ambiguous.
 */
-char *
-rl_complete(pathname, unique)
-    char        *pathname;
-    int         *unique;
+char *rl_complete(char *pathname, int *unique)
 {
     char        **av;
     char        *dir;
@@ -204,10 +188,7 @@ rl_complete(pathname, unique)
 /*
 **  Return all possible completions.
 */
-int
-rl_list_possib(pathname, avp)
-    char        *pathname;
-    char        ***avp;
+int rl_list_possib(char *pathname, char ***avp)
 {
     char        *dir;
     char        *file;
@@ -220,4 +201,3 @@ rl_list_possib(pathname, avp)
     DISPOSE(file);
     return ac;
 }
-

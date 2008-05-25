@@ -111,7 +111,7 @@ static APTR build_gui(void)
   static const struct Hook BrowseVDCFileHook = { { NULL,NULL },(VOID *)HookEntry,(VOID *)BrowseVDC, NULL};
 #else
   static const struct Hook BrowseVICIIFileHook = { { NULL,NULL },(VOID *)BrowseVICII,NULL,NULL };
-  static const struct Hook BrowseVDCFileHook = { { NULL,NULL },(VOID *)BrowseVICII,NULL,NULL };
+  static const struct Hook BrowseVDCFileHook = { { NULL,NULL },(VOID *)BrowseVDC,NULL,NULL };
 #endif
 
   app = mui_get_app();

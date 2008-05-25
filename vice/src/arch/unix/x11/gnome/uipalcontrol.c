@@ -68,7 +68,8 @@ static void upd_sb (GtkAdjustment *adj, gpointer data)
 
 static void pal_ctrl_reset (GtkWidget *w, gpointer data)
 {
-    int i, tmp;
+    unsigned int i
+    int tmp;
 
     for (i = 0; i < sizeof(ctrls)/sizeof(ctrls[0]); i++)
     {
@@ -121,7 +122,8 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
     GtkWidget *box;
     
     GtkWidget *rb;
-    int i, v;
+    unsigned int i;
+    int v;
 
     cached_canvas = canvas;
     f = gtk_frame_new(_("PAL Settings"));

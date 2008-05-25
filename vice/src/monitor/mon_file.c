@@ -33,10 +33,12 @@
 
 #include "archdep.h"
 #include "attach.h"
+#include "cartridge.h"
 #include "mem.h"
 #include "montypes.h"
 #include "mon_file.h"
 #include "mon_util.h"
+#include "tape.h"
 #include "uimon.h"
 #include "vdrive-iec.h"
 #include "vdrive.h"
@@ -276,5 +278,69 @@ void mon_file_verify(const char *filename, int device, MON_ADDR start_addr)
 
     mon_out("Verify file %s at address $%04x\n",
             filename, addr_location(start_addr));
+}
+
+void mon_attach(const char *filename, int device)
+{
+    switch(device) {
+        case 1:
+#ifdef C64DTV
+            mon_out("Unimplemented.\n");
+#else
+            if(tape_image_attach(device,filename)) {
+                mon_out("Failed.\n");
+            }
+#endif
+            break;
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+            if(file_system_attach_disk(device,filename)) {
+                mon_out("Failed.\n");
+            }
+            break;
+        case 32:
+            if(mon_cart_cmd.cartridge_attach_image != NULL) {
+                if((mon_cart_cmd.cartridge_attach_image)(CARTRIDGE_CRT,filename)) {
+                    mon_out("Failed.\n");
+                }
+            } else {
+                mon_out("Unsupported.\n");
+            }
+            break;
+        default:
+            mon_out("Unknown device %i.\n",device);
+            break;
+    }
+}
+
+void mon_detach(int device)
+{
+    switch(device) {
+        case 1:
+#ifdef C64DTV
+            mon_out("Unimplemented.\n");
+#else
+            tape_image_detach(device);
+#endif
+            break;
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+            file_system_detach_disk(device);
+            break;
+        case 32:
+            if(mon_cart_cmd.cartridge_detach_image != NULL) {
+                (mon_cart_cmd.cartridge_detach_image)();
+            } else {
+                mon_out("Unsupported.\n");
+            }
+            break;
+        default:
+            mon_out("Unknown device %i.\n",device);
+            break;
+    }
 }
 

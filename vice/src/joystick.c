@@ -68,7 +68,9 @@ static alarm_t *joystick_alarm = NULL;
 
 static CLOCK joystick_delay;
 
+#ifdef COMMON_KBD
 static int joykeys[3][9];
+#endif
 
 static void joystick_latch_matrix(CLOCK offset)
 {

@@ -46,6 +46,7 @@
 #include "lib.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "monitor.h"
 #include "resources.h"
 #include "retroreplay.h"
 #include "stb.h"
@@ -281,6 +282,11 @@ static const cmdline_option_t cmdline_options[] =
 
 int cartridge_cmdline_options_init(void)
 {
+    mon_cart_cmd.cartridge_attach_image = cartridge_attach_image;
+    mon_cart_cmd.cartridge_detach_image = cartridge_detach_image;
+    mon_cart_cmd.cartridge_trigger_freeze = cartridge_trigger_freeze;
+    mon_cart_cmd.cartridge_trigger_freeze_nmi_only = cartridge_trigger_freeze_nmi_only;
+
     if (ide64_cmdline_options_init() < 0)
         return -1;
 

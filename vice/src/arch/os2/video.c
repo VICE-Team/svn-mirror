@@ -61,6 +61,10 @@
 #include <graph.h>
 #endif
 
+#ifdef WATCOM_COMPILE
+#include <process.h>
+#endif
+
 #include "video.h"
 #include "videoarch.h"
 
@@ -254,19 +258,19 @@ void CanvasDisplaySpeed(int speed, int frame_rate, int warp_enabled)
             lib_free(txt);
         }
     }
-    /*
+#if 0
     else
     {
-        extern FNVMIENTRY *pfnVMIEntry;         // The entry of VMAN.DLL
+        extern FNVMIENTRY *pfnVMIEntry;
         TEXTBLTINFO txt;
         memset(&txt, 0, sizeof(TEXTBLTINFO));
 
         txt.ulLength = sizeof(TEXTBLTINFO);
 
 
-        (*pfnVMIEntry)(0, 18/*VMI_CMD_TEXT/, &txt, 0);
+        (*pfnVMIEntry)(0, 18 VMI_CMD_TEXT/, &txt, 0);
     }
-    */
+#endif
 }
 
 /* ------------------------------------------------------------------------ */
@@ -886,8 +890,6 @@ void VideoBufferFree(video_canvas_t *c)
 
 void WmDestroy(HWND hwnd)
 {
-    ULONG rc;
-
     video_canvas_t *c = GetCanvas(hwnd);
 
     if (!c)
@@ -1081,19 +1083,6 @@ void VideoCanvasBlit(video_canvas_t *c,
         log_message(vidlog, "Debug - fbuf read y: %d + %d > %d, c->height=%d", ys, h, bufh, c->height);
         h = bufh-ys;
     }
-    if (xs<0)
-    {
-        log_message(vidlog, "Debug - fbuf read x: %d < 0", xs);
-        w += xs;
-        xs = 0;
-    }
-    if (ys<0)
-    {
-        log_message(vidlog, "Debug - fbuf read y: %d < 0", ys);
-        h += ys;
-        ys = 0;
-
-    }
     if (xi+w > c->width)
     {
         log_message(vidlog, "Debug - scr write x x%d: %d + %d > %d", dsx, xi, w, c->width);
@@ -1103,18 +1092,6 @@ void VideoCanvasBlit(video_canvas_t *c,
     {
         log_message(vidlog, "Debug - scr write y x%d: %d + %d > %d", dsy, yi, h, c->height);
         h = c->height-yi;
-    }
-    if (xi<0)
-    {
-        log_message(vidlog, "Debug - scr write x: %d < 0", xi);
-        w += xi;
-        xi = 0;
-    }
-    if (yi<0)
-    {
-        log_message(vidlog, "Debug - scr write y: %d < 0", yi);
-        h += yi;
-        yi = 0;
     }
 
 #ifndef DIRECT_ACCESS
@@ -1351,6 +1328,7 @@ static int WmTranslateAccel(HWND hwnd, MPARAM mp1)
     return FALSE;
 }
 
+#ifdef HAVE_MOUSE
 static void DisplayPopupMenu(HWND hwnd, POINTS *pts)
 {
     const video_canvas_t *c = GetCanvas(hwnd);
@@ -1358,6 +1336,7 @@ static void DisplayPopupMenu(HWND hwnd, POINTS *pts)
     WinPopupMenu(hwnd, hwnd, c->hwndPopupMenu, pts->x, pts->y, 0,
                  PU_MOUSEBUTTON2DOWN|PU_HCONSTRAIN|PU_VCONSTRAIN);
 }
+#endif
 
 MRESULT EXPENTRY CanvasWinProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
@@ -1551,7 +1530,7 @@ static void InitMenuBar(video_canvas_t *c)
     // WM_UPDATEFRAME also hides the loaded popup menu
     // the size is also corrected
     //
-    set_menu((void*)menu, (void*)c->hwndClient);
+    set_menu(menu, (void*)c->hwndClient);
 }
 /*
 void InitStatusBar(video_canvas_t *c)
@@ -1945,7 +1924,6 @@ void video_canvas_resize(video_canvas_t *c, UINT wnew, UINT hnew)
     // dive_alloc/free and video_canvas_refresh
     //
     SWP swp;
-    ULONG rc;
 
     UINT wold = c->width;
     UINT hold = c->height;

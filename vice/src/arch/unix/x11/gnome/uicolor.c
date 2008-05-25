@@ -95,7 +95,7 @@ int uicolor_alloc_colors(video_canvas_t *c)
 
 int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette)
 {
-    int i;
+    unsigned int i;
 
     uicolor_init_video_colors();
 

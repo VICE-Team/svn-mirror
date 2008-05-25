@@ -86,21 +86,26 @@ HDIGIT  [0-9a-fA-F]
         @               { BEGIN(ROL);           return CMD_DISK; }
         a               { opt_asm = 1; BEGIN(INITIAL); return CMD_ASSEMBLE; }
         add_label|al    { BEGIN(INITIAL);       return CMD_ADD_LABEL; }
+        attach          { BEGIN(FNAME);         return CMD_ATTACH; }
         bank            { BEGIN(BNAME);         return CMD_BANK; }
         bload|bl        { BEGIN(FNAME);         return CMD_BLOAD; }
         block_read|br   { BEGIN(INITIAL);       return CMD_BLOCK_READ; }
         break           { BEGIN(INITIAL);       return CMD_BREAK; }
         bsave|bs        { BEGIN(FNAME);         return CMD_BSAVE; }
+        backtrace|bt    { BEGIN(INITIAL);       return CMD_BACKTRACE; }
         block_write|bw  { BEGIN(INITIAL);       return CMD_BLOCK_WRITE; }
+        cartfreeze      { BEGIN(INITIAL);       return CMD_CARTFREEZE; }
         cd              { BEGIN(ROL);           return CMD_CHDIR; }
         command         { BEGIN(INITIAL);       return CMD_COMMAND; }
         compare|c       { BEGIN(INITIAL);       return CMD_COMPARE; }
         condition|cond  { BEGIN(INITIAL);       return CMD_CONDITION; }
         cpu             { BEGIN(CTYPE);         return CMD_CPU; }
+        dir|ls          { BEGIN(ROL);           return CMD_DIR; }
         disass|d        { BEGIN(INITIAL);       return CMD_DISASSEMBLE; }
         delete|del      { BEGIN(INITIAL);       return CMD_DELETE; }
         delete_label|dl { BEGIN(INITIAL);       return CMD_DEL_LABEL; }
         device|dev      { BEGIN(INITIAL);       return CMD_DEVICE; }
+        detach          { BEGIN(INITIAL);       return CMD_DETACH; }
         disable         { BEGIN(INITIAL);       return CMD_CHECKPT_OFF; }
         dump            { BEGIN(FNAME);         return CMD_DUMP; }
         enable          { BEGIN(INITIAL);       return CMD_CHECKPT_ON; }
@@ -123,18 +128,24 @@ HDIGIT  [0-9a-fA-F]
         next|n          { BEGIN(INITIAL);       return CMD_NEXT; }
         playback|pb     { BEGIN(FNAME);         return CMD_PLAYBACK; }
         print|p         { BEGIN(INITIAL);       return CMD_PRINT; }
+        pwd             { BEGIN(INITIAL);       return CMD_PWD; }
         quit            { BEGIN(INITIAL);       return CMD_QUIT; }
         radix|rad       { BEGIN(INITIAL);       return CMD_RADIX; }
         record|rec      { BEGIN(FNAME);         return CMD_RECORD; }
         registers|r     { BEGIN(REG_ASGN);      return CMD_REGISTERS; }
+        reset           { BEGIN(INITIAL);       return CMD_RESET; }
+        resourceget|resget { BEGIN(INITIAL);    return CMD_RESOURCE_GET; }
+        resourceset|resset { BEGIN(INITIAL);    return CMD_RESOURCE_SET; }
         return|ret      { BEGIN(INITIAL);       return CMD_RETURN; }
         save|s          { BEGIN(FNAME);         return CMD_SAVE; }
         save_labels|sl  { BEGIN(FNAME);         return CMD_SAVE_LABELS; }
         screen|sc       { BEGIN(INITIAL);       return CMD_SCREEN; }
+        screenshot|scrsh { BEGIN(FNAME);        return CMD_SCREENSHOT; }
         show_labels|shl { BEGIN(INITIAL);       return CMD_SHOW_LABELS; }
         sidefx|sfx      { BEGIN(INITIAL);       return CMD_SIDEFX; }
         step|z          { BEGIN(INITIAL);       return CMD_STEP; }
         stop            { BEGIN(INITIAL);       return CMD_STOP; }
+        tapectrl        { BEGIN(INITIAL);       return CMD_TAPECTRL; }
         trace|tr        { BEGIN(INITIAL);       return CMD_TRACE; }
         until|un        { BEGIN(INITIAL);       return CMD_UNTIL; }
         undump          { BEGIN(INITIAL);       return CMD_UNDUMP; }
@@ -295,6 +306,7 @@ O|o		{ yylval.i = e_octal; return RADIX_TYPE; }
 	[0-7]*                  { yylval.str = lib_stralloc(yytext); return O_NUMBER_GUESS; }
 	\+[0-9]+                { yylval.i = strtol(yytext+1, NULL, 10); return D_NUMBER; }
 	[0-9]+                  { yylval.str = lib_stralloc(yytext); return D_NUMBER_GUESS; }
+        xx|XX                   { yylval.i = 0x00; return MASK; }
 	\${HDIGIT}+             { yylval.i = strtol(yytext+1, NULL, 16); return H_NUMBER; }
 	{HDIGIT}+               { yylval.i = strtol(yytext, NULL, 16); return H_NUMBER; }
 }

@@ -123,10 +123,6 @@ void draw_vkeyb(unsigned char *screen) {
 		for(i=0; keytable[i]; i+=4) {
 			if((cursor_x-(vkeyb_x/8)==keytable[i]) 
 				&& (cursor_y-(vkeyb_y/8)==keytable[i+1])) {
-#if 0
-				vkey=keytable[i+2];
-				if(shifted) vkey|=128;
-#endif
 				vkey_row=keytable[i+2];
 				vkey_column=keytable[i+3];
 				vkey_pressed=1;

@@ -113,7 +113,6 @@ static void save_screenshot_file(char *pattern, char *screenshot_type, video_can
 void ui_screenshot_dialog(video_canvas_t *canvas)
 {
   int format;
-  char *name;
   char choices[100]="";
 
   strcat(choices,"BMP|");

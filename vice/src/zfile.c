@@ -314,6 +314,7 @@ static char *try_uncompress_with_tzx(const char *name)
 }
 
 /* is the name zipcode -name? */
+#ifndef __riscos
 static int is_zipcode_name(char *name)
 {
     if (name[0] >= '1' && name[0] <= '4' && name[1] == '!')
@@ -356,7 +357,7 @@ static int is_valid_extension(char *end, int l, int nameoffset)
     }
     return 0;
 }
-
+#endif
 
 /* If `name' has a correct extension, try to list its contents and search for
    the first file with a proper extension; if found, extract it.  If this

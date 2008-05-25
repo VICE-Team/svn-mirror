@@ -113,8 +113,10 @@ static const char *EXTERNAL_PALETTE="TedExternalPalette";
 
 #if defined HAVE_CRTC && !defined __XCBM__
 static const char *VIDEO_CACHE="CrtcVideoCache";
+#ifdef HAVE_PAL
 static const char *DOUBLE_SIZE="CrtcDoubleSize";
 static const char *DOUBLE_SCAN="CrtcDoubleScan";
+#endif
 #endif
 /*
 #if defined __X64__ || defined __X128__ || defined __XVIC__ || defined __XPLUS4__
@@ -698,7 +700,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_VCACHE:
 #ifdef __XCBM__
         {
-            long val;
+            int val;
             resources_get_int("UseVicII", &val);
             toggle(val?VIDEO_CACHE:"CrtcVideoCache");
         }

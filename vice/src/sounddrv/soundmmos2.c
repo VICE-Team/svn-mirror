@@ -90,8 +90,7 @@ MCI_OPEN_PARMS mciOpen;
 static int mmos2_init(const char *param, int *speed,
                       int *fragsize, int *fragnr, int *channels)
 {
-    int rc, i;
-    QWORD qwTmrTime1, qwTmrTime2;
+    int rc;
     MCI_WAVE_SET_PARMS mciSet; // fragnr = refreshs / buffer; (gerundet)
 
     if (usSoundDevID)
@@ -169,6 +168,7 @@ static int mmos2_write(SWORD *pbuf, size_t nr)
                       mciStat.ulReturn = (double)mciStat.ulReturn*(44100/3000);     // milliseconds
                       */
 
+#if 0
 static int mmos2_suspend(void)
 {
     int rc;
@@ -188,6 +188,7 @@ static int mmos2_resume(void)
     //    mmlog("resumed",0);
     return 0;
 }
+#endif
 
 static sound_device_t mmos2_device =
 {

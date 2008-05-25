@@ -486,7 +486,7 @@ void ui_register_res_values(const ui_res_value_list_t *valuelist)
 static void update_menus(HWND hwnd)
 {
     HMENU menu = GetMenu(hwnd);
-    int i, j;
+    unsigned int i, j;
     int value;
     int result;
     const char *lang;

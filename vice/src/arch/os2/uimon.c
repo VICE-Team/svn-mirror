@@ -113,7 +113,7 @@ int uimon_out(const char *buffer)
 
     if (!out) out = lib_calloc(1,1);
 
-    txt=buffer;
+    txt=(char *)buffer;
 
     eol = strchr(txt, '\n');
     while (strrchr(txt,'\n') && eol!= txt+strlen(txt))

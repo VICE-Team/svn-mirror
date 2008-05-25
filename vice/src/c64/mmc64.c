@@ -959,8 +959,8 @@ static int mmc64_activate(void)
   if (mmc64_image_filename==NULL)
   {
     mmc64_cardpresent=MMC_CARDPRS;
-    return 0;
     mmc64_reset();
+    return 0;
   }
 
   mmc64_image_file=fopen(mmc64_image_filename,"rb+");

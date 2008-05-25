@@ -60,7 +60,7 @@ static ULONG Browse( struct Hook *hook, Object *obj, APTR arg )
 
 static APTR build_gui(void)
 {
-  APTR app, ui, ok, browse_button, cancel, label;
+  APTR app, ui, ok, browse_button, cancel;
 
 #ifdef AMIGA_MORPHOS
   static const struct Hook BrowseFileHook = { { NULL,NULL },(VOID *)HookEntry,(VOID *)Browse, NULL};

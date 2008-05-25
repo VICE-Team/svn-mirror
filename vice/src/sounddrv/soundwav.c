@@ -74,7 +74,7 @@ static int wav_init(const char *param, int *speed,
 static int wav_write(SWORD *pbuf, size_t nr)
 {
 #ifdef WORDS_BIGENDIAN
-    int	i;
+    unsigned int i;
 
     /* Swap bytes on big endian machines. */
     for (i = 0; i < nr; i++) {

@@ -38,6 +38,10 @@
 
 #include <os2.h>
 
+#ifdef WATCOM_COMPILE
+#include <process.h>
+#endif
+
 #include "dialogs.h"
 #include "dlg-monitor.h"
 
@@ -72,17 +76,6 @@ HWND hwndMonmem9 = NULLHANDLE;
 int trigger_console_exit;
 
 // --------------------------------------------------------------------------
-
-static char *fmt(unsigned int val, unsigned char sz)
-{
-    static char txt[5];
-
-    char tmp[7];
-    sprintf(tmp, "%%0%ix", sz);
-    sprintf(txt, tmp, val);
-
-    return txt;
-}
 
 static const char *mon_dis(MEMSPACE mem, WORD loc, unsigned int *size)
 {

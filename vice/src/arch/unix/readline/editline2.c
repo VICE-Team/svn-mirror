@@ -88,39 +88,39 @@ STATIC int              TTYrows;
  *  Removed FORWARD addressing ...
  */
 
-STATIC STATUS accept_line();
-STATIC STATUS beg_line();
-STATIC STATUS bk_char();
-STATIC STATUS bk_del_char();
-STATIC STATUS bk_kill_word();
-STATIC STATUS mk_set();
-STATIC STATUS bk_word();
-STATIC STATUS fd_kill_word();
-STATIC STATUS fd_word();
-STATIC STATUS fd_char();
-STATIC STATUS case_down_word();
-STATIC STATUS case_up_word();
-STATIC STATUS copy_region();
-STATIC STATUS del_char();
-STATIC STATUS end_line();
-STATIC STATUS exchange();
-STATIC STATUS kill_line();
-STATIC STATUS last_argument();
-STATIC STATUS c_possible();
-STATIC STATUS c_complete();
-STATIC STATUS meta();
-STATIC STATUS move_to_char();
-STATIC STATUS h_first();
-STATIC STATUS h_last();
-STATIC STATUS h_next();
-STATIC STATUS h_prev();
-STATIC STATUS h_search();
-STATIC STATUS quote();
-STATIC STATUS transpose();
-STATIC STATUS redisplay();
-STATIC STATUS ring_bell();
-STATIC STATUS wipe();
-STATIC STATUS yank();
+STATIC STATUS accept_line(void);
+STATIC STATUS beg_line(void);
+STATIC STATUS bk_char(void);
+STATIC STATUS bk_del_char(void);
+STATIC STATUS bk_kill_word(void);
+STATIC STATUS mk_set(void);
+STATIC STATUS bk_word(void);
+STATIC STATUS fd_kill_word(void);
+STATIC STATUS fd_word(void);
+STATIC STATUS fd_char(void);
+STATIC STATUS case_down_word(void);
+STATIC STATUS case_up_word(void);
+STATIC STATUS copy_region(void);
+STATIC STATUS del_char(void);
+STATIC STATUS end_line(void);
+STATIC STATUS exchange(void);
+STATIC STATUS kill_line(void);
+STATIC STATUS last_argument(void);
+STATIC STATUS c_possible(void);
+STATIC STATUS c_complete(void);
+STATIC STATUS meta(void);
+STATIC STATUS move_to_char(void);
+STATIC STATUS h_first(void);
+STATIC STATUS h_last(void);
+STATIC STATUS h_next(void);
+STATIC STATUS h_prev(void);
+STATIC STATUS h_search(void);
+STATIC STATUS quote(void);
+STATIC STATUS transpose(void);
+STATIC STATUS redisplay(void);
+STATIC STATUS ring_bell(void);
+STATIC STATUS wipe(void);
+STATIC STATUS yank(void);
 
 
 STATIC KEYMAP   Map[33] = {
@@ -183,7 +183,8 @@ int             rl_meta_chars = 1;
 /*
 **  Declarations.
 */
-STATIC CHAR     *editinput();
+STATIC CHAR *editinput(void);
+#if 0
 extern int      read();
 extern int      write();
 #if     defined(USE_TERMCAP)
@@ -191,13 +192,13 @@ extern char     *getenv();
 extern char     *tgetstr();
 extern int      tgetent();
 #endif  /* defined(USE_TERMCAP) */
+#endif
 
 /*
 **  TTY input/output functions.
 */
 
-STATIC void
-TTYflush()
+STATIC void TTYflush(void)
 {
     if (ScreenCount) {
         (void)write(1, Screen, ScreenCount);
@@ -205,9 +206,7 @@ TTYflush()
     }
 }
 
-STATIC void
-TTYput(c)
-    CHAR        c;
+STATIC void TTYput(CHAR c)
 {
     Screen[ScreenCount] = c;
     if (++ScreenCount >= ScreenSize - 1) {
@@ -216,17 +215,13 @@ TTYput(c)
     }
 }
 
-STATIC void
-TTYputs(p)
-    CHAR        *p;
+STATIC void TTYputs(CHAR *p)
 {
     while (*p)
         TTYput(*p++);
 }
 
-STATIC void
-TTYshow(c)
-    CHAR        c;
+STATIC void TTYshow(CHAR c)
 {
     if (c == DEL) {
         TTYput('^');
@@ -245,16 +240,13 @@ TTYshow(c)
         TTYput(c);
 }
 
-STATIC void
-TTYstring(p)
-    CHAR        *p;
+STATIC void TTYstring(CHAR *p)
 {
     while (*p)
         TTYshow(*p++);
 }
 
-STATIC unsigned int
-TTYget()
+STATIC unsigned int TTYget(void)
 {
     CHAR        c;
 
@@ -270,16 +262,13 @@ TTYget()
 
 #define TTYback()       (backspace ? TTYputs((CHAR *)backspace) : TTYput('\b'))
 
-STATIC void
-TTYbackn(n)
-    int         n;
+STATIC void TTYbackn(int n)
 {
     while (--n >= 0)
         TTYback();
 }
 
-STATIC void
-TTYinfo()
+STATIC void TTYinfo(void)
 {
     static int          init;
 #if     defined(USE_TERMCAP)
@@ -335,10 +324,7 @@ TTYinfo()
 /*
 **  Print an array of words in columns.
 */
-STATIC void
-columns(ac, av)
-    int         ac;
-    CHAR        **av;
+STATIC void columns(int ac, CHAR **av)
 {
     CHAR        *p;
     int         i;
@@ -368,8 +354,7 @@ columns(ac, av)
     }
 }
 
-STATIC void
-reposition()
+STATIC void reposition(void)
 {
     int         i;
     CHAR        *p;
@@ -380,9 +365,7 @@ reposition()
         TTYshow(*p);
 }
 
-STATIC void
-left(Change)
-    STATUS      Change;
+STATIC void left(STATUS Change)
 {
     TTYback();
     if (Point) {
@@ -397,26 +380,21 @@ left(Change)
         Point--;
 }
 
-STATIC void
-right(Change)
-    STATUS      Change;
+STATIC void right(STATUS Change)
 {
     TTYshow(Line[Point]);
     if (Change == CSmove)
         Point++;
 }
 
-STATIC STATUS
-ring_bell()
+STATIC STATUS ring_bell(void)
 {
     TTYput('\07');
     TTYflush();
     return CSstay;
 }
 
-STATIC STATUS
-do_macro(c)
-    unsigned int        c;
+STATIC STATUS do_macro(unsigned int c)
 {
     CHAR                name[4];
 
@@ -432,9 +410,7 @@ do_macro(c)
     return CSstay;
 }
 
-STATIC STATUS
-do_forward(move)
-    STATUS      move;
+STATIC STATUS do_forward(STATUS move)
 {
     int         i;
     CHAR        *p;
@@ -457,9 +433,7 @@ do_forward(move)
     return CSstay;
 }
 
-STATIC STATUS
-do_case(type)
-    CASE        type;
+STATIC STATUS do_case(CASE type)
 {
     int         i;
     int         end;
@@ -486,20 +460,17 @@ do_case(type)
     return CSstay;
 }
 
-STATIC STATUS
-case_down_word()
+STATIC STATUS case_down_word(void)
 {
     return do_case(TOlower);
 }
 
-STATIC STATUS
-case_up_word()
+STATIC STATUS case_up_word(void)
 {
     return do_case(TOupper);
 }
 
-STATIC void
-ceol()
+STATIC void ceol(void)
 {
     int         extras;
     int         i;
@@ -522,8 +493,7 @@ ceol()
         TTYback();
 }
 
-STATIC void
-clear_line()
+STATIC void clear_line(void)
 {
     Point = -strlen(Prompt);
     TTYput('\r');
@@ -533,9 +503,7 @@ clear_line()
     Line[0] = '\0';
 }
 
-STATIC STATUS
-insert_string(p)
-    CHAR        *p;
+STATIC STATUS insert_string(CHAR *p)
 {
     SIZE_T      len;
     int         i;
@@ -565,21 +533,17 @@ insert_string(p)
     return Point == End ? CSstay : CSmove;
 }
 
-STATIC CHAR *
-next_hist()
+STATIC CHAR *next_hist(void)
 {
     return H.Pos >= H.Size - 1 ? NULL : H.Lines[++H.Pos];
 }
 
-STATIC CHAR *
-prev_hist()
+STATIC CHAR *prev_hist(void)
 {
     return H.Pos == 0 ? NULL : H.Lines[--H.Pos];
 }
 
-STATIC STATUS
-do_insert_hist(p)
-    CHAR        *p;
+STATIC STATUS do_insert_hist(CHAR *p)
 {
     if (p == NULL)
         return ring_bell();
@@ -590,9 +554,7 @@ do_insert_hist(p)
     return insert_string(p);
 }
 
-STATIC STATUS
-do_hist(move)
-    CHAR        *(*move)();
+STATIC STATUS do_hist(CHAR *(*move)(void))
 {
     CHAR        *p;
     int         i;
@@ -605,26 +567,22 @@ do_hist(move)
     return do_insert_hist(p);
 }
 
-STATIC STATUS
-h_next()
+STATIC STATUS h_next(void)
 {
     return do_hist(next_hist);
 }
 
-STATIC STATUS
-h_prev()
+STATIC STATUS h_prev(void)
 {
     return do_hist(prev_hist);
 }
 
-STATIC STATUS
-h_first()
+STATIC STATUS h_first(void)
 {
     return do_insert_hist(H.Lines[H.Pos = 0]);
 }
 
-STATIC STATUS
-h_last()
+STATIC STATUS h_last(void)
 {
     return do_insert_hist(H.Lines[H.Pos = H.Size - 1]);
 }
@@ -632,11 +590,7 @@ h_last()
 /*
 **  Return zero if pat appears as a substring in text.
 */
-STATIC int
-substrcmp(text, pat, len)
-    char        *text;
-    char        *pat;
-    int         len;
+STATIC int substrcmp(char *text, char *pat, int len)
 {
     CHAR        c;
 
@@ -648,15 +602,12 @@ substrcmp(text, pat, len)
     return 1;
 }
 
-STATIC CHAR *
-search_hist(search, move)
-    CHAR        *search;
-    CHAR        *(*move)();
+STATIC CHAR *search_hist(CHAR *search, CHAR *(*move)(void))
 {
     static CHAR *old_search;
     int         len;
     int         pos;
-    int         (*match)();
+    int         (*match)(char *, char *, int);
     char        *pat;
 
     /* Save or get remembered search pattern. */
@@ -689,12 +640,11 @@ search_hist(search, move)
     return NULL;
 }
 
-STATIC STATUS
-h_search()
+STATIC STATUS h_search(void)
 {
     static int  Searching;
     CONST char  *old_prompt;
-    CHAR        *(*move)();
+    CHAR        *(*move)(void);
     CHAR        *p;
 
     if (Searching)
@@ -715,8 +665,7 @@ h_search()
     return do_insert_hist(p);
 }
 
-STATIC STATUS
-fd_char()
+STATIC STATUS fd_char(void)
 {
     int         i;
 
@@ -729,10 +678,7 @@ fd_char()
     return CSstay;
 }
 
-STATIC void
-save_yank(begin, i)
-    int         begin;
-    int         i;
+STATIC void save_yank(int begin, int i)
 {
     if (Yanked) {
         DISPOSE(Yanked);
@@ -748,9 +694,7 @@ save_yank(begin, i)
     }
 }
 
-STATIC STATUS
-delete_string(count)
-    int         count;
+STATIC STATUS delete_string(int count)
 {
     int         i;
     CHAR        *p;
@@ -791,8 +735,7 @@ delete_string(count)
     return CSmove;
 }
 
-STATIC STATUS
-bk_char()
+STATIC STATUS bk_char(void)
 {
     int         i;
 
@@ -806,8 +749,7 @@ bk_char()
     return CSstay;
 }
 
-STATIC STATUS
-bk_del_char()
+STATIC STATUS bk_del_char(void)
 {
     int         i;
 
@@ -821,8 +763,7 @@ bk_del_char()
     return delete_string(i);
 }
 
-STATIC STATUS
-redisplay()
+STATIC STATUS redisplay(void)
 {
     TTYputs((CHAR *)NEWLINE);
     TTYputs((CHAR *)Prompt);
@@ -830,8 +771,7 @@ redisplay()
     return CSmove;
 }
 
-STATIC STATUS
-kill_line()
+STATIC STATUS kill_line(void)
 {
     int         i;
 
@@ -856,9 +796,7 @@ kill_line()
     return CSstay;
 }
 
-STATIC STATUS
-insert_char(c)
-    int         c;
+STATIC STATUS insert_char(int c)
 {
     STATUS      s;
     CHAR        buff[2];
@@ -883,8 +821,7 @@ insert_char(c)
     return s;
 }
 
-STATIC STATUS
-meta()
+STATIC STATUS meta(void)
 {
     unsigned int        c;
     KEYMAP              *kp;
@@ -921,9 +858,7 @@ meta()
     return ring_bell();
 }
 
-STATIC STATUS
-emacs(c)
-    unsigned int        c;
+STATIC STATUS emacs(unsigned int c)
 {
     STATUS              s;
     KEYMAP              *kp;
@@ -943,9 +878,7 @@ emacs(c)
     return s;
 }
 
-STATIC STATUS
-TTYspecial(c)
-    unsigned int        c;
+STATIC STATUS TTYspecial(unsigned int c)
 {
     if (ISMETA(c))
         return CSdispatch;
@@ -971,8 +904,7 @@ TTYspecial(c)
     return CSdispatch;
 }
 
-STATIC CHAR *
-editinput()
+STATIC CHAR *editinput(void)
 {
     unsigned int        c;
 
@@ -1009,9 +941,7 @@ editinput()
     return NULL;
 }
 
-STATIC void
-hist_add(p)
-    CHAR        *p;
+STATIC void hist_add(CHAR *p)
 {
     int         i;
 
@@ -1032,20 +962,15 @@ hist_add(p)
 **  For compatibility with FSF readline.
 */
 /* ARGSUSED0 */
-void
-rl_reset_terminal(p)
-    char        *p;
+void rl_reset_terminal(char *p)
 {
 }
 
-void
-rl_initialize()
+void rl_initialize(void)
 {
 }
 
-char *
-readline(prompt)
-    CONST char  *prompt;
+char *readline(CONST char *prompt)
 {
     CHAR        *line;
 
@@ -1073,9 +998,7 @@ readline(prompt)
     return (char *)line;
 }
 
-void
-add_history(p)
-    char        *p;
+void add_history(char *p)
 {
     if (p == NULL || *p == '\0')
         return;
@@ -1087,8 +1010,7 @@ add_history(p)
     hist_add((CHAR *)p);
 }
 
-STATIC STATUS
-beg_line()
+STATIC STATUS beg_line(void)
 {
     if (Point) {
         Point = 0;
@@ -1097,14 +1019,12 @@ beg_line()
     return CSstay;
 }
 
-STATIC STATUS
-del_char()
+STATIC STATUS del_char(void)
 {
     return delete_string(Repeat == NO_ARG ? 1 : Repeat);
 }
 
-STATIC STATUS
-end_line()
+STATIC STATUS end_line(void)
 {
     if (Point != End) {
         Point = End;
@@ -1117,8 +1037,7 @@ end_line()
 **  Move back to the beginning of the current word and return an
 **  allocated copy of it.
 */
-STATIC CHAR *
-find_word()
+STATIC CHAR *find_word(void)
 {
     static char SEPS[] = "#;&|^$=`'{}()<>\n\t ";
     CHAR        *p;
@@ -1135,8 +1054,7 @@ find_word()
     return new;
 }
 
-STATIC STATUS
-c_complete()
+STATIC STATUS c_complete(void)
 {
     CHAR        *p;
     CHAR        *word;
@@ -1157,8 +1075,7 @@ c_complete()
     return ring_bell();
 }
 
-STATIC STATUS
-c_possible()
+STATIC STATUS c_possible(void)
 {
     CHAR        **av;
     CHAR        *word;
@@ -1178,15 +1095,13 @@ c_possible()
     return ring_bell();
 }
 
-STATIC STATUS
-accept_line()
+STATIC STATUS accept_line(void)
 {
     Line[End] = '\0';
     return CSdone;
 }
 
-STATIC STATUS
-transpose()
+STATIC STATUS transpose(void)
 {
     CHAR        c;
 
@@ -1203,16 +1118,14 @@ transpose()
     return CSstay;
 }
 
-STATIC STATUS
-quote()
+STATIC STATUS quote(void)
 {
     unsigned int        c;
 
     return (c = TTYget()) == EOF ? CSeof : insert_char((int)c);
 }
 
-STATIC STATUS
-wipe()
+STATIC STATUS wipe(void)
 {
     int         i;
 
@@ -1229,15 +1142,13 @@ wipe()
     return delete_string(Mark - Point);
 }
 
-STATIC STATUS
-mk_set()
+STATIC STATUS mk_set(void)
 {
     Mark = Point;
     return CSstay;
 }
 
-STATIC STATUS
-exchange()
+STATIC STATUS exchange(void)
 {
     unsigned int        c;
 
@@ -1252,16 +1163,14 @@ exchange()
     return CSstay;
 }
 
-STATIC STATUS
-yank()
+STATIC STATUS yank(void)
 {
     if (Yanked && *Yanked)
         return insert_string(Yanked);
     return CSstay;
 }
 
-STATIC STATUS
-copy_region()
+STATIC STATUS copy_region(void)
 {
     if (Mark > End)
         return ring_bell();
@@ -1274,8 +1183,7 @@ copy_region()
     return CSstay;
 }
 
-STATIC STATUS
-move_to_char()
+STATIC STATUS move_to_char(void)
 {
     unsigned int        c;
     int                 i;
@@ -1291,14 +1199,12 @@ move_to_char()
     return CSstay;
 }
 
-STATIC STATUS
-fd_word()
+STATIC STATUS fd_word(void)
 {
     return do_forward(CSmove);
 }
 
-STATIC STATUS
-fd_kill_word()
+STATIC STATUS fd_kill_word(void)
 {
     int         i;
 
@@ -1311,8 +1217,7 @@ fd_kill_word()
     return CSstay;
 }
 
-STATIC STATUS
-bk_word()
+STATIC STATUS bk_word(void)
 {
     int         i;
     CHAR        *p;
@@ -1332,8 +1237,7 @@ bk_word()
     return CSstay;
 }
 
-STATIC STATUS
-bk_kill_word()
+STATIC STATUS bk_kill_word(void)
 {
     (void)bk_word();
     if (OldPoint != Point)
@@ -1341,10 +1245,7 @@ bk_kill_word()
     return CSstay;
 }
 
-STATIC int
-argify(line, avp)
-    CHAR        *line;
-    CHAR        ***avp;
+STATIC int argify(CHAR *line, CHAR ***avp)
 {
     CHAR        *c;
     CHAR        **p;
@@ -1387,8 +1288,7 @@ argify(line, avp)
     return ac;
 }
 
-STATIC STATUS
-last_argument()
+STATIC STATUS last_argument(void)
 {
     CHAR        **av;
     CHAR        *p;
@@ -1412,4 +1312,3 @@ last_argument()
     DISPOSE(p);
     return s;
 }
-

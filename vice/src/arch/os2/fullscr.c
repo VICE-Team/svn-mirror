@@ -376,11 +376,7 @@ int SwitchIntoFullscreen(HWND hwnd)
     SWP swp;
     GDDMODEINFO *mode;
 
-    unsigned int maxw = -1;
-    unsigned int maxh = -1;
-    unsigned int rate = -1;
     FOURCC fcc = fccColorEncoding;
-    int l;
 
     WinQueryWindowPos(hwnd, &swp);
 
@@ -443,8 +439,6 @@ void FullscreenChangeMode(HWND hwnd)
     FBINFO       fbinfo;
     GDDMODEINFO *mode;
     FOURCC       fcc = fccColorEncoding;
-
-    int l;
 
     if (!hmodVMAN || !fFullScreenMode)
         return;

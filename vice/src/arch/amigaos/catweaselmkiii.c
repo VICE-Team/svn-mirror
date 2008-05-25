@@ -113,7 +113,7 @@ static int                     sid_NTSC      = FALSE; // TRUE for 60Hz oscillato
 int catweaselmkiii_open(void)
 {
   static int atexitinitialized = 0;
-  int i;
+  unsigned int i;
 
   if (atexitinitialized) {
     catweaselmkiii_close();
@@ -190,7 +190,7 @@ int catweaselmkiii_open(void)
 
 int catweaselmkiii_close(void)
 {
-  int i;
+  unsigned int i;
 
   /* mute all sids */
   memset(sidbuf, 0, sizeof(sidbuf));

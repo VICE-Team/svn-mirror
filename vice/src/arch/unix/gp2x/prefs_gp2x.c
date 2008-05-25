@@ -30,22 +30,25 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include "minimal.h"
-#include "machine.h"
-#include "ui_gp2x.h"
-#include "input_gp2x.h"
-#include "prefs_gp2x.h"
-#include "videoarch.h"
 #include <sys/types.h>
 #include <dirent.h>
 #include <sys/stat.h>
+
 #include "attach.h"
 #include "autostart.h"
-#include "resources.h"
-#include "imagecontents.h"
 #include "cartridge.h"
+#include "imagecontents.h"
+#include "input_gp2x.h"
+#include "interrupt.h"
+#include "machine.h"
+#include "minimal.h"
+#include "prefs_gp2x.h"
+#include "resources.h"
 #include "screenshot.h"
+#include "ui_gp2x.h"
 #include "uiarch.h"
+#include "uitext_gp2x.h"
+#include "videoarch.h"
 
 extern unsigned short *gp2x_memregs;
 
@@ -84,10 +87,6 @@ void set_FCLK(unsigned MHZ)
 	unsigned mdiv,pdiv=3,scale=0;
 	MHZ*=1000000;
 	mdiv=(MHZ*pdiv)/SYS_CLK_FREQ;
-#if 0
-	printf ("Old value = %04X\r",MEM_REG[0x924>>1]," ");
-	printf ("APLL = %04X\r",MEM_REG[0x91A>>1]," ");
-#endif
 	mdiv=((mdiv-8)<<8) & 0xff00;
 	pdiv=((pdiv-2)<<2) & 0xfc;
 	scale&=3;
@@ -110,9 +109,6 @@ void display_set() {
 			gp2x_memregs[0x2906>>1]=614; /* scale horizontal */
 			if(tvout_pal) gp2x_memregs[0x2908>>1]=384; /* scale vertical PAL */
 			else gp2x_memregs[0x2908>>1]=460; /* scale vertical NTSC */
-#if 0
-			gp2x_memregs[0x2908>>1]=430; /* scale vertical */
-#endif
 		} else {
 			gp2x_memregs[0x2906>>1]=1228; /* scale horizontal */
 			gp2x_memregs[0x2908>>1]=430; /* vertical */
@@ -185,22 +181,7 @@ char *image_file_req(unsigned char *screen, const char *image) {
 	char *contents_str;
 	static char *contents_list[255];
 	int row;
-	static image_contents_t *contents;
-	image_contents_file_list_t *prg_list;
-#if 0
-	char tmp_string[255];
-#endif
 	int i;
-
-#if 0
-	contents_list[0]="test1";
-	contents_list[1]="test2";
-	contents_list[2]="test3";
-	contents_list[3]=NULL;
-	num_items=3;
-	cursor_pos=0;
-	first_visible=0;
-#endif
 
 	if(num_items==0) {
 		contents_str=image_contents_read_string(IMAGE_CONTENTS_AUTO,
@@ -223,51 +204,16 @@ char *image_file_req(unsigned char *screen, const char *image) {
         draw_petscii_string(screen, display_width, MENU_X, MENU_Y, 
 		contents_list[0], menu_fg, menu_bg);
 
-#if 0
-	if(num_items==0) {
-		contents=image_contents_read(IMAGE_CONTENTS_AUTO, image, 8);
-		if(contents==NULL) return (char *)-1;
-		prg_list=contents->file_list;
-		for(num_items=0; prg_list!=NULL; num_items++) {
-			prg_list=prg_list->next;
-		}
-		cursor_pos=0;
-		first_visible=0;
-	}
-
-        draw_ascii_string(screen, display_width, MENU_X, MENU_Y, blank_line, menu_fg, menu_bg);
-        draw_ascii_string(screen, display_width, MENU_X, MENU_Y, 
-		(char *)contents->name, menu_fg, menu_bg);
-
-	prg_list=contents->file_list;
-	for(i=0; i<first_visible; i++) prg_list=prg_list->next;
-#endif
-
 	row=0;
 	while(row<(num_items-1) && row<MENU_HEIGHT) {
 		if(row==(cursor_pos-first_visible)) {
 			bg=menu_hl;
-#if 0
-			selected=(char *)prg_list->name;
-#endif
 			selected=contents_list[row+first_visible+1];
 		} else bg=menu_bg;
-#if 0
-		if(dir_items[row+first_visible].type==0) {
-        		draw_ascii_string(screen, display_width, MENU_X, MENU_LS+(8*row), "<DIR> ", menu_fg, bg);
-		}
-		snprintf(tmp_string, 16, "%s", dir_items[row+first_visible].name);
-        	draw_ascii_string(screen, display_width, MENU_X+(8*6), MENU_LS+(8*row), tmp_string, menu_fg, bg);
-		strncpy(tmp_string, prg_list->name, 255);
-#endif
         	draw_ascii_string(screen, display_width, MENU_X, MENU_LS+(8*row), 
 			blank_line, menu_fg, bg);
         	draw_petscii_string(screen, display_width, MENU_X, MENU_LS+(8*row), 
 			contents_list[row+first_visible+1], menu_fg, bg);
-#if 0
-			(char *)prg_list->name, menu_fg, bg);
-		prg_list=prg_list->next;
-#endif
 		row++;
 	}
 	while(row<MENU_HEIGHT) {
@@ -455,10 +401,6 @@ char *file_req(unsigned char *screen, char *dir) {
 			+strlen(dir_items[cursor_pos].name)
 			+2);
 		sprintf(path, "%s/%s", cwd, dir_items[cursor_pos].name);
-#if 0
-		/* FIXME */
-		for(i=0; i<num_items; i++) free(dir_items[i].name);
-#endif
 		if(dir_items[cursor_pos].type==0) {
 			/* directory selected */
 			pathlength=strlen(path);
@@ -466,16 +408,10 @@ char *file_req(unsigned char *screen, char *dir) {
 				/* check for . selected */
 					&& path[pathlength-2]=='/') {
 				path[pathlength-2]='\0';
-#if 0
-				return path;
-#endif
 			} else if(path[pathlength-1]=='.'
 				/* check for .. selected */
 					&& path[pathlength-2]=='.'
 					&& path[pathlength-3]=='/') {
-#if 0
-					&&pathlength>4) {
-#endif
 				for(i=4; i<pathlength && path[pathlength-i]!='/'; i++);
 				if(i<pathlength
 					&& path[(pathlength-i)+1]!='.'
@@ -485,12 +421,6 @@ char *file_req(unsigned char *screen, char *dir) {
 					path[0]='.';
 					path[1]='\0';
 				}
-#if 0
-				if(strlen(path)<=5) {
-					path[5]='/';
-					path[6]='\0';
-				}
-#endif
 				cwd=path;
 			} else {
 				cwd=path;
@@ -503,9 +433,6 @@ char *file_req(unsigned char *screen, char *dir) {
 			/* file selected */
 			return path;
 		}
-#if 0
-	} else if(input_select) {
-#endif
 	} else if(input_x) {
 		input_x=0;
 		return (char *)-1;
@@ -526,7 +453,7 @@ char *option_txt[255];
 
 void draw_prefs(unsigned char *screen) {
 	static int cursor_pos=0;
-	unsigned char bg, fg;
+	unsigned char bg;
 	char tmp_string[1024];
 	char tmp_string2[1024];
 	char tmp_string3[1024];
@@ -542,12 +469,7 @@ void draw_prefs(unsigned char *screen) {
 	static int attach_cart_vic20_a000=0;
 	static int attach_cart_vic20_b000=0;
 	static char *imagefile;
-#if 0
-	static int xfiletype;
-#endif
-	int update_prefs=0;
-	int i,j;
-	char zip_error_str[255];
+	int i;
 
 	option_txt[AUTOSTART]=		"Autostart image...               ";
 	option_txt[START]=		"Browse d64...                    ";
@@ -630,40 +552,6 @@ void draw_prefs(unsigned char *screen) {
 				imagefile=tmp_string2;
 			}
 #endif
-#if 0
-			if(!strcmp(imagefile+(strlen(imagefile)-4), ".sna")
-				|| !strcmp(imagefile+(strlen(imagefile)-4), ".SNA")) {
-				TheC64->LoadSnapshot(imagefile);
-				TheC64->Resume();
-				sdl_prefs_open=false;
-			} else if(!strcmp(imagefile+(strlen(imagefile)-4), ".prg")
-				|| !strcmp(imagefile+(strlen(imagefile)-4), ".PRG")) {
-				char loadprg[255];
-				for(i=strlen(imagefile); i>0; i--) {
-					if(imagefile[i]=='/') break;
-				}
-				strcpy(loadprg, "\rLOAD\"");
-				for(j=0; imagefile[i+1+j]; j++) {
-					unsigned char c;
-					c=imagefile[i+1+j];
-					if ((c >= 'A') && (c <= 'Z') || (c >= 'a') && (c <= 'z')) c ^= 0x20;
-					tmp_string[j]=c;
-				}
-				tmp_string[j]='\0';
-				strcat(loadprg, tmp_string);
-				strcat(loadprg, "\",8,1\rRUN\r");
-				imagefile[i]='\0';
-				strcpy(prefs->DrivePath[0], imagefile);
-				kbd_buf_feed(loadprg);
-				update_prefs=1;
-				TheC64->Resume();
-				sdl_prefs_open=false;
-			} else {
-				strcpy(prefs->DrivePath[0], imagefile);
-				update_prefs=1;
-				cursor_pos=LOADSTAR;
-			}
-#endif
 			if(auto_start) {
 				autostart_autodetect(imagefile, NULL, 0, 0);
 				auto_start=0;
@@ -677,10 +565,6 @@ void draw_prefs(unsigned char *screen) {
 					imagefile=NULL;
 					gotfilename=0;
 				} else {
-#if 0
-					fprintf(stderr, "calling autostart %s, %s\n",
-						imagefile, image_prg);
-#endif
 					autostart_autodetect(imagefile, image_prg, 0, 0);
 					manual_start=0;
 					getfilename=0;
@@ -756,21 +640,8 @@ void draw_prefs(unsigned char *screen) {
 		} else if(cursor_pos==SIDENGINE) {
 			ui_handle_sidengine_resource(0);
 		} else if(cursor_pos==SCALED) {
-#if 0
-			gp2x_memregs[0x2906>>1]=1024; /* scale horizontal */
-			gp2x_memregs[0x2908>>1]=320; /* vertical */
-			display_width=320;
-			gp2x_memregs[0x290c>>1]=display_width; /* screen width */
-#endif
 			hwscaling=0;
 			display_set();
-#if 0
-		} else if(cursor_pos==TVOUT) {
-			gp2x_memregs[0x2800>>1]&=~0x300;
-			tvout=0;
-			tvout_pal=0;
-			display_set();
-#endif
 		} else if(cursor_pos==CENTRED) {
 			xoffset=xoffset_uncentred; 
 			yoffset=yoffset_uncentred;
@@ -806,23 +677,8 @@ void draw_prefs(unsigned char *screen) {
 		} else if(cursor_pos==SIDENGINE) {
 			ui_handle_sidengine_resource(1);
 		} else if(cursor_pos==SCALED) {
-#if 0
-			gp2x_memregs[0x2906>>1]=1228; /* scale horizontal */
-			gp2x_memregs[0x2908>>1]=430; /* scale vertical */
-			gp2x_memregs[0x2908>>1]=384; /* scale vertical */
-			display_width=384;
-			gp2x_memregs[0x290c>>1]=display_width; /* screen width */
-#endif
 			hwscaling=1;
 			display_set();
-#if 0
-		} else if(cursor_pos==TVOUT) {
-			gp2x_memregs[0x2800>>1]|=0x300;
-			hwscaling=1;
-			tvout=1;
-			tvout_pal=1;
-			display_set();
-#endif
 		} else if(cursor_pos==CENTRED) {
 			xoffset=xoffset_centred; 
 			yoffset=yoffset_centred;
@@ -838,24 +694,6 @@ void draw_prefs(unsigned char *screen) {
 		} else if(cursor_pos==X8) {
 			if (ui_set_ramblocks(1)==1) vic20_mem=5;
 		}
-#if 0
-		if(cursor_pos==LIMITSPEED) {
-			prefs->LimitSpeed=true;
-			update_prefs=1;
-		} else if(cursor_pos==RESET) {
-			prefs->FastReset=true;
-			update_prefs=1;
-		} else if(cursor_pos==SOUND) {
-			prefs->SIDType=SIDTYPE_DIGITAL;
-			update_prefs=1;
-		} else if(cursor_pos==RCONTROL) {
-			control_reversed=1;
-		} else if(cursor_pos==BRIGHTNESS) {
-			set_luma(brightness+1, contrast);
-		} else if(cursor_pos==CONTRAST) {
-			set_luma(brightness, contrast+1);
-		}
-#endif
 	}
 
 	if(input_b) {
@@ -920,10 +758,6 @@ void draw_prefs(unsigned char *screen) {
 				}
 				closedir(snaps_dir);
 			}
-#if 0
-			char *fname="test.sna";
-			interrupt_maincpu_trigger_trap(write_snapshot, (void *)fname);
-#endif
 			sprintf(tmp_string2, "%s/%s", "./snapshots", tmp_string);
 			interrupt_maincpu_trigger_trap(write_snapshot, (void *)tmp_string2);
 			sprintf(tmp_string3, "%s/screen%04d.bmp", "./snapshots", snapnum-1);
@@ -933,64 +767,8 @@ void draw_prefs(unsigned char *screen) {
 			resources_save("vicerc");
 			exit(0);
 		}
-#if 0
-		if(cursor_pos==D64) {
-			xfiletype=0;
-			getfilename=true;
-		} else if(cursor_pos==LOADSTAR) {
-			kbd_buf_feed("\rLOAD\":*\",8,1\rRUN\r");
-			TheC64->Resume();
-			sdl_prefs_open=false;
-		} else if(cursor_pos==LOADER) {
-			load_prg(TheC64, c64loader, sizeof(c64loader));
-			kbd_buf_feed("\rLOAD\"X\",8,1\rRUN\r");
-			TheC64->Resume();
-			sdl_prefs_open=false;
-		} else if(cursor_pos==PRG) {
-			xfiletype=1;
-			getfilename=true;
-		} else if(cursor_pos==LOAD_SNAP) {
-			TheC64->LoadSnapshot("test.sna");
-			TheC64->Resume();
-			sdl_prefs_open=false;
-		} else if(cursor_pos==SAVE_SNAP) {
-#ifdef __gp2x__
-			chdir(AppDirPath);
-			chdir("c64/snapshots/");
-#else
-			chdir("/tmp/c64/snapshots/");
-#endif
-			int freename=0;
-			for(int snapnum=0; !freename; snapnum++) {
-				DIR *snaps_dir=opendir(".");
-				struct dirent *direntry;
-				freename=1;
-				while(direntry=readdir(snaps_dir)) {
-					sprintf(tmp_string, "%04d.sna", snapnum);
-					if(!strcmp(tmp_string, direntry->d_name)) freename=0;
-				}
-				closedir(snaps_dir);
-			}
-			TheC64->SaveSnapshot(tmp_string);
-
-
-			/* save thumbnail */
-			if(thumb_current) {
-				sprintf(tmp_string2, "thumbs/%s.thm", tmp_string);
-				FILE *thumb_file=fopen(tmp_string2, "w");
-				fwrite(thumb_current, (DISPLAY_X/4)*(DISPLAY_Y/4), 1, thumb_file);
-				fclose(thumb_file);
-			}
-
-			TheC64->Resume();
-			sdl_prefs_open=false;
-		}
-#endif
 	}
 
-#if 0
-	for(i=0; option_txt[i]; i++) {
-#endif
 	for(i=0; i<NUM_OPTIONS; i++) {
 		bg=menu_bg;
 		if(i==cursor_pos) bg=menu_hl;
@@ -1076,28 +854,6 @@ void draw_prefs(unsigned char *screen) {
 			"off", menu_fg, menu_bg);
 	}
 
-#if 0
-	/* tv out */
-	if(tvout) {
-        	draw_ascii_string(screen, display_width, 
-			MENU_X+(8*25), MENU_Y+(8*TVOUT), 
-			"(on)", menu_fg, menu_bg);
-	} else {
-        	draw_ascii_string(screen, display_width, 
-			MENU_X+(8*25), MENU_Y+(8*TVOUT), 
-			"(off)", menu_fg, menu_bg);
-	}
-	if(tvout_pal) {
-        	draw_ascii_string(screen, display_width, 
-			MENU_X+(8*21), MENU_Y+(8*TVOUT), 
-			"PAL", menu_fg, menu_bg);
-	} else {
-        	draw_ascii_string(screen, display_width, 
-			MENU_X+(8*21), MENU_Y+(8*TVOUT), 
-			"NTSC", menu_fg, menu_bg);
-	}
-#endif
-
 	ui_draw_memory_string(screen,MENU_X+(8*21), MENU_Y+(8*X8), vic20_mem);
 
 	/* cpu speed */
@@ -1106,50 +862,4 @@ void draw_prefs(unsigned char *screen) {
 			MENU_X+(8*21), MENU_Y+(8*CPUSPEED),
 			tmp_string, menu_fg, menu_bg);
 
-#if 0
-	sprintf(tmp_string, "%d", brightness);
-        draw_ascii_string(screen_base, 80+(8*23), 25+(8*BRIGHTNESS), tmp_string, black, fill_gray);
-	sprintf(tmp_string, "%d", contrast);
-        draw_ascii_string(screen_base, 80+(8*23), 25+(8*CONTRAST), tmp_string, black, fill_gray);
-#endif
-
-#if 0
-        /* reset speed */
-        if(prefs->FastReset) {
-        	draw_ascii_string(screen_base, 80+(8*23), 25+(8*RESET), "Fast", black, fill_gray);
-	} else {
-        	draw_ascii_string(screen_base, 80+(8*23), 25+(8*RESET), "Slow", black, fill_gray);
-	}
-        /* limit speed */
-        if(prefs->LimitSpeed) {
-        	draw_ascii_string(screen_base, 80+(8*23), 25+(8*LIMITSPEED), "On", black, fill_gray);
-	} else {
-        	draw_ascii_string(screen_base, 80+(8*23), 25+(8*LIMITSPEED), "Off", black, fill_gray);
-	}
-	/* sound */
-        if(prefs->SIDType==SIDTYPE_NONE) {
-        	draw_ascii_string(screen_base, 80+(8*23), 25+(8*SOUND), "Off", black, fill_gray);
-	} else {
-        	draw_ascii_string(screen_base, 80+(8*23), 25+(8*SOUND), "On", black, fill_gray);
-	}
-	/* sound */
-	/* control */
-	if(control_reversed) {
-        	draw_ascii_string(screen_base, 80+(8*23), 25+(8*RCONTROL), "On", black, fill_gray);
-	} else {
-        	draw_ascii_string(screen_base, 80+(8*23), 25+(8*RCONTROL), "Off", black, fill_gray);
-	}
-	if(scaled) {
-        	draw_ascii_string(screen_base, 80+(8*20), 25+(8*SCALED), "Scaled", black, fill_gray);
-	} else {
-        	draw_ascii_string(screen_base, 80+(8*23), 25+(8*SCALED), "1:1", black, fill_gray);
-	}
-#endif
-
-#if 0
-	/* attached media */
-	snprintf(tmp_string, 22, "%s", prefs->DrivePath[0]);
-        draw_ascii_string(screen_base, 80, 25+(8*BLANK3), "drive 8 media: ", black, fill_gray);
-        draw_ascii_string(screen_base, 80, 25+(8*BLANK4), tmp_string, black, fill_gray);
-#endif
 }

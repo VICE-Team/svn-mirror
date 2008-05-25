@@ -53,6 +53,7 @@
 #include "lib.h"
 #include "log.h"
 #include "mem.h"
+#include "monitor.h"
 #include "resources.h"
 #ifdef HAS_TRANSLATION
 #include "translate.h"
@@ -223,6 +224,9 @@ static const cmdline_option_t cmdline_options[] =
 
 int cartridge_cmdline_options_init(void)
 {
+    mon_cart_cmd.cartridge_attach_image = cartridge_attach_image;
+    mon_cart_cmd.cartridge_detach_image = cartridge_detach_image;
+
     return cmdline_register_options(cmdline_options);
 }
 

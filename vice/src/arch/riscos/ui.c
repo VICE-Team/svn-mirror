@@ -216,7 +216,7 @@ static int SoundSuspended = 0;
 static int WasAutoPaused = 0;
 static int SoundVolume;
 static int DisplayFPS = 0;
-static int DisplayDriveTrack = 0;
+static unsigned int DisplayDriveTrack = 0;
 static int WimpScrapUsed = 0;
 static int JoystickWindowOpen = 0;
 static int WithinUiPoll = 0;
@@ -1526,7 +1526,7 @@ static int ui_new_drive_image(int number, const char *name, int scankeys)
     }
     else
     {
-      if (ui_image_contents_disk(name) != 0);
+      if (ui_image_contents_disk(name) != 0)
         return -1;
     }
   }

@@ -79,7 +79,7 @@ static int voc_write(SWORD *pbuf, size_t nr)
   BYTE extra_block_header[] = "\002sss";
 
 #ifdef WORDS_BIGENDIAN
-  int i;
+  unsigned int i;
 
   /* Swap bytes on big endian machines. */
   for (i=0; i<nr; i++)

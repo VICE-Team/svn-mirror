@@ -29,8 +29,11 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "cartridge.h"
+#include "keyboard.h"
 #include "prefs_gp2x.h"
 #include "resources.h"
+#include "uitext_gp2x.h"
 #include "videoarch.h"
 #include "vkeyboard_gp2x.h"
 
@@ -177,13 +180,6 @@ int c64_keytable[] = {
 		22, 4, 0,1, /* return */
 		23, 4, 0,1, /* return */
 		24, 4, 0,1, /* return */
-
-#if 0
-		23, 5, 0|128,7, /* crsr up */
-		23, 6, 0,7, /* crsr down */
-		22, 6, 0|128,2, /* crsr left */
-		24, 6, 0,2, /* crsr right */
-#endif
 
 		21, 2, 0,0, /* delete */
 		22, 2, 0,0, /* delete */

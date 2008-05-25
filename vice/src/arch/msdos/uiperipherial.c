@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "fsdevice.h"
 #include "lib.h"
@@ -68,7 +69,7 @@ static TUI_MENU_CALLBACK(set_fsdevice_directory_callback)
 
     if (been_activated) {
         char *path;
-        int len = 255;
+        unsigned int len = 255;
 
         resources_get_string(rname, &v);
         if (len < strlen(v) * 2)

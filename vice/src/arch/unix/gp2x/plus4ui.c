@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "keyboard.h"
 #include "prefs_gp2x.h"
 #include "resources.h"
 #include "videoarch.h"
@@ -37,9 +38,6 @@
 /* reserved for future sid cart support */
 void plus4ui_handle_sidengine_resource(int value)
 {
-#if 0
-  resources_set_int("SidEngine", value);
-#endif
 }
 
 int plus4ui_handle_X(int Xvalue)
@@ -50,19 +48,6 @@ int plus4ui_handle_X(int Xvalue)
 /* reserved for future sid cart support */
 void plus4ui_draw_resid_string(unsigned char *screen, int menu_x, int menu_y)
 {
-#if 0
-  int sidengine;
-
-  resources_get_int("SidEngine", &sidengine);
-  if(sidengine)
-  {
-    draw_ascii_string(screen, display_width, menu_x, menu_y, "ReSID", menu_fg, menu_bg);
-  }
-  else
-  {
-    draw_ascii_string(screen, display_width, menu_x, menu_y, "FastSID", menu_fg, menu_bg);
-  }
-#endif
 }
 
 void plus4ui_draw_memory_string(unsigned char *screen, int menu_x, int menu_y, int mem)

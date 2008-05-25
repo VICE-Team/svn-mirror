@@ -33,4 +33,6 @@ extern int input_up, input_down, input_left, input_right,
 
 extern int cur_port;
 
+extern void gp2x_poll_input();
+
 #endif

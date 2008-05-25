@@ -2962,7 +2962,7 @@ static BYTE text_cache[(((LAST_IDS / 16) + 1) / 8) + 1];
 
 static void intl_text_init(void)
 {
-int i, j;
+unsigned int i, j;
 char temp_buffer[4098 * sizeof(TCHAR)];
 
 /*    for (i = 0; i < countof(language_table); i++) {
@@ -3017,7 +3017,7 @@ char temp_buffer[4098 * sizeof(TCHAR)];
 
 static void intl_text_free(void)
 {
-  int i,j;
+  unsigned int i,j;
 
   for (i = 0; i < countof(language_table); i++)
   {
@@ -3039,7 +3039,7 @@ static void intl_text_free(void)
 
 char *intl_translate_text(int en_resource)
 {
-  int i;
+  unsigned int i;
 
   for (i = 0; i < countof(intl_translate_text_table); i++)
   {
@@ -3059,7 +3059,8 @@ char *intl_translate_text(int en_resource)
 char *intl_translate_text_new(int en_resource)
 {
 char *text;
-int i, j, k;
+unsigned int i;
+int j, k;
 char temp_buffer[4098 * sizeof(TCHAR)];
 HRSRC hRes;
 HGLOBAL hGlob;
@@ -3134,7 +3135,7 @@ void intl_init(void)
 
 int intl_translate_res(int en_resource)
 {
-  int i;
+  unsigned int i;
 
   if (!strcmp(current_language,"en"))
     return en_resource;

@@ -31,6 +31,7 @@
 #include "vice.h"
 
 #include "types.h"
+#include "video.h"
 
 #include "wlsprite.h"
 

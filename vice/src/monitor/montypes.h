@@ -171,11 +171,22 @@ extern int mon_stop_output;
 extern monitor_interface_t *mon_interfaces[NUM_MEMSPACES];
 extern bool force_array[NUM_MEMSPACES];
 extern unsigned char data_buf[256];
+extern unsigned char data_mask_buf[256];
 extern unsigned int data_buf_len;
 
 /* Function declarations */
 extern void mon_add_number_to_buffer(int number);
+extern void mon_add_number_masked_to_buffer(int number, int mask);
 extern void mon_add_string_to_buffer(char *str);
+extern void mon_backtrace(void);
+extern void mon_cart_freeze(void);
+extern void mon_reset_machine(int type);
+extern void mon_resource_get(const char *name);
+extern void mon_resource_set(const char *name, const char* value);
+extern void mon_screenshot_save(const char* filename, int format);
+extern void mon_show_dir(const char *path);
+extern void mon_show_pwd(void);
+extern void mon_tape_ctrl(int command);
 extern void mon_display_screen(void);
 extern void mon_instructions_step(int count);
 extern void mon_instructions_next(int count);

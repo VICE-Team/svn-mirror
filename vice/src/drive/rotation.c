@@ -157,10 +157,12 @@ void rotation_change_mode(unsigned int dnr)
     rotation[dnr].finish_byte = 1;
 }
 
+#if 0
 inline static unsigned int head_next2_offset(drive_t *dptr)
 {
     return (dptr->GCR_head_offset + 2) % dptr->GCR_current_track_size;
 }
+#endif
 
 inline static unsigned int head_next_offset(drive_t *dptr)
 {
@@ -178,6 +180,7 @@ inline static unsigned int head_previous_offset(drive_t *dptr)
            ? dptr->GCR_head_offset - 1 : dptr->GCR_current_track_size - 1;
 }
 
+#if 0
 inline static unsigned int head_previous2_offset(drive_t *dptr)
 {
     return (dptr->GCR_head_offset + dptr->GCR_current_track_size - 2)
@@ -188,6 +191,7 @@ inline static BYTE peek_next2(drive_t *dptr)
 {
     return dptr->GCR_track_start_ptr[head_next2_offset(dptr)];
 }
+#endif
 
 inline static BYTE peek_next(drive_t *dptr)
 {
@@ -204,10 +208,12 @@ inline static BYTE peek_previous(drive_t *dptr)
     return dptr->GCR_track_start_ptr[head_previous_offset(dptr)];
 }
 
+#if 0
 inline static BYTE peek_previous2(drive_t *dptr)
 {
     return dptr->GCR_track_start_ptr[head_previous2_offset(dptr)];
 }
+#endif
 
 inline static void data_write(drive_t *dptr)
 {

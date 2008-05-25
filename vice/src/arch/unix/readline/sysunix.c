@@ -13,9 +13,7 @@
 
 #include <termios.h>
 
-void
-rl_ttyset(Reset)
-    int                         Reset;
+void rl_ttyset(int Reset)
 {
     static struct termios       old;
     struct termios              new;
@@ -43,9 +41,7 @@ rl_ttyset(Reset)
 
 #else
 #include <sgtty.h>
-void
-rl_ttyset(Reset)
-    int                         Reset;
+void rl_ttyset(int Reset)
 {
     static struct sgttyb        old_sgttyb;
     static struct tchars        old_tchars;
@@ -82,14 +78,10 @@ rl_ttyset(Reset)
 }
 #endif  /* defined(HAVE_TCGETATTR) */
 
-void
-rl_add_slash(path, p)
-    char        *path;
-    char        *p;
+void rl_add_slash(char *path, char *p)
 {
     struct stat Sb;
 
     if (stat(path, &Sb) >= 0)
         (void)strcat(p, S_ISDIR(Sb.st_mode) ? "/" : " ");
 }
-

@@ -123,7 +123,7 @@ int tape_init(const tape_init_t *init)
     tape_internal_init();
     tape_image_init();
 
-    if (tape_image_dev1 != NULL);
+    if (tape_image_dev1 != NULL)
         lib_free(tape_image_dev1);
     tape_image_dev1 = (tape_image_t *)lib_calloc(1, sizeof(tape_image_t));
 

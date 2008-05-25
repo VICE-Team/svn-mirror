@@ -327,7 +327,6 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         {
             const HWND lbox = WinWindowFromID(hwnd, CBS_TYPE);
 
-            int i;
             int type=0;
             int val;
             int res;

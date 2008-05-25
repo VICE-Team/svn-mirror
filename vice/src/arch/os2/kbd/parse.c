@@ -127,7 +127,6 @@ int load_keymap_file(const char *fname)
                         shift = atoi(p);
 
                     {
-                        int s;
                         switch (buffer[0])
                         {
                         case '#':
@@ -162,7 +161,7 @@ int load_keymap_file(const char *fname)
             case '!': // keyword handling
                 {
                     char *p;
-                    int num, row, col, shift;
+                    int row, col;
 
                     p = strtok(buffer+1, " \t:");
                     if (!p)

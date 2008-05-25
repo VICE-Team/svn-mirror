@@ -515,7 +515,9 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
     }
   }
 else {
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
 reopenwindow:
+#endif
     /* if window already is open, just resize it, otherwise, open it */
     if (canvas->os->window != NULL) {
       ChangeWindowBox(canvas->os->window,
@@ -951,6 +953,7 @@ static int makecol_RGB565BE(int r, int g, int b)
   return c;
 }
 
+#ifdef HAVE_PROTO_CYBERGRAPHICS_H
 static int makecol_BGR565BE(int r, int g, int b)
 {
   int c = ((b & 0xf8) << 8) | ((g & 0xfc) << 3) | ((r & 0xf8) >> 3);
@@ -962,6 +965,7 @@ static int makecol_RGB555BE(int r, int g, int b)
   int c = ((r & 0xf8) << 7) | ((g & 0xf8) << 2) | ((b & 0xf8) >> 3);
   return c;
 }
+#endif
 
 static int makecol_BGR555BE(int r, int g, int b)
 {
@@ -1110,7 +1114,7 @@ int video_canvas_set_palette(struct video_canvas_s *canvas,
                                     struct palette_s *palette)
 {
   int (*makecol)(int r, int g, int b);
-  int i;
+  unsigned int i;
   int col;
 
   canvas->palette = palette;

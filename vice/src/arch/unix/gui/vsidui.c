@@ -54,9 +54,13 @@
 #include "vsiduiunix.h"
 
 extern struct ui_menu_entry_s sid_submenu[];
-UI_MENU_DEFINE_RADIO(SidStereoAddressStart)
+
+/* FIXME: sid menus need to be handled differently, but still need to 
+   figure out the right way. */
 
 #if 0
+UI_MENU_DEFINE_RADIO(SidStereoAddressStart)
+
 static ui_menu_entry_t set_sid_stereo_address_d4xx_submenu[] = {
     { "*$D420", (ui_callback_t)radio_SidStereoAddressStart,
       (ui_callback_data_t)0xd420, NULL },

@@ -61,9 +61,6 @@ static HWND hwndKeyset   =NULLHANDLE;
 
 static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
-    const int ID_ON  = 1;
-    const int ID_OFF = 2;
-
     switch (msg)
     {
     case WM_INITDLG:
@@ -160,8 +157,6 @@ static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
         break;
     case WM_SETDLGS:
         {
-            HWND hwnd2;
-
             int joy1 = (int)mp1;
             int joy2 = (int)mp2;
             int joys = joy1 | joy2;

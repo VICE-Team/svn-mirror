@@ -126,9 +126,6 @@ void gp2x_video_flip(void)
 {
   unsigned long address=gp2x_physvram[gp2x_physvram[7]];
 
-#if 0
-  if(++gp2x_physvram[7]==4) gp2x_physvram[7]=0;
-#endif
   if(gp2x_physvram[7]==0) gp2x_physvram[7]=1;
   else gp2x_physvram[7]=0;
   
@@ -208,22 +205,6 @@ unsigned long gp2x_timer_read(void)
 
 void gp2x_sound_pause(int yes) { gp2x_sound_pausei=yes; }
 
-static void *gp2x_sound_play(void *blah)
-{
-  int flip=0, flyp=gp2x_sound_buffer[1];
-  struct timespec ts; ts.tv_sec=0, ts.tv_nsec=gp2x_sound_buffer[2];
-
-  while(!gp2x_sound)  { nanosleep(&ts, NULL);
-                        
-                        if(!gp2x_sound_pausei) { gp2x_sound_frame(blah, (void *)(&gp2x_sound_buffer[4+flip]), gp2x_sound_buffer[0]);
-                                                 write(gp2x_dev[3],     (void *)(&gp2x_sound_buffer[4+flyp]), gp2x_sound_buffer[1]);
-
-                                                 flip+=gp2x_sound_buffer[1]; if(flip==gp2x_sound_buffer[1]*8) flip=0;
-                                                 flyp+=gp2x_sound_buffer[1]; if(flyp==gp2x_sound_buffer[1]*8) flyp=0;
-                                                 }}
-  return NULL;
-}
-
 static void gp2x_initqueue(gp2x_queue *q, unsigned long queue_items, unsigned long *position920t, unsigned long *position940t)
 {
   q->head  = q->tail  = q->items = 0;
@@ -239,16 +220,6 @@ static void gp2x_enqueue(gp2x_queue *q, unsigned long data)
   q->place920t[q->head = (q->head < q->max_items ? q->head+1 : 0)] = data;
   q->items++;
 }
-
-#if 0
-/* UNUSED */
- static unsigned long gp2x_dequeue(gp2x_queue *q)
-{
-  while(!q->items); /* waiting for head to increase... */
-  q->items--;
-  return q->place920t[q->tail = (q->tail < q->max_items ? q->tail+1 : 0)];
-}
-#endif
 
        void gp2x_dualcore_pause(int yes) { if(yes) gp2x_memregs[0x0904>>1] &= 0xFFFE; else gp2x_memregs[0x0904>>1] |= 1; }
 static void gp2x_940t_reset(int yes)     { gp2x_memregs[0x3B48>>1] = ((yes&1) << 7) | (0x03); }
@@ -329,16 +300,10 @@ void gp2x_init(int ticks_per_second, int bpp, int rate, int bits, int stereo, in
   if(!gp2x_dev[0])   gp2x_dev[0] = open("/dev/fb0",   O_RDWR);
   if(!gp2x_dev[1])   gp2x_dev[1] = open("/dev/fb1",   O_RDWR);
   if(!gp2x_dev[2])   gp2x_dev[2] = open("/dev/mem",   O_RDWR); 
-#if 0
-  md if(!gp2x_dev[3])   gp2x_dev[3] = open("/dev/dsp",   O_WRONLY);
-#endif
   if(!gp2x_dev[4])   gp2x_dev[4] = open("/dev/mixer", O_RDWR);
 
 
   gp2x_dualcore_ram=(unsigned long  *)mmap(0, 0x1000000, PROT_READ|PROT_WRITE, MAP_SHARED, gp2x_dev[2], 0x03000000);
-#if 0
-  gp2x_dualcore_ram=(unsigned long  *)mmap(0, 0x2000000, PROT_READ|PROT_WRITE, MAP_SHARED, gp2x_dev[2], 0x02000000);
-#endif
        gp2x_memregl=(unsigned long  *)mmap(0, 0x10000,   PROT_READ|PROT_WRITE, MAP_SHARED, gp2x_dev[2], 0xc0000000);
         gp2x_memregs=(unsigned short *)gp2x_memregl;
 
@@ -366,20 +331,6 @@ void gp2x_init(int ticks_per_second, int bpp, int rate, int bits, int stereo, in
   if(bpp==8)  gp2x_physvram[2]+=320*240,    gp2x_physvram[3]+=320*240,
              gp2x_logvram15[2]+=320*240/2, gp2x_logvram15[3]+=320*240/2; 
 
-#if 0
-  md ioctl(gp2x_dev[3], SNDCTL_DSP_SPEED,  &rate);
-  md ioctl(gp2x_dev[3], SNDCTL_DSP_SETFMT, &bits);
-  md ioctl(gp2x_dev[3], SNDCTL_DSP_STEREO, &stereo);
-
-  md gp2x_sound_buffer[1]=(gp2x_sound_buffer[0]=(rate/Hz)) << (stereo + (bits==16));
-  md gp2x_sound_buffer[2]=(1000000/Hz);
-
-  stereo = 0x00100009;ioctl(gp2x_dev[3], SNDCTL_DSP_SETFRAGMENT, &stereo);
-
-  md if(first) {   pthread_create( &gp2x_sound_thread, NULL, gp2x_sound_play, NULL);
-                atexit(gp2x_deinit);
-                first=0; }
-#endif
 }
 
 

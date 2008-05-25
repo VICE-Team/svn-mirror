@@ -68,7 +68,7 @@ static int sprite_open(screenshot_t *screenshot, const char *filename)
     int bpp, pal_size, pal_bytes, header_size;
     unsigned int *sprpalette;
     sprite_area_t *sarea;
-    int x;
+    unsigned int x;
 
     if (pal->num_entries <= 2)
     {

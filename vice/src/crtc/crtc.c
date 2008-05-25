@@ -168,7 +168,7 @@ crtc_t crtc = {
 /*--------------------------------------------------------------------*/
 
 /* reset the screen pointer at the beginning of the screen */
-static void inline crtc_reset_screen_ptr(void)
+static inline void crtc_reset_screen_ptr(void)
 {
     if (!crtc.initialized)
         return;
@@ -203,7 +203,7 @@ static void inline crtc_reset_screen_ptr(void)
 }
 
 /* update the chargen pointer when external switch has changed */
-static void inline crtc_update_chargen_rel(void)
+static inline void crtc_update_chargen_rel(void)
 {
     if (!crtc.initialized)
         return;
@@ -214,7 +214,7 @@ static void inline crtc_update_chargen_rel(void)
 }
 
 /* update disp_char after writing to register 1 */
-static void inline crtc_update_disp_char(void)
+static inline void crtc_update_disp_char(void)
 {
     if (!crtc.initialized)
         return;

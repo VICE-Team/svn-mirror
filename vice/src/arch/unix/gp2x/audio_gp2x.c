@@ -28,7 +28,7 @@
 
 #include "minimal.h"
 
-static volume=100;
+static int volume=100;
 
 void gp2x_sound_frame(void *blah, void *buff, int samples) {}
 

@@ -36,6 +36,7 @@
 #include "videoarch.h"
 #include "palette.h"
 #include "machine.h"
+#include "input_gp2x.h"
 
 int machine_ui_done=0;
 int vicii_setup_delay=0;
@@ -48,19 +49,23 @@ int xoffset, yoffset;
 int xoffset_centred, yoffset_centred;
 int xoffset_uncentred, yoffset_uncentred;
 
-int video_init() {
+int video_init()
+{
 	return 0;
 }
 
-int video_init_cmdline_options() {
+int video_init_cmdline_options()
+{
 	return 0;
 }
 
-void video_shutdown() {
+void video_shutdown()
+{
 }
 
 video_canvas_t *video_canvas_create(video_canvas_t *canvas, 
-		unsigned int *width, unsigned int *height, int mapped) {
+		unsigned int *width, unsigned int *height, int mapped)
+{
 	static int vicii_setup=0;
 
 	display_width=320;
@@ -81,9 +86,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
 	if(gp2x_memregs[0x2800>>1]&0x100) {
 		tvout=1;
 		hwscaling=1;
-#if 0
-		tvout_pal=gp2x_memregs[0x2800>>1]&0x1000;
-#endif
 		if(gp2x_memregs[0x2818>>1]==239) tvout_pal=0;
 		printf("\n0x2818=%d\n", gp2x_memregs[0x2818>>1]);
 		display_set();
@@ -93,31 +95,23 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
 	return canvas;
 }
 
-void video_canvas_destroy(struct video_canvas_s *canvas) {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void video_canvas_destroy(struct video_canvas_s *canvas)
+{
 }
 
-void video_arch_canvas_init(struct video_canvas_s *canvas) {
+void video_arch_canvas_init(struct video_canvas_s *canvas)
+{
 	canvas->video_draw_buffer_callback=NULL;
 }
 
 void video_canvas_refresh(struct video_canvas_s *canvas,
                                  unsigned int xs, unsigned int ys,
                                  unsigned int xi, unsigned int yi,
-                                 unsigned int w, unsigned int h) {
-#if 0
-	fprintf(stderr, "calling %s\n", __func__);
-	fprintf(stderr, "refresh xs=%d, ys=%d, xi=%d, yi=%d, w=%d, h=%d\n",
-			xs, ys, xi, yi, w, h);
-#endif
+                                 unsigned int w, unsigned int h)
+{
 	BYTE *source;
 	register int x, y;
 	register int buf_width;
-#if 0
-	register BYTE pixel;
-#endif
 	register int xoff;
 	register int yoff;
 
@@ -170,7 +164,8 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
 }
 
 int video_canvas_set_palette(struct video_canvas_s *canvas,
-                                    struct palette_s *palette) {
+                                    struct palette_s *palette)
+{
 	fprintf(stderr, "calling %s\n", __func__);
 	int i;
 	for(i=0; i<palette->num_entries; i++) {
@@ -180,35 +175,27 @@ int video_canvas_set_palette(struct video_canvas_s *canvas,
 		gp2x_palette[i*2+1]=palette->entries[i].red;
 	}
 	gp2x_video_setpalette();
+	return 0;
 }
 
-int video_arch_resources_init() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+int video_arch_resources_init()
+{
+    return 0;
 }
 
 void video_canvas_resize(struct video_canvas_s *canvas,
-                                unsigned int width, unsigned int height) {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+                                unsigned int width, unsigned int height)
+{
 }
 
-void video_arch_resources_shutdown() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void video_arch_resources_shutdown()
+{
 }
 
-void video_add_handlers() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void video_add_handlers()
+{
 }
 
-void fullscreen_capability() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void fullscreen_capability()
+{
 }

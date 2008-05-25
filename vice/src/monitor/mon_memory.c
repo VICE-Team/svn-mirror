@@ -173,7 +173,15 @@ void mon_memory_hunt(MON_ADDR start_addr, MON_ADDR end_addr,
     next_read = start + (WORD)data_buf_len;
 
     for (i = 0; i < (len-data_buf_len); i++, next_read++) {
-        if (memcmp(buf, data_buf, data_buf_len) == 0)
+        int not_found = 0;
+        unsigned int j;
+        for (j = 0; j < data_buf_len; j++) {
+            if ((buf[j] & data_mask_buf[j]) != data_buf[j]) {
+                not_found = 1;
+                break;
+            }
+        }
+        if (!not_found)
             mon_out("%04x\n", ADDR_LIMIT(start + i));
 
         if (data_buf_len > 1)

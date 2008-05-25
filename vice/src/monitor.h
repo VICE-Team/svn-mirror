@@ -177,5 +177,15 @@ extern void mon_ioreg_add_list(struct mem_ioreg_list_s **list, const char *name,
 extern void asm6502_init(struct monitor_cpu_type_s *monitor_cpu_type);
 extern void asmz80_init(struct monitor_cpu_type_s *monitor_cpu_type);
 
+struct monitor_cartridge_commands_s {
+    int (*cartridge_attach_image)(int type, const char *filename);
+    void (*cartridge_detach_image)(void);
+    void (*cartridge_trigger_freeze)(void);
+    void (*cartridge_trigger_freeze_nmi_only)(void);
+};
+typedef struct monitor_cartridge_commands_s monitor_cartridge_commands_t;
+
+extern monitor_cartridge_commands_t mon_cart_cmd;
+
 #endif
 

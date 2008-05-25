@@ -68,75 +68,6 @@ static ui_menu_entry_t ui_tune_menu[] = {
   { NULL }
 };
 
-static UI_CALLBACK(psid_load)
-{
-    char *filename;
-    ui_button_t button;
-
-    filename = ui_select_file(_("Load PSID file"), NULL, 0, False, NULL,
-                              "*.[psPS]*", &button, False, NULL);
-
-    vsync_suspend_speed_eval();
-
-    switch (button) {
-      case UI_BUTTON_OK:
-        if (machine_autodetect_psid(filename) < 0) {
-          log_error(vsid_log, _("`%s' is not a valid PSID file."), filename);
-          return;
-        }
-        psid_init_driver();
-        machine_play_psid(0);
-        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-        vsid_create_menus();
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
-    }
-    if (filename != NULL)
-       lib_free(filename);
-}
-
-static ui_menu_entry_t ui_load_commands_menu[] = {
-  { N_("Load PSID file..."),
-    (ui_callback_t)psid_load, NULL, NULL,
-    XK_l, UI_HOTMOD_META },
-  { NULL }
-};
-
-
-/* ------------------------------------------------------------------------- */
-
-UI_MENU_DEFINE_RADIO(MachineVideoStandard)
-
-static ui_menu_entry_t set_video_standard_submenu_vsid[] = {
-    { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
-      (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
-    { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
-      (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
-    { N_("*Old NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
-      (ui_callback_data_t)MACHINE_SYNC_NTSCOLD, NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t ui_sound_settings_menu_vsid[] = {
-  { N_("Sound settings"),
-    NULL, NULL, sound_settings_submenu },
-  { NULL }
-};
-
-UI_MENU_DEFINE_TOGGLE(PSIDKeepEnv)
-
-static ui_menu_entry_t psid_menu[] = {
-  { N_("*Override PSID settings"),
-    (ui_callback_t)toggle_PSIDKeepEnv, NULL, NULL },
-  { N_("SID settings"),
-    NULL, NULL, sid_submenu },
-  { N_("Video standard"),
-    NULL, NULL, set_video_standard_submenu_vsid },
-  { NULL }
-};
-
 
 /* ------------------------------------------------------------------------- */
 
@@ -145,7 +76,6 @@ extern int num_checkmark_menu_items;
 static void vsid_create_menus(void)
 {
     static ui_menu_entry_t tune_menu[256];
-    static ui_window_t wl = NULL, wr = NULL;
     static int tunes = 0;
     int default_tune;
     int i;
@@ -189,7 +119,6 @@ static void vsid_create_menus(void)
 
 int vsid_ui_init(void)
 {
-    int res;
     video_canvas_t canvas;
 
     video_add_handlers(&canvas);
