@@ -145,6 +145,7 @@ extern int cur_len, last_len;
 %token CMD_BACKTRACE CMD_SCREENSHOT CMD_PWD CMD_DIR
 %token CMD_RESOURCE_GET CMD_RESOURCE_SET
 %token CMD_ATTACH CMD_DETACH CMD_RESET CMD_TAPECTRL CMD_CARTFREEZE
+%token CMD_CPUHISTORY CMD_MEMMAPZAP CMD_MEMMAPSHOW CMD_MEMMAPSAVE
 %token<str> CMD_LABEL_ASGN
 %token<i> L_PAREN R_PAREN ARG_IMMEDIATE REG_A REG_X REG_Y COMMA INST_SEP
 %token<i> REG_B REG_C REG_D REG_E REG_H REG_L
@@ -214,6 +215,10 @@ machine_state_rules: CMD_BANK end_cmd
                      { mon_display_io_regs(); }
                    | CMD_CPU CPUTYPE end_cmd
                      { monitor_cpu_type_set($2); }
+                   | CMD_CPUHISTORY end_cmd
+                     { mon_cpuhistory(-1); }
+                   | CMD_CPUHISTORY opt_sep expression end_cmd
+                     { mon_cpuhistory($3); }
                    | CMD_RETURN end_cmd
                      { mon_instruction_return(); }
                    | CMD_DUMP filename end_cmd
@@ -325,6 +330,16 @@ memory_rules: CMD_MOVE address_range opt_sep address end_cmd
               { mon_memory_display(0, $2[0], $2[1], DF_SCREEN_CODE); }
             | CMD_SCREENCODE_DISPLAY end_cmd
               { mon_memory_display(0, BAD_ADDR, BAD_ADDR, DF_SCREEN_CODE); }
+            | CMD_MEMMAPZAP end_cmd
+              { mon_memmap_zap(); }
+            | CMD_MEMMAPSHOW end_cmd
+              { mon_memmap_show(-1,BAD_ADDR,BAD_ADDR); }
+            | CMD_MEMMAPSHOW opt_sep expression end_cmd
+              { mon_memmap_show($3,BAD_ADDR,BAD_ADDR); }
+            | CMD_MEMMAPSHOW opt_sep expression address_opt_range end_cmd
+              { mon_memmap_show($3,$4[0],$4[1]); }
+            | CMD_MEMMAPSAVE filename opt_sep expression end_cmd
+              { mon_memmap_save($2,$4); }
             ;
 
 checkpoint_rules: CMD_BREAK address_opt_range end_cmd

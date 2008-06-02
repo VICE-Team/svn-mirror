@@ -136,47 +136,51 @@
      CMD_RESET = 352,
      CMD_TAPECTRL = 353,
      CMD_CARTFREEZE = 354,
-     CMD_LABEL_ASGN = 355,
-     L_PAREN = 356,
-     R_PAREN = 357,
-     ARG_IMMEDIATE = 358,
-     REG_A = 359,
-     REG_X = 360,
-     REG_Y = 361,
-     COMMA = 362,
-     INST_SEP = 363,
-     REG_B = 364,
-     REG_C = 365,
-     REG_D = 366,
-     REG_E = 367,
-     REG_H = 368,
-     REG_L = 369,
-     REG_AF = 370,
-     REG_BC = 371,
-     REG_DE = 372,
-     REG_HL = 373,
-     REG_IX = 374,
-     REG_IY = 375,
-     REG_SP = 376,
-     REG_IXH = 377,
-     REG_IXL = 378,
-     REG_IYH = 379,
-     REG_IYL = 380,
-     STRING = 381,
-     FILENAME = 382,
-     R_O_L = 383,
-     OPCODE = 384,
-     LABEL = 385,
-     BANKNAME = 386,
-     CPUTYPE = 387,
-     REGISTER = 388,
-     COMPARE_OP = 389,
-     RADIX_TYPE = 390,
-     INPUT_SPEC = 391,
-     CMD_CHECKPT_ON = 392,
-     CMD_CHECKPT_OFF = 393,
-     TOGGLE = 394,
-     MASK = 395
+     CMD_CPUHISTORY = 355,
+     CMD_MEMMAPZAP = 356,
+     CMD_MEMMAPSHOW = 357,
+     CMD_MEMMAPSAVE = 358,
+     CMD_LABEL_ASGN = 359,
+     L_PAREN = 360,
+     R_PAREN = 361,
+     ARG_IMMEDIATE = 362,
+     REG_A = 363,
+     REG_X = 364,
+     REG_Y = 365,
+     COMMA = 366,
+     INST_SEP = 367,
+     REG_B = 368,
+     REG_C = 369,
+     REG_D = 370,
+     REG_E = 371,
+     REG_H = 372,
+     REG_L = 373,
+     REG_AF = 374,
+     REG_BC = 375,
+     REG_DE = 376,
+     REG_HL = 377,
+     REG_IX = 378,
+     REG_IY = 379,
+     REG_SP = 380,
+     REG_IXH = 381,
+     REG_IXL = 382,
+     REG_IYH = 383,
+     REG_IYL = 384,
+     STRING = 385,
+     FILENAME = 386,
+     R_O_L = 387,
+     OPCODE = 388,
+     LABEL = 389,
+     BANKNAME = 390,
+     CPUTYPE = 391,
+     REGISTER = 392,
+     COMPARE_OP = 393,
+     RADIX_TYPE = 394,
+     INPUT_SPEC = 395,
+     CMD_CHECKPT_ON = 396,
+     CMD_CHECKPT_OFF = 397,
+     TOGGLE = 398,
+     MASK = 399
    };
 #endif
 /* Tokens.  */
@@ -277,47 +281,51 @@
 #define CMD_RESET 352
 #define CMD_TAPECTRL 353
 #define CMD_CARTFREEZE 354
-#define CMD_LABEL_ASGN 355
-#define L_PAREN 356
-#define R_PAREN 357
-#define ARG_IMMEDIATE 358
-#define REG_A 359
-#define REG_X 360
-#define REG_Y 361
-#define COMMA 362
-#define INST_SEP 363
-#define REG_B 364
-#define REG_C 365
-#define REG_D 366
-#define REG_E 367
-#define REG_H 368
-#define REG_L 369
-#define REG_AF 370
-#define REG_BC 371
-#define REG_DE 372
-#define REG_HL 373
-#define REG_IX 374
-#define REG_IY 375
-#define REG_SP 376
-#define REG_IXH 377
-#define REG_IXL 378
-#define REG_IYH 379
-#define REG_IYL 380
-#define STRING 381
-#define FILENAME 382
-#define R_O_L 383
-#define OPCODE 384
-#define LABEL 385
-#define BANKNAME 386
-#define CPUTYPE 387
-#define REGISTER 388
-#define COMPARE_OP 389
-#define RADIX_TYPE 390
-#define INPUT_SPEC 391
-#define CMD_CHECKPT_ON 392
-#define CMD_CHECKPT_OFF 393
-#define TOGGLE 394
-#define MASK 395
+#define CMD_CPUHISTORY 355
+#define CMD_MEMMAPZAP 356
+#define CMD_MEMMAPSHOW 357
+#define CMD_MEMMAPSAVE 358
+#define CMD_LABEL_ASGN 359
+#define L_PAREN 360
+#define R_PAREN 361
+#define ARG_IMMEDIATE 362
+#define REG_A 363
+#define REG_X 364
+#define REG_Y 365
+#define COMMA 366
+#define INST_SEP 367
+#define REG_B 368
+#define REG_C 369
+#define REG_D 370
+#define REG_E 371
+#define REG_H 372
+#define REG_L 373
+#define REG_AF 374
+#define REG_BC 375
+#define REG_DE 376
+#define REG_HL 377
+#define REG_IX 378
+#define REG_IY 379
+#define REG_SP 380
+#define REG_IXH 381
+#define REG_IXL 382
+#define REG_IYH 383
+#define REG_IYL 384
+#define STRING 385
+#define FILENAME 386
+#define R_O_L 387
+#define OPCODE 388
+#define LABEL 389
+#define BANKNAME 390
+#define CPUTYPE 391
+#define REGISTER 392
+#define COMPARE_OP 393
+#define RADIX_TYPE 394
+#define INPUT_SPEC 395
+#define CMD_CHECKPT_ON 396
+#define CMD_CHECKPT_OFF 397
+#define TOGGLE 398
+#define MASK 399
 
 
 
@@ -337,7 +345,7 @@ typedef union YYSTYPE
     char *str;
 }
 /* Line 1489 of yacc.c.  */
-#line 341 "mon_parse.h"
+#line 349 "mon_parse.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

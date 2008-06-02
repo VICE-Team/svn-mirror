@@ -100,6 +100,7 @@ HDIGIT  [0-9a-fA-F]
         compare|c       { BEGIN(INITIAL);       return CMD_COMPARE; }
         condition|cond  { BEGIN(INITIAL);       return CMD_CONDITION; }
         cpu             { BEGIN(CTYPE);         return CMD_CPU; }
+        cpuhistory|chis { BEGIN(INITIAL);       return CMD_CPUHISTORY; }
         dir|ls          { BEGIN(ROL);           return CMD_DIR; }
         disass|d        { BEGIN(INITIAL);       return CMD_DISASSEMBLE; }
         delete|del      { BEGIN(INITIAL);       return CMD_DELETE; }
@@ -123,6 +124,9 @@ HDIGIT  [0-9a-fA-F]
         load_labels|ll  { BEGIN(FNAME);         return CMD_LOAD_LABELS; }
         mem|m           { BEGIN(INITIAL);       return CMD_MEM_DISPLAY; }
         memchar|mc      { BEGIN(INITIAL);       return CMD_CHAR_DISPLAY; }
+        memmapsave|mmsave { BEGIN(FNAME);       return CMD_MEMMAPSAVE; }
+        memmapshow|mmsh { BEGIN(INITIAL);       return CMD_MEMMAPSHOW; }
+        memmapzap|mmzap { BEGIN(INITIAL);       return CMD_MEMMAPZAP; }
         move|t          { BEGIN(INITIAL);       return CMD_MOVE; }
         memsprite|ms    { BEGIN(INITIAL);       return CMD_SPRITE_DISPLAY; }
         next|n          { BEGIN(INITIAL);       return CMD_NEXT; }

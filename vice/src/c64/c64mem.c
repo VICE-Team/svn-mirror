@@ -218,7 +218,12 @@ void mem_pla_config_changed(void)
 BYTE REGPARM1 zero_read(WORD addr)
 {
     addr &= 0xff;
-
+#ifdef FEATURE_CPUMEMHISTORY
+    if(!(memmap_state & MEMMAP_STATE_IGNORE)) {
+        monitor_memmap_store(addr, (memmap_state&MEMMAP_STATE_OPCODE)?MEMMAP_RAM_X:(memmap_state&MEMMAP_STATE_INSTR)?0:MEMMAP_RAM_R);
+        memmap_state &= ~(MEMMAP_STATE_OPCODE);
+    }
+#endif
     switch ((BYTE)addr) {
       case 0:
         return pport.dir_read;
@@ -242,7 +247,9 @@ BYTE REGPARM1 zero_read(WORD addr)
 void REGPARM2 zero_store(WORD addr, BYTE value)
 {
     addr &= 0xff;
-
+#ifdef FEATURE_CPUMEMHISTORY
+    monitor_memmap_store(addr, MEMMAP_RAM_W);
+#endif
     switch ((BYTE)addr) {
       case 0:
         if (vbank == 0) {

@@ -151,6 +151,86 @@ static int ppmdrv_save(screenshot_t *screenshot, const char *filename)
   return 0;
 }
 
+#ifdef FEATURE_CPUMEMHISTORY
+static FILE *ppmdrv_memmap_fd;
+static char *ppmdrv_memmap_ext_filename;
+
+static int ppmdrv_close_memmap(void)
+{
+  fclose(ppmdrv_memmap_fd);
+  lib_free(ppmdrv_memmap_ext_filename);
+
+  return 0;
+}
+
+static int ppmdrv_write_memmap(int line, int x_size, BYTE *gfx, BYTE *palette)
+{
+  unsigned int i;
+  BYTE pixval;
+
+  for (i = 0; i<x_size; i++)
+  {
+    pixval = gfx[(line*x_size)+i];
+    if (fprintf(ppmdrv_memmap_fd, "%3d %3d %3d\x0a",palette[pixval*3],palette[(pixval*3)+1],palette[(pixval*3)+2])<0)
+      return -1;
+  }
+  return 0;
+}
+
+static int ppmdrv_write_file_header_memmap(int x_size, int y_size)
+{
+  if (fprintf(ppmdrv_memmap_fd,"P3\x0a")<0)
+    return -1;
+  if (fprintf(ppmdrv_memmap_fd,"# VICEplus generated PPM mem map grafix\x0a")<0)
+    return -1;
+  if (fprintf(ppmdrv_memmap_fd,"%d %d\x0a",x_size,y_size)<0)
+    return -1;
+  if (fprintf(ppmdrv_memmap_fd,"255\x0a")<0)
+    return -1;
+
+  return 0;
+}
+
+static int ppmdrv_open_memmap(const char *filename, int x_size, int y_size)
+{
+  ppmdrv_memmap_ext_filename=util_add_extension_const(filename, ppm_drv.default_extension);
+  ppmdrv_memmap_fd = fopen(ppmdrv_memmap_ext_filename, "wb");
+
+  if (ppmdrv_memmap_fd==NULL)
+  {
+    lib_free(ppmdrv_memmap_ext_filename);
+    return -1;
+  }
+
+  if (ppmdrv_write_file_header_memmap(x_size, y_size)<0)
+  {
+    fclose(ppmdrv_memmap_fd);
+    lib_free(ppmdrv_memmap_ext_filename);
+    return -1;
+  }
+
+  return 0;
+}
+
+static int ppmdrv_save_memmap(const char *filename, int x_size, int y_size, BYTE *gfx, BYTE *palette)
+{
+  int line;
+
+  if (ppmdrv_open_memmap(filename, x_size, y_size) < 0)
+    return -1;
+
+  for (line = 0; line < y_size; line++)
+  {
+    ppmdrv_write_memmap(line, x_size, gfx, palette);
+  }
+
+  if (ppmdrv_close_memmap() < 0)
+    return -1;
+
+  return 0;
+}
+#endif
+
 static gfxoutputdrv_t ppm_drv =
 {
     "PPM",
@@ -160,7 +240,12 @@ static gfxoutputdrv_t ppm_drv =
     ppmdrv_close,
     ppmdrv_write,
     ppmdrv_save,
+#ifdef FEATURE_CPUMEMHISTORY
+    NULL,
+    ppmdrv_save_memmap
+#else
     NULL
+#endif
 };
 
 void gfxoutput_init_ppm(void)

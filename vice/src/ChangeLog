@@ -1,3 +1,47 @@
+2008-06-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added extra defines needed for minix, alligned
+	the printout of configure and added the --enable-memmap
+	configure option for the memmap feature from VICEplus as
+	provided by Hannu Nuotio <hannu.nuotio@tut.fi>.
+
+	* build/qnx4/build.sh: Fixed the qnx 4.x build script.
+
+2008-06-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* intl2po.c: Fixed for the sco ports.
+
+2008-06-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* gfxoutputdrv/pngdrv.c, gfxoutputdrv/jpegdrv.c,
+	gfxoutputdrv/pcxdrv.c, gfxoutputdrv/ppmdrv.c,
+	gfxoutputdrv/iffdrv.c, gfxoutputdrv/ffmpegdrv.c,
+	gfxoutputdrv/gifdrv.c, gfxoutputdrv/bmpdrv.c, gfxoutput.h,
+	screenshot.c, screenshot.h, c64/c64mem.c, maincpu.c,
+	monitor/mon_parse.c, monitor/mon_command.c, monitor/mon_parse.h,
+	monitor/mon_lex.c, monitor/mon_parse.y, monitor/mon_lex.l,
+	monitor/montypes.h, monitor/monitor.c, monitor.h, 6510core.c:
+	Added the memmap feature from VICEplus as provided by Hannu
+	Nuotio <hannu.nuotio@tut.fi>.
+
+	* video/video-resources.c, arch/unix/x11/xaw/x11video.c:
+	Prototype before the actual function was static, so made the
+	function static too.
+
+	* network.c, arch/unix/x11/renderxv.c: Added some minix fixes.
+
+	* sounddrv/soundsun.c: Fixed some solaris related
+	warnings/issues.
+
+	* sounddrv/soundhpux.c: Fixes some hpux related warnings/issues.
+
+	* c64/patchrom.c, monitor/mon_assemblez80.c,
+	monitor/mon_assemble6502.c, resources.c, util.c, c1541.c,
+	sound.c, arch/unix/archdep.c, zfile.c: Added the inclusion of
+	the strings.h header if present.
+
+	* arch/unix/x11/gnome/uipalcontrol.c: Fixed a typo.
+
 2008-05-25  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.16.

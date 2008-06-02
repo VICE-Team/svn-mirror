@@ -54,6 +54,10 @@
 #include <fcntl.h>
 #endif
 
+#ifdef HAVE_STRINGS_H
+#include <strings.h>
+#endif
+
 #include "archdep.h"
 #include "cbmdos.h"
 #include "cbmimage.h"

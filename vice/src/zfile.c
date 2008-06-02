@@ -45,6 +45,10 @@
 #include <zlib.h>
 #endif
 
+#ifdef HAVE_STRINGS_H
+#include <strings.h>
+#endif
+
 #include "archdep.h"
 #include "ioutil.h"
 #include "lib.h"

@@ -1778,7 +1778,29 @@ static const BYTE rewind_fetch_tab[] = {
 #endif
 #endif
 
+#ifdef FEATURE_CPUMEMHISTORY
+#ifndef DRIVE_CPU
+        memmap_state |= (MEMMAP_STATE_INSTR | MEMMAP_STATE_OPCODE);
+#endif
+#endif
+
         FETCH_OPCODE(opcode);
+
+#ifdef FEATURE_CPUMEMHISTORY
+#ifndef DRIVE_CPU
+        /* HACK to cope with FETCH_OPCODE optimization in x64 */
+        if (((int)reg_pc) < bank_limit) {
+            memmap_mem_read(reg_pc);
+        }
+
+        if(p0 == 0x20) {
+            monitor_cpuhistory_store(reg_pc, (BYTE)(p0), (BYTE)(p1), (BYTE)(LOAD(reg_pc+2)));
+        } else {
+            monitor_cpuhistory_store(reg_pc, (BYTE)(p0), (BYTE)(p1), (BYTE)(p2 >> 8));
+        }
+        memmap_state &= ~(MEMMAP_STATE_INSTR | MEMMAP_STATE_OPCODE);
+#endif
+#endif
 
 #ifdef DEBUG
 #ifdef DRIVE_CPU

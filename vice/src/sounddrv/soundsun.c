@@ -155,7 +155,7 @@ fail:
 
 static int sun_write(SWORD *pbuf, size_t nr)
 {
-    int			total, i, now;
+    unsigned int total, i, now;
     if (sun_8bit)
     {
 	/* XXX: ugly to change contents of the buffer */
@@ -183,7 +183,10 @@ static int sun_write(SWORD *pbuf, size_t nr)
 
 static int sun_bufferspace(void)
 {
-    int	st, size;
+    int	st;
+#if defined(__NetBSD__)
+    int size;
+#endif
     struct audio_info	info;
     /* ioctl(fd, AUDIO_GET_STATUS, &info) yields number of played samples
        in info.play.samples. */

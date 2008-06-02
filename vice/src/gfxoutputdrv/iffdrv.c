@@ -225,6 +225,136 @@ static int iffdrv_save(screenshot_t *screenshot, const char *filename)
   return 0;
 }
 
+#ifdef FEATURE_CPUMEMHISTORY
+static FILE *iffdrv_memmap_fd;
+static char *iffdrv_memmap_ext_filename;
+static BYTE *iffdrv_memmap_iff_data;
+static int iffdrv_memmap_iff_rowbytes;
+
+static int iffdrv_close_memmap(void)
+{
+  fclose(iffdrv_memmap_fd);
+  lib_free(iffdrv_memmap_iff_data);
+  lib_free(iffdrv_memmap_ext_filename);
+
+  return 0;
+}
+
+static int iffdrv_write_memmap(int line, int x_size, BYTE *gfx)
+{
+  int j;
+
+  for (j = 0; j<8; j++)
+  {
+    iff_c2p(gfx+(x_size*line), iffdrv_memmap_iff_data, iffdrv_memmap_iff_rowbytes, j);
+    if (fwrite(iffdrv_memmap_iff_data, iffdrv_memmap_iff_rowbytes, 1, iffdrv_memmap_fd)<1)
+      return -1;
+  }
+  return 0;
+}
+
+static int iffdrv_write_file_header_memmap(int x_size, int y_size, BYTE *palette)
+{
+  BYTE header[836];
+  int i;
+  int totalsize;
+
+  memset(header, 0, sizeof(header));
+
+  iffdrv_memmap_iff_rowbytes=((x_size+15)>>4)<<1;
+
+  totalsize=828+(iffdrv_memmap_iff_rowbytes*y_size*8);
+
+  header[0]='F';
+  header[1]='O';
+  header[2]='R';
+  header[3]='M';
+  util_dword_to_be_buf(&header[4], totalsize);
+  header[8]='I';
+  header[9]='L';
+  header[10]='B';
+  header[11]='M';
+  header[12]='B';
+  header[13]='M';
+  header[14]='H';
+  header[15]='D';
+  util_dword_to_be_buf(&header[16], 20);
+  util_word_to_be_buf(&header[20],(WORD)(x_size));
+  util_word_to_be_buf(&header[22],(WORD)(y_size));
+  header[28]=8;
+  util_word_to_be_buf(&header[36],(WORD)(x_size));
+  util_word_to_be_buf(&header[38],(WORD)(y_size));
+  header[40]='C';
+  header[41]='M';
+  header[42]='A';
+  header[43]='P';
+  util_dword_to_be_buf(&header[44],3*256);
+
+  for (i = 0; i < 256; i++)
+  {
+    header[48+(i*3)]=palette[i*3];
+    header[49+(i*3)]=palette[(i*3)+1];
+    header[50+(i*3)]=palette[(i*3)+2];
+  }
+  header[816]='C';
+  header[817]='A';
+  header[818]='M';
+  header[819]='G';
+  util_dword_to_be_buf(&header[820],4);
+  header[828]='B';
+  header[829]='O';
+  header[830]='D';
+  header[831]='Y';
+  util_dword_to_be_buf(&header[832],iffdrv_memmap_iff_rowbytes*y_size*8);
+
+  if (fwrite(header,836,1,iffdrv_memmap_fd)<1)
+    return -1;
+
+  return 0;
+}
+
+static int iffdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE *palette)
+{
+  iffdrv_memmap_ext_filename=util_add_extension_const(filename, iff_drv.default_extension);
+  iffdrv_memmap_fd = fopen(iffdrv_memmap_ext_filename, "wb");
+
+  if (iffdrv_memmap_fd==NULL)
+  {
+    lib_free(iffdrv_memmap_ext_filename);
+    return -1;
+  }
+
+  if (iffdrv_write_file_header_memmap(x_size, y_size, palette)<0)
+  {
+    fclose(iffdrv_memmap_fd);
+    lib_free(iffdrv_memmap_ext_filename);
+    return -1;
+  }
+
+  iffdrv_memmap_iff_data = (BYTE *)lib_malloc(iffdrv_memmap_iff_rowbytes);
+
+  return 0;
+}
+
+static int iffdrv_save_memmap(const char *filename, int x_size, int y_size, BYTE *gfx, BYTE *palette)
+{
+  int line;
+
+  if (iffdrv_open_memmap(filename, x_size, y_size, palette) < 0)
+    return -1;
+
+  for (line = 0; line < y_size; line++)
+  {
+    iffdrv_write_memmap(line, x_size, gfx);
+  }
+
+  if (iffdrv_close_memmap() < 0)
+    return -1;
+
+  return 0;
+}
+#endif
+
 static gfxoutputdrv_t iff_drv =
 {
     "IFF",
@@ -234,7 +364,12 @@ static gfxoutputdrv_t iff_drv =
     iffdrv_close,
     iffdrv_write,
     iffdrv_save,
+#ifdef FEATURE_CPUMEMHISTORY
+    NULL,
+    iffdrv_save_memmap
+#else
     NULL
+#endif
 };
 
 void gfxoutput_init_iff(void)

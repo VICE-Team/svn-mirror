@@ -27,6 +27,8 @@
 #ifndef _GFXOUTPUT_H
 #define _GFXOUTPUT_H
 
+#include "types.h"
+
 struct screenshot_s;
 
 typedef struct gfxoutputdrv_s {
@@ -38,6 +40,9 @@ typedef struct gfxoutputdrv_s {
     int (*write)(struct screenshot_s *);
     int (*save)(struct screenshot_s *, const char *);
     int (*record)(struct screenshot_s *);
+#ifdef FEATURE_CPUMEMHISTORY
+    int (*savememmap)(const char *, int, int, BYTE *, BYTE *);
+#endif
 } gfxoutputdrv_t;
 
 /* Functions called by external emulator code.  */

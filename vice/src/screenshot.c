@@ -190,6 +190,22 @@ int screenshot_save(const char *drvname, const char *filename,
     return screenshot_save_core(&screenshot, drv, filename);
 }
 
+#ifdef FEATURE_CPUMEMHISTORY
+int memmap_screenshot_save(const char *drvname, const char *filename, int x_size, int y_size, BYTE *gfx, BYTE *palette)
+{
+    gfxoutputdrv_t *drv;
+    unsigned int i;
+
+    if ((drv = gfxoutput_get_driver(drvname)) == NULL)
+        return -1;
+
+    if ((drv->savememmap)(filename, x_size, y_size, gfx, palette) < 0) {
+            log_error(screenshot_log, "Saving failed...");
+            return -1;
+    }
+    return 0;
+}
+#endif
 
 int screenshot_record()
 {

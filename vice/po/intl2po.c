@@ -30,6 +30,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef _SCO_ELF
+#include <strings.h>
+#endif
+
 /* status definitions */
 #define SCANNING                 0
 #define STRINGTABLE_BEGIN_SCAN   1

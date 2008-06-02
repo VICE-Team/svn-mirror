@@ -68,7 +68,7 @@ static void upd_sb (GtkAdjustment *adj, gpointer data)
 
 static void pal_ctrl_reset (GtkWidget *w, gpointer data)
 {
-    unsigned int i
+    unsigned int i;
     int tmp;
 
     for (i = 0; i < sizeof(ctrls)/sizeof(ctrls[0]); i++)

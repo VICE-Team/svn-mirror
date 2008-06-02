@@ -41,7 +41,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#if 0
+#ifdef HAVE_STRINGS_H
 #include <strings.h>
 #endif
 

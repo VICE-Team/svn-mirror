@@ -348,6 +348,154 @@ static int bmpdrv_save(screenshot_t *screenshot, const char *filename)
     return 0;
 }
 
+#ifdef FEATURE_CPUMEMHISTORY
+static FILE *bmpdrv_memmap_fd;
+static char *bmpdrv_memmap_ext_filename;
+static BYTE *bmpdrv_memmap_bmp_data;
+
+static int bmpdrv_close_memmap(int x_size, int y_size)
+{
+    fwrite(bmpdrv_memmap_bmp_data, y_size * x_size, 1, bmpdrv_memmap_fd);
+    fclose(bmpdrv_memmap_fd);
+    lib_free(bmpdrv_memmap_ext_filename);
+    lib_free(bmpdrv_memmap_bmp_data);
+    return 0;
+}
+
+static DWORD bmpdrv_memmap_bmp_size(int x_size, int y_size)
+{
+    DWORD size = 0;
+
+    size = (DWORD)((14 + 40 + 4 * 256) + (x_size * y_size));
+
+    return size;
+}
+
+static int bmpdrv_memmap_write_bitmap_info(int x_size, int y_size, BYTE *palette)
+{
+    BYTE binfo[40];
+    BYTE *bcolor;
+    unsigned int i;
+
+    memset(binfo, 0, sizeof(binfo));
+
+    util_dword_to_le_buf(&binfo[0], sizeof(binfo));
+    util_dword_to_le_buf(&binfo[4], x_size);
+    util_dword_to_le_buf(&binfo[8], y_size);
+
+    binfo[12] = 1;
+    binfo[13] = 0;
+
+    binfo[14] = 8;
+    binfo[15] = 0;
+
+    util_dword_to_le_buf(&binfo[16], 0); /* BI_RGB */
+    util_dword_to_le_buf(&binfo[20], 0);
+
+    /* DPI in Pixels per Meter*/
+    util_dword_to_le_buf(&binfo[24], 0 * 10000 / 254);
+    util_dword_to_le_buf(&binfo[28], 0 * 10000 / 254);
+
+    util_dword_to_le_buf(&binfo[32], 256);
+    util_dword_to_le_buf(&binfo[36], 256);
+
+    if (fwrite(binfo, sizeof(binfo), 1, bmpdrv_memmap_fd) < 1)
+        return -1;
+
+    bcolor = (BYTE *)lib_malloc(256 * 4);
+
+    for (i = 0; i < 256; i++)
+    {
+        bcolor[i * 4] = palette[(i*3)+2];
+        bcolor[i * 4 + 1] = palette[(i*3)+1];
+        bcolor[i * 4 + 2] = palette[(i*3)];
+        bcolor[i * 4 + 3] = 0;
+    }
+
+    if (fwrite(bcolor, 256 * 4, 1, bmpdrv_memmap_fd) < 1)
+    {
+        lib_free(bcolor);
+        return -1;
+    }
+
+    lib_free(bcolor);
+    return 0;
+}
+
+static int bmpdrv_memmap_write_file_header(int x_size, int y_size)
+{
+    BYTE header[14];
+
+    memset(header, 0, sizeof(header));
+
+    header[0] = 'B';
+    header[1] = 'M';
+
+    util_dword_to_le_buf(&header[2], bmpdrv_memmap_bmp_size(x_size, y_size));
+
+    util_dword_to_le_buf(&header[10], (14 + 40 + 4 * 256));
+
+    if (fwrite(header, sizeof(header), 1, bmpdrv_memmap_fd) < 1)
+        return -1;
+
+    return 0;
+}
+
+static int bmpdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE *palette)
+{
+    bmpdrv_memmap_ext_filename = util_add_extension_const(filename, bmp_drv.default_extension);
+
+    bmpdrv_memmap_fd = fopen(bmpdrv_memmap_ext_filename, MODE_WRITE);
+
+    if (bmpdrv_memmap_fd == NULL)
+    {
+        lib_free(bmpdrv_memmap_ext_filename);
+        return -1;
+    }
+
+    if (bmpdrv_memmap_write_file_header(x_size, y_size) < 0)
+    {
+        fclose(bmpdrv_memmap_fd);
+        lib_free(bmpdrv_memmap_ext_filename);
+        return -1;
+    }
+
+    if (bmpdrv_memmap_write_bitmap_info(x_size, y_size, palette) < 0)
+    {
+        fclose(bmpdrv_memmap_fd);
+        lib_free(bmpdrv_memmap_ext_filename);
+        return -1;
+    }
+
+    bmpdrv_memmap_bmp_data = (BYTE *)lib_malloc(x_size*y_size);
+
+    return 0;
+}
+
+static int bmpdrv_write_memmap(int line, int x_size, int y_size, BYTE *gfx)
+{
+    memcpy(bmpdrv_memmap_bmp_data + (y_size - 1 - line) * x_size, gfx+(line*x_size), x_size);
+}
+
+static int bmpdrv_memmap_save(const char *filename, int x_size, int y_size, BYTE *gfx, BYTE *palette)
+{
+    int line;
+
+    if (bmpdrv_open_memmap(filename, x_size, y_size, palette) < 0)
+        return -1;
+
+    for (line=0; line<y_size; line++)
+    {
+        bmpdrv_write_memmap(line, x_size, y_size, gfx);
+    }
+
+    if (bmpdrv_close_memmap(x_size, y_size) < 0)
+        return -1;
+
+    return 0;
+}
+#endif
+
 static gfxoutputdrv_t bmp_drv =
 {
     "BMP",
@@ -357,7 +505,12 @@ static gfxoutputdrv_t bmp_drv =
     bmpdrv_close,
     bmpdrv_write,
     bmpdrv_save,
+#ifdef FEATURE_CPUMEMHISTORY
+    NULL,
+    bmpdrv_memmap_save
+#else
     NULL
+#endif
 };
 
 void gfxoutput_init_bmp(void)

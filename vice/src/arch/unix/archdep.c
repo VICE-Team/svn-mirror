@@ -44,6 +44,10 @@
 #include <vfork.h>
 #endif
 
+#ifdef HAVE_STRINGS_H
+#include <strings.h>
+#endif
+
 #include "archdep.h"
 #include "findpath.h"
 #include "ioutil.h"

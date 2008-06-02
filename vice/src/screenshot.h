@@ -92,5 +92,9 @@ extern int screenshot_is_recording(void);
 extern void screenshot_prepare_reopen(void);
 extern void screenshot_try_reopen(void);
 
+#ifdef FEATURE_CPUMEMHISTORY
+extern int memmap_screenshot_save(const char *drvname, const char *filename, int x_size, int y_size, BYTE *gfx, BYTE *palette);
+#endif
+
 #endif
 

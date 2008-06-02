@@ -34,6 +34,10 @@
 #include <string.h>
 #include <time.h>
 
+#ifdef HAVE_STRINGS_H
+#include <strings.h>
+#endif
+
 #include "archdep.h"
 #include "clkguard.h"
 #include "cmdline.h"

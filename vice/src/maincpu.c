@@ -74,16 +74,6 @@
 
 /* ------------------------------------------------------------------------- */
 
-#ifndef STORE
-#define STORE(addr, value) \
-    (*_mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value))
-#endif
-
-#ifndef LOAD
-#define LOAD(addr) \
-    (*_mem_read_tab_ptr[(addr) >> 8])((WORD)(addr))
-#endif
-
 #ifndef STORE_ZERO
 #define STORE_ZERO(addr, value) \
     zero_store((WORD)(addr), (BYTE)(value))
@@ -92,6 +82,68 @@
 #ifndef LOAD_ZERO
 #define LOAD_ZERO(addr) \
     zero_read((WORD)(addr))
+#endif
+
+#ifdef FEATURE_CPUMEMHISTORY
+
+/* HACK this is C64 specific */
+
+void REGPARM2 memmap_mem_store(WORD addr, BYTE value)
+{
+    if((addr >= 0xd000)&&(addr <= 0xdfff)) {
+        monitor_memmap_store(addr, MEMMAP_I_O_W);
+    } else {
+        monitor_memmap_store(addr, MEMMAP_RAM_W);
+    }
+    (*_mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value));
+}
+
+BYTE REGPARM1 memmap_mem_read(WORD addr)
+{
+    switch(addr >> 12) {
+        case 0xa:
+        case 0xb:
+        case 0xe:
+        case 0xf:
+            memmap_state |= MEMMAP_STATE_IGNORE;
+            if(LOAD_ZERO(1) & (1 << ((addr>>14) & 1))) {
+                monitor_memmap_store(addr, (memmap_state&MEMMAP_STATE_OPCODE)?MEMMAP_ROM_X:(memmap_state&MEMMAP_STATE_INSTR)?0:MEMMAP_ROM_R);
+            } else {
+                monitor_memmap_store(addr, (memmap_state&MEMMAP_STATE_OPCODE)?MEMMAP_RAM_X:(memmap_state&MEMMAP_STATE_INSTR)?0:MEMMAP_RAM_R);
+            }
+            memmap_state &= ~(MEMMAP_STATE_IGNORE);
+            break;
+        case 0xd:
+            monitor_memmap_store(addr, MEMMAP_I_O_R);
+            break;
+        default:
+            monitor_memmap_store(addr, (memmap_state&MEMMAP_STATE_OPCODE)?MEMMAP_RAM_X:(memmap_state&MEMMAP_STATE_INSTR)?0:MEMMAP_RAM_R);
+            break;
+    }
+    memmap_state &= ~(MEMMAP_STATE_OPCODE);
+    return (*_mem_read_tab_ptr[(addr) >> 8])((WORD)(addr));
+}
+
+#ifndef STORE
+#define STORE(addr, value) \
+    memmap_mem_store(addr, value)
+#endif
+
+#ifndef LOAD
+#define LOAD(addr) \
+    memmap_mem_read(addr)
+#endif
+
+#endif /* FEATURE_CPUMEMHISTORY */
+
+#ifndef STORE
+#define STORE(addr, value) \
+    (*_mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value))
+#endif
+
+#ifndef LOAD
+#define LOAD(addr) \
+    (*_mem_read_tab_ptr[(addr) >> 8])((WORD)(addr))
 #endif
 
 #define LOAD_ADDR(addr) \

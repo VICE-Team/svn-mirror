@@ -600,7 +600,7 @@ void video_resources_chip_shutdown(struct video_canvas_s *canvas)
     lib_free(canvas->videoconfig->external_palette_name);
 }
 
-void video_resources_update_ui(video_canvas_t *canvas)
+static void video_resources_update_ui(video_canvas_t *canvas)
 {
     int pal_enabled = 0;
     int ui_doublescan_enabled, ui_scale2x_enabled;
@@ -627,4 +627,3 @@ void video_resources_update_ui(video_canvas_t *canvas)
     ui_enable_chip resources(ui_doublescan_enabled, ui_scale2x_enabled);
 */
 }
-

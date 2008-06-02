@@ -631,7 +631,7 @@ tryagain:
     return 0;
 }
 
-GC video_get_gc(XGCValues *gc_values)
+static GC video_get_gc(XGCValues *gc_values)
 {
     Display *display;
 
@@ -824,7 +824,7 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
 
 /* ------------------------------------------------------------------------- */
 
-void video_refresh_func(void (*rfunc)(void))
+static void video_refresh_func(void (*rfunc)(void))
 {
     _refresh_func = rfunc;
 }

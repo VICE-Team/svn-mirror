@@ -161,6 +161,84 @@ static int gifdrv_save(screenshot_t *screenshot, const char *filename)
   return 0;
 }
 
+#ifdef FEATURE_CPUMEMHISTORY
+static GifFileType *gifdrv_memmap_fd;
+static char *gifdrv_memmap_ext_filename;
+
+static int gifdrv_close_memmap(void)
+{
+  EGifCloseFile(gifdrv_memmap_fd);
+  FreeMapObject(gif_colors);
+  lib_free(gifdrv_memmap_ext_filename);
+
+  return 0;
+}
+
+static int gifdrv_write_memmap(int line, int x_size, BYTE *gfx)
+{
+  if (EGifPutLine(gifdrv_memmap_fd, gfx+(line*x_size), x_size)==GIF_ERROR)
+    return -1;
+
+  return 0;
+}
+
+static int gifdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE *palette)
+{
+  unsigned int i;
+  GifColorType ColorMap256[256];
+
+  gifdrv_memmap_ext_filename=util_add_extension_const(filename, gif_drv.default_extension);
+
+  gifdrv_memmap_fd=EGifOpenFileName(gifdrv_memmap_ext_filename, FALSE);
+
+  if (gifdrv_memmap_fd==NULL)
+  {
+    lib_free(gifdrv_memmap_ext_filename);
+    return -1;
+  }
+
+  gif_colors=MakeMapObject(256, ColorMap256);
+
+  for (i = 0; i < 256; i++)
+  {
+    gif_colors->Colors[i].Blue=palette[(i*3)+2];
+    gif_colors->Colors[i].Green=palette[(i*3)+1];
+    gif_colors->Colors[i].Red=palette[i*3];
+  }
+
+  EGifSetGifVersion("87a");
+
+  if (EGifPutScreenDesc(gifdrv_memmap_fd, x_size, y_size, 8, 0, gif_colors) == GIF_ERROR ||
+      EGifPutImageDesc(gifdrv_memmap_fd, 0, 0, x_size, y_size, FALSE, NULL) == GIF_ERROR)
+  {
+    EGifCloseFile(gifdrv_memmap_fd);
+    FreeMapObject(gif_colors);
+    lib_free(gifdrv_memmap_ext_filename);
+    return -1;
+  }
+
+  return 0;
+}
+
+static int gifdrv_save_memmap(const char *filename, int x_size, int y_size, BYTE *gfx, BYTE *palette)
+{
+  int line;
+
+  if (gifdrv_open_memmap(filename, x_size, y_size, palette) < 0)
+    return -1;
+
+  for (line = 0; line < y_size; line++)
+  {
+    gifdrv_write_memmap(line, x_size, gfx);
+  }
+
+  if (gifdrv_close_memmap() < 0)
+    return -1;
+
+  return 0;
+}
+#endif
+
 static gfxoutputdrv_t gif_drv =
 {
     "GIF",
@@ -170,7 +248,12 @@ static gfxoutputdrv_t gif_drv =
     gifdrv_close,
     gifdrv_write,
     gifdrv_save,
+#ifdef FEATURE_CPUMEMHISTORY
+    NULL,
+    gifdrv_save_memmap
+#else
     NULL
+#endif
 };
 
 void gfxoutput_init_gif(void)

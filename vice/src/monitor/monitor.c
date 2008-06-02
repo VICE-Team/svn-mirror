@@ -37,6 +37,10 @@
 #include <direct.h>
 #endif
 
+#ifdef HAVE_STRINGS_H
+#include <strings.h>
+#endif
+
 #include "archdep.h"
 #include "charset.h"
 #include "cmdline.h"
@@ -587,6 +591,163 @@ void mon_backtrace()
     }
 }
 
+/* TODO move somewhere else */
+cpuhistory_t cpuhistory[CPUHISTORY_SIZE];
+int cpuhistory_i;
+
+void monitor_cpuhistory_store(WORD addr, BYTE op, BYTE p1, BYTE p2)
+{
+    ++cpuhistory_i;
+    cpuhistory_i &= (CPUHISTORY_SIZE-1);
+    cpuhistory[cpuhistory_i].addr = addr;
+    cpuhistory[cpuhistory_i].op = op;
+    cpuhistory[cpuhistory_i].p1 = p1;
+    cpuhistory[cpuhistory_i].p2 = p2;
+}
+
+void mon_cpuhistory(int count)
+{
+#ifdef FEATURE_CPUMEMHISTORY
+    BYTE op, p1, p2, p3 = 0;
+    MEMSPACE mem;
+    WORD loc, addr;
+    int hex_mode = 1;
+    const char *dis_inst;
+    unsigned opc_size;
+    int i, pos;
+
+    if((count<1)||(count>CPUHISTORY_SIZE)) {
+        count = CPUHISTORY_SIZE;
+    }
+
+    pos = (cpuhistory_i + 1 - count) & (CPUHISTORY_SIZE-1);
+    
+    for(i=0; i < count; ++i) {
+        addr = cpuhistory[pos].addr;
+        op = cpuhistory[pos].op;
+        p1 = cpuhistory[pos].p1;
+        p2 = cpuhistory[pos].p2;
+
+        mem = addr_memspace(addr);
+        loc = addr_location(addr);
+
+        dis_inst = mon_disassemble_to_string_ex(mem, loc, op, p1, p2, p3, hex_mode,
+                                                &opc_size);
+
+        /* Print the disassembled instruction */
+        mon_out(".%s:%04x   %s\n", mon_memspace_string[mem], loc, dis_inst);
+
+        pos = (pos+1) & (CPUHISTORY_SIZE-1);
+    }
+#else
+    mon_out("Disabled. configure with --enable-memmap and recompile.\n");
+#endif
+}
+
+/* TODO move somewhere else */
+BYTE mon_memmap[MEMMAP_SIZE];
+BYTE memmap_state;
+
+void mon_memmap_zap(void)
+{
+#ifdef FEATURE_CPUMEMHISTORY
+    memset(mon_memmap, 0, MEMMAP_SIZE);
+#else
+    mon_out("Disabled. configure with --enable-memmap and recompile.\n");
+#endif
+}
+
+void mon_memmap_show(int mask, MON_ADDR start_addr, MON_ADDR end_addr)
+{
+#ifdef FEATURE_CPUMEMHISTORY
+    int i;
+    BYTE b;
+
+    mon_out("addr: IO ROM RAM\n");
+
+    if(start_addr == BAD_ADDR) start_addr = 0;
+    if(end_addr == BAD_ADDR) end_addr = MEMMAP_SIZE-1;
+    if(start_addr>end_addr) start_addr = end_addr;
+
+    for(i = start_addr; i <= end_addr; ++i) {
+        b = mon_memmap[i];
+        if ((b & mask)!= 0) {
+            mon_out("%04x: %c%c %c%c%c %c%c%c\n",i,
+                    (b&MEMMAP_I_O_R)?'r':'-',
+                    (b&MEMMAP_I_O_W)?'w':'-',
+                    (b&MEMMAP_ROM_R)?'r':'-',
+                    (b&MEMMAP_ROM_W)?'w':'-',
+                    (b&MEMMAP_ROM_X)?'x':'-',
+                    (b&MEMMAP_RAM_R)?'r':'-',
+                    (b&MEMMAP_RAM_W)?'w':'-',
+                    (b&MEMMAP_RAM_X)?'x':'-');
+        }
+    }
+#else
+    mon_out("Disabled. configure with --enable-memmap and recompile.\n");
+#endif
+}
+
+void monitor_memmap_store(unsigned int addr, BYTE type)
+{
+    BYTE op = cpuhistory[cpuhistory_i].op;
+
+    if (inside_monitor) return;
+
+    /* Ignore reg_pc+2 reads on branches & JSR 
+       and return address read on RTS */
+    if(type & (MEMMAP_ROM_R|MEMMAP_RAM_R)
+      &&(((op & 0x1f) == 0x10)||(op == OP_JSR)
+      ||((op == OP_RTS) && ((addr>0x1ff)||(addr<0x100)))))
+        return;
+
+    mon_memmap[addr & (MEMMAP_SIZE-1)] |= type;
+}
+
+#ifdef FEATURE_CPUMEMHISTORY
+BYTE mon_memmap_palette[256*3];
+
+void mon_memmap_make_palette(void)
+{
+    int i;
+    for(i=0; i<256; ++i) {
+        mon_memmap_palette[i*3+0] = (i&(MEMMAP_RAM_W))?0x80:0+(i&(MEMMAP_ROM_W))?0x60:0+(i&(MEMMAP_I_O_W))?0x1f:0;
+        mon_memmap_palette[i*3+1] = (i&(MEMMAP_RAM_X))?0x80:0+(i&(MEMMAP_ROM_X))?0x60:0+(i&(MEMMAP_I_O_W|MEMMAP_I_O_R))?0x1f:0;
+        mon_memmap_palette[i*3+2] = (i&(MEMMAP_RAM_R))?0x80:0+(i&(MEMMAP_ROM_R))?0x60:0+(i&(MEMMAP_I_O_R))?0x1f:0;
+    }
+}
+#endif
+
+void mon_memmap_save(const char* filename, int format)
+{
+#ifdef FEATURE_CPUMEMHISTORY
+    const char* drvname;
+
+    switch(format) {
+        case 1:
+            drvname = "PCX";
+            break;
+        case 2:
+            drvname = "PNG";
+            break;
+        case 3:
+            drvname = "GIF";
+            break;
+        case 4:
+            drvname = "IFF";
+            break;
+        default:
+            drvname = "BMP";
+            break;
+    }
+    if(memmap_screenshot_save(drvname, filename, MEMMAP_PICX, MEMMAP_PICY, mon_memmap, mon_memmap_palette)) {
+        mon_out("Failed.\n");
+    }
+#else
+    mon_out("Disabled. configure with --enable-memmap and recompile.\n");
+#endif
+}
+
 void mon_screenshot_save(const char* filename, int format)
 {
     const char* drvname;
@@ -782,6 +943,11 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++)
         mon_interfaces[monitor_diskspace_mem(dnr)] = drive_interface_init[dnr];
+
+#ifdef FEATURE_CPUMEMHISTORY
+    mon_memmap_zap();
+    mon_memmap_make_palette();
+#endif
 
     if (mon_init_break != -1)
         mon_breakpoint_add_checkpoint((WORD)mon_init_break, BAD_ADDR, FALSE, FALSE,FALSE, FALSE);

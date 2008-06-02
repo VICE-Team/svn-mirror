@@ -256,6 +256,180 @@ static int pcxdrv_save(screenshot_t *screenshot, const char *filename)
   return 0;
 }
 
+#ifdef FEATURE_CPUMEMHISTORY
+static FILE *pcxdrv_memmap_fd;
+static char *pcxdrv_memmap_ext_filename;
+static BYTE *pcxdrv_memmap_pcx_data;
+
+static int pcxdrv_close_memmap(BYTE *palette)
+{
+  BYTE pcx_color_prefix[2]="\x0c";
+
+  fwrite(pcx_color_prefix, 1, 1, pcxdrv_memmap_fd);
+
+  fwrite(palette, 3*256, 1, pcxdrv_memmap_fd);
+
+  fclose(pcxdrv_memmap_fd);
+  lib_free(pcxdrv_memmap_pcx_data);
+  lib_free(pcxdrv_memmap_ext_filename);
+
+  return 0;
+}
+
+static int pcxdrv_write_memmap(int line, int x_size, BYTE *gfx)
+{
+  BYTE color,amount;
+  unsigned int i,j=0;
+
+  color=gfx[(line*x_size)];
+  amount=1;
+  for (i = 1; i<x_size; i++)
+  {
+    if (gfx[(line*x_size)+i]==color)
+    {
+      amount=amount+1;
+      if (amount==63)
+      {
+        pcxdrv_memmap_pcx_data[j]=0xff;
+        pcxdrv_memmap_pcx_data[j+1]=color;
+        j=j+2;
+        amount=0;
+      }
+    }
+    else
+    {
+      if (amount==0)
+      {
+        color=gfx[(line*x_size)+i];
+        amount=1;
+      }
+      else
+      {
+        if (amount>1)
+        {
+          pcxdrv_memmap_pcx_data[j]=0xc0 | amount;
+          pcxdrv_memmap_pcx_data[j+1]=color;
+          j=j+2;
+          color=gfx[(line*x_size)+i];
+          amount=1;
+        }
+        else
+        {
+          if (color>0xbf)
+          {
+            pcxdrv_memmap_pcx_data[j]=0xc1;
+            pcxdrv_memmap_pcx_data[j+1]=color;
+            j=j+2;
+          }
+          else
+          {
+            pcxdrv_memmap_pcx_data[j]=color;
+            j++;
+          }
+          color=gfx[(line*x_size)+i];
+          amount=1;
+        }
+      }
+    }
+  }
+  if (amount==1)
+  {
+    if (color>0xbf)
+    {
+      pcxdrv_memmap_pcx_data[j]=0xc1;
+      pcxdrv_memmap_pcx_data[j+1]=color;
+      j=j+2;
+    }
+    else
+    {
+      pcxdrv_memmap_pcx_data[j]=color;
+      j++;
+    }
+  }
+  else
+  {
+    if (amount>1)
+    {
+      pcxdrv_memmap_pcx_data[j]=0xc0 | amount;
+      pcxdrv_memmap_pcx_data[j+1]=color;
+      j=j+2;
+    }
+  }
+
+  if (fwrite(pcxdrv_memmap_pcx_data, j, 1, pcxdrv_memmap_fd)<1)
+    return -1;
+
+  return 0;
+}
+
+static int pcxdrv_write_file_header_memmap(int x_size, int y_size)
+{
+  BYTE header[128];
+
+  memset(header, 0, sizeof(header));
+
+  header[0]=0xa;
+  header[1]=5;
+  header[2]=1;
+  header[3]=8;
+
+  util_word_to_le_buf(&header[8], (WORD)(x_size-1));
+  util_word_to_le_buf(&header[10], (WORD)(y_size-1));
+
+  util_word_to_le_buf(&header[12], (WORD)(0));
+  util_word_to_le_buf(&header[14], (WORD)(0));
+
+  header[65]=1;
+  util_word_to_le_buf(&header[66], (WORD)(x_size));
+
+  if (fwrite(header, sizeof(header), 1, pcxdrv_memmap_fd)<1)
+    return -1;
+
+  return 0;
+}
+
+static int pcxdrv_open_memmap(const char *filename, int x_size, int y_size)
+{
+  pcxdrv_memmap_ext_filename=util_add_extension_const(filename, pcx_drv.default_extension);
+  pcxdrv_memmap_fd = fopen(pcxdrv_memmap_ext_filename, "wb");
+
+  if (pcxdrv_memmap_fd==NULL)
+  {
+    lib_free(pcxdrv_memmap_ext_filename);
+    return -1;
+  }
+
+  if (pcxdrv_write_file_header_memmap(x_size, y_size)<0)
+  {
+    fclose(pcxdrv_memmap_fd);
+    lib_free(pcxdrv_memmap_ext_filename);
+    return -1;
+  }
+
+  pcxdrv_memmap_pcx_data = (BYTE *)lib_malloc(x_size*2);
+
+  return 0;
+}
+
+static int pcxdrv_save_memmap(const char *filename, int x_size, int y_size, BYTE *gfx, BYTE *palette)
+{
+  int line;
+
+  if (pcxdrv_open_memmap(filename, x_size, y_size) < 0)
+    return -1;
+
+  for (line = 0; line < y_size; line++)
+  {
+    pcxdrv_write_memmap(line, x_size, gfx);
+  }
+
+  if (pcxdrv_close_memmap(palette) < 0)
+    return -1;
+
+  return 0;
+}
+#endif
+
 static gfxoutputdrv_t pcx_drv =
 {
     "PCX",
@@ -265,7 +439,12 @@ static gfxoutputdrv_t pcx_drv =
     pcxdrv_close,
     pcxdrv_write,
     pcxdrv_save,
+#ifdef FEATURE_CPUMEMHISTORY
+    NULL,
+    pcxdrv_save_memmap
+#else
     NULL
+#endif
 };
 
 void gfxoutput_init_pcx(void)

@@ -30,9 +30,11 @@
 #ifdef HAVE_NETWORK
 
 #ifdef MINIX_SUPPORT
-#define _POSIX_SOURCE
 #include <limits.h>
 #define PF_INET AF_INET
+
+extern ssize_t recv(int socket, void *buffer, size_t length, int flags);
+extern ssize_t send(int socket, const void *buffer, size_t length, int flags);
 #endif
 
 #include <assert.h>
@@ -98,6 +100,12 @@ typedef struct timeval TIMEVAL;
 #endif
 #if !defined(AMIGA_M68K) && !defined(AMIGA_AROS)
 #include <unistd.h>
+#endif
+
+#ifdef __minix
+#define recv(socket, buffer, length, flags) \
+        recvfrom(socket, buffer, length, flags, NULL, NULL)
+extern ssize_t send(int socket, const void *buffer, size_t length, int flags);
 #endif
 
 #ifdef OPENSERVER6_COMPILE
