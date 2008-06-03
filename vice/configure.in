@@ -107,7 +107,7 @@ AC_PROG_CC
 
 dnl --- setup Objective-C ---
 OBJC="${CC}"
-if [ "x${OBJCFLAGS}" = x ]; then
+if test -z "x${OBJCFLAGS}"; then
   OBJCFLAGS="${CFLAGS}"
 fi
 OBJCDEPMODE="depmode=${CC}"

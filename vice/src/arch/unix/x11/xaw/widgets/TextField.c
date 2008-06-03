@@ -70,8 +70,8 @@ static XtResource resources[] =
 #undef offset
 
 static void Initialize(Widget treq, Widget tnew, ArgList args, Cardinal * num);
-static void Destroy();
-static void Redisplay();
+static void Destroy(TextFieldWidget w);
+static void Redisplay(Widget aw, XExposeEvent * event, Region region);
 static void Resize(Widget aw);
 static Boolean SetValues(Widget current, Widget request, Widget reply,
                          ArgList args, Cardinal * nargs);
@@ -849,7 +849,8 @@ ConvertSelection(Widget aw, Atom * selection, Atom * target, Atom * type,
       target, type,
       /* 1997/02/14 ettore@comm2000.it: Changed cast to `XPointer *' into a
          cast to `char **' to allow compilation under X11R4.  */
-      (char **) & std_targets,
+      /* 2008/05/28 SRT: undone this cast. Any compile problems? */
+      /* (char **) */ & std_targets,
       &std_length, format);
 
     *value = XtMalloc((unsigned) sizeof(Atom) * (std_length + 1));

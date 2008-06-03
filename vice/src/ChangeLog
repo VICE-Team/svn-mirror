@@ -1,3 +1,9 @@
+2008-06-03  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* arch/unix/x11/xaw/widgets/MultiList.c,
+	arch/unix/x11/xaw/widgets/TextField.c: Removed warnings by
+	providing prototypes for some functions.
+
 2008-06-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* configure.in: Added extra defines needed for minix, alligned

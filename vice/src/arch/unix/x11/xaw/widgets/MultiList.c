@@ -60,6 +60,7 @@
 
 #include <X11/IntrinsicP.h>
 #include <X11/StringDefs.h>
+#include <X11/Xmu/Drawing.h>
 
 #include "lib.h"
 
@@ -71,9 +72,6 @@
           D E C L A R A T I O N S    A N D    D E F I N I T I O N S
 
  *===========================================================================*/
-
-Pixmap XmuCreateStippledPixmap();
-extern void XawInitializeWidgetSet();
 
 #define	SUPERCLASS	&(simpleClassRec)
 
