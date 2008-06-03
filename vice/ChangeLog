@@ -1,5 +1,7 @@
 2008-06-03  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* Version 1.22.17.
+
 	* configure.in: Test for libnet 1.1 and set VICE_USE_LIBNET_1_1
 	if it exists. This adds support for libnet 1.1 for TFE/RR-net
 	emulation.

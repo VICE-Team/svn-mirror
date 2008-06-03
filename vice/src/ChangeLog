@@ -1,7 +1,10 @@
 2008-06-03  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* Version 1.22.17.
+
 	* arch/unix/tfearch.c: Support libnet 1.1 if VICE_USE_LIBNET_1_1
-	is defined.
+	is defined. This is based on some preliminary work from Jacques
+	Pelletier.
 
 	* arch/unix/gui/uitfe.c: Fixed a typo (compatibity ->
 	compatibility).

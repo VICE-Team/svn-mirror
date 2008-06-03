@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-25 21:02+0200\n"
+"POT-Creation-Date: 2008-06-03 19:42+0200\n"
 "PO-Revision-Date: 2007-07-26 11:55+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Limit emulation speed to specified value"
 msgstr "Ograniczaj prêdko¶æ emulacji do podanej warto¶ci"
 
-#: src/vsync.c:149 src/sound.c:275 src/sound.c:277 src/debug.c:205
+#: src/vsync.c:149 src/sound.c:279 src/sound.c:281 src/debug.c:205
 #: src/c64/cart/ide64.c:283 src/c64/cart/ide64.c:285 src/c64/cart/ide64.c:287
 #: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:201
 #: src/gfxoutputdrv/ffmpegdrv.c:204 src/mouse.c:362 src/mouse.c:364
@@ -58,25 +58,25 @@ msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/sound.c:271 src/translate.c.po.c:4465
+#: src/sound.c:275 src/translate.c.po.c:4465
 #, fuzzy
 msgid "Enable sound playback"
 msgstr "*W³±cz d¼wiêk"
 
-#: src/sound.c:273 src/translate.c.po.c:4475
+#: src/sound.c:277 src/translate.c.po.c:4475
 #, fuzzy
 msgid "Disable sound playback"
 msgstr "*W³±cz d¼wiêk"
 
-#: src/sound.c:275 src/translate.c.po.c:4485
+#: src/sound.c:279 src/translate.c.po.c:4485
 msgid "Set sound sample rate to <value> Hz"
 msgstr ""
 
-#: src/sound.c:277 src/translate.c.po.c:4495
+#: src/sound.c:281 src/translate.c.po.c:4495
 msgid "Set sound buffer size to <value> msec"
 msgstr ""
 
-#: src/sound.c:279 src/sound.c:283 src/c128/c128-cmdline-options.c:108
+#: src/sound.c:283 src/sound.c:287 src/c128/c128-cmdline-options.c:108
 #: src/c128/c128-cmdline-options.c:110 src/c128/c128-cmdline-options.c:112
 #: src/c128/c128-cmdline-options.c:114 src/c128/c128-cmdline-options.c:116
 #: src/c128/c128-cmdline-options.c:118 src/c128/c128-cmdline-options.c:120
@@ -153,115 +153,115 @@ msgstr ""
 msgid "<name>"
 msgstr ""
 
-#: src/sound.c:279 src/translate.c.po.c:4505
+#: src/sound.c:283 src/translate.c.po.c:4505
 msgid "Specify sound driver"
 msgstr ""
 
-#: src/sound.c:281 src/sound.c:285 src/translate.c.po.c:4515
+#: src/sound.c:285 src/sound.c:289 src/translate.c.po.c:4515
 msgid "<args>"
 msgstr ""
 
-#: src/sound.c:281 src/translate.c.po.c:4525
+#: src/sound.c:285 src/translate.c.po.c:4525
 msgid "Specify initialization parameters for sound driver"
 msgstr ""
 
-#: src/sound.c:283 src/translate.c.po.c:4535
+#: src/sound.c:287 src/translate.c.po.c:4535
 #, fuzzy
 msgid "Specify recording sound driver"
 msgstr "Zatrzymaj zapisywanie wydarzen "
 
-#: src/sound.c:285 src/translate.c.po.c:4545
+#: src/sound.c:289 src/translate.c.po.c:4545
 msgid "Specify initialization parameters for recording sound driver"
 msgstr ""
 
-#: src/sound.c:287 src/translate.c.po.c:4555
+#: src/sound.c:291 src/translate.c.po.c:4555
 msgid "<sync>"
 msgstr ""
 
-#: src/sound.c:287 src/translate.c.po.c:4565
+#: src/sound.c:291 src/translate.c.po.c:4565
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 
-#: src/sound.c:497 src/translate.c.po.c:231
+#: src/sound.c:501 src/translate.c.po.c:231
 msgid "write to sound device failed."
 msgstr ""
 
-#: src/sound.c:512 src/translate.c.po.c:241
+#: src/sound.c:516 src/translate.c.po.c:241
 #, fuzzy
 msgid "Cannot open SID engine"
 msgstr "Ustawienia uk³adu SID"
 
-#: src/sound.c:551 src/translate.c.po.c:251
+#: src/sound.c:555 src/translate.c.po.c:251
 msgid "Cannot initialize SID engine"
 msgstr ""
 
-#: src/sound.c:658 src/translate.c.po.c:261
+#: src/sound.c:662 src/translate.c.po.c:261
 #, fuzzy, c-format
 msgid "initialization failed for device `%s'."
 msgstr "Kalibracja sprzêtowego joysticka dla urz±dzenia `%s':"
 
-#: src/sound.c:667
+#: src/sound.c:671
 msgid "sound device lacks stereo capability"
 msgstr ""
 
-#: src/sound.c:717 src/translate.c.po.c:271
+#: src/sound.c:721 src/translate.c.po.c:271
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr ""
 
-#: src/sound.c:738 src/translate.c.po.c:281
+#: src/sound.c:742 src/translate.c.po.c:281
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr ""
 
-#: src/sound.c:746 src/translate.c.po.c:291
+#: src/sound.c:750 src/translate.c.po.c:291
 msgid "Recording device must be different from playback device"
 msgstr ""
 
-#: src/sound.c:756 src/translate.c.po.c:303
+#: src/sound.c:760 src/translate.c.po.c:303
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr ""
 
-#: src/sound.c:767
+#: src/sound.c:771
 #, fuzzy, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Kalibracja sprzêtowego joysticka dla urz±dzenia `%s':"
 
-#: src/sound.c:782 src/translate.c.po.c:315
+#: src/sound.c:786 src/translate.c.po.c:315
 msgid "The recording device doesn't support current sound parameters"
 msgstr ""
 
-#: src/sound.c:869 src/translate.c.po.c:326
+#: src/sound.c:873 src/translate.c.po.c:326
 msgid "Sound buffer overflow (cycle based)"
 msgstr ""
 
-#: src/sound.c:883 src/translate.c.po.c:336
+#: src/sound.c:887 src/translate.c.po.c:336
 msgid "Sound buffer overflow."
 msgstr ""
 
-#: src/sound.c:1013 src/translate.c.po.c:346
+#: src/sound.c:1017 src/translate.c.po.c:346
 msgid "cannot flush."
 msgstr ""
 
-#: src/sound.c:1062 src/translate.c.po.c:356
+#: src/sound.c:1066 src/translate.c.po.c:356
 msgid "fragment problems."
 msgstr ""
 
-#: src/sound.c:1092
+#: src/sound.c:1096
 #, fuzzy
 msgid "Buffer drained"
 msgstr "Rozmiar buffora"
 
-#: src/sound.c:1131 src/translate.c.po.c:366
+#: src/sound.c:1135 src/translate.c.po.c:366
 msgid "running too slow."
 msgstr ""
 
-#: src/sound.c:1147 src/sound.c:1157
+#: src/sound.c:1151 src/sound.c:1161
 msgid "write to sounddevice failed."
 msgstr ""
 
-#: src/sound.c:1417 src/translate.c.po.c:376
+#: src/sound.c:1421 src/translate.c.po.c:376
 msgid "store to sounddevice failed."
 msgstr ""
 
@@ -400,88 +400,88 @@ msgstr ""
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 
-#: src/network.c:262 src/translate.c.po.c:548
+#: src/network.c:270 src/translate.c.po.c:548
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr ""
 
-#: src/network.c:487 src/translate.c.po.c:397
+#: src/network.c:495 src/translate.c.po.c:397
 msgid "Testing best frame delay..."
 msgstr ""
 
-#: src/network.c:537 src/translate.c.po.c:407
+#: src/network.c:545 src/translate.c.po.c:407
 #, c-format
 msgid "Using %d frames delay."
 msgstr ""
 
-#: src/network.c:562 src/translate.c.po.c:417
+#: src/network.c:570 src/translate.c.po.c:417
 #, fuzzy
 msgid "Cannot load snapshot file for transfer"
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/network.c:575 src/translate.c.po.c:427
+#: src/network.c:583 src/translate.c.po.c:427
 #, fuzzy
 msgid "Sending snapshot to client..."
 msgstr "Zapisz zrzut..."
 
-#: src/network.c:585 src/translate.c.po.c:437
+#: src/network.c:593 src/translate.c.po.c:437
 #, fuzzy
 msgid "Cannot send snapshot to client"
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/network.c:615 src/translate.c.po.c:447
+#: src/network.c:623 src/translate.c.po.c:447
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s"
 msgstr ""
 "Nie mo¿na zapisaæ pliku migawki\n"
 "`%s'\n"
 
-#: src/network.c:655 src/translate.c.po.c:457
+#: src/network.c:663 src/translate.c.po.c:457
 #, fuzzy, c-format
 msgid "Cannot open snapshot file %s"
 msgstr ""
 "Nie mo¿na zapisaæ pliku migawki\n"
 "`%s'\n"
 
-#: src/network.c:805 src/translate.c.po.c:467
+#: src/network.c:813 src/translate.c.po.c:467
 msgid "Server is waiting for a client..."
 msgstr ""
 
-#: src/network.c:842 src/translate.c.po.c:477
+#: src/network.c:850 src/translate.c.po.c:477
 #, fuzzy
 msgid "Cannot create snapshot file. Select different history directory!"
 msgstr ""
 "Nie mo¿na zapisaæ pliku migawki\n"
 "`%s'\n"
 
-#: src/network.c:861 src/translate.c.po.c:487
+#: src/network.c:869 src/translate.c.po.c:487
 #, fuzzy, c-format
 msgid "Cannot resolve %s"
 msgstr ""
 "Nie mo¿na zapisaæ pliku obrazu kartrid¿a\n"
 "`%s'\n"
 
-#: src/network.c:906 src/translate.c.po.c:497
+#: src/network.c:914 src/translate.c.po.c:497
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 
-#: src/network.c:920 src/translate.c.po.c:507
+#: src/network.c:928 src/translate.c.po.c:507
 msgid "Receiving snapshot from server..."
 msgstr ""
 
-#: src/network.c:1007 src/network.c:1037 src/translate.c.po.c:527
+#: src/network.c:1015 src/network.c:1045 src/translate.c.po.c:527
 msgid "Remote host disconnected."
 msgstr ""
 
-#: src/network.c:1049 src/translate.c.po.c:537
+#: src/network.c:1057 src/translate.c.po.c:537
 msgid "Remote host suspending..."
 msgstr ""
 
-#: src/network.c:1093 src/translate.c.po.c:517
+#: src/network.c:1101 src/translate.c.po.c:517
 msgid "Network out of sync - disconnecting."
 msgstr ""
 
@@ -5393,7 +5393,7 @@ msgid "*Enable Ethernet"
 msgstr "*W³±cz REU"
 
 #: src/arch/unix/gui/uitfe.c:50
-msgid "*RR-NET compatibity mode"
+msgid "*RR-NET compatibility mode"
 msgstr ""
 
 #: src/arch/unix/gui/uitfe.c:52
