@@ -1119,6 +1119,15 @@ else
   dnl /usr/lib/libpcap.a
   dnl /usr/lib/libnet.a
     AC_CHECK_LIB(pcap, pcap_open_live,[
+      AC_CHECK_LIB(net, libnet_init,[
+        AC_DEFINE(HAVE_TFE,,[Support for The Final Ethernet])
+        AC_DEFINE(VICE_USE_LIBNET_1_1,,[Support for The Final Ethernet])
+        TFE_LIBS="-lpcap `libnet-config --libs`"
+        CFLAGS="$CFLAGS `libnet-config --defines`"
+    ],,$LIBS)],,$LIBS)
+  dnl /usr/lib/libpcap.a
+  dnl /usr/lib/libnet.a
+    AC_CHECK_LIB(pcap, pcap_open_live,[
       AC_CHECK_LIB(net, libnet_write_link_layer,[
         AC_DEFINE(HAVE_TFE,,[Support for The Final Ethernet])
         TFE_LIBS="-lpcap `libnet-config --libs`"

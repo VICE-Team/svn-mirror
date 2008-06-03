@@ -59,7 +59,12 @@ static pcap_if_t *TfePcapNextDev = NULL;
 static pcap_if_t *TfePcapAlldevs = NULL;
 
 static pcap_t *TfePcapFP = NULL;
+
+#ifdef VICE_USE_LIBNET_1_1
+static libnet_t *TfeLibnetFP = NULL;
+#else /* VICE_USE_LIBNET_1_1 */
 static struct libnet_link_int *TfeLibnetFP = NULL;
+#endif /* VICE_USE_LIBNET_1_1 */
 
 static char TfePcapErrbuf[PCAP_ERRBUF_SIZE];
 static char TfeLibnetErrBuf[LIBNET_ERRBUF_SIZE];
@@ -76,7 +81,7 @@ void debug_output( const char *text, BYTE *what, int count )
     int i;
 
     sprintf(buffer, "\n%s: length = %u\n", text, len1);
-    OutputDebugString(buffer);
+    fprintf(stderr, "%s", buffer);
     do {
         p = buffer;
         for (i=0; (i<8) && len1>0; len1--, i++) {
@@ -84,7 +89,8 @@ void debug_output( const char *text, BYTE *what, int count )
             p += 3;
         }
         *(p-1) = '\n'; *p = 0;
-        OutputDebugString(buffer);
+   //     OutputDebugString(buffer);
+        fprintf(stderr, "%s", buffer);
     } while (len1>0);
 }
 #endif // #ifdef TFE_DEBUG_PKTDUMP
@@ -191,7 +197,12 @@ int TfePcapOpenAdapter(const char *interface_name)
 	}
 
     /* now, open the libnet device to be able to send afterwards */
+#ifdef VICE_USE_LIBNET_1_1
+    TfeLibnetFP = libnet_init(LIBNET_LINK, (char *) interface_name, TfeLibnetErrBuf);
+#else /* VICE_USE_LIBNET_1_1 */
     TfeLibnetFP = libnet_open_link_interface(interface_name, TfeLibnetErrBuf);
+#endif /* VICE_USE_LIBNET_1_1 */
+
     if (TfeLibnetFP == NULL) {
         log_message(tfe_arch_log, "Libnet interface could not be opened: '%s'", TfeLibnetErrBuf);
 
@@ -362,7 +373,10 @@ void tfe_arch_transmit(int force,       /* FORCE: Delete waiting frames in trans
                        BYTE *txframe    /* Pointer to the frame to be transmitted */
                       )
 {
+#ifdef VICE_USE_LIBNET_1_1
+#else /* VICE_USE_LIBNET_1_1 */
     u_char *plibnet_buffer = NULL;
+#endif /* VICE_USE_LIBNET_1_1 */
 
 #ifdef TFE_DEBUG_ARCH
     log_message( tfe_arch_log, "tfe_arch_transmit() called, with: "
@@ -380,6 +394,39 @@ void tfe_arch_transmit(int force,       /* FORCE: Delete waiting frames in trans
 #endif // #ifdef TFE_DEBUG_PKTDUMP
 
     /* we want to send via libnet */
+
+#ifdef VICE_USE_LIBNET_1_1
+
+    do {
+        libnet_pblock_t *p;
+
+        p = libnet_pblock_new(TfeLibnetFP, txlength);
+
+        if (p == NULL) {
+            log_message(tfe_arch_log, "WARNING! Could not send packet, libnet_pblock_probe() failed!");
+            break;
+        }
+
+        if ( libnet_pblock_append(TfeLibnetFP, p, txframe, txlength) == -1 ) {
+            log_message(tfe_arch_log, "WARNING! Could not send packet, libnet_pblock_append() failed!");
+            break;
+        }
+
+        libnet_pblock_update(TfeLibnetFP, p, 0, LIBNET_PBLOCK_ETH_H);
+
+        if ( libnet_write(TfeLibnetFP) == -1 ) {
+            log_message(tfe_arch_log, "WARNING! Could not send packet, libnet_write() failed!");
+            break;
+        }
+
+        libnet_pblock_delete(TfeLibnetFP, p);
+
+    } while (0);
+
+#else /* VICE_USE_LIBNET_1_1 */
+
+    /* libnet 1.0 compatibility */
+
     if (libnet_init_packet(txlength, &plibnet_buffer)==-1) {
         log_message(tfe_arch_log, "WARNING! Could not send packet!");
     }
@@ -394,6 +441,8 @@ void tfe_arch_transmit(int force,       /* FORCE: Delete waiting frames in trans
                 "but libnet_init_packet() did NOT fail!!");
         }
     }
+
+#endif /* VICE_USE_LIBNET_1_1 */
 }
 
 /*

@@ -1,5 +1,13 @@
 2008-06-03  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* arch/unix/tfearch.c: Support libnet 1.1 if VICE_USE_LIBNET_1_1
+	is defined.
+
+	* arch/unix/gui/uitfe.c: Fixed a typo (compatibity ->
+	compatibility).
+
+2008-06-03  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
 	* arch/unix/x11/xaw/widgets/MultiList.c,
 	arch/unix/x11/xaw/widgets/TextField.c: Removed warnings by
 	providing prototypes for some functions.

@@ -47,7 +47,7 @@ UI_CALLBACK(set_interface_name)
 ui_menu_entry_t tfe_submenu[] = {
     { N_("*Enable Ethernet"),
       (ui_callback_t)toggle_ETHERNET_ACTIVE, NULL, NULL },
-    { N_("*RR-NET compatibity mode"),
+    { N_("*RR-NET compatibility mode"),
       (ui_callback_t)toggle_ETHERNET_AS_RR, NULL, NULL },
     { N_("Interface..."),
       (ui_callback_t)set_interface_name,
