@@ -844,7 +844,7 @@ static gfxoutputdrv_t ffmpeg_drv[] = {
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, 
 #ifdef FEATURE_CPUMEMHISTORY
       NULL,
-#endi
+#endif
       NULL }
 };
 
