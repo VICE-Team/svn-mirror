@@ -298,7 +298,7 @@ static int init_raster(void)
     raster = &vicii.raster;
     video_color_set_canvas(raster->canvas);
 
-    raster_sprite_status_new(raster, VICII_NUM_SPRITES);
+    raster_sprite_status_new(raster, VICII_NUM_SPRITES, vicii_sprite_offset());
     raster_line_changes_sprite_init(raster);
 
     if (raster_init(raster, VICII_NUM_VMODES) < 0)
@@ -427,7 +427,7 @@ void vicii_reset_registers(void)
     for (i = 0; i <= 0x3f; i++)
         vicii_store(i, 0);
 
-    raster_sprite_status_reset(vicii.raster.sprite_status);
+    raster_sprite_status_reset(vicii.raster.sprite_status, vicii_sprite_offset());
 }
 
 /* This /should/ put the VIC-II in the same state as after a powerup, if

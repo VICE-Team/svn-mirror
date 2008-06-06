@@ -49,6 +49,7 @@ extern void vicii_sprites_set_x_position(unsigned int num,
 extern void vicii_sprites_reset_sprline(void);
 extern void vicii_sprites_init_sprline(void);
 extern void vicii_sprites_reset_xshift(void);
+extern int vicii_sprite_offset(void);
 
 #endif
 

@@ -560,10 +560,10 @@ void statusbar_notify(HWND window, int window_index, WPARAM wparam, LPARAM lpara
         slider_pos = SendMessage(slider_hwnd[window_index], TBM_GETPOS, 0, 0);
         resources_set_int("SoundVolume", 100 - slider_pos);
 
-        if (nmhdr->code == NM_RELEASEDCAPTURE)
+        if (nmhdr->code == (UINT)NM_RELEASEDCAPTURE)
             SetFocus(window);
 
-        if (nmhdr->code == NM_CUSTOMDRAW) {
+        if (nmhdr->code == (UINT)NM_CUSTOMDRAW) {
             NMCUSTOMDRAW *lpNMCustomDraw = (NMCUSTOMDRAW*)lparam;
 #ifndef CDIS_FOCUS
 #define CDIS_FOCUS 16

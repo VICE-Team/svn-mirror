@@ -39,7 +39,7 @@
 
 
 static void raster_sprite_status_init(raster_sprite_status_t *status,
-                                      unsigned int num_sprites)
+                                      unsigned int num_sprites, int sprite_offset)
 {
     status->num_sprites = num_sprites;
     status->cache_init_func = raster_sprite_cache_init;
@@ -58,7 +58,7 @@ static void raster_sprite_status_init(raster_sprite_status_t *status,
         status->sprite_data_2 = NULL;
     }
 
-    raster_sprite_status_reset(status);
+    raster_sprite_status_reset(status, sprite_offset);
 }
 
 static void raster_sprite_status_shutdown(raster_sprite_status_t *status,
@@ -71,11 +71,11 @@ static void raster_sprite_status_shutdown(raster_sprite_status_t *status,
     }
 }
 
-void raster_sprite_status_new(raster_t *raster, unsigned int num_sprites)
+void raster_sprite_status_new(raster_t *raster, unsigned int num_sprites, int sprite_offset)
 {
     raster->sprite_status = (raster_sprite_status_t *)lib_malloc(
                             sizeof(raster_sprite_status_t));
-    raster_sprite_status_init(raster->sprite_status, num_sprites);
+    raster_sprite_status_init(raster->sprite_status, num_sprites, sprite_offset);
 }
 
 void raster_sprite_status_destroy(raster_t *raster)
@@ -87,7 +87,7 @@ void raster_sprite_status_destroy(raster_t *raster)
     }
 }
 
-void raster_sprite_status_reset(raster_sprite_status_t *status)
+void raster_sprite_status_reset(raster_sprite_status_t *status, int sprite_offset)
 {
     unsigned int i;
 
@@ -105,7 +105,7 @@ void raster_sprite_status_reset(raster_sprite_status_t *status)
     status->new_sprite_data = status->sprite_data_2;
 
     for (i = 0; i < status->num_sprites; i++)
-        raster_sprite_reset(&status->sprites[i]);
+        raster_sprite_reset(&status->sprites[i], sprite_offset);
 }
 
 void raster_sprite_status_set_draw_function(raster_sprite_status_t *status,

@@ -669,7 +669,7 @@ WindowType GetNextMonitorDimensions( PWindowDimensions pwd )
     {
         ret = GetByte(&(pwd->pMonitorDimensions),&pwd->MonitorLen);
 
-        if (pwd->MonitorLen < sizeof(WINDOWPLACEMENT))
+        if (pwd->MonitorLen < (int)sizeof(WINDOWPLACEMENT))
         {
             ret = WT_END;
 

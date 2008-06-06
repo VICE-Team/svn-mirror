@@ -274,7 +274,7 @@ static BOOL CALLBACK dialog_color_proc(HWND hwnd, UINT msg,
 
     switch (msg) {
       case WM_NOTIFY:
-        if (((NMHDR FAR *)lparam)->code == PSN_APPLY) {
+        if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
             GetDlgItemText(hwnd, IDC_VIDEO_COLORS_SAT, s, 100);
             _stscanf(s, TEXT("%f"), &tf);
             ival = (int)(tf * 1000.0 + 0.5);
@@ -318,7 +318,7 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
 
     switch (msg) {
       case WM_NOTIFY:
-        if (((NMHDR FAR *)lparam)->code == PSN_APPLY) {
+        if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
             GetDlgItemText(hwnd, IDC_VIDEO_COLORS_GAM, s, 100);
             _stscanf(s, TEXT("%f"), &tf);
             ival = (int)(tf * 1000.0 + 0.5);
@@ -423,7 +423,7 @@ static BOOL CALLBACK dialog_palette_proc(HWND hwnd, UINT msg,
 
     switch (msg) {
       case WM_NOTIFY:
-        if (((NMHDR FAR *)lparam)->code == PSN_APPLY) {
+        if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
             querynewpalette = 1;
             if (resources_set_string(current_chip2->res_PaletteFile_name,
                 palette_file2) < 0) {

@@ -40,8 +40,8 @@ void process_file(char *filename, FILE *houtput, FILE *moutput)
 {
 FILE *infile;
 int state;
-int res_value;
-int is_idm;
+int res_value = 0;
+int is_idm = 0;
 
     infile = fopen(filename, "rb");
     if (infile) {
@@ -159,7 +159,7 @@ int is_idm;
 }
 
 
-void main(int argc, char **argv)
+int main(int argc, char **argv)
 {
 FILE *houtput, *moutput;
 int i;

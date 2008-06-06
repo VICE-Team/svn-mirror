@@ -1,3 +1,10 @@
+2008-06-06  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* raster/raster-sprite-status.c, raster-sprite-status.c,
+	raster-sprite.c, raster-sprite.h, vicii/vicii-sprites.c,
+	vicii-sprites.h, vicii.c: Fixed warnings. Fixed a bug in sprite
+	initialization using different border mode.
+
 2008-06-03  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.17.

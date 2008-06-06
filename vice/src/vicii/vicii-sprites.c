@@ -1170,7 +1170,7 @@ void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
 
     sprite = vicii.raster.sprite_status->sprites + num;
 
-    x_offset = vicii.screen_leftborderwidth - 24;
+    x_offset = vicii_sprite_offset();
 
     /* Handle spritegap in NTSC mode */
     if (vicii.sprite_wrap_x > 0x200 && (unsigned int)new_x > 0x187)
@@ -1211,30 +1211,32 @@ void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
                 sprite->x = vicii.sprite_wrap_x;
             } else {
                 /* display already started on last_pos, change on next fetch */
-                if (raster_x + 8  < new_x && sprite->x > raster_x + 8)
+                if (raster_x + 8  < new_x && sprite->x > raster_x + 8) {
                     /* last line was already drawn */
                     sprite->x = new_x;
-                else
+                } else {
                     raster_changes_sprites_add_int(&vicii.raster,
                         SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num),
                         &sprite->x, new_x);
+                }
             }
         }
     } else {
         /* next_pos >= last_pos */
-        if (change_pos <= last_pos)
-        {
+        if (change_pos <= last_pos) {
             /* display not started yet, use next_pos */
             sprite->x = new_x;
         } else {
-            if (change_pos >= next_pos)
-                if (raster_x + 8  < sprite->x && new_x > raster_x + 8)
+            if (change_pos >= next_pos) {
+                if (raster_x + 8  < sprite->x && new_x > raster_x + 8) {
                     /* last line was already drawn */
                     sprite->x = new_x;
-            else
-                /* display already started on last_pos, change on next fetch */
-                raster_changes_sprites_add_int(&vicii.raster,
-                    SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num), &sprite->x, new_x);
+                } else {
+                    /* display already started on last_pos, change on next fetch */
+                    raster_changes_sprites_add_int(&vicii.raster,
+                        SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num), &sprite->x, new_x);
+                }
+            }
         }
     }
     raster_changes_sprites_add_int(&vicii.raster,
@@ -1271,3 +1273,7 @@ void vicii_sprites_shutdown(void)
     lib_free(sprline);
 }
 
+int vicii_sprite_offset(void)
+{
+    return vicii.screen_leftborderwidth - 24;
+}
