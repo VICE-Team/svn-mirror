@@ -29,6 +29,7 @@
 #include "console.h"
 #include "lib.h"
 #include "monitor.h"
+#include "mon_util.h"
 #include "uimon.h"
 
 #include <stdarg.h>
@@ -75,7 +76,16 @@ int uimon_out(const char *buffer)
 
 char *uimon_get_in( char **ppchCommandLine, const char *prompt )
 {
-    return console_in(console_log, prompt);
+ char *p;
+
+    p = console_in(console_log, prompt);
+    if (!p)
+    {
+        ui_error("BeVICE must be started from a Terminal to use the Monitor.");
+        mon_set_command(console_log, "x", NULL);
+    }
+
+  return p;
 }
 
 void uimon_notify_change( void )
@@ -86,4 +96,3 @@ void uimon_set_interface(monitor_interface_t **monitor_interface_init,
                          int count)
 {
 }
-

@@ -89,6 +89,12 @@ static const cmdline_option_t cmdline_options[] =
       IDCLS_P_0_2000, IDCLS_SET_BRIGHTNESS },
     { "-gamma", SET_RESOURCE, 1, NULL, NULL, "ColorGamma", NULL,
       IDCLS_P_0_2000, IDCLS_SET_GAMMA },
+    { "-tint", SET_RESOURCE, 1, NULL, NULL, "ColorTint", NULL,
+      IDCLS_P_0_2000, IDCLS_SET_TINT },
+    { "-oddlinesphase", SET_RESOURCE, 1, NULL, NULL, "PALOddLinePhase", NULL,
+      IDCLS_P_0_2000, IDCLS_SET_ODDLINES_PHASE },
+    { "-oddlinesoffset", SET_RESOURCE, 1, NULL, NULL, "PALOddLineOffset", NULL,
+      IDCLS_P_0_2000, IDCLS_SET_ODDLINES_OFFSET },
     { NULL }
 };
 #else
@@ -116,6 +122,12 @@ static const cmdline_option_t cmdline_options[] =
       "<0-2000>", N_("Set brightness of internal calculated palette [1100]") },
     { "-gamma", SET_RESOURCE, 1, NULL, NULL, "ColorGamma", NULL,
       "<0-2000>", N_("Set gamma of internal calculated palette [900]") },
+    { "-tint", SET_RESOURCE, 1, NULL, NULL, "ColorTint", NULL,
+      "<0-2000>", "set tint of internal calculated palette [1000]" },
+    { "-oddlinesphase", SET_RESOURCE, 1, NULL, NULL, "PALOddLinePhase", NULL,
+      "<0-2000>", "set phase offset for color carrier in odd lines [1250]" },
+    { "-oddlinesoffset", SET_RESOURCE, 1, NULL, NULL, "PALOddLineOffset", NULL,
+      "<0-2000>", "set phase offset for color carrier in odd lines [750]" },
     { NULL }
 };
 #endif

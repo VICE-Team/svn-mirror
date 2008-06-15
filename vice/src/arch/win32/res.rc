@@ -3184,6 +3184,155 @@ END
 
 // original and default ENGLISH version of dialog
 
+IDD_VIDEO_NEW_PAL_DIALOG DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Tint",IDC_STATIC,12,12,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,12,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_TINT, 105,10,32,12,WS_TABSTOP
+    LTEXT           "Odd lines phase",IDC_STATIC,12,24,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,24,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_PHASE, 105,22,32,12,WS_TABSTOP
+    LTEXT           "Odd lines offset",IDC_STATIC,12,36,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,36,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_OFFSET, 105,34,32,12,WS_TABSTOP
+END
+
+
+// GERMAN version of dialog
+
+IDD_VIDEO_NEW_PAL_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Tint",IDC_STATIC,12,12,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,12,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_TINT, 105,10,32,12,WS_TABSTOP
+    LTEXT           "Odd lines phase",IDC_STATIC,12,24,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,24,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_PHASE, 105,22,32,12,WS_TABSTOP
+    LTEXT           "Odd lines offset",IDC_STATIC,12,36,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,36,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_OFFSET, 105,34,32,12,WS_TABSTOP
+END
+
+
+// FRENCH version of dialog
+
+IDD_VIDEO_NEW_PAL_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Tint",IDC_STATIC,12,12,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,12,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_TINT, 105,10,32,12,WS_TABSTOP
+    LTEXT           "Odd lines phase",IDC_STATIC,12,24,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,24,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_PHASE, 105,22,32,12,WS_TABSTOP
+    LTEXT           "Odd lines offset",IDC_STATIC,12,36,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,36,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_OFFSET, 105,34,32,12,WS_TABSTOP
+END
+
+
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_VIDEO_NEW_PAL_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Tint",IDC_STATIC,12,12,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,12,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_TINT, 105,10,32,12,WS_TABSTOP
+    LTEXT           "Odd lines phase",IDC_STATIC,12,24,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,24,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_PHASE, 105,22,32,12,WS_TABSTOP
+    LTEXT           "Odd lines offset",IDC_STATIC,12,36,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,36,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_OFFSET, 105,34,32,12,WS_TABSTOP
+END
+#pragma code_page(28591)
+
+
+// ITALIAN version of dialog
+
+IDD_VIDEO_NEW_PAL_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Tint",IDC_STATIC,12,12,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,12,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_TINT, 105,10,32,12,WS_TABSTOP
+    LTEXT           "Odd lines phase",IDC_STATIC,12,24,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,24,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_PHASE, 105,22,32,12,WS_TABSTOP
+    LTEXT           "Odd lines offset",IDC_STATIC,12,36,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,36,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_OFFSET, 105,34,32,12,WS_TABSTOP
+END
+
+
+// DUTCH version of dialog
+
+IDD_VIDEO_NEW_PAL_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Tint",IDC_STATIC,12,12,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,12,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_TINT, 105,10,32,12,WS_TABSTOP
+    LTEXT           "Odd lines phase",IDC_STATIC,12,24,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,24,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_PHASE, 105,22,32,12,WS_TABSTOP
+    LTEXT           "Odd lines offset",IDC_STATIC,12,36,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,36,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_OFFSET, 105,34,32,12,WS_TABSTOP
+END
+
+
+// POLISH version of dialog
+
+#pragma code_page(28592)
+IDD_VIDEO_NEW_PAL_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Tint",IDC_STATIC,12,12,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,12,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_TINT, 105,10,32,12,WS_TABSTOP
+    LTEXT           "Odd lines phase",IDC_STATIC,12,24,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,24,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_PHASE, 105,22,32,12,WS_TABSTOP
+    LTEXT           "Odd lines offset",IDC_STATIC,12,36,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,36,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_OFFSET, 105,34,32,12,WS_TABSTOP
+END
+#pragma code_page(28591)
+
+
+// SWEDISH version of dialog
+
+IDD_VIDEO_NEW_PAL_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Tint",IDC_STATIC,12,12,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,12,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_TINT, 105,10,32,12,WS_TABSTOP
+    LTEXT           "Odd lines phase",IDC_STATIC,12,24,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,24,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_PHASE, 105,22,32,12,WS_TABSTOP
+    LTEXT           "Odd lines offset",IDC_STATIC,12,36,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,36,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_OFFSET, 105,34,32,12,WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
+
 IDD_VIDEO_ADVANCED_DIALOG DIALOG DISCARDABLE  0, 0, 180, 87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -5334,6 +5483,7 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE      "Load VICE palette file"
   IDS_FULLSCREEN                  "Fullscreen"
   IDS_COLORS                      "Colors"
+  IDS_NEW_PAL                     "New PAL emulation"
   IDS_VIDEO_SETTINGS              "Video settings"
   IDS_FILE_SYSTEM                 "File system"
 #ifdef HAVE_OPENCBM
@@ -5345,6 +5495,8 @@ BEGIN
   IDS_ATTACH_RAW_16KB_CART_IMG    "Attach raw 16KB cartridge image"
   IDS_ATTACH_AR_CART_IMAGE        "Attach Action Replay cartridge image"
   IDS_ATTACH_AR3_CART_IMAGE       "Attach Action Replay III cartridge image"
+  IDS_ATTACH_AR4_CART_IMAGE       "Attach Action Replay 4 cartridge image"
+  IDS_ATTACH_STARDOS_CART_IMAGE   "Attach StarDOS cartridge image"
   IDS_ATTACH_ATOMIC_P_CART_IMG    "Attach Atomic Power cartridge image"
   IDS_ATTACH_EPYX_FL_CART_IMG     "Attach Epyx fastload cartridge image"
   IDS_ATTACH_IEEE488_CART_IMG     "Attach IEEE interface cartridge image"
@@ -5534,6 +5686,7 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE_DE      "VICE Paletten Datei laden"
   IDS_FULLSCREEN_DE                  "Vollbild"
   IDS_COLORS_DE                      "Farben"
+  IDS_NEW_PAL_DE                     "New PAL emulation"
   IDS_VIDEO_SETTINGS_DE              "Video Einstellungen"
   IDS_FILE_SYSTEM_DE                 "Dateisystem"
 #ifdef HAVE_OPENCBM
@@ -5545,6 +5698,8 @@ BEGIN
   IDS_ATTACH_RAW_16KB_CART_IMG_DE    "16KB Erweiterungsmodul (raw) Image einlegen"
   IDS_ATTACH_AR_CART_IMAGE_DE        "Action Replay Erweiterungsmodul Image einlegen"
   IDS_ATTACH_AR3_CART_IMAGE_DE       "Action Replay III Erweiterungsmodul Image einlegen"
+  IDS_ATTACH_AR4_CART_IMAGE_DE       "Action Replay 4 Erweiterungsmodul Image einlegen"
+  IDS_ATTACH_STARDOS_CART_IMAGE_DE   "StarDOS Erweiterungsmodul Image einlegen"
   IDS_ATTACH_ATOMIC_P_CART_IMG_DE    "Atomic Power Erweiterungsmodul Image einlegen"
   IDS_ATTACH_EPYX_FL_CART_IMG_DE     "Epyx Fastload Erweiterungsmodul Image einlegen"
   IDS_ATTACH_IEEE488_CART_IMG_DE     "IEEE Schnittstellen Erweiterungsmodul Image einlegen"
@@ -5734,6 +5889,7 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE_FR      "Charger un fichier de palette VICE"
   IDS_FULLSCREEN_FR                  "Plein écran"
   IDS_COLORS_FR                      "Couleurs"
+  IDS_NEW_PAL_FR                     "New PAL emulation"
   IDS_VIDEO_SETTINGS_FR              "Paramètres vidéo"
   IDS_FILE_SYSTEM_FR                 "Système de fichiers"
 #ifdef HAVE_OPENCBM
@@ -5745,6 +5901,8 @@ BEGIN
   IDS_ATTACH_RAW_16KB_CART_IMG_FR    "Insérer une cartouche 16KO"
   IDS_ATTACH_AR_CART_IMAGE_FR        "Insérer une cartouche Action Replay"
   IDS_ATTACH_AR3_CART_IMAGE_FR       "Insérer une cartouche Action Replay III"
+  IDS_ATTACH_AR4_CART_IMAGE_FR       "Insrer une cartouche Action Replay 4"
+  IDS_ATTACH_STARDOS_CART_IMAGE_FR   "Insrer une cartouche StarDOS"
   IDS_ATTACH_ATOMIC_P_CART_IMG_FR    "Insérer une cartouche Atomic Power"
   IDS_ATTACH_EPYX_FL_CART_IMG_FR     "Insérer une cartouche Epyx FastLoad"
   IDS_ATTACH_IEEE488_CART_IMG_FR     "Insérer une cartouche interface IEEE"
@@ -5935,6 +6093,7 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE_HU      "VICE paletta fájl betöltése"
   IDS_FULLSCREEN_HU                  "Teljes képernyõ"
   IDS_COLORS_HU                      "Színek"
+  IDS_NEW_PAL_HU                     "New PAL emulation"
   IDS_VIDEO_SETTINGS_HU              "Videó beállításai"
   IDS_FILE_SYSTEM_HU                 "Fájlrendszer"
 #ifdef HAVE_OPENCBM
@@ -5946,6 +6105,8 @@ BEGIN
   IDS_ATTACH_RAW_16KB_CART_IMG_HU    "Nyers 16KB-os cartridge képmás csatolása"
   IDS_ATTACH_AR_CART_IMAGE_HU        "Action Replay cartridge képmás csatolása"
   IDS_ATTACH_AR3_CART_IMAGE_HU       "Action Replay III cartridge képmás csatolása"
+  IDS_ATTACH_AR4_CART_IMAGE_HU       "Action Replay 4 cartridge kpms csatolsa"
+  IDS_ATTACH_STARDOS_CART_IMAGE_HU   "StarDOS cartridge kpms csatolsa"
   IDS_ATTACH_ATOMIC_P_CART_IMG_HU    "Atomic Power cartridge képmás csatolása"
   IDS_ATTACH_EPYX_FL_CART_IMG_HU     "Epyx gyorstöltõ cartridge képmás csatolása"
   IDS_ATTACH_IEEE488_CART_IMG_HU     "IEEE interfész cartridge képmás csatolása"
@@ -6136,6 +6297,7 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE_IT      "Carica il file di palette di VICE"
   IDS_FULLSCREEN_IT                  "Schermo intero"
   IDS_COLORS_IT                      "Colori"
+  IDS_NEW_PAL_IT                     "New PAL emulation"
   IDS_VIDEO_SETTINGS_IT              "Impostazioni video"
   IDS_FILE_SYSTEM_IT                 "File system"
 #ifdef HAVE_OPENCBM
@@ -6147,6 +6309,8 @@ BEGIN
   IDS_ATTACH_RAW_16KB_CART_IMG_IT    "Seleziona l'immagine di una cartuccia di 16KB"
   IDS_ATTACH_AR_CART_IMAGE_IT        "Seleziona l'immagine di una cartuccia Action Replay"
   IDS_ATTACH_AR3_CART_IMAGE_IT       "Seleziona l'immagine di una cartuccia Action Replay III"
+  IDS_ATTACH_AR4_CART_IMAGE_IT       "Seleziona l'immagine di una cartuccia Action Replay 4"
+  IDS_ATTACH_STARDOS_CART_IMAGE_IT   "Seleziona l'immagine di una cartuccia StarDOS"
   IDS_ATTACH_ATOMIC_P_CART_IMG_IT    "Seleziona l'immagine di una cartuccia Atomic Power"
   IDS_ATTACH_EPYX_FL_CART_IMG_IT     "Seleziona l'immagine di una cartuccia Epyx fastload"
   IDS_ATTACH_IEEE488_CART_IMG_IT     "Seleziona l'immagine di una cartuccia di interfaccia IEEE"
@@ -6264,7 +6428,7 @@ BEGIN
   IDS_CANNOT_LOAD_SETTINGS_NL        "Kan de instellingen niet laden."
   IDS_DEFAULT_SETTINGS_RESTORED_NL   "Standaardinstellingen hersteld."
   IDS_CANNOT_ATTACH_FILE_NL          "Kan het opgegeven bestand niet koppelen"
-  IDS_START_MONITOR_NL               "%s\012\012Monitor starten?"
+  IDS_START_MONITOR_NL               "%s\012\012Monitor starten? (Nee = reset, Annuleren = doorgaan"
   IDS_VICE_CPU_JAM_NL                "VICE CPU HANGT"
   IDS_EXTEND_TO_40_TRACKS_NL         "Bestand uitbreiden naar 40-sporen formaat?"
   IDS_DETACHED_DEVICE_S_NL           "Apparaat %s ontkoppelt"
@@ -6336,6 +6500,7 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE_NL      "Laad VICE paletbestand"
   IDS_FULLSCREEN_NL                  "Volscherm"
   IDS_COLORS_NL                      "Kleuren"
+  IDS_NEW_PAL_NL                     "New PAL emulation"
   IDS_VIDEO_SETTINGS_NL              "Videoinstellingen"
   IDS_FILE_SYSTEM_NL                 "Bestandssysteem"
 #ifdef HAVE_OPENCBM
@@ -6347,6 +6512,8 @@ BEGIN
   IDS_ATTACH_RAW_16KB_CART_IMG_NL    "Koppel binair 16KB cartridgebestand"
   IDS_ATTACH_AR_CART_IMAGE_NL        "Koppel Action Replay cartridgebestand"
   IDS_ATTACH_AR3_CART_IMAGE_NL       "Koppel Action Replay III cartridgebestand"
+  IDS_ATTACH_AR4_CART_IMAGE_NL       "Koppel Action Replay 4 cartridgebestand"
+  IDS_ATTACH_STARDOS_CART_IMAGE_NL   "Koppel StarDOS cartridgebestand"
   IDS_ATTACH_ATOMIC_P_CART_IMG_NL    "Koppel Atomic Power cartridgebestand"
   IDS_ATTACH_EPYX_FL_CART_IMG_NL     "Koppel Epyx snellaad cartridgebestand"
   IDS_ATTACH_IEEE488_CART_IMG_NL     "Koppel IEEE interface cartridgebestand"
@@ -6538,6 +6705,7 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE_PL      "Load VICE palette file"
   IDS_FULLSCREEN_PL                  "Fullscreen"
   IDS_COLORS_PL                      "Colors"
+  IDS_NEW_PAL_PL                     "New PAL emulation"
   IDS_VIDEO_SETTINGS_PL              "Video settings"
   IDS_FILE_SYSTEM_PL                 "File system"
 #ifdef HAVE_OPENCBM
@@ -6549,6 +6717,8 @@ BEGIN
   IDS_ATTACH_RAW_16KB_CART_IMG_PL    "Attach raw 16KB cartridge image"
   IDS_ATTACH_AR_CART_IMAGE_PL        "Attach Action Replay cartridge image"
   IDS_ATTACH_AR3_CART_IMAGE_PL       "Attach Action Replay III cartridge image"
+  IDS_ATTACH_AR4_CART_IMAGE_PL       "Attach Action Replay 4 cartridge image"
+  IDS_ATTACH_STARDOS_CART_IMAGE_PL   "Attach StarDOS cartridge image"
   IDS_ATTACH_ATOMIC_P_CART_IMG_PL    "Attach Atomic Power cartridge image"
   IDS_ATTACH_EPYX_FL_CART_IMG_PL     "Attach Epyx fastload cartridge image"
   IDS_ATTACH_IEEE488_CART_IMG_PL     "Attach IEEE interface cartridge image"
@@ -6741,6 +6911,7 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE_SV      "Läs in VICE-palettfil"
   IDS_FULLSCREEN_SV                  "Fullskärm"
   IDS_COLORS_SV                      "Färger"
+  IDS_NEW_PAL_SV                     "New PAL emulation"
   IDS_VIDEO_SETTINGS_SV              "Grafikinställningar"
   IDS_FILE_SYSTEM_SV                 "Filsystem"
 #ifdef HAVE_OPENCBM
@@ -6752,6 +6923,8 @@ BEGIN
   IDS_ATTACH_RAW_16KB_CART_IMG_SV    "Anslut rå 16KB-insticksmodulavbilding"
   IDS_ATTACH_AR_CART_IMAGE_SV        "Anslut Action Replay-avbildningsfil"
   IDS_ATTACH_AR3_CART_IMAGE_SV       "Anslut Action Replay III-avbildningsfil"
+  IDS_ATTACH_AR4_CART_IMAGE_SV       "Anslut Action Replay 4-avbildningsfil"
+  IDS_ATTACH_STARDOS_CART_IMAGE_SV   "Anslut StarDOS-avbildningsfil"
   IDS_ATTACH_ATOMIC_P_CART_IMG_SV    "Anslut Atomic Power-avbildningsfil"
   IDS_ATTACH_EPYX_FL_CART_IMG_SV     "Anslut Epyx fastload-avbildningsfil"
   IDS_ATTACH_IEEE488_CART_IMG_SV     "Anslut IEE-gränssnittsavbildningsfil"

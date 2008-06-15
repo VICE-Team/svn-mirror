@@ -81,6 +81,12 @@ static MRESULT EXPENTRY pm_color(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             SetSliderPos(hwnd, ID_SCANLINE, val/5);
             resources_get_int("PALBlur", &val);
             SetSliderPos(hwnd, ID_BLUR, val/5);
+            resources_get_int("ColorTint", &val);
+            SetSliderPos(hwnd, ID_TINT, val/10);
+            resources_get_int("PALOddLinePhase", &val);
+            SetSliderPos(hwnd, ID_ODDLINE_PHASE, val/10);
+            resources_get_int("PALOddLineOffset", &val);
+            SetSliderPos(hwnd, ID_ODDLINE_OFFSET, val/10);
         }
         break;
 
@@ -88,19 +94,25 @@ static MRESULT EXPENTRY pm_color(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         if (LONGFROMMP(mp1) != ID_DEFAULT)
             break;
 
-        canvas_set_value("ColorSaturation", 1000);
-        canvas_set_value("ColorContrast",   1000);
-        canvas_set_value("ColorBrightness", 1000);
-        canvas_set_value("ColorGamma",       880);
-        canvas_set_value("PALScanLineShade", 667);
-        canvas_set_value("PALBlur",          500);
+        canvas_set_value("ColorSaturation",  1000);
+        canvas_set_value("ColorContrast",    1000);
+        canvas_set_value("ColorBrightness",  1000);
+        canvas_set_value("ColorGamma",        880);
+        canvas_set_value("PALScanLineShade",  667);
+        canvas_set_value("PALBlur",           500);
+        canvas_set_value("ColorTint",        1000);
+        canvas_set_value("PALOddLinePhase",  1250);
+        canvas_set_value("PALOddLineOffset",  750);
 
-        SetSliderPos(hwnd, ID_SATURATION, 100);
-        SetSliderPos(hwnd, ID_CONTRAST,   100);
-        SetSliderPos(hwnd, ID_BRIGHTNESS, 100);
-        SetSliderPos(hwnd, ID_GAMMA,       88);
-        SetSliderPos(hwnd, ID_SCANLINE,   133);
-        SetSliderPos(hwnd, ID_BLUR,       100);
+        SetSliderPos(hwnd, ID_SATURATION,     100);
+        SetSliderPos(hwnd, ID_CONTRAST,       100);
+        SetSliderPos(hwnd, ID_BRIGHTNESS,     100);
+        SetSliderPos(hwnd, ID_GAMMA,           88);
+        SetSliderPos(hwnd, ID_SCANLINE,       133);
+        SetSliderPos(hwnd, ID_BLUR,           100);
+        SetSliderPos(hwnd, ID_TINT,           100);
+        SetSliderPos(hwnd, ID_ODDLINE_PHASE,  125);
+        SetSliderPos(hwnd, ID_ODDLINE_OFFSET,  75);
 
         return FALSE;
 
@@ -128,6 +140,15 @@ static MRESULT EXPENTRY pm_color(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             break;
         case ID_BLUR:
             canvas_set_value("PALBlur",          (int)mp2* 5);
+            break;
+        case ID_TINT:
+            canvas_set_value("ColorTint",        (int)mp2*10);
+            break;
+        case ID_ODDLINE_PHASE:
+            canvas_set_value("PALOddLinePhase",  (int)mp2*10);
+            break;
+        case ID_ODDLINE_OFFSET:
+            canvas_set_value("PALOddLineOffset", (int)mp2*10);
             break;
         }
         break;

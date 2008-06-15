@@ -87,6 +87,7 @@ static void video_render_pal_main(video_render_config_t *config,
                                      xs, ys, xt, yt, pitchs, pitcht);
                     return;
                   case VIDEO_RESOURCE_PAL_MODE_TRUE:
+                  case VIDEO_RESOURCE_PAL_MODE_NEW:
                     render_16_1x1_pal(colortab, src, trg, width, height,
                                         xs, ys, xt, yt, pitchs, pitcht);
                     return;
@@ -104,6 +105,7 @@ static void video_render_pal_main(video_render_config_t *config,
                                      xs, ys, xt, yt, pitchs, pitcht);
                     return;
                   case VIDEO_RESOURCE_PAL_MODE_TRUE:
+                  case VIDEO_RESOURCE_PAL_MODE_NEW:
                     render_32_1x1_pal(colortab, src, trg, width, height,
                                       xs, ys, xt, yt, pitchs, pitcht);
 					return;
@@ -147,6 +149,7 @@ static void video_render_pal_main(video_render_config_t *config,
                                      doublescan);
                     return;
                   case VIDEO_RESOURCE_PAL_MODE_TRUE:
+                  case VIDEO_RESOURCE_PAL_MODE_NEW:
                     render_16_2x2_pal(colortab, src, trg, width, height,
                                       xs, ys, xt, yt, pitchs, pitcht,
                                       doublescan);
@@ -154,8 +157,22 @@ static void video_render_pal_main(video_render_config_t *config,
                 }
                 return;
               case 24:
-                render_24_2x2_08(colortab, src, trg, width, height,
-                                 xs, ys, xt, yt, pitchs, pitcht, doublescan);
+                switch (palmode) {
+                  default:
+                  case VIDEO_RESOURCE_PAL_MODE_FAST:
+                  case VIDEO_RESOURCE_PAL_MODE_TRUE:
+			render_24_2x2_08(colortab, src, trg, width, height,
+					 xs, ys, xt, yt, pitchs, pitcht, doublescan);
+                    return;
+                  case VIDEO_RESOURCE_PAL_MODE_NEW:
+                    render_24_2x2_pal_new(colortab, src, trg, width, height,
+                                      xs, ys, xt, yt, pitchs, pitcht,
+                                      doublescan);
+                    render_24_2x2_pal_scanlines(colortab, src, trg, width, height,
+                                      xs, ys, xt, yt, pitchs, pitcht,
+                                      doublescan); 
+                    return;
+                }
                 return;
               case 32:
                 switch (palmode) {
@@ -169,6 +186,14 @@ static void video_render_pal_main(video_render_config_t *config,
                     render_32_2x2_pal(colortab, src, trg, width, height,
                                       xs, ys, xt, yt, pitchs, pitcht,
                                       doublescan);
+                    return;
+                  case VIDEO_RESOURCE_PAL_MODE_NEW:
+                    render_32_2x2_pal_new(colortab, src, trg, width, height,
+                                      xs, ys, xt, yt, pitchs, pitcht,
+                                      doublescan);
+                    render_32_2x2_pal_scanlines(colortab, src, trg, width, height,
+                                      xs, ys, xt, yt, pitchs, pitcht,
+                                      doublescan); 
                     return;
                 }
                 return;

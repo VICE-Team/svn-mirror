@@ -676,6 +676,16 @@ static int intl_table[][countof(language_table)] = {
 /* sv */  IDD_VIDEO_COLORS_DIALOG_SV},   /* size */
 
 /* res.rc */
+/* en */ {IDD_VIDEO_NEW_PAL_DIALOG,
+/* de */  IDD_VIDEO_NEW_PAL_DIALOG_DE,    /* fuzzy, size */
+/* fr */  IDD_VIDEO_NEW_PAL_DIALOG_FR,    /* fuzzy, size */
+/* hu */  IDD_VIDEO_NEW_PAL_DIALOG_HU,    /* fuzzy, size */
+/* it */  IDD_VIDEO_NEW_PAL_DIALOG_IT,    /* fuzzy, size */
+/* nl */  IDD_VIDEO_NEW_PAL_DIALOG_NL,    /* fuzzy, size */
+/* pl */  IDD_VIDEO_NEW_PAL_DIALOG_PL,    /* fuzzy, size */
+/* sv */  IDD_VIDEO_NEW_PAL_DIALOG_SV},   /* fuzzy, size */
+
+/* res.rc */
 /* en */ {IDD_VIDEO_ADVANCED_DIALOG,
 /* de */  IDD_VIDEO_ADVANCED_DIALOG_DE,    /* size */
 /* fr */  IDD_VIDEO_ADVANCED_DIALOG_FR,    /* size */
@@ -1692,6 +1702,16 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* nl */  IDS_COLORS_NL,
 /* pl */  IDS_COLORS_PL,    /* fuzzy */
 /* sv */  IDS_COLORS_SV},
+
+/* res.rc */
+/* en */ {IDS_NEW_PAL,
+/* de */  IDS_NEW_PAL_DE,    /* fuzzy */
+/* fr */  IDS_NEW_PAL_FR,    /* fuzzy */
+/* hu */  IDS_NEW_PAL_HU,    /* fuzzy */
+/* it */  IDS_NEW_PAL_IT,    /* fuzzy */
+/* nl */  IDS_NEW_PAL_NL,    /* fuzzy */
+/* pl */  IDS_NEW_PAL_PL,    /* fuzzy */
+/* sv */  IDS_NEW_PAL_SV},   /* fuzzy */
 
 /* res.rc */
 /* en */ {IDS_VIDEO_SETTINGS,

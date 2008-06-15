@@ -121,7 +121,8 @@ static Chip_Parameters chip_param_table[] =
 static char *modes[5]=
 {
     "Fast PAL",
-    "PAL Emulation",
+    "Old PAL Emulation",
+    "New PAL Emulation",
     NULL
 };
 
@@ -155,6 +156,29 @@ static void init_color_dialog(HWND hwnd)
                       fval = ((double)val) / 1000.0;
                       _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_BRI, newval);
+
+}
+
+static void init_new_pal_dialog(HWND hwnd)
+{
+    int val;
+    double fval;
+    TCHAR newval[64];
+
+    resources_get_int("ColorTint", &val);
+                      fval = ((double)val) / 1000.0;
+                      _stprintf(newval, TEXT("%.3f"), (float)fval);
+    SetDlgItemText(hwnd, IDC_VIDEO_NEW_PAL_TINT, newval);
+
+    resources_get_int("PALOddLinePhase", &val);
+                      fval = ((double)val) / 1000.0;
+                      _stprintf(newval, TEXT("%.3f"), (float)fval);
+    SetDlgItemText(hwnd, IDC_VIDEO_NEW_PAL_PHASE, newval);
+
+    resources_get_int("PALOddLineOffset", &val);
+                      fval = ((double)val) / 1000.0;
+                      _stprintf(newval, TEXT("%.3f"), (float)fval);
+    SetDlgItemText(hwnd, IDC_VIDEO_NEW_PAL_OFFSET, newval);
 
 }
 
@@ -301,6 +325,50 @@ static BOOL CALLBACK dialog_color_proc(HWND hwnd, UINT msg,
           case IDC_VIDEO_COLORS_SAT:
           case IDC_VIDEO_COLORS_CON:
           case IDC_VIDEO_COLORS_BRI:
+            break;
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
+
+static BOOL CALLBACK dialog_new_pal_proc(HWND hwnd, UINT msg,
+                                       WPARAM wparam, LPARAM lparam)
+{
+    int type, ival;
+    float tf;
+    TCHAR s[100];
+    extern int querynewpalette;
+
+    switch (msg) {
+      case WM_NOTIFY:
+        if (((NMHDR FAR *)lparam)->code == PSN_APPLY) {
+            GetDlgItemText(hwnd, IDC_VIDEO_NEW_PAL_TINT, s, 100);
+            _stscanf(s, TEXT("%f"), &tf);
+            ival = (int)(tf * 1000.0 + 0.5);
+            resources_set_int("ColorTint", ival);
+            GetDlgItemText(hwnd, IDC_VIDEO_NEW_PAL_PHASE, s, 100);
+            _stscanf(s, TEXT("%f"), &tf);
+            ival = (int)(tf * 1000.0 + 0.5);
+            resources_set_int("PALOddLinePhase", ival);
+            GetDlgItemText(hwnd, IDC_VIDEO_NEW_PAL_OFFSET, s, 100);
+            _stscanf(s, TEXT("%f"), &tf);
+            ival = (int)(tf * 1000.0 + 0.5);
+            resources_set_int("PALOddLineOffset", ival);
+            querynewpalette = 1;
+            SetWindowLong(hwnd, DWL_MSGRESULT, FALSE);
+            return TRUE;
+        }
+        return FALSE;
+      case WM_INITDIALOG:
+        init_new_pal_dialog(hwnd);
+        return TRUE;
+      case WM_COMMAND:
+        type = LOWORD(wparam);
+        switch (type) {
+          case IDC_VIDEO_NEW_PAL_TINT:
+          case IDC_VIDEO_NEW_PAL_PHASE:
+          case IDC_VIDEO_NEW_PAL_OFFSET:
             break;
         }
         return TRUE;
@@ -482,12 +550,12 @@ static BOOL CALLBACK dialog_palette_proc(HWND hwnd, UINT msg,
 
 void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
 {
-    PROPSHEETPAGE psp[4];
+    PROPSHEETPAGE psp[5];
     PROPSHEETHEADER psh;
     int i;
     Chip_Parameters *chip_param;
 
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < 5; i++) {
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
@@ -508,23 +576,28 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
         psp[1].pfnDlgProc = dialog_advanced_proc;
         psp[1].pszTitle = system_mbstowcs_alloc(chip_param->page_title);
         psp[1].lParam = (LPARAM)chip_param;
-        psp[2].pfnDlgProc = dialog_color_proc;
-        psp[2].pszTitle = translate_text(IDS_COLORS);
+        psp[2].pfnDlgProc = dialog_new_pal_proc;
+        psp[2].pszTitle = translate_text(IDS_NEW_PAL);
+        psp[3].pfnDlgProc = dialog_color_proc;
+        psp[3].pszTitle = translate_text(IDS_COLORS);
 
 #ifdef _ANONYMOUS_UNION
         psp[0].pszTemplate
             = MAKEINTRESOURCE(translate_res(IDD_FULLSCREEN_SETTINGS_DIALOG));
         psp[1].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_VIDEO_ADVANCED_DIALOG));
-        psp[2].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_VIDEO_COLORS_DIALOG));
+        psp[2].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_VIDEO_NEW_PAL_DIALOG));
+        psp[3].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_VIDEO_COLORS_DIALOG));
 #else
         psp[0].DUMMYUNIONNAME.pszTemplate
             = MAKEINTRESOURCE(translate_res(IDD_FULLSCREEN_SETTINGS_DIALOG));
         psp[1].DUMMYUNIONNAME.pszTemplate
             = MAKEINTRESOURCE(translate_res(IDD_VIDEO_ADVANCED_DIALOG));
         psp[2].DUMMYUNIONNAME.pszTemplate
+            = MAKEINTRESOURCE(translate_res(IDD_VIDEO_NEW_PAL_DIALOG));
+        psp[3].DUMMYUNIONNAME.pszTemplate
             = MAKEINTRESOURCE(translate_res(IDD_VIDEO_COLORS_DIALOG));
 #endif
-        psh.nPages = 3;
+        psh.nPages = 4;
     } else {
         psp[0].pfnDlgProc = dialog_fullscreen_proc;
         psp[0].pszTitle = translate_text(IDS_FULLSCREEN);

@@ -41,8 +41,17 @@
 
 video_resources_t video_resources =
 {
-    1000, 1100, 1100, 880, 0,
-    0, 0, 0
+    1000, /* color_saturation */
+    1100, /* color_contrast */
+    1100, /* color_brightness */ 
+    880,  /* color_gamma */
+    1000, /* color_tint */
+    0,    /* delayloop_emulation */
+    667,  /* pal_scanlineshade */
+    500,  /* pal_blur */
+    1,    /* pal_mode */
+    1250, /* pal_oddlines_phase */
+    750   /* pal_oddlines_offset */
 };
 
 int video_resources_init(void)

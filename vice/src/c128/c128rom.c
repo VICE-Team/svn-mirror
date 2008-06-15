@@ -34,6 +34,7 @@
 #include "c128memrom.h"
 #include "c128rom.h"
 #include "c64memrom.h"
+#include "c64rom.h"
 #include "mem.h"
 #include "log.h"
 #include "resources.h"
@@ -434,20 +435,33 @@ int c128rom_load_chargen_se(const char *rom_name)
     return 0;
 }
 
-int c128rom_load_kernal64(const char *rom_name)
+int c64rom_cartkernal_active=0;
+
+int c128rom_load_kernal64(const char *rom_name, BYTE *cartkernal)
 {
     if (!rom_loaded)
         return 0;
 
-    if (!util_check_null_string(rom_name)) {
-        /* Load C64 kernal ROM.  */
-        if (sysfile_load(rom_name,
-            c64memrom_kernal64_rom, C128_KERNAL64_ROM_SIZE,
-            C128_KERNAL64_ROM_SIZE) < 0) {
-            log_error(c128rom_log, "Couldn't load C64 kernal ROM `%s'.",
-                      rom_name);
+    if (cartkernal==NULL)
+    {
+        if (c64rom_cartkernal_active==1)
             return -1;
+
+        if (!util_check_null_string(rom_name)) {
+            /* Load C64 kernal ROM.  */
+            if (sysfile_load(rom_name,
+                c64memrom_kernal64_rom, C128_KERNAL64_ROM_SIZE,
+                C128_KERNAL64_ROM_SIZE) < 0) {
+                log_error(c128rom_log, "Couldn't load C64 kernal ROM `%s'.",
+                          rom_name);
+                return -1;
+            }
         }
+    }
+    else
+    {
+        memcpy(c64memrom_kernal64_rom, cartkernal, 0x2000);
+        c64rom_cartkernal_active=1;
     }
     memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom,
            C128_KERNAL64_ROM_SIZE);
@@ -556,7 +570,7 @@ int mem_load(void)
 
     if (resources_get_string("Kernal64Name", &rom_name) < 0)
         return -1;
-    if (c128rom_load_kernal64(rom_name) < 0)
+    if (c128rom_load_kernal64(rom_name, NULL) < 0)
         return -1;
 
     if (resources_get_string("Basic64Name", &rom_name) < 0)
@@ -567,3 +581,7 @@ int mem_load(void)
     return 0;
 }
 
+int c64rom_load_kernal(const char *rom_name, BYTE *cartkernal)
+{
+    return c128rom_load_kernal64(rom_name, cartkernal);
+}

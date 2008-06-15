@@ -37,9 +37,6 @@
 
 /*static log_t blockdev_log = LOG_DEFAULT;*/
 
-static int device;
-
-
 int blockdev_open(const char *name, unsigned int *read_only)
 {
     return -1;
@@ -77,4 +74,3 @@ int blockdev_cmdline_options_init()
 {
     return 0;
 }
-

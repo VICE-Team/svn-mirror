@@ -118,54 +118,9 @@ static void ui_display_drive_current_image2(void);
 
 /* ------------------------------------------------------------------------- */
 
-void ui_check_mouse_cursor()
-{
-#ifdef HAVE_FULLSCREEN
-    int window_doublesize;
-    if (fullscreen_is_enabled)
-        return;
-#endif
-    if (_mouse_enabled) {
-#ifdef HAVE_FULLSCREEN
-        if (fullscreen_is_enabled) {
-            if (resources_get_int("FullscreenDoubleSize",
-                &window_doublesize) < 0)
-                return;
-        } else
-#endif
-
-	if (ui_cached_video_canvas->videoconfig->doublesizex)
-	    mouse_accelx = 2;   
-	else
-	    mouse_accelx = 4;
-	
-	if (ui_cached_video_canvas->videoconfig->doublesizey)
-	    mouse_accely = 2;   
-	else
-	    mouse_accely = 4;
-
-        XDefineCursor(display,XtWindow(canvas), blankCursor);
-        cursor_is_blank = 1;
-
-        XGrabKeyboard(display, XtWindow(canvas),
-                      1, GrabModeAsync,
-                      GrabModeAsync,  CurrentTime);
-        XGrabPointer(display, XtWindow(canvas), 1,
-                     PointerMotionMask | ButtonPressMask |
-                     ButtonReleaseMask,
-                     GrabModeAsync, GrabModeAsync,
-                     XtWindow(canvas),
-                     None, CurrentTime);
-    } else if (cursor_is_blank) {
-        XUndefineCursor(display,XtWindow(canvas));
-        XUngrabPointer(display, CurrentTime);
-        XUngrabKeyboard(display, CurrentTime);
-    }
-}
-
 void ui_restore_mouse(void)
 {
-#ifdef HAVE_FULLSCREEN
+#if 0
     if (fullscreen_is_enabled)
         return;
 #endif
@@ -199,6 +154,8 @@ static void initBlankCursor(void)
 static void mouse_handler1351(Widget w, XtPointer client_data, XEvent *report,
                               Boolean *ctd)
 {
+    if (!_mouse_enabled) return;
+
     switch(report->type) {
       case MotionNotify:
         mouse_move(report->xmotion.x,report->xmotion.y);
@@ -219,6 +176,7 @@ static Widget left_menu, right_menu, drive8_menu, drive9_menu;
 
 /* Translations for the left and right menus.  */
 static XtTranslations left_menu_translations, right_menu_translations;
+static XtTranslations left_menu_disabled_translations, right_menu_disabled_translations;
 static XtTranslations drive8_menu_translations = NULL, drive9_menu_translations = NULL;
 
 /* Application context. */
@@ -279,6 +237,62 @@ Pixel drive_led_on_red_pixel, drive_led_on_green_pixel, drive_led_off_pixel;
 /* static int resources_have_changed = 0; */
 
 static char *filesel_dir = NULL;
+
+/* ------------------------------------------------------------------------- */
+
+void ui_check_mouse_cursor()
+{
+    int i;
+#if 0
+    int window_doublesize;
+    if (fullscreen_is_enabled)
+        return;
+#endif
+    if (_mouse_enabled) {
+        for (i = 0; i < num_app_shells; i++) {
+            XtOverrideTranslations(app_shells[i].canvas, left_menu_disabled_translations);
+            XtOverrideTranslations(app_shells[i].canvas, right_menu_disabled_translations);
+        }
+#if 0
+        if (fullscreen_is_enabled) {
+            if (resources_get_int("FullscreenDoubleSize",
+                &window_doublesize) < 0)
+                return;
+        } else
+#endif
+
+	if (ui_cached_video_canvas->videoconfig->doublesizex)
+	    mouse_accelx = 2;   
+	else
+	    mouse_accelx = 4;
+	
+	if (ui_cached_video_canvas->videoconfig->doublesizey)
+	    mouse_accely = 2;   
+	else
+	    mouse_accely = 4;
+
+        XDefineCursor(display,XtWindow(canvas), blankCursor);
+        cursor_is_blank = 1;
+
+        XGrabKeyboard(display, XtWindow(canvas),
+                      1, GrabModeAsync,
+                      GrabModeAsync,  CurrentTime);
+        XGrabPointer(display, XtWindow(canvas), 1,
+                     PointerMotionMask | ButtonPressMask |
+                     ButtonReleaseMask,
+                     GrabModeAsync, GrabModeAsync,
+                     XtWindow(canvas),
+                     None, CurrentTime);
+    } else if (cursor_is_blank) {
+        XUndefineCursor(display,XtWindow(canvas));
+        XUngrabPointer(display, CurrentTime);
+        XUngrabKeyboard(display, CurrentTime);
+        for (i = 0; i < num_app_shells; i++) {
+            XtOverrideTranslations(app_shells[i].canvas, left_menu_translations);
+            XtOverrideTranslations(app_shells[i].canvas, right_menu_translations);
+        }
+    }
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -952,6 +966,16 @@ void ui_set_left_menu(ui_menu_entry_t *menu)
     left_menu_translations = XtParseTranslationTable(translation_table);
     lib_free(translation_table);
 
+    translation_table =
+        util_concat("<Btn1Down>: \n",
+               "@Num_Lock<Btn1Down>: \n",
+               "Lock <Btn1Down>: \n"
+               "@Scroll_Lock <Btn1Down>: \n",
+               NULL);
+
+    left_menu_disabled_translations = XtParseTranslationTable(translation_table);
+    lib_free(translation_table);
+
     for (i = 0; i < num_app_shells; i++)
         XtOverrideTranslations(app_shells[i].canvas, left_menu_translations);
 
@@ -975,6 +999,16 @@ void ui_set_right_menu(ui_menu_entry_t *menu)
                "@Scroll_Lock <Btn3Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
                NULL);
     right_menu_translations = XtParseTranslationTable(translation_table);
+    lib_free(translation_table);
+
+    translation_table =
+        util_concat("<Btn3Down>: \n",
+               "@Num_Lock<Btn3Down>: \n",
+               "Lock <Btn3Down>: \n"
+               "@Scroll_Lock <Btn3Down>: \n",
+               NULL);
+
+    right_menu_disabled_translations = XtParseTranslationTable(translation_table);
     lib_free(translation_table);
 
     for (i = 0; i < num_app_shells; i++)

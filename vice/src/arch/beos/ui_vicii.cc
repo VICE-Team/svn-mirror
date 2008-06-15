@@ -37,17 +37,6 @@ extern "C" {
 #include "vsync.h"
 }
 
-static char *palette_name[] = {
-	"default",
-	"c64s",
-	"ccs64",
-	"frodo",
-	"godot",
-	"pc64",
-	NULL
-};
-
-
 class ViciiWindow : public BWindow {
 	public:
 		ViciiWindow();
@@ -64,7 +53,6 @@ ViciiWindow::ViciiWindow()
 		B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
-	BMessage *msg;
 	BCheckBox *checkbox;
 	BRect r;
 	BBox *box;

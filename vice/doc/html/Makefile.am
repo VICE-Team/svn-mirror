@@ -20,6 +20,7 @@ doc_DATA = \
 	plain/cbm_basic_tokens.txt \
 	plain/drive_info.txt \
 	plain/serial.txt \
+	qnx.html \
 	solaris.html \
 	vice_1.html \
 	vice_2.html \

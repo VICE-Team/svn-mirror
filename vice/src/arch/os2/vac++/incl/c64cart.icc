@@ -1,6 +1,7 @@
 source type(c)
     "cart\\actionreplay.c",
     "cart\\actionreplay3.c",
+    "cart\\actionreplay4.c",
     "cart\\atomicpower.c",
     "cart\\c64cart.c",
     "cart\\c64cartmem.c",
@@ -20,6 +21,7 @@ source type(c)
     "cart\\retroreplay.c",
     "cart\\rexep256.c",
     "cart\\ross.c",
+    "cart\\stardos.c",
     "cart\\stb.c",
     "cart\\supergames.c",
     "cart\\supersnapshot.c",

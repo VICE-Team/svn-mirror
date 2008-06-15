@@ -10,6 +10,8 @@ noinst_LIBRARIES = libc64cart.a
 libc64cart_a_SOURCES = \
 	actionreplay3.c \
 	actionreplay3.h \
+	actionreplay4.c \
+	actionreplay4.h \
 	actionreplay.c \
 	actionreplay.h \
 	atomicpower.c \
@@ -49,6 +51,8 @@ libc64cart_a_SOURCES = \
 	rexep256.h \
 	ross.c \
 	ross.h \
+	stardos.c \
+	stardos.h \
 	stb.c \
 	stb.h \
 	supergames.c \

@@ -150,6 +150,12 @@ BMenuBar *menu_create(int machine_class) {
 				new BMessage(MENU_CART_ATTACH_16KB)));
 			submenu->AddItem(new BMenuItem("Action Replay",
 				new BMessage(MENU_CART_ATTACH_AR)));
+			submenu->AddItem(new BMenuItem("Action Replay 3",
+				new BMessage(MENU_CART_ATTACH_AR3)));
+			submenu->AddItem(new BMenuItem("Action Replay 4",
+				new BMessage(MENU_CART_ATTACH_AR4)));
+			submenu->AddItem(new BMenuItem("StarDOS",
+				new BMessage(MENU_CART_ATTACH_STARDOS)));
 			submenu->AddItem(new BMenuItem("Atomic Power",
 				new BMessage(MENU_CART_ATTACH_AT)));
 			submenu->AddItem(new BMenuItem("Epyx fastload",

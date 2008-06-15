@@ -75,13 +75,6 @@
 
 #define MAXRS232 4
 
-#ifdef OPENSERVER6_COMPILE
-struct timeval {
-  long tv_sec;
-  long tv_usec;
-};
-#endif
-
 #ifdef __NeXT__
 int cfsetispeed(struct termios *t, int speed)
 { 

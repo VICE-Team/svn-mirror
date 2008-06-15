@@ -79,7 +79,7 @@ DeviceView::DeviceView(BRect r, int device_num)
 	BMessage *msg;
 	BBox *box;
     const char *disk_image, *dir;
-	int res_value,i;
+	int i;
 	
 	BView::SetViewColor(220,220,220,0);
 	

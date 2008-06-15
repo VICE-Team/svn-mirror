@@ -68,7 +68,6 @@ RamWindow::RamWindow()
 	BBox *box;
 	BMessage *msg;
 	BRadioButton *radiobutton;
-	BCheckBox *checkbox;
 	BListItem *item;
 	char str[128];
 	int i;

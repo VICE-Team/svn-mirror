@@ -75,6 +75,7 @@ rm `find VICE-$VICEVERSION -name "os2*.vkm"`
 rm `find VICE-$VICEVERSION -name "osx*.vkm"`
 rm `find VICE-$VICEVERSION -name "win_*.vkm"`
 rm `find VICE-$VICEVERSION -name "RO*.vkm"`
+rm `find VICE-$VICEVERSION -name "*.vsc"`
 mkdir -p VICE-$VICEVERSION/opt/man/man1
 mv /opt/man/man1/c1541.1 VICE-$VICEVERSION/opt/man/man1
 mv /opt/man/man1/petcat.1 VICE-$VICEVERSION/opt/man/man1

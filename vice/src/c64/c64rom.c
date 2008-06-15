@@ -87,7 +87,12 @@ int c64rom_get_kernal_checksum(void)
     return 0;
 }
 
-int c64rom_load_kernal(const char *rom_name)
+int c64rom_cartkernal_active=0;
+
+/* the extra parameter cartkernal is used to replace the kernal
+   with a cartridge kernal rom image, if it is NULL normal kernal
+   is used */
+int c64rom_load_kernal(const char *rom_name, BYTE *cartkernal)
 {
     int trapfl;
 
@@ -102,12 +107,23 @@ int c64rom_load_kernal(const char *rom_name)
     resources_set_int("VirtualDevices", 1);
 
     /* Load Kernal ROM.  */
-    if (sysfile_load(rom_name,
-        c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE) < 0) {
-        log_error(c64rom_log, "Couldn't load kernal ROM `%s'.",
-                  rom_name);
-        resources_set_int("VirtualDevices", trapfl);
-        return -1;
+    if (cartkernal==NULL)
+    {
+        if (c64rom_cartkernal_active==1)
+            return -1;
+
+        if (sysfile_load(rom_name,
+            c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE) < 0) {
+            log_error(c64rom_log, "Couldn't load kernal ROM `%s'.",
+                      rom_name);
+            resources_set_int("VirtualDevices", trapfl);
+            return -1;
+        }
+    }
+    else
+    {
+        memcpy(c64memrom_kernal64_rom, cartkernal, 0x2000);
+        c64rom_cartkernal_active=1;
     }
     c64rom_get_kernal_checksum();
     memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom,
@@ -183,7 +199,7 @@ int mem_load(void)
 
     if (resources_get_string("KernalName", &rom_name) < 0)
         return -1;
-    if (c64rom_load_kernal(rom_name) < 0)
+    if (c64rom_load_kernal(rom_name, NULL) < 0)
         return -1;
 
     if (resources_get_string("BasicName", &rom_name) < 0)

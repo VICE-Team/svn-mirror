@@ -87,7 +87,11 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_DELA_EP256         26
 #define CARTRIDGE_REX_EP256          27
 #define CARTRIDGE_MIKRO_ASSEMBLER    28
-
+/* 29 is reserved for the real fc1,
+   which would cause the current fc1
+   to become fc2 */
+#define CARTRIDGE_ACTION_REPLAY4     30
+#define CARTRIDGE_STARDOS            31
 
 /* Expert cartridge has three modes: */
 #define CARTRIDGE_MODE_OFF                      0

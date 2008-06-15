@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "actionreplay3.h"
+#include "actionreplay4.h"
 #include "actionreplay.h"
 #include "atomicpower.h"
 #include "c64cart.h"
@@ -61,6 +62,7 @@
 #include "ide64.h"
 #include "ramcart.h"
 #include "ross.h"
+#include "stardos.h"
 #include "stb.h"
 #include "supergames.h"
 #include "supersnapshot.h"
@@ -124,6 +126,8 @@ BYTE REGPARM1 cartridge_read_io1(WORD addr)
     log_debug("Read IO1 %02x.", addr);
 #endif
     switch (mem_cartridge_type) {
+      case CARTRIDGE_STARDOS:
+        return stardos_io1_read(addr);
       case CARTRIDGE_ACTION_REPLAY3:
         return actionreplay3_io1_read(addr);
       case CARTRIDGE_ACTION_REPLAY:
@@ -177,6 +181,9 @@ void REGPARM2 cartridge_store_io1(WORD addr, BYTE value)
 #endif
 
     switch (mem_cartridge_type) {
+      case CARTRIDGE_ACTION_REPLAY4:
+        actionreplay4_io1_store(addr, value);
+        break;
       case CARTRIDGE_ACTION_REPLAY3:
         actionreplay3_io1_store(addr, value);
         break;
@@ -275,6 +282,10 @@ BYTE REGPARM1 cartridge_read_io2(WORD addr)
     log_debug("Read IO2 %02x.", addr);
 #endif
     switch (mem_cartridge_type) {
+      case CARTRIDGE_STARDOS:
+        return stardos_io2_read(addr);
+      case CARTRIDGE_ACTION_REPLAY4:
+        return actionreplay4_io2_read(addr);
       case CARTRIDGE_ACTION_REPLAY3:
         return actionreplay3_io2_read(addr);
       case CARTRIDGE_ACTION_REPLAY:
@@ -373,12 +384,16 @@ BYTE REGPARM1 roml_read(WORD addr)
         return ramcart_roml_read(addr);
 
     switch (mem_cartridge_type) {
+      case CARTRIDGE_STARDOS:
+        return stardos_roml_read(addr);
       case CARTRIDGE_ZAXXON:
         return zaxxon_roml_read(addr);
       case CARTRIDGE_SUPER_SNAPSHOT:
         return supersnapshot_v4_roml_read(addr);
       case CARTRIDGE_SUPER_SNAPSHOT_V5:
         return supersnapshot_v5_roml_read(addr);
+      case CARTRIDGE_ACTION_REPLAY4:
+        return actionreplay4_roml_read(addr);
       case CARTRIDGE_ACTION_REPLAY:
         return actionreplay_roml_read(addr);
       case CARTRIDGE_RETRO_REPLAY:
@@ -569,6 +584,12 @@ void REGPARM1 cartridge_decode_address(WORD addr)
 void cartridge_init_config(void)
 {
     switch (mem_cartridge_type) {
+      case CARTRIDGE_STARDOS:
+        stardos_config_init();
+        break;
+      case CARTRIDGE_ACTION_REPLAY4:
+        actionreplay4_config_init();
+        break;
       case CARTRIDGE_ACTION_REPLAY3:
         actionreplay3_config_init();
         break;
@@ -680,6 +701,9 @@ void cartridge_init_config(void)
 void cartridge_reset(void)
 {
     switch (mem_cartridge_type) {
+      case CARTRIDGE_ACTION_REPLAY4:
+        actionreplay4_reset();
+        break;
       case CARTRIDGE_ACTION_REPLAY3:
         actionreplay3_reset();
         break;
@@ -719,6 +743,12 @@ void cartridge_attach(int type, BYTE *rawcart)
         break;
       case CARTRIDGE_FINAL_I:
         final_v1_config_setup(rawcart);
+        break;
+      case CARTRIDGE_STARDOS:
+        stardos_config_setup(rawcart);
+        break;
+      case CARTRIDGE_ACTION_REPLAY4:
+        actionreplay4_config_setup(rawcart);
         break;
       case CARTRIDGE_ACTION_REPLAY3:
         actionreplay3_config_setup(rawcart);
@@ -815,6 +845,12 @@ void cartridge_detach(int type)
     int cartridge_reset;
 
     switch (type) {
+      case CARTRIDGE_STARDOS:
+        stardos_detach();
+        break;
+      case CARTRIDGE_ACTION_REPLAY4:
+        actionreplay4_detach();
+        break;
       case CARTRIDGE_ACTION_REPLAY3:
         actionreplay3_detach();
         break;
@@ -930,6 +966,9 @@ void cartridge_freeze(int type)
         break;
       case CARTRIDGE_SUPER_SNAPSHOT_V5:
         supersnapshot_v5_freeze();
+        break;
+      case CARTRIDGE_ACTION_REPLAY4:
+        actionreplay4_freeze();
         break;
       case CARTRIDGE_ACTION_REPLAY3:
         actionreplay3_freeze();

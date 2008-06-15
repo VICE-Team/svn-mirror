@@ -210,6 +210,21 @@ static ui_cartridge_t c64_ui_cartridges[]={
     "Action Replay",
     },
     {
+    MENU_CART_ATTACH_AR3,
+    CARTRIDGE_ACTION_REPLAY3,
+    "Action Replay 3",
+    },
+    {
+    MENU_CART_ATTACH_AR4,
+    CARTRIDGE_ACTION_REPLAY4,
+    "Action Replay 4",
+    },
+    {
+    MENU_CART_ATTACH_STARDOS,
+    CARTRIDGE_STARDOS,
+    "StarDOS",
+    },
+    {
     MENU_CART_ATTACH_AT,
     CARTRIDGE_ATOMIC_POWER,
     "Atomic Power"

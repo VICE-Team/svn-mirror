@@ -1,3 +1,13 @@
+2008-06-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added a check for the minix version for the
+	prototypes of recv and send in network.c.
+
+	* doc/html/solaris.html, doc/html/amigaos.html,
+	doc/html/sco.html, doc/html/hpux.html, doc/html/beos.html,
+	doc/html/qnx.html, doc/html/Makefile.am, doc/html/index.html:
+	Updated for the upcoming 2.0 release.
+
 2008-06-03  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.17.
@@ -10,6 +20,15 @@
 
 	* configure.in: Changed bash'ism (if [...]) to more general code
 	(if test ...).
+
+2008-06-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added extra defines needed for minix, alligned
+	the printout of configure and added the --enable-memmap
+	configure option for the memmap feature from VICEplus as
+	provided by Hannu Nuotio <hannu.nuotio@tut.fi>.
+
+	* build/qnx4/build.sh: Fixed the qnx 4.x build script.
 
 2008-05-25  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
@@ -28,6 +47,10 @@
 	* data/C64/Makefile.am, data/C64/osx_sym_de.vkm,
 	data/C64/osx_pos.vkm, data/C64/osx_sym_us.vkm: fixed Cocoa key
 	maps
+
+2008-05-24  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am: Added a '@' in front of the 'make install' echo.
 
 2008-05-19  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
@@ -68,6 +91,15 @@
 2008-05-07  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.14.
+
+2008-05-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in, data/fonts/vice-cbm.bdf,
+	data/fonts/Makefile.am: Added a check for the 'fc-cache'
+	command, and use the .bdf font if not present.
+
+	* doc/html/Makefile.am, doc/Makefile.am: Fixed the
+	ALTERNATE_DOCDIR problems with automake.
 
 2008-04-27  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 

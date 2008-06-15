@@ -56,7 +56,11 @@ rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "os2*.vkm"`
 rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "osx*.vkm"`
 rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "win_*.vkm"`
 rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "x11_*.vkm"`
-rm BeVICE-$VICEVERSION.$BEOSCPU/html/texi2html
+rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "*.vsc"`
+if [ -e BeVICE-$VICEVERSION.$BEOSCPU/html/texi2html ]
+then
+  rm BeVICE-$VICEVERSION.$BEOSCPU/html/texi2html
+fi
 if test x"$ZIPKIND" = "xzip"; then
   if test x"$ZIP" = "x"; then
     zip -r -9 -q BeVICE-$VICEVERSION.$BEOSCPU.zip BeVICE-$VICEVERSION.$BEOSCPU

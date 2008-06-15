@@ -53,6 +53,7 @@ static const int ui_external_palette_enable_values[] = {
 static int ui_PAL_mode_translate[] = {
   IDS_FAST_PAL,
   IDS_PAL_EMULATION,
+  IDS_NEW_PAL_EMULATION,
   0
 };
 
@@ -68,6 +69,9 @@ static ui_to_from_t ui_to_from[] = {
   { NULL, MUI_TYPE_FLOAT, "ColorGamma", NULL, NULL },
   { NULL, MUI_TYPE_FLOAT, "PALScanLineShade", NULL, NULL },
   { NULL, MUI_TYPE_FLOAT, "PALBlur", NULL, NULL },
+  { NULL, MUI_TYPE_FLOAT, "ColorTint", NULL, NULL },
+  { NULL, MUI_TYPE_FLOAT, "PALOddLinePhase", NULL, NULL },
+  { NULL, MUI_TYPE_FLOAT, "PALOddLineOffset", NULL, NULL },
   { NULL, MUI_TYPE_CYCLE, "PALMode", ui_PAL_mode, ui_PAL_mode_values },
   { NULL, MUI_TYPE_CYCLE, "VICIIExternalPalette", ui_external_palette_enable, ui_external_palette_enable_values },
   { NULL, MUI_TYPE_FILENAME, "VICIIPaletteFile", NULL, NULL },
@@ -85,7 +89,7 @@ static ULONG BrowseVICII( struct Hook *hook, Object *obj, APTR arg )
   fname=BrowseFile(translate_text(IDS_EXTERNAL_PALETTE_SELECT), "#?.vpl", video_canvas);
 
   if (fname!=NULL)
-    set(ui_to_from[5].object, MUIA_String_Contents, fname);
+    set(ui_to_from[8].object, MUIA_String_Contents, fname);
 
   return 0;
 }
@@ -97,7 +101,7 @@ static ULONG BrowseVDC( struct Hook *hook, Object *obj, APTR arg )
   fname=BrowseFile(translate_text(IDS_EXTERNAL_PALETTE_SELECT), "#?.vpl", video_canvas);
 
   if (fname!=NULL)
-    set(ui_to_from[9].object, MUIA_String_Contents, fname);
+    set(ui_to_from[12].object, MUIA_String_Contents, fname);
 
   return 0;
 }
@@ -120,13 +124,16 @@ static APTR build_gui(void)
     STRING(ui_to_from[0].object, translate_text(IDS_GAMMA_0_2), ".0123456789", 5+1)
     STRING(ui_to_from[1].object, translate_text(IDS_PAL_SHADE_0_1), ".0123456789", 5+1)
     STRING(ui_to_from[2].object, translate_text(IDS_PAL_BLUR_0_1), ".0123456789", 5+1)
-    CYCLE(ui_to_from[3].object, translate_text(IDS_PAL_MODE), ui_PAL_mode)
-    CYCLE(ui_to_from[4].object, translate_text(IDS_EXTERNAL_PALETTE), ui_external_palette_enable)
-    FILENAME(ui_to_from[5].object, translate_text(IDS_VICII_PALETTE_FILENAME), browse_button1)
-    STRING(ui_to_from[6].object, translate_text(IDS_SATURATION_0_2), ".0123456789", 5+1)
-    STRING(ui_to_from[7].object, translate_text(IDS_CONTRAST_0_2), ".0123456789", 5+1)
-    STRING(ui_to_from[8].object, translate_text(IDS_BRIGHTNESS_0_2), ".0123456789", 5+1)
-    FILENAME(ui_to_from[9].object, translate_text(IDS_VDC_PALETTE_FILENAME), browse_button2)
+    STRING(ui_to_from[3].object, translate_text(IDS_NEW_PAL_TINT_0_2), ".0123456789", 5+1)
+    STRING(ui_to_from[4].object, translate_text(IDS_NEW_PAL_PHASE_0_2), ".0123456789", 5+1)
+    STRING(ui_to_from[5].object, translate_text(IDS_NEW_PAL_OFFSET_0_2), ".0123456789", 5+1)
+    CYCLE(ui_to_from[6].object, translate_text(IDS_PAL_MODE), ui_PAL_mode)
+    CYCLE(ui_to_from[7].object, translate_text(IDS_EXTERNAL_PALETTE), ui_external_palette_enable)
+    FILENAME(ui_to_from[8].object, translate_text(IDS_VICII_PALETTE_FILENAME), browse_button1)
+    STRING(ui_to_from[9].object, translate_text(IDS_SATURATION_0_2), ".0123456789", 5+1)
+    STRING(ui_to_from[10].object, translate_text(IDS_CONTRAST_0_2), ".0123456789", 5+1)
+    STRING(ui_to_from[11].object, translate_text(IDS_BRIGHTNESS_0_2), ".0123456789", 5+1)
+    FILENAME(ui_to_from[12].object, translate_text(IDS_VDC_PALETTE_FILENAME), browse_button2)
     OK_CANCEL_BUTTON
   End;
 

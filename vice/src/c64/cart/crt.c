@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "actionreplay.h"
+#include "actionreplay4.h"
 #include "atomicpower.h"
 #include "archdep.h"
 #include "c64cart.h"
@@ -50,6 +51,7 @@
 #include "resources.h"
 #include "rexep256.h"
 #include "ross.h"
+#include "stardos.h"
 #include "stb.h"
 #include "supergames.h"
 #include "supersnapshot.h"
@@ -90,8 +92,14 @@ int crt_attach(const char *filename, BYTE *rawcart)
 
     new_crttype = header[0x17] + header[0x16] * 256;
 
-    if (c64cart_type == CARTRIDGE_CRT && crttype != new_crttype)
-        cartridge_detach_image();
+/*  cart should always be detached. there is no reason for doing fancy checks
+    here, and it will cause problems incase a cart MUST be detached before
+    attaching another, or even itself. (eg for initialization reasons)
+    
+    most obvious reason: attaching a different ROM (software) for the same
+    cartridge (hardware) */
+
+    cartridge_detach_image();
 
     crttype = new_crttype;
 
@@ -116,6 +124,18 @@ int crt_attach(const char *filename, BYTE *rawcart)
         break;
       case CARTRIDGE_FINAL_I:
         rc = final_v1_crt_attach(fd, rawcart);
+        fclose(fd);
+        if (rc < 0)
+            return -1;
+        break;
+      case CARTRIDGE_ACTION_REPLAY4:
+        rc = actionreplay4_crt_attach(fd, rawcart);
+        fclose(fd);
+        if (rc < 0)
+            return -1;
+        break;
+      case CARTRIDGE_STARDOS:
+        rc = stardos_crt_attach(fd, rawcart);
         fclose(fd);
         if (rc < 0)
             return -1;

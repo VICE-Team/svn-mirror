@@ -52,20 +52,22 @@ echo Generating $PLATFORM port binary distribution.
 rm -f -r VICE-$VICEVERSION
 mkdir VICE-$VICEVERSION
 mkdir -p VICE-$VICEVERSION/usr/local
-mkdir -p VICE-$VICEVERSION/usr/local/lib/locale/de/LC_MESSAGES
-mv /usr/local/lib/locale/de/LC_MESSAGES/vice.* VICE-$VICEVERSION/usr/local/lib/locale/de/LC_MESSAGES
-mkdir -p VICE-$VICEVERSION/usr/local/lib/locale/fr/LC_MESSAGES
-mv /usr/local/lib/locale/fr/LC_MESSAGES/vice.* VICE-$VICEVERSION/usr/local/lib/locale/fr/LC_MESSAGES
-mkdir -p VICE-$VICEVERSION/usr/local/lib/locale/it/LC_MESSAGES
-mv /usr/local/lib/locale/it/LC_MESSAGES/vice.* VICE-$VICEVERSION/usr/local/lib/locale/it/LC_MESSAGES
-mkdir -p VICE-$VICEVERSION/usr/local/lib/locale/sv/LC_MESSAGES
-mv /usr/local/lib/locale/sv/LC_MESSAGES/vice.* VICE-$VICEVERSION/usr/local/lib/locale/sv/LC_MESSAGES
-mkdir -p VICE-$VICEVERSION/usr/local/lib/locale/pl/LC_MESSAGES
-mv /usr/local/lib/locale/pl/LC_MESSAGES/vice.* VICE-$VICEVERSION/usr/local/lib/locale/pl/LC_MESSAGES
-mkdir -p VICE-$VICEVERSION/usr/local/lib/locale/nl/LC_MESSAGES
-mv /usr/local/lib/locale/nl/LC_MESSAGES/vice.* VICE-$VICEVERSION/usr/local/lib/locale/nl/LC_MESSAGES
-mkdir -p VICE-$VICEVERSION/usr/local/lib/locale/hu/LC_MESSAGES
-mv /usr/local/lib/locale/hu/LC_MESSAGES/vice.* VICE-$VICEVERSION/usr/local/lib/locale/hu/LC_MESSAGES
+if test x"$SYSTEM" != "xsco5" -a x"$SYSTEM" != "xsco6" -a x"$SYSTEM" != "xsco7"; then
+  mkdir -p VICE-$VICEVERSION/usr/local/lib/locale/de/LC_MESSAGES
+  mv /usr/local/lib/locale/de/LC_MESSAGES/vice.* VICE-$VICEVERSION/usr/local/lib/locale/de/LC_MESSAGES
+  mkdir -p VICE-$VICEVERSION/usr/local/lib/locale/fr/LC_MESSAGES
+  mv /usr/local/lib/locale/fr/LC_MESSAGES/vice.* VICE-$VICEVERSION/usr/local/lib/locale/fr/LC_MESSAGES
+  mkdir -p VICE-$VICEVERSION/usr/local/lib/locale/it/LC_MESSAGES
+  mv /usr/local/lib/locale/it/LC_MESSAGES/vice.* VICE-$VICEVERSION/usr/local/lib/locale/it/LC_MESSAGES
+  mkdir -p VICE-$VICEVERSION/usr/local/lib/locale/sv/LC_MESSAGES
+  mv /usr/local/lib/locale/sv/LC_MESSAGES/vice.* VICE-$VICEVERSION/usr/local/lib/locale/sv/LC_MESSAGES
+  mkdir -p VICE-$VICEVERSION/usr/local/lib/locale/pl/LC_MESSAGES
+  mv /usr/local/lib/locale/pl/LC_MESSAGES/vice.* VICE-$VICEVERSION/usr/local/lib/locale/pl/LC_MESSAGES
+  mkdir -p VICE-$VICEVERSION/usr/local/lib/locale/nl/LC_MESSAGES
+  mv /usr/local/lib/locale/nl/LC_MESSAGES/vice.* VICE-$VICEVERSION/usr/local/lib/locale/nl/LC_MESSAGES
+  mkdir -p VICE-$VICEVERSION/usr/local/lib/locale/hu/LC_MESSAGES
+  mv /usr/local/lib/locale/hu/LC_MESSAGES/vice.* VICE-$VICEVERSION/usr/local/lib/locale/hu/LC_MESSAGES
+fi
 mkdir VICE-$VICEVERSION/usr/local/bin
 mv /usr/local/bin/vsid VICE-$VICEVERSION/usr/local/bin
 mv /usr/local/bin/x64 VICE-$VICEVERSION/usr/local/bin
@@ -94,6 +96,7 @@ rm `find VICE-$VICEVERSION -name "os2*.vkm"`
 rm `find VICE-$VICEVERSION -name "osx*.vkm"`
 rm `find VICE-$VICEVERSION -name "win_*.vkm"`
 rm `find VICE-$VICEVERSION -name "RO*.vkm"`
+rm `find VICE-$VICEVERSION -name "*.vsc"`
 mkdir -p VICE-$VICEVERSION$MANDIR/man1
 mv $MANDIR/man1/c1541.1 VICE-$VICEVERSION$MANDIR/man1
 mv $MANDIR/man1/petcat.1 VICE-$VICEVERSION$MANDIR/man1

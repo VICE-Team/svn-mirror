@@ -63,13 +63,17 @@ static struct _colorcontrol {
 	{ "Gamma", "ColorGamma", 2000, NULL },
 	{ "PAL Scanline Shade", "PALScanLineShade", 1000, NULL },
 	{ "PAL Blur", "PALBlur", 1000, NULL },
+	{ "Tint", "ColorTint", 2000, NULL },
+	{ "Odd Lines Phase", "PALOddLinePhase", 2000, NULL },
+	{ "Odd Lines Offset", "PALOddLineOffset", 2000, NULL },
 	{ NULL, NULL, 0, NULL}
 };
 
 static char *modes[]=
 {
 	"Fast PAL",
-	"PAL emulation",
+	"Old PAL emulation",
+	"New PAL emulation",
 	NULL
 };
 
@@ -115,7 +119,6 @@ VideoWindow::VideoWindow()
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
 	BMessage *msg;
-	BSlider *slider;
 	BCheckBox *checkbox;
 	BRect r;
 	BBox *box;
@@ -248,7 +251,6 @@ VideoWindow::~VideoWindow()
 
 void VideoWindow::MessageReceived(BMessage *msg) {
 	int32 index, val;	
-	resource_value_t dummy;
 	BMessage *msr;
 	BListItem *item;
 	

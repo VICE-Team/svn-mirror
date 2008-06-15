@@ -1,8 +1,8 @@
 /*
- * dlg-color.h - The dialog windows.
+ * actionreplay4.h - Cartridge handling, Action Replay 4 cart.
+ * and it's clones. post AR3 (16K) and pre AR4.1 hardware.
  *
- * Written by
- *  Thomas Bretz <tbretz@gsi.de>
+ * (w)2008 Groepaz/Hitmen
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,16 +24,25 @@
  *
  */
 
-// Color Dialog
-#define ID_SATURATION      0x11
-#define ID_BRIGHTNESS      0x12
-#define ID_GAMMA           0x13
-#define ID_CONTRAST        0x14
-#define ID_SCANLINE        0x15 // Only in PAL-TRUE and double-size
-#define ID_BLUR            0x16 // Only in PAL-TRUE
-#define ID_TINT            0x17
-#define ID_ODDLINE_PHASE   0x18
-#define ID_ODDLINE_OFFSET  0x19
-#define ID_DEFAULT         0x1a
+#ifndef _ACTIONREPLAY4_H
+#define _ACTIONREPLAY4_H
 
-extern void color_dialog(HWND hwnd);
+#include <stdio.h>
+
+#include "types.h"
+
+extern BYTE REGPARM1 actionreplay4_io1_read(WORD addr);
+extern void REGPARM2 actionreplay4_io1_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 actionreplay4_io2_read(WORD addr);
+extern BYTE REGPARM1 actionreplay4_roml_read(WORD addr);
+
+extern void actionreplay4_freeze(void);
+
+extern void actionreplay4_config_init(void);
+extern void actionreplay4_reset(void);
+extern void actionreplay4_config_setup(BYTE *rawcart);
+extern int actionreplay4_bin_attach(const char *filename, BYTE *rawcart);
+extern int actionreplay4_crt_attach(FILE *fd, BYTE *rawcart);
+extern void actionreplay4_detach(void);
+
+#endif

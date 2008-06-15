@@ -176,10 +176,6 @@ ViceWindow::ViceWindow(BRect frame, char const *title)
 		B_TITLED_WINDOW,
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_ASYNCHRONOUS_CONTROLS) {
 
-	BMenu *menu, *submenu;
-	BMenuItem *item;
-	BRect r;
-
 	/* create the menubar; key events reserved for the emu */
 	menubar = menu_create(machine_class);
 	AddChild(menubar);

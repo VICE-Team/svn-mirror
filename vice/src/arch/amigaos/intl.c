@@ -507,6 +507,33 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDMS_ACTION_REPLAY_IMAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_ACTION_REPLAY_IMAGE_SV, "Action Replay-fil..."},
 
+/* en */ {IDMS_ACTION_REPLAY3_IMAGE,    "Action Replay 3 image..."},
+/* de */ {IDMS_ACTION_REPLAY3_IMAGE_DE, "Action Replay 3 Image..."},
+/* fr */ {IDMS_ACTION_REPLAY3_IMAGE_FR, "Insrer une cartouche Action Replay 3..."},
+/* hu */ {IDMS_ACTION_REPLAY3_IMAGE_HU, "Action Replay 3 kpms..."},
+/* it */ {IDMS_ACTION_REPLAY3_IMAGE_IT, "Immagine Action Replay 3..."},
+/* nl */ {IDMS_ACTION_REPLAY3_IMAGE_NL, "Action Replay 3 bestand..."},
+/* pl */ {IDMS_ACTION_REPLAY3_IMAGE_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_ACTION_REPLAY3_IMAGE_SV, "Action Replay 3-fil..."},
+
+/* en */ {IDMS_ACTION_REPLAY4_IMAGE,    "Action Replay 4 image..."},
+/* de */ {IDMS_ACTION_REPLAY4_IMAGE_DE, "Action Replay 4 Image..."},
+/* fr */ {IDMS_ACTION_REPLAY4_IMAGE_FR, "Insrer une cartouche Action Replay 4..."},
+/* hu */ {IDMS_ACTION_REPLAY4_IMAGE_HU, "Action Replay 4 kpms..."},
+/* it */ {IDMS_ACTION_REPLAY4_IMAGE_IT, "Immagine Action Replay 4..."},
+/* nl */ {IDMS_ACTION_REPLAY4_IMAGE_NL, "Action Replay 4 bestand..."},
+/* pl */ {IDMS_ACTION_REPLAY4_IMAGE_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_ACTION_REPLAY4_IMAGE_SV, "Action Replay 4-fil..."},
+
+/* en */ {IDMS_STARDOS_IMAGE,    "StarDOS image..."},
+/* de */ {IDMS_STARDOS_IMAGE_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_STARDOS_IMAGE_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_STARDOS_IMAGE_HU, ""},  /* fuzzy */
+/* it */ {IDMS_STARDOS_IMAGE_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_STARDOS_IMAGE_NL, "StarDOS bestand..."},
+/* pl */ {IDMS_STARDOS_IMAGE_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_STARDOS_IMAGE_SV, ""},  /* fuzzy */
+
 /* en */ {IDMS_ATOMIC_POWER_IMAGE,    "Atomic Power image..."},
 /* de */ {IDMS_ATOMIC_POWER_IMAGE_DE, "Atomic Power Image..."},
 /* fr */ {IDMS_ATOMIC_POWER_IMAGE_FR, "Insérer une cartouche Atomic Power..."},
@@ -2393,6 +2420,33 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDS_ATTACH_ACTION_REPLAY_IMAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDS_ATTACH_ACTION_REPLAY_IMAGE_SV, "Anslut Action Replay-avbildningsfil"},
 
+/* en */ {IDS_ATTACH_ACTION_REPLAY3_IMAGE,    "Attach Action Replay 3 cartridge image"},
+/* de */ {IDS_ATTACH_ACTION_REPLAY3_IMAGE_DE, "Action Replay 3 Erweiterungsmodul Image einlegen"},
+/* fr */ {IDS_ATTACH_ACTION_REPLAY3_IMAGE_FR, "Insrer une cartouche Action Replay 3"},
+/* hu */ {IDS_ATTACH_ACTION_REPLAY3_IMAGE_HU, "Action Replay 3 cartridge kpms csatolsa"},
+/* it */ {IDS_ATTACH_ACTION_REPLAY3_IMAGE_IT, "Seleziona l'immagine di una cartuccia Action Replay 3"},
+/* nl */ {IDS_ATTACH_ACTION_REPLAY3_IMAGE_NL, "Koppel Action Replay 3 cartridgebestand"},
+/* pl */ {IDS_ATTACH_ACTION_REPLAY3_IMAGE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_ATTACH_ACTION_REPLAY3_IMAGE_SV, "Anslut Action Replay 3-avbildningsfil"},
+
+/* en */ {IDS_ATTACH_ACTION_REPLAY4_IMAGE,    "Attach Action Replay 4 cartridge image"},
+/* de */ {IDS_ATTACH_ACTION_REPLAY4_IMAGE_DE, "Action Replay 4 Erweiterungsmodul Image einlegen"},
+/* fr */ {IDS_ATTACH_ACTION_REPLAY4_IMAGE_FR, "Insrer une cartouche Action Replay 4"},
+/* hu */ {IDS_ATTACH_ACTION_REPLAY4_IMAGE_HU, "Action Replay 4 cartridge kpms csatolsa"},
+/* it */ {IDS_ATTACH_ACTION_REPLAY4_IMAGE_IT, "Seleziona l'immagine di una cartuccia Action Replay 4"},
+/* nl */ {IDS_ATTACH_ACTION_REPLAY4_IMAGE_NL, "Koppel Action Replay 4 cartridgebestand"},
+/* pl */ {IDS_ATTACH_ACTION_REPLAY4_IMAGE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_ATTACH_ACTION_REPLAY4_IMAGE_SV, "Anslut Action Replay 4-avbildningsfil"},
+
+/* en */ {IDS_ATTACH_STARDOS_IMAGE,    "Attach StarDOS cartridge image"},
+/* de */ {IDS_ATTACH_STARDOS_IMAGE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_ATTACH_STARDOS_IMAGE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_ATTACH_STARDOS_IMAGE_HU, ""},  /* fuzzy */
+/* it */ {IDS_ATTACH_STARDOS_IMAGE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_ATTACH_STARDOS_IMAGE_NL, "Koppel StarDOS cartridgebestand"},
+/* pl */ {IDS_ATTACH_STARDOS_IMAGE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_ATTACH_STARDOS_IMAGE_SV, ""},  /* fuzzy */
+
 /* en */ {IDS_ATTACH_ATOMIC_POWER_IMAGE,    "Attach Atomic Power cartridge image"},
 /* de */ {IDS_ATTACH_ATOMIC_POWER_IMAGE_DE, "Atomic Power Erweiterungsmodul Image einlegen"},
 /* fr */ {IDS_ATTACH_ATOMIC_POWER_IMAGE_FR, "Insérer une cartouche Atomic Power"},
@@ -4184,6 +4238,15 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDS_PAL_EMULATION_PL, ""},  /* fuzzy */
 /* sv */ {IDS_PAL_EMULATION_SV, "PAL-emulering"},
 
+/* en */ {IDS_NEW_PAL_EMULATION,    "New PAL Eulation"},
+/* de */ {IDS_NEW_PAL_EMULATION_DE, ""},  /* fuzzy */
+/* fr */ {IDS_NEW_PAL_EMULATION_FR, ""},  /* fuzzy */
+/* hu */ {IDS_NEW_PAL_EMULATION_HU, ""},  /* fuzzy */
+/* it */ {IDS_NEW_PAL_EMULATION_IT, ""},  /* fuzzy */
+/* nl */ {IDS_NEW_PAL_EMULATION_NL, ""},  /* fuzzy */
+/* pl */ {IDS_NEW_PAL_EMULATION_PL, ""},  /* fuzzy */
+/* sv */ {IDS_NEW_PAL_EMULATION_SV, ""},  /* fuzzy */
+
 /* en */ {IDS_EXTERNAL_PALETTE_SELECT,    "Select External Palette file"},
 /* de */ {IDS_EXTERNAL_PALETTE_SELECT_DE, "Benutze externe Palette (Datei)"},
 /* fr */ {IDS_EXTERNAL_PALETTE_SELECT_FR, ""},  /* fuzzy */
@@ -4219,6 +4282,33 @@ intl_translate_t intl_string_table[] = {
 /* nl */ {IDS_PAL_BLUR_0_1_NL, "PAL-Wazigheid (0..1)"},
 /* pl */ {IDS_PAL_BLUR_0_1_PL, ""},  /* fuzzy */
 /* sv */ {IDS_PAL_BLUR_0_1_SV, "PAL-suddighet (0..1)"},
+
+/* en */ {IDS_NEW_PAL_TINT_0_2,    "Tint (0..2)"},
+/* de */ {IDS_NEW_PAL_TINT_0_2_DE, ""},  /* fuzzy */
+/* fr */ {IDS_NEW_PAL_TINT_0_2_FR, ""},  /* fuzzy */
+/* hu */ {IDS_NEW_PAL_TINT_0_2_HU, ""},  /* fuzzy */
+/* it */ {IDS_NEW_PAL_TINT_0_2_IT, ""},  /* fuzzy */
+/* nl */ {IDS_NEW_PAL_TINT_0_2_NL, ""},  /* fuzzy */
+/* pl */ {IDS_NEW_PAL_TINT_0_2_PL, ""},  /* fuzzy */
+/* sv */ {IDS_NEW_PAL_TINT_0_2_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_NEW_PAL_PHASE_0_2,    "Odd Lines Phase (0..2)"},
+/* de */ {IDS_NEW_PAL_PHASE_0_2_DE, ""},  /* fuzzy */
+/* fr */ {IDS_NEW_PAL_PHASE_0_2_FR, ""},  /* fuzzy */
+/* hu */ {IDS_NEW_PAL_PHASE_0_2_HU, ""},  /* fuzzy */
+/* it */ {IDS_NEW_PAL_PHASE_0_2_IT, ""},  /* fuzzy */
+/* nl */ {IDS_NEW_PAL_PHASE_0_2_NL, ""},  /* fuzzy */
+/* pl */ {IDS_NEW_PAL_PHASE_0_2_PL, ""},  /* fuzzy */
+/* sv */ {IDS_NEW_PAL_PHASE_0_2_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_NEW_PAL_OFFSET_0_2,    "Odd Lines Offset (0..2)"},
+/* de */ {IDS_NEW_PAL_OFFSET_0_2_DE, ""},  /* fuzzy */
+/* fr */ {IDS_NEW_PAL_OFFSET_0_2_FR, ""},  /* fuzzy */
+/* hu */ {IDS_NEW_PAL_OFFSET_0_2_HU, ""},  /* fuzzy */
+/* it */ {IDS_NEW_PAL_OFFSET_0_2_IT, ""},  /* fuzzy */
+/* nl */ {IDS_NEW_PAL_OFFSET_0_2_NL, ""},  /* fuzzy */
+/* pl */ {IDS_NEW_PAL_OFFSET_0_2_PL, ""},  /* fuzzy */
+/* sv */ {IDS_NEW_PAL_OFFSET_0_2_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_PAL_MODE,    "PAL Mode"},
 /* de */ {IDS_PAL_MODE_DE, "PAL Modus"},

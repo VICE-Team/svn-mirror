@@ -67,7 +67,7 @@
 
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
-ui_menu_entry_t set_video_standard_submenu[] = {
+static ui_menu_entry_t set_video_standard_c128_submenu[] = {
     { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
       (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
     { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
@@ -546,6 +546,10 @@ static void c128ui_dynamic_menu_shutdown(void)
 
 int c128ui_init(void)
 {
+    memcpy(set_video_standard_submenu,
+           set_video_standard_c128_submenu,
+           sizeof(set_video_standard_c128_submenu));
+
     ui_set_application_icon(c128_icon_data);
     c128ui_dynamic_menu_create();
     ui_set_left_menu(c128_left_menu);

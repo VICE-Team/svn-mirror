@@ -125,6 +125,16 @@ fi
 if test x"$host_os" = "xminix"; then
   AC_DEFINE(MINIX_SUPPORT,,[do we need minix support])
   CFLAGS="$CFLAGS -D_MINIX -D_POSIX_SOURCE"
+  MINIX_RELEASE=`uname -s`
+  MINIX_VERSION=`uname -v`
+  if test x"$MINIX_RELEASE" != "x3"; then
+    AC_MSG_ERROR([VICE works only on minix 3 and up])
+  fi
+  case "$MINIX_VERSION" in
+    1.3*)
+      AC_DEFINE(MINIX_HAS_RECV_SEND,,[Define if this version of minix has the recv and send prototypes])
+      ;;
+  esac  
 fi
 
 if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin"; then

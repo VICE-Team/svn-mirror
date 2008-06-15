@@ -30,9 +30,9 @@
 #include "uimenu.h"
 
 extern struct ui_menu_entry_s vicii_submenu[];
+extern struct ui_menu_entry_s set_video_standard_submenu[];
 
 extern void uivicii_menu_create(void);
 extern void uivicii_menu_shutdown(void);
 
 #endif
-

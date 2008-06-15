@@ -27,12 +27,14 @@
 #ifndef _C64ROM_H
 #define _C64ROM_H
 
-extern int c64rom_load_kernal(const char *rom_name);
+extern int c64rom_load_kernal(const char *rom_name, BYTE *new_kernal);
 extern int c64rom_load_basic(const char *rom_name);
 extern int c64rom_load_chargen(const char *rom_name);
 
 extern int c64rom_get_kernal_checksum(void);
 extern int c64rom_get_basic_checksum(void);
+
+extern int c64rom_cartkernal_active;
 
 #endif
 

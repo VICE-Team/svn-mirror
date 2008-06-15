@@ -186,22 +186,27 @@ static float video_gamma(float value, float gamma, float bri, float con)
 /* conversion of YCbCr to RGB */
 
 static void video_convert_ycbcr_to_rgb(video_ycbcr_color_t *src, float sat,
-                                       float bri, float con, float gam,
+                                       float bri, float con, float gam, float tin,
                                        palette_entry_t *dst)
 {
     float rf, bf, gf;
+    float cb,cr,y;
     int r, g, b;
 
-    /* apply saturation */
+    cb=src->cb;
+    cr=src->cr;
+    y=src->y;
 
-    src->cb *= sat;
-    src->cr *= sat;
+    cr += tin; /* apply tint */
+
+    /* apply saturation */
+    cb *= sat;
+    cr *= sat;
 
     /* convert YCbCr to RGB */
-
-    bf = src->cb + src->y;
-    rf = src->cr + src->y;
-    gf = src->y - (0.1145f / 0.5866f) * src->cb - (0.2989f / 0.5866f) * src->cr;
+    bf = cb + y;
+    rf = cr + y;
+    gf = y - (0.1145f / 0.5866f) * cb - (0.2989f / 0.5866f) * cr;
 
     rf = video_gamma(rf, gam, bri, con);
     gf = video_gamma(gf, gam, bri, con);
@@ -312,25 +317,57 @@ static void video_calc_ycbcrtable(const video_ycbcr_palette_t *p,
 {
     video_ycbcr_color_t *primary;
     unsigned int i, lf, hf;
-    float sat;
+    float sat,tin;
 
     lf = 64*video_resources.pal_blur/1000;
     hf = 256 - (lf << 1);
     sat = ((float)(video_resources.color_saturation)) * (256.0f / 1000.0f);
+    tin = (((float)(video_resources.color_tint)) * (50.0f / 2000.0f))-25.0f;
+
     for (i = 0;i < p->num_entries; i++) {
         SDWORD val;
+	
+	/* create primary table */
         primary = &p->entries[i];
         val = (SDWORD)(primary->y * 256.0f);
         color_tab->ytable[i] = val;
         color_tab->ytablel[i] = val*lf;
         color_tab->ytableh[i] = val*hf;
-        color_tab->cbtable[i] = (SDWORD)(primary->cb * sat);
-        color_tab->crtable[i] = (SDWORD)(primary->cr * sat);
+        color_tab->cbtable[i] = (SDWORD)((primary->cb)* sat);
+	/* tint, add to cr in odd lines */
+	val = (SDWORD)(tin);
+        color_tab->crtable[i] = (SDWORD)((primary->cr+val) * sat);
  
         /* YCbCr to YUV, scale [0, 256] to [0, 255] */
         color_tab->yuv_table[i] = ((BYTE)(primary->y * 255 / 256 + 0.5) << 16)
             | ((BYTE)(0.493111 * primary->cb * 255 / 256 + 128.5) << 8)
             | (BYTE)(0.877283 * primary->cr * 255 / 256 + 128.5);
+	
+    }
+}
+
+static void video_calc_ycbcrtable_oddlines(const video_ycbcr_palette_t *p,
+                                  video_render_color_tables_t *color_tab)
+{
+    video_ycbcr_color_t *primary;
+    unsigned int i, lf, hf;
+    float sat,tin;
+
+    sat = ((float)(video_resources.color_saturation)) * (256.0f / 1000.0f);
+    tin = (((float)(video_resources.color_tint)) * (50.0f / 2000.0f))-25.0f;
+    
+    lf = 64*video_resources.pal_blur/1000;
+    hf = 256 - (lf << 1);
+    for (i = 0;i < p->num_entries; i++) {
+        SDWORD val;
+	
+	/* create primary table */
+        primary = &p->entries[i];
+        val = (SDWORD)(primary->y * (256.0f*1.00f));
+        color_tab->cbtable_odd[i] = (SDWORD)((primary->cb)* sat);
+	/* tint, substract from cr in odd lines */
+	val = (SDWORD)(tin);
+        color_tab->crtable_odd[i] = (SDWORD)((primary->cr-val) * sat);
     }
 }
 
@@ -357,18 +394,42 @@ static void video_cbm_palette_to_ycbcr(const video_cbm_palette_t *p,
     }
 }
 
+/*
+	offsets between +45.0 and -45.0 kinda make sense (ie the colors will not
+	look terribly wrong.) a "perfect" c64 setup will use +/- 0 (and thus the
+	colorshifting caused by the phase differences will not be visible), however
+	such thing doesn't exist in the real world, and infact gfx people are
+	(ab)using this "feature" in their pictures.
+	
+	- my c64 seems to use ~ +20.0 (gpz)
+*/
+
+static void video_cbm_palette_to_ycbcr_oddlines(const video_cbm_palette_t *p,
+				       video_ycbcr_palette_t* ycbcr)
+{
+    unsigned int i;
+    float offs=(((float)(video_resources.pal_oddlines_phase)) / (2000.0f / 90.0f))+(180.0f-45.0f);
+
+    for (i = 0;i < p->num_entries; i++) {
+        video_convert_cbm_to_ycbcr(&p->entries[i], p->saturation,
+                                   (p->phase+offs), &ycbcr->entries[i]);
+    }
+}
+
 /* Calculate a RGB palette out of VIC/VIC-II/TED colors.  */
 static palette_t *video_calc_palette(const video_ycbcr_palette_t *p)
 {
     palette_t *prgb;
     video_ycbcr_color_t primary;
     unsigned int i, j, index;
-    float sat, bri, con, gam, cb, cr;
+    float sat, bri, con, gam, cb, cr,tin;
 
     sat = ((float)(video_resources.color_saturation     )) / 1000.0f;
     bri = ((float)(video_resources.color_brightness-1000)) * (128.0f / 1000.0f);
     con = ((float)(video_resources.color_contrast       )) / 1000.0f;
     gam = ((float)(video_resources.color_gamma          )) / 1000.0f;
+    tin = (((float)(video_resources.color_tint           )) / (2000.0f / 50.0f))-25.0f;
+    
     if ((!video_resources.delayloop_emulation) || (p->num_entries > 16)) {
         /* create RGB palette with the base colors of the video chip */
 
@@ -377,7 +438,7 @@ static palette_t *video_calc_palette(const video_ycbcr_palette_t *p)
             return NULL;
 
         for (i = 0; i <p->num_entries; i++) {
-            video_convert_ycbcr_to_rgb(&p->entries[i], sat, bri, con, gam,
+            video_convert_ycbcr_to_rgb(&p->entries[i], sat, bri, con, gam, tin,
                                        &prgb->entries[i]);
         }
     } else {
@@ -397,7 +458,7 @@ static palette_t *video_calc_palette(const video_ycbcr_palette_t *p)
                 primary = p->entries[i];
                 primary.cb = (primary.cb + cb) * 0.5f;
                 primary.cr = (primary.cr + cr) * 0.5f;
-                video_convert_ycbcr_to_rgb(&primary, sat, bri, con, gam,
+                video_convert_ycbcr_to_rgb(&primary, sat, bri, con, gam, tin,
                                            &prgb->entries[index]);
                 index++;
             }
@@ -457,6 +518,9 @@ int video_color_update_palette(struct video_canvas_s *canvas)
         video_cbm_palette_to_ycbcr(canvas->videoconfig->cbm_palette, ycbcr);
         video_calc_ycbcrtable(ycbcr, &canvas->videoconfig->color_tables);
         palette = video_calc_palette(ycbcr);
+	/* additional table for odd lines */
+        video_cbm_palette_to_ycbcr_oddlines(canvas->videoconfig->cbm_palette, ycbcr);
+        video_calc_ycbcrtable_oddlines(ycbcr, &canvas->videoconfig->color_tables);
     }
 
     video_ycbcr_palette_free(ycbcr);

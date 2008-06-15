@@ -1,8 +1,7 @@
 /*
- * dlg-color.h - The dialog windows.
+ * stardos.h - Cartridge handling, StarDOS cart.
  *
- * Written by
- *  Thomas Bretz <tbretz@gsi.de>
+ * (w)2008 Groepaz/Hitmen
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,16 +23,25 @@
  *
  */
 
-// Color Dialog
-#define ID_SATURATION      0x11
-#define ID_BRIGHTNESS      0x12
-#define ID_GAMMA           0x13
-#define ID_CONTRAST        0x14
-#define ID_SCANLINE        0x15 // Only in PAL-TRUE and double-size
-#define ID_BLUR            0x16 // Only in PAL-TRUE
-#define ID_TINT            0x17
-#define ID_ODDLINE_PHASE   0x18
-#define ID_ODDLINE_OFFSET  0x19
-#define ID_DEFAULT         0x1a
+#ifndef _STARDOS_H
+#define _STARDOS_H
 
-extern void color_dialog(HWND hwnd);
+#include <stdio.h>
+
+#include "types.h"
+
+extern int stardos_kernal_enabled;
+
+extern BYTE REGPARM1 stardos_io1_read(WORD addr);
+extern BYTE REGPARM1 stardos_io2_read(WORD addr);
+extern BYTE REGPARM1 stardos_kernal_read(WORD addr);
+extern BYTE REGPARM1 stardos_roml_read(WORD addr);
+
+extern void stardos_config_init(void);
+extern void stardos_reset(void);
+extern void stardos_config_setup(BYTE *rawcart);
+extern int stardos_bin_attach(const char *filename, BYTE *rawcart);
+extern int stardos_crt_attach(FILE *fd, BYTE *rawcart);
+extern void stardos_detach(void);
+
+#endif

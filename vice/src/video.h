@@ -117,6 +117,8 @@ struct video_render_color_tables_s {
     SDWORD ytableh[128];	/* luminance for current pixel */
     SDWORD cbtable[128];
     SDWORD crtable[128];
+    SDWORD cbtable_odd[128]; /* exact pal emulation, phase shifted color carrier */
+    SDWORD crtable_odd[128]; /* exact pal emulation, phase shifted color carrier */
 
     /* YUV table for hardware rendering: (Y << 16) | (U << 8) | V */
     DWORD yuv_table[128];
@@ -134,7 +136,7 @@ struct video_render_config_s {
     int doublescan;                /* Doublescan enabled?  */
     int hwscale;                   /* Hardware scaling enabled? */
     int scale2x;                   /* Scale2x enabled?  */
-    unsigned int external_palette; /* Use an external palette?  */
+    int external_palette;          /* Use an external palette?  */
     char *external_palette_name;   /* Name of the external palette.  */
     int double_buffer;             /* Double buffering enabled? */
     struct video_cbm_palette_s *cbm_palette; /* Internal palette.  */

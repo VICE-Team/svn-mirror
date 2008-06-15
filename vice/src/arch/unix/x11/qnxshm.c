@@ -7,6 +7,10 @@
 #if defined(__QNX__) && !defined(__QNXNTO__)
 
 #include <sys/types.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "qnxshm.h"
 
 int shmget(key_t key, size_t size, int flags)
 {

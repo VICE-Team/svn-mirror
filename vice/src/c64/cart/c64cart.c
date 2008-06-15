@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "actionreplay3.h"
+#include "actionreplay4.h"
 #include "actionreplay.h"
 #include "atomicpower.h"
 #include "alarm.h"
@@ -49,6 +50,7 @@
 #include "monitor.h"
 #include "resources.h"
 #include "retroreplay.h"
+#include "stardos.h"
 #include "stb.h"
 #include "supersnapshot.h"
 #ifdef HAS_TRANSLATION
@@ -73,6 +75,7 @@ static alarm_t *cartridge_alarm = NULL;
 
 static unsigned int cartridge_int_num;
 
+static int trying_cart = 0;
 
 int try_cartridge_init(int c)
 {
@@ -81,6 +84,7 @@ int try_cartridge_init(int c)
     if (cartres)
         return 0;
 
+    trying_cart = 1;
     return cartridge_attach_image(c64cart_type, cartfile);
 }
 
@@ -190,6 +194,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartar3", CALL_FUNCTION, 1, attach_cartridge_cmdline,
       (void *)CARTRIDGE_ACTION_REPLAY3, NULL, NULL,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART },
+    { "-cartar4", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_ACTION_REPLAY4, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART },
     { "-cartrr", CALL_FUNCTION, 1, attach_cartridge_cmdline,
       (void *)CARTRIDGE_RETRO_REPLAY, NULL, NULL,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_RETRO_REPLAY_CART },
@@ -217,6 +224,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartstb", CALL_FUNCTION, 1, attach_cartridge_cmdline,
       (void *)CARTRIDGE_STRUCTURED_BASIC, NULL, NULL,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_STB_CART },
+    { "-cartstardos", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_STARDOS, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_STARDOS_CART },
     { "-cartexpert", CALL_FUNCTION, 0, attach_cartridge_cmdline,
       (void *)CARTRIDGE_EXPERT, NULL, NULL,
       0, IDCLS_ENABLE_EXPERT_CART },
@@ -246,6 +256,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartar3", CALL_FUNCTION, 1, attach_cartridge_cmdline,
       (void *)CARTRIDGE_ACTION_REPLAY3, NULL, NULL,
       N_("<name>"), N_("Attach raw 16KB Action Replay III cartridge image") },
+    { "-cartar4", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_ACTION_REPLAY4, NULL, NULL,
+      N_("<name>"), N_("Attach raw 32KB Action Replay 4 cartridge image") },
     { "-cartrr", CALL_FUNCTION, 1, attach_cartridge_cmdline,
       (void *)CARTRIDGE_RETRO_REPLAY, NULL, NULL,
       N_("<name>"), N_("Attach raw 64KB Retro Replay cartridge image") },
@@ -273,6 +286,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartstb", CALL_FUNCTION, 1, attach_cartridge_cmdline,
       (void *)CARTRIDGE_STRUCTURED_BASIC, NULL, NULL,
       N_("<name>"), N_("Attach raw Structured Basic cartridge image") },
+    { "-cartstardos", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_STARDOS, NULL, NULL,
+      N_("<name>"), N_("Attach raw StarDOS image") },
     { "-cartexpert", CALL_FUNCTION, 0, attach_cartridge_cmdline,
       (void *)CARTRIDGE_EXPERT, NULL, NULL,
       NULL, N_("Enable expert cartridge") },
@@ -312,9 +328,17 @@ int cartridge_attach_image(int type, const char *filename)
     /* allocate temporary array */
     rawcart = lib_malloc(0x88000);
 
-    /* Do not detach cartridge when attaching the same cart type again.  */
-    if (type != c64cart_type)
-        cartridge_detach_image();
+/*  cart should always be detached. there is no reason for doing fancy checks
+    here, and it will cause problems incase a cart MUST be detached before
+    attaching another, or even itself. (eg for initialization reasons)
+    
+    most obvious reason: attaching a different ROM (software) for the same
+    cartridge (hardware) */
+
+    if (trying_cart == 0)
+      cartridge_detach_image();
+    else
+      trying_cart = 0;
 
     switch(type) {
       case CARTRIDGE_GENERIC_8KB:
@@ -330,6 +354,10 @@ int cartridge_attach_image(int type, const char *filename)
         break;
       case CARTRIDGE_ACTION_REPLAY3:
         if (actionreplay3_bin_attach(filename, rawcart) < 0)
+            goto done;
+        break;
+      case CARTRIDGE_ACTION_REPLAY4:
+        if (actionreplay4_bin_attach(filename, rawcart) < 0)
             goto done;
         break;
       case CARTRIDGE_ACTION_REPLAY:
@@ -379,6 +407,10 @@ int cartridge_attach_image(int type, const char *filename)
         break;
       case CARTRIDGE_STRUCTURED_BASIC:
         if (stb_bin_attach(filename, rawcart) < 0)
+            goto done;
+        break;
+      case CARTRIDGE_STARDOS:
+        if (stardos_bin_attach(filename, rawcart) < 0)
             goto done;
         break;
       default:
@@ -435,6 +467,7 @@ void cartridge_trigger_freeze(void)
     int type = ((c64cart_type == CARTRIDGE_CRT) ? crttype : c64cart_type);
 
     switch (type) {
+      case CARTRIDGE_ACTION_REPLAY4:
       case CARTRIDGE_ACTION_REPLAY3:
       case CARTRIDGE_ACTION_REPLAY:
       case CARTRIDGE_KCS_POWER:

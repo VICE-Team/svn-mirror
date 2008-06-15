@@ -1,3 +1,100 @@
+2008-06-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* gfxoutputdrv/ffmpegdrv.c: Corrected a typo.
+
+	* vdrive/vdrive-bam.h, vdrive/vdrive-bam.c: Corrected block
+	allocation and interleave for c1541/vdrive as provided by Ingo
+	Korb <ingo@akana.de>.
+
+	* video/render2x2pal.c, video/render2x2.c, video/render2x2pal.h,
+	video/video-resources.c, video/render2x2.h, video/video-color.c,
+	video/video-resources.h, video/video-resources-pal.c,
+	video/video-render-pal.c, video.h,
+	vicii/vicii-cmdline-options.c: Added new PAL emulation as
+	provided by Groepaz/Hitmen <groepaz@gmx.net>.
+
+	* network.c: Made the recv and send prototypes for minix only be
+	used for minix versions that don't have the prototypes in the
+	system headers.
+
+	* sounddrv/soundbeos.cc, initcmdline.c, arch/beos/archdep.c,
+	arch/beos/ui_ram.cc, arch/beos/ui_sound.cc,
+	arch/beos/ui_video.cc, arch/beos/kbd.c, arch/beos/ui_vicii.cc,
+	arch/beos/joy.cc, arch/beos/kbd.h, arch/beos/ui_sid.cc,
+	arch/beos/vicewindow.cc, arch/beos/constants.h,
+	arch/beos/ui_device.cc, arch/beos/vicemenu.cc,
+	arch/beos/uimon.c, arch/beos/blockdev.c, arch/beos/c64ui.cc:
+	Fixed some beos warnings/issues.
+
+	* c64/c64io.c, c64/c64io.h, c64/cart/actionreplay4.c,
+	c64/cart/actionreplay4.h, c64/cart/crt.c, c64/cart/c64cartmem.c,
+	c64/cart/c64cart.c, c64/cart/stardos.c, c64/cart/stardos.h,
+	c64/cart/Makefile.am, cartridge.h: Added the action replay 4 and
+	stardos carts, as provided by Groepaz/Hitmen <groepaz@gmx.net>.
+
+	* c64/c64-resources.c, c64/c64rom.c, c64/c64rom.h,
+	c128/c128rom.c, c128/c128rom.h, c128/c128-resources.c: Added a
+	parameter to the c64rom_load_kernal function to be able to have
+	hardware kernal replacements (without using ultimax), as used in
+	the stardos cart.
+
+	* translate.txt, translate.c, arch/amigaos/intl.c,
+	arch/amigaos/intl.txt, arch/win32/intl.c: Added translation
+	elements for the new PAL emulation and new carts.
+
+	* sound.c: Added a fix to not limit the minimum size of the
+	sound buffer as provided by Hannu Nuotio <hannu.nuotio@tut.fi>.
+
+	* arch/amigaos/mui/uivideoc128.c,
+	arch/amigaos/mui/uivideoc64plus4vic20.c,
+	arch/amigaos/c64uires.h, arch/amigaos/c128uires.h,
+	arch/amigaos/uic64cart.c, arch/amigaos/uires.h,
+	arch/win32/resmenu.txt, arch/win32/uic64cart.c,
+	arch/win32/resstrings.txt, arch/win32/resdialogs.txt,
+	arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/uivideo.c, arch/win32/res.rc,
+	arch/os2/dialogs/dlg-color.rc, arch/os2/dialogs/menubar.rc,
+	arch/os2/dialogs/menubar.c, arch/os2/dialogs/menubar.h,
+	arch/os2/dialogs/dlg-color.c, arch/os2/dialogs/dlg-color.h,
+	arch/unix/gui/uipalemu.c, arch/unix/gui/uic64cart.c,
+	arch/unix/x11/gnome/uipalcontrol.c, arch/msdos/uic64cart.c:
+	Added UI elements for the new PAL emulation and the new carts.
+
+	* arch/amigaos/make-bindist.sh,
+	arch/unix/sco_sol/make-bindist.sh,
+	arch/unix/gp2x/make-bindist.sh, arch/unix/qnx6/make-bindist.sh,
+	arch/msdos/make-bindist.sh, arch/beos/make-bindist.sh: Fixed to
+	not include the new win32 shortcut file in the binary dist.
+
+	* arch/win32/watcom/c64cart.tgt, arch/win32/c64cart.dsp,
+	arch/os2/watcom/c64cart.tgt, arch/os2/vac++/incl/c64cart.icc:
+	Added the new cart files to the project files.
+
+	* arch/unix/vsyncarch.c, arch/unix/rs232.c, arch/unix/coproc.c,
+	arch/unix/signals.c: Fixed some openserver 6.x issues.
+
+	* arch/unix/gui/c64ui.c, arch/unix/gui/uivicii.c,
+	arch/unix/gui/uivicii.h, arch/unix/gui/c128ui.c,
+	arch/unix/gui/cbm2ui.c: Fixed the set_video_standard_submenu
+	issue.
+
+	* arch/unix/mousedrv.c, arch/unix/x11/xaw/x11ui.c: Added xaw
+	mouse grab fix as provided by Hannu Nuotio
+	<hannu.nuotio@tut.fi>.
+
+	* arch/unix/x11/qnxshm.c: Fixed some qnx warnings/issues.
+
+	* arch/unix/x11/xaw/widgets/FileSel.c,
+	arch/unix/x11/xaw/widgets/MultiList.c: Added min/max definition
+	fix.
+
+	* arch/unix/x11/renderxv.c: Fixed some minix warnings/issues.
+
+	* arch/beos/console.c: Added beos console fix as provided by
+	Marcus Sutton <loggedoubt@gmail.com>
+
+	* cartconv.c: Added support for the new carts.
+
 2008-06-06  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* gfxoutputdrv/ffmpegdrv.c: Applied fix from Christian
@@ -26,19 +123,6 @@
 	* arch/unix/x11/xaw/widgets/MultiList.c,
 	arch/unix/x11/xaw/widgets/TextField.c: Removed warnings by
 	providing prototypes for some functions.
-
-2008-06-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
-
-	* configure.in: Added extra defines needed for minix, alligned
-	the printout of configure and added the --enable-memmap
-	configure option for the memmap feature from VICEplus as
-	provided by Hannu Nuotio <hannu.nuotio@tut.fi>.
-
-	* build/qnx4/build.sh: Fixed the qnx 4.x build script.
-
-2008-06-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
-
-	* intl2po.c: Fixed for the sco ports.
 
 2008-06-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
@@ -156,10 +240,6 @@
 
 2008-05-24  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
-	* Makefile.am: Added a '@' in front of the 'make install' echo.
-
-2008-05-24  Marco van den Heuvel  <blackystardust68@yahoo.com>
-
 	* joystick.c, keyboard.c: Added #ifdef COMMON_KBD around common
 	keyboard specific elements.
 
@@ -273,13 +353,6 @@
 	* Version 1.22.14.
 
 2008-05-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
-
-	* configure.in, data/fonts/vice-cbm.bdf,
-	data/fonts/Makefile.am: Added a check for the 'fc-cache'
-	command, and use the .bdf font if not present.
-
-	* doc/html/Makefile.am, doc/Makefile.am: Fixed the
-	ALTERNATE_DOCDIR problems with automake.
 
 	* arch/unix/x11/xaw/x11video.c: Added #ifdef HAVE_XVIDEO for
 	some xvideo specific code.

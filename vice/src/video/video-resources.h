@@ -29,6 +29,7 @@
 
 #define VIDEO_RESOURCE_PAL_MODE_FAST	0
 #define VIDEO_RESOURCE_PAL_MODE_TRUE	1
+#define VIDEO_RESOURCE_PAL_MODE_NEW	2
 
 struct video_resources_s
 {
@@ -36,10 +37,13 @@ struct video_resources_s
     int color_contrast;
     int color_brightness;
     int color_gamma;
-    int delayloop_emulation;	/* fake PAL emu */
-    int pal_scanlineshade;
-    int pal_blur;
+    int color_tint;
+    int delayloop_emulation;	/* flag for fake PAL emu */
+    int pal_scanlineshade;	/* amount of scanline shade */
+    int pal_blur;		/* exact pal emu, luma blur */
     int pal_mode;
+    int pal_oddlines_phase;	/* exact pal emu, oddlines UV phase offset */
+    int pal_oddlines_offset;	/* exact pal emu, oddlines UV multiplier */
 };
 
 typedef struct video_resources_s video_resources_t;

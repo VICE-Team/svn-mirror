@@ -46,13 +46,22 @@ BEGIN
         CONTROL "Defaults", ID_DEFAULT, 150,  5,  44, 12, STY_PUSHBUTTON  
         CONTROL "Color",    ID_NONE,      7, 22, 186, 77, STY_GROUPBOX
 
-    	TEXT("Saturation",  12, 75)
-	TEXT("Contrast",    12, 65)
-    	TEXT("Brightness",  12, 55)
-    	TEXT("Gamma",       12, 45)
-    	TEXT("PAL-ScanLine",12, 35)
-    	TEXT("PAL-Blur",    12, 25)
+    	TEXT("Oddline Offset",12, 105)
+    	TEXT("Oddline Phase", 12, 95)
+    	TEXT("Tint",          12, 85)
+    	TEXT("Saturation",    12, 75)
+	TEXT("Contrast",      12, 65)
+    	TEXT("Brightness",    12, 55)
+    	TEXT("Gamma",         12, 45)
+    	TEXT("PAL-ScanLine",  12, 35)
+    	TEXT("PAL-Blur",      12, 25)
 
+        CONTROL "",      ID_ODDLINE_OFFSET, 56, 105, 135, 16, STY_SLIDER
+                CTLDATA 12, 0, 201, 0, 0, 0
+        CONTROL "",      ID_ODDLINE_PHASE, 56, 95, 135, 16, STY_SLIDER
+                CTLDATA 12, 0, 201, 0, 0, 0
+        CONTROL "",      ID_TINT, 56, 85, 135, 16, STY_SLIDER
+                CTLDATA 12, 0, 201, 0, 0, 0
         CONTROL "",      ID_SATURATION, 56, 75, 135, 16, STY_SLIDER
                 CTLDATA 12, 0, 201, 0, 0, 0
         CONTROL "",      ID_CONTRAST,   56, 65, 135, 10, STY_SLIDER
@@ -68,4 +77,3 @@ BEGIN
 
     END
 END
-

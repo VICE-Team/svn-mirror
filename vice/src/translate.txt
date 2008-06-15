@@ -441,7 +441,13 @@ IDCLS_ATTACH_GENERIC_8KB_CART
 IDCLS_ATTACH_GENERIC_16KB_CART
 
 /* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_STARDOS_CART
+
+/* c64/cart/c64cart.c */
 IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART
 
 /* c64/cart/c64cart.c */
 IDCLS_ATTACH_RAW_ACTION_REPLAY_CART
@@ -805,6 +811,15 @@ IDCLS_SET_BRIGHTNESS
 
 /* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 IDCLS_SET_GAMMA
+
+/* vicii/vicii-cmdline-options.c */
+IDCLS_SET_TINT
+
+/* vicii/vicii-cmdline-options.c */
+IDCLS_SET_ODDLINES_PHASE
+
+/* vicii/vicii-cmdline-options.c */
+IDCLS_SET_ODDLINES_OFFSET
 
 /* printerdrv/driver-select.c */
 IDCLS_SPECIFY_PRT_DRIVER_4_NAME

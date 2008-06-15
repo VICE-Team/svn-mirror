@@ -86,8 +86,14 @@ typedef	char *			XtPointer;
 #define abs(a)			((a) < 0 ? -(a) : (a))
 #endif
 
+#ifndef max
 #define max(a,b)		((a) > (b) ? (a) : (b))
+#endif
+
+#ifndef min
 #define min(a,b)		((a) < (b) ? (a) : (b))
+#endif
+
 #define XtStrlen(s)		((s) ? strlen(s) : 0)
 
 #define	StrCopy(s)		((char*)strcpy((char *)XtMalloc((strlen(s)+1)*\

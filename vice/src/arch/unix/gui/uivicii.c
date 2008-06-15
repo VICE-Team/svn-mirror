@@ -39,7 +39,13 @@
 #include "vicii.h"
 #include "openGL_sync.h"
 
-extern struct ui_menu_entry_s set_video_standard_submenu[];
+/* array for the actual data to be copied into */
+struct ui_menu_entry_s set_video_standard_submenu[4] = {
+  { NULL },
+  { NULL },
+  { NULL },
+  { NULL }
+};
 
 #include "uifullscreen-menu.h"
 UI_FULLSCREEN(VICII)

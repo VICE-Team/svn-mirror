@@ -50,9 +50,6 @@ static size_t bufferlength;
 /* the next position to write */
 static size_t write_position;
 
-/* Buffer size (bytes).  */
-static unsigned int buffer_len;
-
 /* Size of fragment (bytes).  */
 static unsigned int fragment_size;
 
@@ -99,7 +96,7 @@ extern CLOCK clk;
 
 static int beos_write(SWORD *pbuf, size_t nr)
 {
-	int i,j,count;
+	int i,count;
 	SWORD *p;
 	
 	count = nr / fragment_size;

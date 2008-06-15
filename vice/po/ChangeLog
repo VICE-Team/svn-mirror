@@ -1,3 +1,11 @@
+2008-06-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* nl.po, POTFILES.in: Updated.
+
+2008-06-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* intl2po.c: Fixed for the sco ports.
+
 2008-01-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* nl.po: Updated.

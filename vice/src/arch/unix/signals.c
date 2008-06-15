@@ -30,6 +30,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#ifdef OPENSERVER6_COMPILE
+#include <sys/signal.h>
+#endif
+
 #include "log.h"
 #include "monitor.h"
 #include "signals.h"

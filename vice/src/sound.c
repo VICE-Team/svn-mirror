@@ -630,7 +630,7 @@ int sound_open(void)
         recparam = NULL;
 
     /* Calculate buffer size in seconds. */
-    bufsize = ((buffer_size < 100 || buffer_size > 1000)
+    bufsize = ((buffer_size < 1 || buffer_size > 1000)
               ? SOUND_SAMPLE_BUFFER_SIZE : buffer_size) / 1000.0;
     speed = (sample_rate < 8000 || sample_rate > 96000)
             ? SOUND_SAMPLE_RATE : sample_rate;

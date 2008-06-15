@@ -55,9 +55,6 @@ int joystick_port_map[2];
 #endif
 /* ------------------------------------------------------------------------ */
 
-/* flag for display state of joysticks in statusbar */
-static int joystickdisplay;
-
 /* objects to access hardware devices */
 static BJoystick *bjoystick[2];
 
@@ -98,7 +95,7 @@ static void joystick_close_device(int dev_index)
 	
 	if (joy_dev >= NUM_OF_SOFTDEVICES && joy_dev < NUM_OF_SOFTDEVICES+hardware_joystick_count) {
 		/* it's a hardware-stick; close the device if necessary */
-		int device_num = hardware_joystick[joy_dev-NUM_OF_SOFTDEVICES].device_num;
+		device_num = hardware_joystick[joy_dev-NUM_OF_SOFTDEVICES].device_num;
 		used_by = device_used_by[device_num];
 		device_used_by[device_num] &= ~(1<<dev_index);
 		if (!device_used_by[device_num] && used_by) {

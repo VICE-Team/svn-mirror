@@ -70,6 +70,11 @@
 #define DELA_EP256_CRT         26
 #define REX_EP256_CRT          27
 #define MIKRO_ASSEMBLER_CRT    28
+/* 29 is reserved for the real
+   fc1, the current fc1 will
+   become fc2 */
+#define ACTION_REPLAY4_CRT     30
+#define STARDOS_CRT            31
 
 #define SIZE_4KB     0x1000
 #define SIZE_8KB     0x2000
@@ -145,7 +150,9 @@ static const cart_t cart_info[] = {
   {1, 0, SIZE_8KB, 0x2000, 0x8000, 0, "Dela EP7x8"},
   {1, 0, SIZE_8KB, 0x2000, 0x8000, 0, "Dela EP256"},
   {1, 0, SIZE_8KB, 0, 0x8000, 0, "Rex EP256"},
-  {1, 0, SIZE_8KB, 0x2000, 0x8000, 1, "Mikro Assembler"}
+  {1, 0, SIZE_8KB, 0x2000, 0x8000, 1, "Mikro Assembler"},
+  {1, 0, SIZE_32KB, 0x2000, 0x8000, 4, "Final Cartridge 4"},
+  {0, 1, SIZE_16KB, 0x2000, 0, 0, "StarDOS"}
 };
 
 #ifndef HAVE_STRNCASECMP
@@ -226,7 +233,7 @@ static void usage(void)
   printf("prg      Binary C64 .prg file with load-address\n");
   printf("normal   Generic 8kb/16kb .crt file (Default bin->crt)\n");
   printf("ulti     Ultimax mode 4kb/16kb .crt file\n");
-  printf("ar       Action Replay .crt file\n");
+  printf("ar1      Action Replay .crt file\n");
   printf("kcs      KCS .crt file\n");
   printf("fc3      Final Cartridge 3 .crt file\n");
   printf("simon    Simons Basic .crt file\n");
@@ -254,6 +261,8 @@ static void usage(void)
   printf("dep7x8   Dela EP7x8 .crt file, extra files can be inserted\n");
   printf("dep256   Dela EP256 .crt file, extra files can be inserted\n");
   printf("rep256   Rex EP256 .crt file, extra files can be inserted\n");
+  printf("ar4      Action Replay 4 .crt file\n");
+  printf("star     StarDOS .crt file\n");
   exit(1);
 }
 
@@ -289,8 +298,10 @@ static void checkflag(char *flg, char *arg)
           case 'a':
             if (tolower(arg[1])=='p' || tolower(arg[1])=='t')
               cart_type=ATOMIC_POWER_CRT;
-            if (tolower(arg[1])=='r' || tolower(arg[1])=='c')
+            if (tolower(arg[1])=='r' && tolower(arg[2])!='4')
               cart_type=ACTION_REPLAY_CRT;
+            if (tolower(arg[1])=='r' && tolower(arg[2])=='4')
+              cart_type=ACTION_REPLAY4_CRT;
             if (cart_type==-1)
               usage();
             break;
@@ -401,8 +412,10 @@ static void checkflag(char *flg, char *arg)
           case 's':
             if (tolower(arg[1])=='3' || tolower(arg[1])=='y')
               cart_type=C64GS_CRT;
-            if (tolower(arg[1])=='b' || tolower(arg[1])=='t')
+            if (tolower(arg[1])=='b' || (tolower(arg[1])=='t' && tolower(arg[2])=='r'))
               cart_type=STRUCTURED_BASIC_CRT;
+            if (tolower(arg[1])=='t' && tolower(arg[2])=='a')
+              cart_type=STARDOS_CRT;
             if (tolower(arg[1])=='g')
               cart_type=SUPER_GAMES_CRT;
             if (tolower(arg[1])=='i')
@@ -756,6 +769,32 @@ static void save_zaxxon_crt(void)
   }
 
   if (write_chip_package(0x2000, 1, 0xa000, 0)<0)
+  {
+    cleanup();
+    exit(1);
+  }
+
+  fclose(outfile);
+  bin2crt_ok();
+  cleanup();
+  exit(0);
+}
+
+static void save_stardos_crt(void)
+{
+  if (write_crt_header(1,0)<0)
+  {
+    cleanup();
+    exit(1);
+  }
+
+  if (write_chip_package(0x2000, 0, 0x8000, 0)<0)
+  {
+    cleanup();
+    exit(1);
+  }
+
+  if (write_chip_package(0x2000, 0, 0xe000, 0)<0)
   {
     cleanup();
     exit(1);
@@ -1439,6 +1478,7 @@ int main(int argc, char *argv[])
         }
         break;
       case ACTION_REPLAY_CRT:
+      case ACTION_REPLAY4_CRT:
       case FINAL_CARTRIDGE_3_CRT:
       case SUPER_GAMES_CRT:
       case ATOMIC_POWER_CRT:
@@ -1489,6 +1529,9 @@ int main(int argc, char *argv[])
         break;
       case ZAXXON_CRT:
         save_zaxxon_crt();
+        break;
+      case STARDOS_CRT:
+        save_stardos_crt();
         break;
       case MAGIC_DESK_CRT:
         switch (loadfile_size)

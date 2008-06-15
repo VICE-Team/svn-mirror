@@ -41,6 +41,7 @@ rm `find vice-gp2x-$VICEVERSION -name "dos_*.vkm"`
 rm `find vice-gp2x-$VICEVERSION -name "os2*.vkm"`
 rm `find vice-gp2x-$VICEVERSION -name "win_*.vkm"`
 rm `find vice-gp2x-$VICEVERSION -name "RO*.vkm"`
+rn `find vice-gp2x-$VICEVERSION -name "*.vsc"`
 if test x"$ZIPKIND" = "xzip"; then
   if test x"$ZIP" = "x"; then
     zip -r -9 -q vice-gp2x-$VICEVERSION.zip vice-gp2x-$VICEVERSION

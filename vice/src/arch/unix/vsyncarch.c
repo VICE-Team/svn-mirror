@@ -38,13 +38,6 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-#ifdef OPENSERVER6_COMPILE
-struct timeval {
-  long tv_sec;
-  long tv_usec;
-};
-#endif
-
 /* hook to ui event dispatcher */
 static void_hook_t ui_dispatch_hook;
 

@@ -71,23 +71,44 @@ static UI_CALLBACK(PAL_control_cb)
     int what = (int) UI_MENU_CB_PARAM;
     char*resource;
 
-    if (what == 0) {
-	resource = "PALScanLineShade";
-	resources_get_int(resource, &current);
-	current /= 10;
-	sprintf(buf, "%d", current);
-	button = ui_input_string(_("PAL Scanline shade"),
-				 _("Scanline Shade in percent"),
-				 buf, 50);
-	
-    } else {
-	resource = "PALBlur";
-	resources_get_int(resource, &current);
-	current /= 10;
-	sprintf(buf, "%d", current);
-	button = ui_input_string(_("PAL Blurredness"),
-				 _("Blurredness in percent"),
-				 buf, 50);
+    switch (what)
+    {
+      case 0:
+        resource = "PALScanLineShade";
+        resources_get_int(resource, &current);
+        current /= 10;
+        sprintf(buf, "%d", current);
+        button = ui_input_string(_("PAL Scanline shade"), _("Scanline Shade in percent"), buf, 50);
+        break;
+      case 2:
+        resource = "ColorTint";
+        resources_get_int(resource, &current);
+        current /= 10;
+        sprintf(buf, "%d", current);
+        button = ui_input_string(_("New PAL Tint"), _("Tint in percent"), buf, 50);
+        break;
+      case 3:
+        resource = "PALOddLinePhase";
+        resources_get_int(resource, &current);
+        current /= 10;
+        sprintf(buf, "%d", current);
+        button = ui_input_string(_("New PAL Odd Line Phase"), _("Phase in percent"), buf, 50);
+        break;
+      case 4:
+        resource = "PALOddLineOffset";
+        resources_get_int(resource, &current);
+        current /= 10;
+        sprintf(buf, "%d", current);
+        button = ui_input_string(_("New PAL Odd Line Offset"), _("Offset in percent"), buf, 50);
+        break;
+      case 1:
+      default:
+        resource = "PALBlur";
+        resources_get_int(resource, &current);
+        current /= 10;
+        sprintf(buf, "%d", current);
+        button = ui_input_string(_("PAL Blurredness"), _("Blurredness in percent"), buf, 50);
+        break;
     }
     
     switch (button) {
@@ -114,15 +135,22 @@ ui_menu_entry_t PALMode_submenu[] = {
     { "--" },
     { N_("*Fast PAL Emulation"),
       (ui_callback_t)radio_PALMode, (ui_callback_data_t)0, NULL },
-    { N_("*Exact PAL Emulation"),
+    { N_("*Old Exact PAL Emulation"),
       (ui_callback_t)radio_PALMode, (ui_callback_data_t)1, NULL },
+    { N_("*New Exact PAL Emulation"),
+      (ui_callback_t)radio_PALMode, (ui_callback_data_t)2, NULL },
 #ifndef USE_GNOMEUI
     { "--" },
     { N_("PAL Scanline Shade"),
       (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 0, NULL },
     { N_("PAL Blurredness"),
       (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 1, NULL },
+    { N_("New PAL Tint"),
+      (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 2, NULL },
+    { N_("New PAL Odd Lines Phase"),
+      (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 3, NULL },
+    { N_("New PAL Odd Lines Offset"),
+      (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 4, NULL },
 #endif
     { NULL }
 };
-

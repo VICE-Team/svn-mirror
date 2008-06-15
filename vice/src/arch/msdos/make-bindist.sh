@@ -48,6 +48,7 @@ rm `find dosvice -name "beos_*.vkm"`
 rm `find dosvice -name "win_*.vkm"`
 rm `find dosvice -name "x11_*.vkm"`
 rm `find dosvice -name "RO*.vkm"`
+rm `find dosvice -name "*.vsc"`
 rm dosvice/html/texi2html
 if test x"$ZIPKIND" = "xzip"; then
   if test x"$ZIP" = "x"; then

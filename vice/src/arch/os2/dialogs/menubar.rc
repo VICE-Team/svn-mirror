@@ -159,7 +159,8 @@ BEGIN
 #ifndef HAVE_TED
  	   MENUITEM "Fast",            IDM_PALFAST,      MIS_TEXT
 #endif
- 	   MENUITEM "True",            IDM_PALON,        MIS_TEXT
+ 	   MENUITEM "Old",            IDM_PALOLD,        MIS_TEXT
+ 	   MENUITEM "New",            IDM_PALNEW,        MIS_TEXT
         END
         MENUITEM "Internal Palette",   IDM_INTERNALPAL,  MIS_TEXT
 #ifdef HAVE_VIC_II

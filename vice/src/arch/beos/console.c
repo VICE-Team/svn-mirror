@@ -53,15 +53,24 @@ extern void add_history ( const char *str );
 #else
 char *readline(const char *prompt)
 {
-    char *p = (char*)lib_malloc(1024);
+    char *p, *v;
 
     console_out(NULL, "%s", prompt);
-
     fflush(stdout);
-    fgets(p, 1024, stdin);
 
-    /* Remove trailing newlines.  */
+    p = (char*)lib_malloc(1024);
+    rv = fgets(p, 1024, stdin);
+    /*
+       fgets returns p on success, or null on EOF.
+       If BeVICE is started from Tracker, it will
+       always get an EOF from stdin.
+    */
+
+    if (!rv)
+        lib_free(p);
+    else
     {
+        /* Remove trailing newlines. */
         int len;
 
         for (len = strlen(p);
@@ -71,7 +80,7 @@ char *readline(const char *prompt)
             p[len - 1] = '\0';
     }
 
-    return p;
+    return rv;
 }
 #endif
 

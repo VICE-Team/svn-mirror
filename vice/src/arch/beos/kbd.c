@@ -54,11 +54,13 @@ static void kbd_debug(const char *format, ...)
 
 /* ------------------------------------------------------------------------ */
 
+#ifndef COMMON_KBD
 /* 40/80 column key.  */
 static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 
 /* CAPS key.  */
 static key_ctrl_caps_func_t key_ctrl_caps_func = NULL;
+#endif
 
 struct _convmap {
     /* Conversion map.  */

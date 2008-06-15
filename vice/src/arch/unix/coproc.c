@@ -61,6 +61,10 @@
 #include <errno.h>
 #include <signal.h>
 
+#ifdef OPENSERVER6_COMPILE
+#include <sys/signal.h>
+#endif
+
 #include "coproc.h"
 
 #include "log.h"

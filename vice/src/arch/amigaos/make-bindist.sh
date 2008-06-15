@@ -157,6 +157,7 @@ rm `find VICE-$AMIGAFLAVOR -name "beos_*.vkm"`
 rm `find VICE-$AMIGAFLAVOR -name "win_*.vkm"`
 rm `find VICE-$AMIGAFLAVOR -name "x11_*.vkm"`
 rm `find VICE-$AMIGAFLAVOR -name "RO*.vkm"`
+rm `find VICE-$AMIGAFLAVOR -name "*.vsc"`
 rm VICE-$AMIGAFLAVOR/html/texi2html
 if test x"$ZIPKIND" = "xzip"; then
   tar cf VICE-$AMIGAFLAVOR.tar VICE-$AMIGAFLAVOR VICE-$AMIGAFLAVOR.info

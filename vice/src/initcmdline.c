@@ -91,7 +91,7 @@ static int cmdline_autoload(const char *param, void *extra_param)
     return 0;
 }
 
-#ifndef __OS2__
+#if !defined(__OS2__) && !defined(__BEOS__)
 static int cmdline_console(const char *param, void *extra_param)
 {
     console_mode = 1;

@@ -45,6 +45,8 @@ src/gfxoutputdrv/ffmpegdrv.c
 src/initcmdline.c
 src/kbdbuf.c
 src/log.c
+src/monitor/mon_command.c
+src/monitor/monitor.c
 src/mouse.c
 src/pet/pet-cmdline-options.c
 src/pet/petpia1.c

@@ -320,7 +320,7 @@ static int set_kernal64_rom_name(const char *val, void *param)
     if (util_string_set(&kernal64_rom_name, val))
         return 0;
 
-    return c128rom_load_kernal64(kernal64_rom_name);
+    return c128rom_load_kernal64(kernal64_rom_name, NULL);
 }
 
 static int set_basic64_rom_name(const char *val, void *param)

@@ -76,6 +76,16 @@ static int set_color_gamma(int val, void *param)
     return video_color_update_palette(video_current_canvas);
 }
 
+static int set_color_tint(int val, void *param)
+{
+    if (val < 0)
+        val=0;
+    if (val > 2000)
+        val=2000;
+    video_resources.color_tint = val;
+    return video_color_update_palette(video_current_canvas);
+}
+
 #ifndef USE_GNOMEUI
 /* remove this once all ports have implemented this ui function */
 #define ui_update_pal_ctrls(a)
@@ -106,6 +116,26 @@ static int set_pal_scanlineshade(int val, void *param)
     return video_color_update_palette(video_current_canvas);
 }
 
+static int set_pal_oddlinesphase(int val, void *param)
+{
+    if (val < 0)
+        val = 0;
+    if (val > 2000)
+        val = 2000;
+    video_resources.pal_oddlines_phase = val;
+    return video_color_update_palette(video_current_canvas);
+}
+
+static int set_pal_oddlinesoffset(int val, void *param)
+{
+    if (val < 0)
+        val = 0;
+    if (val > 2000)
+        val = 2000;
+    video_resources.pal_oddlines_offset = val;
+    return video_color_update_palette(video_current_canvas);
+}
+
 static int set_pal_blur(int val, void *param)
 {
     if (val < 0)
@@ -132,6 +162,8 @@ static const resource_int_t resources_int[] =
       &video_resources.color_brightness, set_color_brightness, NULL },
     { "ColorGamma", 880, RES_EVENT_NO, NULL,
       &video_resources.color_gamma, set_color_gamma, NULL },
+    { "ColorTint", 1000, RES_EVENT_NO, NULL,
+      &video_resources.color_tint, set_color_tint, NULL },
     { "PALEmulation", 0, RES_EVENT_NO, NULL,
       &video_resources.delayloop_emulation, set_delayloop_emulation, NULL },
     { "PALScanLineShade", 667, RES_EVENT_NO, NULL,
@@ -140,6 +172,10 @@ static const resource_int_t resources_int[] =
       &video_resources.pal_blur, set_pal_blur, NULL },
     { "PALMode", VIDEO_RESOURCE_PAL_MODE_TRUE, RES_EVENT_NO, NULL,
       &video_resources.pal_mode, set_pal_mode, NULL },
+    { "PALOddLinePhase", 1250, RES_EVENT_NO, NULL,
+      &video_resources.pal_oddlines_phase, set_pal_oddlinesphase, NULL },
+    { "PALOddLineOffset", 750, RES_EVENT_NO, NULL,
+      &video_resources.pal_oddlines_offset, set_pal_oddlinesoffset, NULL },
     { NULL }
 };
 

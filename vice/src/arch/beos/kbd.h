@@ -92,5 +92,9 @@ extern int kbd_handle_keydown(int kcode);
 extern int kbd_handle_keyup(int kcode);
 extern const char *kbd_code_to_string(int kcode);
 
+#ifdef COMMON_KBD
+void kbd_initialize_numpad_joykeys(int* joykeys);
+#endif
+
 #endif
 

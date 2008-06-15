@@ -216,7 +216,12 @@ int archdep_spawn(const char *name, char **argv,
         stdout_redir = *pstdout_redir;
     }
 
+#ifdef WORDS_BIGENDIAN
+    child_pid = -1;
+#else
     child_pid = vfork();
+#endif
+
     if (child_pid < 0) {
         log_error(LOG_DEFAULT, "vfork() failed: %s.", strerror(errno));
         return -1;

@@ -86,6 +86,10 @@ SOURCE="..\..\c64\cart\actionreplay3.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\actionreplay4.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\actionreplay.c"
 # End Source File
 # Begin Source File
@@ -163,6 +167,10 @@ SOURCE="..\..\c64\cart\rexep256.c"
 # Begin Source File
 
 SOURCE="..\..\c64\cart\ross.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\stardos.c"
 # End Source File
 # Begin Source File
 

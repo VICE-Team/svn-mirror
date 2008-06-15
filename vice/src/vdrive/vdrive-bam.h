@@ -67,6 +67,7 @@ extern int vdrive_bam_set_disk_id(unsigned int unit, BYTE *id);
 extern int vdrive_bam_read_bam(struct vdrive_s *vdrive);
 extern int vdrive_bam_reread_bam(unsigned int unit);
 extern int vdrive_bam_write_bam(struct vdrive_s *vdrive);
+extern int vdrive_bam_get_interleave(unsigned int type);
 
 #endif
 

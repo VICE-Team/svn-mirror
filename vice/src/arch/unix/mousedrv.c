@@ -39,7 +39,7 @@
 #ifndef MACOSX_COCOA
 
 int mouse_x, mouse_y;
-int mouse_accelx, mouse_accely;
+int mouse_accelx = 2, mouse_accely = 2;
 
 
 void mousedrv_mouse_changed(void)
@@ -69,12 +69,10 @@ void mousedrv_init(void)
 
 void mouse_button(int bnumber, int state)
 {
-    if (bnumber == 1)
+    if (bnumber == 0)
         mouse_button_left(state);
-/*
     if (bnumber == 2)
         mouse_button_right(state);
-*/
 }
 
 BYTE mousedrv_get_x(void)

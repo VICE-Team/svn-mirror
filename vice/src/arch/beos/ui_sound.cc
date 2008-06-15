@@ -96,7 +96,6 @@ SoundWindow::SoundWindow()
 	BView *background;
 	BRect r;
 	BBox *box;
-	BCheckBox *checkbox;
 	BMessage *msg;
 	BRadioButton *radiobutton;
 	char str[128];

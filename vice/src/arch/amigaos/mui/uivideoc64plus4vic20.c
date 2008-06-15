@@ -53,6 +53,7 @@ static const int ui_external_palette_enable_values[] = {
 static int ui_PAL_mode_translate[] = {
   IDS_FAST_PAL,
   IDS_PAL_EMULATION,
+  IDS_NEW_PAL_EMULATION,
   0
 };
 
@@ -68,6 +69,9 @@ static ui_to_from_t ui_to_from[] = {
   { NULL, MUI_TYPE_FLOAT, "ColorGamma", NULL, NULL },
   { NULL, MUI_TYPE_FLOAT, "PALScanLineShade", NULL, NULL },
   { NULL, MUI_TYPE_FLOAT, "PALBlur", NULL, NULL },
+  { NULL, MUI_TYPE_FLOAT, "ColorTint", NULL, NULL },
+  { NULL, MUI_TYPE_FLOAT, "PALOddLinePhase", NULL, NULL },
+  { NULL, MUI_TYPE_FLOAT, "PALOddLineOffset", NULL, NULL },
   { NULL, MUI_TYPE_CYCLE, "PALMode", ui_PAL_mode, ui_PAL_mode_values },
   { NULL, MUI_TYPE_CYCLE, NULL, ui_external_palette_enable, ui_external_palette_enable_values },
   { NULL, MUI_TYPE_FILENAME, NULL, NULL, NULL },
@@ -84,7 +88,7 @@ static ULONG Browse( struct Hook *hook, Object *obj, APTR arg )
   fname=BrowseFile(translate_text(IDS_EXTERNAL_PALETTE_SELECT), "#?.vpl", video_canvas);
 
   if (fname!=NULL)
-    set(ui_to_from[5].object, MUIA_String_Contents, fname);
+    set(ui_to_from[8].object, MUIA_String_Contents, fname);
 
   return 0;
 }
@@ -105,6 +109,9 @@ static APTR build_gui(void)
     STRING(ui_to_from[0].object, translate_text(IDS_GAMMA_0_2), ".0123456789", 5+1)
     STRING(ui_to_from[1].object, translate_text(IDS_PAL_SHADE_0_1), ".0123456789", 5+1)
     STRING(ui_to_from[2].object, translate_text(IDS_PAL_BLUR_0_1), ".0123456789", 5+1)
+    STRING(ui_to_from[3].object, translate_text(IDS_NEW_PAL_TINT_0_2), ".0123456789", 5+1)
+    STRING(ui_to_from[4].object, translate_text(IDS_NEW_PAL_PHASE_0_2), ".0123456789", 5+1)
+    STRING(ui_to_from[5].object, translate_text(IDS_NEW_PAL_OFFSET_0_2), ".0123456789", 5+1)
     CYCLE(ui_to_from[3].object, translate_text(IDS_PAL_MODE), ui_PAL_mode)
     CYCLE(ui_to_from[4].object, translate_text(IDS_EXTERNAL_PALETTE), ui_external_palette_enable)
     FILENAME(ui_to_from[5].object, translate_text(IDS_PALETTE_FILENAME), browse_button)
@@ -136,8 +143,8 @@ void ui_video_c64plus4vic20_settings_dialog(video_canvas_t *canvas, char *extern
   video_canvas=canvas;
   intl_convert_mui_table(ui_external_palette_enable_translate, ui_external_palette_enable);
   intl_convert_mui_table(ui_PAL_mode_translate, ui_PAL_mode);
-  ui_to_from[4].resource=external_palette;
-  ui_to_from[5].resource=palette_file;
+  ui_to_from[7].resource=external_palette;
+  ui_to_from[8].resource=palette_file;
 
   window = mui_make_simple_window(build_gui(), translate_text(IDS_VIDEO_SETTINGS));
 

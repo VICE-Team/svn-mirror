@@ -93,7 +93,6 @@ void CreateAndGetAddressList(BListView *addresslistview, int mode)
     int res_value;
     int adr, ladr, hi, index = -1;
     int *hadr;
-	BListItem *item;
 	int cursel = addresslistview->CurrentSelection();
 
     resources_get_int("SidStereoAddressStart", &res_value);
@@ -257,7 +256,7 @@ SidWindow::~SidWindow()
 }
 
 void SidWindow::MessageReceived(BMessage *msg) {
-	int32 index, val;	
+	int32 val;	
 	resource_value_t dummy;
 	BListItem *item;
 	

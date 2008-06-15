@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  Ingo Korb <ingo@akana.de>  
  *
  * Based on old code by
  *  Teemu Rantanen <tvr@cs.hut.fi>
@@ -142,9 +143,35 @@ int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive, BYTE *bam,
                                       unsigned int *track,
                                       unsigned int *sector)
 {
+    unsigned int max_sector, i, t, s;
+
     if (*track == vdrive->Dir_Track)
         return -1;
 
+    /* Calculate the next sector for the current interleave */
+    s = *sector + vdrive_bam_get_interleave(vdrive->image_format);
+    t = *track;
+    max_sector = vdrive_get_max_sectors(vdrive->image_format, t);
+    if (s >= max_sector) {
+        s -= max_sector;
+        if (s != 0)
+            s--;
+    }
+
+    /* Look for a sector on the same track */
+    for (i = 0; i < max_sector; i++) {
+        if (vdrive_bam_allocate_sector(vdrive->image_format, bam, t, s)) {
+            *track = t;
+            *sector = s;
+            return 0;
+        }
+        s++;
+        if (s >= max_sector)
+            s = 0;
+    }
+
+    /* Look for a sector on a close track */
+    *sector = 0;
     if (*track < vdrive->Dir_Track) {
         if (vdrive_bam_alloc_down(vdrive, bam, track, sector) == 0)
             return 0;
@@ -503,6 +530,28 @@ int vdrive_bam_set_disk_id(unsigned int unit, BYTE *id)
     memcpy(vdrive->bam + vdrive->bam_id, id, 2);
 
     return 0;
+}
+
+int vdrive_bam_get_interleave(unsigned int type)
+{
+    /* Note: Values for 2040/8050/8250 determined empirically */
+    switch (type) {
+    case VDRIVE_IMAGE_FORMAT_1541:
+    case VDRIVE_IMAGE_FORMAT_2040:
+        return 10;
+    case VDRIVE_IMAGE_FORMAT_1571:
+        return 6;
+    case VDRIVE_IMAGE_FORMAT_1581:
+        return 1;
+    case VDRIVE_IMAGE_FORMAT_8050:
+        return 6;
+    case VDRIVE_IMAGE_FORMAT_8250:
+        return 7;
+    default:
+        log_error(LOG_ERR,
+                  "Unknown disk type %i.  Using interleave 10.", type);
+        return 10;
+    }
 }
 
 /* ------------------------------------------------------------------------- */
