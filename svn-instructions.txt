@@ -1,0 +1,373 @@
+
+Note that I am describing how to handle everything with a command-line
+SVN client. For GUI clients, it should be possible in a similar way.
+
+Additionally note that this is not a full introducion in Subversion, and
+it is not intended to be. Please, read the SVN book
+(http://svnbook.red-bean.com/) to get used to SVN.
+
+
+1. Reading the SVN repository
+=============================
+
+1.1 Naming scheme of releases:
+------------------------------
+
+The base name of the URL to retrieve working copies (cf. 1.2 below) is 
+   https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/
+
+This will be called $BASE in the sequel.
+
+The naming for the releases is rather easy, but a little bit different
+from what you might be used to with SVN: First the trunk - that is,
+always the latest version - is named trunk. It can be found at
+
+   $BASE/trunk/
+
+All releases (developer releases as well a real releases) are put into
+'directories' at $BASE/tags/... . The main release name is next, and the
+developer releases is last. Here are some examples:
+
+  v1.13:      $BASE/tags/v1.13/v1.13/
+  v1.13.5:    $BASE/tags/v1.13/v1.13.5/
+  v1.22:      $BASE/tags/v1.22/v1.22/
+  v1.22.9:    $BASE/tags/v1.22/v1.22.9/
+
+Note that with the v0.xx releases, the main version had three numbers in
+it, thus:
+
+  v0.14.0:    $BASE/tags/v0.14.0/v0.14.0/
+  v0.14.1:    $BASE/tags/v0.14.1/v0.14.1/
+  v0.14.1.5:  $BASE/tags/v0.14.1/v0.14.1.5/
+
+
+There are exceptions to this rule, though. These are:
+
+  v1.0.0.1:   $BASE/tags/v1.0/v1.0.0.1/
+  v1.0.0.2:   $BASE/tags/v1.0/v1.0.0.2/
+
+  (these two versions are the only ones of v1.xxx where the numbering
+  scheme of v0.xxx was still used)
+
+Additionally, there are the following releases:
+  v1.9a:      $BASE/tags/v1.9/v1.9a/
+  v1.11-old:  $BASE/tags/v1.11/v1.11-old/
+  v1.13a:     $BASE/tags/v1.13/v1.13a/
+
+These are because releases v1.9 and v1.13 were replaced with their "a"
+counterparts shortly after release. v1.11-old was never released, but it
+was planned to release that one.
+
+Additionally note that there have been v0.14.2.74 and v0.14.2.75;
+unfortunately, I do not have these, only a patch from v0.14.2.74 ->
+v0.14.2.75, which is not sufficient to recreate these old ones, as the
+patches v0.14.2.73 -> v0.14.2.74 as well as the patch v0.14.2.75 ->
+v0.15.0 are missing, too.
+
+
+The directory "devel" is used for development work. In devel/branches/,
+every user should create his own working directory with his name (spiro,
+andreasm, tibor, ...). In this directory, additional directories are
+created that resemble actual work.
+
+In devel/tags/, every user should have his own working directory, too
+(names spiro, andreasm, tibor, ...). In this directories, tags are
+applied that resemble some milestones in development. For example, these
+tags are the basis for integration in the next developer release.
+
+
+
+Whenever you are in doubt about the directory structure, it might be a
+good idea to have a look into the online browseable directory on
+SourceForge:
+
+  http://vice-emu.svn.sourceforge.net/viewvc/vice-emu/tags/
+
+or the complete repository:
+
+  http://vice-emu.svn.sourceforge.net/viewvc/vice-emu/
+
+You can also use the "svn ls" command to see the contents of a
+directory. For example,
+
+$ svn ls https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/
+
+will print out everything that is in the tags/ subdirectory.
+
+
+
+1.2. Initial checkout
+---------------------
+
+If you want to start working on VICE, you first have to check out a
+working version of VICE. For example, to get the latest version of VICE,
+just enter:
+
+~/$ svn co https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/trunk/ vice
+
+This will check out the "trunk" version of VICE - that is, always the
+latest - into a new directory called vice (last parameter). If you want
+to get a different version (for example, v1.22.3), just change the URL
+part of the command to:
+
+https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v1.22/v1.22.3
+
+That is, the full command is:
+
+~/$ svn co https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v1.22/v1.22.3 vice
+
+to put everything into a new directory named "vice".
+
+
+
+1.3. Changing your workspace to another release
+-----------------------------------------------
+
+Sometimes, it might be convenient to be able to change your working copy
+to the one from another release. For example, you are hunting for the
+release where a certain bug was introduced. Of course, you can always
+check out specific releases (cf. 1.2). Unfortunately, this will always
+pull ALL files from the server, which takes time and network bandwidth.
+
+Instead, you might want to change a specific directory to another one.
+This can be done with the "svn switch" statement. Take, for example, you
+want to change to v1.20.5. You can do this with:
+
+~/vice$ svn switch https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v1.20/v1.20.5
+
+Note that you must be IN the directory where you previously checked out
+VICE!
+
+You can switch multiple times, as you want to. Note that any changed
+file will get the timestamp of the time this file was written while
+switching. This is to ensure (as good as possible) that the Makefile
+will recognize the changes, so you will be able to compile from that
+working set as soon as possible.
+
+You can switch back to the trunk using:
+
+~/vice$ svn switch https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/trunk/
+
+
+Note: If you have made local changes, svn switch will try to merge your
+changes into your working set.
+
+
+1.4. Reverting your workspace to what is on the server
+------------------------------------------------------
+
+Take that you have made changed to your workspace and compiled files.
+Now, you want to delete all files that are not under version control.
+The following file outputs these extra files to be deleted:
+
+~/vice$ svn status --no-ignore|sed -n -e "s/^[I|\?]//p"|xargs -n 1 echo rm -rf --
+
+If you run this command, it will output every file not under control,
+prepended by "rm -rf --". If you are really sure these files are all ok,
+you can delete them by removing the "echo" there.
+
+NOTE: THIS COMMAND DOES NOT HANDLE ALL CASES CORRECTLY! For example,
+files with SPACES will not be handled correctly. I would never recommend
+to use this command without actually having a look at what is to be
+deleted beforehand. USE AT YOUR OWN RISK!
+
+
+Another thing often encountered is that you have made some changes which
+you do not like anymore. For this, you can undo the changes made with
+the command:
+
+~/vice$ svn revert <PATHTOFILE>
+
+This will undo the local change completely, and you will have a copy of
+what is on the server.
+
+If you want to revert anything done, use
+
+~/vice$ svn revert --recursive .
+
+to revert everything in the current directory and its sub-directories.
+
+
+1.5 Get the newest version from the server
+------------------------------------------
+
+If someone has done any changes on the repository, you might want to get
+the latest changes. For this, you can use the "svn update" command which
+will retrieve the latest versions of all the files from the server.
+
+If you want to know beforehand what has changed, the "svn status"
+command is helpful.
+
+For both commands, have a look at the SVN book, or to the online help
+(svn --help update, for example, or info sed on Unixoid machines).
+
+
+
+2. Making your changes
+======================
+
+If you want to start development, you have to perform the following
+steps:
+
+a. Create your own workspace in a branch
+b. Change to this branch
+c. Make you local changes
+d. Commit your local changes
+e. repeat steps c. and d. as often as you like
+
+
+2.1. Creating your own workspace
+--------------------------------
+
+Whenever you want to make a change to VICE, you should perform these
+steps in your own branch. For this, generate a copy of the latest
+version. For this, generate a branch to work on:
+
+~/$ svn copy https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v1.22/v1.22.10 https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/devel/branches/spiro/v1.22.10-MYFEATURE
+
+This is too long for you? If you are in a working copy, you can also
+abbreviate this:
+
+~/vice$ svn copy tags/v1.22/v1.22.10 devel/branches/spiro/v1.22.10-MYFEATURE
+
+Of course, replace my name "spiro" with you own, and replace the version
+(v1.22, v1.22.10) with the latest version, and replace MYFEATURE with
+something that makes more sense - that is, with what you are doing.
+
+The above naming would be equivalent to what was named
+spiro-1.22.10-MYFEATURE.diff with our old naming scheme.
+
+
+Make sure you have generated your own working directory before
+performing the above step, however. That is, for the first time you want
+to create a branch, you have to perform:
+
+
+~/vice$ svn mkdir devel/branches/spiro
+
+or
+
+~/$ svn mkdir https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/branches/spiro
+
+Note that you must give a revision message; that is, a message where you
+are describing what you have done. You can do this either after pressing
+enter, or append it directly to the command:
+
+~/vice$ svn mkdir branches/spiro -m "Generated Spiro's working branch"
+
+
+NOTE: While one may be tempted to use the trunk to branch from, I would
+not recommend it here. The reason is simple: The maintainer might
+already be doing some integration work on the trunk, in which case you
+would branch from an intermediate version, which might not be a good
+idea. Additionally, it is harder (but not impossible) to find out from
+which version you just branched off if you do it from the branch. So, it
+is better to use the tags to branch from!
+
+
+2.2 Changing to your working branch
+-----------------------------------
+
+Now, either checkout a new working copy (cf. 1.2) or revert your current
+one (cf. 1.3.):
+
+~/$ svn co https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/devel/branches/spiro/v1.22.10-MYFEATURE/
+
+or 
+
+~/vice$ svn switch devel/branches/spiro/v1.22.10-MYFEATURE/
+
+
+2.3 Make your local changes
+---------------------------
+
+Yes - now, you are allowed to do whatevery you like in your working
+copy. Change the VICE code any way you like it.
+
+There are some commands which might be helpful, however:
+
+- svn status - let's you find out which files you have changed locally
+- svn diff   - you can do a diff against the version of the server,
+               so you can find out what you have changed in the
+               meantime in detail.
+
+
+2.4 Commit you local changes
+----------------------------
+
+This is the important step. As long as you do not commit, no one will be
+able to see what you have changed.
+
+It is best to start with a
+
+~/vice$ svn status
+
+which will show you which files you have changed.
+
+Files which are prepended with an "?" are the files which are not under
+version control yet. If you have added some files, these will be shown
+with the "?". Now, you must add them:
+
+~/vice$ svn add NEWFILE
+
+The same applies for the directories, by the way.
+
+Again, these changes will not show up until you commit:
+
+~/vice$ svn commit
+
+You will be asked for your log message, which you should enter here.
+
+
+2.5 Marking milestones
+----------------------
+
+Whenever you have a milestone reached, you can tag the current version.
+Additionally, if you want your latest changes to be included in the next
+official version of VICE, you MUST tag the current version. A tag is
+just a convenient way to remember the state you were working on.
+
+To create a tag, you must create a (virtual) copy of your current
+workspace. First, make sure you have committed any changes (by issuing a
+"cvs status" command). Then, tag your workspace by:
+
+~/vice$ svn copy devel/branches/spiro/v1.22.10-MYFEATURE devel/tags/spiro/v1.22.10-MYFEATURE
+
+(you can use the full URL, too)
+
+You can append numbers to the "MYFEATURE" if you want to have multiple
+milestones.
+
+
+If you want the feature to be added for the next release, just write a
+mail on the mailing list, mentioning the full path to the tag.
+
+
+
+3. Some maintainance work documentation
+=======================================
+
+(to be continued, just some snippets so far)
+
+3.1 Creating a source distribution
+----------------------------------
+
+a. Add all patches to be included
+b. Change the version number of the distribution in configure.in,
+   VICE_VERSION_MAJOR, VICE_VERSION_MINOR, VICE_VERSION_BUILD. Also,
+   define/undefine UNSTABLE there if this is a release, or not.
+c. Add entries in ChangeLog, src/ChangeLog
+d. Execute: autoreconf; ./configure; make dist
+e. svn commit
+f. svn copy https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/trunk/ https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/vX.YY/vX.YY.ZZ
+g. copy vice-X.YY.ZZ to viceteam.org/devel/
+
+
+
+4. Misc
+=======
+
+Make sure that the code you change:
+- has proper line endings (svn properties set correctly)
+- only uses C style comments (/* ... */), not C++ style - at least for
+  platform independant ("common") code.
