@@ -65,12 +65,12 @@ patches v0.14.2.73 -> v0.14.2.74 as well as the patch v0.14.2.75 ->
 v0.15.0 are missing, too.
 
 
-The directory "devel" is used for development work. In devel/branches/,
+The directory "devel" is used for development work. In branches/,
 every user should create his own working directory with his name (spiro,
 andreasm, tibor, ...). In this directory, additional directories are
 created that resemble actual work.
 
-In devel/tags/, every user should have his own working directory, too
+In tags/, every user should have his own working directory, too
 (names spiro, andreasm, tibor, ...). In this directories, tags are
 applied that resemble some milestones in development. For example, these
 tags are the basis for integration in the next developer release.
@@ -223,12 +223,12 @@ Whenever you want to make a change to VICE, you should perform these
 steps in your own branch. For this, generate a copy of the latest
 version. For this, generate a branch to work on:
 
-~/$ svn copy https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v1.22/v1.22.10 https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/devel/branches/spiro/v1.22.10-MYFEATURE
+~/$ svn copy https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v1.22/v1.22.10 https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/branches/spiro/v1.22.10-MYFEATURE
 
 This is too long for you? If you are in a working copy, you can also
 abbreviate this:
 
-~/vice$ svn copy tags/v1.22/v1.22.10 devel/branches/spiro/v1.22.10-MYFEATURE
+~/vice$ svn copy tags/v1.22/v1.22.10 branches/spiro/v1.22.10-MYFEATURE
 
 Of course, replace my name "spiro" with you own, and replace the version
 (v1.22, v1.22.10) with the latest version, and replace MYFEATURE with
@@ -243,7 +243,7 @@ performing the above step, however. That is, for the first time you want
 to create a branch, you have to perform:
 
 
-~/vice$ svn mkdir devel/branches/spiro
+~/vice$ svn mkdir branches/spiro
 
 or
 
@@ -271,11 +271,11 @@ is better to use the tags to branch from!
 Now, either checkout a new working copy (cf. 1.2) or revert your current
 one (cf. 1.3.):
 
-~/$ svn co https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/devel/branches/spiro/v1.22.10-MYFEATURE/
+~/$ svn co https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/branches/spiro/v1.22.10-MYFEATURE/
 
 or 
 
-~/vice$ svn switch devel/branches/spiro/v1.22.10-MYFEATURE/
+~/vice$ svn switch branches/spiro/v1.22.10-MYFEATURE/
 
 
 2.3 Make your local changes
@@ -331,7 +331,7 @@ To create a tag, you must create a (virtual) copy of your current
 workspace. First, make sure you have committed any changes (by issuing a
 "cvs status" command). Then, tag your workspace by:
 
-~/vice$ svn copy devel/branches/spiro/v1.22.10-MYFEATURE devel/tags/spiro/v1.22.10-MYFEATURE
+~/vice$ svn copy branches/spiro/v1.22.10-MYFEATURE tags/spiro/v1.22.10-MYFEATURE
 
 (you can use the full URL, too)
 
