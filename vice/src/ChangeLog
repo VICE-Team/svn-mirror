@@ -1,5 +1,9 @@
 2008-06-22  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* Version 1.22.19
+
+2008-06-22  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
 	* c64/c64io.c: Give the full address to the REU module, so that
 	it can decide itself how much memory it occupies in the memory
 	map.

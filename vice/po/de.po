@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-15 16:40+0200\n"
+"POT-Creation-Date: 2008-06-22 16:06+0200\n"
 "PO-Revision-Date: 2008-01-02 16:46+0100\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -95,7 +95,7 @@ msgstr "Setze Source Buffer Größe zu <Wert> msek"
 #: src/c64/cart/c64cart.c:288 src/c64/cart/c64cart.c:291
 #: src/c64/cart/ide64.c:281 src/c64/c64_256k.c:210 src/c64/georam.c:209
 #: src/c64/mmc64.c:907 src/c64/mmc64.c:909 src/c64/plus256k.c:175
-#: src/c64/plus60k.c:249 src/c64/ramcart.c:239 src/c64/reu.c:247
+#: src/c64/plus60k.c:249 src/c64/ramcart.c:239 src/c64/reu.c:446
 #: src/c64/tfe.c:1934 src/cbm2/cbm2-cmdline-options.c:132
 #: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
 #: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
@@ -882,7 +882,7 @@ msgstr "GEORAM Erweiterung deaktivieren"
 msgid "Specify name of GEORAM image"
 msgstr "GEORAM Image Datei definieren"
 
-#: src/c64/georam.c:211 src/c64/ramcart.c:241 src/c64/reu.c:249
+#: src/c64/georam.c:211 src/c64/ramcart.c:241 src/c64/reu.c:448
 #: src/pet/petreu.c:216 src/translate.c.po.c:1130
 msgid "<size in KB>"
 msgstr "<Größe in KB>"
@@ -975,19 +975,19 @@ msgstr "Name für RAMCART Image Datei definieren"
 msgid "Size of the RAMCART expansion"
 msgstr "Größe der RAMCART Erweiterung"
 
-#: src/c64/reu.c:243 src/translate.c.po.c:1330
+#: src/c64/reu.c:442 src/translate.c.po.c:1330
 msgid "Enable the RAM expansion unit"
 msgstr "RAM Speichererweiterung aktivieren"
 
-#: src/c64/reu.c:245 src/translate.c.po.c:1340
+#: src/c64/reu.c:444 src/translate.c.po.c:1340
 msgid "Disable the RAM expansion unit"
 msgstr "RAM Speichererweiterung deaktivieren"
 
-#: src/c64/reu.c:247 src/translate.c.po.c:1350
+#: src/c64/reu.c:446 src/translate.c.po.c:1350
 msgid "Specify name of REU image"
 msgstr "Namen für REU Image Datei definieren"
 
-#: src/c64/reu.c:249 src/translate.c.po.c:1360
+#: src/c64/reu.c:448 src/translate.c.po.c:1360
 msgid "Size of the RAM expansion unit"
 msgstr "Größe der RAM Speichererweiterung"
 
