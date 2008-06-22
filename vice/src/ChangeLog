@@ -1,3 +1,13 @@
+2008-06-22  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* c64/c64io.c: Give the full address to the REU module, so that
+	it can decide itself how much memory it occupies in the memory
+	map.
+
+	* c64/reu.c: Emulate more aspects of the REU now, according the
+	Wolfgang Moser's CSG8726 document, revision 0.9. Added doxygen
+	information and more fine-granular debugging output.
+
 2008-06-15  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.18

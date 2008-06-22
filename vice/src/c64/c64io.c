@@ -405,7 +405,7 @@ BYTE REGPARM1 c64io2_read(WORD addr)
         io_source_counter++;
     }
     if (reu_enabled) {
-        return_value = reu_read((WORD)(addr & 0x0f));
+        return_value = reu_read(addr);
         io_source_check(io_source_counter);
         io_source_counter++;
     }
@@ -473,7 +473,7 @@ void REGPARM2 c64io2_store(WORD addr, BYTE value)
         digimax_sound_store((WORD)(addr & 0x03), value);
     }
     if (reu_enabled) {
-        reu_store((WORD)(addr & 0x0f), value);
+        reu_store(addr, value);
     }
     if (georam_enabled && addr >= 0xdf80) {
         georam_reg_store((WORD)(addr & 1), value);
