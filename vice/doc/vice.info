@@ -6209,21 +6209,25 @@ in the development of X64 and VICE:
      devices and improved the tape emulation.
 
    * Marco van den Heuvel Translated the UI to Dutch. Made the
-     internationalization support for the Win32 and Amiga ports. Wrote
+     Internationalization support for the Win32 and Amiga ports. Wrote
      the GEORAM and RamCart cartridge code. Wrote the c64 +60K, +256K
      and 256K memory expansions code. Wrote the pet REU code. Wrote the
      plus4 memory expansions code. Made the ethernet support for the
-     Msdos port. Maintains the RiscOS, QNX 6.x, Solaris, GP2X, Minix
-     3.x, Amiga, ppc-BeOS and newly resurrected OS/2 binary ports.
-     Added new .crt support. Added new screenshot formats.  Added new
-     sound recording support. Added SIDcart support for pet, plus4 and
-     vic20. Added digimax support. Improved the MMC64 emulation. Added
-     2 MHz mode to x128. And lots of other fixes and improvements.
+     Msdos port. Maintains the RiscOS, QNX 4.x, QNX 6.x, SkyOS, Solaris,
+     Openserver, Unixware, HPUX, GP2X, Minix 3.x, Amiga, ppc-BeOS and
+     newly resurrected OS/2 binary ports. Added new .crt support. Added
+     new screenshot formats. Added new sound recording support. Added
+     SIDcart support for pet, plus4 and vic20. Improved the MMC64
+     emulation. Added 2 MHz mode for x128. And lots of other fixes and
+     improvements.
 
    * Christian Vogelgsang maintains the Mac OS X port. Added Intel Mac
      support and universal binary creation. Wrote the build scripts for
      all external Mac libraries and the bindist bundle tool. Improved
      the TFE chip emulation. Added some Gtk+ fixes.
+
+   * Fabrizio Gennari added some improvements to the MSDOS- and GTK
+     port.
 
 
    Former team members:
@@ -6387,9 +6391,6 @@ in the development of X64 and VICE:
 
    * ck! provided a win32 cbm character font.
 
-   * Fabrizio Gennari added some improvements to the MSDOS- and GTK
-     port.
-
    * Dirk Jagdmann wrote the Catweasel sound driver.
 
    * Maciej Witkowiak did some IDE64 and C1541 fixes.
@@ -6417,9 +6418,6 @@ in the development of X64 and VICE:
 
    * Wolfgang Moser provided small optimization fixes to the GCR code.
 
-   * Christian Vogelgsang resurrected the Mac OSX X11 port and added
-     support for an Intel build.
-
    * Peter Gordon provided support for native AmigaOS4 compiling.
 
    * Bernd Kortz provided some fixes for ZETA and the ZETA binary
@@ -6431,6 +6429,32 @@ in the development of X64 and VICE:
 
    * Gunnar Ruthenberg provided some VIC-II enhancements and improved
      the win32 port.
+
+   * Hannu Nuotio Added experimental NEOS and Amiga mouse support.
+     Fixed mouse support for single size in unix. Fixed mouse grab and
+     menu popup for xaw. Added new monitor commands and features. Added
+     the memmap feature.
+
+   * M. Kiesel Added new monitor commands and features.
+
+   * Daniel Kahlin Added new monitor commands and features.
+
+   * Groepaz/Hitmen Added new more precise PAL emulation. Added support
+     for the Action Replay 4 and StarDos cartridges.
+
+   * Ingo Korb Corrected block allocation and interleave for
+     c1541/vdrive.
+
+   * Georg Feil Added support for toggling CB2 sound output line in the
+     PET emulator.
+
+   * Greg King Added a working RTC to the emulation of the IDE64
+     cartridge.
+
+   * Thomas Giesel Added new monitor commands and features.
+
+   * Marcus Sutton Made some console, dialog and joystick fixes for the
+     BeOS port.
 
 
    * Lutz Sammer
@@ -7280,14 +7304,14 @@ Node: T64 tape record224789
 Node: T64 file record225587
 Node: G64226847
 Node: Acknowledgments240841
-Node: Copyright251729
-Node: Contacts253354
-Node: Home page253866
-Node: Sending feedback254270
-Node: Contributing256620
-Node: Newsgroups257739
-Node: FAQs you should read258378
-Node: Concept Index258700
-Node: Resource Index279810
+Node: Copyright252537
+Node: Contacts254162
+Node: Home page254674
+Node: Sending feedback255078
+Node: Contributing257428
+Node: Newsgroups258547
+Node: FAQs you should read259186
+Node: Concept Index259508
+Node: Resource Index280618
 
 End Tag Table
