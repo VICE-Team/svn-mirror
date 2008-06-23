@@ -819,6 +819,7 @@ unsigned int increment_reu_with_wrap_around(unsigned int reu_addr, unsigned int 
 inline static
 void store_to_reu(unsigned int reu_addr, BYTE value)
 {
+    reu_addr &= rec_options.special_wrap_around_1700 - 1;
     if (reu_addr < rec_options.not_backedup_addresses) {
         assert(reu_addr < reu_size);
         reu_ram[reu_addr] = value;
@@ -852,6 +853,7 @@ BYTE read_from_reu(unsigned int reu_addr)
 {
     BYTE value = 0xff; /* dummy value to return if not DRAM is available */
 
+    reu_addr &= rec_options.special_wrap_around_1700 - 1;
     if (reu_addr < rec_options.not_backedup_addresses) {
         assert(reu_addr < reu_size);
         value = reu_ram[reu_addr];
