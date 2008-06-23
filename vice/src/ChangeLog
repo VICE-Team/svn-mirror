@@ -1,9 +1,5 @@
 2008-06-23  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
-	* Version 1.22.20
-
-2008-06-23  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
-
 	* c64/reu.c: Implement the special wrap-around of the 1700 when
 	it uses 64Kx1 DRAMs.  That is, the bank register behaves like
 	the other REUs (with the special wrap around), but the DRAM
