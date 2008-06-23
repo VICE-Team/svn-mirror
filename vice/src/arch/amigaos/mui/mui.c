@@ -311,6 +311,7 @@ void ui_about(void)
     "Copyright @ 2000-2008 Spiro Trikaliotis",
     "Copyright @ 2005-2008 Marco van den Heuvel",
     "Copyright @ 2006-2008 Christian Vogelgsang",
+    "Copyright @ 2007-2008 Fabrizio Gennari",
     "Copyright @ 1999-2007 Andreas Matthies",
     "Copyright @ 2003-2005 David Hansel",
     "Copyright @ 1999-2004 Thomas Bretz",

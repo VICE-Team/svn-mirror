@@ -37,6 +37,7 @@
 #include <commdlg.h>
 
 #include "drive.h"
+#include "intl.h"
 #include "lib.h"
 #include "machine.h"
 #include "res.h"

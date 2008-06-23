@@ -1,3 +1,28 @@
+2008-06-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am: Improved some of the make-bindist.sh scripts.
+
+2008-06-19  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* vice-mint.spec, Makefile.am: Added Atari Mint specific rpm
+
+2008-06-19  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* vice-mint.spec, Makefile.am: Added Atari Mint specific rpm
+	spec file.
+
+	* AUTHORS, README: Added Fabrizio to the VICE core members.
+
+	* config.guess, config.sub: Added preliminary support for
+	avr32-linux.
+
+	* doc/vice.texi: Added Fabrizio to the VICE core members, got
+	rid of a duplicate Christian Vogelgsang entry and added/updated
+	external contributors entries.
+
+	* doc/html/plain/NEWS, doc/html/index.html: Updated for the
+	VICE 2.0 release.
+
 2008-06-22  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.19

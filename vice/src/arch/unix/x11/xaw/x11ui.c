@@ -367,6 +367,7 @@ static String fallback_resources[] = {
     "*resetButton.label:			     Reset",
     "*hardResetButton.label:                         Hard Reset",
     "*monButton.label:			   	     Monitor",
+    "*noneButton.label:			   	     Continue",
     "*debugButton.label:		   	     XDebugger",
     "*noButton.label:				     No",
     "*licenseButton.label:			     License...",
@@ -1642,6 +1643,7 @@ DEFINE_BUTTON_CALLBACK(UI_BUTTON_YES)
 DEFINE_BUTTON_CALLBACK(UI_BUTTON_NO)
 DEFINE_BUTTON_CALLBACK(UI_BUTTON_CLOSE)
 DEFINE_BUTTON_CALLBACK(UI_BUTTON_MON)
+DEFINE_BUTTON_CALLBACK(UI_BUTTON_NONE)
 /*DEFINE_BUTTON_CALLBACK(UI_BUTTON_DEBUG)*/
 DEFINE_BUTTON_CALLBACK(UI_BUTTON_RESET)
 DEFINE_BUTTON_CALLBACK(UI_BUTTON_HARDRESET)
@@ -1744,6 +1746,11 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     XtAddCallback(tmp, XtNcallback, UI_BUTTON_MON_callback,
                   (XtPointer) &button);
 
+    tmp = XtVaCreateManagedWidget
+        ("noneButton", commandWidgetClass, bbox, NULL);
+    XtAddCallback(tmp, XtNcallback, UI_BUTTON_NONE_callback,
+                  (XtPointer) &button);
+
     ui_popup(XtParent(jam_dialog), "VICE", False);
     button = UI_BUTTON_NONE;
     do
@@ -1765,6 +1772,8 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
         return UI_JAM_MONITOR;
       case UI_BUTTON_HARDRESET:
         return UI_JAM_HARD_RESET;
+      case UI_BUTTON_NONE:
+        return UI_JAM_NONE;
       case UI_BUTTON_RESET:
       default:
         return UI_JAM_RESET;

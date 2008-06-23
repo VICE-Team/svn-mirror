@@ -31,7 +31,6 @@ extern char *intl_speed_at_text;
 
 extern char *intl_translate_text(int en_resource);
 extern int intl_translate_res(int en_resource);
-extern char *intl_translate_text_new(int en_resource);
 
 extern void intl_init(void);
 extern void intl_shutdown(void);

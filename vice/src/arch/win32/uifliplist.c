@@ -32,6 +32,7 @@
 
 #include "archdep.h"
 #include "fliplist.h"
+#include "intl.h"
 #include "lib.h"
 #include "res.h"
 #include "system.h"

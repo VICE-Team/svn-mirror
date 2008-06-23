@@ -45,6 +45,7 @@
 #endif
 
 #include "archdep.h"
+#include "intl.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "res.h"

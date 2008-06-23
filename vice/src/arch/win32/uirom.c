@@ -35,6 +35,7 @@
 #define DUMMYUNIONNAME  u1
 #endif
 
+#include "intl.h"
 #include "lib.h"
 #include "machine.h"
 #include "res.h"

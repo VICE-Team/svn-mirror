@@ -140,6 +140,7 @@ UI_CALLBACK(ui_about)
              "Copyright C 2000-2008 Spiro Trikaliotis",
              "Copyright C 2005-2008 Marco van den Heuvel",
              "Copyright C 2006-2008 Christian Vogelgsang",
+             "Copyright C 2007-2008 Fabrizio Gennari",
              "Copyright C 1999-2007 Andreas Dehmel",
              "Copyright C 1999-2005 Thomas Bretz",
              "Copyright C 2003-2005 David Hansel",

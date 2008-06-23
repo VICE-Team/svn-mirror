@@ -98,11 +98,10 @@ vdrive_t *vdrive_internal_open_disk_image(const char *name,
       case 11:
         return open_rawimage(unit, read_only);
       default:
-        return open_fsimage(name, read_only);
-
+        break;
     }
 
-    return NULL;
+    return open_fsimage(name, read_only);
 }
 
 static int close_fsimage(vdrive_t *vdrive)
@@ -137,10 +136,10 @@ int vdrive_internal_close_disk_image(vdrive_t *vdrive)
       case 11:
         return close_rawimage(vdrive);
       default:
-        return close_fsimage(vdrive);
+        break;
     }
 
-    return 0;
+    return close_fsimage(vdrive);
 }
 
 static int vdrive_internal_format_disk_image(const char *filename,

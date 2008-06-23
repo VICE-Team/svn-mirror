@@ -340,33 +340,43 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
 
     switch ((BYTE)addr) {
       case 0:
-        if (/*vbank ==*/ 0) {
+#if 0
+        if (vbank == 0) {
             vicii_mem_vbank_store((WORD)0, vicii_read_phi1_lowlevel());
         } else {
+#endif
             mem_page_zero[0] = vicii_read_phi1_lowlevel();
             machine_handle_pending_alarms(maincpu_rmw_flag + 1);
+#if 0
         }
+#endif
         if (pport.dir != value) {
             pport.dir = value;
             mem_pla_config_changed();
         }
         break;
       case 1:
-        if (/*vbank ==*/ 0) {
+#if 0
+        if (vbank == 0) {
             vicii_mem_vbank_store((WORD)1, vicii_read_phi1_lowlevel());
         } else {
+#endif
             mem_page_zero[1] = vicii_read_phi1_lowlevel();
             machine_handle_pending_alarms(maincpu_rmw_flag + 1);
+#if 0
         }
+#endif
         if (pport.data != value) {
             pport.data = value;
             mem_pla_config_changed();
         }
         break;
       default:
-        if (/*vbank ==*/ 0)
+#if 0
+        if (vbank == 0)
             vicii_mem_vbank_store(addr, value);
         else
+#endif
             mem_page_zero[addr] = value;
     }
 }

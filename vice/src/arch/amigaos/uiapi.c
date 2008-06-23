@@ -53,10 +53,10 @@
 #include "translate.h"
 
 typedef enum {
-    UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR
+    UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR, UI_JAM_NONE
 } ui_jam_action_t;
 
-enum {REQ_JAM_MONITOR, REQ_JAM_RESET, REQ_JAM_HARD_RESET};
+enum {REQ_JAM_NONE, REQ_JAM_RESET, REQ_JAM_HARD_RESET, REQ_JAM_MONITOR};
 
 extern video_canvas_t *canvaslist;
 
@@ -323,7 +323,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
   tmp = lib_mvsprintf(format,ap);
   va_end(ap);
 
-  action=ui_requester("VICE CPU Jam", tmp, "RESET|HARD RESET|MONITOR", REQ_JAM_RESET);
+  action=ui_requester("VICE CPU Jam", tmp, "RESET|HARD RESET|MONITOR|CONTINUE", REQ_JAM_RESET);
 
   switch(action)
   {
@@ -335,6 +335,9 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
       break;
     case REQ_JAM_MONITOR:
       jamaction=UI_JAM_MONITOR;
+      break;
+    case REQ_JAM_NONE:
+      jamaction=UI_JAM_NONE;
       break;
   }
   return jamaction;

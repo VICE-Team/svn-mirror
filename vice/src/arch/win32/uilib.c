@@ -44,6 +44,7 @@
 #include "diskimage.h"
 #include "fullscrn.h"
 #include "imagecontents.h"
+#include "intl.h"
 #include "lib.h"
 #include "res.h"
 #include "resources.h"
@@ -55,7 +56,6 @@
 #include "vdrive-internal.h"
 #include "vsync.h"
 #include "winmain.h"
-#include "intl.h"
 
 
 /* Mingw & pre VC 6 headers doesn't have this definition */
@@ -1087,10 +1087,10 @@ HWND element;
 
     while (param->idc || param->ids) {
         if (param->element_type == -1) {
-            SetWindowText(hwnd, intl_translate_text_new(param->ids));
+            SetWindowText(hwnd, translate_text(param->ids));
         } else if (param->element_type == 0) {
             element = GetDlgItem(hwnd, param->idc);
-            SetWindowText(element, intl_translate_text_new(param->ids));
+            SetWindowText(element, translate_text(param->ids));
         }
         param++;
     }

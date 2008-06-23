@@ -1813,7 +1813,7 @@ YY_RULE_SETUP
 case 72:
 YY_RULE_SETUP
 #line 155 "mon_lex.l"
-{ BEGIN(INITIAL);       return CMD_UNDUMP; }
+{ BEGIN(FNAME);       return CMD_UNDUMP; }
 	YY_BREAK
 case 73:
 YY_RULE_SETUP

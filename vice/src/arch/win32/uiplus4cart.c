@@ -32,6 +32,7 @@
 #include <windows.h>
 
 #include "cartridge.h"
+#include "intl.h"
 #include "plus4cart.h"
 #include "keyboard.h"
 #include "lib.h"

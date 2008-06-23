@@ -30,6 +30,7 @@
 #include <tchar.h>
 
 #include "cartridge.h"
+#include "intl.h"
 #include "lib.h"
 #include "res.h"
 #include "system.h"

@@ -260,12 +260,10 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
         bufinfo[secondary].fileio_info = finfo;
         fsdevice_error(vdrive, CBMDOS_IPE_OK);
         return FLOPPY_COMMAND_OK;
-    } else {
-        fsdevice_error(vdrive, CBMDOS_IPE_NOT_FOUND);
-        return FLOPPY_ERROR;
     }
 
-    return FLOPPY_COMMAND_OK;
+    fsdevice_error(vdrive, CBMDOS_IPE_NOT_FOUND);
+    return FLOPPY_ERROR;
 }
 
 int fsdevice_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,

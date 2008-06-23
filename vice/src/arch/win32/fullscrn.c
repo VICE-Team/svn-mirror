@@ -35,6 +35,7 @@
 #include <mmsystem.h>
 #include <prsht.h>
 
+#include "intl.h"
 #include "lib.h"
 #include "log.h"
 #include "palette.h"

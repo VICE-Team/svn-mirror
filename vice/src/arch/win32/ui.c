@@ -47,6 +47,7 @@
 #include "fullscrn.h"
 #include "imagecontents.h"
 #include "interrupt.h"
+#include "intl.h"
 #include "kbd.h"
 #include "lib.h"
 #include "log.h"

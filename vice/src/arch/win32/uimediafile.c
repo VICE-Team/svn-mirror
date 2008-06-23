@@ -35,6 +35,7 @@
 
 #include "gfxoutputdrv/ffmpegdrv.h"
 #include "gfxoutput.h"
+#include "intl.h"
 #include "lib.h"
 #include "machine.h"
 #include "res.h"

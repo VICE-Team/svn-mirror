@@ -31,6 +31,7 @@
 #include <windows.h>
 #include <tchar.h>
 
+#include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -38,7 +39,6 @@
 #include "uilib.h"
 #include "uiplus60k.h"
 #include "winmain.h"
-#include "intl.h"
 
 #define NUM_OF_PLUS60K_BASE 2
 static const int ui_plus60k_base[NUM_OF_PLUS60K_BASE] = {
@@ -142,7 +142,7 @@ static void end_plus60k_dialog(HWND hwnd)
 
 static void browse_plus60k_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, intl_translate_text_new(IDS_PLUS60K_SELECT_FILE),
+    uilib_select_browse(hwnd, translate_text(IDS_PLUS60K_SELECT_FILE),
                         UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE,
                         IDC_PLUS60K_FILE);
 }

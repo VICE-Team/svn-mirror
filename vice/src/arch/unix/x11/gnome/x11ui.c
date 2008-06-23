@@ -1822,6 +1822,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 					     _("Reset"), 0, 
 					     _("Hard Reset"), 1,
 					     _("Monitor"), 2,
+					     _("Monitor"), 3,
 					     NULL);
     g_signal_connect(G_OBJECT(jam_dialog),
 		     "destroy",
@@ -1844,6 +1845,8 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     ui_dispatch_events();
 
     switch (res) {
+    case 3:
+      return UI_JAM_NONE;
     case 2:
 	ui_restore_mouse();
 #ifdef HAVE_FULLSCREEN

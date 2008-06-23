@@ -827,6 +827,9 @@ EOF
     arm*:Linux:*:*)
 	echo ${UNAME_MACHINE}-${VENDOR}-linux
 	exit ;;
+    avr32*:Linux:*:*)
+	echo $(UNAME_MACHINE)-unknown-linux
+	exit ;;
     cris:Linux:*:*)
 	echo cris-axis-linux
 	exit ;;

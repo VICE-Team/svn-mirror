@@ -942,11 +942,9 @@ inline static BYTE ted09_peek(void)
             return ted.irq_status | 0xa3;
         else
             return ted.irq_status | 0x23;
-    } else {
-        return ted.irq_status | 0x21;
     }
 
-    return ted.irq_status;
+    return ted.irq_status | 0x21;
 }
 
 BYTE REGPARM1 ted_peek(WORD addr)

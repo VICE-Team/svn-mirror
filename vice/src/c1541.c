@@ -2008,7 +2008,6 @@ static int internal_write_geos_file(int unit, FILE* f)
                                 block[n++] = 0x00;
                             break;
                         }
-                        block[n] = c;
                     }
                     if (numBlks == 1) { /* last block */
                         block[0] = 0;

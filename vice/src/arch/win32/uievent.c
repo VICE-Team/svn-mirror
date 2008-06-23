@@ -31,6 +31,7 @@
 #include <tchar.h>
 
 #include "event.h"
+#include "intl.h"
 #include "lib.h"
 #include "res.h"
 #include "translate.h"

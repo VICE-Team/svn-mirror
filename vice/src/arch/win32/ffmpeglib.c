@@ -31,6 +31,7 @@
 #include <windows.h>
 
 #include "gfxoutputdrv/ffmpeglib.h"
+#include "intl.h"
 #include "log.h"
 #include "res.h"
 #include "translate.h"

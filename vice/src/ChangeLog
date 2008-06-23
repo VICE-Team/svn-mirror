@@ -1,3 +1,95 @@
+2008-06-23  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* c64/tfe.c: disabled log_message() for tfe_hash_mask[], as it
+	accessed memory out of bounds.
+
+2008-06-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/uiapi.c, arch/os2/ui.c,
+	arch/unix/x11/gnome/x11ui.c, arch/unix/x11/xaw/x11ui.c: Added
+	the option to choose 'continue' for the CPU JAM dailog.
+
+	* monitor/mon_lex.c, monitor/mon_lex.l: Fixed the undump command
+	as provided by M. Kiesel <mayne@users.sourceforge.net>.
+
+	* plus4/plus4mem.c: Fixed the reported plus4 hannes/csory memory
+	expansion bug for memory at $ffxx.
+
+	* arch/unix/qnx6/make-bindist.sh,
+	arch/unix/sco_sol/make-bindist.sh,
+	arch/unix/skyos/make-bindist.sh: Improved some of the
+	make-bindist.sh scripts.
+
+2008-06-19  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* vdrive/vdrive-internal.c, vdrive/vdrive-command.c,
+	plus4/ted-mem.c, vicii/vicii-mem.c, cbmimage.c, c128/c128mem.c,
+	c1541.c, fsdevice/fsdevice-open.c, pet/petmem.c: Changed around
+	to get rid of unreachable code.
+
+	* video/video-resources.c, video/video-resources.h,
+	video/video-resources-pal.c: Added a check for win32, new
+	PAL-mode, PAL emulation on, double size, double scan to give a
+	warning about the performance problem of that combination on
+	win32.
+
+	* sid/sid-resources.c: Changed the unsigned int to int for some
+	variables used in a resource-table.
+
+	* alarm.h, sounddrv/soundwmm.c: Got rid of a comparison of an
+	unsigned type with smaller than zero (unsigned int x < 0).
+
+	* main.c, arch/amigaos/mui/mui.c, arch/os2/dialogs/dialogs.rc,
+	arch/unix/macosx/Resources/Credits.html,
+	arch/unix/x11/xaw/about.c, arch/unix/x11/gnome/about.c,
+	arch/msdos/menudefs.c, arch/beos/ui.cc: Added Fabrizio to the
+	VICE core members.
+
+	* info.c: Added Fabrizio to the VICE core members, got rid of a
+	duplicate Christian Vogelgsang entry and added/updated external
+	contributors entries.
+
+	* translate.c: Updated the German and Swedish texts and added a
+	log warning when returning a NULL.
+
+	* arch/amigaos/intl.c: Updated the German and Swedish texts.
+
+	* arch/win32/uikeyboard.c, arch/win32/uipetset.c,
+	arch/win32/uiplus60k.c, arch/win32/rescbm2.rc,
+	arch/win32/uicart.c, arch/win32/resgeoram.rc, arch/win32/intl.c,
+	arch/win32/uigeoram.c, arch/win32/intl.h,
+	arch/win32/uimediafile.c, arch/win32/uiramcart.c,
+	arch/win32/ffmpeglib.c, arch/win32/uiconsole.c,
+	arch/win32/uiattach.c, arch/win32/resplus4.rc,
+	arch/win32/uirs232user.c, arch/win32/uicmdline.c,
+	arch/win32/ui.c, arch/win32/ui.h, arch/win32/uinetwork.c,
+	arch/win32/uicbm2set.c, arch/win32/uic64_256k.c,
+	arch/win32/uic64cart.c, arch/win32/statusbar.c,
+	arch/win32/uic128.c, arch/win32/uidrivevic20.c,
+	arch/win32/uievent.c, arch/win32/resmouse.rc,
+	arch/win32/uifliplist.c, arch/win32/uiplus256k.c,
+	arch/win32/uisnapshot.c, arch/win32/uidriveplus4.c,
+	arch/win32/resstrings.txt, arch/win32/uidrivec128.c,
+	arch/win32/uisound.c, arch/win32/fullscrn.c,
+	arch/win32/uiquicksnapshot.c, arch/win32/uiacia.c,
+	arch/win32/uilib.c, arch/win32/uiide64.c, arch/win32/uisid.c,
+	arch/win32/resvic20.rc, arch/win32/uidrivepetcbm2.c,
+	arch/win32/uirom.c, arch/win32/uipetreu.c,
+	arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/signals.c, arch/win32/uivideo.c, arch/win32/res.rc,
+	arch/win32/uiplus4cart.c, arch/win32/respet.rc,
+	arch/win32/uidrivec64.c, arch/win32/uihelp.c,
+	arch/win32/uiperipheral.c, arch/win32/uireu.c,
+	arch/win32/uijoystick.c: Changed over to the new way (made by
+	Tibor) of getting strings from the string resource blocks to
+	avoid situations where in the old way a string was not able to
+	be found even though it was present, and updated the German and
+	Swedish texts.
+
+	* arch/win32/Makefile.am, arch/win32/make-msvc-bindist.bat,
+	arch/win32/watcom/make-watcom-bindist.bat: Added msvc and watcom
+	binary distribution generation batch files.
+
 2008-06-22  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.19

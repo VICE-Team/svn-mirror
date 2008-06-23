@@ -1350,11 +1350,9 @@ inline static BYTE d019_peek(void)
             return vicii.irq_status | 0xf1;
         else
             return vicii.irq_status | 0x71;
-    } else {
-        return vicii.irq_status | 0x70;
     }
 
-    return vicii.irq_status;
+    return vicii.irq_status | 0x70;
 }
 
 BYTE REGPARM1 vicii_peek(WORD addr)

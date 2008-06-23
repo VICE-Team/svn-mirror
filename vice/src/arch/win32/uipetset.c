@@ -33,6 +33,7 @@
 #define DUMMYUNIONNAME  u1
 #endif
 
+#include "intl.h"
 #include "pets.h"
 #include "res.h"
 #include "resources.h"

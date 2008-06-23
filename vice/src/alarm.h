@@ -139,9 +139,6 @@ inline static void alarm_context_dispatch(alarm_context_t *context,
 
     offset = (CLOCK)(cpu_clk - context->next_pending_alarm_clk);
 
-    if (offset < 0)
-        return;
-
     idx = context->next_pending_alarm_idx;
     alarm = context->pending_alarms[idx].alarm;
 

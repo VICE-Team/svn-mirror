@@ -35,6 +35,7 @@
 #include <unistd.h>
 #endif
 
+#include "intl.h"
 #include "log.h"
 #include "monitor.h"
 #include "res.h"

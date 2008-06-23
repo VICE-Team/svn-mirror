@@ -37,6 +37,7 @@
 #endif
 
 #include "drive.h"
+#include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"

@@ -343,20 +343,22 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
 
     va_list ap;
 
-    const int sz   = sizeof(MB2INFO)+2*sizeof(MB2D);
+    const int sz   = sizeof(MB2INFO)+3*sizeof(MB2D);
 
     MB2INFO *mb    = malloc(sz);
     mb->cb         = sz;
     mb->hIcon      = WinLoadPointer(HWND_DESKTOP, NULLHANDLE, PTR_SKULL);
-    mb->cButtons   = 3;
+    mb->cButtons   = 4;
     mb->flStyle    = MB_CUSTOMICON|WS_VISIBLE;
     mb->hwndNotify = NULLHANDLE;
     strcpy(mb->mb2d[0].achText, "  ~Hard Reset  ");
     strcpy(mb->mb2d[1].achText, "  ~Soft Reset  ");
-    strcpy(mb->mb2d[2].achText, "   ~Monitor   ");
+    strcpy(mb->mb2d[2].achText, "  ~Monitor     ");
+    strcpy(mb->mb2d[3].achText, "  ~Continue    ");
     mb->mb2d[0].idButton = UI_JAM_HARD_RESET;
     mb->mb2d[1].idButton = UI_JAM_RESET;
     mb->mb2d[2].idButton = UI_JAM_MONITOR;
+    mb->mv2d[3].idButton = UI_JAM_NONE;
     mb->mb2d[0].flStyle  = BS_DEFAULT;
     mb->mb2d[1].flStyle  = 0;
     mb->mb2d[2].flStyle  = 0;

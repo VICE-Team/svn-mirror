@@ -727,6 +727,7 @@ void ui_dispatch_events(void)
 					"(c) 2000-2008 Spiro Trikaliotis\n",
 					"(c) 2005-2008 Marco van den Heuvel\n",
 					"(c) 2006-2008 Christian Vogelgsang\n",
+					"(c) 2007-2008 Fabrizio Gennari\n",
 					"(c) 1999-2007 Andreas Dehmel\n",
 					"(c) 1999-2005 Thomas Bretz\n",
 					"(c) 2003-2005 David Hansel\n",

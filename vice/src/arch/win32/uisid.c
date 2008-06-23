@@ -37,6 +37,7 @@
 #endif
 
 #include "hardsid.h"
+#include "intl.h"
 #include "machine.h"
 #include "res.h"
 #include "resources.h"
@@ -47,8 +48,6 @@
 #include "uisid.h"
 #include "winmain.h"
 #include "uilib.h"
-#include "intl.h"
-
 
 static const TCHAR *ui_sid_engine[] = 
 {
@@ -139,7 +138,7 @@ static void CreateAndGetSidAddress(HWND hwnd, int mode)
         hadr = ui_sid_cbm2baseaddress;
         break;
       default:
-        ui_error(intl_translate_text_new(IDS_THIS_MACHINE_NO_SID));
+        ui_error(translate_text(IDS_THIS_MACHINE_NO_SID));
         return;
     }
 
@@ -168,19 +167,19 @@ static void init_general_sid_dialog(HWND hwnd)
     int res_value_loop;
 
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_GENGROUP1);
-    SetWindowText(sid_hwnd, intl_translate_text_new(IDS_SID_GENGROUP1));
+    SetWindowText(sid_hwnd, translate_text(IDS_SID_GENGROUP1));
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_GENGROUP2);
-    SetWindowText(sid_hwnd, intl_translate_text_new(IDS_SID_GENGROUP2));
+    SetWindowText(sid_hwnd, translate_text(IDS_SID_GENGROUP2));
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_6581);
-    SetWindowText(sid_hwnd, intl_translate_text_new(IDS_SID_6581));
+    SetWindowText(sid_hwnd, translate_text(IDS_SID_6581));
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_8580);
-    SetWindowText(sid_hwnd, intl_translate_text_new(IDS_SID_8580));
+    SetWindowText(sid_hwnd, translate_text(IDS_SID_8580));
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_GENGROUP3);
-    SetWindowText(sid_hwnd, intl_translate_text_new(IDS_SID_GENGROUP3));
+    SetWindowText(sid_hwnd, translate_text(IDS_SID_GENGROUP3));
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_STEREO);
-    SetWindowText(sid_hwnd, intl_translate_text_new(IDS_SID_STEREO_AT));
+    SetWindowText(sid_hwnd, translate_text(IDS_SID_STEREO_AT));
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_FILTERS);
-    SetWindowText(sid_hwnd, intl_translate_text_new(IDS_SID_FILTERS));
+    SetWindowText(sid_hwnd, translate_text(IDS_SID_FILTERS));
 
 //  Setup status
 
@@ -293,18 +292,18 @@ static void init_resid_sid_dialog(HWND hwnd)
     TCHAR st[10];
 
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_GROUP);
-    SetWindowText(sid_hwnd, intl_translate_text_new(IDS_SID_RESID_GROUP));
+    SetWindowText(sid_hwnd, translate_text(IDS_SID_RESID_GROUP));
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_SAMPLE);
-    SetWindowText(sid_hwnd, intl_translate_text_new(IDS_SID_RESID_SAMPLE));
+    SetWindowText(sid_hwnd, translate_text(IDS_SID_RESID_SAMPLE));
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_PASSBAND);
-    SetWindowText(sid_hwnd, intl_translate_text_new(IDS_SID_RESID_PASSBAND));
+    SetWindowText(sid_hwnd, translate_text(IDS_SID_RESID_PASSBAND));
 
     resources_get_int("SidResidSampling", &res_value);
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING);
     for (res_value_loop = 0; ui_sid_samplemethod[res_value_loop];
         res_value_loop++) {
         SendMessage(sid_hwnd, CB_ADDSTRING, 0,
-                    (LPARAM)intl_translate_text_new(ui_sid_samplemethod[res_value_loop]));
+                    (LPARAM)translate_text(ui_sid_samplemethod[res_value_loop]));
     }
     SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
@@ -364,11 +363,11 @@ static void init_hardsid_sid_dialog(HWND hwnd)
     unsigned int available, device;
 
     sid_hwnd = GetDlgItem(hwnd, IDC_HARDSID_GROUP);
-    SetWindowText(sid_hwnd, intl_translate_text_new(IDS_HARDSID_GROUP));
+    SetWindowText(sid_hwnd, translate_text(IDS_HARDSID_GROUP));
     sid_hwnd = GetDlgItem(hwnd, IDC_HARDSID_LEFT_LABEL);
-    SetWindowText(sid_hwnd, intl_translate_text_new(IDS_HARDSID_LEFT_LABEL));
+    SetWindowText(sid_hwnd, translate_text(IDS_HARDSID_LEFT_LABEL));
     sid_hwnd = GetDlgItem(hwnd, IDC_HARDSID_RIGHT_LABEL);
-    SetWindowText(sid_hwnd, intl_translate_text_new(IDS_HARDSID_RIGHT_LABEL));
+    SetWindowText(sid_hwnd, translate_text(IDS_HARDSID_RIGHT_LABEL));
 
     available = hardsid_available();
     device = 0;
@@ -645,7 +644,7 @@ void ui_sid_settings_dialog(HWND hwnd)
 
     psp[0].pfnDlgProc = general_dialog_proc;
 //    psp[0].pszTitle = translate_text(IDS_GENERAL);
-    psp[0].pszTitle = intl_translate_text_new(IDS_GENERAL);
+    psp[0].pszTitle = translate_text(IDS_GENERAL);
     psp[1].pfnDlgProc = resid_dialog_proc;
     psp[1].pszTitle = TEXT("ReSID");
     psp[2].pfnDlgProc = hardsid_dialog_proc;
@@ -656,7 +655,7 @@ void ui_sid_settings_dialog(HWND hwnd)
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
 //    psh.pszCaption = translate_text(IDS_SID_SETTINGS);
-    psh.pszCaption = intl_translate_text_new(IDS_SID_SETTINGS);
+    psh.pszCaption = translate_text(IDS_SID_SETTINGS);
     psh.nPages = 3;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;

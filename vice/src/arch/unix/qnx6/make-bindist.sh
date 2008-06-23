@@ -3,8 +3,8 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <prefix> <cross> <zip|nozip> <topsrcdir>
-#                 $1      $2             $3       $4      $5          $6
+# make-bindist.sh <strip> <vice-version> <prefix> <cross> <zip|nozip> <topsrcdir> <make-command>
+#                 $1      $2             $3       $4      $5          $6          $7
 
 STRIP=$1
 VICEVERSION=$2
@@ -12,6 +12,7 @@ PREFIX=$3
 CROSS=$4
 ZIPKIND=$5
 TOPSRCDIR=$6
+MAKECOMMAND=$7
 
 if test x"$PREFIX" != "x/opt"; then
   echo Error: installation path is not /opt
@@ -23,51 +24,25 @@ if test x"$CROSS" = "xtrue"; then
   exit 1
 fi
 
-if [ ! -e /opt/bin/x64 -o ! -e /opt/bin/x128 -o ! -e /opt/bin/xvic -o ! -e /opt/bin/xpet -o ! -e /opt/bin/xplus4 -o ! -e /opt/bin/xcbm2 -o ! -e /opt/bin/c1541 -o ! -e /opt/bin/petcat -o ! -e /opt/bin/cartconv ]
+if [ ! -e src/x64 -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
 then
-  echo Error: \"make install\" needs to be done first
+  echo Error: \"make\" needs to be done first
   exit 1
 fi
 
 echo Generating QNX 6 port binary distribution.
 rm -f -r VICE-$VICEVERSION
-mkdir VICE-$VICEVERSION
-mkdir VICE-$VICEVERSION/opt
-mkdir -p VICE-$VICEVERSION/opt/lib/locale/de/LC_MESSAGES
-mv /opt/lib/locale/de/LC_MESSAGES/vice.* VICE-$VICEVERSION/opt/lib/locale/de/LC_MESSAGES
-mkdir -p VICE-$VICEVERSION/opt/lib/locale/fr/LC_MESSAGES
-mv /opt/lib/locale/fr/LC_MESSAGES/vice.* VICE-$VICEVERSION/opt/lib/locale/fr/LC_MESSAGES
-mkdir -p VICE-$VICEVERSION/opt/lib/locale/it/LC_MESSAGES
-mv /opt/lib/locale/it/LC_MESSAGES/vice.* VICE-$VICEVERSION/opt/lib/locale/it/LC_MESSAGES
-mkdir -p VICE-$VICEVERSION/opt/lib/locale/sv/LC_MESSAGES
-mv /opt/lib/locale/sv/LC_MESSAGES/vice.* VICE-$VICEVERSION/opt/lib/locale/sv/LC_MESSAGES
-mkdir -p VICE-$VICEVERSION/opt/lib/locale/pl/LC_MESSAGES
-mv /opt/lib/locale/pl/LC_MESSAGES/vice.* VICE-$VICEVERSION/opt/lib/locale/pl/LC_MESSAGES
-mkdir -p VICE-$VICEVERSION/opt/lib/locale/nl/LC_MESSAGES
-mv /opt/lib/locale/nl/LC_MESSAGES/vice.* VICE-$VICEVERSION/opt/lib/locale/nl/LC_MESSAGES
-mkdir -p VICE-$VICEVERSION/opt/lib/locale/hu/LC_MESSAGES
-mv /opt/lib/locale/hu/LC_MESSAGES/vice.* VICE-$VICEVERSION/opt/lib/locale/hu/LC_MESSAGES
-mkdir VICE-$VICEVERSION/opt/bin
-mv /opt/bin/vsid VICE-$VICEVERSION/opt/bin
-mv /opt/bin/x64 VICE-$VICEVERSION/opt/bin
+curdir=`pwd`
+$MAKECOMMAND prefix=$curdir/VICE-$VERSION/opt $curdir/VICEDIR=VICE-$VERSION/opt/lib/vice install
 $STRIP VICE-$VICEVERSION/opt/bin/x64
-mv /opt/bin/x128 VICE-$VICEVERSION/opt/bin
 $STRIP VICE-$VICEVERSION/opt/bin/x128
-mv /opt/bin/xvic VICE-$VICEVERSION/opt/bin
 $STRIP VICE-$VICEVERSION/opt/bin/xvic
-mv /opt/bin/xpet VICE-$VICEVERSION/opt/bin
 $STRIP VICE-$VICEVERSION/opt/bin/xpet
-mv /opt/bin/xplus4 VICE-$VICEVERSION/opt/bin
 $STRIP VICE-$VICEVERSION/opt/bin/xplus4
-mv /opt/bin/xcbm2 VICE-$VICEVERSION/opt/bin
 $STRIP VICE-$VICEVERSION/opt/bin/xcbm2
-mv /opt/bin/c1541 VICE-$VICEVERSION/opt/bin
 $STRIP VICE-$VICEVERSION/opt/bin/c1541
-mv /opt/bin/petcat VICE-$VICEVERSION/opt/bin
 $STRIP VICE-$VICEVERSION/opt/bin/petcat
-mv /opt/bin/cartconv VICE-$VICEVERSION/opt/bin
 $STRIP VICE-$VICEVERSION/opt/bin/cartconv
-mv /opt/lib/vice VICE-$VICEVERSION/opt/lib
 rm `find VICE-$VICEVERSION -name "amiga_*.vkm"`
 rm `find VICE-$VICEVERSION -name "beos_*.vkm"`
 rm `find VICE-$VICEVERSION -name "dos_*.vkm"`
@@ -76,12 +51,6 @@ rm `find VICE-$VICEVERSION -name "osx*.vkm"`
 rm `find VICE-$VICEVERSION -name "win_*.vkm"`
 rm `find VICE-$VICEVERSION -name "RO*.vkm"`
 rm `find VICE-$VICEVERSION -name "*.vsc"`
-mkdir -p VICE-$VICEVERSION/opt/man/man1
-mv /opt/man/man1/c1541.1 VICE-$VICEVERSION/opt/man/man1
-mv /opt/man/man1/petcat.1 VICE-$VICEVERSION/opt/man/man1
-mv /opt/man/man1/vice.1 VICE-$VICEVERSION/opt/man/man1
-mkdir VICE-$VICEVERSION/opt/info
-mv /opt/info/vice.info* VICE-$VICEVERSION/opt/info
 if test x"$ZIPKIND" = "xzip"; then
   gcc $TOPSRCDIR/src/arch/unix/qnx6/getsize.c -o ./getsize
   gcc $TOPSRCDIR/src/arch/unix/qnx6/getlibs.c -o ./getlibs

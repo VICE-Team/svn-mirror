@@ -275,14 +275,14 @@ BEGIN
         BEGIN
             MENUITEM "&Aktuelles Image hinzufügen", IDM_FLIP_ADD
             MENUITEM "Aktuelles Image entfe&rnen",  IDM_FLIP_REMOVE
-            MENUITEM "Nächstes Image",             IDM_FLIP_NEXT
-            MENUITEM "Voriges Image",              IDM_FLIP_PREVIOUS
+            MENUITEM "&Nächstes Image",             IDM_FLIP_NEXT
+            MENUITEM "&Voriges Image",              IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
             MENUITEM "Fliplist Datei &Laden",     IDM_FLIP_LOAD
             MENUITEM "Fliplist Datei &Speichern", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Band Image einlegen...", IDM_ATTACH_TAPE
+        MENUITEM "&Band Image einlegen...", IDM_ATTACH_TAPE
         MENUITEM "Band Image entfernen",          IDM_DETACH_TAPE
         POPUP "Bandlaufwerk Kontro&lle"
         BEGIN
@@ -313,7 +313,7 @@ BEGIN
         POPUP "&Reset"
         BEGIN
             MENUITEM "&Hart", IDM_RESET_HARD
-            MENUITEM "&Soft",      IDM_RESET_SOFT
+            MENUITEM "&Weich",      IDM_RESET_SOFT
             MENUITEM SEPARATOR
             MENUITEM "Laufwerk #&8",  IDM_RESET_DRIVE8
             MENUITEM "Laufwerk #&9",  IDM_RESET_DRIVE9
@@ -330,7 +330,7 @@ BEGIN
                 MENUITEM "&History", IDM_DEBUG_MODE_HISTORY
                 MENUITEM "&History Automatische Wiedergabe", IDM_DEBUG_MODE_AUTOPLAY
             END
-            MENUITEM "&Main CPU Trace", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
+            MENUITEM "&Haupt CPU Trace", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
             MENUITEM "Laufwerk&0 CPU Trace", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
             MENUITEM "Laufwerk&1 CPU Trace", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
         END
@@ -342,8 +342,8 @@ BEGIN
     BEGIN
         MENUITEM "Snapshot &Image Laden...", IDM_SNAPSHOT_LOAD
         MENUITEM "Sna&pshot Image Speichern...", IDM_SNAPSHOT_SAVE
-        MENUITEM "Schnell&laden von Snapshot Image", IDM_LOADQUICK
-        MENUITEM "&Schnellspeichern von Snapshot", IDM_SAVEQUICK
+        MENUITEM "Quick-Snapshot Image &laden", IDM_LOADQUICK
+        MENUITEM "Quick-Snapshot Datei &speichern", IDM_SAVEQUICK
         MENUITEM SEPARATOR
         MENUITEM "Sta&rt/Stop Aufnahme History",       IDM_EVENT_TOGGLE_RECORD
         MENUITEM "St&art/Stop Wiedergabe History",        IDM_EVENT_TOGGLE_PLAYBACK
@@ -411,7 +411,7 @@ BEGIN
         MENUITEM "Scale2x", IDM_TOGGLE_SCALE2X
         , CHECKED
         MENUITEM SEPARATOR
-	MENUITEM "Joystick ports austauschen", IDM_SWAP_JOYSTICK
+	MENUITEM "&Joystick ports austauschen", IDM_SWAP_JOYSTICK
 	MENUITEM SEPARATOR
         MENUITEM "&Sound Einschalten", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
@@ -1795,7 +1795,7 @@ BEGIN
         MENUITEM "Scale2x", IDM_TOGGLE_SCALE2X
         , CHECKED
         MENUITEM SEPARATOR
-	MENUITEM "Vä&xla spelportarna", IDM_SWAP_JOYSTICK
+	MENUITEM "Växla &spelportarna", IDM_SWAP_JOYSTICK
 	MENUITEM SEPARATOR
         MENUITEM "Aktivera &ljudåtergivning", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
@@ -3216,6 +3216,7 @@ END
 // original and default ENGLISH text
 
 STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_ATTACH_FUNCTION_LOW_CART    "Attach cartridge image for Function Low"
   IDS_ATTACH_FUNCTION_HIGH_CART   "Attach cartridge image for Function High"
@@ -3229,26 +3230,28 @@ END
 // GERMAN text
 
 STRINGTABLE
+LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART_DE    "Funktions ROM (low) Erweiterungsmodul einlegen"
-  IDS_ATTACH_FUNCTION_HIGH_CART_DE   "Funktions ROM (high) Erweiterungsmodul einlegen"
-  IDS_ATTACH_CART1_LOW_DE            "Cartridge1 (low) Erweiterungsmodul einlegen"
-  IDS_ATTACH_CART1_HIGH_DE           "Cartridge1 (high) Erweiterungsmodul einlegen"
-  IDS_ATTACH_CART2_LOW_DE            "Cartridge2 (low) Erweiterungsmodul einlegen"
-  IDS_ATTACH_CART2_HIGH_DE           "Cartridge2 (high) Erweiterungsmodul einlegen"
+  IDS_ATTACH_FUNCTION_LOW_CART    "Funktions ROM (low) Erweiterungsmodul einlegen"
+  IDS_ATTACH_FUNCTION_HIGH_CART   "Funktions ROM (high) Erweiterungsmodul einlegen"
+  IDS_ATTACH_CART1_LOW            "Cartridge1 (low) Erweiterungsmodul einlegen"
+  IDS_ATTACH_CART1_HIGH           "Cartridge1 (high) Erweiterungsmodul einlegen"
+  IDS_ATTACH_CART2_LOW            "Cartridge2 (low) Erweiterungsmodul einlegen"
+  IDS_ATTACH_CART2_HIGH           "Cartridge2 (high) Erweiterungsmodul einlegen"
 END
 
 
 // FRENCH text
 
 STRINGTABLE
+LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART_FR    "Insérer une cartouche Fonction basse"
-  IDS_ATTACH_FUNCTION_HIGH_CART_FR   "Insérer une cartouche Fonction haute"
-  IDS_ATTACH_CART1_LOW_FR            "Insérer une cartouche pour Cartouche1 basse"
-  IDS_ATTACH_CART1_HIGH_FR           "Insérer une cartouche pour Cartouche1 haute"
-  IDS_ATTACH_CART2_LOW_FR            "Insérer une cartouche pour Cartouche2 basse"
-  IDS_ATTACH_CART2_HIGH_FR           "Insérer une cartouche pour Cartouche2 haute"
+  IDS_ATTACH_FUNCTION_LOW_CART    "Insérer une cartouche Fonction basse"
+  IDS_ATTACH_FUNCTION_HIGH_CART   "Insérer une cartouche Fonction haute"
+  IDS_ATTACH_CART1_LOW            "Insérer une cartouche pour Cartouche1 basse"
+  IDS_ATTACH_CART1_HIGH           "Insérer une cartouche pour Cartouche1 haute"
+  IDS_ATTACH_CART2_LOW            "Insérer une cartouche pour Cartouche2 basse"
+  IDS_ATTACH_CART2_HIGH           "Insérer une cartouche pour Cartouche2 haute"
 END
 
 
@@ -3256,13 +3259,14 @@ END
 
 #pragma code_page(28592)
 STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART_HU    "Cartridge képmás csatolása Function Low-hoz"
-  IDS_ATTACH_FUNCTION_HIGH_CART_HU   "Cartridge képmás csatolása Function High-hez"
-  IDS_ATTACH_CART1_LOW_HU            "Cartridge képmás csatolása alsó Cartridge1-hez"
-  IDS_ATTACH_CART1_HIGH_HU           "Cartridge képmás csatolása felsõ Cartridge1-hez"
-  IDS_ATTACH_CART2_LOW_HU            "Cartridge képmás csatolása alsó Cartridge2-höz"
-  IDS_ATTACH_CART2_HIGH_HU           "Cartridge képmás csatolása felsõ Cartridge2-höz"
+  IDS_ATTACH_FUNCTION_LOW_CART    "Cartridge képmás csatolása Function Low-hoz"
+  IDS_ATTACH_FUNCTION_HIGH_CART   "Cartridge képmás csatolása Function High-hez"
+  IDS_ATTACH_CART1_LOW            "Cartridge képmás csatolása alsó Cartridge1-hez"
+  IDS_ATTACH_CART1_HIGH           "Cartridge képmás csatolása felsõ Cartridge1-hez"
+  IDS_ATTACH_CART2_LOW            "Cartridge képmás csatolása alsó Cartridge2-höz"
+  IDS_ATTACH_CART2_HIGH           "Cartridge képmás csatolása felsõ Cartridge2-höz"
 END
 #pragma code_page(28591)
 
@@ -3270,26 +3274,28 @@ END
 // ITALIAN text
 
 STRINGTABLE
+LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART_IT    "Seleziona l'immagine di una cartuccia per la Function Low"
-  IDS_ATTACH_FUNCTION_HIGH_CART_IT   "Seleziona l'immagine di una cartuccia per la Function High"
-  IDS_ATTACH_CART1_LOW_IT            "Seleziona l'immagine di una cartuccia per la Cartridge1 Low"
-  IDS_ATTACH_CART1_HIGH_IT           "Seleziona l'immagine di una cartuccia per la Cartridge1 High"
-  IDS_ATTACH_CART2_LOW_IT            "Seleziona l'immagine di una cartuccia per la Cartridge2 Low"
-  IDS_ATTACH_CART2_HIGH_IT           "Seleziona l'immagine di una cartuccia per la Cartridge2 High"
+  IDS_ATTACH_FUNCTION_LOW_CART    "Seleziona l'immagine di una cartuccia per la Function Low"
+  IDS_ATTACH_FUNCTION_HIGH_CART   "Seleziona l'immagine di una cartuccia per la Function High"
+  IDS_ATTACH_CART1_LOW            "Seleziona l'immagine di una cartuccia per la Cartridge1 Low"
+  IDS_ATTACH_CART1_HIGH           "Seleziona l'immagine di una cartuccia per la Cartridge1 High"
+  IDS_ATTACH_CART2_LOW            "Seleziona l'immagine di una cartuccia per la Cartridge2 Low"
+  IDS_ATTACH_CART2_HIGH           "Seleziona l'immagine di una cartuccia per la Cartridge2 High"
 END
 
 
 // DUTCH text
 
 STRINGTABLE
+LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART_NL    "Koppel cartridgebestand voor 'Function Low'"
-  IDS_ATTACH_FUNCTION_HIGH_CART_NL   "Koppel cartridgebestand voor 'Function High'"
-  IDS_ATTACH_CART1_LOW_NL            "Koppel cartridgebestand voor 'Cartridge1 Low'"
-  IDS_ATTACH_CART1_HIGH_NL           "Koppel cartridgebestand voor 'Cartridge1 High'"
-  IDS_ATTACH_CART2_LOW_NL            "Koppel cartridgebestand voor 'Cartridge2 Low'"
-  IDS_ATTACH_CART2_HIGH_NL           "Koppel cartridgebestand voor 'Cartridge2 High'"
+  IDS_ATTACH_FUNCTION_LOW_CART    "Koppel cartridgebestand voor 'Function Low'"
+  IDS_ATTACH_FUNCTION_HIGH_CART   "Koppel cartridgebestand voor 'Function High'"
+  IDS_ATTACH_CART1_LOW            "Koppel cartridgebestand voor 'Cartridge1 Low'"
+  IDS_ATTACH_CART1_HIGH           "Koppel cartridgebestand voor 'Cartridge1 High'"
+  IDS_ATTACH_CART2_LOW            "Koppel cartridgebestand voor 'Cartridge2 Low'"
+  IDS_ATTACH_CART2_HIGH           "Koppel cartridgebestand voor 'Cartridge2 High'"
 END
 
 
@@ -3297,13 +3303,14 @@ END
 
 #pragma code_page(28592)
 STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART_PL    "Attach cartridge image for Function Low"
-  IDS_ATTACH_FUNCTION_HIGH_CART_PL   "Attach cartridge image for Function High"
-  IDS_ATTACH_CART1_LOW_PL            "Attach cartridge image for Cartridge1 Low"
-  IDS_ATTACH_CART1_HIGH_PL           "Attach cartridge image for Cartridge1 High"
-  IDS_ATTACH_CART2_LOW_PL            "Attach cartridge image for Cartridge2 Low"
-  IDS_ATTACH_CART2_HIGH_PL           "Attach cartridge image for Cartridge2 High"
+  IDS_ATTACH_FUNCTION_LOW_CART    "Attach cartridge image for Function Low"
+  IDS_ATTACH_FUNCTION_HIGH_CART   "Attach cartridge image for Function High"
+  IDS_ATTACH_CART1_LOW            "Attach cartridge image for Cartridge1 Low"
+  IDS_ATTACH_CART1_HIGH           "Attach cartridge image for Cartridge1 High"
+  IDS_ATTACH_CART2_LOW            "Attach cartridge image for Cartridge2 Low"
+  IDS_ATTACH_CART2_HIGH           "Attach cartridge image for Cartridge2 High"
 END
 #pragma code_page(28591)
 
@@ -3311,11 +3318,12 @@ END
 // SWEDISH text
 
 STRINGTABLE
+LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART_SV    "Anslut insticksmodulfil för funktion låg"
-  IDS_ATTACH_FUNCTION_HIGH_CART_SV   "Anslut insticksmodulfil för funktion hög"
-  IDS_ATTACH_CART1_LOW_SV            "Anslut insticksmodulfil för modul1 låg"
-  IDS_ATTACH_CART1_HIGH_SV           "Anslut insticksmodulfil för modul1 hög"
-  IDS_ATTACH_CART2_LOW_SV            "Anslut insticksmodulfil för modul2 låg"
-  IDS_ATTACH_CART2_HIGH_SV           "Anslut insticksmodulfil för modul2 hög"
+  IDS_ATTACH_FUNCTION_LOW_CART    "Anslut insticksmodulfil för funktion låg"
+  IDS_ATTACH_FUNCTION_HIGH_CART   "Anslut insticksmodulfil för funktion hög"
+  IDS_ATTACH_CART1_LOW            "Anslut insticksmodulfil för modul1 låg"
+  IDS_ATTACH_CART1_HIGH           "Anslut insticksmodulfil för modul1 hög"
+  IDS_ATTACH_CART2_LOW            "Anslut insticksmodulfil för modul2 låg"
+  IDS_ATTACH_CART2_HIGH           "Anslut insticksmodulfil för modul2 hög"
 END

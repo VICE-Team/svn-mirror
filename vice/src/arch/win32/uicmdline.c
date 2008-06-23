@@ -32,6 +32,7 @@
 #include <windows.h>
 
 #include "cmdline.h"
+#include "intl.h"
 #include "lib.h"
 #include "translate.h"
 #include "uilib.h"

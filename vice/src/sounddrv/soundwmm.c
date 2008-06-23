@@ -435,8 +435,6 @@ static int wmm_write(SWORD *pbuf, size_t nr)
 
         /* Wait until enough free space in the circular buffer */
         freebufspace = (play_cursor - write_cursor);
-        if (freebufspace < 0)
-            freebufspace += buffer_size;
         if (freebufspace >= worktodo)
             break;
         /* Also break out of loop if buffer stops playing */

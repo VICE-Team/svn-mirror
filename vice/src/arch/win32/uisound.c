@@ -27,6 +27,7 @@
 #include <string.h>
 #include <windows.h>
 
+#include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "sound.h"
@@ -36,7 +37,6 @@
 #include "uilib.h"
 #include "util.h"
 #include "winmain.h"
-#include "intl.h"
 
 
 static int ui_sound_freq[] = {
@@ -132,7 +132,7 @@ static void init_sound_dialog(HWND hwnd)
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_OVERSAMPLE);
-    SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)intl_translate_text_new(IDS_NONE));
+    SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)translate_text(IDS_NONE));
     SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("2x"));
     SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("4x"));
     SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("8x"));

@@ -44,6 +44,7 @@
 #include "autostart.h"
 #include "iecdrive.h"
 #include "imagecontents.h"
+#include "intl.h"
 #include "lib.h"
 #include "opencbmlib.h"
 #include "printer.h"

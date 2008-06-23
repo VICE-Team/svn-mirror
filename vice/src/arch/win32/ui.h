@@ -107,6 +107,7 @@ extern void ui_resize_canvas_window(HWND w, unsigned int width,
 extern FILE *ui_console_save_dialog(HWND hwnd);
 extern int ui_emulation_is_paused(void);
 extern void ui_set_alwaysontop(int alwaysontop);
+extern void ui_message(const char *format,...);
 
 #endif
 

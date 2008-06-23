@@ -31,6 +31,7 @@
 #include <windows.h>
 #include <tchar.h>
 
+#include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -38,7 +39,6 @@
 #include "uilib.h"
 #include "uiramcart.h"
 #include "winmain.h"
-#include "intl.h"
 
 
 #define NUM_OF_RAMCART_SIZE 2
@@ -166,7 +166,7 @@ static void end_ramcart_dialog(HWND hwnd)
 
 static void browse_ramcart_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, intl_translate_text_new(IDS_RAMCART_SELECT_FILE),
+    uilib_select_browse(hwnd, translate_text(IDS_RAMCART_SELECT_FILE),
                         UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE,
                         IDC_RAMCART_FILE);
 }

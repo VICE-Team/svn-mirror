@@ -33,6 +33,7 @@
 #include <tchar.h>
 #include <commdlg.h>
 
+#include "intl.h"
 #include "network.h"
 #include "res.h"
 #include "resources.h"

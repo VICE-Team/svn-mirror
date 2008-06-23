@@ -312,14 +312,14 @@ BEGIN
         BEGIN
             MENUITEM "&Aktuelles Image hinzufügen", IDM_FLIP_ADD
             MENUITEM "Aktuelles Image entfe&rnen",  IDM_FLIP_REMOVE
-            MENUITEM "Nächstes Image",             IDM_FLIP_NEXT
-            MENUITEM "Voriges Image",              IDM_FLIP_PREVIOUS
+            MENUITEM "&Nächstes Image",             IDM_FLIP_NEXT
+            MENUITEM "&Voriges Image",              IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
             MENUITEM "Fliplist Datei &Laden",     IDM_FLIP_LOAD
             MENUITEM "Fliplist Datei &Speichern", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Band Image einlegen...", IDM_ATTACH_TAPE
+        MENUITEM "&Band Image einlegen...", IDM_ATTACH_TAPE
         MENUITEM "Band Image entfernen",          IDM_DETACH_TAPE
         POPUP "Bandlaufwerk Kontro&lle"
         BEGIN
@@ -363,14 +363,14 @@ BEGIN
             MENUITEM "Reset bei Wechsel von Erweiterungsmodulen",       IDM_TOGGLE_CART_RESET
         END
         MENUITEM "Erweiterungsmodul &Image entfernen",  IDM_CART_DETACH
-        MENUITEM "Erweiterungsmodul Freeze", IDM_CART_FREEZE
+        MENUITEM "Erweiterungsmodul Free&ze", IDM_CART_FREEZE
         MENUITEM SEPARATOR
         MENUITEM "&Pause", IDM_PAUSE, CHECKED
         MENUITEM "&Monitor", IDM_MONITOR
         POPUP "&Reset"
         BEGIN
             MENUITEM "&Hart", IDM_RESET_HARD
-            MENUITEM "&Soft",      IDM_RESET_SOFT
+            MENUITEM "&Weich",      IDM_RESET_SOFT
             MENUITEM SEPARATOR
             MENUITEM "Laufwerk #&8",  IDM_RESET_DRIVE8
             MENUITEM "Laufwerk #&9",  IDM_RESET_DRIVE9
@@ -387,7 +387,7 @@ BEGIN
                 MENUITEM "&History", IDM_DEBUG_MODE_HISTORY
                 MENUITEM "&History Automatische Wiedergabe", IDM_DEBUG_MODE_AUTOPLAY
             END
-            MENUITEM "&Main CPU Trace", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
+            MENUITEM "&Haupt CPU Trace", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
             MENUITEM "Laufwerk&0 CPU Trace", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
             MENUITEM "Laufwerk&1 CPU Trace", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
         END
@@ -399,8 +399,8 @@ BEGIN
     BEGIN
         MENUITEM "Snapshot &Image Laden...", IDM_SNAPSHOT_LOAD
         MENUITEM "Sna&pshot Image Speichern...", IDM_SNAPSHOT_SAVE
-        MENUITEM "Schnell&laden von Snapshot Image", IDM_LOADQUICK
-        MENUITEM "&Schnellspeichern von Snapshot", IDM_SAVEQUICK
+        MENUITEM "Quick-Snapshot Image &laden", IDM_LOADQUICK
+        MENUITEM "Quick-Snapshot Datei &speichern", IDM_SAVEQUICK
         MENUITEM SEPARATOR
         MENUITEM "Sta&rt/Stop Aufnahme History",       IDM_EVENT_TOGGLE_RECORD
         MENUITEM "St&art/Stop Wiedergabe History",        IDM_EVENT_TOGGLE_PLAYBACK
@@ -469,7 +469,7 @@ BEGIN
             MENUITEM "64KB Bildschirm Speicher", IDM_TOGGLE_VDC64KB
         END
         MENUITEM SEPARATOR
-        MENUITEM "Joystick ports austauschen", IDM_SWAP_JOYSTICK
+        MENUITEM "&Joystick ports austauschen", IDM_SWAP_JOYSTICK
         MENUITEM SEPARATOR
         MENUITEM "&Sound Einschalten", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
@@ -484,7 +484,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Emulator &Identifikation", IDM_TOGGLE_EMUID
         MENUITEM "IEEE&488 Schnittstellen-Emulation",    IDM_IEEE488
-        MENUITEM "&Maus Ereignisse abfangen",    IDM_MOUSE
+        MENUITEM "Maus Ereignisse abfan&gen",    IDM_MOUSE
     END
     POPUP "&Einstellungen"
     BEGIN
@@ -1963,7 +1963,7 @@ BEGIN
             MENUITEM "Nollställ &vid modulbyte", IDM_TOGGLE_CART_RESET
         END
         MENUITEM "Koppla &från insticksmodulfil",  IDM_CART_DETACH
-        MENUITEM "Frys", IDM_CART_FREEZE
+        MENUITEM "Insticksmodulens &frysfunktion", IDM_CART_FREEZE
         MENUITEM SEPARATOR
         MENUITEM "&Paus", IDM_PAUSE, CHECKED
         MENUITEM "&Monitor", IDM_MONITOR
@@ -2068,7 +2068,7 @@ BEGIN
             MENUITEM "64KB grafik&minne", IDM_TOGGLE_VDC64KB
         END
         MENUITEM SEPARATOR
-        MENUITEM "Vä&xla spelportarna", IDM_SWAP_JOYSTICK
+        MENUITEM "Växla &spelportarna", IDM_SWAP_JOYSTICK
         MENUITEM SEPARATOR
         MENUITEM "Aktivera &ljudåtergivning", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
@@ -2083,7 +2083,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Emulator&identifiering", IDM_TOGGLE_EMUID
         MENUITEM "Emulering av IEEE&488-gränssnitt",    IDM_IEEE488
-        MENUITEM "&Grab mouse events",    IDM_MOUSE
+        MENUITEM "&Fånga mushändelser",    IDM_MOUSE
     END
     POPUP "&Inställningar"
     BEGIN
@@ -2094,7 +2094,7 @@ BEGIN
         MENUITEM "VIC-II-inställningar...",     IDM_VICII_SETTINGS
         MENUITEM "Inställningar för &styrspak...",  IDM_JOY_SETTINGS
         MENUITEM "&Tangentbordsinställningar...",  IDM_KEYBOARD_SETTINGS
-        MENUITEM "Mo&use settings...",     IDM_MOUSE_SETTINGS
+        MENUITEM "M&usinställningar...",     IDM_MOUSE_SETTINGS
         MENUITEM "L&judinställningar...",     IDM_SOUND_SETTINGS
         MENUITEM "S&ID-inställningar...",       IDM_SID_SETTINGS
         MENUITEM "&ROM-inställningar...",       IDM_ROM_SETTINGS
@@ -4498,6 +4498,7 @@ END
 // original and default ENGLISH text
 
 STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_INT_FUNCTION_ROM   "Select internal function ROM image"
   IDS_SELECT_EXT_FUNCTION_ROM   "Select external function ROM image"
@@ -4510,24 +4511,26 @@ END
 // GERMAN text
 
 STRINGTABLE
+LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_INT_FUNCTION_ROM_DE   "Internes Funktions ROM Image Datei selektieren"
-  IDS_SELECT_EXT_FUNCTION_ROM_DE   "Externes Funktions ROM Image Datei selektieren"
-  IDS_MACHINE_TYPE_DE              "Maschinen Typ"
-  IDS_FUNCTION_ROM_DE              "Function ROM"
-  IDS_C128_SETTINGS_DE             "C128 Einstellungen"
+  IDS_SELECT_INT_FUNCTION_ROM   "Internes Funktions ROM Image Datei selektieren"
+  IDS_SELECT_EXT_FUNCTION_ROM   "Externes Funktions ROM Image Datei selektieren"
+  IDS_MACHINE_TYPE              "Maschinen Typ"
+  IDS_FUNCTION_ROM              "Function ROM"
+  IDS_C128_SETTINGS             "C128 Einstellungen"
 END
 
 
 // FRENCH text
 
 STRINGTABLE
+LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_INT_FUNCTION_ROM_FR   "Sélectionner l'image ROM Fonction interne"
-  IDS_SELECT_EXT_FUNCTION_ROM_FR   "Sélectionner l'image ROM Fonction externe"
-  IDS_MACHINE_TYPE_FR              "Type de machine"
-  IDS_FUNCTION_ROM_FR              "ROM Fonction"
-  IDS_C128_SETTINGS_FR             "Paramètres C128"
+  IDS_SELECT_INT_FUNCTION_ROM   "Sélectionner l'image ROM Fonction interne"
+  IDS_SELECT_EXT_FUNCTION_ROM   "Sélectionner l'image ROM Fonction externe"
+  IDS_MACHINE_TYPE              "Type de machine"
+  IDS_FUNCTION_ROM              "ROM Fonction"
+  IDS_C128_SETTINGS             "Paramètres C128"
 END
 
 
@@ -4535,12 +4538,13 @@ END
 
 #pragma code_page(28592)
 STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_INT_FUNCTION_ROM_HU   "Adja meg a belsõ Function ROM képmás nevét"
-  IDS_SELECT_EXT_FUNCTION_ROM_HU   "Adja meg a külsõ Function ROM képmás nevét"
-  IDS_MACHINE_TYPE_HU              "Gép típus"
-  IDS_FUNCTION_ROM_HU              "Function ROM"
-  IDS_C128_SETTINGS_HU             "C128 beállításai"
+  IDS_SELECT_INT_FUNCTION_ROM   "Adja meg a belsõ Function ROM képmás nevét"
+  IDS_SELECT_EXT_FUNCTION_ROM   "Adja meg a külsõ Function ROM képmás nevét"
+  IDS_MACHINE_TYPE              "Gép típus"
+  IDS_FUNCTION_ROM              "Function ROM"
+  IDS_C128_SETTINGS             "C128 beállításai"
 END
 #pragma code_page(28591)
 
@@ -4548,24 +4552,26 @@ END
 // ITALIAN text
 
 STRINGTABLE
+LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_INT_FUNCTION_ROM_IT   "Seleziona l'immagine della Function ROM interna"
-  IDS_SELECT_EXT_FUNCTION_ROM_IT   "Seleziona l'immagine della Function ROM esterna"
-  IDS_MACHINE_TYPE_IT              "Tipo di macchina"
-  IDS_FUNCTION_ROM_IT              "Function ROM"
-  IDS_C128_SETTINGS_IT             "Impostazioni C128"
+  IDS_SELECT_INT_FUNCTION_ROM   "Seleziona l'immagine della Function ROM interna"
+  IDS_SELECT_EXT_FUNCTION_ROM   "Seleziona l'immagine della Function ROM esterna"
+  IDS_MACHINE_TYPE              "Tipo di macchina"
+  IDS_FUNCTION_ROM              "Function ROM"
+  IDS_C128_SETTINGS             "Impostazioni C128"
 END
 
 
 // DUTCH text
 
 STRINGTABLE
+LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_INT_FUNCTION_ROM_NL   "Selecteer intern functie-ROM-bestand"
-  IDS_SELECT_EXT_FUNCTION_ROM_NL   "Selecteer extern functie-ROM-bestand"
-  IDS_MACHINE_TYPE_NL              "Machinesoort"
-  IDS_FUNCTION_ROM_NL              "Functie-ROM"
-  IDS_C128_SETTINGS_NL             "C128-instellingen"
+  IDS_SELECT_INT_FUNCTION_ROM   "Selecteer intern functie-ROM-bestand"
+  IDS_SELECT_EXT_FUNCTION_ROM   "Selecteer extern functie-ROM-bestand"
+  IDS_MACHINE_TYPE              "Machinesoort"
+  IDS_FUNCTION_ROM              "Functie-ROM"
+  IDS_C128_SETTINGS             "C128-instellingen"
 END
 
 
@@ -4573,12 +4579,13 @@ END
 
 #pragma code_page(28592)
 STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_INT_FUNCTION_ROM_PL   "Select internal function ROM image"
-  IDS_SELECT_EXT_FUNCTION_ROM_PL   "Select external function ROM image"
-  IDS_MACHINE_TYPE_PL              "Machine type"
-  IDS_FUNCTION_ROM_PL              "Function ROM"
-  IDS_C128_SETTINGS_PL             "C128 settings"
+  IDS_SELECT_INT_FUNCTION_ROM   "Select internal function ROM image"
+  IDS_SELECT_EXT_FUNCTION_ROM   "Select external function ROM image"
+  IDS_MACHINE_TYPE              "Machine type"
+  IDS_FUNCTION_ROM              "Function ROM"
+  IDS_C128_SETTINGS             "C128 settings"
 END
 #pragma code_page(28591)
 
@@ -4586,10 +4593,11 @@ END
 // SWEDISH text
 
 STRINGTABLE
+LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_INT_FUNCTION_ROM_SV   "Välj avbildning för internt funktions-ROM"
-  IDS_SELECT_EXT_FUNCTION_ROM_SV   "Välj avbildning för externt funktions-ROM"
-  IDS_MACHINE_TYPE_SV              "Maskintyp"
-  IDS_FUNCTION_ROM_SV              "Funktions-ROM"
-  IDS_C128_SETTINGS_SV             "C128-inställningar"
+  IDS_SELECT_INT_FUNCTION_ROM   "Välj avbildning för internt funktions-ROM"
+  IDS_SELECT_EXT_FUNCTION_ROM   "Välj avbildning för externt funktions-ROM"
+  IDS_MACHINE_TYPE              "Maskintyp"
+  IDS_FUNCTION_ROM              "Funktions-ROM"
+  IDS_C128_SETTINGS             "C128-inställningar"
 END

@@ -272,6 +272,7 @@ EXTRA_DIST = \
 	watcom/ieee.tgt \
 	watcom/imagecontents.tgt \
 	watcom/maincpu.tgt \
+	watcom/make-watcom-bindist.bat \
 	watcom/monitor.tgt \
 	watcom/parallel.tgt \
 	watcom/pet.tgt \
@@ -371,6 +372,7 @@ EXTRA_DIST = \
 	vice.manifest \
 	montb.bmp \
 	make-bindist.sh \
+	make-msvc-bindist.bat \
 	c64.ico 
 
 BUILT_SOURCES = res.h

@@ -59,8 +59,8 @@ unsigned int sid_stereo_address_start;
 unsigned int sid_stereo_address_end;
 static int sid_engine;
 #ifdef HAVE_HARDSID
-static unsigned int sid_hardsid_main;
-static unsigned int sid_hardsid_right;
+static int sid_hardsid_main;
+static int sid_hardsid_right;
 #endif
 #ifdef HAVE_PARSID
 int parsid_port=0;

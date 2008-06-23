@@ -27,12 +27,12 @@
 #include <windows.h>
 #include <tchar.h>
 
+#include "intl.h"
 #include "joy.h"
 #include "res.h"
 #include "resources.h"
 #include "translate.h"
 #include "winmain.h"
-#include "intl.h"
 
 /*  These are in joystick.c . */
 extern void joystick_calibrate(HWND hwnd);
@@ -278,7 +278,7 @@ static void init_joystick_dialog(HWND hwnd)
 
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_DEV1);
     SendMessage(joy_hwnd, CB_ADDSTRING, 0,
-                (LPARAM)intl_translate_text_new(IDS_NONE));
+                (LPARAM)translate_text(IDS_NONE));
     SendMessage(joy_hwnd, CB_ADDSTRING, 0,
                 (LPARAM)translate_text(IDS_NUMPAD_AND_RCTRL));
     SendMessage(joy_hwnd, CB_ADDSTRING, 0,
@@ -322,7 +322,7 @@ static void init_joystick_dialog(HWND hwnd)
 
     joy_hwnd = GetDlgItem(hwnd,IDC_JOY_DEV2);
     SendMessage(joy_hwnd, CB_ADDSTRING, 0,
-                (LPARAM)intl_translate_text_new(IDS_NONE));
+                (LPARAM)translate_text(IDS_NONE));
     SendMessage(joy_hwnd, CB_ADDSTRING, 0,
                 (LPARAM)translate_text(IDS_NUMPAD_AND_RCTRL));
     SendMessage(joy_hwnd, CB_ADDSTRING, 0,

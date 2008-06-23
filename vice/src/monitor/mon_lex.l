@@ -152,7 +152,7 @@ HDIGIT  [0-9a-fA-F]
         tapectrl        { BEGIN(INITIAL);       return CMD_TAPECTRL; }
         trace|tr        { BEGIN(INITIAL);       return CMD_TRACE; }
         until|un        { BEGIN(INITIAL);       return CMD_UNTIL; }
-        undump          { BEGIN(INITIAL);       return CMD_UNDUMP; }
+        undump          { BEGIN(FNAME);       return CMD_UNDUMP; }
         watch|w         { BEGIN(INITIAL);       return CMD_WATCH; }
         yydebug         { BEGIN(INITIAL);       return CMD_YYDEBUG; }
 }

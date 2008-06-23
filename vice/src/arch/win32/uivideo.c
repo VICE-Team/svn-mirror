@@ -40,6 +40,7 @@
 #define DUMMYUNIONNAME  u1
 #endif
 
+#include "intl.h"
 #include "lib.h"
 #include "res.h"
 #include "resources.h"

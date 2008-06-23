@@ -66,6 +66,7 @@ Copyright @copyright{} 1999-2008 Martin Pottendorfer
 Copyright @copyright{} 2000-2008 Spiro Trikaliotis
 Copyright @copyright{} 2005-2008 Marco van den Heuvel
 Copyright @copyright{} 2006-2008 Christian Vogelgsang
+Copyright @copyright{} 2007-2008 Fabrizio Gennari
 Copyright @copyright{} 1999-2007 Andreas Dehmel
 Copyright @copyright{} 2003-2005 David Hansel
 Copyright @copyright{} 2000-2004 Markus Brenner
@@ -7424,16 +7425,16 @@ devices and improved the tape emulation.
 
 @item
 @b{Marco van den Heuvel} Translated the UI to Dutch. Made the
-internationalization support for the Win32 and Amiga ports. Wrote
-the GEORAM and RamCart cartridge code. Wrote the c64 +60K, +256K
-and 256K memory expansions code. Wrote the pet REU code. Wrote
-the plus4 memory expansions code. Made the ethernet support for
-the Msdos port. Maintains the RiscOS, QNX 6.x, Solaris, GP2X,
-Minix 3.x, Amiga, ppc-BeOS and newly resurrected OS/2 binary
-ports. Added new .crt support. Added new screenshot formats.
-Added new sound recording support. Added SIDcart support for
-pet, plus4 and vic20. Added digimax support. Improved the MMC64
-emulation. Added 2 MHz mode to x128. And lots of other fixes and
+Internationalization support for the Win32 and Amiga ports. Wrote
+the GEORAM and RamCart cartridge code. Wrote the c64 +60K, +256K and
+256K memory expansions code. Wrote the pet REU code. Wrote the plus4
+memory expansions code. Made the ethernet support for the Msdos
+port. Maintains the RiscOS, QNX 4.x, QNX 6.x, SkyOS, Solaris,
+Openserver, Unixware, HPUX, GP2X, Minix 3.x, Amiga, ppc-BeOS and
+newly resurrected OS/2 binary ports. Added new .crt support. Added
+new screenshot formats. Added new sound recording support. Added
+SIDcart support for pet, plus4 and vic20. Improved the MMC64
+emulation. Added 2 MHz mode for x128. And lots of other fixes and
 improvements.
 
 @item
@@ -7441,6 +7442,10 @@ improvements.
 support and universal binary creation. Wrote the build scripts for
 all external Mac libraries and the bindist bundle tool. Improved
 the TFE chip emulation. Added some Gtk+ fixes.
+
+@item
+@b{Fabrizio Gennari} added some improvements to the MSDOS- and GTK
+port.
 
 @end itemize
 
@@ -7681,10 +7686,6 @@ emulation and did some small fixes.
 @b{ck!} provided a win32 cbm character font.
 
 @item
-@b{Fabrizio Gennari} added some improvements to the MSDOS- and GTK
-port.
-
-@item
 @b{Dirk Jagdmann} wrote the Catweasel sound driver.
 
 @item
@@ -7726,10 +7727,6 @@ cybergraphics support for the Amiga ports.
 to the GCR code.
 
 @item
-@b{Christian Vogelgsang} resurrected the Mac
-OSX X11 port and added support for an Intel build.
-
-@item
 @b{Peter Gordon} provided support for native AmigaOS4 compiling.
 
 @item
@@ -7745,6 +7742,41 @@ package.
 @item
 @b{Gunnar Ruthenberg} provided some VIC-II enhancements and improved
 the win32 port.
+
+@item
+@b{Hannu Nuotio} Added experimental NEOS and Amiga mouse support.
+Fixed mouse support for single size in unix. Fixed mouse grab and
+menu popup for xaw. Added new monitor commands and features. Added
+the memmap feature.
+
+@item
+@b{M. Kiesel} Added new monitor commands and features.
+
+@item
+@b{Daniel Kahlin} Added new monitor commands and features.
+
+@item
+@b{Groepaz/Hitmen} Added new more precise PAL emulation. Added support
+for the Action Replay 4 and StarDos cartridges.
+
+@item
+@b{Ingo Korb} Corrected block allocation and interleave for
+c1541/vdrive.
+
+@item
+@b{Georg Feil} Added support for toggling CB2 sound output line in
+the PET emulator.
+
+@item
+@b{Greg King} Added a working RTC to the emulation of the IDE64
+cartridge.
+
+@item
+@b{Thomas Giesel} Added new monitor commands and features.
+
+@item
+@b{Marcus Sutton} Made some console, dialog and joystick fixes for
+the BeOS port.
 
 @end itemize
 

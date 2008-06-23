@@ -275,14 +275,14 @@ BEGIN
         BEGIN
             MENUITEM "&Aktuelles Image hinzufügen", IDM_FLIP_ADD
             MENUITEM "Aktuelles Image entfe&rnen",  IDM_FLIP_REMOVE
-            MENUITEM "Nächstes Image",             IDM_FLIP_NEXT
-            MENUITEM "Voriges Image",              IDM_FLIP_PREVIOUS
+            MENUITEM "&Nächstes Image",             IDM_FLIP_NEXT
+            MENUITEM "&Voriges Image",              IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
             MENUITEM "Fliplist Datei &Laden",     IDM_FLIP_LOAD
             MENUITEM "Fliplist Datei &Speichern", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Band Image einlegen...", IDM_ATTACH_TAPE
+        MENUITEM "&Band Image einlegen...", IDM_ATTACH_TAPE
         MENUITEM "Band Image entfernen",          IDM_DETACH_TAPE
         POPUP "Bandlaufwerk Kontro&lle"
         BEGIN
@@ -311,7 +311,7 @@ BEGIN
         POPUP "&Reset"
         BEGIN
             MENUITEM "&Hart", IDM_RESET_HARD
-            MENUITEM "&Soft",      IDM_RESET_SOFT
+            MENUITEM "&Weich",      IDM_RESET_SOFT
             MENUITEM SEPARATOR
             MENUITEM "Laufwerk #&8",  IDM_RESET_DRIVE8
             MENUITEM "Laufwerk #&9",  IDM_RESET_DRIVE9
@@ -328,7 +328,7 @@ BEGIN
                 MENUITEM "&History", IDM_DEBUG_MODE_HISTORY
                 MENUITEM "&History Automatische Wiedergabe", IDM_DEBUG_MODE_AUTOPLAY
             END
-            MENUITEM "&Main CPU Trace", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
+            MENUITEM "&Haupt CPU Trace", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
             MENUITEM "Laufwerk&0 CPU Trace", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
             MENUITEM "Laufwerk&1 CPU Trace", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
         END
@@ -340,8 +340,8 @@ BEGIN
     BEGIN
         MENUITEM "Snapshot &Image Laden...",  IDM_SNAPSHOT_LOAD
         MENUITEM "Sna&pshot Image Speichern...",  IDM_SNAPSHOT_SAVE
-        MENUITEM "Schnell&laden von Snapshot Image", IDM_LOADQUICK
-        MENUITEM "&Schnellspeichern von Snapshot", IDM_SAVEQUICK
+        MENUITEM "Quick-Snapshot Image &laden", IDM_LOADQUICK
+        MENUITEM "Quick-Snapshot Datei &speichern", IDM_SAVEQUICK
         MENUITEM SEPARATOR
         MENUITEM "Sta&rt/Stop Aufnahme History",       IDM_EVENT_TOGGLE_RECORD
         MENUITEM "St&art/Stop Wiedergabe History",        IDM_EVENT_TOGGLE_PLAYBACK
@@ -409,7 +409,7 @@ BEGIN
         MENUITEM "Scale2x", IDM_TOGGLE_SCALE2X
         , CHECKED
         MENUITEM SEPARATOR
-	MENUITEM "Joystick ports austauschen", IDM_SWAP_JOYSTICK
+	MENUITEM "&Joystick ports austauschen", IDM_SWAP_JOYSTICK
 	MENUITEM SEPARATOR
         MENUITEM "&Sound Einschalten",       IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
@@ -1793,7 +1793,7 @@ BEGIN
         MENUITEM "Scale2x", IDM_TOGGLE_SCALE2X
         , CHECKED
         MENUITEM SEPARATOR
-	MENUITEM "Vä&xla spelportarna", IDM_SWAP_JOYSTICK
+	MENUITEM "Växla &spelportarna", IDM_SWAP_JOYSTICK
 	MENUITEM SEPARATOR
         MENUITEM "Aktivera &ljudåtergivning",       IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
@@ -2615,24 +2615,29 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20ROM_KERNAL         "Kernal"
-    IDS_VIC20ROM_BASIC          "Basic"
-    IDS_VIC20ROM_CHARGEN        "Character"
-    IDS_VIC20ROM_BROWSE         "&Browse..."
-    IDS_VIC_CAPTION             "VIC Settings"
-    IDS_VIC_MEMORY              "&Memory"
-    IDS_VIC_NOEXPANSION         "&no expansion memory"
-    IDS_VIC_3KEXPANSION         "3&K (block 0)"
-    IDS_VIC_8KEXPANSION         "&8K (block 1)"
-    IDS_VIC_16KEXPANSION        "1&6K (blocks 1/2)"
-    IDS_VIC_24KEXPANSION        "2&4K (blocks 1/2/3)"
-    IDS_VIC_FULLEXPANSION       "&Full (blocks 0/1/2/3/5)"
-    IDS_VIC_CUSTOMEXPANSION     "&custom"
-    IDS_VIC_BLOCK0              "Block &0"
-    IDS_VIC_BLOCK1              "Block &1"
-    IDS_VIC_BLOCK2              "Block &2"
-    IDS_VIC_BLOCK3              "Block &3"
-    IDS_VIC_BLOCK5              "Block &5"  
+    IDS_VIC20ROM_KERNAL           "Kernal"
+    IDS_VIC20ROM_BASIC            "Basic"
+    IDS_VIC20ROM_CHARGEN          "Character"
+    IDS_VIC20ROM_BROWSE           "&Browse..."
+    IDS_VIC_CAPTION               "VIC Settings"
+    IDS_VIC_MEMORY                "&Memory"
+    IDS_VIC_NOEXPANSION           "&no expansion memory"
+    IDS_VIC_3KEXPANSION           "3&K (block 0)"
+    IDS_VIC_8KEXPANSION           "&8K (block 1)"
+    IDS_VIC_16KEXPANSION          "1&6K (blocks 1/2)"
+    IDS_VIC_24KEXPANSION          "2&4K (blocks 1/2/3)"
+    IDS_VIC_FULLEXPANSION         "&Full (blocks 0/1/2/3/5)"
+    IDS_VIC_CUSTOMEXPANSION       "&custom"
+    IDS_VIC_BLOCK0                "Block &0"
+    IDS_VIC_BLOCK1                "Block &1"
+    IDS_VIC_BLOCK2                "Block &2"
+    IDS_VIC_BLOCK3                "Block &3"
+    IDS_VIC_BLOCK5                "Block &5"
+    IDS_ATTACH_4_8_16_CART_2000   "Attach 4/8/16KB cartridge image at $2000"
+    IDS_ATTACH_4_8_16_CART_4000   "Attach 4/8/16KB cartridge image at $4000"
+    IDS_ATTACH_4_8_16_CART_6000   "Attach 4/8/16KB cartridge image at $6000"
+    IDS_ATTACH_4_8_CART_A000      "Attach 4/8KB cartridge image at $A000"
+    IDS_ATTACH_4_CART_B000        "Attach 4KB cartridge image at $B000"
 END
 
 
@@ -2641,24 +2646,29 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20ROM_KERNAL         "Kernal"
-    IDS_VIC20ROM_BASIC          "Basic"
-    IDS_VIC20ROM_CHARGEN        "Zeichensatz"
-    IDS_VIC20ROM_BROWSE         "&Stöbern..."
-    IDS_VIC_CAPTION             "VIC Einstellungen"
-    IDS_VIC_MEMORY              "&Speicher"
-    IDS_VIC_NOEXPANSION         "&Keine Speichererweiterung"
-    IDS_VIC_3KEXPANSION         "3&K (Block 0)"
-    IDS_VIC_8KEXPANSION         "&8K (Block 1)"
-    IDS_VIC_16KEXPANSION        "1&6K (Blöcke 1/2)"
-    IDS_VIC_24KEXPANSION        "2&4K (Blöcke 1/2/3)"
-    IDS_VIC_FULLEXPANSION       "&Alle (Blöcke 0/1/2/3/5)"
-    IDS_VIC_CUSTOMEXPANSION     "&Benutzer"
-    IDS_VIC_BLOCK0              "Block &0"
-    IDS_VIC_BLOCK1              "Block &1"
-    IDS_VIC_BLOCK2              "Block &2"
-    IDS_VIC_BLOCK3              "Block &3"
-    IDS_VIC_BLOCK5              "Block &5"  
+    IDS_VIC20ROM_KERNAL           "Kernal"
+    IDS_VIC20ROM_BASIC            "Basic"
+    IDS_VIC20ROM_CHARGEN          "Zeichensatz"
+    IDS_VIC20ROM_BROWSE           "&Stöbern..."
+    IDS_VIC_CAPTION               "VIC Einstellungen"
+    IDS_VIC_MEMORY                "&Speicher"
+    IDS_VIC_NOEXPANSION           "&Keine Speichererweiterung"
+    IDS_VIC_3KEXPANSION           "3&K (Block 0)"
+    IDS_VIC_8KEXPANSION           "&8K (Block 1)"
+    IDS_VIC_16KEXPANSION          "1&6K (Blöcke 1/2)"
+    IDS_VIC_24KEXPANSION          "2&4K (Blöcke 1/2/3)"
+    IDS_VIC_FULLEXPANSION         "&Alle (Blöcke 0/1/2/3/5)"
+    IDS_VIC_CUSTOMEXPANSION       "&Benutzer"
+    IDS_VIC_BLOCK0                "Block &0"
+    IDS_VIC_BLOCK1                "Block &1"
+    IDS_VIC_BLOCK2                "Block &2"
+    IDS_VIC_BLOCK3                "Block &3"
+    IDS_VIC_BLOCK5                "Block &5"
+    IDS_ATTACH_4_8_16_CART_2000   "4/8/16KB Modul Image bei $2000 einlegen"
+    IDS_ATTACH_4_8_16_CART_4000   "4/8/16KB Modul Image bei $4000 einlegen"
+    IDS_ATTACH_4_8_16_CART_6000   "4/8/16KB Modul Image bei $6000 einlegen"
+    IDS_ATTACH_4_8_CART_A000      "4/8KB Modul Image bei $A000 einlegen"
+    IDS_ATTACH_4_CART_B000        "4KB Modul Image bei $B000 einlegen"
 END
 
 
@@ -2667,24 +2677,29 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20ROM_KERNAL         "Kernal"
-    IDS_VIC20ROM_BASIC          "Basic"
-    IDS_VIC20ROM_CHARGEN        "Caractère"
-    IDS_VIC20ROM_BROWSE         "&Parcourir..."
-    IDS_VIC_CAPTION             "Paramètres VIC"
-    IDS_VIC_MEMORY              "Taille de la &mémoire"
-    IDS_VIC_NOEXPANSION         "&Aucune expansion de mémoire"
-    IDS_VIC_3KEXPANSION         "3&Ko (block 0)"
-    IDS_VIC_8KEXPANSION         "&8Ko (block 1)"
-    IDS_VIC_16KEXPANSION        "1&6Ko (blocks 1/2)"
-    IDS_VIC_24KEXPANSION        "2&4Ko (blocks 1/2/3)"
-    IDS_VIC_FULLEXPANSION       "&Tous (blocks 0/1/2/3/5)"
-    IDS_VIC_CUSTOMEXPANSION     "&Personnalisé"
-    IDS_VIC_BLOCK0              "Block &0"
-    IDS_VIC_BLOCK1              "Block &1"
-    IDS_VIC_BLOCK2              "Block &2"
-    IDS_VIC_BLOCK3              "Block &3"
-    IDS_VIC_BLOCK5              "Block &5"  
+    IDS_VIC20ROM_KERNAL           "Kernal"
+    IDS_VIC20ROM_BASIC            "Basic"
+    IDS_VIC20ROM_CHARGEN          "Caractère"
+    IDS_VIC20ROM_BROWSE           "&Parcourir..."
+    IDS_VIC_CAPTION               "Paramètres VIC"
+    IDS_VIC_MEMORY                "Taille de la &mémoire"
+    IDS_VIC_NOEXPANSION           "&Aucune expansion de mémoire"
+    IDS_VIC_3KEXPANSION           "3&Ko (block 0)"
+    IDS_VIC_8KEXPANSION           "&8Ko (block 1)"
+    IDS_VIC_16KEXPANSION          "1&6Ko (blocks 1/2)"
+    IDS_VIC_24KEXPANSION          "2&4Ko (blocks 1/2/3)"
+    IDS_VIC_FULLEXPANSION         "&Tous (blocks 0/1/2/3/5)"
+    IDS_VIC_CUSTOMEXPANSION       "&Personnalisé"
+    IDS_VIC_BLOCK0                "Block &0"
+    IDS_VIC_BLOCK1                "Block &1"
+    IDS_VIC_BLOCK2                "Block &2"
+    IDS_VIC_BLOCK3                "Block &3"
+    IDS_VIC_BLOCK5                "Block &5"
+    IDS_ATTACH_4_8_16_CART_2000   "Insertion d'une image 4/8/16Ko à $2000"
+    IDS_ATTACH_4_8_16_CART_4000   "Insertion d'une image 4/8/16Ko à $4000"
+    IDS_ATTACH_4_8_16_CART_6000   "Insertion d'une image 4/8/16Ko à $6000"
+    IDS_ATTACH_4_8_CART_A000      "Insertion d'une image 4/8Ko à $A000"
+    IDS_ATTACH_4_CART_B000        "Insertion d'une image 4Ko à $B000"
 END
 
 
@@ -2693,24 +2708,29 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20ROM_KERNAL         "Kernal"
-    IDS_VIC20ROM_BASIC          "Basic"
-    IDS_VIC20ROM_CHARGEN        "Karakter"
-    IDS_VIC20ROM_BROWSE         "&Tallózás..."
-    IDS_VIC_CAPTION             "VIC beállításai"
-    IDS_VIC_MEMORY              "&Memória"
-    IDS_VIC_NOEXPANSION         "&nincs memória bõvítés"
-    IDS_VIC_3KEXPANSION         "&3K (blokk 0)"
-    IDS_VIC_8KEXPANSION         "&8K (blokk 1)"
-    IDS_VIC_16KEXPANSION        "1&6K (blokk 1/2)"
-    IDS_VIC_24KEXPANSION        "2&4K (blokk 1/2/3)"
-    IDS_VIC_FULLEXPANSION       "&Mindegyik (blokk 0/1/2/3/5)"
-    IDS_VIC_CUSTOMEXPANSION     "&egyéni"
-    IDS_VIC_BLOCK0              "Blokk &0"
-    IDS_VIC_BLOCK1              "Blokk &1"
-    IDS_VIC_BLOCK2              "Blokk &2"
-    IDS_VIC_BLOCK3              "Blokk &3"
-    IDS_VIC_BLOCK5              "Blokk &5"  
+    IDS_VIC20ROM_KERNAL           "Kernal"
+    IDS_VIC20ROM_BASIC            "Basic"
+    IDS_VIC20ROM_CHARGEN          "Karakter"
+    IDS_VIC20ROM_BROWSE           "&Tallózás..."
+    IDS_VIC_CAPTION               "VIC beállításai"
+    IDS_VIC_MEMORY                "&Memória"
+    IDS_VIC_NOEXPANSION           "&nincs memória bõvítés"
+    IDS_VIC_3KEXPANSION           "&3K (blokk 0)"
+    IDS_VIC_8KEXPANSION           "&8K (blokk 1)"
+    IDS_VIC_16KEXPANSION          "1&6K (blokk 1/2)"
+    IDS_VIC_24KEXPANSION          "2&4K (blokk 1/2/3)"
+    IDS_VIC_FULLEXPANSION         "&Mindegyik (blokk 0/1/2/3/5)"
+    IDS_VIC_CUSTOMEXPANSION       "&egyéni"
+    IDS_VIC_BLOCK0                "Blokk &0"
+    IDS_VIC_BLOCK1                "Blokk &1"
+    IDS_VIC_BLOCK2                "Blokk &2"
+    IDS_VIC_BLOCK3                "Blokk &3"
+    IDS_VIC_BLOCK5                "Blokk &5"
+    IDS_ATTACH_4_8_16_CART_2000   "4/8/16KB képmás csatolása $2000 címre"
+    IDS_ATTACH_4_8_16_CART_4000   "4/8/16KB képmás csatolása $4000 címre"
+    IDS_ATTACH_4_8_16_CART_6000   "4/8/16KB képmás csatolása $6000 címre"
+    IDS_ATTACH_4_8_CART_A000      "4/8KB képmás csatolása $A000 címre"
+    IDS_ATTACH_4_CART_B000        "4KB képmás csatolása $B000 címre"
 END
 
 
@@ -2719,24 +2739,29 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20ROM_KERNAL         "Kernal"
-    IDS_VIC20ROM_BASIC          "Basic"
-    IDS_VIC20ROM_CHARGEN        "Character"
-    IDS_VIC20ROM_BROWSE         "&Sfoglia..."
-    IDS_VIC_CAPTION             "Impostazioni VIC"
-    IDS_VIC_MEMORY              "&Memoria"
-    IDS_VIC_NOEXPANSION         "&nessuna espansione di memoria"
-    IDS_VIC_3KEXPANSION         "3&K (blocco 0)"
-    IDS_VIC_8KEXPANSION         "&8K (blocco 1)"
-    IDS_VIC_16KEXPANSION        "1&6K (blocchi 1/2)"
-    IDS_VIC_24KEXPANSION        "2&4K (blocchi 1/2/3)"
-    IDS_VIC_FULLEXPANSION       "&Tutti (Blocchi 0/1/2/3/5)"
-    IDS_VIC_CUSTOMEXPANSION     "&personalizzata"
-    IDS_VIC_BLOCK0              "Blocco &0"
-    IDS_VIC_BLOCK1              "Blocco &1"
-    IDS_VIC_BLOCK2              "Blocco &2"
-    IDS_VIC_BLOCK3              "Blocco &3"
-    IDS_VIC_BLOCK5              "Blocco &5"  
+    IDS_VIC20ROM_KERNAL           "Kernal"
+    IDS_VIC20ROM_BASIC            "Basic"
+    IDS_VIC20ROM_CHARGEN          "Character"
+    IDS_VIC20ROM_BROWSE           "&Sfoglia..."
+    IDS_VIC_CAPTION               "Impostazioni VIC"
+    IDS_VIC_MEMORY                "&Memoria"
+    IDS_VIC_NOEXPANSION           "&nessuna espansione di memoria"
+    IDS_VIC_3KEXPANSION           "3&K (blocco 0)"
+    IDS_VIC_8KEXPANSION           "&8K (blocco 1)"
+    IDS_VIC_16KEXPANSION          "1&6K (blocchi 1/2)"
+    IDS_VIC_24KEXPANSION          "2&4K (blocchi 1/2/3)"
+    IDS_VIC_FULLEXPANSION         "&Tutti (Blocchi 0/1/2/3/5)"
+    IDS_VIC_CUSTOMEXPANSION       "&personalizzata"
+    IDS_VIC_BLOCK0                "Blocco &0"
+    IDS_VIC_BLOCK1                "Blocco &1"
+    IDS_VIC_BLOCK2                "Blocco &2"
+    IDS_VIC_BLOCK3                "Blocco &3"
+    IDS_VIC_BLOCK5                "Blocco &5"
+    IDS_ATTACH_4_8_16_CART_2000   "Seleziona l'immagine di una cartuccia di 4/8/16KB a $2000"
+    IDS_ATTACH_4_8_16_CART_4000   "Seleziona l'immagine di una cartuccia di 4/8/16KB a $4000"
+    IDS_ATTACH_4_8_16_CART_6000   "Seleziona l'immagine di una cartuccia di 4/8/16KB a $6000"
+    IDS_ATTACH_4_8_CART_A000      "Seleziona l'immagine di una cartuccia di 4/8KB a $A000"
+    IDS_ATTACH_4_CART_B000        "Seleziona l'immagine di una cartuccia di 4KB a $B000"
 END
 
 
@@ -2745,24 +2770,29 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20ROM_KERNAL         "Kernal"
-    IDS_VIC20ROM_BASIC          "Basic"
-    IDS_VIC20ROM_CHARGEN        "Character"
-    IDS_VIC20ROM_BROWSE         "&Bladeren..."
-    IDS_VIC_CAPTION             "VIC-instellingen"
-    IDS_VIC_MEMORY              "&Geheugen"
-    IDS_VIC_NOEXPANSION         "&geen geheugenuitbreiding"
-    IDS_VIC_3KEXPANSION         "3&K (blok 0)"
-    IDS_VIC_8KEXPANSION         "&8K (blok 1)"
-    IDS_VIC_16KEXPANSION        "1&6K (blokken 1/2)"
-    IDS_VIC_24KEXPANSION        "2&4K (blokken 1/2/3)"
-    IDS_VIC_FULLEXPANSION       "&Alles (blokken 0/1/2/3/5)"
-    IDS_VIC_CUSTOMEXPANSION     "&aangepast"
-    IDS_VIC_BLOCK0              "Blok &0"
-    IDS_VIC_BLOCK1              "Blok &1"
-    IDS_VIC_BLOCK2              "Blok &2"
-    IDS_VIC_BLOCK3              "Blok &3"
-    IDS_VIC_BLOCK5              "Blok &5"
+    IDS_VIC20ROM_KERNAL           "Kernal"
+    IDS_VIC20ROM_BASIC            "Basic"
+    IDS_VIC20ROM_CHARGEN          "Character"
+    IDS_VIC20ROM_BROWSE           "&Bladeren..."
+    IDS_VIC_CAPTION               "VIC-instellingen"
+    IDS_VIC_MEMORY                "&Geheugen"
+    IDS_VIC_NOEXPANSION           "&geen geheugenuitbreiding"
+    IDS_VIC_3KEXPANSION           "3&K (blok 0)"
+    IDS_VIC_8KEXPANSION           "&8K (blok 1)"
+    IDS_VIC_16KEXPANSION          "1&6K (blokken 1/2)"
+    IDS_VIC_24KEXPANSION          "2&4K (blokken 1/2/3)"
+    IDS_VIC_FULLEXPANSION         "&Alles (blokken 0/1/2/3/5)"
+    IDS_VIC_CUSTOMEXPANSION       "&aangepast"
+    IDS_VIC_BLOCK0                "Blok &0"
+    IDS_VIC_BLOCK1                "Blok &1"
+    IDS_VIC_BLOCK2                "Blok &2"
+    IDS_VIC_BLOCK3                "Blok &3"
+    IDS_VIC_BLOCK5                "Blok &5"
+    IDS_ATTACH_4_8_16_CART_2000   "Koppel 4/8/16KB-cartridgebestand op $&2000"
+    IDS_ATTACH_4_8_16_CART_4000   "Koppel 4/8/16KB-cartridgebestand op $&4000"
+    IDS_ATTACH_4_8_16_CART_6000   "Koppel 4/8/16KB-cartridgebestand op $&6000"
+    IDS_ATTACH_4_8_CART_A000      "Koppel 4/8KB-cartridgebestand op $&A000"
+    IDS_ATTACH_4_CART_B000        "Koppel 4KB-cartridgebestand op $&B000"
 END
 
 
@@ -2772,24 +2802,29 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20ROM_KERNAL         "Kernal"
-    IDS_VIC20ROM_BASIC          "Basic"
-    IDS_VIC20ROM_CHARGEN        "Character"
-    IDS_VIC20ROM_BROWSE         "&Przegl±daj..."
-    IDS_VIC_CAPTION             "Ustawienia VIC"
-    IDS_VIC_MEMORY              "&pamiêci"
-    IDS_VIC_NOEXPANSION         "&Bez rozszerzenia pamiêci"
-    IDS_VIC_3KEXPANSION         "3&K (blok 0)"
-    IDS_VIC_8KEXPANSION         "&8K (blok 1)"
-    IDS_VIC_16KEXPANSION        "1&6K (blok 1/2)"
-    IDS_VIC_24KEXPANSION        "2&4K (blok 1/2/3)"
-    IDS_VIC_FULLEXPANSION       "&Wszystkie (blok 0/1/2/3/5)"
-    IDS_VIC_CUSTOMEXPANSION     "&w³asny"
-    IDS_VIC_BLOCK0              "Blok &0"
-    IDS_VIC_BLOCK1              "Blok &1"
-    IDS_VIC_BLOCK2              "Blok &2"
-    IDS_VIC_BLOCK3              "Blok &3"
-    IDS_VIC_BLOCK5              "Blok &5"
+    IDS_VIC20ROM_KERNAL           "Kernal"
+    IDS_VIC20ROM_BASIC            "Basic"
+    IDS_VIC20ROM_CHARGEN          "Character"
+    IDS_VIC20ROM_BROWSE           "&Przegl±daj..."
+    IDS_VIC_CAPTION               "Ustawienia VIC"
+    IDS_VIC_MEMORY                "&pamiêci"
+    IDS_VIC_NOEXPANSION           "&Bez rozszerzenia pamiêci"
+    IDS_VIC_3KEXPANSION           "3&K (blok 0)"
+    IDS_VIC_8KEXPANSION           "&8K (blok 1)"
+    IDS_VIC_16KEXPANSION          "1&6K (blok 1/2)"
+    IDS_VIC_24KEXPANSION          "2&4K (blok 1/2/3)"
+    IDS_VIC_FULLEXPANSION         "&Wszystkie (blok 0/1/2/3/5)"
+    IDS_VIC_CUSTOMEXPANSION       "&w³asny"
+    IDS_VIC_BLOCK0                "Blok &0"
+    IDS_VIC_BLOCK1                "Blok &1"
+    IDS_VIC_BLOCK2                "Blok &2"
+    IDS_VIC_BLOCK3                "Blok &3"
+    IDS_VIC_BLOCK5                "Blok &5"
+    IDS_ATTACH_4_8_16_CART_2000   "Attach 4/8/16KB cartridge image at $2000"
+    IDS_ATTACH_4_8_16_CART_4000   "Attach 4/8/16KB cartridge image at $4000"
+    IDS_ATTACH_4_8_16_CART_6000   "Attach 4/8/16KB cartridge image at $6000"
+    IDS_ATTACH_4_8_CART_A000      "Attach 4/8KB cartridge image at $A000"
+    IDS_ATTACH_4_CART_B000        "Attach 4KB cartridge image at $B000"
 END
 #pragma code_page(28591)
 
@@ -2799,123 +2834,27 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20ROM_KERNAL         "Kernal"
-    IDS_VIC20ROM_BASIC          "Basic"
-    IDS_VIC20ROM_CHARGEN        "Teckengenerator"
-    IDS_VIC20ROM_BROWSE         "&Bläddra..."
-    IDS_VIC_CAPTION             "VIC-inställningar"
-    IDS_VIC_MEMORY              "&Minne"
-    IDS_VIC_NOEXPANSION         "&ingen minnesutökning"
-    IDS_VIC_3KEXPANSION         "3&K (block 0)"
-    IDS_VIC_8KEXPANSION         "&8K (block 1)"
-    IDS_VIC_16KEXPANSION        "1&6K (block 1/2)"
-    IDS_VIC_24KEXPANSION        "2&4K (block 1/2/3)"
-    IDS_VIC_FULLEXPANSION       "&Alla (block 0/1/2/3/5)"
-    IDS_VIC_CUSTOMEXPANSION     "&egen"
-    IDS_VIC_BLOCK0              "Block &0"
-    IDS_VIC_BLOCK1              "Block &1"
-    IDS_VIC_BLOCK2              "Block &2"
-    IDS_VIC_BLOCK3              "Block &3"
-    IDS_VIC_BLOCK5              "Block &5"  
-END
-
-// -----------------------------------------------------------------------------
-
-// original and default ENGLISH text
-
-STRINGTABLE
-BEGIN
-  IDS_ATTACH_4_8_16_CART_2000   "Attach 4/8/16KB cartridge image at $2000"
-  IDS_ATTACH_4_8_16_CART_4000   "Attach 4/8/16KB cartridge image at $4000"
-  IDS_ATTACH_4_8_16_CART_6000   "Attach 4/8/16KB cartridge image at $6000"
-  IDS_ATTACH_4_8_CART_A000      "Attach 4/8KB cartridge image at $A000"
-  IDS_ATTACH_4_CART_B000        "Attach 4KB cartridge image at $B000"
-END
-
-
-// GERMAN text
-
-STRINGTABLE
-BEGIN
-  IDS_ATTACH_4_8_16_CART_2000_DE   "4/8/16KB Modul Image bei $2000 einlegen"
-  IDS_ATTACH_4_8_16_CART_4000_DE   "4/8/16KB Modul Image bei $4000 einlegen"
-  IDS_ATTACH_4_8_16_CART_6000_DE   "4/8/16KB Modul Image bei $6000 einlegen"
-  IDS_ATTACH_4_8_CART_A000_DE      "4/8KB Modul Image bei $A000 einlegen"
-  IDS_ATTACH_4_CART_B000_DE        "4KB Modul Image bei $B000 einlegen"
-END
-
-
-// FRENCH text
-
-STRINGTABLE
-BEGIN
-  IDS_ATTACH_4_8_16_CART_2000_FR   "Insertion d'une image 4/8/16Ko à $2000"
-  IDS_ATTACH_4_8_16_CART_4000_FR   "Insertion d'une image 4/8/16Ko à $4000"
-  IDS_ATTACH_4_8_16_CART_6000_FR   "Insertion d'une image 4/8/16Ko à $6000"
-  IDS_ATTACH_4_8_CART_A000_FR      "Insertion d'une image 4/8Ko à $A000"
-  IDS_ATTACH_4_CART_B000_FR        "Insertion d'une image 4Ko à $B000"
-END
-
-
-// HUNGARIAN text
-
-#pragma code_page(28592)
-STRINGTABLE
-BEGIN
-  IDS_ATTACH_4_8_16_CART_2000_HU   "4/8/16KB képmás csatolása $2000 címre"
-  IDS_ATTACH_4_8_16_CART_4000_HU   "4/8/16KB képmás csatolása $4000 címre"
-  IDS_ATTACH_4_8_16_CART_6000_HU   "4/8/16KB képmás csatolása $6000 címre"
-  IDS_ATTACH_4_8_CART_A000_HU      "4/8KB képmás csatolása $A000 címre"
-  IDS_ATTACH_4_CART_B000_HU        "4KB képmás csatolása $B000 címre"
-END
-#pragma code_page(28591)
-
-
-// ITALIAN text
-
-STRINGTABLE
-BEGIN
-  IDS_ATTACH_4_8_16_CART_2000_IT   "Seleziona l'immagine di una cartuccia di 4/8/16KB a $2000"
-  IDS_ATTACH_4_8_16_CART_4000_IT   "Seleziona l'immagine di una cartuccia di 4/8/16KB a $4000"
-  IDS_ATTACH_4_8_16_CART_6000_IT   "Seleziona l'immagine di una cartuccia di 4/8/16KB a $6000"
-  IDS_ATTACH_4_8_CART_A000_IT      "Seleziona l'immagine di una cartuccia di 4/8KB a $A000"
-  IDS_ATTACH_4_CART_B000_IT        "Seleziona l'immagine di una cartuccia di 4KB a $B000"
-END
-
-
-// DUTCH text
-
-STRINGTABLE
-BEGIN
-  IDS_ATTACH_4_8_16_CART_2000_NL   "Koppel 4/8/16KB-cartridgebestand op $&2000"
-  IDS_ATTACH_4_8_16_CART_4000_NL   "Koppel 4/8/16KB-cartridgebestand op $&4000"
-  IDS_ATTACH_4_8_16_CART_6000_NL   "Koppel 4/8/16KB-cartridgebestand op $&6000"
-  IDS_ATTACH_4_8_CART_A000_NL      "Koppel 4/8KB-cartridgebestand op $&A000"
-  IDS_ATTACH_4_CART_B000_NL        "Koppel 4KB-cartridgebestand op $&B000"
-END
-
-
-// POLISH text
-
-#pragma code_page(28592)
-STRINGTABLE
-BEGIN
-  IDS_ATTACH_4_8_16_CART_2000_PL   "Attach 4/8/16KB cartridge image at $2000"
-  IDS_ATTACH_4_8_16_CART_4000_PL   "Attach 4/8/16KB cartridge image at $4000"
-  IDS_ATTACH_4_8_16_CART_6000_PL   "Attach 4/8/16KB cartridge image at $6000"
-  IDS_ATTACH_4_8_CART_A000_PL      "Attach 4/8KB cartridge image at $A000"
-  IDS_ATTACH_4_CART_B000_PL        "Attach 4KB cartridge image at $B000"
-END
-#pragma code_page(28591)
-
-
-// SWEDISH text
-
-STRINGTABLE
-BEGIN
-  IDS_ATTACH_4_8_16_CART_2000_SV  "Anslut 4/8/16KB-modulfil vid $2000"
-  IDS_ATTACH_4_8_16_CART_4000_SV  "Anslut 4/8/16KB-modulfil vid $4000"
-  IDS_ATTACH_4_8_16_CART_6000_SV  "Anslut 4/8/16KB-modulfil vid $6000"
-  IDS_ATTACH_4_8_CART_A000_SV     "Anslut 4/8KB-modulfil vid $A000"
-  IDS_ATTACH_4_CART_B000_SV       "Anslut 4KB-modulfil vid $B000"
+    IDS_VIC20ROM_KERNAL          "Kernal"
+    IDS_VIC20ROM_BASIC           "Basic"
+    IDS_VIC20ROM_CHARGEN         "Teckengenerator"
+    IDS_VIC20ROM_BROWSE          "&Bläddra..."
+    IDS_VIC_CAPTION              "VIC-inställningar"
+    IDS_VIC_MEMORY               "&Minne"
+    IDS_VIC_NOEXPANSION          "&ingen minnesutökning"
+    IDS_VIC_3KEXPANSION          "3&K (block 0)"
+    IDS_VIC_8KEXPANSION          "&8K (block 1)"
+    IDS_VIC_16KEXPANSION         "1&6K (block 1/2)"
+    IDS_VIC_24KEXPANSION         "2&4K (block 1/2/3)"
+    IDS_VIC_FULLEXPANSION        "&Alla (block 0/1/2/3/5)"
+    IDS_VIC_CUSTOMEXPANSION      "&egen"
+    IDS_VIC_BLOCK0               "Block &0"
+    IDS_VIC_BLOCK1               "Block &1"
+    IDS_VIC_BLOCK2               "Block &2"
+    IDS_VIC_BLOCK3               "Block &3"
+    IDS_VIC_BLOCK5               "Block &5"
+    IDS_ATTACH_4_8_16_CART_2000  "Anslut 4/8/16KB-modulfil vid $2000"
+    IDS_ATTACH_4_8_16_CART_4000  "Anslut 4/8/16KB-modulfil vid $4000"
+    IDS_ATTACH_4_8_16_CART_6000  "Anslut 4/8/16KB-modulfil vid $6000"
+    IDS_ATTACH_4_8_CART_A000     "Anslut 4/8KB-modulfil vid $A000"
+    IDS_ATTACH_4_CART_B000       "Anslut 4KB-modulfil vid $B000"
 END

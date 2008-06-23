@@ -5,8 +5,59 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
-* Changes in VICE 1.23
+* Changes in VICE 2.0
 ======================
+
+** General
+----------
+
+- New Openserver 5.x, Openserver 6.x and Unixware ports.
+
+- New AROS64 port.
+
+- New QNX 4.x port.
+
+- New HPUX (HPPA and IA64) ports.
+
+- New SkyOS port.
+
+** C64/C128 changes
+-------------------
+
+- Improved $01 behaviour with regards to unused bit fall-off.
+
+- Mew experimental NEOS and Amiga mouse support.
+
+- Added a working RTC to the emulation of the IDE64 cartridge.
+
+- New more precise PAL emulation, works only with double size
+  and double scan.
+
+- Added support for the Action Replay 4 and StarDos cartridges.
+
+** VIC20 changes
+----------------
+
+- Added unconnected c-bus floating byte support.
+
+- New more precise PAL emulation, works only with double size
+  and double scan.
+
+** PET changes
+--------------
+
+- Added support for toggling CB2 sound output line.
+
+** PLUS4 changes
+----------------
+
+- New more precise PAL emulation, works only with double size
+  and double scan.
+
+** Drive changes
+----------------
+
+- Fixed block allocation and interleave.
 
 ** Unix changes
 ---------------
@@ -16,6 +67,49 @@ list of all the changes in the code.
 - XRandR fullscreen implemented for all (but CRTC/VDC) videochips.
 
 - XRandR/Fullscreen can now toggle the Statusbar/Menu
+
+- Fixed unix mouse for single sized display.
+
+- Fixed mouse grab and xaw menu popup.
+
+** MS-Windows changes
+---------------------
+
+- Fixed the reverse logic of the -confirmexit/+confirmexit and
+  -singlecpu/+singlecpu command-line options.
+
+** BeOS changes
+---------------
+
+- Fixed to also run on Haiku.
+
+- Lots of fixes to the dailogs.
+
+- Fixed the joystick system.
+
+- Added warning dialog when the monitor is accessed without
+  having an open console window.
+
+** AmigaOS changes
+------------------
+
+- Fixed the reverse logic of the -confirmexit/+confirmexit
+  command-line options.
+
+** Miscellaneous changes
+------------------------
+
+- Added support for more 3rd party basic extenders to petcat.
+
+- Extended BMP saving to support 24bit.
+
+- Fixed the joystick code of all emulators to handle state changes
+  on both joysticks at the same time.
+
+- New monitor commands and features.
+
+- New memmap feature which allows tracking of memory accesses,
+  activated by the configure option --enable-memmap.
 
 * Changes in VICE 1.22
 ======================

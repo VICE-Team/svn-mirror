@@ -37,6 +37,7 @@
 #include "drive.h"
 #include "fullscrn.h"
 #include "interrupt.h"
+#include "intl.h"
 #include "lib.h"
 #include "machine.h"
 #include "res.h"

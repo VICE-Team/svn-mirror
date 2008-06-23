@@ -385,7 +385,10 @@ static BYTE REGPARM1 fdxx_read(WORD addr)
     if (addr == 0xfd15 && cs256k_enabled)
         return cs256k_reg_read(addr);
 
-    if (addr >= 0xfd10 && addr <= 0xfd1f)
+    if (addr == 0xfd10)
+        return pio1_read(addr);
+
+    if (addr >= 0xfd11 && addr <= 0xfd1f && !cs256k_enabled && !h256k_enabled)
         return pio1_read(addr);
 
     if (addr >= 0xfd30 && addr <= 0xfd3f)
@@ -413,7 +416,11 @@ static void REGPARM2 fdxx_store(WORD addr, BYTE value)
         cs256k_reg_store(addr, value);
         return;
     }
-    if (addr >= 0xfd10 && addr <= 0xfd1f) {
+    if (addr == 0xfd10) {
+        pio1_store(addr, value);
+        return;
+    }
+    if (addr >= 0xfd11 && addr <= 0xfd1f && !cs256k_enabled && !h256k_enabled) {
         pio1_store(addr, value);
         return;
     }
@@ -461,6 +468,22 @@ static void REGPARM2 fexx_store(WORD addr, BYTE value)
     }
 }
 
+static BYTE REGPARM1 h256k_ram_ffxx_read(WORD addr)
+{
+    if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f))
+        return h256k_read(addr);
+
+    return ted_read(addr);
+}
+
+static BYTE REGPARM1 cs256k_ram_ffxx_read(WORD addr)
+{
+    if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f))
+        return cs256k_read(addr);
+
+    return ted_read(addr);
+}
+
 static BYTE REGPARM1 ram_ffxx_read(WORD addr)
 {
     if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f))
@@ -485,6 +508,24 @@ static BYTE REGPARM1 ram_ffxx_read_16k(WORD addr)
     return ted_read(addr);
 }
 
+
+static void REGPARM2 h256k_ram_ffxx_store(WORD addr, BYTE value)
+{
+    if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
+        ted_store(addr, value);
+    } else {
+        h256k_store(addr, value);
+    }
+}
+
+static void REGPARM2 cs256k_ram_ffxx_store(WORD addr, BYTE value)
+{
+    if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
+        ted_store(addr, value);
+    } else {
+        cs256k_store(addr, value);
+    }
+}
 
 static void REGPARM2 ram_ffxx_store(WORD addr, BYTE value)
 {
@@ -527,6 +568,24 @@ static void REGPARM2 rom_ffxx_store(WORD addr, BYTE value)
         ted_store(addr, value);
     } else {
         ram_store(addr, value);
+    }
+}
+
+static void REGPARM2 h256k_rom_ffxx_store(WORD addr, BYTE value)
+{
+    if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
+        ted_store(addr, value);
+    } else {
+        h256k_store(addr, value);
+    }
+}
+
+static void REGPARM2 cs256k_rom_ffxx_store(WORD addr, BYTE value)
+{
+    if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
+        ted_store(addr, value);
+    } else {
+        cs256k_store(addr, value);
     }
 }
 
@@ -761,6 +820,23 @@ void mem_initialize_memory(void)
         mem_read_base_tab[i + 1][0xfe] = NULL;
 
         switch (ram_size) {
+          case 4096:
+          case 1024:
+          case 256:
+            if (h256k_enabled) {
+              mem_read_tab[i + 0][0xff] = h256k_ram_ffxx_read;
+              mem_write_tab[i + 0][0xff] = h256k_ram_ffxx_store;
+              mem_write_tab[i + 1][0xff] = h256k_rom_ffxx_store;
+            }
+            if (cs256k_enabled) {
+              mem_read_tab[i + 0][0xff] = cs256k_ram_ffxx_read;
+              mem_write_tab[i + 0][0xff] = cs256k_ram_ffxx_store;
+              mem_write_tab[i + 1][0xff] = cs256k_rom_ffxx_store;
+            }
+            mem_read_base_tab[i + 0][0xff] = NULL;
+            mem_read_tab[i + 1][0xff] = rom_ffxx_read;
+            mem_read_base_tab[i + 1][0xff] = NULL;
+            break;
           default:
           case 64:
             mem_read_tab[i + 0][0xff] = ram_ffxx_read;

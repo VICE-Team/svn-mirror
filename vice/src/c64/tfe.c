@@ -1170,10 +1170,16 @@ void tfe_sideeffects_write_pp(WORD ppaddress, int odd_address)
 
             tfe_arch_set_hashfilter(tfe_hash_mask);
 
+#if 0
             if(odd_address && (ppaddress == TFE_PP_ADDR_LOG_ADDR_FILTER+6))
                 log_message(tfe_log,"set hash filter: %02x:%02x:%02x:%02x:%02x:%02x",
-                            tfe_hash_mask[0],tfe_hash_mask[1],tfe_hash_mask[2],
-                            tfe_hash_mask[3],tfe_hash_mask[4],tfe_hash_mask[5]);
+                            tfe_hash_mask[0],
+                            tfe_hash_mask[1],
+                            tfe_hash_mask[2],
+                            tfe_hash_mask[3],
+                            tfe_hash_mask[4],
+                            tfe_hash_mask[5]);
+#endif
         }
         break;
 

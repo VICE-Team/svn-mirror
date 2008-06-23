@@ -35,6 +35,7 @@
 #endif
 
 #include "cbm2mem.h"
+#include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"

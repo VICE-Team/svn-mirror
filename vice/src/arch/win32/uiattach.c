@@ -34,6 +34,7 @@
 #include "attach.h"
 #include "autostart.h"
 #include "fullscrn.h"
+#include "intl.h"
 #include "lib.h"
 #include "res.h"
 #include "system.h"

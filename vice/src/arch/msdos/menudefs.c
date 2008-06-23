@@ -574,6 +574,7 @@ static TUI_MENU_CALLBACK(show_copyright_callback)
             "Copyright (c) 2000-2008 Spiro Trikaliotis",
             "Copyright (c) 2005-2008 Marco van den Heuvel",
             "Copyright (c) 2006-2008 Christian Vogelgsang",
+            "Copyright (c) 2007-2008 Fabrizio Gennari",
             "Copyright (c) 1999-2007 Andreas Dehmel",
             "Copyright (c) 1999-2005 Thomas Bretz",
             "Copyright (c) 2003-2005 David Hansel",

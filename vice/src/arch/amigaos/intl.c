@@ -1270,7 +1270,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_GRAB_MOUSE_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_GRAB_MOUSE_NL, "Gebruik de muis"},
 /* pl */ {IDMS_GRAB_MOUSE_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_GRAB_MOUSE_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_GRAB_MOUSE_SV, "Fånga mushändelser"},
 
 /* en */ {IDMS_SETTINGS,    "Settings"},
 /* de */ {IDMS_SETTINGS_DE, "Einstellungen"},
@@ -1414,7 +1414,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_MOUSE_SETTINGS_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_MOUSE_SETTINGS_NL, "Muis instellingen..."},
 /* pl */ {IDMS_MOUSE_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_MOUSE_SETTINGS_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_MOUSE_SETTINGS_SV, "Musinställningar..."},
 
 /* en */ {IDMS_SOUND_SETTINGS,    "Sound settings..."},
 /* de */ {IDMS_SOUND_SETTINGS_DE, "Sound Einstellungen..."},
@@ -1951,7 +1951,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMES_VICE_DIST_NO_WARRANTY_SV, "VICE distribueras UTAN NÅGON SOM HELST GARANTI!"},
 
 /* en */ {IDMES_WHICH_COMMANDS_AVAILABLE,    "Which command line options are available?"},
-/* de */ {IDMES_WHICH_COMMANDS_AVAILABLE_DE, "Welche Kommandozeilen Parameter sind verfügber?"},
+/* de */ {IDMES_WHICH_COMMANDS_AVAILABLE_DE, "Welche Kommandozeilen Parameter sind verfügbar?"},
 /* fr */ {IDMES_WHICH_COMMANDS_AVAILABLE_FR, "Quelles sont les lignes de commandes disponibles?"},
 /* hu */ {IDMES_WHICH_COMMANDS_AVAILABLE_HU, "Milyen parancssori opciók lehetségesek?"},
 /* it */ {IDMES_WHICH_COMMANDS_AVAILABLE_IT, "Quali parametri da riga di comando sono disponibili?"},
@@ -4803,7 +4803,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_MOUSE_TYPE_IT, ""},  /* fuzzy */
 /* nl */ {IDS_MOUSE_TYPE_NL, "Muis soort"},
 /* pl */ {IDS_MOUSE_TYPE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_MOUSE_TYPE_SV, ""},  /* fuzzy */
+/* sv */ {IDS_MOUSE_TYPE_SV, "Mustyp"},
 
 /* en */ {IDS_MOUSE_SETTINGS,    "Mouse Settings"},
 /* de */ {IDS_MOUSE_SETTINGS_DE, "Maus Einstellungen"},
@@ -4812,7 +4812,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_MOUSE_SETTINGS_IT, ""},  /* fuzzy */
 /* nl */ {IDS_MOUSE_SETTINGS_NL, "Muis Instellingen"},
 /* pl */ {IDS_MOUSE_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDS_MOUSE_SETTINGS_SV, ""},  /* fuzzy */
+/* sv */ {IDS_MOUSE_SETTINGS_SV, "Musinställningar"},
 
 /* en */ {IDS_MOUSE_PORT,    "Mouse port"},
 /* de */ {IDS_MOUSE_PORT_DE, "Maus Port"},
@@ -4830,7 +4830,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_MOUSE_1351_IT, ""},  /* fuzzy */
 /* nl */ {IDS_MOUSE_1351_NL, "1351 muis"},
 /* pl */ {IDS_MOUSE_1351_PL, ""},  /* fuzzy */
-/* sv */ {IDS_MOUSE_1351_SV, ""},  /* fuzzy */
+/* sv */ {IDS_MOUSE_1351_SV, "1351-mus"},
 
 /* en */ {IDS_MOUSE_NEOS,    "NEOS mouse"},
 /* de */ {IDS_MOUSE_NEOS_DE, "NEOS Maus"},
@@ -4839,7 +4839,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_MOUSE_NEOS_IT, ""},  /* fuzzy */
 /* nl */ {IDS_MOUSE_NEOS_NL, "NEOS muis"},
 /* pl */ {IDS_MOUSE_NEOS_PL, ""},  /* fuzzy */
-/* sv */ {IDS_MOUSE_NEOS_SV, ""},  /* fuzzy */
+/* sv */ {IDS_MOUSE_NEOS_SV, "NEOS-mus"},
 
 /* en */ {IDS_MOUSE_AMIGA,    "Amiga mouse"},
 /* de */ {IDS_MOUSE_AMIGA_DE, "Amiga Maus"},
@@ -4848,7 +4848,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_MOUSE_AMIGA_IT, ""},  /* fuzzy */
 /* nl */ {IDS_MOUSE_AMIGA_NL, "Amiga muis"},
 /* pl */ {IDS_MOUSE_AMIGA_PL, ""},  /* fuzzy */
-/* sv */ {IDS_MOUSE_AMIGA_SV, ""},  /* fuzzy */
+/* sv */ {IDS_MOUSE_AMIGA_SV, "Amigamus"},
 
 };
 

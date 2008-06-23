@@ -31,6 +31,7 @@
 #include <windows.h>
 #include <tchar.h>
 
+#include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -38,7 +39,6 @@
 #include "uilib.h"
 #include "uiplus256k.h"
 #include "winmain.h"
-#include "intl.h"
 
 static void enable_plus256k_controls(HWND hwnd)
 {
@@ -117,7 +117,7 @@ static void end_plus256k_dialog(HWND hwnd)
 
 static void browse_plus256k_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, intl_translate_text_new(IDS_PLUS256K_SELECT_FILE),
+    uilib_select_browse(hwnd, translate_text(IDS_PLUS256K_SELECT_FILE),
                         UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE,
                         IDC_PLUS256K_FILE);
 }
