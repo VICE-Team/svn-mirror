@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-22 16:06+0200\n"
+"POT-Creation-Date: 2008-06-23 20:38+0200\n"
 "PO-Revision-Date: 2007-07-27 15:58+0200\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -97,7 +97,7 @@ msgstr "A hangpuffer méretét <érték> mp-re állítja"
 #: src/c64/cart/ide64.c:281 src/c64/c64_256k.c:210 src/c64/georam.c:209
 #: src/c64/mmc64.c:907 src/c64/mmc64.c:909 src/c64/plus256k.c:175
 #: src/c64/plus60k.c:249 src/c64/ramcart.c:239 src/c64/reu.c:446
-#: src/c64/tfe.c:1934 src/cbm2/cbm2-cmdline-options.c:132
+#: src/c64/tfe.c:1940 src/cbm2/cbm2-cmdline-options.c:132
 #: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
 #: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
 #: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
@@ -633,7 +633,7 @@ msgstr "$DE** ACIA RS232 interfész emuláció engedélyezése"
 #: src/c64/psid.c:164 src/cbm2/cbm2-cmdline-options.c:176
 #: src/pet/pet-cmdline-options.c:161 src/plus4/plus4-cmdline-options.c:102
 #: src/vdc/vdc-cmdline-options.c:68 src/vic20/vic20-cmdline-options.c:226
-#: src/arch/win32/res.rc.po.c:5210 src/translate.c.po.c:896
+#: src/arch/win32/res.rc.po.c:5211 src/translate.c.po.c:896
 msgid "<number>"
 msgstr "<szám>"
 
@@ -740,7 +740,7 @@ msgstr "Reset a cartridge csatolásakorgy leválasztásakor"
 msgid "Do not reset machine if a cartridge is attached or detached"
 msgstr "Nincs reset a cartridge csatolásakorgy leválasztásakor"
 
-#: src/c64/cart/c64cart.c:246 src/arch/win32/res.rc.po.c:5137
+#: src/c64/cart/c64cart.c:246 src/arch/win32/res.rc.po.c:5138
 #: src/translate.c.po.c:1442 src/arch/amigaos/intl.c.po.c:2360
 msgid "Attach CRT cartridge image"
 msgstr "CRT cartridge képmás csatolása"
@@ -997,23 +997,23 @@ msgstr "Adja meg a REU képmás nevét"
 msgid "Size of the RAM expansion unit"
 msgstr "RAM Expansion Unit mérete"
 
-#: src/c64/tfe.c:1930 src/translate.c.po.c:1371
+#: src/c64/tfe.c:1936 src/translate.c.po.c:1371
 msgid "Enable the TFE (\"The Final Ethernet\") unit"
 msgstr "TFE (\"the final ethernet\") egység engedélyezése"
 
-#: src/c64/tfe.c:1932 src/translate.c.po.c:1381
+#: src/c64/tfe.c:1938 src/translate.c.po.c:1381
 msgid "Disable the TFE (\"The Final Ethernet\") unit"
 msgstr "TFE (\"the final ethernet\") egység tiltása"
 
-#: src/c64/tfe.c:1934 src/translate.c.po.c:1391
+#: src/c64/tfe.c:1940 src/translate.c.po.c:1391
 msgid "Set the system ethernet interface for TFE emulation"
 msgstr "Rendszer ethernet eszköz beállítása TFE emulációhoz"
 
-#: src/c64/tfe.c:1936 src/translate.c.po.c:1401
+#: src/c64/tfe.c:1942 src/translate.c.po.c:1401
 msgid "Enable RRNet mode of TFE emulation"
 msgstr "RRNet mód engedélyezése TFE emulációhoz"
 
-#: src/c64/tfe.c:1938 src/translate.c.po.c:1411
+#: src/c64/tfe.c:1944 src/translate.c.po.c:1411
 msgid "Disable RRNet mode of TFE emulation"
 msgstr "RRNet mód tiltása TFE emulációhoz"
 
@@ -2501,7 +2501,7 @@ msgstr "Opciók"
 #: src/arch/unix/gui/cbm2ui.c:511 src/arch/unix/gui/petui.c:493
 #: src/arch/unix/gui/plus4ui.c:320 src/arch/unix/gui/vic20ui.c:609
 #: src/arch/unix/gui/vsidui.c:399 src/arch/unix/x11/gnome/uinetplay.c:66
-#: src/arch/win32/res.rc.po.c:4572 src/arch/amigaos/intl.c.po.c:1248
+#: src/arch/win32/res.rc.po.c:4573 src/arch/amigaos/intl.c.po.c:1248
 msgid "Settings"
 msgstr "Beállítások"
 
@@ -2550,7 +2550,7 @@ msgid "Save media file"
 msgstr "Fénykép készítése"
 
 #: src/arch/unix/gui/c64ui.c:362 src/arch/unix/gui/plus4ui.c:182
-#: src/arch/win32/res.rc.po.c:5122
+#: src/arch/win32/res.rc.po.c:5123
 msgid "ROM settings"
 msgstr "ROM-ok beállításai"
 
@@ -2967,7 +2967,7 @@ msgid "Smart-attach a file"
 msgstr "Egy fájl gyors-csatolása"
 
 #: src/arch/unix/gui/uiattach.c:302 src/arch/unix/gui/uiattach.c:311
-#: src/arch/unix/x11/xaw/x11ui.c:1847
+#: src/arch/unix/x11/xaw/x11ui.c:1856
 msgid "Unknown image type"
 msgstr "Ismeretlen képmás típus"
 
@@ -3186,7 +3186,7 @@ msgstr ""
 msgid "Select history directory"
 msgstr "Pillanatképek könyvtára"
 
-#: src/arch/unix/gui/uicommands.c:393 src/arch/win32/res.rc.po.c:5235
+#: src/arch/unix/gui/uicommands.c:393 src/arch/win32/res.rc.po.c:5236
 #: src/arch/amigaos/intl.c.po.c:4673
 msgid "Sound Recording stopped..."
 msgstr "Hangfelvétel leállítva..."
@@ -3195,7 +3195,7 @@ msgstr "Hangfelvétel leállítva..."
 msgid "Record sound to file"
 msgstr "Hangfájl felvétele"
 
-#: src/arch/unix/gui/uicommands.c:413 src/arch/win32/res.rc.po.c:5234
+#: src/arch/unix/gui/uicommands.c:413 src/arch/win32/res.rc.po.c:5235
 #: src/arch/amigaos/intl.c.po.c:4682
 msgid "Sound Recording started..."
 msgstr "Hangfelvétel elindítva..."
@@ -3986,7 +3986,7 @@ msgid "Swap joystick ports"
 msgstr "Botkormányok felcserélése"
 
 #: src/arch/unix/gui/uijoystick2.c:206 src/arch/unix/gui/vic20ui.c:383
-#: src/arch/win32/res.rc.po.c:1022
+#: src/arch/win32/res.rc.po.c:1023
 msgid "Joystick settings"
 msgstr "Botkormány beállításai"
 
@@ -4022,7 +4022,7 @@ msgstr "Pozíció szerinti leképzés betöltése"
 msgid "Dump keymap to file"
 msgstr "Billentyûzetleképzés fájlba írása"
 
-#: src/arch/unix/gui/uikeyboard.c:135 src/arch/win32/res.rc.po.c:5091
+#: src/arch/unix/gui/uikeyboard.c:135 src/arch/win32/res.rc.po.c:5092
 msgid "Keyboard settings"
 msgstr "Billentyûzet beállításai"
 
@@ -4122,7 +4122,7 @@ msgid "Connect to server"
 msgstr "Kapcsolódás a kiszolgálóhoz"
 
 #: src/arch/unix/gui/uinetplay.c:123 src/arch/unix/x11/gnome/uinetplay.c:321
-#: src/arch/win32/res.rc.po.c:4548 src/arch/amigaos/intl.c.po.c:2180
+#: src/arch/win32/res.rc.po.c:4549 src/arch/amigaos/intl.c.po.c:2180
 msgid "Disconnect"
 msgstr "Szétkapcsolódás"
 
@@ -4831,12 +4831,12 @@ msgid "Invalid speed value"
 msgstr "Hibás sebesség érték"
 
 #: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1205
-#: src/arch/unix/x11/xaw/x11ui.c:1151 src/arch/win32/res.rc.po.c:5054
+#: src/arch/unix/x11/xaw/x11ui.c:1152 src/arch/win32/res.rc.po.c:5055
 #: src/arch/amigaos/intl.c.po.c:1935
 msgid "Cannot save settings."
 msgstr "A beállítások mentése nem sikerült."
 
-#: src/arch/unix/gui/uisettings.c:216 src/arch/win32/res.rc.po.c:5072
+#: src/arch/unix/gui/uisettings.c:216 src/arch/win32/res.rc.po.c:5073
 #: src/arch/amigaos/intl.c.po.c:1854
 msgid "Settings saved successfully."
 msgstr "Beállítások sikeresen elmentve."
@@ -5267,7 +5267,7 @@ msgstr "*Blokk 5 (8K $A000-$BFFF címen)"
 msgid "Memory expansions"
 msgstr "Memória bõvítések"
 
-#: src/arch/unix/gui/vic20ui.c:266 src/arch/win32/res.rc.po.c:5079
+#: src/arch/unix/gui/vic20ui.c:266 src/arch/win32/res.rc.po.c:5080
 #: src/arch/amigaos/intl.c.po.c:2043
 msgid "Invalid cartridge image"
 msgstr "Érvénytelen cartridge képmás"
@@ -5343,7 +5343,7 @@ msgid "VICE is FREE software!"
 msgstr "A VICE egy szabad szoftver!"
 
 #: src/arch/unix/x11/gnome/about.c:42 src/arch/unix/x11/xaw/about.c:65
-#: src/arch/win32/res.rc.po.c:5164
+#: src/arch/win32/res.rc.po.c:5165
 msgid "No warranty!"
 msgstr "Nincs garancia!"
 
@@ -5355,11 +5355,11 @@ msgstr "Közremûködõk a VICE projektben"
 msgid "The VICE Team"
 msgstr "A VICE csapat"
 
-#: src/arch/unix/x11/gnome/about.c:81 src/arch/unix/x11/xaw/about.c:148
+#: src/arch/unix/x11/gnome/about.c:82 src/arch/unix/x11/xaw/about.c:149
 msgid "Official VICE homepage:"
 msgstr "Hivatalos VICE honlap:"
 
-#: src/arch/unix/x11/gnome/about.c:91
+#: src/arch/unix/x11/gnome/about.c:92
 msgid ""
 "Martin Pottendorfer - German\n"
 "Peter Karlsson - Swedish\n"
@@ -5377,21 +5377,21 @@ msgstr ""
 "Flooder - lengyel\n"
 "Czirkos Zoltan, Karai Csaba - magyar\n"
 
-#: src/arch/unix/x11/gnome/about.c:104
+#: src/arch/unix/x11/gnome/about.c:105
 #, fuzzy
 msgid "(c) 1998 - 2008 The Vice Team"
 msgstr "(c) 1998 - 2007 A Vice Csapat"
 
-#: src/arch/unix/x11/gnome/about.c:115 src/arch/win32/res.rc.po.c:5163
+#: src/arch/unix/x11/gnome/about.c:116 src/arch/win32/res.rc.po.c:5164
 #: src/arch/amigaos/intl.c.po.c:1689
 msgid "License"
 msgstr "Licensz"
 
-#: src/arch/unix/x11/gnome/about.c:119
+#: src/arch/unix/x11/gnome/about.c:120
 msgid "Warranty"
 msgstr "Garancia"
 
-#: src/arch/unix/x11/gnome/about.c:123 src/arch/amigaos/intl.c.po.c:1680
+#: src/arch/unix/x11/gnome/about.c:124 src/arch/amigaos/intl.c.po.c:1680
 msgid "Contributors"
 msgstr "Közremûködõk"
 
@@ -5456,23 +5456,23 @@ msgstr "Elmosás"
 msgid "Scanline Shade"
 msgstr "Pászta árnyalás"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:51 src/arch/win32/res.rc.po.c:2816
+#: src/arch/unix/x11/gnome/uipalcontrol.c:51 src/arch/win32/res.rc.po.c:2817
 msgid "Saturation"
 msgstr "Telítettség"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:52 src/arch/win32/res.rc.po.c:2819
+#: src/arch/unix/x11/gnome/uipalcontrol.c:52 src/arch/win32/res.rc.po.c:2820
 msgid "Contrast"
 msgstr "Kontraszt"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:53 src/arch/win32/res.rc.po.c:2822
+#: src/arch/unix/x11/gnome/uipalcontrol.c:53 src/arch/win32/res.rc.po.c:2823
 msgid "Brightness"
 msgstr "Fényesség"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:54 src/arch/win32/res.rc.po.c:3092
+#: src/arch/unix/x11/gnome/uipalcontrol.c:54 src/arch/win32/res.rc.po.c:3093
 msgid "Gamma"
 msgstr "Gamma"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:55 src/arch/win32/res.rc.po.c:2954
+#: src/arch/unix/x11/gnome/uipalcontrol.c:55 src/arch/win32/res.rc.po.c:2955
 #, fuzzy
 msgid "Tint"
 msgstr "Kliens"
@@ -5502,20 +5502,20 @@ msgstr "Pontos emuláció"
 msgid "New Exact Emulation"
 msgstr "Pontos emuláció"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:54 src/arch/win32/res.rc.po.c:4552
+#: src/arch/unix/x11/gnome/uinetplay.c:54 src/arch/win32/res.rc.po.c:4553
 #: src/arch/amigaos/intl.c.po.c:4466
 msgid "Keyboard"
 msgstr "Billentyûzet"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:57 src/arch/win32/res.rc.po.c:4557
+#: src/arch/unix/x11/gnome/uinetplay.c:57 src/arch/win32/res.rc.po.c:4558
 msgid "Joystick 1"
 msgstr "Botkormány 1"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:60 src/arch/win32/res.rc.po.c:4562
+#: src/arch/unix/x11/gnome/uinetplay.c:60 src/arch/win32/res.rc.po.c:4563
 msgid "Joystick 2"
 msgstr "Botkormány 2"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:63 src/arch/win32/res.rc.po.c:4567
+#: src/arch/unix/x11/gnome/uinetplay.c:63 src/arch/win32/res.rc.po.c:4568
 msgid "Devices"
 msgstr "Eszközök"
 
@@ -5523,12 +5523,12 @@ msgstr "Eszközök"
 msgid "Invalid Port number"
 msgstr "Érvénytelen port szám"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:139 src/arch/win32/res.rc.po.c:5226
+#: src/arch/unix/x11/gnome/uinetplay.c:139 src/arch/win32/res.rc.po.c:5227
 #: src/arch/amigaos/intl.c.po.c:2189
 msgid "Idle"
 msgstr "Tétlen"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:144 src/arch/win32/res.rc.po.c:5227
+#: src/arch/unix/x11/gnome/uinetplay.c:144 src/arch/win32/res.rc.po.c:5228
 #: src/arch/amigaos/intl.c.po.c:2198
 msgid "Server listening"
 msgstr "Várakozás kliensre"
@@ -5537,7 +5537,7 @@ msgstr "Várakozás kliensre"
 msgid "Connected Server"
 msgstr "Kiszolgáló a kapcsolatban"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:154 src/arch/win32/res.rc.po.c:5229
+#: src/arch/unix/x11/gnome/uinetplay.c:154 src/arch/win32/res.rc.po.c:5230
 msgid "Connected Client"
 msgstr "Kliens a kapcsolatban"
 
@@ -5555,7 +5555,7 @@ msgid "Couldn't connect client."
 msgstr "Nem sikerült kapcsolódni."
 
 #: src/arch/unix/x11/gnome/uinetplay.c:205
-#: src/arch/unix/x11/gnome/uinetplay.c:211 src/arch/win32/res.rc.po.c:4539
+#: src/arch/unix/x11/gnome/uinetplay.c:211 src/arch/win32/res.rc.po.c:4540
 #: src/arch/amigaos/intl.c.po.c:2225
 msgid "Netplay Settings"
 msgstr "Hálózati játék beállításai"
@@ -5568,7 +5568,7 @@ msgstr "Jelenlegi mód: "
 msgid "<unknown>"
 msgstr "<ismeretlen>"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:227 src/arch/win32/res.rc.po.c:4545
+#: src/arch/unix/x11/gnome/uinetplay.c:227 src/arch/win32/res.rc.po.c:4546
 #: src/arch/amigaos/intl.c.po.c:2162
 msgid "Start Server"
 msgstr "Kiszolgáló indítása"
@@ -5581,15 +5581,15 @@ msgstr "TCP-Port: "
 msgid "Connect to "
 msgstr "Kapcsolódás"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:274 src/arch/win32/res.rc.po.c:4549
+#: src/arch/unix/x11/gnome/uinetplay.c:274 src/arch/win32/res.rc.po.c:4550
 msgid "Control"
 msgstr "Vezérlõ"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:279 src/arch/win32/res.rc.po.c:4550
+#: src/arch/unix/x11/gnome/uinetplay.c:279 src/arch/win32/res.rc.po.c:4551
 msgid "Server"
 msgstr "Kiszolgáló"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:284 src/arch/win32/res.rc.po.c:4551
+#: src/arch/unix/x11/gnome/uinetplay.c:284 src/arch/win32/res.rc.po.c:4552
 msgid "Client"
 msgstr "Kliens"
 
@@ -5694,7 +5694,7 @@ msgstr ""
 "IRQ: %s"
 
 #: src/arch/unix/x11/gnome/uifileentry.c:53
-#: src/arch/unix/x11/gnome/x11ui.c:2496
+#: src/arch/unix/x11/gnome/x11ui.c:2499
 msgid "all files"
 msgstr "összes fájl"
 
@@ -5737,24 +5737,24 @@ msgstr "Lemezegység #%d: "
 msgid "Tape 000"
 msgstr "Szalag 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:917 src/arch/unix/x11/xaw/x11ui.c:643
+#: src/arch/unix/x11/gnome/x11ui.c:917 src/arch/unix/x11/xaw/x11ui.c:644
 msgid "Maximum number of toplevel windows reached."
 msgstr "A maximális számú különálló ablakot elérte."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1188 src/arch/unix/x11/xaw/x11ui.c:1137
+#: src/arch/unix/x11/gnome/x11ui.c:1188 src/arch/unix/x11/xaw/x11ui.c:1138
 msgid " emulator"
 msgstr " emulátor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1195 src/arch/unix/x11/xaw/x11ui.c:1141
+#: src/arch/unix/x11/gnome/x11ui.c:1195 src/arch/unix/x11/xaw/x11ui.c:1142
 msgid "Do you really want to exit?"
 msgstr "Valóban ki szeretne lépni?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1202 src/arch/unix/x11/xaw/x11ui.c:1148
+#: src/arch/unix/x11/gnome/x11ui.c:1202 src/arch/unix/x11/xaw/x11ui.c:1149
 msgid "Save the current settings?"
 msgstr "Elmentsem a jelenlegi beállításokat?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/gnome/x11ui.c:1241
-#: src/arch/unix/x11/xaw/x11ui.c:1217 src/arch/unix/x11/xaw/x11ui.c:1222
+#: src/arch/unix/x11/xaw/x11ui.c:1218 src/arch/unix/x11/xaw/x11ui.c:1223
 msgid "(warp)"
 msgstr "(hiper)"
 
@@ -5765,7 +5765,7 @@ msgstr "(hiper)"
 msgid "Tape %03d"
 msgstr "Szalag %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1593 src/arch/unix/x11/xaw/x11ui.c:1464
+#: src/arch/unix/x11/gnome/x11ui.c:1593 src/arch/unix/x11/xaw/x11ui.c:1465
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (szünet)"
@@ -5782,50 +5782,51 @@ msgstr "VICE hiba"
 msgid "Hard Reset"
 msgstr "Kemény Reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1824 src/arch/amigaos/intl.c.po.c:663
+#: src/arch/unix/x11/gnome/x11ui.c:1824 src/arch/unix/x11/gnome/x11ui.c:1825
+#: src/arch/amigaos/intl.c.po.c:663
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1868 src/arch/unix/x11/xaw/x11ui.c:1779
+#: src/arch/unix/x11/gnome/x11ui.c:1871 src/arch/unix/x11/xaw/x11ui.c:1788
 msgid "Extend disk image"
 msgstr "Lemez képmás kiterjesztése"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1869
+#: src/arch/unix/x11/gnome/x11ui.c:1872
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Kívánja a lemez képmást 40 sávosra kiterjeszteni?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1882
+#: src/arch/unix/x11/gnome/x11ui.c:1885
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Automatikus indulás nem lehetséges a %d egységen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1890 src/arch/unix/x11/gnome/x11ui.c:1899
+#: src/arch/unix/x11/gnome/x11ui.c:1893 src/arch/unix/x11/gnome/x11ui.c:1902
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Nem lehet automatikusan elindítani a %d. kiválasztását a %s  képmáson."
 
-#: src/arch/unix/x11/gnome/x11ui.c:2058 src/arch/unix/x11/gnome/x11ui.c:2068
+#: src/arch/unix/x11/gnome/x11ui.c:2061 src/arch/unix/x11/gnome/x11ui.c:2071
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "KÉPMÁS TARTALOM NEM ÁLL RENDELKEZÉSRE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2525
+#: src/arch/unix/x11/gnome/x11ui.c:2528
 msgid "Contents"
 msgstr "Tartalom"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2574
+#: src/arch/unix/x11/gnome/x11ui.c:2577
 msgid "Attach write protected"
 msgstr "Írásvédettként kell csatolni"
 
 #. show hidden files
-#: src/arch/unix/x11/gnome/x11ui.c:2580
+#: src/arch/unix/x11/gnome/x11ui.c:2583
 msgid "Show hidden files"
 msgstr "Rejtett fájlok megjelenítése"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2592
+#: src/arch/unix/x11/gnome/x11ui.c:2595
 msgid "Autostart"
 msgstr "Automatikus indulás"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2609
+#: src/arch/unix/x11/gnome/x11ui.c:2612
 msgid "Text cannot be displayed.\n"
 msgstr "A szöveget nem lehet megjeleníteni.\n"
 
@@ -5841,22 +5842,22 @@ msgstr "Privát színpaletta telepítése"
 msgid "Use the default colormap"
 msgstr "Alapértelmezett színpaletta használata"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:48 src/arch/win32/res.rc.po.c:5213
+#: src/arch/unix/x11/ui-cmdline-options.c:48 src/arch/win32/res.rc.po.c:5214
 #: src/arch/amigaos/intl.c.po.c:3296
 msgid "Save settings (resources) on exit"
 msgstr "Erõforrásbeállítások mentése kilépéskor"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:51 src/arch/win32/res.rc.po.c:5216
+#: src/arch/unix/x11/ui-cmdline-options.c:51 src/arch/win32/res.rc.po.c:5217
 #: src/arch/amigaos/intl.c.po.c:3323
 msgid "Never confirm quiting VICE"
 msgstr "Sosem kér megerõsítést kilépés elõtt"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:54 src/arch/win32/res.rc.po.c:5215
+#: src/arch/unix/x11/ui-cmdline-options.c:54 src/arch/win32/res.rc.po.c:5216
 #: src/arch/amigaos/intl.c.po.c:3314
 msgid "Confirm quiting VICE"
 msgstr "Megerõsítés kilépés elõtt"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:57 src/arch/win32/res.rc.po.c:5214
+#: src/arch/unix/x11/ui-cmdline-options.c:57 src/arch/win32/res.rc.po.c:5215
 #: src/arch/amigaos/intl.c.po.c:3305
 msgid "Never save settings (resources) on exit"
 msgstr "Sose mentse az erõforrásbeállításokat kilépéskor"
@@ -5882,7 +5883,7 @@ msgstr ""
 msgid "*Desktop"
 msgstr "*Asztal"
 
-#: src/arch/unix/x11/xaw/about.c:154 src/arch/win32/res.rc.po.c:5050
+#: src/arch/unix/x11/xaw/about.c:155 src/arch/win32/res.rc.po.c:5051
 msgid "VICE Information"
 msgstr "VICE információ"
 
@@ -5898,7 +5899,7 @@ msgstr "Fájlnév:"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:155 src/arch/unix/x11/xaw/uiedisk.c:247
 #: src/arch/unix/x11/xaw/uiscreenshot.c:199
-#: src/arch/unix/x11/xaw/uisnapshot.c:170 src/arch/win32/res.rc.po.c:4908
+#: src/arch/unix/x11/xaw/uisnapshot.c:170 src/arch/win32/res.rc.po.c:4909
 #: src/arch/win32/resc128.rc.po.c:2113 src/arch/win32/resc128.rc.po.c:2118
 #: src/arch/win32/resc128.rc.po.c:2123 src/arch/win32/resc128.rc.po.c:2128
 #: src/arch/win32/resc128.rc.po.c:2133 src/arch/win32/resc128.rc.po.c:2138
@@ -5960,12 +5961,12 @@ msgstr "Tallózás..."
 
 #: src/arch/unix/x11/xaw/uicartridge.c:174 src/arch/unix/x11/xaw/uiedisk.c:420
 #: src/arch/unix/x11/xaw/uiscreenshot.c:269
-#: src/arch/unix/x11/xaw/uisnapshot.c:292 src/arch/win32/res.rc.po.c:865
-#: src/arch/win32/res.rc.po.c:1057 src/arch/win32/res.rc.po.c:1388
-#: src/arch/win32/res.rc.po.c:1618 src/arch/win32/res.rc.po.c:3439
-#: src/arch/win32/res.rc.po.c:3623 src/arch/win32/res.rc.po.c:4277
-#: src/arch/win32/res.rc.po.c:4396 src/arch/win32/res.rc.po.c:4911
-#: src/arch/win32/res.rc.po.c:5242 src/arch/win32/resc128.rc.po.c:3316
+#: src/arch/unix/x11/xaw/uisnapshot.c:292 src/arch/win32/res.rc.po.c:866
+#: src/arch/win32/res.rc.po.c:1058 src/arch/win32/res.rc.po.c:1389
+#: src/arch/win32/res.rc.po.c:1619 src/arch/win32/res.rc.po.c:3440
+#: src/arch/win32/res.rc.po.c:3624 src/arch/win32/res.rc.po.c:4278
+#: src/arch/win32/res.rc.po.c:4397 src/arch/win32/res.rc.po.c:4912
+#: src/arch/win32/res.rc.po.c:5238 src/arch/win32/resc128.rc.po.c:3316
 #: src/arch/win32/resc128.rc.po.c:3662 src/arch/win32/resc64.rc.po.c:2765
 #: src/arch/win32/resc64.rc.po.c:2941 src/arch/win32/rescbm2.rc.po.c:2348
 #: src/arch/win32/rescbm2.rc.po.c:2570 src/arch/win32/resgeoram.rc.po.c:24
@@ -6060,46 +6061,46 @@ msgstr "A csatolt ROM-ok elmentése:"
 msgid "Save snapshot"
 msgstr "Pillanatkép mentése"
 
-#: src/arch/unix/x11/xaw/x11ui.c:526
+#: src/arch/unix/x11/xaw/x11ui.c:527
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "A kijelzõ nem támogat megfelelõ %dbit-es üzemmódot."
 
-#: src/arch/unix/x11/xaw/x11ui.c:529
+#: src/arch/unix/x11/xaw/x11ui.c:530
 msgid "Please select a bit depth supported by your display."
 msgstr "Kérem olyan bitmélységet válasszon, melyet a kijelzõje támogat."
 
-#: src/arch/unix/x11/xaw/x11ui.c:532 src/arch/unix/x11/xaw/x11ui.c:549
+#: src/arch/unix/x11/xaw/x11ui.c:533 src/arch/unix/x11/xaw/x11ui.c:550
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "A VICE %d bites %s kijelzõt talált"
 
-#: src/arch/unix/x11/xaw/x11ui.c:557
+#: src/arch/unix/x11/xaw/x11ui.c:558
 msgid "Cannot autodetect a proper visual."
 msgstr "Nem sikerült automatikusan kijelzõt felismerni."
 
-#: src/arch/unix/x11/xaw/x11ui.c:836
+#: src/arch/unix/x11/xaw/x11ui.c:837
 msgid "recording..."
 msgstr "felvétel..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:845
+#: src/arch/unix/x11/xaw/x11ui.c:846
 msgid "event recording..."
 msgstr "esemény felvétel..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1189
+#: src/arch/unix/x11/xaw/x11ui.c:1190
 msgid "Using private colormap."
 msgstr "Privát színpaletta használata."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1316
+#: src/arch/unix/x11/xaw/x11ui.c:1317
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Sáv %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1530
+#: src/arch/unix/x11/xaw/x11ui.c:1531
 msgid "Toggling of Statusbar/Menu in Xaw is not supported."
 msgstr ""
 
-#: src/arch/unix/x11/xaw/x11ui.c:1664 src/arch/win32/res.rc.po.c:5049
+#: src/arch/unix/x11/xaw/x11ui.c:1666 src/arch/win32/res.rc.po.c:5050
 msgid "VICE Error!"
 msgstr "VICE hiba!"
 
@@ -6330,12 +6331,12 @@ msgstr "&Ikonok elrendezése"
 msgid "About VICE"
 msgstr "A VICE névjegye"
 
-#: src/arch/win32/res.rc.po.c:556 src/arch/win32/res.rc.po.c:864
-#: src/arch/win32/res.rc.po.c:1056 src/arch/win32/res.rc.po.c:1387
-#: src/arch/win32/res.rc.po.c:1617 src/arch/win32/res.rc.po.c:2525
-#: src/arch/win32/res.rc.po.c:3438 src/arch/win32/res.rc.po.c:3622
-#: src/arch/win32/res.rc.po.c:4276 src/arch/win32/res.rc.po.c:4395
-#: src/arch/win32/res.rc.po.c:4910 src/arch/win32/res.rc.po.c:5241
+#: src/arch/win32/res.rc.po.c:556 src/arch/win32/res.rc.po.c:865
+#: src/arch/win32/res.rc.po.c:1057 src/arch/win32/res.rc.po.c:1388
+#: src/arch/win32/res.rc.po.c:1618 src/arch/win32/res.rc.po.c:2526
+#: src/arch/win32/res.rc.po.c:3439 src/arch/win32/res.rc.po.c:3623
+#: src/arch/win32/res.rc.po.c:4277 src/arch/win32/res.rc.po.c:4396
+#: src/arch/win32/res.rc.po.c:4911 src/arch/win32/res.rc.po.c:5237
 #: src/arch/win32/resc128.rc.po.c:3315 src/arch/win32/resc128.rc.po.c:3661
 #: src/arch/win32/resc64.rc.po.c:2764 src/arch/win32/resc64.rc.po.c:2940
 #: src/arch/win32/rescbm2.rc.po.c:2347 src/arch/win32/rescbm2.rc.po.c:2569
@@ -6401,42 +6402,47 @@ msgid "Copyright (c) 2006-2008 Christian Vogelgsang"
 msgstr "Copyright (c) 2003-2005 Christian Vogelgsang"
 
 #: src/arch/win32/res.rc.po.c:568
+#, fuzzy
+msgid "Copyright (c) 2007-2008 Fabrizio Gennari"
+msgstr "Copyright (c) 2000-2004 Markus Brenner"
+
+#: src/arch/win32/res.rc.po.c:569
 msgid "Copyright (c) 1999-2007 Andreas Dehmel"
 msgstr "Copyright (c) 1999-2007 Andreas Dehmel"
 
-#: src/arch/win32/res.rc.po.c:569
+#: src/arch/win32/res.rc.po.c:570
 msgid "Copyright (c) 1999-2005 Thomas Bretz"
 msgstr "Copyright (c) 1999-2005 Thomas Bretz"
 
-#: src/arch/win32/res.rc.po.c:570
+#: src/arch/win32/res.rc.po.c:571
 msgid "Copyright (c) 2003-2005 David Hansel"
 msgstr "Copyright (c) 2003-2005 David Hansel"
 
-#: src/arch/win32/res.rc.po.c:571
+#: src/arch/win32/res.rc.po.c:572
 msgid "Copyright (c) 2000-2004 Markus Brenner"
 msgstr "Copyright (c) 2000-2004 Markus Brenner"
 
-#: src/arch/win32/res.rc.po.c:572
+#: src/arch/win32/res.rc.po.c:573
 msgid " "
 msgstr " "
 
-#: src/arch/win32/res.rc.po.c:579 src/arch/win32/res.rc.po.c:3733
+#: src/arch/win32/res.rc.po.c:580 src/arch/win32/res.rc.po.c:3734
 msgid "&Use IEC Device"
 msgstr "&IEC eszköz &használata"
 
-#: src/arch/win32/res.rc.po.c:581
+#: src/arch/win32/res.rc.po.c:582
 msgid "Disk &image"
 msgstr "Lemez &képmás"
 
-#: src/arch/win32/res.rc.po.c:583
+#: src/arch/win32/res.rc.po.c:584
 msgid "&Directory"
 msgstr "Kö&nyvtár"
 
-#: src/arch/win32/res.rc.po.c:585
+#: src/arch/win32/res.rc.po.c:586
 msgid "Rea&l IEC device"
 msgstr "&Valódi IEC eszköz"
 
-#: src/arch/win32/res.rc.po.c:588 src/arch/win32/resdrivec128.rc.po.c:38
+#: src/arch/win32/res.rc.po.c:589 src/arch/win32/resdrivec128.rc.po.c:38
 #: src/arch/win32/resdrivec64.rc.po.c:36
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:26
 #: src/arch/win32/resdriveplus4.rc.po.c:24
@@ -6444,365 +6450,365 @@ msgstr "&Valódi IEC eszköz"
 msgid "&None"
 msgstr "&Nincs"
 
-#: src/arch/win32/res.rc.po.c:591 src/arch/win32/res.rc.po.c:3113
-#: src/arch/win32/res.rc.po.c:3336 src/arch/win32/res.rc.po.c:5244
+#: src/arch/win32/res.rc.po.c:592 src/arch/win32/res.rc.po.c:3114
+#: src/arch/win32/res.rc.po.c:3337 src/arch/win32/res.rc.po.c:5240
 #: src/arch/win32/resgeoram.rc.po.c:20 src/arch/win32/resvic20.rc.po.c:2539
 msgid "&Browse..."
 msgstr "&Tallózás..."
 
-#: src/arch/win32/res.rc.po.c:592
+#: src/arch/win32/res.rc.po.c:593
 msgid "&Autostart"
 msgstr "&Automatikus indítás"
 
-#: src/arch/win32/res.rc.po.c:593 src/arch/win32/res.rc.po.c:1821
+#: src/arch/win32/res.rc.po.c:594 src/arch/win32/res.rc.po.c:1822
 #: src/arch/amigaos/intl.c.po.c:2576
 msgid "Attach read only"
 msgstr "Csatolás csak olvasható módon"
 
-#: src/arch/win32/res.rc.po.c:597
+#: src/arch/win32/res.rc.po.c:598
 msgid "Bro&wse..."
 msgstr "&Tallózás..."
 
-#: src/arch/win32/res.rc.po.c:598 src/arch/win32/resc128.rc.po.c:148
+#: src/arch/win32/res.rc.po.c:599 src/arch/win32/resc128.rc.po.c:148
 #: src/arch/win32/resc64.rc.po.c:150 src/arch/win32/rescbm2.rc.po.c:117
 #: src/arch/win32/respet.rc.po.c:115 src/arch/win32/resplus4.rc.po.c:127
 #: src/arch/win32/resvic20.rc.po.c:125
 msgid "&Options"
 msgstr "&Opciók"
 
-#: src/arch/win32/res.rc.po.c:599
+#: src/arch/win32/res.rc.po.c:600
 msgid "&Read P00 files"
 msgstr "P00 fájlok &betöltése"
 
-#: src/arch/win32/res.rc.po.c:601
+#: src/arch/win32/res.rc.po.c:602
 msgid "&Write P00 files"
 msgstr "P00 fájlok &mentése"
 
-#: src/arch/win32/res.rc.po.c:603
+#: src/arch/win32/res.rc.po.c:604
 msgid "&Hide non-P00 files"
 msgstr "P00 fájlok &elrejtése"
 
-#: src/arch/win32/res.rc.po.c:852 src/arch/amigaos/intl.c.po.c:2936
+#: src/arch/win32/res.rc.po.c:853 src/arch/amigaos/intl.c.po.c:2936
 msgid "Datasette Settings"
 msgstr "Magnó beállításai"
 
-#: src/arch/win32/res.rc.po.c:854
+#: src/arch/win32/res.rc.po.c:855
 msgid "&Reset Datasette with CPU"
 msgstr "&Alaphelyzetbe hozás CPU Reset esetén"
 
-#: src/arch/win32/res.rc.po.c:856
+#: src/arch/win32/res.rc.po.c:857
 msgid "Speed of motor while reading"
 msgstr "Motor sebessége olvasás közben"
 
-#: src/arch/win32/res.rc.po.c:857
+#: src/arch/win32/res.rc.po.c:858
 msgid "cycle(s) additional &delay each trigger"
 msgstr "ciklus többlet szünet minden jelzésnél"
 
-#: src/arch/win32/res.rc.po.c:861
+#: src/arch/win32/res.rc.po.c:862
 msgid "cycles delay at &zero-values"
 msgstr "ciklus szünet &nulla értékeknél"
 
-#: src/arch/win32/res.rc.po.c:1024
+#: src/arch/win32/res.rc.po.c:1025
 msgid "Joystick in port #&1"
 msgstr "Botkormány az &1-es porton"
 
-#: src/arch/win32/res.rc.po.c:1027 src/arch/win32/res.rc.po.c:1040
+#: src/arch/win32/res.rc.po.c:1028 src/arch/win32/res.rc.po.c:1041
 msgid "Select fire button"
 msgstr "Válasszon tûz gombot"
 
-#: src/arch/win32/res.rc.po.c:1030 src/arch/win32/res.rc.po.c:1043
+#: src/arch/win32/res.rc.po.c:1031 src/arch/win32/res.rc.po.c:1044
 msgid "Auto fire button settings"
 msgstr "Automatikus tûz beállításai"
 
-#: src/arch/win32/res.rc.po.c:1031 src/arch/win32/res.rc.po.c:1044
+#: src/arch/win32/res.rc.po.c:1032 src/arch/win32/res.rc.po.c:1045
 msgid "Autofire &speed (1..32)"
 msgstr "Automatikus tûz sebessége (1..32)"
 
-#: src/arch/win32/res.rc.po.c:1037
+#: src/arch/win32/res.rc.po.c:1038
 msgid "Joystick in port #&2"
 msgstr "Botkormány a &2-es porton"
 
-#: src/arch/win32/res.rc.po.c:1050
+#: src/arch/win32/res.rc.po.c:1051
 msgid "Config Keyset &A"
 msgstr "'&A' gombkészlet beállítása"
 
-#: src/arch/win32/res.rc.po.c:1052
+#: src/arch/win32/res.rc.po.c:1053
 msgid "Config Keyset &B"
 msgstr "'&B' gombkészlet beállítása"
 
-#: src/arch/win32/res.rc.po.c:1054
+#: src/arch/win32/res.rc.po.c:1055
 msgid "&Calibrate Joystick(s)"
 msgstr "Botkormány(ok) &kalibrálása"
 
-#: src/arch/win32/res.rc.po.c:1369
+#: src/arch/win32/res.rc.po.c:1370
 msgid "S&outh West"
 msgstr "Déln&yugat"
 
-#: src/arch/win32/res.rc.po.c:1371
+#: src/arch/win32/res.rc.po.c:1372
 msgid "&South"
 msgstr "&Dél"
 
-#: src/arch/win32/res.rc.po.c:1373
+#: src/arch/win32/res.rc.po.c:1374
 msgid "So&uth East"
 msgstr "Délke&let"
 
-#: src/arch/win32/res.rc.po.c:1375
+#: src/arch/win32/res.rc.po.c:1376
 msgid "&West"
 msgstr "&Nyugat"
 
-#: src/arch/win32/res.rc.po.c:1377
+#: src/arch/win32/res.rc.po.c:1378
 msgid "&East"
 msgstr "&Kelet"
 
-#: src/arch/win32/res.rc.po.c:1379
+#: src/arch/win32/res.rc.po.c:1380
 msgid "No&rth West"
 msgstr "Északnyu&gat"
 
-#: src/arch/win32/res.rc.po.c:1381
+#: src/arch/win32/res.rc.po.c:1382
 msgid "&North"
 msgstr "É&szak"
 
-#: src/arch/win32/res.rc.po.c:1383
+#: src/arch/win32/res.rc.po.c:1384
 msgid "Nor&th East"
 msgstr "Északk&elet"
 
-#: src/arch/win32/res.rc.po.c:1385
+#: src/arch/win32/res.rc.po.c:1386
 msgid "&Fire button"
 msgstr "&Tûzgomb"
 
-#: src/arch/win32/res.rc.po.c:1599
+#: src/arch/win32/res.rc.po.c:1600
 msgid "Configure Sound Device Settings"
 msgstr "Hang eszköz beállítása"
 
-#: src/arch/win32/res.rc.po.c:1601
+#: src/arch/win32/res.rc.po.c:1602
 msgid "DirectX driver"
 msgstr "DirectX meghajtó"
 
-#: src/arch/win32/res.rc.po.c:1603
+#: src/arch/win32/res.rc.po.c:1604
 msgid "WMM driver"
 msgstr "WMM meghajtó"
 
-#: src/arch/win32/res.rc.po.c:1605
+#: src/arch/win32/res.rc.po.c:1606
 msgid "Sample &Frequency :"
 msgstr "Mintavételezési &frekvencia:"
 
-#: src/arch/win32/res.rc.po.c:1608
+#: src/arch/win32/res.rc.po.c:1609
 msgid "Sound Buffer &Size :"
 msgstr "Hang puffer &méret:"
 
-#: src/arch/win32/res.rc.po.c:1611
+#: src/arch/win32/res.rc.po.c:1612
 msgid "&Oversampling Factor :"
 msgstr "Túlmintavételezési fakt&or: "
 
-#: src/arch/win32/res.rc.po.c:1614
+#: src/arch/win32/res.rc.po.c:1615
 msgid "Synchronization &Method :"
 msgstr "Szinkronizáció módja:"
 
-#: src/arch/win32/res.rc.po.c:1818 src/arch/win32/res.rc.po.c:1996
+#: src/arch/win32/res.rc.po.c:1819 src/arch/win32/res.rc.po.c:1997
 msgid "Image Contents "
 msgstr "Képmás tartalma"
 
-#: src/arch/win32/res.rc.po.c:1823 src/arch/amigaos/intl.c.po.c:2603
+#: src/arch/win32/res.rc.po.c:1824 src/arch/amigaos/intl.c.po.c:2603
 msgid "New Image"
 msgstr "Új képmás"
 
-#: src/arch/win32/res.rc.po.c:1824 src/arch/amigaos/intl.c.po.c:2585
+#: src/arch/win32/res.rc.po.c:1825 src/arch/amigaos/intl.c.po.c:2585
 msgid "Name"
 msgstr "Név"
 
-#: src/arch/win32/res.rc.po.c:1826
+#: src/arch/win32/res.rc.po.c:1827
 msgid "ID"
 msgstr "ID"
 
-#: src/arch/win32/res.rc.po.c:1828
+#: src/arch/win32/res.rc.po.c:1829
 msgid "Type"
 msgstr "Típus"
 
-#: src/arch/win32/res.rc.po.c:1831 src/arch/win32/res.rc.po.c:2000
+#: src/arch/win32/res.rc.po.c:1832 src/arch/win32/res.rc.po.c:2001
 #: src/arch/amigaos/intl.c.po.c:2594
 msgid "Create Image"
 msgstr "Képmás létrehozása"
 
-#: src/arch/win32/res.rc.po.c:1999 src/arch/amigaos/intl.c.po.c:2612
+#: src/arch/win32/res.rc.po.c:2000 src/arch/amigaos/intl.c.po.c:2612
 msgid "New TAP Image"
 msgstr "Új TAP képmás"
 
-#: src/arch/win32/res.rc.po.c:2102
+#: src/arch/win32/res.rc.po.c:2103
 msgid "Save currently attached &disks images"
 msgstr "A jelenleg csatolt lemezek &mentése"
 
-#: src/arch/win32/res.rc.po.c:2105
+#: src/arch/win32/res.rc.po.c:2106
 msgid "Save currently loaded &ROM images"
 msgstr "A jelenleg betöltött &ROM-ok mentése"
 
-#: src/arch/win32/res.rc.po.c:2216
+#: src/arch/win32/res.rc.po.c:2217
 msgid "Select Driver:"
 msgstr "Válasszon meghajtót:"
 
-#: src/arch/win32/res.rc.po.c:2219
+#: src/arch/win32/res.rc.po.c:2220
 msgid "FFMPEG settings"
 msgstr "FFMPEG beállításai"
 
-#: src/arch/win32/res.rc.po.c:2220
+#: src/arch/win32/res.rc.po.c:2221
 msgid "Format:"
 msgstr "Formátum:"
 
-#: src/arch/win32/res.rc.po.c:2223
+#: src/arch/win32/res.rc.po.c:2224
 msgid "Audio: codec"
 msgstr "Audió: kodek"
 
-#: src/arch/win32/res.rc.po.c:2226 src/arch/win32/res.rc.po.c:2232
+#: src/arch/win32/res.rc.po.c:2227 src/arch/win32/res.rc.po.c:2233
 msgid "bitrate"
 msgstr "bitráta"
 
-#: src/arch/win32/res.rc.po.c:2229
+#: src/arch/win32/res.rc.po.c:2230
 msgid "Video: codec"
 msgstr "Videó: kodek"
 
-#: src/arch/win32/res.rc.po.c:2434
+#: src/arch/win32/res.rc.po.c:2435
 msgid "&Append log to existing file"
 msgstr "N&aplófájl hozzáfûzése a meglévõhöz"
 
-#: src/arch/win32/res.rc.po.c:2523
+#: src/arch/win32/res.rc.po.c:2524
 msgid "Dialog"
 msgstr "Párbeszédablak"
 
-#: src/arch/win32/res.rc.po.c:2526
+#: src/arch/win32/res.rc.po.c:2527
 msgid "Read this:"
 msgstr "Ezt olvassa:"
 
-#: src/arch/win32/res.rc.po.c:2622
+#: src/arch/win32/res.rc.po.c:2623
 msgid "Driver:"
 msgstr "Meghajtó:"
 
-#: src/arch/win32/res.rc.po.c:2625
+#: src/arch/win32/res.rc.po.c:2626
 msgid "Bitdepth:"
 msgstr "Bitmélység:"
 
-#: src/arch/win32/res.rc.po.c:2628
+#: src/arch/win32/res.rc.po.c:2629
 msgid "Resolution:"
 msgstr "Felbontás:"
 
-#: src/arch/win32/res.rc.po.c:2631
+#: src/arch/win32/res.rc.po.c:2632
 msgid "Refreshrate:"
 msgstr "Frissítési ráta:"
 
-#: src/arch/win32/res.rc.po.c:2634
+#: src/arch/win32/res.rc.po.c:2635
 msgid "VBLANK synchronization"
 msgstr "VBLANK szinkronizáció"
 
-#: src/arch/win32/res.rc.po.c:2636
+#: src/arch/win32/res.rc.po.c:2637
 msgid "Render to DX Primary surface"
 msgstr "Rajzolás a DX elsõdleges felületre"
 
-#: src/arch/win32/res.rc.po.c:2817 src/arch/win32/res.rc.po.c:2820
-#: src/arch/win32/res.rc.po.c:2823 src/arch/win32/res.rc.po.c:2955
-#: src/arch/win32/res.rc.po.c:2958 src/arch/win32/res.rc.po.c:2961
-#: src/arch/win32/res.rc.po.c:3093 src/arch/win32/res.rc.po.c:3096
+#: src/arch/win32/res.rc.po.c:2818 src/arch/win32/res.rc.po.c:2821
+#: src/arch/win32/res.rc.po.c:2824 src/arch/win32/res.rc.po.c:2956
+#: src/arch/win32/res.rc.po.c:2959 src/arch/win32/res.rc.po.c:2962
+#: src/arch/win32/res.rc.po.c:3094 src/arch/win32/res.rc.po.c:3097
 msgid "(0..2)"
 msgstr "(0..2)"
 
-#: src/arch/win32/res.rc.po.c:2957
+#: src/arch/win32/res.rc.po.c:2958
 msgid "Odd lines phase"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:2960
+#: src/arch/win32/res.rc.po.c:2961
 msgid "Odd lines offset"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:3095
+#: src/arch/win32/res.rc.po.c:3096
 msgid "Phase"
 msgstr "Fázis"
 
-#: src/arch/win32/res.rc.po.c:3098
+#: src/arch/win32/res.rc.po.c:3099
 msgid "PAL Shade"
 msgstr "PAL pászta árnyalás"
 
-#: src/arch/win32/res.rc.po.c:3099 src/arch/win32/res.rc.po.c:3102
+#: src/arch/win32/res.rc.po.c:3100 src/arch/win32/res.rc.po.c:3103
 msgid "(0..1)"
 msgstr "(0..1)"
 
-#: src/arch/win32/res.rc.po.c:3101
+#: src/arch/win32/res.rc.po.c:3102
 msgid "PAL Blur"
 msgstr "PAL elmosás"
 
-#: src/arch/win32/res.rc.po.c:3105 src/arch/amigaos/intl.c.po.c:4286
+#: src/arch/win32/res.rc.po.c:3106 src/arch/amigaos/intl.c.po.c:4286
 msgid "PAL Mode"
 msgstr "PAL mód"
 
-#: src/arch/win32/res.rc.po.c:3109
+#: src/arch/win32/res.rc.po.c:3110
 msgid "External Palette:"
 msgstr "Külsõ paletta:"
 
-#: src/arch/win32/res.rc.po.c:3423 src/arch/amigaos/intl.c.po.c:3440
+#: src/arch/win32/res.rc.po.c:3424 src/arch/amigaos/intl.c.po.c:3440
 msgid "RAM Settings"
 msgstr "RAM beállításai"
 
-#: src/arch/win32/res.rc.po.c:3425
+#: src/arch/win32/res.rc.po.c:3426
 msgid "Initialization at powerup"
 msgstr "Alaphelyzetbe állítás bekapcsoláskor"
 
-#: src/arch/win32/res.rc.po.c:3426 src/arch/amigaos/intl.c.po.c:3413
+#: src/arch/win32/res.rc.po.c:3427 src/arch/amigaos/intl.c.po.c:3413
 msgid "Value of first byte"
 msgstr "Elsõ bájt értéke"
 
-#: src/arch/win32/res.rc.po.c:3430 src/arch/amigaos/intl.c.po.c:3422
+#: src/arch/win32/res.rc.po.c:3431 src/arch/amigaos/intl.c.po.c:3422
 msgid "Length of constant values"
 msgstr "Állandó értékek hossza"
 
-#: src/arch/win32/res.rc.po.c:3433 src/arch/amigaos/intl.c.po.c:3431
+#: src/arch/win32/res.rc.po.c:3434 src/arch/amigaos/intl.c.po.c:3431
 msgid "Length of constant pattern"
 msgstr "Állandó minta hossza"
 
-#: src/arch/win32/res.rc.po.c:3617
+#: src/arch/win32/res.rc.po.c:3618
 msgid "Custom speed"
 msgstr "Egyéni sebesség"
 
-#: src/arch/win32/res.rc.po.c:3619
+#: src/arch/win32/res.rc.po.c:3620
 msgid "Enter custom speed [%]"
 msgstr "Adja meg a sebességet [%]"
 
-#: src/arch/win32/res.rc.po.c:3731
+#: src/arch/win32/res.rc.po.c:3732
 msgid "Printer Settings"
 msgstr "Nyomtató beállításai"
 
-#: src/arch/win32/res.rc.po.c:3735
+#: src/arch/win32/res.rc.po.c:3736
 msgid "Printer emulation"
 msgstr "Nyomtató emuláció"
 
-#: src/arch/win32/res.rc.po.c:3738
+#: src/arch/win32/res.rc.po.c:3739
 msgid "Send Formfeed"
 msgstr "Lapdobás küldése"
 
-#: src/arch/win32/res.rc.po.c:3739
+#: src/arch/win32/res.rc.po.c:3740
 msgid "File system printer"
 msgstr "Fájlrendszer nyomtató"
 
-#: src/arch/win32/res.rc.po.c:3740
+#: src/arch/win32/res.rc.po.c:3741
 msgid "Printer driver"
 msgstr "Nyomtató meghajtó"
 
-#: src/arch/win32/res.rc.po.c:3743
+#: src/arch/win32/res.rc.po.c:3744
 msgid "Output"
 msgstr "Kimenet"
 
-#: src/arch/win32/res.rc.po.c:3746
+#: src/arch/win32/res.rc.po.c:3747
 msgid "Output to file #"
 msgstr "Kimenet fájlba"
 
-#: src/arch/win32/res.rc.po.c:3749
+#: src/arch/win32/res.rc.po.c:3750
 msgid "Output file #1 name"
 msgstr "1-es kimeneti fájl"
 
-#: src/arch/win32/res.rc.po.c:3751
+#: src/arch/win32/res.rc.po.c:3752
 msgid "Output file #2 name"
 msgstr "2-es kimeneti fájl"
 
-#: src/arch/win32/res.rc.po.c:3753
+#: src/arch/win32/res.rc.po.c:3754
 msgid "Output file #3 name"
 msgstr "3-as kimeneti fájl"
 
-#: src/arch/win32/res.rc.po.c:3981 src/arch/win32/resc128.rc.po.c:2108
+#: src/arch/win32/res.rc.po.c:3982 src/arch/win32/resc128.rc.po.c:2108
 #: src/arch/win32/resc128.rc.po.c:2774 src/arch/win32/resc64.rc.po.c:2101
 #: src/arch/win32/resc64.rc.po.c:2287 src/arch/win32/rescbm2.rc.po.c:1716
 #: src/arch/win32/rescbm2.rc.po.c:2062 src/arch/win32/respet.rc.po.c:1692
@@ -6811,137 +6817,137 @@ msgstr "3-as kimeneti fájl"
 msgid "ROM Settings"
 msgstr "ROM-ok beállításai"
 
-#: src/arch/win32/res.rc.po.c:3983
+#: src/arch/win32/res.rc.po.c:3984
 msgid "Romset archive"
 msgstr "ROM készlet archívum"
 
-#: src/arch/win32/res.rc.po.c:3987 src/arch/win32/res.rc.po.c:4000
+#: src/arch/win32/res.rc.po.c:3988 src/arch/win32/res.rc.po.c:4001
 #: src/arch/amigaos/intl.c.po.c:2135
 msgid "Browse"
 msgstr "Tallóz"
 
-#: src/arch/win32/res.rc.po.c:3988
+#: src/arch/win32/res.rc.po.c:3989
 msgid "Load archive"
 msgstr "Archívum betöltése"
 
-#: src/arch/win32/res.rc.po.c:3989
+#: src/arch/win32/res.rc.po.c:3990
 msgid "Save archive"
 msgstr "Archívum mentése"
 
-#: src/arch/win32/res.rc.po.c:3990
+#: src/arch/win32/res.rc.po.c:3991
 msgid "&Configuration"
 msgstr "&Konfiguráció"
 
-#: src/arch/win32/res.rc.po.c:3993
+#: src/arch/win32/res.rc.po.c:3994
 msgid "Apply"
 msgstr "Alkalmaz"
 
-#: src/arch/win32/res.rc.po.c:3994
+#: src/arch/win32/res.rc.po.c:3995
 msgid "New"
 msgstr "Új"
 
-#: src/arch/win32/res.rc.po.c:3995
+#: src/arch/win32/res.rc.po.c:3996
 msgid "Delete"
 msgstr "Törlés"
 
-#: src/arch/win32/res.rc.po.c:3996
+#: src/arch/win32/res.rc.po.c:3997
 msgid "Romset file"
 msgstr "ROM készlet fájl"
 
-#: src/arch/win32/res.rc.po.c:4001
+#: src/arch/win32/res.rc.po.c:4002
 msgid "Load romset"
 msgstr "ROM készlet betöltése"
 
-#: src/arch/win32/res.rc.po.c:4002
+#: src/arch/win32/res.rc.po.c:4003
 msgid "Save romset"
 msgstr "ROM készlet mentése"
 
-#: src/arch/win32/res.rc.po.c:4005 src/arch/win32/res.rc.po.c:5120
+#: src/arch/win32/res.rc.po.c:4006 src/arch/win32/res.rc.po.c:5121
 msgid "Computer"
 msgstr "Számítógép"
 
-#: src/arch/win32/res.rc.po.c:4006 src/arch/win32/res.rc.po.c:5121
+#: src/arch/win32/res.rc.po.c:4007 src/arch/win32/res.rc.po.c:5122
 msgid "Drive"
 msgstr "Lemezegység"
 
-#: src/arch/win32/res.rc.po.c:4008
+#: src/arch/win32/res.rc.po.c:4009
 msgid "Other"
 msgstr "Egyéb"
 
-#: src/arch/win32/res.rc.po.c:4271
+#: src/arch/win32/res.rc.po.c:4272
 msgid "New configuration"
 msgstr "Új konfiguráció"
 
-#: src/arch/win32/res.rc.po.c:4273
+#: src/arch/win32/res.rc.po.c:4274
 msgid "Enter configuration name"
 msgstr "Írja be a konfiguráció nevét"
 
-#: src/arch/win32/res.rc.po.c:4385
+#: src/arch/win32/res.rc.po.c:4386
 msgid "RS232 Settings"
 msgstr "RS232 beállításai"
 
-#: src/arch/win32/res.rc.po.c:4387
+#: src/arch/win32/res.rc.po.c:4388
 msgid "RS232 device 1"
 msgstr "RS232 1-es eszköz"
 
-#: src/arch/win32/res.rc.po.c:4389
+#: src/arch/win32/res.rc.po.c:4390
 msgid "RS232 device 2"
 msgstr "RS232 2-es eszköz"
 
-#: src/arch/win32/res.rc.po.c:4391
+#: src/arch/win32/res.rc.po.c:4392
 msgid "RS232 device 3"
 msgstr "RS232 3-as eszköz"
 
-#: src/arch/win32/res.rc.po.c:4393
+#: src/arch/win32/res.rc.po.c:4394
 msgid "RS232 device 4"
 msgstr "RS232 4-es eszköz"
 
-#: src/arch/win32/res.rc.po.c:4541 src/arch/amigaos/intl.c.po.c:2144
+#: src/arch/win32/res.rc.po.c:4542 src/arch/amigaos/intl.c.po.c:2144
 msgid "Current mode"
 msgstr "Jelenlegi mód"
 
-#: src/arch/win32/res.rc.po.c:4543 src/arch/amigaos/intl.c.po.c:2153
+#: src/arch/win32/res.rc.po.c:4544 src/arch/amigaos/intl.c.po.c:2153
 msgid "TCP-Port"
 msgstr "TCP-Port"
 
-#: src/arch/win32/res.rc.po.c:4546 src/arch/amigaos/intl.c.po.c:2171
+#: src/arch/win32/res.rc.po.c:4547 src/arch/amigaos/intl.c.po.c:2171
 msgid "Connect to"
 msgstr "Kapcsolódás ehhez:"
 
-#: src/arch/win32/res.rc.po.c:4902 src/arch/amigaos/intl.c.po.c:4700
+#: src/arch/win32/res.rc.po.c:4903 src/arch/amigaos/intl.c.po.c:4700
 msgid "Sound Record Format"
 msgstr "Hangfelvétel formátuma"
 
-#: src/arch/win32/res.rc.po.c:4906
+#: src/arch/win32/res.rc.po.c:4907
 msgid "&Sound Record File"
 msgstr "&Hangfelvétel fájl..."
 
-#: src/arch/win32/res.rc.po.c:5051
+#: src/arch/win32/res.rc.po.c:5052
 msgid "VICE question"
 msgstr "VICE kérdés"
 
-#: src/arch/win32/res.rc.po.c:5052
+#: src/arch/win32/res.rc.po.c:5053
 msgid "Your ffmpeg dll version doesn't match."
 msgstr "Az ffmpeg.dll verziója nem egyezik."
 
-#: src/arch/win32/res.rc.po.c:5053
+#: src/arch/win32/res.rc.po.c:5054
 #, c-format
 msgid "DirectDraw error: Code:%8x Error:%s"
 msgstr "DirectDraw hiba: kód: %8x hiba: %s"
 
-#: src/arch/win32/res.rc.po.c:5055 src/arch/amigaos/intl.c.po.c:1944
+#: src/arch/win32/res.rc.po.c:5056 src/arch/amigaos/intl.c.po.c:1944
 msgid "Cannot load settings."
 msgstr "A beállítások betöltése nem sikerült."
 
-#: src/arch/win32/res.rc.po.c:5056 src/arch/amigaos/intl.c.po.c:1872
+#: src/arch/win32/res.rc.po.c:5057 src/arch/amigaos/intl.c.po.c:1872
 msgid "Default settings restored."
 msgstr "Alapértelmezett beállítások visszaállítva."
 
-#: src/arch/win32/res.rc.po.c:5057 src/arch/amigaos/intl.c.po.c:2016
+#: src/arch/win32/res.rc.po.c:5058 src/arch/amigaos/intl.c.po.c:2016
 msgid "Cannot attach specified file"
 msgstr "Nem lehet csatolni a megadott fájlt"
 
-#: src/arch/win32/res.rc.po.c:5058
+#: src/arch/win32/res.rc.po.c:5059
 #, c-format
 msgid ""
 "%s\n"
@@ -6949,50 +6955,50 @@ msgid ""
 "Start monitor? (No will reset, cancel will continue)"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5059
+#: src/arch/win32/res.rc.po.c:5060
 msgid "VICE CPU JAM"
 msgstr "VICE CPU fagyás"
 
-#: src/arch/win32/res.rc.po.c:5060 src/arch/amigaos/intl.c.po.c:2297
+#: src/arch/win32/res.rc.po.c:5061 src/arch/amigaos/intl.c.po.c:2297
 msgid "Extend image to 40-track format?"
 msgstr "Kiterjesszem a képmást 40 sávos formátumra?"
 
-#: src/arch/win32/res.rc.po.c:5061
+#: src/arch/win32/res.rc.po.c:5062
 #, c-format
 msgid "Detached device %s"
 msgstr "%s eszköz leválasztva"
 
-#: src/arch/win32/res.rc.po.c:5062
+#: src/arch/win32/res.rc.po.c:5063
 #, c-format
 msgid "Attached %s to device#%s"
 msgstr "%s csatolva a #%s számú eszközhöz"
 
-#: src/arch/win32/res.rc.po.c:5063 src/arch/amigaos/intl.c.po.c:2315
+#: src/arch/win32/res.rc.po.c:5064 src/arch/amigaos/intl.c.po.c:2315
 msgid "Detached tape"
 msgstr "Szalag leválasztva"
 
-#: src/arch/win32/res.rc.po.c:5064
+#: src/arch/win32/res.rc.po.c:5065
 msgid "History recorded with unknown release"
 msgstr "Esemény rögzítés ismeretlen verzióval készült"
 
-#: src/arch/win32/res.rc.po.c:5065
+#: src/arch/win32/res.rc.po.c:5066
 #, c-format
 msgid "History recorded with VICE-%s"
 msgstr "Esemény rögzítés VICE-%s verzióval készült"
 
-#: src/arch/win32/res.rc.po.c:5066
+#: src/arch/win32/res.rc.po.c:5067
 msgid "paused"
 msgstr "szünet"
 
-#: src/arch/win32/res.rc.po.c:5067
+#: src/arch/win32/res.rc.po.c:5068
 msgid "frame #"
 msgstr "képkocka #"
 
-#: src/arch/win32/res.rc.po.c:5068
+#: src/arch/win32/res.rc.po.c:5069
 msgid "resumed"
 msgstr "folytatás"
 
-#: src/arch/win32/res.rc.po.c:5069 src/arch/amigaos/intl.c.po.c:2351
+#: src/arch/win32/res.rc.po.c:5070 src/arch/amigaos/intl.c.po.c:2351
 msgid ""
 "Do you really want to exit?\n"
 "\n"
@@ -7002,483 +7008,483 @@ msgstr ""
 "\n"
 "Az emulált memória teljes tartalma el fog veszni."
 
-#: src/arch/win32/res.rc.po.c:5070 src/arch/amigaos/intl.c.po.c:2007
+#: src/arch/win32/res.rc.po.c:5071 src/arch/amigaos/intl.c.po.c:2007
 msgid "Cannot autostart specified file."
 msgstr "Nem lehet automatikusan elindítani a megadott fájlt."
 
-#: src/arch/win32/res.rc.po.c:5071 src/arch/amigaos/intl.c.po.c:2324
+#: src/arch/win32/res.rc.po.c:5072 src/arch/amigaos/intl.c.po.c:2324
 #, c-format
 msgid "Attached tape %s"
 msgstr "%s szalag csatolva"
 
-#: src/arch/win32/res.rc.po.c:5073 src/arch/amigaos/intl.c.po.c:1863
+#: src/arch/win32/res.rc.po.c:5074 src/arch/amigaos/intl.c.po.c:1863
 msgid "Settings loaded successfully."
 msgstr "Beállítások sikeresen elmentve."
 
-#: src/arch/win32/res.rc.po.c:5074 src/arch/amigaos/intl.c.po.c:114
+#: src/arch/win32/res.rc.po.c:5075 src/arch/amigaos/intl.c.po.c:114
 msgid "Attach disk image"
 msgstr "Lemez képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5075 src/arch/amigaos/intl.c.po.c:3827
+#: src/arch/win32/res.rc.po.c:5076 src/arch/amigaos/intl.c.po.c:3827
 msgid "Attach tape image"
 msgstr "Szalag képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5076 src/arch/amigaos/intl.c.po.c:3836
+#: src/arch/win32/res.rc.po.c:5077 src/arch/amigaos/intl.c.po.c:3836
 msgid "Autostart disk/tape image"
 msgstr "Lemez/szalag képmás automatikus indítása"
 
-#: src/arch/win32/res.rc.po.c:5077 src/arch/amigaos/intl.c.po.c:2025
+#: src/arch/win32/res.rc.po.c:5078 src/arch/amigaos/intl.c.po.c:2025
 msgid "Invalid cartridge"
 msgstr "Érvénytelen cartridge"
 
-#: src/arch/win32/res.rc.po.c:5078 src/arch/amigaos/intl.c.po.c:2034
+#: src/arch/win32/res.rc.po.c:5079 src/arch/amigaos/intl.c.po.c:2034
 msgid "Bad cartridge config in UI!"
 msgstr "Rossz cartridge konfiguráció!"
 
-#: src/arch/win32/res.rc.po.c:5080
+#: src/arch/win32/res.rc.po.c:5081
 msgid "Logging console output image"
 msgstr "Konzol kimenet naplózása"
 
-#: src/arch/win32/res.rc.po.c:5081
+#: src/arch/win32/res.rc.po.c:5082
 msgid "VICE console logging files (*.dbg)"
 msgstr "VICE konzol napló fájlok (*.dbg)"
 
-#: src/arch/win32/res.rc.po.c:5082
+#: src/arch/win32/res.rc.po.c:5083
 #, c-format
 msgid "Cannot write log file `%s'."
 msgstr "Nem sikerült a(z) %s naplófájlba írni"
 
-#: src/arch/win32/res.rc.po.c:5083 src/arch/amigaos/intl.c.po.c:4034
+#: src/arch/win32/res.rc.po.c:5084 src/arch/amigaos/intl.c.po.c:4034
 msgid "Load flip list file"
 msgstr "Lemezlista betöltése"
 
-#: src/arch/win32/res.rc.po.c:5084 src/arch/amigaos/intl.c.po.c:4043
+#: src/arch/win32/res.rc.po.c:5085 src/arch/amigaos/intl.c.po.c:4043
 msgid "Cannot read flip list file"
 msgstr "Nem lehet olvasni a lemezlista fájlt"
 
-#: src/arch/win32/res.rc.po.c:5085 src/arch/amigaos/intl.c.po.c:4052
+#: src/arch/win32/res.rc.po.c:5086 src/arch/amigaos/intl.c.po.c:4052
 msgid "Save flip list file"
 msgstr "Lemezlista mentése fájlba"
 
-#: src/arch/win32/res.rc.po.c:5086 src/arch/amigaos/intl.c.po.c:4061
+#: src/arch/win32/res.rc.po.c:5087 src/arch/amigaos/intl.c.po.c:4061
 msgid "Cannot write flip list file"
 msgstr "Nem sikerült a lemezlistát fájlba írni"
 
-#: src/arch/win32/res.rc.po.c:5087
+#: src/arch/win32/res.rc.po.c:5088
 msgid "Select keymap file"
 msgstr "Válasszon billentyûzetleképezés fájlt"
 
-#: src/arch/win32/res.rc.po.c:5088
+#: src/arch/win32/res.rc.po.c:5089
 msgid "Save keymap file"
 msgstr "Billentyûzetkiosztás fájlba írása"
 
-#: src/arch/win32/res.rc.po.c:5089
+#: src/arch/win32/res.rc.po.c:5090
 msgid "Cannot write keymap file"
 msgstr "Nem sikerült a billentyûzetkiosztást fájlba írni"
 
-#: src/arch/win32/res.rc.po.c:5090
+#: src/arch/win32/res.rc.po.c:5091
 msgid "Mapping"
 msgstr "Leképezés"
 
-#: src/arch/win32/res.rc.po.c:5092
+#: src/arch/win32/res.rc.po.c:5093
 msgid "&Attach"
 msgstr "&Csatolás"
 
-#: src/arch/win32/res.rc.po.c:5093
+#: src/arch/win32/res.rc.po.c:5094
 msgid "Please enter a filename."
 msgstr "Írjon be egy fájlnevet."
 
-#: src/arch/win32/res.rc.po.c:5094 src/arch/amigaos/intl.c.po.c:2621
+#: src/arch/win32/res.rc.po.c:5095 src/arch/amigaos/intl.c.po.c:2621
 msgid "Overwrite existing image?"
 msgstr "Felülírjam a meglévõ képmást?"
 
-#: src/arch/win32/res.rc.po.c:5095 src/arch/amigaos/intl.c.po.c:2052
+#: src/arch/win32/res.rc.po.c:5096 src/arch/amigaos/intl.c.po.c:2052
 msgid "Cannot create image"
 msgstr "Nem sikerült a képmást létrehozni"
 
-#: src/arch/win32/res.rc.po.c:5096 src/arch/amigaos/intl.c.po.c:1671
+#: src/arch/win32/res.rc.po.c:5097 src/arch/amigaos/intl.c.po.c:1671
 msgid "Command line options"
 msgstr "Parancssori opciók"
 
-#: src/arch/win32/res.rc.po.c:5097 src/arch/amigaos/intl.c.po.c:1926
+#: src/arch/win32/res.rc.po.c:5098 src/arch/amigaos/intl.c.po.c:1926
 msgid "Which command line options are available?"
 msgstr "Milyen parancssori opciók lehetségesek?"
 
-#: src/arch/win32/res.rc.po.c:5098
+#: src/arch/win32/res.rc.po.c:5099
 msgid "No driver selected or selected driver not supported"
 msgstr "Nincs meghajtó kiválasztva, vagy a kiválasztott nem támogatott"
 
-#: src/arch/win32/res.rc.po.c:5099
+#: src/arch/win32/res.rc.po.c:5100
 #, c-format
 msgid "Cannot write screenshot file `%s'."
 msgstr "Nem sikerült a fénykép írása %s fájlba."
 
-#: src/arch/win32/res.rc.po.c:5100
+#: src/arch/win32/res.rc.po.c:5101
 msgid "Autostart disk image"
 msgstr "Lemezképmás automatikus indítása"
 
-#: src/arch/win32/res.rc.po.c:5101
+#: src/arch/win32/res.rc.po.c:5102
 msgid "Select file system directory"
 msgstr "Válasszon könyvtárat"
 
-#: src/arch/win32/res.rc.po.c:5102
+#: src/arch/win32/res.rc.po.c:5103
 msgid "Printer Userport"
 msgstr "Nyomtató userport"
 
-#: src/arch/win32/res.rc.po.c:5103
+#: src/arch/win32/res.rc.po.c:5104
 msgid "Printer 4"
 msgstr "#4-es nyomtató"
 
-#: src/arch/win32/res.rc.po.c:5104
+#: src/arch/win32/res.rc.po.c:5105
 msgid "Printer 5"
 msgstr "#5-ös nyomtató"
 
-#: src/arch/win32/res.rc.po.c:5105 src/arch/amigaos/intl.c.po.c:123
+#: src/arch/win32/res.rc.po.c:5106 src/arch/amigaos/intl.c.po.c:123
 msgid "Drive 8"
 msgstr "#8-as lemezegység"
 
-#: src/arch/win32/res.rc.po.c:5106 src/arch/amigaos/intl.c.po.c:132
+#: src/arch/win32/res.rc.po.c:5107 src/arch/amigaos/intl.c.po.c:132
 msgid "Drive 9"
 msgstr "#9-es lemezegység"
 
-#: src/arch/win32/res.rc.po.c:5107 src/arch/amigaos/intl.c.po.c:141
+#: src/arch/win32/res.rc.po.c:5108 src/arch/amigaos/intl.c.po.c:141
 msgid "Drive 10"
 msgstr "#10-es lemezegység"
 
-#: src/arch/win32/res.rc.po.c:5108 src/arch/amigaos/intl.c.po.c:150
+#: src/arch/win32/res.rc.po.c:5109 src/arch/amigaos/intl.c.po.c:150
 msgid "Drive 11"
 msgstr "#11-es lemezegység"
 
-#: src/arch/win32/res.rc.po.c:5109
+#: src/arch/win32/res.rc.po.c:5110
 msgid "Peripheral Settings"
 msgstr "Perifériák beállításai"
 
-#: src/arch/win32/res.rc.po.c:5110
+#: src/arch/win32/res.rc.po.c:5111
 msgid "Can't write snapshot file."
 msgstr "Nem sikerült a pillanatkép fájl írása."
 
-#: src/arch/win32/res.rc.po.c:5111 src/arch/amigaos/intl.c.po.c:4169
+#: src/arch/win32/res.rc.po.c:5112 src/arch/amigaos/intl.c.po.c:4169
 msgid "Cannot read snapshot image"
 msgstr "Nem sikerült betölteni a pillanatkép fájlt"
 
-#: src/arch/win32/res.rc.po.c:5112
+#: src/arch/win32/res.rc.po.c:5113
 #, c-format
 msgid "Load %s ROM image"
 msgstr "%s ROM képmás betöltése"
 
-#: src/arch/win32/res.rc.po.c:5113
+#: src/arch/win32/res.rc.po.c:5114
 msgid "Select romset archive"
 msgstr "Válasszon ROM készlet archívumot"
 
-#: src/arch/win32/res.rc.po.c:5114
+#: src/arch/win32/res.rc.po.c:5115
 msgid "Cannot load romset archive!"
 msgstr "Nem sikerült a ROM készlet archívum betöltése!"
 
-#: src/arch/win32/res.rc.po.c:5115
+#: src/arch/win32/res.rc.po.c:5116
 msgid "Cannot save romset archive!"
 msgstr "Nem sikerült menteni a ROM készlet archívumot!"
 
-#: src/arch/win32/res.rc.po.c:5116
+#: src/arch/win32/res.rc.po.c:5117
 msgid "Cannot load romset file!"
 msgstr "Nem sikerült betölteni a ROM készlet fájlt."
 
-#: src/arch/win32/res.rc.po.c:5117
+#: src/arch/win32/res.rc.po.c:5118
 msgid "Cannot save romset file!"
 msgstr "Nem sikerült menteni a ROM készlet fájlt."
 
-#: src/arch/win32/res.rc.po.c:5118
+#: src/arch/win32/res.rc.po.c:5119
 msgid "Select romset file"
 msgstr "ROM készlet fájl kiválasztása"
 
-#: src/arch/win32/res.rc.po.c:5119
+#: src/arch/win32/res.rc.po.c:5120
 msgid "Romset"
 msgstr "ROM készlet"
 
-#: src/arch/win32/res.rc.po.c:5123 src/arch/amigaos/intl.c.po.c:4124
+#: src/arch/win32/res.rc.po.c:5124 src/arch/amigaos/intl.c.po.c:4124
 msgid "Save snapshot image"
 msgstr "Pillanatkép fájl mentése"
 
-#: src/arch/win32/res.rc.po.c:5124 src/arch/amigaos/intl.c.po.c:4160
+#: src/arch/win32/res.rc.po.c:5125 src/arch/amigaos/intl.c.po.c:4160
 #, c-format
 msgid "Cannot write snapshot file `%s'."
 msgstr "Nem sikerült a pillanatkép írása %s fájlba."
 
-#: src/arch/win32/res.rc.po.c:5125 src/arch/amigaos/intl.c.po.c:4133
+#: src/arch/win32/res.rc.po.c:5126 src/arch/amigaos/intl.c.po.c:4133
 msgid "Load snapshot image"
 msgstr "Pillanatkép betöltése"
 
-#: src/arch/win32/res.rc.po.c:5126
+#: src/arch/win32/res.rc.po.c:5127
 msgid "Could not load palette file."
 msgstr "Nem sikerült a palettát betölteni."
 
-#: src/arch/win32/res.rc.po.c:5127
+#: src/arch/win32/res.rc.po.c:5128
 msgid "Load VICE palette file"
 msgstr "VICE paletta fájl betöltése"
 
-#: src/arch/win32/res.rc.po.c:5128 src/arch/win32/resc64.rc.po.c:183
+#: src/arch/win32/res.rc.po.c:5129 src/arch/win32/resc64.rc.po.c:183
 #: src/arch/win32/rescbm2.rc.po.c:150 src/arch/win32/respet.rc.po.c:149
 #: src/arch/win32/resplus4.rc.po.c:161 src/arch/win32/resvic20.rc.po.c:159
 #: src/arch/amigaos/intl.c.po.c:1050
 msgid "Fullscreen"
 msgstr "Teljes képernyõ"
 
-#: src/arch/win32/res.rc.po.c:5129
+#: src/arch/win32/res.rc.po.c:5130
 msgid "Colors"
 msgstr "Színek"
 
-#: src/arch/win32/res.rc.po.c:5130
+#: src/arch/win32/res.rc.po.c:5131
 #, fuzzy
 msgid "New PAL emulation"
 msgstr "PAL emuláció"
 
-#: src/arch/win32/res.rc.po.c:5131 src/arch/amigaos/intl.c.po.c:4340
+#: src/arch/win32/res.rc.po.c:5132 src/arch/amigaos/intl.c.po.c:4340
 msgid "Video settings"
 msgstr "Videó beállításai"
 
-#: src/arch/win32/res.rc.po.c:5132
+#: src/arch/win32/res.rc.po.c:5133
 msgid "File system"
 msgstr "Fájlrendszer"
 
-#: src/arch/win32/res.rc.po.c:5134
+#: src/arch/win32/res.rc.po.c:5135
 msgid "Real IEC device"
 msgstr "Valódi IEC eszköz"
 
-#: src/arch/win32/res.rc.po.c:5136
+#: src/arch/win32/res.rc.po.c:5137
 #, c-format
 msgid "RS232 device %i"
 msgstr "%i. RS232 eszköz"
 
-#: src/arch/win32/res.rc.po.c:5138 src/arch/amigaos/intl.c.po.c:2369
+#: src/arch/win32/res.rc.po.c:5139 src/arch/amigaos/intl.c.po.c:2369
 msgid "Attach raw 8KB cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5139 src/arch/amigaos/intl.c.po.c:2378
+#: src/arch/win32/res.rc.po.c:5140 src/arch/amigaos/intl.c.po.c:2378
 msgid "Attach raw 16KB cartridge image"
 msgstr "Nyers 16KB-os cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5140 src/arch/amigaos/intl.c.po.c:2387
+#: src/arch/win32/res.rc.po.c:5141 src/arch/amigaos/intl.c.po.c:2387
 msgid "Attach Action Replay cartridge image"
 msgstr "Action Replay cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5141
+#: src/arch/win32/res.rc.po.c:5142
 msgid "Attach Action Replay III cartridge image"
 msgstr "Action Replay III cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5142 src/arch/amigaos/intl.c.po.c:2405
+#: src/arch/win32/res.rc.po.c:5143 src/arch/amigaos/intl.c.po.c:2405
 #, fuzzy
 msgid "Attach Action Replay 4 cartridge image"
 msgstr "Action Replay cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5143 src/arch/amigaos/intl.c.po.c:2414
+#: src/arch/win32/res.rc.po.c:5144 src/arch/amigaos/intl.c.po.c:2414
 #, fuzzy
 msgid "Attach StarDOS cartridge image"
 msgstr "Cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5144 src/arch/amigaos/intl.c.po.c:2423
+#: src/arch/win32/res.rc.po.c:5145 src/arch/amigaos/intl.c.po.c:2423
 msgid "Attach Atomic Power cartridge image"
 msgstr "Atomic Power cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5145 src/arch/amigaos/intl.c.po.c:2432
+#: src/arch/win32/res.rc.po.c:5146 src/arch/amigaos/intl.c.po.c:2432
 msgid "Attach Epyx fastload cartridge image"
 msgstr "Epyx gyorstöltõ cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5146 src/arch/amigaos/intl.c.po.c:2441
+#: src/arch/win32/res.rc.po.c:5147 src/arch/amigaos/intl.c.po.c:2441
 msgid "Attach IEEE interface cartridge image"
 msgstr "IEEE interfész cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5147 src/arch/amigaos/intl.c.po.c:2450
+#: src/arch/win32/res.rc.po.c:5148 src/arch/amigaos/intl.c.po.c:2450
 msgid "Attach Retro Replay cartridge image"
 msgstr "Retro Replay cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5148 src/arch/amigaos/intl.c.po.c:2459
+#: src/arch/win32/res.rc.po.c:5149 src/arch/amigaos/intl.c.po.c:2459
 msgid "Attach IDE64 interface cartridge image"
 msgstr "IDE64 interfész képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5149 src/arch/amigaos/intl.c.po.c:2468
+#: src/arch/win32/res.rc.po.c:5150 src/arch/amigaos/intl.c.po.c:2468
 msgid "Attach Super Snapshot 4 cartridge image"
 msgstr "Super Snapshot 4 cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5150 src/arch/amigaos/intl.c.po.c:2477
+#: src/arch/win32/res.rc.po.c:5151 src/arch/amigaos/intl.c.po.c:2477
 msgid "Attach Super Snapshot 5 cartridge image"
 msgstr "Super Snapshot 5 cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5151 src/arch/amigaos/intl.c.po.c:2486
+#: src/arch/win32/res.rc.po.c:5152 src/arch/amigaos/intl.c.po.c:2486
 msgid "Attach Structured Basic cartridge image"
 msgstr "Structured Basic cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5152
+#: src/arch/win32/res.rc.po.c:5153
 msgid "Model"
 msgstr "Modell"
 
-#: src/arch/win32/res.rc.po.c:5153 src/arch/amigaos/intl.c.po.c:3044
+#: src/arch/win32/res.rc.po.c:5154 src/arch/amigaos/intl.c.po.c:3044
 msgid "Drive Settings"
 msgstr "Lemezegység beállításai"
 
-#: src/arch/win32/res.rc.po.c:5154 src/arch/amigaos/intl.c.po.c:2333
+#: src/arch/win32/res.rc.po.c:5155 src/arch/amigaos/intl.c.po.c:2333
 msgid "Select start snapshot for event history"
 msgstr "Válasszon kezdeti pillanatképet az esemény rögzítéshez"
 
-#: src/arch/win32/res.rc.po.c:5155 src/arch/amigaos/intl.c.po.c:2342
+#: src/arch/win32/res.rc.po.c:5156 src/arch/amigaos/intl.c.po.c:2342
 msgid "Select end snapshot for event history"
 msgstr "Válasszon végsõ pillanatképet az esemény rögzítéshez"
 
-#: src/arch/win32/res.rc.po.c:5157
+#: src/arch/win32/res.rc.po.c:5158
 #, c-format
 msgid "Version %s *UNSTABLE*"
 msgstr "%s verzió *INSTABIL*"
 
-#: src/arch/win32/res.rc.po.c:5159
+#: src/arch/win32/res.rc.po.c:5160
 #, c-format
 msgid "Version %s"
 msgstr "%s verzió"
 
-#: src/arch/win32/res.rc.po.c:5161 src/arch/amigaos/intl.c.po.c:1899
+#: src/arch/win32/res.rc.po.c:5162 src/arch/amigaos/intl.c.po.c:1899
 msgid "VICE contributors"
 msgstr "VICE - közremûködõk"
 
-#: src/arch/win32/res.rc.po.c:5162 src/arch/amigaos/intl.c.po.c:1908
+#: src/arch/win32/res.rc.po.c:5163 src/arch/amigaos/intl.c.po.c:1908
 msgid "Who made what?"
 msgstr "Ki mit csinált?"
 
-#: src/arch/win32/res.rc.po.c:5165 src/arch/amigaos/intl.c.po.c:1917
+#: src/arch/win32/res.rc.po.c:5166 src/arch/amigaos/intl.c.po.c:1917
 msgid "VICE is distributed WITHOUT ANY WARRANTY!"
 msgstr "A VICE-t garancia nélkül terjesztjük!"
 
-#: src/arch/win32/res.rc.po.c:5166
+#: src/arch/win32/res.rc.po.c:5167
 msgid "Press key for NorthWest"
 msgstr "Nyomjon egy billentyût északnyugathoz"
 
-#: src/arch/win32/res.rc.po.c:5167
+#: src/arch/win32/res.rc.po.c:5168
 msgid "Press key for North"
 msgstr "Nyomjon egy billentyût északhoz"
 
-#: src/arch/win32/res.rc.po.c:5168
+#: src/arch/win32/res.rc.po.c:5169
 msgid "Press key for NorthEast"
 msgstr "Nyomjon egy billentyût északkelethez"
 
-#: src/arch/win32/res.rc.po.c:5169
+#: src/arch/win32/res.rc.po.c:5170
 msgid "Press key for East"
 msgstr "Nyomjon egy billentyût kelethez"
 
-#: src/arch/win32/res.rc.po.c:5170
+#: src/arch/win32/res.rc.po.c:5171
 msgid "Press key for SouthEast"
 msgstr "Nyomjon egy billentyût Délkelethez"
 
-#: src/arch/win32/res.rc.po.c:5171
+#: src/arch/win32/res.rc.po.c:5172
 msgid "Press key for South"
 msgstr "Nyomjon egy billentyût délhez"
 
-#: src/arch/win32/res.rc.po.c:5172
+#: src/arch/win32/res.rc.po.c:5173
 msgid "Press key for SouthWest"
 msgstr "Nyomjon egy billentyût délnyugathoz"
 
-#: src/arch/win32/res.rc.po.c:5173
+#: src/arch/win32/res.rc.po.c:5174
 msgid "Press key for West"
 msgstr "Nyomjon egy billentyût nyugathoz"
 
-#: src/arch/win32/res.rc.po.c:5174
+#: src/arch/win32/res.rc.po.c:5175
 msgid "Press key for Fire"
 msgstr "Nyomjon egy billentyût a tûzgombhoz"
 
-#: src/arch/win32/res.rc.po.c:5175
+#: src/arch/win32/res.rc.po.c:5176
 msgid "Numpad + RCtrl"
 msgstr "Numerikus + Jobb Ctrl"
 
-#: src/arch/win32/res.rc.po.c:5176
+#: src/arch/win32/res.rc.po.c:5177
 msgid "Keyset A"
 msgstr "'A' gombkészlet"
 
-#: src/arch/win32/res.rc.po.c:5177
+#: src/arch/win32/res.rc.po.c:5178
 msgid "Keyset B"
 msgstr "'B' gombkészlet"
 
-#: src/arch/win32/res.rc.po.c:5178
+#: src/arch/win32/res.rc.po.c:5179
 msgid "All buttons used as fire"
 msgstr "Összes gomb tûzgombként"
 
-#: src/arch/win32/res.rc.po.c:5179
+#: src/arch/win32/res.rc.po.c:5180
 msgid "numeric (see above)"
 msgstr "Numerikus (lásd fent)"
 
-#: src/arch/win32/res.rc.po.c:5180
+#: src/arch/win32/res.rc.po.c:5181
 msgid "No button - Autofire disabled"
 msgstr "Nincs gomb - automatikus tûz letiltva"
 
-#: src/arch/win32/res.rc.po.c:5181
+#: src/arch/win32/res.rc.po.c:5182
 msgid "All files (*.*)"
 msgstr "Összes fájl (*.*)"
 
-#: src/arch/win32/res.rc.po.c:5182
+#: src/arch/win32/res.rc.po.c:5183
 msgid "VICE palette files (*.vpl)"
 msgstr "VICE paletta fájlok (*.vpl)"
 
-#: src/arch/win32/res.rc.po.c:5183
+#: src/arch/win32/res.rc.po.c:5184
 msgid "VICE snapshot files (*.vsf)"
 msgstr "VICE pillanatkép fájlok (*.vsf)"
 
-#: src/arch/win32/res.rc.po.c:5184
+#: src/arch/win32/res.rc.po.c:5185
 msgid "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
 msgstr "Lemez képmás fájlok (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
 
-#: src/arch/win32/res.rc.po.c:5185
+#: src/arch/win32/res.rc.po.c:5186
 #, fuzzy
 msgid "Tape image files (*.t64;*.tap)"
 msgstr "Szalag képmás fájlok (*.t64;*.p00;*.tap;*.prg)"
 
-#: src/arch/win32/res.rc.po.c:5186
+#: src/arch/win32/res.rc.po.c:5187
 msgid "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
 msgstr ""
 "Tömörített fájlok (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
 
-#: src/arch/win32/res.rc.po.c:5187
+#: src/arch/win32/res.rc.po.c:5188
 msgid "CRT cartridge image files (*.crt)"
 msgstr "CRT cartridge képmás fjlok (*.crt)"
 
-#: src/arch/win32/res.rc.po.c:5188
+#: src/arch/win32/res.rc.po.c:5189
 msgid "Raw cartridge image files (*.bin)"
 msgstr "Nyers cartridge képmás fájlok (*.bin)"
 
-#: src/arch/win32/res.rc.po.c:5189
+#: src/arch/win32/res.rc.po.c:5190
 msgid "VICE flip list files (*.vfl)"
 msgstr "VICE lemezlista fájlok (*.vfl)"
 
-#: src/arch/win32/res.rc.po.c:5190
+#: src/arch/win32/res.rc.po.c:5191
 msgid "VICE romset files (*.vrs)"
 msgstr "VICE ROM készlet fájlok (*.vrs)"
 
-#: src/arch/win32/res.rc.po.c:5191
+#: src/arch/win32/res.rc.po.c:5192
 msgid "VICE romset archives (*.vra)"
 msgstr "VICE ROM készlet archívumok (*.vra)"
 
-#: src/arch/win32/res.rc.po.c:5192
+#: src/arch/win32/res.rc.po.c:5193
 msgid "VICE keymap files (*.vkm)"
 msgstr "VICE billentyû leképezés fájlok (*.vkm)"
 
-#: src/arch/win32/res.rc.po.c:5193
+#: src/arch/win32/res.rc.po.c:5194
 msgid "Commodore emulator files (*.prg;*.p00)"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5194 src/arch/amigaos/intl.c.po.c:3710
+#: src/arch/win32/res.rc.po.c:5195 src/arch/amigaos/intl.c.po.c:3710
 msgid "Flexible"
 msgstr "Rugalmas"
 
-#: src/arch/win32/res.rc.po.c:5195 src/arch/amigaos/intl.c.po.c:3719
+#: src/arch/win32/res.rc.po.c:5196 src/arch/amigaos/intl.c.po.c:3719
 msgid "Adjusting"
 msgstr "Igazodó"
 
-#: src/arch/win32/res.rc.po.c:5196 src/arch/amigaos/intl.c.po.c:3728
+#: src/arch/win32/res.rc.po.c:5197 src/arch/amigaos/intl.c.po.c:3728
 msgid "Exact"
 msgstr "Pontos"
 
-#: src/arch/win32/res.rc.po.c:5197
+#: src/arch/win32/res.rc.po.c:5198
 msgid "Sound driver: DirectX"
 msgstr "Hang meghajtó: DirectX"
 
-#: src/arch/win32/res.rc.po.c:5198
+#: src/arch/win32/res.rc.po.c:5199
 msgid "Sound driver: WMM"
 msgstr "Hang meghajtó: WMM"
 
-#: src/arch/win32/res.rc.po.c:5199
+#: src/arch/win32/res.rc.po.c:5200
 msgid ""
 "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*."
 "mpg)"
@@ -7486,36 +7492,36 @@ msgstr ""
 "Média fájlok (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*."
 "mpg)"
 
-#: src/arch/win32/res.rc.po.c:5200
+#: src/arch/win32/res.rc.po.c:5201
 msgid " kB"
 msgstr " kB"
 
-#: src/arch/win32/res.rc.po.c:5201
+#: src/arch/win32/res.rc.po.c:5202
 msgid "Configure Keyset A"
 msgstr "'A' gombkészlet beállítása"
 
-#: src/arch/win32/res.rc.po.c:5202
+#: src/arch/win32/res.rc.po.c:5203
 msgid "Configure Keyset B"
 msgstr "'B' gombkészlet beállítása"
 
-#: src/arch/win32/res.rc.po.c:5203
+#: src/arch/win32/res.rc.po.c:5204
 msgid "Save media image"
 msgstr "Fénykép készítése"
 
-#: src/arch/win32/res.rc.po.c:5204 src/arch/amigaos/intl.c.po.c:2549
+#: src/arch/win32/res.rc.po.c:5205 src/arch/amigaos/intl.c.po.c:2549
 #, c-format
 msgid "%s at %d%% speed, %d fps%s"
 msgstr "%s %d%% sebességen, %d fps%s"
 
-#: src/arch/win32/res.rc.po.c:5205
+#: src/arch/win32/res.rc.po.c:5206
 msgid "Tape:"
 msgstr "Szalag:"
 
-#: src/arch/win32/res.rc.po.c:5206
+#: src/arch/win32/res.rc.po.c:5207
 msgid "Joystick:"
 msgstr "Botkormány:"
 
-#: src/arch/win32/res.rc.po.c:5207
+#: src/arch/win32/res.rc.po.c:5208
 #, c-format
 msgid ""
 "Recording\n"
@@ -7524,7 +7530,7 @@ msgstr ""
 "Felvétel\n"
 "%02d:%02d"
 
-#: src/arch/win32/res.rc.po.c:5208
+#: src/arch/win32/res.rc.po.c:5209
 #, c-format
 msgid ""
 "Playback\n"
@@ -7533,57 +7539,57 @@ msgstr ""
 "Visszajátszás\n"
 "%02d:%02d (%02d:%02d)"
 
-#: src/arch/win32/res.rc.po.c:5209
+#: src/arch/win32/res.rc.po.c:5210
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: src/arch/win32/res.rc.po.c:5211
+#: src/arch/win32/res.rc.po.c:5212
 msgid "Set input device for joystick #1"
 msgstr "Port 1-es botkormány eszköz megadása"
 
-#: src/arch/win32/res.rc.po.c:5212
+#: src/arch/win32/res.rc.po.c:5213
 msgid "Set input device for joystick #2"
 msgstr "Port 2-es botkormány eszköz megadása"
 
-#: src/arch/win32/res.rc.po.c:5217
+#: src/arch/win32/res.rc.po.c:5218
 msgid "Use all CPU on SMP systems"
 msgstr "SMP rendszereken az összes CPU használata"
 
-#: src/arch/win32/res.rc.po.c:5218
+#: src/arch/win32/res.rc.po.c:5219
 msgid "Use only first CPU on SMP systems"
 msgstr "SMP rendszereken csak az elsõ CPU használata"
 
-#: src/arch/win32/res.rc.po.c:5219
+#: src/arch/win32/res.rc.po.c:5220
 msgid "Start VICE in fullscreen mode"
 msgstr "A VICE indítása teljes képernyõs módban"
 
-#: src/arch/win32/res.rc.po.c:5221
+#: src/arch/win32/res.rc.po.c:5222
 #, c-format
 msgid "An unexpected error occured. Received signal %d (%s)."
 msgstr "Váratlan hiba történt. %d szignál érkezett (%s)."
 
-#: src/arch/win32/res.rc.po.c:5223
+#: src/arch/win32/res.rc.po.c:5224
 #, c-format
 msgid "An unexpected error occured. Received signal %d."
 msgstr "Váratlan hiba történt. %d szignál érkezett."
 
-#: src/arch/win32/res.rc.po.c:5228 src/arch/amigaos/intl.c.po.c:2207
+#: src/arch/win32/res.rc.po.c:5229 src/arch/amigaos/intl.c.po.c:2207
 msgid "Connected server"
 msgstr "Kapcsolódva kiszolgálóhoz"
 
-#: src/arch/win32/res.rc.po.c:5230 src/arch/amigaos/intl.c.po.c:2079
+#: src/arch/win32/res.rc.po.c:5231 src/arch/amigaos/intl.c.po.c:2079
 msgid "Invalid port number"
 msgstr "Érvénytelen port szám"
 
-#: src/arch/win32/res.rc.po.c:5231 src/arch/amigaos/intl.c.po.c:2061
+#: src/arch/win32/res.rc.po.c:5232 src/arch/amigaos/intl.c.po.c:2061
 msgid "An error occured starting the server."
 msgstr "Hiba történt a játék kiszolgáló indításakor."
 
-#: src/arch/win32/res.rc.po.c:5232 src/arch/amigaos/intl.c.po.c:2070
+#: src/arch/win32/res.rc.po.c:5233 src/arch/amigaos/intl.c.po.c:2070
 msgid "An error occured connecting the client."
 msgstr "Hiba történt a kapcsolódáskor."
 
-#: src/arch/win32/res.rc.po.c:5243 src/arch/win32/resdrivec128.rc.po.c:48
+#: src/arch/win32/res.rc.po.c:5239 src/arch/win32/resdrivec128.rc.po.c:48
 #: src/arch/win32/resdrivec64.rc.po.c:46
 #: src/arch/win32/resdriveplus4.rc.po.c:34
 #: src/arch/win32/resdrivevic20.rc.po.c:46 src/arch/amigaos/intl.c.po.c:2702
@@ -9991,6 +9997,26 @@ msgstr "Blokk &3"
 msgid "Block &5"
 msgstr "Blokk &5"
 
+#: src/arch/win32/resvic20.rc.po.c:2554 src/arch/amigaos/intl.c.po.c:2504
+msgid "Attach 4/8/16KB cartridge image at $2000"
+msgstr "4/8/16KB képmás csatolása $2000 címre"
+
+#: src/arch/win32/resvic20.rc.po.c:2555 src/arch/amigaos/intl.c.po.c:2513
+msgid "Attach 4/8/16KB cartridge image at $4000"
+msgstr "4/8/16KB képmás csatolása $4000 címre"
+
+#: src/arch/win32/resvic20.rc.po.c:2556 src/arch/amigaos/intl.c.po.c:2522
+msgid "Attach 4/8/16KB cartridge image at $6000"
+msgstr "4/8/16KB képmás csatolása $6000 címre"
+
+#: src/arch/win32/resvic20.rc.po.c:2557 src/arch/amigaos/intl.c.po.c:2531
+msgid "Attach 4/8KB cartridge image at $A000"
+msgstr "4/8KB képmás csatolása $A000 címre"
+
+#: src/arch/win32/resvic20.rc.po.c:2558 src/arch/amigaos/intl.c.po.c:2540
+msgid "Attach 4KB cartridge image at $B000"
+msgstr "4KB képmás csatolása $B000 címre"
+
 #: src/arch/win32/resvicii.rc.po.c:34 src/arch/amigaos/intl.c.po.c:3818
 msgid "VIC-II Settings"
 msgstr "VIC-II beállításai"
@@ -10741,26 +10767,6 @@ msgstr "Igen|Nem"
 #, fuzzy
 msgid "Attach Action Replay 3 cartridge image"
 msgstr "Action Replay cartridge képmás csatolása"
-
-#: src/arch/amigaos/intl.c.po.c:2504
-msgid "Attach 4/8/16KB cartridge image at $2000"
-msgstr "4/8/16KB képmás csatolása $2000 címre"
-
-#: src/arch/amigaos/intl.c.po.c:2513
-msgid "Attach 4/8/16KB cartridge image at $4000"
-msgstr "4/8/16KB képmás csatolása $4000 címre"
-
-#: src/arch/amigaos/intl.c.po.c:2522
-msgid "Attach 4/8/16KB cartridge image at $6000"
-msgstr "4/8/16KB képmás csatolása $6000 címre"
-
-#: src/arch/amigaos/intl.c.po.c:2531
-msgid "Attach 4/8KB cartridge image at $A000"
-msgstr "4/8KB képmás csatolása $A000 címre"
-
-#: src/arch/amigaos/intl.c.po.c:2540
-msgid "Attach 4KB cartridge image at $B000"
-msgstr "4KB képmás csatolása $B000 címre"
 
 #: src/arch/amigaos/intl.c.po.c:2558
 msgid "Attach"
