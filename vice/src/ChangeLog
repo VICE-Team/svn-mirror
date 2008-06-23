@@ -1,5 +1,8 @@
 2008-06-23  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* vdrive/vdrive_command: Changed flow in vdrive_command_memory()
+	as suggested by Marco.
+
 	* c64/tfe.c: disabled log_message() for tfe_hash_mask[], as it
 	accessed memory out of bounds.
 

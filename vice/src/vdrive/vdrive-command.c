@@ -443,11 +443,9 @@ static int vdrive_command_memory(vdrive_t *vdrive, BYTE *buffer,
         break;
 #endif
       default:
-        return CBMDOS_IPE_SYNTAX;
+        break;
     }
-#if 0
-    return CBMDOS_IPE_OK;
-#endif
+    return CBMDOS_IPE_SYNTAX;
 }
 
 static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
