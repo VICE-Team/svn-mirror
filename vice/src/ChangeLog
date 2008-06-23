@@ -1,5 +1,9 @@
 2008-06-23  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* Version 1.22.20
+
+2008-06-23  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
 	* arch/win32/make-msvc-bindist.bat,
 	arch/win32/watcom/make-watcom-bindist.bat: Added (had been
 	forgotten in the previous version)
