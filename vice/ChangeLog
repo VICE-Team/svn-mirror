@@ -1,5 +1,9 @@
 2008-06-23  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* vice-mint.spec: Added (was forgotten in the previous version)
+
+2008-06-23  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
 	* Version 1.22.20
 
 2008-06-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
