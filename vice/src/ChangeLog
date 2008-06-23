@@ -1,5 +1,11 @@
 2008-06-23  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* arch/win32/make-msvc-bindist.bat,
+	arch/win32/watcom/make-watcom-bindist.bat: Added (had been
+	forgotten in the previous version)
+
+2008-06-23  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
 	* c64/reu.c: Implement the special wrap-around of the 1700 when
 	it uses 64Kx1 DRAMs.  That is, the bank register behaves like
 	the other REUs (with the special wrap around), but the DRAM
