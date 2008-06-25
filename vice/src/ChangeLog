@@ -1,5 +1,8 @@
 2008-06-25  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* arch/win32/vice.dsw, arch/win32/_all.dsp: New (dummy) project
+	_all.
+
 	* c64/reu.c: Fixed problems with bank register not masking out
 	unused bits, and autoload option which has to copy the shadow
 	registers back. Fixed doxygen a little.
