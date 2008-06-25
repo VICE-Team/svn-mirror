@@ -1,4 +1,4 @@
-/*! \file reu.c\n
+/*! \file reu.c \n
  *  \author Andreas Boose, Spiro Trikaliotis, Jouko Valta, Richard Hable, Ettore Perazzoli\n
  *  \brief   REU emulation.
  *
@@ -60,10 +60,11 @@
 #include "util.h"
 
 
-/**
+#if 0
 #define REU_DEBUG 1 /*!< define this if you want to get debugging output for the REU. */
+#endif
 
-/*! the debug levels to use when REU_DEBUG is defined */
+/*! \brief the debug levels to use when REU_DEBUG is defined */
 enum {
     DEBUG_LEVEL_NONE = 0,              /*!< do not output debugging information */
     DEBUG_LEVEL_REGISTER,              /*!< output debugging information concerning the REU registers */
@@ -73,7 +74,7 @@ enum {
 } debug_level_e;
 
 #ifdef REU_DEBUG
-    /*! dynamically define the debugging level */
+    /*! \brief dynamically define the debugging level */
     static enum debug_level_e DEBUG_LEVEL = 0;
 
     /*! \brief output debugging information
@@ -108,7 +109,7 @@ enum {
  * 01   Exec    0       Load    Delayed 0       0          Mode
  */
 
-/*! Offsets of the different REU registers */
+/*! \brief Offsets of the different REU registers */
 enum {
     REU_REG_R_STATUS         = 0x00, /*!< the REU status register */
     REU_REG_RW_COMMAND       = 0x01, /*!< the REU command register */
@@ -125,7 +126,7 @@ enum {
     REU_REG_LAST_REG         = 0x1F  /*!< the last register of the REU */
 };
 
-/*! bit definitions for the REU status register at offset REU_REG_R_STATUS */
+/*! \brief bit definitions for the REU status register at offset REU_REG_R_STATUS */
 enum {
     REU_REG_R_STATUS_CHIPVERSION_MASK  = 0x0F, /*!< bit mask the extract the chip version no. */
     REU_REG_R_STATUS_256K_CHIPS        = 0x10, /*!< set if 256K DRAMs (256Kx1) are used (1764, 1750), if unset, 64K DRAMs (64Kx1) are used (1700) */
@@ -134,7 +135,7 @@ enum {
     REU_REG_R_STATUS_INTERRUPT_PENDING = 0x80  /*!< set if an interrupt is pending. Cleared on read. */
 };
 
-/*! bit definitions for the REU command register at offset REU_REG_RW_COMMAND */
+/*! \brief bit definitions for the REU command register at offset REU_REG_RW_COMMAND */
 enum {
     REU_REG_RW_COMMAND_TRANSFER_TYPE_MASK    = 0x03,    /*!< bit mask to extract the transfer type */
     REU_REG_RW_COMMAND_TRANSFER_TYPE_TO_REU     = 0x00, /*!< transfer type is C64 -> REU */
@@ -147,12 +148,12 @@ enum {
     REU_REG_RW_COMMAND_EXECUTE               = 0x80     /*!< is set, the specified operation should start. */
 };
 
-/*! bit definitions for the REU bank register at offset REU_REG_RW_BANK */
+/*! \brief bit definitions for the REU bank register at offset REU_REG_RW_BANK */
 enum {
     REU_REG_RW_BANK_UNUSED = 0xF8  /*!< these bits are unused and always read as 1 */
 };
 
-/*! bit definitions for the REU interrupt register at offset REU_REG_RW_INTERRUPT */
+/*! \brief bit definitions for the REU interrupt register at offset REU_REG_RW_INTERRUPT */
 enum {
     REU_REG_RW_INTERRUPT_UNUSED_MASK          = 0x1F, /*!< these bits are unused and always read as 1 */
     REU_REG_RW_INTERRUPT_VERIFY_ENABLED       = 0x20, /*!< if set (and REU_REG_RW_INTERRUPT_INTERRUPTS_ENABLED is set, too), generate an interrupt if verify fails */
@@ -160,7 +161,7 @@ enum {
     REU_REG_RW_INTERRUPT_INTERRUPTS_ENABLED   = 0x80  /*!< is set, the REU can generate an interrupt. If unset, no interrupts can be generated */
 };
 
-/*! bit definitions for the REU address control register at offset REU_REG_RW_ADDR_CONTROL */
+/*! \brief bit definitions for the REU address control register at offset REU_REG_RW_ADDR_CONTROL */
 enum {
     REU_REG_RW_ADDR_CONTROL_UNUSED_MASK       = 0x3f, /*!< these bits are unused and always read as 1 */
     REU_REG_RW_ADDR_CONTROL_FIX_REC           = 0x40, /*!< if set, the REU address is fixed, it does not increment */
@@ -169,7 +170,7 @@ enum {
 
 /* REU registers */
 
-/*! define a complete set of REC registers */
+/*! \brief define a complete set of REC registers */
 struct rec_s {
     BYTE status;              /*!< status register at offset REU_REG_R_STATUS */
     BYTE command;             /*!< command register at offset REU_REG_RW_COMMAND */
@@ -189,10 +190,10 @@ struct rec_s {
     WORD transfer_length_shadow; /*!< shadow register of transfer_length */
 };
 
-/*! a complete REC description */
+/*! \brief a complete REC description */
 static struct rec_s rec;
 
-/*! some rec options which define the special behaviour */
+/*! \brief some rec options which define special behaviour */
 struct rec_options_s {
     unsigned int wrap_around;                   /*!< address where the REU has a wrap around */
     unsigned int special_wrap_around_1700;      /*!< address where the special 1700 wrap around occurs; if no 1700, the same avalue as wrap_around */
@@ -202,14 +203,14 @@ struct rec_options_s {
     BYTE         status_preset;                 /*!< preset value for the status (can be 0 or REU_REG_R_STATUS_256K_CHIPS) */
 };
 
-/*! a complete REC options description */
+/*! \brief a complete REC options description */
 static struct rec_options_s rec_options;
 
 
 
-/*! buffer which holds the REU image.  */
+/*! \brief pointer to a buffer which holds the REU image.  */
 static BYTE *reu_ram = NULL;
-/*! holds the old ram size of reu_ram. Used to determine if and how much of the 
+/*! \brief the old ram size of reu_ram. Used to determine if and how much of the 
     buffer has to cleared when resizing the REU. */
 static unsigned int old_reu_ram_size = 0;
 
@@ -222,20 +223,20 @@ static unsigned int reu_int_num;
 
 /* ------------------------------------------------------------------------- */
 
-/*! Flag: Do we enable the external REU?  */
+/*! \brief Flag: Is the external REU enabled?  */
 int reu_enabled;
 
-/*! Size of the REU.  */
+/*! \brief Size of the REU.  */
 static unsigned int reu_size = 0;
 
-/*! Size of the REU in KB.  */
+/*! \brief Size of the REU in KB.  */
 static int reu_size_kb = 0;
 
-/*! Filename of the REU image.  */
+/*! \brief Filename of the REU image.  */
 static char *reu_filename = NULL;
 
 
-/*! \internal set the reu to the enabled or disabled state
+/*! \internal \brief set the reu to the enabled or disabled state
 
  \param val
    if 0, disable the REU; else, enable it.
@@ -268,7 +269,7 @@ static int set_reu_enabled(int val, void *param)
     }
 }
 
-/*! \internal set the size of the reu
+/*! \internal \brief set the size of the reu
 
  \param val
    the size of the REU, in KB
@@ -344,7 +345,7 @@ static int set_reu_size(int val, void *param)
     return 0;
 }
 
-/*! \internal set the file name of the REU data
+/*! \internal \brief set the file name of the REU data
 
  \param name
    pointer to a buffer which holds the file name.
@@ -383,14 +384,14 @@ static int set_reu_filename(const char *name, void *param)
     return 0;
 }
 
-/*! string resources used by the REU module */
+/*! \brief string resources used by the REU module */
 static const resource_string_t resources_string[] = {
     { "REUfilename", "", RES_EVENT_NO, NULL,
       &reu_filename, set_reu_filename, NULL },
     { NULL }
 };
 
-/*! integer resources used by the REU module */
+/*! \brief integer resources used by the REU module */
 static const resource_int_t resources_int[] = {
     { "REU", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &reu_enabled, set_reu_enabled, NULL },
@@ -399,7 +400,7 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
-/*! initialize the reu resources
+/*! \brief initialize the reu resources
  \return
    0 on success, else -1.
 
@@ -414,7 +415,7 @@ int reu_resources_init(void)
     return resources_register_int(resources_int);
 }
 
-/*! uninitialize the reu resources */
+/*! \brief uninitialize the reu resources */
 void reu_resources_shutdown(void)
 {
     lib_free(reu_filename);
@@ -450,7 +451,7 @@ static const cmdline_option_t cmdline_options[] =
 };
 #endif
 
-/*! initialize the command-line options'
+/*! \brief initialize the command-line options'
  \return
    0 on success, else -1.
 
@@ -464,7 +465,7 @@ int reu_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-/*! initialize the REU */
+/*! \brief initialize the REU */
 void reu_init(void)
 {
     reu_log = log_open("REU");
@@ -472,7 +473,7 @@ void reu_init(void)
     reu_int_num = interrupt_cpu_status_int_new(maincpu_int_status, "REU");
 }
 
-/*! reset the REU */
+/*! \brief reset the REU */
 void reu_reset(void)
 {
     memset(&rec, 0, sizeof rec);
@@ -676,7 +677,7 @@ static void reu_store_without_sideeffects(WORD addr, BYTE byte)
         break;
 
     case REU_REG_RW_BANK:
-        rec.bank_reu = byte;
+        rec.bank_reu = byte & ~ rec_options.reg_bank_unused;
         break;
 
     case REU_REG_RW_BLOCKLEN_LOW:
@@ -881,7 +882,8 @@ BYTE read_from_reu(unsigned int reu_addr)
     The transfer length the operation stopped at
 
   \remark
-    if autoload is enabled, nothing is stored in the REU registers.
+    if autoload is enabled, the shadow registers are written back 
+    to the REU registers.
 */
 static void reu_dma_update_regs(WORD host_addr, unsigned int reu_addr,
                                 int len)
@@ -906,6 +908,10 @@ static void reu_dma_update_regs(WORD host_addr, unsigned int reu_addr,
         rec.transfer_length = len;
     }
     else {
+        rec.base_computer   = rec.base_computer_shadow;
+        rec.base_reu        = rec.base_reu_shadow;
+        rec.transfer_length = rec.transfer_length_shadow;
+
         DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "Autoload.") );
     }
 }

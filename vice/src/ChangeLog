@@ -1,3 +1,9 @@
+2008-06-25  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* c64/reu.c: Fixed problems with bank register not masking out
+	unused bits, and autoload option which has to copy the shadow
+	registers back. Fixed doxygen a little.
+
 2008-06-23  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.20
