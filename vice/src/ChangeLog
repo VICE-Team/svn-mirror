@@ -1,7 +1,7 @@
 2008-06-27  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* autostart.c: Incorporated patch from iAN Coog: 1. Add colon
-	(":") after "LOAD" and "RUN" lines using tostart. This is
+	(":") after "LOAD" and "RUN" lines used to start. This is
 	helpful if there is already something on the screen, to prevent
 	it to provoke some error messages. 2. remember original true
 	drive emulation state before using autostart. This fixes the

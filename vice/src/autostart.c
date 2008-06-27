@@ -374,9 +374,9 @@ static void advance_hasdisk(void)
             traps = 1;
         }
         if (autostart_program_name)
-            tmp = lib_msprintf("LOAD\"%s\",8,1\r", autostart_program_name);
+            tmp = lib_msprintf("LOAD\"%s\",8,1:\r", autostart_program_name);
         else
-            tmp = lib_stralloc("LOAD\"*\",8,1\r");
+            tmp = lib_stralloc("LOAD\"*\",8,1:\r");
         kbdbuf_feed(tmp);
         lib_free(tmp);
 
