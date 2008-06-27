@@ -104,6 +104,12 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "E&xit", IDM_EXIT
     END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "Cu&t", IDM_EDIT_CUT
+        MENUITEM "&Copy", IDM_EDIT_COPY
+        MENUITEM "&Paste", IDM_EDIT_PASTE
+    END
     POPUP "Sna&pshot"
     BEGIN
         MENUITEM "Load snapshot &image...",  IDM_SNAPSHOT_LOAD

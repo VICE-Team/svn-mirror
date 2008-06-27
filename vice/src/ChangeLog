@@ -1,3 +1,15 @@
+2008-06-28  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* arch/win32/ui.c: Added paste function to paste from clipboard
+	to the VICE keyboard buffer. It is selected either via menu
+	(Edit/Paste), or via right-click on the VICE window.
+
+	* arch/win32/resmenu.txt, arch/win32/rescbm2.rc,
+	arch/win32/resplus4.rc, arch/win32/resmenu.txt,
+	arch/win32/resvic20.rc, arch/win32/resc128.rc,
+	arch/win32/resc64.rc, arch/win32/respet.rc: Added IDM_EDIT_CUT,
+	IDM_EDIT_COPY and IDM_EDIT_PASTE.
+
 2008-06-27  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* autostart.c: Incorporated patch from iAN Coog: 1. Add colon

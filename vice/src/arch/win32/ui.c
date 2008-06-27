@@ -40,6 +40,7 @@
 #include "attach.h"
 #include "autostart.h"
 #include "archdep.h"
+#include "charset.h"
 #include "debug.h"
 #include "drive.h"
 #include "drivecpu.h"
@@ -49,6 +50,7 @@
 #include "interrupt.h"
 #include "intl.h"
 #include "kbd.h"
+#include "kbdbuf.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -980,6 +982,76 @@ static void reset_dialog_proc(WPARAM wparam)
 
 /* ------------------------------------------------------------------------ */
 
+static void ui_paste_clipboard_text(HWND window)
+{
+    HANDLE hdata;
+    BOOL clipboard_is_open = FALSE;
+    char * text = NULL;
+    char * text_in_petscii = NULL;
+    
+    do {
+        DWORD size;
+
+        if ( ! OpenClipboard(window) ) {
+            break;
+        }
+
+        clipboard_is_open = TRUE;
+
+        hdata = GetClipboardData(CF_TEXT);
+
+        if ( ! hdata ) {
+            break;
+        }
+
+        text = GlobalLock(hdata);
+
+        if (text == NULL) {
+            break;
+        }
+
+        size = GlobalSize(hdata);
+
+        if (size < 1) {
+            break;
+        }
+
+        /*
+         * Allocate memmory for the string to convert in petscii.
+         * Note: As we are not sure if the original text is null-terminated,
+         *       do *not* use lib_stralloc()!
+         */
+        text_in_petscii = lib_malloc(size + 1);
+
+        if (text_in_petscii == NULL) {
+            break;
+        }
+
+        memcpy(text_in_petscii, text, size);
+        text_in_petscii[size] = 0;
+
+        charset_petconvstring(text_in_petscii, 0);
+
+        kbdbuf_feed(text_in_petscii);
+
+    } while (0);
+
+    if (text_in_petscii) {
+        lib_free(text_in_petscii);
+    }
+
+    if (text) {
+        GlobalUnlock(text);
+    }
+
+    if (clipboard_is_open) {
+        CloseClipboard();
+    }
+}
+
+
+/* ------------------------------------------------------------------------ */
+
 /* FIXME: tmp hack.  */
 int syscolorchanged, displaychanged, querynewpalette, palettechanged;
 
@@ -1030,6 +1102,20 @@ static void handle_default_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
     }
 }
 
+static void handle_wm_initmenupopup(HMENU menu)
+{
+    /* not implemented yet: */
+
+    EnableMenuItem(menu, IDM_EDIT_CUT, MF_BYCOMMAND | MF_GRAYED);
+    EnableMenuItem(menu, IDM_EDIT_COPY, MF_BYCOMMAND | MF_GRAYED);
+
+    /* enable PASTE iff the clipboard contains "our" format: */
+
+    EnableMenuItem(menu, IDM_EDIT_PASTE, 
+        MF_BYCOMMAND 
+        | ( IsClipboardFormatAvailable(CF_TEXT) ? MF_ENABLED : MF_GRAYED));
+}
+
 static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
 {
     /* Handle machine specific commands first.  */
@@ -1044,6 +1130,9 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       case IDM_EXIT:
         PostMessage(hwnd, WM_CLOSE, wparam, lparam);
+        break;
+      case IDM_EDIT_PASTE:
+        ui_paste_clipboard_text(hwnd);
         break;
       case IDM_ABOUT:
       case IDM_HELP:
@@ -1393,6 +1482,9 @@ static long CALLBACK window_proc(HWND window, UINT msg,
           This message seems to be a good candidate for the remote desktop. */
         ui_redraw_all_windows();
         return 0;
+      case WM_INITMENUPOPUP:
+        handle_wm_initmenupopup((HMENU)wparam);
+        break;
       case WM_COMMAND:
         handle_wm_command(wparam, lparam, window);
         return 0;
@@ -1481,6 +1573,9 @@ static long CALLBACK window_proc(HWND window, UINT msg,
       case WM_SYSCOMMAND:
       case WM_NCLBUTTONDOWN:
         vsync_suspend_speed_eval();
+        break;
+      case WM_RBUTTONDOWN:
+        ui_paste_clipboard_text(window);
         break;
       case WM_NOTIFY:
         statusbar_notify(window, window_index, wparam, lparam);
