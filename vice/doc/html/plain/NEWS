@@ -35,6 +35,8 @@ list of all the changes in the code.
 
 - Added support for the Action Replay 4 and StarDos cartridges.
 
+- Improved REU compatibility
+
 ** VIC20 changes
 ----------------
 
@@ -78,6 +80,9 @@ list of all the changes in the code.
 - Fixed the reverse logic of the -confirmexit/+confirmexit and
   -singlecpu/+singlecpu command-line options.
 
+- allow for pasting into the VICE window: Either via menu
+  (Edit/Paste), or by right-clicking on the VICE window.
+
 ** BeOS changes
 ---------------
 
@@ -110,6 +115,7 @@ list of all the changes in the code.
 
 - New memmap feature which allows tracking of memory accesses,
   activated by the configure option --enable-memmap.
+
 
 * Changes in VICE 1.22
 ======================
