@@ -91,7 +91,7 @@ static log_t autostart_log = LOG_ERR;
 
 /* Flag: was true drive emulation turned on when we started booting the disk
    image?  */
-static int orig_drive_true_emulation_state = 0;
+static int orig_drive_true_emulation_state = -1;
 
 /* PETSCII name of the program to load. NULL if default */
 static BYTE *autostart_program_name = NULL;
@@ -292,11 +292,11 @@ static void advance_hastape(void)
       case YES:
         log_message(autostart_log, "Loading file.");
         if (autostart_program_name) {
-            tmp = util_concat("LOAD\"", autostart_program_name, "\"\r", NULL);
+            tmp = util_concat("LOAD\"", autostart_program_name, "\":\r", NULL);
             kbdbuf_feed(tmp);
             lib_free(tmp);
         } else {
-            kbdbuf_feed("LOAD\r");
+            kbdbuf_feed("LOAD:\r");
         }
         if (tape_tap_attched()) {
             autostartmode = AUTOSTART_PRESSPLAYONTAPE;
@@ -333,7 +333,7 @@ static void advance_loadingtape(void)
     switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
       case YES:
         log_message(autostart_log, "Starting program.");
-        kbdbuf_feed("RUN\r");
+        kbdbuf_feed("RUN:\r");
         autostartmode = AUTOSTART_DONE;
         break;
       case NO:
@@ -382,7 +382,7 @@ static void advance_hasdisk(void)
 
         if (!traps) {
             if (autostart_run_mode == AUTOSTART_MODE_RUN)
-                kbdbuf_feed("RUN\r");
+                kbdbuf_feed("RUN:\r");
             autostartmode = AUTOSTART_DONE;
         } else {
             autostartmode = AUTOSTART_LOADINGDISK;
@@ -422,6 +422,11 @@ void autostart_advance(void)
     if (!autostart_enabled)
         return;
 
+    if( orig_drive_true_emulation_state == -1)
+    {
+        orig_drive_true_emulation_state = get_true_drive_emulation_state();
+    }
+ 
     if (maincpu_clk < min_cycles)
     {
         autostart_wait_for_reset = 0;
@@ -542,6 +547,7 @@ int autostart_tape(const char *file_name, const char *program_name,
                 tape_seek_start(tape_image_dev1);
             }
         }
+        resources_set_int("VirtualDevices", 1); /* Kludge: iAN CooG - for t64 images we need devtraps ON */
         reboot_for_autostart(name, AUTOSTART_HASTAPE, runmode);
         lib_free(name);
 
@@ -654,6 +660,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     /* Setup FS-based drive emulation.  */
     fsdevice_set_directory(directory ? directory : ".", 8);
     set_true_drive_emulation_mode(0);
+    orig_drive_true_emulation_state =0;
     resources_set_int("VirtualDevices", 1);
     resources_set_int("FSDevice8ConvertP00", 1);
     file_system_detach_disk(8);

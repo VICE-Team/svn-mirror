@@ -1,3 +1,15 @@
+2008-06-27  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* autostart.c: Incorporated patch from iAN Coog: 1. Add colon
+	(":") after "LOAD" and "RUN" lines using tostart. This is
+	helpful if there is already something on the screen, to prevent
+	it to provoke some error messages. 2. remember original true
+	drive emulation state before using autostart. This fixes the
+	problem that TDE is not re-activated after autostart.  3. Dev
+	Traps set to ON always in autostart_tape() for T64s. T64 without
+	VTD don't load, so it's a must to activate it always with them.
+	(TAP files don't care.)
+
 2008-06-25  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* arch/win32/vice.dsw, arch/win32/_all.dsp: New (dummy) project
