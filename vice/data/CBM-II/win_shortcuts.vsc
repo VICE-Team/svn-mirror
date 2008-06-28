@@ -47,3 +47,7 @@ ALT         'Q'         IDM_MOUSE
 ALT         0x79        IDM_TOGGLE_MAINCPU_TRACE    F10     # VK_F10
 ALT         0x7A        IDM_TOGGLE_DRIVE0CPU_TRACE  F11     # VK_F11
 ALT         0x7B        IDM_TOGGLE_DRIVE1CPU_TRACE  F12     # VK_F12
+
+CTRL        'C'         IDM_EDIT_COPY
+CTRL        'V'         IDM_EDIT_PASTE
+CTRL        0x2D        IDM_EDIT_COPY                       # VK_INSERT

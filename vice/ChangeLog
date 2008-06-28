@@ -1,5 +1,10 @@
 2008-06-28  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* data/CBM-II/win_shortcuts.vsc, data/VIC20/win_shortcuts.vsc,
+	data/PLUS4/win_shortcuts.vsc, data/PET/win_shortcuts.vsc,
+	data/C64/win_shortcuts.vsc, data/C128/win_shortcuts.vsc: Set
+	default shortcuts Ctrl+C and Ctrl+V for Edit/Copy and Edit/Paste
+
 	* doc/html/plain/NEWS: Updated
 
 2008-06-23  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
