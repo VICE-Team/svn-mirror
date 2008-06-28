@@ -1106,7 +1106,6 @@ static void handle_wm_initmenupopup(HMENU menu)
 {
     /* not implemented yet: */
 
-    EnableMenuItem(menu, IDM_EDIT_CUT, MF_BYCOMMAND | MF_GRAYED);
     EnableMenuItem(menu, IDM_EDIT_COPY, MF_BYCOMMAND | MF_GRAYED);
 
     /* enable PASTE iff the clipboard contains "our" format: */

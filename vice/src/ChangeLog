@@ -1,5 +1,12 @@
 2008-06-28  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* src/arch/win32/rescbm2.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resmenu.txt, src/arch/win32/ui.c,
+	src/arch/win32/resvic20.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/respet.rc: Removed
+	IDM_EDIT_CUT (how should we cut something from the VICE window?
+	Does not make much sense, does it?
+
 	* arch/win32/ui.c: Added paste function to paste from clipboard
 	to the VICE keyboard buffer. It is selected either via menu
 	(Edit/Paste), or via right-click on the VICE window.

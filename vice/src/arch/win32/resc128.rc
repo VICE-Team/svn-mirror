@@ -129,7 +129,6 @@ BEGIN
     END
     POPUP "&Edit"
     BEGIN
-        MENUITEM "Cu&t", IDM_EDIT_CUT
         MENUITEM "&Copy", IDM_EDIT_COPY
         MENUITEM "&Paste", IDM_EDIT_PASTE
     END
