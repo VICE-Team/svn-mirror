@@ -9,12 +9,12 @@
 
 2008-06-28  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
-	* src/arch/win32/rescbm2.rc, src/arch/win32/resplus4.rc,
-	src/arch/win32/resmenu.txt, src/arch/win32/ui.c,
-	src/arch/win32/resvic20.rc, src/arch/win32/resc128.rc,
-	src/arch/win32/resc64.rc, src/arch/win32/respet.rc: Removed
-	IDM_EDIT_CUT (how should we cut something from the VICE window?
-	Does not make much sense, does it?
+	* arch/win32/rescbm2.rc, arch/win32/resplus4.rc,
+	arch/win32/resmenu.txt, arch/win32/ui.c, arch/win32/resvic20.rc,
+	arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/respet.rc: Removed IDM_EDIT_CUT (how should we cut
+	something from the VICE window? Does not make much sense, does
+	it?
 
 	* arch/win32/ui.c: Added paste function to paste from clipboard
 	to the VICE keyboard buffer. It is selected either via menu
@@ -478,10 +478,10 @@
 
 2008-05-18  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
-	* src/arch/win32/signals.c: break64() now has a full backup text
-	in case translate_text() fails. This prevents empty dialog boxes
-	in the case of an error, which occurs rather frequently on
-	Windows, as these calls fail.
+	* arch/win32/signals.c: break64() now has a full backup text in
+	case translate_text() fails. This prevents empty dialog boxes in
+	the case of an error, which occurs rather frequently on Windows,
+	as these calls fail.
 
 2008-05-18  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
@@ -593,8 +593,8 @@
 
 2008-04-19  Greg King  <greg.king4@verizon.net>
 
-	* src/c64/cart/ide64.c: adds a working RTC to the emulation of
-	the IDE64 cartridge.
+	* c64/cart/ide64.c: adds a working RTC to the emulation of the
+	IDE64 cartridge.
 
 2008-04-19  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
@@ -724,10 +724,10 @@
 	* arch/unix/x11/gnome/x11ui.c: Do not exit the program if HW
 	scaling not available at runtime.
 
-	* video/video-resources.c, src/video.h: Move resources vars
-	from video_resource_chip_t to video_render_config_t, which
-	were often unnecessarily duplicated, and made modification of
-	resources a nightmare.
+	* video/video-resources.c, video.h: Move resources vars from
+	video_resource_chip_t to video_render_config_t, which were often
+	unnecessarily duplicated, and made modification of resources a
+	nightmare.
 
 	* video/video-resources.c: Add resource HwScalePossible, to
 	enable/disable HW scaling menu entry.
@@ -2535,9 +2535,8 @@
 
 2007-01-21  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
 
-	* ioutil.c, src/ioutil.h: Changed prototype of
-	ioutil_maxpathlen() to return an unsigned int in order to
-	remove warnings.
+	* ioutil.c, ioutil.h: Changed prototype of ioutil_maxpathlen()
+	to return an unsigned int in order to remove warnings.
 
 2007-01-21  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
 
