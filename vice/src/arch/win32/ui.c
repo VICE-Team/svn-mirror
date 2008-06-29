@@ -28,6 +28,7 @@
 
 #include "vice.h"
 
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>
 #include <windows.h>
@@ -982,6 +983,112 @@ static void reset_dialog_proc(WPARAM wparam)
 
 /* ------------------------------------------------------------------------ */
 
+static char * read_screen_output(void)
+{
+    char * outputbuffer = NULL;
+
+    do {
+        WORD base;
+        BYTE allrows, allcols;
+        unsigned int row, col;
+        unsigned int size;
+        char * p;
+
+        mem_get_screen_parameter(&base, &allrows, &allcols);
+
+        size = allrows * (allcols + 2) + 1;
+
+        outputbuffer = lib_malloc(size);
+        if (outputbuffer == NULL) {
+            break;
+        }
+
+        p = outputbuffer;
+
+        for (row = 0; row < allrows; row++) {
+            char * last_non_whitespace = p - 1;
+
+            for (col = 0; col < allcols; col++) {
+                BYTE data;
+
+                data = mem_bank_peek(0, base++, NULL);
+                data = charset_p_toascii(charset_screencode_to_petcii(data), 1);
+
+                if (data != ' ') {
+                    last_non_whitespace = p;
+                }
+                *p++ = data;
+            }
+
+            /* trim the line if there are only whitespace at the end */
+
+            if (last_non_whitespace < p) {
+                p = last_non_whitespace + 1;
+            }
+
+            /* add a CR/LF */
+
+            *p++ = '\r';
+            *p++ = '\n';
+        }
+
+        *p = 0;
+
+        assert(p < outputbuffer + size);
+
+    } while (0);
+
+    return outputbuffer;
+}
+
+static void ui_copy_clipboard(HWND window)
+{
+    BOOL clipboard_is_open = FALSE;
+    char * text;
+    HGLOBAL globaltext = NULL;
+
+    do {
+        char * p;
+
+        if ( ! OpenClipboard(window) ) {
+            break;
+        }
+        clipboard_is_open = TRUE;
+
+        if ( ! EmptyClipboard() ) {
+            break;
+        }
+
+        text = read_screen_output();
+        if (text == NULL) {
+            break;
+        }
+
+        globaltext = GlobalAlloc(GMEM_DDESHARE, strlen(text) + 1);
+        if (globaltext == NULL) {
+            break;
+        }
+
+        p = GlobalLock(globaltext);
+        strcpy(p, text);
+
+        SetClipboardData(CF_TEXT, globaltext);
+
+    } while (0);
+
+    if (globaltext) {
+        GlobalUnlock(globaltext);
+    }
+
+    if (text) {
+        lib_free(text);
+    }
+
+    if (clipboard_is_open) {
+        CloseClipboard();
+    }
+}
+
 static void ui_paste_clipboard_text(HWND window)
 {
     HANDLE hdata;
@@ -1104,10 +1211,6 @@ static void handle_default_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
 
 static void handle_wm_initmenupopup(HMENU menu)
 {
-    /* not implemented yet: */
-
-    EnableMenuItem(menu, IDM_EDIT_COPY, MF_BYCOMMAND | MF_GRAYED);
-
     /* enable PASTE iff the clipboard contains "our" format: */
 
     EnableMenuItem(menu, IDM_EDIT_PASTE, 
@@ -1129,6 +1232,9 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       case IDM_EXIT:
         PostMessage(hwnd, WM_CLOSE, wparam, lparam);
+        break;
+      case IDM_EDIT_COPY:
+        ui_copy_clipboard(hwnd);
         break;
       case IDM_EDIT_PASTE:
         ui_paste_clipboard_text(hwnd);

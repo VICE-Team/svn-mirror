@@ -1,3 +1,12 @@
+2008-06-29  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* arch/win32/ui.c: Add copy to clipboard for the text screen.
+	All emulators which support the monitor "screen" command are
+	supported, that is: x64, xplus4, xvic, x128 in VIC-II mode.
+	xcbm2 and xpet are not supported, as their base video addresses
+	are not given with mem_get_screen_parameter(). New functions
+	read_screen_output(), ui_copy_clipboard().
+
 2008-06-28  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* src/arch/win32/rescbm2.rc, src/arch/win32/resplus4.rc,
