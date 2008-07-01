@@ -1,3 +1,7 @@
+2008-07-01  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 1.22.22
+
 2008-06-30  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* arch/amigaos/intl.c, arch/win32/res.rc,
