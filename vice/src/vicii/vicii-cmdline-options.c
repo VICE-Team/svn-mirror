@@ -123,11 +123,11 @@ static const cmdline_option_t cmdline_options[] =
     { "-gamma", SET_RESOURCE, 1, NULL, NULL, "ColorGamma", NULL,
       "<0-2000>", N_("Set gamma of internal calculated palette [900]") },
     { "-tint", SET_RESOURCE, 1, NULL, NULL, "ColorTint", NULL,
-      "<0-2000>", "set tint of internal calculated palette [1000]" },
+      "<0-2000>", N_("Set tint of internal calculated palette [1000]") },
     { "-oddlinesphase", SET_RESOURCE, 1, NULL, NULL, "PALOddLinePhase", NULL,
-      "<0-2000>", "set phase offset for color carrier in odd lines [1250]" },
+      "<0-2000>", N_("Set phase for color carrier in odd lines [1250]") },
     { "-oddlinesoffset", SET_RESOURCE, 1, NULL, NULL, "PALOddLineOffset", NULL,
-      "<0-2000>", "set phase offset for color carrier in odd lines [750]" },
+      "<0-2000>", N_("Set phase offset for color carrier in odd lines [750]") },
     { NULL }
 };
 #endif

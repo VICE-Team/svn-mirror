@@ -38,7 +38,6 @@ extern int georam_cmdline_options_init(void);
 
 extern void georam_reset(void);
 extern void georam_shutdown(void);
-extern BYTE REGPARM1 georam_reg_read(WORD addr);
 extern BYTE REGPARM1 georam_window_read(WORD addr);
 extern void REGPARM2 georam_reg_store(WORD addr, BYTE byte);
 extern void REGPARM2 georam_window_store(WORD addr, BYTE byte);

@@ -1,4 +1,4 @@
-#!/bin/sh
+\#!/bin/sh
 # make-bindist.sh for the OPENSERVER, UNIXWARE & SOLARIS ports
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -19,6 +19,46 @@ TOPSRCDIR=$9
 shift
 MAKECOMMAND=$9
 
+setnormalmake()
+{
+  makefound="none"
+  OLD_IFS=$IFS
+  IFS=":"
+
+  for i in /usr/ccs/bin:$PATH
+  do
+    if [ -e $i/make ]; then
+      GNUMAKE=`$i/make --version`
+      case "$GNUMAKE" in
+        GNU*)
+          ;;
+        *)
+          if test x"$makefound" = "xnone"; then
+            makefound="$i/make"
+          fi
+          ;;
+      esac
+    fi
+  done
+  if test x"$makefound" = "xnone"; then
+    echo no suitable make found for bindist
+    exit 1
+  else
+    MAKECOMMAND=$makefound
+  fi
+  IFS=$OLD_IFS
+}
+
+checkmake()
+{
+  GNUMAKE=`$MAKECOMMAND --version`
+  case "$GNUMAKE" in
+  GNU*)
+     setnormalmake
+     ;;
+  esac
+}
+
 if test x"$PREFIX" != "x/usr/local"; then
   echo Error: installation path is not /usr/local
   exit 1
@@ -26,14 +66,17 @@ fi
 
 if test x"$SYSTEM" = "xsco7"; then
   PLATFORM="UNIXWARE 7.x"
+  checkmake
 fi
 
 if test x"$SYSTEM" = "xsco6"; then
   PLATFORM="OPENSERVER 6.x"
+  checkmake
 fi
 
 if test x"$SYSTEM" = "xsco5"; then
   PLATFORM="OPENSERVER 5.x"
+  checkmake
 fi
 
 if test x"$SYSTEM" = "xsol"; then
@@ -54,7 +97,7 @@ fi
 echo Generating $PLATFORM port binary distribution.
 rm -f -r VICE-$VICEVERSION
 curdir=`pwd`
-$MAKECOMMAND prefix=$curdir/VICE-$VICEVERSION/usr/local VICEDIR=$curdir/VICE-$VICEVERSION/usr/local/lib/vice install
+$MAKECOMMAND -e prefix=$curdir/VICE-$VICEVERSION/usr/local VICEDIR=$curdir/VICE-$VICEVERSION/usr/local/lib/vice install
 $STRIP VICE-$VICEVERSION/usr/local/bin/x64
 $STRIP VICE-$VICEVERSION/usr/local/bin/x128
 $STRIP VICE-$VICEVERSION/usr/local/bin/xvic
@@ -113,6 +156,10 @@ if test x"$ZIPKIND" = "xzip"; then
 
     if test x"$arch_version" = "x5.10"; then
       arch_version=sol10
+    fi
+
+    if test x"$arch_version" = "x5.11"; then
+      arch_version=sol11
     fi
   else
     arch_cpu=x86

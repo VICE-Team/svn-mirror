@@ -1,3 +1,47 @@
+2008-06-30  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/intl.c, arch/win32/res.rc,
+	arch/win32/reside64.rc, arch/win32/resmouse.rc, translate.c:
+	Updated the Hungarian text.
+
+	* arch/unix/qnx6/make-bindist.sh,
+	arch/unix/sco_sol/make-bindist.sh,
+	arch/unix/skyos/make-bindist.sh: Improved.
+
+	* arch/unix/x11/gnome/x11ui.c: Corrected a typo.
+
+	* arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/rescbm2.rc, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/resvic20.rc: Updated the
+	Hungarian text and extended the copy/paste text to the other
+	languages.
+
+	* arch/win32/uikeyboard.c: Fixed the shortcut text routine to
+	work for win9x/winnt4 too.
+
+	* c64/c64io.c, c64/georam.h: Fixed the reading of the GeoRAM
+	registers.
+
+	* c64/cart/c64cart.c: Fixed some text elements.
+
+	* c64/georam.c: Fixed the reading of the GeoRAM registers, and
+	added a comment block describing the GeoRAM in more detail.
+
+	* c64/ramcart.c: Fixed the reading of the RamCart registers, and
+	added a comment block describing the RamCart in more detail.
+
+	* pet/petmem.c, vic20/vic20mem.c: Fixed the
+	mem_get_screen_parameter() to fill in the correct data.
+
+	* vic20/vic-mem.c: Added a previously missing vic_peek()
+	function.
+
+	* vicii/vicii-cmdline-options.c: Added N_() for text that didn't
+	have it yet.
+
+	* video/video-resources.c: Fixed the crash that came from the
+	new PAL emu check.
+
 2008-06-29  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.21

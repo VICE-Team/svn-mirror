@@ -195,7 +195,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDMS_ALL,    "All"},
 /* de */ {IDMS_ALL_DE, "Alle"},
 /* fr */ {IDMS_ALL_FR, "Tout"},
-/* hu */ {IDMS_ALL_HU, "Mindegyik"},
+/* hu */ {IDMS_ALL_HU, "Összes"},
 /* it */ {IDMS_ALL_IT, "Tutti"},
 /* nl */ {IDMS_ALL_NL, "Alles"},
 /* pl */ {IDMS_ALL_PL, ""},  /* fuzzy */
@@ -672,7 +672,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDMS_CART_FREEZE,    "Cartridge freeze"},
 /* de */ {IDMS_CART_FREEZE_DE, "Erweiterungsmodul Freeze"},
 /* fr */ {IDMS_CART_FREEZE_FR, "Geler la cartouche"},
-/* hu */ {IDMS_CART_FREEZE_HU, "Fagyasztás Cartridge-el"},
+/* hu */ {IDMS_CART_FREEZE_HU, "Fagyasztás Cartridge-dzsel"},
 /* it */ {IDMS_CART_FREEZE_IT, "Freeze della cartuccia"},
 /* nl */ {IDMS_CART_FREEZE_NL, "Cartridge freeze"},
 /* pl */ {IDMS_CART_FREEZE_PL, ""},  /* fuzzy */
@@ -1113,7 +1113,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDMS_SCALE2X,    "Scale2x"},
 /* de */ {IDMS_SCALE2X_DE, "Scale2x"},
 /* fr */ {IDMS_SCALE2X_FR, "Scale2x"},
-/* hu */ {IDMS_SCALE2X_HU, "2x méretez"},
+/* hu */ {IDMS_SCALE2X_HU, "Élsimítás"},
 /* it */ {IDMS_SCALE2X_IT, "Scale2x"},
 /* nl */ {IDMS_SCALE2X_NL, "Schaal2x"},
 /* pl */ {IDMS_SCALE2X_PL, ""},  /* fuzzy */
@@ -1167,7 +1167,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDMS_VIRTUAL_DEVICE_TRAPS,    "Virtual device traps"},
 /* de */ {IDMS_VIRTUAL_DEVICE_TRAPS_DE, "Virtuelle Geräte Traps"},
 /* fr */ {IDMS_VIRTUAL_DEVICE_TRAPS_FR, "Activer les périphériques virtuels"},
-/* hu */ {IDMS_VIRTUAL_DEVICE_TRAPS_HU, "*Virtuális eszközök ciklus kihagyása"},
+/* hu */ {IDMS_VIRTUAL_DEVICE_TRAPS_HU, "Virtuális eszközök ciklus kihagyása"},
 /* it */ {IDMS_VIRTUAL_DEVICE_TRAPS_IT, "Attiva le periferiche virtuali"},
 /* nl */ {IDMS_VIRTUAL_DEVICE_TRAPS_NL, "Virtuele apparaattraps"},
 /* pl */ {IDMS_VIRTUAL_DEVICE_TRAPS_PL, ""},  /* fuzzy */
@@ -1266,7 +1266,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDMS_GRAB_MOUSE,    "Grab mouse events"},
 /* de */ {IDMS_GRAB_MOUSE_DE, "Maus Ereignisse abfangen"},
 /* fr */ {IDMS_GRAB_MOUSE_FR, ""},  /* fuzzy */
-/* hu */ {IDMS_GRAB_MOUSE_HU, ""},  /* fuzzy */
+/* hu */ {IDMS_GRAB_MOUSE_HU, "Egér események elkapása"},
 /* it */ {IDMS_GRAB_MOUSE_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_GRAB_MOUSE_NL, "Gebruik de muis"},
 /* pl */ {IDMS_GRAB_MOUSE_PL, ""},  /* fuzzy */
@@ -1410,7 +1410,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDMS_MOUSE_SETTINGS,    "Mouse settings..."},
 /* de */ {IDMS_MOUSE_SETTINGS_DE, "Maus Einstellungen..."},
 /* fr */ {IDMS_MOUSE_SETTINGS_FR, ""},  /* fuzzy */
-/* hu */ {IDMS_MOUSE_SETTINGS_HU, ""},  /* fuzzy */
+/* hu */ {IDMS_MOUSE_SETTINGS_HU, "Egér beállításai..."},
 /* it */ {IDMS_MOUSE_SETTINGS_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_MOUSE_SETTINGS_NL, "Muis instellingen..."},
 /* pl */ {IDMS_MOUSE_SETTINGS_PL, ""},  /* fuzzy */
@@ -1689,7 +1689,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDMS_ABOUT,    "About..."},
 /* de */ {IDMS_ABOUT_DE, "Über VICE..."},
 /* fr */ {IDMS_ABOUT_FR, "À Propos..."},
-/* hu */ {IDMS_ABOUT_HU, "A VICE-ról..."},
+/* hu */ {IDMS_ABOUT_HU, "Névjegy..."},
 /* it */ {IDMS_ABOUT_IT, "Informazioni..."},
 /* nl */ {IDMS_ABOUT_NL, "Over VICE..."},
 /* pl */ {IDMS_ABOUT_PL, ""},  /* fuzzy */
@@ -3323,7 +3323,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_SAVE_SETTINGS_ON_EXIT,    "Save settings (resources) on exit"},
 /* de */ {IDS_SAVE_SETTINGS_ON_EXIT_DE, "Einstellungen (Ressourcen) beim Beenden speichern"},
 /* fr */ {IDS_SAVE_SETTINGS_ON_EXIT_FR, "Sauvegarder les parametres   la sortie"},
-/* hu */ {IDS_SAVE_SETTINGS_ON_EXIT_HU, "Erõforrásbeállítások mentése kilépéskor"},
+/* hu */ {IDS_SAVE_SETTINGS_ON_EXIT_HU, "Beállítások (erõforrások) mentése kilépéskor"},
 /* it */ {IDS_SAVE_SETTINGS_ON_EXIT_IT, "Salva le impostazioni in uscita"},
 /* nl */ {IDS_SAVE_SETTINGS_ON_EXIT_NL, "Instellingen (resources) opslaan bij afsluiten"},
 /* pl */ {IDS_SAVE_SETTINGS_ON_EXIT_PL, ""},  /* fuzzy */
@@ -3332,7 +3332,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_NEVER_SAVE_SETTINGS_EXIT,    "Never save settings (resources) on exit"},
 /* de */ {IDS_NEVER_SAVE_SETTINGS_EXIT_DE, "Einstellungen beim Beenden nie speichern"},
 /* fr */ {IDS_NEVER_SAVE_SETTINGS_EXIT_FR, "Ne jamais enregistrer les parametres   la sortie"},
-/* hu */ {IDS_NEVER_SAVE_SETTINGS_EXIT_HU, "Sose mentse az erõforrásbeállításokat kilépéskor"},
+/* hu */ {IDS_NEVER_SAVE_SETTINGS_EXIT_HU, "Sose mentse a beállításokat (erõforrásokat) kilépéskor"},
 /* it */ {IDS_NEVER_SAVE_SETTINGS_EXIT_IT, "Non salvare mai le impostazioni in uscita"},
 /* nl */ {IDS_NEVER_SAVE_SETTINGS_EXIT_NL, "Instellingen (resources) niet opslaan bij afsluiten"},
 /* pl */ {IDS_NEVER_SAVE_SETTINGS_EXIT_PL, ""},  /* fuzzy */
@@ -3899,7 +3899,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_CYLINDERS,    "Cylinders"},
 /* de */ {IDS_CYLINDERS_DE, "Zylinder"},
 /* fr */ {IDS_CYLINDERS_FR, "Cylindres"},
-/* hu */ {IDS_CYLINDERS_HU, "Cilinderek"},
+/* hu */ {IDS_CYLINDERS_HU, "Sávok"},
 /* it */ {IDS_CYLINDERS_IT, "Cilindri"},
 /* nl */ {IDS_CYLINDERS_NL, "Cylinders"},
 /* pl */ {IDS_CYLINDERS_PL, ""},  /* fuzzy */
@@ -4196,7 +4196,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_CANNOT_READ_SNAPSHOT_IMG,    "Cannot read snapshot image"},
 /* de */ {IDS_CANNOT_READ_SNAPSHOT_IMG_DE, "Kann Snapshot Datei nicht laden"},
 /* fr */ {IDS_CANNOT_READ_SNAPSHOT_IMG_FR, ""},  /* fuzzy */
-/* hu */ {IDS_CANNOT_READ_SNAPSHOT_IMG_HU, "Nem sikerült betölteni a pillanatkép fájlt"},
+/* hu */ {IDS_CANNOT_READ_SNAPSHOT_IMG_HU, "A pillanatkép fájl nem olvasható"},
 /* it */ {IDS_CANNOT_READ_SNAPSHOT_IMG_IT, "Non è possibile leggere l'immagine dello snapshot"},
 /* nl */ {IDS_CANNOT_READ_SNAPSHOT_IMG_NL, "Kan momentopname bestand niet lezen"},
 /* pl */ {IDS_CANNOT_READ_SNAPSHOT_IMG_PL, ""},  /* fuzzy */
@@ -4238,7 +4238,7 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDS_PAL_EMULATION_PL, ""},  /* fuzzy */
 /* sv */ {IDS_PAL_EMULATION_SV, "PAL-emulering"},
 
-/* en */ {IDS_NEW_PAL_EMULATION,    "New PAL Eulation"},
+/* en */ {IDS_NEW_PAL_EMULATION,    "New PAL Emulation"},
 /* de */ {IDS_NEW_PAL_EMULATION_DE, ""},  /* fuzzy */
 /* fr */ {IDS_NEW_PAL_EMULATION_FR, ""},  /* fuzzy */
 /* hu */ {IDS_NEW_PAL_EMULATION_HU, ""},  /* fuzzy */
@@ -4288,7 +4288,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ {IDS_NEW_PAL_TINT_0_2_FR, ""},  /* fuzzy */
 /* hu */ {IDS_NEW_PAL_TINT_0_2_HU, ""},  /* fuzzy */
 /* it */ {IDS_NEW_PAL_TINT_0_2_IT, ""},  /* fuzzy */
-/* nl */ {IDS_NEW_PAL_TINT_0_2_NL, ""},  /* fuzzy */
+/* nl */ {IDS_NEW_PAL_TINT_0_2_NL, "Tint (0..2)"},
 /* pl */ {IDS_NEW_PAL_TINT_0_2_PL, ""},  /* fuzzy */
 /* sv */ {IDS_NEW_PAL_TINT_0_2_SV, ""},  /* fuzzy */
 
@@ -4297,7 +4297,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ {IDS_NEW_PAL_PHASE_0_2_FR, ""},  /* fuzzy */
 /* hu */ {IDS_NEW_PAL_PHASE_0_2_HU, ""},  /* fuzzy */
 /* it */ {IDS_NEW_PAL_PHASE_0_2_IT, ""},  /* fuzzy */
-/* nl */ {IDS_NEW_PAL_PHASE_0_2_NL, ""},  /* fuzzy */
+/* nl */ {IDS_NEW_PAL_PHASE_0_2_NL, "Oneven lijnen fase (0..2)"},
 /* pl */ {IDS_NEW_PAL_PHASE_0_2_PL, ""},  /* fuzzy */
 /* sv */ {IDS_NEW_PAL_PHASE_0_2_SV, ""},  /* fuzzy */
 
@@ -4306,7 +4306,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ {IDS_NEW_PAL_OFFSET_0_2_FR, ""},  /* fuzzy */
 /* hu */ {IDS_NEW_PAL_OFFSET_0_2_HU, ""},  /* fuzzy */
 /* it */ {IDS_NEW_PAL_OFFSET_0_2_IT, ""},  /* fuzzy */
-/* nl */ {IDS_NEW_PAL_OFFSET_0_2_NL, ""},  /* fuzzy */
+/* nl */ {IDS_NEW_PAL_OFFSET_0_2_NL, "Oneven lijnen compensatie (0..2)"},
 /* pl */ {IDS_NEW_PAL_OFFSET_0_2_PL, ""},  /* fuzzy */
 /* sv */ {IDS_NEW_PAL_OFFSET_0_2_SV, ""},  /* fuzzy */
 
@@ -4799,7 +4799,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_MOUSE_TYPE,    "Mouse type"},
 /* de */ {IDS_MOUSE_TYPE_DE, "Maustyp"},
 /* fr */ {IDS_MOUSE_TYPE_FR, ""},  /* fuzzy */
-/* hu */ {IDS_MOUSE_TYPE_HU, ""},  /* fuzzy */
+/* hu */ {IDS_MOUSE_TYPE_HU, "Egér típusa"},
 /* it */ {IDS_MOUSE_TYPE_IT, ""},  /* fuzzy */
 /* nl */ {IDS_MOUSE_TYPE_NL, "Muis soort"},
 /* pl */ {IDS_MOUSE_TYPE_PL, ""},  /* fuzzy */
@@ -4808,7 +4808,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_MOUSE_SETTINGS,    "Mouse Settings"},
 /* de */ {IDS_MOUSE_SETTINGS_DE, "Maus Einstellungen"},
 /* fr */ {IDS_MOUSE_SETTINGS_FR, ""},  /* fuzzy */
-/* hu */ {IDS_MOUSE_SETTINGS_HU, ""},  /* fuzzy */
+/* hu */ {IDS_MOUSE_SETTINGS_HU, "Egér beállítások"},
 /* it */ {IDS_MOUSE_SETTINGS_IT, ""},  /* fuzzy */
 /* nl */ {IDS_MOUSE_SETTINGS_NL, "Muis Instellingen"},
 /* pl */ {IDS_MOUSE_SETTINGS_PL, ""},  /* fuzzy */
@@ -4826,7 +4826,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_MOUSE_1351,    "1351 mouse"},
 /* de */ {IDS_MOUSE_1351_DE, "1351 Maus"},
 /* fr */ {IDS_MOUSE_1351_FR, ""},  /* fuzzy */
-/* hu */ {IDS_MOUSE_1351_HU, ""},  /* fuzzy */
+/* hu */ {IDS_MOUSE_1351_HU, "1351 egér"},
 /* it */ {IDS_MOUSE_1351_IT, ""},  /* fuzzy */
 /* nl */ {IDS_MOUSE_1351_NL, "1351 muis"},
 /* pl */ {IDS_MOUSE_1351_PL, ""},  /* fuzzy */
@@ -4835,7 +4835,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_MOUSE_NEOS,    "NEOS mouse"},
 /* de */ {IDS_MOUSE_NEOS_DE, "NEOS Maus"},
 /* fr */ {IDS_MOUSE_NEOS_FR, ""},  /* fuzzy */
-/* hu */ {IDS_MOUSE_NEOS_HU, ""},  /* fuzzy */
+/* hu */ {IDS_MOUSE_NEOS_HU, "NEOS egér"},
 /* it */ {IDS_MOUSE_NEOS_IT, ""},  /* fuzzy */
 /* nl */ {IDS_MOUSE_NEOS_NL, "NEOS muis"},
 /* pl */ {IDS_MOUSE_NEOS_PL, ""},  /* fuzzy */
@@ -4844,7 +4844,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_MOUSE_AMIGA,    "Amiga mouse"},
 /* de */ {IDS_MOUSE_AMIGA_DE, "Amiga Maus"},
 /* fr */ {IDS_MOUSE_AMIGA_FR, ""},  /* fuzzy */
-/* hu */ {IDS_MOUSE_AMIGA_HU, ""},  /* fuzzy */
+/* hu */ {IDS_MOUSE_AMIGA_HU, "Amiga egér"},
 /* it */ {IDS_MOUSE_AMIGA_IT, ""},  /* fuzzy */
 /* nl */ {IDS_MOUSE_AMIGA_NL, "Amiga muis"},
 /* pl */ {IDS_MOUSE_AMIGA_PL, ""},  /* fuzzy */

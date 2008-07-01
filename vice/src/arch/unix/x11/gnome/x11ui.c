@@ -1822,7 +1822,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 					     _("Reset"), 0, 
 					     _("Hard Reset"), 1,
 					     _("Monitor"), 2,
-					     _("Monitor"), 3,
+					     _("Continue"), 3,
 					     NULL);
     g_signal_connect(G_OBJECT(jam_dialog),
 		     "destroy",

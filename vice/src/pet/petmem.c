@@ -948,10 +948,13 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 
 void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns)
 {
-    /* FIXME */
-    *base = 0;
+    int cols;
+
+    resources_get_int("VideoSize", &cols);
+
+    *base = 0x8000;
     *rows = 25;
-    *columns = 80;
+    *columns = (BYTE)cols;
 }
 
 /*-----------------------------------------------------------------------*/

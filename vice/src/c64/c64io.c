@@ -140,7 +140,7 @@ static int get_io_source_index(int id)
 }
 
 #define MAX_IO1_RETURNS 8
-#define MAX_IO2_RETURNS 11
+#define MAX_IO2_RETURNS 10
 
 #if MAX_IO1_RETURNS>MAX_IO2_RETURNS
 static int io_source_return[MAX_IO1_RETURNS];
@@ -406,11 +406,6 @@ BYTE REGPARM1 c64io2_read(WORD addr)
     }
     if (reu_enabled) {
         return_value = reu_read(addr);
-        io_source_check(io_source_counter);
-        io_source_counter++;
-    }
-    if (georam_enabled && addr >= 0xdf80) {
-        return_value = georam_reg_read((WORD)(addr & 1));
         io_source_check(io_source_counter);
         io_source_counter++;
     }

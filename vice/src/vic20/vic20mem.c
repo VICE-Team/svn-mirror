@@ -821,10 +821,9 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 
 void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns)
 {
-    /* FIXME */
-    *base = 0x1000;
-    *rows = 23;
-    *columns = 22;
+    *base = ((vic_peek(0x9005) & 0x80) ? 0 : 0x8000) + ((vic_peek(0x9005) & 0x70) << 6) + ((vic_peek(0x9002) & 0x80) << 2);
+    *rows = (vic_peek(0x9003) & 0x7e) >> 1;
+    *columns = vic_peek(0x9002) & 0x7f;
 }
 
 /************************************************************************/

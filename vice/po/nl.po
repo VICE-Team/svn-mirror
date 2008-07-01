@@ -758,9 +758,8 @@ msgid "Attach raw 16KB Action Replay III cartridge image"
 msgstr "Koppel binair 16KB Action-Replay-III-cartridgebestand aan"
 
 #: src/c64/cart/c64cart.c:261
-#, fuzzy
 msgid "Attach raw 32KB Action Replay 4 cartridge image"
-msgstr "Koppel binair 32KB Action-Replay-cartridgebestand aan"
+msgstr "Koppel binair 32KB Action-Replay-4-cartridgebestand aan"
 
 #: src/c64/cart/c64cart.c:264 src/translate.c.po.c:1512
 msgid "Attach raw 64KB Retro Replay cartridge image"
@@ -799,9 +798,8 @@ msgid "Attach raw Structured Basic cartridge image"
 msgstr "Koppel binair Structured-Basic-cartridgebestand aan"
 
 #: src/c64/cart/c64cart.c:291
-#, fuzzy
 msgid "Attach raw StarDOS image"
-msgstr "Koppel een tapebestand"
+msgstr "Koppel binair StarDOS-bestand aan"
 
 #: src/c64/cart/c64cart.c:294 src/translate.c.po.c:1592
 msgid "Enable expert cartridge"
@@ -3039,14 +3037,12 @@ msgid "Attach Action Replay III image..."
 msgstr "Koppel Action Replay III bestand..."
 
 #: src/arch/unix/gui/uic64cart.c:159
-#, fuzzy
 msgid "Attach Action Replay IV image..."
-msgstr "Koppel Action Replay III bestand..."
+msgstr "Koppel Action Replay IV bestand..."
 
 #: src/arch/unix/gui/uic64cart.c:162
-#, fuzzy
 msgid "Attach StarDOS image..."
-msgstr "Koppel tapebestand..."
+msgstr "Koppel StarDOS bestand..."
 
 #: src/arch/unix/gui/uic64cart.c:165
 msgid "Attach Atomic Power image..."
@@ -4145,30 +4141,27 @@ msgstr "Scanlijnschaduw in procent"
 
 #: src/arch/unix/gui/uipalemu.c:88 src/arch/unix/gui/uipalemu.c:148
 msgid "New PAL Tint"
-msgstr ""
+msgstr "Nieuwe PAL Tint"
 
 #: src/arch/unix/gui/uipalemu.c:88
-#, fuzzy
 msgid "Tint in percent"
-msgstr "Scanlijnschaduw in procent"
+msgstr "Tint in procent"
 
 #: src/arch/unix/gui/uipalemu.c:95
 msgid "New PAL Odd Line Phase"
-msgstr ""
+msgstr "Nieuwe PAL oneven lijnen fase"
 
 #: src/arch/unix/gui/uipalemu.c:95
-#, fuzzy
 msgid "Phase in percent"
-msgstr "Passband percentage"
+msgstr "Fase in procent"
 
 #: src/arch/unix/gui/uipalemu.c:102
 msgid "New PAL Odd Line Offset"
-msgstr ""
+msgstr "Nieuwe PAL oneven lijnen compensatie"
 
 #: src/arch/unix/gui/uipalemu.c:102
-#, fuzzy
 msgid "Offset in percent"
-msgstr "Wazigheid in procent"
+msgstr "Compensatie in procent"
 
 #: src/arch/unix/gui/uipalemu.c:110 src/arch/unix/gui/uipalemu.c:146
 msgid "PAL Blurredness"
@@ -4187,14 +4180,12 @@ msgid "*Fast PAL Emulation"
 msgstr "*Snelle PAL-emulatie"
 
 #: src/arch/unix/gui/uipalemu.c:138
-#, fuzzy
 msgid "*Old Exact PAL Emulation"
-msgstr "*Exacte PAL-emulatie"
+msgstr "*Oude Exacte PAL-emulatie"
 
 #: src/arch/unix/gui/uipalemu.c:140
-#, fuzzy
 msgid "*New Exact PAL Emulation"
-msgstr "*Exacte PAL-emulatie"
+msgstr "*Nieuwe Exacte PAL-emulatie"
 
 #: src/arch/unix/gui/uipalemu.c:144
 msgid "PAL Scanline Shade"
@@ -4202,11 +4193,11 @@ msgstr "PAL-scanlijnschaduw"
 
 #: src/arch/unix/gui/uipalemu.c:150
 msgid "New PAL Odd Lines Phase"
-msgstr ""
+msgstr "Nieuwe PAL oneven lijnen fase"
 
 #: src/arch/unix/gui/uipalemu.c:152
 msgid "New PAL Odd Lines Offset"
-msgstr ""
+msgstr "Nieuwe PAL oneven lijnen compensatie"
 
 #: src/arch/unix/gui/uipalette.c:47
 msgid "Load custom palette"
@@ -5475,17 +5466,16 @@ msgid "Gamma"
 msgstr "Gamma"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:55 src/arch/win32/res.rc.po.c:2955
-#, fuzzy
 msgid "Tint"
-msgstr "Client"
+msgstr "Tint"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:56
 msgid "Odd Line Phase"
-msgstr ""
+msgstr "Oneven lijnen fase"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:57
 msgid "Odd Line Offset"
-msgstr ""
+msgstr "Oneven lijnen compensatie"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:145
 msgid "PAL Settings"
@@ -5500,9 +5490,8 @@ msgid "Exact Emulation"
 msgstr "Exacte emulatie"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:211
-#, fuzzy
 msgid "New Exact Emulation"
-msgstr "Exacte emulatie"
+msgstr "Nieuwe Exacte emulatie"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:54 src/arch/win32/res.rc.po.c:4553
 #: src/arch/amigaos/intl.c.po.c:4466
@@ -6401,9 +6390,8 @@ msgid "Copyright (c) 2006-2008 Christian Vogelgsang"
 msgstr "Copyright (c) 2006-2008 Christian Vogelgsang"
 
 #: src/arch/win32/res.rc.po.c:568
-#, fuzzy
 msgid "Copyright (c) 2007-2008 Fabrizio Gennari"
-msgstr "Copyright (c) 2000-2004 Markus Brenner"
+msgstr "Copyright (c) 2000-2008 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:569
 msgid "Copyright (c) 1999-2007 Andreas Dehmel"
@@ -6709,11 +6697,11 @@ msgstr "(0..2)"
 
 #: src/arch/win32/res.rc.po.c:2958
 msgid "Odd lines phase"
-msgstr ""
+msgstr "Oneven lijnen fase"
 
 #: src/arch/win32/res.rc.po.c:2961
 msgid "Odd lines offset"
-msgstr ""
+msgstr "Oneven lijnen compensatie"
 
 #: src/arch/win32/res.rc.po.c:3096
 msgid "Phase"
@@ -7237,9 +7225,8 @@ msgid "Colors"
 msgstr "Kleuren"
 
 #: src/arch/win32/res.rc.po.c:5131
-#, fuzzy
 msgid "New PAL emulation"
-msgstr "PAL-emulatie"
+msgstr "Nieuwe PAL emulatie"
 
 #: src/arch/win32/res.rc.po.c:5132 src/arch/amigaos/intl.c.po.c:4340
 msgid "Video settings"
@@ -7275,14 +7262,12 @@ msgid "Attach Action Replay III cartridge image"
 msgstr "Koppel Action Replay III cartridgebestand"
 
 #: src/arch/win32/res.rc.po.c:5143 src/arch/amigaos/intl.c.po.c:2405
-#, fuzzy
 msgid "Attach Action Replay 4 cartridge image"
-msgstr "Koppel Action Replay cartridgebestand"
+msgstr "Koppel Action Replay 4 cartridgebestand"
 
 #: src/arch/win32/res.rc.po.c:5144 src/arch/amigaos/intl.c.po.c:2414
-#, fuzzy
 msgid "Attach StarDOS cartridge image"
-msgstr "Koppel een cartridgebestand"
+msgstr "Koppel StarDOS cartridgebestand"
 
 #: src/arch/win32/res.rc.po.c:5145 src/arch/amigaos/intl.c.po.c:2423
 msgid "Attach Atomic Power cartridge image"
@@ -7805,19 +7790,16 @@ msgid "&Action Replay image..."
 msgstr "&Action Replay-bestand..."
 
 #: src/arch/win32/resc128.rc.po.c:67
-#, fuzzy
 msgid "&Action Replay 3 image..."
-msgstr "&Action Replay-bestand..."
+msgstr "&Action Replay 3 bestand..."
 
 #: src/arch/win32/resc128.rc.po.c:68
-#, fuzzy
 msgid "&Action Replay 4 image..."
-msgstr "&Action Replay-bestand..."
+msgstr "&Action Replay 4 bestand..."
 
 #: src/arch/win32/resc128.rc.po.c:69
-#, fuzzy
 msgid "&StarDOS image..."
-msgstr "&CRT-bestand..."
+msgstr "&StarDOS bestand..."
 
 #: src/arch/win32/resc128.rc.po.c:70 src/arch/win32/resc64.rc.po.c:70
 msgid "Atomic &Power image..."
@@ -8839,14 +8821,12 @@ msgid "Action Replay &III image..."
 msgstr "Action Replay &III-bestand..."
 
 #: src/arch/win32/resc64.rc.po.c:68
-#, fuzzy
 msgid "Action Replay &4 image..."
-msgstr "Action Replay-bestand..."
+msgstr "Action Replay &4 bestand..."
 
 #: src/arch/win32/resc64.rc.po.c:69
-#, fuzzy
 msgid "Star&DOS image..."
-msgstr "&CRT-bestand..."
+msgstr "Star&DOS bestand..."
 
 #: src/arch/win32/resc64.rc.po.c:148 src/arch/amigaos/intl.c.po.c:843
 msgid "Netplay (experimental)..."
@@ -10028,12 +10008,10 @@ msgid "New &Luminances"
 msgstr "Nieuwe k&leuren"
 
 #: src/translate.c.po.c:1472
-#, fuzzy
 msgid "Attach raw 16KB StarDOS cartridge image"
-msgstr "Koppel binair 16KB cartridgebestand"
+msgstr "Koppel binair 16KB StarDOS cartridgebestand"
 
 #: src/translate.c.po.c:1482
-#, fuzzy
 msgid "Attach raw 32KB Action Replay IV cartridge image"
 msgstr "Koppel binair 32KB Action-Replay-cartridgebestand aan"
 
@@ -10042,17 +10020,16 @@ msgid "<0-2000>"
 msgstr "<0-2000>"
 
 #: src/translate.c.po.c:2696
-#, fuzzy
 msgid "Set tint of internal calculated palette [1000]"
-msgstr "Zet de verzadiging van het intern berekend kleurenpalet [1000]"
+msgstr "Zet de tint van het intern berekend kleuren palette [1000]"
 
 #: src/translate.c.po.c:2706
 msgid "Set phase for color carrier in odd lines [1250]"
-msgstr ""
+msgstr "Zet de fase van de kleuren drager in oneven lijnen [1250]"
 
 #: src/translate.c.po.c:2716
 msgid "Set phase offset for color carrier in odd lines [750]"
-msgstr ""
+msgstr "Zet de fase compensatie van de kleuren drager in oneven lijnen [750]"
 
 #: src/translate.c.po.c:2836
 msgid "<0-2>"
@@ -10191,19 +10168,16 @@ msgid "Action Replay image..."
 msgstr "Action Replay-bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:483
-#, fuzzy
 msgid "Action Replay 3 image..."
-msgstr "Action Replay-bestand..."
+msgstr "Action Replay 3 bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:492
-#, fuzzy
 msgid "Action Replay 4 image..."
-msgstr "Action Replay-bestand..."
+msgstr "Action Replay 4 bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:501
-#, fuzzy
 msgid "StarDOS image..."
-msgstr "CRT-bestand..."
+msgstr "StarDOS bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:510
 msgid "Atomic Power image..."
@@ -10750,9 +10724,8 @@ msgid "Yes|No"
 msgstr "Ja|Nee"
 
 #: src/arch/amigaos/intl.c.po.c:2396
-#, fuzzy
 msgid "Attach Action Replay 3 cartridge image"
-msgstr "Koppel Action Replay cartridgebestand"
+msgstr "Koppel Action Replay 3 cartridgebestand"
 
 #: src/arch/amigaos/intl.c.po.c:2558
 msgid "Attach"
@@ -11143,9 +11116,8 @@ msgid "Fast PAL"
 msgstr "Snelle PAL"
 
 #: src/arch/amigaos/intl.c.po.c:4214
-#, fuzzy
-msgid "New PAL Eulation"
-msgstr "PAL-emulatie"
+msgid "New PAL Emulation"
+msgstr "Nieuwe PAL emulatie"
 
 #: src/arch/amigaos/intl.c.po.c:4223
 msgid "Select External Palette file"
@@ -11164,19 +11136,16 @@ msgid "PAL Blur (0..1)"
 msgstr "PAL-Wazigheid (0..1)"
 
 #: src/arch/amigaos/intl.c.po.c:4259
-#, fuzzy
 msgid "Tint (0..2)"
-msgstr "(0..2)"
+msgstr "Tint (0..2)"
 
 #: src/arch/amigaos/intl.c.po.c:4268
-#, fuzzy
 msgid "Odd Lines Phase (0..2)"
-msgstr "Helderheid (0..2)"
+msgstr "Oneven lijnen fase (0..2)"
 
 #: src/arch/amigaos/intl.c.po.c:4277
-#, fuzzy
 msgid "Odd Lines Offset (0..2)"
-msgstr "Helderheid (0..2)"
+msgstr "Oneven lijnen compensatie (0..2)"
 
 #: src/arch/amigaos/intl.c.po.c:4295
 msgid "External Palette"

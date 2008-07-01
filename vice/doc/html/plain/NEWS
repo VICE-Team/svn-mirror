@@ -21,12 +21,16 @@ list of all the changes in the code.
 
 - New SkyOS port.
 
+- New Atari Mint port.
+
+- New Solaris Express aka OpenSolaris aka Solaris 11 port.
+
 ** C64/C128 changes
 -------------------
 
 - Improved $01 behaviour with regards to unused bit fall-off.
 
-- Mew experimental NEOS and Amiga mouse support.
+- New experimental NEOS and Amiga mouse support.
 
 - Added a working RTC to the emulation of the IDE64 cartridge.
 

@@ -98,7 +98,7 @@ BEGIN
     IDS_IDE64_IMAGE             "&Merevlemez képmás fájl"
     IDS_IDE64_GEOMETRY          "&Geometria"
     IDS_IDE64_AUTODETECT        "&Automatikus érzékelés"
-    IDS_IDE64_CYLINDERS         "Cilinderek"
+    IDS_IDE64_CYLINDERS         "Sávok"
     IDS_IDE64_HEADS             "Fejek"
     IDS_IDE64_SECTORS           "Szektorok"
     IDS_IDE64_TOTAL_SIZE        "Teljes méret: %iKB"

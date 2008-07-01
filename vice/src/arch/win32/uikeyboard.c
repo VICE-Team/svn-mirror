@@ -336,6 +336,7 @@ HACCEL uikeyboard_create_accelerator_table(void)
 }
 
 
+#if 0
 void uikeyboard_menu_shortcuts(HMENU menu)
 {
     int i;
@@ -362,6 +363,32 @@ void uikeyboard_menu_shortcuts(HMENU menu)
         }
     }
 }
+#endif
+
+/* using MIIM_STRING doesn't work for win9x/winnt4, so trying an older way */
+void uikeyboard_menu_shortcuts(HMENU menu)
+{
+    int i;
+    int stringsize;
+    LPTSTR  buf, newbuf;
+
+    for (i = 0; idmlist[i].cmd > 0; i++) {
+        if (menuitemmodifier[idmlist[i].cmd] != NULL) {
+            stringsize = GetMenuString(menu, idmlist[i].cmd, NULL, 0, MF_BYCOMMAND);
+            if (stringsize != 0) {
+                stringsize++;
+                buf = lib_malloc(stringsize);
+                if (GetMenuString(menu, idmlist[i].cmd, buf, stringsize, MF_BYCOMMAND)) {
+                    newbuf = util_concat(buf, menuitemmodifier[idmlist[i].cmd], NULL);
+                    ModifyMenu(menu, idmlist[i].cmd, MF_BYCOMMAND | MF_STRING, idmlist[i].cmd, newbuf);
+                    lib_free(newbuf);
+                }
+                lib_free(buf);
+            }
+        }
+    }
+}
+
 
 void uikeyboard_shutdown(void)
 {

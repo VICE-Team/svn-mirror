@@ -24,6 +24,51 @@
  *
  */
 
+/*
+ * RamCart is a memory expansion module with battery backup for C64/128
+ * that was designed and produced in Poland. At start there was only Atari
+ * version, in 1993 a C64/128 cartridge appeared. It was produced in two
+ * flavours: 64KB and 128KB.
+ *
+ * The memory is seen in a 256-byte window, placed at $df00-$dfff. The upper
+ * bits of the address are set by writing page number to $de00 (and the
+ * lowest bit of $de01 in 128KB version).
+ *
+ * Additionaly, there is a switch that protects the memory contents from
+ * overwriting. If the switch is set to Read-Only and bit 7 of $de01 is
+ * cleared (default), then contents of memory window are also visible in
+ * the $8000-$80ff area. This allows to emulate usual cartridge takeover
+ * after hardware reset by placing boot code with magic CBM80 string in
+ * the very first page of RamCart memory.
+ *
+ * There was some firmware on a floppy that allowed the RamCart to be
+ * used as a memory disk, as device number 7. You could load and save
+ * files, load directory and delete files. Note that only LOAD and SAVE
+ * worked. It wasn't possible to use BASIC command OPEN to create a file.
+ * The firmware took over control right after hardware reset and presented
+ * the user with a list of stored files. By pressing a letter key it was
+ * possible to quickload a file and execute it. Hence RamCart was ideal for
+ * storing frequently used tools.
+ *
+ * The register at $de01 only exists in the 128KB version.
+ *
+ * Register | bits
+ * -------------------
+ * $de01    | 7xxxxxx0
+ *
+ * x = unused, not connected.
+ *
+ * bit 7 is used in combination with the read-only switch to mirror
+ *       $df00-$dfff into $8000-$80ff, when set to 1 and switch is
+ *       on, area is mirrored.
+ *
+ * bit 0 is used as 64k bank selector.
+ *
+ * The current emulation has support for both 64k and 128k flavors,
+ * the unused bits of the $de01 register is assumed to be not
+ * connected.
+ */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -329,7 +374,14 @@ BYTE REGPARM1 ramcart_reg_read(WORD addr)
     BYTE retval;
 
     io_source = IO_SOURCE_RAMCART;
-    retval = ramcart[addr];
+
+    if (addr == 1 && ramcart_size_kb == 128)
+    {
+        retval=vicii_read_phi1() & 0x7e;
+        retval+=ramcart[addr];
+    }
+    else
+      retval = ramcart[addr];
 
     return retval;
 }
@@ -337,7 +389,7 @@ BYTE REGPARM1 ramcart_reg_read(WORD addr)
 void REGPARM2 ramcart_reg_store(WORD addr, BYTE byte)
 {
     if (addr == 1 && ramcart_size_kb == 128)
-        ramcart[1] = byte;
+        ramcart[1] = byte & 0x81;
 
     if (addr == 0)
         ramcart[0] = byte;

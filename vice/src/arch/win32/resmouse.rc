@@ -74,7 +74,7 @@ IDD_MOUSE_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 75
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Mouse type",
+    LTEXT           "Egér típusa",
                     IDC_MOUSE_TYPE_LABEL, 9, 6, 53, 8
     COMBOBOX        IDC_MOUSE_TYPE, 70, 5, 80, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP

@@ -790,7 +790,7 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "P00 fájlok &mentése",IDC_TOGGLE_WRITEP00,185,120,61,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "P00 fájlok &elrejtése",IDC_TOGGLE_HIDENONP00,185,135,73,10,
+    AUTOCHECKBOX    "Nem P00 fájlok &elrejtése",IDC_TOGGLE_HIDENONP00,185,135,73,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
 END
 #pragma code_page(28591)
@@ -3284,10 +3284,10 @@ BEGIN
     LTEXT           "Tint",IDC_STATIC,12,12,60,8
     LTEXT           "(0..2)",IDC_STATIC,72,12,28,8
     EDITTEXT        IDC_VIDEO_NEW_PAL_TINT, 105,10,32,12,WS_TABSTOP
-    LTEXT           "Odd lines phase",IDC_STATIC,12,24,60,8
+    LTEXT           "Oneven lijnen fase",IDC_STATIC,12,24,60,8
     LTEXT           "(0..2)",IDC_STATIC,72,24,28,8
     EDITTEXT        IDC_VIDEO_NEW_PAL_PHASE, 105,22,32,12,WS_TABSTOP
-    LTEXT           "Odd lines offset",IDC_STATIC,12,36,60,8
+    LTEXT           "Oneven lijnen compensatie",IDC_STATIC,12,36,60,8
     LTEXT           "(0..2)",IDC_STATIC,72,36,28,8
     EDITTEXT        IDC_VIDEO_NEW_PAL_OFFSET, 105,34,32,12,WS_TABSTOP
 END
@@ -6011,7 +6011,7 @@ BEGIN
   IDS_CANNOT_LOAD_SETTINGS        "A beállítások betöltése nem sikerült."
   IDS_DEFAULT_SETTINGS_RESTORED   "Alapértelmezett beállítások visszaállítva."
   IDS_CANNOT_ATTACH_FILE          "Nem lehet csatolni a megadott fájlt"
-  IDS_START_MONITOR               "%s\n\nIndítsam a monitort?"
+  IDS_START_MONITOR               "%s\n\nMonitorprogram indítása? (Nem újraindítja, Mégsem folytatja)"
   IDS_VICE_CPU_JAM                "VICE CPU fagyás"
   IDS_EXTEND_TO_40_TRACKS         "Kiterjesszem a képmást 40 sávos formátumra?"
   IDS_DETACHED_DEVICE_S           "%s eszköz leválasztva"
@@ -6041,8 +6041,8 @@ BEGIN
   IDS_SAVE_FLIP_LIST_FILE         "Lemezlista mentése fájlba"
   IDS_CANNOT_WRITE_FLIP_LIST      "Nem sikerült a lemezlistát fájlba írni"
   IDS_SELECT_KEYMAP_FILE          "Válasszon billentyûzetleképezés fájlt"
-  IDS_SAVE_KEYMAP_FILE            "Billentyûzetkiosztás fájlba írása"
-  IDS_CANNOT_WRITE_KEYMAP_FILE    "Nem sikerült a billentyûzetkiosztást fájlba írni"
+  IDS_SAVE_KEYMAP_FILE            "Billentyûzetleképezés fájlba írása"
+  IDS_CANNOT_WRITE_KEYMAP_FILE    "Nem sikerült a billentyûzetleképezést fájlba írni"
   IDS_MAPPING                     "Leképezés"
   IDS_KEYBOARD_SETTINGS           "Billentyûzet beállításai"
   IDS_ATTACH                      "&Csatolás"
@@ -6064,7 +6064,7 @@ BEGIN
   IDS_DRIVE_11                    "#11-es lemezegység"
   IDS_PERIPHERAL_SETTINGS         "Perifériák beállításai"
   IDS_CANT_WRITE_SNAPSHOT_FILE    "Nem sikerült a pillanatkép fájl írása."
-  IDS_CANNOT_READ_SNAPSHOT_IMG    "Nem sikerült betölteni a pillanatkép fájlt"
+  IDS_CANNOT_READ_SNAPSHOT_IMG    "A pillanatkép fájl nem olvasható"
   IDS_LOAD_S_ROM_IMAGE            "%s ROM képmás betöltése"
   IDS_SELECT_ROMSET_ARCHIVE       "Válasszon ROM készlet archívumot"
   IDS_CANNOT_LOAD_ROMSET_ARCH     "Nem sikerült a ROM készlet archívum betöltése!"
@@ -6145,8 +6145,8 @@ BEGIN
   IDS_FLIP_LIST_FILES_FILTER      "VICE lemezlista fájlok (*.vfl)"
   IDS_ROMSET_FILES_FILTER         "VICE ROM készlet fájlok (*.vrs)"
   IDS_ROMSET_ARCHIVES_FILTER      "VICE ROM készlet archívumok (*.vra)"
-  IDS_KEYMAP_FILES_FILTER         "VICE billentyû leképezés fájlok (*.vkm)"
-  IDS_PRGP00_FILES_FILTER         "Commodore emulator files (*.prg;*.p00)"
+  IDS_KEYMAP_FILES_FILTER         "VICE billentyûleképezés fájlok (*.vkm)"
+  IDS_PRGP00_FILES_FILTER         "Commodore emulátor fájlok (*.prg; *.p00)"
   IDS_FLEXIBLE                    "Rugalmas"
   IDS_ADJUSTING                   "Igazodó"
   IDS_EXACT                       "Pontos"
@@ -6166,8 +6166,8 @@ BEGIN
   IDS_P_NUMBER                    "<szám>"
   IDS_SET_INPUT_JOYSTICK_1        "Port 1-es botkormány eszköz megadása"
   IDS_SET_INPUT_JOYSTICK_2        "Port 2-es botkormány eszköz megadása"
-  IDS_SAVE_SETTINGS_ON_EXIT       "Erõforrásbeállítások mentése kilépéskor"
-  IDS_NO_SAVE_SETTINGS_ON_EXIT    "Sose mentse az erõforrásbeállításokat kilépéskor"
+  IDS_SAVE_SETTINGS_ON_EXIT       "Beállítások (erõforrások) mentése kilépéskor"
+  IDS_NO_SAVE_SETTINGS_ON_EXIT    "Sose mentse a beállításokat (erõforrásokat) kilépéskor"
   IDS_CONFIRM_QUIT_VICE           "Megerõsítés kilépés elõtt"
   IDS_NO_CONFIRM_QUIT_VICE        "Sosem kér megerõsítést kilépés elõtt"
   IDS_USE_ALL_CPU_SMP             "SMP rendszereken az összes CPU használata"

@@ -346,8 +346,6 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
     }
 }
 
-
-
 BYTE REGPARM1 vic_read(WORD addr)
 {
     addr &= 0xf;
@@ -367,3 +365,12 @@ BYTE REGPARM1 vic_read(WORD addr)
     }
 }
 
+/* This function is only used by mem_get_screen_parameter(),
+   so all we return is the regs. Change this if it ever gets
+   used for other things. */
+BYTE REGPARM1 vic_peek(WORD addr)
+{
+    addr &= 0xf;
+
+    return vic.regs[addr];
+}

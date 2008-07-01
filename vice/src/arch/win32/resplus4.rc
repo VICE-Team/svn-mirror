@@ -343,6 +343,11 @@ BEGIN
        MENUITEM SEPARATOR
         MENUITEM "E&xit", IDM_EXIT
     END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Copy", IDM_EDIT_COPY
+        MENUITEM "&Paste", IDM_EDIT_PASTE
+    END
     POPUP "Sna&pshot"
     BEGIN
         MENUITEM "Snapshot &Image Laden...", IDM_SNAPSHOT_LOAD
@@ -573,6 +578,11 @@ BEGIN
        MENUITEM SEPARATOR
         MENUITEM "&Quitter", IDM_EXIT
     END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Copy", IDM_EDIT_COPY
+        MENUITEM "&Paste", IDM_EDIT_PASTE
+    END
     POPUP "&Sauvegarde"
     BEGIN
         MENUITEM "C&harger une sauvegarde....", IDM_SNAPSHOT_LOAD
@@ -735,12 +745,12 @@ BEGIN
             MENUITEM "#1&0-es lemezegység",   IDM_DETACH_10
             MENUITEM "#&11-es lemezegység",   IDM_DETACH_11
             MENUITEM SEPARATOR
-            MENUITEM "Ö&sszes", IDM_DETACH_ALL
+            MENUITEM "&Mindegyik", IDM_DETACH_ALL
         END
         POPUP "Lemezl&ista"
         BEGIN
-            MENUITEM "Az aktuális képmás ho&zzáadása",     IDM_FLIP_ADD
-            MENUITEM "Az aktuális képmás el&távolítása",  IDM_FLIP_REMOVE
+            MENUITEM "Az aktuális képmás hozzáadása",     IDM_FLIP_ADD
+            MENUITEM "Az aktuális képmás eltávolítása",  IDM_FLIP_REMOVE
             MENUITEM "&Következõ képmás csatolása",     IDM_FLIP_NEXT
             MENUITEM "&Elõzõ képmás csatolása", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
@@ -748,7 +758,7 @@ BEGIN
             MENUITEM "Lemezlista menté&se", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Szalag képmás csatolása...", IDM_ATTACH_TAPE
+        MENUITEM "&Szalag képmás csatolása...", IDM_ATTACH_TAPE
         MENUITEM "Sz&alag képmás leválasztása",           IDM_DETACH_TAPE
         POPUP "Magnó &vezérlés"
         BEGIN
@@ -804,12 +814,17 @@ BEGIN
        MENUITEM SEPARATOR
         MENUITEM "&Kilépés", IDM_EXIT
     END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Copy", IDM_EDIT_COPY
+        MENUITEM "&Paste", IDM_EDIT_PASTE
+    END
     POPUP "&Pillanatkép"
     BEGIN
         MENUITEM "Pillanatkép &betöltése...", IDM_SNAPSHOT_LOAD
         MENUITEM "Pillanatkép &mentése...", IDM_SNAPSHOT_SAVE
-        MENUITEM "Gyors pillanatkép b&etöltése", IDM_LOADQUICK
-        MENUITEM "Gyors pillanatkép me&ntése", IDM_SAVEQUICK
+        MENUITEM "Gyors pillanatkép &betöltése", IDM_LOADQUICK
+        MENUITEM "Gyors pillanatkép fájl &mentése", IDM_SAVEQUICK
         MENUITEM SEPARATOR
         MENUITEM "Esemény &felvétel indítása/leállítása",       IDM_EVENT_TOGGLE_RECORD
         MENUITEM "Esemény &visszajátszás indítása/leállítása",        IDM_EVENT_TOGGLE_PLAYBACK
@@ -874,10 +889,10 @@ BEGIN
         , CHECKED
         MENUITEM "PAL emuláció", IDM_TOGGLE_FASTPAL
         , CHECKED
-        MENUITEM "2x méretez", IDM_TOGGLE_SCALE2X
+        MENUITEM "Élsimítás", IDM_TOGGLE_SCALE2X
         , CHECKED
         MENUITEM SEPARATOR
-	MENUITEM "Botkormányok felcserélése", IDM_SWAP_JOYSTICK
+	MENUITEM "Botkormányok &felcserélése", IDM_SWAP_JOYSTICK
 	MENUITEM SEPARATOR
         MENUITEM "&Hangok engedélyezése", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
@@ -1034,6 +1049,11 @@ BEGIN
 #endif
        MENUITEM SEPARATOR
         MENUITEM "E&sci", IDM_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Copy", IDM_EDIT_COPY
+        MENUITEM "&Paste", IDM_EDIT_PASTE
     END
     POPUP "Sna&pshot"
     BEGIN
@@ -1264,6 +1284,11 @@ BEGIN
 #endif
        MENUITEM SEPARATOR
         MENUITEM "Af&sluiten", IDM_EXIT
+    END
+    POPUP "&Bewerken"
+    BEGIN
+        MENUITEM "&Kopie", IDM_EDIT_COPY
+        MENUITEM "&Plakken", IDM_EDIT_PASTE
     END
     POPUP "Momento&pname"
     BEGIN
@@ -1496,6 +1521,11 @@ BEGIN
        MENUITEM SEPARATOR
         MENUITEM "W&yjd¼", IDM_EXIT
     END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Copy", IDM_EDIT_COPY
+        MENUITEM "&Paste", IDM_EDIT_PASTE
+    END
     POPUP "z&rzutu"
     BEGIN
         MENUITEM "Za³adu&j zrzut...", IDM_SNAPSHOT_LOAD
@@ -1726,6 +1756,11 @@ BEGIN
 #endif
        MENUITEM SEPARATOR
         MENUITEM "&Avsluta", IDM_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Copy", IDM_EDIT_COPY
+        MENUITEM "&Paste", IDM_EDIT_PASTE
     END
     POPUP "&Ögonblicksbild"
     BEGIN

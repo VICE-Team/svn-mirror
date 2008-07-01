@@ -1,3 +1,10 @@
+2008-06-30  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/NEWS: Added mint and sol11 ports and corrected
+	a typo.
+
+	* doc/html/solaris.html: Added sol11 port.
+
 2008-06-29  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.21

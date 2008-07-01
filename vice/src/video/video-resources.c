@@ -626,6 +626,12 @@ void video_resources_check_win32_newpal(void)
     if (pal_enabled)
         resources_get_int("PALMode", &pal_mode);
 
+    if (video_current_canvas==NULL)
+      return;
+
+    if (video_current_canvas->videoconfig==NULL)
+      return;
+
     if (pal_enabled != 0 && pal_mode == 2 &&
         video_current_canvas->videoconfig->fullscreen_enabled == 0 &&
         video_current_canvas->videoconfig->doublescan != 0 &&

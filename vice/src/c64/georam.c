@@ -24,6 +24,57 @@
  *
  */
 
+/*
+ * The GeoRAM is a banked memory system. It uses the registers at
+ * $dffe and $dfff to determine what part of the GeoRAM memory should
+ * be mapped to $de00-$deff.
+ *
+ * The BBG (Battery Backed GeoRAM) is a version that retains the
+ * RAM contents after power-off.
+ *
+ * The register at $dfff selects which 16k block to map, and $dffe
+ * selects a 256-byte page in that block. Since there are only 64
+ * 256-byte pages inside of 16k, the value in $dffe ranges from 0 to
+ * 63.
+ *
+ * Register | bits
+ * -------------------
+ * $dffe    | xx543210
+ *
+ * x = unused, not connected.
+ *
+ *
+ * The number of 16k blocks that is available depends on the
+ * size of the GeoRAM/BBG:
+ *
+ * RAM size | $dfff
+ * ------------------
+ *    64k   | $00-$03
+ *   128k   | $00-$07
+ *   256k   | $00-$0f
+ *   512k   | $00-$1f
+ *  1024k   | $00-$3f
+ *  2048k   | $00-$7f
+ *  2048k   | $00-$ff
+ *
+ * The unused bits in both registers are ignore and using them in
+ * software will cause a wrap-around.
+ *
+ * The two registers are write-only. Attempting to read them will
+ * only return random values.
+ *
+ * Currently both the BBG and GeoRAM are emulated, BBG mode is
+ * used when selecting a save-file.
+ *
+ * The current emulation has the two registers mirrorred through the
+ * range of $df80-$dffd
+ *
+ * There is also a user-made clone of the GeoRAM called the NeoRAM,
+ * it works in the same way as the GeoRAM but seems to have extra
+ * RAM sizes currently not supported by this emulation (like 1536k).
+ *
+ */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -293,16 +344,6 @@ void georam_shutdown(void)
 }
 
 /* ------------------------------------------------------------------------- */
-
-BYTE REGPARM1 georam_reg_read(WORD addr)
-{
-    BYTE retval;
-
-    io_source=IO_SOURCE_GEORAM;
-    retval=georam[addr&1];
-
-    return retval;
-}
 
 BYTE REGPARM1 georam_window_read(WORD addr)
 {

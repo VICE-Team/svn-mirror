@@ -27,7 +27,7 @@ fi
 echo Generating SkyOS port binary distribution.
 rm -f -r VICE-$VERSION
 curdir=`pwd`
-$MAKECOMMAND prefix=$curdir/VICE-$VERSION/programs/VICE VICEDIR=$curdir/VICE-$VERSION/programs/VICE/lib/vice install
+$MAKECOMMAND -e prefix=$curdir/VICE-$VERSION/programs/VICE VICEDIR=$curdir/VICE-$VERSION/programs/VICE/lib/vice install
 mv VICE-$VERSION/programs/VICE/bin/x64 VICE-$VERSION/programs/VICE/bin/x64.app
 $STRIP VICE-$VERSION/programs/VICE/bin/x64.app
 mv VICE-$VERSION/programs/VICE/bin/x128 VICE-$VERSION/programs/VICE/bin/x128.app
