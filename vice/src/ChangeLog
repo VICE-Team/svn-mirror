@@ -1,3 +1,10 @@
+2008-07-02  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* arch/win32/Makefile.am: Renamed _all.dsp to _vice.dsp
+
+	* arch/win32/_all.dsp, arch/win32/_vice.dsp: renamed _all.dsp to
+	_vice.dsp.
+
 2008-07-02  Andreas Matthies  <andreas.matthies@gmx.net>
 
 	* arch/win32/ui.c: Moved creation of accelerators to
