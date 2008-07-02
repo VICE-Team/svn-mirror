@@ -1,3 +1,11 @@
+2008-07-02  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/ui.c: Moved creation of accelerators to
+	ui_init_finish.
+
+	* arch/win32/uikeyboard.c: Log a warning if the shortcut file
+	cannot be opened.
+
 2008-07-02  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* arch/win32/Makefile.am: Added new file _all.dsp.

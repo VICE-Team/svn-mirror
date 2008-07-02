@@ -1,3 +1,6 @@
+- IRQ acknowledge handling is buggy. Visible in e.g.
+  Charlatan/Beyond Force, Enforcer, Bandits (VIC20).
+
 - Xaw UI context popup menu for drive attach is broken if more than
   two drives are active.
 

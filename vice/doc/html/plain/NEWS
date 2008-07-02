@@ -41,6 +41,16 @@ list of all the changes in the code.
 
 - Improved REU compatibility
 
+- Fixed CPU timing bug introduced in 1.22 (demo "Borderless").
+
+- Fixed bugs in the CIA emulation (demo "So-phisticated",
+  W. Lorenz testsuite).
+
+- Fixed various bugs in VIC-II emulation: Sprite x-positioning,
+  Latch X/Y, video mode changes, DEN bit handling, raster IRQ,
+  NTSC sprites and sprites in full/debugging border mode (list
+  of fixed demos/games too long to mention here).
+
 ** VIC20 changes
 ----------------
 
@@ -87,6 +97,14 @@ list of all the changes in the code.
 - allow for pasting into the VICE window: Either via menu
   (Edit/Paste), or by right-clicking on the VICE window.
 
+- keyboard shortcuts are definable in the configuration file
+  win_shortscuts.vsc
+
+- After a CPU jam user can select to resume emulation without
+  reset.
+
+- Fixed volume slider behaviour when switching fullscreen mode.
+
 ** BeOS changes
 ---------------
 
@@ -119,6 +137,8 @@ list of all the changes in the code.
 
 - New memmap feature which allows tracking of memory accesses,
   activated by the configure option --enable-memmap.
+
+- Fixed bug in ffmpeg/FFV1 driver. Should be really lossless now.
 
 
 * Changes in VICE 1.22

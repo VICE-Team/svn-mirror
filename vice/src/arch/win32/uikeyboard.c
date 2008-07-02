@@ -48,6 +48,7 @@
 #include "intl.h"
 #include "keyboard.h"
 #include "lib.h"
+#include "log.h"
 #include "res.h"
 #include "resources.h"
 #include "sysfile.h"
@@ -265,8 +266,10 @@ HACCEL uikeyboard_create_accelerator_table(void)
 
     fshortcuts = sysfile_open("win_shortcuts.vsc", &complete_path, MODE_READ_TEXT);
     lib_free(complete_path);
-    if (fshortcuts == NULL)
+    if (fshortcuts == NULL) {
+        log_error(LOG_DEFAULT, "Warning. Cannot open keyboard shortcut file win_shortcuts.vsc.");
         return NULL;
+    }
 
     /* read the shortcut table */
     do {
@@ -335,35 +338,6 @@ HACCEL uikeyboard_create_accelerator_table(void)
     return CreateAcceleratorTable(accellist, accelnum);
 }
 
-
-#if 0
-void uikeyboard_menu_shortcuts(HMENU menu)
-{
-    int i;
-    MENUITEMINFO mii;
-    LPTSTR  buf, newbuf;
-
-    for (i = 0; idmlist[i].cmd > 0; i++) {
-        if (menuitemmodifier[idmlist[i].cmd] != NULL) {
-            mii.fMask = MIIM_STRING;
-            mii.dwTypeData = NULL;
-            mii.cbSize = sizeof(MENUITEMINFO);
-            if (GetMenuItemInfo(menu, idmlist[i].cmd, FALSE, &mii)) {
-                mii.cch++;
-                buf = lib_malloc(mii.cch);
-                mii.dwTypeData = buf;
-                if (GetMenuItemInfo(menu, idmlist[i].cmd, FALSE, &mii)) {
-                    newbuf = util_concat(buf, menuitemmodifier[idmlist[i].cmd], NULL);
-                    mii.dwTypeData = newbuf;
-                    SetMenuItemInfo(menu, idmlist[i].cmd, FALSE, &mii);
-                    lib_free(newbuf);
-                }
-                lib_free(buf);
-            }
-        }
-    }
-}
-#endif
 
 /* using MIIM_STRING doesn't work for win9x/winnt4, so trying an older way */
 void uikeyboard_menu_shortcuts(HMENU menu)

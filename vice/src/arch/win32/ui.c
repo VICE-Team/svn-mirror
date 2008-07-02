@@ -257,8 +257,6 @@ int ui_init(int *argc, char **argv)
         emu_menu = IDR_MENUC64;
     }
 
-    ui_accelerator = uikeyboard_create_accelerator_table();
-
     /* Register the window class.  */
     window_class.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
     window_class.lpfnWndProc = window_proc;
@@ -324,6 +322,7 @@ void ui_shutdown(void)
 /* Initialize the UI after setting all the resource values.  */
 int ui_init_finish(void)
 {
+    ui_accelerator = uikeyboard_create_accelerator_table();
     ui_fullscreen_init();
     atexit(ui_exit);
     return 0;
