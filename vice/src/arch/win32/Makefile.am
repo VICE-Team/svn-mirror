@@ -307,6 +307,7 @@ EXTRA_DIST = \
 	watcom/xplus4main.c \
 	watcom/xvic.tgt \
 	watcom/xvicmain.c \
+	_all.dsp \
 	arch.dsp \
 	base.dsp \
 	c128.dsp \

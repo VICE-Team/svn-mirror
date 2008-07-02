@@ -187,6 +187,7 @@ struct rec_s {
 
     WORD base_computer_shadow;   /*!< shadow register of base_computer */
     WORD base_reu_shadow;        /*!< shadow register of base_reu */
+    BYTE bank_reu_shadow;        /*!< shadow register of bank_reu */
     WORD transfer_length_shadow; /*!< shadow register of transfer_length */
 };
 
@@ -199,7 +200,7 @@ struct rec_options_s {
     unsigned int special_wrap_around_1700;      /*!< address where the special 1700 wrap around occurs; if no 1700, the same avalue as wrap_around */
     unsigned int not_backedup_addresses;        /*!< beginning from this address up to wrap_around, there is no DRAM at all */
     unsigned int wrap_around_mask_when_storing; /*!< mask for the wrap around of REU address when putting result back in base_reu and bank_reu */
-    unsigned int reg_bank_unused;               /*!< the unused bits (stuck at 1) of REU_REG_RW_BANK; for original REU, it is REU_REG_RW_BANK_UNUSED */
+    BYTE         reg_bank_unused;               /*!< the unused bits (stuck at 1) of REU_REG_RW_BANK; for original REU, it is REU_REG_RW_BANK_UNUSED */
     BYTE         status_preset;                 /*!< preset value for the status (can be 0 or REU_REG_R_STATUS_256K_CHIPS) */
 };
 
@@ -486,7 +487,8 @@ void reu_reset(void)
     rec.transfer_length =
     rec.transfer_length_shadow = 0xffff;
 
-    rec.bank_reu = rec_options.reg_bank_unused;
+    rec.bank_reu = 
+    rec.bank_reu_shadow = rec_options.reg_bank_unused;
 
     rec.int_mask_reg = REU_REG_RW_INTERRUPT_UNUSED_MASK;
 
@@ -677,7 +679,8 @@ static void reu_store_without_sideeffects(WORD addr, BYTE byte)
         break;
 
     case REU_REG_RW_BANK:
-        rec.bank_reu = byte & ~ rec_options.reg_bank_unused;
+        rec.bank_reu = 
+        rec.bank_reu_shadow = byte & ~ rec_options.reg_bank_unused;
         break;
 
     case REU_REG_RW_BLOCKLEN_LOW:
@@ -910,6 +913,7 @@ static void reu_dma_update_regs(WORD host_addr, unsigned int reu_addr,
     else {
         rec.base_computer   = rec.base_computer_shadow;
         rec.base_reu        = rec.base_reu_shadow;
+        rec.bank_reu        = rec.bank_reu_shadow;
         rec.transfer_length = rec.transfer_length_shadow;
 
         DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "Autoload.") );
