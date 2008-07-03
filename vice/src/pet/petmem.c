@@ -946,7 +946,7 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     return mem_ioreg_list;
 }
 
-void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns)
+void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
 {
     int cols;
 
@@ -955,6 +955,7 @@ void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns)
     *base = 0x8000;
     *rows = 25;
     *columns = (BYTE)cols;
+    *bank = 0;
 }
 
 /*-----------------------------------------------------------------------*/

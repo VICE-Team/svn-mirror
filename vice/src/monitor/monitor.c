@@ -1038,8 +1038,9 @@ void mon_display_screen(void)
     WORD base;
     BYTE rows, cols;
     unsigned int r, c;
+    int bank;
 
-    mem_get_screen_parameter(&base, &rows, &cols);
+    mem_get_screen_parameter(&base, &rows, &cols, &bank);
     for (r = 0; r < rows; r++) {
         for (c = 0; c < cols; c++) {
             BYTE data;

@@ -1056,10 +1056,11 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     return mem_ioreg_list;
 }
 
-void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns)
+void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
 {
     *base = (ted_peek(0xff14) & 0xf8) << 8 | 0x400;
     *rows = 25;
     *columns = 40;
+    *bank = 0;
 }
 

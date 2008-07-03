@@ -1,3 +1,8 @@
+2008-07-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/GP2X-Howto.txt, doc/Makefile.am: Added a GP2X compile
+	howto text file.
+
 2008-07-02  Andreas Matthies  <andreas.matthies@gmx.net>
 
 	* doc/html/plain/BUGS, NEWS: Updated.

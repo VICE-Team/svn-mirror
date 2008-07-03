@@ -75,7 +75,7 @@ extern int mem_bank_from_name(const char *name);
 extern BYTE mem_bank_read(int bank, WORD addr, void *context);
 extern BYTE mem_bank_peek(int bank, WORD addr, void *context);
 extern void mem_bank_write(int bank, WORD addr, BYTE byte, void *context);
-extern void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns);
+extern void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank);
 
 typedef struct mem_ioreg_list_s {
     const char *name;

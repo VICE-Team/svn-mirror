@@ -1,3 +1,18 @@
+2008-07-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/ui.c, c128/c128mem.c, c64/c64mem.c, cbm2/cbm2mem.c,
+	mem.h, monitor/monitor.c, pet/petmem.c, plus4/plus4mem.c,
+	vic20/vic20mem.c: Fixed the returned values of the
+	mem_get_screen_parameter() of some of the emulators, and added a
+	bank parameter to the mem_get_screen_parameter() function, this
+	was needed to get it to work for xcbm2.
+
+	* sound.h: Added a static inline 2-channel digital audio mixing
+	routine.
+
+	* c64/digimax.c, pet/petsound.c, plus4/ted-sound.c,
+	vic20/vic20sound.c: Fixed to use proper digital audio mixing.
+
 2008-07-02  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* arch/win32/Makefile.am: Renamed _all.dsp to _vice.dsp

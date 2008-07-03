@@ -166,12 +166,18 @@ int digimax_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
                                                    int interleave, int *delta_t)
 {
   int i;
+  SWORD ch1and2;
+  SWORD ch3and4;
+  SWORD channels;
 
   if (sid_sound_machine_cycle_based()==0 && digimax_enabled)
   {
     for (i=0; i<nr; i++)
     {
-      pbuf[i*interleave]+=(snd.voice0+snd.voice1+snd.voice2+snd.voice3)<<6;
+      ch1and2=sound_audio_mix(snd.voice0<<8,snd.voice1<<8);
+      ch3and4=sound_audio_mix(snd.voice2<<8,snd.voice3<<8);
+      channels=sound_audio_mix(ch1and2,ch3and4);
+      pbuf[i*interleave]=sound_audio_mix(pbuf[i*interleave],channels);
     }
   }
   return 0;

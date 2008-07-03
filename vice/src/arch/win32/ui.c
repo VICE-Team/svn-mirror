@@ -991,9 +991,10 @@ static char * read_screen_output(void)
         BYTE allrows, allcols;
         unsigned int row, col;
         unsigned int size;
+        int bank;
         char * p;
 
-        mem_get_screen_parameter(&base, &allrows, &allcols);
+        mem_get_screen_parameter(&base, &allrows, &allcols, &bank);
 
         size = allrows * (allcols + 2) + 1;
 
@@ -1010,7 +1011,7 @@ static char * read_screen_output(void)
             for (col = 0; col < allcols; col++) {
                 BYTE data;
 
-                data = mem_bank_peek(0, base++, NULL);
+                data = mem_bank_peek(bank, base++, NULL);
                 data = charset_p_toascii(charset_screencode_to_petcii(data), 1);
 
                 if (data != ' ') {

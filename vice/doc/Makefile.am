@@ -17,7 +17,8 @@ doc_DATA = \
 	cartconv.txt \
 	iec-bus.txt \
 	mon.txt \
-	openGLsync-howto.txt
+	openGLsync-howto.txt \
+	GP2X-Howto.txt
 
 info_TEXINFOS = vice.texi
 

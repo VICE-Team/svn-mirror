@@ -99,7 +99,7 @@ static int vic_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
         int real_sample_counter;
 
         vicbuf = (((vic_sound_run(snd.cycles_per_sample) * snd.vol) / (snd.cycles_per_sample))<<9) - (snd.vol*0x800);
-        pbuf[i * interleave] += vicbuf;
+        pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], vicbuf);
 
         if (vicbuf != 0 && sample_counter != -1)
             sample_counter = -1;
@@ -109,7 +109,7 @@ static int vic_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
             real_sample_counter = sample_counter*44100/snd.speed;
             if (real_sample_counter < VIC20CLICK_LEN)
             {
-                pbuf[i * interleave] += (SWORD)vic20click[real_sample_counter]*sample_volume;
+                pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], (SWORD)vic20click[real_sample_counter]*sample_volume);
                 sample_counter++;
             }
             else

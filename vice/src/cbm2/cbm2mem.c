@@ -1146,12 +1146,12 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     return mem_ioreg_list;
 }
 
-void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns)
+void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
 {
-    /* FIXME */
-    *base = 0;
+    *base = 0xd000;
     *rows = 25;
-    *columns = 80;
+    *columns = (cbm2_isC500) ? 40 : 80;
+    *bank = 16;
 }
 
 void mem_color_ram_to_snapshot(BYTE *color_ram)

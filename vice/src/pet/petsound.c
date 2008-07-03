@@ -101,7 +101,7 @@ static int pet_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
         else if (snd.manual)
             v = 20000;
 
-        pbuf[i * interleave] += v;
+        pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave],(SWORD)v);
         snd.b += snd.bs;
         while (snd.b >= 8.0)
             snd.b -= 8.0;
