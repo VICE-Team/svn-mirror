@@ -1,3 +1,21 @@
+2008-07-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am, arch/win32/ui.c, clipboard.c, clipboard.h: Moved
+	the common clipboard code that Spiro made to the new common
+	files called 'clipboard.c' and 'clipboard.h'.
+
+	* arch/amigaos/c128uires.h, arch/amigaos/c64uires.h,
+	arch/amigaos/cbm2uires.h, arch/amigaos/intl.c,
+	arch/amigaos/intl.txt, arch/amigaos/petuires.h,
+	arch/amigaos/plus4uires.h, arch/amigaos/private.h,
+	arch/amigaos/ui.c, arch/amigaos/uires.h,
+	arch/amigaos/vic20uires.h: Added text-only copy and paste
+	support to the amiga ports.
+
+	* arch/amigaos/joyai.c: Corrected some typos.
+
+	* arch/amigaos/video.c: Fixed a wrongly placed #endif.
+
 2008-07-04  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* arch/unix/macosx/Makefile.am: Make sure the file

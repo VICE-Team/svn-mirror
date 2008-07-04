@@ -42,6 +42,7 @@
 #include "autostart.h"
 #include "archdep.h"
 #include "charset.h"
+#include "clipboard.h"
 #include "debug.h"
 #include "drive.h"
 #include "drivecpu.h"
@@ -982,65 +983,6 @@ static void reset_dialog_proc(WPARAM wparam)
 
 /* ------------------------------------------------------------------------ */
 
-static char * read_screen_output(void)
-{
-    char * outputbuffer = NULL;
-
-    do {
-        WORD base;
-        BYTE allrows, allcols;
-        unsigned int row, col;
-        unsigned int size;
-        int bank;
-        char * p;
-
-        mem_get_screen_parameter(&base, &allrows, &allcols, &bank);
-
-        size = allrows * (allcols + 2) + 1;
-
-        outputbuffer = lib_malloc(size);
-        if (outputbuffer == NULL) {
-            break;
-        }
-
-        p = outputbuffer;
-
-        for (row = 0; row < allrows; row++) {
-            char * last_non_whitespace = p - 1;
-
-            for (col = 0; col < allcols; col++) {
-                BYTE data;
-
-                data = mem_bank_peek(bank, base++, NULL);
-                data = charset_p_toascii(charset_screencode_to_petcii(data), 1);
-
-                if (data != ' ') {
-                    last_non_whitespace = p;
-                }
-                *p++ = data;
-            }
-
-            /* trim the line if there are only whitespace at the end */
-
-            if (last_non_whitespace < p) {
-                p = last_non_whitespace + 1;
-            }
-
-            /* add a CR/LF */
-
-            *p++ = '\r';
-            *p++ = '\n';
-        }
-
-        *p = 0;
-
-        assert(p < outputbuffer + size);
-
-    } while (0);
-
-    return outputbuffer;
-}
-
 static void ui_copy_clipboard(HWND window)
 {
     BOOL clipboard_is_open = FALSE;
@@ -1059,7 +1001,7 @@ static void ui_copy_clipboard(HWND window)
             break;
         }
 
-        text = read_screen_output();
+        text = clipboard_read_screen_output("\r\n");
         if (text == NULL) {
             break;
         }

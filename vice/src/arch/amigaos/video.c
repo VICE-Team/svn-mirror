@@ -959,13 +959,13 @@ static int makecol_BGR565BE(int r, int g, int b)
   int c = ((b & 0xf8) << 8) | ((g & 0xfc) << 3) | ((r & 0xf8) >> 3);
   return c;
 }
+#endif
 
 static int makecol_RGB555BE(int r, int g, int b)
 {
   int c = ((r & 0xf8) << 7) | ((g & 0xf8) << 2) | ((b & 0xf8) >> 3);
   return c;
 }
-#endif
 
 static int makecol_BGR555BE(int r, int g, int b)
 {

@@ -98,6 +98,7 @@ noinst_HEADERS = \
 	charset.h \
 	cia.h \
 	clkguard.h \
+	clipboard.h \
 	cmdline.h \
 	color.h \
 	config.h.in \
@@ -199,6 +200,7 @@ base_sources = \
 	autostart.c \
 	charset.c \
 	clkguard.c \
+	clipboard.c \
 	cmdline.c \
 	cbmdos.c \
 	cbmimage.c \

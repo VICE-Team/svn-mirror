@@ -66,6 +66,7 @@
 #include <proto/asl.h>
 #include <proto/graphics.h>
 #include <proto/dos.h>
+#include <proto/iffparse.h>
 
 struct os_s {
   struct Screen *screen;

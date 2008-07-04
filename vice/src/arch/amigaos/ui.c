@@ -24,9 +24,12 @@
  *
  */
 
+#include "vice.h"
+
 #include <string.h>
 
 #include "private.h"
+#include "clipboard.h"
 #include "datasette.h"
 #include "tape.h"
 #include "statusbar.h"
@@ -52,6 +55,7 @@
 #include "translate.h"
 #include "screen-shot.h"
 #include "ui.h"
+#include "util.h"
 
 #include "mui/filereq.h"
 #include "mui/uidatasette.h"
@@ -216,6 +220,141 @@ void ui_register_menu_toggles(const ui_menu_toggle_t *toggles)
 void ui_register_res_values(const ui_res_value_list_t *valuelist)
 {
   machine_specific_values = valuelist;
+}
+
+#define  ID_FTXT	MAKE_ID('F','T','X','T')
+#define  ID_CHRS	MAKE_ID('C','H','R','S')
+
+struct Library *IFFParseBase;
+
+static void ui_copy_clipboard(void)
+{
+    struct IFFHandle *iff = NULL;
+    long unitnumber = 0;
+    long error;
+    int textlen;
+    char *text = NULL;
+
+    do {
+        text = clipboard_read_screen_output("\n");
+
+        if (text == NULL)
+            break;
+
+        if (!(IFFParseBase = OpenLibrary("iffparse.library", 0L)))
+            break;
+
+        if (!(iff = AllocIFF()))
+            break;
+
+        if (!(iff->iff_Stream = (ULONG)OpenClipboard(unitnumber)))
+            break;
+
+        InitIFFasClip (iff);
+
+        if (error = OpenIFF(iff, IFFF_WRITE))
+            break;
+
+        if (!(error=PushChunk(iff, ID_FTXT, ID_FORM, IFFSIZE_UNKNOWN)))
+        {
+            if (!(error=PushChunk(iff, 0, ID_CHRS, IFFSIZE_UNKNOWN)))
+            {
+                textlen = strlen(text);
+                WriteChunkBytes(iff, text, textlen);
+            }
+        }
+
+    } while (0);
+
+    if (iff)
+    {
+        CloseIFF(iff);
+
+        if (iff->iff_Stream)
+            CloseClipboard((struct ClipboardHandle *)iff->iff_Stream);
+        FreeIFF(iff);
+    }
+
+    if (IFFParseBase)
+        CloseLibrary(IFFParseBase);
+
+    if (text)
+        lib_free(text);
+}
+
+static void ui_paste_clipboard_text(void)
+{
+    struct IFFHandle *iff = NULL;
+    struct ContextNode *cn;
+    long unitnumber = 0;
+    long error;
+    int textlen;
+    char *text_in_petscii = NULL;
+    
+    do {
+        if (!(IFFParseBase = OpenLibrary("iffparse.library", 0L)))
+            break;
+
+        if (!(iff = AllocIFF()))
+            break;
+
+        if (!(iff->iff_Stream = (ULONG)OpenClipboard(unitnumber)))
+            break;
+
+        InitIFFasClip (iff);
+
+        if (error = OpenIFF(iff, IFFF_READ))
+            break;
+
+        if (error = StopChunk(iff, ID_FTXT, ID_CHRS))
+            break;
+
+        while(1)
+        {
+            error = ParseIFF(iff, IFFPARSE_SCAN);
+            if (error == IFFERR_EOC)
+                continue;
+            else
+                if (error)
+                    break;
+
+            cn = CurrentChunk(iff);
+
+            if ((cn) && (cn->cn_Type == ID_FTXT) && (cn->cn_ID == ID_CHRS))
+            {
+                textlen = cn->cn_Size;
+                text_in_petscii = lib_malloc(textlen + 1);
+                error = ReadChunkBytes(iff, text_in_petscii, textlen);
+                break;
+            }
+        }
+
+        if (text_in_petscii == NULL)
+            break;
+
+        text_in_petscii[textlen] = 0;
+
+        charset_petconvstring(text_in_petscii, 0);
+
+        kbdbuf_feed(text_in_petscii);
+
+    } while (0);
+
+    if (iff)
+    {
+        CloseIFF(iff);
+
+        if (iff->iff_Stream)
+            CloseClipboard((struct ClipboardHandle *)iff->iff_Stream);
+        FreeIFF(iff);
+    }
+
+    if (IFFParseBase)
+        CloseLibrary(IFFParseBase);
+
+    if (text_in_petscii) {
+        lib_free(text_in_petscii);
+    }
 }
 
 int ui_menu_create(video_canvas_t *canvas)
@@ -464,6 +603,12 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
       break;
     case IDM_RESET_DRIVE11:
       drivecpu_trigger_reset(3);
+      break;
+    case IDM_COPY:
+      ui_copy_clipboard();
+      break;
+    case IDM_PASTE:
+      ui_paste_clipboard_text();
       break;
 #ifdef AMIGA_OS4
     case IDM_JOY_SETTINGS:

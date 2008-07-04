@@ -723,6 +723,33 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDMS_EXIT_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_EXIT_SV, "Avsluta"},
 
+/* en */ {IDMS_EDIT,    "Edit"},
+/* de */ {IDMS_EDIT_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_EDIT_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_EDIT_HU, ""},  /* fuzzy */
+/* it */ {IDMS_EDIT_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_EDIT_NL, "Bewerken"},
+/* pl */ {IDMS_EDIT_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_EDIT_SV, ""},  /* fuzzy */
+
+/* en */ {IDMS_COPY,    "Copy"},
+/* de */ {IDMS_COPY_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_COPY_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_COPY_HU, ""},  /* fuzzy */
+/* it */ {IDMS_COPY_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_COPY_NL, "Kopie"},
+/* pl */ {IDMS_COPY_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_COPY_SV, ""},  /* fuzzy */
+
+/* en */ {IDMS_PASTE,    "Paste"},
+/* de */ {IDMS_PASTE_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_PASTE_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_PASTE_HU, ""},  /* fuzzy */
+/* it */ {IDMS_PASTE_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_PASTE_NL, "Plakken"},
+/* pl */ {IDMS_PASTE_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_PASTE_SV, ""},  /* fuzzy */
+
 /* en */ {IDMS_SNAPSHOT,    "Snapshot"},
 /* de */ {IDMS_SNAPSHOT_DE, "Snapshot"},
 /* fr */ {IDMS_SNAPSHOT_FR, "Sauvegarde"},

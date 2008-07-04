@@ -901,7 +901,7 @@ int joyai_update(int joy, int dst)
     }
 
     if (AIN_ReadDevice(CTX, ai_handle[joy-1], &ptr) == TRUE) {
-      unsigend int i, *data = ptr;
+      unsigned int i, *data = ptr;
 
       for (i=0; i<NUM_KEYSYM; i++) {
         switch (keysym[i].type) {
@@ -1002,7 +1002,7 @@ int joyai_key(int joy, int dst, unsigned long kcode, int pressed)
 {
     BYTE value = 0;
     keysym_type *keysym = (joy == 2) ? keysym_2 : keysym_1;
-    unsigend int i;
+    unsigned int i;
 
     for (i=0; i<NUM_KEYSYM; i++) {
         if ((keysym[i].type == TYPE_NONE) && (keysym[i].rawkey == kcode)) {
