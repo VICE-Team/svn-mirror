@@ -4,6 +4,16 @@
 
 	* arch/win32/vice.dsw: Removed vice.dsp
 
+	* c64/ramcart.c: Include vicii-phi1.h for vicii_read_phi1().
+
+	* clipboard.c: Define for variable i as unsigned to prevent a
+	warning.
+
+	* arch/win32/base.dsp: Add clipboard.c so vice compiles again.
+
+	* sound.h: changed SWORD sound_audio_mix(SWORD ch1, SWORD ch2);
+	to SWORD sound_audio_mix(int ch1, int ch2).
+
 2008-07-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* Makefile.am, arch/win32/ui.c, clipboard.c, clipboard.h: Moved

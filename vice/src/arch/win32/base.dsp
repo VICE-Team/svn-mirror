@@ -140,6 +140,10 @@ SOURCE="..\..\cbmimage.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\clipboard.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\clkguard.c"
 # End Source File
 # Begin Source File

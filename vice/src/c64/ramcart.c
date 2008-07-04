@@ -96,7 +96,7 @@
 #endif
 #include "types.h"
 #include "util.h"
-
+#include "vicii-phi1.h"
 
 static const c64export_resource_t export_res = {
     "RAMCART", 1, 0

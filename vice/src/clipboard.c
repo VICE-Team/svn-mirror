@@ -45,8 +45,8 @@ char *clipboard_read_screen_output(char *line_ending)
         unsigned int row, col;
         unsigned int size;
         unsigned int line_ending_length = strlen(line_ending);
+        unsigned int i;
         int bank;
-        int i;
         char * p;
 
         mem_get_screen_parameter(&base, &allrows, &allcols, &bank);

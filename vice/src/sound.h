@@ -85,7 +85,7 @@ typedef struct sound_device_s
     int need_attenuation;
 } sound_device_t;
 
-static inline SWORD sound_audio_mix(SWORD ch1, SWORD ch2)
+static inline SWORD sound_audio_mix(int ch1, int ch2)
 {
   if (ch1 == 0)
     return ch2;
