@@ -9,6 +9,7 @@ doc_DATA = \
 	images/new.gif \
 	images/vice-logo.jpg \
 	index.html \
+	hpux.html \
 	macosx.html \
 	plain/64doc.txt \
 	plain/BUGS \
@@ -21,6 +22,7 @@ doc_DATA = \
 	plain/drive_info.txt \
 	plain/serial.txt \
 	qnx.html \
+	sco.html \
 	solaris.html \
 	vice_1.html \
 	vice_2.html \

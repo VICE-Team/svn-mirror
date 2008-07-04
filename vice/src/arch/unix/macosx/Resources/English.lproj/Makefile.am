@@ -16,10 +16,16 @@ EXTRA_DIST = \
 	PrinterSettings.nib/keyedobjects.nib \
 	KeyboardSettings.nib/classes.nib \
 	KeyboardSettings.nib/info.nib \
-	KeyboardSettings.nib/keyedobjects.nib
+	KeyboardSettings.nib/keyedobjects.nib \
 	JoystickSettings.nib/classes.nib \
 	JoystickSettings.nib/info.nib \
 	JoystickSettings.nib/keyedobjects.nib \
+	RecordMedia.nib/classes.nib \
+	RecordMedia.nib/info.nib \
 	ResourceEditor.nib/classes.nib \
 	ResourceEditor.nib/info.nib \
-	ResourceEditor.nib/keyedobjects.nib
+	ResourceEditor.nib/keyedobjects.nib \
+	ResourceTree.plist \
+	SoundSettings.nib/classes.nib \
+	SoundSettings.nib/info.nib \
+	SoundSettings.nib/keyedobjects.nib

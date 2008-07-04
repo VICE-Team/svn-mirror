@@ -1,3 +1,12 @@
+2008-07-04  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* arch/unix/macosx/Makefile.am: Make sure the file
+	VICE.xcodeproj/project.pbxproj is included in the source
+	distribution.
+
+	* arch/unix/macosx/Resources/English.lproj/Makefile.am: Make
+	sure some MacOS files are included in the source distribution.
+
 2008-07-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* arch/win32/ui.c, c128/c128mem.c, c64/c64mem.c, cbm2/cbm2mem.c,
