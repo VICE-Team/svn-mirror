@@ -1,3 +1,9 @@
+2008-07-04  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* arch/win32/Makefile.am: Removed vice.dsp
+
+	* arch/win32/vice.dsw: Removed vice.dsp
+
 2008-07-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* Makefile.am, arch/win32/ui.c, clipboard.c, clipboard.h: Moved

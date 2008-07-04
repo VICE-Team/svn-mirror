@@ -359,7 +359,6 @@ EXTRA_DIST = \
 	vdc.dsp \
 	vdrive.dsp \
 	vic20.dsp \
-	vice.dsp \
 	vicii.dsp \
 	video.dsp \
 	x128.dsp \

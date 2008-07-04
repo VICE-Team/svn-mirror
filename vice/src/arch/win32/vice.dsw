@@ -3,7 +3,7 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
-Project: "_all"=".\_all.dsp" - Package Owner=<4>
+Project: "_vice"=".\_vice.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -712,46 +712,7 @@ Package=<4>
     End Project Dependency
 }}}
 
-###############################################################################
-
-Project: "vice"=".\vice.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-    Begin Project Dependency
-    Project_Dep_Name x64
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name x128
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name xcbm2
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name xpet
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name xplus4
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name xvic
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name petcat
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name c1541
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name cartconv
-    End Project Dependency
-}}}
-
-###############################################################################
+##############################################################################
 
 Project: "vicii"=".\vicii.dsp" - Package Owner=<4>
 
