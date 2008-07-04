@@ -1,5 +1,9 @@
 2008-07-04  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* Version 1.22.23
+
+2008-07-04  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
 	* arch/win32/Makefile.am: Removed vice.dsp
 
 	* arch/win32/vice.dsw: Removed vice.dsp

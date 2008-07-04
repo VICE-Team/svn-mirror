@@ -1,5 +1,9 @@
 2008-07-04  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* Version 1.22.23
+
+2008-07-04  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
 	* Makefile.am: Make sure the file Doxyfile is included in the
 	distribution.
 
