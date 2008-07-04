@@ -96,6 +96,7 @@ void debug_output( const char *text, BYTE *what, int count )
 #endif // #ifdef TFE_DEBUG_PKTDUMP
 
 
+#if 0
 static
 void TfePcapCloseAdapter(void) 
 {
@@ -109,6 +110,7 @@ void TfePcapCloseAdapter(void)
         TfePcapFP = NULL;
     }
 }
+#endif
 
 /*
  These functions let the UI enumerate the available interfaces.

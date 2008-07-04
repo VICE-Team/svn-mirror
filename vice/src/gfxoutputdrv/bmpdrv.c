@@ -472,7 +472,7 @@ static int bmpdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE
     return 0;
 }
 
-static int bmpdrv_write_memmap(int line, int x_size, int y_size, BYTE *gfx)
+static void bmpdrv_write_memmap(int line, int x_size, int y_size, BYTE *gfx)
 {
     memcpy(bmpdrv_memmap_bmp_data + (y_size - 1 - line) * x_size, gfx+(line*x_size), x_size);
 }

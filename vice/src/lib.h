@@ -38,7 +38,7 @@
 extern void *lib_malloc(size_t size);
 extern void *lib_calloc(size_t nmemb, size_t size);
 extern void *lib_realloc(void *p, size_t size);
-extern void lib_free(void *ptr);
+extern void lib_free(const void *ptr);
 
 extern char *lib_stralloc(const char *str);
 extern char *lib_msprintf(const char *fmt, ...);

@@ -490,8 +490,9 @@ void *lib_realloc(void *ptr, size_t size)
     return new_ptr;
 }
 
-void lib_free(void *ptr)
+void lib_free(const void *constptr)
 {
+    void * ptr = (void*) constptr;
 #ifdef LIB_DEBUG
     lib_debug_free(ptr, 1, 1);
 #endif

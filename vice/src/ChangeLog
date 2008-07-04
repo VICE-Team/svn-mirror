@@ -14,6 +14,19 @@
 	* sound.h: changed SWORD sound_audio_mix(SWORD ch1, SWORD ch2);
 	to SWORD sound_audio_mix(int ch1, int ch2).
 
+	* gfxoutputdrv/bmpdrv.c: bmpdrv_write_memmap() now is a void
+	function.
+
+	* screenshot.c: memmap_screenshot_save() had an unused variable
+	i, removed that.
+
+	* lib.c, lib.h: lib_free() now takes a const pointer.
+
+	* arch/unix/archdep.c: viceuserdir is now a const pointer.
+
+	* arch/unix/tfearch.c: Removed unused TfePcapCloseAdapter()
+	function.
+
 2008-07-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* Makefile.am, arch/win32/ui.c, clipboard.c, clipboard.h: Moved

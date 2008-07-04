@@ -260,7 +260,7 @@ char *archdep_default_save_resource_file_name(void)
 { 
     char *fname;
     const char *home;
-    char *viceuserdir;
+    const char *viceuserdir;
 
     if(archdep_pref_path==NULL) {
       home = archdep_home_path();

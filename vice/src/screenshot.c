@@ -194,7 +194,6 @@ int screenshot_save(const char *drvname, const char *filename,
 int memmap_screenshot_save(const char *drvname, const char *filename, int x_size, int y_size, BYTE *gfx, BYTE *palette)
 {
     gfxoutputdrv_t *drv;
-    unsigned int i;
 
     if ((drv = gfxoutput_get_driver(drvname)) == NULL)
         return -1;
