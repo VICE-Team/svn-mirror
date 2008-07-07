@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _CLIPBOARD_H
-#define _CLIPBOARD_H
+#ifndef _VICE_CLIPBOARD_H
+#define _VICE_CLIPBOARD_H
 
 #include "vice.h"
 

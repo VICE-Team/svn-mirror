@@ -28,6 +28,7 @@
 
 #include <Alert.h>
 #include <Application.h>
+#include <Clipboard.h>
 #include <FilePanel.h>
 #include <Menu.h>
 #include <MenuBar.h>
@@ -46,7 +47,9 @@ extern "C" {
 #include "attach.h"
 #include "autostart.h"
 #include "archdep.h"
+#include "charset.h"
 #include "cmdline.h"
+#include "clipboard.h"
 #include "constants.h"
 #include "datasette.h"
 #include "drive.h"
@@ -57,6 +60,7 @@ extern "C" {
 #include "interrupt.h" 
 #include "joy.h"
 #include "kbd.h"
+#include "kbdbuf.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "log.h"
@@ -426,6 +430,55 @@ int ui_emulation_is_paused(void)
     return is_paused;
 }
 
+static void ui_copy_clipboard(void)
+{
+    BMessage *clippy = (BMessage *)NULL;
+    char *text = NULL;
+
+    text = clipboard_read_screen_output("\n");
+
+    if (text != NULL)
+    {
+        if (be_clipboard->Lock())
+        {
+            be_clipboard->Clear();
+            if (clippy = be_clipboard->Data())
+            {
+                clippy->AddData("text/plain", B_MIME_TYPE, text, strlen(text));
+                be_clipboard->Commit();
+            }
+            be_clipboard->Unlock();
+        }
+        lib_free(text);
+    }
+}
+
+static void ui_paste_clipboard_text(void)
+{
+    const char *text;
+    char *text_in_petscii = NULL;
+    int32 textlen = 0;
+    BMessage *clippy = (BMessage *)NULL;
+
+    if (be_clipboard->Lock())
+    {
+        if (clippy = be_clipboard->Data())
+        {
+            clippy->FindData("text/plain", B_MIME_TYPE, (const void **)&text, &textlen);
+
+            if (textlen != 0)
+            {
+                text_in_petscii = (char *)lib_malloc(textlen + 1);
+                memcpy(text_in_petscii, text, textlen);
+                text_in_petscii[textlen] = 0;
+                charset_petconvstring((unsigned char *)text_in_petscii, 0);
+                kbdbuf_feed(text_in_petscii);
+                lib_free(text_in_petscii);
+            }
+        }
+        be_clipboard->Unlock();
+    }
+} 
 
 /* here the stuff for queueing and dispatching ui commands */
 /*---------------------------------------------------------*/
@@ -638,6 +691,12 @@ void ui_dispatch_events(void)
 			case MENU_PAUSE:
         		ui_pause_emulation();
         		break;
+            case MENU_COPY:
+			ui_copy_clipboard();
+			break;
+            case MENU_PASTE:
+			ui_paste_clipboard_text();
+			break;
         	case MENU_SOUND_RECORD_AIFF:
                   ui_select_file(windowlist[0]->savepanel,AIFF_FILE,(void*)0);
                   resources_set_string("SoundRecordDeviceName", "");

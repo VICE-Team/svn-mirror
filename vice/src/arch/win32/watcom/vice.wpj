@@ -4,10 +4,10 @@ projectIdent
 VpeMain
 1
 WRect
-0
-0
+-40
+-53
 10320
-9960
+9973
 2
 MProject
 3
@@ -280,7 +280,7 @@ WRect
 0
 5700
 4280
-1
+0
 0
 68
 WFileName
@@ -325,7 +325,7 @@ VComponent
 76
 WRect
 750
-733
+720
 5700
 4280
 1
@@ -421,7 +421,7 @@ VComponent
 94
 WRect
 750
-733
+720
 5700
 4280
 1
@@ -517,7 +517,7 @@ VComponent
 112
 WRect
 750
-733
+720
 5700
 4280
 1
@@ -613,7 +613,7 @@ VComponent
 130
 WRect
 750
-733
+720
 5700
 4280
 1
@@ -709,7 +709,7 @@ VComponent
 148
 WRect
 750
-733
+720
 5700
 4280
 1
@@ -805,7 +805,7 @@ VComponent
 166
 WRect
 750
-733
+720
 5700
 4280
 1
@@ -901,7 +901,7 @@ VComponent
 184
 WRect
 750
-733
+720
 5700
 4280
 1
@@ -917,7 +917,7 @@ VComponent
 187
 WRect
 4390
-93
+80
 5700
 4280
 1
@@ -1029,7 +1029,7 @@ VComponent
 208
 WRect
 4490
-53
+40
 5700
 4280
 1
@@ -1040,4 +1040,4 @@ WFileName
 xvic.tgt
 13
 29
-207
+66

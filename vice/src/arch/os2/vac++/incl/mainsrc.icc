@@ -6,6 +6,7 @@ source type(c)
     "cbmimage.c",
     "clkguard.c",
     "charset.c",
+    "clipboard.c",
     "cmdline.c",
     "datasette.c",
     "debug.c",

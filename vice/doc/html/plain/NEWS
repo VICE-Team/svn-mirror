@@ -88,16 +88,22 @@ list of all the changes in the code.
 
 - Fixed mouse grab and xaw menu popup.
 
+- After a CPU jam user can select to resume emulation without
+  reset.
+
 ** MS-Windows changes
 ---------------------
 
 - Fixed the reverse logic of the -confirmexit/+confirmexit and
   -singlecpu/+singlecpu command-line options.
 
-- allow for pasting into the VICE window: Either via menu
-  (Edit/Paste), or by right-clicking on the VICE window.
+- Added the ability to copy and paste text from and to the
+  VICE window.
 
-- keyboard shortcuts are definable in the configuration file
+- Added the ability to paste text into the VICE window by
+  right-clicking on the VICE window.
+
+- Keyboard shortcuts are definable in the configuration file
   win_shortscuts.vsc
 
 - After a CPU jam user can select to resume emulation without
@@ -117,11 +123,26 @@ list of all the changes in the code.
 - Added warning dialog when the monitor is accessed without
   having an open console window.
 
+- Added the ability to copy and paste text from and to the
+  VICE window.
+
 ** AmigaOS changes
 ------------------
 
 - Fixed the reverse logic of the -confirmexit/+confirmexit
   command-line options.
+
+- Added the ability to copy and paste text from and to the
+  VICE window.
+
+- After a CPU jam user can select to resume emulation without
+  reset.
+
+** OS/2 changes
+---------------
+
+- After a CPU jam user can select to resume emulation without
+  reset.
 
 ** Miscellaneous changes
 ------------------------

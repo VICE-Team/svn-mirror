@@ -358,7 +358,7 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
     mb->mb2d[0].idButton = UI_JAM_HARD_RESET;
     mb->mb2d[1].idButton = UI_JAM_RESET;
     mb->mb2d[2].idButton = UI_JAM_MONITOR;
-    mb->mv2d[3].idButton = UI_JAM_NONE;
+    mb->mb2d[3].idButton = UI_JAM_NONE;
     mb->mb2d[0].flStyle  = BS_DEFAULT;
     mb->mb2d[1].flStyle  = 0;
     mb->mb2d[2].flStyle  = 0;

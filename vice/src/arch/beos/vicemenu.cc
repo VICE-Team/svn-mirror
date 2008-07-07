@@ -256,6 +256,16 @@ BMenuBar *menu_create(int machine_class) {
 	menu->AddItem(new BMenuItem("Quit", 
 		new BMessage(MENU_EXIT_REQUESTED), 'Q'));
 
+	/* create the EDIT menu */
+	menu = new BMenu("Edit");
+	menubar->AddItem(menu);
+	if (!vsid_mode) {
+		menu->AddItem(new BMenuItem("Copy", 
+			new BMessage(MENU_COPY)));
+		menu->AddItem(new BMenuItem("Paste", 
+			new BMessage(MENU_PASTE)));
+      }
+
 	/* create the OPTIONS menu */
 	menu = new BMenu("Options");
 	menubar->AddItem(menu);

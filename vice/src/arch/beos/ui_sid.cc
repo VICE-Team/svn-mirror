@@ -88,12 +88,13 @@ static SidWindow *sidwindow = NULL;
 
 void CreateAndGetAddressList(BListView *addresslistview, int mode)
 {
-	/* mode: 0=Create  1=get */	
+    /* mode: 0=Create  1=get */	
     char st[12];
     int res_value;
     int adr, ladr, hi, index = -1;
     int *hadr;
-	int cursel = addresslistview->CurrentSelection();
+    int cursel = addresslistview->CurrentSelection();
+    BListItem *item;
 
     resources_get_int("SidStereoAddressStart", &res_value);
 

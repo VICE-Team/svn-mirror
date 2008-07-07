@@ -111,6 +111,9 @@ const uint32 MENU_CART_VIC20_4KB_B000			= 'M064';
 const uint32 ATTACH_C64_CART					= 'MA01';
 const uint32 ATTACH_VIC20_CART					= 'MA02';
 
+const uint32 MENU_COPY						= 'M161';
+const uint32 MENU_PASTE						= 'M162';
+
 const uint32 MENU_TOGGLE_SOUND					= 'M100';
 const uint32 MENU_TOGGLE_WARP_MODE				= 'M101';
 const uint32 MENU_TOGGLE_DRIVE_TRUE_EMULATION	= 'M102';

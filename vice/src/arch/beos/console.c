@@ -53,7 +53,7 @@ extern void add_history ( const char *str );
 #else
 char *readline(const char *prompt)
 {
-    char *p, *v;
+    char *p, *rv;
 
     console_out(NULL, "%s", prompt);
     fflush(stdout);

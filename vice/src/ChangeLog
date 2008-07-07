@@ -1,3 +1,26 @@
+2008-07-07  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/beos/Makefile.am, arch/beos/constants.h, arch/beos/ui.cc,
+	arch/beos/vicemenu.cc: Added copy/paste support.
+
+	* arch/beos/console.c: Fixed a typo.
+
+	* arch/beos/ui_sid.cc: Added a missing variable.
+
+	* arch/os2/ui.c: Fixed a typo.
+
+	* arch/os2/vac++/incl/mainsrc.icc, arch/os2/watcom/mainsrc.tgt,
+	arch/os2/watcom/vice.wpj, arch/win32/watcom/base.tgt,
+	arch/win32/watcom/vice.wpj: Added clipboard.c to the project
+	files.
+
+	* clipboard.h: Changed the _CLIPBOARD_H define to
+	_VICE_CLIPBOARD_H so that it won't interfere with the beos
+	clipboard define.
+
+	* sound.h: Fixed up to return SWORD and use int calculations
+	without casts.
+
 2008-07-04  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.23
