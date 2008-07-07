@@ -163,6 +163,12 @@ IDGS_DIGIMAX_NOT_WITH_RESID
 
 /* COMMAND-LINE STRING ID DEFINITIONS */
 
+/* autostart.c */
+IDCLS_ENABLE_AUTOSTARTWITHCOLON
+
+/* autostart.c */
+IDCLS_DISABLE_AUTOSTARTWITHCOLON
+
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, plus4/plus4-cmdline-options.c,
    vic20/vic20-cmdline-options.c */

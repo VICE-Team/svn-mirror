@@ -29,6 +29,7 @@
 
 #include "archdep.h"
 #include "attach.h"
+#include "autostart.h"
 #include "cmdline.h"
 #include "console.h"
 #include "debug.h"
@@ -79,6 +80,10 @@ int init_resources(void)
     }
     if (sysfile_resources_init() < 0) {
         init_resource_fail("system file locator");
+        return -1;
+    }
+    if (autostart_resources_init() < 0) {
+        init_resource_fail("autostart");
         return -1;
     }
     if (romset_resources_init() < 0) {
@@ -164,6 +169,10 @@ int init_cmdline_options(void)
     }
     if (!vsid_mode && ui_cmdline_options_init() < 0) {
         init_cmdline_options_fail("UI");
+        return -1;
+    }
+    if (autostart_cmdline_options_init() < 0) {
+        init_resource_fail("autostart");
         return -1;
     }
     if (fliplist_cmdline_options_init() < 0) {

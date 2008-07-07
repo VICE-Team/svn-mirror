@@ -34,6 +34,9 @@
 #define AUTOSTART_MODE_RUN  0
 #define AUTOSTART_MODE_LOAD 1
 
+extern int autostart_resources_init(void);
+extern int autostart_cmdline_options_init(void);
+
 extern int autostart_init(CLOCK min_cycles, int handle_drive_true_emulation,
                           int blnsw, int pnt, int pntr, int lnmx);
 extern void autostart_shutdown(void);

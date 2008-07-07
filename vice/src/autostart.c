@@ -37,6 +37,7 @@
 #include "archdep.h"
 #include "autostart.h"
 #include "attach.h"
+#include "cmdline.h"
 #include "datasette.h"
 #include "drive.h"
 #include "fileio.h"
@@ -110,6 +111,89 @@ static unsigned int autostart_run_mode;
 
 /* Flag: maincpu_clk isn't resetted yet */
 static int autostart_wait_for_reset;
+/* ------------------------------------------------------------------------- */
+
+static int AutostartRunWithColon = 0;
+
+static const char * const AutostartRunCommandsAvailable[] = { "RUN\r", "RUN:\r" };
+
+static const char * AutostartRunCommand = NULL;
+
+/*! \internal \brief set the reu to the enabled or disabled state
+
+ \param val
+   if 0, disable the REU; else, enable it.
+
+ \param param
+   unused
+
+ \return
+   0 on success. else -1.
+*/
+static int set_autostart_run_with_colon(int val, void *param)
+{
+    AutostartRunWithColon = val ? 1 : 0;
+
+    AutostartRunCommand = AutostartRunCommandsAvailable[AutostartRunWithColon];
+
+    return 0;
+}
+
+
+/*! \brief integer resources used by the REU module */
+static const resource_int_t resources_int[] = {
+    { "AutostartRunWithColon", 0, RES_EVENT_NO, (resource_value_t)0,
+      &AutostartRunWithColon, set_autostart_run_with_colon, NULL },
+    { NULL }
+};
+
+/*! \brief initialize the resources
+ \return
+   0 on success, else -1.
+
+ \remark
+   Registers the integer resources
+*/
+int autostart_resources_init(void)
+{
+    return resources_register_int(resources_int);
+}
+
+/* ------------------------------------------------------------------------- */
+
+#ifdef HAS_TRANSLATION
+static const cmdline_option_t cmdline_options[] =
+{
+    { "-autostartwithcolon", SET_RESOURCE, 0, NULL, NULL, "AutostartRunWithColon", (resource_value_t)1,
+      0, IDCLS_ENABLE_AUTOSTARTWITHCOLON },
+    { "+autostartwithcolon", SET_RESOURCE, 0, NULL, NULL, "AutostartRunWithColon", (resource_value_t)0,
+      0, IDCLS_DISABLE_AUTOSTARTWITHCOLON },
+    { NULL }
+};
+#else
+static const cmdline_option_t cmdline_options[] =
+{
+    { "-autostartwithcolon", SET_RESOURCE, 0, NULL, NULL, "AutostartRunWithColon", (resource_value_t)1,
+      NULL, N_("On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'") },
+    { "+autostartwithcolon", SET_RESOURCE, 0, NULL, NULL, "AutostartRunWithColon", (resource_value_t)0,
+      NULL, N_("On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'") },
+    { NULL }
+};
+#endif
+
+/*! \brief initialize the command-line options
+
+ \return
+   0 on success, else -1.
+
+ \remark
+   Registers the command-line options
+*/
+int autostart_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* Deallocate program name if we have one */
@@ -273,7 +357,7 @@ static void disk_eof_callback(void)
 static void disk_attention_callback(void)
 {
     if (autostart_run_mode == AUTOSTART_MODE_RUN)
-        kbdbuf_feed("RUN:\r");
+        kbdbuf_feed(AutostartRunCommand);
 
     machine_bus_attention_callback_set(NULL);
 
@@ -333,7 +417,7 @@ static void advance_loadingtape(void)
     switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
       case YES:
         log_message(autostart_log, "Starting program.");
-        kbdbuf_feed("RUN:\r");
+        kbdbuf_feed(AutostartRunCommand);
         autostartmode = AUTOSTART_DONE;
         break;
       case NO:
@@ -382,7 +466,7 @@ static void advance_hasdisk(void)
 
         if (!traps) {
             if (autostart_run_mode == AUTOSTART_MODE_RUN)
-                kbdbuf_feed("RUN:\r");
+                kbdbuf_feed(AutostartRunCommand);
             autostartmode = AUTOSTART_DONE;
         } else {
             autostartmode = AUTOSTART_LOADINGDISK;
