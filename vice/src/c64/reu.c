@@ -202,6 +202,7 @@ struct rec_options_s {
     unsigned int wrap_around_mask_when_storing; /*!< mask for the wrap around of REU address when putting result back in base_reu and bank_reu */
     BYTE         reg_bank_unused;               /*!< the unused bits (stuck at 1) of REU_REG_RW_BANK; for original REU, it is REU_REG_RW_BANK_UNUSED */
     BYTE         status_preset;                 /*!< preset value for the status (can be 0 or REU_REG_R_STATUS_256K_CHIPS) */
+    unsigned int first_unused_register_address; /*!< the highest address the used REU register occupy */
 };
 
 /*! \brief a complete REC options description */
@@ -270,6 +271,33 @@ static int set_reu_enabled(int val, void *param)
     }
 }
 
+/*! \internal \brief set the first unused REU register address
+
+ \param val
+   the end of the used REU register area; should be equal
+   to or bigger than REU_REG_RW_UNUSED.
+
+ \param param
+   unused
+
+ \return
+   0 on success, else -1.
+*/
+static int set_reu_first_unused(int val, void *param)
+{
+    int retval = -1;
+
+    if (val >= REU_REG_RW_UNUSED) {
+        rec_options.first_unused_register_address = val;
+        retval = 0;
+    }
+    else {
+        log_message(reu_log, "Invalid first unused REU address %02x.", val);
+    };
+
+    return retval;
+}
+
 /*! \internal \brief set the size of the reu
 
  \param val
@@ -317,6 +345,7 @@ static int set_reu_size(int val, void *param)
     rec_options.wrap_around_mask_when_storing = rec_options.wrap_around - 1;
     rec_options.reg_bank_unused = REU_REG_RW_BANK_UNUSED;
     rec_options.status_preset = REU_REG_R_STATUS_256K_CHIPS;
+    rec_options.first_unused_register_address = REU_REG_RW_UNUSED;
 
     switch (val) {
       case 128:
@@ -398,6 +427,8 @@ static const resource_int_t resources_int[] = {
       &reu_enabled, set_reu_enabled, NULL },
     { "REUsize", 512, RES_EVENT_NO, NULL,
       &reu_size_kb, set_reu_size, NULL },
+    { "REUfirstUnusedRegister", REU_REG_RW_UNUSED, RES_EVENT_NO, NULL,
+      &rec_options.first_unused_register_address, set_reu_first_unused, NULL },
     { NULL }
 };
 
@@ -577,7 +608,7 @@ static BYTE reu_read_without_sideeffects(WORD addr)
 {
     BYTE retval = 0xff;
 
-    assert(addr <= REU_REG_LAST_REG);
+    addr &= REU_REG_LAST_REG;
 
     switch (addr) {
       case REU_REG_R_STATUS:
@@ -646,7 +677,7 @@ static BYTE reu_read_without_sideeffects(WORD addr)
 */
 static void reu_store_without_sideeffects(WORD addr, BYTE byte)
 {
-    assert(addr <= REU_REG_LAST_REG);
+    addr &= REU_REG_LAST_REG;
 
     switch (addr)
     {
@@ -722,31 +753,32 @@ BYTE REGPARM1 reu_read(WORD addr)
 {
     BYTE retval;
 
-    addr &= REU_REG_LAST_REG;
+    addr &= 0xff;
 
-    if (addr < REU_REG_RW_UNUSED) {
+    if (addr < rec_options.first_unused_register_address) {
         io_source = IO_SOURCE_REU;
+
+        retval = reu_read_without_sideeffects(addr);
+
+        switch (addr) {
+          case REU_REG_R_STATUS:
+            /* Bits 7-5 are cleared when register is read, and pending IRQs are
+               removed. */
+            rec.status &= 
+                ~(REU_REG_R_STATUS_VERIFY_ERROR 
+                  | REU_REG_R_STATUS_END_OF_BLOCK 
+                  | REU_REG_R_STATUS_INTERRUPT_PENDING
+                 );
+
+            maincpu_set_irq(reu_int_num, 0);
+            break;
+          default:
+            break;
+        }
+
+        DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "read [$%02X] => $%02X.", addr, retval) );
     }
 
-    retval = reu_read_without_sideeffects(addr);
-
-    switch (addr) {
-      case REU_REG_R_STATUS:
-        /* Bits 7-5 are cleared when register is read, and pending IRQs are
-           removed. */
-        rec.status &= 
-            ~(REU_REG_R_STATUS_VERIFY_ERROR 
-              | REU_REG_R_STATUS_END_OF_BLOCK 
-              | REU_REG_R_STATUS_INTERRUPT_PENDING
-             );
-
-        maincpu_set_irq(reu_int_num, 0);
-        break;
-      default:
-        break;
-    }
-
-    DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "read [$%02X] => $%02X.", addr, retval) );
     return retval;
 }
 
@@ -762,16 +794,18 @@ BYTE REGPARM1 reu_read(WORD addr)
 */
 void REGPARM2 reu_store(WORD addr, BYTE byte)
 {
-    addr &= REU_REG_LAST_REG;
+    addr &= 0xff;
 
-    reu_store_without_sideeffects(addr, byte);
+    if (addr < rec_options.first_unused_register_address) {
+        reu_store_without_sideeffects(addr, byte);
 
-    DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "store [$%02X] <= $%02X.", addr, (int)byte) );
+        DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "store [$%02X] <= $%02X.", addr, (int)byte) );
 
-    /* write REC command register
-     * DMA only if execution bit (7) set  - RH */
-    if ((addr == REU_REG_RW_COMMAND) && (rec.command & REU_REG_RW_COMMAND_EXECUTE)) {
-        reu_dma(rec.command & REU_REG_RW_COMMAND_FF00_TRIGGER_DISABLED);
+        /* write REC command register
+         * DMA only if execution bit (7) set  - RH */
+        if ((addr == REU_REG_RW_COMMAND) && (rec.command & REU_REG_RW_COMMAND_EXECUTE)) {
+            reu_dma(rec.command & REU_REG_RW_COMMAND_FF00_TRIGGER_DISABLED);
+        }
     }
 }
 
@@ -920,6 +954,24 @@ static void reu_dma_update_regs(WORD host_addr, unsigned int reu_addr,
     }
 }
 
+/*! \brief Mark END-OF-BLOCK condition
+
+ \return
+   The value to store to the length register (hard-coded to 1)
+
+ \remark
+   Whenever a REU operation completes, the END-OF-BLOCK bit
+   is set. This is done with the help of this function,
+   as this occurs at different places.
+*/
+static int reu_set_end_of_block(void)
+{
+    rec.status |= REU_REG_R_STATUS_END_OF_BLOCK;
+    DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "END OF BLOCK") );
+
+    return 0x01; /* the length value to store after the transfer */
+}
+
 /*! \brief DMA operation writing from the host to the REU
 
   \param host_addr
@@ -959,9 +1011,7 @@ static void reu_dma_host_to_reu(WORD host_addr, unsigned int reu_addr,
         store_to_reu(reu_addr, value);
         host_addr = (host_addr + host_step) & 0xffff;
     }
-    len = 0x1;
-    rec.status |= REU_REG_R_STATUS_END_OF_BLOCK;
-    DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "END OF BLOCK") );
+    len = reu_set_end_of_block();
     reu_dma_update_regs(host_addr, reu_addr, len);
 }
 
@@ -1001,9 +1051,7 @@ static void reu_dma_reu_to_host(WORD host_addr, unsigned int reu_addr,
         machine_handle_pending_alarms(0);
         host_addr = (host_addr + host_step) & 0xffff;
     }
-    len = 1;
-    rec.status |= REU_REG_R_STATUS_END_OF_BLOCK;
-    DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "END OF BLOCK") );
+    len = reu_set_end_of_block();
     reu_dma_update_regs(host_addr, reu_addr, len);
 }
 
@@ -1048,9 +1096,7 @@ static void reu_dma_swap(WORD host_addr, unsigned int reu_addr,
         machine_handle_pending_alarms(0);
         host_addr = (host_addr + host_step) & 0xffff;
     }
-    len = 1;
-    rec.status |= REU_REG_R_STATUS_END_OF_BLOCK;
-    DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "END OF BLOCK") );
+    len = reu_set_end_of_block();
     reu_dma_update_regs(host_addr, reu_addr, len);
 }
 
@@ -1099,6 +1145,13 @@ static void reu_dma_compare(WORD host_addr, unsigned int reu_addr,
             DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "VERIFY ERROR") );
             rec.status |= REU_REG_R_STATUS_VERIFY_ERROR;
 
+            /* weird behaviour of the 17xx: If the last or next-to-last byte
+             * failed, the "end of block transfer" bit is set, too.
+             */
+            if ( (len == 0) || (len == 1) ) {
+                len = reu_set_end_of_block();
+            }
+
             if (rec.int_mask_reg & (REU_REG_RW_INTERRUPT_VERIFY_ENABLED | REU_REG_RW_INTERRUPT_INTERRUPTS_ENABLED)) {
                 DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "Verify Interrupt pending") );
                 rec.status |= REU_REG_R_STATUS_INTERRUPT_PENDING;
@@ -1110,9 +1163,7 @@ static void reu_dma_compare(WORD host_addr, unsigned int reu_addr,
 
     if (len < 0) {
         /* all bytes are equal, mark End Of Block */
-        rec.status |= REU_REG_R_STATUS_END_OF_BLOCK;
-        len = 1;
-        DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "END OF BLOCK") );
+        len = reu_set_end_of_block();
     }
 
     reu_dma_update_regs(host_addr, reu_addr, len);

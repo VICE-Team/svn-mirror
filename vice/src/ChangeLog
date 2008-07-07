@@ -1,5 +1,8 @@
 2008-07-07  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* c64/reu.c: fixed "end-of-block" for REU compare operation
+	according to Wolfgang Moser's REU reference.
+
 	* init.c, autostart.c, autostart.h, translate.txt, translate.c:
 	Added new command-line options -autostartrunwithcolon and
 	+autostartrunwithcolon along with corresponding vicerc option
