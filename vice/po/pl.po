@@ -9534,7 +9534,7 @@ msgstr "Za³aduj nowy kernal"
 
 #: src/arch/win32/resc128.rc.po.c:3334
 #, fuzzy
-msgid "Norwegain Kernal"
+msgid "Norwegian Kernal"
 msgstr "Za³aduj nowy kernal"
 
 #: src/arch/win32/resc128.rc.po.c:3336
@@ -12579,7 +12579,7 @@ msgid "Amiga mouse"
 msgstr ""
 
 #, fuzzy
-#~ msgid "Specify name of Norwegain Kernal ROM image"
+#~ msgid "Specify name of Norwegian Kernal ROM image"
 #~ msgstr "Okre¶l nazwê pliku pozycyjnej mapy klawiatury"
 
 #, fuzzy

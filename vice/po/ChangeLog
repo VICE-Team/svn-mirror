@@ -1,3 +1,10 @@
+2008-07-08  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* fr.po, de.po, sv.po, nl.po, pl.po, it.po, hu.po: cosmetic
+	change: Norwegain -> Norwegian.
+
+	* de.po: 2 new texts for -autostartrunwithcolon.
+
 2008-06-22  pottendo  <pottendo@aon.at>
 
 	* hu.po: Updated by cirix.

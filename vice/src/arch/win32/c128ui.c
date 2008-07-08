@@ -97,7 +97,7 @@ static const uirom_settings_t uirom_settings[] = {
     { UIROM_TYPE_MAIN, TEXT("Italian Kernal"), "KernalITName",
       IDC_C128ROM_KERNALIT_FILE, IDC_C128ROM_KERNALIT_BROWSE,
       IDC_C128ROM_KERNALIT_RESOURCE },
-    { UIROM_TYPE_MAIN, TEXT("Norwegain Kernal"), "KernalNOName",
+    { UIROM_TYPE_MAIN, TEXT("Norwegian Kernal"), "KernalNOName",
       IDC_C128ROM_KERNALNO_FILE, IDC_C128ROM_KERNALNO_BROWSE,
       IDC_C128ROM_KERNALNO_RESOURCE },
     { UIROM_TYPE_MAIN, TEXT("Swedish Kernal"), "KernalSEName",

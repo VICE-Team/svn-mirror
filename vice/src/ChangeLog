@@ -1,3 +1,8 @@
+2008-07-08  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* arch/win32/resc128.rc, arch/win32/c128ui.c: cosmetic change:
+	Norwegain -> Norwegian.
+
 2008-06-22  pottendo  <pottendo@aon.at>
 
 	* c128/c128-cmdline-options.c (cmdline_options): cosmetic change:

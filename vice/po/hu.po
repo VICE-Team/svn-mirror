@@ -8772,7 +8772,7 @@ msgid "Italian Kernal"
 msgstr "Olasz kernal"
 
 #: src/arch/win32/resc128.rc.po.c:3334
-msgid "Norwegain Kernal"
+msgid "Norwegian Kernal"
 msgstr "Norvég kernal"
 
 #: src/arch/win32/resc128.rc.po.c:3336

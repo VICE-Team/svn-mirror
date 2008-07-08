@@ -54,11 +54,11 @@ msgstr ""
 
 #: src/autostart.c:177 src/translate.c.po.c:634
 msgid "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
-msgstr ""
+msgstr "Bei Autostart soll 'RUN' mit Doppelpunkt ausgeführt werden ('RUN:')"
 
 #: src/autostart.c:179 src/translate.c.po.c:644
 msgid "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"
-msgstr ""
+msgstr "Bei Autostart soll 'RUN' ohne Doppelpunkt ausgeführt werden ('RUN')"
 
 #: src/autostart.c:270 src/translate.c.po.c:96
 msgid "Cannot load snapshot file."
@@ -8734,7 +8734,7 @@ msgid "Italian Kernal"
 msgstr "Italienischer Kernal"
 
 #: src/arch/win32/resc128.rc.po.c:3334
-msgid "Norwegain Kernal"
+msgid "Norwegian Kernal"
 msgstr "Norwegischer Kernal"
 
 #: src/arch/win32/resc128.rc.po.c:3336

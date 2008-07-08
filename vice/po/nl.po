@@ -8770,7 +8770,7 @@ msgid "Italian Kernal"
 msgstr "Italiaanse Kernal"
 
 #: src/arch/win32/resc128.rc.po.c:3334
-msgid "Norwegain Kernal"
+msgid "Norwegian Kernal"
 msgstr "Noorse Kernal"
 
 #: src/arch/win32/resc128.rc.po.c:3336

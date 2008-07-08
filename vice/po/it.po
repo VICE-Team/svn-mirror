@@ -8850,7 +8850,7 @@ msgid "Italian Kernal"
 msgstr "Kernal italiano"
 
 #: src/arch/win32/resc128.rc.po.c:3334
-msgid "Norwegain Kernal"
+msgid "Norwegian Kernal"
 msgstr "Kernal norvegese"
 
 #: src/arch/win32/resc128.rc.po.c:3336
@@ -11449,7 +11449,7 @@ msgstr "*Attiva mouse"
 msgid "Amiga mouse"
 msgstr ""
 
-#~ msgid "Specify name of Norwegain Kernal ROM image"
+#~ msgid "Specify name of Norwegian Kernal ROM image"
 #~ msgstr "Specifica il nome dell'immagine della ROM del Kernal norvegese"
 
 #, fuzzy
