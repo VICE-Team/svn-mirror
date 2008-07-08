@@ -58,7 +58,7 @@ msgstr "Bij het autostarten, bebruik het 'RUN' commando met een dubbele punt, du
 
 #: src/autostart.c:179 src/translate.c.po.c:644
 msgid "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"
-msgstr "Bij het autostarten, gebruik gebruik het 'RUN' commando niet met een dubbele punt, dus 'RUN'"
+msgstr "Bij het autostarten, gebruik het 'RUN' commando niet met een dubbele punt, dus 'RUN'"
 
 #: src/autostart.c:270 src/translate.c.po.c:96
 msgid "Cannot load snapshot file."
