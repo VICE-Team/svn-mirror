@@ -54,11 +54,11 @@ msgstr "Sorry. Meerdere opnamen wordt niet ondersteund."
 
 #: src/autostart.c:177 src/translate.c.po.c:634
 msgid "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
-msgstr ""
+msgstr "Bij het autostarten, bebruik het 'RUN' commando met een dubbele punt, dus 'RUN:'"
 
 #: src/autostart.c:179 src/translate.c.po.c:644
 msgid "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"
-msgstr ""
+msgstr "Bij het autostarten, gebruik gebruik het 'RUN' commando niet met een dubbele punt, dus 'RUN'"
 
 #: src/autostart.c:270 src/translate.c.po.c:96
 msgid "Cannot load snapshot file."
@@ -5798,9 +5798,8 @@ msgid "Monitor"
 msgstr "Monitor"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1825
-#, fuzzy
 msgid "Continue"
-msgstr "Inhoud"
+msgstr "Doorgaan"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1871 src/arch/unix/x11/xaw/x11ui.c:1788
 msgid "Extend disk image"
@@ -8001,23 +8000,20 @@ msgstr "&Afsluiten"
 #: src/arch/win32/resc128.rc.po.c:123 src/arch/win32/resc64.rc.po.c:123
 #: src/arch/win32/rescbm2.rc.po.c:92 src/arch/win32/respet.rc.po.c:90
 #: src/arch/win32/resplus4.rc.po.c:102 src/arch/win32/resvic20.rc.po.c:100
-#, fuzzy
 msgid "&Edit"
-msgstr "Editor"
+msgstr "&Bewerken"
 
 #: src/arch/win32/resc128.rc.po.c:125 src/arch/win32/resc64.rc.po.c:125
 #: src/arch/win32/rescbm2.rc.po.c:94 src/arch/win32/respet.rc.po.c:92
 #: src/arch/win32/resplus4.rc.po.c:104 src/arch/win32/resvic20.rc.po.c:102
-#, fuzzy
 msgid "&Copy"
-msgstr "S&top"
+msgstr "&Kopie"
 
 #: src/arch/win32/resc128.rc.po.c:126 src/arch/win32/resc64.rc.po.c:126
 #: src/arch/win32/rescbm2.rc.po.c:95 src/arch/win32/respet.rc.po.c:93
 #: src/arch/win32/resplus4.rc.po.c:105 src/arch/win32/resvic20.rc.po.c:103
-#, fuzzy
 msgid "&Paste"
-msgstr "&Pauze"
+msgstr "&Plakken"
 
 #: src/arch/win32/resc128.rc.po.c:128 src/arch/win32/resc64.rc.po.c:128
 #: src/arch/win32/rescbm2.rc.po.c:97 src/arch/win32/respet.rc.po.c:95
@@ -10249,18 +10245,16 @@ msgid "Exit"
 msgstr "Afsluiten"
 
 #: src/arch/amigaos/intl.c.po.c:699
-#, fuzzy
 msgid "Edit"
-msgstr "Editor"
+msgstr "Bewerken"
 
 #: src/arch/amigaos/intl.c.po.c:708
 msgid "Copy"
-msgstr ""
+msgstr "Kopie"
 
 #: src/arch/amigaos/intl.c.po.c:717
-#, fuzzy
 msgid "Paste"
-msgstr "Fase"
+msgstr "Plakken"
 
 #: src/arch/amigaos/intl.c.po.c:735
 msgid "Load snapshot image..."
