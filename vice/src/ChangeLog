@@ -1,5 +1,7 @@
 2008-07-08  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* translate.c: 2 new texts for -autostartrunwithcolon.
+
 	* arch/win32/resc128.rc, arch/win32/c128ui.c: cosmetic change:
 	Norwegain -> Norwegian.
 
