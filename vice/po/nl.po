@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-07 20:38+0200\n"
+"POT-Creation-Date: 2008-07-08 20:35+0200\n"
 "PO-Revision-Date: 2008-06-11 11:57+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -561,8 +561,8 @@ msgstr "Geef de naam van het Franse Kernal-ROM-bestand"
 msgid "Specify name of Italian Kernal ROM image"
 msgstr "Geef de naam van het Italiaanse Kernal-ROM-bestand"
 
-#: src/c128/c128-cmdline-options.c:118
-msgid "Specify name of Norwegain Kernal ROM image"
+#: src/c128/c128-cmdline-options.c:118 src/translate.c.po.c:734
+msgid "Specify name of Norwegian Kernal ROM image"
 msgstr "Geef de naam van het Noorse Kernal-ROM-bestand"
 
 #: src/c128/c128-cmdline-options.c:120 src/translate.c.po.c:744
@@ -2154,7 +2154,7 @@ msgid "Kernel driver version  : 0.8 ??"
 msgstr "Kernelstuurprogramma versie : 0.8 ??"
 
 #: src/arch/unix/joy.c:402
-msgid "Please update your Joystick driver !"
+msgid "Please update your Joystick driver!"
 msgstr "Vernieuw a.u.b. uw joystickstuurprogramma !"
 
 #: src/arch/unix/joy.c:403
@@ -10052,11 +10052,6 @@ msgstr "Sprite-achtergrond &botsingen"
 msgid "New &Luminances"
 msgstr "Nieuwe k&leuren"
 
-#: src/translate.c.po.c:734
-#, fuzzy
-msgid "Specify name of Norwegian Kernal ROM image"
-msgstr "Geef de naam van het Noorse Kernal-ROM-bestand"
-
 #: src/translate.c.po.c:2666
 msgid "<0-2000>"
 msgstr "<0-2000>"
@@ -11359,8 +11354,3 @@ msgstr "NEOS muis"
 msgid "Amiga mouse"
 msgstr "Amiga muis"
 
-#~ msgid "Attach raw 32KB Action Replay 4 cartridge image"
-#~ msgstr "Koppel binair 32KB Action-Replay-4-cartridgebestand aan"
-
-#~ msgid "Attach raw StarDOS image"
-#~ msgstr "Koppel binair StarDOS-bestand aan"

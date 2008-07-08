@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-07 20:38+0200\n"
+"POT-Creation-Date: 2008-07-08 20:35+0200\n"
 "PO-Revision-Date: 2007-07-28 14:26+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -573,8 +573,9 @@ msgstr "Specifica il nome dell'immagine della ROM del Kernal francese"
 msgid "Specify name of Italian Kernal ROM image"
 msgstr "Specifica il nome dell'immagine della ROM del Kernal italiana"
 
-#: src/c128/c128-cmdline-options.c:118
-msgid "Specify name of Norwegain Kernal ROM image"
+#: src/c128/c128-cmdline-options.c:118 src/translate.c.po.c:734
+#, fuzzy
+msgid "Specify name of Norwegian Kernal ROM image"
 msgstr "Specifica il nome dell'immagine della ROM del Kernal norvegese"
 
 #: src/c128/c128-cmdline-options.c:120 src/translate.c.po.c:744
@@ -2185,7 +2186,8 @@ msgid "Kernel driver version  : 0.8 ??"
 msgstr "Versione del driver del kernel: 0.8 ??"
 
 #: src/arch/unix/joy.c:402
-msgid "Please update your Joystick driver !"
+#, fuzzy
+msgid "Please update your Joystick driver!"
 msgstr "Aggiorna il driver del joystick!"
 
 #: src/arch/unix/joy.c:403
@@ -10132,11 +10134,6 @@ msgstr "&Collisioni sprite-sfondo"
 msgid "New &Luminances"
 msgstr "Nuove &Luminanze"
 
-#: src/translate.c.po.c:734
-#, fuzzy
-msgid "Specify name of Norwegian Kernal ROM image"
-msgstr "Specifica il nome dell'immagine della ROM del Kernal norvegese"
-
 #: src/translate.c.po.c:2666
 msgid "<0-2000>"
 msgstr "<0-2000>"
@@ -11451,6 +11448,9 @@ msgstr "*Attiva mouse"
 #: src/arch/amigaos/intl.c.po.c:4844
 msgid "Amiga mouse"
 msgstr ""
+
+#~ msgid "Specify name of Norwegain Kernal ROM image"
+#~ msgstr "Specifica il nome dell'immagine della ROM del Kernal norvegese"
 
 #, fuzzy
 #~ msgid "Attach raw 32KB Action Replay 4 cartridge image"

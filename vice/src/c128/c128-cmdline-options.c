@@ -115,7 +115,7 @@ static const cmdline_option_t cmdline_options[] = {
     { "-kernalit", SET_RESOURCE, 1, NULL, NULL, "KernalITName", NULL,
       N_("<name>"), N_("Specify name of Italian Kernal ROM image") },
     { "-kernalno", SET_RESOURCE, 1, NULL, NULL, "KernalNOName", NULL,
-      N_("<name>"), N_("Specify name of Norwegain Kernal ROM image") },
+      N_("<name>"), N_("Specify name of Norwegian Kernal ROM image") },
     { "-kernalse", SET_RESOURCE, 1, NULL, NULL, "KernalSEName", NULL,
       N_("<name>"), N_("Specify name of Swedish Kernal ROM image") },
     { "-basiclo", SET_RESOURCE, 1, NULL, NULL, "BasicLoName", NULL,

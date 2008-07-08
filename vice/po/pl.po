@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-07 20:38+0200\n"
+"POT-Creation-Date: 2008-07-08 20:35+0200\n"
 "PO-Revision-Date: 2007-07-26 11:55+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -597,9 +597,9 @@ msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 msgid "Specify name of Italian Kernal ROM image"
 msgstr "Okre¶l nazwê pliku pozycyjnej mapy klawiatury"
 
-#: src/c128/c128-cmdline-options.c:118
+#: src/c128/c128-cmdline-options.c:118 src/translate.c.po.c:734
 #, fuzzy
-msgid "Specify name of Norwegain Kernal ROM image"
+msgid "Specify name of Norwegian Kernal ROM image"
 msgstr "Okre¶l nazwê pliku pozycyjnej mapy klawiatury"
 
 #: src/c128/c128-cmdline-options.c:120 src/translate.c.po.c:744
@@ -2328,7 +2328,8 @@ msgid "Kernel driver version  : 0.8 ??"
 msgstr "Wersja napêdu j±dra : 0.8 ??"
 
 #: src/arch/unix/joy.c:402
-msgid "Please update your Joystick driver !"
+#, fuzzy
+msgid "Please update your Joystick driver!"
 msgstr "Zaktualizuj sterownik joysticka"
 
 #: src/arch/unix/joy.c:403
@@ -11040,11 +11041,6 @@ msgstr "*Kolizje duszków z t³em"
 msgid "New &Luminances"
 msgstr "*Nowa jaskrawo¶æ"
 
-#: src/translate.c.po.c:734
-#, fuzzy
-msgid "Specify name of Norwegian Kernal ROM image"
-msgstr "Okre¶l nazwê pliku pozycyjnej mapy klawiatury"
-
 #: src/translate.c.po.c:2666
 msgid "<0-2000>"
 msgstr ""
@@ -12581,6 +12577,10 @@ msgstr "*W³±cz tryb przy¶pieszony (Turbo)"
 #: src/arch/amigaos/intl.c.po.c:4844
 msgid "Amiga mouse"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Specify name of Norwegain Kernal ROM image"
+#~ msgstr "Okre¶l nazwê pliku pozycyjnej mapy klawiatury"
 
 #, fuzzy
 #~ msgid "Attach raw 32KB Action Replay 4 cartridge image"

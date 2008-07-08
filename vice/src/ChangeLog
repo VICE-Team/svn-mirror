@@ -1,3 +1,10 @@
+2008-06-22  pottendo  <pottendo@aon.at>
+
+	* c128/c128-cmdline-options.c (cmdline_options): cosmetic change:
+	Norwegain -> Norwegian.
+
+	* arch/unix/joy.c (new_joystick_init): cosmetic change.
+
 2008-07-07  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.24

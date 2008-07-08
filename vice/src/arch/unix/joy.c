@@ -399,7 +399,7 @@ void new_joystick_init(void)
                             JS_VERSION & 0xff);
                 log_message(joystick_log, _("Kernel driver version  : 0.8 ??"));
                 log_message(joystick_log,
-                            _("Please update your Joystick driver !"));
+                            _("Please update your Joystick driver!"));
                 log_message(joystick_log, _("Fall back to old api routine"));
                 use_old_api = 1;
                 old_joystick_init();

@@ -6,9 +6,9 @@
 # Czirkos Zoltan <cirix@fw.hu>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 1.22\n"
+"Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-07 20:38+0200\n"
+"POT-Creation-Date: 2008-07-08 20:35+0200\n"
 "PO-Revision-Date: 2007-07-27 15:58+0200\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -51,7 +51,7 @@ msgstr "Az Ön számítógépe túl lassú ezekhez a beállításokhoz!"
 
 #: src/screenshot.c:171 src/translate.c.po.c:221
 msgid "Sorry. Multiple recording is not supported."
-msgstr "Sajnálom: többszörös fekvétel nem támogatott."
+msgstr "Sajnálom: többszörös felvétel nem támogatott."
 
 #: src/autostart.c:177 src/translate.c.po.c:634
 msgid "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
@@ -75,7 +75,7 @@ msgstr "Hangok tiltása"
 
 #: src/sound.c:279 src/translate.c.po.c:4556
 msgid "Set sound sample rate to <value> Hz"
-msgstr "Hang mintavételezési ráta beállítása Hz-ben <érték>-re"
+msgstr "Hang mintavételezési ráta beállítása <érték> Hz-re"
 
 #: src/sound.c:281 src/translate.c.po.c:4566
 msgid "Set sound buffer size to <value> msec"
@@ -207,7 +207,7 @@ msgstr "A `%s' eszközt nem sikerült elindítani."
 
 #: src/sound.c:671
 msgid "sound device lacks stereo capability"
-msgstr "A hangeszköz nem stereo"
+msgstr "A hangeszköz nem sztereó"
 
 #: src/sound.c:721 src/translate.c.po.c:271
 #, c-format
@@ -221,7 +221,7 @@ msgstr "A %s felvevõ eszköz nem létezik!"
 
 #: src/sound.c:750 src/translate.c.po.c:291
 msgid "Recording device must be different from playback device"
-msgstr "A felvevõ és lejátszó eszközöknek különböznie kell!"
+msgstr "A felvevõ és lejátszó eszközöknek különböznie kell"
 
 #: src/sound.c:760 src/translate.c.po.c:303
 #, c-format
@@ -281,12 +281,12 @@ msgstr "Nem sikerült a %s képmás fájlba írni"
 #: src/event.c:240 src/translate.c.po.c:136
 #, c-format
 msgid "Cannot find mapped name for %s"
-msgstr "A VICE %s leképzett nevét nem találta meg."
+msgstr "A VICE %s leképzett nevét nem találja"
 
 #: src/event.c:620 src/translate.c.po.c:146
 #, c-format
 msgid "Could not create start snapshot file %s."
-msgstr "Nem sikerült a %s pillanatkép fájlt létrehozni."
+msgstr "Nem sikerült a %s kezdeti pillanatkép fájlt létrehozni."
 
 #: src/event.c:639 src/event.c:934 src/translate.c.po.c:156
 #, c-format
@@ -296,7 +296,7 @@ msgstr "Hiba az utolsó %s pillanatkép fájl írásakor."
 #: src/event.c:707 src/event.c:901 src/translate.c.po.c:166
 #, c-format
 msgid "Could not create end snapshot file %s."
-msgstr "Nem sikerült az utolsó %s pillanatkép fájlt létrehozni."
+msgstr "Nem sikerült a %s befejezõ pillanatkép fájlt létrehozni."
 
 #: src/event.c:775 src/translate.c.po.c:176
 #, c-format
@@ -314,7 +314,7 @@ msgstr "Nem sikerült az elsõ pillanatkép fájl olvasása. Kipróbálva: %s és %s"
 
 #: src/event.c:844 src/translate.c.po.c:211
 msgid "Error reading start snapshot file."
-msgstr "Nem sikerült az elsõ pillanatkép fájl olvasása."
+msgstr "Nem sikerült az indító pillanatkép fájl olvasása."
 
 #: src/event.c:1227 src/translate.c.po.c:4244
 msgid "Playback recorded events"
@@ -357,7 +357,7 @@ msgstr "A 0-s lemezegység CPU-jának nyomkövetése"
 
 #: src/debug.c:180 src/translate.c.po.c:4159
 msgid "Do not trace the drive0 CPU"
-msgstr "A 0-s lemezegység CPU-jának nyomkövetésének tiltása"
+msgstr "A 0-s lemezegység CPU-ja nyomkövetésének tiltása"
 
 #: src/debug.c:183 src/translate.c.po.c:4169
 msgid "Trace the drive1 CPU"
@@ -365,7 +365,7 @@ msgstr "Az 1-es lemezegység CPU-jának nyomkövetése"
 
 #: src/debug.c:186 src/translate.c.po.c:4179
 msgid "Do not trace the drive1 CPU"
-msgstr "Az 1-es lemezegység CPU-jának nyomkövetésének tiltása"
+msgstr "Az 1-es lemezegység CPU-ja nyomkövetésének tiltása"
 
 #: src/debug.c:190 src/translate.c.po.c:4190
 msgid "Trace the drive2 CPU"
@@ -373,7 +373,7 @@ msgstr "A 2-es lemezegység CPU-jának nyomkövetése"
 
 #: src/debug.c:193 src/translate.c.po.c:4200
 msgid "Do not trace the drive2 CPU"
-msgstr "A 2-es lemezegység CPU-jának nyomkövetésének tiltása"
+msgstr "A 2-es lemezegység CPU-ja nyomkövetésének tiltása"
 
 #: src/debug.c:198 src/translate.c.po.c:4212
 msgid "Trace the drive3 CPU"
@@ -381,7 +381,7 @@ msgstr "A 3-as lemezegység CPU-jának nyomkövetése"
 
 #: src/debug.c:201 src/translate.c.po.c:4222
 msgid "Do not trace the drive3 CPU"
-msgstr "A 3-as lemezegység CPU-jának nyomkövetésének tiltása"
+msgstr "A 3-as lemezegység CPU-ja nyomkövetésének tiltása"
 
 #: src/debug.c:205 src/translate.c.po.c:4233
 msgid "Trace mode (0=normal 1=small 2=history)"
@@ -562,8 +562,8 @@ msgstr "Adja meg a francia Kernal ROM képmás nevét"
 msgid "Specify name of Italian Kernal ROM image"
 msgstr "Adja meg az olasz Kernal ROM képmás nevét"
 
-#: src/c128/c128-cmdline-options.c:118
-msgid "Specify name of Norwegain Kernal ROM image"
+#: src/c128/c128-cmdline-options.c:118 src/translate.c.po.c:734
+msgid "Specify name of Norwegian Kernal ROM image"
 msgstr "Adja meg a norvég Kernal ROM képmás nevét"
 
 #: src/c128/c128-cmdline-options.c:120 src/translate.c.po.c:744
@@ -572,11 +572,11 @@ msgstr "Adja meg s svéd Kernal ROM képmás nevét"
 
 #: src/c128/c128-cmdline-options.c:122 src/translate.c.po.c:754
 msgid "Specify name of BASIC ROM image (lower part)"
-msgstr "Adja meg a BASIC ROM képmás nevét (alsó)"
+msgstr "Adja meg a BASIC ROM képmás nevét (alsó rész)"
 
 #: src/c128/c128-cmdline-options.c:124 src/translate.c.po.c:764
 msgid "Specify name of BASIC ROM image (higher part)"
-msgstr "Adja meg a BASIC ROM képmás nevét (felsõ)"
+msgstr "Adja meg a BASIC ROM képmás nevét (felsõ rész)"
 
 #: src/c128/c128-cmdline-options.c:126 src/translate.c.po.c:774
 msgid "Specify name of international character generator ROM image"
@@ -625,12 +625,12 @@ msgstr "IEEE488 interfész emuláció tiltása"
 #: src/c128/c128-cmdline-options.c:146 src/c64/c64-cmdline-options.c:101
 #: src/translate.c.po.c:874
 msgid "<revision>"
-msgstr "<változatszám>"
+msgstr "<változat>"
 
 #: src/c128/c128-cmdline-options.c:146 src/c64/c64-cmdline-options.c:101
 #: src/translate.c.po.c:884
 msgid "Patch the Kernal ROM to the specified <revision>"
-msgstr "A Kernal ROM átírása adott <változatszámra>"
+msgstr "A Kernal ROM átírása adott <változatra>"
 
 #: src/c128/c128-cmdline-options.c:149 src/c64/c64-cmdline-options.c:104
 #: src/translate.c.po.c:895
@@ -825,7 +825,7 @@ msgstr "Adja meg az IDE64 képmás fájlnevét"
 
 #: src/c64/cart/ide64.c:283 src/translate.c.po.c:1642
 msgid "Set number of cylinders for the IDE64 emulation"
-msgstr "Adja meg a cilinderek számát IDE64 emulációhoz"
+msgstr "Adja meg a sávok számát IDE64 emulációhoz"
 
 #: src/c64/cart/ide64.c:285 src/translate.c.po.c:1652
 msgid "Set number of heads for the IDE64 emulation"
@@ -858,7 +858,7 @@ msgstr "Adja meg a 256K-s képmás nevét"
 #: src/c64/c64_256k.c:212 src/c64/digimax.c:141 src/c64/plus60k.c:251
 #: src/sid/sid-cmdline-options.c:221 src/translate.c.po.c:3456
 msgid "<base address>"
-msgstr "<bázis cím>"
+msgstr "<báziscím>"
 
 #: src/c64/c64_256k.c:212 src/translate.c.po.c:4846
 msgid "Base address of the 256K expansion"
@@ -1240,7 +1240,7 @@ msgstr "8KB RAM kiterjeszés tiltása a $2000-$3FFF címen"
 
 #: src/drive/iec/iec-cmdline-options.c:103 src/translate.c.po.c:2144
 msgid "Enable 8KB RAM expansion at $4000-$5FFF"
-msgstr "8KB RAM kiterjeszés tiltása a $4000-$5FFF címen"
+msgstr "8KB RAM kiterjeszés engedélyezése a $4000-$5FFF címen"
 
 #: src/drive/iec/iec-cmdline-options.c:105 src/translate.c.po.c:2154
 msgid "Disable 8KB RAM expansion at $4000-$5FFF"
@@ -1248,7 +1248,7 @@ msgstr "8KB RAM kiterjeszés tiltása a $4000-$5FFF címen"
 
 #: src/drive/iec/iec-cmdline-options.c:107 src/translate.c.po.c:2164
 msgid "Enable 8KB RAM expansion at $6000-$7FFF"
-msgstr "8KB RAM kiterjeszés tiltása a $6000-$7FFF címen"
+msgstr "8KB RAM kiterjeszés engedélyezése a $6000-$7FFF címen"
 
 #: src/drive/iec/iec-cmdline-options.c:109 src/translate.c.po.c:2174
 msgid "Disable 8KB RAM expansion at $6000-$7FFF"
@@ -1256,7 +1256,7 @@ msgstr "8KB RAM kiterjeszés tiltása a $6000-$7FFF címen"
 
 #: src/drive/iec/iec-cmdline-options.c:111 src/translate.c.po.c:2184
 msgid "Enable 8KB RAM expansion at $8000-$9FFF"
-msgstr "8KB RAM kiterjeszés tiltása a $8000-$9FFF címen"
+msgstr "8KB RAM kiterjeszés engedélyezése a $8000-$9FFF címen"
 
 #: src/drive/iec/iec-cmdline-options.c:113 src/translate.c.po.c:2194
 msgid "Disable 8KB RAM expansion at $8000-$9FFF"
@@ -1264,7 +1264,7 @@ msgstr "8KB RAM kiterjeszés tiltása a $8000-$9FFF címen"
 
 #: src/drive/iec/iec-cmdline-options.c:115 src/translate.c.po.c:2204
 msgid "Enable 8KB RAM expansion at $A000-$BFFF"
-msgstr "8KB RAM kiterjeszés tiltása a $A000-$BFFF címen"
+msgstr "8KB RAM kiterjeszés engedélyezése a $A000-$BFFF címen"
 
 #: src/drive/iec/iec-cmdline-options.c:117 src/translate.c.po.c:2214
 msgid "Disable 8KB RAM expansion at $A000-$BFFF"
@@ -1421,7 +1421,7 @@ msgstr "<név> lemezképmás csatolása #11-es egységként"
 
 #: src/kbdbuf.c:136 src/translate.c.po.c:4426
 msgid "<string>"
-msgstr "<string>"
+msgstr "<sztring>"
 
 #: src/kbdbuf.c:136 src/translate.c.po.c:4436
 msgid "Put the specified string into the keyboard buffer"
@@ -1429,25 +1429,23 @@ msgstr "A megadott string bemásolása a billentyûzet pufferbe"
 
 #: src/log.c:110 src/translate.c.po.c:4446
 msgid "Specify log file name"
-msgstr "Adja meg a log fájl nevét"
+msgstr "Adja meg a naplófájl nevét"
 
 #: src/monitor/monitor.c:997 src/translate.c.po.c:4254
 msgid "Execute monitor commands from file"
-msgstr ""
+msgstr "Monitorprogram parancsok futtatása fájlból"
 
 #: src/monitor/monitor.c:999 src/translate.c.po.c:4264
 msgid "Set an initial breakpoint for the monitor"
-msgstr ""
+msgstr "Kezdeti töréspont megadása a monitorprogramnak"
 
 #: src/mouse.c:358 src/translate.c.po.c:4456
-#, fuzzy
 msgid "Enable mouse grab"
-msgstr "*Egér engedélyezése"
+msgstr "Egér elkapás engedélyezése"
 
 #: src/mouse.c:360 src/translate.c.po.c:4466
-#, fuzzy
 msgid "Disable mouse grab"
-msgstr "Dupla pásztázás tiltása"
+msgstr "Egér elkapás tiltása"
 
 #: src/mouse.c:362 src/translate.c.po.c:4476
 msgid "Select the joystick port the mouse is attached to"
@@ -1455,11 +1453,11 @@ msgstr "Válassza ki a joystick portot, ahová az egér csatolva van"
 
 #: src/mouse.c:364 src/translate.c.po.c:4486
 msgid "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga)"
-msgstr ""
+msgstr "Egér típus kiválasztása (0 = 1351, 1 = NEOS, 2 = Amiga)"
 
 #: src/pet/pet-cmdline-options.c:114 src/translate.c.po.c:2406
 msgid "Specify PET model to emulate"
-msgstr "Adja meg az emulálandó PET modellt"
+msgstr "Adja meg az emulált PET modellt"
 
 #: src/pet/pet-cmdline-options.c:120 src/translate.c.po.c:2416
 msgid "Specify name of Editor ROM image"
@@ -1467,15 +1465,15 @@ msgstr "Adja meg a szerkesztõ ROM képmás nevét"
 
 #: src/pet/pet-cmdline-options.c:124 src/translate.c.po.c:2426
 msgid "Specify 4K extension ROM name at $9***"
-msgstr "Adja meg a $9*** címû 4K ROM kiterjesztés képmás nevét"
+msgstr "Adja meg a $9*** címû 4K ROM kiterjesztés nevét"
 
 #: src/pet/pet-cmdline-options.c:126 src/translate.c.po.c:2436
 msgid "Specify 4K extension ROM name at $A***"
-msgstr "Adja meg a $A*** címû 4K ROM kiterjesztés képmás nevét"
+msgstr "Adja meg a $A*** címû 4K ROM kiterjesztés nevét"
 
 #: src/pet/pet-cmdline-options.c:128 src/translate.c.po.c:2446
 msgid "Specify 4K extension ROM name at $B***"
-msgstr "Adja meg a $B*** címû 4K ROM kiterjesztés képmás nevét"
+msgstr "Adja meg a $B*** címû 4K ROM kiterjesztés nevét"
 
 #: src/pet/pet-cmdline-options.c:130 src/translate.c.po.c:2456
 msgid "Enable PET8296 4K RAM mapping at $9***"
@@ -1515,7 +1513,7 @@ msgstr "Váltás nagy-/kisbetûs karakterkészletre"
 
 #: src/pet/pet-cmdline-options.c:150 src/translate.c.po.c:2546
 msgid "Do not switch upper/lower case charset"
-msgstr "Ne Váltson a nagy-/kisbetûs karakterkészletre"
+msgstr "Ne váltson a nagy-/kisbetûs karakterkészletre"
 
 #: src/pet/pet-cmdline-options.c:152 src/translate.c.po.c:2556
 msgid "EOI blanks screen"
@@ -1527,11 +1525,11 @@ msgstr "EOI nem törli a képernyõt"
 
 #: src/pet/petpia1.c:120 src/translate.c.po.c:2576
 msgid "Enable userport diagnostic pin"
-msgstr "Userport diagnosztikai tû engedélyezése"
+msgstr "Userport diagnosztikai tüske engedélyezése"
 
 #: src/pet/petpia1.c:122 src/translate.c.po.c:2586
 msgid "Disable userport diagnostic pin"
-msgstr "Userport diagnosztikai tû tiltása"
+msgstr "Userport diagnosztikai tüske tiltása"
 
 #: src/pet/petreu.c:210 src/translate.c.po.c:1170
 msgid "Enable the PET Ram and Expansion Unit"
@@ -1623,7 +1621,7 @@ msgstr "Adja meg a #5-ös nyomtatómeghajtó nevét"
 
 #: src/printerdrv/driver-select.c:129 src/translate.c.po.c:2766
 msgid "Specify name of printer driver for the userport printer"
-msgstr "Adja meg a Userport-os nyomtatómeghajtó nevét"
+msgstr "Adja meg a userport nyomtatómeghajtó nevét"
 
 #: src/printerdrv/interface-serial.c:122 src/translate.c.po.c:2776
 msgid "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)"
@@ -1635,11 +1633,11 @@ msgstr "Adja meg a #5-ös eszköz típusát (0:Nincs, 1: Fájlrendszer, 2: Valódi)"
 
 #: src/printerdrv/interface-userport.c:93 src/translate.c.po.c:2796
 msgid "Enable the userport printer emulation"
-msgstr "Userporti nyomtató emulációjának engedélyezése"
+msgstr "Userport nyomtató emulációjának engedélyezése"
 
 #: src/printerdrv/interface-userport.c:96 src/translate.c.po.c:2806
 msgid "Disable the userport printer emulation"
-msgstr "Userporti nyomtató emulációjának tiltása"
+msgstr "Userport nyomtató emulációjának tiltása"
 
 #: src/printerdrv/output-select.c:120 src/translate.c.po.c:2816
 msgid "Specify name of output device for device #4"
@@ -1651,7 +1649,7 @@ msgstr "Adja meg a kimeneti eszköz nevét a #5-ös egységhez"
 
 #: src/printerdrv/output-select.c:125 src/translate.c.po.c:2836
 msgid "Specify name of output device for the userport printer"
-msgstr "Adja meg a kimeneti eszköz nevét a userporti nyomtatóhoz"
+msgstr "Adja meg a kimeneti eszköz nevét a userport nyomtatóhoz"
 
 #: src/printerdrv/output-text.c:113 src/printerdrv/output-text.c:115
 #: src/printerdrv/output-text.c:117 src/translate.c.po.c:2846
@@ -1668,7 +1666,7 @@ msgstr "Adja meg a szövegnyomtató eszközt a #5-es IEC nyomtatóhoz"
 
 #: src/printerdrv/output-text.c:126 src/translate.c.po.c:2886
 msgid "Specify printer text output device for userport printer"
-msgstr "Adja meg a szövegnyomtató eszközt a userporti nyomtatóhoz"
+msgstr "Adja meg a szövegnyomtató eszközt a userport nyomtatóhoz"
 
 #: src/ram.c:101 src/translate.c.po.c:4496
 msgid "Set the value for the very first RAM address after powerup"
@@ -1688,11 +1686,11 @@ msgstr "Azonos mintával feltöltött memória blokkoknak a hossza"
 
 #: src/raster/raster-cmdline-options.c:59 src/translate.c.po.c:2896
 msgid "Enable the video cache"
-msgstr "Videó gyorsító tár engedélyezése"
+msgstr "Videó gyorsítótár engedélyezése"
 
 #: src/raster/raster-cmdline-options.c:61 src/translate.c.po.c:2906
 msgid "Disable the video cache"
-msgstr "Videó gyorsító tár tiltása"
+msgstr "Videó gyorsítótár tiltása"
 
 #: src/rs232drv/rs232drv.c:101 src/translate.c.po.c:2917
 msgid "Specify name of first RS232 device"
@@ -2150,7 +2148,7 @@ msgid "Kernel driver version  : 0.8 ??"
 msgstr "Kernel meghajtó verziója  : 0.8 ??"
 
 #: src/arch/unix/joy.c:402
-msgid "Please update your Joystick driver !"
+msgid "Please update your Joystick driver!"
 msgstr "Kérem frissítse a Joystick meghajtóját!"
 
 #: src/arch/unix/joy.c:403
@@ -2346,15 +2344,15 @@ msgstr "Function ROM"
 
 #: src/arch/unix/gui/c128ui.c:238 src/arch/unix/gui/c64ui.c:270
 msgid "RAM Expansion Unit"
-msgstr "RAM Expansion Unit"
+msgstr "RAM Bõvítõ Egység"
 
 #: src/arch/unix/gui/c128ui.c:240 src/arch/unix/gui/c64ui.c:272
 msgid "GEORAM Expansion Unit"
-msgstr "GEORAM Expansion Unit"
+msgstr "GEORAM Bõvítõ Egység"
 
 #: src/arch/unix/gui/c128ui.c:242 src/arch/unix/gui/c64ui.c:274
 msgid "RAM Expansion Cart"
-msgstr "RAM Expansion Cart"
+msgstr "RAM Bõvítõ Kártya"
 
 #: src/arch/unix/gui/c128ui.c:244 src/arch/unix/gui/c64ui.c:282
 msgid "MMC64 emulation"
@@ -2382,9 +2380,8 @@ msgid "*IEEE488 interface emulation"
 msgstr "*IEEE488 interfész emuláció"
 
 #: src/arch/unix/gui/c128ui.c:259 src/arch/unix/gui/c64ui.c:295
-#, fuzzy
 msgid "*Mouse Emulation"
-msgstr "*1351 egér emuláció"
+msgstr "*Egér emuláció"
 
 #: src/arch/unix/gui/c128ui.c:268
 msgid "Load new Int. Kernal ROM"
@@ -2540,11 +2537,11 @@ msgstr "*Régi NTSC-M"
 
 #: src/arch/unix/gui/c64ui.c:276
 msgid "PLUS60K RAM Expansion"
-msgstr "PLUS60K RAM kiterjesztés"
+msgstr "PLUS60K RAM bõvítés"
 
 #: src/arch/unix/gui/c64ui.c:278
 msgid "PLUS256K RAM Expansion"
-msgstr "PLUS256K RAM kiterjesztés"
+msgstr "PLUS256K RAM bõvítés"
 
 #: src/arch/unix/gui/c64ui.c:280
 msgid "256K RAM Expansion"
@@ -2649,7 +2646,7 @@ msgstr "*Hivatalos (UK)"
 
 #: src/arch/unix/gui/cbm2ui.c:236 src/arch/unix/gui/petui.c:299
 msgid "Model defaults"
-msgstr "Alapértelmezett modellek"
+msgstr "Modell alapértelmezései"
 
 #: src/arch/unix/gui/cbm2ui.c:242 src/arch/unix/gui/petui.c:307
 msgid "Memory size"
@@ -2764,7 +2761,7 @@ msgstr "Új szerkesztõ ROM betöltése"
 
 #: src/arch/unix/gui/petui.c:222
 msgid "PET RAM and Expansion Unit"
-msgstr "PET RAM and Expansion Unit"
+msgstr "PET RAM és bõvítõ egység"
 
 #: src/arch/unix/gui/petui.c:224
 msgid "SID cartridge"
@@ -2816,7 +2813,7 @@ msgstr "*CRTC csip engedélyezése"
 
 #: src/arch/unix/gui/petui.c:314
 msgid "*SuperPET I/O enable (disables 8x96)"
-msgstr "*SuperPET I/O engedélyezése (8x96-on tiltva)"
+msgstr "*SuperPET I/O engedélyezése (8x96-ot tiltja)"
 
 #: src/arch/unix/gui/petui.c:316
 msgid "SuperPET ACIA"
@@ -2913,7 +2910,7 @@ msgstr "Érvénytelen lemez képmás"
 
 #: src/arch/unix/gui/uiattach.c:98
 msgid "Invalid Disk Image or Filename"
-msgstr "Érvénytelen lemez képmás, vagy fájlnév"
+msgstr "Érvénytelen lemez képmás vagy fájlnév"
 
 #: src/arch/unix/gui/uiattach.c:113 src/arch/unix/gui/uiattach.c:147
 msgid "Unit #8..."
@@ -2949,7 +2946,7 @@ msgstr "#11-es egység"
 
 #: src/arch/unix/gui/uiattach.c:176 src/arch/amigaos/intl.c.po.c:168
 msgid "All"
-msgstr "Mindegyik"
+msgstr "Összes"
 
 #: src/arch/unix/gui/uiattach.c:182
 msgid "Attach a disk image"
@@ -3114,7 +3111,7 @@ msgstr "Cartridge képmás leválasztása"
 
 #: src/arch/unix/gui/uic64cart.c:204 src/arch/amigaos/intl.c.po.c:645
 msgid "Cartridge freeze"
-msgstr "Fagyasztás Cartridge-el"
+msgstr "Fagyasztás Cartridge-dzsel"
 
 #: src/arch/unix/gui/uic64cart.c:206
 msgid "*Cartridge control"
@@ -3151,7 +3148,7 @@ msgstr "Nem sikerült a /bin/sh-t elindítani???"
 
 #: src/arch/unix/gui/uicommands.c:115
 msgid "Couldn't run xterm"
-msgstr "Nem sikerült az xterm-et futtatni"
+msgstr "Nem sikerült az xtermet futtatni"
 
 #: src/arch/unix/gui/uicommands.c:120
 msgid "Unknown error while running c1541"
@@ -3159,7 +3156,7 @@ msgstr "Ismeretlen hiba a c1541 futtatása közben"
 
 #: src/arch/unix/gui/uicommands.c:150
 msgid "No HTML browser is defined."
-msgstr "Nincs beállított HTML böngészõ"
+msgstr "Nincs HTML böngészõ beállítva."
 
 #: src/arch/unix/gui/uicommands.c:179 src/arch/unix/gui/uicommands.c:193
 #: src/arch/unix/gui/uicommands.c:206
@@ -3259,7 +3256,7 @@ msgstr "Pillanatkép mentése..."
 
 #: src/arch/unix/gui/uicommands.c:493
 msgid "Quickload snapshot"
-msgstr "Gyors Pillanatkép töltés"
+msgstr "Gyors pillanatkép töltés"
 
 #: src/arch/unix/gui/uicommands.c:496
 msgid "Quicksave snapshot"
@@ -3275,11 +3272,11 @@ msgstr "Eseményfelvétel leállítása"
 
 #: src/arch/unix/gui/uicommands.c:506
 msgid "Start playing back events"
-msgstr "Események visszajátszásának indítása"
+msgstr "Esemény visszajátszás indítása"
 
 #: src/arch/unix/gui/uicommands.c:508
 msgid "Stop playing back events"
-msgstr "Események visszajátszásának leállítása"
+msgstr "Esemény visszajátszás leállítása"
 
 #: src/arch/unix/gui/uicommands.c:510
 msgid "Set recording milestone"
@@ -3411,9 +3408,8 @@ msgstr "*OpenGL raszter szinkronizáció"
 #: src/arch/unix/gui/uicrtc.c:87 src/arch/unix/gui/uited.c:128
 #: src/arch/unix/gui/uivdc.c:79 src/arch/unix/gui/uivic.c:123
 #: src/arch/unix/gui/uivicii.c:164
-#, fuzzy
 msgid "*Fullscreen settings"
-msgstr "Teljesképernyõs eszköz"
+msgstr "*Teljes képernyõs mód beállításai"
 
 #: src/arch/unix/gui/uicrtc.c:90 src/arch/unix/gui/uited.c:131
 #: src/arch/unix/gui/uivdc.c:82 src/arch/unix/gui/uivic.c:126
@@ -3761,7 +3757,7 @@ msgstr "Mentés"
 
 #: src/arch/unix/gui/uifliplist.c:87
 msgid "Fliplist File"
-msgstr "(Lemezlista Fájl)"
+msgstr "Lemezlista Fájl"
 
 #: src/arch/unix/gui/uifliplist.c:97
 #, c-format
@@ -3810,12 +3806,12 @@ msgstr "Lemezlista mentése"
 #: src/arch/unix/gui/uifliplist.c:194
 #, c-format
 msgid "Attach #%d"
-msgstr "Csatolás #%d"
+msgstr "#%d csatolása"
 
 #: src/arch/unix/gui/uifliplist.c:201
 #, c-format
 msgid "Detach #%d"
-msgstr "Leválasztás #%d"
+msgstr "#%d leválasztása"
 
 #: src/arch/unix/gui/uifliplist.c:217
 msgid "*Write Protect"
@@ -3855,11 +3851,11 @@ msgstr "XRandR felbontások"
 
 #: src/arch/unix/gui/uifullscreen-menu.h:94
 msgid "*Enable fullscreen"
-msgstr "*Teljesképernyõ engedélyezése"
+msgstr "*Teljes képernyõ engedélyezése"
 
 #: src/arch/unix/gui/uifullscreen-menu.h:97
 msgid "*Show Statusbar/Menu"
-msgstr ""
+msgstr "*Státusz sor és menü mutatása"
 
 #: src/arch/unix/gui/uifullscreen-menu.h:104
 msgid "Fullscreen device"
@@ -4089,9 +4085,8 @@ msgstr "*Egér engedélyezése"
 
 #: src/arch/unix/gui/uimouse.c:62 src/arch/win32/resmouse.rc.po.c:11
 #: src/arch/amigaos/intl.c.po.c:4799
-#, fuzzy
 msgid "Mouse type"
-msgstr "ROM készlet típusa"
+msgstr "Egér típusa"
 
 #: src/arch/unix/gui/uimouse.c:64 src/arch/win32/resmouse.rc.po.c:15
 #: src/arch/amigaos/intl.c.po.c:4817
@@ -4104,7 +4099,7 @@ msgstr "Adja meg a portot"
 
 #: src/arch/unix/gui/uinetplay.c:70
 msgid "Netplay TCP port"
-msgstr "TCP port megadása"
+msgstr "Netplay TCP port"
 
 #: src/arch/unix/gui/uinetplay.c:80
 msgid "Invalid TCP port"
@@ -4112,11 +4107,11 @@ msgstr "Érvénytelen TCP port"
 
 #: src/arch/unix/gui/uinetplay.c:88
 msgid "Error starting the netplay server."
-msgstr "Hiba történt a játék kiszolgáló indításakor"
+msgstr "Hiba történt a játék kiszolgáló indításakor."
 
 #: src/arch/unix/gui/uinetplay.c:93
 msgid "Netplay Server name"
-msgstr "Játékkiszolgáló név"
+msgstr "Netplay kiszolgáló név"
 
 #: src/arch/unix/gui/uinetplay.c:94
 msgid "Hostname:"
@@ -4157,7 +4152,7 @@ msgstr "PAL pászta árnyalás"
 
 #: src/arch/unix/gui/uipalemu.c:81
 msgid "Scanline Shade in percent"
-msgstr "Pászta árnyalás százalékosban"
+msgstr "Pászta árnyalás százalékban"
 
 #: src/arch/unix/gui/uipalemu.c:88 src/arch/unix/gui/uipalemu.c:148
 msgid "New PAL Tint"
@@ -5141,7 +5136,6 @@ msgid "*Enable Ethernet"
 msgstr "*Ethernet engedélyezése"
 
 #: src/arch/unix/gui/uitfe.c:50
-#, fuzzy
 msgid "*RR-NET compatibility mode"
 msgstr "*RR-NET kompatibilitás mód"
 
@@ -5399,9 +5393,8 @@ msgstr ""
 "Czirkos Zoltan, Karai Csaba - magyar\n"
 
 #: src/arch/unix/x11/gnome/about.c:105
-#, fuzzy
 msgid "(c) 1998 - 2008 The Vice Team"
-msgstr "(c) 1998 - 2007 A Vice Csapat"
+msgstr "(c) 1998 - 2008 A Vice Csapat"
 
 #: src/arch/unix/x11/gnome/about.c:116 src/arch/win32/res.rc.po.c:5164
 #: src/arch/amigaos/intl.c.po.c:1716
@@ -5738,11 +5731,11 @@ msgstr "kattintson a felvétel megállításához"
 
 #: src/arch/unix/x11/gnome/x11ui.c:676
 msgid "event recording"
-msgstr "felvétel"
+msgstr "esemény felvétel"
 
 #: src/arch/unix/x11/gnome/x11ui.c:695
 msgid "event playback"
-msgstr "visszajátszás"
+msgstr "esemény visszajátszás"
 
 #: src/arch/unix/x11/gnome/x11ui.c:707
 msgid "click to stop playback"
@@ -5801,7 +5794,7 @@ msgstr "VICE hiba"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1823
 msgid "Hard Reset"
-msgstr "Kemény Reset"
+msgstr "Hidegindítás"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1824 src/arch/amigaos/intl.c.po.c:663
 msgid "Monitor"
@@ -5823,12 +5816,12 @@ msgstr "Kívánja a lemez képmást 40 sávosra kiterjeszteni?"
 #: src/arch/unix/x11/gnome/x11ui.c:1885
 #, c-format
 msgid "Autostart not possible for unit %d"
-msgstr "Automatikus indulás nem lehetséges a %d egységen"
+msgstr "Automatikus indítás nem lehetséges a %d egységen"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1893 src/arch/unix/x11/gnome/x11ui.c:1902
 #, c-format
 msgid "Can't autostart selection %d in image %s"
-msgstr "Nem lehet automatikusan elindítani a %d. kiválasztását a %s  képmáson."
+msgstr "Nem lehet automatikusan elindítani a %d. választást a %s képmáson."
 
 #: src/arch/unix/x11/gnome/x11ui.c:2061 src/arch/unix/x11/gnome/x11ui.c:2071
 msgid "NO IMAGE CONTENTS AVAILABLE"
@@ -5861,7 +5854,7 @@ msgstr "HTML böngészõ megadása online segítséghez"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:42
 msgid "Install a private colormap"
-msgstr "Privát színpaletta telepítése"
+msgstr "Saját paletta telepítése"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:45
 msgid "Use the default colormap"
@@ -5870,7 +5863,7 @@ msgstr "Alapértelmezett színpaletta használata"
 #: src/arch/unix/x11/ui-cmdline-options.c:48 src/arch/win32/res.rc.po.c:5214
 #: src/arch/amigaos/intl.c.po.c:3323
 msgid "Save settings (resources) on exit"
-msgstr "Erõforrásbeállítások mentése kilépéskor"
+msgstr "Beállítások (erõforrások) mentése kilépéskor"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:51 src/arch/win32/res.rc.po.c:5217
 #: src/arch/amigaos/intl.c.po.c:3350
@@ -5885,7 +5878,7 @@ msgstr "Megerõsítés kilépés elõtt"
 #: src/arch/unix/x11/ui-cmdline-options.c:57 src/arch/win32/res.rc.po.c:5215
 #: src/arch/amigaos/intl.c.po.c:3332
 msgid "Never save settings (resources) on exit"
-msgstr "Sose mentse az erõforrásbeállításokat kilépéskor"
+msgstr "Sose mentse a beállításokat (erõforrásokat) kilépéskor"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:61
 msgid "Enable fullscreen"
@@ -5914,7 +5907,7 @@ msgstr "VICE információ"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:78
 msgid "Save cartridge image file"
-msgstr "Cartridge képmás fájl mentése"
+msgstr "Cartridge képmás mentése"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:128 src/arch/unix/x11/xaw/uiedisk.c:218
 #: src/arch/unix/x11/xaw/uiscreenshot.c:170
@@ -6010,7 +6003,7 @@ msgstr "Cartridge képmás mentése"
 
 #: src/arch/unix/x11/xaw/uicolor.c:95
 msgid "Automatically using a private colormap."
-msgstr "Privát színpaletta automatikus használata."
+msgstr "Privát paletta automatikus használata."
 
 #: src/arch/unix/x11/xaw/uicolor.c:126
 msgid "XCreateImage failed."
@@ -6020,7 +6013,7 @@ msgstr "XCreateImage hiba."
 #: src/arch/unix/x11/xaw/uicolor.c:198 src/arch/unix/x11/xaw/uicolor.c:203
 #, c-format
 msgid "Cannot allocate color \"#%04X%04X%04X\"."
-msgstr "Nem sikerült színt lefoglalni \"#%04X%04X%04X\"."
+msgstr "Nem sikerült a \"#%04X%04X%04X\" színt lefoglalni."
 
 #: src/arch/unix/x11/xaw/uicolor.c:156
 msgid "XFreeColors failed."
@@ -6064,7 +6057,7 @@ msgstr "Pillanatkép opciók:"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:210
 msgid "Save currently attached disks:"
-msgstr "A lcsatolt lemezek elmentése:"
+msgstr "A csatolt lemezek elmentése:"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:222
 #: src/arch/unix/x11/xaw/uisnapshot.c:261 src/arch/win32/resc128.rc.po.c:82
@@ -6089,7 +6082,7 @@ msgstr "Pillanatkép mentése"
 #: src/arch/unix/x11/xaw/x11ui.c:527
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
-msgstr "A kijelzõ nem támogat megfelelõ %dbit-es üzemmódot."
+msgstr "A kijelzõ nem támogat megfelelõ %d bites üzemmódot."
 
 #: src/arch/unix/x11/xaw/x11ui.c:530
 msgid "Please select a bit depth supported by your display."
@@ -6098,11 +6091,11 @@ msgstr "Kérem olyan bitmélységet válasszon, melyet a kijelzõje támogat."
 #: src/arch/unix/x11/xaw/x11ui.c:533 src/arch/unix/x11/xaw/x11ui.c:550
 #, c-format
 msgid "Found %dbit/%s visual."
-msgstr "A VICE %d bites %s kijelzõt talált"
+msgstr "A VICE %d bites %s üzemmódot talált"
 
 #: src/arch/unix/x11/xaw/x11ui.c:558
 msgid "Cannot autodetect a proper visual."
-msgstr "Nem sikerült automatikusan kijelzõt felismerni."
+msgstr "Nem sikerült automatikusan megfelelõ üzemmódot találni."
 
 #: src/arch/unix/x11/xaw/x11ui.c:837
 msgid "recording..."
@@ -6114,7 +6107,7 @@ msgstr "esemény felvétel..."
 
 #: src/arch/unix/x11/xaw/x11ui.c:1190
 msgid "Using private colormap."
-msgstr "Privát színpaletta használata."
+msgstr "Privát paletta használata."
 
 #: src/arch/unix/x11/xaw/x11ui.c:1317
 #, c-format
@@ -6123,7 +6116,7 @@ msgstr "%d: Sáv %.1f"
 
 #: src/arch/unix/x11/xaw/x11ui.c:1531
 msgid "Toggling of Statusbar/Menu in Xaw is not supported."
-msgstr ""
+msgstr "A státusz sor és a menü ki-be kapcsolása Xaw-ban nem lehetséges."
 
 #: src/arch/unix/x11/xaw/x11ui.c:1666 src/arch/win32/res.rc.po.c:5050
 msgid "VICE Error!"
@@ -6164,7 +6157,7 @@ msgstr "%d.%d verziójú MITSHM kiterjesztést találtam."
 
 #: src/arch/unix/x11/xaw/x11video.c:388
 msgid "Cannot release shared memory!"
-msgstr "Nem sikerült az osztott memóriát elengedni!"
+msgstr "Nem sikerült az osztott memóriát felszabadítani!"
 
 #: src/arch/unix/x11/xaw/x11video.c:517
 #, c-format
@@ -6203,24 +6196,23 @@ msgstr "Sikeres indulás %s"
 
 #: src/arch/unix/x11/xaw/x11video.c:622
 msgid ", using"
-msgstr "osztott memóriával"
+msgstr ", ezzel:"
 
 #: src/arch/unix/x11/xaw/x11video.c:622
 msgid " without"
-msgstr "osztott memória nélkül"
+msgstr " enélkül:"
 
 #: src/arch/unix/x11/xaw/x11video.c:625
 msgid "Performance will be poor."
-msgstr "A teljesítmény gyönge lesz."
+msgstr "A teljesítmény gyenge lesz."
 
 #: src/arch/unix/x11/xaw/x11video.c:628
 msgid "Successfully initialized without shared memory."
 msgstr "Sikeres indulás osztott memória nélkül."
 
 #: src/arch/unix/x11/xaw/x11video.c:698
-#, fuzzy
 msgid "HW scaling not available"
-msgstr "Milyen parancssori opciók lehetségesek?"
+msgstr "Hardveres gyorsítás nem áll rendelkezésre"
 
 #: src/arch/win32/res.rc.po.c:81 src/arch/win32/resc128.rc.po.c:16
 #: src/arch/win32/resc64.rc.po.c:16 src/arch/win32/rescbm2.rc.po.c:15
@@ -6387,44 +6379,36 @@ msgid "Version 0.0"
 msgstr "Verzió: 0.0"
 
 #: src/arch/win32/res.rc.po.c:560
-#, fuzzy
 msgid "Copyright (c) 1998-2008 Andreas Boose"
-msgstr "Copyright (c) 1998-2007 Andreas Boose"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:561
-#, fuzzy
 msgid "Copyright (c) 1998-2008 Dag Lem"
-msgstr "Copyright (c) 1998-2007 Dag Lem"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:562
-#, fuzzy
 msgid "Copyright (c) 1998-2008 Tibor Biczo"
-msgstr "Copyright (c) 1998-2007 Tibor Biczo"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:563
-#, fuzzy
 msgid "Copyright (c) 1999-2008 Andreas Matthies"
-msgstr "Copyright (c) 1999-2007 Andreas Matthies"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:564
-#, fuzzy
 msgid "Copyright (c) 1999-2008 Martin Pottendorfer"
-msgstr "Copyright (c) 1999-2007 Martin Pottendorfer"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:565
-#, fuzzy
 msgid "Copyright (c) 2000-2008 Spiro Trikaliotis"
-msgstr "Copyright (c) 2000-2007 Spiro Trikaliotis"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:566
-#, fuzzy
 msgid "Copyright (c) 2005-2008 Marco van den Heuvel"
-msgstr "Copyright (c) 2005-2007 Marco van den Heuvel"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:567
-#, fuzzy
 msgid "Copyright (c) 2006-2008 Christian Vogelgsang"
-msgstr "Copyright (c) 2003-2005 Christian Vogelgsang"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:568
 #, fuzzy
@@ -6433,19 +6417,19 @@ msgstr "Copyright (c) 2000-2004 Markus Brenner"
 
 #: src/arch/win32/res.rc.po.c:569
 msgid "Copyright (c) 1999-2007 Andreas Dehmel"
-msgstr "Copyright (c) 1999-2007 Andreas Dehmel"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:570
 msgid "Copyright (c) 1999-2005 Thomas Bretz"
-msgstr "Copyright (c) 1999-2005 Thomas Bretz"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:571
 msgid "Copyright (c) 2003-2005 David Hansel"
-msgstr "Copyright (c) 2003-2005 David Hansel"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:572
 msgid "Copyright (c) 2000-2004 Markus Brenner"
-msgstr "Copyright (c) 2000-2004 Markus Brenner"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:573
 msgid " "
@@ -6511,7 +6495,7 @@ msgstr "P00 fájlok &mentése"
 
 #: src/arch/win32/res.rc.po.c:604
 msgid "&Hide non-P00 files"
-msgstr "P00 fájlok &elrejtése"
+msgstr "Nem P00 fájlok &elrejtése"
 
 #: src/arch/win32/res.rc.po.c:853 src/arch/amigaos/intl.c.po.c:2963
 msgid "Datasette Settings"
@@ -6979,6 +6963,9 @@ msgid ""
 "\n"
 "Start monitor? (No will reset, cancel will continue)"
 msgstr ""
+"%s\n"
+"\n"
+"Monitorprogram indítása? (Nem újraindítja, Mégsem folytatja)"
 
 #: src/arch/win32/res.rc.po.c:5060
 msgid "VICE CPU JAM"
@@ -7101,11 +7088,11 @@ msgstr "Válasszon billentyûzetleképezés fájlt"
 
 #: src/arch/win32/res.rc.po.c:5089
 msgid "Save keymap file"
-msgstr "Billentyûzetkiosztás fájlba írása"
+msgstr "Billentyûzetleképezés fájlba írása"
 
 #: src/arch/win32/res.rc.po.c:5090
 msgid "Cannot write keymap file"
-msgstr "Nem sikerült a billentyûzetkiosztást fájlba írni"
+msgstr "Nem sikerült a billentyûzetleképezést fájlba írni"
 
 #: src/arch/win32/res.rc.po.c:5091
 msgid "Mapping"
@@ -7190,7 +7177,7 @@ msgstr "Nem sikerült a pillanatkép fájl írása."
 
 #: src/arch/win32/res.rc.po.c:5112 src/arch/amigaos/intl.c.po.c:4196
 msgid "Cannot read snapshot image"
-msgstr "Nem sikerült betölteni a pillanatkép fájlt"
+msgstr "A pillanatkép fájl nem olvasható"
 
 #: src/arch/win32/res.rc.po.c:5113
 #, c-format
@@ -7452,9 +7439,8 @@ msgid "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
 msgstr "Lemez képmás fájlok (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
 
 #: src/arch/win32/res.rc.po.c:5186
-#, fuzzy
 msgid "Tape image files (*.t64;*.tap)"
-msgstr "Szalag képmás fájlok (*.t64;*.p00;*.tap;*.prg)"
+msgstr "Szalag képmás fájlok (*.t64;*.tap)"
 
 #: src/arch/win32/res.rc.po.c:5187
 msgid "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
@@ -7483,11 +7469,11 @@ msgstr "VICE ROM készlet archívumok (*.vra)"
 
 #: src/arch/win32/res.rc.po.c:5193
 msgid "VICE keymap files (*.vkm)"
-msgstr "VICE billentyû leképezés fájlok (*.vkm)"
+msgstr "VICE billentyûleképezés fájlok (*.vkm)"
 
 #: src/arch/win32/res.rc.po.c:5194
 msgid "Commodore emulator files (*.prg;*.p00)"
-msgstr ""
+msgstr "Commodore emulátor fájlok (*.prg; *.p00)"
 
 #: src/arch/win32/res.rc.po.c:5195 src/arch/amigaos/intl.c.po.c:3737
 msgid "Flexible"
@@ -7700,9 +7686,8 @@ msgstr "Lemezképmás &leválasztása"
 #: src/arch/win32/resc128.rc.po.c:34 src/arch/win32/resc64.rc.po.c:34
 #: src/arch/win32/rescbm2.rc.po.c:33 src/arch/win32/respet.rc.po.c:33
 #: src/arch/win32/resplus4.rc.po.c:33 src/arch/win32/resvic20.rc.po.c:33
-#, fuzzy
 msgid "&All"
-msgstr "Mindegyik"
+msgstr "&Mindegyik"
 
 #: src/arch/win32/resc128.rc.po.c:36 src/arch/win32/resc64.rc.po.c:36
 #: src/arch/win32/rescbm2.rc.po.c:35 src/arch/win32/respet.rc.po.c:35
@@ -7713,30 +7698,26 @@ msgstr "Lemezl&ista"
 #: src/arch/win32/resc128.rc.po.c:38 src/arch/win32/resc64.rc.po.c:38
 #: src/arch/win32/rescbm2.rc.po.c:37 src/arch/win32/respet.rc.po.c:37
 #: src/arch/win32/resplus4.rc.po.c:37 src/arch/win32/resvic20.rc.po.c:37
-#, fuzzy
 msgid "&Add current image"
-msgstr "Az aktuális képmás hozzáadása"
+msgstr "Az &aktuális képmás hozzáadása"
 
 #: src/arch/win32/resc128.rc.po.c:39 src/arch/win32/resc64.rc.po.c:39
 #: src/arch/win32/rescbm2.rc.po.c:38 src/arch/win32/respet.rc.po.c:38
 #: src/arch/win32/resplus4.rc.po.c:38 src/arch/win32/resvic20.rc.po.c:38
-#, fuzzy
 msgid "&Remove current image"
-msgstr "Az aktuális képmás eltávolítása"
+msgstr "Az aktuális képmás &eltávolítása"
 
 #: src/arch/win32/resc128.rc.po.c:40 src/arch/win32/resc64.rc.po.c:40
 #: src/arch/win32/rescbm2.rc.po.c:39 src/arch/win32/respet.rc.po.c:39
 #: src/arch/win32/resplus4.rc.po.c:39 src/arch/win32/resvic20.rc.po.c:39
-#, fuzzy
 msgid "Attach &next image"
-msgstr "Következõ képmás csatolása"
+msgstr "&Következõ képmás csatolása"
 
 #: src/arch/win32/resc128.rc.po.c:41 src/arch/win32/resc64.rc.po.c:41
 #: src/arch/win32/rescbm2.rc.po.c:40 src/arch/win32/respet.rc.po.c:40
 #: src/arch/win32/resplus4.rc.po.c:40 src/arch/win32/resvic20.rc.po.c:40
-#, fuzzy
 msgid "Attach &previous image"
-msgstr "Elõzõ képmás csatolása"
+msgstr "&Elõzõ képmás csatolása"
 
 #: src/arch/win32/resc128.rc.po.c:43 src/arch/win32/resc64.rc.po.c:43
 #: src/arch/win32/rescbm2.rc.po.c:42 src/arch/win32/respet.rc.po.c:42
@@ -7753,9 +7734,8 @@ msgstr "Lemezlista menté&se"
 #: src/arch/win32/resc128.rc.po.c:47 src/arch/win32/resc64.rc.po.c:47
 #: src/arch/win32/rescbm2.rc.po.c:46 src/arch/win32/respet.rc.po.c:46
 #: src/arch/win32/resplus4.rc.po.c:46 src/arch/win32/resvic20.rc.po.c:46
-#, fuzzy
 msgid "Attach &tape image..."
-msgstr "Szalag képmás csatolása..."
+msgstr "&Szalag képmás csatolása..."
 
 #: src/arch/win32/resc128.rc.po.c:48 src/arch/win32/resc64.rc.po.c:48
 #: src/arch/win32/rescbm2.rc.po.c:47 src/arch/win32/respet.rc.po.c:47
@@ -7908,23 +7888,20 @@ msgid "Detach cartridge &image"
 msgstr "Cartridge képmás &leválasztása"
 
 #: src/arch/win32/resc128.rc.po.c:91 src/arch/win32/resc64.rc.po.c:91
-#, fuzzy
 msgid "Cartridge free&ze"
-msgstr "Fagyasztás Cartridge-el"
+msgstr "&Fagyasztás Cartridge-dzsel"
 
 #: src/arch/win32/resc128.rc.po.c:93 src/arch/win32/resc64.rc.po.c:93
 #: src/arch/win32/rescbm2.rc.po.c:61 src/arch/win32/respet.rc.po.c:59
 #: src/arch/win32/resplus4.rc.po.c:71 src/arch/win32/resvic20.rc.po.c:69
-#, fuzzy
 msgid "&Pause"
-msgstr "Szünet"
+msgstr "&Szünet"
 
 #: src/arch/win32/resc128.rc.po.c:94 src/arch/win32/resc64.rc.po.c:94
 #: src/arch/win32/rescbm2.rc.po.c:63 src/arch/win32/respet.rc.po.c:61
 #: src/arch/win32/resplus4.rc.po.c:73 src/arch/win32/resvic20.rc.po.c:71
-#, fuzzy
 msgid "&Monitor"
-msgstr "Monitor"
+msgstr "&Monitor"
 
 #: src/arch/win32/resc128.rc.po.c:95 src/arch/win32/resc64.rc.po.c:95
 #: src/arch/win32/rescbm2.rc.po.c:64 src/arch/win32/respet.rc.po.c:62
@@ -7935,16 +7912,14 @@ msgstr "Új&raindítás"
 #: src/arch/win32/resc128.rc.po.c:97 src/arch/win32/resc64.rc.po.c:97
 #: src/arch/win32/rescbm2.rc.po.c:66 src/arch/win32/respet.rc.po.c:64
 #: src/arch/win32/resplus4.rc.po.c:76 src/arch/win32/resvic20.rc.po.c:74
-#, fuzzy
 msgid "&Hard"
-msgstr "Hideg"
+msgstr "&Hideg"
 
 #: src/arch/win32/resc128.rc.po.c:98 src/arch/win32/resc64.rc.po.c:98
 #: src/arch/win32/rescbm2.rc.po.c:67 src/arch/win32/respet.rc.po.c:65
 #: src/arch/win32/resplus4.rc.po.c:77 src/arch/win32/resvic20.rc.po.c:75
-#, fuzzy
 msgid "&Soft"
-msgstr "Meleg"
+msgstr "&Meleg"
 
 #: src/arch/win32/resc128.rc.po.c:100 src/arch/win32/resc64.rc.po.c:100
 #: src/arch/win32/rescbm2.rc.po.c:69 src/arch/win32/respet.rc.po.c:67
@@ -8004,30 +7979,26 @@ msgstr "E&lõzmények lejátszása"
 #: src/arch/win32/resc128.rc.po.c:115 src/arch/win32/resc64.rc.po.c:115
 #: src/arch/win32/rescbm2.rc.po.c:84 src/arch/win32/respet.rc.po.c:82
 #: src/arch/win32/resplus4.rc.po.c:94 src/arch/win32/resvic20.rc.po.c:92
-#, fuzzy
 msgid "&Main CPU Trace"
-msgstr "&Fõ CPU követése\tAlt+F10"
+msgstr "&Fõ CPU követése"
 
 #: src/arch/win32/resc128.rc.po.c:116 src/arch/win32/resc64.rc.po.c:116
 #: src/arch/win32/rescbm2.rc.po.c:85 src/arch/win32/respet.rc.po.c:83
 #: src/arch/win32/resplus4.rc.po.c:95 src/arch/win32/resvic20.rc.po.c:93
-#, fuzzy
 msgid "Drive&0 CPU Trace"
-msgstr "&0. lemezegység CPU követése\tAlt+F11"
+msgstr "&0. lemezegység CPU követése"
 
 #: src/arch/win32/resc128.rc.po.c:117 src/arch/win32/resc64.rc.po.c:117
 #: src/arch/win32/rescbm2.rc.po.c:86 src/arch/win32/respet.rc.po.c:84
 #: src/arch/win32/resplus4.rc.po.c:96 src/arch/win32/resvic20.rc.po.c:94
-#, fuzzy
 msgid "Drive&1 CPU Trace"
-msgstr "&1. lemezegység CPU követése\tAlt+F12"
+msgstr "&1. lemezegység CPU követése"
 
 #: src/arch/win32/resc128.rc.po.c:121 src/arch/win32/resc64.rc.po.c:121
 #: src/arch/win32/rescbm2.rc.po.c:90 src/arch/win32/respet.rc.po.c:88
 #: src/arch/win32/resplus4.rc.po.c:100 src/arch/win32/resvic20.rc.po.c:98
-#, fuzzy
 msgid "E&xit"
-msgstr "Kilépés"
+msgstr "&Kilépés"
 
 #: src/arch/win32/resc128.rc.po.c:123 src/arch/win32/resc64.rc.po.c:123
 #: src/arch/win32/rescbm2.rc.po.c:92 src/arch/win32/respet.rc.po.c:90
@@ -8071,16 +8042,14 @@ msgstr "Pillanatkép &mentése..."
 #: src/arch/win32/resc128.rc.po.c:132 src/arch/win32/resc64.rc.po.c:132
 #: src/arch/win32/rescbm2.rc.po.c:101 src/arch/win32/respet.rc.po.c:99
 #: src/arch/win32/resplus4.rc.po.c:111 src/arch/win32/resvic20.rc.po.c:109
-#, fuzzy
 msgid "&Load quicksnapshot image"
-msgstr "Gyors pillanatkép betöltése"
+msgstr "Gyors pillanatkép &betöltése"
 
 #: src/arch/win32/resc128.rc.po.c:133 src/arch/win32/resc64.rc.po.c:133
 #: src/arch/win32/rescbm2.rc.po.c:102 src/arch/win32/respet.rc.po.c:100
 #: src/arch/win32/resplus4.rc.po.c:112 src/arch/win32/resvic20.rc.po.c:110
-#, fuzzy
 msgid "&Save quicksnapshot image"
-msgstr "Gyors pillanatkép fájl mentése"
+msgstr "Gyors pillanatkép fájl &mentése"
 
 #: src/arch/win32/resc128.rc.po.c:135 src/arch/win32/resc64.rc.po.c:135
 #: src/arch/win32/rescbm2.rc.po.c:104 src/arch/win32/respet.rc.po.c:102
@@ -8284,9 +8253,8 @@ msgstr "Nincs &határ"
 #: src/arch/win32/resc128.rc.po.c:184 src/arch/win32/resc64.rc.po.c:186
 #: src/arch/win32/rescbm2.rc.po.c:153 src/arch/win32/respet.rc.po.c:151
 #: src/arch/win32/resplus4.rc.po.c:163 src/arch/win32/resvic20.rc.po.c:161
-#, fuzzy
 msgid "&Warp mode"
-msgstr "Hipergyors mód"
+msgstr "&Hipergyors mód"
 
 #: src/arch/win32/resc128.rc.po.c:186 src/arch/win32/resc64.rc.po.c:189
 #: src/arch/win32/rescbm2.rc.po.c:156 src/arch/win32/respet.rc.po.c:155
@@ -8318,7 +8286,7 @@ msgstr "Du&pla pásztázás"
 #: src/arch/win32/resplus4.rc.po.c:177 src/arch/win32/resvic20.rc.po.c:175
 #: src/arch/amigaos/intl.c.po.c:1113
 msgid "Scale2x"
-msgstr "2x méretez"
+msgstr "Élsimítás"
 
 #: src/arch/win32/resc128.rc.po.c:192
 msgid "VDC settin&gs"
@@ -8331,9 +8299,8 @@ msgstr "64KB képernyõ &memória"
 #: src/arch/win32/resc128.rc.po.c:200 src/arch/win32/resc64.rc.po.c:197
 #: src/arch/win32/rescbm2.rc.po.c:165 src/arch/win32/respet.rc.po.c:161
 #: src/arch/win32/resplus4.rc.po.c:180 src/arch/win32/resvic20.rc.po.c:178
-#, fuzzy
 msgid "Swap &Joystick"
-msgstr "Botkormányok felcserélése"
+msgstr "Botkormányok &felcserélése"
 
 #: src/arch/win32/resc128.rc.po.c:202 src/arch/win32/resc64.rc.po.c:199
 #: src/arch/win32/rescbm2.rc.po.c:167 src/arch/win32/respet.rc.po.c:163
@@ -8379,9 +8346,8 @@ msgid "IEEE&488 Interface emulation"
 msgstr "IEEE&488 interfész emuláció"
 
 #: src/arch/win32/resc128.rc.po.c:215 src/arch/win32/resc64.rc.po.c:212
-#, fuzzy
 msgid "&Grab mouse events"
-msgstr "&1351 egér emuláció\tAlt+Q"
+msgstr "Egér &események elkapása"
 
 #: src/arch/win32/resc128.rc.po.c:217 src/arch/win32/resc64.rc.po.c:214
 #: src/arch/win32/rescbm2.rc.po.c:179 src/arch/win32/respet.rc.po.c:175
@@ -8431,9 +8397,8 @@ msgid "&Keyboard settings..."
 msgstr "&Billentyûzet beállításai..."
 
 #: src/arch/win32/resc128.rc.po.c:226 src/arch/win32/resc64.rc.po.c:223
-#, fuzzy
 msgid "Mo&use settings..."
-msgstr "P&lus4 beállításai..."
+msgstr "Egér &beállításai..."
 
 #: src/arch/win32/resc128.rc.po.c:227 src/arch/win32/resc64.rc.po.c:224
 #: src/arch/win32/rescbm2.rc.po.c:189 src/arch/win32/respet.rc.po.c:184
@@ -9408,7 +9373,7 @@ msgstr "&Automatikus érzékelés"
 
 #: src/arch/win32/reside64.rc.po.c:41 src/arch/amigaos/intl.c.po.c:3899
 msgid "Cylinders"
-msgstr "Cilinderek"
+msgstr "Sávok"
 
 #: src/arch/win32/reside64.rc.po.c:42 src/arch/amigaos/intl.c.po.c:3908
 msgid "Heads"
@@ -10091,11 +10056,6 @@ msgstr "Sprite-&háttér ütközések"
 msgid "New &Luminances"
 msgstr "Új &fényerõk"
 
-#: src/translate.c.po.c:734
-#, fuzzy
-msgid "Specify name of Norwegian Kernal ROM image"
-msgstr "Adja meg a norvég Kernal ROM képmás nevét"
-
 #: src/translate.c.po.c:2666
 msgid "<0-2000>"
 msgstr "<0-2000>"
@@ -10452,7 +10412,7 @@ msgstr "Valós lemezegység emuláció"
 
 #: src/arch/amigaos/intl.c.po.c:1167
 msgid "Virtual device traps"
-msgstr "*Virtuális eszközök ciklus kihagyása"
+msgstr "Virtuális eszközök ciklus kihagyása"
 
 #: src/arch/amigaos/intl.c.po.c:1176
 msgid "Drive sync factor"
@@ -10492,7 +10452,7 @@ msgstr "IEEE488 interfész emuláció"
 
 #: src/arch/amigaos/intl.c.po.c:1266
 msgid "Grab mouse events"
-msgstr ""
+msgstr "Egér események elkapása"
 
 #: src/arch/amigaos/intl.c.po.c:1284
 msgid "Video settings..."
@@ -10547,9 +10507,8 @@ msgid "Keyboard settings..."
 msgstr "Billentyûzet beállításai..."
 
 #: src/arch/amigaos/intl.c.po.c:1410
-#, fuzzy
 msgid "Mouse settings..."
-msgstr "Hang beállításai..."
+msgstr "Egér beállításai..."
 
 #: src/arch/amigaos/intl.c.po.c:1419
 msgid "Sound settings..."
@@ -10665,7 +10624,7 @@ msgstr "Segítség"
 
 #: src/arch/amigaos/intl.c.po.c:1689
 msgid "About..."
-msgstr "A VICE-ról..."
+msgstr "Névjegy..."
 
 #: src/arch/amigaos/intl.c.po.c:1725
 msgid "No warranty"
@@ -10916,7 +10875,7 @@ msgstr "CBM2 Beállításai"
 
 #: src/arch/amigaos/intl.c.po.c:2936
 msgid "Reset Datasette with CPU"
-msgstr "*Alaphelyzetbe hozás CPU Reset esetén"
+msgstr "Alaphelyzetbe hozás CPU Reset esetén"
 
 #: src/arch/amigaos/intl.c.po.c:2945
 msgid "Additional Delay"
@@ -11186,7 +11145,7 @@ msgstr "SID kártya beállításai..."
 
 #: src/arch/amigaos/intl.c.po.c:4169
 msgid "Save currently attached disk images"
-msgstr "A jelenleg csatolt lemezek &mentése"
+msgstr "A jelenleg csatolt lemezek mentése"
 
 #: src/arch/amigaos/intl.c.po.c:4178
 msgid "Save currently loaded ROM images"
@@ -11393,271 +11352,17 @@ msgid "Volume (0-100%)"
 msgstr "Hangerõ (0-100%)"
 
 #: src/arch/amigaos/intl.c.po.c:4808
-#, fuzzy
 msgid "Mouse Settings"
-msgstr "Hang beállításai"
+msgstr "Egér beállítások"
 
 #: src/arch/amigaos/intl.c.po.c:4826
-#, fuzzy
 msgid "1351 mouse"
-msgstr "1351 egér emuláció"
+msgstr "1351 egér"
 
 #: src/arch/amigaos/intl.c.po.c:4835
-#, fuzzy
 msgid "NEOS mouse"
-msgstr "*Egér engedélyezése"
+msgstr "NEOS egér"
 
 #: src/arch/amigaos/intl.c.po.c:4844
 msgid "Amiga mouse"
-msgstr ""
-
-#, fuzzy
-#~ msgid "Attach raw 32KB Action Replay 4 cartridge image"
-#~ msgstr "32KB-os Action Replay cartridge képmás csatolása"
-
-#, fuzzy
-#~ msgid "Attach raw StarDOS image"
-#~ msgstr "Szalag képmás csatolása"
-
-#~ msgid "Drive &8\tAlt+8"
-#~ msgstr "#&8-as lemezegység\tAlt+8"
-
-#~ msgid "Drive &9\tAlt+9"
-#~ msgstr "#&9-as lemezegység\tAlt+9"
-
-#~ msgid "Drive 1&0\tAlt+0"
-#~ msgstr "#1&0-es lemezegység\tAlt+0"
-
-#~ msgid "Drive &11\tAlt+1"
-#~ msgstr "#1&0-es lemezegység\tAlt+1"
-
-#~ msgid "&All\tAlt+A"
-#~ msgstr "Ö&sszes\tAlt+A"
-
-#~ msgid "&Add current image\tAlt+I"
-#~ msgstr "Az aktuális képmás ho&zzáadása\tAlt+I"
-
-#~ msgid "&Remove current image\tAlt+K"
-#~ msgstr "Az aktuális képmás el&távolítása\tAlt+K"
-
-#~ msgid "Attach &next image\tAlt+N"
-#~ msgstr "&Következõ képmás csatolása\tAlt+N"
-
-#~ msgid "Attach &previous image\tAlt+B"
-#~ msgstr "&Elõzõ képmás csatolása\tAlt+B"
-
-#~ msgid "Attach &tape image...\tAlt+T"
-#~ msgstr "Szalag képmás csatolása...\tAlt+T"
-
-#~ msgid "Cartridge free&ze\tAlt+Z"
-#~ msgstr "Fagyasztás Cartridge-el\tAlt+Z"
-
-#~ msgid "&Pause\tAlt+Pause"
-#~ msgstr "&Szünet\tAlt+Pause"
-
-#~ msgid "&Monitor\tAlt+M"
-#~ msgstr "&Monitor\tAlt+M"
-
-#~ msgid "&Hard\tCtrl+Alt+R"
-#~ msgstr "&Hideg\tCtrl+Alt+R"
-
-#~ msgid "&Soft\tAlt+R"
-#~ msgstr "&Meleg\tAlt+R"
-
-#~ msgid "E&xit\tAlt+X"
-#~ msgstr "&Kilépés\tAlt+X"
-
-#~ msgid "&Load quicksnapshot image\tAlt+L"
-#~ msgstr "Gyors pillanatkép b&etöltése\tAlt+L"
-
-#~ msgid "&Save quicksnapshot image\tAlt+S"
-#~ msgstr "Gyors pillanatkép me&ntése\tAlt+S"
-
-#~ msgid "Set Recording Milestone\tAlt+G"
-#~ msgstr "Kilóméterkõ elhelyezése a felvételben\tAlt+G"
-
-#~ msgid "Return to Milestone\tAlt+H"
-#~ msgstr "Visszatérés az elõzõ kilóméterkõhöz\tAlt+H"
-
-#~ msgid "Save/stop media file...\tAlt+C"
-#~ msgstr "Videó készítése/megállítása...\tAlt+C"
-
-#~ msgid "&Warp mode\tAlt+W"
-#~ msgstr "&Hipergyors mód\tAlt+W"
-
-#~ msgid "Swap &Joystick\tAlt+J"
-#~ msgstr "Botkormányok felcserélése\tAlt+J"
-
-#~ msgid "Fullscreen\tAlt+D"
-#~ msgstr "Teljes képernyõ\tAlt+D"
-
-#~ msgid "Can't add fontpath `%s'.\n"
-#~ msgstr "Nem sikerült a `%s'.jelkészlet útvonal hozzáadása\n"
-
-#~ msgid "Set fontpath: `%s'.\n"
-#~ msgstr "`%s' jelkészlet útvonat beállítása.\n"
-
-#~ msgid "Cannot load text font %s."
-#~ msgstr "Nem sikerült a %s szöveg jelkészletet betölteni."
-
-#~ msgid "Enable emulation of the 1351 proportional mouse"
-#~ msgstr "1351-es proporcionális egér emulálásának engedélyezése"
-
-#~ msgid "Disable emulation of the 1351 proportional mouse"
-#~ msgstr "1351-es proporcionális egér emulálásának tiltása"
-
-#, fuzzy
-#~ msgid "Romsetbestand"
-#~ msgstr "ROM készlet"
-
-#, fuzzy
-#~ msgid "Mouse Port"
-#~ msgstr "Egér port"
-
-#~ msgid "*VIC-II settings"
-#~ msgstr "*VIC-II beállításai"
-
-#~ msgid "Commands"
-#~ msgstr "Parancsok"
-
-#~ msgid "DGA1 Resolutions"
-#~ msgstr "DGA1 felbontások"
-
-#~ msgid "DGA2 Resolutions"
-#~ msgstr "DGA2 felbontások"
-
-#~ msgid "Successfully initialized video."
-#~ msgstr "A videó kijelzõ sikeresen elindult."
-
-#~ msgid "Found %dbit visual."
-#~ msgstr "A VICE %d bites kijelzõt talált"
-
-#~ msgid "Attach debugger to pid %d...\n"
-#~ msgstr "Nyomkövetõ csatolása a %d folyamathoz...\n"
-
-#~ msgid "Successfully forked DGA."
-#~ msgstr "A DGA sikeresen forkolt."
-
-#~ msgid "Unable to query DGA1 version."
-#~ msgstr "Nem sikerült a DGA 1 verzió lekérése."
-
-#~ msgid "Unable to query DGA1 information."
-#~ msgstr "Nem sikerült a DGA 1 információ lekérése."
-
-#~ msgid "Root permissions required to use DGA1."
-#~ msgstr "A DGA 1 használatához rendszergazdai jogok szükségesek."
-
-#~ msgid "Problems with DGA - disabling fullscreen."
-#~ msgstr "DGA probléma - teljesképernyõ tiltása"
-
-#~ msgid "Error switching to fullscreen%s"
-#~ msgstr "Hiba teljes képernyõre kapcsoláskor: %s"
-
-#~ msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
-#~ msgstr ""
-#~ "DGA kiterjesztés: cím:%p, szélesség %d, bank méret %d mem. méret %d\n"
-
-#~ msgid "Switch to windowmode"
-#~ msgstr "Ablakos módba kapcsolás"
-
-#~ msgid "Selected mode: %s"
-#~ msgstr "Kiválasztott mód: %s"
-
-#~ msgid "Attach debugger to pid %d..."
-#~ msgstr "Nyomkövetõ csatolása a %d folyamathoz..."
-
-#~ msgid "refresh, not ready, skipping frame"
-#~ msgstr "frissítés, nem készült el, keret átugrása"
-
-#~ msgid "Successfully forked DGA"
-#~ msgstr "A DGA sikeresen forkolt"
-
-#~ msgid "Unable to query video extension version - disabling fullscreen."
-#~ msgstr ""
-#~ "Nem sikerült a video kiterjesztés verzióját lekérni - teljesképernyõ "
-#~ "letiltva."
-
-#~ msgid "Unable to query video extension information - disabling fullscreen."
-#~ msgstr ""
-#~ "Nem sikerült a video kiterjesztés adatait lekérni - teljesképernyõ "
-#~ "letiltva."
-
-#~ msgid "Xserver is running an old XFree86-DGA version (%d.%d) "
-#~ msgstr "Az XServer régi XFree86-DGA verziót futat (%d.%d)"
-
-#~ msgid "Minimum required version is %d.%d - disabling fullscreen."
-#~ msgstr "Legalább %d.%d verzió szükséges - teljesképernyõ letiltva."
-
-#~ msgid "Switch to fullscreen%s"
-#~ msgstr "Átkapcsolás teljes képernyõre %s"
-
-#~ msgid "Need root privileges for DGA2 fullscreen"
-#~ msgstr "A DGA2 teljesképernyõs mód rendszergazda jogokat igényel."
-
-#~ msgid "Error switching to fullscreen (SetMode) %ix%i"
-#~ msgstr "Hiba teljesképernyõs módba kapcsoláskor (SetMode) %ix%i"
-
-#~ msgid "Error switching to fullscreen (pixmap) %ix%i"
-#~ msgstr "Hiba teljesképernyõs módba kapcsoláskor (bitkép) %ix%i"
-
-#~ msgid ""
-#~ "Not enough video memory pages in mode %s, disabling fullscreen (%d,%d)."
-#~ msgstr ""
-#~ "Nincs elég videó memória lap %s módban, teljes képernyõ tiltása (%d,%d)."
-
-#~ msgid "Error switching to fullscreen (CreateGC) %ix%i"
-#~ msgstr "Hiba történt teljes képernyõre váltáskor (CreateGC) %ix%i"
-
-#~ msgid "Couldn't allocate color cache"
-#~ msgstr "Nem sikerült színcache-t foglalni"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "\n"
-#~ "Start monitor?"
-#~ msgstr ""
-#~ "%s\n"
-#~ "\n"
-#~ "Indítsam a monitort?"
-
-#~ msgid "glXWaitVideoSyncSGI() returned %d"
-#~ msgstr "glXWaitVideoSyncSGI() visszatÃ©rÃ©si Ã©rtÃ©ke %d"
-
-#~ msgid "glXChooseVisual() failed"
-#~ msgstr "glXChooseVisual() hiba"
-
-#~ msgid "glXCreateContext() failed"
-#~ msgstr "glXCreateContext() hiba"
-
-#~ msgid "GLX_SGI_video_sync extension is supported"
-#~ msgstr "GLX_SGI_video_sync kiterjesztÃ©s tÃ¡mogatott"
-
-#~ msgid "GLX_SGI_video_sync extension not supported"
-#~ msgstr "GLX_SGI_video_sync kiterjesztÃ©s nem tÃ¡mogatott"
-
-#~ msgid "%s openGL_sync"
-#~ msgstr "%s openGL_sync"
-
-#~ msgid "enabling"
-#~ msgstr "engedÃ©lyezÃ©s"
-
-#~ msgid "disabling"
-#~ msgstr "tiltÃ¡s"
-
-#~ msgid "double size not implemented - use standard double size from menu."
-#~ msgstr ""
-#~ "dupla mÃ©ret nem tÃ¡mogatott - hasznÃ¡lja a normÃ¡l dupla mÃ©retet a "
-#~ "menÃ¼bÅ‘l."
-
-#~ msgid "X11 XRandR extension not available, using default display mode."
-#~ msgstr ""
-#~ "X11 XRandR kiterjesztÃ©s nem elÃ©rhetÅ‘, normÃ¡l kijelzÃ©s hasznÃ¡lata"
-
-#~ msgid "XRandR reports current display: %dx%d@%d"
-#~ msgstr "XRandR jelenlegi felbontÃ¡s: %dx%d@%d"
-
-#~ msgid "%s XRandR"
-#~ msgstr "%s XRandR"
-
-#~ msgid "XRandR setting failed: %d"
-#~ msgstr "XRandR beÃ¡llÃ­tÃ¡s hiba: %d"
+msgstr "Amiga egér"

@@ -1,18 +1,20 @@
 # Swedish translation file for VICE
 # Peter Karlsson <peter@softwolves.pp.se>
-# Copyright 2000-2007
+# Copyright 2000-2008
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 1.22\n"
+"Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-07 20:38+0200\n"
+"POT-Creation-Date: 2008-07-08 20:35+0200\n"
 "PO-Revision-Date: 2007-07-30 20:49+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-Country: SWEDEN\n"
 
 #: src/vsync.c:147 src/sid/sid-cmdline-options.c:186
 #: src/sid/sid-cmdline-options.c:189 src/translate.c.po.c:3527
@@ -552,8 +554,8 @@ msgstr "Ange namn på fransk kernal-ROM-avbildning"
 msgid "Specify name of Italian Kernal ROM image"
 msgstr "Ange namn på italiensk kernal-ROM-avbildning"
 
-#: src/c128/c128-cmdline-options.c:118
-msgid "Specify name of Norwegain Kernal ROM image"
+#: src/c128/c128-cmdline-options.c:118 src/translate.c.po.c:734
+msgid "Specify name of Norwegian Kernal ROM image"
 msgstr "Ange namn på norsk kernal-ROM-avbildning"
 
 #: src/c128/c128-cmdline-options.c:120 src/translate.c.po.c:744
@@ -1425,21 +1427,19 @@ msgstr "Ange namn på loggfil"
 
 #: src/monitor/monitor.c:997 src/translate.c.po.c:4254
 msgid "Execute monitor commands from file"
-msgstr ""
+msgstr "Exekvera monitorkommandon från fil"
 
 #: src/monitor/monitor.c:999 src/translate.c.po.c:4264
 msgid "Set an initial breakpoint for the monitor"
-msgstr ""
+msgstr "Sätt en ursprunglig brytpunkt för monitorn"
 
 #: src/mouse.c:358 src/translate.c.po.c:4456
-#, fuzzy
 msgid "Enable mouse grab"
-msgstr "*Aktivera mus"
+msgstr "Aktivera fångande av mus"
 
 #: src/mouse.c:360 src/translate.c.po.c:4466
-#, fuzzy
 msgid "Disable mouse grab"
-msgstr "Inaktivera dubbelskanning"
+msgstr "Inaktivera fångande av mus"
 
 #: src/mouse.c:362 src/translate.c.po.c:4476
 msgid "Select the joystick port the mouse is attached to"
@@ -1447,7 +1447,7 @@ msgstr "Ange vilken spelport musen är ansluten till"
 
 #: src/mouse.c:364 src/translate.c.po.c:4486
 msgid "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga)"
-msgstr ""
+msgstr "Välj mustyp (0 = 1351, 1 = NEOS, 2 = Amiga)"
 
 #: src/pet/pet-cmdline-options.c:114 src/translate.c.po.c:2406
 msgid "Specify PET model to emulate"
@@ -2134,7 +2134,7 @@ msgid "Kernel driver version  : 0.8 ??"
 msgstr "Kärnans drivrutinsversion: 0.8 ??"
 
 #: src/arch/unix/joy.c:402
-msgid "Please update your Joystick driver !"
+msgid "Please update your Joystick driver!"
 msgstr "Uppdatera din styrspaksdrivrutin (joystick driver)!"
 
 #: src/arch/unix/joy.c:403
@@ -2366,9 +2366,8 @@ msgid "*IEEE488 interface emulation"
 msgstr "*Emulering av IEEE488-gränssnitt"
 
 #: src/arch/unix/gui/c128ui.c:259 src/arch/unix/gui/c64ui.c:295
-#, fuzzy
 msgid "*Mouse Emulation"
-msgstr "*1351-musemulering"
+msgstr "*Musemulering"
 
 #: src/arch/unix/gui/c128ui.c:268
 msgid "Load new Int. Kernal ROM"
@@ -3395,9 +3394,8 @@ msgstr "*OpenGL-rastersynkronisering"
 #: src/arch/unix/gui/uicrtc.c:87 src/arch/unix/gui/uited.c:128
 #: src/arch/unix/gui/uivdc.c:79 src/arch/unix/gui/uivic.c:123
 #: src/arch/unix/gui/uivicii.c:164
-#, fuzzy
 msgid "*Fullscreen settings"
-msgstr "Fullskärmsenhet"
+msgstr "*Fullskärmsinställningar"
 
 #: src/arch/unix/gui/uicrtc.c:90 src/arch/unix/gui/uited.c:131
 #: src/arch/unix/gui/uivdc.c:82 src/arch/unix/gui/uivic.c:126
@@ -3843,7 +3841,7 @@ msgstr "*Aktivera fullskärm"
 
 #: src/arch/unix/gui/uifullscreen-menu.h:97
 msgid "*Show Statusbar/Menu"
-msgstr ""
+msgstr "*Visa statusrad/meny"
 
 #: src/arch/unix/gui/uifullscreen-menu.h:104
 msgid "Fullscreen device"
@@ -4073,9 +4071,8 @@ msgstr "*Aktivera mus"
 
 #: src/arch/unix/gui/uimouse.c:62 src/arch/win32/resmouse.rc.po.c:11
 #: src/arch/amigaos/intl.c.po.c:4799
-#, fuzzy
 msgid "Mouse type"
-msgstr "ROM-uppsättningstyp"
+msgstr "Mustyp"
 
 #: src/arch/unix/gui/uimouse.c:64 src/arch/win32/resmouse.rc.po.c:15
 #: src/arch/amigaos/intl.c.po.c:4817
@@ -5124,7 +5121,6 @@ msgid "*Enable Ethernet"
 msgstr "*Aktivera Ethernet"
 
 #: src/arch/unix/gui/uitfe.c:50
-#, fuzzy
 msgid "*RR-NET compatibility mode"
 msgstr "*RR-NET-kompatibilitetsläge"
 
@@ -5382,9 +5378,8 @@ msgstr ""
 "Czirkos Zoltan, Karai Csaba - ungerska\n"
 
 #: src/arch/unix/x11/gnome/about.c:105
-#, fuzzy
 msgid "(c) 1998 - 2008 The Vice Team"
-msgstr "© 1998 - 2007 Vice-gruppen"
+msgstr "© 1998 - 2008 Vice-gruppen"
 
 #: src/arch/unix/x11/gnome/about.c:116 src/arch/win32/res.rc.po.c:5164
 #: src/arch/amigaos/intl.c.po.c:1716
@@ -6106,7 +6101,7 @@ msgstr "%d: Spår %.1f"
 
 #: src/arch/unix/x11/xaw/x11ui.c:1531
 msgid "Toggling of Statusbar/Menu in Xaw is not supported."
-msgstr ""
+msgstr "Det går inte att slå på/av statusrad/meny i Xaw"
 
 #: src/arch/unix/x11/xaw/x11ui.c:1666 src/arch/win32/res.rc.po.c:5050
 msgid "VICE Error!"
@@ -6198,9 +6193,8 @@ msgid "Successfully initialized without shared memory."
 msgstr "Initierade utan delat minne."
 
 #: src/arch/unix/x11/xaw/x11video.c:698
-#, fuzzy
 msgid "HW scaling not available"
-msgstr "Vilka kommandoradsflaggor är tillgängliga?"
+msgstr "Maskinvaruskalning inte tillgänglig"
 
 #: src/arch/win32/res.rc.po.c:81 src/arch/win32/resc128.rc.po.c:16
 #: src/arch/win32/resc64.rc.po.c:16 src/arch/win32/rescbm2.rc.po.c:15
@@ -6367,44 +6361,36 @@ msgid "Version 0.0"
 msgstr "Version 0.0"
 
 #: src/arch/win32/res.rc.po.c:560
-#, fuzzy
 msgid "Copyright (c) 1998-2008 Andreas Boose"
-msgstr "Upphovsrättsskyddad © 1998-2007 Andreas Boose"
+msgstr "Upphovsrättsskyddad © 1998-2008 Andreas Boose"
 
 #: src/arch/win32/res.rc.po.c:561
-#, fuzzy
 msgid "Copyright (c) 1998-2008 Dag Lem"
-msgstr "Upphovsrättsskyddad © 1998-2007 Dag Lem"
+msgstr "Upphovsrättsskyddad © 1998-2008 Dag Lem"
 
 #: src/arch/win32/res.rc.po.c:562
-#, fuzzy
 msgid "Copyright (c) 1998-2008 Tibor Biczo"
-msgstr "Upphovsrättsskyddad © 1998-2007 Tibor Biczo"
+msgstr "Upphovsrättsskyddad © 1998-2008 Tibor Biczo"
 
 #: src/arch/win32/res.rc.po.c:563
-#, fuzzy
 msgid "Copyright (c) 1999-2008 Andreas Matthies"
-msgstr "Upphovsrättsskyddad © 1999-2007 Andreas Matthies"
+msgstr "Upphovsrättsskyddad © 1999-2008 Andreas Matthies"
 
 #: src/arch/win32/res.rc.po.c:564
-#, fuzzy
 msgid "Copyright (c) 1999-2008 Martin Pottendorfer"
-msgstr "Upphovsrättsskyddad © 1999-2007 Martin Pottendorfer"
+msgstr "Upphovsrättsskyddad © 1999-2008 Martin Pottendorfer"
 
 #: src/arch/win32/res.rc.po.c:565
-#, fuzzy
 msgid "Copyright (c) 2000-2008 Spiro Trikaliotis"
-msgstr "Upphovsrättsskyddad © 2000-2007 Spiro Trikaliotis"
+msgstr "Upphovsrättsskyddad © 2000-2008 Spiro Trikaliotis"
 
 #: src/arch/win32/res.rc.po.c:566
-#, fuzzy
 msgid "Copyright (c) 2005-2008 Marco van den Heuvel"
-msgstr "Upphovsrättsskyddad © 2005-2007 Marco van den Heuvel"
+msgstr "Upphovsrättsskyddad © 2005-2008 Marco van den Heuvel"
 
 #: src/arch/win32/res.rc.po.c:567
-#, fuzzy
 msgid "Copyright (c) 2006-2008 Christian Vogelgsang"
-msgstr "Upphovsrättsskyddad © 2006-2007 Christian Vogelgsang"
+msgstr "Upphovsrättsskyddad © 2006-2008 Christian Vogelgsang"
 
 #: src/arch/win32/res.rc.po.c:568
 #, fuzzy
@@ -6959,6 +6945,9 @@ msgid ""
 "\n"
 "Start monitor? (No will reset, cancel will continue)"
 msgstr ""
+"%s\n"
+"\n"
+"Starta monitor? (Nej kommer att återställa, avbryt fortsätter)"
 
 #: src/arch/win32/res.rc.po.c:5060
 msgid "VICE CPU JAM"
@@ -7432,9 +7421,8 @@ msgid "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
 msgstr "Diskettavbildningar (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
 
 #: src/arch/win32/res.rc.po.c:5186
-#, fuzzy
 msgid "Tape image files (*.t64;*.tap)"
-msgstr "Bandavbildningar (*.t64;*.p00;*.tap;*.prg)"
+msgstr "Bandavbildningar (*.t64;*.tap)"
 
 #: src/arch/win32/res.rc.po.c:5187
 msgid "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
@@ -7466,7 +7454,7 @@ msgstr "VICE-tangentbordsfiler (*.vkm)"
 
 #: src/arch/win32/res.rc.po.c:5194
 msgid "Commodore emulator files (*.prg;*.p00)"
-msgstr ""
+msgstr "Commodoreemulatorfiler (*.prg;*.p00)"
 
 #: src/arch/win32/res.rc.po.c:5195 src/arch/amigaos/intl.c.po.c:3737
 msgid "Flexible"
@@ -7679,9 +7667,8 @@ msgstr "Koppla &från diskettavbildningsfil"
 #: src/arch/win32/resc128.rc.po.c:34 src/arch/win32/resc64.rc.po.c:34
 #: src/arch/win32/rescbm2.rc.po.c:33 src/arch/win32/respet.rc.po.c:33
 #: src/arch/win32/resplus4.rc.po.c:33 src/arch/win32/resvic20.rc.po.c:33
-#, fuzzy
 msgid "&All"
-msgstr "Alla"
+msgstr "&Alla"
 
 #: src/arch/win32/resc128.rc.po.c:36 src/arch/win32/resc64.rc.po.c:36
 #: src/arch/win32/rescbm2.rc.po.c:35 src/arch/win32/respet.rc.po.c:35
@@ -7692,30 +7679,26 @@ msgstr "&Vallista"
 #: src/arch/win32/resc128.rc.po.c:38 src/arch/win32/resc64.rc.po.c:38
 #: src/arch/win32/rescbm2.rc.po.c:37 src/arch/win32/respet.rc.po.c:37
 #: src/arch/win32/resplus4.rc.po.c:37 src/arch/win32/resvic20.rc.po.c:37
-#, fuzzy
 msgid "&Add current image"
-msgstr "Lägg till aktuell avbildning"
+msgstr "&Lägg till aktuell avbildning"
 
 #: src/arch/win32/resc128.rc.po.c:39 src/arch/win32/resc64.rc.po.c:39
 #: src/arch/win32/rescbm2.rc.po.c:38 src/arch/win32/respet.rc.po.c:38
 #: src/arch/win32/resplus4.rc.po.c:38 src/arch/win32/resvic20.rc.po.c:38
-#, fuzzy
 msgid "&Remove current image"
-msgstr "Ta bort aktuell avbildning"
+msgstr "&Ta bort aktuell avbildning"
 
 #: src/arch/win32/resc128.rc.po.c:40 src/arch/win32/resc64.rc.po.c:40
 #: src/arch/win32/rescbm2.rc.po.c:39 src/arch/win32/respet.rc.po.c:39
 #: src/arch/win32/resplus4.rc.po.c:39 src/arch/win32/resvic20.rc.po.c:39
-#, fuzzy
 msgid "Attach &next image"
-msgstr "Anslut nästa avbildning"
+msgstr "Anslut &nästa avbildning"
 
 #: src/arch/win32/resc128.rc.po.c:41 src/arch/win32/resc64.rc.po.c:41
 #: src/arch/win32/rescbm2.rc.po.c:40 src/arch/win32/respet.rc.po.c:40
 #: src/arch/win32/resplus4.rc.po.c:40 src/arch/win32/resvic20.rc.po.c:40
-#, fuzzy
 msgid "Attach &previous image"
-msgstr "Anslut föregående avbildning"
+msgstr "Anslut &föregående avbildning"
 
 #: src/arch/win32/resc128.rc.po.c:43 src/arch/win32/resc64.rc.po.c:43
 #: src/arch/win32/rescbm2.rc.po.c:42 src/arch/win32/respet.rc.po.c:42
@@ -7732,9 +7715,8 @@ msgstr "&Spara vallistefil"
 #: src/arch/win32/resc128.rc.po.c:47 src/arch/win32/resc64.rc.po.c:47
 #: src/arch/win32/rescbm2.rc.po.c:46 src/arch/win32/respet.rc.po.c:46
 #: src/arch/win32/resplus4.rc.po.c:46 src/arch/win32/resvic20.rc.po.c:46
-#, fuzzy
 msgid "Attach &tape image..."
-msgstr "Anslut en bandavbildningsfil..."
+msgstr "Anslut en &bandavbildningsfil..."
 
 #: src/arch/win32/resc128.rc.po.c:48 src/arch/win32/resc64.rc.po.c:48
 #: src/arch/win32/rescbm2.rc.po.c:47 src/arch/win32/respet.rc.po.c:47
@@ -7887,23 +7869,20 @@ msgid "Detach cartridge &image"
 msgstr "Koppla &från insticksmodulfil"
 
 #: src/arch/win32/resc128.rc.po.c:91 src/arch/win32/resc64.rc.po.c:91
-#, fuzzy
 msgid "Cartridge free&ze"
-msgstr "Insticksmodulens frysfunktion"
+msgstr "Insticksmodulens &frysfunktion"
 
 #: src/arch/win32/resc128.rc.po.c:93 src/arch/win32/resc64.rc.po.c:93
 #: src/arch/win32/rescbm2.rc.po.c:61 src/arch/win32/respet.rc.po.c:59
 #: src/arch/win32/resplus4.rc.po.c:71 src/arch/win32/resvic20.rc.po.c:69
-#, fuzzy
 msgid "&Pause"
-msgstr "Paus"
+msgstr "&Paus"
 
 #: src/arch/win32/resc128.rc.po.c:94 src/arch/win32/resc64.rc.po.c:94
 #: src/arch/win32/rescbm2.rc.po.c:63 src/arch/win32/respet.rc.po.c:61
 #: src/arch/win32/resplus4.rc.po.c:73 src/arch/win32/resvic20.rc.po.c:71
-#, fuzzy
 msgid "&Monitor"
-msgstr "Monitor"
+msgstr "&Monitor"
 
 #: src/arch/win32/resc128.rc.po.c:95 src/arch/win32/resc64.rc.po.c:95
 #: src/arch/win32/rescbm2.rc.po.c:64 src/arch/win32/respet.rc.po.c:62
@@ -7914,16 +7893,14 @@ msgstr "&Nollställ"
 #: src/arch/win32/resc128.rc.po.c:97 src/arch/win32/resc64.rc.po.c:97
 #: src/arch/win32/rescbm2.rc.po.c:66 src/arch/win32/respet.rc.po.c:64
 #: src/arch/win32/resplus4.rc.po.c:76 src/arch/win32/resvic20.rc.po.c:74
-#, fuzzy
 msgid "&Hard"
-msgstr "Hård"
+msgstr "&Hård"
 
 #: src/arch/win32/resc128.rc.po.c:98 src/arch/win32/resc64.rc.po.c:98
 #: src/arch/win32/rescbm2.rc.po.c:67 src/arch/win32/respet.rc.po.c:65
 #: src/arch/win32/resplus4.rc.po.c:77 src/arch/win32/resvic20.rc.po.c:75
-#, fuzzy
 msgid "&Soft"
-msgstr "Mjuk"
+msgstr "&Mjuk"
 
 #: src/arch/win32/resc128.rc.po.c:100 src/arch/win32/resc64.rc.po.c:100
 #: src/arch/win32/rescbm2.rc.po.c:69 src/arch/win32/respet.rc.po.c:67
@@ -7983,30 +7960,26 @@ msgstr "&Spela upp historik automatiskt"
 #: src/arch/win32/resc128.rc.po.c:115 src/arch/win32/resc64.rc.po.c:115
 #: src/arch/win32/rescbm2.rc.po.c:84 src/arch/win32/respet.rc.po.c:82
 #: src/arch/win32/resplus4.rc.po.c:94 src/arch/win32/resvic20.rc.po.c:92
-#, fuzzy
 msgid "&Main CPU Trace"
-msgstr "Spåra &huvud-CPU\tAlt+F10"
+msgstr "Spåra &huvud-CPU"
 
 #: src/arch/win32/resc128.rc.po.c:116 src/arch/win32/resc64.rc.po.c:116
 #: src/arch/win32/rescbm2.rc.po.c:85 src/arch/win32/respet.rc.po.c:83
 #: src/arch/win32/resplus4.rc.po.c:95 src/arch/win32/resvic20.rc.po.c:93
-#, fuzzy
 msgid "Drive&0 CPU Trace"
-msgstr "Spåra CPU för enhet &0\tAlt+F11"
+msgstr "Spåra CPU för enhet &0"
 
 #: src/arch/win32/resc128.rc.po.c:117 src/arch/win32/resc64.rc.po.c:117
 #: src/arch/win32/rescbm2.rc.po.c:86 src/arch/win32/respet.rc.po.c:84
 #: src/arch/win32/resplus4.rc.po.c:96 src/arch/win32/resvic20.rc.po.c:94
-#, fuzzy
 msgid "Drive&1 CPU Trace"
-msgstr "Spåra CPU för enhet &1\tAlt+F12"
+msgstr "Spåra CPU för enhet &1"
 
 #: src/arch/win32/resc128.rc.po.c:121 src/arch/win32/resc64.rc.po.c:121
 #: src/arch/win32/rescbm2.rc.po.c:90 src/arch/win32/respet.rc.po.c:88
 #: src/arch/win32/resplus4.rc.po.c:100 src/arch/win32/resvic20.rc.po.c:98
-#, fuzzy
 msgid "E&xit"
-msgstr "Avsluta"
+msgstr "&Avsluta"
 
 #: src/arch/win32/resc128.rc.po.c:123 src/arch/win32/resc64.rc.po.c:123
 #: src/arch/win32/rescbm2.rc.po.c:92 src/arch/win32/respet.rc.po.c:90
@@ -8050,16 +8023,14 @@ msgstr "Spara &ögonblicksbildfil..."
 #: src/arch/win32/resc128.rc.po.c:132 src/arch/win32/resc64.rc.po.c:132
 #: src/arch/win32/rescbm2.rc.po.c:101 src/arch/win32/respet.rc.po.c:99
 #: src/arch/win32/resplus4.rc.po.c:111 src/arch/win32/resvic20.rc.po.c:109
-#, fuzzy
 msgid "&Load quicksnapshot image"
-msgstr "Läs in snabbögonblicksbild"
+msgstr "&Öppna snabbögonblicksbild"
 
 #: src/arch/win32/resc128.rc.po.c:133 src/arch/win32/resc64.rc.po.c:133
 #: src/arch/win32/rescbm2.rc.po.c:102 src/arch/win32/respet.rc.po.c:100
 #: src/arch/win32/resplus4.rc.po.c:112 src/arch/win32/resvic20.rc.po.c:110
-#, fuzzy
 msgid "&Save quicksnapshot image"
-msgstr "Spara snabbögonblicksbildfil"
+msgstr "&Spara snabbögonblicksbildfil"
 
 #: src/arch/win32/resc128.rc.po.c:135 src/arch/win32/resc64.rc.po.c:135
 #: src/arch/win32/rescbm2.rc.po.c:104 src/arch/win32/respet.rc.po.c:102
@@ -8263,9 +8234,8 @@ msgstr "Ingen &gräns"
 #: src/arch/win32/resc128.rc.po.c:184 src/arch/win32/resc64.rc.po.c:186
 #: src/arch/win32/rescbm2.rc.po.c:153 src/arch/win32/respet.rc.po.c:151
 #: src/arch/win32/resplus4.rc.po.c:163 src/arch/win32/resvic20.rc.po.c:161
-#, fuzzy
 msgid "&Warp mode"
-msgstr "Warpläge"
+msgstr "&Warpläge"
 
 #: src/arch/win32/resc128.rc.po.c:186 src/arch/win32/resc64.rc.po.c:189
 #: src/arch/win32/rescbm2.rc.po.c:156 src/arch/win32/respet.rc.po.c:155
@@ -8310,9 +8280,8 @@ msgstr "64KB grafik&minne"
 #: src/arch/win32/resc128.rc.po.c:200 src/arch/win32/resc64.rc.po.c:197
 #: src/arch/win32/rescbm2.rc.po.c:165 src/arch/win32/respet.rc.po.c:161
 #: src/arch/win32/resplus4.rc.po.c:180 src/arch/win32/resvic20.rc.po.c:178
-#, fuzzy
 msgid "Swap &Joystick"
-msgstr "Växla spelportarna"
+msgstr "Växla &spelportarna"
 
 #: src/arch/win32/resc128.rc.po.c:202 src/arch/win32/resc64.rc.po.c:199
 #: src/arch/win32/rescbm2.rc.po.c:167 src/arch/win32/respet.rc.po.c:163
@@ -8358,9 +8327,8 @@ msgid "IEEE&488 Interface emulation"
 msgstr "Emulering av IEEE&488-gränssnitt"
 
 #: src/arch/win32/resc128.rc.po.c:215 src/arch/win32/resc64.rc.po.c:212
-#, fuzzy
 msgid "&Grab mouse events"
-msgstr "&1351-musemulering\tAlt+Q"
+msgstr "&Fånga mushändelser"
 
 #: src/arch/win32/resc128.rc.po.c:217 src/arch/win32/resc64.rc.po.c:214
 #: src/arch/win32/rescbm2.rc.po.c:179 src/arch/win32/respet.rc.po.c:175
@@ -8410,9 +8378,8 @@ msgid "&Keyboard settings..."
 msgstr "&Tangentbordsinställningar..."
 
 #: src/arch/win32/resc128.rc.po.c:226 src/arch/win32/resc64.rc.po.c:223
-#, fuzzy
 msgid "Mo&use settings..."
-msgstr "P&lus4-inställningar..."
+msgstr "M&usinställningar..."
 
 #: src/arch/win32/resc128.rc.po.c:227 src/arch/win32/resc64.rc.po.c:224
 #: src/arch/win32/rescbm2.rc.po.c:189 src/arch/win32/respet.rc.po.c:184
@@ -10070,11 +10037,6 @@ msgstr "Sprite-&bakgrundkollisioner"
 msgid "New &Luminances"
 msgstr "Nya &ljusstyrkor"
 
-#: src/translate.c.po.c:734
-#, fuzzy
-msgid "Specify name of Norwegian Kernal ROM image"
-msgstr "Ange namn på norsk kernal-ROM-avbildning"
-
 #: src/translate.c.po.c:2666
 msgid "<0-2000>"
 msgstr "<0-2000>"
@@ -10470,7 +10432,7 @@ msgstr "Emulering av IEEE 488-gränssnitt"
 
 #: src/arch/amigaos/intl.c.po.c:1266
 msgid "Grab mouse events"
-msgstr ""
+msgstr "Fånga mushändelser"
 
 #: src/arch/amigaos/intl.c.po.c:1284
 msgid "Video settings..."
@@ -10525,9 +10487,8 @@ msgid "Keyboard settings..."
 msgstr "Tangentbordsinställningar..."
 
 #: src/arch/amigaos/intl.c.po.c:1410
-#, fuzzy
 msgid "Mouse settings..."
-msgstr "Ljudinställningar..."
+msgstr "Musinställningar..."
 
 #: src/arch/amigaos/intl.c.po.c:1419
 msgid "Sound settings..."
@@ -11369,23 +11330,20 @@ msgid "Volume (0-100%)"
 msgstr "Volym (0-100 %)"
 
 #: src/arch/amigaos/intl.c.po.c:4808
-#, fuzzy
 msgid "Mouse Settings"
-msgstr "Ljudinställningar"
+msgstr "Musinställningar"
 
 #: src/arch/amigaos/intl.c.po.c:4826
-#, fuzzy
 msgid "1351 mouse"
-msgstr "1351-musemulering"
+msgstr "1351-mus"
 
 #: src/arch/amigaos/intl.c.po.c:4835
-#, fuzzy
 msgid "NEOS mouse"
-msgstr "*Aktivera mus"
+msgstr "NEOS-mus"
 
 #: src/arch/amigaos/intl.c.po.c:4844
 msgid "Amiga mouse"
-msgstr ""
+msgstr "Amigamus"
 
 #, fuzzy
 #~ msgid "Attach raw 32KB Action Replay 4 cartridge image"
