@@ -345,7 +345,6 @@ static int set_reu_size(int val, void *param)
     rec_options.wrap_around_mask_when_storing = rec_options.wrap_around - 1;
     rec_options.reg_bank_unused = REU_REG_RW_BANK_UNUSED;
     rec_options.status_preset = REU_REG_R_STATUS_256K_CHIPS;
-    rec_options.first_unused_register_address = REU_REG_RW_UNUSED;
 
     switch (val) {
       case 128:
@@ -751,7 +750,7 @@ static void reu_store_without_sideeffects(WORD addr, BYTE byte)
 */
 BYTE REGPARM1 reu_read(WORD addr)
 {
-    BYTE retval;
+    BYTE retval = 0xff;
 
     addr &= 0xff;
 
