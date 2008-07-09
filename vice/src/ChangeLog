@@ -1,3 +1,7 @@
+2008-07-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* translate.c: Updated the dutch translations.
+
 2008-07-08  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* translate.c: 2 new texts for -autostartrunwithcolon.

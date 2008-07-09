@@ -663,7 +663,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_NL, "Bij het autostarten, gebruik het 'RUN' commando met een dubbele punt, dus 'RUN:'"},
 /* pl */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_SV, ""},  /* fuzzy */
 
@@ -673,7 +673,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_NL, "Bij het autostarten, gebruik het 'RUN' commando niet met een dubbele punt, dus 'RUN'"},
 /* pl */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_SV, ""},  /* fuzzy */
 
