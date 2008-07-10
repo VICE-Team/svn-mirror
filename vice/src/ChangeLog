@@ -1,5 +1,9 @@
 2008-07-10  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* Version 1.22.25
+
+2008-07-10  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
 	* c64/reu.c: The status register bits are not reset if a new
 	transfer starts without reading the status register; however,
 	the interrupt only occurs if they are set again to new values.
