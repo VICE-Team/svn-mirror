@@ -427,7 +427,7 @@ static const resource_int_t resources_int[] = {
     { "REUsize", 512, RES_EVENT_NO, NULL,
       &reu_size_kb, set_reu_size, NULL },
     { "REUfirstUnusedRegister", REU_REG_RW_UNUSED, RES_EVENT_NO, NULL,
-      &rec_options.first_unused_register_address, set_reu_first_unused, NULL },
+      (int *) &rec_options.first_unused_register_address, set_reu_first_unused, NULL },
     { NULL }
 };
 
