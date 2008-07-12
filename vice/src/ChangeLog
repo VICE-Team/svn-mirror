@@ -1,5 +1,8 @@
 2008-07-12  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* arch/unix/x11/gnome/x11ui.c: removed weird unicode character
+	from a commentary in ui_open_canvas_window().
+
 	* c64/reu.c: Fixed a bug with transfer and swap file operations
 	introduced on 2008-07-10; Added assert()s for input parameters
 	in reu_dma_update_reads(), reu_dma_host_to_dma(),
