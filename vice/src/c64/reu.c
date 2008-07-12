@@ -1020,7 +1020,7 @@ static void reu_dma_host_to_reu(WORD host_addr, unsigned int reu_addr,
         len--;
     }
     DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "END OF BLOCK") );
-    reu_dma_update_regs(host_addr, reu_addr, len, REU_REG_R_STATUS_END_OF_BLOCK);
+    reu_dma_update_regs(host_addr, reu_addr, ++len, REU_REG_R_STATUS_END_OF_BLOCK);
 }
 
 /*! \brief DMA operation writing from the REU to the host
@@ -1062,7 +1062,7 @@ static void reu_dma_reu_to_host(WORD host_addr, unsigned int reu_addr,
         len--;
     }
     DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "END OF BLOCK") );
-    reu_dma_update_regs(host_addr, reu_addr, len, REU_REG_R_STATUS_END_OF_BLOCK);
+    reu_dma_update_regs(host_addr, reu_addr, ++len, REU_REG_R_STATUS_END_OF_BLOCK);
 }
 
 /*! \brief DMA operation swaping data between host and REU
@@ -1109,7 +1109,7 @@ static void reu_dma_swap(WORD host_addr, unsigned int reu_addr,
         len--;
     }
     DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "END OF BLOCK") );
-    reu_dma_update_regs(host_addr, reu_addr, len, REU_REG_R_STATUS_END_OF_BLOCK);
+    reu_dma_update_regs(host_addr, reu_addr, ++len, REU_REG_R_STATUS_END_OF_BLOCK);
 }
 
 /*! \brief DMA operation comparing data between host and REU
