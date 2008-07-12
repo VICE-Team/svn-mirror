@@ -75,7 +75,7 @@ enum {
 
 #ifdef REU_DEBUG
     /*! \brief dynamically define the debugging level */
-    static enum debug_level_e DEBUG_LEVEL = 0;
+    static enum debug_level_e DEBUG_LEVEL = DEBUG_LEVEL_NONE;
 
     /*! \brief output debugging information
       \param _level
@@ -927,6 +927,9 @@ BYTE read_from_reu(unsigned int reu_addr)
 static void reu_dma_update_regs(WORD host_addr, unsigned int reu_addr,
                                 int len, BYTE new_status_or_mask)
 {
+    assert( len >= 1 );
+    assert( new_status_or_mask != 0 );
+
     reu_addr &= rec_options.wrap_around_mask_when_storing;
 
     rec.status |= new_status_or_mask;
@@ -946,7 +949,7 @@ static void reu_dma_update_regs(WORD host_addr, unsigned int reu_addr,
             rec.bank_reu = (reu_addr >> 16) & 0xff;
         }
 
-        rec.transfer_length = len;
+        rec.transfer_length = len & 0xFFFF;
     }
     else {
         rec.base_computer   = rec.base_computer_shadow;
@@ -999,12 +1002,14 @@ static void reu_dma_host_to_reu(WORD host_addr, unsigned int reu_addr,
                                 int host_step, int reu_step, int len)
 {
     BYTE value;
-    assert(((host_step == 0) || (host_step == 1)));
-    assert(((reu_step == 0) || (reu_step == 1)));
     DEBUG_LOG( DEBUG_LEVEL_TRANSFER_HIGH_LEVEL, (reu_log,
                 "copy ext $%05X %s<= main $%04X%s, $%04X (%d) bytes.",
                 reu_addr, reu_step ? "" : "(fixed) ", host_addr,
                 host_step ? "" : " (fixed)", len, len) );
+
+    assert(((host_step == 0) || (host_step == 1)));
+    assert(((reu_step == 0) || (reu_step == 1)));
+    assert(len >= 1);
 
     while (len) {
         maincpu_clk++;
@@ -1049,6 +1054,10 @@ static void reu_dma_reu_to_host(WORD host_addr, unsigned int reu_addr,
                 reu_addr, reu_step ? "" : "(fixed) ", host_addr,
                 host_step ? "" : " (fixed)", len, len) );
 
+    assert(((host_step == 0) || (host_step == 1)));
+    assert(((reu_step == 0) || (reu_step == 1)));
+    assert(len >= 1);
+
     while (len) {
         DEBUG_LOG( DEBUG_LEVEL_TRANSFER_LOW_LEVEL, (reu_log,
                     "Transferring byte: %x from ext $%05X to main $%04X.",
@@ -1091,6 +1100,10 @@ static void reu_dma_swap(WORD host_addr, unsigned int reu_addr,
                 "swap ext $%05X %s<=> main $%04X%s, $%04X (%d) bytes.",
                 reu_addr, reu_step ? "" : "(fixed) ", host_addr,
                 host_step ? "" : " (fixed)", len, len) );
+
+    assert(((host_step == 0) || (host_step == 1)));
+    assert(((reu_step == 0) || (reu_step == 1)));
+    assert(len >= 1);
 
     while (len) {
         value_from_reu = read_from_reu(reu_addr);
@@ -1142,12 +1155,16 @@ static void reu_dma_compare(WORD host_addr, unsigned int reu_addr,
                 reu_addr, reu_step ? "" : "(fixed) ", host_addr,
                 host_step ? "" : " (fixed)", len, len) );
 
+    assert(((host_step == 0) || (host_step == 1)));
+    assert(((reu_step == 0) || (reu_step == 1)));
+    assert(len >= 1);
+
     /* the real 17xx does not clear these bits on compare;
      * thus, we do not clear them, either! */
 
     /* rec.status &= ~ (REU_REG_R_STATUS_VERIFY_ERROR | REU_REG_R_STATUS_END_OF_BLOCK); */
 
-    while (len--) {
+    for (; len; len--) {
         maincpu_clk++;
         machine_handle_pending_alarms(0);
         value_from_reu = read_from_reu(reu_addr);
@@ -1160,25 +1177,27 @@ static void reu_dma_compare(WORD host_addr, unsigned int reu_addr,
         if (value_from_reu != value_from_c64) {
 
             DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "VERIFY ERROR") );
-            rec.status |= REU_REG_R_STATUS_VERIFY_ERROR;
+            new_status_or_mask |= REU_REG_R_STATUS_VERIFY_ERROR;
 
             /* weird behaviour of the 17xx: If the last or next-to-last byte
-             * failed, the "end of block transfer" bit is set, too.
+             * failed, the "end of block transfer" bit is set, too (cf. below),
+             * and the reported length is 1
              */
-            if (len <= 1) {
-                new_status_or_mask |= REU_REG_R_STATUS_END_OF_BLOCK;
-                len = 1;
+            if (len <= 2) {
+                len = 0; /* will be incremented after the loop! */
             }
             break;
         }
     }
 
-    assert( len >= -1 );
+    /* the length was decremented once too much, correct for this */
+    ++len;
 
-    if (len < 0) {
+    assert( len >= 1 );
+
+    if (len == 1) {
         /* all bytes are equal, mark End Of Block */
         new_status_or_mask = REU_REG_R_STATUS_END_OF_BLOCK;
-        len = 1;
     }
 
     reu_dma_update_regs(host_addr, reu_addr, len, new_status_or_mask);

@@ -1,7 +1,12 @@
 2008-07-12  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* c64/reu.c: Fixed a bug with transfer and swap file operations
-	introduced on 2008-07-10.
+	introduced on 2008-07-10; Added assert()s for input parameters
+	in reu_dma_update_reads(), reu_dma_host_to_dma(),
+	reu_dma_reu_to_host(), reu_dma_compare(); Fixed an error in
+	reu_dma_compare() where it "forgot" to generate an IRQ if a
+	verify error occurred; length is now written correctly in
+	reu_dma_update_regs() (value 0x10000 was not corrected to 0!).
 
 2008-07-10  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
