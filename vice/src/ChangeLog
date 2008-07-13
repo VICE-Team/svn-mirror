@@ -1,3 +1,10 @@
+2008-07-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/README.AMIGA: Updated.
+
+	* arch/unix/gp2x/make-bindist.sh,
+	arch/unix/sco_sol/make-bindist.sh: Fixed a typo.
+
 2008-07-13  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* c64/reu.c: Fixed the end of transfer length when doing a

@@ -1,3 +1,13 @@
+2008-07-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* build/riscos/build-cross.sh: Added a missing 'cd ..'.
+
+	* configure.in: Corrected a typo.
+
+	* doc/Readme.beos: Updated.
+
+	* vice-mint.spec, vice.spec: Release version updated to 2.0.
+
 2008-07-10  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.25

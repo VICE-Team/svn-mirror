@@ -127,4 +127,5 @@ rm config.h
 ln -s arch/riscos/config.h config.h
 
 make
+cd ..
 make bindistzip

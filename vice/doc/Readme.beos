@@ -3,11 +3,8 @@ BeVICE
 
 REQUIREMENTS
 ---------------------------
-BeVICE was developed and so far tested under BeOS 5 Personal Edition
-on a quite fast machine (Pentium II 400MHz) with Soundblaster 64 PCI
-and two standard analog joysticks on a Y-cable.
-I'm highly interested in experiences with other hardware and BeOS
-releases (see FEEDBACK)
+BeVICE was developed and so far tested under BeOS 5 Personal Edition,
+Zeta and Haiku.
 
 INSTALLATION
 ------------------------
@@ -47,7 +44,6 @@ TODO
   specific setting are missing; use commandline options or
   edit the vice.ini.
 - Fullsrceen mode is needed.
-- No binaries for PPC so far.
 
 FEEDBACK
 ------------------
@@ -56,4 +52,5 @@ experiences, please write a mail to the VICE team
   mailto:vice-devel@firenze.linux.it
 or directly to BeOS porter
   mailto:andreas.matthies@gmx.net
-
+or BeOS maintainer
+  mailto:blackystardust68@yahoo.com

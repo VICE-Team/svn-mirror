@@ -1,4 +1,4 @@
-\#!/bin/sh
+#!/bin/sh
 # make-bindist.sh for the OPENSERVER, UNIXWARE & SOLARIS ports
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
