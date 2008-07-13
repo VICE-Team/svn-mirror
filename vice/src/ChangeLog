@@ -1,3 +1,7 @@
+2008-07-13  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 1.22.26
+
 2008-07-12  Andreas Matthies  <andreas.matthies@gmx.net>
 
 	* vicii/vicii-fetch.c, vicii/vicii_fetch.h: vicii_fetch_matrix

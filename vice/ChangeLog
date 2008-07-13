@@ -1,3 +1,7 @@
+2008-07-13  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 1.22.26
+
 2008-07-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* build/riscos/build-cross.sh: Added a missing 'cd ..'.

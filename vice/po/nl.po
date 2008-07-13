@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-08 20:35+0200\n"
+"POT-Creation-Date: 2008-07-13 20:27+0200\n"
 "PO-Revision-Date: 2008-06-11 11:57+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -54,11 +54,15 @@ msgstr "Sorry. Meerdere opnamen wordt niet ondersteund."
 
 #: src/autostart.c:177 src/translate.c.po.c:634
 msgid "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
-msgstr "Bij het autostarten, gebruik het 'RUN' commando met een dubbele punt, dus 'RUN:'"
+msgstr ""
+"Bij het autostarten, gebruik het 'RUN' commando met een dubbele punt, dus "
+"'RUN:'"
 
 #: src/autostart.c:179 src/translate.c.po.c:644
 msgid "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"
-msgstr "Bij het autostarten, gebruik het 'RUN' commando niet met een dubbele punt, dus 'RUN'"
+msgstr ""
+"Bij het autostarten, gebruik het 'RUN' commando niet met een dubbele punt, "
+"dus 'RUN'"
 
 #: src/autostart.c:270 src/translate.c.po.c:96
 msgid "Cannot load snapshot file."
@@ -103,7 +107,7 @@ msgstr "Zet de geluidsbuffergrootte naar <waarde> msec"
 #: src/c64/cart/c64cart.c:288 src/c64/cart/c64cart.c:291
 #: src/c64/cart/ide64.c:281 src/c64/c64_256k.c:210 src/c64/georam.c:260
 #: src/c64/mmc64.c:907 src/c64/mmc64.c:909 src/c64/plus256k.c:175
-#: src/c64/plus60k.c:249 src/c64/ramcart.c:284 src/c64/reu.c:479
+#: src/c64/plus60k.c:249 src/c64/ramcart.c:284 src/c64/reu.c:478
 #: src/c64/tfe.c:1940 src/cbm2/cbm2-cmdline-options.c:132
 #: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
 #: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
@@ -890,7 +894,7 @@ msgstr "De GEORAM-uitbreidingseenheid uitschakelen"
 msgid "Specify name of GEORAM image"
 msgstr "Geef de naam van het GEORAM-bestand"
 
-#: src/c64/georam.c:262 src/c64/ramcart.c:286 src/c64/reu.c:481
+#: src/c64/georam.c:262 src/c64/ramcart.c:286 src/c64/reu.c:480
 #: src/pet/petreu.c:216 src/translate.c.po.c:1150
 msgid "<size in KB>"
 msgstr "<grootte in KB>"
@@ -983,19 +987,19 @@ msgstr "Geef de naam van het RAMCART-bestand"
 msgid "Size of the RAMCART expansion"
 msgstr "Grootte van de RAMCART-uitbreiding"
 
-#: src/c64/reu.c:475 src/translate.c.po.c:1350
+#: src/c64/reu.c:474 src/translate.c.po.c:1350
 msgid "Enable the RAM expansion unit"
 msgstr "Activeer de RAM-uitbreidingseenheid (REU)"
 
-#: src/c64/reu.c:477 src/translate.c.po.c:1360
+#: src/c64/reu.c:476 src/translate.c.po.c:1360
 msgid "Disable the RAM expansion unit"
 msgstr "De RAM-uitbreidingseenheid (REU) uitschakelen"
 
-#: src/c64/reu.c:479 src/translate.c.po.c:1370
+#: src/c64/reu.c:478 src/translate.c.po.c:1370
 msgid "Specify name of REU image"
 msgstr "Geef de naam van het REU-bestand"
 
-#: src/c64/reu.c:481 src/translate.c.po.c:1380
+#: src/c64/reu.c:480 src/translate.c.po.c:1380
 msgid "Size of the RAM expansion unit"
 msgstr "Grootte van de RAM-uitbreidingseenheid (REU)"
 
@@ -11347,4 +11351,3 @@ msgstr "NEOS muis"
 #: src/arch/amigaos/intl.c.po.c:4844
 msgid "Amiga mouse"
 msgstr "Amiga muis"
-
