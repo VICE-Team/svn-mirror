@@ -828,7 +828,8 @@ static void draw_mc_bitmap_foreground(unsigned int start_char,
         else
             b = bmptr_low[j];
 
-        if (vicii.raster.last_video_mode == VICII_MULTICOLOR_TEXT_MODE) {
+        if (vicii.raster.last_video_mode == VICII_MULTICOLOR_TEXT_MODE
+            || vicii.raster.last_video_mode == VICII_ILLEGAL_TEXT_MODE) {
             BYTE *char_ptr = vicii.chargen_ptr + vicii.raster.ycounter;
             b = char_ptr[vicii.vbuf[i - vicii.buf_offset] * 8];
         }

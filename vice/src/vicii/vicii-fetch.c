@@ -54,7 +54,7 @@
 
 /* Emulate a matrix line fetch, `num' bytes starting from `offs'.  This takes
    care of the 10-bit counter wraparound.  */
-void vicii_fetch_matrix(int offs, int num, int num_0xff)
+void vicii_fetch_matrix(int offs, int num, int num_0xff, int cycle)
 {
     int start_char;
     int c;
@@ -97,19 +97,37 @@ void vicii_fetch_matrix(int offs, int num, int num_0xff)
     /* Set correct background color in in the xsmooth area.
        As this only affects the next line, the xsmooth color is immediately
        set if the right border is opened.  */
+    /* A.M.: This is not true! Immediate change is necessary.
+       See the crunch table in Multiplexer part of Krestage */
     if (offs + num >= VICII_SCREEN_TEXTCOLS) {
         switch (vicii.get_background_from_vbuf) {
           case VICII_HIRES_BITMAP_MODE:
+#if 0
             raster_changes_next_line_add_int(
                 &vicii.raster,
                 &vicii.raster.xsmooth_color,
                 vicii.background_color_source & 0x0f);
+#else
+            raster_changes_background_add_int(
+                &vicii.raster,
+                VICII_RASTER_X(cycle),
+                &vicii.raster.xsmooth_color,
+                vicii.background_color_source & 0x0f);
+#endif
             break;
           case VICII_EXTENDED_TEXT_MODE:
+#if 0
             raster_changes_next_line_add_int(
                 &vicii.raster,
                 &vicii.raster.xsmooth_color,
                 vicii.regs[0x21 + (vicii.background_color_source >> 6)]);
+#else
+            raster_changes_background_add_int(
+                &vicii.raster,
+                VICII_RASTER_X(cycle),
+                &vicii.raster.xsmooth_color,
+                vicii.regs[0x21 + (vicii.background_color_source >> 6)]);
+#endif
             break;
         }
     }
@@ -131,7 +149,7 @@ inline static int do_matrix_fetch(CLOCK sub)
             && vicii.allow_bad_lines
             && raster->current_line >= vicii.first_dma_line
             && raster->current_line <= vicii.last_dma_line) {
-            vicii_fetch_matrix(0, VICII_SCREEN_TEXTCOLS, 0);
+            vicii_fetch_matrix(0, VICII_SCREEN_TEXTCOLS, 0, VICII_FETCH_CYCLE);
 
             raster->draw_idle_state = 0;
             raster->ycounter = 0;

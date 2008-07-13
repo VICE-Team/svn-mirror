@@ -370,7 +370,7 @@ inline static void d015_store(const BYTE value)
              && cycle > VICII_FETCH_CYCLE
              && cycle <= vicii.sprite_fetch_cycle)
             || vicii.raster.current_line < vicii.first_dma_line
-            || vicii.raster.current_line > vicii.last_dma_line) {
+            || vicii.raster.current_line >= vicii.last_dma_line) {
             CLOCK new_fetch_clk;
 
             new_fetch_clk = (VICII_LINE_START_CLK(maincpu_clk)

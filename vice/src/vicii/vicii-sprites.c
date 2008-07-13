@@ -1203,7 +1203,14 @@ void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
     if (next_pos < last_pos) {
         if (change_pos <= next_pos)
         {
-            sprite->x = new_x;
+            if (raster_x + 8  > new_x) {
+                /* last line was already drawn */
+                raster_changes_sprites_add_int(&vicii.raster,
+                    SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num),
+                    &sprite->x, new_x);
+            } else {
+                sprite->x = new_x;
+            }
         } else {
             if (change_pos <= last_pos) {
                 /* too early to start at last_pos and too late to start
@@ -1224,8 +1231,14 @@ void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
     } else {
         /* next_pos >= last_pos */
         if (change_pos <= last_pos) {
-            /* display not started yet, use next_pos */
-            sprite->x = new_x;
+            if (raster_x + 8  > new_x) {
+                /* last line was already drawn */
+                raster_changes_sprites_add_int(&vicii.raster,
+                    SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num),
+                    &sprite->x, new_x);
+            } else {
+                sprite->x = new_x;
+            }
         } else {
             if (change_pos >= next_pos) {
                 if (raster_x + 8  < sprite->x && new_x > raster_x + 8) {

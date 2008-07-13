@@ -1,3 +1,20 @@
+2008-07-12  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii-fetch.c, vicii/vicii_fetch.h: vicii_fetch_matrix
+	now gets the cycle and uses it to change xsmooth_color in time.
+	This fixes bug in Crest/Krestage multiplexer crunchtable.
+	
+	* vicii/vicii-draw.c (draw_mc_bitmap_foreground): Change from
+	VICII_ILLEGAL_TEXT_MODE is handled now. This fixes bug in
+	Crest/Digital Magic.
+	
+	* vicii/vicii-mem.c (d015_store): Force a DMA check even on
+	last_dma_line. This fixes bug in Oregon/Maulhalten.
+	
+	* vicii/vicii-sprites.c (vicii_sprites_set_x_position): Another
+	fix to make Cosmos Design/Living Chips happy. This is not the
+	end of the story...
+
 2008-07-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* arch/amigaos/README.AMIGA: Updated.

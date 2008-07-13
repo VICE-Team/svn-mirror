@@ -132,7 +132,7 @@ inline static void line_becomes_bad(const int cycle)
 
         /* Force the DMA.  */
         if (num_chars > 0)
-            vicii_fetch_matrix(pos, num_chars, num_0xff_fetches);
+            vicii_fetch_matrix(pos, num_chars, num_0xff_fetches, cycle);
 
         /* Set the value by which `vicii.mem_counter' is incremented on
            this line.  */
