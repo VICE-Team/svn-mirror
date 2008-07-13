@@ -1164,7 +1164,7 @@ static void reu_dma_compare(WORD host_addr, unsigned int reu_addr,
 
     /* rec.status &= ~ (REU_REG_R_STATUS_VERIFY_ERROR | REU_REG_R_STATUS_END_OF_BLOCK); */
 
-    for (; len; len--) {
+    while (len) {
         maincpu_clk++;
         machine_handle_pending_alarms(0);
         value_from_reu = read_from_reu(reu_addr);
@@ -1174,6 +1174,7 @@ static void reu_dma_compare(WORD host_addr, unsigned int reu_addr,
                     value_from_c64, host_addr, value_from_reu, reu_addr) );
         reu_addr = increment_reu_with_wrap_around(reu_addr, reu_step);
         host_addr = (host_addr + host_step) & 0xffff;
+        len--;
         if (value_from_reu != value_from_c64) {
 
             DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "VERIFY ERROR") );
@@ -1183,21 +1184,23 @@ static void reu_dma_compare(WORD host_addr, unsigned int reu_addr,
              * failed, the "end of block transfer" bit is set, too (cf. below),
              * and the reported length is 1
              */
-            if (len <= 2) {
-                len = 0; /* will be incremented after the loop! */
+            if (len <= 1) {
+                len = 1;
             }
             break;
         }
     }
 
-    /* the length was decremented once too much, correct for this */
-    ++len;
+    /* the length was decremented once too much, correct this */
+    if (len == 0) {
+        ++len;
+    }
 
     assert( len >= 1 );
 
     if (len == 1) {
         /* all bytes are equal, mark End Of Block */
-        new_status_or_mask = REU_REG_R_STATUS_END_OF_BLOCK;
+        new_status_or_mask |= REU_REG_R_STATUS_END_OF_BLOCK;
     }
 
     reu_dma_update_regs(host_addr, reu_addr, len, new_status_or_mask);

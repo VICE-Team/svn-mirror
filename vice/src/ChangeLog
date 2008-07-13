@@ -1,3 +1,8 @@
+2008-07-13  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* c64/reu.c: Fixed the end of transfer length when doing a
+	compare.
+
 2008-07-12  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* arch/unix/x11/gnome/x11ui.c: removed weird unicode character
