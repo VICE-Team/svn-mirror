@@ -58,6 +58,7 @@ BYTE _kbd_extended_key_tab[256] = {
 int kbd_handle_keydown(DWORD virtual_key, DWORD key_data)
 {
     int kcode = (key_data >> 16) & 0xff;
+    int repeated = key_data & 0x40000000 ? 1 : 0;
 
     if (virtual_key == 0xff)
         return 0;
@@ -67,7 +68,9 @@ int kbd_handle_keydown(DWORD virtual_key, DWORD key_data)
         kcode = _kbd_extended_key_tab[kcode];
     }
 
-    keyboard_key_pressed((signed long)kcode);
+    if ( ! repeated ) {
+        keyboard_key_pressed((signed long)kcode);
+    }
 
     return 0;
 }
@@ -75,6 +78,7 @@ int kbd_handle_keydown(DWORD virtual_key, DWORD key_data)
 int kbd_handle_keyup(DWORD virtual_key, DWORD key_data)
 {
     int kcode = (key_data >> 16) & 0xff;
+    int repeated = key_data & 0x40000000 ? 0 : 1;
 
     if (virtual_key == 0xff)
         return 0;
@@ -84,7 +88,9 @@ int kbd_handle_keyup(DWORD virtual_key, DWORD key_data)
         kcode = _kbd_extended_key_tab[kcode];
     }
 
-    keyboard_key_released((signed long)kcode);
+    if ( ! repeated ) {
+        keyboard_key_released((signed long)kcode);
+    }
 
     return 0;
 }

@@ -1,3 +1,9 @@
+008-07-15  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* arch/win32/kbd.c: In kbd_handle_keydown() and
+	kbd_handle_keyup(), filter out keystrokes if the happen because
+	of key autorepeat of Windows.
+
 2008-07-15  Hannu Nuotio  <hannu.nuotio@tut.fi>
 
 	* arch/unix/x11/gnome/uipalcontrol.c: Removed "Emulation" from
