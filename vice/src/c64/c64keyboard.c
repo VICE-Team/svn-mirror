@@ -56,7 +56,13 @@ static void c64keyboard_machine_func(int *keyarr)
 
 void c64keyboard_restore_key(int v)
 {
-    maincpu_set_nmi(c64keyboard_int_num, v ? 1 : 0);
+    /* ignore key release */
+    if (v) {
+        /* trigger the NMI */
+        maincpu_set_nmi(c64keyboard_int_num, 1);
+        /* ack the restore NMI, leaving global_pending_int active */
+        maincpu_set_nmi(c64keyboard_int_num, 0);
+    }
 }
 
 void c64keyboard_init(void)

@@ -1,3 +1,8 @@
+2008-07-15  Hannu Nuotio  <hannu.nuotio@tut.fi>
+
+	* c64/c64keyboard.c: Changed Restore to ignore key release and
+	automatically clear the NMI. Fixes "nmitest" (bug 2016657).
+
 2008-07-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* arch/unix/skyos/make-bindist.sh: Reverted back to what worked
