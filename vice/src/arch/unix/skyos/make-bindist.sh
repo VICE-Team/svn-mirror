@@ -3,49 +3,64 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <prefix> <zip|nozip> <topsrcdir> <make-command>
-#                 $1      $2             $3       $4          $5          $6
+# make-bindist.sh <strip> <vice-version> <prefix> <zip|nozip> <topsrcdir>
+#                 $1      $2             $3       $4          $5
 
 STRIP=$1
 VERSION=$2
 PREFIX=$3
 ZIPKIND=$4
 TOPSRCDIR=$5
-MAKECOMMAND=$6
 
 if test x"$PREFIX" != "x/boot/programs/VICE"; then
   echo Error: installation path is not /boot/programs/VICE
   exit 1
 fi
 
-if [ ! -e src/x64 -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
+if [ ! -e /boot/programs/VICE/bin/x64 -o ! -e /boot/programs/VICE/bin/x128 -o ! -e /boot/programs/VICE/bin/xvic -o ! -e /boot/programs/VICE/bin/xpet -o ! -e /boot/programs/VICE/bin/xplus4 -o ! -e /boot/programs/VICE/bin/xcbm2 -o ! -e /boot/programs/VICE/bin/c1541 -o ! -e /boot/programs/VICE/bin/petcat -o ! -e /boot/programs/VICE/bin/cartconv ]
 then
-  echo Error: \"make\" needs to be done first
+  echo Error: \"make install\" needs to be done first
   exit 1
 fi
 
 echo Generating SkyOS port binary distribution.
 rm -f -r VICE-$VERSION
-curdir=`pwd`
-$MAKECOMMAND -e prefix=$curdir/VICE-$VERSION/programs/VICE VICEDIR=$curdir/VICE-$VERSION/programs/VICE/lib/vice install
-mv VICE-$VERSION/programs/VICE/bin/x64 VICE-$VERSION/programs/VICE/bin/x64.app
+mkdir -p VICE-$VERSION/programs/VICE
+mkdir -p VICE-$VERSION/programs/VICE/lib/locale/de/LC_MESSAGES
+mv /boot/programs/VICE/lib/locale/de/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/de/LC_MESSAGES
+mkdir -p VICE-$VERSION/programs/VICE/lib/locale/fr/LC_MESSAGES
+mv /boot/programs/VICE/lib/locale/fr/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/fr/LC_MESSAGES
+mkdir -p VICE-$VERSION/programs/VICE/lib/locale/it/LC_MESSAGES
+mv /boot/programs/VICE/lib/locale/it/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/it/LC_MESSAGES
+mkdir -p VICE-$VERSION/programs/VICE/lib/locale/sv/LC_MESSAGES
+mv /boot/programs/VICE/lib/locale/sv/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/sv/LC_MESSAGES
+mkdir -p VICE-$VERSION/programs/VICE/lib/locale/pl/LC_MESSAGES
+mv /boot/programs/VICE/lib/locale/pl/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/pl/LC_MESSAGES
+mkdir -p VICE-$VERSION/programs/VICE/lib/locale/nl/LC_MESSAGES
+mv /boot/programs/VICE/lib/locale/nl/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/nl/LC_MESSAGES
+mkdir -p VICE-$VERSION/programs/VICE/lib/locale/hu/LC_MESSAGES
+mv /boot/programs/VICE/lib/locale/hu/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/hu/LC_MESSAGES
+mkdir VICE-$VERSION/programs/VICE/bin
+mv /boot/programs/VICE/bin/vsid VICE-$VERSION/programs/VICE/bin
+mv /boot/programs/VICE/bin/x64 VICE-$VERSION/programs/VICE/bin/x64.app
 $STRIP VICE-$VERSION/programs/VICE/bin/x64.app
-mv VICE-$VERSION/programs/VICE/bin/x128 VICE-$VERSION/programs/VICE/bin/x128.app
+mv /boot/programs/VICE/bin/x128 VICE-$VERSION/programs/VICE/bin/x128.app
 $STRIP VICE-$VERSION/programs/VICE/bin/x128.app
-mv VICE-$VERSION/programs/VICE/bin/xvic VICE-$VERSION/programs/VICE/bin/xvic.app
+mv /boot/programs/VICE/bin/xvic VICE-$VERSION/programs/VICE/bin/xvic.app
 $STRIP VICE-$VERSION/programs/VICE/bin/xvic.app
-mv VICE-$VERSION/programs/VICE/bin/xpet VICE-$VERSION/programs/VICE/bin/xpet.app
+mv /boot/programs/VICE/bin/xpet VICE-$VERSION/programs/VICE/bin/xpet.app
 $STRIP VICE-$VERSION/programs/VICE/bin/xpet.app
-mv VICE-$VERSION/programs/VICE/bin/xplus4 VICE-$VERSION/programs/VICE/bin/xplus4.app
+mv /boot/programs/VICE/bin/xplus4 VICE-$VERSION/programs/VICE/bin/xplus4.app
 $STRIP VICE-$VERSION/programs/VICE/bin/xplus4.app
-mv VICE-$VERSION/programs/VICE/bin/xcbm2 VICE-$VERSION/programs/VICE/bin/xcbm2.app
+mv /boot/programs/VICE/bin/xcbm2 VICE-$VERSION/programs/VICE/bin/xcbm2.app
 $STRIP VICE-$VERSION/programs/VICE/bin/xcbm2.app
-mv VICE-$VERSION/programs/VICE/bin/c1541 VICE-$VERSION/programs/VICE/bin/c1541.app
+mv /boot/programs/VICE/bin/c1541 VICE-$VERSION/programs/VICE/bin/c1541.app
 $STRIP VICE-$VERSION/programs/VICE/bin/c1541.app
-mv VICE-$VERSION/programs/VICE/bin/petcat VICE-$VERSION/programs/VICE/bin/petcat.app
+mv /boot/programs/VICE/bin/petcat VICE-$VERSION/programs/VICE/bin/petcat.app
 $STRIP VICE-$VERSION/programs/VICE/bin/petcat.app
-mv VICE-$VERSION/programs/VICE/bin/cartconv VICE-$VERSION/programs/VICE/bin/cartconv.app
+mv /boot/programs/VICE/bin/cartconv VICE-$VERSION/programs/VICE/bin/cartconv.app
 $STRIP VICE-$VERSION/programs/VICE/bin/cartconv.app
+mv /boot/programs/VICE/lib/vice VICE-$VERSION/programs/VICE/lib
 rm `find VICE-$VERSION -name "amiga_*.vkm"`
 rm `find VICE-$VERSION -name "beos_*.vkm"`
 rm `find VICE-$VERSION -name "dos_*.vkm"`
@@ -53,7 +68,12 @@ rm `find VICE-$VERSION -name "os2*.vkm"`
 rm `find VICE-$VERSION -name "osx*.vkm"`
 rm `find VICE-$VERSION -name "win_*.vkm"`
 rm `find VICE-$VERSION -name "RO*.vkm"`
+mkdir -p VICE-$VERSION/programs/VICE/share/man/man1
+mv /boot/programs/VICE/share/man/man1/* VICE-$VERSION/programs/VICE/share/man/man1/
+mkdir -p VICE-$VERSION/programs/VICE/info
+mv /boot/programs/VICE/share/info/vice.info* VICE-$VERSION/programs/VICE/share/info
 cp -r $TOPSRCDIR/src/arch/unix/skyos/icons VICE-$VERSION/programs/VICE/
+rm -f -r /boot/programs/VICE
 if test x"$ZIPKIND" = "xzip"; then
   THEDATE=`date +%d-%b-%Y`
   cat >VICE-$VERSION/install.sif <<_END

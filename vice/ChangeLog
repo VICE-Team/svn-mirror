@@ -1,3 +1,8 @@
+2008-07-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am: Reverted the skyos make bindist(zip) part back to
+	what is used to be.
+
 2008-07-14  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* README: Updated for the 2.0 release.

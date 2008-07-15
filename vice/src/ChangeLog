@@ -1,3 +1,8 @@
+2008-07-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/skyos/make-bindist.sh: Reverted back to what worked
+	before.
+
 2008-07-13  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.26
