@@ -195,20 +195,20 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
     gtk_widget_show(rb);
 
     fake_palemu = gtk_radio_button_new_with_label(NULL, 
-        _("Fast Emulation"));
+        _("Fast"));
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fake_palemu), TRUE);
     gtk_box_pack_start(GTK_BOX(box), fake_palemu, FALSE, FALSE, 5);
     gtk_widget_show(fake_palemu);
 
     true_palemu = gtk_radio_button_new_with_label(
 	gtk_radio_button_get_group(GTK_RADIO_BUTTON(fake_palemu)),
-        _("Exact Emulation"));
+        _("Exact"));
     gtk_box_pack_start(GTK_BOX(box), true_palemu, FALSE, FALSE, 5);
     gtk_widget_show(true_palemu);
 
     new_true_palemu = gtk_radio_button_new_with_label(
 	gtk_radio_button_get_group(GTK_RADIO_BUTTON(fake_palemu)),
-        _("New Exact Emulation"));
+        _("New Exact"));
     gtk_box_pack_start(GTK_BOX(box), new_true_palemu, FALSE, FALSE, 5);
     gtk_widget_show(new_true_palemu);
 
