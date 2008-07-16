@@ -263,17 +263,6 @@ static void ui_exit_early(void)
 }
 
 
-static void save_snapshot_trap(WORD unused_addr, void *unused_data)
-{
-	ui_select_file(windowlist[0]->savepanel,SNAPSHOTSAVE_FILE,(void*)0);
-}
-
-static void load_snapshot_trap(WORD unused_addr, void *unused_data)
-{
-	ui_select_file(windowlist[0]->filepanel,SNAPSHOTLOAD_FILE,(void*)0);
-}
-
-
 /* this check is needed for haiku, since it always returns 1 on
    SupportsWindowMode() */
 int CheckForHaiku(void)
@@ -285,6 +274,8 @@ int CheckForHaiku(void)
 		return -1;
 	return 0;
 }
+
+/* ------------------------------------------------------------------------ */
 
 typedef struct {
     char    name[256];
@@ -629,12 +620,11 @@ void ui_dispatch_events(void)
 		        datasette_control(DATASETTE_CONTROL_RESET_COUNTER);
 				break;
 			case MENU_SNAPSHOT_LOAD:
-				interrupt_maincpu_trigger_trap(
-					load_snapshot_trap,	(void*) 0);
+				ui_select_file(filepanel, SNAPSHOTLOAD_FILE, (void*)0);
 				break;
 			case MENU_SNAPSHOT_SAVE:
-				interrupt_maincpu_trigger_trap(
-					save_snapshot_trap, (void*) 0);
+				ui_select_file(windowlist[0]->savepanel,
+								SNAPSHOTSAVE_FILE, (void*)0);
 				break;
 			case MENU_LOADQUICK:
 				scan_files();
@@ -698,41 +688,31 @@ void ui_dispatch_events(void)
 			ui_paste_clipboard_text();
 			break;
         	case MENU_SOUND_RECORD_AIFF:
-                  ui_select_file(windowlist[0]->savepanel,AIFF_FILE,(void*)0);
-                  resources_set_string("SoundRecordDeviceName", "");
-                  resources_set_string("SoundRecordDeviceName", "aiff");
-                  ui_display_statustext("Sound Recording Started...", 1);
-        		break;	
+				resources_set_string("SoundRecordDeviceName", "");
+				ui_select_file(windowlist[0]->savepanel,AIFF_FILE,(void*)0);
+				break;
         	case MENU_SOUND_RECORD_IFF:
-                  ui_select_file(windowlist[0]->savepanel,IFF_FILE,(void*)0);
-                  resources_set_string("SoundRecordDeviceName", "");
-                  resources_set_string("SoundRecordDeviceName", "iff");
-                  ui_display_statustext("Sound Recording Started...", 1);
-        		break;	
+				resources_set_string("SoundRecordDeviceName", "");
+				ui_select_file(windowlist[0]->savepanel,IFF_FILE,(void*)0);
+				break;
 #ifdef USE_LAMEMP3
         	case MENU_SOUND_RECORD_MP3:
-                  ui_select_file(windowlist[0]->savepanel,MP3_FILE,(void*)0);
-                  resources_set_string("SoundRecordDeviceName", "");
-                  resources_set_string("SoundRecordDeviceName", "mp3");
-                  ui_display_statustext("Sound Recording Started...", 1);
-        		break;	
+				resources_set_string("SoundRecordDeviceName", "");
+				ui_select_file(windowlist[0]->savepanel,MP3_FILE,(void*)0);
+				break;
 #endif
         	case MENU_SOUND_RECORD_VOC:
-                  ui_select_file(windowlist[0]->savepanel,VOC_FILE,(void*)0);
-                  resources_set_string("SoundRecordDeviceName", "");
-                  resources_set_string("SoundRecordDeviceName", "voc");
-                  ui_display_statustext("Sound Recording Started...", 1);
-        		break;	
+				resources_set_string("SoundRecordDeviceName", "");
+				ui_select_file(windowlist[0]->savepanel,VOC_FILE,(void*)0);
+				break;
         	case MENU_SOUND_RECORD_WAV:
-                  ui_select_file(windowlist[0]->savepanel,WAV_FILE,(void*)0);
-                  resources_set_string("SoundRecordDeviceName", "");
-                  resources_set_string("SoundRecordDeviceName", "wav");
-                  ui_display_statustext("Sound Recording Started...", 1);
-        		break;	
+				resources_set_string("SoundRecordDeviceName", "");
+				ui_select_file(windowlist[0]->savepanel,WAV_FILE,(void*)0);
+				break;
         	case MENU_SOUND_RECORD_STOP:
-                  resources_set_string("SoundRecordDeviceName", "");
-                  ui_display_statustext("Sound Recording Stopped...", 1);
-       		break;	
+				resources_set_string("SoundRecordDeviceName", "");
+				ui_display_statustext("Sound Recording Stopped...", 1);
+				break;
         	case MENU_DRIVE_SETTINGS:
         		ui_drive();
         		break;	
@@ -984,23 +964,24 @@ void ui_show_text(
 /* Report an error to the user (`printf()' style).  */
 void ui_error(const char *format, ...)
 {
-	BAlert *messagebox;
     char tmp[1024];
     va_list args;
 
     va_start(args, format);
     vsprintf(tmp, format, args);
     va_end(args);
-    messagebox = new BAlert("error", tmp, "OK", NULL, NULL, 
-    	B_WIDTH_AS_USUAL, B_STOP_ALERT);
-	vsync_suspend_speed_eval();
-	messagebox->Go();
+
+    ui_error_string(tmp);
 }
 
 /* Report an error to the user (one string).  */
 void ui_error_string(const char *text)
 {
-	ui_error(text);
+    BAlert *messagebox;
+
+    messagebox = new BAlert("error", text, "OK", NULL, NULL, B_WIDTH_AS_USUAL, B_STOP_ALERT);
+    vsync_suspend_speed_eval();
+    messagebox->Go();
 }
 
 /* Report a message to the user (`printf()' style).  */

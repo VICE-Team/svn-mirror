@@ -44,6 +44,8 @@ extern "C" {
 #include "c64ui.h"
 #include "constants.h"
 #include "imagecontents.h"
+#include "interrupt.h"
+#include "lib.h"
 #include "machine.h"
 #include "resources.h"
 #include "tape.h"
@@ -53,6 +55,7 @@ extern "C" {
 #include "util.h"
 #include "vic20ui.h"
 #include "vicemenu.h"
+#include "vsync.h"
 }
 
 static int last_fileparam[2]; /* 0=filepanel, 1=savepanel */
@@ -336,8 +339,39 @@ void ui_select_file(ViceFilePanel *filepanel,
 	filepanel->Show();
 
 	/* remember for later action */
-
 	last_filetype[panelnr] = filetype;
+
+	/* wait for save panel to disappear */
+	if (filepanel->PanelMode() == B_SAVE_PANEL) {
+		vsync_suspend_speed_eval();
+		while (filepanel->IsShowing()) {
+		    snooze(1000);
+		    //ui_dispatch_events();
+		}
+	}
+}
+
+static void load_snapshot_trap(WORD unused_addr, void *path)
+{
+	if (machine_read_snapshot((char *)path, 0) < 0)
+        ui_error("Cannot read snapshot image.");
+    delete path;
+}
+
+static void save_snapshot_trap(WORD unused_addr, void *path)
+{
+	if (machine_write_snapshot((char *)path, 1, 1, 0) < 0)
+        ui_error("Cannot write snapshot file.");
+    delete path;
+}
+	
+static void ui_sound_record_action(const char *name, const char *ext)
+{
+	char *ext_name = util_add_extension_const(name, ext);
+	resources_set_string("SoundRecordDeviceArg", ext_name);
+	resources_set_string("SoundRecordDeviceName", ext);
+	ui_display_statustext("Sound Recording Started...", 1);
+    delete ext_name;
 }
 	
 void ui_select_file_action(BMessage *msg) {
@@ -367,9 +401,9 @@ void ui_select_file_action(BMessage *msg) {
 			if (autostart_autodetect(path->Path(), NULL, 0, AUTOSTART_MODE_RUN) < 0)
   				ui_error("Cannot autostart specified file.");
 		} else if (last_filetype[0] == SNAPSHOTLOAD_FILE) {
-	    	if (machine_read_snapshot(path->Path(),0)<0) {
-        		ui_error("Cannot read snapshot image");
-        	}
+			/* we need a copy of the path that won't be deleted here */
+			char *pathname = lib_stralloc(path->Path());
+			interrupt_maincpu_trigger_trap(load_snapshot_trap, (void*) pathname);
     	} else if (last_filetype[0] == C64_CARTRIDGE_FILE) {
     		BMessage *msg = new BMessage(ATTACH_C64_CART);
     		msg->AddInt32("type", last_fileparam[0]);
@@ -411,45 +445,41 @@ void ui_select_file_action(BMessage *msg) {
 		
 		/* now the action */
 		if (last_filetype[1] == SNAPSHOTSAVE_FILE) {
-			if (machine_write_snapshot(fullpath, 1, 1, 0) < 0)
-            	ui_error("Cannot write snapshot file.");
-    	} else if (last_filetype[1] == SNAPSHOT_HISTORY_START) {
+			/* we need a copy of the path that won't be deleted here */
+			char *pathname = lib_stralloc(fullpath);
+			interrupt_maincpu_trigger_trap(save_snapshot_trap, (void*) fullpath);
+      } else if (last_filetype[1] == SNAPSHOT_HISTORY_START) {
     		resources_set_string("EventStartSnapshot", name);
-    	} else if (last_filetype[1] == SNAPSHOT_HISTORY_END) {
+      } else if (last_filetype[1] == SNAPSHOT_HISTORY_END) {
     		resources_set_string("EventEndSnapshot", name);
     		resources_set_string("EventSnapshotDir", path->Path());
       } else if (last_filetype[1] == REU_FILE) {
-            resources_set_string("REUfilename", name);
+			resources_set_string("REUfilename", fullpath);
       } else if (last_filetype[1] == GEORAM_FILE) {
-            resources_set_string("GEORAMfilename", name);
+			resources_set_string("GEORAMfilename", fullpath);
       } else if (last_filetype[1] == RAMCART_FILE) {
-            resources_set_string("RAMCARTfilename", name);
+			resources_set_string("RAMCARTfilename", fullpath);
       } else if (last_filetype[1] == PLUS60K_FILE) {
-            resources_set_string("PLUS60Kfilename", name);
+			resources_set_string("PLUS60Kfilename", fullpath);
       } else if (last_filetype[1] == PLUS256K_FILE) {
-            resources_set_string("PLUS256Kfilename", name);
+			resources_set_string("PLUS256Kfilename", fullpath);
       } else if (last_filetype[1] == C64_256K_FILE) {
-            resources_set_string("C64_256Kfilename", name);
+			resources_set_string("C64_256Kfilename", fullpath);
       } else if (last_filetype[1] == PETREU_FILE) {
-            resources_set_string("PETREUfilename", name);
+			resources_set_string("PETREUfilename", fullpath);
       } else if (last_filetype[1] == AIFF_FILE) {
-            util_add_extension_const(name, "aiff");
-            resources_set_string("SoundRecordDeviceArg", name);
+			ui_sound_record_action(fullpath, "aiff");
       } else if (last_filetype[1] == IFF_FILE) {
-            util_add_extension_const(name, "iff");
-            resources_set_string("SoundRecordDeviceArg", name);
+			ui_sound_record_action(fullpath, "iff");
 #ifdef USE_LAMEMP3
       } else if (last_filetype[1] == MP3_FILE) {
-            util_add_extension_const(name, "mp3");
-            resources_set_string("SoundRecordDeviceArg", name);
+			ui_sound_record_action(fullpath, "mp3");
 #endif
       } else if (last_filetype[1] == VOC_FILE) {
-            util_add_extension_const(name, "voc");
-            resources_set_string("SoundRecordDeviceArg", name);
+			ui_sound_record_action(fullpath, "voc");
       } else if (last_filetype[1] == WAV_FILE) {
-            util_add_extension_const(name, "wav");
-            resources_set_string("SoundRecordDeviceArg", name);
-            }
+			ui_sound_record_action(fullpath, "wav");
+      }
 		delete path;
 		delete fullpath;
 	}

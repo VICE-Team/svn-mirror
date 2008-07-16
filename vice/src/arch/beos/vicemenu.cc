@@ -368,7 +368,7 @@ BMenuBar *menu_create(int machine_class) {
 	submenu->AddItem(new BMenuItem("Sound Record AIFF",
 		new BMessage(MENU_SOUND_RECORD_AIFF)));
 	submenu->AddItem(new BMenuItem("Sound Record IFF",
-		new BMessage(MENU_SOUND_RECORD_AIFF)));
+		new BMessage(MENU_SOUND_RECORD_IFF)));
 #ifdef USE_LAMEMP3
 	submenu->AddItem(new BMenuItem("Sound Record MP3",
 		new BMessage(MENU_SOUND_RECORD_MP3)));
