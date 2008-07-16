@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-13 20:27+0200\n"
+"POT-Creation-Date: 2008-07-16 06:53+0200\n"
 "PO-Revision-Date: 2007-07-28 14:26+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -5547,17 +5547,19 @@ msgid "PAL Settings"
 msgstr "Impostazioni PAL"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:198
-msgid "Fast Emulation"
-msgstr "Emulazione veloce"
+#, fuzzy
+msgid "Fast"
+msgstr "*Veloce"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:205
-msgid "Exact Emulation"
-msgstr "Emulazione esatta"
+#: src/arch/unix/x11/gnome/uipalcontrol.c:205 src/arch/win32/res.rc.po.c:5197
+#: src/arch/amigaos/intl.c.po.c:3755
+msgid "Exact"
+msgstr "Esatta"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:211
 #, fuzzy
-msgid "New Exact Emulation"
-msgstr "Emulazione esatta"
+msgid "New Exact"
+msgstr "Esatta"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:54 src/arch/win32/res.rc.po.c:4553
 #: src/arch/amigaos/intl.c.po.c:4493
@@ -7538,10 +7540,6 @@ msgstr "Flessibile"
 #: src/arch/win32/res.rc.po.c:5196 src/arch/amigaos/intl.c.po.c:3746
 msgid "Adjusting"
 msgstr "Adattabile"
-
-#: src/arch/win32/res.rc.po.c:5197 src/arch/amigaos/intl.c.po.c:3755
-msgid "Exact"
-msgstr "Esatta"
 
 #: src/arch/win32/res.rc.po.c:5198
 msgid "Sound driver: DirectX"
@@ -11448,3 +11446,13 @@ msgstr "*Attiva mouse"
 #: src/arch/amigaos/intl.c.po.c:4844
 msgid "Amiga mouse"
 msgstr ""
+
+#~ msgid "Fast Emulation"
+#~ msgstr "Emulazione veloce"
+
+#~ msgid "Exact Emulation"
+#~ msgstr "Emulazione esatta"
+
+#, fuzzy
+#~ msgid "New Exact Emulation"
+#~ msgstr "Emulazione esatta"

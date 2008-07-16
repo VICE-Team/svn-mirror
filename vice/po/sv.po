@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-13 20:27+0200\n"
+"POT-Creation-Date: 2008-07-16 06:53+0200\n"
 "PO-Revision-Date: 2007-07-30 20:49+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -5489,17 +5489,19 @@ msgid "PAL Settings"
 msgstr "PAL-inställningar"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:198
-msgid "Fast Emulation"
-msgstr "Snabb emulering"
+#, fuzzy
+msgid "Fast"
+msgstr "*Snabbt"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:205
-msgid "Exact Emulation"
-msgstr "Exakt emulering"
+#: src/arch/unix/x11/gnome/uipalcontrol.c:205 src/arch/win32/res.rc.po.c:5197
+#: src/arch/amigaos/intl.c.po.c:3755
+msgid "Exact"
+msgstr "Exakt"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:211
 #, fuzzy
-msgid "New Exact Emulation"
-msgstr "Exakt emulering"
+msgid "New Exact"
+msgstr "Exakt"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:54 src/arch/win32/res.rc.po.c:4553
 #: src/arch/amigaos/intl.c.po.c:4493
@@ -7463,10 +7465,6 @@ msgstr "Flexibel"
 #: src/arch/win32/res.rc.po.c:5196 src/arch/amigaos/intl.c.po.c:3746
 msgid "Adjusting"
 msgstr "Anpassande"
-
-#: src/arch/win32/res.rc.po.c:5197 src/arch/amigaos/intl.c.po.c:3755
-msgid "Exact"
-msgstr "Exakt"
 
 #: src/arch/win32/res.rc.po.c:5198
 msgid "Sound driver: DirectX"
@@ -11344,3 +11342,13 @@ msgstr "NEOS-mus"
 #: src/arch/amigaos/intl.c.po.c:4844
 msgid "Amiga mouse"
 msgstr "Amigamus"
+
+#~ msgid "Fast Emulation"
+#~ msgstr "Snabb emulering"
+
+#~ msgid "Exact Emulation"
+#~ msgstr "Exakt emulering"
+
+#, fuzzy
+#~ msgid "New Exact Emulation"
+#~ msgstr "Exakt emulering"

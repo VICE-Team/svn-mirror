@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-13 20:27+0200\n"
+"POT-Creation-Date: 2008-07-16 06:53+0200\n"
 "PO-Revision-Date: 2007-07-26 11:57+0200\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -5637,17 +5637,19 @@ msgid "PAL Settings"
 msgstr "Paramètres PAL"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:198
-msgid "Fast Emulation"
-msgstr "Émulation rapide"
+#, fuzzy
+msgid "Fast"
+msgstr "*Rapide"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:205
-msgid "Exact Emulation"
-msgstr "Émulation exacte"
+#: src/arch/unix/x11/gnome/uipalcontrol.c:205 src/arch/win32/res.rc.po.c:5197
+#: src/arch/amigaos/intl.c.po.c:3755
+msgid "Exact"
+msgstr "Exact"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:211
 #, fuzzy
-msgid "New Exact Emulation"
-msgstr "Émulation exacte"
+msgid "New Exact"
+msgstr "Exact"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:54 src/arch/win32/res.rc.po.c:4553
 #: src/arch/amigaos/intl.c.po.c:4493
@@ -7659,10 +7661,6 @@ msgstr "Flexible"
 #: src/arch/win32/res.rc.po.c:5196 src/arch/amigaos/intl.c.po.c:3746
 msgid "Adjusting"
 msgstr "Ajusté"
-
-#: src/arch/win32/res.rc.po.c:5197 src/arch/amigaos/intl.c.po.c:3755
-msgid "Exact"
-msgstr "Exact"
 
 #: src/arch/win32/res.rc.po.c:5198
 #, fuzzy
@@ -11866,3 +11864,13 @@ msgstr "*Activer le mode Turbo"
 #: src/arch/amigaos/intl.c.po.c:4844
 msgid "Amiga mouse"
 msgstr ""
+
+#~ msgid "Fast Emulation"
+#~ msgstr "Émulation rapide"
+
+#~ msgid "Exact Emulation"
+#~ msgstr "Émulation exacte"
+
+#, fuzzy
+#~ msgid "New Exact Emulation"
+#~ msgstr "Émulation exacte"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-13 20:27+0200\n"
+"POT-Creation-Date: 2008-07-16 06:53+0200\n"
 "PO-Revision-Date: 2007-07-27 15:58+0200\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -5504,17 +5504,19 @@ msgid "PAL Settings"
 msgstr "PAL Beállításai"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:198
-msgid "Fast Emulation"
-msgstr "Gyors emuláció"
+#, fuzzy
+msgid "Fast"
+msgstr "*Gyors"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:205
-msgid "Exact Emulation"
-msgstr "Pontos emuláció"
+#: src/arch/unix/x11/gnome/uipalcontrol.c:205 src/arch/win32/res.rc.po.c:5197
+#: src/arch/amigaos/intl.c.po.c:3755
+msgid "Exact"
+msgstr "Pontos"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:211
 #, fuzzy
-msgid "New Exact Emulation"
-msgstr "Pontos emuláció"
+msgid "New Exact"
+msgstr "Pontos"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:54 src/arch/win32/res.rc.po.c:4553
 #: src/arch/amigaos/intl.c.po.c:4493
@@ -7482,10 +7484,6 @@ msgstr "Rugalmas"
 #: src/arch/win32/res.rc.po.c:5196 src/arch/amigaos/intl.c.po.c:3746
 msgid "Adjusting"
 msgstr "Igazodó"
-
-#: src/arch/win32/res.rc.po.c:5197 src/arch/amigaos/intl.c.po.c:3755
-msgid "Exact"
-msgstr "Pontos"
 
 #: src/arch/win32/res.rc.po.c:5198
 msgid "Sound driver: DirectX"
@@ -11366,3 +11364,13 @@ msgstr "NEOS egér"
 #: src/arch/amigaos/intl.c.po.c:4844
 msgid "Amiga mouse"
 msgstr "Amiga egér"
+
+#~ msgid "Fast Emulation"
+#~ msgstr "Gyors emuláció"
+
+#~ msgid "Exact Emulation"
+#~ msgstr "Pontos emuláció"
+
+#, fuzzy
+#~ msgid "New Exact Emulation"
+#~ msgstr "Pontos emuláció"
