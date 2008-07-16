@@ -11364,13 +11364,3 @@ msgstr "NEOS egér"
 #: src/arch/amigaos/intl.c.po.c:4844
 msgid "Amiga mouse"
 msgstr "Amiga egér"
-
-#~ msgid "Fast Emulation"
-#~ msgstr "Gyors emuláció"
-
-#~ msgid "Exact Emulation"
-#~ msgstr "Pontos emuláció"
-
-#, fuzzy
-#~ msgid "New Exact Emulation"
-#~ msgstr "Pontos emuláció"

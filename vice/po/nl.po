@@ -5506,9 +5506,8 @@ msgid "PAL Settings"
 msgstr "PAL-instellingen"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:198
-#, fuzzy
 msgid "Fast"
-msgstr "*Snel"
+msgstr "Snel"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:205 src/arch/win32/res.rc.po.c:5197
 #: src/arch/amigaos/intl.c.po.c:3755
@@ -5516,9 +5515,8 @@ msgid "Exact"
 msgstr "Exact"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:211
-#, fuzzy
 msgid "New Exact"
-msgstr "Exact"
+msgstr "Nieuw Exact"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:54 src/arch/win32/res.rc.po.c:4553
 #: src/arch/amigaos/intl.c.po.c:4493
@@ -11350,12 +11348,3 @@ msgstr "NEOS muis"
 #: src/arch/amigaos/intl.c.po.c:4844
 msgid "Amiga mouse"
 msgstr "Amiga muis"
-
-#~ msgid "Fast Emulation"
-#~ msgstr "Snelle emulatie"
-
-#~ msgid "Exact Emulation"
-#~ msgstr "Exacte emulatie"
-
-#~ msgid "New Exact Emulation"
-#~ msgstr "Nieuwe Exacte emulatie"

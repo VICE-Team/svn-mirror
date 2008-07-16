@@ -11864,13 +11864,3 @@ msgstr "*Activer le mode Turbo"
 #: src/arch/amigaos/intl.c.po.c:4844
 msgid "Amiga mouse"
 msgstr ""
-
-#~ msgid "Fast Emulation"
-#~ msgstr "Émulation rapide"
-
-#~ msgid "Exact Emulation"
-#~ msgstr "Émulation exacte"
-
-#, fuzzy
-#~ msgid "New Exact Emulation"
-#~ msgstr "Émulation exacte"

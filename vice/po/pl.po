@@ -12573,15 +12573,3 @@ msgstr "*W³±cz tryb przy¶pieszony (Turbo)"
 #: src/arch/amigaos/intl.c.po.c:4844
 msgid "Amiga mouse"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Fast Emulation"
-#~ msgstr "*Szybka emulacja PAL"
-
-#, fuzzy
-#~ msgid "Exact Emulation"
-#~ msgstr "Emulacja PAL"
-
-#, fuzzy
-#~ msgid "New Exact Emulation"
-#~ msgstr "Emulacja PAL"

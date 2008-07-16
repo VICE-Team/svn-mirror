@@ -11446,13 +11446,3 @@ msgstr "*Attiva mouse"
 #: src/arch/amigaos/intl.c.po.c:4844
 msgid "Amiga mouse"
 msgstr ""
-
-#~ msgid "Fast Emulation"
-#~ msgstr "Emulazione veloce"
-
-#~ msgid "Exact Emulation"
-#~ msgstr "Emulazione esatta"
-
-#, fuzzy
-#~ msgid "New Exact Emulation"
-#~ msgstr "Emulazione esatta"

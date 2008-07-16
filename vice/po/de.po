@@ -11320,13 +11320,3 @@ msgstr "NEOS Maus"
 #: src/arch/amigaos/intl.c.po.c:4844
 msgid "Amiga mouse"
 msgstr "Amiga Maus"
-
-#~ msgid "Fast Emulation"
-#~ msgstr "Schnelle Emulation"
-
-#~ msgid "Exact Emulation"
-#~ msgstr "Exakte Emulation"
-
-#, fuzzy
-#~ msgid "New Exact Emulation"
-#~ msgstr "Exakte Emulation"
