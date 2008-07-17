@@ -11,6 +11,12 @@ list of all the changes in the code.
 ** General
 ----------
 
+- VICE development has moved to public services:
+  http://sf.net/projects/vice-emu
+  You can read the latest development in the Subversion
+  repository, file bug reports, and similar things.
+  Check it out!
+
 - New Openserver 5.x, Openserver 6.x and Unixware ports.
 
 - New AROS64 port.
@@ -50,6 +56,9 @@ list of all the changes in the code.
   Latch X/Y, video mode changes, DEN bit handling, raster IRQ,
   NTSC sprites and sprites in full/debugging border mode (list
   of fixed demos/games too long to mention here).
+
+- RESTORE key is handled differently now, fixing an NMI bug
+  because the NMI was asserted too long before.
 
 ** VIC20 changes
 ----------------
@@ -110,6 +119,9 @@ list of all the changes in the code.
   reset.
 
 - Fixed volume slider behaviour when switching fullscreen mode.
+
+- Key repeat is eliminated OS-wise. This way, the RESTORE key is
+  not used with autorepeat.
 
 ** BeOS changes
 ---------------

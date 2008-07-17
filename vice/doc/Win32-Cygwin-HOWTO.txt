@@ -13,7 +13,7 @@ Compiling VICE on Win32 with Cygwin
    dependencies.
 
 2. Obtain a copy of the VICE sources.  Extract the vice-x.xx directory into
-   your Cygwin user's home directory (e.g. /home/Owner/vice-1.22).
+   your Cygwin user's home directory (e.g. /home/Owner/vice-2.0).
 
 3. Obtain DirectX 7 header files and libraries.  It doesn't look like
    Microsoft still makes this distribution available for download from its
@@ -46,7 +46,7 @@ Compiling VICE on Win32 with Cygwin
      make bindist
 
    to make an executable distribution, which will appear in a directory
-   called e.g. /home/Owner/vice-1.22/src/WinVICE-1.22.  For development
+   called e.g. /home/Owner/vice-2.0/src/WinVICE-2.0.  For development
    purposes, no further installation is necessary; you can run the
    executables directly from this directory.
 
