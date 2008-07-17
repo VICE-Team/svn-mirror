@@ -5466,9 +5466,8 @@ msgid "PAL Settings"
 msgstr "PAL Einstellungen"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:198
-#, fuzzy
 msgid "Fast"
-msgstr "*Schnell"
+msgstr "Schnell"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:205 src/arch/win32/res.rc.po.c:5197
 #: src/arch/amigaos/intl.c.po.c:3755
@@ -5476,9 +5475,8 @@ msgid "Exact"
 msgstr "Exakt"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:211
-#, fuzzy
 msgid "New Exact"
-msgstr "Exakt"
+msgstr "Neu Exakt"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:54 src/arch/win32/res.rc.po.c:4553
 #: src/arch/amigaos/intl.c.po.c:4493
