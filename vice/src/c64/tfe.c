@@ -1738,7 +1738,9 @@ void REGPARM2 tfe_store(WORD io_address, BYTE byte)
 #endif
     } else {
         /* write a register */
-        WORD ppaddress;
+
+        /*! \TODO: Find a reasonable default */
+        WORD ppaddress = TFE_PP_ADDR_PRODUCTID;
 
         /* now determine address of write in packet page */
         switch(reg_base) {

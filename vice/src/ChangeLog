@@ -1,3 +1,8 @@
+2008-07-18  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* c64/tfe.c: provide a default value for ppaddress in
+	tfe_store()
+
 2008-07-18  Christian Vogelgsang  <chris@vogelgsang.org>
 
 	* arch/unix/macosx/cocoa/video.m: fixed canvas registration
