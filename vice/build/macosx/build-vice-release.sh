@@ -96,12 +96,7 @@ fi
 
 # configure snapshot
 echo "configuring new source tree"
-(cd "$SRC_DIR/src/resid" && aclocal && automake && autoconf) >/dev/null 2>&1 
-if [ $? != 0 ]; then
-  echo "ERROR: configuring resid..."
-  exit 1
-fi
-(cd "$SRC_DIR" && aclocal && autoheader && automake --add-missing && autoconf) >/dev/null 2>&1 
+(cd "$SRC_DIR" && ./autogen.sh)
 if [ $? != 0 ]; then
   echo "ERROR: configuring VICE..."
   exit 1

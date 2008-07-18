@@ -1,3 +1,10 @@
+2008-07-18  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/macosx/cocoa/video.m: fixed canvas registration
+
+	* arch/unix/macosx/cocoa/menu/vicemachinecontroller.m: fixed
+	compile without ffmpeg
+
 2008-07-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* translate.c, arch/amigaos/intl.c, arch/win32/rescbm2.rc,

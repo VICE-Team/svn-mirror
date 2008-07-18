@@ -85,6 +85,9 @@ video_canvas_t *video_canvas_create(struct video_canvas_s *canvas,
     // init rendering
     video_canvas_set_palette(canvas,canvas->palette);
 
+    // register canvas in machine controller (to allow access via id)
+    canvas->canvasId = [theVICEMachine registerCanvas:canvas];
+
     // re-post all required notifications for new window
     [[theVICEMachine machineNotifier] notifyNewWindow];
 
@@ -117,9 +120,6 @@ void video_canvas_resize(video_canvas_t * canvas,
 
     canvas->width = width;
     canvas->height = height;
-
-    // register canvas in machine controller (to allow access via id)
-    canvas->canvasId = [theVICEMachine registerCanvas:canvas];
 
     // encapsulate canvas ptr
     video_canvas_t *canvasPtr = canvas;

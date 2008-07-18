@@ -1,9 +1,9 @@
-MacOS X Port of VICE
+Mac OS X Port of VICE
 ====================
 
 This document contains information relevant for the Mac OS X Port of VICE.
 
-This official MacOS X Port is maintained by 
+This official Mac OS X Port is maintained by 
   Christian Vogelgsang <chris@vogelgsang.org>
 
 
@@ -11,34 +11,47 @@ This official MacOS X Port is maintained by
   --------
 
   1. Installation
-  2. Usage
-  3. Building VICE
-  4. Feedback
+  2. Usage of Gtk+/X11 Port
+  3. Usage of Cocoa Port
+  4. Joystick Support
+  5. Building VICE
+  6. Feedback
 
 
 1. Installation
 ---------------
 
-1.1 Install X11
 
-Make sure to have X11.app installed on your Mac. It is provided on your Mac
+1.1 Choose Port
+
+The VICE Emulators for Macs are distributed in three versions that use
+different UI front ends: native Cocoa, X11/Xaw, and, Gtk+. The first one
+directly uses the well known Mac user interface. The other ones are based on
+the X11 Window System that is available additionally for Mac OS X.
+
+X11/Xaw is based on the original X11 interface of VICE and is very light but
+with limited UI interface. The second one is based on the Gtk+ widget library
+and has a feature rich UI with pull-down menus. Xaw is a slim port that needs
+no non-system extra libraries, Gtk+ requires a large set of external libs and
+thus is quite large.
+
+The ports are named with *-cocoa-*, *-x11-*, or *-gtk-* in the distribution
+archive name.
+
+The X11/Xaw and Gtk+ are complete ports, i.e. all features available on other
+systems are available and all emulators are included. The Cocoa port is still
+under construction and thus considered "experimental". It does not include all
+features available and some emulators are not complete.
+
+
+1.2 Install X11 (Only for X11/Xaw and Gtk+ Port)
+
+Make sure you have X11.app installed on your Mac. It is provided on your Mac
 OSX install CD/DVD (at least on Mac OS X 10.4 or later) and often not
 installed by default. Click on the corresponding "X11.pkg" to install it. On
 newer systems there is an "Optional Installs.pkg" installer that allows to
 install X11 in the "Custom Installation" section.
 
-1.2 Choose Version
-
-The VICE Emulators for Macs are distributed in two versions that use different
-UI front ends: X11 or Gtk+. The first one is based on the original X11
-interface of VICE and is very light. The second one is based on the Gtk+
-widget library and has a feature rich UI with pull-down menus.
-
-X11 is a slim port that needs no non-system extra libraries, Gtk+ requires a
-large set of external libs and thus is quite large.
-
-The two ports are named with *-x11-* or *-gtk-* in the distribution archive
-name.
 
 1.3 Install Application
 
@@ -47,7 +60,10 @@ image to mount it. For later usage it is useful to copy the contents of the
 disk image to your hard disk. Just create a new VICE directory in your
 applications folder (/Applications) and copy all files there.
 
-1.4 Create Bundles for each Emulator
+If you like, you can move the Application binaries anywhere you want.
+
+
+1.4 Create Bundles for each Emulator (Optional; Only for X11/Xaw and Gtk+ Port)
 
 The VICE distribution contains a single application bundle called VICE. If you
 run this one by double clicking on it then it will ask which emulator to run.
@@ -61,6 +77,7 @@ otherwise the launcher will not work.
 The separate emulator application bundles are not distributed in the release
 dmg to save download time and server space.
 
+
 1.5 Setup Command Line Tools
 
 You can use the emulators and some additional tools (e.g. c1541, cardconv,
@@ -73,7 +90,9 @@ Just add the "tools" directory of the distribution to your shell's PATH:
 The command line emulators are launched with a helper script that calls the
 binary embedded in the VICE.app application bundle. It is important to keep
 the VICE.app bundle in the directory directly next to the "tools" directory
-otherwise the command line emulators will not run.
+otherwise the command line emulators will not run. Similarly, the Cocoa port
+needs the emulator App bundle in the same directory.
+
 
 1.6 Network Setup
 
@@ -98,9 +117,14 @@ each system boot. The script is provided with an installation guide in the
 libpcap-source distribution. Download from http://www.tcpdump.org and have a
 look at libpcap/README.macosx.
 
+Unfortunately, the WLAN adapter (usually device en1) on portable Macs does not
+support libpcap packet capturing (as of 10.4 and 10.5). So TFE emulation on a
+wireless network adapter may not work. Use the ethernet port instead.
 
-2. Usage
---------
+
+
+2. Usage of Gtk+ and X11/Xaw Ports
+----------------------------------
 
 2.1 Run VICE Bundle
 
@@ -109,14 +133,18 @@ dialog will be opened to select the emulator you want to launch. If you want
 to launch an emulator directly then see section 1.4 for creating separate
 bundles for each emulator.
 
-The VICE Bundle supports a simple style of drag and drop: You can launch the
+On start up the bundle will first open a terminal window (xterm) for the VICE
+log messages and then the screen windows for the virtual displays.
+
+The VICE bundles support a simple style of drag and drop: You can launch the
 emulator by dragging a disk image (*.d64 *.d71 *.d81) or a program file (*.prg
 *.p00) on the bundle icon. This will smart-attach the given binary and launch
 the emulator. If the emulator is already running then drag and drop does not
 work.
 
-On start up the bundle will first open a terminal window (xterm) for the VICE
-log messages and then the screen windows for the virtual displays.
+Also, an emulator bundle will register the typical file types (see above) and
+then you can simply click on a disk image directly to launch it in VICE.
+
 
 2.2 Run from Command Line
 
@@ -125,9 +153,10 @@ favorite shell. Now you can run all emulators directly by calling the launcher
 script in "tools" (e.g. x64, x128...). Any arguments passed to the launcher
 are directly forwarded to the emulator binary.
 
-On start up the launcher ensures that the X11 environment is available and
-redirects all console output directly to the console. An additional xterm
-window for log messages is not opened.
+For the Gtk+ and X11/Xaw ports on start up the launcher ensures that the X11
+environment is available and redirects all console output directly to the
+console. An additional xterm window for log messages is not opened.
+
 
 2.3 Use the X11 UI
 
@@ -151,6 +180,7 @@ disable X11's own short cut mapping in the Preferences of X11.app:
 Have a look at the official VICE manuals for an in-depth description of the
 available commands and options.
 
+
 2.4 Use the Gtk+ UI
 
 The Gtk+ UI is much more user-friendly. An emulator window with a pull-down
@@ -164,7 +194,8 @@ remapping as proposed in 2.3 for the X11 UI is not required.
 Have a look at the official VICE manuals for an in-depth description of the
 available commands and options.
 
-2.5 Keyboard Mapping
+
+2.5 Keyboard Mapping in Gtk+/X11
 
 The keyboard mapping on X11 (and on your Mac) is done as follows:
  
@@ -183,7 +214,7 @@ The VICE mapping (2.) is defined in *.vkm files and selected by directly
 choosing a file or by selecting a predefined one. Predefined symbolic and
 positional mappings are available.
 
-The symbolic mapping assigns the pressed Mac key to the same labeled key on
+The 'symbolic mapping' assigns the pressed Mac key to the same labeled key on
 the virtual cbm keyboard. So pressing F1 on the Mac presses F1 on the emulated
 machine. It also does automatic shifting/unshifting, e.g. pressing F2 on the
 Mac results in a virtual shift press and a virtual key F1 press (i.e. F2 is
@@ -205,12 +236,12 @@ mac keys are remapped. In the standard positional map x11_sym.vkm:
    Left Arrow                Underscore (_)               
    Up Arrow                  Tilde (~) Backtick (`) Grave (^)
 
-The positional mappings try to map the physical location of a key on the Mac
+The 'positional mappings' try to map the physical location of a key on the Mac
 keyboard to a virtual key at a similar position. E.g. your top and leftmost
 key will be the top and leftmost key on your virtual machine. Unfortunately,
 this mapping does not work always as expected: It relies heavily on the
 national layout of your keymap. Furthermore, the physical layout of Mac and
-VICE machine do not match exactly so positional mapping will always be an
+VICE machine do not match exactly, so positional mapping will always be an
 approximation. This can be even more complicate if you use different key
 mappings on your Mac.
 
@@ -220,7 +251,55 @@ Preferences in section "Keyboard & Mouse" enable the option "Use the F1-F12
 keys to control software features". The hardware controls are then accessed by
 pressing F1-F12 + Fn key.
 
-2.6 Joystick Support
+
+
+3. Usage of Cocoa Port
+----------------------
+
+Note: The Cocoa port is still "experimental", i.e. it is not full featured and
+some things may be missing. This holds for the documentation as well ;)
+
+3.1 Features
+
+ * native Mac OS X user interface with modeless dialogs
+ * any-size/fullscreen OpenGL accelerated rendering
+ * multi-threaded emulation core
+
+
+3.2 Current State
+
+ * x64 90% complete, runs with UI and most menus and dialogs.
+ 
+ * All other emus: binaries are available, no menus and dialogs.
+   Use CMD+Q to quit such an emulator and drag&drop to attach disk images.
+   Some keyboard mappings already work, others not.
+
+
+3.3 Known Issues
+
+ * The Resource Inspector lacks correct input cells. All values have to
+   be entered as strings.
+ * Some Menu entries are not greyed out but still do nothing.
+
+
+3.4 Key Mapping
+
+The key mapping show the Mac key on a US extended mapping and the right one is
+the emulated Commodore key. Special keys are marked with <Symbol>.
+
+  § (Paragraph)                 <LEFT ARROW>
+  <Tab>                         <CONTROL>
+  ` (Backtick), Left Alt/Ctrl   <CBM>
+  <ESC>                         <RUN/STOP>
+  <Backspace>                   <DEL>
+  <F9>, <PgDown>                <POUND>
+  <F10>, <PgUp>                 <UP ARROW>
+  <F11>, <Home>                 <CLR/HOME>
+  <F12>                         <RESTORE>
+
+
+4. Joystick Support
+-------------------
 
 The Mac ports has support for USB joysticks. It requires a generic USB HID
 joystick device which is supported by most joystick models. Every button of
@@ -242,13 +321,14 @@ Joystick support was tested with the USB version of the Competition Pro but
 should work with other models as well.
 
 
-3. Building VICE
+5. Building VICE
 ----------------
 
 This section is only relevant if you want to compile an own distribution of
 VICE from the source code.
 
-3.1 XCode
+
+5.1 XCode
 
 If you wan to compile VICE yourself then you first need to install Apple's
 XCode Development kit. It is available on your Mac OS X Installation DVD or
@@ -260,9 +340,10 @@ of VICE.
 XCode itself is not required but the command line tools (compiler, linker...)
 and other development files (SDKs).
 
-3.2 Required Tools
 
-The following tools are required or optional for a successfull VICE build:
+5.2 Required Tools
+
+The following tools are required or optional for a successful VICE build:
 
  - Platypus  (Optional)
    
@@ -276,7 +357,8 @@ The following tools are required or optional for a successfull VICE build:
    script does not support drag and drop and quits immediately afert start up
    (i.e. the VICE application icon disappears after the launch)!
 
-3.3 Required Library Sources
+
+5.3 Required Library Sources
 
 VICE for Macs relies on a number of external libraries. You have to get their
 source code as they are missing on a default Mac system. Some libs are
@@ -317,7 +399,8 @@ available.
     lame-3.97.tar.gz            http://lame.sourceforge.net/
     svn tree at                 svn checkout svn://svn.mplayerhq.hu/ffmpeg/trunk ffmpeg-svn
 
-3.4 Building Required Libraries
+
+5.4 Building Required Libraries
 
 First, build all external libraries. The VICE source distribution contains
 build scripts to automatically perform this step.
@@ -342,7 +425,8 @@ Example:
 If all went well then the libraries are compiled and installed in the "extlib"
 directory. The libraries are now ready for the VICE build.
 
-3.5 Building VICE
+
+5.5 Building VICE
 
 The build process of VICE contains the following steps: Call "configure" in
 the source tree to determine the required "make" system setup and find
@@ -399,7 +483,7 @@ binary VICE distribution with X11 interface. The result is a *.dmg release
 disk image found in the "TEMP/x11/ub/" directory.
 
 
-4. Feedback
+6. Feedback
 -----------
 
 If you discover problems not listed above or just want to tell us your

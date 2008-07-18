@@ -328,6 +328,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
     // currently only FFMPEG here
     int i;
     NSMutableArray *a = [[NSMutableArray alloc] init];
+#ifdef HAVE_FFMPEG 
     for (i=0;ffmpegdrv_formatlist[i].name!=NULL;i++) {
         NSString *fname = [NSString stringWithCString:ffmpegdrv_formatlist[i].name encoding:NSUTF8StringEncoding];
         
@@ -356,6 +357,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
 
         [a addObject:[NSArray arrayWithObjects:fname,video,audio,nil]];
     }
+#endif
     return [a autorelease];
 }
 
