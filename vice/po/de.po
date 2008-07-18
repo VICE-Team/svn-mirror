@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-18 17:16+0200\n"
+"POT-Creation-Date: 2008-07-18 21:16+0200\n"
 "PO-Revision-Date: 2008-07-18 16:38+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
@@ -104,7 +104,7 @@ msgstr "Setze Source Buffer Größe zu <Wert> msek"
 #: src/c64/cart/ide64.c:281 src/c64/c64_256k.c:210 src/c64/georam.c:260
 #: src/c64/mmc64.c:907 src/c64/mmc64.c:909 src/c64/plus256k.c:175
 #: src/c64/plus60k.c:249 src/c64/ramcart.c:284 src/c64/reu.c:478
-#: src/c64/tfe.c:1940 src/cbm2/cbm2-cmdline-options.c:132
+#: src/c64/tfe.c:1942 src/cbm2/cbm2-cmdline-options.c:132
 #: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
 #: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
 #: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
@@ -997,23 +997,23 @@ msgstr "Namen für REU Image Datei definieren"
 msgid "Size of the RAM expansion unit"
 msgstr "Größe der RAM Speichererweiterung"
 
-#: src/c64/tfe.c:1936 src/translate.c.po.c:1391
+#: src/c64/tfe.c:1938 src/translate.c.po.c:1391
 msgid "Enable the TFE (\"The Final Ethernet\") unit"
 msgstr "TFE (\"the final ethernet\") Erweiterung aktivitieren"
 
-#: src/c64/tfe.c:1938 src/translate.c.po.c:1401
+#: src/c64/tfe.c:1940 src/translate.c.po.c:1401
 msgid "Disable the TFE (\"The Final Ethernet\") unit"
 msgstr "TFE (\"the final ethernet\") Erweiterung deaktivitieren"
 
-#: src/c64/tfe.c:1940 src/translate.c.po.c:1411
+#: src/c64/tfe.c:1942 src/translate.c.po.c:1411
 msgid "Set the system ethernet interface for TFE emulation"
 msgstr "Setze die System Ethernet Schnittstelle für die TFE Emulation"
 
-#: src/c64/tfe.c:1942 src/translate.c.po.c:1421
+#: src/c64/tfe.c:1944 src/translate.c.po.c:1421
 msgid "Enable RRNet mode of TFE emulation"
 msgstr "RRNet Modus der TFE Emulation aktivieren"
 
-#: src/c64/tfe.c:1944 src/translate.c.po.c:1431
+#: src/c64/tfe.c:1946 src/translate.c.po.c:1431
 msgid "Disable RRNet mode of TFE emulation"
 msgstr "RRNet Modus der TFE Emulation deaktivieren"
 

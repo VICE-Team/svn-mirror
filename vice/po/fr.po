@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-16 06:53+0200\n"
+"POT-Creation-Date: 2008-07-18 21:16+0200\n"
 "PO-Revision-Date: 2007-07-26 11:57+0200\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -108,7 +108,7 @@ msgstr "Régler la taille du tampon à <valeur> ms"
 #: src/c64/cart/ide64.c:281 src/c64/c64_256k.c:210 src/c64/georam.c:260
 #: src/c64/mmc64.c:907 src/c64/mmc64.c:909 src/c64/plus256k.c:175
 #: src/c64/plus60k.c:249 src/c64/ramcart.c:284 src/c64/reu.c:478
-#: src/c64/tfe.c:1940 src/cbm2/cbm2-cmdline-options.c:132
+#: src/c64/tfe.c:1942 src/cbm2/cbm2-cmdline-options.c:132
 #: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
 #: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
 #: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
@@ -1043,26 +1043,26 @@ msgstr "Spécifier le nom de l'image REU"
 msgid "Size of the RAM expansion unit"
 msgstr "Taille de l'unité d'expansion RAM"
 
-#: src/c64/tfe.c:1936 src/translate.c.po.c:1391
+#: src/c64/tfe.c:1938 src/translate.c.po.c:1391
 #, fuzzy
 msgid "Enable the TFE (\"The Final Ethernet\") unit"
 msgstr "Activer l'unité TFE (\"The Final Ethernet\")"
 
-#: src/c64/tfe.c:1938 src/translate.c.po.c:1401
+#: src/c64/tfe.c:1940 src/translate.c.po.c:1401
 #, fuzzy
 msgid "Disable the TFE (\"The Final Ethernet\") unit"
 msgstr "Désactiver l'unité TFE"
 
-#: src/c64/tfe.c:1940 src/translate.c.po.c:1411
+#: src/c64/tfe.c:1942 src/translate.c.po.c:1411
 msgid "Set the system ethernet interface for TFE emulation"
 msgstr ""
 
-#: src/c64/tfe.c:1942 src/translate.c.po.c:1421
+#: src/c64/tfe.c:1944 src/translate.c.po.c:1421
 #, fuzzy
 msgid "Enable RRNet mode of TFE emulation"
 msgstr "*Activer l'émulation réelle de lecteur"
 
-#: src/c64/tfe.c:1944 src/translate.c.po.c:1431
+#: src/c64/tfe.c:1946 src/translate.c.po.c:1431
 #, fuzzy
 msgid "Disable RRNet mode of TFE emulation"
 msgstr "Désactiver l'émulation de périphérique RS232 userport"
@@ -3416,7 +3416,7 @@ msgid "About VICE..."
 msgstr "À propos de VICE..."
 
 #: src/arch/unix/gui/uicommands.c:569 src/arch/unix/gui/uidatasette.c:98
-#: src/arch/unix/x11/gnome/uipalcontrol.c:189
+#: src/arch/unix/x11/gnome/uipalcontrol.c:190
 #: src/arch/unix/x11/gnome/x11ui.c:1822 src/arch/amigaos/intl.c.po.c:312
 msgid "Reset"
 msgstr "Réinitialiser"
@@ -4267,7 +4267,7 @@ msgstr "Ombrage des scanlines PAL"
 msgid "Scanline Shade in percent"
 msgstr "Opacité de l'ombrage (%)"
 
-#: src/arch/unix/gui/uipalemu.c:88 src/arch/unix/gui/uipalemu.c:148
+#: src/arch/unix/gui/uipalemu.c:88 src/arch/unix/gui/uipalemu.c:150
 msgid "New PAL Tint"
 msgstr ""
 
@@ -4294,7 +4294,7 @@ msgstr ""
 msgid "Offset in percent"
 msgstr "Quantité de flou (%)"
 
-#: src/arch/unix/gui/uipalemu.c:110 src/arch/unix/gui/uipalemu.c:146
+#: src/arch/unix/gui/uipalemu.c:110 src/arch/unix/gui/uipalemu.c:148
 msgid "PAL Blurredness"
 msgstr "Flou PAL"
 
@@ -4310,25 +4310,25 @@ msgstr "*Activer l'émulation PAL"
 msgid "*Fast PAL Emulation"
 msgstr "*Émulation PAL rapide"
 
-#: src/arch/unix/gui/uipalemu.c:138
+#: src/arch/unix/gui/uipalemu.c:139
 #, fuzzy
 msgid "*Old Exact PAL Emulation"
 msgstr "*Émulation exacte PAL"
 
-#: src/arch/unix/gui/uipalemu.c:140
+#: src/arch/unix/gui/uipalemu.c:142
 #, fuzzy
 msgid "*New Exact PAL Emulation"
 msgstr "*Émulation exacte PAL"
 
-#: src/arch/unix/gui/uipalemu.c:144
+#: src/arch/unix/gui/uipalemu.c:146
 msgid "PAL Scanline Shade"
 msgstr "Ombrage des scanlines PAL"
 
-#: src/arch/unix/gui/uipalemu.c:150
+#: src/arch/unix/gui/uipalemu.c:152
 msgid "New PAL Odd Lines Phase"
 msgstr ""
 
-#: src/arch/unix/gui/uipalemu.c:152
+#: src/arch/unix/gui/uipalemu.c:154
 msgid "New PAL Odd Lines Offset"
 msgstr ""
 
@@ -5595,58 +5595,58 @@ msgstr "Créer une image de disque vide"
 msgid "Can't create image `%s'."
 msgstr "Impossible de créer l'image `%s'."
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:49
+#: src/arch/unix/x11/gnome/uipalcontrol.c:52
 msgid "Blurredness"
 msgstr "Quantité de flou"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:50
+#: src/arch/unix/x11/gnome/uipalcontrol.c:53
 msgid "Scanline Shade"
 msgstr "Ombrage des scanlines"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:51 src/arch/win32/res.rc.po.c:2817
+#: src/arch/unix/x11/gnome/uipalcontrol.c:54 src/arch/win32/res.rc.po.c:2817
 msgid "Saturation"
 msgstr "Saturation"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:52 src/arch/win32/res.rc.po.c:2820
+#: src/arch/unix/x11/gnome/uipalcontrol.c:55 src/arch/win32/res.rc.po.c:2820
 msgid "Contrast"
 msgstr "Contraste"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:53 src/arch/win32/res.rc.po.c:2823
+#: src/arch/unix/x11/gnome/uipalcontrol.c:56 src/arch/win32/res.rc.po.c:2823
 msgid "Brightness"
 msgstr "Luminosité"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:54 src/arch/win32/res.rc.po.c:3093
+#: src/arch/unix/x11/gnome/uipalcontrol.c:57 src/arch/win32/res.rc.po.c:3093
 msgid "Gamma"
 msgstr "Intensité"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:55 src/arch/win32/res.rc.po.c:2955
+#: src/arch/unix/x11/gnome/uipalcontrol.c:58 src/arch/win32/res.rc.po.c:2955
 #, fuzzy
 msgid "Tint"
 msgstr "&Imprimer"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:56
+#: src/arch/unix/x11/gnome/uipalcontrol.c:59
 msgid "Odd Line Phase"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:57
+#: src/arch/unix/x11/gnome/uipalcontrol.c:60
 msgid "Odd Line Offset"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:145
+#: src/arch/unix/x11/gnome/uipalcontrol.c:146
 msgid "PAL Settings"
 msgstr "Paramètres PAL"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:198
+#: src/arch/unix/x11/gnome/uipalcontrol.c:199
 #, fuzzy
 msgid "Fast"
 msgstr "*Rapide"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:205 src/arch/win32/res.rc.po.c:5197
+#: src/arch/unix/x11/gnome/uipalcontrol.c:207 src/arch/win32/res.rc.po.c:5197
 #: src/arch/amigaos/intl.c.po.c:3755
 msgid "Exact"
 msgstr "Exact"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:211
+#: src/arch/unix/x11/gnome/uipalcontrol.c:214
 #, fuzzy
 msgid "New Exact"
 msgstr "Exact"

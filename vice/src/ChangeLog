@@ -1,5 +1,9 @@
 2008-07-18  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
+	* Version 2.0
+
+2008-07-18  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
 	* c64/tfe.c: provide a default value for ppaddress in
 	tfe_store()
 

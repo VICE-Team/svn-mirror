@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-16 06:53+0200\n"
+"POT-Creation-Date: 2008-07-18 21:16+0200\n"
 "PO-Revision-Date: 2008-06-11 11:57+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -108,7 +108,7 @@ msgstr "Zet de geluidsbuffergrootte naar <waarde> msec"
 #: src/c64/cart/ide64.c:281 src/c64/c64_256k.c:210 src/c64/georam.c:260
 #: src/c64/mmc64.c:907 src/c64/mmc64.c:909 src/c64/plus256k.c:175
 #: src/c64/plus60k.c:249 src/c64/ramcart.c:284 src/c64/reu.c:478
-#: src/c64/tfe.c:1940 src/cbm2/cbm2-cmdline-options.c:132
+#: src/c64/tfe.c:1942 src/cbm2/cbm2-cmdline-options.c:132
 #: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
 #: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
 #: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
@@ -1003,23 +1003,23 @@ msgstr "Geef de naam van het REU-bestand"
 msgid "Size of the RAM expansion unit"
 msgstr "Grootte van de RAM-uitbreidingseenheid (REU)"
 
-#: src/c64/tfe.c:1936 src/translate.c.po.c:1391
+#: src/c64/tfe.c:1938 src/translate.c.po.c:1391
 msgid "Enable the TFE (\"The Final Ethernet\") unit"
 msgstr "Activeer de TFE (\"The Final Ethernet\")-eenheid"
 
-#: src/c64/tfe.c:1938 src/translate.c.po.c:1401
+#: src/c64/tfe.c:1940 src/translate.c.po.c:1401
 msgid "Disable the TFE (\"The Final Ethernet\") unit"
 msgstr "De TFE (\"The Final Ethernet\")-eenheid uitschakelen"
 
-#: src/c64/tfe.c:1940 src/translate.c.po.c:1411
+#: src/c64/tfe.c:1942 src/translate.c.po.c:1411
 msgid "Set the system ethernet interface for TFE emulation"
 msgstr "Zet de systeem ethernetinterface voor de TFE-emulatie"
 
-#: src/c64/tfe.c:1942 src/translate.c.po.c:1421
+#: src/c64/tfe.c:1944 src/translate.c.po.c:1421
 msgid "Enable RRNet mode of TFE emulation"
 msgstr "Activeer RRNet-modus van de TFE-emulatie"
 
-#: src/c64/tfe.c:1944 src/translate.c.po.c:1431
+#: src/c64/tfe.c:1946 src/translate.c.po.c:1431
 msgid "Disable RRNet mode of TFE emulation"
 msgstr "RRNet-modus van de TFE-emulatie uitschakelen"
 
@@ -3350,7 +3350,7 @@ msgid "About VICE..."
 msgstr "Over VICE..."
 
 #: src/arch/unix/gui/uicommands.c:569 src/arch/unix/gui/uidatasette.c:98
-#: src/arch/unix/x11/gnome/uipalcontrol.c:189
+#: src/arch/unix/x11/gnome/uipalcontrol.c:190
 #: src/arch/unix/x11/gnome/x11ui.c:1822 src/arch/amigaos/intl.c.po.c:312
 msgid "Reset"
 msgstr "Reset"
@@ -4163,7 +4163,7 @@ msgstr "PAL-scanlijnschaduw"
 msgid "Scanline Shade in percent"
 msgstr "Scanlijnschaduw in procent"
 
-#: src/arch/unix/gui/uipalemu.c:88 src/arch/unix/gui/uipalemu.c:148
+#: src/arch/unix/gui/uipalemu.c:88 src/arch/unix/gui/uipalemu.c:150
 msgid "New PAL Tint"
 msgstr "Nieuwe PAL Tint"
 
@@ -4187,7 +4187,7 @@ msgstr "Nieuwe PAL oneven lijnen compensatie"
 msgid "Offset in percent"
 msgstr "Compensatie in procent"
 
-#: src/arch/unix/gui/uipalemu.c:110 src/arch/unix/gui/uipalemu.c:146
+#: src/arch/unix/gui/uipalemu.c:110 src/arch/unix/gui/uipalemu.c:148
 msgid "PAL Blurredness"
 msgstr "PAL-wazigheid"
 
@@ -4203,23 +4203,23 @@ msgstr "*Activeer PAL-emulatie"
 msgid "*Fast PAL Emulation"
 msgstr "*Snelle PAL-emulatie"
 
-#: src/arch/unix/gui/uipalemu.c:138
+#: src/arch/unix/gui/uipalemu.c:139
 msgid "*Old Exact PAL Emulation"
 msgstr "*Oude Exacte PAL-emulatie"
 
-#: src/arch/unix/gui/uipalemu.c:140
+#: src/arch/unix/gui/uipalemu.c:142
 msgid "*New Exact PAL Emulation"
 msgstr "*Nieuwe Exacte PAL-emulatie"
 
-#: src/arch/unix/gui/uipalemu.c:144
+#: src/arch/unix/gui/uipalemu.c:146
 msgid "PAL Scanline Shade"
 msgstr "PAL-scanlijnschaduw"
 
-#: src/arch/unix/gui/uipalemu.c:150
+#: src/arch/unix/gui/uipalemu.c:152
 msgid "New PAL Odd Lines Phase"
 msgstr "Nieuwe PAL oneven lijnen fase"
 
-#: src/arch/unix/gui/uipalemu.c:152
+#: src/arch/unix/gui/uipalemu.c:154
 msgid "New PAL Odd Lines Offset"
 msgstr "Nieuwe PAL oneven lijnen compensatie"
 
@@ -5465,56 +5465,56 @@ msgstr "Maak leeg schijfbestand"
 msgid "Can't create image `%s'."
 msgstr "Kan bestand `%s' niet maken."
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:49
+#: src/arch/unix/x11/gnome/uipalcontrol.c:52
 msgid "Blurredness"
 msgstr "Wazigheid"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:50
+#: src/arch/unix/x11/gnome/uipalcontrol.c:53
 msgid "Scanline Shade"
 msgstr "Scanlijnschaduw"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:51 src/arch/win32/res.rc.po.c:2817
+#: src/arch/unix/x11/gnome/uipalcontrol.c:54 src/arch/win32/res.rc.po.c:2817
 msgid "Saturation"
 msgstr "Verzadiging"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:52 src/arch/win32/res.rc.po.c:2820
+#: src/arch/unix/x11/gnome/uipalcontrol.c:55 src/arch/win32/res.rc.po.c:2820
 msgid "Contrast"
 msgstr "Contrast"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:53 src/arch/win32/res.rc.po.c:2823
+#: src/arch/unix/x11/gnome/uipalcontrol.c:56 src/arch/win32/res.rc.po.c:2823
 msgid "Brightness"
 msgstr "Helderheid"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:54 src/arch/win32/res.rc.po.c:3093
+#: src/arch/unix/x11/gnome/uipalcontrol.c:57 src/arch/win32/res.rc.po.c:3093
 msgid "Gamma"
 msgstr "Gamma"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:55 src/arch/win32/res.rc.po.c:2955
+#: src/arch/unix/x11/gnome/uipalcontrol.c:58 src/arch/win32/res.rc.po.c:2955
 msgid "Tint"
 msgstr "Tint"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:56
+#: src/arch/unix/x11/gnome/uipalcontrol.c:59
 msgid "Odd Line Phase"
 msgstr "Oneven lijnen fase"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:57
+#: src/arch/unix/x11/gnome/uipalcontrol.c:60
 msgid "Odd Line Offset"
 msgstr "Oneven lijnen compensatie"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:145
+#: src/arch/unix/x11/gnome/uipalcontrol.c:146
 msgid "PAL Settings"
 msgstr "PAL-instellingen"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:198
+#: src/arch/unix/x11/gnome/uipalcontrol.c:199
 msgid "Fast"
 msgstr "Snel"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:205 src/arch/win32/res.rc.po.c:5197
+#: src/arch/unix/x11/gnome/uipalcontrol.c:207 src/arch/win32/res.rc.po.c:5197
 #: src/arch/amigaos/intl.c.po.c:3755
 msgid "Exact"
 msgstr "Exact"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:211
+#: src/arch/unix/x11/gnome/uipalcontrol.c:214
 msgid "New Exact"
 msgstr "Nieuw Exact"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-16 06:53+0200\n"
+"POT-Creation-Date: 2008-07-18 21:16+0200\n"
 "PO-Revision-Date: 2007-07-28 14:26+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -104,7 +104,7 @@ msgstr "Imposta la dimensione del buffer dell'audio a <valore> msec"
 #: src/c64/cart/ide64.c:281 src/c64/c64_256k.c:210 src/c64/georam.c:260
 #: src/c64/mmc64.c:907 src/c64/mmc64.c:909 src/c64/plus256k.c:175
 #: src/c64/plus60k.c:249 src/c64/ramcart.c:284 src/c64/reu.c:478
-#: src/c64/tfe.c:1940 src/cbm2/cbm2-cmdline-options.c:132
+#: src/c64/tfe.c:1942 src/cbm2/cbm2-cmdline-options.c:132
 #: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
 #: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
 #: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
@@ -1028,23 +1028,23 @@ msgstr "Specifica il nome dell'immagine REU"
 msgid "Size of the RAM expansion unit"
 msgstr "Dimensione dell'espansione di RAM"
 
-#: src/c64/tfe.c:1936 src/translate.c.po.c:1391
+#: src/c64/tfe.c:1938 src/translate.c.po.c:1391
 msgid "Enable the TFE (\"The Final Ethernet\") unit"
 msgstr "Attiva l'unità TFE (\"The Final Ethernet\")"
 
-#: src/c64/tfe.c:1938 src/translate.c.po.c:1401
+#: src/c64/tfe.c:1940 src/translate.c.po.c:1401
 msgid "Disable the TFE (\"The Final Ethernet\") unit"
 msgstr "Disattiva l'unità TFE (\"The Final Ethernet\")"
 
-#: src/c64/tfe.c:1940 src/translate.c.po.c:1411
+#: src/c64/tfe.c:1942 src/translate.c.po.c:1411
 msgid "Set the system ethernet interface for TFE emulation"
 msgstr "Imposta l'interfaccia ethernet per l'emulazione TFE"
 
-#: src/c64/tfe.c:1942 src/translate.c.po.c:1421
+#: src/c64/tfe.c:1944 src/translate.c.po.c:1421
 msgid "Enable RRNet mode of TFE emulation"
 msgstr "Attiva la modalità RRNet dell'emulazione TFE"
 
-#: src/c64/tfe.c:1944 src/translate.c.po.c:1431
+#: src/c64/tfe.c:1946 src/translate.c.po.c:1431
 msgid "Disable RRNet mode of TFE emulation"
 msgstr "Disattiva la modalità RRNet dell'emulazione TFE"
 
@@ -3382,7 +3382,7 @@ msgid "About VICE..."
 msgstr "Informazioni su VICE..."
 
 #: src/arch/unix/gui/uicommands.c:569 src/arch/unix/gui/uidatasette.c:98
-#: src/arch/unix/x11/gnome/uipalcontrol.c:189
+#: src/arch/unix/x11/gnome/uipalcontrol.c:190
 #: src/arch/unix/x11/gnome/x11ui.c:1822 src/arch/amigaos/intl.c.po.c:312
 msgid "Reset"
 msgstr "Reset"
@@ -4196,7 +4196,7 @@ msgstr "Ombra delle scanline PAL"
 msgid "Scanline Shade in percent"
 msgstr "Ombra della scanline in percentuale"
 
-#: src/arch/unix/gui/uipalemu.c:88 src/arch/unix/gui/uipalemu.c:148
+#: src/arch/unix/gui/uipalemu.c:88 src/arch/unix/gui/uipalemu.c:150
 msgid "New PAL Tint"
 msgstr ""
 
@@ -4223,7 +4223,7 @@ msgstr ""
 msgid "Offset in percent"
 msgstr "Sfuocatura in percentuale"
 
-#: src/arch/unix/gui/uipalemu.c:110 src/arch/unix/gui/uipalemu.c:146
+#: src/arch/unix/gui/uipalemu.c:110 src/arch/unix/gui/uipalemu.c:148
 msgid "PAL Blurredness"
 msgstr "Sfuocatura PAL"
 
@@ -4239,25 +4239,25 @@ msgstr "*Attiva l'emulazione PAL"
 msgid "*Fast PAL Emulation"
 msgstr "*Emulazione PAL veloce"
 
-#: src/arch/unix/gui/uipalemu.c:138
+#: src/arch/unix/gui/uipalemu.c:139
 #, fuzzy
 msgid "*Old Exact PAL Emulation"
 msgstr "*Emulazione PAL esatta"
 
-#: src/arch/unix/gui/uipalemu.c:140
+#: src/arch/unix/gui/uipalemu.c:142
 #, fuzzy
 msgid "*New Exact PAL Emulation"
 msgstr "*Emulazione PAL esatta"
 
-#: src/arch/unix/gui/uipalemu.c:144
+#: src/arch/unix/gui/uipalemu.c:146
 msgid "PAL Scanline Shade"
 msgstr "Ombra della scanline PAL"
 
-#: src/arch/unix/gui/uipalemu.c:150
+#: src/arch/unix/gui/uipalemu.c:152
 msgid "New PAL Odd Lines Phase"
 msgstr ""
 
-#: src/arch/unix/gui/uipalemu.c:152
+#: src/arch/unix/gui/uipalemu.c:154
 msgid "New PAL Odd Lines Offset"
 msgstr ""
 
@@ -5505,58 +5505,58 @@ msgstr "Crea l'immagine di un disco vuoto"
 msgid "Can't create image `%s'."
 msgstr "Non è possibile creare l'immagine `%s'."
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:49
+#: src/arch/unix/x11/gnome/uipalcontrol.c:52
 msgid "Blurredness"
 msgstr "Sfuocatura"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:50
+#: src/arch/unix/x11/gnome/uipalcontrol.c:53
 msgid "Scanline Shade"
 msgstr "Ombra scanline"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:51 src/arch/win32/res.rc.po.c:2817
+#: src/arch/unix/x11/gnome/uipalcontrol.c:54 src/arch/win32/res.rc.po.c:2817
 msgid "Saturation"
 msgstr "Saturazione"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:52 src/arch/win32/res.rc.po.c:2820
+#: src/arch/unix/x11/gnome/uipalcontrol.c:55 src/arch/win32/res.rc.po.c:2820
 msgid "Contrast"
 msgstr "Contrasto"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:53 src/arch/win32/res.rc.po.c:2823
+#: src/arch/unix/x11/gnome/uipalcontrol.c:56 src/arch/win32/res.rc.po.c:2823
 msgid "Brightness"
 msgstr "Luminosità"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:54 src/arch/win32/res.rc.po.c:3093
+#: src/arch/unix/x11/gnome/uipalcontrol.c:57 src/arch/win32/res.rc.po.c:3093
 msgid "Gamma"
 msgstr "Gamma"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:55 src/arch/win32/res.rc.po.c:2955
+#: src/arch/unix/x11/gnome/uipalcontrol.c:58 src/arch/win32/res.rc.po.c:2955
 #, fuzzy
 msgid "Tint"
 msgstr "Client"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:56
+#: src/arch/unix/x11/gnome/uipalcontrol.c:59
 msgid "Odd Line Phase"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:57
+#: src/arch/unix/x11/gnome/uipalcontrol.c:60
 msgid "Odd Line Offset"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:145
+#: src/arch/unix/x11/gnome/uipalcontrol.c:146
 msgid "PAL Settings"
 msgstr "Impostazioni PAL"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:198
+#: src/arch/unix/x11/gnome/uipalcontrol.c:199
 #, fuzzy
 msgid "Fast"
 msgstr "*Veloce"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:205 src/arch/win32/res.rc.po.c:5197
+#: src/arch/unix/x11/gnome/uipalcontrol.c:207 src/arch/win32/res.rc.po.c:5197
 #: src/arch/amigaos/intl.c.po.c:3755
 msgid "Exact"
 msgstr "Esatta"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:211
+#: src/arch/unix/x11/gnome/uipalcontrol.c:214
 #, fuzzy
 msgid "New Exact"
 msgstr "Esatta"
