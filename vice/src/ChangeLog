@@ -4,9 +4,9 @@
 
 2008-07-16  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
-        * arch/beos/ui.cc, arch/beos/ui_file.cc,
-        arch/beos/vicemenu.cc: Added fixes as provided by
-        Marcus Sutton <loggedoubt@gmail.com>
+	* arch/beos/ui.cc, arch/beos/ui_file.cc,
+	arch/beos/vicemenu.cc: Added fixes as provided by
+	Marcus Sutton <loggedoubt@gmail.com>
 
 2008-07-15  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
