@@ -135,8 +135,10 @@ ui_menu_entry_t PALMode_submenu[] = {
     { "--" },
     { N_("*Fast PAL Emulation"),
       (ui_callback_t)radio_PALMode, (ui_callback_data_t)0, NULL },
+#ifndef USE_GNOMEUI
     { N_("*Old Exact PAL Emulation"),
       (ui_callback_t)radio_PALMode, (ui_callback_data_t)1, NULL },
+#endif
     { N_("*New Exact PAL Emulation"),
       (ui_callback_t)radio_PALMode, (ui_callback_data_t)2, NULL },
 #ifndef USE_GNOMEUI

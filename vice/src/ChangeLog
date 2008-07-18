@@ -1,3 +1,11 @@
+2008-07-18  pottendo  <pottendo@aon.at>
+
+	* arch/unix/x11/gnome/uipalcontrol.c (all): #ifdefed UI elements
+	for old PAL emulation as it is replaced by the new PAL Emulation.
+
+	* arch/unix/gui/uipalemu.c: Removed UI for `Old PAL Emu' in case
+	of `USE_GNOMEUI.
+
 2008-07-16  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 1.22.27
