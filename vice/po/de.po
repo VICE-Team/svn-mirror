@@ -7764,7 +7764,7 @@ msgstr "&Action Replay 4 Image..."
 
 #: src/arch/win32/resc128.rc.po.c:69
 msgid "&StarDOS image..."
-msgstr "&StarDIS Image..."
+msgstr "&StarDOS Image..."
 
 #: src/arch/win32/resc128.rc.po.c:70 src/arch/win32/resc64.rc.po.c:70
 msgid "Atomic &Power image..."
