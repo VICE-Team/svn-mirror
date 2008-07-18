@@ -317,10 +317,10 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "E&xit", IDM_EXIT
     END
-    POPUP "&Edit"
+    POPUP "B&earbeiten"
     BEGIN
-        MENUITEM "&Copy", IDM_EDIT_COPY
-        MENUITEM "&Paste", IDM_EDIT_PASTE
+        MENUITEM "&Kopieren", IDM_EDIT_COPY
+        MENUITEM "&Einfúgen", IDM_EDIT_PASTE
     END
     POPUP "Sna&pshot"
     BEGIN

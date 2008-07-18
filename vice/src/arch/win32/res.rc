@@ -3207,13 +3207,13 @@ IDD_VIDEO_NEW_PAL_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Tint",IDC_STATIC,12,12,60,8
+    LTEXT           "Farbton",IDC_STATIC,12,12,60,8
     LTEXT           "(0..2)",IDC_STATIC,72,12,28,8
     EDITTEXT        IDC_VIDEO_NEW_PAL_TINT, 105,10,32,12,WS_TABSTOP
-    LTEXT           "Odd lines phase",IDC_STATIC,12,24,60,8
+    LTEXT           "Ungerade Zeilenphase",IDC_STATIC,12,24,60,8
     LTEXT           "(0..2)",IDC_STATIC,72,24,28,8
     EDITTEXT        IDC_VIDEO_NEW_PAL_PHASE, 105,22,32,12,WS_TABSTOP
-    LTEXT           "Odd lines offset",IDC_STATIC,12,36,60,8
+    LTEXT           "Ungerader Zeilenoffset",IDC_STATIC,12,36,60,8
     LTEXT           "(0..2)",IDC_STATIC,72,36,28,8
     EDITTEXT        IDC_VIDEO_NEW_PAL_OFFSET, 105,34,32,12,WS_TABSTOP
 END
@@ -5684,7 +5684,7 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE      "VICE Paletten Datei laden"
   IDS_FULLSCREEN                  "Vollbild"
   IDS_COLORS                      "Farben"
-  IDS_NEW_PAL                     "New PAL emulation"
+  IDS_NEW_PAL                     "PAL Emulation"
   IDS_VIDEO_SETTINGS              "Video Einstellungen"
   IDS_FILE_SYSTEM                 "Dateisystem"
 #ifdef HAVE_OPENCBM
@@ -5697,7 +5697,7 @@ BEGIN
   IDS_ATTACH_AR_CART_IMAGE        "Action Replay Erweiterungsmodul Image einlegen"
   IDS_ATTACH_AR3_CART_IMAGE       "Action Replay III Erweiterungsmodul Image einlegen"
   IDS_ATTACH_AR4_CART_IMAGE       "Action Replay 4 Erweiterungsmodul Image einlegen"
-  IDS_ATTACH_STARDOS_CART_IMAGE   "StarDOS Erweiterungsmodul Image einlegen"
+  IDS_ATTACH_STARDOS_CART_IMAGE   "Erweiterungsmodul StarDOS Image einlegen"
   IDS_ATTACH_ATOMIC_P_CART_IMG    "Atomic Power Erweiterungsmodul Image einlegen"
   IDS_ATTACH_EPYX_FL_CART_IMG     "Epyx Fastload Erweiterungsmodul Image einlegen"
   IDS_ATTACH_IEEE488_CART_IMG     "IEEE Schnittstellen Erweiterungsmodul Image einlegen"

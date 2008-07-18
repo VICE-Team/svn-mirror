@@ -526,7 +526,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_ACTION_REPLAY4_IMAGE_SV, "Action Replay 4-fil..."},
 
 /* en */ {IDMS_STARDOS_IMAGE,    "StarDOS image..."},
-/* de */ {IDMS_STARDOS_IMAGE_DE, ""},  /* fuzzy */
+/* de */ {IDMS_STARDOS_IMAGE_DE, "StarDOS Image..."},
 /* fr */ {IDMS_STARDOS_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_STARDOS_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDMS_STARDOS_IMAGE_IT, ""},  /* fuzzy */
@@ -724,7 +724,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_EXIT_SV, "Avsluta"},
 
 /* en */ {IDMS_EDIT,    "Edit"},
-/* de */ {IDMS_EDIT_DE, ""},  /* fuzzy */
+/* de */ {IDMS_EDIT_DE, "Bearbeiten"},
 /* fr */ {IDMS_EDIT_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_EDIT_HU, ""},  /* fuzzy */
 /* it */ {IDMS_EDIT_IT, ""},  /* fuzzy */
@@ -733,7 +733,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_EDIT_SV, ""},  /* fuzzy */
 
 /* en */ {IDMS_COPY,    "Copy"},
-/* de */ {IDMS_COPY_DE, ""},  /* fuzzy */
+/* de */ {IDMS_COPY_DE, "Kopie"},
 /* fr */ {IDMS_COPY_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_COPY_HU, ""},  /* fuzzy */
 /* it */ {IDMS_COPY_IT, ""},  /* fuzzy */
@@ -742,7 +742,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_COPY_SV, ""},  /* fuzzy */
 
 /* en */ {IDMS_PASTE,    "Paste"},
-/* de */ {IDMS_PASTE_DE, ""},  /* fuzzy */
+/* de */ {IDMS_PASTE_DE, "Einfúgen"},
 /* fr */ {IDMS_PASTE_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_PASTE_HU, ""},  /* fuzzy */
 /* it */ {IDMS_PASTE_IT, ""},  /* fuzzy */
@@ -2466,7 +2466,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_ATTACH_ACTION_REPLAY4_IMAGE_SV, "Anslut Action Replay 4-avbildningsfil"},
 
 /* en */ {IDS_ATTACH_STARDOS_IMAGE,    "Attach StarDOS cartridge image"},
-/* de */ {IDS_ATTACH_STARDOS_IMAGE_DE, ""},  /* fuzzy */
+/* de */ {IDS_ATTACH_STARDOS_IMAGE_DE, "Erweiterungsmodul StarDOS Image einlegen"},
 /* fr */ {IDS_ATTACH_STARDOS_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDS_ATTACH_STARDOS_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDS_ATTACH_STARDOS_IMAGE_IT, ""},  /* fuzzy */
@@ -4266,7 +4266,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_PAL_EMULATION_SV, "PAL-emulering"},
 
 /* en */ {IDS_NEW_PAL_EMULATION,    "New PAL Emulation"},
-/* de */ {IDS_NEW_PAL_EMULATION_DE, ""},  /* fuzzy */
+/* de */ {IDS_NEW_PAL_EMULATION_DE, "PAL Emulation"},
 /* fr */ {IDS_NEW_PAL_EMULATION_FR, ""},  /* fuzzy */
 /* hu */ {IDS_NEW_PAL_EMULATION_HU, ""},  /* fuzzy */
 /* it */ {IDS_NEW_PAL_EMULATION_IT, ""},  /* fuzzy */
@@ -4311,7 +4311,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_PAL_BLUR_0_1_SV, "PAL-suddighet (0..1)"},
 
 /* en */ {IDS_NEW_PAL_TINT_0_2,    "Tint (0..2)"},
-/* de */ {IDS_NEW_PAL_TINT_0_2_DE, ""},  /* fuzzy */
+/* de */ {IDS_NEW_PAL_TINT_0_2_DE, "Farbton (0..2)"},
 /* fr */ {IDS_NEW_PAL_TINT_0_2_FR, ""},  /* fuzzy */
 /* hu */ {IDS_NEW_PAL_TINT_0_2_HU, ""},  /* fuzzy */
 /* it */ {IDS_NEW_PAL_TINT_0_2_IT, ""},  /* fuzzy */
@@ -4320,7 +4320,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_NEW_PAL_TINT_0_2_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_NEW_PAL_PHASE_0_2,    "Odd Lines Phase (0..2)"},
-/* de */ {IDS_NEW_PAL_PHASE_0_2_DE, ""},  /* fuzzy */
+/* de */ {IDS_NEW_PAL_PHASE_0_2_DE, "Ungerade Zeilenphase (0..2)"},
 /* fr */ {IDS_NEW_PAL_PHASE_0_2_FR, ""},  /* fuzzy */
 /* hu */ {IDS_NEW_PAL_PHASE_0_2_HU, ""},  /* fuzzy */
 /* it */ {IDS_NEW_PAL_PHASE_0_2_IT, ""},  /* fuzzy */
@@ -4329,7 +4329,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_NEW_PAL_PHASE_0_2_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_NEW_PAL_OFFSET_0_2,    "Odd Lines Offset (0..2)"},
-/* de */ {IDS_NEW_PAL_OFFSET_0_2_DE, ""},  /* fuzzy */
+/* de */ {IDS_NEW_PAL_OFFSET_0_2_DE, "Ungerader Zeilenoffset (0..2)"},
 /* fr */ {IDS_NEW_PAL_OFFSET_0_2_FR, ""},  /* fuzzy */
 /* hu */ {IDS_NEW_PAL_OFFSET_0_2_HU, ""},  /* fuzzy */
 /* it */ {IDS_NEW_PAL_OFFSET_0_2_IT, ""},  /* fuzzy */

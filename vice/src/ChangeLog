@@ -1,3 +1,10 @@
+2008-07-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+        * translate.c, arch/amigaos/intl.c, arch/win32/rescbm2.rc,
+        arch/win32/resplus4.rc, arch/win32/resvic20.rc,
+        arch/win32/resc128.rc, arch/win32/resc64.rc, arch/win32/res.rc,
+        arch/win32/respet.rc: Updated the German text items.
+
 2008-07-18  pottendo  <pottendo@aon.at>
 
 	* arch/unix/x11/gnome/uipalcontrol.c (all): #ifdefed UI elements
