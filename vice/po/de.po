@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-16 06:53+0200\n"
-"PO-Revision-Date: 2008-01-02 16:46+0100\n"
-"Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
+"POT-Creation-Date: 2008-07-18 17:16+0200\n"
+"PO-Revision-Date: 2008-07-18 16:38+0200\n"
+"Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -764,9 +764,8 @@ msgid "Attach raw 16KB Action Replay III cartridge image"
 msgstr "16KB Action Replay Image III (raw) einlegen"
 
 #: src/c64/cart/c64cart.c:261 src/translate.c.po.c:1502
-#, fuzzy
 msgid "Attach raw 32KB Action Replay IV cartridge image"
-msgstr "32K Action Replay Image einlegen"
+msgstr "32K Action Replay Image IV einlegen"
 
 #: src/c64/cart/c64cart.c:264 src/translate.c.po.c:1532
 msgid "Attach raw 64KB Retro Replay cartridge image"
@@ -805,9 +804,8 @@ msgid "Attach raw Structured Basic cartridge image"
 msgstr "Erweiterungsmodul Structured Basic (raw) Image einlegen"
 
 #: src/c64/cart/c64cart.c:291 src/translate.c.po.c:1492
-#, fuzzy
 msgid "Attach raw 16KB StarDOS cartridge image"
-msgstr "16KB Erweiterungsmodul (raw) Image einlegen"
+msgstr "16KB StarDOS Erweiterungsmodul Image einlegen"
 
 #: src/c64/cart/c64cart.c:294 src/translate.c.po.c:1612
 msgid "Enable expert cartridge"
@@ -1983,17 +1981,16 @@ msgid "Use old luminances"
 msgstr "Alte Helligkeitsemulation"
 
 #: src/vicii/vicii-cmdline-options.c:126 src/translate.c.po.c:2716
-#, fuzzy
 msgid "Set tint of internal calculated palette [1000]"
-msgstr "Sättigung für intern berechneten Palette setzen [1000]"
+msgstr "Farbton für intern berechneten Palette setzen [1000]"
 
 #: src/vicii/vicii-cmdline-options.c:128 src/translate.c.po.c:2726
 msgid "Set phase for color carrier in odd lines [1250]"
-msgstr ""
+msgstr "Phase für Farbträger in ungeraden Zeilen setzen [1250]"
 
 #: src/vicii/vicii-cmdline-options.c:130 src/translate.c.po.c:2736
 msgid "Set phase offset for color carrier in odd lines [750]"
-msgstr ""
+msgstr "Phasenoffset für Farbträger in ungeraden Zeilen setzen [750]"
 
 #: src/video/video-cmdline-options.c:60 src/translate.c.po.c:3748
 msgid "Enable double size"
@@ -3028,14 +3025,12 @@ msgid "Attach Action Replay III image..."
 msgstr "Action Replay Image III einlegen..."
 
 #: src/arch/unix/gui/uic64cart.c:159
-#, fuzzy
 msgid "Attach Action Replay IV image..."
-msgstr "Action Replay Image III einlegen..."
+msgstr "Action Replay Image IV einlegen..."
 
 #: src/arch/unix/gui/uic64cart.c:162
-#, fuzzy
 msgid "Attach StarDOS image..."
-msgstr "Band Image einlegen..."
+msgstr "StarDOS Image einlegen..."
 
 #: src/arch/unix/gui/uic64cart.c:165
 msgid "Attach Atomic Power image..."
@@ -3315,7 +3310,7 @@ msgid "About VICE..."
 msgstr "Über VICE..."
 
 #: src/arch/unix/gui/uicommands.c:569 src/arch/unix/gui/uidatasette.c:98
-#: src/arch/unix/x11/gnome/uipalcontrol.c:189
+#: src/arch/unix/x11/gnome/uipalcontrol.c:190
 #: src/arch/unix/x11/gnome/x11ui.c:1822 src/arch/amigaos/intl.c.po.c:312
 msgid "Reset"
 msgstr "Reset"
@@ -4127,34 +4122,31 @@ msgstr "PAL Scanline Schatten"
 msgid "Scanline Shade in percent"
 msgstr "Scanline Schatten in Prozent"
 
-#: src/arch/unix/gui/uipalemu.c:88 src/arch/unix/gui/uipalemu.c:148
+#: src/arch/unix/gui/uipalemu.c:88 src/arch/unix/gui/uipalemu.c:150
 msgid "New PAL Tint"
-msgstr ""
+msgstr "PAL Farbton"
 
 #: src/arch/unix/gui/uipalemu.c:88
-#, fuzzy
 msgid "Tint in percent"
-msgstr "Scanline Schatten in Prozent"
+msgstr "Farbton in Prozent"
 
 #: src/arch/unix/gui/uipalemu.c:95
 msgid "New PAL Odd Line Phase"
-msgstr ""
+msgstr "PAL ungerade Zeilenphase"
 
 #: src/arch/unix/gui/uipalemu.c:95
-#, fuzzy
 msgid "Phase in percent"
-msgstr "Passband Prozent"
+msgstr "Phase in Prozent"
 
 #: src/arch/unix/gui/uipalemu.c:102
 msgid "New PAL Odd Line Offset"
-msgstr ""
+msgstr "PAL ungerader Zeilenoffset"
 
 #: src/arch/unix/gui/uipalemu.c:102
-#, fuzzy
 msgid "Offset in percent"
-msgstr "Unschärfe in Prozent"
+msgstr "Offset in Prozent"
 
-#: src/arch/unix/gui/uipalemu.c:110 src/arch/unix/gui/uipalemu.c:146
+#: src/arch/unix/gui/uipalemu.c:110 src/arch/unix/gui/uipalemu.c:148
 msgid "PAL Blurredness"
 msgstr "PAL Unschärfe"
 
@@ -4170,27 +4162,25 @@ msgstr "*PAL Emulation aktivieren"
 msgid "*Fast PAL Emulation"
 msgstr "*Schnelle PAL Emulation"
 
-#: src/arch/unix/gui/uipalemu.c:138
-#, fuzzy
+#: src/arch/unix/gui/uipalemu.c:139
 msgid "*Old Exact PAL Emulation"
-msgstr "*Exakte PAL Emulation"
+msgstr "*Exakte PAL Emulation (erste Version)"
 
-#: src/arch/unix/gui/uipalemu.c:140
-#, fuzzy
+#: src/arch/unix/gui/uipalemu.c:142
 msgid "*New Exact PAL Emulation"
 msgstr "*Exakte PAL Emulation"
 
-#: src/arch/unix/gui/uipalemu.c:144
+#: src/arch/unix/gui/uipalemu.c:146
 msgid "PAL Scanline Shade"
 msgstr "PAL Scanline Schatten"
 
-#: src/arch/unix/gui/uipalemu.c:150
-msgid "New PAL Odd Lines Phase"
-msgstr ""
-
 #: src/arch/unix/gui/uipalemu.c:152
+msgid "New PAL Odd Lines Phase"
+msgstr "PAL ungerade Zeilenphase"
+
+#: src/arch/unix/gui/uipalemu.c:154
 msgid "New PAL Odd Lines Offset"
-msgstr ""
+msgstr "PAL ungerade Zeilenphase"
 
 #: src/arch/unix/gui/uipalette.c:47
 msgid "Load custom palette"
@@ -5424,59 +5414,58 @@ msgstr "Leeres Disk Image erzeugen"
 msgid "Can't create image `%s'."
 msgstr "Kann Image `%s' nicht erzeugen."
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:49
+#: src/arch/unix/x11/gnome/uipalcontrol.c:52
 msgid "Blurredness"
 msgstr "Unschärfe"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:50
+#: src/arch/unix/x11/gnome/uipalcontrol.c:53
 msgid "Scanline Shade"
 msgstr "Scanline Schatten"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:51 src/arch/win32/res.rc.po.c:2817
+#: src/arch/unix/x11/gnome/uipalcontrol.c:54 src/arch/win32/res.rc.po.c:2817
 msgid "Saturation"
 msgstr "Sättigung"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:52 src/arch/win32/res.rc.po.c:2820
+#: src/arch/unix/x11/gnome/uipalcontrol.c:55 src/arch/win32/res.rc.po.c:2820
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:53 src/arch/win32/res.rc.po.c:2823
+#: src/arch/unix/x11/gnome/uipalcontrol.c:56 src/arch/win32/res.rc.po.c:2823
 msgid "Brightness"
 msgstr "Helligkeit"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:54 src/arch/win32/res.rc.po.c:3093
+#: src/arch/unix/x11/gnome/uipalcontrol.c:57 src/arch/win32/res.rc.po.c:3093
 msgid "Gamma"
 msgstr "Gamma"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:55 src/arch/win32/res.rc.po.c:2955
-#, fuzzy
+#: src/arch/unix/x11/gnome/uipalcontrol.c:58 src/arch/win32/res.rc.po.c:2955
 msgid "Tint"
-msgstr "Client"
+msgstr "Farbton"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:56
+#: src/arch/unix/x11/gnome/uipalcontrol.c:59
 msgid "Odd Line Phase"
-msgstr ""
+msgstr "Ungerade Zeilenphase"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:57
+#: src/arch/unix/x11/gnome/uipalcontrol.c:60
 msgid "Odd Line Offset"
-msgstr ""
+msgstr "Ungerader Zeilenoffset"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:145
+#: src/arch/unix/x11/gnome/uipalcontrol.c:146
 msgid "PAL Settings"
 msgstr "PAL Einstellungen"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:198
+#: src/arch/unix/x11/gnome/uipalcontrol.c:199
 msgid "Fast"
 msgstr "Schnell"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:205 src/arch/win32/res.rc.po.c:5197
+#: src/arch/unix/x11/gnome/uipalcontrol.c:207 src/arch/win32/res.rc.po.c:5197
 #: src/arch/amigaos/intl.c.po.c:3755
 msgid "Exact"
 msgstr "Exakt"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:211
+#: src/arch/unix/x11/gnome/uipalcontrol.c:214
 msgid "New Exact"
-msgstr "Neu Exakt"
+msgstr "Exakt"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:54 src/arch/win32/res.rc.po.c:4553
 #: src/arch/amigaos/intl.c.po.c:4493
@@ -5763,9 +5752,8 @@ msgid "Monitor"
 msgstr "Monitor"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1825
-#, fuzzy
 msgid "Continue"
-msgstr "Verzeichnis"
+msgstr "Fortsetzen"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1871 src/arch/unix/x11/xaw/x11ui.c:1788
 msgid "Extend disk image"
@@ -6374,9 +6362,8 @@ msgid "Copyright (c) 2006-2008 Christian Vogelgsang"
 msgstr "Copyright (c) 2006-2008 Christian Vogelgsang"
 
 #: src/arch/win32/res.rc.po.c:568
-#, fuzzy
 msgid "Copyright (c) 2007-2008 Fabrizio Gennari"
-msgstr "Copyright (c) 2000-2004 Markus Brenner"
+msgstr "Copyright (c) 2007-2008 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:569
 msgid "Copyright (c) 1999-2007 Andreas Dehmel"
@@ -6682,11 +6669,11 @@ msgstr "(0..2)"
 
 #: src/arch/win32/res.rc.po.c:2958
 msgid "Odd lines phase"
-msgstr ""
+msgstr "Ungerade Zeilenphase"
 
 #: src/arch/win32/res.rc.po.c:2961
 msgid "Odd lines offset"
-msgstr ""
+msgstr "Ungerader Zeilenoffset"
 
 #: src/arch/win32/res.rc.po.c:3096
 msgid "Phase"
@@ -7207,9 +7194,8 @@ msgid "Colors"
 msgstr "Farben"
 
 #: src/arch/win32/res.rc.po.c:5131
-#, fuzzy
 msgid "New PAL emulation"
-msgstr "*PAL Emulation"
+msgstr "PAL Emulation"
 
 #: src/arch/win32/res.rc.po.c:5132 src/arch/amigaos/intl.c.po.c:4367
 msgid "Video settings"
@@ -7245,14 +7231,12 @@ msgid "Attach Action Replay III cartridge image"
 msgstr "Action Replay III Erweiterungsmodul Image einlegen"
 
 #: src/arch/win32/res.rc.po.c:5143 src/arch/amigaos/intl.c.po.c:2432
-#, fuzzy
 msgid "Attach Action Replay 4 cartridge image"
-msgstr "Action Replay Erweiterungsmodul Image einlegen"
+msgstr "Action Replay 4 Erweiterungsmodul Image einlegen"
 
 #: src/arch/win32/res.rc.po.c:5144 src/arch/amigaos/intl.c.po.c:2441
-#, fuzzy
 msgid "Attach StarDOS cartridge image"
-msgstr "Erweiterungsmodul Image einlegen"
+msgstr "Erweiterungsmodul StarDOS Image einlegen"
 
 #: src/arch/win32/res.rc.po.c:5145 src/arch/amigaos/intl.c.po.c:2450
 msgid "Attach Atomic Power cartridge image"
@@ -7771,19 +7755,16 @@ msgid "&Action Replay image..."
 msgstr "&Action Replay Image..."
 
 #: src/arch/win32/resc128.rc.po.c:67
-#, fuzzy
 msgid "&Action Replay 3 image..."
-msgstr "&Action Replay Image..."
+msgstr "&Action Replay 3 Image..."
 
 #: src/arch/win32/resc128.rc.po.c:68
-#, fuzzy
 msgid "&Action Replay 4 image..."
-msgstr "&Action Replay Image..."
+msgstr "&Action Replay 4 Image..."
 
 #: src/arch/win32/resc128.rc.po.c:69
-#, fuzzy
 msgid "&StarDOS image..."
-msgstr "&CRT Image..."
+msgstr "&StarDIS Image..."
 
 #: src/arch/win32/resc128.rc.po.c:70 src/arch/win32/resc64.rc.po.c:70
 msgid "Atomic &Power image..."
@@ -7961,23 +7942,20 @@ msgstr "E&xit"
 #: src/arch/win32/resc128.rc.po.c:123 src/arch/win32/resc64.rc.po.c:123
 #: src/arch/win32/rescbm2.rc.po.c:92 src/arch/win32/respet.rc.po.c:90
 #: src/arch/win32/resplus4.rc.po.c:102 src/arch/win32/resvic20.rc.po.c:100
-#, fuzzy
 msgid "&Edit"
-msgstr "Editor"
+msgstr "B&earbeiten"
 
 #: src/arch/win32/resc128.rc.po.c:125 src/arch/win32/resc64.rc.po.c:125
 #: src/arch/win32/rescbm2.rc.po.c:94 src/arch/win32/respet.rc.po.c:92
 #: src/arch/win32/resplus4.rc.po.c:104 src/arch/win32/resvic20.rc.po.c:102
-#, fuzzy
 msgid "&Copy"
-msgstr "S&top"
+msgstr "&Kopieren"
 
 #: src/arch/win32/resc128.rc.po.c:126 src/arch/win32/resc64.rc.po.c:126
 #: src/arch/win32/rescbm2.rc.po.c:95 src/arch/win32/respet.rc.po.c:93
 #: src/arch/win32/resplus4.rc.po.c:105 src/arch/win32/resvic20.rc.po.c:103
-#, fuzzy
 msgid "&Paste"
-msgstr "Pause"
+msgstr "&Einfügen"
 
 #: src/arch/win32/resc128.rc.po.c:128 src/arch/win32/resc64.rc.po.c:128
 #: src/arch/win32/rescbm2.rc.po.c:97 src/arch/win32/respet.rc.po.c:95
@@ -8826,14 +8804,12 @@ msgid "Action Replay &III image..."
 msgstr "Action Replay &III Imagedatei..."
 
 #: src/arch/win32/resc64.rc.po.c:68
-#, fuzzy
 msgid "Action Replay &4 image..."
-msgstr "Action Replay Image..."
+msgstr "Action Replay &4 Image..."
 
 #: src/arch/win32/resc64.rc.po.c:69
-#, fuzzy
 msgid "Star&DOS image..."
-msgstr "&CRT Image..."
+msgstr "Star&DOS Image..."
 
 #: src/arch/win32/resc64.rc.po.c:153 src/arch/amigaos/intl.c.po.c:870
 msgid "Netplay (experimental)..."
@@ -10147,19 +10123,16 @@ msgid "Action Replay image..."
 msgstr "Action Replay Image..."
 
 #: src/arch/amigaos/intl.c.po.c:483
-#, fuzzy
 msgid "Action Replay 3 image..."
-msgstr "Action Replay Image..."
+msgstr "Action Replay 3 Image..."
 
 #: src/arch/amigaos/intl.c.po.c:492
-#, fuzzy
 msgid "Action Replay 4 image..."
-msgstr "Action Replay Image..."
+msgstr "Action Replay 4 Image..."
 
 #: src/arch/amigaos/intl.c.po.c:501
-#, fuzzy
 msgid "StarDOS image..."
-msgstr "CRT Image..."
+msgstr "StarDOS Image..."
 
 #: src/arch/amigaos/intl.c.po.c:510
 msgid "Atomic Power image..."
@@ -10206,18 +10179,16 @@ msgid "Exit"
 msgstr "Exit"
 
 #: src/arch/amigaos/intl.c.po.c:699
-#, fuzzy
 msgid "Edit"
-msgstr "Editor"
+msgstr "Bearbeiten"
 
 #: src/arch/amigaos/intl.c.po.c:708
 msgid "Copy"
-msgstr ""
+msgstr "Kopie"
 
 #: src/arch/amigaos/intl.c.po.c:717
-#, fuzzy
 msgid "Paste"
-msgstr "Phase"
+msgstr "Einfügen"
 
 #: src/arch/amigaos/intl.c.po.c:735
 msgid "Load snapshot image..."
@@ -10722,9 +10693,8 @@ msgid "Yes|No"
 msgstr "Ja|Nein"
 
 #: src/arch/amigaos/intl.c.po.c:2423
-#, fuzzy
 msgid "Attach Action Replay 3 cartridge image"
-msgstr "Action Replay Erweiterungsmodul Image einlegen"
+msgstr "Action Replay 3 Erweiterungsmodul Image einlegen"
 
 #: src/arch/amigaos/intl.c.po.c:2585
 msgid "Attach"
@@ -11116,7 +11086,6 @@ msgid "Fast PAL"
 msgstr "Schnelle PAL"
 
 #: src/arch/amigaos/intl.c.po.c:4241
-#, fuzzy
 msgid "New PAL Emulation"
 msgstr "PAL Emulation"
 
@@ -11137,19 +11106,16 @@ msgid "PAL Blur (0..1)"
 msgstr "PAL Unschärfe (0..1)"
 
 #: src/arch/amigaos/intl.c.po.c:4286
-#, fuzzy
 msgid "Tint (0..2)"
-msgstr "(0..2)"
+msgstr "Farbton (0..2)"
 
 #: src/arch/amigaos/intl.c.po.c:4295
-#, fuzzy
 msgid "Odd Lines Phase (0..2)"
-msgstr "Helligkeit (0..2)"
+msgstr "Ungerade Zeilenphase (0..2)"
 
 #: src/arch/amigaos/intl.c.po.c:4304
-#, fuzzy
 msgid "Odd Lines Offset (0..2)"
-msgstr "Helligkeit (0..2)"
+msgstr "Ungerader Zeilenoffset (0..2)"
 
 #: src/arch/amigaos/intl.c.po.c:4322
 msgid "External Palette"
