@@ -180,7 +180,7 @@ static const resource_int_t resources_int[] =
       &video_resources.pal_scanlineshade, set_pal_scanlineshade, NULL },
     { "PALBlur", 500, RES_EVENT_NO, NULL,
       &video_resources.pal_blur, set_pal_blur, NULL },
-    { "PALMode", VIDEO_RESOURCE_PAL_MODE_TRUE, RES_EVENT_NO, NULL,
+    { "PALMode", VIDEO_RESOURCE_PAL_MODE_FAST, RES_EVENT_NO, NULL,
       &video_resources.pal_mode, set_pal_mode, NULL },
     { "PALOddLinePhase", 1250, RES_EVENT_NO, NULL,
       &video_resources.pal_oddlines_phase, set_pal_oddlinesphase, NULL },
