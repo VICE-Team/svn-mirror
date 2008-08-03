@@ -101,14 +101,12 @@ int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette)
 
     for (i = 0; i < palette->num_entries; i++) {
         palette_entry_t color = palette->entries[i];
-        DWORD color_pixel;
-	
-	unsigned char *col = (unsigned char *)&color_pixel;
-	col[0] = color.red  ;
-	col[1] = color.green;
-	col[2] = color.blue ;
-	video_render_setphysicalcolor(((video_canvas_t*)c)->videoconfig, i,
-				      color_pixel, 24);
+        DWORD color_pixel = 
+            (DWORD)color.red |
+            (DWORD)color.green << 8 |
+            (DWORD)color.blue << 16;
+	    video_render_setphysicalcolor(((video_canvas_t*)c)->videoconfig, i,
+            color_pixel, 24);
     }
     return 0;
 }
@@ -116,27 +114,11 @@ int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette)
 static void uicolor_init_video_colors()
 {
     short i;
-    DWORD pixelr, pixelg, pixelb;
     
-    for (i = 0; i < 256; i++)
-    {
-	unsigned char* pixelrbyte = (unsigned char*)&pixelr;
-	unsigned char* pixelgbyte = (unsigned char*)&pixelg;
-	unsigned char* pixelbbyte = (unsigned char*)&pixelb;
-	pixelrbyte[0] = i;
-	pixelrbyte[1] = 0;
-	pixelrbyte[2] = 0;
-	pixelgbyte[0] = 0;
-	pixelgbyte[1] = i;
-	pixelgbyte[2] = 0;
-	pixelbbyte[0] = 0;
-	pixelbbyte[1] = 0;
-	pixelbbyte[2] = i;
-       
-	video_render_setrawrgb(i, 
-			       pixelr,
-			       pixelg,
-			       pixelb);
+    for (i = 0; i < 256; i++) {
+	    video_render_setrawrgb(i, 
+		    (DWORD)i, (DWORD)i << 8, (DWORD)i << 16
+	    );
     }
     
     video_render_initraw();
