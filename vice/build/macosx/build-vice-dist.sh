@@ -217,7 +217,8 @@ build_vice () {
     CC="gcc -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
     CXX="g++ -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
     LD="gcc -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
-    $VICE_SRC/configure --host=$BUILD_ARCH2-apple-darwin $CONFIGURE_FLAGS
+    $VICE_SRC/configure --host=$BUILD_ARCH2-apple-darwin $CONFIGURE_FLAGS \
+      --x-includes=$BUILD_SDK/usr/X11R6/include --x-libraries=$BUILD_SDK/usr/X11R6/lib
   set +x
   make
   popd

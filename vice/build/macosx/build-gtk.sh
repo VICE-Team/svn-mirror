@@ -20,6 +20,7 @@ parse_args "$1" "$2"
 make_dirs bin lib include man share
 
 # setup compiler environment
+USE_X11=1
 set_compiler_env
 
 echo "===== gtk+ build for $ARCH ====="
@@ -61,6 +62,7 @@ configure_make_install fontconfig-2.5.0.tar.gz fontconfig-2.5.0 lib/libfontconfi
 # glib
 configure_make_install glib-2.14.5.tar.bz2 glib-2.14.5 lib/libglib-2.0.dylib install \
                        "http://www.gtk.org/"
+
 # cairo
 configure_make_install cairo-1.4.14.tar.gz cairo-1.4.14 lib/libcairo.dylib install \
                        "http://cairographics.org/"

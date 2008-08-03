@@ -177,6 +177,11 @@ set_compiler_env () {
   #  EXTRA_OPT="--host=$ARCH-apple-darwin`uname -r`"
   #fi
   
+  # use X11 from SDK
+  if [ "$USE_X11" = "1" ]; then 
+    EXTRA_OPT="--x-includes=$SDK/usr/X11R6/include --x-libraries=$SDK/usr/X11R6/lib"
+  fi
+  
   export COMPILE_TAG="-arch $ARCH -isysroot $SDK -mmacosx-version-min=$SDK_VERSION"
   export CC="gcc $COMPILE_TAG"
   export CXX="g++ $COMPILE_TAG"

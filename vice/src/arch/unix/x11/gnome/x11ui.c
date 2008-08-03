@@ -2736,12 +2736,22 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e,
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            glEnable (GL_TEXTURE_RECTANGLE_ARB);
-            glBindTexture (GL_TEXTURE_RECTANGLE_ARB, canvas->screen_texture);
+#ifdef GL_TEXTURE_RECTANGLE_NV
+#define GL_TEX_RECT GL_TEXTURE_RECTANGLE_NV
+#else
+#ifdef GL_TEXTURE_RECTANGLE_ARB
+#define GL_TEX_RECT GL_TEXTURE_RECTANGLE_ARB
+#else
+#error GL_TEXTURE_RECTANGLE not supported in you OpenGL headers
+#endif
+#endif
 
-            glTexParameteri (GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexParameteri (GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexImage2D  (GL_TEXTURE_RECTANGLE_ARB, 0, GL_RGB, 
+            glEnable (GL_TEX_RECT);
+            glBindTexture (GL_TEX_RECT, canvas->screen_texture);
+
+            glTexParameteri (GL_TEX_RECT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri (GL_TEX_RECT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexImage2D  (GL_TEX_RECT, 0, GL_RGB, 
                 canvas->gdk_image_size.width, canvas->gdk_image_size.height,
                 0, GL_RGB, GL_UNSIGNED_BYTE, canvas->gdk_image);
 
