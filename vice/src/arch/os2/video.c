@@ -681,10 +681,20 @@ int video_init(void) // initialize Dive
                 divecaps.fScreenDirect?", Direct access supported":"",
                 divecaps.fBankSwitched?", Bank switch required":"");
 
+    // As DIVE does not support conversion between RGB and BGR formats,
+    // we have to match the source FCC with the desktop FCC
+    if (divecaps.fccColorEncoding==FOURCC_BGR4 ||
+        divecaps.fccColorEncoding==FOURCC_BGR3)
+    {
+        divecaps.fccColorEncoding=FOURCC_BGR3;
+    } else
+    if (divecaps.fccColorEncoding==FOURCC_RGB4 ||
+        divecaps.fccColorEncoding==FOURCC_RGB3)
+    {
+        divecaps.fccColorEncoding=FOURCC_RGB3;
+    } else
     if (divecaps.fccColorEncoding!=FOURCC_LUT8 &&
-        divecaps.fccColorEncoding!=FOURCC_R565 &&
-        divecaps.fccColorEncoding!=FOURCC_RGB3 &&
-        divecaps.fccColorEncoding!=FOURCC_RGB4)
+        divecaps.fccColorEncoding!=FOURCC_R565)
         divecaps.fccColorEncoding = FOURCC_RGB3;
 
     rc = divecaps.fccColorEncoding;
@@ -734,7 +744,7 @@ static ULONG GetDepth(FOURCC fcc)
     case FOURCC_R555:
     case FOURCC_R664: return 16;
     case FOURCC_RGB3:
-    case FOURCC_BGR3:// return 24;
+    case FOURCC_BGR3: return 24;
     case FOURCC_RGB4:
     case FOURCC_BGR4: return 32;
     }
@@ -751,7 +761,7 @@ static ULONG GetRed(FOURCC fcc, ULONG n)
     case FOURCC_RGB3:
     case FOURCC_RGB4: return n<<16;
     case FOURCC_BGR3:
-    case FOURCC_BGR4: return n<<16;
+    case FOURCC_BGR4: return n;
     }
     return 0;
 }
@@ -781,7 +791,7 @@ static ULONG GetBlue(FOURCC fcc, ULONG n)
     case FOURCC_RGB3:
     case FOURCC_RGB4: return n;
     case FOURCC_BGR3:
-    case FOURCC_BGR4: return n;
+    case FOURCC_BGR4: return n<<16;
     }
     return 0;
 }
@@ -2027,6 +2037,7 @@ void VideoConvertPalette(video_canvas_t *c, int num, palette_entry_t *src) //, R
 
     ULONG ulTrg=0;
     ULONG ulSrc=0;
+    FOURCC fccSrc = FOURCC_RGB3;
 
     char target[0x400]; // max: 256*4b
     char source[0x400]; // max: 256*4b
@@ -2040,11 +2051,17 @@ void VideoConvertPalette(video_canvas_t *c, int num, palette_entry_t *src) //, R
         return;
     }
 
+    // As DIVE does not support conversion between RGB and BGR formats,
+    // we have to match the source FCC with the desktop FCC
+    if ((c->divesetup.fccSrcColorFormat==FOURCC_BGR3) ||
+        (c->divesetup.fccSrcColorFormat==FOURCC_BGR4))
+        fccSrc = FOURCC_BGR3;
+
     memset(&setup, 0, sizeof(SETUP_BLITTER));
 
     setup.ulStructLen          = sizeof(SETUP_BLITTER);
     setup.pVisDstRects         = calloc(1, sizeof(RECTL));
-    setup.fccSrcColorFormat    = FOURCC_RGB3;
+    setup.fccSrcColorFormat    = fccSrc;
     setup.fccDstColorFormat    = c->divesetup.fccSrcColorFormat;
     setup.ulSrcHeight          = 1;
     setup.ulDstHeight          = 1;
@@ -2061,7 +2078,7 @@ void VideoConvertPalette(video_canvas_t *c, int num, palette_entry_t *src) //, R
         return;
     }
 
-    rc=DiveAllocImageBuffer(inst, &ulSrc, FOURCC_RGB3, num, 1, 0, source);
+    rc=DiveAllocImageBuffer(inst, &ulSrc, fccSrc, num, 1, 0, source);
     if (rc)
         log_error(vidlog, "VideoConvertPalette - DiveAllocImageBuffer (src) failed, rc=0x%x", rc);
     else
@@ -2073,11 +2090,22 @@ void VideoConvertPalette(video_canvas_t *c, int num, palette_entry_t *src) //, R
         else
         {
             int i;
-            for (i=0; i<num; i++)
+            if (fccSrc == FOURCC_RGB3)
             {
-                source[i*3]   = src[i].red;
-                source[i*3+1] = src[i].green;
-                source[i*3+2] = src[i].blue;
+                for (i=0; i<num; i++)
+                {
+                    source[i*3]   = src[i].red;
+                    source[i*3+1] = src[i].green;
+                    source[i*3+2] = src[i].blue;
+                }
+            } else
+            {
+                for (i=0; i<num; i++)
+                {
+                    source[i*3]   = src[i].blue;
+                    source[i*3+1] = src[i].green;
+                    source[i*3+2] = src[i].red;
+                }
             }
 
             rc = DiveSetupBlitter(inst, &setup);
@@ -2218,3 +2246,4 @@ void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
 {
     cap_fullscreen->device_num = 0;
 }
+
