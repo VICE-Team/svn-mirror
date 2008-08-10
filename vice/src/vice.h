@@ -55,7 +55,7 @@
  * cpu        4*u_char fetch   1*u_int32 fetch   define(s)
  * -----      --------------   ---------------   ---------
  * alpha          faster           slower        __alpha__
- * arm (gp2x)     slower           faster        GP2X
+ * arm (gp2x)     slower (*)       faster (*)    GP2X
  * ppc            slower           faster        __powerpc__ || __ppc__
  * x86            slower           faster        __i386__
  * m68020+        slower           faster        __m680[2346]0__
@@ -76,11 +76,6 @@
 
 /* Allow unaligned access for i386+ based platforms */
 #ifdef __i386__
-#define ALLOW_UNALIGNED_ACCESS
-#endif
-
-/* Allow unaligned access for gp2x port */
-#ifdef GP2X
 #define ALLOW_UNALIGNED_ACCESS
 #endif
 
