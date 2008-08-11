@@ -105,6 +105,36 @@ static int intl_table[][countof(language_table)] = {
 
 /* ------------------------------ DIALOG RESOURCES ------------------------------ */ 
 
+/* resc64dtv.rc */
+/* en */ {IDD_C64DTV_SETTINGS_DIALOG,
+/* de */  IDD_C64DTV_SETTINGS_DIALOG_DE,    /* fuzzy, size */
+/* fr */  IDD_C64DTV_SETTINGS_DIALOG_FR,    /* fuzzy, size */
+/* hu */  IDD_C64DTV_SETTINGS_DIALOG_HU,    /* fuzzy, size */
+/* it */  IDD_C64DTV_SETTINGS_DIALOG_IT,    /* fuzzy, size */
+/* nl */  IDD_C64DTV_SETTINGS_DIALOG_NL,
+/* pl */  IDD_C64DTV_SETTINGS_DIALOG_PL,    /* fuzzy, size */
+/* sv */  IDD_C64DTV_SETTINGS_DIALOG_SV},   /* fuzzy, size */
+
+/* resc64dtv.rc */
+/* en */ {IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG,
+/* de */  IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_DE,    /* fuzzy, size */
+/* fr */  IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_FR,    /* fuzzy, size */
+/* hu */  IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_HU,    /* fuzzy, size */
+/* it */  IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_IT,    /* fuzzy, size */
+/* nl */  IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_NL,
+/* pl */  IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_PL,    /* fuzzy, size */
+/* sv */  IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_SV},   /* fuzzy, size */
+
+/* resc64dtv.rc */
+/* en */ {IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG,
+/* de */  IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_DE,    /* fuzzy, size */
+/* fr */  IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_FR,    /* fuzzy, size */
+/* hu */  IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_HU,    /* fuzzy, size */
+/* it */  IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_IT,    /* fuzzy, size */
+/* nl */  IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_NL,
+/* pl */  IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_PL,    /* fuzzy, size */
+/* sv */  IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_SV},   /* fuzzy, size */
+
 /* resc128.rc */
 /* en */ {IDD_C128ROM_SETTINGS_DIALOG,
 /* de */  IDD_C128ROM_SETTINGS_DIALOG_DE,    /* size */
@@ -836,6 +866,16 @@ static int intl_table[][countof(language_table)] = {
 /* nl */  IDR_MENUC64_NL,
 /* pl */  IDR_MENUC64_PL,    /* fuzzy */
 /* sv */  IDR_MENUC64_SV},
+
+/* resc64dtv.rc */
+/* en */ {IDR_MENUC64DTV,
+/* de */  IDR_MENUC64DTV_DE,
+/* fr */  IDR_MENUC64DTV_FR,
+/* hu */  IDR_MENUC64DTV_HU,
+/* it */  IDR_MENUC64DTV_IT,
+/* nl */  IDR_MENUC64DTV_NL,
+/* pl */  IDR_MENUC64DTV_PL,    /* fuzzy */
+/* sv */  IDR_MENUC64DTV_SV},
 
 /* rescbm2.rc */
 /* en */ {IDR_MENUCBM2,

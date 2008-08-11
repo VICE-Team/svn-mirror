@@ -11,12 +11,17 @@ EXTRA_DIST = AUTHORS \
 	vice.spec \
 	vice-mint.spec
 
-.PHONY: x64 x128 xvic xpet xplus4 xcbm2
+.PHONY: x64 x128 x64dtv xvic xpet xplus4 xcbm2
 x64:
 	(cd src; $(MAKE) x64-all)
 
 x128:
 	(cd src; $(MAKE) x128-all)
+
+if SUPPORT_X64DTV
+x64dtv:
+	(cd src; $(MAKE) x64dtv-all)
+endif
 
 xvic:
 	(cd src; $(MAKE) xvic-all)

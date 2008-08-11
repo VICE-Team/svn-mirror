@@ -1,8 +1,10 @@
 # Makefile.am for the AMIGAOS version of `libarch.a'.
 
-bin_PROGRAMS = x64ns x128ns xvicns xplus4ns xcbm2ns xpetns
+bin_PROGRAMS = x64ns x64dtvns x128ns xvicns xplus4ns xcbm2ns xpetns
 
 x64ns_SOURCES = x64ns.c
+
+x64dtvns_SOURCES = x64dtvns.c
 
 x128ns_SOURCES = x128ns.c
 
@@ -19,6 +21,7 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/c64 \
+	-I$(top_srcdir)/src/c64dtv \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/pet \
@@ -41,6 +44,8 @@ libarch_a_SOURCES = \
 	c128uires.h \
 	c64ui.c \
 	c64uires.h \
+	c64dtvui.c \
+	c64dtvuires.h \
 	catweaselmkiii.c \
 	cbm2ui.c \
 	cbm2uires.h \
@@ -108,6 +113,8 @@ libarch_a_SOURCES = \
 	mui/uiacia.h \
 	mui/uic64_256k.c \
 	mui/uic64_256k.h \
+	mui/uic64dtv.c \
+	mui/uic64dtv.h \
 	mui/uic128settings.c \
 	mui/uic128settings.h \
 	mui/uicbm2settings.c \

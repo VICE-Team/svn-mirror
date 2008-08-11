@@ -32,6 +32,7 @@ SUBDIRS = \
 	monitor \
 	core \
 	c64 \
+	c64dtv \
 	c128 \
 	vic20 \
 	pet \
@@ -63,6 +64,7 @@ DIST_SUBDIRS = \
 	monitor \
 	core \
 	c64 \
+	c64dtv \
 	c128 \
 	vic20 \
 	pet \
@@ -145,6 +147,7 @@ noinst_HEADERS = \
 	mem.h \
 	monitor.h \
 	mos6510.h \
+	mos6510dtv.h \
 	mouse.h \
 	network.h \
 	opencbmlib.h \
@@ -155,6 +158,7 @@ noinst_HEADERS = \
 	piacore.h \
 	plus4ui.h \
 	printer.h \
+	ps2mouse.h \
 	ram.h \
 	rawfile.h \
 	resources.h \
@@ -228,7 +232,6 @@ base_sources = \
 	machine-bus.c \
 	machine.c \
 	main.c \
-	mouse.c \
 	network.c \
 	palette.c \
 	ram.c \
@@ -245,6 +248,12 @@ base_sources = \
 	vsync.c \
 	zfile.c \
 	zipcode.c
+
+mouse_sources = \
+	mouse.c
+
+ps2mouse_sources = \
+	ps2mouse.c
 
 cpucore_sources = \
 	6510core.c
@@ -283,7 +292,10 @@ endif
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
+c64dtv_lib = $(top_builddir)/src/c64dtv/libc64dtv.a
+c64dtvstubs_lib = $(top_builddir)/src/c64dtv/libc64dtvstubs.a
 c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
+c64c64dtv_lib = $(top_builddir)/src/c64/libc64c64dtv.a
 c64cart_lib = $(top_builddir)/src/c64/cart/libc64cart.a
 core_lib = $(top_builddir)/src/core/libcore.a
 crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
@@ -316,6 +328,7 @@ vdc_lib = $(top_builddir)/src/vdc/libvdc.a
 vdrive_lib = $(top_builddir)/src/vdrive/libvdrive.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
 vicii_lib = $(top_builddir)/src/vicii/libvicii.a
+viciidtv_lib = $(top_builddir)/src/vicii/libviciidtv.a
 video_lib = $(top_builddir)/src/video/libvideo.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
@@ -324,7 +337,7 @@ common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @VICE_LIBPNG@ @VICE_
 # external libraries required for all emulators
 emu_extlibs = @X_LIBS@ @UI_LIBS@ @INTLLIBS@ @SOUND_LIBS@ @FFMPEG_LIBS@ @JOY_LIBS@ @READLINE_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@
 
-driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(monitor_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(imagecontents_lib) $(fileio_lib) $(serial_lib) $(core_lib)
+driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(imagecontents_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
 if HAVE_RAWDRIVE
 blockdev_lib = @ARCH_DIR@/blockdev.o
@@ -338,7 +351,11 @@ else
 realdevice_lib =
 endif
 
+if SUPPORT_X64DTV
+bin_PROGRAMS = x64 x128 x64dtv xvic xpet xplus4 xcbm2 c1541 petcat cartconv
+else
 bin_PROGRAMS = x64 x128 xvic xpet xplus4 xcbm2 c1541 petcat cartconv
+endif
 
 EXTRA_PROGRAMS =
 
@@ -356,13 +373,14 @@ x64_libs =  \
 	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
+	$(monitor_lib) \
 	$(driver_libs) \
 	$(vicii_lib) \
 	$(raster_lib) \
 	$(video_lib) \
 	$(common_libs)
 
-x64_SOURCES = $(base_sources) $(maincpu_sources)
+x64_SOURCES = $(base_sources) $(maincpu_sources) $(mouse_sources)
 x64_LDADD = $(x64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
 x64_DEPENDENCIES = $(x64_libs)
 x64_LDFLAGS = @x64_LDFLAGS@
@@ -402,6 +420,70 @@ x64-all: \
 	libcore \
 	x64$(EXEEXT)
 
+# x64dtv
+x64dtv_libs =  \
+	@X64DTV_WINRES@ \
+	$(c64dtv_lib) \
+	$(c64c64dtv_lib) \
+	$(driveiec_lib) \
+	$(driveiecieee_lib) \
+	$(driveiecc64exp_lib) \
+	$(driveieee_lib) \
+	$(drive_lib) \
+	$(iecbus_lib) \
+	$(parallel_lib) \
+	$(vdrive_lib) \
+	$(sid_lib) \
+	$(monitor_lib) \
+	$(driver_libs) \
+	$(viciidtv_lib) \
+	$(raster_lib) \
+	$(video_lib) \
+	$(common_libs) \
+	$(c64dtvstubs_lib)
+	
+
+x64dtv_SOURCES = $(base_sources) $(ps2mouse_sources)
+x64dtv_LDADD = $(x64dtv_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
+x64dtv_DEPENDENCIES = $(x64dtv_libs)
+x64dtv_LDFLAGS = @x64_LDFLAGS@
+
+.PHONY: x64dtv-all
+x64dtv-all: \
+	$(BUILT_SOURCES) \
+	@RESID_DEP@ \
+	@VICE_LIBPNG_DEP@ \
+	@VICE_ZLIB_DEP@ \
+	libc64dtv \
+	libc64dtvstubs \
+	libc64c64dtv \
+	libdriveiec \
+	libdriveiecieee \
+	libdriveiecc64exp \
+	libdriveieee \
+	libdrive \
+	libparallel \
+	libvdrive \
+	libraster \
+	libsid \
+	libsounddrv \
+	libgfxoutputdrv \
+	libprinterdrv \
+	librs232drv \
+	libviciidtv \
+	libvideo \
+	libarch \
+	libmonitor \
+	libdiskimage \
+	libiecbus \
+	libserial \
+	libfsdevice \
+	libtape \
+	libimagecontents \
+	libfileio \
+	libcore \
+	x64dtv$(EXEEXT)
+
 # x128
 x128_libs =  \
 	@X128_WINRES@ \
@@ -418,6 +500,7 @@ x128_libs =  \
 	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
+	$(monitor_lib) \
 	$(driver_libs) \
 	$(vicii_lib) \
 	$(vdc_lib) \
@@ -425,7 +508,7 @@ x128_libs =  \
 	$(video_lib) \
 	$(common_libs)
 
-x128_SOURCES = $(base_sources)
+x128_SOURCES = $(base_sources) $(mouse_sources)
 x128_LDADD = $(x128_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
 x128_DEPENDENCIES = $(x128_libs)
 x128_LDFLAGS = @x128_LDFLAGS@
@@ -479,13 +562,14 @@ xvic_libs =  \
 	$(iecbus_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
+	$(monitor_lib) \
 	$(driver_libs) \
 	$(raster_lib) \
 	$(sid_lib) \
 	$(video_lib) \
 	$(common_libs)
 
-xvic_SOURCES = $(base_sources) $(maincpu_sources)
+xvic_SOURCES = $(base_sources) $(maincpu_sources) $(mouse_sources)
 xvic_LDADD = $(xvic_libs) $(emu_extlibs) @NETPLAY_LIBS@
 xvic_DEPENDENCIES = $(xvic_libs)
 xvic_LDFLAGS = @xvic_LDFLAGS@
@@ -530,6 +614,7 @@ xpet_libs =  \
 	$(drive_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
+	$(monitor_lib) \
 	$(driver_libs) \
 	$(crtc_lib) \
 	$(raster_lib) \
@@ -537,7 +622,7 @@ xpet_libs =  \
 	$(sid_lib) \
 	$(common_libs)
 
-xpet_SOURCES = $(base_sources) $(maincpu_sources)
+xpet_SOURCES = $(base_sources) $(maincpu_sources) $(mouse_sources)
 xpet_LDADD = $(xpet_libs) $(emu_extlibs) @NETPLAY_LIBS@
 xpet_DEPENDENCIES = $(xpet_libs) 
 xpet_LDFLAGS = @xpet_LDFLAGS@
@@ -583,13 +668,14 @@ xplus4_libs =  \
 	$(drive_lib) \
 	$(iecbus_lib) \
 	$(vdrive_lib) \
+	$(monitor_lib) \
 	$(driver_libs) \
 	$(sid_lib) \
 	$(raster_lib) \
 	$(video_lib) \
 	$(common_libs)
 
-xplus4_SOURCES = $(base_sources)
+xplus4_SOURCES = $(base_sources) $(mouse_sources)
 xplus4_LDADD = $(xplus4_libs) $(emu_extlibs) @NETPLAY_LIBS@
 xplus4_DEPENDENCIES = $(xplus4_libs)
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
@@ -634,6 +720,7 @@ xcbm2_libs = \
 	$(drive_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
+	$(monitor_lib) \
 	$(driver_libs) \
 	$(sid_lib) \
 	$(crtc_lib) \
@@ -642,7 +729,7 @@ xcbm2_libs = \
 	$(video_lib) \
 	$(common_libs)
 
-xcbm2_SOURCES = $(base_sources)
+xcbm2_SOURCES = $(base_sources) $(mouse_sources)
 xcbm2_LDADD = $(xcbm2_libs) $(emu_extlibs) @NETPLAY_LIBS@
 xcbm2_DEPENDENCIES = $(xcbm2_libs) 
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
@@ -740,9 +827,9 @@ cartconv_LDADD = @INTLLIBS@
 
 # Special targets to build libraries in subdirectories.
 
-.PHONY: libc64 libc128 libvic20 libpet libplus4 libcbm2 libdrive libvdrive
+.PHONY: libc64 libc128 libc64dtv libc64dtvstubs libvic20 libpet libplus4 libcbm2 libdrive libvdrive
 	libprinterdrv librs232drv libgfxoutputdrv libsounddrv libdiskimage
-	libfsdevice libtape libarch libvicii libvdc libsid libcrtc libvideo
+	libfsdevice libtape libarch libvicii libviciidtv libvdc libsid libcrtc libvideo
 	libserial libparallel libcore libiecbus libfileio @RESID_DEP@
 	@VICE_LIBPNG_DEP@ @VICE_ZLIB_DEP@
 
@@ -754,8 +841,14 @@ libc64:
 	(cd c64 && $(MAKE) libc64.a)
 libc64c128:
 	(cd c64 && $(MAKE) libc64c128.a)
+libc64c64dtv:
+	(cd c64 && $(MAKE) libc64c64dtv.a)
 libc64cart:
 	(cd c64 && $(MAKE) libc64cart)
+libc64dtv:
+	(cd c64dtv && $(MAKE) libc64dtv.a)
+libc64dtvstubs:
+	(cd c64dtv && $(MAKE) libc64dtvstubs.a)
 libcbm2:
 	(cd cbm2 && $(MAKE))
 libcore:
@@ -791,7 +884,7 @@ libiecbus:
 libimagecontents:
 	(cd imagecontents && $(MAKE))
 libmonitor:
-	(cd monitor && $(MAKE))
+	(cd monitor && $(MAKE) libmonitor.a)
 libparallel:
 	(cd parallel && $(MAKE))
 libpet:
@@ -805,13 +898,13 @@ libprinterdrv:
 librs232drv:
 	(cd rs232drv && $(MAKE))
 libraster:
-	(cd raster && $(MAKE))
+	(cd raster && $(MAKE) libraster.a)
 libresid:
-	(cd resid && $(MAKE))
+	(cd resid && $(MAKE) libresid.a)
 libserial:
 	(cd serial && $(MAKE))
 libsid:
-	(cd sid && $(MAKE))
+	(cd sid && $(MAKE) libsid.a)
 libsounddrv:
 	(cd sounddrv && $(MAKE))
 libtape:
@@ -823,7 +916,9 @@ libvdrive:
 libvic20:
 	(cd vic20 && $(MAKE))
 libvicii:
-	(cd vicii && $(MAKE))
+	(cd vicii && $(MAKE) libvicii.a)
+libviciidtv:
+	(cd vicii && $(MAKE) libviciidtv.a)
 libvideo:
 	(cd video && $(MAKE))
 libz:

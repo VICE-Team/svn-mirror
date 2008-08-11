@@ -76,8 +76,10 @@ BEGIN
  	 MENUITEM "~Cartridge",        IDM_CARTRIDGEDET, MIS_TEXT
          MENUITEM SEPARATOR
 #endif
+#if !defined __X64DTV__
          MENUITEM "~Tape",             IDM_DETACHTAPE,   MIS_TEXT
          MENUITEM SEPARATOR
+#endif
          MENUITEM "Disk ~8",           IDM_DETACH8,      MIS_TEXT
          MENUITEM "Disk ~9",           IDM_DETACH9,      MIS_TEXT
          MENUITEM "Disk 1~0",          IDM_DETACH10,     MIS_TEXT
@@ -85,6 +87,22 @@ BEGIN
          MENUITEM SEPARATOR
          MENUITEM "~All Disks",        IDM_DETACHALL,    MIS_TEXT
       END
+#if defined __X64DTV__
+      MENUITEM "~Attach DTV flash ROM image",        IDM_C64DTV_FLASHROM_ATTACH, MIS_TEXT
+      MENUITEM "~Detach DTV flash ROM image",        IDM_C64DTV_FLASHROM_DETACH, MIS_TEXT
+      MENUITEM "DTV flash ROM image write enabled",  IDM_C64DTV_FLASHROM_RW,     MIS_TEXT
+      SUBMENU  "DTV revision",                       IDM_C64DTV_REVISION,        MIS_TEXT
+      BEGIN
+        MENUITEM "DTV~2",   IDM_DTV2,    MIS_TEXT
+        MENUITEM "DTV~3",   IDM_DTV3,    MIS_TEXT
+      END
+      MENUITEM "Enable Hummer userport joystick",  IDM_C64DTV_HUMMER_JOY,          MIS_TEXT
+      SUBMENU  "Joyport mapped to userport",       IDM_C64DTV_HUMMER_MAPPED_JOY,   MIS_TEXT
+      BEGIN
+        MENUITEM "Joy~1",   IDM_HUMMER_JOY1,    MIS_TEXT
+        MENUITEM "Joy~2",   IDM_HUMMER_JOY2,    MIS_TEXT
+      END
+#endif
       SUBMENU "~Fliplist",                  IDM_FLIPLIST,  MIS_TEXT
       BEGIN
          MENUITEM "Drive #8 ~Next\tAlt-F",  IDM_FLIPNEXT8, MIS_TEXT
@@ -129,7 +147,9 @@ BEGIN
       MENUITEM "~Video Color Settings\tAlt-I",  IDM_COLOR,     MIS_TEXT
 #endif
       MENUITEM "~Joystick Setup\tAlt-J",        IDM_JOYSTICK,  MIS_TEXT
+#if !defined __X64DTV__
       MENUITEM "Datasette ~Control\tAlt-C",     IDM_DATASETTE, MIS_TEXT
+#endif
       MENUITEM "~Logging Window\tAlt-L",        IDM_LOGWIN,    MIS_TEXT
       MENUITEM "Buildin ~Monitor\tAlt-M",       IDM_MONITOR,   MIS_TEXT
    END
@@ -196,7 +216,7 @@ BEGIN
          MENUITEM "~64kB",             IDM_VDC64K,       MIS_TEXT
       END
 #endif      
-#if defined __X64__ || defined __X128__ || defined __XVIC__
+#if defined __X64__ || defined __X64DTV__ || defined __X128__ || defined __XVIC__
       SUBMENU "~Video Frequency Standard", IDM_VIDEOSTD, MIS_TEXT
       BEGIN
          MENUITEM "~PAL-G",                IDM_PAL,      MIS_TEXT
@@ -206,7 +226,7 @@ BEGIN
 #endif // __X64__
       END
 #endif
-#if defined __X64__ || defined __X128__
+#if defined __X64__ || defined __X64DTV__ || defined __X128__
       SUBMENU "Sprite Collision ~Detection",  IDM_COLLISION,   MIS_TEXT
       BEGIN
         MENUITEM "Sprite-~Sprite",            IDM_SSCOLL,      MIS_TEXT
@@ -392,6 +412,7 @@ BEGIN
         MENUITEM "1~024kB",                IDM_PETREU1024,    MIS_TEXT
         MENUITEM "~2048kB",                IDM_PETREU2048,    MIS_TEXT
       END
+      MENUITEM "PET REU Filename",            IDM_PETREUFILE,   MIS_TEXT
 #endif
 #if defined __X64__ || defined __X128__
 #ifdef HAVE_TFE
@@ -409,6 +430,7 @@ BEGIN
         MENUITEM "81~92kB",               IDM_REU8192,   MIS_TEXT
         MENUITEM "16~384kB",              IDM_REU16384,  MIS_TEXT
       END
+      MENUITEM "REU Filename",            IDM_REUFILE,   MIS_TEXT
       MENUITEM "G~EORAM - Memory Extension", IDM_GEORAM,       MIS_TEXT
       SUBMENU  "GEORAM Memory ~Size",        IDM_GEORAMSIZE,   MIS_TEXT
       BEGIN
@@ -420,12 +442,14 @@ BEGIN
         MENUITEM "204~8kB",               IDM_GEORAM2048,   MIS_TEXT
         MENUITEM "409~6kB",               IDM_GEORAM4096,   MIS_TEXT
       END
+      MENUITEM "GEORAM Filename",            IDM_GEORAMFILE,   MIS_TEXT
       MENUITEM "R~AMCART - Memory Expansion", IDM_RAMCART,       MIS_TEXT
       SUBMENU  "RAMCART Memory ~Size",        IDM_RAMCARTSIZE,   MIS_TEXT
       BEGIN
         MENUITEM "~64kB",                IDM_RAMCART64,    MIS_TEXT
         MENUITEM "~128kB",                IDM_RAMCART128,    MIS_TEXT
       END
+      MENUITEM "RAMCART Filename",            IDM_RAMCARTFILE,   MIS_TEXT
       MENUITEM "~DIGIMAX - Cartridge", IDM_DIGIMAX,       MIS_TEXT
       SUBMENU  "DIGIMAX ~Base",        IDM_DIGIMAXBASE,   MIS_TEXT
       BEGIN
@@ -455,7 +479,9 @@ BEGIN
         MENUITEM "$~D040",                IDM_PLUS60KD040,    MIS_TEXT
         MENUITEM "$D~100",                IDM_PLUS60KD100,    MIS_TEXT
       END
+      MENUITEM "PLUS60K Filename",            IDM_PLUS60KFILE,   MIS_TEXT
       MENUITEM "PLUS2~56K - Memory Expansion", IDM_PLUS60K,       MIS_TEXT
+      MENUITEM "PLUS256K Filename",            IDM_PLUS256KFILE,   MIS_TEXT
       MENUITEM "~256K - Memory Expansion", IDM_C64_256K,       MIS_TEXT
       SUBMENU  "256K ~Base",        IDM_C64_256K_BASE,   MIS_TEXT
       BEGIN
@@ -464,6 +490,7 @@ BEGIN
         MENUITEM "$DF~00-$DF7F",                IDM_C64_256K_BASEDF00,    MIS_TEXT
         MENUITEM "$D~F80-$DFFF",                IDM_C64_256K_BASEDF80,   MIS_TEXT
       END
+      MENUITEM "256K Filename",            IDM_C64_256KFILE,   MIS_TEXT
 #endif
 #ifdef __X128__
       SUBMENU "Machine Type",          IDM_C128TYPE,     MIS_TEXT
@@ -503,7 +530,7 @@ BEGIN
        MENUITEM "~10%",                 IDM_VOL10,        MIS_TEXT
      END
      MENUITEM SEPARATOR
-#if defined __X64__ || defined __X128__ || defined __XCBM__
+#if defined __X64__ || defined __X128__ || defined __XCBM__ || defined __X64DTV__
      SUBMENU "SID ~Chip",               IDM_SIDCHIP,      MIS_TEXT
      BEGIN
        MENUITEM "~6581",                IDM_SC6581,       MIS_TEXT
@@ -619,7 +646,7 @@ BEGIN
    "C",          IDM_DATASETTE,   ALT, SHIFT
    "d",          IDM_DRIVE,       ALT
    "D",          IDM_DRIVE,       ALT, SHIFT
-#if defined __X64__ || defined __X128__ || defined __XCBM__
+#if defined __X64__ || defined __X128__ || defined __XCBM__ || defined __X64DTV__
    "i",          IDM_COLOR,       ALT
    "I",          IDM_COLOR,       ALT, SHIFT
 #endif

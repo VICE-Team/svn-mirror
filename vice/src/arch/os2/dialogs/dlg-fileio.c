@@ -1241,3 +1241,38 @@ void ViceFileDialog(HWND hwnd, ULONG action, ULONG fl)
     strcpy(path, dat);
 }
 
+char *ViceFileSelect(HWND hwnd, int save)
+{
+    FILEDLG filedlg;
+    ULONG rc;
+
+    //
+    // Setup 'MUST' values
+    //
+    memset(&filedlg, 0, sizeof(FILEDLG)); // Initially set all fields to 0
+    filedlg.cbSize      = sizeof(FILEDLG);
+
+    filedlg.fl          = FDS_CENTER | FDS_CUSTOM | (save == 1) ? FDS_SAVEAS_DIALOG : FDS_OPEN_DIALOG;
+    filedlg.usDlgId     = 0;
+    filedlg.pfnDlgProc  = (PFNWP)NULL;
+    filedlg.pszTitle    = (save == 1) ? "Save as" : "Open File";
+    filedlg.pszOKButton = (save == 1) ? "Save" : "Apply";
+    filedlg.pszIDrive   = "c:";
+    filedlg.ulUser      = 0L;
+
+    //
+    // let the file dialog do it's work
+    //
+    rc=WinFileDlg(HWND_DESKTOP, hwnd, &filedlg);
+
+    //
+    // if error or not 'Attach' button
+    //
+    if (!rc || filedlg.lReturn!=DID_OK)
+        return NULL;
+
+    //
+    // if the result was ok return the path
+    //
+    return lib_stralloc(filedlg.szFullFile[0]);
+}

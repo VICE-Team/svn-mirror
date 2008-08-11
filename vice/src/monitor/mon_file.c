@@ -34,6 +34,7 @@
 #include "archdep.h"
 #include "attach.h"
 #include "cartridge.h"
+#include "machine.h"
 #include "mem.h"
 #include "montypes.h"
 #include "mon_file.h"
@@ -44,7 +45,7 @@
 #include "vdrive.h"
 
 
-#define ADDR_LIMIT(x) ((WORD)(LO16(x)))
+#define ADDR_LIMIT(x) ((WORD)(addr_mask(x)))
 
 
 static FILE *fp;
@@ -153,6 +154,8 @@ void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
     BYTE b1 = 0, b2 = 0;
     int ch = 0;
     MEMSPACE mem;
+    int origbank = 0;
+    #define curbank (mon_interfaces[mem]->current_bank)
 
     if (mon_file_open(filename, 0, device) < 0) {
         mon_out("Cannot open %s.\n", filename);
@@ -198,16 +201,27 @@ void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
     mon_out("Loading %s", filename);
     mon_out(" from %04X\n", adr);
 
+    if(machine_class == VICE_MACHINE_C64DTV) origbank = curbank;
+
     do {
         BYTE load_byte;
 
         if (mon_file_read(&load_byte, 0, device) < 0)
             break;
         mon_set_mem_val(mem, ADDR_LIMIT(adr + ch), load_byte);
+
+        /* Hack to be able to read large .prgs for x64dtv */
+        if ((machine_class == VICE_MACHINE_C64DTV) && (ADDR_LIMIT(adr + ch) == 0xffff) && ((curbank >= mem_bank_from_name("ram00")) && (curbank <= mem_bank_from_name("ram1f")))) {
+            curbank++;
+            if(curbank > mem_bank_from_name("ram1f")) curbank = mem_bank_from_name("ram00");
+            mon_out("Crossing 64k boundary.\n");
+        }
         ch ++;
     } while(1);
+
+    if(machine_class == VICE_MACHINE_C64DTV) curbank = origbank;
     
-    mon_out("%x bytes\n", ch);
+    mon_out("to %04X (%x bytes)\n", ADDR_LIMIT(adr + ch), ch);
 
     if (is_bload == FALSE && (adr & 0xff) == 1) {
         /* set end of load addresses like kernal load */
@@ -280,17 +294,16 @@ void mon_file_verify(const char *filename, int device, MON_ADDR start_addr)
             filename, addr_location(start_addr));
 }
 
+
 void mon_attach(const char *filename, int device)
 {
     switch(device) {
         case 1:
-#ifdef C64DTV
-            mon_out("Unimplemented.\n");
-#else
-            if(tape_image_attach(device,filename)) {
+            if(machine_class == VICE_MACHINE_C64DTV) {
+                mon_out("Unimplemented.\n");
+            } else if(tape_image_attach(device,filename)) {
                 mon_out("Failed.\n");
             }
-#endif
             break;
         case 8:
         case 9:
@@ -319,11 +332,11 @@ void mon_detach(int device)
 {
     switch(device) {
         case 1:
-#ifdef C64DTV
-            mon_out("Unimplemented.\n");
-#else
-            tape_image_detach(device);
-#endif
+            if(machine_class == VICE_MACHINE_C64DTV) {
+                mon_out("Unimplemented.\n");
+            } else {
+               tape_image_detach(device);
+            }
             break;
         case 8:
         case 9:

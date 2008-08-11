@@ -42,7 +42,7 @@
 #include "vdrive-command.h"
 
 
-#define ADDR_LIMIT(x) ((WORD)(LO16(x)))
+#define ADDR_LIMIT(x) ((WORD)(addr_mask(x)))
 
 
 void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)

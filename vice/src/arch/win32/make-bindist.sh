@@ -11,7 +11,7 @@ VICEVERSION=$2
 ZIPKIND=$3
 TOPSRCDIR=$4
 
-if [ ! -e src/x64.exe -o ! -e src/x128.exe -o ! -e src/xvic.exe -o ! -e src/xpet.exe -o ! -e src/xplus4.exe -o ! -e src/xcbm2.exe -o ! -e src/c1541.exe -o ! -e src/petcat.exe -o ! -e src/cartconv.exe ]
+if [ ! -e src/x64.exe -o ! -e src/x64dtv.exe -o ! -e src/x128.exe -o ! -e src/xvic.exe -o ! -e src/xpet.exe -o ! -e src/xplus4.exe -o ! -e src/xcbm2.exe -o ! -e src/c1541.exe -o ! -e src/petcat.exe -o ! -e src/cartconv.exe ]
 then
   echo Error: executable file\(s\) not found, do a \"make\" first
   exit 1
@@ -21,6 +21,7 @@ echo Generating WIN32 port binary distribution.
 rm -f -r WinVICE-$VICEVERSION
 mkdir WinVICE-$VICEVERSION
 $STRIP src/x64.exe
+$STRIP src/x64dtv.exe
 $STRIP src/x128.exe
 $STRIP src/xvic.exe
 $STRIP src/xpet.exe
@@ -29,11 +30,14 @@ $STRIP src/xcbm2.exe
 $STRIP src/c1541.exe
 $STRIP src/petcat.exe
 $STRIP src/cartconv.exe
-cp src/x64.exe src/x128.exe src/xvic.exe WinVICE-$VICEVERSION
+cp src/x64.exe src/x64dtv.exe src/x128.exe src/xvic.exe WinVICE-$VICEVERSION
 cp src/xpet.exe src/xplus4.exe src/xcbm2.exe WinVICE-$VICEVERSION
 cp src/c1541.exe src/petcat.exe src/cartconv.exe WinVICE-$VICEVERSION
-cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 $TOPSRCDIR/data/CBM-II $TOPSRCDIR/data/DRIVES WinVICE-$VICEVERSION
-cp -a $TOPSRCDIR/data/PET $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER $TOPSRCDIR/data/VIC20 WinVICE-$VICEVERSION
+cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 WinVICE-$VICEVERSION
+cp -a $TOPSRCDIR/data/C64DTV $TOPSRCDIR/data/CBM-II WinVICE-$VICEVERSION
+cp -a $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET WinVICE-$VICEVERSION
+cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER WinVICE-$VICEVERSION
+cp -a $TOPSRCDIR/data/VIC20 WinVICE-$VICEVERSION
 cp -a $TOPSRCDIR/data/fonts WinVICE-$VICEVERSION
 cp -a $TOPSRCDIR/doc/html WinVICE-$VICEVERSION
 cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README WinVICE-$VICEVERSION

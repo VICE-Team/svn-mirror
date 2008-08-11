@@ -24,7 +24,7 @@ if test x"$CROSS" = "xtrue"; then
   exit 1
 fi
 
-if [ ! -e src/x64 -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
+if [ ! -e src/x64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
 then
   echo Error: \"make\" needs to be done first
   exit 1
@@ -35,6 +35,7 @@ rm -f -r VICE-$VICEVERSION
 curdir=`pwd`
 $MAKECOMMAND prefix=$curdir/VICE-$VICEVERSION/opt VICEDIR=$curdir/VICE-$VICEVERSION/opt/lib/vice install
 $STRIP VICE-$VICEVERSION/opt/bin/x64
+$STRIP VICE-$VICEVERSION/opt/bin/x64dtv
 $STRIP VICE-$VICEVERSION/opt/bin/x128
 $STRIP VICE-$VICEVERSION/opt/bin/xvic
 $STRIP VICE-$VICEVERSION/opt/bin/xpet
@@ -185,6 +186,7 @@ cat >manifest.15 <<_END
                      <QPM:File>cartconv</QPM:File>
                      <QPM:File>x128</QPM:File>
                      <QPM:File>x64</QPM:File>
+                     <QPM:File>x64dtv</QPM:File>
                      <QPM:File>xcbm2</QPM:File>
                      <QPM:File>xpet</QPM:File>
                      <QPM:File>xplus4</QPM:File>
@@ -362,6 +364,24 @@ _END
                         </QPM:Dir>
 
                         <QPM:Dir name="C64">
+                           <QPM:File>basic</QPM:File>
+                           <QPM:File>c64hq.vpl</QPM:File>
+                           <QPM:File>c64mem.sym</QPM:File>
+                           <QPM:File>c64s.vpl</QPM:File>
+                           <QPM:File>ccs64.vpl</QPM:File>
+                           <QPM:File>chargen</QPM:File>
+                           <QPM:File>default.vpl</QPM:File>
+                           <QPM:File>default.vrs</QPM:File>
+                           <QPM:File>frodo.vpl</QPM:File>
+                           <QPM:File>godot.vpl</QPM:File>
+                           <QPM:File>kernal</QPM:File>
+                           <QPM:File>pc64.vpl</QPM:File>
+                           <QPM:File>vice.vpl</QPM:File>
+                           <QPM:File>x11_pos.vkm</QPM:File>
+                           <QPM:File>x11_sym.vkm</QPM:File>
+                        </QPM:Dir>
+
+                        <QPM:Dir name="C64DTV">
                            <QPM:File>basic</QPM:File>
                            <QPM:File>c64hq.vpl</QPM:File>
                            <QPM:File>c64mem.sym</QPM:File>
@@ -585,6 +605,7 @@ _END
                         <QPM:Union link="../../../opt/lib/vice/DRIVES">DRIVES</QPM:Union>
                         <QPM:Union link="../../../opt/lib/vice/CBM-II">CBM-II</QPM:Union>
                         <QPM:Union link="../../../opt/lib/vice/C64">C64</QPM:Union>
+                        <QPM:Union link="../../../opt/lib/vice/C64DTV">C64DTV</QPM:Union>
                         <QPM:Union link="../../../opt/lib/vice/C128">C128</QPM:Union>
                      </QPM:Dir>
                   </QPM:Dir>
@@ -606,6 +627,18 @@ _END
       <QPM:Launch name="x64 (no sound)">
          <QPM:String name="Topic" value="Applications/Emulators"/>
          <QPM:String name="Command" value="/opt/bin/x64 -sounddev dummy"/>
+         <QPM:String name="Icon" value="/usr/share/icons/topics/chameleon.gif"/>
+      </QPM:Launch>
+
+      <QPM:Launch name="x64dtv">
+         <QPM:String name="Topic" value="Applications/Emulators"/>
+         <QPM:String name="Command" value="/opt/bin/x64dtv"/>
+         <QPM:String name="Icon" value="/usr/share/icons/topics/chameleon.gif"/>
+      </QPM:Launch>
+
+      <QPM:Launch name="x64dtv (no sound)">
+         <QPM:String name="Topic" value="Applications/Emulators"/>
+         <QPM:String name="Command" value="/opt/bin/x64dtv -sounddev dummy"/>
          <QPM:String name="Icon" value="/usr/share/icons/topics/chameleon.gif"/>
       </QPM:Launch>
 

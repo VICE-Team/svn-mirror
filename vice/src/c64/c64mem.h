@@ -36,7 +36,9 @@
 #include "mem.h"
 #endif
 
+#ifndef C64_RAM_SIZE
 #define C64_RAM_SIZE                    0x10000
+#endif
 #define C64_KERNAL_ROM_SIZE             0x2000
 #define C64_BASIC_ROM_SIZE              0x2000
 #define C64_CHARGEN_ROM_SIZE            0x1000

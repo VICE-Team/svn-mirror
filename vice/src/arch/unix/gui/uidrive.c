@@ -35,6 +35,7 @@
 
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
+UI_MENU_DEFINE_TOGGLE(FlashTrueFS)
 UI_MENU_DEFINE_RADIO(Drive8ExtendImagePolicy)
 UI_MENU_DEFINE_RADIO(Drive9ExtendImagePolicy)
 UI_MENU_DEFINE_RADIO(Drive10ExtendImagePolicy)
@@ -184,3 +185,8 @@ ui_menu_entry_t ui_drive_options_submenu[] = {
     { NULL }
 };
 
+ui_menu_entry_t ui_flash_options_submenu[] = {
+    { N_("*Enable true flash filesystem emulation"),
+      (ui_callback_t)toggle_FlashTrueFS, NULL, NULL },
+    { NULL }
+};

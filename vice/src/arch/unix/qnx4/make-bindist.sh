@@ -16,7 +16,7 @@ if test x"$PREFIX" != "x/usr/local"; then
   exit 1
 fi
 
-if [ ! -e /usr/local/bin/x64 -o ! -e /usr/local/bin/x128 -o ! -e /usr/local/bin/xvic -o ! -e /usr/local/bin/xpet -o ! -e /usr/local/bin/xplus4 -o ! -e /usr/local/bin/xcbm2 -o ! -e /usr/local/bin/c1541 -o ! -e /usr/local/bin/petcat -o ! -e /usr/local/bin/cartconv ]
+if [ ! -e /usr/local/bin/x64 -o ! -e /usr/local/bin/x64dtv -o ! -e /usr/local/bin/x128 -o ! -e /usr/local/bin/xvic -o ! -e /usr/local/bin/xpet -o ! -e /usr/local/bin/xplus4 -o ! -e /usr/local/bin/xcbm2 -o ! -e /usr/local/bin/c1541 -o ! -e /usr/local/bin/petcat -o ! -e /usr/local/bin/cartconv ]
 then
   echo Error: \"make install\" needs to be done first
   exit 1
@@ -30,6 +30,7 @@ fi
 echo Generating QNX 4 port binary distribution.
 wstrip /usr/local/bin/vsid
 wstrip /usr/local/bin/x64
+wstrip /usr/local/bin/x64dtv
 wstrip /usr/local/bin/x128
 wstrip /usr/local/bin/xvic
 wstrip /usr/local/bin/xpet
@@ -39,7 +40,7 @@ wstrip /usr/local/bin/c1541
 wstrip /usr/local/bin/petcat
 wstrip /usr/local/bin/cartconv
 cp $TOPSRCDIR/src/arch/unix/qnx4/install_msg ./
-tar cf vice-$VICEVERSION-qnx4.tar install_msg /usr/local/bin/vsid /usr/local/bin/x64 /usr/local/bin/x128 /usr/local/bin/xvic /usr/local/bin/xpet /usr/local/bin/xplus4 /usr/local/bin/xcbm2 /usr/local/bin/c1541 /usr/local/bin/petcat /usr/local/bin/cartconv /usr/local/lib/vice /usr/local/man/man1/c1541.1 /usr/local/man/man1/petcat.1 /usr/local/man/man1/vice.1 /usr/local/info/vice.info*
+tar cf vice-$VICEVERSION-qnx4.tar install_msg /usr/local/bin/vsid /usr/local/bin/x64 /usr/local/bin/x64dtv /usr/local/bin/x128 /usr/local/bin/xvic /usr/local/bin/xpet /usr/local/bin/xplus4 /usr/local/bin/xcbm2 /usr/local/bin/c1541 /usr/local/bin/petcat /usr/local/bin/cartconv /usr/local/lib/vice /usr/local/man/man1/c1541.1 /usr/local/man/man1/petcat.1 /usr/local/man/man1/vice.1 /usr/local/info/vice.info*
 freeze vice-$VICEVERSION-qnx4.tar
 rm -f install_msg
 echo QNX 4 port binary distribution directory generated as vice-$VICEVERSION-qnx4.tar.F

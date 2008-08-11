@@ -17,7 +17,7 @@ if test x"$PREFIX" != "x/boot/programs/VICE"; then
   exit 1
 fi
 
-if [ ! -e /boot/programs/VICE/bin/x64 -o ! -e /boot/programs/VICE/bin/x128 -o ! -e /boot/programs/VICE/bin/xvic -o ! -e /boot/programs/VICE/bin/xpet -o ! -e /boot/programs/VICE/bin/xplus4 -o ! -e /boot/programs/VICE/bin/xcbm2 -o ! -e /boot/programs/VICE/bin/c1541 -o ! -e /boot/programs/VICE/bin/petcat -o ! -e /boot/programs/VICE/bin/cartconv ]
+if [ ! -e /boot/programs/VICE/bin/x64 -o ! -e /boot/programs/VICE/bin/x64dtv -o ! -e /boot/programs/VICE/bin/x128 -o ! -e /boot/programs/VICE/bin/xvic -o ! -e /boot/programs/VICE/bin/xpet -o ! -e /boot/programs/VICE/bin/xplus4 -o ! -e /boot/programs/VICE/bin/xcbm2 -o ! -e /boot/programs/VICE/bin/c1541 -o ! -e /boot/programs/VICE/bin/petcat -o ! -e /boot/programs/VICE/bin/cartconv ]
 then
   echo Error: \"make install\" needs to be done first
   exit 1
@@ -44,6 +44,8 @@ mkdir VICE-$VERSION/programs/VICE/bin
 mv /boot/programs/VICE/bin/vsid VICE-$VERSION/programs/VICE/bin
 mv /boot/programs/VICE/bin/x64 VICE-$VERSION/programs/VICE/bin/x64.app
 $STRIP VICE-$VERSION/programs/VICE/bin/x64.app
+mv /boot/programs/VICE/bin/x64dtv VICE-$VERSION/programs/VICE/bin/x64dtv.app
+$STRIP VICE-$VERSION/programs/VICE/bin/x64dtv.app
 mv /boot/programs/VICE/bin/x128 VICE-$VERSION/programs/VICE/bin/x128.app
 $STRIP VICE-$VERSION/programs/VICE/bin/x128.app
 mv /boot/programs/VICE/bin/xvic VICE-$VERSION/programs/VICE/bin/xvic.app
@@ -94,6 +96,7 @@ DefaultPath=
 
 [PANELMENU]
 /menu="Emulators/VICE"	/name="x64"	/link="/boot/programs/VICE/bin/x64.app"		/icon="/boot/programs/VICE/icons/x64.ico"   
+/menu="Emulators/VICE"	/name="x64dtv"	/link="/boot/programs/VICE/bin/x64dtv.app"		/icon="/boot/programs/VICE/icons/x64dtv.ico"   
 /menu="Emulators/VICE"	/name="x128"	/link="/boot/programs/VICE/bin/x128.app"	/icon="/boot/programs/VICE/icons/x128.ico"   
 /menu="Emulators/VICE"	/name="xcbm2"	/link="/boot/programs/VICE/bin/xcbm2.app"	/icon="/boot/programs/VICE/icons/xcbm2.ico"   
 /menu="Emulators/VICE"	/name="xpet"	/link="/boot/programs/VICE/bin/xpet.app"	/icon="/boot/programs/VICE/icons/xpet.ico"   
@@ -102,6 +105,7 @@ DefaultPath=
 
 [FILEICONS]
 /file="\$INSTALL_ROOT/programs/VICE/bin/x64.app"	/icon="/boot/programs/VICE/icons/x64.ico"
+/file="\$INSTALL_ROOT/programs/VICE/bin/x64dtv.app"	/icon="/boot/programs/VICE/icons/x64dtv.ico"
 /file="\$INSTALL_ROOT/programs/VICE/bin/x128.app"	/icon="/boot/programs/VICE/icons/x128.ico"
 /file="\$INSTALL_ROOT/programs/VICE/bin/xcbm2.app"	/icon="/boot/programs/VICE/icons/xcbm2.ico"
 /file="\$INSTALL_ROOT/programs/VICE/bin/xpet.app"	/icon="/boot/programs/VICE/icons/xpet.ico"

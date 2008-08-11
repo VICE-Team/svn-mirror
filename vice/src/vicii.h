@@ -38,6 +38,7 @@ struct snapshot_s;
 
 #define VICII_STANDARD 0
 #define VICII_EXTENDED 1
+#define VICII_DTV 2
 
 /* VICII border mode defines */
 #define VICII_NORMAL_BORDERS 0

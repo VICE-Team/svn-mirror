@@ -17,6 +17,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/c64 \
+	-I$(top_srcdir)/src/c64dtv \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/pet \
@@ -34,6 +35,7 @@ libarch_a_SOURCES = \
 	blockdev.c \
 	c128ui.c \
 	c64ui.c \
+	c64dtvui.c \
 	catweaselmkiii.c \
 	cbm2ui.c \
 	console.c \
@@ -61,6 +63,7 @@ libarch_a_SOURCES = \
 	resacia.rc \
 	resc128.rc \
 	resc64.rc \
+	resc64dtv.rc \
 	resc64_256k.rc \
 	rescbm2.rc \
 	rescommon.h \
@@ -107,6 +110,8 @@ libarch_a_SOURCES = \
 	uic64_256k.h \
 	uic64cart.c \
 	uic64cart.h \
+	uic64dtv.c \
+	uic64dtv.h \
 	uicart.c \
 	uicart.h \
 	uicbm2set.c \
@@ -208,7 +213,7 @@ libarch_a_SOURCES = \
 	winmain.h
 
 libarch_a_DEPENDENCIES = \
-	resc128.o resc64.o rescbm2.o respet.o resplus4.o resvic20.o
+	resc128.o resc64.o resc64dtv.o rescbm2.o respet.o resplus4.o resvic20.o
 
 EXTRA_DIST = \
 	evc/config.h \
@@ -223,35 +228,14 @@ EXTRA_DIST = \
 	msvc/wpcap/net/bpf.h \
 	watcom/arch.tgt \
 	watcom/base.tgt \
-	watcom/c128-c64-snapshot.c \
-	watcom/c128-c64acia1.c \
-	watcom/c128-c64bus.c \
-	watcom/c128-c64cia2.c \
-	watcom/c128-c64datasette.c \
-	watcom/c128-c64export.c \
-	watcom/c128-c64iec.c \
-	watcom/c128-c64io.c \
-	watcom/c128-c64keyboard.c \
-	watcom/c128-c64meminit.c \
-	watcom/c128-c64memrom.c \
-	watcom/c128-c64parallel.c \
-	watcom/c128-c64pla.c \
-	watcom/c128-c64printer.c \
-	watcom/c128-c64rsuser.c \
-	watcom/c128-c64sound.c \
-	watcom/c128-c64tpi.c \
-	watcom/c128-digimax.c \
-	watcom/c128-georam.c \
-	watcom/c128-mmc64.c \
-	watcom/c128-patchrom.c \
-	watcom/c128-ramcart.c \
-	watcom/c128-reu.c \
-	watcom/c128-tfe.c \
 	watcom/c128.tgt \
 	watcom/c1541.tgt \
 	watcom/c64.tgt \
-	watcom/c64c128.tgt \
 	watcom/c64cart.tgt \
+	watcom/c64commonc128.tgt \
+	watcom/c64commonc128c64dtv.tgt \
+	watcom/c64commonc64dtv.tgt \
+	watcom/c64dtv.tgt \
 	watcom/c64exp.tgt \
 	watcom/cartconv.tgt \
 	watcom/cbm2.tgt \
@@ -294,11 +278,15 @@ EXTRA_DIST = \
 	watcom/vic20.tgt \
 	watcom/vice.wpj \
 	watcom/vicii.tgt \
+	watcom/viciicommon.tgt \
+	watcom/viciidtv.tgt \
 	watcom/video.tgt \
 	watcom/x128.tgt \
 	watcom/x128main.c \
 	watcom/x64.tgt \
 	watcom/x64main.c \
+	watcom/x64dtv.tgt \
+	watcom/x64dtvmain.c \
 	watcom/xcbm2.tgt \
 	watcom/xcbm2main.c \
 	watcom/xpet.tgt \
@@ -313,6 +301,9 @@ EXTRA_DIST = \
 	c128.dsp \
 	c1541.dsp \
 	c64.dsp \
+	c64c64dtv.dsp \
+	c64dtv.dsp \
+	c64dtvstubs.dsp \
 	c64c128.dsp \
 	c64cart.dsp \
 	c64exp.dsp \
@@ -360,9 +351,11 @@ EXTRA_DIST = \
 	vdrive.dsp \
 	vic20.dsp \
 	vicii.dsp \
+	viciidtv.dsp \
 	video.dsp \
 	x128.dsp \
 	x64.dsp \
+	x64dtv.dsp \
 	xcbm2.dsp \
 	xpet.dsp \
 	xplus4.dsp \
@@ -424,6 +417,17 @@ resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	--include-dir $(top_srcdir)/src
 	$(WINDRES) -i resc64.res -o $@
 	rm -f resc64.res resc64cat.rc
+
+resc64dtv.o : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h $(srcdir)/ressid.rc \
+	$(srcdir)/resvicii.rc $(srcdir)/resdrivec64.rc
+	cat >resc64dtvcat.rc $(srcdir)/resc64dtv.rc $(srcdir)/res.rc \
+	$(srcdir)/resdrivec64.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc
+	$(WRC) -i resc64dtvcat.rc -o resc64dtv.res \
+	--include-dir $(top_builddir)/src \
+	--include-dir $(top_srcdir)/src/arch/win32  \
+	--include-dir $(top_srcdir)/src
+	$(WINDRES) -i resc64dtv.res -o $@
+	rm -f resc64dtv.res resc64catdtv.rc
 
 rescbm2.o : $(srcdir)/rescbm2.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/ressid.rc $(srcdir)/resdrivepetcbm2.rc $(srcdir)/resvicii.rc

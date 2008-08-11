@@ -5,6 +5,9 @@
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
  *
+ * DTV sections written by
+ *  Daniel Kahlin <daniel@kahlin.net>
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -204,6 +207,8 @@ inline static void draw_blank(raster_t *raster,
            raster->border_color, end - start + 1);
 }
 
+/* seemingly dead code */
+#if 0
 /* Draw the borders.  */
 inline static void draw_borders(raster_t *raster)
 {
@@ -214,6 +219,7 @@ inline static void draw_borders(raster_t *raster)
                    raster->display_xstop,
                    raster->geometry->screen_size.width - 1);
 }
+#endif
 
 int raster_init(raster_t *raster,
                 unsigned int num_modes)
@@ -236,6 +242,9 @@ int raster_init(raster_t *raster,
     raster->num_cached_lines = 0;
 
     raster->fake_draw_buffer_line = NULL;
+
+    raster->can_disable_border = 0;
+    raster->border_disable = 0;
 
     raster->border_color = 0;
     raster->background_color = 0;
@@ -276,6 +285,7 @@ void raster_reset(raster_t *raster)
     raster->blank_this_line = 0;
     raster->open_right_border = 0;
     raster->open_left_border = 0;
+    raster->border_disable = 0;
     raster->blank = 0;
 
     raster->draw_idle_state = 0;

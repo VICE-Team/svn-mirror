@@ -160,6 +160,27 @@ IDGS_ALL_DEVICES_DETACHED
 /* c64/digimax.c */
 IDGS_DIGIMAX_NOT_WITH_RESID
 
+/* c64dtv/c64dtvflash.c */
+IDGS_NO_FILENAME
+
+/* c64dtv/c64dtvflash.c */
+IDGS_ILLEGAL_FILENAME
+
+/* c64dtv/c64dtvflash.c */
+IDGS_ERROR_CREATING_FILE_S
+
+/* c64dtv/c64dtvflash.c */
+IDGS_ERROR_WRITING_TO_FILE_S
+
+/* c64dtv/c64dtvflash.c */
+IDCLS_ENABLE_DTV_FLASH_LOG
+
+/* c64dtv/c64dtvflash.c */
+IDCLS_DISABLE_DTV_FLASH_LOG
+
+/* c64dtv/c64dtvflash.c */
+IDGS_DTV_ROM_CREATED
+
 
 /* COMMAND-LINE STRING ID DEFINITIONS */
 
@@ -1276,6 +1297,12 @@ IDCLS_DISABLE_MOUSE_GRAB
 /* mouse.c */
 IDCLS_SELECT_MOUSE_JOY_PORT
 
+/* ps2mouse.c */
+IDCLS_ENABLE_PS2MOUSE
+
+/* ps2mouse.c */
+IDCLS_DISABLE_PS2MOUSE
+
 /* ram.c */
 IDCLS_SET_FIRST_RAM_ADDRESS_VALUE
 
@@ -1428,3 +1455,54 @@ IDCLS_DISABLE_DIGIMAX
 
 /* c64/digimax.c */
 IDCLS_DIGIMAX_BASE
+
+/* c64dtv/c64dtv-cmdline-options.c */
+IDCLS_ENABLE_HUMMER_USERPORT_JOY
+
+/* c64dtv/c64dtv-cmdline-options.c */
+IDCLS_DISABLE_HUMMER_USERPORT_JOY
+
+/* c64dtv/c64dtv-cmdline-options.c */
+IDCLS_P_PORT
+
+/* c64dtv/c64dtv-cmdline-options.c */
+IDCLS_HUMMER_JOY_PORT
+
+/* c64dtv/c64dtvblitter.c */
+IDCLS_SPECIFY_DTV_REVISION
+
+/* c64dtv/c64dtvblitter.c */
+IDCLS_ENABLE_DTV_BLITTER_LOG
+
+/* c64dtv/c64dtvblitter.c */
+IDCLS_DISABLE_DTV_BLITTER_LOG
+
+/* c64dtv/c64dtvdma.c */
+IDCLS_ENABLE_DTV_DMA_LOG
+
+/* c64dtv/c64dtvdma.c */
+IDCLS_DISABLE_DTV_DMA_LOG
+
+/* c64dtv/c64dtvflash.c */
+IDCLS_SPECIFY_C64DTVROM_NAME
+
+/* c64dtv/c64dtvflash.c */
+IDCLS_ENABLE_C64DTVROM_RW
+
+/* c64dtv/c64dtvflash.c */
+IDCLS_DISABLE_C64DTVROM_RW
+
+/* c64dtv/flash-trap.c */
+IDCLS_USE_AS_DIRECTORY_FLASH_FS
+
+/* c64dtv/flash-trap.c */
+IDCLS_ENABLE_TRUE_FLASH_FS
+
+/* c64dtv/flash-trap.c */
+IDCLS_DISABLE_TRUE_FLASH_FS
+
+/* c64dtv/hummeradc.c */
+IDCLS_ENABLE_HUMMERADC
+
+/* c64dtv/hummeradc.c */
+IDCLS_DISABLE_HUMMERADC

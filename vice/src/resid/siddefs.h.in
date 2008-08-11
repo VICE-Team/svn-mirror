@@ -16,6 +16,9 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
+// C64 DTV modifications written by
+//   Daniel Kahlin <daniel@kahlin.net>
+// Copyright (C) 2007  Daniel Kahlin <daniel@kahlin.net>
 
 #ifndef __SIDDEFS_H__
 #define __SIDDEFS_H__
@@ -46,7 +49,11 @@ typedef int cycle_count;
 typedef int sound_sample;
 typedef sound_sample fc_point[2];
 
+#ifdef SUPPORT_C64DTV
+enum chip_model { MOS6581, MOS8580, DTVSID };
+#else
 enum chip_model { MOS6581, MOS8580 };
+#endif
 
 enum sampling_method { SAMPLE_FAST, SAMPLE_INTERPOLATE,
 		       SAMPLE_RESAMPLE_INTERPOLATE, SAMPLE_RESAMPLE_FAST };

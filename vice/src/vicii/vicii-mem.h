@@ -36,6 +36,10 @@ extern BYTE REGPARM1 vicii_peek(WORD addr);
 extern void REGPARM2 vicii_mem_vbank_store(WORD addr, BYTE value);
 extern void REGPARM2 vicii_mem_vbank_39xx_store(WORD addr, BYTE value);
 extern void REGPARM2 vicii_mem_vbank_3fxx_store(WORD addr, BYTE value);
+extern void REGPARM2 vicii_palette_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 vicii_palette_read(WORD addr);
+extern int vicii_extended_regs(void);
+extern void viciidtv_update_colorram(void);
 
 #endif
 

@@ -5,6 +5,7 @@
  *  Daniel Sladic <sladic@eecg.toronto.edu>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
+ *  Daniel Kahlin <daniel@kahlin.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -98,7 +99,7 @@ int mon_init_break = -1;
 #define OP_RTI 0x40
 #define OP_RTS 0x60
 
-#define ADDR_LIMIT(x) (LO16(x))
+#define ADDR_LIMIT(x) (addr_mask(x))
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
 
 #define MONITOR_GET_PC(mem) \
@@ -225,20 +226,20 @@ static const char *register_string[] = { "A",
 
 static void set_addr_memspace(MON_ADDR *a, MEMSPACE m)
 {
-    *a = LO16(*a) | LO16_TO_HI16(m);
+    *a = new_addr(m, addr_location(*a));
 }
 
 bool mon_is_valid_addr(MON_ADDR a)
 {
-    return HI16_TO_LO16(a) != e_invalid_space;
+    return addr_memspace(a) != e_invalid_space;
 }
 
 bool mon_inc_addr_location(MON_ADDR *a, unsigned inc)
 {
-    unsigned new_loc = LO16(*a) + inc;
-    *a = HI16(*a) | LO16(new_loc);
+    unsigned new_loc = addr_location(*a) + inc;
+    *a = new_addr(addr_memspace(*a), addr_mask(new_loc));
 
-    return !(new_loc == LO16(new_loc));
+    return !(new_loc == addr_location(new_loc));
 }
 
 void mon_evaluate_default_addr(MON_ADDR *a)
@@ -390,8 +391,12 @@ void monitor_cpu_type_set(const char *cpu_type)
         if (!strcasecmp(cpu_type, "z80")) {
             serchcpu = CPU_Z80;
         } else {
-            mon_out("Unknown CPU type `%s'\n", cpu_type);
-            return;
+            if (!strcasecmp(cpu_type, "6502dtv")) {
+                serchcpu = CPU_6502DTV;
+            } else {
+                mon_out("Unknown CPU type `%s'\n", cpu_type);
+                return;
+            }
         }
     }
 
@@ -644,14 +649,37 @@ void mon_cpuhistory(int count)
 #endif
 }
 
+
 /* TODO move somewhere else */
-BYTE mon_memmap[MEMMAP_SIZE];
+BYTE *mon_memmap;
+int mon_memmap_size;
+int mon_memmap_picx;
+int mon_memmap_picy;
 BYTE memmap_state;
+
+static void mon_memmap_init(void)
+{
+#ifdef FEATURE_CPUMEMHISTORY
+    mon_memmap_picx = 0x100;
+    if (machine_class == VICE_MACHINE_C64DTV) {
+        mon_memmap_picy = 0x2000;
+    } else {
+        mon_memmap_picy = 0x100;
+    }
+    mon_memmap_size = mon_memmap_picx * mon_memmap_picy;
+    mon_memmap = lib_malloc(mon_memmap_size);
+#else
+    mon_memmap = NULL;
+    mon_memmap_size = 0;
+    mon_memmap_picx = 0;
+    mon_memmap_picy = 0;
+#endif
+}
 
 void mon_memmap_zap(void)
 {
 #ifdef FEATURE_CPUMEMHISTORY
-    memset(mon_memmap, 0, MEMMAP_SIZE);
+    memset(mon_memmap, 0, mon_memmap_size);
 #else
     mon_out("Disabled. configure with --enable-memmap and recompile.\n");
 #endif
@@ -663,16 +691,21 @@ void mon_memmap_show(int mask, MON_ADDR start_addr, MON_ADDR end_addr)
     int i;
     BYTE b;
 
-    mon_out("addr: IO ROM RAM\n");
+    if(machine_class == VICE_MACHINE_C64DTV) {
+       mon_out("  addr: IO ROM RAM\n");
+    } else {
+       mon_out("addr: IO ROM RAM\n");
+    }
 
     if(start_addr == BAD_ADDR) start_addr = 0;
-    if(end_addr == BAD_ADDR) end_addr = MEMMAP_SIZE-1;
+    if(end_addr == BAD_ADDR) end_addr = mon_memmap_size-1;
     if(start_addr>end_addr) start_addr = end_addr;
 
     for(i = start_addr; i <= end_addr; ++i) {
         b = mon_memmap[i];
         if ((b & mask)!= 0) {
-            mon_out("%04x: %c%c %c%c%c %c%c%c\n",i,
+            if(machine_class == VICE_MACHINE_C64DTV) {
+                mon_out("%06x: %c%c %c%c%c %c%c%c\n",i,
                     (b&MEMMAP_I_O_R)?'r':'-',
                     (b&MEMMAP_I_O_W)?'w':'-',
                     (b&MEMMAP_ROM_R)?'r':'-',
@@ -681,6 +714,17 @@ void mon_memmap_show(int mask, MON_ADDR start_addr, MON_ADDR end_addr)
                     (b&MEMMAP_RAM_R)?'r':'-',
                     (b&MEMMAP_RAM_W)?'w':'-',
                     (b&MEMMAP_RAM_X)?'x':'-');
+            } else {
+                mon_out("%04x: %c%c %c%c%c %c%c%c\n",i,
+                    (b&MEMMAP_I_O_R)?'r':'-',
+                    (b&MEMMAP_I_O_W)?'w':'-',
+                    (b&MEMMAP_ROM_R)?'r':'-',
+                    (b&MEMMAP_ROM_W)?'w':'-',
+                    (b&MEMMAP_ROM_X)?'x':'-',
+                    (b&MEMMAP_RAM_R)?'r':'-',
+                    (b&MEMMAP_RAM_W)?'w':'-',
+                    (b&MEMMAP_RAM_X)?'x':'-');
+            }
         }
     }
 #else
@@ -701,7 +745,7 @@ void monitor_memmap_store(unsigned int addr, BYTE type)
       ||((op == OP_RTS) && ((addr>0x1ff)||(addr<0x100)))))
         return;
 
-    mon_memmap[addr & (MEMMAP_SIZE-1)] |= type;
+    mon_memmap[addr & (mon_memmap_size-1)] |= type;
 }
 
 #ifdef FEATURE_CPUMEMHISTORY
@@ -740,7 +784,7 @@ void mon_memmap_save(const char* filename, int format)
             drvname = "BMP";
             break;
     }
-    if(memmap_screenshot_save(drvname, filename, MEMMAP_PICX, MEMMAP_PICY, mon_memmap, mon_memmap_palette)) {
+    if(memmap_screenshot_save(drvname, filename, mon_memmap_picx, mon_memmap_picy, mon_memmap, mon_memmap_palette)) {
         mon_out("Failed.\n");
     }
 #else
@@ -903,6 +947,7 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     asm_mode = 0;
     next_or_step_stop = 0;
     recording = FALSE;
+    cpuhistory_i = 0;
 
     mon_ui_init();
 
@@ -944,6 +989,7 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     for (dnr = 0; dnr < DRIVE_NUM; dnr++)
         mon_interfaces[monitor_diskspace_mem(dnr)] = drive_interface_init[dnr];
 
+    mon_memmap_init();
 #ifdef FEATURE_CPUMEMHISTORY
     mon_memmap_zap();
     mon_memmap_make_palette();
@@ -970,6 +1016,9 @@ void monitor_shutdown(void)
         montor_list_destroy(list);
         list = list_next;
     }
+#ifdef FEATURE_CPUMEMHISTORY                                                                                                                                                                         
+   lib_free(mon_memmap);                                                                                                                                                                            
+#endif
 }
 
 static int monitor_set_initial_breakpoint(const char *param, void *extra_param)
@@ -1786,6 +1835,27 @@ int monitor_diskspace_mem(int dnr)
     return 0;
 }
 
+void monitor_change_device(MEMSPACE mem)
+{
+    mon_out("Setting default device to `%s'\n",_mon_space_strings[(int) mem]);
+    default_memspace = mem;
+
+    if(machine_class == VICE_MACHINE_C64DTV) {
+        switch(mem) {
+            case e_comp_space:
+                monitor_cpu_type_set("6502dtv");
+                break;
+            case e_disk8_space:
+            case e_disk9_space:
+            case e_disk10_space:
+            case e_disk11_space:
+            default:
+                monitor_cpu_type_set("6502");
+                break;
+        }
+    }
+}
+
 static void make_prompt(char *str)
 {
     if (asm_mode)
@@ -1820,12 +1890,25 @@ static void monitor_open(void)
 
     uimon_notify_change();
 
+    if (machine_class == VICE_MACHINE_C64DTV) {
+        monitor_cpu_type_set("6502dtv");
+    }
+
     dot_addr[e_comp_space] = new_addr(e_comp_space,
                                       MONITOR_GET_PC(e_comp_space));
+
+    if (machine_class == VICE_MACHINE_C64DTV) {
+        monitor_cpu_type_set("6502");
+    }
+
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         int mem = monitor_diskspace_mem(dnr);
 
         dot_addr[mem] = new_addr(mem, MONITOR_GET_PC(mem));
+    }
+
+    if ((caller_space == e_comp_space) && (machine_class == VICE_MACHINE_C64DTV)) {
+        monitor_cpu_type_set("6502dtv");
     }
 
     mon_out("\n** Monitor");
@@ -1848,6 +1931,10 @@ static void monitor_open(void)
     if (disassemble_on_entry) {
         mon_disassemble_instr(dot_addr[caller_space]);
         disassemble_on_entry = 0;
+    }
+
+    if ((default_memspace != e_comp_space) && (machine_class == VICE_MACHINE_C64DTV)) {
+        monitor_cpu_type_set("6502");
     }
 }
 

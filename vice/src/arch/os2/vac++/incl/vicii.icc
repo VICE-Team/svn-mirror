@@ -11,4 +11,5 @@ source type(c)
     "vicii-snapshot.c",
     "vicii-sprites.c",
     "vicii-timing.c",
-    "vicii.c"
+    "vicii.c",
+    "vicii-stubs.c"

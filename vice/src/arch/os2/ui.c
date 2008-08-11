@@ -116,6 +116,11 @@ int c64ui_init(void)
     return 0;
 }
 
+int c64dtvui_init(void)
+{
+    return 0;
+}
+
 int c128ui_init(void)
 {
     return 0;
@@ -152,6 +157,10 @@ void ui_shutdown(void)
 }
 
 void c64ui_shutdown(void)
+{
+}
+
+void c64dtvui_shutdown(void)
 {
 }
 
@@ -330,6 +339,21 @@ void ui_error(const char *format,...)
     lib_free(tmp);
 
     log_message(LOG_DEFAULT, txt);
+    ViceErrorDlg(HWND_DESKTOP, PTR_SKULL, txt);
+
+    lib_free(txt);
+}
+
+void ui_message(const char *format,...)
+{
+    char *txt, *tmp;
+
+    va_list ap;
+    va_start(ap, format);
+    tmp = lib_mvsprintf(format, ap);
+    txt = util_concat(" Message from emulation thread:\n ", tmp, NULL);
+    lib_free(tmp);
+
     ViceErrorDlg(HWND_DESKTOP, PTR_SKULL, txt);
 
     lib_free(txt);

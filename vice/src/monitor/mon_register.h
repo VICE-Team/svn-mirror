@@ -44,6 +44,7 @@ typedef struct mon_reg_list_s mon_reg_list_t;
 struct monitor_cpu_type_s;
 
 void mon_register6502_init(struct monitor_cpu_type_s *monitor_cpu_type);
+void mon_register6502dtv_init(struct monitor_cpu_type_s *monitor_cpu_type);
 void mon_registerz80_init(struct monitor_cpu_type_s *monitor_cpu_type);
 
 #endif

@@ -1,0 +1,53 @@
+
+#
+# VICE definition file for Keyboard Shortcuts in Win32
+#
+
+# Syntax
+# First column: Combination of ALT|CTRL to hold for the shortcut
+# Second column: (virtual) Keycode for the shortcut
+#   Code can be character ('X'), hex (0xAB) or decimal (168)
+#   Have a look at winuser.h for the list of virtual key codes (VK_..)
+# Third column: command identifier that is executed with the shortcut
+# Fourth column: text to display in the menu item; missing this lets 
+#   the keycode char be displayed.
+
+CTRL|ALT    'R'         IDM_RESET_HARD
+ALT         'R'         IDM_RESET_SOFT
+ALT         '4'         IDM_FORMFEED_PRINTERIEC4
+ALT         '5'         IDM_FORMFEED_PRINTERIEC5
+ALT         '8'         IDM_ATTACH_8
+ALT         '9'         IDM_ATTACH_9
+ALT         '0'         IDM_ATTACH_10
+ALT         '1'         IDM_ATTACH_11
+ALT         'A'         IDM_DETACH_ALL
+ALT         'T'         IDM_ATTACH_TAPE
+ALT         'L'         IDM_LOADQUICK
+ALT         'S'         IDM_SAVEQUICK
+ALT         'M'         IDM_MONITOR
+ALT         'X'         IDM_EXIT
+ALT         'W'         IDM_TOGGLE_WARP_MODE
+ALT         'I'         IDM_FLIP_ADD
+ALT         'K'         IDM_FLIP_REMOVE
+ALT         'N'         IDM_FLIP_NEXT
+ALT         'B'         IDM_FLIP_PREVIOUS
+ALT         'J'         IDM_SWAP_JOYSTICK
+ALT         'C'         IDM_MEDIAFILE
+ALT         'G'         IDM_EVENT_SETMILESTONE
+ALT         'H'         IDM_EVENT_RESETMILESTONE
+ALT         'D'         IDM_TOGGLE_FULLSCREEN
+ALT         13          IDM_TOGGLE_FULLSCREEN               # VK_RETURN
+ALT         0x13        IDM_PAUSE                   Pause   # VK_PAUSE
+ALT         0xBB        IDM_SINGLE_FRAME_ADVANCE    +       # VK_OEM_PLUS   0xBB
+ALT         0x6B        IDM_SINGLE_FRAME_ADVANCE            # VK_ADD        0x6B
+
+ALT         'Z'         IDM_CART_FREEZE
+ALT         'Q'         IDM_MOUSE
+
+ALT         0x79        IDM_TOGGLE_MAINCPU_TRACE    F10     # VK_F10
+ALT         0x7A        IDM_TOGGLE_DRIVE0CPU_TRACE  F11     # VK_F11
+ALT         0x7B        IDM_TOGGLE_DRIVE1CPU_TRACE  F12     # VK_F12
+
+CTRL        'C'         IDM_EDIT_COPY
+CTRL        'V'         IDM_EDIT_PASTE
+CTRL        0x2D        IDM_EDIT_COPY                       # VK_INSERT

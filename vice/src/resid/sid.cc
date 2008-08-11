@@ -16,6 +16,9 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
+// C64 DTV modifications written by
+//   Daniel Kahlin <daniel@kahlin.net>
+// Copyright (C) 2007  Daniel Kahlin <daniel@kahlin.net>
 
 #include "sid.h"
 #include <math.h>
@@ -63,6 +66,10 @@ void SID::set_chip_model(chip_model model)
 
   filter.set_chip_model(model);
   extfilt.set_chip_model(model);
+
+#ifdef SUPPORT_C64DTV
+  is_dtv = (model == DTVSID) ? true : false;
+#endif
 }
 
 
@@ -149,8 +156,16 @@ reg8 SID::read(reg8 offset)
 {
   switch (offset) {
   case 0x19:
+#ifdef SUPPORT_C64DTV
+    if (is_dtv)
+      return 0x00;
+#endif
     return potx.readPOT();
   case 0x1a:
+#ifdef SUPPORT_C64DTV
+    if (is_dtv)
+      return 0x00;
+#endif
     return poty.readPOT();
   case 0x1b:
     return voice[2].wave.readOSC();
@@ -246,6 +261,16 @@ void SID::write(reg8 offset, reg8 value)
   case 0x18:
     filter.writeMODE_VOL(value);
     break;
+#ifdef SUPPORT_C64DTV
+  case 0x1e:
+    if (is_dtv)
+      voice[0].wave.writeACC_HI(value);
+    break;
+  case 0x1f:
+    if (is_dtv)
+      voice[1].envelope.writeENV(value);
+    break;
+#endif
   default:
     break;
   }

@@ -42,7 +42,7 @@
 #include "types.h"
 
 
-#define ADDR_LIMIT(x) ((WORD)(LO16(x)))
+#define ADDR_LIMIT(x) ((WORD)(addr_mask(x)))
 
 static void clear_buffer(void)
 {
@@ -221,7 +221,7 @@ static void memory_to_string(char *buf, MEMSPACE mem, WORD addr,
 
 static void set_addr_location(MON_ADDR *a, unsigned l)
 {
-    *a = HI16(*a) | LO16(l);
+    *a = new_addr(addr_memspace(*a), addr_mask(l));
 }
 
 void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, mon_display_format_t format)

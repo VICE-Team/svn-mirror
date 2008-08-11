@@ -109,7 +109,7 @@ extern int cur_len, last_len;
 #define ERR_EXPECT_ADDRESS 15
 
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
-#define CHECK_ADDR(x) ((x) == LO16(x))
+#define CHECK_ADDR(x) ((x) == addr_mask(x))
 
 #define YYDEBUG 1
 
@@ -428,10 +428,7 @@ monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd
                      }
 
                    | CMD_DEVICE memspace end_cmd
-                     {
-                         mon_out("Setting default device to `%s'\n",
-                         _mon_space_strings[(int) $2]); default_memspace = $2;
-                     }
+                     { monitor_change_device($2); }
                    | CMD_QUIT end_cmd
                      { mon_quit(); YYACCEPT; }
                    | CMD_EXIT end_cmd

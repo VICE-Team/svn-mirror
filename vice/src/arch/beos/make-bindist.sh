@@ -12,7 +12,7 @@ CPU=$3
 ZIPKIND=$4
 TOPSRCDIR=$5
 
-if [ ! -e src/x64 -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
+if [ ! -e src/x64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
 then
   echo Error: executable file\(s\) not found, do a \"make\" first
   exit 1
@@ -28,6 +28,7 @@ fi
 rm -f -r BeVICE-$VICEVERSION.$BEOSCPU
 mkdir BeVICE-$VICEVERSION.$BEOSCPU
 $STRIP src/x64
+$STRIP src/x64dtv
 $STRIP src/x128
 $STRIP src/xvic
 $STRIP src/xpet
@@ -36,10 +37,10 @@ $STRIP src/xcbm2
 $STRIP src/c1541
 $STRIP src/petcat
 $STRIP src/cartconv
-cp src/x64 src/x128 src/xvic BeVICE-$VICEVERSION.$BEOSCPU
+cp src/x64 src/x64dtv src/x128 src/xvic BeVICE-$VICEVERSION.$BEOSCPU
 cp src/xpet src/xplus4 src/xcbm2 BeVICE-$VICEVERSION.$BEOSCPU
 cp src/c1541 src/petcat src/cartconv BeVICE-$VICEVERSION.$BEOSCPU
-cp -a data/C128 data/C64 data/CBM-II data/DRIVES BeVICE-$VICEVERSION.$BEOSCPU
+cp -a data/C128 data/C64 data/C64DTV data/CBM-II data/DRIVES BeVICE-$VICEVERSION.$BEOSCPU
 cp -a data/PET data/PLUS4 data/PRINTER data/VIC20 BeVICE-$VICEVERSION.$BEOSCPU
 cp -a data/fonts BeVICE-$VICEVERSION.$BEOSCPU
 mkdir BeVICE-$VICEVERSION.$BEOSCPU/doc

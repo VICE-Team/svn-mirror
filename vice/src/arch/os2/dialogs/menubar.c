@@ -119,7 +119,7 @@ static const char *DOUBLE_SCAN="CrtcDoubleScan";
 #endif
 #endif
 /*
-#if defined __X64__ || defined __X128__ || defined __XVIC__ || defined __XPLUS4__
+#if defined __X64__ || defined __X128__ || defined __XVIC__ || defined __XPLUS4__ || defined __X64DTV__
 static const char *VIDEO_CACHE="ViciiVideoCache";
 #else // __XPET__ || __XCBM__
 static const char *VIDEO_CACHE="CrtcVideoCache";
@@ -490,7 +490,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         return;
 #endif
 
-#if defined __X64__ || defined __X128__ || defined __XVIC__
+#if defined __X64__ || defined __X128__ || defined __XVIC__ || defined __X64DTV__
     case IDM_PAL:
         resources_set_int("MachineVideoStandard",
                           MACHINE_SYNC_PAL);
@@ -507,7 +507,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 #endif // __X64__
 #endif //  __X64__ || __X128__ || __XVIC__
 
-#if defined __X64__ || defined __X128__
+#if defined __X64__ || defined __X128__ || defined __X64DTV__
         /*
     case IDM_KERNALREV0:
         resources_set_string("KernalRev", "0");
@@ -568,6 +568,10 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         resources_set_int("REUSize", (idm&0xff)<<7);
         return;
 
+    case IDM_REUFILE:
+        resources_set_string("REUfilename", ViceFileSelect(hwnd, 1));
+        return;
+
     case IDM_GEORAM64:
     case IDM_GEORAM128:
     case IDM_GEORAM256:
@@ -578,9 +582,17 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         resources_set_int("GEORAMSize", (idm&0xff)<<6);
         return;
 
+    case IDM_GEORAMFILE:
+        resources_set_string("GEORAMfilename", ViceFileSelect(hwnd, 1));
+        return;
+
     case IDM_RAMCART64:
     case IDM_RAMCART128:
         resources_set_int("RAMCARTSize", (idm&0xf)<<6);
+        return;
+
+    case IDM_RAMCARTFILE:
+        resources_set_string("RAMCARTfilename", ViceFileSelect(hwnd, 1));
         return;
 
     case IDM_DIGIMAXDD00:
@@ -613,15 +625,54 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_PLUS60KD100:
         resources_set_int("PLUS60Kbase", 0xd100);
         return;
+
+    case IDM_PLUS60KFILE:
+        resources_set_string("PLUS60Kfilename", ViceFileSelect(hwnd, 1));
+        return;
+
+    case IDM_PLUS256KFILE:
+        resources_set_string("PLUS256Kfilename", ViceFileSelect(hwnd, 1));
+        return;
+
     case IDM_C64_256K_BASEDE00:
     case IDM_C64_256K_BASEDE80:
     case IDM_C64_256K_BASEDF00:
     case IDM_C64_256K_BASEDF80:
         resources_set_int("C64_256Kbase", ((idm&3)*80)+0xde00);
         return;
+
+    case IDM_C64_256KFILE:
+        resources_set_string("C64_256Kfilename", ViceFileSelect(hwnd, 1));
+        return;
 #endif
 
 #endif // __X64__ || __X128__
+#ifdef __X64DTV__
+    case IDM_C64DTV_FLASHROM_ATTACH:
+        resources_set_string("c64dtvromfilename", ViceFileSelect(hwnd, 0));
+        return;
+    case IDM_C64DTV_FLASHROM_DETACH:
+        resources_set_string("c64dtvromfilename", "");
+        return;
+    case IDM_C64DTV_FLASHROM_RW:
+        toggle("c64dtvromrw");
+        return;
+    case IDM_DTV2:
+        resources_set_int("DtvRevision", 2);
+        return;
+    case IDM_DTV3:
+        resources_set_int("DtvRevision", 3);
+        return;
+    case IDM_C64DTV_HUMMER_JOY:
+        toggle("HummerUserportJoy");
+        return;
+    case IDM_HUMMER_JOY1:
+        resources_set_int("HummerUserportJoyPort", 1);
+        return;
+    case IDM_HUMMER_JOY2:
+        resources_set_int("HummerUserportJoyPort", 2);
+        return;
+#endif
 #ifdef __XPET__
     case IDM_PETREU:
         toggle("PETREU");
@@ -638,6 +689,10 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         return;
     case IDM_PETREU2048:
         resources_set_int("PETREUSize", 2048);
+        return;
+
+    case IDM_PETREUFILE:
+        resources_set_string("PETREUfilename", ViceFileSelect(hwnd, 1));
         return;
 #endif
 #ifdef HAVE_MOUSE
@@ -1169,7 +1224,7 @@ void menu_select(HWND hwnd, USHORT item)
     case IDM_VIEW:
         WinEnableMenuItem(hwnd, IDM_LOGWIN,  hwndLog    !=NULLHANDLE);
         WinEnableMenuItem(hwnd, IDM_MONITOR, hwndMonitor!=NULLHANDLE);
-#if defined __X64__ || defined __X128__
+#if defined __X64__ || defined __X128__ || defined __X64DTV__
         resources_get_int(EXTERNAL_PALETTE, &val);
         WinEnableMenuItem(hwnd, IDM_COLOR, !val);
 #endif
@@ -1183,7 +1238,7 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
         return;
 
-#if defined __X64__ || defined __X128__ || defined __XVIC__
+#if defined __X64__ || defined __X128__ || defined __XVIC__ || defined __X64DTV__
         /*
          //
          // A change online is not possible yet.
@@ -1272,12 +1327,15 @@ void menu_select(HWND hwnd, USHORT item)
         resources_get_int("REU", &val);
         WinCheckMenuItem(hwnd,  IDM_REU,     val);
         WinEnableMenuItem(hwnd, IDM_REUSIZE, val);
+        WinEnableMenuItem(hwnd, IDM_REUFILE, val);
         resources_get_int("GEORAM", &val);
         WinCheckMenuItem(hwnd,  IDM_GEORAM,     val);
         WinEnableMenuItem(hwnd, IDM_GEORAMSIZE, val);
+        WinEnableMenuItem(hwnd, IDM_GEORAMFILE, val);
         resources_get_int("RAMCART", &val);
         WinCheckMenuItem(hwnd,  IDM_RAMCART,     val);
         WinEnableMenuItem(hwnd, IDM_RAMCARTSIZE, val);
+        WinEnableMenuItem(hwnd, IDM_RAMCARTFILE, val);
         resources_get_int("DIGIMAX", &val);
         WinCheckMenuItem(hwnd,  IDM_DIGIMAX,     val);
         WinEnableMenuItem(hwnd, IDM_DIGIMAXBASE, val);
@@ -1286,16 +1344,26 @@ void menu_select(HWND hwnd, USHORT item)
         resources_get_int("PLUS60K", &val);
         WinCheckMenuItem(hwnd,  IDM_PLUS60K,     val);
         WinEnableMenuItem(hwnd, IDM_PLUS60KBASE, val);
+        WinEnableMenuItem(hwnd, IDM_PLUS60KFILE, val);
         resources_get_int("PLUS256K", &val);
         WinCheckMenuItem(hwnd,  IDM_PLUS256K,     val);
+        WinEnableMenuItem(hwnd, IDM_PLUS256KFILE, val);
         resources_get_int("C64_256K", &val);
         WinCheckMenuItem(hwnd,  IDM_C64_256K,     val);
         WinEnableMenuItem(hwnd, IDM_C64_256K_BASE, val);
+        WinEnableMenuItem(hwnd, IDM_C64_256KFILE,  val);
+#endif
+#ifdef __X64DTV__
+        resources_get_int("c64dtvromrw", &val);
+        WinCheckMenuItem(hwnd,  IDM_C64DTV_FLASHROM_RW,     val);
+        resources_get_int("HummerUserportJoy", &val);
+        WinCheckMenuItem(hwnd,  IDM_C64DTV_HUMMER_JOY,     val);
 #endif
 #ifdef __XPET__
         resources_get_int("REU", &val);
-        WinCheckMenuItem(hwnd,  IDM_REU,     val);
-        WinEnableMenuItem(hwnd, IDM_REUSIZE, val);
+        WinCheckMenuItem(hwnd,  IDM_PETREU,     val);
+        WinEnableMenuItem(hwnd, IDM_PETREUSIZE, val);
+        WinEnableMenuItem(hwnd, IDM_PETREUFILE, val);
         WinCheckRes(hwnd, IDM_CHARSET,  "Basic1Chars");
         WinCheckRes(hwnd, IDM_EOI,      "EoiBlank");
         WinCheckRes(hwnd, IDM_ROMPATCH, "Basic1");
@@ -1356,6 +1424,19 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckMenuItem(hwnd, IDM_PETREU512,   val==512);
         WinCheckMenuItem(hwnd, IDM_PETREU1024,   val==1024);
         WinCheckMenuItem(hwnd, IDM_PETREU2048,   val==2048);
+        return;
+#endif
+
+#ifdef __X64DTV__
+    case IDM_C64DTV_REVISION:
+        resources_get_int("DtvRevision", &val);
+        WinCheckMenuItem(hwnd, IDM_DTV2,   val==2);
+        WinCheckMenuItem(hwnd, IDM_DTV3,   val==3);
+        return;
+    case IDM_C64DTV_HUMMER_MAPPED_JOY:
+        resources_get_int("HummerUserportJoyPort", &val);
+        WinCheckMenuItem(hwnd, IDM_HUMMER_JOY1,   val==1);
+        WinCheckMenuItem(hwnd, IDM_HUMMER_JOY2,   val==2);
         return;
 #endif
 
@@ -1497,7 +1578,7 @@ void menu_select(HWND hwnd, USHORT item)
         }
         return;
 #endif // HAVE_RESID
-#if defined __X64__ || defined __X128__ || defined __XCBM__
+#if defined __X64__ || defined __X128__ || defined __XCBM__ || defined __X64DTV__
     case IDM_SIDCHIP:
         resources_get_int("SidModel", &val);
         WinCheckMenuItem(hwnd, IDM_SC6581,   val==0);

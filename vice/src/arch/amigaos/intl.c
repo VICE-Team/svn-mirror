@@ -1299,6 +1299,15 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDMS_GRAB_MOUSE_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_GRAB_MOUSE_SV, "Fånga mushändelser"},
 
+/* en */ {IDMS_PS2_MOUSE,    "PS/2 mouse emulation"},
+/* de */ {IDMS_PS2_MOUSE_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_PS2_MOUSE_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_PS2_MOUSE_HU, ""},  /* fuzzy */
+/* it */ {IDMS_PS2_MOUSE_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_PS2_MOUSE_NL, "PS/2 muis emulatie"},
+/* pl */ {IDMS_PS2_MOUSE_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_PS2_MOUSE_SV, ""},  /* fuzzy */
+
 /* en */ {IDMS_SETTINGS,    "Settings"},
 /* de */ {IDMS_SETTINGS_DE, "Einstellungen"},
 /* fr */ {IDMS_SETTINGS_FR, "Paramètres"},
@@ -1649,6 +1658,15 @@ intl_translate_t intl_string_table[] = {
 /* nl */ {IDMS_SIDCART_SETTINGS_NL, "SID-cartinstellingen..."},
 /* pl */ {IDMS_SIDCART_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_SIDCART_SETTINGS_SV, "SID-modulinställningar..."},
+
+/* en */ {IDMS_C64DTV_SETTINGS,    "C64DTV settings..."},
+/* de */ {IDMS_C64DTV_SETTINGS_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_C64DTV_SETTINGS_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_C64DTV_SETTINGS_HU, ""},  /* fuzzy */
+/* it */ {IDMS_C64DTV_SETTINGS_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_C64DTV_SETTINGS_NL, "C64DTV instellingen"},
+/* pl */ {IDMS_C64DTV_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_C64DTV_SETTINGS_SV, ""},  /* fuzzy */
 
 /* en */ {IDMS_RS232_USERPORT_SETTINGS,    "RS232 userport settings..."},
 /* de */ {IDMS_RS232_USERPORT_SETTINGS_DE, "RS232 Userport Einstellungen..."},
@@ -2860,6 +2878,69 @@ intl_translate_t intl_string_table[] = {
 /* nl */ {IDS_256K_SETTINGS_NL, "256K-instellingen"},
 /* pl */ {IDS_256K_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDS_256K_SETTINGS_SV, "256K-inställningar"},
+
+/* en */ {IDS_C64DTV_ROM_FILENAME_SELECT,    "Select file for C64DTV ROM"},
+/* de */ {IDS_C64DTV_ROM_FILENAME_SELECT_DE, ""},  /* fuzzy */
+/* fr */ {IDS_C64DTV_ROM_FILENAME_SELECT_FR, ""},  /* fuzzy */
+/* hu */ {IDS_C64DTV_ROM_FILENAME_SELECT_HU, ""},  /* fuzzy */
+/* it */ {IDS_C64DTV_ROM_FILENAME_SELECT_IT, ""},  /* fuzzy */
+/* nl */ {IDS_C64DTV_ROM_FILENAME_SELECT_NL, "Selecteer bestand voor C64DTV ROM"},
+/* pl */ {IDS_C64DTV_ROM_FILENAME_SELECT_PL, ""},  /* fuzzy */
+/* sv */ {IDS_C64DTV_ROM_FILENAME_SELECT_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_C64DTV_ROM_FILENAME,    "C64DTV ROM file"},
+/* de */ {IDS_C64DTV_ROM_FILENAME_DE, ""},  /* fuzzy */
+/* fr */ {IDS_C64DTV_ROM_FILENAME_FR, ""},  /* fuzzy */
+/* hu */ {IDS_C64DTV_ROM_FILENAME_HU, ""},  /* fuzzy */
+/* it */ {IDS_C64DTV_ROM_FILENAME_IT, ""},  /* fuzzy */
+/* nl */ {IDS_C64DTV_ROM_FILENAME_NL, "C64DTV ROM bestand"},
+/* pl */ {IDS_C64DTV_ROM_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDS_C64DTV_ROM_FILENAME_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_C64DTV_REVISION,    "C64DTV revision"},
+/* de */ {IDS_C64DTV_REVISION_DE, ""},  /* fuzzy */
+/* fr */ {IDS_C64DTV_REVISION_FR, ""},  /* fuzzy */
+/* hu */ {IDS_C64DTV_REVISION_HU, ""},  /* fuzzy */
+/* it */ {IDS_C64DTV_REVISION_IT, ""},  /* fuzzy */
+/* nl */ {IDS_C64DTV_REVISION_NL, "C64DTV revisie"},
+/* pl */ {IDS_C64DTV_REVISION_PL, ""},  /* fuzzy */
+/* sv */ {IDS_C64DTV_REVISION_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_C64DTV_WRITE_ENABLE,    "Writes to C64DTV ROM"},
+/* de */ {IDS_C64DTV_WRITE_ENABLE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_C64DTV_WRITE_ENABLE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_C64DTV_WRITE_ENABLE_HU, ""},  /* fuzzy */
+/* it */ {IDS_C64DTV_WRITE_ENABLE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_C64DTV_WRITE_ENABLE_NL, "Schrijven naar C64DTV ROM"},
+/* pl */ {IDS_C64DTV_WRITE_ENABLE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_C64DTV_WRITE_ENABLE_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_C64DTV_HUMMER_JOY_ENABLE,    "Hummer Userport joystick"},
+/* de */ {IDS_C64DTV_HUMMER_JOY_ENABLE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_C64DTV_HUMMER_JOY_ENABLE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_C64DTV_HUMMER_JOY_ENABLE_HU, ""},  /* fuzzy */
+/* it */ {IDS_C64DTV_HUMMER_JOY_ENABLE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_C64DTV_HUMMER_JOY_ENABLE_NL, "Hummer Userport joystick"},
+/* pl */ {IDS_C64DTV_HUMMER_JOY_ENABLE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_C64DTV_HUMMER_JOY_ENABLE_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_C64DTV_HUMMER_JOY_PORT,    "Joystick port mapped to Hummer Userport"},
+/* de */ {IDS_C64DTV_HUMMER_JOY_PORT_DE, ""},  /* fuzzy */
+/* fr */ {IDS_C64DTV_HUMMER_JOY_PORT_FR, ""},  /* fuzzy */
+/* hu */ {IDS_C64DTV_HUMMER_JOY_PORT_HU, ""},  /* fuzzy */
+/* it */ {IDS_C64DTV_HUMMER_JOY_PORT_IT, ""},  /* fuzzy */
+/* nl */ {IDS_C64DTV_HUMMER_JOY_PORT_NL, "Joystick omgeleidt naar Hummer Userport"},
+/* pl */ {IDS_C64DTV_HUMMER_JOY_PORT_PL, ""},  /* fuzzy */
+/* sv */ {IDS_C64DTV_HUMMER_JOY_PORT_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_C64DTV_SETTINGS,    "C64DTV Settings"},
+/* de */ {IDS_C64DTV_SETTINGS_DE, ""},  /* fuzzy */
+/* fr */ {IDS_C64DTV_SETTINGS_FR, ""},  /* fuzzy */
+/* hu */ {IDS_C64DTV_SETTINGS_HU, ""},  /* fuzzy */
+/* it */ {IDS_C64DTV_SETTINGS_IT, ""},  /* fuzzy */
+/* nl */ {IDS_C64DTV_SETTINGS_NL, "C64DTV Instellingen"},
+/* pl */ {IDS_C64DTV_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_C64DTV_SETTINGS_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_MODEL_LINE,    "model line"},
 /* de */ {IDS_MODEL_LINE_DE, "modell linie"},

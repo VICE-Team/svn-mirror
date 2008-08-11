@@ -220,7 +220,7 @@ static const cmdline_option_t common_cmdline_options[] = {
       "SidStereoAddressStart", NULL,
       N_("<base address>"), N_("Specify base address for 2nd SID") },
     { "-sidmodel", SET_RESOURCE, 1, NULL, NULL, "SidModel", NULL,
-      N_("<model>"), N_("Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost)") },
+      N_("<model>"), N_("Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost, 4: DTV)") },
     { "-sidfilters", SET_RESOURCE, 0, NULL, NULL, "SidFilters",
       (void *)1,
       NULL, N_("Emulate SID filters") },

@@ -16,6 +16,9 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
+// C64 DTV modifications written by
+//   Daniel Kahlin <daniel@kahlin.net>
+// Copyright (C) 2007  Daniel Kahlin <daniel@kahlin.net>
 
 #define __WAVE_CC__
 #include "wave.h"
@@ -48,7 +51,11 @@ void WaveformGenerator::set_sync_source(WaveformGenerator* source)
 // ----------------------------------------------------------------------------
 void WaveformGenerator::set_chip_model(chip_model model)
 {
+#ifdef SUPPORT_C64DTV
+  if (model == MOS6581 || model == DTVSID) {
+#else
   if (model == MOS6581) {
+#endif
     wave__ST = wave6581__ST;
     wave_P_T = wave6581_P_T;
     wave_PS_ = wave6581_PS_;
@@ -125,6 +132,13 @@ reg8 WaveformGenerator::readOSC()
 {
   return output() >> 4;
 }
+
+#ifdef SUPPORT_C64DTV
+void WaveformGenerator::writeACC_HI(reg8 value)
+{
+  accumulator = (value << 16) | (accumulator & 0xffff);
+}
+#endif
 
 // ----------------------------------------------------------------------------
 // SID reset.

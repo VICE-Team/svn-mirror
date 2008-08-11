@@ -6,6 +6,7 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/c64 \
+	-I$(top_srcdir)/src/c64dtv \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/pet \
@@ -18,6 +19,7 @@ noinst_LIBRARIES = libarchgui.a
 libarchgui_a_SOURCES = \
 	c128ui.c \
 	c64ui.c \
+	c64dtvui.c \
 	cbm2ui.c \
 	petui.c \
 	plus4ui.c \
@@ -30,6 +32,8 @@ libarchgui_a_SOURCES = \
 	uic64_256k.h \
 	uic64cart.c \
 	uic64cart.h \
+	uic64dtv.c \
+	uic64dtv.h \
 	uicartridge.h \
 	uicmdline.c \
 	uicommands.c \
@@ -46,6 +50,8 @@ libarchgui_a_SOURCES = \
 	uidrivec128.h \
 	uidrivec64.c \
 	uidrivec64.h \
+	uidrivec64dtv.c \
+	uidrivec64dtv.h \
 	uidrivec64c128.c \
 	uidrivec64c128.h \
 	uidrivec64vic20.c \
@@ -105,6 +111,8 @@ libarchgui_a_SOURCES = \
 	uiprinteriecplus4.h \
 	uiprinterieee.c \
 	uiprinterieee.h \
+	uips2mouse.c \
+	uips2mouse.h \
 	uiramcart.c \
 	uiramcart.h \
 	uireu.c \

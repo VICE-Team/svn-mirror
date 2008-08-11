@@ -110,6 +110,17 @@
 #define IDM_NTSC         0x147
 #define IDM_NTSCOLD      0x148
 
+#define IDM_C64DTV_FLASHROM_ATTACH   0x1a4
+#define IDM_C64DTV_FLASHROM_DETACH   0x1a5
+#define IDM_C64DTV_FLASHROM_RW       0x1a6
+#define IDM_C64DTV_REVISION          0x1a7
+#define IDM_DTV2                     0x1a8
+#define IDM_DTV3                     0x1a9
+#define IDM_C64DTV_HUMMER_JOY        0x1aa
+#define IDM_C64DTV_HUMMER_MAPPED_JOY 0x1ab
+#define IDM_HUMMER_JOY1              0x1ac
+#define IDM_HUMMER_JOY2              0x1ad
+
 #define IDM_REU          0x149
 #define IDM_REUSIZE      0x150
 #define IDM_REU128       0x601
@@ -120,6 +131,7 @@
 #define IDM_REU4096      0x620
 #define IDM_REU8192      0x640
 #define IDM_REU16384     0x680
+#define IDM_REUFILE      0x14a
 
 #define IDM_GEORAM       0x16b
 #define IDM_GEORAMSIZE   0x16c
@@ -130,11 +142,13 @@
 #define IDM_GEORAM1024   0x910
 #define IDM_GEORAM2048   0x920
 #define IDM_GEORAM4096   0x940
+#define IDM_GEORAMFILE   0x14b
 
 #define IDM_RAMCART      0x16e
 #define IDM_RAMCARTSIZE  0x16f
 #define IDM_RAMCART64    0x941
 #define IDM_RAMCART128   0x942
+#define IDM_RAMCARTFILE  0x14c
 
 #define IDM_DIGIMAX      0x1a1
 #define IDM_DIGIMAXBASE  0x1a2
@@ -160,8 +174,10 @@
 #define IDM_PLUS60KBASE  0x17d
 #define IDM_PLUS60KD040  0x17e
 #define IDM_PLUS60KD100  0x17f
+#define IDM_PLUS60KFILE  0x14d
 
 #define IDM_PLUS256K      0x18b
+#define IDM_PLUS256KFILE  0x14e
 
 #define IDM_C64_256K          0x16d
 #define IDM_C64_256K_BASE	0x16e
@@ -169,6 +185,7 @@
 #define IDM_C64_256K_BASEDE80	0x18d
 #define IDM_C64_256K_BASEDF00	0x18e
 #define IDM_C64_256K_BASEDF80	0x18f
+#define IDM_C64_256KFILE      0x14f
 
 #define IDM_PETREU       0x19b
 #define IDM_PETREUSIZE   0x19c
@@ -176,6 +193,7 @@
 #define IDM_PETREU512    0x19e
 #define IDM_PETREU1024   0x19f
 #define IDM_PETREU2048   0x1a0
+#define IDM_PETREUFILE   0x159
 
 #define IDM_TFE          0x158
 

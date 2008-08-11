@@ -5,6 +5,9 @@
  *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *
+ * DTV sections written by
+ *  Hannu Nuotio <hannu.nuotio@tut.fi>
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -33,7 +36,8 @@
 #include "types.h"
 #include "vicii-irq.h"
 #include "viciitypes.h"
-
+#include "c64dtvblitter.h"
+#include "c64dtvdma.h"
 
 void vicii_irq_set_line(void)
 {
@@ -107,6 +111,12 @@ void vicii_irq_lightpen_clear(CLOCK mclk)
 
 void vicii_irq_set_raster_line(unsigned int line)
 {
+    if (vicii.raster_irq_prevent) {
+        vicii.raster_irq_clk = CLOCK_MAX;
+        alarm_unset(vicii.raster_irq_alarm);
+        return;
+    }
+
     if (line == vicii.raster_irq_line && vicii.raster_irq_clk != CLOCK_MAX)
         return;
 
@@ -117,6 +127,9 @@ void vicii_irq_set_raster_line(unsigned int line)
                                + VICII_RASTER_IRQ_DELAY - INTERRUPT_DELAY
                                + (vicii.cycles_per_line
                                * (line - current_line)));
+        if (vicii.viciidtv) {
+            vicii.raster_irq_clk += vicii.raster_irq_offset;
+        }
 
         /* Raster interrupts on line 0 are delayed by 1 cycle.  */
         if (line == 0)
@@ -222,6 +235,15 @@ void vicii_irq_next_frame(void)
    line counter matches the value stored in the raster line register.  */
 void vicii_irq_alarm_handler(CLOCK offset, void *data)
 {
+    /* Scheduled Blitter */
+    if (blitter_on_irq & 0x10) {
+        c64dtvblitter_trigger_blitter();
+    }
+    /* Scheduled DMA */
+    if (dma_on_irq & 0x10) {
+        c64dtvdma_trigger_dma();
+    }
+
     vicii_irq_raster_set(vicii.raster_irq_clk);
     vicii_irq_next_frame();
 }

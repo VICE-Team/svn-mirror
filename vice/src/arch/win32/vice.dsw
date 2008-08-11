@@ -15,6 +15,9 @@ Package=<4>
     Project_Dep_Name x64
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name x64dtv
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name x128
     End Project Dependency
     Begin Project Dependency
@@ -165,7 +168,52 @@ Package=<4>
 
 ###############################################################################
 
+Project: "c64c64dtv"=".\c64c64dtv.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "c64cart"=".\c64cart.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "c64dtv"=".\c64dtv.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "c64dtvstubs"=".\c64dtvstubs.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -727,6 +775,21 @@ Package=<4>
     End Project Dependency
 }}}
 
+##############################################################################
+
+Project: "viciidtv"=".\viciidtv.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
+}}}
+
 ###############################################################################
 
 Project: "video"=".\video.dsp" - Package Owner=<4>
@@ -940,6 +1003,114 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name c64cart
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name diskimage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name tape
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name imagecontents
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name core
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name iecbus
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name zlib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "x64dtv"=".\x64dtv.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name arch
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name c64c64dtv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name c64dtv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name c64dtvstubs
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name drive
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name fileio
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name fsdevice
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name gfxoutputdrv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name iec
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name c64exp
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name iecieee
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ieee
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name parallel
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name png
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name printerdrv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name resid
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name rs232drv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name serial
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sid
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sounddrv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name viciidtv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name raster
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name vdrive
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name video
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name monitor
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name diskimage

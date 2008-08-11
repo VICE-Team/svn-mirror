@@ -401,6 +401,9 @@ int tape_receive_trap_plus4(void)
 
 const char *tape_get_file_name(void)
 {
+    if (tape_image_dev1 == NULL)
+        return "";
+
     return tape_image_dev1->name;
 }
 

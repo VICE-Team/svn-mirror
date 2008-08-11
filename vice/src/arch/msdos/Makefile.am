@@ -12,6 +12,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/c64 \
+	-I$(top_srcdir)/src/c64dtv \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/pet \
@@ -29,6 +30,7 @@ libarch_a_SOURCES = \
 	archdep.h \
 	c128ui.c \
 	c64ui.c \
+	c64dtvui.c \
 	cbm2ui.c \
 	cbmcharsets.c \
 	cbmcharsets.h \
@@ -74,6 +76,8 @@ libarch_a_SOURCES = \
 	uic64_256k.h \
 	uic64cart.c \
 	uic64cart.h \
+	uic64dtv.c \
+	uic64dtv.h \
 	uicmdline.c \
 	uidigimax.c \
 	uidigimax.h \

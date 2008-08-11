@@ -41,9 +41,11 @@ struct sid_snapshot_state_s;
 #define SID_ENGINE_PARSID_PORT2   5
 #define SID_ENGINE_PARSID_PORT3   6
 
-#define SID_MODEL_6581  0
-#define SID_MODEL_8580  1
-#define SID_MODEL_8580D 2
+#define SID_MODEL_6581   0
+#define SID_MODEL_8580   1
+#define SID_MODEL_8580D  2
+#define SID_MODEL_6581R4 3
+#define SID_MODEL_DTVSID 4
 
 extern BYTE REGPARM1 sid_read(WORD address);
 extern BYTE REGPARM1 sid2_read(WORD address);

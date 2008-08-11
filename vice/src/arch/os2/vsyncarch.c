@@ -155,11 +155,11 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
     //
     // FIXME !!!
     //
-#ifdef __X64__
+#if defined __X64__
     if (!vsid_mode)
 #endif
         CanvasDisplaySpeed(speed+0.5, frame_rate+1, warp_enabled);
-#ifdef __X64__
+#if defined __X64__
     else
         WinSendMsg(hwndVsid, WM_DISPLAY,
                    (void*)(int)(speed+0.5), (void*)(int)(frame_rate+0.5));

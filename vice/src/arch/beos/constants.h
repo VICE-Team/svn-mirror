@@ -134,6 +134,8 @@ const uint32 MENU_TOGGLE_MMC64					= 'M039';
 const uint32 MENU_TOGGLE_MMC64_FLASHJUMPER			= 'M057';
 const uint32 MENU_TOGGLE_MMC64_SAVE					= 'M068';
 const uint32 MENU_TOGGLE_MMC64_READ_ONLY				= 'M058';
+const uint32 MENU_TOGGLE_C64DTV_WRITE_ENABLE			= 'M099';
+const uint32 MENU_TOGGLE_HUMMER_USERPORT_JOY			= 'M105';
 const uint32 MENU_TOGGLE_SIDCART					= 'M085';
 const uint32 MENU_TOGGLE_SIDCART_FILTERS				= 'M086';
 const uint32 MENU_TOGGLE_MOUSE					= 'M110';
@@ -261,6 +263,14 @@ const uint32 MENU_MMC64_REVISION_B					= 'M067';
 const uint32 MENU_MMC64_BIOS_FILE					= 'M059';
 const uint32 MENU_MMC64_IMAGE_FILE					= 'M065';
 
+const uint32 MENU_C64DTV_REVISION_2					= 'M137';
+const uint32 MENU_C64DTV_REVISION_3					= 'M138';
+
+const uint32 MENU_HUMMER_JOY_PORT_1					= 'M139';
+const uint32 MENU_HUMMER_JOY_PORT_2					= 'M150';
+
+const uint32 MENU_C64DTV_ROM_FILE					= 'M151';
+
 const uint32 MENU_SOUND_RECORD_AIFF					= 'M069';
 const uint32 MENU_SOUND_RECORD_IFF					= 'M080';
 const uint32 MENU_SOUND_RECORD_MP3					= 'M081';
@@ -284,6 +294,8 @@ const uint32 MENU_SIDCART_CLOCK_NATIVE				= 'M095';
 const uint32 MENU_VICII_BORDERS_NORMAL				= 'M096';
 const uint32 MENU_VICII_BORDERS_FULL				= 'M097';
 const uint32 MENU_VICII_BORDERS_DEBUG				= 'M098';
+
+const uint32 MENU_TOGGLE_PS2MOUSE					= 'M152';
 
 const uint32 MENU_MOUSE_TYPE_1351				= 'M153';
 const uint32 MENU_MOUSE_TYPE_NEOS				= 'M154';

@@ -104,34 +104,13 @@ EXTRA_DIST = \
 	fonts/vice2.def \
 	fonts/vice2.rc \
 	watcom/archdep.tgt \
-	watcom/c128-c64-snapshot.c \
-	watcom/c128-c64acia1.c \
-	watcom/c128-c64bus.c \
-	watcom/c128-c64cia2.c \
-	watcom/c128-c64datasette.c \
-	watcom/c128-c64export.c \
-	watcom/c128-c64iec.c \
-	watcom/c128-c64io.c \
-	watcom/c128-c64keyboard.c \
-	watcom/c128-c64meminit.c \
-	watcom/c128-c64memrom.c \
-	watcom/c128-c64parallel.c \
-	watcom/c128-c64pla.c \
-	watcom/c128-c64printer.c \
-	watcom/c128-c64rsuser.c \
-	watcom/c128-c64sound.c \
-	watcom/c128-c64tpi.c \
-	watcom/c128-digimax.c \
-	watcom/c128-georam.c \
-	watcom/c128-mmc64.c \
-	watcom/c128-patchrom.c \
-	watcom/c128-ramcart.c \
-	watcom/c128-reu.c \
-	watcom/c128-tfe.c \
 	watcom/c128.tgt \
 	watcom/c128c64.tgt \
 	watcom/c64.tgt \
 	watcom/c64cart.tgt \
+	watcom/c64common.tgt \
+	watcom/c64dtv.tgt \
+	watcom/c64dtvc64.tgt \
 	watcom/cartconv.tgt \
 	watcom/cbm2.tgt \
 	watcom/config.h \
@@ -190,6 +169,8 @@ EXTRA_DIST = \
 	watcom/vic20.tgt \
 	watcom/vice.wpj \
 	watcom/vicii.tgt \
+	watcom/viciicommon.tgt \
+	watcom/viciidtv.tgt \
 	watcom/video.tgt \
 	watcom/vsid.tgt \
 	watcom/x128-dlg-fileio.c \
@@ -204,6 +185,14 @@ EXTRA_DIST = \
 	watcom/x1541.tgt \
 	watcom/x64-specific.tgt \
 	watcom/x64.tgt \
+	watcom/x64dtv-dlg-fileio.c \
+	watcom/x64dtv-dragndrrop.c \
+	watcom/x64dtv-main.c \
+	watcom/x64dtv-menubar.c \
+	watcom/x64dtv-specific.tgt \
+	watcom/x64dtv-video.c \
+	watcom/x64dtv-vsyncarch.c \
+	watcom/x64dtv.tgt \
 	watcom/x64x128-sid.c \
 	watcom/x64x128-specific.tgt \
 	watcom/xall-specific.tgt \

@@ -18,11 +18,16 @@ src/c128/c128-cmdline-options.c
 src/c128/c128mmu.c
 src/c128/functionrom.c
 src/c64/c64-cmdline-options.c
+src/c64dtv/c64dtv-cmdline-options.c
 src/c64/cart/c64cart.c
 src/c64/cart/ide64.c
 src/c64/c64_256k.c
+src/c64dtv/c64dtvblitter.c
+src/c64dtv/c64dtvdma.c
+src/c64dtv/c64dtvflash.c
 src/c64/digimax.c
 src/c64/georam.c
+src/c64dtv/hummeradc.c
 src/c64/mmc64.c
 src/c64/plus256k.c
 src/c64/plus60k.c
@@ -60,6 +65,7 @@ src/printerdrv/interface-serial.c
 src/printerdrv/interface-userport.c
 src/printerdrv/output-select.c
 src/printerdrv/output-text.c
+src/ps2mouse.c
 src/ram.c
 src/raster/raster-cmdline-options.c
 src/rs232drv/rs232drv.c
@@ -201,6 +207,7 @@ src/arch/win32/resacia.rc.po.c
 src/arch/win32/resc128.rc.po.c
 src/arch/win32/resc64.rc.po.c
 src/arch/win32/resc64_256k.rc.po.c
+src/arch/win32/resc64dtv.rc.po.c
 src/arch/win32/rescbm2.rc.po.c
 src/arch/win32/resdigimax.rc.po.c
 src/arch/win32/resdrivec128.rc.po.c

@@ -1,6 +1,7 @@
 @echo off
 set VICEDIR=WinVICE-2.0
 if not exist x64.exe goto missingwatcom
+if not exist x64dtv.exe goto missingwatcom
 if not exist x128.exe goto missingwatcom
 if not exist xcbm2.exe goto missingwatcom
 if not exist xpet.exe goto missingwatcom
@@ -13,6 +14,7 @@ echo generating OPENWATCOM WIN32 binary port distribution
 if exist %VICEDIR% goto removedir
 mkdir %VICEDIR%
 copy x64.exe %VICEDIR%
+copy x64dtv.exe %VICEDIR%
 copy x128.exe %VICEDIR%
 copy xvic.exe %VICEDIR%
 copy xpet.exe %VICEDIR%
@@ -36,6 +38,14 @@ copy ..\..\..\..\data\C64\chargen %VICEDIR%\C64
 copy ..\..\..\..\data\C64\*.vrs %VICEDIR%\C64
 copy ..\..\..\..\data\C64\kernal %VICEDIR%\C64
 copy ..\..\..\..\data\C64\win_*.v* %VICEDIR%\C64
+mkdir %VICEDIR%\C64DTV
+copy ..\..\..\..\data\C64DTV\basic %VICEDIR%\C64DTV
+copy ..\..\..\..\data\C64DTV\*.vpl %VICEDIR%\C64DTV
+copy ..\..\..\..\data\C64DTV\c64mem.sym %VICEDIR%\C64DTV
+copy ..\..\..\..\data\C64DTV\chargen %VICEDIR%\C64DTV
+copy ..\..\..\..\data\C64DTV\*.vrs %VICEDIR%\C64DTV
+copy ..\..\..\..\data\C64DTV\kernal %VICEDIR%\C64DTV
+copy ..\..\..\..\data\C64DTV\win_*.v* %VICEDIR%\C64DTV
 mkdir %VICEDIR%\CBM-II
 copy ..\..\..\..\data\CBM-II\*.vpl %VICEDIR%\CBM-II
 copy ..\..\..\..\data\CBM-II\basic.* %VICEDIR%\CBM-II

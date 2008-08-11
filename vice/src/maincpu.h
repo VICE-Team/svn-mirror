@@ -44,8 +44,13 @@ extern unsigned int last_opcode_info;
 /* The VIC-II emulation needs this ugly hack.  */
 extern unsigned int reg_pc;
 
+#ifdef C64DTV
+struct mos6510dtv_regs_s;
+extern struct mos6510dtv_regs_s maincpu_regs;
+#else
 struct mos6510_regs_s;
 extern struct mos6510_regs_s maincpu_regs;
+#endif
 
 extern int maincpu_rmw_flag;
 extern CLOCK maincpu_clk;

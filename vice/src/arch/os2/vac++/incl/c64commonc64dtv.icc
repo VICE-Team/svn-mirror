@@ -1,0 +1,11 @@
+source type(c)
+    "c64bus.c",
+    "c64drive.c",
+    "c64fastiec.c",
+    "c64keyboard.c",
+    "c64parallel.c",
+    "c64printer.c",
+    "c64rom.c",
+    "c64rsuser.c",
+    "c64video.c",
+    "patchrom.c"

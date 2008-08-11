@@ -5,6 +5,10 @@
  *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *
+ * DTV sections written by
+ *  Hannu Nuotio <hannu.nuotio@tut.fi>
+ *  Daniel Kahlin <daniel@kahlin.net>
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -58,18 +62,29 @@ void vicii_fetch_matrix(int offs, int num, int num_0xff, int cycle)
 {
     int start_char;
     int c;
+    BYTE *colorram = NULL;
 
     /*log_debug("OFF %02i NUM %02i NFF %02i",offs,num,num_0xff);*/
+
+    if (vicii.viciidtv) {
+        colorram = vicii.color_ram_ptr;
+    } else {
+        colorram = mem_color_ram_vicii;
+    }
 
     if (num_0xff > 0) {
         if (num <= num_0xff) {
             memset(vicii.vbuf + offs, 0xff, num);
-            memset(vicii.cbuf + offs, vicii.ram_base_phi2[reg_pc] & 0xf, num);
+
+            if (!vicii.colorfetch_disable)
+                memset(vicii.cbuf + offs, vicii.ram_base_phi2[reg_pc] & 0xf, num);
             vicii.background_color_source = 0xff;
         } else {
             memset(vicii.vbuf + offs, 0xff, num_0xff);
-            memset(vicii.cbuf + offs, vicii.ram_base_phi2[reg_pc] & 0xf,
-                   num_0xff);
+
+            if (!vicii.colorfetch_disable)
+                memset(vicii.cbuf + offs, vicii.ram_base_phi2[reg_pc] & 0xf,
+                       num_0xff);
         }
     }
 
@@ -83,12 +98,17 @@ void vicii_fetch_matrix(int offs, int num, int num_0xff, int cycle)
 
         if (c >= num) {
             memcpy(vicii.vbuf + offs, vicii.screen_base_phi2 + start_char, num);
-            memcpy(vicii.cbuf + offs, mem_color_ram_vicii + start_char, num);
+            if (!vicii.colorfetch_disable)
+                memcpy(vicii.cbuf + offs, colorram + start_char, num);
         } else {
             memcpy(vicii.vbuf + offs, vicii.screen_base_phi2 + start_char, c);
             memcpy(vicii.vbuf + offs + c, vicii.screen_base_phi2, num - c);
-            memcpy(vicii.cbuf + offs, mem_color_ram_vicii + start_char, c);
-            memcpy(vicii.cbuf + offs + c, mem_color_ram_vicii, num - c);
+
+            if (!vicii.colorfetch_disable)
+                memcpy(vicii.cbuf + offs, colorram + start_char, c);
+
+            if (!vicii.colorfetch_disable)
+                memcpy(vicii.cbuf + offs + c, colorram, num - c);
         }
         vicii.background_color_source = vicii.vbuf[VICII_SCREEN_TEXTCOLS
                                         - 1 /*- vicii.buf_offset*/];
@@ -159,7 +179,7 @@ inline static int do_matrix_fetch(CLOCK sub)
             vicii.ycounter_reset_checked = 1;
             vicii.memory_fetch_done = 2;
 
-            if (vicii.fastmode == 0)
+            if ((vicii.fastmode == 0) && !vicii.badline_disable && !vicii.colorfetch_disable) 
                 dma_maincpu_steal_cycles(vicii.fetch_clk,
                                          VICII_SCREEN_TEXTCOLS + 3 - sub, sub);
             vicii.bad_line = 1;
@@ -384,6 +404,8 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
     bank_phi1 = vicii.ram_base_phi1 + vicii.vbank_phi1;
     bank_phi2 = vicii.ram_base_phi2 + vicii.vbank_phi2;
     spr_base = vicii.screen_base_phi1 + 0x3f8 + sf->first;
+    if (vicii.viciidtv)
+        spr_base += (vicii.regs[0x4d]<<16);
 
     /* Fetch sprite data.  */
     for (i = sf->first; i <= sf->last; i++, spr_base++) {
@@ -424,6 +446,11 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
                     src_phi2 = mem_chargen_rom_ptr + ((*spr_base & 0x3f) << 6);
             }
 
+            if (vicii.viciidtv) {
+                src_phi1 += (vicii.regs[0x4d]<<16);
+                src_phi2 += (vicii.regs[0x4d]<<16);
+            }
+
             dest[0] = src_phi2[my_memptr];
             dest[1] = src_phi1[++my_memptr & 0x3f];
             dest[2] = src_phi2[++my_memptr & 0x3f];
@@ -434,7 +461,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
 
     /*log_debug("SF %i VBL %i SUB %i",sf->num,vicii.bad_line,sub);*/
 
-    if (vicii.fastmode == 0)
+    if ((vicii.fastmode == 0) && !vicii.badline_disable)
         dma_maincpu_steal_cycles(vicii.fetch_clk, num_cycles - sub, sub);
 
     *write_offset = sub == 0 ? num_cycles : 0;

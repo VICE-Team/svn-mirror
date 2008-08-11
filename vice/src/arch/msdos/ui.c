@@ -268,6 +268,22 @@ void ui_error(const char *format,...)
     lib_free(tmp);
 }
 
+void ui_message(const char *format,...)
+{
+    char *tmp;
+    va_list ap;
+
+    enable_text();
+    tui_clear_screen();
+
+    va_start(ap, format);
+    tmp = lib_mvsprintf(format, ap);
+    tui_message(tmp);
+
+    disable_text();
+    lib_free(tmp);
+}
+
 ui_jam_action_t ui_jam_dialog(const char *format,...)
 {
     char *tmp;

@@ -28,6 +28,7 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/c64 \
+	-I$(top_srcdir)/src/c64dtv \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/pet \
@@ -86,6 +87,7 @@ EXTRA_DIST = \
 	sco_sol/convertprototype.c \
 	sco_sol/make-bindist.sh \
 	skyos/icons/x64.ico \
+	skyos/icons/x64dtv.ico \
 	skyos/icons/x128.ico \
 	skyos/icons/xcbm2.ico \
 	skyos/icons/xpet.ico \

@@ -784,10 +784,15 @@ int autostart_autodetect(const char *file_name, const char *program_name,
         log_message(autostart_log, "`%s' recognized as disk image.", file_name);
         return 0;
     }
-    if (autostart_tape(file_name, program_name, program_number, runmode) == 0) {
-        log_message(autostart_log, "`%s' recognized as tape image.", file_name);
-        return 0;
+
+    if (machine_class != VICE_MACHINE_C64DTV)
+    {
+        if (autostart_tape(file_name, program_name, program_number, runmode) == 0) {
+            log_message(autostart_log, "`%s' recognized as tape image.", file_name);
+            return 0;
+        }
     }
+
     if (autostart_snapshot(file_name, program_name) == 0) {
         log_message(autostart_log, "`%s' recognized as snapshot image.",
                     file_name);

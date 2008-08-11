@@ -16,6 +16,9 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
+// C64 DTV modifications written by
+//   Daniel Kahlin <daniel@kahlin.net>
+// Copyright (C) 2007  Daniel Kahlin <daniel@kahlin.net>
 
 #ifndef __WAVE_H__
 #define __WAVE_H__
@@ -49,6 +52,9 @@ public:
   void writePW_HI(reg8);
   void writeCONTROL_REG(reg8);
   reg8 readOSC();
+#ifdef SUPPORT_C64DTV
+  void writeACC_HI(reg8);
+#endif
 
   // 12-bit waveform output.
   RESID_INLINE reg12 output();

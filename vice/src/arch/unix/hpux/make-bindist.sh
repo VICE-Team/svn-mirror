@@ -64,7 +64,7 @@ if test x"$PREFIX" != "x/usr/local"; then
   exit 1
 fi
 
-if [ ! -e src/x64 -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
+if [ ! -e src/x64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
 then
   echo Error: executable file\(s\) not found, do a \"make all\" first
   exit 1
@@ -88,6 +88,7 @@ mkdir -p vice/vice-RUN/usr/local/lib/vice/DRIVES
 mkdir -p vice/vice-RUN/usr/local/lib/vice/doc/images
 mkdir -p vice/vice-RUN/usr/local/lib/vice/fonts
 mkdir -p vice/vice-RUN/usr/local/lib/vice/CBM-II
+mkdir -p vice/vice-RUN/usr/local/lib/vice/C64DTV
 mkdir -p vice/vice-RUN/usr/local/lib/vice/C64
 mkdir -p vice/vice-RUN/usr/local/lib/vice/C128
 mkdir -p vice/vice-RUN/usr/local/info
@@ -114,6 +115,8 @@ $STRIP src/x128
 installfile src/x128 vice/vice-RUN runtmp /usr/local/bin/x128 run 0755
 $STRIP src/x64
 installfile src/x64 vice/vice-RUN runtmp /usr/local/bin/x64 run 0755
+$STRIP src/x64dtv
+installfile src/x64dtv vice/vice-RUN runtmp /usr/local/bin/x64dtv run 0755
 $STRIP src/xcbm2
 installfile src/xcbm2 vice/vice-RUN runtmp /usr/local/bin/xcbm2 run 0755
 $STRIP src/xpet
@@ -165,6 +168,21 @@ installfile data/C64/pc64.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64/pc64.
 installfile data/C64/vice.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64/vice.vpl run 0644
 installfile data/C64/x11_pos.vkm vice/vice-RUN runtmp /usr/local/lib/vice/C64/x11_pos.vkm run 0644
 installfile data/C64/x11_sym.vkm vice/vice-RUN runtmp /usr/local/lib/vice/C64/x11_sym.vkm run 0644
+installfile data/C64DTV/basic vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/basic run 0644
+installfile data/C64DTV/c64hq.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/c64hq.vpl run 0644
+installfile data/C64DTV/c64mem.sym vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/c64mem.sym run 0644
+installfile data/C64DTV/c64s.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/c64s.vpl run 0644
+installfile data/C64DTV/ccs64.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/ccs64.vpl run 0644
+installfile data/C64DTV/chargen vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/chargen run 0644
+installfile data/C64DTV/default.vpl vice/vice-RUN runtmp /usr/local/lib/viceDTV/C64/default.vpl run 0644
+installfile data/C64DTV/default.vrs vice/vice-RUN runtmp /usr/local/lib/viceDTV/C64/default.vrs run 0644
+installfile data/C64DTV/frodo.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/frodo.vpl run 0644
+installfile data/C64DTV/godot.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/godot.vpl run 0644
+installfile data/C64DTV/kernal vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/kernal run 0644
+installfile data/C64DTV/pc64.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/pc64.vpl run 0644
+installfile data/C64DTV/vice.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/vice.vpl run 0644
+installfile data/C64DTV/x11_pos.vkm vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/x11_pos.vkm run 0644
+installfile data/C64DTV/x11_sym.vkm vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/x11_sym.vkm run 0644
 installfile data/CBM-II/amber.vpl vice/vice-RUN runtmp /usr/local/lib/vice/CBM-II/amber.vpl run 0644
 installfile data/CBM-II/basic.128 vice/vice-RUN runtmp /usr/local/lib/vice/CBM-II/basic.128 run 0644
 installfile data/CBM-II/basic.256 vice/vice-RUN runtmp /usr/local/lib/vice/CBM-II/basic.256 run 0644

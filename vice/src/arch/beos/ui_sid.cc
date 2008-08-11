@@ -58,6 +58,9 @@ static char *samplingmode[] = {
 static char *sidmodel[] = {
 	"6581 (old)",
 	"8580 (new)",
+	"8580 (new+digiboost)",
+	"6581R4",
+	"DTVSID",
 	NULL
 };
 

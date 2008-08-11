@@ -9,7 +9,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/tape \
 	-I$(top_srcdir)/src/vicii
 
-noinst_LIBRARIES = libc64.a libc64c128.a
+noinst_LIBRARIES = libc64.a libc64c128.a libc64c64dtv.a
 
 libc64_a_SOURCES = \
 	c64-cmdline-options.c \
@@ -90,6 +90,26 @@ libc64_a_SOURCES = \
 	tfe.c \
 	tfe.h \
 	tfearch.h
+
+libc64c64dtv_a_SOURCES = \
+	c64bus.c \
+	c64drive.c \
+	c64fastiec.c \
+	c64fastiec.h \
+	c64keyboard.c \
+	c64keyboard.h \
+	c64parallel.c \
+	c64parallel.h \
+	c64printer.c \
+	c64rom.c \
+	c64rom.h \
+	c64romset.c \
+	c64romset.h \
+	c64rsuser.c \
+	c64rsuser.h \
+	c64video.c \
+	patchrom.c \
+	patchrom.h
 
 libc64c128_a_SOURCES = \
 	c64acia.h \

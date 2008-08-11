@@ -74,6 +74,10 @@ ui_menu_entry_t sid_model_submenu[] = {
       (ui_callback_t)radio_SidModel, (ui_callback_data_t)1, NULL },
     { N_("*8580 + digi boost"),
       (ui_callback_t)radio_SidModel, (ui_callback_data_t)2, NULL },
+    { N_("*6581R4 (not yet implemented)"),
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)3, NULL },
+    { N_("*DTVSID"),
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)4, NULL },
     { NULL }
 };
 

@@ -30,6 +30,8 @@
 
 extern int c64ui_init(void);
 extern void c64ui_shutdown(void);
+extern int c64dtvui_init(void);
+extern void c64dtvui_shutdown(void);
 
 #endif
 

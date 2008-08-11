@@ -5,6 +5,9 @@
  *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *
+ * DTV sections written by
+ *  Daniel Kahlin <daniel@kahlin.net>
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -198,11 +201,13 @@ inline static void draw_sprites_partial(raster_t *raster, int xs, int xe)
 
 void raster_line_draw_borders(raster_t *raster)
 {
-    if (!raster->open_left_border)
-        raster_line_draw_blank(raster, 0, raster->display_xstart - 1);
-    if (!raster->open_right_border)
-        raster_line_draw_blank(raster, raster->display_xstop,
-                               raster->geometry->screen_size.width - 1);
+    if (!raster->border_disable) {
+        if (!raster->open_left_border)
+            raster_line_draw_blank(raster, 0, raster->display_xstart - 1);
+        if (!raster->open_right_border)
+            raster_line_draw_blank(raster, raster->display_xstop,
+                                   raster->geometry->screen_size.width - 1);
+    }
 }
 
 void raster_line_fill_xsmooth_region(raster_t *raster)
@@ -223,7 +228,7 @@ inline static void fill_background(raster_t *raster)
 {
     raster_line_fill_xsmooth_region(raster);
 
-    if (raster->open_left_border) {
+    if (raster->open_left_border || raster->border_disable) {
         if (raster->draw_idle_state)
             memset(raster->draw_buffer_ptr, raster->idle_background_color,
                    (raster->geometry->gfx_position.x + raster->xsmooth));
@@ -232,27 +237,50 @@ inline static void fill_background(raster_t *raster)
                    (raster->geometry->gfx_position.x + raster->xsmooth));
     }
 
-    if (raster->open_right_border) {
-        if (raster->draw_idle_state)
-            memset(raster->draw_buffer_ptr +
-                   raster->geometry->gfx_position.x
-                   + raster->geometry->gfx_size.width
-                   + raster->xsmooth,
-                   raster->idle_background_color,
-                   raster->geometry->screen_size.width
-                   - raster->geometry->gfx_position.x
-                   - raster->geometry->gfx_size.width
-                   - raster->xsmooth);
-        else
-            memset(raster->draw_buffer_ptr +
-                   raster->geometry->gfx_position.x
-                   + raster->geometry->gfx_size.width
-                   + raster->xsmooth,
-                   raster->xsmooth_color,
-                   raster->geometry->screen_size.width
-                   - raster->geometry->gfx_position.x
-                   - raster->geometry->gfx_size.width
-                   - raster->xsmooth);
+    if (raster->open_right_border || raster->border_disable) {
+        if (!raster->can_disable_border) {
+            if (raster->draw_idle_state)
+                memset(raster->draw_buffer_ptr +
+                       raster->geometry->gfx_position.x
+                       + raster->geometry->gfx_size.width
+                       + raster->xsmooth,
+                       raster->idle_background_color,
+                       raster->geometry->screen_size.width
+                       - raster->geometry->gfx_position.x
+                       - raster->geometry->gfx_size.width
+                       - raster->xsmooth);
+            else
+                memset(raster->draw_buffer_ptr +
+                       raster->geometry->gfx_position.x
+                       + raster->geometry->gfx_size.width
+                       + raster->xsmooth,
+                       raster->xsmooth_color,
+                       raster->geometry->screen_size.width
+                       - raster->geometry->gfx_position.x
+                       - raster->geometry->gfx_size.width
+                       - raster->xsmooth);
+        } else {
+	        int len = raster->geometry->screen_size.width
+                    - raster->geometry->gfx_position.x
+                    - raster->geometry->gfx_size.width
+                    - raster->xsmooth;
+            if (len > 0) {
+                if (raster->draw_idle_state)
+                    memset(raster->draw_buffer_ptr +
+                           raster->geometry->gfx_position.x
+                           + raster->geometry->gfx_size.width
+                           + raster->xsmooth,
+                           raster->idle_background_color,
+                           len);
+                else
+                    memset(raster->draw_buffer_ptr +
+                           raster->geometry->gfx_position.x
+                           + raster->geometry->gfx_size.width
+                           + raster->xsmooth,
+                           raster->xsmooth_color,
+                           len);
+            }
+        }
     }
 }
 
@@ -492,55 +520,76 @@ static void handle_visible_line_with_changes(raster_t *raster)
                              + geometry->extra_offscreen_border_right - 1);
 #endif
 
-    /* Draw left border.  */
-    xstop = raster->display_xstart - 1;
-    if (!raster->open_left_border) {
-        for (xs = i = 0;
-            (i < changes->border->count
-            && changes->border->actions[i].where <= xstop);
-            i++) {
+    /* If this is really a blanked line, draw border over all of the line
+       considering border changes */
+    if (raster->can_disable_border && ((raster->blank_this_line || raster->blank_enabled) && !raster->open_left_border)) {
+        for (xs = i = 0; i < changes->border->count; i++) {
             int xe = changes->border->actions[i].where;
 
             if (xs < xe) {
-                raster_line_draw_blank(raster, xs, xe - 1);
+                if (!raster->border_disable)
+                    raster_line_draw_blank(raster, xs, xe - 1);
                 xs = xe;
             }
             raster_changes_apply(changes->border, i);
         }
-        if (xs <= xstop)
-            raster_line_draw_blank(raster, xs, xstop);
+        if (!raster->border_disable)
+            if (xs <= (int)geometry->screen_size.width - 1)
+                raster_line_draw_blank(raster, xs, geometry->screen_size.width - 1);
     } else {
-        for (i = 0;
-            (i < changes->border->count
-            && changes->border->actions[i].where <= xstop);
-            i++)
-            raster_changes_apply(changes->border, i);
-    }
+        /* Draw left border.  */
+        xstop = raster->display_xstart - 1;
+        if (!raster->open_left_border) {
+            for (xs = i = 0;
+                (i < changes->border->count
+                && changes->border->actions[i].where <= xstop);
+                i++) {
+                int xe = changes->border->actions[i].where;
 
-    /* Draw right border.  */
-    if (!raster->open_right_border) {
-        for (;
-            (i < changes->border->count
-            && (changes->border->actions[i].where
-            <= raster->display_xstop));
-            i++)
-            raster_changes_apply(changes->border, i);
-        for (xs = raster->display_xstop;
-            i < changes->border->count;
-            i++) {
-            int xe = changes->border->actions[i].where;
-
-            if (xs < xe) {
-                raster_line_draw_blank(raster, xs, xe - 1);
-                xs = xe;
+                if (xs < xe) {
+        	        if (!raster->border_disable)
+                        raster_line_draw_blank(raster, xs, xe - 1);
+                    xs = xe;
+                }
+                raster_changes_apply(changes->border, i);
             }
-            raster_changes_apply(changes->border, i);
+            if ((!raster->border_disable) && (xs <= xstop))
+                raster_line_draw_blank(raster, xs, xstop);
+        } else {
+            for (i = 0;
+                (i < changes->border->count
+                && changes->border->actions[i].where <= xstop);
+                i++)
+                raster_changes_apply(changes->border, i);
         }
-        if (xs <= (int)geometry->screen_size.width - 1)
-            raster_line_draw_blank(raster, xs, geometry->screen_size.width - 1);
-    } else {
-        for (i = 0; i < changes->border->count; i++)
-            raster_changes_apply(changes->border, i);
+
+        /* Draw right border.  */
+        if (!raster->open_right_border) {
+            for (;
+                (i < changes->border->count
+                && (changes->border->actions[i].where
+                <= raster->display_xstop));
+                i++)
+                raster_changes_apply(changes->border, i);
+            for (xs = raster->display_xstop;
+                i < changes->border->count;
+                i++) {
+                int xe = changes->border->actions[i].where;
+
+                if (xs < xe) {
+                    if (!raster->border_disable)
+                        raster_line_draw_blank(raster, xs, xe - 1);
+                    xs = xe;
+                }
+                raster_changes_apply(changes->border, i);
+            }
+            if (!raster->border_disable)
+                if (xs <= (int)geometry->screen_size.width - 1)
+                    raster_line_draw_blank(raster, xs, geometry->screen_size.width - 1);
+        } else {
+            for (i = 0; i < changes->border->count; i++)
+                raster_changes_apply(changes->border, i);
+        }
     }
 
     raster_changes_remove_all(changes->foreground);
@@ -591,11 +640,17 @@ void raster_line_emulate(raster_t *raster)
         && raster->geometry->screen_size.height <= raster->geometry->last_displayed_line)
        )
    {
-        if ((raster->blank_this_line || raster->blank_enabled)
-            && !raster->open_left_border)
-            handle_blank_line(raster);
-        else
+        /* handle lines with no border or with changes that may affect
+           the border as visible lines */
+        if (raster->can_disable_border && (raster->border_disable || raster->changes->have_on_this_line)) { 
             handle_visible_line(raster);
+        } else {
+            if ((raster->blank_this_line || raster->blank_enabled)
+                && !raster->open_left_border)
+                handle_blank_line(raster);
+            else
+                handle_visible_line(raster);
+        }
 
         if (++raster->num_cached_lines == (1
             + raster->geometry->last_displayed_line

@@ -5,6 +5,9 @@
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
  *
+ * DTV sections written by
+ *  Daniel Kahlin <daniel@kahlin.net>
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -119,6 +122,7 @@ struct raster_s {
 
     /* Open border flags.  */
     int open_right_border, open_left_border;
+    int can_disable_border, border_disable;
 
     /*  Overrides the blank flag when forced DMA switches on screen and the
         store that forced DMA sets the blank flag.  The flag should be cleared

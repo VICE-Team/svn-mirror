@@ -7,6 +7,7 @@ xdel Vice2\*.*  /s /l /n /d
 md "Vice2"
 type install.cmd > Vice2\install.cmd
 copy ..\..\..\data\x64.exe     Vice2
+copy ..\..\..\data\x64dtv.exe     Vice2
 copy ..\..\..\data\x128.exe    Vice2
 copy ..\..\..\data\xvic.exe     Vice2
 copy ..\..\..\data\xpet.exe     Vice2
@@ -39,6 +40,22 @@ copy ..\..\..\data\C64\os2.vkm      Vice2\C64
 copy ..\..\..\data\C64\os2_sym.vkm  Vice2\C64
 copy ..\..\..\data\C64\pc64.vpl     Vice2\C64
 copy ..\..\..\data\C64\vice.vpl     Vice2\C64
+
+md Vice2\C64DTV
+copy ..\..\..\data\C64DTV\basic        Vice2\C64DTV
+copy ..\..\..\data\C64DTV\c64mem.sym   Vice2\C64DTV
+copy ..\..\..\data\C64DTV\c64s.vpl     Vice2\C64DTV
+copy ..\..\..\data\C64DTV\ccs64.vpl    Vice2\C64DTV
+copy ..\..\..\data\C64DTV\chargen      Vice2\C64DTV
+copy ..\..\..\data\C64DTV\default.vpl  Vice2\C64DTV
+copy ..\..\..\data\C64DTV\default.vrs  Vice2\C64DTV
+copy ..\..\..\data\C64DTV\frodo.vpl    Vice2\C64DTV
+copy ..\..\..\data\C64DTV\godot.vpl    Vice2\C64DTV
+copy ..\..\..\data\C64DTV\kernal       Vice2\C64DTV
+copy ..\..\..\data\C64DTV\os2.vkm      Vice2\C64DTV
+copy ..\..\..\data\C64DTV\os2_sym.vkm  Vice2\C64DTV
+copy ..\..\..\data\C64DTV\pc64.vpl     Vice2\C64DTV
+copy ..\..\..\data\C64DTV\vice.vpl     Vice2\C64DTV
 
 md Vice2\C128
 copy ..\..\..\data\C128\basic64      Vice2\C128

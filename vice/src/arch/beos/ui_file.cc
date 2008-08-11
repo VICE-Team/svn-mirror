@@ -321,6 +321,8 @@ void ui_select_file(ViceFilePanel *filepanel,
 		sprintf(title,"Select MMC64 BIOS file");
 	if (filetype == MMC64_IMAGE_FILE)
 		sprintf(title,"Select MMC64 image file");
+	if (filetype == C64DTV_ROM_FILE)
+		sprintf(title,"Select C64DTV ROM file");
 	if (filetype == AIFF_FILE)
 		sprintf(title,"Select AIFF Sound Recording file");
 	if (filetype == IFF_FILE)
@@ -418,6 +420,8 @@ void ui_select_file_action(BMessage *msg) {
     		BMessage *msg = new BMessage(PLAY_VSID);
     		msg->AddString("filename", path->Path());
     		ui_add_event(msg);
+    	} else if (last_filetype[0] == C64DTV_ROM_FILE) {
+            resources_set_string("c64dtvromfilename", path->Path());
     	} else if (last_filetype[0] == MMC64_BIOS_FILE) {
             resources_set_string("MMC64BIOSfilename", path->Path());
     	} else if (last_filetype[0] == MMC64_IMAGE_FILE) {

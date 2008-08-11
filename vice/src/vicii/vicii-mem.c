@@ -5,6 +5,10 @@
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
  *
+ * DTV sections written by
+ *  Hannu Nuotio <hannu.nuotio@tut.fi>
+ *  Daniel Kahlin <daniel@kahlin.net>
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -49,7 +53,7 @@
 
 
 /* Unused bits in VIC-II registers: these are always 1 when read.  */
-static int unused_bits_in_registers[64] =
+static int unused_bits_in_registers[0x50] =
 {
     0x00 /* $D000 */ , 0x00 /* $D001 */ , 0x00 /* $D002 */ , 0x00 /* $D003 */ ,
     0x00 /* $D004 */ , 0x00 /* $D005 */ , 0x00 /* $D006 */ , 0x00 /* $D007 */ ,
@@ -59,14 +63,18 @@ static int unused_bits_in_registers[64] =
     0x00 /* $D014 */ , 0x00 /* $D015 */ , 0x00 /* $D016 */ , 0xc0 /* $D017 */ ,
     0x01 /* $D018 */ , 0x70 /* $D019 */ , 0xf0 /* $D01A */ , 0x00 /* $D01B */ ,
     0x00 /* $D01C */ , 0x00 /* $D01D */ , 0x00 /* $D01E */ , 0x00 /* $D01F */ ,
-    0xf0 /* $D020 */ , 0xf0 /* $D021 */ , 0xf0 /* $D022 */ , 0xf0 /* $D023 */ ,
-    0xf0 /* $D024 */ , 0xf0 /* $D025 */ , 0xf0 /* $D026 */ , 0xf0 /* $D027 */ ,
+    0x00 /* $D020 */ , 0x00 /* $D021 */ , 0x00 /* $D022 */ , 0x00 /* $D023 */ ,
+    0x00 /* $D024 */ , 0xf0 /* $D025 */ , 0xf0 /* $D026 */ , 0xf0 /* $D027 */ ,
     0xf0 /* $D028 */ , 0xf0 /* $D029 */ , 0xf0 /* $D02A */ , 0xf0 /* $D02B */ ,
     0xf0 /* $D02C */ , 0xf0 /* $D02D */ , 0xf0 /* $D02E */ , 0xff /* $D02F */ ,
     0xff /* $D030 */ , 0xff /* $D031 */ , 0xff /* $D032 */ , 0xff /* $D033 */ ,
-    0xff /* $D034 */ , 0xff /* $D035 */ , 0xff /* $D036 */ , 0xff /* $D037 */ ,
-    0xff /* $D038 */ , 0xff /* $D039 */ , 0xff /* $D03A */ , 0xff /* $D03B */ ,
-    0xff /* $D03C */ , 0xff /* $D03D */ , 0xff /* $D03E */ , 0xff /* $D03F */
+    0xff /* $D034 */ , 0xff /* $D035 */ , 0x00 /* $D036 */ , 0x00 /* $D037 */ ,
+    0x00 /* $D038 */ , 0xf0 /* $D039 */ , 0x00 /* $D03A */ , 0x00 /* $D03B */ ,
+    0x80 /* $D03C */ , 0x00 /* $D03D */ , 0xff /* $D03E */ , 0xfc /* $D03F */ ,
+    0xf8 /* $D040 */ , 0x00 /* $D041 */ , 0x00 /* $D042 */ , 0x00 /* $D043 */ ,
+    0x80 /* $D044 */ , 0xc0 /* $D045 */ , 0x00 /* $D046 */ , 0x00 /* $D047 */ ,
+    0xf0 /* $D048 */ , 0x00 /* $D049 */ , 0x00 /* $D04A */ , 0xc0 /* $D04B */ ,
+    0x00 /* $D04C */ , 0xc0 /* $D04D */ , 0x00 /* $D04E */ , 0xf0 /* $D04F */
 };
 
 
@@ -581,7 +589,7 @@ inline static void d01a_store(const BYTE value)
 
     vicii_irq_set_line();
 
-    VICII_DEBUG_REGISTER(("IRQ mask register: $%02X", vicii.regs[addr]));
+/*    VICII_DEBUG_REGISTER(("IRQ mask register: $%02X", vicii.regs[addr])); */
 }
 
 inline static void d01b_store(const BYTE value)
@@ -732,43 +740,48 @@ inline static void d020_store(BYTE value)
 {
     VICII_DEBUG_REGISTER(("Border color register: $%02X", value));
 
-    value &= 0xf;
+    if (!vicii.extended_enable)
+        value = (vicii.regs[0x20] & 0xf0) | (value & 0x0f);
 
-    if (vicii.regs[0x20] == value)
+    if (!vicii.viciidtv && (vicii.regs[0x20] == value))
         return;
 
     vicii.regs[0x20] = value;
 
     raster_changes_border_add_int(&vicii.raster,
-        VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
+        vicii.viciidtv?VICIIDTV_RASTER_X_ADJ(VICII_RASTER_CYCLE(maincpu_clk)):VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
         (int *)&vicii.raster.border_color,
-        value);
+        vicii.viciidtv?vicii.dtvpalette[value]:value);
 }
 
 inline static void d021_store(BYTE value)
 {
     int x_pos;
+    BYTE cmask;
+    cmask = (vicii.high_color) ? 0xff : 0x0f;
 
-    value &= 0xf;
+    if (!vicii.extended_enable)
+        value = (vicii.regs[0x21] & 0xf0) | (value & 0x0f);
 
     VICII_DEBUG_REGISTER(("Background #0 color register: $%02X", value));
 
-    if (vicii.regs[0x21] == value)
+    if (!vicii.viciidtv && (vicii.regs[0x21] == value))
         return;
 
-    x_pos = VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk));
+    x_pos = vicii.viciidtv?VICIIDTV_RASTER_X_ADJ(VICII_RASTER_CYCLE(maincpu_clk)):VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk));
 
     if (!vicii.force_black_overscan_background_color) {
         raster_changes_background_add_int(&vicii.raster, x_pos,
                                           &vicii.raster.idle_background_color,
-                                          value);
+                                          vicii.viciidtv?vicii.dtvpalette[value & cmask]:value);
         raster_changes_background_add_int(&vicii.raster, x_pos,
-                                          &vicii.raster.xsmooth_color, value);
+                                          &vicii.raster.xsmooth_color, 
+                                          vicii.viciidtv?vicii.dtvpalette[value & cmask]:value);
     }
 
     raster_changes_background_add_int(&vicii.raster, x_pos,
                                       (int *)&vicii.raster.background_color,
-                                      value);
+                                      vicii.viciidtv?vicii.dtvpalette[value & cmask]:value);
     vicii.regs[0x21] = value;
 }
 
@@ -776,12 +789,16 @@ inline static void ext_background_store(WORD addr, BYTE value)
 {
     int char_num;
 
-    value &= 0xf;
+    BYTE cmask;
+    cmask = (vicii.high_color) ? 0xff : 0x0f;
+
+    if (!vicii.extended_enable)
+        value = (vicii.regs[addr] & 0xf0) | (value & 0x0f);
 
     VICII_DEBUG_REGISTER(("Background color #%d register: $%02X",
                           addr - 0x21, value));
 
-    if (vicii.regs[addr] == value)
+    if (!vicii.viciidtv && (vicii.regs[addr] == value))
         return;
 
     vicii.regs[addr] = value;
@@ -798,7 +815,7 @@ inline static void ext_background_store(WORD addr, BYTE value)
     raster_changes_foreground_add_int(&vicii.raster,
                                       char_num - 1,
                                       &vicii.ext_background_color[addr - 0x22],
-                                      value);
+                                      vicii.viciidtv?vicii.dtvpalette[value & cmask]:value);
 }
 
 inline static void d025_store(BYTE value)
@@ -809,14 +826,15 @@ inline static void d025_store(BYTE value)
 
     VICII_DEBUG_REGISTER(("Sprite multicolor register #0: $%02X", value));
 
-    if (vicii.regs[0x25] == value)
+    if (!vicii.viciidtv && (vicii.regs[0x25] == value))
         return;
 
     sprite_status = vicii.raster.sprite_status;
 
     raster_changes_sprites_add_int(&vicii.raster,
         VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)) + 1,
-        (int *)&sprite_status->mc_sprite_color_1, (int)value);
+        (int *)&sprite_status->mc_sprite_color_1, 
+        vicii.viciidtv?(int)vicii.dtvpalette[value]:(int)value);
 
     vicii.regs[0x25] = value;
 }
@@ -829,14 +847,15 @@ inline static void d026_store(BYTE value)
 
     VICII_DEBUG_REGISTER(("Sprite multicolor register #1: $%02X", value));
 
-    if (vicii.regs[0x26] == value)
+    if (!vicii.viciidtv && (vicii.regs[0x26] == value))
         return;
 
     sprite_status = vicii.raster.sprite_status;
 
     raster_changes_sprites_add_int(&vicii.raster,
         VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)) + 1,
-        (int*)&sprite_status->mc_sprite_color_2, (int)value);
+        (int*)&sprite_status->mc_sprite_color_2, 
+        vicii.viciidtv?(int)vicii.dtvpalette[value]:(int)value);
 
     vicii.regs[0x26] = value;
 }
@@ -851,7 +870,7 @@ inline static void sprite_color_store(WORD addr, BYTE value)
     VICII_DEBUG_REGISTER(("Sprite #%d color register: $%02X",
                          addr - 0x27, value));
 
-    if (vicii.regs[addr] == value)
+    if (!vicii.viciidtv && (vicii.regs[addr] == value))
         return;
 
     n = addr - 0x27;
@@ -860,7 +879,8 @@ inline static void sprite_color_store(WORD addr, BYTE value)
 
         raster_changes_sprites_add_int(&vicii.raster,
             VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)) + 1,
-            (int *)&sprite->color, value);
+            (int *)&sprite->color, 
+            vicii.viciidtv?vicii.dtvpalette[value]:value);
 
     vicii.regs[addr] = value;
 }
@@ -889,10 +909,305 @@ inline static void d030_store(BYTE value)
     }
 }
 
+extern BYTE mem_ram[];
+
+void viciidtv_update_colorram()
+{
+    vicii.color_ram_ptr = mem_ram
+        + (vicii.regs[0x36] << 10)
+        + ((vicii.regs[0x37] & 0x07) << 18); /* TODO test */
+}
+
+inline static void d036_store(const BYTE value)
+{
+    if (vicii.extended_enable) {
+        vicii.regs[0x36] = value;
+        viciidtv_update_colorram();
+    }
+    
+    VICII_DEBUG_REGISTER(("Color bank low: $%02x",value));
+}
+
+inline static void d037_store(const BYTE value)
+{
+    if (vicii.extended_enable) {
+        vicii.regs[0x37] = value;
+        viciidtv_update_colorram();
+    }
+    VICII_DEBUG_REGISTER(("Color bank high: $%02x",value));
+}
+
+inline static void d038_store(const BYTE value)
+{
+    if (vicii.extended_enable) {
+        vicii.regs[0x38] = value;
+        vicii.counta_mod &= 0xff00;
+        vicii.counta_mod |= value;
+    }
+
+    VICII_DEBUG_REGISTER(("Linear Count A modulo low: $%02x",value));
+}
+
+inline static void d039_store(const BYTE value)
+{
+    if (vicii.extended_enable) {
+        vicii.regs[0x39] = value & 0xf;
+        vicii.counta_mod &= 0x00ff;
+        vicii.counta_mod |= ((value&0xf)<<8);
+    }
+
+    VICII_DEBUG_REGISTER(("Linear Count A modulo high: $%02x",value));
+}
+
+inline static void d03a_store(const BYTE value)
+{
+    if (vicii.extended_enable) {
+        vicii.regs[0x3a] = value;
+        vicii_update_memory_ptrs(VICII_RASTER_CYCLE(maincpu_clk));
+    }
+
+    VICII_DEBUG_REGISTER(("Linear Count A Start low: $%02x",value));
+}
+
+inline static void d03b_store(const BYTE value)
+{
+    if (vicii.extended_enable) {
+        vicii.regs[0x3b] = value;
+        vicii_update_memory_ptrs(VICII_RASTER_CYCLE(maincpu_clk));
+    }
+
+    VICII_DEBUG_REGISTER(("Linear Count A Start middle: $%02x",value));
+}
+
+inline static void d03c_store(const BYTE value)
+{
+    int cycle, old_overscan;
+  
+    if (!vicii.extended_enable)
+        return;
+
+    cycle = VICII_RASTER_CYCLE(maincpu_clk);
+    old_overscan = vicii.overscan;
+    vicii.regs[0x3c] = value;
+    vicii.badline_disable = value & 0x20 ? 1 : 0;
+    vicii.colorfetch_disable = value & 0x10 ? 1: 0;
+    vicii.overscan = value & 0x08 ? 1 : 0;
+    vicii.high_color = value & 0x04 ? 1 : 0;
+    vicii.border_off = value & 0x02 ? 1 : 0;
+
+    /* make some of those constants below into defines */
+    raster_changes_border_add_int(&vicii.raster,
+        VICIIDTV_RASTER_X_ADJ(cycle),
+        (int *)&vicii.raster.border_disable,
+        vicii.border_off);
+
+    if (vicii.overscan) {
+        vicii.raster.geometry->gfx_size.width = VICII_SCREEN_XPIX+64;
+        vicii.raster.geometry->text_size.width = VICII_SCREEN_TEXTCOLS + 8;
+        vicii.raster.geometry->gfx_position.x = vicii.screen_leftborderwidth - 32;
+        if (!old_overscan) { /* TODO should happen max. once per line */
+            /* remove the 8 extra counter increments for the current line */
+            vicii.counta -= vicii.counta_step * 8;
+            vicii.countb -= vicii.countb_step * 8;
+        }
+    } else {
+        vicii.raster.geometry->gfx_size.width = VICII_SCREEN_XPIX;
+        vicii.raster.geometry->text_size.width = VICII_SCREEN_TEXTCOLS;
+        vicii.raster.geometry->gfx_position.x = vicii.screen_leftborderwidth;
+    }
+
+    d020_store((BYTE)vicii.regs[0x20]);
+    d021_store((BYTE)vicii.regs[0x21]);
+    ext_background_store(0x22,(BYTE)vicii.regs[0x22]);
+    ext_background_store(0x23,(BYTE)vicii.regs[0x23]);
+    ext_background_store(0x24,(BYTE)vicii.regs[0x24]);
+
+    vicii_update_video_mode(cycle);
+    vicii_update_memory_ptrs(cycle);
+
+    VICII_DEBUG_REGISTER(("VICIIDTV register 1: $%02x",value));
+}
+
+inline static void d03d_store(const BYTE value)
+{
+    if (vicii.extended_enable) {
+        vicii.regs[0x3d] = value & 0x1f;
+        vicii_update_memory_ptrs(VICII_RASTER_CYCLE(maincpu_clk));
+    }
+    
+    VICII_DEBUG_REGISTER(("Graphics fetch bank: $%02x",value));
+}
+
+inline static void d03f_store(const BYTE value)
+{
+    if (vicii.extended_lockout)
+        return;
+    vicii.extended_enable = value & 0x01 ? 1 : 0;
+    vicii.extended_lockout = value & 0x02 ? 1 : 0;
+
+    vicii.regs[0x3f] = value;
+
+    VICII_DEBUG_REGISTER(("Enable extended features: $%02x",value));
+}
+
+int vicii_extended_regs(void)
+{
+    return vicii.extended_enable;
+}
+
+
+inline static void d040_store(const BYTE value)
+{
+    if (vicii.extended_enable) vicii.regs[0x40] = value;
+
+    VICII_DEBUG_REGISTER(("VICIIDTV register 2: $%02x",value));
+}
+
+inline static void d044_store(const BYTE value)
+{
+
+    if (vicii.extended_enable) {
+        int offs;
+        vicii.regs[0x44] = value;
+
+        offs = value & 0x7f;
+        vicii.raster_irq_prevent = 0;
+        if (offs <= 64) {
+            if (vicii.cycles_per_line == 63 && offs > 53) {
+                if (offs == 54 || offs == 55)
+                    vicii.raster_irq_prevent = 1;
+                offs -= 2;
+            }
+            vicii.raster_irq_offset = (offs+1) % vicii.cycles_per_line;
+        } else {
+            vicii.raster_irq_prevent = 1;
+        }
+        vicii_irq_set_raster_line(vicii.raster_irq_line);
+    }
+    VICII_DEBUG_REGISTER(("CPU cycle/IRQ trigger cycle: $%02x",value));
+}
+
+inline static void d045_store(const BYTE value)
+{
+    if (vicii.extended_enable) {
+        vicii.regs[0x45] = value&0x1f;
+        viciidtv_update_colorram();
+        vicii_update_memory_ptrs(VICII_RASTER_CYCLE(maincpu_clk));
+    }
+
+    VICII_DEBUG_REGISTER(("Linear Count A Start high: $%02x",value));
+}
+
+inline static void d046_store(const BYTE value)
+{
+    if (vicii.extended_enable) {
+        vicii.regs[0x46] = value;
+        vicii.counta_step = value;
+    }
+
+    VICII_DEBUG_REGISTER(("Linear Count A Step: $%02x",value));
+}
+
+inline static void d047_store(const BYTE value)
+{
+    if (vicii.extended_enable) {
+        vicii.regs[0x47] = value;
+        vicii.countb_mod &= 0xff00;
+        vicii.countb_mod |= value;
+    }
+
+    VICII_DEBUG_REGISTER(("Linear Count B modulo low: $%02x",value));
+}
+
+inline static void d048_store(const BYTE value)
+{
+    if (vicii.extended_enable) {
+        vicii.regs[0x48] = value & 0xf;
+        vicii.countb_mod &= 0x00ff;
+        vicii.countb_mod |= ((value&0xf)<<8);
+    }
+
+    VICII_DEBUG_REGISTER(("Linear Count B modulo high: $%02x",value));
+}
+
+inline static void d049_store(const BYTE value)
+{
+    if (vicii.extended_enable) {
+        vicii.regs[0x49] = value;
+    }
+
+    VICII_DEBUG_REGISTER(("Linear Count B Start low: $%02x",value));
+}
+
+inline static void d04a_store(const BYTE value)
+{
+    if (vicii.extended_enable) {
+        vicii.regs[0x4a] = value;
+    }
+
+    VICII_DEBUG_REGISTER(("Linear Count B Start middle: $%02x",value));
+}
+
+inline static void d04b_store(const BYTE value)
+{
+    if (vicii.extended_enable) {
+        vicii.regs[0x4b] = value&0x1f;
+    }
+
+    VICII_DEBUG_REGISTER(("Linear Count B Start high: $%02x",value));
+}
+
+inline static void d04c_store(const BYTE value)
+{
+    if (vicii.extended_enable) {
+        vicii.regs[0x4c] = value;
+        vicii.countb_step = value;
+    }
+
+    VICII_DEBUG_REGISTER(("Linear Count B Step: $%02x",value));
+}
+
+inline static void d04d_store(const BYTE value)
+{
+    if (vicii.extended_enable) vicii.regs[0x4d] = value & 0x1f;
+
+    VICII_DEBUG_REGISTER(("Sprite bank: $%02x",value));
+}
+
+/* DTV Palette registers at $d2xx */
+void REGPARM2 vicii_palette_store(WORD addr, BYTE value)
+{
+    if (!vicii.extended_enable) return; 
+    if (vicii.dtvpalette[addr&0xf]==value) return;
+    vicii.dtvpalette[addr&0xf]=value;
+    d020_store((BYTE)vicii.regs[0x20]);
+    d021_store((BYTE)vicii.regs[0x21]);
+    ext_background_store(0x22,(BYTE)vicii.regs[0x22]);
+    ext_background_store(0x23,(BYTE)vicii.regs[0x23]);
+    ext_background_store(0x24,(BYTE)vicii.regs[0x24]);
+    d025_store((BYTE)vicii.regs[0x25]);
+    d026_store((BYTE)vicii.regs[0x26]);
+    sprite_color_store(0x27,(BYTE)vicii.regs[0x27]);
+    sprite_color_store(0x28,(BYTE)vicii.regs[0x28]);
+    sprite_color_store(0x29,(BYTE)vicii.regs[0x29]);
+    sprite_color_store(0x2a,(BYTE)vicii.regs[0x2a]);
+    sprite_color_store(0x2b,(BYTE)vicii.regs[0x2b]);
+    sprite_color_store(0x2c,(BYTE)vicii.regs[0x2c]);
+    sprite_color_store(0x2d,(BYTE)vicii.regs[0x2d]);
+    sprite_color_store(0x2e,(BYTE)vicii.regs[0x2e]);
+    if (vicii.raster.cache_enabled) vicii.raster.dont_cache = 1;
+}
+
+BYTE REGPARM1 vicii_palette_read(WORD addr)
+{
+    return 0;
+}
+
 /* Store a value in a VIC-II register.  */
 void REGPARM2 vicii_store(WORD addr, BYTE value)
 {
-    addr &= 0x3f;
+    if (vicii.extended_enable) addr &= 0x7f;
+    else addr &= 0x3f;
 
     vicii_handle_pending_alarms_external_write();
 
@@ -1036,17 +1351,126 @@ void REGPARM2 vicii_store(WORD addr, BYTE value)
       case 0x33:                  /* $D033: Unused */
       case 0x34:                  /* $D034: Unused */
       case 0x35:                  /* $D035: Unused */
-      case 0x36:                  /* $D036: Unused */
-      case 0x37:                  /* $D037: Unused */
-      case 0x38:                  /* $D038: Unused */
-      case 0x39:                  /* $D039: Unused */
-      case 0x3a:                  /* $D03A: Unused */
-      case 0x3b:                  /* $D03B: Unused */
-      case 0x3c:                  /* $D03C: Unused */
-      case 0x3d:                  /* $D03D: Unused */
       case 0x3e:                  /* $D03E: Unused */
-      case 0x3f:                  /* $D03F: Unused */
+      case 0x50:
+      case 0x51:
+      case 0x52:
+      case 0x53:
+      case 0x54:
+      case 0x55:
+      case 0x56:
+      case 0x57:
+      case 0x58:
+      case 0x59:
+      case 0x5a:
+      case 0x5b:
+      case 0x5c:
+      case 0x5d:
+      case 0x5e:
+      case 0x5f:
+      case 0x60:
+      case 0x61:
+      case 0x62:
+      case 0x63:
+      case 0x64:
+      case 0x65:
+      case 0x66:
+      case 0x67:
+      case 0x68:
+      case 0x69:
+      case 0x6a:
+      case 0x6b:
+      case 0x6c:
+      case 0x6d:
+      case 0x6e:
+      case 0x6f:
+      case 0x70:
+      case 0x71:
+      case 0x72:
+      case 0x73:
+      case 0x74:
+      case 0x75:
+      case 0x76:
+      case 0x77:
+      case 0x78:
+      case 0x79:
+      case 0x7a:
+      case 0x7b:
+      case 0x7c:
+      case 0x7d:
+      case 0x7e:
+      case 0x7f:
         VICII_DEBUG_REGISTER(("(unused)"));
+        break;
+
+      case 0x36:                  /* $D036: Color Bank Low */
+        d036_store(value);
+        break;
+      case 0x37:                  /* $D037: Color Bank High */
+        d037_store(value);
+        break;
+      case 0x38:                  /* $D038: Linear Count A Modulo Low */
+        d038_store(value);
+        break;
+      case 0x39:                  /* $D039: Linear Count A Modulo High */
+        d039_store(value);
+        break;
+      case 0x3a:                  /* $D03a: Linear Count A Start Low */
+        d03a_store(value);
+        break;
+      case 0x3b:                  /* $D03B: Linear Count A Start Middle */
+        d03b_store(value);
+        break;
+      case 0x3c:                  /* $D03C: VICIIDTV register 1 */
+        d03c_store(value);
+        break;
+      case 0x3d:                  /* $D03D: Graphics fetch bank */
+        d03d_store(value);
+        break;
+      case 0x3f:                  /* $D03F: Enable extended features register */
+        d03f_store(value);
+        break;
+      case 0x40:                  /* $D040: VICIIDTV register 2 */
+        d040_store(value);
+        break;
+      case 0x41:                  /* $D041: Burst rate modulus high */
+      case 0x42:                  /* $D042: Burst rate modulus middle */
+      case 0x43:                  /* $D043: Burst rate modulus low */
+        VICII_DEBUG_REGISTER(("Burst rate modulus (ignored)"));
+        break;
+      case 0x44:                  /* $D044: CPU cycle/IRQ trigger cycle */
+        d044_store(value);
+        break;
+      case 0x45:                  /* $D045: Linear Count A Start High */
+        d045_store(value);
+        break;
+      case 0x46:                  /* $D046: Linear Count A Step */
+        d046_store(value);
+        break;
+      case 0x47:                  /* $D047: Linear Count B Modulo Low */
+        d047_store(value);
+        break;
+      case 0x48:                  /* $D048: Linear Count B Modulo High */
+        d048_store(value);
+        break;
+      case 0x49:                  /* $D049: Linear Count B Start Low */
+        d049_store(value);
+        break;
+      case 0x4a:                  /* $D04A: Linear Count B Start Middle */
+        d04a_store(value);
+        break;
+      case 0x4b:                  /* $D04B: Linear Count B Start High */
+        d04b_store(value);
+        break;
+      case 0x4c:                  /* $D04C: Linear Count B Step */
+        d04c_store(value);
+        break;
+      case 0x4d:                  /* $D04D: Sprite bank */
+        d04d_store(value);
+        break;
+      case 0x4e:                  /* $D04E: Scan line timing adjust */
+      case 0x4f:                  /* $D04F: VICIIDTV register 3 */
+        VICII_DEBUG_REGISTER(("Scan line/Saturation/Burst lock (ignored)"));
         break;
     }
 }
@@ -1098,14 +1522,15 @@ inline static BYTE d019_read(void)
         vicii.last_read = vicii.irq_status | 0x70;
     }
 
-    return vicii.last_read;
+    return vicii.viciidtv?vicii.last_read | ((vicii.last_read&0xf) ? 0x80 : 0x00):vicii.last_read;
 }
 
 inline static BYTE d01e_read(void)
 {
     /* Remove the pending sprite-sprite interrupt, as the collision
        register is reset upon read accesses.  */
-    vicii_irq_sscoll_clear();
+    if (!vicii.viciidtv)
+        vicii_irq_sscoll_clear();
 
     if (!vicii_resources.sprite_sprite_collisions_enabled) {
         VICII_DEBUG_REGISTER(("Sprite-sprite collision mask: $00 "
@@ -1126,7 +1551,8 @@ inline static BYTE d01f_read(void)
 {
     /* Remove the pending sprite-background interrupt, as the collision
        register is reset upon read accesses.  */
-    vicii_irq_sbcoll_clear();
+    if (!vicii.viciidtv)
+        vicii_irq_sbcoll_clear();
 
     if (!vicii_resources.sprite_background_collisions_enabled) {
         VICII_DEBUG_REGISTER(("Sprite-background collision mask: $00 "
@@ -1150,10 +1576,16 @@ inline static BYTE d01f_read(void)
     return vicii.regs[0x1f];
 }
 
+inline static BYTE d044_read(void)
+{
+    return VICIIDTV_RASTER_CYCLE(maincpu_clk) | 0x80;
+}
+
 /* Read a value from a VIC-II register.  */
 BYTE REGPARM1 vicii_read(WORD addr)
 {
-    addr &= 0x3f;
+    if (vicii.extended_enable) addr &= 0x7f;
+    else addr &= 0x3f;
 
     /* Serve all pending events.  */
     vicii_handle_pending_alarms(0);
@@ -1266,7 +1698,7 @@ BYTE REGPARM1 vicii_read(WORD addr)
       case 0x20:                  /* $D020: Border color */
         VICII_DEBUG_REGISTER(("Border Color register: $%02X",
                              vicii.regs[addr]));
-        return vicii.regs[addr] | 0xf0;
+        return vicii.viciidtv?vicii.regs[addr]:(vicii.regs[addr] | 0xf0);
 
       case 0x21:                  /* $D021: Background #0 color */
       case 0x22:                  /* $D022: Background #1 color */
@@ -1274,7 +1706,7 @@ BYTE REGPARM1 vicii_read(WORD addr)
       case 0x24:                  /* $D024: Background #3 color */
         VICII_DEBUG_REGISTER(("Background Color #%d register: $%02X",
                              addr - 0x21, vicii.regs[addr]));
-        return vicii.regs[addr] | 0xf0;
+        return vicii.viciidtv?vicii.regs[addr]:(vicii.regs[addr] | 0xf0);
 
       case 0x25:                  /* $D025: Sprite multicolor register #0 */
       case 0x26:                  /* $D026: Sprite multicolor register #1 */
@@ -1321,16 +1753,152 @@ BYTE REGPARM1 vicii_read(WORD addr)
       case 0x33:                  /* $D033: Unused */
       case 0x34:                  /* $D034: Unused */
       case 0x35:                  /* $D035: Unused */
-      case 0x36:                  /* $D036: Unused */
-      case 0x37:                  /* $D037: Unused */
-      case 0x38:                  /* $D038: Unused */
-      case 0x39:                  /* $D039: Unused */
-      case 0x3a:                  /* $D03A: Unused */
-      case 0x3b:                  /* $D03B: Unused */
-      case 0x3c:                  /* $D03C: Unused */
-      case 0x3d:                  /* $D03D: Unused */
+        return 0xff;
+
+      case 0x36:                  /* $D036: Color Bank Low */
+        if (vicii.viciidtv) {
+            VICII_DEBUG_REGISTER(("Color Bank Low: $%02X",
+                                 vicii.regs[addr]));
+        }
+        return 0xff; 
+
+      case 0x37:                  /* $D037: Color Bank High */
+        if (vicii.viciidtv) {
+            VICII_DEBUG_REGISTER(("Color Bank High: $%02X",
+                                 vicii.regs[addr]));
+        }
+        return 0xff;
+
+      case 0x38:                  /* $D038: Linear Count A Modulo Low */
+        if (vicii.viciidtv) {
+            VICII_DEBUG_REGISTER(("Linear Count A Modulo Low: $%02X",
+                                 vicii.regs[addr]));
+        }
+        return 0xff;
+
+      case 0x39:                  /* $D039: Linear Count A Modulo High */
+        if (vicii.viciidtv) {
+            VICII_DEBUG_REGISTER(("Linear Count A Modulo High: $%02X",
+                                 vicii.regs[addr]));
+        }
+        return 0xff;
+
+      case 0x3a:                  /* $D03a: Linear Count A Start Low */
+        if (vicii.viciidtv) {
+            VICII_DEBUG_REGISTER(("Linear Count A Start Low: $%02X",
+                                 vicii.regs[addr]));
+        }
+        return 0xff;
+
+      case 0x3b:                  /* $D03B: Linear Count A Start Middle */
+        if (vicii.viciidtv) {
+            VICII_DEBUG_REGISTER(("Linear Count A Start Middle: $%02X",
+                                 vicii.regs[addr]));
+        }
+        return 0xff;
+
+      case 0x3c:                  /* $D03C: VICIIDTV register 1 */
+        if (vicii.viciidtv) {
+            VICII_DEBUG_REGISTER(("VICIIDTV register 1: $%02X",
+                                 vicii.regs[addr]));
+        }
+        return 0xff;
+
+      case 0x3d:                  /* $D03D: Graphics fetch bank */
+        if (vicii.viciidtv) {
+            VICII_DEBUG_REGISTER(("Graphics fetch bank: $%02X",
+                                 vicii.regs[addr]));
+        }
+        return 0xff;
+
       case 0x3e:                  /* $D03E: Unused */
-      case 0x3f:                  /* $D03F: Unused */
+        return 0xff;
+
+      case 0x3f:                  /* $D03F: Enable extended features register */
+        if (vicii.viciidtv) {
+            VICII_DEBUG_REGISTER(("Enable extended features: $%02X",
+                                 vicii.regs[addr]));
+        }
+        return 0xff;
+
+      case 0x40:                  /* $D040: VICIIDTV register 2 */
+        VICII_DEBUG_REGISTER(("VICIIDTV register 2: $%02X",
+                             vicii.regs[addr]));
+        return 0xff;
+
+      case 0x41:                  /* $D041: Burst rate modulus high */
+        VICII_DEBUG_REGISTER(("Burst rate modulus high: $%02X",
+                             vicii.regs[addr]));
+        return 0xff;
+
+      case 0x42:                  /* $D042: Burst rate modulus middle */
+        VICII_DEBUG_REGISTER(("Burst rate modulus middle: $%02X",
+                             vicii.regs[addr]));
+        return 0xff;
+
+      case 0x43:                  /* $D043: Burst rate modulus low */
+        VICII_DEBUG_REGISTER(("Burst rate modulus low: $%02X",
+                             vicii.regs[addr]));
+        return 0xff;
+
+      case 0x44:                  /* $D044: CPU cycle/IRQ trigger cycle */
+        VICII_DEBUG_REGISTER(("CPU cycle/IRQ trigger cycle: $%02X",
+                             vicii.regs[addr]));
+        return d044_read();
+
+      case 0x45:                  /* $D045: Linear Count A Start High */
+        VICII_DEBUG_REGISTER(("Linear Count A Start High: $%02X",
+                             vicii.regs[addr]));
+        return 0xff;
+
+      case 0x46:                  /* $D046: Linear Count A Step */
+        VICII_DEBUG_REGISTER(("Linear Count A Step: $%02X",
+                             vicii.regs[addr]));
+        return 0xff;
+	
+      case 0x47:                  /* $D047: Linear Count B Modulo Low */
+        VICII_DEBUG_REGISTER(("Linear Count B Modulo Low: $%02X",
+                             vicii.regs[addr]));
+        return 0xff;
+
+      case 0x48:                  /* $D048: Linear Count B Modulo High */
+        VICII_DEBUG_REGISTER(("Linear Count B Modulo High: $%02X",
+                             vicii.regs[addr]));
+        return 0xff;
+
+      case 0x49:                  /* $D049: Linear Count B Start Low */
+        VICII_DEBUG_REGISTER(("Linear Count B Start Low: $%02X",
+                             vicii.regs[addr]));
+        return 0xff;
+
+      case 0x4a:                  /* $D04A: Linear Count B Start Middle */
+        VICII_DEBUG_REGISTER(("Linear Count B Start Middle: $%02X",
+                             vicii.regs[addr]));
+        return 0xff;
+
+      case 0x4b:                  /* $D04B: Linear Count B Start High */
+        VICII_DEBUG_REGISTER(("Linear Count B Start High: $%02X",
+                             vicii.regs[addr]));
+        return 0xff;
+
+      case 0x4c:                  /* $D04C: Linear Count B Step */
+        VICII_DEBUG_REGISTER(("Linear Count B Step: $%02X",
+                             vicii.regs[addr]));
+        return 0xff;
+	
+      case 0x4d:                  /* $D04D: Sprite bank */
+        VICII_DEBUG_REGISTER(("Sprite bank: $%02X",
+                             vicii.regs[addr]));
+        return 0xff;
+
+      case 0x4e:                  /* $D04E: Scan line timing adjust */
+        VICII_DEBUG_REGISTER(("Scan line timing adjust: $%02X",
+                             vicii.regs[addr]));
+        return 0xff;
+
+      case 0x4f:                  /* $D04F: VICIIDTV register 3 */
+        VICII_DEBUG_REGISTER(("VICIIDTV register 3: $%02X",
+                             vicii.regs[addr]));
         return 0xff;
 
       default:
@@ -1349,15 +1917,21 @@ inline static BYTE d019_peek(void)
         if (vicii.regs[0x1a] & 0x1)
             return vicii.irq_status | 0xf1;
         else
-            return vicii.irq_status | 0x71;
+            return vicii.viciidtv?vicii.irq_status | ((vicii.irq_status & 0xf) ? 0xf1 : 0x71):vicii.irq_status | 0x71;
+    } else {
+        return vicii.viciidtv?vicii.irq_status | ((vicii.irq_status & 0xf) ? 0xf0 : 0x70):vicii.irq_status | 0x70;
     }
 
-    return vicii.irq_status | 0x70;
+    return vicii.viciidtv?vicii.irq_status | ((vicii.irq_status & 0xf) ? 0x80 : 0x00):vicii.irq_status;
 }
 
 BYTE REGPARM1 vicii_peek(WORD addr)
 {
-    addr &= 0x3f;
+    if (!vicii.viciidtv) {
+        addr &= 0x3f;
+    } else {
+        addr &= 0x7f;
+    }
 
     switch (addr) {
       case 0x11:              /* $D011: video mode, Y scroll, 24/25 line mode
@@ -1381,6 +1955,7 @@ BYTE REGPARM1 vicii_peek(WORD addr)
         else
             return /* vicii.regs[addr] | */ 0xff;
       default:
+        if (addr>0x4f) return 0xff;
         return vicii.regs[addr] | unused_bits_in_registers[addr];
     }
 }

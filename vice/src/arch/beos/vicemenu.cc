@@ -119,27 +119,29 @@ BMenuBar *menu_create(int machine_class) {
 			new BMessage(MENU_FLIP_PREVIOUS), 'N', B_CONTROL_KEY));
 		menu->AddSeparatorItem();
 
-		menu->AddItem(new BMenuItem("Attach Tape", 
-			new BMessage(MENU_ATTACH_TAPE), 'T'));
-		menu->AddItem(new BMenuItem("Detach Tape", 
-			new BMessage(MENU_DETACH_TAPE)));
+		if (machine_class != VICE_MACHINE_C64DTV) {
+			menu->AddItem(new BMenuItem("Attach Tape", 
+				new BMessage(MENU_ATTACH_TAPE), 'T'));
+			menu->AddItem(new BMenuItem("Detach Tape", 
+				new BMessage(MENU_DETACH_TAPE)));
 
-		menu->AddItem(submenu = new BMenu("Datasette Control"));
-		submenu->AddItem(new BMenuItem("Start", 
-			new BMessage(MENU_DATASETTE_START)));
-		submenu->AddItem(new BMenuItem("Stop", 
-			new BMessage(MENU_DATASETTE_STOP)));
-		submenu->AddItem(new BMenuItem("Forward", 
-			new BMessage(MENU_DATASETTE_FORWARD)));
-		submenu->AddItem(new BMenuItem("Rewind", 
-			new BMessage(MENU_DATASETTE_REWIND)));
-		submenu->AddItem(new BMenuItem("Record", 
-			new BMessage(MENU_DATASETTE_RECORD)));
-		submenu->AddItem(new BMenuItem("Reset", 
-			new BMessage(MENU_DATASETTE_RESET)));
-		submenu->AddItem(new BMenuItem("Reset Counter", 
-			new BMessage(MENU_DATASETTE_COUNTER)));
-		menu->AddSeparatorItem();
+			menu->AddItem(submenu = new BMenu("Datasette Control"));
+			submenu->AddItem(new BMenuItem("Start", 
+				new BMessage(MENU_DATASETTE_START)));
+			submenu->AddItem(new BMenuItem("Stop", 
+				new BMessage(MENU_DATASETTE_STOP)));
+			submenu->AddItem(new BMenuItem("Forward", 
+				new BMessage(MENU_DATASETTE_FORWARD)));
+			submenu->AddItem(new BMenuItem("Rewind", 
+				new BMessage(MENU_DATASETTE_REWIND)));
+			submenu->AddItem(new BMenuItem("Record", 
+				new BMessage(MENU_DATASETTE_RECORD)));
+			submenu->AddItem(new BMenuItem("Reset", 
+				new BMessage(MENU_DATASETTE_RESET)));
+			submenu->AddItem(new BMenuItem("Reset Counter", 
+				new BMessage(MENU_DATASETTE_COUNTER)));
+			menu->AddSeparatorItem();
+		}
 		if (machine_class == VICE_MACHINE_C64) {
 			menu->AddItem(submenu = new BMenu("Attach cartridge image"));
 			submenu->AddItem(new BMenuItem("CRT",
@@ -331,6 +333,7 @@ BMenuBar *menu_create(int machine_class) {
 				new BMessage(MENU_TOGGLE_FASTPAL), 'P', B_CONTROL_KEY));
 		}
 		if (machine_class == VICE_MACHINE_C64
+			|| machine_class == VICE_MACHINE_C64DTV
 			|| machine_class == VICE_MACHINE_C128
 			|| machine_class == VICE_MACHINE_PLUS4
 			|| machine_class == VICE_MACHINE_VIC20) {
@@ -349,7 +352,9 @@ BMenuBar *menu_create(int machine_class) {
 		}
 		menu->AddSeparatorItem();
 
-		if (machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_C64) {
+		if (machine_class == VICE_MACHINE_C128
+			|| machine_class == VICE_MACHINE_C64
+			|| machine_class == VICE_MACHINE_C64DTV) {
 				menu->AddItem(submenu = new BMenu("VIC-II Border mode"));
 				submenu->SetRadioMode(true);
 				submenu->AddItem(new BMenuItem("Normal",
@@ -390,7 +395,8 @@ BMenuBar *menu_create(int machine_class) {
 	}
 	if (machine_class == VICE_MACHINE_C64
 		|| machine_class == VICE_MACHINE_C128
-		|| machine_class == VICE_MACHINE_VIC20) {
+		|| machine_class == VICE_MACHINE_VIC20
+		|| machine_class == VICE_MACHINE_C64DTV) {
 		menu->AddItem(submenu = new BMenu("Video Standard"));
 		submenu->SetRadioMode(true);
 		submenu->AddItem(new BMenuItem("PAL-G", 
@@ -411,6 +417,7 @@ BMenuBar *menu_create(int machine_class) {
 
 	if (!vsid_mode) {
 		if (machine_class == VICE_MACHINE_C64
+			|| machine_class == VICE_MACHINE_C64DTV
 			|| machine_class == VICE_MACHINE_C128) {
 			
 			menu->AddSeparatorItem();
@@ -418,6 +425,34 @@ BMenuBar *menu_create(int machine_class) {
 				new BMessage(MENU_TOGGLE_EMUID)));
 			menu->AddItem(new BMenuItem("Grab mouse events",
 				new BMessage(MENU_TOGGLE_MOUSE)));
+		}
+		if (machine_class == VICE_MACHINE_C64DTV) {
+			menu->AddItem(new BMenuItem("PS/2 mouse",
+				new BMessage(MENU_TOGGLE_PS2MOUSE)));
+			menu->AddSeparatorItem();
+			menu->AddItem(submenu = new BMenu("C64DTV Options"));
+				submenu->AddItem(new BMenuItem("C64DTV ROM File",
+					new BMessage(MENU_C64DTV_ROM_FILE)));
+				submenu->AddItem(extsubmenu = new BMenu("C64DTV revision"));
+					extsubmenu->SetRadioMode(true);
+					extsubmenu->AddItem(new BMenuItem("DTV2",
+						new BMessage(MENU_C64DTV_REVISION_2)));
+					extsubmenu->AddItem(new BMenuItem("DTV3",
+						new BMessage(MENU_C64DTV_REVISION_3)));
+				submenu->AddItem(new BMenuItem("C64DTV ROM writable",
+					new BMessage(MENU_TOGGLE_C64DTV_WRITE_ENABLE)));
+				submenu->AddItem(new BMenuItem("Hummer Userport joystick",
+					new BMessage(MENU_TOGGLE_HUMMER_USERPORT_JOY)));
+				submenu->AddItem(extsubmenu = new BMenu("Joystick port mapped to Hummer Userport"));
+					extsubmenu->SetRadioMode(true);
+					extsubmenu->AddItem(new BMenuItem("Joy1",
+						new BMessage(MENU_HUMMER_JOY_PORT_1)));
+					extsubmenu->AddItem(new BMenuItem("Joy2",
+						new BMessage(MENU_HUMMER_JOY_PORT_2)));
+		}
+		if (machine_class == VICE_MACHINE_C64
+			|| machine_class == VICE_MACHINE_C128) {
+
 			menu->AddItem(submenu = new BMenu("Mouse Options"));
 			submenu->AddItem(extsubmenu = new BMenu("Mouse Type"));
 				extsubmenu->SetRadioMode(true);
@@ -692,9 +727,12 @@ BMenuBar *menu_create(int machine_class) {
 			new BMessage(MENU_DEVICE_SETTINGS)));
 		menu->AddItem(new BMenuItem("Drive ...", 
 			new BMessage(MENU_DRIVE_SETTINGS)));
-		menu->AddItem(new BMenuItem("Datasette ...",
-			new BMessage(MENU_DATASETTE_SETTINGS)));
+		if (machine_class != VICE_MACHINE_C64DTV) {
+			menu->AddItem(new BMenuItem("Datasette ...",
+				new BMessage(MENU_DATASETTE_SETTINGS)));
+		}
 		if (machine_class == VICE_MACHINE_C64
+			|| machine_class == VICE_MACHINE_C64DTV
 			|| machine_class == VICE_MACHINE_C128) {
 			menu->AddItem(new BMenuItem("VIC-II ...", 
 				new BMessage(MENU_VICII_SETTINGS)));
@@ -706,6 +744,7 @@ BMenuBar *menu_create(int machine_class) {
 	menu->AddItem(new BMenuItem("Sound ...", 
 		new BMessage(MENU_SOUND_SETTINGS)));
 	if (machine_class == VICE_MACHINE_C64
+		|| machine_class == VICE_MACHINE_C64DTV
 		|| machine_class == VICE_MACHINE_C128
 		|| machine_class == VICE_MACHINE_CBM2) {
 		menu->AddItem(new BMenuItem("SID ...", 

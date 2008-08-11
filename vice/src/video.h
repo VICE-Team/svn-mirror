@@ -112,16 +112,16 @@ typedef struct video_chip_cap_s video_chip_cap_t;
 
 struct video_render_color_tables_s {
     DWORD physical_colors[256];
-    SDWORD ytable[128];		/* unscaled luminance */
-    SDWORD ytablel[128];	/* luminance for neighbouring pixels */
-    SDWORD ytableh[128];	/* luminance for current pixel */
-    SDWORD cbtable[128];
-    SDWORD crtable[128];
-    SDWORD cbtable_odd[128]; /* exact pal emulation, phase shifted color carrier */
-    SDWORD crtable_odd[128]; /* exact pal emulation, phase shifted color carrier */
+    SDWORD ytable[256];		/* unscaled luminance */
+    SDWORD ytablel[256];	/* luminance for neighbouring pixels */
+    SDWORD ytableh[256];	/* luminance for current pixel */
+    SDWORD cbtable[256];
+    SDWORD crtable[256];
+    SDWORD cbtable_odd[256]; /* exact pal emulation, phase shifted color carrier */
+    SDWORD crtable_odd[256]; /* exact pal emulation, phase shifted color carrier */
 
     /* YUV table for hardware rendering: (Y << 16) | (U << 8) | V */
-    DWORD yuv_table[128];
+    DWORD yuv_table[256];
     SDWORD line_yuv_0[1024 * 3];
     SDWORD line_yuv_1[1024 * 3];
 };

@@ -1,6 +1,7 @@
 @echo off
 set VICEDIR=WinVICE-2.0
 if not exist ..\..\..\data\x64.exe goto missingmsvc
+if not exist ..\..\..\data\x64dtv.exe goto missingmsvc
 if not exist ..\..\..\data\x128.exe goto missingmsvc
 if not exist ..\..\..\data\xcbm2.exe goto missingmsvc
 if not exist ..\..\..\data\xpet.exe goto missingmsvc
@@ -13,6 +14,7 @@ echo generating MSVC WIN32 binary port distribution
 if exist %VICEDIR% goto removedir
 mkdir %VICEDIR%
 copy ..\..\..\data\x64.exe %VICEDIR%
+copy ..\..\..\data\x64dtv.exe %VICEDIR%
 copy ..\..\..\data\x128.exe %VICEDIR%
 copy ..\..\..\data\xvic.exe %VICEDIR%
 copy ..\..\..\data\xpet.exe %VICEDIR%
@@ -36,6 +38,14 @@ copy ..\..\..\data\C64\chargen %VICEDIR%\C64
 copy ..\..\..\data\C64\*.vrs %VICEDIR%\C64
 copy ..\..\..\data\C64\kernal %VICEDIR%\C64
 copy ..\..\..\data\C64\win_*.v* %VICEDIR%\C64
+mkdir %VICEDIR%\C64DTV
+copy ..\..\..\data\C64\basic %VICEDIR%\C64DTV
+copy ..\..\..\data\C64\*.vpl %VICEDIR%\C64DTV
+copy ..\..\..\data\C64\c64mem.sym %VICEDIR%\C64DTV
+copy ..\..\..\data\C64\chargen %VICEDIR%\C64DTV
+copy ..\..\..\data\C64\*.vrs %VICEDIR%\C64DTV
+copy ..\..\..\data\C64\kernal %VICEDIR%\C64DTV
+copy ..\..\..\data\C64\win_*.v* %VICEDIR%\C64DTV
 mkdir %VICEDIR%\CBM-II
 copy ..\..\..\data\CBM-II\*.vpl %VICEDIR%\CBM-II
 copy ..\..\..\data\CBM-II\basic.* %VICEDIR%\CBM-II

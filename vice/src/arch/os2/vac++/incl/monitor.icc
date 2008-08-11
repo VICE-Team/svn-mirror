@@ -1,5 +1,6 @@
 source type(c)
     "asm6502.c",
+    "asm6502dtv.c",
     "monitor.c",
     "mon_assemble6502.c",
     "mon_breakpoint.c",
@@ -9,6 +10,7 @@ source type(c)
     "mon_file.c",
     "mon_memory.c",
     "mon_register6502.c",
+    "mon_register6502dtv.c",
     "mon_ui.c",
     "mon_util.c"
 

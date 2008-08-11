@@ -32,6 +32,11 @@
 #include "monitor.h"
 #include "types.h"
 
+#if 0
+/* set this to enable experimental 24-bit address space support */
+#define HAVE_MEMSPACE24
+#endif
+
 /* Types */
 
 typedef int bool;
@@ -54,7 +59,23 @@ enum t_reg_id {
    e_AF2,
    e_BC2,
    e_DE2,
-   e_HL2
+   e_HL2,
+/* New C64DTV regs */
+   e_R3,
+   e_R4,
+   e_R5,
+   e_R6,
+   e_R7,
+   e_R8,
+   e_R9,
+   e_R10,
+   e_R11,
+   e_R12,
+   e_R13,
+   e_R14,
+   e_R15,
+   e_ACM,
+   e_XYM
 };
 typedef enum t_reg_id REG_ID;
 
@@ -132,6 +153,13 @@ typedef struct cpuhistory_s cpuhistory_t;
 #define LO16_TO_HI16(x) (((x)&0xffff)<<16)
 #define HI16_TO_LO16(x) (((x)>>16)&0xffff)
 
+#ifdef HAVE_MEMSPACE24
+#define HI8(x) ((x)&0xff000000)
+#define LO24(x) ((x)&0xffffff)
+#define LO8_TO_HI8(x) (((x)&0xff)<<24)
+#define HI8_TO_LO8(x) (((x)>>24)&0xff)
+#endif
+
 #define STATE_INITIAL  0
 #define STATE_FNAME    1
 #define STATE_REG_ASGN 2
@@ -148,9 +176,17 @@ typedef struct cpuhistory_s cpuhistory_t;
 #define any_watchpoints_store(mem) (watchpoints_store[(mem)] != NULL)
 
 #define new_cond ((cond_node_t *)(lib_malloc(sizeof(cond_node_t))))
+#ifndef HAVE_MEMSPACE24
 #define addr_memspace(ma) (HI16_TO_LO16(ma))
 #define addr_location(ma) (LO16(ma))
+#define addr_mask(l) (LO16(l))
 #define new_addr(m, l) (LO16_TO_HI16(m) | (l))
+#else
+#define addr_memspace(ma) (HI8_TO_LO8(ma))
+#define addr_location(ma) (LO24(ma))
+#define addr_mask(l) (LO24(l))
+#define new_addr(m, l) (LO8_TO_HI8(m) | (l))
+#endif
 #define new_reg(m, r) (LO16_TO_HI16(m) | (r))
 #define reg_memspace(mr) (HI16_TO_LO16(mr))
 #define reg_regid(mr) (LO16(mr))
@@ -195,7 +231,10 @@ extern unsigned char data_mask_buf[256];
 extern unsigned int data_buf_len;
 extern cpuhistory_t cpuhistory[CPUHISTORY_SIZE];
 extern int cpuhistory_i;
-extern BYTE mon_memmap[MEMMAP_SIZE];
+extern BYTE *mon_memmap;
+extern int mon_memmap_size;
+extern int mon_memmap_pic_x;
+extern int mon_memmap_pic_y;
 
 /* Function declarations */
 extern void mon_add_number_to_buffer(int number);
@@ -254,6 +293,6 @@ extern void mon_save_symbols(MEMSPACE mem, const char *filename);
 
 extern void mon_record_commands(char *filename);
 extern void mon_end_recording(void);
+extern void monitor_change_device(MEMSPACE mem);
 
 #endif
-

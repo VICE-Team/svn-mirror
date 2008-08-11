@@ -24,6 +24,7 @@ EXTRA_libx11ui_a_SOURCES = \
 libx11ui_a_SOURCES = \
 	c128icon.c \
 	c64icon.c \
+	c64dtvicon.c \
 	cbm2icon.c \
 	fullscreen.c \
 	peticon.c \

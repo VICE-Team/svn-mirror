@@ -55,6 +55,12 @@ static TUI_MENU_CALLBACK(sid_model_submenu_callback)
       case SID_MODEL_8580D:
         sprintf(s, "8580 + digi boost");
         break;
+      case SID_MODEL_6581R4:
+        sprintf(s, "6581R4 (not yet implemented)");
+        break;
+      case SID_MODEL_DTVSID:
+        sprintf(s, "DTVSID");
+        break;
     }
 
     return s;
@@ -72,6 +78,14 @@ static tui_menu_item_def_t sid_model_submenu[] = {
     { "8580 + _digi boost",
       "SID 8580 + digi boost emulation",
       radio_SidModel_callback, (void *)SID_MODEL_8580D, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "6581_R4 (not yet implemented)",
+      "SID 6581R4 emulation",
+      radio_SidModel_callback, (void *)SID_MODEL_6581R4, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_DTVSID",
+      "DTVSID emulation",
+      radio_SidModel_callback, (void *)SID_MODEL_DTVSID, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };

@@ -10,6 +10,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/c64 \
+	-I$(top_srcdir)/src/c64dtv \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/pet \
@@ -25,6 +26,7 @@ libarch_a_SOURCES = \
 	blockdev.c \
 	c128ui.cc \
 	c64ui.cc \
+	c64dtvui.cc \
 	cbm2ui.cc \
 	console.c \
 	constants.h \

@@ -86,6 +86,10 @@ SOURCE=..\..\monitor\asm6502.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\monitor\asm6502dtv.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\monitor\asmz80.c
 # End Source File
 # Begin Source File
@@ -139,6 +143,10 @@ SOURCE=..\..\monitor\mon_parse.y
 # Begin Source File
 
 SOURCE=..\..\monitor\mon_register6502.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\monitor\mon_register6502dtv.c
 # End Source File
 # Begin Source File
 

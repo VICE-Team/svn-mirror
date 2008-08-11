@@ -839,7 +839,20 @@ static int fastsid_init(sound_t *psid, int speed, int cycles_per_sec)
         return 0;
     }
 
-    psid->newsid = sid_model == 1;
+    psid->newsid = 0;
+    switch (sid_model) {
+    default:
+    case 0: /* 6581 */
+    case 3: /* 6581R4 */
+    case 4: /* DTVSID */
+        psid->newsid = 0;
+	break;
+    case 1: /* 8580 */
+    case 2: /* 8580 + digi boost */
+        psid->newsid = 1;
+	break;
+    }
+
     for (i = 0; i < 4096; i++) {
         wavetable10[i] = (WORD)(i < 2048 ? i << 4 : 0xffff - (i << 4));
         wavetable20[i] = (WORD)(i << 3);

@@ -1,5 +1,6 @@
 EXTRA_DIST = \
 	x64/X64.ICC \
+	x64dtv/X64DTV.ICC \
 	x128/X128.ICC \
 	X1541.ICC \
 	cartconv.ICC \
@@ -21,6 +22,8 @@ EXTRA_DIST = \
 	incl/c128.icc \
 	incl/c64.icc \
 	incl/c64cart.icc \
+	incl/c64commonc64dtv.icc \
+	incl/c64dtv.icc \
 	incl/cbm2.icc \
 	incl/core.icc \
 	incl/crtc.icc \
@@ -57,6 +60,7 @@ EXTRA_DIST = \
 	incl/vdrive.icc \
 	incl/vic20.icc \
 	incl/vicii.icc \
+	incl/viciidtv.icc \
 	incl/video.icc \
 	incl/vsid.icc \
 	ctools/biosdump.icc \

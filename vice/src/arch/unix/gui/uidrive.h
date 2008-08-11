@@ -30,6 +30,7 @@
 #include "uimenu.h"
 
 extern struct ui_menu_entry_s ui_drive_options_submenu[];
+extern struct ui_menu_entry_s ui_flash_options_submenu[];
 
 extern UI_CALLBACK(uidrive_extend_policy_control);
 

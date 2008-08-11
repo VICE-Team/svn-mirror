@@ -35,7 +35,7 @@
 #include "machine.h"    // vsid_mode
 #include "resources.h"
 #include "autostart.h"  // autostart_autodetect
-#ifdef __X64__
+#if defined __X64__
 #include "psid.h"       // psid_init_driver
 #endif
 
@@ -94,13 +94,13 @@ MRESULT Drop(HWND hwnd, PDRAGINFO pDraginfo)
     strcat(dir, nam);
 
 
-#ifdef __X64__
+#if defined __X64__
     if (!vsid_mode)
     {
 #endif
         if (autostart_autodetect(dir, NULL, 0, AUTOSTART_MODE_RUN) >= 0)
             return NULL;
-#ifdef __X64__
+#if defined __X64__
     }
     else
     {

@@ -1773,6 +1773,7 @@ unsigned long test; ],
   xcbm2_LDFLAGS="-mwindows"
 
   X64_WINRES="\$(top_builddir)/src/arch/win32/resc64.o"
+  X64DTV_WINRES="\$(top_builddir)/src/arch/win32/resc64dtv.o"
   X128_WINRES="\$(top_builddir)/src/arch/win32/resc128.o"
   XVIC_WINRES="\$(top_builddir)/src/arch/win32/resvic20.o"
   XPET_WINRES="\$(top_builddir)/src/arch/win32/respet.o"
@@ -1821,12 +1822,23 @@ AC_SUBST(xplus4_LDFLAGS)
 AC_SUBST(xcbm2_LDFLAGS)
 
 AC_SUBST(X64_WINRES)
+AC_SUBST(X64DTV_WINRES)
 AC_SUBST(X128_WINRES)
 AC_SUBST(XVIC_WINRES)
 AC_SUBST(XPET_WINRES)
 AC_SUBST(XPLUS4_WINRES)
 AC_SUBST(XCBM2_WINRES)
 
+
+if test x"$is_unix_gp2x" = "xyes" ; then
+  AM_CONDITIONAL(SUPPORT_X64DTV, false)
+else
+  if test x"$is_riscos" = "xyes"; then
+    AM_CONDITIONAL(SUPPORT_X64DTV, false)
+  else
+    AM_CONDITIONAL(SUPPORT_X64DTV, true)
+  fi
+fi
 
 dnl Setup the system-specific object files.
 if test x"$is_unix" = "xyes"; then
@@ -2285,6 +2297,7 @@ AC_OUTPUT([Makefile
            data/Makefile
            data/C128/Makefile
            data/C64/Makefile
+           data/C64DTV/Makefile
            data/CBM-II/Makefile
            data/DRIVES/Makefile
            data/PET/Makefile
@@ -2326,6 +2339,7 @@ AC_OUTPUT([Makefile
            src/c128/Makefile
            src/c64/Makefile
            src/c64/cart/Makefile
+           src/c64dtv/Makefile
            src/cbm2/Makefile
            src/core/Makefile
            src/crtc/Makefile
