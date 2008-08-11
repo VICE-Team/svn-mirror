@@ -38,6 +38,12 @@ xcbm2:
 
 install: installvice
 
+# If we have no ChangeLog (which should be generated from SVN), generate a
+# dummy one.
+
+ChangeLog:
+	touch ChangeLog
+
 if AMIGA_COMPILE
 bindist:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) nozip $(top_srcdir) $(EXEEXT)
