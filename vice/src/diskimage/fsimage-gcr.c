@@ -40,7 +40,14 @@
 
 
 static log_t fsimage_gcr_log = LOG_ERR;
-
+static const BYTE gcr_image_header_expected[] =
+    { 0x47, 0x43, 0x52, 0x2D, 0x31, 0x35, 0x34, 0x31 };
+/* Hardcoded/expected values VICE works with:
+ * 0x1EF8 - 7928: Maximum container size for a raw GCR track
+ * 0x54   -   84: Maximum container size for (half) track pointers
+ * 0x00   -    0: GCR image file version number
+ */
+static const DWORD gcr_container_sizes_expected = 0x1EF85400;
 
 /*-----------------------------------------------------------------------*/
 /* Intial GCR buffer setup.  */
@@ -50,11 +57,38 @@ int fsimage_read_gcr_image(disk_image_t *image)
     unsigned int track, num_tracks;
     DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
     DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
+    BYTE gcr_image_header[ sizeof( gcr_image_header_expected ) ];
+    DWORD gcr_container_sizes;
     fsimage_t *fsimage;
 
     fsimage = image->media.fsimage;
 
     num_tracks = image->tracks;
+
+    /* Do G64 image file sanity checks, current VICE implementation
+     * does only support image file version 0 with a fixed track map
+     * container size of 84 and maximum track container size of 7928
+     */
+    fseek(fsimage->fd, 0, SEEK_SET);
+    if (fread((char *)gcr_image_header, 1, sizeof( gcr_image_header_expected ), fsimage->fd) < 1) {
+        log_error(fsimage_gcr_log, "Could not read GCR disk image.");
+        return -1;
+    }
+    if (strncmp( gcr_image_header_expected, gcr_image_header,
+                 sizeof( gcr_image_header_expected ) ) != 0) {
+        log_error(fsimage_gcr_log,
+                  "Unexpected GCR header found." );
+        return -1;
+    }
+    if (util_dword_read(fsimage->fd, &gcr_container_sizes, 1) < 0) {
+        log_error(fsimage_gcr_log, "Could not read GCR disk image.");
+        return -1;
+    }
+    if (gcr_container_sizes != NUM_MAX_BYTES_TRACK) {
+        log_error(fsimage_gcr_log,
+                  "Unexpected GCR image file constants found, VICE is unable to work with." );
+        return -1;
+    }
 
     fseek(fsimage->fd, 12, SEEK_SET);
     if (util_dword_read(fsimage->fd, gcr_track_p, num_tracks * 8) < 0) {
