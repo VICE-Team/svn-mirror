@@ -28,10 +28,13 @@
 
 #include <stdio.h>
 
+#include "lib.h"
+#include "resources.h"
 #include "uilib.h"
 #include "uimenu.h"
 #include "uic64dtv.h"
 #include "uips2mouse.h"
+#include "util.h"
 
 UI_MENU_DEFINE_RADIO(DtvRevision)
 UI_MENU_DEFINE_TOGGLE(c64dtvromrw)
