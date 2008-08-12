@@ -1,4 +1,7 @@
-/*
+/*! \file util.c \n
+ *  \author Ettore Perazzoli, Andreas Boose\n
+ *  \brief  Miscellaneous utility functions.
+ *
  * util.c - Miscellaneous utility functions.
  *
  * Written by
@@ -27,6 +30,7 @@
 
 #include "vice.h"
 
+#include <assert.h>
 #include <ctype.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -494,41 +498,84 @@ void util_fname_split(const char *path, char **directory_return,
 
 /* ------------------------------------------------------------------------- */
 
+/*! \brief read an array of DWORDs (4 bytes) in low endian from a file
+
+ \param fd
+   file descriptor as obtained by fopen().
+
+ \param buf
+   Pointer to a buffer where the DWORDs will be stored.
+
+ \param num
+   number of DWORD to read. buf is considered as an array defined
+   as DWORD buf[num].
+
+ \return
+   0 on success, else -1.
+
+ \remark
+   num is the number of DWORDs to read; it is *not* the
+   size of the buffer in bytes!
+*/
 int util_dword_read(FILE *fd, DWORD *buf, size_t num)
 {
-    int i;
+    unsigned int i;
     BYTE *tmpbuf;
 
-    tmpbuf = lib_malloc(num);
+    assert( sizeof(DWORD) == 4);
 
-    if (fread((char *)tmpbuf, num, 1, fd) < 1) {
+    tmpbuf = lib_malloc(4 * num);
+
+    if (fread(tmpbuf, num, 4, fd) < 4) {
         lib_free(tmpbuf);
         return -1;
     }
 
-    for (i = 0; i < ((int)(num) / 4); i++)
+    for (i = 0; i < num; i++) {
         buf[i] = (tmpbuf[i * 4] + (tmpbuf[i * 4 + 1] << 8)
             + (tmpbuf[i * 4 + 2] << 16) + (tmpbuf[i * 4 + 3] << 24));
+    }
 
     lib_free(tmpbuf);
     return 0;
 }
 
+/*! \brief write an array of DWORDs (4 bytes) in low endian to a file
+
+ \param fd
+   file descriptor as obtained by fopen().
+
+ \param buf
+   Pointer to the array of DWORDs to be written to the file
+
+ \param num
+   number of DWORD to read. buf is considered as an array defined
+   as DWORD buf[num].
+
+ \return
+   0 on success, else -1.
+
+ \remark
+   num is the number of DWORDs to write; it is *not* the
+   size of the buffer in bytes!
+*/
 int util_dword_write(FILE *fd, DWORD *buf, size_t num)
 {
-    int i;
+    unsigned int i;
     BYTE *tmpbuf;
 
-    tmpbuf = lib_malloc(num);
+    assert( sizeof(DWORD) == 4 );
 
-    for (i = 0; i < ((int)(num) / 4); i++) {
+    tmpbuf = lib_malloc(4 * num);
+
+    for (i = 0; i < num; i++) {
         tmpbuf[i * 4] = (BYTE)(buf[i] & 0xff);
         tmpbuf[i * 4 + 1] = (BYTE)((buf[i] >> 8) & 0xff);
         tmpbuf[i * 4 + 2] = (BYTE)((buf[i] >> 16) & 0xff);
         tmpbuf[i * 4 + 3] = (BYTE)((buf[i] >> 24) & 0xff);
     }
 
-    if (fwrite((char *)tmpbuf, num, 1, fd) < 1) {
+    if (fwrite(tmpbuf, num, 4, fd) < 1) {
         lib_free(tmpbuf);
         return -1;
     }
