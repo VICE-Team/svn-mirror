@@ -861,7 +861,7 @@ static int sound_run_sound(void)
                                                  snddata.channels,
                                                  &delta_t);
             if (volume < 100) {
-                for (i = 0; i < nr; i ++)
+                for (i = 0; i < (nr * snddata.channels); i ++)
                     bufferptr[i] = (volume!=0) ? 
                                    (bufferptr[i]/(100 / volume)) : 0;
             }
@@ -895,7 +895,7 @@ static int sound_run_sound(void)
                                             snddata.channels,
                                             &delta_t);
             if (volume < 100) {
-                for (i = 0; i < nr; i ++)
+                for (i = 0; i < (nr * snddata.channels); i ++)
                     bufferptr[i] = (volume != 0) ?
                                    (bufferptr[i] / (100 / volume)) : 0;
             }
