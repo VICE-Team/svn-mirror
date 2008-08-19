@@ -35,15 +35,6 @@
 #define DUMMYUNIONNAME  u1
 #endif
 
-#ifndef MIIM_STRING
-/*
- * workaround for MS VS 6 which has WINVER == 0x0400 as default.
- * OTOH, if setting WINVER to 0x0500, it warns that the headers are
- * only beta, and that serious problems can occur.
- */
-#define MIIM_STRING      0x00000040
-#endif
-
 #include "archdep.h"
 #include "intl.h"
 #include "keyboard.h"
@@ -64,11 +55,15 @@
 
 #define MAXACCEL 1000
 
+static ACCEL accellist[MAXACCEL];
+static int accelnum;
 static int uikeyboard_mapping_num;
 static const uikeyboard_mapping_entry_t *mapping_entry;
 static int mapping_idc_dump;
 static char **menuitemmodifier;
 static int menuitemmodifier_len;
+
+static void dump_shortcuts(void);
 
 static int mapping_index_get(void)
 {
@@ -185,6 +180,8 @@ static BOOL CALLBACK mapping_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             }
             if (LOWORD(wparam) == mapping_idc_dump)
                 dump_mapping(hwnd);
+            if (LOWORD(wparam) == IDC_KBD_SHORTCUT_DUMP)
+                dump_shortcuts();
         }
         return FALSE;
       case WM_CLOSE:
@@ -245,6 +242,98 @@ void uikeyboard_settings_dialog(HWND hwnd,
     PropertySheet(&psh);
 }
 
+static void dump_shortcuts(void)
+{
+    FILE *fp;
+    char *complete_path;
+    char str[32];
+    char *p;
+    ACCEL accel;
+    int mod_keys, i, j;
+    int item_used[MAXACCEL];
+
+    memset(item_used, 0, MAXACCEL * sizeof(int));
+    fp = sysfile_open("win_shortcuts.vsc", &complete_path, MODE_WRITE_TEXT);
+
+    if (fp == NULL) {
+        ui_error("Failed to write file %s", complete_path);
+        lib_free(complete_path);
+        return;
+    }
+
+    fprintf(fp, "#\n"
+                "# VICE definition file for Keyboard Shortcuts in Win32\n"
+                "#\n"
+                "# Syntax:\n"
+                "# First column: Combination of ALT|CTRL|SHIFT to or just KEY\n"
+                "# Second column: (virtual) Keycode for the shortcut\n"
+                "#   Code can be character ('X'), hex (0xAB) or decimal (168)\n"
+                "#   Have a look at winuser.h for the list of virtual key codes (VK_..)\n"
+                "# Third column: command identifier that is executed with the shortcut\n"
+                "# Fourth column: text to display in the menu item; missing this lets\n"
+                "#   the keycode char be displayed.\n\n"
+        );
+
+    for (i = 0; i < accelnum; i++) {
+        accel = accellist[i];
+
+        for (j = 0; idmlist[j].str; j++) {
+            if (idmlist[j].cmd == accel.cmd) {
+                item_used[j] = 1;
+                break;
+            }
+        }
+
+        mod_keys = accel.fVirt & (FCONTROL | FALT | FSHIFT);
+
+        sprintf(str, "%s", mod_keys & FCONTROL ? "CTRL" : "");
+        mod_keys &= ~FCONTROL;
+        if (str[0] && (mod_keys & FALT))
+            sprintf(str, "%s%s", str, "|");
+        sprintf(str, "%s%s", str, mod_keys & FALT ? "ALT" : "");
+        mod_keys &= ~FALT;
+        if (str[0] && (mod_keys & FSHIFT))
+            sprintf(str, "%s%s", str, "|");
+        sprintf(str, "%s%s", str, mod_keys & FSHIFT ? "SHIFT" : "");
+        if (!str[0])
+            sprintf(str, "KEY");
+        fprintf(fp, "%-16s", str);
+
+        if (accel.key >= '0' && accel.key <= '9'
+            || accel.key >= 'A' && accel.key <= 'Z')
+            fprintf(fp, "'%c'         %-34s", accel.key, idmlist[j].str);
+        else
+            fprintf(fp, "0x%02X        %-34s", accel.key, idmlist[j].str);
+
+        p = strrchr(menuitemmodifier[idmlist[j].cmd], '\t');
+        if (strrchr(p, '+'))
+            p = strrchr(p, '+');
+        if (*(p+1))
+            p++;
+
+        fprintf(fp, "%s\n", p);
+    }
+
+    fprintf(fp, "\n#\n"
+                "# Other command identifier that can be used in shortcuts\n"
+                "#\n");
+    i = 0;
+    for (j = 0; idmlist[j].str; j++) {
+        if (item_used[j] == 0) {
+            if (++i & 1)
+                fprintf(fp, "# %-40s", idmlist[j].str);
+            else
+                fprintf(fp, "%s\n", idmlist[j].str);
+        }
+    }
+
+    fprintf(fp, "\n");
+    fclose(fp);
+
+    ui_message("Successfully dumped shortcuts to %s", complete_path);
+    lib_free(complete_path);
+}
+
 HACCEL uikeyboard_create_accelerator_table(void)
 {
     FILE *fshortcuts;
@@ -253,9 +342,7 @@ HACCEL uikeyboard_create_accelerator_table(void)
     char *p, *menustr, *metastr, *keystr, *displaystr;
     int i;
 
-    ACCEL accellist[MAXACCEL];
-    int accelnum = 0;
-
+    accelnum = 0;
     menuitemmodifier_len = 0;
     for (i = 0; idmlist[i].str != NULL; i++)
         if (idmlist[i].cmd >= menuitemmodifier_len)
@@ -301,6 +388,8 @@ HACCEL uikeyboard_create_accelerator_table(void)
                     ACCEL accel;
 
                     accel.fVirt = FVIRTKEY | FNOINVERT;
+                    if (strstr(strlwr(metastr), "shift") != NULL)
+                        accel.fVirt |= FSHIFT;
                     if (strstr(strlwr(metastr), "ctrl") != NULL)
                         accel.fVirt |= FCONTROL;
                     if (strstr(strlwr(metastr), "alt") != NULL)
@@ -323,6 +412,7 @@ HACCEL uikeyboard_create_accelerator_table(void)
 
                     if (displaystr != NULL) {
                         p = util_concat("\t",
+                                    ((accel.fVirt & FSHIFT  ) ? "Shift+" : ""),
                                     ((accel.fVirt & FCONTROL) ? "Ctrl+" : ""),
                                     ((accel.fVirt & FALT) ? "Alt+" : ""),
                                     displaystr, NULL);
