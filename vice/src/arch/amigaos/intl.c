@@ -896,7 +896,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDMS_NETPLAY,    "Netplay (experimental)..."},
 /* de */ {IDMS_NETPLAY_DE, "Netplay (experimentell)..."},
-/* fr */ {IDMS_NETPLAY_FR, ""},  /* fuzzy */
+/* fr */ {IDMS_NETPLAY_FR, "Jeu en réseau (expérimental)..."},
 /* hu */ {IDMS_NETPLAY_HU, "Hálózati játék (kísérleti)..."},
 /* it */ {IDMS_NETPLAY_IT, "Gioco in rete (sperimentale)..."},
 /* nl */ {IDMS_NETPLAY_NL, "Netplay (experimenteel)..."},
@@ -1292,7 +1292,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDMS_GRAB_MOUSE,    "Grab mouse events"},
 /* de */ {IDMS_GRAB_MOUSE_DE, "Maus Ereignisse abfangen"},
-/* fr */ {IDMS_GRAB_MOUSE_FR, ""},  /* fuzzy */
+/* fr */ {IDMS_GRAB_MOUSE_FR, "Attraper les événements souris"},
 /* hu */ {IDMS_GRAB_MOUSE_HU, "Egér események elkapása"},
 /* it */ {IDMS_GRAB_MOUSE_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_GRAB_MOUSE_NL, "Gebruik de muis"},
@@ -1823,7 +1823,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDMS_LANGUAGE_HUNGARIAN,    "Hungarian"},
 /* de */ {IDMS_LANGUAGE_HUNGARIAN_DE, "Ungarisch"},
-/* fr */ {IDMS_LANGUAGE_HUNGARIAN_FR, ""},  /* fuzzy */
+/* fr */ {IDMS_LANGUAGE_HUNGARIAN_FR, "Hungarian"},
 /* hu */ {IDMS_LANGUAGE_HUNGARIAN_HU, "Magyar"},
 /* it */ {IDMS_LANGUAGE_HUNGARIAN_IT, "Ungherese"},
 /* nl */ {IDMS_LANGUAGE_HUNGARIAN_NL, "Hongaars"},
@@ -2033,7 +2033,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDMES_NO_JOY_ON_PORT_D,    "No joystick or joypad found on port %d"},
 /* de */ {IDMES_NO_JOY_ON_PORT_D_DE, "Kein Joystick oder Joypad am Port %d gefunden"},
-/* fr */ {IDMES_NO_JOY_ON_PORT_D_FR, ""},  /* fuzzy */
+/* fr */ {IDMES_NO_JOY_ON_PORT_D_FR, "Aucun joystick ou manette trouvée sur le port %d"},
 /* hu */ {IDMES_NO_JOY_ON_PORT_D_HU, "Nem találtam botkormányt a %d porton"},
 /* it */ {IDMES_NO_JOY_ON_PORT_D_IT, "Non è stato trovato nessun joystick o joypad sulla porta %d"},
 /* nl */ {IDMES_NO_JOY_ON_PORT_D_NL, "Geen joystick of joypad gevonden op poort %d"},
@@ -2042,7 +2042,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDMES_MOUSE_ON_PORT_D,    "A mouse was found on port %d"},
 /* de */ {IDMES_MOUSE_ON_PORT_D_DE, "Eine Maus wurde in Port %d gefunden"},
-/* fr */ {IDMES_MOUSE_ON_PORT_D_FR, ""},  /* fuzzy */
+/* fr */ {IDMES_MOUSE_ON_PORT_D_FR, "Une souris à été trouvée sur le port %d"},
 /* hu */ {IDMES_MOUSE_ON_PORT_D_HU, "Nem találtam egeret a %d porton"},
 /* it */ {IDMES_MOUSE_ON_PORT_D_IT, "E' stato trovato un mouse sulla porta %d"},
 /* nl */ {IDMES_MOUSE_ON_PORT_D_NL, "Een muis was gevonden op poort %d"},
@@ -2060,7 +2060,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDMES_DEVICE_NOT_GAMEPAD,    "The device on this port is not a gamepad"},
 /* de */ {IDMES_DEVICE_NOT_GAMEPAD_DE, "Das Gerät in diesem Port ist kein Gamepad"},
-/* fr */ {IDMES_DEVICE_NOT_GAMEPAD_FR, ""},  /* fuzzy */
+/* fr */ {IDMES_DEVICE_NOT_GAMEPAD_FR, "Le périphérique sur ce port n’est pas une manette"},
 /* hu */ {IDMES_DEVICE_NOT_GAMEPAD_HU, "Az eszköz ezen a porton nem gamepad"},
 /* it */ {IDMES_DEVICE_NOT_GAMEPAD_IT, "Il dispositivo su questa porta non è un gamepad"},
 /* nl */ {IDMES_DEVICE_NOT_GAMEPAD_NL, "Het apparaat op deze poort is geen gamepad"},
@@ -2069,7 +2069,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDMES_NOT_MAPPED_TO_AMIGA_PORT,    "The port is not mapped to an Amiga port"},
 /* de */ {IDMES_NOT_MAPPED_TO_AMIGA_PORT_DE, "Dieses Port ist keinem Amiga Port zugeordnet"},
-/* fr */ {IDMES_NOT_MAPPED_TO_AMIGA_PORT_FR, ""},  /* fuzzy */
+/* fr */ {IDMES_NOT_MAPPED_TO_AMIGA_PORT_FR, "Le port n’est pas mappé sur un port Amiga"},
 /* hu */ {IDMES_NOT_MAPPED_TO_AMIGA_PORT_HU, "A port nincs leképezve egy Amiga portra"},
 /* it */ {IDMES_NOT_MAPPED_TO_AMIGA_PORT_IT, "Questa porta non è mappata ad una porta dell'Amiga"},
 /* nl */ {IDMES_NOT_MAPPED_TO_AMIGA_PORT_NL, "De poort is niet verbonden met een Amigapoort"},
@@ -2132,7 +2132,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDMES_ERROR_STARTING_SERVER,    "An error occured starting the server."},
 /* de */ {IDMES_ERROR_STARTING_SERVER_DE, "Fehler beim Starten des Netplay Servers."},
-/* fr */ {IDMES_ERROR_STARTING_SERVER_FR, ""},  /* fuzzy */
+/* fr */ {IDMES_ERROR_STARTING_SERVER_FR, "Il y a eu une erreur au démarrage du serveur."},
 /* hu */ {IDMES_ERROR_STARTING_SERVER_HU, "Hiba történt a játék kiszolgáló indításakor."},
 /* it */ {IDMES_ERROR_STARTING_SERVER_IT, "Si è verificato un errore all'avvio del server."},
 /* nl */ {IDMES_ERROR_STARTING_SERVER_NL, "Er is een fout opgetreden bij het opstarten van de server"},
@@ -2150,7 +2150,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDMES_INVALID_PORT_NUMBER,    "Invalid port number"},
 /* de */ {IDMES_INVALID_PORT_NUMBER_DE, "Ungültige Port Nummer"},
-/* fr */ {IDMES_INVALID_PORT_NUMBER_FR, ""},  /* fuzzy */
+/* fr */ {IDMES_INVALID_PORT_NUMBER_FR, "Numéro de port invalide"},
 /* hu */ {IDMES_INVALID_PORT_NUMBER_HU, "Érvénytelen port szám"},
 /* it */ {IDMES_INVALID_PORT_NUMBER_IT, "Numero di porta non valido"},
 /* nl */ {IDMES_INVALID_PORT_NUMBER_NL, "Ongeldig poort nummer"},
@@ -2188,7 +2188,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_PRESS_KEY_BUTTON,    "Press desired key/button, move stick or press ESC for no key."},
 /* de */ {IDS_PRESS_KEY_BUTTON_DE, "Gewünschte Taste/Knopf drücken, Knüppel bewegen oder ESC für keine Taste drücken."},
-/* fr */ {IDS_PRESS_KEY_BUTTON_FR, ""},  /* fuzzy */
+/* fr */ {IDS_PRESS_KEY_BUTTON_FR, "Appuyez sur la touche/bouton desire(e), déplacez le stick ou appuyez sur ESC pour effacer cette touche."},
 /* hu */ {IDS_PRESS_KEY_BUTTON_HU, "Nyomja meg a választott gombot, mozdítsa a botkormányt, vagy nyomjon ESC-et üreshez"},
 /* it */ {IDS_PRESS_KEY_BUTTON_IT, "Premi il tasto/bottone desiderato, muovi la leva o premi ESC per non selezionare alcun tasto."},
 /* nl */ {IDS_PRESS_KEY_BUTTON_NL, "Druk de toets/knop, beweeg de joystick of druk op ESC voor geen toets."},
@@ -2224,7 +2224,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_TCP_PORT,    "TCP-Port"},
 /* de */ {IDS_TCP_PORT_DE, "TCP-Port"},
-/* fr */ {IDS_TCP_PORT_FR, ""},  /* fuzzy */
+/* fr */ {IDS_TCP_PORT_FR, "Port TCP"},
 /* hu */ {IDS_TCP_PORT_HU, "TCP-Port"},
 /* it */ {IDS_TCP_PORT_IT, "Porta TCP"},
 /* nl */ {IDS_TCP_PORT_NL, "TCP-Poort"},
@@ -2233,7 +2233,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_START_SERVER,    "Start Server"},
 /* de */ {IDS_START_SERVER_DE, "Server starten"},
-/* fr */ {IDS_START_SERVER_FR, ""},  /* fuzzy */
+/* fr */ {IDS_START_SERVER_FR, "Démarrer le serveur"},
 /* hu */ {IDS_START_SERVER_HU, "Kiszolgáló elindítása"},
 /* it */ {IDS_START_SERVER_IT, "Avvia server"},
 /* nl */ {IDS_START_SERVER_NL, "Start server"},
@@ -2242,7 +2242,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_CONNECT_TO,    "Connect to"},
 /* de */ {IDS_CONNECT_TO_DE, "Verbinden mit"},
-/* fr */ {IDS_CONNECT_TO_FR, ""},  /* fuzzy */
+/* fr */ {IDS_CONNECT_TO_FR, "Se connecter à"},
 /* hu */ {IDS_CONNECT_TO_HU, "Kapcsolódás ehhez:"},
 /* it */ {IDS_CONNECT_TO_IT, "Connetti a"},
 /* nl */ {IDS_CONNECT_TO_NL, "Maak verbinding naar"},
@@ -2251,7 +2251,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_DISCONNECT,    "Disconnect"},
 /* de */ {IDS_DISCONNECT_DE, "Verbindung Trennen"},
-/* fr */ {IDS_DISCONNECT_FR, ""},  /* fuzzy */
+/* fr */ {IDS_DISCONNECT_FR, "Se déconnecter du serveur"},
 /* hu */ {IDS_DISCONNECT_HU, "Szétkapcsolódás"},
 /* it */ {IDS_DISCONNECT_IT, "Disconnetti"},
 /* nl */ {IDS_DISCONNECT_NL, "Verbreek verbinding"},
@@ -2260,7 +2260,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_IDLE,    "Idle"},
 /* de */ {IDS_IDLE_DE, "Idle"},
-/* fr */ {IDS_IDLE_FR, ""},  /* fuzzy */
+/* fr */ {IDS_IDLE_FR, "Inactif"},
 /* hu */ {IDS_IDLE_HU, "Tétlen"},
 /* it */ {IDS_IDLE_IT, "Inattivo"},
 /* nl */ {IDS_IDLE_NL, "Idle"},
@@ -2278,7 +2278,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_CONNECTED_SERVER,    "Connected server"},
 /* de */ {IDS_CONNECTED_SERVER_DE, "Verbunden, Server"},
-/* fr */ {IDS_CONNECTED_SERVER_FR, ""},  /* fuzzy */
+/* fr */ {IDS_CONNECTED_SERVER_FR, "Connecté au serveur"},
 /* hu */ {IDS_CONNECTED_SERVER_HU, "Kiszolgáló a kapcsolatban"},
 /* it */ {IDS_CONNECTED_SERVER_IT, "Server connesso"},
 /* nl */ {IDS_CONNECTED_SERVER_NL, "Verbonden Server"},
@@ -2287,7 +2287,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_CONNECTED_CLIENT,    "Connected client"},
 /* de */ {IDS_CONNECTED_CLIENT_DE, "Verbunden, Client"},
-/* fr */ {IDS_CONNECTED_CLIENT_FR, ""},  /* fuzzy */
+/* fr */ {IDS_CONNECTED_CLIENT_FR, "Client connecté"},
 /* hu */ {IDS_CONNECTED_CLIENT_HU, "Kapcsolódó kliens"},
 /* it */ {IDS_CONNECTED_CLIENT_IT, "Client connesso"},
 /* nl */ {IDS_CONNECTED_CLIENT_NL, "Verbonden Client"},
@@ -2296,7 +2296,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_NETPLAY_SETTINGS,    "Netplay Settings"},
 /* de */ {IDS_NETPLAY_SETTINGS_DE, "Netplay Einstellungen"},
-/* fr */ {IDS_NETPLAY_SETTINGS_FR, ""},  /* fuzzy */
+/* fr */ {IDS_NETPLAY_SETTINGS_FR, "Paramètres de jeu en réseau"},
 /* hu */ {IDS_NETPLAY_SETTINGS_HU, "Hálózati játék beállításai"},
 /* it */ {IDS_NETPLAY_SETTINGS_IT, "Impostazioni Netplay"},
 /* nl */ {IDS_NETPLAY_SETTINGS_NL, "Netplayinstellingen"},
@@ -2323,7 +2323,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_CHOOSE_SCREENSHOT_FORMAT,    "Choose screenshot format"},
 /* de */ {IDS_CHOOSE_SCREENSHOT_FORMAT_DE, "Wähle Screenshot Format"},
-/* fr */ {IDS_CHOOSE_SCREENSHOT_FORMAT_FR, ""},  /* fuzzy */
+/* fr */ {IDS_CHOOSE_SCREENSHOT_FORMAT_FR, "Chosir le format de capture d'écran"},
 /* hu */ {IDS_CHOOSE_SCREENSHOT_FORMAT_HU, "Válasszon fénykép formátumot"},
 /* it */ {IDS_CHOOSE_SCREENSHOT_FORMAT_IT, "Seleziona il formato per il salvataggio della schermata"},
 /* nl */ {IDS_CHOOSE_SCREENSHOT_FORMAT_NL, "Kies schermafdrukformaat"},
@@ -2332,7 +2332,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SAVE_S_SCREENSHOT,    "Save %s screenshot"},
 /* de */ {IDS_SAVE_S_SCREENSHOT_DE, "Screenshot %s speichern"},
-/* fr */ {IDS_SAVE_S_SCREENSHOT_FR, ""},  /* fuzzy */
+/* fr */ {IDS_SAVE_S_SCREENSHOT_FR, "Enregistrer une capture d'écran %s"},
 /* hu */ {IDS_SAVE_S_SCREENSHOT_HU, "%s fénykép mentése"},
 /* it */ {IDS_SAVE_S_SCREENSHOT_IT, "Salva schermata %s"},
 /* nl */ {IDS_SAVE_S_SCREENSHOT_NL, "Sla schermafdruk %s op"},
@@ -2350,7 +2350,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_ATTACHED_S_TO_DEVICE_D,    "Attached %s to device#%d"},
 /* de */ {IDS_ATTACHED_S_TO_DEVICE_D_DE, "%s mit Gerät #%d verbunden"},
-/* fr */ {IDS_ATTACHED_S_TO_DEVICE_D_FR, "%s attaché au périphérique #%s"},
+/* fr */ {IDS_ATTACHED_S_TO_DEVICE_D_FR, "%s attaché au périphérique #%d"},
 /* hu */ {IDS_ATTACHED_S_TO_DEVICE_D_HU, "%s csatolva #%d eszközhöz"},
 /* it */ {IDS_ATTACHED_S_TO_DEVICE_D_IT, "Selezionato %s per la periferica #%d"},
 /* nl */ {IDS_ATTACHED_S_TO_DEVICE_D_NL, "%s aan apparaat#%d gekoppelt"},
@@ -2377,7 +2377,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_YES_NO,    "Yes|No"},
 /* de */ {IDS_YES_NO_DE, "Ja|Nein"},
-/* fr */ {IDS_YES_NO_FR, ""},  /* fuzzy */
+/* fr */ {IDS_YES_NO_FR, "Oui|Non"},
 /* hu */ {IDS_YES_NO_HU, "Igen|Nem"},
 /* it */ {IDS_YES_NO_IT, "Sì|No"},
 /* nl */ {IDS_YES_NO_NL, "Ja|Nee"},
@@ -2404,7 +2404,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SELECT_START_SNAPSHOT,    "Select start snapshot for event history"},
 /* de */ {IDS_SELECT_START_SNAPSHOT_DE, "Startsnapshot für Ereignishistory festlegen"},
-/* fr */ {IDS_SELECT_START_SNAPSHOT_FR, "Sélectionner la sauvegarde de départ pour l'historique des événements"},
+/* fr */ {IDS_SELECT_START_SNAPSHOT_FR, "Sélectionner l'instantané de départ pour l'historique des événements"},
 /* hu */ {IDS_SELECT_START_SNAPSHOT_HU, "Válasszon kezdeti pillanatképet az esemény rögzítéshez"},
 /* it */ {IDS_SELECT_START_SNAPSHOT_IT, "Seleziona lo snapshot iniziale per la cronologia degli eventi"},
 /* nl */ {IDS_SELECT_START_SNAPSHOT_NL, "Selecteer start momentopname voor gebeurtenis geschiedenis"},
@@ -2413,7 +2413,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SELECT_END_SNAPSHOT,    "Select end snapshot for event history"},
 /* de */ {IDS_SELECT_END_SNAPSHOT_DE, "Startsnapshot für Ereignishistory festlegen"},
-/* fr */ {IDS_SELECT_END_SNAPSHOT_FR, ""},  /* fuzzy */
+/* fr */ {IDS_SELECT_END_SNAPSHOT_FR, "Sélectionner l'instantané de départ pour l'historique des événements"},
 /* hu */ {IDS_SELECT_END_SNAPSHOT_HU, "Válasszon végsõ pillanatképet az esemény rögzítéshez"},
 /* it */ {IDS_SELECT_END_SNAPSHOT_IT, "Seleziona lo snapshot finale per la cronologia degli eventi"},
 /* nl */ {IDS_SELECT_END_SNAPSHOT_NL, "Selecteer eind momentopname voor gebeurtenis geschiedenis"},
@@ -2872,7 +2872,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_256K_SETTINGS,    "256K Settings"},
 /* de */ {IDS_256K_SETTINGS_DE, "256K Einstellungen"},
-/* fr */ {IDS_256K_SETTINGS_FR, ""},  /* fuzzy */
+/* fr */ {IDS_256K_SETTINGS_FR, "Paramètres 256K"},
 /* hu */ {IDS_256K_SETTINGS_HU, "256K beállításai"},
 /* it */ {IDS_256K_SETTINGS_IT, "Impostazioni 256K"},
 /* nl */ {IDS_256K_SETTINGS_NL, "256K-instellingen"},
@@ -3052,7 +3052,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_ADDITIONAL_DELAY,    "Additional Delay"},
 /* de */ {IDS_ADDITIONAL_DELAY_DE, "Zusätzliche Verzögerung"},
-/* fr */ {IDS_ADDITIONAL_DELAY_FR, ""},  /* fuzzy */
+/* fr */ {IDS_ADDITIONAL_DELAY_FR, "Délai additionnel"},
 /* hu */ {IDS_ADDITIONAL_DELAY_HU, "Többlet szünet"},
 /* it */ {IDS_ADDITIONAL_DELAY_IT, "Ritardo aggiuntivo"},
 /* nl */ {IDS_ADDITIONAL_DELAY_NL, "Extra vertraging"},
@@ -3124,7 +3124,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_TRAP_IDLE,    "Trap idle"},
 /* de */ {IDS_TRAP_IDLE_DE, "Trap idle"},
-/* fr */ {IDS_TRAP_IDLE_FR, "Trap idle"},
+/* fr */ {IDS_TRAP_IDLE_FR, "Traper l’inactivité"},
 /* hu */ {IDS_TRAP_IDLE_HU, "Üres ciklusok kihagyása"},
 /* it */ {IDS_TRAP_IDLE_IT, "Rileva inattività"},
 /* nl */ {IDS_TRAP_IDLE_NL, "Trap idle"},
@@ -3259,7 +3259,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_JOY_PORT_0,    "Joy Port 0"},
 /* de */ {IDS_JOY_PORT_0_DE, "Joystick Port 0"},
-/* fr */ {IDS_JOY_PORT_0_FR, ""},  /* fuzzy */
+/* fr */ {IDS_JOY_PORT_0_FR, "Port joystick 0"},
 /* hu */ {IDS_JOY_PORT_0_HU, "Botkormány port 0"},
 /* it */ {IDS_JOY_PORT_0_IT, "Joy Porta 0"},
 /* nl */ {IDS_JOY_PORT_0_NL, "Joy Poort 0"},
@@ -3268,7 +3268,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_JOY_PORT_1,    "Joy Port 1"},
 /* de */ {IDS_JOY_PORT_1_DE, "Joystick Port 1"},
-/* fr */ {IDS_JOY_PORT_1_FR, ""},  /* fuzzy */
+/* fr */ {IDS_JOY_PORT_1_FR, "Port joystick 1"},
 /* hu */ {IDS_JOY_PORT_1_HU, "Botkormány port 1"},
 /* it */ {IDS_JOY_PORT_1_IT, "Joy Porta 1"},
 /* nl */ {IDS_JOY_PORT_1_NL, "Joy Poort 1"},
@@ -3277,7 +3277,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_JOY_PORT_2,    "Joy Port 2"},
 /* de */ {IDS_JOY_PORT_2_DE, "Joystick Port 2"},
-/* fr */ {IDS_JOY_PORT_2_FR, ""},  /* fuzzy */
+/* fr */ {IDS_JOY_PORT_2_FR, "Port joystick 2"},
 /* hu */ {IDS_JOY_PORT_2_HU, "Botkormány port 2"},
 /* it */ {IDS_JOY_PORT_2_IT, "Joy Porta 2"},
 /* nl */ {IDS_JOY_PORT_2_NL, "Joy Poort 2"},
@@ -3286,7 +3286,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_JOY_PORT_3,    "Joy Port 3"},
 /* de */ {IDS_JOY_PORT_3_DE, "Joystick Port 3"},
-/* fr */ {IDS_JOY_PORT_3_FR, ""},  /* fuzzy */
+/* fr */ {IDS_JOY_PORT_3_FR, "Port joystick 3"},
 /* hu */ {IDS_JOY_PORT_3_HU, "Botkormány port 3"},
 /* it */ {IDS_JOY_PORT_3_IT, "Joy Porta 3"},
 /* nl */ {IDS_JOY_PORT_3_NL, "Joy Poort 3"},
@@ -3295,7 +3295,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_STOP_BLUE,    "Stop/Blue"},
 /* de */ {IDS_STOP_BLUE_DE, "Stop/Blau"},
-/* fr */ {IDS_STOP_BLUE_FR, ""},  /* fuzzy */
+/* fr */ {IDS_STOP_BLUE_FR, "Arrêt/Bleu"},
 /* hu */ {IDS_STOP_BLUE_HU, "Leállít/Kék"},
 /* it */ {IDS_STOP_BLUE_IT, "Stop/Blu"},
 /* nl */ {IDS_STOP_BLUE_NL, "Stop/Blauw"},
@@ -3304,7 +3304,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SELECT_RED,    "Select/Red"},
 /* de */ {IDS_SELECT_RED_DE, "Auswahl/Rot"},
-/* fr */ {IDS_SELECT_RED_FR, ""},  /* fuzzy */
+/* fr */ {IDS_SELECT_RED_FR, "Sélectionner/Rouge"},
 /* hu */ {IDS_SELECT_RED_HU, "Kiválaszt/Piros"},
 /* it */ {IDS_SELECT_RED_IT, "Seleziona/Rosso"},
 /* nl */ {IDS_SELECT_RED_NL, "Select/Rood"},
@@ -3313,7 +3313,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_REPEAT_YELLOW,    "Repeat/Yellow"},
 /* de */ {IDS_REPEAT_YELLOW_DE, "Wiederhole/Gelb"},
-/* fr */ {IDS_REPEAT_YELLOW_FR, ""},  /* fuzzy */
+/* fr */ {IDS_REPEAT_YELLOW_FR, "Répéter/Jaune"},
 /* hu */ {IDS_REPEAT_YELLOW_HU, "Ismétel/Sárga"},
 /* it */ {IDS_REPEAT_YELLOW_IT, "Ripeti/Giallo"},
 /* nl */ {IDS_REPEAT_YELLOW_NL, "Repeat/Geel"},
@@ -3322,7 +3322,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SHUFFLE_GREEN,    "Shuffle/Green"},
 /* de */ {IDS_SHUFFLE_GREEN_DE, "Mische/Grün"},
-/* fr */ {IDS_SHUFFLE_GREEN_FR, ""},  /* fuzzy */
+/* fr */ {IDS_SHUFFLE_GREEN_FR, "Mélanger/Vert"},
 /* hu */ {IDS_SHUFFLE_GREEN_HU, "Véletlenszerû/Zöld"},
 /* it */ {IDS_SHUFFLE_GREEN_IT, "Mischia/Verde"},
 /* nl */ {IDS_SHUFFLE_GREEN_NL, "Shuffle/Groen"},
@@ -3331,7 +3331,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_FORWARD_CHARCOAL,    "Forward/Charcoal"},
 /* de */ {IDS_FORWARD_CHARCOAL_DE, "Vorwärts/Kohle"},
-/* fr */ {IDS_FORWARD_CHARCOAL_FR, ""},  /* fuzzy */
+/* fr */ {IDS_FORWARD_CHARCOAL_FR, "Avancer/Charcoal"},
 /* hu */ {IDS_FORWARD_CHARCOAL_HU, "Elõre/Fekete"},
 /* it */ {IDS_FORWARD_CHARCOAL_IT, "Avanti/Carboncino"},
 /* nl */ {IDS_FORWARD_CHARCOAL_NL, "Forward/Charcoal"},
@@ -3340,7 +3340,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_REVERSE_CHARCOAL,    "Reverse/Charcoal"},
 /* de */ {IDS_REVERSE_CHARCOAL_DE, "Rückwärts/Kohle"},
-/* fr */ {IDS_REVERSE_CHARCOAL_FR, ""},  /* fuzzy */
+/* fr */ {IDS_REVERSE_CHARCOAL_FR, "Reculer/Charcoal"},
 /* hu */ {IDS_REVERSE_CHARCOAL_HU, "Vissza/Fekete"},
 /* it */ {IDS_REVERSE_CHARCOAL_IT, "Indietro/Carboncino"},
 /* nl */ {IDS_REVERSE_CHARCOAL_NL, "Reverse/Charcoal"},
@@ -3349,7 +3349,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_PLAY_PAUSE_GREY,    "Play-Pause/Grey"},
 /* de */ {IDS_PLAY_PAUSE_GREY_DE, "Play-Pause/Grau"},
-/* fr */ {IDS_PLAY_PAUSE_GREY_FR, ""},  /* fuzzy */
+/* fr */ {IDS_PLAY_PAUSE_GREY_FR, "Play-Pause/Gris"},
 /* hu */ {IDS_PLAY_PAUSE_GREY_HU, "Lejátszás-Megállítás/Szürke"},
 /* it */ {IDS_PLAY_PAUSE_GREY_IT, "Avvia-Pausa/Grigio"},
 /* nl */ {IDS_PLAY_PAUSE_GREY_NL, "Play-Pause/Grijs"},
@@ -3358,7 +3358,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_JOY_1_DEVICE,    "Joy 1 Device"},
 /* de */ {IDS_JOY_1_DEVICE_DE, "Joystick 1 Gerät"},
-/* fr */ {IDS_JOY_1_DEVICE_FR, ""},  /* fuzzy */
+/* fr */ {IDS_JOY_1_DEVICE_FR, "Périphérique joystick 1"},
 /* hu */ {IDS_JOY_1_DEVICE_HU, "1-es botkormány eszköz"},
 /* it */ {IDS_JOY_1_DEVICE_IT, "Dispositivo Joy 1"},
 /* nl */ {IDS_JOY_1_DEVICE_NL, "Joy 1-apparaat"},
@@ -3367,7 +3367,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_JOY_2_DEVICE,    "Joy 2 Device"},
 /* de */ {IDS_JOY_2_DEVICE_DE, "Joystick 2 Gerät"},
-/* fr */ {IDS_JOY_2_DEVICE_FR, ""},  /* fuzzy */
+/* fr */ {IDS_JOY_2_DEVICE_FR, "Périphérique joystick 2"},
 /* hu */ {IDS_JOY_2_DEVICE_HU, "2-es botkormány eszköz"},
 /* it */ {IDS_JOY_2_DEVICE_IT, "Dispositivo Joy 2"},
 /* nl */ {IDS_JOY_2_DEVICE_NL, "Joy 2-apparaat"},
@@ -3376,7 +3376,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_JOY_1_FIRE,    "Joy 1 Fire"},
 /* de */ {IDS_JOY_1_FIRE_DE, "Joystick 1 Feuer"},
-/* fr */ {IDS_JOY_1_FIRE_FR, ""},  /* fuzzy */
+/* fr */ {IDS_JOY_1_FIRE_FR, "Jeu joystick 1"},
 /* hu */ {IDS_JOY_1_FIRE_HU, "1-es botkormány tûz"},
 /* it */ {IDS_JOY_1_FIRE_IT, "Fuoco Joy 1"},
 /* nl */ {IDS_JOY_1_FIRE_NL, "Joy 1 Vuur"},
@@ -3385,7 +3385,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_JOY_2_FIRE,    "Joy 2 Fire"},
 /* de */ {IDS_JOY_2_FIRE_DE, "Joystick 2 Feuer"},
-/* fr */ {IDS_JOY_2_FIRE_FR, ""},  /* fuzzy */
+/* fr */ {IDS_JOY_2_FIRE_FR, "Jeu joystick 2"},
 /* hu */ {IDS_JOY_2_FIRE_HU, "2-es botkormány tûz"},
 /* it */ {IDS_JOY_2_FIRE_IT, "Fuoco Joy 2"},
 /* nl */ {IDS_JOY_2_FIRE_NL, "Joy 1 Vuur"},
@@ -3394,7 +3394,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SET_INPUT_JOYSTICK_1,    "Joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"},
 /* de */ {IDS_SET_INPUT_JOYSTICK_1_DE, "Joystick #1 Emulation: (0:Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)"},
-/* fr */ {IDS_SET_INPUT_JOYSTICK_1_FR, ""},  /* fuzzy */
+/* fr */ {IDS_SET_INPUT_JOYSTICK_1_FR, "Émulation Joystick #1: (0:Aucun, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"},
 /* hu */ {IDS_SET_INPUT_JOYSTICK_1_HU, "#1-es botkormány emuláció: (0: Nincs, 1: numerikus, 2: 'A' gombkészlet, 3: 'B' gombkészlet)"},
 /* it */ {IDS_SET_INPUT_JOYSTICK_1_IT, "Emulazione Joystick #1: (0:Nessuna, 1: Tastierino numerico, 2: Keyset A/AI, 3: Keyset B/AI)"},
 /* nl */ {IDS_SET_INPUT_JOYSTICK_1_NL, "Emulatie joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"},
@@ -3403,7 +3403,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SET_INPUT_JOYSTICK_2,    "Joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"},
 /* de */ {IDS_SET_INPUT_JOYSTICK_2_DE, "Joystick #2 Emulation: (0:Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)"},
-/* fr */ {IDS_SET_INPUT_JOYSTICK_2_FR, ""},  /* fuzzy */
+/* fr */ {IDS_SET_INPUT_JOYSTICK_2_FR, "Émulation Joystick #2: (0:Aucun, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"},
 /* hu */ {IDS_SET_INPUT_JOYSTICK_2_HU, "#2-es botkormány emuláció: (0: Nincs, 1: numerikus, 2: 'A' gombkészlet, 3: 'B' gombkészlet)"},
 /* it */ {IDS_SET_INPUT_JOYSTICK_2_IT, "Emulazione Joystick #2: (0:Nessuna, 1: Tastierino numerico, 2: Keyset A/AI, 3: Keyset B/AI)"},
 /* nl */ {IDS_SET_INPUT_JOYSTICK_2_NL, "Emulatie joystick #2: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"},
@@ -3502,7 +3502,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_PLUS256K_SETTINGS,    "PLUS256K Settings"},
 /* de */ {IDS_PLUS256K_SETTINGS_DE, "PLUS256K Einstellungen"},
-/* fr */ {IDS_PLUS256K_SETTINGS_FR, ""},  /* fuzzy */
+/* fr */ {IDS_PLUS256K_SETTINGS_FR, "Paramètres PLUS256K"},
 /* hu */ {IDS_PLUS256K_SETTINGS_HU, "PLUS256K beállításai"},
 /* it */ {IDS_PLUS256K_SETTINGS_IT, "Impostazioni PLUS256K"},
 /* nl */ {IDS_PLUS256K_SETTINGS_NL, "PLUS256K-instellingen"},
@@ -3511,7 +3511,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_PLUS60K_BASE,    "PLUS60K Base"},
 /* de */ {IDS_PLUS60K_BASE_DE, "PLUS60K Basis Adresse"},
-/* fr */ {IDS_PLUS60K_BASE_FR, ""},  /* fuzzy */
+/* fr */ {IDS_PLUS60K_BASE_FR, "Base PLUS60K"},
 /* hu */ {IDS_PLUS60K_BASE_HU, "PLUS60K báziscíme"},
 /* it */ {IDS_PLUS60K_BASE_IT, "Indirizzo base PLUS60K"},
 /* nl */ {IDS_PLUS60K_BASE_NL, "PLUS60K-basisadres"},
@@ -3538,7 +3538,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_PLUS60K_SETTINGS,    "PLUS60K Settings"},
 /* de */ {IDS_PLUS60K_SETTINGS_DE, "PLUS60K Einstellungen"},
-/* fr */ {IDS_PLUS60K_SETTINGS_FR, ""},  /* fuzzy */
+/* fr */ {IDS_PLUS60K_SETTINGS_FR, "Paramètres PLUS60K"},
 /* hu */ {IDS_PLUS60K_SETTINGS_HU, "PLUS60K beállításai"},
 /* it */ {IDS_PLUS60K_SETTINGS_IT, "Impostazioni PLUS60K"},
 /* nl */ {IDS_PLUS60K_SETTINGS_NL, "PLUS60K-instellingen"},
@@ -3583,7 +3583,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_READ_WRITE,    "read/write"},
 /* de */ {IDS_READ_WRITE_DE, "lese/schreibe"},
-/* fr */ {IDS_READ_WRITE_FR, ""},  /* fuzzy */
+/* fr */ {IDS_READ_WRITE_FR, "lecture/écriture"},
 /* hu */ {IDS_READ_WRITE_HU, "írható/olvasható"},
 /* it */ {IDS_READ_WRITE_IT, "lettura/scrittura"},
 /* nl */ {IDS_READ_WRITE_NL, "lezen/schrijven"},
@@ -3592,7 +3592,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_READ_ONLY,    "read-only"},
 /* de */ {IDS_READ_ONLY_DE, "Schreibgschutz"},
-/* fr */ {IDS_READ_ONLY_FR, "Lecture seule"},
+/* fr */ {IDS_READ_ONLY_FR, "lecture seule"},
 /* hu */ {IDS_READ_ONLY_HU, "csak olvasható"},
 /* it */ {IDS_READ_ONLY_IT, "a sola lettura"},
 /* nl */ {IDS_READ_ONLY_NL, "alleen lezen"},
@@ -3601,7 +3601,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_RAMCART_READ_WRITE,    "RAMCART Read/Write"},
 /* de */ {IDS_RAMCART_READ_WRITE_DE, "RAMCART Lesen/Schreiben"},
-/* fr */ {IDS_RAMCART_READ_WRITE_FR, ""},  /* fuzzy */
+/* fr */ {IDS_RAMCART_READ_WRITE_FR, "Lecture/Écriture RAMCART"},
 /* hu */ {IDS_RAMCART_READ_WRITE_HU, "RAMCART írható/olvasható"},
 /* it */ {IDS_RAMCART_READ_WRITE_IT, "Lettura/Scrittura RAMCART"},
 /* nl */ {IDS_RAMCART_READ_WRITE_NL, "RAMCART Lezen/Schrijven"},
@@ -3826,7 +3826,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_NOT_IMPLEMENTED_YET,    "Not implemented yet!"},
 /* de */ {IDS_NOT_IMPLEMENTED_YET_DE, "Noch nicht implementiert!"},
-/* fr */ {IDS_NOT_IMPLEMENTED_YET_FR, ""},  /* fuzzy */
+/* fr */ {IDS_NOT_IMPLEMENTED_YET_FR, "Pas encore implémenté!"},
 /* hu */ {IDS_NOT_IMPLEMENTED_YET_HU, "Nincs még implementálva!"},
 /* it */ {IDS_NOT_IMPLEMENTED_YET_IT, "Non ancora implementato!"},
 /* nl */ {IDS_NOT_IMPLEMENTED_YET_NL, "Nog niet ondersteund!"},
@@ -3898,7 +3898,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SPEED_ADJUSTMENT,    "Speed Adjustment"},
 /* de */ {IDS_SPEED_ADJUSTMENT_DE, "Geschwindigkeitsanpassung"},
-/* fr */ {IDS_SPEED_ADJUSTMENT_FR, ""},  /* fuzzy */
+/* fr */ {IDS_SPEED_ADJUSTMENT_FR, "Ajustement de vitesse"},
 /* hu */ {IDS_SPEED_ADJUSTMENT_HU, "Sebesség módosítás"},
 /* it */ {IDS_SPEED_ADJUSTMENT_IT, "Variazione velocità"},
 /* nl */ {IDS_SPEED_ADJUSTMENT_NL, "Snelheidsaanpassing"},
@@ -3925,7 +3925,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SPRITE_SPRITE_COL,    "Sprite Sprite Collisions"},
 /* de */ {IDS_SPRITE_SPRITE_COL_DE, "Sprite-sprite Kollisionen"},
-/* fr */ {IDS_SPRITE_SPRITE_COL_FR, "Collisions sprite-sprite"},
+/* fr */ {IDS_SPRITE_SPRITE_COL_FR, "Collisions sprite avec sprite"},
 /* hu */ {IDS_SPRITE_SPRITE_COL_HU, "Sprite-sprite ütközések"},
 /* it */ {IDS_SPRITE_SPRITE_COL_IT, "Collisioni sprite-sprite"},
 /* nl */ {IDS_SPRITE_SPRITE_COL_NL, "Sprite-sprite botsingen"},
@@ -3934,7 +3934,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SPRITE_BACKGROUND_COL,    "Sprite Background Collisions"},
 /* de */ {IDS_SPRITE_BACKGROUND_COL_DE, "Sprite-Hintergrund Kollisionen"},
-/* fr */ {IDS_SPRITE_BACKGROUND_COL_FR, "Collisions sprite-arriere-plan"},
+/* fr */ {IDS_SPRITE_BACKGROUND_COL_FR, "Collisions sprite avec arrière-plan"},
 /* hu */ {IDS_SPRITE_BACKGROUND_COL_HU, "Sprite-háttér ütközések"},
 /* it */ {IDS_SPRITE_BACKGROUND_COL_IT, "Collisioni sprite-sfondo"},
 /* nl */ {IDS_SPRITE_BACKGROUND_COL_NL, "Sprite-achtergrond botsingen"},
@@ -4051,7 +4051,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_BIOS_FLASH_JUMPER,    "BIOS Flash Jumper"},
 /* de */ {IDS_BIOS_FLASH_JUMPER_DE, "BIOS Flashjumper"},
-/* fr */ {IDS_BIOS_FLASH_JUMPER_FR, ""},  /* fuzzy */
+/* fr */ {IDS_BIOS_FLASH_JUMPER_FR, "Flash Jumper BIOS"},
 /* hu */ {IDS_BIOS_FLASH_JUMPER_HU, "BIOS Flash jumper"},
 /* it */ {IDS_BIOS_FLASH_JUMPER_IT, "Flash Jumper del BIOS"},
 /* nl */ {IDS_BIOS_FLASH_JUMPER_NL, "BIOS Flash Jumper"},
@@ -4060,7 +4060,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SAVE_BIOS_WHEN_CHANGED,    "Save BIOS when changed"},
 /* de */ {IDS_SAVE_BIOS_WHEN_CHANGED_DE, "BIOS bei Änderung speichern"},
-/* fr */ {IDS_SAVE_BIOS_WHEN_CHANGED_FR, ""},  /* fuzzy */
+/* fr */ {IDS_SAVE_BIOS_WHEN_CHANGED_FR, "Enregistrer le BIOS lorsque modifié"},
 /* hu */ {IDS_SAVE_BIOS_WHEN_CHANGED_HU, "BIOS mentése változás után"},
 /* it */ {IDS_SAVE_BIOS_WHEN_CHANGED_IT, "Salva il BIOS al cambio"},
 /* nl */ {IDS_SAVE_BIOS_WHEN_CHANGED_NL, "BIOS Opslaan indien gewijzigd"},
@@ -4069,7 +4069,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_BIOS_FILE,    "BIOS File"},
 /* de */ {IDS_BIOS_FILE_DE, "BIOS Datei"},
-/* fr */ {IDS_BIOS_FILE_FR, ""},  /* fuzzy */
+/* fr */ {IDS_BIOS_FILE_FR, "Fichier du BIOS"},
 /* hu */ {IDS_BIOS_FILE_HU, "BIOS fájl"},
 /* it */ {IDS_BIOS_FILE_IT, "File del BIOS"},
 /* nl */ {IDS_BIOS_FILE_NL, "BIOS-bestand"},
@@ -4078,7 +4078,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SELECT_BIOS_FILE,    "Select BIOS file"},
 /* de */ {IDS_SELECT_BIOS_FILE_DE, "BIOS Datei wählen"},
-/* fr */ {IDS_SELECT_BIOS_FILE_FR, ""},  /* fuzzy */
+/* fr */ {IDS_SELECT_BIOS_FILE_FR, "Sélectionner le fichier du BIOS "},
 /* hu */ {IDS_SELECT_BIOS_FILE_HU, "Válasszon BIOS fájlt"},
 /* it */ {IDS_SELECT_BIOS_FILE_IT, "Seleziona il file del BIOS"},
 /* nl */ {IDS_SELECT_BIOS_FILE_NL, "Selecteer BIOS-bestand"},
@@ -4087,7 +4087,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_MMC64_IMAGE_READ_ONLY,    "MMC/SD Image read-only"},
 /* de */ {IDS_MMC64_IMAGE_READ_ONLY_DE, "MMC/SD Image Schreibschutz"},
-/* fr */ {IDS_MMC64_IMAGE_READ_ONLY_FR, ""},  /* fuzzy */
+/* fr */ {IDS_MMC64_IMAGE_READ_ONLY_FR, "Image MMC/SD en lecture seule"},
 /* hu */ {IDS_MMC64_IMAGE_READ_ONLY_HU, "MMC/SD képmás csak olvasható"},
 /* it */ {IDS_MMC64_IMAGE_READ_ONLY_IT, "Immagine MMC/SD in sola lettura"},
 /* nl */ {IDS_MMC64_IMAGE_READ_ONLY_NL, "MMC/SD-bestand alleen-lezen"},
@@ -4096,7 +4096,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_MMC64_IMAGE_FILE,    "MMC/SD Image File"},
 /* de */ {IDS_MMC64_IMAGE_FILE_DE, "MMC/SD Image Name"},
-/* fr */ {IDS_MMC64_IMAGE_FILE_FR, ""},  /* fuzzy */
+/* fr */ {IDS_MMC64_IMAGE_FILE_FR, "Nom d'image MMC/SD"},
 /* hu */ {IDS_MMC64_IMAGE_FILE_HU, "MMC/SD képmás fájl"},
 /* it */ {IDS_MMC64_IMAGE_FILE_IT, "File immagine MMC/SD"},
 /* nl */ {IDS_MMC64_IMAGE_FILE_NL, "MMC/SD-bestand"},
@@ -4105,7 +4105,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SELECT_MMC64_IMAGE_FILE,    "Select MMC/SD image file"},
 /* de */ {IDS_SELECT_MMC64_IMAGE_FILE_DE, "MMC/SD Image Date wählen"},
-/* fr */ {IDS_SELECT_MMC64_IMAGE_FILE_FR, ""},  /* fuzzy */
+/* fr */ {IDS_SELECT_MMC64_IMAGE_FILE_FR, "Sélectionnez le fichier image du MMC/SD"},
 /* hu */ {IDS_SELECT_MMC64_IMAGE_FILE_HU, "Válassza ki az MMC/SD képmás fájlt"},
 /* it */ {IDS_SELECT_MMC64_IMAGE_FILE_IT, "Seleziona il file immagine MMC/SD"},
 /* nl */ {IDS_SELECT_MMC64_IMAGE_FILE_NL, "Selecteer MMC/SD-bestand"},
@@ -4123,7 +4123,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SID_CART,    "SID Cart"},
 /* de */ {IDS_SID_CART_DE, "SID Modul"},
-/* fr */ {IDS_SID_CART_FR, ""},  /* fuzzy */
+/* fr */ {IDS_SID_CART_FR, "SID Cart"},
 /* hu */ {IDS_SID_CART_HU, "SID kártya"},
 /* it */ {IDS_SID_CART_IT, "Cartuccia SID"},
 /* nl */ {IDS_SID_CART_NL, "SID-cart"},
@@ -4141,7 +4141,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SID_ADDRESS,    "SID Address"},
 /* de */ {IDS_SID_ADDRESS_DE, "SID Adresse"},
-/* fr */ {IDS_SID_ADDRESS_FR, ""},  /* fuzzy */
+/* fr */ {IDS_SID_ADDRESS_FR, "Adresse SID"},
 /* hu */ {IDS_SID_ADDRESS_HU, "SID cím"},
 /* it */ {IDS_SID_ADDRESS_IT, "Indirizzo SID"},
 /* nl */ {IDS_SID_ADDRESS_NL, "SID-adres"},
@@ -4150,7 +4150,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SID_CLOCK,    "SID Clock"},
 /* de */ {IDS_SID_CLOCK_DE, "SID Uhr"},
-/* fr */ {IDS_SID_CLOCK_FR, ""},  /* fuzzy */
+/* fr */ {IDS_SID_CLOCK_FR, "Horloge SID"},
 /* hu */ {IDS_SID_CLOCK_HU, "SID órajel"},
 /* it */ {IDS_SID_CLOCK_IT, "SID Clock"},
 /* nl */ {IDS_SID_CLOCK_NL, "SID-klok"},
@@ -4303,7 +4303,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_CANNOT_READ_SNAPSHOT_IMG,    "Cannot read snapshot image"},
 /* de */ {IDS_CANNOT_READ_SNAPSHOT_IMG_DE, "Kann Snapshot Datei nicht laden"},
-/* fr */ {IDS_CANNOT_READ_SNAPSHOT_IMG_FR, ""},  /* fuzzy */
+/* fr */ {IDS_CANNOT_READ_SNAPSHOT_IMG_FR, "Impossible de charger l'instantané."},
 /* hu */ {IDS_CANNOT_READ_SNAPSHOT_IMG_HU, "A pillanatkép fájl nem olvasható"},
 /* it */ {IDS_CANNOT_READ_SNAPSHOT_IMG_IT, "Non è possibile leggere l'immagine dello snapshot"},
 /* nl */ {IDS_CANNOT_READ_SNAPSHOT_IMG_NL, "Kan momentopname bestand niet lezen"},
@@ -4312,7 +4312,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SNAPSHOT_FILE,    "snapshot file"},
 /* de */ {IDS_SNAPSHOT_FILE_DE, "Snapshot Datei"},
-/* fr */ {IDS_SNAPSHOT_FILE_FR, ""},  /* fuzzy */
+/* fr */ {IDS_SNAPSHOT_FILE_FR, "Fichier de sauvegarde"},
 /* hu */ {IDS_SNAPSHOT_FILE_HU, "pillanatkép fájl"},
 /* it */ {IDS_SNAPSHOT_FILE_IT, "File di snapshot"},
 /* nl */ {IDS_SNAPSHOT_FILE_NL, "momentopnamebestand"},
@@ -4321,7 +4321,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SELECT_SNAPSHOT_FILE,    "Select snapshot file"},
 /* de */ {IDS_SELECT_SNAPSHOT_FILE_DE, "Snapshot Datei wählen"},
-/* fr */ {IDS_SELECT_SNAPSHOT_FILE_FR, ""},  /* fuzzy */
+/* fr */ {IDS_SELECT_SNAPSHOT_FILE_FR, "Sélectionner le fichier de sauvegarde"},
 /* hu */ {IDS_SELECT_SNAPSHOT_FILE_HU, "Válasszon pillanatkép fájlt"},
 /* it */ {IDS_SELECT_SNAPSHOT_FILE_IT, "Seleziona il file di snapshot"},
 /* nl */ {IDS_SELECT_SNAPSHOT_FILE_NL, "Selecteer momentopnamebestand"},
@@ -4330,7 +4330,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_FAST_PAL,    "Fast PAL"},
 /* de */ {IDS_FAST_PAL_DE, "Schnelle PAL"},
-/* fr */ {IDS_FAST_PAL_FR, ""},  /* fuzzy */
+/* fr */ {IDS_FAST_PAL_FR, "PAL Rapide"},
 /* hu */ {IDS_FAST_PAL_HU, "Gyors PAL"},
 /* it */ {IDS_FAST_PAL_IT, "PAL veloce"},
 /* nl */ {IDS_FAST_PAL_NL, "Snelle PAL"},
@@ -4366,7 +4366,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_GAMMA_0_2,    "Gamma (0..2)"},
 /* de */ {IDS_GAMMA_0_2_DE, "Gamma (0..2)"},
-/* fr */ {IDS_GAMMA_0_2_FR, "Intensité (0..2)"},
+/* fr */ {IDS_GAMMA_0_2_FR, "Gamma (0..2)"},
 /* hu */ {IDS_GAMMA_0_2_HU, "Gamma (0..2)"},
 /* it */ {IDS_GAMMA_0_2_IT, "Gamma (0..2)"},
 /* nl */ {IDS_GAMMA_0_2_NL, "Gamma (0..2)"},
@@ -4438,7 +4438,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_PALETTE_FILENAME,    "Palette file"},
 /* de */ {IDS_PALETTE_FILENAME_DE, "Palette Datei"},
-/* fr */ {IDS_PALETTE_FILENAME_FR, ""},  /* fuzzy */
+/* fr */ {IDS_PALETTE_FILENAME_FR, "Fichiers de palette"},
 /* hu */ {IDS_PALETTE_FILENAME_HU, "Paletta fájl"},
 /* it */ {IDS_PALETTE_FILENAME_IT, "File di palette"},
 /* nl */ {IDS_PALETTE_FILENAME_NL, "Paletbestand"},
@@ -4483,7 +4483,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_VICII_PALETTE_FILENAME,    "VICII Palette file"},
 /* de */ {IDS_VICII_PALETTE_FILENAME_DE, "VICII Paletten Datei"},
-/* fr */ {IDS_VICII_PALETTE_FILENAME_FR, ""},  /* fuzzy */
+/* fr */ {IDS_VICII_PALETTE_FILENAME_FR, "Fichier de palette VICII"},
 /* hu */ {IDS_VICII_PALETTE_FILENAME_HU, "VICII paletta fájl"},
 /* it */ {IDS_VICII_PALETTE_FILENAME_IT, "File di palette VICII"},
 /* nl */ {IDS_VICII_PALETTE_FILENAME_NL, "VICII paletbestand"},
@@ -4492,7 +4492,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_VDC_PALETTE_FILENAME,    "VDC Palette file"},
 /* de */ {IDS_VDC_PALETTE_FILENAME_DE, "VDC Paletten Datei"},
-/* fr */ {IDS_VDC_PALETTE_FILENAME_FR, ""},  /* fuzzy */
+/* fr */ {IDS_VDC_PALETTE_FILENAME_FR, "Fichier de palette VDC"},
 /* hu */ {IDS_VDC_PALETTE_FILENAME_HU, "VDC paletta fájl"},
 /* it */ {IDS_VDC_PALETTE_FILENAME_IT, "File di palette VDC"},
 /* nl */ {IDS_VDC_PALETTE_FILENAME_NL, "VDC-paletbestand"},
@@ -4789,7 +4789,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_DIGIMAX_BASE,    "Digimax Base"},
 /* de */ {IDS_DIGIMAX_BASE_DE, "Digimax Basis"},
-/* fr */ {IDS_DIGIMAX_BASE_FR, ""},  /* fuzzy */
+/* fr */ {IDS_DIGIMAX_BASE_FR, "Base Digimax"},
 /* hu */ {IDS_DIGIMAX_BASE_HU, "Digimax báziscím"},
 /* it */ {IDS_DIGIMAX_BASE_IT, "Base Digimax"},
 /* nl */ {IDS_DIGIMAX_BASE_NL, "Digimax basisadres"},
@@ -4897,7 +4897,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_VOLUME,    "Volume (0-100%)"},
 /* de */ {IDS_VOLUME_DE, "Lautstärke (0-100%)"},
-/* fr */ {IDS_VOLUME_FR, ""},  /* fuzzy */
+/* fr */ {IDS_VOLUME_FR, "Volume (0-100%)"},
 /* hu */ {IDS_VOLUME_HU, "Hangerõ (0-100%)"},
 /* it */ {IDS_VOLUME_IT, "Volume (0-100%)"},
 /* nl */ {IDS_VOLUME_NL, "Volume (0-100%)"},
@@ -4906,7 +4906,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_MOUSE_TYPE,    "Mouse type"},
 /* de */ {IDS_MOUSE_TYPE_DE, "Maustyp"},
-/* fr */ {IDS_MOUSE_TYPE_FR, ""},  /* fuzzy */
+/* fr */ {IDS_MOUSE_TYPE_FR, "Type de souris"},
 /* hu */ {IDS_MOUSE_TYPE_HU, "Egér típusa"},
 /* it */ {IDS_MOUSE_TYPE_IT, ""},  /* fuzzy */
 /* nl */ {IDS_MOUSE_TYPE_NL, "Muis soort"},
@@ -4915,7 +4915,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_MOUSE_SETTINGS,    "Mouse Settings"},
 /* de */ {IDS_MOUSE_SETTINGS_DE, "Maus Einstellungen"},
-/* fr */ {IDS_MOUSE_SETTINGS_FR, ""},  /* fuzzy */
+/* fr */ {IDS_MOUSE_SETTINGS_FR, "Paramètres de souris"},
 /* hu */ {IDS_MOUSE_SETTINGS_HU, "Egér beállítások"},
 /* it */ {IDS_MOUSE_SETTINGS_IT, ""},  /* fuzzy */
 /* nl */ {IDS_MOUSE_SETTINGS_NL, "Muis Instellingen"},
@@ -4924,7 +4924,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_MOUSE_PORT,    "Mouse port"},
 /* de */ {IDS_MOUSE_PORT_DE, "Maus Port"},
-/* fr */ {IDS_MOUSE_PORT_FR, ""},  /* fuzzy */
+/* fr */ {IDS_MOUSE_PORT_FR, "Port de la souris"},
 /* hu */ {IDS_MOUSE_PORT_HU, ""},  /* fuzzy */
 /* it */ {IDS_MOUSE_PORT_IT, ""},  /* fuzzy */
 /* nl */ {IDS_MOUSE_PORT_NL, "Muis poort"},
@@ -4933,7 +4933,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_MOUSE_1351,    "1351 mouse"},
 /* de */ {IDS_MOUSE_1351_DE, "1351 Maus"},
-/* fr */ {IDS_MOUSE_1351_FR, ""},  /* fuzzy */
+/* fr */ {IDS_MOUSE_1351_FR, "Souris 1351"},
 /* hu */ {IDS_MOUSE_1351_HU, "1351 egér"},
 /* it */ {IDS_MOUSE_1351_IT, ""},  /* fuzzy */
 /* nl */ {IDS_MOUSE_1351_NL, "1351 muis"},
@@ -4942,7 +4942,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_MOUSE_NEOS,    "NEOS mouse"},
 /* de */ {IDS_MOUSE_NEOS_DE, "NEOS Maus"},
-/* fr */ {IDS_MOUSE_NEOS_FR, ""},  /* fuzzy */
+/* fr */ {IDS_MOUSE_NEOS_FR, "Souris NEOS"},
 /* hu */ {IDS_MOUSE_NEOS_HU, "NEOS egér"},
 /* it */ {IDS_MOUSE_NEOS_IT, ""},  /* fuzzy */
 /* nl */ {IDS_MOUSE_NEOS_NL, "NEOS muis"},
@@ -4951,7 +4951,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_MOUSE_AMIGA,    "Amiga mouse"},
 /* de */ {IDS_MOUSE_AMIGA_DE, "Amiga Maus"},
-/* fr */ {IDS_MOUSE_AMIGA_FR, ""},  /* fuzzy */
+/* fr */ {IDS_MOUSE_AMIGA_FR, "Souris Amiga"},
 /* hu */ {IDS_MOUSE_AMIGA_HU, "Amiga egér"},
 /* it */ {IDS_MOUSE_AMIGA_IT, ""},  /* fuzzy */
 /* nl */ {IDS_MOUSE_AMIGA_NL, "Amiga muis"},

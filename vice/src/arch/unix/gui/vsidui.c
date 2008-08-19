@@ -248,7 +248,7 @@ static UI_CALLBACK(psid_load)
     switch (button) {
       case UI_BUTTON_OK:
         if (machine_autodetect_psid(filename) < 0) {
-          log_error(vsid_log, _("`%s' is not a valid PSID file."), filename);
+          log_error(vsid_log, "`%s' is not a valid PSID file.", filename);
           return;
         }
         psid_init_driver();

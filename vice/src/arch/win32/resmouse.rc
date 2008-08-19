@@ -53,11 +53,11 @@ IDD_MOUSE_SETTINGS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 75
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Mouse type",
+    LTEXT           "Type de souris",
                     IDC_MOUSE_TYPE_LABEL, 9, 6, 53, 8
     COMBOBOX        IDC_MOUSE_TYPE, 70, 5, 80, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Mouse port",
+    LTEXT           "Port de la souris",
                     IDC_MOUSE_PORT_LABEL, 9, 24, 53, 8
     COMBOBOX        IDC_MOUSE_PORT, 70, 23, 80, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP

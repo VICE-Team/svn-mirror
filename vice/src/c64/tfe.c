@@ -463,7 +463,7 @@ void tfe_reset(void)
 
         tfe_arch_post_reset();
 
-        log_message(tfe_log,("CS8900a rev.D reset"));
+        log_message(tfe_log,"CS8900a rev.D reset");
     }
 }
 

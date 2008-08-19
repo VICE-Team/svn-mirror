@@ -504,7 +504,7 @@ BEGIN
     END
     POPUP "&Sauvegarde"
     BEGIN
-        MENUITEM "C&harger une sauvegarde....", IDM_SNAPSHOT_LOAD
+        MENUITEM "C&harger un instantané....", IDM_SNAPSHOT_LOAD
         MENUITEM "E&nregistrer une sauvegarde...", IDM_SNAPSHOT_SAVE
         MENUITEM "&Charger la sauvegarde rapide", IDM_LOADQUICK
         MENUITEM "&Enregistrer la sauvegarde rapide", IDM_SAVEQUICK
@@ -516,7 +516,7 @@ BEGIN
         POPUP "Mode de départ d'enregistrement"
         BEGIN
             MENUITEM "&Enregistrer une nouvelle sauvegarde",      IDM_EVENT_START_MODE_SAVE
-            MENUITEM "&Charger une sauvegarde", IDM_EVENT_START_MODE_LOAD
+            MENUITEM "&Charger un instantané", IDM_EVENT_START_MODE_LOAD
             MENUITEM "&Réinitialiser au démarrage",       IDM_EVENT_START_MODE_RESET
             MENUITEM "É&craser la lecture actuelle",     IDM_EVENT_START_MODE_PLAYBACK
         END
@@ -527,7 +527,7 @@ BEGIN
         MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
         MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
         MENUITEM SEPARATOR
-        MENUITEM "Netplay (experimental)...", IDM_NETWORK_SETTINGS
+        MENUITEM "Jeu en réseau (expérimental)...", IDM_NETWORK_SETTINGS
     END
     POPUP "&Options"
     BEGIN
@@ -563,7 +563,7 @@ BEGIN
         MENUITEM "&Mode turbo", IDM_TOGGLE_WARP_MODE, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Périphérique plein écran", IDM_TOGGLE_FULLSCREEN
-        MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
+        MENUITEM "Toujours au dessus", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM SEPARATOR
         MENUITEM "&Cache vidéo", IDM_TOGGLE_VIDEOCACHE, CHECKED
         MENUITEM "&Taille double", IDM_TOGGLE_DOUBLESIZE, CHECKED

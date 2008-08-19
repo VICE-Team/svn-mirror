@@ -534,7 +534,7 @@ int ui_init_finish(void)
     fixed_font_desc = pango_font_description_from_string(fixedfontname);
     if (!fixed_font_desc)
     {
-	log_warning(ui_log, _("Cannot load CBM font %s."), fixedfontname);
+	log_warning(ui_log, "Cannot load CBM font %s.", fixedfontname);
 	have_cbm_font = FALSE;
     }
     
@@ -914,7 +914,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title,
     int i;
     
     if (++num_app_shells > MAX_APP_SHELLS) {
-	log_error(ui_log, _("Maximum number of toplevel windows reached."));
+	log_error(ui_log, "Maximum number of toplevel windows reached.");
 	return -1;
     }
 

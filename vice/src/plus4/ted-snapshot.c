@@ -243,7 +243,7 @@ int ted_snapshot_read_module(snapshot_t *s)
 
         if (RasterLine != (WORD)TED_RASTER_Y(maincpu_clk)) {
             log_error(ted.log,
-                      "VIC-II: Not matching raster line (%d) in snapshot; should be %d.",
+                      "Not matching raster line (%d) in snapshot; should be %d.",
                       RasterLine, TED_RASTER_Y(maincpu_clk));
             goto fail;
         }

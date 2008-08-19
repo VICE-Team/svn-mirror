@@ -313,8 +313,8 @@ int video_init(void)
         if (!XShmQueryVersion(display, &major_version, &minor_version,
                               &pixmap_flag)) {
             log_warning(x11video_log,
-                        _("The MITSHM extension is not supported "
-                        "on this display."));
+                        "The MITSHM extension is not supported "
+                        "on this display.");
             use_mitshm = 0;
         } else {
             DEBUG_MITSHM((_("MITSHM extensions version %d.%d detected."),
@@ -385,7 +385,7 @@ static void video_arch_frame_buffer_free(video_canvas_t *canvas)
         if (canvas->x_image)
             XDestroyImage(canvas->x_image);
         if (shmdt(canvas->xshm_info.shmaddr))
-            log_error(x11video_log, _("Cannot release shared memory!"));
+            log_error(x11video_log, "Cannot release shared memory!");
     } 
     else if (canvas->x_image)
         XDestroyImage(canvas->x_image);
@@ -514,7 +514,7 @@ static int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int wi
         canvas->yuv_image.data = (unsigned char *)canvas->xv_image->data;
 
         log_message(x11video_log,
-                    _("Successfully initialized using XVideo (%dx%d %.4s)."),
+                    "Successfully initialized using XVideo (%dx%d %.4s).",
                     width, height, canvas->xv_format.label);
 
         return 0;
@@ -534,7 +534,7 @@ tryagain:
                                           width, height);
         if (!canvas->x_image) {
             log_warning(x11video_log,
-                        _("Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."));
+                        "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode.");
             canvas->using_mitshm = 0;
             goto tryagain;
         }
@@ -547,7 +547,7 @@ tryagain:
                                   * canvas->x_image->height, IPC_CREAT | 0604);
         if (canvas->xshm_info.shmid == -1) {
             log_warning(x11video_log,
-                        _("Cannot get shared memory; falling back to non MITSHM extension mode."));
+                        "Cannot get shared memory; falling back to non MITSHM extension mode.");
             XDestroyImage(canvas->x_image);
             canvas->using_mitshm = 0;
             goto tryagain;
@@ -558,7 +558,7 @@ tryagain:
         canvas->x_image->data = canvas->xshm_info.shmaddr;
         if (canvas->xshm_info.shmaddr == (char *)-1) {
             log_warning(x11video_log,
-                        _("Cannot get shared memory address; falling back to non MITSHM extension mode."));
+                        "Cannot get shared memory address; falling back to non MITSHM extension mode.");
             shmctl(canvas->xshm_info.shmid,IPC_RMID,0);
             XDestroyImage(canvas->x_image);
             canvas->using_mitshm = 0;
@@ -573,7 +573,7 @@ tryagain:
 
         if (!XShmAttach(display, &(canvas->xshm_info))) {
             log_warning(x11video_log,
-                        _("Cannot attach shared memory; falling back to non MITSHM extension mode."));
+                        "Cannot attach shared memory; falling back to non MITSHM extension mode.");
             shmdt(canvas->xshm_info.shmaddr);
             shmctl(canvas->xshm_info.shmid,IPC_RMID,0);
             XDestroyImage(canvas->x_image);
@@ -590,7 +590,7 @@ tryagain:
 
         if (mitshm_failed) {
             log_warning(x11video_log,
-                        _("Cannot attach shared memory; falling back to non MITSHM extension mode."));
+                        "Cannot attach shared memory; falling back to non MITSHM extension mode.");
             shmdt(canvas->xshm_info.shmaddr);
             XDestroyImage(canvas->x_image);
             canvas->using_mitshm = 0;
@@ -618,14 +618,14 @@ tryagain:
     }
 
 #ifdef USE_MITSHM
-    log_message(x11video_log, _("Successfully initialized%s shared memory."),
-                (canvas->using_mitshm) ? _(", using") : _(" without"));
+    log_message(x11video_log, "Successfully initialized%s shared memory.",
+                (canvas->using_mitshm) ? ", using" : " without");
 
     if (!(canvas->using_mitshm))
-        log_warning(x11video_log, _("Performance will be poor."));
+        log_warning(x11video_log, "Performance will be poor.");
 #else
     log_message(x11video_log,
-                _("Successfully initialized without shared memory."));
+                "Successfully initialized without shared memory.");
 #endif
 
     return 0;
@@ -695,7 +695,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     if (!find_yuv_port(x11ui_get_display_ptr(), &canvas->xv_port, &canvas->xv_format))
     {
         if (canvas->videoconfig->hwscale) {
-            log_message(x11video_log, _("HW scaling not available"));
+            log_message(x11video_log, "HW scaling not available");
             canvas->videoconfig->hwscale = 0;
         }
         resources_set_int("HwScalePossible", 0);

@@ -232,7 +232,7 @@ static GtkWidget *build_screenshot_dialog(void)
     num_buttons = gfxoutput_num_drivers();
     if (num_buttons < 1)
     {
-	log_message(LOG_DEFAULT, _("No gfxoutputdrivers available"));
+	log_message(LOG_DEFAULT, "No gfxoutputdrivers available");
 	return 0;
     }
 
@@ -303,7 +303,7 @@ static GtkWidget *build_screenshot_dialog(void)
 	gtk_list_store_set(drv_store, &iter, DRV_NAME, f->name, 
 			   DRV_INDEX, i, -1);
 
-	log_message(LOG_DEFAULT, _("FFMPEG Driver: %s"), f->name);
+	log_message(LOG_DEFAULT, "FFMPEG Driver: %s", f->name);
 
 	ac_store = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT);
 	for (j = 0; f->audio_codecs && f->audio_codecs[j].name; j++)
@@ -313,7 +313,7 @@ static GtkWidget *build_screenshot_dialog(void)
 			       0, f->audio_codecs[j].name,
 			       1, f->audio_codecs[j].id, 
 			       2, j, -1);
-	    log_message(LOG_DEFAULT, _("\tAC: %s(%d)"), 
+	    log_message(LOG_DEFAULT, "\tAC: %s(%d)", 
 			f->audio_codecs[j].name,
 			f->audio_codecs[j].id);
 	}
@@ -326,7 +326,7 @@ static GtkWidget *build_screenshot_dialog(void)
 			       0, f->video_codecs[j].name,
 			       1, f->video_codecs[j].id, 
 			       2, j, -1);
-	    log_message(LOG_DEFAULT, _("\tVC: %s(%d)"), 
+	    log_message(LOG_DEFAULT, "\tVC: %s(%d)", 
 			f->video_codecs[j].name,
 			f->video_codecs[j].id);
 	}

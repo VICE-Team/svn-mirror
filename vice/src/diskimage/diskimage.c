@@ -294,7 +294,7 @@ void disk_image_media_create(disk_image_t *image)
         break;
 #endif
       default:
-        log_error(disk_image_log, "Unknow image device %i.", image->device);
+        log_error(disk_image_log, "Unknown image device %i.", image->device);
     }
 }
 
@@ -318,7 +318,7 @@ void disk_image_media_destroy(disk_image_t *image)
         break;
 #endif
       default:
-        log_error(disk_image_log, "Unknow image device %i.", image->device);
+        log_error(disk_image_log, "Unknown image device %i.", image->device);
     }
 }
 
@@ -343,7 +343,7 @@ int disk_image_open(disk_image_t *image)
         break;
 #endif
       default:
-        log_error(disk_image_log, "Unknow image device %i.", image->device);
+        log_error(disk_image_log, "Unknown image device %i.", image->device);
         rc = -1;
     }
 
@@ -373,7 +373,7 @@ int disk_image_close(disk_image_t *image)
         break;
 #endif
       default:
-        log_error(disk_image_log, "Unknow image device %i.", image->device);
+        log_error(disk_image_log, "Unknown image device %i.", image->device);
         rc = -1;
     }
 
@@ -402,7 +402,7 @@ int disk_image_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
         break;
 #endif
       default:
-        log_error(disk_image_log, "Unknow image device %i.", image->device); 
+        log_error(disk_image_log, "Unknown image device %i.", image->device); 
         rc = -1;
     }
 

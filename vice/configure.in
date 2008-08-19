@@ -614,6 +614,12 @@ dnl Check for a perl interpreter.
 AC_PATH_PROG(PERL, perl)
 AC_SUBST(PERL)
  
+if test x"$POSUB" = "xpo"; then
+  AM_CONDITIONAL(PO_SUBDIR_USED, true)
+else
+  AM_CONDITIONAL(PO_SUBDIR_USED, false)
+fi
+
 dnl Check and setup aRts compilation.
 if test x"$with_arts" = "xyes"; then
 	AC_CHECK_PROGS(artsc_config, artsc-config, no)

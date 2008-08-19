@@ -47,7 +47,7 @@ void main_exit(void)
        dangerous.  */
     signal(SIGINT, SIG_IGN);
 
-    log_message(LOG_DEFAULT, _("\nExiting..."));
+    log_message(LOG_DEFAULT, "\nExiting...");
 
     machine_shutdown();
 

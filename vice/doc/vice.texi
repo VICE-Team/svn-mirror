@@ -67,6 +67,9 @@ Copyright @copyright{} 2000-2008 Spiro Trikaliotis
 Copyright @copyright{} 2005-2008 Marco van den Heuvel
 Copyright @copyright{} 2006-2008 Christian Vogelgsang
 Copyright @copyright{} 2007-2008 Fabrizio Gennari
+Copyright @copyright{} 2007-2008 M. Kiesel
+Copyright @copyright{} 2007-2008 Hannu Nuotio
+Copyright @copyright{} 2007-2008 Daniel Kahlin
 Copyright @copyright{} 1999-2007 Andreas Dehmel
 Copyright @copyright{} 2003-2005 David Hansel
 Copyright @copyright{} 2000-2004 Markus Brenner
@@ -7447,6 +7450,18 @@ the TFE chip emulation. Added some Gtk+ fixes.
 @b{Fabrizio Gennari} added some improvements to the MSDOS- and GTK
 port.
 
+@item
+@b{Hannu Nuotio} Added experimental NEOS and Amiga mouse support.
+Fixed mouse support for single size in unix. Fixed mouse grab and
+menu popup for xaw. Added new monitor commands and features. Added
+the memmap feature.
+
+@item
+@b{M. Kiesel} Added new monitor commands and features.
+
+@item
+@b{Daniel Kahlin} Added new monitor commands and features.
+
 @end itemize
 
 Former team members:
@@ -7744,18 +7759,6 @@ package.
 the win32 port.
 
 @item
-@b{Hannu Nuotio} Added experimental NEOS and Amiga mouse support.
-Fixed mouse support for single size in unix. Fixed mouse grab and
-menu popup for xaw. Added new monitor commands and features. Added
-the memmap feature.
-
-@item
-@b{M. Kiesel} Added new monitor commands and features.
-
-@item
-@b{Daniel Kahlin} Added new monitor commands and features.
-
-@item
 @b{Groepaz/Hitmen} Added new more precise PAL emulation. Added support
 for the Action Replay 4 and StarDos cartridges.
 
@@ -7837,6 +7840,14 @@ Copyright @copyright{} 2000-2008 Spiro Trikaliotis
 Copyright @copyright{} 2005-2008 Marco van den Heuvel
 @item
 Copyright @copyright{} 2006-2008 Christian Vogelgsang
+@item
+Copyright @copyright{} 2007-2008 Fabrizio Gennari
+@item
+Copyright @copyright{} 2007-2008 M. Kiesel
+@item
+Copyright @copyright{} 2007-2008 Hannu Nuotio
+@item
+Copyright @copyright{} 2007-2008 Daniel Kahlin
 @item
 Copyright @copyright{} 1999-2007 Andreas Dehmel
 @item

@@ -84,7 +84,7 @@ netplay_update_control_res (GtkWidget *w, gpointer data)
 	control &= ~mask;
     
     resources_set_int("NetworkControl", (int)control);
-    /* log_message(np_log, _("Updated control: 0x%04x"), control); */
+    /* log_message(np_log, "Updated control: 0x%04x", control); */
 }
 
 static void
@@ -163,7 +163,7 @@ netplay_update_status(void)
     snprintf(st, 256, "%d", port);
     gtk_entry_set_text(GTK_ENTRY(np_port), st);
     gtk_entry_set_text(GTK_ENTRY(np_server), server_name);
-    log_message(np_log, _("Status: %s, Server: %s, Port: %d"),
+    log_message(np_log, "Status: %s, Server: %s, Port: %d",
 		text, server_name, port);
     netplay_update_control_gui();
 }

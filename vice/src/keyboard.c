@@ -734,7 +734,7 @@ static void keyboard_parse_entry(char *buffer)
     sym = kbd_arch_keyname_to_keynum(key);
 
     if (sym < 0) {
-        log_error(keyboard_log, _("Could not find key `%s'!"), key);
+        log_error(keyboard_log, "Could not find key `%s'!", key);
         return;
     }
 
@@ -754,7 +754,7 @@ static void keyboard_parse_entry(char *buffer)
                 } else {
                     if (keyboard_parse_set_neg_row(sym, row, col) < 0)
                         log_error(keyboard_log,
-                            _("Bad row/column value (%d/%d) for keysym `%s'."),
+                            "Bad row/column value (%d/%d) for keysym `%s'.",
                             row, col, key);
                 }
             }
@@ -774,7 +774,7 @@ static int keyboard_parse_keymap(const char *filename)
     if (fp == NULL)
         return -1;
 
-    log_message(keyboard_log, _("Loading keymap `%s'."), complete_path);
+    log_message(keyboard_log, "Loading keymap `%s'.", complete_path);
 
     do {
         buffer[0] = 0;
@@ -942,8 +942,8 @@ int keyboard_set_keymap_index(int val, void *param)
             machine_keymap_index = val;
             return 0;
         } else {
-            log_error(keyboard_log, _("Cannot load keymap `%s'."),
-                      name ? name : _("(null)"));
+            log_error(keyboard_log, "Cannot load keymap `%s'.",
+                      name ? name : "(null)");
         }
         return -1;
     }

@@ -167,7 +167,7 @@ int usb_joystick_init(void)
 #if defined(USB_GET_REPORT_ID) && !defined(__DragonFly__)
 	if (ioctl(fd, USB_GET_REPORT_ID, &id) < 0) {
 	    log_warning(joystick_log,
-			_("Cannot get report id for joystick device `%s'."),
+			"Cannot get report id for joystick device `%s'.",
 			dev);
 	    close(fd);
 	}
@@ -175,7 +175,7 @@ int usb_joystick_init(void)
 
 	if ((report=hid_get_report_desc(fd)) == NULL) {
 	    log_warning(joystick_log,
-		_("Cannot report description for joystick device `%s'."),
+		"Cannot report description for joystick device `%s'.",
 		dev);
 	    close(fd);
 	    continue;
@@ -239,13 +239,13 @@ int usb_joystick_init(void)
 	    close(fd);
 	    usb_free_item(usb_joy_item+i);
 	    log_message(joystick_log,
-		     _("Not all axes found in joystick device `%s'."), dev);
+		     "Not all axes found in joystick device `%s'.", dev);
 	    continue;
 	}
 	
 	if ((usb_joy_buf[i]=malloc(usb_joy_size[i])) == NULL) {
 	    log_warning(joystick_log,
-			_("Cannot allocate buffer for joystick device `%s'."),
+			"Cannot allocate buffer for joystick device `%s'.",
 			dev);
 	    close(fd);
 	    usb_free_item(usb_joy_item+i);
@@ -253,7 +253,7 @@ int usb_joystick_init(void)
 	}
 
 	log_message(joystick_log,
-		    _("USB joystick found: `%s'."), dev);
+		    "USB joystick found: `%s'.", dev);
 	usb_joy_fd[i] = fd;
 	i++;
     }

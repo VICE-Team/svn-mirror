@@ -668,7 +668,7 @@ int sound_open(void)
             }
             if (channels_cap != snddata.channels) {
                 log_warning(sound_log,
-                            _("sound device lacks stereo capability"));
+                            "sound device lacks stereo capability");
                 snddata.channels = 1;
             }
         }
@@ -1093,7 +1093,7 @@ double sound_flush(int relative_speed)
 
             /* Fresh start for vsync. */
 #ifndef DEBUG
-            log_warning(sound_log, _("Buffer drained"));
+            log_warning(sound_log, "Buffer drained");
 #endif
             vsync_sync_reset();
             return 0;

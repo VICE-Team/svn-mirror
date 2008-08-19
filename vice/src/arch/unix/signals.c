@@ -47,10 +47,10 @@ static RETSIGTYPE ignore64(int sig)
 static RETSIGTYPE break64(int sig)
 {
 #ifdef SYS_SIGLIST_DECLARED
-    log_message(LOG_DEFAULT, _("Received signal %d (%s)."),
+    log_message(LOG_DEFAULT, "Received signal %d (%s).",
                 sig, sys_siglist[sig]);
 #else
-    log_message(LOG_DEFAULT, _("Received signal %d."), sig);
+    log_message(LOG_DEFAULT, "Received signal %d.", sig);
 #endif
 
     exit (-1);

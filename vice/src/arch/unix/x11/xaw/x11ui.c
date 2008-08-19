@@ -524,13 +524,13 @@ int ui_init_finish(void)
         }
         if (!classes[i].name) {
             log_error(ui_log,
-                      _("This display does not support suitable %dbit visuals."),
+                      "This display does not support suitable %dbit visuals.",
                       depth);
             log_error(ui_log,
-                      _("Please select a bit depth supported by your display."));
+                      "Please select a bit depth supported by your display.");
             return -1;
         } else {
-            log_message(ui_log, _("Found %dbit/%s visual."),
+            log_message(ui_log, "Found %dbit/%s visual.",
                         depth, classes[i].name);
             have_truecolor = (classes[i].class == TrueColor);
         }
@@ -547,7 +547,7 @@ int ui_init_finish(void)
                 if (XMatchVisualInfo(display, screen, depths[i],
                                      classes[j].class, &visualinfo)) {
                     depth = depths[i];
-                    log_message(ui_log, _("Found %dbit/%s visual."),
+                    log_message(ui_log, "Found %dbit/%s visual.",
                                 depth, classes[j].name);
                     have_truecolor = (classes[j].class == TrueColor);
                     done = 1;
@@ -555,7 +555,7 @@ int ui_init_finish(void)
                 }
             }
         if (!done) {
-            log_error(ui_log, _("Cannot autodetect a proper visual."));
+            log_error(ui_log, "Cannot autodetect a proper visual.");
             return -1;
         }
     }
@@ -641,7 +641,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title,
     XtVaSetValues(_ui_top_level, XtNcolormap, colormap, NULL);
 
     if (++num_app_shells > MAX_APP_SHELLS) {
-        log_error(ui_log, _("Maximum number of toplevel windows reached."));
+        log_error(ui_log, "Maximum number of toplevel windows reached.");
         return -1;
     }
 
@@ -1187,7 +1187,7 @@ static int alloc_colormap(void)
         && !have_truecolor) {
         colormap = DefaultColormap(display, screen);
     } else {
-        log_message(ui_log, _("Using private colormap."));
+        log_message(ui_log, "Using private colormap.");
         colormap = XCreateColormap(display, RootWindow(display, screen),
                                    visual, AllocNone);
     }
@@ -1528,7 +1528,7 @@ int
 ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable)
 {
     log_message(ui_log, 
-		_("Toggling of Statusbar/Menu in Xaw is not supported."));
+		"Toggling of Statusbar/Menu in Xaw is not supported.");
     return 0;
 }
 

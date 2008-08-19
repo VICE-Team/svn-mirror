@@ -622,7 +622,7 @@ IDI_ICON1               ICON    DISCARDABLE     "c64.ico"
 // Dialog
 //
 
-IDD_ABOUT DIALOG DISCARDABLE  0, 0, 195, 174
+IDD_ABOUT DIALOG DISCARDABLE  0, 0, 195, 201
 STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
 CAPTION "About VICE"
 FONT 8, "MS Sans Serif"
@@ -645,11 +645,14 @@ BEGIN
     LTEXT    "Copyright (c) 2005-2008 Marco van den Heuvel",IDC_STATIC,5,104,180,8
     LTEXT    "Copyright (c) 2006-2008 Christian Vogelgsang",IDC_STATIC,5,113,180,8
     LTEXT    "Copyright (c) 2007-2008 Fabrizio Gennari",IDC_STATIC,5,122,180,8
-    LTEXT    "Copyright (c) 1999-2007 Andreas Dehmel",IDC_STATIC,5,131,158,8
-    LTEXT    "Copyright (c) 1999-2005 Thomas Bretz",IDC_STATIC,5,140,180,8
-    LTEXT    "Copyright (c) 2003-2005 David Hansel",IDC_STATIC,5,149,180,8
-    LTEXT    "Copyright (c) 2000-2004 Markus Brenner",IDC_STATIC,5,158,180,8
-    LTEXT    " ",IDC_STATIC,5,158,180,8
+    LTEXT    "Copyright (c) 2007-2008 M. Kiesel",IDC_STATIC,5,131,180,8
+    LTEXT    "Copyright (c) 2007-2008 Hannu Nuotio",IDC_STATIC,5,140,180,8
+    LTEXT    "Copyright (c) 2007-2008 Daniel Kahlin",IDC_STATIC,5,149,180,8
+    LTEXT    "Copyright (c) 1999-2007 Andreas Dehmel",IDC_STATIC,5,158,158,8
+    LTEXT    "Copyright (c) 1999-2005 Thomas Bretz",IDC_STATIC,5,167,180,8
+    LTEXT    "Copyright (c) 2003-2005 David Hansel",IDC_STATIC,5,176,180,8
+    LTEXT    "Copyright (c) 2000-2004 Markus Brenner",IDC_STATIC,5,185,180,8
+    LTEXT    " ",IDC_STATIC,5,194,180,8
 END
 
 // -----------------------------------------------------------------------------
@@ -730,7 +733,7 @@ IDD_DISKDEVICE_DIALOG_FR DIALOG DISCARDABLE  0, 0, 287, 190
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "Utiliser le périphérique IEC",IDC_TOGGLE_USEIECDEVICE,15,10,100,10,
+    AUTOCHECKBOX    "&Utiliser le périphérique IEC",IDC_TOGGLE_USEIECDEVICE,15,10,100,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
     AUTORADIOBUTTON "&Image de disque",IDC_SELECTDISK,
                     15,30,51,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
@@ -990,7 +993,7 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Réglages datassette"
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&Réinitialiser la datassette avec le CPU",IDC_DATASETTE_RESET_WITH_CPU,
+    AUTOCHECKBOX    "&Réinitialiser la datassette avec l'UCT",IDC_DATASETTE_RESET_WITH_CPU,
                     7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
     GROUPBOX        "Vitesse du moteur lors de la lecture",IDC_STATIC,5,25,160,60
     LTEXT           "cycle(s) additionnel(s) &délai après trigger",
@@ -4087,7 +4090,7 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Paramètres d'imprimante"
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "Utiliser le périphérique IEC",IDC_PRINTER_USEIECDEVICE,15,10,100,10,
+    AUTOCHECKBOX    "&Utiliser le périphérique IEC",IDC_PRINTER_USEIECDEVICE,15,10,100,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "Émulation d'imprimante",IDC_STATIC,15,25,70,8
     COMBOBOX        IDC_PRINTER_TYPE, 80,23,55,50,
@@ -4383,7 +4386,7 @@ BEGIN
     PUSHBUTTON      "Ordinateur", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
     PUSHBUTTON      "Lecteur", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
 #if 0
-    PUSHBUTTON      "Other", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
+    PUSHBUTTON      "Autre", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
 #endif
 END
 
@@ -4964,19 +4967,19 @@ END
 
 IDD_NETWORK_SETTINGS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 260, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Netplay Settings"
+CAPTION "Paramètres de jeu en réseau"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT           "Current mode",IDC_STATIC, 9,8,45,8
     EDITTEXT        IDC_NETWORK_MODE, 60,7,75,12,WS_TABSTOP
-    LTEXT           "TCP-Port",IDC_STATIC, 9,32,30,8
+    LTEXT           "Port TCP",IDC_STATIC, 9,32,30,8
     EDITTEXT        IDC_NETWORK_PORT, 45,31,30,12,WS_TABSTOP
-    PUSHBUTTON      "Start Server", IDC_NETWORK_SERVER, 85,30,48,14,WS_TABSTOP
-    PUSHBUTTON      "Connect to", IDC_NETWORK_CLIENT, 9,54,70,14,WS_TABSTOP
+    PUSHBUTTON      "Démarrer le serveur", IDC_NETWORK_SERVER, 85,30,48,14,WS_TABSTOP
+    PUSHBUTTON      "Se connecter à", IDC_NETWORK_CLIENT, 9,54,70,14,WS_TABSTOP
     EDITTEXT        IDC_NETWORK_SERVERNAME, 85,55,50,12,WS_TABSTOP
-    PUSHBUTTON      "Disconnect", IDC_NETWORK_DISCONNECT, 37,78,60,14,WS_TABSTOP
+    PUSHBUTTON      "Se déconnecter du serveur", IDC_NETWORK_DISCONNECT, 37,78,60,14,WS_TABSTOP
     GROUPBOX        "Control",IDC_STATIC,140,5,115,100
-    LTEXT           "Server", IDC_STATIC, 195,15,25,10
+    LTEXT           "Serveur", IDC_STATIC, 195,15,25,10
     LTEXT           "Client", IDC_STATIC, 225,15,25,10
     LTEXT           "Keyboard", IDC_STATIC, 150,30,45,10
     AUTOCHECKBOX    "",IDC_NETWORK_KEYB_SERVER,200,30,10,10,
@@ -5811,7 +5814,7 @@ BEGIN
   IDS_CANNOT_LOAD_SETTINGS        "Impossible de charger les paramètres."
   IDS_DEFAULT_SETTINGS_RESTORED   "Paramètres par défaut restaurés."
   IDS_CANNOT_ATTACH_FILE          "Impossible d'attacher le fichier spécifié"
-  IDS_START_MONITOR               "%s\012\012Activer la trace?"
+  IDS_START_MONITOR               "%s\012\012Start monitor? (Non va réinitialiser, canceler va continuer)"
   IDS_VICE_CPU_JAM                "ERREUR CPU VICE"
   IDS_EXTEND_TO_40_TRACKS         "Étendre l'image au format 40 pistes?"
   IDS_DETACHED_DEVICE_S           "Périphérique détaché %s"
@@ -5820,7 +5823,7 @@ BEGIN
   IDS_HISTORY_RECORDED_UNKNOWN    "Historique enregistrée avec une release inconnue"
   IDS_HISTORY_RECORDED_VICE_S     "Historique enregistrée avec VICE-%s"
   IDS_PAUSED                      "en pause"
-  IDS_FRAME_NUMBER                "frame #"
+  IDS_FRAME_NUMBER                "image #"
   IDS_RESUMED                     "résumé"
   IDS_REALLY_EXIT                 "Désirez-vous vraiment quitter?\012\012Toutes les données présentes dans la mémoire de l'émulateur seront perdues."
   IDS_CANNOT_AUTOSTART_FILE       "Impossible de démarrer automatiquement le fichier spécifié"
@@ -5864,7 +5867,7 @@ BEGIN
   IDS_DRIVE_11                    "Lecteur #11"
   IDS_PERIPHERAL_SETTINGS         "Paramètres des périphériques"
   IDS_CANT_WRITE_SNAPSHOT_FILE    "Impossible d'écrire le fichier de sauvegarde"
-  IDS_CANNOT_READ_SNAPSHOT_IMG    "Impossible de charger le fichier de sauvegarde."
+  IDS_CANNOT_READ_SNAPSHOT_IMG    "Impossible de charger l'instantané."
   IDS_LOAD_S_ROM_IMAGE            "Charger image ROM %s"
   IDS_SELECT_ROMSET_ARCHIVE       "Sélectionner archive Romset"
   IDS_CANNOT_LOAD_ROMSET_ARCH     "Impossible de charger l'archive Romset!"
@@ -5907,7 +5910,7 @@ BEGIN
   IDS_ATTACH_STB_CART_IMAGE       "Insérer une cartouche Structured Basic"
   IDS_MODEL                       "Modèle"
   IDS_DRIVE_SETTINGS              "Paramètres des lecteurs"
-  IDS_SELECT_START_SNAP_EVENT     "Sélectionner la sauvegarde de départ pour l'historique des événements"
+  IDS_SELECT_START_SNAP_EVENT     "Sélectionner l'instantané de départ pour l'historique des événements"
   IDS_SELECT_END_SNAP_EVENT       "Sélectionner la sauvegarde de fin pour l'historique des événements"
 #ifdef UNSTABLE
   IDS_VERSION_S_UNSTABLE          "Version %s *INSTABLE*"
@@ -5946,7 +5949,7 @@ BEGIN
   IDS_ROMSET_FILES_FILTER         "Fichiers Romset VICE (*.vrs)"
   IDS_ROMSET_ARCHIVES_FILTER      "Archives Romset VICE (*.vra)"
   IDS_KEYMAP_FILES_FILTER         "Fichiers de mappage clavier VICE (*.vkm)"
-  IDS_PRGP00_FILES_FILTER         "Commodore emulator files (*.prg;*.p00)"
+  IDS_PRGP00_FILES_FILTER         "Fichiers d’émulation de Commodore (*.prg;*.p00)"
   IDS_FLEXIBLE                    "Flexible"
   IDS_ADJUSTING                   "Ajusté"
   IDS_EXACT                       "Exact"
@@ -5979,12 +5982,12 @@ BEGIN
   IDS_RECEIVED_SIGNAL_D           "An unexpected error occured. Received signal %d."
 #endif
 #ifdef HAVE_NETWORK
-  IDS_IDLE                        "Idle"
+  IDS_IDLE                        "Inactif"
   IDS_SERVER_LISTENING            "Server listening"
-  IDS_CONNECTED_SERVER            "Connected server"
-  IDS_CONNECTED_CLIENT            "Connected client"
-  IDS_INVALID_PORT_NUMBER         "Invalid port number"
-  IDS_ERROR_STARTING_SERVER       "An error occured starting the server."
+  IDS_CONNECTED_SERVER            "Connecté au serveur"
+  IDS_CONNECTED_CLIENT            "Client connecté"
+  IDS_INVALID_PORT_NUMBER         "Numéro de port invalide"
+  IDS_ERROR_STARTING_SERVER       "Il y a eu une erreur au démarrage du serveur."
   IDS_ERROR_CONNECTING_CLIENT     "An error occured connecting the client."
 #endif
   IDS_SOUND_RECORDING_STARTED     "Sound Recording started..."

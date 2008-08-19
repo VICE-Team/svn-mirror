@@ -216,7 +216,7 @@ static UI_CALLBACK(browse_manual)
             sprintf(cmd_ptr, "%s &", res_ptr);
         }
 
-        log_debug(_("Executing `%s'..."), buf);
+        log_debug("Executing `%s'...", buf);
         if (system(buf) != 0)
             ui_error(_("Cannot run HTML browser."));
             
@@ -261,7 +261,7 @@ static void load_snapshot_trap(WORD unused_addr, void *data)
     vsync_suspend_speed_eval();
 
     if (data) {
-        log_debug(_("Quickloading file %s."), (char *)data);
+        log_debug("Quickloading file %s.", (char *)data);
         filename = (char *)data;
     } else {
         filename = ui_select_file(_("Load snapshot"), NULL, 0, 0,

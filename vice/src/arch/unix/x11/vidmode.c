@@ -73,7 +73,7 @@ int vidmode_init(void)
 
     if (!XF86VidModeGetAllModeLines(display, screen, &vm_mode_count,
         &vm_modes)) {
-        log_error(vidmode_log, _("Error getting video mode information - disabling vidmode extension."));
+        log_error(vidmode_log, "Error getting video mode information - disabling vidmode extension.");
         vm_available = 0;
         return 0;
     }

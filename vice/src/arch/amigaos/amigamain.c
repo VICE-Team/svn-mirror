@@ -76,7 +76,7 @@ void main_exit(void)
      dangerous.  */
   signal(SIGINT, (void (*)(int))SIG_IGN);
 
-  log_message(LOG_DEFAULT, _("\nExiting..."));
+  log_message(LOG_DEFAULT, "\nExiting...");
 
   machine_shutdown();
   timer_exit(timer);

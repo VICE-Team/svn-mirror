@@ -105,7 +105,7 @@ BEGIN
                     IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
     COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID Clock",
+    LTEXT           "Horloge SID",
                     IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
     COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP

@@ -262,7 +262,7 @@ int rs232_getc(int fd, BYTE * b)
             if(n < 0)
                 log_error(rs232_log, "Error reading: %s.", strerror(errno));
             else
-                log_error(rs232_log, _("EOF"));
+                log_error(rs232_log, "EOF");
             close(fds[fd].fd);
             fds[fd].fd = -1;
             return -1;

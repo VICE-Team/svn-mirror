@@ -51,8 +51,8 @@ LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_PLUS256K_CAPTION             "Paramètres PLUS256K"
     IDS_PLUS256K_ENABLE              "&Activer PLUS256K"
-    IDS_PLUS256K_FILE                "Taille du PLUS256K"
-    IDS_PLUS256K_SELECT_FILE         "Select file for PLUS256K"
+    IDS_PLUS256K_FILE                "Fichier PLUS256K"
+    IDS_PLUS256K_SELECT_FILE         "Sélectionner fichier pour PLUS256K"
 END
 
 

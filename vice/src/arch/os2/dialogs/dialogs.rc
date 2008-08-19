@@ -96,33 +96,36 @@ ICON    IDM_VICE2 "..\\..\\icons\\xplus4.ico"
 
 DLGTEMPLATE DLG_ABOUT 850 MOVEABLE DISCARDABLE
 BEGIN
-  DIALOG "About Vice...", DLG_ABOUT, 162, 122, 210, 227, STY_DIALOG|FCF_CLOSEBUTTON
+  DIALOG "About Vice...", DLG_ABOUT, 162, 122, 239, 227, STY_DIALOG|FCF_CLOSEBUTTON
   PRESPARAMS PP_FONTNAMESIZE, "11.System VIO" //9.Warp Sans Bold"
   BEGIN
     CONTROL "OK",  DID_CLOSE, 86,  5,  38,  12, STY_CLOSEBUTTON
     PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"  // ¸
     CONTROL "",    ID_NONE,     7, 22, 196, 188, STY_GROUPBOX
     ICON IDM_VICE2, ID_NONE, 27, 184/*231*/, 0, 0
-    TEXT("V I C E",                                         15, 216, 180, 7)
-    TEXT("the Versatile Commodore Emulator",                15, 209, 180, 7)
-    TEXT("Version ",                                        65, 195,  35, 7)
-    TEXT(VERSION,                                          100, 195,  25, 7)
-    TEXT("Copyright (c) 1993-1999 Teemu Rantanen",          15, 181, 180, 7)
-    TEXT("Copyright (c) 1993-1996 Jouko Valta",             15, 174, 180, 7)
-    TEXT("Copyright (c) 1993-1994 Jarkko Sonninen",         15, 167, 180, 7)
-    TEXT("Copyright (c) 1996-1999 Ettore Perazzoli",        15, 160, 180, 7)
-    TEXT("Copyright (c) 1996-1999 Andr‚ Fachat",            15, 153, 180, 7)
-    TEXT("Copyright (c) 1997-2001 Daniel Sladic",           15, 146, 180, 7)
-    TEXT("Copyright (c) 1998-2008 Andreas Boose",           15, 139, 180, 7)
-    TEXT("Copyright (c) 1998-2008 Tibor Biczo",             15, 132, 180, 7)
-    TEXT("Copyright (c) 1999-2007 Andreas Dehmel",          15, 125, 180, 7)
-    TEXT("Copyright (c) 1999-2008 Andreas Matthies",        15, 118, 180, 7)
-    TEXT("Copyright (c) 1999-2008 Martin Pottendorfer",     15, 111, 180, 7)
-    TEXT("Copyright (c) 2000-2008 Spiro Trikaliotis",       15, 104, 180, 7)
-    TEXT("Copyright (c) 2000-2004 Markus Brenner",          15,  98, 180, 7)
-    TEXT("Copyright (c) 2005-2008 Marco van den Heuvel",    15,  90, 180, 7)
-    TEXT("Copyright (c) 2006-2008 Christian Vogelgsang",    15,  83, 180, 7)
-    TEXT("Copyright (c) 2007-2008 Fabrizio Gennari",        15,  75, 180, 7)
+    TEXT("V I C E",                                         15, 237, 180, 7)
+    TEXT("the Versatile Commodore Emulator",                15, 230, 180, 7)
+    TEXT("Version ",                                        65, 216,  35, 7)
+    TEXT(VERSION,                                          100, 216,  25, 7)
+    TEXT("Copyright (c) 1993-1999 Teemu Rantanen",          15, 202, 180, 7)
+    TEXT("Copyright (c) 1993-1996 Jouko Valta",             15, 195, 180, 7)
+    TEXT("Copyright (c) 1993-1994 Jarkko Sonninen",         15, 188, 180, 7)
+    TEXT("Copyright (c) 1996-1999 Ettore Perazzoli",        15, 181, 180, 7)
+    TEXT("Copyright (c) 1996-1999 Andr‚ Fachat",            15, 174, 180, 7)
+    TEXT("Copyright (c) 1997-2001 Daniel Sladic",           15, 167, 180, 7)
+    TEXT("Copyright (c) 1998-2008 Andreas Boose",           15, 160, 180, 7)
+    TEXT("Copyright (c) 1998-2008 Tibor Biczo",             15, 153, 180, 7)
+    TEXT("Copyright (c) 1999-2007 Andreas Dehmel",          15, 146, 180, 7)
+    TEXT("Copyright (c) 1999-2008 Andreas Matthies",        15, 139, 180, 7)
+    TEXT("Copyright (c) 1999-2008 Martin Pottendorfer",     15, 132, 180, 7)
+    TEXT("Copyright (c) 2000-2008 Spiro Trikaliotis",       15, 125, 180, 7)
+    TEXT("Copyright (c) 2000-2004 Markus Brenner",          15, 118, 180, 7)
+    TEXT("Copyright (c) 2005-2008 Marco van den Heuvel",    15, 111, 180, 7)
+    TEXT("Copyright (c) 2006-2008 Christian Vogelgsang",    15, 104, 180, 7)
+    TEXT("Copyright (c) 2007-2008 Fabrizio Gennari",        15,  97, 180, 7)
+    TEXT("Copyright (c) 2007-2008 M. Kiesel",               15,  90, 180, 7)
+    TEXT("Copyright (c) 2007-2008 Hannu Nuotio",            15,  83, 180, 7)
+    TEXT("Copyright (c) 2007-2008 Daniel Kahlin",           15,  75, 180, 7)
     TEXT("Vice/2 - Vice for OS/2",                          15,  66, 180, 7)
     TEXT("Copyright (c) 1999-2005 Thomas Bretz",            15,  59, 180, 7)
     TEXT("Copyright (c) 2006-2008 Marco van den Heuvel",    15,  52, 180, 7)
