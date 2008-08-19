@@ -77,6 +77,7 @@ struct video_canvas_s {
     Colormap colormap;
     XImage *x_image;
     unsigned int depth;
+    float refreshrate;
 #ifdef HAVE_XVIDEO
     XvImage *xv_image;
     XvPortID xv_port;

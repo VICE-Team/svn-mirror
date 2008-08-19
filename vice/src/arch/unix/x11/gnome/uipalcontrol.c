@@ -34,6 +34,7 @@
 #include "videoarch.h"
 
 static GtkWidget *fake_palemu, *new_true_palemu;
+#define OLD_PAL_EMU_IS_FIXED
 #ifdef OLD_PAL_EMU_IS_FIXED
 static GtkWidget *true_palemu;
 #endif

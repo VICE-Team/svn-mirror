@@ -316,7 +316,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     signed long delay;
     long frame_ticks_remainder, frame_ticks_integer, compval;
 
-#ifdef WIN32
+#if defined(WIN32) || defined(HAVE_OPENGL_SYNC)
     float refresh_cmp;
     int refresh_div;
 #endif
@@ -409,7 +409,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 
     /* This is the time between the start of the next frame and now. */
     delay = (signed long)(now - next_frame_start);
-#ifdef WIN32
+#if defined(WIN32) || defined(HAVE_OPENGL_SYNC)
     refresh_cmp = (float)(c->refreshrate / refresh_frequency);
     refresh_div = (int)(refresh_cmp + 0.5f);
     refresh_cmp /= (float)refresh_div;
@@ -434,7 +434,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     if (!warp_mode_enabled && timer_speed && delay < 0) {
         vsyncarch_sleep(-delay);
     }
-#ifdef WIN32
+#if defined(WIN32) || defined(HAVE_OPENGL_SYNC)
     vsyncarch_prepare_vbl();
 #endif
     /*
@@ -470,7 +470,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         skip_next_frame = 0;
         skipped_redraw = 0;
     }
-#ifdef WIN32
+#if defined(WIN32) || defined(HAVE_OPENGL_SYNC)
 	}
 #endif
 
@@ -535,6 +535,50 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 
     return skip_next_frame;
 }
+
+#if defined(WIN32) || defined (HAVE_OPENGL_SYNC) 
+
+static unsigned long last = 0;
+static unsigned long nosynccount = 0;
+
+void vsyncarch_verticalblank(video_canvas_t *c, float rate, int frames)
+{
+    unsigned long nowi, lastx, max, frm, vbl;
+
+    if (c->refreshrate <= 0.0f)
+        return;
+
+    nowi = vsyncarch_frequency();
+
+    /* calculate counter cycles per frame */
+    frm = (unsigned long)((float)(nowi * frames) / rate);
+
+    nowi = vsyncarch_gettime();
+
+    lastx = last - (frm * nosynccount);
+    max = (frm * 7) >> 3;
+    vbl = 0;
+    while (max >= (nowi - lastx)) {
+	vsyncarch_sync_with_raster(c);
+        nowi = vsyncarch_gettime();
+        vbl = 1;
+    }
+    if ((!vbl) && (nosynccount < 16)) {
+        nosynccount ++;
+    } else {
+        last = nowi;
+        nosynccount = 0;
+    }
+}
+
+void vsyncarch_prepare_vbl(void)
+{
+    /* keep vertical blank data prepared */
+    last = vsyncarch_gettime();
+    nosynccount = 0;
+}
+
+#endif /* WIN32 || HAVE_OPENGL_SYNC */
 
 #endif
 

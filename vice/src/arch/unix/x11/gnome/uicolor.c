@@ -106,7 +106,7 @@ int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette)
             (DWORD)color.green << 8 |
             (DWORD)color.blue << 16;
 	    video_render_setphysicalcolor(((video_canvas_t*)c)->videoconfig, i,
-            color_pixel, 24);
+            color_pixel, 32);
     }
     return 0;
 }

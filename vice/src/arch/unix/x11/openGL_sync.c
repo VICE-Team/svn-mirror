@@ -45,13 +45,6 @@
 #include "uimenu.h"
 #include "lib.h"
 
-/* Fixme: this is a kludge until vsync inclusion is decided */
-#ifdef HAVE_XRANDR
-extern int mult;
-#else
-static int mult = 1;
-#endif
-
 static log_t openGL_log = LOG_ERR;
 static int no_sync = 0;		/* extension available */
 static int openGL_sync;		/* enabled/disable synchronization */
@@ -109,8 +102,14 @@ openGL_sync_with_raster(void)
     int r;
     unsigned int c;
     if (openGL_sync && !no_sync)
-	if ((r = glXWaitVideoSyncSGI(mult, 0, &c)))
+	if ((r = glXWaitVideoSyncSGI(1, 0, &c)))
 	    log_error(openGL_log, "glXWaitVideoSyncSGI() returned %d", r);
+}
+
+int
+openGL_sync_enabled()
+{
+    return openGL_sync;
 }
 
 void
@@ -204,7 +203,6 @@ set_openGL_sync(int val, void *param)
 
     log_message(openGL_log, "%s openGL_sync", 
 		openGL_sync? "enabling" : "disabling");
-	
     ui_update_menus();
     return 0;
 }

@@ -141,45 +141,10 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
     ui_display_speed((float) speed, (float)frame_rate, warp_enabled);
 }
 
-static unsigned long last = 0;
-static unsigned long nosynccount = 0;
-
-void vsyncarch_verticalblank(video_canvas_t *c, float rate, int frames)
+void vsyncarch_sync_with_raster(video_canvas_t *c)
 {
-    unsigned long nowi, lastx, max, frm, vbl;
-
-    if (c->refreshrate <= 0.0f)
-        return;
-
-    nowi = vsyncarch_frequency();
-
-    /* calculate counter cycles per frame */
-    frm = (unsigned long)((float)(nowi * frames) / rate);
-
-    nowi = vsyncarch_gettime();
-
-    lastx = last - (frm * nosynccount);
-    max = (frm * 7) >> 3;
-    vbl = 0;
-    while (max >= (nowi - lastx)) {
-        IDirectDraw2_WaitForVerticalBlank(c->dd_object2, DDWAITVB_BLOCKBEGIN,
-                                          0);
-        nowi = vsyncarch_gettime();
-        vbl = 1;
-    }
-    if ((!vbl) && (nosynccount < 16)) {
-        nosynccount ++;
-    } else {
-        last = nowi;
-        nosynccount = 0;
-    }
-}
-
-void vsyncarch_prepare_vbl(void)
-{
-    /* keep vertical blank data prepared */
-    last = vsyncarch_gettime();
-    nosynccount = 0;
+    IDirectDraw2_WaitForVerticalBlank(c->dd_object2, DDWAITVB_BLOCKBEGIN,
+				      0);
 }
 
 void vsyncarch_sleep(signed long delay)

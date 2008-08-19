@@ -36,5 +36,6 @@ void openGL_sync_shutdown(void);
 int openGL_available(int val);
 void init_openGL(void);
 void openGL_register_resources(void);
+int openGL_sync_enabled(void);
 
 #endif /* __openGL_sync_h__ */

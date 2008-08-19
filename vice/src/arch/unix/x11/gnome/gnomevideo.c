@@ -145,7 +145,7 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
         height *= 2;
 
     lib_free(canvas->gdk_image);
-    canvas->gdk_image = lib_malloc(3*width*height);
+    canvas->gdk_image = lib_malloc(4*width*height);
 
     ui_resize_canvas_window(canvas->emuwindow, width, height, 
 			    canvas->videoconfig->hwscale);
@@ -207,13 +207,9 @@ void video_canvas_refresh(video_canvas_t *canvas,
 
     video_canvas_render(canvas, canvas->gdk_image,
                         w, h, xs, ys, xi, yi,
-                        canvas->gdk_image_size.width*3,
-                        24);
+                        canvas->gdk_image_size.width*4,
+                        32);
 
-
-#ifdef HAVE_OPENGL_SYNC
-    openGL_sync_with_raster();
-#endif
     /* Schedule redraw of the rendered area. */
     {
         GdkRectangle rect = {xi, yi, w, h};

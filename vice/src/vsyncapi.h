@@ -66,4 +66,7 @@ extern void_hook_t vsync_set_event_dispatcher(void_hook_t hook);
 
 extern int vsyncarch_vbl_sync_enabled(void);
 
+/* wait for next vertical retrace */
+extern void vsyncarch_sync_with_raster(struct video_canvas_s *c);
+
 #endif

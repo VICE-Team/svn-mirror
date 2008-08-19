@@ -48,14 +48,13 @@
 #include "openGL_sync.h"
 #endif
 
-int mult = 1;
-
 static log_t xrandr_log = LOG_ERR;
 static int no_xrandr = 1;
 static int xrandr_active = 0;
 static int xrandr_selected_mode = 0;
 static ui_callback_t menu_callback;
 static ui_menu_entry_t *resolutions_submenu;
+static struct video_canvas_s *current_canvas;
 
 static int init_XRandR(Display *dpy);
 static int set_xrandr(int mode);
@@ -96,6 +95,7 @@ xrandr_mode(struct video_canvas_s *canvas, int mode)
 	log_message(xrandr_log, "Selected mode: %s", 
 		    screen_info.all_modes[mode].mode_string);
     xrandr_selected_mode = mode;
+    current_canvas = canvas;
     
     return 0;
 }
@@ -254,7 +254,7 @@ init_XRandR(Display *dpy)
 	screen_info.all_modes[current].index = screen_info.current_size;
 	screen_info.all_modes[current].mode_string = 
 	    lib_stralloc(_("*Desktop"));
-	
+	current_canvas->refreshrate = (float)screen_info.current_rate;
 	++current;
 	
 	/* now iterate again and fill the allocated array */
@@ -307,13 +307,8 @@ set_xrandr(int val)
 	    log_message(xrandr_log, "XRandR setting failed: %d", status);
 	else
 	{
-	    switch (screen_info.all_modes[xrandr_selected_mode].rate)
-	    {
-	    case 100: mult = 2; break;
-	    case 150: mult = 3; break;
- 	    case 50: 
-	    default: mult = 1; break;
-	    }
+	    current_canvas->refreshrate = 
+		screen_info.all_modes[xrandr_selected_mode].rate;
 #ifdef HAVE_OPENGL_SYNC	    
 	    init_openGL();
 #endif
@@ -331,7 +326,10 @@ set_xrandr(int val)
 				      0);
 	if (status)
 	    log_message(xrandr_log, "XRandR setting failed: %d", status);
-	mult = 1;
+	else
+	    current_canvas->refreshrate = 
+		screen_info.all_modes[0].rate;
+
     }
 	
     ui_update_menus();

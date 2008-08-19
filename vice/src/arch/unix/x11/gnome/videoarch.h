@@ -54,6 +54,7 @@ struct video_canvas_s {
     struct viewport_s *viewport;
     struct geometry_s *geometry;
     struct palette_s *palette;
+    float refreshrate; /* currently displayed refresh rate */
 
     struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 #ifdef HAVE_FULLSCREEN

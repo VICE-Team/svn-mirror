@@ -930,9 +930,6 @@ void video_canvas_refresh(video_canvas_t *canvas,
     /* This could be optimized away.  */
     display = x11ui_get_display_ptr();
 
-#ifdef HAVE_OPENGL_SYNC
-    openGL_sync_with_raster();
-#endif
     _refresh_func(display, canvas->drawable, _video_gc, canvas->x_image,
                   xi, yi, xi, yi, w, h, False, NULL, canvas);
     

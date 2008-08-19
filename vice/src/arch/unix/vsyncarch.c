@@ -30,9 +30,13 @@
 #include "kbdbuf.h"
 #include "ui.h"
 #include "vsyncapi.h"
+#include "videoarch.h"
 
 #ifdef HAS_JOYSTICK
 #include "joy.h"
+#endif
+#ifdef HAVE_OPENGL_SYNC
+#include "openGL_sync.h"
 #endif
 
 #include <sys/time.h>
@@ -101,3 +105,18 @@ void vsyncarch_postsync(void)
     (*ui_dispatch_hook)();
 #endif
 }
+
+#ifdef HAVE_OPENGL_SYNC
+void
+vsyncarch_sync_with_raster(video_canvas_t *c)
+{
+    openGL_sync_with_raster();
+}
+
+int 
+vsyncarch_vbl_sync_enabled(void)
+{
+    return openGL_sync_enabled();
+}
+
+#endif
