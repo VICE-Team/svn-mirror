@@ -269,6 +269,7 @@ EXTRA_DIST = \
 	ChangeLog.3 \
 	ChangeLog.4 \
 	ChangeLog.5 \
+	ChangeLog.6 \
 	aciacore.c \
 	fixpoint.c \
 	gentranslate_h.sh \

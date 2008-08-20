@@ -6,6 +6,7 @@ SUBDIRS = $(POSUB) src build data man doc
 # files, please add them to the COMMON_EXTRA_DIST list.
 
 COMMON_EXTRA_DIST = AUTHORS \
+	ChangeLog.1 \
 	FEEDBACK \
 	COPYING \
 	Doxyfile \
