@@ -47,4 +47,4 @@ EXTRA_DIST = $(doc_DATA) \
 
 vice_toc.html: $(top_srcdir)/doc/vice.texi
 	(cd $(srcdir); \
-         $(PERL) ./texi2html -number -split_chapter ../vice.texi)
+	$(PERL) ./texi2html -number -split_chapter ../vice.texi)

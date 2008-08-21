@@ -1,16 +1,16 @@
 INCLUDES = \
-        @ARCH_INCLUDES@ \
-        -I$(top_builddir)/src \
-        -I$(top_srcdir)/src \
-        -I$(top_srcdir)/src/drive \
-        -I$(top_srcdir)/src/vdrive
+	@ARCH_INCLUDES@ \
+	-I$(top_builddir)/src \
+	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/vdrive
 
 YFLAGS = -dt
 
 noinst_LIBRARIES = libmonitor.a
 
 noinst_HEADERS = \
-        mon_parse.h
+	mon_parse.h
 
 libmonitor_a_SOURCES = \
 	asm6502.c \

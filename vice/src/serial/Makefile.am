@@ -7,8 +7,8 @@ INCLUDES = \
 noinst_LIBRARIES = libserial.a
 
 EXTRA_libserial_a_SOURCES = \
-        realdevice.c \
-        realdevice.h
+	realdevice.c \
+	realdevice.h
 
 libserial_a_SOURCES = \
 	fsdrive.c \

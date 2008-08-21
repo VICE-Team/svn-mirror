@@ -1,5 +1,5 @@
 SUBDIRS = \
-        c64exp \
+	c64exp \
 	plus4exp
 
 INCLUDES = \

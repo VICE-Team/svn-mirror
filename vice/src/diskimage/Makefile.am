@@ -8,8 +8,8 @@ noinst_LIBRARIES = libdiskimage.a
 EXTRA_libdiskimage_a_SOURCES = \
 	rawimage.c \
 	rawimage.h \
-        realimage.c \
-        realimage.h
+	realimage.c \
+	realimage.h
 
 libdiskimage_a_SOURCES = \
 	diskimage.c \

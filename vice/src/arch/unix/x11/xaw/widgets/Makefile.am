@@ -1,6 +1,6 @@
 INCLUDES = \
 	@ARCH_INCLUDES@ \
-        -I$(top_srcdir)/src \
+	-I$(top_srcdir)/src \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src/arch/unix/x11 \
 	-I$(top_srcdir)/src/arch/unix/x11/xaw
