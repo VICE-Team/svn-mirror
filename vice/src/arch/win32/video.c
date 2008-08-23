@@ -690,8 +690,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
         canvas->height *= 2;
 
     canvas->hwnd = ui_open_canvas_window(canvas->viewport->title,
-                                         canvas->width, canvas->height,
-                                         IsFullscreenEnabled());
+                                         canvas->width, canvas->height);
 
     /*  Create the DirectDraw object */
 //    device_guid = GetGUIDForActualDevice();
