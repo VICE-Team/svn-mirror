@@ -396,6 +396,10 @@ void *lib_malloc(size_t size)
     lib_debug_alloc(ptr, size, 3);
 #endif
 
+    if (ptr) {
+        memset(ptr, 0, size);
+    }
+
     return ptr;
 }
 
