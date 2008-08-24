@@ -59,12 +59,13 @@ if [ ! -d $TOOL_DIR ]; then
 fi
 
 # define emulators and command line tools
-EMULATORS="x64 x128 xcbm2 xpet xplus4 xvic"
+EMULATORS="x64 x64dtv x128 xcbm2 xpet xplus4 xvic"
 TOOLS="c1541 petcat cartconv"
 
 # define data files for emulators
 ROM_COMMON="DRIVES PRINTER"
 ROM_x64=C64
+ROM_x64dtv=C64DTV
 ROM_x128=C128
 ROM_xcbm2=CBM-II
 ROM_xpet=PET

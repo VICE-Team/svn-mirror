@@ -314,7 +314,7 @@ else
   copy_dylib ppc
 fi
 
-APPS="c1541 cartconv petcat x128 x64 xcbm2 xpet xplus4 xvic"
+APPS="c1541 cartconv petcat x128 x64 x64dtv xcbm2 xpet xplus4 xvic"
 
 # ----- Fixin Lib Refs -----
 if [ "$UI_TYPE" = "cocoa" ]; then

@@ -19,6 +19,7 @@ noinst_LIBRARIES = libarchmacosxcocoamenu.a
 
 noinst_HEADERS = \
 	c64controller.h \
+	c64dtvcontroller.h \
 	c128controller.h \
 	c64machinecontroller.h \
 	c128machinecontroller.h \
@@ -28,12 +29,15 @@ noinst_HEADERS = \
 libarchmacosxcocoamenu_a_SOURCES = \
 	c128ui.m \
 	c64ui.m \
+	c64dtvui.m \
 	cbm2ui.m \
 	petui.m \
 	plus4ui.m \
 	vic20ui.m \
 	c64controller.m \
 	c64machinecontroller.m \
+	c64dtvcontroller.m \
+	c64dtvmachinecontroller.m \
 	c128controller.m \
 	c128machinecontroller.m \
 	viceappcontroller.m \

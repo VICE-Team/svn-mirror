@@ -9,6 +9,7 @@ EXTRA_DIST = \
   tape.icns \
   x128.icns \
   x64.icns \
+  x64dtv.icns \
   x65.icns \
   xcbm2.icns \
   xpet.icns \
