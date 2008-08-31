@@ -1,12 +1,11 @@
 /*
- * resid.cc - reSID interface code.
+ * resid-fp.cc - reSID-fp interface code.
  *
  * Written by
  *  Teemu Rantanen <tvr@cs.hut.fi>
  *  Dag Lem <resid@nimrod.no>
  *  Andreas Boose <viceteam@t-online.de>
- * C64 DTV modifications written by
- *  Daniel Kahlin <daniel@kahlin.net>
+ *  Antti S. Lankila <alankila@bel.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,7 +29,7 @@
 
 /* resid itself is always compiled with C64DTV support */
 #define SUPPORT_C64DTV
-#include "resid/sid.h"
+#include "resid-fp/sid.h"
 
 extern "C" {
 
@@ -52,12 +51,12 @@ extern "C" {
 struct sound_s
 {
     /* resid sid implementation */
-    SID	sid;
+    SIDFP sid;
 };
 
 typedef struct sound_s sound_t;
 
-static sound_t *resid_open(BYTE *sidstate)
+static sound_t *residfp_open(BYTE *sidstate)
 {
     sound_t *psid;
     int	i;
@@ -71,13 +70,13 @@ static sound_t *resid_open(BYTE *sidstate)
     return psid;
 }
 
-static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
+static int residfp_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     sampling_method method;
     char model_text[100];
     char method_text[100];
-    double passband, gain;
-    int filters_enabled, model, sampling, passband_percentage, gain_percentage;
+    double passband;
+    int filters_enabled, model, sampling, passband_percentage;
 
     if (resources_get_int("SidFilters", &filters_enabled) < 0)
         return 0;
@@ -91,84 +90,98 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
     if (resources_get_int("SidResidPassband", &passband_percentage) < 0)
         return 0;
 
-    if (resources_get_int("SidResidGain", &gain_percentage) < 0)
-        return 0;
-
     passband = speed * passband_percentage / 200.0;
-    gain = gain_percentage / 100.0;
  
-#if 0
-    psid->sid.set_chip_model(model == 0 ? MOS6581 : MOS8580);
+    /* Some mostly-common settings for all modes abstracted here. */
+    psid->sid.input(0);
 
-    /* 8580 + digi boost. */
-    psid->sid.input(model == 2 ? -32768 : 0);
-
-    psid->sid.enable_filter(filters_enabled ? true : false);
-    psid->sid.enable_external_filter(filters_enabled ? true : false);
-#endif
+    /* Model numbers 8-15 are reserved for distorted 6581s. */
+    if (model < 8 || model > 15) {
+      psid->sid.set_voice_nonlinearity(1.0);
+      psid->sid.get_filter().set_distortion_properties(0., 0., 0.);
+    } else {
+      psid->sid.set_chip_model(MOS6581FP);
+      psid->sid.set_voice_nonlinearity(0.966);
+      psid->sid.get_filter().set_distortion_properties(2.0e-3, 1350., 1e-4);
+    }
 
     switch (model) {
-    default:
-    case 0:
-      psid->sid.set_chip_model(MOS6581);
-      psid->sid.input(0);
-      strcpy(model_text, "MOS6581");
+
+    case SID_MODEL_8580R5_3691:
+      psid->sid.set_chip_model(MOS8580FP);
+      psid->sid.get_filter().set_type4_properties(6.55, 20.0);
+      strcpy(model_text, "8580R5 3691");
       break;
-    case 1:
-      psid->sid.set_chip_model(MOS8580);
-      psid->sid.input(0);
-      strcpy(model_text, "MOS8580");
-      break;
-    case 2:
-      psid->sid.set_chip_model(MOS8580);
+    case SID_MODEL_8580R5_3691D:
+      psid->sid.set_chip_model(MOS8580FP);
+      psid->sid.get_filter().set_type4_properties(6.55, 20.0);
       psid->sid.input(-32768);
-      strcpy(model_text, "MOS8580 + digi boost");
+      strcpy(model_text, "8580R5 3691 + digi boost");
       break;
-#if 0
-    case 3: /* not yet */
-      psid->sid.set_chip_model(MOS6581R4);
-      psid->sid.input(0);
-      strcpy(model_text, "MOS6581R4");
+
+    case SID_MODEL_8580R5_1489:
+      psid->sid.set_chip_model(MOS8580FP);
+      psid->sid.get_filter().set_type4_properties(5.7, 20.0);
+      strcpy(model_text, "8580R5 1489");
       break;
-#endif
-    case 4:
-      psid->sid.set_chip_model(DTVSID);
-      psid->sid.input(0);
-      filters_enabled = 0;
-      strcpy(model_text, "DTVSID");
+    case SID_MODEL_8580R5_1489D:
+      psid->sid.set_chip_model(MOS8580FP);
+      psid->sid.get_filter().set_type4_properties(5.7, 20.0);
+      psid->sid.input(-32768);
+      strcpy(model_text, "8580R5 1489 + digi boost");
+      break;
+
+    case SID_MODEL_6581R3_4885:
+      psid->sid.get_filter().set_type3_properties(8.5e5, 2.2e6, 1.0075, 1.8e4);
+      strcpy(model_text, "6581R3 4885");
+      break;
+    case SID_MODEL_6581R3_0486S:
+      psid->sid.get_filter().set_type3_properties(1.1e6, 1.5e7, 1.006, 1e4);
+      strcpy(model_text, "6581R3 0486S");
+      break;
+    case SID_MODEL_6581R3_3984:
+      psid->sid.get_filter().set_type3_properties(1.8e6f, 3.5e7f, 1.0051f, 1.45e4f);
+      strcpy(model_text, "6581R3 3984");
+      break;
+    default:
+    case SID_MODEL_6581R4AR_3789:
+      psid->sid.get_filter().set_type3_properties(1.40e6f, 1.47e8f, 1.0059f, 1.55e4f);
+      strcpy(model_text, "6581R4AR 3789");
+      break;
+    case SID_MODEL_6581R3_4485:
+      psid->sid.get_filter().set_type3_properties(1.3e6, 5.2e8, 1.0053, 1.1e4);
+      strcpy(model_text, "6581R3 4485");
+      break;
+    case SID_MODEL_6581R4_1986S:
+      psid->sid.get_filter().set_type3_properties(1.33e6, 2.2e9, 1.0056, 7e3);
+      strcpy(model_text, "6581R4 1986S");
       break;
     }
+
     psid->sid.enable_filter(filters_enabled ? true : false);
     psid->sid.enable_external_filter(filters_enabled ? true : false);
 
     switch (sampling) {
       default:
-      case 0:
-        method = SAMPLE_FAST;
-	strcpy(method_text, "fast");
-	break;
       case 1:
         method = SAMPLE_INTERPOLATE;
 	strcpy(method_text, "interpolating");
 	break;
       case 2:
-        method = SAMPLE_RESAMPLE_INTERPOLATE;
-	sprintf(method_text, "resampling, pass to %dHz", (int)passband);
-	break;
       case 3:
-        method = SAMPLE_RESAMPLE_FAST;
-	sprintf(method_text, "resampling, pass to %dHz", (int)passband);
+        method = SAMPLE_RESAMPLE_INTERPOLATE;
+	sprintf(method_text, "resampling, pass to %d Hz", (int)(passband > 20000 ? 20000 : passband));
 	break;
     }
 
     if (!psid->sid.set_sampling_parameters(cycles_per_sec, method,
-					   speed, passband, gain)) {
+					   speed, passband)) {
         log_warning(LOG_DEFAULT,
-                    "reSID: Out of spec, increase sampling rate or decrease maximum speed");
+                    "reSID-fp: Out of spec, increase sampling rate or decrease maximum speed");
 	return 0;
     }
 
-    log_message(LOG_DEFAULT, "reSID: %s, filter %s, sampling rate %dHz - %s",
+    log_message(LOG_DEFAULT, "reSID-fp: %s, filter %s, sampling rate %dHz - %s",
 		model_text,
 		filters_enabled ? "on" : "off",
 		speed, method_text);
@@ -176,44 +189,44 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
     return 1;
 }
 
-static void resid_close(sound_t *psid)
+static void residfp_close(sound_t *psid)
 {
     delete psid;
 }
 
-static BYTE resid_read(sound_t *psid, WORD addr)
+static BYTE residfp_read(sound_t *psid, WORD addr)
 {
     return psid->sid.read(addr);
 }
 
-static void resid_store(sound_t *psid, WORD addr, BYTE byte)
+static void residfp_store(sound_t *psid, WORD addr, BYTE byte)
 {
     psid->sid.write(addr, byte);
 }
 
-static void resid_reset(sound_t *psid, CLOCK cpu_clk)
+static void residfp_reset(sound_t *psid, CLOCK cpu_clk)
 {
     psid->sid.reset();
 }
 
-static int resid_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+static int residfp_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
                                    int interleave, int *delta_t)
 {
     return psid->sid.clock(*delta_t, pbuf, nr, interleave);
 }
 
-static void resid_prevent_clk_overflow(sound_t *psid, CLOCK sub)
+static void residfp_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 {
 }
 
-static char *resid_dump_state(sound_t *psid)
+static char *residfp_dump_state(sound_t *psid)
 {
     return lib_stralloc("");
 }
 
-static void resid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)
+static void residfp_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)
 {
-    SID::State state;
+    SIDFP::State state;
     unsigned int i;
 
     state = psid->sid.read_state();
@@ -237,9 +250,9 @@ static void resid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)
     }
 }
 
-static void resid_state_write(sound_t *psid, sid_snapshot_state_t *sid_state)
+static void residfp_state_write(sound_t *psid, sid_snapshot_state_t *sid_state)
 {
-    SID::State state;
+    SIDFP::State state;
     unsigned int i;
 
     for (i = 0; i < 0x20; i++) {
@@ -258,26 +271,26 @@ static void resid_state_write(sound_t *psid, sid_snapshot_state_t *sid_state)
 	if (sid_state->exponential_counter_period[i])
             state.exponential_counter_period[i] = (reg16)sid_state->exponential_counter_period[i];
         state.envelope_counter[i] = (reg8)sid_state->envelope_counter[i];
-        state.envelope_state[i] = (EnvelopeGenerator::State)sid_state->envelope_state[i];
+        state.envelope_state[i] = (EnvelopeGeneratorFP::State)sid_state->envelope_state[i];
         state.hold_zero[i] = (sid_state->hold_zero[i] != 0);
     }
 
-    psid->sid.write_state((const SID::State)state);
+    psid->sid.write_state((const SIDFP::State)state);
 }
 
-sid_engine_t resid_hooks =
+sid_engine_t residfp_hooks =
 {
-    resid_open,
-    resid_init,
-    resid_close,
-    resid_read,
-    resid_store,
-    resid_reset,
-    resid_calculate_samples,
-    resid_prevent_clk_overflow,
-    resid_dump_state,
-    resid_state_read,
-    resid_state_write
+    residfp_open,
+    residfp_init,
+    residfp_close,
+    residfp_read,
+    residfp_store,
+    residfp_reset,
+    residfp_calculate_samples,
+    residfp_prevent_clk_overflow,
+    residfp_dump_state,
+    residfp_state_read,
+    residfp_state_write
 };
 
 } // extern "C"

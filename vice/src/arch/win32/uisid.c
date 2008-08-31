@@ -51,7 +51,10 @@
 
 static const TCHAR *ui_sid_engine[] = 
 {
-    TEXT("Fast SID"), TEXT("reSID"),
+    TEXT("Fast SID"),
+#ifdef HAVE_RESID
+    TEXT("reSID"),
+#endif
 #ifdef HAVE_CATWEASELMKIII
     TEXT("Catweasel MK3"),
 #endif
@@ -63,7 +66,83 @@ static const TCHAR *ui_sid_engine[] =
     TEXT("ParSID on Port 2"),
     TEXT("ParSID on Port 3"),
 #endif
+#ifdef HAVE_RESID_FP
+    TEXT("reSID-FP"),
+#endif
     NULL
+};
+
+static const int ui_sid_engine_values[] =
+{
+    SID_ENGINE_FASTSID,
+#ifdef HAVE_RESID
+    SID_ENGINE_RESID,
+#endif
+#ifdef HAVE_CATWEASELMKIII
+    SID_ENGINE_CATWEASELMKIII,
+#endif
+#ifdef HAVE_HARDSID
+    SID_ENGINE_HARDSID,
+#endif
+#ifdef HAVE_PARSID
+    SID_ENGINE_PARSID_PORT1,
+    SID_ENGINE_PARSID_PORT2,
+    SID_ENGINE_PARSID_PORT3,
+#endif
+#ifdef HAVE_RESID_FP
+    SID_ENGINE_RESID_FP,
+#endif
+    -1
+};
+
+static const TCHAR *ui_sid_model[] = 
+{
+    TEXT("6581"),
+    TEXT("8580"),
+    TEXT("8580 + digi boost"),
+#ifdef HAVE_RESID
+    TEXT("DTVSID (reSID)"),
+#endif
+#ifdef HAVE_RESID_FP
+    TEXT("8580R5 1489 (reSID-fp)"),
+    TEXT("8580R5 1489 + digi boost (reSID-fp)"),
+    TEXT("6581R3 4885 (reSID-fp)"),
+    TEXT("6581R3 0486S (reSID-fp)"),
+    TEXT("6581R3 3984 (reSID-fp)"),
+    TEXT("6581R4AR 3789 (reSID-fp)"),
+    TEXT("6581R3 4485 (reSID-fp)"),
+    TEXT("6581R4 1986S (reSID-fp)"),
+    TEXT("8580R5 3691 (reSID-fp)"),
+    TEXT("8580R5 3691 + digi boost (reSID-fp)"),
+    TEXT("8580R5 1489 (reSID-fp)"),
+    TEXT("8580R5 1489 + digi boost (reSID-fp)"),
+#endif
+    NULL
+};
+
+static const int ui_sid_model_values[] =
+{
+    SID_MODEL_6581,
+    SID_MODEL_8580,
+    SID_MODEL_8580D,
+#ifdef HAVE_RESID
+    SID_MODEL_DTVSID,
+#endif
+#ifdef HAVE_RESID_FP
+    SID_MODEL_8580R5_1489,
+    SID_MODEL_8580R5_1489D,
+    SID_MODEL_6581R3_4885,
+    SID_MODEL_6581R3_0486S,
+    SID_MODEL_6581R3_3984,
+    SID_MODEL_6581R4AR_3789,
+    SID_MODEL_6581R3_4485,
+    SID_MODEL_6581R4_1986S,
+    SID_MODEL_8580R5_3691,
+    SID_MODEL_8580R5_3691D,
+    SID_MODEL_8580R5_1489,
+    SID_MODEL_8580R5_1489D,
+#endif
+    -1
 };
 
 static const int ui_sid_samplemethod[] = 
@@ -165,15 +244,12 @@ static void init_general_sid_dialog(HWND hwnd)
     HWND sid_hwnd;
     int res_value;
     int res_value_loop;
+    int active_value;
 
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_GENGROUP1);
     SetWindowText(sid_hwnd, translate_text(IDS_SID_GENGROUP1));
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_GENGROUP2);
     SetWindowText(sid_hwnd, translate_text(IDS_SID_GENGROUP2));
-    sid_hwnd = GetDlgItem(hwnd, IDC_SID_6581);
-    SetWindowText(sid_hwnd, translate_text(IDS_SID_6581));
-    sid_hwnd = GetDlgItem(hwnd, IDC_SID_8580);
-    SetWindowText(sid_hwnd, translate_text(IDS_SID_8580));
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_GENGROUP3);
     SetWindowText(sid_hwnd, translate_text(IDS_SID_GENGROUP3));
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_STEREO);
@@ -200,11 +276,30 @@ static void init_general_sid_dialog(HWND hwnd)
         SendMessage(sid_hwnd, CB_ADDSTRING, 0,
                     (LPARAM)ui_sid_engine[res_value_loop]);
     }
-    SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+
+    active_value = 0;
+    for (res_value_loop = 0; ui_sid_engine_values[res_value_loop] != -1;
+        res_value_loop++) {
+        if (ui_sid_engine_values[res_value_loop] == res_value)
+            active_value = res_value_loop;
+    }
+    SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
     resources_get_int("SidModel", &res_value);
-    CheckRadioButton(hwnd, IDC_SID_6581, IDC_SID_8580, 
-                     res_value ? IDC_SID_8580 : IDC_SID_6581);
+    sid_hwnd = GetDlgItem(hwnd, IDC_SID_MODEL);
+    for (res_value_loop = 0; ui_sid_model[res_value_loop];
+        res_value_loop++) {
+        SendMessage(sid_hwnd, CB_ADDSTRING, 0,
+                    (LPARAM)ui_sid_model[res_value_loop]);
+    }
+
+    active_value = 0;
+    for (res_value_loop = 0; ui_sid_model_values[res_value_loop] != -1;
+        res_value_loop++) {
+        if (ui_sid_model_values[res_value_loop] == res_value)
+            active_value = res_value_loop;
+    }
+    SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
     enable_general_sid_controls(hwnd);
 }
@@ -230,21 +325,6 @@ int xpos;
     MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
     MoveWindow(child_hwnd, child_rect.rect.left, child_rect.rect.top,
                rect.right - 2 * child_rect.rect.left,
-               child_rect.rect.bottom - child_rect.rect.top, TRUE);
-
-    child_hwnd = GetDlgItem(hwnd, IDC_SID_6581);
-    GetClientRect(child_hwnd, &child_rect.rect);
-    MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
-    uilib_get_general_window_extents(child_hwnd, &xsize, &ysize);
-    MoveWindow(child_hwnd, child_rect.rect.left, child_rect.rect.top,
-               xsize + 20, child_rect.rect.bottom - child_rect.rect.top, TRUE);
-    xpos = child_rect.rect.left + xsize + 20 + 10;
-
-    child_hwnd = GetDlgItem(hwnd, IDC_SID_8580);
-    GetClientRect(child_hwnd, &child_rect.rect);
-    MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
-    uilib_get_general_window_extents(child_hwnd, &xsize, &ysize);
-    MoveWindow(child_hwnd, xpos, child_rect.rect.top, xsize + 20,
                child_rect.rect.bottom - child_rect.rect.top, TRUE);
 
     child_hwnd = GetDlgItem(hwnd, IDC_SID_GENGROUP2);
@@ -464,19 +544,19 @@ static BOOL CALLBACK general_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
       case WM_COMMAND:
         command = LOWORD(wparam);
         switch (command) {
+          case IDC_SID_MODEL:
+            resources_set_int("SidModel",
+                              ui_sid_model_values[SendMessage(GetDlgItem(
+                              hwnd, IDC_SID_MODEL), CB_GETCURSEL, 0, 0)]);
+            break;
           case IDC_SID_ENGINE:
-            resources_set_int("SidEngine", (int)SendMessage(GetDlgItem(hwnd,
-                              IDC_SID_ENGINE), CB_GETCURSEL, 0, 0));
+            resources_set_int("SidEngine",
+                              ui_sid_engine_values[SendMessage(GetDlgItem(
+                              hwnd, IDC_SID_ENGINE), CB_GETCURSEL, 0, 0)]);
             break;
           case IDC_SID_STEREO:
             resources_toggle("SidStereo", NULL);
             enable_general_sid_controls(hwnd);
-            break;
-          case IDC_SID_6581:
-            resources_set_int("SidModel", 0);
-            break;
-          case IDC_SID_8580:
-            resources_set_int("SidModel", 1);
             break;
         }
         return FALSE;
@@ -646,7 +726,7 @@ void ui_sid_settings_dialog(HWND hwnd)
 //    psp[0].pszTitle = translate_text(IDS_GENERAL);
     psp[0].pszTitle = translate_text(IDS_GENERAL);
     psp[1].pfnDlgProc = resid_dialog_proc;
-    psp[1].pszTitle = TEXT("ReSID");
+    psp[1].pszTitle = TEXT("ReSID/ReSID-fp");
     psp[2].pfnDlgProc = hardsid_dialog_proc;
     psp[2].pszTitle = TEXT("HardSID");
 

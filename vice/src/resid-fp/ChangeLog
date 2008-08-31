@@ -1,0 +1,99 @@
+2008-08-29  Antti S. Lankila  <alankila@bel.fi>
+
+	* Optimized resampling to be about 2x faster through using aliasing
+	  to increase passband width and hence reduce FIR length.
+	  
+	* Fixed some valgrind warnings.
+	
+	* Added nuke_denormals() method to periodically flush these to zero, as
+	  this can only be done for SSE registers by the FPU and we can't use
+	  any in order to support CPUs older than P3.
+
+	* Marco, Hannu and me developed a runtime switching system
+	  that detects SSE from cpuinfo and calls some SSE routines when they
+	  are compiled in and the CPU can support them. We lost only very
+	  little performance, but gained compatibility to very, very old
+	  hardware.
+	  
+	* The old code for ST_lockup proved unnecessary, so it is now removed. 
+
+2008-08-21  Antti S. Lankila  <alankila@bel.fi>
+
+	* Fixed a bug where nonlinearity setting appeared to get lost, and
+	  kenchis discovered further bugs in it. Oh well.
+
+	* I removed a lot of code associated with the lower quality modes of
+	  ReSID, and only left the 1 MHz clock routines. Analysis shows that the
+	  filter code is a major culprit, but the digital side emulation is not
+	  completely cheap, either. I already added some small hacks to optimize
+	  it, and I now think about reinjecting pieces of those clocking modes
+	  that run the analog parts with reduced accuracy.
+
+	* I defined type4 filters based on equation of straight line. These are
+	  characterized by parameters k and b, and the equation is
+	  freq = k * fc. Strictly speaking, straight line is not 100 %
+	  accurate, and a 2nd degree component would help, but based on
+	  measurements against two of Trurl's 8580s, the maximum error
+	  introduced using linear approximation is mere 3 %.
+
+2008-08-10  Antti S. Lankila  <alankila@bel.fi>
+
+	* I ripped off Type1 definitions from the filter, and the spline.h
+	  and PointPlotter were unnecessary and so removed.
+
+	* I also added a bit of hardclipping in the output that seems to be
+	  required to get Fred Gray's Break Thru. This might not occur so
+	  strongly on all chips, so it should probably be added as a proper
+	  tunable. For now, I just settled for a slight effect to collect
+	  feedback. 
+
+2008-07-15  Antti S. Lankila  <alankila@bel.fi>
+
+	* This release is a bit slower than usual. The culprit is the changes in
+	  voice.h where a new kinked-dac style calculation is used to simulate
+	  the nonlinear shape of the waveform outputs. The cost of the new
+	  calculation varies by song as I was lazy and only cached the result of
+	  previous calculation, so speed depends on the pitch of the waveforms
+	  and the precise waveform chosen.
+
+	* exp() is back, but this time it is implemented as an integer
+	  calculation according to Schraudolph's paper "A Fast, Compact
+	  Approximation of the Exponential Function". Using near-proper exp()
+	  simplified the distortion algorithm. I think it all sounds much better
+	  now.
+
+	* A new effect where I mix bp-hp and lp-bp together by their difference
+	  to simulate a small resistor between them appears to improve SidRiders
+	  and several other songs, largerly eliminating some types of hard
+	  distortion sounds that do not occur on the chip. It also helped
+	  Mechanicus. I am trying to understand where this term comes from... 
+
+2008-07-09  Antti S. Lankila  <alankila@bel.fi>
+
+	* I now have somewhat less arbitrary values for the distortion
+	  tunables. They are now related to the relative signal levels in the
+	  simulation. I'm still sorting out the particulars of the values I
+	  ended up with ("why 128 instead of 256").
+
+2008-03-02  Antti S. Lankila  <alankila@bel.fi>
+
+	* Exposed the filter at sid.cc to callers through get_filter()
+	  method, and fixed a few types. 
+
+2008-02-19  Antti S. Lankila  <alankila@bel.fi>
+
+	* For some reason ReSID code adjusted the external filter frequency
+	  based on calculated passband, while in the real C64 the filter is
+	  fixed to about 16 kHz.
+
+2008-02-06  Antti S. Lankila  <alankila@bel.fi>
+
+	* I got interested to improve ReSID after chatting with Kevtris. He is
+	  aiming to replicate the filter using analog hardware. He has the EE
+	  experience that I have sorely lacked and made an infinitely valuable
+	  contribution by telling me exactly how the distortion works.
+
+2004-06-11  Dag Lem  <resid@nimrod.no>
+
+	* Version 0.16 released. (From this point forwards, read
+	  ../resid/ChangeLog.)

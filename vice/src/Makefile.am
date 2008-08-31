@@ -7,6 +7,7 @@ ARCH_LIBS = @ARCH_LIBS@
 
 SUBDIRS = \
 	@RESID_DIR@ \
+	@RESID_FP_DIR@ \
 	@VICE_LIBPNG_DIR@ \
 	@VICE_ZLIB_DIR@ \
 	sounddrv \
@@ -72,6 +73,7 @@ DIST_SUBDIRS = \
 	cbm2 \
 	arch \
 	resid \
+	resid-fp \
 	lib
 
 INCLUDES = \
@@ -333,7 +335,7 @@ viciidtv_lib = $(top_builddir)/src/vicii/libviciidtv.a
 video_lib = $(top_builddir)/src/video/libvideo.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
-common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @VICE_LIBPNG@ @VICE_ZLIB@
+common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @RESID_FP_LIBS@ @VICE_LIBPNG@ @VICE_ZLIB@
 
 # external libraries required for all emulators
 emu_extlibs = @X_LIBS@ @UI_LIBS@ @INTLLIBS@ @SOUND_LIBS@ @FFMPEG_LIBS@ @JOY_LIBS@ @READLINE_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@
@@ -390,6 +392,7 @@ x64_LDFLAGS = @x64_LDFLAGS@
 x64-all: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
+	@RESID_FP_DEP@ \
 	@VICE_LIBPNG_DEP@ \
 	@VICE_ZLIB_DEP@ \
 	libc64 \
@@ -453,6 +456,7 @@ x64dtv_LDFLAGS = @x64_LDFLAGS@
 x64dtv-all: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
+	@RESID_FP_DEP@ \
 	@VICE_LIBPNG_DEP@ \
 	@VICE_ZLIB_DEP@ \
 	libc64dtv \
@@ -548,6 +552,7 @@ x128-all: \
 	libfileio \
 	libcore \
 	@RESID_DEP@ \
+	@RESID_FP_DEP@ \
 	@VICE_LIBPNG_DEP@ \
 	@VICE_ZLIB_DEP@ \
 	x128$(EXEEXT)
@@ -746,6 +751,7 @@ xcbm2-all: \
 	libarch \
 	libsid \
 	@RESID_DEP@ \
+	@RESID_FP_DEP@ \
 	@VICE_LIBPNG_DEP@ \
 	@VICE_ZLIB_DEP@ \
 	libdriveiecieee \
@@ -831,7 +837,7 @@ cartconv_LDADD = @INTLLIBS@
 .PHONY: libc64 libc128 libc64dtv libc64dtvstubs libvic20 libpet libplus4 libcbm2 libdrive libvdrive
 	libprinterdrv librs232drv libgfxoutputdrv libsounddrv libdiskimage
 	libfsdevice libtape libarch libvicii libviciidtv libvdc libsid libcrtc libvideo
-	libserial libparallel libcore libiecbus libfileio @RESID_DEP@
+	libserial libparallel libcore libiecbus libfileio @RESID_DEP@ @RESID_FP_DEP@
 	@VICE_LIBPNG_DEP@ @VICE_ZLIB_DEP@
 
 libarch:
@@ -902,6 +908,8 @@ libraster:
 	(cd raster && $(MAKE) libraster.a)
 libresid:
 	(cd resid && $(MAKE) libresid.a)
+libresidfp:
+	(cd resid-fp && $(MAKE) libresidfp.a)
 libserial:
 	(cd serial && $(MAKE))
 libsid:

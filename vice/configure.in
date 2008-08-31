@@ -655,6 +655,11 @@ RESID_LIBS=
 RESID_INCLUDES=
 RESID_DEP=
 
+RESID_FP_DIR=
+RESID_FP_LIBS=
+RESID_FP_INCLUDES=
+RESID_FP_DEP=
+
 
 LINKCC='$(CC)'
 
@@ -702,6 +707,13 @@ else
     RESID_LIBS="\$(top_builddir)/src/resid/libresid.a"
     RESID_INCLUDES="-I\$(top_builddir)/src/resid"
     RESID_DEP=libresid
+
+    AC_DEFINE(HAVE_RESID_FP,,[This version provides ReSID_FP support.])
+    AC_CONFIG_SUBDIRS(src/resid-fp)
+    RESID_FP_DIR=resid-fp
+    RESID_FP_LIBS="\$(top_builddir)/src/resid-fp/libresidfp.a"
+    RESID_FP_INCLUDES="-I\$(top_builddir)/src/resid-fp"
+    RESID_FP_DEP=libresidfp
   else
     dnl reSID is installed elsewhere, no need to configure.
     no_recursion=yes
@@ -735,6 +747,12 @@ AC_SUBST(RESID_LIBS)
 AC_SUBST(RESID_INCLUDES)
 AC_SUBST(RESID_DEP)
 
+AM_CONDITIONAL(HAVE_RESID_FP, test x"$with_resid" != "xno")
+
+AC_SUBST(RESID_FP_DIR)
+AC_SUBST(RESID_FP_LIBS)
+AC_SUBST(RESID_FP_INCLUDES)
+AC_SUBST(RESID_FP_DEP)
 
 dnl Check for typedefs, structures, and compiler characteristics.
 AC_CHECK_HEADERS(sys/types.h)
@@ -2272,6 +2290,7 @@ if false ; then
     mkdir -p printerdrv
     mkdir -p raster
     mkdir -p resid
+    mkdir -p resid-fp
     mkdir -p rs232drv
     mkdir -p serial
     mkdir -p sid

@@ -59,11 +59,45 @@ static char *sidmodel[] = {
 	"6581 (old)",
 	"8580 (new)",
 	"8580 (new+digiboost)",
-	"6581R4",
-	"DTVSID",
+#ifdef HAVE_RESID
+	"DTVSID (reSID)",
+#endif
+#ifdef HAVE_RESID_FP
+	"6581R3 4885 (reSID-fp)",
+	"6581R3 0486S (reSID-fp)",
+	"6581R3 3984 (reSID-fp)",
+	"6581R4AR 3789 (reSID-fp)",
+	"6581R3 4485 (reSID-fp)",
+	"6581R4 1986S (reSID-fp)",
+	"8580R5 3691 (reSID-fp)",
+	"8580R5 3691 + digiboost (reSID-fp)",
+	"8580R5 1489",
+	"8580R5 1489 + digiboost (reSID-fp)",
+#endif
 	NULL
 };
 
+static int sidmodel_values[] = {
+	SID_MODEL_6581,
+	SID_MODEL_8580,
+	SID_MODEL_8580D,
+#ifdef HAVE_RESID
+	SID_MODEL_DTVSID,
+#endif
+#ifdef HAVE_RESID_FP
+	SID_MODEL_6581R3_4885,
+	SID_MODEL_6581R3_0486S,
+	SID_MODEL_6581R3_3984,
+	SID_MODEL_6581R4AR_3789,
+	SID_MODEL_6581R3_4485,
+	SID_MODEL_6581R4_1986S,
+	SID_MODEL_8580R5_3691,
+	SID_MODEL_8580R5_3691D,
+	SID_MODEL_8580R5_1489,
+	SID_MODEL_8580R5_1489D,
+#endif
+	-1
+};
 
 static int c64sidaddressbase[] =
 { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
@@ -173,7 +207,7 @@ SidWindow::SidWindow()
 		radiobutton = new BRadioButton(BRect
 			(10+i*r.Width()/2,15,(i+1)*r.Width()/2-10,30),
 			sidmodel[i], sidmodel[i], msg);
-		radiobutton->SetValue(res_val == i);
+		radiobutton->SetValue(res_val == sidmodel_values[i]);
 		box->AddChild(radiobutton);
 	}
 	background->AddChild(box);
@@ -218,9 +252,9 @@ SidWindow::SidWindow()
 	background->AddChild(checkbox);
 
 	/* reSID settings */
-	residbox = new BBox(BRect(10,110,r.Width()-10,190), "reSID settings");
+	residbox = new BBox(BRect(10,110,r.Width()-10,190), "reSID/reSID-fp settings");
 	residbox->SetViewColor(220,220,220,0);
-	residbox->SetLabel("reSID settings");
+	residbox->SetLabel("reSID/reSID-fp settings");
 	background->AddChild(residbox);
 	r = residbox->Bounds();
 
@@ -267,7 +301,7 @@ void SidWindow::MessageReceived(BMessage *msg) {
 	switch (msg->what) {
 		case MESSAGE_SID_MODEL:
 			val = msg->FindInt32("model");
-			resources_set_int("SidModel", val);
+			resources_set_int("SidModel", sidmodel_values[val]);
 			break;
 		case MESSAGE_SID_FILTERS:
 			resources_toggle("SidFilters", (int *)&dummy);

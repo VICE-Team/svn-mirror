@@ -56,6 +56,9 @@
 #include "resid.h"
 #endif
 
+#ifdef HAVE_RESID_FP
+#include "resid-fp.h"
+#endif
 
 /* SID engine hooks. */
 static sid_engine_t sid_engine;
@@ -207,17 +210,34 @@ static int sidengine;
 
 sound_t *sid_sound_machine_open(int chipno)
 {
-#ifdef HAVE_RESID
     sidengine = 0;
 
     if (resources_get_int("SidEngine", &sidengine) < 0)
         return NULL;
 
+#ifdef HAVE_RESID
     if (sidengine == SID_ENGINE_RESID)
-	sid_engine = resid_hooks;
-    else
+        sid_engine = resid_hooks;
 #endif
-        sid_engine = fastsid_hooks;
+
+#ifdef HAVE_RESID_FP
+    if (sidengine == SID_ENGINE_RESID_FP)
+        sid_engine = residfp_hooks;
+#endif
+
+#if defined(HAVE_RESID) && defined(HAVE_RESID_FP)
+    if (sidengine != SID_ENGINE_RESID && sidengine != SID_ENGINE_RESID_FP)
+#endif
+
+#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP)
+    if (sidengine != SID_ENGINE_RESID)
+#endif
+
+#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP)
+    if (sidengine != SID_ENGINE_RESID_FP)
+#endif
+
+    sid_engine = fastsid_hooks;
 
     return sid_engine.open(siddata[chipno]);
 }
@@ -272,6 +292,10 @@ int sid_sound_machine_cycle_based(void)
       case SID_ENGINE_RESID:
         return 1;
 #endif
+#ifdef HAVE_RESID_FP
+      case SID_ENGINE_RESID_FP:
+        return 1;
+#endif
 #ifdef HAVE_CATWEASELMKIII
       case SID_ENGINE_CATWEASELMKIII:
         return 0;
@@ -307,6 +331,12 @@ static void set_sound_func(void)
         }
 #ifdef HAVE_RESID
         if (sid_engine_type == SID_ENGINE_RESID) {
+            sid_read_func = sound_read;
+            sid_store_func = sound_store;
+        }
+#endif
+#ifdef HAVE_RESID
+        if (sid_engine_type == SID_ENGINE_RESID_FP) {
             sid_read_func = sound_read;
             sid_store_func = sound_store;
         }

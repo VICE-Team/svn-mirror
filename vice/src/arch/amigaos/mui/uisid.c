@@ -41,7 +41,7 @@ static char *ui_sid_pages[] =
 {
   "General",
 #ifdef HAVE_RESID
-  "ReSID",
+  "ReSID/ReSID-fp",
 #endif
 #ifdef HAVE_CATWEASELMKIII
   "Catweasel MK3",
@@ -59,6 +59,9 @@ static char *ui_sid_engine[] =
 #ifdef HAVE_RESID
   "reSID",
 #endif
+#ifdef HAVE_RESID_FP
+  "reSID-fp",
+#endif
 #ifdef HAVE_CATWEASELMKIII
   "Catweasel MK3",
 #endif
@@ -73,6 +76,9 @@ static const int ui_sid_engine_values[] =
   SID_ENGINE_FASTSID,
 #ifdef HAVE_RESID
   SID_ENGINE_RESID,
+#endif
+#ifdef HAVE_RESID_FP
+  SID_ENGINE_RESID_FP,
 #endif
 #ifdef HAVE_CATWEASELMKIII
   SID_ENGINE_CATWEASELMKIII,
@@ -103,19 +109,49 @@ static const int ui_sid_samplemethod_values[] =
   -1
 };
 
-static int ui_sid_model_translate[] =
+static char *ui_sid_model[] =
 {
-  IDS_6581_OLD,
-  IDS_8580_NEW,
+  "6581",
+  "8580",
+  "8580 + digiboost",
+#ifdef HAVE_RESID
+  "DTVSID (ReSID)",
+#endif
+#ifdef HAVE_RESID_FP
+  "6581R3 4885 (ReSID-fp)",
+  "6581R3 0486S (ReSID-fp)",
+  "6581R3 3984 (ReSID-fp)",
+  "6581R4AR 3789 (ReSID-fp)",
+  "6581R3 4485 (ReSID-fp)",
+  "6581R4 1986S (ReSID-fp)",
+  "8580R5 3691 (ReSID-fp)",
+  "8580R5 3691 + digiboost (ReSID-fp)",
+  "8580R5 1489 (ReSID-fp)",
+  "8580R5 1489 + digiboost (ReSID-fp)",
+#endif
   0
 };
 
-static char *ui_sid_model[countof(ui_sid_model_translate)];
-
 static const int ui_sid_model_values[] =
 {
-  0,
-  1,
+  SID_MODEL_6581,
+  SID_MODEL_8580,
+  SID_MODEL_8580D,
+#ifdef HAVE_RESID
+  SID_MODEL_DTVSID,
+#endif
+#ifdef HAVE_RESID_FP
+  SID_MODEL_6581R3_4885,
+  SID_MODEL_6581R3_0486S,
+  SID_MODEL_6581R3_3984,
+  SID_MODEL_6581R4AR_3789,
+  SID_MODEL_6581R3_4485,
+  SID_MODEL_6581R4_1986S,
+  SID_MODEL_8580R5_3691,
+  SID_MODEL_8580R5_3691D,
+  SID_MODEL_8580R5_1489,
+  SID_MODEL_8580R5_1489D,
+#endif
   -1
 };
 
@@ -136,7 +172,7 @@ static const int ui_sid_cbm2baseaddress[] =
 
 static ui_to_from_t ui_to_from[] = {
   { NULL, MUI_TYPE_CYCLE, "SidEngine", ui_sid_engine, ui_sid_engine_values },
-  { NULL, MUI_TYPE_RADIO, "SidModel", ui_sid_model, ui_sid_model_values },
+  { NULL, MUI_TYPE_CYCLE, "SidModel", ui_sid_model, ui_sid_model_values },
   { NULL, MUI_TYPE_CHECK, "SidStereo", NULL, NULL },
   { NULL, MUI_TYPE_CYCLE, "SidStereoAddressStart", (char **)ui_sid_baseaddress_name, (const int *)ui_sid_baseaddress },
   { NULL, MUI_TYPE_CHECK, "SidFilters", NULL, NULL },
@@ -198,12 +234,7 @@ static APTR build_gui(void)
     MUIA_Register_Titles, ui_sid_pages,
     Child, GroupObject,
       CYCLE(ui_to_from[0].object, translate_text(IDS_SID_ENGINE), ui_sid_engine)
-      Child, ui_to_from[1].object = RadioObject,
-        MUIA_Frame, MUIV_Frame_Group,
-        MUIA_Group_Horiz, TRUE,
-        MUIA_FrameTitle, translate_text(IDS_SID_MODEL),
-        MUIA_Radio_Entries, ui_sid_model,
-      End,
+      CYCLE(ui_to_from[1].object, translate_text(IDS_SID_MODEL), ui_sid_model)
       Child, GroupObject,
         MUIA_Frame, MUIV_Frame_Group,
         MUIA_Group_Horiz, TRUE,
@@ -213,7 +244,7 @@ static APTR build_gui(void)
       End,
       CHECK(ui_to_from[4].object, translate_text(IDS_SID_FILTERS))
     End,
-#ifdef HAVE_RESID
+#if defined(HAVE_RESID) || defined(HAVE_RESID_FP)
     Child, GroupObject,
       CYCLE(ui_to_from[5].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
       Child, ui_to_from[6].object = StringObject,
@@ -240,6 +271,5 @@ static APTR build_gui(void)
 void ui_sid_settings_dialog(void)
 {
   intl_convert_mui_table(ui_sid_samplemethod_translate, ui_sid_samplemethod);
-  intl_convert_mui_table(ui_sid_model_translate, ui_sid_model);
   mui_show_dialog(build_gui(), translate_text(IDS_SID_SETTINGS), ui_to_from);
 }

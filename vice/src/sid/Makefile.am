@@ -4,11 +4,18 @@ else
 resid_libadd =
 endif
 
+if HAVE_RESID_FP
+residfp_libadd = resid-fp.o
+else
+residfp_libadd =
+endif
+
 SUFFIXES = .def
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	@RESID_INCLUDES@ \
+	@RESID_FP_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src
 
@@ -31,9 +38,11 @@ libsid_a_SOURCES = \
 EXTRA_libsid_a_SOURCES = \
 	resid.cc \
 	resid.h
+	resid-fp.cc \
+	resid-fp.h
 
 EXTRA_DIST =
 
-libsid_a_LIBADD = $(resid_libadd)
+libsid_a_LIBADD = $(resid_libadd) $(residfp_libadd)
 
 siddir = $(top_srcdir)/src/sid
