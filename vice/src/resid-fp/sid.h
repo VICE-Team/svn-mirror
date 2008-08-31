@@ -39,7 +39,7 @@ public:
   void enable_filter(bool enable);
   void enable_external_filter(bool enable);
   bool set_sampling_parameters(float clock_freq, sampling_method method,
-			       float sample_freq, float pass_freq = -1);
+                               float sample_freq, float pass_freq = -1);
   void adjust_sampling_frequency(float sample_freq);
   void set_voice_nonlinearity(float nonlinearity);
 
@@ -85,9 +85,9 @@ public:
 protected:
   static double I0(double x);
   RESID_INLINE int clock_interpolate(cycle_count& delta_t, short* buf, int n,
-				     int interleave);
+                                     int interleave);
   RESID_INLINE int clock_resample_interpolate(cycle_count& delta_t, short* buf,
-					      int n, int interleave);
+                                              int n, int interleave);
   RESID_INLINE void age_bus_value(cycle_count);
 
   VoiceFP voice[3];

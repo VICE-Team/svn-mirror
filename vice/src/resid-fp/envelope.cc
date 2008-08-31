@@ -242,12 +242,12 @@ void EnvelopeGeneratorFP::update_rate_period(reg16 newperiod)
 
     /* if the new period exeecds 0x7fff, we need to wrap */
     if (rate_period - rate_counter > 0x7fff)
-	rate_counter += 0x7fff;
+        rate_counter += 0x7fff;
 
     /* simulate 0x7fff wraparound, if the period-to-be-written
      * is less than the current value. */
     if (rate_period <= rate_counter)
-	rate_counter -= 0x7fff;
+        rate_counter -= 0x7fff;
 
     /* at this point it should be impossible for
      * rate_counter >= rate_period. If it is, there is a bug... */

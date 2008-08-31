@@ -125,8 +125,8 @@ void WaveformGeneratorFP::clock()
   /* no digital operation if test bit is set. Only emulate analog fade. */
   if (test) {
     if (noise_overwrite_delay != 0) {
-	if (-- noise_overwrite_delay == 0)
-	    shift_register |= 0x7ffffc;
+        if (-- noise_overwrite_delay == 0)
+            shift_register |= 0x7ffffc;
     }
     return;
   }

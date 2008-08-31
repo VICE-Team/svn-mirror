@@ -111,13 +111,13 @@ void EnvelopeGeneratorFP::clock()
       //
       ++envelope_counter &= 0xff;
       if (envelope_counter == 0xff) {
-	state = DECAY_SUSTAIN;
-	update_rate_period(rate_counter_period[decay]);
+        state = DECAY_SUSTAIN;
+        update_rate_period(rate_counter_period[decay]);
       }
       break;
     case DECAY_SUSTAIN:
       if (envelope_counter != sustain_level[sustain]) {
-	--envelope_counter;
+        --envelope_counter;
       }
       break;
     case RELEASE:

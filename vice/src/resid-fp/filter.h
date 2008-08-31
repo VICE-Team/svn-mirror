@@ -132,7 +132,7 @@ public:
 
   RESID_INLINE
   float clock(float voice1, float voice2, float voice3,
-	      float ext_in);
+              float ext_in);
   void reset();
 
   // Write registers.
@@ -270,7 +270,7 @@ float FilterFP::type3_w0(const float source)
     float fetresistance = type3_fc_kink_exp;
     if (source > type3_fc_kink_distortion_offset) {
         const float dist = source - type3_fc_kink_distortion_offset;
-	fetresistance *= fastexp(dist * type3_steepness * distortion_rate);
+        fetresistance *= fastexp(dist * type3_steepness * distortion_rate);
     }
     const float dynamic_resistance = type3_minimumfetresistance + fetresistance;
 
@@ -292,9 +292,9 @@ float FilterFP::type4_w0()
 // ----------------------------------------------------------------------------
 RESID_INLINE
 float FilterFP::clock(float voice1,
-		   float voice2,
-		   float voice3,
-		   float ext_in)
+                   float voice2,
+                   float voice3,
+                   float ext_in)
 {
     /* Avoid denormal numbers by using small offsets from 0 */
     float Vi = 0.f, Vf = 0;
@@ -305,47 +305,47 @@ float FilterFP::clock(float voice1,
     // NB! Voice 3 is not silenced by voice3off if it is routed through
     // the filter.
     if (filt & 4)
-	Vi += voice3;
+        Vi += voice3;
     else if (! voice3off)
-	Vf += voice3;
+        Vf += voice3;
     ((filt & 8) ? Vi : Vf) += ext_in;
   
     if (! enabled)
         return Vf - Vi;
 
     if (hp_bp_lp & 1)
-	Vf += Vlp;
+        Vf += Vlp;
     if (hp_bp_lp & 2)
-	Vf += Vbp;
+        Vf += Vbp;
     if (hp_bp_lp & 4)
-	Vf += Vhp;
+        Vf += Vhp;
     
     if (model == MOS6581FP) {
-	/* Model output strip mixing */
-	if (hp_bp_lp & 1)
-	    Vlp += (Vf - Vlp) * (distortion_cf_threshold);
-	if (hp_bp_lp & 2)
-	    Vbp += (Vf - Vbp) * (distortion_cf_threshold);
-	if (hp_bp_lp & 4)
-	    Vhp += (Vf - Vhp) * (distortion_cf_threshold);
+        /* Model output strip mixing */
+        if (hp_bp_lp & 1)
+            Vlp += (Vf - Vlp) * (distortion_cf_threshold);
+        if (hp_bp_lp & 2)
+            Vbp += (Vf - Vbp) * (distortion_cf_threshold);
+        if (hp_bp_lp & 4)
+            Vhp += (Vf - Vhp) * (distortion_cf_threshold);
 
         /* -3 dB level correction for more resistance through filter path */
-	Vhp = Vbp * _1_div_Q - Vlp * 0.8f - Vi * 0.707107f;
-	/* Simulating the exponential VCR that the FET block is... */
-	Vlp -= Vbp * type3_w0(Vbp) * 1.25f;
-	Vbp -= Vhp * type3_w0(Vhp);
+        Vhp = Vbp * _1_div_Q - Vlp * 0.8f - Vi * 0.707107f;
+        /* Simulating the exponential VCR that the FET block is... */
+        Vlp -= Vbp * type3_w0(Vbp) * 1.25f;
+        Vbp -= Vhp * type3_w0(Vhp);
 
         /* Two very short resistors bleed into the FC circuit. Unfortunately,
          * it is difficult to say how much resistance the long polysilicon
          * DAC gives us relative to the other resistors... If its resistance
          * was hypotehtically 0, then we'd have 3.f here. */
-	Vhp -= Vhp * (distortion_cf_threshold * 2.f);
-	Vbp -= Vbp * (distortion_cf_threshold * 2.f);
+        Vhp -= Vhp * (distortion_cf_threshold * 2.f);
+        Vbp -= Vbp * (distortion_cf_threshold * 2.f);
 
-	/* Tuned based on Fred Gray's Break Thru. It is probably not a hard
-	 * discontinuity but a saturation effect... */
-	if (Vf > 3.0e6f)
-	    Vf = 3.0e6f;
+        /* Tuned based on Fred Gray's Break Thru. It is probably not a hard
+         * discontinuity but a saturation effect... */
+        if (Vf > 3.0e6f)
+            Vf = 3.0e6f;
     } else {
         /* On the 8580, BP appears mixed in phase with the rest. */
         Vhp = -Vbp * _1_div_Q - Vlp - Vi;
@@ -364,9 +364,9 @@ void FilterFP::nuke_denormals()
      * is calculated in short bursts, we get quite frequent calls to this
      * method, hopefully we never actually see any denormals at all. */
     if (Vbp > -1e-12f && Vbp < 1e-12f)
-	Vbp = 0;
+        Vbp = 0;
     if (Vlp > -1e-12f && Vlp < 1e-12f)
-	Vlp = 0;
+        Vlp = 0;
 }
 
 #endif // not __FILTER_H__

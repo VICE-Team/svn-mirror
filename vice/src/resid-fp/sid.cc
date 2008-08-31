@@ -529,7 +529,7 @@ double SIDFP::I0(double x)
 // not overfilled.
 // ----------------------------------------------------------------------------
 bool SIDFP::set_sampling_parameters(float clock_freq, sampling_method method,
-				  float sample_freq, float pass_freq)
+                                  float sample_freq, float pass_freq)
 {
   clock_frequency = clock_freq;
   sampling = method;
@@ -614,9 +614,9 @@ bool SIDFP::set_sampling_parameters(float clock_freq, sampling_method method,
       double wt = wc*jx/f_cycles_per_sample;
       double temp = jx/(fir_N/2);
       double Kaiser =
-	fabs(temp) <= 1 ? I0(beta*sqrt(1 - temp*temp))/I0beta : 0;
+        fabs(temp) <= 1 ? I0(beta*sqrt(1 - temp*temp))/I0beta : 0;
       double sincwt =
-	fabs(wt) >= 1e-6 ? sin(wt)/wt : 1;
+        fabs(wt) >= 1e-6 ? sin(wt)/wt : 1;
       fir[fir_offset + j] = (float) (f_samples_per_cycle*wc/M_PI*sincwt*Kaiser);
     }
   }
@@ -733,7 +733,7 @@ int SIDFP::clock(cycle_count& delta_t, short* buf, int n, int interleave)
 // ----------------------------------------------------------------------------
 RESID_INLINE
 int SIDFP::clock_interpolate(cycle_count& delta_t, short* buf, int n,
-			   int interleave)
+                           int interleave)
 {
   int s = 0;
   int i;
@@ -823,7 +823,7 @@ int SIDFP::clock_interpolate(cycle_count& delta_t, short* buf, int n,
 // ----------------------------------------------------------------------------
 RESID_INLINE
 int SIDFP::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
-				    int interleave)
+                                    int interleave)
 {
   int s = 0;
 
@@ -859,7 +859,7 @@ int SIDFP::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
 #if (RESID_USE_SSE==1)
       can_use_sse ? convolve_sse(sample_start, fir + fir_offset*fir_N, fir_N) :
 #endif
-	convolve(sample_start, fir + fir_offset*fir_N, fir_N);
+        convolve(sample_start, fir + fir_offset*fir_N, fir_N);
 
     // Use next FIR table, wrap around to first FIR table using
     // previous sample.
@@ -871,7 +871,7 @@ int SIDFP::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
 #if (RESID_USE_SSE==1)
       can_use_sse ? convolve_sse(sample_start, fir + fir_offset*fir_N, fir_N) :
 #endif
-	convolve(sample_start, fir + fir_offset*fir_N, fir_N);
+        convolve(sample_start, fir + fir_offset*fir_N, fir_N);
 
     // Linear interpolation between the sinc tables yields good approximation
     // for the exact value.
