@@ -204,7 +204,7 @@ friend class SIDFP;
 /* kinkiness of DAC:
  * some chips have more, some less. We should make this tunable. */
 const float kinkiness = 0.966f;
-const float sidcaps_6581 = 470e-12;
+const float sidcaps_6581 = 470e-12f;
 
 RESID_INLINE
 static float fastexp(float val) {
@@ -218,14 +218,14 @@ static float fastexp(float val) {
     /* single precision fp has 1 + 8 + 23 bits, exponent bias is 127.
      * It therefore follows that we need to shift left by 23 bits, and to
      * calculate exp(x) instead of pow(2, x) we divide the power by ln(2). */
-    const float a = (1 << 23) / M_LN2;
+    const float a = (1 << 23) / M_LN2_f;
     /* The other factor corrects for the exponent bias so that 2^0 = 1. */
     const float b = (1 << 23) * 127;
     /* According to "A Fast, Compact Approximation of the Exponential Function"
      * by Nicol N. Schraudolph, 60801.48 yields the minimum RMS error for the
      * piecewise-linear approximation when using doubles (20 bits residual).
      * We have 23 bits, so we scale this value by 8. */
-    const float c = 60801.48 * 8 + 0.5;
+    const float c = 60801.48f * 8.f + 0.5f;
 
     /* Parenthesis are important: C standard disallows folding subtraction.
      * Unfortunately GCC appears to generate a write to memory rather than
@@ -284,7 +284,7 @@ RESID_INLINE
 float FilterFP::type4_w0()
 {
     const float freq = type4_k * fc + type4_b;
-    return 2.f * (float) M_PI * freq / clock_frequency;
+    return 2.f * M_PI_f * freq / clock_frequency;
 }
 
 // ----------------------------------------------------------------------------

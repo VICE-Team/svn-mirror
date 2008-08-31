@@ -22,10 +22,16 @@
 
 #ifndef M_PI
 #define M_PI    3.14159265358979323846
+#define M_PI_f  3.14159265358979323846f
+#else
+#define M_PI_f  ((float) M_PI)
 #endif
 
 #ifndef M_LN2
 #define M_LN2   0.69314718055994530942
+#define M_LN2_f 0.69314718055994530942f
+#else
+#define M_LN2_f ((float) M_LN2)
 #endif
 
 // Define bool, true, and false for C++ compilers that lack these keywords.

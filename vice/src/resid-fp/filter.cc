@@ -86,7 +86,7 @@ void FilterFP::set_type3_properties(float br, float o, float s, float mfr)
 {
     type3_baseresistance = br;
     type3_offset = o;
-    type3_steepness = -log(s); /* s^x to e^(x*ln(s)), 1/e^x == e^-x. */
+    type3_steepness = -logf(s); /* s^x to e^(x*ln(s)), 1/e^x == e^-x. */
     type3_minimumfetresistance = mfr;
 }
 
@@ -153,7 +153,7 @@ void FilterFP::set_w0()
     if (distortion_rate != 0.f)
 	type3_fc_kink_distortion_offset = (distortion_point - type3_fc_kink) * (0.707107f * 0.5f) / distortion_rate;
     else
-	type3_fc_kink_distortion_offset = 9e9; /* never triggers */
+	type3_fc_kink_distortion_offset = 9e9f; /* never triggers */
   }
   if (model == MOS8580FP) {
     type4_w0_cache = type4_w0();
@@ -168,6 +168,6 @@ void FilterFP::set_Q()
     _1_div_Q = 1.f / (0.8f + 1.1f * Q);
   }
   if (model == MOS8580FP) {
-    _1_div_Q = 1.f / (0.707 + Q);
+    _1_div_Q = 1.f / (0.707f + Q);
   }
 }

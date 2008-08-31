@@ -61,7 +61,7 @@ void ExternalFilterFP::_set_sampling_parameter()
   // Low-pass:  R = 10kOhm, C = 1000pF; w0l = 1/RC = 1/(1e4*1e-9) = 100000
   // High-pass: R =  1kOhm, C =   10uF; w0h = 1/RC = 1/(1e3*1e-5) =    100
   w0hp = 100.f / clock_frequency;
-  w0lp = pass_frequency * 2.f * M_PI / clock_frequency;
+  w0lp = pass_frequency * 2.f * M_PI_f / clock_frequency;
 }
 
 // ----------------------------------------------------------------------------

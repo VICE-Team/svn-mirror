@@ -38,9 +38,9 @@ public:
   FilterFP& get_filter() { return filter; }
   void enable_filter(bool enable);
   void enable_external_filter(bool enable);
-  bool set_sampling_parameters(double clock_freq, sampling_method method,
-			       double sample_freq, double pass_freq = -1);
-  void adjust_sampling_frequency(double sample_freq);
+  bool set_sampling_parameters(float clock_freq, sampling_method method,
+			       float sample_freq, float pass_freq = -1);
+  void adjust_sampling_frequency(float sample_freq);
   void set_voice_nonlinearity(float nonlinearity);
 
   void clock();
@@ -99,7 +99,7 @@ protected:
   reg8 bus_value;
   cycle_count bus_value_ttl;
 
-  double clock_frequency;
+  float clock_frequency;
 
   // External audio input.
   float ext_in;

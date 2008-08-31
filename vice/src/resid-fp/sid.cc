@@ -214,7 +214,7 @@ void SIDFP::input(int sample)
 {
   // Voice outputs are 20 bits. Scale up to match three voices in order
   // to facilitate simulation of the MOS8580 "digi boost" hardware hack.
-  ext_in = (sample << 4)*3 - 0x20000;
+  ext_in = (float) ( (sample << 4) * 3 - 0x20000 );
 }
 
 float SIDFP::output()
@@ -528,8 +528,8 @@ double SIDFP::I0(double x)
 // to slightly below 20kHz. This constraint ensures that the FIR table is
 // not overfilled.
 // ----------------------------------------------------------------------------
-bool SIDFP::set_sampling_parameters(double clock_freq, sampling_method method,
-				  double sample_freq, double pass_freq)
+bool SIDFP::set_sampling_parameters(float clock_freq, sampling_method method,
+				  float sample_freq, float pass_freq)
 {
   clock_frequency = clock_freq;
   sampling = method;
@@ -556,7 +556,7 @@ bool SIDFP::set_sampling_parameters(double clock_freq, sampling_method method,
   if (pass_freq > 20000)
     pass_freq = 20000;  
   if (2*pass_freq/sample_freq > 0.9)
-    pass_freq = 0.9*sample_freq/2;
+    pass_freq = 0.9f*sample_freq/2;
 
   // 16 bits -> -96dB stopband attenuation.
   const double A = -20*log10(1.0/(1 << bits));
@@ -646,7 +646,7 @@ bool SIDFP::set_sampling_parameters(double clock_freq, sampling_method method,
 // that any adjustment of the sampling frequency will change the
 // characteristics of the resampling filter, since the filter is not rebuilt.
 // ----------------------------------------------------------------------------
-void SIDFP::adjust_sampling_frequency(double sample_freq)
+void SIDFP::adjust_sampling_frequency(float sample_freq)
 {
   cycles_per_sample = clock_frequency/sample_freq;
 }
