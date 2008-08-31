@@ -75,7 +75,7 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec)
     sampling_method method;
     char model_text[100];
     char method_text[100];
-    double passband;
+    float  passband;
     int filters_enabled, model, sampling, passband_percentage;
 
     if (resources_get_int("SidFilters", &filters_enabled) < 0)
