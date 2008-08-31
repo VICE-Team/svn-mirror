@@ -101,17 +101,13 @@ InputName=envelope
 InputPath=..\..\resid\envelope.cc
 InputName=envelope
 
-"..\\..\\resid\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid\\$(InputName).cc ..\\..\\resid\\$(InputName).cpp /Y
+"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch" /YX /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid\envelope.cpp
 # End Source File
 # Begin Source File
 
@@ -138,17 +134,13 @@ InputName=extfilt
 InputPath=..\..\resid\extfilt.cc
 InputName=extfilt
 
-"..\\..\\resid\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid\\$(InputName).cc ..\\..\\resid\\$(InputName).cpp /Y
+"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch" /YX /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid\extfilt.cpp
 # End Source File
 # Begin Source File
 
@@ -175,17 +167,13 @@ InputName=filter
 InputPath=..\..\resid\filter.cc
 InputName=filter
 
-"..\\..\\resid\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid\\$(InputName).cc ..\\..\\resid\\$(InputName).cpp /Y
+"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch" /YX /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid\filter.cpp
 # End Source File
 # Begin Source File
 
@@ -212,17 +200,13 @@ InputName=pot
 InputPath=..\..\resid\pot.cc
 InputName=pot
 
-"..\\..\\resid\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid\\$(InputName).cc ..\\..\\resid\\$(InputName).cpp /Y
+"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch" /YX /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid\pot.cpp
 # End Source File
 # Begin Source File
 
@@ -249,17 +233,13 @@ InputName=sid
 InputPath=..\..\resid\sid.cc
 InputName=sid
 
-"..\\..\\resid\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid\\$(InputName).cc ..\\..\\resid\\$(InputName).cpp /Y
+"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch" /YX /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid\sid.cpp
 # End Source File
 # Begin Source File
 
@@ -294,17 +274,13 @@ InputName=version
 InputPath=..\..\resid\version.cc
 InputName=version
 
-"..\\..\\resid\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid\\$(InputName).cc ..\\..\\resid\\$(InputName).cpp /Y
+"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch" /YX /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid\version.cpp
 # End Source File
 # Begin Source File
 
@@ -327,17 +303,13 @@ InputName=voice
 InputPath=..\..\resid\voice.cc
 InputName=voice
 
-"..\\..\\resid\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid\\$(InputName).cc ..\\..\\resid\\$(InputName).cpp /Y
+"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch" /YX /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid\voice.cpp
 # End Source File
 # Begin Source File
 
@@ -364,17 +336,13 @@ InputName=wave
 InputPath=..\..\resid\wave.cc
 InputName=wave
 
-"..\\..\\resid\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid\\$(InputName).cc ..\\..\\resid\\$(InputName).cpp /Y
+"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch" /YX /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid\wave.cpp
 # End Source File
 # Begin Source File
 
@@ -401,17 +369,13 @@ InputName=wave6581__ST
 InputPath=..\..\resid\wave6581__ST.cc
 InputName=wave6581__ST
 
-"..\\..\\resid\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid\\$(InputName).cc ..\\..\\resid\\$(InputName).cpp /Y
+"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch" /YX /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid\wave6581__ST.cpp
 # End Source File
 # Begin Source File
 
@@ -434,17 +398,13 @@ InputName=wave6581_P_T
 InputPath=..\..\resid\wave6581_P_T.cc
 InputName=wave6581_P_T
 
-"..\\..\\resid\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid\\$(InputName).cc ..\\..\\resid\\$(InputName).cpp /Y
+"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch" /YX /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid\wave6581_P_T.cpp
 # End Source File
 # Begin Source File
 
@@ -467,17 +427,13 @@ InputName=wave6581_PS_
 InputPath=..\..\resid\wave6581_PS_.cc
 InputName=wave6581_PS_
 
-"..\\..\\resid\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid\\$(InputName).cc ..\\..\\resid\\$(InputName).cpp /Y
+"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch" /YX /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid\wave6581_PS_.cpp
 # End Source File
 # Begin Source File
 
@@ -500,17 +456,13 @@ InputName=wave6581_PST
 InputPath=..\..\resid\wave6581_PST.cc
 InputName=wave6581_PST
 
-"..\\..\\resid\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid\\$(InputName).cc ..\\..\\resid\\$(InputName).cpp /Y
+"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch" /YX /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid\wave6581_PST.cpp
 # End Source File
 # Begin Source File
 
@@ -533,17 +485,13 @@ InputName=wave8580__ST
 InputPath=..\..\resid\wave8580__ST.cc
 InputName=wave8580__ST
 
-"..\\..\\resid\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid\\$(InputName).cc ..\\..\\resid\\$(InputName).cpp /Y
+"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch" /YX /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid\wave8580__ST.cpp
 # End Source File
 # Begin Source File
 
@@ -566,17 +514,13 @@ InputName=wave8580_P_T
 InputPath=..\..\resid\wave8580_P_T.cc
 InputName=wave8580_P_T
 
-"..\\..\\resid\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid\\$(InputName).cc ..\\..\\resid\\$(InputName).cpp /Y
+"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch" /YX /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid\wave8580_P_T.cpp
 # End Source File
 # Begin Source File
 
@@ -599,17 +543,13 @@ InputName=wave8580_PS_
 InputPath=..\..\resid\wave8580_PS_.cc
 InputName=wave8580_PS_
 
-"..\\..\\resid\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid\\$(InputName).cc ..\\..\\resid\\$(InputName).cpp /Y
+"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch" /YX /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid\wave8580_PS_.cpp
 # End Source File
 # Begin Source File
 
@@ -632,17 +572,13 @@ InputName=wave8580_PST
 InputPath=..\..\resid\wave8580_PST.cc
 InputName=wave8580_PST
 
-"..\\..\\resid\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid\\$(InputName).cc ..\\..\\resid\\$(InputName).cpp /Y
+"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch" /YX /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid\wave8580_PST.cpp
 # End Source File
 # End Target
 # End Project

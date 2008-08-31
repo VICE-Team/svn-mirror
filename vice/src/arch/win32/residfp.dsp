@@ -4,7 +4,7 @@
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
 
-CFG=resid - Win32 Debug
+CFG=residfp - Win32 Release
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
@@ -13,7 +13,7 @@ CFG=resid - Win32 Debug
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "resid.mak" CFG="residfp - Win32 Debug"
+!MESSAGE NMAKE /f "residfp.mak" CFG="residfp - Win32 Release"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
@@ -28,28 +28,10 @@ CFG=resid - Win32 Debug
 CPP=cl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "resid - Win32 Release"
+!IF  "$(CFG)" == "residfp - Win32 Release"
 
-# PROP BASE Use_MFC 0
-# PROP BASE Use_Debug_Libraries 0
-# PROP BASE Output_Dir "Release"
-# PROP BASE Intermediate_Dir "Release"
-# PROP BASE Target_Dir ""
-# PROP Use_MFC 0
-# PROP Use_Debug_Libraries 0
-# PROP Output_Dir "libs\residfp\Release"
-# PROP Intermediate_Dir "libs\residfp\Release"
-# PROP Target_Dir ""
-# ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /YX /FD /c
-# ADD BASE RSC /l 0x409
-# ADD RSC /l 0x409
 BSC32=bscmake.exe
-# ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo
 LIB32=link.exe -lib
-# ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo
 
 !ELSEIF  "$(CFG)" == "residfp - Win32 Debug"
 
@@ -63,8 +45,8 @@ LIB32=link.exe -lib
 # PROP Output_Dir "libs\residfp\Debug"
 # PROP Intermediate_Dir "libs\residfp\Debug"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /YX /FD /c
+# ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_DEBUG" /YX /FD /c
+# ADD CPP /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -82,13 +64,13 @@ LIB32=link.exe -lib
 # Name "residfp - Win32 Debug"
 # Begin Source File
 
-SOURCE=..\..\resid-fp\convolve.cc
+SOURCE="..\..\resid-fp\convolve.cc"
 
 !IF  "$(CFG)" == "residfp - Win32 Release"
 
 # Begin Custom Build
-InputPath=..\..\resid-fp\concolve.cc
-InputName=version
+InputPath=..\..\resid-fp\convolve.cc
+InputName=convolve
 
 "..\\..\\resid-fp\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\\..\\resid-fp\\$(InputName).cc ..\\..\\resid-fp\\$(InputName).cpp /Y
@@ -99,10 +81,10 @@ InputName=version
 
 # Begin Custom Build
 InputPath=..\..\resid-fp\convolve.cc
-InputName=version
+InputName=convolve
 
-"..\\..\\resid-fp\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid-fp\\$(InputName).cc ..\\..\\resid-fp\\$(InputName).cpp /Y
+"libs\residfp\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residfp\Debug/residfp.pch" /YX /Fo"libs\residfp\Debug/" /Fd"libs\residfp\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
@@ -111,11 +93,7 @@ InputName=version
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\convolve.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid-fp\envelope.cc
+SOURCE="..\..\resid-fp\envelope.cc"
 
 !IF  "$(CFG)" == "residfp - Win32 Release"
 
@@ -134,8 +112,8 @@ InputName=envelope
 InputPath=..\..\resid-fp\envelope.cc
 InputName=envelope
 
-"..\\..\\resid-fp\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid-fp\\$(InputName).cc ..\\..\\resid-fp\\$(InputName).cpp /Y
+"libs\residfp\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residfp\Debug/residfp.pch" /YX /Fo"libs\residfp\Debug/" /Fd"libs\residfp\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
@@ -144,15 +122,11 @@ InputName=envelope
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\envelope.cpp
+SOURCE="..\..\resid-fp\envelope.h"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\envelope.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid-fp\extfilt.cc
+SOURCE="..\..\resid-fp\extfilt.cc"
 
 !IF  "$(CFG)" == "residfp - Win32 Release"
 
@@ -171,8 +145,8 @@ InputName=extfilt
 InputPath=..\..\resid-fp\extfilt.cc
 InputName=extfilt
 
-"..\\..\\resid-fp\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid-fp\\$(InputName).cc ..\\..\\resid-fp\\$(InputName).cpp /Y
+"libs\residfp\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residfp\Debug/residfp.pch" /YX /Fo"libs\residfp\Debug/" /Fd"libs\residfp\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
@@ -181,15 +155,11 @@ InputName=extfilt
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\extfilt.cpp
+SOURCE="..\..\resid-fp\extfilt.h"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\extfilt.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid-fp\filter.cc
+SOURCE="..\..\resid-fp\filter.cc"
 
 !IF  "$(CFG)" == "residfp - Win32 Release"
 
@@ -208,8 +178,8 @@ InputName=filter
 InputPath=..\..\resid-fp\filter.cc
 InputName=filter
 
-"..\\..\\resid-fp\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid-fp\\$(InputName).cc ..\\..\\resid-fp\\$(InputName).cpp /Y
+"libs\residfp\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residfp\Debug/residfp.pch" /YX /Fo"libs\residfp\Debug/" /Fd"libs\residfp\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
@@ -218,15 +188,11 @@ InputName=filter
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\filter.cpp
+SOURCE="..\..\resid-fp\filter.h"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\filter.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid-fp\pot.cc
+SOURCE="..\..\resid-fp\pot.cc"
 
 !IF  "$(CFG)" == "residfp - Win32 Release"
 
@@ -245,8 +211,8 @@ InputName=pot
 InputPath=..\..\resid-fp\pot.cc
 InputName=pot
 
-"..\\..\\resid-fp\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid-fp\\$(InputName).cc ..\\..\\resid-fp\\$(InputName).cpp /Y
+"libs\residfp\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residfp\Debug/residfp.pch" /YX /Fo"libs\residfp\Debug/" /Fd"libs\residfp\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
@@ -255,15 +221,11 @@ InputName=pot
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\pot.cpp
+SOURCE="..\..\resid-fp\pot.h"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\pot.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid-fp\sid.cc
+SOURCE="..\..\resid-fp\sid.cc"
 
 !IF  "$(CFG)" == "residfp - Win32 Release"
 
@@ -282,8 +244,8 @@ InputName=sid
 InputPath=..\..\resid-fp\sid.cc
 InputName=sid
 
-"..\\..\\resid-fp\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid-fp\\$(InputName).cc ..\\..\\resid-fp\\$(InputName).cpp /Y
+"libs\residfp\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residfp\Debug/residfp.pch" /YX /Fo"libs\residfp\Debug/" /Fd"libs\residfp\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
@@ -292,19 +254,15 @@ InputName=sid
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\sid.cpp
+SOURCE="..\..\resid-fp\sid.h"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\sid.h
+SOURCE="..\..\resid-fp\siddefs.h"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\siddefs.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid-fp\version.cc
+SOURCE="..\..\resid-fp\version.cc"
 
 !IF  "$(CFG)" == "residfp - Win32 Release"
 
@@ -323,8 +281,8 @@ InputName=version
 InputPath=..\..\resid-fp\version.cc
 InputName=version
 
-"..\\..\\resid-fp\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid-fp\\$(InputName).cc ..\\..\\resid-fp\\$(InputName).cpp /Y
+"libs\residfp\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residfp\Debug/residfp.pch" /YX /Fo"libs\residfp\Debug/" /Fd"libs\residfp\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
@@ -333,11 +291,7 @@ InputName=version
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\version.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid-fp\voice.cc
+SOURCE="..\..\resid-fp\voice.cc"
 
 !IF  "$(CFG)" == "residfp - Win32 Release"
 
@@ -356,8 +310,8 @@ InputName=voice
 InputPath=..\..\resid-fp\voice.cc
 InputName=voice
 
-"..\\..\\resid-fp\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid-fp\\$(InputName).cc ..\\..\\resid-fp\\$(InputName).cpp /Y
+"libs\residfp\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residfp\Debug/residfp.pch" /YX /Fo"libs\residfp\Debug/" /Fd"libs\residfp\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
@@ -366,15 +320,11 @@ InputName=voice
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\voice.cpp
+SOURCE="..\..\resid-fp\voice.h"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\voice.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid-fp\wave.cc
+SOURCE="..\..\resid-fp\wave.cc"
 
 !IF  "$(CFG)" == "residfp - Win32 Release"
 
@@ -393,8 +343,8 @@ InputName=wave
 InputPath=..\..\resid-fp\wave.cc
 InputName=wave
 
-"..\\..\\resid-fp\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid-fp\\$(InputName).cc ..\\..\\resid-fp\\$(InputName).cpp /Y
+"libs\residfp\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residfp\Debug/residfp.pch" /YX /Fo"libs\residfp\Debug/" /Fd"libs\residfp\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
@@ -403,26 +353,13 @@ InputName=wave
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\wave.cpp
+SOURCE="..\..\resid-fp\wave.h"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\wave.h
-# End Source File
-# Begin Source File
+SOURCE="..\..\resid-fp\wave6581__ST.cc"
 
-SOURCE=..\..\resid-fp\wave6581__ST.cc
-
-!IF  "$(CFG)" == "resid - Win32 Release"
-
-# Begin Custom Build
-InputPath=..\..\resid-fp\wave6581__ST.cc
-InputName=wave6581__ST
-
-"..\\..\\resid-fp\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid-fp\\$(InputName).cc ..\\..\\resid-fp\\$(InputName).cpp /Y
-
-# End Custom Build
+!IF  "$(CFG)" == "residfp - Win32 Release"
 
 !ELSEIF  "$(CFG)" == "residfp - Win32 Debug"
 
@@ -430,8 +367,8 @@ InputName=wave6581__ST
 InputPath=..\..\resid-fp\wave6581__ST.cc
 InputName=wave6581__ST
 
-"..\\..\\resid-fp\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid-fp\\$(InputName).cc ..\\..\\resid-fp\\$(InputName).cpp /Y
+"libs\residfp\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residfp\Debug/residfp.pch" /YX /Fo"libs\residfp\Debug/" /Fd"libs\residfp\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
@@ -440,11 +377,7 @@ InputName=wave6581__ST
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\wave6581__ST.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid-fp\wave6581_P_T.cc
+SOURCE="..\..\resid-fp\wave6581_P_T.cc"
 
 !IF  "$(CFG)" == "residfp - Win32 Release"
 
@@ -463,8 +396,8 @@ InputName=wave6581_P_T
 InputPath=..\..\resid-fp\wave6581_P_T.cc
 InputName=wave6581_P_T
 
-"..\\..\\resid-fp\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid-fp\\$(InputName).cc ..\\..\\resid-fp\\$(InputName).cpp /Y
+"libs\residfp\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residfp\Debug/residfp.pch" /YX /Fo"libs\residfp\Debug/" /Fd"libs\residfp\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
@@ -473,11 +406,7 @@ InputName=wave6581_P_T
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\wave6581_P_T.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid-fp\wave6581_PS_.cc
+SOURCE="..\..\resid-fp\wave6581_PS_.cc"
 
 !IF  "$(CFG)" == "residfp - Win32 Release"
 
@@ -496,8 +425,8 @@ InputName=wave6581_PS_
 InputPath=..\..\resid-fp\wave6581_PS_.cc
 InputName=wave6581_PS_
 
-"..\\..\\resid-fp\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid-fp\\$(InputName).cc ..\\..\\resid-fp\\$(InputName).cpp /Y
+"libs\residfp\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residfp\Debug/residfp.pch" /YX /Fo"libs\residfp\Debug/" /Fd"libs\residfp\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
@@ -506,11 +435,7 @@ InputName=wave6581_PS_
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\wave6581_PS_.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid-fp\wave6581_PST.cc
+SOURCE="..\..\resid-fp\wave6581_PST.cc"
 
 !IF  "$(CFG)" == "residfp - Win32 Release"
 
@@ -529,8 +454,8 @@ InputName=wave6581_PST
 InputPath=..\..\resid-fp\wave6581_PST.cc
 InputName=wave6581_PST
 
-"..\\..\\resid-fp\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid-fp\\$(InputName).cc ..\\..\\resid-fp\\$(InputName).cpp /Y
+"libs\residfp\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residfp\Debug/residfp.pch" /YX /Fo"libs\residfp\Debug/" /Fd"libs\residfp\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
@@ -539,11 +464,7 @@ InputName=wave6581_PST
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\wave6581_PST.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid-fp\wave8580__ST.cc
+SOURCE="..\..\resid-fp\wave8580__ST.cc"
 
 !IF  "$(CFG)" == "residfp - Win32 Release"
 
@@ -562,8 +483,8 @@ InputName=wave8580__ST
 InputPath=..\..\resid-fp\wave8580__ST.cc
 InputName=wave8580__ST
 
-"..\\..\\resid-fp\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid-fp\\$(InputName).cc ..\\..\\resid-fp\\$(InputName).cpp /Y
+"libs\residfp\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residfp\Debug/residfp.pch" /YX /Fo"libs\residfp\Debug/" /Fd"libs\residfp\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
@@ -572,11 +493,7 @@ InputName=wave8580__ST
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\wave8580__ST.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid-fp\wave8580_P_T.cc
+SOURCE="..\..\resid-fp\wave8580_P_T.cc"
 
 !IF  "$(CFG)" == "residfp - Win32 Release"
 
@@ -595,8 +512,8 @@ InputName=wave8580_P_T
 InputPath=..\..\resid-fp\wave8580_P_T.cc
 InputName=wave8580_P_T
 
-"..\\..\\resid-fp\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid-fp\\$(InputName).cc ..\\..\\resid-fp\\$(InputName).cpp /Y
+"libs\residfp\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residfp\Debug/residfp.pch" /YX /Fo"libs\residfp\Debug/" /Fd"libs\residfp\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
@@ -605,11 +522,7 @@ InputName=wave8580_P_T
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\wave8580_P_T.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid-fp\wave8580_PS_.cc
+SOURCE="..\..\resid-fp\wave8580_PS_.cc"
 
 !IF  "$(CFG)" == "residfp - Win32 Release"
 
@@ -628,8 +541,8 @@ InputName=wave8580_PS_
 InputPath=..\..\resid-fp\wave8580_PS_.cc
 InputName=wave8580_PS_
 
-"..\\..\\resid-fp\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid-fp\\$(InputName).cc ..\\..\\resid-fp\\$(InputName).cpp /Y
+"libs\residfp\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residfp\Debug/residfp.pch" /YX /Fo"libs\residfp\Debug/" /Fd"libs\residfp\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
@@ -638,11 +551,7 @@ InputName=wave8580_PS_
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-fp\wave8580_PS_.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid-fp\wave8580_PST.cc
+SOURCE="..\..\resid-fp\wave8580_PST.cc"
 
 !IF  "$(CFG)" == "residfp - Win32 Release"
 
@@ -661,17 +570,13 @@ InputName=wave8580_PST
 InputPath=..\..\resid-fp\wave8580_PST.cc
 InputName=wave8580_PST
 
-"..\\..\\resid-fp\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\\..\\resid-fp\\$(InputName).cc ..\\..\\resid-fp\\$(InputName).cpp /Y
+"libs\residfp\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residfp\Debug/residfp.pch" /YX /Fo"libs\residfp\Debug/" /Fd"libs\residfp\Debug/" /FD /TP /c $(InputPath)
 
 # End Custom Build
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\resid-fp\wave8580_PST.cpp
 # End Source File
 # End Target
 # End Project
