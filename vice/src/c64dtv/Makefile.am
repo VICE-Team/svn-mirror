@@ -1,3 +1,5 @@
+AM_CFLAGS=--param inline-unit-growth=60
+
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
