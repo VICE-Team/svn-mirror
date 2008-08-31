@@ -94,11 +94,11 @@ static int have_blitter_bug;
 
 void c64dtvblitter_init(void)
 {
-  if(c64dtvblitter_log == LOG_ERR)
-    c64dtvblitter_log = log_open("C64DTVBLITTER");
+    if(c64dtvblitter_log == LOG_ERR)
+        c64dtvblitter_log = log_open("C64DTVBLITTER");
 
-  /* init Blitter IRQ */
-  c64dtv_blitter_irq_init();
+    /* init Blitter IRQ */
+    c64dtv_blitter_irq_init();
 }
 
 
@@ -108,34 +108,34 @@ void c64dtvblitter_shutdown(void)
 
 void c64dtvblitter_reset(void)
 {
-  int i;
-  if(blitter_log_enabled) log_message(c64dtvblitter_log, "reset");
-  /* TODO move register file initialization somewhere else? */
-  for (i=0;i<0x20;++i) c64dtvmem_blitter[i] = 0;
+    int i;
+    if(blitter_log_enabled) log_message(c64dtvblitter_log, "reset");
+    /* TODO move register file initialization somewhere else? */
+    for (i=0;i<0x20;++i) c64dtvmem_blitter[i] = 0;
 
-  c64dtvmem_blitter[0x07] = 0x10;
-  c64dtvmem_blitter[0x0f] = 0x10;
-  c64dtvmem_blitter[0x17] = 0x10;
+    c64dtvmem_blitter[0x07] = 0x10;
+    c64dtvmem_blitter[0x0f] = 0x10;
+    c64dtvmem_blitter[0x17] = 0x10;
 
-  blit_sourceA_off = 0;
-  blit_sourceB_off = 0;
-  blit_dest_off = 0;
-  blitter_busy = 0;
-  blitter_irq = 0;
-  blitter_on_irq = 0;
-  blitter_active = 0;
+    blit_sourceA_off = 0;
+    blit_sourceB_off = 0;
+    blit_dest_off = 0;
+    blitter_busy = 0;
+    blitter_irq = 0;
+    blitter_on_irq = 0;
+    blitter_active = 0;
 
-  blitter_count = 0;
-  blitter_state = BLITTER_IDLE;
-  srca_data_offs = -1;
-  srcb_data_offs = -1;
-  srca_fetched = 0;
-  sourceA = 0;
-  lastA = 0;
-  sourceB = 0;
-  sourceA_line_off = 0;
-  sourceB_line_off = 0;
-  dest_line_off = 0;
+    blitter_count = 0;
+    blitter_state = BLITTER_IDLE;
+    srca_data_offs = -1;
+    srcb_data_offs = -1;
+    srca_fetched = 0;
+    sourceA = 0;
+    lastA = 0;
+    sourceB = 0;
+    sourceA_line_off = 0;
+    sourceB_line_off = 0;
+    dest_line_off = 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -151,8 +151,8 @@ static int do_blitter_read_a(void)
     if (offs != srca_data_offs) {
         memcpy(srca_data, &mem_ram[offs], 4);
         srca_data_offs = offs;
-	srca_fetched = 1;
-	was_read = 1;
+        srca_fetched = 1;
+        was_read = 1;
     }
     sourceA = srca_data[loffs];
     return was_read;
@@ -168,13 +168,13 @@ static int do_blitter_read_b(void)
 
     if (force_sourceB_zero) {
         sourceB = 0;
-	return 0;
+        return 0;
     }
 
     if (offs != srcb_data_offs) {
         memcpy(srcb_data, &mem_ram[offs], 4);
         srcb_data_offs = offs;
-	was_read = 1;
+        was_read = 1;
     }
     sourceB = srcb_data[loffs];
     return was_read;
@@ -195,31 +195,31 @@ static int do_blitter_write(void)
     if(!(write_if_sourceA_zero || write_if_sourceA_nonzero)) {
         write_if_sourceA_zero = write_if_sourceA_nonzero = 1;
     }
-	
+        
     if ( (write_if_sourceA_zero    && sourceA == 0) ||
-	 (write_if_sourceA_nonzero && sourceA != 0) ||
+         (write_if_sourceA_nonzero && sourceA != 0) ||
          (have_blitter_bug && srca_fetched) ) {
         BYTE dest;
         BYTE lastA_tmp = sourceA;
-	sourceA >>= sourceA_right_shift;
-	sourceA |= lastA << (8 - sourceA_right_shift);
-	lastA = lastA_tmp;
+        sourceA >>= sourceA_right_shift;
+        sourceA |= lastA << (8 - sourceA_right_shift);
+        lastA = lastA_tmp;
 
-	dest = 0;
-	switch(mintermALU) {
-	case 0: dest = sourceA & sourceB; break;
-	case 1: dest = ~(sourceA & sourceB); break;
-	case 2: dest = ~(sourceA | sourceB); break;
-	case 3: dest = sourceA | sourceB; break;
-	case 4: dest = sourceA ^ sourceB; break;
-	case 5: dest = ~(sourceA ^ sourceB); break;
-	case 6: dest = sourceA + sourceB; break;
-	case 7: dest = sourceA - sourceB; break;
-	default:
-	    break;
-	}
-	mem_ram[offs] = dest;
-	was_write = 1;
+        dest = 0;
+        switch(mintermALU) {
+        case 0: dest = sourceA & sourceB; break;
+        case 1: dest = ~(sourceA & sourceB); break;
+        case 2: dest = ~(sourceA | sourceB); break;
+        case 3: dest = sourceA | sourceB; break;
+        case 4: dest = sourceA ^ sourceB; break;
+        case 5: dest = ~(sourceA ^ sourceB); break;
+        case 6: dest = sourceA + sourceB; break;
+        case 7: dest = sourceA - sourceB; break;
+        default:
+            break;
+        }
+        mem_ram[offs] = dest;
+        was_write = 1;
     }
     if(blitter_log_enabled) log_message(c64dtvblitter_log, "Blitter: %s %x.%x/%x.%x to %x.%x, %d to go, minterm %d", was_write ? "transferred" : "skipped", blit_sourceA_off >> 4, blit_sourceA_off & 15, blit_sourceB_off >> 4, blit_sourceB_off & 15, blit_dest_off >> 4, blit_dest_off & 15, blitter_count - 1, mintermALU);
     return was_write;
@@ -242,25 +242,25 @@ static void update_counters(void)
 
     if(sourceA_line_off >= sourceA_line_length) {
         lastA = 0;
-	sourceA_line_off = 0;
-	blit_sourceA_off = ((blit_sourceA_off >> 4) + sourceA_modulo * sourceA_direction) << 4;
+        sourceA_line_off = 0;
+        blit_sourceA_off = ((blit_sourceA_off >> 4) + sourceA_modulo * sourceA_direction) << 4;
     } else {
         sourceA_line_off++;
-	blit_sourceA_off += sourceA_step * sourceA_direction;
+        blit_sourceA_off += sourceA_step * sourceA_direction;
     }
     if(sourceB_line_off >= sourceB_line_length) {
         sourceB_line_off = 0;
-	blit_sourceB_off = ((blit_sourceB_off >> 4) + sourceB_modulo * sourceB_direction) << 4;
+        blit_sourceB_off = ((blit_sourceB_off >> 4) + sourceB_modulo * sourceB_direction) << 4;
     } else {
         sourceB_line_off++;
-	blit_sourceB_off += sourceB_step * sourceB_direction;
+        blit_sourceB_off += sourceB_step * sourceB_direction;
     }
     if(dest_line_off >= dest_line_length) {
         dest_line_off = 0;
-	blit_dest_off = ((blit_dest_off >> 4) + dest_modulo * dest_direction) << 4;
+        blit_dest_off = ((blit_dest_off >> 4) + dest_modulo * dest_direction) << 4;
     } else {
         dest_line_off++;
-	blit_dest_off += dest_step * dest_direction;
+        blit_dest_off += dest_step * dest_direction;
     }
 }
 
@@ -271,43 +271,43 @@ static void perform_blitter_cycle(void)
     int subcycle = 0;
     while (subcycle < SUBCYCLES) {
         switch (blitter_state) {
-	case BLITTER_IDLE:
-	    subcycle += SUBCYCLES;
-	    break;
-	case BLITTER_READ_A:
-	    if (blitter_count == 0) {
-	        blitter_state = BLITTER_IDLE;
-		break;
-	    }
+        case BLITTER_IDLE:
+            subcycle += SUBCYCLES;
+            break;
+        case BLITTER_READ_A:
+            if (blitter_count == 0) {
+                blitter_state = BLITTER_IDLE;
+                break;
+            }
 
-	    if ( do_blitter_read_a() )
-	        subcycle += SUBCYCLES;
-	    blitter_state=BLITTER_READ_B;
-	    break;
-	case BLITTER_READ_B:
-	    if ( do_blitter_read_b() )
-	        subcycle += SUBCYCLES;
-	    blitter_state=BLITTER_WRITE;
-	    break;
-	case BLITTER_WRITE:
-	    if ( do_blitter_write() )
-	        subcycle += SUBCYCLES;
-	    else
-	        subcycle += 1;
+            if ( do_blitter_read_a() )
+                subcycle += SUBCYCLES;
+            blitter_state=BLITTER_READ_B;
+            break;
+        case BLITTER_READ_B:
+            if ( do_blitter_read_b() )
+                subcycle += SUBCYCLES;
+            blitter_state=BLITTER_WRITE;
+            break;
+        case BLITTER_WRITE:
+            if ( do_blitter_write() )
+                subcycle += SUBCYCLES;
+            else
+                subcycle += 1;
 
-	    update_counters();
-	    blitter_count--;
+            update_counters();
+            blitter_count--;
 
-	    if (blitter_count==0)
-	        blitter_state=BLITTER_IDLE;
-	    else
-	        blitter_state=BLITTER_READ_A;
-	    break;
-	default:
+            if (blitter_count==0)
+                blitter_state=BLITTER_IDLE;
+            else
+                blitter_state=BLITTER_READ_A;
+            break;
+        default:
             log_message(c64dtvblitter_log, "invalid state in perform_blitter_cycle()");
             blitter_state=BLITTER_IDLE;
-	    break;
-	}
+            break;
+        }
     }
 }
 
@@ -323,62 +323,60 @@ struct alarm_s *c64dtv_blitter_irq_alarm;
 
 void c64dtvblitter_trigger_blitter(void)
 {
-  if(!blitter_active)
-  {
-    int sourceA_continue = GET_REG8(0x1f) & 0x02;
-    int sourceB_continue = GET_REG8(0x1f) & 0x04;
-    int dest_continue = GET_REG8(0x1f) & 0x08;
+    if(!blitter_active) {
+        int sourceA_continue = GET_REG8(0x1f) & 0x02;
+        int sourceB_continue = GET_REG8(0x1f) & 0x04;
+        int dest_continue = GET_REG8(0x1f) & 0x08;
 
-    /* last four bits of offsets are fractional */
-    if(!sourceA_continue) {
-        blit_sourceA_off = GET_REG24(0x00) & 0x3fffff;
-        blit_sourceA_off <<= 4;
-    }
-    if(!sourceB_continue) {
-        blit_sourceB_off = GET_REG24(0x08) & 0x3fffff;
-        blit_sourceB_off <<= 4;
-    }
-    if(!dest_continue) {
-        blit_dest_off = GET_REG24(0x10) & 0x3fffff;
-        blit_dest_off <<= 4;
-    }
+        /* last four bits of offsets are fractional */
+        if(!sourceA_continue) {
+            blit_sourceA_off = GET_REG24(0x00) & 0x3fffff;
+            blit_sourceA_off <<= 4;
+        }
+        if(!sourceB_continue) {
+            blit_sourceB_off = GET_REG24(0x08) & 0x3fffff;
+            blit_sourceB_off <<= 4;
+        }
+        if(!dest_continue) {
+            blit_dest_off = GET_REG24(0x10) & 0x3fffff;
+            blit_dest_off <<= 4;
+        }
 
-    if(blitter_log_enabled && (sourceA_continue || sourceB_continue || dest_continue))
-    {
-        log_message(c64dtvblitter_log, "sourceA cont %s, sourceB cont %s, dest cont %s", sourceA_continue ? "on" : "off", sourceB_continue ? "on" : "off", dest_continue ? "on" : "off");
-    }
+        if(blitter_log_enabled && (sourceA_continue || sourceB_continue || dest_continue)) {
+            log_message(c64dtvblitter_log, "sourceA cont %s, sourceB cont %s, dest cont %s", sourceA_continue ? "on" : "off", sourceB_continue ? "on" : "off", dest_continue ? "on" : "off");
+        }
 
-    /* total number of bytes to transfer */
-    blitter_count = GET_REG16(0x18);
+        /* total number of bytes to transfer */
+        blitter_count = GET_REG16(0x18);
 
-    /* initialize state variables */
-    sourceA_line_off = 0;
-    sourceB_line_off = 0;
-    dest_line_off = 0;
-    lastA = 0;
-    srca_data_offs = -1;
-    srcb_data_offs = -1;
+        /* initialize state variables */
+        sourceA_line_off = 0;
+        sourceB_line_off = 0;
+        dest_line_off = 0;
+        lastA = 0;
+        srca_data_offs = -1;
+        srcb_data_offs = -1;
 
-    blitter_state = BLITTER_READ_A;
+        blitter_state = BLITTER_READ_A;
 
 #ifndef CYCLE_EXACT_BLITTER
-    int blitter_time = 0;
+        int blitter_time = 0;
 
-    do {
-        perform_blitter_cycle();
-        blitter_time++;
-    } while (blitter_state != BLITTER_IDLE);
+        do {
+            perform_blitter_cycle();
+            blitter_time++;
+        } while (blitter_state != BLITTER_IDLE);
 
-    alarm_set(c64dtv_blitter_irq_alarm, maincpu_clk+blitter_time);
+        alarm_set(c64dtv_blitter_irq_alarm, maincpu_clk+blitter_time);
 #endif
 
-    if (GET_REG8(0x1a) & 0x80) {
-        blitter_irq = 1;
-    } else blitter_irq = 0;
+        if (GET_REG8(0x1a) & 0x80) {
+            blitter_irq = 1;
+        } else blitter_irq = 0;
 
-    blitter_busy = 1;
-    blitter_active = 1;
-  }
+        blitter_busy = 1;
+        blitter_active = 1;
+    }
 }
 
 void c64dtv_blitter_irq_alarm_handler(CLOCK offset, void *data)
@@ -409,35 +407,35 @@ void c64dtv_blitter_irq_init(void)
 
 void c64dtv_blitter_store(WORD addr, BYTE value)
 {
-  /* Store first, then check whether DMA access has been requested,
-     perform if necessary. */
-  c64dtvmem_blitter[addr] = value;
+    /* Store first, then check whether DMA access has been requested,
+       perform if necessary. */
+    c64dtvmem_blitter[addr] = value;
 
-  /* Blitter code */
-  blitter_on_irq = GET_REG8(0x1a)&0x70;
+    /* Blitter code */
+    blitter_on_irq = GET_REG8(0x1a)&0x70;
   
-  /* Clear Blitter IRQ */
-  if((GET_REG8(0x1f)&0x01) && (blitter_busy==2)){
-     if(blitter_log_enabled) log_message(c64dtvblitter_log, "Clear IRQ (%i)", blitter_busy);
-     blitter_busy &= 0xfd;
-     maincpu_set_irq(c64dtv_blitter_int_num, 0);
-     blitter_irq = 0;
-     /* reset clear IRQ strobe bit */
-     c64dtvmem_blitter[0x1f] &= 0xfe;
-  }
+    /* Clear Blitter IRQ */
+    if((GET_REG8(0x1f)&0x01) && (blitter_busy==2)){
+        if(blitter_log_enabled) log_message(c64dtvblitter_log, "Clear IRQ (%i)", blitter_busy);
+        blitter_busy &= 0xfd;
+        maincpu_set_irq(c64dtv_blitter_int_num, 0);
+        blitter_irq = 0;
+        /* reset clear IRQ strobe bit */
+        c64dtvmem_blitter[0x1f] &= 0xfe;
+    }
   
-  if(blitter_on_irq && (blitter_busy==0)) {
-      blitter_busy = 1;
-      if(blitter_log_enabled) log_message(c64dtvblitter_log, "Scheduled Blitter (%02x)", blitter_on_irq);
-      return;
-  }
+    if(blitter_on_irq && (blitter_busy==0)) {
+        blitter_busy = 1;
+        if(blitter_log_enabled) log_message(c64dtvblitter_log, "Scheduled Blitter (%02x)", blitter_on_irq);
+        return;
+    }
 
-  /* Force Blitter start */
-  if(GET_REG8(0x1a)&0x01) {
-      c64dtvblitter_trigger_blitter();
-     /* reset force start strobe bit */
-     c64dtvmem_blitter[0x1a] &= 0xfe;
-  }
+    /* Force Blitter start */
+    if(GET_REG8(0x1a)&0x01) {
+        c64dtvblitter_trigger_blitter();
+        /* reset force start strobe bit */
+        c64dtvmem_blitter[0x1a] &= 0xfe;
+    }
 }
 
 
@@ -463,30 +461,30 @@ int c64dtvblitter_perform_blitter(void)
 
 BYTE REGPARM1 c64dtv_dmablit_read(WORD addr)
 {
-  if (!vicii_extended_regs())
-    return vicii_read(addr);
+    if (!vicii_extended_regs())
+        return vicii_read(addr);
 
-  if((addr&0xff)==0x1f)
-    return dma_busy;
-  if((addr&0xff)==0x3f)
-    return blitter_busy;
-  /* the default return value is 0x00 too but I have seen some strangeness
-     here.  I've seen something that looks like DMAed data. - tlr */
-  return 0x00;
+    if((addr&0xff)==0x1f)
+        return dma_busy;
+    if((addr&0xff)==0x3f)
+        return blitter_busy;
+    /* the default return value is 0x00 too but I have seen some strangeness
+       here.  I've seen something that looks like DMAed data. - tlr */
+    return 0x00;
 }
 
 
 void REGPARM2 c64dtv_dmablit_store(WORD addr, BYTE value)
 {
-  if (!vicii_extended_regs()) {
-      vicii_store(addr, value);
-      return;
-  }
+    if (!vicii_extended_regs()) {
+        vicii_store(addr, value);
+        return;
+    }
 
-  addr &= 0x3f;
+    addr &= 0x3f;
   
-  if (addr & 0x20) c64dtv_blitter_store((WORD)(addr & 0x1f), value);
-  else c64dtv_dma_store(addr, value);
+    if (addr & 0x20) c64dtv_blitter_store((WORD)(addr & 0x1f), value);
+    else c64dtv_dma_store(addr, value);
 }
 
 
