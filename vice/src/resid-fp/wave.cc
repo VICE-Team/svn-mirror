@@ -144,8 +144,8 @@ void WaveformGeneratorFP::reset()
   shift_register = 0x7ffffc;
   freq = 0;
   pw = 0;
-  pw_acc_scale = 0xfff;
-
+  pw_acc_scale = 0;
+  test = 0;
   writeCONTROL_REG(0);
   msb_rising = false;
 }

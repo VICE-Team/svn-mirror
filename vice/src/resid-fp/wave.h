@@ -125,8 +125,10 @@ void WaveformGeneratorFP::clock()
   /* no digital operation if test bit is set. Only emulate analog fade. */
   if (test) {
     if (noise_overwrite_delay != 0) {
-        if (-- noise_overwrite_delay == 0)
+        if (-- noise_overwrite_delay == 0) {
             shift_register |= 0x7ffffc;
+            noise_output_cached = outputN___();
+        }
     }
     return;
   }
@@ -157,7 +159,7 @@ void WaveformGeneratorFP::clock()
   // are selected simultaneously
   if (waveform > 8) {
     shift_register &= 0x7fffff^(1<<22)^(1<<20)^(1<<16)^(1<<13)^(1<<11)^(1<<7)^(1<<4)^(1<<2);
-    noise_output_cached = 0;
+    noise_output_cached = outputN___();
   }
 }
 
