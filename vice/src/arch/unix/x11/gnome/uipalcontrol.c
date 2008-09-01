@@ -78,20 +78,16 @@ static void pal_ctrl_reset (GtkWidget *w, gpointer data)
     unsigned int i;
     int tmp;
 
+    /* FIXME: temporary solution, gnome/gtk people need to fix this
+       situation */
+    if (machine_class == VICE_MACHINE_PET)
+	return;
+    
     for (i = 0; i < sizeof(ctrls)/sizeof(ctrls[0]); i++)
     {
-        /* FIXME: temporary solution, gnome/gtk people need to fix this
-           situation */
-        if (machine_class != VICE_MACHINE_PET)
-            resources_get_default_value(ctrls[i].res, (void *)&tmp);
-
+	resources_get_default_value(ctrls[i].res, (void *)&tmp);
+	resources_set_int(ctrls[i].res, tmp);
         tmp = tmp * ctrls[i].scale;
-
-        /* FIXME: temporary solution, gnome/gtk people need to fix this
-           situation */
-        if (machine_class != VICE_MACHINE_PET)
-            resources_set_int(ctrls[i].res, tmp);
-
         if (ctrls[i].adj) {
             gtk_adjustment_set_value(GTK_ADJUSTMENT(ctrls[i].adj),
                                      (gfloat) tmp);
