@@ -1,4 +1,4 @@
-AM_CFLAGS=--param inline-unit-growth=60
+AM_CFLAGS=@INLINE_UNIT_GROWTH@
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \

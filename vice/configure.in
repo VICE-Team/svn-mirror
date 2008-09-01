@@ -619,6 +619,21 @@ else
   AM_CONDITIONAL(PO_SUBDIR_USED, false)
 fi
 
+dnl Check if --param inline-unit-growth=60 can be used.
+old_CFLAGS=$CFLAGS
+CFLAGS="$CFLAGS --param inline-unit-growth=60"
+AC_MSG_CHECKING([if the compiler accepts --param inline-unit-growth=60])
+AC_TRY_COMPILE([],
+               [int test;],
+               [ AC_MSG_RESULT(yes)
+                 INLINE_UNIT_GROWTH="--param inline-unit-growth=60"
+                ],
+               [ AC_MSG_RESULT(no)
+                INLINE_UNIT_GROWTH=""
+                ])
+CFLAGS=$old_CFLAGS
+AC_SUBST(INLINE_UNIT_GROWTH)
+
 dnl Check and setup aRts compilation.
 if test x"$with_arts" = "xyes"; then
 	AC_CHECK_PROGS(artsc_config, artsc-config, no)
