@@ -268,7 +268,7 @@ static int pause_pending;
 static ui_menu_translation_table_t *menu_translation_table;
 static ui_popup_translation_table_t *popup_translation_table;
 
-int ui_register_translation_tables(ui_menu_translation_table_t *menu_table, ui_popup_translation_table_t *popup_table)
+void ui_register_translation_tables(ui_menu_translation_table_t *menu_table, ui_popup_translation_table_t *popup_table)
 {
     menu_translation_table = menu_table;
     popup_translation_table = popup_table;
