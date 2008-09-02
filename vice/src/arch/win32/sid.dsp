@@ -106,6 +106,26 @@ InputName=resid
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\sid\resid-fp.cc
+
+!IF  "$(CFG)" == "sid - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "sid - Win32 Debug"
+
+# Begin Custom Build
+InputPath=..\..\sid\resid-fp.cc
+InputName=resid-fp
+
+"libs\sid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\resid-fp" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /Fp"libs\sid\Debug/sid.pch" /YX /Fo"libs\sid\Debug/" /Fd"libs\sid\Debug/" /FD /TP /c $(InputPath)
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\sid\sid-cmdline-options.c"
 # End Source File
 # Begin Source File

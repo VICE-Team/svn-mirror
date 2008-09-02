@@ -20,7 +20,7 @@
 #ifndef __POT_H__
 #define __POT_H__
 
-#include "siddefs.h"
+#include "siddefs-fp.h"
 
 class PotentiometerFP
 {

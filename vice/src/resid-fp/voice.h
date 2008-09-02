@@ -20,7 +20,7 @@
 #ifndef __VOICE_H__
 #define __VOICE_H__
 
-#include "siddefs.h"
+#include "siddefs-fp.h"
 #include "wave.h"
 #include "envelope.h"
 

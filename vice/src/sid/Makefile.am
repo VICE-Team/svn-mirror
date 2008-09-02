@@ -37,7 +37,7 @@ libsid_a_SOURCES = \
 
 EXTRA_libsid_a_SOURCES = \
 	resid.cc \
-	resid.h
+	resid.h \
 	resid-fp.cc \
 	resid-fp.h
 

@@ -20,7 +20,7 @@
 #ifndef __ENVELOPE_H__
 #define __ENVELOPE_H__
 
-#include "siddefs.h"
+#include "siddefs-fp.h"
 
 // ----------------------------------------------------------------------------
 // A 15 bit counter is used to implement the envelope rates, in effect

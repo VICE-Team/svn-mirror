@@ -115,4 +115,4 @@ AC_SUBST(RESID_USE_SSE)
 
 dnl Checks for library functions.
 
-AC_OUTPUT(Makefile siddefs.h)
+AC_OUTPUT(Makefile siddefs-fp.h)

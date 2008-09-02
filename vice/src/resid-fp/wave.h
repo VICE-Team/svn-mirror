@@ -20,7 +20,7 @@
 #ifndef __WAVE_H__
 #define __WAVE_H__
 
-#include "siddefs.h"
+#include "siddefs-fp.h"
 
 // ----------------------------------------------------------------------------
 // A 24 bit accumulator is the basis for waveform generation. FREQ is added to

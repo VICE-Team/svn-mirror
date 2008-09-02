@@ -20,7 +20,7 @@
 #ifndef __SID_H__
 #define __SID_H__
 
-#include "siddefs.h"
+#include "siddefs-fp.h"
 #include "voice.h"
 #include "filter.h"
 #include "extfilt.h"
