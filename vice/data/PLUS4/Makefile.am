@@ -1,26 +1,37 @@
 plus4dir = $(VICEDIR)/PLUS4
 
-plus4_DATA = \
+roms = \
 	3plus1hi \
 	3plus1lo \
-	amiga_sym.vkm \
-	amiga_pos.vkm \
 	basic \
-	beos_sym.vkm \
-	beos_pos.vkm \
+	kernal
+
+romsets = \
+	default.vrs
+
+palettes = \
 	default.vpl \
-	default.vrs \
-	dos_pos.vkm \
-	dos_sym.vkm \
-	kernal \
-	os2.vkm \
-	ROdflt.vkm \
-	vice.vpl \
-	win_shortcuts.vsc \
-	win_sym.vkm \
-	win_pos.vkm \
+	vice.vpl
+
+x11_keymaps = \
 	x11_pos.vkm \
 	x11_sym.vkm
 
-EXTRA_DIST = $(plus4_DATA)
+extra_keymaps = \
+	amiga_sym.vkm \
+	amiga_pos.vkm \
+	beos_sym.vkm \
+	beos_pos.vkm \
+	dos_pos.vkm \
+	dos_sym.vkm \
+	os2.vkm \
+	ROdflt.vkm \
+	win_sym.vkm \
+	win_pos.vkm
 
+win32_shortcuts = \
+	win_shortcuts.vsc
+
+plus4_DATA = $(roms) $(romsets) $(palettes) $(x11_keymaps)
+
+EXTRA_DIST = $(plus4_DATA) $(extra_keymaps) $(win32_shortcuts)

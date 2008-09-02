@@ -2011,7 +2011,7 @@ void uimon_init( void )
         wc.hIcon         = LoadIcon(winmain_instance, MAKEINTRESOURCE(IDI_ICON1));
         wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
         wc.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(0xc0, 0xc0, 0xc0));
-        wc.lpszMenuName  = MAKEINTRESOURCE(translate_res(IDR_MENUMONITOR));
+        wc.lpszMenuName  = MAKEINTRESOURCE(IDR_MENUMONITOR);
         wc.lpszClassName = MONITOR_CLASS;
         wc.hIconSm       = NULL;
 
@@ -2177,6 +2177,8 @@ console_t *uimon_window_open( void )
     }
 
     EnableCommands(GetMenu(hwndMonitor),hwndToolbar);
+
+    ui_translate_monitor_menu(GetMenu(hwndMonitor));
 
     SetActiveWindow( hwndMonitor );
 

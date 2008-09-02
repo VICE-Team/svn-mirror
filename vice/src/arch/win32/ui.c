@@ -221,12 +221,59 @@ static const struct {
     { NULL, 0}
 };
 
+ui_menu_translation_table_t monitor_trans_popup_table[] = {
+    { 1, 0 },
+    { 1, IDS_MP_FILE },
+    { 1, IDS_MP_DEBUG },
+    { 1, IDS_MP_VIEW },
+    { 1, IDS_MP_WINDOW },
+    { 0, 0 }
+};
+
+ui_popup_translation_table_t monitor_trans_item_table[] = {
+    { IDM_MON_OPEN, IDS_MI_MON_OPEN },
+    { IDM_MON_SAVE, IDS_MI_MON_SAVE },
+    { IDM_MON_PRINT, IDS_MI_MON_PRINT },
+    { IDM_EXIT, IDS_MI_MON_EXIT },
+    { IDM_MON_STOP_DEBUG, IDS_MI_MON_STOP_DEBUG },
+    { IDM_MON_STOP_EXEC, IDS_MI_MON_STOP_EXEC },
+    { IDM_MON_STEP_INTO, IDS_MI_MON_STEP_INTO },
+    { IDM_MON_STEP_OVER, IDS_MI_MON_STEP_OVER },
+    { IDM_MON_SKIP_RETURN, IDS_MI_MON_SKIP_RETURN },
+    { IDM_MON_GOTO_CURSOR, IDS_MI_MON_GOTO_CURSOR },
+    { IDM_MON_EVAL, IDS_MI_MON_EVAL },
+    { IDM_MON_CURRENT, IDS_MI_MON_CURRENT },
+    { IDM_MON_WND_EVAL, IDS_MI_MON_WND_EVAL },
+    { IDM_MON_WND_REG, IDS_MI_MON_WND_REG },
+    { IDM_MON_WND_MEM, IDS_MI_MON_WND_MEM },
+    { IDM_MON_WND_DIS, IDS_MI_MON_WND_DIS },
+    { IDM_MON_WND_CONSOLE, IDS_MI_MON_WND_CONSOLE },
+    { IDM_MON_COMPUTER, IDS_MI_MON_COMPUTER },
+    { IDM_MON_DRIVE8, IDS_MI_MON_DRIVE8 },
+    { IDM_MON_DRIVE9, IDS_MI_MON_DRIVE9 },
+    { IDM_MON_CASCADE, IDS_MI_MON_CASCADE },
+    { IDM_MON_TILE_VERT, IDS_MI_MON_TILE_VERT },
+    { IDM_MON_TILE_HORIZ, IDS_MI_MON_TILE_HORIZ },
+    { IDM_MON_ARRANGE_ICONS, IDS_MI_MON_ARRANGE_ICONS },
+    { 0, 0 }
+};
+
 /* ------------------------------------------------------------------------ */
 static HWND main_hwnd;
 
 static int emu_menu;
 
 static int pause_pending;
+
+static ui_menu_translation_table_t *menu_translation_table;
+static ui_popup_translation_table_t *popup_translation_table;
+
+int ui_register_translation_tables(ui_menu_translation_table_t *menu_table, ui_popup_translation_table_t *popup_table)
+{
+    menu_translation_table = menu_table;
+    popup_translation_table = popup_table;
+    ui_update_menu();
+}
 
 /* Initialize the UI before setting all the resource values.  */
 int ui_init(int *argc, char **argv)
@@ -353,6 +400,81 @@ void ui_exit(void)
     uilib_shutdown();
 }
 
+static void ui_translate_menu_popups(HMENU menu, ui_popup_translation_table_t *trans_table)
+{
+    int pos1 = -1;
+    int pos2 = -1;
+    int pos3 = -1;
+
+    HMENU menu1 = NULL;
+    HMENU menu2 = NULL;
+    HMENU menu3 = NULL;
+
+    int i = 0;
+
+    if (trans_table == NULL)
+        return;
+
+    while (trans_table[i].level != 0)
+    {
+        switch (trans_table[i].level)
+        {
+            case 1:
+                menu1 = NULL;
+                while (menu1 == NULL)
+                {
+                    pos1++;
+                    menu1 = GetSubMenu(menu, pos1);
+                }
+                if (trans_table[i].ids != 0)
+                    ModifyMenu(menu, (UINT)pos1, MF_BYPOSITION | MF_STRING | MF_POPUP, (UINT)menu1, translate_text(trans_table[i].ids));
+                pos2 = -1;
+                pos3 = -1;
+                break;
+            case 2:
+                menu2 = NULL;
+                while (menu2 == NULL)
+                {
+                    pos2++;
+                    menu2 = GetSubMenu(menu1, pos2);
+                }
+                ModifyMenu(menu1, (UINT)pos2, MF_BYPOSITION | MF_STRING | MF_POPUP, (UINT)menu2, translate_text(trans_table[i].ids));
+                pos3 = -1;
+                break;
+            case 3:
+                menu3 = NULL;
+                while (menu3 == NULL)
+                {
+                    pos3++;
+                    menu3 = GetSubMenu(menu2, pos3);
+                }
+                ModifyMenu(menu2, (UINT)pos3, MF_BYPOSITION | MF_STRING | MF_POPUP, (UINT)menu3, translate_text(trans_table[i].ids));
+                break;
+        }
+        i++;
+    }
+}
+
+static void ui_translate_menu_items(HMENU menu, ui_menu_translation_table_t *trans_table)
+{
+    int i = 0;
+
+    if (trans_table == NULL)
+        return;
+
+    while (trans_table[i].idm != 0)
+    {
+        ModifyMenu(menu, trans_table[i].idm, MF_BYCOMMAND | MF_STRING, trans_table[i].idm, translate_text(trans_table[i].ids));
+        i++;
+    }
+}
+
+void ui_translate_monitor_menu(HMENU menu)
+{
+  ui_translate_menu_popups(menu, (ui_popup_translation_table_t *)monitor_trans_popup_table);
+  ui_translate_menu_items(menu, (ui_menu_translation_table_t *)monitor_trans_item_table);
+}
+
 /*  Create a Window for the emulation.  */
 HWND ui_open_canvas_window(const char *title, unsigned int width,
                            unsigned int height)
@@ -391,8 +513,10 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
 
     ui_resize_canvas_window(hwnd, width, height);
 
-    menu=LoadMenu(winmain_instance, MAKEINTRESOURCE(translate_res(emu_menu)));
+    menu=LoadMenu(winmain_instance, MAKEINTRESOURCE(emu_menu));
     SetMenu(hwnd,menu);
+    ui_translate_menu_items(menu, menu_translation_table);
+    ui_translate_menu_popups(menu, popup_translation_table);
     uikeyboard_menu_shortcuts(menu);
     ShowWindow(hwnd, winmain_cmd_show);
     return hwnd;
@@ -404,7 +528,13 @@ void ui_update_menu()
 HMENU menu;
 int   i;
 
-    menu = LoadMenu(winmain_instance, MAKEINTRESOURCE(translate_res(emu_menu)));
+    menu = LoadMenu(winmain_instance, MAKEINTRESOURCE(emu_menu));
+    if (menu_translation_table != NULL)
+    {
+        ui_translate_menu_items(menu, menu_translation_table);
+        ui_translate_menu_popups(menu, popup_translation_table);
+        uikeyboard_menu_shortcuts(menu);
+    }
     for (i = 0; i < number_of_windows; i++) {
         SetMenu(window_handles[i], menu);
     }

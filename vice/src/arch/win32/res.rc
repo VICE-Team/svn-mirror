@@ -85,383 +85,44 @@ IDR_MENUMONITOR MENU DISCARDABLE
 BEGIN
     POPUP "&File"
     BEGIN
-        MENUITEM "&Open", IDM_MON_OPEN
-        MENUITEM "&Save", IDM_MON_SAVE
-        MENUITEM "&Print", IDM_MON_PRINT
+        MENUITEM "", IDM_MON_OPEN
+        MENUITEM "", IDM_MON_SAVE
+        MENUITEM "", IDM_MON_PRINT
         MENUITEM SEPARATOR
-        MENUITEM "E&xit\tAlt+F4", IDM_EXIT
+        MENUITEM "", IDM_EXIT
     END
     POPUP "&Debug"
     BEGIN
-        MENUITEM "&Stop Debug", IDM_MON_STOP_DEBUG
-        MENUITEM "Stop E&xecution", IDM_MON_STOP_EXEC
+        MENUITEM "", IDM_MON_STOP_DEBUG
+        MENUITEM "", IDM_MON_STOP_EXEC
         MENUITEM SEPARATOR
-        MENUITEM "Step &into", IDM_MON_STEP_INTO
-        MENUITEM "Step &over", IDM_MON_STEP_OVER
-        MENUITEM "Step until &return", IDM_MON_SKIP_RETURN
-        MENUITEM "Go to &cursor", IDM_MON_GOTO_CURSOR
+        MENUITEM "", IDM_MON_STEP_INTO
+        MENUITEM "", IDM_MON_STEP_OVER
+        MENUITEM "", IDM_MON_SKIP_RETURN
+        MENUITEM "", IDM_MON_GOTO_CURSOR
         MENUITEM SEPARATOR
-        MENUITEM "&Evaluate", IDM_MON_EVAL
+        MENUITEM "", IDM_MON_EVAL
     END
     POPUP "&View"
     BEGIN
-        MENUITEM "&Current instruction", IDM_MON_CURRENT
+        MENUITEM "", IDM_MON_CURRENT
         MENUITEM SEPARATOR
-        MENUITEM "Evaluation &window", IDM_MON_WND_EVAL
-        MENUITEM "&Register window", IDM_MON_WND_REG
-        MENUITEM "&Memory window", IDM_MON_WND_MEM
-        MENUITEM "&Disassembly window", IDM_MON_WND_DIS
-        MENUITEM "&Console window", IDM_MON_WND_CONSOLE
+        MENUITEM "", IDM_MON_WND_EVAL
+        MENUITEM "", IDM_MON_WND_REG
+        MENUITEM "", IDM_MON_WND_MEM
+        MENUITEM "", IDM_MON_WND_DIS
+        MENUITEM "", IDM_MON_WND_CONSOLE
         MENUITEM SEPARATOR
-        MENUITEM "&Computer", IDM_MON_COMPUTER
-        MENUITEM "Drive &8", IDM_MON_DRIVE8
-        MENUITEM "Drive &9", IDM_MON_DRIVE9
+        MENUITEM "", IDM_MON_COMPUTER
+        MENUITEM "", IDM_MON_DRIVE8
+        MENUITEM "", IDM_MON_DRIVE9
     END
     POPUP "&Window"
     BEGIN
-        MENUITEM "&Cascade", IDM_MON_CASCADE
-        MENUITEM "Tile &vertically", IDM_MON_TILE_VERT
-        MENUITEM "Tile &horizontally", IDM_MON_TILE_HORIZ
-        MENUITEM "&Arrange icons", IDM_MON_ARRANGE_ICONS
-    END
-END
-
-
-// GERMAN version of menu
-
-IDR_MENUMONITOR_DE MENU DISCARDABLE
-BEGIN
-    POPUP "&Datei"
-    BEGIN
-        MENUITEM "Ö&ffnen", IDM_MON_OPEN
-        MENUITEM "&Sspeichern", IDM_MON_SAVE
-        MENUITEM "&Drucken", IDM_MON_PRINT
-        MENUITEM SEPARATOR
-        MENUITEM "&Beenden\tAlt+F4", IDM_EXIT
-    END
-    POPUP "&Debug"
-    BEGIN
-        MENUITEM "&Stop Debug", IDM_MON_STOP_DEBUG
-        MENUITEM "Stop &Ausführung", IDM_MON_STOP_EXEC
-        MENUITEM SEPARATOR
-        MENUITEM "Step &in", IDM_MON_STEP_INTO
-        MENUITEM "Step &über", IDM_MON_STEP_OVER
-        MENUITEM "Step bis &return", IDM_MON_SKIP_RETURN
-        MENUITEM "Gehe zu &cursor", IDM_MON_GOTO_CURSOR
-        MENUITEM SEPARATOR
-        MENUITEM "A&uswerten", IDM_MON_EVAL
-    END
-    POPUP "An&sehen"
-    BEGIN
-        MENUITEM "Aktuelle I&nstruktion", IDM_MON_CURRENT
-        MENUITEM SEPARATOR
-        MENUITEM "Auswertungs&fenster", IDM_MON_WND_EVAL
-        MENUITEM "&Registerfenster", IDM_MON_WND_REG
-        MENUITEM "S&peicherfenster", IDM_MON_WND_MEM
-        MENUITEM "Disassemblerfenster", IDM_MON_WND_DIS
-        MENUITEM "&Konsolenfenster", IDM_MON_WND_CONSOLE
-        MENUITEM SEPARATOR
-        MENUITEM "&Computer", IDM_MON_COMPUTER
-        MENUITEM "Laufwerk &8", IDM_MON_DRIVE8
-        MENUITEM "Laufwerk &9", IDM_MON_DRIVE9
-    END
-    POPUP "&Fenster"
-    BEGIN
-        MENUITEM "&Kaskadiert", IDM_MON_CASCADE
-        MENUITEM "&Vertical anordnen", IDM_MON_TILE_VERT
-        MENUITEM "&Horizontal anordnen", IDM_MON_TILE_HORIZ
-        MENUITEM "Icons &Anordnen", IDM_MON_ARRANGE_ICONS
-    END
-END
-
-
-// FRENCH version of menu
-
-IDR_MENUMONITOR_FR MENU DISCARDABLE
-BEGIN
-    POPUP "&Fichier"
-    BEGIN
-        MENUITEM "&Ouvrir", IDM_MON_OPEN
-        MENUITEM "&Enregistrer", IDM_MON_SAVE
-        MENUITEM "&Imprimer", IDM_MON_PRINT
-        MENUITEM SEPARATOR
-        MENUITEM "&Quitter\tAlt+F4", IDM_EXIT
-    END
-    POPUP "&Débug"
-    BEGIN
-        MENUITEM "&Arrêter débug", IDM_MON_STOP_DEBUG
-        MENUITEM "Arrêter l'e&xécution", IDM_MON_STOP_EXEC
-        MENUITEM SEPARATOR
-        MENUITEM "Tracer à l'&intérieur", IDM_MON_STEP_INTO
-        MENUITEM "Tracer par de&ssus", IDM_MON_STEP_OVER
-        MENUITEM "Sauter jusqu'à &return", IDM_MON_SKIP_RETURN
-        MENUITEM "Aller au &curseur", IDM_MON_GOTO_CURSOR
-        MENUITEM SEPARATOR
-        MENUITEM "Éval&uer", IDM_MON_EVAL
-    END
-    POPUP "&Affichage"
-    BEGIN
-        MENUITEM "Instruction courante", IDM_MON_CURRENT
-        MENUITEM SEPARATOR
-        MENUITEM "Fenêtre d'É&valuation", IDM_MON_WND_EVAL
-        MENUITEM "Fenêtre des &Registres", IDM_MON_WND_REG
-        MENUITEM "Fenêtre &mémoire", IDM_MON_WND_MEM
-        MENUITEM "Fenêtre &Désassemblage", IDM_MON_WND_DIS
-        MENUITEM "Fenêtre &Console", IDM_MON_WND_CONSOLE
-        MENUITEM SEPARATOR
-        MENUITEM "&Ordinateur", IDM_MON_COMPUTER
-        MENUITEM "Lecteur #&8", IDM_MON_DRIVE8
-        MENUITEM "Lecteur #&9", IDM_MON_DRIVE9
-    END
-    POPUP "&Fenêtre"
-    BEGIN
-        MENUITEM "&Cascade", IDM_MON_CASCADE
-        MENUITEM "Fractionner &verticallement", IDM_MON_TILE_VERT
-        MENUITEM "Fractionner &horizontalement", IDM_MON_TILE_HORIZ
-        MENUITEM "&Arranger les îcones", IDM_MON_ARRANGE_ICONS
-    END
-END
-
-
-// HUNGARIAN version of menu
-
-#pragma code_page(28592)
-IDR_MENUMONITOR_HU MENU DISCARDABLE
-BEGIN
-    POPUP "&Fájl"
-    BEGIN
-        MENUITEM "&Megnyitás", IDM_MON_OPEN
-        MENUITEM "M&entés", IDM_MON_SAVE
-        MENUITEM "&Nyomtatás", IDM_MON_PRINT
-        MENUITEM SEPARATOR
-        MENUITEM "&Kilépés\tAlt+F4", IDM_EXIT
-    END
-    POPUP "&Nyomkövetés"
-    BEGIN
-        MENUITEM "Nyomkövetés l&eállítása", IDM_MON_STOP_DEBUG
-        MENUITEM "Végrehajtás &leállítása", IDM_MON_STOP_EXEC
-        MENUITEM SEPARATOR
-        MENUITEM "B&elép", IDM_MON_STEP_INTO
-        MENUITEM "Á&tlép", IDM_MON_STEP_OVER
-        MENUITEM "Léptetés &visszatérésig", IDM_MON_SKIP_RETURN
-        MENUITEM "Ugrás a &kurzorhoz", IDM_MON_GOTO_CURSOR
-        MENUITEM SEPARATOR
-        MENUITEM "&Kiértékel", IDM_MON_EVAL
-    END
-    POPUP "&Nézet"
-    BEGIN
-        MENUITEM "&Jelenlegi utasítás", IDM_MON_CURRENT
-        MENUITEM SEPARATOR
-        MENUITEM "&Kiértékelés ablak", IDM_MON_WND_EVAL
-        MENUITEM "&Regiszter ablak", IDM_MON_WND_REG
-        MENUITEM "&Memória ablak", IDM_MON_WND_MEM
-        MENUITEM "&Visszafejtés ablak", IDM_MON_WND_DIS
-        MENUITEM "&Konzol ablak", IDM_MON_WND_CONSOLE
-        MENUITEM SEPARATOR
-        MENUITEM "&Számítógép", IDM_MON_COMPUTER
-        MENUITEM "&8-as lemezegység", IDM_MON_DRIVE8
-        MENUITEM "&9-es lemezegység", IDM_MON_DRIVE9
-    END
-    POPUP "&Ablak"
-    BEGIN
-        MENUITEM "&Kaszkád", IDM_MON_CASCADE
-        MENUITEM "Elrendezés &vízszintesen", IDM_MON_TILE_VERT
-        MENUITEM "Elrendezés &függõlegesen", IDM_MON_TILE_HORIZ
-        MENUITEM "&Ikonok elrendezése", IDM_MON_ARRANGE_ICONS
-    END
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of menu
-
-IDR_MENUMONITOR_IT MENU DISCARDABLE
-BEGIN
-    POPUP "&File"
-    BEGIN
-        MENUITEM "&Apri", IDM_MON_OPEN
-        MENUITEM "&Salva", IDM_MON_SAVE
-        MENUITEM "&Stampa", IDM_MON_PRINT
-        MENUITEM SEPARATOR
-        MENUITEM "E&sci\tAlt+F4", IDM_EXIT
-    END
-    POPUP "&Debug"
-    BEGIN
-        MENUITEM "&Interrompi Debug", IDM_MON_STOP_DEBUG
-        MENUITEM "Interrompi E&secuzione", IDM_MON_STOP_EXEC
-        MENUITEM SEPARATOR
-        MENUITEM "Esegui &istruzione", IDM_MON_STEP_INTO
-        MENUITEM "Esegui &routine", IDM_MON_STEP_OVER
-        MENUITEM "Esegui fino al &ritorno", IDM_MON_SKIP_RETURN
-        MENUITEM "Vai al &cursore", IDM_MON_GOTO_CURSOR
-        MENUITEM SEPARATOR
-        MENUITEM "&Valutazione", IDM_MON_EVAL
-    END
-    POPUP "&Vista"
-    BEGIN
-        MENUITEM "Istruzione &corrente", IDM_MON_CURRENT
-        MENUITEM SEPARATOR
-        MENUITEM "&Finestra di valutazione", IDM_MON_WND_EVAL
-        MENUITEM "Finestra dei &registri", IDM_MON_WND_REG
-        MENUITEM "Finestra di &memoria", IDM_MON_WND_MEM
-        MENUITEM "Finestra di &disassemblaggio", IDM_MON_WND_DIS
-        MENUITEM "Finestra della &console", IDM_MON_WND_CONSOLE
-        MENUITEM SEPARATOR
-        MENUITEM "&Computer", IDM_MON_COMPUTER
-        MENUITEM "Drive &8", IDM_MON_DRIVE8
-        MENUITEM "Drive &9", IDM_MON_DRIVE9
-    END
-    POPUP "&Finestra"
-    BEGIN
-        MENUITEM "A &cascata", IDM_MON_CASCADE
-        MENUITEM "Affianca &verticalmente", IDM_MON_TILE_VERT
-        MENUITEM "Affianca &orizzontalmente", IDM_MON_TILE_HORIZ
-        MENUITEM "&Disponi icone", IDM_MON_ARRANGE_ICONS
-    END
-END
-
-
-// DUTCH version of menu
-
-IDR_MENUMONITOR_NL MENU DISCARDABLE
-BEGIN
-    POPUP "&Bestand"
-    BEGIN
-        MENUITEM "&Open", IDM_MON_OPEN
-        MENUITEM "Op&slaan", IDM_MON_SAVE
-        MENUITEM "&Print", IDM_MON_PRINT
-        MENUITEM SEPARATOR
-        MENUITEM "A&fsluiten\tAlt+F4", IDM_EXIT
-    END
-    POPUP "&Debug"
-    BEGIN
-        MENUITEM "&Stop Debug", IDM_MON_STOP_DEBUG
-        MENUITEM "Stop &Uitvoering", IDM_MON_STOP_EXEC
-        MENUITEM SEPARATOR
-        MENUITEM "Stap i&n", IDM_MON_STEP_INTO
-        MENUITEM "Stap o&ver", IDM_MON_STEP_OVER
-        MENUITEM "Stap tot &terugkeer", IDM_MON_SKIP_RETURN
-        MENUITEM "Ga naar &cursor", IDM_MON_GOTO_CURSOR
-        MENUITEM SEPARATOR
-        MENUITEM "&Evalueren", IDM_MON_EVAL
-    END
-    POPUP "&Beeld"
-    BEGIN
-        MENUITEM "&Huidige instructie", IDM_MON_CURRENT
-        MENUITEM SEPARATOR
-        MENUITEM "Ev&aluatie venster", IDM_MON_WND_EVAL
-        MENUITEM "&Register venster", IDM_MON_WND_REG
-        MENUITEM "&Geheugen venster", IDM_MON_WND_MEM
-        MENUITEM "&Disassemblyvenster", IDM_MON_WND_DIS
-        MENUITEM "&Console venster", IDM_MON_WND_CONSOLE
-        MENUITEM SEPARATOR
-        MENUITEM "&Computer", IDM_MON_COMPUTER
-        MENUITEM "Drive &8", IDM_MON_DRIVE8
-        MENUITEM "Drive &9", IDM_MON_DRIVE9
-    END
-    POPUP "&Venster"
-    BEGIN
-        MENUITEM "&Alle vensters", IDM_MON_CASCADE
-        MENUITEM "&Naast elkaar", IDM_MON_TILE_VERT
-        MENUITEM "Onder &elkaar", IDM_MON_TILE_HORIZ
-        MENUITEM "&Rangschik iconen", IDM_MON_ARRANGE_ICONS
-    END
-END
-
-
-// POLISH version of menu
-
-#pragma code_page(28592)
-IDR_MENUMONITOR_PL MENU DISCARDABLE
-BEGIN
-    POPUP "&Plik"
-    BEGIN
-        MENUITEM "&Open", IDM_MON_OPEN
-        MENUITEM "&Zapisz", IDM_MON_SAVE
-        MENUITEM "&Print", IDM_MON_PRINT
-        MENUITEM SEPARATOR
-        MENUITEM "W&yjd¼ z\tAlt+F4", IDM_EXIT
-    END
-    POPUP "&Debug"
-    BEGIN
-        MENUITEM "&Stop Debug", IDM_MON_STOP_DEBUG
-        MENUITEM "Stop E&xecution", IDM_MON_STOP_EXEC
-        MENUITEM SEPARATOR
-        MENUITEM "Step &into", IDM_MON_STEP_INTO
-        MENUITEM "Step &over", IDM_MON_STEP_OVER
-        MENUITEM "Step until &return", IDM_MON_SKIP_RETURN
-        MENUITEM "Go to &cursor", IDM_MON_GOTO_CURSOR
-        MENUITEM SEPARATOR
-        MENUITEM "&Evaluate", IDM_MON_EVAL
-    END
-    POPUP "&View"
-    BEGIN
-        MENUITEM "&Current instruction", IDM_MON_CURRENT
-        MENUITEM SEPARATOR
-        MENUITEM "Evaluation &window", IDM_MON_WND_EVAL
-        MENUITEM "&Register window", IDM_MON_WND_REG
-        MENUITEM "&Memory window", IDM_MON_WND_MEM
-        MENUITEM "&Disassembly window", IDM_MON_WND_DIS
-        MENUITEM "&Console window", IDM_MON_WND_CONSOLE
-        MENUITEM SEPARATOR
-        MENUITEM "&Znak", IDM_MON_COMPUTER
-        MENUITEM "Edytor &8", IDM_MON_DRIVE8
-        MENUITEM "Edytor &9", IDM_MON_DRIVE9
-    END
-    POPUP "&Okna"
-    BEGIN
-        MENUITEM "&Cascade", IDM_MON_CASCADE
-        MENUITEM "Tile &vertically", IDM_MON_TILE_VERT
-        MENUITEM "Tile &horizontally", IDM_MON_TILE_HORIZ
-        MENUITEM "&Arrange icons", IDM_MON_ARRANGE_ICONS
-    END
-END
-#pragma code_page(28591)
-
-// SWEDISH version of menu
-
-IDR_MENUMONITOR_SV MENU DISCARDABLE
-BEGIN
-    POPUP "&Arkiv"
-    BEGIN
-        MENUITEM "&Öppna", IDM_MON_OPEN
-        MENUITEM "&Spara", IDM_MON_SAVE
-        MENUITEM "Skriv &ut", IDM_MON_PRINT
-        MENUITEM SEPARATOR
-        MENUITEM "&Avsluta\tAlt+F4", IDM_EXIT
-    END
-    POPUP "&Felsök"
-    BEGIN
-        MENUITEM "&Avsluta felsökning", IDM_MON_STOP_DEBUG
-        MENUITEM "Avsluta E&xekvering", IDM_MON_STOP_EXEC
-        MENUITEM SEPARATOR
-        MENUITEM "Stega &in", IDM_MON_STEP_INTO
-        MENUITEM "Stega &över", IDM_MON_STEP_OVER
-        MENUITEM "Stega till &retur", IDM_MON_SKIP_RETURN
-        MENUITEM "Gå till &markör", IDM_MON_GOTO_CURSOR
-        MENUITEM SEPARATOR
-        MENUITEM "&Utvärdera", IDM_MON_EVAL
-    END
-    POPUP "&Visa"
-    BEGIN
-        MENUITEM "&Aktuell instruktion", IDM_MON_CURRENT
-        MENUITEM SEPARATOR
-        MENUITEM "Utvärderings&fönster", IDM_MON_WND_EVAL
-        MENUITEM "&Registerfönster", IDM_MON_WND_REG
-        MENUITEM "&Minnesfönster", IDM_MON_WND_MEM
-        MENUITEM "&Disassembleringsfönster", IDM_MON_WND_DIS
-        MENUITEM "&Konsolfönster", IDM_MON_WND_CONSOLE
-        MENUITEM SEPARATOR
-        MENUITEM "&Dator", IDM_MON_COMPUTER
-        MENUITEM "Enhet &8", IDM_MON_DRIVE8
-        MENUITEM "Enhet &9", IDM_MON_DRIVE9
-    END
-    POPUP "&Fönster"
-    BEGIN
-        MENUITEM "&Överlappande", IDM_MON_CASCADE
-        MENUITEM "&Sida vid sida", IDM_MON_TILE_VERT
-        MENUITEM "&Över och under", IDM_MON_TILE_HORIZ
-        MENUITEM "&Arrangera ikoner", IDM_MON_ARRANGE_ICONS
+        MENUITEM "", IDM_MON_CASCADE
+        MENUITEM "", IDM_MON_TILE_VERT
+        MENUITEM "", IDM_MON_TILE_HORIZ
+        MENUITEM "", IDM_MON_ARRANGE_ICONS
     END
 END
 
@@ -5598,6 +5259,191 @@ BEGIN
   IDS_CANCEL                      "Cancel"
   IDS_NONE                        "None"
   IDS_BROWSE                      "&Browse..."
+  IDS_MP_FILE                     "&File"
+  IDS_MP_ATTACH_DISK_IMAGE        "Attach &disk image"
+  IDS_MP_DETACH_DISK_IMAGE        "D&etach disk image"
+  IDS_MP_FLIP_LIST                "&Flip list"
+  IDS_MP_DATASETTE_CONTROL        "Datassette contro&l"
+  IDS_MP_ATTACH_CARTRIDGE_IMAGE   "Attach &cartridge image..."
+  IDS_MP_EXPERT_CARTRIDGE         "Expert Cartridge"
+  IDS_MP_RESET                    "&Reset"
+  IDS_MP_DEBUG                    "&Debug"
+#ifdef DEBUG
+  IDS_MP_MODE                     "M&ode"
+#endif
+  IDS_MP_EDIT                     "&Edit"
+  IDS_MP_SNAPSHOT                 "Sna&pshot"
+  IDS_MP_RECORDING_START_MODE     "Recording start mode"
+  IDS_MP_OPTIONS                  "&Options"
+  IDS_MP_REFRESH_RATE             "&Refresh rate"
+  IDS_MP_MAXIMUM_SPEED            "&Maximum Speed"
+  IDS_MP_VIDEO_STANDARD           "Vide&o standard"
+  IDS_MP_DRIVE_SYNC_FACTOR        "Drive s&ync factor"
+  IDS_MP_SETTINGS                 "S&ettings"
+  IDS_MP_CARTRIDGE_IO_SETTINGS    "&Cartridge/IO settings"
+  IDS_MP_LANGUAGE                 "&Language"
+  IDS_MP_HELP                     "&Help"
+  IDS_MP_VIEW                     "&View"
+  IDS_MP_WINDOW                   "&Window"
+  IDS_MI_EXIT                     "E&xit"
+  IDS_MI_ABOUT                    "&About..."
+  IDS_MI_PAUSE                    "&Pause"
+  IDS_MI_EDIT_COPY                "&Copy"
+  IDS_MI_EDIT_PASTE               "&Paste"
+  IDS_MI_AUTOSTART                "&Autostart disk/tape image..."
+  IDS_MI_RESET_HARD               "&Hard"
+  IDS_MI_RESET_SOFT               "&Soft"
+  IDS_MI_DRIVE8                   "Drive &8"
+  IDS_MI_DRIVE9                   "Drive &9"
+  IDS_MI_DRIVE10                  "Drive 1&0"
+  IDS_MI_DRIVE11                  "Drive 1&1"
+  IDS_MI_ATTACH_TAPE              "Attach &tape image..."
+  IDS_MI_DETACH_TAPE              "Detac&h tape image"
+  IDS_MI_DETACH_ALL               "&All"
+  IDS_MI_TOGGLE_SOUND             "&Sound playback"
+  IDS_MI_TOGGLE_DOUBLESIZE        "&Double size"
+  IDS_MI_TOGGLE_DOUBLESCAN        "Dou&ble scan"
+  IDS_MI_DRIVE_TRUE_EMULATION     "&True drive emulation"
+  IDS_MI_TOGGLE_VIDEOCACHE        "Video &cache"
+  IDS_MI_DRIVE_SETTINGS           "&Drive settings..."
+  IDS_MI_CART_ATTACH_CRT          "&CRT image..."
+  IDS_MI_CART_ATTACH_8KB          "Generic &8KB image..."
+  IDS_MI_CART_ATTACH_16KB         "Generic &16KB image..."
+  IDS_MI_CART_ATTACH_AR           "&Action Replay image..."
+  IDS_MI_CART_ATTACH_AR3          "&Action Replay 3 image..."
+  IDS_MI_CART_ATTACH_AR4          "&Action Replay 4 image..."
+  IDS_MI_CART_ATTACH_STARDOS      "&StarDOS image..."
+  IDS_MI_CART_ATTACH_AT           "Atomic &Power image..."
+  IDS_MI_CART_ATTACH_EPYX         "&Epyx fastload image..."
+  IDS_MI_CART_ATTACH_IEEE488      "&IEEE488 interface image..."
+  IDS_MI_CART_ATTACH_RR           "&Retro Replay image..."
+  IDS_MI_CART_ATTACH_IDE64        "IDE&64 interface image..."
+  IDS_MI_CART_ATTACH_SS4          "Super Snapshot &4 image..."
+  IDS_MI_CART_ATTACH_SS5          "Super Snapshot &5 image..."
+  IDS_MI_CART_ATTACH_STB          "Structured &Basic image..."
+  IDS_MI_FLIP_ADD                 "&Add current image"
+  IDS_MI_FLIP_REMOVE              "&Remove current image"
+  IDS_MI_FLIP_NEXT                "Attach &next image"
+  IDS_MI_FLIP_PREVIOUS            "Attach &previous image"
+  IDS_MI_FLIP_LOAD                "&Load flip list"
+  IDS_MI_FLIP_SAVE                "&Save flip list"
+  IDS_MI_DATASETTE_STOP           "S&top"
+  IDS_MI_DATASETTE_START          "&Start"
+  IDS_MI_DATASETTE_FORWARD        "&Forward"
+  IDS_MI_DATASETTE_REWIND         "&Rewind"
+  IDS_MI_DATASETTE_RECORD         "Re&cord"
+  IDS_MI_DATASETTE_RESET          "R&eset"
+  IDS_MI_DATASETTE_RESET_COUNTER  "Reset C&ounter"
+  IDS_MI_CART_ENABLE_EXPERT       "Enable"
+  IDS_MI_CART_MODE_OFF            "Off"
+  IDS_MI_CART_MODE_ON             "On"
+  IDS_MI_CART_SET_DEFAULT         "Set cartridge as &default"
+  IDS_MI_TOGGLE_CART_RESET        "Reset &on cart change"
+  IDS_MI_CART_DETACH              "Detach cartridge &image"
+  IDS_MI_CART_FREEZE              "Cartridge free&ze"
+  IDS_MI_MONITOR                  "&Monitor"
+#ifdef DEBUG
+  IDS_MI_DEBUG_MODE_NORMAL        "&Normal"
+  IDS_MI_DEBUG_MODE_SMALL         "&Small"
+  IDS_MI_DEBUG_MODE_HISTORY       "&History"
+  IDS_MI_DEBUG_MODE_AUTOPLAY      "&History Autoplay"
+  IDS_MI_TOGGLE_MAINCPU_TRACE     "&Main CPU Trace"
+  IDS_MI_TOGGLE_DRIVE0CPU_TRACE   "Drive&0 CPU Trace"
+  IDS_MI_TOGGLE_DRIVE1CPU_TRACE   "Drive&1 CPU Trace"
+#endif
+  IDS_MI_SNAPSHOT_LOAD            "Load snapshot &image..."
+  IDS_MI_SNAPSHOT_SAVE            "Save sna&pshot image..."
+  IDS_MI_LOADQUICK                "&Load quicksnapshot image"
+  IDS_MI_SAVEQUICK                "&Save quicksnapshot image"
+  IDS_MI_EVENT_TOGGLE_RECORD      "Start/Stop &Recording History"
+  IDS_MI_EVENT_TOGGLE_PLAYBACK    "Start/Stop Pl&ayback History"
+  IDS_MI_EVENT_SETMILESTONE       "Set Recording Milestone"
+  IDS_MI_EVENT_RESETMILESTONE     "Return to Milestone"
+  IDS_MI_EVENT_START_MODE_SAVE    "&Save new snapshot"
+  IDS_MI_EVENT_START_MODE_LOAD    "&Load existing snapshot"
+  IDS_MI_EVENT_START_MODE_RESET   "Start with &reset"
+  IDS_MI_EVENT_START_MODE_PLAYBCK "Overwrite &Playback"
+  IDS_MI_EVENT_DIRECTORY          "Select History files/directory"
+  IDS_MI_MEDIAFILE                "Save/stop media file..."
+  IDS_MI_SOUND_RECORD_START       "Record Sound..."
+  IDS_MI_SOUND_RECORD_STOP        "Stop Sound Recording"
+  IDS_MI_REFRESH_RATE_AUTO        "&Auto"
+  IDS_MI_MAXIMUM_SPEED_NO_LIMIT   "No &limit"
+  IDS_MI_MAXIMUM_SPEED_CUSTOM     "&Custom"
+  IDS_MI_TOGGLE_WARP_MODE         "&Warp mode"
+  IDS_MI_TOGGLE_ALWAYSONTOP       "Always on Top"
+  IDS_MI_TOGGLE_FASTPAL           "PAL Emulation"
+  IDS_MI_TOGGLE_SCALE2X           "Scale2x"
+  IDS_MI_SWAP_JOYSTICK            "Swap &Joystick"
+  IDS_MI_TOGGLE_VIRTUAL_DEVICES   "&Virtual device traps"
+  IDS_MI_TOGGLE_EMUID             "Emulator &Identification"
+  IDS_MI_MOUSE                    "&Grab mouse events"
+  IDS_MI_VIDEO_SETTINGS           "&Video settings..."
+  IDS_MI_DEVICEMANAGER            "&Peripheral settings..."
+  IDS_MI_JOY_SETTINGS             "&Joystick settings..."
+  IDS_MI_KEYBOARD_SETTINGS        "&Keyboard settings..."
+  IDS_MI_SOUND_SETTINGS           "S&ound settings..."
+  IDS_MI_ROM_SETTINGS             "&ROM settings..."
+  IDS_MI_RAM_SETTINGS             "RA&M settings..."
+  IDS_MI_DATASETTE_SETTINGS       "D&atasette settings..."
+  IDS_MI_VICII_SETTINGS           "VIC-II settings..."
+  IDS_MI_MOUSE_SETTINGS           "Mo&use settings..."
+  IDS_MI_SID_SETTINGS             "S&ID settings..."
+  IDS_MI_RS232_SETTINGS           "RS&232 settings..."
+  IDS_MI_REU_SETTINGS             "&REU settings..."
+  IDS_MI_GEORAM_SETTINGS          "&GEORAM settings..."
+  IDS_MI_RAMCART_SETTINGS         "&RAMCART settings..."
+  IDS_MI_MMC64_SETTINGS           "&MMC64 settings..."
+  IDS_MI_DIGIMAX_SETTINGS         "&DIGIMAX settings..."
+  IDS_MI_IDE64_SETTINGS           "&IDE64 settings..."
+#ifdef HAVE_TFE
+  IDS_MI_TFE_SETTINGS             "&Ethernet settings..."
+#endif
+  IDS_MI_ACIA_SETTINGS            "&ACIA settings..."
+  IDS_MI_RS232USER_SETTINGS       "RS&232 userport settings..."
+  IDS_MI_SETTINGS_SAVE            "&Save current settings"
+  IDS_MI_SETTINGS_LOAD            "&Load saved settings"
+  IDS_MI_SETTINGS_DEFAULT         "Set de&fault settings"
+  IDS_MI_SAVE_SETTINGS_ON_EXIT    "Save settings on e&xit"
+  IDS_MI_CONFIRM_ON_EXIT          "&Confirm on exit"
+  IDS_MI_LANG_EN                  "&English"
+  IDS_MI_LANG_DE                  "&German"
+  IDS_MI_LANG_FR                  "&French"
+  IDS_MI_LANG_HU                  "&Hungarian"
+  IDS_MI_LANG_IT                  "&Italian"
+  IDS_MI_LANG_NL                  "&Dutch"
+  IDS_MI_LANG_PL                  "&Polish"
+  IDS_MI_LANG_SV                  "&Swedish"
+  IDS_MI_CMDLINE                  "Command line &options"
+  IDS_MI_CONTRIBUTORS             "&Contributors"
+  IDS_MI_LICENSE                  "&License"
+  IDS_MI_WARRANTY                 "No &warranty"
+  IDS_MI_TOGGLE_FULLSCREEN        "Fullscreen"
+  IDS_MI_SIDCART_SETTINGS         "&SID cart settings..."
+  IDS_MI_MON_OPEN                 "&Open"
+  IDS_MI_MON_SAVE                 "&Save"
+  IDS_MI_MON_PRINT                "&Print"
+  IDS_MI_MON_EXIT                 "E&xit\tAlt+F4"
+  IDS_MI_MON_STOP_DEBUG           "&Stop Debug"
+  IDS_MI_MON_STOP_EXEC            "Stop E&xecution"
+  IDS_MI_MON_STEP_INTO            "Step &into"
+  IDS_MI_MON_STEP_OVER            "Step &over"
+  IDS_MI_MON_SKIP_RETURN          "Step until &return"
+  IDS_MI_MON_GOTO_CURSOR          "Go to &cursor"
+  IDS_MI_MON_EVAL                 "&Evaluate"
+  IDS_MI_MON_CURRENT              "&Current instruction"
+  IDS_MI_MON_WND_EVAL             "Evaluation &window"
+  IDS_MI_MON_WND_REG              "&Register window"
+  IDS_MI_MON_WND_MEM              "&Memory window"
+  IDS_MI_MON_WND_DIS              "&Disassembly window"
+  IDS_MI_MON_WND_CONSOLE          "&Console window"
+  IDS_MI_MON_COMPUTER             "&Computer"
+  IDS_MI_MON_DRIVE8               "Drive &8"
+  IDS_MI_MON_DRIVE9               "Drive &9"
+  IDS_MI_MON_CASCADE              "&Cascade"
+  IDS_MI_MON_TILE_VERT            "Tile &vertically"
+  IDS_MI_MON_TILE_HORIZ           "Tile &horizontally"
+  IDS_MI_MON_ARRANGE_ICONS        "&Arrange icons"
 END
 
 
@@ -5797,6 +5643,191 @@ BEGIN
   IDS_CANCEL                      "Abbruch"
   IDS_NONE                        "Kein"
   IDS_BROWSE                      "&Stöbern..."
+  IDS_MP_FILE                     "&Datei"
+  IDS_MP_ATTACH_DISK_IMAGE        "&Disk Image einlegen"
+  IDS_MP_DETACH_DISK_IMAGE        "Disk Image &entfernen"
+  IDS_MP_FLIP_LIST                "&Flipliste"
+  IDS_MP_DATASETTE_CONTROL        "Bandlaufwerk Kontro&lle"
+  IDS_MP_ATTACH_CARTRIDGE_IMAGE   "Erweiterungsmodule einlegen..."
+  IDS_MP_EXPERT_CARTRIDGE         "Expert Cartridge"
+  IDS_MP_RESET                    "&Reset"
+  IDS_MP_DEBUG                    "&Debug"
+#ifdef DEBUG
+  IDS_MP_MODE                     "M&odus"
+#endif
+  IDS_MP_EDIT                     "B&earbeiten"
+  IDS_MP_SNAPSHOT                 "Sna&pshot"
+  IDS_MP_RECORDING_START_MODE     "Aufnahme Start Modus"
+  IDS_MP_OPTIONS                  "&Optionen"
+  IDS_MP_REFRESH_RATE             "Wiederhol&rate"
+  IDS_MP_MAXIMUM_SPEED            "&Maximale Geschwindigkeit"
+  IDS_MP_VIDEO_STANDARD           "Vide&o standard"
+  IDS_MP_DRIVE_SYNC_FACTOR        "Laufwerkt S&ync Faktor"
+  IDS_MP_SETTINGS                 "&Einstellungen"
+  IDS_MP_CARTRIDGE_IO_SETTINGS    "&Erweiterungsmodul Einstellungen"
+  IDS_MP_LANGUAGE                 "Sprache"
+  IDS_MP_HELP                     "&Hilfe"
+  IDS_MP_VIEW                     "An&sehen"
+  IDS_MP_WINDOW                   "&Fenster"
+  IDS_MI_EXIT                     "E&xit"
+  IDS_MI_ABOUT                    "&Über VICE..."
+  IDS_MI_PAUSE                    "&Pause"
+  IDS_MI_EDIT_COPY                "&Kopieren"
+  IDS_MI_EDIT_PASTE               "&Einfúgen"
+  IDS_MI_AUTOSTART                "&Autostart Disk/Band Image..."
+  IDS_MI_RESET_HARD               "&Hart"
+  IDS_MI_RESET_SOFT               "&Weich"
+  IDS_MI_DRIVE8                   "Laufwerk &8"
+  IDS_MI_DRIVE9                   "Laufwerk &9"
+  IDS_MI_DRIVE10                  "Laufwerk 1&0"
+  IDS_MI_DRIVE11                  "Laufwerk 1&1"
+  IDS_MI_ATTACH_TAPE              "&Band Image einlegen..."
+  IDS_MI_DETACH_TAPE              "Band Image entfernen"
+  IDS_MI_DETACH_ALL               "&Alle"
+  IDS_MI_TOGGLE_SOUND             "&Sound Einschalten"
+  IDS_MI_TOGGLE_DOUBLESIZE        "&Doppelte Größe"
+  IDS_MI_TOGGLE_DOUBLESCAN        "Do&ppelt Scan"
+  IDS_MI_DRIVE_TRUE_EMULATION     "&Präzise Floppy Emulation"
+  IDS_MI_TOGGLE_VIDEOCACHE        "Video &cache"
+  IDS_MI_DRIVE_SETTINGS           "&Floppy Einstellungen..."
+  IDS_MI_CART_ATTACH_CRT          "&CRT Image Datei..."
+  IDS_MI_CART_ATTACH_8KB          "Generische 8Kb Image..."
+  IDS_MI_CART_ATTACH_16KB         "Generische 16Kb Image..."
+  IDS_MI_CART_ATTACH_AR           "&Action Replay Image..."
+  IDS_MI_CART_ATTACH_AR3          "Action Replay &III Image..."
+  IDS_MI_CART_ATTACH_AR4          "Action Replay &4 Image..."
+  IDS_MI_CART_ATTACH_STARDOS      "Star&DOS Image..."
+  IDS_MI_CART_ATTACH_AT           "Atomic Power &Image..."
+  IDS_MI_CART_ATTACH_EPYX         "&Epyx Fastload Image..."
+  IDS_MI_CART_ATTACH_IEEE488      "&IEEE 488 Schnittstellenmodul..."
+  IDS_MI_CART_ATTACH_RR           "&Retro Replay Image..."
+  IDS_MI_CART_ATTACH_IDE64        "IDE&64 Schnittstellenmodul..."
+  IDS_MI_CART_ATTACH_SS4          "Super Snapshot &4 Image..."
+  IDS_MI_CART_ATTACH_SS5          "Super Snapshot &5 Image..."
+  IDS_MI_CART_ATTACH_STB          "Structured &Basic Image..."
+  IDS_MI_FLIP_ADD                 "&Aktuelles Image hinzufügen"
+  IDS_MI_FLIP_REMOVE              "Aktuelles Image entfe&rnen"
+  IDS_MI_FLIP_NEXT                "&Nächstes Image"
+  IDS_MI_FLIP_PREVIOUS            "&Voriges Image"
+  IDS_MI_FLIP_LOAD                "Fliplist Datei &Laden"
+  IDS_MI_FLIP_SAVE                "Fliplist Datei &Speichern"
+  IDS_MI_DATASETTE_STOP           "S&top"
+  IDS_MI_DATASETTE_START          "&Start"
+  IDS_MI_DATASETTE_FORWARD        "&Forward"
+  IDS_MI_DATASETTE_REWIND         "&Rewind"
+  IDS_MI_DATASETTE_RECORD         "Re&cord"
+  IDS_MI_DATASETTE_RESET          "R&eset"
+  IDS_MI_DATASETTE_RESET_COUNTER  "Z&ähler zurücksetzen"
+  IDS_MI_CART_ENABLE_EXPERT       "Aktivieren"
+  IDS_MI_CART_MODE_OFF            "Aus"
+  IDS_MI_CART_MODE_ON             "Ein"
+  IDS_MI_CART_SET_DEFAULT         "Aktuelles Erweiterungsmodul als standar&d aktivieren"
+  IDS_MI_TOGGLE_CART_RESET        "Reset bei Wechsel von Erweiterungsmodulen"
+  IDS_MI_CART_DETACH              "Erweiterungsmodul &Image entfernen"
+  IDS_MI_CART_FREEZE              "Erweiterungsmodul Free&ze"
+  IDS_MI_MONITOR                  "&Monitor"
+#ifdef DEBUG
+  IDS_MI_DEBUG_MODE_NORMAL        "&Normal"
+  IDS_MI_DEBUG_MODE_SMALL         "&Klein"
+  IDS_MI_DEBUG_MODE_HISTORY       "&History"
+  IDS_MI_DEBUG_MODE_AUTOPLAY      "&History Automatische Wiedergabe"
+  IDS_MI_TOGGLE_MAINCPU_TRACE     "&Haupt CPU Trace"
+  IDS_MI_TOGGLE_DRIVE0CPU_TRACE   "Laufwerk&0 CPU Trace"
+  IDS_MI_TOGGLE_DRIVE1CPU_TRACE   "Laufwerk&1 CPU Trace"
+#endif
+  IDS_MI_SNAPSHOT_LOAD            "Snapshot &Image Laden..."
+  IDS_MI_SNAPSHOT_SAVE            "Sna&pshot Image Speichern..."
+  IDS_MI_LOADQUICK                "Quick-Snapshot Image &laden"
+  IDS_MI_SAVEQUICK                "Quick-Snapshot Datei &speichern"
+  IDS_MI_EVENT_TOGGLE_RECORD      "Sta&rt/Stop Aufnahme History"
+  IDS_MI_EVENT_TOGGLE_PLAYBACK    "St&art/Stop Wiedergabe History"
+  IDS_MI_EVENT_SETMILESTONE       "Setze Aufnahme Meilenstein"
+  IDS_MI_EVENT_RESETMILESTONE     "Rückkehr zum Meilenstein"
+  IDS_MI_EVENT_START_MODE_SAVE    "&Speichere neuen Snapshot"
+  IDS_MI_EVENT_START_MODE_LOAD    "&Lade existierenden Snapshot"
+  IDS_MI_EVENT_START_MODE_RESET   "Mit &Reset starten"
+  IDS_MI_EVENT_START_MODE_PLAYBCK "Laufende Aufnahme überschreiben"
+  IDS_MI_EVENT_DIRECTORY          "Verzeichnis für Event Aufnahme"
+  IDS_MI_MEDIAFILE                "Speichern/stop media Datei..."
+  IDS_MI_SOUND_RECORD_START       "Aufnahme..."
+  IDS_MI_SOUND_RECORD_STOP        "Aufnahme Stop"
+  IDS_MI_REFRESH_RATE_AUTO        "&Automatisch"
+  IDS_MI_MAXIMUM_SPEED_NO_LIMIT   "Kein &Limit"
+  IDS_MI_MAXIMUM_SPEED_CUSTOM     "&Benutzerdefiniert"
+  IDS_MI_TOGGLE_WARP_MODE         "&Warp modus"
+  IDS_MI_TOGGLE_ALWAYSONTOP       "Immer im Vordergrund"
+  IDS_MI_TOGGLE_FASTPAL           "PAL Emulation"
+  IDS_MI_TOGGLE_SCALE2X           "Scale2x"
+  IDS_MI_SWAP_JOYSTICK            "&Joystick ports austauschen"
+  IDS_MI_TOGGLE_VIRTUAL_DEVICES   "&Virtuelle Geräte Traps"
+  IDS_MI_TOGGLE_EMUID             "Emulator &Identifikation"
+  IDS_MI_MOUSE                    "Maus Ereignisse abfan&gen"
+  IDS_MI_VIDEO_SETTINGS           "&Video Einstellungen..."
+  IDS_MI_DEVICEMANAGER            "&Peripherie Einstellungen..."
+  IDS_MI_JOY_SETTINGS             "&Joystick Einstellungen..."
+  IDS_MI_KEYBOARD_SETTINGS        "&Tastatur Einstellungen..."
+  IDS_MI_SOUND_SETTINGS           "S&ound Einstellungen..."
+  IDS_MI_ROM_SETTINGS             "&ROM Einstellungen..."
+  IDS_MI_RAM_SETTINGS             "RA&M Einstellungen..."
+  IDS_MI_DATASETTE_SETTINGS       "B&andlaufwerk Einstellungen"
+  IDS_MI_VICII_SETTINGS           "VIC-II Einstellungen..."
+  IDS_MI_MOUSE_SETTINGS           "Ma&us Einstellungen..."
+  IDS_MI_SID_SETTINGS             "S&ID Einstellungen..."
+  IDS_MI_RS232_SETTINGS           "RS&232 Einstellungen..."
+  IDS_MI_REU_SETTINGS             "&REU Einstellungen..."
+  IDS_MI_GEORAM_SETTINGS          "&GEORAM Einstellungen..."
+  IDS_MI_RAMCART_SETTINGS         "&RAMCART Einstellungen..."
+  IDS_MI_MMC64_SETTINGS           "&MMC64 Einstellungen..."
+  IDS_MI_DIGIMAX_SETTINGS         "&Digimax Einstellungen..."
+  IDS_MI_IDE64_SETTINGS           "&IDE64 Einstellungen..."
+#ifdef HAVE_TFE
+  IDS_MI_TFE_SETTINGS             "&Ethernet Einstellungen..."
+#endif
+  IDS_MI_ACIA_SETTINGS            "&ACIA Einstellungen..."
+  IDS_MI_RS232USER_SETTINGS       "RS&232 Userport Einstellungen..."
+  IDS_MI_SETTINGS_SAVE            "Einstellungen &speichern"
+  IDS_MI_SETTINGS_LOAD            "Einstellungen &Laden"
+  IDS_MI_SETTINGS_DEFAULT         "&Wiederherstellen Standard Einstellungen"
+  IDS_MI_SAVE_SETTINGS_ON_EXIT    "Einstellungen beim Beenden speichern"
+  IDS_MI_CONFIRM_ON_EXIT          "&Bestätigung beim Beenden"
+  IDS_MI_LANG_EN                  "&Englisch"
+  IDS_MI_LANG_DE                  "&Deutsch"
+  IDS_MI_LANG_FR                  "&Französisch"
+  IDS_MI_LANG_HU                  "&Ungarisch"
+  IDS_MI_LANG_IT                  "&Italienisch"
+  IDS_MI_LANG_NL                  "&Holländisch"
+  IDS_MI_LANG_PL                  "&Polnisch"
+  IDS_MI_LANG_SV                  "&Schwedisch"
+  IDS_MI_CMDLINE                  "Kommandozeilen &Optionen"
+  IDS_MI_CONTRIBUTORS             "VICE Hackers"
+  IDS_MI_LICENSE                  "&Lizenz"
+  IDS_MI_WARRANTY                 "Keine &Garantie!"
+  IDS_MI_TOGGLE_FULLSCREEN        "Vollbild"
+  IDS_MI_SIDCART_SETTINGS         "&SID Modul Einstellungen..."
+  IDS_MI_MON_OPEN                 "Ö&ffnen"
+  IDS_MI_MON_SAVE                 "&Sspeichern"
+  IDS_MI_MON_PRINT                "&Drucken"
+  IDS_MI_MON_EXIT                 "&Beenden\tAlt+F4"
+  IDS_MI_MON_STOP_DEBUG           "&Stop Debug"
+  IDS_MI_MON_STOP_EXEC            "Stop &Ausführung"
+  IDS_MI_MON_STEP_INTO            "Step &in"
+  IDS_MI_MON_STEP_OVER            "Step &über"
+  IDS_MI_MON_SKIP_RETURN          "Step bis &return"
+  IDS_MI_MON_GOTO_CURSOR          "Gehe zu &cursor"
+  IDS_MI_MON_EVAL                 "A&uswerten"
+  IDS_MI_MON_CURRENT              "Aktuelle I&nstruktion"
+  IDS_MI_MON_WND_EVAL             "Auswertungs&fenster"
+  IDS_MI_MON_WND_REG              "&Registerfenster"
+  IDS_MI_MON_WND_MEM              "S&peicherfenster"
+  IDS_MI_MON_WND_DIS              "Disassemblerfenster"
+  IDS_MI_MON_WND_CONSOLE          "&Konsolenfenster"
+  IDS_MI_MON_COMPUTER             "&Computer"
+  IDS_MI_MON_DRIVE8               "Laufwerk &8"
+  IDS_MI_MON_DRIVE9               "Laufwerk &9"
+  IDS_MI_MON_CASCADE              "&Kaskadiert"
+  IDS_MI_MON_TILE_VERT            "&Vertical anordnen"
+  IDS_MI_MON_TILE_HORIZ           "&Horizontal anordnen"
+  IDS_MI_MON_ARRANGE_ICONS        "Icons &Anordnen"
 END
 
 
@@ -5996,6 +6027,191 @@ BEGIN
   IDS_CANCEL                      "Annuler"
   IDS_NONE                        "Aucun"
   IDS_BROWSE                      "&Parcourir..."
+  IDS_MP_FILE                     "&Fichier"
+  IDS_MP_ATTACH_DISK_IMAGE        "Insérer une image de &disque"
+  IDS_MP_DETACH_DISK_IMAGE        "&Retirer une image de disque"
+  IDS_MP_FLIP_LIST                "&Groupement de disques"
+  IDS_MP_DATASETTE_CONTROL        "Contrô&le datassette"
+  IDS_MP_ATTACH_CARTRIDGE_IMAGE   "Insérer une &cartouche..."
+  IDS_MP_EXPERT_CARTRIDGE         "Activer les paramètres des cartouches experts"
+  IDS_MP_RESET                    "&Réinitialiser"
+  IDS_MP_DEBUG                    "&Debug"
+#ifdef DEBUG
+  IDS_MP_MODE                     "M&ode"
+#endif
+  IDS_MP_EDIT                     "&Edit"
+  IDS_MP_SNAPSHOT                 "&Sauvegarde"
+  IDS_MP_RECORDING_START_MODE     "Mode de départ d'enregistrement"
+  IDS_MP_OPTIONS                  "&Options"
+  IDS_MP_REFRESH_RATE             "Taux de &rafraîchissement"
+  IDS_MP_MAXIMUM_SPEED            "Vitesse &Maximale"
+  IDS_MP_VIDEO_STANDARD           "Standar&d vidéo"
+  IDS_MP_DRIVE_SYNC_FACTOR        "Facteur de s&ynchro du lecteur"
+  IDS_MP_SETTINGS                 "&Paramètres"
+  IDS_MP_CARTRIDGE_IO_SETTINGS    "Paramètres E/S &cartouche"
+  IDS_MP_LANGUAGE                 "&Langage"
+  IDS_MP_HELP                     "&Aide"
+  IDS_MP_VIEW                     "&Affichage"
+  IDS_MP_WINDOW                   "&Fenêtre"
+  IDS_MI_EXIT                     "&Quitter"
+  IDS_MI_ABOUT                    "À &Propos..."
+  IDS_MI_PAUSE                    "&Pause"
+  IDS_MI_EDIT_COPY                "&Copy"
+  IDS_MI_EDIT_PASTE               "&Paste"
+  IDS_MI_AUTOSTART                "Démarrage &automatique d'une image datassette..."
+  IDS_MI_RESET_HARD               "&Physiquement"
+  IDS_MI_RESET_SOFT               "&Logiciellement"
+  IDS_MI_DRIVE8                   "Lecteur &8"
+  IDS_MI_DRIVE9                   "Lecteur &9"
+  IDS_MI_DRIVE10                  "Lecteur 1&0"
+  IDS_MI_DRIVE11                  "Lecteur 1&1"
+  IDS_MI_ATTACH_TAPE              "Insérer une image &datassette..."
+  IDS_MI_DETACH_TAPE              "Reti&rer une image datassette"
+  IDS_MI_DETACH_ALL               "&Tout"
+  IDS_MI_TOGGLE_SOUND             "Lecture &audio"
+  IDS_MI_TOGGLE_DOUBLESIZE        "&Taille double"
+  IDS_MI_TOGGLE_DOUBLESCAN        "Dou&ble scan"
+  IDS_MI_DRIVE_TRUE_EMULATION     "Activer l'émulation &réelle des lecteurs"
+  IDS_MI_TOGGLE_VIDEOCACHE        "&Cache vidéo"
+  IDS_MI_DRIVE_SETTINGS           "Paramètres des lecteurs..."
+  IDS_MI_CART_ATTACH_CRT          "Nom du fichier image CRT..."
+  IDS_MI_CART_ATTACH_8KB          "Insérer une image générique de 8Ko..."
+  IDS_MI_CART_ATTACH_16KB         "Insérer une image générique de 16Ko..."
+  IDS_MI_CART_ATTACH_AR           "Insérer une cartouche Action Replay..."
+  IDS_MI_CART_ATTACH_AR3          "Insérer une cartouche Action Replay III..."
+  IDS_MI_CART_ATTACH_AR4          "Insrer une cartouche Action Replay 4..."
+  IDS_MI_CART_ATTACH_STARDOS      "Insrer une cartouche StarDOS..."
+  IDS_MI_CART_ATTACH_AT           "Insérer une cartouche Atomic Power..."
+  IDS_MI_CART_ATTACH_EPYX         "Insérer une cartouche Epyx FastLoad..."
+  IDS_MI_CART_ATTACH_IEEE488      "Insérer une cartouche interface IEEE488..."
+  IDS_MI_CART_ATTACH_RR           "Insérer une cartouche Retro Replay..."
+  IDS_MI_CART_ATTACH_IDE64        "Insérer une cartouche interface IDE64..."
+  IDS_MI_CART_ATTACH_SS4          "Insérer une cartouche Super Snapshot 4..."
+  IDS_MI_CART_ATTACH_SS5          "Insérer une cartouche Super Snapshot 5..."
+  IDS_MI_CART_ATTACH_STB          "Insérer une cartouche Structured &Basic..."
+  IDS_MI_FLIP_ADD                 "&Ajouter l'image de disque courante"
+  IDS_MI_FLIP_REMOVE              "&Retirer l'image de disque courante"
+  IDS_MI_FLIP_NEXT                "Insérer la &prochaine image"
+  IDS_MI_FLIP_PREVIOUS            "Insérer l'image p&récédente"
+  IDS_MI_FLIP_LOAD                "&Charger un groupement de disques"
+  IDS_MI_FLIP_SAVE                "&Enregistrer le groupement de disques"
+  IDS_MI_DATASETTE_STOP           "&Arrêt"
+  IDS_MI_DATASETTE_START          "&Démarrer"
+  IDS_MI_DATASETTE_FORWARD        "En &avant"
+  IDS_MI_DATASETTE_REWIND         "En a&rrière"
+  IDS_MI_DATASETTE_RECORD         "Enre&gistrer"
+  IDS_MI_DATASETTE_RESET          "Réinitialis&er"
+  IDS_MI_DATASETTE_RESET_COUNTER  "Réinialiser le c&ompteur"
+  IDS_MI_CART_ENABLE_EXPERT       "Activer"
+  IDS_MI_CART_MODE_OFF            "Off"
+  IDS_MI_CART_MODE_ON             "On"
+  IDS_MI_CART_SET_DEFAULT         "Définir cette cartouche par &défaut"
+  IDS_MI_TOGGLE_CART_RESET        "Réinialiser sur c&hangement de cartouche"
+  IDS_MI_CART_DETACH              "Retirer une cart&ouche"
+  IDS_MI_CART_FREEZE              "Geler la cartouche"
+  IDS_MI_MONITOR                  "&Tracer"
+#ifdef DEBUG
+  IDS_MI_DEBUG_MODE_NORMAL        "&Normal"
+  IDS_MI_DEBUG_MODE_SMALL         "&Petit"
+  IDS_MI_DEBUG_MODE_HISTORY       "&Historique"
+  IDS_MI_DEBUG_MODE_AUTOPLAY      "H&istorique automatique"
+  IDS_MI_TOGGLE_MAINCPU_TRACE     "Tracer CPU &Principal"
+  IDS_MI_TOGGLE_DRIVE0CPU_TRACE   "Tracer CPU Drive&0"
+  IDS_MI_TOGGLE_DRIVE1CPU_TRACE   "Tracer CPU Drive&1"
+#endif
+  IDS_MI_SNAPSHOT_LOAD            "C&harger un instantané...."
+  IDS_MI_SNAPSHOT_SAVE            "E&nregistrer une sauvegarde..."
+  IDS_MI_LOADQUICK                "&Charger la sauvegarde rapide"
+  IDS_MI_SAVEQUICK                "&Enregistrer la sauvegarde rapide"
+  IDS_MI_EVENT_TOGGLE_RECORD      "Démarrer/Arrêter l'historique de l'enre&gistrement"
+  IDS_MI_EVENT_TOGGLE_PLAYBACK    "Démarrer/Arrêter l'historique de la &lecture"
+  IDS_MI_EVENT_SETMILESTONE       "Lever le Signet d'enregistrement"
+  IDS_MI_EVENT_RESETMILESTONE     "Retourner au Signet d'enregistrement"
+  IDS_MI_EVENT_START_MODE_SAVE    "&Enregistrer une nouvelle sauvegarde"
+  IDS_MI_EVENT_START_MODE_LOAD    "&Charger un instantané"
+  IDS_MI_EVENT_START_MODE_RESET   "&Réinitialiser au démarrage"
+  IDS_MI_EVENT_START_MODE_PLAYBCK "É&craser la lecture actuelle"
+  IDS_MI_EVENT_DIRECTORY          "Sélectionnez le répertoire des captures"
+  IDS_MI_MEDIAFILE                "Enregistrer/Arrêter fichier média..."
+  IDS_MI_SOUND_RECORD_START       "Record Sound..."
+  IDS_MI_SOUND_RECORD_STOP        "Stop Sound Recording"
+  IDS_MI_REFRESH_RATE_AUTO        "&Automatique"
+  IDS_MI_MAXIMUM_SPEED_NO_LIMIT   "Aucune &limite"
+  IDS_MI_MAXIMUM_SPEED_CUSTOM     "&Personnalisé"
+  IDS_MI_TOGGLE_WARP_MODE         "&Mode turbo"
+  IDS_MI_TOGGLE_ALWAYSONTOP       "Toujours au dessus"
+  IDS_MI_TOGGLE_FASTPAL           "PAL Emulation"
+  IDS_MI_TOGGLE_SCALE2X           "Scale2x"
+  IDS_MI_SWAP_JOYSTICK            "Interchanger les joysticks"
+  IDS_MI_TOGGLE_VIRTUAL_DEVICES   "Activer les périphériques &virtuels"
+  IDS_MI_TOGGLE_EMUID             "&Identification de l'émulateur"
+  IDS_MI_MOUSE                    "&Grab mouse events"
+  IDS_MI_VIDEO_SETTINGS           "Paramètres vidéo..."
+  IDS_MI_DEVICEMANAGER            "Paramètres des périphériques..."
+  IDS_MI_JOY_SETTINGS             "Paramètres des joysticks..."
+  IDS_MI_KEYBOARD_SETTINGS        "Paramètres du clavier..."
+  IDS_MI_SOUND_SETTINGS           "Paramètres son..."
+  IDS_MI_ROM_SETTINGS             "Paramètres ROM..."
+  IDS_MI_RAM_SETTINGS             "Paramètres de la RAM..."
+  IDS_MI_DATASETTE_SETTINGS       "Paramètres du datassette..."
+  IDS_MI_VICII_SETTINGS           "Paramètres VIC-II..."
+  IDS_MI_MOUSE_SETTINGS           "Mo&use settings..."
+  IDS_MI_SID_SETTINGS             "Paramètres SID..."
+  IDS_MI_RS232_SETTINGS           "Paramètres RS&232..."
+  IDS_MI_REU_SETTINGS             "Paramètres RE&U..."
+  IDS_MI_GEORAM_SETTINGS          "Paramètres &GEORAM..."
+  IDS_MI_RAMCART_SETTINGS         "Paramètres &RAMCART..."
+  IDS_MI_MMC64_SETTINGS           "&MMC64 settings..."
+  IDS_MI_DIGIMAX_SETTINGS         "&DIGIMAX settings..."
+  IDS_MI_IDE64_SETTINGS           "Paramètres &IDE64..."
+#ifdef HAVE_TFE
+  IDS_MI_TFE_SETTINGS             "Émulation &Ethernet..."
+#endif
+  IDS_MI_ACIA_SETTINGS            "Paramètres &ACIA..."
+  IDS_MI_RS232USER_SETTINGS       "Paramètres RS&232 userport..."
+  IDS_MI_SETTINGS_SAVE            "&Enregistrer les paramètres courants"
+  IDS_MI_SETTINGS_LOAD            "&Charger les paramètres"
+  IDS_MI_SETTINGS_DEFAULT         "Rétablir les paramètres par dé&faut"
+  IDS_MI_SAVE_SETTINGS_ON_EXIT    "Enregistrer les pa&ramètres à la sortie"
+  IDS_MI_CONFIRM_ON_EXIT          "&Confirmation à la sortie"
+  IDS_MI_LANG_EN                  "&Anglais"
+  IDS_MI_LANG_DE                  "&Allemand"
+  IDS_MI_LANG_FR                  "&Français"
+  IDS_MI_LANG_HU                  "&Hungarian"
+  IDS_MI_LANG_IT                  "&Italien"
+  IDS_MI_LANG_NL                  "&Hollandais"
+  IDS_MI_LANG_PL                  "&Polonais"
+  IDS_MI_LANG_SV                  "&Suédois"
+  IDS_MI_CMDLINE                  "&Options de ligne de commande"
+  IDS_MI_CONTRIBUTORS             "&Contributeurs"
+  IDS_MI_LICENSE                  "&License"
+  IDS_MI_WARRANTY                 "Aucune &garantie!"
+  IDS_MI_TOGGLE_FULLSCREEN        "Périphérique plein écran"
+  IDS_MI_SIDCART_SETTINGS         "Paramètres cart &SID..."
+  IDS_MI_MON_OPEN                 "&Ouvrir"
+  IDS_MI_MON_SAVE                 "&Enregistrer"
+  IDS_MI_MON_PRINT                "&Imprimer"
+  IDS_MI_MON_EXIT                 "&Quitter\tAlt+F4"
+  IDS_MI_MON_STOP_DEBUG           "&Arrêter débug"
+  IDS_MI_MON_STOP_EXEC            "Arrêter l'e&xécution"
+  IDS_MI_MON_STEP_INTO            "Tracer à l'&intérieur"
+  IDS_MI_MON_STEP_OVER            "Tracer par de&ssus"
+  IDS_MI_MON_SKIP_RETURN          "Sauter jusqu'à &return"
+  IDS_MI_MON_GOTO_CURSOR          "Aller au &curseur"
+  IDS_MI_MON_EVAL                 "Éval&uer"
+  IDS_MI_MON_CURRENT              "Instruction courante"
+  IDS_MI_MON_WND_EVAL             "Fenêtre d'É&valuation"
+  IDS_MI_MON_WND_REG              "Fenêtre des &Registres"
+  IDS_MI_MON_WND_MEM              "Fenêtre &mémoire"
+  IDS_MI_MON_WND_DIS              "Fenêtre &Désassemblage"
+  IDS_MI_MON_WND_CONSOLE          "Fenêtre &Console"
+  IDS_MI_MON_COMPUTER             "&Ordinateur"
+  IDS_MI_MON_DRIVE8               "Lecteur #&8"
+  IDS_MI_MON_DRIVE9               "Lecteur #&9"
+  IDS_MI_MON_CASCADE              "&Cascade"
+  IDS_MI_MON_TILE_VERT            "Fractionner &verticallement"
+  IDS_MI_MON_TILE_HORIZ           "Fractionner &horizontalement"
+  IDS_MI_MON_ARRANGE_ICONS        "&Arranger les îcones"
 END
 
 
@@ -6196,6 +6412,191 @@ BEGIN
   IDS_CANCEL                      "Mégsem"
   IDS_NONE                        "Nincs"
   IDS_BROWSE                      "&Tallózás..."
+  IDS_MP_FILE                     "&Fájl"
+  IDS_MP_ATTACH_DISK_IMAGE        "Lemezképmás csatolása"
+  IDS_MP_DETACH_DISK_IMAGE        "Lemezképmás &leválasztása"
+  IDS_MP_FLIP_LIST                "Lemezl&ista"
+  IDS_MP_DATASETTE_CONTROL        "Magnó &vezérlés"
+  IDS_MP_ATTACH_CARTRIDGE_IMAGE   "Cartridge képmás csatolása..."
+  IDS_MP_EXPERT_CARTRIDGE         "Expert cartridge"
+  IDS_MP_RESET                    "Új&raindítás"
+  IDS_MP_DEBUG                    "&Nyomkövetés"
+#ifdef DEBUG
+  IDS_MP_MODE                     "Mó&d"
+#endif
+  IDS_MP_EDIT                     "&Edit"
+  IDS_MP_SNAPSHOT                 "&Pillanatkép"
+  IDS_MP_RECORDING_START_MODE     "Rögzítés indításának módja"
+  IDS_MP_OPTIONS                  "&Opciók"
+  IDS_MP_REFRESH_RATE             "Frissítési &ráta"
+  IDS_MP_MAXIMUM_SPEED            "&Maximális sebesség"
+  IDS_MP_VIDEO_STANDARD           "Videó &szabvány"
+  IDS_MP_DRIVE_SYNC_FACTOR        "Lemezegység sz&inkron faktor"
+  IDS_MP_SETTINGS                 "B&eállítások"
+  IDS_MP_CARTRIDGE_IO_SETTINGS    "&Cartridge/IO beállításai"
+  IDS_MP_LANGUAGE                 "&Nyelv"
+  IDS_MP_HELP                     "&Súgó"
+  IDS_MP_VIEW                     "&Nézet"
+  IDS_MP_WINDOW                   "&Ablak"
+  IDS_MI_EXIT                     "&Kilépés"
+  IDS_MI_ABOUT                    "&Névjegy..."
+  IDS_MI_PAUSE                    "&Szünet"
+  IDS_MI_EDIT_COPY                "&Copy"
+  IDS_MI_EDIT_PASTE               "&Paste"
+  IDS_MI_AUTOSTART                "Lemez/szalag képmás &automatikus indítása..."
+  IDS_MI_RESET_HARD               "&Hideg"
+  IDS_MI_RESET_SOFT               "&Meleg"
+  IDS_MI_DRIVE8                   "&8-as lemezegység"
+  IDS_MI_DRIVE9                   "&9-as lemezegység"
+  IDS_MI_DRIVE10                  "1&0-as lemezegység"
+  IDS_MI_DRIVE11                  "1&1-as lemezegység"
+  IDS_MI_ATTACH_TAPE              "&Szalag képmás csatolása..."
+  IDS_MI_DETACH_TAPE              "Sz&alag képmás leválasztása"
+  IDS_MI_DETACH_ALL               "&Mindegyik"
+  IDS_MI_TOGGLE_SOUND             "&Hangok engedélyezése"
+  IDS_MI_TOGGLE_DOUBLESIZE        "&Dupla méret"
+  IDS_MI_TOGGLE_DOUBLESCAN        "Du&pla pásztázás"
+  IDS_MI_DRIVE_TRUE_EMULATION     "&Igazi lemezegység emuláció"
+  IDS_MI_TOGGLE_VIDEOCACHE        "Videó gyorsítótár"
+  IDS_MI_DRIVE_SETTINGS           "&Lemezegység beállításai..."
+  IDS_MI_CART_ATTACH_CRT          "&CRT képmás..."
+  IDS_MI_CART_ATTACH_8KB          "Általános &8KB képmás..."
+  IDS_MI_CART_ATTACH_16KB         "Általános &16KB képmás..."
+  IDS_MI_CART_ATTACH_AR           "&Action Replay képmás..."
+  IDS_MI_CART_ATTACH_AR3          "Action Replay &III képmás..."
+  IDS_MI_CART_ATTACH_AR4          "Action Replay &4 képmás..."
+  IDS_MI_CART_ATTACH_STARDOS      "Star&DOS képmás..."
+  IDS_MI_CART_ATTACH_AT           "Atomic &Power képmás..."
+  IDS_MI_CART_ATTACH_EPYX         "&Epyx gyorstöltõ képmás..."
+  IDS_MI_CART_ATTACH_IEEE488      "&IEEE488 interfész képmás..."
+  IDS_MI_CART_ATTACH_RR           "&Retro Replay képmás..."
+  IDS_MI_CART_ATTACH_IDE64        "IDE&64 interfész képmás..."
+  IDS_MI_CART_ATTACH_SS4          "Super Snapshot &4 képmás..."
+  IDS_MI_CART_ATTACH_SS5          "Super Snapshot &5 képmás..."
+  IDS_MI_CART_ATTACH_STB          "Structured &Basic képmás..."
+  IDS_MI_FLIP_ADD                 "Az aktuális képmás hozzáadása"
+  IDS_MI_FLIP_REMOVE              "Az aktuális képmás eltávolítása"
+  IDS_MI_FLIP_NEXT                "&Következõ képmás csatolása"
+  IDS_MI_FLIP_PREVIOUS            "&Elõzõ képmás csatolása"
+  IDS_MI_FLIP_LOAD                "&Lemezlista betöltése"
+  IDS_MI_FLIP_SAVE                "Lemezlista menté&se"
+  IDS_MI_DATASETTE_STOP           "&Leállítás"
+  IDS_MI_DATASETTE_START          "&Indítás"
+  IDS_MI_DATASETTE_FORWARD        "&Elõrecsévélés"
+  IDS_MI_DATASETTE_REWIND         "&Visszacsévélés"
+  IDS_MI_DATASETTE_RECORD         "Felvétel"
+  IDS_MI_DATASETTE_RESET          "A&laphelyzet"
+  IDS_MI_DATASETTE_RESET_COUNTER  "Számláló &nullázása"
+  IDS_MI_CART_ENABLE_EXPERT       "Engedélyezés"
+  IDS_MI_CART_MODE_OFF            "Ki"
+  IDS_MI_CART_MODE_ON             "Be"
+  IDS_MI_CART_SET_DEFAULT         "Cartridge &alapértelmezetté tétele"
+  IDS_MI_TOGGLE_CART_RESET        "Újraindítás cartridge &cserénél"
+  IDS_MI_CART_DETACH              "Cartridge képmás &leválasztása"
+  IDS_MI_CART_FREEZE              "&Fagyasztás Cartridge-dzsel"
+  IDS_MI_MONITOR                  "&Monitor"
+#ifdef DEBUG
+  IDS_MI_DEBUG_MODE_NORMAL        "&Normál"
+  IDS_MI_DEBUG_MODE_SMALL         "&Kicsi"
+  IDS_MI_DEBUG_MODE_HISTORY       "&Elõzmények"
+  IDS_MI_DEBUG_MODE_AUTOPLAY      "E&lõzmények lejátszása"
+  IDS_MI_TOGGLE_MAINCPU_TRACE     "&Fõ CPU követése"
+  IDS_MI_TOGGLE_DRIVE0CPU_TRACE   "&0. lemezegység CPU követése"
+  IDS_MI_TOGGLE_DRIVE1CPU_TRACE   "&1. lemezegység CPU követése"
+#endif
+  IDS_MI_SNAPSHOT_LOAD            "Pillanatkép &betöltése..."
+  IDS_MI_SNAPSHOT_SAVE            "Pillanatkép &mentése..."
+  IDS_MI_LOADQUICK                "Gyors pillanatkép &betöltése"
+  IDS_MI_SAVEQUICK                "Gyors pillanatkép fájl &mentése"
+  IDS_MI_EVENT_TOGGLE_RECORD      "Esemény &felvétel indítása/leállítása"
+  IDS_MI_EVENT_TOGGLE_PLAYBACK    "Esemény &visszajátszás indítása/leállítása"
+  IDS_MI_EVENT_SETMILESTONE       "Kilóméterkõ elhelyezése a felvételben"
+  IDS_MI_EVENT_RESETMILESTONE     "Visszatérés az elõzõ kilóméterkõhöz"
+  IDS_MI_EVENT_START_MODE_SAVE    "Új pillanatkép &mentése"
+  IDS_MI_EVENT_START_MODE_LOAD    "Létezõ pillanatkép &betöltése"
+  IDS_MI_EVENT_START_MODE_RESET   "Indulás &RESET-tel együtt"
+  IDS_MI_EVENT_START_MODE_PLAYBCK "A visszajátszás &felülírása"
+  IDS_MI_EVENT_DIRECTORY          "Válassza ki a felvételeket/könyvtárat"
+  IDS_MI_MEDIAFILE                "Videó készítése/megállítása..."
+  IDS_MI_SOUND_RECORD_START       "Hang felvétele..."
+  IDS_MI_SOUND_RECORD_STOP        "Hangfelvétel leállítása"
+  IDS_MI_REFRESH_RATE_AUTO        "&Automatikus"
+  IDS_MI_MAXIMUM_SPEED_NO_LIMIT   "Nincs &határ"
+  IDS_MI_MAXIMUM_SPEED_CUSTOM     "&Egyéni"
+  IDS_MI_TOGGLE_WARP_MODE         "&Hipergyors mód"
+  IDS_MI_TOGGLE_ALWAYSONTOP       "Mindig felül"
+  IDS_MI_TOGGLE_FASTPAL           "PAL emuláció"
+  IDS_MI_TOGGLE_SCALE2X           "Élsimítás"
+  IDS_MI_SWAP_JOYSTICK            "Botkormányok &felcserélése"
+  IDS_MI_TOGGLE_VIRTUAL_DEVICES   "&Virtuális eszközök ciklus kihagyása"
+  IDS_MI_TOGGLE_EMUID             "Emulátor &azonosító"
+  IDS_MI_MOUSE                    "Egér &események elkapása"
+  IDS_MI_VIDEO_SETTINGS           "&Videó beállításai..."
+  IDS_MI_DEVICEMANAGER            "&Perifériák beállításai..."
+  IDS_MI_JOY_SETTINGS             "B&otkormány beállításai..."
+  IDS_MI_KEYBOARD_SETTINGS        "&Billentyûzet beállításai..."
+  IDS_MI_SOUND_SETTINGS           "Hang beállítások..."
+  IDS_MI_ROM_SETTINGS             "&ROM-ok beállításai..."
+  IDS_MI_RAM_SETTINGS             "RA&M beállításai..."
+  IDS_MI_DATASETTE_SETTINGS       "M&agnó beállításai..."
+  IDS_MI_VICII_SETTINGS           "VIC-II beállításai..."
+  IDS_MI_MOUSE_SETTINGS           "Egér &beállításai..."
+  IDS_MI_SID_SETTINGS             "S&ID beállításai..."
+  IDS_MI_RS232_SETTINGS           "RS&232 beállításai..."
+  IDS_MI_REU_SETTINGS             "&REU beállításai..."
+  IDS_MI_GEORAM_SETTINGS          "&GEORAM beállításai..."
+  IDS_MI_RAMCART_SETTINGS         "&RAMCART beállításai..."
+  IDS_MI_MMC64_SETTINGS           "&MMC64 beállításai..."
+  IDS_MI_DIGIMAX_SETTINGS         "&DIGIMAX beállításai..."
+  IDS_MI_IDE64_SETTINGS           "&IDE64 beállításai..."
+#ifdef HAVE_TFE
+  IDS_MI_TFE_SETTINGS             "&Ethernet beállításai..."
+#endif
+  IDS_MI_ACIA_SETTINGS            "&ACIA beállításai..."
+  IDS_MI_RS232USER_SETTINGS       "RS&232 userport beállításai..."
+  IDS_MI_SETTINGS_SAVE            "Jelenlegi beállítások &mentése"
+  IDS_MI_SETTINGS_LOAD            "Mentett beállítások &betöltése"
+  IDS_MI_SETTINGS_DEFAULT         "Alapértelmezések &beállítása"
+  IDS_MI_SAVE_SETTINGS_ON_EXIT    "Beállítások mentése k&ilépéskor"
+  IDS_MI_CONFIRM_ON_EXIT          "&Megerõsítés kilépéskor"
+  IDS_MI_LANG_EN                  "&Angol"
+  IDS_MI_LANG_DE                  "&Német"
+  IDS_MI_LANG_FR                  "&Francia"
+  IDS_MI_LANG_HU                  "&Magyar"
+  IDS_MI_LANG_IT                  "&Olasz"
+  IDS_MI_LANG_NL                  "&Holland"
+  IDS_MI_LANG_PL                  "&Lengyel"
+  IDS_MI_LANG_SV                  "&Svéd"
+  IDS_MI_CMDLINE                  "Parancssori &opciók"
+  IDS_MI_CONTRIBUTORS             "&Közremûködõk"
+  IDS_MI_LICENSE                  "&Licensz"
+  IDS_MI_WARRANTY                 "Nincs &garancia"
+  IDS_MI_TOGGLE_FULLSCREEN        "Teljes képernyõ"
+  IDS_MI_SIDCART_SETTINGS         "&SID kártya beállításai..."
+  IDS_MI_MON_OPEN                 "&Megnyitás"
+  IDS_MI_MON_SAVE                 "M&entés"
+  IDS_MI_MON_PRINT                "&Nyomtatás"
+  IDS_MI_MON_EXIT                 "&Kilépés\tAlt+F4"
+  IDS_MI_MON_STOP_DEBUG           "Nyomkövetés l&eállítása"
+  IDS_MI_MON_STOP_EXEC            "Végrehajtás &leállítása"
+  IDS_MI_MON_STEP_INTO            "B&elép"
+  IDS_MI_MON_STEP_OVER            "Á&tlép"
+  IDS_MI_MON_SKIP_RETURN          "Léptetés &visszatérésig"
+  IDS_MI_MON_GOTO_CURSOR          "Ugrás a &kurzorhoz"
+  IDS_MI_MON_EVAL                 "&Kiértékel"
+  IDS_MI_MON_CURRENT              "&Jelenlegi utasítás"
+  IDS_MI_MON_WND_EVAL             "&Kiértékelés ablak"
+  IDS_MI_MON_WND_REG              "&Regiszter ablak"
+  IDS_MI_MON_WND_MEM              "&Memória ablak"
+  IDS_MI_MON_WND_DIS              "&Visszafejtés ablak"
+  IDS_MI_MON_WND_CONSOLE          "&Konzol ablak"
+  IDS_MI_MON_COMPUTER             "&Számítógép"
+  IDS_MI_MON_DRIVE8               "&8-as lemezegység"
+  IDS_MI_MON_DRIVE9               "&9-es lemezegység"
+  IDS_MI_MON_CASCADE              "&Kaszkád"
+  IDS_MI_MON_TILE_VERT            "Elrendezés &vízszintesen"
+  IDS_MI_MON_TILE_HORIZ           "Elrendezés &függõlegesen"
+  IDS_MI_MON_ARRANGE_ICONS        "&Ikonok elrendezése"
 END
 #pragma code_page(28591)
 
@@ -6396,6 +6797,191 @@ BEGIN
   IDS_CANCEL                      "Annulla"
   IDS_NONE                        "Nessuno"
   IDS_BROWSE                      "&Sfoglia..."
+  IDS_MP_FILE                     "&File"
+  IDS_MP_ATTACH_DISK_IMAGE        "Seleziona l'immagine di un &disco"
+  IDS_MP_DETACH_DISK_IMAGE        "&Rimuovi l'immagine di un disco"
+  IDS_MP_FLIP_LIST                "&Flip list"
+  IDS_MP_DATASETTE_CONTROL        "Contro&llo del registratore"
+  IDS_MP_ATTACH_CARTRIDGE_IMAGE   "Seleziona l'immagine di una &cartuccia..."
+  IDS_MP_EXPERT_CARTRIDGE         "Expert Cartridge"
+  IDS_MP_RESET                    "&Reset"
+  IDS_MP_DEBUG                    "&Debug"
+#ifdef DEBUG
+  IDS_MP_MODE                     "M&odalità"
+#endif
+  IDS_MP_EDIT                     "&Edit"
+  IDS_MP_SNAPSHOT                 "Sna&pshot"
+  IDS_MP_RECORDING_START_MODE     "Modalità di inizio registrazione"
+  IDS_MP_OPTIONS                  "&Opzioni"
+  IDS_MP_REFRESH_RATE             "Frequenza di &aggiornamento"
+  IDS_MP_MAXIMUM_SPEED            "Velocità &massima"
+  IDS_MP_VIDEO_STANDARD           "Standard vide&o"
+  IDS_MP_DRIVE_SYNC_FACTOR        "Fattore di s&incronizzazione del drive"
+  IDS_MP_SETTINGS                 "I&mpostazioni"
+  IDS_MP_CARTRIDGE_IO_SETTINGS    "Impostazioni &cartuccia/IO"
+  IDS_MP_LANGUAGE                 "&Lingua"
+  IDS_MP_HELP                     "&Aiuto"
+  IDS_MP_VIEW                     "&Vista"
+  IDS_MP_WINDOW                   "&Finestra"
+  IDS_MI_EXIT                     "E&sci"
+  IDS_MI_ABOUT                    "&Informazioni su VICE..."
+  IDS_MI_PAUSE                    "&Pausa"
+  IDS_MI_EDIT_COPY                "&Copy"
+  IDS_MI_EDIT_PASTE               "&Paste"
+  IDS_MI_AUTOSTART                "&Avvia automaticamente l'immagine di un disco/cassetta..."
+  IDS_MI_RESET_HARD               "&Hard"
+  IDS_MI_RESET_SOFT               "&Soft"
+  IDS_MI_DRIVE8                   "Drive &8"
+  IDS_MI_DRIVE9                   "Drive &9"
+  IDS_MI_DRIVE10                  "Drive 1&0"
+  IDS_MI_DRIVE11                  "Drive 1&1"
+  IDS_MI_ATTACH_TAPE              "Seleziona l'immagine di una &cassetta..."
+  IDS_MI_DETACH_TAPE              "Rimuo&vi l'immagine della cassetta"
+  IDS_MI_DETACH_ALL               "&Tutti"
+  IDS_MI_TOGGLE_SOUND             "Riproduzione del &suono"
+  IDS_MI_TOGGLE_DOUBLESIZE        "&Dimensione doppia"
+  IDS_MI_TOGGLE_DOUBLESCAN        "Scansione do&ppia"
+  IDS_MI_DRIVE_TRUE_EMULATION     "Attiva l'emulazione &hardware dei drive"
+  IDS_MI_TOGGLE_VIDEOCACHE        "&Cache video"
+  IDS_MI_DRIVE_SETTINGS           "Impostazioni &drive..."
+  IDS_MI_CART_ATTACH_CRT          "Immagine &CRT..."
+  IDS_MI_CART_ATTACH_8KB          "Immagine generica di &8KB..."
+  IDS_MI_CART_ATTACH_16KB         "Immagine generica di &16KB..."
+  IDS_MI_CART_ATTACH_AR           "Immagine &Action Replay..."
+  IDS_MI_CART_ATTACH_AR3          "Immagine Action Replay &III..."
+  IDS_MI_CART_ATTACH_AR4          "Immagine Action Replay &4..."
+  IDS_MI_CART_ATTACH_STARDOS      "Immagine Star&DOS..."
+  IDS_MI_CART_ATTACH_AT           "Immagine Atomic &Power..."
+  IDS_MI_CART_ATTACH_EPYX         "Immagine &Epyx fastload..."
+  IDS_MI_CART_ATTACH_IEEE488      "Immagine dell'interfaccia &IEEE488..."
+  IDS_MI_CART_ATTACH_RR           "Immagine &Retro Replay..."
+  IDS_MI_CART_ATTACH_IDE64        "Immagine dell'interfaccia IDE&64..."
+  IDS_MI_CART_ATTACH_SS4          "Immagine Super Snapshot &4..."
+  IDS_MI_CART_ATTACH_SS5          "Immagine Super Snapshot &5..."
+  IDS_MI_CART_ATTACH_STB          "Immagine Structured &Basic..."
+  IDS_MI_FLIP_ADD                 "&Aggiungi l'immagine attuale"
+  IDS_MI_FLIP_REMOVE              "&Rimuovi l'immagine attuale"
+  IDS_MI_FLIP_NEXT                "Seleziona l'immagine successiva"
+  IDS_MI_FLIP_PREVIOUS            "Seleziona l'immagine &precedente"
+  IDS_MI_FLIP_LOAD                "&Carica fliplist"
+  IDS_MI_FLIP_SAVE                "&Salva fliplist"
+  IDS_MI_DATASETTE_STOP           "S&top"
+  IDS_MI_DATASETTE_START          "&Avvia"
+  IDS_MI_DATASETTE_FORWARD        "&Avanti"
+  IDS_MI_DATASETTE_REWIND         "&Indietro"
+  IDS_MI_DATASETTE_RECORD         "Re&cord"
+  IDS_MI_DATASETTE_RESET          "R&eset"
+  IDS_MI_DATASETTE_RESET_COUNTER  "Reset c&ontantore"
+  IDS_MI_CART_ENABLE_EXPERT       "Attivo"
+  IDS_MI_CART_MODE_OFF            "No"
+  IDS_MI_CART_MODE_ON             "Sì"
+  IDS_MI_CART_SET_DEFAULT         "Imposta la cartuccia come &predefinita"
+  IDS_MI_TOGGLE_CART_RESET        "Reset &al cambio di cartuccia"
+  IDS_MI_CART_DETACH              "Rimuovi l'&immagine della cartuccia"
+  IDS_MI_CART_FREEZE              "Free&ze della cartuccia"
+  IDS_MI_MONITOR                  "&Monitor"
+#ifdef DEBUG
+  IDS_MI_DEBUG_MODE_NORMAL        "&Normale"
+  IDS_MI_DEBUG_MODE_SMALL         "&Piccolo"
+  IDS_MI_DEBUG_MODE_HISTORY       "&Cronologia"
+  IDS_MI_DEBUG_MODE_AUTOPLAY      "Autoplay &Cronologia"
+  IDS_MI_TOGGLE_MAINCPU_TRACE     "Traccia della CPU &principale"
+  IDS_MI_TOGGLE_DRIVE0CPU_TRACE   "Traccia della CPU del drive&0"
+  IDS_MI_TOGGLE_DRIVE1CPU_TRACE   "Traccia della CPU del drive&1"
+#endif
+  IDS_MI_SNAPSHOT_LOAD            "Carica &immagine dello snapshot..."
+  IDS_MI_SNAPSHOT_SAVE            "Salva immagine dello sna&pshot..."
+  IDS_MI_LOADQUICK                "&Carica immagine quicksnapshot"
+  IDS_MI_SAVEQUICK                "Salva immagine quicksnapshot"
+  IDS_MI_EVENT_TOGGLE_RECORD      "Avvia/termina la &registrazione della cronologia"
+  IDS_MI_EVENT_TOGGLE_PLAYBACK    "Avvia/termina la r&iproduzione della cronologia"
+  IDS_MI_EVENT_SETMILESTONE       "Imposta segnalibro"
+  IDS_MI_EVENT_RESETMILESTONE     "Vai al segnalibro"
+  IDS_MI_EVENT_START_MODE_SAVE    "&Salva nuovo snapshot"
+  IDS_MI_EVENT_START_MODE_LOAD    "&Carica snapshot esistente"
+  IDS_MI_EVENT_START_MODE_RESET   "Avvia con &reset"
+  IDS_MI_EVENT_START_MODE_PLAYBCK "Sovrascrivi la &riproduzione"
+  IDS_MI_EVENT_DIRECTORY          "Seleziona i file/directory della cronologia"
+  IDS_MI_MEDIAFILE                "Salva/arresta file multimediale..."
+  IDS_MI_SOUND_RECORD_START       "Registra audio..."
+  IDS_MI_SOUND_RECORD_STOP        "Interrompi la registrazione audio"
+  IDS_MI_REFRESH_RATE_AUTO        "&Auto"
+  IDS_MI_MAXIMUM_SPEED_NO_LIMIT   "Nessun &limite"
+  IDS_MI_MAXIMUM_SPEED_CUSTOM     "&Personalizzata"
+  IDS_MI_TOGGLE_WARP_MODE         "Modalità &turbo"
+  IDS_MI_TOGGLE_ALWAYSONTOP       "Sempre in primo piano"
+  IDS_MI_TOGGLE_FASTPAL           "Emulazione PAL"
+  IDS_MI_TOGGLE_SCALE2X           "Scale2x"
+  IDS_MI_SWAP_JOYSTICK            "Scambia &joystick"
+  IDS_MI_TOGGLE_VIRTUAL_DEVICES   "Attiva le periferiche &virtuali"
+  IDS_MI_TOGGLE_EMUID             "&Identificazione dell'emulatore"
+  IDS_MI_MOUSE                    "&Grab mouse events"
+  IDS_MI_VIDEO_SETTINGS           "Impostazioni &video..."
+  IDS_MI_DEVICEMANAGER            "Impostazioni &periferiche..."
+  IDS_MI_JOY_SETTINGS             "Impostazioni &joystick..."
+  IDS_MI_KEYBOARD_SETTINGS        "Impostazioni &tastiera..."
+  IDS_MI_SOUND_SETTINGS           "Impostazioni a&udio..."
+  IDS_MI_ROM_SETTINGS             "Impostazioni &ROM..."
+  IDS_MI_RAM_SETTINGS             "Impostazioni RA&M..."
+  IDS_MI_DATASETTE_SETTINGS       "Impostazioni r&egistratore..."
+  IDS_MI_VICII_SETTINGS           "Impostazioni VIC-II..."
+  IDS_MI_MOUSE_SETTINGS           "Mo&use settings..."
+  IDS_MI_SID_SETTINGS             "Impostazioni S&ID..."
+  IDS_MI_RS232_SETTINGS           "Impostazioni RS&232..."
+  IDS_MI_REU_SETTINGS             "Impostazioni &REU..."
+  IDS_MI_GEORAM_SETTINGS          "Impostazioni &GEORAM..."
+  IDS_MI_RAMCART_SETTINGS         "Impostazioni &RAMCART..."
+  IDS_MI_MMC64_SETTINGS           "Impostazioni &MMC64..."
+  IDS_MI_DIGIMAX_SETTINGS         "Impostazioni &DIGIMAX..."
+  IDS_MI_IDE64_SETTINGS           "Impostazioni &IDE64..."
+#ifdef HAVE_TFE
+  IDS_MI_TFE_SETTINGS             "Impostazioni &Ethernet..."
+#endif
+  IDS_MI_ACIA_SETTINGS            "Impostazioni &ACIA..."
+  IDS_MI_RS232USER_SETTINGS       "Impostazioni RS&232 su userport..."
+  IDS_MI_SETTINGS_SAVE            "&Salva le impostazioni attuali"
+  IDS_MI_SETTINGS_LOAD            "&Carica le impostazioni salvate"
+  IDS_MI_SETTINGS_DEFAULT         "&Ripristina le impostazioni originarie"
+  IDS_MI_SAVE_SETTINGS_ON_EXIT    "Salva le impostazioni in u&scita"
+  IDS_MI_CONFIRM_ON_EXIT          "&Conferma all'uscita"
+  IDS_MI_LANG_EN                  "&Inglese"
+  IDS_MI_LANG_DE                  "&Tedesco"
+  IDS_MI_LANG_FR                  "&Francese"
+  IDS_MI_LANG_HU                  "&Ungherese"
+  IDS_MI_LANG_IT                  "&Italiano"
+  IDS_MI_LANG_NL                  "&Olandese"
+  IDS_MI_LANG_PL                  "&Polacco"
+  IDS_MI_LANG_SV                  "&Svedese"
+  IDS_MI_CMDLINE                  "&Opzioni della riga di comando"
+  IDS_MI_CONTRIBUTORS             "&Collaboratori"
+  IDS_MI_LICENSE                  "&Licenza"
+  IDS_MI_WARRANTY                 "Nessuna &garanzia"
+  IDS_MI_TOGGLE_FULLSCREEN        "A tutto schermo"
+  IDS_MI_SIDCART_SETTINGS         "Impostazioni cartuccia &SID..."
+  IDS_MI_MON_OPEN                 "&Apri"
+  IDS_MI_MON_SAVE                 "&Salva"
+  IDS_MI_MON_PRINT                "&Stampa"
+  IDS_MI_MON_EXIT                 "E&sci\tAlt+F4"
+  IDS_MI_MON_STOP_DEBUG           "&Interrompi Debug"
+  IDS_MI_MON_STOP_EXEC            "Interrompi E&secuzione"
+  IDS_MI_MON_STEP_INTO            "Esegui &istruzione"
+  IDS_MI_MON_STEP_OVER            "Esegui &routine"
+  IDS_MI_MON_SKIP_RETURN          "Esegui fino al &ritorno"
+  IDS_MI_MON_GOTO_CURSOR          "Vai al &cursore"
+  IDS_MI_MON_EVAL                 "&Valutazione"
+  IDS_MI_MON_CURRENT              "Istruzione &corrente"
+  IDS_MI_MON_WND_EVAL             "&Finestra di valutazione"
+  IDS_MI_MON_WND_REG              "Finestra dei &registri"
+  IDS_MI_MON_WND_MEM              "Finestra di &memoria"
+  IDS_MI_MON_WND_DIS              "Finestra di &disassemblaggio"
+  IDS_MI_MON_WND_CONSOLE          "Finestra della &console"
+  IDS_MI_MON_COMPUTER             "&Computer"
+  IDS_MI_MON_DRIVE8               "Drive &8"
+  IDS_MI_MON_DRIVE9               "Drive &9"
+  IDS_MI_MON_CASCADE              "A &cascata"
+  IDS_MI_MON_TILE_VERT            "Affianca &verticalmente"
+  IDS_MI_MON_TILE_HORIZ           "Affianca &orizzontalmente"
+  IDS_MI_MON_ARRANGE_ICONS        "&Disponi icone"
 END
 
 
@@ -6595,6 +7181,191 @@ BEGIN
   IDS_CANCEL                      "Annuleren"
   IDS_NONE                        "Geen"
   IDS_BROWSE                      "&Bladeren..."
+  IDS_MP_FILE                     "&Bestand"
+  IDS_MP_ATTACH_DISK_IMAGE        "Koppel &schijfbestand aan"
+  IDS_MP_DETACH_DISK_IMAGE        "Ontkopp&el schijfbestand"
+  IDS_MP_FLIP_LIST                "&Flip lijst"
+  IDS_MP_DATASETTE_CONTROL        "Datassette bedie&ning"
+  IDS_MP_ATTACH_CARTRIDGE_IMAGE   "Koppel &cartridgebestand..."
+  IDS_MP_EXPERT_CARTRIDGE         "Expert Cartridge"
+  IDS_MP_RESET                    "&Reset"
+  IDS_MP_DEBUG                    "&Debug"
+#ifdef DEBUG
+  IDS_MP_MODE                     "M&odus"
+#endif
+  IDS_MP_EDIT                     "&Bewerken"
+  IDS_MP_SNAPSHOT                 "Momento&pname"
+  IDS_MP_RECORDING_START_MODE     "Opname start modus"
+  IDS_MP_OPTIONS                  "&Opties"
+  IDS_MP_REFRESH_RATE             "Ve&rversingssnelheid"
+  IDS_MP_MAXIMUM_SPEED            "&Maximale Snelheid"
+  IDS_MP_VIDEO_STANDARD           "Vide&ostandaard"
+  IDS_MP_DRIVE_SYNC_FACTOR        "Drive s&ynchronisatie faktor"
+  IDS_MP_SETTINGS                 "Inst&ellingen"
+  IDS_MP_CARTRIDGE_IO_SETTINGS    "&Cartridge/IO-instellingen"
+  IDS_MP_LANGUAGE                 "&Taal"
+  IDS_MP_HELP                     "&Help"
+  IDS_MP_VIEW                     "&Beeld"
+  IDS_MP_WINDOW                   "&Venster"
+  IDS_MI_EXIT                     "Af&sluiten"
+  IDS_MI_ABOUT                    "&Over VICE..."
+  IDS_MI_PAUSE                    "&Pauze"
+  IDS_MI_EDIT_COPY                "&Kopie"
+  IDS_MI_EDIT_PASTE               "&Plakken"
+  IDS_MI_AUTOSTART                "&Autostart disk-/tapebestand..."
+  IDS_MI_RESET_HARD               "&Hard"
+  IDS_MI_RESET_SOFT               "&Zacht"
+  IDS_MI_DRIVE8                   "Drive &8"
+  IDS_MI_DRIVE9                   "Drive &9"
+  IDS_MI_DRIVE10                  "Drive 1&0"
+  IDS_MI_DRIVE11                  "Drive 1&1"
+  IDS_MI_ATTACH_TAPE              "Koppel &tapebestand..."
+  IDS_MI_DETACH_TAPE              "Ontkoppe&l tapebestand"
+  IDS_MI_DETACH_ALL               "&Alles"
+  IDS_MI_TOGGLE_SOUND             "Geluid&suitvoer"
+  IDS_MI_TOGGLE_DOUBLESIZE        "&Dubbele grootte"
+  IDS_MI_TOGGLE_DOUBLESCAN        "Du&bbele scan"
+  IDS_MI_DRIVE_TRUE_EMULATION     "&Hardwarematige driveemulatie"
+  IDS_MI_TOGGLE_VIDEOCACHE        "Video &cache"
+  IDS_MI_DRIVE_SETTINGS           "&Drive-instellingen..."
+  IDS_MI_CART_ATTACH_CRT          "&CRT-bestand..."
+  IDS_MI_CART_ATTACH_8KB          "Algemeen &8KB-bestand..."
+  IDS_MI_CART_ATTACH_16KB         "Algemeen &16KB-bestand..."
+  IDS_MI_CART_ATTACH_AR           "&Action Replay-bestand..."
+  IDS_MI_CART_ATTACH_AR3          "Action Replay III-bestand..."
+  IDS_MI_CART_ATTACH_AR4          "Action Replay 4-bestand..."
+  IDS_MI_CART_ATTACH_STARDOS      "StarDOS-bestand..."
+  IDS_MI_CART_ATTACH_AT           "Atomic &Power-bestand..."
+  IDS_MI_CART_ATTACH_EPYX         "&Epyx fastloadbestand..."
+  IDS_MI_CART_ATTACH_IEEE488      "&IEEE488-interfacebestand..."
+  IDS_MI_CART_ATTACH_RR           "&Retro Replay-bestand..."
+  IDS_MI_CART_ATTACH_IDE64        "IDE&64-interfacebestand..."
+  IDS_MI_CART_ATTACH_SS4          "Super Snapshot &4-bestand..."
+  IDS_MI_CART_ATTACH_SS5          "Super Snapshot &5-bestand..."
+  IDS_MI_CART_ATTACH_STB          "Structured &Basic-bestand..."
+  IDS_MI_FLIP_ADD                 "Voeg huidig best&and toe"
+  IDS_MI_FLIP_REMOVE              "Ve&rwijder huidig bestand"
+  IDS_MI_FLIP_NEXT                "Koppel volge&nd bestand"
+  IDS_MI_FLIP_PREVIOUS            "Koppel vori&g bestand"
+  IDS_MI_FLIP_LOAD                "&Laad fliplijst"
+  IDS_MI_FLIP_SAVE                "Op&slaan fliplijst"
+  IDS_MI_DATASETTE_STOP           "S&top"
+  IDS_MI_DATASETTE_START          "&Start"
+  IDS_MI_DATASETTE_FORWARD        "&Vooruit"
+  IDS_MI_DATASETTE_REWIND         "Te&rug"
+  IDS_MI_DATASETTE_RECORD         "Op&name"
+  IDS_MI_DATASETTE_RESET          "R&eset"
+  IDS_MI_DATASETTE_RESET_COUNTER  "Reset T&eller"
+  IDS_MI_CART_ENABLE_EXPERT       "Activeer"
+  IDS_MI_CART_MODE_OFF            "Uit"
+  IDS_MI_CART_MODE_ON             "Aan"
+  IDS_MI_CART_SET_DEFAULT         "Zet cartridge als stan&daard"
+  IDS_MI_TOGGLE_CART_RESET        "Reset bij cart wisse&ling"
+  IDS_MI_CART_DETACH              "Ontkoppel cartr&idgebestand"
+  IDS_MI_CART_FREEZE              "Cartridge free&ze"
+  IDS_MI_MONITOR                  "&Monitor"
+#ifdef DEBUG
+  IDS_MI_DEBUG_MODE_NORMAL        "&Normaal"
+  IDS_MI_DEBUG_MODE_SMALL         "&Klein"
+  IDS_MI_DEBUG_MODE_HISTORY       "&Geschiedenis"
+  IDS_MI_DEBUG_MODE_AUTOPLAY      "&Autospeel geschiedenis"
+  IDS_MI_TOGGLE_MAINCPU_TRACE     "&Hoofd CPU Trace"
+  IDS_MI_TOGGLE_DRIVE0CPU_TRACE   "Drive&0 CPU Trace"
+  IDS_MI_TOGGLE_DRIVE1CPU_TRACE   "Drive&1 CPU Trace"
+#endif
+  IDS_MI_SNAPSHOT_LOAD            "Laad momentopnamebest&and..."
+  IDS_MI_SNAPSHOT_SAVE            "Opslaan momento&pnamebestand..."
+  IDS_MI_LOADQUICK                "Snel&laad momentopnamebestand"
+  IDS_MI_SAVEQUICK                "&Snelopslaan momentopnamebestand"
+  IDS_MI_EVENT_TOGGLE_RECORD      "Sta&rt/Stop opnamegeschiedenis"
+  IDS_MI_EVENT_TOGGLE_PLAYBACK    "Start/Stop &Afspeelgeschiedenis"
+  IDS_MI_EVENT_SETMILESTONE       "Zet Opname Mijlpaal"
+  IDS_MI_EVENT_RESETMILESTONE     "Ga terug naar Mijlpaal"
+  IDS_MI_EVENT_START_MODE_SAVE    "Op&slaan nieuwe momentopname"
+  IDS_MI_EVENT_START_MODE_LOAD    "&Laad bestaande momentopname"
+  IDS_MI_EVENT_START_MODE_RESET   "Start bij &reset"
+  IDS_MI_EVENT_START_MODE_PLAYBCK "Overschrijf weer&gave"
+  IDS_MI_EVENT_DIRECTORY          "Selecteer geschiedenisdirectory"
+  IDS_MI_MEDIAFILE                "Opslaan/stop mediabestand..."
+  IDS_MI_SOUND_RECORD_START       "Geluidsopname..."
+  IDS_MI_SOUND_RECORD_STOP        "Stop geluidsopname"
+  IDS_MI_REFRESH_RATE_AUTO        "&Automatisch"
+  IDS_MI_MAXIMUM_SPEED_NO_LIMIT   "Geen &limiet"
+  IDS_MI_MAXIMUM_SPEED_CUSTOM     "&Aangepast"
+  IDS_MI_TOGGLE_WARP_MODE         "&Warpmodus"
+  IDS_MI_TOGGLE_ALWAYSONTOP       "Altijd in de voorgrond"
+  IDS_MI_TOGGLE_FASTPAL           "PAL-emulatie"
+  IDS_MI_TOGGLE_SCALE2X           "Schaal2x"
+  IDS_MI_SWAP_JOYSTICK            "Verwissel &Joysticks"
+  IDS_MI_TOGGLE_VIRTUAL_DEVICES   "&Virtuele apparaattraps"
+  IDS_MI_TOGGLE_EMUID             "Emulator &Identificatie"
+  IDS_MI_MOUSE                    "&Pak mouse gebeurtenissen"
+  IDS_MI_VIDEO_SETTINGS           "&Videoinstellingen..."
+  IDS_MI_DEVICEMANAGER            "Randa&pparateninstellingen..."
+  IDS_MI_JOY_SETTINGS             "&Joystick-instellingen..."
+  IDS_MI_KEYBOARD_SETTINGS        "&Toetsenbordinstellingen..."
+  IDS_MI_SOUND_SETTINGS           "G&eluidsinstellingen..."
+  IDS_MI_ROM_SETTINGS             "&ROM-instellingen..."
+  IDS_MI_RAM_SETTINGS             "RA&M-instellingen..."
+  IDS_MI_DATASETTE_SETTINGS       "D&atasette-instellingen..."
+  IDS_MI_VICII_SETTINGS           "VIC-II-instellingen..."
+  IDS_MI_MOUSE_SETTINGS           "M&uis instellingen..."
+  IDS_MI_SID_SETTINGS             "S&ID-instellingen..."
+  IDS_MI_RS232_SETTINGS           "RS&232-instellingen..."
+  IDS_MI_REU_SETTINGS             "&REU-instellingen..."
+  IDS_MI_GEORAM_SETTINGS          "&GEORAM-instellingen..."
+  IDS_MI_RAMCART_SETTINGS         "&RAMCART-instellingen..."
+  IDS_MI_MMC64_SETTINGS           "&MMC64-instellingen..."
+  IDS_MI_DIGIMAX_SETTINGS         "&DIGIMAX-instellingen..."
+  IDS_MI_IDE64_SETTINGS           "&IDE64-instellingen..."
+#ifdef HAVE_TFE
+  IDS_MI_TFE_SETTINGS             "&Ethernetinstellingen..."
+#endif
+  IDS_MI_ACIA_SETTINGS            "&ACIA-instellingen..."
+  IDS_MI_RS232USER_SETTINGS       "RS&232-userportinstellingen..."
+  IDS_MI_SETTINGS_SAVE            "Huidige instellingen op&slaan"
+  IDS_MI_SETTINGS_LOAD            "Opges&lagen instelling laden"
+  IDS_MI_SETTINGS_DEFAULT         "Herstel standaar&dinstellingen"
+  IDS_MI_SAVE_SETTINGS_ON_EXIT    "Sla instellingen op bij afslui&ten"
+  IDS_MI_CONFIRM_ON_EXIT          "Bevestigen bij afsl&uiten"
+  IDS_MI_LANG_EN                  "&Engels"
+  IDS_MI_LANG_DE                  "&Duits"
+  IDS_MI_LANG_FR                  "&Frans"
+  IDS_MI_LANG_HU                  "&Hongaars"
+  IDS_MI_LANG_IT                  "&Italiaans"
+  IDS_MI_LANG_NL                  "&Nederlands"
+  IDS_MI_LANG_PL                  "&Pools"
+  IDS_MI_LANG_SV                  "&Zweeds"
+  IDS_MI_CMDLINE                  "Commando invoer &opties"
+  IDS_MI_CONTRIBUTORS             "&Medewerkers aan het VICE project"
+  IDS_MI_LICENSE                  "&Licensie"
+  IDS_MI_WARRANTY                 "Geen &garantie"
+  IDS_MI_TOGGLE_FULLSCREEN        "Volscherm"
+  IDS_MI_SIDCART_SETTINGS         "&SID cart-instellingen..."
+  IDS_MI_MON_OPEN                 "&Open"
+  IDS_MI_MON_SAVE                 "Op&slaan"
+  IDS_MI_MON_PRINT                "&Print"
+  IDS_MI_MON_EXIT                 "A&fsluiten\tAlt+F4"
+  IDS_MI_MON_STOP_DEBUG           "&Stop Debug"
+  IDS_MI_MON_STOP_EXEC            "Stop &Uitvoering"
+  IDS_MI_MON_STEP_INTO            "Stap i&n"
+  IDS_MI_MON_STEP_OVER            "Stap o&ver"
+  IDS_MI_MON_SKIP_RETURN          "Stap tot &terugkeer"
+  IDS_MI_MON_GOTO_CURSOR          "Ga naar &cursor"
+  IDS_MI_MON_EVAL                 "&Evalueren"
+  IDS_MI_MON_CURRENT              "&Huidige instructie"
+  IDS_MI_MON_WND_EVAL             "Ev&aluatie venster"
+  IDS_MI_MON_WND_REG              "&Register venster"
+  IDS_MI_MON_WND_MEM              "&Geheugen venster"
+  IDS_MI_MON_WND_DIS              "&Disassemblyvenster"
+  IDS_MI_MON_WND_CONSOLE          "&Console venster"
+  IDS_MI_MON_COMPUTER             "&Computer"
+  IDS_MI_MON_DRIVE8               "Drive &8"
+  IDS_MI_MON_DRIVE9               "Drive &9"
+  IDS_MI_MON_CASCADE              "&Alle vensters"
+  IDS_MI_MON_TILE_VERT            "&Naast elkaar"
+  IDS_MI_MON_TILE_HORIZ           "Onder &elkaar"
+  IDS_MI_MON_ARRANGE_ICONS        "&Rangschik iconen"
 END
 
 
@@ -6795,6 +7566,191 @@ BEGIN
   IDS_CANCEL                      "Anuluj"
   IDS_NONE                        "Brak"
   IDS_BROWSE                      "&Przegl±daj..."
+  IDS_MP_FILE                     "&Plik"
+  IDS_MP_ATTACH_DISK_IMAGE        "W³ó¿ obraz &dyskietki"
+  IDS_MP_DETACH_DISK_IMAGE        "Wyjmij obraz dyski&etki"
+  IDS_MP_FLIP_LIST                "&Zmieñ listê"
+  IDS_MP_DATASETTE_CONTROL        "Zarz±dzanie ma&gnetofonem"
+  IDS_MP_ATTACH_CARTRIDGE_IMAGE   "W³ó¿ obraz &kartrid¿a..."
+  IDS_MP_EXPERT_CARTRIDGE         "Expert Cartridge"
+  IDS_MP_RESET                    "&Reset"
+  IDS_MP_DEBUG                    "&Debug"
+#ifdef DEBUG
+  IDS_MP_MODE                     "M&ode"
+#endif
+  IDS_MP_EDIT                     "&Edit"
+  IDS_MP_SNAPSHOT                 "z&rzutu"
+  IDS_MP_RECORDING_START_MODE     "Rozpocznij tryb zapisu"
+  IDS_MP_OPTIONS                  "&Opcje"
+  IDS_MP_REFRESH_RATE             "Czêstot&liwo¶æ od¶wie¿ania"
+  IDS_MP_MAXIMUM_SPEED            "&Maksymalna prêdko¶æ"
+  IDS_MP_VIDEO_STANDARD           "Standard vide&o"
+  IDS_MP_DRIVE_SYNC_FACTOR        "Drive s&ync factor"
+  IDS_MP_SETTINGS                 "Ustawi&enia"
+  IDS_MP_CARTRIDGE_IO_SETTINGS    "Ustawienia kart&rid¿a"
+  IDS_MP_LANGUAGE                 "&Language"
+  IDS_MP_HELP                     "&Pomoc"
+  IDS_MP_VIEW                     "&View"
+  IDS_MP_WINDOW                   "&Okna"
+  IDS_MI_EXIT                     "W&yjd¼"
+  IDS_MI_ABOUT                    "&O VICE..."
+  IDS_MI_PAUSE                    "&Pauza"
+  IDS_MI_EDIT_COPY                "&Copy"
+  IDS_MI_EDIT_PASTE               "&Paste"
+  IDS_MI_AUTOSTART                "&Autostart disk/tape image..."
+  IDS_MI_RESET_HARD               "T&wardy"
+  IDS_MI_RESET_SOFT               "&Miêkki"
+  IDS_MI_DRIVE8                   "Napêdu &8"
+  IDS_MI_DRIVE9                   "Napêdu &9"
+  IDS_MI_DRIVE10                  "Napêdu 1&0"
+  IDS_MI_DRIVE11                  "Napêdu 1&1"
+  IDS_MI_ATTACH_TAPE              "W³ó¿ &obraz kasety..."
+  IDS_MI_DETACH_TAPE              "Wyjmij obraz &kasety"
+  IDS_MI_DETACH_ALL               "&Wszystko"
+  IDS_MI_TOGGLE_SOUND             "d¼wiê&k"
+  IDS_MI_TOGGLE_DOUBLESIZE        "Po&dwójny rozmiar"
+  IDS_MI_TOGGLE_DOUBLESCAN        "Podwój&ne scanlines"
+  IDS_MI_DRIVE_TRUE_EMULATION     "rzeczywist± emulac&jê napêdu"
+  IDS_MI_TOGGLE_VIDEOCACHE        "&Cache video"
+  IDS_MI_DRIVE_SETTINGS           "Ustawienia napê&du..."
+  IDS_MI_CART_ATTACH_CRT          "Obrazu &kartrid¿a..."
+  IDS_MI_CART_ATTACH_8KB          "Standardowy obraz &8KB..."
+  IDS_MI_CART_ATTACH_16KB         "Standardowy obraz &16KB..."
+  IDS_MI_CART_ATTACH_AR           "Obraz &Action Replay..."
+  IDS_MI_CART_ATTACH_AR3          "Obraz Action Replay III..."
+  IDS_MI_CART_ATTACH_AR4          "Obraz Action Replay 4..."
+  IDS_MI_CART_ATTACH_STARDOS      "Obraz StarDOS..."
+  IDS_MI_CART_ATTACH_AT           "Obraz Atomic &Power..."
+  IDS_MI_CART_ATTACH_EPYX         "Obraz &Epyx fastload..."
+  IDS_MI_CART_ATTACH_IEEE488      "Obraz interfejsu &IEEE488..."
+  IDS_MI_CART_ATTACH_RR           "Obraz &Retro Replay..."
+  IDS_MI_CART_ATTACH_IDE64        "Obraz interfejsu IDE&64..."
+  IDS_MI_CART_ATTACH_SS4          "Obraz Super Snapshot &4..."
+  IDS_MI_CART_ATTACH_SS5          "Obraz Super Snapshot &5..."
+  IDS_MI_CART_ATTACH_STB          "Obraz Structured &Basic..."
+  IDS_MI_FLIP_ADD                 "Dodaj &aktualny obraz"
+  IDS_MI_FLIP_REMOVE              "Usuñ aktualny ob&raz"
+  IDS_MI_FLIP_NEXT                "W³ó¿ &nastêpny obraz"
+  IDS_MI_FLIP_PREVIOUS            "W³ó¿ &poprzedni obraz"
+  IDS_MI_FLIP_LOAD                "Za³aduj plik &listy"
+  IDS_MI_FLIP_SAVE                "Zapi&sz plik listy"
+  IDS_MI_DATASETTE_STOP           "Za&trzymaj"
+  IDS_MI_DATASETTE_START          "Odt&warzaj"
+  IDS_MI_DATASETTE_FORWARD        "&Przewiñ do przodu"
+  IDS_MI_DATASETTE_REWIND         "P&rzewiñ do ty³u"
+  IDS_MI_DATASETTE_RECORD         "Re&jestruj"
+  IDS_MI_DATASETTE_RESET          "R&eset"
+  IDS_MI_DATASETTE_RESET_COUNTER  "Reset C&ounter"
+  IDS_MI_CART_ENABLE_EXPERT       "W³±cz"
+  IDS_MI_CART_MODE_OFF            "Wy³±cz"
+  IDS_MI_CART_MODE_ON             "W³±cz"
+  IDS_MI_CART_SET_DEFAULT         "Ustaw kartrid¿ jako &domy¶lny"
+  IDS_MI_TOGGLE_CART_RESET        "Reset &on cart change"
+  IDS_MI_CART_DETACH              "Wjm&ij obraz kartrid¿a"
+  IDS_MI_CART_FREEZE              "Cartridge free&ze"
+  IDS_MI_MONITOR                  "&Monitor"
+#ifdef DEBUG
+  IDS_MI_DEBUG_MODE_NORMAL        "&Normal"
+  IDS_MI_DEBUG_MODE_SMALL         "&Small"
+  IDS_MI_DEBUG_MODE_HISTORY       "&History"
+  IDS_MI_DEBUG_MODE_AUTOPLAY      "&History Autoplay"
+  IDS_MI_TOGGLE_MAINCPU_TRACE     "&Main CPU Trace"
+  IDS_MI_TOGGLE_DRIVE0CPU_TRACE   "Drive&0 CPU Trace"
+  IDS_MI_TOGGLE_DRIVE1CPU_TRACE   "Drive&1 CPU Trace"
+#endif
+  IDS_MI_SNAPSHOT_LOAD            "Za³adu&j zrzut..."
+  IDS_MI_SNAPSHOT_SAVE            "Zapisz z&rzut..."
+  IDS_MI_LOADQUICK                "Szybkie &za³adowanie zrzutu"
+  IDS_MI_SAVEQUICK                "&Szybki zapis zrzutu"
+  IDS_MI_EVENT_TOGGLE_RECORD      "Rozpocznij/Zatrzymaj zapisywanie wyda&rzen"
+  IDS_MI_EVENT_TOGGLE_PLAYBACK    "Rozpocznij/Zatrzymaj odtwarz&anie wydarzen"
+  IDS_MI_EVENT_SETMILESTONE       "Zatrzymaj zapisywanie wydarzen"
+  IDS_MI_EVENT_RESETMILESTONE     "Return to Milestone"
+  IDS_MI_EVENT_START_MODE_SAVE    "Zapi&sz obraz"
+  IDS_MI_EVENT_START_MODE_LOAD    "Za³aduj &zrzut"
+  IDS_MI_EVENT_START_MODE_RESET   "Rozpocznij z &restartem"
+  IDS_MI_EVENT_START_MODE_PLAYBCK "Overwrite &Playback"
+  IDS_MI_EVENT_DIRECTORY          "Katalog systemu plików"
+  IDS_MI_MEDIAFILE                "Save/stop media file..."
+  IDS_MI_SOUND_RECORD_START       "Record Sound..."
+  IDS_MI_SOUND_RECORD_STOP        "Stop Sound Recording"
+  IDS_MI_REFRESH_RATE_AUTO        "&Auto"
+  IDS_MI_MAXIMUM_SPEED_NO_LIMIT   "Bez &limitu"
+  IDS_MI_MAXIMUM_SPEED_CUSTOM     "&W³asne"
+  IDS_MI_TOGGLE_WARP_MODE         "tr&yb przy¶pieszony (Turbo)"
+  IDS_MI_TOGGLE_ALWAYSONTOP       "Always on Top"
+  IDS_MI_TOGGLE_FASTPAL           "Emulacjê PAL"
+  IDS_MI_TOGGLE_SCALE2X           "Skala:x2"
+  IDS_MI_SWAP_JOYSTICK            "Zamieñ por&ty (1/2)"
+  IDS_MI_TOGGLE_VIRTUAL_DEVICES   "&Virtual device traps"
+  IDS_MI_TOGGLE_EMUID             "&Idyntifikacja emulatora"
+  IDS_MI_MOUSE                    "&Grab mouse events"
+  IDS_MI_VIDEO_SETTINGS           "Ustawienia &video..."
+  IDS_MI_DEVICEMANAGER            "Ustawienia &zewnêtrzne..."
+  IDS_MI_JOY_SETTINGS             "Ustawienia &joystcka..."
+  IDS_MI_KEYBOARD_SETTINGS        "Ustawienia &klawiatury..."
+  IDS_MI_SOUND_SETTINGS           "Usta&wienia d¼wiêku..."
+  IDS_MI_ROM_SETTINGS             "Ustawienia &ROM..."
+  IDS_MI_RAM_SETTINGS             "Ustawienia RA&M..."
+  IDS_MI_DATASETTE_SETTINGS       "Ustawienia d&atasette..."
+  IDS_MI_VICII_SETTINGS           "Ustawienia VIC-II..."
+  IDS_MI_MOUSE_SETTINGS           "Mo&use settings..."
+  IDS_MI_SID_SETTINGS             "Ustawienia uk³adu S&ID..."
+  IDS_MI_RS232_SETTINGS           "Ustawienia RS&232..."
+  IDS_MI_REU_SETTINGS             "Ustawienia &REU..."
+  IDS_MI_GEORAM_SETTINGS          "Ustawienia &GEORAM..."
+  IDS_MI_RAMCART_SETTINGS         "Ustawienia &RAMCART..."
+  IDS_MI_MMC64_SETTINGS           "&MMC64 settings..."
+  IDS_MI_DIGIMAX_SETTINGS         "&DIGIMAX settings..."
+  IDS_MI_IDE64_SETTINGS           "Ustawienia &IDE64..."
+#ifdef HAVE_TFE
+  IDS_MI_TFE_SETTINGS             "Ustawienia &Ethernet..."
+#endif
+  IDS_MI_ACIA_SETTINGS            "Ustawienia &ACIA..."
+  IDS_MI_RS232USER_SETTINGS       "Ustawienia RS&232 userport..."
+  IDS_MI_SETTINGS_SAVE            "Zapi&sz ustawienia"
+  IDS_MI_SETTINGS_LOAD            "Za³ad&uj ustawienia"
+  IDS_MI_SETTINGS_DEFAULT         "Przywróæ dom&y¶lne ustawienia"
+  IDS_MI_SAVE_SETTINGS_ON_EXIT    "&Zapisz ustawienia przy wyj¶ciu"
+  IDS_MI_CONFIRM_ON_EXIT          "&Confirm on exit"
+  IDS_MI_LANG_EN                  "&English"
+  IDS_MI_LANG_DE                  "&German"
+  IDS_MI_LANG_FR                  "&French"
+  IDS_MI_LANG_HU                  "&Hungarian"
+  IDS_MI_LANG_IT                  "&Italian"
+  IDS_MI_LANG_NL                  "&Dutch"
+  IDS_MI_LANG_PL                  "&Polish"
+  IDS_MI_LANG_SV                  "&Swedish"
+  IDS_MI_CMDLINE                  "Command line &options"
+  IDS_MI_CONTRIBUTORS             "&Wspó³pracownicy projektu VICE"
+  IDS_MI_LICENSE                  "&Licencja"
+  IDS_MI_WARRANTY                 "Bez g&warancji"
+  IDS_MI_TOGGLE_FULLSCREEN        "Pe³ny ekran"
+  IDS_MI_SIDCART_SETTINGS         "&SID cart settings..."
+  IDS_MI_MON_OPEN                 "&Open"
+  IDS_MI_MON_SAVE                 "&Zapisz"
+  IDS_MI_MON_PRINT                "&Print"
+  IDS_MI_MON_EXIT                 "W&yjd¼ z\tAlt+F4"
+  IDS_MI_MON_STOP_DEBUG           "&Stop Debug"
+  IDS_MI_MON_STOP_EXEC            "Stop E&xecution"
+  IDS_MI_MON_STEP_INTO            "Step &into"
+  IDS_MI_MON_STEP_OVER            "Step &over"
+  IDS_MI_MON_SKIP_RETURN          "Step until &return"
+  IDS_MI_MON_GOTO_CURSOR          "Go to &cursor"
+  IDS_MI_MON_EVAL                 "&Evaluate"
+  IDS_MI_MON_CURRENT              "&Current instruction"
+  IDS_MI_MON_WND_EVAL             "Evaluation &window"
+  IDS_MI_MON_WND_REG              "&Register window"
+  IDS_MI_MON_WND_MEM              "&Memory window"
+  IDS_MI_MON_WND_DIS              "&Disassembly window"
+  IDS_MI_MON_WND_CONSOLE          "&Console window"
+  IDS_MI_MON_COMPUTER             "&Znak"
+  IDS_MI_MON_DRIVE8               "Edytor &8"
+  IDS_MI_MON_DRIVE9               "Edytor &9"
+  IDS_MI_MON_CASCADE              "&Cascade"
+  IDS_MI_MON_TILE_VERT            "Tile &vertically"
+  IDS_MI_MON_TILE_HORIZ           "Tile &horizontally"
+  IDS_MI_MON_ARRANGE_ICONS        "&Arrange icons"
 END
 #pragma code_page(28591)
 
@@ -6995,6 +7951,191 @@ BEGIN
   IDS_CANCEL                      "Avbryt"
   IDS_NONE                        "Ingen"
   IDS_BROWSE                      "&Bläddra..."
+  IDS_MP_FILE                     "&Arkiv"
+  IDS_MP_ATTACH_DISK_IMAGE        "Anslut &diskettavbildningsfil"
+  IDS_MP_DETACH_DISK_IMAGE        "Koppla &från diskettavbildningsfil"
+  IDS_MP_FLIP_LIST                "&Vallista"
+  IDS_MP_DATASETTE_CONTROL        "Datasette&styrning"
+  IDS_MP_ATTACH_CARTRIDGE_IMAGE   "Anslut &insticksmodulavbild..."
+  IDS_MP_EXPERT_CARTRIDGE         "Expert Cartridge"
+  IDS_MP_RESET                    "&Nollställ"
+  IDS_MP_DEBUG                    "&Felsök"
+#ifdef DEBUG
+  IDS_MP_MODE                     "&Läge"
+#endif
+  IDS_MP_EDIT                     "&Edit"
+  IDS_MP_SNAPSHOT                 "&Ögonblicksbild"
+  IDS_MP_RECORDING_START_MODE     "Spelar in startläge"
+  IDS_MP_OPTIONS                  "&Alternativ"
+  IDS_MP_REFRESH_RATE             "&Uppdateringshastighet"
+  IDS_MP_MAXIMUM_SPEED            "&Maximal hastighet"
+  IDS_MP_VIDEO_STANDARD           "&TV-standard"
+  IDS_MP_DRIVE_SYNC_FACTOR        "S&ynkfaktor för diskettstation"
+  IDS_MP_SETTINGS                 "&Inställningar"
+  IDS_MP_CARTRIDGE_IO_SETTINGS    "&Modul/IO-inställningar"
+  IDS_MP_LANGUAGE                 "&Språk"
+  IDS_MP_HELP                     "&Hjälp"
+  IDS_MP_VIEW                     "&Visa"
+  IDS_MP_WINDOW                   "&Fönster"
+  IDS_MI_EXIT                     "&Avsluta"
+  IDS_MI_ABOUT                    "&Om VICE..."
+  IDS_MI_PAUSE                    "&Paus"
+  IDS_MI_EDIT_COPY                "&Copy"
+  IDS_MI_EDIT_PASTE               "&Paste"
+  IDS_MI_AUTOSTART                "&Autostarta disk-/bandavbildningsfil..."
+  IDS_MI_RESET_HARD               "&Hård"
+  IDS_MI_RESET_SOFT               "&Mjuk"
+  IDS_MI_DRIVE8                   "Enhet &8"
+  IDS_MI_DRIVE9                   "Enhet &9"
+  IDS_MI_DRIVE10                  "Enhet 1&0"
+  IDS_MI_DRIVE11                  "Enhet 1&1"
+  IDS_MI_ATTACH_TAPE              "Anslut en &bandavbildningsfil..."
+  IDS_MI_DETACH_TAPE              "Koppla f&rån bandavbildningsfil"
+  IDS_MI_DETACH_ALL               "&Alla"
+  IDS_MI_TOGGLE_SOUND             "Aktivera &ljudåtergivning"
+  IDS_MI_TOGGLE_DOUBLESIZE        "&Dubbel storlek"
+  IDS_MI_TOGGLE_DOUBLESCAN        "Du&bbelskanning"
+  IDS_MI_DRIVE_TRUE_EMULATION     "&Äkta diskettenhetsemulering"
+  IDS_MI_TOGGLE_VIDEOCACHE        "Grafik&cache"
+  IDS_MI_DRIVE_SETTINGS           "&Diskettenhetsinställningar..."
+  IDS_MI_CART_ATTACH_CRT          "&CRT-fil..."
+  IDS_MI_CART_ATTACH_8KB          "Vanlig &8KB-fil..."
+  IDS_MI_CART_ATTACH_16KB         "Vanlig &16KB-fil..."
+  IDS_MI_CART_ATTACH_AR           "&Action Replay-fil..."
+  IDS_MI_CART_ATTACH_AR3          "Action Replay &III-avbildning..."
+  IDS_MI_CART_ATTACH_AR4          "Action Replay &4-avbildning..."
+  IDS_MI_CART_ATTACH_STARDOS      "StarDOS-avbildning..."
+  IDS_MI_CART_ATTACH_AT           "Atomic &Power-fil..."
+  IDS_MI_CART_ATTACH_EPYX         "&Epyx fastload-fil..."
+  IDS_MI_CART_ATTACH_IEEE488      "&IEEE488-gränssnittsfil..."
+  IDS_MI_CART_ATTACH_RR           "&Retro Replay-fil..."
+  IDS_MI_CART_ATTACH_IDE64        "IDE&64-gränssnittsfil..."
+  IDS_MI_CART_ATTACH_SS4          "Super Snapshot &4-fil..."
+  IDS_MI_CART_ATTACH_SS5          "Super Snapshot &5-fil..."
+  IDS_MI_CART_ATTACH_STB          "Anslut &Basicavbildning..."
+  IDS_MI_FLIP_ADD                 "&Lägg till aktuell avbildning"
+  IDS_MI_FLIP_REMOVE              "&Ta bort aktuell avbildning"
+  IDS_MI_FLIP_NEXT                "Anslut &nästa avbildning"
+  IDS_MI_FLIP_PREVIOUS            "Anslut &föregående avbildning"
+  IDS_MI_FLIP_LOAD                "&Läs in vallistefil"
+  IDS_MI_FLIP_SAVE                "&Spara vallistefil"
+  IDS_MI_DATASETTE_STOP           "S&toppa"
+  IDS_MI_DATASETTE_START          "&Starta"
+  IDS_MI_DATASETTE_FORWARD        "Spola &framåt"
+  IDS_MI_DATASETTE_REWIND         "Spola &bakåt"
+  IDS_MI_DATASETTE_RECORD         "Spela &in"
+  IDS_MI_DATASETTE_RESET          "&Nollställ"
+  IDS_MI_DATASETTE_RESET_COUNTER  "Nollställ r&äknare"
+  IDS_MI_CART_ENABLE_EXPERT       "Aktivera"
+  IDS_MI_CART_MODE_OFF            "Av"
+  IDS_MI_CART_MODE_ON             "På"
+  IDS_MI_CART_SET_DEFAULT         "Välj insticksmodul som &förval"
+  IDS_MI_TOGGLE_CART_RESET        "Nollställ &vid modulbyte"
+  IDS_MI_CART_DETACH              "Koppla &från insticksmodulfil"
+  IDS_MI_CART_FREEZE              "Insticksmodulens &frysfunktion"
+  IDS_MI_MONITOR                  "&Monitor"
+#ifdef DEBUG
+  IDS_MI_DEBUG_MODE_NORMAL        "&Normal"
+  IDS_MI_DEBUG_MODE_SMALL         "&Liten"
+  IDS_MI_DEBUG_MODE_HISTORY       "&Historik"
+  IDS_MI_DEBUG_MODE_AUTOPLAY      "&Spela upp historik automatiskt"
+  IDS_MI_TOGGLE_MAINCPU_TRACE     "Spåra &huvud-CPU"
+  IDS_MI_TOGGLE_DRIVE0CPU_TRACE   "Spåra CPU för enhet &0"
+  IDS_MI_TOGGLE_DRIVE1CPU_TRACE   "Spåra CPU för enhet &1"
+#endif
+  IDS_MI_SNAPSHOT_LOAD            "&Läs in ögonblicksbild..."
+  IDS_MI_SNAPSHOT_SAVE            "Spara &ögonblicksbildfil..."
+  IDS_MI_LOADQUICK                "Läs in &snabbögonblicksbild"
+  IDS_MI_SAVEQUICK                "Spara sna&bbögonblicksbildfil"
+  IDS_MI_EVENT_TOGGLE_RECORD      "Börja/sluta spela in &händelser"
+  IDS_MI_EVENT_TOGGLE_PLAYBACK    "Börja/sluta spela &upp händelser"
+  IDS_MI_EVENT_SETMILESTONE       "Ange inspelningsbokmärke"
+  IDS_MI_EVENT_RESETMILESTONE     "Återgå till bokmärke"
+  IDS_MI_EVENT_START_MODE_SAVE    "&Spara ny ögonblicksbild"
+  IDS_MI_EVENT_START_MODE_LOAD    "&Läs in existerande ögonblicksbild"
+  IDS_MI_EVENT_START_MODE_RESET   "Starta med &nollställning"
+  IDS_MI_EVENT_START_MODE_PLAYBCK "Skriv &över aktiv uppspelning"
+  IDS_MI_EVENT_DIRECTORY          "Välj historikfiler/-katalog"
+  IDS_MI_MEDIAFILE                "Starta/stoppa mediafil..."
+  IDS_MI_SOUND_RECORD_START       "Record Sound..."
+  IDS_MI_SOUND_RECORD_STOP        "Stop Sound Recording"
+  IDS_MI_REFRESH_RATE_AUTO        "&Auto"
+  IDS_MI_MAXIMUM_SPEED_NO_LIMIT   "Ingen &gräns"
+  IDS_MI_MAXIMUM_SPEED_CUSTOM     "&Egen"
+  IDS_MI_TOGGLE_WARP_MODE         "&Warpläge"
+  IDS_MI_TOGGLE_ALWAYSONTOP       "Alltid överst"
+  IDS_MI_TOGGLE_FASTPAL           "PAL-emulering"
+  IDS_MI_TOGGLE_SCALE2X           "Scale2x"
+  IDS_MI_SWAP_JOYSTICK            "Växla &spelportarna"
+  IDS_MI_TOGGLE_VIRTUAL_DEVICES   "&Virtuella enhetstrap:ar"
+  IDS_MI_TOGGLE_EMUID             "Emulator&identifiering"
+  IDS_MI_MOUSE                    "&Fånga mushändelser"
+  IDS_MI_VIDEO_SETTINGS           "&Grafikinställningar..."
+  IDS_MI_DEVICEMANAGER            "Inställningar för &kringutrustning..."
+  IDS_MI_JOY_SETTINGS             "Inställningar för &styrspak..."
+  IDS_MI_KEYBOARD_SETTINGS        "&Tangentbordsinställningar..."
+  IDS_MI_SOUND_SETTINGS           "L&judinställningar..."
+  IDS_MI_ROM_SETTINGS             "&ROM-inställningar..."
+  IDS_MI_RAM_SETTINGS             "RA&M-inställningar..."
+  IDS_MI_DATASETTE_SETTINGS       "D&atasetteinställningar..."
+  IDS_MI_VICII_SETTINGS           "VIC-II-inställningar..."
+  IDS_MI_MOUSE_SETTINGS           "M&usinställningar..."
+  IDS_MI_SID_SETTINGS             "S&ID-inställningar..."
+  IDS_MI_RS232_SETTINGS           "RS&232-inställningar..."
+  IDS_MI_REU_SETTINGS             "&REU-inställningar..."
+  IDS_MI_GEORAM_SETTINGS          "&GEORAM-inställningar..."
+  IDS_MI_RAMCART_SETTINGS         "&RAMCART-inställningar..."
+  IDS_MI_MMC64_SETTINGS           "&MMC64-inställningar..."
+  IDS_MI_DIGIMAX_SETTINGS         "&DIGIMAX settings..."
+  IDS_MI_IDE64_SETTINGS           "&IDE64-inställningar..."
+#ifdef HAVE_TFE
+  IDS_MI_TFE_SETTINGS             "&Ethernetinställningar..."
+#endif
+  IDS_MI_ACIA_SETTINGS            "&ACIA-inställningar..."
+  IDS_MI_RS232USER_SETTINGS       "RS&232-användarportinställningar..."
+  IDS_MI_SETTINGS_SAVE            "&Spara nuvarande inställningar"
+  IDS_MI_SETTINGS_LOAD            "&Läs sparade inställningar"
+  IDS_MI_SETTINGS_DEFAULT         "&Återställ förvalda inställningar"
+  IDS_MI_SAVE_SETTINGS_ON_EXIT    "Spara inställningar vid &avslut"
+  IDS_MI_CONFIRM_ON_EXIT          "&Bekräfta avslutning"
+  IDS_MI_LANG_EN                  "&Engelska"
+  IDS_MI_LANG_DE                  "&Tyska"
+  IDS_MI_LANG_FR                  "&Franska"
+  IDS_MI_LANG_HU                  "&Ungerska"
+  IDS_MI_LANG_IT                  "&Italienska"
+  IDS_MI_LANG_NL                  "&Nederländska"
+  IDS_MI_LANG_PL                  "&Polska"
+  IDS_MI_LANG_SV                  "&Svenska"
+  IDS_MI_CMDLINE                  "Kommandorads&flaggor"
+  IDS_MI_CONTRIBUTORS             "&Bidragslämnare"
+  IDS_MI_LICENSE                  "&Licens"
+  IDS_MI_WARRANTY                 "Ingen &garanti"
+  IDS_MI_TOGGLE_FULLSCREEN        "Fullskärm"
+  IDS_MI_SIDCART_SETTINGS         "&SID-insticksmodulinställningar..."
+  IDS_MI_MON_OPEN                 "&Öppna"
+  IDS_MI_MON_SAVE                 "&Spara"
+  IDS_MI_MON_PRINT                "Skriv &ut"
+  IDS_MI_MON_EXIT                 "&Avsluta\tAlt+F4"
+  IDS_MI_MON_STOP_DEBUG           "&Avsluta felsökning"
+  IDS_MI_MON_STOP_EXEC            "Avsluta E&xekvering"
+  IDS_MI_MON_STEP_INTO            "Stega &in"
+  IDS_MI_MON_STEP_OVER            "Stega &över"
+  IDS_MI_MON_SKIP_RETURN          "Stega till &retur"
+  IDS_MI_MON_GOTO_CURSOR          "Gå till &markör"
+  IDS_MI_MON_EVAL                 "&Utvärdera"
+  IDS_MI_MON_CURRENT              "&Aktuell instruktion"
+  IDS_MI_MON_WND_EVAL             "Utvärderings&fönster"
+  IDS_MI_MON_WND_REG              "&Registerfönster"
+  IDS_MI_MON_WND_MEM              "&Minnesfönster"
+  IDS_MI_MON_WND_DIS              "&Disassembleringsfönster"
+  IDS_MI_MON_WND_CONSOLE          "&Konsolfönster"
+  IDS_MI_MON_COMPUTER             "&Dator"
+  IDS_MI_MON_DRIVE8               "Enhet &8"
+  IDS_MI_MON_DRIVE9               "Enhet &9"
+  IDS_MI_MON_CASCADE              "&Överlappande"
+  IDS_MI_MON_TILE_VERT            "&Sida vid sida"
+  IDS_MI_MON_TILE_HORIZ           "&Över och under"
+  IDS_MI_MON_ARRANGE_ICONS        "&Arrangera ikoner"
 END
 
 // -----------------------------------------------------------------------------

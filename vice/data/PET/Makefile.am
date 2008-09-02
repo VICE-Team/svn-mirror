@@ -1,8 +1,4 @@
-
-palettes = \
-	amber.vpl \
-	green.vpl \
-	white.vpl
+petdir = $(VICEDIR)/PET
 
 roms = \
 	basic1 \
@@ -20,7 +16,26 @@ roms = \
 	chargen \
 	chargen.de
 
-keymaps = \
+romsets = \
+	rom1g.vrs \
+	rom2b.vrs \
+	rom2g.vrs \
+	rom4b40.vrs \
+	rom4b80.vrs \
+	rom4g40.vrs
+
+palettes = \
+	amber.vpl \
+	green.vpl \
+	white.vpl
+
+x11_keymaps = \
+	x11_bdep.vkm \
+	x11_bdes.vkm \
+	x11_bgrs.vkm \
+	x11_buks.vkm
+
+extra_keymaps = \
 	amiga_bgrs.vkm \
 	amiga_buks.vkm \
 	beos_bgrs.vkm \
@@ -31,25 +46,12 @@ keymaps = \
 	os2_40.vkm \
 	RObusi.vkm \
 	ROgrph.vkm \
-	win_shortcuts.vsc \
 	win_sym_gr.vkm \
-	win_sym_uk.vkm \
-	x11_bdep.vkm \
-	x11_bdes.vkm \
-	x11_bgrs.vkm \
-	x11_buks.vkm
+	win_sym_uk.vkm
 
-romsets = \
-	rom1g.vrs \
-	rom2b.vrs \
-	rom2g.vrs \
-	rom4b40.vrs \
-	rom4b80.vrs \
-	rom4g40.vrs
+win32_shortcuts = \
+	win_shortcuts.vsc
 
-petdir = $(VICEDIR)/PET
+pet_DATA = $(roms) $(romsets) $(palettes) $(x11_keymaps)
 
-pet_DATA = $(keymaps) $(roms) $(palettes) $(romsets)
-
-EXTRA_DIST = $(pet_DATA)
-
+EXTRA_DIST = $(pet_DATA) $(extra_keymaps) $(win32_shortcuts)

@@ -108,5 +108,19 @@ extern int ui_emulation_is_paused(void);
 extern void ui_set_alwaysontop(int alwaysontop);
 extern void ui_message(const char *format,...);
 
-#endif
+struct ui_menu_translation_table_s {
+    int idm;
+    int ids;
+};
+typedef struct ui_menu_translation_table_s ui_menu_translation_table_t;
 
+struct ui_popup_translation_table_s {
+    int level;
+    int ids;
+};
+typedef struct ui_popup_translation_table_s ui_popup_translation_table_t;
+
+extern int ui_register_translation_tables(ui_menu_translation_table_t *menu_table, ui_popup_translation_table_t *popup_table);
+extern void ui_translate_monitor_menu(HMENU menu);
+
+#endif

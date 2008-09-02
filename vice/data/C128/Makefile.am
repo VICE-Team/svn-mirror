@@ -1,26 +1,13 @@
 c128dir = $(VICEDIR)/C128
 
-c128_DATA = \
+roms = \
 	basic64 \
 	basichi \
 	basiclo \
-	amiga_sym.vkm \
-	amiga_pos.vkm \
-	beos_sym.vkm \
-	beos_pos.vkm \
-	c64hq.vpl \
-	c64s.vpl \
-	ccs64.vpl \
 	chargde \
 	chargen \
 	chargfr \
 	chargse \
-	default.vpl \
-	default.vrs \
-	dos_sym.vkm \
-	dos_pos.vkm \
-	frodo.vpl \
-	godot.vpl \
 	kernal \
 	kernal64 \
 	kernalde \
@@ -28,19 +15,43 @@ c128_DATA = \
 	kernalfr \
 	kernalit \
 	kernalno \
-	kernalse \
+	kernalse
+
+romsets = \
+	default.vrs
+
+palettes = \
+	c64hq.vpl \
+	c64s.vpl \
+	ccs64.vpl \
+	default.vpl \
+	frodo.vpl \
+	godot.vpl \
 	pc64.vpl \
+	vdc_deft.vpl \
+	vice.vpl
+
+x11_keymaps = \
+	x11_sym.vkm \
+	x11_pos.vkm
+
+extra_keymaps = \
+	amiga_sym.vkm \
+	amiga_pos.vkm \
+	beos_sym.vkm \
+	beos_pos.vkm \
+	dos_sym.vkm \
+	dos_pos.vkm \
 	os2.vkm \
 	osx_pos.vkm \
 	osx_sym.vkm \
 	ROdflt.vkm \
-	vdc_deft.vpl \
-	vice.vpl \
-	win_shortcuts.vsc \
 	win_sym.vkm \
-	win_pos.vkm \
-	x11_sym.vkm \
-	x11_pos.vkm
+	win_pos.vkm
 
-EXTRA_DIST = $(c128_DATA)
+win32_shortcuts = \
+	win_shortcuts.vsc
 
+c128_DATA = $(roms) $(romsets) $(palettes) $(x11_keymaps)
+
+EXTRA_DIST = $(c128_DATA) $(extra_keymaps) $(win32_shortcuts)
