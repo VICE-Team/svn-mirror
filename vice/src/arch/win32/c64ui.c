@@ -33,6 +33,7 @@
 #include <windows.h>
 
 #include "c64ui.h"
+#include "debug.h"
 #include "res.h"
 #include "translate.h"
 #include "ui.h"

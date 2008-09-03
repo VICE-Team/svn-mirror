@@ -32,6 +32,7 @@
 #include <windows.h>
 
 #include "cartridge.h"
+#include "debug.h"
 #include "lib.h"
 #include "res.h"
 #include "translate.h"

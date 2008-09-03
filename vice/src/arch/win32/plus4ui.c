@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <windows.h>
 
+#include "debug.h"
 #include "plus4ui.h"
 #include "res.h"
 #include "resources.h"

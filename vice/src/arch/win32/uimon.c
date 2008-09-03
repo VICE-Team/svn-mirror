@@ -34,6 +34,7 @@
 #include <commctrl.h>
 
 #include "console.h"
+#include "debug.h"
 #include "fullscrn.h"
 #include "lib.h"
 #include "mon_register.h"
