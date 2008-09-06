@@ -54,6 +54,7 @@ static GLXContext cx = (GLXContext) NULL;
 static int set_openGL_sync(int val, void *param);
 static int check_openGL(Display *dpy);
 static int openGL_dummy_set(int val, void *a);
+static video_canvas_t *current_canvas;
 
 static resource_int_t resources_openGL_sync_int[] =
 {
@@ -77,9 +78,11 @@ openGL_register_resources(void)
 }
 
 void 
-openGL_sync_init(void)
+openGL_sync_init(video_canvas_t *canvas)
 {
     Display *dpy;
+    
+    current_canvas = canvas; /* save to have access to refreshrate */
     
     if (openGL_log == LOG_ERR)
 	openGL_log = log_open("openGL");
@@ -158,6 +161,21 @@ init_openGL(void)
     openGL_initialized = 1;
 }
 
+void
+openGL_set_canvas_refreshrate(float rr)
+{
+    if ((rr < 50.0) || (rr > 150.0))
+	return;
+    if (current_canvas)
+	current_canvas->refreshrate = rr;
+}
+
+float
+openGL_get_canvas_refreshrate()
+{
+    return current_canvas->refreshrate;
+}
+
 /* ---------------------------------------------------------------------*/
 static int
 check_openGL(Display *dpy)
@@ -212,4 +230,3 @@ openGL_dummy_set(int val, void *param)
 {
     return 0;
 }
-

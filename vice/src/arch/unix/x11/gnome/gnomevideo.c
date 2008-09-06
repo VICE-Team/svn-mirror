@@ -103,7 +103,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     }
 
 #ifdef HAVE_OPENGL_SYNC
-    openGL_sync_init();
+    openGL_sync_init(canvas);
 #endif
 
     return canvas;

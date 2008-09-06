@@ -37,7 +37,11 @@
 #include "uivicii.h"
 #include "uipalemu.h"
 #include "vicii.h"
+#ifdef HAVE_OPENGL_SYNC
+#include <stdlib.h>		/* strtol() */
 #include "openGL_sync.h"
+#include "lib.h"
+#endif
 
 /* array for the actual data to be copied into */
 struct ui_menu_entry_s set_video_standard_submenu[4] = {
@@ -98,6 +102,25 @@ UI_MENU_DEFINE_TOGGLE_COND(VICIIHwScale, HwScalePossible, NOTHING)
 UI_MENU_DEFINE_TOGGLE(VICIIScale2x)
 #ifdef HAVE_OPENGL_SYNC
 UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
+static UI_CALLBACK(openGL_set_desktoprefresh)
+{
+    if (!CHECK_MENUS) {
+	float f;
+	char *buf = lib_calloc(sizeof(char), 10);
+	sprintf(buf, "%.0f", openGL_get_canvas_refreshrate());
+	ui_input_string(_("Refreshrate: "), _("Enter Refreshrate (Hz): "), 
+			buf, 10);
+	f = (float) strtol(buf, NULL, 10);
+	openGL_set_canvas_refreshrate(f);
+	lib_free(buf);
+    } else {
+        if (openGL_available(0) && openGL_sync_enabled())
+            ui_menu_set_sensitive(w, 1);
+        else
+            ui_menu_set_sensitive(w, 0);
+    }
+}
+
 #endif
 UI_MENU_DEFINE_TOGGLE(VICIICheckSsColl)
 UI_MENU_DEFINE_TOGGLE(VICIICheckSbColl)
@@ -159,6 +182,8 @@ ui_menu_entry_t vicii_submenu[] = {
 #ifdef HAVE_OPENGL_SYNC
     { N_("*OpenGL Rastersynchronization"),
       (ui_callback_t)toggle_openGL_sync, NULL, NULL },
+    { N_("Desktop Refreshrate..."),
+      (ui_callback_t)openGL_set_desktoprefresh, NULL, NULL },
 #endif
 #ifdef HAVE_FULLSCREEN
     { N_("*Fullscreen settings"), NULL, NULL, fullscreen_menuVICII },

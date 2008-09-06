@@ -27,15 +27,18 @@
 #ifndef __openGL_sync_h__
 #define __openGL_sync_h__
 #include "vice.h"
+#include "videoarch.h"
 
 struct ui_menu_entry_s;
 
-void openGL_sync_init(void);
+void openGL_sync_init(video_canvas_t *c);
 void openGL_sync_with_raster(void);
 void openGL_sync_shutdown(void);
 int openGL_available(int val);
 void init_openGL(void);
 void openGL_register_resources(void);
 int openGL_sync_enabled(void);
+void openGL_set_canvas_refreshrate(float rr);
+float openGL_get_canvas_refreshrate(void);
 
 #endif /* __openGL_sync_h__ */
