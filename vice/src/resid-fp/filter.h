@@ -339,8 +339,8 @@ float FilterFP::clock(float voice1,
          * it is difficult to say how much resistance the long polysilicon
          * DAC gives us relative to the other resistors... If its resistance
          * was hypotehtically 0, then we'd have 3.f here. */
-        Vhp -= Vhp * (distortion_cf_threshold * 2.f);
-        Vbp -= Vbp * (distortion_cf_threshold * 2.f);
+        Vhp -= Vhp * (distortion_cf_threshold * 2.5f);
+        Vbp -= Vbp * (distortion_cf_threshold * 2.5f);
 
         /* Tuned based on Fred Gray's Break Thru. It is probably not a hard
          * discontinuity but a saturation effect... */

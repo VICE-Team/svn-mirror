@@ -101,8 +101,8 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec)
       psid->sid.get_filter().set_distortion_properties(0., 0., 0.);
     } else {
       psid->sid.set_chip_model(MOS6581FP);
-      psid->sid.set_voice_nonlinearity(0.966);
-      psid->sid.get_filter().set_distortion_properties(2.0e-3, 1350., 1e-4);
+      psid->sid.set_voice_nonlinearity(0.96);
+      psid->sid.get_filter().set_distortion_properties(2.5e-3, 2048., 1.0e-4);
     }
 
     switch (model) {
@@ -165,27 +165,30 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec)
       default:
       case 1:
         method = SAMPLE_INTERPOLATE;
-	strcpy(method_text, "interpolating");
+	strcpy(method_text, "interpolation");
 	break;
       case 2:
       case 3:
         method = SAMPLE_RESAMPLE_INTERPOLATE;
-	sprintf(method_text, "resampling, pass to %d Hz", (int)(passband > 20000 ? 20000 : passband));
+	sprintf(method_text, "%sresampling, cutoff %d Hz",
+                             (psid->sid.sse_enabled() ? "SSE " : ""),
+                             (int) (passband > 20000 ? 20000 : passband));
 	break;
     }
 
     if (!psid->sid.set_sampling_parameters(cycles_per_sec, method,
 					   speed, passband)) {
         log_warning(LOG_DEFAULT,
-                    "reSID-fp: Out of spec, increase sampling rate or decrease maximum speed");
+                    "ReSID-FP: unable to set sampling mode; try increasing sampling frequency to 44.1-48 kHz and keep passband around 80-90 %%.");
 	return 0;
     }
 
-    log_message(LOG_DEFAULT, "reSID-fp: %s, filter %s, sampling rate %dHz - %s",
-		model_text,
-		filters_enabled ? "on" : "off",
-		speed, method_text);
-
+    log_message(LOG_DEFAULT,
+                "ReSID-FP: %s, filter %s, sampling rate %d Hz with %s",
+                model_text,
+                filters_enabled ? "on" : "off",
+                speed,
+                method_text);
     return 1;
 }
 

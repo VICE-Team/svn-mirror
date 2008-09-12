@@ -136,9 +136,11 @@ float SIDFP::kinked_dac(const int x, const float nonlinearity, const int max)
 // ----------------------------------------------------------------------------
 SIDFP::SIDFP()
 {
-  /* if -msse is on, we crash instantly if the CPU doesn't
-   * actually support SSE, though. We should maybe just die. */
+#if (RESID_USE_SSE==1)
   can_use_sse = (host_cpu_features() & HOST_CPU_SSE) != 0;
+#else
+  can_use_sse = false;
+#endif
 
   // Initialize pointers.
   sample = 0;
@@ -487,8 +489,9 @@ void SIDFP::enable_external_filter(bool enable)
 // ----------------------------------------------------------------------------
 double SIDFP::I0(double x)
 {
-  // Max error acceptable in I0.
-  const double I0e = 1e-6;
+  // Max error acceptable in I0 could be 1e-6, which gives that 96 dB already.
+  // I'm overspecify these errors to get a beautiful FFT dump of the FIR.
+  const double I0e = 1e-10;
 
   double sum, u, halfx, temp;
   int n;
@@ -577,10 +580,12 @@ bool SIDFP::set_sampling_parameters(float clock_freq, sampling_method method,
   double aliasing_allowance = sample_freq / 2 - 20000;
   if (aliasing_allowance < 0)
     aliasing_allowance = 0;
+
+  double transition_bandwidth = sample_freq/2 - pass_freq + aliasing_allowance;
   {
     /* Filter order according to Kaiser's paper. */
 
-    int N = (int) ((A - 7.95)/(2 * M_PI * 2.285 * (sample_freq/2 - pass_freq + aliasing_allowance)/sample_freq) + 0.5);
+    int N = (int) ((A - 7.95)/(2 * M_PI * 2.285 * transition_bandwidth/sample_freq) + 0.5);
     N += N & 1;
 
     // The filter length is equal to the filter order + 1.
@@ -601,23 +606,22 @@ bool SIDFP::set_sampling_parameters(float clock_freq, sampling_method method,
   fir = new float[fir_N*fir_RES];
 
   // The cutoff frequency is midway through the transition band.
-  double wc = (pass_freq + sample_freq/2 + aliasing_allowance / 2) / sample_freq * M_PI;
+  double wc = (pass_freq + transition_bandwidth/2) / sample_freq * M_PI * 2;
 
   // Calculate fir_RES FIR tables for linear interpolation.
   for (int i = 0; i < fir_RES; i++) {
-    int fir_offset = i*fir_N + fir_N/2;
     double j_offset = double(i)/fir_RES;
     // Calculate FIR table. This is the sinc function, weighted by the
     // Kaiser window.
-    for (int j = -fir_N/2; j <= fir_N/2; j++) {
-      double jx = j - j_offset;
+    for (int j = 0; j < fir_N; j ++) {
+      double jx = j - fir_N/2. - j_offset;
       double wt = wc*jx/f_cycles_per_sample;
       double temp = jx/(fir_N/2);
       double Kaiser =
         fabs(temp) <= 1 ? I0(beta*sqrt(1 - temp*temp))/I0beta : 0;
       double sincwt =
-        fabs(wt) >= 1e-6 ? sin(wt)/wt : 1;
-      fir[fir_offset + j] = (float) (f_samples_per_cycle*wc/M_PI*sincwt*Kaiser);
+        fabs(wt) >= 1e-8 ? sin(wt)/wt : 1;
+      fir[i * fir_N + j] = (float) (f_samples_per_cycle*wc/M_PI*sincwt*Kaiser);
     }
   }
 
