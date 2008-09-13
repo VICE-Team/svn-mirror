@@ -49,11 +49,7 @@ typedef int cycle_count;
 typedef int sound_sample;
 typedef sound_sample fc_point[2];
 
-#ifdef SUPPORT_C64DTV
 enum chip_model { MOS6581, MOS8580, DTVSID };
-#else
-enum chip_model { MOS6581, MOS8580 };
-#endif
 
 enum sampling_method { SAMPLE_FAST, SAMPLE_INTERPOLATE,
 		       SAMPLE_RESAMPLE_INTERPOLATE, SAMPLE_RESAMPLE_FAST };
