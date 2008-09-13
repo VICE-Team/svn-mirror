@@ -110,9 +110,7 @@ protected:
 
   double clock_frequency;
 
-#ifdef SUPPORT_C64DTV
   bool is_dtv;
-#endif
 
   // External audio input.
   int ext_in;

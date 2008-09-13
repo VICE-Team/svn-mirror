@@ -51,11 +51,7 @@ void WaveformGenerator::set_sync_source(WaveformGenerator* source)
 // ----------------------------------------------------------------------------
 void WaveformGenerator::set_chip_model(chip_model model)
 {
-#ifdef SUPPORT_C64DTV
   if (model == MOS6581 || model == DTVSID) {
-#else
-  if (model == MOS6581) {
-#endif
     wave__ST = wave6581__ST;
     wave_P_T = wave6581_P_T;
     wave_PS_ = wave6581_PS_;
@@ -133,12 +129,10 @@ reg8 WaveformGenerator::readOSC()
   return output() >> 4;
 }
 
-#ifdef SUPPORT_C64DTV
 void WaveformGenerator::writeACC_HI(reg8 value)
 {
   accumulator = (value << 16) | (accumulator & 0xffff);
 }
-#endif
 
 // ----------------------------------------------------------------------------
 // SID reset.

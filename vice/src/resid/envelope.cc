@@ -229,9 +229,7 @@ reg8 EnvelopeGenerator::readENV()
   return output();
 }
 
-#ifdef SUPPORT_C64DTV
 void EnvelopeGenerator::writeENV(reg8 value)
 {
     envelope_counter = value;
 }
-#endif

@@ -49,9 +49,7 @@ public:
   void writeATTACK_DECAY(reg8);
   void writeSUSTAIN_RELEASE(reg8);
   reg8 readENV();
-#ifdef SUPPORT_C64DTV
   void writeENV(reg8);
-#endif
 
   // 8-bit envelope output.
   RESID_INLINE reg8 output();

@@ -52,9 +52,7 @@ public:
   void writePW_HI(reg8);
   void writeCONTROL_REG(reg8);
   reg8 readOSC();
-#ifdef SUPPORT_C64DTV
   void writeACC_HI(reg8);
-#endif
 
   // 12-bit waveform output.
   RESID_INLINE reg12 output();
