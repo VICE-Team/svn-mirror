@@ -427,8 +427,11 @@ inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
 
     /* If an opcode changes the I flag from 1 to 0, the 6510 needs
        one more opcode before it triggers the IRQ routine.  */
-    if (cpu_clk >= irq_clk && !OPINFO_ENABLES_IRQ(*cs->last_opcode_info_ptr))
-        return 1;
+    if (cpu_clk >= irq_clk)
+        if (!OPINFO_ENABLES_IRQ(*cs->last_opcode_info_ptr))
+            return 1;
+        else
+            cs->global_pending_int |= IK_IRQPEND;
 
     return 0;
 }

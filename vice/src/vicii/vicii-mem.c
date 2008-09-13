@@ -568,13 +568,19 @@ inline static void d019_store(const BYTE value)
         vicii.irq_status &= ~((vicii.last_read & 0xf) | 0x80);
         if (maincpu_clk - 1 > vicii.raster_irq_clk
             && vicii.raster_irq_line < (unsigned int)vicii.screen_height) {
-            vicii_irq_next_frame();
+                if (maincpu_clk - 2 == vicii.raster_irq_clk)
+                    vicii_irq_next_frame();
+                else
+                    vicii_irq_alarm_handler(0, NULL);
         }
     }
 
     if ((value & 1) && maincpu_clk > vicii.raster_irq_clk
         && vicii.raster_irq_line < (unsigned int)vicii.screen_height) {
-        vicii_irq_next_frame();
+            if (maincpu_clk - 1 == vicii.raster_irq_clk)
+                vicii_irq_next_frame();
+            else
+                vicii_irq_alarm_handler(0, NULL);
     }
 
     vicii.irq_status &= ~((value & 0xf) | 0x80);

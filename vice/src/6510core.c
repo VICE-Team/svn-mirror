@@ -332,7 +332,7 @@
     do {                                                              \
         BYTE ik = (int_kind);                                         \
                                                                       \
-        if (ik & (IK_IRQ | IK_NMI)) {                                 \
+        if (ik & (IK_IRQ | IK_IRQPEND | IK_NMI)) {                    \
             if ((ik & IK_NMI)                                         \
                 && interrupt_check_nmi_delay(CPU_INT_STATUS, CLK)) {  \
                 TRACE_NMI();                                          \
@@ -348,7 +348,7 @@
                 JUMP(LOAD_ADDR(0xfffa));                              \
                 SET_LAST_OPCODE(0);                                   \
                 CLK_ADD(CLK,NMI_CYCLES);                              \
-            } else if ((ik & IK_IRQ)                                  \
+            } else if ((ik & (IK_IRQ | IK_IRQPEND))                   \
                        && (!LOCAL_INTERRUPT()                         \
                        || OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO))      \
                        && interrupt_check_irq_delay(CPU_INT_STATUS,   \
@@ -357,6 +357,7 @@
                 if (monitor_mask[CALLER] & (MI_STEP)) {               \
                     monitor_check_icount_interrupt();                 \
                 }                                                     \
+                interrupt_ack_irq(CPU_INT_STATUS);                    \
                 LOCAL_SET_BREAK(0);                                   \
                 PUSH(reg_pc >> 8);                                    \
                 PUSH(reg_pc & 0xff);                                  \
@@ -1866,6 +1867,9 @@ static const BYTE rewind_fetch_tab[] = {
         pending_interrupt = CPU_INT_STATUS->global_pending_int;
         if (pending_interrupt != IK_NONE) {
             DO_INTERRUPT(pending_interrupt);
+            if (!(CPU_INT_STATUS->global_pending_int & IK_IRQ)
+                && CPU_INT_STATUS->global_pending_int & IK_IRQPEND)
+                    CPU_INT_STATUS->global_pending_int &= ~IK_IRQPEND;
             CPU_DELAY_CLK
             while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT)) {
                 alarm_context_dispatch(ALARM_CONTEXT, CLK);

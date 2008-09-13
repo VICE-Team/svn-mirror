@@ -151,7 +151,14 @@ inline static void update_myviairq(via_context_t *via_context)
 {
     (via_context->set_int)(via_context, via_context->int_num,
                            (via_context->ifr & via_context->ier & 0x7f)
-                           ? via_context->irq_line : 0);
+                           ? via_context->irq_line : 0, *(via_context->clk_ptr));
+}
+
+inline static void update_myviairq_rclk(via_context_t *via_context, CLOCK rclk)
+{
+    (via_context->set_int)(via_context, via_context->int_num,
+                           (via_context->ifr & via_context->ier & 0x7f)
+                           ? via_context->irq_line : 0, rclk);
 }
 
 /* the next two are used in myvia_read() */
@@ -592,10 +599,10 @@ BYTE REGPARM2 viacore_read_(via_context_t *via_context, WORD addr)
     }
 
     if (addr >= VIA_T1CL && addr <= VIA_IER) {
-        if (via_context->tai && (via_context->tai <= *(via_context->clk_ptr)))
+        if (via_context->tai && (via_context->tai < *(via_context->clk_ptr)))
             viacore_intt1(*(via_context->clk_ptr) - via_context->tai,
                           (void *)via_context);
-        if (via_context->tbi && (via_context->tbi <= *(via_context->clk_ptr)))
+        if (via_context->tbi && (via_context->tbi < *(via_context->clk_ptr)))
             viacore_intt2(*(via_context->clk_ptr) - via_context->tbi,
                           (void *)via_context);
     }
@@ -773,7 +780,11 @@ BYTE REGPARM2 viacore_peek(via_context_t *via_context, WORD addr)
 
 static void viacore_intt1(CLOCK offset, void *data)
 {
+    CLOCK rclk;
     via_context_t *via_context = (via_context_t *)data;
+
+    rclk = *(via_context->clk_ptr) - offset;
+
 
 #ifdef MYVIA_TIMER_DEBUG
     if (app_resources.debugFlag)
@@ -793,7 +804,7 @@ static void viacore_intt1(CLOCK offset, void *data)
         alarm_set(via_context->t1_alarm, via_context->tai);
     }
     via_context->ifr |= VIA_IM_T1;
-    update_myviairq(via_context);
+    update_myviairq_rclk(via_context, rclk);
 
     /* TODO: toggle PB7? */
     /*(viaier & VIA_IM_T1) ? 1:0; */
@@ -805,7 +816,10 @@ static void viacore_intt1(CLOCK offset, void *data)
 
 static void viacore_intt2(CLOCK offset, void *data)
 {
+    CLOCK rclk;
     via_context_t *via_context = (via_context_t *)data;
+
+    rclk = *(via_context->clk_ptr) - offset;
 
 #ifdef MYVIA_TIMER_DEBUG
     if (app_resources.debugFlag)
@@ -816,7 +830,7 @@ static void viacore_intt2(CLOCK offset, void *data)
     via_context->tbi = 0;
 
     via_context->ifr |= VIA_IM_T2;
-    update_myviairq(via_context);
+    update_myviairq_rclk(via_context, rclk);
 }
 
 static void viacore_clk_overflow_callback(CLOCK sub, void *data)

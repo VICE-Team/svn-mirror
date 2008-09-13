@@ -66,10 +66,9 @@ static void set_cb2(int state)
 }
 
 static void set_int(via_context_t *via_context, unsigned int int_num,
-                    int value)
+                    int value, CLOCK rclk)
 {
-    interrupt_set_irq(maincpu_int_status, int_num, value,
-                      *(via_context->clk_ptr));
+    interrupt_set_irq(maincpu_int_status, int_num, value, rclk);
 }
 
 static void restore_int(via_context_t *via_context, unsigned int int_num,
