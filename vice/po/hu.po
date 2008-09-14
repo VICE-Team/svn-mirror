@@ -9,12 +9,12 @@ msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-02 18:56+0200\n"
-"PO-Revision-Date: 2007-07-27 15:58+0200\n"
+"PO-Revision-Date: 2008-09-13 12:40+0200\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-2\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/vsync.c:147 src/sid/sid-cmdline-options.c:186
 #: src/sid/sid-cmdline-options.c:189 src/translate.c.po.c:3610
@@ -51,11 +51,11 @@ msgstr "Sajnálom: többszörös felvétel nem támogatott."
 
 #: src/autostart.c:177 src/translate.c.po.c:678
 msgid "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
-msgstr ""
+msgstr "Automatikus indításnál a 'RUN' parancs kettõsponttal, vagyis 'RUN:'"
 
 #: src/autostart.c:179 src/translate.c.po.c:688
 msgid "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"
-msgstr ""
+msgstr "Automatikus indításnak a 'RUN' parancs kettõspont nélkül, vagyis 'RUN'"
 
 #: src/autostart.c:270 src/translate.c.po.c:96
 msgid "Cannot load snapshot file."
@@ -186,8 +186,7 @@ msgstr "<sync>"
 
 #: src/sound.c:291 src/translate.c.po.c:4739
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
-msgstr ""
-"Adja meg a zene sebesség igazítását (0: rugalmas. 1: igazodó, 2: pontos)"
+msgstr "Adja meg a zene sebesség igazítását (0: rugalmas. 1: igazodó, 2: pontos)"
 
 #: src/sound.c:501 src/translate.c.po.c:229
 msgid "write to sound device failed."
@@ -746,24 +745,20 @@ msgid "Specify name of symbolic German keymap file"
 msgstr "Adja meg a nevét a német billentyûzet leképzés fájlnak"
 
 #: src/c64dtv/c64dtv-cmdline-options.c:107 src/translate.c.po.c:1112
-#, fuzzy
 msgid "Enable the Hummer Userport Joystick Emulation"
-msgstr "Userport nyomtató emulációjának engedélyezése"
+msgstr "Hummer Userport botkormány emuláció engedélyezése"
 
 #: src/c64dtv/c64dtv-cmdline-options.c:109
-#, fuzzy
 msgid "Disable the Hummer Userport Joystick Emulation"
-msgstr "Userport nyomtató emulációjának tiltása"
+msgstr "HummerÂ·UserportÂ·botkormÃ¡nyÂ·emulÃ¡ciÃ³Â·tiltÃ¡sa"
 
 #: src/c64dtv/c64dtv-cmdline-options.c:111 src/translate.c.po.c:1132
-#, fuzzy
 msgid "<port>"
-msgstr "<százalék>"
+msgstr "<port>"
 
 #: src/c64dtv/c64dtv-cmdline-options.c:111 src/translate.c.po.c:1142
-#, fuzzy
 msgid "Select which joystick port should be mapped to the userport"
-msgstr "Válassza ki a joystick portot, ahová az egér csatolva van"
+msgstr "Válassza ki a joystick portot, amely a userport-ra képzõdik le"
 
 #: src/c64/cart/c64cart.c:240 src/translate.c.po.c:1526
 msgid "Reset machine if a cartridge is attached or detached"
@@ -795,9 +790,8 @@ msgid "Attach raw 16KB Action Replay III cartridge image"
 msgstr "16KB-os Action Replay III cartridge képmás csatolása"
 
 #: src/c64/cart/c64cart.c:261 src/translate.c.po.c:1586
-#, fuzzy
 msgid "Attach raw 32KB Action Replay IV cartridge image"
-msgstr "32KB-os Action Replay cartridge képmás csatolása"
+msgstr "32KB-os Action Replay IV cartridge képmás csatolása"
 
 #: src/c64/cart/c64cart.c:264 src/translate.c.po.c:1616
 msgid "Attach raw 64KB Retro Replay cartridge image"
@@ -836,9 +830,8 @@ msgid "Attach raw Structured Basic cartridge image"
 msgstr "Structured Basic cartridge képmás csatolása"
 
 #: src/c64/cart/c64cart.c:291 src/translate.c.po.c:1576
-#, fuzzy
 msgid "Attach raw 16KB StarDOS cartridge image"
-msgstr "Nyers 16KB-os cartridge képmás csatolása"
+msgstr "Nyers 16KB-os StarDOS cartridge képmás csatolása"
 
 #: src/c64/cart/c64cart.c:294 src/translate.c.po.c:1696
 msgid "Enable expert cartridge"
@@ -890,72 +883,66 @@ msgid "Base address of the 256K expansion"
 msgstr "A 256K-s RAM kiterjesztés báziscíme"
 
 #: src/c64dtv/c64dtvblitter.c:545 src/translate.c.po.c:5009
-#, fuzzy
 msgid "Specify DTV Revision (2: DTV2, 3: DTV3)"
-msgstr "Adja meg a SID motort (0: Gyors SID, 3: ParSID)"
+msgstr "Adja meg a DTV verzióját (2: DTV2, 3: DTV3)"
 
 #: src/c64dtv/c64dtvblitter.c:547
 msgid "Enable DTV blitter logs."
-msgstr ""
+msgstr "DTV blit naplók engedélyezése."
 
 #: src/c64dtv/c64dtvblitter.c:549
 msgid "Disable DTV blitter logs."
-msgstr ""
+msgstr "DTV blit naplók tiltása."
 
 #: src/c64dtv/c64dtvdma.c:444
-#, fuzzy
 msgid "Enable DTV dma logs."
-msgstr "*Egér engedélyezése"
+msgstr "DTV dma napló engedélyezése."
 
 #: src/c64dtv/c64dtvdma.c:446
 msgid "Disable DTV dma logs."
-msgstr ""
+msgstr "DTV dma naplók tiltása."
 
 #: src/c64dtv/c64dtvflash.c:266 src/translate.c.po.c:626
-#, fuzzy
 msgid "No filename!"
-msgstr "Fájlnév"
+msgstr "Nincs fájlnév!"
 
 #: src/c64dtv/c64dtvflash.c:276 src/translate.c.po.c:636
-#, fuzzy
 msgid "Illegal filename!"
-msgstr "Érvénytelen fájlnév"
+msgstr "Érvénytelen fájlnév!"
 
 #: src/c64dtv/c64dtvflash.c:298 src/translate.c.po.c:646
-#, fuzzy, c-format
+#, c-format
 msgid "Error creating file %s!"
-msgstr "Hiba `%s' olvasása közben."
+msgstr "Hiba %s fájl létrehozása közben!"
 
 #: src/c64dtv/c64dtvflash.c:310 src/translate.c.po.c:656
-#, fuzzy, c-format
+#, c-format
 msgid "Error writing to file %s!"
-msgstr "Hiba írás közben: %s."
+msgstr "Hiba %s fájlba írás közben!"
 
 #: src/c64dtv/c64dtvflash.c:321 src/translate.c.po.c:666
-#, fuzzy
 msgid "DTV ROM image created successfully"
-msgstr "Beállítások sikeresen elmentve."
+msgstr "DTV ROM képmás sikeresen létrehozva"
 
 #: src/c64dtv/c64dtvflash.c:528 src/translate.c.po.c:5059
-#, fuzzy
 msgid "Specify name of C64DTV ROM image"
-msgstr "Adja meg a BASIC ROM képmás nevét"
+msgstr "Adja meg a C64DTV ROM képmás nevét"
 
 #: src/c64dtv/c64dtvflash.c:530 src/translate.c.po.c:5069
 msgid "Enable writing to C64DTV ROM image"
-msgstr ""
+msgstr "C64DTV ROM képmásba írás engedélyezése"
 
 #: src/c64dtv/c64dtvflash.c:532 src/translate.c.po.c:5079
 msgid "Disable writing to C64DTV ROM image"
-msgstr ""
+msgstr "C64DTV ROM képmásba írás tiltása"
 
 #: src/c64dtv/c64dtvflash.c:534
 msgid "Enable DTV flash chip logs."
-msgstr ""
+msgstr "DTV flash chip naplók engedélyezése."
 
 #: src/c64dtv/c64dtvflash.c:536
 msgid "Disable DTV flash chip logs."
-msgstr ""
+msgstr "DTV flash chip naplók tiltása."
 
 #: src/c64/digimax.c:67 src/translate.c.po.c:616
 msgid ""
@@ -999,14 +986,12 @@ msgid "Size of the GEORAM expansion unit"
 msgstr "GEORAM Expansion Unit mérete"
 
 #: src/c64dtv/hummeradc.c:373 src/translate.c.po.c:5139
-#, fuzzy
 msgid "Enable the Hummer ADC"
-msgstr "Videó gyorsítótár engedélyezése"
+msgstr "Hummer ADC engedélyezése"
 
 #: src/c64dtv/hummeradc.c:375 src/translate.c.po.c:5149
-#, fuzzy
 msgid "Disable the Hummer ADC"
-msgstr "Videó gyorsítótár tiltása"
+msgstr "Hummer ADC tiltása"
 
 #: src/c64/mmc64.c:903 src/translate.c.po.c:1364
 msgid "Enable the MMC64 expansion"
@@ -1114,7 +1099,7 @@ msgstr "TFE (\"the final ethernet\") egység engedélyezése"
 
 #: src/c64/tfe.c:1940 src/translate.c.po.c:1485
 msgid "Disable the TFE (\"The Final Ethernet\") unit"
-msgstr "TFE (\"the final ethernet\") egység tiltása"
+msgstr "TFE (\"The Final Ethernet\") egység tiltása"
 
 #: src/c64/tfe.c:1942 src/translate.c.po.c:1495
 msgid "Set the system ethernet interface for TFE emulation"
@@ -1535,53 +1520,48 @@ msgid "Specify log file name"
 msgstr "Adja meg a naplófájl nevét"
 
 #: src/monitor/mon_command.c:54
-#, fuzzy
 msgid "Available commands are:"
-msgstr ""
-"\n"
-"Lehetséges parancssori opciók:\n"
-"\n"
+msgstr "Lehetséges parancsok:"
 
 #: src/monitor/mon_command.c:56
-#, fuzzy
 msgid "Machine state commands:"
-msgstr "Pillanatkép parancsok"
+msgstr "Gép állapot parancsok:"
 
 #: src/monitor/mon_command.c:59
 msgid "[<memspace>] [bankname]"
-msgstr ""
+msgstr "[<memória tér>] [lap név]"
 
 #: src/monitor/mon_command.c:60
 msgid ""
 "If bankname is not given, print the possible banks for the memspace.\n"
 "If bankname is given set the current bank in the memspace to the given\n"
 "bank."
-msgstr ""
+msgstr "Ha a lap száma nincs megadva, kiírja a lehetséges lapokat a memória térbõl.\n"
+"Ha meg van adva, az aktuális lap számot a memória térben a megadott lapra állítja."
 
 #: src/monitor/mon_command.c:66
 msgid ""
 "Print JSR call chain (most recent call first). Stack offset\n"
 "relative to SP+1 is printed in parentheses. This is a best guess\n"
 "only."
-msgstr ""
+msgstr "JSR hívás lista kiírása (legutóbbi elõször). A verem SP+1\nhelyen lévõ tartalma zárójelben. Ez csak\negy legjobb becslés."
 
 #: src/monitor/mon_command.c:72
 msgid "Specify the type of CPU currently used (6502/z80)."
-msgstr ""
+msgstr "A processzor típusának megadása (6502/z80)."
 
 #: src/monitor/mon_command.c:75 src/monitor/mon_command.c:122
 msgid "[<count>]"
-msgstr ""
+msgstr "[<darab>]"
 
 #: src/monitor/mon_command.c:76
 msgid "Show <count> last executed commands."
-msgstr ""
+msgstr "<darab> utoljára végrehajtott utasítás mutatása."
 
 #: src/monitor/mon_command.c:79 src/monitor/mon_command.c:127
 #: src/monitor/mon_command.c:437 src/monitor/mon_command.c:446
-#, fuzzy
 msgid "\"<filename>\""
-msgstr "<név>"
+msgstr "\"<fájlnév>\""
 
 #: src/monitor/mon_command.c:80
 msgid ""
@@ -1589,64 +1569,66 @@ msgid ""
 "This snapshot is compatible with a snapshot written out by the UI.\n"
 "Note: No ROM images are included into the dump."
 msgstr ""
+"Pillanatkép írása a géprõl a megadott fájlba. A pillanatkép\n"
+"kompatibilis azzal, amelyet a grafikus felület hoz létre.\n"
+"Megjegyzés: a ROM képmások nem kerülnek bele."
 
 #: src/monitor/mon_command.c:91
-#, fuzzy
 msgid "<address>"
-msgstr "<báziscím>"
+msgstr "<cím>"
 
 #: src/monitor/mon_command.c:92
 msgid "Change the PC to ADDRESS and continue execution"
-msgstr ""
+msgstr "A PC állítása ADDRESS címre és folytatás"
 
 #: src/monitor/mon_command.c:96
 msgid "Print out the I/O area of the emulated machine."
-msgstr ""
+msgstr "Az emulált gép I/O tartományának mutatása."
 
 #: src/monitor/mon_command.c:100
 msgid ""
 "Advance to the next instruction.  Subroutines are treated as\n"
 "a single instruction."
-msgstr ""
+msgstr "A következõ utasításra lépés.  A szubrutinokat egy\nutasításnak tekinti."
 
 #: src/monitor/mon_command.c:104
 msgid "[<reg_name> = <number> [, <reg_name> = <number>]*]"
-msgstr ""
+msgstr "[<reg_név> = <szám> [, <reg_név> = <szám>]*]"
 
 #: src/monitor/mon_command.c:105
 msgid ""
 "Assign respective registers.  With no parameters, display register\n"
 "values."
-msgstr ""
+msgstr "Megadott regiszterek beállítása. Paraméterek nélkül, a regiszterek\ntartalmának kiírása."
 
 #: src/monitor/mon_command.c:109
-#, fuzzy
 msgid "[<type>]"
-msgstr "<típus>"
+msgstr "[<típus>]"
 
 #: src/monitor/mon_command.c:110
 msgid "Reset the machine or drive. Type: 0 = soft, 1 = hard, 8-11 = drive."
-msgstr ""
+msgstr "A számítógép vagy meghajtó újraindítása. Típus: 0 = meleg, 1 = hideg, 8-11 = meghajtó."
 
 #: src/monitor/mon_command.c:114
 msgid ""
 "Continues execution and returns to the monitor just before the next\n"
 "RTS or RTI is executed."
-msgstr ""
+msgstr "Folytatja a végrehajtást és visszatér a monitorba a következõ\nRTS vagy RTI utasítás elõtt."
 
 #: src/monitor/mon_command.c:119
 msgid "Displays the contents of the screen."
-msgstr ""
+msgstr "A képernyõ tartalmának mutatása."
 
 #: src/monitor/mon_command.c:123
 msgid ""
 "Single-step through instructions.  COUNT allows stepping\n"
 "more than a single instruction at a time."
-msgstr ""
+msgstr "Lépkedés egyesével az utasításokon.  A DARAB-bal beállítható,\n"
+"ha több utasítást kell ugrani egyszerre."
 
 #: src/monitor/mon_command.c:128
 msgid "Read a snapshot of the machine from the file specified."
-msgstr ""
+msgstr "A pillanatkép betöltése a megadott fájlból."
 
 #.
 #. { "up",              "",
@@ -1654,13 +1636,12 @@ msgstr ""
 #. "*** unimplemented ***" },
 #.
 #: src/monitor/mon_command.c:135
-#, fuzzy
 msgid "Symbol table commands:"
-msgstr "Pillanatkép parancsok"
+msgstr "Szimbólum táblázat parancsok:"
 
 #: src/monitor/mon_command.c:138
 msgid "[<memspace>] <address> <label>"
-msgstr ""
+msgstr "[<memória tér>] <cím> <címke>"
 
 #: src/monitor/mon_command.c:139
 msgid ""
@@ -1671,11 +1652,17 @@ msgid ""
 "Map a given address to a label.  This label can be used when entering\n"
 "assembly code and is shown during disassembly.  Additionally, it can\n"
 "be used whenever an address must be specified."
-msgstr ""
+msgstr "A <memória tér> ezek közül: C: 8: 9: 10: 11:\n"
+"<cím>  amelyik címhez a címkét rendelje.\n"
+"<címke>    a címke neve; ponttal kell kezdõdjön (\".\").\n"
+"\n"
+"Az adott cím rendelése a címkéhez.  Ez a címke használható assembly\n"
+"program beírásakor, és visszafejtéskor megjelenik.  Mindig használható,\n"
+"amikor valamilyen címet kell megadni."
 
 #: src/monitor/mon_command.c:147
 msgid "[<memspace>] <label>"
-msgstr ""
+msgstr "[<memória tartomány>] <címke>"
 
 #: src/monitor/mon_command.c:148
 msgid ""
@@ -1683,11 +1670,14 @@ msgid ""
 "<label>    is the name of the label; it must start with a dot (\".\").\n"
 "\n"
 "Delete a previously defined label."
-msgstr ""
+msgstr "<memória tér> egy ezek közül: C: 8: 9: 10: 11:\n"
+"<címke>    a címke neve; ponttal kell kezdõdjön (\".\").\n"
+"\n"
+"Elõzõleg megadott címke törlése."
 
 #: src/monitor/mon_command.c:153 src/monitor/mon_command.c:160
 msgid "[<memspace>] \"<filename>\""
-msgstr ""
+msgstr "[<memória tartomány>] \"<fájlnév>\""
 
 #: src/monitor/mon_command.c:154
 msgid ""
@@ -1697,71 +1687,77 @@ msgid ""
 "The format of the file is the one written out by the `save_labels' command;\n"
 "it consists of some `add_label' commands, written one after the other."
 msgstr ""
+"Címkékrõl címekre leképezéseket tartalmazó fájl betöltése.  Ha nincs memória\n"
+"tér megadva, az alap tér lesz használva.\n"
+"\n"
+"A fájl formátuma megegyezik a `save_labels' parancs által kiírtéval;\n"
+"néhány egymás után írt `add_label' parancsból áll."
 
 #: src/monitor/mon_command.c:161
 msgid ""
 "Save labels to a file.  If no memory space is specified, all of the\n"
 "labels are saved."
-msgstr ""
+msgstr "Címkék mentése fájlba.  Ha nincs memória tartomány megadva, az\nösszes címkét menti."
 
 #: src/monitor/mon_command.c:165
 msgid "[<memspace>]"
-msgstr ""
+msgstr "[<memória tartomány>]"
 
 #: src/monitor/mon_command.c:166
 msgid ""
 "Display current label mappings.  If no memory space is specified, show\n"
 "all labels."
-msgstr ""
+msgstr "Az aktuális címke leképezések mutatása.  Ha nincs a memória tér megadva, az\nösszeset mutatja."
 
 #: src/monitor/mon_command.c:169
 msgid "Assembler and memory commands:"
-msgstr ""
+msgstr "Assembler és memória parancsok:"
 
 #: src/monitor/mon_command.c:172
 msgid "[<address>] <data_list>"
-msgstr ""
+msgstr "[<cím>] <adat_lista>"
 
 #: src/monitor/mon_command.c:173
 msgid "Write the specified data at `address'."
-msgstr ""
+msgstr "A megadott adat `cím' helyre írása."
 
 #: src/monitor/mon_command.c:176
 msgid "<address> [ <instruction> [: <instruction>]* ]"
-msgstr ""
+msgstr "<cím> [ <utasítás> [: <utasítás>]* ]"
 
 #: src/monitor/mon_command.c:177
 msgid ""
 "Assemble instructions to the specified address.  If only one\n"
 "instruction is specified, enter assembly mode (enter an empty line to\n"
 "exit assembly mode)."
-msgstr ""
+msgstr "Utasítások fordítása a megadott címre. Ha csak egy utasítás\n"
+"van, fordító módba lép (üres sort kell beírni a kilépéshez)."
 
 #: src/monitor/mon_command.c:182 src/monitor/mon_command.c:255
-#, fuzzy
 msgid "<address_range> <address>"
-msgstr "<báziscím>"
+msgstr "<címtartomány> <cím>"
 
 #: src/monitor/mon_command.c:183
 msgid ""
 "Compare memory from the source specified by the address range to the\n"
 "destination specified by the address.  The regions may overlap.  Any\n"
 "values that miscompare are displayed using the default displaytype."
-msgstr ""
+msgstr "A forrás memóriatartomány összehasonlítása a céllal megadott\n"
+"memóriatartománnyal. A tartományok átfedése megengedett.  Minden\n"
+"meg nem egyezõ értéket kiír az alap adat típussal."
 
 #: src/monitor/mon_command.c:188 src/monitor/mon_command.c:289
 #: src/monitor/mon_command.c:293
 msgid "<checknum>"
-msgstr ""
+msgstr "<ell_pont_szám>"
 
 #: src/monitor/mon_command.c:189
 msgid "Delete checkpoint `checknum'."
-msgstr ""
+msgstr "`ell_pont_szám' ellenõrzési pont törlése."
 
 #: src/monitor/mon_command.c:192
-#, fuzzy
 msgid "[<address> [<address>]]"
-msgstr "<báziscím>"
+msgstr "[<cím> [<cím>]]"
 
 #: src/monitor/mon_command.c:193
 msgid ""
@@ -1770,42 +1766,48 @@ msgid ""
 "treated as the start address and a default number of instructions are\n"
 "disassembled.  If no addresses are specified, a default number of\n"
 "instructions are disassembled from the dot address."
-msgstr ""
+msgstr "Utasítások visszafejtése. Ha két cím van megadva, elsõ és utolsó\n"
+"címként értelmezi õket. Ha csak egy, akkor elsõ címként, és az alap\n"
+"számú utasítás kerül visszafejtésre. Ha nincs cím megadva, az aktuális\n"
+"címtõl kezdi a visszafejtést, és a szokásos számú utasítást ír ki."
 
 #: src/monitor/mon_command.c:200 src/monitor/mon_command.c:206
 msgid "<address_range> <data_list>"
-msgstr ""
+msgstr "<cím_tartomány> <adat_lista>"
 
 #: src/monitor/mon_command.c:201
 msgid ""
 "Fill memory in the specified address range with the data in\n"
 "<data_list>.  If the size of the address range is greater than the size\n"
 "of the data_list, the data_list is repeated."
-msgstr ""
+msgstr "A memória kitöltése az <adat_lista> paraméterben megadott adatokkal.\n"
+"Ha a címtartomány nagyobb, mint a lista, ismételni fogja azt."
 
 #: src/monitor/mon_command.c:207
 msgid ""
 "Hunt memory in the specified address range for the data in\n"
 "<data_list>.  If the data is found, the starting address of the match\n"
 "is displayed.  The entire range is searched for all possible matches."
-msgstr ""
+msgstr "Az <adat_lista> adat keresése a memóriában. Ha megtalálja a sorozatot,\n"
+"a kezdõcímét kiírja. Az egész tartományt végignézi az összes lehetséges\n"
+"találat felfedezéséhez."
 
 #: src/monitor/mon_command.c:212 src/monitor/mon_command.c:216
 msgid "<address_opt_range>"
-msgstr ""
+msgstr "<címtartomány>"
 
 #: src/monitor/mon_command.c:213
 msgid "Display memory contents as PETSCII text."
-msgstr ""
+msgstr "Memória tartalom mutatása PETSCII szövegként."
 
 #: src/monitor/mon_command.c:217
 msgid "Display memory contents as screen code text."
-msgstr ""
+msgstr "Memória tartalom megjelenítése képernyõ kód szövegként."
 
 #: src/monitor/mon_command.c:220 src/monitor/mon_command.c:227
 #: src/monitor/mon_command.c:249
 msgid "[<data_type>] [<address_opt_range>]"
-msgstr ""
+msgstr "[<adat_típus>] [<címtartomány>]"
 
 #: src/monitor/mon_command.c:221
 msgid ""
@@ -1813,28 +1815,34 @@ msgid ""
 "is used.  If only one address is specified, the length of data\n"
 "displayed is based on the datatype.  If no addresses are given, the\n"
 "'dot' address is used."
-msgstr ""
+msgstr "A memória tartalmának megjelenítése. Ha nincs adat típus megadva,\n"
+"az alapbeállításthasználja. Ha egy cím van megadva, a megjelenített adat\n"
+"mérete az adat típustól függ. Ha nincs cím megadva, a 'pont' címet használja."
 
 #: src/monitor/mon_command.c:228
 msgid ""
 "Display the contents of memory as character data.  If only one address\n"
 "is specified, only one character is displayed.  If no addresses are\n"
 "given, the ``dot'' address is used."
-msgstr ""
+msgstr "A memória tartalmának megjelenítése karakter grafikaként.  Ha csak egy cím\n"
+"adott, egyetlen karakter rajzolódik ki.  Ha nincs cím megadva,\n"
+"a ``pont'' címet használja."
 
 #: src/monitor/mon_command.c:233
 msgid "\"<filename>\" <format>"
-msgstr ""
+msgstr "\"<fájlnév>\" <formátum>"
 
 #: src/monitor/mon_command.c:234
 msgid ""
 "Save the memmap as a picture. Format is:\n"
 "0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
 msgstr ""
+"Memória térkép mentése képként. A formátum:\n"
+"0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
 
 #: src/monitor/mon_command.c:238
 msgid "[<mask>] [<address_opt_range>]"
-msgstr ""
+msgstr "[<maszk>] [<címtartomány>]"
 
 #: src/monitor/mon_command.c:239
 msgid ""
@@ -1842,33 +1850,38 @@ msgid ""
 "locations with accesses of certain type(s). The mask is a number\n"
 "with the bits \"ioRWXrwx\", where RWX are for ROM and rwx for RAM.\n"
 "Optionally, an address range can be specified."
-msgstr ""
+msgstr "A memória térkép mutatása. A maszk úgy állítható, hogy csak azokat a\n"
+"helyeket mutassa, amelyek a megadott eléréssel rendelkeznek. A maszk\n"
+"egy szám az \"ioRWXrwx\" bitekkel, ahol az RWX a ROM-ra, az rwx a RAM-ra\n"
+"vonatkozik. Tetszés szerint egy címtartomány is megadható."
 
 #: src/monitor/mon_command.c:246
 msgid "Clear the memmap."
-msgstr ""
+msgstr "A memória térkép törlése."
 
 #: src/monitor/mon_command.c:250
 msgid ""
 "Display the contents of memory as sprite data.  If only one address is\n"
 "specified, only one sprite is displayed.  If no addresses are given,\n"
 "the ``dot'' address is used."
-msgstr ""
+msgstr "A memória tartalmának megjelenítése sprite adatkéne. Ha csak egy cím\n"
+"van megadva, egyetlen sprite-ot mutat.  Ha egyáltalán nincs cím megadva,\n"
+"az aktuális címet használja."
 
 #: src/monitor/mon_command.c:256
 msgid ""
 "Move memory from the source specified by the address range to\n"
 "the destination specified by the address.  The regions may overlap."
-msgstr ""
+msgstr "Memória másolása a forrás területrõl a cél cím által meghatározott\n"
+"területre. A tartományok átfedése megengedett."
 
 #: src/monitor/mon_command.c:259
-#, fuzzy
 msgid "Checkpoint commands:"
-msgstr "Pillanatkép parancsok"
+msgstr "Ellenõrzési pont parancsok:"
 
 #: src/monitor/mon_command.c:262
 msgid "[<address> [if <cond_expr>] ]"
-msgstr ""
+msgstr "[<cím> [if <felt_kif>] ]"
 
 #: src/monitor/mon_command.c:263
 msgid ""
@@ -1877,22 +1890,27 @@ msgid ""
 "breakpoint number is printed.  A conditional expression can also be\n"
 "specified for the breakpoint.  For more information on conditions, see\n"
 "the CONDITION command."
-msgstr ""
+msgstr "Ha nincs cím megadva, az aktuálisan érvényes figyelési pontokat\n"
+"listázza. Ha van cím a paraméterben, töréspontot helyez el az adott\n"
+"címre, és a számát kiírja. Egy feltétel kifejezés is megadható a törésponthoz.\n"
+"A feltételekrõl több információhoz lásd a CONDITION parancs súgóját!"
 
 #: src/monitor/mon_command.c:270
 msgid "<checknum> \"<command>\""
-msgstr ""
+msgstr "<ell_pont_szám> \"<parancs>\""
 
 #: src/monitor/mon_command.c:271
 msgid ""
 "Specify `command' as the command to execute when checkpoint `checknum'\n"
 "is hit.  Note that the `x' command is not yet supported as a\n"
 "command argument."
-msgstr ""
+msgstr "`parancs' megadása egy `ell_pont_szám' sorszámával adott ellenõrzési pont\n"
+"elérésekor történõ végrehajtásra.  Az `x' parancs egyelõre nem használható\n"
+"itt paraméterként."
 
 #: src/monitor/mon_command.c:276
 msgid "<checknum> if <cond_expr>"
-msgstr ""
+msgstr "<ell_pont_szám> if <kifejezés>"
 
 #: src/monitor/mon_command.c:277
 msgid ""
@@ -1907,29 +1925,40 @@ msgid ""
 "a memspace prefix (i.e., c:, 8:, 9:, 10:, 11:\n"
 "Examples: .A == 0, .X == .Y, 8:.X == .X\n"
 msgstr ""
+"Minden alkalommal, amikor egy adott ellenõrzési pontot megvizsgál, a\n"
+"feltételt kiértékeli. Ha az eredmény igaz, a töréspont aktiválódik.\n"
+"Egyébként, figyelmen kívül hagyja. Ha regiszterek szerepelnek a kifejezésben,\n"
+"az ellenõrzés pillanatában vett értékük számít, nem pedig a beállításkori.\n"
+"A feltétel használhatja a regisztereket ( .A, .X, .Y, .PC, .SP) és össze is\n"
+"hasonlíthatja õket (==, !=, <, >, <=, >=) más regiszterekkel.\n"
+"A regiszterek lehetnek más eszközök regiszterei is; azokat egy memória tér\n"
+"elõtaggal kell ellátni (vagyis c:, 8:, 9:, 10:, 11:).\n"
+"Példák: .A == 0, .X == .Y, 8:.X == .X\n"
+""
 
 #: src/monitor/mon_command.c:290
 msgid "Disable checkpoint `checknum'."
-msgstr ""
+msgstr "`ell_pont_szám' jelû ellenõrzési pont tiltása."
 
 #: src/monitor/mon_command.c:294
 msgid "Enable checkpoint `checknum'."
-msgstr ""
+msgstr "`ell_pont_szám' jelû ellenõrzési pont engedélyezése."
 
 #: src/monitor/mon_command.c:297
 msgid "<checknum> [<count>]"
-msgstr ""
+msgstr "<ell_pont_szám> [<darab>]"
 
 #: src/monitor/mon_command.c:298
 msgid ""
 "Ignore a checkpoint a given number of crossings.  If no count is given,\n"
 "the default value is 1."
 msgstr ""
+"Az ellenõrzési pont figyelmen kívül hagyása megadott számú áthaladáskor.  Ha nincs\n"
+"szám megadva, az alapértelmezett érték 1."
 
 #: src/monitor/mon_command.c:302
-#, fuzzy
 msgid "[<address>]"
-msgstr "<báziscím>"
+msgstr "[<cím>]"
 
 #: src/monitor/mon_command.c:303
 msgid ""
@@ -1938,10 +1967,14 @@ msgid ""
 "and the breakpoint number is printed.  Control is returned to the\n"
 "emulator by this command.  The breakpoint is deleted once it is hit."
 msgstr ""
+"Ha nincs cím megadva, a jelenleg érvényes töréspontokat írja ki.\n"
+"Ha van adott cím, egy ideiglenes töréspontot helyez el az adott címre,\n"
+"és a töréspont száma kiíródik.  A vezérlés visszakerül az emulátorhoz\n"
+"e parancs által. A töréspont elérésekor törlõdik."
 
 #: src/monitor/mon_command.c:309
 msgid "[loadstore] [address [address]]"
-msgstr ""
+msgstr "[loadstore] [cím [cím]]"
 
 #: src/monitor/mon_command.c:310
 msgid ""
@@ -1952,11 +1985,16 @@ msgid ""
 "the monitor breaks. If not specified, the monitor breaks on both\n"
 "operations."
 msgstr ""
+"Figyelési pont megadása.  Ha egy cím van a paraméterben, az adott\n"
+"címre állítbe figyelési pontot. Ha két cím adott, akkor a kettõ közötti\n"
+"összes memória helyre beállítja.\n"
+"A `loadstore' vagy `load' vagy `store' lehet, azt adja meg, hogy olvasás\n"
+"vagy írás hatására áll meg a monitor program. Ha nincs megadva,\n"
+"mindkét mûvelet hatására megáll."
 
 #: src/monitor/mon_command.c:318
-#, fuzzy
 msgid "[address [address]]"
-msgstr "<báziscím>"
+msgstr "[cím [cím]]"
 
 #: src/monitor/mon_command.c:319
 msgid ""
@@ -1964,11 +2002,13 @@ msgid ""
 "for that address.  If two addresses are specified, set a tracepoint\n"
 "for the memory locations between the two addresses."
 msgstr ""
+"Követési pont beállítása.  Ha egyetlen cím van megadva, a követési pontot\n"
+"ahhoz állítja be.  Ha két cím van megadva, a követési pontot\n"
+"az adott tartományra állítja be."
 
 #: src/monitor/mon_command.c:323
-#, fuzzy
 msgid "Monitor state commands:"
-msgstr "Pillanatkép parancsok"
+msgstr "Monitor állapot parancsok:"
 
 #: src/monitor/mon_command.c:326
 msgid "[c:|8:|9:|10:|11:]"
@@ -1979,15 +2019,16 @@ msgid ""
 "Set the default memory device to either the computer `c:' or the\n"
 "specified disk drive (`8:', `9:')."
 msgstr ""
+"Az alapértelmezett memória eszköz beállítása a számítógépre `c:' vagy\n"
+"a megadott lemezmeghajtóra (`8:', `9:')."
 
 #: src/monitor/mon_command.c:332 src/monitor/mon_command.c:337
 msgid "Leave the monitor and return to execution."
-msgstr ""
+msgstr "A monitor elhagyása és a végrehajtás folytatása."
 
 #: src/monitor/mon_command.c:339
-#, fuzzy
 msgid "Exit the emulator immediately."
-msgstr "Kilépés az emulátorból"
+msgstr "Azonnali kilépés az emulátorból."
 
 #: src/monitor/mon_command.c:343
 msgid "[H|D|O|B]"
@@ -1997,7 +2038,7 @@ msgstr ""
 msgid ""
 "Set the default radix to hex, decimal, octal, or binary.  With no\n"
 "argument, the current radix is printed."
-msgstr ""
+msgstr "Az alap számrendszer hexadecimális, decimális, oktális vagy bináris.\nParaméter nélkül az aktuálisat mutatja."
 
 #: src/monitor/mon_command.c:348
 msgid "[on|off|toggle]"
@@ -2010,46 +2051,48 @@ msgid ""
 "side-effects.  If the argument is 'off' then reads don't cause\n"
 "side-effects.  If the argument is 'toggle' then the current mode is\n"
 "switched.  No argument displays the current state."
-msgstr ""
+msgstr "Beállítja, hogyan hatnak a monitorprogram memória olvasásai azokra a\n"
+"memóriahelyekre, amelyeknek olvasás-mellékhatásai vannak. Ha a paraméter\n"
+"'on', az olvasások okozhatnak mellékhatásokat. Ha a paraméter 'off', akkor pedig\n"
+"nem okoznak. Ha a paraméter 'toggle', az aktuális módot átkapcsolja.\n"
+"Paraméter nélküli hívás kiírja az aktuális módot."
 
 #: src/monitor/mon_command.c:355
-#, fuzzy
 msgid "Disk commands:"
-msgstr "Lemez formátum:"
+msgstr "Lemez parancsok:"
 
 #: src/monitor/mon_command.c:358
 msgid "<disk command>"
-msgstr ""
+msgstr "<lemez parancs>"
 
 #: src/monitor/mon_command.c:359
 msgid ""
 "Perform a disk command on the currently attached disk image on drive 8.\n"
 "The specified disk command is sent to the drive's channel #15."
-msgstr ""
+msgstr "Lemez parancs végrehajtása az aktuálisan csatolt lemezen, a 8-as egységen.\n"
+"A megadott lemez parancsot a meghajtó #15-ös csatornájára küldi."
 
 #: src/monitor/mon_command.c:363
-#, fuzzy
 msgid "<filename> <device>"
-msgstr "Fõ eszköz"
+msgstr "<fájlnév> <eszköz>"
 
 #: src/monitor/mon_command.c:364
 msgid "Attach file to device. (device 32 = cart)"
-msgstr ""
+msgstr "Fájl csatolása az eszközhöz. (32-es eszköz = cart)"
 
 #: src/monitor/mon_command.c:367
 msgid "\"<filename>\" <device> <address>"
-msgstr ""
+msgstr "\"<fájlnév>\" <eszköz> <cím>"
 
 #: src/monitor/mon_command.c:368
 msgid ""
 "Load the specified file into memory at the specified address.\n"
 "If device is 0, the file is read from the file system."
-msgstr ""
+msgstr "A megadott fájl betöltése a memóriába a megadott címre.\nHa az eszköz 0, a fájlt a fájlrendszerbõl olvassa."
 
 #: src/monitor/mon_command.c:372
-#, fuzzy
 msgid "<track> <sector> [<address>]"
-msgstr "<báziscím>"
+msgstr "<sáv> <szektor> [<cím>]"
 
 #: src/monitor/mon_command.c:373
 msgid ""
@@ -2057,37 +2100,41 @@ msgid ""
 "specified, the data is loaded into memory.  If no address is given, the\n"
 "data is displayed using the default datatype."
 msgstr ""
+"Blokk beolvasása a megadott sávból és szektorból.,  Ha egy cím is meg\n"
+"van adva, az adatot a memóriába tölti.  Ha az nincs, az\n"
+"adatot az alapbeállítás szerinti formában mutatja."
 
 #: src/monitor/mon_command.c:378 src/monitor/mon_command.c:412
 msgid "\"<filename>\" <device> <address1> <address2>"
-msgstr ""
+msgstr "\"<fájlnév>\" <eszköz> <cím1> <cím2>"
 
 #: src/monitor/mon_command.c:379
 msgid ""
 "Save the memory from address1 to address2 to the specified file.\n"
 "If device is 0, the file is written to the file system."
 msgstr ""
+"A memória cím1 és cím2 közötti részének fájlba mentése.\n"
+"Ha az eszköz 0, a fájl a fájlrendszerbe kerül."
 
 #: src/monitor/mon_command.c:383
-#, fuzzy
 msgid "<track> <sector> <address>"
-msgstr "<báziscím>"
+msgstr "<sáv> <szektor> <cím>"
 
 #: src/monitor/mon_command.c:384
 msgid ""
 "Write a block of data at `address' on the specified track and sector\n"
 "of disk in drive 8."
 msgstr ""
+"Egy adat blokk írása `cím' helyrõl a megadott sávba és szektorba\n"
+"a 8-as meghajtón."
 
 #: src/monitor/mon_command.c:388
-#, fuzzy
 msgid "<directory>"
-msgstr "Kö&nyvtár"
+msgstr "<könyvtár>"
 
 #: src/monitor/mon_command.c:389
-#, fuzzy
 msgid "Change the working directory."
-msgstr "Munkakönyvtár megváltoztatása..."
+msgstr "Munkakönyvtár megváltoztatása."
 
 #: src/monitor/mon_command.c:392 src/video/video-cmdline-options.c:236
 #: src/translate.c.po.c:3961
@@ -2096,20 +2143,19 @@ msgstr "<eszköz>"
 
 #: src/monitor/mon_command.c:393
 msgid "Detach file from device. (device 32 = cart)"
-msgstr ""
+msgstr "Fájl leválasztása az eszközrõl. (32-es eszköz = cart)"
 
 #: src/monitor/mon_command.c:396
-#, fuzzy
 msgid "[<directory>]"
-msgstr "Kö&nyvtár"
+msgstr "[<könyvtár>]"
 
 #: src/monitor/mon_command.c:397
 msgid "Display the directory contents."
-msgstr ""
+msgstr "A könyvtár tartalmának mutatása."
 
 #: src/monitor/mon_command.c:400
 msgid "\"<filename>\" <device> [<address>]"
-msgstr ""
+msgstr "\"<fájlnév>\" <eszköz> [<cím>]"
 
 #: src/monitor/mon_command.c:401
 msgid ""
@@ -2118,12 +2164,15 @@ msgid ""
 "Use (otherwise ignored) two-byte load address from file if no address\n"
 "specified.\n"
 "If device is 0, the file is read from the file system."
-msgstr ""
+msgstr "A megadott fájl betöltése a megadott címre. A BASIC mutatókat\n"
+"a megfelelõ módon beállítja, ha a számítógép memóriába tölti az adatot\n"
+"(nem minden emulátornál). Ha nincs cím megadva, az amúgy figyelmen hagyott\n"
+"két bájtos betöltési címet használja a fájlból.\n"
+"Ha az eszköz 0, a fájlt a fájlrendszerrõl olvassa."
 
 #: src/monitor/mon_command.c:409
-#, fuzzy
 msgid "Show current working directory."
-msgstr "Munkakönyvtár megváltoztatása"
+msgstr "Munkakönyvtár mutatása."
 
 #: src/monitor/mon_command.c:413
 msgid ""
@@ -2131,126 +2180,124 @@ msgid ""
 "Write two-byte load address.\n"
 "If device is 0, the file is written to the file system."
 msgstr ""
+"A memória cím1 és cím2 közötti tartományának fájlba mentése.\n"
+"A kétbájtos betöltési címet is kiírja.\n"
+"Ha az eszköz 0, a fájlt a fájlrendszeren hozza létre."
 
 #: src/monitor/mon_command.c:417
-#, fuzzy
 msgid "Other commands:"
-msgstr "Pillanatkép parancsok"
+msgstr "Egyéb parancsok:"
 
 #: src/monitor/mon_command.c:421
 msgid "Display the specified number in decimal, hex, octal and binary."
-msgstr ""
+msgstr "A megadott szám kiírása decimálisan, hexadecimálisan, oktálisan és binárisan."
 
 #: src/monitor/mon_command.c:425
-#, fuzzy
 msgid "Use cartridge freeze."
-msgstr "Fagyasztás Cartridge-dzsel"
+msgstr "Cartridge fagyasztás használata."
 
 #: src/monitor/mon_command.c:428
-#, fuzzy
 msgid "[<command>]"
-msgstr "Parancs:"
+msgstr "[<parancs>]"
 
 #: src/monitor/mon_command.c:429
 msgid ""
 "If no argument is given, prints out a list of all available commands\n"
 "If an argument is given, prints out specific help for that command."
-msgstr ""
+msgstr "Ha nincs paraméter, az összes létezõ parancs listáját mutatja.\nHa van, az adott parancshoz mutatja a súgót."
 
 #: src/monitor/mon_command.c:433
-#, fuzzy
 msgid "\"<string>\""
-msgstr "<sztring>"
+msgstr "\"<sztring>\""
 
 #: src/monitor/mon_command.c:434
-#, fuzzy
 msgid "Put the specified string into the keyboard buffer."
-msgstr "A megadott string bemásolása a billentyûzet pufferbe"
+msgstr "A megadott sztring elhelyezése a billentyûzet pufferben."
 
 #: src/monitor/mon_command.c:438
 msgid ""
 "Monitor commands from the specified file are read and executed.  This\n"
 "command stops at the end of file or when a STOP command is read."
-msgstr ""
+msgstr "A monitor parancsokat beolvassa és végrehajtja a megadott fájlból.\n"
+"A fájl végéig halad, vagy egy beolvasott STOP parancsig."
 
 #: src/monitor/mon_command.c:442
-#, fuzzy
 msgid "<expression>"
-msgstr "<változat>"
+msgstr "<kifejezés>"
 
 #: src/monitor/mon_command.c:443
 msgid "Evaluate the specified expression and output the result."
-msgstr ""
+msgstr "Kiértékeli a megadott kifejezést és kiírja az eredményt."
 
 #: src/monitor/mon_command.c:447
 msgid ""
 "After this command, all commands entered are written to the specified\n"
 "file until the STOP command is entered."
-msgstr ""
+msgstr "Ezután a parancs után az összes parancsot a megadott fájlba\nírja, amíg STOP parancs nem érkezik."
 
 #: src/monitor/mon_command.c:451
 msgid "\"<resource>\""
-msgstr ""
+msgstr "\"<erõforrás>\""
 
 #: src/monitor/mon_command.c:452
 msgid "Displays the value of the resource."
-msgstr ""
+msgstr "Az erõforrás értékének kiírása."
 
 #: src/monitor/mon_command.c:455
 msgid "\"<resource>\" \"<value>\""
-msgstr ""
+msgstr "\"<erõforrás>\" \"<érték>\""
 
 #: src/monitor/mon_command.c:456
 msgid "Sets the value of the resource."
-msgstr ""
+msgstr "Az erõforrás értékének beállítása."
 
 #: src/monitor/mon_command.c:460
 msgid "Stop recording commands.  See `record'."
-msgstr ""
+msgstr "A parancsok rögzítésének befejezése.  Lásd `record'"
 
 #: src/monitor/mon_command.c:463
 msgid "\"<filename>\" [<format>]"
-msgstr ""
+msgstr "\"<fájlnév>\" [<formátum>]"
 
 #: src/monitor/mon_command.c:464
 msgid ""
 "Take a screenshot. Format is:\n"
 "default = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
-msgstr ""
+msgstr "Képernyõkép készítése. A formátum lehet:\n"
+"alap = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
 
 #: src/monitor/mon_command.c:468
-#, fuzzy
 msgid "<command>"
-msgstr "Parancs:"
+msgstr "<parancs>"
 
 #: src/monitor/mon_command.c:469
 msgid ""
 "Control the datasette. Valid commands:\n"
 "0 = stop, 1 = start, 2 = forward, 3 = rewind, 4 = record,\n"
 "5 = reset, 6 = reset counter."
-msgstr ""
+msgstr "Szalagos egység vezérlése. Érvényes parancsok:\n0 = start, 1 = indít, 2 = elõre, 3 = vissza, 4 = felvétel,\n5 = újraindít, 6 = számlálót nulláz"
 
 #: src/monitor/mon_command.c:578
 #, c-format
 msgid "Command `%s' unknown.\n"
-msgstr ""
+msgstr "`%s' parancs ismeretlen.\n"
 
 #: src/monitor/mon_command.c:580
 #, c-format
 msgid "No help available for `%s'\n"
-msgstr ""
+msgstr "Nincs súgó a `%s' parancshoz\n"
 
 #: src/monitor/mon_command.c:586
 #, c-format
 msgid ""
 "\n"
 "Syntax: %s %s\n"
-msgstr ""
+msgstr "\nSzintaxis: %s %s\n"
 
 #: src/monitor/mon_command.c:590
 #, c-format
 msgid "Abbreviation: %s\n"
-msgstr ""
+msgstr "Rövidítés: %s\n"
 
 #: src/monitor/monitor.c:1046 src/translate.c.po.c:4337
 msgid "Execute monitor commands from file"
@@ -2346,11 +2393,11 @@ msgstr "EOI nem törli a képernyõt"
 
 #: src/pet/petpia1.c:120 src/translate.c.po.c:2659
 msgid "Enable userport diagnostic pin"
-msgstr "Userport diagnosztikai tüske engedélyezése"
+msgstr "Userport diagnosztikai láb engedélyezése"
 
 #: src/pet/petpia1.c:122 src/translate.c.po.c:2669
 msgid "Disable userport diagnostic pin"
-msgstr "Userport diagnosztikai tüske tiltása"
+msgstr "Userport diagnosztikai láb tiltása"
 
 #: src/pet/petreu.c:210 src/translate.c.po.c:1254
 msgid "Enable the PET Ram and Expansion Unit"
@@ -2490,14 +2537,12 @@ msgid "Specify printer text output device for userport printer"
 msgstr "Adja meg a szövegnyomtató eszközt a userport nyomtatóhoz"
 
 #: src/ps2mouse.c:485 src/translate.c.po.c:4579
-#, fuzzy
 msgid "Enable PS/2 mouse on userport"
-msgstr "RS232 userport &engedélyezése"
+msgstr "PS/2 egér engedélyezése a userporton"
 
 #: src/ps2mouse.c:487 src/translate.c.po.c:4589
-#, fuzzy
 msgid "Disable PS/2 mouse on userport"
-msgstr "Egér elkapás tiltása"
+msgstr "PS/2 egér tiltása a userporton"
 
 #: src/ram.c:101 src/translate.c.po.c:4599
 msgid "Set the value for the very first RAM address after powerup"
@@ -2728,9 +2773,8 @@ msgid "<model>"
 msgstr "<modell>"
 
 #: src/sid/sid-cmdline-options.c:223
-#, fuzzy
 msgid "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost, 4: DTV)"
-msgstr "Adja meg a SID típusát (0: 6581, 1: 8580, 2: 8580 + digi boost)"
+msgstr "Adja meg a SID típusát (0: 6581, 1: 8580, 2: 8580 + digi boost, 4: DTV)"
 
 #: src/sid/sid-cmdline-options.c:226 src/translate.c.po.c:3579
 msgid "Emulate SID filters"
@@ -2838,17 +2882,16 @@ msgid "Use old luminances"
 msgstr "A régi fényerõket használja"
 
 #: src/vicii/vicii-cmdline-options.c:126 src/translate.c.po.c:2799
-#, fuzzy
 msgid "Set tint of internal calculated palette [1000]"
-msgstr "A számolt paletta telítettsége [1000]"
+msgstr "A számolt, belsõ paletta telítettsége [1000]"
 
 #: src/vicii/vicii-cmdline-options.c:128 src/translate.c.po.c:2809
 msgid "Set phase for color carrier in odd lines [1250]"
-msgstr ""
+msgstr "Szín vivõ fázisa a páratlan sorokban [1250]"
 
 #: src/vicii/vicii-cmdline-options.c:130 src/translate.c.po.c:2819
 msgid "Set phase offset for color carrier in odd lines [750]"
-msgstr ""
+msgstr "Szín vivõ fázis offszet a páratlan sorokban [750]"
 
 #: src/video/video-cmdline-options.c:60 src/translate.c.po.c:3831
 msgid "Enable double size"
@@ -2954,13 +2997,13 @@ msgstr "Adja meg a negyedik RS232-es eszköz átviteli sebességét"
 #: src/arch/unix/gui/cbm2ui.c:64 src/arch/unix/gui/uited.c:56
 #: src/arch/unix/gui/uivic.c:45 src/arch/unix/gui/vsidui.c:290
 msgid "*PAL-G"
-msgstr "*PAL-G"
+msgstr ""
 
 #: src/arch/unix/gui/c128ui.c:73 src/arch/unix/gui/c64ui.c:76
 #: src/arch/unix/gui/cbm2ui.c:66 src/arch/unix/gui/uited.c:58
 #: src/arch/unix/gui/uivic.c:47 src/arch/unix/gui/vsidui.c:292
 msgid "*NTSC-M"
-msgstr "*NTSC-M"
+msgstr ""
 
 #: src/arch/unix/gui/c128ui.c:154 src/arch/unix/gui/c128ui.c:179
 #: src/arch/unix/gui/c64ui.c:225 src/arch/unix/gui/c64ui.c:250
@@ -3365,27 +3408,27 @@ msgstr "Bedrótozott kapcsolók"
 
 #: src/arch/unix/gui/cbm2ui.c:247
 msgid "*Bank 15 $0800-$0FFF RAM"
-msgstr "*Bank 15 $0800-$0FFF RAM"
+msgstr ""
 
 #: src/arch/unix/gui/cbm2ui.c:249
 msgid "*Bank 15 $1000-$1FFF RAM"
-msgstr "*Bank 15 $1000-$1FFF RAM"
+msgstr ""
 
 #: src/arch/unix/gui/cbm2ui.c:251
 msgid "*Bank 15 $2000-$3FFF RAM"
-msgstr "*Bank 15 $2000-$3FFF RAM"
+msgstr ""
 
 #: src/arch/unix/gui/cbm2ui.c:253
 msgid "*Bank 15 $4000-$5FFF RAM"
-msgstr "*Bank 15 $4000-$5FFF RAM"
+msgstr ""
 
 #: src/arch/unix/gui/cbm2ui.c:255
 msgid "*Bank 15 $6000-$7FFF RAM"
-msgstr "*Bank 15 $6000-$7FFF RAM"
+msgstr ""
 
 #: src/arch/unix/gui/cbm2ui.c:257
 msgid "*Bank 15 $C000-$CFFF RAM"
-msgstr "*Bank 15 $C000-$CFFF RAM"
+msgstr ""
 
 #: src/arch/unix/gui/cbm2ui.c:261 src/arch/unix/gui/petui.c:324
 msgid "Keyboard type"
@@ -3524,7 +3567,7 @@ msgstr "*SuperPET I/O engedélyezése (8x96-ot tiltja)"
 
 #: src/arch/unix/gui/petui.c:316
 msgid "SuperPET ACIA"
-msgstr "SuperPET ACIA"
+msgstr ""
 
 #: src/arch/unix/gui/petui.c:319
 msgid "*$9*** as RAM (8296 only)"
@@ -3552,31 +3595,31 @@ msgstr "Új 3 plus 1 HI ROM betöltése"
 
 #: src/arch/unix/gui/plus4ui.c:162
 msgid "*16KB"
-msgstr "*16KB"
+msgstr ""
 
 #: src/arch/unix/gui/plus4ui.c:164
 msgid "*32KB"
-msgstr "*32KB"
+msgstr ""
 
 #: src/arch/unix/gui/plus4ui.c:166
 msgid "*64KB"
-msgstr "*64KB"
+msgstr ""
 
 #: src/arch/unix/gui/plus4ui.c:168
 msgid "*256KB (CSORY)"
-msgstr "*256KB (CSORY)"
+msgstr ""
 
 #: src/arch/unix/gui/plus4ui.c:170
 msgid "*256KB (HANNES)"
-msgstr "*256KB (HANNES)"
+msgstr ""
 
 #: src/arch/unix/gui/plus4ui.c:172
 msgid "*1024KB (HANNES)"
-msgstr "*1024KB (HANNES)"
+msgstr ""
 
 #: src/arch/unix/gui/plus4ui.c:174
 msgid "*4096KB (HANNES)"
-msgstr "*4096KB (HANNES)"
+msgstr ""
 
 #: src/arch/unix/gui/plus4ui.c:184
 msgid "RAM settings"
@@ -3758,14 +3801,12 @@ msgid "Attach Action Replay III image..."
 msgstr "Action Replay III képmás csatolása..."
 
 #: src/arch/unix/gui/uic64cart.c:159
-#, fuzzy
 msgid "Attach Action Replay IV image..."
-msgstr "Action Replay III képmás csatolása..."
+msgstr "Action Replay IV képmás csatolása..."
 
 #: src/arch/unix/gui/uic64cart.c:162
-#, fuzzy
 msgid "Attach StarDOS image..."
-msgstr "Szalag képmás csatolása..."
+msgstr "StarDOS képmás csatolása..."
 
 #: src/arch/unix/gui/uic64cart.c:165
 msgid "Attach Atomic Power image..."
@@ -4186,9 +4227,8 @@ msgid "*Enable true drive emulation"
 msgstr "*Valós lemezegység emuláció engedélyezése"
 
 #: src/arch/unix/gui/uidrive.c:189
-#, fuzzy
 msgid "*Enable true flash filesystem emulation"
-msgstr "*Valós lemezegység emuláció engedélyezése"
+msgstr "*Valós flash lemezegység emuláció engedélyezése"
 
 #: src/arch/unix/gui/uidrivec128.c:45 src/arch/unix/gui/uidrivec128.c:77
 #: src/arch/unix/gui/uidrivec128.c:99 src/arch/unix/gui/uidrivec128.c:121
@@ -4369,7 +4409,7 @@ msgstr "*Standard felhasználói port"
 #: src/arch/unix/gui/uidrivec64c128.c:94
 #: src/arch/unix/gui/uidrivec64c128.c:104
 msgid "*Dolphin DOS 3"
-msgstr "*Dolphin DOS 3"
+msgstr ""
 
 #: src/arch/unix/gui/uidrivec64c128.c:110
 #: src/arch/unix/gui/uidrivec64c128.c:123
@@ -4390,27 +4430,27 @@ msgstr "Professional DOS *engedélyezése"
 #: src/arch/unix/gui/uidriveiec.c:118 src/arch/unix/gui/uidriveiec.c:132
 #: src/arch/unix/gui/uidriveiec.c:146 src/arch/unix/gui/uidriveiec.c:160
 msgid "*$2000-$3FFF RAM"
-msgstr "*$2000-$3FFF RAM"
+msgstr ""
 
 #: src/arch/unix/gui/uidriveiec.c:120 src/arch/unix/gui/uidriveiec.c:134
 #: src/arch/unix/gui/uidriveiec.c:148 src/arch/unix/gui/uidriveiec.c:162
 msgid "*$4000-$5FFF RAM"
-msgstr "*$4000-$5FFF RAM"
+msgstr ""
 
 #: src/arch/unix/gui/uidriveiec.c:122 src/arch/unix/gui/uidriveiec.c:136
 #: src/arch/unix/gui/uidriveiec.c:150 src/arch/unix/gui/uidriveiec.c:164
 msgid "*$6000-$7FFF RAM"
-msgstr "*$6000-$7FFF RAM"
+msgstr ""
 
 #: src/arch/unix/gui/uidriveiec.c:124 src/arch/unix/gui/uidriveiec.c:138
 #: src/arch/unix/gui/uidriveiec.c:152 src/arch/unix/gui/uidriveiec.c:166
 msgid "*$8000-$9FFF RAM"
-msgstr "*$8000-$9FFF RAM"
+msgstr ""
 
 #: src/arch/unix/gui/uidriveiec.c:126 src/arch/unix/gui/uidriveiec.c:140
 #: src/arch/unix/gui/uidriveiec.c:154 src/arch/unix/gui/uidriveiec.c:168
 msgid "*$A000-$BFFF RAM"
-msgstr "*$A000-$BFFF RAM"
+msgstr ""
 
 #: src/arch/unix/gui/uidriveiec.c:174 src/arch/unix/gui/uidriveiec.c:184
 #: src/arch/unix/gui/uidriveiec.c:194 src/arch/unix/gui/uidriveiec.c:204
@@ -4636,12 +4676,12 @@ msgstr "*Numerikus billentyûk"
 #: src/arch/unix/gui/uijoystick2.c:85 src/arch/unix/gui/uijoystick2.c:137
 #: src/arch/unix/gui/vic20ui.c:349
 msgid "*Keyset 1"
-msgstr "1-es gombkészlet"
+msgstr "*1-es gombkészlet"
 
 #: src/arch/unix/gui/uijoystick2.c:88 src/arch/unix/gui/uijoystick2.c:140
 #: src/arch/unix/gui/vic20ui.c:352
 msgid "*Keyset 2"
-msgstr "2-es gombkészlet"
+msgstr "*2-es gombkészlet"
 
 #: src/arch/unix/gui/uijoystick2.c:92 src/arch/unix/gui/uijoystick2.c:144
 #: src/arch/unix/gui/vic20ui.c:356
@@ -4859,30 +4899,27 @@ msgstr "Pászta árnyalás százalékban"
 
 #: src/arch/unix/gui/uipalemu.c:88 src/arch/unix/gui/uipalemu.c:148
 msgid "New PAL Tint"
-msgstr ""
+msgstr "Új PAL szín"
 
 #: src/arch/unix/gui/uipalemu.c:88
-#, fuzzy
 msgid "Tint in percent"
-msgstr "Pászta árnyalás százalékosban"
+msgstr "Szín százalékban"
 
 #: src/arch/unix/gui/uipalemu.c:95
 msgid "New PAL Odd Line Phase"
-msgstr ""
+msgstr "Új PAL páratlan sor fázis"
 
 #: src/arch/unix/gui/uipalemu.c:95
-#, fuzzy
 msgid "Phase in percent"
-msgstr "Sáváteresztés százalékosan"
+msgstr "Fázis százalékban"
 
 #: src/arch/unix/gui/uipalemu.c:102
 msgid "New PAL Odd Line Offset"
-msgstr ""
+msgstr "Új PAL páratlan sor offszet"
 
 #: src/arch/unix/gui/uipalemu.c:102
-#, fuzzy
 msgid "Offset in percent"
-msgstr "Elmosás százalékban"
+msgstr "Offszet százalékban"
 
 #: src/arch/unix/gui/uipalemu.c:110 src/arch/unix/gui/uipalemu.c:146
 msgid "PAL Blurredness"
@@ -4901,14 +4938,12 @@ msgid "*Fast PAL Emulation"
 msgstr "*Gyors PAL emuláció"
 
 #: src/arch/unix/gui/uipalemu.c:138
-#, fuzzy
 msgid "*Old Exact PAL Emulation"
-msgstr "*Pontos PAL emuláció"
+msgstr "*Régi, pontos PAL emuláció"
 
 #: src/arch/unix/gui/uipalemu.c:140
-#, fuzzy
 msgid "*New Exact PAL Emulation"
-msgstr "*Pontos PAL emuláció"
+msgstr "*Új, pontos PAL emuláció"
 
 #: src/arch/unix/gui/uipalemu.c:144
 msgid "PAL Scanline Shade"
@@ -4916,11 +4951,11 @@ msgstr "PAL pászta árnyalás"
 
 #: src/arch/unix/gui/uipalemu.c:150
 msgid "New PAL Odd Lines Phase"
-msgstr ""
+msgstr "Új PAL páratlan sorok fázis"
 
 #: src/arch/unix/gui/uipalemu.c:152
 msgid "New PAL Odd Lines Offset"
-msgstr ""
+msgstr "Új PAL páratlan sorok offszet"
 
 #: src/arch/unix/gui/uipalette.c:47
 msgid "Load custom palette"
@@ -5423,11 +5458,11 @@ msgstr "*Nincs IRQ/NMI"
 
 #: src/arch/unix/gui/uirs232c64c128.c:44
 msgid "*IRQ"
-msgstr "*IRQ"
+msgstr ""
 
 #: src/arch/unix/gui/uirs232c64c128.c:46
 msgid "*NMI"
-msgstr "*NMI"
+msgstr ""
 
 #: src/arch/unix/gui/uirs232c64c128.c:54 src/arch/unix/gui/uivicii.c:79
 msgid "*Normal"
@@ -5506,27 +5541,27 @@ msgstr "Soros eszköz 2"
 
 #: src/arch/unix/gui/uirs232user.c:53
 msgid "*300 baud"
-msgstr "*300 baud"
+msgstr ""
 
 #: src/arch/unix/gui/uirs232user.c:55
 msgid "*600 baud"
-msgstr "*600 baud"
+msgstr ""
 
 #: src/arch/unix/gui/uirs232user.c:57
 msgid "*1200 baud"
-msgstr "*1200 baud"
+msgstr ""
 
 #: src/arch/unix/gui/uirs232user.c:59
 msgid "*2400 baud"
-msgstr "*2400 baud"
+msgstr ""
 
 #: src/arch/unix/gui/uirs232user.c:61
 msgid "*4800 baud"
-msgstr "*4800 baud"
+msgstr ""
 
 #: src/arch/unix/gui/uirs232user.c:63
 msgid "*9600 baud"
-msgstr "*9600 baud"
+msgstr ""
 
 #: src/arch/unix/gui/uisettings.c:111
 msgid "Enter refresh rate"
@@ -5626,16 +5661,15 @@ msgstr "*Gyors SID"
 
 #: src/arch/unix/gui/uisid.c:46
 msgid "*ReSID"
-msgstr "*ReSID"
+msgstr ""
 
 #: src/arch/unix/gui/uisid.c:50
-#, fuzzy
 msgid "*ReSID-FP"
-msgstr "*ReSID"
+msgstr ""
 
 #: src/arch/unix/gui/uisid.c:54 src/arch/unix/gui/uisidcart.c:42
 msgid "*Catweasel MKIII"
-msgstr "*Catweasel MKIII"
+msgstr ""
 
 #: src/arch/unix/gui/uisid.c:58 src/arch/unix/gui/uisidcart.c:46
 msgid "*HardSID"
@@ -5643,15 +5677,15 @@ msgstr "*HardSID"
 
 #: src/arch/unix/gui/uisid.c:62 src/arch/unix/gui/uisidcart.c:50
 msgid "*ParSID Port 1"
-msgstr "*ParSID Port 1"
+msgstr ""
 
 #: src/arch/unix/gui/uisid.c:64 src/arch/unix/gui/uisidcart.c:52
 msgid "*ParSID Port 2"
-msgstr "*ParSID Port 2"
+msgstr ""
 
 #: src/arch/unix/gui/uisid.c:66 src/arch/unix/gui/uisidcart.c:54
 msgid "*ParSID Port 3"
-msgstr "*ParSID Port 3"
+msgstr ""
 
 #: src/arch/unix/gui/uisid.c:75 src/arch/unix/gui/uisidcart.c:63
 msgid "*6581 (old)"
@@ -5670,52 +5704,48 @@ msgstr "*8580 + digi boost"
 #. (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_6581R4, NULL },
 #.
 #: src/arch/unix/gui/uisid.c:85
-#, fuzzy
 msgid "*DTVSID"
-msgstr "*ReSID"
+msgstr ""
 
 #: src/arch/unix/gui/uisid.c:89
 msgid "*6581R3 4885 (very light)"
-msgstr ""
+msgstr "*6581R3 4885 (nagyon világos)"
 
 #: src/arch/unix/gui/uisid.c:91
 msgid "*6581R3 0486S (light)"
-msgstr ""
+msgstr "*6581R3 3984 (világos)"
 
 #: src/arch/unix/gui/uisid.c:93
 msgid "*6581R3 3984 (light avg)"
-msgstr ""
+msgstr "*6581R4AR 3789 (átlagos világos)"
 
 #: src/arch/unix/gui/uisid.c:95
 msgid "*6581R4AR 3789 (avg)"
-msgstr ""
+msgstr "*6581R4AR 3789 (átlagos)"
 
 #: src/arch/unix/gui/uisid.c:97
-#, fuzzy
 msgid "*6581R3 4485 (dark)"
-msgstr "*6581 (régi)"
+msgstr "*6581R3 4485 (sötét)"
 
 #: src/arch/unix/gui/uisid.c:99
 msgid "*6581R4 1986S (very dark)"
-msgstr ""
+msgstr "*6581R4 1986S (nagyon sötét)"
 
 #: src/arch/unix/gui/uisid.c:101
 msgid "*8580 3691 (light)"
-msgstr ""
+msgstr "*8580 3691 (világos)"
 
 #: src/arch/unix/gui/uisid.c:103
-#, fuzzy
 msgid "*8580 3691 + digi boost"
-msgstr "*8580 + digi boost"
+msgstr "*8580 3691 + digi boost"
 
 #: src/arch/unix/gui/uisid.c:105
 msgid "*8580 1489 (dark)"
-msgstr ""
+msgstr "*8580 1489 (sötét)"
 
 #: src/arch/unix/gui/uisid.c:107
-#, fuzzy
 msgid "*8580 1489 + digi boost"
-msgstr "*8580 + digi boost"
+msgstr "*8580 1489 + digi boost"
 
 #: src/arch/unix/gui/uisid.c:117
 msgid "*Fast"
@@ -6240,26 +6270,24 @@ msgid "Gamma"
 msgstr "Gamma"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:59 src/arch/win32/res.rc.po.c:2626
-#, fuzzy
 msgid "Tint"
-msgstr "Kliens"
+msgstr "Szín"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:60
 msgid "Odd Line Phase"
-msgstr ""
+msgstr "Páratlan sor fázis"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:61
 msgid "Odd Line Offset"
-msgstr ""
+msgstr "Páratlan sor offszet"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:143
 msgid "PAL Settings"
 msgstr "PAL Beállításai"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:196
-#, fuzzy
 msgid "Fast"
-msgstr "*Gyors"
+msgstr "Gyors"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:204 src/arch/win32/res.rc.po.c:4868
 #: src/arch/amigaos/intl.c.po.c:3836
@@ -6267,9 +6295,8 @@ msgid "Exact"
 msgstr "Pontos"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:211
-#, fuzzy
 msgid "New Exact"
-msgstr "Pontos"
+msgstr "Új, pontos"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:54 src/arch/win32/res.rc.po.c:4224
 #: src/arch/amigaos/intl.c.po.c:4574
@@ -6523,9 +6550,8 @@ msgid "Monitor"
 msgstr "Monitor"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1846
-#, fuzzy
 msgid "Continue"
-msgstr "Tartalom"
+msgstr "Folytatás"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1892 src/arch/unix/x11/xaw/x11ui.c:1788
 msgid "Extend disk image"
@@ -6886,7 +6912,7 @@ msgstr "OK"
 
 #: src/arch/win32/res.rc.po.c:225
 msgid "VICE"
-msgstr "VICE"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:226
 msgid "Versatile Commodore Emulator"
@@ -6929,24 +6955,20 @@ msgid "Copyright (c) 2006-2008 Christian Vogelgsang"
 msgstr ""
 
 #: src/arch/win32/res.rc.po.c:236
-#, fuzzy
 msgid "Copyright (c) 2007-2008 Fabrizio Gennari"
-msgstr "Copyright (c) 2000-2004 Markus Brenner"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:237
-#, fuzzy
 msgid "Copyright (c) 2007-2008 M. Kiesel"
-msgstr "Copyright (c) 2000-2004 Markus Brenner"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:238
-#, fuzzy
 msgid "Copyright (c) 2007-2008 Hannu Nuotio"
-msgstr "Copyright (c) 2000-2004 Markus Brenner"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:239
-#, fuzzy
 msgid "Copyright (c) 2007-2008 Daniel Kahlin"
-msgstr "Copyright (c) 2000-2004 Markus Brenner"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:240
 msgid "Copyright (c) 1999-2007 Andreas Dehmel"
@@ -7065,7 +7087,7 @@ msgstr "Automatikus tûz beállításai"
 
 #: src/arch/win32/res.rc.po.c:703 src/arch/win32/res.rc.po.c:716
 msgid "Autofire &speed (1..32)"
-msgstr "Automatikus tûz sebessége (1..32)"
+msgstr "Automatikus tûz &sebessége (1..32)"
 
 #: src/arch/win32/res.rc.po.c:709
 msgid "Joystick in port #&2"
@@ -7161,7 +7183,7 @@ msgstr "Név"
 
 #: src/arch/win32/res.rc.po.c:1498
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1500
 msgid "Type"
@@ -7249,15 +7271,15 @@ msgstr "Rajzolás a DX elsõdleges felületre"
 #: src/arch/win32/res.rc.po.c:2630 src/arch/win32/res.rc.po.c:2633
 #: src/arch/win32/res.rc.po.c:2765 src/arch/win32/res.rc.po.c:2768
 msgid "(0..2)"
-msgstr "(0..2)"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:2629
 msgid "Odd lines phase"
-msgstr ""
+msgstr "Páratlan sorok fázisa"
 
 #: src/arch/win32/res.rc.po.c:2632
 msgid "Odd lines offset"
-msgstr ""
+msgstr "Páratlan sorok offszete"
 
 #: src/arch/win32/res.rc.po.c:2767
 msgid "Phase"
@@ -7269,7 +7291,7 @@ msgstr "PAL pászta árnyalás"
 
 #: src/arch/win32/res.rc.po.c:2771 src/arch/win32/res.rc.po.c:2774
 msgid "(0..1)"
-msgstr "(0..1)"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:2773
 msgid "PAL Blur"
@@ -7778,9 +7800,8 @@ msgid "Colors"
 msgstr "Színek"
 
 #: src/arch/win32/res.rc.po.c:4802
-#, fuzzy
 msgid "New PAL emulation"
-msgstr "PAL emuláció"
+msgstr "Új PAL emuláció"
 
 #: src/arch/win32/res.rc.po.c:4803 src/arch/amigaos/intl.c.po.c:4448
 msgid "Video settings"
@@ -7816,14 +7837,12 @@ msgid "Attach Action Replay III cartridge image"
 msgstr "Action Replay III cartridge képmás csatolása"
 
 #: src/arch/win32/res.rc.po.c:4814 src/arch/amigaos/intl.c.po.c:2450
-#, fuzzy
 msgid "Attach Action Replay 4 cartridge image"
-msgstr "Action Replay cartridge képmás csatolása"
+msgstr "Action Replay 4 cartridge képmás csatolása"
 
 #: src/arch/win32/res.rc.po.c:4815 src/arch/amigaos/intl.c.po.c:2459
-#, fuzzy
 msgid "Attach StarDOS cartridge image"
-msgstr "Cartridge képmás csatolása"
+msgstr "StarDOS cartridge képmás csatolása"
 
 #: src/arch/win32/res.rc.po.c:4816 src/arch/amigaos/intl.c.po.c:2468
 msgid "Attach Atomic Power cartridge image"
@@ -7977,8 +7996,7 @@ msgstr "Szalag képmás fájlok (*.t64;*.tap)"
 
 #: src/arch/win32/res.rc.po.c:4858
 msgid "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
-msgstr ""
-"Tömörített fájlok (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+msgstr "Tömörített fájlok (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
 
 #: src/arch/win32/res.rc.po.c:4859
 msgid "CRT cartridge image files (*.crt)"
@@ -8193,9 +8211,8 @@ msgstr "Mó&d"
 #: src/arch/win32/resc64.rc.po.c:123 src/arch/win32/resc64dtv.rc.po.c:83
 #: src/arch/win32/rescbm2.rc.po.c:89 src/arch/win32/respet.rc.po.c:89
 #: src/arch/win32/resplus4.rc.po.c:101 src/arch/win32/resvic20.rc.po.c:100
-#, fuzzy
 msgid "&Edit"
-msgstr "Szerkesztõ"
+msgstr "&Szerkeszt"
 
 #: src/arch/win32/res.rc.po.c:4925 src/arch/win32/resc128.rc.po.c:128
 #: src/arch/win32/resc64.rc.po.c:128 src/arch/win32/resc64dtv.rc.po.c:88
@@ -8268,14 +8285,12 @@ msgid "&Pause"
 msgstr "&Szünet"
 
 #: src/arch/win32/res.rc.po.c:4941
-#, fuzzy
 msgid "&Copy"
-msgstr "&Leállítás"
+msgstr "&Másol"
 
 #: src/arch/win32/res.rc.po.c:4942
-#, fuzzy
 msgid "&Paste"
-msgstr "Szünet"
+msgstr "&Beilleszt"
 
 #: src/arch/win32/res.rc.po.c:4943
 msgid "&Autostart disk/tape image..."
@@ -8302,9 +8317,8 @@ msgid "Drive 1&0"
 msgstr "#1&0-es lemezegység"
 
 #: src/arch/win32/res.rc.po.c:4949
-#, fuzzy
 msgid "Drive 1&1"
-msgstr "#11-es lemezegység"
+msgstr "#1&1-es lemezegység"
 
 #: src/arch/win32/res.rc.po.c:4950
 msgid "Attach &tape image..."
@@ -8359,19 +8373,16 @@ msgid "&Action Replay image..."
 msgstr "&Action Replay képmás..."
 
 #: src/arch/win32/res.rc.po.c:4963
-#, fuzzy
 msgid "&Action Replay 3 image..."
-msgstr "&Action Replay képmás..."
+msgstr "&Action Replay 3 képmás..."
 
 #: src/arch/win32/res.rc.po.c:4964
-#, fuzzy
 msgid "&Action Replay 4 image..."
-msgstr "&Action Replay képmás..."
+msgstr "&Action Replay 4 képmás..."
 
 #: src/arch/win32/res.rc.po.c:4965
-#, fuzzy
 msgid "&StarDOS image..."
-msgstr "&CRT képmás..."
+msgstr "&StarDOS képmás..."
 
 #: src/arch/win32/res.rc.po.c:4966
 msgid "Atomic &Power image..."
@@ -8859,11 +8870,11 @@ msgstr "&Ikonok elrendezése"
 
 #: src/arch/win32/resacia.rc.po.c:37 src/arch/amigaos/intl.c.po.c:2756
 msgid "IRQ"
-msgstr "IRQ"
+msgstr ""
 
 #: src/arch/win32/resacia.rc.po.c:38 src/arch/amigaos/intl.c.po.c:2765
 msgid "NMI"
-msgstr "NMI"
+msgstr ""
 
 #: src/arch/win32/resacia.rc.po.c:39 src/arch/amigaos/intl.c.po.c:4844
 msgid "Normal"
@@ -8907,105 +8918,105 @@ msgstr "Prg"
 #: src/arch/win32/respet.rc.po.c:124 src/arch/win32/resplus4.rc.po.c:136
 #: src/arch/win32/resvic20.rc.po.c:135
 msgid "1/&1"
-msgstr "1/&1"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:159 src/arch/win32/resc64.rc.po.c:161
 #: src/arch/win32/resc64dtv.rc.po.c:119 src/arch/win32/rescbm2.rc.po.c:125
 #: src/arch/win32/respet.rc.po.c:125 src/arch/win32/resplus4.rc.po.c:137
 #: src/arch/win32/resvic20.rc.po.c:136
 msgid "1/&2"
-msgstr "1/&2"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:160 src/arch/win32/resc64.rc.po.c:162
 #: src/arch/win32/resc64dtv.rc.po.c:120 src/arch/win32/rescbm2.rc.po.c:126
 #: src/arch/win32/respet.rc.po.c:126 src/arch/win32/resplus4.rc.po.c:138
 #: src/arch/win32/resvic20.rc.po.c:137
 msgid "1/&3"
-msgstr "1/&3"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:161 src/arch/win32/resc64.rc.po.c:163
 #: src/arch/win32/resc64dtv.rc.po.c:121 src/arch/win32/rescbm2.rc.po.c:127
 #: src/arch/win32/respet.rc.po.c:127 src/arch/win32/resplus4.rc.po.c:139
 #: src/arch/win32/resvic20.rc.po.c:138
 msgid "1/&4"
-msgstr "1/&4"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:162 src/arch/win32/resc64.rc.po.c:164
 #: src/arch/win32/resc64dtv.rc.po.c:122 src/arch/win32/rescbm2.rc.po.c:128
 #: src/arch/win32/respet.rc.po.c:128 src/arch/win32/resplus4.rc.po.c:140
 #: src/arch/win32/resvic20.rc.po.c:139
 msgid "1/&5"
-msgstr "1/&5"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:163 src/arch/win32/resc64.rc.po.c:165
 #: src/arch/win32/resc64dtv.rc.po.c:123 src/arch/win32/rescbm2.rc.po.c:129
 #: src/arch/win32/respet.rc.po.c:129 src/arch/win32/resplus4.rc.po.c:141
 #: src/arch/win32/resvic20.rc.po.c:140
 msgid "1/&6"
-msgstr "1/&6"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:164 src/arch/win32/resc64.rc.po.c:166
 #: src/arch/win32/resc64dtv.rc.po.c:124 src/arch/win32/rescbm2.rc.po.c:130
 #: src/arch/win32/respet.rc.po.c:130 src/arch/win32/resplus4.rc.po.c:142
 #: src/arch/win32/resvic20.rc.po.c:141
 msgid "1/&7"
-msgstr "1/&7"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:165 src/arch/win32/resc64.rc.po.c:167
 #: src/arch/win32/resc64dtv.rc.po.c:125 src/arch/win32/rescbm2.rc.po.c:131
 #: src/arch/win32/respet.rc.po.c:131 src/arch/win32/resplus4.rc.po.c:143
 #: src/arch/win32/resvic20.rc.po.c:142
 msgid "1/&8"
-msgstr "1/&8"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:166 src/arch/win32/resc64.rc.po.c:168
 #: src/arch/win32/resc64dtv.rc.po.c:126 src/arch/win32/rescbm2.rc.po.c:132
 #: src/arch/win32/respet.rc.po.c:132 src/arch/win32/resplus4.rc.po.c:144
 #: src/arch/win32/resvic20.rc.po.c:143
 msgid "1/&9"
-msgstr "1/&9"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:167 src/arch/win32/resc64.rc.po.c:169
 #: src/arch/win32/resc64dtv.rc.po.c:127 src/arch/win32/rescbm2.rc.po.c:133
 #: src/arch/win32/respet.rc.po.c:133 src/arch/win32/resplus4.rc.po.c:145
 #: src/arch/win32/resvic20.rc.po.c:144
 msgid "1/1&0"
-msgstr "1/1&0"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:171 src/arch/win32/resc64.rc.po.c:173
 #: src/arch/win32/resc64dtv.rc.po.c:131 src/arch/win32/rescbm2.rc.po.c:137
 #: src/arch/win32/respet.rc.po.c:137 src/arch/win32/resplus4.rc.po.c:149
 #: src/arch/win32/resvic20.rc.po.c:148
 msgid "&200%"
-msgstr "&200%"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:172 src/arch/win32/resc64.rc.po.c:174
 #: src/arch/win32/resc64dtv.rc.po.c:132 src/arch/win32/rescbm2.rc.po.c:138
 #: src/arch/win32/respet.rc.po.c:138 src/arch/win32/resplus4.rc.po.c:150
 #: src/arch/win32/resvic20.rc.po.c:149
 msgid "&100%"
-msgstr "&100%"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:173 src/arch/win32/resc64.rc.po.c:175
 #: src/arch/win32/resc64dtv.rc.po.c:133 src/arch/win32/rescbm2.rc.po.c:139
 #: src/arch/win32/respet.rc.po.c:139 src/arch/win32/resplus4.rc.po.c:151
 #: src/arch/win32/resvic20.rc.po.c:150
 msgid "&50%"
-msgstr "&50%"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:174 src/arch/win32/resc64.rc.po.c:176
 #: src/arch/win32/resc64dtv.rc.po.c:134 src/arch/win32/rescbm2.rc.po.c:140
 #: src/arch/win32/respet.rc.po.c:140 src/arch/win32/resplus4.rc.po.c:152
 #: src/arch/win32/resvic20.rc.po.c:151
 msgid "&20%"
-msgstr "&20%"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:175 src/arch/win32/resc64.rc.po.c:177
 #: src/arch/win32/resc64dtv.rc.po.c:135 src/arch/win32/rescbm2.rc.po.c:141
 #: src/arch/win32/respet.rc.po.c:141 src/arch/win32/resplus4.rc.po.c:153
 #: src/arch/win32/resvic20.rc.po.c:152
 msgid "1&0%"
-msgstr "1&0%"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:188 src/arch/win32/resc128.rc.po.c:2559
 msgid "VDC settin&gs"
@@ -9015,13 +9026,13 @@ msgstr "VDC beállításai"
 #: src/arch/win32/resc64dtv.rc.po.c:161 src/arch/win32/resplus4.rc.po.c:178
 #: src/arch/win32/resvic20.rc.po.c:177
 msgid "&PAL-G"
-msgstr "&PAL-G"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:206 src/arch/win32/resc64.rc.po.c:203
 #: src/arch/win32/resc64dtv.rc.po.c:162 src/arch/win32/resplus4.rc.po.c:179
 #: src/arch/win32/resvic20.rc.po.c:178
 msgid "&NTSC-M"
-msgstr "&NTSC-M"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:229
 msgid "&Cartridge Settings"
@@ -9085,7 +9096,7 @@ msgstr "Kernal C64"
 
 #: src/arch/win32/resc128.rc.po.c:349
 msgid "Basic C64"
-msgstr "Basic C64"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:945 src/arch/win32/resc128.rc.po.c:1807
 #: src/arch/win32/resc64.rc.po.c:463 src/arch/win32/resc64.rc.po.c:1093
@@ -9093,7 +9104,7 @@ msgstr "Basic C64"
 #: src/arch/win32/resplus4.rc.po.c:463 src/arch/win32/resplus4.rc.po.c:950
 #: src/arch/win32/resvic20.rc.po.c:258 src/arch/win32/resvic20.rc.po.c:511
 msgid "1541"
-msgstr "1541"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:950 src/arch/win32/resc128.rc.po.c:1809
 #: src/arch/win32/resc64.rc.po.c:468 src/arch/win32/resc64.rc.po.c:1095
@@ -9101,7 +9112,7 @@ msgstr "1541"
 #: src/arch/win32/resplus4.rc.po.c:468 src/arch/win32/resplus4.rc.po.c:952
 #: src/arch/win32/resvic20.rc.po.c:263 src/arch/win32/resvic20.rc.po.c:513
 msgid "1541-II"
-msgstr "1541-II"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:955 src/arch/win32/resc128.rc.po.c:1811
 #: src/arch/win32/resc64.rc.po.c:473 src/arch/win32/resc64.rc.po.c:1097
@@ -9113,7 +9124,7 @@ msgstr "1541-II"
 #: src/arch/win32/resplus4.rc.po.c:956 src/arch/win32/resvic20.rc.po.c:268
 #: src/arch/win32/resvic20.rc.po.c:515
 msgid "1570"
-msgstr "1570"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:960 src/arch/win32/resc128.rc.po.c:1813
 #: src/arch/win32/resc64.rc.po.c:478 src/arch/win32/resc64.rc.po.c:1099
@@ -9121,11 +9132,11 @@ msgstr "1570"
 #: src/arch/win32/resplus4.rc.po.c:483 src/arch/win32/resplus4.rc.po.c:958
 #: src/arch/win32/resvic20.rc.po.c:273 src/arch/win32/resvic20.rc.po.c:517
 msgid "1571"
-msgstr "1571"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:965 src/arch/win32/resc128.rc.po.c:1815
 msgid "1571CR"
-msgstr "1571CR"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:970 src/arch/win32/resc128.rc.po.c:1817
 #: src/arch/win32/resc64.rc.po.c:483 src/arch/win32/resc64.rc.po.c:1101
@@ -9133,7 +9144,7 @@ msgstr "1571CR"
 #: src/arch/win32/resplus4.rc.po.c:488 src/arch/win32/resplus4.rc.po.c:960
 #: src/arch/win32/resvic20.rc.po.c:278 src/arch/win32/resvic20.rc.po.c:519
 msgid "1581"
-msgstr "1581"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:975 src/arch/win32/resc128.rc.po.c:1819
 #: src/arch/win32/resc64.rc.po.c:488 src/arch/win32/resc64.rc.po.c:1103
@@ -9141,7 +9152,7 @@ msgstr "1581"
 #: src/arch/win32/respet.rc.po.c:570 src/arch/win32/respet.rc.po.c:1064
 #: src/arch/win32/resvic20.rc.po.c:283 src/arch/win32/resvic20.rc.po.c:521
 msgid "2031"
-msgstr "2031"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:980 src/arch/win32/resc128.rc.po.c:1821
 #: src/arch/win32/resc64.rc.po.c:493 src/arch/win32/resc64.rc.po.c:1105
@@ -9149,7 +9160,7 @@ msgstr "2031"
 #: src/arch/win32/respet.rc.po.c:575 src/arch/win32/respet.rc.po.c:1066
 #: src/arch/win32/resvic20.rc.po.c:288 src/arch/win32/resvic20.rc.po.c:523
 msgid "2040"
-msgstr "2040"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:985 src/arch/win32/resc128.rc.po.c:1823
 #: src/arch/win32/resc64.rc.po.c:498 src/arch/win32/resc64.rc.po.c:1107
@@ -9157,7 +9168,7 @@ msgstr "2040"
 #: src/arch/win32/respet.rc.po.c:580 src/arch/win32/respet.rc.po.c:1068
 #: src/arch/win32/resvic20.rc.po.c:293 src/arch/win32/resvic20.rc.po.c:525
 msgid "3040"
-msgstr "3040"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:990 src/arch/win32/resc128.rc.po.c:1825
 #: src/arch/win32/resc64.rc.po.c:503 src/arch/win32/resc64.rc.po.c:1109
@@ -9165,7 +9176,7 @@ msgstr "3040"
 #: src/arch/win32/respet.rc.po.c:585 src/arch/win32/respet.rc.po.c:1070
 #: src/arch/win32/resvic20.rc.po.c:298 src/arch/win32/resvic20.rc.po.c:527
 msgid "4040"
-msgstr "4040"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:995 src/arch/win32/resc128.rc.po.c:1827
 #: src/arch/win32/resc64.rc.po.c:508 src/arch/win32/resc64.rc.po.c:1111
@@ -9173,7 +9184,7 @@ msgstr "4040"
 #: src/arch/win32/respet.rc.po.c:590 src/arch/win32/respet.rc.po.c:1072
 #: src/arch/win32/resvic20.rc.po.c:303 src/arch/win32/resvic20.rc.po.c:529
 msgid "1001"
-msgstr "1001"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:1449 src/arch/win32/resc64.rc.po.c:927
 #: src/arch/win32/resc64dtv.rc.po.c:668 src/arch/win32/rescbm2.rc.po.c:833
@@ -9345,7 +9356,7 @@ msgstr "Kernal"
 #: src/arch/win32/resvic20.rc.po.c:243 src/arch/win32/resvic20.rc.po.c:351
 #: src/arch/win32/resvic20.rc.po.c:945
 msgid "Basic"
-msgstr "Basic"
+msgstr ""
 
 #: src/arch/win32/resc64.rc.po.c:287 src/arch/win32/resc64.rc.po.c:935
 #: src/arch/win32/resc64dtv.rc.po.c:228 src/arch/win32/resc64dtv.rc.po.c:676
@@ -9402,108 +9413,95 @@ msgstr "Válasszon fájlt a 256K-hoz"
 
 #: src/arch/win32/resc64dtv.rc.po.c:36 src/arch/win32/resc64dtv.rc.po.c:1705
 msgid "DTV flash &rom image"
-msgstr ""
+msgstr "DTV flash &rom képmás"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1209 src/arch/amigaos/intl.c.po.c:2909
-#, fuzzy
 msgid "C64DTV Settings"
-msgstr "IDE64 beállításai"
+msgstr "C64DTV beállításai"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1211
-#, fuzzy
 msgid "DTV Revision"
-msgstr "Változatszám"
+msgstr "DTV változat"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1215
 msgid "HUMMER"
 msgstr ""
 
 #: src/arch/win32/resc64dtv.rc.po.c:1217
-#, fuzzy
 msgid "Enable &Hummer Userport Joystick"
-msgstr "Userport diagnosztikai tüske engedélyezése"
+msgstr "&Hummer userport botkormány engedélyezése"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1219
 msgid "Joyport mapped to userport"
-msgstr ""
+msgstr "Botkormány port leképezve a userportra"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1395
-#, fuzzy
 msgid "Attach DTV Flash Image"
-msgstr "Lemezképmás csatolása"
+msgstr "DTV Flash képmás csatolása"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1397
 msgid "DTV ROM"
 msgstr ""
 
 #: src/arch/win32/resc64dtv.rc.po.c:1399 src/arch/win32/resc64dtv.rc.po.c:1554
-#, fuzzy
 msgid "DTV ROM &image File"
-msgstr "Merevlemez képmás fájl"
+msgstr "DTV ROM &képmás fájl"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1403
 msgid "Enable &writes to DTV ROM image"
-msgstr ""
+msgstr "DTV ROM képmásba írás &engedélyezése"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1550
-#, fuzzy
 msgid "Create DTV Flash Image"
-msgstr "Képmás létrehozása"
+msgstr "DTV Flash képmás létrehozása"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1552
 msgid "DTV ROM Creation"
-msgstr ""
+msgstr "DTV ROM létrehozás"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1558
 msgid "Copy C64 ROMS into image"
-msgstr ""
+msgstr "C64 ROM-ok másolása a képmásba"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1560
-#, fuzzy
 msgid "Create"
-msgstr "Lemez készítése"
+msgstr "Létrehozás"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1706
-#, fuzzy
 msgid "&Autostart disk image..."
-msgstr "Lemezképmás automatikus indítása"
+msgstr "Lemezképmás &automatikus indítása..."
 
 #: src/arch/win32/resc64dtv.rc.po.c:1707
-#, fuzzy
 msgid "Attach &flash rom image"
-msgstr "Lemezképmás csatolása"
+msgstr "&Flash ROM képmás csatolása"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1708
-#, fuzzy
 msgid "&Detach flash rom image"
-msgstr "Lemezképmás leválasztása"
+msgstr "Flash ROM képmás &leválasztása"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1709
-#, fuzzy
 msgid "&Create new flash rom image"
-msgstr "*P00 fájlok készítése mentésnél"
+msgstr "Új flash rom képmás &létrehozása"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1710
 msgid "&True flash filesystem"
-msgstr ""
+msgstr "&Igazi flash fájlrendszer"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1711
-#, fuzzy
 msgid "&PS/2 mouse emulation"
-msgstr "*Egér emuláció"
+msgstr "&PS/2 egér emuláció"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1712
-#, fuzzy
 msgid "&C64DTV settings..."
-msgstr "&MMC64 beállításai..."
+msgstr "&C64DTV beállításai..."
 
 #: src/arch/win32/rescbm2.rc.po.c:163 src/arch/win32/respet.rc.po.c:163
 msgid "&PAL"
-msgstr "&PAL"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:164 src/arch/win32/respet.rc.po.c:164
 msgid "&NTSC"
-msgstr "&NTSC"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:183 src/arch/win32/respet.rc.po.c:182
 #: src/arch/win32/resplus4.rc.po.c:196
@@ -9512,19 +9510,19 @@ msgstr "&Cartridge/IO beállításai"
 
 #: src/arch/win32/rescbm2.rc.po.c:238 src/arch/win32/rescbm2.rc.po.c:843
 msgid "Cart 1"
-msgstr "Cart 1"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:243 src/arch/win32/rescbm2.rc.po.c:845
 msgid "Cart 2"
-msgstr "Cart 2"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:248 src/arch/win32/rescbm2.rc.po.c:847
 msgid "Cart 4"
-msgstr "Cart 4"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:253 src/arch/win32/rescbm2.rc.po.c:849
 msgid "Cart 6"
-msgstr "Cart 6"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:1254
 msgid "Machine &defaults"
@@ -9532,27 +9530,27 @@ msgstr "Gép &alapértelmezései"
 
 #: src/arch/win32/rescbm2.rc.po.c:1255
 msgid "CBM 610"
-msgstr "CBM 610"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:1256
 msgid "CBM 620"
-msgstr "CBM 620"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:1257
 msgid "CBM 620+"
-msgstr "CBM 620+"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:1258
 msgid "CBM 710"
-msgstr "CBM 710"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:1259
 msgid "CBM 720"
-msgstr "CBM 720"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:1260
 msgid "CBM 720+"
-msgstr "CBM 720+"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:1261
 msgid "&Model line"
@@ -9560,15 +9558,15 @@ msgstr "&Modell sor"
 
 #: src/arch/win32/rescbm2.rc.po.c:1262
 msgid "&7x0 (50 Hz)"
-msgstr "&7x0 (50 Hz)"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:1264
 msgid "6x0 &60 Hz"
-msgstr "6x0 &60 Hz"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:1266
 msgid "6x0 &50 Hz"
-msgstr "6x0 &50 Hz"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:1432 src/arch/win32/resplus4.rc.po.c:1158
 #: src/arch/win32/resvic20.rc.po.c:949
@@ -9597,27 +9595,27 @@ msgstr "&Ram bankok"
 
 #: src/arch/win32/rescbm2.rc.po.c:1442
 msgid "Bank 15 $&0800-$0FFF RAM"
-msgstr "Bank 15 $&0800-$0FFF RAM"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:1444
 msgid "Bank 15 $&1000-$1FFF RAM"
-msgstr "Bank 15 $&1000-$1FFF RAM"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:1446
 msgid "Bank 15 $&2000-$3FFF RAM"
-msgstr "Bank 15 $&2000-$3FFF RAM"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:1448
 msgid "Bank 15 $&4000-$5FFF RAM"
-msgstr "Bank 15 $&4000-$5FFF RAM"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:1450
 msgid "Bank 15 $&6000-$7FFF RAM"
-msgstr "Bank 15 $&6000-$7FFF RAM"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:1452
 msgid "Bank 15 $&C000-$CFFF RAM"
-msgstr "Bank 15 $&C000-$CFFF RAM"
+msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:1674 src/arch/win32/respet.rc.po.c:1983
 msgid "&Gr Sym."
@@ -9679,79 +9677,79 @@ msgstr "&Lemezegység típus"
 #: src/arch/win32/resdrivec64.rc.po.c:12
 #: src/arch/win32/resdrivevic20.rc.po.c:12
 msgid "1&541"
-msgstr "1&541"
+msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:14
 #: src/arch/win32/resdrivec64.rc.po.c:14
 #: src/arch/win32/resdrivevic20.rc.po.c:14
 msgid "1541-&II"
-msgstr "1541-&II"
+msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:18
 #: src/arch/win32/resdrivec64.rc.po.c:18
 #: src/arch/win32/resdriveplus4.rc.po.c:20
 #: src/arch/win32/resdrivevic20.rc.po.c:18
 msgid "15&71"
-msgstr "15&71"
+msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:20
 msgid "15&71cr"
-msgstr "15&71cr"
+msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:22
 #: src/arch/win32/resdrivec64.rc.po.c:20
 #: src/arch/win32/resdrivevic20.rc.po.c:20
 msgid "&1581"
-msgstr "&1581"
+msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:24
 #: src/arch/win32/resdrivec64.rc.po.c:22
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:12
 #: src/arch/win32/resdrivevic20.rc.po.c:22
 msgid "20&31"
-msgstr "20&31"
+msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:26
 #: src/arch/win32/resdrivec64.rc.po.c:24
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:14
 #: src/arch/win32/resdrivevic20.rc.po.c:24
 msgid "20&40"
-msgstr "20&40"
+msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:28
 #: src/arch/win32/resdrivec64.rc.po.c:26
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:16
 #: src/arch/win32/resdrivevic20.rc.po.c:26
 msgid "30&40"
-msgstr "30&40"
+msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:30
 #: src/arch/win32/resdrivec64.rc.po.c:28
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:18
 #: src/arch/win32/resdrivevic20.rc.po.c:28
 msgid "40&40"
-msgstr "40&40"
+msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:32
 #: src/arch/win32/resdrivec64.rc.po.c:30
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:20
 #: src/arch/win32/resdrivevic20.rc.po.c:30
 msgid "1&001"
-msgstr "1&001"
+msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:34
 #: src/arch/win32/resdrivec64.rc.po.c:32
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:22
 #: src/arch/win32/resdrivevic20.rc.po.c:32
 msgid "&8050"
-msgstr "&8050"
+msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:36
 #: src/arch/win32/resdrivec64.rc.po.c:34
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:24
 #: src/arch/win32/resdrivevic20.rc.po.c:34
 msgid "8&250"
-msgstr "8&250"
+msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:40
 #: src/arch/win32/resdrivec64.rc.po.c:38
@@ -9824,54 +9822,54 @@ msgstr "Lemezegység &bõvítés"
 #: src/arch/win32/resdriveplus4.rc.po.c:43
 #: src/arch/win32/resdrivevic20.rc.po.c:53
 msgid "$2000-$3FFF &RAM"
-msgstr "$2000-$3FFF &RAM"
+msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:59
 #: src/arch/win32/resdrivec64.rc.po.c:57
 #: src/arch/win32/resdrivevic20.rc.po.c:55
 msgid "$&4000-$5FFF RAM"
-msgstr "$&4000-$5FFF RAM"
+msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:61
 #: src/arch/win32/resdrivec64.rc.po.c:59
 #: src/arch/win32/resdriveplus4.rc.po.c:47
 #: src/arch/win32/resdrivevic20.rc.po.c:57
 msgid "$&6000-$7FFF RAM"
-msgstr "$&6000-$7FFF RAM"
+msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:63
 #: src/arch/win32/resdrivec64.rc.po.c:61
 #: src/arch/win32/resdriveplus4.rc.po.c:49
 #: src/arch/win32/resdrivevic20.rc.po.c:59
 msgid "$8000-$9FFF RA&M"
-msgstr "$8000-$9FFF RA&M"
+msgstr ""
 
 #: src/arch/win32/resdrivec128.rc.po.c:65
 #: src/arch/win32/resdrivec64.rc.po.c:63
 #: src/arch/win32/resdriveplus4.rc.po.c:51
 #: src/arch/win32/resdrivevic20.rc.po.c:61
 msgid "$&A000-$BFFF RAM"
-msgstr "$&A000-$BFFF RAM"
+msgstr ""
 
 #: src/arch/win32/resdriveplus4.rc.po.c:12
 msgid "15&41"
-msgstr "15&41"
+msgstr ""
 
 #: src/arch/win32/resdriveplus4.rc.po.c:14
 msgid "154&1-II"
-msgstr "154&1-II"
+msgstr ""
 
 #: src/arch/win32/resdriveplus4.rc.po.c:16
 msgid "15&51"
-msgstr "15&51"
+msgstr ""
 
 #: src/arch/win32/resdriveplus4.rc.po.c:22
 msgid "15&81"
-msgstr "15&81"
+msgstr ""
 
 #: src/arch/win32/resdriveplus4.rc.po.c:45
 msgid "$4&000-$5FFF RAM"
-msgstr "$4&000-$5FFF RAM"
+msgstr ""
 
 #: src/arch/win32/resgeoram.rc.po.c:10 src/arch/amigaos/intl.c.po.c:3188
 msgid "GEORAM Settings"
@@ -9960,27 +9958,27 @@ msgstr "Szerkesztõ"
 
 #: src/arch/win32/respet.rc.po.c:244
 msgid "ROM 9"
-msgstr "ROM 9"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:249
 msgid "ROM A"
-msgstr "ROM A"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:254
 msgid "ROM B"
-msgstr "ROM B"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:846
 msgid "ROM9"
-msgstr "ROM9"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:848
 msgid "ROMA"
-msgstr "ROMA"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:850
 msgid "ROMB"
-msgstr "ROMB"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:1255
 msgid "Machine defaults"
@@ -9988,51 +9986,51 @@ msgstr "Modell alapértelmezései"
 
 #: src/arch/win32/respet.rc.po.c:1256
 msgid "PET 2001-8N"
-msgstr "PET 2001-8N"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:1257
 msgid "PET 3008"
-msgstr "PET 3008"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:1258
 msgid "PET 3016"
-msgstr "PET 3016"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:1259
 msgid "PET 3032"
-msgstr "PET 3032"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:1260
 msgid "PET 3032B"
-msgstr "PET 3032B"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:1261
 msgid "PET 4016"
-msgstr "PET 4016"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:1262
 msgid "PET 4032"
-msgstr "PET4032"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:1263
 msgid "PET 4032B"
-msgstr "PET 4032B"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:1264
 msgid "PET 8032"
-msgstr "PET 8032"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:1265
 msgid "PET 8096"
-msgstr "PET 8096"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:1266
 msgid "PET 8296"
-msgstr "PET 8296"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:1267
 msgid "SuperPET"
-msgstr "SuperPET"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:1268
 msgid "M&emory"
@@ -10040,27 +10038,27 @@ msgstr "M&emória"
 
 #: src/arch/win32/respet.rc.po.c:1269
 msgid "4KB"
-msgstr "4KB"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:1271
 msgid "8KB"
-msgstr "8KB"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:1273
 msgid "16KB"
-msgstr "16KB"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:1275
 msgid "32KB"
-msgstr "32KB"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:1277
 msgid "96KB"
-msgstr "96KB"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:1279
 msgid "128KB"
-msgstr "128KB"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:1529
 msgid "&Video"
@@ -10092,7 +10090,7 @@ msgstr "&2 kBájt"
 
 #: src/arch/win32/respet.rc.po.c:1543
 msgid "&CRTC"
-msgstr "&CRTC"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:1544
 msgid "CRTC chip &enable"
@@ -10104,7 +10102,7 @@ msgstr "&Billentyûzet"
 
 #: src/arch/win32/respet.rc.po.c:1548
 msgid "&Graphics"
-msgstr "&Grafika"
+msgstr "&Grafikus"
 
 #: src/arch/win32/respet.rc.po.c:1550
 msgid "&Business (UK)"
@@ -10180,23 +10178,23 @@ msgstr "Válasszon fájlt a PLUS256K-hoz"
 
 #: src/arch/win32/resplus4.rc.po.c:247
 msgid "3+1 Lo"
-msgstr "3+1 Lo"
+msgstr ""
 
 #: src/arch/win32/resplus4.rc.po.c:252
 msgid "3+1 Hi"
-msgstr "3+1 Hi"
+msgstr ""
 
 #: src/arch/win32/resplus4.rc.po.c:473 src/arch/win32/resplus4.rc.po.c:954
 msgid "1551"
-msgstr "1551"
+msgstr ""
 
 #: src/arch/win32/resplus4.rc.po.c:775
 msgid "3 plus 1 LO"
-msgstr "3 plus 1 LO"
+msgstr ""
 
 #: src/arch/win32/resplus4.rc.po.c:777
 msgid "3 plus 1 HI"
-msgstr "3 plus 1 HI"
+msgstr ""
 
 #: src/arch/win32/resplus4.rc.po.c:1156
 msgid "Plus4 settings"
@@ -10398,9 +10396,8 @@ msgid "SID Filters"
 msgstr "SID szûrõk"
 
 #: src/arch/win32/ressid.rc.po.c:67
-#, fuzzy
 msgid "reSID/reSID-fp options"
-msgstr "reSID opciók"
+msgstr "reSID/reSIP-fp opciók"
 
 #: src/arch/win32/ressid.rc.po.c:68 src/arch/amigaos/intl.c.po.c:3782
 msgid "Sample method"
@@ -10575,21 +10572,20 @@ msgid "New &Luminances"
 msgstr "Új &fényerõk"
 
 #: src/translate.c.po.c:1122
-#, fuzzy
 msgid "Disable the Hummer Userport Joystick emulation"
-msgstr "Userport nyomtató emulációjának tiltása"
+msgstr "Hummer userport botkormány emuláció tiltása"
 
 #: src/translate.c.po.c:2749
 msgid "<0-2000>"
-msgstr "<0-2000>"
+msgstr ""
 
 #: src/translate.c.po.c:2939
 msgid "<0-2>"
-msgstr "<0-2>"
+msgstr ""
 
 #: src/translate.c.po.c:3081
 msgid "<0-3>"
-msgstr "<0-3>"
+msgstr ""
 
 #: src/translate.c.po.c:3436
 msgid "Specify SID engine (0: FastSID, 1: Catweasel)"
@@ -10621,11 +10617,10 @@ msgstr ""
 "Adja meg a SID motort (0: Gyors SID, 1: Catweasel, 2: HardSID, 3: ParSID)"
 
 #: src/translate.c.po.c:3569
-#, fuzzy
 msgid ""
 "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost, 3: 6581R4 "
 "(unimplemented), 4: DTV)"
-msgstr "Adja meg a SID típusát (0: 6581, 1: 8580, 2: 8580 + digi boost)"
+msgstr "Adja meg a SID típusát (0: 6581, 1: 8580, 2: 8580 + digi boost, 3: 6581R4 (nincs implementálva), 4: DTV)"
 
 #: src/translate.c.po.c:4829
 msgid "<iso language code>"
@@ -10637,44 +10632,39 @@ msgstr "Adja meg a nyelv iso kódját"
 
 #: src/translate.c.po.c:5019
 msgid "Enable DTV blitter logs"
-msgstr ""
+msgstr "DTV blit naplók engedélyezése"
 
 #: src/translate.c.po.c:5029
-#, fuzzy
 msgid "Disable DTV blitter logs"
-msgstr "Dupla méret tiltása"
+msgstr "DTV blit naplók tiltása"
 
 #: src/translate.c.po.c:5039
 msgid "Enable DTV DMA logs"
-msgstr ""
+msgstr "DTV DMA naplók engedélyezése"
 
 #: src/translate.c.po.c:5049
 msgid "Disable DTV DMA logs"
-msgstr ""
+msgstr "DTVÂ·DMAÂ·naplÃ³k tiltÃ¡sa"
 
 #: src/translate.c.po.c:5089
-#, fuzzy
 msgid "Enable C64DTV flash chip logs."
-msgstr "MMC64 flashjumper engedélyezése"
+msgstr "C64DTV flash chip napló engedélyezése."
 
 #: src/translate.c.po.c:5099
-#, fuzzy
 msgid "Disable C64DTV flash chip logs."
-msgstr "MMC64 flashjumper engedélyezése"
+msgstr "C64DTV flash chip napló tiltása."
 
 #: src/translate.c.po.c:5109
-#, fuzzy
 msgid "Use <name> as directory for flash file system device"
-msgstr "<név> könyvtár használata az #8-as egység fájlrendszerének"
+msgstr "<név> könyvtár használata a flash fájlrendszer eszközhöz"
 
 #: src/translate.c.po.c:5119
 msgid "Enable true hardware flash file system"
-msgstr ""
+msgstr "Igazi hardver flash fájlrendszer engedélyezése"
 
 #: src/translate.c.po.c:5129
-#, fuzzy
 msgid "Disable true hardware flash file system"
-msgstr "Hardver átméretezés tiltása"
+msgstr "Igazi hardver flash fájlrendszer tiltása"
 
 #: src/arch/amigaos/intl.c.po.c:105
 msgid "Autostart disk/tape image..."
@@ -10761,19 +10751,16 @@ msgid "Action Replay image..."
 msgstr "Action Replay képmás..."
 
 #: src/arch/amigaos/intl.c.po.c:483
-#, fuzzy
 msgid "Action Replay 3 image..."
-msgstr "Action Replay képmás..."
+msgstr "Action Replay 3 képmás..."
 
 #: src/arch/amigaos/intl.c.po.c:492
-#, fuzzy
 msgid "Action Replay 4 image..."
-msgstr "Action Replay képmás..."
+msgstr "Action Replay 4 képmás..."
 
 #: src/arch/amigaos/intl.c.po.c:501
-#, fuzzy
 msgid "StarDOS image..."
-msgstr "CRT képmás..."
+msgstr "StarDOS képmás..."
 
 #: src/arch/amigaos/intl.c.po.c:510
 msgid "Atomic Power image..."
@@ -10820,18 +10807,16 @@ msgid "Exit"
 msgstr "Kilépés"
 
 #: src/arch/amigaos/intl.c.po.c:699
-#, fuzzy
 msgid "Edit"
-msgstr "Szerkesztõ"
+msgstr "Szerkeszt"
 
 #: src/arch/amigaos/intl.c.po.c:708
 msgid "Copy"
-msgstr ""
+msgstr "Másol"
 
 #: src/arch/amigaos/intl.c.po.c:717
-#, fuzzy
 msgid "Paste"
-msgstr "Fázis"
+msgstr "Beilleszt"
 
 #: src/arch/amigaos/intl.c.po.c:735
 msgid "Load snapshot image..."
@@ -10879,43 +10864,43 @@ msgstr "Automatikus"
 
 #: src/arch/amigaos/intl.c.po.c:906
 msgid "1/1"
-msgstr "1/1"
+msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:915
 msgid "1/2"
-msgstr "1/2"
+msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:924
 msgid "1/3"
-msgstr "1/3"
+msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:933
 msgid "1/4"
-msgstr "1/4"
+msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:942
 msgid "1/5"
-msgstr "1/5"
+msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:951
 msgid "1/6"
-msgstr "1/6"
+msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:960
 msgid "1/7"
-msgstr "1/7"
+msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:969
 msgid "1/8"
-msgstr "1/8"
+msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:978
 msgid "1/9"
-msgstr "1/9"
+msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:987
 msgid "1/10"
-msgstr "1/10"
+msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:996
 msgid "Maximum Speed"
@@ -10923,23 +10908,23 @@ msgstr "Maximális sebesség"
 
 #: src/arch/amigaos/intl.c.po.c:1005
 msgid "200%"
-msgstr "200%"
+msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:1014
 msgid "100%"
-msgstr "100%"
+msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:1023
 msgid "50%"
-msgstr "50%"
+msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:1032
 msgid "20%"
-msgstr "20%"
+msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:1041
 msgid "10%"
-msgstr "10%"
+msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:1050
 msgid "No limit"
@@ -10991,19 +10976,19 @@ msgstr "Lemezegység szinkron faktor"
 
 #: src/arch/amigaos/intl.c.po.c:1185
 msgid "PAL"
-msgstr "PAL"
+msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:1194
 msgid "NTSC"
-msgstr "NTSC"
+msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:1212
 msgid "PAL-G"
-msgstr "PAL-G"
+msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:1221
 msgid "NTSC-M"
-msgstr "NTSC-M"
+msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:1230
 msgid "Old NTSC-M"
@@ -11026,9 +11011,8 @@ msgid "Grab mouse events"
 msgstr "Egér események elkapása"
 
 #: src/arch/amigaos/intl.c.po.c:1275
-#, fuzzy
 msgid "PS/2 mouse emulation"
-msgstr "*Egér emuláció"
+msgstr "PS/2 egér emuláció"
 
 #: src/arch/amigaos/intl.c.po.c:1293
 msgid "Video settings..."
@@ -11171,9 +11155,8 @@ msgid "SID cart settings..."
 msgstr "SID kártya beállításai..."
 
 #: src/arch/amigaos/intl.c.po.c:1635
-#, fuzzy
 msgid "C64DTV settings..."
-msgstr "MMC64 beállításai..."
+msgstr "C64DTV beállításai..."
 
 #: src/arch/amigaos/intl.c.po.c:1644
 msgid "RS232 userport settings..."
@@ -11346,9 +11329,8 @@ msgid "Yes|No"
 msgstr "Igen|Nem"
 
 #: src/arch/amigaos/intl.c.po.c:2441
-#, fuzzy
 msgid "Attach Action Replay 3 cartridge image"
-msgstr "Action Replay cartridge képmás csatolása"
+msgstr "Action Replay 3 cartridge képmás csatolása"
 
 #: src/arch/amigaos/intl.c.po.c:2603
 msgid "Attach"
@@ -11411,31 +11393,28 @@ msgid "256K Base"
 msgstr "256K báziscím"
 
 #: src/arch/amigaos/intl.c.po.c:2855
-#, fuzzy
 msgid "Select file for C64DTV ROM"
-msgstr "Válasszon fájlt a PET REU-hoz"
+msgstr "Válasszon fájlt a C64DTV ROM-hoz"
 
 #: src/arch/amigaos/intl.c.po.c:2864
-#, fuzzy
 msgid "C64DTV ROM file"
-msgstr "ROM fájl betöltése"
+msgstr "C64DTV ROM fájl"
 
 #: src/arch/amigaos/intl.c.po.c:2873
-#, fuzzy
 msgid "C64DTV revision"
-msgstr "*MMC64 változat"
+msgstr "C64DTV változat"
 
 #: src/arch/amigaos/intl.c.po.c:2882
 msgid "Writes to C64DTV ROM"
-msgstr ""
+msgstr "C64DTV ROM-ba írások"
 
 #: src/arch/amigaos/intl.c.po.c:2891
 msgid "Hummer Userport joystick"
-msgstr ""
+msgstr "Hummer Userport botkormány"
 
 #: src/arch/amigaos/intl.c.po.c:2900
 msgid "Joystick port mapped to Hummer Userport"
-msgstr ""
+msgstr "Botkormány port leképezve a Hummer userportra"
 
 #: src/arch/amigaos/intl.c.po.c:2918
 msgid "model line"
@@ -11780,9 +11759,8 @@ msgid "Fast PAL"
 msgstr "Gyors PAL"
 
 #: src/arch/amigaos/intl.c.po.c:4322
-#, fuzzy
 msgid "New PAL Emulation"
-msgstr "PAL emuláció"
+msgstr "Új PAL emuláció"
 
 #: src/arch/amigaos/intl.c.po.c:4331
 msgid "Select External Palette file"
@@ -11801,19 +11779,16 @@ msgid "PAL Blur (0..1)"
 msgstr "PAL elmosás (0..1)"
 
 #: src/arch/amigaos/intl.c.po.c:4367
-#, fuzzy
 msgid "Tint (0..2)"
-msgstr "(0..2)"
+msgstr "Szín (0..2)"
 
 #: src/arch/amigaos/intl.c.po.c:4376
-#, fuzzy
 msgid "Odd Lines Phase (0..2)"
-msgstr "Fényesség (0..2)"
+msgstr "Páratlan sorok fázisa (0..2)"
 
 #: src/arch/amigaos/intl.c.po.c:4385
-#, fuzzy
 msgid "Odd Lines Offset (0..2)"
-msgstr "Fényesség (0..2)"
+msgstr "Páratlan sorok offszetje (0..2)"
 
 #: src/arch/amigaos/intl.c.po.c:4403
 msgid "External Palette"
@@ -11983,235 +11958,3 @@ msgstr "NEOS egér"
 msgid "Amiga mouse"
 msgstr "Amiga egér"
 
-#~ msgid "Drive &11"
-#~ msgstr "#&11-es lemezegység"
-
-#~ msgid "Drive #&8"
-#~ msgstr "#&8-as lemezegység"
-
-#~ msgid "Drive #&9"
-#~ msgstr "#&9-es lemezegység"
-
-#~ msgid "Drive #1&0"
-#~ msgstr "#1&0-es lemezegység"
-
-#~ msgid "Drive #&11"
-#~ msgstr "#&11-es lemezegység"
-
-#~ msgid "Action Replay &III image..."
-#~ msgstr "Action Replay &III képmás..."
-
-#, fuzzy
-#~ msgid "Action Replay &4 image..."
-#~ msgstr "Action Replay képmás..."
-
-#, fuzzy
-#~ msgid "Star&DOS image..."
-#~ msgstr "&CRT képmás..."
-
-#~ msgid "&VIC-II settings..."
-#~ msgstr "&VIC-II beállításai..."
-
-#~ msgid "Detach c&artridge image"
-#~ msgstr "C&artridge képmás leválasztása"
-
-#~ msgid "Your machine is too slow for current settings!"
-#~ msgstr "Az Ön számítógépe túl lassú ezekhez a beállításokhoz!"
-
-#~ msgid "sound device lacks stereo capability"
-#~ msgstr "A hangeszköz nem sztereó"
-
-#~ msgid "Buffer drained"
-#~ msgstr "A puffer alulcsordult."
-
-#~ msgid "Cannot open joystick device `%s'."
-#~ msgstr "Nem sikerült a `%s' botkormányt megnyitni."
-
-#~ msgid "Error reading joystick device `%s'."
-#~ msgstr "Nem sikerült a `%s' botkormányt olvasni."
-
-#~ msgid "Hardware joystick calibration for device `%s':"
-#~ msgstr "Hardver botkormány kalibráció a `%s' eszközön:"
-
-#~ msgid "Error reading digital joystick device."
-#~ msgstr "Nem sikerült a `%s' digitális botkormányt olvasni."
-
-#~ msgid "Error reading joystick device."
-#~ msgstr "Nem sikerült a botkormányt olvasni."
-
-#~ msgid "Linux joystick interface initialization..."
-#~ msgstr "Linux joystick interfész inicializálás..."
-
-#~ msgid "%s unknown type"
-#~ msgstr "%s ismeretlen típus"
-
-#~ msgid "Built in driver version: %d.%d.%d"
-#~ msgstr "Beépített meghajtó verziója: %d.%d.%d"
-
-#~ msgid "Kernel driver version  : 0.8 ??"
-#~ msgstr "Kernel meghajtó verziója  : 0.8 ??"
-
-#~ msgid "Please update your Joystick driver!"
-#~ msgstr "Kérem frissítse a Joystick meghajtóját!"
-
-#~ msgid "Fall back to old api routine"
-#~ msgstr "Visszatérés egy régi API rutinhoz"
-
-#~ msgid "Kernel driver version  : %d.%d.%d"
-#~ msgstr "Kernel meghajtó verziója  : %d.%d.%d"
-
-#~ msgid "No more devices available."
-#~ msgstr "Több eszköz nem áll rendelkezésre."
-
-#~ msgid "rs232_open(device=%d)."
-#~ msgstr "srs232_open(device=%d)."
-
-#~ msgid "Cannot open file \"%s\": %s"
-#~ msgstr "Nem sikerült megnyitni: \"%s\": %s"
-
-#~ msgid "Attempt to close invalid fd %d."
-#~ msgstr "Lezárási kísérlet érvénytelen fájlleíróra (%d)"
-
-#~ msgid "Attempt to close non-open fd %d."
-#~ msgstr "Lezárási kísérlet meg nem nyitott fájlleíróra (%d)"
-
-#~ msgid "Attempt to write to invalid fd %d."
-#~ msgstr "Írási kísérlet érvénytelen fájlleíróra (%d)"
-
-#~ msgid "Attempt to write to non-open fd %d."
-#~ msgstr "Írási kísérlet meg nem nyitott fájlleíróra (%d)"
-
-#~ msgid "Error writing: %s."
-#~ msgstr "Hiba írás közben: %s."
-
-#~ msgid "Attempt to read from invalid fd %d."
-#~ msgstr "Olvasási kísérlet érvénytelen fájlleíróra (%d)"
-
-#~ msgid "Attempt to read from non-open fd %d."
-#~ msgstr "Olvasási kísérlet meg nem nyitott fájlleíróra (%d)"
-
-#~ msgid "Received signal %d (%s)."
-#~ msgstr "Signal érkezett %d (%s)."
-
-#~ msgid "Received signal %d."
-#~ msgstr "Signal érkezett %d."
-
-#~ msgid ""
-#~ "\n"
-#~ "Exiting..."
-#~ msgstr ""
-#~ "\n"
-#~ "Kilépés..."
-
-#~ msgid "Executing `%s'..."
-#~ msgstr "`%s' végrehajtása..."
-
-#~ msgid "Quickloading file %s."
-#~ msgstr "%s fájl gyorstöltése."
-
-#~ msgid "`%s' is not a valid PSID file."
-#~ msgstr "`%s' nem egy valódi PSID fájl."
-
-#~ msgid "Status: %s, Server: %s, Port: %d"
-#~ msgstr "Státusz: %s, Kiszolgáló: %s, Port: %d"
-
-#~ msgid "No gfxoutputdrivers available"
-#~ msgstr "Nincs rendelkezésre álló gfxoutputdriver."
-
-#~ msgid "FFMPEG Driver: %s"
-#~ msgstr "FFMPEG meghajtó: %s"
-
-#~ msgid "\tAC: %s(%d)"
-#~ msgstr "\tAC: %s(%d)"
-
-#~ msgid "\tVC: %s(%d)"
-#~ msgstr "\tVC: %s(%d)"
-
-#~ msgid "Cannot load CBM font %s."
-#~ msgstr "Nem sikerül a %s CBM jelkészletet betölteni."
-
-#~ msgid "Maximum number of toplevel windows reached."
-#~ msgstr "A maximális számú különálló ablakot elérte."
-
-#~ msgid "Error getting video mode information - disabling vidmode extension."
-#~ msgstr ""
-#~ "Hiba történt a videó információk lekérésekor - vidmode kiterjesztés "
-#~ "letiltva"
-
-#~ msgid "Automatically using a private colormap."
-#~ msgstr "Privát paletta automatikus használata."
-
-#~ msgid "XCreateImage failed."
-#~ msgstr "XCreateImage hiba."
-
-#~ msgid "Cannot allocate color \"#%04X%04X%04X\"."
-#~ msgstr "Nem sikerült a \"#%04X%04X%04X\" színt lefoglalni."
-
-#~ msgid "XFreeColors failed."
-#~ msgstr "XFreeColors hiba."
-
-#~ msgid "This display does not support suitable %dbit visuals."
-#~ msgstr "A kijelzõ nem támogat megfelelõ %d bites üzemmódot."
-
-#~ msgid "Please select a bit depth supported by your display."
-#~ msgstr "Kérem olyan bitmélységet válasszon, melyet a kijelzõje támogat."
-
-#~ msgid "Found %dbit/%s visual."
-#~ msgstr "A VICE %d bites %s üzemmódot talált"
-
-#~ msgid "Cannot autodetect a proper visual."
-#~ msgstr "Nem sikerült automatikusan megfelelõ üzemmódot találni."
-
-#~ msgid "Using private colormap."
-#~ msgstr "Privát paletta használata."
-
-#~ msgid "Toggling of Statusbar/Menu in Xaw is not supported."
-#~ msgstr "A státusz sor és a menü ki-be kapcsolása Xaw-ban nem lehetséges."
-
-#~ msgid "The MITSHM extension is not supported on this display."
-#~ msgstr "Ez a kijelzõ nem támogatja a MITSHM kiterjesztést."
-
-#~ msgid "Cannot release shared memory!"
-#~ msgstr "Nem sikerült az osztott memóriát felszabadítani!"
-
-#~ msgid "Successfully initialized using XVideo (%dx%d %.4s)."
-#~ msgstr "Sikeres indulás XVideo (%dx%d %.4s) használatával"
-
-#~ msgid ""
-#~ "Cannot allocate XImage with XShm; falling back to non MITSHM extension "
-#~ "mode."
-#~ msgstr ""
-#~ "Nem sikerült XImage-et XShm-mel lefoglalni; áttérés MITSHM nélküli módba."
-
-#~ msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
-#~ msgstr ""
-#~ "Nem sikerült osztott memóriához jutni; áttérés MITSHM nélküli módba."
-
-#~ msgid ""
-#~ "Cannot get shared memory address; falling back to non MITSHM extension "
-#~ "mode."
-#~ msgstr ""
-#~ "Nem sikerült osztott memória címet szerezni; áttérés MITSHM nélküli módba."
-
-#~ msgid ""
-#~ "Cannot attach shared memory; falling back to non MITSHM extension mode."
-#~ msgstr ""
-#~ "Nem sikerült az osztott memóriát csatolni, áttérés MITSHM nélküli módba."
-
-#~ msgid "Successfully initialized%s shared memory."
-#~ msgstr "Sikeres indulás %s"
-
-#~ msgid ", using"
-#~ msgstr ", ezzel:"
-
-#~ msgid " without"
-#~ msgstr " enélkül:"
-
-#~ msgid "Performance will be poor."
-#~ msgstr "A teljesítmény gyenge lesz."
-
-#~ msgid "Successfully initialized without shared memory."
-#~ msgstr "Sikeres indulás osztott memória nélkül."
-
-#~ msgid "HW scaling not available"
-#~ msgstr "Hardveres gyorsítás nem áll rendelkezésre"
