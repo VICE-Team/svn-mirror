@@ -29,7 +29,6 @@
  */
 
 /* resid itself is always compiled with C64DTV support */
-#define SUPPORT_C64DTV
 #include "resid/sid.h"
 
 extern "C" {

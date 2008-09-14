@@ -335,7 +335,7 @@ static void set_sound_func(void)
             sid_store_func = sound_store;
         }
 #endif
-#ifdef HAVE_RESID
+#ifdef HAVE_RESID_FP
         if (sid_engine_type == SID_ENGINE_RESID_FP) {
             sid_read_func = sound_read;
             sid_store_func = sound_store;

@@ -28,7 +28,6 @@
  */
 
 /* resid itself is always compiled with C64DTV support */
-#define SUPPORT_C64DTV
 #include "resid-fp/sid.h"
 
 extern "C" {
@@ -43,7 +42,7 @@ extern "C" {
 #include "sid/sid.h" /* sid_engine_t */
 #include "lib.h"
 #include "log.h"
-#include "resid.h"
+#include "resid-fp.h"
 #include "resources.h"
 #include "sid-snapshot.h"
 #include "types.h"
