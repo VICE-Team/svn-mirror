@@ -410,7 +410,7 @@ HACCEL uikeyboard_create_accelerator_table(void)
                     if (accel.key > 0 && accel.cmd > 0 && accelnum < MAXACCEL)
                         accellist[accelnum++] = accel;
 
-                    if (displaystr != NULL) {
+                    if (displaystr != NULL && menuitemmodifier[accel.cmd] == NULL) {
                         p = util_concat("\t",
                                     ((accel.fVirt & FSHIFT  ) ? "Shift+" : ""),
                                     ((accel.fVirt & FCONTROL) ? "Ctrl+" : ""),
