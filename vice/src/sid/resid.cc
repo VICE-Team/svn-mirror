@@ -51,7 +51,7 @@ extern "C" {
 struct sound_s
 {
     /* resid sid implementation */
-    SID	sid;
+    SID	*sid;
 };
 
 typedef struct sound_s sound_t;
@@ -62,9 +62,10 @@ static sound_t *resid_open(BYTE *sidstate)
     int	i;
 
     psid = new sound_t;
+    psid->sid = new SID;
 
     for (i = 0x00; i <= 0x18; i++) {
-	psid->sid.write(i, sidstate[i]);
+	psid->sid->write(i, sidstate[i]);
     }
 
     return psid;
@@ -97,48 +98,48 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
     gain = gain_percentage / 100.0;
  
 #if 0
-    psid->sid.set_chip_model(model == 0 ? MOS6581 : MOS8580);
+    psid->sid->set_chip_model(model == 0 ? MOS6581 : MOS8580);
 
     /* 8580 + digi boost. */
-    psid->sid.input(model == 2 ? -32768 : 0);
+    psid->sid->input(model == 2 ? -32768 : 0);
 
-    psid->sid.enable_filter(filters_enabled ? true : false);
-    psid->sid.enable_external_filter(filters_enabled ? true : false);
+    psid->sid->enable_filter(filters_enabled ? true : false);
+    psid->sid->enable_external_filter(filters_enabled ? true : false);
 #endif
 
     switch (model) {
     default:
     case 0:
-      psid->sid.set_chip_model(MOS6581);
-      psid->sid.input(0);
+      psid->sid->set_chip_model(MOS6581);
+      psid->sid->input(0);
       strcpy(model_text, "MOS6581");
       break;
     case 1:
-      psid->sid.set_chip_model(MOS8580);
-      psid->sid.input(0);
+      psid->sid->set_chip_model(MOS8580);
+      psid->sid->input(0);
       strcpy(model_text, "MOS8580");
       break;
     case 2:
-      psid->sid.set_chip_model(MOS8580);
-      psid->sid.input(-32768);
+      psid->sid->set_chip_model(MOS8580);
+      psid->sid->input(-32768);
       strcpy(model_text, "MOS8580 + digi boost");
       break;
 #if 0
     case 3: /* not yet */
-      psid->sid.set_chip_model(MOS6581R4);
-      psid->sid.input(0);
+      psid->sid->set_chip_model(MOS6581R4);
+      psid->sid->input(0);
       strcpy(model_text, "MOS6581R4");
       break;
 #endif
     case 4:
-      psid->sid.set_chip_model(DTVSID);
-      psid->sid.input(0);
+      psid->sid->set_chip_model(DTVSID);
+      psid->sid->input(0);
       filters_enabled = 0;
       strcpy(model_text, "DTVSID");
       break;
     }
-    psid->sid.enable_filter(filters_enabled ? true : false);
-    psid->sid.enable_external_filter(filters_enabled ? true : false);
+    psid->sid->enable_filter(filters_enabled ? true : false);
+    psid->sid->enable_external_filter(filters_enabled ? true : false);
 
     switch (sampling) {
       default:
@@ -160,7 +161,7 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
 	break;
     }
 
-    if (!psid->sid.set_sampling_parameters(cycles_per_sec, method,
+    if (!psid->sid->set_sampling_parameters(cycles_per_sec, method,
 					   speed, passband, gain)) {
         log_warning(LOG_DEFAULT,
                     "reSID: Out of spec, increase sampling rate or decrease maximum speed");
@@ -177,28 +178,29 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
 
 static void resid_close(sound_t *psid)
 {
+    delete psid->sid;
     delete psid;
 }
 
 static BYTE resid_read(sound_t *psid, WORD addr)
 {
-    return psid->sid.read(addr);
+    return psid->sid->read(addr);
 }
 
 static void resid_store(sound_t *psid, WORD addr, BYTE byte)
 {
-    psid->sid.write(addr, byte);
+    psid->sid->write(addr, byte);
 }
 
 static void resid_reset(sound_t *psid, CLOCK cpu_clk)
 {
-    psid->sid.reset();
+    psid->sid->reset();
 }
 
 static int resid_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
                                    int interleave, int *delta_t)
 {
-    return psid->sid.clock(*delta_t, pbuf, nr, interleave);
+    return psid->sid->clock(*delta_t, pbuf, nr, interleave);
 }
 
 static void resid_prevent_clk_overflow(sound_t *psid, CLOCK sub)
@@ -215,7 +217,7 @@ static void resid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)
     SID::State state;
     unsigned int i;
 
-    state = psid->sid.read_state();
+    state = psid->sid->read_state();
 
     for (i = 0; i < 0x20; i++) {
         sid_state->sid_register[i] = (BYTE)state.sid_register[i];
@@ -261,7 +263,7 @@ static void resid_state_write(sound_t *psid, sid_snapshot_state_t *sid_state)
         state.hold_zero[i] = (sid_state->hold_zero[i] != 0);
     }
 
-    psid->sid.write_state((const SID::State)state);
+    psid->sid->write_state((const SID::State)state);
 }
 
 sid_engine_t resid_hooks =
