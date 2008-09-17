@@ -374,3 +374,8 @@ void ui_display_statustext(const char *text, int fade_out)
 void ui_display_volume(int vol)
 {
 }
+
+char* ui_select_file(const char *format,...)
+{
+    return NULL;
+}

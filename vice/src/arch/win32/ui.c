@@ -772,6 +772,25 @@ void ui_message(const char *format, ...)
     lib_free(tmp);
 }
 
+/* Let the user browse for a filename */
+char *ui_select_file(const char *format,...)
+{
+    char *tmp;
+    char *st;
+    va_list args;
+
+    va_start(args, format);
+    tmp = lib_mvsprintf(format, args);
+    va_end(args);
+
+    st = uilib_select_file(NULL, tmp, UILIB_FILTER_ALL,
+                                UILIB_SELECTOR_TYPE_FILE_LOAD,
+                                UILIB_SELECTOR_STYLE_DISK);
+    lib_free(tmp);
+
+    return st;
+}
+
 /* Handle the "CPU JAM" case.  */
 ui_jam_action_t ui_jam_dialog(const char *format,...)
 {

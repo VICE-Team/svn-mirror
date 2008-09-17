@@ -54,12 +54,13 @@
 #define UILIB_FILTER_PRGP00         (1 << 4)
 #define UILIB_FILTER_TAPE           (1 << 5)
 #define UILIB_FILTER_DISK           (1 << 6)
-#define UILIB_FILTER_CRT            (1 << 7)
-#define UILIB_FILTER_BIN            (1 << 8)
-#define UILIB_FILTER_FLIPLIST       (1 << 9)
-#define UILIB_FILTER_ROMSET_FILE    (1 << 10)
-#define UILIB_FILTER_ROMSET_ARCHIVE (1 << 11)
-#define UILIB_FILTER_KEYMAP         (1 << 12)
+#define UILIB_FILTER_CBM            (1 << 7)
+#define UILIB_FILTER_CRT            (1 << 8)
+#define UILIB_FILTER_BIN            (1 << 9)
+#define UILIB_FILTER_FLIPLIST       (1 << 10)
+#define UILIB_FILTER_ROMSET_FILE    (1 << 11)
+#define UILIB_FILTER_ROMSET_ARCHIVE (1 << 12)
+#define UILIB_FILTER_KEYMAP         (1 << 13)
 
 
 extern TCHAR *uilib_select_file(HWND hwnd, const TCHAR *title, DWORD filterlist,

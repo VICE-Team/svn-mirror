@@ -83,6 +83,7 @@ static uilib_filefilter_t uilib_filefilter[] = {
     { IDS_PRGP00_FILES_FILTER, TEXT("*.prg;*.p00") },
     { IDS_TAPE_IMAGE_FILES_FILTER, TEXT("*.t64;*.tap") },
     { IDS_DISK_IMAGE_FILES_FILTER, TEXT("*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64") },
+    { IDS_CBM_IMAGE_FILES_FILTER, TEXT("*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00") },
     { IDS_CRT_FILES_FILTER, TEXT("*.crt") },
     { IDS_RAW_CART_FILES_FILTER, TEXT("*.bin") },
     { IDS_FLIP_LIST_FILES_FILTER, TEXT("*.vfl") },
@@ -517,50 +518,55 @@ static UINT APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
     return 0;
 }
 
-/* The following stuff implements a history for the file filter.    */
-/* The filter selected by the user in the OpenFile window is        */
-/* gets the default one in the next OpenFile window                 */
-/* As the same window is used for different file types and          */
-/* filter lists some more work has to be done...                    */
-#define UI_LIB_FILTER_HISTORY_LENGTH   8
-static DWORD last_filterlist;
-static DWORD filter_history[UI_LIB_FILTER_HISTORY_LENGTH];
-static DWORD filter_history_current;
+static struct filter_per_list_s {
+    DWORD filterlist;
+    DWORD active_filter;
+    struct filter_per_list_s *next;
+};
 
-static DWORD get_index_from_filterbit(DWORD filterbit, DWORD filterlist)
+typedef struct filter_per_list_s filter_per_list_t;
+static filter_per_list_t filter_history;
+static filter_per_list_t *filter_history_last;
+
+
+static void update_filter_history(DWORD current_filter, DWORD last_filterlist)
 {
-    DWORD b;
-    int j = 0;
+    filter_per_list_t *fl = filter_history.next;
 
-    for (b = 1; b <= filterbit; b <<= 1) {
-        if (filterlist & b)
-            j++;
-        if (b == filterbit)
-            break;
+    if (filter_history_last == NULL)
+        filter_history_last = &filter_history;
+
+    while (fl && fl->filterlist != last_filterlist)
+        fl = fl->next;
+
+    if (fl) {
+        fl->active_filter = current_filter;
+    } else {
+        fl = lib_malloc(sizeof(filter_per_list_t));
+        fl->filterlist = last_filterlist;
+        fl->active_filter = current_filter;
+        fl->next = NULL;
+        filter_history_last->next = fl;
+        filter_history_last = fl;
     }
-
-    return j;
 }
 
-static void update_filter_history(DWORD current_filter)
+static DWORD get_last_active_filter(DWORD last_filterlist)
 {
-    int i;
-    DWORD b;
-    for (i = 0, b = 1; uilib_filefilter[i].name != 0; i++, b <<= 1) {
-        if ((b & last_filterlist) 
-            && (get_index_from_filterbit(b, last_filterlist)
-            == current_filter)) {
-            filter_history[filter_history_current++] = b;
-            if (filter_history_current >= UI_LIB_FILTER_HISTORY_LENGTH)
-                filter_history_current = 0;
-            break;
-        }
-    }
+    filter_per_list_t *fl = filter_history.next;
+
+    while (fl && fl->filterlist != last_filterlist)
+        fl = fl->next;
+
+    if (fl)
+        return fl->active_filter;
+    else
+        return 0;
 }
 
 static TCHAR *set_filter(DWORD filterlist, DWORD *filterindex)
 {
-    DWORD i, k, l;
+    DWORD i;
     DWORD b;
     TCHAR *filter;
     DWORD current_len, name_len, pattern_len;
@@ -570,10 +576,6 @@ static TCHAR *set_filter(DWORD filterlist, DWORD *filterindex)
     *filter = TEXT('\0');
 
     current_len = 1;
-
-    last_filterlist = filterlist;
-
-    *filterindex = 0;
 
     /* create the strings for the file filters */
     for (i = 0, b = 1; uilib_filefilter[i].name != 0; i++, b <<= 1) {
@@ -589,12 +591,8 @@ static TCHAR *set_filter(DWORD filterlist, DWORD *filterindex)
     }
 
     /* search for the most recent file filter */
-    for (k = 1; k <= UI_LIB_FILTER_HISTORY_LENGTH && *filterindex == 0; k++) {
-        l = (filter_history_current - k) % UI_LIB_FILTER_HISTORY_LENGTH;
-        if (filter_history[l] & filterlist)
-            *filterindex = get_index_from_filterbit(filter_history[l],
-                                                    filterlist);
-    }
+    *filterindex = get_last_active_filter(filterlist);
+
     if (*filterindex == 0)
         *filterindex = 1;    /* not in history: choose first filter */
 
@@ -697,7 +695,7 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
     else
         result = GetOpenFileName(&ofn);
 
-    update_filter_history(ofn.nFilterIndex);
+    update_filter_history(ofn.nFilterIndex, filterlist);
 
     if (result) {
         char *tmpdir, *tmpfile;
@@ -898,12 +896,21 @@ void uilib_show_options(HWND param)
 void uilib_shutdown(void)
 {
     int i;
+    filter_per_list_t *f1, *f2;
 
     for (i = 0; i < UILIB_SELECTOR_STYLES_NUM; i++)
         if (ui_file_selector_initialfile[i] != NULL)
             lib_free(ui_file_selector_initialfile[i]);
 
     lib_free(fontfile);
+
+    f1 = filter_history.next;
+
+    while (f1) {
+        f2 = f1;
+        f1 = f1->next;
+        lib_free(f2);
+    }
 }
 
 static uilib_dialogbox_param_t *uilib_dialogbox_param;
@@ -1095,4 +1102,3 @@ HWND element;
         param++;
     }
 }
-

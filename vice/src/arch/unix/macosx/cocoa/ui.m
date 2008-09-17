@@ -219,3 +219,8 @@ int ui_extend_image_dialog(void)
     BOOL yes = [[theVICEMachine app] runExtendImageDialog];
     return yes ? 1:0;
 }
+
+char* ui_select_file(const char *format,...)
+{
+    return NULL;
+}

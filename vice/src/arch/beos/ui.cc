@@ -1381,3 +1381,8 @@ int ui_set_window_mode(int use_direct_window)
 void ui_display_volume(int vol)
 {
 }
+
+char* ui_select_file(const char *format,...)
+{
+    return NULL;
+}

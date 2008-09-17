@@ -605,3 +605,7 @@ void ui_display_volume(int vol)
 {
 }
 
+char* ui_select_file(const char *format,...)
+{
+    return NULL;
+}

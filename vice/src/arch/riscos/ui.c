@@ -5350,4 +5350,8 @@ void ui_display_statustext(const char *text, int fade_out)
 {
 }
 
+char* ui_select_file(const char *format,...)
+{
+    return NULL;
+}
 
