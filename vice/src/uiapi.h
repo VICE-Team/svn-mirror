@@ -57,7 +57,7 @@ extern void ui_error(const char *format,...);
 extern void ui_display_statustext(const char *text, int fade_out);
 
 /* Let the user browse for a filename; display format as a titel */
-extern char* ui_select_file(const char *format,...);
+extern char* ui_get_file(const char *format,...);
 
 /* Drive related UI.  */
 extern void ui_enable_drive_status(ui_drive_enable_t state,

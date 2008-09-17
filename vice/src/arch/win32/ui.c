@@ -773,7 +773,7 @@ void ui_message(const char *format, ...)
 }
 
 /* Let the user browse for a filename */
-char *ui_select_file(const char *format,...)
+char *ui_get_file(const char *format,...)
 {
     char *tmp;
     char *st;

@@ -235,7 +235,7 @@ static void event_playback_attach_image(void *data, unsigned int size)
         if (event_image_append(orig_filename, &filename, 0) != 0) {
             crc_to_attach = *(unsigned long *)(((char *)data)+3);
             do {
-                filename = ui_select_file("Please attach image %s (CRC32 checksum 0x%x)",
+                filename = ui_get_file("Please attach image %s (CRC32 checksum 0x%x)",
                             (char *) data + 3 + sizeof(long), crc_to_attach);
             } while (filename != NULL && crc_to_attach != crc32_file(filename));
             if (filename == NULL) {
