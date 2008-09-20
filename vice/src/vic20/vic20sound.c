@@ -167,7 +167,7 @@ int vic_sound_run(int cycles) {
       }
     }
     if (!(snd.div&0x7)) {
-      snd.altocntr++; snd.basscntr &= 0x7F;
+      snd.altocntr++; snd.altocntr &= 0x7F;
       if (snd.altocntr == 0x7F) {
         unsigned char tmp = snd.altoshift;
         snd.altocntr = snd.altoreg & ~0x80;
