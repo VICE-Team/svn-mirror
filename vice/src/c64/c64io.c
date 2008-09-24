@@ -295,7 +295,7 @@ BYTE REGPARM1 c64io1_read(WORD addr)
     }
 
 #ifdef HAVE_RS232
-    if (acia_de_enabled)
+    if (acia_de_enabled && addr <= 0xde07)
     {
         return_value = acia1_read((WORD)(addr & 0x07));
         io_source_check(io_source_counter);
