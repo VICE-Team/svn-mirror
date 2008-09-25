@@ -35,6 +35,14 @@
 #include "sid-resources.h"
 #include "types.h"
 
+#define HARDSID_FLUSH_CYCLES 1000
+#define HARDSID_FLUSH_MS 50
+
+extern CLOCK maincpu_clk;
+static CLOCK lastaccess_clk;
+static UINT_PTR ftimer;
+static DWORD lastaccess_ms;
+static int lastaccess_chipno;
 
 typedef BYTE (CALLBACK* GetHardSIDCount_t)    (void);
 typedef void (CALLBACK* InitHardSID_Mapper_t) (void);
@@ -43,6 +51,12 @@ typedef BYTE (CALLBACK* ReadFromHardSID_t)    (BYTE, BYTE);
 typedef void (CALLBACK* SetDebug_t)           (BOOL);
 typedef void (CALLBACK* WriteToHardSID_t)     (BYTE, BYTE, BYTE);
 
+/* HardSID USB (HardSID 4U) */
+typedef void (CALLBACK* HardSID_Reset_t) (BYTE);
+typedef void (CALLBACK* HardSID_AbortPlay_t) (BYTE); //hard flush
+typedef void (CALLBACK* HardSID_Flush_t) (BYTE); //soft flush
+typedef void (CALLBACK* HardSID_Write_t) (BYTE, WORD, BYTE, BYTE);
+typedef void (CALLBACK* HardSID_Delay_t) (BYTE, WORD);
 
 static GetHardSIDCount_t       GetHardSIDCount;
 static InitHardSID_Mapper_t    InitHardSID_Mapper;
@@ -51,9 +65,17 @@ static ReadFromHardSID_t       ReadFromHardSID;
 static SetDebug_t              SetDebug;
 static WriteToHardSID_t        WriteToHardSID;
 
+/* HardSID USB (HardSID 4U) */
+static HardSID_Reset_t					HardSID_Reset;
+static HardSID_AbortPlay_t				HardSID_AbortPlay;
+static HardSID_Flush_t					HardSID_Flush;
+static HardSID_Write_t					HardSID_Write;
+static HardSID_Delay_t					HardSID_Delay;
+
 static HINSTANCE dll = NULL;
 static unsigned int device_map[2] = { 0, 0 };
 
+static int has_usb_hardsid = 1;
 
 static int init_interface(void)
 {
@@ -72,6 +94,21 @@ static int init_interface(void)
                        GetProcAddress(dll, "SetDebug");
             WriteToHardSID = (WriteToHardSID_t)
                              GetProcAddress(dll, "WriteToHardSID");
+
+/* HardSID USB (HardSID 4U) */
+            HardSID_Reset = (HardSID_Reset_t)
+                             GetProcAddress(dll, "HardSID_Reset");
+            HardSID_AbortPlay = (HardSID_AbortPlay_t)
+                             GetProcAddress(dll, "HardSID_Flush");
+            HardSID_Flush = (HardSID_Flush_t)
+                             GetProcAddress(dll, "HardSID_SoftFlush");
+            HardSID_Write = (HardSID_Write_t)
+                             GetProcAddress(dll, "HardSID_Write");
+            HardSID_Delay = (HardSID_Delay_t)
+                             GetProcAddress(dll, "HardSID_Delay");
+
+            if (HardSID_Reset == NULL)
+                has_usb_hardsid = 0;
         } else {
             return -1;
         }
@@ -82,31 +119,95 @@ static int init_interface(void)
 
 void hardsid_reset(void)
 {
+    int chipno;
+
+    if (dll != NULL)
+    {
+        if (has_usb_hardsid)
+        {
+            for (chipno = 0; chipno < 4; chipno++)
+            {
+                HardSID_AbortPlay(chipno);
+            }
+        }
+    }
+}
+
+static VOID CALLBACK ftimerproc(HWND hwnd, UINT message, UINT idTimer, DWORD dwTime)
+{ 
+    if (lastaccess_chipno>=0 && lastaccess_ms>0 && (dwTime-lastaccess_ms)>=HARDSID_FLUSH_MS)
+    {
+        lastaccess_chipno = -1;
+        lastaccess_ms = 0;
+        lastaccess_clk = 0;
+        HardSID_Flush((BYTE)device_map[lastaccess_chipno]);
+    }
 }
 
 int hardsid_open(void)
 {
-    return init_interface();
+    int res;
+    int chipno;
+
+
+    res = init_interface();
+    if (dll != NULL && has_usb_hardsid)
+    {
+        for (chipno = 0; chipno < 4; chipno++)
+        {
+            HardSID_Reset(chipno);
+        }
+        lastaccess_clk = 0;
+        lastaccess_ms = 0;
+        lastaccess_chipno = -1;
+        ftimer = SetTimer(NULL, ftimer, 1, (TIMERPROC) ftimerproc);
+    }
+    return res;
 }
+
+static void pcisa_hardsid_close(void)
+{
+    int chipno;
+    WORD addr;
+
+    for (chipno = 0; chipno < 2; chipno++)
+    {
+        for (addr = 0; addr < 24; addr++)
+           hardsid_store(addr, 0, chipno);
+    }
+}
+
+static void usb_hardsid_close(void)
+{
+    int chipno;
+
+    KillTimer(NULL, ftimer);
+    for (chipno = 0; chipno < 4; chipno++)
+    {
+        HardSID_AbortPlay(chipno);
+    }
+}
+
 
 int hardsid_close(void)
 {
-    if (dll != NULL) {
-       int chipno;
-       WORD addr;
-
-       for (chipno = 0; chipno < 2; chipno++) {
-           for (addr = 0; addr < 24; addr++)
-               hardsid_store(addr, 0, chipno);
-       }
+    if (dll != NULL)
+    {
+        if (has_usb_hardsid)
+        {
+            usb_hardsid_close();
+        }
+        else
+        {
+            pcisa_hardsid_close();
+        }
     }
-
     return 0;
 }
 
 int hardsid_read(WORD addr, int chipno)
 {
-    if (dll != NULL)
+    if (dll != NULL && !has_usb_hardsid)
         return ReadFromHardSID((BYTE)device_map[chipno], (UCHAR)(addr & 0x1f));
 
     return 0;
@@ -114,8 +215,50 @@ int hardsid_read(WORD addr, int chipno)
 
 void hardsid_store(WORD addr, BYTE val, int chipno)
 {
+    CLOCK elapsed_cycles;
+    BOOL flushneeded = FALSE;
+
     if (dll != NULL)
-        WriteToHardSID((BYTE)device_map[chipno], (UCHAR)(addr & 0x1f), val);
+    {
+        if (!has_usb_hardsid)
+        {
+            WriteToHardSID((BYTE)device_map[chipno], (UCHAR)(addr & 0x1f), val);
+        }
+        else
+        {
+            lastaccess_chipno = chipno;
+            lastaccess_ms = GetTickCount();
+
+            if (lastaccess_clk==0)
+            {
+                elapsed_cycles = 0;
+            }
+            else
+            {
+                elapsed_cycles = (maincpu_clk - lastaccess_clk)&0xffff;
+                if (elapsed_cycles>HARDSID_FLUSH_CYCLES)
+                {
+                    flushneeded = TRUE;
+                    elapsed_cycles = 0;
+                }
+            }
+            lastaccess_clk = maincpu_clk;
+
+            if (dll != NULL)
+            {
+                while (elapsed_cycles>0xffff)
+                {
+                    HardSID_Delay((BYTE)device_map[chipno], (WORD) 0xffff);
+                    elapsed_cycles-= 0xffff;
+                }
+                HardSID_Write((BYTE)device_map[chipno], (WORD) elapsed_cycles, (UCHAR)(addr & 0x1f), val);
+                if (flushneeded)
+                {
+                    HardSID_Flush((BYTE)device_map[chipno]);
+                }
+            }
+        }
+    }
 }
 
 void hardsid_set_machine_parameter(long cycles_per_sec)
