@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-02 18:56+0200\n"
+"POT-Creation-Date: 2008-09-26 20:05+0200\n"
 "PO-Revision-Date: 2008-07-18 16:38+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
@@ -261,56 +261,56 @@ msgstr "Schreiben auf Sound Gerät ist fehlgeschlagen."
 msgid "store to sounddevice failed."
 msgstr "Speichern auf Sound Gerät ist fehlgeschlagen."
 
-#: src/event.c:219 src/translate.c.po.c:116
+#: src/event.c:259 src/translate.c.po.c:116
 msgid "Cannot create image file!"
 msgstr "Kann Imagedatei nicht erzeugen!"
 
-#: src/event.c:228 src/translate.c.po.c:126
+#: src/event.c:268 src/translate.c.po.c:126
 #, c-format
 msgid "Cannot write image file %s"
 msgstr "Kann Datei %s nicht schreiben"
 
-#: src/event.c:240 src/translate.c.po.c:136
+#: src/event.c:280 src/translate.c.po.c:136
 #, c-format
 msgid "Cannot find mapped name for %s"
 msgstr "Kann zugeordneten Namen für `%s' nicht finden."
 
-#: src/event.c:620 src/translate.c.po.c:146
+#: src/event.c:660 src/translate.c.po.c:146
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Kann Start Snapshot Datei nicht erzeugen: %s"
 
-#: src/event.c:639 src/event.c:934 src/translate.c.po.c:156
+#: src/event.c:679 src/event.c:974 src/translate.c.po.c:156
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Kann Ende Snapshot Datei nicht lesen: %s"
 
-#: src/event.c:707 src/event.c:901 src/translate.c.po.c:166
+#: src/event.c:747 src/event.c:941 src/translate.c.po.c:166
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Kann Ende Snapshot Datei nicht erzeugen: %s"
 
-#: src/event.c:775 src/translate.c.po.c:176
+#: src/event.c:815 src/translate.c.po.c:176
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Kann Ende Snapshot Datei nicht öffnen: %s"
 
-#: src/event.c:790 src/translate.c.po.c:186
+#: src/event.c:830 src/translate.c.po.c:186
 msgid "Could not find event section in end snapshot file."
 msgstr "Kann Sektion in Ende Snapshotdatei nicht finden."
 
-#: src/event.c:814 src/translate.c.po.c:196
+#: src/event.c:854 src/translate.c.po.c:196
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr ""
 "Fehler beim Lesen der Start Snapshot Datei. Versuch gescheitert bei %s und %"
 "s."
 
-#: src/event.c:844 src/translate.c.po.c:209
+#: src/event.c:884 src/translate.c.po.c:209
 msgid "Error reading start snapshot file."
 msgstr "Fehler beim Lesen der Start Snapshot Datei."
 
-#: src/event.c:1227 src/translate.c.po.c:4327
+#: src/event.c:1275 src/translate.c.po.c:4327
 msgid "Playback recorded events"
 msgstr "Wiedergabe von aufgenommener Ereignisse"
 
@@ -634,7 +634,7 @@ msgstr "ACIA $DExx RS232 Schnittstellen-Emulation aktivieren"
 #: src/cbm2/cbm2-cmdline-options.c:176 src/monitor/mon_command.c:420
 #: src/pet/pet-cmdline-options.c:161 src/plus4/plus4-cmdline-options.c:102
 #: src/vdc/vdc-cmdline-options.c:68 src/vic20/vic20-cmdline-options.c:226
-#: src/arch/win32/res.rc.po.c:4882 src/translate.c.po.c:960
+#: src/arch/win32/res.rc.po.c:4884 src/translate.c.po.c:960
 msgid "<number>"
 msgstr "<Nummer>"
 
@@ -767,7 +767,7 @@ msgstr ""
 "Kein Reset der Maschine wenn ein Erweiterungsmodul eingelegt oder entfernt "
 "wird"
 
-#: src/c64/cart/c64cart.c:246 src/arch/win32/res.rc.po.c:4809
+#: src/c64/cart/c64cart.c:246 src/arch/win32/res.rc.po.c:4810
 #: src/translate.c.po.c:1546 src/arch/amigaos/intl.c.po.c:2405
 msgid "Attach CRT cartridge image"
 msgstr "CRT Erweiterungsmodul Image einlegen"
@@ -3200,7 +3200,7 @@ msgstr "Optionen"
 #: src/arch/unix/gui/cbm2ui.c:511 src/arch/unix/gui/petui.c:493
 #: src/arch/unix/gui/plus4ui.c:320 src/arch/unix/gui/vic20ui.c:609
 #: src/arch/unix/gui/vsidui.c:399 src/arch/unix/x11/gnome/uinetplay.c:66
-#: src/arch/win32/res.rc.po.c:4244 src/arch/amigaos/intl.c.po.c:1284
+#: src/arch/win32/res.rc.po.c:4245 src/arch/amigaos/intl.c.po.c:1284
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -3249,7 +3249,7 @@ msgid "Save media file"
 msgstr "Media Image speichern"
 
 #: src/arch/unix/gui/c64ui.c:362 src/arch/unix/gui/plus4ui.c:182
-#: src/arch/win32/res.rc.po.c:4794
+#: src/arch/win32/res.rc.po.c:4795
 msgid "ROM settings"
 msgstr "ROM Einstellungen"
 
@@ -3869,7 +3869,7 @@ msgstr "Kann Snapshot Datei `%s' nicht speichern.\n"
 msgid "Select history directory"
 msgstr "Verzeichnis für Event Aufnahme..."
 
-#: src/arch/unix/gui/uicommands.c:393 src/arch/win32/res.rc.po.c:4907
+#: src/arch/unix/gui/uicommands.c:393 src/arch/win32/res.rc.po.c:4909
 #: src/arch/amigaos/intl.c.po.c:4781
 msgid "Sound Recording stopped..."
 msgstr "Tonaufnahme gestoppt..."
@@ -3878,7 +3878,7 @@ msgstr "Tonaufnahme gestoppt..."
 msgid "Record sound to file"
 msgstr "Tonaufnahme in Datei"
 
-#: src/arch/unix/gui/uicommands.c:413 src/arch/win32/res.rc.po.c:4906
+#: src/arch/unix/gui/uicommands.c:413 src/arch/win32/res.rc.po.c:4908
 #: src/arch/amigaos/intl.c.po.c:4790
 msgid "Sound Recording started..."
 msgstr "Tonaufnahme gestartet"
@@ -3951,7 +3951,7 @@ msgstr "Setze Aufnahme Meilenstein"
 msgid "Return to milestone"
 msgstr "Rückkehr zum Meilenstein"
 
-#: src/arch/unix/gui/uicommands.c:515 src/arch/win32/res.rc.po.c:4926
+#: src/arch/unix/gui/uicommands.c:515 src/arch/win32/res.rc.po.c:4928
 #: src/arch/win32/resc128.rc.po.c:139 src/arch/win32/resc64.rc.po.c:139
 #: src/arch/win32/resc64dtv.rc.po.c:99 src/arch/win32/rescbm2.rc.po.c:105
 #: src/arch/win32/respet.rc.po.c:105 src/arch/win32/resplus4.rc.po.c:117
@@ -4035,30 +4035,30 @@ msgstr "*Weiß"
 
 #: src/arch/unix/gui/uicrtc.c:52 src/arch/unix/gui/uited.c:48
 #: src/arch/unix/gui/uivdc.c:45 src/arch/unix/gui/uivic.c:57
-#: src/arch/unix/gui/uivicii.c:71
+#: src/arch/unix/gui/uivicii.c:75
 msgid "Load custom"
 msgstr "Benutzerdefiniert..."
 
 #: src/arch/unix/gui/uicrtc.c:69 src/arch/unix/gui/uifullscreen-menu.h:100
 #: src/arch/unix/gui/uited.c:95 src/arch/unix/gui/uivdc.c:71
-#: src/arch/unix/gui/uivic.c:94 src/arch/unix/gui/uivicii.c:125
+#: src/arch/unix/gui/uivic.c:94 src/arch/unix/gui/uivicii.c:148
 msgid "*Double size"
 msgstr "*Doppelte Größe"
 
 #: src/arch/unix/gui/uicrtc.c:71 src/arch/unix/gui/uifullscreen-menu.h:102
 #: src/arch/unix/gui/uited.c:97 src/arch/unix/gui/uivdc.c:73
-#: src/arch/unix/gui/uivic.c:96 src/arch/unix/gui/uivicii.c:127
+#: src/arch/unix/gui/uivic.c:96 src/arch/unix/gui/uivicii.c:150
 msgid "*Double scan"
 msgstr "*Doppelt Scan"
 
 #: src/arch/unix/gui/uicrtc.c:73 src/arch/unix/gui/uited.c:99
 #: src/arch/unix/gui/uivdc.c:75 src/arch/unix/gui/uivic.c:98
-#: src/arch/unix/gui/uivicii.c:129
+#: src/arch/unix/gui/uivicii.c:152
 msgid "*Video cache"
 msgstr "*Video Cache"
 
 #: src/arch/unix/gui/uicrtc.c:76 src/arch/unix/gui/uited.c:113
-#: src/arch/unix/gui/uivic.c:108 src/arch/unix/gui/uivicii.c:141
+#: src/arch/unix/gui/uivic.c:108 src/arch/unix/gui/uivicii.c:164
 msgid "*Scale 2x render"
 msgstr "*Scale 2x Renderer"
 
@@ -4067,19 +4067,19 @@ msgid "*CRTC Screen color"
 msgstr "*CRTC Bildschirmfarbe"
 
 #: src/arch/unix/gui/uicrtc.c:83 src/arch/unix/gui/uited.c:124
-#: src/arch/unix/gui/uivic.c:119 src/arch/unix/gui/uivicii.c:160
+#: src/arch/unix/gui/uivic.c:119 src/arch/unix/gui/uivicii.c:183
 msgid "*OpenGL Rastersynchronization"
 msgstr "*OpenGL Rastersynchronisation"
 
 #: src/arch/unix/gui/uicrtc.c:87 src/arch/unix/gui/uited.c:128
 #: src/arch/unix/gui/uivdc.c:79 src/arch/unix/gui/uivic.c:123
-#: src/arch/unix/gui/uivicii.c:164
+#: src/arch/unix/gui/uivicii.c:189
 msgid "*Fullscreen settings"
 msgstr "*Vollbild Einstellungen"
 
 #: src/arch/unix/gui/uicrtc.c:90 src/arch/unix/gui/uited.c:131
 #: src/arch/unix/gui/uivdc.c:82 src/arch/unix/gui/uivic.c:126
-#: src/arch/unix/gui/uivicii.c:167
+#: src/arch/unix/gui/uivicii.c:192
 msgid "*Use XSync()"
 msgstr "*XSync() benutzen"
 
@@ -4674,7 +4674,7 @@ msgid "Swap joystick ports"
 msgstr "Joystick ports austauschen"
 
 #: src/arch/unix/gui/uijoystick2.c:206 src/arch/unix/gui/vic20ui.c:383
-#: src/arch/win32/res.rc.po.c:694
+#: src/arch/win32/res.rc.po.c:695
 msgid "Joystick settings"
 msgstr "Joystick Einstellungen"
 
@@ -4710,7 +4710,7 @@ msgstr "Positions Keymap Datei definieren"
 msgid "Dump keymap to file"
 msgstr "Aktuelle Keymap auf Datei speichern"
 
-#: src/arch/unix/gui/uikeyboard.c:135 src/arch/win32/res.rc.po.c:4763
+#: src/arch/unix/gui/uikeyboard.c:135 src/arch/win32/res.rc.po.c:4764
 msgid "Keyboard settings"
 msgstr "Tastatur Einstellungen"
 
@@ -4809,7 +4809,7 @@ msgid "Connect to server"
 msgstr "Verbinde mit Server"
 
 #: src/arch/unix/gui/uinetplay.c:123 src/arch/unix/x11/gnome/uinetplay.c:321
-#: src/arch/win32/res.rc.po.c:4220 src/arch/amigaos/intl.c.po.c:2225
+#: src/arch/win32/res.rc.po.c:4221 src/arch/amigaos/intl.c.po.c:2225
 msgid "Disconnect"
 msgstr "Verbindung Trennen"
 
@@ -5384,7 +5384,7 @@ msgstr "*IRQ"
 msgid "*NMI"
 msgstr "*NMI"
 
-#: src/arch/unix/gui/uirs232c64c128.c:54 src/arch/unix/gui/uivicii.c:79
+#: src/arch/unix/gui/uirs232c64c128.c:54 src/arch/unix/gui/uivicii.c:83
 msgid "*Normal"
 msgstr "*Normal"
 
@@ -5505,12 +5505,12 @@ msgid "Invalid speed value"
 msgstr "Ungültige Geschwindigkeit"
 
 #: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1226
-#: src/arch/unix/x11/xaw/x11ui.c:1152 src/arch/win32/res.rc.po.c:4726
+#: src/arch/unix/x11/xaw/x11ui.c:1152 src/arch/win32/res.rc.po.c:4727
 #: src/arch/amigaos/intl.c.po.c:1980
 msgid "Cannot save settings."
 msgstr "Fehler beim Speichern der Einstellungen."
 
-#: src/arch/unix/gui/uisettings.c:216 src/arch/win32/res.rc.po.c:4744
+#: src/arch/unix/gui/uisettings.c:216 src/arch/win32/res.rc.po.c:4745
 #: src/arch/amigaos/intl.c.po.c:1899
 msgid "Settings saved successfully."
 msgstr "Einstellungen erfolgreich gespeichert"
@@ -5810,12 +5810,12 @@ msgid "Sound settings"
 msgstr "Sound Einstellungen"
 
 #: src/arch/unix/gui/uited.c:102 src/arch/unix/gui/uivic.c:101
-#: src/arch/unix/gui/uivicii.c:134
+#: src/arch/unix/gui/uivicii.c:157
 msgid "*External color set"
 msgstr "*Externe Farbtabelle"
 
 #: src/arch/unix/gui/uited.c:104 src/arch/unix/gui/uivic.c:103
-#: src/arch/unix/gui/uivicii.c:136
+#: src/arch/unix/gui/uivicii.c:159
 msgid "*Color set"
 msgstr "*Farbenset"
 
@@ -5823,19 +5823,19 @@ msgstr "*Farbenset"
 msgid "*Fast PAL emulation"
 msgstr "*Schnelle PAL Emulation"
 
-#: src/arch/unix/gui/uited.c:111 src/arch/unix/gui/uivicii.c:139
-#: src/arch/win32/res.rc.po.c:5025 src/arch/amigaos/intl.c.po.c:4313
+#: src/arch/unix/gui/uited.c:111 src/arch/unix/gui/uivicii.c:162
+#: src/arch/win32/res.rc.po.c:5027 src/arch/amigaos/intl.c.po.c:4313
 msgid "PAL Emulation"
 msgstr "PAL Emulation"
 
 #: src/arch/unix/gui/uited.c:116 src/arch/unix/gui/uivic.c:111
-#: src/arch/unix/gui/uivicii.c:144 src/arch/unix/gui/vsidui.c:342
+#: src/arch/unix/gui/uivicii.c:167 src/arch/unix/gui/vsidui.c:342
 #: src/arch/amigaos/intl.c.po.c:1203
 msgid "Video standard"
 msgstr "Video Standard"
 
 #: src/arch/unix/gui/uited.c:120 src/arch/unix/gui/uivic.c:115
-#: src/arch/unix/gui/uivicii.c:156
+#: src/arch/unix/gui/uivicii.c:179
 msgid "*Hardware scaling"
 msgstr "*Hardwareunterstützung"
 
@@ -5856,7 +5856,7 @@ msgid "Interface..."
 msgstr "Schnittstelle..."
 
 #: src/arch/unix/gui/uivdc.c:42 src/arch/unix/gui/uivic.c:55
-#: src/arch/unix/gui/uivicii.c:56
+#: src/arch/unix/gui/uivicii.c:60
 msgid "*Default"
 msgstr "*Default"
 
@@ -5888,41 +5888,56 @@ msgstr "Farbpalette..."
 msgid "PAL Emulation Settings"
 msgstr "PAL Emulator Einstellungen"
 
-#: src/arch/unix/gui/uivicii.c:60
+#: src/arch/unix/gui/uivicii.c:64
 msgid "*CCS64"
 msgstr "*CCS64"
 
-#: src/arch/unix/gui/uivicii.c:62
+#: src/arch/unix/gui/uivicii.c:66
 msgid "*Frodo"
 msgstr "*Frodo"
 
-#: src/arch/unix/gui/uivicii.c:64
+#: src/arch/unix/gui/uivicii.c:68
 msgid "*GoDot"
 msgstr "*GoDot"
 
-#: src/arch/unix/gui/uivicii.c:81
+#: src/arch/unix/gui/uivicii.c:85
 msgid "*Full"
 msgstr "*Voll"
 
-#: src/arch/unix/gui/uivicii.c:83
+#: src/arch/unix/gui/uivicii.c:87
 msgid "*Debug"
 msgstr "*Debug"
 
-#: src/arch/unix/gui/uivicii.c:132
+#: src/arch/unix/gui/uivicii.c:111
+#, fuzzy
+msgid "Refreshrate: "
+msgstr "Wiederholrate:"
+
+#: src/arch/unix/gui/uivicii.c:111
+#, fuzzy
+msgid "Enter Refreshrate (Hz): "
+msgstr "Wiederholrate einstellen"
+
+#: src/arch/unix/gui/uivicii.c:155
 msgid "*New Luminances"
 msgstr "*Neue Helligkeitsemulation"
 
-#: src/arch/unix/gui/uivicii.c:147
+#: src/arch/unix/gui/uivicii.c:170
 msgid "*Border mode"
 msgstr "*Rahmen Modus"
 
-#: src/arch/unix/gui/uivicii.c:150
+#: src/arch/unix/gui/uivicii.c:173
 msgid "*Sprite-sprite collisions"
 msgstr "*Sprite-sprite Kollisionen"
 
-#: src/arch/unix/gui/uivicii.c:152
+#: src/arch/unix/gui/uivicii.c:175
 msgid "*Sprite-background collisions"
 msgstr "*Sprite-Hintergrund Kollisionen"
+
+#: src/arch/unix/gui/uivicii.c:185
+#, fuzzy
+msgid "Desktop Refreshrate..."
+msgstr "Wiederholrate"
 
 #. Shouldn't happen.
 #: src/arch/unix/gui/vic20ui.c:104
@@ -5994,7 +6009,7 @@ msgstr "*Block 5 (8K bei $A000-$BFFF)"
 msgid "Memory expansions"
 msgstr "Speicher Erweiterungen"
 
-#: src/arch/unix/gui/vic20ui.c:266 src/arch/win32/res.rc.po.c:4751
+#: src/arch/unix/gui/vic20ui.c:266 src/arch/win32/res.rc.po.c:4752
 #: src/arch/amigaos/intl.c.po.c:2088
 msgid "Invalid cartridge image"
 msgstr "Ungültiges Erweiterungsmodul Image"
@@ -6065,7 +6080,7 @@ msgid "VICE is FREE software!"
 msgstr "VICE ist FREE Software!"
 
 #: src/arch/unix/x11/gnome/about.c:42 src/arch/unix/x11/xaw/about.c:65
-#: src/arch/win32/res.rc.po.c:4836
+#: src/arch/win32/res.rc.po.c:4837
 msgid "No warranty!"
 msgstr "Keine Garantie!"
 
@@ -6103,7 +6118,7 @@ msgstr ""
 msgid "(c) 1998 - 2008 The Vice Team"
 msgstr "(c) 1998 - 2008 Das Vice Team"
 
-#: src/arch/unix/x11/gnome/about.c:119 src/arch/win32/res.rc.po.c:4835
+#: src/arch/unix/x11/gnome/about.c:119 src/arch/win32/res.rc.po.c:4836
 #: src/arch/amigaos/intl.c.po.c:1734
 msgid "License"
 msgstr "Lizenz"
@@ -6175,23 +6190,23 @@ msgstr "Unschärfe"
 msgid "Scanline Shade"
 msgstr "Scanline Schatten"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:55 src/arch/win32/res.rc.po.c:2488
+#: src/arch/unix/x11/gnome/uipalcontrol.c:55 src/arch/win32/res.rc.po.c:2489
 msgid "Saturation"
 msgstr "Sättigung"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:56 src/arch/win32/res.rc.po.c:2491
+#: src/arch/unix/x11/gnome/uipalcontrol.c:56 src/arch/win32/res.rc.po.c:2492
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:57 src/arch/win32/res.rc.po.c:2494
+#: src/arch/unix/x11/gnome/uipalcontrol.c:57 src/arch/win32/res.rc.po.c:2495
 msgid "Brightness"
 msgstr "Helligkeit"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:58 src/arch/win32/res.rc.po.c:2764
+#: src/arch/unix/x11/gnome/uipalcontrol.c:58 src/arch/win32/res.rc.po.c:2765
 msgid "Gamma"
 msgstr "Gamma"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:59 src/arch/win32/res.rc.po.c:2626
+#: src/arch/unix/x11/gnome/uipalcontrol.c:59 src/arch/win32/res.rc.po.c:2627
 msgid "Tint"
 msgstr "Farbton"
 
@@ -6211,7 +6226,7 @@ msgstr "PAL Einstellungen"
 msgid "Fast"
 msgstr "Schnell"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:204 src/arch/win32/res.rc.po.c:4868
+#: src/arch/unix/x11/gnome/uipalcontrol.c:204 src/arch/win32/res.rc.po.c:4870
 #: src/arch/amigaos/intl.c.po.c:3836
 msgid "Exact"
 msgstr "Exakt"
@@ -6220,20 +6235,20 @@ msgstr "Exakt"
 msgid "New Exact"
 msgstr "Exakt"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:54 src/arch/win32/res.rc.po.c:4224
+#: src/arch/unix/x11/gnome/uinetplay.c:54 src/arch/win32/res.rc.po.c:4225
 #: src/arch/amigaos/intl.c.po.c:4574
 msgid "Keyboard"
 msgstr "Tastatur"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:57 src/arch/win32/res.rc.po.c:4229
+#: src/arch/unix/x11/gnome/uinetplay.c:57 src/arch/win32/res.rc.po.c:4230
 msgid "Joystick 1"
 msgstr "Joystick 1"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:60 src/arch/win32/res.rc.po.c:4234
+#: src/arch/unix/x11/gnome/uinetplay.c:60 src/arch/win32/res.rc.po.c:4235
 msgid "Joystick 2"
 msgstr "Joystick 2"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:63 src/arch/win32/res.rc.po.c:4239
+#: src/arch/unix/x11/gnome/uinetplay.c:63 src/arch/win32/res.rc.po.c:4240
 msgid "Devices"
 msgstr "Geräte"
 
@@ -6241,12 +6256,12 @@ msgstr "Geräte"
 msgid "Invalid Port number"
 msgstr "Ungültige Port Nummer"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:139 src/arch/win32/res.rc.po.c:4898
+#: src/arch/unix/x11/gnome/uinetplay.c:139 src/arch/win32/res.rc.po.c:4900
 #: src/arch/amigaos/intl.c.po.c:2234
 msgid "Idle"
 msgstr "Idle"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:144 src/arch/win32/res.rc.po.c:4899
+#: src/arch/unix/x11/gnome/uinetplay.c:144 src/arch/win32/res.rc.po.c:4901
 #: src/arch/amigaos/intl.c.po.c:2243
 msgid "Server listening"
 msgstr "Server wartet auf Verbindung"
@@ -6255,7 +6270,7 @@ msgstr "Server wartet auf Verbindung"
 msgid "Connected Server"
 msgstr "Verbunden, Server"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:154 src/arch/win32/res.rc.po.c:4901
+#: src/arch/unix/x11/gnome/uinetplay.c:154 src/arch/win32/res.rc.po.c:4903
 msgid "Connected Client"
 msgstr "Verbunden, Client"
 
@@ -6268,7 +6283,7 @@ msgid "Couldn't connect client."
 msgstr "Konnte Client nicht verbinden."
 
 #: src/arch/unix/x11/gnome/uinetplay.c:205
-#: src/arch/unix/x11/gnome/uinetplay.c:211 src/arch/win32/res.rc.po.c:4211
+#: src/arch/unix/x11/gnome/uinetplay.c:211 src/arch/win32/res.rc.po.c:4212
 #: src/arch/amigaos/intl.c.po.c:2270
 msgid "Netplay Settings"
 msgstr "Netplay Einstellungen"
@@ -6281,7 +6296,7 @@ msgstr "Status: "
 msgid "<unknown>"
 msgstr "<Unbekannt>"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:227 src/arch/win32/res.rc.po.c:4217
+#: src/arch/unix/x11/gnome/uinetplay.c:227 src/arch/win32/res.rc.po.c:4218
 #: src/arch/amigaos/intl.c.po.c:2207
 msgid "Start Server"
 msgstr "Server Starten"
@@ -6294,15 +6309,15 @@ msgstr "TCP-Port: "
 msgid "Connect to "
 msgstr "Verbinden mit "
 
-#: src/arch/unix/x11/gnome/uinetplay.c:274 src/arch/win32/res.rc.po.c:4221
+#: src/arch/unix/x11/gnome/uinetplay.c:274 src/arch/win32/res.rc.po.c:4222
 msgid "Control"
 msgstr "Kontrolle"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:279 src/arch/win32/res.rc.po.c:4222
+#: src/arch/unix/x11/gnome/uinetplay.c:279 src/arch/win32/res.rc.po.c:4223
 msgid "Server"
 msgstr "Server"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:284 src/arch/win32/res.rc.po.c:4223
+#: src/arch/unix/x11/gnome/uinetplay.c:284 src/arch/win32/res.rc.po.c:4224
 msgid "Client"
 msgstr "Client"
 
@@ -6530,22 +6545,22 @@ msgstr "Private Farbpalette installieren."
 msgid "Use the default colormap"
 msgstr "Benutze standard Farbtabelle"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:48 src/arch/win32/res.rc.po.c:4885
+#: src/arch/unix/x11/ui-cmdline-options.c:48 src/arch/win32/res.rc.po.c:4887
 #: src/arch/amigaos/intl.c.po.c:3404
 msgid "Save settings (resources) on exit"
 msgstr "Einstellungen (Ressourcen) beim Beenden speichern"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:51 src/arch/win32/res.rc.po.c:4888
+#: src/arch/unix/x11/ui-cmdline-options.c:51 src/arch/win32/res.rc.po.c:4890
 #: src/arch/amigaos/intl.c.po.c:3431
 msgid "Never confirm quiting VICE"
 msgstr "Keine Bestätigung beim Beenden von VICE"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:54 src/arch/win32/res.rc.po.c:4887
+#: src/arch/unix/x11/ui-cmdline-options.c:54 src/arch/win32/res.rc.po.c:4889
 #: src/arch/amigaos/intl.c.po.c:3422
 msgid "Confirm quiting VICE"
 msgstr "Bestätige beenden von VICE"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:57 src/arch/win32/res.rc.po.c:4886
+#: src/arch/unix/x11/ui-cmdline-options.c:57 src/arch/win32/res.rc.po.c:4888
 #: src/arch/amigaos/intl.c.po.c:3413
 msgid "Never save settings (resources) on exit"
 msgstr "Einstellungen beim Beenden nie speichern"
@@ -6566,7 +6581,7 @@ msgstr "X Display Farbtiefe (1..32) definieren"
 msgid "*Desktop"
 msgstr "*Desktop"
 
-#: src/arch/unix/x11/xaw/about.c:158 src/arch/win32/res.rc.po.c:4722
+#: src/arch/unix/x11/xaw/about.c:158 src/arch/win32/res.rc.po.c:4723
 msgid "VICE Information"
 msgstr "VICE Information"
 
@@ -6582,7 +6597,7 @@ msgstr "Dateiname:"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:155 src/arch/unix/x11/xaw/uiedisk.c:247
 #: src/arch/unix/x11/xaw/uiscreenshot.c:199
-#: src/arch/unix/x11/xaw/uisnapshot.c:170 src/arch/win32/res.rc.po.c:4580
+#: src/arch/unix/x11/xaw/uisnapshot.c:170 src/arch/win32/res.rc.po.c:4581
 #: src/arch/win32/resc128.rc.po.c:282 src/arch/win32/resc128.rc.po.c:287
 #: src/arch/win32/resc128.rc.po.c:292 src/arch/win32/resc128.rc.po.c:297
 #: src/arch/win32/resc128.rc.po.c:302 src/arch/win32/resc128.rc.po.c:307
@@ -6650,12 +6665,12 @@ msgstr "Stöbern..."
 
 #: src/arch/unix/x11/xaw/uicartridge.c:174 src/arch/unix/x11/xaw/uiedisk.c:420
 #: src/arch/unix/x11/xaw/uiscreenshot.c:269
-#: src/arch/unix/x11/xaw/uisnapshot.c:292 src/arch/win32/res.rc.po.c:537
-#: src/arch/win32/res.rc.po.c:729 src/arch/win32/res.rc.po.c:1060
-#: src/arch/win32/res.rc.po.c:1290 src/arch/win32/res.rc.po.c:3111
-#: src/arch/win32/res.rc.po.c:3295 src/arch/win32/res.rc.po.c:3949
-#: src/arch/win32/res.rc.po.c:4068 src/arch/win32/res.rc.po.c:4583
-#: src/arch/win32/res.rc.po.c:4909 src/arch/win32/resc128.rc.po.c:1485
+#: src/arch/unix/x11/xaw/uisnapshot.c:292 src/arch/win32/res.rc.po.c:538
+#: src/arch/win32/res.rc.po.c:730 src/arch/win32/res.rc.po.c:1061
+#: src/arch/win32/res.rc.po.c:1291 src/arch/win32/res.rc.po.c:3112
+#: src/arch/win32/res.rc.po.c:3296 src/arch/win32/res.rc.po.c:3950
+#: src/arch/win32/res.rc.po.c:4069 src/arch/win32/res.rc.po.c:4584
+#: src/arch/win32/res.rc.po.c:4911 src/arch/win32/resc128.rc.po.c:1485
 #: src/arch/win32/resc128.rc.po.c:1831 src/arch/win32/resc64.rc.po.c:939
 #: src/arch/win32/resc64.rc.po.c:1115 src/arch/win32/resc64dtv.rc.po.c:680
 #: src/arch/win32/resc64dtv.rc.po.c:846 src/arch/win32/resc64dtv.rc.po.c:1224
@@ -6715,13 +6730,13 @@ msgid "Save currently attached disks:"
 msgstr "Aktuell eingelegte Diskimages mitspeichern:"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:222
-#: src/arch/unix/x11/xaw/uisnapshot.c:261 src/arch/win32/res.rc.po.c:4988
+#: src/arch/unix/x11/xaw/uisnapshot.c:261 src/arch/win32/res.rc.po.c:4990
 #: src/arch/amigaos/intl.c.po.c:600
 msgid "Off"
 msgstr "Aus"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:234
-#: src/arch/unix/x11/xaw/uisnapshot.c:273 src/arch/win32/res.rc.po.c:4989
+#: src/arch/unix/x11/xaw/uisnapshot.c:273 src/arch/win32/res.rc.po.c:4991
 #: src/arch/amigaos/intl.c.po.c:618
 msgid "On"
 msgstr "Ein"
@@ -6747,7 +6762,7 @@ msgstr "Event Aufnahme..."
 msgid "%d: Track %.1f"
 msgstr "%d: Spur %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1666 src/arch/win32/res.rc.po.c:4721
+#: src/arch/unix/x11/xaw/x11ui.c:1666 src/arch/win32/res.rc.po.c:4722
 msgid "VICE Error!"
 msgstr "VICE Fehler!"
 
@@ -6785,7 +6800,7 @@ msgstr "MITSHM X Server Eweiterung in Version %d.%d erkannt."
 msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM erfolgreich initialisiert.\n"
 
-#: src/arch/win32/res.rc.po.c:81 src/arch/win32/res.rc.po.c:4912
+#: src/arch/win32/res.rc.po.c:82 src/arch/win32/res.rc.po.c:4914
 #: src/arch/win32/resc128.rc.po.c:16 src/arch/win32/resc64.rc.po.c:16
 #: src/arch/win32/resc64dtv.rc.po.c:16 src/arch/win32/rescbm2.rc.po.c:15
 #: src/arch/win32/respet.rc.po.c:15 src/arch/win32/resplus4.rc.po.c:15
@@ -6793,7 +6808,7 @@ msgstr "MITSHM erfolgreich initialisiert.\n"
 msgid "&File"
 msgstr "&Datei"
 
-#: src/arch/win32/res.rc.po.c:89 src/arch/win32/res.rc.po.c:4920
+#: src/arch/win32/res.rc.po.c:90 src/arch/win32/res.rc.po.c:4922
 #: src/arch/win32/resc128.rc.po.c:106 src/arch/win32/resc64.rc.po.c:106
 #: src/arch/win32/resc64dtv.rc.po.c:66 src/arch/win32/rescbm2.rc.po.c:72
 #: src/arch/win32/respet.rc.po.c:72 src/arch/win32/resplus4.rc.po.c:84
@@ -6801,24 +6816,24 @@ msgstr "&Datei"
 msgid "&Debug"
 msgstr "&Debug"
 
-#: src/arch/win32/res.rc.po.c:101 src/arch/win32/res.rc.po.c:4936
+#: src/arch/win32/res.rc.po.c:102 src/arch/win32/res.rc.po.c:4938
 msgid "&View"
 msgstr "An&sehen"
 
-#: src/arch/win32/res.rc.po.c:115 src/arch/win32/res.rc.po.c:4937
+#: src/arch/win32/res.rc.po.c:116 src/arch/win32/res.rc.po.c:4939
 msgid "&Window"
 msgstr "&Fenster"
 
-#: src/arch/win32/res.rc.po.c:222
+#: src/arch/win32/res.rc.po.c:223
 msgid "About VICE"
 msgstr "Über VICE"
 
-#: src/arch/win32/res.rc.po.c:224 src/arch/win32/res.rc.po.c:536
-#: src/arch/win32/res.rc.po.c:728 src/arch/win32/res.rc.po.c:1059
-#: src/arch/win32/res.rc.po.c:1289 src/arch/win32/res.rc.po.c:2197
-#: src/arch/win32/res.rc.po.c:3110 src/arch/win32/res.rc.po.c:3294
-#: src/arch/win32/res.rc.po.c:3948 src/arch/win32/res.rc.po.c:4067
-#: src/arch/win32/res.rc.po.c:4582 src/arch/win32/res.rc.po.c:4908
+#: src/arch/win32/res.rc.po.c:225 src/arch/win32/res.rc.po.c:537
+#: src/arch/win32/res.rc.po.c:729 src/arch/win32/res.rc.po.c:1060
+#: src/arch/win32/res.rc.po.c:1290 src/arch/win32/res.rc.po.c:2198
+#: src/arch/win32/res.rc.po.c:3111 src/arch/win32/res.rc.po.c:3295
+#: src/arch/win32/res.rc.po.c:3949 src/arch/win32/res.rc.po.c:4068
+#: src/arch/win32/res.rc.po.c:4583 src/arch/win32/res.rc.po.c:4910
 #: src/arch/win32/resc128.rc.po.c:1484 src/arch/win32/resc128.rc.po.c:1830
 #: src/arch/win32/resc64.rc.po.c:938 src/arch/win32/resc64.rc.po.c:1114
 #: src/arch/win32/resc64dtv.rc.po.c:679 src/arch/win32/resc64dtv.rc.po.c:845
@@ -6833,106 +6848,106 @@ msgstr "Über VICE"
 msgid "OK"
 msgstr "OK"
 
-#: src/arch/win32/res.rc.po.c:225
+#: src/arch/win32/res.rc.po.c:226
 msgid "VICE"
 msgstr "VICE"
 
-#: src/arch/win32/res.rc.po.c:226
+#: src/arch/win32/res.rc.po.c:227
 msgid "Versatile Commodore Emulator"
 msgstr "Versatile Commodore Emulator"
 
-#: src/arch/win32/res.rc.po.c:227
+#: src/arch/win32/res.rc.po.c:228
 msgid "Version 0.0"
 msgstr "Version 0.0"
 
-#: src/arch/win32/res.rc.po.c:228
+#: src/arch/win32/res.rc.po.c:229
 msgid "Copyright (c) 1998-2008 Andreas Boose"
 msgstr "Copyright (c) 1998-2008 Andreas Boose"
 
-#: src/arch/win32/res.rc.po.c:229
+#: src/arch/win32/res.rc.po.c:230
 msgid "Copyright (c) 1998-2008 Dag Lem"
 msgstr "Copyright (c) 1998-2008 Dag Lem"
 
-#: src/arch/win32/res.rc.po.c:230
+#: src/arch/win32/res.rc.po.c:231
 msgid "Copyright (c) 1998-2008 Tibor Biczo"
 msgstr "Copyright (c) 1998-2008 Tibor Biczo"
 
-#: src/arch/win32/res.rc.po.c:231
+#: src/arch/win32/res.rc.po.c:232
 msgid "Copyright (c) 1999-2008 Andreas Matthies"
 msgstr "Copyright (c) 1999-2008 Andreas Matthies"
 
-#: src/arch/win32/res.rc.po.c:232
+#: src/arch/win32/res.rc.po.c:233
 msgid "Copyright (c) 1999-2008 Martin Pottendorfer"
 msgstr "Copyright (c) 1999-2008 Martin Pottendorfer"
 
-#: src/arch/win32/res.rc.po.c:233
+#: src/arch/win32/res.rc.po.c:234
 msgid "Copyright (c) 2000-2008 Spiro Trikaliotis"
 msgstr "Copyright (c) 2000-2008 Spiro Trikaliotis"
 
-#: src/arch/win32/res.rc.po.c:234
+#: src/arch/win32/res.rc.po.c:235
 msgid "Copyright (c) 2005-2008 Marco van den Heuvel"
 msgstr "Copyright (c) 2005-2008 Marco van den Heuvel"
 
-#: src/arch/win32/res.rc.po.c:235
+#: src/arch/win32/res.rc.po.c:236
 msgid "Copyright (c) 2006-2008 Christian Vogelgsang"
 msgstr "Copyright (c) 2006-2008 Christian Vogelgsang"
 
-#: src/arch/win32/res.rc.po.c:236
+#: src/arch/win32/res.rc.po.c:237
 msgid "Copyright (c) 2007-2008 Fabrizio Gennari"
 msgstr "Copyright (c) 2007-2008 Fabrizio Gennari"
 
-#: src/arch/win32/res.rc.po.c:237
+#: src/arch/win32/res.rc.po.c:238
 #, fuzzy
 msgid "Copyright (c) 2007-2008 M. Kiesel"
 msgstr "Copyright (c) 2003-2005 David Hansel"
 
-#: src/arch/win32/res.rc.po.c:238
+#: src/arch/win32/res.rc.po.c:239
 #, fuzzy
 msgid "Copyright (c) 2007-2008 Hannu Nuotio"
 msgstr "Copyright (c) 2007-2008 Fabrizio Gennari"
 
-#: src/arch/win32/res.rc.po.c:239
+#: src/arch/win32/res.rc.po.c:240
 #, fuzzy
 msgid "Copyright (c) 2007-2008 Daniel Kahlin"
 msgstr "Copyright (c) 2003-2005 David Hansel"
 
-#: src/arch/win32/res.rc.po.c:240
+#: src/arch/win32/res.rc.po.c:241
 msgid "Copyright (c) 1999-2007 Andreas Dehmel"
 msgstr "Copyright (c) 1999-2007 Andreas Dehmel"
 
-#: src/arch/win32/res.rc.po.c:241
+#: src/arch/win32/res.rc.po.c:242
 msgid "Copyright (c) 1999-2005 Thomas Bretz"
 msgstr "Copyright (c) 1999-2005 Thomas Bretz"
 
-#: src/arch/win32/res.rc.po.c:242
+#: src/arch/win32/res.rc.po.c:243
 msgid "Copyright (c) 2003-2005 David Hansel"
 msgstr "Copyright (c) 2003-2005 David Hansel"
 
-#: src/arch/win32/res.rc.po.c:243
+#: src/arch/win32/res.rc.po.c:244
 msgid "Copyright (c) 2000-2004 Markus Brenner"
 msgstr "Copyright (c) 2000-2004 Markus Brenner"
 
-#: src/arch/win32/res.rc.po.c:244
+#: src/arch/win32/res.rc.po.c:245
 msgid " "
 msgstr " "
 
-#: src/arch/win32/res.rc.po.c:251 src/arch/win32/res.rc.po.c:3405
+#: src/arch/win32/res.rc.po.c:252 src/arch/win32/res.rc.po.c:3406
 msgid "&Use IEC Device"
 msgstr "IEC Gerät &aktivieren"
 
-#: src/arch/win32/res.rc.po.c:253
+#: src/arch/win32/res.rc.po.c:254
 msgid "Disk &image"
 msgstr "Disk &Image"
 
-#: src/arch/win32/res.rc.po.c:255
+#: src/arch/win32/res.rc.po.c:256
 msgid "&Directory"
 msgstr "&Directory"
 
-#: src/arch/win32/res.rc.po.c:257
+#: src/arch/win32/res.rc.po.c:258
 msgid "Rea&l IEC device"
 msgstr "Rea&les IEC Gerät"
 
-#: src/arch/win32/res.rc.po.c:260 src/arch/win32/resdrivec128.rc.po.c:38
+#: src/arch/win32/res.rc.po.c:261 src/arch/win32/resdrivec128.rc.po.c:38
 #: src/arch/win32/resdrivec64.rc.po.c:36
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:26
 #: src/arch/win32/resdriveplus4.rc.po.c:24
@@ -6940,26 +6955,26 @@ msgstr "Rea&les IEC Gerät"
 msgid "&None"
 msgstr "Kei&n"
 
-#: src/arch/win32/res.rc.po.c:263 src/arch/win32/res.rc.po.c:2785
-#: src/arch/win32/res.rc.po.c:3008 src/arch/win32/res.rc.po.c:4911
+#: src/arch/win32/res.rc.po.c:264 src/arch/win32/res.rc.po.c:2786
+#: src/arch/win32/res.rc.po.c:3009 src/arch/win32/res.rc.po.c:4913
 #: src/arch/win32/resgeoram.rc.po.c:20 src/arch/win32/resvic20.rc.po.c:947
 msgid "&Browse..."
 msgstr "Stö&bern..."
 
-#: src/arch/win32/res.rc.po.c:264
+#: src/arch/win32/res.rc.po.c:265
 msgid "&Autostart"
 msgstr "&Autostart"
 
-#: src/arch/win32/res.rc.po.c:265 src/arch/win32/res.rc.po.c:1493
+#: src/arch/win32/res.rc.po.c:266 src/arch/win32/res.rc.po.c:1494
 #: src/arch/amigaos/intl.c.po.c:2621
 msgid "Attach read only"
 msgstr "Schreibgeschützt einlegen"
 
-#: src/arch/win32/res.rc.po.c:269
+#: src/arch/win32/res.rc.po.c:270
 msgid "Bro&wse..."
 msgstr "Stö&bern..."
 
-#: src/arch/win32/res.rc.po.c:270 src/arch/win32/res.rc.po.c:4927
+#: src/arch/win32/res.rc.po.c:271 src/arch/win32/res.rc.po.c:4929
 #: src/arch/win32/resc128.rc.po.c:153 src/arch/win32/resc64.rc.po.c:155
 #: src/arch/win32/resc64dtv.rc.po.c:113 src/arch/win32/rescbm2.rc.po.c:119
 #: src/arch/win32/respet.rc.po.c:119 src/arch/win32/resplus4.rc.po.c:131
@@ -6967,339 +6982,339 @@ msgstr "Stö&bern..."
 msgid "&Options"
 msgstr "&Optionen"
 
-#: src/arch/win32/res.rc.po.c:271
+#: src/arch/win32/res.rc.po.c:272
 msgid "&Read P00 files"
 msgstr "P00 Datei &Laden"
 
-#: src/arch/win32/res.rc.po.c:273
+#: src/arch/win32/res.rc.po.c:274
 msgid "&Write P00 files"
 msgstr "P00 Dateien &Schreiben"
 
-#: src/arch/win32/res.rc.po.c:275
+#: src/arch/win32/res.rc.po.c:276
 msgid "&Hide non-P00 files"
 msgstr "Non-P00 Dateien &ausblenden"
 
-#: src/arch/win32/res.rc.po.c:524 src/arch/amigaos/intl.c.po.c:3044
+#: src/arch/win32/res.rc.po.c:525 src/arch/amigaos/intl.c.po.c:3044
 msgid "Datasette Settings"
 msgstr "Datasette Einstellungen"
 
-#: src/arch/win32/res.rc.po.c:526
+#: src/arch/win32/res.rc.po.c:527
 msgid "&Reset Datasette with CPU"
 msgstr "Zu&rücksetzen des Bandlaufwerks bei CPU Reset"
 
-#: src/arch/win32/res.rc.po.c:528
+#: src/arch/win32/res.rc.po.c:529
 msgid "Speed of motor while reading"
 msgstr "Motorgeschwindigkeit beim Lesen"
 
-#: src/arch/win32/res.rc.po.c:529
+#: src/arch/win32/res.rc.po.c:530
 msgid "cycle(s) additional &delay each trigger"
 msgstr "Zyklen zusätzliche Verzögerung bei je&dem Trigger"
 
-#: src/arch/win32/res.rc.po.c:533
+#: src/arch/win32/res.rc.po.c:534
 msgid "cycles delay at &zero-values"
 msgstr "Zyklen Verzögerung bei &Zero-Werte"
 
-#: src/arch/win32/res.rc.po.c:696
+#: src/arch/win32/res.rc.po.c:697
 msgid "Joystick in port #&1"
 msgstr "Joystick in Port #&1"
 
-#: src/arch/win32/res.rc.po.c:699 src/arch/win32/res.rc.po.c:712
+#: src/arch/win32/res.rc.po.c:700 src/arch/win32/res.rc.po.c:713
 msgid "Select fire button"
 msgstr "Feuerknopf selektieren"
 
-#: src/arch/win32/res.rc.po.c:702 src/arch/win32/res.rc.po.c:715
+#: src/arch/win32/res.rc.po.c:703 src/arch/win32/res.rc.po.c:716
 msgid "Auto fire button settings"
 msgstr "Automatische Feuerknopf Einstellungen"
 
-#: src/arch/win32/res.rc.po.c:703 src/arch/win32/res.rc.po.c:716
+#: src/arch/win32/res.rc.po.c:704 src/arch/win32/res.rc.po.c:717
 msgid "Autofire &speed (1..32)"
 msgstr "Autofeuer Ge&schwindigkeit (1..32)"
 
-#: src/arch/win32/res.rc.po.c:709
+#: src/arch/win32/res.rc.po.c:710
 msgid "Joystick in port #&2"
 msgstr "Joystick in Port #&2"
 
-#: src/arch/win32/res.rc.po.c:722
+#: src/arch/win32/res.rc.po.c:723
 msgid "Config Keyset &A"
 msgstr "Tastaturbelegung &A konfigurieren"
 
-#: src/arch/win32/res.rc.po.c:724
+#: src/arch/win32/res.rc.po.c:725
 msgid "Config Keyset &B"
 msgstr "Tastaturbelegung &B konfigurieren"
 
-#: src/arch/win32/res.rc.po.c:726
+#: src/arch/win32/res.rc.po.c:727
 msgid "&Calibrate Joystick(s)"
 msgstr "Joysticks &kalibrieren"
 
-#: src/arch/win32/res.rc.po.c:1041
+#: src/arch/win32/res.rc.po.c:1042
 msgid "S&outh West"
 msgstr "Süd West"
 
-#: src/arch/win32/res.rc.po.c:1043
+#: src/arch/win32/res.rc.po.c:1044
 msgid "&South"
 msgstr "&Süden"
 
-#: src/arch/win32/res.rc.po.c:1045
+#: src/arch/win32/res.rc.po.c:1046
 msgid "So&uth East"
 msgstr "Süd Ost"
 
-#: src/arch/win32/res.rc.po.c:1047
+#: src/arch/win32/res.rc.po.c:1048
 msgid "&West"
 msgstr "&Westen"
 
-#: src/arch/win32/res.rc.po.c:1049
+#: src/arch/win32/res.rc.po.c:1050
 msgid "&East"
 msgstr "&Osten"
 
-#: src/arch/win32/res.rc.po.c:1051
+#: src/arch/win32/res.rc.po.c:1052
 msgid "No&rth West"
 msgstr "Nord West"
 
-#: src/arch/win32/res.rc.po.c:1053
+#: src/arch/win32/res.rc.po.c:1054
 msgid "&North"
 msgstr "&Norden"
 
-#: src/arch/win32/res.rc.po.c:1055
+#: src/arch/win32/res.rc.po.c:1056
 msgid "Nor&th East"
 msgstr "Nord Ost"
 
-#: src/arch/win32/res.rc.po.c:1057
+#: src/arch/win32/res.rc.po.c:1058
 msgid "&Fire button"
 msgstr "&Feuerknopf"
 
-#: src/arch/win32/res.rc.po.c:1271
+#: src/arch/win32/res.rc.po.c:1272
 msgid "Configure Sound Device Settings"
 msgstr "Sound Gerät Einstellungen konfigurieren"
 
-#: src/arch/win32/res.rc.po.c:1273
+#: src/arch/win32/res.rc.po.c:1274
 msgid "DirectX driver"
 msgstr "DirectX Treiber"
 
-#: src/arch/win32/res.rc.po.c:1275
+#: src/arch/win32/res.rc.po.c:1276
 msgid "WMM driver"
 msgstr "WMM Treiber"
 
-#: src/arch/win32/res.rc.po.c:1277
+#: src/arch/win32/res.rc.po.c:1278
 msgid "Sample &Frequency :"
 msgstr "Sample &Frequenz"
 
-#: src/arch/win32/res.rc.po.c:1280
+#: src/arch/win32/res.rc.po.c:1281
 msgid "Sound Buffer &Size :"
 msgstr "Sound Puffergröße"
 
-#: src/arch/win32/res.rc.po.c:1283
+#: src/arch/win32/res.rc.po.c:1284
 msgid "&Oversampling Factor :"
 msgstr "&Oversampling Faktor :"
 
-#: src/arch/win32/res.rc.po.c:1286
+#: src/arch/win32/res.rc.po.c:1287
 msgid "Synchronization &Method :"
 msgstr "Synchronisations&methode"
 
-#: src/arch/win32/res.rc.po.c:1490 src/arch/win32/res.rc.po.c:1668
+#: src/arch/win32/res.rc.po.c:1491 src/arch/win32/res.rc.po.c:1669
 msgid "Image Contents "
 msgstr "Image Datei Inhalt"
 
-#: src/arch/win32/res.rc.po.c:1495 src/arch/amigaos/intl.c.po.c:2648
+#: src/arch/win32/res.rc.po.c:1496 src/arch/amigaos/intl.c.po.c:2648
 msgid "New Image"
 msgstr "Neue Image Datei"
 
-#: src/arch/win32/res.rc.po.c:1496 src/arch/amigaos/intl.c.po.c:2630
+#: src/arch/win32/res.rc.po.c:1497 src/arch/amigaos/intl.c.po.c:2630
 msgid "Name"
 msgstr "Name"
 
-#: src/arch/win32/res.rc.po.c:1498
+#: src/arch/win32/res.rc.po.c:1499
 msgid "ID"
 msgstr "ID"
 
-#: src/arch/win32/res.rc.po.c:1500
+#: src/arch/win32/res.rc.po.c:1501
 msgid "Type"
 msgstr "Typ"
 
-#: src/arch/win32/res.rc.po.c:1503 src/arch/win32/res.rc.po.c:1672
+#: src/arch/win32/res.rc.po.c:1504 src/arch/win32/res.rc.po.c:1673
 #: src/arch/amigaos/intl.c.po.c:2639
 msgid "Create Image"
 msgstr "Image Datei erzeugen"
 
-#: src/arch/win32/res.rc.po.c:1671 src/arch/amigaos/intl.c.po.c:2657
+#: src/arch/win32/res.rc.po.c:1672 src/arch/amigaos/intl.c.po.c:2657
 msgid "New TAP Image"
 msgstr "Neue TAP Image Datei"
 
-#: src/arch/win32/res.rc.po.c:1774
+#: src/arch/win32/res.rc.po.c:1775
 msgid "Save currently attached &disks images"
 msgstr "Aktuell eingelegte &Diskimages speichern"
 
-#: src/arch/win32/res.rc.po.c:1777
+#: src/arch/win32/res.rc.po.c:1778
 msgid "Save currently loaded &ROM images"
 msgstr "Aktuelle ROMs speichern"
 
-#: src/arch/win32/res.rc.po.c:1888
+#: src/arch/win32/res.rc.po.c:1889
 msgid "Select Driver:"
 msgstr "Treiber selektieren:"
 
-#: src/arch/win32/res.rc.po.c:1891
+#: src/arch/win32/res.rc.po.c:1892
 msgid "FFMPEG settings"
 msgstr "FFMPEG Einstellungen"
 
-#: src/arch/win32/res.rc.po.c:1892
+#: src/arch/win32/res.rc.po.c:1893
 msgid "Format:"
 msgstr "Format:"
 
-#: src/arch/win32/res.rc.po.c:1895
+#: src/arch/win32/res.rc.po.c:1896
 msgid "Audio: codec"
 msgstr "Audio: Codec"
 
-#: src/arch/win32/res.rc.po.c:1898 src/arch/win32/res.rc.po.c:1904
+#: src/arch/win32/res.rc.po.c:1899 src/arch/win32/res.rc.po.c:1905
 msgid "bitrate"
 msgstr "Bitrate"
 
-#: src/arch/win32/res.rc.po.c:1901
+#: src/arch/win32/res.rc.po.c:1902
 msgid "Video: codec"
 msgstr "Video: Codec"
 
-#: src/arch/win32/res.rc.po.c:2106
+#: src/arch/win32/res.rc.po.c:2107
 msgid "&Append log to existing file"
 msgstr "An bestehende Log Datei &anhängen"
 
-#: src/arch/win32/res.rc.po.c:2195
+#: src/arch/win32/res.rc.po.c:2196
 msgid "Dialog"
 msgstr "Dialog"
 
-#: src/arch/win32/res.rc.po.c:2198
+#: src/arch/win32/res.rc.po.c:2199
 msgid "Read this:"
 msgstr "Lese:"
 
-#: src/arch/win32/res.rc.po.c:2294
+#: src/arch/win32/res.rc.po.c:2295
 msgid "Driver:"
 msgstr "Treiber:"
 
-#: src/arch/win32/res.rc.po.c:2297
+#: src/arch/win32/res.rc.po.c:2298
 msgid "Bitdepth:"
 msgstr "Farbtiefe:"
 
-#: src/arch/win32/res.rc.po.c:2300
+#: src/arch/win32/res.rc.po.c:2301
 msgid "Resolution:"
 msgstr "Auflösung:"
 
-#: src/arch/win32/res.rc.po.c:2303
+#: src/arch/win32/res.rc.po.c:2304
 msgid "Refreshrate:"
 msgstr "Wiederholrate:"
 
-#: src/arch/win32/res.rc.po.c:2306
+#: src/arch/win32/res.rc.po.c:2307
 msgid "VBLANK synchronization"
 msgstr "VBLANK Synchronisation"
 
-#: src/arch/win32/res.rc.po.c:2308
+#: src/arch/win32/res.rc.po.c:2309
 msgid "Render to DX Primary surface"
 msgstr "DX Primary Oberflächenrendering"
 
-#: src/arch/win32/res.rc.po.c:2489 src/arch/win32/res.rc.po.c:2492
-#: src/arch/win32/res.rc.po.c:2495 src/arch/win32/res.rc.po.c:2627
-#: src/arch/win32/res.rc.po.c:2630 src/arch/win32/res.rc.po.c:2633
-#: src/arch/win32/res.rc.po.c:2765 src/arch/win32/res.rc.po.c:2768
+#: src/arch/win32/res.rc.po.c:2490 src/arch/win32/res.rc.po.c:2493
+#: src/arch/win32/res.rc.po.c:2496 src/arch/win32/res.rc.po.c:2628
+#: src/arch/win32/res.rc.po.c:2631 src/arch/win32/res.rc.po.c:2634
+#: src/arch/win32/res.rc.po.c:2766 src/arch/win32/res.rc.po.c:2769
 msgid "(0..2)"
 msgstr "(0..2)"
 
-#: src/arch/win32/res.rc.po.c:2629
+#: src/arch/win32/res.rc.po.c:2630
 msgid "Odd lines phase"
 msgstr "Ungerade Zeilenphase"
 
-#: src/arch/win32/res.rc.po.c:2632
+#: src/arch/win32/res.rc.po.c:2633
 msgid "Odd lines offset"
 msgstr "Ungerader Zeilenoffset"
 
-#: src/arch/win32/res.rc.po.c:2767
+#: src/arch/win32/res.rc.po.c:2768
 msgid "Phase"
 msgstr "Phase"
 
-#: src/arch/win32/res.rc.po.c:2770
+#: src/arch/win32/res.rc.po.c:2771
 msgid "PAL Shade"
 msgstr "PAL Schatten"
 
-#: src/arch/win32/res.rc.po.c:2771 src/arch/win32/res.rc.po.c:2774
+#: src/arch/win32/res.rc.po.c:2772 src/arch/win32/res.rc.po.c:2775
 msgid "(0..1)"
 msgstr "(0..1)"
 
-#: src/arch/win32/res.rc.po.c:2773
+#: src/arch/win32/res.rc.po.c:2774
 msgid "PAL Blur"
 msgstr "PAL Unschärfe"
 
-#: src/arch/win32/res.rc.po.c:2777 src/arch/amigaos/intl.c.po.c:4394
+#: src/arch/win32/res.rc.po.c:2778 src/arch/amigaos/intl.c.po.c:4394
 msgid "PAL Mode"
 msgstr "PAL Modus"
 
-#: src/arch/win32/res.rc.po.c:2781
+#: src/arch/win32/res.rc.po.c:2782
 msgid "External Palette:"
 msgstr "Externe Farbtabelle:"
 
-#: src/arch/win32/res.rc.po.c:3095 src/arch/amigaos/intl.c.po.c:3548
+#: src/arch/win32/res.rc.po.c:3096 src/arch/amigaos/intl.c.po.c:3548
 msgid "RAM Settings"
 msgstr "RAM Einstellungen"
 
-#: src/arch/win32/res.rc.po.c:3097
+#: src/arch/win32/res.rc.po.c:3098
 msgid "Initialization at powerup"
 msgstr "Initialisierung beim Kaltstart"
 
-#: src/arch/win32/res.rc.po.c:3098 src/arch/amigaos/intl.c.po.c:3521
+#: src/arch/win32/res.rc.po.c:3099 src/arch/amigaos/intl.c.po.c:3521
 msgid "Value of first byte"
 msgstr "Wert erstes Byte"
 
-#: src/arch/win32/res.rc.po.c:3102 src/arch/amigaos/intl.c.po.c:3530
+#: src/arch/win32/res.rc.po.c:3103 src/arch/amigaos/intl.c.po.c:3530
 msgid "Length of constant values"
 msgstr "Länge der konstaten Werte"
 
-#: src/arch/win32/res.rc.po.c:3105 src/arch/amigaos/intl.c.po.c:3539
+#: src/arch/win32/res.rc.po.c:3106 src/arch/amigaos/intl.c.po.c:3539
 msgid "Length of constant pattern"
 msgstr "Länge des konstanten Musters"
 
-#: src/arch/win32/res.rc.po.c:3289
+#: src/arch/win32/res.rc.po.c:3290
 msgid "Custom speed"
 msgstr "Benutzerdefinierte Geschwindigkeit"
 
-#: src/arch/win32/res.rc.po.c:3291
+#: src/arch/win32/res.rc.po.c:3292
 msgid "Enter custom speed [%]"
 msgstr "Geschwindigkeit [%] einstellen"
 
-#: src/arch/win32/res.rc.po.c:3403
+#: src/arch/win32/res.rc.po.c:3404
 msgid "Printer Settings"
 msgstr "Drucker Einstellungen"
 
-#: src/arch/win32/res.rc.po.c:3407
+#: src/arch/win32/res.rc.po.c:3408
 msgid "Printer emulation"
 msgstr "Drucke Emulation"
 
-#: src/arch/win32/res.rc.po.c:3410
+#: src/arch/win32/res.rc.po.c:3411
 msgid "Send Formfeed"
 msgstr "Seitenvorschub senden"
 
-#: src/arch/win32/res.rc.po.c:3411
+#: src/arch/win32/res.rc.po.c:3412
 msgid "File system printer"
 msgstr "Druck auf Dateisystem"
 
-#: src/arch/win32/res.rc.po.c:3412
+#: src/arch/win32/res.rc.po.c:3413
 msgid "Printer driver"
 msgstr "Drucker Treiber"
 
-#: src/arch/win32/res.rc.po.c:3415
+#: src/arch/win32/res.rc.po.c:3416
 msgid "Output"
 msgstr "Ausgabe"
 
-#: src/arch/win32/res.rc.po.c:3418
+#: src/arch/win32/res.rc.po.c:3419
 msgid "Output to file #"
 msgstr "Ausgabe auf Datei #"
 
-#: src/arch/win32/res.rc.po.c:3421
+#: src/arch/win32/res.rc.po.c:3422
 msgid "Output file #1 name"
 msgstr "Ausgabe Datei #1 Name"
 
-#: src/arch/win32/res.rc.po.c:3423
+#: src/arch/win32/res.rc.po.c:3424
 msgid "Output file #2 name"
 msgstr "Ausgabe Datei #2 Name"
 
-#: src/arch/win32/res.rc.po.c:3425
+#: src/arch/win32/res.rc.po.c:3426
 msgid "Output file #3 name"
 msgstr "Ausgabe Datei #3 Name"
 
-#: src/arch/win32/res.rc.po.c:3653 src/arch/win32/resc128.rc.po.c:277
+#: src/arch/win32/res.rc.po.c:3654 src/arch/win32/resc128.rc.po.c:277
 #: src/arch/win32/resc128.rc.po.c:943 src/arch/win32/resc64.rc.po.c:275
 #: src/arch/win32/resc64.rc.po.c:461 src/arch/win32/resc64dtv.rc.po.c:216
 #: src/arch/win32/resc64dtv.rc.po.c:402 src/arch/win32/rescbm2.rc.po.c:221
@@ -7309,137 +7324,137 @@ msgstr "Ausgabe Datei #3 Name"
 msgid "ROM Settings"
 msgstr "ROM Einstellungen"
 
-#: src/arch/win32/res.rc.po.c:3655
+#: src/arch/win32/res.rc.po.c:3656
 msgid "Romset archive"
 msgstr "ROM Satz Archiv"
 
-#: src/arch/win32/res.rc.po.c:3659 src/arch/win32/res.rc.po.c:3672
+#: src/arch/win32/res.rc.po.c:3660 src/arch/win32/res.rc.po.c:3673
 #: src/arch/amigaos/intl.c.po.c:2180
 msgid "Browse"
 msgstr "Stöbern"
 
-#: src/arch/win32/res.rc.po.c:3660
+#: src/arch/win32/res.rc.po.c:3661
 msgid "Load archive"
 msgstr "Archiv laden"
 
-#: src/arch/win32/res.rc.po.c:3661
+#: src/arch/win32/res.rc.po.c:3662
 msgid "Save archive"
 msgstr "Archiv speichern"
 
-#: src/arch/win32/res.rc.po.c:3662
+#: src/arch/win32/res.rc.po.c:3663
 msgid "&Configuration"
 msgstr "&Konfigurationen"
 
-#: src/arch/win32/res.rc.po.c:3665
+#: src/arch/win32/res.rc.po.c:3666
 msgid "Apply"
 msgstr "Bestätigen"
 
-#: src/arch/win32/res.rc.po.c:3666
+#: src/arch/win32/res.rc.po.c:3667
 msgid "New"
 msgstr "Neu"
 
-#: src/arch/win32/res.rc.po.c:3667
+#: src/arch/win32/res.rc.po.c:3668
 msgid "Delete"
 msgstr "Löschen"
 
-#: src/arch/win32/res.rc.po.c:3668
+#: src/arch/win32/res.rc.po.c:3669
 msgid "Romset file"
 msgstr "ROM Satz Datei"
 
-#: src/arch/win32/res.rc.po.c:3673
+#: src/arch/win32/res.rc.po.c:3674
 msgid "Load romset"
 msgstr "Romsatz laden"
 
-#: src/arch/win32/res.rc.po.c:3674
+#: src/arch/win32/res.rc.po.c:3675
 msgid "Save romset"
 msgstr "Romsatz speichern"
 
-#: src/arch/win32/res.rc.po.c:3677 src/arch/win32/res.rc.po.c:4792
+#: src/arch/win32/res.rc.po.c:3678 src/arch/win32/res.rc.po.c:4793
 msgid "Computer"
 msgstr "Computer"
 
-#: src/arch/win32/res.rc.po.c:3678 src/arch/win32/res.rc.po.c:4793
+#: src/arch/win32/res.rc.po.c:3679 src/arch/win32/res.rc.po.c:4794
 msgid "Drive"
 msgstr "Laufwerk"
 
-#: src/arch/win32/res.rc.po.c:3680
+#: src/arch/win32/res.rc.po.c:3681
 msgid "Other"
 msgstr "Anderer"
 
-#: src/arch/win32/res.rc.po.c:3943
+#: src/arch/win32/res.rc.po.c:3944
 msgid "New configuration"
 msgstr "Neue Konfiguration"
 
-#: src/arch/win32/res.rc.po.c:3945
+#: src/arch/win32/res.rc.po.c:3946
 msgid "Enter configuration name"
 msgstr "Konfigurationsnamen eingeben"
 
-#: src/arch/win32/res.rc.po.c:4057
+#: src/arch/win32/res.rc.po.c:4058
 msgid "RS232 Settings"
 msgstr "RS232 Einstellungen"
 
-#: src/arch/win32/res.rc.po.c:4059
+#: src/arch/win32/res.rc.po.c:4060
 msgid "RS232 device 1"
 msgstr "RS232 Gerät 1"
 
-#: src/arch/win32/res.rc.po.c:4061
+#: src/arch/win32/res.rc.po.c:4062
 msgid "RS232 device 2"
 msgstr "RS232 Gerät 2"
 
-#: src/arch/win32/res.rc.po.c:4063
+#: src/arch/win32/res.rc.po.c:4064
 msgid "RS232 device 3"
 msgstr "RS232 Gerät 3"
 
-#: src/arch/win32/res.rc.po.c:4065
+#: src/arch/win32/res.rc.po.c:4066
 msgid "RS232 device 4"
 msgstr "RS232 Gerät 4"
 
-#: src/arch/win32/res.rc.po.c:4213 src/arch/amigaos/intl.c.po.c:2189
+#: src/arch/win32/res.rc.po.c:4214 src/arch/amigaos/intl.c.po.c:2189
 msgid "Current mode"
 msgstr "Aktueller Modus"
 
-#: src/arch/win32/res.rc.po.c:4215 src/arch/amigaos/intl.c.po.c:2198
+#: src/arch/win32/res.rc.po.c:4216 src/arch/amigaos/intl.c.po.c:2198
 msgid "TCP-Port"
 msgstr "TCP-Port"
 
-#: src/arch/win32/res.rc.po.c:4218 src/arch/amigaos/intl.c.po.c:2216
+#: src/arch/win32/res.rc.po.c:4219 src/arch/amigaos/intl.c.po.c:2216
 msgid "Connect to"
 msgstr "Verbinden mit"
 
-#: src/arch/win32/res.rc.po.c:4574 src/arch/amigaos/intl.c.po.c:4808
+#: src/arch/win32/res.rc.po.c:4575 src/arch/amigaos/intl.c.po.c:4808
 msgid "Sound Record Format"
 msgstr "Tonaufnahmeformat"
 
-#: src/arch/win32/res.rc.po.c:4578
+#: src/arch/win32/res.rc.po.c:4579
 msgid "&Sound Record File"
 msgstr "&Tonaufnahme Datei"
 
-#: src/arch/win32/res.rc.po.c:4723
+#: src/arch/win32/res.rc.po.c:4724
 msgid "VICE question"
 msgstr "VICE Frage"
 
-#: src/arch/win32/res.rc.po.c:4724
+#: src/arch/win32/res.rc.po.c:4725
 msgid "Your ffmpeg dll version doesn't match."
 msgstr "Deube ffmpeg dll Version passt leider nicht."
 
-#: src/arch/win32/res.rc.po.c:4725
+#: src/arch/win32/res.rc.po.c:4726
 #, c-format
 msgid "DirectDraw error: Code:%8x Error:%s"
 msgstr "DirectDraw error: Code:%8x Error:%s"
 
-#: src/arch/win32/res.rc.po.c:4727 src/arch/amigaos/intl.c.po.c:1989
+#: src/arch/win32/res.rc.po.c:4728 src/arch/amigaos/intl.c.po.c:1989
 msgid "Cannot load settings."
 msgstr "Fehler beim Laden der Einstellungen."
 
-#: src/arch/win32/res.rc.po.c:4728 src/arch/amigaos/intl.c.po.c:1917
+#: src/arch/win32/res.rc.po.c:4729 src/arch/amigaos/intl.c.po.c:1917
 msgid "Default settings restored."
 msgstr "Standard wiederhergestellt"
 
-#: src/arch/win32/res.rc.po.c:4729 src/arch/amigaos/intl.c.po.c:2061
+#: src/arch/win32/res.rc.po.c:4730 src/arch/amigaos/intl.c.po.c:2061
 msgid "Cannot attach specified file"
 msgstr "Kann Image Datei nicht einlegen"
 
-#: src/arch/win32/res.rc.po.c:4730
+#: src/arch/win32/res.rc.po.c:4731
 #, c-format
 msgid ""
 "%s\n"
@@ -7450,50 +7465,50 @@ msgstr ""
 "\n"
 "Monitor starten? (Nein: reset, Abbruch: weiter)"
 
-#: src/arch/win32/res.rc.po.c:4731
+#: src/arch/win32/res.rc.po.c:4732
 msgid "VICE CPU JAM"
 msgstr "VICE CPU JAM"
 
-#: src/arch/win32/res.rc.po.c:4732 src/arch/amigaos/intl.c.po.c:2342
+#: src/arch/win32/res.rc.po.c:4733 src/arch/amigaos/intl.c.po.c:2342
 msgid "Extend image to 40-track format?"
 msgstr "Image Dateu auf 40-Spur Format erweitern?"
 
-#: src/arch/win32/res.rc.po.c:4733
+#: src/arch/win32/res.rc.po.c:4734
 #, c-format
 msgid "Detached device %s"
 msgstr "Gerät %s entfernt"
 
-#: src/arch/win32/res.rc.po.c:4734
+#: src/arch/win32/res.rc.po.c:4735
 #, c-format
 msgid "Attached %s to device#%s"
 msgstr "%s mit Gerät#%s verbunden"
 
-#: src/arch/win32/res.rc.po.c:4735 src/arch/amigaos/intl.c.po.c:2360
+#: src/arch/win32/res.rc.po.c:4736 src/arch/amigaos/intl.c.po.c:2360
 msgid "Detached tape"
 msgstr "Band Image entfernt"
 
-#: src/arch/win32/res.rc.po.c:4736
+#: src/arch/win32/res.rc.po.c:4737
 msgid "History recorded with unknown release"
 msgstr "History mit unbekanter Version aufgezeichnet"
 
-#: src/arch/win32/res.rc.po.c:4737
+#: src/arch/win32/res.rc.po.c:4738
 #, c-format
 msgid "History recorded with VICE-%s"
 msgstr "History mit Vice-%s aufgezeichnet"
 
-#: src/arch/win32/res.rc.po.c:4738
+#: src/arch/win32/res.rc.po.c:4739
 msgid "paused"
 msgstr "pausiert"
 
-#: src/arch/win32/res.rc.po.c:4739
+#: src/arch/win32/res.rc.po.c:4740
 msgid "frame #"
 msgstr "Rahmen #"
 
-#: src/arch/win32/res.rc.po.c:4740
+#: src/arch/win32/res.rc.po.c:4741
 msgid "resumed"
 msgstr "wiederhergestellt"
 
-#: src/arch/win32/res.rc.po.c:4741 src/arch/amigaos/intl.c.po.c:2396
+#: src/arch/win32/res.rc.po.c:4742 src/arch/amigaos/intl.c.po.c:2396
 msgid ""
 "Do you really want to exit?\n"
 "\n"
@@ -7502,473 +7517,480 @@ msgstr ""
 "Willst Du wirklich beenden?\n"
 "Daten im emulierten Speicher RAM gehen verloren."
 
-#: src/arch/win32/res.rc.po.c:4742 src/arch/amigaos/intl.c.po.c:2052
+#: src/arch/win32/res.rc.po.c:4743 src/arch/amigaos/intl.c.po.c:2052
 msgid "Cannot autostart specified file."
 msgstr "Autostart von angeforderter Datei fehlgeschlagen."
 
-#: src/arch/win32/res.rc.po.c:4743 src/arch/amigaos/intl.c.po.c:2369
+#: src/arch/win32/res.rc.po.c:4744 src/arch/amigaos/intl.c.po.c:2369
 #, c-format
 msgid "Attached tape %s"
 msgstr "Band Image %s eingelegt"
 
-#: src/arch/win32/res.rc.po.c:4745 src/arch/amigaos/intl.c.po.c:1908
+#: src/arch/win32/res.rc.po.c:4746 src/arch/amigaos/intl.c.po.c:1908
 msgid "Settings loaded successfully."
 msgstr "Einstellungen erfolgreich geladen."
 
-#: src/arch/win32/res.rc.po.c:4746 src/arch/amigaos/intl.c.po.c:114
+#: src/arch/win32/res.rc.po.c:4747 src/arch/amigaos/intl.c.po.c:114
 msgid "Attach disk image"
 msgstr "Disk Image einlegen"
 
-#: src/arch/win32/res.rc.po.c:4747 src/arch/amigaos/intl.c.po.c:3935
+#: src/arch/win32/res.rc.po.c:4748 src/arch/amigaos/intl.c.po.c:3935
 msgid "Attach tape image"
 msgstr "Band Image einlegen"
 
-#: src/arch/win32/res.rc.po.c:4748 src/arch/amigaos/intl.c.po.c:3944
+#: src/arch/win32/res.rc.po.c:4749 src/arch/amigaos/intl.c.po.c:3944
 msgid "Autostart disk/tape image"
 msgstr "Autostart von Disk/Band Image"
 
-#: src/arch/win32/res.rc.po.c:4749 src/arch/amigaos/intl.c.po.c:2070
+#: src/arch/win32/res.rc.po.c:4750 src/arch/amigaos/intl.c.po.c:2070
 msgid "Invalid cartridge"
 msgstr "Ungültiges Erweiterungsmodul"
 
-#: src/arch/win32/res.rc.po.c:4750 src/arch/amigaos/intl.c.po.c:2079
+#: src/arch/win32/res.rc.po.c:4751 src/arch/amigaos/intl.c.po.c:2079
 msgid "Bad cartridge config in UI!"
 msgstr "Fehlerhafte Modul Konfiguration im UI!"
 
-#: src/arch/win32/res.rc.po.c:4752
+#: src/arch/win32/res.rc.po.c:4753
 msgid "Logging console output image"
 msgstr "Konsole Log Ausgabe Image"
 
-#: src/arch/win32/res.rc.po.c:4753
+#: src/arch/win32/res.rc.po.c:4754
 msgid "VICE console logging files (*.dbg)"
 msgstr "VICE Konsole Log Dateien (*.dbg)"
 
-#: src/arch/win32/res.rc.po.c:4754
+#: src/arch/win32/res.rc.po.c:4755
 #, c-format
 msgid "Cannot write log file `%s'."
 msgstr "Kann Log-Datei %s nicht schreiben"
 
-#: src/arch/win32/res.rc.po.c:4755 src/arch/amigaos/intl.c.po.c:4142
+#: src/arch/win32/res.rc.po.c:4756 src/arch/amigaos/intl.c.po.c:4142
 msgid "Load flip list file"
 msgstr "Fliplist Datei laden"
 
-#: src/arch/win32/res.rc.po.c:4756 src/arch/amigaos/intl.c.po.c:4151
+#: src/arch/win32/res.rc.po.c:4757 src/arch/amigaos/intl.c.po.c:4151
 msgid "Cannot read flip list file"
 msgstr "Lesen von Fliplist Datei fehlgeschlagen"
 
-#: src/arch/win32/res.rc.po.c:4757 src/arch/amigaos/intl.c.po.c:4160
+#: src/arch/win32/res.rc.po.c:4758 src/arch/amigaos/intl.c.po.c:4160
 msgid "Save flip list file"
 msgstr "Fliplist Datei speichern"
 
-#: src/arch/win32/res.rc.po.c:4758 src/arch/amigaos/intl.c.po.c:4169
+#: src/arch/win32/res.rc.po.c:4759 src/arch/amigaos/intl.c.po.c:4169
 msgid "Cannot write flip list file"
 msgstr "Schreiben von Fliplist Datei fehlgeschlagen"
 
-#: src/arch/win32/res.rc.po.c:4759
+#: src/arch/win32/res.rc.po.c:4760
 msgid "Select keymap file"
 msgstr "Symbolische Keymap Datei definieren"
 
-#: src/arch/win32/res.rc.po.c:4760
+#: src/arch/win32/res.rc.po.c:4761
 msgid "Save keymap file"
 msgstr "Keymap Datei speichern"
 
-#: src/arch/win32/res.rc.po.c:4761
+#: src/arch/win32/res.rc.po.c:4762
 msgid "Cannot write keymap file"
 msgstr "Schreiben von keymap Datei fehlgeschlagen"
 
-#: src/arch/win32/res.rc.po.c:4762
+#: src/arch/win32/res.rc.po.c:4763
 msgid "Mapping"
 msgstr "Zuordnung"
 
-#: src/arch/win32/res.rc.po.c:4764
+#: src/arch/win32/res.rc.po.c:4765
 msgid "&Attach"
 msgstr "&Einlegen"
 
-#: src/arch/win32/res.rc.po.c:4765
+#: src/arch/win32/res.rc.po.c:4766
 msgid "Please enter a filename."
 msgstr "Bitte Dateinamen eingeben."
 
-#: src/arch/win32/res.rc.po.c:4766 src/arch/amigaos/intl.c.po.c:2666
+#: src/arch/win32/res.rc.po.c:4767 src/arch/amigaos/intl.c.po.c:2666
 msgid "Overwrite existing image?"
 msgstr "Existierende Datei überschreiben?"
 
-#: src/arch/win32/res.rc.po.c:4767 src/arch/amigaos/intl.c.po.c:2097
+#: src/arch/win32/res.rc.po.c:4768 src/arch/amigaos/intl.c.po.c:2097
 msgid "Cannot create image"
 msgstr "Kann Image Datei nicht erzeugen"
 
-#: src/arch/win32/res.rc.po.c:4768 src/arch/amigaos/intl.c.po.c:1716
+#: src/arch/win32/res.rc.po.c:4769 src/arch/amigaos/intl.c.po.c:1716
 msgid "Command line options"
 msgstr "Kommandozeilen Paramteter"
 
-#: src/arch/win32/res.rc.po.c:4769 src/arch/amigaos/intl.c.po.c:1971
+#: src/arch/win32/res.rc.po.c:4770 src/arch/amigaos/intl.c.po.c:1971
 msgid "Which command line options are available?"
 msgstr "Welche Kommandozeilen Parameter sind verfügbar?"
 
-#: src/arch/win32/res.rc.po.c:4770
+#: src/arch/win32/res.rc.po.c:4771
 msgid "No driver selected or selected driver not supported"
 msgstr "Kein Treiber ausgewählt oder gewählter Treiber wird nicht unterstützt"
 
-#: src/arch/win32/res.rc.po.c:4771
+#: src/arch/win32/res.rc.po.c:4772
 #, c-format
 msgid "Cannot write screenshot file `%s'."
 msgstr "Kann Snapshot Datei `%s' nicht speichern."
 
-#: src/arch/win32/res.rc.po.c:4772
+#: src/arch/win32/res.rc.po.c:4773
 msgid "Autostart disk image"
 msgstr "Autostart Disk Image"
 
-#: src/arch/win32/res.rc.po.c:4773
+#: src/arch/win32/res.rc.po.c:4774
 msgid "Select file system directory"
 msgstr "Systemverzeichnis wählen"
 
-#: src/arch/win32/res.rc.po.c:4774
+#: src/arch/win32/res.rc.po.c:4775
 msgid "Printer Userport"
 msgstr "Drucker Userport"
 
-#: src/arch/win32/res.rc.po.c:4775
+#: src/arch/win32/res.rc.po.c:4776
 msgid "Printer 4"
 msgstr "Drucker 4"
 
-#: src/arch/win32/res.rc.po.c:4776
+#: src/arch/win32/res.rc.po.c:4777
 msgid "Printer 5"
 msgstr "Drucker 5"
 
-#: src/arch/win32/res.rc.po.c:4777 src/arch/amigaos/intl.c.po.c:123
+#: src/arch/win32/res.rc.po.c:4778 src/arch/amigaos/intl.c.po.c:123
 msgid "Drive 8"
 msgstr "Laufwerk 8"
 
-#: src/arch/win32/res.rc.po.c:4778 src/arch/amigaos/intl.c.po.c:132
+#: src/arch/win32/res.rc.po.c:4779 src/arch/amigaos/intl.c.po.c:132
 msgid "Drive 9"
 msgstr "Laufwerk 9"
 
-#: src/arch/win32/res.rc.po.c:4779 src/arch/amigaos/intl.c.po.c:141
+#: src/arch/win32/res.rc.po.c:4780 src/arch/amigaos/intl.c.po.c:141
 msgid "Drive 10"
 msgstr "Laufwerk 10"
 
-#: src/arch/win32/res.rc.po.c:4780 src/arch/amigaos/intl.c.po.c:150
+#: src/arch/win32/res.rc.po.c:4781 src/arch/amigaos/intl.c.po.c:150
 msgid "Drive 11"
 msgstr "Laufwerk 11"
 
-#: src/arch/win32/res.rc.po.c:4781
+#: src/arch/win32/res.rc.po.c:4782
 msgid "Peripheral Settings"
 msgstr "Peripherie Einstellungen"
 
-#: src/arch/win32/res.rc.po.c:4782
+#: src/arch/win32/res.rc.po.c:4783
 msgid "Can't write snapshot file."
 msgstr "Kann Snapshot Datei nicht speichern."
 
-#: src/arch/win32/res.rc.po.c:4783 src/arch/amigaos/intl.c.po.c:4277
+#: src/arch/win32/res.rc.po.c:4784 src/arch/amigaos/intl.c.po.c:4277
 msgid "Cannot read snapshot image"
 msgstr "Kann Snapshot Datei nicht laden"
 
-#: src/arch/win32/res.rc.po.c:4784
+#: src/arch/win32/res.rc.po.c:4785
 #, c-format
 msgid "Load %s ROM image"
 msgstr "Lade %s ROM Image Datei"
 
-#: src/arch/win32/res.rc.po.c:4785
+#: src/arch/win32/res.rc.po.c:4786
 msgid "Select romset archive"
 msgstr "ROM Satz Archiv wählen"
 
-#: src/arch/win32/res.rc.po.c:4786
+#: src/arch/win32/res.rc.po.c:4787
 msgid "Cannot load romset archive!"
 msgstr "Kann ROM Satz Archiv nicht laden!"
 
-#: src/arch/win32/res.rc.po.c:4787
+#: src/arch/win32/res.rc.po.c:4788
 msgid "Cannot save romset archive!"
 msgstr "Fehler beim speichern des ROM Satz Archivs!"
 
-#: src/arch/win32/res.rc.po.c:4788
+#: src/arch/win32/res.rc.po.c:4789
 msgid "Cannot load romset file!"
 msgstr "Kann ROM Satz Datei nicht laden!"
 
-#: src/arch/win32/res.rc.po.c:4789
+#: src/arch/win32/res.rc.po.c:4790
 msgid "Cannot save romset file!"
 msgstr "Fehler beim speichern der ROM Satz Datei!"
 
-#: src/arch/win32/res.rc.po.c:4790
+#: src/arch/win32/res.rc.po.c:4791
 msgid "Select romset file"
 msgstr "ROM Satz Datei wählen"
 
-#: src/arch/win32/res.rc.po.c:4791
+#: src/arch/win32/res.rc.po.c:4792
 msgid "Romset"
 msgstr "Rom Satz"
 
-#: src/arch/win32/res.rc.po.c:4795 src/arch/amigaos/intl.c.po.c:4232
+#: src/arch/win32/res.rc.po.c:4796 src/arch/amigaos/intl.c.po.c:4232
 msgid "Save snapshot image"
 msgstr "Snapshot Datei speichern"
 
-#: src/arch/win32/res.rc.po.c:4796 src/arch/amigaos/intl.c.po.c:4268
+#: src/arch/win32/res.rc.po.c:4797 src/arch/amigaos/intl.c.po.c:4268
 #, c-format
 msgid "Cannot write snapshot file `%s'."
 msgstr "Kann Snapshot Datei `%s' nicht speichern."
 
-#: src/arch/win32/res.rc.po.c:4797 src/arch/amigaos/intl.c.po.c:4241
+#: src/arch/win32/res.rc.po.c:4798 src/arch/amigaos/intl.c.po.c:4241
 msgid "Load snapshot image"
 msgstr "Snapshot laden"
 
-#: src/arch/win32/res.rc.po.c:4798
+#: src/arch/win32/res.rc.po.c:4799
 msgid "Could not load palette file."
 msgstr "Kann Paletten Datei nicht laden."
 
-#: src/arch/win32/res.rc.po.c:4799
+#: src/arch/win32/res.rc.po.c:4800
 msgid "Load VICE palette file"
 msgstr "VICE Paletten Datei laden"
 
-#: src/arch/win32/res.rc.po.c:4800 src/arch/win32/res.rc.po.c:5071
+#: src/arch/win32/res.rc.po.c:4801 src/arch/win32/res.rc.po.c:5073
 #: src/arch/amigaos/intl.c.po.c:1077
 msgid "Fullscreen"
 msgstr "Vollbild"
 
-#: src/arch/win32/res.rc.po.c:4801
+#: src/arch/win32/res.rc.po.c:4802
 msgid "Colors"
 msgstr "Farben"
 
-#: src/arch/win32/res.rc.po.c:4802
+#: src/arch/win32/res.rc.po.c:4803
 msgid "New PAL emulation"
 msgstr "PAL Emulation"
 
-#: src/arch/win32/res.rc.po.c:4803 src/arch/amigaos/intl.c.po.c:4448
+#: src/arch/win32/res.rc.po.c:4804 src/arch/amigaos/intl.c.po.c:4448
 msgid "Video settings"
 msgstr "Video Einstellungen"
 
-#: src/arch/win32/res.rc.po.c:4804
+#: src/arch/win32/res.rc.po.c:4805
 msgid "File system"
 msgstr "Dateisystem"
 
-#: src/arch/win32/res.rc.po.c:4806
+#: src/arch/win32/res.rc.po.c:4807
 msgid "Real IEC device"
 msgstr "Reales IEC Gerät"
 
-#: src/arch/win32/res.rc.po.c:4808
+#: src/arch/win32/res.rc.po.c:4809
 #, c-format
 msgid "RS232 device %i"
 msgstr "RS232 Gerät %i"
 
-#: src/arch/win32/res.rc.po.c:4810 src/arch/amigaos/intl.c.po.c:2414
+#: src/arch/win32/res.rc.po.c:4811 src/arch/amigaos/intl.c.po.c:2414
 msgid "Attach raw 8KB cartridge image"
 msgstr "8KB Erweiterungsmodul (raw) Image einlegen"
 
-#: src/arch/win32/res.rc.po.c:4811 src/arch/amigaos/intl.c.po.c:2423
+#: src/arch/win32/res.rc.po.c:4812 src/arch/amigaos/intl.c.po.c:2423
 msgid "Attach raw 16KB cartridge image"
 msgstr "16KB Erweiterungsmodul (raw) Image einlegen"
 
-#: src/arch/win32/res.rc.po.c:4812 src/arch/amigaos/intl.c.po.c:2432
+#: src/arch/win32/res.rc.po.c:4813 src/arch/amigaos/intl.c.po.c:2432
 msgid "Attach Action Replay cartridge image"
 msgstr "Action Replay Erweiterungsmodul Image einlegen"
 
-#: src/arch/win32/res.rc.po.c:4813
+#: src/arch/win32/res.rc.po.c:4814
 msgid "Attach Action Replay III cartridge image"
 msgstr "Action Replay III Erweiterungsmodul Image einlegen"
 
-#: src/arch/win32/res.rc.po.c:4814 src/arch/amigaos/intl.c.po.c:2450
+#: src/arch/win32/res.rc.po.c:4815 src/arch/amigaos/intl.c.po.c:2450
 msgid "Attach Action Replay 4 cartridge image"
 msgstr "Action Replay 4 Erweiterungsmodul Image einlegen"
 
-#: src/arch/win32/res.rc.po.c:4815 src/arch/amigaos/intl.c.po.c:2459
+#: src/arch/win32/res.rc.po.c:4816 src/arch/amigaos/intl.c.po.c:2459
 msgid "Attach StarDOS cartridge image"
 msgstr "Erweiterungsmodul StarDOS Image einlegen"
 
-#: src/arch/win32/res.rc.po.c:4816 src/arch/amigaos/intl.c.po.c:2468
+#: src/arch/win32/res.rc.po.c:4817 src/arch/amigaos/intl.c.po.c:2468
 msgid "Attach Atomic Power cartridge image"
 msgstr "Atomic Power Erweiterungsmodul Image einlegen"
 
-#: src/arch/win32/res.rc.po.c:4817 src/arch/amigaos/intl.c.po.c:2477
+#: src/arch/win32/res.rc.po.c:4818 src/arch/amigaos/intl.c.po.c:2477
 msgid "Attach Epyx fastload cartridge image"
 msgstr "Epyx Fastload Erweiterungsmodul Image einlegen"
 
-#: src/arch/win32/res.rc.po.c:4818 src/arch/amigaos/intl.c.po.c:2486
+#: src/arch/win32/res.rc.po.c:4819 src/arch/amigaos/intl.c.po.c:2486
 msgid "Attach IEEE interface cartridge image"
 msgstr "IEEE Schnittstellen Erweiterungsmodul Image einlegen"
 
-#: src/arch/win32/res.rc.po.c:4819 src/arch/amigaos/intl.c.po.c:2495
+#: src/arch/win32/res.rc.po.c:4820 src/arch/amigaos/intl.c.po.c:2495
 msgid "Attach Retro Replay cartridge image"
 msgstr "Retro Replay Erweiterungsmodul Image einlegen"
 
-#: src/arch/win32/res.rc.po.c:4820 src/arch/amigaos/intl.c.po.c:2504
+#: src/arch/win32/res.rc.po.c:4821 src/arch/amigaos/intl.c.po.c:2504
 msgid "Attach IDE64 interface cartridge image"
 msgstr "IDE64 Schnittstellen Erweiterungsmodul Image einlegen"
 
-#: src/arch/win32/res.rc.po.c:4821 src/arch/amigaos/intl.c.po.c:2513
+#: src/arch/win32/res.rc.po.c:4822 src/arch/amigaos/intl.c.po.c:2513
 msgid "Attach Super Snapshot 4 cartridge image"
 msgstr "Super Snapshot 4 Erweiterungsmodul Image einlegen"
 
-#: src/arch/win32/res.rc.po.c:4822 src/arch/amigaos/intl.c.po.c:2522
+#: src/arch/win32/res.rc.po.c:4823 src/arch/amigaos/intl.c.po.c:2522
 msgid "Attach Super Snapshot 5 cartridge image"
 msgstr "Super Snapshot 5 Erweiterungsmodul Image einlegen"
 
-#: src/arch/win32/res.rc.po.c:4823 src/arch/amigaos/intl.c.po.c:2531
+#: src/arch/win32/res.rc.po.c:4824 src/arch/amigaos/intl.c.po.c:2531
 msgid "Attach Structured Basic cartridge image"
 msgstr "Erweiterungsmodul Structured Basic einlegen"
 
-#: src/arch/win32/res.rc.po.c:4824
+#: src/arch/win32/res.rc.po.c:4825
 msgid "Model"
 msgstr "Modell"
 
-#: src/arch/win32/res.rc.po.c:4825 src/arch/amigaos/intl.c.po.c:3152
+#: src/arch/win32/res.rc.po.c:4826 src/arch/amigaos/intl.c.po.c:3152
 msgid "Drive Settings"
 msgstr "Floppy Einstellungen"
 
-#: src/arch/win32/res.rc.po.c:4826 src/arch/amigaos/intl.c.po.c:2378
+#: src/arch/win32/res.rc.po.c:4827 src/arch/amigaos/intl.c.po.c:2378
 msgid "Select start snapshot for event history"
 msgstr "Startsnapshot für Ereignishistory festlegen"
 
-#: src/arch/win32/res.rc.po.c:4827 src/arch/amigaos/intl.c.po.c:2387
+#: src/arch/win32/res.rc.po.c:4828 src/arch/amigaos/intl.c.po.c:2387
 msgid "Select end snapshot for event history"
 msgstr "Startsnapshot für Ereignishistory festlegen"
 
-#: src/arch/win32/res.rc.po.c:4829
+#: src/arch/win32/res.rc.po.c:4830
 #, c-format
 msgid "Version %s *UNSTABLE*"
 msgstr "Version %s *INSTABIL*"
 
-#: src/arch/win32/res.rc.po.c:4831
+#: src/arch/win32/res.rc.po.c:4832
 #, c-format
 msgid "Version %s"
 msgstr "Version %s"
 
-#: src/arch/win32/res.rc.po.c:4833 src/arch/amigaos/intl.c.po.c:1944
+#: src/arch/win32/res.rc.po.c:4834 src/arch/amigaos/intl.c.po.c:1944
 msgid "VICE contributors"
 msgstr "VICE Hackers"
 
-#: src/arch/win32/res.rc.po.c:4834 src/arch/amigaos/intl.c.po.c:1953
+#: src/arch/win32/res.rc.po.c:4835 src/arch/amigaos/intl.c.po.c:1953
 msgid "Who made what?"
 msgstr "Wer hat was gemacht?"
 
-#: src/arch/win32/res.rc.po.c:4837 src/arch/amigaos/intl.c.po.c:1962
+#: src/arch/win32/res.rc.po.c:4838 src/arch/amigaos/intl.c.po.c:1962
 msgid "VICE is distributed WITHOUT ANY WARRANTY!"
 msgstr "VICE ist ohne Garantie"
 
-#: src/arch/win32/res.rc.po.c:4838
+#: src/arch/win32/res.rc.po.c:4839
 msgid "Press key for NorthWest"
 msgstr "Drücke Taste für NordWest"
 
-#: src/arch/win32/res.rc.po.c:4839
+#: src/arch/win32/res.rc.po.c:4840
 msgid "Press key for North"
 msgstr "Drücke Taste für Nord"
 
-#: src/arch/win32/res.rc.po.c:4840
+#: src/arch/win32/res.rc.po.c:4841
 msgid "Press key for NorthEast"
 msgstr "Drücke Taste für NordOst"
 
-#: src/arch/win32/res.rc.po.c:4841
+#: src/arch/win32/res.rc.po.c:4842
 msgid "Press key for East"
 msgstr "Drücke Taste für Ost"
 
-#: src/arch/win32/res.rc.po.c:4842
+#: src/arch/win32/res.rc.po.c:4843
 msgid "Press key for SouthEast"
 msgstr "Drücke Taste für SüdOst"
 
-#: src/arch/win32/res.rc.po.c:4843
+#: src/arch/win32/res.rc.po.c:4844
 msgid "Press key for South"
 msgstr "Drücke Taste für Süd"
 
-#: src/arch/win32/res.rc.po.c:4844
+#: src/arch/win32/res.rc.po.c:4845
 msgid "Press key for SouthWest"
 msgstr "Drücke Taste für SüdWest"
 
-#: src/arch/win32/res.rc.po.c:4845
+#: src/arch/win32/res.rc.po.c:4846
 msgid "Press key for West"
 msgstr "Drücke Taste für West"
 
-#: src/arch/win32/res.rc.po.c:4846
+#: src/arch/win32/res.rc.po.c:4847
 msgid "Press key for Fire"
 msgstr "Drücke Taste für Feuer"
 
-#: src/arch/win32/res.rc.po.c:4847
+#: src/arch/win32/res.rc.po.c:4848
 msgid "Numpad + RCtrl"
 msgstr "Numpad + RCtrl"
 
-#: src/arch/win32/res.rc.po.c:4848
+#: src/arch/win32/res.rc.po.c:4849
 msgid "Keyset A"
 msgstr "Tastaturbelegung A"
 
-#: src/arch/win32/res.rc.po.c:4849
+#: src/arch/win32/res.rc.po.c:4850
 msgid "Keyset B"
 msgstr "Tastaturbelegung B"
 
-#: src/arch/win32/res.rc.po.c:4850
+#: src/arch/win32/res.rc.po.c:4851
 msgid "All buttons used as fire"
 msgstr "Alle Knöpfe als Feuer"
 
-#: src/arch/win32/res.rc.po.c:4851
+#: src/arch/win32/res.rc.po.c:4852
 msgid "numeric (see above)"
 msgstr "Numerisch (siehe oben)"
 
-#: src/arch/win32/res.rc.po.c:4852
+#: src/arch/win32/res.rc.po.c:4853
 msgid "No button - Autofire disabled"
 msgstr "Kein Knopf - Autofeuer deaktiviert"
 
-#: src/arch/win32/res.rc.po.c:4853
+#: src/arch/win32/res.rc.po.c:4854
 msgid "All files (*.*)"
 msgstr "Alle Dateien (*.*)"
 
-#: src/arch/win32/res.rc.po.c:4854
+#: src/arch/win32/res.rc.po.c:4855
 msgid "VICE palette files (*.vpl)"
 msgstr "Vice Paletten Dateien (*.vpl)"
 
-#: src/arch/win32/res.rc.po.c:4855
+#: src/arch/win32/res.rc.po.c:4856
 msgid "VICE snapshot files (*.vsf)"
 msgstr "VICE Snapshot Dateien (*.vsf)"
 
-#: src/arch/win32/res.rc.po.c:4856
+#: src/arch/win32/res.rc.po.c:4857
+#, fuzzy
+msgid ""
+"CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;"
+"*.p00)"
+msgstr "Disk Image Dateien (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+
+#: src/arch/win32/res.rc.po.c:4858
 msgid "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
 msgstr "Disk Image Dateien (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
 
-#: src/arch/win32/res.rc.po.c:4857
+#: src/arch/win32/res.rc.po.c:4859
 msgid "Tape image files (*.t64;*.tap)"
 msgstr "Band Image Dateien (*.t64;*.tap)"
 
-#: src/arch/win32/res.rc.po.c:4858
+#: src/arch/win32/res.rc.po.c:4860
 msgid "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
 msgstr ""
 "Komprimierte Dateien (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
 
-#: src/arch/win32/res.rc.po.c:4859
+#: src/arch/win32/res.rc.po.c:4861
 msgid "CRT cartridge image files (*.crt)"
 msgstr "CRT Erweiterungsmodul Dateien (*.crt)"
 
-#: src/arch/win32/res.rc.po.c:4860
+#: src/arch/win32/res.rc.po.c:4862
 msgid "Raw cartridge image files (*.bin)"
 msgstr "Raw Erweiterungsmodul Dateien (*.bin)"
 
-#: src/arch/win32/res.rc.po.c:4861
+#: src/arch/win32/res.rc.po.c:4863
 msgid "VICE flip list files (*.vfl)"
 msgstr "VICE Fliplist Dateien (*.vfl)"
 
-#: src/arch/win32/res.rc.po.c:4862
+#: src/arch/win32/res.rc.po.c:4864
 msgid "VICE romset files (*.vrs)"
 msgstr "VICE ROM Satzs Dateien (*.vrs)"
 
-#: src/arch/win32/res.rc.po.c:4863
+#: src/arch/win32/res.rc.po.c:4865
 msgid "VICE romset archives (*.vra)"
 msgstr "VICE ROM Satz Archiv Dateien (*.vra)"
 
-#: src/arch/win32/res.rc.po.c:4864
+#: src/arch/win32/res.rc.po.c:4866
 msgid "VICE keymap files (*.vkm)"
 msgstr "VICE Keymap Dateien (*.vkm)"
 
-#: src/arch/win32/res.rc.po.c:4865
+#: src/arch/win32/res.rc.po.c:4867
 msgid "Commodore emulator files (*.prg;*.p00)"
 msgstr "Commodore Emulator Dateien (*.prg;*.p00)"
 
-#: src/arch/win32/res.rc.po.c:4866 src/arch/amigaos/intl.c.po.c:3818
+#: src/arch/win32/res.rc.po.c:4868 src/arch/amigaos/intl.c.po.c:3818
 msgid "Flexible"
 msgstr "Flexibel"
 
-#: src/arch/win32/res.rc.po.c:4867 src/arch/amigaos/intl.c.po.c:3827
+#: src/arch/win32/res.rc.po.c:4869 src/arch/amigaos/intl.c.po.c:3827
 msgid "Adjusting"
 msgstr "Anpassend"
 
-#: src/arch/win32/res.rc.po.c:4869
+#: src/arch/win32/res.rc.po.c:4871
 msgid "Sound driver: DirectX"
 msgstr "Sound Treiber: DirectX"
 
-#: src/arch/win32/res.rc.po.c:4870
+#: src/arch/win32/res.rc.po.c:4872
 msgid "Sound driver: WMM"
 msgstr "Sound Treiber: WMM"
 
-#: src/arch/win32/res.rc.po.c:4871
+#: src/arch/win32/res.rc.po.c:4873
 msgid ""
 "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*."
 "mpg)"
@@ -7976,36 +7998,36 @@ msgstr ""
 "Media Dateien (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*."
 "mpg)"
 
-#: src/arch/win32/res.rc.po.c:4872
+#: src/arch/win32/res.rc.po.c:4874
 msgid " kB"
 msgstr " kB"
 
-#: src/arch/win32/res.rc.po.c:4873
+#: src/arch/win32/res.rc.po.c:4875
 msgid "Configure Keyset A"
 msgstr "Konfiguriere Tastaturbelegung A"
 
-#: src/arch/win32/res.rc.po.c:4874
+#: src/arch/win32/res.rc.po.c:4876
 msgid "Configure Keyset B"
 msgstr "Konfiguriere Tastaturbelegung B"
 
-#: src/arch/win32/res.rc.po.c:4875
+#: src/arch/win32/res.rc.po.c:4877
 msgid "Save media image"
 msgstr "Media Image speichern"
 
-#: src/arch/win32/res.rc.po.c:4876 src/arch/amigaos/intl.c.po.c:2594
+#: src/arch/win32/res.rc.po.c:4878 src/arch/amigaos/intl.c.po.c:2594
 #, c-format
 msgid "%s at %d%% speed, %d fps%s"
 msgstr "%s bei %d%% Geschwindigkeit, %d fps%s"
 
-#: src/arch/win32/res.rc.po.c:4877
+#: src/arch/win32/res.rc.po.c:4879
 msgid "Tape:"
 msgstr "Band:"
 
-#: src/arch/win32/res.rc.po.c:4878
+#: src/arch/win32/res.rc.po.c:4880
 msgid "Joystick:"
 msgstr "Joystick:"
 
-#: src/arch/win32/res.rc.po.c:4879
+#: src/arch/win32/res.rc.po.c:4881
 #, c-format
 msgid ""
 "Recording\n"
@@ -8014,7 +8036,7 @@ msgstr ""
 "Aufnahme\n"
 "%02d:%02d"
 
-#: src/arch/win32/res.rc.po.c:4880
+#: src/arch/win32/res.rc.po.c:4882
 #, c-format
 msgid ""
 "Playback\n"
@@ -8023,775 +8045,775 @@ msgstr ""
 "Wiedergabe\n"
 "%02d:%02d (%02d:%02d)"
 
-#: src/arch/win32/res.rc.po.c:4881
+#: src/arch/win32/res.rc.po.c:4883
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: src/arch/win32/res.rc.po.c:4883
+#: src/arch/win32/res.rc.po.c:4885
 msgid "Set input device for joystick #1"
 msgstr "Input Gerät für Joystick #1 definieren"
 
-#: src/arch/win32/res.rc.po.c:4884
+#: src/arch/win32/res.rc.po.c:4886
 msgid "Set input device for joystick #2"
 msgstr "Input Gerät für Joystick #2 definieren"
 
-#: src/arch/win32/res.rc.po.c:4889
+#: src/arch/win32/res.rc.po.c:4891
 msgid "Use all CPU on SMP systems"
 msgstr "Alle SMP CPUs benutzen"
 
-#: src/arch/win32/res.rc.po.c:4890
+#: src/arch/win32/res.rc.po.c:4892
 msgid "Use only first CPU on SMP systems"
 msgstr "Nur erste SMP SPU nutzen"
 
-#: src/arch/win32/res.rc.po.c:4891
+#: src/arch/win32/res.rc.po.c:4893
 msgid "Start VICE in fullscreen mode"
 msgstr "Aktiviere VICE Vollbild Modus"
 
-#: src/arch/win32/res.rc.po.c:4893
+#: src/arch/win32/res.rc.po.c:4895
 #, c-format
 msgid "An unexpected error occured. Received signal %d (%s)."
 msgstr "Ein unerwarteter Fehler ist aufgetreten. Signal %d (%s) empfangen."
 
-#: src/arch/win32/res.rc.po.c:4895
+#: src/arch/win32/res.rc.po.c:4897
 #, c-format
 msgid "An unexpected error occured. Received signal %d."
 msgstr "Ein unerwarteter Fehler ist aufgetreten. Signal %d empfangen."
 
-#: src/arch/win32/res.rc.po.c:4900 src/arch/amigaos/intl.c.po.c:2252
+#: src/arch/win32/res.rc.po.c:4902 src/arch/amigaos/intl.c.po.c:2252
 msgid "Connected server"
 msgstr "Server verbunden"
 
-#: src/arch/win32/res.rc.po.c:4902 src/arch/amigaos/intl.c.po.c:2124
+#: src/arch/win32/res.rc.po.c:4904 src/arch/amigaos/intl.c.po.c:2124
 msgid "Invalid port number"
 msgstr "Ungültige Port Nummer"
 
-#: src/arch/win32/res.rc.po.c:4903 src/arch/amigaos/intl.c.po.c:2106
+#: src/arch/win32/res.rc.po.c:4905 src/arch/amigaos/intl.c.po.c:2106
 msgid "An error occured starting the server."
 msgstr "Fehler beim Starten des Netplay Servers."
 
-#: src/arch/win32/res.rc.po.c:4904 src/arch/amigaos/intl.c.po.c:2115
+#: src/arch/win32/res.rc.po.c:4906 src/arch/amigaos/intl.c.po.c:2115
 msgid "An error occured connecting the client."
 msgstr "Fehler beim Verbindungsaufbau zum Client"
 
-#: src/arch/win32/res.rc.po.c:4910 src/arch/win32/resdrivec128.rc.po.c:48
+#: src/arch/win32/res.rc.po.c:4912 src/arch/win32/resdrivec128.rc.po.c:48
 #: src/arch/win32/resdrivec64.rc.po.c:46
 #: src/arch/win32/resdriveplus4.rc.po.c:34
 #: src/arch/win32/resdrivevic20.rc.po.c:46 src/arch/amigaos/intl.c.po.c:2747
 msgid "None"
 msgstr "Kein"
 
-#: src/arch/win32/res.rc.po.c:4913 src/arch/win32/resc128.rc.po.c:20
+#: src/arch/win32/res.rc.po.c:4915 src/arch/win32/resc128.rc.po.c:20
 #: src/arch/win32/resc64.rc.po.c:20 src/arch/win32/resc64dtv.rc.po.c:20
 #: src/arch/win32/rescbm2.rc.po.c:19 src/arch/win32/respet.rc.po.c:19
 #: src/arch/win32/resplus4.rc.po.c:19 src/arch/win32/resvic20.rc.po.c:19
 msgid "Attach &disk image"
 msgstr "&Disk Image einlegen"
 
-#: src/arch/win32/res.rc.po.c:4914 src/arch/win32/resc128.rc.po.c:27
+#: src/arch/win32/res.rc.po.c:4916 src/arch/win32/resc128.rc.po.c:27
 #: src/arch/win32/resc64.rc.po.c:27 src/arch/win32/resc64dtv.rc.po.c:27
 #: src/arch/win32/rescbm2.rc.po.c:26 src/arch/win32/respet.rc.po.c:26
 #: src/arch/win32/resplus4.rc.po.c:26 src/arch/win32/resvic20.rc.po.c:26
 msgid "D&etach disk image"
 msgstr "Disk Image &entfernen"
 
-#: src/arch/win32/res.rc.po.c:4915 src/arch/win32/resc128.rc.po.c:36
+#: src/arch/win32/res.rc.po.c:4917 src/arch/win32/resc128.rc.po.c:36
 #: src/arch/win32/resc64.rc.po.c:36 src/arch/win32/resc64dtv.rc.po.c:42
 #: src/arch/win32/rescbm2.rc.po.c:35 src/arch/win32/respet.rc.po.c:35
 #: src/arch/win32/resplus4.rc.po.c:35 src/arch/win32/resvic20.rc.po.c:35
 msgid "&Flip list"
 msgstr "&Flipliste"
 
-#: src/arch/win32/res.rc.po.c:4916 src/arch/win32/resc128.rc.po.c:49
+#: src/arch/win32/res.rc.po.c:4918 src/arch/win32/resc128.rc.po.c:49
 #: src/arch/win32/resc64.rc.po.c:49 src/arch/win32/rescbm2.rc.po.c:48
 #: src/arch/win32/respet.rc.po.c:48 src/arch/win32/resplus4.rc.po.c:48
 #: src/arch/win32/resvic20.rc.po.c:48
 msgid "Datassette contro&l"
 msgstr "Bandlaufwerk Kontro&lle"
 
-#: src/arch/win32/res.rc.po.c:4917 src/arch/win32/resc128.rc.po.c:60
+#: src/arch/win32/res.rc.po.c:4919 src/arch/win32/resc128.rc.po.c:60
 #: src/arch/win32/resc64.rc.po.c:60 src/arch/win32/resplus4.rc.po.c:59
 #: src/arch/win32/resvic20.rc.po.c:59
 msgid "Attach &cartridge image..."
 msgstr "Erweiterungs&modul einlegen..."
 
-#: src/arch/win32/res.rc.po.c:4918 src/arch/win32/resc128.rc.po.c:78
+#: src/arch/win32/res.rc.po.c:4920 src/arch/win32/resc128.rc.po.c:78
 #: src/arch/win32/resc64.rc.po.c:78 src/arch/amigaos/intl.c.po.c:582
 msgid "Expert Cartridge"
 msgstr "Expert Cartridge"
 
-#: src/arch/win32/res.rc.po.c:4919 src/arch/win32/resc128.rc.po.c:95
+#: src/arch/win32/res.rc.po.c:4921 src/arch/win32/resc128.rc.po.c:95
 #: src/arch/win32/resc64.rc.po.c:95 src/arch/win32/resc64dtv.rc.po.c:55
 #: src/arch/win32/rescbm2.rc.po.c:61 src/arch/win32/respet.rc.po.c:61
 #: src/arch/win32/resplus4.rc.po.c:73 src/arch/win32/resvic20.rc.po.c:72
 msgid "&Reset"
 msgstr "&Reset"
 
-#: src/arch/win32/res.rc.po.c:4922 src/arch/win32/resc128.rc.po.c:108
+#: src/arch/win32/res.rc.po.c:4924 src/arch/win32/resc128.rc.po.c:108
 #: src/arch/win32/resc64.rc.po.c:108 src/arch/win32/resc64dtv.rc.po.c:68
 #: src/arch/win32/rescbm2.rc.po.c:74 src/arch/win32/respet.rc.po.c:74
 #: src/arch/win32/resplus4.rc.po.c:86 src/arch/win32/resvic20.rc.po.c:85
 msgid "M&ode"
 msgstr "M&odus"
 
-#: src/arch/win32/res.rc.po.c:4924 src/arch/win32/resc128.rc.po.c:123
+#: src/arch/win32/res.rc.po.c:4926 src/arch/win32/resc128.rc.po.c:123
 #: src/arch/win32/resc64.rc.po.c:123 src/arch/win32/resc64dtv.rc.po.c:83
 #: src/arch/win32/rescbm2.rc.po.c:89 src/arch/win32/respet.rc.po.c:89
 #: src/arch/win32/resplus4.rc.po.c:101 src/arch/win32/resvic20.rc.po.c:100
 msgid "&Edit"
 msgstr "B&earbeiten"
 
-#: src/arch/win32/res.rc.po.c:4925 src/arch/win32/resc128.rc.po.c:128
+#: src/arch/win32/res.rc.po.c:4927 src/arch/win32/resc128.rc.po.c:128
 #: src/arch/win32/resc64.rc.po.c:128 src/arch/win32/resc64dtv.rc.po.c:88
 #: src/arch/win32/rescbm2.rc.po.c:94 src/arch/win32/respet.rc.po.c:94
 #: src/arch/win32/resplus4.rc.po.c:106 src/arch/win32/resvic20.rc.po.c:105
 msgid "Sna&pshot"
 msgstr "Sna&pshot"
 
-#: src/arch/win32/res.rc.po.c:4928 src/arch/win32/resc128.rc.po.c:155
+#: src/arch/win32/res.rc.po.c:4930 src/arch/win32/resc128.rc.po.c:155
 #: src/arch/win32/resc64.rc.po.c:157 src/arch/win32/resc64dtv.rc.po.c:115
 #: src/arch/win32/rescbm2.rc.po.c:121 src/arch/win32/respet.rc.po.c:121
 #: src/arch/win32/resplus4.rc.po.c:133 src/arch/win32/resvic20.rc.po.c:132
 msgid "&Refresh rate"
 msgstr "Wiederhol&rate"
 
-#: src/arch/win32/res.rc.po.c:4929 src/arch/win32/resc128.rc.po.c:169
+#: src/arch/win32/res.rc.po.c:4931 src/arch/win32/resc128.rc.po.c:169
 #: src/arch/win32/resc64.rc.po.c:171 src/arch/win32/resc64dtv.rc.po.c:129
 #: src/arch/win32/rescbm2.rc.po.c:135 src/arch/win32/respet.rc.po.c:135
 #: src/arch/win32/resplus4.rc.po.c:147 src/arch/win32/resvic20.rc.po.c:146
 msgid "&Maximum Speed"
 msgstr "&Maximale Geschwindigkeit"
 
-#: src/arch/win32/res.rc.po.c:4930 src/arch/win32/resc128.rc.po.c:203
+#: src/arch/win32/res.rc.po.c:4932 src/arch/win32/resc128.rc.po.c:203
 #: src/arch/win32/resc64.rc.po.c:200 src/arch/win32/resc64dtv.rc.po.c:159
 #: src/arch/win32/resplus4.rc.po.c:176 src/arch/win32/resvic20.rc.po.c:175
 msgid "Vide&o standard"
 msgstr "Vide&o Standard"
 
-#: src/arch/win32/res.rc.po.c:4931 src/arch/win32/rescbm2.rc.po.c:161
+#: src/arch/win32/res.rc.po.c:4933 src/arch/win32/rescbm2.rc.po.c:161
 #: src/arch/win32/respet.rc.po.c:161
 msgid "Drive s&ync factor"
 msgstr "Laufwerkt S&ync Faktor"
 
-#: src/arch/win32/res.rc.po.c:4932 src/arch/win32/resc128.rc.po.c:213
+#: src/arch/win32/res.rc.po.c:4934 src/arch/win32/resc128.rc.po.c:213
 #: src/arch/win32/resc64.rc.po.c:209 src/arch/win32/resc64dtv.rc.po.c:169
 #: src/arch/win32/rescbm2.rc.po.c:169 src/arch/win32/respet.rc.po.c:169
 #: src/arch/win32/resplus4.rc.po.c:183 src/arch/win32/resvic20.rc.po.c:184
 msgid "S&ettings"
 msgstr "&Einstellungen"
 
-#: src/arch/win32/res.rc.po.c:4933 src/arch/win32/resc64.rc.po.c:224
+#: src/arch/win32/res.rc.po.c:4935 src/arch/win32/resc64.rc.po.c:224
 #: src/arch/win32/resvic20.rc.po.c:197
 msgid "&Cartridge/IO settings"
 msgstr "Erweiterungsmodul I/O Einstellungen"
 
-#: src/arch/win32/res.rc.po.c:4934 src/arch/win32/resc128.rc.po.c:251
+#: src/arch/win32/res.rc.po.c:4936 src/arch/win32/resc128.rc.po.c:251
 #: src/arch/win32/resc64.rc.po.c:249 src/arch/win32/resc64dtv.rc.po.c:190
 #: src/arch/win32/rescbm2.rc.po.c:195 src/arch/win32/respet.rc.po.c:196
 #: src/arch/win32/resplus4.rc.po.c:209 src/arch/win32/resvic20.rc.po.c:210
 msgid "&Language"
 msgstr "Sprache"
 
-#: src/arch/win32/res.rc.po.c:4935 src/arch/win32/resc128.rc.po.c:262
+#: src/arch/win32/res.rc.po.c:4937 src/arch/win32/resc128.rc.po.c:262
 #: src/arch/win32/resc64.rc.po.c:260 src/arch/win32/resc64dtv.rc.po.c:201
 #: src/arch/win32/rescbm2.rc.po.c:206 src/arch/win32/respet.rc.po.c:207
 #: src/arch/win32/resplus4.rc.po.c:220 src/arch/win32/resvic20.rc.po.c:221
 msgid "&Help"
 msgstr "&Hilfe"
 
-#: src/arch/win32/res.rc.po.c:4938
+#: src/arch/win32/res.rc.po.c:4940
 msgid "E&xit"
 msgstr "E&xit"
 
-#: src/arch/win32/res.rc.po.c:4939
+#: src/arch/win32/res.rc.po.c:4941
 msgid "&About..."
 msgstr "&Über VICE..."
 
-#: src/arch/win32/res.rc.po.c:4940
+#: src/arch/win32/res.rc.po.c:4942
 msgid "&Pause"
 msgstr "&Pause"
 
-#: src/arch/win32/res.rc.po.c:4941
+#: src/arch/win32/res.rc.po.c:4943
 msgid "&Copy"
 msgstr "&Kopieren"
 
-#: src/arch/win32/res.rc.po.c:4942
+#: src/arch/win32/res.rc.po.c:4944
 msgid "&Paste"
 msgstr "&Einfügen"
 
-#: src/arch/win32/res.rc.po.c:4943
+#: src/arch/win32/res.rc.po.c:4945
 msgid "&Autostart disk/tape image..."
 msgstr "&Autostart Disk/Band Image..."
 
-#: src/arch/win32/res.rc.po.c:4944
+#: src/arch/win32/res.rc.po.c:4946
 msgid "&Hard"
 msgstr "&Hart"
 
-#: src/arch/win32/res.rc.po.c:4945
+#: src/arch/win32/res.rc.po.c:4947
 msgid "&Soft"
 msgstr "&Weich"
 
-#: src/arch/win32/res.rc.po.c:4946 src/arch/win32/res.rc.po.c:5091
+#: src/arch/win32/res.rc.po.c:4948 src/arch/win32/res.rc.po.c:5093
 msgid "Drive &8"
 msgstr "Laufwerk &8"
 
-#: src/arch/win32/res.rc.po.c:4947 src/arch/win32/res.rc.po.c:5092
+#: src/arch/win32/res.rc.po.c:4949 src/arch/win32/res.rc.po.c:5094
 msgid "Drive &9"
 msgstr "Laufwerk &9"
 
-#: src/arch/win32/res.rc.po.c:4948
+#: src/arch/win32/res.rc.po.c:4950
 msgid "Drive 1&0"
 msgstr "Laufwerk 1&0"
 
-#: src/arch/win32/res.rc.po.c:4949
+#: src/arch/win32/res.rc.po.c:4951
 #, fuzzy
 msgid "Drive 1&1"
 msgstr "Laufwerk 11"
 
-#: src/arch/win32/res.rc.po.c:4950
+#: src/arch/win32/res.rc.po.c:4952
 msgid "Attach &tape image..."
 msgstr "&Band Image einlegen..."
 
-#: src/arch/win32/res.rc.po.c:4951
+#: src/arch/win32/res.rc.po.c:4953
 msgid "Detac&h tape image"
 msgstr "Band Image entfernen"
 
-#: src/arch/win32/res.rc.po.c:4952
+#: src/arch/win32/res.rc.po.c:4954
 msgid "&All"
 msgstr "&Alle"
 
-#: src/arch/win32/res.rc.po.c:4953
+#: src/arch/win32/res.rc.po.c:4955
 msgid "&Sound playback"
 msgstr "&Sound Einschalten"
 
-#: src/arch/win32/res.rc.po.c:4954
+#: src/arch/win32/res.rc.po.c:4956
 msgid "&Double size"
 msgstr "&Doppelte Größe"
 
-#: src/arch/win32/res.rc.po.c:4955
+#: src/arch/win32/res.rc.po.c:4957
 msgid "Dou&ble scan"
 msgstr "Do&ppelt Scan"
 
-#: src/arch/win32/res.rc.po.c:4956
+#: src/arch/win32/res.rc.po.c:4958
 msgid "&True drive emulation"
 msgstr "&Präzise Floppy Emulation"
 
-#: src/arch/win32/res.rc.po.c:4957
+#: src/arch/win32/res.rc.po.c:4959
 msgid "Video &cache"
 msgstr "Video &cache"
 
-#: src/arch/win32/res.rc.po.c:4958
+#: src/arch/win32/res.rc.po.c:4960
 msgid "&Drive settings..."
 msgstr "&Floppy Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:4959
+#: src/arch/win32/res.rc.po.c:4961
 msgid "&CRT image..."
 msgstr "&CRT Image..."
 
-#: src/arch/win32/res.rc.po.c:4960
+#: src/arch/win32/res.rc.po.c:4962
 msgid "Generic &8KB image..."
 msgstr "Generische 8Kb Image..."
 
-#: src/arch/win32/res.rc.po.c:4961
+#: src/arch/win32/res.rc.po.c:4963
 msgid "Generic &16KB image..."
 msgstr "Generische 16Kb Image..."
 
-#: src/arch/win32/res.rc.po.c:4962
+#: src/arch/win32/res.rc.po.c:4964
 msgid "&Action Replay image..."
 msgstr "&Action Replay Image..."
 
-#: src/arch/win32/res.rc.po.c:4963
+#: src/arch/win32/res.rc.po.c:4965
 msgid "&Action Replay 3 image..."
 msgstr "&Action Replay 3 Image..."
 
-#: src/arch/win32/res.rc.po.c:4964
+#: src/arch/win32/res.rc.po.c:4966
 msgid "&Action Replay 4 image..."
 msgstr "&Action Replay 4 Image..."
 
-#: src/arch/win32/res.rc.po.c:4965
+#: src/arch/win32/res.rc.po.c:4967
 msgid "&StarDOS image..."
 msgstr "&StarDOS Image..."
 
-#: src/arch/win32/res.rc.po.c:4966
+#: src/arch/win32/res.rc.po.c:4968
 msgid "Atomic &Power image..."
 msgstr "Atomic Power &Image..."
 
-#: src/arch/win32/res.rc.po.c:4967
+#: src/arch/win32/res.rc.po.c:4969
 msgid "&Epyx fastload image..."
 msgstr "&Epyx Fastload Image..."
 
-#: src/arch/win32/res.rc.po.c:4968
+#: src/arch/win32/res.rc.po.c:4970
 msgid "&IEEE488 interface image..."
 msgstr "&IEEE 488 Schnittstellenmodul..."
 
-#: src/arch/win32/res.rc.po.c:4969
+#: src/arch/win32/res.rc.po.c:4971
 msgid "&Retro Replay image..."
 msgstr "&Retro Replay Image..."
 
-#: src/arch/win32/res.rc.po.c:4970
+#: src/arch/win32/res.rc.po.c:4972
 msgid "IDE&64 interface image..."
 msgstr "IDE&64 Schnittstellenmodul..."
 
-#: src/arch/win32/res.rc.po.c:4971
+#: src/arch/win32/res.rc.po.c:4973
 msgid "Super Snapshot &4 image..."
 msgstr "Super Snapshot &4 Image..."
 
-#: src/arch/win32/res.rc.po.c:4972
+#: src/arch/win32/res.rc.po.c:4974
 msgid "Super Snapshot &5 image..."
 msgstr "Super Snapshot &5 Image..."
 
-#: src/arch/win32/res.rc.po.c:4973
+#: src/arch/win32/res.rc.po.c:4975
 msgid "Structured &Basic image..."
 msgstr "Erweiterungsmodul Structured &Basic einlegen..."
 
-#: src/arch/win32/res.rc.po.c:4974
+#: src/arch/win32/res.rc.po.c:4976
 msgid "&Add current image"
 msgstr "&Aktuelles Image hinzufügen"
 
-#: src/arch/win32/res.rc.po.c:4975
+#: src/arch/win32/res.rc.po.c:4977
 msgid "&Remove current image"
 msgstr "Aktuelles Image entfe&rnen"
 
-#: src/arch/win32/res.rc.po.c:4976
+#: src/arch/win32/res.rc.po.c:4978
 msgid "Attach &next image"
 msgstr "&Nächstes Image"
 
-#: src/arch/win32/res.rc.po.c:4977
+#: src/arch/win32/res.rc.po.c:4979
 msgid "Attach &previous image"
 msgstr "&Voriges Image"
 
-#: src/arch/win32/res.rc.po.c:4978
+#: src/arch/win32/res.rc.po.c:4980
 msgid "&Load flip list"
 msgstr "Fliplist Datei &Laden"
 
-#: src/arch/win32/res.rc.po.c:4979
+#: src/arch/win32/res.rc.po.c:4981
 msgid "&Save flip list"
 msgstr "Fliplist Datei &Speichern"
 
-#: src/arch/win32/res.rc.po.c:4980
+#: src/arch/win32/res.rc.po.c:4982
 msgid "S&top"
 msgstr "S&top"
 
-#: src/arch/win32/res.rc.po.c:4981
+#: src/arch/win32/res.rc.po.c:4983
 msgid "&Start"
 msgstr "&Start"
 
-#: src/arch/win32/res.rc.po.c:4982
+#: src/arch/win32/res.rc.po.c:4984
 msgid "&Forward"
 msgstr "&Forward"
 
-#: src/arch/win32/res.rc.po.c:4983
+#: src/arch/win32/res.rc.po.c:4985
 msgid "&Rewind"
 msgstr "&Rewind"
 
-#: src/arch/win32/res.rc.po.c:4984
+#: src/arch/win32/res.rc.po.c:4986
 msgid "Re&cord"
 msgstr "Re&cord"
 
-#: src/arch/win32/res.rc.po.c:4985
+#: src/arch/win32/res.rc.po.c:4987
 msgid "R&eset"
 msgstr "R&eset"
 
-#: src/arch/win32/res.rc.po.c:4986
+#: src/arch/win32/res.rc.po.c:4988
 msgid "Reset C&ounter"
 msgstr "Z&ähler zurücksetzen"
 
-#: src/arch/win32/res.rc.po.c:4987 src/arch/amigaos/intl.c.po.c:591
+#: src/arch/win32/res.rc.po.c:4989 src/arch/amigaos/intl.c.po.c:591
 msgid "Enable"
 msgstr "Aktivieren"
 
-#: src/arch/win32/res.rc.po.c:4990
+#: src/arch/win32/res.rc.po.c:4992
 msgid "Set cartridge as &default"
 msgstr "Aktuelles Erweiterungsmodul als standar&d aktivieren"
 
-#: src/arch/win32/res.rc.po.c:4991
+#: src/arch/win32/res.rc.po.c:4993
 msgid "Reset &on cart change"
 msgstr "Reset bei Wechsel von Erweiterungsmodulen"
 
-#: src/arch/win32/res.rc.po.c:4992
+#: src/arch/win32/res.rc.po.c:4994
 msgid "Detach cartridge &image"
 msgstr "Erweiterungsmodul &Image entfernen"
 
-#: src/arch/win32/res.rc.po.c:4993
+#: src/arch/win32/res.rc.po.c:4995
 msgid "Cartridge free&ze"
 msgstr "Erweiterungsmodul Free&ze"
 
-#: src/arch/win32/res.rc.po.c:4994
+#: src/arch/win32/res.rc.po.c:4996
 msgid "&Monitor"
 msgstr "&Monitor"
 
-#: src/arch/win32/res.rc.po.c:4996 src/arch/win32/resvicii.rc.po.c:36
+#: src/arch/win32/res.rc.po.c:4998 src/arch/win32/resvicii.rc.po.c:36
 msgid "&Normal"
 msgstr "&Normal"
 
-#: src/arch/win32/res.rc.po.c:4997
+#: src/arch/win32/res.rc.po.c:4999
 msgid "&Small"
 msgstr "&Klein"
 
-#: src/arch/win32/res.rc.po.c:4998
+#: src/arch/win32/res.rc.po.c:5000
 msgid "&History"
 msgstr "&History"
 
-#: src/arch/win32/res.rc.po.c:4999
+#: src/arch/win32/res.rc.po.c:5001
 msgid "&History Autoplay"
 msgstr "&History Automatische Wiedergabe"
 
-#: src/arch/win32/res.rc.po.c:5000
+#: src/arch/win32/res.rc.po.c:5002
 msgid "&Main CPU Trace"
 msgstr "&Haupt CPU Trace"
 
-#: src/arch/win32/res.rc.po.c:5001
+#: src/arch/win32/res.rc.po.c:5003
 msgid "Drive&0 CPU Trace"
 msgstr "Laufwerk&0 CPU Trace"
 
-#: src/arch/win32/res.rc.po.c:5002
+#: src/arch/win32/res.rc.po.c:5004
 msgid "Drive&1 CPU Trace"
 msgstr "Laufwerk&1 CPU Trace"
 
-#: src/arch/win32/res.rc.po.c:5004
+#: src/arch/win32/res.rc.po.c:5006
 msgid "Load snapshot &image..."
 msgstr "Snapshot &Image laden..."
 
-#: src/arch/win32/res.rc.po.c:5005
+#: src/arch/win32/res.rc.po.c:5007
 msgid "Save sna&pshot image..."
 msgstr "Sna&pshot Datei speichern..."
 
-#: src/arch/win32/res.rc.po.c:5006
+#: src/arch/win32/res.rc.po.c:5008
 msgid "&Load quicksnapshot image"
 msgstr "Quick-Snapshot Image &laden"
 
-#: src/arch/win32/res.rc.po.c:5007
+#: src/arch/win32/res.rc.po.c:5009
 msgid "&Save quicksnapshot image"
 msgstr "Quick-Snapshot Datei &speichern"
 
-#: src/arch/win32/res.rc.po.c:5008
+#: src/arch/win32/res.rc.po.c:5010
 msgid "Start/Stop &Recording History"
 msgstr "Sta&rt/Stop Aufnahme History"
 
-#: src/arch/win32/res.rc.po.c:5009
+#: src/arch/win32/res.rc.po.c:5011
 msgid "Start/Stop Pl&ayback History"
 msgstr "St&art/Stop Wiedergabe History"
 
-#: src/arch/win32/res.rc.po.c:5010 src/arch/amigaos/intl.c.po.c:789
+#: src/arch/win32/res.rc.po.c:5012 src/arch/amigaos/intl.c.po.c:789
 msgid "Set Recording Milestone"
 msgstr "Setze Aufnahme Meilenstein"
 
-#: src/arch/win32/res.rc.po.c:5011 src/arch/amigaos/intl.c.po.c:798
+#: src/arch/win32/res.rc.po.c:5013 src/arch/amigaos/intl.c.po.c:798
 msgid "Return to Milestone"
 msgstr "Rückkehr zum Meilenstein"
 
-#: src/arch/win32/res.rc.po.c:5012
+#: src/arch/win32/res.rc.po.c:5014
 msgid "&Save new snapshot"
 msgstr "&Speichere neuen Snapshot"
 
-#: src/arch/win32/res.rc.po.c:5013
+#: src/arch/win32/res.rc.po.c:5015
 msgid "&Load existing snapshot"
 msgstr "&Lade existierenden Snapshot"
 
-#: src/arch/win32/res.rc.po.c:5014
+#: src/arch/win32/res.rc.po.c:5016
 msgid "Start with &reset"
 msgstr "Mit &Reset starten"
 
-#: src/arch/win32/res.rc.po.c:5015
+#: src/arch/win32/res.rc.po.c:5017
 msgid "Overwrite &Playback"
 msgstr "Laufende Aufnahme überschreiben"
 
-#: src/arch/win32/res.rc.po.c:5016 src/arch/amigaos/intl.c.po.c:852
+#: src/arch/win32/res.rc.po.c:5018 src/arch/amigaos/intl.c.po.c:852
 msgid "Select History files/directory"
 msgstr "Verzeichnis für Event Aufnahme"
 
-#: src/arch/win32/res.rc.po.c:5017 src/arch/amigaos/intl.c.po.c:861
+#: src/arch/win32/res.rc.po.c:5019 src/arch/amigaos/intl.c.po.c:861
 msgid "Save/stop media file..."
 msgstr "Speichern/stop media Datei..."
 
-#: src/arch/win32/res.rc.po.c:5018
+#: src/arch/win32/res.rc.po.c:5020
 msgid "Record Sound..."
 msgstr "Aufnahme..."
 
-#: src/arch/win32/res.rc.po.c:5019
+#: src/arch/win32/res.rc.po.c:5021
 msgid "Stop Sound Recording"
 msgstr "Aufnahme Stop"
 
-#: src/arch/win32/res.rc.po.c:5020
+#: src/arch/win32/res.rc.po.c:5022
 msgid "&Auto"
 msgstr "&Automatisch"
 
-#: src/arch/win32/res.rc.po.c:5021
+#: src/arch/win32/res.rc.po.c:5023
 msgid "No &limit"
 msgstr "Kein &Limit"
 
-#: src/arch/win32/res.rc.po.c:5022
+#: src/arch/win32/res.rc.po.c:5024
 msgid "&Custom"
 msgstr "&Benutzerdefiniert"
 
-#: src/arch/win32/res.rc.po.c:5023
+#: src/arch/win32/res.rc.po.c:5025
 msgid "&Warp mode"
 msgstr "&Warp modus"
 
-#: src/arch/win32/res.rc.po.c:5024
+#: src/arch/win32/res.rc.po.c:5026
 msgid "Always on Top"
 msgstr "Immer im Vordergrund"
 
-#: src/arch/win32/res.rc.po.c:5026 src/arch/amigaos/intl.c.po.c:1113
+#: src/arch/win32/res.rc.po.c:5028 src/arch/amigaos/intl.c.po.c:1113
 msgid "Scale2x"
 msgstr "Scale2x"
 
-#: src/arch/win32/res.rc.po.c:5027
+#: src/arch/win32/res.rc.po.c:5029
 msgid "Swap &Joystick"
 msgstr "&Joystick ports austauschen"
 
-#: src/arch/win32/res.rc.po.c:5028
+#: src/arch/win32/res.rc.po.c:5030
 msgid "&Virtual device traps"
 msgstr "&Virtuelle Geräte Traps"
 
-#: src/arch/win32/res.rc.po.c:5029
+#: src/arch/win32/res.rc.po.c:5031
 msgid "Emulator &Identification"
 msgstr "Emulator &Identifikation"
 
-#: src/arch/win32/res.rc.po.c:5030
+#: src/arch/win32/res.rc.po.c:5032
 msgid "&Grab mouse events"
 msgstr "Maus Ereignisse abfan&gen"
 
-#: src/arch/win32/res.rc.po.c:5031
+#: src/arch/win32/res.rc.po.c:5033
 msgid "&Video settings..."
 msgstr "&Video Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5032
+#: src/arch/win32/res.rc.po.c:5034
 msgid "&Peripheral settings..."
 msgstr "&Peripherie Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5033
+#: src/arch/win32/res.rc.po.c:5035
 msgid "&Joystick settings..."
 msgstr "&Joystick Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5034
+#: src/arch/win32/res.rc.po.c:5036
 msgid "&Keyboard settings..."
 msgstr "&Tastatur Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5035
+#: src/arch/win32/res.rc.po.c:5037
 msgid "S&ound settings..."
 msgstr "S&ound Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5036
+#: src/arch/win32/res.rc.po.c:5038
 msgid "&ROM settings..."
 msgstr "&ROM Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5037
+#: src/arch/win32/res.rc.po.c:5039
 msgid "RA&M settings..."
 msgstr "R&AM Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5038
+#: src/arch/win32/res.rc.po.c:5040
 msgid "D&atasette settings..."
 msgstr "B&andlaufwerk Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5039 src/arch/amigaos/intl.c.po.c:1374
+#: src/arch/win32/res.rc.po.c:5041 src/arch/amigaos/intl.c.po.c:1374
 msgid "VIC-II settings..."
 msgstr "VIC-II Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5040
+#: src/arch/win32/res.rc.po.c:5042
 msgid "Mo&use settings..."
 msgstr "Ma&us Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5041
+#: src/arch/win32/res.rc.po.c:5043
 msgid "S&ID settings..."
 msgstr "S&ID Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5042
+#: src/arch/win32/res.rc.po.c:5044
 msgid "RS&232 settings..."
 msgstr "RS&232 Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5043
+#: src/arch/win32/res.rc.po.c:5045
 msgid "&REU settings..."
 msgstr "&REU Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5044
+#: src/arch/win32/res.rc.po.c:5046
 msgid "&GEORAM settings..."
 msgstr "&GEORAM Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5045
+#: src/arch/win32/res.rc.po.c:5047
 msgid "&RAMCART settings..."
 msgstr "&RAMCART Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5046
+#: src/arch/win32/res.rc.po.c:5048
 msgid "&MMC64 settings..."
 msgstr "&MMC64 Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5047
+#: src/arch/win32/res.rc.po.c:5049
 msgid "&DIGIMAX settings..."
 msgstr "&Digimax Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5048
+#: src/arch/win32/res.rc.po.c:5050
 msgid "&IDE64 settings..."
 msgstr "&IDE64 Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5050
+#: src/arch/win32/res.rc.po.c:5052
 msgid "&Ethernet settings..."
 msgstr "&Ethernet Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5052
+#: src/arch/win32/res.rc.po.c:5054
 msgid "&ACIA settings..."
 msgstr "&ACIA Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5053
+#: src/arch/win32/res.rc.po.c:5055
 msgid "RS&232 userport settings..."
 msgstr "RS&232 Userport Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5054
+#: src/arch/win32/res.rc.po.c:5056
 msgid "&Save current settings"
 msgstr "Einstellungen &speichern"
 
-#: src/arch/win32/res.rc.po.c:5055
+#: src/arch/win32/res.rc.po.c:5057
 msgid "&Load saved settings"
 msgstr "Einstellungen &Laden"
 
-#: src/arch/win32/res.rc.po.c:5056
+#: src/arch/win32/res.rc.po.c:5058
 msgid "Set de&fault settings"
 msgstr "&Wiederherstellen Standard Einstellungen"
 
-#: src/arch/win32/res.rc.po.c:5057
+#: src/arch/win32/res.rc.po.c:5059
 msgid "Save settings on e&xit"
 msgstr "Einstellungen beim Beenden speichern"
 
-#: src/arch/win32/res.rc.po.c:5058
+#: src/arch/win32/res.rc.po.c:5060
 msgid "&Confirm on exit"
 msgstr "&Bestätigung beim Beenden"
 
-#: src/arch/win32/res.rc.po.c:5059
+#: src/arch/win32/res.rc.po.c:5061
 msgid "&English"
 msgstr "&Englisch"
 
-#: src/arch/win32/res.rc.po.c:5060
+#: src/arch/win32/res.rc.po.c:5062
 msgid "&German"
 msgstr "&Deutsch"
 
-#: src/arch/win32/res.rc.po.c:5061
+#: src/arch/win32/res.rc.po.c:5063
 msgid "&French"
 msgstr "&Französisch"
 
-#: src/arch/win32/res.rc.po.c:5062
+#: src/arch/win32/res.rc.po.c:5064
 msgid "&Hungarian"
 msgstr "&Ungarisch"
 
-#: src/arch/win32/res.rc.po.c:5063
+#: src/arch/win32/res.rc.po.c:5065
 msgid "&Italian"
 msgstr "&Italienisch"
 
-#: src/arch/win32/res.rc.po.c:5064
+#: src/arch/win32/res.rc.po.c:5066
 msgid "&Dutch"
 msgstr "&Holländisch"
 
-#: src/arch/win32/res.rc.po.c:5065
+#: src/arch/win32/res.rc.po.c:5067
 msgid "&Polish"
 msgstr "&Polnisch"
 
-#: src/arch/win32/res.rc.po.c:5066
+#: src/arch/win32/res.rc.po.c:5068
 msgid "&Swedish"
 msgstr "&Schwedisch"
 
-#: src/arch/win32/res.rc.po.c:5067
+#: src/arch/win32/res.rc.po.c:5069
 msgid "Command line &options"
 msgstr "Kommandozeilen &Optionen"
 
-#: src/arch/win32/res.rc.po.c:5068
+#: src/arch/win32/res.rc.po.c:5070
 msgid "&Contributors"
 msgstr "VICE Hackers"
 
-#: src/arch/win32/res.rc.po.c:5069
+#: src/arch/win32/res.rc.po.c:5071
 msgid "&License"
 msgstr "&Lizenz"
 
-#: src/arch/win32/res.rc.po.c:5070
+#: src/arch/win32/res.rc.po.c:5072
 msgid "No &warranty"
 msgstr "Keine &Garantie!"
 
-#: src/arch/win32/res.rc.po.c:5072
+#: src/arch/win32/res.rc.po.c:5074
 msgid "&SID cart settings..."
 msgstr "&SID Modul Einstellungen..."
 
-#: src/arch/win32/res.rc.po.c:5073
+#: src/arch/win32/res.rc.po.c:5075
 msgid "&Open"
 msgstr "&Öffnen"
 
-#: src/arch/win32/res.rc.po.c:5074
+#: src/arch/win32/res.rc.po.c:5076
 msgid "&Save"
 msgstr "&Speichern"
 
-#: src/arch/win32/res.rc.po.c:5075
+#: src/arch/win32/res.rc.po.c:5077
 msgid "&Print"
 msgstr "&Drucken"
 
-#: src/arch/win32/res.rc.po.c:5076
+#: src/arch/win32/res.rc.po.c:5078
 msgid "E&xit\tAlt+F4"
 msgstr "E&xit\tAlt+F4"
 
-#: src/arch/win32/res.rc.po.c:5077
+#: src/arch/win32/res.rc.po.c:5079
 msgid "&Stop Debug"
 msgstr "&Stop Debug"
 
-#: src/arch/win32/res.rc.po.c:5078
+#: src/arch/win32/res.rc.po.c:5080
 msgid "Stop E&xecution"
 msgstr "Stop &Ausführung"
 
-#: src/arch/win32/res.rc.po.c:5079
+#: src/arch/win32/res.rc.po.c:5081
 msgid "Step &into"
 msgstr "Step &in"
 
-#: src/arch/win32/res.rc.po.c:5080
+#: src/arch/win32/res.rc.po.c:5082
 msgid "Step &over"
 msgstr "Step &über"
 
-#: src/arch/win32/res.rc.po.c:5081
+#: src/arch/win32/res.rc.po.c:5083
 msgid "Step until &return"
 msgstr "Step bis &return"
 
-#: src/arch/win32/res.rc.po.c:5082
+#: src/arch/win32/res.rc.po.c:5084
 msgid "Go to &cursor"
 msgstr "Gehe zu &cursor"
 
-#: src/arch/win32/res.rc.po.c:5083
+#: src/arch/win32/res.rc.po.c:5085
 msgid "&Evaluate"
 msgstr "A&uswerten"
 
-#: src/arch/win32/res.rc.po.c:5084
+#: src/arch/win32/res.rc.po.c:5086
 msgid "&Current instruction"
 msgstr "Aktuelle I&nstruktion"
 
-#: src/arch/win32/res.rc.po.c:5085
+#: src/arch/win32/res.rc.po.c:5087
 msgid "Evaluation &window"
 msgstr "Auswertungs&fenster"
 
-#: src/arch/win32/res.rc.po.c:5086
+#: src/arch/win32/res.rc.po.c:5088
 msgid "&Register window"
 msgstr "&Registerfenster"
 
-#: src/arch/win32/res.rc.po.c:5087
+#: src/arch/win32/res.rc.po.c:5089
 msgid "&Memory window"
 msgstr "S&peicherfenster"
 
-#: src/arch/win32/res.rc.po.c:5088
+#: src/arch/win32/res.rc.po.c:5090
 msgid "&Disassembly window"
 msgstr "Disassemblerfenster"
 
-#: src/arch/win32/res.rc.po.c:5089
+#: src/arch/win32/res.rc.po.c:5091
 msgid "&Console window"
 msgstr "&Konsolenfenster"
 
-#: src/arch/win32/res.rc.po.c:5090
+#: src/arch/win32/res.rc.po.c:5092
 msgid "&Computer"
 msgstr "Computer"
 
-#: src/arch/win32/res.rc.po.c:5093
+#: src/arch/win32/res.rc.po.c:5095
 msgid "&Cascade"
 msgstr "&Kaskadiert"
 
-#: src/arch/win32/res.rc.po.c:5094
+#: src/arch/win32/res.rc.po.c:5096
 msgid "Tile &vertically"
 msgstr "&Vertical anordnen"
 
-#: src/arch/win32/res.rc.po.c:5095
+#: src/arch/win32/res.rc.po.c:5097
 msgid "Tile &horizontally"
 msgstr "&Horizontal anordnen"
 
-#: src/arch/win32/res.rc.po.c:5096
+#: src/arch/win32/res.rc.po.c:5098
 msgid "&Arrange icons"
 msgstr "Icons &Anordnen"
 
