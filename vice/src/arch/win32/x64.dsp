@@ -94,6 +94,16 @@ SOURCE=..\..\main.c
 # Begin Source File
 
 SOURCE=..\..\maincpu.c
+
+!IF  "$(CFG)" == "x64 - Win32 Release"
+
+# ADD CPP /Ot /Oa /Ow /Oi /Op /Oy /Ob2
+# SUBTRACT CPP /Ox /Og /Os
+
+!ELSEIF  "$(CFG)" == "x64 - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -102,7 +112,7 @@ SOURCE=.\resc64.rc
 !IF  "$(CFG)" == "x64 - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESC6="resc64.rc"	"res.rc"	"resacia.rc"	"resdrivec64.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resplus256k.rc"	"resplus60k.rc"	"resc64_256k.rc"	"resmmc64.rc"	"resrc232user.rc"	"ressid.rc"	"resvicii.rc"	"resdigimax.rc"	"resmouse.rc"	"restfe.rc"	
+USERDEP__RESC6="resc64.rc"	"res.rc"	"resacia.rc"	"resdrivec64.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resplus256k.rc"	"resplus60k.rc"	"resc64_256k.rc"	"resmmc64.rc"	"resrs232user.rc"	"ressid.rc"	"resvicii.rc"	"resdigimax.rc"	"resmouse.rc"	"restfe.rc"	
 # Begin Custom Build
 InputPath=.\resc64.rc
 
