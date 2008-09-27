@@ -75,6 +75,17 @@ ui_menu_toggle  c64dtv_ui_menu_toggles[]={
     { NULL, 0 }
 };
 
+ui_res_possible_values C64DTVRevision[] = {
+        {2, MENU_C64DTV_REVISION_2},
+        {3, MENU_C64DTV_REVISION_3},
+        {-1, 0}
+};
+
+ui_res_possible_values HummerJoyPort[] = {
+        {1, MENU_HUMMER_JOY_PORT_1},
+        {2, MENU_HUMMER_JOY_PORT_2},
+        {-1, 0}
+};
 ui_res_possible_values c64dtvviciiBorders[] = {
         {0, MENU_VICII_BORDERS_NORMAL},
         {1, MENU_VICII_BORDERS_FULL},
