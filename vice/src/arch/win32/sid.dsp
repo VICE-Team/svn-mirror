@@ -90,6 +90,15 @@ SOURCE=..\..\sid\resid.cc
 
 !IF  "$(CFG)" == "sid - Win32 Release"
 
+# Begin Custom Build
+InputPath=..\..\sid\resid.cc
+InputName=resid
+
+"libs\sid\Release/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /I ".\msvc" /D "NDEBUG" /I ".\\" /I "..\..\\" /I "..\..\resid" /D "WIN32" /D "_WINDOWS" /Fp"libs\sid\Release/sid.pch" /YX /Fo"libs\sid\Release/" /Fd"libs\sid\Release/" /FD /TP /c $(InputPath)
+
+# End Custom Build
+
 !ELSEIF  "$(CFG)" == "sid - Win32 Debug"
 
 # Begin Custom Build
@@ -109,6 +118,15 @@ InputName=resid
 SOURCE=..\..\sid\resid-fp.cc
 
 !IF  "$(CFG)" == "sid - Win32 Release"
+
+# Begin Custom Build
+InputPath=..\..\sid\resid-fp.cc
+InputName=resid
+
+"libs\sid\Release/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MLd /W3 /GX /I ".\msvc" /D "NDEBUG" /I ".\\" /I "..\..\\" /I "..\..\resid-fp" /D "WIN32" /D "_WINDOWS" /Fp"libs\sid\Release/sid.pch" /YX /Fo"libs\sid\Release/" /Fd"libs\sid\Release/" /FD /TP /c $(InputPath)
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "sid - Win32 Debug"
 

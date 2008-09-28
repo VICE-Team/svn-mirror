@@ -127,7 +127,7 @@ void hardsid_reset(void)
         {
             for (chipno = 0; chipno < 4; chipno++)
             {
-                HardSID_AbortPlay(chipno);
+                HardSID_AbortPlay((BYTE)chipno);
             }
         }
     }
@@ -155,7 +155,7 @@ int hardsid_open(void)
     {
         for (chipno = 0; chipno < 4; chipno++)
         {
-            HardSID_Reset(chipno);
+            HardSID_Reset((BYTE)chipno);
         }
         lastaccess_clk = 0;
         lastaccess_ms = 0;
@@ -184,7 +184,7 @@ static void usb_hardsid_close(void)
     KillTimer(NULL, ftimer);
     for (chipno = 0; chipno < 4; chipno++)
     {
-        HardSID_AbortPlay(chipno);
+        HardSID_AbortPlay((BYTE)chipno);
     }
 }
 
