@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "libs\base\Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\lib\zlib" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\rs232drv" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\lib\zlib" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\rs232drv" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -64,7 +64,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "libs\base\Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\lib\zlib" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\rs232drv" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\lib\zlib" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\rs232drv" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -82,40 +82,6 @@ LIB32=link.exe -lib
 # Name "base - Win32 Debug"
 # Begin Source File
 
-SOURCE=..\..\translate.txt
-
-!IF  "$(CFG)" == "base - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-USERDEP__RES_T="..\..\translate.txt"	
-# Begin Custom Build - Generating translate.h and translate_table.h
-InputDir=..\..
-InputPath=..\..\translate.txt
-
-"$(InputDir)\translate.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\..\data\gentranslate ..\..\translate.txt ..\..\translate.h ..\..\translate_table.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "base - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-USERDEP__RES_T="..\..\translate.txt"
-
-# Begin Custom Build - Generating translate.h and translate_table.h
-InputDir=..\..
-InputPath=..\..\translate.txt
-
-"$(InputDir)\translate.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\..\data\gentranslate ..\..\translate.txt ..\..\translate.h ..\..\translate_table.h
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\alarm.c"
 # End Source File
 # Begin Source File
@@ -128,15 +94,15 @@ SOURCE="..\..\autostart.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\charset.c"
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\cbmdos.c"
 # End Source File
 # Begin Source File
 
 SOURCE="..\..\cbmimage.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\charset.c"
 # End Source File
 # Begin Source File
 
@@ -285,6 +251,39 @@ SOURCE="..\..\sysfile.c"
 # Begin Source File
 
 SOURCE="..\..\translate.c"
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\translate.txt
+
+!IF  "$(CFG)" == "base - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+USERDEP__TRANS="..\..\translate.txt"	
+# Begin Custom Build - Generating translate.h and translate_table.h
+InputDir=\cygwin\home\tri\cbm\vice.svn\src
+InputPath=..\..\translate.txt
+
+"$(InputDir)\translate.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\..\data\gentranslate ..\..\translate.txt ..\..\translate.h ..\..\translate_table.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "base - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+USERDEP__TRANS="..\..\translate.txt"	
+# Begin Custom Build - Generating translate.h and translate_table.h
+InputDir=\cygwin\home\tri\cbm\vice.svn\src
+InputPath=..\..\translate.txt
+
+"$(InputDir)\translate.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\..\data\gentranslate ..\..\translate.txt ..\..\translate.h ..\..\translate_table.h
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 

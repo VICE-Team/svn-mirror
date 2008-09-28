@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "libs\arch\Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\c64" /I "..\..\c64dtv" /I "..\..\c128" /I "..\..\vic20" /I "..\..\pet" /I "..\..\cbm2" /I "..\..\raster" /I "..\..\monitor" /I "..\..\lib\libffmpeg" /I "..\..\plus4" /I "..\..\sid" /I ".\msvc\wpcap" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\c64" /I "..\..\c64dtv" /I "..\..\c128" /I "..\..\vic20" /I "..\..\pet" /I "..\..\cbm2" /I "..\..\raster" /I "..\..\monitor" /I "..\..\lib\libffmpeg" /I "..\..\plus4" /I "..\..\sid" /I ".\msvc\wpcap" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -64,7 +64,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "libs\arch\Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\c64" /I "..\..\c64dtv" /I "..\..\c128" /I "..\..\vic20" /I "..\..\pet" /I "..\..\cbm2" /I "..\..\raster" /I "..\..\monitor" /I "..\..\lib\libffmpeg" /I "..\..\plus4" /I "..\..\sid" /I ".\msvc\wpcap" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\c64" /I "..\..\c64dtv" /I "..\..\c128" /I "..\..\vic20" /I "..\..\pet" /I "..\..\cbm2" /I "..\..\raster" /I "..\..\monitor" /I "..\..\lib\libffmpeg" /I "..\..\plus4" /I "..\..\sid" /I ".\msvc\wpcap" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -94,11 +94,11 @@ SOURCE=.\c128ui.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\c64ui.c
+SOURCE=.\c64dtvui.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\c64dtvui.c
+SOURCE=.\c64ui.c
 # End Source File
 # Begin Source File
 
@@ -331,6 +331,10 @@ SOURCE=.\uimediafile.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uimmc64.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uimon.c
 # End Source File
 # Begin Source File
@@ -355,15 +359,15 @@ SOURCE=.\uipetset.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uiplus256k.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uiplus4cart.c
 # End Source File
 # Begin Source File
 
 SOURCE=.\uiplus4mem.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\uiplus256k.c
 # End Source File
 # Begin Source File
 
@@ -380,10 +384,6 @@ SOURCE=.\uiram.c
 # Begin Source File
 
 SOURCE=.\uiramcart.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\uimmc64.c
 # End Source File
 # Begin Source File
 

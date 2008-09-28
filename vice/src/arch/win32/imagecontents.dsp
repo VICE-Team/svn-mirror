@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "libs\imagecontents\Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\vdrive" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\vdrive" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -63,8 +63,8 @@ LIB32=link.exe -lib
 # PROP Output_Dir "libs\imagecontents\Debug"
 # PROP Intermediate_Dir "libs\imagecontents\Debug"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ  /c
-# ADD CPP /nologo /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\vdrive" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ  /c
+# ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
+# ADD CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\vdrive" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -82,11 +82,11 @@ LIB32=link.exe -lib
 # Name "imagecontents - Win32 Debug"
 # Begin Source File
 
-SOURCE=..\..\imagecontents\diskcontents-block.c
+SOURCE="..\..\imagecontents\diskcontents-block.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\imagecontents\diskcontents-iec.c
+SOURCE="..\..\imagecontents\diskcontents-iec.c"
 # End Source File
 # Begin Source File
 
