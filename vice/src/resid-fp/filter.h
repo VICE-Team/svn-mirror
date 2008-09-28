@@ -330,22 +330,17 @@ float FilterFP::clock(float voice1,
             Vhp += (Vf - Vhp) * (distortion_cf_threshold);
 
         /* -3 dB level correction for more resistance through filter path */
-        Vhp = Vbp * _1_div_Q - Vlp * 0.8f - Vi * 0.707107f;
+        Vhp = Vbp * _1_div_Q - Vlp - Vi * 0.8f;
+        Vhp -= Vhp * (distortion_cf_threshold * 5.f);
         /* Simulating the exponential VCR that the FET block is... */
-        Vlp -= Vbp * type3_w0(Vbp) * 1.25f;
+        Vlp -= Vbp * type3_w0(Vbp);
         Vbp -= Vhp * type3_w0(Vhp);
-
-        /* Two very short resistors bleed into the FC circuit. Unfortunately,
-         * it is difficult to say how much resistance the long polysilicon
-         * DAC gives us relative to the other resistors... If its resistance
-         * was hypotehtically 0, then we'd have 3.f here. */
-        Vhp -= Vhp * (distortion_cf_threshold * 2.5f);
-        Vbp -= Vbp * (distortion_cf_threshold * 2.5f);
+        Vbp -= Vbp * (distortion_cf_threshold * 5.f);
 
         /* Tuned based on Fred Gray's Break Thru. It is probably not a hard
          * discontinuity but a saturation effect... */
-        if (Vf > 3.0e6f)
-            Vf = 3.0e6f;
+        if (Vf > 3.1e6f)
+            Vf = 3.1e6f;
     } else {
         /* On the 8580, BP appears mixed in phase with the rest. */
         Vhp = -Vbp * _1_div_Q - Vlp - Vi;
@@ -359,10 +354,9 @@ float FilterFP::clock(float voice1,
 RESID_INLINE
 void FilterFP::nuke_denormals()
 {
-    /* We could also switch the FPU status register to do this,
-     * but this doesn't work on Athlon XP, it seems. Since the SID output
-     * is calculated in short bursts, we get quite frequent calls to this
-     * method, hopefully we never actually see any denormals at all. */
+    /* We could use the flush-to-zero flag or denormals-are-zero on systems
+     * where compiling with -msse and -mfpmath=sse is acceptable. Since this
+     * doesn't include general VICE builds, we do this instead. */
     if (Vbp > -1e-12f && Vbp < 1e-12f)
         Vbp = 0;
     if (Vlp > -1e-12f && Vlp < 1e-12f)

@@ -140,7 +140,7 @@ void FilterFP::writeMODE_VOL(reg8 mode_vol)
   hp_bp_lp = (mode_vol >> 4) & 0x07;
 
   vol = mode_vol & 0x0f;
-  volf = vol / 15.f;
+  volf = (float) vol / 15.f;
 }
 
 // Set filter cutoff frequency.
@@ -151,7 +151,7 @@ void FilterFP::set_w0()
     float type3_fc_kink = SIDFP::kinked_dac(fc, kinkiness, 11) / kinkiness;
     type3_fc_kink_exp = type3_offset * expf(type3_fc_kink * type3_steepness);
     if (distortion_rate != 0.f)
-        type3_fc_kink_distortion_offset = (distortion_point - type3_fc_kink) * 0.3f / distortion_rate;
+        type3_fc_kink_distortion_offset = (distortion_point - type3_fc_kink) * (0.5f * 0.8f) / distortion_rate;
     else
         type3_fc_kink_distortion_offset = 9e9f; /* never triggers */
   }
@@ -164,10 +164,5 @@ void FilterFP::set_w0()
 void FilterFP::set_Q()
 {
   float Q = res / 15.f;
-  if (model == MOS6581FP) {
-    _1_div_Q = 1.f / (0.8f + 1.1f * Q);
-  }
-  if (model == MOS8580FP) {
-    _1_div_Q = 1.f / (0.707f + Q);
-  }
+  _1_div_Q = 1.f / (0.707f + Q * 1.2f);
 }

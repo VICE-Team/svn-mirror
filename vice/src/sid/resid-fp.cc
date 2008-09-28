@@ -90,53 +90,53 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec)
     if (resources_get_int("SidResidPassband", &passband_percentage) < 0)
         return 0;
 
-    passband = speed * passband_percentage / 200.0;
+    passband = speed * passband_percentage / 200.f;
  
     /* Some mostly-common settings for all modes abstracted here. */
     psid->sid->input(0);
 
     /* Model numbers 8-15 are reserved for distorted 6581s. */
     if (model < 8 || model > 15) {
-      psid->sid->set_voice_nonlinearity(1.0);
-      psid->sid->get_filter().set_distortion_properties(0., 0., 0.);
+      psid->sid->set_voice_nonlinearity(1.0f);
+      psid->sid->get_filter().set_distortion_properties(0.f, 0.f, 0.f);
     } else {
       psid->sid->set_chip_model(MOS6581FP);
-      psid->sid->set_voice_nonlinearity(0.96);
-      psid->sid->get_filter().set_distortion_properties(2.5e-3, 2048., 1.0e-4);
+      psid->sid->set_voice_nonlinearity(0.96f);
+      psid->sid->get_filter().set_distortion_properties(3.1e-3f, 2048.f, 2.0e-4f);
     }
 
     switch (model) {
 
     case SID_MODEL_8580R5_3691:
       psid->sid->set_chip_model(MOS8580FP);
-      psid->sid->get_filter().set_type4_properties(6.55, 20.0);
+      psid->sid->get_filter().set_type4_properties(6.55f, 20.0f);
       strcpy(model_text, "8580R5 3691");
       break;
     case SID_MODEL_8580R5_3691D:
       psid->sid->set_chip_model(MOS8580FP);
-      psid->sid->get_filter().set_type4_properties(6.55, 20.0);
+      psid->sid->get_filter().set_type4_properties(6.55f, 20.0f);
       psid->sid->input(-32768);
       strcpy(model_text, "8580R5 3691 + digi boost");
       break;
 
     case SID_MODEL_8580R5_1489:
       psid->sid->set_chip_model(MOS8580FP);
-      psid->sid->get_filter().set_type4_properties(5.7, 20.0);
+      psid->sid->get_filter().set_type4_properties(5.7f, 20.0f);
       strcpy(model_text, "8580R5 1489");
       break;
     case SID_MODEL_8580R5_1489D:
       psid->sid->set_chip_model(MOS8580FP);
-      psid->sid->get_filter().set_type4_properties(5.7, 20.0);
+      psid->sid->get_filter().set_type4_properties(5.7f, 20.0f);
       psid->sid->input(-32768);
       strcpy(model_text, "8580R5 1489 + digi boost");
       break;
 
     case SID_MODEL_6581R3_4885:
-      psid->sid->get_filter().set_type3_properties(8.5e5, 2.2e6, 1.0075, 1.8e4);
+      psid->sid->get_filter().set_type3_properties(8.5e5f, 2.2e6f, 1.0075f, 1.8e4f);
       strcpy(model_text, "6581R3 4885");
       break;
     case SID_MODEL_6581R3_0486S:
-      psid->sid->get_filter().set_type3_properties(1.1e6, 1.5e7, 1.006, 1e4);
+      psid->sid->get_filter().set_type3_properties(1.1e6f, 1.5e7f, 1.006f, 1e4f);
       strcpy(model_text, "6581R3 0486S");
       break;
     case SID_MODEL_6581R3_3984:
@@ -149,11 +149,11 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec)
       strcpy(model_text, "6581R4AR 3789");
       break;
     case SID_MODEL_6581R3_4485:
-      psid->sid->get_filter().set_type3_properties(1.3e6, 5.2e8, 1.0053, 1.1e4);
+      psid->sid->get_filter().set_type3_properties(1.3e6f, 5.2e8f, 1.0053f, 1.1e4f);
       strcpy(model_text, "6581R3 4485");
       break;
     case SID_MODEL_6581R4_1986S:
-      psid->sid->get_filter().set_type3_properties(1.33e6, 2.2e9, 1.0056, 7e3);
+      psid->sid->get_filter().set_type3_properties(1.33e6f, 2.2e9f, 1.0056f, 7e3f);
       strcpy(model_text, "6581R4 1986S");
       break;
     }
@@ -172,7 +172,7 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec)
         method = SAMPLE_RESAMPLE_INTERPOLATE;
 	sprintf(method_text, "%sresampling, cutoff %d Hz",
                              (psid->sid->sse_enabled() ? "SSE " : ""),
-                             (int) (passband > 20000 ? 20000 : passband));
+                             (int) (passband > 20000.f ? 20000.f : passband));
 	break;
     }
 
