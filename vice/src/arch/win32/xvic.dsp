@@ -94,6 +94,16 @@ SOURCE=..\..\main.c
 # Begin Source File
 
 SOURCE=..\..\maincpu.c
+
+!IF  "$(CFG)" == "xvic - Win32 Release"
+
+# ADD CPP /Ot /Oa /Ow /Oi /Op /Oy
+# SUBTRACT CPP /Os
+
+!ELSEIF  "$(CFG)" == "xvic - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -102,7 +112,7 @@ SOURCE=.\resvic20.rc
 !IF  "$(CFG)" == "xvic - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESVI="resvic20.rc"	"res.rc"	"resdrivevic20.rc"	"resrs232user.rc"	"ressidcart.rc"
+USERDEP__RESVI="resvic20.rc"	"res.rc"	"resdrivevic20.rc"	"resrs232user.rc"	"ressidcart.rc"	
 # Begin Custom Build
 InputPath=.\resvic20.rc
 
@@ -114,7 +124,7 @@ InputPath=.\resvic20.rc
 !ELSEIF  "$(CFG)" == "xvic - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESVI="resvic20.rc"	"res.rc"	"resdrivevic20.rc"	"resrs232user.rc"	"ressidcart.rc"
+USERDEP__RESVI="resvic20.rc"	"res.rc"	"resdrivevic20.rc"	"resrs232user.rc"	"ressidcart.rc"	
 # Begin Custom Build
 InputPath=.\resvic20.rc
 

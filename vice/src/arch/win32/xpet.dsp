@@ -94,6 +94,15 @@ SOURCE=..\..\main.c
 # Begin Source File
 
 SOURCE=..\..\maincpu.c
+
+!IF  "$(CFG)" == "xpet - Win32 Release"
+
+# ADD CPP /Ot /Oa /Ow /Oi /Op /Oy
+
+!ELSEIF  "$(CFG)" == "xpet - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -102,7 +111,7 @@ SOURCE=.\respet.rc
 !IF  "$(CFG)" == "xpet - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESPE="respet.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"respetreu.rc"	"ressidcart.rc"
+USERDEP__RESPE="respet.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"respetreu.rc"	"ressidcart.rc"	
 # Begin Custom Build
 InputPath=.\respet.rc
 
@@ -114,7 +123,7 @@ InputPath=.\respet.rc
 !ELSEIF  "$(CFG)" == "xpet - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESPE="respet.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"respetreu.rc"	"ressidcart.rc"
+USERDEP__RESPE="respet.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"respetreu.rc"	"ressidcart.rc"	
 # Begin Custom Build
 InputPath=.\respet.rc
 

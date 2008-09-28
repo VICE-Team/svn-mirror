@@ -111,6 +111,16 @@ SOURCE=..\..\plus4\plus4cart.c
 # Begin Source File
 
 SOURCE=..\..\plus4\plus4cpu.c
+
+!IF  "$(CFG)" == "plus4 - Win32 Release"
+
+# ADD CPP /Ot /Oa /Ow /Oi /Op /Oy
+# SUBTRACT CPP /Os
+
+!ELSEIF  "$(CFG)" == "plus4 - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
