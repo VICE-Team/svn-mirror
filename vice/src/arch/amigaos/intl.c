@@ -510,7 +510,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDMS_ACTION_REPLAY3_IMAGE,    "Action Replay 3 image..."},
 /* de */ {IDMS_ACTION_REPLAY3_IMAGE_DE, "Action Replay 3 Image..."},
 /* fr */ {IDMS_ACTION_REPLAY3_IMAGE_FR, "Insrer une cartouche Action Replay 3..."},
-/* hu */ {IDMS_ACTION_REPLAY3_IMAGE_HU, "Action Replay 3 kpms..."},
+/* hu */ {IDMS_ACTION_REPLAY3_IMAGE_HU, "Action Replay 3 képmás..."},
 /* it */ {IDMS_ACTION_REPLAY3_IMAGE_IT, "Immagine Action Replay 3..."},
 /* nl */ {IDMS_ACTION_REPLAY3_IMAGE_NL, "Action Replay 3 bestand..."},
 /* pl */ {IDMS_ACTION_REPLAY3_IMAGE_PL, ""},  /* fuzzy */
@@ -519,7 +519,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDMS_ACTION_REPLAY4_IMAGE,    "Action Replay 4 image..."},
 /* de */ {IDMS_ACTION_REPLAY4_IMAGE_DE, "Action Replay 4 Image..."},
 /* fr */ {IDMS_ACTION_REPLAY4_IMAGE_FR, "Insrer une cartouche Action Replay 4..."},
-/* hu */ {IDMS_ACTION_REPLAY4_IMAGE_HU, "Action Replay 4 kpms..."},
+/* hu */ {IDMS_ACTION_REPLAY4_IMAGE_HU, "Action Replay 4 képmás..."},
 /* it */ {IDMS_ACTION_REPLAY4_IMAGE_IT, "Immagine Action Replay 4..."},
 /* nl */ {IDMS_ACTION_REPLAY4_IMAGE_NL, "Action Replay 4 bestand..."},
 /* pl */ {IDMS_ACTION_REPLAY4_IMAGE_PL, ""},  /* fuzzy */
@@ -528,7 +528,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDMS_STARDOS_IMAGE,    "StarDOS image..."},
 /* de */ {IDMS_STARDOS_IMAGE_DE, "StarDOS Image..."},
 /* fr */ {IDMS_STARDOS_IMAGE_FR, ""},  /* fuzzy */
-/* hu */ {IDMS_STARDOS_IMAGE_HU, ""},  /* fuzzy */
+/* hu */ {IDMS_STARDOS_IMAGE_HU, "StarDOS képmás..."},
 /* it */ {IDMS_STARDOS_IMAGE_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_STARDOS_IMAGE_NL, "StarDOS bestand..."},
 /* pl */ {IDMS_STARDOS_IMAGE_PL, ""},  /* fuzzy */
@@ -726,7 +726,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDMS_EDIT,    "Edit"},
 /* de */ {IDMS_EDIT_DE, "Bearbeiten"},
 /* fr */ {IDMS_EDIT_FR, ""},  /* fuzzy */
-/* hu */ {IDMS_EDIT_HU, ""},  /* fuzzy */
+/* hu */ {IDMS_EDIT_HU, "Szerkeszt"},
 /* it */ {IDMS_EDIT_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_EDIT_NL, "Bewerken"},
 /* pl */ {IDMS_EDIT_PL, ""},  /* fuzzy */
@@ -735,7 +735,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDMS_COPY,    "Copy"},
 /* de */ {IDMS_COPY_DE, "Kopie"},
 /* fr */ {IDMS_COPY_FR, ""},  /* fuzzy */
-/* hu */ {IDMS_COPY_HU, ""},  /* fuzzy */
+/* hu */ {IDMS_COPY_HU, "Másol"},
 /* it */ {IDMS_COPY_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_COPY_NL, "Kopie"},
 /* pl */ {IDMS_COPY_PL, ""},  /* fuzzy */
@@ -744,7 +744,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDMS_PASTE,    "Paste"},
 /* de */ {IDMS_PASTE_DE, "Einfúgen"},
 /* fr */ {IDMS_PASTE_FR, ""},  /* fuzzy */
-/* hu */ {IDMS_PASTE_HU, ""},  /* fuzzy */
+/* hu */ {IDMS_PASTE_HU, "Beilleszt"},
 /* it */ {IDMS_PASTE_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_PASTE_NL, "Plakken"},
 /* pl */ {IDMS_PASTE_PL, ""},  /* fuzzy */
@@ -1302,7 +1302,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDMS_PS2_MOUSE,    "PS/2 mouse emulation"},
 /* de */ {IDMS_PS2_MOUSE_DE, ""},  /* fuzzy */
 /* fr */ {IDMS_PS2_MOUSE_FR, ""},  /* fuzzy */
-/* hu */ {IDMS_PS2_MOUSE_HU, ""},  /* fuzzy */
+/* hu */ {IDMS_PS2_MOUSE_HU, "PS/2 egér emuláció"},
 /* it */ {IDMS_PS2_MOUSE_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_PS2_MOUSE_NL, "PS/2 muis emulatie"},
 /* pl */ {IDMS_PS2_MOUSE_PL, ""},  /* fuzzy */
@@ -1662,7 +1662,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDMS_C64DTV_SETTINGS,    "C64DTV settings..."},
 /* de */ {IDMS_C64DTV_SETTINGS_DE, ""},  /* fuzzy */
 /* fr */ {IDMS_C64DTV_SETTINGS_FR, ""},  /* fuzzy */
-/* hu */ {IDMS_C64DTV_SETTINGS_HU, ""},  /* fuzzy */
+/* hu */ {IDMS_C64DTV_SETTINGS_HU, "C64DTV beállításai..."},
 /* it */ {IDMS_C64DTV_SETTINGS_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_C64DTV_SETTINGS_NL, "C64DTV instellingen"},
 /* pl */ {IDMS_C64DTV_SETTINGS_PL, ""},  /* fuzzy */
@@ -2468,7 +2468,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_ATTACH_ACTION_REPLAY3_IMAGE,    "Attach Action Replay 3 cartridge image"},
 /* de */ {IDS_ATTACH_ACTION_REPLAY3_IMAGE_DE, "Action Replay 3 Erweiterungsmodul Image einlegen"},
 /* fr */ {IDS_ATTACH_ACTION_REPLAY3_IMAGE_FR, "Insrer une cartouche Action Replay 3"},
-/* hu */ {IDS_ATTACH_ACTION_REPLAY3_IMAGE_HU, "Action Replay 3 cartridge kpms csatolsa"},
+/* hu */ {IDS_ATTACH_ACTION_REPLAY3_IMAGE_HU, "Action Replay 3 cartridge képmás csatolása"},
 /* it */ {IDS_ATTACH_ACTION_REPLAY3_IMAGE_IT, "Seleziona l'immagine di una cartuccia Action Replay 3"},
 /* nl */ {IDS_ATTACH_ACTION_REPLAY3_IMAGE_NL, "Koppel Action Replay 3 cartridgebestand"},
 /* pl */ {IDS_ATTACH_ACTION_REPLAY3_IMAGE_PL, ""},  /* fuzzy */
@@ -2882,7 +2882,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_C64DTV_ROM_FILENAME_SELECT,    "Select file for C64DTV ROM"},
 /* de */ {IDS_C64DTV_ROM_FILENAME_SELECT_DE, ""},  /* fuzzy */
 /* fr */ {IDS_C64DTV_ROM_FILENAME_SELECT_FR, ""},  /* fuzzy */
-/* hu */ {IDS_C64DTV_ROM_FILENAME_SELECT_HU, ""},  /* fuzzy */
+/* hu */ {IDS_C64DTV_ROM_FILENAME_SELECT_HU, "Válasszon fájlt a C64DTV ROM-hoz"},
 /* it */ {IDS_C64DTV_ROM_FILENAME_SELECT_IT, ""},  /* fuzzy */
 /* nl */ {IDS_C64DTV_ROM_FILENAME_SELECT_NL, "Selecteer bestand voor C64DTV ROM"},
 /* pl */ {IDS_C64DTV_ROM_FILENAME_SELECT_PL, ""},  /* fuzzy */
@@ -2891,7 +2891,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_C64DTV_ROM_FILENAME,    "C64DTV ROM file"},
 /* de */ {IDS_C64DTV_ROM_FILENAME_DE, ""},  /* fuzzy */
 /* fr */ {IDS_C64DTV_ROM_FILENAME_FR, ""},  /* fuzzy */
-/* hu */ {IDS_C64DTV_ROM_FILENAME_HU, ""},  /* fuzzy */
+/* hu */ {IDS_C64DTV_ROM_FILENAME_HU, "C64DTV ROM fájl"},
 /* it */ {IDS_C64DTV_ROM_FILENAME_IT, ""},  /* fuzzy */
 /* nl */ {IDS_C64DTV_ROM_FILENAME_NL, "C64DTV ROM bestand"},
 /* pl */ {IDS_C64DTV_ROM_FILENAME_PL, ""},  /* fuzzy */
@@ -2900,7 +2900,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_C64DTV_REVISION,    "C64DTV revision"},
 /* de */ {IDS_C64DTV_REVISION_DE, ""},  /* fuzzy */
 /* fr */ {IDS_C64DTV_REVISION_FR, ""},  /* fuzzy */
-/* hu */ {IDS_C64DTV_REVISION_HU, ""},  /* fuzzy */
+/* hu */ {IDS_C64DTV_REVISION_HU, "C64DTV változat"},
 /* it */ {IDS_C64DTV_REVISION_IT, ""},  /* fuzzy */
 /* nl */ {IDS_C64DTV_REVISION_NL, "C64DTV revisie"},
 /* pl */ {IDS_C64DTV_REVISION_PL, ""},  /* fuzzy */
@@ -2909,7 +2909,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_C64DTV_WRITE_ENABLE,    "Writes to C64DTV ROM"},
 /* de */ {IDS_C64DTV_WRITE_ENABLE_DE, ""},  /* fuzzy */
 /* fr */ {IDS_C64DTV_WRITE_ENABLE_FR, ""},  /* fuzzy */
-/* hu */ {IDS_C64DTV_WRITE_ENABLE_HU, ""},  /* fuzzy */
+/* hu */ {IDS_C64DTV_WRITE_ENABLE_HU, "C64DTV ROM-ba írások"},
 /* it */ {IDS_C64DTV_WRITE_ENABLE_IT, ""},  /* fuzzy */
 /* nl */ {IDS_C64DTV_WRITE_ENABLE_NL, "Schrijven naar C64DTV ROM"},
 /* pl */ {IDS_C64DTV_WRITE_ENABLE_PL, ""},  /* fuzzy */
@@ -2918,7 +2918,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_C64DTV_HUMMER_JOY_ENABLE,    "Hummer Userport joystick"},
 /* de */ {IDS_C64DTV_HUMMER_JOY_ENABLE_DE, ""},  /* fuzzy */
 /* fr */ {IDS_C64DTV_HUMMER_JOY_ENABLE_FR, ""},  /* fuzzy */
-/* hu */ {IDS_C64DTV_HUMMER_JOY_ENABLE_HU, ""},  /* fuzzy */
+/* hu */ {IDS_C64DTV_HUMMER_JOY_ENABLE_HU, "Hummer Userport botkormány"},
 /* it */ {IDS_C64DTV_HUMMER_JOY_ENABLE_IT, ""},  /* fuzzy */
 /* nl */ {IDS_C64DTV_HUMMER_JOY_ENABLE_NL, "Hummer Userport joystick"},
 /* pl */ {IDS_C64DTV_HUMMER_JOY_ENABLE_PL, ""},  /* fuzzy */
@@ -2927,7 +2927,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_C64DTV_HUMMER_JOY_PORT,    "Joystick port mapped to Hummer Userport"},
 /* de */ {IDS_C64DTV_HUMMER_JOY_PORT_DE, ""},  /* fuzzy */
 /* fr */ {IDS_C64DTV_HUMMER_JOY_PORT_FR, ""},  /* fuzzy */
-/* hu */ {IDS_C64DTV_HUMMER_JOY_PORT_HU, ""},  /* fuzzy */
+/* hu */ {IDS_C64DTV_HUMMER_JOY_PORT_HU, "Botkormány port leképezve a Hummer userportra"},
 /* it */ {IDS_C64DTV_HUMMER_JOY_PORT_IT, ""},  /* fuzzy */
 /* nl */ {IDS_C64DTV_HUMMER_JOY_PORT_NL, "Joystick omgeleidt naar Hummer Userport"},
 /* pl */ {IDS_C64DTV_HUMMER_JOY_PORT_PL, ""},  /* fuzzy */
@@ -4349,7 +4349,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_NEW_PAL_EMULATION,    "New PAL Emulation"},
 /* de */ {IDS_NEW_PAL_EMULATION_DE, "PAL Emulation"},
 /* fr */ {IDS_NEW_PAL_EMULATION_FR, ""},  /* fuzzy */
-/* hu */ {IDS_NEW_PAL_EMULATION_HU, ""},  /* fuzzy */
+/* hu */ {IDS_NEW_PAL_EMULATION_HU, "Új PAL emuláció"},
 /* it */ {IDS_NEW_PAL_EMULATION_IT, ""},  /* fuzzy */
 /* nl */ {IDS_NEW_PAL_EMULATION_NL, ""},  /* fuzzy */
 /* pl */ {IDS_NEW_PAL_EMULATION_PL, ""},  /* fuzzy */
@@ -4394,7 +4394,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_NEW_PAL_TINT_0_2,    "Tint (0..2)"},
 /* de */ {IDS_NEW_PAL_TINT_0_2_DE, "Farbton (0..2)"},
 /* fr */ {IDS_NEW_PAL_TINT_0_2_FR, ""},  /* fuzzy */
-/* hu */ {IDS_NEW_PAL_TINT_0_2_HU, ""},  /* fuzzy */
+/* hu */ {IDS_NEW_PAL_TINT_0_2_HU, "Szín (0..2)"},
 /* it */ {IDS_NEW_PAL_TINT_0_2_IT, ""},  /* fuzzy */
 /* nl */ {IDS_NEW_PAL_TINT_0_2_NL, "Tint (0..2)"},
 /* pl */ {IDS_NEW_PAL_TINT_0_2_PL, ""},  /* fuzzy */
@@ -4403,7 +4403,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_NEW_PAL_PHASE_0_2,    "Odd Lines Phase (0..2)"},
 /* de */ {IDS_NEW_PAL_PHASE_0_2_DE, "Ungerade Zeilenphase (0..2)"},
 /* fr */ {IDS_NEW_PAL_PHASE_0_2_FR, ""},  /* fuzzy */
-/* hu */ {IDS_NEW_PAL_PHASE_0_2_HU, ""},  /* fuzzy */
+/* hu */ {IDS_NEW_PAL_PHASE_0_2_HU, "Páratlan sorok fázisa (0..2)"},
 /* it */ {IDS_NEW_PAL_PHASE_0_2_IT, ""},  /* fuzzy */
 /* nl */ {IDS_NEW_PAL_PHASE_0_2_NL, "Oneven lijnen fase (0..2)"},
 /* pl */ {IDS_NEW_PAL_PHASE_0_2_PL, ""},  /* fuzzy */
@@ -4412,7 +4412,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_NEW_PAL_OFFSET_0_2,    "Odd Lines Offset (0..2)"},
 /* de */ {IDS_NEW_PAL_OFFSET_0_2_DE, "Ungerader Zeilenoffset (0..2)"},
 /* fr */ {IDS_NEW_PAL_OFFSET_0_2_FR, ""},  /* fuzzy */
-/* hu */ {IDS_NEW_PAL_OFFSET_0_2_HU, ""},  /* fuzzy */
+/* hu */ {IDS_NEW_PAL_OFFSET_0_2_HU, "Páratlan sorok offszetje (0..2)"},
 /* it */ {IDS_NEW_PAL_OFFSET_0_2_IT, ""},  /* fuzzy */
 /* nl */ {IDS_NEW_PAL_OFFSET_0_2_NL, "Oneven lijnen compensatie (0..2)"},
 /* pl */ {IDS_NEW_PAL_OFFSET_0_2_PL, ""},  /* fuzzy */

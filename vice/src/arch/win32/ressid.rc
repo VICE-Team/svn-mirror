@@ -159,7 +159,7 @@ BEGIN
   IDS_SID_GENGROUP3         "SID sztereó"
   IDS_SID_STEREO_AT         "Sztereó SID itt:"
   IDS_SID_FILTERS           "SID szûrõk"
-  IDS_SID_RESID_GROUP       "reSID/reSID-fp opciók"
+  IDS_SID_RESID_GROUP       "reSID/reSIP-fp opciók"
   IDS_SID_RESID_SAMPLE      "Mintavételezés módja"
   IDS_SID_RESID_PASSBAND    "Áteresztõság (0-90%)"
   IDS_HARDSID_GROUP         "Eszközök kiválasztása"

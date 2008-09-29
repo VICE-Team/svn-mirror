@@ -1311,7 +1311,7 @@ BEGIN
     COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30, 84, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Abbruch", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
 END
 
 
@@ -1335,7 +1335,7 @@ BEGIN
     COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30, 84, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annuler", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
 END
 
 
@@ -1344,23 +1344,23 @@ END
 #pragma code_page(28592)
 IDD_C64DTV_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "C64DTV Settings"
+CAPTION "C64DTV beállításai"
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "DTV Revision",
+    LTEXT           "DTV változat",
                     IDC_DTV_REVISION_LABEL, 63, 6, 110, 8
     COMBOBOX        IDC_DTV_REVISION, 9, 5, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "HUMMER",
                     IDC_STATIC,3,22,174,40
-    AUTOCHECKBOX    "Enable &Hummer Userport Joystick", IDC_C64DTV_HUMMER_USR_JOY_ENABLE,
+    AUTOCHECKBOX    "&Hummer userport botkormány engedélyezése", IDC_C64DTV_HUMMER_USR_JOY_ENABLE,
                     7, 32, 160, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Joyport mapped to userport",
+    LTEXT           "Botkormány port leképezve a userportra",
                     IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
     COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30, 84, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Mégsem", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -1385,7 +1385,7 @@ BEGIN
     COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30, 84, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annulla", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
 END
 
 
@@ -1434,7 +1434,7 @@ BEGIN
     COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30, 84, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Anuluj", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -1495,12 +1495,12 @@ BEGIN
                     IDC_STATIC,3,2,174,55
     LTEXT           "DTV ROM &image File",
                     IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
-    PUSHBUTTON      "Browse...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
+    PUSHBUTTON      "Stöbern...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
     EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
     AUTOCHECKBOX    "Enable &writes to DTV ROM image", IDC_C64DTV_ROM_WRITE_ENABLE,
                     7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Abbruch", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
 END
 
 
@@ -1515,12 +1515,12 @@ BEGIN
                     IDC_STATIC,3,2,174,55
     LTEXT           "DTV ROM &image File",
                     IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
-    PUSHBUTTON      "Browse...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
+    PUSHBUTTON      "Parcourir...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
     EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
     AUTOCHECKBOX    "Enable &writes to DTV ROM image", IDC_C64DTV_ROM_WRITE_ENABLE,
                     7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annuler", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
 END
 
 
@@ -1529,19 +1529,19 @@ END
 #pragma code_page(28592)
 IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Attach DTV Flash Image"
+CAPTION "DTV Flash képmás csatolása"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "DTV ROM",
                     IDC_STATIC,3,2,174,55
-    LTEXT           "DTV ROM &image File",
+    LTEXT           "DTV ROM &képmás fájl",
                     IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
-    PUSHBUTTON      "Browse...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
+    PUSHBUTTON      "Tallózás...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
     EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
-    AUTOCHECKBOX    "Enable &writes to DTV ROM image", IDC_C64DTV_ROM_WRITE_ENABLE,
+    AUTOCHECKBOX    "DTV ROM képmásba írás &engedélyezése", IDC_C64DTV_ROM_WRITE_ENABLE,
                     7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Mégsem", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -1557,12 +1557,12 @@ BEGIN
                     IDC_STATIC,3,2,174,55
     LTEXT           "DTV ROM &image File",
                     IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
-    PUSHBUTTON      "Browse...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
+    PUSHBUTTON      "Sfoglia...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
     EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
     AUTOCHECKBOX    "Enable &writes to DTV ROM image", IDC_C64DTV_ROM_WRITE_ENABLE,
                     7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annulla", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
 END
 
 
@@ -1598,12 +1598,12 @@ BEGIN
                     IDC_STATIC,3,2,174,55
     LTEXT           "DTV ROM &image File",
                     IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
-    PUSHBUTTON      "Browse...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
+    PUSHBUTTON      "Przegl±daj...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
     EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
     AUTOCHECKBOX    "Enable &writes to DTV ROM image", IDC_C64DTV_ROM_WRITE_ENABLE,
                     7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Anuluj", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -1661,12 +1661,12 @@ BEGIN
                     IDC_STATIC,3,2,174,55
     LTEXT           "DTV ROM &image File",
                     IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
-    PUSHBUTTON      "Browse...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
+    PUSHBUTTON      "Stöbern...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
     EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
     AUTOCHECKBOX    "Copy C64 ROMS into image", IDC_C64DTV_ROM_COPY_C64,
                     7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     DEFPUSHBUTTON   "Create", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Abbruch", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
 END
 
 
@@ -1681,12 +1681,12 @@ BEGIN
                     IDC_STATIC,3,2,174,55
     LTEXT           "DTV ROM &image File",
                     IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
-    PUSHBUTTON      "Browse...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
+    PUSHBUTTON      "Parcourir...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
     EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
     AUTOCHECKBOX    "Copy C64 ROMS into image", IDC_C64DTV_ROM_COPY_C64,
                     7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     DEFPUSHBUTTON   "Create", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annuler", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
 END
 
 
@@ -1695,19 +1695,19 @@ END
 #pragma code_page(28592)
 IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Create DTV Flash Image"
+CAPTION "DTV Flash képmás létrehozása"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "DTV ROM Creation",
+    GROUPBOX        "DTV ROM létrehozás",
                     IDC_STATIC,3,2,174,55
-    LTEXT           "DTV ROM &image File",
+    LTEXT           "DTV ROM &képmás fájl",
                     IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
-    PUSHBUTTON      "Browse...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
+    PUSHBUTTON      "Tallózás...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
     EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
-    AUTOCHECKBOX    "Copy C64 ROMS into image", IDC_C64DTV_ROM_COPY_C64,
+    AUTOCHECKBOX    "C64 ROM-ok másolása a képmásba", IDC_C64DTV_ROM_COPY_C64,
                     7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    DEFPUSHBUTTON   "Create", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
+    DEFPUSHBUTTON   "Létrehozás", IDOK, 30, 74, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Mégsem", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -1723,12 +1723,12 @@ BEGIN
                     IDC_STATIC,3,2,174,55
     LTEXT           "DTV ROM &image File",
                     IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
-    PUSHBUTTON      "Browse...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
+    PUSHBUTTON      "Sfoglia...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
     EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
     AUTOCHECKBOX    "Copy C64 ROMS into image", IDC_C64DTV_ROM_COPY_C64,
                     7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     DEFPUSHBUTTON   "Create", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annulla", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
 END
 
 
@@ -1748,7 +1748,7 @@ BEGIN
     AUTOCHECKBOX    "Copy C64 ROMS naar bestand", IDC_C64DTV_ROM_COPY_C64,
                     7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     DEFPUSHBUTTON   "Maak", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annuleren", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
 END
 
 
@@ -1764,12 +1764,12 @@ BEGIN
                     IDC_STATIC,3,2,174,55
     LTEXT           "DTV ROM &image File",
                     IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
-    PUSHBUTTON      "Browse...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
+    PUSHBUTTON      "Przegl±daj...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
     EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
     AUTOCHECKBOX    "Copy C64 ROMS into image", IDC_C64DTV_ROM_COPY_C64,
                     7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     DEFPUSHBUTTON   "Create", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Anuluj", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -1790,7 +1790,7 @@ BEGIN
     AUTOCHECKBOX    "Kopiera C64 ROM till avbildningsfil", IDC_C64DTV_ROM_COPY_C64,
                     7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     DEFPUSHBUTTON   "Create", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Avbryt", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
 END
 
 
@@ -1846,14 +1846,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_MP_DTV_FLASH_ROM_IMAGE     "DTV flash &rom image"
-    IDS_MI_AUTOSTART_DISK          "Lemez/szalag képmás &automatikus indítása..."
-    IDS_MI_ATTACH_DTV_FLASH        "Attach &flash rom image"
-    IDS_MI_DETACH_DTV_FLASH        "&Detach flash rom image"
-    IDS_MI_CREATE_DTV_FLASH        "&Create new flash rom image"
-    IDS_MI_FLASH_TRUE_FILESYSTEM   "&True flash filesystem"
-    IDS_MI_PS2MOUSE                "&PS/2 mouse emulation"
-    IDS_MI_C64DTV_SETTINGS         "&C64DTV settings..."
+    IDS_MP_DTV_FLASH_ROM_IMAGE     "DTV flash &rom képmás"
+    IDS_MI_AUTOSTART_DISK          "Lemezképmás &automatikus indítása..."
+    IDS_MI_ATTACH_DTV_FLASH        "&Flash ROM képmás csatolása"
+    IDS_MI_DETACH_DTV_FLASH        "Flash ROM képmás &leválasztása"
+    IDS_MI_CREATE_DTV_FLASH        "Új flash rom képmás &létrehozása"
+    IDS_MI_FLASH_TRUE_FILESYSTEM   "&Igazi flash fájlrendszer"
+    IDS_MI_PS2MOUSE                "&PS/2 egér emuláció"
+    IDS_MI_C64DTV_SETTINGS         "&C64DTV beállításai..."
 END
 #pragma code_page(28591)
 

@@ -653,7 +653,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_NO_FILENAME,    "No filename!"},
 /* de */ {IDGS_NO_FILENAME_DE, ""},  /* fuzzy */
 /* fr */ {IDGS_NO_FILENAME_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_NO_FILENAME_HU, ""},  /* fuzzy */
+/* hu */ {IDGS_NO_FILENAME_HU, "Nincs fájlnév!"},
 /* it */ {IDGS_NO_FILENAME_IT, ""},  /* fuzzy */
 /* nl */ {IDGS_NO_FILENAME_NL, "Geen bestandsnaam!"},
 /* pl */ {IDGS_NO_FILENAME_PL, ""},  /* fuzzy */
@@ -663,7 +663,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_ILLEGAL_FILENAME,    "Illegal filename!"},
 /* de */ {IDGS_ILLEGAL_FILENAME_DE, ""},  /* fuzzy */
 /* fr */ {IDGS_ILLEGAL_FILENAME_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_ILLEGAL_FILENAME_HU, ""},  /* fuzzy */
+/* hu */ {IDGS_ILLEGAL_FILENAME_HU, "Érvénytelen fájlnév!"},
 /* it */ {IDGS_ILLEGAL_FILENAME_IT, ""},  /* fuzzy */
 /* nl */ {IDGS_ILLEGAL_FILENAME_NL, "Bestandsnaam ongeldig!"},
 /* pl */ {IDGS_ILLEGAL_FILENAME_PL, ""},  /* fuzzy */
@@ -673,7 +673,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_ERROR_CREATING_FILE_S,    "Error creating file %s!"},
 /* de */ {IDGS_ERROR_CREATING_FILE_S_DE, ""},  /* fuzzy */
 /* fr */ {IDGS_ERROR_CREATING_FILE_S_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_ERROR_CREATING_FILE_S_HU, ""},  /* fuzzy */
+/* hu */ {IDGS_ERROR_CREATING_FILE_S_HU, "Hiba %s fájl létrehozása közben!"},
 /* it */ {IDGS_ERROR_CREATING_FILE_S_IT, ""},  /* fuzzy */
 /* nl */ {IDGS_ERROR_CREATING_FILE_S_NL, "Fout bij het maken van bestand %s!"},
 /* pl */ {IDGS_ERROR_CREATING_FILE_S_PL, ""},  /* fuzzy */
@@ -683,7 +683,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_ERROR_WRITING_TO_FILE_S,    "Error writing to file %s!"},
 /* de */ {IDGS_ERROR_WRITING_TO_FILE_S_DE, ""},  /* fuzzy */
 /* fr */ {IDGS_ERROR_WRITING_TO_FILE_S_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_ERROR_WRITING_TO_FILE_S_HU, ""},  /* fuzzy */
+/* hu */ {IDGS_ERROR_WRITING_TO_FILE_S_HU, "Hiba %s fájlba írás közben!"},
 /* it */ {IDGS_ERROR_WRITING_TO_FILE_S_IT, ""},  /* fuzzy */
 /* nl */ {IDGS_ERROR_WRITING_TO_FILE_S_NL, "Fout bij het schrijven naar bestand %s!"},
 /* pl */ {IDGS_ERROR_WRITING_TO_FILE_S_PL, ""},  /* fuzzy */
@@ -693,7 +693,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_DTV_ROM_CREATED,    "DTV ROM image created successfully"},
 /* de */ {IDGS_DTV_ROM_CREATED_DE, ""},  /* fuzzy */
 /* fr */ {IDGS_DTV_ROM_CREATED_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_DTV_ROM_CREATED_HU, ""},  /* fuzzy */
+/* hu */ {IDGS_DTV_ROM_CREATED_HU, "DTV ROM képmás sikeresen létrehozva"},
 /* it */ {IDGS_DTV_ROM_CREATED_IT, ""},  /* fuzzy */
 /* nl */ {IDGS_DTV_ROM_CREATED_NL, "DTV ROM bestand gemaakt!"},
 /* pl */ {IDGS_DTV_ROM_CREATED_PL, ""},  /* fuzzy */
@@ -705,7 +705,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON,    "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"},
 /* de */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_DE, "Bei Autostart soll 'RUN' mit Doppelpunkt ausgeführt werden ('RUN:')"},
 /* fr */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_HU, "Automatikus indításnál a 'RUN' parancs kettõsponttal, vagyis 'RUN:'"},
 /* it */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_NL, "Bij het autostarten, gebruik het 'RUN' commando met een dubbele punt, dus 'RUN:'"},
 /* pl */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_PL, ""},  /* fuzzy */
@@ -715,7 +715,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON,    "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"},
 /* de */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_DE, "Bei Autostart soll 'RUN' ohne Doppelpunkt ausgeführt werden ('RUN')"},
 /* fr */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_HU, "Automatikus indításnak a 'RUN' parancs kettõspont nélkül, vagyis 'RUN'"},
 /* it */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_NL, "Bij het autostarten, gebruik het 'RUN' commando niet met een dubbele punt, dus 'RUN'"},
 /* pl */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_PL, ""},  /* fuzzy */
@@ -1165,7 +1165,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY,    "Enable the Hummer Userport Joystick Emulation"},
 /* de */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY_HU, "Hummer Userport botkormány emuláció engedélyezése"},
 /* it */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY_NL, "Aktiveer de Hummer Userport Joystick emulatie"},
 /* pl */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY_PL, ""},  /* fuzzy */
@@ -1175,7 +1175,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_HUMMER_USERPORT_JOY,    "Disable the Hummer Userport Joystick emulation"},
 /* de */ {IDCLS_DISABLE_HUMMER_USERPORT_JOY_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_HUMMER_USERPORT_JOY_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_HUMMER_USERPORT_JOY_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_HUMMER_USERPORT_JOY_HU, "Hummer userport botkormány emuláció tiltása"},
 /* it */ {IDCLS_DISABLE_HUMMER_USERPORT_JOY_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_HUMMER_USERPORT_JOY_NL, "De Hummer Userport Joystick emulatie afsluiten"},
 /* pl */ {IDCLS_DISABLE_HUMMER_USERPORT_JOY_PL, ""},  /* fuzzy */
@@ -1185,7 +1185,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_P_PORT,    "<port>"},
 /* de */ {IDCLS_P_PORT_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_P_PORT_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_PORT_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_PORT_HU, "<port>"},
 /* it */ {IDCLS_P_PORT_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_PORT_NL, "<poort>"},
 /* pl */ {IDCLS_P_PORT_PL, ""},  /* fuzzy */
@@ -1195,7 +1195,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_HUMMER_JOY_PORT,    "Select which joystick port should be mapped to the userport"},
 /* de */ {IDCLS_HUMMER_JOY_PORT_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_HUMMER_JOY_PORT_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_HUMMER_JOY_PORT_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_HUMMER_JOY_PORT_HU, "Válassza ki a joystick portot, amely a userport-ra képzõdik le"},
 /* it */ {IDCLS_HUMMER_JOY_PORT_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_HUMMER_JOY_PORT_NL, "Selecteer welke joystick poort moet worden omgeleidt naar de userport"},
 /* pl */ {IDCLS_HUMMER_JOY_PORT_PL, ""},  /* fuzzy */
@@ -1543,7 +1543,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_TFE,    "Disable the TFE (\"The Final Ethernet\") unit"},
 /* de */ {IDCLS_DISABLE_TFE_DE, "TFE Ethernetemulation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_TFE_FR, "Désactiver l'unité TFE"},
-/* hu */ {IDCLS_DISABLE_TFE_HU, "TFE (\"the final ethernet\") egység tiltása"},
+/* hu */ {IDCLS_DISABLE_TFE_HU, "TFE (\"The Final Ethernet\") egység tiltása"},
 /* it */ {IDCLS_DISABLE_TFE_IT, "Disattiva l'unità TFE (\"The Final Ethernet\")"},
 /* nl */ {IDCLS_DISABLE_TFE_NL, "De TFE (\"The Final Ethernet\")-eenheid uitschakelen"},
 /* pl */ {IDCLS_DISABLE_TFE_PL, ""},  /* fuzzy */
@@ -1634,7 +1634,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_STARDOS_CART,    "Attach raw 16KB StarDOS cartridge image"},
 /* de */ {IDCLS_ATTACH_RAW_STARDOS_CART_DE, "16KB StarDOS Erweiterungsmodul Image einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_STARDOS_CART_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ATTACH_RAW_STARDOS_CART_HU, "16KB-os StarDOS cartridge kpms csatolsa"},
+/* hu */ {IDCLS_ATTACH_RAW_STARDOS_CART_HU, "Nyers 16KB-os StarDOS cartridge képmás csatolása"},
 /* it */ {IDCLS_ATTACH_RAW_STARDOS_CART_IT, "Seleziona l'immagine di una cartuccia StarDOS di 16KB"},
 /* nl */ {IDCLS_ATTACH_RAW_STARDOS_CART_NL, "Koppel binair 16KB StarDOS-cartridgebestand aan"},
 /* pl */ {IDCLS_ATTACH_RAW_STARDOS_CART_PL, ""},  /* fuzzy */
@@ -1644,7 +1644,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART,    "Attach raw 32KB Action Replay IV cartridge image"},
 /* de */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_DE, "32K Action Replay Image IV einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_HU, "32KB-os Action Replay IV cartridge kpms csatolsa"},
+/* hu */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_HU, "32KB-os Action Replay IV cartridge képmás csatolása"},
 /* it */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_IT, "Seleziona l'immagine di una cartuccia Action Replay IV di 32KB"},
 /* nl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_NL, "Koppel binair 32KB Action-Replay-IV-cartridgebestand aan"},
 /* pl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_PL, ""},  /* fuzzy */
@@ -2720,7 +2720,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_USERPORT_DIAG_PIN,    "Enable userport diagnostic pin"},
 /* de */ {IDCLS_ENABLE_USERPORT_DIAG_PIN_DE, "Userport Diagnose Pin aktivieren"},
 /* fr */ {IDCLS_ENABLE_USERPORT_DIAG_PIN_FR, "Activer la pin de diagnostique userport"},
-/* hu */ {IDCLS_ENABLE_USERPORT_DIAG_PIN_HU, "Userport diagnosztikai tüske engedélyezése"},
+/* hu */ {IDCLS_ENABLE_USERPORT_DIAG_PIN_HU, "Userport diagnosztikai láb engedélyezése"},
 /* it */ {IDCLS_ENABLE_USERPORT_DIAG_PIN_IT, "Attiva il pin diagnostico della userport"},
 /* nl */ {IDCLS_ENABLE_USERPORT_DIAG_PIN_NL, "Activeer userport diagnostische pin"},
 /* pl */ {IDCLS_ENABLE_USERPORT_DIAG_PIN_PL, ""},  /* fuzzy */
@@ -2730,7 +2730,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_USERPORT_DIAG_PIN,    "Disable userport diagnostic pin"},
 /* de */ {IDCLS_DISABLE_USERPORT_DIAG_PIN_DE, "Userport Diagnose Pin deaktivieren"},
 /* fr */ {IDCLS_DISABLE_USERPORT_DIAG_PIN_FR, "Désactiver la pin de diagnostique userport"},
-/* hu */ {IDCLS_DISABLE_USERPORT_DIAG_PIN_HU, "Userport diagnosztikai tüske tiltása"},
+/* hu */ {IDCLS_DISABLE_USERPORT_DIAG_PIN_HU, "Userport diagnosztikai láb tiltása"},
 /* it */ {IDCLS_DISABLE_USERPORT_DIAG_PIN_IT, "Disattiva il pin diagnostico della userport"},
 /* nl */ {IDCLS_DISABLE_USERPORT_DIAG_PIN_NL, "Userport diagnostische pin uitschakelen"},
 /* pl */ {IDCLS_DISABLE_USERPORT_DIAG_PIN_PL, ""},  /* fuzzy */
@@ -2860,7 +2860,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_TINT,    "Set tint of internal calculated palette [1000]"},
 /* de */ {IDCLS_SET_TINT_DE, "Farbton für intern berechneten Palette setzen [1000]"},
 /* fr */ {IDCLS_SET_TINT_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SET_TINT_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_TINT_HU, "A számolt, belsõ paletta telítettsége [1000]"},
 /* it */ {IDCLS_SET_TINT_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_TINT_NL, "Zet de tint van het intern berekend kleuren palette [1000]"},
 /* pl */ {IDCLS_SET_TINT_PL, ""},  /* fuzzy */
@@ -2870,7 +2870,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_ODDLINES_PHASE,    "Set phase for color carrier in odd lines [1250]"},
 /* de */ {IDCLS_SET_ODDLINES_PHASE_DE, "Phase für Farbträger in ungeraden Zeilen setzen [1250]"},
 /* fr */ {IDCLS_SET_ODDLINES_PHASE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SET_ODDLINES_PHASE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_ODDLINES_PHASE_HU, "Szín vivõ fázisa a páratlan sorokban [1250]"},
 /* it */ {IDCLS_SET_ODDLINES_PHASE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_ODDLINES_PHASE_NL, "Zet de fase van de kleuren drager in oneven lijnen [1250]"},
 /* pl */ {IDCLS_SET_ODDLINES_PHASE_PL, ""},  /* fuzzy */
@@ -2880,7 +2880,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_ODDLINES_OFFSET,    "Set phase offset for color carrier in odd lines [750]"},
 /* de */ {IDCLS_SET_ODDLINES_OFFSET_DE, "Phasenoffset für Farbträger in ungeraden Zeilen setzen [750]"},
 /* fr */ {IDCLS_SET_ODDLINES_OFFSET_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SET_ODDLINES_OFFSET_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_ODDLINES_OFFSET_HU, "Szín vivõ fázis offszet a páratlan sorokban [750]"},
 /* it */ {IDCLS_SET_ODDLINES_OFFSET_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_ODDLINES_OFFSET_NL, "Zet de fase compensatie van de kleuren drager in oneven lijnen [750]"},
 /* pl */ {IDCLS_SET_ODDLINES_OFFSET_PL, ""},  /* fuzzy */
@@ -4640,7 +4640,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_PS2MOUSE,    "Enable PS/2 mouse on userport"},
 /* de */ {IDCLS_ENABLE_PS2MOUSE_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_PS2MOUSE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_PS2MOUSE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_PS2MOUSE_HU, "PS/2 egér engedélyezése a userporton"},
 /* it */ {IDCLS_ENABLE_PS2MOUSE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_PS2MOUSE_NL, "Aktiveer emulatie van een PS/2 muis op de userport"},
 /* pl */ {IDCLS_ENABLE_PS2MOUSE_PL, ""},  /* fuzzy */
@@ -4650,7 +4650,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_PS2MOUSE,    "Disable PS/2 mouse on userport"},
 /* de */ {IDCLS_DISABLE_PS2MOUSE_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_PS2MOUSE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_PS2MOUSE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_PS2MOUSE_HU, "PS/2 egér tiltása a userporton"},
 /* it */ {IDCLS_DISABLE_PS2MOUSE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_PS2MOUSE_NL, "Emulatie van een PS/2 muis op de userport afsluiten"},
 /* pl */ {IDCLS_DISABLE_PS2MOUSE_PL, ""},  /* fuzzy */
@@ -5070,7 +5070,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_DTV_REVISION,    "Specify DTV Revision (2: DTV2, 3: DTV3)"},
 /* de */ {IDCLS_SPECIFY_DTV_REVISION_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_DTV_REVISION_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_DTV_REVISION_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_DTV_REVISION_HU, "Adja meg a DTV verzióját (2: DTV2, 3: DTV3)"},
 /* it */ {IDCLS_SPECIFY_DTV_REVISION_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_DTV_REVISION_NL, "Geef de DTV revisie (2: DTV2, 3: DTV3)"},
 /* pl */ {IDCLS_SPECIFY_DTV_REVISION_PL, ""},  /* fuzzy */
@@ -5080,7 +5080,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_DTV_BLITTER_LOG,    "Enable DTV blitter logs"},
 /* de */ {IDCLS_ENABLE_DTV_BLITTER_LOG_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_DTV_BLITTER_LOG_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_DTV_BLITTER_LOG_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_DTV_BLITTER_LOG_HU, "DTV blit naplók engedélyezése"},
 /* it */ {IDCLS_ENABLE_DTV_BLITTER_LOG_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_DTV_BLITTER_LOG_NL, "Aktiveer DTV blitter logs"},
 /* pl */ {IDCLS_ENABLE_DTV_BLITTER_LOG_PL, ""},  /* fuzzy */
@@ -5090,7 +5090,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_DTV_BLITTER_LOG,    "Disable DTV blitter logs"},
 /* de */ {IDCLS_DISABLE_DTV_BLITTER_LOG_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_DTV_BLITTER_LOG_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_DTV_BLITTER_LOG_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_DTV_BLITTER_LOG_HU, "DTV blit naplók tiltása"},
 /* it */ {IDCLS_DISABLE_DTV_BLITTER_LOG_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_DTV_BLITTER_LOG_NL, "DTV Blitter logs afsluiten"},
 /* pl */ {IDCLS_DISABLE_DTV_BLITTER_LOG_PL, ""},  /* fuzzy */
@@ -5100,7 +5100,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_DTV_DMA_LOG,    "Enable DTV DMA logs"},
 /* de */ {IDCLS_ENABLE_DTV_DMA_LOG_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_DTV_DMA_LOG_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_DTV_DMA_LOG_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_DTV_DMA_LOG_HU, "DTV DMA naplók engedélyezése"},
 /* it */ {IDCLS_ENABLE_DTV_DMA_LOG_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_DTV_DMA_LOG_NL, "Aktiveer DTV DMA logs"},
 /* pl */ {IDCLS_ENABLE_DTV_DMA_LOG_PL, ""},  /* fuzzy */
@@ -5110,7 +5110,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_DTV_DMA_LOG,    "Disable DTV DMA logs"},
 /* de */ {IDCLS_DISABLE_DTV_DMA_LOG_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_DTV_DMA_LOG_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_DTV_DMA_LOG_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_DTV_DMA_LOG_HU, "DTV dma naplók tiltása."},
 /* it */ {IDCLS_DISABLE_DTV_DMA_LOG_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_DTV_DMA_LOG_NL, "DTV DMA logs afsluiten"},
 /* pl */ {IDCLS_DISABLE_DTV_DMA_LOG_PL, ""},  /* fuzzy */
@@ -5120,7 +5120,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_C64DTVROM_NAME,    "Specify name of C64DTV ROM image"},
 /* de */ {IDCLS_SPECIFY_C64DTVROM_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_C64DTVROM_NAME_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_C64DTVROM_NAME_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_C64DTVROM_NAME_HU, "Adja meg a C64DTV ROM képmás nevét"},
 /* it */ {IDCLS_SPECIFY_C64DTVROM_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_C64DTVROM_NAME_NL, "Geef de naam van her C64DTV ROM bestand"},
 /* pl */ {IDCLS_SPECIFY_C64DTVROM_NAME_PL, ""},  /* fuzzy */
@@ -5130,7 +5130,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_C64DTVROM_RW,    "Enable writing to C64DTV ROM image"},
 /* de */ {IDCLS_ENABLE_C64DTVROM_RW_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_C64DTVROM_RW_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_C64DTVROM_RW_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_C64DTVROM_RW_HU, "C64DTV ROM képmásba írás engedélyezése"},
 /* it */ {IDCLS_ENABLE_C64DTVROM_RW_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_C64DTVROM_RW_NL, "Aktiveer schrijven naar C64DTV ROM bestand"},
 /* pl */ {IDCLS_ENABLE_C64DTVROM_RW_PL, ""},  /* fuzzy */
@@ -5140,7 +5140,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_C64DTVROM_RW,    "Disable writing to C64DTV ROM image"},
 /* de */ {IDCLS_DISABLE_C64DTVROM_RW_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_C64DTVROM_RW_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_C64DTVROM_RW_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_C64DTVROM_RW_HU, "C64DTV ROM képmásba írás tiltása"},
 /* it */ {IDCLS_DISABLE_C64DTVROM_RW_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_C64DTVROM_RW_NL, "Schrijven naar C64DTV ROM bestand afsluiten"},
 /* pl */ {IDCLS_DISABLE_C64DTVROM_RW_PL, ""},  /* fuzzy */
@@ -5150,9 +5150,9 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_DTV_FLASH_LOG,    "Enable C64DTV flash chip logs."},
 /* de */ {IDCLS_ENABLE_DTV_FLASH_LOG_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_DTV_FLASH_LOG_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_DTV_FLASH_LOG_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_DTV_FLASH_LOG_HU, "DTV flash chip naplók engedélyezése."},
 /* it */ {IDCLS_ENABLE_DTV_FLASH_LOG_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_DTV_FLASH_LOG_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DTV_FLASH_LOG_NL, "Aktiveer C64DTV flash chip logs"},
 /* pl */ {IDCLS_ENABLE_DTV_FLASH_LOG_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_DTV_FLASH_LOG_SV, ""},  /* fuzzy */
 
@@ -5160,9 +5160,9 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_DTV_FLASH_LOG,    "Disable C64DTV flash chip logs."},
 /* de */ {IDCLS_DISABLE_DTV_FLASH_LOG_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_DTV_FLASH_LOG_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_DTV_FLASH_LOG_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_DTV_FLASH_LOG_HU, "DTV flash chip naplók tiltása."},
 /* it */ {IDCLS_DISABLE_DTV_FLASH_LOG_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_DTV_FLASH_LOG_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DTV_FLASH_LOG_NL, "C64DTV flash chip logs afsluiten"},
 /* pl */ {IDCLS_DISABLE_DTV_FLASH_LOG_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_DTV_FLASH_LOG_SV, ""},  /* fuzzy */
 
@@ -5170,7 +5170,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_USE_AS_DIRECTORY_FLASH_FS,    "Use <name> as directory for flash file system device"},
 /* de */ {IDCLS_USE_AS_DIRECTORY_FLASH_FS_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_USE_AS_DIRECTORY_FLASH_FS_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_USE_AS_DIRECTORY_FLASH_FS_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_USE_AS_DIRECTORY_FLASH_FS_HU, "<név> könyvtár használata a flash fájlrendszer eszközhöz"},
 /* it */ {IDCLS_USE_AS_DIRECTORY_FLASH_FS_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_USE_AS_DIRECTORY_FLASH_FS_NL, ""},  /* fuzzy */
 /* pl */ {IDCLS_USE_AS_DIRECTORY_FLASH_FS_PL, ""},  /* fuzzy */
@@ -5180,7 +5180,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_TRUE_FLASH_FS,    "Enable true hardware flash file system"},
 /* de */ {IDCLS_ENABLE_TRUE_FLASH_FS_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_TRUE_FLASH_FS_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_TRUE_FLASH_FS_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_TRUE_FLASH_FS_HU, "Igazi hardver flash fájlrendszer engedélyezése"},
 /* it */ {IDCLS_ENABLE_TRUE_FLASH_FS_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_TRUE_FLASH_FS_NL, ""},  /* fuzzy */
 /* pl */ {IDCLS_ENABLE_TRUE_FLASH_FS_PL, ""},  /* fuzzy */
@@ -5190,7 +5190,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_TRUE_FLASH_FS,    "Disable true hardware flash file system"},
 /* de */ {IDCLS_DISABLE_TRUE_FLASH_FS_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_TRUE_FLASH_FS_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_TRUE_FLASH_FS_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_TRUE_FLASH_FS_HU, "Igazi hardver flash fájlrendszer tiltása"},
 /* it */ {IDCLS_DISABLE_TRUE_FLASH_FS_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_TRUE_FLASH_FS_NL, ""},  /* fuzzy */
 /* pl */ {IDCLS_DISABLE_TRUE_FLASH_FS_PL, ""},  /* fuzzy */
@@ -5200,7 +5200,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_HUMMERADC,    "Enable the Hummer ADC"},
 /* de */ {IDCLS_ENABLE_HUMMERADC_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_HUMMERADC_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_HUMMERADC_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_HUMMERADC_HU, "Hummer ADC engedélyezése"},
 /* it */ {IDCLS_ENABLE_HUMMERADC_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_HUMMERADC_NL, "Aktiveer de Hummer ADC"},
 /* pl */ {IDCLS_ENABLE_HUMMERADC_PL, ""},  /* fuzzy */
@@ -5210,7 +5210,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_HUMMERADC,    "Disable the Hummer ADC"},
 /* de */ {IDCLS_DISABLE_HUMMERADC_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_HUMMERADC_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_HUMMERADC_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_HUMMERADC_HU, "Hummer ADC tiltása"},
 /* it */ {IDCLS_DISABLE_HUMMERADC_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_HUMMERADC_NL, "De Hummer ADC afsluiten"},
 /* pl */ {IDCLS_DISABLE_HUMMERADC_PL, ""},  /* fuzzy */

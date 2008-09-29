@@ -932,7 +932,7 @@ BEGIN
     COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Automatikus tûz beállításai",IDC_STATIC,12,61,93,8
-    LTEXT           "Automatikus tûz sebessége (1..32)",IDC_STATIC,12,74,70,8
+    LTEXT           "Automatikus tûz &sebessége (1..32)",IDC_STATIC,12,74,70,8
     EDITTEXT        IDC_JOY_FIRE1_SPEED, 87,72,18,12,WS_TABSTOP | 0x2000L
     COMBOBOX        IDC_JOY_FIRE1_AXIS, 12,87,93,60,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -945,7 +945,7 @@ BEGIN
     COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Automatikus tûz beállításai",IDC_STATIC,122,61,93,8
-    LTEXT           "Automatikus tûz sebessége (1..32)",IDC_STATIC,122,74,70,8
+    LTEXT           "Automatikus tûz &sebessége (1..32)",IDC_STATIC,122,74,70,8
     EDITTEXT        IDC_JOY_FIRE2_SPEED, 197,72,18,12,WS_TABSTOP | 0x2000L
     COMBOBOX        IDC_JOY_FIRE2_AXIS, 122,87,93,60,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -2909,13 +2909,13 @@ IDD_VIDEO_NEW_PAL_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Tint",IDC_STATIC,12,12,60,8
+    LTEXT           "Szín",IDC_STATIC,12,12,60,8
     LTEXT           "(0..2)",IDC_STATIC,72,12,28,8
     EDITTEXT        IDC_VIDEO_NEW_PAL_TINT, 105,10,32,12,WS_TABSTOP
-    LTEXT           "Odd lines phase",IDC_STATIC,12,24,60,8
+    LTEXT           "Páratlan sorok fázisa",IDC_STATIC,12,24,60,8
     LTEXT           "(0..2)",IDC_STATIC,72,24,28,8
     EDITTEXT        IDC_VIDEO_NEW_PAL_PHASE, 105,22,32,12,WS_TABSTOP
-    LTEXT           "Odd lines offset",IDC_STATIC,12,36,60,8
+    LTEXT           "Páratlan sorok offszete",IDC_STATIC,12,36,60,8
     LTEXT           "(0..2)",IDC_STATIC,72,36,28,8
     EDITTEXT        IDC_VIDEO_NEW_PAL_OFFSET, 105,34,32,12,WS_TABSTOP
 END
@@ -6304,7 +6304,7 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE      "VICE paletta fájl betöltése"
   IDS_FULLSCREEN                  "Teljes képernyõ"
   IDS_COLORS                      "Színek"
-  IDS_NEW_PAL                     "New PAL emulation"
+  IDS_NEW_PAL                     "Új PAL emuláció"
   IDS_VIDEO_SETTINGS              "Videó beállításai"
   IDS_FILE_SYSTEM                 "Fájlrendszer"
 #ifdef HAVE_OPENCBM
@@ -6316,8 +6316,8 @@ BEGIN
   IDS_ATTACH_RAW_16KB_CART_IMG    "Nyers 16KB-os cartridge képmás csatolása"
   IDS_ATTACH_AR_CART_IMAGE        "Action Replay cartridge képmás csatolása"
   IDS_ATTACH_AR3_CART_IMAGE       "Action Replay III cartridge képmás csatolása"
-  IDS_ATTACH_AR4_CART_IMAGE       "Action Replay 4 cartridge kpms csatolsa"
-  IDS_ATTACH_STARDOS_CART_IMAGE   "StarDOS cartridge kpms csatolsa"
+  IDS_ATTACH_AR4_CART_IMAGE       "Action Replay 4 cartridge képmás csatolása"
+  IDS_ATTACH_STARDOS_CART_IMAGE   "StarDOS cartridge képmás csatolása"
   IDS_ATTACH_ATOMIC_P_CART_IMG    "Atomic Power cartridge képmás csatolása"
   IDS_ATTACH_EPYX_FL_CART_IMG     "Epyx gyorstöltõ cartridge képmás csatolása"
   IDS_ATTACH_IEEE488_CART_IMG     "IEEE interfész cartridge képmás csatolása"
@@ -6426,7 +6426,7 @@ BEGIN
 #ifdef DEBUG
   IDS_MP_MODE                     "Mó&d"
 #endif
-  IDS_MP_EDIT                     "&Edit"
+  IDS_MP_EDIT                     "&Szerkeszt"
   IDS_MP_SNAPSHOT                 "&Pillanatkép"
   IDS_MP_RECORDING_START_MODE     "Rögzítés indításának módja"
   IDS_MP_OPTIONS                  "&Opciók"
@@ -6443,8 +6443,8 @@ BEGIN
   IDS_MI_EXIT                     "&Kilépés"
   IDS_MI_ABOUT                    "&Névjegy..."
   IDS_MI_PAUSE                    "&Szünet"
-  IDS_MI_EDIT_COPY                "&Copy"
-  IDS_MI_EDIT_PASTE               "&Paste"
+  IDS_MI_EDIT_COPY                "&Másol"
+  IDS_MI_EDIT_PASTE               "&Beilleszt"
   IDS_MI_AUTOSTART                "Lemez/szalag képmás &automatikus indítása..."
   IDS_MI_RESET_HARD               "&Hideg"
   IDS_MI_RESET_SOFT               "&Meleg"
@@ -6465,9 +6465,9 @@ BEGIN
   IDS_MI_CART_ATTACH_8KB          "Általános &8KB képmás..."
   IDS_MI_CART_ATTACH_16KB         "Általános &16KB képmás..."
   IDS_MI_CART_ATTACH_AR           "&Action Replay képmás..."
-  IDS_MI_CART_ATTACH_AR3          "Action Replay &III képmás..."
-  IDS_MI_CART_ATTACH_AR4          "Action Replay &4 képmás..."
-  IDS_MI_CART_ATTACH_STARDOS      "Star&DOS képmás..."
+  IDS_MI_CART_ATTACH_AR3          "&Action Replay 3 képmás..."
+  IDS_MI_CART_ATTACH_AR4          "&Action Replay 4 képmás..."
+  IDS_MI_CART_ATTACH_STARDOS      "&StarDOS képmás..."
   IDS_MI_CART_ATTACH_AT           "Atomic &Power képmás..."
   IDS_MI_CART_ATTACH_EPYX         "&Epyx gyorstöltõ képmás..."
   IDS_MI_CART_ATTACH_IEEE488      "&IEEE488 interfész képmás..."
