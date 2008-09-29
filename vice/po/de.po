@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-26 20:05+0200\n"
-"PO-Revision-Date: 2008-07-18 16:38+0200\n"
+"POT-Creation-Date: 2008-09-29 21:31+0200\n"
+"PO-Revision-Date: 2008-09-29 23:40+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -89,21 +89,22 @@ msgstr "Setze Source Buffer Größe zu <Wert> msek"
 #: src/c64/c64-cmdline-options.c:91 src/c64/c64-cmdline-options.c:93
 #: src/c64/c64-cmdline-options.c:95 src/c64/c64-cmdline-options.c:112
 #: src/c64/c64-cmdline-options.c:114 src/c64/c64-cmdline-options.c:116
+#: src/c64/cart/c64cart.c:246 src/c64/cart/c64cart.c:249
+#: src/c64/cart/c64cart.c:252 src/c64/cart/c64cart.c:255
+#: src/c64/cart/c64cart.c:258 src/c64/cart/c64cart.c:261
+#: src/c64/cart/c64cart.c:264 src/c64/cart/c64cart.c:267
+#: src/c64/cart/c64cart.c:270 src/c64/cart/c64cart.c:273
+#: src/c64/cart/c64cart.c:276 src/c64/cart/c64cart.c:279
+#: src/c64/cart/c64cart.c:282 src/c64/cart/c64cart.c:285
+#: src/c64/cart/c64cart.c:288 src/c64/cart/c64cart.c:291
+#: src/c64/cart/ide64.c:281 src/c64/c64_256k.c:210
 #: src/c64dtv/c64dtv-cmdline-options.c:85
 #: src/c64dtv/c64dtv-cmdline-options.c:87
 #: src/c64dtv/c64dtv-cmdline-options.c:89
 #: src/c64dtv/c64dtv-cmdline-options.c:100
 #: src/c64dtv/c64dtv-cmdline-options.c:102
-#: src/c64dtv/c64dtv-cmdline-options.c:104 src/c64/cart/c64cart.c:246
-#: src/c64/cart/c64cart.c:249 src/c64/cart/c64cart.c:252
-#: src/c64/cart/c64cart.c:255 src/c64/cart/c64cart.c:258
-#: src/c64/cart/c64cart.c:261 src/c64/cart/c64cart.c:264
-#: src/c64/cart/c64cart.c:267 src/c64/cart/c64cart.c:270
-#: src/c64/cart/c64cart.c:273 src/c64/cart/c64cart.c:276
-#: src/c64/cart/c64cart.c:279 src/c64/cart/c64cart.c:282
-#: src/c64/cart/c64cart.c:285 src/c64/cart/c64cart.c:288
-#: src/c64/cart/c64cart.c:291 src/c64/cart/ide64.c:281 src/c64/c64_256k.c:210
-#: src/c64dtv/c64dtvflash.c:528 src/c64/georam.c:260 src/c64/mmc64.c:907
+#: src/c64dtv/c64dtv-cmdline-options.c:104 src/c64dtv/c64dtvflash.c:528
+#: src/c64dtv/flash-trap.c:336 src/c64/georam.c:260 src/c64/mmc64.c:907
 #: src/c64/mmc64.c:909 src/c64/plus256k.c:175 src/c64/plus60k.c:249
 #: src/c64/ramcart.c:284 src/c64/reu.c:478 src/c64/tfe.c:1942
 #: src/cbm2/cbm2-cmdline-options.c:132 src/cbm2/cbm2-cmdline-options.c:134
@@ -736,26 +737,6 @@ msgstr "Index für Keymap Datei festlegen (0=symbol, 1=symDE, 2=positional)"
 msgid "Specify name of symbolic German keymap file"
 msgstr "Name von symbolischer Keymap Datei definieren"
 
-#: src/c64dtv/c64dtv-cmdline-options.c:107 src/translate.c.po.c:1112
-#, fuzzy
-msgid "Enable the Hummer Userport Joystick Emulation"
-msgstr "Userport Drucker Emulation aktivieren"
-
-#: src/c64dtv/c64dtv-cmdline-options.c:109
-#, fuzzy
-msgid "Disable the Hummer Userport Joystick Emulation"
-msgstr "Userport Drucker Emulation deaktivieren"
-
-#: src/c64dtv/c64dtv-cmdline-options.c:111 src/translate.c.po.c:1132
-#, fuzzy
-msgid "<port>"
-msgstr "<prozent>"
-
-#: src/c64dtv/c64dtv-cmdline-options.c:111 src/translate.c.po.c:1142
-#, fuzzy
-msgid "Select which joystick port should be mapped to the userport"
-msgstr "Joystickport für Maus auswählen"
-
 #: src/c64/cart/c64cart.c:240 src/translate.c.po.c:1526
 msgid "Reset machine if a cartridge is attached or detached"
 msgstr ""
@@ -881,6 +862,26 @@ msgstr "<Basis Adresse>"
 msgid "Base address of the 256K expansion"
 msgstr "Basis Adresse für 256K RAM Erweiterung"
 
+#: src/c64dtv/c64dtv-cmdline-options.c:107 src/translate.c.po.c:1112
+#, fuzzy
+msgid "Enable the Hummer Userport Joystick Emulation"
+msgstr "Userport Drucker Emulation aktivieren"
+
+#: src/c64dtv/c64dtv-cmdline-options.c:109
+#, fuzzy
+msgid "Disable the Hummer Userport Joystick Emulation"
+msgstr "Userport Drucker Emulation deaktivieren"
+
+#: src/c64dtv/c64dtv-cmdline-options.c:111 src/translate.c.po.c:1132
+#, fuzzy
+msgid "<port>"
+msgstr "<prozent>"
+
+#: src/c64dtv/c64dtv-cmdline-options.c:111 src/translate.c.po.c:1142
+#, fuzzy
+msgid "Select which joystick port should be mapped to the userport"
+msgstr "Joystickport für Maus auswählen"
+
 #: src/c64dtv/c64dtvblitter.c:545 src/translate.c.po.c:5009
 #, fuzzy
 msgid "Specify DTV Revision (2: DTV2, 3: DTV3)"
@@ -888,11 +889,11 @@ msgstr "SID Engine wählen (0: FastSID, 3: ParSID)"
 
 #: src/c64dtv/c64dtvblitter.c:547
 msgid "Enable DTV blitter logs."
-msgstr ""
+msgstr "DTV Blitter Log aktivieren."
 
 #: src/c64dtv/c64dtvblitter.c:549
 msgid "Disable DTV blitter logs."
-msgstr ""
+msgstr "DTV Blitter Log deaktivieren."
 
 #: src/c64dtv/c64dtvdma.c:444
 #, fuzzy
@@ -901,7 +902,7 @@ msgstr "*Maus aktivieren"
 
 #: src/c64dtv/c64dtvdma.c:446
 msgid "Disable DTV dma logs."
-msgstr ""
+msgstr "DTV dma Log aktivieren."
 
 #: src/c64dtv/c64dtvflash.c:266 src/translate.c.po.c:626
 #, fuzzy
@@ -935,19 +936,43 @@ msgstr "Name von Basic ROM Datei definieren"
 
 #: src/c64dtv/c64dtvflash.c:530 src/translate.c.po.c:5069
 msgid "Enable writing to C64DTV ROM image"
-msgstr ""
+msgstr "Schreibzugriff auf C64DTV ROM Image erlauben"
 
 #: src/c64dtv/c64dtvflash.c:532 src/translate.c.po.c:5079
 msgid "Disable writing to C64DTV ROM image"
-msgstr ""
+msgstr "Schreibzugriff auf C64DTV ROM Image verhindern"
 
 #: src/c64dtv/c64dtvflash.c:534
 msgid "Enable DTV flash chip logs."
-msgstr ""
+msgstr "DTV Flashchip Log aktivieren."
 
 #: src/c64dtv/c64dtvflash.c:536
 msgid "Disable DTV flash chip logs."
-msgstr ""
+msgstr "DTV Flashchip Log deaktivieren."
+
+#: src/c64dtv/hummeradc.c:373 src/translate.c.po.c:5139
+#, fuzzy
+msgid "Enable the Hummer ADC"
+msgstr "Video Cache aktivieren"
+
+#: src/c64dtv/hummeradc.c:375 src/translate.c.po.c:5149
+#, fuzzy
+msgid "Disable the Hummer ADC"
+msgstr "Video Cache deaktivieren"
+
+#: src/c64dtv/flash-trap.c:336 src/translate.c.po.c:5109
+#, fuzzy
+msgid "Use <name> as directory for flash file system device"
+msgstr "Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #8"
+
+#: src/c64dtv/flash-trap.c:338 src/translate.c.po.c:5119
+msgid "Enable true hardware flash file system"
+msgstr "Präzises Hardware Flashdateisystem aktivieren"
+
+#: src/c64dtv/flash-trap.c:340 src/translate.c.po.c:5129
+#, fuzzy
+msgid "Disable true hardware flash file system"
+msgstr "Hardwareunterstützung für Skalierung deaktivieren"
 
 #: src/c64/digimax.c:67 src/translate.c.po.c:616
 msgid ""
@@ -989,16 +1014,6 @@ msgstr "<Größe in KB>"
 #: src/c64/georam.c:262 src/translate.c.po.c:1244
 msgid "Size of the GEORAM expansion unit"
 msgstr "Größe der GEORAM Erweiterung"
-
-#: src/c64dtv/hummeradc.c:373 src/translate.c.po.c:5139
-#, fuzzy
-msgid "Enable the Hummer ADC"
-msgstr "Video Cache aktivieren"
-
-#: src/c64dtv/hummeradc.c:375 src/translate.c.po.c:5149
-#, fuzzy
-msgid "Disable the Hummer ADC"
-msgstr "Video Cache deaktivieren"
 
 #: src/c64/mmc64.c:903 src/translate.c.po.c:1364
 msgid "Enable the MMC64 expansion"
@@ -1530,7 +1545,7 @@ msgstr "Snapshot Kommandos"
 
 #: src/monitor/mon_command.c:59
 msgid "[<memspace>] [bankname]"
-msgstr ""
+msgstr "[<Speicherbereich>] [Speicherbank]"
 
 #: src/monitor/mon_command.c:60
 msgid ""
@@ -1538,6 +1553,10 @@ msgid ""
 "If bankname is given set the current bank in the memspace to the given\n"
 "bank."
 msgstr ""
+"Falls `bankname' nicht angegeben wird, Ausgabe der möglichen Bänke in "
+"`memspace'.\n"
+"Falls `bankname' angegeben wird, setze aktuelle Bank in `memspace' mit "
+"angegebener Bank."
 
 #: src/monitor/mon_command.c:66
 msgid ""
@@ -1548,21 +1567,20 @@ msgstr ""
 
 #: src/monitor/mon_command.c:72
 msgid "Specify the type of CPU currently used (6502/z80)."
-msgstr ""
+msgstr "CPU Typ setzen (6502/z80)"
 
 #: src/monitor/mon_command.c:75 src/monitor/mon_command.c:122
 msgid "[<count>]"
-msgstr ""
+msgstr "[<Zähler>]"
 
 #: src/monitor/mon_command.c:76
 msgid "Show <count> last executed commands."
-msgstr ""
+msgstr "Zeige [<Zähler>] zuletzt ausgeführte Kommandos"
 
 #: src/monitor/mon_command.c:79 src/monitor/mon_command.c:127
 #: src/monitor/mon_command.c:437 src/monitor/mon_command.c:446
-#, fuzzy
 msgid "\"<filename>\""
-msgstr "<Name>"
+msgstr "\"<Dateiname>\""
 
 #: src/monitor/mon_command.c:80
 msgid ""
@@ -1572,62 +1590,69 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:91
-#, fuzzy
 msgid "<address>"
-msgstr "<Basis Adresse>"
+msgstr "<Adresse>"
 
 #: src/monitor/mon_command.c:92
 msgid "Change the PC to ADDRESS and continue execution"
-msgstr ""
+msgstr "Setze PC auf ADRESSE und setze Ausführung fort"
 
 #: src/monitor/mon_command.c:96
 msgid "Print out the I/O area of the emulated machine."
-msgstr ""
+msgstr "Drucke den I/O Bereich der emuliertern Maschine."
 
 #: src/monitor/mon_command.c:100
 msgid ""
 "Advance to the next instruction.  Subroutines are treated as\n"
 "a single instruction."
 msgstr ""
+"Fahre bis zur nächsten Instruktion fort.\n"
+"Unterroutinen werden wie eine einzelne Instruktion behandelt."
 
 #: src/monitor/mon_command.c:104
 msgid "[<reg_name> = <number> [, <reg_name> = <number>]*]"
-msgstr ""
+msgstr "[<Register Name> = <Zahl> [, <Register Name> = <Zahl>]*]"
 
 #: src/monitor/mon_command.c:105
 msgid ""
 "Assign respective registers.  With no parameters, display register\n"
 "values."
 msgstr ""
+"Zuweisung auf entsprechende Register. Ohne Parameter, zeige Register Werte."
 
 #: src/monitor/mon_command.c:109
-#, fuzzy
 msgid "[<type>]"
-msgstr "<Typ>"
+msgstr "[<Typ>]"
 
 #: src/monitor/mon_command.c:110
 msgid "Reset the machine or drive. Type: 0 = soft, 1 = hard, 8-11 = drive."
 msgstr ""
+"Reset der Maschine oder des Laufwerks. Typ: 0 = soft, 1 = hart, 8-11 = "
+"Laufwerk."
 
 #: src/monitor/mon_command.c:114
 msgid ""
 "Continues execution and returns to the monitor just before the next\n"
 "RTS or RTI is executed."
 msgstr ""
+"Setzt Ausführung fort und retourniert bevor der nächsten RTS oder RTI "
+"instruction."
 
 #: src/monitor/mon_command.c:119
 msgid "Displays the contents of the screen."
-msgstr ""
+msgstr "Zeigt Bildschirminhalt."
 
 #: src/monitor/mon_command.c:123
 msgid ""
 "Single-step through instructions.  COUNT allows stepping\n"
 "more than a single instruction at a time."
 msgstr ""
+"Einzelschritt Ausführung durch Instruktionen. COUNT erlaubt die Ausführung\n"
+"mehrerer Instruktionen auf einmal."
 
 #: src/monitor/mon_command.c:128
 msgid "Read a snapshot of the machine from the file specified."
-msgstr ""
+msgstr "Lese einen Snapshot der Maschine aus der angegebenen Datei."
 
 #.
 #. { "up",              "",
@@ -1635,13 +1660,12 @@ msgstr ""
 #. "*** unimplemented ***" },
 #.
 #: src/monitor/mon_command.c:135
-#, fuzzy
 msgid "Symbol table commands:"
-msgstr "Snapshot Kommandos"
+msgstr "Symbol Tabellen Kommandos:"
 
 #: src/monitor/mon_command.c:138
 msgid "[<memspace>] <address> <label>"
-msgstr ""
+msgstr "[<Speicherbereich>] <Adresse> <Bezeichner>"
 
 #: src/monitor/mon_command.c:139
 msgid ""
@@ -1653,10 +1677,20 @@ msgid ""
 "assembly code and is shown during disassembly.  Additionally, it can\n"
 "be used whenever an address must be specified."
 msgstr ""
+"<Speicherbereich> ist aus: C: 8: 9: 10: 11:\n"
+"<Adresse>         bezeichnet die Adresse welche mit dem Bezeichner assoziert "
+"werden soll.\n"
+"<Bezeichner>      Name des Bezeichners; Muß mit einem Punkt (\".\") "
+"starten.\n"
+"\n"
+"Assoziiert einen Bezeichner mit einer Adresse. Dieser Bezeichner kann \n"
+"bei der Eingabe von Asssmblercode benutzt werden und wird auch beim\n"
+"Disassemblieren gezeigt. Darüber hinaus kann der Bezeichner überall\n"
+"dort genutzt werden, wo eine Adresseingabe nötig ist."
 
 #: src/monitor/mon_command.c:147
 msgid "[<memspace>] <label>"
-msgstr ""
+msgstr "[<Speicherbereich>] <Bezeichner>"
 
 #: src/monitor/mon_command.c:148
 msgid ""
@@ -1665,10 +1699,15 @@ msgid ""
 "\n"
 "Delete a previously defined label."
 msgstr ""
+"<Speicherbereich> ist aus: C: 8: 9: 10: 11:\n"
+"<Bezeichner>      Name des Bezeichners; Muß mit einem Punkt (\\\".\\\") "
+"starten.\n"
+"\n"
+"Löscht einen zuvor definierten Bezeichner."
 
 #: src/monitor/mon_command.c:153 src/monitor/mon_command.c:160
 msgid "[<memspace>] \"<filename>\""
-msgstr ""
+msgstr "[<Speicherbereich>] \"<Dateiname>\""
 
 #: src/monitor/mon_command.c:154
 msgid ""
@@ -1678,38 +1717,47 @@ msgid ""
 "The format of the file is the one written out by the `save_labels' command;\n"
 "it consists of some `add_label' commands, written one after the other."
 msgstr ""
+"Laded eine Datei mit Zuordnung von Adressen zu Bezeichnern. Wenn kein \n"
+"Speicherbereich angegeben wurde, wird der Standard Speicherplatz\n"
+"verwendet.  Das Format der Datei wird durch das Kommande `save_lables'\n"
+"definiert.  Es besteht aus eine Reihe von `add_label' Kommandos,\n"
+"hintereinander angeordnet."
 
 #: src/monitor/mon_command.c:161
 msgid ""
 "Save labels to a file.  If no memory space is specified, all of the\n"
 "labels are saved."
 msgstr ""
+"Speichere Bezeichner in eine Datei. Wenn kein Speicherbereich\n"
+"angegeben wurde, werden alle Bezeichner gespeichert."
 
 #: src/monitor/mon_command.c:165
 msgid "[<memspace>]"
-msgstr ""
+msgstr "[<Speicherbereich>]"
 
 #: src/monitor/mon_command.c:166
 msgid ""
 "Display current label mappings.  If no memory space is specified, show\n"
 "all labels."
 msgstr ""
+"Zeige aktuelle Bezeichner Zuordnungen. Wenn kein Speicherbereich angegeben\n"
+"wurde, werden alle Bezeichner gezeigt."
 
 #: src/monitor/mon_command.c:169
 msgid "Assembler and memory commands:"
-msgstr ""
+msgstr "Assembler und Speicher Kommandos:"
 
 #: src/monitor/mon_command.c:172
 msgid "[<address>] <data_list>"
-msgstr ""
+msgstr "[<Adresse>] <Datenliste>"
 
 #: src/monitor/mon_command.c:173
 msgid "Write the specified data at `address'."
-msgstr ""
+msgstr "Schreibe das angegebene Datum auf `Adresse'."
 
 #: src/monitor/mon_command.c:176
 msgid "<address> [ <instruction> [: <instruction>]* ]"
-msgstr ""
+msgstr "<Adresse> [ <Instruktion> [: <Instruktion>]* ]"
 
 #: src/monitor/mon_command.c:177
 msgid ""
@@ -1717,11 +1765,13 @@ msgid ""
 "instruction is specified, enter assembly mode (enter an empty line to\n"
 "exit assembly mode)."
 msgstr ""
+"Assmbler Instruktionen zur angebenen Adresse. Wenn nur eine Instruktion\n"
+"angegeben wurde, wird der assemblier Modus aktiviert (Eingabe einer leeren\n"
+"Zeile beendet den assemblier Modus)."
 
 #: src/monitor/mon_command.c:182 src/monitor/mon_command.c:255
-#, fuzzy
 msgid "<address_range> <address>"
-msgstr "<Basis Adresse>"
+msgstr "<Adressbereich> <Adresse>"
 
 #: src/monitor/mon_command.c:183
 msgid ""
@@ -1729,20 +1779,22 @@ msgid ""
 "destination specified by the address.  The regions may overlap.  Any\n"
 "values that miscompare are displayed using the default displaytype."
 msgstr ""
+"Vergleiche angegebenen Adressbereich mit der Zieladresse.\n"
+"Die Bereiche können überlappen. Ungleiche Werte werden mit dem\n"
+"Standardanzeigetyp gezeigt."
 
 #: src/monitor/mon_command.c:188 src/monitor/mon_command.c:289
 #: src/monitor/mon_command.c:293
 msgid "<checknum>"
-msgstr ""
+msgstr "<Checknummer>"
 
 #: src/monitor/mon_command.c:189
 msgid "Delete checkpoint `checknum'."
-msgstr ""
+msgstr "Lösche Checkpoint `Checknummer'."
 
 #: src/monitor/mon_command.c:192
-#, fuzzy
 msgid "[<address> [<address>]]"
-msgstr "<Basis Adresse>"
+msgstr "[<Adresse> [<Adresse>]]"
 
 #: src/monitor/mon_command.c:193
 msgid ""
@@ -1752,10 +1804,15 @@ msgid ""
 "disassembled.  If no addresses are specified, a default number of\n"
 "instructions are disassembled from the dot address."
 msgstr ""
+"Disassembliere Instruktionen. Wenn zwei Adressen angegeben werden,\n"
+"werden diese als Start- und Zieladresse interpretiert. Wenn nur eine\n"
+"Adress angegeben wird, wird diese asl Startadresse interpretiert und\n"
+"die Standardanzahl an Instruktionen werden disassembliert. Wenn keine\n"
+"Adresse angegeben wird, wird von der aktuellen Adresse disassembliert."
 
 #: src/monitor/mon_command.c:200 src/monitor/mon_command.c:206
 msgid "<address_range> <data_list>"
-msgstr ""
+msgstr "<Adressbereich> <Datenliste>"
 
 #: src/monitor/mon_command.c:201
 msgid ""
@@ -1763,6 +1820,9 @@ msgid ""
 "<data_list>.  If the size of the address range is greater than the size\n"
 "of the data_list, the data_list is repeated."
 msgstr ""
+"Fülle den angegebenen Adressbereich mit den Daten aus <Datenliste>.\n"
+"Wenn die Größe des Adressbereichs größer als <Datenliste> ist, werden\n"
+"die Daten wiederholt."
 
 #: src/monitor/mon_command.c:207
 msgid ""
@@ -1770,23 +1830,26 @@ msgid ""
 "<data_list>.  If the data is found, the starting address of the match\n"
 "is displayed.  The entire range is searched for all possible matches."
 msgstr ""
+"Suche in angebenen Adressbereich nach <Datenliste>. Wenn die Daten gefunden\n"
+"wurden, wird die Startadresse gezeigt. Der komplette Bereich wird alle\n"
+"Vorkommnisse von <Datenliste> untersucht."
 
 #: src/monitor/mon_command.c:212 src/monitor/mon_command.c:216
 msgid "<address_opt_range>"
-msgstr ""
+msgstr "<Optionaler Adressbereich>"
 
 #: src/monitor/mon_command.c:213
 msgid "Display memory contents as PETSCII text."
-msgstr ""
+msgstr "Zeige Speicherinhalt als PETSCII Text."
 
 #: src/monitor/mon_command.c:217
 msgid "Display memory contents as screen code text."
-msgstr ""
+msgstr "Zeige Speicherinhalt als Bildschirmcode Text."
 
 #: src/monitor/mon_command.c:220 src/monitor/mon_command.c:227
 #: src/monitor/mon_command.c:249
 msgid "[<data_type>] [<address_opt_range>]"
-msgstr ""
+msgstr "[<Datentyp>] [<Optionaler Adressbereich>]"
 
 #: src/monitor/mon_command.c:221
 msgid ""
@@ -1795,6 +1858,10 @@ msgid ""
 "displayed is based on the datatype.  If no addresses are given, the\n"
 "'dot' address is used."
 msgstr ""
+"Zeige Speicherinhalt. Wenn kein Datentyp angegeben wurde, wird der\n"
+"Standarddatentyp verwendet. Wenn nur eine Adresse angegeben wird, hängt\n"
+"die Länge der Daten vom Datentyp ab. Wenn keine Adresse angeben wurde, \n"
+"wird die aktuelle Adresse verwendet."
 
 #: src/monitor/mon_command.c:228
 msgid ""
@@ -1805,7 +1872,7 @@ msgstr ""
 
 #: src/monitor/mon_command.c:233
 msgid "\"<filename>\" <format>"
-msgstr ""
+msgstr "\"<Dateiname>\" <Format>"
 
 #: src/monitor/mon_command.c:234
 msgid ""
@@ -1815,7 +1882,7 @@ msgstr ""
 
 #: src/monitor/mon_command.c:238
 msgid "[<mask>] [<address_opt_range>]"
-msgstr ""
+msgstr "[<Maske>] [<Optionaler Adressbereich>]"
 
 #: src/monitor/mon_command.c:239
 msgid ""
@@ -1843,9 +1910,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:259
-#, fuzzy
 msgid "Checkpoint commands:"
-msgstr "Snapshot Kommandos"
+msgstr "Checkpoint Kommandos"
 
 #: src/monitor/mon_command.c:262
 msgid "[<address> [if <cond_expr>] ]"
@@ -1862,7 +1928,7 @@ msgstr ""
 
 #: src/monitor/mon_command.c:270
 msgid "<checknum> \"<command>\""
-msgstr ""
+msgstr "<Checknum> \"<Kommando>\""
 
 #: src/monitor/mon_command.c:271
 msgid ""
@@ -1873,7 +1939,7 @@ msgstr ""
 
 #: src/monitor/mon_command.c:276
 msgid "<checknum> if <cond_expr>"
-msgstr ""
+msgstr "<Checknum> if <bedingter Ausdruck>"
 
 #: src/monitor/mon_command.c:277
 msgid ""
@@ -1891,15 +1957,15 @@ msgstr ""
 
 #: src/monitor/mon_command.c:290
 msgid "Disable checkpoint `checknum'."
-msgstr ""
+msgstr "Checkpoint `Checknum' deaktivieren."
 
 #: src/monitor/mon_command.c:294
 msgid "Enable checkpoint `checknum'."
-msgstr ""
+msgstr "Checkpoint `Checknum' aktivieren."
 
 #: src/monitor/mon_command.c:297
 msgid "<checknum> [<count>]"
-msgstr ""
+msgstr "<Checknum> [<Zähler>]"
 
 #: src/monitor/mon_command.c:298
 msgid ""
@@ -1908,9 +1974,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:302
-#, fuzzy
 msgid "[<address>]"
-msgstr "<Basis Adresse>"
+msgstr "[<Adresse>]"
 
 #: src/monitor/mon_command.c:303
 msgid ""
@@ -1922,7 +1987,7 @@ msgstr ""
 
 #: src/monitor/mon_command.c:309
 msgid "[loadstore] [address [address]]"
-msgstr ""
+msgstr "[lade/speichere] [Adresse [Adresse]]"
 
 #: src/monitor/mon_command.c:310
 msgid ""
@@ -1935,9 +2000,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:318
-#, fuzzy
 msgid "[address [address]]"
-msgstr "<Basis Adresse>"
+msgstr "[Adresse [Adresse]]"
 
 #: src/monitor/mon_command.c:319
 msgid ""
@@ -1947,13 +2011,12 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:323
-#, fuzzy
 msgid "Monitor state commands:"
-msgstr "Snapshot Kommandos"
+msgstr "Monitor Zustand Kommandos:"
 
 #: src/monitor/mon_command.c:326
 msgid "[c:|8:|9:|10:|11:]"
-msgstr ""
+msgstr "[c:|8:|9:|10:|11:]"
 
 #: src/monitor/mon_command.c:327
 msgid ""
@@ -1963,16 +2026,15 @@ msgstr ""
 
 #: src/monitor/mon_command.c:332 src/monitor/mon_command.c:337
 msgid "Leave the monitor and return to execution."
-msgstr ""
+msgstr "Verlasse Monitor und setze Ausführung fort."
 
 #: src/monitor/mon_command.c:339
-#, fuzzy
 msgid "Exit the emulator immediately."
-msgstr "Emulator beenden"
+msgstr "Emulator sofort beenden."
 
 #: src/monitor/mon_command.c:343
 msgid "[H|D|O|B]"
-msgstr ""
+msgstr "[H|D|O|B]"
 
 #: src/monitor/mon_command.c:344
 msgid ""
@@ -1982,7 +2044,7 @@ msgstr ""
 
 #: src/monitor/mon_command.c:348
 msgid "[on|off|toggle]"
-msgstr ""
+msgstr "[on|off|toggle]"
 
 #: src/monitor/mon_command.c:349
 msgid ""
@@ -1994,13 +2056,12 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:355
-#, fuzzy
 msgid "Disk commands:"
-msgstr "Disk Format:"
+msgstr "Disk Kommandos:"
 
 #: src/monitor/mon_command.c:358
 msgid "<disk command>"
-msgstr ""
+msgstr "<Disk Kommando>"
 
 #: src/monitor/mon_command.c:359
 msgid ""
@@ -2009,9 +2070,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:363
-#, fuzzy
 msgid "<filename> <device>"
-msgstr "Haupt Gerät"
+msgstr "<Dateiname> <Gerät>"
 
 #: src/monitor/mon_command.c:364
 msgid "Attach file to device. (device 32 = cart)"
@@ -2019,7 +2079,7 @@ msgstr ""
 
 #: src/monitor/mon_command.c:367
 msgid "\"<filename>\" <device> <address>"
-msgstr ""
+msgstr "\"<Dateiname>\" <Gerät> <Adresse>"
 
 #: src/monitor/mon_command.c:368
 msgid ""
@@ -2028,9 +2088,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:372
-#, fuzzy
 msgid "<track> <sector> [<address>]"
-msgstr "<Basis Adresse>"
+msgstr "<Spur> <Sektor> [<Adresse>]"
 
 #: src/monitor/mon_command.c:373
 msgid ""
@@ -4154,9 +4213,8 @@ msgid "*Enable true drive emulation"
 msgstr "*Präzise Floppy Emulation"
 
 #: src/arch/unix/gui/uidrive.c:189
-#, fuzzy
 msgid "*Enable true flash filesystem emulation"
-msgstr "*Präzise Floppy Emulation"
+msgstr "*Präzise Flash Dateisystem Emulation"
 
 #: src/arch/unix/gui/uidrivec128.c:45 src/arch/unix/gui/uidrivec128.c:77
 #: src/arch/unix/gui/uidrivec128.c:99 src/arch/unix/gui/uidrivec128.c:121
@@ -5584,9 +5642,8 @@ msgid "*ReSID"
 msgstr "*ReSID"
 
 #: src/arch/unix/gui/uisid.c:50
-#, fuzzy
 msgid "*ReSID-FP"
-msgstr "*ReSID"
+msgstr "*ReSID-FP"
 
 #: src/arch/unix/gui/uisid.c:54 src/arch/unix/gui/uisidcart.c:42
 msgid "*Catweasel MKIII"
@@ -5625,52 +5682,48 @@ msgstr "*8580 + Digi Boost"
 #. (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_6581R4, NULL },
 #.
 #: src/arch/unix/gui/uisid.c:85
-#, fuzzy
 msgid "*DTVSID"
-msgstr "*ReSID"
+msgstr "*DTVSID"
 
 #: src/arch/unix/gui/uisid.c:89
 msgid "*6581R3 4885 (very light)"
-msgstr ""
+msgstr "*6581R3 4885 (sehr hell)"
 
 #: src/arch/unix/gui/uisid.c:91
 msgid "*6581R3 0486S (light)"
-msgstr ""
+msgstr "*6581R3 0486S (hell)"
 
 #: src/arch/unix/gui/uisid.c:93
 msgid "*6581R3 3984 (light avg)"
-msgstr ""
+msgstr "*6581R3 3984 (durchschnittlich hell)"
 
 #: src/arch/unix/gui/uisid.c:95
 msgid "*6581R4AR 3789 (avg)"
-msgstr ""
+msgstr "*6581R4AR 3789 (durchschnittlich)"
 
 #: src/arch/unix/gui/uisid.c:97
-#, fuzzy
 msgid "*6581R3 4485 (dark)"
-msgstr "*6581 (alt)"
+msgstr "*6581R3 4485 (dunkel)"
 
 #: src/arch/unix/gui/uisid.c:99
 msgid "*6581R4 1986S (very dark)"
-msgstr ""
+msgstr "*6581R4 1986S (sehr dunkel)"
 
 #: src/arch/unix/gui/uisid.c:101
 msgid "*8580 3691 (light)"
-msgstr ""
+msgstr "*8580 3691 (hell)"
 
 #: src/arch/unix/gui/uisid.c:103
-#, fuzzy
 msgid "*8580 3691 + digi boost"
-msgstr "*8580 + Digi Boost"
+msgstr "*8580 3691 + digi boost"
 
 #: src/arch/unix/gui/uisid.c:105
 msgid "*8580 1489 (dark)"
-msgstr ""
+msgstr "*8580 1489 (dunkel)"
 
 #: src/arch/unix/gui/uisid.c:107
-#, fuzzy
 msgid "*8580 1489 + digi boost"
-msgstr "*8580 + Digi Boost"
+msgstr "*8580 1489 + digi boost"
 
 #: src/arch/unix/gui/uisid.c:117
 msgid "*Fast"
@@ -5909,14 +5962,12 @@ msgid "*Debug"
 msgstr "*Debug"
 
 #: src/arch/unix/gui/uivicii.c:111
-#, fuzzy
 msgid "Refreshrate: "
 msgstr "Wiederholrate:"
 
 #: src/arch/unix/gui/uivicii.c:111
-#, fuzzy
 msgid "Enter Refreshrate (Hz): "
-msgstr "Wiederholrate einstellen"
+msgstr "Wiederholrate (Hz) einstellen: "
 
 #: src/arch/unix/gui/uivicii.c:155
 msgid "*New Luminances"
@@ -5935,9 +5986,8 @@ msgid "*Sprite-background collisions"
 msgstr "*Sprite-Hintergrund Kollisionen"
 
 #: src/arch/unix/gui/uivicii.c:185
-#, fuzzy
 msgid "Desktop Refreshrate..."
-msgstr "Wiederholrate"
+msgstr "Desktop Wiederholrate"
 
 #. Shouldn't happen.
 #: src/arch/unix/gui/vic20ui.c:104
@@ -6897,19 +6947,16 @@ msgid "Copyright (c) 2007-2008 Fabrizio Gennari"
 msgstr "Copyright (c) 2007-2008 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:238
-#, fuzzy
 msgid "Copyright (c) 2007-2008 M. Kiesel"
-msgstr "Copyright (c) 2003-2005 David Hansel"
+msgstr "Copyright (c) 2007-2008 M. Kiesel"
 
 #: src/arch/win32/res.rc.po.c:239
-#, fuzzy
 msgid "Copyright (c) 2007-2008 Hannu Nuotio"
-msgstr "Copyright (c) 2007-2008 Fabrizio Gennari"
+msgstr "Copyright (c) 2007-2008 Hannu Nuotio"
 
 #: src/arch/win32/res.rc.po.c:240
-#, fuzzy
 msgid "Copyright (c) 2007-2008 Daniel Kahlin"
-msgstr "Copyright (c) 2003-2005 David Hansel"
+msgstr "Copyright (c) 2007-2008 Daniel Kahlin"
 
 #: src/arch/win32/res.rc.po.c:241
 msgid "Copyright (c) 1999-2007 Andreas Dehmel"
@@ -7927,11 +7974,12 @@ msgid "VICE snapshot files (*.vsf)"
 msgstr "VICE Snapshot Dateien (*.vsf)"
 
 #: src/arch/win32/res.rc.po.c:4857
-#, fuzzy
 msgid ""
 "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;"
 "*.p00)"
-msgstr "Disk Image Dateien (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+msgstr ""
+"CBM Dateien (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*."
+"prg;*.p00)"
 
 #: src/arch/win32/res.rc.po.c:4858
 msgid "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
@@ -8265,9 +8313,8 @@ msgid "Drive 1&0"
 msgstr "Laufwerk 1&0"
 
 #: src/arch/win32/res.rc.po.c:4951
-#, fuzzy
 msgid "Drive 1&1"
-msgstr "Laufwerk 11"
+msgstr "Laufwerk 1&1"
 
 #: src/arch/win32/res.rc.po.c:4952
 msgid "Attach &tape image..."
@@ -9257,7 +9304,7 @@ msgstr "Aktuelle Keymap auf Datei speichern"
 #: src/arch/win32/rescbm2.rc.po.c:1701 src/arch/win32/respet.rc.po.c:2010
 #: src/arch/win32/resplus4.rc.po.c:1378 src/arch/win32/resvic20.rc.po.c:793
 msgid "Dump shortcuts"
-msgstr ""
+msgstr "Aktuelle Tastenkürzel auf Datei speichern"
 
 #: src/arch/win32/resc128.rc.po.c:2554
 msgid "Select internal function ROM image"
@@ -9362,100 +9409,87 @@ msgstr "Datei für 256K selektieren"
 
 #: src/arch/win32/resc64dtv.rc.po.c:36 src/arch/win32/resc64dtv.rc.po.c:1705
 msgid "DTV flash &rom image"
-msgstr ""
+msgstr "DTV Flash &Rom Datei"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1209 src/arch/amigaos/intl.c.po.c:2909
-#, fuzzy
 msgid "C64DTV Settings"
-msgstr "IDE64 Einstellungen"
+msgstr "C64DTV Einstellungen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1211
-#, fuzzy
 msgid "DTV Revision"
-msgstr "Revision"
+msgstr "DTV Revision"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1215
 msgid "HUMMER"
-msgstr ""
+msgstr "HUMMER"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1217
-#, fuzzy
 msgid "Enable &Hummer Userport Joystick"
-msgstr "Userport Diagnose Pin aktivieren"
+msgstr "&Hummer Userport Joystick aktivieren"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1219
 msgid "Joyport mapped to userport"
-msgstr ""
+msgstr "Joystickport auf Userport zugeordnet"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1395
-#, fuzzy
 msgid "Attach DTV Flash Image"
-msgstr "Disk Image einlegen"
+msgstr "DTV Flash Image einlegen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1397
 msgid "DTV ROM"
-msgstr ""
+msgstr "DTV ROM"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1399 src/arch/win32/resc64dtv.rc.po.c:1554
-#, fuzzy
 msgid "DTV ROM &image File"
-msgstr "HD Image Name"
+msgstr "DTV ROM &Image Name"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1403
 msgid "Enable &writes to DTV ROM image"
-msgstr ""
+msgstr "Erlaube &Schreibzugriff auf DTV ROM Datei"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1550
-#, fuzzy
 msgid "Create DTV Flash Image"
-msgstr "Image Datei erzeugen"
+msgstr "DTV Image Datei erzeugen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1552
 msgid "DTV ROM Creation"
-msgstr ""
+msgstr "DTV ROM Erzeugung"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1558
 msgid "Copy C64 ROMS into image"
-msgstr ""
+msgstr "C64 ROMS auf Image kopieren"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1560
-#, fuzzy
 msgid "Create"
-msgstr "Disk erzeugen"
+msgstr "Erzeugen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1706
-#, fuzzy
 msgid "&Autostart disk image..."
-msgstr "Autostart Disk Image"
+msgstr "&Autostart Disk Image..."
 
 #: src/arch/win32/resc64dtv.rc.po.c:1707
-#, fuzzy
 msgid "Attach &flash rom image"
-msgstr "&Disk Image einlegen"
+msgstr "&Flash ROM Image einlegen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1708
-#, fuzzy
 msgid "&Detach flash rom image"
-msgstr "Disk Image entfernen"
+msgstr "Flash ROM Image ent&fernen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1709
-#, fuzzy
 msgid "&Create new flash rom image"
-msgstr "*P00 Dateien beim Speichern erzeugen"
+msgstr "Flash ROM Datei er&zeugen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1710
 msgid "&True flash filesystem"
 msgstr ""
 
 #: src/arch/win32/resc64dtv.rc.po.c:1711
-#, fuzzy
 msgid "&PS/2 mouse emulation"
-msgstr "*Mausemulation"
+msgstr "&PS/2 Mausemulation"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1712
-#, fuzzy
 msgid "&C64DTV settings..."
-msgstr "&MMC64 Einstellungen..."
+msgstr "&C64DTV Einstellungen..."
 
 #: src/arch/win32/rescbm2.rc.po.c:163 src/arch/win32/respet.rc.po.c:163
 msgid "&PAL"
@@ -10358,9 +10392,8 @@ msgid "SID Filters"
 msgstr "SID Filter"
 
 #: src/arch/win32/ressid.rc.po.c:67
-#, fuzzy
 msgid "reSID/reSID-fp options"
-msgstr "reSID Optionen"
+msgstr "reSID/reSID-fp Optionen"
 
 #: src/arch/win32/ressid.rc.po.c:68 src/arch/amigaos/intl.c.po.c:3782
 msgid "Sample method"
@@ -10535,9 +10568,8 @@ msgid "New &Luminances"
 msgstr "Neue He&lligkeitsemulation"
 
 #: src/translate.c.po.c:1122
-#, fuzzy
 msgid "Disable the Hummer Userport Joystick emulation"
-msgstr "Userport Drucker Emulation deaktivieren"
+msgstr "Hummer Userport Emulation deaktivieren"
 
 #: src/translate.c.po.c:2749
 msgid "<0-2000>"
@@ -10580,11 +10612,12 @@ msgid "Specify SID engine (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"
 msgstr "SID Engine wählen (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"
 
 #: src/translate.c.po.c:3569
-#, fuzzy
 msgid ""
 "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost, 3: 6581R4 "
 "(unimplemented), 4: DTV)"
-msgstr "SID Modell definieren (0: 6581, 1: 8580, 2: 8580 + digi boost)"
+msgstr ""
+"SID Modell (0: 6581, 1: 8580, 2: 8580 + digi boost, 3: 6581R4 (nicht "
+"implementiert), 4: DTV)"
 
 #: src/translate.c.po.c:4829
 msgid "<iso language code>"
@@ -10599,17 +10632,16 @@ msgid "Enable DTV blitter logs"
 msgstr ""
 
 #: src/translate.c.po.c:5029
-#, fuzzy
 msgid "Disable DTV blitter logs"
-msgstr "Doppelte Größe deaktivieren"
+msgstr "DTV Blitter Log deaktivieren"
 
 #: src/translate.c.po.c:5039
 msgid "Enable DTV DMA logs"
-msgstr ""
+msgstr "DTV DMA Logs aktivieren"
 
 #: src/translate.c.po.c:5049
 msgid "Disable DTV DMA logs"
-msgstr ""
+msgstr "DTV DMA Logs deaktivieren"
 
 #: src/translate.c.po.c:5089
 #, fuzzy
@@ -10620,20 +10652,6 @@ msgstr "*MMC64 Flashjumper aktivieren"
 #, fuzzy
 msgid "Disable C64DTV flash chip logs."
 msgstr "*MMC64 Flashjumper aktivieren"
-
-#: src/translate.c.po.c:5109
-#, fuzzy
-msgid "Use <name> as directory for flash file system device"
-msgstr "Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #8"
-
-#: src/translate.c.po.c:5119
-msgid "Enable true hardware flash file system"
-msgstr ""
-
-#: src/translate.c.po.c:5129
-#, fuzzy
-msgid "Disable true hardware flash file system"
-msgstr "Hardwareunterstützung für Skalierung deaktivieren"
 
 #: src/arch/amigaos/intl.c.po.c:105
 msgid "Autostart disk/tape image..."
@@ -11380,15 +11398,15 @@ msgstr "*MMC64 Revision"
 
 #: src/arch/amigaos/intl.c.po.c:2882
 msgid "Writes to C64DTV ROM"
-msgstr ""
+msgstr "Schreibzugriff auf C64DTV ROM"
 
 #: src/arch/amigaos/intl.c.po.c:2891
 msgid "Hummer Userport joystick"
-msgstr ""
+msgstr "Hummer Userport Joystick"
 
 #: src/arch/amigaos/intl.c.po.c:2900
 msgid "Joystick port mapped to Hummer Userport"
-msgstr ""
+msgstr "Joystick Port auf Hummer Userport zugeordnet"
 
 #: src/arch/amigaos/intl.c.po.c:2918
 msgid "model line"
