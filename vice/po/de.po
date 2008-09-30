@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-29 21:31+0200\n"
-"PO-Revision-Date: 2008-09-29 23:40+0200\n"
+"PO-Revision-Date: 2008-09-30 23:07+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -863,29 +863,24 @@ msgid "Base address of the 256K expansion"
 msgstr "Basis Adresse für 256K RAM Erweiterung"
 
 #: src/c64dtv/c64dtv-cmdline-options.c:107 src/translate.c.po.c:1112
-#, fuzzy
 msgid "Enable the Hummer Userport Joystick Emulation"
-msgstr "Userport Drucker Emulation aktivieren"
+msgstr "Hummer Userport Joystick Emulation aktivieren"
 
 #: src/c64dtv/c64dtv-cmdline-options.c:109
-#, fuzzy
 msgid "Disable the Hummer Userport Joystick Emulation"
-msgstr "Userport Drucker Emulation deaktivieren"
+msgstr "Hummer Userport Joystick Emulation deaktivieren"
 
 #: src/c64dtv/c64dtv-cmdline-options.c:111 src/translate.c.po.c:1132
-#, fuzzy
 msgid "<port>"
-msgstr "<prozent>"
+msgstr "<Port>"
 
 #: src/c64dtv/c64dtv-cmdline-options.c:111 src/translate.c.po.c:1142
-#, fuzzy
 msgid "Select which joystick port should be mapped to the userport"
-msgstr "Joystickport für Maus auswählen"
+msgstr "Wähle welches Joystickport dem Userport zugeordnet werden soll"
 
 #: src/c64dtv/c64dtvblitter.c:545 src/translate.c.po.c:5009
-#, fuzzy
 msgid "Specify DTV Revision (2: DTV2, 3: DTV3)"
-msgstr "SID Engine wählen (0: FastSID, 3: ParSID)"
+msgstr "DTV Revision definieren (2: DTV2, 3: DTV3)"
 
 #: src/c64dtv/c64dtvblitter.c:547
 msgid "Enable DTV blitter logs."
@@ -905,34 +900,30 @@ msgid "Disable DTV dma logs."
 msgstr "DTV dma Log aktivieren."
 
 #: src/c64dtv/c64dtvflash.c:266 src/translate.c.po.c:626
-#, fuzzy
 msgid "No filename!"
-msgstr "Dateiname"
+msgstr "Dateiname fehlt!"
 
 #: src/c64dtv/c64dtvflash.c:276 src/translate.c.po.c:636
-#, fuzzy
 msgid "Illegal filename!"
-msgstr "Ungültiger Dateiname"
+msgstr "Ungültiger Dateiname!"
 
 #: src/c64dtv/c64dtvflash.c:298 src/translate.c.po.c:646
-#, fuzzy, c-format
+#, c-format
 msgid "Error creating file %s!"
 msgstr "Fehler beim Schreiben: %s."
 
 #: src/c64dtv/c64dtvflash.c:310 src/translate.c.po.c:656
-#, fuzzy, c-format
+#, c-format
 msgid "Error writing to file %s!"
-msgstr "Error writing: %s."
+msgstr "Fehler bei Schreibzugriff: %s!"
 
 #: src/c64dtv/c64dtvflash.c:321 src/translate.c.po.c:666
-#, fuzzy
 msgid "DTV ROM image created successfully"
-msgstr "Einstellungen erfolgreich gespeichert"
+msgstr "DTV ROM Image erfolgreich erzeugt"
 
 #: src/c64dtv/c64dtvflash.c:528 src/translate.c.po.c:5059
-#, fuzzy
 msgid "Specify name of C64DTV ROM image"
-msgstr "Name von Basic ROM Datei definieren"
+msgstr "Name von C64DTV ROM Datei definieren"
 
 #: src/c64dtv/c64dtvflash.c:530 src/translate.c.po.c:5069
 msgid "Enable writing to C64DTV ROM image"
@@ -951,19 +942,16 @@ msgid "Disable DTV flash chip logs."
 msgstr "DTV Flashchip Log deaktivieren."
 
 #: src/c64dtv/hummeradc.c:373 src/translate.c.po.c:5139
-#, fuzzy
 msgid "Enable the Hummer ADC"
-msgstr "Video Cache aktivieren"
+msgstr "Hummer ADC aktivieren"
 
 #: src/c64dtv/hummeradc.c:375 src/translate.c.po.c:5149
-#, fuzzy
 msgid "Disable the Hummer ADC"
-msgstr "Video Cache deaktivieren"
+msgstr "Hummer ADC deaktivieren"
 
 #: src/c64dtv/flash-trap.c:336 src/translate.c.po.c:5109
-#, fuzzy
 msgid "Use <name> as directory for flash file system device"
-msgstr "Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #8"
+msgstr "Benutze <Name> für Verzeichnis Gerät Flash Dateisystem"
 
 #: src/c64dtv/flash-trap.c:338 src/translate.c.po.c:5119
 msgid "Enable true hardware flash file system"
@@ -1564,6 +1552,9 @@ msgid ""
 "relative to SP+1 is printed in parentheses. This is a best guess\n"
 "only."
 msgstr ""
+"Zeige JSR Aufrufkette (letzter Aufruf zuerst). Stack offset\n"
+"wird relative zu SP+1 in Klammern gezeigt. Dies ist jedoch nur\n"
+"eine Schätzung."
 
 #: src/monitor/mon_command.c:72
 msgid "Specify the type of CPU currently used (6502/z80)."
@@ -1588,6 +1579,9 @@ msgid ""
 "This snapshot is compatible with a snapshot written out by the UI.\n"
 "Note: No ROM images are included into the dump."
 msgstr ""
+"Schreibe eine Snapsho Datei der Maschine auf die angebene Datei.\n"
+"Dieser Snapshot ist kompatible zu einem Snapshot initiiert aus dem Menü.\n"
+"Hinweis: Die ROM Images werden im Snapshot nicht inkludiert."
 
 #: src/monitor/mon_command.c:91
 msgid "<address>"
@@ -1869,6 +1863,9 @@ msgid ""
 "is specified, only one character is displayed.  If no addresses are\n"
 "given, the ``dot'' address is used."
 msgstr ""
+"Zeige den Inhalt von Speicher als Character Daten. Wenn nur eine Adresse\n"
+"angegeben wurde, wird nur ein Zeichen gezeigt. Wenn keine Adresse angegeben\n"
+"wurde, wird die aktuelle Adresse verwendet."
 
 #: src/monitor/mon_command.c:233
 msgid "\"<filename>\" <format>"
@@ -1879,6 +1876,8 @@ msgid ""
 "Save the memmap as a picture. Format is:\n"
 "0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
 msgstr ""
+"Speicher die memmap als Bilddaten. Formate:\n"
+"0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
 
 #: src/monitor/mon_command.c:238
 msgid "[<mask>] [<address_opt_range>]"
@@ -1891,10 +1890,14 @@ msgid ""
 "with the bits \"ioRWXrwx\", where RWX are for ROM and rwx for RAM.\n"
 "Optionally, an address range can be specified."
 msgstr ""
+"Zeige die memmap. Die Maske kann so definiert werden, dass nur jene Orte\n"
+"mit Zugriff auf spezifische Typ(en) gezeigt werden. Die Maske ist eine Nummer\n"
+"mit Bits \"ioRWXrwx\", wobei RWX für ROM und rwx für RAM steht.\n"
+"Optional kann ein Adressbereich definiert werden."
 
 #: src/monitor/mon_command.c:246
 msgid "Clear the memmap."
-msgstr ""
+msgstr "Lösche die memmap."
 
 #: src/monitor/mon_command.c:250
 msgid ""
@@ -1902,12 +1905,17 @@ msgid ""
 "specified, only one sprite is displayed.  If no addresses are given,\n"
 "the ``dot'' address is used."
 msgstr ""
+"Zeige den Speicher als Sprite Daten. Wenn nur eine Adresse angegeben wurde,\n"
+"wird nur ein Sprite gezeitg. Wenn keine Adresse angegeben wurde, wird\n"
+"die aktuelle Adresse verwendet."
 
 #: src/monitor/mon_command.c:256
 msgid ""
 "Move memory from the source specified by the address range to\n"
 "the destination specified by the address.  The regions may overlap."
 msgstr ""
+"Verschiebe Speicher von Startadresse definiert durch den Adressbereich zum\n"
+"Zielbereich definiert durch die Adresse. Die Bereiche können überlappend sein."
 
 #: src/monitor/mon_command.c:259
 msgid "Checkpoint commands:"
@@ -1915,7 +1923,7 @@ msgstr "Checkpoint Kommandos"
 
 #: src/monitor/mon_command.c:262
 msgid "[<address> [if <cond_expr>] ]"
-msgstr ""
+msgstr "[<Adresse> [if <bedingter Ausdruck>] ]"
 
 #: src/monitor/mon_command.c:263
 msgid ""
@@ -1925,6 +1933,11 @@ msgid ""
 "specified for the breakpoint.  For more information on conditions, see\n"
 "the CONDITION command."
 msgstr ""
+"Wenn keine Adresse angegeben wurde, werden die aktuellen watchpoints gezeigt.\n"
+"Wenn eine Adresse angegebene wurde, wird ein breakpoint auf diese Adresse\n"
+"gesetzt und die breakpoint Nummer wird ausgegeben. Ein bedingter Ausdruck\n"
+"can zu dem breakpoint zugeordnet werden. Für mehr Informations über \n"
+"bedingte Ausdrücke, bitte Kommando CONDITION ansehen."
 
 #: src/monitor/mon_command.c:270
 msgid "<checknum> \"<command>\""
