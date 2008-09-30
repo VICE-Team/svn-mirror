@@ -417,7 +417,7 @@ const char *sound_device_name(unsigned int num)
 
 
 /* code to disable sid for a given number of seconds if needed */
-static int disabletime;
+static time_t disabletime;
 
 static void suspendsound(const char *reason)
 {
@@ -429,11 +429,11 @@ static void suspendsound(const char *reason)
 
 static void enablesound(void)
 {
-    int diff;
+    time_t diff;
     if (!disabletime)
         return;
     diff = time(0) - disabletime;
-    if (diff < 0 || diff >= suspend_time) {
+    if (diff < 0 || diff >= (time_t)suspend_time) {
         disabletime = 0;
     }
 }
@@ -1071,8 +1071,8 @@ double sound_flush(int relative_speed)
         /* buffer empty */
         if (used <= snddata.fragsize) {
             int j;
-            static int prev;
-            int now;
+            static time_t prev;
+            time_t now;
             if (suspend_time > 0) {
                 now = time(0);
                 if (now == prev) {
