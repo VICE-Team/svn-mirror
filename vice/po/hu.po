@@ -9,12 +9,12 @@ msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-26 20:05+0200\n"
-"PO-Revision-Date: 2008-09-13 12:40+0200\n"
+"PO-Revision-Date: 2008-09-30 09:49+0200\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-2\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/vsync.c:147 src/sid/sid-cmdline-options.c:186
 #: src/sid/sid-cmdline-options.c:189 src/translate.c.po.c:3610
@@ -6042,14 +6042,12 @@ msgid "*Debug"
 msgstr "*Nyomkövetés"
 
 #: src/arch/unix/gui/uivicii.c:111
-#, fuzzy
 msgid "Refreshrate: "
 msgstr "Frissítési ráta:"
 
 #: src/arch/unix/gui/uivicii.c:111
-#, fuzzy
 msgid "Enter Refreshrate (Hz): "
-msgstr "Adja meg a frissítési rátát"
+msgstr "Adja meg a frissítési rátát (Hz): "
 
 #: src/arch/unix/gui/uivicii.c:155
 msgid "*New Luminances"
@@ -6068,9 +6066,8 @@ msgid "*Sprite-background collisions"
 msgstr "*Sprite-háttér ütközések"
 
 #: src/arch/unix/gui/uivicii.c:185
-#, fuzzy
 msgid "Desktop Refreshrate..."
-msgstr "Frissítési ráta"
+msgstr "Munkaasztal frissítési ráta..."
 
 #. Shouldn't happen.
 #: src/arch/unix/gui/vic20ui.c:104
@@ -6645,7 +6642,7 @@ msgstr "Nem lehet automatikusan elindítani a %d. választást a %s képmáson."
 
 #: src/arch/unix/x11/gnome/x11ui.c:2082 src/arch/unix/x11/gnome/x11ui.c:2092
 msgid "NO IMAGE CONTENTS AVAILABLE"
-msgstr "KÉPMÁS TARTALOM NEM ÁLL RENDELKEZÉSRE"
+msgstr "KEPMAS TARTALOM NEM ELERHETO"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2549
 msgid "Contents"
@@ -8059,11 +8056,10 @@ msgid "VICE snapshot files (*.vsf)"
 msgstr "VICE pillanatkép fájlok (*.vsf)"
 
 #: src/arch/win32/res.rc.po.c:4857
-#, fuzzy
 msgid ""
 "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;"
 "*.p00)"
-msgstr "Lemez képmás fájlok (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+msgstr "Lemez képmás fájlok (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
 
 #: src/arch/win32/res.rc.po.c:4858
 msgid "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
@@ -12039,3 +12035,4 @@ msgstr "NEOS egér"
 #: src/arch/amigaos/intl.c.po.c:4925
 msgid "Amiga mouse"
 msgstr "Amiga egér"
+
