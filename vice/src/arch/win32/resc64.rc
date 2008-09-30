@@ -1456,7 +1456,7 @@ BEGIN
     PUSHBUTTON  "Stöbern...", IDC_C64KBD_MAPPING_POS_BROWSE, 185,49,50,14, 0
 
     PUSHBUTTON  "Aktuelle Keymap auf Datei speichern", IDC_C64KBD_MAPPING_DUMP, 10,74,60,14, 0
-    PUSHBUTTON  "Dump shortcuts", IDC_KBD_SHORTCUT_DUMP, 80,74,60,14, 0
+    PUSHBUTTON  "Aktuelle Tastenkürzel auf Datei speichern", IDC_KBD_SHORTCUT_DUMP, 80,74,60,14, 0
 END
 
 

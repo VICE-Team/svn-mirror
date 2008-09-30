@@ -1163,7 +1163,7 @@ translate_t string_table[] = {
 
 /* c64dtv/c64dtv-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY,    "Enable the Hummer Userport Joystick Emulation"},
-/* de */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY_DE, "Hummer Userport Emulation deaktivieren"},
 /* fr */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY_HU, "Hummer Userport botkormány emuláció engedélyezése"},
 /* it */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY_IT, ""},  /* fuzzy */
@@ -5077,38 +5077,38 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_SPECIFY_DTV_REVISION_SV, "Ange DTV-utgåva (2: DTV2, 3: DTV3)"},
 
 /* c64dtv/c64dtvblitter.c */
-/* en */ {IDCLS_ENABLE_DTV_BLITTER_LOG,    "Enable DTV blitter logs"},
-/* de */ {IDCLS_ENABLE_DTV_BLITTER_LOG_DE, ""},  /* fuzzy */
+/* en */ {IDCLS_ENABLE_DTV_BLITTER_LOG,    "Enable DTV blitter logs."},
+/* de */ {IDCLS_ENABLE_DTV_BLITTER_LOG_DE, "DTV Blitter Log aktivieren."},
 /* fr */ {IDCLS_ENABLE_DTV_BLITTER_LOG_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_DTV_BLITTER_LOG_HU, "DTV blit naplók engedélyezése"},
+/* hu */ {IDCLS_ENABLE_DTV_BLITTER_LOG_HU, "DTV blit naplók engedélyezése."},
 /* it */ {IDCLS_ENABLE_DTV_BLITTER_LOG_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_DTV_BLITTER_LOG_NL, "Aktiveer DTV blitter logs"},
+/* nl */ {IDCLS_ENABLE_DTV_BLITTER_LOG_NL, "Aktiveer DTV blitter logs."},
 /* pl */ {IDCLS_ENABLE_DTV_BLITTER_LOG_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_DTV_BLITTER_LOG_SV, "Aktivera DTV-blitter-loggning"},
+/* sv */ {IDCLS_ENABLE_DTV_BLITTER_LOG_SV, "Aktivera DTV-blitter-loggning."},
 
 /* c64dtv/c64dtvblitter.c */
-/* en */ {IDCLS_DISABLE_DTV_BLITTER_LOG,    "Disable DTV blitter logs"},
-/* de */ {IDCLS_DISABLE_DTV_BLITTER_LOG_DE, ""},  /* fuzzy */
+/* en */ {IDCLS_DISABLE_DTV_BLITTER_LOG,    "Disable DTV blitter logs."},
+/* de */ {IDCLS_DISABLE_DTV_BLITTER_LOG_DE, "DTV Blitter Log deaktivieren."},
 /* fr */ {IDCLS_DISABLE_DTV_BLITTER_LOG_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_DTV_BLITTER_LOG_HU, "DTV blit naplók tiltása"},
+/* hu */ {IDCLS_DISABLE_DTV_BLITTER_LOG_HU, "DTV blit naplók tiltása."},
 /* it */ {IDCLS_DISABLE_DTV_BLITTER_LOG_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_DTV_BLITTER_LOG_NL, "DTV Blitter logs afsluiten"},
+/* nl */ {IDCLS_DISABLE_DTV_BLITTER_LOG_NL, "DTV Blitter logs afsluiten."},
 /* pl */ {IDCLS_DISABLE_DTV_BLITTER_LOG_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_DTV_BLITTER_LOG_SV, "Inaktivera DTV-blitter-loggning"},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DTV_BLITTER_LOG_SV, "Inaktivera DTV-blitter-loggning."},
 
 /* c64dtv/c64dtvdma.c */
-/* en */ {IDCLS_ENABLE_DTV_DMA_LOG,    "Enable DTV DMA logs"},
-/* de */ {IDCLS_ENABLE_DTV_DMA_LOG_DE, ""},  /* fuzzy */
+/* en */ {IDCLS_ENABLE_DTV_DMA_LOG,    "Enable DTV DMA logs."},
+/* de */ {IDCLS_ENABLE_DTV_DMA_LOG_DE, "DTV DMA Logs aktivieren."},
 /* fr */ {IDCLS_ENABLE_DTV_DMA_LOG_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_DTV_DMA_LOG_HU, "DTV DMA naplók engedélyezése"},
+/* hu */ {IDCLS_ENABLE_DTV_DMA_LOG_HU, "DTV DMA naplók engedélyezése."},
 /* it */ {IDCLS_ENABLE_DTV_DMA_LOG_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_DTV_DMA_LOG_NL, "Aktiveer DTV DMA logs"},
+/* nl */ {IDCLS_ENABLE_DTV_DMA_LOG_NL, "Aktiveer DTV DMA logs."},
 /* pl */ {IDCLS_ENABLE_DTV_DMA_LOG_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_DTV_DMA_LOG_SV, "Aktivera DTV-DMA-logging"},
+/* sv */ {IDCLS_ENABLE_DTV_DMA_LOG_SV, "Aktivera DTV-DMA-logging."},
 
 /* c64dtv/c64dtvdma.c */
-/* en */ {IDCLS_DISABLE_DTV_DMA_LOG,    "Disable DTV DMA logs"},
-/* de */ {IDCLS_DISABLE_DTV_DMA_LOG_DE, ""},  /* fuzzy */
+/* en */ {IDCLS_DISABLE_DTV_DMA_LOG,    "Disable DTV DMA logs."},
+/* de */ {IDCLS_DISABLE_DTV_DMA_LOG_DE, "DTV DMA Logs deaktivieren."},
 /* fr */ {IDCLS_DISABLE_DTV_DMA_LOG_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_DTV_DMA_LOG_HU, "DTV dma naplók tiltása."},
 /* it */ {IDCLS_DISABLE_DTV_DMA_LOG_IT, ""},  /* fuzzy */
@@ -5128,7 +5128,7 @@ translate_t string_table[] = {
 
 /* c64dtv/c64dtvflash.c */
 /* en */ {IDCLS_ENABLE_C64DTVROM_RW,    "Enable writing to C64DTV ROM image"},
-/* de */ {IDCLS_ENABLE_C64DTVROM_RW_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_C64DTVROM_RW_DE, "Schreibzugriff auf C64DTV ROM Image erlauben"},
 /* fr */ {IDCLS_ENABLE_C64DTVROM_RW_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_C64DTVROM_RW_HU, "C64DTV ROM képmásba írás engedélyezése"},
 /* it */ {IDCLS_ENABLE_C64DTVROM_RW_IT, ""},  /* fuzzy */
@@ -5138,7 +5138,7 @@ translate_t string_table[] = {
 
 /* c64dtv/c64dtvflash.c */
 /* en */ {IDCLS_DISABLE_C64DTVROM_RW,    "Disable writing to C64DTV ROM image"},
-/* de */ {IDCLS_DISABLE_C64DTVROM_RW_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_C64DTVROM_RW_DE, "Schreibzugriff auf C64DTV ROM Image verhindern"},
 /* fr */ {IDCLS_DISABLE_C64DTVROM_RW_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_C64DTVROM_RW_HU, "C64DTV ROM képmásba írás tiltása"},
 /* it */ {IDCLS_DISABLE_C64DTVROM_RW_IT, ""},  /* fuzzy */
@@ -5147,22 +5147,22 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_DISABLE_C64DTVROM_RW_SV, "Inaktivera skrivning till C64DTV-ROM-avbildning"},
 
 /* c64dtv/c64dtvflash.c */
-/* en */ {IDCLS_ENABLE_DTV_FLASH_LOG,    "Enable C64DTV flash chip logs."},
-/* de */ {IDCLS_ENABLE_DTV_FLASH_LOG_DE, ""},  /* fuzzy */
+/* en */ {IDCLS_ENABLE_DTV_FLASH_LOG,    "Enable DTV flash chip logs."},
+/* de */ {IDCLS_ENABLE_DTV_FLASH_LOG_DE, "DTV Flashchip Log aktivieren."},
 /* fr */ {IDCLS_ENABLE_DTV_FLASH_LOG_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_DTV_FLASH_LOG_HU, "DTV flash chip naplók engedélyezése."},
 /* it */ {IDCLS_ENABLE_DTV_FLASH_LOG_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_DTV_FLASH_LOG_NL, "Aktiveer C64DTV flash chip logs"},
+/* nl */ {IDCLS_ENABLE_DTV_FLASH_LOG_NL, "Aktiveer DTV flash chip logs"},
 /* pl */ {IDCLS_ENABLE_DTV_FLASH_LOG_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_DTV_FLASH_LOG_SV, ""},  /* fuzzy */
 
 /* c64dtv/c64dtvflash.c */
-/* en */ {IDCLS_DISABLE_DTV_FLASH_LOG,    "Disable C64DTV flash chip logs."},
-/* de */ {IDCLS_DISABLE_DTV_FLASH_LOG_DE, ""},  /* fuzzy */
+/* en */ {IDCLS_DISABLE_DTV_FLASH_LOG,    "Disable DTV flash chip logs."},
+/* de */ {IDCLS_DISABLE_DTV_FLASH_LOG_DE, "DTV Flashchip Log deaktivieren."},
 /* fr */ {IDCLS_DISABLE_DTV_FLASH_LOG_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_DTV_FLASH_LOG_HU, "DTV flash chip naplók tiltása."},
 /* it */ {IDCLS_DISABLE_DTV_FLASH_LOG_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_DTV_FLASH_LOG_NL, "C64DTV flash chip logs afsluiten"},
+/* nl */ {IDCLS_DISABLE_DTV_FLASH_LOG_NL, "DTV flash chip logs afsluiten"},
 /* pl */ {IDCLS_DISABLE_DTV_FLASH_LOG_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_DTV_FLASH_LOG_SV, ""},  /* fuzzy */
 
@@ -5178,7 +5178,7 @@ translate_t string_table[] = {
 
 /* c64dtv/flash-trap.c */
 /* en */ {IDCLS_ENABLE_TRUE_FLASH_FS,    "Enable true hardware flash file system"},
-/* de */ {IDCLS_ENABLE_TRUE_FLASH_FS_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TRUE_FLASH_FS_DE, "Präzises Hardware Flashdateisystem aktivieren"},
 /* fr */ {IDCLS_ENABLE_TRUE_FLASH_FS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_TRUE_FLASH_FS_HU, "Igazi hardver flash fájlrendszer engedélyezése"},
 /* it */ {IDCLS_ENABLE_TRUE_FLASH_FS_IT, ""},  /* fuzzy */

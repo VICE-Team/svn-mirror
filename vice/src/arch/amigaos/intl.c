@@ -2907,7 +2907,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_C64DTV_REVISION_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_C64DTV_WRITE_ENABLE,    "Writes to C64DTV ROM"},
-/* de */ {IDS_C64DTV_WRITE_ENABLE_DE, ""},  /* fuzzy */
+/* de */ {IDS_C64DTV_WRITE_ENABLE_DE, "Schreibzugriff auf C64DTV ROM"},
 /* fr */ {IDS_C64DTV_WRITE_ENABLE_FR, ""},  /* fuzzy */
 /* hu */ {IDS_C64DTV_WRITE_ENABLE_HU, "C64DTV ROM-ba írások"},
 /* it */ {IDS_C64DTV_WRITE_ENABLE_IT, ""},  /* fuzzy */
@@ -2916,7 +2916,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_C64DTV_WRITE_ENABLE_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_C64DTV_HUMMER_JOY_ENABLE,    "Hummer Userport joystick"},
-/* de */ {IDS_C64DTV_HUMMER_JOY_ENABLE_DE, ""},  /* fuzzy */
+/* de */ {IDS_C64DTV_HUMMER_JOY_ENABLE_DE, "Hummer Userport Joystick"},
 /* fr */ {IDS_C64DTV_HUMMER_JOY_ENABLE_FR, ""},  /* fuzzy */
 /* hu */ {IDS_C64DTV_HUMMER_JOY_ENABLE_HU, "Hummer Userport botkormány"},
 /* it */ {IDS_C64DTV_HUMMER_JOY_ENABLE_IT, ""},  /* fuzzy */
@@ -2925,7 +2925,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_C64DTV_HUMMER_JOY_ENABLE_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_C64DTV_HUMMER_JOY_PORT,    "Joystick port mapped to Hummer Userport"},
-/* de */ {IDS_C64DTV_HUMMER_JOY_PORT_DE, ""},  /* fuzzy */
+/* de */ {IDS_C64DTV_HUMMER_JOY_PORT_DE, "Joystick Port auf Hummer Userport zugeordnet"},
 /* fr */ {IDS_C64DTV_HUMMER_JOY_PORT_FR, ""},  /* fuzzy */
 /* hu */ {IDS_C64DTV_HUMMER_JOY_PORT_HU, "Botkormány port leképezve a Hummer userportra"},
 /* it */ {IDS_C64DTV_HUMMER_JOY_PORT_IT, ""},  /* fuzzy */
@@ -2934,7 +2934,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_C64DTV_HUMMER_JOY_PORT_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_C64DTV_SETTINGS,    "C64DTV Settings"},
-/* de */ {IDS_C64DTV_SETTINGS_DE, ""},  /* fuzzy */
+/* de */ {IDS_C64DTV_SETTINGS_DE, "C64DTV Einstellungen"},
 /* fr */ {IDS_C64DTV_SETTINGS_FR, ""},  /* fuzzy */
 /* hu */ {IDS_C64DTV_SETTINGS_HU, ""},  /* fuzzy */
 /* it */ {IDS_C64DTV_SETTINGS_IT, ""},  /* fuzzy */

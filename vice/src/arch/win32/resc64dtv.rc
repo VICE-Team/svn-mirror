@@ -1295,7 +1295,7 @@ END
 
 IDD_C64DTV_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "C64DTV Settings"
+CAPTION "C64DTV Einstellungen"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT           "DTV Revision",
@@ -1304,9 +1304,9 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "HUMMER",
                     IDC_STATIC,3,22,174,40
-    AUTOCHECKBOX    "Enable &Hummer Userport Joystick", IDC_C64DTV_HUMMER_USR_JOY_ENABLE,
+    AUTOCHECKBOX    "&Hummer Userport Joystick aktivieren", IDC_C64DTV_HUMMER_USR_JOY_ENABLE,
                     7, 32, 160, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Joyport mapped to userport",
+    LTEXT           "Joystickport auf Userport zugeordnet",
                     IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
     COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
@@ -1488,16 +1488,16 @@ END
 
 IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Attach DTV Flash Image"
+CAPTION "DTV Flash Image einlegen"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "DTV ROM",
                     IDC_STATIC,3,2,174,55
-    LTEXT           "DTV ROM &image File",
+    LTEXT           "DTV ROM &Image Name",
                     IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
     PUSHBUTTON      "Stöbern...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
     EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
-    AUTOCHECKBOX    "Enable &writes to DTV ROM image", IDC_C64DTV_ROM_WRITE_ENABLE,
+    AUTOCHECKBOX    "Erlaube &Schreibzugriff auf DTV ROM Datei", IDC_C64DTV_ROM_WRITE_ENABLE,
                     7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30, 74, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Abbruch", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
@@ -1654,18 +1654,18 @@ END
 
 IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Create DTV Flash Image"
+CAPTION "DTV Image Datei erzeugen"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "DTV ROM Creation",
+    GROUPBOX        "DTV ROM Erzeugung",
                     IDC_STATIC,3,2,174,55
-    LTEXT           "DTV ROM &image File",
+    LTEXT           "DTV ROM &Image Name",
                     IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
     PUSHBUTTON      "Stöbern...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
     EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
-    AUTOCHECKBOX    "Copy C64 ROMS into image", IDC_C64DTV_ROM_COPY_C64,
+    AUTOCHECKBOX    "C64 ROMS auf Image kopieren", IDC_C64DTV_ROM_COPY_C64,
                     7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    DEFPUSHBUTTON   "Create", IDOK, 30, 74, 50, 14, WS_TABSTOP
+    DEFPUSHBUTTON   "Erzeugen", IDOK, 30, 74, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Abbruch", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
 END
 
@@ -1814,14 +1814,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_MP_DTV_FLASH_ROM_IMAGE     "DTV flash &rom image"
+    IDS_MP_DTV_FLASH_ROM_IMAGE     "DTV Flash &Rom Datei"
     IDS_MI_AUTOSTART_DISK          "&Autostart Disk Image..."
-    IDS_MI_ATTACH_DTV_FLASH        "Attach &flash rom image"
-    IDS_MI_DETACH_DTV_FLASH        "&Detach flash rom image"
-    IDS_MI_CREATE_DTV_FLASH        "&Create new flash rom image"
+    IDS_MI_ATTACH_DTV_FLASH        "&Flash ROM Image einlegen"
+    IDS_MI_DETACH_DTV_FLASH        "Flash ROM Image ent&fernen"
+    IDS_MI_CREATE_DTV_FLASH        "Flash ROM Datei er&zeugen"
     IDS_MI_FLASH_TRUE_FILESYSTEM   "&True flash filesystem"
-    IDS_MI_PS2MOUSE                "&PS/2 mouse emulation"
-    IDS_MI_C64DTV_SETTINGS         "&C64DTV settings..."
+    IDS_MI_PS2MOUSE                "&PS/2 Mausemulation"
+    IDS_MI_C64DTV_SETTINGS         "&C64DTV Einstellungen..."
 END
 
 // FRENCH text
