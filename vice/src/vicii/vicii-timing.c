@@ -74,8 +74,8 @@
 #define VICII_PAL_DEBUG_FIRST_DISPLAYED_LINE         0x00
 #define VICII_PAL_DEBUG_LAST_DISPLAYED_LINE          0x137
 
-#define VICII_NTSC_NORMAL_FIRST_DISPLAYED_LINE       0x20
-#define VICII_NTSC_NORMAL_LAST_DISPLAYED_LINE        0x102
+#define VICII_NTSC_NORMAL_FIRST_DISPLAYED_LINE       0x1c
+#define VICII_NTSC_NORMAL_LAST_DISPLAYED_LINE        0x112
 #define VICII_NTSC_FULL_FIRST_DISPLAYED_LINE         0x1e /* enough space to show full sprites in the upper border */
 #define VICII_NTSC_FULL_LAST_DISPLAYED_LINE          0x10f /* enough space to show full sprites in the lower border */
 #define VICII_NTSC_DEBUG_FIRST_DISPLAYED_LINE        0x14
