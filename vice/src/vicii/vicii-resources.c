@@ -48,10 +48,14 @@ static video_chip_cap_t video_chip_cap;
 
 static int set_border_mode(int val, void *param)
 {
+    int sync;
+
+    if (resources_get_int("MachineVideoStandard", &sync) < 0)
+        sync = MACHINE_SYNC_PAL;
+
     if (vicii_resources.border_mode != val) {
         vicii_resources.border_mode = val;
-        machine_change_timing(MACHINE_SYNC_PAL
-                              ^ VICII_BORDER_MODE(vicii_resources.border_mode));
+        machine_change_timing(sync ^ VICII_BORDER_MODE(vicii_resources.border_mode));
     }
    return 0;
 }

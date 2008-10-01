@@ -118,7 +118,8 @@ static int set_enable(int newval, void *param)
             /* if(clk_start_tx) rs232drv_putc(fd, rxdata); */
             rs232drv_close(fd);
         }
-        alarm_unset(rsuser_alarm);
+        if (rsuser_alarm)
+            alarm_unset(rsuser_alarm);
         fd = -1;
     }
 
