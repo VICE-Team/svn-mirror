@@ -148,7 +148,10 @@ static void init_mediafile_dialog(HWND hwnd)
                 enable_ffmpeg = 1;
         }
         if (selected_driver == NULL && strcmp(driver->name, DEFAULT_DRIVER) == 0)
+        {
             SendMessage(combo, CB_SETCURSEL, (WPARAM)i, 0);
+            system_wcstombs(screendrivername, driver->name, MAXSCRNDRVLEN);
+        }
 
         driver = gfxoutput_drivers_iter_next();
     }
