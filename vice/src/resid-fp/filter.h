@@ -297,21 +297,21 @@ float FilterFP::clock(float voice1,
                    float ext_in)
 {
     /* Avoid denormal numbers by using small offsets from 0 */
-    float Vi = 0.f, Vf = 0;
+    float Vi = 0.f, Vnf = 0.f, Vf = 0.f;
 
     // Route voices into or around filter.
-    ((filt & 1) ? Vi : Vf) += voice1;
-    ((filt & 2) ? Vi : Vf) += voice2;
+    ((filt & 1) ? Vi : Vnf) += voice1;
+    ((filt & 2) ? Vi : Vnf) += voice2;
     // NB! Voice 3 is not silenced by voice3off if it is routed through
     // the filter.
     if (filt & 4)
         Vi += voice3;
     else if (! voice3off)
-        Vf += voice3;
-    ((filt & 8) ? Vi : Vf) += ext_in;
+        Vnf += voice3;
+    ((filt & 8) ? Vi : Vnf) += ext_in;
   
     if (! enabled)
-        return Vf - Vi;
+        return Vnf - Vi;
 
     if (hp_bp_lp & 1)
         Vf += Vlp;
@@ -323,19 +323,21 @@ float FilterFP::clock(float voice1,
     if (model == MOS6581FP) {
         /* Model output strip mixing */
         if (hp_bp_lp & 1)
-            Vlp += (Vf - Vlp) * (distortion_cf_threshold);
+            Vlp += (Vf + Vnf - Vlp) * (distortion_cf_threshold);
         if (hp_bp_lp & 2)
-            Vbp += (Vf - Vbp) * (distortion_cf_threshold);
+            Vbp += (Vf + Vnf - Vbp) * (distortion_cf_threshold);
         if (hp_bp_lp & 4)
-            Vhp += (Vf - Vhp) * (distortion_cf_threshold);
+            Vhp += (Vf + Vnf - Vhp) * (distortion_cf_threshold);
 
         /* -3 dB level correction for more resistance through filter path */
-        Vhp = Vbp * _1_div_Q - Vlp - Vi * 0.8f;
+        Vhp = Vbp * _1_div_Q - Vlp - Vi * 0.71f;
         Vhp -= Vhp * (distortion_cf_threshold * 5.f);
         /* Simulating the exponential VCR that the FET block is... */
         Vlp -= Vbp * type3_w0(Vbp);
         Vbp -= Vhp * type3_w0(Vhp);
         Vbp -= Vbp * (distortion_cf_threshold * 5.f);
+
+        Vf = Vf  + Vlp * (1.f/0.71f - 1.f) + Vnf;
 
         /* Tuned based on Fred Gray's Break Thru. It is probably not a hard
          * discontinuity but a saturation effect... */
@@ -346,6 +348,8 @@ float FilterFP::clock(float voice1,
         Vhp = -Vbp * _1_div_Q - Vlp - Vi;
         Vlp += Vbp * type4_w0_cache;
         Vbp += Vhp * type4_w0_cache;
+
+        Vf += Vnf;
     }
     
     return Vf * volf;

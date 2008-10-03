@@ -97,35 +97,32 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec)
 
     /* Model numbers 8-15 are reserved for distorted 6581s. */
     if (model < 8 || model > 15) {
+      psid->sid->set_chip_model(MOS8580FP);
       psid->sid->set_voice_nonlinearity(1.0f);
       psid->sid->get_filter().set_distortion_properties(0.f, 0.f, 0.f);
     } else {
       psid->sid->set_chip_model(MOS6581FP);
       psid->sid->set_voice_nonlinearity(0.96f);
-      psid->sid->get_filter().set_distortion_properties(3.1e-3f, 2048.f, 2.0e-4f);
+      psid->sid->get_filter().set_distortion_properties(2.4e-3f, 2048.f, 1.0e-4f);
     }
 
     switch (model) {
 
     case SID_MODEL_8580R5_3691:
-      psid->sid->set_chip_model(MOS8580FP);
       psid->sid->get_filter().set_type4_properties(6.55f, 20.0f);
       strcpy(model_text, "8580R5 3691");
       break;
     case SID_MODEL_8580R5_3691D:
-      psid->sid->set_chip_model(MOS8580FP);
       psid->sid->get_filter().set_type4_properties(6.55f, 20.0f);
       psid->sid->input(-32768);
       strcpy(model_text, "8580R5 3691 + digi boost");
       break;
 
     case SID_MODEL_8580R5_1489:
-      psid->sid->set_chip_model(MOS8580FP);
       psid->sid->get_filter().set_type4_properties(5.7f, 20.0f);
       strcpy(model_text, "8580R5 1489");
       break;
     case SID_MODEL_8580R5_1489D:
-      psid->sid->set_chip_model(MOS8580FP);
       psid->sid->get_filter().set_type4_properties(5.7f, 20.0f);
       psid->sid->input(-32768);
       strcpy(model_text, "8580R5 1489 + digi boost");

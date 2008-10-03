@@ -216,7 +216,7 @@ void SIDFP::input(int sample)
 {
   // Voice outputs are 20 bits. Scale up to match three voices in order
   // to facilitate simulation of the MOS8580 "digi boost" hardware hack.
-  ext_in = (float) ( (sample << 4) * 3 - 0x20000 );
+  ext_in = (float) ( (sample << 4) * 3 );
 }
 
 float SIDFP::output()
