@@ -7,14 +7,12 @@ msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-26 20:05+0200\n"
-"PO-Revision-Date: 2007-07-30 20:49+0100\n"
+"PO-Revision-Date: 2008-09-23 13:34+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Swedish\n"
-"X-Poedit-Country: SWEDEN\n"
 
 #: src/vsync.c:147 src/sid/sid-cmdline-options.c:186
 #: src/sid/sid-cmdline-options.c:189 src/translate.c.po.c:3610
@@ -51,11 +49,11 @@ msgstr "Endast en inspelning kan göras åt gången."
 
 #: src/autostart.c:177 src/translate.c.po.c:678
 msgid "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
-msgstr ""
+msgstr "Vid autostart, använd \"RUN\"-kommando med kolon, dvs. \"RUN:\""
 
 #: src/autostart.c:179 src/translate.c.po.c:688
 msgid "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"
-msgstr ""
+msgstr "Vid autostart, använd inte \"RUN\"-kommando med kolon, dvs. \"RUN\""
 
 #: src/autostart.c:270 src/translate.c.po.c:96
 msgid "Cannot load snapshot file."
@@ -889,11 +887,11 @@ msgstr "Ange SID-motor (0: FastSID, 3: ParSID)"
 
 #: src/c64dtv/c64dtvblitter.c:547
 msgid "Enable DTV blitter logs."
-msgstr ""
+msgstr "Aktivera DTV-blitterloggar."
 
 #: src/c64dtv/c64dtvblitter.c:549
 msgid "Disable DTV blitter logs."
-msgstr ""
+msgstr "Inaktivera DTV-blitterloggar."
 
 #: src/c64dtv/c64dtvdma.c:444
 #, fuzzy
@@ -902,7 +900,7 @@ msgstr "*Aktivera mus"
 
 #: src/c64dtv/c64dtvdma.c:446
 msgid "Disable DTV dma logs."
-msgstr ""
+msgstr "Inaktivera DTV-dma-loggar."
 
 #: src/c64dtv/c64dtvflash.c:266 src/translate.c.po.c:626
 #, fuzzy
@@ -936,19 +934,19 @@ msgstr "Ange namn på BASIC-ROM-avbildning"
 
 #: src/c64dtv/c64dtvflash.c:530 src/translate.c.po.c:5069
 msgid "Enable writing to C64DTV ROM image"
-msgstr ""
+msgstr "Aktivera skrivning till C64DTV-ROM-avbildning."
 
 #: src/c64dtv/c64dtvflash.c:532 src/translate.c.po.c:5079
 msgid "Disable writing to C64DTV ROM image"
-msgstr ""
+msgstr "Inaktivera skrivning till C64DTV-ROM-avbildning."
 
 #: src/c64dtv/c64dtvflash.c:534
 msgid "Enable DTV flash chip logs."
-msgstr ""
+msgstr "Aktivera loggar för DTV-flashkrets."
 
 #: src/c64dtv/c64dtvflash.c:536
 msgid "Disable DTV flash chip logs."
-msgstr ""
+msgstr "Inaktivera loggar för DTV-flashkrets."
 
 #: src/c64/digimax.c:67 src/translate.c.po.c:616
 msgid ""
@@ -1543,7 +1541,7 @@ msgstr "Kommandon för ögonblicksbilder"
 
 #: src/monitor/mon_command.c:59
 msgid "[<memspace>] [bankname]"
-msgstr ""
+msgstr "[<minnesområde>] [banknamn]"
 
 #: src/monitor/mon_command.c:60
 msgid ""
@@ -1551,6 +1549,9 @@ msgid ""
 "If bankname is given set the current bank in the memspace to the given\n"
 "bank."
 msgstr ""
+"Om banknamn inte anges, skriv ut möjliga bankar för minnesområdet.\n"
+"Om banknamn anges, sätt aktuell bank i minnesområdet till den givna\n"
+"banken."
 
 #: src/monitor/mon_command.c:66
 msgid ""
@@ -1558,18 +1559,21 @@ msgid ""
 "relative to SP+1 is printed in parentheses. This is a best guess\n"
 "only."
 msgstr ""
+"Skriv JSR-anropskedja (senaste anrop först). Stackavstånd\n"
+"relativt till SP+1 visas inom parantes. Detta är bara en\n"
+"gissning."
 
 #: src/monitor/mon_command.c:72
 msgid "Specify the type of CPU currently used (6502/z80)."
-msgstr ""
+msgstr "Ange typ av CPU som används för närvarande (6502/z80)."
 
 #: src/monitor/mon_command.c:75 src/monitor/mon_command.c:122
 msgid "[<count>]"
-msgstr ""
+msgstr "[<antal>]"
 
 #: src/monitor/mon_command.c:76
 msgid "Show <count> last executed commands."
-msgstr ""
+msgstr "Visa <antal> senast exekverade kommandon."
 
 #: src/monitor/mon_command.c:79 src/monitor/mon_command.c:127
 #: src/monitor/mon_command.c:437 src/monitor/mon_command.c:446
@@ -1583,35 +1587,41 @@ msgid ""
 "This snapshot is compatible with a snapshot written out by the UI.\n"
 "Note: No ROM images are included into the dump."
 msgstr ""
+"Skriv en ögonblicksbild av maskinen till den angivna filen.\n"
+"Ögonblicksbilden är kompatibel med de som skapas från menyn.\n"
+"Observera: ROM-avbildningar inkluderas inte i bilden."
 
 #: src/monitor/mon_command.c:91
-#, fuzzy
 msgid "<address>"
-msgstr "<basadress>"
+msgstr "<adress>"
 
 #: src/monitor/mon_command.c:92
 msgid "Change the PC to ADDRESS and continue execution"
-msgstr ""
+msgstr "Ändra PC till ADRESS och fortsätt exekveringen"
 
 #: src/monitor/mon_command.c:96
 msgid "Print out the I/O area of the emulated machine."
-msgstr ""
+msgstr "Skriv I/O-området för den emulerade maskinen."
 
 #: src/monitor/mon_command.c:100
 msgid ""
 "Advance to the next instruction.  Subroutines are treated as\n"
 "a single instruction."
 msgstr ""
+"Gå till nästa instruktion. Underrutiner hanteras som en\n"
+"enda instruktion."
 
 #: src/monitor/mon_command.c:104
 msgid "[<reg_name> = <number> [, <reg_name> = <number>]*]"
-msgstr ""
+msgstr "[<regnamn> = <tal> [, <regnamn> = <tal>]*]"
 
 #: src/monitor/mon_command.c:105
 msgid ""
 "Assign respective registers.  With no parameters, display register\n"
 "values."
 msgstr ""
+"Tilldela respektive register. Utan parametrar visas innehållet\n"
+"i registren."
 
 #: src/monitor/mon_command.c:109
 #, fuzzy
@@ -1621,26 +1631,32 @@ msgstr "<typ>"
 #: src/monitor/mon_command.c:110
 msgid "Reset the machine or drive. Type: 0 = soft, 1 = hard, 8-11 = drive."
 msgstr ""
+"Återställ maskinen eller diskettstationen. Typ: 0 = mjuk, 1 = hård,\n"
+"8-11 = diskettstation."
 
 #: src/monitor/mon_command.c:114
 msgid ""
 "Continues execution and returns to the monitor just before the next\n"
 "RTS or RTI is executed."
 msgstr ""
+"Fortsätt exekveringen och återgå till monitorn precis innan nästa\n"
+"RTS eller RTI exekveras."
 
 #: src/monitor/mon_command.c:119
 msgid "Displays the contents of the screen."
-msgstr ""
+msgstr "Visar skärmens innehåll."
 
 #: src/monitor/mon_command.c:123
 msgid ""
 "Single-step through instructions.  COUNT allows stepping\n"
 "more than a single instruction at a time."
 msgstr ""
+"Stega genom instruktioner. ANTAL gör det möjligt att stega\n"
+"genom mer än en enkel instruktion i varje steg."
 
 #: src/monitor/mon_command.c:128
 msgid "Read a snapshot of the machine from the file specified."
-msgstr ""
+msgstr "Läs en ögonblicksbild för maskinen från den angivna filen."
 
 #.
 #. { "up",              "",
@@ -1654,7 +1670,7 @@ msgstr "Kommandon för ögonblicksbilder"
 
 #: src/monitor/mon_command.c:138
 msgid "[<memspace>] <address> <label>"
-msgstr ""
+msgstr "[<minnesområde>] <adress> <etikett>"
 
 #: src/monitor/mon_command.c:139
 msgid ""
@@ -1666,10 +1682,17 @@ msgid ""
 "assembly code and is shown during disassembly.  Additionally, it can\n"
 "be used whenever an address must be specified."
 msgstr ""
+"<minnesområde> är en av: C: 8: 9: 10: 11:\n"
+"<adress>       är adressen som ska få etiketten.\n"
+"<etikett>      är namnet på etiketten; måste starta med punkt (\".\").\n"
+"\n"
+"Koppla en adress till en etikett. Etiketten kan anges när assemblerkod\n"
+"matas in och visas vid disassemblering. I tillägg kan den användas\n"
+"närhelst en adress måste anges."
 
 #: src/monitor/mon_command.c:147
 msgid "[<memspace>] <label>"
-msgstr ""
+msgstr "[<minnesområde>] <etikett>"
 
 #: src/monitor/mon_command.c:148
 msgid ""
@@ -1678,10 +1701,14 @@ msgid ""
 "\n"
 "Delete a previously defined label."
 msgstr ""
+"<minnesområde> är en av: C: 8: 9: 10: 11:\n"
+"<etikett>      är namnet på etiketten; måste starta med punkt (\".\").\n"
+"\n"
+"Ta bort en tidigare angiven etikett."
 
 #: src/monitor/mon_command.c:153 src/monitor/mon_command.c:160
 msgid "[<memspace>] \"<filename>\""
-msgstr ""
+msgstr "[<minnesområde>] \"<filnamn>\""
 
 #: src/monitor/mon_command.c:154
 msgid ""
@@ -1691,38 +1718,47 @@ msgid ""
 "The format of the file is the one written out by the `save_labels' command;\n"
 "it consists of some `add_label' commands, written one after the other."
 msgstr ""
+"Läs in en fil som innehåller koppling från etiketter till adresser.\n"
+"Om inget minnesområde anges användas standard-läsadressen.\n"
+"\n"
+"Formatet på filen är samma som skrivs av \"save_labels\"-kommandot;\n"
+"det består av några \"add_label\"-kommandon efter varandra."
 
 #: src/monitor/mon_command.c:161
 msgid ""
 "Save labels to a file.  If no memory space is specified, all of the\n"
 "labels are saved."
 msgstr ""
+"Spara etiketter till en fil. Om inget minnesområde anges sparas alla\n"
+"etiketterna."
 
 #: src/monitor/mon_command.c:165
 msgid "[<memspace>]"
-msgstr ""
+msgstr "[<minnesområde>]"
 
 #: src/monitor/mon_command.c:166
 msgid ""
 "Display current label mappings.  If no memory space is specified, show\n"
 "all labels."
 msgstr ""
+"Visar aktuella etiketter. Om inget minnesområde anges visas alla\n"
+"etiketter."
 
 #: src/monitor/mon_command.c:169
 msgid "Assembler and memory commands:"
-msgstr ""
+msgstr "Assembler- och minneskommandon:"
 
 #: src/monitor/mon_command.c:172
 msgid "[<address>] <data_list>"
-msgstr ""
+msgstr "[<adress>] <datalista>"
 
 #: src/monitor/mon_command.c:173
 msgid "Write the specified data at `address'."
-msgstr ""
+msgstr "Skriv angiven data på \"adress\"."
 
 #: src/monitor/mon_command.c:176
 msgid "<address> [ <instruction> [: <instruction>]* ]"
-msgstr ""
+msgstr "<adress> [ <instruktion> [: <instruktion>]* ]"
 
 #: src/monitor/mon_command.c:177
 msgid ""
@@ -1730,11 +1766,13 @@ msgid ""
 "instruction is specified, enter assembly mode (enter an empty line to\n"
 "exit assembly mode)."
 msgstr ""
+"Assemblera instruktioner till angiven adress. Om endast en\n"
+"instruktion angavs, aktivera assemblerläge (mata in en tom rad\n"
+"för att avsluta assemblerläget)."
 
 #: src/monitor/mon_command.c:182 src/monitor/mon_command.c:255
-#, fuzzy
 msgid "<address_range> <address>"
-msgstr "<basadress>"
+msgstr "<adressområde> <adress>"
 
 #: src/monitor/mon_command.c:183
 msgid ""
@@ -1742,15 +1780,18 @@ msgid ""
 "destination specified by the address.  The regions may overlap.  Any\n"
 "values that miscompare are displayed using the default displaytype."
 msgstr ""
+"Jämför minne från källan som anges av adressområdet mot destinationen\n"
+"som anges av adressen. Områdena kan vara överlappande. Alla värden\n"
+"som skiljer sig vid jämförelsen visas med standardvisningssättet."
 
 #: src/monitor/mon_command.c:188 src/monitor/mon_command.c:289
 #: src/monitor/mon_command.c:293
 msgid "<checknum>"
-msgstr ""
+msgstr "<kontrollnr>"
 
 #: src/monitor/mon_command.c:189
 msgid "Delete checkpoint `checknum'."
-msgstr ""
+msgstr "Ta bort kontrollpunkt \"kontrollnr\"."
 
 #: src/monitor/mon_command.c:192
 #, fuzzy
@@ -1765,10 +1806,14 @@ msgid ""
 "disassembled.  If no addresses are specified, a default number of\n"
 "instructions are disassembled from the dot address."
 msgstr ""
+"Disassemblera instruktioner. Om två adresser anges används de som\n"
+"start- och slutadress. Om endast en anges används den som startadress\n"
+"och ett standardantal instruktioner disassembleras. Om ingen adress\n"
+"anges disassembleras ett standardantal instruktioner från punktadressen."
 
 #: src/monitor/mon_command.c:200 src/monitor/mon_command.c:206
 msgid "<address_range> <data_list>"
-msgstr ""
+msgstr "<adressområde> <datalista>"
 
 #: src/monitor/mon_command.c:201
 msgid ""
@@ -1776,6 +1821,9 @@ msgid ""
 "<data_list>.  If the size of the address range is greater than the size\n"
 "of the data_list, the data_list is repeated."
 msgstr ""
+"Fyll minnet i det angivna området med data i <datalista>.\n"
+"Om storleken på adressområdet är större än storleken på datalistan\n"
+"repeteras innehållet i datalistan."
 
 #: src/monitor/mon_command.c:207
 msgid ""
@@ -1783,23 +1831,26 @@ msgid ""
 "<data_list>.  If the data is found, the starting address of the match\n"
 "is displayed.  The entire range is searched for all possible matches."
 msgstr ""
+"Sök i minnet i det angivna området med data efter <datalista>.\n"
+"Om data påträffas visas startadressen för träffen. Hela\n"
+"området genomsöks för att hitta alla möjliga träffar."
 
 #: src/monitor/mon_command.c:212 src/monitor/mon_command.c:216
 msgid "<address_opt_range>"
-msgstr ""
+msgstr "<adress_ev_område>"
 
 #: src/monitor/mon_command.c:213
 msgid "Display memory contents as PETSCII text."
-msgstr ""
+msgstr "Visa minnesinnehåll som PETSCII-text."
 
 #: src/monitor/mon_command.c:217
 msgid "Display memory contents as screen code text."
-msgstr ""
+msgstr "Visa minnesinnehåll som skärmkodstext."
 
 #: src/monitor/mon_command.c:220 src/monitor/mon_command.c:227
 #: src/monitor/mon_command.c:249
 msgid "[<data_type>] [<address_opt_range>]"
-msgstr ""
+msgstr "[<datatyp>] [<adress_ev_område>]"
 
 #: src/monitor/mon_command.c:221
 msgid ""
@@ -1808,6 +1859,9 @@ msgid ""
 "displayed is based on the datatype.  If no addresses are given, the\n"
 "'dot' address is used."
 msgstr ""
+"Visa minnets innehåll. Om ingen datatyp anges, används standard.\n"
+"Om endast en adress anges, justeras längden på visad data baserat\n"
+"på datatypen. Om ingen adress anges används \"punkt\"-adressen."
 
 #: src/monitor/mon_command.c:228
 msgid ""
@@ -1815,20 +1869,25 @@ msgid ""
 "is specified, only one character is displayed.  If no addresses are\n"
 "given, the ``dot'' address is used."
 msgstr ""
+"Visa minnets innehåll som teckendata. Om endast en adress\n"
+"anges, visas endast ett tecken. Om ingen adress anges används\n"
+"\"punkt\"-adressen."
 
 #: src/monitor/mon_command.c:233
 msgid "\"<filename>\" <format>"
-msgstr ""
+msgstr "\"<filnamn>\" <format>"
 
 #: src/monitor/mon_command.c:234
 msgid ""
 "Save the memmap as a picture. Format is:\n"
 "0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
 msgstr ""
+"Sparar minneskartan som en bild. Format:\n"
+"0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
 
 #: src/monitor/mon_command.c:238
 msgid "[<mask>] [<address_opt_range>]"
-msgstr ""
+msgstr "[<mask>] [<adress_ev_område>]"
 
 #: src/monitor/mon_command.c:239
 msgid ""
@@ -1837,10 +1896,14 @@ msgid ""
 "with the bits \"ioRWXrwx\", where RWX are for ROM and rwx for RAM.\n"
 "Optionally, an address range can be specified."
 msgstr ""
+"Visa minneskartan. Masken kan anges för att endast visa de\n"
+"celler som gäller specifik(a) typ(er). Masken är ett tal\n"
+"med bitarna \"ioRWXrwx\", där RWX är för ROM och rwx är för\n"
+"RAM. Ett minnesområde kan eventuellt anges."
 
 #: src/monitor/mon_command.c:246
 msgid "Clear the memmap."
-msgstr ""
+msgstr "Töm minneskartan."
 
 #: src/monitor/mon_command.c:250
 msgid ""
@@ -1848,21 +1911,26 @@ msgid ""
 "specified, only one sprite is displayed.  If no addresses are given,\n"
 "the ``dot'' address is used."
 msgstr ""
+"Visa minnets innehåll som spritedata. Om endast en adress\n"
+"anges, visas endast en sprite. Om ingen adress anges används\n"
+"\"punkt\"-adressen."
 
 #: src/monitor/mon_command.c:256
 msgid ""
 "Move memory from the source specified by the address range to\n"
 "the destination specified by the address.  The regions may overlap."
 msgstr ""
+"Flytta minne från källadressen som anges av minnesområdet\n"
+"till destinationen som anges av adressen. Regionerna kan vara\n"
+"överlappande."
 
 #: src/monitor/mon_command.c:259
-#, fuzzy
 msgid "Checkpoint commands:"
-msgstr "Kommandon för ögonblicksbilder"
+msgstr "Kommandon för brytpunkter:"
 
 #: src/monitor/mon_command.c:262
 msgid "[<address> [if <cond_expr>] ]"
-msgstr ""
+msgstr "[<adress> [om <villkorsuttryck>] ]"
 
 #: src/monitor/mon_command.c:263
 msgid ""
@@ -1872,10 +1940,14 @@ msgid ""
 "specified for the breakpoint.  For more information on conditions, see\n"
 "the CONDITION command."
 msgstr ""
+"Om ingen adress anges visas de övervakningspunkter som är giltiga.\n"
+"Om en adress anges sätts en brytpunkt på den adressen och dess\n"
+"nummer visas. Ett villkorsuttryck kan också anges för brytpunkten.\n"
+"För mer information om villkor, se kommandot CONDITION."
 
 #: src/monitor/mon_command.c:270
 msgid "<checknum> \"<command>\""
-msgstr ""
+msgstr "<kontrollnr> \"<kommando>\""
 
 #: src/monitor/mon_command.c:271
 msgid ""
@@ -1883,10 +1955,13 @@ msgid ""
 "is hit.  Note that the `x' command is not yet supported as a\n"
 "command argument."
 msgstr ""
+"Ange \"kommando\" som kommando att exekvera när vid träff på\n"
+"kontrollpunkten·\"kontrollnr\". Observera att kommandot \"x\" ännu\n"
+"inte stöds som kommandoparameter."
 
 #: src/monitor/mon_command.c:276
 msgid "<checknum> if <cond_expr>"
-msgstr ""
+msgstr "<kontrollnum> if <villkorsuttryck>"
 
 #: src/monitor/mon_command.c:277
 msgid ""
@@ -1912,7 +1987,7 @@ msgstr ""
 
 #: src/monitor/mon_command.c:297
 msgid "<checknum> [<count>]"
-msgstr ""
+msgstr "<kontrollnum> [<antal>]"
 
 #: src/monitor/mon_command.c:298
 msgid ""
