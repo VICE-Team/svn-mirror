@@ -54,7 +54,7 @@ void ExternalFilter::enable_filter(bool enable)
 // ----------------------------------------------------------------------------
 void ExternalFilter::set_chip_model(chip_model model)
 {
-  if (model == MOS6581) {
+  if ((model == MOS6581)||(model == DTVSID)) {
     // Maximum mixer DC output level; to be removed if the external
     // filter is turned off: ((wave DC + voice DC)*voices + mixer DC)*volume
     // See voice.cc and filter.cc for an explanation of the values.
