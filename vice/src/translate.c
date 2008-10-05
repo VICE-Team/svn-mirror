@@ -709,7 +709,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_NL, "Bij het autostarten, gebruik het 'RUN' commando met een dubbele punt, dus 'RUN:'"},
 /* pl */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_SV, "Vid autostart, använd \"RUN\"-kommando med kolon, dvs. \"RUN:\""},
 
 /* autostart.c */
 /* en */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON,    "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"},
@@ -719,7 +719,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_NL, "Bij het autostarten, gebruik het 'RUN' commando niet met een dubbele punt, dus 'RUN'"},
 /* pl */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_SV, "Vid autostart, använd inte \"RUN\"-kommando med kolon, dvs. \"RUN\""},
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, plus4/plus4-cmdline-options.c,
@@ -5084,7 +5084,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_DTV_BLITTER_LOG_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_DTV_BLITTER_LOG_NL, "Aktiveer DTV blitter logs."},
 /* pl */ {IDCLS_ENABLE_DTV_BLITTER_LOG_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_DTV_BLITTER_LOG_SV, "Aktivera DTV-blitter-loggning."},
+/* sv */ {IDCLS_ENABLE_DTV_BLITTER_LOG_SV, "Aktivera DTV-blitterloggar."},
 
 /* c64dtv/c64dtvblitter.c */
 /* en */ {IDCLS_DISABLE_DTV_BLITTER_LOG,    "Disable DTV blitter logs."},
@@ -5094,7 +5094,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_DTV_BLITTER_LOG_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_DTV_BLITTER_LOG_NL, "DTV Blitter logs afsluiten."},
 /* pl */ {IDCLS_DISABLE_DTV_BLITTER_LOG_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_DTV_BLITTER_LOG_SV, "Inaktivera DTV-blitter-loggning."},
+/* sv */ {IDCLS_DISABLE_DTV_BLITTER_LOG_SV, "Inaktivera DTV-blitterloggar."},
 
 /* c64dtv/c64dtvdma.c */
 /* en */ {IDCLS_ENABLE_DTV_DMA_LOG,    "Enable DTV DMA logs."},
@@ -5114,7 +5114,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_DTV_DMA_LOG_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_DTV_DMA_LOG_NL, "DTV DMA logs afsluiten"},
 /* pl */ {IDCLS_DISABLE_DTV_DMA_LOG_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_DTV_DMA_LOG_SV, "Inaktivera DTV-DMA-loggning"},
+/* sv */ {IDCLS_DISABLE_DTV_DMA_LOG_SV, "Inaktivera DTV-dma-loggar."},
 
 /* c64dtv/c64dtvflash.c */
 /* en */ {IDCLS_SPECIFY_C64DTVROM_NAME,    "Specify name of C64DTV ROM image"},
@@ -5134,7 +5134,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_C64DTVROM_RW_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_C64DTVROM_RW_NL, "Aktiveer schrijven naar C64DTV ROM bestand"},
 /* pl */ {IDCLS_ENABLE_C64DTVROM_RW_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_C64DTVROM_RW_SV, "Aktivera skrivning till C64DTV-ROM-avbildning"},
+/* sv */ {IDCLS_ENABLE_C64DTVROM_RW_SV, "Aktivera skrivning till C64DTV-ROM-avbildning."},
 
 /* c64dtv/c64dtvflash.c */
 /* en */ {IDCLS_DISABLE_C64DTVROM_RW,    "Disable writing to C64DTV ROM image"},
@@ -5144,7 +5144,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_C64DTVROM_RW_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_C64DTVROM_RW_NL, "Schrijven naar C64DTV ROM bestand afsluiten"},
 /* pl */ {IDCLS_DISABLE_C64DTVROM_RW_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_C64DTVROM_RW_SV, "Inaktivera skrivning till C64DTV-ROM-avbildning"},
+/* sv */ {IDCLS_DISABLE_C64DTVROM_RW_SV, "Inaktivera skrivning till C64DTV-ROM-avbildning."},
 
 /* c64dtv/c64dtvflash.c */
 /* en */ {IDCLS_ENABLE_DTV_FLASH_LOG,    "Enable DTV flash chip logs."},
@@ -5154,7 +5154,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_DTV_FLASH_LOG_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_DTV_FLASH_LOG_NL, "Aktiveer DTV flash chip logs"},
 /* pl */ {IDCLS_ENABLE_DTV_FLASH_LOG_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_DTV_FLASH_LOG_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DTV_FLASH_LOG_SV, "Aktivera loggar för DTV-flashkrets."},
 
 /* c64dtv/c64dtvflash.c */
 /* en */ {IDCLS_DISABLE_DTV_FLASH_LOG,    "Disable DTV flash chip logs."},
@@ -5164,7 +5164,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_DTV_FLASH_LOG_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_DTV_FLASH_LOG_NL, "DTV flash chip logs afsluiten"},
 /* pl */ {IDCLS_DISABLE_DTV_FLASH_LOG_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_DTV_FLASH_LOG_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DTV_FLASH_LOG_SV, "Inaktivera loggar för DTV-flashkrets."},
 
 /* c64dtv/flash-trap.c */
 /* en */ {IDCLS_USE_AS_DIRECTORY_FLASH_FS,    "Use <name> as directory for flash file system device"},
