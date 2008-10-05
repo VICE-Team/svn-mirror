@@ -32,5 +32,7 @@
 
 extern sid_engine_t fastsid_hooks;
 
+int fastsid_calculate_samples_mix(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
+
 #endif
 
