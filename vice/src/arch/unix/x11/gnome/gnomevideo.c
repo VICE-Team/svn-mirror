@@ -95,6 +95,9 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     int res;
 
     canvas->gdk_image = NULL;
+#ifdef HAVE_HWSCALE
+    canvas->hwscale_image = NULL;
+#endif
 
     res = ui_open_canvas_window(canvas, canvas->viewport->title,
 				*width, *height, 1);
@@ -117,18 +120,20 @@ void video_canvas_destroy(video_canvas_t *canvas)
         lib_free(canvas->fullscreenconfig);
     }
 #endif
-
-    lib_free(canvas->gdk_image);
+    if (canvas->gdk_image != NULL)
+        g_object_unref(canvas->gdk_image);
+#ifdef HAVE_HWSCALE
+    lib_free(canvas->hwscale_image);
+#endif
 
     video_canvas_shutdown(canvas);
 }
 
-
-int video_canvas_set_palette(video_canvas_t *c, struct palette_s *palette)
+/* set it, update if we know the endianness required by the image */
+int video_canvas_set_palette(video_canvas_t *canvas, struct palette_s *palette)
 {
-    c->palette = palette;
-
-    return uicolor_set_palette(c, palette);
+    canvas->palette = palette;
+    return uicolor_set_palette(canvas, canvas->palette);
 }
 
 /* Change the size of the canvas. */
@@ -144,14 +149,19 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
     if (canvas->videoconfig->doublesizey)
         height *= 2;
 
-    lib_free(canvas->gdk_image);
-    canvas->gdk_image = lib_malloc(4*width*height);
+    if (canvas->gdk_image != NULL)
+        g_object_unref(canvas->gdk_image);
+    canvas->gdk_image = gdk_image_new(GDK_IMAGE_FASTEST, gtk_widget_get_visual(canvas->emuwindow), width, height);
+#ifdef HAVE_HWSCALE
+    lib_free(canvas->hwscale_image);
+    canvas->hwscale_image = lib_malloc(canvas->gdk_image->width * canvas->gdk_image->height * 3);
+#endif
+    if (video_canvas_set_palette(canvas, canvas->palette) < 0) {
+        log_debug("Setting palette for this mode failed. (Try 16/24/32 bpp.)");
+        exit(-1);
+    }
 
-    ui_resize_canvas_window(canvas->emuwindow, width, height, 
-			    canvas->videoconfig->hwscale);
-    canvas->gdk_image_size.width = width;
-    canvas->gdk_image_size.height = height;
-
+    ui_resize_canvas_window(canvas, width, height);
     video_canvas_redraw_size(canvas, width, height);
 }
 
@@ -198,21 +208,25 @@ void video_canvas_refresh(video_canvas_t *canvas,
     }
 #endif
 
-    if (xi + w > canvas->gdk_image_size.width || yi + h > canvas->gdk_image_size.height) {
+    if (xi + w > canvas->gdk_image->width || yi + h > canvas->gdk_image->height) {
         log_debug("Attempt to draw outside canvas!\n"
                   "XI%i YI%i W%i H%i CW%i CH%i\n",
-                  xi, yi, w, h, canvas->gdk_image_size.width, canvas->gdk_image_size.height);
+                  xi, yi, w, h, canvas->gdk_image->width, canvas->gdk_image->height);
         exit(-1);
     }
 
-    video_canvas_render(canvas, canvas->gdk_image,
-                        w, h, xs, ys, xi, yi,
-                        canvas->gdk_image_size.width*4,
-                        32);
-
-    /* Schedule redraw of the rendered area. */
+#ifdef HAVE_HWSCALE
+    if (canvas->videoconfig->hwscale) {
+        video_canvas_render(canvas, canvas->hwscale_image,
+                            w, h, xs, ys, xi, yi, canvas->gdk_image->width * 3,
+                            24);
+        gtk_widget_queue_draw(canvas->emuwindow);
+    } else
+#endif
     {
-        GdkRectangle rect = {xi, yi, w, h};
-        gdk_window_invalidate_rect (canvas->emuwindow->window, &rect, FALSE);
+        video_canvas_render(canvas, canvas->gdk_image->mem,
+                            w, h, xs, ys, xi, yi, canvas->gdk_image->bpl,
+                            canvas->gdk_image->bits_per_pixel);
+        gtk_widget_queue_draw_area(canvas->emuwindow, xi, yi, w, h);
     }
 }

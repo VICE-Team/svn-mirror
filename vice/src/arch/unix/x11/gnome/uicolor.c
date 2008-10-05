@@ -50,7 +50,7 @@ drive_led_off_pixel, motor_running_pixel, tape_control_pixel;
 extern GdkColor drive_led_on_red_pixels[16];
 extern GdkColor drive_led_on_green_pixels[16];
 
-static void uicolor_init_video_colors();
+void uicolor_init_video_colors();
 
 /*-----------------------------------------------------------------------*/
 
@@ -90,36 +90,96 @@ int uicolor_alloc_colors(video_canvas_t *c)
 	drive_led_on_green_pixels[i].blue = 0;
     }
     
-    return uicolor_set_palette(c, c->palette);
+    return 0;
+}
+
+unsigned int endian_swap(unsigned int color, unsigned int bpp, unsigned int swap) {
+    if (! swap)
+        return color;
+
+    if (bpp == 8)
+        return color;
+
+    if (bpp == 16)
+        return ((color >> 8) & 0x00ff)
+             | ((color << 8) & 0xff00);
+
+    if (bpp == 24)
+        return color; /* 24 bpp output special case at renderer level, always writes out with LSB order regardless of host CPU, handled elsewhere */
+
+    if (bpp == 32)
+        return ((color >> 24) & 0x000000ff)
+             | ((color >>  8) & 0x0000ff00)
+             | ((color <<  8) & 0x00ff0000)
+             | ((color << 24) & 0xff000000);
+    
+    /* err? */
+    return color;
 }
 
 int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette)
 {
-    unsigned int i;
+    unsigned int i, rs, gs, bs, rb, gb, bb, bpp, swap;
 
-    uicolor_init_video_colors();
+    /* Hwscaled colours are expected in GL_RGB order. 24 bpp renderers are
+     * special, they always seem to expect color order to be logically ABGR,
+     * which they write out in RGB memory order. (Glorious, eh?) */
+    if (c->videoconfig->hwscale) {
+        bpp = 24;
+        rb = 8;
+        gb = 8;
+        bb = 8;
+        rs = 0;
+        gs = 8;
+        bs = 16;
+        swap = 0;
+    } else {
+        GdkVisual *vis = c->gdk_image->visual;
+        bpp = vis->depth;
+        rb = vis->red_prec;
+        gb = vis->green_prec;
+        bb = vis->blue_prec;
+        rs = vis->red_shift;
+        gs = vis->green_shift;
+        bs = vis->blue_shift;
+#ifdef WORDS_BIGENDIAN
+        swap = vis->byte_order == GDK_LSB_FIRST;
+#else
+        swap = vis->byte_order == GDK_MSB_FIRST;
+#endif
+        /* 24 bpp modes do not really work with the existing
+         * arrangement as they have been written to assume the A component is
+         * in the 32-bit longword bits 24-31. If any arch needs 24 bpp, that
+         * code must be specially written for it. */
+    }
 
     for (i = 0; i < palette->num_entries; i++) {
         palette_entry_t color = palette->entries[i];
-        DWORD color_pixel = 
-            (DWORD)color.red |
-            (DWORD)color.green << 8 |
-            (DWORD)color.blue << 16;
-	    video_render_setphysicalcolor(((video_canvas_t*)c)->videoconfig, i,
-            color_pixel, 32);
+        /* scale 256 color palette for Gdk terms, then shift to precision,
+         * then move component where it needs to be. */
+        DWORD color_pixel = endian_swap(
+            color.red   << 8 >> (16 - rb) << rs |
+            color.green << 8 >> (16 - gb) << gs |
+            color.blue  << 8 >> (16 - bb) << bs,
+            bpp,
+            swap
+        );
+        video_render_setphysicalcolor(c->videoconfig, i, color_pixel,
+                                      bpp);
     }
-    return 0;
-}
-
-static void uicolor_init_video_colors()
-{
-    short i;
     
-    for (i = 0; i < 256; i++) {
-	    video_render_setrawrgb(i, 
-		    (DWORD)i, (DWORD)i << 8, (DWORD)i << 16
-	    );
+    for (i = 0; i < 256; i ++) {
+        video_render_setrawrgb(i, 
+            endian_swap(i << 8 >> (16 - rb) << rs,
+                        bpp, swap),
+            endian_swap(i << 8 >> (16 - gb) << gs,
+                        bpp, swap),
+            endian_swap(i << 8 >> (16 - bb) << bs,
+                        bpp, swap)
+        );
     }
     
     video_render_initraw();
+
+    return 0;
 }

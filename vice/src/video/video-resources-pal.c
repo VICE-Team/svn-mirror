@@ -98,14 +98,8 @@ static int set_delayloop_emulation(int val, void *param)
 
     if (video_color_update_palette(video_current_canvas) < 0) {
         video_resources.delayloop_emulation = old;
-        ui_update_pal_ctrls(video_resources.delayloop_emulation);
         return -1;
     }
-    ui_update_pal_ctrls(video_resources.delayloop_emulation);
-
-#ifdef WIN32
-    video_resources_check_win32_newpal();
-#endif
 
     return 0;
 }
@@ -153,12 +147,6 @@ static int set_pal_blur(int val, void *param)
 static int set_pal_mode(int val, void *param)
 {
     video_resources.pal_mode = val;
-
-#ifdef WIN32
-    if (val == 2)
-        video_resources_check_win32_newpal();
-#endif
-
     return 0;
 }
 

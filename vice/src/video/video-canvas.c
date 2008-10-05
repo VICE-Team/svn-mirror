@@ -80,16 +80,19 @@ void video_canvas_render(video_canvas_t *canvas, BYTE *trg, int width,
                          int height, int xs, int ys, int xt, int yt,
                          int pitcht, int depth)
 {
+    viewport_t *viewport = canvas->viewport;
 #ifdef VIDEO_SCALE_SOURCE
     if (canvas->videoconfig->doublesizex)
         xs /= 2;
     if (canvas->videoconfig->doublesizey)
         ys /= 2;
 #endif
+    unsigned int viewport_height = viewport->last_line - viewport->first_line + 1;
 
     video_render_main(canvas->videoconfig, canvas->draw_buffer->draw_buffer,
                       trg, width, height, xs, ys, xt, yt,
-                      canvas->draw_buffer->draw_buffer_width, pitcht, depth);
+                      canvas->draw_buffer->draw_buffer_width, pitcht, depth,
+                      viewport_height);
 
 }
 

@@ -83,8 +83,8 @@
     UI_MENU_DEFINE_TOGGLE(__CHIP__##Fullscreen)		\
     UI_MENU_DEFINE_TOGGLE(__CHIP__##FullscreenStatusbar)	\
     UI_MENU_DEFINE_STRING_RADIO(__CHIP__##FullscreenDevice)	\
-    UI_MENU_DEFINE_TOGGLE(__CHIP__##FullscreenDoubleSize)		\
-    UI_MENU_DEFINE_TOGGLE(__CHIP__##FullscreenDoubleScan)		\
+    /*UI_MENU_DEFINE_TOGGLE(__CHIP__##FullscreenDoubleSize)*/		\
+    /*UI_MENU_DEFINE_TOGGLE(__CHIP__##FullscreenDoubleScan)*/		\
     VIDMODE_RADIO(__CHIP__)						\
     XRANDR_RADIO(__CHIP__)						\
     FULLSCREENDEVICE_SUBMENU(__CHIP__)					\
@@ -97,10 +97,10 @@ ui_menu_entry_t fullscreen_menu##__CHIP__[] =				\
     { N_("*Show Statusbar/Menu"),					\
       (ui_callback_t)toggle_##__CHIP__##FullscreenStatusbar, NULL, NULL, KEYSYM_b, \
       UI_HOTMOD_META },							\
-    { N_("*Double size"),						\
-      (ui_callback_t)toggle_##__CHIP__##FullscreenDoubleSize, NULL, NULL }, \
-    { N_("*Double scan"),						\
-      (ui_callback_t)toggle_##__CHIP__##FullscreenDoubleScan, NULL, NULL }, \
+    /*{ N_("*Double size"),*/						\
+    /*  (ui_callback_t)toggle_##__CHIP__##FullscreenDoubleSize, NULL, NULL },*/\
+    /*{ N_("*Double scan"),*/						\
+    /*  (ui_callback_t)toggle_##__CHIP__##FullscreenDoubleScan, NULL, NULL },*/\
     { N_("Fullscreen device"),\
       NULL, NULL, set_fullscreen_device_submenu##__CHIP__ },		\
     __VIDMODE__								\

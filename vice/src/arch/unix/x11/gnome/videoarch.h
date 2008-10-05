@@ -46,9 +46,8 @@ typedef void (*video_refresh_func_t)(struct video_canvas_s *,
 struct video_canvas_s {
     unsigned int initialized;
     unsigned int created;
-    GtkWidget* emuwindow;
-    guchar *gdk_image;
-    rectangle_t gdk_image_size;
+    GtkWidget *emuwindow, *pane;
+    GdkImage *gdk_image;
     struct video_render_config_s *videoconfig;
     struct draw_buffer_s *draw_buffer;
     struct viewport_s *viewport;
@@ -62,7 +61,8 @@ struct video_canvas_s {
     video_refresh_func_t video_fullscreen_refresh_func;
 #endif
 #ifdef HAVE_HWSCALE
-    GLint screen_texture;
+    unsigned char *hwscale_image;
+    GLuint screen_texture;
 #endif
 };
 typedef struct video_canvas_s video_canvas_t;

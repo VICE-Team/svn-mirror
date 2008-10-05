@@ -59,8 +59,6 @@ static UI_CALLBACK(toggle_DelayLoopEmulation)
     }
 }
 
-UI_MENU_DEFINE_RADIO(PALMode)
-
 #ifndef USE_GNOMEUI
 static UI_CALLBACK(PAL_control_cb)
 {
@@ -132,13 +130,6 @@ static UI_CALLBACK(PAL_control_cb)
 ui_menu_entry_t PALMode_submenu[] = {
     { N_("*Activate PAL emulation"),
       (ui_callback_t)toggle_DelayLoopEmulation, NULL, NULL },
-    { "--" },
-    { N_("*Fast PAL Emulation"),
-      (ui_callback_t)radio_PALMode, (ui_callback_data_t)0, NULL },
-    { N_("*Old Exact PAL Emulation"),
-      (ui_callback_t)radio_PALMode, (ui_callback_data_t)1, NULL },
-    { N_("*New Exact PAL Emulation"),
-      (ui_callback_t)radio_PALMode, (ui_callback_data_t)2, NULL },
 #ifndef USE_GNOMEUI
     { "--" },
     { N_("PAL Scanline Shade"),

@@ -26,108 +26,130 @@
 
 #include "vice.h"
 
-#include "render1x1.h"
 #include "render1x1pal.h"
 #include "types.h"
+#include "video-resources.h"
 
 extern DWORD gamma_red[256 * 3];
 extern DWORD gamma_grn[256 * 3];
 extern DWORD gamma_blu[256 * 3];
 
+static inline void
+store_pixel_2(BYTE *trg, WORD red, WORD grn, WORD blu)
+{
+    WORD *tmp = (WORD *) trg;
+    *tmp = (WORD) (gamma_red[red] | gamma_grn[grn] | gamma_blu[blu]);
+}
+
+static inline void
+store_pixel_3(BYTE *trg, WORD red, WORD grn, WORD blu)
+{
+    DWORD tmp = gamma_red[red] | gamma_grn[grn] | gamma_blu[blu];
+    trg[0] = (BYTE) tmp;
+    tmp >>= 8;
+    trg[1] = (BYTE) tmp;
+    tmp >>= 8;
+    trg[2] = (BYTE) tmp;
+}
+
+static inline void
+store_pixel_4(BYTE *trg, WORD red, WORD grn, WORD blu)
+{
+    DWORD *tmp = (DWORD *) trg;
+    *tmp = gamma_red[red] | gamma_grn[grn] | gamma_blu[blu];
+}
+
 /* PAL 1x1 renderers */
-
-void render_16_1x1_pal(video_render_color_tables_t *color_tab, const BYTE *src, BYTE *trg,
+static inline void
+render_generic_1x1_pal(video_render_color_tables_t *color_tab, const BYTE *src, BYTE *trg,
                        unsigned int width, const unsigned int height,
                        const unsigned int xs, const unsigned int ys,
                        const unsigned int xt, const unsigned int yt,
-                       const unsigned int pitchs, const unsigned int pitcht)
+                       const unsigned int pitchs, const unsigned int pitcht,
+                       const unsigned int pixelstride,
+                       void (*store_func)(BYTE *trg,
+                                          WORD red, WORD grn, WORD blu))
 {
     const SDWORD *cbtable = color_tab->cbtable;
     const SDWORD *crtable = color_tab->crtable;
     const SDWORD *ytablel = color_tab->ytablel;
     const SDWORD *ytableh = color_tab->ytableh;
     const BYTE *tmpsrc;
-    WORD *tmptrg;
-    SDWORD *lineptr0;
-    SDWORD *lineptr1;
-    SDWORD *line;
-    SDWORD *linepre;
-    unsigned int x, y, wstart, wfast, wend, wint;
-    SDWORD l, u, v;
-    DWORD red, grn, blu;
+    BYTE *tmptrg;
+    unsigned int x, y;
+    SDWORD *line, l, u, v, unew, vnew;
+    WORD red, grn, blu;
+    BYTE cl0, cl1, cl2, cl3;
+    int off, off_flip;
 
     src = src + pitchs * ys + xs - 2;
-    trg = trg + pitcht * yt + (xt << 1);
-    if (width < 8) {
-        wstart = width;
-        wfast = 0;
-        wend = 0;
+    trg = trg + pitcht * yt + xt * pixelstride;
+    
+    line = color_tab->line_yuv_0;
+    tmpsrc = ys > 0 ? src - pitchs : src;
+    off_flip = ys > 0 ? 1 : -1;
+
+    /* is the previous line odd or even? (inverted condition!) */
+    if (ys & 1) {
+        cbtable = color_tab->cbtable;
+        crtable = color_tab->crtable;
     } else {
-        /* alignment: 8 pixels*/
-        wstart = (unsigned int)(8 - ((unsigned long)trg & 7));
-        wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
-        wend = (width - wstart) & 0x07; /* do not forget the rest*/
+        cbtable = color_tab->cbtable_odd;
+        crtable = color_tab->crtable_odd;
     }
-    wint = width + 5;
-    lineptr0 = color_tab->line_yuv_0;
-    lineptr1 = color_tab->line_yuv_1;
 
-    tmpsrc = src - (ys ? pitchs : 0);
-    line = lineptr0;
-    for (x = 0; x < wint; x++) {
-        register DWORD cl0, cl1, cl2, cl3;
-
+    for (x = 0; x < width; x++) {
         cl0 = tmpsrc[0];
         cl1 = tmpsrc[1];
         cl2 = tmpsrc[2];
         cl3 = tmpsrc[3];
-        line[0] = 0;
-        line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
-        line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
-        tmpsrc++;
-        line += 3;
+        tmpsrc += 1;
+        line[0] = (cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3]) * off_flip;
+        line[1] = (crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3]) * off_flip;
+        line += 2;
     }
 
-    for (y = 0; y < height; y++) {
+    /* Calculate odd line shading */
+    off = (int) (((float) video_resources.pal_oddlines_offset * (1.5f / 2000.0f) - (1.5f / 2.0f - 1.0f)) * (1 << 5) * -1);
+
+    for (y = ys; y < height + ys; y++) {
         tmpsrc = src;
-        tmptrg = (WORD *)trg;
+        tmptrg = trg;
 
-        line = lineptr0;
-        lineptr0 = lineptr1;
-        lineptr1 = line;
+        line = color_tab->line_yuv_0;
 
-        tmpsrc = src;
-        line = lineptr0;
-        for (x = 0; x < wint; x++) {
-            register DWORD cl0, cl1, cl2, cl3;
+        if (y & 1) { /* odd sourceline */
+            off_flip = off;
+            cbtable = color_tab->cbtable_odd;
+            crtable = color_tab->crtable_odd;
+        } else {
+            off_flip = 1 << 5;
+            cbtable = color_tab->cbtable;
+            crtable = color_tab->crtable;
+        }
 
+        for (x = 0; x < width; x++) {
             cl0 = tmpsrc[0];
             cl1 = tmpsrc[1];
             cl2 = tmpsrc[2];
             cl3 = tmpsrc[3];
-            line[0] = (ytablel[cl1] + ytableh[cl2] + ytablel[cl3]) >> 8;
-            line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
-            line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
-            tmpsrc++;
-            line += 3;
-        }
+            tmpsrc += 1;
+            l = ytablel[cl1] + ytableh[cl2] + ytablel[cl3];
+            unew = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
+            vnew = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
 
-        line = lineptr0;
-        linepre = lineptr1;
-        for (x = 0; x < (wfast << 3) + wend + wstart; x++) {
+            u = (unew - line[0]) * off_flip;
+            v = (vnew - line[1]) * off_flip;
+            line[0] = unew;
+            line[1] = vnew;
+            line += 2;
 
-            l = line[0];
-            u = (line[1] + linepre[1]) >> 3;
-            v = (line[2] + linepre[2]) >> 3;
-            line += 3;
-            linepre += 3;
+            red = (WORD) ((l + v) >> 16);
+            blu = (WORD) ((l + u) >> 16);
+            grn = (WORD) ((l - ((50 * u + 130 * v) >> 8)) >> 16);
 
-            red = ((v + l) >> 8) + 256;
-            blu = ((u + l) >> 8) + 256;
-            grn = (((l << 8) - 50 * u - 130 * v) >> 16) + 256;
-
-            *tmptrg++ = (WORD)(gamma_red[red] | gamma_grn[grn]
-                        | gamma_blu[blu]);
+            store_func(tmptrg, red, grn, blu);
+            tmptrg += pixelstride;
         }
 
         src += pitchs;
@@ -135,101 +157,41 @@ void render_16_1x1_pal(video_render_color_tables_t *color_tab, const BYTE *src, 
     }
 }
 
-void render_32_1x1_pal(video_render_color_tables_t *color_tab, const BYTE *src, BYTE *trg,
-                       unsigned int width, const unsigned int height,
-                       const unsigned int xs, const unsigned int ys,
-                       const unsigned int xt, const unsigned int yt,
-                       const unsigned int pitchs, const unsigned int pitcht)
+void
+render_16_1x1_pal(video_render_color_tables_t *color_tab,
+                  const BYTE *src, BYTE *trg,
+                  unsigned int width, const unsigned int height,
+                  const unsigned int xs, const unsigned int ys,
+                  const unsigned int xt, const unsigned int yt,
+                  const unsigned int pitchs, const unsigned int pitcht)
 {
-    const SDWORD *cbtable = color_tab->cbtable;
-    const SDWORD *crtable = color_tab->crtable;
-    const SDWORD *ytablel = color_tab->ytablel;
-    const SDWORD *ytableh = color_tab->ytableh;
-    const BYTE *tmpsrc;
-    DWORD *tmptrg;
-    SDWORD *lineptr0;
-    SDWORD *lineptr1;
-    SDWORD *line;
-    SDWORD *linepre;
-    unsigned int x, y, wstart, wfast, wend, wint;
-    SDWORD l, u, v;
-    DWORD red, grn, blu;
-
-    src = src + pitchs * ys + xs - 2;
-    trg = trg + pitcht * yt + (xt << 2);
-    if (width < 8) {
-        wstart = width;
-        wfast = 0;
-        wend = 0;
-    } else {
-        /* alignment: 8 pixels*/
-        wstart = (unsigned int)(8 - ((unsigned long)trg & 7));
-        wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
-        wend = (width - wstart) & 0x07; /* do not forget the rest*/
-    }
-    wint = width + 5;
-    lineptr0 = color_tab->line_yuv_0;
-    lineptr1 = color_tab->line_yuv_1;
-
-    tmpsrc = src - (ys ? pitchs : 0);
-    line = lineptr0;
-    for (x = 0; x < wint; x++) {
-        register DWORD cl0, cl1, cl2, cl3;
-
-        cl0 = tmpsrc[0];
-        cl1 = tmpsrc[1];
-        cl2 = tmpsrc[2];
-        cl3 = tmpsrc[3];
-        line[0] = 0;
-        line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
-        line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
-        tmpsrc++;
-        line += 3;
-    }
-
-    for (y = 0; y < height; y++) {
-        tmpsrc = src;
-        tmptrg = (DWORD *)trg;
-
-        line = lineptr0;
-        lineptr0 = lineptr1;
-        lineptr1 = line;
-
-        tmpsrc = src;
-        line = lineptr0;
-        for (x = 0; x < wint; x++) {
-            register DWORD cl0, cl1, cl2, cl3;
-
-            cl0 = tmpsrc[0];
-            cl1 = tmpsrc[1];
-            cl2 = tmpsrc[2];
-            cl3 = tmpsrc[3];
-            line[0] = (ytablel[cl1] + ytableh[cl2] + ytablel[cl3]) >> 8;
-            line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
-            line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
-            tmpsrc++;
-            line += 3;
-        }
-
-        line = lineptr0;
-        linepre = lineptr1;
-        for (x = 0; x < (wfast << 3) + wend + wstart; x++) {
-
-            l = line[0];
-            u = (line[1] + linepre[1]) >> 3;
-            v = (line[2] + linepre[2]) >> 3;
-            line += 3;
-            linepre += 3;
-
-            red = ((v+l) >> 8) + 256;
-            blu = ((u+l) >> 8) + 256;
-            grn = (((l << 8) - 50*u - 130*v) >> 16) + 256;
-
-            *tmptrg++ = gamma_red[red] | gamma_grn[grn] | gamma_blu[blu];
-        }
-
-        src += pitchs;
-        trg += pitcht;
-    }
+    render_generic_1x1_pal(color_tab, src, trg, width, height, xs, ys, xt, yt,
+                           pitchs, pitcht,
+                           2, store_pixel_2);
 }
 
+void
+render_24_1x1_pal(video_render_color_tables_t *color_tab,
+                  const BYTE *src, BYTE *trg,
+                  unsigned int width, const unsigned int height,
+                  const unsigned int xs, const unsigned int ys,
+                  const unsigned int xt, const unsigned int yt,
+                  const unsigned int pitchs, const unsigned int pitcht)
+{
+    render_generic_1x1_pal(color_tab, src, trg, width, height, xs, ys, xt, yt,
+                           pitchs, pitcht,
+                           3, store_pixel_3);
+}
+
+void
+render_32_1x1_pal(video_render_color_tables_t *color_tab,
+                  const BYTE *src, BYTE *trg,
+                  unsigned int width, const unsigned int height,
+                  const unsigned int xs, const unsigned int ys,
+                  const unsigned int xt, const unsigned int yt,
+                  const unsigned int pitchs, const unsigned int pitcht)
+{
+    render_generic_1x1_pal(color_tab, src, trg, width, height, xs, ys, xt, yt,
+                           pitchs, pitcht,
+                           4, store_pixel_4);
+}

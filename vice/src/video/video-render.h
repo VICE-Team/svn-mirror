@@ -35,7 +35,8 @@ struct video_render_config_s;
 extern void video_render_main(struct video_render_config_s *config, BYTE *src,
                               BYTE *trg, int width, int height,
                               int xs, int ys, int xt, int yt,
-                              int pitchs, int pitcht, int depth);
+                              int pitchs, int pitcht, int depth,
+                              int canvas_height);
 
 extern void video_render_1x2func_set(void(*func)(struct video_render_config_s *,
                                      const BYTE *, BYTE *,
@@ -55,7 +56,7 @@ extern void video_render_2x2func_set(void(*func)(struct video_render_config_s *,
 
 extern void video_render_palfunc_set(void(*func)(struct video_render_config_s *,
                                      BYTE *, BYTE *, int, int, int, int,
-                                     int, int, int, int, int));
+                                     int, int, int, int, int, int));
 
 #endif
 

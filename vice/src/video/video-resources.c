@@ -39,10 +39,6 @@
 #include "util.h"
 #include "log.h"
 
-#ifdef WIN32
-#include "ui.h"
-#endif
-
 video_resources_t video_resources =
 {
     1000, /* color_saturation */
@@ -613,35 +609,6 @@ void video_resources_chip_shutdown(struct video_canvas_s *canvas)
     lib_free(canvas->videoconfig->external_palette_name);
 }
 
-#ifdef WIN32
-extern struct video_canvas_s *video_current_canvas;
-
-void video_resources_check_win32_newpal(void)
-{
-    int pal_enabled = 0;
-    int pal_mode = 0;
-
-    resources_get_int("PALEmulation", &pal_enabled);
-
-    if (pal_enabled)
-        resources_get_int("PALMode", &pal_mode);
-
-    if (video_current_canvas==NULL)
-      return;
-
-    if (video_current_canvas->videoconfig==NULL)
-      return;
-
-    if (pal_enabled != 0 && pal_mode == 2 &&
-        video_current_canvas->videoconfig->fullscreen_enabled == 0 &&
-        video_current_canvas->videoconfig->doublescan != 0 &&
-        video_current_canvas->videoconfig->double_size_enabled != 0)
-    {
-        ui_message("This combination has a performance problem\nplease switch to old PAL emulation");
-    }
-}
-#endif
-
 static void video_resources_update_ui(video_canvas_t *canvas)
 {
     int pal_enabled = 0;
@@ -668,7 +635,4 @@ static void video_resources_update_ui(video_canvas_t *canvas)
 /*
     ui_enable_chip resources(ui_doublescan_enabled, ui_scale2x_enabled);
 */
-#ifdef WIN32
-    video_resources_check_win32_newpal();
-#endif
 }

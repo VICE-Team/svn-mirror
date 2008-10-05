@@ -123,7 +123,8 @@ struct video_render_color_tables_s {
     /* YUV table for hardware rendering: (Y << 16) | (U << 8) | V */
     DWORD yuv_table[256];
     SDWORD line_yuv_0[1024 * 3];
-    SDWORD line_yuv_1[1024 * 3];
+    WORD prevrgbline[1024 * 3];
+    BYTE rgbscratchbuffer[1024 * 4];
 };
 typedef struct video_render_color_tables_s video_render_color_tables_t;
 

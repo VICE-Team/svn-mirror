@@ -89,7 +89,7 @@ extern GtkWidget *canvasw;
 
 int ui_open_canvas_window(struct video_canvas_s *c, const char *title, 
 			  int width, int heigth, int no_autorepeat);
-void ui_resize_canvas_window(ui_window_t w, int height, int width, int hwscale);
+void ui_resize_canvas_window(struct video_canvas_s *c, int height, int width);
 GtkWidget *ui_create_transient_shell(GtkWidget *parent, const char *name);
 void ui_popdown(GtkWidget *w);
 void ui_popup(GtkWidget *w, const char *title, gboolean wait_popdown);

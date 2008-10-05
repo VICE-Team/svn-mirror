@@ -50,9 +50,5 @@ typedef struct video_resources_s video_resources_t;
 
 extern video_resources_t video_resources;
 
-#ifdef WIN32
-extern void video_resources_check_win32_newpal(void);
-#endif
-
 #endif
 

@@ -33,11 +33,6 @@
 #include "resources.h"
 #include "videoarch.h"
 
-static GtkWidget *fake_palemu, *new_true_palemu;
-#define OLD_PAL_EMU_IS_FIXED
-#ifdef OLD_PAL_EMU_IS_FIXED
-static GtkWidget *true_palemu;
-#endif
 static video_canvas_t *cached_canvas;
 
 typedef struct pal_res_s {
@@ -93,35 +88,6 @@ static void pal_ctrl_reset (GtkWidget *w, gpointer data)
                                      (gfloat) tmp);
         }
     }      
-    
-    video_canvas_refresh_all(cached_canvas);
-}
-
-static void upd_palmode (GtkWidget *w, gpointer data)
-{
-    /* FIXME: temporary solution, gnome/gtk people need to fix this situation */
-    if (machine_class != VICE_MACHINE_PET)
-        resources_set_int("PALMode", (int)data);
-
-    if (data == (gpointer) 0)
-    {
-        gtk_widget_set_sensitive(GTK_WIDGET(ctrls[0].w), FALSE);
-    }
-    else
-    {
-        gtk_widget_set_sensitive(GTK_WIDGET(ctrls[0].w), TRUE);
-    }
-    
-    if (data == (gpointer) 2)
-    {
-        gtk_widget_set_sensitive(GTK_WIDGET(ctrls[7].w), TRUE);
-        gtk_widget_set_sensitive(GTK_WIDGET(ctrls[8].w), TRUE);
-    }
-    else
-    {
-        gtk_widget_set_sensitive(GTK_WIDGET(ctrls[7].w), FALSE);
-        gtk_widget_set_sensitive(GTK_WIDGET(ctrls[8].w), FALSE);
-    }
     
     video_canvas_refresh_all(cached_canvas);
 }
@@ -191,68 +157,6 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
                      rb);
     GTK_WIDGET_UNSET_FLAGS (rb, GTK_CAN_FOCUS);
     gtk_widget_show(rb);
-
-    fake_palemu = gtk_radio_button_new_with_label(NULL, 
-        _("Fast"));
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fake_palemu), TRUE);
-    gtk_box_pack_start(GTK_BOX(box), fake_palemu, FALSE, FALSE, 5);
-    gtk_widget_show(fake_palemu);
-
-#ifdef OLD_PAL_EMU_IS_FIXED
-    true_palemu = gtk_radio_button_new_with_label(
-	gtk_radio_button_get_group(GTK_RADIO_BUTTON(fake_palemu)),
-        _("Exact"));
-    gtk_box_pack_start(GTK_BOX(box), true_palemu, FALSE, FALSE, 5);
-    gtk_widget_show(true_palemu);
-#endif
-
-    new_true_palemu = gtk_radio_button_new_with_label(
-	gtk_radio_button_get_group(GTK_RADIO_BUTTON(fake_palemu)),
-        _("New Exact"));
-    gtk_box_pack_start(GTK_BOX(box), new_true_palemu, FALSE, FALSE, 5);
-    gtk_widget_show(new_true_palemu);
-
-    /* FIXME: temporary solution, gnome/gtk people need to fix this
-       situation */
-    if (machine_class != VICE_MACHINE_PET)
-        resources_get_int("PALMode", &v);
-
-    if (v == 0)
-    {
-        gtk_widget_set_sensitive(GTK_WIDGET(ctrls[0].w), FALSE);
-        gtk_widget_set_sensitive(GTK_WIDGET(ctrls[7].w), FALSE);
-        gtk_widget_set_sensitive(GTK_WIDGET(ctrls[8].w), FALSE);
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fake_palemu), TRUE);
-    }
-#ifdef OLD_PAL_EMU_IS_FIXED
-    else if (v == 1)
-    {
-        gtk_widget_set_sensitive(GTK_WIDGET(ctrls[0].w), TRUE);
-        gtk_widget_set_sensitive(GTK_WIDGET(ctrls[7].w), FALSE);
-        gtk_widget_set_sensitive(GTK_WIDGET(ctrls[8].w), FALSE);
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(true_palemu), TRUE);
-    }
-#endif
-    else
-    {
-        gtk_widget_set_sensitive(GTK_WIDGET(ctrls[0].w), TRUE);
-        gtk_widget_set_sensitive(GTK_WIDGET(ctrls[7].w), TRUE);
-        gtk_widget_set_sensitive(GTK_WIDGET(ctrls[8].w), TRUE);
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(new_true_palemu), TRUE);
-    }
-    
-    /* connect signals later to avoid callback to `upd_palmode' when setting 
-       the default */
-    g_signal_connect(G_OBJECT(fake_palemu), "clicked",
-                     G_CALLBACK(upd_palmode), (gpointer) 0);
-    
-#ifdef OLD_PAL_EMU_IS_FIXED
-    g_signal_connect(G_OBJECT(true_palemu), "clicked",
-                     G_CALLBACK(upd_palmode), (gpointer) 1);
-#endif
-    
-    g_signal_connect(G_OBJECT(new_true_palemu), "clicked",
-                     G_CALLBACK(upd_palmode), (gpointer) 2);
 
     gtk_widget_show(box);
 
