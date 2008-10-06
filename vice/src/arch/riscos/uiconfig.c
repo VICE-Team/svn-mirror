@@ -191,7 +191,6 @@ static const char Rsrc_Contrast[] = "ColorContrast";
 static const char Rsrc_Brightness[] = "ColorBrightness";
 static const char Rsrc_Gamma[] = "ColorGamma";
 static const char Rsrc_LineShade[] = "PALScanLineShade";
-static const char Rsrc_PALMode[] = "PALMode";
 static const char Rsrc_Mouse[] = "Mouse";
 static const char Rsrc_MousePrt[] = "Mouseport";
 
@@ -739,16 +738,6 @@ static struct MenuPALDepth {
 
 #define Menu_PALMode_Items	2
 #define Menu_PALMode_Width	200
-static struct MenuPALMode {
-  RO_MenuHead head;
-  RO_MenuItem item[Menu_PALMode_Items];
-} MenuPALMode = {
-  MENU_HEADER("\\MenPModeT", Menu_PALMode_Width),
-  {
-    MENU_ITEM("\\MenPMFast"),
-    MENU_ITEM_LAST("\\MenPMTrue")
-  }
-};
 
 #define Menu_PetMemory_Items	6
 #define Menu_PetMemory_Width	200
@@ -1261,15 +1250,6 @@ static struct MenuDisplayPALDepth {
   {PAL_EMU_DEPTH_NONE, PAL_EMU_DEPTH_AUTO, PAL_EMU_DEPTH_8, PAL_EMU_DEPTH_16, PAL_EMU_DEPTH_32}
 };
 
-static struct MenuDisplayPALMode {
-  disp_desc_t dd;
-  int values[Menu_PALMode_Items];
-} MenuDisplayPALMode = {
-  {Rsrc_PALMode, {CONF_WIN_VIDEO, Icon_ConfVid_PalModeT},
-    (RO_MenuHead*)&MenuPALMode, Menu_PALMode_Items, 0, 0},
-  {VIDEO_RESOURCE_PAL_MODE_FAST, VIDEO_RESOURCE_PAL_MODE_TRUE}
-};
-
 static struct MenuDisplayPetMemory {
   disp_desc_t dd;
   int values[Menu_PetMemory_Items];
@@ -1544,8 +1524,6 @@ menu_icon_t ConfigMenus[] = {
     {CONF_WIN_SOUND, Icon_ConfSnd_Sid2Addr}},		/* 49 */
   {(RO_MenuHead*)&MenuPALDepth, Rsrc_PALDepth, (disp_desc_t*)&MenuDisplayPALDepth,
     {CONF_WIN_VIDEO, Icon_ConfVid_PALDepth}},		/* 50 */
-  {(RO_MenuHead*)&MenuPALMode, Rsrc_PALMode, (disp_desc_t*)&MenuDisplayPALMode,
-    {CONF_WIN_VIDEO, Icon_ConfVid_PalMode}},		/* 51 */
   {NULL, NULL, NULL,
     {CONF_WIN_VIDEO, Icon_ConfVid_VCache}},		/* 52 */
   {(RO_MenuHead*)&MenuSidEngine, Rsrc_SidEngine, (disp_desc_t*)&MenuDisplaySidEngine,

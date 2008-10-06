@@ -218,28 +218,6 @@ VideoWindow::VideoWindow()
 			palettelistview->Select(palettelistview->IndexOf(item));
 	}
 
-	/* PAL settings */
-	if (resources_get_int("PALMode", 
-		&res_val) == 0)
-	{
-		box = new BBox(BRect(110, 140, 240, 200));
-		box->SetLabel("PAL Mode");
-		background->AddChild(box);
-		for (i=0; modes[i]!=NULL; i++)
-		{
-			msg = new BMessage(MESSAGE_VIDEO_PALMODE);
-			msg->AddInt32("index", i);
-			rb_mode = new BRadioButton(BRect
-				(5,15+i*20,120,30+i*20),
-				modes[i], modes[i], msg);
-			
-			if (res_val == i)
-				rb_mode->SetValue(1);
-
-			box->AddChild(rb_mode);
-		}		
-	}
-	
 	Show();
 	lib_free(palettefile);
 }
@@ -281,19 +259,6 @@ void VideoWindow::MessageReceived(BMessage *msg) {
 				msr->AddString("resvalstr", ((BStringItem*) item)->Text());
 				ui_add_event((void*)msr);
 			}
-			break;
-		case MESSAGE_VIDEO_PALMODE:
-			index = msg->FindInt32("index");
-			msr = new BMessage(MESSAGE_SET_RESOURCE);
-			msr->AddString("resname", "PALMode");
-			msr->AddInt32("resval", index);
-			ui_add_event((void*)msr);
-			/* reset ExternalPalette to update the canvas */
-			msr = new BMessage(MESSAGE_SET_RESOURCE);
-			resources_get_int("ExternalPalette", (int *)&val);
-			msr->AddString("resname", "ExternalPalette");
-			msr->AddInt32("resval", val);
-			ui_add_event((void*)msr);
 			break;
 		default:
 			BWindow::MessageReceived(msg);

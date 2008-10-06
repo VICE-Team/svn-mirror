@@ -119,14 +119,6 @@ static Chip_Parameters chip_param_table[] =
       UI_VIDEO_PAL, "TED Palette"},
 };
 
-static char *modes[5]=
-{
-    "Fast PAL",
-    "Old PAL Emulation",
-    "New PAL Emulation",
-    NULL
-};
-
 /*
 static void enable_controls_for_video_settings(HWND hwnd, int type)
 {
@@ -214,16 +206,6 @@ static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
                         fval = ((double)val) / 1000.0;
                         _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_BLUR, newval);
-
-    filename_hwnd = GetDlgItem(hwnd, IDC_VIDEO_ADVANCED_MODE);
-    SendMessage(filename_hwnd, CB_RESETCONTENT, 0, 0);
-    n = 0;
-    while (modes[n] != NULL) {
-        SendMessage(filename_hwnd, CB_ADDSTRING, 0, (LPARAM)modes[n]);
-        n++;
-    }
-    resources_get_int("PALMode", &val);
-    SendMessage(filename_hwnd, CB_SETCURSEL, (WPARAM)val, 0);
 
     if (chip_type->res_ExternalPalette_name) {
         resources_get_int(chip_type->res_ExternalPalette_name, &n);
@@ -405,10 +387,6 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
             _stscanf(s, TEXT("%f"), &tf);
             ival = (int)(tf * 1000.0 + 0.5);
             resources_set_int("PALBlur", ival);
-
-            ival = SendMessage(GetDlgItem(hwnd, IDC_VIDEO_ADVANCED_MODE),
-                               CB_GETCURSEL, 0, 0);
-            resources_set_int("PALMode", ival);
 
             querynewpalette = 1;
             if (resources_set_string(current_chip->res_PaletteFile_name,

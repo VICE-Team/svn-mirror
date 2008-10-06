@@ -1949,7 +1949,6 @@ static void callback_canvas_modified(const char *name, void *callback_param)
 
 void video_register_callbacks(void)
 {
-  resources_register_callback("PALMode", callback_canvas_modified, NULL);
   resources_register_callback("PALEmuDepth", callback_canvas_modified, NULL);
   resources_register_callback("PALEmuDouble", callback_canvas_modified, NULL);
   resources_register_callback("UseBPlot", callback_canvas_modified, NULL);

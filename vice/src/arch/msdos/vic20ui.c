@@ -75,29 +75,6 @@ static TUI_MENU_CALLBACK(toggle_MachineVideoStandard_callback)
 TUI_MENU_DEFINE_TOGGLE(VICVideoCache)
 TUI_MENU_DEFINE_TOGGLE(PALEmulation)
 
-static TUI_MENU_CALLBACK(toggle_PALMode_callback)
-{
-    int value;
-
-    resources_get_int("PALMode", &value);
-
-    if (been_activated) {
-        value = (value + 1) % 3;
-        resources_set_int("PALMode", value);
-    }
-
-    switch (value) {
-      case 0:
-	return "Fast PAL";
-      case 1:
-	return "Y/C cable (sharp)";
-      case 2:
-	return "Composite (blurry)";
-      default:
-	return "unknown";
-    }
-}
-
 static tui_menu_item_def_t vic_menu_items[] = {
     { "Video _Cache:",
       "Enable screen cache (disabled when using triple buffering)",
@@ -107,10 +84,6 @@ static tui_menu_item_def_t vic_menu_items[] = {
       "Enable PAL emulation",
       toggle_PALEmulation_callback, NULL, 3,
       TUI_MENU_BEH_RESUME, NULL, NULL },
-    { "PAL _Mode:",
-      "Change PAL Mode",
-      toggle_PALMode_callback, NULL, 20,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "--" },
     { "V_ideo Standard:",
       "Select machine clock ratio",

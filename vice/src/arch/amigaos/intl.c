@@ -1920,6 +1920,14 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDMS_STOP_SOUND_RECORD_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_STOP_SOUND_RECORD_SV, "Stoppa ljudinspelning"},
 
+/* en */ {IDMS_PAL_EMULATION,    "PAL Emulation"},
+/* de */ {IDMS_PAL_EMULATION_DE, "PAL Emulation"},
+/* fr */ {IDMS_PAL_EMULATION_FR, "Émulation PAL"},
+/* hu */ {IDMS_PAL_EMULATION_HU, "PAL emuláció"},
+/* it */ {IDMS_PAL_EMULATION_IT, "Emulazione PAL"},
+/* nl */ {IDMS_PAL_EMULATION_NL, "PAL-emulatie"},
+/* pl */ {IDMS_PAL_EMULATION_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_PAL_EMULATION_SV, "PAL-emulering"},
 
 /* ----------------------- AmigaOS Message/Error Strings ----------------------- */
 
@@ -4327,33 +4335,6 @@ intl_translate_t intl_string_table[] = {
 /* nl */ {IDS_SELECT_SNAPSHOT_FILE_NL, "Selecteer momentopnamebestand"},
 /* pl */ {IDS_SELECT_SNAPSHOT_FILE_PL, ""},  /* fuzzy */
 /* sv */ {IDS_SELECT_SNAPSHOT_FILE_SV, "Välj ögonblicksbildfil"},
-
-/* en */ {IDS_FAST_PAL,    "Fast PAL"},
-/* de */ {IDS_FAST_PAL_DE, "Schnelle PAL"},
-/* fr */ {IDS_FAST_PAL_FR, "PAL Rapide"},
-/* hu */ {IDS_FAST_PAL_HU, "Gyors PAL"},
-/* it */ {IDS_FAST_PAL_IT, "PAL veloce"},
-/* nl */ {IDS_FAST_PAL_NL, "Snelle PAL"},
-/* pl */ {IDS_FAST_PAL_PL, ""},  /* fuzzy */
-/* sv */ {IDS_FAST_PAL_SV, "Snabb PAL"},
-
-/* en */ {IDS_PAL_EMULATION,    "PAL Emulation"},
-/* de */ {IDS_PAL_EMULATION_DE, "PAL Emulation"},
-/* fr */ {IDS_PAL_EMULATION_FR, "Émulation PAL"},
-/* hu */ {IDS_PAL_EMULATION_HU, "PAL emuláció"},
-/* it */ {IDS_PAL_EMULATION_IT, "Emulazione PAL"},
-/* nl */ {IDS_PAL_EMULATION_NL, "PAL-emulatie"},
-/* pl */ {IDS_PAL_EMULATION_PL, ""},  /* fuzzy */
-/* sv */ {IDS_PAL_EMULATION_SV, "PAL-emulering"},
-
-/* en */ {IDS_NEW_PAL_EMULATION,    "New PAL Emulation"},
-/* de */ {IDS_NEW_PAL_EMULATION_DE, "PAL Emulation"},
-/* fr */ {IDS_NEW_PAL_EMULATION_FR, ""},  /* fuzzy */
-/* hu */ {IDS_NEW_PAL_EMULATION_HU, "Új PAL emuláció"},
-/* it */ {IDS_NEW_PAL_EMULATION_IT, ""},  /* fuzzy */
-/* nl */ {IDS_NEW_PAL_EMULATION_NL, "Nieuwe PAL Emulatie"},
-/* pl */ {IDS_NEW_PAL_EMULATION_PL, ""},  /* fuzzy */
-/* sv */ {IDS_NEW_PAL_EMULATION_SV, "Ny PAL-emulering"},
 
 /* en */ {IDS_EXTERNAL_PALETTE_SELECT,    "Select External Palette file"},
 /* de */ {IDS_EXTERNAL_PALETTE_SELECT_DE, "Benutze externe Palette (Datei)"},

@@ -176,11 +176,6 @@ BEGIN
         SUBMENU "PAL Emulation",       IDM_PALEMU,       MIS_TEXT
         BEGIN
  	   MENUITEM "Off",             IDM_PALOFF,       MIS_TEXT
-#ifndef HAVE_TED
- 	   MENUITEM "Fast",            IDM_PALFAST,      MIS_TEXT
-#endif
- 	   MENUITEM "Old",            IDM_PALOLD,        MIS_TEXT
- 	   MENUITEM "New",            IDM_PALNEW,        MIS_TEXT
         END
         MENUITEM "Internal Palette",   IDM_INTERNALPAL,  MIS_TEXT
 #ifdef HAVE_VIC_II

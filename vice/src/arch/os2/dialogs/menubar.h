@@ -412,9 +412,6 @@
 #define IDM_TOGGLEPAL    0x511  // used for accel key
 #define IDM_PALEMU       0x512
 #define IDM_PALOFF       0x513
-#define IDM_PALFAST      0x514
-#define IDM_PALOLD       0x515
-#define IDM_PALNEW       0x516
 #define IDM_INTERNALPAL  0x517
 #define IDM_LUMINANCES   0x518
 

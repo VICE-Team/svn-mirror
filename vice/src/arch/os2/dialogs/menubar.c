@@ -61,12 +61,6 @@
 #include "dlg-fileio.h"      // ViceFileDialog
 #include "video-resources.h" // VIDEO_RESOURCE_PAL_*
 
-// --------------------------------------------------------------------------
-//#define VIDEO_RESOURCE_PAL_MODE_BLUR  2
-//#define VIDEO_RESOURCE_PAL_MODE_SHARP 1
-//#define VIDEO_RESOURCE_PAL_MODE_FAST  0
-// --------------------------------------------------------------------------
-
 #ifdef __XCBM__
 #include "cbm2mem.h"     // cbm2_set_model
 const char cbm_models[][5] = { "510", "610", "620", "620+", "710", "720", "720+" };
@@ -402,10 +396,8 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         {
             int val1, val2;
             resources_get_int("PALEmulation", &val1);
-            resources_get_int("PALMode",      &val2);
             if (!val1)
             {
-                resources_set_int("PALMode",      VIDEO_RESOURCE_PAL_MODE_FAST);
                 resources_set_int("PALEmulation", 1);
                 return;
             }
@@ -414,12 +406,10 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             {
 #ifndef HAVE_TED
             case 0:
-                resources_set_int("PALMode",      VIDEO_RESOURCE_PAL_MODE_TRUE);
                 resources_set_int("PALEmulation", 1);
                 return;
 #endif
             case 1:
-                resources_set_int("PALMode",      VIDEO_RESOURCE_PAL_MODE_FAST);
                 resources_set_int("PALEmulation", 0);
                 return;
             }
@@ -428,22 +418,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_PALOFF:
         resources_set_int("PALEmulation", 0);
         return;
-#ifndef HAVE_TED
-    case IDM_PALFAST:
-        resources_set_int("PALMode",      VIDEO_RESOURCE_PAL_MODE_FAST);
-        resources_set_int("PALEmulation", 1);
-        return;
-#endif
-    case IDM_PALOLD:
-        resources_set_int("PALMode",      VIDEO_RESOURCE_PAL_MODE_TRUE);
-        resources_set_int("PALEmulation", 1);
-        return;
-        /*
-    case IDM_PALNEW:
-        resources_set_int("PALMode",      VIDEO_RESOURCE_PAL_MODE_NEW);
-        resources_set_int("PALEmulation", 1);
-        return;
-        /*
     case IDM_FAKEPAL:
         toggle("PALEmulation");
         return;
@@ -1656,14 +1630,8 @@ void menu_select(HWND hwnd, USHORT item)
         int val1, val2;
 
         resources_get_int("PALEmulation", &val1);
-        resources_get_int("PALMode",      &val2);
 
         WinCheckMenuItem(hwnd, IDM_PALOFF,  !val1);
-#ifndef HAVE_TED
-        WinCheckMenuItem(hwnd, IDM_PALFAST, val1 && val2==VIDEO_RESOURCE_PAL_MODE_FAST);
-#endif
-        WinCheckMenuItem(hwnd, IDM_PALOLD,  val1 && val2==VIDEO_RESOURCE_PAL_MODE_TRUE);
-        WinCheckMenuItem(hwnd, IDM_PALNEW,  val1 && val2==VIDEO_RESOURCE_PAL_MODE_NEW);
     }
     return;
 #endif
