@@ -93,7 +93,7 @@ void ui_about(gpointer data)
 	NULL};
     const gchar *transl = _(
 	"Martin Pottendorfer - German\n"
-	"Peter Karlsson - Swedish\n"
+	"Peter Krefting - Swedish\n"
 	"Andrea Musuruane - Italian\n"
 	"Paul Dube - French\n"
 	"Marco van den Heuvel - Dutch\n"
