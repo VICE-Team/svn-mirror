@@ -1,5 +1,5 @@
 # Swedish translation file for VICE
-# Peter Karlsson <peter@softwolves.pp.se>
+# Peter Krefting <peter@softwolves.pp.se>
 # Copyright 2000-2008
 #
 msgid ""
@@ -7,12 +7,12 @@ msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-26 20:05+0200\n"
-"PO-Revision-Date: 2008-09-23 13:34+0100\n"
-"Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
+"PO-Revision-Date: 2008-10-06 13:24+0100\n"
+"Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/vsync.c:147 src/sid/sid-cmdline-options.c:186
 #: src/sid/sid-cmdline-options.c:189 src/translate.c.po.c:3610
@@ -737,24 +737,20 @@ msgid "Specify name of symbolic German keymap file"
 msgstr "Ange fil för tysk symbolisk tangentbordsemulering"
 
 #: src/c64dtv/c64dtv-cmdline-options.c:107 src/translate.c.po.c:1112
-#, fuzzy
 msgid "Enable the Hummer Userport Joystick Emulation"
-msgstr "Aktivera emulering av skrivare på användarporten"
+msgstr "Aktivera emulering av Hummer-användarportstyrspak"
 
 #: src/c64dtv/c64dtv-cmdline-options.c:109
-#, fuzzy
 msgid "Disable the Hummer Userport Joystick Emulation"
-msgstr "Inaktivera emulering av skrivare på användarporten"
+msgstr "Inaktivera emulering av Hummer-användarportstyrspak"
 
 #: src/c64dtv/c64dtv-cmdline-options.c:111 src/translate.c.po.c:1132
-#, fuzzy
 msgid "<port>"
-msgstr "<procent>"
+msgstr "<port>"
 
 #: src/c64dtv/c64dtv-cmdline-options.c:111 src/translate.c.po.c:1142
-#, fuzzy
 msgid "Select which joystick port should be mapped to the userport"
-msgstr "Ange vilken spelport musen är ansluten till"
+msgstr "Ange vilken spelport som skall kopplas till användarporten"
 
 #: src/c64/cart/c64cart.c:240 src/translate.c.po.c:1526
 msgid "Reset machine if a cartridge is attached or detached"
@@ -786,9 +782,8 @@ msgid "Attach raw 16KB Action Replay III cartridge image"
 msgstr "Anslut rå 16KB-Action Replay III-insticksmodulfil"
 
 #: src/c64/cart/c64cart.c:261 src/translate.c.po.c:1586
-#, fuzzy
 msgid "Attach raw 32KB Action Replay IV cartridge image"
-msgstr "Anslut rå 32KB-Action Replay-insticksmodulfil"
+msgstr "Anslut rå 32KB-Action Replay IV-insticksmodulfil"
 
 #: src/c64/cart/c64cart.c:264 src/translate.c.po.c:1616
 msgid "Attach raw 64KB Retro Replay cartridge image"
@@ -827,9 +822,8 @@ msgid "Attach raw Structured Basic cartridge image"
 msgstr "Anslut rå Strucured Basic-insticksmodulfil"
 
 #: src/c64/cart/c64cart.c:291 src/translate.c.po.c:1576
-#, fuzzy
 msgid "Attach raw 16KB StarDOS cartridge image"
-msgstr "Anslut rå 16KB-insticksmodulavbilding"
+msgstr "Anslut rå 16KB StarDOS-insticksmodulfil"
 
 #: src/c64/cart/c64cart.c:294 src/translate.c.po.c:1696
 msgid "Enable expert cartridge"
@@ -881,9 +875,8 @@ msgid "Base address of the 256K expansion"
 msgstr "Basadress för 256K-expansionen"
 
 #: src/c64dtv/c64dtvblitter.c:545 src/translate.c.po.c:5009
-#, fuzzy
 msgid "Specify DTV Revision (2: DTV2, 3: DTV3)"
-msgstr "Ange SID-motor (0: FastSID, 3: ParSID)"
+msgstr "Ange DTV-revision (2: DTV2, 3: DTV3)"
 
 #: src/c64dtv/c64dtvblitter.c:547
 msgid "Enable DTV blitter logs."
@@ -894,43 +887,38 @@ msgid "Disable DTV blitter logs."
 msgstr "Inaktivera DTV-blitterloggar."
 
 #: src/c64dtv/c64dtvdma.c:444
-#, fuzzy
 msgid "Enable DTV dma logs."
-msgstr "*Aktivera mus"
+msgstr "Aktivera DTV-dma-loggar."
 
 #: src/c64dtv/c64dtvdma.c:446
 msgid "Disable DTV dma logs."
 msgstr "Inaktivera DTV-dma-loggar."
 
 #: src/c64dtv/c64dtvflash.c:266 src/translate.c.po.c:626
-#, fuzzy
 msgid "No filename!"
-msgstr "Filnamn"
+msgstr "Filnamn saknas!"
 
 #: src/c64dtv/c64dtvflash.c:276 src/translate.c.po.c:636
-#, fuzzy
 msgid "Illegal filename!"
-msgstr "Ogiltigt filnamn"
+msgstr "Ogiltigt filnamn!"
 
 #: src/c64dtv/c64dtvflash.c:298 src/translate.c.po.c:646
-#, fuzzy, c-format
+#, c-format
 msgid "Error creating file %s!"
-msgstr "Fel vid läsning av \"%s\"."
+msgstr "Fel när filen \"%s\" skulle skapas!"
 
 #: src/c64dtv/c64dtvflash.c:310 src/translate.c.po.c:656
-#, fuzzy, c-format
+#, c-format
 msgid "Error writing to file %s!"
-msgstr "Fel vid skrivning: %s."
+msgstr "Fel vid skrivning till filen %s!"
 
 #: src/c64dtv/c64dtvflash.c:321 src/translate.c.po.c:666
-#, fuzzy
 msgid "DTV ROM image created successfully"
-msgstr "Inställningarna har sparats."
+msgstr "DTV-ROM-avbildning skapades framgångsrikt"
 
 #: src/c64dtv/c64dtvflash.c:528 src/translate.c.po.c:5059
-#, fuzzy
 msgid "Specify name of C64DTV ROM image"
-msgstr "Ange namn på BASIC-ROM-avbildning"
+msgstr "Ange namn på C64DTV-ROM-avbildning"
 
 #: src/c64dtv/c64dtvflash.c:530 src/translate.c.po.c:5069
 msgid "Enable writing to C64DTV ROM image"
@@ -990,14 +978,12 @@ msgid "Size of the GEORAM expansion unit"
 msgstr "Storlek på GEORAM-expansionsenhet"
 
 #: src/c64dtv/hummeradc.c:373 src/translate.c.po.c:5139
-#, fuzzy
 msgid "Enable the Hummer ADC"
-msgstr "Aktivera videocache"
+msgstr "Aktivera Hummer ADC"
 
 #: src/c64dtv/hummeradc.c:375 src/translate.c.po.c:5149
-#, fuzzy
 msgid "Disable the Hummer ADC"
-msgstr "Inaktivera videocache"
+msgstr "Inaktivera Hummer ADC"
 
 #: src/c64/mmc64.c:903 src/translate.c.po.c:1364
 msgid "Enable the MMC64 expansion"
@@ -1527,17 +1513,12 @@ msgid "Specify log file name"
 msgstr "Ange namn på loggfil"
 
 #: src/monitor/mon_command.c:54
-#, fuzzy
 msgid "Available commands are:"
-msgstr ""
-"\n"
-"Tillgängliga kommandoradsflaggor:\n"
-"\n"
+msgstr "Tillgängliga kommandon:"
 
 #: src/monitor/mon_command.c:56
-#, fuzzy
 msgid "Machine state commands:"
-msgstr "Kommandon för ögonblicksbilder"
+msgstr "Kommandon för maskinstatus:"
 
 #: src/monitor/mon_command.c:59
 msgid "[<memspace>] [bankname]"
@@ -1577,9 +1558,8 @@ msgstr "Visa <antal> senast exekverade kommandon."
 
 #: src/monitor/mon_command.c:79 src/monitor/mon_command.c:127
 #: src/monitor/mon_command.c:437 src/monitor/mon_command.c:446
-#, fuzzy
 msgid "\"<filename>\""
-msgstr "<namn>"
+msgstr "\"<filnamn>\""
 
 #: src/monitor/mon_command.c:80
 msgid ""
@@ -1624,9 +1604,8 @@ msgstr ""
 "i registren."
 
 #: src/monitor/mon_command.c:109
-#, fuzzy
 msgid "[<type>]"
-msgstr "<typ>"
+msgstr "[<typ>]"
 
 #: src/monitor/mon_command.c:110
 msgid "Reset the machine or drive. Type: 0 = soft, 1 = hard, 8-11 = drive."
@@ -1664,9 +1643,8 @@ msgstr "Läs en ögonblicksbild för maskinen från den angivna filen."
 #. "*** unimplemented ***" },
 #.
 #: src/monitor/mon_command.c:135
-#, fuzzy
 msgid "Symbol table commands:"
-msgstr "Kommandon för ögonblicksbilder"
+msgstr "Kommandon för symboltabell:"
 
 #: src/monitor/mon_command.c:138
 msgid "[<memspace>] <address> <label>"
@@ -1794,9 +1772,8 @@ msgid "Delete checkpoint `checknum'."
 msgstr "Ta bort kontrollpunkt \"kontrollnr\"."
 
 #: src/monitor/mon_command.c:192
-#, fuzzy
 msgid "[<address> [<address>]]"
-msgstr "<basadress>"
+msgstr "[<adress> [<adress>]]"
 
 #: src/monitor/mon_command.c:193
 msgid ""
@@ -1996,9 +1973,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:302
-#, fuzzy
 msgid "[<address>]"
-msgstr "<basadress>"
+msgstr "[<adress>]"
 
 #: src/monitor/mon_command.c:303
 msgid ""
@@ -2023,9 +1999,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:318
-#, fuzzy
 msgid "[address [address]]"
-msgstr "<basadress>"
+msgstr "[adress [adress]]"
 
 #: src/monitor/mon_command.c:319
 msgid ""
@@ -2035,9 +2010,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:323
-#, fuzzy
 msgid "Monitor state commands:"
-msgstr "Kommandon för ögonblicksbilder"
+msgstr "Kommandon för monitorstatus:"
 
 #: src/monitor/mon_command.c:326
 msgid "[c:|8:|9:|10:|11:]"
@@ -2054,9 +2028,8 @@ msgid "Leave the monitor and return to execution."
 msgstr ""
 
 #: src/monitor/mon_command.c:339
-#, fuzzy
 msgid "Exit the emulator immediately."
-msgstr "Avsluta emulator"
+msgstr "Avsluta emulatorn omedelbart."
 
 #: src/monitor/mon_command.c:343
 msgid "[H|D|O|B]"
@@ -2082,9 +2055,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:355
-#, fuzzy
 msgid "Disk commands:"
-msgstr "Diskettformat:"
+msgstr "Diskettkommandon:"
 
 #: src/monitor/mon_command.c:358
 msgid "<disk command>"
@@ -2097,9 +2069,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:363
-#, fuzzy
 msgid "<filename> <device>"
-msgstr "Huvudenhet"
+msgstr "<filnamn> <enhet>"
 
 #: src/monitor/mon_command.c:364
 msgid "Attach file to device. (device 32 = cart)"
@@ -2116,9 +2087,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:372
-#, fuzzy
 msgid "<track> <sector> [<address>]"
-msgstr "<basadress>"
+msgstr "<spår> <sektor> [<adress>]"
 
 #: src/monitor/mon_command.c:373
 msgid ""
@@ -2138,9 +2108,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:383
-#, fuzzy
 msgid "<track> <sector> <address>"
-msgstr "<basadress>"
+msgstr "<spår> <sektor> <adress>"
 
 #: src/monitor/mon_command.c:384
 msgid ""
@@ -2149,14 +2118,12 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:388
-#, fuzzy
 msgid "<directory>"
-msgstr "&Katalog"
+msgstr "<katalog>"
 
 #: src/monitor/mon_command.c:389
-#, fuzzy
 msgid "Change the working directory."
-msgstr "Byt arbetskatalog..."
+msgstr "Byt arbetskatalog."
 
 #: src/monitor/mon_command.c:392 src/video/video-cmdline-options.c:236
 #: src/translate.c.po.c:3961
@@ -2168,9 +2135,8 @@ msgid "Detach file from device. (device 32 = cart)"
 msgstr ""
 
 #: src/monitor/mon_command.c:396
-#, fuzzy
 msgid "[<directory>]"
-msgstr "&Katalog"
+msgstr "[<katalog>]"
 
 #: src/monitor/mon_command.c:397
 msgid "Display the directory contents."
@@ -2190,9 +2156,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:409
-#, fuzzy
 msgid "Show current working directory."
-msgstr "Ändra aktuell arbetskatalog"
+msgstr "Visa aktuell arbetskatalog."
 
 #: src/monitor/mon_command.c:413
 msgid ""
@@ -2202,23 +2167,20 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:417
-#, fuzzy
 msgid "Other commands:"
-msgstr "Kommandon för ögonblicksbilder"
+msgstr "Andra kommandon:"
 
 #: src/monitor/mon_command.c:421
 msgid "Display the specified number in decimal, hex, octal and binary."
 msgstr ""
 
 #: src/monitor/mon_command.c:425
-#, fuzzy
 msgid "Use cartridge freeze."
-msgstr "Insticksmodulens frysfunktion"
+msgstr "Använd insticksmodulens frysfunktion."
 
 #: src/monitor/mon_command.c:428
-#, fuzzy
 msgid "[<command>]"
-msgstr "Kommando:"
+msgstr "[<kommando>]"
 
 #: src/monitor/mon_command.c:429
 msgid ""
@@ -2227,14 +2189,12 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:433
-#, fuzzy
 msgid "\"<string>\""
-msgstr "<sträng>"
+msgstr "\"<sträng>\""
 
 #: src/monitor/mon_command.c:434
-#, fuzzy
 msgid "Put the specified string into the keyboard buffer."
-msgstr "Lägg den angivna strängen i tangentbordsbufferten"
+msgstr "Lägg den angivna strängen i tangentbordsbufferten."
 
 #: src/monitor/mon_command.c:438
 msgid ""
@@ -2243,9 +2203,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:442
-#, fuzzy
 msgid "<expression>"
-msgstr "<utgåva>"
+msgstr "<uttryck>"
 
 #: src/monitor/mon_command.c:443
 msgid "Evaluate the specified expression and output the result."
@@ -2288,9 +2247,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:468
-#, fuzzy
 msgid "<command>"
-msgstr "Kommando:"
+msgstr "<kommando>"
 
 #: src/monitor/mon_command.c:469
 msgid ""
@@ -2559,14 +2517,12 @@ msgid "Specify printer text output device for userport printer"
 msgstr "Ange skrivartextutenhet för användarportsskrivare"
 
 #: src/ps2mouse.c:485 src/translate.c.po.c:4579
-#, fuzzy
 msgid "Enable PS/2 mouse on userport"
-msgstr "&Aktivera RS232-användarport"
+msgstr "Aktivera PS/2-mus på användarport"
 
 #: src/ps2mouse.c:487 src/translate.c.po.c:4589
-#, fuzzy
 msgid "Disable PS/2 mouse on userport"
-msgstr "Inaktivera fångande av mus"
+msgstr "Inaktivera PS/2-mus på användarport"
 
 #: src/ram.c:101 src/translate.c.po.c:4599
 msgid "Set the value for the very first RAM address after powerup"
@@ -2789,9 +2745,8 @@ msgid "<model>"
 msgstr "<modell>"
 
 #: src/sid/sid-cmdline-options.c:223
-#, fuzzy
 msgid "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost, 4: DTV)"
-msgstr "Ange SID-modell (0: 6581, 1: 8580, 2: 8580 + digiförstärkning)"
+msgstr "Ange SID-modell (0: 6581, 1: 8580, 2: 8580 + digiförstärkning, 4: DTV)"
 
 #: src/sid/sid-cmdline-options.c:226 src/translate.c.po.c:3579
 msgid "Emulate SID filters"
@@ -2899,9 +2854,8 @@ msgid "Use old luminances"
 msgstr "Använd gamla ljusstyrkor"
 
 #: src/vicii/vicii-cmdline-options.c:126 src/translate.c.po.c:2799
-#, fuzzy
 msgid "Set tint of internal calculated palette [1000]"
-msgstr "Ställ in mättnad på internt beräknad palett [1000]"
+msgstr "Ställ in ton på internt beräknad palett [1000]"
 
 #: src/vicii/vicii-cmdline-options.c:128 src/translate.c.po.c:2809
 msgid "Set phase for color carrier in odd lines [1250]"
@@ -3819,14 +3773,12 @@ msgid "Attach Action Replay III image..."
 msgstr "Anslut Action Replay III-avbildningsfil..."
 
 #: src/arch/unix/gui/uic64cart.c:159
-#, fuzzy
 msgid "Attach Action Replay IV image..."
-msgstr "Anslut Action Replay III-avbildningsfil..."
+msgstr "Anslut Action Replay IV-avbildningsfil..."
 
 #: src/arch/unix/gui/uic64cart.c:162
-#, fuzzy
 msgid "Attach StarDOS image..."
-msgstr "Anslut en bandavbildningsfil..."
+msgstr "Anslut StarDOS-avbildningsfil..."
 
 #: src/arch/unix/gui/uic64cart.c:165
 msgid "Attach Atomic Power image..."
@@ -4247,9 +4199,8 @@ msgid "*Enable true drive emulation"
 msgstr "*Aktivera äkta diskettenhetsemulering"
 
 #: src/arch/unix/gui/uidrive.c:189
-#, fuzzy
 msgid "*Enable true flash filesystem emulation"
-msgstr "*Aktivera äkta diskettenhetsemulering"
+msgstr "*Aktivera äkta flash-filsystemsemulering"
 
 #: src/arch/unix/gui/uidrivec128.c:45 src/arch/unix/gui/uidrivec128.c:77
 #: src/arch/unix/gui/uidrivec128.c:99 src/arch/unix/gui/uidrivec128.c:121
@@ -4923,27 +4874,24 @@ msgid "New PAL Tint"
 msgstr ""
 
 #: src/arch/unix/gui/uipalemu.c:88
-#, fuzzy
 msgid "Tint in percent"
-msgstr "Skannlinjeskuggning i procent"
+msgstr "Färgton i procent"
 
 #: src/arch/unix/gui/uipalemu.c:95
 msgid "New PAL Odd Line Phase"
 msgstr ""
 
 #: src/arch/unix/gui/uipalemu.c:95
-#, fuzzy
 msgid "Phase in percent"
-msgstr "Passbandsprocent"
+msgstr "Fas i procent"
 
 #: src/arch/unix/gui/uipalemu.c:102
 msgid "New PAL Odd Line Offset"
 msgstr ""
 
 #: src/arch/unix/gui/uipalemu.c:102
-#, fuzzy
 msgid "Offset in percent"
-msgstr "Suddighet i procent"
+msgstr "Utjämning i procent"
 
 #: src/arch/unix/gui/uipalemu.c:110 src/arch/unix/gui/uipalemu.c:146
 msgid "PAL Blurredness"
@@ -4962,14 +4910,12 @@ msgid "*Fast PAL Emulation"
 msgstr "*Snabb PAL-emulering"
 
 #: src/arch/unix/gui/uipalemu.c:138
-#, fuzzy
 msgid "*Old Exact PAL Emulation"
-msgstr "*Exakt PAL-emulering"
+msgstr "*Gammal exakt PAL-emulering"
 
 #: src/arch/unix/gui/uipalemu.c:140
-#, fuzzy
 msgid "*New Exact PAL Emulation"
-msgstr "*Exakt PAL-emulering"
+msgstr "*Ny exakt PAL-emulering"
 
 #: src/arch/unix/gui/uipalemu.c:144
 msgid "PAL Scanline Shade"
@@ -5690,9 +5636,8 @@ msgid "*ReSID"
 msgstr "*ReSID"
 
 #: src/arch/unix/gui/uisid.c:50
-#, fuzzy
 msgid "*ReSID-FP"
-msgstr "*ReSID"
+msgstr "*ReSID-FP"
 
 #: src/arch/unix/gui/uisid.c:54 src/arch/unix/gui/uisidcart.c:42
 msgid "*Catweasel MKIII"
@@ -5731,9 +5676,8 @@ msgstr "*8580 + digiboost"
 #. (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_6581R4, NULL },
 #.
 #: src/arch/unix/gui/uisid.c:85
-#, fuzzy
 msgid "*DTVSID"
-msgstr "*ReSID"
+msgstr "*DTVSID"
 
 #: src/arch/unix/gui/uisid.c:89
 msgid "*6581R3 4885 (very light)"
@@ -5752,9 +5696,8 @@ msgid "*6581R4AR 3789 (avg)"
 msgstr ""
 
 #: src/arch/unix/gui/uisid.c:97
-#, fuzzy
 msgid "*6581R3 4485 (dark)"
-msgstr "*6581 (gammal)"
+msgstr "*6581R3 4485 (mörk)"
 
 #: src/arch/unix/gui/uisid.c:99
 msgid "*6581R4 1986S (very dark)"
@@ -5765,18 +5708,16 @@ msgid "*8580 3691 (light)"
 msgstr ""
 
 #: src/arch/unix/gui/uisid.c:103
-#, fuzzy
 msgid "*8580 3691 + digi boost"
-msgstr "*8580 + digiboost"
+msgstr "*8580 3691 + digiboost"
 
 #: src/arch/unix/gui/uisid.c:105
 msgid "*8580 1489 (dark)"
 msgstr ""
 
 #: src/arch/unix/gui/uisid.c:107
-#, fuzzy
 msgid "*8580 1489 + digi boost"
-msgstr "*8580 + digiboost"
+msgstr "*8580 1489 + digiboost"
 
 #: src/arch/unix/gui/uisid.c:117
 msgid "*Fast"
@@ -6015,14 +5956,12 @@ msgid "*Debug"
 msgstr "*Felsök"
 
 #: src/arch/unix/gui/uivicii.c:111
-#, fuzzy
 msgid "Refreshrate: "
-msgstr "Uppdateringshastighet:"
+msgstr "Uppdateringsfrekvens:"
 
 #: src/arch/unix/gui/uivicii.c:111
-#, fuzzy
 msgid "Enter Refreshrate (Hz): "
-msgstr "Ange uppdateringsfrekvens"
+msgstr "Ange uppdateringsfrekvens (Hz):"
 
 #: src/arch/unix/gui/uivicii.c:155
 msgid "*New Luminances"
@@ -6041,9 +5980,8 @@ msgid "*Sprite-background collisions"
 msgstr "*Sprite-till-bakgrund-kollision"
 
 #: src/arch/unix/gui/uivicii.c:185
-#, fuzzy
 msgid "Desktop Refreshrate..."
-msgstr "Uppdateringshastighet"
+msgstr "Uppdateringshastighet för skrivbord..."
 
 #. Shouldn't happen.
 #: src/arch/unix/gui/vic20ui.c:104
@@ -6315,9 +6253,8 @@ msgid "Gamma"
 msgstr "Gamma"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:59 src/arch/win32/res.rc.po.c:2627
-#, fuzzy
 msgid "Tint"
-msgstr "Klient"
+msgstr "Färgton"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:60
 msgid "Odd Line Phase"
@@ -6332,9 +6269,8 @@ msgid "PAL Settings"
 msgstr "PAL-inställningar"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:196
-#, fuzzy
 msgid "Fast"
-msgstr "*Snabbt"
+msgstr "Snabb"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:204 src/arch/win32/res.rc.po.c:4870
 #: src/arch/amigaos/intl.c.po.c:3836
@@ -6342,9 +6278,8 @@ msgid "Exact"
 msgstr "Exakt"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:211
-#, fuzzy
 msgid "New Exact"
-msgstr "Exakt"
+msgstr "Ny exakt"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:54 src/arch/win32/res.rc.po.c:4225
 #: src/arch/amigaos/intl.c.po.c:4574
@@ -6598,9 +6533,8 @@ msgid "Monitor"
 msgstr "Monitor"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1846
-#, fuzzy
 msgid "Continue"
-msgstr "Innehåll"
+msgstr "Fortsätt"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1892 src/arch/unix/x11/xaw/x11ui.c:1788
 msgid "Extend disk image"
@@ -7004,24 +6938,20 @@ msgid "Copyright (c) 2006-2008 Christian Vogelgsang"
 msgstr "Upphovsrättsskyddad © 2006-2008 Christian Vogelgsang"
 
 #: src/arch/win32/res.rc.po.c:237
-#, fuzzy
 msgid "Copyright (c) 2007-2008 Fabrizio Gennari"
-msgstr "Upphovsrättsskyddad © 2000-2004 Markus Brenner"
+msgstr "Upphovsrättsskyddad © 2007-2008 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:238
-#, fuzzy
 msgid "Copyright (c) 2007-2008 M. Kiesel"
-msgstr "Upphovsrättsskyddad © 2003-2005 David Hansel"
+msgstr "Upphovsrättsskyddad © 2007-2008 M. Kiesel"
 
 #: src/arch/win32/res.rc.po.c:239
-#, fuzzy
 msgid "Copyright (c) 2007-2008 Hannu Nuotio"
-msgstr "Upphovsrättsskyddad © 2000-2004 Markus Brenner"
+msgstr "Upphovsrättsskyddad © 2007-2008 Hannu Nuotio"
 
 #: src/arch/win32/res.rc.po.c:240
-#, fuzzy
 msgid "Copyright (c) 2007-2008 Daniel Kahlin"
-msgstr "Upphovsrättsskyddad © 2003-2005 David Hansel"
+msgstr "Upphovsrättsskyddad © 2007-2008 Daniel Kahlin"
 
 #: src/arch/win32/res.rc.po.c:241
 msgid "Copyright (c) 1999-2007 Andreas Dehmel"
@@ -7853,9 +7783,8 @@ msgid "Colors"
 msgstr "Färger"
 
 #: src/arch/win32/res.rc.po.c:4803
-#, fuzzy
 msgid "New PAL emulation"
-msgstr "PAL-emulering"
+msgstr "Ny PAL-emulering"
 
 #: src/arch/win32/res.rc.po.c:4804 src/arch/amigaos/intl.c.po.c:4448
 msgid "Video settings"
@@ -7884,21 +7813,19 @@ msgstr "Anslut rå 16KB-insticksmodulavbilding"
 
 #: src/arch/win32/res.rc.po.c:4813 src/arch/amigaos/intl.c.po.c:2432
 msgid "Attach Action Replay cartridge image"
-msgstr "Anslut Action Replay-avbildningsfil"
+msgstr "Anslut Action Replay-insticksmodulfil"
 
 #: src/arch/win32/res.rc.po.c:4814
 msgid "Attach Action Replay III cartridge image"
-msgstr "Anslut Action Replay III-avbildningsfil"
+msgstr "Anslut Action Replay III-insticksmodulfil"
 
 #: src/arch/win32/res.rc.po.c:4815 src/arch/amigaos/intl.c.po.c:2450
-#, fuzzy
 msgid "Attach Action Replay 4 cartridge image"
-msgstr "Anslut Action Replay-avbildningsfil"
+msgstr "Anslut Action Replay 4-insticksmodulfil"
 
 #: src/arch/win32/res.rc.po.c:4816 src/arch/amigaos/intl.c.po.c:2459
-#, fuzzy
 msgid "Attach StarDOS cartridge image"
-msgstr "Anslut insticksmodulfil"
+msgstr "Anslut StarDOS-insticksmodulfil"
 
 #: src/arch/win32/res.rc.po.c:4817 src/arch/amigaos/intl.c.po.c:2468
 msgid "Attach Atomic Power cartridge image"
@@ -8043,11 +7970,12 @@ msgid "VICE snapshot files (*.vsf)"
 msgstr "VICE-ögonblicksbildfiler (*.vsf)"
 
 #: src/arch/win32/res.rc.po.c:4857
-#, fuzzy
 msgid ""
 "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;"
 "*.p00)"
-msgstr "Diskettavbildningar (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+msgstr ""
+"CBM-filer (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;"
+"*.p00)"
 
 #: src/arch/win32/res.rc.po.c:4858
 msgid "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
@@ -8274,9 +8202,8 @@ msgstr "&Läge"
 #: src/arch/win32/resc64.rc.po.c:123 src/arch/win32/resc64dtv.rc.po.c:83
 #: src/arch/win32/rescbm2.rc.po.c:89 src/arch/win32/respet.rc.po.c:89
 #: src/arch/win32/resplus4.rc.po.c:101 src/arch/win32/resvic20.rc.po.c:100
-#, fuzzy
 msgid "&Edit"
-msgstr "Editor"
+msgstr "&Redigera"
 
 #: src/arch/win32/res.rc.po.c:4927 src/arch/win32/resc128.rc.po.c:128
 #: src/arch/win32/resc64.rc.po.c:128 src/arch/win32/resc64dtv.rc.po.c:88
@@ -8349,14 +8276,12 @@ msgid "&Pause"
 msgstr "&Paus"
 
 #: src/arch/win32/res.rc.po.c:4943
-#, fuzzy
 msgid "&Copy"
-msgstr "S&toppa"
+msgstr "&Kopiera"
 
 #: src/arch/win32/res.rc.po.c:4944
-#, fuzzy
 msgid "&Paste"
-msgstr "Paus"
+msgstr "K&listra in"
 
 #: src/arch/win32/res.rc.po.c:4945
 msgid "&Autostart disk/tape image..."
@@ -8383,9 +8308,8 @@ msgid "Drive 1&0"
 msgstr "Enhet 1&0"
 
 #: src/arch/win32/res.rc.po.c:4951
-#, fuzzy
 msgid "Drive 1&1"
-msgstr "Enhet 11"
+msgstr "Enhet 1&1"
 
 #: src/arch/win32/res.rc.po.c:4952
 msgid "Attach &tape image..."
@@ -8440,19 +8364,16 @@ msgid "&Action Replay image..."
 msgstr "&Action Replay-fil..."
 
 #: src/arch/win32/res.rc.po.c:4965
-#, fuzzy
 msgid "&Action Replay 3 image..."
-msgstr "&Action Replay-fil..."
+msgstr "&Action Replay 3-fil..."
 
 #: src/arch/win32/res.rc.po.c:4966
-#, fuzzy
 msgid "&Action Replay 4 image..."
-msgstr "&Action Replay-fil..."
+msgstr "&Action Replay 4-fil..."
 
 #: src/arch/win32/res.rc.po.c:4967
-#, fuzzy
 msgid "&StarDOS image..."
-msgstr "&CRT-fil..."
+msgstr "&StarDOS-fil..."
 
 #: src/arch/win32/res.rc.po.c:4968
 msgid "Atomic &Power image..."
@@ -9486,50 +9407,44 @@ msgid "DTV flash &rom image"
 msgstr ""
 
 #: src/arch/win32/resc64dtv.rc.po.c:1209 src/arch/amigaos/intl.c.po.c:2909
-#, fuzzy
 msgid "C64DTV Settings"
-msgstr "IDE64-inställningar"
+msgstr "C64DTV-inställningar"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1211
-#, fuzzy
 msgid "DTV Revision"
-msgstr "Utgåva"
+msgstr "DTV-utgåva"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1215
 msgid "HUMMER"
 msgstr ""
 
 #: src/arch/win32/resc64dtv.rc.po.c:1217
-#, fuzzy
 msgid "Enable &Hummer Userport Joystick"
-msgstr "Aktivera diagnostik på användarporten"
+msgstr "Aktivera &Hummer-användarportsstyrspak"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1219
 msgid "Joyport mapped to userport"
 msgstr ""
 
 #: src/arch/win32/resc64dtv.rc.po.c:1395
-#, fuzzy
 msgid "Attach DTV Flash Image"
-msgstr "Anslut en diskettavbildningsfil"
+msgstr "Anslut en DTV-flashavbildningsfil"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1397
 msgid "DTV ROM"
 msgstr ""
 
 #: src/arch/win32/resc64dtv.rc.po.c:1399 src/arch/win32/resc64dtv.rc.po.c:1554
-#, fuzzy
 msgid "DTV ROM &image File"
-msgstr "HD-avbildningsfil"
+msgstr "DTV ROM-&avbildningsfil"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1403
 msgid "Enable &writes to DTV ROM image"
 msgstr ""
 
 #: src/arch/win32/resc64dtv.rc.po.c:1550
-#, fuzzy
 msgid "Create DTV Flash Image"
-msgstr "Skapa avbildning"
+msgstr "Skapa DTV-flashavbildning"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1552
 msgid "DTV ROM Creation"
@@ -9540,43 +9455,36 @@ msgid "Copy C64 ROMS into image"
 msgstr ""
 
 #: src/arch/win32/resc64dtv.rc.po.c:1560
-#, fuzzy
 msgid "Create"
-msgstr "Skapa diskett"
+msgstr "Skapa"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1706
-#, fuzzy
 msgid "&Autostart disk image..."
-msgstr "Autostarta diskettavbildning"
+msgstr "&Autostarta diskettavbildning..."
 
 #: src/arch/win32/resc64dtv.rc.po.c:1707
-#, fuzzy
 msgid "Attach &flash rom image"
-msgstr "Anslut &diskettavbildningsfil"
+msgstr "Anslut &flash-rom-avbildningsfil"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1708
-#, fuzzy
 msgid "&Detach flash rom image"
-msgstr "Koppla från diskettavbildningsfil"
+msgstr "&Koppla från flash-rom-avbildningsfil"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1709
-#, fuzzy
 msgid "&Create new flash rom image"
-msgstr "*Skapa P00 då filer sparas"
+msgstr "*Skapa ny flash-rom-avbildningsfil"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1710
 msgid "&True flash filesystem"
 msgstr ""
 
 #: src/arch/win32/resc64dtv.rc.po.c:1711
-#, fuzzy
 msgid "&PS/2 mouse emulation"
-msgstr "*Musemulering"
+msgstr "*PS/2-musemulering"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1712
-#, fuzzy
 msgid "&C64DTV settings..."
-msgstr "&MMC64-inställningar..."
+msgstr "&C64DTV-inställningar..."
 
 #: src/arch/win32/rescbm2.rc.po.c:163 src/arch/win32/respet.rc.po.c:163
 msgid "&PAL"
@@ -10479,9 +10387,8 @@ msgid "SID Filters"
 msgstr "SID-filter"
 
 #: src/arch/win32/ressid.rc.po.c:67
-#, fuzzy
 msgid "reSID/reSID-fp options"
-msgstr "reSID-inställningar"
+msgstr "reSID-/reSID-fp-inställningar"
 
 #: src/arch/win32/ressid.rc.po.c:68 src/arch/amigaos/intl.c.po.c:3782
 msgid "Sample method"
@@ -10656,9 +10563,8 @@ msgid "New &Luminances"
 msgstr "Nya &ljusstyrkor"
 
 #: src/translate.c.po.c:1122
-#, fuzzy
 msgid "Disable the Hummer Userport Joystick emulation"
-msgstr "Inaktivera emulering av skrivare på användarporten"
+msgstr "Inaktivera emulering av Hummeranvändarportsstyrspak"
 
 #: src/translate.c.po.c:2749
 msgid "<0-2000>"
@@ -10701,11 +10607,11 @@ msgid "Specify SID engine (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"
 msgstr "Ange SID-motor (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"
 
 #: src/translate.c.po.c:3569
-#, fuzzy
 msgid ""
 "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost, 3: 6581R4 "
 "(unimplemented), 4: DTV)"
-msgstr "Ange SID-modell (0: 6581, 1: 8580, 2: 8580 + digiförstärkning)"
+msgstr "Ange SID-modell (0: 6581, 1: 8580, 2: 8580 + digiförstärkning, 3: "
+"6581R4 (ej implementerad), 4: DTV)"
 
 #: src/translate.c.po.c:4829
 msgid "<iso language code>"
@@ -10717,44 +10623,39 @@ msgstr "Ange ISO-koden för språket"
 
 #: src/translate.c.po.c:5019
 msgid "Enable DTV blitter logs"
-msgstr ""
+msgstr "Aktivera DTV-blitterloggning"
 
 #: src/translate.c.po.c:5029
-#, fuzzy
 msgid "Disable DTV blitter logs"
-msgstr "Inaktivera dubbel storlek"
+msgstr "Inaktivera DTV-blitterloggning"
 
 #: src/translate.c.po.c:5039
 msgid "Enable DTV DMA logs"
-msgstr ""
+msgstr "Aktivera DTV DMA-loggning"
 
 #: src/translate.c.po.c:5049
 msgid "Disable DTV DMA logs"
-msgstr ""
+msgstr "Inaktivera DTV DMA-loggning"
 
 #: src/translate.c.po.c:5089
-#, fuzzy
 msgid "Enable C64DTV flash chip logs."
-msgstr "*Aktivera MMC64-flashbygel"
+msgstr "Aktivera C64DTV-flashkretsloggning."
 
 #: src/translate.c.po.c:5099
-#, fuzzy
 msgid "Disable C64DTV flash chip logs."
-msgstr "*Aktivera MMC64-flashbygel"
+msgstr "Inaktivera C64DTV-flashkretsloggning."
 
 #: src/translate.c.po.c:5109
-#, fuzzy
 msgid "Use <name> as directory for flash file system device"
-msgstr "Ange <namn> som katalog för filsystemsbaserad enhet 8"
+msgstr "Ange <namn> som katalog för filsystemsbaserad flashenhet"
 
 #: src/translate.c.po.c:5119
 msgid "Enable true hardware flash file system"
 msgstr ""
 
 #: src/translate.c.po.c:5129
-#, fuzzy
 msgid "Disable true hardware flash file system"
-msgstr "Inaktivera maskinvaruskalning"
+msgstr "Inaktivera maskinvaruemelring för flashfilsystem"
 
 #: src/arch/amigaos/intl.c.po.c:105
 msgid "Autostart disk/tape image..."
@@ -10841,19 +10742,16 @@ msgid "Action Replay image..."
 msgstr "Action Replay-fil..."
 
 #: src/arch/amigaos/intl.c.po.c:483
-#, fuzzy
 msgid "Action Replay 3 image..."
-msgstr "Action Replay-fil..."
+msgstr "Action Replay 3-fil..."
 
 #: src/arch/amigaos/intl.c.po.c:492
-#, fuzzy
 msgid "Action Replay 4 image..."
-msgstr "Action Replay-fil..."
+msgstr "Action Replay 4-fil..."
 
 #: src/arch/amigaos/intl.c.po.c:501
-#, fuzzy
 msgid "StarDOS image..."
-msgstr "CRT-fil..."
+msgstr "StarDOS-fil..."
 
 #: src/arch/amigaos/intl.c.po.c:510
 msgid "Atomic Power image..."
@@ -10900,18 +10798,16 @@ msgid "Exit"
 msgstr "Avsluta"
 
 #: src/arch/amigaos/intl.c.po.c:699
-#, fuzzy
 msgid "Edit"
-msgstr "Editor"
+msgstr "Redigera"
 
 #: src/arch/amigaos/intl.c.po.c:708
 msgid "Copy"
 msgstr ""
 
 #: src/arch/amigaos/intl.c.po.c:717
-#, fuzzy
 msgid "Paste"
-msgstr "Fas"
+msgstr "Klistra in"
 
 #: src/arch/amigaos/intl.c.po.c:735
 msgid "Load snapshot image..."
@@ -11106,9 +11002,8 @@ msgid "Grab mouse events"
 msgstr "Fånga mushändelser"
 
 #: src/arch/amigaos/intl.c.po.c:1275
-#, fuzzy
 msgid "PS/2 mouse emulation"
-msgstr "*Musemulering"
+msgstr "PS/2-musemulering"
 
 #: src/arch/amigaos/intl.c.po.c:1293
 msgid "Video settings..."
@@ -11251,9 +11146,8 @@ msgid "SID cart settings..."
 msgstr "SID-modulinställningar..."
 
 #: src/arch/amigaos/intl.c.po.c:1635
-#, fuzzy
 msgid "C64DTV settings..."
-msgstr "MMC64-inställningar..."
+msgstr "C64DTV-inställningar..."
 
 #: src/arch/amigaos/intl.c.po.c:1644
 msgid "RS232 userport settings..."
@@ -11426,9 +11320,8 @@ msgid "Yes|No"
 msgstr "Ja|Nej"
 
 #: src/arch/amigaos/intl.c.po.c:2441
-#, fuzzy
 msgid "Attach Action Replay 3 cartridge image"
-msgstr "Anslut Action Replay-avbildningsfil"
+msgstr "Anslut Action Replay 3-avbildningsfil"
 
 #: src/arch/amigaos/intl.c.po.c:2603
 msgid "Attach"
@@ -11491,19 +11384,16 @@ msgid "256K Base"
 msgstr "256K-bas"
 
 #: src/arch/amigaos/intl.c.po.c:2855
-#, fuzzy
 msgid "Select file for C64DTV ROM"
-msgstr "Välj fil för PET REU"
+msgstr "Välj fil för C64DTV-ROM"
 
 #: src/arch/amigaos/intl.c.po.c:2864
-#, fuzzy
 msgid "C64DTV ROM file"
-msgstr "Läs ROM-fil"
+msgstr "C64DTV-ROM-fil"
 
 #: src/arch/amigaos/intl.c.po.c:2873
-#, fuzzy
 msgid "C64DTV revision"
-msgstr "*MMC64-utgåva"
+msgstr "C64DTV-utgåva"
 
 #: src/arch/amigaos/intl.c.po.c:2882
 msgid "Writes to C64DTV ROM"
@@ -11858,9 +11748,8 @@ msgid "Fast PAL"
 msgstr "Snabb PAL"
 
 #: src/arch/amigaos/intl.c.po.c:4322
-#, fuzzy
 msgid "New PAL Emulation"
-msgstr "PAL-emulering"
+msgstr "Ny PAL-emulering"
 
 #: src/arch/amigaos/intl.c.po.c:4331
 msgid "Select External Palette file"
@@ -11879,19 +11768,16 @@ msgid "PAL Blur (0..1)"
 msgstr "PAL-suddighet (0..1)"
 
 #: src/arch/amigaos/intl.c.po.c:4367
-#, fuzzy
 msgid "Tint (0..2)"
-msgstr "(0..2)"
+msgstr "Färgton (0..2)"
 
 #: src/arch/amigaos/intl.c.po.c:4376
-#, fuzzy
 msgid "Odd Lines Phase (0..2)"
-msgstr "Ljusstyrka (0..2)"
+msgstr "Fas för udda linjer (0..2)"
 
 #: src/arch/amigaos/intl.c.po.c:4385
-#, fuzzy
 msgid "Odd Lines Offset (0..2)"
-msgstr "Ljusstyrka (0..2)"
+msgstr "Utjämning för udda linjer (0..2)"
 
 #: src/arch/amigaos/intl.c.po.c:4403
 msgid "External Palette"
@@ -12060,3 +11946,4 @@ msgstr "NEOS-mus"
 #: src/arch/amigaos/intl.c.po.c:4925
 msgid "Amiga mouse"
 msgstr "Amigamus"
+
