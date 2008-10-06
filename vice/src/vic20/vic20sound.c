@@ -205,7 +205,7 @@ static int vic_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
         vic_sound_clock(samples_to_do);
 
         o = voltagefunction[(((snd.accum*7)/snd.accum_cycles) + 1) * snd.volume];
-        o = snd.lowpassbuf*snd.lowpassbeta + o*(1.0f-snd.lowpassbeta); // 0.75f + o*0.25f;
+        o = snd.lowpassbuf*snd.lowpassbeta + o*(1.0f-snd.lowpassbeta); /* 0.75f + o*0.25f; */
         snd.lowpassbuf=o;
         o -= snd.highpassbuf;
         snd.highpassbuf += o * snd.highpassbeta;

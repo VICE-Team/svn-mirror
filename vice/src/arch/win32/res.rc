@@ -2984,7 +2984,7 @@ IDD_VIDEO_NEW_PAL_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Tint",IDC_STATIC,12,12,60,8
+    LTEXT           "Färgton",IDC_STATIC,12,12,60,8
     LTEXT           "(0..2)",IDC_STATIC,72,12,28,8
     EDITTEXT        IDC_VIDEO_NEW_PAL_TINT, 105,10,32,12,WS_TABSTOP
     LTEXT           "Odd lines phase",IDC_STATIC,12,24,60,8
@@ -7077,7 +7077,7 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE      "Laad VICE paletbestand"
   IDS_FULLSCREEN                  "Volscherm"
   IDS_COLORS                      "Kleuren"
-  IDS_NEW_PAL                     "New PAL emulation"
+  IDS_NEW_PAL                     "Nieuwe PAL emulatie"
   IDS_VIDEO_SETTINGS              "Videoinstellingen"
   IDS_FILE_SYSTEM                 "Bestandssysteem"
 #ifdef HAVE_OPENCBM
@@ -7849,7 +7849,7 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE      "Läs in VICE-palettfil"
   IDS_FULLSCREEN                  "Fullskärm"
   IDS_COLORS                      "Färger"
-  IDS_NEW_PAL                     "New PAL emulation"
+  IDS_NEW_PAL                     "Ny PAL-emulering"
   IDS_VIDEO_SETTINGS              "Grafikinställningar"
   IDS_FILE_SYSTEM                 "Filsystem"
 #ifdef HAVE_OPENCBM
@@ -7859,10 +7859,10 @@ BEGIN
   IDS_ATTACH_CRT_CART_IMAGE       "Anslut CRT-insticksmodulfil"
   IDS_ATTACH_RAW_8KB_CART_IMAGE   "Anslut rå 8KB-insticksmodulavbilding"
   IDS_ATTACH_RAW_16KB_CART_IMG    "Anslut rå 16KB-insticksmodulavbilding"
-  IDS_ATTACH_AR_CART_IMAGE        "Anslut Action Replay-avbildningsfil"
-  IDS_ATTACH_AR3_CART_IMAGE       "Anslut Action Replay III-avbildningsfil"
-  IDS_ATTACH_AR4_CART_IMAGE       "Anslut Action Replay 4-avbildningsfil"
-  IDS_ATTACH_STARDOS_CART_IMAGE   "Anslut StarDOS-avbildningsfil"
+  IDS_ATTACH_AR_CART_IMAGE        "Anslut Action Replay-insticksmodulfil"
+  IDS_ATTACH_AR3_CART_IMAGE       "Anslut Action Replay III-insticksmodulfil"
+  IDS_ATTACH_AR4_CART_IMAGE       "Anslut Action Replay 4-insticksmodulfil"
+  IDS_ATTACH_STARDOS_CART_IMAGE   "Anslut StarDOS-insticksmodulfil"
   IDS_ATTACH_ATOMIC_P_CART_IMG    "Anslut Atomic Power-avbildningsfil"
   IDS_ATTACH_EPYX_FL_CART_IMG     "Anslut Epyx fastload-avbildningsfil"
   IDS_ATTACH_IEEE488_CART_IMG     "Anslut IEE-gränssnittsavbildningsfil"
@@ -7903,7 +7903,7 @@ BEGIN
   IDS_ALL_FILES_FILTER            "Alla filer (*.*)"
   IDS_PALETTE_FILES_FILTER        "VICE-palettfiler (*.vpl)"
   IDS_SNAPSHOT_FILES_FILTER       "VICE-ögonblicksbildfiler (*.vsf)"
-  IDS_CBM_IMAGE_FILES_FILTER      "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
+  IDS_CBM_IMAGE_FILES_FILTER      "CBM-filer (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
   IDS_DISK_IMAGE_FILES_FILTER     "Diskettavbildningar (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
   IDS_TAPE_IMAGE_FILES_FILTER     "Bandavbildningar (*.t64;*.tap)"
   IDS_ZIPPED_FILES_FILTER         "Zippade filer (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
@@ -7972,7 +7972,7 @@ BEGIN
 #ifdef DEBUG
   IDS_MP_MODE                     "&Läge"
 #endif
-  IDS_MP_EDIT                     "&Edit"
+  IDS_MP_EDIT                     "&Redigera"
   IDS_MP_SNAPSHOT                 "&Ögonblicksbild"
   IDS_MP_RECORDING_START_MODE     "Spelar in startläge"
   IDS_MP_OPTIONS                  "&Alternativ"
@@ -7989,8 +7989,8 @@ BEGIN
   IDS_MI_EXIT                     "&Avsluta"
   IDS_MI_ABOUT                    "&Om VICE..."
   IDS_MI_PAUSE                    "&Paus"
-  IDS_MI_EDIT_COPY                "&Copy"
-  IDS_MI_EDIT_PASTE               "&Paste"
+  IDS_MI_EDIT_COPY                "&Kopiera"
+  IDS_MI_EDIT_PASTE               "K&listra in"
   IDS_MI_AUTOSTART                "&Autostarta disk-/bandavbildningsfil..."
   IDS_MI_RESET_HARD               "&Hård"
   IDS_MI_RESET_SOFT               "&Mjuk"
@@ -8011,9 +8011,9 @@ BEGIN
   IDS_MI_CART_ATTACH_8KB          "Vanlig &8KB-fil..."
   IDS_MI_CART_ATTACH_16KB         "Vanlig &16KB-fil..."
   IDS_MI_CART_ATTACH_AR           "&Action Replay-fil..."
-  IDS_MI_CART_ATTACH_AR3          "Action Replay &III-avbildning..."
-  IDS_MI_CART_ATTACH_AR4          "Action Replay &4-avbildning..."
-  IDS_MI_CART_ATTACH_STARDOS      "StarDOS-avbildning..."
+  IDS_MI_CART_ATTACH_AR3          "&Action Replay 3-fil..."
+  IDS_MI_CART_ATTACH_AR4          "&Action Replay 4-fil..."
+  IDS_MI_CART_ATTACH_STARDOS      "&StarDOS-fil..."
   IDS_MI_CART_ATTACH_AT           "Atomic &Power-fil..."
   IDS_MI_CART_ATTACH_EPYX         "&Epyx fastload-fil..."
   IDS_MI_CART_ATTACH_IEEE488      "&IEEE488-gränssnittsfil..."

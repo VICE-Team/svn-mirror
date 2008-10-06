@@ -584,7 +584,7 @@ const char info_contrib_text[] =
 "  Manfred Spraul <manfreds@colorfullife.com> wrote the MS-Windows\n"
 "  text lister.\n"
 "\n"
-"  Peter Karlsson <peter@softwolves.pp.se> provided the swedish\n"
+"  Peter Krefting <peter@softwolves.pp.se> provided the swedish\n"
 "  UI translations.\n"
 "\n"
 "  Czirkos Zoltan <cirix@fw.hu> and Karai Csaba <cskarai@freemail.hu>\n"

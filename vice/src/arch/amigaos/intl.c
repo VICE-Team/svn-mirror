@@ -532,7 +532,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_STARDOS_IMAGE_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_STARDOS_IMAGE_NL, "StarDOS bestand..."},
 /* pl */ {IDMS_STARDOS_IMAGE_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_STARDOS_IMAGE_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_STARDOS_IMAGE_SV, "StarDOS-fil..."},
 
 /* en */ {IDMS_ATOMIC_POWER_IMAGE,    "Atomic Power image..."},
 /* de */ {IDMS_ATOMIC_POWER_IMAGE_DE, "Atomic Power Image..."},
@@ -730,7 +730,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_EDIT_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_EDIT_NL, "Bewerken"},
 /* pl */ {IDMS_EDIT_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_EDIT_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_EDIT_SV, "Redigera"},
 
 /* en */ {IDMS_COPY,    "Copy"},
 /* de */ {IDMS_COPY_DE, "Kopie"},
@@ -748,7 +748,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_PASTE_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_PASTE_NL, "Plakken"},
 /* pl */ {IDMS_PASTE_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_PASTE_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_PASTE_SV, "Klistra in"},
 
 /* en */ {IDMS_SNAPSHOT,    "Snapshot"},
 /* de */ {IDMS_SNAPSHOT_DE, "Snapshot"},
@@ -1306,7 +1306,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_PS2_MOUSE_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_PS2_MOUSE_NL, "PS/2 muis emulatie"},
 /* pl */ {IDMS_PS2_MOUSE_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_PS2_MOUSE_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_PS2_MOUSE_SV, "PS/2-musemulering"},
 
 /* en */ {IDMS_SETTINGS,    "Settings"},
 /* de */ {IDMS_SETTINGS_DE, "Einstellungen"},
@@ -1666,7 +1666,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_C64DTV_SETTINGS_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_C64DTV_SETTINGS_NL, "C64DTV instellingen"},
 /* pl */ {IDMS_C64DTV_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_C64DTV_SETTINGS_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_C64DTV_SETTINGS_SV, "C64DTV-inställningar..."},
 
 /* en */ {IDMS_RS232_USERPORT_SETTINGS,    "RS232 userport settings..."},
 /* de */ {IDMS_RS232_USERPORT_SETTINGS_DE, "RS232 Userport Einstellungen..."},
@@ -2463,7 +2463,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_ATTACH_ACTION_REPLAY_IMAGE_IT, "Seleziona l'immagine di una cartuccia Action Replay"},
 /* nl */ {IDS_ATTACH_ACTION_REPLAY_IMAGE_NL, "Koppel Action Replay cartridgebestand"},
 /* pl */ {IDS_ATTACH_ACTION_REPLAY_IMAGE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_ATTACH_ACTION_REPLAY_IMAGE_SV, "Anslut Action Replay-avbildningsfil"},
+/* sv */ {IDS_ATTACH_ACTION_REPLAY_IMAGE_SV, "Anslut Action Replay-insticksmodulfil"},
 
 /* en */ {IDS_ATTACH_ACTION_REPLAY3_IMAGE,    "Attach Action Replay 3 cartridge image"},
 /* de */ {IDS_ATTACH_ACTION_REPLAY3_IMAGE_DE, "Action Replay 3 Erweiterungsmodul Image einlegen"},
@@ -2481,7 +2481,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_ATTACH_ACTION_REPLAY4_IMAGE_IT, "Seleziona l'immagine di una cartuccia Action Replay 4"},
 /* nl */ {IDS_ATTACH_ACTION_REPLAY4_IMAGE_NL, "Koppel Action Replay 4 cartridgebestand"},
 /* pl */ {IDS_ATTACH_ACTION_REPLAY4_IMAGE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_ATTACH_ACTION_REPLAY4_IMAGE_SV, "Anslut Action Replay 4-avbildningsfil"},
+/* sv */ {IDS_ATTACH_ACTION_REPLAY4_IMAGE_SV, "Anslut Action Replay 4-insticksmodulfil"},
 
 /* en */ {IDS_ATTACH_STARDOS_IMAGE,    "Attach StarDOS cartridge image"},
 /* de */ {IDS_ATTACH_STARDOS_IMAGE_DE, "Erweiterungsmodul StarDOS Image einlegen"},
@@ -2490,7 +2490,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_ATTACH_STARDOS_IMAGE_IT, ""},  /* fuzzy */
 /* nl */ {IDS_ATTACH_STARDOS_IMAGE_NL, "Koppel StarDOS cartridgebestand"},
 /* pl */ {IDS_ATTACH_STARDOS_IMAGE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_ATTACH_STARDOS_IMAGE_SV, ""},  /* fuzzy */
+/* sv */ {IDS_ATTACH_STARDOS_IMAGE_SV, "Anslut StarDOS-insticksmodulfil"},
 
 /* en */ {IDS_ATTACH_ATOMIC_POWER_IMAGE,    "Attach Atomic Power cartridge image"},
 /* de */ {IDS_ATTACH_ATOMIC_POWER_IMAGE_DE, "Atomic Power Erweiterungsmodul Image einlegen"},
@@ -2886,7 +2886,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_C64DTV_ROM_FILENAME_SELECT_IT, ""},  /* fuzzy */
 /* nl */ {IDS_C64DTV_ROM_FILENAME_SELECT_NL, "Selecteer bestand voor C64DTV ROM"},
 /* pl */ {IDS_C64DTV_ROM_FILENAME_SELECT_PL, ""},  /* fuzzy */
-/* sv */ {IDS_C64DTV_ROM_FILENAME_SELECT_SV, ""},  /* fuzzy */
+/* sv */ {IDS_C64DTV_ROM_FILENAME_SELECT_SV, "Välj fil för C64DTV-ROM"},
 
 /* en */ {IDS_C64DTV_ROM_FILENAME,    "C64DTV ROM file"},
 /* de */ {IDS_C64DTV_ROM_FILENAME_DE, ""},  /* fuzzy */
@@ -2895,7 +2895,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_C64DTV_ROM_FILENAME_IT, ""},  /* fuzzy */
 /* nl */ {IDS_C64DTV_ROM_FILENAME_NL, "C64DTV ROM bestand"},
 /* pl */ {IDS_C64DTV_ROM_FILENAME_PL, ""},  /* fuzzy */
-/* sv */ {IDS_C64DTV_ROM_FILENAME_SV, ""},  /* fuzzy */
+/* sv */ {IDS_C64DTV_ROM_FILENAME_SV, "C64DTV-ROM-fil"},
 
 /* en */ {IDS_C64DTV_REVISION,    "C64DTV revision"},
 /* de */ {IDS_C64DTV_REVISION_DE, ""},  /* fuzzy */
@@ -2904,7 +2904,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_C64DTV_REVISION_IT, ""},  /* fuzzy */
 /* nl */ {IDS_C64DTV_REVISION_NL, "C64DTV revisie"},
 /* pl */ {IDS_C64DTV_REVISION_PL, ""},  /* fuzzy */
-/* sv */ {IDS_C64DTV_REVISION_SV, ""},  /* fuzzy */
+/* sv */ {IDS_C64DTV_REVISION_SV, "C64DTV-utgåva"},
 
 /* en */ {IDS_C64DTV_WRITE_ENABLE,    "Writes to C64DTV ROM"},
 /* de */ {IDS_C64DTV_WRITE_ENABLE_DE, "Schreibzugriff auf C64DTV ROM"},
@@ -2940,7 +2940,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_C64DTV_SETTINGS_IT, ""},  /* fuzzy */
 /* nl */ {IDS_C64DTV_SETTINGS_NL, "C64DTV Instellingen"},
 /* pl */ {IDS_C64DTV_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDS_C64DTV_SETTINGS_SV, ""},  /* fuzzy */
+/* sv */ {IDS_C64DTV_SETTINGS_SV, "C64DTV-inställningar"},
 
 /* en */ {IDS_MODEL_LINE,    "model line"},
 /* de */ {IDS_MODEL_LINE_DE, "modell linie"},
@@ -4351,9 +4351,9 @@ intl_translate_t intl_string_table[] = {
 /* fr */ {IDS_NEW_PAL_EMULATION_FR, ""},  /* fuzzy */
 /* hu */ {IDS_NEW_PAL_EMULATION_HU, "Új PAL emuláció"},
 /* it */ {IDS_NEW_PAL_EMULATION_IT, ""},  /* fuzzy */
-/* nl */ {IDS_NEW_PAL_EMULATION_NL, ""},  /* fuzzy */
+/* nl */ {IDS_NEW_PAL_EMULATION_NL, "Nieuwe PAL Emulatie"},
 /* pl */ {IDS_NEW_PAL_EMULATION_PL, ""},  /* fuzzy */
-/* sv */ {IDS_NEW_PAL_EMULATION_SV, ""},  /* fuzzy */
+/* sv */ {IDS_NEW_PAL_EMULATION_SV, "Ny PAL-emulering"},
 
 /* en */ {IDS_EXTERNAL_PALETTE_SELECT,    "Select External Palette file"},
 /* de */ {IDS_EXTERNAL_PALETTE_SELECT_DE, "Benutze externe Palette (Datei)"},
@@ -4398,7 +4398,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_NEW_PAL_TINT_0_2_IT, ""},  /* fuzzy */
 /* nl */ {IDS_NEW_PAL_TINT_0_2_NL, "Tint (0..2)"},
 /* pl */ {IDS_NEW_PAL_TINT_0_2_PL, ""},  /* fuzzy */
-/* sv */ {IDS_NEW_PAL_TINT_0_2_SV, ""},  /* fuzzy */
+/* sv */ {IDS_NEW_PAL_TINT_0_2_SV, "Färgton (0..2)"},
 
 /* en */ {IDS_NEW_PAL_PHASE_0_2,    "Odd Lines Phase (0..2)"},
 /* de */ {IDS_NEW_PAL_PHASE_0_2_DE, "Ungerade Zeilenphase (0..2)"},
@@ -4407,7 +4407,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_NEW_PAL_PHASE_0_2_IT, ""},  /* fuzzy */
 /* nl */ {IDS_NEW_PAL_PHASE_0_2_NL, "Oneven lijnen fase (0..2)"},
 /* pl */ {IDS_NEW_PAL_PHASE_0_2_PL, ""},  /* fuzzy */
-/* sv */ {IDS_NEW_PAL_PHASE_0_2_SV, ""},  /* fuzzy */
+/* sv */ {IDS_NEW_PAL_PHASE_0_2_SV, "Fas för udda linjer (0..2)"},
 
 /* en */ {IDS_NEW_PAL_OFFSET_0_2,    "Odd Lines Offset (0..2)"},
 /* de */ {IDS_NEW_PAL_OFFSET_0_2_DE, "Ungerader Zeilenoffset (0..2)"},
@@ -4416,7 +4416,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_NEW_PAL_OFFSET_0_2_IT, ""},  /* fuzzy */
 /* nl */ {IDS_NEW_PAL_OFFSET_0_2_NL, "Oneven lijnen compensatie (0..2)"},
 /* pl */ {IDS_NEW_PAL_OFFSET_0_2_PL, ""},  /* fuzzy */
-/* sv */ {IDS_NEW_PAL_OFFSET_0_2_SV, ""},  /* fuzzy */
+/* sv */ {IDS_NEW_PAL_OFFSET_0_2_SV, "Utjämning för udda linjer (0..2)"},
 
 /* en */ {IDS_PAL_MODE,    "PAL Mode"},
 /* de */ {IDS_PAL_MODE_DE, "PAL Modus"},

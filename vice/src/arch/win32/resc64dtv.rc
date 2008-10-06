@@ -1452,7 +1452,7 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "HUMMER",
                     IDC_STATIC,3,22,174,40
-    AUTOCHECKBOX    "Aktivera &Hummer användarport-joystick", IDC_C64DTV_HUMMER_USR_JOY_ENABLE,
+    AUTOCHECKBOX    "Aktivera &Hummer-användarportsstyrspak", IDC_C64DTV_HUMMER_USR_JOY_ENABLE,
                     7, 32, 160, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "Spelport styrd till användarporten",
                     IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
@@ -1612,12 +1612,12 @@ END
 
 IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Attach DTV Flash Image"
+CAPTION "Anslut en DTV-flashavbildningsfil"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "DTV ROM",
                     IDC_STATIC,3,2,174,55
-    LTEXT           "DTV-ROM-&avbildningsfil",
+    LTEXT           "DTV ROM-&avbildningsfil",
                     IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
     PUSHBUTTON      "Bläddra...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
     EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
@@ -1778,18 +1778,18 @@ END
 
 IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Create DTV Flash Image"
+CAPTION "Skapa DTV-flashavbildning"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "DTV ROM Creation",
                     IDC_STATIC,3,2,174,55
-    LTEXT           "DTV-ROM-&avbildningsfil",
+    LTEXT           "DTV ROM-&avbildningsfil",
                     IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
     PUSHBUTTON      "Bläddra...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
     EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
     AUTOCHECKBOX    "Kopiera C64 ROM till avbildningsfil", IDC_C64DTV_ROM_COPY_C64,
                     7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    DEFPUSHBUTTON   "Create", IDOK, 30, 74, 50, 14, WS_TABSTOP
+    DEFPUSHBUTTON   "Skapa", IDOK, 30, 74, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Avbryt", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
 END
 
@@ -1911,11 +1911,11 @@ STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_MP_DTV_FLASH_ROM_IMAGE     "DTV flash &rom image"
-    IDS_MI_AUTOSTART_DISK          "&Autostarta diskavbildningsfil..."
-    IDS_MI_ATTACH_DTV_FLASH        "Attach &flash rom image"
-    IDS_MI_DETACH_DTV_FLASH        "&Detach flash rom image"
+    IDS_MI_AUTOSTART_DISK          "&Autostarta diskettavbildning..."
+    IDS_MI_ATTACH_DTV_FLASH        "Anslut &flash-rom-avbildningsfil"
+    IDS_MI_DETACH_DTV_FLASH        "&Skapa ny flash-rom-avbildningsfil"
     IDS_MI_CREATE_DTV_FLASH        "&Create new flash rom image"
     IDS_MI_FLASH_TRUE_FILESYSTEM   "&Äkta flash-filsystem"
-    IDS_MI_PS2MOUSE                "&PS/2 mouse emulation"
+    IDS_MI_PS2MOUSE                "&PS/2-musemulering"
     IDS_MI_C64DTV_SETTINGS         "&C64DTV-inställningar..."
 END

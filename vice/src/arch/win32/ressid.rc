@@ -266,7 +266,7 @@ BEGIN
   IDS_SID_GENGROUP3         "SID Stereo"
   IDS_SID_STEREO_AT         "Stereo-SID på"
   IDS_SID_FILTERS           "SID-filter"
-  IDS_SID_RESID_GROUP       "reSID/reSID-fp-inställningar"
+  IDS_SID_RESID_GROUP       "reSID-/reSID-fp-inställningar"
   IDS_SID_RESID_SAMPLE      "Samplingsmetod"
   IDS_SID_RESID_PASSBAND    "Passband (0-90%)"
   IDS_HARDSID_GROUP         "Välj enhet"
