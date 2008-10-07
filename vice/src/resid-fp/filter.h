@@ -321,23 +321,32 @@ float FilterFP::clock(float voice1,
         Vf += Vhp;
     
     if (model == MOS6581FP) {
-        /* Model output strip mixing */
-        if (hp_bp_lp & 1)
-            Vlp += (Vf + Vnf - Vlp) * (distortion_cf_threshold);
-        if (hp_bp_lp & 2)
-            Vbp += (Vf + Vnf - Vbp) * (distortion_cf_threshold);
-        if (hp_bp_lp & 4)
-            Vhp += (Vf + Vnf - Vhp) * (distortion_cf_threshold);
+        float diff;
 
         /* -3 dB level correction for more resistance through filter path */
-        Vhp = Vbp * _1_div_Q - Vlp - Vi * 0.71f;
-        Vhp -= Vhp * (distortion_cf_threshold * 5.f);
-        /* Simulating the exponential VCR that the FET block is... */
-        Vlp -= Vbp * type3_w0(Vbp);
-        Vbp -= Vhp * type3_w0(Vhp);
-        Vbp -= Vbp * (distortion_cf_threshold * 5.f);
+	Vhp = Vbp * _1_div_Q - Vlp - Vi * 0.5f;
 
-        Vf = Vf  + Vlp * (1.f/0.71f - 1.f) + Vnf;
+	/* Model output strip mixing. Doing it now that HP state
+         * variable modifying still makes some difference.
+         * (Phase error, though. XXX rethink this.) */
+	if (hp_bp_lp & 1)
+	    Vlp += (Vf + Vnf - Vlp) * (distortion_cf_threshold);
+	if (hp_bp_lp & 2)
+	    Vbp += (Vf + Vnf - Vbp) * (distortion_cf_threshold);
+	if (hp_bp_lp & 4)
+	    Vhp += (Vf + Vnf - Vhp) * (distortion_cf_threshold);
+       
+        /* Mixing through the FC control resistors? Need something like this,
+         * don't know exactly why. :-( */ 
+        diff = (Vhp - Vbp) * (distortion_cf_threshold * 2.f);
+        Vhp -= diff;
+        Vbp += diff;
+
+	/* Simulating the exponential VCR that the FET block is... */
+	Vlp -= Vbp * type3_w0(Vbp);
+	Vbp -= Vhp * type3_w0(Vhp);
+
+        Vf += Vnf + Vlp * 0.41f;
 
         /* Tuned based on Fred Gray's Break Thru. It is probably not a hard
          * discontinuity but a saturation effect... */
