@@ -1541,7 +1541,7 @@ msgid ""
 "If bankname is given set the current bank in the memspace to the given\n"
 "bank."
 msgstr ""
-"Als de banknaam niet is opgegeven worden de mogelijke banken voor de\n
+"Als de banknaam niet is opgegeven worden de mogelijke banken voor de\n"
 "geheugenruimte weergegeven. Als de banknaam is opgegeven dan wordt de\n"
 "huidige bank in de geheugenruimte gezet volgens de opgegeven banknaam.\n"
 
@@ -1552,7 +1552,7 @@ msgid ""
 "only."
 msgstr ""
 "Toon JSR gebruik (meest recent gebruikt eerst). De stack\n"
-"compensatie relatief ten opzichte van SP+1 zal worden getoont\"
+"compensatie relatief ten opzichte van SP+1 zal worden getoont\n"
 "binnen de aanhalingtekens. Dit is op basis van de beste gok."
 
 #: src/monitor/mon_command.c:72
