@@ -174,7 +174,7 @@ static void enable_resid_sid_controls(HWND hwnd)
     int engine, is_enabled;
 
     resources_get_int("SidEngine", &engine);
-    is_enabled = (engine == SID_ENGINE_RESID);
+    is_enabled = ((engine == SID_ENGINE_RESID) || (engine == SID_ENGINE_RESID_FP));
 
     EnableWindow(GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_SID_RESID_PASSBAND_VALUE), is_enabled);
