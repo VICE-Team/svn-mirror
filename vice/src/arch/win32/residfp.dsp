@@ -111,6 +111,35 @@ InputName=convolve
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\resid-fp\convolve-sse.cc"
+
+!IF  "$(CFG)" == "residfp - Win32 Release"
+
+# Begin Custom Build
+InputPath="..\..\resid-fp\convolve-sse.cc"
+InputName=convolve-sse
+
+"libs\resid-fp\Release/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MT /W3 /EHsc /I ".\msvc" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\resid-fp\Release/resid-fp.pch"  /Fo"libs\resid-fp\Release/" /Fd"libs\resid-fp\Release/" /FD /TP /c $(InputPath)
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "residfp - Win32 Debug"
+
+# Begin Custom Build
+InputPath="..\..\resid-fp\convolve-sse.cc"
+InputName=convolve-sse
+
+"libs\residfp\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MTd /W3 /EHsc /Z7 /Od /I ".\msvc" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"residfp\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residfp\Debug/residfp.pch"  /Fo"libs\residfp\Debug/" /Fd"libs\residfp\Debug/" /FD /TP /c $(InputPath)
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\resid-fp\envelope.cc"
 
 !IF  "$(CFG)" == "residfp - Win32 Release"

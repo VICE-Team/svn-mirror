@@ -20,8 +20,6 @@
 #ifndef __SIDDEFS_FP_H__
 #define __SIDDEFS_FP_H__
 
-#undef __SSE__
-
 #ifndef M_PI
 #define M_PI    3.14159265358979323846
 #define M_PI_f  3.14159265358979323846f
@@ -76,6 +74,14 @@ const char* resid_version_string = VERSION;
 // Inlining on/off.
 #define RESID_INLINE inline
 
+#if (_MSC_VER >= 1300)
+#error is above 1300
+#endif
+
+#if defined(__SSE__) || (defined(_MSC_VER) && (_MSC_VER >= 1300))
+#define RESID_USE_SSE 1
+#else
 #define RESID_USE_SSE 0
+#endif
 
 #endif // not __SIDDEFS_H__

@@ -17,6 +17,10 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
+#include "sid.h"
+
+#if (RESID_USE_SSE==1)
+
 #include <xmmintrin.h>
 
 float convolve_sse(const float *a, const float *b, int n)
@@ -69,3 +73,4 @@ float convolve_sse(const float *a, const float *b, int n)
 
     return out;
 }
+#endif
