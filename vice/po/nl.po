@@ -746,24 +746,20 @@ msgid "Specify name of symbolic German keymap file"
 msgstr "Geef de naam van het symbolische Duitse keymapbestand"
 
 #: src/c64dtv/c64dtv-cmdline-options.c:107 src/translate.c.po.c:1112
-#, fuzzy
 msgid "Enable the Hummer Userport Joystick Emulation"
-msgstr "Activeer userport printeremulatie"
+msgstr "Aktiveer de Hummer Userport Joystick emulatie"
 
 #: src/c64dtv/c64dtv-cmdline-options.c:109
-#, fuzzy
 msgid "Disable the Hummer Userport Joystick Emulation"
-msgstr "De userport printeremulatie uitschakelen"
+msgstr "De Hummer Userport Joystick emulatie afsluiten"
 
 #: src/c64dtv/c64dtv-cmdline-options.c:111 src/translate.c.po.c:1132
-#, fuzzy
 msgid "<port>"
-msgstr "<procent>"
+msgstr "<poort>"
 
 #: src/c64dtv/c64dtv-cmdline-options.c:111 src/translate.c.po.c:1142
-#, fuzzy
 msgid "Select which joystick port should be mapped to the userport"
-msgstr "Selecteer de joystickpoort waar de muis aan gekoppelt is"
+msgstr "Selecteer welke joystick poort moet worden omgeleidt naar de userport"
 
 #: src/c64/cart/c64cart.c:240 src/translate.c.po.c:1526
 msgid "Reset machine if a cartridge is attached or detached"
@@ -888,72 +884,66 @@ msgid "Base address of the 256K expansion"
 msgstr "Basisadres van de 256K-geheugenuitbreiding"
 
 #: src/c64dtv/c64dtvblitter.c:545 src/translate.c.po.c:5009
-#, fuzzy
 msgid "Specify DTV Revision (2: DTV2, 3: DTV3)"
-msgstr "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 3: ParSID)"
+msgstr "Geef de DTV revisie (2: DTV2, 3: DTV3)"
 
 #: src/c64dtv/c64dtvblitter.c:547
 msgid "Enable DTV blitter logs."
-msgstr ""
+msgstr "Aktiveer DTV blitter logs."
 
 #: src/c64dtv/c64dtvblitter.c:549
 msgid "Disable DTV blitter logs."
-msgstr ""
+msgstr "DTV Blitter logs afsluiten."
 
 #: src/c64dtv/c64dtvdma.c:444
-#, fuzzy
 msgid "Enable DTV dma logs."
-msgstr "*Activeer muis"
+msgstr "Aktiveer DTV DMA logs."
 
 #: src/c64dtv/c64dtvdma.c:446
 msgid "Disable DTV dma logs."
-msgstr ""
+msgstr "DTV DMA logs afsluiten."
 
 #: src/c64dtv/c64dtvflash.c:266 src/translate.c.po.c:626
-#, fuzzy
 msgid "No filename!"
-msgstr "Bestandsnaam"
+msgstr "Geen bestandsnaam!"
 
 #: src/c64dtv/c64dtvflash.c:276 src/translate.c.po.c:636
-#, fuzzy
 msgid "Illegal filename!"
-msgstr "Ongeldige bestandsnaam"
+msgstr "Bestandsnaam ongeldig!"
 
 #: src/c64dtv/c64dtvflash.c:298 src/translate.c.po.c:646
-#, fuzzy, c-format
+#, c-format
 msgid "Error creating file %s!"
-msgstr "Fout bij het lezen van `%s'."
+msgstr "Fout bij het maken van bestand %s!"
 
 #: src/c64dtv/c64dtvflash.c:310 src/translate.c.po.c:656
-#, fuzzy, c-format
+#, c-format
 msgid "Error writing to file %s!"
-msgstr "Fout bij schrijven: %s."
+msgstr "Fout bij het schrijven naar bestand %s!"
 
 #: src/c64dtv/c64dtvflash.c:321 src/translate.c.po.c:666
-#, fuzzy
 msgid "DTV ROM image created successfully"
-msgstr "Instellingen met succes opgeslagen."
+msgstr "DTV ROM bestand gemaakt!"
 
 #: src/c64dtv/c64dtvflash.c:528 src/translate.c.po.c:5059
-#, fuzzy
 msgid "Specify name of C64DTV ROM image"
-msgstr "Geef de naam van het BASIC-ROM-bestand"
+msgstr "Geef de naam van her C64DTV ROM bestand"
 
 #: src/c64dtv/c64dtvflash.c:530 src/translate.c.po.c:5069
 msgid "Enable writing to C64DTV ROM image"
-msgstr ""
+msgstr "Aktiveer schrijven naar C64DTV ROM bestand"
 
 #: src/c64dtv/c64dtvflash.c:532 src/translate.c.po.c:5079
 msgid "Disable writing to C64DTV ROM image"
-msgstr ""
+msgstr "Schrijven naar C64DTV ROM bestand afsluiten"
 
 #: src/c64dtv/c64dtvflash.c:534
 msgid "Enable DTV flash chip logs."
-msgstr ""
+msgstr "Aktiveer DTV flash chip logs."
 
 #: src/c64dtv/c64dtvflash.c:536
 msgid "Disable DTV flash chip logs."
-msgstr ""
+msgstr "DTV flash chip logs afsluiten."
 
 #: src/c64/digimax.c:67 src/translate.c.po.c:616
 msgid ""
@@ -997,14 +987,12 @@ msgid "Size of the GEORAM expansion unit"
 msgstr "Grootte van de GEORAM-uitbreidingseenheid"
 
 #: src/c64dtv/hummeradc.c:373 src/translate.c.po.c:5139
-#, fuzzy
 msgid "Enable the Hummer ADC"
-msgstr "Activeer de videocache"
+msgstr "Aktiveer de Hummer ADC"
 
 #: src/c64dtv/hummeradc.c:375 src/translate.c.po.c:5149
-#, fuzzy
 msgid "Disable the Hummer ADC"
-msgstr "De videocache uitschakelen"
+msgstr "De Hummer ADC afsluiten"
 
 #: src/c64/mmc64.c:903 src/translate.c.po.c:1364
 msgid "Enable the MMC64 expansion"
@@ -1533,21 +1521,19 @@ msgid "Specify log file name"
 msgstr "Geef de naam van het logbestand"
 
 #: src/monitor/mon_command.c:54
-#, fuzzy
 msgid "Available commands are:"
 msgstr ""
 "\n"
-"Beschikbare command-line opties:\n"
+"Beschikbare commandos zijn:\n"
 "\n"
 
 #: src/monitor/mon_command.c:56
-#, fuzzy
 msgid "Machine state commands:"
-msgstr "Momentopname commandos"
+msgstr "Machine status commandos"
 
 #: src/monitor/mon_command.c:59
 msgid "[<memspace>] [bankname]"
-msgstr ""
+msgstr "[<geheugenruimte>] [banknaam]"
 
 #: src/monitor/mon_command.c:60
 msgid ""
@@ -1555,6 +1541,9 @@ msgid ""
 "If bankname is given set the current bank in the memspace to the given\n"
 "bank."
 msgstr ""
+"Als de banknaam niet is opgegeven worden de mogelijke banken voor de\n
+"geheugenruimte weergegeven. Als de banknaam is opgegeven dan wordt de\n"
+"huidige bank in de geheugenruimte gezet volgens de opgegeven banknaam.\n"
 
 #: src/monitor/mon_command.c:66
 msgid ""
@@ -1562,24 +1551,26 @@ msgid ""
 "relative to SP+1 is printed in parentheses. This is a best guess\n"
 "only."
 msgstr ""
+"Toon JSR gebruik (meest recent gebruikt eerst). De stack\n"
+"compensatie relatief ten opzichte van SP+1 zal worden getoont\"
+"binnen de aanhalingtekens. Dit is op basis van de beste gok."
 
 #: src/monitor/mon_command.c:72
 msgid "Specify the type of CPU currently used (6502/z80)."
-msgstr ""
+msgstr "Geef de soort CPU die op dit moment in gebruik is (6502/z80)."
 
 #: src/monitor/mon_command.c:75 src/monitor/mon_command.c:122
 msgid "[<count>]"
-msgstr ""
+msgstr "[<hoeveelheid>]"
 
 #: src/monitor/mon_command.c:76
 msgid "Show <count> last executed commands."
-msgstr ""
+msgstr "Toon <hoeveelheid> laatst uitgevoerde commandos."
 
 #: src/monitor/mon_command.c:79 src/monitor/mon_command.c:127
 #: src/monitor/mon_command.c:437 src/monitor/mon_command.c:446
-#, fuzzy
 msgid "\"<filename>\""
-msgstr "<naam>"
+msgstr "\"<bestandsnaam>\""
 
 #: src/monitor/mon_command.c:80
 msgid ""
@@ -1589,9 +1580,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:91
-#, fuzzy
 msgid "<address>"
-msgstr "<basisadres>"
+msgstr "<adres>"
 
 #: src/monitor/mon_command.c:92
 msgid "Change the PC to ADDRESS and continue execution"
@@ -1618,9 +1608,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:109
-#, fuzzy
 msgid "[<type>]"
-msgstr "<soort>"
+msgstr "[<soort>]"
 
 #: src/monitor/mon_command.c:110
 msgid "Reset the machine or drive. Type: 0 = soft, 1 = hard, 8-11 = drive."
@@ -1652,9 +1641,8 @@ msgstr ""
 #. "*** unimplemented ***" },
 #.
 #: src/monitor/mon_command.c:135
-#, fuzzy
 msgid "Symbol table commands:"
-msgstr "Momentopname commandos"
+msgstr "Symbool tabel commandos:"
 
 #: src/monitor/mon_command.c:138
 msgid "[<memspace>] <address> <label>"
@@ -1736,9 +1724,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:182 src/monitor/mon_command.c:255
-#, fuzzy
 msgid "<address_range> <address>"
-msgstr "<basisadres>"
+msgstr "<adres_bereik> <adres>"
 
 #: src/monitor/mon_command.c:183
 msgid ""
@@ -1757,9 +1744,8 @@ msgid "Delete checkpoint `checknum'."
 msgstr ""
 
 #: src/monitor/mon_command.c:192
-#, fuzzy
 msgid "[<address> [<address>]]"
-msgstr "<basisadres>"
+msgstr "[<adres> [<adres>]]"
 
 #: src/monitor/mon_command.c:193
 msgid ""
@@ -1860,9 +1846,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:259
-#, fuzzy
 msgid "Checkpoint commands:"
-msgstr "Momentopname commandos"
+msgstr "Controleer punt commandos:"
 
 #: src/monitor/mon_command.c:262
 msgid "[<address> [if <cond_expr>] ]"
@@ -1925,9 +1910,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:302
-#, fuzzy
 msgid "[<address>]"
-msgstr "<basisadres>"
+msgstr "[<adres>]"
 
 #: src/monitor/mon_command.c:303
 msgid ""
@@ -1952,9 +1936,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:318
-#, fuzzy
 msgid "[address [address]]"
-msgstr "<basisadres>"
+msgstr "[adres [adres]]"
 
 #: src/monitor/mon_command.c:319
 msgid ""
@@ -1964,9 +1947,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:323
-#, fuzzy
 msgid "Monitor state commands:"
-msgstr "Momentopname commandos"
+msgstr "Monitor status commandos:"
 
 #: src/monitor/mon_command.c:326
 msgid "[c:|8:|9:|10:|11:]"
@@ -1983,9 +1965,8 @@ msgid "Leave the monitor and return to execution."
 msgstr ""
 
 #: src/monitor/mon_command.c:339
-#, fuzzy
 msgid "Exit the emulator immediately."
-msgstr "Emulator uitschakelen"
+msgstr "Onmiddelijk de emulator sluiten."
 
 #: src/monitor/mon_command.c:343
 msgid "[H|D|O|B]"
@@ -2011,9 +1992,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:355
-#, fuzzy
 msgid "Disk commands:"
-msgstr "Disk formaat:"
+msgstr "Disk commandos:"
 
 #: src/monitor/mon_command.c:358
 msgid "<disk command>"
@@ -2026,9 +2006,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:363
-#, fuzzy
 msgid "<filename> <device>"
-msgstr "Hoofdapparaat"
+msgstr "<bestandsnaam> <apparaat>"
 
 #: src/monitor/mon_command.c:364
 msgid "Attach file to device. (device 32 = cart)"
@@ -2045,9 +2024,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:372
-#, fuzzy
 msgid "<track> <sector> [<address>]"
-msgstr "<basisadres>"
+msgstr "<spoor> <sector> [<adres>]"
 
 #: src/monitor/mon_command.c:373
 msgid ""
@@ -2067,9 +2045,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:383
-#, fuzzy
 msgid "<track> <sector> <address>"
-msgstr "<basisadres>"
+msgstr "<spoor> <sector> <adres>"
 
 #: src/monitor/mon_command.c:384
 msgid ""
@@ -2078,14 +2055,12 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:388
-#, fuzzy
 msgid "<directory>"
-msgstr "&Directory"
+msgstr "<directory>"
 
 #: src/monitor/mon_command.c:389
-#, fuzzy
 msgid "Change the working directory."
-msgstr "Verander werkdirectory..."
+msgstr "Verander de werkdirectory."
 
 #: src/monitor/mon_command.c:392 src/video/video-cmdline-options.c:236
 #: src/translate.c.po.c:3961
@@ -2097,9 +2072,8 @@ msgid "Detach file from device. (device 32 = cart)"
 msgstr ""
 
 #: src/monitor/mon_command.c:396
-#, fuzzy
 msgid "[<directory>]"
-msgstr "&Directory"
+msgstr "[<directory>]"
 
 #: src/monitor/mon_command.c:397
 msgid "Display the directory contents."
@@ -2119,9 +2093,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:409
-#, fuzzy
 msgid "Show current working directory."
-msgstr "Verander de huidige werk directory"
+msgstr "Toon de huidige werk directory."
 
 #: src/monitor/mon_command.c:413
 msgid ""
@@ -2131,23 +2104,20 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:417
-#, fuzzy
 msgid "Other commands:"
-msgstr "Momentopname commandos"
+msgstr "Andere commandos:"
 
 #: src/monitor/mon_command.c:421
 msgid "Display the specified number in decimal, hex, octal and binary."
 msgstr ""
 
 #: src/monitor/mon_command.c:425
-#, fuzzy
 msgid "Use cartridge freeze."
-msgstr "Cartridge freeze"
+msgstr "Gebruik cartridge freeze."
 
 #: src/monitor/mon_command.c:428
-#, fuzzy
 msgid "[<command>]"
-msgstr "Commando:"
+msgstr "[<commando>]"
 
 #: src/monitor/mon_command.c:429
 msgid ""
@@ -2156,14 +2126,12 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:433
-#, fuzzy
 msgid "\"<string>\""
-msgstr "<string>"
+msgstr "\"<string>\""
 
 #: src/monitor/mon_command.c:434
-#, fuzzy
 msgid "Put the specified string into the keyboard buffer."
-msgstr "Plaats de opgegeven string in de toetsenbordbuffer"
+msgstr "Plaats de opgegeven string in de toetsenbordbuffer."
 
 #: src/monitor/mon_command.c:438
 msgid ""
@@ -2174,7 +2142,7 @@ msgstr ""
 #: src/monitor/mon_command.c:442
 #, fuzzy
 msgid "<expression>"
-msgstr "<revisie>"
+msgstr "<expressie>"
 
 #: src/monitor/mon_command.c:443
 msgid "Evaluate the specified expression and output the result."
@@ -2217,9 +2185,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:468
-#, fuzzy
 msgid "<command>"
-msgstr "Commando:"
+msgstr "<commando>"
 
 #: src/monitor/mon_command.c:469
 msgid ""
@@ -2488,14 +2455,12 @@ msgid "Specify printer text output device for userport printer"
 msgstr "Geef het text uitvoer apparaat voor de userport printer"
 
 #: src/ps2mouse.c:485 src/translate.c.po.c:4579
-#, fuzzy
 msgid "Enable PS/2 mouse on userport"
-msgstr "&Activeer RS232-userport"
+msgstr "Aktiveer emulatie van een PS/2 muis op de userport"
 
 #: src/ps2mouse.c:487 src/translate.c.po.c:4589
-#, fuzzy
 msgid "Disable PS/2 mouse on userport"
-msgstr "Gebruiken van de muis uitschakelen"
+msgstr "Emulatie van een PS/2 muis op de userport afsluiten"
 
 #: src/ram.c:101 src/translate.c.po.c:4599
 msgid "Set the value for the very first RAM address after powerup"
@@ -2739,9 +2704,8 @@ msgid "<model>"
 msgstr "<model>"
 
 #: src/sid/sid-cmdline-options.c:223
-#, fuzzy
 msgid "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost, 4: DTV)"
-msgstr "Geef het SID-model (0: 6581, 1: 8580, 2: 8580 + digi boost)"
+msgstr "Geef het SID-model (0: 6581, 1: 8580, 2: 8580 + digi boost, 4: DTV)"
 
 #: src/sid/sid-cmdline-options.c:226 src/translate.c.po.c:3579
 msgid "Emulate SID filters"
@@ -4194,9 +4158,8 @@ msgid "*Enable true drive emulation"
 msgstr "*Activeer hardware drive emulatie"
 
 #: src/arch/unix/gui/uidrive.c:189
-#, fuzzy
 msgid "*Enable true flash filesystem emulation"
-msgstr "*Activeer hardware drive emulatie"
+msgstr "*Activeer echte flash bestandssysteem emulatie"
 
 #: src/arch/unix/gui/uidrivec128.c:45 src/arch/unix/gui/uidrivec128.c:77
 #: src/arch/unix/gui/uidrivec128.c:99 src/arch/unix/gui/uidrivec128.c:121
@@ -5633,9 +5596,8 @@ msgid "*ReSID"
 msgstr "*ReSID"
 
 #: src/arch/unix/gui/uisid.c:50
-#, fuzzy
 msgid "*ReSID-FP"
-msgstr "*ReSID"
+msgstr "*ReSID-FP"
 
 #: src/arch/unix/gui/uisid.c:54 src/arch/unix/gui/uisidcart.c:42
 msgid "*Catweasel MKIII"
@@ -5674,9 +5636,8 @@ msgstr "*8500 + digi boost"
 #. (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_6581R4, NULL },
 #.
 #: src/arch/unix/gui/uisid.c:85
-#, fuzzy
 msgid "*DTVSID"
-msgstr "*ReSID"
+msgstr "*DTVSID"
 
 #: src/arch/unix/gui/uisid.c:89
 msgid "*6581R3 4885 (very light)"
@@ -5695,9 +5656,8 @@ msgid "*6581R4AR 3789 (avg)"
 msgstr ""
 
 #: src/arch/unix/gui/uisid.c:97
-#, fuzzy
 msgid "*6581R3 4485 (dark)"
-msgstr "*6581 (oud)"
+msgstr "*6581R3 4485 (donker)"
 
 #: src/arch/unix/gui/uisid.c:99
 msgid "*6581R4 1986S (very dark)"
@@ -5708,18 +5668,16 @@ msgid "*8580 3691 (light)"
 msgstr ""
 
 #: src/arch/unix/gui/uisid.c:103
-#, fuzzy
 msgid "*8580 3691 + digi boost"
-msgstr "*8500 + digi boost"
+msgstr "*8500 3691 + digi boost"
 
 #: src/arch/unix/gui/uisid.c:105
 msgid "*8580 1489 (dark)"
 msgstr ""
 
 #: src/arch/unix/gui/uisid.c:107
-#, fuzzy
 msgid "*8580 1489 + digi boost"
-msgstr "*8500 + digi boost"
+msgstr "*8500 1489 + digi boost"
 
 #: src/arch/unix/gui/uisid.c:117
 msgid "*Fast"
@@ -5958,14 +5916,12 @@ msgid "*Debug"
 msgstr "*Debug"
 
 #: src/arch/unix/gui/uivicii.c:111
-#, fuzzy
 msgid "Refreshrate: "
-msgstr "Vernieuwingssnelheid:"
+msgstr "Vernieuwingssnelheid: "
 
 #: src/arch/unix/gui/uivicii.c:111
-#, fuzzy
 msgid "Enter Refreshrate (Hz): "
-msgstr "Geef vernieuwing snelheid"
+msgstr "Geef vernieuwingssnelheid op (Hz): "
 
 #: src/arch/unix/gui/uivicii.c:155
 msgid "*New Luminances"
@@ -5984,9 +5940,8 @@ msgid "*Sprite-background collisions"
 msgstr "*Sprite-achtergrond botsingen"
 
 #: src/arch/unix/gui/uivicii.c:185
-#, fuzzy
 msgid "Desktop Refreshrate..."
-msgstr "Vernieuwing snelheid"
+msgstr "Desktop Vernieuwingssnelheid..."
 
 #. Shouldn't happen.
 #: src/arch/unix/gui/vic20ui.c:104
@@ -6947,19 +6902,16 @@ msgid "Copyright (c) 2007-2008 Fabrizio Gennari"
 msgstr "Copyright (c) 2000-2008 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:238
-#, fuzzy
 msgid "Copyright (c) 2007-2008 M. Kiesel"
-msgstr "Copyright (c) 2003-2005 David Hansel"
+msgstr "Copyright (c) 2007-2008 M. Kiesel"
 
 #: src/arch/win32/res.rc.po.c:239
-#, fuzzy
 msgid "Copyright (c) 2007-2008 Hannu Nuotio"
-msgstr "Copyright (c) 2000-2008 Fabrizio Gennari"
+msgstr "Copyright (c) 2007-2008 Hannu Nuotio"
 
 #: src/arch/win32/res.rc.po.c:240
-#, fuzzy
 msgid "Copyright (c) 2007-2008 Daniel Kahlin"
-msgstr "Copyright (c) 2003-2005 David Hansel"
+msgstr "Copyright (c) 2007-2005 Daniel Kahlin"
 
 #: src/arch/win32/res.rc.po.c:241
 msgid "Copyright (c) 1999-2007 Andreas Dehmel"
@@ -7980,11 +7932,10 @@ msgid "VICE snapshot files (*.vsf)"
 msgstr "VICE momentopnamebestanden (*.vsf)"
 
 #: src/arch/win32/res.rc.po.c:4857
-#, fuzzy
 msgid ""
 "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;"
 "*.p00)"
-msgstr "Schijfbestanden (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+msgstr "CBM bestanden (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
 
 #: src/arch/win32/res.rc.po.c:4858
 msgid "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
@@ -8318,9 +8269,8 @@ msgid "Drive 1&0"
 msgstr "Drive 1&0"
 
 #: src/arch/win32/res.rc.po.c:4951
-#, fuzzy
 msgid "Drive 1&1"
-msgstr "Drive 11"
+msgstr "Drive 1&1"
 
 #: src/arch/win32/res.rc.po.c:4952
 msgid "Attach &tape image..."
@@ -9418,50 +9368,44 @@ msgid "DTV flash &rom image"
 msgstr ""
 
 #: src/arch/win32/resc64dtv.rc.po.c:1209 src/arch/amigaos/intl.c.po.c:2909
-#, fuzzy
 msgid "C64DTV Settings"
-msgstr "IDE64-instellingen"
+msgstr "C64DTV Instellingen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1211
-#, fuzzy
 msgid "DTV Revision"
-msgstr "Revisie"
+msgstr "DTV Revisie"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1215
 msgid "HUMMER"
 msgstr ""
 
 #: src/arch/win32/resc64dtv.rc.po.c:1217
-#, fuzzy
 msgid "Enable &Hummer Userport Joystick"
-msgstr "Activeer userport diagnostic pin"
+msgstr "Aktiveer &Hummer Userport Joystick"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1219
 msgid "Joyport mapped to userport"
 msgstr ""
 
 #: src/arch/win32/resc64dtv.rc.po.c:1395
-#, fuzzy
 msgid "Attach DTV Flash Image"
-msgstr "Koppel een schijfbestand aan"
+msgstr "Koppel DTV Flash Bestand"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1397
 msgid "DTV ROM"
 msgstr ""
 
 #: src/arch/win32/resc64dtv.rc.po.c:1399 src/arch/win32/resc64dtv.rc.po.c:1554
-#, fuzzy
 msgid "DTV ROM &image File"
-msgstr "HD-bestand"
+msgstr "DTV ROM &bestand"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1403
 msgid "Enable &writes to DTV ROM image"
 msgstr ""
 
 #: src/arch/win32/resc64dtv.rc.po.c:1550
-#, fuzzy
 msgid "Create DTV Flash Image"
-msgstr "Maak Bestand"
+msgstr "Maak DTV Flash Bestand"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1552
 msgid "DTV ROM Creation"
@@ -9472,43 +9416,36 @@ msgid "Copy C64 ROMS into image"
 msgstr ""
 
 #: src/arch/win32/resc64dtv.rc.po.c:1560
-#, fuzzy
 msgid "Create"
-msgstr "Maak disk"
+msgstr "Maak"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1706
-#, fuzzy
 msgid "&Autostart disk image..."
-msgstr "Autostart schijfbestand"
+msgstr "&Autostart diskbestand..."
 
 #: src/arch/win32/resc64dtv.rc.po.c:1707
-#, fuzzy
 msgid "Attach &flash rom image"
-msgstr "Koppel &schijfbestand aan"
+msgstr "Koppel &flash rom bestand"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1708
-#, fuzzy
 msgid "&Detach flash rom image"
-msgstr "Ontkoppel schijfbestand"
+msgstr "&Ontkoppel flash rom bestand"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1709
-#, fuzzy
 msgid "&Create new flash rom image"
-msgstr "*Maak P00-bestanden bij opslaan"
+msgstr "&Maak nieuw flash rom bestand"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1710
 msgid "&True flash filesystem"
 msgstr ""
 
 #: src/arch/win32/resc64dtv.rc.po.c:1711
-#, fuzzy
 msgid "&PS/2 mouse emulation"
-msgstr "*Muisemulatie"
+msgstr "&PS/2 muis emulatie"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1712
-#, fuzzy
 msgid "&C64DTV settings..."
-msgstr "&MMC64-instellingen..."
+msgstr "&C64DTV instellingen..."
 
 #: src/arch/win32/rescbm2.rc.po.c:163 src/arch/win32/respet.rc.po.c:163
 msgid "&PAL"
@@ -10411,9 +10348,8 @@ msgid "SID Filters"
 msgstr "SID-filters"
 
 #: src/arch/win32/ressid.rc.po.c:67
-#, fuzzy
 msgid "reSID/reSID-fp options"
-msgstr "reSID-opties"
+msgstr "reSID/reSID-fp-opties"
 
 #: src/arch/win32/ressid.rc.po.c:68 src/arch/amigaos/intl.c.po.c:3782
 msgid "Sample method"
@@ -11041,9 +10977,8 @@ msgid "Grab mouse events"
 msgstr "Gebruik de muis"
 
 #: src/arch/amigaos/intl.c.po.c:1275
-#, fuzzy
 msgid "PS/2 mouse emulation"
-msgstr "*Muisemulatie"
+msgstr "PS/2 muis emulatie"
 
 #: src/arch/amigaos/intl.c.po.c:1293
 msgid "Video settings..."
@@ -11186,9 +11121,8 @@ msgid "SID cart settings..."
 msgstr "SID-cartinstellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1635
-#, fuzzy
 msgid "C64DTV settings..."
-msgstr "MMC64-instellingen..."
+msgstr "C64DTV instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1644
 msgid "RS232 userport settings..."
@@ -11423,19 +11357,16 @@ msgid "256K Base"
 msgstr "256K basis"
 
 #: src/arch/amigaos/intl.c.po.c:2855
-#, fuzzy
 msgid "Select file for C64DTV ROM"
-msgstr "Selecteer bestand voor PET REU"
+msgstr "Selecteer bestand voor C64DTV ROM"
 
 #: src/arch/amigaos/intl.c.po.c:2864
-#, fuzzy
 msgid "C64DTV ROM file"
-msgstr "Laad ROM-bestand"
+msgstr "C64DTV ROM bestand"
 
 #: src/arch/amigaos/intl.c.po.c:2873
-#, fuzzy
 msgid "C64DTV revision"
-msgstr "*MMC64-revisie"
+msgstr "C64DTV revisie"
 
 #: src/arch/amigaos/intl.c.po.c:2882
 msgid "Writes to C64DTV ROM"

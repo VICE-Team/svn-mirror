@@ -133,7 +133,7 @@ static const cmdline_option_t cmdline_options[] =
 static const cmdline_option_t cmdline_options[] =
 {
     { "-keybuf", CALL_FUNCTION, 1, kdb_buf_feed_cmdline, NULL, NULL, NULL,
-      N_("<string>"), N_("Put the specified string into the keyboard buffer") },
+      N_("<string>"), N_("Put the specified string into the keyboard buffer.") },
     { NULL }
 };
 #endif

@@ -1664,7 +1664,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ {IDMS_C64DTV_SETTINGS_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_C64DTV_SETTINGS_HU, "C64DTV beállításai..."},
 /* it */ {IDMS_C64DTV_SETTINGS_IT, ""},  /* fuzzy */
-/* nl */ {IDMS_C64DTV_SETTINGS_NL, "C64DTV instellingen"},
+/* nl */ {IDMS_C64DTV_SETTINGS_NL, "C64DTV instellingen..."},
 /* pl */ {IDMS_C64DTV_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_C64DTV_SETTINGS_SV, "C64DTV-inställningar..."},
 
