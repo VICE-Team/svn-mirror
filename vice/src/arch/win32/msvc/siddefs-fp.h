@@ -74,10 +74,6 @@ const char* resid_version_string = VERSION;
 // Inlining on/off.
 #define RESID_INLINE inline
 
-#if (_MSC_VER >= 1300)
-#error is above 1300
-#endif
-
 #if defined(__SSE__) || (defined(_MSC_VER) && (_MSC_VER >= 1300))
 #define RESID_USE_SSE 1
 #else
