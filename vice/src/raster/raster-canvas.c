@@ -64,15 +64,19 @@ inline static void refresh_canvas(raster_t *raster)
         /* if pal emu is activated, more pixels have to be updated: around,
          * above and below, because of blurring and scanline effects.
          *
-         * 1 line above and 2 lines below are required because the update on
-         * any line x only recalculates the scanline above it normally, so you
-         * have to calculate not only the next line, but the line after that.*/
+         * 1 line above and 1 lines below are required because the update on
+         * any line affects the scanlines both above and below, so both must
+         * be included in the full update rectangle.
+         *
+         * These coordinates are also passed to the graphics driver as the
+         * updated region, so the area here must be at least as large as the
+         * updated region. */
         x -= 4;
         xx -= 4;
         w += 8;
         y --;
         yy --;
-        h += 3;
+        h += 2;
     }
 
     if (xx < 0) {

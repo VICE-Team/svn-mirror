@@ -532,15 +532,15 @@ static int attach_clipper(video_canvas_t *canvas)
     if (ddresult != DD_OK) {
         ui_error("Cannot create clipper for primary surface:\n%s",
                  dd_error(ddresult));
-		return FALSE;
+        return FALSE;
     }
     ddresult = IDirectDrawSurface_SetClipper(canvas->primary_surface, canvas->clipper);
     if (ddresult != DD_OK) {
         ui_error("Cannot set clipper for primary surface:\n%s",
                  dd_error(ddresult));
-		return FALSE;
+        return FALSE;
     }
-	return TRUE;
+    return TRUE;
 }
 
 static int create_temporary_surface(video_canvas_t *canvas, int width, int height, int force_videomem)
@@ -558,27 +558,27 @@ static int create_temporary_surface(video_canvas_t *canvas, int width, int heigh
     ddresult = IDirectDraw2_CreateSurface(canvas->dd_object2, &desc,
                                           &canvas->temporary_surface, NULL);
     if (ddresult != DD_OK) {
-		if (!force_videomem)
-		{
-			/* if failed to create temporary videomemory surface, try in systemmemory */
-		    memset(&desc, 0, sizeof(desc));
-		    desc.dwSize = sizeof(desc);
-		    desc.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH;
-		    desc.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY;
-		    desc.dwWidth = width;
-		    desc.dwHeight = height;
-		    ddresult = IDirectDraw2_CreateSurface(canvas->dd_object2, &desc,
-		                                          &canvas->temporary_surface, NULL);
-		}
-	    if (ddresult != DD_OK) {
-	        ui_error("Cannot create temporary DirectDraw surface:\n%s",
-	                 dd_error(ddresult));
-			canvas->temporary_surface = NULL;
-			return FALSE;
-		}
+        if (!force_videomem)
+        {
+            /* if failed to create temporary videomemory surface, try in systemmemory */
+            memset(&desc, 0, sizeof(desc));
+            desc.dwSize = sizeof(desc);
+            desc.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH;
+            desc.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY;
+            desc.dwWidth = width;
+            desc.dwHeight = height;
+            ddresult = IDirectDraw2_CreateSurface(canvas->dd_object2, &desc,
+                                                  &canvas->temporary_surface, NULL);
+        }
+        if (ddresult != DD_OK) {
+            ui_error("Cannot create temporary DirectDraw surface:\n%s",
+                     dd_error(ddresult));
+            canvas->temporary_surface = NULL;
+            return FALSE;
+        }
     }
-	canvas->render_surface = canvas->temporary_surface;
-	return TRUE;
+    canvas->render_surface = canvas->temporary_surface;
+    return TRUE;
 }
 
 #if 0
@@ -809,7 +809,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
         PALETTEENTRY ape[256];
         HRESULT result;
 
-		init_palette(canvas->palette, ape);
+        init_palette(canvas->palette, ape);
 
         result = IDirectDraw2_CreatePalette(canvas->dd_object2, DDPCAPS_8BIT,
                                             ape, &canvas->dd_palette, NULL);
@@ -1296,8 +1296,6 @@ static void real_refresh(video_canvas_t *c,
               trect.bottom));
         px = xs + trect.left - rect.left;
         py = ys + trect.top - rect.top;
-        pw = trect.right - trect.left;
-        ph = trect.bottom - trect.top;
 
         if (c->videoconfig->doublesizex) {
             /* FIXME: ugly hack to make pixel start on even coordinate */
@@ -1314,8 +1312,18 @@ static void real_refresh(video_canvas_t *c,
                 scrn_orig += pitch;
                 trect.top--;
             }
+
+            /* The palemu renderer is broken and can't deal with rendering
+                that begins on scanline (odd lines). Hence, we workaround 
+                it here until renderer is fixed. */
+            if ((trect.top > 0) && (py & 1))
+                 trect.top--;            
+
             py /= 2;
         }
+
+        pw = trect.right - trect.left;
+        ph = trect.bottom - trect.top;
 
         video_canvas_render(c,
                             scrn_orig,

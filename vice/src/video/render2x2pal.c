@@ -56,11 +56,11 @@ void store_line_and_scanline_2(
 {
     WORD *tmp1 = (WORD *) scanline;
     WORD *tmp2 = (WORD *) line;
-    *tmp1 = gamma_red_fac[(red + prevline[0]) >> 1]
+    *tmp1 = (WORD) (gamma_red_fac[(red + prevline[0]) >> 1]
           | gamma_grn_fac[(grn + prevline[1]) >> 1]
-          | gamma_blu_fac[(blu + prevline[2]) >> 1];
+          | gamma_blu_fac[(blu + prevline[2]) >> 1]);
     
-    *tmp2 = gamma_red[red] | gamma_grn[grn] | gamma_blu[blu];
+    *tmp2 = (WORD) (gamma_red[red] | gamma_grn[grn] | gamma_blu[blu]);
 
     prevline[0] = red;
     prevline[1] = grn;
@@ -144,8 +144,8 @@ static inline
 void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
                        const BYTE *src, BYTE *trg,
                        unsigned int width, const unsigned int height,
-                       const unsigned int xs, const unsigned int ys,
-                       const unsigned int xt, const unsigned int yt,
+                       unsigned int xs, const unsigned int ys,
+                       unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs, const unsigned int pitcht,
 		       unsigned int viewport_height, unsigned int pixelstride,
                        void (*store_func)(
@@ -167,8 +167,6 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
 
     viewport_height *= 2;
 
-    /* XXX Doesn't check the boundary conditions,
-     *     potentially a bug due to FIR. Are they enforced elsewhere? */
     src = src + pitchs * ys + xs - 2;
     trg = trg + pitcht * yt + xt * pixelstride;
     yys = (ys << 1) | (yt & 1);
@@ -213,16 +211,32 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
     /* Calculate odd line shading */
     off = (int) (((float) video_resources.pal_oddlines_offset * (1.5f / 2000.0f) - (1.5f / 2.0f - 1.0f)) * (1 << 5) * -1);
 
-    for (y = yys; y < yys + height; y += 2) {
-	/* write pixel data to tmptrg */
-        tmptrg = trg;
-        /* write scanline data to previous line if possible,
-         * otherwise we dump it to the scratch region... We must never
-         * render the scanline for the first row, because prevlinergb is not
-         * yet initialized and scanline data would be bogus! */
-	tmptrgscanline = y != yys && yys > 0 && yys <= viewport_height
-            ? trg - pitcht
-            : &color_tab->rgbscratchbuffer[0];
+    /* height & 1 == 0. */
+    for (y = yys; y < yys + height + 1; y += 2) {
+
+        /* when we are dealing with the last line, the rules change:
+         * we no longer write the main output to screen, we just put it into
+         * the scanline. */
+        if (y == yys + height) {
+            /* no place to put scanline in: we are outside viewport or still
+             * doing the first iteration (height == 0) */
+            if (y == yys || yys == 0 || yys > viewport_height)
+                break;
+
+            tmptrg = &color_tab->rgbscratchbuffer[0];
+            tmptrgscanline = trg - pitcht;
+        } else {
+            /* pixel data to surface */
+            tmptrg = trg;
+            /* write scanline data to previous line if possible,
+             * otherwise we dump it to the scratch region... We must never
+             * render the scanline for the first row, because prevlinergb is not
+             * yet initialized and scanline data would be bogus! */
+            tmptrgscanline = y != yys && yys > 0 && yys <= viewport_height
+                ? trg - pitcht
+                : &color_tab->rgbscratchbuffer[0];
+        }
+
 	/* current source image for YUV xform */
         tmpsrc = src;
 	/* prev line's YUV-xformed data */
@@ -248,7 +262,7 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
             get_rgb_from_video(tmpsrc, line, off_flip, ytablel, ytableh, cbtable, crtable, &red2, &grn2, &blu2);
             tmpsrc += 1;
             line += 2;
-            store_func(tmptrg, tmptrgscanline, prevrgblineptr, (red+red2)>>1, (grn+grn2)>>1, (blu+blu2)>>1);
+            store_func(tmptrg, tmptrgscanline, prevrgblineptr, (WORD) ((red+red2)>>1), (WORD) ((grn+grn2)>>1), (WORD) ((blu+blu2)>>1));
             tmptrgscanline += pixelstride;
             tmptrg += pixelstride;
             prevrgblineptr += 3;
@@ -265,7 +279,7 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
             get_rgb_from_video(tmpsrc, line, off_flip, ytablel, ytableh, cbtable, crtable, &red2, &grn2, &blu2);
             tmpsrc += 1;
             line += 2;
-            store_func(tmptrg, tmptrgscanline, prevrgblineptr, (red+red2)>>1, (grn+grn2)>>1, (blu+blu2)>>1);
+            store_func(tmptrg, tmptrgscanline, prevrgblineptr, (WORD) ((red+red2)>>1), (WORD) ((grn+grn2)>>1), (WORD) ((blu+blu2)>>1));
             tmptrgscanline += pixelstride;
             tmptrg += pixelstride;
             prevrgblineptr += 3;
