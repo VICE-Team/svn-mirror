@@ -82,6 +82,10 @@ LIB32=link.exe -lib
 # Name "c64c128 - Win32 Debug"
 # Begin Source File
 
+SOURCE="..\..\c64\c64-midi.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\c64-snapshot.c"
 # End Source File
 # Begin Source File

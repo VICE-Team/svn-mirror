@@ -44,6 +44,7 @@
 #include "uidrivec128.h"
 #include "uiide64.h"
 #include "uikeyboard.h"
+#include "uimidi.h"
 #include "uimmc64.h"
 #include "uireu.h"
 #include "uigeoram.h"
@@ -300,6 +301,7 @@ ui_menu_translation_table_t c128ui_menu_translation_table[] = {
     { IDM_REU_SETTINGS, IDS_MI_REU_SETTINGS },
     { IDM_GEORAM_SETTINGS, IDS_MI_GEORAM_SETTINGS },
     { IDM_RAMCART_SETTINGS, IDS_MI_RAMCART_SETTINGS },
+    { IDM_MIDI_SETTINGS, IDS_MI_MIDI_SETTINGS },
     { IDM_MMC64_SETTINGS, IDS_MI_MMC64_SETTINGS },
     { IDM_DIGIMAX_SETTINGS, IDS_MI_DIGIMAX_SETTINGS },
     { IDM_IDE64_SETTINGS, IDS_MI_IDE64_SETTINGS },
@@ -369,6 +371,9 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_REU_SETTINGS:
         ui_reu_settings_dialog(hwnd);
+        break;
+      case IDM_MIDI_SETTINGS:
+        ui_midi_settings_dialog(hwnd);
         break;
       case IDM_MMC64_SETTINGS:
         ui_mmc64_settings_dialog(hwnd);

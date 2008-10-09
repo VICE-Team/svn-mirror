@@ -147,6 +147,8 @@ noinst_HEADERS = \
 	maincpu.h \
 	mc6821.h \
 	mem.h \
+	midi.h \
+	mididrv.h \
 	monitor.h \
 	mos6510.h \
 	mos6510dtv.h \
@@ -256,6 +258,9 @@ mouse_sources = \
 
 ps2mouse_sources = \
 	ps2mouse.c
+
+midi_sources = \
+	midi.c
 
 cpucore_sources = \
 	6510core.c
@@ -383,7 +388,7 @@ x64_libs =  \
 	$(video_lib) \
 	$(common_libs)
 
-x64_SOURCES = $(base_sources) $(maincpu_sources) $(mouse_sources)
+x64_SOURCES = $(base_sources) $(maincpu_sources) $(mouse_sources) $(midi_sources)
 x64_LDADD = $(x64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
 x64_DEPENDENCIES = $(x64_libs)
 x64_LDFLAGS = @x64_LDFLAGS@
@@ -513,7 +518,7 @@ x128_libs =  \
 	$(video_lib) \
 	$(common_libs)
 
-x128_SOURCES = $(base_sources) $(mouse_sources)
+x128_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
 x128_LDADD = $(x128_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
 x128_DEPENDENCIES = $(x128_libs)
 x128_LDFLAGS = @x128_LDFLAGS@
@@ -575,7 +580,7 @@ xvic_libs =  \
 	$(video_lib) \
 	$(common_libs)
 
-xvic_SOURCES = $(base_sources) $(maincpu_sources) $(mouse_sources)
+xvic_SOURCES = $(base_sources) $(maincpu_sources) $(mouse_sources) $(midi_sources)
 xvic_LDADD = $(xvic_libs) $(emu_extlibs) @NETPLAY_LIBS@
 xvic_DEPENDENCIES = $(xvic_libs)
 xvic_LDFLAGS = @xvic_LDFLAGS@

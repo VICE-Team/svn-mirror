@@ -206,6 +206,10 @@ SOURCE="..\..\machine.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\midi.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\mouse.c"
 # End Source File
 # Begin Source File

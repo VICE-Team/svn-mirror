@@ -47,6 +47,7 @@
 #include "uijoystick2.h"
 #include "uikeyboard.h"
 #include "uimenu.h"
+#include "uimidi.h"
 #include "uimouse.h"
 #include "uiperipheraliec.h"
 #include "uiscreenshot.h"
@@ -258,6 +259,10 @@ static ui_menu_entry_t io_extensions_submenu[] = {
 #ifdef HAVE_MOUSE
     { N_("*Mouse Emulation"),
       NULL, NULL, mouse_submenu },
+#endif
+#ifdef HAVE_MIDI
+    { N_("MIDI Emulation"),
+      NULL, NULL, midi_c64_submenu },
 #endif
     { NULL }
 };

@@ -5244,8 +5244,47 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DIGIMAX_BASE_IT, "Indirizzo base della cartuccia digimax"},
 /* nl */ {IDCLS_DIGIMAX_BASE_NL, "Basisadres van de digimaxcartridge"},
 /* pl */ {IDCLS_DIGIMAX_BASE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DIGIMAX_BASE_SV, "Basadress för Digimax-cartridge"}
+/* sv */ {IDCLS_DIGIMAX_BASE_SV, "Basadress för Digimax-cartridge"},
 
+/* midi.c */
+/* en */ {IDCLS_ENABLE_MIDI_EMU,    "Enable MIDI emulation"},
+/* de */ {IDCLS_ENABLE_MIDI_EMU_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_MIDI_EMU_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_MIDI_EMU_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_MIDI_EMU_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_MIDI_EMU_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_MIDI_EMU_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_MIDI_EMU_SV, ""},  /* fuzzy */
+
+/* midi.c */
+/* en */ {IDCLS_DISABLE_MIDI_EMU,    "Disable MIDI emulation"},
+/* de */ {IDCLS_DISABLE_MIDI_EMU_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_MIDI_EMU_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_MIDI_EMU_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_MIDI_EMU_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_MIDI_EMU_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_MIDI_EMU_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_MIDI_EMU_SV, ""},  /* fuzzy */
+
+/* midi.c */
+/* en */ {IDCLS_SPECIFY_MIDI_TYPE,    "MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)"},
+/* de */ {IDCLS_SPECIFY_MIDI_TYPE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_MIDI_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_MIDI_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_MIDI_TYPE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_MIDI_TYPE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_MIDI_TYPE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_MIDI_TYPE_SV, ""},  /* fuzzy */
+
+/* midi.c */
+/* en */ {IDCLS_P_0_4,    "<0-4>"},
+/* de */ {IDCLS_P_0_4_DE, "<0-4>"},
+/* fr */ {IDCLS_P_0_4_FR, "<0-4>"},
+/* hu */ {IDCLS_P_0_4_HU, "<0-4>"},
+/* it */ {IDCLS_P_0_4_IT, "<0-4>"},
+/* nl */ {IDCLS_P_0_4_NL, "<0-4>"},
+/* pl */ {IDCLS_P_0_4_PL, "<0-4>"},
+/* sv */ {IDCLS_P_0_4_SV, "<0-4>"}
 };
 
 #include "translate_table.h"

@@ -1506,3 +1506,15 @@ IDCLS_ENABLE_HUMMERADC
 
 /* c64dtv/hummeradc.c */
 IDCLS_DISABLE_HUMMERADC
+
+/* midi.c */
+IDCLS_ENABLE_MIDI_EMU
+
+/* midi.c */
+IDCLS_DISABLE_MIDI_EMU
+
+/* midi.c */
+IDCLS_P_0_4
+
+/* midi.c */
+IDCLS_SPECIFY_MIDI_TYPE

@@ -54,6 +54,7 @@ libarch_a_SOURCES = \
 	joy.h \
 	joy_usb.c \
 	kbd.h \
+	mididrv.c \
 	mousedrv.c \
 	mousedrv.h \
 	openGL_sync.h \

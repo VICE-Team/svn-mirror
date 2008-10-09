@@ -146,6 +146,10 @@ SOURCE=.\kbd.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\mididrv.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\mousedrv.c
 # End Source File
 # Begin Source File
@@ -328,6 +332,10 @@ SOURCE=.\uilib.c
 # Begin Source File
 
 SOURCE=.\uimediafile.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\uimidi.c
 # End Source File
 # Begin Source File
 

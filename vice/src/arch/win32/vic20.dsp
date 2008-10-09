@@ -114,6 +114,10 @@ SOURCE="..\..\vic20\vic20-cmdline-options.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\vic20\vic20-midi.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\vic20\vic20-resources.c"
 # End Source File
 # Begin Source File

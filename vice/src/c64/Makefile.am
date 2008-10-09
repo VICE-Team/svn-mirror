@@ -14,6 +14,8 @@ noinst_LIBRARIES = libc64.a libc64c128.a libc64c64dtv.a
 libc64_a_SOURCES = \
 	c64-cmdline-options.c \
 	c64-cmdline-options.h \
+	c64-midi.c \
+	c64-midi.h \
 	c64-resources.c \
 	c64-resources.h \
 	c64-snapshot.c \
@@ -112,6 +114,8 @@ libc64c64dtv_a_SOURCES = \
 	patchrom.h
 
 libc64c128_a_SOURCES = \
+	c64-midi.c \
+	c64-midi.h \
 	c64acia.h \
 	c64acia1.c \
 	c64bus.c \

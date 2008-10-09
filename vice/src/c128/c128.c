@@ -43,6 +43,7 @@
 #include "c128memrom.h"
 #include "c128mmu.h"
 #include "c128ui.h"
+#include "c64-midi.h"
 #include "c64acia.h"
 #include "c64cia.h"
 #include "c64export.h"
@@ -405,6 +406,9 @@ int machine_resources_init(void)
         || drive_resources_init() < 0
         || datasette_resources_init() < 0
         || cartridge_resources_init() < 0
+#ifdef HAVE_MIDI
+        || c64_midi_resources_init() < 0
+#endif
         || mmu_resources_init() < 0
         || z80mem_resources_init() < 0
         || functionrom_resources_init() < 0)
@@ -427,6 +431,9 @@ void machine_resources_shutdown(void)
     printer_resources_shutdown();
     drive_resources_shutdown();
     cartridge_resources_shutdown();
+#ifdef HAVE_MIDI
+    midi_resources_shutdown();
+#endif
     functionrom_resources_shutdown();
 }
 
@@ -463,6 +470,9 @@ int machine_cmdline_options_init(void)
         || drive_cmdline_options_init() < 0
         || datasette_cmdline_options_init() < 0
         || cartridge_cmdline_options_init() < 0
+#ifdef HAVE_MIDI
+        || c64_midi_cmdline_options_init() < 0
+#endif
         || mmu_cmdline_options_init() < 0
         || functionrom_cmdline_options_init() < 0
         || z80mem_cmdline_options_init() < 0)
@@ -609,6 +619,10 @@ int machine_specific_init(void)
 
     cartridge_init();
 
+#ifdef HAVE_MIDI
+    midi_init();
+#endif
+
     mmu_init();
 
     machine_drive_stub();
@@ -644,6 +658,10 @@ void machine_specific_reset(void)
     georam_reset();
     ramcart_reset();
     mmc64_reset();
+
+#ifdef HAVE_MIDI
+    midi_reset();
+#endif
 
     z80mem_initialize();
     z80_reset();

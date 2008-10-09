@@ -67,6 +67,7 @@
 #include "via.h"
 #include "vic.h"
 #include "vic20-cmdline-options.h"
+#include "vic20-midi.h"
 #include "vic20-resources.h"
 #include "vic20-snapshot.h"
 #include "vic20.h"
@@ -234,7 +235,11 @@ int machine_resources_init(void)
 #endif
         || drive_resources_init() < 0
         || datasette_resources_init() < 0
-        || cartridge_resources_init() <0)
+        || cartridge_resources_init() <0
+#ifdef HAVE_MIDI
+        || vic20_midi_resources_init() <0
+#endif
+)
         return -1;
 
     return 0;
@@ -250,6 +255,9 @@ void machine_resources_shutdown(void)
     printer_resources_shutdown();
     drive_resources_shutdown();
     cartridge_resources_shutdown();
+#ifdef HAVE_MIDI
+    midi_resources_shutdown();
+#endif
 }
 
 /* VIC20-specific command-line option initialization.  */
@@ -271,7 +279,11 @@ int machine_cmdline_options_init(void)
 #endif
         || drive_cmdline_options_init() < 0
         || datasette_cmdline_options_init() < 0
-        || cartridge_cmdline_options_init() < 0)
+        || cartridge_cmdline_options_init() < 0
+#ifdef HAVE_MIDI
+        || vic20_midi_cmdline_options_init() < 0
+#endif
+)
         return -1;
 
     return 0;
@@ -386,6 +398,10 @@ int machine_specific_init(void)
 
     vic20iec_init();
 
+#ifdef HAVE_MIDI
+    midi_init();
+#endif
+
     machine_drive_stub();
 
     return 0;
@@ -407,6 +423,9 @@ void machine_specific_reset(void)
 
     rs232drv_reset();
     rsuser_reset();
+#ifdef HAVE_MIDI
+    midi_reset();
+#endif
 
     printer_reset();
     drive_reset();

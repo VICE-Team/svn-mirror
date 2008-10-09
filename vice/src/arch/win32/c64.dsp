@@ -86,6 +86,10 @@ SOURCE="..\..\c64\c64-cmdline-options.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\c64-midi.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\c64-resources.c"
 # End Source File
 # Begin Source File

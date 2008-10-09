@@ -28,6 +28,7 @@
 
 #include <string.h>
 
+#include "c64-midi.h"
 #include "c64-resources.h"
 #include "c64_256k.h"
 #include "c64acia.h"
@@ -108,6 +109,7 @@ static io_source_t io_source_table[] = {
     {IO_SOURCE_DIGIMAX, "DIGIMAX", IO_DETACH_RESOURCE, "DIGIMAX"},
     {IO_SOURCE_ACTION_REPLAY4, "ACTION REPLAY 4", IO_DETACH_CART, NULL},
     {IO_SOURCE_STARDOS, "STARDOS", IO_DETACH_CART, NULL},
+    {IO_SOURCE_MIDI, "MIDI", IO_DETACH_RESOURCE, "MIDIEnable"},
     {-1,NULL,0,NULL}
 };
 
@@ -139,8 +141,8 @@ static int get_io_source_index(int id)
   return 0;
 }
 
-#define MAX_IO1_RETURNS 8
-#define MAX_IO2_RETURNS 10
+#define MAX_IO1_RETURNS 9
+#define MAX_IO2_RETURNS 11
 
 #if MAX_IO1_RETURNS>MAX_IO2_RETURNS
 static int io_source_return[MAX_IO1_RETURNS];
@@ -302,6 +304,17 @@ BYTE REGPARM1 c64io1_read(WORD addr)
         io_source_counter++;
     }
 #endif
+#ifdef HAVE_MIDI
+    if (midi_enabled && c64_midi_base_de00())
+    {
+        if(midi_test_read((WORD)(addr & 0xff))) {
+            return_value = midi_read((WORD)(addr & 0xff));
+            io_source = IO_SOURCE_MIDI;
+            io_source_check(io_source_counter);
+        }
+        io_source_counter++;
+    }
+#endif
 
     if (returned == 0)
         return vicii_read_phi1();
@@ -361,6 +374,12 @@ void REGPARM2 c64io1_store(WORD addr, BYTE value)
         acia1_store((WORD)(addr & 0x07), value);
     }
 #endif
+#ifdef HAVE_MIDI
+    if (midi_enabled && c64_midi_base_de00()) {
+        midi_store((WORD)(addr & 0xff), value);
+    }
+#endif
+
     return;
 }
 
@@ -436,6 +455,18 @@ BYTE REGPARM1 c64io2_read(WORD addr)
         io_source_counter++;
     }
 
+#ifdef HAVE_MIDI
+    if (midi_enabled && !c64_midi_base_de00())
+    {
+        if(midi_test_read((WORD)(addr & 0xff))) {
+            return_value = midi_read((WORD)(addr & 0xff));
+            io_source = IO_SOURCE_MIDI;
+            io_source_check(io_source_counter);
+        }
+        io_source_counter++;
+    }
+#endif
+
     if (returned == 0)
         return vicii_read_phi1();
 
@@ -492,6 +523,13 @@ void REGPARM2 c64io2_store(WORD addr, BYTE value)
     if (mem_cartridge_type != CARTRIDGE_NONE) {
         cartridge_store_io2(addr, value);
     }
+
+#ifdef HAVE_MIDI
+    if (midi_enabled && !c64_midi_base_de00()) {
+        midi_store((WORD)(addr & 0xff), value);
+    }
+#endif
+
     return;
 }
 

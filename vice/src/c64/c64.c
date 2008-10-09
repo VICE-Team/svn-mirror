@@ -33,6 +33,7 @@
 
 #include "autostart.h"
 #include "c64-cmdline-options.h"
+#include "c64-midi.h"
 #include "c64-resources.h"
 #include "c64-snapshot.h"
 #include "c64.h"
@@ -277,6 +278,9 @@ int machine_resources_init(void)
         || drive_resources_init() < 0
         || datasette_resources_init() < 0
         || cartridge_resources_init() < 0
+#ifdef HAVE_MIDI
+        || c64_midi_resources_init() < 0
+#endif
         )
         return -1;
 
@@ -303,6 +307,9 @@ void machine_resources_shutdown(void)
     printer_resources_shutdown();
     drive_resources_shutdown();
     cartridge_resources_shutdown();
+#ifdef HAVE_MIDI
+    midi_resources_shutdown();
+#endif
 }
 
 /* C64-specific command-line option initialization.  */
@@ -350,6 +357,9 @@ int machine_cmdline_options_init(void)
         || drive_cmdline_options_init() < 0
         || datasette_cmdline_options_init() < 0
         || cartridge_cmdline_options_init() < 0
+#ifdef HAVE_MIDI
+        || c64_midi_cmdline_options_init() < 0
+#endif
         )
         return -1;
 
@@ -512,6 +522,9 @@ int machine_specific_init(void)
         c64fastiec_init();
 
         cartridge_init();
+#ifdef HAVE_MIDI
+        midi_init();
+#endif
     }
 
     machine_drive_stub();
@@ -559,6 +572,9 @@ void machine_specific_reset(void)
     plus256k_reset();
     c64_256k_reset();
     mmc64_reset();
+#ifdef HAVE_MIDI
+    midi_reset();
+#endif
 }
 
 void machine_specific_powerup(void)

@@ -44,6 +44,7 @@
 #define HAVE_TFE                1
 #define HAVE_FFMPEG             1
 #define HAVE_OPENCBM            1
+#define HAVE_MIDI               1
 #define HAVE_CRTDBG             1
 #define HAS_TRANSLATION         1
 #define HAVE_HTONL              1

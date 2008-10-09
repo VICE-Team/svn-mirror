@@ -121,7 +121,6 @@ int acia_d7_enabled;
 #endif
 #endif
 
-
 static int set_machine_type(int val, void *param)
 {
     unsigned int type = (unsigned int)val;
