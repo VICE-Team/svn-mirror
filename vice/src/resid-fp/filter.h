@@ -144,7 +144,7 @@ public:
 private:
   void set_Q();
   void set_w0();
-  float type3_w0(float source);
+  float type3_w0(const float source, const float offset);
   float type4_w0();
   void calculate_helpers();
   void nuke_denormals();
@@ -190,7 +190,8 @@ private:
   float Vhp, Vbp, Vlp;
 
   /* Resonance/Distortion/Type3/Type4 helpers. */
-  float type4_w0_cache, _1_div_Q, type3_fc_kink_exp, type3_fc_kink_distortion_offset, distortion_CT;
+  float type4_w0_cache, _1_div_Q, type3_fc_kink_exp, distortion_CT,
+        type3_fc_distortion_offset_bp, type3_fc_distortion_offset_hp;
 
 friend class SIDFP;
 };
@@ -235,7 +236,7 @@ static float fastexp(float val) {
 }
 
 RESID_INLINE
-float FilterFP::type3_w0(const float source)
+float FilterFP::type3_w0(const float source, const float distoffset)
 {
     /* The distortion appears to be the result of MOSFET entering saturation
      * mode. The conductance of a FET is proportional to:
@@ -268,8 +269,8 @@ float FilterFP::type3_w0(const float source)
      * match levels is 1/256. */
 
     float fetresistance = type3_fc_kink_exp;
-    if (source > type3_fc_kink_distortion_offset) {
-        const float dist = source - type3_fc_kink_distortion_offset;
+    if (source > distoffset) {
+        const float dist = source - distoffset;
         fetresistance *= fastexp(dist * type3_steepness * distortion_rate);
     }
     const float dynamic_resistance = type3_minimumfetresistance + fetresistance;
@@ -311,7 +312,7 @@ float FilterFP::clock(float voice1,
     ((filt & 8) ? Vi : Vnf) += ext_in;
   
     if (! enabled)
-        return Vnf - Vi;
+        return (Vnf - Vi) * volf;
 
     if (hp_bp_lp & 1)
         Vf += Vlp;
@@ -321,8 +322,6 @@ float FilterFP::clock(float voice1,
         Vf += Vhp;
     
     if (model == MOS6581FP) {
-        float diff;
-
         /* -3 dB level correction for more resistance through filter path */
 	Vhp = Vbp * _1_div_Q - Vlp - Vi * 0.5f;
 
@@ -336,15 +335,9 @@ float FilterFP::clock(float voice1,
 	if (hp_bp_lp & 4)
 	    Vhp += (Vf + Vnf - Vhp) * (distortion_cf_threshold);
        
-        /* Mixing through the FC control resistors? Need something like this,
-         * don't know exactly why. :-( */ 
-        diff = (Vhp - Vbp) * (distortion_cf_threshold * 2.f);
-        Vhp -= diff;
-        Vbp += diff;
-
 	/* Simulating the exponential VCR that the FET block is... */
-	Vlp -= Vbp * type3_w0(Vbp);
-	Vbp -= Vhp * type3_w0(Vhp);
+	Vlp -= Vbp * type3_w0(Vbp, type3_fc_distortion_offset_bp);
+	Vbp -= Vhp * type3_w0(Vhp, type3_fc_distortion_offset_hp);
 
         Vf += Vnf + Vlp * 0.41f;
 

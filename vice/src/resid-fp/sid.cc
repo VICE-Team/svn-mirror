@@ -28,7 +28,9 @@ enum host_cpu_feature {
     HOST_CPU_MMX=1, HOST_CPU_SSE=2, HOST_CPU_SSE2=4, HOST_CPU_SSE3=8
 };
 
-#if defined(__x86_64__) || defined(__i386__)
+/* This code is appropriate for 32-bit and 64-bit x86 CPUs. */
+#if defined(__x86_64__) || defined(__i386__) || defined(_MSC_VER)
+
 struct cpu_x86_regs_s {
   unsigned int eax;
   unsigned int ebx;
@@ -41,6 +43,16 @@ static cpu_x86_regs_t get_cpuid_regs(unsigned int index)
 {
   cpu_x86_regs_t retval;
 
+#if defined(_MSC_VER) /* MSVC assembly */
+  __asm {
+    mov eax, [index]
+    cpuid
+    mov [retval.eax], eax
+    mov [retval.ebx], ebx
+    mov [retval.ecx], ecx
+    mov [retval.edx], edx
+  }
+#else /* GNU assembly */
   asm("movl %4, %%eax; cpuid; movl %%eax, %0; movl %%ebx, %1; movl %%ecx, %2; movl %%edx, %3;"
       : "=m" (retval.eax),
         "=m" (retval.ebx),
@@ -48,6 +60,7 @@ static cpu_x86_regs_t get_cpuid_regs(unsigned int index)
         "=m" (retval.edx)
       : "r"  (index)
       : "eax", "ebx", "ecx", "edx");
+#endif
 
   return retval;
 }
@@ -73,7 +86,8 @@ static int host_cpu_features(void)
 {
   static int features = 0;
   static int features_detected = 0;
-#ifdef __i386__
+/* 32-bit only */
+#if defined(__i386__) || (defined(_MSC_VER) && defined(_WIN32))
   unsigned long temp1, temp2;
 #endif
 
@@ -81,14 +95,30 @@ static int host_cpu_features(void)
     return features;
   features_detected = 1;
 
-#ifdef __i386__
+#if defined(_MSC_VER) && defined(_WIN32) /* MSVC compatible assembly appropriate for 32-bit Windows */
   /* see if we are dealing with a cpu that has the cpuid instruction */
+  __asm {
+    pushf
+    pop eax
+    mov [temp1], eax
+    xor eax, 0x200000
+    push eax
+    popf
+    pushf
+    pop eax
+    mov [temp2], eax
+    push [temp1]
+    popf
+  }
+#endif
+#if defined(__i386__) /* GNU assembly */
   asm("pushfl; popl %%eax; movl %%eax, %0; xorl $0x200000, %%eax; pushl %%eax; popfl; pushfl; popl %%eax; movl %%eax, %1; pushl %0; popfl "
       : "=r" (temp1),
       "=r" (temp2)
       :
       : "eax");
-
+#endif
+#if defined(__i386__) || (defined(_MSC_VER) && defined(_WIN32))
   temp1 &= 0x200000;
   temp2 &= 0x200000;
   if (temp1 == temp2) {
@@ -107,7 +137,7 @@ static int host_cpu_features(void)
   return features;
 }
 
-#else /* !__x86_64__ && !__i386__ */
+#else /* !__x86_64__ && !__i386__ && !_MSC_VER */
 static int host_cpu_features(void)
 {
   return 0;
