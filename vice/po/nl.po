@@ -1522,10 +1522,7 @@ msgstr "Geef de naam van het logbestand"
 
 #: src/monitor/mon_command.c:54
 msgid "Available commands are:"
-msgstr ""
-"\n"
-"Beschikbare commandos zijn:\n"
-"\n"
+msgstr "Beschikbare commandos zijn:"
 
 #: src/monitor/mon_command.c:56
 msgid "Machine state commands:"
@@ -1543,7 +1540,7 @@ msgid ""
 msgstr ""
 "Als de banknaam niet is opgegeven worden de mogelijke banken voor de\n"
 "geheugenruimte weergegeven. Als de banknaam is opgegeven dan wordt de\n"
-"huidige bank in de geheugenruimte gezet volgens de opgegeven banknaam.\n"
+"huidige bank in de geheugenruimte gezet volgens de opgegeven banknaam."
 
 #: src/monitor/mon_command.c:66
 msgid ""
