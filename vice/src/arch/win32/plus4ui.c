@@ -116,6 +116,7 @@ static uikeyboard_config_t uikeyboard_config =
 ui_menu_translation_table_t plus4ui_menu_translation_table[] = {
     { IDM_EXIT, IDS_MI_EXIT },
     { IDM_ABOUT, IDS_MI_ABOUT },
+    { IDM_HELP, IDS_MP_HELP },
     { IDM_PAUSE, IDS_MI_PAUSE },
     { IDM_EDIT_COPY, IDS_MI_EDIT_COPY },
     { IDM_EDIT_PASTE, IDS_MI_EDIT_PASTE },

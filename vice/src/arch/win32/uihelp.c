@@ -36,6 +36,7 @@
 #include "info.h"
 #include "intl.h"
 #include "lib.h"
+#include "machine.h"
 #include "res.h"
 #include "system.h"
 #include "translate.h"
@@ -81,15 +82,44 @@ void uihelp_dialog(HWND hwnd, WPARAM wparam)
     char *fname;
     char *dname;
 
+    STARTUPINFOW si;
+    PROCESS_INFORMATION pi;
+    memset(&si, 0, sizeof(si));
+    memset(&pi, 0, sizeof(pi));
+    si.cb = sizeof(si);
+
     switch (wparam) {
       case IDM_ABOUT:
         DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_ABOUT), hwnd,
                   (DLGPROC)about_dialog_proc);
         break;
       case IDM_HELP:
-        fname = util_concat(archdep_boot_path(), "\\DOC\\vice_toc.html", NULL);
+        switch (machine_class)
+        {
+            case VICE_MACHINE_C128:
+                fname = util_concat(archdep_boot_path(), "\\DOC\\x128.chm", NULL);
+                break;
+            case VICE_MACHINE_VIC20:
+                fname = util_concat(archdep_boot_path(), "\\DOC\\xvic.chm", NULL);
+                break;
+            case VICE_MACHINE_PET:
+                fname = util_concat(archdep_boot_path(), "\\DOC\\xpet.chm", NULL);
+                break;
+            case VICE_MACHINE_CBM2:
+                fname = util_concat(archdep_boot_path(), "\\DOC\\xcbm2.chm", NULL);
+                break;
+            case VICE_MACHINE_PLUS4:
+                fname = util_concat(archdep_boot_path(), "\\DOC\\xplus4.chm", NULL);
+                break;
+            case VICE_MACHINE_C64DTV:
+                fname = util_concat(archdep_boot_path(), "\\DOC\\x64dtv.chm", NULL);
+                break;
+            default:
+                fname = util_concat(archdep_boot_path(), "\\DOC\\x64.chm", NULL);
+                break;
+        }
         dname = util_concat(archdep_boot_path(), "\\DOC", NULL);
-        ShellExecute(hwnd, "open", fname, NULL, dname, 0);
+        ShellExecute(NULL, "open", fname, NULL, dname, SW_SHOWNORMAL);
         lib_free(fname);
         lib_free(dname);
         break;

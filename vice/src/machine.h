@@ -43,7 +43,7 @@ extern const char machine_name[];
 #define VICE_MACHINE_PET       4
 #define VICE_MACHINE_CBM2      5
 #define VICE_MACHINE_PLUS4     6
-#define VICE_MACHINE_C64DTV    99
+#define VICE_MACHINE_C64DTV    7
 
 /* Sync factors.  */
 #define MACHINE_SYNC_PAL     -1
