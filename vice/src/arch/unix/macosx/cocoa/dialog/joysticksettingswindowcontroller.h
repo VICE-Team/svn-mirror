@@ -29,6 +29,10 @@
 #import "viceresourcewindowcontroller.h"
 #import "keypressview.h"
 
+#define JOY_INTERNAL
+#include "config.h"
+#include "joy.h"
+
 enum {
     KEYSET_NORTH=0,
     KEYSET_SOUTH=1,
@@ -47,38 +51,65 @@ enum {
     IBOutlet NSPopUpButton *joystick1Mode;
     IBOutlet NSPopUpButton *joystick2Mode;
 
+    // Keyset Definition
+    IBOutlet NSPopUpButton *keySetSelect;
     IBOutlet KeyPressView *keyPressView;
+    IBOutlet NSButton *keySetNorth;
+    IBOutlet NSButton *keySetSouth;
+    IBOutlet NSButton *keySetWest;
+    IBOutlet NSButton *keySetEast;
+    IBOutlet NSButton *keySetNorthWest;
+    IBOutlet NSButton *keySetNorthEast;
+    IBOutlet NSButton *keySetSouthWest;
+    IBOutlet NSButton *keySetSouthEast;
+    IBOutlet NSButton *keySetFire;
+
+    // HID Device
+    IBOutlet NSPopUpButton *hidDeviceSelect;
+    IBOutlet NSPopUpButton *hidName;
+    IBOutlet NSButton      *hitRefresh;
+
+    IBOutlet NSPopUpButton *hidXAxis;
+    IBOutlet NSButton      *hidXDetect;
+    IBOutlet NSTextField   *hidXThreshold;
     
-    IBOutlet NSButton *buttonANorth;
-    IBOutlet NSButton *buttonASouth;
-    IBOutlet NSButton *buttonAWest;
-    IBOutlet NSButton *buttonAEast;
-    IBOutlet NSButton *buttonANorthWest;
-    IBOutlet NSButton *buttonANorthEast;
-    IBOutlet NSButton *buttonASouthWest;
-    IBOutlet NSButton *buttonASouthEast;
-    IBOutlet NSButton *buttonAFire;
+    IBOutlet NSPopUpButton *hidYAxis;
+    IBOutlet NSButton      *hidYDetect;
+    IBOutlet NSTextField   *hidYThreshold;
+    
+    IBOutlet NSButton      *hidNorth;
+    IBOutlet NSButton      *hidSouth;
+    IBOutlet NSButton      *hidWest;
+    IBOutlet NSButton      *hidEast;
+    IBOutlet NSButton      *hidFire;
+    IBOutlet NSButton      *hidAltFire;
 
-    IBOutlet NSButton *buttonBNorth;
-    IBOutlet NSButton *buttonBSouth;
-    IBOutlet NSButton *buttonBWest;
-    IBOutlet NSButton *buttonBEast;
-    IBOutlet NSButton *buttonBNorthWest;
-    IBOutlet NSButton *buttonBNorthEast;
-    IBOutlet NSButton *buttonBSouthWest;
-    IBOutlet NSButton *buttonBSouthEast;
-    IBOutlet NSButton *buttonBFire;
-
-    NSButton *buttonsA[KEYSET_SIZE];
-    NSButton *buttonsB[KEYSET_SIZE];
+    // Keep an array of buttons
+    NSButton *keyButtons[KEYSET_SIZE];
+    NSButton *hidButtons[HID_NUM_BUTTONS];
 }
 
 -(void)updateResources:(NSNotification *)notification;
 
 -(IBAction)changeJoystick1Mode:(id)sender;
 -(IBAction)changeJoystick2Mode:(id)sender;
--(IBAction)defineKeysetAButton:(id)sender;
--(IBAction)defineKeysetBButton:(id)sender;
+
+// Keyset Actions
+// for all buttons:
+-(IBAction)toggleKeyset:(id)sender;
+-(IBAction)defineKeysetButton:(id)sender;
+
+// HID Actions
+-(IBAction)toggleHidDevice:(id)sender;
+-(IBAction)pickHidName:(id)sender;
+-(IBAction)refreshHidList:(id)sender;
+-(IBAction)pickXAxis:(id)sender;
+-(IBAction)detectXAxis:(id)sender;
+-(IBAction)setXThreshold:(id)sender;
+-(IBAction)pickYAxis:(id)sender;
+-(IBAction)detectYAxis:(id)sender;
+-(IBAction)setYThreshold:(id)sender;
+-(IBAction)defineHidButton:(id)sender;
 
 @end
 

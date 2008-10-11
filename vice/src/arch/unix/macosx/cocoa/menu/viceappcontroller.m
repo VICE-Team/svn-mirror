@@ -408,10 +408,12 @@
 
 - (IBAction)showJoystickSettings:(id)sender
 {
+#ifdef HAS_JOYSTICK
     if(!joystickSettingsController) {
         joystickSettingsController = [[JoystickSettingsWindowController alloc] init];
     }
     [joystickSettingsController showWindow:self];
+#endif
 }
 
 - (IBAction)showSoundSettings:(id)sender

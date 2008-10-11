@@ -20,7 +20,7 @@ INCLUDES = \
 noinst_LIBRARIES = libarchmacosx.a
 
 libarchmacosx_a_SOURCES = \
-	joy.c
+	joy.c \
 	joy.h
 
 EXTRA_DIST = \

@@ -40,7 +40,7 @@
 - (id)initWithContentRect:(NSRect)rect title:(NSString *)title;
 - (void)appendText:(NSString*)text;
 - (NSString *)readline:(NSString *)prompt;
-- (FILE *)fileForWriting;
+- (int)fdForWriting;
 - (void)flushBuffer;
 @end
 

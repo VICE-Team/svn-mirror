@@ -283,10 +283,13 @@ char *archdep_default_save_resource_file_name(void)
 }
 
 #if defined(MACOSX_COCOA)
-FILE *default_log_file = NULL;
+int default_log_fd = 0;
 FILE *archdep_open_default_log_file(void)
 {
-    return default_log_file;
+    int newFd = dup(default_log_fd);
+    FILE *file = fdopen(newFd,"w");
+    setlinebuf(file);
+    return file;
 }
 #else
 FILE *archdep_open_default_log_file(void)

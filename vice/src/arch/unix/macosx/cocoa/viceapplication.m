@@ -33,7 +33,7 @@
 #import "consolewindow.h"
 
 // from archdep.c:
-extern FILE *default_log_file;
+extern int default_log_fd;
 
 @implementation VICEApplication
 
@@ -68,7 +68,7 @@ extern FILE *default_log_file;
                        title:[NSString stringWithCString:_("VICE: Console")]];
     
     // set as new default console
-    default_log_file = [consoleWindow fileForWriting];
+    default_log_fd = [consoleWindow fdForWriting];
 
     // create connection with 2 ports
     NSPort *port1 = [NSPort port];

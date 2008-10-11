@@ -157,7 +157,7 @@
     [[notification object] readInBackgroundAndNotify];
 }
 
-- (FILE *)fileForWriting
+- (int)fdForWriting
 {
     // cleate a pipe
     log_pipe = [[NSPipe alloc] init];
@@ -169,12 +169,8 @@
              object:fh];
     [fh readInBackgroundAndNotify];
 
-    // redirect default log file to console
-    int oldFd = [[log_pipe fileHandleForWriting] fileDescriptor];
-    int newFd = dup(oldFd);
-    FILE *file = fdopen(newFd,"w");
-    setlinebuf(file);
-    return file;
+    // return file descriptor for console writing 
+    return [[log_pipe fileHandleForWriting] fileDescriptor];
 }
 
 @end

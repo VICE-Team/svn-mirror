@@ -35,9 +35,29 @@
 				<string>id</string>
 				<key>changeJoystick2Mode</key>
 				<string>id</string>
-				<key>defineKeysetAButton</key>
+				<key>defineHidButton</key>
 				<string>id</string>
-				<key>defineKeysetBButton</key>
+				<key>defineKeysetButton</key>
+				<string>id</string>
+				<key>detectXAxis</key>
+				<string>id</string>
+				<key>detectYAxis</key>
+				<string>id</string>
+				<key>pickHidName</key>
+				<string>id</string>
+				<key>pickXAxis</key>
+				<string>id</string>
+				<key>pickYAxis</key>
+				<string>id</string>
+				<key>refreshHidList</key>
+				<string>id</string>
+				<key>setXThreshold</key>
+				<string>id</string>
+				<key>setYThreshold</key>
+				<string>id</string>
+				<key>toggleHidDevice</key>
+				<string>id</string>
+				<key>toggleKeyset</key>
 				<string>id</string>
 			</dict>
 			<key>CLASS</key>
@@ -46,41 +66,35 @@
 			<string>ObjC</string>
 			<key>OUTLETS</key>
 			<dict>
-				<key>buttonAEast</key>
+				<key>hidAltFire</key>
 				<string>NSButton</string>
-				<key>buttonAFire</key>
+				<key>hidDeviceSelect</key>
+				<string>NSPopUpButton</string>
+				<key>hidEast</key>
 				<string>NSButton</string>
-				<key>buttonANorth</key>
+				<key>hidFire</key>
 				<string>NSButton</string>
-				<key>buttonANorthEast</key>
+				<key>hidName</key>
+				<string>NSPopUpButton</string>
+				<key>hidNorth</key>
 				<string>NSButton</string>
-				<key>buttonANorthWest</key>
+				<key>hidSouth</key>
 				<string>NSButton</string>
-				<key>buttonASouth</key>
+				<key>hidWest</key>
 				<string>NSButton</string>
-				<key>buttonASouthEast</key>
+				<key>hidXAxis</key>
+				<string>NSPopUpButton</string>
+				<key>hidXDetect</key>
 				<string>NSButton</string>
-				<key>buttonASouthWest</key>
+				<key>hidXThreshold</key>
+				<string>NSTextField</string>
+				<key>hidYAxis</key>
+				<string>NSPopUpButton</string>
+				<key>hidYDetect</key>
 				<string>NSButton</string>
-				<key>buttonAWest</key>
-				<string>NSButton</string>
-				<key>buttonBEast</key>
-				<string>NSButton</string>
-				<key>buttonBFire</key>
-				<string>NSButton</string>
-				<key>buttonBNorth</key>
-				<string>NSButton</string>
-				<key>buttonBNorthEast</key>
-				<string>NSButton</string>
-				<key>buttonBNorthWest</key>
-				<string>NSButton</string>
-				<key>buttonBSouth</key>
-				<string>NSButton</string>
-				<key>buttonBSouthEast</key>
-				<string>NSButton</string>
-				<key>buttonBSouthWest</key>
-				<string>NSButton</string>
-				<key>buttonBWest</key>
+				<key>hidYThreshold</key>
+				<string>NSTextField</string>
+				<key>hitRefresh</key>
 				<string>NSButton</string>
 				<key>joystick1Mode</key>
 				<string>NSPopUpButton</string>
@@ -88,6 +102,26 @@
 				<string>NSPopUpButton</string>
 				<key>keyPressView</key>
 				<string>KeyPressView</string>
+				<key>keySetEast</key>
+				<string>NSButton</string>
+				<key>keySetFire</key>
+				<string>NSButton</string>
+				<key>keySetNorth</key>
+				<string>NSButton</string>
+				<key>keySetNorthEast</key>
+				<string>NSButton</string>
+				<key>keySetNorthWest</key>
+				<string>NSButton</string>
+				<key>keySetSelect</key>
+				<string>NSPopUpButton</string>
+				<key>keySetSouth</key>
+				<string>NSButton</string>
+				<key>keySetSouthEast</key>
+				<string>NSButton</string>
+				<key>keySetSouthWest</key>
+				<string>NSButton</string>
+				<key>keySetWest</key>
+				<string>NSButton</string>
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>VICEResourceWindowController</string>
