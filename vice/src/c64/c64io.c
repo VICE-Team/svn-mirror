@@ -79,6 +79,7 @@ static void io_source_detach(int detach_id, char *resource_name)
         resources_set_int(resource_name, 0);
         break;
     }
+    ui_update_menus();
 }
 
 static io_source_t io_source_table[] = {
