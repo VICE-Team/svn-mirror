@@ -2178,7 +2178,7 @@ char *ui_select_file(const char *title,
 	    GTK_FILE_CHOOSER(file_selector));
 	*button_return = UI_BUTTON_OK;
 	break;
-    case GTK_RESPONSE_APPLY:
+    case GTK_RESPONSE_NO:
 	filename = gtk_file_chooser_get_filename(
 	    GTK_FILE_CHOOSER(file_selector));
 	*button_return = UI_BUTTON_AUTOSTART;
@@ -2545,7 +2545,7 @@ static GtkWidget *build_file_selector(const char *title,
     
     if (allow_autostart)
 	auto_start_button = gtk_dialog_add_button(
-	    GTK_DIALOG(fileselect), _("Autostart"), GTK_RESPONSE_APPLY);
+	    GTK_DIALOG(fileselect), _("Autostart"), GTK_RESPONSE_NO);
     
     last_file_selection = fileselect;
     return fileselect;

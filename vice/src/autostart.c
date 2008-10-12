@@ -416,8 +416,10 @@ static void advance_loadingtape(void)
 {
     switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
       case YES:
-        log_message(autostart_log, "Starting program.");
-        kbdbuf_feed(AutostartRunCommand);
+        if (autostart_run_mode == AUTOSTART_MODE_RUN) {
+            log_message(autostart_log, "Starting program.");
+            kbdbuf_feed(AutostartRunCommand);
+        }
         autostartmode = AUTOSTART_DONE;
         break;
       case NO:

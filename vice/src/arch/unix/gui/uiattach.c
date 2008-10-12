@@ -270,7 +270,6 @@ static UI_CALLBACK(smart_attach)
 {
     char *filename;
     ui_button_t button;
-    int is_unknown_image;
     int do_free_dir;
     char *dir;
 
@@ -292,13 +291,10 @@ static UI_CALLBACK(smart_attach)
 
     switch (button) {
       case UI_BUTTON_OK:
-        is_unknown_image = 0;
         if (file_system_attach_disk(8, filename) < 0
-            && tape_image_attach(1, filename) < 0) {
-            is_unknown_image = 1;
-        }
-        if (is_unknown_image &&
-            autostart_prg(filename, AUTOSTART_MODE_RUN) != 0) {
+            && tape_image_attach(1, filename) < 0
+            && autostart_snapshot(filename, NULL) < 0
+            && autostart_prg(filename, AUTOSTART_MODE_LOAD) < 0) {
             ui_error(_("Unknown image type"));
         }
         if (smart_attach_last_dir)
