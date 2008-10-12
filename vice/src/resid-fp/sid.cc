@@ -252,7 +252,7 @@ void SIDFP::input(int sample)
 float SIDFP::output()
 {
   const float range = 1 << 15;
-  return extfilt.output() / (4095.f * 255.f * 3.f / range);
+  return extfilt.output() / (4095.f * 255.f * 3.f * 1.5f / range);
 }
 
 // ----------------------------------------------------------------------------
