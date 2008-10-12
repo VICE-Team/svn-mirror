@@ -53,6 +53,19 @@
 			<key>Sectors</key>
 			<string>IDE64Sectors,i</string>
 		</dict>
+		<key>MIDI</key>
+		<dict>
+			<key>Enable</key>
+			<string>MIDIEnable,b</string>
+			<key>Name Client</key>
+			<string>MIDIName,s</string>
+			<key>Name Port In</key>
+			<string>MIDIInName,s</string>
+			<key>Name Port Out</key>
+			<string>MIDIOutName,s</string>
+			<key>Type</key>
+			<string>MIDIMode,e,Sequential,Passport,DATEL,Namesoft,Maplin</string>
+		</dict>
 		<key>MMC64</key>
 		<dict>
 			<key>BIOS File</key>

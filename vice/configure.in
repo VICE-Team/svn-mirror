@@ -1353,6 +1353,8 @@ if [[ x"$is_riscos" = "xyes" ]]; then
 fi
 
 if [[ x"$is_unix_macosx" = "xyes" ]]; then
+
+dnl --- check for CoreAudio ---
 AC_CHECK_HEADER(CoreAudio/CoreAudio.h,,)
 if test x"$ac_cv_header_CoreAudio_CoreAudio_h" = "xyes" ; then
   AC_CHECK_HEADER(AudioToolbox/AudioToolbox.h,,)
@@ -1370,6 +1372,18 @@ if test x"$ac_cv_header_CoreAudio_CoreAudio_h" = "xyes" ; then
     LIBS=${old_LIBS}
   fi
 fi
+
+dnl --- check for CoreMIDI ---
+AC_MSG_CHECKING(whether we can link the CoreMIDI framework)
+old_LIBS="${LIBS}"
+LIBS="$LIBS -framework CoreMidi -framework CoreServices"
+AC_TRY_LINK([#include <CoreMIDI/MIDIServices.h>],
+            [MIDIGetNumberOfDevices()],
+            [AC_MSG_RESULT(yes);
+             AC_DEFINE(HAVE_MIDI,,[Enable MIDI emulation.])],
+            [AC_MSG_RESULT(no);
+             LIBS=${old_LIBS}])
+
 fi
 
 AC_SUBST(SOUND_DRIVERS)
