@@ -114,7 +114,7 @@ static APTR build_gui(void)
     CYCLE(ui_to_from[6].object, translate_text(IDS_EXTERNAL_PALETTE), ui_external_palette_enable)
     FILENAME(ui_to_from[7].object, translate_text(IDS_VICII_PALETTE_FILENAME), browse_button1)
     STRING(ui_to_from[8].object, translate_text(IDS_SATURATION_0_2), ".0123456789", 5+1)
-    STRING(ui_to_from[9.object, translate_text(IDS_CONTRAST_0_2), ".0123456789", 5+1)
+    STRING(ui_to_from[9].object, translate_text(IDS_CONTRAST_0_2), ".0123456789", 5+1)
     STRING(ui_to_from[10].object, translate_text(IDS_BRIGHTNESS_0_2), ".0123456789", 5+1)
     FILENAME(ui_to_from[11].object, translate_text(IDS_VDC_PALETTE_FILENAME), browse_button2)
     OK_CANCEL_BUTTON

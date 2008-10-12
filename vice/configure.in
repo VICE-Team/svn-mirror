@@ -195,6 +195,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
   AC_DEFINE(AMIGA_SUPPORT,,[Should we enable Amigaos support.])
 
   is_amigaos4=yes
+  is_amigaos3=no
   is_amiga_aros=no
 
   if test x"$host_os" = "xmorphos"; then
@@ -232,6 +233,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     with_png=no
     with_zlib=no
     is_amigaos4=no
+    is_amigaos3=yes
   fi
 
   if test x"$host_os" = "xwarpos"; then
@@ -725,12 +727,14 @@ else
     RESID_INCLUDES="-I\$(top_builddir)/src/resid"
     RESID_DEP=libresid
 
-    AC_DEFINE(HAVE_RESID_FP,,[This version provides ReSID_FP support.])
-    AC_CONFIG_SUBDIRS(src/resid-fp)
-    RESID_FP_DIR=resid-fp
-    RESID_FP_LIBS="\$(top_builddir)/src/resid-fp/libresidfp.a"
-    RESID_FP_INCLUDES="-I\$(top_builddir)/src/resid-fp"
-    RESID_FP_DEP=libresidfp
+    if test x"$host_os" != "xamigaos" -o x"$host_cpu" != "xm68k"; then
+      AC_DEFINE(HAVE_RESID_FP,,[This version provides ReSID_FP support.])
+      AC_CONFIG_SUBDIRS(src/resid-fp)
+      RESID_FP_DIR=resid-fp
+      RESID_FP_LIBS="\$(top_builddir)/src/resid-fp/libresidfp.a"
+      RESID_FP_INCLUDES="-I\$(top_builddir)/src/resid-fp"
+      RESID_FP_DEP=libresidfp
+    fi
   else
     dnl reSID is installed elsewhere, no need to configure.
     no_recursion=yes
@@ -764,7 +768,11 @@ AC_SUBST(RESID_LIBS)
 AC_SUBST(RESID_INCLUDES)
 AC_SUBST(RESID_DEP)
 
-AM_CONDITIONAL(HAVE_RESID_FP, test x"$with_resid" != "xno")
+if test x"$host_os" = "xamigaos" -a x"$host_cpu" = "xm68k"; then
+  AM_CONDITIONAL(HAVE_RESID_FP, false)
+else
+  AM_CONDITIONAL(HAVE_RESID_FP, test x"$with_resid" != "xno")
+fi
 
 AC_SUBST(RESID_FP_DIR)
 AC_SUBST(RESID_FP_LIBS)
