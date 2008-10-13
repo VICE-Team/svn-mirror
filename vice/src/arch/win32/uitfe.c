@@ -201,7 +201,7 @@ static void init_tfe_dialog(HWND hwnd)
             "TFE/RR-Net support is not available on your system,\n"
             "there is some important part missing. Please have a\n"
             "look at the VICE knowledge base support page\n"
-            "\n      http://www.vicekb.de.vu/13-005.htm\n\n"
+            "\n      http://vicekb.trikaliotis.net/13-005\n\n"
             "for possible reasons and to activate networking with VICE.",
             "TFE/RR-Net support", MB_ICONINFORMATION|MB_OK);
 
