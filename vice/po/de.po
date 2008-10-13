@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-11 21:34+0200\n"
-"PO-Revision-Date: 2008-09-30 23:07+0200\n"
+"PO-Revision-Date: 2008-10-13 21:54+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -895,9 +895,8 @@ msgid "Enable DTV dma logs."
 msgstr "DTV dma Log aktivieren."
 
 #: src/c64dtv/c64dtvdma.c:446
-#, fuzzy
 msgid "Disable DTV dma logs."
-msgstr "DTV dma Log aktivieren."
+msgstr "DTV dma Logs deaktivieren."
 
 #: src/c64dtv/c64dtvflash.c:266 src/translate.c.po.c:626
 msgid "No filename!"
@@ -958,9 +957,8 @@ msgid "Enable true hardware flash file system"
 msgstr "Präzises Hardware Flashdateisystem aktivieren"
 
 #: src/c64dtv/flash-trap.c:340 src/translate.c.po.c:5129
-#, fuzzy
 msgid "Disable true hardware flash file system"
-msgstr "Hardwareunterstützung für Skalierung deaktivieren"
+msgstr "Präzises Hardware Flashdateisystem deaktivieren"
 
 #: src/c64/digimax.c:67 src/translate.c.po.c:616
 msgid ""
@@ -1511,26 +1509,20 @@ msgid "<string>"
 msgstr "<String>"
 
 #: src/kbdbuf.c:136 src/monitor/mon_command.c:434 src/translate.c.po.c:4519
-#, fuzzy
 msgid "Put the specified string into the keyboard buffer."
-msgstr "Definierte Eingabe in Tastaturpuffer bereitstellen"
+msgstr "Definierte Eingabe in Tastaturpuffer bereitstellen."
 
 #: src/log.c:110 src/translate.c.po.c:4529
 msgid "Specify log file name"
 msgstr "Logdateiname definieren"
 
 #: src/monitor/mon_command.c:54
-#, fuzzy
 msgid "Available commands are:"
-msgstr ""
-"\n"
-"Zulässige Kommandozeilen Optionen:\n"
-"\n"
+msgstr "Zulässige Kommandos sind:"
 
 #: src/monitor/mon_command.c:56
-#, fuzzy
 msgid "Machine state commands:"
-msgstr "Snapshot Kommandos"
+msgstr "Maschinen Zustandskommandos:"
 
 #: src/monitor/mon_command.c:59
 msgid "[<memspace>] [bankname]"
@@ -1953,6 +1945,9 @@ msgid ""
 "is hit.  Note that the `x' command is not yet supported as a\n"
 "command argument."
 msgstr ""
+"Definiere `Kommando', welches bei Checkpoint `Checknum' ausgeführt wird.\n"
+"Achtung Kommando `x' wird zurzeit noch nicht als Kommando Argument\n"
+"unterstützt."
 
 #: src/monitor/mon_command.c:276
 msgid "<checknum> if <cond_expr>"
@@ -1971,6 +1966,15 @@ msgid ""
 "a memspace prefix (i.e., c:, 8:, 9:, 10:, 11:\n"
 "Examples: .A == 0, .X == .Y, 8:.X == .X\n"
 msgstr ""
+"Bei jeder Überprüfung des Checkpoints, wird die Bedingung evaluiert.\n"
+"Ist das Ergebnis `Wahr', wird der Checkpoint aktiviert, sonst ingnoriert.\n"
+"Wenn Register benutzt werden, werden deren Werte zum Zeitpunkt der \n"
+"Überprüfung herangezogen.\n"
+"Die Bedingung kann Register benutzen (.A, .X, .Y, .PC, .SP) und gegen \n"
+"Register oder Konstanten vergleichen (==, !=, <, >, <=, >=).\n"
+"Register können auch Geräteregister sein; dazu wird die memspace Prefix-syntax \n"
+"verwendet: c:, 8:, 9:, 10:, 11:\n"
+"Beispiel: .A == 0, .X == .Y, 8:.X == .X\n"
 
 #: src/monitor/mon_command.c:290
 msgid "Disable checkpoint `checknum'."
@@ -1989,6 +1993,8 @@ msgid ""
 "Ignore a checkpoint a given number of crossings.  If no count is given,\n"
 "the default value is 1."
 msgstr ""
+"Ignoriere den Checkpoint für die angegebene Anzahl an Aktivierungen.\n"
+"Wenn kein `Zähler' angegeben wurde, wird der Standardwert 1 verwendet."
 
 #: src/monitor/mon_command.c:302
 msgid "[<address>]"
@@ -2001,6 +2007,11 @@ msgid ""
 "and the breakpoint number is printed.  Control is returned to the\n"
 "emulator by this command.  The breakpoint is deleted once it is hit."
 msgstr ""
+"Wenn keine Adresse angegeben wurde, werden die aktuell gültigen \n"
+"Breakpoints angezeigt. Wenn eine Adresse angegeben wurde, wird ein \n"
+"temporärer Breakpoint auf dieser Adresse gesetzt und die Breakpoint Nummer wird\n"
+"angezeigt. Die Kontrolle wirdd bei diesem Kommando an die Emulation gegeben.\n"
+"Der Breakpoint wird gelöscht, wenn er einmal getroffen wurde."
 
 #: src/monitor/mon_command.c:309
 msgid "[loadstore] [address [address]]"
@@ -2015,6 +2026,12 @@ msgid ""
 "the monitor breaks. If not specified, the monitor breaks on both\n"
 "operations."
 msgstr ""
+"Setze einen Watchpoint. Wenn eine einzelne Adresse angegeben wurde, setze \n"
+"den Watchpoint für diese Adresse. Wenn zwei Adressen angegeben wurden, \n"
+"setze den Watchpoint auf die Adressen zwischen den beiden Adressen.\n"
+"`loadstore' ist entweder `load' oder `store' und bezeichnet die Operation, \n"
+"bei welcher der Monitor anhalten soll. Wenn keine Angabe gemacht wurde, \n"
+"hält der Monitor bei beiden Operationen an."
 
 #: src/monitor/mon_command.c:318
 msgid "[address [address]]"
@@ -2126,9 +2143,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:383
-#, fuzzy
 msgid "<track> <sector> <address>"
-msgstr "<Basis Adresse>"
+msgstr "<Spur> <Sektor> <Adress>"
 
 #: src/monitor/mon_command.c:384
 msgid ""
@@ -2137,12 +2153,10 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:388
-#, fuzzy
 msgid "<directory>"
-msgstr "&Directory"
+msgstr "<Verzeichnis>"
 
 #: src/monitor/mon_command.c:389
-#, fuzzy
 msgid "Change the working directory."
 msgstr "Arbeitsverzeichnis ändern."
 
@@ -2156,9 +2170,8 @@ msgid "Detach file from device. (device 32 = cart)"
 msgstr ""
 
 #: src/monitor/mon_command.c:396
-#, fuzzy
 msgid "[<directory>]"
-msgstr "&Directory"
+msgstr "[<Verzeichnis>]"
 
 #: src/monitor/mon_command.c:397
 msgid "Display the directory contents."
@@ -2178,9 +2191,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:409
-#, fuzzy
 msgid "Show current working directory."
-msgstr "Arbeitsverzeichnis ändern."
+msgstr "Zeige aktuelles Arbeitsverzeichnis."
 
 #: src/monitor/mon_command.c:413
 msgid ""
@@ -2190,23 +2202,20 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:417
-#, fuzzy
 msgid "Other commands:"
-msgstr "Snapshot Kommandos"
+msgstr "Andere Kommandos:"
 
 #: src/monitor/mon_command.c:421
 msgid "Display the specified number in decimal, hex, octal and binary."
 msgstr ""
 
 #: src/monitor/mon_command.c:425
-#, fuzzy
 msgid "Use cartridge freeze."
-msgstr "Erweiterungsmodul Freeze"
+msgstr "Erweiterungsmodul Freeze benutzen."
 
 #: src/monitor/mon_command.c:428
-#, fuzzy
 msgid "[<command>]"
-msgstr "Kommando:"
+msgstr "[<Kommando>]"
 
 #: src/monitor/mon_command.c:429
 msgid ""
@@ -2215,9 +2224,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:433
-#, fuzzy
 msgid "\"<string>\""
-msgstr "<String>"
+msgstr "\"<Zeichenkette>\""
 
 #: src/monitor/mon_command.c:438
 msgid ""
@@ -2226,9 +2234,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:442
-#, fuzzy
 msgid "<expression>"
-msgstr "<Revision>"
+msgstr "<Bedingung>"
 
 #: src/monitor/mon_command.c:443
 msgid "Evaluate the specified expression and output the result."
@@ -2271,9 +2278,8 @@ msgid ""
 msgstr ""
 
 #: src/monitor/mon_command.c:468
-#, fuzzy
 msgid "<command>"
-msgstr "Kommando:"
+msgstr "<Kommando>"
 
 #: src/monitor/mon_command.c:469
 msgid ""
@@ -2542,14 +2548,12 @@ msgid "Specify printer text output device for userport printer"
 msgstr "IEC Userport Drucker Gerät für Textausgabe definieren"
 
 #: src/ps2mouse.c:485 src/translate.c.po.c:4579
-#, fuzzy
 msgid "Enable PS/2 mouse on userport"
-msgstr "RS232 Userport Emulation aktivi&eren"
+msgstr "PS/2 Userport Emulation aktivieren"
 
 #: src/ps2mouse.c:487 src/translate.c.po.c:4589
-#, fuzzy
 msgid "Disable PS/2 mouse on userport"
-msgstr "Maus deaktivieren"
+msgstr "PS/2 Userport Emulation deaktivieren\""
 
 #: src/ram.c:101 src/translate.c.po.c:4599
 msgid "Set the value for the very first RAM address after powerup"
@@ -2774,9 +2778,8 @@ msgid "<model>"
 msgstr "<Modell>"
 
 #: src/sid/sid-cmdline-options.c:223 src/translate.c.po.c:3569
-#, fuzzy
 msgid "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost, 4: DTV)"
-msgstr "SID Modell definieren (0: 6581, 1: 8580, 2: 8580 + digi boost)"
+msgstr "SID Modell definieren (0: 6581, 1: 8580, 2: 8580 + digi boost, 4: DTV)"
 
 #: src/sid/sid-cmdline-options.c:226 src/translate.c.po.c:3579
 msgid "Emulate SID filters"
@@ -3136,9 +3139,8 @@ msgid "*Mouse Emulation"
 msgstr "*Mausemulation"
 
 #: src/arch/unix/gui/c128ui.c:264 src/arch/unix/gui/c64ui.c:300
-#, fuzzy
 msgid "MIDI Emulation"
-msgstr "IDE64 Emulation"
+msgstr "MIDI Emulation"
 
 #: src/arch/unix/gui/c128ui.c:273
 msgid "Load new Int. Kernal ROM"
@@ -6108,9 +6110,8 @@ msgid "VIC settings"
 msgstr "VIC Einstellungen"
 
 #: src/arch/unix/gui/vic20ui.c:474
-#, fuzzy
 msgid "MIDI emulation"
-msgstr "IDE64 Emulation"
+msgstr "MIDI Emulation"
 
 #: src/arch/unix/gui/vsidui.c:233
 msgid "Tunes"
@@ -6163,7 +6164,6 @@ msgid "Official VICE homepage:"
 msgstr "Offizielle VICE Homepage:"
 
 #: src/arch/unix/x11/gnome/about.c:95
-#, fuzzy
 msgid ""
 "Martin Pottendorfer - German\n"
 "Peter Krefting - Swedish\n"
@@ -6174,7 +6174,7 @@ msgid ""
 "Czirkos Zoltan, Karai Csaba - Hungarian\n"
 msgstr ""
 "Martin Pottendorfer - Deutsch\n"
-"Peter Karlsson - Schwedisch\n"
+"Peter Krefting - Schwedisch\n"
 "Andrea Musuruane - Italienisch\n"
 "Paul Dubé - Französisch\n"
 "Marco van den Heuvel - Niederländisch\n"
@@ -8155,14 +8155,12 @@ msgid "None"
 msgstr "Kein"
 
 #: src/arch/win32/res.rc.po.c:4882
-#, fuzzy
 msgid "Specify MIDI-In device"
-msgstr "Sound Treiber spezifieren"
+msgstr "MIDI-In Gerät spezifieren"
 
 #: src/arch/win32/res.rc.po.c:4883
-#, fuzzy
 msgid "Specify MIDI-Out device"
-msgstr "Sound Treiber spezifieren"
+msgstr "MIDI-Out Gerät spezifieren"
 
 #: src/arch/win32/res.rc.po.c:4885 src/arch/win32/resc128.rc.po.c:20
 #: src/arch/win32/resc64.rc.po.c:20 src/arch/win32/resc64dtv.rc.po.c:20
@@ -8699,9 +8697,8 @@ msgid "&MMC64 settings..."
 msgstr "&MMC64 Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:5019
-#, fuzzy
 msgid "M&IDI settings..."
-msgstr "S&ID Einstellungen..."
+msgstr "M&IDI Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:5020
 msgid "&DIGIMAX settings..."
@@ -10639,24 +10636,20 @@ msgid "Specify the iso code of the language"
 msgstr "Iso Sprachcode spezifizieren"
 
 #: src/translate.c.po.c:5039
-#, fuzzy
 msgid "Enable DTV DMA logs."
-msgstr "DTV DMA Logs aktivieren"
+msgstr "DTV DMA Logs aktivieren."
 
 #: src/translate.c.po.c:5049
-#, fuzzy
 msgid "Disable DTV DMA logs."
-msgstr "DTV DMA Logs deaktivieren"
+msgstr "DTV DMA Logs deaktivieren."
 
 #: src/translate.c.po.c:5189
-#, fuzzy
 msgid "Enable MIDI emulation"
-msgstr "*Präzise Floppy Emulation"
+msgstr "MIDI Emulation aktivieren"
 
 #: src/translate.c.po.c:5199
-#, fuzzy
 msgid "Disable MIDI emulation"
-msgstr "RS232 Userport Emulation deaktivieren"
+msgstr "MIDI Emulation deaktivieren"
 
 #: src/translate.c.po.c:5209
 msgid ""
@@ -10665,9 +10658,8 @@ msgid ""
 msgstr ""
 
 #: src/translate.c.po.c:5219
-#, fuzzy
 msgid "<0-4>"
-msgstr "<0-2>"
+msgstr "<0-4>"
 
 #: src/arch/amigaos/intl.c.po.c:105
 msgid "Autostart disk/tape image..."
@@ -11014,9 +11006,8 @@ msgid "Grab mouse events"
 msgstr "Maus Ereignisse abfangen"
 
 #: src/arch/amigaos/intl.c.po.c:1275
-#, fuzzy
 msgid "PS/2 mouse emulation"
-msgstr "*Mausemulation"
+msgstr "PS/2 Mausemulation"
 
 #: src/arch/amigaos/intl.c.po.c:1293
 msgid "Video settings..."
@@ -11159,9 +11150,8 @@ msgid "SID cart settings..."
 msgstr "SID Modul Einstellungen..."
 
 #: src/arch/amigaos/intl.c.po.c:1635
-#, fuzzy
 msgid "C64DTV settings..."
-msgstr "MMC64 Einstellungen..."
+msgstr "C64DTV Einstellungen..."
 
 #: src/arch/amigaos/intl.c.po.c:1644
 msgid "RS232 userport settings..."
@@ -11398,19 +11388,16 @@ msgid "256K Base"
 msgstr "256K Basis"
 
 #: src/arch/amigaos/intl.c.po.c:2863
-#, fuzzy
 msgid "Select file for C64DTV ROM"
-msgstr "Datei für PET REU selektieren"
+msgstr "Datei für C64DTV ROM selektieren"
 
 #: src/arch/amigaos/intl.c.po.c:2872
-#, fuzzy
 msgid "C64DTV ROM file"
-msgstr "Benutzerdefinierten ROM Satz laden"
+msgstr "C64DTV ROM Datei"
 
 #: src/arch/amigaos/intl.c.po.c:2881
-#, fuzzy
 msgid "C64DTV revision"
-msgstr "*MMC64 Revision"
+msgstr "C64DTV Revision"
 
 #: src/arch/amigaos/intl.c.po.c:2890
 msgid "Writes to C64DTV ROM"
