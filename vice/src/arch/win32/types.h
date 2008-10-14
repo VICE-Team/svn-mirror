@@ -27,19 +27,19 @@
  *
  */
 
-#ifndef _TYPES_H
-#define _TYPES_H
+#ifndef VICE_TYPES_H
+#define VICE_TYPES_H
 
 #include "vice.h"
 
-#define BYTE unsigned char
+typedef unsigned char BYTE;
 
-#define WORD unsigned short
+typedef unsigned short WORD;
 
 #ifdef DWORD_IS_LONG
-#define DWORD unsigned long
+typedef unsigned long DWORD;
 #else
-#define DWORD unsigned int
+typedef unsigned int DWORD;
 #endif
 
 typedef signed char SIGNED_CHAR;
@@ -61,4 +61,3 @@ typedef DWORD CLOCK;
 #endif
 
 #endif
-
