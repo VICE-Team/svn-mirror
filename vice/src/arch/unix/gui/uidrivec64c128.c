@@ -107,7 +107,7 @@ static ui_menu_entry_t set_drive3_parallel_cable_submenu[] = {
 };
 
 ui_menu_entry_t uidrivec64c128_drive0_expansion_submenu[] = {
-    { N_("*Parallel cable"),
+    { N_("Parallel cable"),
       (ui_callback_t)parallel_cable_control, (ui_callback_data_t)0,
       set_drive0_parallel_cable_submenu },
     { "--" },
@@ -120,7 +120,7 @@ ui_menu_entry_t uidrivec64c128_drive0_expansion_submenu[] = {
 };
 
 ui_menu_entry_t uidrivec64c128_drive1_expansion_submenu[] = {
-    { N_("*Parallel cable"),
+    { N_("Parallel cable"),
       (ui_callback_t)parallel_cable_control, (ui_callback_data_t)1,
       set_drive1_parallel_cable_submenu },
     { "--" },
@@ -133,7 +133,7 @@ ui_menu_entry_t uidrivec64c128_drive1_expansion_submenu[] = {
 };
 
 ui_menu_entry_t uidrivec64c128_drive2_expansion_submenu[] = {
-    { N_("*Parallel cable"),
+    { N_("Parallel cable"),
       (ui_callback_t)parallel_cable_control, (ui_callback_data_t)2,
       set_drive2_parallel_cable_submenu },
     { "--" },
@@ -146,7 +146,7 @@ ui_menu_entry_t uidrivec64c128_drive2_expansion_submenu[] = {
 };
 
 ui_menu_entry_t uidrivec64c128_drive3_expansion_submenu[] = {
-    { N_("*Parallel cable"),
+    { N_("Parallel cable"),
       (ui_callback_t)parallel_cable_control, (ui_callback_data_t)3,
       set_drive3_parallel_cable_submenu },
     { "--" },
