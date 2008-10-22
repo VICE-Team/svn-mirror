@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 2.0\n"
+"Project-Id-Version: VICE 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-11 21:34+0200\n"
-"PO-Revision-Date: 2008-10-22 22:00+0200\n"
+"POT-Creation-Date: 2008-10-22 22:03+0200\n"
+"PO-Revision-Date: 2008-10-22 22:05+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -321,16 +321,16 @@ msgstr "Wiedergabe von aufgenommener Ereignisse"
 msgid "Resource %s blocked by %s."
 msgstr "Resource %s wird von %s blockiert."
 
-#: src/c64/c64io.c:189 src/translate.c.po.c:586
+#: src/c64/c64io.c:190 src/translate.c.po.c:586
 #, c-format
 msgid "I/O read collision at %X from "
 msgstr "I/O Lese Kollision bei %X von "
 
-#: src/c64/c64io.c:207 src/translate.c.po.c:596
+#: src/c64/c64io.c:208 src/translate.c.po.c:596
 msgid " and "
 msgstr " und "
 
-#: src/c64/c64io.c:208 src/translate.c.po.c:606
+#: src/c64/c64io.c:209 src/translate.c.po.c:606
 msgid ""
 ".\n"
 "All the named devices will be detached."
@@ -1972,7 +1972,8 @@ msgstr ""
 "Überprüfung herangezogen.\n"
 "Die Bedingung kann Register benutzen (.A, .X, .Y, .PC, .SP) und gegen \n"
 "Register oder Konstanten vergleichen (==, !=, <, >, <=, >=).\n"
-"Register können auch Geräteregister sein; dazu wird die memspace Prefix-syntax \n"
+"Register können auch Geräteregister sein; dazu wird die memspace Prefix-"
+"syntax \n"
 "verwendet: c:, 8:, 9:, 10:, 11:\n"
 "Beispiel: .A == 0, .X == .Y, 8:.X == .X\n"
 
@@ -2009,8 +2010,10 @@ msgid ""
 msgstr ""
 "Wenn keine Adresse angegeben wurde, werden die aktuell gültigen \n"
 "Breakpoints angezeigt. Wenn eine Adresse angegeben wurde, wird ein \n"
-"temporärer Breakpoint auf dieser Adresse gesetzt und die Breakpoint Nummer wird\n"
-"angezeigt. Die Kontrolle wirdd bei diesem Kommando an die Emulation gegeben.\n"
+"temporärer Breakpoint auf dieser Adresse gesetzt und die Breakpoint Nummer "
+"wird\n"
+"angezeigt. Die Kontrolle wirdd bei diesem Kommando an die Emulation "
+"gegeben.\n"
 "Der Breakpoint wird gelöscht, wenn er einmal getroffen wurde."
 
 #: src/monitor/mon_command.c:309
@@ -2043,7 +2046,8 @@ msgid ""
 "for that address.  If two addresses are specified, set a tracepoint\n"
 "for the memory locations between the two addresses."
 msgstr ""
-"Setze einen Tracepoint. Wenn eine einzelne Adresse angegeben wurde, setze eine\n"
+"Setze einen Tracepoint. Wenn eine einzelne Adresse angegeben wurde, setze "
+"eine\n"
 "Tracepoint für diese Adresse. Wenn zwei Adressen angegeben wurden, \n"
 "setze Tracepoints für die Speicheradressen zwischen diesen beiden Adressen."
 
@@ -2079,7 +2083,9 @@ msgstr "[H|D|O|B]"
 msgid ""
 "Set the default radix to hex, decimal, octal, or binary.  With no\n"
 "argument, the current radix is printed."
-msgstr "Setze die Standardzahlenbasis auf Hexadezimal, Dezimal, Oktal oder Binär. Bei keinem Argument wird die akteulle Zahlenbasis ausgegeben."
+msgstr ""
+"Setze die Standardzahlenbasis auf Hexadezimal, Dezimal, Oktal oder Binär. "
+"Bei keinem Argument wird die akteulle Zahlenbasis ausgegeben."
 
 #: src/monitor/mon_command.c:348
 msgid "[on|off|toggle]"
@@ -2160,7 +2166,8 @@ msgid ""
 "Save the memory from address1 to address2 to the specified file.\n"
 "If device is 0, the file is written to the file system."
 msgstr ""
-"Speichere den Speicherinhalt von Adresse1 zu Adresse2 in die angegebene Datei.\n"
+"Speichere den Speicherinhalt von Adresse1 zu Adresse2 in die angegebene "
+"Datei.\n"
 "Wenn das Gerät 0 angegeben wurde, speichere im Dateisystem."
 
 #: src/monitor/mon_command.c:383
@@ -2347,7 +2354,9 @@ msgstr "Es ist keine Hilfe für `%s' verfügbar\n"
 msgid ""
 "\n"
 "Syntax: %s %s\n"
-msgstr "\nSyntax: %s %s\n"
+msgstr ""
+"\n"
+"Syntax: %s %s\n"
 
 #: src/monitor/mon_command.c:590
 #, c-format
@@ -3783,16 +3792,16 @@ msgstr "Band Image einlegen..."
 msgid "Detach tape image"
 msgstr "Band Image entfernen"
 
-#: src/arch/unix/gui/uiattach.c:287
+#: src/arch/unix/gui/uiattach.c:286
 msgid "Smart-attach a file"
 msgstr "Smart Datei einleigen"
 
-#: src/arch/unix/gui/uiattach.c:302 src/arch/unix/gui/uiattach.c:311
+#: src/arch/unix/gui/uiattach.c:298 src/arch/unix/gui/uiattach.c:307
 #: src/arch/unix/x11/xaw/x11ui.c:1856
 msgid "Unknown image type"
 msgstr "Unbekannter Image Typ."
 
-#: src/arch/unix/gui/uiattach.c:325
+#: src/arch/unix/gui/uiattach.c:321
 msgid "Smart-attach disk/tape..."
 msgstr "Smart-Einlegen von Disk/Tape Image..."
 
@@ -4309,19 +4318,19 @@ msgstr "Laufwerk #8 Modell"
 
 #: src/arch/unix/gui/uidrivec128.c:150 src/arch/unix/gui/uidrivec64.c:49
 #: src/arch/unix/gui/uidriveplus4.c:216 src/arch/unix/gui/uidrivevic20.c:72
-msgid "*Drive #8 expansion"
-msgstr "*Laufwerk #8 Erweiterung"
+msgid "Drive #8 expansion"
+msgstr "Laufwerk #8 Erweiterung"
 
 #: src/arch/unix/gui/uidrivec128.c:153 src/arch/unix/gui/uidrivec64.c:52
 #: src/arch/unix/gui/uidrivepetcbm2.c:98 src/arch/unix/gui/uidriveplus4.c:219
 #: src/arch/unix/gui/uidrivevic20.c:75
-msgid "*Drive #8 40-track image support"
-msgstr "*Laufwerk #8 40-Spur Image Unterstützung"
+msgid "Drive #8 40-track image support"
+msgstr "Laufwerk #8 40-Spur Image Unterstützung"
 
 #: src/arch/unix/gui/uidrivec128.c:156 src/arch/unix/gui/uidrivec64.c:55
 #: src/arch/unix/gui/uidriveplus4.c:222 src/arch/unix/gui/uidrivevic20.c:78
-msgid "*Drive #8 idle method"
-msgstr "*Laufwerk #8 Idle Methode"
+msgid "Drive #8 idle method"
+msgstr "Laufwerk #8 Idle Methode"
 
 #: src/arch/unix/gui/uidrivec128.c:160 src/arch/unix/gui/uidrivec64.c:59
 #: src/arch/unix/gui/uidriveplus4.c:226 src/arch/unix/gui/uidrivevic20.c:82
@@ -4330,19 +4339,19 @@ msgstr "Laufwerk #9 Modell"
 
 #: src/arch/unix/gui/uidrivec128.c:162 src/arch/unix/gui/uidrivec64.c:61
 #: src/arch/unix/gui/uidriveplus4.c:228 src/arch/unix/gui/uidrivevic20.c:84
-msgid "*Drive #9 expansion"
-msgstr "*Laufwerk #9 Erweiterung"
+msgid "Drive #9 expansion"
+msgstr "Laufwerk #9 Erweiterung"
 
 #: src/arch/unix/gui/uidrivec128.c:165 src/arch/unix/gui/uidrivec64.c:64
 #: src/arch/unix/gui/uidrivepetcbm2.c:104 src/arch/unix/gui/uidriveplus4.c:231
 #: src/arch/unix/gui/uidrivevic20.c:87
-msgid "*Drive #9 40-track image support"
-msgstr "*Laufwerk #9 40-Spur Image Unterstützung"
+msgid "Drive #9 40-track image support"
+msgstr "Laufwerk #9 40-Spur Image Unterstützung"
 
 #: src/arch/unix/gui/uidrivec128.c:168 src/arch/unix/gui/uidrivec64.c:67
 #: src/arch/unix/gui/uidriveplus4.c:234 src/arch/unix/gui/uidrivevic20.c:90
-msgid "*Drive #9 idle method"
-msgstr "*Laufwerk #9 Idle Methode"
+msgid "Drive #9 idle method"
+msgstr "Laufwerk #9 Idle Methode"
 
 #: src/arch/unix/gui/uidrivec128.c:172 src/arch/unix/gui/uidrivec64.c:71
 #: src/arch/unix/gui/uidriveplus4.c:238 src/arch/unix/gui/uidrivevic20.c:94
@@ -4351,19 +4360,19 @@ msgstr "Laufwerk #10 Modell"
 
 #: src/arch/unix/gui/uidrivec128.c:174 src/arch/unix/gui/uidrivec64.c:73
 #: src/arch/unix/gui/uidriveplus4.c:240 src/arch/unix/gui/uidrivevic20.c:96
-msgid "*Drive #10 expansion"
-msgstr "*Laufwerk #10 Erweiterung"
+msgid "Drive #10 expansion"
+msgstr "Laufwerk #10 Erweiterung"
 
 #: src/arch/unix/gui/uidrivec128.c:177 src/arch/unix/gui/uidrivec64.c:76
 #: src/arch/unix/gui/uidrivepetcbm2.c:110 src/arch/unix/gui/uidriveplus4.c:243
 #: src/arch/unix/gui/uidrivevic20.c:99
-msgid "*Drive #10 40-track image support"
-msgstr "*Laufwerk #10 40-Spur Image Unterstützung"
+msgid "Drive #10 40-track image support"
+msgstr "Laufwerk #10 40-Spur Image Unterstützung"
 
 #: src/arch/unix/gui/uidrivec128.c:180 src/arch/unix/gui/uidrivec64.c:79
 #: src/arch/unix/gui/uidriveplus4.c:246 src/arch/unix/gui/uidrivevic20.c:102
-msgid "*Drive #10 idle method"
-msgstr "*Laufwerk #10 Idle Methode"
+msgid "Drive #10 idle method"
+msgstr "Laufwerk #10 Idle Methode"
 
 #: src/arch/unix/gui/uidrivec128.c:184 src/arch/unix/gui/uidrivec64.c:83
 #: src/arch/unix/gui/uidriveplus4.c:250 src/arch/unix/gui/uidrivevic20.c:106
@@ -4372,19 +4381,19 @@ msgstr "Laufwerk #11 Modell"
 
 #: src/arch/unix/gui/uidrivec128.c:186 src/arch/unix/gui/uidrivec64.c:85
 #: src/arch/unix/gui/uidriveplus4.c:252 src/arch/unix/gui/uidrivevic20.c:108
-msgid "*Drive #11 expansion"
-msgstr "*Laufwerk #11 Erweiterung"
+msgid "Drive #11 expansion"
+msgstr "Laufwerk #11 Erweiterung"
 
 #: src/arch/unix/gui/uidrivec128.c:189 src/arch/unix/gui/uidrivec64.c:88
 #: src/arch/unix/gui/uidrivepetcbm2.c:116 src/arch/unix/gui/uidriveplus4.c:255
 #: src/arch/unix/gui/uidrivevic20.c:111
-msgid "*Drive #11 40-track image support"
-msgstr "*Laufwerk #11 40-Spur Image Unterstützung"
+msgid "Drive #11 40-track image support"
+msgstr "Laufwerk #11 40-Spur Image Unterstützung"
 
 #: src/arch/unix/gui/uidrivec128.c:192 src/arch/unix/gui/uidrivec64.c:91
 #: src/arch/unix/gui/uidriveplus4.c:258 src/arch/unix/gui/uidrivevic20.c:114
-msgid "*Drive #11 idle method"
-msgstr "*Laufwerk #11 Idle Methode"
+msgid "Drive #11 idle method"
+msgstr "Laufwerk #11 Idle Methode"
 
 #: src/arch/unix/gui/uidrivec128.c:199 src/arch/unix/gui/uidrivec64.c:98
 #: src/arch/unix/gui/uidrivepetcbm2.c:123 src/arch/unix/gui/uidriveplus4.c:265
@@ -4463,11 +4472,9 @@ msgstr "*Dolphin DOS 3"
 #: src/arch/unix/gui/uidrivec64c128.c:110
 #: src/arch/unix/gui/uidrivec64c128.c:123
 #: src/arch/unix/gui/uidrivec64c128.c:136
-#: src/arch/unix/gui/uidrivec64c128.c:149 src/arch/unix/gui/uidriveplus4.c:97
-#: src/arch/unix/gui/uidriveplus4.c:107 src/arch/unix/gui/uidriveplus4.c:117
-#: src/arch/unix/gui/uidriveplus4.c:127
-msgid "*Parallel cable"
-msgstr "*Parallel Kabel"
+#: src/arch/unix/gui/uidrivec64c128.c:149 src/arch/amigaos/intl.c.po.c:3151
+msgid "Parallel cable"
+msgstr "Parallel Kabel"
 
 #: src/arch/unix/gui/uidrivec64c128.c:117
 #: src/arch/unix/gui/uidrivec64c128.c:130
@@ -4531,6 +4538,11 @@ msgstr "Laufwerk #10 Floppy Disk Typ"
 #: src/arch/unix/gui/uidrivepetcbm2.c:114
 msgid "Drive #11 floppy disk type"
 msgstr "Laufwerk #11 Floppy Disk Typ"
+
+#: src/arch/unix/gui/uidriveplus4.c:97 src/arch/unix/gui/uidriveplus4.c:107
+#: src/arch/unix/gui/uidriveplus4.c:117 src/arch/unix/gui/uidriveplus4.c:127
+msgid "*Parallel cable"
+msgstr "*Parallel Kabel"
 
 #: src/arch/unix/gui/uidriveplus4.c:279
 msgid "Load new 1551 ROM"
@@ -10699,7 +10711,9 @@ msgstr "MIDI Emulation deaktivieren"
 msgid ""
 "MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
-msgstr "MIDI Interface Typ (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)"
+msgstr ""
+"MIDI Interface Typ (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
+"Maplin)"
 
 #: src/translate.c.po.c:5219
 msgid "<0-4>"
@@ -11530,10 +11544,6 @@ msgstr "Laufwerk Erweiterung"
 #: src/arch/amigaos/intl.c.po.c:3142
 msgid "Idle method"
 msgstr "Idle Methode"
-
-#: src/arch/amigaos/intl.c.po.c:3151
-msgid "Parallel cable"
-msgstr "Parallel Kabel"
 
 #: src/arch/amigaos/intl.c.po.c:3169
 msgid "GEORAM Size"
