@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-11 21:34+0200\n"
-"PO-Revision-Date: 2008-10-13 21:54+0200\n"
+"PO-Revision-Date: 2008-10-22 22:00+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2043,6 +2043,9 @@ msgid ""
 "for that address.  If two addresses are specified, set a tracepoint\n"
 "for the memory locations between the two addresses."
 msgstr ""
+"Setze einen Tracepoint. Wenn eine einzelne Adresse angegeben wurde, setze eine\n"
+"Tracepoint für diese Adresse. Wenn zwei Adressen angegeben wurden, \n"
+"setze Tracepoints für die Speicheradressen zwischen diesen beiden Adressen."
 
 #: src/monitor/mon_command.c:323
 msgid "Monitor state commands:"
@@ -2057,6 +2060,8 @@ msgid ""
 "Set the default memory device to either the computer `c:' or the\n"
 "specified disk drive (`8:', `9:')."
 msgstr ""
+"Setze das aktuelle Speichergerät entweder auf `c:' \n"
+"oder das angegebene Laufwerk (`8:', `9:')."
 
 #: src/monitor/mon_command.c:332 src/monitor/mon_command.c:337
 msgid "Leave the monitor and return to execution."
@@ -2074,7 +2079,7 @@ msgstr "[H|D|O|B]"
 msgid ""
 "Set the default radix to hex, decimal, octal, or binary.  With no\n"
 "argument, the current radix is printed."
-msgstr ""
+msgstr "Setze die Standardzahlenbasis auf Hexadezimal, Dezimal, Oktal oder Binär. Bei keinem Argument wird die akteulle Zahlenbasis ausgegeben."
 
 #: src/monitor/mon_command.c:348
 msgid "[on|off|toggle]"
@@ -2088,6 +2093,12 @@ msgid ""
 "side-effects.  If the argument is 'toggle' then the current mode is\n"
 "switched.  No argument displays the current state."
 msgstr ""
+"Steuerung, wie die vom Monitor erzeugten Lesezugriffe die Speicherzellen\n"
+"mit Lese-Seiteneffekten betreffen.\n"
+"Bei Argument \"on\" werden Lese-Seiteneffekte erzeugt.\n"
+"Bei Argument \"off\" werden keine Lese-Seiteneffekte erzeugt. \n"
+"Bei Argumenrt \"toggle\" wird das Verhalten vertauscht. \n"
+"Bei keinem Argument wird das aktuelle Verhalten ausgegebene."
 
 #: src/monitor/mon_command.c:355
 msgid "Disk commands:"
@@ -2102,6 +2113,9 @@ msgid ""
 "Perform a disk command on the currently attached disk image on drive 8.\n"
 "The specified disk command is sent to the drive's channel #15."
 msgstr ""
+"Führe ein Diskkommando auf dem aktuell eingelegtem Diskimage auf Laufwerk 8\n"
+"aus.\n"
+"Das angegebene Kommando wird auf dem Laufwerks Kommandokanal #15 geschickt."
 
 #: src/monitor/mon_command.c:363
 msgid "<filename> <device>"
@@ -2109,7 +2123,7 @@ msgstr "<Dateiname> <Gerät>"
 
 #: src/monitor/mon_command.c:364
 msgid "Attach file to device. (device 32 = cart)"
-msgstr ""
+msgstr "Benutze Datei für das Gerät. (Gerät 32 = Modul)"
 
 #: src/monitor/mon_command.c:367
 msgid "\"<filename>\" <device> <address>"
@@ -2120,6 +2134,8 @@ msgid ""
 "Load the specified file into memory at the specified address.\n"
 "If device is 0, the file is read from the file system."
 msgstr ""
+"Lade angegebene Datei in den Speicher an die angegebene Adresse.\n"
+"Bei Gerät 0, wird die Datei vom Dateisystem gelesen."
 
 #: src/monitor/mon_command.c:372
 msgid "<track> <sector> [<address>]"
@@ -2131,16 +2147,21 @@ msgid ""
 "specified, the data is loaded into memory.  If no address is given, the\n"
 "data is displayed using the default datatype."
 msgstr ""
+"Lese den Block von angegebener Spur und Sektor. Wenn eine Adresse\n"
+"angegeben wurde, lade in auf die entsprechende Adresse. Wenn keine Adresse\n"
+"angegeben ist, zeige die Daten im aktuellen Anzeigemodus für Daten."
 
 #: src/monitor/mon_command.c:378 src/monitor/mon_command.c:412
 msgid "\"<filename>\" <device> <address1> <address2>"
-msgstr ""
+msgstr "\"<Dateiname>\" <Gerät> <Adresse1> <Adresse2>"
 
 #: src/monitor/mon_command.c:379
 msgid ""
 "Save the memory from address1 to address2 to the specified file.\n"
 "If device is 0, the file is written to the file system."
 msgstr ""
+"Speichere den Speicherinhalt von Adresse1 zu Adresse2 in die angegebene Datei.\n"
+"Wenn das Gerät 0 angegeben wurde, speichere im Dateisystem."
 
 #: src/monitor/mon_command.c:383
 msgid "<track> <sector> <address>"
@@ -2151,6 +2172,8 @@ msgid ""
 "Write a block of data at `address' on the specified track and sector\n"
 "of disk in drive 8."
 msgstr ""
+"Schreibe einen Datenblock von `Adresse' auf die angegebene Spure und Sektor\n"
+"in die Imagedatei von Laufwerk 8."
 
 #: src/monitor/mon_command.c:388
 msgid "<directory>"
@@ -2167,7 +2190,7 @@ msgstr "<Gerät>"
 
 #: src/monitor/mon_command.c:393
 msgid "Detach file from device. (device 32 = cart)"
-msgstr ""
+msgstr "Entferne Datei von Gerät. (Gerät 32 = Modul)"
 
 #: src/monitor/mon_command.c:396
 msgid "[<directory>]"
@@ -2175,11 +2198,11 @@ msgstr "[<Verzeichnis>]"
 
 #: src/monitor/mon_command.c:397
 msgid "Display the directory contents."
-msgstr ""
+msgstr "Zeige den Verzeichnisinhalt."
 
 #: src/monitor/mon_command.c:400
 msgid "\"<filename>\" <device> [<address>]"
-msgstr ""
+msgstr "\"<Dateiname>\" <Gerät> [<Adresse>]"
 
 #: src/monitor/mon_command.c:401
 msgid ""
@@ -2189,6 +2212,12 @@ msgid ""
 "specified.\n"
 "If device is 0, the file is read from the file system."
 msgstr ""
+"Lade die angegebene Datei in den Speicher auf die angegebene Adresse.\n"
+"Setze den BASIC Zeiger entsprechend, wenn in den Rechnerspeicher geladen \n"
+"wurde (nicht bei allen Emulatoren!).\n"
+"Verwende (sonst ignoriert) die zwei-Byte Lade-Adresse aus der Datei, wenn\n"
+"keine Adresse angegeben wurde.\n"
+"Bei Gerät 0, wird die Datei vom Dateisystem gelade."
 
 #: src/monitor/mon_command.c:409
 msgid "Show current working directory."
@@ -2200,6 +2229,9 @@ msgid ""
 "Write two-byte load address.\n"
 "If device is 0, the file is written to the file system."
 msgstr ""
+"Speichere den Speicher von Adresse1 bis Adresse2 in die angegebene Datei.\n"
+"Schreibe eine zwei-Byte Lade Adresse.\n"
+"Bei Gerät 0, wird dei Datei in das Dateisystem geschrieben."
 
 #: src/monitor/mon_command.c:417
 msgid "Other commands:"
@@ -2207,7 +2239,7 @@ msgstr "Andere Kommandos:"
 
 #: src/monitor/mon_command.c:421
 msgid "Display the specified number in decimal, hex, octal and binary."
-msgstr ""
+msgstr "Zeige die angegebene Zahl in dezimal, hexadezimal, oktal oder binär."
 
 #: src/monitor/mon_command.c:425
 msgid "Use cartridge freeze."
@@ -2222,6 +2254,8 @@ msgid ""
 "If no argument is given, prints out a list of all available commands\n"
 "If an argument is given, prints out specific help for that command."
 msgstr ""
+"Wenn kein Argement angegeben wurde, werden alle Kommandos ausgegeben.\n"
+"Mit Argument, zeige die Hilfe für das angegebene Kommand."
 
 #: src/monitor/mon_command.c:433
 msgid "\"<string>\""
@@ -2232,6 +2266,9 @@ msgid ""
 "Monitor commands from the specified file are read and executed.  This\n"
 "command stops at the end of file or when a STOP command is read."
 msgstr ""
+"Monitor Kommandos aus der angegebenen Datei werden gelesen und ausgeführt.\n"
+"Dieses Kommando stoppt, wenn das Ende der Datei erreicht wurde, oder das\n"
+"Kommando STOP gelesen wurde."
 
 #: src/monitor/mon_command.c:442
 msgid "<expression>"
@@ -2239,43 +2276,47 @@ msgstr "<Bedingung>"
 
 #: src/monitor/mon_command.c:443
 msgid "Evaluate the specified expression and output the result."
-msgstr ""
+msgstr "Evaluiere den angegebenen Ausdruck und zeige das Ergebnis."
 
 #: src/monitor/mon_command.c:447
 msgid ""
 "After this command, all commands entered are written to the specified\n"
 "file until the STOP command is entered."
 msgstr ""
+"Nach diesem Kommando werden alle eingebenen Kommands in die angegebene\n"
+"Datei gespeicher solang bis das Kommando STOP eingegeben wurde."
 
 #: src/monitor/mon_command.c:451
 msgid "\"<resource>\""
-msgstr ""
+msgstr "\"<Ressource>\""
 
 #: src/monitor/mon_command.c:452
 msgid "Displays the value of the resource."
-msgstr ""
+msgstr "Zeige den Werde der Ressource."
 
 #: src/monitor/mon_command.c:455
 msgid "\"<resource>\" \"<value>\""
-msgstr ""
+msgstr "\"<Ressource>\" \"<Wert>\""
 
 #: src/monitor/mon_command.c:456
 msgid "Sets the value of the resource."
-msgstr ""
+msgstr "Setze den Werde der Ressource."
 
 #: src/monitor/mon_command.c:460
 msgid "Stop recording commands.  See `record'."
-msgstr ""
+msgstr "Stoppe die Aufnahme von Kommandos. Siehe auch `Record'."
 
 #: src/monitor/mon_command.c:463
 msgid "\"<filename>\" [<format>]"
-msgstr ""
+msgstr "\"<Dateiname>\" [<Format>]"
 
 #: src/monitor/mon_command.c:464
 msgid ""
 "Take a screenshot. Format is:\n"
 "default = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
 msgstr ""
+"Erzeuge Screenshot. Format ist:\n"
+"Standard = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
 
 #: src/monitor/mon_command.c:468
 msgid "<command>"
@@ -2287,28 +2328,31 @@ msgid ""
 "0 = stop, 1 = start, 2 = forward, 3 = rewind, 4 = record,\n"
 "5 = reset, 6 = reset counter."
 msgstr ""
+"Steuere die Datasette. Gültige Kommandos sind:\n"
+"0 = Stop, 1 = Start, 2 = Forwärts, 3 = Rückwärts, 4 = Aufnahme,\n"
+"5 = Reset, 6 = Reset Zähler."
 
 #: src/monitor/mon_command.c:578
 #, c-format
 msgid "Command `%s' unknown.\n"
-msgstr ""
+msgstr "Kommand `%s' ist unbekannt.\n"
 
 #: src/monitor/mon_command.c:580
 #, c-format
 msgid "No help available for `%s'\n"
-msgstr ""
+msgstr "Es ist keine Hilfe für `%s' verfügbar\n"
 
 #: src/monitor/mon_command.c:586
 #, c-format
 msgid ""
 "\n"
 "Syntax: %s %s\n"
-msgstr ""
+msgstr "\nSyntax: %s %s\n"
 
 #: src/monitor/mon_command.c:590
 #, c-format
 msgid "Abbreviation: %s\n"
-msgstr ""
+msgstr "Abkürzung: %s\n"
 
 #: src/monitor/monitor.c:1046 src/translate.c.po.c:4337
 msgid "Execute monitor commands from file"
@@ -9497,7 +9541,7 @@ msgstr "Flash ROM Datei er&zeugen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1712
 msgid "&True flash filesystem"
-msgstr ""
+msgstr "&True flash Dateisystem"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1713
 msgid "&PS/2 mouse emulation"
@@ -10655,7 +10699,7 @@ msgstr "MIDI Emulation deaktivieren"
 msgid ""
 "MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
-msgstr ""
+msgstr "MIDI Interface Typ (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)"
 
 #: src/translate.c.po.c:5219
 msgid "<0-4>"
