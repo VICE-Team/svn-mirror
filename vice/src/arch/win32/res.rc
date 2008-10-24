@@ -2928,13 +2928,13 @@ IDD_VIDEO_NEW_PAL_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Tint",IDC_STATIC,12,12,60,8
+    LTEXT           "Sfumatura",IDC_STATIC,12,12,60,8
     LTEXT           "(0..2)",IDC_STATIC,72,12,28,8
     EDITTEXT        IDC_VIDEO_NEW_PAL_TINT, 105,10,32,12,WS_TABSTOP
-    LTEXT           "Odd lines phase",IDC_STATIC,12,24,60,8
+    LTEXT           "Fase linee dispari",IDC_STATIC,12,24,60,8
     LTEXT           "(0..2)",IDC_STATIC,72,24,28,8
     EDITTEXT        IDC_VIDEO_NEW_PAL_PHASE, 105,22,32,12,WS_TABSTOP
-    LTEXT           "Odd lines offset",IDC_STATIC,12,36,60,8
+    LTEXT           "Offset linee pdispari",IDC_STATIC,12,36,60,8
     LTEXT           "(0..2)",IDC_STATIC,72,36,28,8
     EDITTEXT        IDC_VIDEO_NEW_PAL_OFFSET, 105,34,32,12,WS_TABSTOP
 END
@@ -6600,7 +6600,7 @@ BEGIN
   IDS_CANNOT_LOAD_SETTINGS        "Non è possibile caricare le impostazioni."
   IDS_DEFAULT_SETTINGS_RESTORED   "Impostazioni originarie ripristinate."
   IDS_CANNOT_ATTACH_FILE          "Non è possibile selezionare il file specificato"
-  IDS_START_MONITOR               "%s\012\012Avvia il monitor?"
+  IDS_START_MONITOR               "%s\012\012Avvio monitor? (No per reset, annulla per continuare)"
   IDS_VICE_CPU_JAM                "VICE CPU JAM"
   IDS_EXTEND_TO_40_TRACKS         "Astendere l'immagine al formato di 40 tracce?"
   IDS_DETACHED_DEVICE_S           "Rimosso dispositivo %s"
@@ -6672,7 +6672,7 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE      "Carica il file di palette di VICE"
   IDS_FULLSCREEN                  "Schermo intero"
   IDS_COLORS                      "Colori"
-  IDS_NEW_PAL                     "New PAL emulation"
+  IDS_NEW_PAL                     "Emulazione PAL"
   IDS_VIDEO_SETTINGS              "Impostazioni video"
   IDS_FILE_SYSTEM                 "File system"
 #ifdef HAVE_OPENCBM
@@ -6722,7 +6722,7 @@ BEGIN
   IDS_KEYSET_B                    "Keyset B"
   IDS_ALL_BUTTONS_AS_FIRE         "Tutti i pulsanti usati come fuoco"
   IDS_NUMERIC_SEE_ABOVE           "numerico (vedi sopra)"
-  IDS_NO_BUTTON_NO_AUTOFIRE       "Nessun pulsante - Fuoco automatico disabilitato"
+  IDS_NO_BUTTON_NO_AUTOFIRE       "Pulsante mancante - Fuoco automatico disabilitato"
   IDS_ALL_FILES_FILTER            "Tutti i file (*.*)"
   IDS_PALETTE_FILES_FILTER        "Palette di VICE (*.vpl)"
   IDS_SNAPSHOT_FILES_FILTER       "Snapshot (*.vsf)"
@@ -6736,7 +6736,7 @@ BEGIN
   IDS_ROMSET_FILES_FILTER         "ROM set (*.vrs)"
   IDS_ROMSET_ARCHIVES_FILTER      "Archivi del ROM set (*.vra)"
   IDS_KEYMAP_FILES_FILTER         "Mappe della tastiera (*.vkm)"
-  IDS_PRGP00_FILES_FILTER         "Commodore emulator files (*.prg;*.p00)"
+  IDS_PRGP00_FILES_FILTER         "File emulatore Commodore (*.prg;*.p00)"
   IDS_FLEXIBLE                    "Flessibile"
   IDS_ADJUSTING                   "Adattabile"
   IDS_EXACT                       "Esatta"
@@ -6797,7 +6797,7 @@ BEGIN
 #ifdef DEBUG
   IDS_MP_MODE                     "M&odalità"
 #endif
-  IDS_MP_EDIT                     "&Edit"
+  IDS_MP_EDIT                     "&Modifica"
   IDS_MP_SNAPSHOT                 "Sna&pshot"
   IDS_MP_RECORDING_START_MODE     "Modalità di inizio registrazione"
   IDS_MP_OPTIONS                  "&Opzioni"
@@ -6811,11 +6811,11 @@ BEGIN
   IDS_MP_HELP                     "&Aiuto"
   IDS_MP_VIEW                     "&Vista"
   IDS_MP_WINDOW                   "&Finestra"
-  IDS_MI_EXIT                     "E&sci"
+  IDS_MI_EXIT                     "&Esci"
   IDS_MI_ABOUT                    "&Informazioni su VICE..."
   IDS_MI_PAUSE                    "&Pausa"
-  IDS_MI_EDIT_COPY                "&Copy"
-  IDS_MI_EDIT_PASTE               "&Paste"
+  IDS_MI_EDIT_COPY                "&Copia"
+  IDS_MI_EDIT_PASTE               "&Incolla"
   IDS_MI_AUTOSTART                "&Avvia automaticamente l'immagine di un disco/cassetta..."
   IDS_MI_RESET_HARD               "&Hard"
   IDS_MI_RESET_SOFT               "&Soft"
@@ -6836,9 +6836,9 @@ BEGIN
   IDS_MI_CART_ATTACH_8KB          "Immagine generica di &8KB..."
   IDS_MI_CART_ATTACH_16KB         "Immagine generica di &16KB..."
   IDS_MI_CART_ATTACH_AR           "Immagine &Action Replay..."
-  IDS_MI_CART_ATTACH_AR3          "Immagine Action Replay &III..."
-  IDS_MI_CART_ATTACH_AR4          "Immagine Action Replay &4..."
-  IDS_MI_CART_ATTACH_STARDOS      "Immagine Star&DOS..."
+  IDS_MI_CART_ATTACH_AR3          "Immagine &Action Replay 3..."
+  IDS_MI_CART_ATTACH_AR4          "Immagine &Action Replay 4..."
+  IDS_MI_CART_ATTACH_STARDOS      "Immagine &StarDOS..."
   IDS_MI_CART_ATTACH_AT           "Immagine Atomic &Power..."
   IDS_MI_CART_ATTACH_EPYX         "Immagine &Epyx fastload..."
   IDS_MI_CART_ATTACH_IEEE488      "Immagine dell'interfaccia &IEEE488..."
@@ -6849,7 +6849,7 @@ BEGIN
   IDS_MI_CART_ATTACH_STB          "Immagine Structured &Basic..."
   IDS_MI_FLIP_ADD                 "&Aggiungi l'immagine attuale"
   IDS_MI_FLIP_REMOVE              "&Rimuovi l'immagine attuale"
-  IDS_MI_FLIP_NEXT                "Seleziona l'immagine successiva"
+  IDS_MI_FLIP_NEXT                "Seleziona l'immagine &successiva"
   IDS_MI_FLIP_PREVIOUS            "Seleziona l'immagine &precedente"
   IDS_MI_FLIP_LOAD                "&Carica fliplist"
   IDS_MI_FLIP_SAVE                "&Salva fliplist"
@@ -6879,8 +6879,8 @@ BEGIN
 #endif
   IDS_MI_SNAPSHOT_LOAD            "Carica &immagine dello snapshot..."
   IDS_MI_SNAPSHOT_SAVE            "Salva immagine dello sna&pshot..."
-  IDS_MI_LOADQUICK                "&Carica immagine quicksnapshot"
-  IDS_MI_SAVEQUICK                "Salva immagine quicksnapshot"
+  IDS_MI_LOADQUICK                "&Carica immagine dello snapshot"
+  IDS_MI_SAVEQUICK                "&Salva immagine dello snapshot"
   IDS_MI_EVENT_TOGGLE_RECORD      "Avvia/termina la &registrazione della cronologia"
   IDS_MI_EVENT_TOGGLE_PLAYBACK    "Avvia/termina la r&iproduzione della cronologia"
   IDS_MI_EVENT_SETMILESTONE       "Imposta segnalibro"
@@ -6903,7 +6903,7 @@ BEGIN
   IDS_MI_SWAP_JOYSTICK            "Scambia &joystick"
   IDS_MI_TOGGLE_VIRTUAL_DEVICES   "Attiva le periferiche &virtuali"
   IDS_MI_TOGGLE_EMUID             "&Identificazione dell'emulatore"
-  IDS_MI_MOUSE                    "&Grab mouse events"
+  IDS_MI_MOUSE                    "&Cattura eventi mouse"
   IDS_MI_VIDEO_SETTINGS           "Impostazioni &video..."
   IDS_MI_DEVICEMANAGER            "Impostazioni &periferiche..."
   IDS_MI_JOY_SETTINGS             "Impostazioni &joystick..."
@@ -6913,7 +6913,7 @@ BEGIN
   IDS_MI_RAM_SETTINGS             "Impostazioni RA&M..."
   IDS_MI_DATASETTE_SETTINGS       "Impostazioni r&egistratore..."
   IDS_MI_VICII_SETTINGS           "Impostazioni VIC-II..."
-  IDS_MI_MOUSE_SETTINGS           "Mo&use settings..."
+  IDS_MI_MOUSE_SETTINGS           "Impostazioni mo&use..."
   IDS_MI_SID_SETTINGS             "Impostazioni S&ID..."
   IDS_MI_RS232_SETTINGS           "Impostazioni RS&232..."
   IDS_MI_REU_SETTINGS             "Impostazioni &REU..."

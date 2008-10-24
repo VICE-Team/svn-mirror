@@ -529,7 +529,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDMS_STARDOS_IMAGE_DE, "StarDOS Image..."},
 /* fr */ {IDMS_STARDOS_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_STARDOS_IMAGE_HU, "StarDOS képmás..."},
-/* it */ {IDMS_STARDOS_IMAGE_IT, ""},  /* fuzzy */
+/* it */ {IDMS_STARDOS_IMAGE_IT, "Immagine StarDOS..."},
 /* nl */ {IDMS_STARDOS_IMAGE_NL, "StarDOS bestand..."},
 /* pl */ {IDMS_STARDOS_IMAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_STARDOS_IMAGE_SV, "StarDOS-fil..."},
@@ -727,7 +727,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDMS_EDIT_DE, "Bearbeiten"},
 /* fr */ {IDMS_EDIT_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_EDIT_HU, "Szerkeszt"},
-/* it */ {IDMS_EDIT_IT, ""},  /* fuzzy */
+/* it */ {IDMS_EDIT_IT, "Modifica"},
 /* nl */ {IDMS_EDIT_NL, "Bewerken"},
 /* pl */ {IDMS_EDIT_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_EDIT_SV, "Redigera"},
@@ -736,7 +736,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDMS_COPY_DE, "Kopie"},
 /* fr */ {IDMS_COPY_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_COPY_HU, "Másol"},
-/* it */ {IDMS_COPY_IT, ""},  /* fuzzy */
+/* it */ {IDMS_COPY_IT, "Copia"},
 /* nl */ {IDMS_COPY_NL, "Kopie"},
 /* pl */ {IDMS_COPY_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_COPY_SV, ""},  /* fuzzy */
@@ -745,7 +745,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDMS_PASTE_DE, "Einfúgen"},
 /* fr */ {IDMS_PASTE_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_PASTE_HU, "Beilleszt"},
-/* it */ {IDMS_PASTE_IT, ""},  /* fuzzy */
+/* it */ {IDMS_PASTE_IT, "Incolla"},
 /* nl */ {IDMS_PASTE_NL, "Plakken"},
 /* pl */ {IDMS_PASTE_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_PASTE_SV, "Klistra in"},
@@ -1294,7 +1294,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDMS_GRAB_MOUSE_DE, "Maus Ereignisse abfangen"},
 /* fr */ {IDMS_GRAB_MOUSE_FR, "Attraper les événements souris"},
 /* hu */ {IDMS_GRAB_MOUSE_HU, "Egér események elkapása"},
-/* it */ {IDMS_GRAB_MOUSE_IT, ""},  /* fuzzy */
+/* it */ {IDMS_GRAB_MOUSE_IT, "Cattura eventi mouse"},
 /* nl */ {IDMS_GRAB_MOUSE_NL, "Gebruik de muis"},
 /* pl */ {IDMS_GRAB_MOUSE_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_GRAB_MOUSE_SV, "Fånga mushändelser"},
@@ -1303,7 +1303,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDMS_PS2_MOUSE_DE, ""},  /* fuzzy */
 /* fr */ {IDMS_PS2_MOUSE_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_PS2_MOUSE_HU, "PS/2 egér emuláció"},
-/* it */ {IDMS_PS2_MOUSE_IT, ""},  /* fuzzy */
+/* it */ {IDMS_PS2_MOUSE_IT, "Emulazione del mouse PS/2"},
 /* nl */ {IDMS_PS2_MOUSE_NL, "PS/2 muis emulatie"},
 /* pl */ {IDMS_PS2_MOUSE_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_PS2_MOUSE_SV, "PS/2-musemulering"},
@@ -1447,7 +1447,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDMS_MOUSE_SETTINGS_DE, "Maus Einstellungen..."},
 /* fr */ {IDMS_MOUSE_SETTINGS_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_MOUSE_SETTINGS_HU, "Egér beállításai..."},
-/* it */ {IDMS_MOUSE_SETTINGS_IT, ""},  /* fuzzy */
+/* it */ {IDMS_MOUSE_SETTINGS_IT, "Impostazioni mouse..."},
 /* nl */ {IDMS_MOUSE_SETTINGS_NL, "Muis instellingen..."},
 /* pl */ {IDMS_MOUSE_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_MOUSE_SETTINGS_SV, "Musinställningar..."},
@@ -1663,7 +1663,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDMS_C64DTV_SETTINGS_DE, ""},  /* fuzzy */
 /* fr */ {IDMS_C64DTV_SETTINGS_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_C64DTV_SETTINGS_HU, "C64DTV beállításai..."},
-/* it */ {IDMS_C64DTV_SETTINGS_IT, ""},  /* fuzzy */
+/* it */ {IDMS_C64DTV_SETTINGS_IT, "Impostazioni C64DTV..."},
 /* nl */ {IDMS_C64DTV_SETTINGS_NL, "C64DTV instellingen..."},
 /* pl */ {IDMS_C64DTV_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_C64DTV_SETTINGS_SV, "C64DTV-inställningar..."},
@@ -1888,7 +1888,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDMS_FULLSCREEN_STATUSBAR_DE, "Vollbild Statusleiste"},
 /* fr */ {IDMS_FULLSCREEN_STATUSBAR_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_FULLSCREEN_STATUSBAR_HU, "Állapotsor teljes képernyõnél"},
-/* it */ {IDMS_FULLSCREEN_STATUSBAR_IT, "Statusbar nella modalità a tutto schermo"},
+/* it */ {IDMS_FULLSCREEN_STATUSBAR_IT, "Barra di stato nella modalità a tutto schermo"},
 /* nl */ {IDMS_FULLSCREEN_STATUSBAR_NL, "Volscherm Statusbalk"},
 /* pl */ {IDMS_FULLSCREEN_STATUSBAR_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_FULLSCREEN_STATUSBAR_SV, "Status rad vid fullskärm"},
@@ -2043,7 +2043,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDMES_NO_JOY_ON_PORT_D_DE, "Kein Joystick oder Joypad am Port %d gefunden"},
 /* fr */ {IDMES_NO_JOY_ON_PORT_D_FR, "Aucun joystick ou manette trouvée sur le port %d"},
 /* hu */ {IDMES_NO_JOY_ON_PORT_D_HU, "Nem találtam botkormányt a %d porton"},
-/* it */ {IDMES_NO_JOY_ON_PORT_D_IT, "Non è stato trovato nessun joystick o joypad sulla porta %d"},
+/* it */ {IDMES_NO_JOY_ON_PORT_D_IT, "Non è stato trovato alcun joystick o joypad sulla porta %d"},
 /* nl */ {IDMES_NO_JOY_ON_PORT_D_NL, "Geen joystick of joypad gevonden op poort %d"},
 /* pl */ {IDMES_NO_JOY_ON_PORT_D_PL, ""},  /* fuzzy */
 /* sv */ {IDMES_NO_JOY_ON_PORT_D_SV, "Ingen joystick eller joypad hittades på port %d"},
@@ -2495,7 +2495,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDS_ATTACH_STARDOS_IMAGE_DE, "Erweiterungsmodul StarDOS Image einlegen"},
 /* fr */ {IDS_ATTACH_STARDOS_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDS_ATTACH_STARDOS_IMAGE_HU, ""},  /* fuzzy */
-/* it */ {IDS_ATTACH_STARDOS_IMAGE_IT, ""},  /* fuzzy */
+/* it */ {IDS_ATTACH_STARDOS_IMAGE_IT, "Seleziona l'immagine di una cartuccia StarDOS"},
 /* nl */ {IDS_ATTACH_STARDOS_IMAGE_NL, "Koppel StarDOS cartridgebestand"},
 /* pl */ {IDS_ATTACH_STARDOS_IMAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDS_ATTACH_STARDOS_IMAGE_SV, "Anslut StarDOS-insticksmodulfil"},
@@ -2891,7 +2891,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDS_C64DTV_ROM_FILENAME_SELECT_DE, ""},  /* fuzzy */
 /* fr */ {IDS_C64DTV_ROM_FILENAME_SELECT_FR, ""},  /* fuzzy */
 /* hu */ {IDS_C64DTV_ROM_FILENAME_SELECT_HU, "Válasszon fájlt a C64DTV ROM-hoz"},
-/* it */ {IDS_C64DTV_ROM_FILENAME_SELECT_IT, ""},  /* fuzzy */
+/* it */ {IDS_C64DTV_ROM_FILENAME_SELECT_IT, "Seleziona il file per la ROM C64DTV"},
 /* nl */ {IDS_C64DTV_ROM_FILENAME_SELECT_NL, "Selecteer bestand voor C64DTV ROM"},
 /* pl */ {IDS_C64DTV_ROM_FILENAME_SELECT_PL, ""},  /* fuzzy */
 /* sv */ {IDS_C64DTV_ROM_FILENAME_SELECT_SV, "Välj fil för C64DTV-ROM"},
@@ -2900,7 +2900,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDS_C64DTV_ROM_FILENAME_DE, ""},  /* fuzzy */
 /* fr */ {IDS_C64DTV_ROM_FILENAME_FR, ""},  /* fuzzy */
 /* hu */ {IDS_C64DTV_ROM_FILENAME_HU, "C64DTV ROM fájl"},
-/* it */ {IDS_C64DTV_ROM_FILENAME_IT, ""},  /* fuzzy */
+/* it */ {IDS_C64DTV_ROM_FILENAME_IT, "File ROM C64DTV"},
 /* nl */ {IDS_C64DTV_ROM_FILENAME_NL, "C64DTV ROM bestand"},
 /* pl */ {IDS_C64DTV_ROM_FILENAME_PL, ""},  /* fuzzy */
 /* sv */ {IDS_C64DTV_ROM_FILENAME_SV, "C64DTV-ROM-fil"},
@@ -2909,7 +2909,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDS_C64DTV_REVISION_DE, ""},  /* fuzzy */
 /* fr */ {IDS_C64DTV_REVISION_FR, ""},  /* fuzzy */
 /* hu */ {IDS_C64DTV_REVISION_HU, "C64DTV változat"},
-/* it */ {IDS_C64DTV_REVISION_IT, ""},  /* fuzzy */
+/* it */ {IDS_C64DTV_REVISION_IT, "Revisione C64DTV"},
 /* nl */ {IDS_C64DTV_REVISION_NL, "C64DTV revisie"},
 /* pl */ {IDS_C64DTV_REVISION_PL, ""},  /* fuzzy */
 /* sv */ {IDS_C64DTV_REVISION_SV, "C64DTV-utgåva"},
@@ -2918,7 +2918,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDS_C64DTV_WRITE_ENABLE_DE, "Schreibzugriff auf C64DTV ROM"},
 /* fr */ {IDS_C64DTV_WRITE_ENABLE_FR, ""},  /* fuzzy */
 /* hu */ {IDS_C64DTV_WRITE_ENABLE_HU, "C64DTV ROM-ba írások"},
-/* it */ {IDS_C64DTV_WRITE_ENABLE_IT, ""},  /* fuzzy */
+/* it */ {IDS_C64DTV_WRITE_ENABLE_IT, "Scrivi sulla ROM C64DTV"},
 /* nl */ {IDS_C64DTV_WRITE_ENABLE_NL, "Schrijven naar C64DTV ROM"},
 /* pl */ {IDS_C64DTV_WRITE_ENABLE_PL, ""},  /* fuzzy */
 /* sv */ {IDS_C64DTV_WRITE_ENABLE_SV, ""},  /* fuzzy */
@@ -2927,7 +2927,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDS_C64DTV_HUMMER_JOY_ENABLE_DE, "Hummer Userport Joystick"},
 /* fr */ {IDS_C64DTV_HUMMER_JOY_ENABLE_FR, ""},  /* fuzzy */
 /* hu */ {IDS_C64DTV_HUMMER_JOY_ENABLE_HU, "Hummer Userport botkormány"},
-/* it */ {IDS_C64DTV_HUMMER_JOY_ENABLE_IT, ""},  /* fuzzy */
+/* it */ {IDS_C64DTV_HUMMER_JOY_ENABLE_IT, "Joystick della userport dell'Hummer"},
 /* nl */ {IDS_C64DTV_HUMMER_JOY_ENABLE_NL, "Hummer Userport joystick"},
 /* pl */ {IDS_C64DTV_HUMMER_JOY_ENABLE_PL, ""},  /* fuzzy */
 /* sv */ {IDS_C64DTV_HUMMER_JOY_ENABLE_SV, ""},  /* fuzzy */
@@ -2936,7 +2936,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDS_C64DTV_HUMMER_JOY_PORT_DE, "Joystick Port auf Hummer Userport zugeordnet"},
 /* fr */ {IDS_C64DTV_HUMMER_JOY_PORT_FR, ""},  /* fuzzy */
 /* hu */ {IDS_C64DTV_HUMMER_JOY_PORT_HU, "Botkormány port leképezve a Hummer userportra"},
-/* it */ {IDS_C64DTV_HUMMER_JOY_PORT_IT, ""},  /* fuzzy */
+/* it */ {IDS_C64DTV_HUMMER_JOY_PORT_IT, "Porta joystick mappata sulla userport dell'Hummer"},
 /* nl */ {IDS_C64DTV_HUMMER_JOY_PORT_NL, "Joystick omgeleidt naar Hummer Userport"},
 /* pl */ {IDS_C64DTV_HUMMER_JOY_PORT_PL, ""},  /* fuzzy */
 /* sv */ {IDS_C64DTV_HUMMER_JOY_PORT_SV, ""},  /* fuzzy */
@@ -2945,7 +2945,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDS_C64DTV_SETTINGS_DE, "C64DTV Einstellungen"},
 /* fr */ {IDS_C64DTV_SETTINGS_FR, ""},  /* fuzzy */
 /* hu */ {IDS_C64DTV_SETTINGS_HU, ""},  /* fuzzy */
-/* it */ {IDS_C64DTV_SETTINGS_IT, ""},  /* fuzzy */
+/* it */ {IDS_C64DTV_SETTINGS_IT, "Impostazioni C64DTV"},
 /* nl */ {IDS_C64DTV_SETTINGS_NL, "C64DTV Instellingen"},
 /* pl */ {IDS_C64DTV_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDS_C64DTV_SETTINGS_SV, "C64DTV-inställningar"},
@@ -3404,7 +3404,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDS_SET_INPUT_JOYSTICK_1_DE, "Joystick #1 Emulation: (0:Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)"},
 /* fr */ {IDS_SET_INPUT_JOYSTICK_1_FR, "Émulation Joystick #1: (0:Aucun, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"},
 /* hu */ {IDS_SET_INPUT_JOYSTICK_1_HU, "#1-es botkormány emuláció: (0: Nincs, 1: numerikus, 2: 'A' gombkészlet, 3: 'B' gombkészlet)"},
-/* it */ {IDS_SET_INPUT_JOYSTICK_1_IT, "Emulazione Joystick #1: (0:Nessuna, 1: Tastierino numerico, 2: Keyset A/AI, 3: Keyset B/AI)"},
+/* it */ {IDS_SET_INPUT_JOYSTICK_1_IT, "Emulazione Joystick #1: (0: Nessuna, 1: Tastierino numerico, 2: Keyset A/AI, 3: Keyset B/AI)"},
 /* nl */ {IDS_SET_INPUT_JOYSTICK_1_NL, "Emulatie joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"},
 /* pl */ {IDS_SET_INPUT_JOYSTICK_1_PL, ""},  /* fuzzy */
 /* sv */ {IDS_SET_INPUT_JOYSTICK_1_SV, "Joystick #1 emulation: (0:Ingen, 1: Numeriskt tangentbord, 2: Teckenuppsättning A/AI, 3: Teckenuppsättning B/AI)" },
@@ -3413,28 +3413,28 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDS_SET_INPUT_JOYSTICK_2_DE, "Joystick #2 Emulation: (0:Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)"},
 /* fr */ {IDS_SET_INPUT_JOYSTICK_2_FR, "Émulation Joystick #2: (0:Aucun, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"},
 /* hu */ {IDS_SET_INPUT_JOYSTICK_2_HU, "#2-es botkormány emuláció: (0: Nincs, 1: numerikus, 2: 'A' gombkészlet, 3: 'B' gombkészlet)"},
-/* it */ {IDS_SET_INPUT_JOYSTICK_2_IT, "Emulazione Joystick #2: (0:Nessuna, 1: Tastierino numerico, 2: Keyset A/AI, 3: Keyset B/AI)"},
+/* it */ {IDS_SET_INPUT_JOYSTICK_2_IT, "Emulazione Joystick #2: (0: Nessuna, 1: Tastierino numerico, 2: Keyset A/AI, 3: Keyset B/AI)"},
 /* nl */ {IDS_SET_INPUT_JOYSTICK_2_NL, "Emulatie joystick #2: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"},
 /* pl */ {IDS_SET_INPUT_JOYSTICK_2_PL, ""},  /* fuzzy */
 /* sv */ {IDS_SET_INPUT_JOYSTICK_2_SV, "Joystick #2 emulation: (0:Ingen, 1: Numeriskt tangentbord, 2: Teckenuppsättning A/AI, 3: Teckenuppsättning B/AI)" },
 
-/* en */ {IDS_SET_INPUT_JOYLL_1,    "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3"},
-/* de */ {IDS_SET_INPUT_JOYLL_1_DE, "Joystick #1 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3"},
+/* en */ {IDS_SET_INPUT_JOYLL_1,    "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"},
+/* de */ {IDS_SET_INPUT_JOYLL_1_DE, "Joystick #1 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3)"},
 /* fr */ {IDS_SET_INPUT_JOYLL_1_FR, ""},  /* fuzzy */
-/* hu */ {IDS_SET_INPUT_JOYLL_1_HU, "#1-es botkormány emuláció: (0: nincs, 1: numerikus billentyûk, 2-5: amiga botkormány 0-3"},
-/* it */ {IDS_SET_INPUT_JOYLL_1_IT, "Emulazione Joystick #1: (0: Nessuna, 1: Tastierino numerico, 2-5: Joy Amiga 0-3"},
-/* nl */ {IDS_SET_INPUT_JOYLL_1_NL, "Emulatie joystick #1: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3"},
+/* hu */ {IDS_SET_INPUT_JOYLL_1_HU, "#1-es botkormány emuláció: (0: nincs, 1: numerikus billentyûk, 2-5: amiga botkormány 0-3)"},
+/* it */ {IDS_SET_INPUT_JOYLL_1_IT, "Emulazione Joystick #1: (0: Nessuna, 1: Tastierino numerico, 2-5: Joy Amiga 0-3)"},
+/* nl */ {IDS_SET_INPUT_JOYLL_1_NL, "Emulatie joystick #1: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3)"},
 /* pl */ {IDS_SET_INPUT_JOYLL_1_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SET_INPUT_JOYLL_1_SV, "Joystick #1 emulation: (0:Ingen, 1: Numeriskt tangentbord, 2-5: Amiga Joy 0-3"},
+/* sv */ {IDS_SET_INPUT_JOYLL_1_SV, "Joystick #1 emulation: (0:Ingen, 1: Numeriskt tangentbord, 2-5: Amiga Joy 0-3)"},
 
-/* en */ {IDS_SET_INPUT_JOYLL_2,    "Joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3"},
-/* de */ {IDS_SET_INPUT_JOYLL_2_DE, "Joystick #2 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3"},
+/* en */ {IDS_SET_INPUT_JOYLL_2,    "Joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"},
+/* de */ {IDS_SET_INPUT_JOYLL_2_DE, "Joystick #2 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3)"},
 /* fr */ {IDS_SET_INPUT_JOYLL_2_FR, ""},  /* fuzzy */
-/* hu */ {IDS_SET_INPUT_JOYLL_2_HU, "#2-es botkormány emuláció: (0: nincs, 1: numerikus billentyûk, 2-5: amiga botkormány 0-3"},
-/* it */ {IDS_SET_INPUT_JOYLL_2_IT, "Emulazione Joystick #2: (0: Nessuna, 1: Tastierino numerico, 2-5: Joy Amiga 0-3"},
-/* nl */ {IDS_SET_INPUT_JOYLL_2_NL, "Emulatie Joystick #2: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3"},
+/* hu */ {IDS_SET_INPUT_JOYLL_2_HU, "#2-es botkormány emuláció: (0: nincs, 1: numerikus billentyûk, 2-5: amiga botkormány 0-3)"},
+/* it */ {IDS_SET_INPUT_JOYLL_2_IT, "Emulazione Joystick #2: (0: Nessuna, 1: Tastierino numerico, 2-5: Joy Amiga 0-3)"},
+/* nl */ {IDS_SET_INPUT_JOYLL_2_NL, "Emulatie Joystick #2: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3)"},
 /* pl */ {IDS_SET_INPUT_JOYLL_2_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SET_INPUT_JOYLL_2_SV, "Joystick #2 emulation: (0:Ingen, 1: Numeriskt tangentbord, 2-5: Amiga Joy 0-3"},
+/* sv */ {IDS_SET_INPUT_JOYLL_2_SV, "Joystick #2 emulation: (0:Ingen, 1: Numeriskt tangentbord, 2-5: Amiga Joy 0-3)"},
 
 /* en */ {IDS_SAVE_SETTINGS_ON_EXIT,    "Save settings (resources) on exit"},
 /* de */ {IDS_SAVE_SETTINGS_ON_EXIT_DE, "Einstellungen (Ressourcen) beim Beenden speichern"},
@@ -3728,7 +3728,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDS_FAST_DE, "Schnell"},
 /* fr */ {IDS_FAST_FR, "rapide"},
 /* hu */ {IDS_FAST_HU, "gyors"},
-/* it */ {IDS_FAST_IT, "veloce"},
+/* it */ {IDS_FAST_IT, "Veloce"},
 /* nl */ {IDS_FAST_NL, "snel"},
 /* pl */ {IDS_FAST_PL, ""},  /* fuzzy */
 /* sv */ {IDS_FAST_SV, "snabbt"},
@@ -4376,7 +4376,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDS_NEW_PAL_TINT_0_2_DE, "Farbton (0..2)"},
 /* fr */ {IDS_NEW_PAL_TINT_0_2_FR, ""},  /* fuzzy */
 /* hu */ {IDS_NEW_PAL_TINT_0_2_HU, "Szín (0..2)"},
-/* it */ {IDS_NEW_PAL_TINT_0_2_IT, ""},  /* fuzzy */
+/* it */ {IDS_NEW_PAL_TINT_0_2_IT, "Sfumatura (0..2)"},
 /* nl */ {IDS_NEW_PAL_TINT_0_2_NL, "Tint (0..2)"},
 /* pl */ {IDS_NEW_PAL_TINT_0_2_PL, ""},  /* fuzzy */
 /* sv */ {IDS_NEW_PAL_TINT_0_2_SV, "Färgton (0..2)"},
@@ -4385,7 +4385,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDS_NEW_PAL_PHASE_0_2_DE, "Ungerade Zeilenphase (0..2)"},
 /* fr */ {IDS_NEW_PAL_PHASE_0_2_FR, ""},  /* fuzzy */
 /* hu */ {IDS_NEW_PAL_PHASE_0_2_HU, "Páratlan sorok fázisa (0..2)"},
-/* it */ {IDS_NEW_PAL_PHASE_0_2_IT, ""},  /* fuzzy */
+/* it */ {IDS_NEW_PAL_PHASE_0_2_IT, "Fase linee dispari (0..2)"},
 /* nl */ {IDS_NEW_PAL_PHASE_0_2_NL, "Oneven lijnen fase (0..2)"},
 /* pl */ {IDS_NEW_PAL_PHASE_0_2_PL, ""},  /* fuzzy */
 /* sv */ {IDS_NEW_PAL_PHASE_0_2_SV, "Fas för udda linjer (0..2)"},
@@ -4394,19 +4394,10 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDS_NEW_PAL_OFFSET_0_2_DE, "Ungerader Zeilenoffset (0..2)"},
 /* fr */ {IDS_NEW_PAL_OFFSET_0_2_FR, ""},  /* fuzzy */
 /* hu */ {IDS_NEW_PAL_OFFSET_0_2_HU, "Páratlan sorok offszetje (0..2)"},
-/* it */ {IDS_NEW_PAL_OFFSET_0_2_IT, ""},  /* fuzzy */
+/* it */ {IDS_NEW_PAL_OFFSET_0_2_IT, "Offset linee dispari (0..2)"},
 /* nl */ {IDS_NEW_PAL_OFFSET_0_2_NL, "Oneven lijnen compensatie (0..2)"},
 /* pl */ {IDS_NEW_PAL_OFFSET_0_2_PL, ""},  /* fuzzy */
 /* sv */ {IDS_NEW_PAL_OFFSET_0_2_SV, "Utjämning för udda linjer (0..2)"},
-
-/* en */ {IDS_PAL_MODE,    "PAL Mode"},
-/* de */ {IDS_PAL_MODE_DE, "PAL Modus"},
-/* fr */ {IDS_PAL_MODE_FR, "Mode PAL"},
-/* hu */ {IDS_PAL_MODE_HU, "PAL mód"},
-/* it */ {IDS_PAL_MODE_IT, "Modalità PAL"},
-/* nl */ {IDS_PAL_MODE_NL, "PAL-modus"},
-/* pl */ {IDS_PAL_MODE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_PAL_MODE_SV, "PAL-läge"},
 
 /* en */ {IDS_EXTERNAL_PALETTE,    "External Palette"},
 /* de */ {IDS_EXTERNAL_PALETTE_DE, "Externe Palette"},
@@ -4889,7 +4880,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDS_MOUSE_TYPE_DE, "Maustyp"},
 /* fr */ {IDS_MOUSE_TYPE_FR, "Type de souris"},
 /* hu */ {IDS_MOUSE_TYPE_HU, "Egér típusa"},
-/* it */ {IDS_MOUSE_TYPE_IT, ""},  /* fuzzy */
+/* it */ {IDS_MOUSE_TYPE_IT, "Tipo di mouse"},
 /* nl */ {IDS_MOUSE_TYPE_NL, "Muis soort"},
 /* pl */ {IDS_MOUSE_TYPE_PL, ""},  /* fuzzy */
 /* sv */ {IDS_MOUSE_TYPE_SV, "Mustyp"},
@@ -4898,7 +4889,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDS_MOUSE_SETTINGS_DE, "Maus Einstellungen"},
 /* fr */ {IDS_MOUSE_SETTINGS_FR, "Paramètres de souris"},
 /* hu */ {IDS_MOUSE_SETTINGS_HU, "Egér beállítások"},
-/* it */ {IDS_MOUSE_SETTINGS_IT, ""},  /* fuzzy */
+/* it */ {IDS_MOUSE_SETTINGS_IT, "Impostazioni mouse"},
 /* nl */ {IDS_MOUSE_SETTINGS_NL, "Muis Instellingen"},
 /* pl */ {IDS_MOUSE_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDS_MOUSE_SETTINGS_SV, "Musinställningar"},
@@ -4907,7 +4898,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDS_MOUSE_PORT_DE, "Maus Port"},
 /* fr */ {IDS_MOUSE_PORT_FR, "Port de la souris"},
 /* hu */ {IDS_MOUSE_PORT_HU, ""},  /* fuzzy */
-/* it */ {IDS_MOUSE_PORT_IT, ""},  /* fuzzy */
+/* it */ {IDS_MOUSE_PORT_IT, "Porta del mouse"},
 /* nl */ {IDS_MOUSE_PORT_NL, "Muis poort"},
 /* pl */ {IDS_MOUSE_PORT_PL, ""},  /* fuzzy */
 /* sv */ {IDS_MOUSE_PORT_SV, ""},  /* fuzzy */
@@ -4916,7 +4907,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDS_MOUSE_1351_DE, "1351 Maus"},
 /* fr */ {IDS_MOUSE_1351_FR, "Souris 1351"},
 /* hu */ {IDS_MOUSE_1351_HU, "1351 egér"},
-/* it */ {IDS_MOUSE_1351_IT, ""},  /* fuzzy */
+/* it */ {IDS_MOUSE_1351_IT, "Mouse 1351"},
 /* nl */ {IDS_MOUSE_1351_NL, "1351 muis"},
 /* pl */ {IDS_MOUSE_1351_PL, ""},  /* fuzzy */
 /* sv */ {IDS_MOUSE_1351_SV, "1351-mus"},
@@ -4925,7 +4916,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDS_MOUSE_NEOS_DE, "NEOS Maus"},
 /* fr */ {IDS_MOUSE_NEOS_FR, "Souris NEOS"},
 /* hu */ {IDS_MOUSE_NEOS_HU, "NEOS egér"},
-/* it */ {IDS_MOUSE_NEOS_IT, ""},  /* fuzzy */
+/* it */ {IDS_MOUSE_NEOS_IT, "Mouse NEOS"},
 /* nl */ {IDS_MOUSE_NEOS_NL, "NEOS muis"},
 /* pl */ {IDS_MOUSE_NEOS_PL, ""},  /* fuzzy */
 /* sv */ {IDS_MOUSE_NEOS_SV, "NEOS-mus"},
@@ -4934,7 +4925,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ {IDS_MOUSE_AMIGA_DE, "Amiga Maus"},
 /* fr */ {IDS_MOUSE_AMIGA_FR, "Souris Amiga"},
 /* hu */ {IDS_MOUSE_AMIGA_HU, "Amiga egér"},
-/* it */ {IDS_MOUSE_AMIGA_IT, ""},  /* fuzzy */
+/* it */ {IDS_MOUSE_AMIGA_IT, "Mouse Amiga"},
 /* nl */ {IDS_MOUSE_AMIGA_NL, "Amiga muis"},
 /* pl */ {IDS_MOUSE_AMIGA_PL, ""},  /* fuzzy */
 /* sv */ {IDS_MOUSE_AMIGA_SV, "Amigamus"},

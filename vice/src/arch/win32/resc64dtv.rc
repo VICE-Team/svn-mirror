@@ -1371,18 +1371,18 @@ END
 
 IDD_C64DTV_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "C64DTV Settings"
+CAPTION "Impostazioni C64DTV"
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "DTV Revision",
+    LTEXT           "Revisione DTV",
                     IDC_DTV_REVISION_LABEL, 63, 6, 110, 8
     COMBOBOX        IDC_DTV_REVISION, 9, 5, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "HUMMER",
                     IDC_STATIC,3,22,174,40
-    AUTOCHECKBOX    "Enable &Hummer Userport Joystick", IDC_C64DTV_HUMMER_USR_JOY_ENABLE,
+    AUTOCHECKBOX    "Attiva il joystick sulla userport dell'&Hummer", IDC_C64DTV_HUMMER_USR_JOY_ENABLE,
                     7, 32, 160, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Joyport mapped to userport",
+    LTEXT           "Porta joystick mappata su userport",
                     IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
     COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
@@ -1552,16 +1552,16 @@ END
 
 IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Attach DTV Flash Image"
+CAPTION "Seleziona l'immagine di una memoria flash DTV"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "DTV ROM",
+    GROUPBOX        "ROM DTV",
                     IDC_STATIC,3,2,174,55
-    LTEXT           "DTV ROM &image File",
+    LTEXT           "File &immagine ROM DTV",
                     IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
     PUSHBUTTON      "Sfoglia...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
     EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
-    AUTOCHECKBOX    "Enable &writes to DTV ROM image", IDC_C64DTV_ROM_WRITE_ENABLE,
+    AUTOCHECKBOX    "Attiva &scrittura su immagini ROM DTV", IDC_C64DTV_ROM_WRITE_ENABLE,
                     7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30, 74, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
@@ -1718,18 +1718,18 @@ END
 
 IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Create DTV Flash Image"
+CAPTION "Crea l'immagine di una memoria flash DTV"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "DTV ROM Creation",
+    GROUPBOX        "Creazione ROM DTV",
                     IDC_STATIC,3,2,174,55
-    LTEXT           "DTV ROM &image File",
+    LTEXT           "File &immagine ROM DTV",
                     IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
     PUSHBUTTON      "Sfoglia...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
     EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
-    AUTOCHECKBOX    "Copy C64 ROMS into image", IDC_C64DTV_ROM_COPY_C64,
+    AUTOCHECKBOX    "Copia ROM C64 in un'immagine", IDC_C64DTV_ROM_COPY_C64,
                     7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    DEFPUSHBUTTON   "Create", IDOK, 30, 74, 50, 14, WS_TABSTOP
+    DEFPUSHBUTTON   "Crea", IDOK, 30, 74, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
 END
 
@@ -1866,13 +1866,13 @@ STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_MP_DTV_FLASH_ROM_IMAGE     "DTV flash &rom image"
-    IDS_MI_AUTOSTART_DISK          "&Avvia automaticamente l'immagine di un disco..."
-    IDS_MI_ATTACH_DTV_FLASH        "Attach &flash rom image"
-    IDS_MI_DETACH_DTV_FLASH        "&Detach flash rom image"
-    IDS_MI_CREATE_DTV_FLASH        "&Create new flash rom image"
-    IDS_MI_FLASH_TRUE_FILESYSTEM   "&True flash filesystem"
-    IDS_MI_PS2MOUSE                "&PS/2 mouse emulation"
-    IDS_MI_C64DTV_SETTINGS         "&C64DTV settings..."
+    IDS_MI_AUTOSTART_DISK          "Avvia automaticamente l'immagine del disco"
+    IDS_MI_ATTACH_DTV_FLASH        "Seleziona l'immagine di una rom &flash"
+    IDS_MI_DETACH_DTV_FLASH        "&Rimuovi l'immagine di una rom flash"
+    IDS_MI_CREATE_DTV_FLASH        "&Crea una nuova immagine di una rom flash"
+    IDS_MI_FLASH_TRUE_FILESYSTEM   "Attiva l'emulazione &hardware del filesystem flash"
+    IDS_MI_PS2MOUSE                "Emulazione del mouse &PS/2"
+    IDS_MI_C64DTV_SETTINGS         "Impostazioni &C64DTV..."
 END
 
 // DUTCH text
