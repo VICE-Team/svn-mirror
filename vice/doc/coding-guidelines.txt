@@ -1,15 +1,19 @@
 VICE project coding guidelines
 ==============================
 
-This document is intended to set some guidelines for people wanting to contribute code to the VICE project.
+This document is intended to set some guidelines for people wanting to
+contribute code to the VICE project.
 
-There are two distinct parts to the VICE source code, the architecture code parts which are located in src/arch,
-and the common code parts which are located everywhere in src except in src/arch.
+There are two distinct parts to the VICE source code, the architecture code
+parts which are located in src/arch, and the common code parts which are
+located everywhere in src except in src/arch.
 
-The architecture code parts are in their own respective directories and may have their own coding style.
+The architecture code parts are in their own respective directories and may
+have their own coding style.
 
-The common code however is used by all supported architectures and therefor needs to be as portable as possible. To achieve
-this portability some guidelines have to be followed.
+The common code however is used by all supported architectures and therefor
+needs to be as portable as possible. To achieve this portability some
+guidelines have to be followed.
 
 
 
@@ -18,9 +22,12 @@ Cosmetic guidelines for all code
 
 To keep the code easy to follow please read the following statements:
 
-- Don't use mixtures of tabs and spaces as indentation, using 3 or 4 spaces or using a single tab per level will make the
-  code look the same no matter what editor you use. However, make sure the indentation style is the same throughout the
-  source file.
+- No variable declarations after the first line of code, some compilers
+  just can't handle it.
+- Don't use mixtures of tabs and spaces as indentation, using 3 or 4 spaces
+  or using a single tab per level will make the code look the same no matter
+  what editor you use. However, make sure the indentation style is the
+  same throughout the source file.
 - For 'if' and 'for' always use braces.
 
 
@@ -30,8 +37,10 @@ Common code guidelines
 
 Many different compilers are used to compile the common code parts.
 
-- When using headers which are tested for in configure.in don't assume they exist, use the #ifdef HAVE_*_H instead.
-- Don't use C++ style comments (// comment), use C-style comments instead (/* comment */).
+- When using headers which are tested for in configure.in don't assume they
+  exist, use the #ifdef HAVE_*_H instead.
+- Don't use C++ style comments (// comment), use C-style comments instead
+  (/* comment */).
 - When adding header files use VICE_*_H as shown in the following example:
 
 #ifndef VICE_RS232_H
@@ -45,8 +54,9 @@ Many different compilers are used to compile the common code parts.
 intl code guidelines
 ====================
 
-VICE supports intl for win32, amiga and *nix platforms. Any text belonging that is meant for the user (command-line/UI)
-needs to be handled by means of the translation system.
+VICE supports intl for win32, amiga and *nix platforms. Any text belonging
+that is meant for the user (command-line/UI) needs to be handled by means
+of the translation system.
 
 The command-line options structure is defined as followed:
 
@@ -95,27 +105,36 @@ typedef struct cmdline_option_s {
 
 The intl related fields are:
 
-param_name           This field holds a pointer to the string to be used for the parameter of the commandline option,
-                     fill in with NULL when ID is used.
+param_name           This field holds a pointer to the string to be used for
+                     the parameter of the commandline option, fill in with
+                     NULL when ID is used.
 
-description          This field holds a pointer to the string to be used for the description of the commandline option,
-                     fill up with NULL when ID is used.
-
-
-param_name_trans     This field holds the ID of the string to be used for the parameter of the commandline option, fill in
-                     with IDCLS_UNUSED when string is used.
-
-description_trans    This field holds the ID of the string to be used for the description of the commandline option, fill
-                     in with IDCLS_UNUSED when string is used.
+description          This field holds a pointer to the string to be used for
+                     the description of the commandline option, fill up with
+                     NULL when ID is used.
 
 
-use_param_name_id    This field is used to indicate if an ID or text needs to be used, ID's are normally used for common
-                     code, amiga code and win32 code. When set to USE_PARAM_ID the ID field will be used, and when set to
-                     USE_PARAM_STRING the text pointer field will be used.
+param_name_trans     This field holds the ID of the string to be used for the
+                     parameter of the commandline option, fill in with
+                     IDCLS_UNUSED when string is used.
 
-use_description_id   This field is used to indicate if an ID or text needs to be used, ID's are normally used for common
-                     code, amiga code and win32 code. When set to USE_DESCRIPTION_ID the ID field will be used, and when
-                     set to USE_DESCRIPTION_STRING the text pointer field will be used.
+description_trans    This field holds the ID of the string to be used for the
+                     description of the commandline option, fill in with
+                     IDCLS_UNUSED when string is used.
+
+
+use_param_name_id    This field is used to indicate if an ID or text needs to
+                     be used, ID's are normally used for common code, amiga
+                     code and win32 code. When set to USE_PARAM_ID the ID
+                     field will be used, and when set to USE_PARAM_STRING the
+                     text pointer field will be used.
+
+use_description_id   This field is used to indicate if an ID or text needs to
+                     be used, ID's are normally used for common code, amiga
+                     code and win32 code. When set to USE_DESCRIPTION_ID
+                     the ID field will be used, and when set to
+                     USE_DESCRIPTION_STRING the text pointer field will be
+                     used.
 
 
 Adding new common code and win32/amiga ui-related elements
@@ -125,15 +144,18 @@ Easy way:
 
 ui_message(T_("text"))
 
-The T_(...) will indicate to the intl maintainer that this item needs to be added to the translation system. The intl
-maintainer will take care of these and the coder has no extra worries about it.
+The T_(...) will indicate to the intl maintainer that this item needs to be
+added to the translation system. The intl maintainer will take care of these
+and the coder has no extra worries about it.
 
 
 Hard way:
 
-For any text you add you will need to create a new ID and add the ID to the ID-list in src/translate.txt and add a
-translation table block in src/translation.c. There are two types of ID's in the common code IGDS_* (Global Strings: text
-ued in common code) and IDCLS_* (Command Line Strings: text used in command-line options).
+For any text you add you will need to create a new ID and add the ID to the
+ID-list in src/translate.txt and add a translation table block in
+src/translation.c. There are two types of ID's in the common code IGDS_*
+(Global Strings: text used in common code) and IDCLS_* (Command Line Strings:
+text used in command-line options).
 
 Example:
 
@@ -166,7 +188,8 @@ Easy way:
       IDCLS_UNUSED, IDCLS_UNUSED,
       T_("<name>"), T_("Specify MIDI-Out device") },
 
-The T_(...) will indicate to the intl maintainer that this item needs to be added to translate.*
+The T_(...) will indicate to the intl maintainer that this item needs to be
+added to translate.*
 
 
 Hard way:
@@ -177,7 +200,8 @@ Hard way:
       IDCLS_NAME, IDCLS_SPECIFY_MIDI_OUT_DEVICE,
       NULL, NULL },
 
-You will need to add the IDCLS_NAME and IDCLS_SPECIFY_MIDI_OUT_DEVICE to the translate files if the ID's don't exist yet.
+You will need to add the IDCLS_NAME and IDCLS_SPECIFY_MIDI_OUT_DEVICE to the
+translate files if the ID's don't exist yet.
 
 
 Adding a common code or amiga/win32 ui_message
@@ -192,14 +216,16 @@ Hard way:
 
 ui_message(translate_text(IDGS_THIS_IS_A_DIALOG_MESSAGE));
 
-IDGS_THIS_IS_A_DIALOG_MESSAGE will need to be added to the translate files if the ID doesn't exist yet.
+IDGS_THIS_IS_A_DIALOG_MESSAGE will need to be added to the translate files if
+the ID doesn't exist yet.
 
 
 
 Adding a *nix command-line option
 ---------------------------------
 
-For *nix no ID's are used, but it does use the gettext method, so N_(...) is needed.
+For *nix no ID's are used, but it does use the gettext method, so N_(...) is
+needed.
 
     { "-midiout", SET_RESOURCE, 1,
       NULL, NULL, "MIDIOutDev", NULL,
@@ -212,13 +238,14 @@ For *nix no ID's are used, but it does use the gettext method, so N_(...) is nee
 Adding a *nix ui_message
 ------------------------
 
-For *nix no ID's are used, but it does use the gettext method, so _(...) is needed.
+For *nix no ID's are used, but it does use the gettext method, so _(...) is
+needed.
 
 ui_message(_("this is a dialog message"));
 
 
 Adding a command-line option for an architecture other than *nix, amiga or win32
----------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 For thsee no ID's nor gettext is used.
 
