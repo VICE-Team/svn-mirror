@@ -115,53 +115,12 @@ static double   pet_rfsh_per_sec        = PET_PAL_RFSH_PER_SEC;
 static log_t pet_log = LOG_ERR;
 static machine_timing_t machine_timing; 
 
-/* ------------------------------------------------------------------------- */
-
-#if 0
-
-/* PET resources.  */
-
-/* PET model name.  */
-static char *model_name = NULL;
-
-static int set_model_name(const char *name, void *param)
-{
-    if (pet_set_model(name, NULL) < 0) {
-        log_error(pet_log, "Invalid PET model `%s'.", name);
-        return -1;
-    }
-
-    util_string_set(&model_name, name);
-    return 0;
-}
-
-/* ------------------------------------------------------------------------- */
-
-static const resource_string_t resources_string[] = {
-    { "Model", "8032", RES_EVENT_NO, NULL,
-      &model_name, set_model_name, NULL },
-    { NULL }
-};
-
-static const cmdline_option_t cmdline_options[] = {
-    { "-model", SET_RESOURCE, 1, NULL, NULL, "Model", NULL,
-      "<name>", "Specify PET model name" },
-    { NULL }
-};
-
-#endif
-
 /* ------------------------------------------------------------------------ */
 
 /* PET-specific resource initialization.  This is called before initializing
    the machine itself with `machine_init()'.  */
 int machine_resources_init(void)
 {
-#if 0
-    if (resources_register_string(resources_string) < 0)
-        return -1;
-#endif
-
     if (traps_resources_init() < 0
         || vsync_resources_init() < 0
         || machine_video_resources_init() < 0

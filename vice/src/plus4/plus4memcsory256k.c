@@ -46,9 +46,7 @@
 #include "plus4memhannes256k.h"
 #include "resources.h"
 #include "snapshot.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
 #include "uiapi.h"
 
@@ -106,21 +104,15 @@ int cs256k_resources_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-cs256k", SET_RESOURCE, 0, NULL, NULL, "CS256K", (resource_value_t)1,
-      0, IDCLS_ENABLE_CS256K_EXPANSION },
+    { "-cs256k", SET_RESOURCE, 0,
+      NULL, NULL, "CS256K", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_CS256K_EXPANSION,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-cs256k", SET_RESOURCE, 0, NULL, NULL, "CS256K", (resource_value_t)1,
-      NULL, N_("Enable the CSORY 256K RAM expansion") },
-    { NULL }
-};
-#endif
 
 int cs256k_cmdline_options_init(void)
 {

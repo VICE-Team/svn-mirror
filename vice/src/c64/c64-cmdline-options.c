@@ -32,95 +32,93 @@
 #include "c64-cmdline-options.h"
 #include "cmdline.h"
 #include "machine.h"
-
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (void *)MACHINE_SYNC_PAL, 0, IDCLS_USE_PAL_SYNC_FACTOR },
-    { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (void *)MACHINE_SYNC_NTSC, 0, IDCLS_USE_NTSC_SYNC_FACTOR },
-    { "-ntscold", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (void *)MACHINE_SYNC_NTSCOLD,
-      0, IDCLS_USE_OLD_NTSC_SYNC_FACTOR },
-    { "-kernal", SET_RESOURCE, 1, NULL, NULL, "KernalName", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_KERNAL_ROM_NAME },
-    { "-basic", SET_RESOURCE, 1, NULL, NULL, "BasicName", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_BASIC_ROM_NAME },
-    { "-chargen", SET_RESOURCE, 1, NULL, NULL, "ChargenName", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_CHARGEN_ROM_NAME },
-    { "-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (void *)1,
-      0, IDCLS_ENABLE_EMULATOR_ID },
-    { "+emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (void *)0,
-      0, IDCLS_DISABLE_EMULATOR_ID },
-    { "-kernalrev", SET_RESOURCE, 1, NULL, NULL, "KernalRev", NULL,
-      IDCLS_P_REVISION, IDCLS_PATCH_KERNAL_TO_REVISION },
+    { "-pal", SET_RESOURCE, 0,
+      NULL, NULL, "MachineVideoStandard", (void *)MACHINE_SYNC_PAL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_USE_PAL_SYNC_FACTOR,
+      NULL, NULL },
+    { "-ntsc", SET_RESOURCE, 0,
+      NULL, NULL, "MachineVideoStandard", (void *)MACHINE_SYNC_NTSC,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_USE_NTSC_SYNC_FACTOR,
+      NULL, NULL },
+    { "-ntscold", SET_RESOURCE, 0,
+      NULL, NULL, "MachineVideoStandard", (void *)MACHINE_SYNC_NTSCOLD,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_USE_OLD_NTSC_SYNC_FACTOR,
+      NULL, NULL },
+    { "-kernal", SET_RESOURCE, 1,
+      NULL, NULL, "KernalName", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_KERNAL_ROM_NAME,
+      NULL, NULL },
+    { "-basic", SET_RESOURCE, 1,
+      NULL, NULL, "BasicName", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_BASIC_ROM_NAME,
+      NULL, NULL },
+    { "-chargen", SET_RESOURCE, 1,
+      NULL, NULL, "ChargenName", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_CHARGEN_ROM_NAME,
+      NULL, NULL },
+    { "-emuid", SET_RESOURCE, 0,
+      NULL, NULL, "EmuID", (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_EMULATOR_ID,
+      NULL, NULL },
+    { "+emuid", SET_RESOURCE, 0,
+      NULL, NULL, "EmuID", (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_EMULATOR_ID,
+      NULL, NULL },
+    { "-kernalrev", SET_RESOURCE, 1,
+      NULL, NULL, "KernalRev", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_REVISION, IDCLS_PATCH_KERNAL_TO_REVISION,
+      NULL, NULL },
 #ifdef HAVE_RS232
-    { "-acia1", SET_RESOURCE, 0, NULL, NULL, "Acia1Enable", (void *)1,
-      0, IDCLS_ENABLE_DEXX_ACIA_RS232_EMU },
-    { "+acia1", SET_RESOURCE, 0, NULL, NULL, "Acia1Enable", (void *)0,
-      0, IDCLS_DISABLE_DEXX_ACIA_RS232_EMU },
+    { "-acia1", SET_RESOURCE, 0,
+      NULL, NULL, "Acia1Enable", (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_DEXX_ACIA_RS232_EMU,
+      NULL, NULL },
+    { "+acia1", SET_RESOURCE, 0,
+      NULL, NULL, "Acia1Enable", (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_DEXX_ACIA_RS232_EMU,
+      NULL, NULL },
 #endif
 #ifdef COMMON_KBD
-    { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapIndex", NULL,
-      IDCLS_P_NUMBER, IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2 },
-    { "-symkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapSymFile", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME },
-    { "-symdekeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapSymDeFile", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP },
-    { "-poskeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapPosFile", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME },
+    { "-keymap", SET_RESOURCE, 1,
+      NULL, NULL, "KeymapIndex", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NUMBER, IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2,
+      NULL, NULL },
+    { "-symkeymap", SET_RESOURCE, 1,
+      NULL, NULL, "KeymapSymFile", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME,
+      NULL, NULL },
+    { "-symdekeymap", SET_RESOURCE, 1,
+      NULL, NULL, "KeymapSymDeFile", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP,
+      NULL, NULL },
+    { "-poskeymap", SET_RESOURCE, 1,
+      NULL, NULL, "KeymapPosFile", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME,
+      NULL, NULL },
 #endif
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (void *)MACHINE_SYNC_PAL, NULL, N_("Use PAL sync factor") },
-    { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (void *)MACHINE_SYNC_NTSC, NULL, N_("Use NTSC sync factor") },
-    { "-ntscold", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (void *)MACHINE_SYNC_NTSCOLD,
-      NULL, N_("Use old NTSC sync factor") },
-    { "-kernal", SET_RESOURCE, 1, NULL, NULL, "KernalName", NULL,
-      N_("<name>"), N_("Specify name of Kernal ROM image") },
-    { "-basic", SET_RESOURCE, 1, NULL, NULL, "BasicName", NULL,
-      N_("<name>"), N_("Specify name of BASIC ROM image") },
-    { "-chargen", SET_RESOURCE, 1, NULL, NULL, "ChargenName", NULL,
-      N_("<name>"), N_("Specify name of character generator ROM image") },
-    { "-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (void *)1,
-      NULL, N_("Enable emulator identification") },
-    { "+emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (void *)0,
-      NULL, N_("Disable emulator identification") },
-    { "-kernalrev", SET_RESOURCE, 1, NULL, NULL, "KernalRev", NULL,
-      N_("<revision>"), N_("Patch the Kernal ROM to the specified <revision>") },
-#ifdef HAVE_RS232
-    { "-acia1", SET_RESOURCE, 0, NULL, NULL, "Acia1Enable", (void *)1,
-      NULL, N_("Enable the $DE** ACIA RS232 interface emulation") },
-    { "+acia1", SET_RESOURCE, 0, NULL, NULL, "Acia1Enable", (void *)0,
-      NULL, N_("Disable the $DE** ACIA RS232 interface emulation") },
-#endif
-#ifdef COMMON_KBD
-    { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapIndex", NULL,
-      N_("<number>"), N_("Specify index of keymap file (0=sym, 1=symDE, 2=pos)") },
-    { "-symkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapSymFile", NULL,
-      N_("<name>"), N_("Specify name of symbolic keymap file") },
-    { "-symdekeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapSymDeFile", NULL,
-      N_("<name>"), N_("Specify name of symbolic German keymap file") },
-    { "-poskeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapPosFile", NULL,
-      N_("<name>"), N_("Specify name of positional keymap file") },
-#endif
-    { NULL }
-};
-#endif
 
 int c64_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }
-

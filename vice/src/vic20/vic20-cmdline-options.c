@@ -37,12 +37,9 @@
 #include "cmdline.h"
 #include "machine.h"
 #include "resources.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "vic20-cmdline-options.h"
 #include "vic20mem.h"
-
 
 /* This function parses the mem config string given as `-memory' and returns
  * the appropriate values or'ed together.
@@ -165,76 +162,79 @@ static int cmdline_memory(const char *param, void *extra_param)
     return 0;
 }
 
-#ifdef HAS_TRANSLATION
 static cmdline_option_t const cmdline_options[] =
 {
-    { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (resource_value_t)MACHINE_SYNC_PAL, 0, IDCLS_USE_PAL_SYNC_FACTOR },
-    { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (resource_value_t)MACHINE_SYNC_NTSC, 0, IDCLS_USE_NTSC_SYNC_FACTOR },
-    { "-kernal", SET_RESOURCE, 1, NULL, NULL, "KernalName", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_KERNAL_ROM_NAME },
-    { "-basic", SET_RESOURCE, 1, NULL, NULL, "BasicName", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_BASIC_ROM_NAME },
-    { "-chargen", SET_RESOURCE, 1, NULL, NULL, "ChargenName", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_CHARGEN_ROM_NAME },
-    { "-memory", CALL_FUNCTION, 1, cmdline_memory, NULL, NULL, NULL,
-      IDCLS_P_SPEC, IDCLS_SPECIFY_MEMORY_CONFIG},
-    { "-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t)1,
-      0, IDCLS_ENABLE_EMULATOR_ID},
-    { "+emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t)0,
-      0, IDCLS_DISABLE_EMULATOR_ID},
-    { "-ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t)1,
-      0, IDCLS_ENABLE_VIC1112_IEEE488},
-    { "+ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t)0,
-      0, IDCLS_DISABLE_VIC1112_IEEE488},
+    { "-pal", SET_RESOURCE, 0,
+      NULL, NULL, "MachineVideoStandard", (resource_value_t)MACHINE_SYNC_PAL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_USE_PAL_SYNC_FACTOR,
+      NULL, NULL },
+    { "-ntsc", SET_RESOURCE, 0,
+      NULL, NULL, "MachineVideoStandard", (resource_value_t)MACHINE_SYNC_NTSC,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_USE_NTSC_SYNC_FACTOR,
+      NULL, NULL },
+    { "-kernal", SET_RESOURCE, 1,
+      NULL, NULL, "KernalName", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_KERNAL_ROM_NAME,
+      NULL, NULL },
+    { "-basic", SET_RESOURCE, 1,
+      NULL, NULL, "BasicName", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_BASIC_ROM_NAME,
+      NULL, NULL },
+    { "-chargen", SET_RESOURCE, 1,
+      NULL, NULL, "ChargenName", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_CHARGEN_ROM_NAME,
+      NULL, NULL },
+    { "-memory", CALL_FUNCTION, 1,
+      cmdline_memory, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_SPEC, IDCLS_SPECIFY_MEMORY_CONFIG,
+      NULL, NULL },
+    { "-emuid", SET_RESOURCE, 0,
+      NULL, NULL, "EmuID", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_EMULATOR_ID,
+      NULL, NULL },
+    { "+emuid", SET_RESOURCE, 0,
+      NULL, NULL, "EmuID", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_EMULATOR_ID,
+      NULL, NULL },
+    { "-ieee488", SET_RESOURCE, 0,
+      NULL, NULL, "IEEE488", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_VIC1112_IEEE488,
+      NULL, NULL },
+    { "+ieee488", SET_RESOURCE, 0,
+      NULL, NULL, "IEEE488", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_VIC1112_IEEE488,
+      NULL, NULL },
 #ifdef COMMON_KBD
-    { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapIndex", NULL,
-      IDCLS_P_NUMBER, IDCLS_SPECIFY_KEYMAP_FILE_INDEX },
-    { "-symkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapSymFile", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME },
-    { "-poskeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapPosFile", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME },
+    { "-keymap", SET_RESOURCE, 1,
+      NULL, NULL, "KeymapIndex", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NUMBER, IDCLS_SPECIFY_KEYMAP_FILE_INDEX,
+      NULL, NULL },
+    { "-symkeymap", SET_RESOURCE, 1,
+      NULL, NULL, "KeymapSymFile", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME,
+      NULL, NULL },
+    { "-poskeymap", SET_RESOURCE, 1,
+      NULL, NULL, "KeymapPosFile", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME,
+      NULL, NULL },
 #endif
     { NULL}
 };
-#else
-static cmdline_option_t const cmdline_options[] =
-{
-    { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (resource_value_t)MACHINE_SYNC_PAL, NULL, N_("Use PAL sync factor") },
-    { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (resource_value_t)MACHINE_SYNC_NTSC, NULL, N_("Use NTSC sync factor") },
-    { "-kernal", SET_RESOURCE, 1, NULL, NULL, "KernalName", NULL,
-      N_("<name>"), N_("Specify name of Kernal ROM image") },
-    { "-basic", SET_RESOURCE, 1, NULL, NULL, "BasicName", NULL,
-      N_("<name>"), N_("Specify name of BASIC ROM image") },
-    { "-chargen", SET_RESOURCE, 1, NULL, NULL, "ChargenName", NULL,
-      N_("<name>"), N_("Specify name of character generator ROM image") },
-    { "-memory", CALL_FUNCTION, 1, cmdline_memory, NULL, NULL, NULL,
-      N_("<spec>"), N_("Specify memory configuration")},
-    { "-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t)1,
-      NULL, N_("Enable emulator identification")},
-    { "+emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t)0,
-      NULL, N_("Disable emulator identification")},
-    { "-ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t)1,
-      NULL, N_("Enable VIC-1112 IEEE488 interface")},
-    { "+ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t)0,
-      NULL, N_("Disable VIC-1112 IEEE488 interface")},
-#ifdef COMMON_KBD
-    { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapIndex", NULL,
-      N_("<number>"), N_("Specify index of keymap file (0=symbol, 1=positional)") },
-    { "-symkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapSymFile", NULL,
-      N_("<name>"), N_("Specify name of symbolic keymap file") },
-    { "-poskeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapPosFile", NULL,
-      N_("<name>"), N_("Specify name of positional keymap file") },
-#endif
-    { NULL}
-};
-#endif
 
 int vic20_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }
-

@@ -33,7 +33,7 @@
 #include "fullscr.h"
 #include "cmdline.h"
 #include "resources.h"
-
+#include "translate.h"
 
 static int hide_mouseptr;
 static int visible=TRUE;
@@ -76,12 +76,16 @@ int mousedrv_resources_init(void)
 /* ----------------------------------------------------------- */
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-hidemouseptr", SET_RESOURCE, 0, NULL, NULL,
-      "HideMousePtr", (resource_value_t) 1, NULL,
-      "Enable hiding of mouse pointer inside the window" },
-    { "+hidemouseptr", SET_RESOURCE, 0, NULL, NULL,
-      "HideMousePtr", (resource_value_t) 0, NULL,
-      "Disable hiding of mouse pointer inside the window" },
+    { "-hidemouseptr", SET_RESOURCE, 0,
+      NULL, NULL, "HideMousePtr", (resource_value_t) 1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Enable hiding of mouse pointer inside the window" },
+    { "+hidemouseptr", SET_RESOURCE, 0,
+      NULL, NULL, "HideMousePtr", (resource_value_t) 0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Disable hiding of mouse pointer inside the window" },
     { NULL }
 };
 

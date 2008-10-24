@@ -104,12 +104,16 @@ int joystick_arch_init_resources(void)
 /* ------------------------------------------------------------------------- */
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-joydev1", SET_RESOURCE, 1, NULL, NULL,
-      "JoyDevice1", NULL,
-      IDCLS_P_NUMBER, IDS_SET_INPUT_JOYSTICK_1 },
-    { "-joydev2", SET_RESOURCE, 1, NULL, NULL,
-      "JoyDevice2", NULL,
-      IDCLS_P_NUMBER, IDS_SET_INPUT_JOYSTICK_1 },
+    { "-joydev1", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice1", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NUMBER, IDS_SET_INPUT_JOYSTICK_1,
+      NULL, NULL },
+    { "-joydev2", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice2", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NUMBER, IDS_SET_INPUT_JOYSTICK_2,
+      NULL, NULL },
     { NULL }
 };
 

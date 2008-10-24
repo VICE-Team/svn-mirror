@@ -35,10 +35,7 @@
 #include "alarm.h"
 #include "maincpu.h"
 #include "mousedrv.h"
-
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 
 static log_t ps2mouse_log = LOG_ERR;
 
@@ -469,25 +466,20 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-ps2mouse", SET_RESOURCE, 0, NULL, NULL, "PS2Mouse", (void *)1,
-      0, IDCLS_ENABLE_PS2MOUSE },
-    { "+ps2mouse", SET_RESOURCE, 0, NULL, NULL, "PS2Mouse", (void *)0,
-      0, IDCLS_DISABLE_PS2MOUSE },
+    { "-ps2mouse", SET_RESOURCE, 0,
+      NULL, NULL, "PS2Mouse", (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_PS2MOUSE,
+      NULL, NULL },
+    { "+ps2mouse", SET_RESOURCE, 0,
+      NULL, NULL, "PS2Mouse", (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_PS2MOUSE,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-ps2mouse", SET_RESOURCE, 0, NULL, NULL, "PS2Mouse", (void *)1,
-      NULL, N_("Enable PS/2 mouse on userport") },
-    { "+ps2mouse", SET_RESOURCE, 0, NULL, NULL, "PS22Mouse", (void *)0,
-      NULL, N_("Disable PS/2 mouse on userport") },
-    { NULL }
-};
-#endif
 
 /* ------------------------------------------------------------------------- */
 

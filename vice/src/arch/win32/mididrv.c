@@ -95,10 +95,16 @@ void mididrv_resources_shutdown(void)
 }
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-midiin", SET_RESOURCE, 1, NULL, NULL, "MIDIInDev", NULL,
-      IDS_P_NUMBER, IDS_SPECIFY_MIDI_IN },
-    { "-midiout", SET_RESOURCE, 1, NULL, NULL, "MIDIOutDev", NULL,
-      IDS_P_NUMBER, IDS_SPECIFY_MIDI_OUT },
+    { "-midiin", SET_RESOURCE, 1,
+      NULL, NULL, "MIDIInDev", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDS_P_NUMBER, IDS_SPECIFY_MIDI_IN,
+      NULL, NULL },
+    { "-midiout", SET_RESOURCE, 1,
+      NULL, NULL, "MIDIOutDev", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDS_P_NUMBER, IDS_SPECIFY_MIDI_OUT,
+      NULL, NULL },
     { NULL }
 };
 

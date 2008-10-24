@@ -31,41 +31,63 @@
 #include <stdio.h>
 
 #include "cmdline.h"
+#include "translate.h"
 #include "ui.h"
 
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-htmlbrowser", SET_RESOURCE, 1, NULL, NULL, "HTMLBrowserCommand", NULL,
-      "<command>", N_("Specify an HTML browser for the on-line help") },
-    { "-install", SET_RESOURCE, 0, NULL, NULL,
-      "PrivateColormap", (void *)1,
+    { "-htmlbrowser", SET_RESOURCE, 1,
+      NULL, NULL, "HTMLBrowserCommand", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      N_("<command>"), N_("Specify an HTML browser for the on-line help") },
+    { "-install", SET_RESOURCE, 0,
+      NULL, NULL, "PrivateColormap", (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, N_("Install a private colormap") },
-    { "+install", SET_RESOURCE, 0, NULL, NULL,
-      "PrivateColormap", (void *)0,
+    { "+install", SET_RESOURCE, 0,
+      NULL, NULL, "PrivateColormap", (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, N_("Use the default colormap") },
-    { "-saveres", SET_RESOURCE, 0, NULL, NULL,
-      "SaveResourcesOnExit", (void *)1,
+    { "-saveres", SET_RESOURCE, 0,
+      NULL, NULL, "SaveResourcesOnExit", (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, N_("Save settings (resources) on exit") },
-    { "+confirmexit", SET_RESOURCE, 0, NULL, NULL,
-      "ConfirmOnExit", (void *)0,
+    { "+confirmexit", SET_RESOURCE, 0,
+      NULL, NULL, "ConfirmOnExit", (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, N_("Never confirm quiting VICE") },
-    { "-confirmexit", SET_RESOURCE, 0, NULL, NULL,
-      "ConfirmOnExit", (void *)1,
+    { "-confirmexit", SET_RESOURCE, 0,
+      NULL, NULL, "ConfirmOnExit", (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, N_("Confirm quiting VICE") },
-    { "+saveres", SET_RESOURCE, 0, NULL, NULL,
-      "SaveResourcesOnExit", (void *)0,
+    { "+saveres", SET_RESOURCE, 0,
+      NULL, NULL, "SaveResourcesOnExit", (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, N_("Never save settings (resources) on exit") },
 #ifdef USE_XF86_EXTENSIONS
-    { "-fullscreen", SET_RESOURCE, 0, NULL, NULL,
-      "UseFullscreen", (void *)1,
+    { "-fullscreen", SET_RESOURCE, 0,
+      NULL, NULL, "UseFullscreen", (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, N_("Enable fullscreen") },
-    { "+fullscreen", SET_RESOURCE, 0, NULL, NULL,
-      "UseFullscreen", (void *)0,
+    { "+fullscreen", SET_RESOURCE, 0,
+      NULL, NULL, "UseFullscreen", (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, N_("Disable fullscreen") },
 #endif
-    { "-displaydepth", SET_RESOURCE, 1, NULL, NULL,
-      "DisplayDepth", NULL,
-      "<value>", N_("Specify X display depth (1..32)") },
+    { "-displaydepth", SET_RESOURCE, 1,
+      NULL, NULL, "DisplayDepth", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      N_("<value>"), N_("Specify X display depth (1..32)") },
     { NULL }
 };
 
@@ -73,4 +95,3 @@ int ui_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }
-

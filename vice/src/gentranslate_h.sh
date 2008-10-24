@@ -28,14 +28,19 @@ echo " *  02111-1307  USA."
 echo " *"
 echo " */"
 echo ""
-echo "#ifdef HAS_TRANSLATION"
-echo ""
 echo "#ifndef _TRANSLATE_H"
 echo "#define _TRANSLATE_H"
 echo ""
 echo "#include \"translate_funcs.h\""
 echo ""
+echo "#define USE_PARAM_STRING   0"
+echo "#define USE_PARAM_ID       1"
+echo ""
+echo "#define USE_DESCRIPTION_STRING   0"
+echo "#define USE_DESCRIPTION_ID       1"
+echo ""
 echo "enum { ID_START_65536=65536,"
+echo "IDCLS_UNUSED,"
 echo ""
 
 while read data
@@ -61,5 +66,4 @@ do
 done
 
 echo "};"
-echo "#endif"
 echo "#endif"

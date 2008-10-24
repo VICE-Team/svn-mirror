@@ -1,5 +1,5 @@
 /*
- * video.c - Video implementation for Win32, using DirectDraw.
+ * video.c - Video implementation for OS/2.
  *
  * Written by
  *  Thomas Bretz <tbretz@gsi.de>
@@ -49,6 +49,7 @@
 #include "cmdline.h"
 #include "log.h"
 #include "kbd.h"
+#include "translate.h"
 
 static CHAR  szClientClass [] = "VICE/2 Gfx";
 static CHAR  szTitleBarText[] = "VICE/2 1.0";
@@ -110,7 +111,10 @@ int video_init_resources(void)
 }
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-stretch", SET_RESOURCE, 1, NULL, NULL, "WindowStretchFactor", NULL,
+    { "-stretch", SET_RESOURCE, 1,
+      NULL, NULL, "WindowStretchFactor", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       "<number>", "Specify stretch factor for PM Windows (1,2,3,...)" },
     { NULL },
 };

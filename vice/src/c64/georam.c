@@ -92,9 +92,7 @@
 #include "resources.h"
 #include "georam.h"
 #include "snapshot.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
 #include "util.h"
 
@@ -236,33 +234,30 @@ void georam_resources_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-georam", SET_RESOURCE, 0, NULL, NULL, "GEORAM", (resource_value_t)1,
-      0, IDCLS_ENABLE_GEORAM },
-    { "+georam", SET_RESOURCE, 0, NULL, NULL, "GEORAM", (resource_value_t)0,
-      0, IDCLS_DISABLE_GEORAM },
-    { "-georamimage", SET_RESOURCE, 1, NULL, NULL, "GEORAMfilename", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_GEORAM_NAME },
-    { "-georamsize", SET_RESOURCE, 1, NULL, NULL, "GEORAMsize", NULL,
-      IDCLS_P_SIZE_IN_KB, IDCLS_GEORAM_SIZE },
+    { "-georam", SET_RESOURCE, 0,
+      NULL, NULL, "GEORAM", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_GEORAM,
+      NULL, NULL },
+    { "+georam", SET_RESOURCE, 0,
+      NULL, NULL, "GEORAM", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_GEORAM,
+      NULL, NULL },
+    { "-georamimage", SET_RESOURCE, 1,
+      NULL, NULL, "GEORAMfilename", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_GEORAM_NAME,
+      NULL, NULL },
+    { "-georamsize", SET_RESOURCE, 1,
+      NULL, NULL, "GEORAMsize", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_SIZE_IN_KB, IDCLS_GEORAM_SIZE,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-georam", SET_RESOURCE, 0, NULL, NULL, "GEORAM", (resource_value_t)1,
-      NULL, N_("Enable the GEORAM expansion unit") },
-    { "+georam", SET_RESOURCE, 0, NULL, NULL, "GEORAM", (resource_value_t)0,
-      NULL, N_("Disable the GEORAM expansion unit") },
-    { "-georamimage", SET_RESOURCE, 1, NULL, NULL, "GEORAMfilename", NULL,
-      N_("<name>"), N_("Specify name of GEORAM image") },
-    { "-georamsize", SET_RESOURCE, 1, NULL, NULL, "GEORAMsize", NULL,
-      N_("<size in KB>"), N_("Size of the GEORAM expansion unit") },
-    { NULL }
-};
-#endif
 
 int georam_cmdline_options_init(void)
 {

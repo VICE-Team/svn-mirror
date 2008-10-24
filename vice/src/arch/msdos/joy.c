@@ -36,6 +36,7 @@
 #include "joy.h"
 #include "joystick.h"
 #include "resources.h"
+#include "translate.h"
 #include "tui.h"
 #include "types.h"
 
@@ -120,11 +121,15 @@ int joystick_arch_init_resources(void)
 /* ------------------------------------------------------------------------- */
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-joydev1", SET_RESOURCE, 1, NULL, NULL,
-      "JoyDevice1", NULL,
+    { "-joydev1", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice1", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       "<number>", "Set input device for joystick #1" },
-    { "-joydev2", SET_RESOURCE, 1, NULL, NULL,
-      "JoyDevice2", NULL,
+    { "-joydev2", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice2", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       "<number>", "Set input device for joystick #2" },
     { NULL }
 };

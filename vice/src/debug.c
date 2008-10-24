@@ -38,9 +38,7 @@
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
 #include "ui.h"
 #include "util.h"
@@ -120,93 +118,70 @@ int debug_resources_init(void)
     return resources_register_int(resources_int);
 }
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] = {
 #ifdef DEBUG
-    { "-trace_maincpu", SET_RESOURCE, 0, NULL, NULL,
-      "MainCPU_TRACE", (resource_value_t)1,
-      0, IDCLS_TRACE_MAIN_CPU },
-    { "+trace_maincpu", SET_RESOURCE, 0, NULL, NULL,
-      "MainCPU_TRACE", (resource_value_t)0,
-      0, IDCLS_DONT_TRACE_MAIN_CPU },
-    { "-trace_drive0", SET_RESOURCE, 0, NULL, NULL,
-      "Drive0CPU_TRACE", (resource_value_t)1,
-      0, IDCLS_TRACE_DRIVE0_CPU },
-    { "+trace_drive0", SET_RESOURCE, 0, NULL, NULL,
-      "Drive0CPU_TRACE", (resource_value_t)0,
-      0, IDCLS_DONT_TRACE_DRIVE0_CPU },
-    { "-trace_drive1", SET_RESOURCE, 0, NULL, NULL,
-      "Drive1CPU_TRACE", (resource_value_t)1,
-      0, IDCLS_TRACE_DRIVE1_CPU },
-    { "+trace_drive1", SET_RESOURCE, 0, NULL, NULL,
-      "Drive1CPU_TRACE", (resource_value_t)0,
-      0, IDCLS_DONT_TRACE_DRIVE1_CPU },
+    { "-trace_maincpu", SET_RESOURCE, 0,
+      NULL, NULL, "MainCPU_TRACE", (resource_value_t)1,
+      USE_PARAM_TEXT, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_TRACE_MAIN_CPU,
+      NULL, NULL },
+    { "+trace_maincpu", SET_RESOURCE, 0,
+      NULL, NULL, "MainCPU_TRACE", (resource_value_t)0,
+      USE_PARAM_TEXT, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DONT_TRACE_MAIN_CPU,
+      NULL, NULL },
+    { "-trace_drive0", SET_RESOURCE, 0,
+      NULL, NULL, "Drive0CPU_TRACE", (resource_value_t)1,
+      USE_PARAM_TEXT, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_TRACE_DRIVE0_CPU,
+      NULL, NULL },
+    { "+trace_drive0", SET_RESOURCE, 0,
+      NULL, NULL, "Drive0CPU_TRACE", (resource_value_t)0,
+      USE_PARAM_TEXT, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DONT_TRACE_DRIVE0_CPU,
+      NULL, NULL },
+    { "-trace_drive1", SET_RESOURCE, 0,
+      NULL, NULL, "Drive1CPU_TRACE", (resource_value_t)1,
+      USE_PARAM_TEXT, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_TRACE_DRIVE1_CPU,
+      NULL, NULL },
+    { "+trace_drive1", SET_RESOURCE, 0,
+      NULL, NULL, "Drive1CPU_TRACE", (resource_value_t)0,
+      USE_PARAM_TEXT, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DONT_TRACE_DRIVE1_CPU,
+      NULL, NULL },
 #if DRIVE_NUM > 2
-    { "-trace_drive2", SET_RESOURCE, 0, NULL, NULL,
-      "Drive2CPU_TRACE", (resource_value_t)1,
-      0, IDCLS_TRACE_DRIVE2_CPU },
-    { "+trace_drive2", SET_RESOURCE, 0, NULL, NULL,
-      "Drive2CPU_TRACE", (resource_value_t)0,
-      0, IDCLS_DONT_TRACE_DRIVE2_CPU },
+    { "-trace_drive2", SET_RESOURCE, 0,
+      NULL, NULL, "Drive2CPU_TRACE", (resource_value_t)1,
+      USE_PARAM_TEXT, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_TRACE_DRIVE2_CPU,
+      NULL, NULL },
+    { "+trace_drive2", SET_RESOURCE, 0,
+      NULL, NULL, "Drive2CPU_TRACE", (resource_value_t)0,
+      USE_PARAM_TEXT, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DONT_TRACE_DRIVE2_CPU,
+      NULL, NULL },
 #endif
 #if DRIVE_NUM > 3
-    { "-trace_drive3", SET_RESOURCE, 0, NULL, NULL,
-      "Drive3CPU_TRACE", (resource_value_t)1,
-      0, IDCLS_TRACE_DRIVE3_CPU },
-    { "+trace_drive3", SET_RESOURCE, 0, NULL, NULL,
-      "Drive3CPU_TRACE", (resource_value_t)0,
-      0, IDCLS_DONT_TRACE_DRIVE3_CPU },
+    { "-trace_drive3", SET_RESOURCE, 0,
+      NULL, NULL, "Drive3CPU_TRACE", (resource_value_t)1,
+      USE_PARAM_TEXT, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_TRACE_DRIVE3_CPU,
+      NULL, NULL },
+    { "+trace_drive3", SET_RESOURCE, 0,
+      NULL, NULL, "Drive3CPU_TRACE", (resource_value_t)0,
+      USE_PARAM_TEXT, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DONT_TRACE_DRIVE3_CPU,
+      NULL, NULL },
 #endif
-    { "-trace_mode", SET_RESOURCE, 1, NULL, NULL,
-      "TraceMode", NULL,
-      IDCLS_P_VALUE, IDCLS_TRACE_MODE },
+    { "-trace_mode", SET_RESOURCE, 1,
+      NULL, NULL, "TraceMode", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_VALUE, IDCLS_TRACE_MODE,
+      NULL, NULL },
 #endif
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] = {
-#ifdef DEBUG
-    { "-trace_maincpu", SET_RESOURCE, 0, NULL, NULL,
-      "MainCPU_TRACE", (resource_value_t)1,
-      NULL, N_("Trace the main CPU") },
-    { "+trace_maincpu", SET_RESOURCE, 0, NULL, NULL,
-      "MainCPU_TRACE", (resource_value_t)0,
-      NULL, N_("Do not trace the main CPU") },
-    { "-trace_drive0", SET_RESOURCE, 0, NULL, NULL,
-      "Drive0CPU_TRACE", (resource_value_t)1,
-      NULL, N_("Trace the drive0 CPU") },
-    { "+trace_drive0", SET_RESOURCE, 0, NULL, NULL,
-      "Drive0CPU_TRACE", (resource_value_t)0,
-      NULL, N_("Do not trace the drive0 CPU") },
-    { "-trace_drive1", SET_RESOURCE, 0, NULL, NULL,
-      "Drive1CPU_TRACE", (resource_value_t)1,
-      NULL, N_("Trace the drive1 CPU") },
-    { "+trace_drive1", SET_RESOURCE, 0, NULL, NULL,
-      "Drive1CPU_TRACE", (resource_value_t)0,
-      NULL, N_("Do not trace the drive1 CPU") },
-#if DRIVE_NUM > 2
-    { "-trace_drive2", SET_RESOURCE, 0, NULL, NULL,
-      "Drive2CPU_TRACE", (resource_value_t)1,
-      NULL, N_("Trace the drive2 CPU") },
-    { "+trace_drive2", SET_RESOURCE, 0, NULL, NULL,
-      "Drive2CPU_TRACE", (resource_value_t)0,
-      NULL, N_("Do not trace the drive2 CPU") },
-#endif
-#if DRIVE_NUM > 3
-    { "-trace_drive3", SET_RESOURCE, 0, NULL, NULL,
-      "Drive3CPU_TRACE", (resource_value_t)1,
-      NULL, N_("Trace the drive3 CPU") },
-    { "+trace_drive3", SET_RESOURCE, 0, NULL, NULL,
-      "Drive3CPU_TRACE", (resource_value_t)0,
-      NULL, N_("Do not trace the drive3 CPU") },
-#endif
-    { "-trace_mode", SET_RESOURCE, 1, NULL, NULL,
-      "TraceMode", NULL,
-      N_("<value>"), N_("Trace mode (0=normal 1=small 2=history)") },
-#endif
-    { NULL }
-};
-#endif
 
 int debug_cmdline_options_init(void)
 {
@@ -439,11 +414,7 @@ inline static void debug_history_step(const char *st)
 
         if (strncmp(st, debug_buffer + debug_buffer_ptr, strlen(st)) != 0) {
             event_playback_stop();
-#ifdef HAS_TRANSLATION
             ui_error(translate_text(IDGS_PLAYBACK_ERROR_DIFFERENT)
-#else
-            ui_error(_("Playback error: %s different from line %d of file debug%06d")
-#endif
                      , st, debug_file_line, debug_file_current - 1);
         }
 

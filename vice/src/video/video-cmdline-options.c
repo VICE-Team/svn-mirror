@@ -30,12 +30,9 @@
 
 #include "cmdline.h"
 #include "lib.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "util.h"
 #include "video.h"
-
 
 static const char *cname_chip_size[] =
 {
@@ -44,25 +41,20 @@ static const char *cname_chip_size[] =
     NULL
 };
 
-#ifdef HAS_TRANSLATION
 static cmdline_option_t cmdline_options_chip_size[] =
 {
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, 0, IDCLS_ENABLE_DOUBLE_SIZE },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, 0, IDCLS_DISABLE_DOUBLE_SIZE },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_DOUBLE_SIZE,
+      NULL, NULL },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_DOUBLE_SIZE,
+      NULL, NULL },
     { NULL }
 };
-#else
-static cmdline_option_t cmdline_options_chip_size[] =
-{
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, NULL, N_("Enable double size") },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, NULL, N_("Disable double size") },
-    { NULL }
-};
-#endif
 
 static const char *cname_chip_scan[] =
 {
@@ -71,25 +63,20 @@ static const char *cname_chip_scan[] =
     NULL
 };
 
-#ifdef HAS_TRANSLATION
 static cmdline_option_t cmdline_options_chip_scan[] =
 {
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, 0, IDCLS_ENABLE_DOUBLE_SCAN },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, 0, IDCLS_DISABLE_DOUBLE_SCAN },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_DOUBLE_SCAN,
+      NULL, NULL },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_DOUBLE_SCAN,
+      NULL, NULL },
     { NULL }
 };
-#else
-static cmdline_option_t cmdline_options_chip_scan[] =
-{
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, NULL, N_("Enable double scan") },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, NULL, N_("Disable double scan") },
-    { NULL }
-};
-#endif
 
 static const char *cname_chip_hwscale[] =
 {
@@ -98,25 +85,20 @@ static const char *cname_chip_hwscale[] =
     NULL
 };
 
-#ifdef HAS_TRANSLATION
 static cmdline_option_t cmdline_options_chip_hwscale[] =
 {
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, 0, IDCLS_ENABLE_HARDWARE_SCALING },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, 0, IDCLS_DISABLE_HARDWARE_SCALING },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_HARDWARE_SCALING,
+      NULL, NULL },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_HARDWARE_SCALING,
+      NULL, NULL },
     { NULL }
 };
-#else
-static cmdline_option_t cmdline_options_chip_hwscale[] =
-{
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, NULL, N_("Enable hardware scaling") },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, NULL, N_("Disable hardware scaling") },
-    { NULL }
-};
-#endif
 
 static const char *cname_chip_scale2x[] =
 {
@@ -125,25 +107,20 @@ static const char *cname_chip_scale2x[] =
     NULL
 };
 
-#ifdef HAS_TRANSLATION
 static cmdline_option_t cmdline_options_chip_scale2x[] =
 {
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, 0, IDCLS_ENABLE_SCALE2X },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, 0, IDCLS_DISABLE_SCALE2X },
+    { NULL, SET_RESOURCE,
+      0, NULL, NULL, NULL, (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_SCALE2X,
+      NULL, NULL },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_SCALE2X,
+      NULL, NULL },
     { NULL }
 };
-#else
-static cmdline_option_t cmdline_options_chip_scale2x[] =
-{
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, NULL, N_("Enable Scale2x") },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, NULL, N_("Disable Scale2x") },
-    { NULL }
-};
-#endif
 
 static const char *cname_chip_internal_palette[] =
 {
@@ -152,25 +129,20 @@ static const char *cname_chip_internal_palette[] =
     NULL
 };
 
-#ifdef HAS_TRANSLATION
 static cmdline_option_t cmdline_options_chip_internal_palette[] =
 {
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, 0, IDCLS_USE_INTERNAL_CALC_PALETTE },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, 0, IDCLS_USE_EXTERNAL_FILE_PALETTE },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_USE_INTERNAL_CALC_PALETTE,
+      NULL, NULL },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_USE_EXTERNAL_FILE_PALETTE,
+      NULL, NULL },
     { NULL }
 };
-#else
-static cmdline_option_t cmdline_options_chip_internal_palette[] =
-{
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, NULL, N_("Use an internal calculated palette") },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, NULL, N_("Use an external palette (file)") },
-    { NULL }
-};
-#endif
 
 static const char *cname_chip_palette[] =
 {
@@ -178,21 +150,15 @@ static const char *cname_chip_palette[] =
     NULL
 };
 
-#ifdef HAS_TRANSLATION
 static cmdline_option_t cmdline_options_chip_palette[] =
 {
-    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL,
-      NULL, IDCLS_P_NAME, IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME },
+    { NULL, SET_RESOURCE, 1,
+      NULL, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME,
+      NULL, NULL },
     { NULL }
 };
-#else
-static cmdline_option_t cmdline_options_chip_palette[] =
-{
-    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL,
-      NULL, N_("<name>"), N_("Specify name of file of external palette") },
-    { NULL }
-};
-#endif
 
 static const char *cname_chip_fullscreen[] =
 {
@@ -206,45 +172,45 @@ static const char *cname_chip_fullscreen[] =
    NULL
 };
 
-#ifdef HAS_TRANSLATION
 static cmdline_option_t cmdline_options_chip_fullscreen[] =
 {
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, 0, IDCLS_ENABLE_FULLSCREEN_MODE },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, 0, IDCLS_DISABLE_FULLSCREEN_MODE },
-    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL,
-      NULL, IDCLS_P_DEVICE, IDCLS_SELECT_FULLSCREEN_DEVICE },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, 0, IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, 0, IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, 0, IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, 0, IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_FULLSCREEN_MODE,
+      NULL, NULL },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_FULLSCREEN_MODE,
+      NULL, NULL },
+    { NULL, SET_RESOURCE, 1,
+      NULL, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_DEVICE, IDCLS_SELECT_FULLSCREEN_DEVICE,
+      NULL, NULL },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN,
+      NULL, NULL },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN,
+      NULL, NULL },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN,
+      NULL, NULL },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN,
+      NULL, NULL },
     { NULL }
 };
-#else
-static cmdline_option_t cmdline_options_chip_fullscreen[] =
-{
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, NULL, N_("Enable fullscreen mode") },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, NULL, N_("Disable fullscreen mode") },
-    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL,
-      NULL, N_("<device>"), N_("Select fullscreen device") },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, NULL, N_("Enable double size in fullscreen mode") },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, NULL, N_("Disable double size in fullscreen mode") },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, NULL, N_("Enable double scan in fullscreen mode") },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, NULL, N_("Disable double scan in fullscreen mode") },
-    { NULL }
-};
-#endif
 
 static const char *cname_chip_fullscreen_mode[] =
 {
@@ -252,21 +218,15 @@ static const char *cname_chip_fullscreen_mode[] =
     NULL
 };
 
-#ifdef HAS_TRANSLATION
 static cmdline_option_t cmdline_options_chip_fullscreen_mode[] =
 {
-    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL,
-      NULL, IDCLS_P_MODE, IDCLS_SELECT_FULLSCREEN_MODE },
+    { NULL, SET_RESOURCE, 1,
+      NULL, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_MODE, IDCLS_SELECT_FULLSCREEN_MODE,
+      NULL, NULL },
     { NULL }
 };
-#else
-static cmdline_option_t cmdline_options_chip_fullscreen_mode[] =
-{
-    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL,
-      NULL, N_("<mode>"), N_("Select fullscreen mode") },
-    { NULL }
-};
-#endif
 
 int video_cmdline_options_chip_init(const char *chipname,
                                     video_chip_cap_t *video_chip_cap)

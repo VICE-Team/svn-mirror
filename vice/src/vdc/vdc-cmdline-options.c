@@ -32,43 +32,30 @@
 
 #include "cmdline.h"
 #include "raster-cmdline-options.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "vdc-cmdline-options.h"
 #include "vdctypes.h"
 
-
 /* VDC command-line options.  */
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-VDC16KB", SET_RESOURCE, 0, NULL, NULL,
-      "VDC64KB", (void *)0,
-      0, IDCLS_SET_VDC_MEMORY_16KB },
-    { "-VDC64KB", SET_RESOURCE, 0, NULL, NULL,
-      "VDC64KB", (void *)1,
-      0, IDCLS_SET_VDC_MEMORY_64KB },
-    { "-VDCRevision", SET_RESOURCE, 1, NULL, NULL,
-      "VDCRevision", (void *)2,
-      IDCLS_P_NUMBER, IDCLS_SET_VDC_REVISION },
+    { "-VDC16KB", SET_RESOURCE, 0,
+      NULL, NULL, "VDC64KB", (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_VDC_MEMORY_16KB,
+      NULL, NULL },
+    { "-VDC64KB", SET_RESOURCE, 0,
+      NULL, NULL, "VDC64KB", (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_VDC_MEMORY_64KB,
+      NULL, NULL },
+    { "-VDCRevision", SET_RESOURCE, 1,
+      NULL, NULL, "VDCRevision", (void *)2,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NUMBER, IDCLS_SET_VDC_REVISION,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-VDC16KB", SET_RESOURCE, 0, NULL, NULL,
-      "VDC64KB", (void *)0,
-      NULL, N_("Set the VDC memory size to 16KB") },
-    { "-VDC64KB", SET_RESOURCE, 0, NULL, NULL,
-      "VDC64KB", (void *)1,
-      NULL, N_("Set the VDC memory size to 64KB") },
-    { "-VDCRevision", SET_RESOURCE, 1, NULL, NULL,
-      "VDCRevision", (void *)2,
-      N_("<number>"), N_("Set VDC revision (0..2)") },
-    { NULL }
-};
-#endif
 
 int vdc_cmdline_options_init(void)
 {
@@ -77,4 +64,3 @@ int vdc_cmdline_options_init(void)
 
     return cmdline_register_options(cmdline_options);
 }
-

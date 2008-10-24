@@ -55,12 +55,12 @@ void ui_cmdline_show_help(unsigned int num_options, cmdline_option_ram_t *opt,
     {
         size_t j = strlen(opt[i].name)+1;
 
-        j +=strlen((opt[i].need_arg && opt[i].param_name)?
-                   opt[i].param_name:"")+1;
+        j +=strlen((opt[i].need_arg && cmdline_options_get_param(i) != NULL)?
+                   cmdline_options_get_param(i):"")+1;
 
         jmax = j>jmax ? j : jmax;
 
-        j += strlen(opt[i].description)+1;
+        j += strlen(cmdline_options_get_description(i))+1;
 
         chars = j>chars ? j : chars;
     }
@@ -81,9 +81,9 @@ void ui_cmdline_show_help(unsigned int num_options, cmdline_option_ram_t *opt,
     for (i=0; i<num_options; i++)
     {
         char *textopt = lib_msprintf("%s %s", opt[i].name,
-                                     (opt[i].need_arg && opt[i].param_name)?
-                                     opt[i].param_name:"");
-        char *text = lib_msprintf(format, textopt, opt[i].description);
+                                     (opt[i].need_arg && cmdline_options_get_param(i) != NULL)?
+                                     cmdline_options_get_param(i):"");
+        char *text = lib_msprintf(format, textopt, cmdline_options_get_description(i));
         lib_free(textopt);
 
         WinSendMsg(hwnd, WM_INSERT, text, (void*)TRUE);

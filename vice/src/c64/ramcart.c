@@ -91,9 +91,7 @@
 #include "resources.h"
 #include "ramcart.h"
 #include "snapshot.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
 #include "util.h"
 #include "vicii-phi1.h"
@@ -260,33 +258,30 @@ void ramcart_resources_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-ramcart", SET_RESOURCE, 0, NULL, NULL, "RAMCART", (resource_value_t)1,
-      0, IDCLS_ENABLE_RAMCART },
-    { "+ramcart", SET_RESOURCE, 0, NULL, NULL, "RAMCART", (resource_value_t)0,
-      0, IDCLS_DISABLE_RAMCART },
-    { "-ramcartimage", SET_RESOURCE, 1, NULL, NULL, "RAMCARTfilename", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_RAMCART_NAME },
-    { "-ramcartsize", SET_RESOURCE, 1, NULL, NULL, "RAMCARTsize", NULL,
-      IDCLS_P_SIZE_IN_KB, IDCLS_RAMCART_SIZE },
+    { "-ramcart", SET_RESOURCE, 0,
+      NULL, NULL, "RAMCART", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_RAMCART,
+      NULL, NULL },
+    { "+ramcart", SET_RESOURCE, 0,
+      NULL, NULL, "RAMCART", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_RAMCART,
+      NULL, NULL },
+    { "-ramcartimage", SET_RESOURCE, 1,
+      NULL, NULL, "RAMCARTfilename", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_RAMCART_NAME,
+      NULL, NULL },
+    { "-ramcartsize", SET_RESOURCE, 1,
+      NULL, NULL, "RAMCARTsize", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_SIZE_IN_KB, IDCLS_RAMCART_SIZE,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-ramcart", SET_RESOURCE, 0, NULL, NULL, "RAMCART", (resource_value_t)1,
-      NULL, N_("Enable the RAMCART expansion") },
-    { "+ramcart", SET_RESOURCE, 0, NULL, NULL, "RAMCART", (resource_value_t)0,
-      NULL, N_("Disable the RAMCART expansion") },
-    { "-ramcartimage", SET_RESOURCE, 1, NULL, NULL, "RAMCARTfilename", NULL,
-      N_("<name>"), N_("Specify name of RAMCART image") },
-    { "-ramcartsize", SET_RESOURCE, 1, NULL, NULL, "RAMCARTsize", NULL,
-      N_("<size in KB>"), N_("Size of the RAMCART expansion") },
-    { NULL }
-};
-#endif
 
 int ramcart_cmdline_options_init(void)
 {

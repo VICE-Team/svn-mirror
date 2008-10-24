@@ -39,9 +39,7 @@
 #include "palette.h"
 #include "resources.h"
 #include "screenshot.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "ui.h"
 #include "util.h"
 #include "vsync.h"
@@ -184,27 +182,19 @@ int ffmpegdrv_resources_init(void)
 
 /*---------- Commandline options --------------------------------------*/
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] = {
-    { "-ffmpegaudiobitrate", SET_RESOURCE, 1, NULL, NULL,
-      "FFMPEGAudioBitrate", NULL,
-      IDCLS_P_VALUE, IDCLS_SET_AUDIO_STREAM_BITRATE },
-    { "-ffmpegvideobitrate", SET_RESOURCE, 1, NULL, NULL,
-      "FFMPEGVideoBitrate", NULL,
-      IDCLS_P_VALUE, IDCLS_SET_VIDEO_STREAM_BITRATE },
+    { "-ffmpegaudiobitrate", SET_RESOURCE, 1,
+      NULL, NULL, "FFMPEGAudioBitrate", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_VALUE, IDCLS_SET_AUDIO_STREAM_BITRATE,
+      NULL, NULL },
+    { "-ffmpegvideobitrate", SET_RESOURCE, 1,
+      NULL, NULL, "FFMPEGVideoBitrate", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_VALUE, IDCLS_SET_VIDEO_STREAM_BITRATE,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] = {
-    { "-ffmpegaudiobitrate", SET_RESOURCE, 1, NULL, NULL,
-      "FFMPEGAudioBitrate", NULL,
-      N_("<value>"), N_("Set bitrate for audio stream in media file") },
-    { "-ffmpegvideobitrate", SET_RESOURCE, 1, NULL, NULL,
-      "FFMPEGVideoBitrate", NULL,
-      N_("<value>"), N_("Set bitrate for video stream in media file") },
-    { NULL }
-};
-#endif
 
 int ffmpegdrv_cmdline_options_init(void)
 {
@@ -563,20 +553,12 @@ static int ffmpegdrv_init_file(void)
     (*ffmpeglib.p_dump_format)(ffmpegdrv_oc, 0, ffmpegdrv_oc->filename, 1);
 
     if (video_st && (ffmpegdrv_open_video(ffmpegdrv_oc, video_st) < 0)) {
-#ifdef HAS_TRANSLATION
         ui_error(translate_text(IDGS_FFMPEG_CANNOT_OPEN_VSTREAM));
-#else
-        ui_error(_("ffmpegdrv: Cannot open video stream"));
-#endif
         screenshot_stop_recording();
         return -1;
     }
     if (audio_st && (ffmpegdrv_open_audio(ffmpegdrv_oc, audio_st) < 0)) {
-#ifdef HAS_TRANSLATION
         ui_error(translate_text(IDGS_FFMPEG_CANNOT_OPEN_ASTREAM));
-#else
-        ui_error(_("ffmpegdrv: Cannot open audio stream"));
-#endif
         screenshot_stop_recording();
         return -1;
     }
@@ -585,11 +567,7 @@ static int ffmpegdrv_init_file(void)
         if ((*ffmpeglib.p_url_fopen)(&ffmpegdrv_oc->pb, ffmpegdrv_oc->filename,
                             URL_WRONLY) < 0) 
         {
-#ifdef HAS_TRANSLATION
             ui_error(translate_text(IDGS_FFMPEG_CANNOT_OPEN_S), ffmpegdrv_oc->filename);
-#else
-            ui_error(_("ffmpegdrv: Cannot open %s"), ffmpegdrv_oc->filename);
-#endif
             screenshot_stop_recording();
             return -1;
         }

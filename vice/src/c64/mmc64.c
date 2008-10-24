@@ -46,9 +46,7 @@
 #include "plus256k.h"
 #include "plus60k.h"
 #include "resources.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
 #include "util.h"
 #include "vicii-phi1.h"
@@ -877,45 +875,45 @@ void mmc64_resources_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
-  { "-mmc64", SET_RESOURCE, 0, NULL, NULL, "MMC64", (resource_value_t)1,
-    0, IDCLS_ENABLE_MMC64 },
-  { "+mmc64", SET_RESOURCE, 0, NULL, NULL, "MMC64", (resource_value_t)0,
-    0, IDCLS_DISABLE_MMC64 },
-  { "-mmc64bios", SET_RESOURCE, 1, NULL, NULL, "MMC64BIOSfilename", NULL,
-    IDCLS_P_NAME, IDCLS_SPECIFY_MMC64_BIOS_NAME },
-  { "-mmc64image", SET_RESOURCE, 1, NULL, NULL, "MMC64imagefilename", NULL,
-    IDCLS_P_NAME, IDCLS_SPECIFY_MMC64_IMAGE_NAME },
-  { "-mmc64readonly", SET_RESOURCE, 0, NULL, NULL, "MMC64_RO", (resource_value_t)1,
-    0, IDCLS_MMC64_READONLY },
-  { "-mmc64readwrite", SET_RESOURCE, 0, NULL, NULL, "MMC64_RO", (resource_value_t)0,
-    0, IDCLS_MMC64_READWRITE },
-  { "-mmc64bioswrite", SET_RESOURCE, 0, NULL, NULL, "MMC64_bios_write", (resource_value_t)1,
-    0, IDCLS_MMC64_BIOS_WRITE },
+  { "-mmc64", SET_RESOURCE, 0,
+    NULL, NULL, "MMC64", (resource_value_t)1,
+    USE_PARAM_STRING, USE_DESCRIPTION_ID,
+    IDCLS_UNUSED, IDCLS_ENABLE_MMC64,
+    NULL, NULL },
+  { "+mmc64", SET_RESOURCE, 0,
+    NULL, NULL, "MMC64", (resource_value_t)0,
+    USE_PARAM_STRING, USE_DESCRIPTION_ID,
+    IDCLS_UNUSED, IDCLS_DISABLE_MMC64,
+    NULL, NULL },
+  { "-mmc64bios", SET_RESOURCE, 1,
+    NULL, NULL, "MMC64BIOSfilename", NULL,
+    USE_PARAM_ID, USE_DESCRIPTION_ID,
+    IDCLS_P_NAME, IDCLS_SPECIFY_MMC64_BIOS_NAME,
+    NULL, NULL },
+  { "-mmc64image", SET_RESOURCE, 1,
+    NULL, NULL, "MMC64imagefilename", NULL,
+    USE_PARAM_ID, USE_DESCRIPTION_ID,
+    IDCLS_P_NAME, IDCLS_SPECIFY_MMC64_IMAGE_NAME,
+    NULL, NULL },
+  { "-mmc64readonly", SET_RESOURCE, 0,
+    NULL, NULL, "MMC64_RO", (resource_value_t)1,
+    USE_PARAM_STRING, USE_DESCRIPTION_ID,
+    IDCLS_UNUSED, IDCLS_MMC64_READONLY,
+    NULL, NULL },
+  { "-mmc64readwrite", SET_RESOURCE, 0,
+    NULL, NULL, "MMC64_RO", (resource_value_t)0,
+    USE_PARAM_STRING, USE_DESCRIPTION_ID,
+    IDCLS_UNUSED, IDCLS_MMC64_READWRITE,
+    NULL, NULL },
+  { "-mmc64bioswrite", SET_RESOURCE, 0,
+    NULL, NULL, "MMC64_bios_write", (resource_value_t)1,
+    USE_PARAM_STRING, USE_DESCRIPTION_ID,
+    IDCLS_UNUSED, IDCLS_MMC64_BIOS_WRITE,
+    NULL, NULL },
   { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] =
-{
-  { "-mmc64", SET_RESOURCE, 0, NULL, NULL, "MMC64", (resource_value_t)1,
-    NULL, N_("Enable the MMC64 expansion") },
-  { "+mmc64", SET_RESOURCE, 0, NULL, NULL, "MMC64", (resource_value_t)0,
-    NULL, N_("Disable the MMC64 expansion") },
-  { "-mmc64bios", SET_RESOURCE, 1, NULL, NULL, "MMC64BIOSfilename", NULL,
-    N_("<name>"), N_("Specify name of MMC64 BIOS image") },
-  { "-mmc64image", SET_RESOURCE, 1, NULL, NULL, "MMC64imagefilename", NULL,
-    N_("<name>"), N_("Specify name of MMC64 image") },
-  { "-mmc64readonly", SET_RESOURCE, 0, NULL, NULL, "MMC64_RO", (resource_value_t)1,
-    NULL, N_("Set the MMC64 card to read-only") },
-  { "-mmc64readwrite", SET_RESOURCE, 0, NULL, NULL, "MMC64_RO", (resource_value_t)0,
-    NULL, N_("Set the MMC64 card to read/write") },
-  { "-mmc64bioswrite", SET_RESOURCE, 0, NULL, NULL, "MMC64_bios_write", (resource_value_t)1,
-    NULL, N_("Save the MMC64 bios when changed") },
-  { NULL }
-};
-#endif
 
 int mmc64_cmdline_options_init(void)
 {

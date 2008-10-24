@@ -55,13 +55,10 @@
 #include "mem.h"
 #include "monitor.h"
 #include "resources.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "util.h"
 #include "vic20mem.h"
 #include "zfile.h"
-
 
 /* Hm, if this gets more, I should introduce an array :-) */
 static char *cartridge_file_2 = NULL;
@@ -190,37 +187,35 @@ static int attach_cart2(const char *param, void *extra_param)
     return cartridge_attach_image(CARTRIDGE_VIC20_16KB_2000, param);
 }
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-cart2", CALL_FUNCTION, 1, attach_cart2, NULL, NULL, NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_EXT_ROM_2000_NAME },
-    { "-cart4", CALL_FUNCTION, 1, attach_cart4, NULL, NULL, NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_EXT_ROM_4000_NAME },
-    { "-cart6", CALL_FUNCTION, 1, attach_cart6, NULL, NULL, NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_EXT_ROM_6000_NAME },
-    { "-cartA", CALL_FUNCTION, 1, attach_cartA, NULL, NULL, NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_EXT_ROM_A000_NAME },
-    { "-cartB", CALL_FUNCTION, 1, attach_cartB, NULL, NULL, NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_EXT_ROM_B000_NAME },
+    { "-cart2", CALL_FUNCTION, 1,
+      attach_cart2, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_EXT_ROM_2000_NAME,
+      NULL, NULL },
+    { "-cart4", CALL_FUNCTION, 1,
+      attach_cart4, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_EXT_ROM_4000_NAME,
+      NULL, NULL },
+    { "-cart6", CALL_FUNCTION, 1,
+      attach_cart6, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_EXT_ROM_6000_NAME,
+      NULL, NULL },
+    { "-cartA", CALL_FUNCTION, 1,
+      attach_cartA, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_EXT_ROM_A000_NAME,
+      NULL, NULL },
+    { "-cartB", CALL_FUNCTION, 1,
+      attach_cartB, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_EXT_ROM_B000_NAME,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-cart2", CALL_FUNCTION, 1, attach_cart2, NULL, NULL, NULL,
-      N_("<name>"), N_("Specify 4/8/16K extension ROM name at $2000") },
-    { "-cart4", CALL_FUNCTION, 1, attach_cart4, NULL, NULL, NULL,
-      N_("<name>"), N_("Specify 4/8/16K extension ROM name at $4000") },
-    { "-cart6", CALL_FUNCTION, 1, attach_cart6, NULL, NULL, NULL,
-      N_("<name>"), N_("Specify 4/8/16K extension ROM name at $6000") },
-    { "-cartA", CALL_FUNCTION, 1, attach_cartA, NULL, NULL, NULL,
-      N_("<name>"), N_("Specify 4/8K extension ROM name at $A000") },
-    { "-cartB", CALL_FUNCTION, 1, attach_cartB, NULL, NULL, NULL,
-      N_("<name>"), N_("Specify 4K extension ROM name at $B000") },
-    { NULL }
-};
-#endif
 
 int cartridge_cmdline_options_init(void)
 {
@@ -389,4 +384,3 @@ const char *cartridge_get_file_name(WORD addr)
         return NULL;
     }
 }
-

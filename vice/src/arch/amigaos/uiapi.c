@@ -213,18 +213,26 @@ void ui_resources_shutdown(void)
 /* UI-related command-line options.  */
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-saveres", SET_RESOURCE, 0, NULL, NULL,
-      "SaveResourcesOnExit", (resource_value_t)1,
-      0, IDS_SAVE_SETTINGS_ON_EXIT },
-    { "+saveres", SET_RESOURCE, 0, NULL, NULL,
-      "SaveResourcesOnExit", (resource_value_t)0,
-      0, IDS_NEVER_SAVE_SETTINGS_EXIT },
-    { "-confirmexit", SET_RESOURCE, 0, NULL, NULL,
-      "ConfirmOnExit", (resource_value_t)1,
-      0, IDS_CONFIRM_QUITING_VICE },
-    { "+confirmexit", SET_RESOURCE, 0, NULL, NULL,
-      "ConfirmOnExit", (resource_value_t)0,
-      0, IDS_NEVER_CONFIRM_QUITING_VICE },
+    { "-saveres", SET_RESOURCE, 0,
+      NULL, NULL, "SaveResourcesOnExit", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_SAVE_SETTINGS_ON_EXIT,
+      NULL, NULL },
+    { "+saveres", SET_RESOURCE, 0,
+      NULL, NULL, "SaveResourcesOnExit", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_NEVER_SAVE_SETTINGS_EXIT,
+      NULL, NULL },
+    { "-confirmexit", SET_RESOURCE, 0,
+      NULL, NULL, "ConfirmOnExit", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_CONFIRM_QUITING_VICE,
+      NULL, NULL },
+    { "+confirmexit", SET_RESOURCE, 0,
+      NULL, NULL, "ConfirmOnExit", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_NEVER_CONFIRM_QUITING_VICE,
+      NULL, NULL },
     { NULL }
 };
 

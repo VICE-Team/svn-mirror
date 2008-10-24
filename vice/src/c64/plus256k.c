@@ -45,9 +45,7 @@
 #include "resources.h"
 #include "reu.h"
 #include "snapshot.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"
@@ -87,11 +85,7 @@ static int set_plus256k_enabled(int val, void *param)
         return 0;
     } else {
         if (plus60k_enabled || c64_256k_enabled) {
-#ifdef HAS_TRANSLATION
             ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"CPU-LINES", (plus60k_enabled) ? "PLUS60K" : "256K");
-#else
-            ui_error(_("Resource %s blocked by %s."),"CPU-LINES", (plus60k_enabled) ? "PLUS60K" : "256K");
-#endif
             return -1;
         } else {
             if (plus256k_activate() < 0) {
@@ -153,29 +147,25 @@ void plus256k_resources_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-plus256k", SET_RESOURCE, 0, NULL, NULL, "PLUS256K", (resource_value_t)1,
-      0, IDCLS_ENABLE_PLUS256K_EXPANSION },
-    { "+plus256k", SET_RESOURCE, 0, NULL, NULL, "PLUS256K", (resource_value_t)0,
-      0, IDCLS_DISABLE_PLUS256K_EXPANSION },
-    { "-plus256kimage", SET_RESOURCE, 1, NULL, NULL, "PLUS256Kfilename", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_PLUS256K_NAME },
+    { "-plus256k", SET_RESOURCE, 0,
+      NULL, NULL, "PLUS256K", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_PLUS256K_EXPANSION,
+      NULL, NULL },
+    { "+plus256k", SET_RESOURCE, 0,
+      NULL, NULL, "PLUS256K", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_PLUS256K_EXPANSION,
+      NULL, NULL },
+    { "-plus256kimage", SET_RESOURCE, 1,
+      NULL, NULL, "PLUS256Kfilename", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_PLUS256K_NAME,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-plus256k", SET_RESOURCE, 0, NULL, NULL, "PLUS256K", (resource_value_t)1,
-      NULL, N_("Enable the PLUS256K RAM expansion") },
-    { "+plus256k", SET_RESOURCE, 0, NULL, NULL, "PLUS256K", (resource_value_t)0,
-      NULL, N_("Disable the PLUS256K RAM expansion") },
-    { "-plus256kimage", SET_RESOURCE, 1, NULL, NULL, "PLUS256Kfilename", NULL,
-      N_("<name>"), N_("Specify name of PLUS256K image") },
-    { NULL }
-};
-#endif
 
 int plus256k_cmdline_options_init(void)
 {

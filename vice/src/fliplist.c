@@ -38,11 +38,8 @@
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "util.h"
-
 
 #define NUM_DRIVES 4
 
@@ -107,21 +104,15 @@ void fliplist_resources_shutdown(void)
     lib_free((char *)(resources_string[0].factory_value));
 }
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-flipname", SET_RESOURCE, 1, NULL, NULL, "FliplistName", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_FLIP_LIST_NAME },
+    { "-flipname", SET_RESOURCE, 1,
+      NULL, NULL, "FliplistName", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_FLIP_LIST_NAME,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-flipname", SET_RESOURCE, 1, NULL, NULL, "FliplistName", NULL,
-      N_("<name>"), N_("Specify name of the flip list file image") },
-    { NULL }
-};
-#endif
 
 int fliplist_cmdline_options_init(void)
 {

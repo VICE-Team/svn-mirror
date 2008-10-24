@@ -32,45 +32,35 @@
 #include "cmdline.h"
 #include "drive.h"
 #include "lib.h"
-
-
-#ifdef HAS_TRANSLATION
 #include "translate.h"
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-profdos1571", SET_RESOURCE, 1, NULL, NULL, "DriveProfDOS1571Name", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME },
+    { "-profdos1571", SET_RESOURCE, 1,
+      NULL, NULL, "DriveProfDOS1571Name", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME,
+      NULL, NULL },
     { NULL }
 };
 
 static cmdline_option_t cmd_drive[] = {
-    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL, (void *)DRIVE_PC_NONE,
-      IDCLS_P_TYPE,
-      IDCLS_PAR_CABLE_C64EXP_TYPE },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
-      0, IDCLS_ENABLE_PROFDOS },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
-      0, IDCLS_DISABLE_PROFDOS },
+    { NULL, SET_RESOURCE, 1,
+      NULL, NULL, NULL, (void *)DRIVE_PC_NONE,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_TYPE, IDCLS_PAR_CABLE_C64EXP_TYPE,
+      NULL, NULL },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_PROFDOS,
+      NULL, NULL },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_PROFDOS,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] = {
-    { "-profdos1571", SET_RESOURCE, 1, NULL, NULL, "DriveProfDOS1571Name", NULL,
-      N_("<name>"), N_("Specify name of Professional DOS 1571 ROM image") },
-    { NULL }
-};
-
-static cmdline_option_t cmd_drive[] = {
-    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL, (void *)DRIVE_PC_NONE,
-      N_("<type>"),
-      N_("Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3)") },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
-      NULL, N_("Enable Professional DOS") },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
-      NULL, N_("Disable Professional DOS") },
-    { NULL }
-};
-#endif
 
 int c64exp_cmdline_options_init(void)
 {

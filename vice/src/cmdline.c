@@ -35,9 +35,7 @@
 #include "cmdline.h"
 #include "lib.h"
 #include "resources.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
 #include "uicmdline.h"
 #include "util.h"
@@ -82,8 +80,15 @@ int cmdline_register_options(const cmdline_option_t *c)
         else
             p->resource_name = NULL;
         p->resource_value = c->resource_value;
+
+        p->use_param_name_id = c->use_param_name_id;
+        p->use_description_id = c->use_description_id;
+
         p->param_name = c->param_name;
         p->description = c->description;
+
+        p->param_name_trans = c->param_name_trans;
+        p->description_trans = c->description_trans;
 
         num_options++;
     }
@@ -220,6 +225,22 @@ void cmdline_show_help(void *userparam)
     ui_cmdline_show_help(num_options, options, userparam);
 }
 
+char *cmdline_options_get_param(int counter)
+{
+    if (options[counter].use_param_name_id == USE_PARAM_ID)
+        return translate_text(options[counter].param_name_trans);
+    else
+        return (char *)_(options[counter].param_name);
+}
+
+char *cmdline_options_get_description(int counter)
+{
+    if (options[counter].use_description_id == USE_DESCRIPTION_ID)
+        return translate_text(options[counter].description_trans);
+    else
+        return (char *)_(options[counter].description);
+}
+
 char *cmdline_options_string(void)
 {
     unsigned int i;
@@ -230,15 +251,9 @@ char *cmdline_options_string(void)
 
     for (i = 0; i < num_options; i++) {
         add_to_options1 = lib_msprintf("%s", options[i].name);
-#ifdef HAS_TRANSLATION
-        add_to_options3 = lib_msprintf("\n\t%s\n", translate_text(options[i].description));
-        if (options[i].need_arg && options[i].param_name != 0) {
-            add_to_options2 = lib_msprintf(" %s", translate_text(options[i].param_name));
-#else
-        add_to_options3 = lib_msprintf("\n\t%s\n", options[i].description);
-        if (options[i].need_arg && options[i].param_name != NULL) {
-            add_to_options2 = lib_msprintf(" %s", options[i].param_name);
-#endif
+        add_to_options3 = lib_msprintf("\n\t%s\n", cmdline_options_get_description(i));
+        if (options[i].need_arg && cmdline_options_get_param(i) != NULL) {
+            add_to_options2 = lib_msprintf(" %s", cmdline_options_get_param(i));
             new_cmdline_string = util_concat(cmdline_string, add_to_options1,
                                              add_to_options2, add_to_options3,
                                              NULL);

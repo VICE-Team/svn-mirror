@@ -49,9 +49,7 @@
 #include "maincpu.h"
 #include "resources.h"
 #include "sound.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
 #include "ui.h"
 #include "util.h"
@@ -247,51 +245,54 @@ void sound_resources_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] = {
-    { "-sound", SET_RESOURCE, 0, NULL, NULL, "Sound", (resource_value_t)1,
-      0, IDCLS_ENABLE_SOUND_PLAYBACK },
-    { "+sound", SET_RESOURCE, 0, NULL, NULL, "Sound", (resource_value_t)0,
-      0, IDCLS_DISABLE_SOUND_PLAYBACK },
-    { "-soundrate", SET_RESOURCE, 1, NULL, NULL, "SoundSampleRate", NULL,
-      IDCLS_P_VALUE, IDCLS_SET_SAMPLE_RATE_VALUE_HZ },
-    { "-soundbufsize", SET_RESOURCE, 1, NULL, NULL, "SoundBufferSize", NULL,
-      IDCLS_P_VALUE, IDCLS_SET_SOUND_BUFFER_SIZE_MSEC },
-    { "-sounddev", SET_RESOURCE, 1, NULL, NULL, "SoundDeviceName", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_SOUND_DRIVER },
-    { "-soundarg", SET_RESOURCE, 1, NULL, NULL, "SoundDeviceArg", NULL,
-      IDCLS_P_ARGS, IDCLS_SPECIFY_SOUND_DRIVER_PARAM },
-    { "-soundrecdev", SET_RESOURCE, 1, NULL, NULL, "SoundRecordDeviceName",
-      NULL, IDCLS_P_NAME, IDCLS_SPECIFY_RECORDING_SOUND_DRIVER },
-    { "-soundrecarg", SET_RESOURCE, 1, NULL, NULL, "SoundRecordDeviceArg", NULL,
-      IDCLS_P_ARGS, IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM },
-    { "-soundsync", SET_RESOURCE, 1, NULL, NULL, "SoundSpeedAdjustment", NULL,
-      IDCLS_P_SYNC, IDCLS_SET_SOUND_SPEED_ADJUST },
+    { "-sound", SET_RESOURCE, 0,
+      NULL, NULL, "Sound", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_SOUND_PLAYBACK,
+      NULL, NULL },
+    { "+sound", SET_RESOURCE, 0,
+      NULL, NULL, "Sound", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_SOUND_PLAYBACK,
+      NULL, NULL },
+    { "-soundrate", SET_RESOURCE, 1,
+      NULL, NULL, "SoundSampleRate", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_VALUE, IDCLS_SET_SAMPLE_RATE_VALUE_HZ,
+      NULL, NULL },
+    { "-soundbufsize", SET_RESOURCE, 1,
+      NULL, NULL, "SoundBufferSize", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_VALUE, IDCLS_SET_SOUND_BUFFER_SIZE_MSEC,
+      NULL, NULL },
+    { "-sounddev", SET_RESOURCE, 1,
+      NULL, NULL, "SoundDeviceName", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_SOUND_DRIVER,
+      NULL, NULL },
+    { "-soundarg", SET_RESOURCE, 1,
+      NULL, NULL, "SoundDeviceArg", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_ARGS, IDCLS_SPECIFY_SOUND_DRIVER_PARAM,
+      NULL, NULL },
+    { "-soundrecdev", SET_RESOURCE, 1,
+      NULL, NULL, "SoundRecordDeviceName", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_RECORDING_SOUND_DRIVER,
+      NULL, NULL },
+    { "-soundrecarg", SET_RESOURCE, 1,
+      NULL, NULL, "SoundRecordDeviceArg", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_ARGS, IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM,
+      NULL, NULL },
+    { "-soundsync", SET_RESOURCE, 1,
+      NULL, NULL, "SoundSpeedAdjustment", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_SYNC, IDCLS_SET_SOUND_SPEED_ADJUST,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] = {
-    { "-sound", SET_RESOURCE, 0, NULL, NULL, "Sound", (resource_value_t)1,
-      NULL, N_("Enable sound playback") },
-    { "+sound", SET_RESOURCE, 0, NULL, NULL, "Sound", (resource_value_t)0,
-      NULL, N_("Disable sound playback") },
-    { "-soundrate", SET_RESOURCE, 1, NULL, NULL, "SoundSampleRate", NULL,
-      N_("<value>"), N_("Set sound sample rate to <value> Hz") },
-    { "-soundbufsize", SET_RESOURCE, 1, NULL, NULL, "SoundBufferSize", NULL,
-      N_("<value>"), N_("Set sound buffer size to <value> msec") },
-    { "-sounddev", SET_RESOURCE, 1, NULL, NULL, "SoundDeviceName", NULL,
-      N_("<name>"), N_("Specify sound driver") },
-    { "-soundarg", SET_RESOURCE, 1, NULL, NULL, "SoundDeviceArg", NULL,
-      N_("<args>"), N_("Specify initialization parameters for sound driver") },
-    { "-soundrecdev", SET_RESOURCE, 1, NULL, NULL, "SoundRecordDeviceName",
-      NULL, N_("<name>"), N_("Specify recording sound driver") },
-    { "-soundrecarg", SET_RESOURCE, 1, NULL, NULL, "SoundRecordDeviceArg", NULL,
-      N_("<args>"), N_("Specify initialization parameters for recording sound driver") },
-    { "-soundsync", SET_RESOURCE, 1, NULL, NULL, "SoundSpeedAdjustment", NULL,
-      N_("<sync>"), N_("Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)") },
-    { NULL }
-};
-#endif
 
 int sound_cmdline_options_init(void)
 {
@@ -495,11 +496,7 @@ static void fill_buffer(int size, int rise)
     lib_free(p);
 
     if (i)
-#ifdef HAS_TRANSLATION
         sound_error(translate_text(IDGS_WRITE_TO_SOUND_DEVICE_FAILED));
-#else
-        sound_error(_("write to sound device failed."));
-#endif
 }
 
 
@@ -510,11 +507,7 @@ static int sid_open(void)
 
     for (c = 0; c < snddata.channels; c++) {
         if (!(snddata.psid[c] = sound_machine_open(c))) {
-#ifdef HAS_TRANSLATION
             return sound_error(translate_text(IDGS_CANNOT_OPEN_SID_ENGINE));
-#else
-            return sound_error(_("Cannot open SID engine"));
-#endif
         }
     }
 
@@ -549,11 +542,7 @@ static int sid_init(void)
 
     for (c = 0; c < snddata.channels; c++) {
         if (!sound_machine_init(snddata.psid[c], speed, cycles_per_sec)) {
-#ifdef HAS_TRANSLATION
             return sound_error(translate_text(IDGS_CANNOT_INIT_SID_ENGINE));
-#else
-            return sound_error(_("Cannot initialize SID engine"));
-#endif
         }
     }
 
@@ -655,13 +644,8 @@ int sound_open(void)
             int channels_cap = snddata.channels;
             if (pdev->init(playparam, &speed, &fragsize, &fragnr, &channels_cap)) {
                 char *err;
-#ifdef HAS_TRANSLATION
                 err = lib_msprintf(translate_text(IDGS_INIT_FAILED_FOR_DEVICE_S),
                                    pdev->name);
-#else
-                err = lib_msprintf(_("initialization failed for device `%s'."),
-                                   pdev->name);
-#endif
                 sound_error(err);
                 lib_free(err);
                 return 1;
@@ -714,13 +698,8 @@ int sound_open(void)
             }
         }
     } else {
-#ifdef HAS_TRANSLATION
         char *err = lib_msprintf(translate_text(IDGS_DEVICE_S_NOT_FOUND_SUPPORT),
                                  playname);
-#else
-        char *err = lib_msprintf(_("device '%s' not found or not supported."),
-                                 playname);
-#endif
         sound_error(err);
         lib_free(err);
         return 1;
@@ -736,41 +715,24 @@ int sound_open(void)
     }
 
     if (recname && rdev == NULL)
-#ifdef HAS_TRANSLATION
         ui_error(translate_text(IDGS_RECORD_DEVICE_S_NOT_EXIST), recname);
-#else
-        ui_error(_("Recording device %s doesn't exist!"), recname);
-#endif
 
     if (rdev) {
         if (rdev == pdev) {
-#ifdef HAS_TRANSLATION
             ui_error(translate_text(IDGS_RECORD_DIFFERENT_PLAYBACK));
-#else
-            ui_error(_("Recording device must be different from playback device"));
-#endif
             resources_set_string("SoundRecordDeviceName", "");
             return 0;
         }
 
         if (rdev->bufferspace != NULL) {
-#ifdef HAS_TRANSLATION
             ui_error(translate_text(IDGS_WARNING_RECORDING_REALTIME));
-#else
-            ui_error(_("Warning! Recording device %s seems to be a realtime device!"));
-#endif
         }
 
         if (rdev->init) {
             int channels_cap = snddata.channels;
             if (rdev->init(recparam, &speed, &fragsize, &fragnr, &channels_cap)) {
-#ifdef HAS_TRANSLATION
                 ui_error(translate_text(IDGS_INIT_FAILED_FOR_DEVICE_S),
                                    rdev->name);
-#else
-                ui_error(_("Initialization failed for device `%s'."),
-                                   rdev->name);
-#endif
                 resources_set_string("SoundRecordDeviceName", "");
                 return 0;
             }
@@ -780,11 +742,7 @@ int sound_open(void)
                 || snddata.fragnr != fragnr
                 || snddata.channels != channels_cap)
             {
-#ifdef HAS_TRANSLATION
                 ui_error(translate_text(IDGS_RECORD_NOT_SUPPORT_SOUND_PAR));
-#else
-                ui_error(_("The recording device doesn't support current sound parameters"));
-#endif
                 rdev->close();
                 resources_set_string("SoundRecordDeviceName", "");
             } else {
@@ -867,11 +825,7 @@ static int sound_run_sound(void)
             }
 
             if (delta_t) {
-#ifdef HAS_TRANSLATION
                 return sound_error(translate_text(IDGS_SOUND_BUFFER_OVERFLOW_CYCLE));
-#else
-                return sound_error(_("Sound buffer overflow (cycle based)"));
-#endif
             }
         }
     } else {
@@ -881,11 +835,7 @@ static int sound_run_sound(void)
         if (!nr)
             return 0;
         if (snddata.bufptr + nr > SOUND_BUFSIZE) {
-#ifdef HAS_TRANSLATION
             return sound_error(translate_text(IDGS_SOUND_BUFFER_OVERFLOW));
-#else
-            return sound_error(_("Sound buffer overflow."));
-#endif
         }
         for (c = 0; c < snddata.channels; c++) {
             bufferptr = snddata.buffer + snddata.bufptr * snddata.channels + c;
@@ -1011,11 +961,7 @@ double sound_flush(int relative_speed)
         i = snddata.playdev->flush(state);
         lib_free(state);
         if (i) {
-#ifdef HAS_TRANSLATION
             sound_error(translate_text(IDGS_CANNOT_FLUSH));
-#else
-            sound_error(_("cannot flush."));
-#endif
             return 0;
         }
     }
@@ -1060,11 +1006,7 @@ double sound_flush(int relative_speed)
             log_warning(sound_log, "fragment problems %d %d",
                  space, snddata.bufsize);
 
-#ifdef HAS_TRANSLATE
             sound_error(translate_text(IDGS_FRAGMENT_PROBLEMS));
-#else
-            sound_error(_("fragment problems."));
-#endif
             return 0;
         }
         used = snddata.bufsize - space;
@@ -1129,11 +1071,7 @@ double sound_flush(int relative_speed)
             if (suspend_time > 0)
                 suspendsound("running too slow");
             else {
-#ifdef HAS_TRANSLATION
                 sound_error(translate_text(IDGS_RUNNING_TOO_SLOW));
-#else
-                sound_error(_("running too slow."));
-#endif
             }
             return 0;
         }
@@ -1145,21 +1083,13 @@ double sound_flush(int relative_speed)
 
     /* Flush buffer, all channels are already mixed into it. */
     if (snddata.playdev->write(snddata.buffer, nr * snddata.channels)) {
-#ifdef HAS_TRANSLATION
         sound_error(translate_text(IDGS_WRITE_TO_SOUND_DEVICE_FAILED));
-#else
-        sound_error(_("write to sounddevice failed."));
-#endif
         return 0;
     }
 
     if (snddata.recdev) {
         if (snddata.recdev->write(snddata.buffer, nr * snddata.channels)) {
-#ifdef HAS_TRANSLATION
             sound_error(translate_text(IDGS_WRITE_TO_SOUND_DEVICE_FAILED));
-#else
-            sound_error(_("write to sounddevice failed."));
-#endif
             return 0;
         }
     }
@@ -1415,11 +1345,7 @@ void sound_store(WORD addr, BYTE val, int chipno)
     snddata.wclk = maincpu_clk;
 
     if (i)
-#ifdef HAS_TRANSLATION
         sound_error(translate_text(IDGS_STORE_SOUNDDEVICE_FAILED));
-#else
-        sound_error(_("store to sounddevice failed."));
-#endif
 }
 
 
@@ -1451,4 +1377,3 @@ void sound_snapshot_finish(void)
 {
     snddata.lastclk = maincpu_clk;
 }
-

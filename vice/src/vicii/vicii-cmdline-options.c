@@ -35,9 +35,7 @@
 #include "machine.h"
 #include "raster-cmdline-options.h"
 #include "resources.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "vicii-cmdline-options.h"
 #include "vicii-resources.h"
 #include "vicii-timing.h"
@@ -64,73 +62,80 @@ int border_set_func(const char *value, void *extra_param)
 }
 
 /* VIC-II command-line options.  */
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-VICIIborders", CALL_FUNCTION, 1, border_set_func, NULL, "VICIIBorderMode",
-      (void *)0, IDCLS_P_MODE, IDCLS_SET_BORDER_MODE },
-    { "-VICIIchecksb", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSbColl",
-      (void *)1, 0, IDCLS_ENABLE_SPRITE_BACKGROUND },
-    { "+VICIIchecksb", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSbColl",
-      (void *)0, 0, IDCLS_DISABLE_SPRITE_BACKGROUND },
-    { "-VICIIcheckss", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSsColl",
-      (void *)1, 0, IDCLS_ENABLE_SPRITE_SPRITE },
-    { "+VICIIcheckss", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSsColl",
-      (void *)0, 0, IDCLS_DISABLE_SPRITE_SPRITE },
-    { "-newluminance", SET_RESOURCE, 0, NULL, NULL, "VICIINewLuminances",
-      (void *)1, 0, IDCLS_USE_NEW_LUMINANCES },
-    { "+newluminance", SET_RESOURCE, 0, NULL, NULL, "VICIINewLuminances",
-      (void *)0, 0, IDCLS_USE_OLD_LUMINANCES },
-    { "-saturation", SET_RESOURCE, 1, NULL, NULL, "ColorSaturation", NULL,
-      IDCLS_P_0_2000, IDCLS_SET_SATURATION },
-    { "-contrast", SET_RESOURCE, 1, NULL, NULL, "ColorContrast", NULL,
-      IDCLS_P_0_2000, IDCLS_SET_CONTRAST },
-    { "-brightness", SET_RESOURCE, 1, NULL, NULL, "ColorBrightness", NULL,
-      IDCLS_P_0_2000, IDCLS_SET_BRIGHTNESS },
-    { "-gamma", SET_RESOURCE, 1, NULL, NULL, "ColorGamma", NULL,
-      IDCLS_P_0_2000, IDCLS_SET_GAMMA },
-    { "-tint", SET_RESOURCE, 1, NULL, NULL, "ColorTint", NULL,
-      IDCLS_P_0_2000, IDCLS_SET_TINT },
-    { "-oddlinesphase", SET_RESOURCE, 1, NULL, NULL, "PALOddLinePhase", NULL,
-      IDCLS_P_0_2000, IDCLS_SET_ODDLINES_PHASE },
-    { "-oddlinesoffset", SET_RESOURCE, 1, NULL, NULL, "PALOddLineOffset", NULL,
-      IDCLS_P_0_2000, IDCLS_SET_ODDLINES_OFFSET },
+    { "-VICIIborders", CALL_FUNCTION, 1,
+      border_set_func, NULL, "VICIIBorderMode", (void *)0,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_MODE, IDCLS_SET_BORDER_MODE,
+      NULL, NULL },
+    { "-VICIIchecksb", SET_RESOURCE, 0,
+      NULL, NULL, "VICIICheckSbColl", (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_SPRITE_BACKGROUND,
+      NULL, NULL },
+    { "+VICIIchecksb", SET_RESOURCE, 0,
+      NULL, NULL, "VICIICheckSbColl", (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_SPRITE_BACKGROUND,
+      NULL, NULL },
+    { "-VICIIcheckss", SET_RESOURCE, 0,
+      NULL, NULL, "VICIICheckSsColl", (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_SPRITE_SPRITE,
+      NULL, NULL },
+    { "+VICIIcheckss", SET_RESOURCE, 0,
+      NULL, NULL, "VICIICheckSsColl", (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_SPRITE_SPRITE,
+      NULL, NULL },
+    { "-newluminance", SET_RESOURCE, 0,
+      NULL, NULL, "VICIINewLuminances", (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_USE_NEW_LUMINANCES,
+      NULL, NULL },
+    { "+newluminance", SET_RESOURCE, 0,
+      NULL, NULL, "VICIINewLuminances", (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_USE_OLD_LUMINANCES,
+      NULL, NULL },
+    { "-saturation", SET_RESOURCE, 1,
+      NULL, NULL, "ColorSaturation", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_SATURATION,
+      "<0-2000>", NULL },
+    { "-contrast", SET_RESOURCE, 1,
+      NULL, NULL, "ColorContrast", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_CONTRAST,
+      "<0-2000>", NULL },
+    { "-brightness", SET_RESOURCE, 1,
+      NULL, NULL, "ColorBrightness", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_BRIGHTNESS,
+      "<0-2000>", NULL },
+    { "-gamma", SET_RESOURCE, 1,
+      NULL, NULL, "ColorGamma", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_GAMMA,
+      "<0-2000>", NULL },
+    { "-tint", SET_RESOURCE, 1,
+      NULL, NULL, "ColorTint", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_TINT,
+      "<0-2000>", NULL },
+    { "-oddlinesphase", SET_RESOURCE, 1,
+      NULL, NULL, "PALOddLinePhase", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_ODDLINES_PHASE,
+      "<0-2000>", NULL },
+    { "-oddlinesoffset", SET_RESOURCE, 1,
+      NULL, NULL, "PALOddLineOffset", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_ODDLINES_OFFSET,
+      "<0-2000>", NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-VICIIborders", CALL_FUNCTION, 1, border_set_func, NULL, "VICIIBorderMode",
-      (void *)0, N_("<mode>"), N_("Set VIC-II border display mode (0: normal, 1: full, 2: debug)") },
-    { "-VICIIchecksb", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSbColl",
-      (void *)1, NULL, N_("Enable sprite-background collision registers") },
-    { "+VICIIchecksb", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSbColl",
-      (void *)0, NULL, N_("Disable sprite-background collision registers") },
-    { "-VICIIcheckss", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSsColl",
-      (void *)1, NULL, N_("Enable sprite-sprite collision registers") },
-    { "+VICIIcheckss", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSsColl",
-      (void *)0, NULL, N_("Disable sprite-sprite collision registers") },
-    { "-newluminance", SET_RESOURCE, 0, NULL, NULL, "VICIINewLuminances",
-      (void *)1, NULL, N_("Use new luminances") },
-    { "+newluminance", SET_RESOURCE, 0, NULL, NULL, "VICIINewLuminances",
-      (void *)0, NULL, N_("Use old luminances") },
-    { "-saturation", SET_RESOURCE, 1, NULL, NULL, "ColorSaturation", NULL,
-      "<0-2000>", N_("Set saturation of internal calculated palette [1000]") },
-    { "-contrast", SET_RESOURCE, 1, NULL, NULL, "ColorContrast", NULL,
-      "<0-2000>", N_("Set contrast of internal calculated palette [1100]") },
-    { "-brightness", SET_RESOURCE, 1, NULL, NULL, "ColorBrightness", NULL,
-      "<0-2000>", N_("Set brightness of internal calculated palette [1100]") },
-    { "-gamma", SET_RESOURCE, 1, NULL, NULL, "ColorGamma", NULL,
-      "<0-2000>", N_("Set gamma of internal calculated palette [900]") },
-    { "-tint", SET_RESOURCE, 1, NULL, NULL, "ColorTint", NULL,
-      "<0-2000>", N_("Set tint of internal calculated palette [1000]") },
-    { "-oddlinesphase", SET_RESOURCE, 1, NULL, NULL, "PALOddLinePhase", NULL,
-      "<0-2000>", N_("Set phase for color carrier in odd lines [1250]") },
-    { "-oddlinesoffset", SET_RESOURCE, 1, NULL, NULL, "PALOddLineOffset", NULL,
-      "<0-2000>", N_("Set phase offset for color carrier in odd lines [750]") },
-    { NULL }
-};
-#endif
 
 int vicii_cmdline_options_init(void)
 {
@@ -139,4 +144,3 @@ int vicii_cmdline_options_init(void)
 
     return cmdline_register_options(cmdline_options);
 }
-

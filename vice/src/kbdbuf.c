@@ -38,9 +38,7 @@
 #include "lib.h"
 #include "maincpu.h"
 #include "mem.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
 
 
@@ -122,21 +120,15 @@ static int kdb_buf_feed_cmdline(const char *param, void *extra_param)
     return 0;
 }
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-keybuf", CALL_FUNCTION, 1, kdb_buf_feed_cmdline, NULL, NULL, NULL,
-      IDCLS_P_STRING, IDCLS_PUT_STRING_INTO_KEYBUF },
+    { "-keybuf", CALL_FUNCTION, 1,
+      kdb_buf_feed_cmdline, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_STRING, IDCLS_PUT_STRING_INTO_KEYBUF,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-keybuf", CALL_FUNCTION, 1, kdb_buf_feed_cmdline, NULL, NULL, NULL,
-      N_("<string>"), N_("Put the specified string into the keyboard buffer.") },
-    { NULL }
-};
-#endif
 
 int kbdbuf_cmdline_options_init(void)
 {

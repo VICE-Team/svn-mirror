@@ -122,6 +122,10 @@
 #    define N_(String) (String)
 #endif /* ENABLE_NLS */
 
+/* T_() is just an indicator for new common text which needs
+   to be added to the translate.* translation tables. */
+#define T_(String) (String)
+
 #ifdef __OS2__
 int yyparse (void);
 #undef __GNUC__

@@ -18,7 +18,8 @@ doc_DATA = \
 	iec-bus.txt \
 	mon.txt \
 	openGLsync-howto.txt \
-	GP2X-Howto.txt
+	GP2X-Howto.txt \
+	coding-guidelines.txt
 
 info_TEXINFOS = vice.texi
 

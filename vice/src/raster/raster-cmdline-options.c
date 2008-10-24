@@ -32,36 +32,28 @@
 #include "cmdline.h"
 #include "lib.h"
 #include "raster-cmdline-options.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "util.h"
 #include "video.h"
-
 
 static const char *cname_chip[] = { "-", "vcache", "VideoCache",
                                     "+", "vcache", "VideoCache",
                                     NULL };
 
-#ifdef HAS_TRANSLATION
 static cmdline_option_t cmdline_options_chip[] =
 {
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, 0, IDCLS_ENABLE_VIDEO_CACHE },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, 0, IDCLS_DISABLE_VIDEO_CACHE },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_VIDEO_CACHE,
+      NULL, NULL },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_VIDEO_CACHE,
+      NULL, NULL },
     { NULL }
 };
-#else
-static cmdline_option_t cmdline_options_chip[] =
-{
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, NULL, N_("Enable the video cache") },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, NULL, N_("Disable the video cache") },
-    { NULL }
-};
-#endif
 
 int raster_cmdline_options_chip_init(const char *chipname,
                                      struct video_chip_cap_s *video_chip_cap)
@@ -88,4 +80,3 @@ int raster_cmdline_options_chip_init(const char *chipname,
 
     return 0;
 }
-

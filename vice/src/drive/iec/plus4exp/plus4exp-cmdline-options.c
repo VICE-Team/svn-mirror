@@ -32,25 +32,16 @@
 #include "drive.h"
 #include "lib.h"
 #include "plus4exp-cmdline-options.h"
-
-
-#ifdef HAS_TRANSLATION
 #include "translate.h"
 
 static cmdline_option_t cmd_drive[] = {
-    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL, (void *)DRIVE_PC_NONE,
-      IDCLS_P_TYPE,
-      IDCLS_PAR_CABLE_PLUS4EXP_TYPE },
+    { NULL, SET_RESOURCE, 1,
+      NULL, NULL, NULL, (void *)DRIVE_PC_NONE,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_TYPE, IDCLS_PAR_CABLE_PLUS4EXP_TYPE,
+      NULL, NULL },
     { NULL }
 };
-#else
-static cmdline_option_t cmd_drive[] = {
-    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL, (void *)DRIVE_PC_NONE,
-      N_("<type>"),
-      N_("Set parallel cable type (0: none, 1: standard)") },
-    { NULL }
-};
-#endif
 
 int plus4exp_cmdline_options_init(void)
 {
@@ -72,4 +63,3 @@ int plus4exp_cmdline_options_init(void)
 
     return 0;
 }
-

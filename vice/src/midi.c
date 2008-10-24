@@ -44,9 +44,7 @@
 #include "midi.h"
 #include "mididrv.h"
 #include "resources.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
 #include "util.h"
 
@@ -210,23 +208,19 @@ void midi_resources_shutdown(void)
     mididrv_resources_shutdown();
 }
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] = {
-    { "-midi", SET_RESOURCE, 0, NULL, NULL, "MIDIEnable", (resource_value_t)1,
-      0, IDCLS_ENABLE_MIDI_EMU },
-    { "+midi", SET_RESOURCE, 0, NULL, NULL, "MIDIEnable", (resource_value_t)0,
-      0, IDCLS_DISABLE_MIDI_EMU },
+    { "-midi", SET_RESOURCE, 0,
+      NULL, NULL, "MIDIEnable", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_MIDI_EMU,
+      NULL, NULL },
+    { "+midi", SET_RESOURCE, 0,
+      NULL, NULL, "MIDIEnable", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_MIDI_EMU,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] = {
-    { "-midi", SET_RESOURCE, 0, NULL, NULL, "MIDIEnable", (resource_value_t)1,
-      NULL, N_("Enable MIDI emulation") },
-    { "+midi", SET_RESOURCE, 0, NULL, NULL, "MIDIEnable", (resource_value_t)0,
-      NULL, N_("Disable MIDI emulation") },
-    { NULL }
-};
-#endif
 
 int midi_cmdline_options_init(void)
 {

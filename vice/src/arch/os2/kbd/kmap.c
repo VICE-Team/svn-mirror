@@ -29,6 +29,7 @@
 #include "resources.h"
 #include "cmdline.h"
 #include "kbd.h"
+#include "translate.h"
 
 #include "kbd/parse.h"
 /* ------------------------------------------------------------------------- */
@@ -102,9 +103,15 @@ int kbd_resources_init(void)
 /* keymap command-line options.  */
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-symkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapSymFile", NULL,
+    { "-symkeymap", SET_RESOURCE, 1,
+      NULL, NULL, "KeymapSymFile", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       "<name>", "Specify name of symbolic keymap file" },
-     { "-poskeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapPosFile", NULL,
+     { "-poskeymap", SET_RESOURCE, 1,
+      NULL, NULL, "KeymapPosFile", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       "<name>", "Specify name of positional keymap file" },
     NULL
 };
@@ -115,4 +122,3 @@ int kbd_cmdline_options_init(void)
     cmdline_register_options(cmdline_options);
     return do_kbd_init_cmdline_options();
 }
-

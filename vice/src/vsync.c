@@ -61,9 +61,7 @@ int vsync_frame_counter;
 #include "network.h"
 #include "resources.h"
 #include "sound.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
 #include "vsync.h"
 #include "vsyncapi.h"
@@ -129,31 +127,29 @@ int vsync_resources_init(void)
 /* ------------------------------------------------------------------------- */
 
 /* Vsync-related command-line options. */
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] = {
-    { "-speed", SET_RESOURCE, 1, NULL, NULL, "Speed", NULL,
-      IDCLS_P_PERCENT, IDCLS_LIMIT_SPEED_TO_VALUE },
-    { "-refresh", SET_RESOURCE, 1, NULL, NULL, "RefreshRate", NULL,
-      IDCLS_P_VALUE, IDCLS_UPDATE_EVERY_VALUE_FRAMES },
-    { "-warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t)1,
-      0, IDCLS_ENABLE_WARP_MODE },
-    { "+warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t)0,
-      0, IDCLS_DISABLE_WARP_MODE },
+    { "-speed", SET_RESOURCE, 1,
+      NULL, NULL, "Speed", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_PERCENT, IDCLS_LIMIT_SPEED_TO_VALUE,
+      NULL, NULL },
+    { "-refresh", SET_RESOURCE, 1,
+      NULL, NULL, "RefreshRate", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_VALUE, IDCLS_UPDATE_EVERY_VALUE_FRAMES,
+      NULL, NULL },
+    { "-warp", SET_RESOURCE, 0,
+      NULL, NULL, "WarpMode", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_WARP_MODE,
+      NULL, NULL },
+    { "+warp", SET_RESOURCE, 0,
+      NULL, NULL, "WarpMode", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_WARP_MODE,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] = {
-    { "-speed", SET_RESOURCE, 1, NULL, NULL, "Speed", NULL,
-      N_("<percent>"), N_("Limit emulation speed to specified value") },
-    { "-refresh", SET_RESOURCE, 1, NULL, NULL, "RefreshRate", NULL,
-      N_("<value>"), N_("Update every <value> frames (`0' for automatic)") },
-    { "-warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t)1,
-      NULL, N_("Enable warp mode") },
-    { "+warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t)0,
-      NULL, N_("Disable warp mode") },
-    { NULL }
-};
-#endif
 
 int vsync_cmdline_options_init(void)
 {

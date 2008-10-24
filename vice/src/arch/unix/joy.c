@@ -48,6 +48,7 @@
 #include "keyboard.h"
 #include "log.h"
 #include "resources.h"
+#include "translate.h"
 #include "types.h"
 
 #ifndef MAC_JOYSTICK
@@ -80,9 +81,15 @@ static const resource_int_t resources_int[] = {
 /* Command-line options.  */
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-joydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice1", NULL,
+    { "-joydev1", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice1", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-8>", N_("Set device for joystick port 1") },
-    { "-joydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice2", NULL,
+    { "-joydev2", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice2", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-8>", N_("Set device for joystick port 2") },
     { NULL },
 };

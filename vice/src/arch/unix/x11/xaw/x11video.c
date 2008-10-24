@@ -72,6 +72,7 @@
 #include "log.h"
 #include "machine.h"
 #include "resources.h"
+#include "translate.h"
 #include "types.h"
 #include "ui.h"
 #include "uicolor.h"
@@ -218,23 +219,37 @@ void video_arch_resources_shutdown(void)
 
 /* Video-related command-line options.  */
 static const cmdline_option_t cmdline_options[] = {
-    { "-xsync", SET_RESOURCE, 0, NULL, NULL,
-      "UseXSync", (resource_value_t)1,
+    { "-xsync", SET_RESOURCE, 0,
+      NULL, NULL, "UseXSync", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, N_("Call `XSync()' after updating the emulation window") },
-    { "+xsync", SET_RESOURCE, 0, NULL, NULL,
-      "UseXSync", (resource_value_t)0,
+    { "+xsync", SET_RESOURCE, 0,
+      NULL, NULL, "UseXSync", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, N_("Do not call `XSync()' after updating the emulation window") },
-    { "-mitshm", SET_RESOURCE, 0, NULL, NULL,
-      "MITSHM", (resource_value_t)1,
+    { "-mitshm", SET_RESOURCE, 0,
+      NULL, NULL, "MITSHM", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, N_("Use shared memory") },
-    { "+mitshm", SET_RESOURCE, 0, NULL, NULL,
-      "MITSHM", (resource_value_t)0,
+    { "+mitshm", SET_RESOURCE, 0,
+      NULL, NULL, "MITSHM", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, N_("Never use shared memory (slower)") },
 #ifdef HAVE_XVIDEO
-    { "-fourcc", SET_RESOURCE, 1, NULL, NULL, "FOURCC", NULL,
-      "<fourcc>", N_("Request YUV FOURCC format") },
-    { "-aspect", SET_RESOURCE, 1, NULL, NULL, "AspectRatio", NULL,
-      "<aspect ratio>", N_("Set aspect ratio (0.8 - 1.2)") },
+    { "-fourcc", SET_RESOURCE, 1,
+      NULL, NULL, "FOURCC", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      N_("<fourcc>"), N_("Request YUV FOURCC format") },
+    { "-aspect", SET_RESOURCE, 1,
+      NULL, NULL, "AspectRatio", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      N_("<aspect ratio>"), N_("Set aspect ratio (0.8 - 1.2)") },
 #endif
     { NULL }
 };

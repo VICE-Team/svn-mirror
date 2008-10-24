@@ -50,6 +50,7 @@
 #include "resources.h"
 #include "sound.h"
 #include "ui.h"
+#include "translate.h"
 #include "types.h"
 #include "vsync.h"
 
@@ -135,13 +136,25 @@ signed long vsyncarch_frequency(void)
 
 /* Vsync-related command-line options.  */
 static const cmdline_option_t cmdline_options[] = {
-    { "-speed", SET_RESOURCE, 1, NULL, NULL, "Speed", NULL,
+    { "-speed", SET_RESOURCE, 1,
+      NULL, NULL, "Speed", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       "<percent>", "Limit emulation speed to specified value" },
-    { "-refresh", SET_RESOURCE, 1, NULL, NULL, "RefreshRate", NULL,
+    { "-refresh", SET_RESOURCE, 1,
+      NULL, NULL, "RefreshRate", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       "<value>", "Update every <value> frames (`0' for automatic)" },
-    { "-warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t)1,
+    { "-warp", SET_RESOURCE, 0,
+      NULL, NULL, "WarpMode", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Enable warp mode" },
-    { "+warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t)0,
+    { "+warp", SET_RESOURCE, 0,
+      NULL, NULL, "WarpMode", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Disable warp mode" },
     { NULL }
 };

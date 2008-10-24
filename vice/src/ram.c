@@ -32,11 +32,8 @@
 #include "cmdline.h"
 #include "ram.h"
 #include "resources.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
-
 
 static int start_value;
 static int value_invert;
@@ -81,33 +78,24 @@ int ram_resources_init(void)
     return resources_register_int(resources_int);
 }
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] = {
-    { "-raminitstartvalue", SET_RESOURCE, 1, NULL, NULL,
-      "RAMInitStartValue", NULL,
-      IDCLS_P_VALUE, IDCLS_SET_FIRST_RAM_ADDRESS_VALUE },
-    { "-raminitvalueinvert" , SET_RESOURCE, 1, NULL, NULL,
-      "RAMInitValueInvert", NULL,
-      IDCLS_P_NUM_OF_BYTES, IDCLS_LENGTH_BLOCK_SAME_VALUE },
-    { "-raminitpatterninvert", SET_RESOURCE, 1, NULL, NULL,
-      "RAMInitPatternInvert", NULL,
-      IDCLS_P_NUM_OF_BYTES, IDCLS_LENGTH_BLOCK_SAME_PATTERN },
+    { "-raminitstartvalue", SET_RESOURCE, 1,
+      NULL, NULL, "RAMInitStartValue", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_VALUE, IDCLS_SET_FIRST_RAM_ADDRESS_VALUE,
+      NULL, NULL },
+    { "-raminitvalueinvert" , SET_RESOURCE, 1,
+      NULL, NULL, "RAMInitValueInvert", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NUM_OF_BYTES, IDCLS_LENGTH_BLOCK_SAME_VALUE,
+      NULL, NULL },
+    { "-raminitpatterninvert", SET_RESOURCE, 1,
+      NULL, NULL, "RAMInitPatternInvert", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NUM_OF_BYTES, IDCLS_LENGTH_BLOCK_SAME_PATTERN,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] = {
-    { "-raminitstartvalue", SET_RESOURCE, 1, NULL, NULL,
-      "RAMInitStartValue", NULL,
-      N_("<value>"), N_("Set the value for the very first RAM address after powerup") },
-    { "-raminitvalueinvert", SET_RESOURCE, 1, NULL, NULL,
-      "RAMInitValueInvert", NULL,
-      N_("<num of bytes>"), N_("Length of memory block initialized with the same value") },
-    { "-raminitpatterninvert", SET_RESOURCE, 1, NULL, NULL,
-      "RAMInitPatternInvert", NULL,
-      N_("<num of bytes>"), N_("Length of memory block initialized with the same pattern") },
-    { NULL }
-};
-#endif
 
 int ram_cmdline_options_init(void)
 {

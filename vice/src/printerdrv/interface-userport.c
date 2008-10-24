@@ -34,11 +34,8 @@
 #include "interface-userport.h"
 #include "printer.h"
 #include "resources.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
-
 
 static int userport_printer_enabled = 0;
 
@@ -76,27 +73,19 @@ int interface_userport_init_resources(void)
     return resources_register_int(resources_int);
 }
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] = {
-    { "-pruser", SET_RESOURCE, 0, NULL, NULL, "PrinterUserport",
-      (resource_value_t) 1, 0,
-      IDCLS_ENABLE_USERPORT_PRINTER },
-    { "+pruser", SET_RESOURCE, 0, NULL, NULL, "PrinterUserport",
-      (resource_value_t) 0, 0,
-      IDCLS_DISABLE_USERPORT_PRINTER },
+    { "-pruser", SET_RESOURCE, 0,
+      NULL, NULL, "PrinterUserport", (resource_value_t) 1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_USERPORT_PRINTER,
+      NULL, NULL },
+    { "+pruser", SET_RESOURCE, 0,
+      NULL, NULL, "PrinterUserport", (resource_value_t) 0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_USERPORT_PRINTER,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] = {
-    { "-pruser", SET_RESOURCE, 0, NULL, NULL, "PrinterUserport",
-      (resource_value_t) 1, NULL,
-      N_("Enable the userport printer emulation") },
-    { "+pruser", SET_RESOURCE, 0, NULL, NULL, "PrinterUserport",
-      (resource_value_t) 0, NULL,
-      N_("Disable the userport printer emulation") },
-    { NULL }
-};
-#endif
 
 int interface_userport_init_cmdline_options(void)
 {
@@ -131,4 +120,3 @@ void interface_userport_init(void (*set_busy)(unsigned int))
 {
     set_busy_func = set_busy;
 }
-

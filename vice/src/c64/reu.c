@@ -53,9 +53,7 @@
 #include "resources.h"
 #include "reu.h"
 #include "snapshot.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
 #include "util.h"
 
@@ -454,33 +452,30 @@ void reu_resources_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t)1,
-      0, IDCLS_ENABLE_REU },
-    { "+reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t)0,
-      0, IDCLS_DISABLE_REU },
-    { "-reuimage", SET_RESOURCE, 1, NULL, NULL, "REUfilename", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_REU_NAME },
-    { "-reusize", SET_RESOURCE, 1, NULL, NULL, "REUsize", NULL,
-      IDCLS_P_SIZE_IN_KB, IDCLS_REU_SIZE },
+    { "-reu", SET_RESOURCE, 0,
+      NULL, NULL, "REU", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_REU,
+      NULL, NULL },
+    { "+reu", SET_RESOURCE, 0,
+      NULL, NULL, "REU", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_REU,
+      NULL, NULL },
+    { "-reuimage", SET_RESOURCE, 1,
+      NULL, NULL, "REUfilename", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_REU_NAME,
+      NULL, NULL },
+    { "-reusize", SET_RESOURCE, 1,
+      NULL, NULL, "REUsize", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_SIZE_IN_KB, IDCLS_REU_SIZE,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t)1,
-      NULL, N_("Enable the RAM expansion unit") },
-    { "+reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t)0,
-      NULL, N_("Disable the RAM expansion unit") },
-    { "-reuimage", SET_RESOURCE, 1, NULL, NULL, "REUfilename", NULL,
-      N_("<name>"), N_("Specify name of REU image") },
-    { "-reusize", SET_RESOURCE, 1, NULL, NULL, "REUsize", NULL,
-      N_("<size in KB>"), N_("Size of the RAM expansion unit") },
-    { NULL }
-};
-#endif
 
 /*! \brief initialize the command-line options'
  \return

@@ -35,9 +35,7 @@
 #include "cmdline.h"
 #include "machine.h"
 #include "resources.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 
 midi_interface_t midi_interface[] = {
     /* Sequential Circuits Inc. */
@@ -68,19 +66,14 @@ int c64_midi_resources_init(void)
     return midi_resources_init();
 }
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] = {
-    { "-miditype", SET_RESOURCE, 1, NULL, NULL, "MIDIMode", NULL,
-      IDCLS_P_0_4, IDCLS_SPECIFY_MIDI_TYPE },
+    { "-miditype", SET_RESOURCE, 1,
+      NULL, NULL, "MIDIMode", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SPECIFY_C64_MIDI_TYPE,
+      "<0-4>", NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] = {
-    { "-miditype", SET_RESOURCE, 1, NULL, NULL, "MIDIMode", NULL,
-      "<0-4>", N_("MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)") },
-    { NULL }
-};
-#endif
 
 int c64_midi_cmdline_options_init(void)
 {

@@ -58,22 +58,24 @@ typedef struct cmdline_option_s {
        `need_arg' is zero.  */
     void *resource_value;
 
-#ifdef HAS_TRANSLATION
+    /* flag to indicate to use the ID instead of the char */
+    int use_param_name_id;
+
+    /* flag to indicate to use the ID instead of the char */
+    int use_description_id;
+
     /* ID of the string to display after the option name in the help screen. */
-    int param_name;
+    int param_name_trans;
 
     /* ID of the description string. */
-    int description;
-#else
-    /* String to display after the option name in the help screen.  (Can be
-       NULL).  */
+    int description_trans;
+
+    /* String to display after the option name in the help screen. */
     const char *param_name;
 
-    /* Description string.  */
+    /* Description string. */
     const char *description;
-#endif
 } cmdline_option_t;
-
 
 typedef struct cmdline_option_ram_s {
     /* Name of command-line option.  */
@@ -98,20 +100,24 @@ typedef struct cmdline_option_ram_s {
        `need_arg' is zero.  */
     void *resource_value;
 
-#ifdef HAS_TRANSLATION
+    /* flag to indicate to use the ID instead of the char */
+    int use_param_name_id;
+
+    /* flag to indicate to use the ID instead of the char */
+    int use_description_id;
+
     /* ID of the string to display after the option name in the help screen. */
-    int param_name;
+    int param_name_trans;
 
     /* ID of the description string. */
-    int description;
-#else
-    /* String to display after the option name in the help screen.  (Can be
-       NULL).  */
+    int description_trans;
+
+    /* String to display after the option name in the help screen. */
     const char *param_name;
 
-    /* Description string.  */
+    /* Description string. */
     const char *description;
-#endif
+
 } cmdline_option_ram_t;
 
 extern int cmdline_init(void);
@@ -121,5 +127,7 @@ extern void cmdline_shutdown(void);
 extern int cmdline_parse(int *argc, char **argv);
 extern void cmdline_show_help(void *userparam);
 extern char *cmdline_options_string(void);
+extern char *cmdline_options_get_param(int counter);
+extern char *cmdline_options_get_description(int counter);
 
 #endif

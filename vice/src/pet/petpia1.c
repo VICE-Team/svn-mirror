@@ -42,11 +42,8 @@
 #include "petpia.h"
 #include "piacore.h"
 #include "resources.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
-
 
 /* ------------------------------------------------------------------------- */
 /* Renaming exported functions */
@@ -106,23 +103,19 @@ int pia1_init_resources(void)
 }
 
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] = {
-    { "-diagpin", SET_RESOURCE, 0, NULL, NULL, "DiagPin", (resource_value_t)1,
-      0, IDCLS_ENABLE_USERPORT_DIAG_PIN },
-    { "+diagpin", SET_RESOURCE, 0, NULL, NULL, "DiagPin", (resource_value_t)1,
-      0, IDCLS_DISABLE_USERPORT_DIAG_PIN },
+    { "-diagpin", SET_RESOURCE, 0,
+      NULL, NULL, "DiagPin", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_USERPORT_DIAG_PIN,
+      NULL, NULL },
+    { "+diagpin", SET_RESOURCE, 0,
+      NULL, NULL, "DiagPin", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_USERPORT_DIAG_PIN,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] = {
-    { "-diagpin", SET_RESOURCE, 0, NULL, NULL, "DiagPin", (resource_value_t)1,
-      NULL, N_("Enable userport diagnostic pin") },
-    { "+diagpin", SET_RESOURCE, 0, NULL, NULL, "DiagPin", (resource_value_t)1,
-      NULL, N_("Disable userport diagnostic pin") },
-    { NULL }
-};
-#endif
 
 int pia1_init_cmdline_options(void)
 {

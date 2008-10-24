@@ -38,11 +38,8 @@
 #include "log.h"
 #include "resources.h"
 #include "sysfile.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "util.h"
-
 
 /* Resources.  */
 
@@ -115,19 +112,14 @@ static const resource_string_t resources_string[] = {
 
 /* Command-line options.  */
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] = {
-    { "-directory", SET_RESOURCE, 1, NULL, NULL, "Directory", NULL,
-      IDCLS_P_PATH, IDCLS_DEFINE_SYSTEM_FILES_PATH },
+    { "-directory", SET_RESOURCE, 1,
+      NULL, NULL, "Directory", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_PATH, IDCLS_DEFINE_SYSTEM_FILES_PATH,
+      NULL, NULL },
     { NULL },
 };
-#else
-static const cmdline_option_t cmdline_options[] = {
-    { "-directory", SET_RESOURCE, 1, NULL, NULL, "Directory", NULL,
-      N_("<path>"), N_("Define search path to locate system files") },
-    { NULL },
-};
-#endif
 
 /* ------------------------------------------------------------------------- */
 

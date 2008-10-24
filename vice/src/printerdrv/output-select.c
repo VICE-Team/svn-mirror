@@ -33,12 +33,9 @@
 #include "lib.h"
 #include "output-select.h"
 #include "resources.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
 #include "util.h"
-
 
 struct output_select_list_s {
     output_select_t output_select;
@@ -101,31 +98,25 @@ void output_select_shutdown_resources(void)
     lib_free(output_device[2]);
 }
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-pr4output", SET_RESOURCE, 1, NULL, NULL, "Printer4Output", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME },
-    { "-pr5output", SET_RESOURCE, 1, NULL, NULL, "Printer5Output", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME },
-    { "-pruseroutput", SET_RESOURCE, 1, NULL, NULL,
-      "PrinterUserportOutput", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME },
+    { "-pr4output", SET_RESOURCE, 1,
+      NULL, NULL, "Printer4Output", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME,
+      NULL, NULL },
+    { "-pr5output", SET_RESOURCE, 1,
+      NULL, NULL, "Printer5Output", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME,
+      NULL, NULL },
+    { "-pruseroutput", SET_RESOURCE, 1,
+      NULL, NULL, "PrinterUserportOutput", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-pr4output", SET_RESOURCE, 1, NULL, NULL, "Printer4Output", NULL,
-      N_("<name>"), N_("Specify name of output device for device #4") },
-    { "-pr5output", SET_RESOURCE, 1, NULL, NULL, "Printer5Output", NULL,
-      N_("<name>"), N_("Specify name of output device for device #5") },
-    { "-pruseroutput", SET_RESOURCE, 1, NULL, NULL,
-      "PrinterUserportOutput", NULL,
-      N_("<name>"), N_("Specify name of output device for the userport printer") },
-    { NULL }
-};
-#endif
 
 int output_select_init_cmdline_options(void)
 {
@@ -198,4 +189,3 @@ int output_select_flush(unsigned int prnr)
 {
     return output_select[prnr].output_flush(prnr);
 }
-

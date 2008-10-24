@@ -45,9 +45,7 @@
 #include "log.h"
 #include "resources.h"
 #include "snapshot.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "tfe.h"
 #include "tfearch.h"
 #include "snapshot.h"
@@ -1916,37 +1914,35 @@ int tfe_resources_init(void)
 /* ------------------------------------------------------------------------- */
 /*    commandline support functions                                          */
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-tfe", SET_RESOURCE, 0, NULL, NULL, "ETHERNET_ACTIVE", (resource_value_t)1,
-      0, IDCLS_ENABLE_TFE },
-    { "+tfe", SET_RESOURCE, 0, NULL, NULL, "ETHERNET_ACTIVE", (resource_value_t)0,
-      0, IDCLS_DISABLE_TFE },
-    { "-tfeif", SET_RESOURCE, 1, NULL, NULL, "ETHERNET_INTERFACE", NULL,
-      IDCLS_P_NAME, IDCLS_TFE_INTERFACE },
-    { "-tferrnet", SET_RESOURCE, 0, NULL, NULL, "ETHERNET_AS_RR", (resource_value_t)1,
-      0, IDCLS_ENABLE_TFE_AS_RRNET },
-    { "+tferrnet", SET_RESOURCE, 0, NULL, NULL, "ETHERNET_AS_RR", (resource_value_t)0,
-      0, IDCLS_DISABLE_TFE_AS_RRNET },
+    { "-tfe", SET_RESOURCE, 0,
+      NULL, NULL, "ETHERNET_ACTIVE", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_TFE,
+      NULL, NULL },
+    { "+tfe", SET_RESOURCE, 0,
+      NULL, NULL, "ETHERNET_ACTIVE", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_TFE,
+      NULL, NULL },
+    { "-tfeif", SET_RESOURCE, 1,
+      NULL, NULL, "ETHERNET_INTERFACE", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_TFE_INTERFACE,
+      NULL, NULL },
+    { "-tferrnet", SET_RESOURCE, 0,
+      NULL, NULL, "ETHERNET_AS_RR", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_TFE_AS_RRNET,
+      NULL, NULL },
+    { "+tferrnet", SET_RESOURCE, 0,
+      NULL, NULL, "ETHERNET_AS_RR", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_TFE_AS_RRNET,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-tfe", SET_RESOURCE, 0, NULL, NULL, "ETHERNET_ACTIVE", (resource_value_t)1,
-      NULL, N_("Enable the TFE (\"The Final Ethernet\") unit") },
-    { "+tfe", SET_RESOURCE, 0, NULL, NULL, "ETHERNET_ACTIVE", (resource_value_t)0,
-      NULL, N_("Disable the TFE (\"The Final Ethernet\") unit") },
-    { "-tfeif", SET_RESOURCE, 1, NULL, NULL, "ETHERNET_INTERFACE", NULL,
-      N_("<name>"), N_("Set the system ethernet interface for TFE emulation") },
-    { "-tferrnet", SET_RESOURCE, 0, NULL, NULL, "ETHERNET_AS_RR", (resource_value_t)1,
-      0, N_("Enable RRNet mode of TFE emulation") },
-    { "+tferrnet", SET_RESOURCE, 0, NULL, NULL, "ETHERNET_AS_RR", (resource_value_t)0,
-      0, N_("Disable RRNet mode of TFE emulation") },
-    { NULL }
-};
-#endif
 
 int tfe_cmdline_options_init(void)
 {

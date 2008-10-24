@@ -32,10 +32,7 @@
 #include "log.h"
 #include "hummeradc.h"
 #include "keyboard.h"
-
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 
 static log_t hummeradc_log = LOG_ERR;
 
@@ -357,25 +354,20 @@ int hummeradc_resources_init(void)
     return resources_register_int(resources_int);
 }
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-hummeradc", SET_RESOURCE, 0, NULL, NULL, "hummeradc", (void *)1,
-      0, IDCLS_ENABLE_HUMMERADC },
-    { "+hummeradc", SET_RESOURCE, 0, NULL, NULL, "hummeradc", (void *)0,
-      0, IDCLS_DISABLE_HUMMERADC },
+    { "-hummeradc", SET_RESOURCE, 0,
+      NULL, NULL, "hummeradc", (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_HUMMERADC,
+      NULL, NULL },
+    { "+hummeradc", SET_RESOURCE, 0,
+      NULL, NULL, "hummeradc", (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_HUMMERADC,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-hummeradc", SET_RESOURCE, 0, NULL, NULL, "hummeradc", (void *)1,
-      NULL, N_("Enable the Hummer ADC") },
-    { "+hummeradc", SET_RESOURCE, 0, NULL, NULL, "hummeradc", (void *)0,
-      NULL, N_("Disable the Hummer ADC") },
-    { NULL }
-};
-#endif
 
 int hummeradc_cmdline_options_init(void)
 {

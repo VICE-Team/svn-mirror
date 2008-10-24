@@ -48,6 +48,7 @@
 #include "resources.h"
 #include "sound.h"
 #include "statusbar.h"
+#include "translate.h"
 #include "tui.h"
 #include "tui_backend.h"
 #include "tuicharset.h"
@@ -116,15 +117,25 @@ void ui_resources_shutdown(void)
 }
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-leds", SET_RESOURCE, 0, NULL, NULL, "UseLeds", (resource_value_t)1,
+    { "-leds", SET_RESOURCE, 0,
+      NULL, NULL, "UseLeds", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Enable usage of PC keyboard LEDs" },
-    { "+leds", SET_RESOURCE, 0, NULL, NULL, "UseLeds", (resource_value_t)0,
+    { "+leds", SET_RESOURCE, 0,
+      NULL, NULL, "UseLeds", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Disable usage of PC keyboard LEDs" },
-    { "-statusbar", SET_RESOURCE, 0, NULL, NULL, "ShowStatusbar",
-      (resource_value_t)0,
+    { "-statusbar", SET_RESOURCE, 0,
+      NULL, NULL, "ShowStatusbar", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Disable the Statusbar" },
-    { "+statusbar", SET_RESOURCE, 0, NULL, NULL, "ShowStatusbar",
-      (resource_value_t)1,
+    { "+statusbar", SET_RESOURCE, 0,
+      NULL, NULL, "ShowStatusbar", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Enable the Statusbar" },
     { NULL },
 };

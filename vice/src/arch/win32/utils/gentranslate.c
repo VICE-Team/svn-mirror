@@ -115,7 +115,14 @@ void generate_translate_h(char *in_filename, char *out_filename)
   fprintf(outfile,"\n");
   fprintf(outfile,"#include \"translate_funcs.h\"\n");
   fprintf(outfile,"\n");
+  fprintf(outfile,"#define USE_PARAM_STRING   0\n");
+  fprintf(outfile,"#define USE_PARAM_ID       1\n");
+  fprintf(outfile,"\n");
+  fprintf(outfile,"#define USE_DESCRIPTION_STRING   0\n");
+  fprintf(outfile,"#define USE_DESCRIPTION_ID       1\n");
+  fprintf(outfile,"\n");
   fprintf(outfile,"enum { ID_START_65536=65536,\n");
+  fprintf(outfile, "IDCLS_UNUSED,\n");
   fprintf(outfile,"\n");
 
   while (!feof(infile))

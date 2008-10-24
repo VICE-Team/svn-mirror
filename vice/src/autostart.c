@@ -54,9 +54,7 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "tape.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
 #include "ui.h"
 #include "util.h"
@@ -161,25 +159,20 @@ int autostart_resources_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-autostartwithcolon", SET_RESOURCE, 0, NULL, NULL, "AutostartRunWithColon", (resource_value_t)1,
-      0, IDCLS_ENABLE_AUTOSTARTWITHCOLON },
-    { "+autostartwithcolon", SET_RESOURCE, 0, NULL, NULL, "AutostartRunWithColon", (resource_value_t)0,
-      0, IDCLS_DISABLE_AUTOSTARTWITHCOLON },
+    { "-autostartwithcolon", SET_RESOURCE, 0,
+      NULL, NULL, "AutostartRunWithColon", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_AUTOSTARTWITHCOLON,
+      NULL, NULL },
+    { "+autostartwithcolon", SET_RESOURCE, 0,
+      NULL, NULL, "AutostartRunWithColon", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_AUTOSTARTWITHCOLON,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-autostartwithcolon", SET_RESOURCE, 0, NULL, NULL, "AutostartRunWithColon", (resource_value_t)1,
-      NULL, N_("On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'") },
-    { "+autostartwithcolon", SET_RESOURCE, 0, NULL, NULL, "AutostartRunWithColon", (resource_value_t)0,
-      NULL, N_("On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'") },
-    { NULL }
-};
-#endif
 
 /*! \brief initialize the command-line options
 
@@ -264,11 +257,7 @@ static void load_snapshot_trap(WORD unused_addr, void *unused_data)
 {
     if (autostart_program_name
         && machine_read_snapshot((char *)autostart_program_name, 0) < 0)
-#ifdef HAS_TRANSLATION
         ui_error(translate_text(IDGS_CANNOT_LOAD_SNAPSHOT_FILE));
-#else
-        ui_error(_("Cannot load snapshot file."));
-#endif
     ui_update_menus();
 }
 

@@ -78,6 +78,7 @@
 #include "dragndrop.h"
 #include "cmdline.h"
 #include "resources.h"
+#include "translate.h"
 #include "viewport.h"
 
 #include "machine.h"         // machine_canvas_screenshot
@@ -533,28 +534,40 @@ void video_arch_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options1[] = {
 #ifndef DIRECT_ACCESS
-    { "-stretch", SET_RESOURCE, 1, NULL, NULL, "WindowStretchFactor", NULL,
+    { "-stretch", SET_RESOURCE, 1,
+      NULL, NULL, "WindowStretchFactor", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       "<number>", "Specify stretch factor for PM Windows (1,2,3,...)" },
 #endif
-    { "-border",  SET_RESOURCE, 1, NULL, NULL, "PMBorderType", NULL,
+    { "-border",  SET_RESOURCE, 1,
+      NULL, NULL, "PMBorderType", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       "<number>", "Specify window border type (1=small, 2=dialog, else=no border)" },
-    { "-menu", SET_RESOURCE, 0, NULL, NULL, "Menubar", (resource_value_t) 1,
+    { "-menu", SET_RESOURCE, 0,
+      NULL, NULL, "Menubar", (resource_value_t) 1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Enable Main Menu Bar" },
-    { "+menu", SET_RESOURCE, 0, NULL, NULL, "Menubar", (resource_value_t) 0,
+    { "+menu", SET_RESOURCE, 0,
+      NULL, NULL, "Menubar", (resource_value_t) 0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Disable Main Menu Bar" },
-/*
-    { "-status", SET_RESOURCE, 0, NULL, NULL, "Statusbar", (resource_value_t) 1,
-      NULL, "Enable Status Bar" },
-    { "+status", SET_RESOURCE, 0, NULL, NULL, "Statusbar", (resource_value_t) 0,
-      NULL, "Disable Status Bar" },
-*/
     NULL
 };
 
 static const cmdline_option_t cmdline_options2[] = {
-    { "-logwin", SET_RESOURCE, 0, NULL, NULL, "Logwin", (resource_value_t) 1,
+    { "-logwin", SET_RESOURCE, 0,
+      NULL, NULL, "Logwin", (resource_value_t) 1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Enable Logging Window" },
-    { "+logwin", SET_RESOURCE, 0, NULL, NULL, "Logwin", (resource_value_t) 0,
+    { "+logwin", SET_RESOURCE, 0,
+      NULL, NULL, "Logwin", (resource_value_t) 0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Disable Logging Window" },
     NULL
 };

@@ -47,10 +47,7 @@
 #include "interrupt.h"
 #include "alarm.h"
 #include "snapshot.h"
-
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 
 static log_t c64dtvblitter_log = LOG_ERR;
 
@@ -527,29 +524,25 @@ void c64dtvblitter_resources_shutdown(void)
 {
 }
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-dtvrev", SET_RESOURCE, 1, NULL, NULL, "DtvRevision", NULL,
-      IDCLS_P_REVISION, IDCLS_SPECIFY_DTV_REVISION },
-    { "-dtvblitterlog", SET_RESOURCE, 0, NULL, NULL, "DtvBlitterLog",
-      (resource_value_t)1, 0, IDCLS_ENABLE_DTV_BLITTER_LOG },
-    { "+dtvblitterlog", SET_RESOURCE, 0, NULL, NULL, "DtvBlitterLog",
-      (resource_value_t)0, 0, IDCLS_DISABLE_DTV_BLITTER_LOG },
+    { "-dtvrev", SET_RESOURCE, 1,
+      NULL, NULL, "DtvRevision", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_REVISION, IDCLS_SPECIFY_DTV_REVISION,
+      NULL, NULL },
+    { "-dtvblitterlog", SET_RESOURCE, 0,
+      NULL, NULL, "DtvBlitterLog", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_DTV_BLITTER_LOG,
+      NULL, NULL },
+    { "+dtvblitterlog", SET_RESOURCE, 0,
+      NULL, NULL, "DtvBlitterLog", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_DTV_BLITTER_LOG,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-dtvrev", SET_RESOURCE, 1, NULL, NULL, "DtvRevision", NULL,
-      N_("<revision>"), N_("Specify DTV Revision (2: DTV2, 3: DTV3)") },
-    { "-dtvblitterlog", SET_RESOURCE, 0, NULL, NULL, "DtvBlitterLog",
-      (resource_value_t)1, NULL, N_("Enable DTV blitter logs.") },
-    { "+dtvblitterlog", SET_RESOURCE, 0, NULL, NULL, "DtvBlitterLog",
-      (resource_value_t)0, NULL, N_("Disable DTV blitter logs.") },
-    { NULL }
-};
-#endif
 
 int c64dtvblitter_cmdline_options_init(void)
 {

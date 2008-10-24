@@ -56,6 +56,7 @@ extern "C" {
 #include "palette.h"
 #include "raster.h"
 #include "resources.h"
+#include "translate.h"
 #include "types.h"
 #include "ui.h"
 #include "uiapi.h"
@@ -108,9 +109,14 @@ void video_arch_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-directwindow", SET_RESOURCE, 0, NULL, NULL, "DirectWindow",
-      (resource_value_t) 1, NULL, "Enable BeOS DirectWindow API"},
+    { "-directwindow", SET_RESOURCE, 0,
+      NULL, NULL, "DirectWindow", (resource_value_t) 1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Enable BeOS DirectWindow API"},
     { "+directwindow", SET_RESOURCE, 0, NULL, NULL, "DirectWindow",
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       (resource_value_t) 0, NULL, "Disable BeOS DirectWindow API"},
 	{ NULL }
 };

@@ -30,9 +30,7 @@
 #include <string.h>
 
 #include "c64export.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "ui.h"
 
 
@@ -43,21 +41,13 @@ int c64export_query(const c64export_resource_t *export_res)
 {
     if (export_res->use_roml > 0) {
         if (usage_roml != NULL && strcmp(usage_roml, export_res->name)!=0) {
-#ifdef HAS_TRANSLATION
             ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"ROML", usage_roml);
-#else
-            ui_error(_("Resource %s blocked by %s."),"ROML", usage_roml);
-#endif
            return -1;
         }
     }
     if (export_res->use_romh > 0) {
         if (usage_romh != NULL && strcmp(usage_romh, export_res->name)!=0) {
-#ifdef HAS_TRANSLATION
             ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"ROMH", usage_romh);
-#else
-            ui_error(_("Resource %s blocked by %s."),"ROMH", usage_romh);
-#endif
             return -1;
         }
     }

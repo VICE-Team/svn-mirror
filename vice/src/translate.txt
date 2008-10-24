@@ -825,9 +825,6 @@ IDCLS_SPECIFY_CART_2_HIGH_ROM_NAME
 IDCLS_SPECIFY_RAM_INSTALLED
 
 /* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
-IDCLS_P_0_2000
-
-/* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 IDCLS_SET_SATURATION
 
 /* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
@@ -882,9 +879,6 @@ IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME
 IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME
 
 /* printerdrv/output-text.c */
-IDCLS_P_0_2
-
-/* printerdrv/output-text.c */
 IDCLS_SPECIFY_TEXT_DEVICE_4
 
 /* printerdrv/output-text.c */
@@ -924,9 +918,6 @@ IDCLS_P_BAUD
 
 /* rs232drv/rsuser.c */
 IDCLS_SET_BAUD_RS232_USERPORT
-
-/* rs232drv/rsuser.c, aciacore.c */
-IDCLS_P_0_3
 
 /* rs232drv/rsuser.c */
 IDCLS_SPECIFY_RS232_DEVICE_USERPORT
@@ -981,6 +972,9 @@ IDCLS_ENABLE_SECOND_SID
 
 /* sid/sid-cmdline-options.c */
 IDCLS_ENABLE_SIDCART
+
+/* sid/sid-cmdline-options.c */
+IDCLS_DISABLE_SIDCART
 
 /* sid/sid-cmdline-options.c, c64/plus60k.c, c64/c64_256k.c c64/digimax.c */
 IDCLS_P_BASE_ADDRESS
@@ -1513,8 +1507,5 @@ IDCLS_ENABLE_MIDI_EMU
 /* midi.c */
 IDCLS_DISABLE_MIDI_EMU
 
-/* midi.c */
-IDCLS_P_0_4
-
-/* midi.c */
-IDCLS_SPECIFY_MIDI_TYPE
+/* c64/c64-midi.c */
+IDCLS_SPECIFY_C64_MIDI_TYPE

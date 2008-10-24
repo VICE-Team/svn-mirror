@@ -34,9 +34,7 @@
 #include "functionrom.h"
 #include "lib.h"
 #include "resources.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
 #include "util.h"
 
@@ -129,40 +127,39 @@ void functionrom_resources_shutdown(void)
     lib_free(external_function_rom_name);
 }
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] = {
-    { "-intfrom", SET_RESOURCE, 1, NULL, NULL, "InternalFunctionName", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_INT_FUNC_ROM_NAME },
-    { "-extfrom", SET_RESOURCE, 1, NULL, NULL, "ExternalFunctionName", NULL,
-      IDCLS_P_NAME, IDCLS_SPECIFY_EXT_FUNC_ROM_NAME },
-    { "-intfunc", SET_RESOURCE, 0, NULL, NULL, "InternalFunctionROM",
-      (resource_value_t)1, 0, IDCLS_ENABLE_INT_FUNC_ROM },
-    { "+intfunc", SET_RESOURCE, 0, NULL, NULL, "InternalFunctionROM",
-      (resource_value_t)0, 0, IDCLS_DISABLE_INT_FUNC_ROM },
-    { "-extfunc", SET_RESOURCE, 0, NULL, NULL, "ExternalFunctionROM",
-      (resource_value_t)1, 0, IDCLS_ENABLE_EXT_FUNC_ROM },
-    { "+extfunc", SET_RESOURCE, 0, NULL, NULL, "ExternalFunctionROM",
-      (resource_value_t)0, 0, IDCLS_DISABLE_EXT_FUNC_ROM },
+    { "-intfrom", SET_RESOURCE, 1,
+      NULL, NULL, "InternalFunctionName", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_INT_FUNC_ROM_NAME,
+      NULL, NULL },
+    { "-extfrom", SET_RESOURCE, 1,
+      NULL, NULL, "ExternalFunctionName", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_EXT_FUNC_ROM_NAME,
+      NULL, NULL },
+    { "-intfunc", SET_RESOURCE, 0,
+      NULL, NULL, "InternalFunctionROM", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_INT_FUNC_ROM,
+      NULL, NULL },
+    { "+intfunc", SET_RESOURCE, 0,
+      NULL, NULL, "InternalFunctionROM", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_INT_FUNC_ROM,
+      NULL, NULL },
+    { "-extfunc", SET_RESOURCE, 0,
+      NULL, NULL, "ExternalFunctionROM", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_EXT_FUNC_ROM,
+      NULL, NULL },
+    { "+extfunc", SET_RESOURCE, 0,
+      NULL, NULL, "ExternalFunctionROM", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_EXT_FUNC_ROM,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] = {
-    { "-intfrom", SET_RESOURCE, 1, NULL, NULL, "InternalFunctionName", NULL,
-      N_("<name>"), N_("Specify name of internal Function ROM image") },
-    { "-extfrom", SET_RESOURCE, 1, NULL, NULL, "ExternalFunctionName", NULL,
-      N_("<name>"), N_("Specify name of external Function ROM image") },
-    { "-intfunc", SET_RESOURCE, 0, NULL, NULL, "InternalFunctionROM",
-      (resource_value_t)1, NULL, N_("Enable the internal Function ROM") },
-    { "+intfunc", SET_RESOURCE, 0, NULL, NULL, "InternalFunctionROM",
-      (resource_value_t)0, NULL, N_("Disable the internal Function ROM") },
-    { "-extfunc", SET_RESOURCE, 0, NULL, NULL, "ExternalFunctionROM",
-      (resource_value_t)1, NULL, N_("Enable the external Function ROM") },
-    { "+extfunc", SET_RESOURCE, 0, NULL, NULL, "ExternalFunctionROM",
-      (resource_value_t)0, NULL, N_("Disable the external Function ROM") 
-},
-    { NULL }
-};
-#endif
 
 int functionrom_cmdline_options_init(void)
 {

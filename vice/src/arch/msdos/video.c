@@ -38,6 +38,7 @@
 #include "log.h"
 #include "palette.h"
 #include "resources.h"
+#include "translate.h"
 #include "tui.h"
 #include "tui_backend.h"
 #include "types.h"
@@ -143,15 +144,21 @@ void video_arch_resources_shutdown(void)
 /* Video-specific command-line options.  */
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-vgamode", SET_RESOURCE, 1, NULL, NULL,
-      "VGAMode", NULL,
+    { "-vgamode", SET_RESOURCE, 1,
+      NULL, NULL, "VGAMode", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       "<mode>", "Set VGA mode to <mode>" },
 #ifndef USE_MIDAS_SOUND
-    { "-triplebuf", SET_RESOURCE, 0, NULL, NULL,
-      "TripleBuffering", (resource_value_t)1,
+    { "-triplebuf", SET_RESOURCE, 0,
+      NULL, NULL, "TripleBuffering", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Try to use triple buffering when possible" },
-    { "+triplebuf", SET_RESOURCE, 0, NULL, NULL,
-      "TripleBuffering", (resource_value_t)1,
+    { "+triplebuf", SET_RESOURCE, 0,
+      NULL, NULL, "TripleBuffering", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Disable usage of triple buffering" },
 #endif
     { NULL }

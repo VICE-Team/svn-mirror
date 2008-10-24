@@ -117,9 +117,11 @@ void video_arch_resources_shutdown(void)
 /* Video-related command-line options.  */
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-fullscreen", SET_RESOURCE, 0, NULL, NULL,
-      "FullScreenEnabled", (resource_value_t) 1,
-      0, IDS_START_VICE_FULLSCREEN_MODE },
+    { "-fullscreen", SET_RESOURCE, 0,
+      NULL, NULL, "FullScreenEnabled", (resource_value_t) 1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_START_VICE_FULLSCREEN_MODE,
+      NULL, NULL },
     { NULL }
 };
 

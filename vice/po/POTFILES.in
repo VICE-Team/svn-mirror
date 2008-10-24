@@ -1,91 +1,14 @@
 # List of Files which already gettext aware.
 
-# Emulator core files
-src/vsync.c
-src/screenshot.c
-src/autostart.c
-src/sound.c
-src/event.c
-src/c64/c64export.c
-src/c64/c64io.c
-src/debug.c
-src/network.c
-
 # command-line options
-src/aciacore.c
-src/attach.c
-src/c128/c128-cmdline-options.c
-src/c128/c128mmu.c
-src/c128/functionrom.c
-src/c64/c64-cmdline-options.c
-src/c64/cart/c64cart.c
-src/c64/cart/ide64.c
-src/c64/c64_256k.c
-src/c64dtv/c64dtv-cmdline-options.c
-src/c64dtv/c64dtvblitter.c
-src/c64dtv/c64dtvdma.c
-src/c64dtv/c64dtvflash.c
-src/c64dtv/hummeradc.c
-src/c64dtv/flash-trap.c
-src/c64/digimax.c
-src/c64/georam.c
-src/c64/mmc64.c
-src/c64/plus256k.c
-src/c64/plus60k.c
-src/c64/psid.c
-src/c64/ramcart.c
-src/c64/reu.c
-src/c64/tfe.c
-src/cbm2/cbm2-cmdline-options.c
-src/datasette.c
-src/drive/drive-cmdline-options.c
-src/drive/iec/iec-cmdline-options.c
-src/drive/iec/c64exp/c64exp-cmdline-options.c
-src/drive/iec/plus4exp/plus4exp-cmdline-options.c
-src/drive/iec128dcr/iec128dcr-cmdline-options.c
-src/drive/ieee/ieee-cmdline-options.c
-src/drive/tcbm/tcbm-cmdline-options.c
-src/fliplist.c
-src/fsdevice/fsdevice-cmdline-options.c
-src/gfxoutputdrv/ffmpegdrv.c
-src/initcmdline.c
-src/kbdbuf.c
-src/log.c
 src/monitor/mon_command.c
-src/monitor/monitor.c
-src/mouse.c
-src/pet/pet-cmdline-options.c
-src/pet/petpia1.c
-src/pet/petreu.c
-src/plus4/plus4-cmdline-options.c
-src/plus4/plus4memcsory256k.c
-src/plus4/plus4memhannes256k.c
-src/plus4/ted-cmdline-options.c
-src/printerdrv/driver-select.c
-src/printerdrv/interface-serial.c
-src/printerdrv/interface-userport.c
-src/printerdrv/output-select.c
-src/printerdrv/output-text.c
-src/ps2mouse.c
-src/ram.c
-src/raster/raster-cmdline-options.c
-src/rs232drv/rs232drv.c
-src/rs232drv/rsuser.c
-src/serial/serial-iec-device.c
-src/sid/sid-cmdline-options.c
-src/sysfile.c
-src/traps.c
-src/vdc/vdc-cmdline-options.c
-src/vic20/vic20-cmdline-options.c
-src/vic20/vic20cartridge.c
-src/vicii/vicii-cmdline-options.c
-src/video/video-cmdline-options.c
 
 # Architecture Unix
 src/arch/unix/blockdev.c
 src/arch/unix/console.c
 src/arch/unix/coproc.c
 src/arch/unix/joy.c
+src/arch/unix/mididrv.c
 src/arch/unix/mousedrv.c
 src/arch/unix/rs232.c
 src/arch/unix/signals.c
@@ -202,6 +125,10 @@ src/arch/unix/x11/xaw/uivsidcontrol.c
 src/arch/unix/x11/xaw/x11ui.c
 src/arch/unix/x11/xaw/x11video.c
 
+# macOSX
+src/arch/unix/macosx/joy.c
+src/arch/unix/macosx/cocoa/ui-cmdline-options.c
+
 # win32 files
 src/arch/win32/res.rc.po.c
 src/arch/win32/resacia.rc.po.c
@@ -234,8 +161,8 @@ src/arch/win32/restfe.rc.po.c
 src/arch/win32/resvic20.rc.po.c
 src/arch/win32/resvicii.rc.po.c
 
-# translate.c untranslated elements
-src/translate.c.po.c
-
 #amiga files
 src/arch/amigaos/intl.c.po.c
+
+#translate file
+src/translate.c.po.c

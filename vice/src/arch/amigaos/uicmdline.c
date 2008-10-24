@@ -41,9 +41,9 @@ void ui_cmdline_show_help(unsigned int num_options,
     printf(translate_text(IDS_AVAILABLE_CMDLINE_OPTIONS));
     for (i = 0; i < num_options; i++) {
         fputs(options[i].name, stdout);
-        if (options[i].need_arg && options[i].param_name != 0)
-            printf(" %s", translate_text(options[i].param_name));
-        printf("\n\t%s\n", translate_text(options[i].description));
+        if (options[i].need_arg && cmdline_options_get_param(i) != NULL)
+            printf(" %s", cmdline_options_get_param(i));
+        printf("\n\t%s\n", cmdline_options_get_description(i));
     }
     putchar('\n');
 }
@@ -51,4 +51,3 @@ void ui_cmdline_show_help(unsigned int num_options,
 void ui_cmdline_show_options(void *param)
 {
 }
-

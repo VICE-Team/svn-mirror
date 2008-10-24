@@ -62,6 +62,7 @@
 #include "cmdline.h"
 #include "machine.h"   // vsid_mode
 #include "resources.h"
+#include "translate.h"
 
 /* ------------------------ ui resources ------------------------ */
 
@@ -94,9 +95,15 @@ void ui_resources_shutdown(void)
 }
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-leds", SET_RESOURCE, 0, NULL, NULL, "UseLeds", (resource_value_t) 1,
+    { "-leds", SET_RESOURCE, 0,
+      NULL, NULL, "UseLeds", (resource_value_t) 1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Enable usage of PC keyboard LEDs" },
-    { "+leds", SET_RESOURCE, 0, NULL, NULL, "UseLeds", (resource_value_t) 0,
+    { "+leds", SET_RESOURCE, 0,
+      NULL, NULL, "UseLeds", (resource_value_t) 0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Disable usage of PC keyboard LEDs" },
     NULL,
 };

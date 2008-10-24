@@ -46,9 +46,7 @@
 #include "plus4memhannes256k.h"
 #include "resources.h"
 #include "snapshot.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
 #include "uiapi.h"
 
@@ -117,29 +115,25 @@ int h256k_resources_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-h256k", SET_RESOURCE, 0, NULL, NULL, "H256K", (resource_value_t)1,
-      0, IDCLS_ENABLE_H256K_EXPANSION },
-    { "-h1024k", SET_RESOURCE, 0, NULL, NULL, "H256K", (resource_value_t)2,
-      0, IDCLS_ENABLE_H1024K_EXPANSION },
-    { "-h4096k", SET_RESOURCE, 0, NULL, NULL, "H256K", (resource_value_t)3,
-      0, IDCLS_ENABLE_H4096K_EXPANSION },
+    { "-h256k", SET_RESOURCE, 0,
+      NULL, NULL, "H256K", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_H256K_EXPANSION,
+      NULL, NULL },
+    { "-h1024k", SET_RESOURCE, 0,
+      NULL, NULL, "H256K", (resource_value_t)2,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_H1024K_EXPANSION,
+      NULL, NULL },
+    { "-h4096k", SET_RESOURCE, 0,
+      NULL, NULL, "H256K", (resource_value_t)3,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_H4096K_EXPANSION,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-h256k", SET_RESOURCE, 0, NULL, NULL, "H256K", (resource_value_t)1,
-      NULL, N_("Enable the HANNES 256K RAM expansion") },
-    { "-h1024k", SET_RESOURCE, 0, NULL, NULL, "H256K", (resource_value_t)2,
-      NULL, N_("Enable the HANNES 1024K RAM expansion") },
-    { "-h4096k", SET_RESOURCE, 0, NULL, NULL, "H256K", (resource_value_t)3,
-      NULL, N_("Enable the HANNES 4096K RAM expansion") },
-    { NULL }
-};
-#endif
 
 int h256k_cmdline_options_init(void)
 {

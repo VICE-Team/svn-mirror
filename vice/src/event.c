@@ -51,9 +51,7 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "tape.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
 #include "ui.h"
 #include "util.h"
@@ -253,20 +251,12 @@ static void event_playback_attach_image(void *data, unsigned int size)
             fd = archdep_mkstemp_fd(&filename, MODE_WRITE);
     
             if (fd == NULL) {
-#ifdef HAS_TRANSLATION
                 ui_error(translate_text(IDGS_CANNOT_CREATE_IMAGE), filename);
-#else
-                ui_error(_("Cannot create image file!"));
-#endif
                 goto error;
             }
 
             if (fwrite((char*)data + strlen(orig_filename) + 3, file_len, 1, fd) != 1) {
-#ifdef HAS_TRANSLATION
                 ui_error(translate_text(IDGS_CANNOT_WRITE_IMAGE_FILE_S), filename);
-#else
-                ui_error(_("Cannot write image file %s"), filename);
-#endif
                 goto error;
             }
 
@@ -274,11 +264,7 @@ static void event_playback_attach_image(void *data, unsigned int size)
             event_image_append(orig_filename, &filename, 1);
         } else {
             if (event_image_append(orig_filename, &filename, 0) != 0) {
-#ifdef HAS_TRANSLATION
                 ui_error(translate_text(IDGS_CANNOT_FIND_MAPPED_NAME_S), orig_filename);
-#else
-                ui_error(_("Cannot find mapped name for %s"), orig_filename);
-#endif
                 return;
             }
         }
@@ -654,11 +640,7 @@ static void event_record_start_trap(WORD addr, void *data)
       case EVENT_START_MODE_FILE_SAVE:
         if (machine_write_snapshot(event_snapshot_path(event_start_snapshot),
                                     1, 1, 0) < 0) {
-#ifdef HAS_TRANSLATION
             ui_error(translate_text(IDGS_CANT_CREATE_START_SNAP_S), 
-#else
-            ui_error(_("Could not create start snapshot file %s."), 
-#endif
                         event_snapshot_path(event_start_snapshot));
             ui_display_recording(0);
             return;
@@ -673,11 +655,7 @@ static void event_record_start_trap(WORD addr, void *data)
       case EVENT_START_MODE_FILE_LOAD:
         if (machine_read_snapshot(
                 event_snapshot_path(event_end_snapshot), 1) < 0) {
-#ifdef HAS_TRANSLATION
             ui_error(translate_text(IDGS_ERROR_READING_END_SNAP_S),
-#else
-            ui_error(_("Error reading end snapshot file %s."),
-#endif
                         event_snapshot_path(event_end_snapshot));
             return;
         }
@@ -741,11 +719,7 @@ static void event_record_stop_trap(WORD addr, void *data)
 {
     if (machine_write_snapshot(
             event_snapshot_path(event_end_snapshot), 1, 1, 1) < 0) {
-#ifdef HAS_TRANSLATION
         ui_error(translate_text(IDGS_CANT_CREATE_END_SNAP_S),
-#else
-        ui_error(_("Could not create end snapshot file %s."),
-#endif
                     event_snapshot_path(event_end_snapshot));
         return;
     }
@@ -809,11 +783,7 @@ static void event_playback_start_trap(WORD addr, void *data)
         event_snapshot_path(event_end_snapshot), &major, &minor, machine_name);
 
     if (s == NULL) {
-#ifdef HAS_TRANSLATION
         ui_error(translate_text(IDGS_CANT_OPEN_END_SNAP_S), 
-#else
-        ui_error(_("Could not open end snapshot file %s."), 
-#endif
                     event_snapshot_path(event_end_snapshot));
         ui_display_playback(0, NULL);
         return;
@@ -824,11 +794,7 @@ static void event_playback_start_trap(WORD addr, void *data)
 
     if (event_snapshot_read_module(s, 1) < 0) {
         snapshot_close(s);
-#ifdef HAS_TRANSLATION
         ui_error(translate_text(IDGS_CANT_FIND_SECTION_END_SNAP));
-#else
-        ui_error(_("Could not find event section in end snapshot file."));
-#endif
         ui_display_playback(0, NULL);
         return;
     }
@@ -848,11 +814,7 @@ static void event_playback_start_trap(WORD addr, void *data)
                     event_snapshot_path(event_start_snapshot), 0) < 0)
             {
                 char *st = lib_stralloc(event_snapshot_path((char *)(&data[1])));
-#ifdef HAS_TRANSLATION
                 ui_error(translate_text(IDGS_ERROR_READING_START_SNAP_TRIED),
-#else
-                ui_error(_("Error reading start snapshot file. Tried %s and %s"),
-#endif
                             st, event_snapshot_path(event_start_snapshot));
                 lib_free(st);
                 ui_display_playback(0, NULL);
@@ -878,11 +840,7 @@ static void event_playback_start_trap(WORD addr, void *data)
     } else {
         if (machine_read_snapshot(
                 event_snapshot_path(event_start_snapshot), 0) < 0) {
-#ifdef HAS_TRANSLATION
             ui_error(translate_text(IDGS_ERROR_READING_START_SNAP));
-#else
-            ui_error(_("Error reading start snapshot file."));
-#endif
             ui_display_playback(0, NULL);
             return;
         }
@@ -935,11 +893,7 @@ static void event_record_set_milestone_trap(WORD addr, void *data)
 {
     if (machine_write_snapshot(
         event_snapshot_path(event_end_snapshot), 1, 1, 1) < 0) {
-#ifdef HAS_TRANSLATION
             ui_error(translate_text(IDGS_CANT_CREATE_END_SNAP_S),
-#else
-            ui_error(_("Could not create end snapshot file %s."),
-#endif
                         event_snapshot_path(event_end_snapshot));
     } else {
         milestone_timestamp_alarm = next_timestamp_clk;
@@ -968,11 +922,7 @@ static void event_record_reset_milestone_trap(WORD addr, void *data)
 
     if (machine_read_snapshot(
             event_snapshot_path(event_end_snapshot), 1) < 0) {
-#ifdef HAS_TRANSLATION
         ui_error(translate_text(IDGS_ERROR_READING_END_SNAP_S),
-#else
-        ui_error(_("Error reading end snapshot file %s."),
-#endif
                     event_snapshot_path(event_end_snapshot));
         return;
     }
@@ -1263,19 +1213,14 @@ static int cmdline_help(const char *param, void *extra_param)
     return event_playback_start();
 }
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] = {
-    { "-playback", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
-      0, IDCLS_PLAYBACK_RECORDED_EVENTS },
+    { "-playback", CALL_FUNCTION, 0,
+      cmdline_help, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_PLAYBACK_RECORDED_EVENTS,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] = {
-    { "-playback", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
-      NULL, N_("Playback recorded events") },
-    { NULL }
-};
-#endif
 
 int event_cmdline_options_init(void)
 {

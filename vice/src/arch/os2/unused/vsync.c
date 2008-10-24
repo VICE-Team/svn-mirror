@@ -54,6 +54,7 @@
 #include "kbdbuf.h"
 #include "sound.h"
 #include "resources.h"
+#include "translate.h"
 #include "cmdline.h"
 #include "kbd.h"
 #include "archdep.h"

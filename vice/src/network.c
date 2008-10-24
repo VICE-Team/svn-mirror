@@ -143,9 +143,7 @@ typedef struct timeval TIMEVAL;
 #include "mos6510.h"
 #include "network.h"
 #include "resources.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
 #include "ui.h"
 #include "uiapi.h"
@@ -263,11 +261,7 @@ static int set_netplay_ipv6(int val, void *param)
         return -1;
 
     if (network_mode!=NETWORK_IDLE) {
-#ifdef HAS_TRANSLATION
         ui_error(translate_text(IDGS_CANNOT_SWITCH_IPV4_IPV6));
-#else
-        ui_error(_("Cannot switch IPV4/IPV6 while netplay is active."));
-#endif
         return -1;
     }
     netplay_ipv6 = val;
@@ -488,11 +482,7 @@ static void network_test_delay(void)
 
     vsyncarch_init();
 
-#ifdef HAS_TRANSLATION
     ui_display_statustext(translate_text(IDGS_TESTING_BEST_FRAME_DELAY), 0);
-#else
-    ui_display_statustext(_("Testing best frame delay..."), 0);
-#endif
 
     if (network_mode == NETWORK_SERVER_CONNECTED) {
         for (i = 0; i < NUM_OF_TESTPACKETS; i++) {
@@ -538,11 +528,7 @@ static void network_test_delay(void)
     network_free_frame_event_list();
     frame_delta = new_frame_delta;
     network_init_frame_event_list();
-#ifdef HAS_TRANSLATION
     sprintf(st, translate_text(IDGS_USING_D_FRAMES_DELAY), frame_delta);
-#else
-    sprintf(st, _("Using %d frames delay."), frame_delta);
-#endif
     log_debug("netplay connected with %d frames delta.", frame_delta);
     ui_display_statustext(st, 1);
 }
@@ -563,11 +549,7 @@ static void network_server_connect_trap(WORD addr, void *data)
     if (machine_write_snapshot(snapshotfilename, 1, 1, 0) == 0) {
         f = fopen(snapshotfilename, MODE_READ);
         if (f == NULL) {
-#ifdef HAS_TRANSLATION
             ui_error(translate_text(IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER));
-#else
-            ui_error(_("Cannot load snapshot file for transfer"));
-#endif
             lib_free(snapshotfilename);
             return;
         }
@@ -576,21 +558,13 @@ static void network_server_connect_trap(WORD addr, void *data)
         fread(buf, 1, buf_size, f);
         fclose(f);
 
-#ifdef HAS_TRANSLATION
         ui_display_statustext(translate_text(IDGS_SENDING_SNAPSHOT_TO_CLIENT), 0);
-#else
-        ui_display_statustext(_("Sending snapshot to client..."), 0);
-#endif
         util_int_to_le_buf4(send_size4, (int)buf_size);
         network_send_buffer(network_socket, send_size4, 4);
         i = network_send_buffer(network_socket, buf, (int)buf_size);
         lib_free(buf);
         if (i < 0) {
-#ifdef HAS_TRANSLATION
             ui_error(translate_text(IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT));
-#else
-            ui_error(_("Cannot send snapshot to client"));
-#endif
             ui_display_statustext("", 0);
             lib_free(snapshotfilename);
             return;
@@ -616,11 +590,7 @@ static void network_server_connect_trap(WORD addr, void *data)
 
         network_test_delay();
     } else {
-#ifdef HAS_TRANSLATION
         ui_error(translate_text(IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S), snapshotfilename);
-#else
-        ui_error(_("Cannot create snapshot file %s"), snapshotfilename);
-#endif
     }
     lib_free(snapshotfilename);
 }
@@ -656,11 +626,7 @@ static void network_client_connect_trap(WORD addr, void *data)
 
     /* read the snapshot */
     if (machine_read_snapshot(snapshotfilename, 0) != 0) {
-#ifdef HAS_TRANSLATION
         ui_error(translate_text(IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S), snapshotfilename);
-#else
-        ui_error(_("Cannot open snapshot file %s"), snapshotfilename);
-#endif
         lib_free(snapshotfilename);
         return;
     }
@@ -806,11 +772,7 @@ int network_start_server(void)
     network_mode = NETWORK_SERVER;
 
     vsync_suspend_speed_eval();
-#ifdef HAS_TRANSLATION
     ui_display_statustext(translate_text(IDGS_SERVER_IS_WAITING_FOR_CLIENT), 1);
-#else
-    ui_display_statustext(_("Server is waiting for a client..."), 1);
-#endif
     return 0;
 } 
 
@@ -843,11 +805,7 @@ int network_connect_client(void)
 
     f = archdep_mkstemp_fd(&snapshotfilename, MODE_WRITE);
     if (f == NULL) {
-#ifdef HAS_TRANSLATION
         ui_error(translate_text(IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT));
-#else
-        ui_error(_("Cannot create snapshot file. Select different history directory!"));
-#endif
         return -1;
     }
 
@@ -862,11 +820,7 @@ int network_connect_client(void)
 #endif
     server_hostent = gethostbyname(server_name);
     if (server_hostent == NULL) {
-#ifdef HAS_TRANSLATION
         ui_error(translate_text(IDGS_CANNOT_RESOLVE_S), server_name);
-#else
-        ui_error(_("Cannot resolve %s"), server_name);
-#endif
         return -1;
     }
 #ifdef HAVE_IPV6
@@ -906,13 +860,8 @@ int network_connect_client(void)
         sizeof(server_addr));
     if (return_value < 0) {
         closesocket(network_socket);
-#ifdef HAS_TRANSLATION
         ui_error(translate_text(IDGS_CANNOT_CONNECT_TO_S),
                     server_name, server_port);
-#else
-        ui_error(_("Cannot connect to %s (no server running on port %d)."),
-                    server_name, server_port);
-#endif
         lib_free(snapshotfilename);
 #if defined(HAVE_IPV6) && !defined(HAVE_GETHOSTBYNAME2)
         if (netplay_ipv6)
@@ -921,11 +870,7 @@ int network_connect_client(void)
         return -1;
     }
 
-#ifdef HAS_TRANSLATION
     ui_display_statustext(translate_text(IDGS_RECEIVING_SNAPSHOT_SERVER), 0);
-#else
-    ui_display_statustext(_("Receiving snapshot from server..."), 0);
-#endif
     if (network_recv_buffer(network_socket, recv_buf4, 4) < 0) {
         lib_free(snapshotfilename);
         closesocket(network_socket);
@@ -1008,11 +953,7 @@ static void network_hook_connected_send(void)
     util_int_to_le_buf4(send_len4, (int)send_len);
     if (network_send_buffer(network_socket, send_len4, 4) < 0
         || network_send_buffer(network_socket, local_event_buf, send_len) < 0) {
-#ifdef HAS_TRANSLATION
         ui_display_statustext(translate_text(IDGS_REMOTE_HOST_DISCONNECTED), 1);
-#else
-        ui_display_statustext(_("Remote host disconnected."), 1);
-#endif
         network_disconnect();
     }
 #ifdef NETWORK_DEBUG
@@ -1038,11 +979,7 @@ static void network_hook_connected_receive(void)
     if (frame_buffer_full) {
         do {
             if (network_recv_buffer(network_socket, recv_len4, 4) < 0) {
-#ifdef HAS_TRANSLATION
                 ui_display_statustext(translate_text(IDGS_REMOTE_HOST_DISCONNECTED), 1);
-#else
-                ui_display_statustext(_("Remote host disconnected."), 1);
-#endif
                 network_disconnect();
                 return;
             }
@@ -1050,11 +987,7 @@ static void network_hook_connected_receive(void)
             recv_len = util_le_buf4_to_int(recv_len4);
             if (recv_len == 0 && suspended == 0) {
                 /* remote host suspended emulation */
-#ifdef HAS_TRANSLATION
                 ui_display_statustext(translate_text(IDGS_REMOTE_HOST_SUSPENDING), 0);
-#else
-                ui_display_statustext(_("Remote host suspending..."), 0);
-#endif
                 suspended = 1;
                 vsync_suspend_speed_eval();
             }
@@ -1094,11 +1027,7 @@ static void network_hook_connected_receive(void)
             for (i = 0; i < 5; i++) {
                 if (((DWORD *)client_event_list->base->data)[i]
                     != ((DWORD *)server_event_list->base->data)[i]) {
-#ifdef HAS_TRANSLATION
                     ui_error(translate_text(IDGS_NETWORK_OUT_OF_SYNC));
-#else
-                    ui_error(_("Network out of sync - disconnecting."));
-#endif
                     network_disconnect();
                     /* shouldn't happen but resyncing would be nicer */
                     break;

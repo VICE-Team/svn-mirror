@@ -36,6 +36,7 @@
 #include "lib.h"
 #include "resources.h"
 #include "machine.h"
+#include "translate.h"
 #include "types.h"
 
 /* ------------------------------------------------------------------------ */
@@ -127,7 +128,10 @@ int kbd_resources_init(void)
 }
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapIndex", NULL,
+    { "-keymap", SET_RESOURCE, 1,
+      NULL, NULL, "KeymapIndex", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       "<number>", "Specify index of used keymap" },
     { NULL },
 };

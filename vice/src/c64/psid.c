@@ -38,9 +38,7 @@
 #include "machine.h"
 #include "psid.h"
 #include "resources.h"
-#ifdef HAS_TRANSLATION
 #include "translate.h"
-#endif
 #include "types.h"
 #include "ui.h"
 #include "vsidui.h"
@@ -122,49 +120,41 @@ static int cmdline_psid_tune(const char *param, void *extra_param)
     return 0;
 }
 
-#ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
     /* The Video Standard options are copied from the machine files. */
-    { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (resource_value_t)MACHINE_SYNC_PAL,
-      0, IDCLS_USE_PAL_SYNC_FACTOR },
-    { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (resource_value_t)MACHINE_SYNC_NTSC,
-      0, IDCLS_USE_NTSC_SYNC_FACTOR },
-    { "-ntscold", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (resource_value_t)MACHINE_SYNC_NTSCOLD,
-      0, IDCLS_USE_OLD_NTSC_SYNC_FACTOR },
-    { "-vsid", CALL_FUNCTION, 0, cmdline_vsid_mode, NULL, NULL, NULL,
-      0, IDCLS_SID_PLAYER_MODE },
-    { "-keepenv", CALL_FUNCTION, 0, cmdline_keepenv, NULL, NULL, NULL,
-      0, IDCLS_OVERWRITE_PSID_SETTINGS },
-    { "-tune", CALL_FUNCTION, 1, cmdline_psid_tune, NULL, NULL, NULL,
-      IDCLS_P_NUMBER, IDCLS_SPECIFY_PSID_TUNE_NUMBER },
+    { "-pal", SET_RESOURCE, 0,
+      NULL, NULL, "MachineVideoStandard", (resource_value_t)MACHINE_SYNC_PAL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_USE_PAL_SYNC_FACTOR,
+      NULL, NULL },
+    { "-ntsc", SET_RESOURCE, 0,
+      NULL, NULL, "MachineVideoStandard", (resource_value_t)MACHINE_SYNC_NTSC,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_USE_NTSC_SYNC_FACTOR,
+      NULL, NULL },
+    { "-ntscold", SET_RESOURCE, 0,
+      NULL, NULL, "MachineVideoStandard", (resource_value_t)MACHINE_SYNC_NTSCOLD,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_USE_OLD_NTSC_SYNC_FACTOR,
+      NULL, NULL },
+    { "-vsid", CALL_FUNCTION, 0,
+      cmdline_vsid_mode, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SID_PLAYER_MODE,
+      NULL, NULL },
+    { "-keepenv", CALL_FUNCTION, 0,
+      cmdline_keepenv, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_OVERWRITE_PSID_SETTINGS,
+      NULL, NULL },
+    { "-tune", CALL_FUNCTION, 1,
+      cmdline_psid_tune, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NUMBER, IDCLS_SPECIFY_PSID_TUNE_NUMBER,
+      NULL, NULL },
     { NULL }
 };
-#else
-static const cmdline_option_t cmdline_options[] =
-{
-    /* The Video Standard options are copied from the machine files. */
-    { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (resource_value_t)MACHINE_SYNC_PAL,
-      NULL, N_("Use PAL sync factor") },
-    { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (resource_value_t)MACHINE_SYNC_NTSC,
-      NULL, N_("Use NTSC sync factor") },
-    { "-ntscold", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (resource_value_t)MACHINE_SYNC_NTSCOLD,
-      NULL, N_("Use old NTSC sync factor") },
-    { "-vsid", CALL_FUNCTION, 0, cmdline_vsid_mode, NULL, NULL, NULL,
-      NULL, N_("SID player mode") },
-    { "-keepenv", CALL_FUNCTION, 0, cmdline_keepenv, NULL, NULL, NULL,
-      NULL, N_("Override PSID settings for Video standard and SID model") },
-    { "-tune", CALL_FUNCTION, 1, cmdline_psid_tune, NULL, NULL, NULL,
-      N_("<number>"), N_("Specify PSID tune <number>") },
-    { NULL }
-};
-#endif
 
 int psid_init_cmdline_options(void)
 {

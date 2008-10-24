@@ -287,16 +287,16 @@ EXTRA_DIST = \
 if HAVE_TRANSLATION
 BUILT_SOURCES = translate.h translate_table.h
 
-translate.h:	$(srcdir)/translate.txt
-	echo "generating translate.h..."
-	$(SHELL) $(srcdir)/gentranslate_h.sh <$(srcdir)/translate.txt >translate.h
-
 translate_table.h:	$(srcdir)/translate.txt
 	echo "generating translate_table.h..."
 	$(SHELL) $(srcdir)/gentranslatetable.sh <$(srcdir)/translate.txt >translate_table.h
 else
-BUILT_SOURCES =
+BUILT_SOURCES = translate.h
 endif
+
+translate.h:	$(srcdir)/translate.txt
+	echo "generating translate.h..."
+	$(SHELL) $(srcdir)/gentranslate_h.sh <$(srcdir)/translate.txt >translate.h
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a

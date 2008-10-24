@@ -38,6 +38,7 @@
 #include "keyboard.h"
 #include "log.h"
 #include "resources.h"
+#include "translate.h"
 
 static log_t joylog = LOG_ERR;
 
@@ -193,14 +194,26 @@ int joystick_init_resources(void)
 /* ------------------------------------------------------------------------- */
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-joydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice1", NULL,
+    { "-joydev1", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice1", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       "<number>", "Set input device for CBM joystick port #1" },
-    { "-joydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice2", NULL,
+    { "-joydev2", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice2", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
       "<number>", "Set input device for CBM joystick port #2" },
-    { "-joy1cal", CALL_FUNCTION, 0, &set_joyA_autoCal, (void *) TRUE,
-      NULL, 0, NULL, "Start auto calibration for PC joystick #1" },
-    { "-joy2cal", CALL_FUNCTION, 0, &set_joyB_autoCal, (void *) TRUE,
-      NULL, 0, NULL, "Start auto calibration for PC joystick #2" },
+    { "-joy1cal", CALL_FUNCTION, 0,
+      &set_joyA_autoCal, (void *) TRUE, NULL, 0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Start auto calibration for PC joystick #1" },
+    { "-joy2cal", CALL_FUNCTION, 0,
+      &set_joyB_autoCal, (void *) TRUE, NULL, 0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Start auto calibration for PC joystick #2" },
     NULL
 };
 
