@@ -6586,7 +6586,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_C64_MIDI_TYPE,    N_("MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
                                              "Maplin)")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_SPECIFY_C64_MIDI_TYPE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_C64_MIDI_TYPE_DE, "MIDI Interface Typ (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)"},
 /* fr */ {IDCLS_SPECIFY_C64_MIDI_TYPE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_C64_MIDI_TYPE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_C64_MIDI_TYPE_IT, ""},  /* fuzzy */

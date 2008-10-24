@@ -1821,7 +1821,7 @@ BEGIN
     IDS_MI_ATTACH_DTV_FLASH        "&Flash ROM Image einlegen"
     IDS_MI_DETACH_DTV_FLASH        "Flash ROM Image ent&fernen"
     IDS_MI_CREATE_DTV_FLASH        "Flash ROM Datei er&zeugen"
-    IDS_MI_FLASH_TRUE_FILESYSTEM   "&True flash filesystem"
+    IDS_MI_FLASH_TRUE_FILESYSTEM   "&True flash Dateisystem"
     IDS_MI_PS2MOUSE                "&PS/2 Mausemulation"
     IDS_MI_C64DTV_SETTINGS         "&C64DTV Einstellungen..."
 END
