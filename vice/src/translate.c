@@ -826,6 +826,1689 @@ translate_t string_table[] = {
 /* sv */ {IDGS_DTV_ROM_CREATED_SV, "DTV-ROM-avbildning skapades framgångsrikt"},
 #endif
 
+/* monitor/mon_command.c */
+/* en */ {IDGS_COMMAND_S_UNKNOWN,    N_("Command `%s' unknown.\n")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_COMMAND_S_UNKNOWN_DE, "Kommand `%s' ist unbekannt.\n"},
+/* fr */ {IDGS_COMMAND_S_UNKNOWN_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_COMMAND_S_UNKNOWN_HU, "`%s' parancs ismeretlen.\n"},
+/* it */ {IDGS_COMMAND_S_UNKNOWN_IT, "Comando `%s' sconosciuto.\n"},
+/* nl */ {IDGS_COMMAND_S_UNKNOWN_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_COMMAND_S_UNKNOWN_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_COMMAND_S_UNKNOWN_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_NO_HELP_AVAILABLE_FOR_S,    N_("No help available for `%s'\n")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_NO_HELP_AVAILABLE_FOR_S_DE, "Es ist keine Hilfe für `%s' verfügbar\n"},
+/* fr */ {IDGS_NO_HELP_AVAILABLE_FOR_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_NO_HELP_AVAILABLE_FOR_S_HU, "Nincs súgó a `%s' parancshoz\n"},
+/* it */ {IDGS_NO_HELP_AVAILABLE_FOR_S_IT, "Nessun help disponibile per `%s'\n"},
+/* nl */ {IDGS_NO_HELP_AVAILABLE_FOR_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_NO_HELP_AVAILABLE_FOR_S_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_NO_HELP_AVAILABLE_FOR_S_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_SYNTAX_S_S,    N_("\nSyntax: %s %s\n")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_SYNTAX_S_S_DE, "\nSyntax: %s %s\n"},
+/* fr */ {IDGS_SYNTAX_S_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SYNTAX_S_S_HU, "\nSzintaxis: %s %s\n"},
+/* it */ {IDGS_SYNTAX_S_S_IT, "\nSintassi: %s %s\n"},
+/* nl */ {IDGS_SYNTAX_S_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_SYNTAX_S_S_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_SYNTAX_S_S_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_ABBREVIATION_S,    N_("Abbreviation: %s\n")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_ABBREVIATION_S_DE, "Abkürzung: %s\n"},
+/* fr */ {IDGS_ABBREVIATION_S_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_ABBREVIATION_S_HU, "Rövidítés: %s\n"},
+/* it */ {IDGS_ABBREVIATION_S_IT, "Abbreviazione: %s\n"},
+/* nl */ {IDGS_ABBREVIATION_S_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_ABBREVIATION_S_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_ABBREVIATION_S_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_AVAILABLE_COMMANDS_ARE,    N_("Available commands are:")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_AVAILABLE_COMMANDS_ARE_DE, "Zulässige Kommandos sind:"},
+/* fr */ {IDGS_AVAILABLE_COMMANDS_ARE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_AVAILABLE_COMMANDS_ARE_HU, "Lehetséges parancsok:"},
+/* it */ {IDGS_AVAILABLE_COMMANDS_ARE_IT, "I comandi disponibili sono:"},
+/* nl */ {IDGS_AVAILABLE_COMMANDS_ARE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_AVAILABLE_COMMANDS_ARE_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_AVAILABLE_COMMANDS_ARE_SV, "Tillgängliga kommandon:"},
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MACHINE_STATE_COMMANDS,    N_("Machine state commands:")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MACHINE_STATE_COMMANDS_DE, "Maschinen Zustandskommandos:"},
+/* fr */ {IDGS_MACHINE_STATE_COMMANDS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MACHINE_STATE_COMMANDS_HU, "Gép állapot parancsok:"},
+/* it */ {IDGS_MACHINE_STATE_COMMANDS_IT, "Comandi di stato del computer:"},
+/* nl */ {IDGS_MACHINE_STATE_COMMANDS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MACHINE_STATE_COMMANDS_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MACHINE_STATE_COMMANDS_SV, "Kommandon för maskinstatus:"},
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_RP_MEMSPACE_R_BANKNAME,    N_("[<memspace>] [bankname]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_RP_MEMSPACE_R_BANKNAME_DE, "[<Speicherbereich>] [Speicherbank]"},
+/* fr */ {IDGS_RP_MEMSPACE_R_BANKNAME_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_RP_MEMSPACE_R_BANKNAME_HU, "[<memória tér>] [lap név]"},
+/* it */ {IDGS_RP_MEMSPACE_R_BANKNAME_IT, "[<spazio di memoria>] [nome banco]"},
+/* nl */ {IDGS_RP_MEMSPACE_R_BANKNAME_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_RP_MEMSPACE_R_BANKNAME_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_RP_MEMSPACE_R_BANKNAME_SV, "[<minnesområde>] [banknamn]"},
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_BANK_DESCRIPTION,    N_("If bankname is not given, print the possible banks for the memspace.\n"
+                                           "If bankname is given set the current bank in the memspace to the given\n"
+                                           "bank.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_BANK_DESCRIPTION_DE, "Falls `bankname' nicht angegeben wird, Ausgabe der möglichen Bänke in `memspace'.\n"
+                                        "Falls `bankname' angegeben wird, setze aktuelle Bank in `memspace' mit angegebener Bank."},
+/* fr */ {IDGS_MON_BANK_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_BANK_DESCRIPTION_HU, "Ha a lap száma nincs megadva, kiírja a lehetséges lapokat a memória térbõl.\n"
+                                        "Ha meg van adva, az aktuális lap számot a memória térben a megadott lapra állítja."},
+/* it */ {IDGS_MON_BANK_DESCRIPTION_IT, "Se non viene specificato il nome del banco, stampa tutti i banchi\n"
+                                        "possibili per lo spazio di memoria.\n"
+                                        "Se viene specificato il nome del banco, imposta il banco attuale nello\n"
+                                        "spazio di memoria specificato."},
+/* nl */ {IDGS_MON_BANK_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_BANK_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_BANK_DESCRIPTION_SV, "Om banknamn inte anges, skriv ut möjliga bankar för minnesområdet.\n"
+                                        "Om banknamn anges, sätt aktuell bank i minnesområdet till den givna\n"
+                                        "banken."},
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_BACKTRACE_DESCRIPTION,    N_("Print JSR call chain (most recent call first). Stack offset\n"
+                                                "relative to SP+1 is printed in parentheses. This is a best guess\n"
+                                                "only.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_BACKTRACE_DESCRIPTION_DE, "Zeige JSR Aufrufkette (letzter Aufruf zuerst). Stack offset\n"
+                                             "wird relative zu SP+1 in Klammern gezeigt. Dies ist jedoch nur\n"
+                                             "eine Schätzung."},
+/* fr */ {IDGS_MON_BACKTRACE_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_BACKTRACE_DESCRIPTION_HU, "JSR hívás lista kiírása (legutóbbi elõször). A verem SP+1\n"
+                                             "helyen lévõ tartalma zárójelben. Ez csak\n"
+                                             "egy legjobb becslés."},
+/* it */ {IDGS_MON_BACKTRACE_DESCRIPTION_IT, "Stampa la catena di chiamate JSR (la chiamata più recente per prima).\n"
+                                             "L'offset dello stack relativo a SP+1 è stampato tra parentesi. Questo è\n"
+                                             "solo l'ipotesi migliore."},
+/* nl */ {IDGS_MON_BACKTRACE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_BACKTRACE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_BACKTRACE_DESCRIPTION_SV, "Skriv JSR-anropskedja (senaste anrop först). Stackavstånd\n"
+                                             "relativt till SP+1 visas inom parantes. Detta är bara en\n"
+                                             "gissning."},
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_CPU_DESCRIPTION,    N_("Specify the type of CPU currently used (6502/z80).")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_CPU_DESCRIPTION_DE, "CPU Typ setzen (6502/z80)"},
+/* fr */ {IDGS_MON_CPU_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_CPU_DESCRIPTION_HU, "A processzor típusának megadása (6502/z80)."},
+/* it */ {IDGS_MON_CPU_DESCRIPTION_IT, "Specifica il tipo di CPU utilizzata al momento (6502/z80)."},
+/* nl */ {IDGS_MON_CPU_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_CPU_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_CPU_DESCRIPTION_SV, "Ange typ av CPU som används för närvarande (6502/z80)."},
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_RP_COUNT,    N_("[<count>]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_RP_COUNT_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_RP_COUNT_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_RP_COUNT_HU, ""},  /* fuzzy */
+/* it */ {IDGS_RP_COUNT_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_COUNT_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_RP_COUNT_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_RP_COUNT_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_CPUHISTORY_DESCRIPTION,    N_("Show <count> last executed commands.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_CPUHISTORY_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_CPUHISTORY_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_CPUHISTORY_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_CPUHISTORY_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_CPUHISTORY_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_CPUHISTORY_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_CPUHISTORY_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_QP_FILENAME,    N_("\"<filename>\"")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_QP_FILENAME_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_QP_FILENAME_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_QP_FILENAME_HU, ""},  /* fuzzy */
+/* it */ {IDGS_QP_FILENAME_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_QP_FILENAME_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_QP_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_QP_FILENAME_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_DUMP_DESCRIPTION,    N_("Write a snapshot of the machine into the file specified.\n"
+                                           "This snapshot is compatible with a snapshot written out by the UI.\n"
+                                           "Note: No ROM images are included into the dump.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_DUMP_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_DUMP_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_DUMP_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_DUMP_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_DUMP_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_DUMP_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_DUMP_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_P_ADDRESS,    N_("<address>")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_P_ADDRESS_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_P_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_P_ADDRESS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_P_ADDRESS_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_P_ADDRESS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_P_ADDRESS_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_P_ADDRESS_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_GOTO_DESCRIPTION,    N_("Change the PC to ADDRESS and continue execution")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_GOTO_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_GOTO_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_GOTO_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_GOTO_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_GOTO_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_GOTO_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_GOTO_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_IO_DESCRIPTION,    N_("Print out the I/O area of the emulated machine.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_IO_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_IO_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_IO_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_IO_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_IO_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_IO_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_IO_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_NEXT_DESCRIPTION,    N_("Advance to the next instruction.  Subroutines are treated as\n"
+                                           "a single instruction.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_NEXT_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_NEXT_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_NEXT_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_NEXT_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_NEXT_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_NEXT_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_NEXT_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_RP_REG_NAME_P_NUMBER,    N_("[<reg_name> = <number> [, <reg_name> = <number>]*]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_RP_REG_NAME_P_NUMBER_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_RP_REG_NAME_P_NUMBER_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_RP_REG_NAME_P_NUMBER_HU, ""},  /* fuzzy */
+/* it */ {IDGS_RP_REG_NAME_P_NUMBER_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_REG_NAME_P_NUMBER_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_RP_REG_NAME_P_NUMBER_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_RP_REG_NAME_P_NUMBER_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_REGISTERS_DESCRIPTION,    N_("Assign respective registers.  With no parameters, display register\n"
+                                                "values.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_REGISTERS_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_REGISTERS_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_REGISTERS_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_REGISTERS_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_REGISTERS_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_REGISTERS_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_REGISTERS_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_RP_TYPE,    N_("[<type>]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_RP_TYPE_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_RP_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_RP_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_RP_TYPE_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_TYPE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_RP_TYPE_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_RP_TYPE_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_RESET_DESCRIPTION,    N_("Reset the machine or drive. Type: 0 = soft, 1 = hard, 8-11 = drive.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_RESET_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_RESET_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_RESET_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_RESET_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_RESET_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_RESET_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_RESET_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_RETURN_DESCRIPTION,    N_("Continues execution and returns to the monitor just before the next\n"
+                                             "RTS or RTI is executed.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_RETURN_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_RETURN_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_RETURN_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_RETURN_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_RETURN_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_RETURN_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_RETURN_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_SCREEN_DESCRIPTION,    N_("Displays the contents of the screen.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_SCREEN_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_SCREEN_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_SCREEN_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_SCREEN_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_SCREEN_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_SCREEN_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_SCREEN_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_STEP_DESCRIPTION,    N_("Single-step through instructions.  COUNT allows stepping\n"
+                                           "more than a single instruction at a time.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_STEP_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_STEP_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_STEP_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_STEP_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_STEP_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_STEP_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_STEP_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_UNDUMP_DESCRIPTION,    N_("Read a snapshot of the machine from the file specified.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_UNDUMP_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_UNDUMP_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_UNDUMP_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_UNDUMP_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_UNDUMP_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_UNDUMP_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_UNDUMP_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_SYMBOL_TABLE_COMMANDS,    N_("Symbol table commands:")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_SYMBOL_TABLE_COMMANDS_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_SYMBOL_TABLE_COMMANDS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SYMBOL_TABLE_COMMANDS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SYMBOL_TABLE_COMMANDS_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_SYMBOL_TABLE_COMMANDS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_SYMBOL_TABLE_COMMANDS_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_SYMBOL_TABLE_COMMANDS_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL,    N_("[<memspace>] <address> <label>")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_HU, ""},  /* fuzzy */
+/* it */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_ADD_LABEL_DESCRIPTION,    N_("<memspace> is one of: C: 8: 9: 10: 11:\n"
+                                                "<address>  is the address which should get the label.\n"
+                                                "<label>    is the name of the label; it must start with a dot (\".\").\n\n"
+                                                "Map a given address to a label.  This label can be used when entering\n"
+                                                "assembly code and is shown during disassembly.  Additionally, it can\n"
+                                                "be used whenever an address must be specified.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_ADD_LABEL_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_ADD_LABEL_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_ADD_LABEL_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_ADD_LABEL_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_ADD_LABEL_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_ADD_LABEL_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_ADD_LABEL_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_RP_MEMSPACE_P_LABEL,    N_("[<memspace>] <label>")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_RP_MEMSPACE_P_LABEL_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_RP_MEMSPACE_P_LABEL_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_RP_MEMSPACE_P_LABEL_HU, ""},  /* fuzzy */
+/* it */ {IDGS_RP_MEMSPACE_P_LABEL_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_MEMSPACE_P_LABEL_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_RP_MEMSPACE_P_LABEL_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_RP_MEMSPACE_P_LABEL_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_DELETE_LABEL_DESCRIPTION,    N_("<memspace> is one of: C: 8: 9: 10: 11:\n"
+                                                   "<label>    is the name of the label; it must start with a dot (\".\").\n\n"
+                                                   "Delete a previously defined label.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_RP_MEMSPACE_QP_FILENAME,    N_("[<memspace>] \"<filename>\"")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_RP_MEMSPACE_QP_FILENAME_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_RP_MEMSPACE_QP_FILENAME_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_RP_MEMSPACE_QP_FILENAME_HU, ""},  /* fuzzy */
+/* it */ {IDGS_RP_MEMSPACE_QP_FILENAME_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_MEMSPACE_QP_FILENAME_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_RP_MEMSPACE_QP_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_RP_MEMSPACE_QP_FILENAME_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_LOAD_LABELS_DESCRIPTION,    N_("Load a file containing a mapping of labels to addresses.  If no memory\n"
+                                                  "space is specified, the default readspace is used.\n\n" 
+                                                  "The format of the file is the one written out by the `save_labels' command;\n" 
+                                                  "it consists of some `add_label' commands, written one after the other.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_SAVE_LABELS_DESCRIPTION,    N_("Save labels to a file.  If no memory space is specified, all of the\n"
+                                                  "labels are saved.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_RP_MEMSPACE,    N_("[<memspace>]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_RP_MEMSPACE_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_RP_MEMSPACE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_RP_MEMSPACE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_RP_MEMSPACE_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_MEMSPACE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_RP_MEMSPACE_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_RP_MEMSPACE_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_SHOW_LABELS_DESCRIPTION,    N_("Display current label mappings.  If no memory space is specified, show\n"
+                                                  "all labels.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS,    N_("Assembler and memory commands:")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_RP_ADDRESS_P_DATA_LIST,    N_("[<address>] <data_list>")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_RP_ADDRESS_P_DATA_LIST_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_RP_ADDRESS_P_DATA_LIST_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_RP_ADDRESS_P_DATA_LIST_HU, ""},  /* fuzzy */
+/* it */ {IDGS_RP_ADDRESS_P_DATA_LIST_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_ADDRESS_P_DATA_LIST_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_RP_ADDRESS_P_DATA_LIST_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_RP_ADDRESS_P_DATA_LIST_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_WRITE_DESCRIPTION,    N_("Write the specified data at `address'.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_WRITE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_WRITE_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_WRITE_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_WRITE_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_WRITE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_WRITE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_WRITE_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_P_ADDRESS_RP_INSTRUCTION,    N_("<address> [ <instruction> [: <instruction>]* ]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_P_ADDRESS_RP_INSTRUCTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_P_ADDRESS_RP_INSTRUCTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_P_ADDRESS_RP_INSTRUCTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_P_ADDRESS_RP_INSTRUCTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_P_ADDRESS_RP_INSTRUCTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_P_ADDRESS_RP_INSTRUCTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_P_ADDRESS_RP_INSTRUCTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_ASSEMBLE_DESCRIPTION,    N_("Assemble instructions to the specified address.  If only one\n"
+                                               "instruction is specified, enter assembly mode (enter an empty line to\n"
+                                               "exit assembly mode).")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_ASSEMBLE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_ASSEMBLE_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_ASSEMBLE_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_ASSEMBLE_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_ASSEMBLE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_ASSEMBLE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_ASSEMBLE_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS,    N_("<address_range> <address>")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_COMPARE_DESCRIPTION,    N_("Compare memory from the source specified by the address range to the\n"
+                                              "destination specified by the address.  The regions may overlap.  Any\n"
+                                              "values that miscompare are displayed using the default displaytype.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_COMPARE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_COMPARE_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_COMPARE_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_COMPARE_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_COMPARE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_COMPARE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_COMPARE_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_P_CHECKNUM,    N_("<checknum>")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_P_CHECKNUM_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_P_CHECKNUM_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_P_CHECKNUM_HU, ""},  /* fuzzy */
+/* it */ {IDGS_P_CHECKNUM_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_P_CHECKNUM_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_P_CHECKNUM_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_P_CHECKNUM_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_DELETE_DESCRIPTION,    N_("Delete checkpoint `checknum'.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_DELETE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_DELETE_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_DELETE_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_DELETE_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_DELETE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_DELETE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_DELETE_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_RP_ADDRESS_RP_ADDRESS,    N_("[<address> [<address>]]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_RP_ADDRESS_RP_ADDRESS_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_RP_ADDRESS_RP_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_RP_ADDRESS_RP_ADDRESS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_RP_ADDRESS_RP_ADDRESS_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_ADDRESS_RP_ADDRESS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_RP_ADDRESS_RP_ADDRESS_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_RP_ADDRESS_RP_ADDRESS_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_DISASS_DESCRIPTION,    N_("Disassemble instructions.  If two addresses are specified, they are\n"
+                                             "used as a start and end address.  If only one is specified, it is\n"
+                                             "treated as the start address and a default number of instructions are\n"
+                                             "disassembled.  If no addresses are specified, a default number of\n"
+                                             "instructions are disassembled from the dot address.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_DISASS_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_DISASS_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_DISASS_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_DISASS_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_DISASS_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_DISASS_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_DISASS_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST,    N_("<address_range> <data_list>")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_HU, ""},  /* fuzzy */
+/* it */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_FILL_DESCRIPTION,    N_("Fill memory in the specified address range with the data in\n"
+                                           "<data_list>.  If the size of the address range is greater than the size\n"
+                                           "of the data_list, the data_list is repeated.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_FILL_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_FILL_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_FILL_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_FILL_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_FILL_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_FILL_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_FILL_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_HUNT_DESCRIPTION,    N_("Hunt memory in the specified address range for the data in\n"
+                                           "<data_list>.  If the data is found, the starting address of the match\n"
+                                           "is displayed.  The entire range is searched for all possible matches.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_HUNT_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_HUNT_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_HUNT_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_HUNT_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_HUNT_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_HUNT_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_HUNT_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_P_ADDRESS_OPT_RANGE,    N_("<address_opt_range>")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_P_ADDRESS_OPT_RANGE_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_P_ADDRESS_OPT_RANGE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_P_ADDRESS_OPT_RANGE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_P_ADDRESS_OPT_RANGE_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_P_ADDRESS_OPT_RANGE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_P_ADDRESS_OPT_RANGE_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_P_ADDRESS_OPT_RANGE_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_I_DESCRIPTION,    N_("Display memory contents as PETSCII text.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_I_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_I_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_I_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_I_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_I_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_I_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_I_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_II_DESCRIPTION,    N_("Display memory contents as screen code text.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_II_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_II_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_II_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_II_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_II_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_II_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_II_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE,    N_("[<data_type>] [<address_opt_range>]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_MEM_DESCRIPTION,    N_("Display the contents of memory.  If no datatype is given, the default\n"
+                                          "is used.  If only one address is specified, the length of data\n"
+                                          "displayed is based on the datatype.  If no addresses are given, the\n"
+                                          "'dot' address is used.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_MEM_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_MEM_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_MEM_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_MEM_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_MEM_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_MEM_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_MEM_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_MEMCHAR_DESCRIPTION,    N_("Display the contents of memory as character data.  If only one address\n"
+                                              "is specified, only one character is displayed.  If no addresses are\n"
+                                              "given, the ``dot'' address is used.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_MEMCHAR_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_MEMCHAR_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_MEMCHAR_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_MEMCHAR_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_MEMCHAR_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_MEMCHAR_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_MEMCHAR_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_QP_FILENAME_P_FORMAT,    N_("\"<filename>\" <format>")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_QP_FILENAME_P_FORMAT_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_QP_FILENAME_P_FORMAT_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_QP_FILENAME_P_FORMAT_HU, ""},  /* fuzzy */
+/* it */ {IDGS_QP_FILENAME_P_FORMAT_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_QP_FILENAME_P_FORMAT_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_QP_FILENAME_P_FORMAT_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_QP_FILENAME_P_FORMAT_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION,    N_("Save the memmap as a picture. Format is:\n"
+                                                 "0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE,    N_("[<mask>] [<address_opt_range>]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION,    N_("Show the memmap. The mask can be specified to show only those\n"
+                                                 "locations with accesses of certain type(s). The mask is a number\n"
+                                                 "with the bits \"ioRWXrwx\", where RWX are for ROM and rwx for RAM.\n"
+                                                 "Optionally, an address range can be specified.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_MEMMAPZAP_DESCRIPTION,    N_("Clear the memmap.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_MEMMAPZAP_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_MEMMAPZAP_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_MEMMAPZAP_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_MEMMAPZAP_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_MEMMAPZAP_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_MEMMAPZAP_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_MEMMAPZAP_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_MEMSPRITE_DESCRIPTION,    N_("Display the contents of memory as sprite data.  If only one address is\n"
+                                                "specified, only one sprite is displayed.  If no addresses are given,\n"
+                                                "the ``dot'' address is used.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_MEMSPRITE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_MEMSPRITE_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_MEMSPRITE_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_MEMSPRITE_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_MEMSPRITE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_MEMSPRITE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_MEMSPRITE_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_MOVE_DESCRIPTION,    N_("Move memory from the source specified by the address range to\n"
+                                           "the destination specified by the address.  The regions may overlap.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_MOVE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_MOVE_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_MOVE_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_MOVE_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_MOVE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_MOVE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_MOVE_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_CHECKPOINT_COMMANDS,    N_("Checkpoint commands:")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_CHECKPOINT_COMMANDS_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_CHECKPOINT_COMMANDS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CHECKPOINT_COMMANDS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CHECKPOINT_COMMANDS_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_CHECKPOINT_COMMANDS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_CHECKPOINT_COMMANDS_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_CHECKPOINT_COMMANDS_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_RP_ADDRESS_RP_COND_EXPR,    N_("[<address> [if <cond_expr>] ]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_RP_ADDRESS_RP_COND_EXPR_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_RP_ADDRESS_RP_COND_EXPR_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_RP_ADDRESS_RP_COND_EXPR_HU, ""},  /* fuzzy */
+/* it */ {IDGS_RP_ADDRESS_RP_COND_EXPR_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_ADDRESS_RP_COND_EXPR_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_RP_ADDRESS_RP_COND_EXPR_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_RP_ADDRESS_RP_COND_EXPR_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_BREAK_DESCRIPTION,    N_("If no address is given, the currently valid watchpoints are printed.\n"
+                                            "If an address is given, a breakpoint is set for that address and the\n"
+                                            "breakpoint number is printed.  A conditional expression can also be\n"
+                                            "specified for the breakpoint.  For more information on conditions, see\n"
+                                            "the CONDITION command.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_BREAK_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_BREAK_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_BREAK_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_BREAK_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_BREAK_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_BREAK_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_BREAK_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_P_CHECKNUM_QP_COMMAND,    N_("<checknum> \"<command>\"")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_P_CHECKNUM_QP_COMMAND_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_P_CHECKNUM_QP_COMMAND_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_P_CHECKNUM_QP_COMMAND_HU, ""},  /* fuzzy */
+/* it */ {IDGS_P_CHECKNUM_QP_COMMAND_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_P_CHECKNUM_QP_COMMAND_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_P_CHECKNUM_QP_COMMAND_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_P_CHECKNUM_QP_COMMAND_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_COMMAND_DESCRIPTION,    N_("Specify `command' as the command to execute when checkpoint `checknum'\n"
+                                              "is hit.  Note that the `x' command is not yet supported as a\n"
+                                              "command argument.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_COMMAND_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_COMMAND_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_COMMAND_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_COMMAND_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_COMMAND_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_COMMAND_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_COMMAND_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_P_CHECKNUM_IF_P_COND_EXPR,    N_("<checknum> if <cond_expr>")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_P_CHECKNUM_IF_P_COND_EXPR_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_P_CHECKNUM_IF_P_COND_EXPR_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_P_CHECKNUM_IF_P_COND_EXPR_HU, ""},  /* fuzzy */
+/* it */ {IDGS_P_CHECKNUM_IF_P_COND_EXPR_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_P_CHECKNUM_IF_P_COND_EXPR_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_P_CHECKNUM_IF_P_COND_EXPR_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_P_CHECKNUM_IF_P_COND_EXPR_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_CONDITION_DESCRIPTION,    N_("Each time the specified checkpoint is examined, the condition is\n"
+                                                "evaluated.  If it evalutes to true, the checkpoint is activated.\n"
+                                                "Otherwise, it is ignored.  If registers are specified in the expression,\n"
+                                                "the values used are those at the time the checkpoint is examined, not\n"
+                                                "when the condition is set.\n"
+                                                "The condition can make use of registers (.A, .X, .Y, .PC, .SP) and\n"
+                                                "compare them (==, !=, <, >, <=, >=) again other registers or constants.\n"
+                                                "Registers can be the registers of other devices; this is denoted by\n"
+                                                "a memspace prefix (i.e., c:, 8:, 9:, 10:, 11:\n"
+                                                "Examples: .A == 0, .X == .Y, 8:.X == .X\n")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_CONDITION_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_CONDITION_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_CONDITION_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_CONDITION_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_CONDITION_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_CONDITION_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_CONDITION_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_DISABLE_DESCRIPTION,    N_("Disable checkpoint `checknum'.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_DISABLE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_DISABLE_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_DISABLE_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_DISABLE_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_DISABLE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_DISABLE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_DISABLE_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_ENABLE_DESCRIPTION,    N_("Enable checkpoint `checknum'.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_ENABLE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_ENABLE_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_ENABLE_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_ENABLE_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_ENABLE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_ENABLE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_ENABLE_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_P_CHECKNUM_RP_COUNT,    N_("<checknum> [<count>]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_P_CHECKNUM_RP_COUNT_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_P_CHECKNUM_RP_COUNT_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_P_CHECKNUM_RP_COUNT_HU, ""},  /* fuzzy */
+/* it */ {IDGS_P_CHECKNUM_RP_COUNT_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_P_CHECKNUM_RP_COUNT_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_P_CHECKNUM_RP_COUNT_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_P_CHECKNUM_RP_COUNT_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_IGNORE_DESCRIPTION,    N_("Ignore a checkpoint a given number of crossings.  If no count is given,\n"
+                                             "the default value is 1.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_IGNORE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_IGNORE_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_IGNORE_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_IGNORE_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_IGNORE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_IGNORE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_IGNORE_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_RP_ADDRESS,    N_("[<address>]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_RP_ADDRESS_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_RP_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_RP_ADDRESS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_RP_ADDRESS_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_ADDRESS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_RP_ADDRESS_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_RP_ADDRESS_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_UNTIL_DESCRIPTION,    N_("If no address is given, the currently valid breakpoints are printed.\n"
+                                            "If an address is given, a temporary breakpoint is set for that address\n"
+                                            "and the breakpoint number is printed.  Control is returned to the\n"
+                                            "emulator by this command.  The breakpoint is deleted once it is hit.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_UNTIL_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_UNTIL_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_UNTIL_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_UNTIL_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_UNTIL_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_UNTIL_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_UNTIL_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS,    N_("[loadstore] [address [address]]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_WATCH_DESCRIPTION,    N_("Set a watchpoint.  If a single address is specified, set a watchpoint\n"
+                                            "for that address.  If two addresses are specified, set a watchpoint\n"
+                                            "for the memory locations between the two addresses.\n"
+                                            "`loadstore' is either `load' or `store' to specify on which operation\n"
+                                            "the monitor breaks. If not specified, the monitor breaks on both\n"
+                                            "operations.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_WATCH_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_WATCH_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_WATCH_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_WATCH_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_WATCH_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_WATCH_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_WATCH_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_R_ADDRESS_R_ADDRESS,    N_("[address [address]]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_R_ADDRESS_R_ADDRESS_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_R_ADDRESS_R_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_R_ADDRESS_R_ADDRESS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_R_ADDRESS_R_ADDRESS_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_R_ADDRESS_R_ADDRESS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_R_ADDRESS_R_ADDRESS_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_R_ADDRESS_R_ADDRESS_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_TRACE_DESCRIPTION,    N_("Set a tracepoint.  If a single address is specified, set a tracepoint\n"
+                                            "for that address.  If two addresses are specified, set a tracepoint\n"
+                                            "for the memory locations between the two addresses.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_TRACE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_TRACE_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_TRACE_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_TRACE_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_TRACE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_TRACE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_TRACE_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MONITOR_STATE_COMMANDS,    N_("Monitor state commands:")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MONITOR_STATE_COMMANDS_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MONITOR_STATE_COMMANDS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MONITOR_STATE_COMMANDS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MONITOR_STATE_COMMANDS_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MONITOR_STATE_COMMANDS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MONITOR_STATE_COMMANDS_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MONITOR_STATE_COMMANDS_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_R_C_R_8_R_9_R_10_R_11,    N_("[c:|8:|9:|10:|11:]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_R_C_R_8_R_9_R_10_R_11_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_R_C_R_8_R_9_R_10_R_11_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_R_C_R_8_R_9_R_10_R_11_HU, ""},  /* fuzzy */
+/* it */ {IDGS_R_C_R_8_R_9_R_10_R_11_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_R_C_R_8_R_9_R_10_R_11_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_R_C_R_8_R_9_R_10_R_11_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_R_C_R_8_R_9_R_10_R_11_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_DEVICE_DESCRIPTION,    N_("Set the default memory device to either the computer `c:' or the\n"
+                                             "specified disk drive (`8:', `9:').")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_DEVICE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_DEVICE_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_DEVICE_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_DEVICE_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_DEVICE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_DEVICE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_DEVICE_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_EXIT_DESCRIPTION,    N_("Leave the monitor and return to execution.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_EXIT_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_EXIT_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_EXIT_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_EXIT_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_EXIT_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_EXIT_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_EXIT_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_QUIT_DESCRIPTION,    N_("Exit the emulator immediately.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_QUIT_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_QUIT_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_QUIT_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_QUIT_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_QUIT_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_QUIT_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_QUIT_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_R_H_R_D_R_O_R_B,    N_("[H|D|O|B]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_R_H_R_D_R_O_R_B_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_R_H_R_D_R_O_R_B_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_R_H_R_D_R_O_R_B_HU, ""},  /* fuzzy */
+/* it */ {IDGS_R_H_R_D_R_O_R_B_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_R_H_R_D_R_O_R_B_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_R_H_R_D_R_O_R_B_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_R_H_R_D_R_O_R_B_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_RADIX_DESCRIPTION,    N_("Set the default radix to hex, decimal, octal, or binary.  With no\n"
+                                            "argument, the current radix is printed.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_RADIX_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_RADIX_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_RADIX_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_RADIX_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_RADIX_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_RADIX_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_RADIX_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_R_ON_R_OFF_R_TOGGLE,    N_("[on|off|toggle]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_R_ON_R_OFF_R_TOGGLE_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_R_ON_R_OFF_R_TOGGLE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_R_ON_R_OFF_R_TOGGLE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_R_ON_R_OFF_R_TOGGLE_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_R_ON_R_OFF_R_TOGGLE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_R_ON_R_OFF_R_TOGGLE_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_R_ON_R_OFF_R_TOGGLE_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_SIDEFX_DESCRIPTION,    N_("Control how monitor generated reads affect memory locations that have\n"
+                                             "read side-effects.  If the argument is 'on' then reads may cause\n"
+                                             "side-effects.  If the argument is 'off' then reads don't cause\n"
+                                             "side-effects.  If the argument is 'toggle' then the current mode is\n"
+                                             "switched.  No argument displays the current state.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_SIDEFX_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_SIDEFX_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_SIDEFX_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_SIDEFX_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_SIDEFX_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_SIDEFX_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_SIDEFX_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_DISK_COMMANDS,    N_("Disk commands:")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_DISK_COMMANDS_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_DISK_COMMANDS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_DISK_COMMANDS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_DISK_COMMANDS_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_DISK_COMMANDS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_DISK_COMMANDS_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_DISK_COMMANDS_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_P_DISK_COMMAND,    N_("<disk command>")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_P_DISK_COMMAND_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_P_DISK_COMMAND_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_P_DISK_COMMAND_HU, ""},  /* fuzzy */
+/* it */ {IDGS_P_DISK_COMMAND_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_P_DISK_COMMAND_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_P_DISK_COMMAND_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_P_DISK_COMMAND_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_AT_DESCRIPTION,    N_("Perform a disk command on the currently attached disk image on drive 8.\n"
+                                         "The specified disk command is sent to the drive's channel #15.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_AT_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_AT_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_AT_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_AT_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_AT_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_AT_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_AT_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_P_FILENAME_P_DEVICE,    N_("<filename> <device>")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_P_FILENAME_P_DEVICE_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_P_FILENAME_P_DEVICE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_P_FILENAME_P_DEVICE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_P_FILENAME_P_DEVICE_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_P_FILENAME_P_DEVICE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_P_FILENAME_P_DEVICE_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_P_FILENAME_P_DEVICE_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_ATTACH_DESCRIPTION,    N_("Attach file to device. (device 32 = cart)")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_ATTACH_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_ATTACH_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_ATTACH_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_ATTACH_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_ATTACH_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_ATTACH_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_ATTACH_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS,    N_("\"<filename>\" <device> <address>")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_BLOAD_DESCRIPTION,    N_("Load the specified file into memory at the specified address.\n"
+                                            "If device is 0, the file is read from the file system.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_BLOAD_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_BLOAD_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_BLOAD_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_BLOAD_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_BLOAD_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_BLOAD_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_BLOAD_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_P_TRACK_P_SECTOR_RP_ADDRESS,    N_("<track> <sector> [<address>]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_P_TRACK_P_SECTOR_RP_ADDRESS_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_P_TRACK_P_SECTOR_RP_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_P_TRACK_P_SECTOR_RP_ADDRESS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_P_TRACK_P_SECTOR_RP_ADDRESS_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_P_TRACK_P_SECTOR_RP_ADDRESS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_P_TRACK_P_SECTOR_RP_ADDRESS_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_P_TRACK_P_SECTOR_RP_ADDRESS_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_BLOCK_READ_DESCRIPTION,    N_("Read the block at the specified track and sector.  If an address is\n"
+                                                 "specified, the data is loaded into memory.  If no address is given, the\n"
+                                                 "data is displayed using the default datatype.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_BLOCK_READ_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_BLOCK_READ_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_BLOCK_READ_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_BLOCK_READ_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_BLOCK_READ_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_BLOCK_READ_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_BLOCK_READ_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS1_P_ADDRESS2,    N_("\"<filename>\" <device> <address1> <address2>")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS1_P_ADDRESS2_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS1_P_ADDRESS2_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS1_P_ADDRESS2_HU, ""},  /* fuzzy */
+/* it */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS1_P_ADDRESS2_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS1_P_ADDRESS2_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS1_P_ADDRESS2_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS1_P_ADDRESS2_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_BSAVE_DESCRIPTION,    N_("Save the memory from address1 to address2 to the specified file.\n"
+                                            "If device is 0, the file is written to the file system.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_BSAVE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_BSAVE_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_BSAVE_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_BSAVE_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_BSAVE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_BSAVE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_BSAVE_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_P_TRACK_P_SECTOR_P_ADDRESS,    N_("<track> <sector> <address>")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_P_TRACK_P_SECTOR_P_ADDRESS_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_P_TRACK_P_SECTOR_P_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_P_TRACK_P_SECTOR_P_ADDRESS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_P_TRACK_P_SECTOR_P_ADDRESS_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_P_TRACK_P_SECTOR_P_ADDRESS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_P_TRACK_P_SECTOR_P_ADDRESS_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_P_TRACK_P_SECTOR_P_ADDRESS_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION,    N_("Write a block of data at `address' on the specified track and sector\n"
+                                                  "of disk in drive 8.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_P_DIRECTORY,    N_("<directory>")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_P_DIRECTORY_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_P_DIRECTORY_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_P_DIRECTORY_HU, ""},  /* fuzzy */
+/* it */ {IDGS_P_DIRECTORY_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_P_DIRECTORY_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_P_DIRECTORY_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_P_DIRECTORY_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_CD_DESCRIPTION,    N_("Change the working directory.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_CD_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_CD_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_CD_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_CD_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_CD_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_CD_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_CD_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_DETACH_DESCRIPTION,    N_("Detach file from device. (device 32 = cart)")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_DETACH_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_DETACH_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_DETACH_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_DETACH_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_DETACH_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_DETACH_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_DETACH_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_RP_DIRECTORY,    N_("[<directory>]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_RP_DIRECTORY_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_RP_DIRECTORY_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_RP_DIRECTORY_HU, ""},  /* fuzzy */
+/* it */ {IDGS_RP_DIRECTORY_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_DIRECTORY_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_RP_DIRECTORY_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_RP_DIRECTORY_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_DIR_DESCRIPTION,    N_("Display the directory contents.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_DIR_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_DIR_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_DIR_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_DIR_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_DIR_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_DIR_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_DIR_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS,    N_("\"<filename>\" <device> [<address>]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_LOAD_DESCRIPTION,    N_("Load the specified file into memory at the specified address. Set BASIC\n"
+                                           "pointers appropriately if loaded into computer memory (not all emulators).\n"
+                                           "Use (otherwise ignored) two-byte load address from file if no address\n"
+                                           "specified.\n"
+                                           "If device is 0, the file is read from the file system.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_LOAD_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_LOAD_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_LOAD_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_LOAD_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_LOAD_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_LOAD_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_LOAD_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_PWD_DESCRIPTION,    N_("Show current working directory.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_PWD_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_PWD_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_PWD_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_PWD_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_PWD_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_PWD_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_PWD_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_SAVE_DESCRIPTION,    N_("Save the memory from address1 to address2 to the specified file.\n"
+                                           "Write two-byte load address.\n"
+                                           "If device is 0, the file is written to the file system.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_SAVE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_SAVE_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_SAVE_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_SAVE_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_SAVE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_SAVE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_SAVE_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_OTHER_COMMANDS,    N_("Other commands:")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_OTHER_COMMANDS_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_OTHER_COMMANDS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_OTHER_COMMANDS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_OTHER_COMMANDS_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_OTHER_COMMANDS_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_OTHER_COMMANDS_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_OTHER_COMMANDS_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_DISPLAY_NUMBER_DESCRIPTION,    N_("Display the specified number in decimal, hex, octal and binary.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_DISPLAY_NUMBER_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_DISPLAY_NUMBER_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_DISPLAY_NUMBER_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_DISPLAY_NUMBER_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_DISPLAY_NUMBER_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_DISPLAY_NUMBER_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_DISPLAY_NUMBER_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_CARTFREEZE_DESCRIPTION,    N_("Use cartridge freeze.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_CARTFREEZE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_CARTFREEZE_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_CARTFREEZE_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_CARTFREEZE_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_CARTFREEZE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_CARTFREEZE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_CARTFREEZE_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_RP_COMMAND,    N_("[<command>]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_RP_COMMAND_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_RP_COMMAND_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_RP_COMMAND_HU, ""},  /* fuzzy */
+/* it */ {IDGS_RP_COMMAND_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_COMMAND_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_RP_COMMAND_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_RP_COMMAND_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_HELP_DESCRIPTION,    N_("If no argument is given, prints out a list of all available commands\n" 
+                                           "If an argument is given, prints out specific help for that command.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_HELP_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_HELP_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_HELP_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_HELP_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_HELP_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_HELP_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_HELP_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_QP_STRING,    N_("\"<string>\"")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_QP_STRING_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_QP_STRING_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_QP_STRING_HU, ""},  /* fuzzy */
+/* it */ {IDGS_QP_STRING_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_QP_STRING_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_QP_STRING_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_QP_STRING_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_KEYBUF_DESCRIPTION,    N_("Put the specified string into the keyboard buffer.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_KEYBUF_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_KEYBUF_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_KEYBUF_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_KEYBUF_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_KEYBUF_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_KEYBUF_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_KEYBUF_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_PLAYBACK_DESCRIPTION,    N_("Monitor commands from the specified file are read and executed.  This\n"
+                                               "command stops at the end of file or when a STOP command is read.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_PLAYBACK_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_PLAYBACK_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_PLAYBACK_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_PLAYBACK_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_PLAYBACK_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_PLAYBACK_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_PLAYBACK_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_P_EXPRESSION,    N_("<expression>")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_P_EXPRESSION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_P_EXPRESSION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_P_EXPRESSION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_P_EXPRESSION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_P_EXPRESSION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_P_EXPRESSION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_P_EXPRESSION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_PRINT_DESCRIPTION,    N_("Evaluate the specified expression and output the result.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_PRINT_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_PRINT_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_PRINT_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_PRINT_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_PRINT_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_PRINT_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_PRINT_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_RECORD_DESCRIPTION,    N_("After this command, all commands entered are written to the specified\n"
+                                             "file until the STOP command is entered.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_RECORD_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_RECORD_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_RECORD_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_RECORD_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_RECORD_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_RECORD_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_RECORD_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_QP_RESOURCE,    N_("\"<resource>\"")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_QP_RESOURCE_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_QP_RESOURCE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_QP_RESOURCE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_QP_RESOURCE_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_QP_RESOURCE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_QP_RESOURCE_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_QP_RESOURCE_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_RESOURCEGET_DESCRIPTION,    N_("Displays the value of the resource.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_RESOURCEGET_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_RESOURCEGET_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_RESOURCEGET_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_RESOURCEGET_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_RESOURCEGET_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_RESOURCEGET_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_RESOURCEGET_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_QP_RESOURCE_QP_VALUE,    N_("\"<resource>\" \"<value>\"")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_QP_RESOURCE_QP_VALUE_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_QP_RESOURCE_QP_VALUE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_QP_RESOURCE_QP_VALUE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_QP_RESOURCE_QP_VALUE_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_QP_RESOURCE_QP_VALUE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_QP_RESOURCE_QP_VALUE_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_QP_RESOURCE_QP_VALUE_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_RESOURCESET_DESCRIPTION,    N_("Sets the value of the resource.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_RESOURCESET_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_RESOURCESET_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_RESOURCESET_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_RESOURCESET_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_RESOURCESET_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_RESOURCESET_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_RESOURCESET_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_STOP_DESCRIPTION,    N_("Stop recording commands.  See `record'.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_STOP_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_STOP_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_STOP_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_STOP_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_STOP_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_STOP_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_STOP_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_QP_FILENAME_RP_FORMAT,    N_("\"<filename>\" [<format>]")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_QP_FILENAME_RP_FORMAT_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_QP_FILENAME_RP_FORMAT_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_QP_FILENAME_RP_FORMAT_HU, ""},  /* fuzzy */
+/* it */ {IDGS_QP_FILENAME_RP_FORMAT_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_QP_FILENAME_RP_FORMAT_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_QP_FILENAME_RP_FORMAT_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_QP_FILENAME_RP_FORMAT_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_SCREENSHOT_DESCRIPTION,    N_("Take a screenshot. Format is:\n"
+                                                 "default = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_SCREENSHOT_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_SCREENSHOT_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_SCREENSHOT_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_SCREENSHOT_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_SCREENSHOT_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_SCREENSHOT_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_SCREENSHOT_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_P_COMMAND,    N_("<command>")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_P_COMMAND_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_P_COMMAND_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_P_COMMAND_HU, ""},  /* fuzzy */
+/* it */ {IDGS_P_COMMAND_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_P_COMMAND_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_P_COMMAND_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_P_COMMAND_SV, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_TAPECTRL_DESCRIPTION,    N_("Control the datasette. Valid commands:\n"
+                                               "0 = stop, 1 = start, 2 = forward, 3 = rewind, 4 = record,\n"
+                                               "5 = reset, 6 = reset counter.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDGS_MON_TAPECTRL_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_TAPECTRL_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_TAPECTRL_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_TAPECTRL_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_TAPECTRL_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_TAPECTRL_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_TAPECTRL_DESCRIPTION_SV, ""},  /* fuzzy */
+#endif
+
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
 /* autostart.c */

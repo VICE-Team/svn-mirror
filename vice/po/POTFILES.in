@@ -1,8 +1,5 @@
 # List of Files which already gettext aware.
 
-# command-line options
-src/monitor/mon_command.c
-
 # Architecture Unix
 src/arch/unix/blockdev.c
 src/arch/unix/console.c
