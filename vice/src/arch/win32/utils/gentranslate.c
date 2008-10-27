@@ -108,10 +108,8 @@ void generate_translate_h(char *in_filename, char *out_filename)
   fprintf(outfile," *\n");
   fprintf(outfile," */\n");
   fprintf(outfile,"\n");
-  fprintf(outfile,"#ifdef HAS_TRANSLATION\n");
-  fprintf(outfile,"\n");
-  fprintf(outfile,"#ifndef _TRANSLATE_H\n");
-  fprintf(outfile,"#define _TRANSLATE_H\n");
+  fprintf(outfile,"#ifndef VICE_TRANSLATE_H\n");
+  fprintf(outfile,"#define VICE_TRANSLATE_H\n");
   fprintf(outfile,"\n");
   fprintf(outfile,"#include \"translate_funcs.h\"\n");
   fprintf(outfile,"\n");
