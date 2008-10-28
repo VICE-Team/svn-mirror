@@ -98,7 +98,7 @@ SOURCE=.\resc128.rc
 !IF  "$(CFG)" == "x128 - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESC1="resc128.rc"	"res.rc"	"resacia.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resmmc64.rc"	"resrs232user.rc"	"ressid.rc"	"resvicii.rc"	"resdrivec128.rc"	"resdigimax.rc"	"resmouse.rc"	"resmidi.rc"	"restfe.rc"	
+USERDEP__RESC1="..\..\debug.h"	"resc128.rc"	"res.rc"	"resacia.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resmmc64.rc"	"resrs232user.rc"	"ressid.rc"	"resvicii.rc"	"resdrivec128.rc"	"resdigimax.rc"	"resmouse.rc"	"resmidi.rc"	"restfe.rc"	
 # Begin Custom Build
 InputPath=.\resc128.rc
 
@@ -110,7 +110,7 @@ InputPath=.\resc128.rc
 !ELSEIF  "$(CFG)" == "x128 - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESC1="resc128.rc"	"res.rc"	"resacia.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resmmc64.rc"	"resrs232user.rc"	"ressid.rc"	"resvicii.rc"	"resdrivec128.rc"	"resdigimax.rc"	"resmouse.rc"	"resmidi.rc"	"restfe.rc"	
+USERDEP__RESC1="..\..\debug.h"	"resc128.rc"	"res.rc"	"resacia.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resmmc64.rc"	"resrs232user.rc"	"ressid.rc"	"resvicii.rc"	"resdrivec128.rc"	"resdigimax.rc"	"resmouse.rc"	"resmidi.rc"	"restfe.rc"	
 # Begin Custom Build
 InputPath=.\resc128.rc
 

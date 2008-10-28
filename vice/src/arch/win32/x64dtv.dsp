@@ -102,7 +102,7 @@ SOURCE=.\resc64dtv.rc
 !IF  "$(CFG)" == "x64dtv - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESC6="resc64dtv.rc"	"res.rc"	"resdrivec64.rc"	"ressid.rc"	"resvicii.rc"	
+USERDEP__RESC6="..\..\debug.h"	"resc64dtv.rc"	"res.rc"	"resdrivec64.rc"	"ressid.rc"	"resvicii.rc"	
 # Begin Custom Build
 InputPath=.\resc64dtv.rc
 
@@ -114,7 +114,7 @@ InputPath=.\resc64dtv.rc
 !ELSEIF  "$(CFG)" == "x64dtv - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESC6="resc64dtv.rc"	"res.rc"	"resdrivec64.rc"	"ressid.rc"	"resvicii.rc"	
+USERDEP__RESC6="..\..\debug.h"	"resc64dtv.rc"	"res.rc"	"resdrivec64.rc"	"ressid.rc"	"resvicii.rc"	
 # Begin Custom Build
 InputPath=.\resc64dtv.rc
 

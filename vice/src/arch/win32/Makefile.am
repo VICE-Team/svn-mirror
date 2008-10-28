@@ -389,7 +389,7 @@ resc128.o : $(srcdir)/resc128.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc \
 	$(srcdir)/resmmc64.rc $(srcdir)/reside64.rc $(srcdir)/resdrivec128.rc \
 	$(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc $(srcdir)/restfe.rc \
-	$(srcdir)/resmidi.rc
+	$(srcdir)/resmidi.rc $(top_srcdir)/src/debug.h
 	cat >resc128cat.rc $(srcdir)/resc128.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/reside64.rc $(srcdir)/resreu.rc \
 	$(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc $(srcdir)/resmmc64.rc \
@@ -409,7 +409,7 @@ resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resmmc64.rc $(srcdir)/resplus256k.rc $(srcdir)/resplus60k.rc \
 	$(srcdir)/resc64_256k.rc $(srcdir)/reside64.rc \
 	$(srcdir)/resdrivec64.rc $(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc \
-	$(srcdir)/restfe.rc $(srcdir)/resmidi.rc
+	$(srcdir)/restfe.rc $(srcdir)/resmidi.rc $(top_srcdir)/src/debug.h
 	cat >resc64cat.rc $(srcdir)/resc64.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivec64.rc \
 	$(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc \
@@ -426,7 +426,8 @@ resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	rm -f resc64.res resc64cat.rc
 
 resc64dtv.o : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h $(srcdir)/ressid.rc \
-	$(srcdir)/resvicii.rc $(srcdir)/resdrivec64.rc
+	$(srcdir)/resvicii.rc $(srcdir)/resdrivec64.rc \
+	$(top_srcdir)/src/debug.h
 	cat >resc64dtvcat.rc $(srcdir)/resc64dtv.rc $(srcdir)/res.rc \
 	$(srcdir)/resdrivec64.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc
 	$(WRC) -i resc64dtvcat.rc -o resc64dtv.res \
@@ -437,7 +438,8 @@ resc64dtv.o : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h $(srcdir)/ressid.rc 
 	rm -f resc64dtv.res resc64catdtv.rc
 
 rescbm2.o : $(srcdir)/rescbm2.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
-	$(srcdir)/ressid.rc $(srcdir)/resdrivepetcbm2.rc $(srcdir)/resvicii.rc
+	$(srcdir)/ressid.rc $(srcdir)/resdrivepetcbm2.rc \
+	$(srcdir)/resvicii.rc $(top_srcdir)/src/debug.h
 	cat >rescbm2cat.rc $(srcdir)/rescbm2.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc $(srcdir)/ressid.rc \
 	$(srcdir)/resvicii.rc
@@ -450,7 +452,7 @@ rescbm2.o : $(srcdir)/rescbm2.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 
 respet.o : $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc \
-	$(srcdir)/ressidcart.rc
+	$(srcdir)/ressidcart.rc $(top_srcdir)/src/debug.h
 	cat >respetcat.rc $(srcdir)/respet.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
 	$(srcdir)/respetreu.rc $(srcdir)/ressidcart.rc
@@ -463,7 +465,7 @@ respet.o : $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 
 resplus4.o : $(srcdir)/resplus4.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \
-	$(srcdir)/ressidcart.rc
+	$(srcdir)/ressidcart.rc $(top_srcdir)/src/debug.h
 	cat >resplus4cat.rc $(srcdir)/resplus4.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \
 	$(srcdir)/ressidcart.rc
@@ -476,7 +478,8 @@ resplus4.o : $(srcdir)/resplus4.rc $(srcdir)/res.rc res.h \
 
 resvic20.o : $(srcdir)/resvic20.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resrs232user.rc $(srcdir)/resdrivevic20.rc \
-	$(srcdir)/ressidcart.rc $(srcdir)/resmidi.rc
+	$(srcdir)/ressidcart.rc $(srcdir)/resmidi.rc \
+	$(top_srcdir)/src/debug.h
 	cat >resvic20cat.rc $(srcdir)/resvic20.rc $(srcdir)/res.rc \
 	$(srcdir)/resdrivevic20.rc $(srcdir)/resrs232user.rc \
 	$(srcdir)/ressidcart.rc $(srcdir)/resmidi.rc

@@ -98,7 +98,7 @@ SOURCE=.\resplus4.rc
 !IF  "$(CFG)" == "xplus4 - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESPL="resplus4.rc"	"res.rc"	"resacia.rc"	"resdriveplus4.rc"	"ressidcart.rc"	
+USERDEP__RESPL="..\..\debug.h"	"resplus4.rc"	"res.rc"	"resacia.rc"	"resdriveplus4.rc"	"ressidcart.rc"	
 # Begin Custom Build
 InputPath=.\resplus4.rc
 
@@ -110,7 +110,7 @@ InputPath=.\resplus4.rc
 !ELSEIF  "$(CFG)" == "xplus4 - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESPL="resplus4.rc"	"res.rc"	"resacia.rc"	"resdriveplus4.rc"	"ressidcart.rc"	
+USERDEP__RESPL="..\..\debug.h"	"resplus4.rc"	"res.rc"	"resacia.rc"	"resdriveplus4.rc"	"ressidcart.rc"	
 # Begin Custom Build
 InputPath=.\resplus4.rc
 

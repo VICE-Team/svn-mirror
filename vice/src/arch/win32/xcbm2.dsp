@@ -98,7 +98,7 @@ SOURCE=.\rescbm2.rc
 !IF  "$(CFG)" == "xcbm2 - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESCB="rescbm2.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"ressid.rc"	"resvicii.rc"	
+USERDEP__RESCB="..\..\debug.h"	"rescbm2.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"ressid.rc"	"resvicii.rc"	
 # Begin Custom Build
 InputPath=.\rescbm2.rc
 
@@ -110,7 +110,7 @@ InputPath=.\rescbm2.rc
 !ELSEIF  "$(CFG)" == "xcbm2 - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESCB="rescbm2.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"ressid.rc"	"resvicii.rc"	
+USERDEP__RESCB="..\..\debug.h"	"rescbm2.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"ressid.rc"	"resvicii.rc"	
 # Begin Custom Build
 InputPath=.\rescbm2.rc
 
