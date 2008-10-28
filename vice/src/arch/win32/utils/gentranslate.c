@@ -147,7 +147,6 @@ void generate_translate_h(char *in_filename, char *out_filename)
   }
   fprintf(outfile,"};\n");
   fprintf(outfile,"#endif\n");
-  fprintf(outfile,"#endif\n");
 
   fclose(infile);
   fclose(outfile);

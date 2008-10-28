@@ -1753,9 +1753,6 @@ IDGS_MON_TRACE_DESCRIPTION
 IDGS_MONITOR_STATE_COMMANDS
 
 /* monitor/mon_command.c */
-IDGS_R_C_R_8_R_9_R_10_R_11
-
-/* monitor/mon_command.c */
 IDGS_MON_DEVICE_DESCRIPTION
 
 /* monitor/mon_command.c */
@@ -1763,9 +1760,6 @@ IDGS_MON_EXIT_DESCRIPTION
 
 /* monitor/mon_command.c */
 IDGS_MON_QUIT_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_R_H_R_D_R_O_R_B
 
 /* monitor/mon_command.c */
 IDGS_MON_RADIX_DESCRIPTION

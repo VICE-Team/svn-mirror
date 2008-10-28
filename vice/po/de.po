@@ -586,7 +586,7 @@ msgid ""
 "Set the default radix to hex, decimal, octal, or binary.  With no\n"
 "argument, the current radix is printed."
 msgstr ""
-"Setze die Standardzahlenbasis auf Hexadezimal, Dezimal, Oktal oder Binär. "
+"Setze die Standardzahlenbasis auf Hexadezimal, Dezimal, Oktal oder Binär.\n"
 "Bei keinem Argument wird die akteulle Zahlenbasis ausgegeben."
 
 #: src/monitor/mon_command.c:348
@@ -604,8 +604,8 @@ msgstr ""
 "Steuerung, wie die vom Monitor erzeugten Lesezugriffe die Speicherzellen\n"
 "mit Lese-Seiteneffekten betreffen.\n"
 "Bei Argument \"on\" werden Lese-Seiteneffekte erzeugt.\n"
-"Bei Argument \"off\" werden keine Lese-Seiteneffekte erzeugt. \n"
-"Bei Argumenrt \"toggle\" wird das Verhalten vertauscht. \n"
+"Bei Argument \"off\" werden keine Lese-Seiteneffekte erzeugt.\n"
+"Bei Argumenrt \"toggle\" wird das Verhalten vertauscht.\n"
 "Bei keinem Argument wird das aktuelle Verhalten ausgegebene."
 
 #: src/monitor/mon_command.c:355

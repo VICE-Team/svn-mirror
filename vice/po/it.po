@@ -509,7 +509,7 @@ msgstr ""
 
 #: src/monitor/mon_command.c:302
 msgid "[<address>]"
-msgstr "<indirizzo>"
+msgstr "[<indirizzo>]"
 
 #: src/monitor/mon_command.c:303
 msgid ""

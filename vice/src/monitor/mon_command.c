@@ -309,9 +309,9 @@ static const mon_cmds_t mon_cmd_array[] = {
      "", NULL },
 
    { "device", "dev",
-     USE_PARAM_ID, USE_DESCRIPTION_ID,
-     IDGS_R_C_R_8_R_9_R_10_R_11, IDGS_MON_DEVICE_DESCRIPTION,
-     NULL, NULL },
+     USE_PARAM_STRING, USE_DESCRIPTION_ID,
+     IDGS_UNUSED, IDGS_MON_DEVICE_DESCRIPTION,
+     "[c:|8:|9:|10:|11:]", NULL },
 
    { "exit", "x",
      USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -328,9 +328,9 @@ static const mon_cmds_t mon_cmd_array[] = {
      NULL, NULL },
 
    { "radix", "rad",
-     USE_PARAM_ID, USE_DESCRIPTION_ID,
-     IDGS_R_H_R_D_R_O_R_B, IDGS_MON_RADIX_DESCRIPTION,
-     NULL, NULL },
+     USE_PARAM_STRING, USE_DESCRIPTION_ID,
+     IDGS_UNUSED, IDGS_MON_RADIX_DESCRIPTION,
+     "[H|D|O|B]", NULL },
 
    { "sidefx", "sfx",
      USE_PARAM_ID, USE_DESCRIPTION_ID,
