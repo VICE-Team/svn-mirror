@@ -570,11 +570,12 @@ static void file_system_detach_disk_single(unsigned int unit)
     vdrive_t *vdrive;
 
     vdrive = file_system_get_vdrive(unit);
-    if (vdrive != NULL)
+    if (vdrive != NULL && vdrive->image != NULL) {
         detach_disk_image_and_free(vdrive->image, vdrive, (unsigned int)unit);
+        ui_display_drive_current_image(unit - 8, "");
+    }
 
     set_file_system_device(file_system_device_enabled[unit - 8], (void *)unit);
-    ui_display_drive_current_image(unit - 8, "");
 }
 
 static void file_system_detach_disk_internal(int unit)
