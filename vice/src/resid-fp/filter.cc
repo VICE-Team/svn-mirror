@@ -152,11 +152,7 @@ void FilterFP::set_w0()
     type3_fc_kink_exp = type3_offset * expf(type3_fc_kink * type3_steepness);
     if (distortion_rate != 0.f) {
 	type3_fc_distortion_offset_hp = (distortion_point - type3_fc_kink) * (0.5f * 0.5f) / distortion_rate;
-        /* the hp offset goes through the FC resistor circuitry and is felt
-         * on the bp side inverted, so it INCREASES the threshold. The output
-         * is scaled by time + capacitor values, which correspond to the
-         * current going through the system, so we cancel them. */
-	type3_fc_distortion_offset_bp = (1.f + type3_w0(type3_fc_distortion_offset_hp/2.f, 0.f) / distortion_CT) * type3_fc_distortion_offset_hp;
+	type3_fc_distortion_offset_bp = type3_fc_distortion_offset_hp;
     }
     else {
 	type3_fc_distortion_offset_bp = 9e9;
@@ -172,5 +168,5 @@ void FilterFP::set_w0()
 void FilterFP::set_Q()
 {
   float Q = res / 15.f;
-  _1_div_Q = 1.f / (0.707f + Q * 1.45f);
+  _1_div_Q = 1.f / (0.707f + Q * 1.8f);
 }

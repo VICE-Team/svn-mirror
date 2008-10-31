@@ -1,3 +1,23 @@
+2008-10-31  Antti S. Lankila  <alankila@bel.fi>
+
+	* Sync against V25 patch version. Filter updates described below.
+
+	* Tweak filter algorithm to do some state variable mixing in the
+	  6581 code path. This corresponds with assumed output impedance of
+	  the SID "amplifiers", and is separate effect to the output strip
+	  backmixing.
+	
+	* Retire the V24 attempt of dynamically adjusting BP distortion
+	  threshold. It doesn't really seem to work.
+
+	* Increase Q value maximum to 2.5. This may be too much, but it sounds
+	  fine to me.
+
+	* JT's Star Ball was very distorted when played by V24.  This related
+	  to the hardclipping I had assumed to occur in the filter output amp,
+	  but maybe that theory is incorrect. I now only add distortion to the
+	  unfiltered voice path, but I'm not happy about it.
+
 2008-08-29  Antti S. Lankila  <alankila@bel.fi>
 
 	* Optimized resampling to be about 2x faster through using aliasing

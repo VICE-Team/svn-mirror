@@ -322,12 +322,22 @@ float FilterFP::clock(float voice1,
         Vf += Vhp;
     
     if (model == MOS6581FP) {
+        float diff1, diff2;
+
         /* -3 dB level correction for more resistance through filter path */
 	Vhp = Vbp * _1_div_Q - Vlp - Vi * 0.5f;
 
+        /* the input summer mixing, or something like it... */
+        diff1 = (Vlp - Vbp) * distortion_cf_threshold;
+        diff2 = (Vhp - Vbp) * distortion_cf_threshold;
+        Vlp -= diff1;
+        Vbp += diff1;
+        Vbp += diff2;
+        Vhp -= diff2;
+
 	/* Model output strip mixing. Doing it now that HP state
          * variable modifying still makes some difference.
-         * (Phase error, though. XXX rethink this.) */
+         * (Phase error, though.) */
 	if (hp_bp_lp & 1)
 	    Vlp += (Vf + Vnf - Vlp) * (distortion_cf_threshold);
 	if (hp_bp_lp & 2)
@@ -339,12 +349,12 @@ float FilterFP::clock(float voice1,
 	Vlp -= Vbp * type3_w0(Vbp, type3_fc_distortion_offset_bp);
 	Vbp -= Vhp * type3_w0(Vhp, type3_fc_distortion_offset_hp);
 
-        Vf += Vnf + Vlp * 0.41f;
-
         /* Tuned based on Fred Gray's Break Thru. It is probably not a hard
          * discontinuity but a saturation effect... */
-        if (Vf > 3.1e6f)
-            Vf = 3.1e6f;
+        if (Vnf > 3.2e6f)
+            Vnf = 3.2e6f;
+        
+        Vf += Vnf + Vlp * 0.41f;
     } else {
         /* On the 8580, BP appears mixed in phase with the rest. */
         Vhp = -Vbp * _1_div_Q - Vlp - Vi;
