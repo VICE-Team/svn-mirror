@@ -1593,7 +1593,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_HU, "<cím_tartomány> <adat_lista>"},
 /* it */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_IT, "<intervallo di indirizzi> <lista di dati>"},
-/* nl */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_NL, ""<adres_reeks> <data_lijst>""},
+/* nl */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_NL, "<adres_reeks> <data_lijst>"},
 /* pl */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_SV, "<adressområde> <datalista>"},
 #endif
