@@ -58,6 +58,7 @@ enum ui_keysym_s {
   KEYSYM_h = GDK_h,
   KEYSYM_i = GDK_i,
   KEYSYM_j = GDK_j,
+  KEYSYM_J = GDK_J,
   KEYSYM_k = GDK_k,
   KEYSYM_l = GDK_l,
   KEYSYM_m = GDK_m,

@@ -75,6 +75,8 @@ static UI_CALLBACK(swap_joystick_ports)
     ui_update_menus();
 }
 
+UI_MENU_DEFINE_TOGGLE(KeySetEnable)
+
 static ui_menu_entry_t set_joystick_device_1_submenu[] = {
     { N_("*None"),
       (ui_callback_t)set_joystick_device_1,
@@ -191,6 +193,8 @@ ui_menu_entry_t joystick_settings_submenu[] = {
       (ui_callback_t)ui_keyset_dialog },
     { "--" },
 #endif
+    { N_("*Allow keyset joystick"),
+      (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META },
     { N_("Swap joystick ports"),
       (ui_callback_t)swap_joystick_ports, NULL, NULL, KEYSYM_j, UI_HOTMOD_META },
     { NULL }

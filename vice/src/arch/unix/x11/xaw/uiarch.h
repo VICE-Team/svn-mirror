@@ -64,6 +64,7 @@ enum ui_keysym_s {
   KEYSYM_h = XK_h,
   KEYSYM_i = XK_i,
   KEYSYM_j = XK_j,
+  KEYSYM_J = XK_J,
   KEYSYM_k = XK_k,
   KEYSYM_l = XK_l,
   KEYSYM_m = XK_m,
