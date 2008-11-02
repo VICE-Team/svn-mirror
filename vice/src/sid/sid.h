@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _SID_ENGINE_H
-#define _SID_ENGINE_H
+#ifndef VICE_SID_ENGINE_H
+#define VICE_SID_ENGINE_H
 
 #include "types.h"
 #include "sound.h"
@@ -57,6 +57,7 @@ struct sid_snapshot_state_s;
 #define SID_MODEL_8580R5_3691D  17
 #define SID_MODEL_8580R5_1489   18
 #define SID_MODEL_8580R5_1489D  19
+#define SID_MODEL_DEFAULT       99
 
 extern BYTE REGPARM1 sid_read(WORD address);
 extern BYTE REGPARM1 sid2_read(WORD address);

@@ -3,7 +3,8 @@ c64dtvdir = $(VICEDIR)/C64DTV
 roms = \
 	basic \
 	chargen \
-	kernal
+	kernal \
+	dtvrom.bin
 
 romsets = \
 	default.vrs

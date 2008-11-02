@@ -174,6 +174,14 @@ static int set_sid_model(int val, void *param)
 
     sid_model = val;
 
+    if(sid_model == SID_MODEL_DEFAULT) {
+        if (machine_class == VICE_MACHINE_C64DTV) {
+            sid_model = SID_MODEL_DTVSID;
+        } else {
+            sid_model = SID_MODEL_6581;
+        }
+    }
+
 #if defined(HAVE_RESID) || defined(HAVE_RESID_FP)
     /* Select ReSID or ReSID-FP based on the model number */
     if (resources_get_int("SidEngine", &sidengine) < 0)
@@ -321,7 +329,7 @@ static const resource_int_t resid_resources_int[] = {
 static const resource_int_t common_resources_int[] = {
     { "SidFilters", 1, RES_EVENT_SAME, NULL,
       &sid_filters_enabled, set_sid_filters_enabled, NULL },
-    { "SidModel", 0, RES_EVENT_SAME, NULL,
+    { "SidModel", SID_MODEL_DEFAULT, RES_EVENT_SAME, NULL,
       &sid_model, set_sid_model, NULL },
     { "SidStereo", 0, RES_EVENT_SAME, NULL,
       &sid_stereo, set_sid_stereo, NULL },

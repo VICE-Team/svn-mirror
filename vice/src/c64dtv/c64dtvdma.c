@@ -407,7 +407,7 @@ void c64dtvdma_perform_dma(void)
 static int set_dma_log(int val, void *param)
 {
     dma_log_enabled = val;
-    return 1;
+    return 0;
 }
 
 static const resource_int_t resources_int[] = {

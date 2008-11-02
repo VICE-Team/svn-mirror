@@ -541,7 +541,7 @@ Public License instead of this License.
 @chapter About VICE
 
 VICE is the one and only @dfn{Versatile Commodore Emulator}.  It provides
-emulation of the Commodore C64, C128, VIC20, PET, PLUS4 and CBM-II computers
+emulation of the Commodore C64, C64DTV, C128, VIC20, PET, PLUS4 and CBM-II computers
 within a single package.  The emulators run as separate programs, but have
 the same user interface, share the same settings and support the same
 file formats.
@@ -559,13 +559,14 @@ timing.  Unlike other emulators, VICE aims to be cycle
 accurate; it tries to emulate chip timings as precisely as possible and
 does so @emph{efficiently}.
 
-Please do @emph{not} expect the C128, PET, PLUS4 and CBM-II emulators to
+Please do @emph{not} expect the C64DTV, C128, PET, PLUS4 and CBM-II emulators to
 be as good as the C64 or VIC20 one, as they are still under construction.
 
 @emph{Notice:} This documentation is written for the Unix release of VICE.
 
 @menu
 * C64 emulator features::       
+* C64DTV emulator features::    
 * C128 emulator features::      
 * VIC20 emulator features::     
 * PET emulator features::       
@@ -578,7 +579,7 @@ be as good as the C64 or VIC20 one, as they are still under construction.
 @end menu
 
 
-@node C64 emulator features, C128 emulator features, Preface, Preface
+@node C64 emulator features, C64DTV emulator features, Preface, Preface
 @section C64 emulator features
 
 The C64 emulator, called @samp{x64}, features a fairly complete
@@ -588,29 +589,37 @@ since version 0.13.0.
 
 A rather complete emulation of the SID sound chip is also provided.  All
 the basic features are implemented as well as most of the complex ones
-including synchronisation, ring modulation and filters.  There are two
-emulators of the SID chip available: one is the ``standard'' VICE
-emulator, available since VICE 0.12; the other one is Dag Lem's reSID
-engine.  The reSID engine is a lot more accurate than the standard
-engine, but it is also a lot slower, and only suitable for faster
-machines.
+including synchronisation, ring modulation and filters.  There are three
+emulators of the SID chip available: first is the ``standard'' VICE
+emulator, available since VICE 0.12; the second is Dag Lem's reSID
+engine and the third one is reSID-fp. The reSID engines are a lot more 
+accurate than the standard engine, but they are also a lot slower, and 
+only suitable for faster machines.
 
 Naturally, also both CIAs (or VIAs, in some cases) are fully emulated
 and cycle accurate.
 
 
-@node C128 emulator features, VIC20 emulator features, C64 emulator features, Preface
+@node C64DTV emulator features, C128 emulator features, C64 emulator features, Preface
+@section C64DTV emulator features
+
+The C64DTV emulator, called @samp{x64dtv}, features emulation of C64DTV
+revisions 2 and 3. The emulator is under construction, but most of the
+DTV specific features are already supported (with varying accuracy).
+
+Video cache is disabled by default as it currently doesn't work with
+some of C64DTV's new video modes. The new video modes have a simple
+"fake" video cache implementation that may give incorrect results
+and decreased performance.
+
+
+@node C128 emulator features, VIC20 emulator features, C64DTV emulator features, Preface
 @section C128 emulator features
 
 The C128 emulator, called @samp{x128}, features a complete emulation of
 the internal MMU (@dfn{Memory Management Unit}), 80 column VDC screen, fast
-IEC bus emulation, Z80 emulation plus all the features of the C64 emulation.
-The following things are missing, though:
-
-@itemize @bullet
-@item
-2 MHz mode;
-@end itemize
+IEC bus emulation, 2 MHz mode, Z80 emulation plus all the features of the 
+C64 emulation.
 
 
 @node VIC20 emulator features, PET emulator features, C128 emulator features, Preface
@@ -1084,6 +1093,9 @@ The names of the available emulators are:
 
 @item
 @code{x64}, the C64 emulator
+
+@item
+@code{x64dtv}, the C64DTV emulator
 
 @item
 @code{x128}, the C128 emulator
@@ -3545,15 +3557,17 @@ Set the device for joystick emulation of port 1 and 2, respectively
 @menu
 * C64/128-specific::            Commands and settings specific to the
                                 C64/128 emulators
+* C64DTV-specific::             Commands and settings specific to the
+                                C64DTV emulator
 * VIC20-specific::              Commands and settings specific to the
                                 VIC20 emulator
 * PET-specific::                Commands and settings specific to the
                                 PET emulator
 * CBM-II-specific::             Commands and settings specific to the
-				CBM-II emulator
+                                CBM-II emulator
 @end menu
 
-@node C64/128-specific, VIC20-specific, Machine-specific features, Machine-specific features
+@node C64/128-specific, C64DTV-specific, Machine-specific features, Machine-specific features
 @section C64/128-specific commands and settings
 
 This section lists the settings and commands that are C64/128 specific
@@ -4162,7 +4176,184 @@ Specify Kernal revision (@code{KernalRev}).
 @end table
 
 
-@node VIC20-specific, PET-specific, C64/128-specific, Machine-specific features
+@node C64DTV-specific, VIC20-specific, C64/128-specific, Machine-specific features
+@section C64DTV-specific commands and settings
+
+This section lists the settings and commands that are C64DTV specific
+and thus are not present in the other emulators.
+
+@menu
+* C64DTV ROM image::            
+* DTV revision::                
+* LumaFix::                     
+* Userport::                    
+* Debug::                       
+* Monitor DTV features::        
+@end menu
+
+
+@node C64DTV ROM image, DTV revision, C64DTV-specific, C64DTV-specific
+@subsection C64DTV ROM image
+
+The DTV has a 2MB Flash chip which contains the kernal, basic and
+character set ROMs along with other data, such as games in the case of
+the original C64DTV ROM.
+
+The image file is a dump of the flash chip. It is exactly 2MB (2097152 bytes).
+
+If you do not have a suitable image file, an image using the C64 kernal,
+basic and charset is automatically created.
+
+If writing to the C64DTV ROM is enabled, the image file is rewritten with
+the current data when exiting x64dtv.
+
+Note that x64dtv tries to load the image file from the C64DTV
+directory first, and if it isn't found there, x64dtv tries to
+load it from the current directory. If you do not have @file{dtvrom.bin}
+in your C64DTV directory and writing to DTV ROM is enabled,
+the @file{dtvrom.bin} file is created to the current directory.
+
+NOTE: The original C64DTV ROM has somewhat distorted colors,
+normally you should use a patched rom.
+
+@table @code
+
+@cindex -c64dtvromimage
+@item -c64dtvromimage NAME
+Specify @file{NAME} as the C64DTV ROM image
+
+@cindex -c64dtvromrw, +c64dtvromrw
+@item -c64dtvromrw
+@itemx +c64dtvromrw
+Enable or disable writing to C64DTV ROM image
+
+@end table
+
+The trueflashfs option is analogous to True drive emulation.  If disabled,
+any file access to the flash filesystem (device 1) will go to the local
+file system instead.
+
+@table @code
+
+@cindex -trueflashfs, +trueflashfs
+@item -trueflashfs
+@itemx +trueflashfs
+Enable or disable true hardware flash file system
+
+@cindex -fsflash
+@item -fsflash NAME
+Specify @file{NAME} as directory for flash file system device
+
+@end table
+
+
+@node DTV revision, LumaFix, C64DTV ROM image, C64DTV-specific
+@subsection DTV revision
+
+The DTV revision 2 has a bug in the Blitter. Using revision 3
+is recommended. Emulation of DTV revision 2 including Blitter
+bug is intended for testing DTV software.
+
+@table @code
+
+@cindex -dtvrev
+@item -dtvrev REVISION
+Specify DTV @file{REVISION} (2 or 3)
+
+@end table
+
+
+@node LumaFix, Userport, DTV revision, C64DTV-specific
+@subsection LumaFix
+
+The PAL C64DTVs have wrong resistors in the video output circuit,
+which causes incorrect luminances. Several hardware solutions
+("LumaFixes") have been developed to fix this flaw.
+
+The fixed video output is emulated by selecting "New Luminances".
+The unmodified C64DTV video output can be emulated with "Old Luminances".
+
+The default setting is "New Luminances".
+
+
+@node Userport, Debug, LumaFix, C64DTV-specific
+@subsection Userport
+
+The C64DTV userport emulation currently supports three devices:
+Hummer ADC, userport joystick and PS/2 mouse.
+
+The joystick that controls either the Hummer ADC or userport joystick
+can be selected using the same parameter or menu option.
+
+While using the Hummer ADC, joystick UP and DOWN are mapped to
+the Hummer buttons A and B respectively. LEFT and RIGHT set the ADCs
+output to 0 and 255. Centering the joystick results in the ADC value of 128.
+
+Currently the Hummer ADC and userport joystick are mutually exclusive.
+This means that enabling one disables the other. PS/2 mouse emulation
+can be used simultaneously with either Hummer ADC or userport joystick.
+
+@table @code
+
+@cindex -hummeradc, +hummeradc
+@item -hummeradc
+@itemx +hummeradc
+Enable or disable Hummer ADC
+
+@cindex -hummerusrjoy, +hummerusrjoy
+@item -hummerusrjoy
+@itemx +hummerusrjoy
+Enable or disable Hummer userport joystick emulation
+
+@cindex -ps2mouse, +ps2mouse
+@item -ps2mouse
+@itemx +ps2mouse
+Enable or disable PS/2 mouse on userport
+
+@end table
+
+
+@node Debug, Monitor DTV features, Userport, C64DTV-specific
+@subsection Debug
+
+Debugging information on Blitter, DMA and Flash can be enabled with command
+line parameters. This can be useful for DTV software development.
+
+@table @code
+
+@cindex -dtvblitterlog, +dtvblitterlog
+@item -dtvblitterlog
+@itemx +dtvblitterlog
+Enable or disable DTV Blitter log
+
+@cindex -dtvdmalog, +dtvdmalog
+@item -dtvdmalog
+@itemx +dtvdmalog
+Enable or disable DTV DMA log
+
+@cindex -dtvflashlog, +dtvflashlog
+@item -dtvflashlog
+@itemx +dtvflashlog
+Enable or disable DTV Flash log
+
+@end table
+
+
+@node Monitor DTV features, , Debug, C64DTV-specific
+@subsection Monitor DTV features
+
+Currently the registers A, Y and X are registers R0, R1 and R2 regardless of
+the mapping, which can be seen and modified via the registers ACM and XYM.
+
+The monitor can access all 2MB of RAM and 2MB of Flash, but only 64 kB at a time.
+The 64kB bank can be selected with "bank ram00".."ram1f" for RAM and
+"bank rom00".."rom1f" for Flash.
+
+The "load" command can load large files (>64kB) correctly if the bank is set
+to "ramXX", where XX is the starting bank (usually "bank00").
+
+
+@node VIC20-specific, PET-specific, C64DTV-specific, Machine-specific features
 @section VIC20-specific commands and settings
 
 This section lists the settings and commands that are VIC20-specific and

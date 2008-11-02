@@ -901,8 +901,9 @@ void vicii_update_video_mode(unsigned int cycle)
     	                 | ((vicii.regs[0x3c] & 0x01)<<3));
 
         if (((new_video_mode) == VICII_8BPP_FRED_MODE)
-           && ((vicii.regs[0x3c] & 0x04)==0))
+           && ((vicii.regs[0x3c] & 0x04)==0)) {
              new_video_mode = VICII_8BPP_FRED2_MODE;
+        }
 
         if (((new_video_mode) == VICII_8BPP_CHUNKY_MODE)
            && ((vicii.regs[0x3c] & 0x10)==0)) {
@@ -911,6 +912,12 @@ void vicii_update_video_mode(unsigned int cycle)
             } else {
                 new_video_mode = VICII_ILLEGAL_LINEAR_MODE;
             }
+        }
+
+        /* HACK to make vcache display gfx in chunky & the rest */
+        if ((new_video_mode >= VICII_8BPP_CHUNKY_MODE)&&
+            (new_video_mode <= VICII_8BPP_PIXEL_CELL_MODE)) {
+                vicii.raster.dont_cache = 1;
         }
 
         viciidtv_update_colorram();
@@ -1149,14 +1156,15 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
             }
 
             /* HACK to make vcache display gfx in chunky & the rest */
-            if ((vicii.raster.cache_enabled)&& 
-                (vicii.video_mode >= VICII_8BPP_CHUNKY_MODE)&&
-                (vicii.video_mode <= VICII_8BPP_PIXEL_CELL_MODE))
+            if ((vicii.video_mode >= VICII_8BPP_CHUNKY_MODE)&&
+                (vicii.video_mode <= VICII_8BPP_PIXEL_CELL_MODE)) {
                     vicii.raster.dont_cache = 1;
+            }
 
             /* HACK to fix greetings in 2008 */
-            if(vicii.video_mode == VICII_8BPP_PIXEL_CELL_MODE)
+            if(vicii.video_mode == VICII_8BPP_PIXEL_CELL_MODE) {
                 vicii_update_memory_ptrs(VICII_RASTER_CYCLE(maincpu_clk));
+            }
         }
 
 #ifdef __MSDOS__

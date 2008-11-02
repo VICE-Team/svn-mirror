@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "lib.h"
+#include "machine.h"
 #include "raster.h"
 #include "raster-resources.h"
 #include "resources.h"
@@ -40,7 +41,7 @@
 #ifdef __MSDOS__
 #define DEFAULT_VideoCache_VALUE 0
 #else
-#define DEFAULT_VideoCache_VALUE 1
+#define DEFAULT_VideoCache_VALUE 99
 #endif
 
 struct raster_resource_chip_s {
@@ -54,6 +55,14 @@ static int set_video_cache_enabled(int val, void *param)
     raster_resource_chip_t *raster_resource_chip;
 
     raster_resource_chip = (raster_resource_chip_t *)param;
+
+    if(val == 99) {
+        if (machine_class == VICE_MACHINE_C64DTV) {
+            val = 0;
+        } else {
+            val = 1;
+        }
+    }
 
     if (val >= 0)
         raster_resource_chip->video_cache_enabled = val;

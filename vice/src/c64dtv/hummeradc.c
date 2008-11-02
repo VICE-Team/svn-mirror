@@ -98,12 +98,12 @@ enum {
     ADC_NONE
 } hummeradc_command = ADC_NONE;
 
-int hummeradc_falling_edge(BYTE value)
+inline static int hummeradc_falling_edge(BYTE value)
 {
     return ((hummeradc_prev & ADC_CLOCK_BIT)&&((value & ADC_CLOCK_BIT)==0));
 }
 
-int hummeradc_rising_edge(BYTE value)
+inline static int hummeradc_rising_edge(BYTE value)
 {
     return (((hummeradc_prev & ADC_CLOCK_BIT)==0)&&(value & ADC_CLOCK_BIT));
 }
@@ -253,7 +253,7 @@ log_message(hummeradc_log, "BUG: Unknown command %i.",hummeradc_command);
     return;
 }
 
-BYTE hummeradc_read()
+BYTE hummeradc_read(void)
 {
     BYTE retval;
     retval = (hummeradc_prev & 6);
@@ -307,44 +307,46 @@ HUMMERADC_DEBUG(" read: value %02x, state %i",retval,hummeradc_state);
 
 void hummeradc_init(void)
 {
-  if(hummeradc_log == LOG_ERR)
-    hummeradc_log = log_open("HUMMERADC");
-  hummeradc_reset();
-  return;
+    if(hummeradc_log == LOG_ERR) {
+      hummeradc_log = log_open("HUMMERADC");
+    }
+    hummeradc_reset();
+    return;
 }
 
 void hummeradc_shutdown(void)
 {
-  return;
+    return;
 }
 
 void hummeradc_reset(void)
 {
-  hummeradc_state = ADC_IDLE;
-  hummeradc_command = ADC_NONE;
-  hummeradc_value = 0;
-  hummeradc_channel = 0;
-  hummeradc_control = 0;
-  hummeradc_prev = 0;
-  hummeradc_chanattr = 0;
-  hummeradc_chanwakeup = 0;
-  return;
+    hummeradc_state = ADC_IDLE;
+    hummeradc_command = ADC_NONE;
+    hummeradc_value = 0;
+    hummeradc_channel = 0;
+    hummeradc_control = 0;
+    hummeradc_prev = 0;
+    hummeradc_chanattr = 0;
+    hummeradc_chanwakeup = 0;
+    return;
 }
 
 /* ------------------------------------------------------------------------- */
 
-int hummeradc_enabled=0;
+int hummeradc_enabled = 0;
 
 static int set_hummeradc_enable(int val, void *param)
 {
-    if (c64dtv_hummer_userport_joy_enabled && val)
+    if (c64dtv_hummer_userport_joy_enabled && val) {
         resources_set_int("HummerUserportJoy",0);
-    hummeradc_enabled = (unsigned int)val;
+    }
+    hummeradc_enabled = val;
     return 0;
 }
 
 static const resource_int_t resources_int[] = {
-    { "hummeradc", 0, RES_EVENT_SAME, NULL,
+    { "HummerADC", 0, RES_EVENT_SAME, NULL,
       &hummeradc_enabled, set_hummeradc_enable, NULL },
     { NULL }
 };
@@ -357,12 +359,12 @@ int hummeradc_resources_init(void)
 static const cmdline_option_t cmdline_options[] =
 {
     { "-hummeradc", SET_RESOURCE, 0,
-      NULL, NULL, "hummeradc", (void *)1,
+      NULL, NULL, "HummerADC", (void *)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_ENABLE_HUMMERADC,
       NULL, NULL },
     { "+hummeradc", SET_RESOURCE, 0,
-      NULL, NULL, "hummeradc", (void *)0,
+      NULL, NULL, "HummerADC", (void *)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_HUMMERADC,
       NULL, NULL },
@@ -371,5 +373,5 @@ static const cmdline_option_t cmdline_options[] =
 
 int hummeradc_cmdline_options_init(void)
 {
-  return cmdline_register_options(cmdline_options);
+    return cmdline_register_options(cmdline_options);
 }

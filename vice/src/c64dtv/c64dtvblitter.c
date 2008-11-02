@@ -504,7 +504,7 @@ static int set_dtvrevision(int val, void *param)
 static int set_blitter_log(int val, void *param)
 {
     blitter_log_enabled = val;
-    return 1;
+    return 0;
 }
 
 static const resource_int_t resources_int[] = {
