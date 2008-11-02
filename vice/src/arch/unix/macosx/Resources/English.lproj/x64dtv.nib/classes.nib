@@ -104,6 +104,8 @@
 				<string>id</string>
 				<key>toggleEmuID</key>
 				<string>id</string>
+				<key>toggleKeySetEnable</key>
+				<string>id</string>
 				<key>toggleMachineVideoStandard</key>
 				<string>id</string>
 				<key>togglePause</key>
@@ -130,6 +132,8 @@
 				<key>confirmOnExitMenuItem</key>
 				<string>NSMenuItem</string>
 				<key>emuIDMenuItem</key>
+				<string>NSMenuItem</string>
+				<key>keySetEnableMenuItem</key>
 				<string>NSMenuItem</string>
 				<key>machineVideoStandardMenu</key>
 				<string>NSMenu</string>

@@ -235,6 +235,16 @@ static int joyreleaseval(int column, int *status)
     return ~val;
 }
 
+/* toggle keyset joystick. 
+   this disables any active key-based joystick and is useful for typing. */
+static int joykeys_enable = 0;
+
+static int set_joykeys_enable(int val, void *param)
+{
+  joykeys_enable = val;
+  return 0;
+}
+
 #define DEFINE_SET_KEYSET(num)                       \
     static int set_keyset##num(int val, void *param) \
     {                                                \
@@ -283,12 +293,18 @@ static const resource_int_t resources_int[] = {
       &joykeys[2][KEYSET_W], set_keyset2, (void *)KEYSET_W },
     { "KeySet2Fire", 0, RES_EVENT_NO, NULL,
       &joykeys[2][KEYSET_FIRE], set_keyset2, (void *)KEYSET_FIRE },
+    { "KeySetEnable", 1, RES_EVENT_NO, NULL,
+      &joykeys_enable, set_joykeys_enable, NULL },
     { NULL }
 };
 
 int joystick_check_set(signed long key, int keysetnum, unsigned int joyport)
 {
     int column;
+
+    /* if joykeys are disabled then ignore key sets */
+    if(!joykeys_enable)
+      return 0;
 
     for (column = 0; column < 9; column++) {
         if (key == joykeys[keysetnum][column]) {
@@ -310,6 +326,10 @@ int joystick_check_set(signed long key, int keysetnum, unsigned int joyport)
 int joystick_check_clr(signed long key, int keysetnum, unsigned int joyport)
 {
     int column;
+
+    /* if joykeys are disabled then ignore key sets */
+    if(!joykeys_enable)
+      return 0;
 
     for (column = 0; column < 9; column++) {
         if (key == joykeys[keysetnum][column]) {

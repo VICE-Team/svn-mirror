@@ -833,7 +833,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_COMMAND_S_UNKNOWN_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_COMMAND_S_UNKNOWN_HU, "`%s' parancs ismeretlen.\n"},
 /* it */ {IDGS_COMMAND_S_UNKNOWN_IT, "Comando `%s' sconosciuto.\n"},
-/* nl */ {IDGS_COMMAND_S_UNKNOWN_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_COMMAND_S_UNKNOWN_NL, "Commando %s' is onbekent"},
 /* pl */ {IDGS_COMMAND_S_UNKNOWN_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_COMMAND_S_UNKNOWN_SV, ""},  /* fuzzy */
 #endif
@@ -845,7 +845,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_NO_HELP_AVAILABLE_FOR_S_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_NO_HELP_AVAILABLE_FOR_S_HU, "Nincs súgó a `%s' parancshoz\n"},
 /* it */ {IDGS_NO_HELP_AVAILABLE_FOR_S_IT, "Nessun help disponibile per `%s'\n"},
-/* nl */ {IDGS_NO_HELP_AVAILABLE_FOR_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_NO_HELP_AVAILABLE_FOR_S_NL, "Geen help beschikbaar voor `%s'\n"},
 /* pl */ {IDGS_NO_HELP_AVAILABLE_FOR_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_NO_HELP_AVAILABLE_FOR_S_SV, ""},  /* fuzzy */
 #endif
@@ -857,7 +857,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_SYNTAX_S_S_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_SYNTAX_S_S_HU, "\nSzintaxis: %s %s\n"},
 /* it */ {IDGS_SYNTAX_S_S_IT, "\nSintassi: %s %s\n"},
-/* nl */ {IDGS_SYNTAX_S_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_SYNTAX_S_S_NL, "\nSyntax: %s %s\n"},
 /* pl */ {IDGS_SYNTAX_S_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_SYNTAX_S_S_SV, ""},  /* fuzzy */
 #endif
@@ -869,7 +869,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_ABBREVIATION_S_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_ABBREVIATION_S_HU, "Rövidítés: %s\n"},
 /* it */ {IDGS_ABBREVIATION_S_IT, "Abbreviazione: %s\n"},
-/* nl */ {IDGS_ABBREVIATION_S_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_ABBREVIATION_S_NL, "Afkorting: %s\n"},
 /* pl */ {IDGS_ABBREVIATION_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_ABBREVIATION_S_SV, ""},  /* fuzzy */
 #endif
@@ -881,7 +881,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_AVAILABLE_COMMANDS_ARE_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_AVAILABLE_COMMANDS_ARE_HU, "Lehetséges parancsok:"},
 /* it */ {IDGS_AVAILABLE_COMMANDS_ARE_IT, "I comandi disponibili sono:"},
-/* nl */ {IDGS_AVAILABLE_COMMANDS_ARE_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_AVAILABLE_COMMANDS_ARE_NL, "Beschikbare commandos zijn:"},
 /* pl */ {IDGS_AVAILABLE_COMMANDS_ARE_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_AVAILABLE_COMMANDS_ARE_SV, "Tillgängliga kommandon:"},
 #endif
@@ -893,7 +893,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_MACHINE_STATE_COMMANDS_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MACHINE_STATE_COMMANDS_HU, "Gép állapot parancsok:"},
 /* it */ {IDGS_MACHINE_STATE_COMMANDS_IT, "Comandi di stato del computer:"},
-/* nl */ {IDGS_MACHINE_STATE_COMMANDS_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MACHINE_STATE_COMMANDS_NL, "Machine staat commandos:"},
 /* pl */ {IDGS_MACHINE_STATE_COMMANDS_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MACHINE_STATE_COMMANDS_SV, "Kommandon för maskinstatus:"},
 #endif
@@ -905,7 +905,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_RP_MEMSPACE_R_BANKNAME_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_RP_MEMSPACE_R_BANKNAME_HU, "[<memória tér>] [lap név]"},
 /* it */ {IDGS_RP_MEMSPACE_R_BANKNAME_IT, "[<spazio di memoria>] [nome banco]"},
-/* nl */ {IDGS_RP_MEMSPACE_R_BANKNAME_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_MEMSPACE_R_BANKNAME_NL, "[<geheugenruimte>] [banknaam]"},
 /* pl */ {IDGS_RP_MEMSPACE_R_BANKNAME_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_RP_MEMSPACE_R_BANKNAME_SV, "[<minnesområde>] [banknamn]"},
 #endif
@@ -924,7 +924,9 @@ translate_t string_table[] = {
                                         "possibili per lo spazio di memoria.\n"
                                         "Se viene specificato il nome del banco, imposta il banco attuale nello\n"
                                         "spazio di memoria specificato."},
-/* nl */ {IDGS_MON_BANK_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_BANK_DESCRIPTION_NL, "Wanneer de banknaam niet is opgegeven, toon de mogelijke banken voor de geheugen-\n"
+                                        "ruimte. Wanneer de banknaam is opgegeven, zet de huidige bank in de geheugen-\"
+                                        "ruimte naar de opgegeven bank."},
 /* pl */ {IDGS_MON_BANK_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_BANK_DESCRIPTION_SV, "Om banknamn inte anges, skriv ut möjliga bankar för minnesområdet.\n"
                                         "Om banknamn anges, sätt aktuell bank i minnesområdet till den givna\n"
@@ -946,7 +948,9 @@ translate_t string_table[] = {
 /* it */ {IDGS_MON_BACKTRACE_DESCRIPTION_IT, "Stampa la catena di chiamate JSR (la chiamata più recente per prima).\n"
                                              "L'offset dello stack relativo a SP+1 è stampato tra parentesi. Questo è\n"
                                              "solo l'ipotesi migliore."},
-/* nl */ {IDGS_MON_BACKTRACE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_BACKTRACE_DESCRIPTION_NL, "Toon JSR aanvraag ketting (meest recente aanvraag eerst). De stack offset\n
+                                             "relatief ten opzichte van SP+1 zal binnen aanhalingstekens worden getoond.\n
+                                             "Dit is alleen de beste schatting"},
 /* pl */ {IDGS_MON_BACKTRACE_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_BACKTRACE_DESCRIPTION_SV, "Skriv JSR-anropskedja (senaste anrop först). Stackavstånd\n"
                                              "relativt till SP+1 visas inom parantes. Detta är bara en\n"
@@ -960,7 +964,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_MON_CPU_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_CPU_DESCRIPTION_HU, "A processzor típusának megadása (6502/z80)."},
 /* it */ {IDGS_MON_CPU_DESCRIPTION_IT, "Specifica il tipo di CPU utilizzata al momento (6502/z80)."},
-/* nl */ {IDGS_MON_CPU_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_CPU_DESCRIPTION_NL, "Geef het soort van de huidige CPU (6502/z80)."},
 /* pl */ {IDGS_MON_CPU_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_CPU_DESCRIPTION_SV, "Ange typ av CPU som används för närvarande (6502/z80)."},
 #endif
@@ -972,7 +976,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_RP_COUNT_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_RP_COUNT_HU, "[<darab>]"},
 /* it */ {IDGS_RP_COUNT_IT, "[<contatore>]"},
-/* nl */ {IDGS_RP_COUNT_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_COUNT_NL, "[<aantal>]"},
 /* pl */ {IDGS_RP_COUNT_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_RP_COUNT_SV, "[<antal>]"},
 #endif
@@ -984,7 +988,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_MON_CPUHISTORY_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_CPUHISTORY_DESCRIPTION_HU, "<darab> utoljára végrehajtott utasítás mutatása."},
 /* it */ {IDGS_MON_CPUHISTORY_DESCRIPTION_IT, "Mostra gli ultimi <contatore> comandi eseguiti."},
-/* nl */ {IDGS_MON_CPUHISTORY_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_CPUHISTORY_DESCRIPTION_NL, "Toon laatst <aantal> uitgevoerde commandos."},
 /* pl */ {IDGS_MON_CPUHISTORY_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_CPUHISTORY_DESCRIPTION_SV, "Visa <antal> senast exekverade kommandon."},
 #endif
@@ -996,7 +1000,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_QP_FILENAME_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_QP_FILENAME_HU, "\"<fájlnév>\""},
 /* it */ {IDGS_QP_FILENAME_IT, "\"<nome del file>\""},
-/* nl */ {IDGS_QP_FILENAME_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_QP_FILENAME_NL, "\"<bestandsnaam>\""},
 /* pl */ {IDGS_QP_FILENAME_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_QP_FILENAME_SV, "\"<filnamn>\""},
 #endif
@@ -1016,7 +1020,10 @@ translate_t string_table[] = {
 /* it */ {IDGS_MON_DUMP_DESCRIPTION_IT, "Scrive uno snapshot del computer sul file specificato.\n"
                                         "Questo snapshot è compatibile con uno snapshot scritto dall'IU.\n"
                                         "Nota: Le immagini ROM non sono incluse nel dump."},
-/* nl */ {IDGS_MON_DUMP_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_DUMP_DESCRIPTION_NL, "Schrijf een momentopname van de machine naar de opgegeven bestand.\n"
+                                        "Deze momentopname is compatibel met een momentopname zoals geschreven van\n"
+                                        "uit het menu.\n"
+                                        "NB: ROM bestanden zijn niet opgenomen in de momentopname."},
 /* pl */ {IDGS_MON_DUMP_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_DUMP_DESCRIPTION_SV, "Skriv en ögonblicksbild av maskinen till den angivna filen.\n"
                                         "Ögonblicksbilden är kompatibel med de som skapas från menyn.\n"
@@ -1030,7 +1037,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_P_ADDRESS_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_P_ADDRESS_HU, "<cím>"},
 /* it */ {IDGS_P_ADDRESS_IT, "<indirizzo>"},
-/* nl */ {IDGS_P_ADDRESS_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_P_ADDRESS_NL, "<Adres"},
 /* pl */ {IDGS_P_ADDRESS_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_P_ADDRESS_SV, "<adress>"},
 #endif
@@ -1042,7 +1049,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_MON_GOTO_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_GOTO_DESCRIPTION_HU, "A PC állítása ADDRESS címre és folytatás"},
 /* it */ {IDGS_MON_GOTO_DESCRIPTION_IT, "Cambia il PC in INDIRIZZO e continua l'esecuzione"},
-/* nl */ {IDGS_MON_GOTO_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_GOTO_DESCRIPTION_NL, "Zet de PC naar ADRES en ga door met de uitvoering van instructies."},
 /* pl */ {IDGS_MON_GOTO_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_GOTO_DESCRIPTION_SV, "Ändra PC till ADRESS och fortsätt exekveringen"},
 #endif
@@ -1054,7 +1061,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_MON_IO_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_IO_DESCRIPTION_HU, "Az emulált gép I/O tartományának mutatása."},
 /* it */ {IDGS_MON_IO_DESCRIPTION_IT, "Stampa l'area di I/O del computer emulato."},
-/* nl */ {IDGS_MON_IO_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_IO_DESCRIPTION_NL, "Toon de I/O geheugenruimte van de huidige machine."},
 /* pl */ {IDGS_MON_IO_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_IO_DESCRIPTION_SV, "Skriv I/O-området för den emulerade maskinen."},
 #endif
@@ -1070,7 +1077,8 @@ translate_t string_table[] = {
                                         "utasításnak tekinti."},
 /* it */ {IDGS_MON_NEXT_DESCRIPTION_IT, "Passa alla prossima istruzione. Le subrutine sono trattate come\n"
                                         "una singola istruzione."},
-/* nl */ {IDGS_MON_NEXT_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_NEXT_DESCRIPTION_NL, "Ga naar de volgende instructie. Subroutines worden behandled als een\n"
+                                        "enkele instructie."},
 /* pl */ {IDGS_MON_NEXT_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_NEXT_DESCRIPTION_SV, "Gå till nästa instruktion. Underrutiner hanteras som en\n"
                                         "enda instruktion."},
@@ -1083,7 +1091,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_RP_REG_NAME_P_NUMBER_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_RP_REG_NAME_P_NUMBER_HU, "[<reg_név> = <szám> [, <reg_név> = <szám>]*]"},
 /* it */ {IDGS_RP_REG_NAME_P_NUMBER_IT, "[<nome registro> = <numero> [, <nome registro> = <numero>]*]"},
-/* nl */ {IDGS_RP_REG_NAME_P_NUMBER_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_REG_NAME_P_NUMBER_NL, "[<Register_naam> = <nummer> [, <register_naam> = <nummer>]*]"},
 /* pl */ {IDGS_RP_REG_NAME_P_NUMBER_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_RP_REG_NAME_P_NUMBER_SV, "[<regnamn> = <tal> [, <regnamn> = <tal>]*]"},
 #endif
@@ -1098,7 +1106,8 @@ translate_t string_table[] = {
                                              "tartalmának kiírása."},
 /* it */ {IDGS_MON_REGISTERS_DESCRIPTION_IT, "Assegna i rispettivi registri. Senza parametri, mostra i valori dei\n"
                                              "registri."},
-/* nl */ {IDGS_MON_REGISTERS_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_REGISTERS_DESCRIPTION_NL, "Vul opgegeven registers met de toebehorende waarde. Zonder parameter, toon\n"
+                                             "de huidige waarden in de registers."},
 /* pl */ {IDGS_MON_REGISTERS_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_REGISTERS_DESCRIPTION_SV, "Tilldela respektive register. Utan parametrar visas innehållet\n"
                                              "i registren."},
@@ -1111,7 +1120,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_RP_TYPE_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_RP_TYPE_HU, "[<típus>]"},
 /* it */ {IDGS_RP_TYPE_IT, "[<typo>]"},
-/* nl */ {IDGS_RP_TYPE_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_TYPE_NL, "[<soort>]"},
 /* pl */ {IDGS_RP_TYPE_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_RP_TYPE_SV, "[<typ>]"},
 #endif
@@ -1123,7 +1132,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_MON_RESET_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_RESET_DESCRIPTION_HU, "A számítógép vagy meghajtó újraindítása. Típus: 0 = meleg, 1 = hideg, 8-11 = meghajtó."},
 /* it */ {IDGS_MON_RESET_DESCRIPTION_IT, "Resetta il computer o il drive. Tipo: 0 = soft, 1 = hard, 8-11 = drive."},
-/* nl */ {IDGS_MON_RESET_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_RESET_DESCRIPTION_NL, "Reset de machine of drive. Soort: 0 = zacht, 1 = hard, 8-11 = drive."},
 /* pl */ {IDGS_MON_RESET_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_RESET_DESCRIPTION_SV, "Återställ maskinen eller diskettstationen. Typ: 0 = mjuk, 1 = hård,\n"
                                          "8-11 = diskettstation."},
@@ -1139,7 +1148,8 @@ translate_t string_table[] = {
                                           "RTS vagy RTI utasítás elõtt."},
 /* it */ {IDGS_MON_RETURN_DESCRIPTION_IT, "Continua l'esecuzione e ritorna al monitor subito prima della prossima\n"
                                           "esecuzione di RTS o RTI."},
-/* nl */ {IDGS_MON_RETURN_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_RETURN_DESCRIPTION_NL, "Ga door met uitvoeren van instructies en kom terug naar de monitor net voor de\n"
+                                          "volgende RTS of RTI wordt uitgevoerd."},
 /* pl */ {IDGS_MON_RETURN_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_RETURN_DESCRIPTION_SV, "Fortsätt exekveringen och återgå till monitorn precis innan nästa\n"
                                           "RTS eller RTI exekveras."},
@@ -1152,7 +1162,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_MON_SCREEN_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_SCREEN_DESCRIPTION_HU, "A képernyõ tartalmának mutatása."},
 /* it */ {IDGS_MON_SCREEN_DESCRIPTION_IT, "Mostra il contenuto dello schermo."},
-/* nl */ {IDGS_MON_SCREEN_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_SCREEN_DESCRIPTION_NL, "Toont de inhoud van het scherm."},
 /* pl */ {IDGS_MON_SCREEN_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_SCREEN_DESCRIPTION_SV, "Visar skärmens innehåll."},
 #endif
@@ -1168,7 +1178,8 @@ translate_t string_table[] = {
                                         "ha több utasítást kell ugrani egyszerre."},
 /* it */ {IDGS_MON_STEP_DESCRIPTION_IT, "Modalità single step attraverso le istruzioni. Il CONTATORE permette\n"
                                         "di attraversare più di una singola istruzione per volta."},
-/* nl */ {IDGS_MON_STEP_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_STEP_DESCRIPTION_NL, "Enkel-stap door de instructies.  AANTAL zorgt ervoor dat er meerdere\n"
+                                        "instucties worden uitgevoerd in een keer."},
 /* pl */ {IDGS_MON_STEP_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_STEP_DESCRIPTION_SV, "Stega genom instruktioner. ANTAL gör det möjligt att stega\n"
                                         "genom mer än en enkel instruktion i varje steg."},
@@ -1181,7 +1192,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_MON_UNDUMP_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_UNDUMP_DESCRIPTION_HU, "A pillanatkép betöltése a megadott fájlból."},
 /* it */ {IDGS_MON_UNDUMP_DESCRIPTION_IT, "Legge lo snapshot del computer dal file specificato."},
-/* nl */ {IDGS_MON_UNDUMP_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_UNDUMP_DESCRIPTION_NL, "Lees een momentopname voor de machine van het opgegeven bestand."},
 /* pl */ {IDGS_MON_UNDUMP_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_UNDUMP_DESCRIPTION_SV, "Läs en ögonblicksbild för maskinen från den angivna filen."},
 #endif
@@ -1193,7 +1204,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_SYMBOL_TABLE_COMMANDS_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_SYMBOL_TABLE_COMMANDS_HU, "Szimbólum táblázat parancsok:"},
 /* it */ {IDGS_SYMBOL_TABLE_COMMANDS_IT, "Comandi tabella dei simboli:"},
-/* nl */ {IDGS_SYMBOL_TABLE_COMMANDS_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_SYMBOL_TABLE_COMMANDS_NL, "Symbool tabel commandos:"},
 /* pl */ {IDGS_SYMBOL_TABLE_COMMANDS_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_SYMBOL_TABLE_COMMANDS_SV, "Kommandon för symboltabell:"},
 #endif
@@ -1205,7 +1216,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_HU, "[<memória tér>] <cím> <címke>"},
 /* it */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_IT, "[<spazio di memoria>] <indirizzo> <etichetta>"},
-/* nl */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_NL, "[<geheugenruimte>] <adres> <label>"},
 /* pl */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_SV, "[<minnesområde>] <adress> <etikett>"},
 #endif
@@ -1242,7 +1253,13 @@ translate_t string_table[] = {
                                              "essere usata quando si inserisce codice assembly ed è mostrata\n"
                                              "nella disassemblazione. In aggiunta, può essere usata ogni volta che\n"
                                              "deve essere specificato un indirizzo."},
-/* nl */ {IDGS_MON_ADD_LABEL_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_ADD_LABEL_DESCRIPTION_NL, "<geheugenruimte> is een van: C: 8: 9: 10: 11:\n"
+                                             "<adres>          is het adres waaraan de label gekoppelt moet worden.\n"
+                                             "<label>          is de naam van de label; de naam moet beginnen met een punt\n"
+                                             "                 (\".\").\n\n"
+                                             "Koppel een opgegeven adres aan een label. Dit label kan worden gebruikt bij\n"
+                                             "het invoeren van assembleer code en wordt getoont bij een disassemblering.\n"
+                                             "Tevens kan de label gebruikt worden in plaats van het adres."},
 /* pl */ {IDGS_MON_ADD_LABEL_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_ADD_LABEL_DESCRIPTION_SV, "<minnesområde> är en av: C: 8: 9: 10: 11:\n"
                                              "<adress>       är adressen som ska få etiketten.\n"
@@ -1260,7 +1277,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_RP_MEMSPACE_P_LABEL_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_RP_MEMSPACE_P_LABEL_HU, "[<memória tartomány>] <címke>"},
 /* it */ {IDGS_RP_MEMSPACE_P_LABEL_IT, "[<spazio di memoria>] <etichetta>"},
-/* nl */ {IDGS_RP_MEMSPACE_P_LABEL_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_MEMSPACE_P_LABEL_NL, "[<geheugenruimte>] <label>"},
 /* pl */ {IDGS_RP_MEMSPACE_P_LABEL_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_RP_MEMSPACE_P_LABEL_SV, "[<minnesområde>] <etikett>"},
 #endif
@@ -1283,7 +1300,10 @@ translate_t string_table[] = {
                                                 "<etichetta> è il nome dell'etichetta; deve iniziare con un punto (\".\").\n"
                                                 "\n"
                                                 "Cancella una etichetta definita precedentemente."},
-/* nl */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_NL, "<geheugenruimte> is een van: C: 8: 9: 10: 11:\n"
+                                                "<label>          is de naam van de label; de naam moet beginnen met een\n"
+                                                "punt (\".\").\n\n"
+                                                "Verwijder een gekoppelde label."},
 /* pl */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_SV, "<minnesområde> är en av: C: 8: 9: 10: 11:\n"
                                                 "<etikett>      är namnet på etiketten; måste starta med punkt (\".\").\n"
@@ -1298,7 +1318,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_RP_MEMSPACE_QP_FILENAME_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_RP_MEMSPACE_QP_FILENAME_HU, "[<memória tartomány>] \"<fájlnév>\""},
 /* it */ {IDGS_RP_MEMSPACE_QP_FILENAME_IT, "[<spazio di memoria>] \"<nome file>\""},
-/* nl */ {IDGS_RP_MEMSPACE_QP_FILENAME_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_MEMSPACE_QP_FILENAME_NL, "[<geheugenruimte>] \"<bestandsnaam>\""},
 /* pl */ {IDGS_RP_MEMSPACE_QP_FILENAME_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_RP_MEMSPACE_QP_FILENAME_SV, "[<minnesområde>] \"<filnamn>\""},
 #endif
@@ -1326,7 +1346,10 @@ translate_t string_table[] = {
                                                "\n"
                                                "Il formato del file è quello dato in output dal comando `save_labels';\n"
                                                "è composto da alcuni comandi `add_label', scritti uno di seguito all'altro."},
-/* nl */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_NL, "Laad een bestand met de koppelingen tussen labels en adressen. Als er geen\n"
+                                               "geheugenruimte is opgegeven zal de standaard geheugenruimte worden gebruikt.\n"
+                                               "Het formaat van het bestand is die door het commando 'save_labels' wordt\n"
+                                               "geschreven; het bestaat uit een aantal 'add_label' commandos na elkaar."},
 /* pl */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_SV, "Läs in en fil som innehåller koppling från etiketter till adresser.\n"
                                                "Om inget minnesområde anges användas standard-läsadressen.\n"
@@ -1346,7 +1369,8 @@ translate_t string_table[] = {
                                                "összes címkét menti."},
 /* it */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_IT, "Salva le etichette su file. Se non è specificato alcuno spazio di memoria,\n"
                                                "vengono salvate tutte le etichette."},
-/* nl */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_NL, "Sla de labels op in een bestand. Als er geen geheugenruimte is opgegeven\n"
+                                               "worden alle labels opgeslagen."},
 /* pl */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_SV, "Spara etiketter till en fil. Om inget minnesområde anges sparas alla\n"
                                                "etiketterna."},
@@ -1359,7 +1383,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_RP_MEMSPACE_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_RP_MEMSPACE_HU, "[<memória tartomány>]"},
 /* it */ {IDGS_RP_MEMSPACE_IT, "[<spazio di memoria>]"},
-/* nl */ {IDGS_RP_MEMSPACE_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_MEMSPACE_NL, "[<geheugenruimte>]"},
 /* pl */ {IDGS_RP_MEMSPACE_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_RP_MEMSPACE_SV, "[<minnesområde>]"},
 #endif
@@ -1375,7 +1399,8 @@ translate_t string_table[] = {
                                                "összeset mutatja."},
 /* it */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_IT, "Mostra l'associazione delle etichette correnti. Se non è specificato alcun\n"
                                                "spazio di memoria, verranno mostrate tutte le etichette."},
-/* nl */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_NL, "Toon huidige label koppelingen. Als er geen geheugenruimte is opgegeven\n"
+                                               "worden all labels getoont."},
 /* pl */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_SV, "Visar aktuella etiketter. Om inget minnesområde anges visas alla\n"
                                                "etiketter."},
@@ -1388,7 +1413,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_HU, "Assembler és memória parancsok:"},
 /* it */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_IT, "Comandi assembler e memoria:"},
-/* nl */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_NL, "Assembler en geheugen commandos:"},
 /* pl */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_SV, "Assembler- och minneskommandon:"},
 #endif
@@ -1400,7 +1425,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_RP_ADDRESS_P_DATA_LIST_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_RP_ADDRESS_P_DATA_LIST_HU, "[<cím>] <adat_lista>"},
 /* it */ {IDGS_RP_ADDRESS_P_DATA_LIST_IT, "[<indirizzo>] <lista di dati>"},
-/* nl */ {IDGS_RP_ADDRESS_P_DATA_LIST_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_ADDRESS_P_DATA_LIST_NL, "[<adres>] <data_lijst>"},
 /* pl */ {IDGS_RP_ADDRESS_P_DATA_LIST_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_RP_ADDRESS_P_DATA_LIST_SV, "[<adress>] <datalista>"},
 #endif
@@ -1412,7 +1437,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_MON_WRITE_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_WRITE_DESCRIPTION_HU, "A megadott adat `cím' helyre írása."},
 /* it */ {IDGS_MON_WRITE_DESCRIPTION_IT, "Scrive il dato specificato all'indirizzo."},
-/* nl */ {IDGS_MON_WRITE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_WRITE_DESCRIPTION_NL, "Schrijf de opgegevem data op `adres'."},
 /* pl */ {IDGS_MON_WRITE_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_WRITE_DESCRIPTION_SV, "Skriv angiven data på \"adress\"."},
 #endif
@@ -1424,7 +1449,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_P_ADDRESS_RP_INSTRUCTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_P_ADDRESS_RP_INSTRUCTION_HU, "<cím> [ <utasítás> [: <utasítás>]* ]"},
 /* it */ {IDGS_P_ADDRESS_RP_INSTRUCTION_IT, "<indirizzo> [ <istruzione> [: <istruzione>]* ]"},
-/* nl */ {IDGS_P_ADDRESS_RP_INSTRUCTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_P_ADDRESS_RP_INSTRUCTION_NL, "<adres> [ <instructie> [: <instructie>]* ]"},
 /* pl */ {IDGS_P_ADDRESS_RP_INSTRUCTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_P_ADDRESS_RP_INSTRUCTION_SV, "<adress> [ <instruktion> [: <instruktion>]* ]"},
 #endif
@@ -1443,7 +1468,9 @@ translate_t string_table[] = {
 /* it */ {IDGS_MON_ASSEMBLE_DESCRIPTION_IT, "Assembla le istruzioni a partire dall'indirizzo specificato. Se solo una\n"
                                             "istruzione è specificata, entra in modalità assembly (inserire una\n"
                                             "linea vuota per uscire da questa modalità)."},
-/* nl */ {IDGS_MON_ASSEMBLE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_ASSEMBLE_DESCRIPTION_NL, "Assembleer instructies naar het opgegeven adres. Als er alleen een instructie\n"
+                                            "is opgegeven dan wordt de assembleer modus ingeschakelt (geef een lege regel\n"
+                                            "in om de assembleer modus te verlaten)."},
 /* pl */ {IDGS_MON_ASSEMBLE_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_ASSEMBLE_DESCRIPTION_SV, "Assemblera instruktioner till angiven adress. Om endast en\n"
                                             "instruktion angavs, aktivera assemblerläge (mata in en tom rad\n"
@@ -1457,7 +1484,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_HU, "<címtartomány> <cím>"},
 /* it */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_IT, "<intervallo indirizzi> <indirizzo>"},
-/* nl */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_NL, "<adres_reeks> <adres>"},
 /* pl */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_SV, "<adressområde> <adress>"},
 #endif
@@ -1478,7 +1505,9 @@ translate_t string_table[] = {
                                            "indirizzi con la destinazione specificata dall'indirizzo. Le regioni possono\n"
                                            "sovrapporsi. Qualsiasi valore che non corrisponde è visualizzato\n"
                                            "utilizzando il tipo di dato predefinito."},
-/* nl */ {IDGS_MON_COMPARE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_COMPARE_DESCRIPTION_NL, "Vergelijk geheugen van de bron opgegeven door de adres reeks met het doel\n"
+                                           "opgegeven door het adres. De reeksen mogen overlappen. De data die niet\n"
+                                           "gelijk is zal worden getoont volgens de huidige toon soort."},
 /* pl */ {IDGS_MON_COMPARE_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_COMPARE_DESCRIPTION_SV, "Jämför minne från källan som anges av adressområdet mot destinationen\n"
                                            "som anges av adressen. Områdena kan vara överlappande. Alla värden\n"
@@ -1492,7 +1521,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_P_CHECKNUM_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_P_CHECKNUM_HU, "<ell_pont_szám>"},
 /* it */ {IDGS_P_CHECKNUM_IT, "<checknum>"},
-/* nl */ {IDGS_P_CHECKNUM_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_P_CHECKNUM_NL, "<checknum>"},
 /* pl */ {IDGS_P_CHECKNUM_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_P_CHECKNUM_SV, "<kontrollnr>"},
 #endif
@@ -1504,7 +1533,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_MON_DELETE_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_DELETE_DESCRIPTION_HU, "`ell_pont_szám' ellenõrzési pont törlése."},
 /* it */ {IDGS_MON_DELETE_DESCRIPTION_IT, "Cancella il punto di controllo `checknum'."},
-/* nl */ {IDGS_MON_DELETE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_DELETE_DESCRIPTION_NL, "Verwijder checkpunt `checknum'."},
 /* pl */ {IDGS_MON_DELETE_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_DELETE_DESCRIPTION_SV, "Ta bort kontrollpunkt \"kontrollnr\"."},
 #endif
@@ -1516,7 +1545,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_RP_ADDRESS_RP_ADDRESS_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_RP_ADDRESS_RP_ADDRESS_HU, "[<cím> [<cím>]]"},
 /* it */ {IDGS_RP_ADDRESS_RP_ADDRESS_IT, "[<indirizzo> [<indirizzo>]]"},
-/* nl */ {IDGS_RP_ADDRESS_RP_ADDRESS_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_ADDRESS_RP_ADDRESS_NL, "[<adres> [<adres>]]"},
 /* pl */ {IDGS_RP_ADDRESS_RP_ADDRESS_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_RP_ADDRESS_RP_ADDRESS_SV, "[<adress> [<adress>]]"},
 #endif
@@ -1544,7 +1573,12 @@ translate_t string_table[] = {
                                           "il numero di istruzioni predefinito. Se non viene specificato nessun\n"
                                           "indirizzo, viene disassemblato il numero di istruzioni predefinito\n"
                                           "dall'indirizzo dot."},
-/* nl */ {IDGS_MON_DISASS_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_DISASS_DESCRIPTION_NL, "Disassembleer instructies. Als er twee adressen zijn opgegeven dan worden\n"
+                                          "deze gebruikt als een start en eind adres. Als er maar een adres is\n"
+                                          "opgegeven dan wordt deze gebruikt als het start adres en een standaard\n"
+                                          "aantal instructies zal worden gedisassembleerd. Als er geen adressen zijn\n"
+                                          "opgegeven dan wordt een standaard aantal instructies gedisassembleerd vanaf\n"
+                                          "het huidige adres."},
 /* pl */ {IDGS_MON_DISASS_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_DISASS_DESCRIPTION_SV, "Disassemblera instruktioner. Om två adresser anges används de som\n"
                                           "start- och slutadress. Om endast en anges används den som startadress\n"
@@ -1559,7 +1593,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_HU, "<cím_tartomány> <adat_lista>"},
 /* it */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_IT, "<intervallo di indirizzi> <lista di dati>"},
-/* nl */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_NL, ""<adres_reeks> <data_lijst>""},
 /* pl */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_SV, "<adressområde> <datalista>"},
 #endif
@@ -1578,7 +1612,9 @@ translate_t string_table[] = {
 /* it */ {IDGS_MON_FILL_DESCRIPTION_IT, "Riempe la memoria nell'intervallo di indirizzi specificato con i dati\n"
                                         "presenti in <lista di dati>. Se la dimensione dell'intervallo è maggiore\n"
                                         "della dimensione della lista di dati, la lista di dati è ripetuta."},
-/* nl */ {IDGS_MON_FILL_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_FILL_DESCRIPTION_NL, "Vul het geheugen van de opgegeven adres reeks op met de data in <data_lijst>.\n"
+                                        "Als de grootte van de adres reeks groter is dan de grootte van de data_lijst\n"
+                                        "dan zal de data_lijst worder herhaald."},
 /* pl */ {IDGS_MON_FILL_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_FILL_DESCRIPTION_SV, "Fyll minnet i det angivna området med data i <datalista>.\n"
                                         "Om storleken på adressområdet är större än storleken på datalistan\n"

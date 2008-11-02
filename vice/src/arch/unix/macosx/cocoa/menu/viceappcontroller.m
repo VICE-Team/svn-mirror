@@ -366,6 +366,12 @@
     [joystickSettingsController updateResources:nil];
 }
 
+- (IBAction)toggleKeySetEnable:(id)sender
+{
+    [self setIntResource:@"KeySetEnable" toValue:![sender state]];
+    [self updateOptionsResources];
+}
+
 - (IBAction)toggleEmuID:(id)sender
 {    
     [self setIntResource:@"EmuID" toValue:![sender state]];
@@ -538,6 +544,8 @@
     [virtualDevicesMenuItem setState:[self getIntResource:@"VirtualDevices"]];
     // EmuID
     [emuIDMenuItem setState:[self getIntResource:@"EmuID"]];
+    // KeySetEnable
+    [keySetEnableMenuItem setState:[self getIntResource:@"KeySetEnable"]];
 }
 
 - (void)updateSettingsResources

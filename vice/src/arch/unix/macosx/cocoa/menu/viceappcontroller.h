@@ -59,6 +59,7 @@
     IBOutlet NSMenuItem *trueDriveEmulationMenuItem;
     IBOutlet NSMenuItem *virtualDevicesMenuItem;
     IBOutlet NSMenuItem *emuIDMenuItem;
+    IBOutlet NSMenuItem *keySetEnableMenuItem;
     
     // Settings Outlets
     IBOutlet NSMenuItem *saveResourcesOnExitMenuItem;
@@ -112,6 +113,7 @@
 - (IBAction)toggleVirtualDevices:(id)sender;
 
 - (IBAction)swapJoysticks:(id)sender;
+- (IBAction)toggleKeySetEnable:(id)sender;
 - (IBAction)toggleEmuID:(id)sender;
 
 // Settings
