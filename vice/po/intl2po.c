@@ -55,6 +55,7 @@
 #define IN_COMMENT       1
 
 static int comment_status=NOT_IN_COMMENT;
+static int gettext_open_mark = 0;
 
 static char line_buffer[512];
 
@@ -112,6 +113,31 @@ void getline_simple(FILE *file)
   line_buffer[counter]=0;
 }
 
+void check_gettext_end(char *text)
+{
+  int i;
+  int first = 0;
+
+  for (i=0;text[i]!=0;i++)
+  {
+    if (text[i]=='"')
+    {
+       if (first == 1)
+       {
+         first = 0;
+         if (text[i+1] == ')')
+         {
+           gettext_open_mark = 0;
+         }
+       }
+       else
+       {
+         first = 1;
+       }
+    }
+  }
+}
+
 int check_quote(char *text)
 {
   int i;
@@ -123,6 +149,14 @@ int check_quote(char *text)
   {
     if (text[i]=='"')
     {
+      if (i-3 >= 0)
+      {
+         if (text[i-3] == 'N' && text[i-2] == '_' && text[i-1] == '(')
+         {
+           gettext_open_mark = 1;
+           return 0;
+         }
+      }
       if (text[i+1]!='"')
       {
         return 1;
@@ -190,6 +224,10 @@ void replace_string(char *text, FILE *file)
   if (check_quote(text)==0)
   {
     fprintf(file,"%s",text);
+    if (gettext_open_mark)
+    {
+      check_gettext_end(text);
+    }
   }
   else
   {

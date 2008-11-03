@@ -6,872 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-25 21:39+0200\n"
+"POT-Creation-Date: 2008-11-02 16:45-0800\n"
 "PO-Revision-Date: 2008-10-22 22:05+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: src/monitor/mon_command.c:54
-msgid "Available commands are:"
-msgstr "Zulässige Kommandos sind:"
-
-#: src/monitor/mon_command.c:56
-msgid "Machine state commands:"
-msgstr "Maschinen Zustandskommandos:"
-
-#: src/monitor/mon_command.c:59
-msgid "[<memspace>] [bankname]"
-msgstr "[<Speicherbereich>] [Speicherbank]"
-
-#: src/monitor/mon_command.c:60
-msgid ""
-"If bankname is not given, print the possible banks for the memspace.\n"
-"If bankname is given set the current bank in the memspace to the given\n"
-"bank."
-msgstr ""
-"Falls `bankname' nicht angegeben wird, Ausgabe der möglichen Bänke in "
-"`memspace'.\n"
-"Falls `bankname' angegeben wird, setze aktuelle Bank in `memspace' mit "
-"angegebener Bank."
-
-#: src/monitor/mon_command.c:66
-msgid ""
-"Print JSR call chain (most recent call first). Stack offset\n"
-"relative to SP+1 is printed in parentheses. This is a best guess\n"
-"only."
-msgstr ""
-"Zeige JSR Aufrufkette (letzter Aufruf zuerst). Stack offset\n"
-"wird relative zu SP+1 in Klammern gezeigt. Dies ist jedoch nur\n"
-"eine Schätzung."
-
-#: src/monitor/mon_command.c:71 src/translate.c.po.c:2558
-msgid "<type>"
-msgstr "<Typ>"
-
-#: src/monitor/mon_command.c:72
-msgid "Specify the type of CPU currently used (6502/z80)."
-msgstr "CPU Typ setzen (6502/z80)"
-
-#: src/monitor/mon_command.c:75 src/monitor/mon_command.c:122
-msgid "[<count>]"
-msgstr "[<Zähler>]"
-
-#: src/monitor/mon_command.c:76
-msgid "Show <count> last executed commands."
-msgstr "Zeige [<Zähler>] zuletzt ausgeführte Kommandos"
-
-#: src/monitor/mon_command.c:79 src/monitor/mon_command.c:127
-#: src/monitor/mon_command.c:437 src/monitor/mon_command.c:446
-msgid "\"<filename>\""
-msgstr "\"<Dateiname>\""
-
-#: src/monitor/mon_command.c:80
-msgid ""
-"Write a snapshot of the machine into the file specified.\n"
-"This snapshot is compatible with a snapshot written out by the UI.\n"
-"Note: No ROM images are included into the dump."
-msgstr ""
-"Schreibe eine Snapsho Datei der Maschine auf die angebene Datei.\n"
-"Dieser Snapshot ist kompatible zu einem Snapshot initiiert aus dem Menü.\n"
-"Hinweis: Die ROM Images werden im Snapshot nicht inkludiert."
-
-#: src/monitor/mon_command.c:91
-msgid "<address>"
-msgstr "<Adresse>"
-
-#: src/monitor/mon_command.c:92
-msgid "Change the PC to ADDRESS and continue execution"
-msgstr "Setze PC auf ADRESSE und setze Ausführung fort"
-
-#: src/monitor/mon_command.c:96
-msgid "Print out the I/O area of the emulated machine."
-msgstr "Drucke den I/O Bereich der emuliertern Maschine."
-
-#: src/monitor/mon_command.c:100
-msgid ""
-"Advance to the next instruction.  Subroutines are treated as\n"
-"a single instruction."
-msgstr ""
-"Fahre bis zur nächsten Instruktion fort.\n"
-"Unterroutinen werden wie eine einzelne Instruktion behandelt."
-
-#: src/monitor/mon_command.c:104
-msgid "[<reg_name> = <number> [, <reg_name> = <number>]*]"
-msgstr "[<Register Name> = <Zahl> [, <Register Name> = <Zahl>]*]"
-
-#: src/monitor/mon_command.c:105
-msgid ""
-"Assign respective registers.  With no parameters, display register\n"
-"values."
-msgstr ""
-"Zuweisung auf entsprechende Register. Ohne Parameter, zeige Register Werte."
-
-#: src/monitor/mon_command.c:109
-msgid "[<type>]"
-msgstr "[<Typ>]"
-
-#: src/monitor/mon_command.c:110
-msgid "Reset the machine or drive. Type: 0 = soft, 1 = hard, 8-11 = drive."
-msgstr ""
-"Reset der Maschine oder des Laufwerks. Typ: 0 = soft, 1 = hart, 8-11 = "
-"Laufwerk."
-
-#: src/monitor/mon_command.c:114
-msgid ""
-"Continues execution and returns to the monitor just before the next\n"
-"RTS or RTI is executed."
-msgstr ""
-"Setzt Ausführung fort und retourniert bevor der nächsten RTS oder RTI "
-"instruction."
-
-#: src/monitor/mon_command.c:119
-msgid "Displays the contents of the screen."
-msgstr "Zeigt Bildschirminhalt."
-
-#: src/monitor/mon_command.c:123
-msgid ""
-"Single-step through instructions.  COUNT allows stepping\n"
-"more than a single instruction at a time."
-msgstr ""
-"Einzelschritt Ausführung durch Instruktionen. COUNT erlaubt die Ausführung\n"
-"mehrerer Instruktionen auf einmal."
-
-#: src/monitor/mon_command.c:128
-msgid "Read a snapshot of the machine from the file specified."
-msgstr "Lese einen Snapshot der Maschine aus der angegebenen Datei."
-
-#.
-#. { "up",              "",
-#. NULL,
-#. "*** unimplemented ***" },
-#.
-#: src/monitor/mon_command.c:135
-msgid "Symbol table commands:"
-msgstr "Symbol Tabellen Kommandos:"
-
-#: src/monitor/mon_command.c:138
-msgid "[<memspace>] <address> <label>"
-msgstr "[<Speicherbereich>] <Adresse> <Bezeichner>"
-
-#: src/monitor/mon_command.c:139
-msgid ""
-"<memspace> is one of: C: 8: 9: 10: 11:\n"
-"<address>  is the address which should get the label.\n"
-"<label>    is the name of the label; it must start with a dot (\".\").\n"
-"\n"
-"Map a given address to a label.  This label can be used when entering\n"
-"assembly code and is shown during disassembly.  Additionally, it can\n"
-"be used whenever an address must be specified."
-msgstr ""
-"<Speicherbereich> ist aus: C: 8: 9: 10: 11:\n"
-"<Adresse>         bezeichnet die Adresse welche mit dem Bezeichner assoziert "
-"werden soll.\n"
-"<Bezeichner>      Name des Bezeichners; Muß mit einem Punkt (\".\") "
-"starten.\n"
-"\n"
-"Assoziiert einen Bezeichner mit einer Adresse. Dieser Bezeichner kann \n"
-"bei der Eingabe von Asssmblercode benutzt werden und wird auch beim\n"
-"Disassemblieren gezeigt. Darüber hinaus kann der Bezeichner überall\n"
-"dort genutzt werden, wo eine Adresseingabe nötig ist."
-
-#: src/monitor/mon_command.c:147
-msgid "[<memspace>] <label>"
-msgstr "[<Speicherbereich>] <Bezeichner>"
-
-#: src/monitor/mon_command.c:148
-msgid ""
-"<memspace> is one of: C: 8: 9: 10: 11:\n"
-"<label>    is the name of the label; it must start with a dot (\".\").\n"
-"\n"
-"Delete a previously defined label."
-msgstr ""
-"<Speicherbereich> ist aus: C: 8: 9: 10: 11:\n"
-"<Bezeichner>      Name des Bezeichners; Muß mit einem Punkt (\\\".\\\") "
-"starten.\n"
-"\n"
-"Löscht einen zuvor definierten Bezeichner."
-
-#: src/monitor/mon_command.c:153 src/monitor/mon_command.c:160
-msgid "[<memspace>] \"<filename>\""
-msgstr "[<Speicherbereich>] \"<Dateiname>\""
-
-#: src/monitor/mon_command.c:154
-msgid ""
-"Load a file containing a mapping of labels to addresses.  If no memory\n"
-"space is specified, the default readspace is used.\n"
-"\n"
-"The format of the file is the one written out by the `save_labels' command;\n"
-"it consists of some `add_label' commands, written one after the other."
-msgstr ""
-"Laded eine Datei mit Zuordnung von Adressen zu Bezeichnern. Wenn kein \n"
-"Speicherbereich angegeben wurde, wird der Standard Speicherplatz\n"
-"verwendet.  Das Format der Datei wird durch das Kommande `save_lables'\n"
-"definiert.  Es besteht aus eine Reihe von `add_label' Kommandos,\n"
-"hintereinander angeordnet."
-
-#: src/monitor/mon_command.c:161
-msgid ""
-"Save labels to a file.  If no memory space is specified, all of the\n"
-"labels are saved."
-msgstr ""
-"Speichere Bezeichner in eine Datei. Wenn kein Speicherbereich\n"
-"angegeben wurde, werden alle Bezeichner gespeichert."
-
-#: src/monitor/mon_command.c:165
-msgid "[<memspace>]"
-msgstr "[<Speicherbereich>]"
-
-#: src/monitor/mon_command.c:166
-msgid ""
-"Display current label mappings.  If no memory space is specified, show\n"
-"all labels."
-msgstr ""
-"Zeige aktuelle Bezeichner Zuordnungen. Wenn kein Speicherbereich angegeben\n"
-"wurde, werden alle Bezeichner gezeigt."
-
-#: src/monitor/mon_command.c:169
-msgid "Assembler and memory commands:"
-msgstr "Assembler und Speicher Kommandos:"
-
-#: src/monitor/mon_command.c:172
-msgid "[<address>] <data_list>"
-msgstr "[<Adresse>] <Datenliste>"
-
-#: src/monitor/mon_command.c:173
-msgid "Write the specified data at `address'."
-msgstr "Schreibe das angegebene Datum auf `Adresse'."
-
-#: src/monitor/mon_command.c:176
-msgid "<address> [ <instruction> [: <instruction>]* ]"
-msgstr "<Adresse> [ <Instruktion> [: <Instruktion>]* ]"
-
-#: src/monitor/mon_command.c:177
-msgid ""
-"Assemble instructions to the specified address.  If only one\n"
-"instruction is specified, enter assembly mode (enter an empty line to\n"
-"exit assembly mode)."
-msgstr ""
-"Assmbler Instruktionen zur angebenen Adresse. Wenn nur eine Instruktion\n"
-"angegeben wurde, wird der assemblier Modus aktiviert (Eingabe einer leeren\n"
-"Zeile beendet den assemblier Modus)."
-
-#: src/monitor/mon_command.c:182 src/monitor/mon_command.c:255
-msgid "<address_range> <address>"
-msgstr "<Adressbereich> <Adresse>"
-
-#: src/monitor/mon_command.c:183
-msgid ""
-"Compare memory from the source specified by the address range to the\n"
-"destination specified by the address.  The regions may overlap.  Any\n"
-"values that miscompare are displayed using the default displaytype."
-msgstr ""
-"Vergleiche angegebenen Adressbereich mit der Zieladresse.\n"
-"Die Bereiche können überlappen. Ungleiche Werte werden mit dem\n"
-"Standardanzeigetyp gezeigt."
-
-#: src/monitor/mon_command.c:188 src/monitor/mon_command.c:289
-#: src/monitor/mon_command.c:293
-msgid "<checknum>"
-msgstr "<Checknummer>"
-
-#: src/monitor/mon_command.c:189
-msgid "Delete checkpoint `checknum'."
-msgstr "Lösche Checkpoint `Checknummer'."
-
-#: src/monitor/mon_command.c:192
-msgid "[<address> [<address>]]"
-msgstr "[<Adresse> [<Adresse>]]"
-
-#: src/monitor/mon_command.c:193
-msgid ""
-"Disassemble instructions.  If two addresses are specified, they are\n"
-"used as a start and end address.  If only one is specified, it is\n"
-"treated as the start address and a default number of instructions are\n"
-"disassembled.  If no addresses are specified, a default number of\n"
-"instructions are disassembled from the dot address."
-msgstr ""
-"Disassembliere Instruktionen. Wenn zwei Adressen angegeben werden,\n"
-"werden diese als Start- und Zieladresse interpretiert. Wenn nur eine\n"
-"Adress angegeben wird, wird diese asl Startadresse interpretiert und\n"
-"die Standardanzahl an Instruktionen werden disassembliert. Wenn keine\n"
-"Adresse angegeben wird, wird von der aktuellen Adresse disassembliert."
-
-#: src/monitor/mon_command.c:200 src/monitor/mon_command.c:206
-msgid "<address_range> <data_list>"
-msgstr "<Adressbereich> <Datenliste>"
-
-#: src/monitor/mon_command.c:201
-msgid ""
-"Fill memory in the specified address range with the data in\n"
-"<data_list>.  If the size of the address range is greater than the size\n"
-"of the data_list, the data_list is repeated."
-msgstr ""
-"Fülle den angegebenen Adressbereich mit den Daten aus <Datenliste>.\n"
-"Wenn die Größe des Adressbereichs größer als <Datenliste> ist, werden\n"
-"die Daten wiederholt."
-
-#: src/monitor/mon_command.c:207
-msgid ""
-"Hunt memory in the specified address range for the data in\n"
-"<data_list>.  If the data is found, the starting address of the match\n"
-"is displayed.  The entire range is searched for all possible matches."
-msgstr ""
-"Suche in angebenen Adressbereich nach <Datenliste>. Wenn die Daten gefunden\n"
-"wurden, wird die Startadresse gezeigt. Der komplette Bereich wird alle\n"
-"Vorkommnisse von <Datenliste> untersucht."
-
-#: src/monitor/mon_command.c:212 src/monitor/mon_command.c:216
-msgid "<address_opt_range>"
-msgstr "<Optionaler Adressbereich>"
-
-#: src/monitor/mon_command.c:213
-msgid "Display memory contents as PETSCII text."
-msgstr "Zeige Speicherinhalt als PETSCII Text."
-
-#: src/monitor/mon_command.c:217
-msgid "Display memory contents as screen code text."
-msgstr "Zeige Speicherinhalt als Bildschirmcode Text."
-
-#: src/monitor/mon_command.c:220 src/monitor/mon_command.c:227
-#: src/monitor/mon_command.c:249
-msgid "[<data_type>] [<address_opt_range>]"
-msgstr "[<Datentyp>] [<Optionaler Adressbereich>]"
-
-#: src/monitor/mon_command.c:221
-msgid ""
-"Display the contents of memory.  If no datatype is given, the default\n"
-"is used.  If only one address is specified, the length of data\n"
-"displayed is based on the datatype.  If no addresses are given, the\n"
-"'dot' address is used."
-msgstr ""
-"Zeige Speicherinhalt. Wenn kein Datentyp angegeben wurde, wird der\n"
-"Standarddatentyp verwendet. Wenn nur eine Adresse angegeben wird, hängt\n"
-"die Länge der Daten vom Datentyp ab. Wenn keine Adresse angeben wurde, \n"
-"wird die aktuelle Adresse verwendet."
-
-#: src/monitor/mon_command.c:228
-msgid ""
-"Display the contents of memory as character data.  If only one address\n"
-"is specified, only one character is displayed.  If no addresses are\n"
-"given, the ``dot'' address is used."
-msgstr ""
-"Zeige den Inhalt von Speicher als Character Daten. Wenn nur eine Adresse\n"
-"angegeben wurde, wird nur ein Zeichen gezeigt. Wenn keine Adresse angegeben\n"
-"wurde, wird die aktuelle Adresse verwendet."
-
-#: src/monitor/mon_command.c:233
-msgid "\"<filename>\" <format>"
-msgstr "\"<Dateiname>\" <Format>"
-
-#: src/monitor/mon_command.c:234
-msgid ""
-"Save the memmap as a picture. Format is:\n"
-"0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
-msgstr ""
-"Speicher die memmap als Bilddaten. Formate:\n"
-"0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
-
-#: src/monitor/mon_command.c:238
-msgid "[<mask>] [<address_opt_range>]"
-msgstr "[<Maske>] [<Optionaler Adressbereich>]"
-
-#: src/monitor/mon_command.c:239
-msgid ""
-"Show the memmap. The mask can be specified to show only those\n"
-"locations with accesses of certain type(s). The mask is a number\n"
-"with the bits \"ioRWXrwx\", where RWX are for ROM and rwx for RAM.\n"
-"Optionally, an address range can be specified."
-msgstr ""
-"Zeige die memmap. Die Maske kann so definiert werden, dass nur jene Orte\n"
-"mit Zugriff auf spezifische Typ(en) gezeigt werden. Die Maske ist eine "
-"Nummer\n"
-"mit Bits \"ioRWXrwx\", wobei RWX für ROM und rwx für RAM steht.\n"
-"Optional kann ein Adressbereich definiert werden."
-
-#: src/monitor/mon_command.c:246
-msgid "Clear the memmap."
-msgstr "Lösche die memmap."
-
-#: src/monitor/mon_command.c:250
-msgid ""
-"Display the contents of memory as sprite data.  If only one address is\n"
-"specified, only one sprite is displayed.  If no addresses are given,\n"
-"the ``dot'' address is used."
-msgstr ""
-"Zeige den Speicher als Sprite Daten. Wenn nur eine Adresse angegeben wurde,\n"
-"wird nur ein Sprite gezeitg. Wenn keine Adresse angegeben wurde, wird\n"
-"die aktuelle Adresse verwendet."
-
-#: src/monitor/mon_command.c:256
-msgid ""
-"Move memory from the source specified by the address range to\n"
-"the destination specified by the address.  The regions may overlap."
-msgstr ""
-"Verschiebe Speicher von Startadresse definiert durch den Adressbereich zum\n"
-"Zielbereich definiert durch die Adresse. Die Bereiche können überlappend "
-"sein."
-
-#: src/monitor/mon_command.c:259
-msgid "Checkpoint commands:"
-msgstr "Checkpoint Kommandos"
-
-#: src/monitor/mon_command.c:262
-msgid "[<address> [if <cond_expr>] ]"
-msgstr "[<Adresse> [if <bedingter Ausdruck>] ]"
-
-#: src/monitor/mon_command.c:263
-msgid ""
-"If no address is given, the currently valid watchpoints are printed.\n"
-"If an address is given, a breakpoint is set for that address and the\n"
-"breakpoint number is printed.  A conditional expression can also be\n"
-"specified for the breakpoint.  For more information on conditions, see\n"
-"the CONDITION command."
-msgstr ""
-"Wenn keine Adresse angegeben wurde, werden die aktuellen watchpoints "
-"gezeigt.\n"
-"Wenn eine Adresse angegebene wurde, wird ein breakpoint auf diese Adresse\n"
-"gesetzt und die breakpoint Nummer wird ausgegeben. Ein bedingter Ausdruck\n"
-"can zu dem breakpoint zugeordnet werden. Für mehr Informations über \n"
-"bedingte Ausdrücke, bitte Kommando CONDITION ansehen."
-
-#: src/monitor/mon_command.c:270
-msgid "<checknum> \"<command>\""
-msgstr "<Checknum> \"<Kommando>\""
-
-#: src/monitor/mon_command.c:271
-msgid ""
-"Specify `command' as the command to execute when checkpoint `checknum'\n"
-"is hit.  Note that the `x' command is not yet supported as a\n"
-"command argument."
-msgstr ""
-"Definiere `Kommando', welches bei Checkpoint `Checknum' ausgeführt wird.\n"
-"Achtung Kommando `x' wird zurzeit noch nicht als Kommando Argument\n"
-"unterstützt."
-
-#: src/monitor/mon_command.c:276
-msgid "<checknum> if <cond_expr>"
-msgstr "<Checknum> if <bedingter Ausdruck>"
-
-#: src/monitor/mon_command.c:277
-msgid ""
-"Each time the specified checkpoint is examined, the condition is\n"
-"evaluated.  If it evalutes to true, the checkpoint is activated.\n"
-"Otherwise, it is ignored.  If registers are specified in the expression,\n"
-"the values used are those at the time the checkpoint is examined, not\n"
-"when the condition is set.\n"
-"The condition can make use of registers (.A, .X, .Y, .PC, .SP) and\n"
-"compare them (==, !=, <, >, <=, >=) again other registers or constants.\n"
-"Registers can be the registers of other devices; this is denoted by\n"
-"a memspace prefix (i.e., c:, 8:, 9:, 10:, 11:\n"
-"Examples: .A == 0, .X == .Y, 8:.X == .X\n"
-msgstr ""
-"Bei jeder Überprüfung des Checkpoints, wird die Bedingung evaluiert.\n"
-"Ist das Ergebnis `Wahr', wird der Checkpoint aktiviert, sonst ingnoriert.\n"
-"Wenn Register benutzt werden, werden deren Werte zum Zeitpunkt der \n"
-"Überprüfung herangezogen.\n"
-"Die Bedingung kann Register benutzen (.A, .X, .Y, .PC, .SP) und gegen \n"
-"Register oder Konstanten vergleichen (==, !=, <, >, <=, >=).\n"
-"Register können auch Geräteregister sein; dazu wird die memspace Prefix-"
-"syntax \n"
-"verwendet: c:, 8:, 9:, 10:, 11:\n"
-"Beispiel: .A == 0, .X == .Y, 8:.X == .X\n"
-
-#: src/monitor/mon_command.c:290
-msgid "Disable checkpoint `checknum'."
-msgstr "Checkpoint `Checknum' deaktivieren."
-
-#: src/monitor/mon_command.c:294
-msgid "Enable checkpoint `checknum'."
-msgstr "Checkpoint `Checknum' aktivieren."
-
-#: src/monitor/mon_command.c:297
-msgid "<checknum> [<count>]"
-msgstr "<Checknum> [<Zähler>]"
-
-#: src/monitor/mon_command.c:298
-msgid ""
-"Ignore a checkpoint a given number of crossings.  If no count is given,\n"
-"the default value is 1."
-msgstr ""
-"Ignoriere den Checkpoint für die angegebene Anzahl an Aktivierungen.\n"
-"Wenn kein `Zähler' angegeben wurde, wird der Standardwert 1 verwendet."
-
-#: src/monitor/mon_command.c:302
-msgid "[<address>]"
-msgstr "[<Adresse>]"
-
-#: src/monitor/mon_command.c:303
-msgid ""
-"If no address is given, the currently valid breakpoints are printed.\n"
-"If an address is given, a temporary breakpoint is set for that address\n"
-"and the breakpoint number is printed.  Control is returned to the\n"
-"emulator by this command.  The breakpoint is deleted once it is hit."
-msgstr ""
-"Wenn keine Adresse angegeben wurde, werden die aktuell gültigen \n"
-"Breakpoints angezeigt. Wenn eine Adresse angegeben wurde, wird ein \n"
-"temporärer Breakpoint auf dieser Adresse gesetzt und die Breakpoint Nummer "
-"wird\n"
-"angezeigt. Die Kontrolle wirdd bei diesem Kommando an die Emulation "
-"gegeben.\n"
-"Der Breakpoint wird gelöscht, wenn er einmal getroffen wurde."
-
-#: src/monitor/mon_command.c:309
-msgid "[loadstore] [address [address]]"
-msgstr "[lade/speichere] [Adresse [Adresse]]"
-
-#: src/monitor/mon_command.c:310
-msgid ""
-"Set a watchpoint.  If a single address is specified, set a watchpoint\n"
-"for that address.  If two addresses are specified, set a watchpoint\n"
-"for the memory locations between the two addresses.\n"
-"`loadstore' is either `load' or `store' to specify on which operation\n"
-"the monitor breaks. If not specified, the monitor breaks on both\n"
-"operations."
-msgstr ""
-"Setze einen Watchpoint. Wenn eine einzelne Adresse angegeben wurde, setze \n"
-"den Watchpoint für diese Adresse. Wenn zwei Adressen angegeben wurden, \n"
-"setze den Watchpoint auf die Adressen zwischen den beiden Adressen.\n"
-"`loadstore' ist entweder `load' oder `store' und bezeichnet die Operation, \n"
-"bei welcher der Monitor anhalten soll. Wenn keine Angabe gemacht wurde, \n"
-"hält der Monitor bei beiden Operationen an."
-
-#: src/monitor/mon_command.c:318
-msgid "[address [address]]"
-msgstr "[Adresse [Adresse]]"
-
-#: src/monitor/mon_command.c:319
-msgid ""
-"Set a tracepoint.  If a single address is specified, set a tracepoint\n"
-"for that address.  If two addresses are specified, set a tracepoint\n"
-"for the memory locations between the two addresses."
-msgstr ""
-"Setze einen Tracepoint. Wenn eine einzelne Adresse angegeben wurde, setze "
-"eine\n"
-"Tracepoint für diese Adresse. Wenn zwei Adressen angegeben wurden, \n"
-"setze Tracepoints für die Speicheradressen zwischen diesen beiden Adressen."
-
-#: src/monitor/mon_command.c:323
-msgid "Monitor state commands:"
-msgstr "Monitor Zustand Kommandos:"
-
-#: src/monitor/mon_command.c:326
-msgid "[c:|8:|9:|10:|11:]"
-msgstr "[c:|8:|9:|10:|11:]"
-
-#: src/monitor/mon_command.c:327
-msgid ""
-"Set the default memory device to either the computer `c:' or the\n"
-"specified disk drive (`8:', `9:')."
-msgstr ""
-"Setze das aktuelle Speichergerät entweder auf `c:' \n"
-"oder das angegebene Laufwerk (`8:', `9:')."
-
-#: src/monitor/mon_command.c:332 src/monitor/mon_command.c:337
-msgid "Leave the monitor and return to execution."
-msgstr "Verlasse Monitor und setze Ausführung fort."
-
-#: src/monitor/mon_command.c:339
-msgid "Exit the emulator immediately."
-msgstr "Emulator sofort beenden."
-
-#: src/monitor/mon_command.c:343
-msgid "[H|D|O|B]"
-msgstr "[H|D|O|B]"
-
-#: src/monitor/mon_command.c:344
-msgid ""
-"Set the default radix to hex, decimal, octal, or binary.  With no\n"
-"argument, the current radix is printed."
-msgstr ""
-"Setze die Standardzahlenbasis auf Hexadezimal, Dezimal, Oktal oder Binär.\n"
-"Bei keinem Argument wird die akteulle Zahlenbasis ausgegeben."
-
-#: src/monitor/mon_command.c:348
-msgid "[on|off|toggle]"
-msgstr "[on|off|toggle]"
-
-#: src/monitor/mon_command.c:349
-msgid ""
-"Control how monitor generated reads affect memory locations that have\n"
-"read side-effects.  If the argument is 'on' then reads may cause\n"
-"side-effects.  If the argument is 'off' then reads don't cause\n"
-"side-effects.  If the argument is 'toggle' then the current mode is\n"
-"switched.  No argument displays the current state."
-msgstr ""
-"Steuerung, wie die vom Monitor erzeugten Lesezugriffe die Speicherzellen\n"
-"mit Lese-Seiteneffekten betreffen.\n"
-"Bei Argument \"on\" werden Lese-Seiteneffekte erzeugt.\n"
-"Bei Argument \"off\" werden keine Lese-Seiteneffekte erzeugt.\n"
-"Bei Argumenrt \"toggle\" wird das Verhalten vertauscht.\n"
-"Bei keinem Argument wird das aktuelle Verhalten ausgegebene."
-
-#: src/monitor/mon_command.c:355
-msgid "Disk commands:"
-msgstr "Disk Kommandos:"
-
-#: src/monitor/mon_command.c:358
-msgid "<disk command>"
-msgstr "<Disk Kommando>"
-
-#: src/monitor/mon_command.c:359
-msgid ""
-"Perform a disk command on the currently attached disk image on drive 8.\n"
-"The specified disk command is sent to the drive's channel #15."
-msgstr ""
-"Führe ein Diskkommando auf dem aktuell eingelegtem Diskimage auf Laufwerk 8\n"
-"aus.\n"
-"Das angegebene Kommando wird auf dem Laufwerks Kommandokanal #15 geschickt."
-
-#: src/monitor/mon_command.c:363
-msgid "<filename> <device>"
-msgstr "<Dateiname> <Gerät>"
-
-#: src/monitor/mon_command.c:364
-msgid "Attach file to device. (device 32 = cart)"
-msgstr "Benutze Datei für das Gerät. (Gerät 32 = Modul)"
-
-#: src/monitor/mon_command.c:367
-msgid "\"<filename>\" <device> <address>"
-msgstr "\"<Dateiname>\" <Gerät> <Adresse>"
-
-#: src/monitor/mon_command.c:368
-msgid ""
-"Load the specified file into memory at the specified address.\n"
-"If device is 0, the file is read from the file system."
-msgstr ""
-"Lade angegebene Datei in den Speicher an die angegebene Adresse.\n"
-"Bei Gerät 0, wird die Datei vom Dateisystem gelesen."
-
-#: src/monitor/mon_command.c:372
-msgid "<track> <sector> [<address>]"
-msgstr "<Spur> <Sektor> [<Adresse>]"
-
-#: src/monitor/mon_command.c:373
-msgid ""
-"Read the block at the specified track and sector.  If an address is\n"
-"specified, the data is loaded into memory.  If no address is given, the\n"
-"data is displayed using the default datatype."
-msgstr ""
-"Lese den Block von angegebener Spur und Sektor. Wenn eine Adresse\n"
-"angegeben wurde, lade in auf die entsprechende Adresse. Wenn keine Adresse\n"
-"angegeben ist, zeige die Daten im aktuellen Anzeigemodus für Daten."
-
-#: src/monitor/mon_command.c:378 src/monitor/mon_command.c:412
-msgid "\"<filename>\" <device> <address1> <address2>"
-msgstr "\"<Dateiname>\" <Gerät> <Adresse1> <Adresse2>"
-
-#: src/monitor/mon_command.c:379
-msgid ""
-"Save the memory from address1 to address2 to the specified file.\n"
-"If device is 0, the file is written to the file system."
-msgstr ""
-"Speichere den Speicherinhalt von Adresse1 zu Adresse2 in die angegebene "
-"Datei.\n"
-"Wenn das Gerät 0 angegeben wurde, speichere im Dateisystem."
-
-#: src/monitor/mon_command.c:383
-msgid "<track> <sector> <address>"
-msgstr "<Spur> <Sektor> <Adress>"
-
-#: src/monitor/mon_command.c:384
-msgid ""
-"Write a block of data at `address' on the specified track and sector\n"
-"of disk in drive 8."
-msgstr ""
-"Schreibe einen Datenblock von `Adresse' auf die angegebene Spure und Sektor\n"
-"in die Imagedatei von Laufwerk 8."
-
-#: src/monitor/mon_command.c:388
-msgid "<directory>"
-msgstr "<Verzeichnis>"
-
-#: src/monitor/mon_command.c:389
-msgid "Change the working directory."
-msgstr "Arbeitsverzeichnis ändern."
-
-#: src/monitor/mon_command.c:392 src/translate.c.po.c:5041
-msgid "<device>"
-msgstr "<Gerät>"
-
-#: src/monitor/mon_command.c:393
-msgid "Detach file from device. (device 32 = cart)"
-msgstr "Entferne Datei von Gerät. (Gerät 32 = Modul)"
-
-#: src/monitor/mon_command.c:396
-msgid "[<directory>]"
-msgstr "[<Verzeichnis>]"
-
-#: src/monitor/mon_command.c:397
-msgid "Display the directory contents."
-msgstr "Zeige den Verzeichnisinhalt."
-
-#: src/monitor/mon_command.c:400
-msgid "\"<filename>\" <device> [<address>]"
-msgstr "\"<Dateiname>\" <Gerät> [<Adresse>]"
-
-#: src/monitor/mon_command.c:401
-msgid ""
-"Load the specified file into memory at the specified address. Set BASIC\n"
-"pointers appropriately if loaded into computer memory (not all emulators).\n"
-"Use (otherwise ignored) two-byte load address from file if no address\n"
-"specified.\n"
-"If device is 0, the file is read from the file system."
-msgstr ""
-"Lade die angegebene Datei in den Speicher auf die angegebene Adresse.\n"
-"Setze den BASIC Zeiger entsprechend, wenn in den Rechnerspeicher geladen \n"
-"wurde (nicht bei allen Emulatoren!).\n"
-"Verwende (sonst ignoriert) die zwei-Byte Lade-Adresse aus der Datei, wenn\n"
-"keine Adresse angegeben wurde.\n"
-"Bei Gerät 0, wird die Datei vom Dateisystem gelade."
-
-#: src/monitor/mon_command.c:409
-msgid "Show current working directory."
-msgstr "Zeige aktuelles Arbeitsverzeichnis."
-
-#: src/monitor/mon_command.c:413
-msgid ""
-"Save the memory from address1 to address2 to the specified file.\n"
-"Write two-byte load address.\n"
-"If device is 0, the file is written to the file system."
-msgstr ""
-"Speichere den Speicher von Adresse1 bis Adresse2 in die angegebene Datei.\n"
-"Schreibe eine zwei-Byte Lade Adresse.\n"
-"Bei Gerät 0, wird dei Datei in das Dateisystem geschrieben."
-
-#: src/monitor/mon_command.c:417
-msgid "Other commands:"
-msgstr "Andere Kommandos:"
-
-#: src/monitor/mon_command.c:420 src/arch/win32/res.rc.po.c:4852
-#: src/translate.c.po.c:1149
-msgid "<number>"
-msgstr "<Nummer>"
-
-#: src/monitor/mon_command.c:421
-msgid "Display the specified number in decimal, hex, octal and binary."
-msgstr "Zeige die angegebene Zahl in dezimal, hexadezimal, oktal oder binär."
-
-#: src/monitor/mon_command.c:425
-msgid "Use cartridge freeze."
-msgstr "Erweiterungsmodul Freeze benutzen."
-
-#: src/monitor/mon_command.c:428
-msgid "[<command>]"
-msgstr "[<Kommando>]"
-
-#: src/monitor/mon_command.c:429
-msgid ""
-"If no argument is given, prints out a list of all available commands\n"
-"If an argument is given, prints out specific help for that command."
-msgstr ""
-"Wenn kein Argement angegeben wurde, werden alle Kommandos ausgegeben.\n"
-"Mit Argument, zeige die Hilfe für das angegebene Kommand."
-
-#: src/monitor/mon_command.c:433
-msgid "\"<string>\""
-msgstr "\"<Zeichenkette>\""
-
-#: src/monitor/mon_command.c:434 src/translate.c.po.c:5726
-msgid "Put the specified string into the keyboard buffer."
-msgstr "Definierte Eingabe in Tastaturpuffer bereitstellen."
-
-#: src/monitor/mon_command.c:438
-msgid ""
-"Monitor commands from the specified file are read and executed.  This\n"
-"command stops at the end of file or when a STOP command is read."
-msgstr ""
-"Monitor Kommandos aus der angegebenen Datei werden gelesen und ausgeführt.\n"
-"Dieses Kommando stoppt, wenn das Ende der Datei erreicht wurde, oder das\n"
-"Kommando STOP gelesen wurde."
-
-#: src/monitor/mon_command.c:442
-msgid "<expression>"
-msgstr "<Bedingung>"
-
-#: src/monitor/mon_command.c:443
-msgid "Evaluate the specified expression and output the result."
-msgstr "Evaluiere den angegebenen Ausdruck und zeige das Ergebnis."
-
-#: src/monitor/mon_command.c:447
-msgid ""
-"After this command, all commands entered are written to the specified\n"
-"file until the STOP command is entered."
-msgstr ""
-"Nach diesem Kommando werden alle eingebenen Kommands in die angegebene\n"
-"Datei gespeicher solang bis das Kommando STOP eingegeben wurde."
-
-#: src/monitor/mon_command.c:451
-msgid "\"<resource>\""
-msgstr "\"<Ressource>\""
-
-#: src/monitor/mon_command.c:452
-msgid "Displays the value of the resource."
-msgstr "Zeige den Werde der Ressource."
-
-#: src/monitor/mon_command.c:455
-msgid "\"<resource>\" \"<value>\""
-msgstr "\"<Ressource>\" \"<Wert>\""
-
-#: src/monitor/mon_command.c:456
-msgid "Sets the value of the resource."
-msgstr "Setze den Werde der Ressource."
-
-#: src/monitor/mon_command.c:460
-msgid "Stop recording commands.  See `record'."
-msgstr "Stoppe die Aufnahme von Kommandos. Siehe auch `Record'."
-
-#: src/monitor/mon_command.c:463
-msgid "\"<filename>\" [<format>]"
-msgstr "\"<Dateiname>\" [<Format>]"
-
-#: src/monitor/mon_command.c:464
-msgid ""
-"Take a screenshot. Format is:\n"
-"default = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
-msgstr ""
-"Erzeuge Screenshot. Format ist:\n"
-"Standard = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
-
-#: src/monitor/mon_command.c:468 src/arch/unix/x11/ui-cmdline-options.c:43
-msgid "<command>"
-msgstr "<Kommando>"
-
-#: src/monitor/mon_command.c:469
-msgid ""
-"Control the datasette. Valid commands:\n"
-"0 = stop, 1 = start, 2 = forward, 3 = rewind, 4 = record,\n"
-"5 = reset, 6 = reset counter."
-msgstr ""
-"Steuere die Datasette. Gültige Kommandos sind:\n"
-"0 = Stop, 1 = Start, 2 = Forwärts, 3 = Rückwärts, 4 = Aufnahme,\n"
-"5 = Reset, 6 = Reset Zähler."
-
-#: src/monitor/mon_command.c:578
-#, c-format
-msgid "Command `%s' unknown.\n"
-msgstr "Kommand `%s' ist unbekannt.\n"
-
-#: src/monitor/mon_command.c:580
-#, c-format
-msgid "No help available for `%s'\n"
-msgstr "Es ist keine Hilfe für `%s' verfügbar\n"
-
-#: src/monitor/mon_command.c:586
-#, c-format
-msgid ""
-"\n"
-"Syntax: %s %s\n"
-msgstr ""
-"\n"
-"Syntax: %s %s\n"
-
-#: src/monitor/mon_command.c:590
-#, c-format
-msgid "Abbreviation: %s\n"
-msgstr "Abkürzung: %s\n"
 
 #: src/arch/unix/joy.c:88 src/arch/unix/macosx/joy.c:226
 msgid "Set device for joystick port 1"
@@ -882,7 +23,7 @@ msgid "Set device for joystick port 2"
 msgstr "Gerät für Port 2 definieren"
 
 #: src/arch/unix/mididrv.c:110 src/arch/unix/mididrv.c:115
-#: src/translate.c.po.c:855
+#: src/translate.c.po.c:2901
 msgid "<name>"
 msgstr "<Name>"
 
@@ -4508,6 +3649,10 @@ msgstr "Autostart"
 msgid "Text cannot be displayed.\n"
 msgstr "Text kann nicht dargestellt werden.\n"
 
+#: src/arch/unix/x11/ui-cmdline-options.c:43 src/translate.c.po.c:2817
+msgid "<command>"
+msgstr "<Kommando>"
+
 #: src/arch/unix/x11/ui-cmdline-options.c:43
 msgid "Specify an HTML browser for the on-line help"
 msgstr "Bitte HTML Browser für online Hilfe definieren"
@@ -4552,7 +3697,7 @@ msgstr "Aktiviere Vollbild Modus"
 msgid "Disable fullscreen"
 msgstr "Deaktiviere Vollbild Modus"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:90 src/translate.c.po.c:2063
+#: src/arch/unix/x11/ui-cmdline-options.c:90 src/translate.c.po.c:4109
 msgid "<value>"
 msgstr "<Wert>"
 
@@ -5789,7 +4934,7 @@ msgid "RS232 device %i"
 msgstr "RS232 Gerät %i"
 
 #: src/arch/win32/res.rc.po.c:4778 src/arch/amigaos/intl.c.po.c:2413
-#: src/translate.c.po.c:1859
+#: src/translate.c.po.c:3905
 msgid "Attach CRT cartridge image"
 msgstr "CRT Erweiterungsmodul Image einlegen"
 
@@ -6086,6 +5231,10 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:4851
 msgid "Unknown"
 msgstr "Unbekannt"
+
+#: src/arch/win32/res.rc.po.c:4852 src/translate.c.po.c:3195
+msgid "<number>"
+msgstr "<Nummer>"
 
 #: src/arch/win32/res.rc.po.c:4853
 msgid "Set input device for joystick #1"
@@ -10100,1117 +9249,1947 @@ msgstr "Fehler bei Schreibzugriff: %s!"
 msgid "DTV ROM image created successfully"
 msgstr "DTV ROM Image erfolgreich erzeugt"
 
-#: src/translate.c.po.c:805
+#: src/translate.c.po.c:803
+#, c-format
+msgid "Command `%s' unknown.\n"
+msgstr "Kommand `%s' ist unbekannt.\n"
+
+#: src/translate.c.po.c:815
+#, c-format
+msgid "No help available for `%s'\n"
+msgstr "Es ist keine Hilfe für `%s' verfügbar\n"
+
+#: src/translate.c.po.c:827
+#, c-format
+msgid ""
+"\n"
+"Syntax: %s %s\n"
+msgstr ""
+"\n"
+"Syntax: %s %s\n"
+
+#: src/translate.c.po.c:839
+#, c-format
+msgid "Abbreviation: %s\n"
+msgstr "Abkürzung: %s\n"
+
+#: src/translate.c.po.c:851
+msgid "Available commands are:"
+msgstr "Zulässige Kommandos sind:"
+
+#: src/translate.c.po.c:863
+msgid "Machine state commands:"
+msgstr "Maschinen Zustandskommandos:"
+
+#: src/translate.c.po.c:875
+msgid "[<memspace>] [bankname]"
+msgstr "[<Speicherbereich>] [Speicherbank]"
+
+#: src/translate.c.po.c:887
+msgid ""
+"If bankname is not given, print the possible banks for the memspace.\n"
+"If bankname is given set the current bank in the memspace to the given\n"
+"bank."
+msgstr ""
+"Falls `bankname' nicht angegeben wird, Ausgabe der möglichen Bänke in "
+"`memspace'.\n"
+"Falls `bankname' angegeben wird, setze aktuelle Bank in `memspace' mit "
+"angegebener Bank."
+
+#: src/translate.c.po.c:910
+msgid ""
+"Print JSR call chain (most recent call first). Stack offset\n"
+"relative to SP+1 is printed in parentheses. This is a best guess\n"
+"only."
+msgstr ""
+"Zeige JSR Aufrufkette (letzter Aufruf zuerst). Stack offset\n"
+"wird relative zu SP+1 in Klammern gezeigt. Dies ist jedoch nur\n"
+"eine Schätzung."
+
+#: src/translate.c.po.c:934
+msgid "Specify the type of CPU currently used (6502/z80)."
+msgstr "CPU Typ setzen (6502/z80)"
+
+#: src/translate.c.po.c:946
+msgid "[<count>]"
+msgstr "[<Zähler>]"
+
+#: src/translate.c.po.c:958
+msgid "Show <count> last executed commands."
+msgstr "Zeige [<Zähler>] zuletzt ausgeführte Kommandos"
+
+#: src/translate.c.po.c:970
+msgid "\"<filename>\""
+msgstr "\"<Dateiname>\""
+
+#: src/translate.c.po.c:982
+msgid ""
+"Write a snapshot of the machine into the file specified.\n"
+"This snapshot is compatible with a snapshot written out by the UI.\n"
+"Note: No ROM images are included into the dump."
+msgstr ""
+"Schreibe eine Snapsho Datei der Maschine auf die angebene Datei.\n"
+"Dieser Snapshot ist kompatible zu einem Snapshot initiiert aus dem Menü.\n"
+"Hinweis: Die ROM Images werden im Snapshot nicht inkludiert."
+
+#: src/translate.c.po.c:1007
+msgid "<address>"
+msgstr "<Adresse>"
+
+#: src/translate.c.po.c:1019
+msgid "Change the PC to ADDRESS and continue execution"
+msgstr "Setze PC auf ADRESSE und setze Ausführung fort"
+
+#: src/translate.c.po.c:1031
+msgid "Print out the I/O area of the emulated machine."
+msgstr "Drucke den I/O Bereich der emuliertern Maschine."
+
+#: src/translate.c.po.c:1043
+msgid ""
+"Advance to the next instruction.  Subroutines are treated as\n"
+"a single instruction."
+msgstr ""
+"Fahre bis zur nächsten Instruktion fort.\n"
+"Unterroutinen werden wie eine einzelne Instruktion behandelt."
+
+#: src/translate.c.po.c:1061
+msgid "[<reg_name> = <number> [, <reg_name> = <number>]*]"
+msgstr "[<Register Name> = <Zahl> [, <Register Name> = <Zahl>]*]"
+
+#: src/translate.c.po.c:1073
+msgid ""
+"Assign respective registers.  With no parameters, display register\n"
+"values."
+msgstr ""
+"Zuweisung auf entsprechende Register. Ohne Parameter, zeige Register Werte."
+
+#: src/translate.c.po.c:1090
+msgid "[<type>]"
+msgstr "[<Typ>]"
+
+#: src/translate.c.po.c:1102
+msgid "Reset the machine or drive. Type: 0 = soft, 1 = hard, 8-11 = drive."
+msgstr ""
+"Reset der Maschine oder des Laufwerks. Typ: 0 = soft, 1 = hart, 8-11 = "
+"Laufwerk."
+
+#: src/translate.c.po.c:1115
+msgid ""
+"Continues execution and returns to the monitor just before the next\n"
+"RTS or RTI is executed."
+msgstr ""
+"Setzt Ausführung fort und retourniert bevor der nächsten RTS oder RTI "
+"instruction."
+
+#: src/translate.c.po.c:1132
+msgid "Displays the contents of the screen."
+msgstr "Zeigt Bildschirminhalt."
+
+#: src/translate.c.po.c:1144
+msgid ""
+"Single-step through instructions.  COUNT allows stepping\n"
+"more than a single instruction at a time."
+msgstr ""
+"Einzelschritt Ausführung durch Instruktionen. COUNT erlaubt die Ausführung\n"
+"mehrerer Instruktionen auf einmal."
+
+#: src/translate.c.po.c:1162
+msgid "Read a snapshot of the machine from the file specified."
+msgstr "Lese einen Snapshot der Maschine aus der angegebenen Datei."
+
+#: src/translate.c.po.c:1174
+msgid "Symbol table commands:"
+msgstr "Symbol Tabellen Kommandos:"
+
+#: src/translate.c.po.c:1186
+msgid "[<memspace>] <address> <label>"
+msgstr "[<Speicherbereich>] <Adresse> <Bezeichner>"
+
+#: src/translate.c.po.c:1198
+msgid ""
+"<memspace> is one of: C: 8: 9: 10: 11:\n"
+"<address>  is the address which should get the label.\n"
+"<label>    is the name of the label; it must start with a dot (\".\").\n"
+"\n"
+"Map a given address to a label.  This label can be used when entering\n"
+"assembly code and is shown during disassembly.  Additionally, it can\n"
+"be used whenever an address must be specified."
+msgstr ""
+"<Speicherbereich> ist aus: C: 8: 9: 10: 11:\n"
+"<Adresse>         bezeichnet die Adresse welche mit dem Bezeichner assoziert "
+"werden soll.\n"
+"<Bezeichner>      Name des Bezeichners; Muß mit einem Punkt (\".\") "
+"starten.\n"
+"\n"
+"Assoziiert einen Bezeichner mit einer Adresse. Dieser Bezeichner kann \n"
+"bei der Eingabe von Asssmblercode benutzt werden und wird auch beim\n"
+"Disassemblieren gezeigt. Darüber hinaus kann der Bezeichner überall\n"
+"dort genutzt werden, wo eine Adresseingabe nötig ist."
+
+#: src/translate.c.po.c:1247
+msgid "[<memspace>] <label>"
+msgstr "[<Speicherbereich>] <Bezeichner>"
+
+#: src/translate.c.po.c:1259
+msgid ""
+"<memspace> is one of: C: 8: 9: 10: 11:\n"
+"<label>    is the name of the label; it must start with a dot (\".\").\n"
+"\n"
+"Delete a previously defined label."
+msgstr ""
+"<Speicherbereich> ist aus: C: 8: 9: 10: 11:\n"
+"<Bezeichner>      Name des Bezeichners; Muß mit einem Punkt (\\\".\\\") "
+"starten.\n"
+"\n"
+"Löscht einen zuvor definierten Bezeichner."
+
+#: src/translate.c.po.c:1288
+msgid "[<memspace>] \"<filename>\""
+msgstr "[<Speicherbereich>] \"<Dateiname>\""
+
+#: src/translate.c.po.c:1300
+msgid ""
+"Load a file containing a mapping of labels to addresses.  If no memory\n"
+"space is specified, the default readspace is used.\n"
+"\n"
+"The format of the file is the one written out by the `save_labels' command;\n"
+"it consists of some `add_label' commands, written one after the other."
+msgstr ""
+"Laded eine Datei mit Zuordnung von Adressen zu Bezeichnern. Wenn kein \n"
+"Speicherbereich angegeben wurde, wird der Standard Speicherplatz\n"
+"verwendet.  Das Format der Datei wird durch das Kommande `save_lables'\n"
+"definiert.  Es besteht aus eine Reihe von `add_label' Kommandos,\n"
+"hintereinander angeordnet."
+
+#: src/translate.c.po.c:1335
+msgid ""
+"Save labels to a file.  If no memory space is specified, all of the\n"
+"labels are saved."
+msgstr ""
+"Speichere Bezeichner in eine Datei. Wenn kein Speicherbereich\n"
+"angegeben wurde, werden alle Bezeichner gespeichert."
+
+#: src/translate.c.po.c:1353
+msgid "[<memspace>]"
+msgstr "[<Speicherbereich>]"
+
+#: src/translate.c.po.c:1365
+msgid ""
+"Display current label mappings.  If no memory space is specified, show\n"
+"all labels."
+msgstr ""
+"Zeige aktuelle Bezeichner Zuordnungen. Wenn kein Speicherbereich angegeben\n"
+"wurde, werden alle Bezeichner gezeigt."
+
+#: src/translate.c.po.c:1383
+msgid "Assembler and memory commands:"
+msgstr "Assembler und Speicher Kommandos:"
+
+#: src/translate.c.po.c:1395
+msgid "[<address>] <data_list>"
+msgstr "[<Adresse>] <Datenliste>"
+
+#: src/translate.c.po.c:1407
+msgid "Write the specified data at `address'."
+msgstr "Schreibe das angegebene Datum auf `Adresse'."
+
+#: src/translate.c.po.c:1419
+msgid "<address> [ <instruction> [: <instruction>]* ]"
+msgstr "<Adresse> [ <Instruktion> [: <Instruktion>]* ]"
+
+#: src/translate.c.po.c:1431
+msgid ""
+"Assemble instructions to the specified address.  If only one\n"
+"instruction is specified, enter assembly mode (enter an empty line to\n"
+"exit assembly mode)."
+msgstr ""
+"Assmbler Instruktionen zur angebenen Adresse. Wenn nur eine Instruktion\n"
+"angegeben wurde, wird der assemblier Modus aktiviert (Eingabe einer leeren\n"
+"Zeile beendet den assemblier Modus)."
+
+#: src/translate.c.po.c:1454
+msgid "<address_range> <address>"
+msgstr "<Adressbereich> <Adresse>"
+
+#: src/translate.c.po.c:1466
+msgid ""
+"Compare memory from the source specified by the address range to the\n"
+"destination specified by the address.  The regions may overlap.  Any\n"
+"values that miscompare are displayed using the default displaytype."
+msgstr ""
+"Vergleiche angegebenen Adressbereich mit der Zieladresse.\n"
+"Die Bereiche können überlappen. Ungleiche Werte werden mit dem\n"
+"Standardanzeigetyp gezeigt."
+
+#: src/translate.c.po.c:1491
+msgid "<checknum>"
+msgstr "<Checknummer>"
+
+#: src/translate.c.po.c:1503
+msgid "Delete checkpoint `checknum'."
+msgstr "Lösche Checkpoint `Checknummer'."
+
+#: src/translate.c.po.c:1515
+msgid "[<address> [<address>]]"
+msgstr "[<Adresse> [<Adresse>]]"
+
+#: src/translate.c.po.c:1527
+msgid ""
+"Disassemble instructions.  If two addresses are specified, they are\n"
+"used as a start and end address.  If only one is specified, it is\n"
+"treated as the start address and a default number of instructions are\n"
+"disassembled.  If no addresses are specified, a default number of\n"
+"instructions are disassembled from the dot address."
+msgstr ""
+"Disassembliere Instruktionen. Wenn zwei Adressen angegeben werden,\n"
+"werden diese als Start- und Zieladresse interpretiert. Wenn nur eine\n"
+"Adress angegeben wird, wird diese asl Startadresse interpretiert und\n"
+"die Standardanzahl an Instruktionen werden disassembliert. Wenn keine\n"
+"Adresse angegeben wird, wird von der aktuellen Adresse disassembliert."
+
+#: src/translate.c.po.c:1563
+msgid "<address_range> <data_list>"
+msgstr "<Adressbereich> <Datenliste>"
+
+#: src/translate.c.po.c:1575
+msgid ""
+"Fill memory in the specified address range with the data in\n"
+"<data_list>.  If the size of the address range is greater than the size\n"
+"of the data_list, the data_list is repeated."
+msgstr ""
+"Fülle den angegebenen Adressbereich mit den Daten aus <Datenliste>.\n"
+"Wenn die Größe des Adressbereichs größer als <Datenliste> ist, werden\n"
+"die Daten wiederholt."
+
+#: src/translate.c.po.c:1598
+msgid ""
+"Hunt memory in the specified address range for the data in\n"
+"<data_list>.  If the data is found, the starting address of the match\n"
+"is displayed.  The entire range is searched for all possible matches."
+msgstr ""
+"Suche in angebenen Adressbereich nach <Datenliste>. Wenn die Daten gefunden\n"
+"wurden, wird die Startadresse gezeigt. Der komplette Bereich wird alle\n"
+"Vorkommnisse von <Datenliste> untersucht."
+
+#: src/translate.c.po.c:1622
+msgid "<address_opt_range>"
+msgstr "<Optionaler Adressbereich>"
+
+#: src/translate.c.po.c:1634
+msgid "Display memory contents as PETSCII text."
+msgstr "Zeige Speicherinhalt als PETSCII Text."
+
+#: src/translate.c.po.c:1646
+msgid "Display memory contents as screen code text."
+msgstr "Zeige Speicherinhalt als Bildschirmcode Text."
+
+#: src/translate.c.po.c:1658
+msgid "[<data_type>] [<address_opt_range>]"
+msgstr "[<Datentyp>] [<Optionaler Adressbereich>]"
+
+#: src/translate.c.po.c:1670
+msgid ""
+"Display the contents of memory.  If no datatype is given, the default\n"
+"is used.  If only one address is specified, the length of data\n"
+"displayed is based on the datatype.  If no addresses are given, the\n"
+"'dot' address is used."
+msgstr ""
+"Zeige Speicherinhalt. Wenn kein Datentyp angegeben wurde, wird der\n"
+"Standarddatentyp verwendet. Wenn nur eine Adresse angegeben wird, hängt\n"
+"die Länge der Daten vom Datentyp ab. Wenn keine Adresse angeben wurde, \n"
+"wird die aktuelle Adresse verwendet."
+
+#: src/translate.c.po.c:1695
+msgid ""
+"Display the contents of memory as character data.  If only one address\n"
+"is specified, only one character is displayed.  If no addresses are\n"
+"given, the ``dot'' address is used."
+msgstr ""
+"Zeige den Inhalt von Speicher als Character Daten. Wenn nur eine Adresse\n"
+"angegeben wurde, wird nur ein Zeichen gezeigt. Wenn keine Adresse angegeben\n"
+"wurde, wird die aktuelle Adresse verwendet."
+
+#: src/translate.c.po.c:1717
+msgid "\"<filename>\" <format>"
+msgstr "\"<Dateiname>\" <Format>"
+
+#: src/translate.c.po.c:1729
+msgid ""
+"Save the memmap as a picture. Format is:\n"
+"0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
+msgstr ""
+"Speicher die memmap als Bilddaten. Formate:\n"
+"0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
+
+#: src/translate.c.po.c:1747
+msgid "[<mask>] [<address_opt_range>]"
+msgstr "[<Maske>] [<Optionaler Adressbereich>]"
+
+#: src/translate.c.po.c:1759
+msgid ""
+"Show the memmap. The mask can be specified to show only those\n"
+"locations with accesses of certain type(s). The mask is a number\n"
+"with the bits \"ioRWXrwx\", where RWX are for ROM and rwx for RAM.\n"
+"Optionally, an address range can be specified."
+msgstr ""
+"Zeige die memmap. Die Maske kann so definiert werden, dass nur jene Orte\n"
+"mit Zugriff auf spezifische Typ(en) gezeigt werden. Die Maske ist eine "
+"Nummer\n"
+"mit Bits \"ioRWXrwx\", wobei RWX für ROM und rwx für RAM steht.\n"
+"Optional kann ein Adressbereich definiert werden."
+
+#: src/translate.c.po.c:1787
+msgid "Clear the memmap."
+msgstr "Lösche die memmap."
+
+#: src/translate.c.po.c:1799
+msgid ""
+"Display the contents of memory as sprite data.  If only one address is\n"
+"specified, only one sprite is displayed.  If no addresses are given,\n"
+"the ``dot'' address is used."
+msgstr ""
+"Zeige den Speicher als Sprite Daten. Wenn nur eine Adresse angegeben wurde,\n"
+"wird nur ein Sprite gezeitg. Wenn keine Adresse angegeben wurde, wird\n"
+"die aktuelle Adresse verwendet."
+
+#: src/translate.c.po.c:1821
+msgid ""
+"Move memory from the source specified by the address range to\n"
+"the destination specified by the address.  The regions may overlap."
+msgstr ""
+"Verschiebe Speicher von Startadresse definiert durch den Adressbereich zum\n"
+"Zielbereich definiert durch die Adresse. Die Bereiche können überlappend "
+"sein."
+
+#: src/translate.c.po.c:1840
+msgid "Checkpoint commands:"
+msgstr "Checkpoint Kommandos"
+
+#: src/translate.c.po.c:1852
+msgid "[<address> [if <cond_expr>] ]"
+msgstr "[<Adresse> [if <bedingter Ausdruck>] ]"
+
+#: src/translate.c.po.c:1864
+msgid ""
+"If no address is given, the currently valid watchpoints are printed.\n"
+"If an address is given, a breakpoint is set for that address and the\n"
+"breakpoint number is printed.  A conditional expression can also be\n"
+"specified for the breakpoint.  For more information on conditions, see\n"
+"the CONDITION command."
+msgstr ""
+"Wenn keine Adresse angegeben wurde, werden die aktuellen watchpoints "
+"gezeigt.\n"
+"Wenn eine Adresse angegebene wurde, wird ein breakpoint auf diese Adresse\n"
+"gesetzt und die breakpoint Nummer wird ausgegeben. Ein bedingter Ausdruck\n"
+"can zu dem breakpoint zugeordnet werden. Für mehr Informations über \n"
+"bedingte Ausdrücke, bitte Kommando CONDITION ansehen."
+
+#: src/translate.c.po.c:1894
+msgid "<checknum> \"<command>\""
+msgstr "<Checknum> \"<Kommando>\""
+
+#: src/translate.c.po.c:1906
+msgid ""
+"Specify `command' as the command to execute when checkpoint `checknum'\n"
+"is hit.  Note that the `x' command is not yet supported as a\n"
+"command argument."
+msgstr ""
+"Definiere `Kommando', welches bei Checkpoint `Checknum' ausgeführt wird.\n"
+"Achtung Kommando `x' wird zurzeit noch nicht als Kommando Argument\n"
+"unterstützt."
+
+#: src/translate.c.po.c:1928
+msgid "<checknum> if <cond_expr>"
+msgstr "<Checknum> if <bedingter Ausdruck>"
+
+#: src/translate.c.po.c:1940
+msgid ""
+"Each time the specified checkpoint is examined, the condition is\n"
+"evaluated.  If it evalutes to true, the checkpoint is activated.\n"
+"Otherwise, it is ignored.  If registers are specified in the expression,\n"
+"the values used are those at the time the checkpoint is examined, not\n"
+"when the condition is set.\n"
+"The condition can make use of registers (.A, .X, .Y, .PC, .SP) and\n"
+"compare them (==, !=, <, >, <=, >=) again other registers or constants.\n"
+"Registers can be the registers of other devices; this is denoted by\n"
+"a memspace prefix (i.e., c:, 8:, 9:, 10:, 11:\n"
+"Examples: .A == 0, .X == .Y, 8:.X == .X\n"
+msgstr ""
+"Bei jeder Überprüfung des Checkpoints, wird die Bedingung evaluiert.\n"
+"Ist das Ergebnis `Wahr', wird der Checkpoint aktiviert, sonst ingnoriert.\n"
+"Wenn Register benutzt werden, werden deren Werte zum Zeitpunkt der \n"
+"Überprüfung herangezogen.\n"
+"Die Bedingung kann Register benutzen (.A, .X, .Y, .PC, .SP) und gegen \n"
+"Register oder Konstanten vergleichen (==, !=, <, >, <=, >=).\n"
+"Register können auch Geräteregister sein; dazu wird die memspace Prefix-"
+"syntax \n"
+"verwendet: c:, 8:, 9:, 10:, 11:\n"
+"Beispiel: .A == 0, .X == .Y, 8:.X == .X\n"
+
+#: src/translate.c.po.c:1986
+msgid "Disable checkpoint `checknum'."
+msgstr "Checkpoint `Checknum' deaktivieren."
+
+#: src/translate.c.po.c:1998
+msgid "Enable checkpoint `checknum'."
+msgstr "Checkpoint `Checknum' aktivieren."
+
+#: src/translate.c.po.c:2010
+msgid "<checknum> [<count>]"
+msgstr "<Checknum> [<Zähler>]"
+
+#: src/translate.c.po.c:2022
+msgid ""
+"Ignore a checkpoint a given number of crossings.  If no count is given,\n"
+"the default value is 1."
+msgstr ""
+"Ignoriere den Checkpoint für die angegebene Anzahl an Aktivierungen.\n"
+"Wenn kein `Zähler' angegeben wurde, wird der Standardwert 1 verwendet."
+
+#: src/translate.c.po.c:2038
+msgid "[<address>]"
+msgstr "[<Adresse>]"
+
+#: src/translate.c.po.c:2050
+msgid ""
+"If no address is given, the currently valid breakpoints are printed.\n"
+"If an address is given, a temporary breakpoint is set for that address\n"
+"and the breakpoint number is printed.  Control is returned to the\n"
+"emulator by this command.  The breakpoint is deleted once it is hit."
+msgstr ""
+"Wenn keine Adresse angegeben wurde, werden die aktuell gültigen \n"
+"Breakpoints angezeigt. Wenn eine Adresse angegeben wurde, wird ein \n"
+"temporärer Breakpoint auf dieser Adresse gesetzt und die Breakpoint Nummer "
+"wird\n"
+"angezeigt. Die Kontrolle wirdd bei diesem Kommando an die Emulation "
+"gegeben.\n"
+"Der Breakpoint wird gelöscht, wenn er einmal getroffen wurde."
+
+#: src/translate.c.po.c:2077
+msgid "[loadstore] [address [address]]"
+msgstr "[lade/speichere] [Adresse [Adresse]]"
+
+#: src/translate.c.po.c:2089
+msgid ""
+"Set a watchpoint.  If a single address is specified, set a watchpoint\n"
+"for that address.  If two addresses are specified, set a watchpoint\n"
+"for the memory locations between the two addresses.\n"
+"`loadstore' is either `load' or `store' to specify on which operation\n"
+"the monitor breaks. If not specified, the monitor breaks on both\n"
+"operations."
+msgstr ""
+"Setze einen Watchpoint. Wenn eine einzelne Adresse angegeben wurde, setze \n"
+"den Watchpoint für diese Adresse. Wenn zwei Adressen angegeben wurden, \n"
+"setze den Watchpoint auf die Adressen zwischen den beiden Adressen.\n"
+"`loadstore' ist entweder `load' oder `store' und bezeichnet die Operation, \n"
+"bei welcher der Monitor anhalten soll. Wenn keine Angabe gemacht wurde, \n"
+"hält der Monitor bei beiden Operationen an."
+
+#: src/translate.c.po.c:2122
+msgid "[address [address]]"
+msgstr "[Adresse [Adresse]]"
+
+#: src/translate.c.po.c:2134
+msgid ""
+"Set a tracepoint.  If a single address is specified, set a tracepoint\n"
+"for that address.  If two addresses are specified, set a tracepoint\n"
+"for the memory locations between the two addresses."
+msgstr ""
+"Setze einen Tracepoint. Wenn eine einzelne Adresse angegeben wurde, setze "
+"eine\n"
+"Tracepoint für diese Adresse. Wenn zwei Adressen angegeben wurden, \n"
+"setze Tracepoints für die Speicheradressen zwischen diesen beiden Adressen."
+
+#: src/translate.c.po.c:2155
+msgid "Monitor state commands:"
+msgstr "Monitor Zustand Kommandos:"
+
+#: src/translate.c.po.c:2167
+msgid ""
+"Set the default memory device to either the computer `c:' or the\n"
+"specified disk drive (`8:', `9:')."
+msgstr ""
+"Setze das aktuelle Speichergerät entweder auf `c:' \n"
+"oder das angegebene Laufwerk (`8:', `9:')."
+
+#: src/translate.c.po.c:2183
+msgid "Leave the monitor and return to execution."
+msgstr "Verlasse Monitor und setze Ausführung fort."
+
+#: src/translate.c.po.c:2195
+msgid "Exit the emulator immediately."
+msgstr "Emulator sofort beenden."
+
+#: src/translate.c.po.c:2207
+msgid ""
+"Set the default radix to hex, decimal, octal, or binary.  With no\n"
+"argument, the current radix is printed."
+msgstr ""
+"Setze die Standardzahlenbasis auf Hexadezimal, Dezimal, Oktal oder Binär.\n"
+"Bei keinem Argument wird die akteulle Zahlenbasis ausgegeben."
+
+#: src/translate.c.po.c:2223
+msgid "[on|off|toggle]"
+msgstr "[on|off|toggle]"
+
+#: src/translate.c.po.c:2235
+msgid ""
+"Control how monitor generated reads affect memory locations that have\n"
+"read side-effects.  If the argument is 'on' then reads may cause\n"
+"side-effects.  If the argument is 'off' then reads don't cause\n"
+"side-effects.  If the argument is 'toggle' then the current mode is\n"
+"switched.  No argument displays the current state."
+msgstr ""
+"Steuerung, wie die vom Monitor erzeugten Lesezugriffe die Speicherzellen\n"
+"mit Lese-Seiteneffekten betreffen.\n"
+"Bei Argument \"on\" werden Lese-Seiteneffekte erzeugt.\n"
+"Bei Argument \"off\" werden keine Lese-Seiteneffekte erzeugt.\n"
+"Bei Argumenrt \"toggle\" wird das Verhalten vertauscht.\n"
+"Bei keinem Argument wird das aktuelle Verhalten ausgegebene."
+
+#: src/translate.c.po.c:2265
+msgid "Disk commands:"
+msgstr "Disk Kommandos:"
+
+#: src/translate.c.po.c:2277
+msgid "<disk command>"
+msgstr "<Disk Kommando>"
+
+#: src/translate.c.po.c:2289
+msgid ""
+"Perform a disk command on the currently attached disk image on drive 8.\n"
+"The specified disk command is sent to the drive's channel #15."
+msgstr ""
+"Führe ein Diskkommando auf dem aktuell eingelegtem Diskimage auf Laufwerk 8\n"
+"aus.\n"
+"Das angegebene Kommando wird auf dem Laufwerks Kommandokanal #15 geschickt."
+
+#: src/translate.c.po.c:2306
+msgid "<filename> <device>"
+msgstr "<Dateiname> <Gerät>"
+
+#: src/translate.c.po.c:2318
+msgid "Attach file to device. (device 32 = cart)"
+msgstr "Benutze Datei für das Gerät. (Gerät 32 = Modul)"
+
+#: src/translate.c.po.c:2330
+msgid "\"<filename>\" <device> <address>"
+msgstr "\"<Dateiname>\" <Gerät> <Adresse>"
+
+#: src/translate.c.po.c:2342
+msgid ""
+"Load the specified file into memory at the specified address.\n"
+"If device is 0, the file is read from the file system."
+msgstr ""
+"Lade angegebene Datei in den Speicher an die angegebene Adresse.\n"
+"Bei Gerät 0, wird die Datei vom Dateisystem gelesen."
+
+#: src/translate.c.po.c:2358
+msgid "<track> <sector> [<address>]"
+msgstr "<Spur> <Sektor> [<Adresse>]"
+
+#: src/translate.c.po.c:2370
+msgid ""
+"Read the block at the specified track and sector.  If an address is\n"
+"specified, the data is loaded into memory.  If no address is given, the\n"
+"data is displayed using the default datatype."
+msgstr ""
+"Lese den Block von angegebener Spur und Sektor. Wenn eine Adresse\n"
+"angegeben wurde, lade in auf die entsprechende Adresse. Wenn keine Adresse\n"
+"angegeben ist, zeige die Daten im aktuellen Anzeigemodus für Daten."
+
+#: src/translate.c.po.c:2390
+msgid "\"<filename>\" <device> <address1> <address2>"
+msgstr "\"<Dateiname>\" <Gerät> <Adresse1> <Adresse2>"
+
+#: src/translate.c.po.c:2402
+msgid ""
+"Save the memory from address1 to address2 to the specified file.\n"
+"If device is 0, the file is written to the file system."
+msgstr ""
+"Speichere den Speicherinhalt von Adresse1 zu Adresse2 in die angegebene "
+"Datei.\n"
+"Wenn das Gerät 0 angegeben wurde, speichere im Dateisystem."
+
+#: src/translate.c.po.c:2418
+msgid "<track> <sector> <address>"
+msgstr "<Spur> <Sektor> <Adress>"
+
+#: src/translate.c.po.c:2430
+msgid ""
+"Write a block of data at `address' on the specified track and sector\n"
+"of disk in drive 8."
+msgstr ""
+"Schreibe einen Datenblock von `Adresse' auf die angegebene Spure und Sektor\n"
+"in die Imagedatei von Laufwerk 8."
+
+#: src/translate.c.po.c:2446
+msgid "<directory>"
+msgstr "<Verzeichnis>"
+
+#: src/translate.c.po.c:2458
+msgid "Change the working directory."
+msgstr "Arbeitsverzeichnis ändern."
+
+#: src/translate.c.po.c:2470
+msgid "Detach file from device. (device 32 = cart)"
+msgstr "Entferne Datei von Gerät. (Gerät 32 = Modul)"
+
+#: src/translate.c.po.c:2482
+msgid "[<directory>]"
+msgstr "[<Verzeichnis>]"
+
+#: src/translate.c.po.c:2494
+msgid "Display the directory contents."
+msgstr "Zeige den Verzeichnisinhalt."
+
+#: src/translate.c.po.c:2506
+msgid "\"<filename>\" <device> [<address>]"
+msgstr "\"<Dateiname>\" <Gerät> [<Adresse>]"
+
+#: src/translate.c.po.c:2518
+msgid ""
+"Load the specified file into memory at the specified address. Set BASIC\n"
+"pointers appropriately if loaded into computer memory (not all emulators).\n"
+"Use (otherwise ignored) two-byte load address from file if no address\n"
+"specified.\n"
+"If device is 0, the file is read from the file system."
+msgstr ""
+"Lade die angegebene Datei in den Speicher auf die angegebene Adresse.\n"
+"Setze den BASIC Zeiger entsprechend, wenn in den Rechnerspeicher geladen \n"
+"wurde (nicht bei allen Emulatoren!).\n"
+"Verwende (sonst ignoriert) die zwei-Byte Lade-Adresse aus der Datei, wenn\n"
+"keine Adresse angegeben wurde.\n"
+"Bei Gerät 0, wird die Datei vom Dateisystem gelade."
+
+#: src/translate.c.po.c:2548
+msgid "Show current working directory."
+msgstr "Zeige aktuelles Arbeitsverzeichnis."
+
+#: src/translate.c.po.c:2560
+msgid ""
+"Save the memory from address1 to address2 to the specified file.\n"
+"Write two-byte load address.\n"
+"If device is 0, the file is written to the file system."
+msgstr ""
+"Speichere den Speicher von Adresse1 bis Adresse2 in die angegebene Datei.\n"
+"Schreibe eine zwei-Byte Lade Adresse.\n"
+"Bei Gerät 0, wird dei Datei in das Dateisystem geschrieben."
+
+#: src/translate.c.po.c:2581
+msgid "Other commands:"
+msgstr "Andere Kommandos:"
+
+#: src/translate.c.po.c:2593
+msgid "Display the specified number in decimal, hex, octal and binary."
+msgstr "Zeige die angegebene Zahl in dezimal, hexadezimal, oktal oder binär."
+
+#: src/translate.c.po.c:2605
+msgid "Use cartridge freeze."
+msgstr "Erweiterungsmodul Freeze benutzen."
+
+#: src/translate.c.po.c:2617
+msgid "[<command>]"
+msgstr "[<Kommando>]"
+
+#: src/translate.c.po.c:2629
+msgid ""
+"If no argument is given, prints out a list of all available commands\n"
+"If an argument is given, prints out specific help for that command."
+msgstr ""
+"Wenn kein Argement angegeben wurde, werden alle Kommandos ausgegeben.\n"
+"Mit Argument, zeige die Hilfe für das angegebene Kommand."
+
+#: src/translate.c.po.c:2647
+msgid "\"<string>\""
+msgstr "\"<Zeichenkette>\""
+
+#: src/translate.c.po.c:2659 src/translate.c.po.c:7772
+msgid "Put the specified string into the keyboard buffer."
+msgstr "Definierte Eingabe in Tastaturpuffer bereitstellen."
+
+#: src/translate.c.po.c:2671
+msgid ""
+"Monitor commands from the specified file are read and executed.  This\n"
+"command stops at the end of file or when a STOP command is read."
+msgstr ""
+"Monitor Kommandos aus der angegebenen Datei werden gelesen und ausgeführt.\n"
+"Dieses Kommando stoppt, wenn das Ende der Datei erreicht wurde, oder das\n"
+"Kommando STOP gelesen wurde."
+
+#: src/translate.c.po.c:2689
+msgid "<expression>"
+msgstr "<Bedingung>"
+
+#: src/translate.c.po.c:2701
+msgid "Evaluate the specified expression and output the result."
+msgstr "Evaluiere den angegebenen Ausdruck und zeige das Ergebnis."
+
+#: src/translate.c.po.c:2713
+msgid ""
+"After this command, all commands entered are written to the specified\n"
+"file until the STOP command is entered."
+msgstr ""
+"Nach diesem Kommando werden alle eingebenen Kommands in die angegebene\n"
+"Datei gespeicher solang bis das Kommando STOP eingegeben wurde."
+
+#: src/translate.c.po.c:2729
+msgid "\"<resource>\""
+msgstr "\"<Ressource>\""
+
+#: src/translate.c.po.c:2741
+msgid "Displays the value of the resource."
+msgstr "Zeige den Werde der Ressource."
+
+#: src/translate.c.po.c:2753
+msgid "\"<resource>\" \"<value>\""
+msgstr "\"<Ressource>\" \"<Wert>\""
+
+#: src/translate.c.po.c:2765
+msgid "Sets the value of the resource."
+msgstr "Setze den Werde der Ressource."
+
+#: src/translate.c.po.c:2777
+msgid "Stop recording commands.  See `record'."
+msgstr "Stoppe die Aufnahme von Kommandos. Siehe auch `Record'."
+
+#: src/translate.c.po.c:2789
+msgid "\"<filename>\" [<format>]"
+msgstr "\"<Dateiname>\" [<Format>]"
+
+#: src/translate.c.po.c:2801
+msgid ""
+"Take a screenshot. Format is:\n"
+"default = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
+msgstr ""
+"Erzeuge Screenshot. Format ist:\n"
+"Standard = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
+
+#: src/translate.c.po.c:2829
+msgid ""
+"Control the datasette. Valid commands:\n"
+"0 = stop, 1 = start, 2 = forward, 3 = rewind, 4 = record,\n"
+"5 = reset, 6 = reset counter."
+msgstr ""
+"Steuere die Datasette. Gültige Kommandos sind:\n"
+"0 = Stop, 1 = Start, 2 = Forwärts, 3 = Rückwärts, 4 = Aufnahme,\n"
+"5 = Reset, 6 = Reset Zähler."
+
+#: src/translate.c.po.c:2851
 msgid "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
 msgstr "Bei Autostart soll 'RUN' mit Doppelpunkt ausgeführt werden ('RUN:')"
 
-#: src/translate.c.po.c:818
+#: src/translate.c.po.c:2864
 msgid "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"
 msgstr "Bei Autostart soll 'RUN' ohne Doppelpunkt ausgeführt werden ('RUN')"
 
-#: src/translate.c.po.c:831
+#: src/translate.c.po.c:2877
 msgid "Use PAL sync factor"
 msgstr "PAL Sync Faktor benutzen"
 
-#: src/translate.c.po.c:843
+#: src/translate.c.po.c:2889
 msgid "Use NTSC sync factor"
 msgstr "NTSC Sync Faktor benutzen"
 
-#: src/translate.c.po.c:867
+#: src/translate.c.po.c:2913
 msgid "Specify name of international Kernal ROM image"
 msgstr "Bitte Namen für internationale Kernal ROM Datei definieren"
 
-#: src/translate.c.po.c:879
+#: src/translate.c.po.c:2925
 msgid "Specify name of German Kernal ROM image"
 msgstr "Name für deutsche Kernal ROM Datei definieren"
 
-#: src/translate.c.po.c:891
+#: src/translate.c.po.c:2937
 msgid "Specify name of Finnish Kernal ROM image"
 msgstr "Name für finnische Kernal ROM Datei definieren"
 
-#: src/translate.c.po.c:903
+#: src/translate.c.po.c:2949
 msgid "Specify name of French Kernal ROM image"
 msgstr "Name für französische Kernal ROM Datei definieren"
 
-#: src/translate.c.po.c:915
+#: src/translate.c.po.c:2961
 msgid "Specify name of Italian Kernal ROM image"
 msgstr "Name für italienische Kernal ROM Datei definieren"
 
-#: src/translate.c.po.c:927
+#: src/translate.c.po.c:2973
 msgid "Specify name of Norwegian Kernal ROM image"
 msgstr "Name für norwegische Kernal ROM Datei definieren"
 
-#: src/translate.c.po.c:939
+#: src/translate.c.po.c:2985
 msgid "Specify name of Swedish Kernal ROM image"
 msgstr "Name für schwedische Kernal ROM Datei definieren"
 
-#: src/translate.c.po.c:951
+#: src/translate.c.po.c:2997
 msgid "Specify name of BASIC ROM image (lower part)"
 msgstr "Namen für Basic ROM Datei spezifizieren (unterer Teil)"
 
-#: src/translate.c.po.c:963
+#: src/translate.c.po.c:3009
 msgid "Specify name of BASIC ROM image (higher part)"
 msgstr "Namen für Basic ROM Datei spezifizieren (oberer Teil)"
 
-#: src/translate.c.po.c:975
+#: src/translate.c.po.c:3021
 msgid "Specify name of international character generator ROM image"
 msgstr "Name für internationale Charakter ROM Datei definieren"
 
-#: src/translate.c.po.c:988
+#: src/translate.c.po.c:3034
 msgid "Specify name of German character generator ROM image"
 msgstr "Name für deutsche Charakter ROM Datei definieren"
 
-#: src/translate.c.po.c:1001
+#: src/translate.c.po.c:3047
 msgid "Specify name of French character generator ROM image"
 msgstr "Name für französische Charakter ROM Datei definieren"
 
-#: src/translate.c.po.c:1014
+#: src/translate.c.po.c:3060
 msgid "Specify name of Swedish character generator ROM image"
 msgstr "Name für schwedische Charakter ROM Datei definieren"
 
-#: src/translate.c.po.c:1027
+#: src/translate.c.po.c:3073
 msgid "Specify name of C64 mode Kernal ROM image"
 msgstr "Name für C64 Modus Kernal ROM Datei definieren"
 
-#: src/translate.c.po.c:1039
+#: src/translate.c.po.c:3085
 msgid "Specify name of C64 mode BASIC ROM image"
 msgstr "Name für C64 Modus Basic ROM Datei spezifizieren"
 
-#: src/translate.c.po.c:1051
+#: src/translate.c.po.c:3097
 msgid "Enable emulator identification"
 msgstr "Emulator Identifikation aktivieren"
 
-#: src/translate.c.po.c:1063
+#: src/translate.c.po.c:3109
 msgid "Disable emulator identification"
 msgstr "Emulator Identifikation deaktivieren"
 
-#: src/translate.c.po.c:1075
+#: src/translate.c.po.c:3121
 msgid "Enable the IEEE488 interface emulation"
 msgstr "IEEE488 Schnittstellen-Emulation aktivieren"
 
-#: src/translate.c.po.c:1087
+#: src/translate.c.po.c:3133
 msgid "Disable the IEEE488 interface emulation"
 msgstr "IEEE488 Schnittstellen-Emulation deaktivieren"
 
-#: src/translate.c.po.c:1099
+#: src/translate.c.po.c:3145
 msgid "<revision>"
 msgstr "<Revision>"
 
-#: src/translate.c.po.c:1111
+#: src/translate.c.po.c:3157
 msgid "Patch the Kernal ROM to the specified <revision>"
 msgstr "Kernal ROM auf spezifizierte <Revision> verändern"
 
-#: src/translate.c.po.c:1124
+#: src/translate.c.po.c:3170
 msgid "Enable the $DE** ACIA RS232 interface emulation"
 msgstr "ACIA $DExx RS232 Schnittstellen-Emulation aktivieren"
 
-#: src/translate.c.po.c:1136
+#: src/translate.c.po.c:3182
 msgid "Disable the $DE** ACIA RS232 interface emulation"
 msgstr "ACIA $DExx RS232 Schnittstellen-Emulation deaktivieren"
 
-#: src/translate.c.po.c:1162
+#: src/translate.c.po.c:3208
 msgid "Specify index of keymap file (0=symbol, 1=positional)"
 msgstr "Index für Kymap Datei festlegen (0=symbol, 1=positional)"
 
-#: src/translate.c.po.c:1177
+#: src/translate.c.po.c:3223
 msgid "Specify name of symbolic keymap file"
 msgstr "Bitte Namen für symbolische Keymap Datei definieren"
 
-#: src/translate.c.po.c:1189
+#: src/translate.c.po.c:3235
 msgid "Specify name of positional keymap file"
 msgstr "Bitte Namen für positions Keymap Datei definieren"
 
-#: src/translate.c.po.c:1202
+#: src/translate.c.po.c:3248
 msgid "Activate 40 column mode"
 msgstr "40 Spalten Modus aktivieren"
 
-#: src/translate.c.po.c:1214
+#: src/translate.c.po.c:3260
 msgid "Activate 80 column mode"
 msgstr "80 Spalten Modus aktivieren"
 
-#: src/translate.c.po.c:1226
+#: src/translate.c.po.c:3272
 msgid "Always switch to C64 mode on reset"
 msgstr "Immer bei Reset in C64 Modus schalten"
 
-#: src/translate.c.po.c:1238
+#: src/translate.c.po.c:3284
 msgid "Always switch to C128 mode on reset"
 msgstr "Immer be Reset in C128 Modus schalten"
 
-#: src/translate.c.po.c:1250
+#: src/translate.c.po.c:3296
 msgid "Specify name of internal Function ROM image"
 msgstr "Name der internen Funktions ROM Datei definieren"
 
-#: src/translate.c.po.c:1262
+#: src/translate.c.po.c:3308
 msgid "Specify name of external Function ROM image"
 msgstr "Name der externen Funktions ROM Datei definieren"
 
-#: src/translate.c.po.c:1274
+#: src/translate.c.po.c:3320
 msgid "Enable the internal Function ROM"
 msgstr "Internes Funktions ROM aktivieren"
 
-#: src/translate.c.po.c:1286
+#: src/translate.c.po.c:3332
 msgid "Disable the internal Function ROM"
 msgstr "Internes Funktions ROM deaktivieren"
 
-#: src/translate.c.po.c:1298
+#: src/translate.c.po.c:3344
 msgid "Enable the external Function ROM"
 msgstr "Externes Funktions ROM aktivieren"
 
-#: src/translate.c.po.c:1310
+#: src/translate.c.po.c:3356
 msgid "Disable the external Function ROM"
 msgstr "Externes Funktions ROM deaktivieren"
 
-#: src/translate.c.po.c:1322
+#: src/translate.c.po.c:3368
 msgid "Use old NTSC sync factor"
 msgstr "Alten NTSC Sync Faktor verwenden"
 
-#: src/translate.c.po.c:1334
+#: src/translate.c.po.c:3380
 msgid "Enable the Hummer Userport Joystick Emulation"
 msgstr "Hummer Userport Joystick Emulation aktivieren"
 
-#: src/translate.c.po.c:1346
+#: src/translate.c.po.c:3392
 msgid "Disable the Hummer Userport Joystick emulation"
 msgstr "Hummer Userport Emulation deaktivieren"
 
-#: src/translate.c.po.c:1358
+#: src/translate.c.po.c:3404
 msgid "<port>"
 msgstr "<Port>"
 
-#: src/translate.c.po.c:1370
+#: src/translate.c.po.c:3416
 msgid "Select which joystick port should be mapped to the userport"
 msgstr "Wähle welches Joystickport dem Userport zugeordnet werden soll"
 
-#: src/translate.c.po.c:1382
+#: src/translate.c.po.c:3428
 msgid "Specify name of Kernal ROM image"
 msgstr "Name von Kernal ROM Datei definieren"
 
-#: src/translate.c.po.c:1394
+#: src/translate.c.po.c:3440
 msgid "Specify name of BASIC ROM image"
 msgstr "Name von Basic ROM Datei definieren"
 
-#: src/translate.c.po.c:1406
+#: src/translate.c.po.c:3452
 msgid "Specify name of character generator ROM image"
 msgstr "Name von Druckerausgabe Datei definieren (print.dump)"
 
-#: src/translate.c.po.c:1419
+#: src/translate.c.po.c:3465
 msgid "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
 msgstr "Index für Keymap Datei festlegen (0=symbol, 1=symDE, 2=positional)"
 
-#: src/translate.c.po.c:1434
+#: src/translate.c.po.c:3480
 msgid "Specify name of symbolic German keymap file"
 msgstr "Name von symbolischer Keymap Datei definieren"
 
-#: src/translate.c.po.c:1447
+#: src/translate.c.po.c:3493
 msgid "Enable the GEORAM expansion unit"
 msgstr "GEORAM Erweiterung aktivieren"
 
-#: src/translate.c.po.c:1459
+#: src/translate.c.po.c:3505
 msgid "Disable the GEORAM expansion unit"
 msgstr "GEORAM Erweiterung deaktivieren"
 
-#: src/translate.c.po.c:1471
+#: src/translate.c.po.c:3517
 msgid "Specify name of GEORAM image"
 msgstr "GEORAM Image Datei definieren"
 
-#: src/translate.c.po.c:1483
+#: src/translate.c.po.c:3529
 msgid "<size in KB>"
 msgstr "<Größe in KB>"
 
-#: src/translate.c.po.c:1495
+#: src/translate.c.po.c:3541
 msgid "Size of the GEORAM expansion unit"
 msgstr "Größe der GEORAM Erweiterung"
 
-#: src/translate.c.po.c:1507
+#: src/translate.c.po.c:3553
 msgid "Enable the PET Ram and Expansion Unit"
 msgstr "PET RAM Speicher und Erweiterungsmodul aktivieren"
 
-#: src/translate.c.po.c:1519
+#: src/translate.c.po.c:3565
 msgid "Disable the PET Ram and Expansion Unit"
 msgstr "PET RAM Speicher und Erweiterungsmodul dektivieren"
 
-#: src/translate.c.po.c:1531
+#: src/translate.c.po.c:3577
 msgid "Specify name of PET Ram and Expansion Unit image"
 msgstr "Namen für PET RAM Speicher und Erweiterungsmodul definieren"
 
-#: src/translate.c.po.c:1543
+#: src/translate.c.po.c:3589
 msgid "Size of the PET Ram and Expansion Unit"
 msgstr "Größe des PET RAM Speicher und Erweiterungsmodul"
 
-#: src/translate.c.po.c:1555
+#: src/translate.c.po.c:3601
 msgid "SID player mode"
 msgstr "SID Player Modus"
 
-#: src/translate.c.po.c:1567
+#: src/translate.c.po.c:3613
 msgid "Override PSID settings for Video standard and SID model"
 msgstr "PSID Einstellung für Video Standard und SID Modell verändern"
 
-#: src/translate.c.po.c:1580
+#: src/translate.c.po.c:3626
 msgid "Specify PSID tune <number>"
 msgstr "PSID Stück <Nummer> definieren"
 
-#: src/translate.c.po.c:1592
+#: src/translate.c.po.c:3638
 msgid "Enable the RAMCART expansion"
 msgstr "RAMCART Erweiterung aktivieren"
 
-#: src/translate.c.po.c:1604
+#: src/translate.c.po.c:3650
 msgid "Disable the RAMCART expansion"
 msgstr "RAMCART Erweiterung deaktivieren"
 
-#: src/translate.c.po.c:1616
+#: src/translate.c.po.c:3662
 msgid "Specify name of RAMCART image"
 msgstr "Name für RAMCART Image Datei definieren"
 
-#: src/translate.c.po.c:1628
+#: src/translate.c.po.c:3674
 msgid "Size of the RAMCART expansion"
 msgstr "Größe der RAMCART Erweiterung"
 
-#: src/translate.c.po.c:1640
+#: src/translate.c.po.c:3686
 msgid "Enable the MMC64 expansion"
 msgstr "MMC64 Erweiterung aktivieren"
 
-#: src/translate.c.po.c:1652
+#: src/translate.c.po.c:3698
 msgid "Disable the MMC64 expansion"
 msgstr "MMC64 Erweiterung deaktivieren"
 
-#: src/translate.c.po.c:1664
+#: src/translate.c.po.c:3710
 msgid "Specify name of MMC64 BIOS image"
 msgstr "Name für MMC64 BIOS Datei spezifizieren"
 
-#: src/translate.c.po.c:1676
+#: src/translate.c.po.c:3722
 msgid "Specify name of MMC64 image"
 msgstr "Name der MMC64 Image Datei definieren"
 
-#: src/translate.c.po.c:1688
+#: src/translate.c.po.c:3734
 msgid "Set the MMC64 card to read-only"
 msgstr "MMC64 Karte Schreibschutz"
 
-#: src/translate.c.po.c:1700
+#: src/translate.c.po.c:3746
 msgid "Set the MMC64 card to read/write"
 msgstr "MMC64 Karte Schreibzugriff"
 
-#: src/translate.c.po.c:1712
+#: src/translate.c.po.c:3758
 msgid "Save the MMC64 bios when changed"
 msgstr "MMC64 BIOS speichern bei Änderung"
 
-#: src/translate.c.po.c:1724
+#: src/translate.c.po.c:3770
 msgid "Enable the RAM expansion unit"
 msgstr "RAM Speichererweiterung aktivieren"
 
-#: src/translate.c.po.c:1736
+#: src/translate.c.po.c:3782
 msgid "Disable the RAM expansion unit"
 msgstr "RAM Speichererweiterung deaktivieren"
 
-#: src/translate.c.po.c:1748
+#: src/translate.c.po.c:3794
 msgid "Specify name of REU image"
 msgstr "Namen für REU Image Datei definieren"
 
-#: src/translate.c.po.c:1760
+#: src/translate.c.po.c:3806
 msgid "Size of the RAM expansion unit"
 msgstr "Größe der RAM Speichererweiterung"
 
-#: src/translate.c.po.c:1773
+#: src/translate.c.po.c:3819
 msgid "Enable the TFE (\"The Final Ethernet\") unit"
 msgstr "TFE (\"the final ethernet\") Erweiterung aktivitieren"
 
-#: src/translate.c.po.c:1785
+#: src/translate.c.po.c:3831
 msgid "Disable the TFE (\"The Final Ethernet\") unit"
 msgstr "TFE (\"the final ethernet\") Erweiterung deaktivitieren"
 
-#: src/translate.c.po.c:1797
+#: src/translate.c.po.c:3843
 msgid "Set the system ethernet interface for TFE emulation"
 msgstr "Setze die System Ethernet Schnittstelle für die TFE Emulation"
 
-#: src/translate.c.po.c:1809
+#: src/translate.c.po.c:3855
 msgid "Enable RRNet mode of TFE emulation"
 msgstr "RRNet Modus der TFE Emulation aktivieren"
 
-#: src/translate.c.po.c:1821
+#: src/translate.c.po.c:3867
 msgid "Disable RRNet mode of TFE emulation"
 msgstr "RRNet Modus der TFE Emulation deaktivieren"
 
-#: src/translate.c.po.c:1834
+#: src/translate.c.po.c:3880
 msgid "Reset machine if a cartridge is attached or detached"
 msgstr ""
 "Reset der Maschine wenn ein Erweiterungsmodul eingelegt oder entfernt wird"
 
-#: src/translate.c.po.c:1846
+#: src/translate.c.po.c:3892
 msgid "Do not reset machine if a cartridge is attached or detached"
 msgstr ""
 "Kein Reset der Maschine wenn ein Erweiterungsmodul eingelegt oder entfernt "
 "wird"
 
-#: src/translate.c.po.c:1871
+#: src/translate.c.po.c:3917
 msgid "Attach generic 8KB cartridge image"
 msgstr "Generisches 8K Erweiterungsmodul Image einlegen"
 
-#: src/translate.c.po.c:1883
+#: src/translate.c.po.c:3929
 msgid "Attach generic 16KB cartridge image"
 msgstr "Generisches 16K Erweiterungsmodul Image einlegen"
 
-#: src/translate.c.po.c:1895
+#: src/translate.c.po.c:3941
 msgid "Attach raw 16KB StarDOS cartridge image"
 msgstr "16KB StarDOS Erweiterungsmodul Image einlegen"
 
-#: src/translate.c.po.c:1907
+#: src/translate.c.po.c:3953
 msgid "Attach raw 32KB Action Replay IV cartridge image"
 msgstr "32K Action Replay Image IV einlegen"
 
-#: src/translate.c.po.c:1919
+#: src/translate.c.po.c:3965
 msgid "Attach raw 16KB Action Replay III cartridge image"
 msgstr "16KB Action Replay Image III (raw) einlegen"
 
-#: src/translate.c.po.c:1931
+#: src/translate.c.po.c:3977
 msgid "Attach raw 32KB Action Replay cartridge image"
 msgstr "32K Action Replay Image einlegen"
 
-#: src/translate.c.po.c:1943
+#: src/translate.c.po.c:3989
 msgid "Attach raw 64KB Retro Replay cartridge image"
 msgstr "64K Retro Replay Image einlegen"
 
-#: src/translate.c.po.c:1955
+#: src/translate.c.po.c:4001
 msgid "Attach raw 64KB IDE64 cartridge image"
 msgstr "64KB IDE64 Image einlegen"
 
-#: src/translate.c.po.c:1967
+#: src/translate.c.po.c:4013
 msgid "Attach raw 32KB Atomic Power cartridge image"
 msgstr "32KB Atomic Power Image einlegen"
 
-#: src/translate.c.po.c:1979
+#: src/translate.c.po.c:4025
 msgid "Attach raw 8KB Epyx fastload cartridge image"
 msgstr "8KB Epyx Fastload Image einlegen"
 
-#: src/translate.c.po.c:1991
+#: src/translate.c.po.c:4037
 msgid "Attach raw 32KB Super Snapshot cartridge image"
 msgstr "32KB Super Snapshot (raw) Image einlegen"
 
-#: src/translate.c.po.c:2003
+#: src/translate.c.po.c:4049
 msgid "Attach raw 64KB Super Snapshot cartridge image"
 msgstr "64KB Super Snapshot (raw) Image einlegen"
 
-#: src/translate.c.po.c:2015
+#: src/translate.c.po.c:4061
 msgid "Attach CBM IEEE488 cartridge image"
 msgstr "CBM IEEE488 Erweiterungsmodul einlegen"
 
-#: src/translate.c.po.c:2027
+#: src/translate.c.po.c:4073
 msgid "Attach raw 16KB Westermann learning cartridge image"
 msgstr "16KB Westermann learning (raw) Image einlegen"
 
-#: src/translate.c.po.c:2039
+#: src/translate.c.po.c:4085
 msgid "Enable expert cartridge"
 msgstr "Expert Cartridge aktivieren"
 
-#: src/translate.c.po.c:2051
+#: src/translate.c.po.c:4097
 msgid "Specify name of IDE64 image file"
 msgstr "Namen für IDE64 Image Datei definieren"
 
-#: src/translate.c.po.c:2075
+#: src/translate.c.po.c:4121
 msgid "Set number of cylinders for the IDE64 emulation"
 msgstr "Anzahl der Zylinder für IDE64 Emulation"
 
-#: src/translate.c.po.c:2087
+#: src/translate.c.po.c:4133
 msgid "Set number of heads for the IDE64 emulation"
 msgstr "Anzahl der Laufwerksköpfe für IDE64 Emulation"
 
-#: src/translate.c.po.c:2099
+#: src/translate.c.po.c:4145
 msgid "Set number of sectors for the IDE64 emulation"
 msgstr "Anzahl der Sektoren für IDE64 Emulation"
 
-#: src/translate.c.po.c:2111
+#: src/translate.c.po.c:4157
 msgid "Autodetect geometry of formatted images"
 msgstr "Geometrie von formatierten Image Dateien automatisch erkennen"
 
-#: src/translate.c.po.c:2123
+#: src/translate.c.po.c:4169
 msgid "Do not autodetect geometry of formatted images"
 msgstr "Geometrie von formatierten Image Dateien nicht automatisch erkennen"
 
-#: src/translate.c.po.c:2135
+#: src/translate.c.po.c:4181
 msgid "<modelnumber>"
 msgstr "<Modell Nummer>"
 
-#: src/translate.c.po.c:2147
+#: src/translate.c.po.c:4193
 msgid "Specify CBM-II model to emulate"
 msgstr "CBM-II Modell für Emulation definieren"
 
-#: src/translate.c.po.c:2159
+#: src/translate.c.po.c:4205
 msgid "Specify to use VIC-II"
 msgstr "VIC-II Unterstützung aktivieren"
 
-#: src/translate.c.po.c:2171
+#: src/translate.c.po.c:4217
 msgid "Specify to use CRTC"
 msgstr "CRTC Unterstützung aktivieren"
 
-#: src/translate.c.po.c:2183
+#: src/translate.c.po.c:4229
 msgid "<linenumber>"
 msgstr "<Zeilennummer>"
 
-#: src/translate.c.po.c:2195
+#: src/translate.c.po.c:4241
 msgid "Specify CBM-II model hardware (0=6x0, 1=7x0)"
 msgstr "CBM-II Hardware Modell definieren (0=6x0, 1=7x0)"
 
-#: src/translate.c.po.c:2207
+#: src/translate.c.po.c:4253
 msgid "<ramsize>"
 msgstr "<RAM Größe>"
 
-#: src/translate.c.po.c:2219
+#: src/translate.c.po.c:4265
 msgid "Specify size of RAM (64/128/256/512/1024 kByte)"
 msgstr "RAM Größe definieren (64/128/256/512/1024 kByte)"
 
-#: src/translate.c.po.c:2231
+#: src/translate.c.po.c:4277
 msgid "Specify name of cartridge ROM image for $1000"
 msgstr "Name für ROM Module Image Datei ($1000)"
 
-#: src/translate.c.po.c:2243
+#: src/translate.c.po.c:4289
 msgid "Specify name of cartridge ROM image for $2000-$3fff"
 msgstr "Name für ROM Module Image Datei ($2000-3fff)"
 
-#: src/translate.c.po.c:2256
+#: src/translate.c.po.c:4302
 msgid "Specify name of cartridge ROM image for $4000-$5fff"
 msgstr "Name für ROM Module Image Datei ($4000-5fff)"
 
-#: src/translate.c.po.c:2269
+#: src/translate.c.po.c:4315
 msgid "Specify name of cartridge ROM image for $6000-$7fff"
 msgstr "Name für ROM Module Image Datei ($6000-7fff)"
 
-#: src/translate.c.po.c:2282
+#: src/translate.c.po.c:4328
 msgid "Enable RAM mapping in $0800-$0FFF"
 msgstr "RAM Zuordnung in $0800-$0FFF aktivieren"
 
-#: src/translate.c.po.c:2294
+#: src/translate.c.po.c:4340
 msgid "Disable RAM mapping in $0800-$0FFF"
 msgstr "RAM Zuordnung in $0800-$0FFF deaktivieren"
 
-#: src/translate.c.po.c:2306
+#: src/translate.c.po.c:4352
 msgid "Enable RAM mapping in $1000-$1FFF"
 msgstr "RAM Zuordnung in $1000-$1FFF aktivieren"
 
-#: src/translate.c.po.c:2318
+#: src/translate.c.po.c:4364
 msgid "Disable RAM mapping in $1000-$1FFF"
 msgstr "RAM Zuordnung in $1000-$1FFF deaktivieren"
 
-#: src/translate.c.po.c:2330
+#: src/translate.c.po.c:4376
 msgid "Enable RAM mapping in $2000-$3FFF"
 msgstr "RAM Zuordnung in $2000-3FFF aktivieren"
 
-#: src/translate.c.po.c:2342
+#: src/translate.c.po.c:4388
 msgid "Disable RAM mapping in $2000-$3FFF"
 msgstr "RAM Zuordnung in $2000-$3FFF deaktivieren"
 
-#: src/translate.c.po.c:2354
+#: src/translate.c.po.c:4400
 msgid "Enable RAM mapping in $4000-$5FFF"
 msgstr "RAM Zuordnung in $4000-$5FFF aktivieren"
 
-#: src/translate.c.po.c:2366
+#: src/translate.c.po.c:4412
 msgid "Disable RAM mapping in $4000-$5FFF"
 msgstr "RAM Zuordnung in $4000-$5FFF deaktivieren"
 
-#: src/translate.c.po.c:2378
+#: src/translate.c.po.c:4424
 msgid "Enable RAM mapping in $6000-$7FFF"
 msgstr "RAM Zuordnung in $6000-$7FFF aktivieren"
 
-#: src/translate.c.po.c:2390
+#: src/translate.c.po.c:4436
 msgid "Disable RAM mapping in $6000-$7FFF"
 msgstr "RAM Zuordnung in $6000-$7FFF deaktivieren"
 
-#: src/translate.c.po.c:2402
+#: src/translate.c.po.c:4448
 msgid "Enable RAM mapping in $C000-$CFFF"
 msgstr "RAM Zuordnung in $C000-$CFFF aktivieren"
 
-#: src/translate.c.po.c:2414
+#: src/translate.c.po.c:4460
 msgid "Disable RAM mapping in $C000-$CFFF"
 msgstr "RAM Zuordnung in $C000-$CFFF deaktivieren"
 
-#: src/translate.c.po.c:2427
+#: src/translate.c.po.c:4473
 msgid "Specify index of keymap file"
 msgstr "Index der Keymap Datei definieren"
 
-#: src/translate.c.po.c:2439
+#: src/translate.c.po.c:4485
 msgid "Specify name of graphics keyboard symbolic keymap file"
 msgstr "Keymap Datei für graphics keyboard symbolic definieren"
 
-#: src/translate.c.po.c:2453
+#: src/translate.c.po.c:4499
 msgid "Specify name of graphics keyboard positional keymap file"
 msgstr "Keymap Datei für graphics keyboard positional definieren"
 
-#: src/translate.c.po.c:2469
+#: src/translate.c.po.c:4515
 msgid "Specify name of UK business keyboard symbolic keymap file"
 msgstr "Keymap Datei für UK business keyboard symbolic definieren"
 
-#: src/translate.c.po.c:2485
+#: src/translate.c.po.c:4531
 msgid "Specify name of UK business keyboard positional keymap file"
 msgstr "Keymap Datei für UK business keyboard positional definieren"
 
-#: src/translate.c.po.c:2501
+#: src/translate.c.po.c:4547
 msgid "Specify name of German business keyboard symbolic keymap file"
 msgstr "Keymap Datei für German business keyboard symbolic definieren"
 
-#: src/translate.c.po.c:2517
+#: src/translate.c.po.c:4563
 msgid "Specify name of German business keyboard positional keymap file"
 msgstr "Keymap Datei für German business keyboard positional definieren"
 
-#: src/translate.c.po.c:2534
+#: src/translate.c.po.c:4580
 msgid "Enable hardware-level emulation of disk drives"
 msgstr "Hardware Emulation für Disklaufwerke aktivieren"
 
-#: src/translate.c.po.c:2546
+#: src/translate.c.po.c:4592
 msgid "Disable hardware-level emulation of disk drives"
 msgstr "Hardware Emulation für Disklaufwerke deaktivieren"
 
-#: src/translate.c.po.c:2570
+#: src/translate.c.po.c:4604
+msgid "<type>"
+msgstr "<Typ>"
+
+#: src/translate.c.po.c:4616
 msgid "Set drive type (0: no drive)"
 msgstr "Setze Laufwerkstyp (0: kein Laufwerk)"
 
-#: src/translate.c.po.c:2582
+#: src/translate.c.po.c:4628
 msgid "<method>"
 msgstr "<Methode>"
 
-#: src/translate.c.po.c:2594
+#: src/translate.c.po.c:4640
 msgid "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
 msgstr "40 Spur Erweiterungsmethode (0: nie, 1: Rückfrage, 2: bei Bedarf)"
 
-#: src/translate.c.po.c:2610
+#: src/translate.c.po.c:4656
 msgid "Specify name of 1541 DOS ROM image"
 msgstr "Name der 1541 DOS ROM Image Datei definieren"
 
-#: src/translate.c.po.c:2622
+#: src/translate.c.po.c:4668
 msgid "Specify name of 1541-II DOS ROM image"
 msgstr "Name der 1541-II DOS ROM Image Datei definieren"
 
-#: src/translate.c.po.c:2634
+#: src/translate.c.po.c:4680
 msgid "Specify name of 1570 DOS ROM image"
 msgstr "Name der 1570 DOS ROM Image Datei definieren"
 
-#: src/translate.c.po.c:2646
+#: src/translate.c.po.c:4692
 msgid "Specify name of 1571 DOS ROM image"
 msgstr "Name der 1571 DOS ROM Image Datei definieren"
 
-#: src/translate.c.po.c:2658
+#: src/translate.c.po.c:4704
 msgid "Specify name of 1581 DOS ROM image"
 msgstr "Name der 1581 DOS ROM Image Datei definieren"
 
-#: src/translate.c.po.c:2670
+#: src/translate.c.po.c:4716
 msgid "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 msgstr ""
 "Laufwerks idling Methode (0: kein Traps, 1: Zyklen verwerfen, 2: trap idle)"
 
-#: src/translate.c.po.c:2685
+#: src/translate.c.po.c:4731
 msgid "Enable 8KB RAM expansion at $2000-$3FFF"
 msgstr "8KB RAM Erweiterung bei $2000-3fff aktivieren"
 
-#: src/translate.c.po.c:2697
+#: src/translate.c.po.c:4743
 msgid "Disable 8KB RAM expansion at $2000-$3FFF"
 msgstr "8KB RAM Erweiterung bei $2000-3fff deaktivieren"
 
-#: src/translate.c.po.c:2709
+#: src/translate.c.po.c:4755
 msgid "Enable 8KB RAM expansion at $4000-$5FFF"
 msgstr "8KB RAM Erweiterung bei $4000-5fff aktivieren"
 
-#: src/translate.c.po.c:2721
+#: src/translate.c.po.c:4767
 msgid "Disable 8KB RAM expansion at $4000-$5FFF"
 msgstr "8KB RAM Erweiterung bei $4000-5fff deaktivieren"
 
-#: src/translate.c.po.c:2733
+#: src/translate.c.po.c:4779
 msgid "Enable 8KB RAM expansion at $6000-$7FFF"
 msgstr "8KB RAM Erweiterung bei $6000-7fff aktivieren"
 
-#: src/translate.c.po.c:2745
+#: src/translate.c.po.c:4791
 msgid "Disable 8KB RAM expansion at $6000-$7FFF"
 msgstr "8KB RAM Erweiterung bei $6000-7fff deaktivieren"
 
-#: src/translate.c.po.c:2757
+#: src/translate.c.po.c:4803
 msgid "Enable 8KB RAM expansion at $8000-$9FFF"
 msgstr "8KB RAM Erweiterung bei $8000-9fff aktivieren"
 
-#: src/translate.c.po.c:2769
+#: src/translate.c.po.c:4815
 msgid "Disable 8KB RAM expansion at $8000-$9FFF"
 msgstr "8KB RAM Erweiterung bei $8000-9fff deaktivieren"
 
-#: src/translate.c.po.c:2781
+#: src/translate.c.po.c:4827
 msgid "Enable 8KB RAM expansion at $A000-$BFFF"
 msgstr "8KB RAM Erweiterung bei $A000-Bfff aktivieren"
 
-#: src/translate.c.po.c:2793
+#: src/translate.c.po.c:4839
 msgid "Disable 8KB RAM expansion at $A000-$BFFF"
 msgstr "8KB RAM Erweiterung bei $A000-Bfff deaktivieren"
 
-#: src/translate.c.po.c:2805
+#: src/translate.c.po.c:4851
 msgid "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3)"
 msgstr "Parallelkabel Typ (0: kein, 1: Standard, 2: Dolphin DOS 3)"
 
-#: src/translate.c.po.c:2817
+#: src/translate.c.po.c:4863
 msgid "Enable Professional DOS"
 msgstr "Professional DOS aktivieren"
 
-#: src/translate.c.po.c:2829
+#: src/translate.c.po.c:4875
 msgid "Disable Professional DOS"
 msgstr "Professional DOS deaktivieren"
 
-#: src/translate.c.po.c:2841
+#: src/translate.c.po.c:4887
 msgid "Specify name of Professional DOS 1571 ROM image"
 msgstr "Name von Professional DOS 1571 Datei definieren"
 
-#: src/translate.c.po.c:2853
+#: src/translate.c.po.c:4899
 msgid "Set parallel cable type (0: none, 1: standard)"
 msgstr "Parallelkabel Typ (0: kein, 1: Standard)"
 
-#: src/translate.c.po.c:2865
+#: src/translate.c.po.c:4911
 msgid "Specify name of 1571CR DOS ROM image"
 msgstr "Name der 1571CR DOS ROM Datei definieren"
 
-#: src/translate.c.po.c:2877
+#: src/translate.c.po.c:4923
 msgid "Specify name of 2031 DOS ROM image"
 msgstr "Name der 2031 DOS ROM Datei definieren"
 
-#: src/translate.c.po.c:2889
+#: src/translate.c.po.c:4935
 msgid "Specify name of 2040 DOS ROM image"
 msgstr "Name der 2040 DOS ROM Datei definieren"
 
-#: src/translate.c.po.c:2901
+#: src/translate.c.po.c:4947
 msgid "Specify name of 3040 DOS ROM image"
 msgstr "Name der 3040 DOS ROM Datei definieren"
 
-#: src/translate.c.po.c:2913
+#: src/translate.c.po.c:4959
 msgid "Specify name of 4040 DOS ROM image"
 msgstr "Name der 4040 DOS ROM Datei definieren"
 
-#: src/translate.c.po.c:2925
+#: src/translate.c.po.c:4971
 msgid "Specify name of 1001/8050/8250 DOS ROM image"
 msgstr "Name der 1001/8040/8205 DOS ROM Datei definieren"
 
-#: src/translate.c.po.c:2937
+#: src/translate.c.po.c:4983
 msgid "Specify name of 1551 DOS ROM image"
 msgstr "Name der 1551 DOS ROM Datei definieren"
 
-#: src/translate.c.po.c:2949
+#: src/translate.c.po.c:4995
 msgid "Use <name> as directory for file system device #8"
 msgstr "Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #8"
 
-#: src/translate.c.po.c:2962
+#: src/translate.c.po.c:5008
 msgid "Use <name> as directory for file system device #9"
 msgstr "Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #9"
 
-#: src/translate.c.po.c:2975
+#: src/translate.c.po.c:5021
 msgid "Use <name> as directory for file system device #10"
 msgstr "Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #10"
 
-#: src/translate.c.po.c:2988
+#: src/translate.c.po.c:5034
 msgid "Use <name> as directory for file system device #11"
 msgstr "Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #11"
 
-#: src/translate.c.po.c:3002
+#: src/translate.c.po.c:5048
 msgid "Set bitrate for audio stream in media file"
 msgstr "Bitrate für Audio Stream für Media Datei setzen"
 
-#: src/translate.c.po.c:3014
+#: src/translate.c.po.c:5060
 msgid "Set bitrate for video stream in media file"
 msgstr "Bitrate für Video Stream für Media Datei setzen"
 
-#: src/translate.c.po.c:3027
+#: src/translate.c.po.c:5073
 msgid "Specify PET model to emulate"
 msgstr "PET Modell spezifizieren"
 
-#: src/translate.c.po.c:3039
+#: src/translate.c.po.c:5085
 msgid "Specify name of Editor ROM image"
 msgstr "Name für Editor ROM Image Datei definieren"
 
-#: src/translate.c.po.c:3051
+#: src/translate.c.po.c:5097
 msgid "Specify 4K extension ROM name at $9***"
 msgstr "4K Erweiterungs ROM Datei Name bei $9*** definieren"
 
-#: src/translate.c.po.c:3063
+#: src/translate.c.po.c:5109
 msgid "Specify 4K extension ROM name at $A***"
 msgstr "4K Erweiterungs ROM Datei Name bei $A*** definieren"
 
-#: src/translate.c.po.c:3075
+#: src/translate.c.po.c:5121
 msgid "Specify 4K extension ROM name at $B***"
 msgstr "4K Erweiterungs ROM Datei Name bei $B*** definieren"
 
-#: src/translate.c.po.c:3087
+#: src/translate.c.po.c:5133
 msgid "Enable PET8296 4K RAM mapping at $9***"
 msgstr "PET8296 4K RAM Zuordnung bei $9*** aktivieren"
 
-#: src/translate.c.po.c:3099
+#: src/translate.c.po.c:5145
 msgid "Disable PET8296 4K RAM mapping at $9***"
 msgstr "PET8296 4K RAM Zuordnung bei $9*** deaktivieren"
 
-#: src/translate.c.po.c:3111
+#: src/translate.c.po.c:5157
 msgid "Enable PET8296 4K RAM mapping at $A***"
 msgstr "PET8296 4K RAM Zuordnung bei $A*** aktivieren"
 
-#: src/translate.c.po.c:3123
+#: src/translate.c.po.c:5169
 msgid "Disable PET8296 4K RAM mapping at $A***"
 msgstr "PET8296 4K RAM Zuordnung bei $A*** deaktivieren"
 
-#: src/translate.c.po.c:3135
+#: src/translate.c.po.c:5181
 msgid "Enable SuperPET I/O"
 msgstr "SuperPET I/O aktivieren"
 
-#: src/translate.c.po.c:3147
+#: src/translate.c.po.c:5193
 msgid "Disable SuperPET I/O"
 msgstr "SuperPET I/O deaktivieren"
 
-#: src/translate.c.po.c:3159
+#: src/translate.c.po.c:5205
 msgid "Enable ROM 1 Kernal patches"
 msgstr "ROM 1 Kernal patches aktivieren"
 
-#: src/translate.c.po.c:3171
+#: src/translate.c.po.c:5217
 msgid "Disable ROM 1 Kernal patches"
 msgstr "ROM 1 Kernal patches deaktivieren"
 
-#: src/translate.c.po.c:3183
+#: src/translate.c.po.c:5229
 msgid "Switch upper/lower case charset"
 msgstr "Wechsel Groß-/Kleinschreibung Zeichensatz"
 
-#: src/translate.c.po.c:3195
+#: src/translate.c.po.c:5241
 msgid "Do not switch upper/lower case charset"
 msgstr "Kein Wechsel Groß-/Kleinschreibung Zeichensatz"
 
-#: src/translate.c.po.c:3207
+#: src/translate.c.po.c:5253
 msgid "EOI blanks screen"
 msgstr "EOI löscht Bildschirm"
 
-#: src/translate.c.po.c:3219
+#: src/translate.c.po.c:5265
 msgid "EOI does not blank screen"
 msgstr "EIO löscht Bildschirm nicht"
 
-#: src/translate.c.po.c:3231
+#: src/translate.c.po.c:5277
 msgid "Enable userport diagnostic pin"
 msgstr "Userport Diagnose Pin aktivieren"
 
-#: src/translate.c.po.c:3243
+#: src/translate.c.po.c:5289
 msgid "Disable userport diagnostic pin"
 msgstr "Userport Diagnose Pin deaktivieren"
 
-#: src/translate.c.po.c:3255
+#: src/translate.c.po.c:5301
 msgid "Specify name of Function low ROM image"
 msgstr "Namen für Funktions ROM Datei (unterer Bereich) definieren"
 
-#: src/translate.c.po.c:3267
+#: src/translate.c.po.c:5313
 msgid "Specify name of Function high ROM image"
 msgstr "Namen für Funktions ROM Datei (oberer Bereich) definieren"
 
-#: src/translate.c.po.c:3279
+#: src/translate.c.po.c:5325
 msgid "Specify name of Cartridge 1 low ROM image"
 msgstr "Name für Erweiterungsmodul 1 ROM Datei (unterer Bereich) definieren"
 
-#: src/translate.c.po.c:3291
+#: src/translate.c.po.c:5337
 msgid "Specify name of Cartridge 1 high ROM image"
 msgstr "Name für Erweiterungsmodul 1 ROM Datei (oberer Bereich) definieren"
 
-#: src/translate.c.po.c:3303
+#: src/translate.c.po.c:5349
 msgid "Specify name of Cartridge 2 low ROM image"
 msgstr "Name für Erweiterungsmodul 2 ROM Datei (unterer Bereich) definieren"
 
-#: src/translate.c.po.c:3315
+#: src/translate.c.po.c:5361
 msgid "Specify name of Cartridge 2 high ROM image"
 msgstr "Name für Erweiterungsmodul 2 ROM Datei (oberer Bereich) definieren"
 
-#: src/translate.c.po.c:3327
+#: src/translate.c.po.c:5373
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Größe des emulierten RAM Speichers in kb (16/32/64) spezifizieren"
 
-#: src/translate.c.po.c:3339
+#: src/translate.c.po.c:5385
 msgid "Set saturation of internal calculated palette [1000]"
 msgstr "Sättigung für intern berechneten Palette setzen [1000]"
 
-#: src/translate.c.po.c:3351
+#: src/translate.c.po.c:5397
 msgid "Set contrast of internal calculated palette [1100]"
 msgstr "Kontrast für intern berechneten Palette setzen [1100]"
 
-#: src/translate.c.po.c:3363
+#: src/translate.c.po.c:5409
 msgid "Set brightness of internal calculated palette [1100]"
 msgstr "Helliogkeit für intern berechneten Palette setzen [1100]"
 
-#: src/translate.c.po.c:3375
+#: src/translate.c.po.c:5421
 msgid "Set gamma of internal calculated palette [900]"
 msgstr "Gamma für intern berechneten Palette setzen [900]"
 
-#: src/translate.c.po.c:3387
+#: src/translate.c.po.c:5433
 msgid "Set tint of internal calculated palette [1000]"
 msgstr "Farbton für intern berechneten Palette setzen [1000]"
 
-#: src/translate.c.po.c:3399
+#: src/translate.c.po.c:5445
 msgid "Set phase for color carrier in odd lines [1250]"
 msgstr "Phase für Farbträger in ungeraden Zeilen setzen [1250]"
 
-#: src/translate.c.po.c:3411
+#: src/translate.c.po.c:5457
 msgid "Set phase offset for color carrier in odd lines [750]"
 msgstr "Phasenoffset für Farbträger in ungeraden Zeilen setzen [750]"
 
-#: src/translate.c.po.c:3423
+#: src/translate.c.po.c:5469
 msgid "Specify name of printer driver for device #4"
 msgstr "Name für Druckertreiber Gerät #4 definieren"
 
-#: src/translate.c.po.c:3435
+#: src/translate.c.po.c:5481
 msgid "Specify name of printer driver for device #5"
 msgstr "Name für Druckertreiber Gerät #5 definieren"
 
-#: src/translate.c.po.c:3447
+#: src/translate.c.po.c:5493
 msgid "Specify name of printer driver for the userport printer"
 msgstr "Name für Userport Druckertreiber definieren"
 
-#: src/translate.c.po.c:3459
+#: src/translate.c.po.c:5505
 msgid "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Geräte Typ für Gerät #4 (0: NONE, 1: FS, 2: REAL) setzen"
 
-#: src/translate.c.po.c:3471
+#: src/translate.c.po.c:5517
 msgid "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Geräte Typ für Gerät #5 (0: NONE, 1: FS, 2: REAL) setzen"
 
-#: src/translate.c.po.c:3483
+#: src/translate.c.po.c:5529
 msgid "Enable the userport printer emulation"
 msgstr "Userport Drucker Emulation aktivieren"
 
-#: src/translate.c.po.c:3495
+#: src/translate.c.po.c:5541
 msgid "Disable the userport printer emulation"
 msgstr "Userport Drucker Emulation deaktivieren"
 
-#: src/translate.c.po.c:3507
+#: src/translate.c.po.c:5553
 msgid "Specify name of output device for device #4"
 msgstr "Name für Druckerausgabe Datei Gerät #4 definieren"
 
-#: src/translate.c.po.c:3519
+#: src/translate.c.po.c:5565
 msgid "Specify name of output device for device #5"
 msgstr "Name für Druckerausgabe Datei Gerät #5 definieren"
 
-#: src/translate.c.po.c:3531
+#: src/translate.c.po.c:5577
 msgid "Specify name of output device for the userport printer"
 msgstr "Name für Druckerausgabe Datei Userport definieren"
 
-#: src/translate.c.po.c:3545
+#: src/translate.c.po.c:5591
 msgid "Specify name of printer text device or dump file"
 msgstr "Name für Druckerausgabe Textgerät oder Dump Datei definieren"
 
-#: src/translate.c.po.c:3557
+#: src/translate.c.po.c:5603
 msgid "Specify printer text output device for IEC printer #4"
 msgstr "IEC Drucker #4 Gerät für Textausgabe definieren"
 
-#: src/translate.c.po.c:3570
+#: src/translate.c.po.c:5616
 msgid "Specify printer text output device for IEC printer #5"
 msgstr "IEC Drucker #5 Gerät für Textausgabe definieren"
 
-#: src/translate.c.po.c:3583
+#: src/translate.c.po.c:5629
 msgid "Specify printer text output device for userport printer"
 msgstr "IEC Userport Drucker Gerät für Textausgabe definieren"
 
-#: src/translate.c.po.c:3596
+#: src/translate.c.po.c:5642
 msgid "Enable the video cache"
 msgstr "Video Cache aktivieren"
 
-#: src/translate.c.po.c:3608
+#: src/translate.c.po.c:5654
 msgid "Disable the video cache"
 msgstr "Video Cache deaktivieren"
 
-#: src/translate.c.po.c:3621
+#: src/translate.c.po.c:5667
 msgid "Specify name of first RS232 device"
 msgstr "Name für erstes RS232 Gerät definieren"
 
-#: src/translate.c.po.c:3633
+#: src/translate.c.po.c:5679
 msgid "Specify name of second RS232 device"
 msgstr "Name für zweites RS232 Gerät definieren"
 
-#: src/translate.c.po.c:3645
+#: src/translate.c.po.c:5691
 msgid "Specify name of third RS232 device"
 msgstr "Name für drittes RS232 Gerät definieren"
 
-#: src/translate.c.po.c:3657
+#: src/translate.c.po.c:5703
 msgid "Specify name of fourth RS232 device"
 msgstr "Name für viertes RS232 Gerät definieren"
 
-#: src/translate.c.po.c:3670
+#: src/translate.c.po.c:5716
 msgid "Enable RS232 userport emulation"
 msgstr "RS232 Userport Emulation aktivieren"
 
-#: src/translate.c.po.c:3682
+#: src/translate.c.po.c:5728
 msgid "Disable RS232 userport emulation"
 msgstr "RS232 Userport Emulation deaktivieren"
 
-#: src/translate.c.po.c:3694
+#: src/translate.c.po.c:5740
 msgid "<baud>"
 msgstr "<Baud>"
 
-#: src/translate.c.po.c:3706
+#: src/translate.c.po.c:5752
 msgid "Set the baud rate of the RS232 userport emulation."
 msgstr "Baudrate für RS232 Userport Emulation setzen"
 
-#: src/translate.c.po.c:3718
+#: src/translate.c.po.c:5764
 msgid "Specify VICE RS232 device for userport"
 msgstr "VICE RS232 Gerät für Userport definieren"
 
-#: src/translate.c.po.c:3730
+#: src/translate.c.po.c:5776
 msgid "Enable IEC device emulation for device #4"
 msgstr "IEC Geräte Emulation für Gerät #4 aktivieren"
 
-#: src/translate.c.po.c:3742
+#: src/translate.c.po.c:5788
 msgid "Disable IEC device emulation for device #4"
 msgstr "IEC Geräte Emulation für Gerät #4 deaktivieren"
 
-#: src/translate.c.po.c:3754
+#: src/translate.c.po.c:5800
 msgid "Enable IEC device emulation for device #5"
 msgstr "IEC Geräte Emulation für Gerät #5 aktivieren"
 
-#: src/translate.c.po.c:3766
+#: src/translate.c.po.c:5812
 msgid "Disable IEC device emulation for device #5"
 msgstr "IEC Geräte Emulation für Gerät #5 deaktivieren"
 
-#: src/translate.c.po.c:3778
+#: src/translate.c.po.c:5824
 msgid "Enable IEC device emulation for device #8"
 msgstr "IEC Geräte Emulation für Gerät #8 aktivieren"
 
-#: src/translate.c.po.c:3790
+#: src/translate.c.po.c:5836
 msgid "Disable IEC device emulation for device #8"
 msgstr "IEC Geräte Emulation für Gerät #8 deaktivieren"
 
-#: src/translate.c.po.c:3802
+#: src/translate.c.po.c:5848
 msgid "Enable IEC device emulation for device #9"
 msgstr "IEC Geräte Emulation für Gerät #9 aktivieren"
 
-#: src/translate.c.po.c:3814
+#: src/translate.c.po.c:5860
 msgid "Disable IEC device emulation for device #9"
 msgstr "IEC Geräte Emulation für Gerät #9 deaktivieren"
 
-#: src/translate.c.po.c:3826
+#: src/translate.c.po.c:5872
 msgid "Enable IEC device emulation for device #10"
 msgstr "IEC Geräte Emulation für Gerät #10 aktivieren"
 
-#: src/translate.c.po.c:3838
+#: src/translate.c.po.c:5884
 msgid "Disable IEC device emulation for device #10"
 msgstr "IEC Geräte Emulation für Gerät #10 deaktivieren"
 
-#: src/translate.c.po.c:3850
+#: src/translate.c.po.c:5896
 msgid "Enable IEC device emulation for device #11"
 msgstr "IEC Geräte Emulation für Gerät #11 aktivieren"
 
-#: src/translate.c.po.c:3862
+#: src/translate.c.po.c:5908
 msgid "Disable IEC device emulation for device #11"
 msgstr "IEC Geräte Emulation für Gerät #11 deaktivieren"
 
-#: src/translate.c.po.c:3874
+#: src/translate.c.po.c:5920
 msgid "<engine>"
 msgstr "<Engine>"
 
-#: src/translate.c.po.c:3887 src/translate.c.po.c:4372
+#: src/translate.c.po.c:5933 src/translate.c.po.c:6418
 msgid "Specify SID engine (0: FastSID)"
 msgstr "SID Engine wählen (0: FastSID)"
 
-#: src/translate.c.po.c:3901
+#: src/translate.c.po.c:5947
 msgid "Specify SID engine (0: FastSID, 1: ReSID)"
 msgstr "SID Engine wählen (0: FastSID, 1: ReSID)"
 
-#: src/translate.c.po.c:3915
+#: src/translate.c.po.c:5961
 msgid "Specify SID engine (0: FastSID, 2: Catweasel)"
 msgstr "SID Engine wählen (0: FastSID, 2: Catweasel)"
 
-#: src/translate.c.po.c:3929
+#: src/translate.c.po.c:5975
 msgid "Specify SID engine (0: FastSID, 3: HardSID)"
 msgstr "SID Engine wählen (0: FastSID, 3: HardSID)"
 
-#: src/translate.c.po.c:3943
+#: src/translate.c.po.c:5989
 msgid "Specify SID engine (0: FastSID, 4: ParSID)"
 msgstr "SID Engine wählen (0: FastSID, 4: ParSID)"
 
-#: src/translate.c.po.c:3957
+#: src/translate.c.po.c:6003
 #, fuzzy
 msgid "Specify SID engine (0: FastSID, 7: ReSID-FP)"
 msgstr "SID Engine wählen (0: FastSID, 1: ReSID)"
 
-#: src/translate.c.po.c:3971
+#: src/translate.c.po.c:6017
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)"
 msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel)"
 
-#: src/translate.c.po.c:3985
+#: src/translate.c.po.c:6031
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID)"
 msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 3: HardSID)"
 
-#: src/translate.c.po.c:3999
+#: src/translate.c.po.c:6045
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 4: ParSID)"
 msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 4: ParSID)"
 
-#: src/translate.c.po.c:4013
+#: src/translate.c.po.c:6059
 #, fuzzy
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 7: ReSID-FP)"
 msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 4: ParSID)"
 
-#: src/translate.c.po.c:4027
+#: src/translate.c.po.c:6073
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)"
 msgstr "SID Engine wählen (0: FastSID, 2: Catweasel, 3: HardSID)"
 
-#: src/translate.c.po.c:4042
+#: src/translate.c.po.c:6088
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 4: ParSID)"
 msgstr "SID Engine wählen (0: FastSID, 2: Catweasel, 4: ParSID)"
 
-#: src/translate.c.po.c:4057
+#: src/translate.c.po.c:6103
 #, fuzzy
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 7: ReSID-FP)"
 msgstr "SID Engine wählen (0: FastSID, 2: Catweasel, 4: ParSID)"
 
-#: src/translate.c.po.c:4072
+#: src/translate.c.po.c:6118
 msgid "Specify SID engine (0: FastSID, 3: HardSID, 4: ParSID)"
 msgstr "SID Engine wählen (0: FastSID, 3: HardSID, 4: ParSID)"
 
-#: src/translate.c.po.c:4086
+#: src/translate.c.po.c:6132
 #, fuzzy
 msgid "Specify SID engine (0: FastSID, 3: HardSID, 7: ReSID-FP)"
 msgstr "SID Engine wählen (0: FastSID, 3: HardSID, 4: ParSID)"
 
-#: src/translate.c.po.c:4101
+#: src/translate.c.po.c:6147
 #, fuzzy
 msgid "Specify SID engine (0: FastSID, 4: ParSID, 7: ReSID-FP)"
 msgstr "SID Engine wählen (0: FastSID, 4: ParSID)"
 
-#: src/translate.c.po.c:4116
+#: src/translate.c.po.c:6162
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
 msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
 
-#: src/translate.c.po.c:4131
+#: src/translate.c.po.c:6177
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
 msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
 
-#: src/translate.c.po.c:4146
+#: src/translate.c.po.c:6192
 #, fuzzy
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 7: ReSID-FP)"
 msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
 
-#: src/translate.c.po.c:4161
+#: src/translate.c.po.c:6207
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
 msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
 
-#: src/translate.c.po.c:4176
+#: src/translate.c.po.c:6222
 #, fuzzy
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID, 7: ReSID-FP)"
 msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
 
-#: src/translate.c.po.c:4191
+#: src/translate.c.po.c:6237
 #, fuzzy
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 4: ParSID, 7: ReSID-FP)"
 msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 4: ParSID)"
 
-#: src/translate.c.po.c:4206
+#: src/translate.c.po.c:6252
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 msgstr "SID Engine wählen (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 
-#: src/translate.c.po.c:4221
+#: src/translate.c.po.c:6267
 #, fuzzy
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)"
 msgstr "SID Engine wählen (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 
-#: src/translate.c.po.c:4236
+#: src/translate.c.po.c:6282
 #, fuzzy
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)"
 msgstr "SID Engine wählen (0: FastSID, 2: Catweasel, 4: ParSID)"
 
-#: src/translate.c.po.c:4251
+#: src/translate.c.po.c:6297
 #, fuzzy
 msgid "Specify SID engine (0: FastSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"
 msgstr "SID Engine wählen (0: FastSID, 3: HardSID, 4: ParSID)"
 
-#: src/translate.c.po.c:4266
+#: src/translate.c.po.c:6312
 msgid ""
 "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: "
 "ParSID)"
 msgstr ""
 "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 
-#: src/translate.c.po.c:4283
+#: src/translate.c.po.c:6329
 #, fuzzy
 msgid ""
 "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 7: ReSID-"
@@ -11218,27 +11197,27 @@ msgid ""
 msgstr ""
 "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 
-#: src/translate.c.po.c:4300
+#: src/translate.c.po.c:6346
 #, fuzzy
 msgid ""
 "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID, 7: ReSID-"
 "FP)"
 msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
 
-#: src/translate.c.po.c:4317
+#: src/translate.c.po.c:6363
 #, fuzzy
 msgid ""
 "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"
 msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
 
-#: src/translate.c.po.c:4334
+#: src/translate.c.po.c:6380
 #, fuzzy
 msgid ""
 "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID, 7: "
 "ReSID-FP)"
 msgstr "SID Engine wählen (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 
-#: src/translate.c.po.c:4352
+#: src/translate.c.po.c:6398
 #, fuzzy
 msgid ""
 "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: "
@@ -11246,742 +11225,763 @@ msgid ""
 msgstr ""
 "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 
-#: src/translate.c.po.c:4386
+#: src/translate.c.po.c:6432
 msgid "Specify SID engine (0: FastSID, 1: Catweasel)"
 msgstr "SID Engine wählen (0: FastSID, 1: Catweasel)"
 
-#: src/translate.c.po.c:4400
+#: src/translate.c.po.c:6446
 msgid "Specify SID engine (0: FastSID, 2: HardSID)"
 msgstr "SID Engine wählen (0: FastSID, 2: HardSID)"
 
-#: src/translate.c.po.c:4414
+#: src/translate.c.po.c:6460
 msgid "Specify SID engine (0: FastSID, 3: ParSID)"
 msgstr "SID Engine wählen (0: FastSID, 3: ParSID)"
 
-#: src/translate.c.po.c:4428
+#: src/translate.c.po.c:6474
 msgid "Specify SID engine (0: FastSID, 1: Catweasel, 2: HardSID)"
 msgstr "SID Engine wählen (0: FastSID, 1: Catweasel, 2: HardSID)"
 
-#: src/translate.c.po.c:4443
+#: src/translate.c.po.c:6489
 msgid "Specify SID engine (0: FastSID, 1: Catweasel, 3: ParSID)"
 msgstr "SID Engine wählen (0: FastSID, 1: Catweasel, 3: ParSID)"
 
-#: src/translate.c.po.c:4458
+#: src/translate.c.po.c:6504
 msgid "Specify SID engine (0: FastSID, 2: HardSID, 3: ParSID)"
 msgstr "SID Engine wählen (0: FastSID, 2: HardSID, 3: ParSID)"
 
-#: src/translate.c.po.c:4473
+#: src/translate.c.po.c:6519
 msgid "Specify SID engine (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"
 msgstr "SID Engine wählen (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"
 
-#: src/translate.c.po.c:4487
+#: src/translate.c.po.c:6533
 msgid "Enable second SID"
 msgstr "Zweiten SID aktivieren"
 
-#: src/translate.c.po.c:4499
+#: src/translate.c.po.c:6545
 msgid "Enable SID Cartridge"
 msgstr "SID Modul aktivieren"
 
-#: src/translate.c.po.c:4511
+#: src/translate.c.po.c:6557
 #, fuzzy
 msgid "Disable SID Cartridge"
 msgstr "SID Modul aktivieren"
 
-#: src/translate.c.po.c:4523
+#: src/translate.c.po.c:6569
 msgid "<base address>"
 msgstr "<Basis Adresse>"
 
-#: src/translate.c.po.c:4535
+#: src/translate.c.po.c:6581
 msgid "Specify base address for 2nd SID"
 msgstr "Basis Adresse für zweiten SID definieren"
 
-#: src/translate.c.po.c:4547
+#: src/translate.c.po.c:6593
 msgid "<model>"
 msgstr "<Modell>"
 
-#: src/translate.c.po.c:4559
+#: src/translate.c.po.c:6605
 msgid "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost, 4: DTV)"
 msgstr "SID Modell definieren (0: 6581, 1: 8580, 2: 8580 + digi boost, 4: DTV)"
 
-#: src/translate.c.po.c:4571
+#: src/translate.c.po.c:6617
 msgid "Emulate SID filters"
 msgstr "SID Filter Emulation aktivieren"
 
-#: src/translate.c.po.c:4583
+#: src/translate.c.po.c:6629
 msgid "Do not emulate SID filters"
 msgstr "SID Filter Emulation deaktivieren"
 
-#: src/translate.c.po.c:4596
+#: src/translate.c.po.c:6642
 #, fuzzy
 msgid ""
 "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast "
+"resampling)"
 msgstr ""
 "reSID Sample Methode (0: schnell, 1: interpolierend, 2: resampling, 3: "
 "schnelles resampling)"
 
-#: src/translate.c.po.c:4597
-#, fuzzy
-msgid "resampling)"
-msgstr "Resampling"
-
-#: src/translate.c.po.c:4615
+#: src/translate.c.po.c:6661
 msgid "<percent>"
 msgstr "<prozent>"
 
-#: src/translate.c.po.c:4627
+#: src/translate.c.po.c:6673
 msgid "reSID resampling passband in percentage of total bandwidth (0 - 90)"
 msgstr ""
 "reSID Resampling Passband Prozentwert der gesamte Bandbreite (0 - 90)\n"
 "(0 - 90, niedrig ist schneller, höher ist besser)"
 
-#: src/translate.c.po.c:4643
+#: src/translate.c.po.c:6689
 msgid "reSID gain in percent (90 - 100)"
 msgstr "reSID Gain in Prozent (90 - 100)"
 
-#: src/translate.c.po.c:4656
+#: src/translate.c.po.c:6702
 msgid "Set the VDC memory size to 16KB"
 msgstr "VDC Speichgröße auf 16KB setzen"
 
-#: src/translate.c.po.c:4668
+#: src/translate.c.po.c:6714
 msgid "Set the VDC memory size to 64KB"
 msgstr "VDC Speichgröße auf 64KB setzen"
 
-#: src/translate.c.po.c:4680
+#: src/translate.c.po.c:6726
 msgid "Set VDC revision (0..2)"
 msgstr "VDC Revision (0..2) setzen"
 
-#: src/translate.c.po.c:4692
+#: src/translate.c.po.c:6738
 msgid "<spec>"
 msgstr "<Spec>"
 
-#: src/translate.c.po.c:4704
+#: src/translate.c.po.c:6750
 msgid "Specify memory configuration"
 msgstr "Speicher Konfiguration definieren"
 
-#: src/translate.c.po.c:4716
+#: src/translate.c.po.c:6762
 msgid "Enable VIC-1112 IEEE488 interface"
 msgstr "VIC-1112 IEEE488 Schnittstelle aktivieren"
 
-#: src/translate.c.po.c:4728
+#: src/translate.c.po.c:6774
 msgid "Disable VIC-1112 IEEE488 interface"
 msgstr "VIC-1112 IEEE488 Schnittstelle deaktivieren"
 
-#: src/translate.c.po.c:4740
+#: src/translate.c.po.c:6786
 msgid "Specify 4/8/16K extension ROM name at $2000"
 msgstr "4/8/16K Erweiterungs ROM Datei Name für $2000 definieren"
 
-#: src/translate.c.po.c:4752
+#: src/translate.c.po.c:6798
 msgid "Specify 4/8/16K extension ROM name at $4000"
 msgstr "4/8/16K Erweiterungs ROM Datei Name für $4000 definieren"
 
-#: src/translate.c.po.c:4764
+#: src/translate.c.po.c:6810
 msgid "Specify 4/8/16K extension ROM name at $6000"
 msgstr "4/8/16K Erweiterungs ROM Datei Name für $6000 definieren"
 
-#: src/translate.c.po.c:4776
+#: src/translate.c.po.c:6822
 msgid "Specify 4/8K extension ROM name at $A000"
 msgstr "4/8/16K Erweiterungs ROM Datei Name für $A000 definieren"
 
-#: src/translate.c.po.c:4788
+#: src/translate.c.po.c:6834
 msgid "Specify 4K extension ROM name at $B000"
 msgstr "4/8/16K Erweiterungs ROM Datei Name für $B000 definieren"
 
-#: src/translate.c.po.c:4800
+#: src/translate.c.po.c:6846
 msgid "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"
 msgstr "VIC-II Rahmen Darstellung Modus (0: normal, 1: full, 2: debug)"
 
-#: src/translate.c.po.c:4813
+#: src/translate.c.po.c:6859
 msgid "Enable sprite-background collision registers"
 msgstr "Sprite-Hintergrund Kollisionen aktivieren"
 
-#: src/translate.c.po.c:4825
+#: src/translate.c.po.c:6871
 msgid "Disable sprite-background collision registers"
 msgstr "Sprite-Hintergrund Kollisionen deaktivieren"
 
-#: src/translate.c.po.c:4837
+#: src/translate.c.po.c:6883
 msgid "Enable sprite-sprite collision registers"
 msgstr "Sprite-Sprite Kollisionen aktivieren"
 
-#: src/translate.c.po.c:4849
+#: src/translate.c.po.c:6895
 msgid "Disable sprite-sprite collision registers"
 msgstr "Sprite-Sprite Kollisionen deaktivieren"
 
-#: src/translate.c.po.c:4861
+#: src/translate.c.po.c:6907
 msgid "Use new luminances"
 msgstr "Neue Helligkeitsemulation"
 
-#: src/translate.c.po.c:4873
+#: src/translate.c.po.c:6919
 msgid "Use old luminances"
 msgstr "Alte Helligkeitsemulation"
 
-#: src/translate.c.po.c:4885
+#: src/translate.c.po.c:6931
 msgid "Enable double size"
 msgstr "Doppelte Größe aktivieren"
 
-#: src/translate.c.po.c:4897
+#: src/translate.c.po.c:6943
 msgid "Disable double size"
 msgstr "Doppelte Größe deaktivieren"
 
-#: src/translate.c.po.c:4909
+#: src/translate.c.po.c:6955
 msgid "Enable double scan"
 msgstr "Doppelt Scan aktivieren"
 
-#: src/translate.c.po.c:4921
+#: src/translate.c.po.c:6967
 msgid "Disable double scan"
 msgstr "Doppelt Scan deaktivieren"
 
-#: src/translate.c.po.c:4933
+#: src/translate.c.po.c:6979
 msgid "Enable hardware scaling"
 msgstr "Hardwareunterstützung für Skalierung aktivieren"
 
-#: src/translate.c.po.c:4945
+#: src/translate.c.po.c:6991
 msgid "Disable hardware scaling"
 msgstr "Hardwareunterstützung für Skalierung deaktivieren"
 
-#: src/translate.c.po.c:4957
+#: src/translate.c.po.c:7003
 msgid "Enable Scale2x"
 msgstr "Scale2x aktivieren"
 
-#: src/translate.c.po.c:4969
+#: src/translate.c.po.c:7015
 msgid "Disable Scale2x"
 msgstr "Scale2x deaktivieren"
 
-#: src/translate.c.po.c:4981
+#: src/translate.c.po.c:7027
 msgid "Use an internal calculated palette"
 msgstr "Benutzse intern berechnete Palette"
 
-#: src/translate.c.po.c:4993
+#: src/translate.c.po.c:7039
 msgid "Use an external palette (file)"
 msgstr "Benutze externe Palette (Datei)"
 
-#: src/translate.c.po.c:5005
+#: src/translate.c.po.c:7051
 msgid "Specify name of file of external palette"
 msgstr "Dateiname für externe Palette definieren"
 
-#: src/translate.c.po.c:5017
+#: src/translate.c.po.c:7063
 msgid "Enable fullscreen mode"
 msgstr "Vollbild Modus aktivieren"
 
-#: src/translate.c.po.c:5029
+#: src/translate.c.po.c:7075
 msgid "Disable fullscreen mode"
 msgstr "Vollbild Modus deaktivieren"
 
-#: src/translate.c.po.c:5053
+#: src/translate.c.po.c:7087
+msgid "<device>"
+msgstr "<Gerät>"
+
+#: src/translate.c.po.c:7099
 msgid "Select fullscreen device"
 msgstr "Vollbild Gerät selektieren"
 
-#: src/translate.c.po.c:5065
+#: src/translate.c.po.c:7111
 msgid "Enable double size in fullscreen mode"
 msgstr "Doppelte Größe im Vollbild Modus aktivieren"
 
-#: src/translate.c.po.c:5077
+#: src/translate.c.po.c:7123
 msgid "Disable double size in fullscreen mode"
 msgstr "Doppelte Große im Vollbild Modus deaktivieren"
 
-#: src/translate.c.po.c:5089
+#: src/translate.c.po.c:7135
 msgid "Enable double scan in fullscreen mode"
 msgstr "Doppelt Scan im Vollbild Modus aktivieren"
 
-#: src/translate.c.po.c:5101
+#: src/translate.c.po.c:7147
 msgid "Disable double scan in fullscreen mode"
 msgstr "Doppelt Scan im Vollbild Modus deaktivieren"
 
-#: src/translate.c.po.c:5113
+#: src/translate.c.po.c:7159
 msgid "<mode>"
 msgstr "<Modus>"
 
-#: src/translate.c.po.c:5125
+#: src/translate.c.po.c:7171
 msgid "Select fullscreen mode"
 msgstr "Vollbild Modus wählen"
 
-#: src/translate.c.po.c:5137
+#: src/translate.c.po.c:7183
 msgid "Specify RS232 device this ACIA should work on"
 msgstr "RS232 Gerät für welches ACIA funktionieren soll ist zu spezifizieren"
 
-#: src/translate.c.po.c:5150
+#: src/translate.c.po.c:7196
 #, fuzzy
-msgid "Set device type for device #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: "
-msgstr "Geräte Typ für Gerät #8 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
+msgid ""
+"Set device type for device #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
+"DEVICE)"
+msgstr "Geräte Typ für Gerät #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 
-#: src/translate.c.po.c:5151 src/translate.c.po.c:5165
-msgid "BLOCK DEVICE)"
-msgstr ""
-
-#: src/translate.c.po.c:5164
+#: src/translate.c.po.c:7210
 #, fuzzy
-msgid "Set device type for device #9 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: "
-msgstr "Geräte Typ für Gerät #9 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
+msgid ""
+"Set device type for device #9 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
+"DEVICE)"
+msgstr "Geräte Typ für Gerät #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 
-#: src/translate.c.po.c:5178
+#: src/translate.c.po.c:7224
 #, fuzzy
 msgid ""
 "Set device type for device #10 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
+"DEVICE)"
 msgstr "Geräte Typ für Gerät #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 
-#: src/translate.c.po.c:5179 src/translate.c.po.c:5193
-#, fuzzy
-msgid "DEVICE)"
-msgstr "VICE"
-
-#: src/translate.c.po.c:5192
+#: src/translate.c.po.c:7238
 #, fuzzy
 msgid ""
 "Set device type for device #11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
+"DEVICE)"
 msgstr "Geräte Typ für Gerät #11 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 
-#: src/translate.c.po.c:5206
+#: src/translate.c.po.c:7252
 msgid "Attach disk image for drive #8 read only"
 msgstr "Disk Image als Laufwerk #8 benutzen (schreibgeschützt)"
 
-#: src/translate.c.po.c:5218
+#: src/translate.c.po.c:7264
 msgid "Attach disk image for drive #8 read write (if possible)"
 msgstr "Disk Image als Laufwerk #8 benutzen (Schreibzugriff, wenn möglich)"
 
-#: src/translate.c.po.c:5232
+#: src/translate.c.po.c:7278
 msgid "Attach disk image for drive #9 read only"
 msgstr "Disk Image als Laufwerk #9 benutzen (schreibgeschützt)"
 
-#: src/translate.c.po.c:5244
+#: src/translate.c.po.c:7290
 msgid "Attach disk image for drive #9 read write (if possible)"
 msgstr "Disk Image als Laufwerk #9 benutzen (Schreibzugriff, wenn möglich)"
 
-#: src/translate.c.po.c:5258
+#: src/translate.c.po.c:7304
 msgid "Attach disk image for drive #10 read only"
 msgstr "Disk Image als Laufwerk #10 benutzen (schreibgeschützt)"
 
-#: src/translate.c.po.c:5270
+#: src/translate.c.po.c:7316
 msgid "Attach disk image for drive #10 read write (if possible)"
 msgstr "Disk Image als Laufwerk #10 benutzen (Schreibzugriff, wenn möglich)"
 
-#: src/translate.c.po.c:5284
+#: src/translate.c.po.c:7330
 msgid "Attach disk image for drive #11 read only"
 msgstr "Disk Image als Laufwerk #11 benutzen (schreibgeschützt)"
 
-#: src/translate.c.po.c:5296
+#: src/translate.c.po.c:7342
 msgid "Attach disk image for drive #11 read write (if possible)"
 msgstr "Disk Image als Laufwerk #11 benutzen (Schreibzugriff, wenn möglich)"
 
-#: src/translate.c.po.c:5310
+#: src/translate.c.po.c:7356
 msgid "Enable automatic Datasette-Reset"
 msgstr "Automatisches Datasette-Reset aktivieren"
 
-#: src/translate.c.po.c:5322
+#: src/translate.c.po.c:7368
 msgid "Disable automatic Datasette-Reset"
 msgstr "Automatisches Datasette-Reset deaktivieren"
 
-#: src/translate.c.po.c:5334
+#: src/translate.c.po.c:7380
 msgid "Set delay in cycles for a zero in the tap"
 msgstr "Verzögerung für Zero in Zyklen im Tap"
 
-#: src/translate.c.po.c:5346
+#: src/translate.c.po.c:7392
 msgid "Set number of cycles added to each gap in the tap"
 msgstr "Setze Anzahl der Zyklen für jedes Loch im Tap"
 
-#: src/translate.c.po.c:5359
+#: src/translate.c.po.c:7405
 msgid "Trace the main CPU"
 msgstr "Haupt CPU verfolgen"
 
-#: src/translate.c.po.c:5371
+#: src/translate.c.po.c:7417
 msgid "Do not trace the main CPU"
 msgstr "Haupt CPU nicht verfolgen"
 
-#: src/translate.c.po.c:5383
+#: src/translate.c.po.c:7429
 msgid "Trace the drive0 CPU"
 msgstr "Laufwerk0 CPU verfolgen"
 
-#: src/translate.c.po.c:5395
+#: src/translate.c.po.c:7441
 msgid "Do not trace the drive0 CPU"
 msgstr "Laufwerk0 CPU nicht verfolgen"
 
-#: src/translate.c.po.c:5407
+#: src/translate.c.po.c:7453
 msgid "Trace the drive1 CPU"
 msgstr "Laufwerk1 CPU verfolgen"
 
-#: src/translate.c.po.c:5419
+#: src/translate.c.po.c:7465
 msgid "Do not trace the drive1 CPU"
 msgstr "Laufwerk1 CPU nicht verfolgen"
 
-#: src/translate.c.po.c:5432
+#: src/translate.c.po.c:7478
 msgid "Trace the drive2 CPU"
 msgstr "Laufwerk2 CPU verfolgen"
 
-#: src/translate.c.po.c:5444
+#: src/translate.c.po.c:7490
 msgid "Do not trace the drive2 CPU"
 msgstr "Laufwerk2 CPU nicht verfolgen"
 
-#: src/translate.c.po.c:5458
+#: src/translate.c.po.c:7504
 msgid "Trace the drive3 CPU"
 msgstr "Laufwerk3 CPU verfolgen"
 
-#: src/translate.c.po.c:5470
+#: src/translate.c.po.c:7516
 msgid "Do not trace the drive3 CPU"
 msgstr "Laufwerk3 CPU nicht verfolgen"
 
-#: src/translate.c.po.c:5483
+#: src/translate.c.po.c:7529
 msgid "Trace mode (0=normal 1=small 2=history)"
 msgstr "Verfolgung Modus (0=normal 1=klein 2=Geschichte)"
 
-#: src/translate.c.po.c:5496
+#: src/translate.c.po.c:7542
 msgid "Playback recorded events"
 msgstr "Wiedergabe von aufgenommener Ereignisse"
 
-#: src/translate.c.po.c:5508
+#: src/translate.c.po.c:7554
 msgid "Execute monitor commands from file"
 msgstr "Monitor Kommandos von Datei ausführen"
 
-#: src/translate.c.po.c:5520
+#: src/translate.c.po.c:7566
 msgid "Set an initial breakpoint for the monitor"
 msgstr "Setze initialen Breakpoint für Monitor"
 
-#: src/translate.c.po.c:5532
+#: src/translate.c.po.c:7578
 msgid "Specify name of the flip list file image"
 msgstr "Namen für Fliplist Datei definieren"
 
-#: src/translate.c.po.c:5544
+#: src/translate.c.po.c:7590
 msgid "Show a list of the available options and exit normally"
 msgstr "Liste von verfügbaren Optionen zeigen und beenden"
 
-#: src/translate.c.po.c:5557
+#: src/translate.c.po.c:7603
 msgid "Console mode (for music playback)"
 msgstr "Konsolenmodus (für Musikwiedergabe)"
 
-#: src/translate.c.po.c:5569
+#: src/translate.c.po.c:7615
 msgid "Allow production of core dumps"
 msgstr "Core Dumps ermöglichen"
 
-#: src/translate.c.po.c:5581
+#: src/translate.c.po.c:7627
 msgid "Do not produce core dumps"
 msgstr "Core Dumps verhindern"
 
-#: src/translate.c.po.c:5593
+#: src/translate.c.po.c:7639
 msgid "Don't call exception handler"
 msgstr "Ausnahmebehandlung vermeiden"
 
-#: src/translate.c.po.c:5605
+#: src/translate.c.po.c:7651
 msgid "Call exception handler (default)"
 msgstr "Ausnahmebehandlung aktivieren (Default)"
 
-#: src/translate.c.po.c:5618
+#: src/translate.c.po.c:7664
 msgid "Restore default (factory) settings"
 msgstr "Wiederherstellen Standard Einstellungen"
 
-#: src/translate.c.po.c:5630
+#: src/translate.c.po.c:7676
 msgid "Attach and autostart tape/disk image <name>"
 msgstr "Einlegen und Autostart Disk/Band Image Datei <Name>"
 
-#: src/translate.c.po.c:5642
+#: src/translate.c.po.c:7688
 msgid "Attach and autoload tape/disk image <name>"
 msgstr "Einlegen und Autoload Disk/Band Image Datei <Name>"
 
-#: src/translate.c.po.c:5654
+#: src/translate.c.po.c:7700
 msgid "Attach <name> as a tape image"
 msgstr "Image Datei <Name> einlegen"
 
-#: src/translate.c.po.c:5666
+#: src/translate.c.po.c:7712
 msgid "Attach <name> as a disk image in drive #8"
 msgstr "Image Datei <Name> im Laufwerk #8 einlegen"
 
-#: src/translate.c.po.c:5678
+#: src/translate.c.po.c:7724
 msgid "Attach <name> as a disk image in drive #9"
 msgstr "Image Datei <Name> im Laufwerk #9 einlegen"
 
-#: src/translate.c.po.c:5690
+#: src/translate.c.po.c:7736
 msgid "Attach <name> as a disk image in drive #10"
 msgstr "Image Datei <Name> im Laufwerk #10 einlegen"
 
-#: src/translate.c.po.c:5702
+#: src/translate.c.po.c:7748
 msgid "Attach <name> as a disk image in drive #11"
 msgstr "Image Datei <Name> im Laufwerk #11 einlegen"
 
-#: src/translate.c.po.c:5714
+#: src/translate.c.po.c:7760
 msgid "<string>"
 msgstr "<String>"
 
-#: src/translate.c.po.c:5738
+#: src/translate.c.po.c:7784
 msgid "Specify log file name"
 msgstr "Logdateiname definieren"
 
-#: src/translate.c.po.c:5750
+#: src/translate.c.po.c:7796
 msgid "Enable mouse grab"
 msgstr "Maus aktivieren"
 
-#: src/translate.c.po.c:5762
+#: src/translate.c.po.c:7808
 msgid "Disable mouse grab"
 msgstr "Maus deaktivieren"
 
-#: src/translate.c.po.c:5774
+#: src/translate.c.po.c:7820
 msgid "Select the joystick port the mouse is attached to"
 msgstr "Joystickport für Maus auswählen"
 
-#: src/translate.c.po.c:5786
+#: src/translate.c.po.c:7832
 msgid "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga)"
 msgstr "Maus typ wählen (0 = 1351, 1 = NEOS, 2 = Amiga)"
 
-#: src/translate.c.po.c:5798
+#: src/translate.c.po.c:7844
 msgid "Enable PS/2 mouse on userport"
 msgstr "PS/2 Userport Emulation aktivieren"
 
-#: src/translate.c.po.c:5810
+#: src/translate.c.po.c:7856
 msgid "Disable PS/2 mouse on userport"
 msgstr "PS/2 Userport Emulation deaktivieren\""
 
-#: src/translate.c.po.c:5822
+#: src/translate.c.po.c:7868
 msgid "Set the value for the very first RAM address after powerup"
 msgstr "Wert für erstes Byte im RAM nach Kaltstart setzen"
 
-#: src/translate.c.po.c:5835
+#: src/translate.c.po.c:7881
 msgid "<num of bytes>"
 msgstr "<Anzahl an Bytes>"
 
-#: src/translate.c.po.c:5847
+#: src/translate.c.po.c:7893
 msgid "Length of memory block initialized with the same value"
 msgstr "Länge des Speicherblocks der mit dem gleichen Wert initialisiert ist"
 
-#: src/translate.c.po.c:5859
+#: src/translate.c.po.c:7905
 msgid "Length of memory block initialized with the same pattern"
 msgstr "Länge des Speicherblocks der mit dem gleichen Muster initialisiert ist"
 
-#: src/translate.c.po.c:5871
+#: src/translate.c.po.c:7917
 msgid "Enable sound playback"
 msgstr "Sound Wiedergaben einschalten"
 
-#: src/translate.c.po.c:5883
+#: src/translate.c.po.c:7929
 msgid "Disable sound playback"
 msgstr "Sound Wiedergaben ausschalten"
 
-#: src/translate.c.po.c:5895
+#: src/translate.c.po.c:7941
 msgid "Set sound sample rate to <value> Hz"
 msgstr "Setze Sound Sample Rate zu <Wert> Hz"
 
-#: src/translate.c.po.c:5907
+#: src/translate.c.po.c:7953
 msgid "Set sound buffer size to <value> msec"
 msgstr "Setze Source Buffer Größe zu <Wert> msek"
 
-#: src/translate.c.po.c:5919
+#: src/translate.c.po.c:7965
 msgid "Specify sound driver"
 msgstr "Sound Treiber spezifieren"
 
-#: src/translate.c.po.c:5931
+#: src/translate.c.po.c:7977
 msgid "<args>"
 msgstr "<Argumente>"
 
-#: src/translate.c.po.c:5943
+#: src/translate.c.po.c:7989
 msgid "Specify initialization parameters for sound driver"
 msgstr "Initialisierungsparameter des Sound Treibers spezifizieren"
 
-#: src/translate.c.po.c:5955
+#: src/translate.c.po.c:8001
 msgid "Specify recording sound driver"
 msgstr "Sound Treiber für Aufnahme spezifizieren"
 
-#: src/translate.c.po.c:5967
+#: src/translate.c.po.c:8013
 msgid "Specify initialization parameters for recording sound driver"
 msgstr "Initialisierungsparameter für Aufnahme Sound Treiber spezifieren"
 
-#: src/translate.c.po.c:5982
+#: src/translate.c.po.c:8028
 msgid "<sync>"
 msgstr "<Sync>"
 
-#: src/translate.c.po.c:5994
+#: src/translate.c.po.c:8040
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 "Setze Sound Geschwindigkeit Anpassung (0: flexibel, 1: anpassend, 2: exakt)"
 
-#: src/translate.c.po.c:6007
+#: src/translate.c.po.c:8053
 msgid "<path>"
 msgstr "<Pfad>"
 
-#: src/translate.c.po.c:6019
+#: src/translate.c.po.c:8065
 msgid "Define search path to locate system files"
 msgstr "Suchpfad für Systemdateien definieren"
 
-#: src/translate.c.po.c:6031
+#: src/translate.c.po.c:8077
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr "Allgemeine Mechanismen für schnelle Disk/Band Emulation aktivieren"
 
-#: src/translate.c.po.c:6044
+#: src/translate.c.po.c:8090
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr "Allgemeine Mechanismen für schnelle Disk/Band Emulation deaktivieren"
 
-#: src/translate.c.po.c:6058
+#: src/translate.c.po.c:8104
 msgid "Limit emulation speed to specified value"
 msgstr "Emulationsgeschwindigkeit auf Wert beschränken."
 
-#: src/translate.c.po.c:6070
+#: src/translate.c.po.c:8116
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Jedes <Wert> Bild aktualisieren (`0' für Automatik)"
 
-#: src/translate.c.po.c:6082
+#: src/translate.c.po.c:8128
 msgid "Enable warp mode"
 msgstr "Warp Mode aktivieren"
 
-#: src/translate.c.po.c:6094
+#: src/translate.c.po.c:8140
 msgid "Disable warp mode"
 msgstr "Warp Mode deaktivieren"
 
-#: src/translate.c.po.c:6106
+#: src/translate.c.po.c:8152
 msgid "<iso language code>"
 msgstr "<iso Sprachcode>"
 
-#: src/translate.c.po.c:6118
+#: src/translate.c.po.c:8164
 msgid "Specify the iso code of the language"
 msgstr "Iso Sprachcode spezifizieren"
 
-#: src/translate.c.po.c:6130
+#: src/translate.c.po.c:8176
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "PLUS256K RAM Erweiterung aktivieren"
 
-#: src/translate.c.po.c:6142
+#: src/translate.c.po.c:8188
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "PLUS256K RAM Erweiterung deaktivieren"
 
-#: src/translate.c.po.c:6154
+#: src/translate.c.po.c:8200
 msgid "Specify name of PLUS256K image"
 msgstr "Name der PLUS256K Image Datei definieren"
 
-#: src/translate.c.po.c:6166
+#: src/translate.c.po.c:8212
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "PLUS60K RAM Erweiterung aktivieren"
 
-#: src/translate.c.po.c:6178
+#: src/translate.c.po.c:8224
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "PLUS60K RAM Erweiterung deaktivieren"
 
-#: src/translate.c.po.c:6190
+#: src/translate.c.po.c:8236
 msgid "Specify name of PLUS60K image"
 msgstr "Name der PLUS60K Image Datei definieren"
 
-#: src/translate.c.po.c:6202
+#: src/translate.c.po.c:8248
 msgid "Base address of the PLUS60K expansion"
 msgstr "Basis Adresse für PLUS60K Erweiterung"
 
-#: src/translate.c.po.c:6214
+#: src/translate.c.po.c:8260
 msgid "Enable the 256K RAM expansion"
 msgstr "256K RAM Erweiterung aktivieren"
 
-#: src/translate.c.po.c:6226
+#: src/translate.c.po.c:8272
 msgid "Disable the 256K RAM expansion"
 msgstr "256K RAM Erweiterung deaktivieren"
 
-#: src/translate.c.po.c:6238
+#: src/translate.c.po.c:8284
 msgid "Specify name of 256K image"
 msgstr "Name der 256K Image Datei definieren"
 
-#: src/translate.c.po.c:6250
+#: src/translate.c.po.c:8296
 msgid "Base address of the 256K expansion"
 msgstr "Basis Adresse für 256K RAM Erweiterung"
 
-#: src/translate.c.po.c:6262
+#: src/translate.c.po.c:8308
 msgid "Attach raw Structured Basic cartridge image"
 msgstr "Erweiterungsmodul Structured Basic (raw) Image einlegen"
 
-#: src/translate.c.po.c:6272
+#: src/translate.c.po.c:8318
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "CSORY 256K RAM Erweiterung aktivieren"
 
-#: src/translate.c.po.c:6284
+#: src/translate.c.po.c:8330
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "HANNES 256K RAM Erweiterung aktivieren"
 
-#: src/translate.c.po.c:6296
+#: src/translate.c.po.c:8342
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "HANNES 1024K RAM Erweiterung aktivieren"
 
-#: src/translate.c.po.c:6308
+#: src/translate.c.po.c:8354
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "HANNES 4096K RAM Erweiterung aktivieren"
 
-#: src/translate.c.po.c:6320
+#: src/translate.c.po.c:8366
 msgid "Specify DTV Revision (2: DTV2, 3: DTV3)"
 msgstr "DTV Revision definieren (2: DTV2, 3: DTV3)"
 
-#: src/translate.c.po.c:6332
+#: src/translate.c.po.c:8378
 msgid "Enable DTV blitter logs."
 msgstr "DTV Blitter Log aktivieren."
 
-#: src/translate.c.po.c:6344
+#: src/translate.c.po.c:8390
 msgid "Disable DTV blitter logs."
 msgstr "DTV Blitter Log deaktivieren."
 
-#: src/translate.c.po.c:6356
+#: src/translate.c.po.c:8402
 msgid "Enable DTV DMA logs."
 msgstr "DTV DMA Logs aktivieren."
 
-#: src/translate.c.po.c:6368
+#: src/translate.c.po.c:8414
 msgid "Disable DTV DMA logs."
 msgstr "DTV DMA Logs deaktivieren."
 
-#: src/translate.c.po.c:6380
+#: src/translate.c.po.c:8426
 msgid "Specify name of C64DTV ROM image"
 msgstr "Name von C64DTV ROM Datei definieren"
 
-#: src/translate.c.po.c:6392
+#: src/translate.c.po.c:8438
 msgid "Enable writing to C64DTV ROM image"
 msgstr "Schreibzugriff auf C64DTV ROM Image erlauben"
 
-#: src/translate.c.po.c:6404
+#: src/translate.c.po.c:8450
 msgid "Disable writing to C64DTV ROM image"
 msgstr "Schreibzugriff auf C64DTV ROM Image verhindern"
 
-#: src/translate.c.po.c:6416
+#: src/translate.c.po.c:8462
 msgid "Enable DTV flash chip logs."
 msgstr "DTV Flashchip Log aktivieren."
 
-#: src/translate.c.po.c:6428
+#: src/translate.c.po.c:8474
 msgid "Disable DTV flash chip logs."
 msgstr "DTV Flashchip Log deaktivieren."
 
-#: src/translate.c.po.c:6440
+#: src/translate.c.po.c:8486
 msgid "Use <name> as directory for flash file system device"
 msgstr "Benutze <Name> für Verzeichnis Gerät Flash Dateisystem"
 
-#: src/translate.c.po.c:6452
+#: src/translate.c.po.c:8498
 msgid "Enable true hardware flash file system"
 msgstr "Präzises Hardware Flashdateisystem aktivieren"
 
-#: src/translate.c.po.c:6464
+#: src/translate.c.po.c:8510
 msgid "Disable true hardware flash file system"
 msgstr "Präzises Hardware Flashdateisystem deaktivieren"
 
-#: src/translate.c.po.c:6476
+#: src/translate.c.po.c:8522
 msgid "Enable the Hummer ADC"
 msgstr "Hummer ADC aktivieren"
 
-#: src/translate.c.po.c:6488
+#: src/translate.c.po.c:8534
 msgid "Disable the Hummer ADC"
 msgstr "Hummer ADC deaktivieren"
 
-#: src/translate.c.po.c:6501
+#: src/translate.c.po.c:8547
 msgid "Enable MIDI emulation"
 msgstr "MIDI Emulation aktivieren"
 
-#: src/translate.c.po.c:6513
+#: src/translate.c.po.c:8559
 msgid "Disable MIDI emulation"
 msgstr "MIDI Emulation deaktivieren"
 
-#: src/translate.c.po.c:6525
+#: src/translate.c.po.c:8571
 #, fuzzy
 msgid ""
 "MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
+"Maplin)"
 msgstr ""
 "MIDI Interface Typ (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
 
-#: src/translate.c.po.c:6526
-#, fuzzy
-msgid "Maplin)"
-msgstr "Zuordnung"
-
-#: src/translate.c.po.c:6540
+#: src/translate.c.po.c:8586
 msgid "Enable the digimax cartridge"
 msgstr "Digimax Cartridge aktivieren"
 
-#: src/translate.c.po.c:6552
+#: src/translate.c.po.c:8598
 msgid "Disable the digimax cartridge"
 msgstr "Digimax Cartridge deaktivieren"
 
-#: src/translate.c.po.c:6564
+#: src/translate.c.po.c:8610
 msgid "Base address of the digimax cartridge"
 msgstr "Basis Adresse für Digimax Erweiterung"
+
+#~ msgid "[c:|8:|9:|10:|11:]"
+#~ msgstr "[c:|8:|9:|10:|11:]"
+
+#~ msgid "[H|D|O|B]"
+#~ msgstr "[H|D|O|B]"
+
+#, fuzzy
+#~ msgid "resampling)"
+#~ msgstr "Resampling"
+
+#, fuzzy
+#~ msgid ""
+#~ "Set device type for device #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: "
+#~ msgstr "Geräte Typ für Gerät #8 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
+
+#, fuzzy
+#~ msgid ""
+#~ "Set device type for device #9 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: "
+#~ msgstr "Geräte Typ für Gerät #9 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
+
+#, fuzzy
+#~ msgid "DEVICE)"
+#~ msgstr "VICE"
+
+#, fuzzy
+#~ msgid "Maplin)"
+#~ msgstr "Zuordnung"
 
 #~ msgid "Initialization failed for device `%s'."
 #~ msgstr "Initialisierung von Gerät `%s' fehlgeschlagen."

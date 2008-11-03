@@ -925,7 +925,7 @@ translate_t string_table[] = {
                                         "Se viene specificato il nome del banco, imposta il banco attuale nello\n"
                                         "spazio di memoria specificato."},
 /* nl */ {IDGS_MON_BANK_DESCRIPTION_NL, "Wanneer de banknaam niet is opgegeven, toon de mogelijke banken voor de geheugen-\n"
-                                        "ruimte. Wanneer de banknaam is opgegeven, zet de huidige bank in de geheugen-\"
+                                        "ruimte. Wanneer de banknaam is opgegeven, zet de huidige bank in de geheugen-\n"
                                         "ruimte naar de opgegeven bank."},
 /* pl */ {IDGS_MON_BANK_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_BANK_DESCRIPTION_SV, "Om banknamn inte anges, skriv ut möjliga bankar för minnesområdet.\n"
@@ -948,8 +948,8 @@ translate_t string_table[] = {
 /* it */ {IDGS_MON_BACKTRACE_DESCRIPTION_IT, "Stampa la catena di chiamate JSR (la chiamata più recente per prima).\n"
                                              "L'offset dello stack relativo a SP+1 è stampato tra parentesi. Questo è\n"
                                              "solo l'ipotesi migliore."},
-/* nl */ {IDGS_MON_BACKTRACE_DESCRIPTION_NL, "Toon JSR aanvraag ketting (meest recente aanvraag eerst). De stack offset\n
-                                             "relatief ten opzichte van SP+1 zal binnen aanhalingstekens worden getoond.\n
+/* nl */ {IDGS_MON_BACKTRACE_DESCRIPTION_NL, "Toon JSR aanvraag ketting (meest recente aanvraag eerst). De stack offset\n"
+                                             "relatief ten opzichte van SP+1 zal binnen aanhalingstekens worden getoond.\n"
                                              "Dit is alleen de beste schatting"},
 /* pl */ {IDGS_MON_BACKTRACE_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_BACKTRACE_DESCRIPTION_SV, "Skriv JSR-anropskedja (senaste anrop först). Stackavstånd\n"
@@ -1637,7 +1637,8 @@ translate_t string_table[] = {
                                         "Se il dato è trovato, viene visualizzato l'indirizzo iniziale della\n"
                                         "corrispondenza. Tutto l'intervallo viene ricercato per tutte le possibili\n"
                                         "corrispondenze."},
-/* nl */ {IDGS_MON_HUNT_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_HUNT_DESCRIPTION_NL, "Zoek het adres bereik voor de data in <data_lijst>. Als de data is gevonden\n"
+                                        "dan wordt het start adres getoont. Er zal door de hele reeks worden gezocht."},
 /* pl */ {IDGS_MON_HUNT_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_HUNT_DESCRIPTION_SV, "Sök i minnet i det angivna området med data efter <datalista>.\n"
                                         "Om data påträffas visas startadressen för träffen. Hela\n"
@@ -1651,7 +1652,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_P_ADDRESS_OPT_RANGE_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_P_ADDRESS_OPT_RANGE_HU, "<címtartomány>"},
 /* it */ {IDGS_P_ADDRESS_OPT_RANGE_IT, "<intervallo di indirizzi opzionale>"},
-/* nl */ {IDGS_P_ADDRESS_OPT_RANGE_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_P_ADDRESS_OPT_RANGE_NL, "<optionele_adres_reeks>"},
 /* pl */ {IDGS_P_ADDRESS_OPT_RANGE_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_P_ADDRESS_OPT_RANGE_SV, "<adress_ev_område>"},
 #endif
@@ -1663,7 +1664,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_MON_I_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_I_DESCRIPTION_HU, "Memória tartalom mutatása PETSCII szövegként."},
 /* it */ {IDGS_MON_I_DESCRIPTION_IT, "Mostra il contenuto della memoria come testo PETSCII."},
-/* nl */ {IDGS_MON_I_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_I_DESCRIPTION_NL, "Toon geheugen inhoud als PETSCII tekst."},
 /* pl */ {IDGS_MON_I_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_I_DESCRIPTION_SV, "Visa minnesinnehåll som PETSCII-text."},
 #endif
@@ -1675,7 +1676,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_MON_II_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_II_DESCRIPTION_HU, "Memória tartalom megjelenítése képernyõ kód szövegként."},
 /* it */ {IDGS_MON_II_DESCRIPTION_IT, "Mostra il contenuto della memoria come testo screen code."},
-/* nl */ {IDGS_MON_II_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_II_DESCRIPTION_NL, "Toon geheugen inhoud als scherm code tekst."},
 /* pl */ {IDGS_MON_II_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_II_DESCRIPTION_SV, "Visa minnesinnehåll som skärmkodstext."},
 #endif
@@ -1687,7 +1688,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_HU, "[<adat_típus>] [<címtartomány>]"},
 /* it */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_IT, "[<dati>] [<intervallo di indirizzi opzionale>]"},
-/* nl */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_NL, "[<data_soort>] [<optionele_adres_reeks>]"},
 /* pl */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_SV, "[<datatyp>] [<adress_ev_område>]"},
 #endif
@@ -1699,9 +1700,9 @@ translate_t string_table[] = {
                                           "'dot' address is used.")},
 #ifdef HAS_TRANSLATION
 /* de */ {IDGS_MON_MEM_DESCRIPTION_DE, "Zeige Speicherinhalt. Wenn kein Datentyp angegeben wurde, wird der\n"
-            "Standarddatentyp verwendet. Wenn nur eine Adresse angegeben wird, hängt\n"
-            "die Länge der Daten vom Datentyp ab. Wenn keine Adresse angeben wurde, \n"
-            "wird die aktuelle Adresse verwendet."},
+                                       "Standarddatentyp verwendet. Wenn nur eine Adresse angegeben wird, hängt\n"
+                                       "die Länge der Daten vom Datentyp ab. Wenn keine Adresse angeben wurde, \n"
+                                       "wird die aktuelle Adresse verwendet."},
 /* fr */ {IDGS_MON_MEM_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_MEM_DESCRIPTION_HU, "A memória tartalmának megjelenítése. Ha nincs adat típus megadva,\n"
                                        "az alapbeállításthasználja. Ha egy cím van megadva, a megjelenített adat\n"
@@ -1746,7 +1747,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_QP_FILENAME_P_FORMAT_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_QP_FILENAME_P_FORMAT_HU, "\"<fájlnév>\" <formátum>"},
 /* it */ {IDGS_QP_FILENAME_P_FORMAT_IT, "\"<nome del file>\" <formato>"},
-/* nl */ {IDGS_QP_FILENAME_P_FORMAT_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_QP_FILENAME_P_FORMAT_NL, "\"<betandsnaam>\" <formaat>"},
 /* pl */ {IDGS_QP_FILENAME_P_FORMAT_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_QP_FILENAME_P_FORMAT_SV, "\"<filnamn>\" <format>"},
 #endif
@@ -1762,7 +1763,8 @@ translate_t string_table[] = {
                                               "0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
 /* it */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_IT, "Salva la mappa di memoria come immagine. I Formati sono:\n"
                                               "0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
-/* nl */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_NL, "Sla de memmap op als een afbeelding. Formaat is:\n"
+                                                 "0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
 /* pl */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_SV, "Sparar minneskartan som en bild. Format:\n"
                                               "0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
@@ -1775,7 +1777,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_HU, "[<maszk>] [<címtartomány>]"},
 /* it */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_IT, "[<maschera>] [<intervallo di indirizzi opzionale>]"},
-/* nl */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_NL, "[<masker>] [<optionele_adres_reeks>]"},
 /* pl */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_SV, "[<mask>] [<adress_ev_område>]"},
 #endif
@@ -1815,7 +1817,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_MON_MEMMAPZAP_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_MEMMAPZAP_DESCRIPTION_HU, "A memória térkép törlése."},
 /* it */ {IDGS_MON_MEMMAPZAP_DESCRIPTION_IT, "Cancella la mappa di meoria."},
-/* nl */ {IDGS_MON_MEMMAPZAP_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_MEMMAPZAP_DESCRIPTION_NL, "Veeg de memmap leeg."},
 /* pl */ {IDGS_MON_MEMMAPZAP_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_MEMMAPZAP_DESCRIPTION_SV, "Töm minneskartan."},
 #endif
@@ -2717,7 +2719,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_P_EXPRESSION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_P_EXPRESSION_HU, "<kifejezés>"},
 /* it */ {IDGS_P_EXPRESSION_IT, "<espressione>"},
-/* nl */ {IDGS_P_EXPRESSION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_P_EXPRESSION_NL, "<expressie>"},
 /* pl */ {IDGS_P_EXPRESSION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_P_EXPRESSION_SV, "<uttryck>"},
 #endif
@@ -6699,7 +6701,7 @@ translate_t string_table[] = {
 #ifdef HAVE_RESID
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_RESID_SAMPLING_METHOD,    N_("reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast "
-                                          "resampling)")},
+                                             "resampling)")},
 #ifdef HAS_TRANSLATION
 /* de */ {IDCLS_RESID_SAMPLING_METHOD_DE, "reSID Sample Methode (0: schnell, 1: interpolierend, 2: resampling, 3: "
                                           "schnelles resampling)"},
