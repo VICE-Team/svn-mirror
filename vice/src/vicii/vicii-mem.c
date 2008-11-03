@@ -288,6 +288,12 @@ inline static void check_lower_upper_border(const BYTE value,
             VICII_DEBUG_REGISTER(("24 line mode enabled"));
         }
     }
+
+    /* Check if border is already disabled even if DEN will be cleared */
+    if (line == vicii.raster.display_ystart && cycle > 0 && !vicii.raster.blank)
+    {
+        vicii.raster.blank_off = 1;
+    }
 }
 
 inline static void d011_store(BYTE value)
