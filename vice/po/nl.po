@@ -2775,19 +2775,19 @@ msgstr "*DTVSID"
 
 #: src/arch/unix/gui/uisid.c:89
 msgid "*6581R3 4885 (very light)"
-msgstr ""
+msgstr "*6581R3 4885 (heel licht)"
 
 #: src/arch/unix/gui/uisid.c:91
 msgid "*6581R3 0486S (light)"
-msgstr ""
+msgstr "*6581R3 0486S (licht)"
 
 #: src/arch/unix/gui/uisid.c:93
 msgid "*6581R3 3984 (light avg)"
-msgstr ""
+msgstr "*6581R3 3984 (licht gem)"
 
 #: src/arch/unix/gui/uisid.c:95
 msgid "*6581R4AR 3789 (avg)"
-msgstr ""
+msgstr "*6581R4AR 3789 (med)"
 
 #: src/arch/unix/gui/uisid.c:97
 msgid "*6581R3 4485 (dark)"
@@ -2795,11 +2795,11 @@ msgstr "*6581R3 4485 (donker)"
 
 #: src/arch/unix/gui/uisid.c:99
 msgid "*6581R4 1986S (very dark)"
-msgstr ""
+msgstr "*6581R4 1986S (erg donker)"
 
 #: src/arch/unix/gui/uisid.c:101
 msgid "*8580 3691 (light)"
-msgstr ""
+msgstr "*8580 3691 (licht)"
 
 #: src/arch/unix/gui/uisid.c:103
 msgid "*8580 3691 + digi boost"
@@ -2807,7 +2807,7 @@ msgstr "*8500 3691 + digi boost"
 
 #: src/arch/unix/gui/uisid.c:105
 msgid "*8580 1489 (dark)"
-msgstr ""
+msgstr "*8580 1489 (donker)"
 
 #: src/arch/unix/gui/uisid.c:107
 msgid "*8580 1489 + digi boost"
@@ -3927,7 +3927,7 @@ msgstr "Nooit gedeeld geheugen gebuiken (trager)"
 
 #: src/arch/unix/x11/xaw/x11video.c:247
 msgid "<fourcc>"
-msgstr ""
+msgstr "<fourcc>"
 
 #: src/arch/unix/x11/xaw/x11video.c:247
 msgid "Request YUV FOURCC format"
@@ -3956,40 +3956,39 @@ msgstr "Zet HID A apparaat"
 
 #: src/arch/unix/macosx/joy.c:241
 msgid "Set X Axis for HID A device"
-msgstr ""
+msgstr "Zet X as voor HID A apparaat"
 
 #: src/arch/unix/macosx/joy.c:246 src/arch/unix/macosx/joy.c:251
 msgid "Set Y Axis for HID A device"
-msgstr ""
+msgstr "Zet Y as voor HID A apparaat"
 
 #: src/arch/unix/macosx/joy.c:256
 msgid "Set X Axis Threshold in Percent of HID A device"
-msgstr ""
+msgstr "Zet X as drempelwaarde in procent voor HID A apparaat"
 
 #: src/arch/unix/macosx/joy.c:261
 msgid "Set Y Axis Threshold in Percent of HID A device"
-msgstr ""
+msgstr "Zet Y as drempelwaarde in procent voor HID A apparaat"
 
 #: src/arch/unix/macosx/joy.c:266
-#, fuzzy
 msgid "Set HID B device"
 msgstr "Zet HID B apparaat"
 
 #: src/arch/unix/macosx/joy.c:271
 msgid "Set X Axis for HID B device"
-msgstr ""
+msgstr "Zet X as voor HID B apparaat"
 
 #: src/arch/unix/macosx/joy.c:276 src/arch/unix/macosx/joy.c:281
 msgid "Set Y Axis for HID B device"
-msgstr ""
+msgstr "Zet Y as voor HID B apparaat"
 
 #: src/arch/unix/macosx/joy.c:286
 msgid "Set X Axis Threshold in Percent of HID B device"
-msgstr ""
+msgstr "Zet X as drempelwaarde in procent voor HID B apparaat"
 
 #: src/arch/unix/macosx/joy.c:291
 msgid "Set Y Axis Threshold in Percent of HID B device"
-msgstr ""
+msgstr "Zet Y as drempelwaarde in procent voor HID B apparaat"
 
 #: src/arch/win32/res.rc.po.c:82 src/arch/win32/res.rc.po.c:4884
 #: src/arch/win32/resc128.rc.po.c:16 src/arch/win32/resc64.rc.po.c:16
@@ -6461,7 +6460,7 @@ msgstr "Keyset opslaan"
 #: src/arch/win32/rescbm2.rc.po.c:1703 src/arch/win32/respet.rc.po.c:2012
 #: src/arch/win32/resplus4.rc.po.c:1380 src/arch/win32/resvic20.rc.po.c:796
 msgid "Dump shortcuts"
-msgstr ""
+msgstr "Dump shortcuts"
 
 #: src/arch/win32/resc128.rc.po.c:2557
 msgid "Select internal function ROM image"
@@ -6566,7 +6565,7 @@ msgstr "Selecteer bestand voor 256K"
 
 #: src/arch/win32/resc64dtv.rc.po.c:36 src/arch/win32/resc64dtv.rc.po.c:1707
 msgid "DTV flash &rom image"
-msgstr ""
+msgstr "DTV flash &rom bestand"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1211 src/arch/amigaos/intl.c.po.c:2917
 msgid "C64DTV Settings"
@@ -6578,7 +6577,7 @@ msgstr "DTV Revisie"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1217
 msgid "HUMMER"
-msgstr ""
+msgstr "HUMMER"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1219
 msgid "Enable &Hummer Userport Joystick"
@@ -6586,7 +6585,7 @@ msgstr "Aktiveer &Hummer Userport Joystick"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1221
 msgid "Joyport mapped to userport"
-msgstr ""
+msgstr "Joystick poort omgeleidt naar userpoort"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1397
 msgid "Attach DTV Flash Image"
@@ -6594,7 +6593,7 @@ msgstr "Koppel DTV Flash Bestand"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1399
 msgid "DTV ROM"
-msgstr ""
+msgstr "DTV ROM"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1401 src/arch/win32/resc64dtv.rc.po.c:1556
 msgid "DTV ROM &image File"
@@ -6602,7 +6601,7 @@ msgstr "DTV ROM &bestand"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1405
 msgid "Enable &writes to DTV ROM image"
-msgstr ""
+msgstr "Aktiveer &schrijven naar DTV ROM bestand"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1552
 msgid "Create DTV Flash Image"
@@ -6610,11 +6609,11 @@ msgstr "Maak DTV Flash Bestand"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1554
 msgid "DTV ROM Creation"
-msgstr ""
+msgstr "Maak DTV Flash Bestand"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1560
 msgid "Copy C64 ROMS into image"
-msgstr ""
+msgstr "Kopieer C64 ROMS naar bestand"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1562
 msgid "Create"
@@ -6638,7 +6637,7 @@ msgstr "&Maak nieuw flash rom bestand"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1712
 msgid "&True flash filesystem"
-msgstr ""
+msgstr "&Hardwarematig flash bestandssysteem"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1713
 msgid "&PS/2 mouse emulation"
@@ -8462,15 +8461,15 @@ msgstr "C64DTV revisie"
 
 #: src/arch/amigaos/intl.c.po.c:2890
 msgid "Writes to C64DTV ROM"
-msgstr ""
+msgstr "Schrijven naar C64DTV ROM"
 
 #: src/arch/amigaos/intl.c.po.c:2899
 msgid "Hummer Userport joystick"
-msgstr ""
+msgstr "Hummer Userport joystick"
 
 #: src/arch/amigaos/intl.c.po.c:2908
 msgid "Joystick port mapped to Hummer Userport"
-msgstr ""
+msgstr "Joystick omgeleidt naar Hummer Userport"
 
 #: src/arch/amigaos/intl.c.po.c:2926
 msgid "model line"
@@ -9261,24 +9260,24 @@ msgstr "DTV ROM bestand gemaakt!"
 #: src/translate.c.po.c:803
 #, c-format
 msgid "Command `%s' unknown.\n"
-msgstr ""
+msgstr "Commando %s' is onbekent.\n"
 
 #: src/translate.c.po.c:815
 #, c-format
 msgid "No help available for `%s'\n"
-msgstr ""
+msgstr "Geen help beschikbaar voor `%s'\n"
 
 #: src/translate.c.po.c:827
 #, c-format
 msgid ""
 "\n"
 "Syntax: %s %s\n"
-msgstr ""
+msgstr "\nSyntax: %s %s\n"
 
 #: src/translate.c.po.c:839
 #, c-format
 msgid "Abbreviation: %s\n"
-msgstr ""
+msgstr "Afkorting: %s\n"
 
 #: src/translate.c.po.c:851
 msgid "Available commands are:"
@@ -9334,6 +9333,10 @@ msgid ""
 "This snapshot is compatible with a snapshot written out by the UI.\n"
 "Note: No ROM images are included into the dump."
 msgstr ""
+"Schrijf een momentopname van de machine naar de opgegeven bestand.\n"
+"Deze momentopname is compatibel met een momentopname zoals geschreven van\n"
+"uit het menu.\n"
+"NB: ROM bestanden zijn niet opgenomen in de momentopname."
 
 #: src/translate.c.po.c:1007
 msgid "<address>"
@@ -9341,27 +9344,29 @@ msgstr "<adres>"
 
 #: src/translate.c.po.c:1019
 msgid "Change the PC to ADDRESS and continue execution"
-msgstr ""
+msgstr "Zet de PC naar ADRES en ga door met de uitvoering van instructies."
 
 #: src/translate.c.po.c:1031
 msgid "Print out the I/O area of the emulated machine."
-msgstr ""
+msgstr "Toon de I/O geheugenruimte van de huidige machine."
 
 #: src/translate.c.po.c:1043
 msgid ""
 "Advance to the next instruction.  Subroutines are treated as\n"
 "a single instruction."
-msgstr ""
+msgstr "Ga naar de volgende instructie. Subroutines worden behandled als een\n"
+"enkele instructie."
 
 #: src/translate.c.po.c:1061
 msgid "[<reg_name> = <number> [, <reg_name> = <number>]*]"
-msgstr ""
+msgstr "[<Register_naam> = <nummer> [, <register_naam> = <nummer>]*]"
 
 #: src/translate.c.po.c:1073
 msgid ""
 "Assign respective registers.  With no parameters, display register\n"
 "values."
-msgstr ""
+msgstr "Vul opgegeven registers met de toebehorende waarde. Zonder parameter, toon\n"
+"de huidige waarden in de registers."
 
 #: src/translate.c.po.c:1090
 msgid "[<type>]"
@@ -9369,27 +9374,29 @@ msgstr "[<soort>]"
 
 #: src/translate.c.po.c:1102
 msgid "Reset the machine or drive. Type: 0 = soft, 1 = hard, 8-11 = drive."
-msgstr ""
+msgstr "Reset de machine of drive. Soort: 0 = zacht, 1 = hard, 8-11 = drive."
 
 #: src/translate.c.po.c:1115
 msgid ""
 "Continues execution and returns to the monitor just before the next\n"
 "RTS or RTI is executed."
-msgstr ""
+msgstr "Ga door met uitvoeren van instructies en kom terug naar de monitor net voor de\n"
+"volgende RTS of RTI wordt uitgevoerd."
 
 #: src/translate.c.po.c:1132
 msgid "Displays the contents of the screen."
-msgstr ""
+msgstr "Toont de inhoud van het scherm."
 
 #: src/translate.c.po.c:1144
 msgid ""
 "Single-step through instructions.  COUNT allows stepping\n"
 "more than a single instruction at a time."
-msgstr ""
+msgstr "Enkel-stap door de instructies. AANTAL zorgt ervoor dat er meerdere\n"
+"instructies worden uitgevoerd in een keer."
 
 #: src/translate.c.po.c:1162
 msgid "Read a snapshot of the machine from the file specified."
-msgstr ""
+msgstr "Lees een momentopname voor de machine van het opgegeven bestand."
 
 #: src/translate.c.po.c:1174
 msgid "Symbol table commands:"
@@ -9397,7 +9404,7 @@ msgstr "Symbool tabel commandos:"
 
 #: src/translate.c.po.c:1186
 msgid "[<memspace>] <address> <label>"
-msgstr ""
+msgstr "[<geheugenruimte>] <adres> <label>"
 
 #: src/translate.c.po.c:1198
 msgid ""
@@ -9408,11 +9415,17 @@ msgid ""
 "Map a given address to a label.  This label can be used when entering\n"
 "assembly code and is shown during disassembly.  Additionally, it can\n"
 "be used whenever an address must be specified."
-msgstr ""
+msgstr "<geheugenruimte> is een van: C: 8: 9: 10: 11:\n"
+"<adres>          is het adres waaraan de label gekoppelt moet worden.\n"
+"<label>          is de naam van de label; de naam moet beginnen met een punt\n"
+"                 (\".\").\n\n"
+"Koppel een opgegeven adres aan een label. Dit label kan worden gebruikt bij\n"
+"het invoeren van assembleer code en wordt getoont bij een disassemblering.\n"
+"Tevens kan de label gebruikt worden in plaats van het adres."
 
 #: src/translate.c.po.c:1247
 msgid "[<memspace>] <label>"
-msgstr ""
+msgstr "[<geheugenruimte>] <label>"
 
 #: src/translate.c.po.c:1259
 msgid ""
@@ -9420,11 +9433,14 @@ msgid ""
 "<label>    is the name of the label; it must start with a dot (\".\").\n"
 "\n"
 "Delete a previously defined label."
-msgstr ""
+msgstr "<geheugenruimte> is een van: C: 8: 9: 10: 11:\n"
+"<label>          is de naam van de label; de naam moet beginnen met een\n"
+"punt (\".\").\n\n"
+"Verwijder een gekoppelde label."
 
 #: src/translate.c.po.c:1288
 msgid "[<memspace>] \"<filename>\""
-msgstr ""
+msgstr "[<geheugenruimte>] \"<bestandsnaam>\""
 
 #: src/translate.c.po.c:1300
 msgid ""
@@ -9433,46 +9449,53 @@ msgid ""
 "\n"
 "The format of the file is the one written out by the `save_labels' command;\n"
 "it consists of some `add_label' commands, written one after the other."
-msgstr ""
+msgstr "Laad een bestand met de koppelingen tussen labels en adressen. Als er geen\n"
+"geheugenruimte is opgegeven zal de standaard geheugenruimte worden gebruikt.\n"
+"Het formaat van het bestand is die door het commando 'save_labels' wordt\n"
+"geschreven; het bestaat uit een aantal 'add_label' commandos na elkaar."
 
 #: src/translate.c.po.c:1335
 msgid ""
 "Save labels to a file.  If no memory space is specified, all of the\n"
 "labels are saved."
-msgstr ""
+msgstr "Sla de labels op in een bestand. Als er geen geheugenruimte is opgegeven\n"
+"worden alle labels opgeslagen."
 
 #: src/translate.c.po.c:1353
 msgid "[<memspace>]"
-msgstr ""
+msgstr "[<geheugenruimte>]"
 
 #: src/translate.c.po.c:1365
 msgid ""
 "Display current label mappings.  If no memory space is specified, show\n"
 "all labels."
-msgstr ""
+msgstr "Toon huidige label koppelingen. Als er geen geheugenruimte is opgegeven\n"
+"worden all labels getoont."
 
 #: src/translate.c.po.c:1383
 msgid "Assembler and memory commands:"
-msgstr ""
+msgstr "Assembler en geheugen commandos:"
 
 #: src/translate.c.po.c:1395
 msgid "[<address>] <data_list>"
-msgstr ""
+msgstr "[<adres>] <data_lijst>"
 
 #: src/translate.c.po.c:1407
 msgid "Write the specified data at `address'."
-msgstr ""
+msgstr "Schrijf de opgegevem data op `adres'."
 
 #: src/translate.c.po.c:1419
 msgid "<address> [ <instruction> [: <instruction>]* ]"
-msgstr ""
+msgstr "<adres> [ <instructie> [: <instructie>]* ]"
 
 #: src/translate.c.po.c:1431
 msgid ""
 "Assemble instructions to the specified address.  If only one\n"
 "instruction is specified, enter assembly mode (enter an empty line to\n"
 "exit assembly mode)."
-msgstr ""
+msgstr "Assembleer instructies naar het opgegeven adres. Als er alleen een instructie\n"
+"is opgegeven dan wordt de assembleer modus ingeschakelt (geef een lege regel\n"
+"in om de assembleer modus te verlaten)."
 
 #: src/translate.c.po.c:1454
 msgid "<address_range> <address>"
@@ -9483,15 +9506,17 @@ msgid ""
 "Compare memory from the source specified by the address range to the\n"
 "destination specified by the address.  The regions may overlap.  Any\n"
 "values that miscompare are displayed using the default displaytype."
-msgstr ""
+msgstr "Vergelijk geheugen van de bron opgegeven door de adres reeks met het doel\n"
+"opgegeven door het adres. De reeksen mogen overlappen. De data die niet\n"
+"gelijk is zal worden getoont volgens de huidige toon soort."
 
 #: src/translate.c.po.c:1491
 msgid "<checknum>"
-msgstr ""
+msgstr "<checknum>"
 
 #: src/translate.c.po.c:1503
 msgid "Delete checkpoint `checknum'."
-msgstr ""
+msgstr "Verwijder checkpunt `checknum'."
 
 #: src/translate.c.po.c:1515
 msgid "[<address> [<address>]]"
@@ -9504,41 +9529,49 @@ msgid ""
 "treated as the start address and a default number of instructions are\n"
 "disassembled.  If no addresses are specified, a default number of\n"
 "instructions are disassembled from the dot address."
-msgstr ""
+msgstr "Disassembleer instructies. Als er twee adressen zijn opgegeven dan worden\n"
+"deze gebruikt als een start en eind adres. Als er maar een adres is\n"
+"opgegeven dan wordt deze gebruikt als het start adres en een standaard\n"
+"aantal instructies zal worden gedisassembleerd. Als er geen adressen zijn\n"
+"opgegeven dan wordt een standaard aantal instructies gedisassembleerd vanaf\n"
+"het huidige adres."
 
 #: src/translate.c.po.c:1563
 msgid "<address_range> <data_list>"
-msgstr ""
+msgstr "<adres_reeks> <data_lijst>"
 
 #: src/translate.c.po.c:1575
 msgid ""
 "Fill memory in the specified address range with the data in\n"
 "<data_list>.  If the size of the address range is greater than the size\n"
 "of the data_list, the data_list is repeated."
-msgstr ""
+msgstr "Vul het geheugen van de opgegeven adres reeks op met de data in <data_lijst>.\n"
+"Als de grootte van de adres reeks groter is dan de grootte van de data_lijst\n"
+"dan zal de data_lijst worder herhaald."
 
 #: src/translate.c.po.c:1598
 msgid ""
 "Hunt memory in the specified address range for the data in\n"
 "<data_list>.  If the data is found, the starting address of the match\n"
 "is displayed.  The entire range is searched for all possible matches."
-msgstr ""
+msgstr "Zoek het adres bereik voor de data in <data_lijst>. Als de data is gevonden\n"
+"dan wordt het start adres getoont. Er zal door de hele reeks worden gezocht."
 
 #: src/translate.c.po.c:1622
 msgid "<address_opt_range>"
-msgstr ""
+msgstr "<optionele_adres_reeks>"
 
 #: src/translate.c.po.c:1634
 msgid "Display memory contents as PETSCII text."
-msgstr ""
+msgstr "Toon geheugen inhoud als PETSCII tekst."
 
 #: src/translate.c.po.c:1646
 msgid "Display memory contents as screen code text."
-msgstr ""
+msgstr "Toon geheugen inhoud als scherm code tekst."
 
 #: src/translate.c.po.c:1658
 msgid "[<data_type>] [<address_opt_range>]"
-msgstr ""
+msgstr "[<data_soort>] [<optionele_adres_reeks>]"
 
 #: src/translate.c.po.c:1670
 msgid ""
@@ -9546,28 +9579,34 @@ msgid ""
 "is used.  If only one address is specified, the length of data\n"
 "displayed is based on the datatype.  If no addresses are given, the\n"
 "'dot' address is used."
-msgstr ""
+msgstr "Toon de geheugen inhoud. Als er geen datasoort is opgegeven dan zal de standaard\n"
+"worden gebruikt. Als er maar een adres is opgegeven dan zal de lengte van de\n"
+"getoonde data gebaseerd worden op de datasoort. Als er geen adres is opgegeven\n"
+"dan zal het huidige adres worden gebruikt."
 
 #: src/translate.c.po.c:1695
 msgid ""
 "Display the contents of memory as character data.  If only one address\n"
 "is specified, only one character is displayed.  If no addresses are\n"
 "given, the ``dot'' address is used."
-msgstr ""
+msgstr "Toon de geheugen inhoud als karakter data. Als er maar een adres is\n"
+"opgegeven dan zal er maar een karakter worden weergegeven. Als er geen\n"
+"adres is opgegeven dan zal het huidige adres gebruikt worden."
 
 #: src/translate.c.po.c:1717
 msgid "\"<filename>\" <format>"
-msgstr ""
+msgstr "\"<betandsnaam>\" <formaat>"
 
 #: src/translate.c.po.c:1729
 msgid ""
 "Save the memmap as a picture. Format is:\n"
 "0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
-msgstr ""
+msgstr "Sla de memmap op als een afbeelding. Formaat is:\n"
+"0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
 
 #: src/translate.c.po.c:1747
 msgid "[<mask>] [<address_opt_range>]"
-msgstr ""
+msgstr "[<masker>] [<optionele_adres_reeks>]"
 
 #: src/translate.c.po.c:1759
 msgid ""
@@ -9575,32 +9614,38 @@ msgid ""
 "locations with accesses of certain type(s). The mask is a number\n"
 "with the bits \"ioRWXrwx\", where RWX are for ROM and rwx for RAM.\n"
 "Optionally, an address range can be specified."
-msgstr ""
+msgstr "Toon de memmap. Het masker kan worden opgegeven zodat er alleen de\n"
+"adressen met toegrijpingen van een bepaalde soort(en) zal worden getoond.\n"
+"Het masker is een nummer met de bits \"ioRWXrwx\", waar RWX is voor ROM,\n"
+"en rwx voor RAM. Er kan optioneel een adres bereik worden opgegeven."
 
 #: src/translate.c.po.c:1787
 msgid "Clear the memmap."
-msgstr ""
+msgstr "Veeg de memmap schoon."
 
 #: src/translate.c.po.c:1799
 msgid ""
 "Display the contents of memory as sprite data.  If only one address is\n"
 "specified, only one sprite is displayed.  If no addresses are given,\n"
 "the ``dot'' address is used."
-msgstr ""
+msgstr "Toon de geheugen inhoud als sprite data. Als er maar een adres is opgegeven\n"
+"dan zal er maar een sprite worden getoond. Als er geen adres is opgegeven\n"
+"dan zal het huidige adres worden gebruikt."
 
 #: src/translate.c.po.c:1821
 msgid ""
 "Move memory from the source specified by the address range to\n"
 "the destination specified by the address.  The regions may overlap."
-msgstr ""
+msgstr "Verplaats data van de opgegeven bron adres reeks naar het doel adres. De\n"
+"reeksen kunnen overlappen."
 
 #: src/translate.c.po.c:1840
 msgid "Checkpoint commands:"
-msgstr "Controleer punt commandos:"
+msgstr "Checkpunt commandos:"
 
 #: src/translate.c.po.c:1852
 msgid "[<address> [if <cond_expr>] ]"
-msgstr ""
+msgstr "[<adres> [ald <cond_expr>] ]"
 
 #: src/translate.c.po.c:1864
 msgid ""
@@ -9609,22 +9654,28 @@ msgid ""
 "breakpoint number is printed.  A conditional expression can also be\n"
 "specified for the breakpoint.  For more information on conditions, see\n"
 "the CONDITION command."
-msgstr ""
+msgstr "Als er geen adres is opgegeven dan zullen de huidige geldige kijkpunten\n"
+"geprint. Als er een adres is opgegeven dan zal er een breekpunt gezet worden\n"
+"voor dat adres en de nummer van het breekpunt zal worden getoond. Een\n"
+"conditie kan worden opgegeven voor het breekpunt. Voor meer informatie over\n"
+"condities zie het CONDITION commando."
 
 #: src/translate.c.po.c:1894
 msgid "<checknum> \"<command>\""
-msgstr ""
+msgstr "<checknum> \"<commando>\""
 
 #: src/translate.c.po.c:1906
 msgid ""
 "Specify `command' as the command to execute when checkpoint `checknum'\n"
 "is hit.  Note that the `x' command is not yet supported as a\n"
 "command argument."
-msgstr ""
+msgstr "Geef `commando' als het command om uit te voeren wanneer checkpunt `checknum'\n"
+"wordt uitgevoerd. NB: het `x' commando is op dit moment geen geldige\n"
+"parameter."
 
 #: src/translate.c.po.c:1928
 msgid "<checknum> if <cond_expr>"
-msgstr ""
+msgstr "<checknum> als <cond_expr>"
 
 #: src/translate.c.po.c:1940
 msgid ""
@@ -9638,25 +9689,36 @@ msgid ""
 "Registers can be the registers of other devices; this is denoted by\n"
 "a memspace prefix (i.e., c:, 8:, 9:, 10:, 11:\n"
 "Examples: .A == 0, .X == .Y, 8:.X == .X\n"
-msgstr ""
+msgstr "Elke keer de opgegeven checkpunt wordt onderzocht zal de conditie worden\n"
+"geevalueerd. Als de evaluatie positief is dan zal de checkpunt geactiveerd\n"
+"worden, bij negatief zal er niets worden gedaan. Als er registers zijn\n"
+"opgegeven in de expressie dan zullen de waarden in die registers gebruikt\n"
+"worden op het moment dat de checkpunt wordt onderzocht, niet op het moment\n"
+"dat de conditie is opgegeven.\n"
+"De conditie kan gebruik maken van registers (.A, .X, .Y, .PC, .SP) en\n"
+"kan ze vergelijken (==, !=, <, >, <=, >=) met andere registers of constanten\n"
+"Registers kunnen de registers van andere apparaten zijn; de manier van opgeven\n"
+"is door een geheugenruimte prefix (bijvoorbeeld: c:, 8:, 9:, 10:, 11:\n"
+"Voorbeelden: .A == 0, .X == .Y, 8:.X == .X\n"
 
 #: src/translate.c.po.c:1986
 msgid "Disable checkpoint `checknum'."
-msgstr ""
+msgstr "Checkpunt `checknum' uitschakelen."
 
 #: src/translate.c.po.c:1998
 msgid "Enable checkpoint `checknum'."
-msgstr ""
+msgstr "Activeer checkpunt `checknum'."
 
 #: src/translate.c.po.c:2010
 msgid "<checknum> [<count>]"
-msgstr ""
+msgstr "<checknum> [<aantal>]"
 
 #: src/translate.c.po.c:2022
 msgid ""
 "Ignore a checkpoint a given number of crossings.  If no count is given,\n"
 "the default value is 1."
-msgstr ""
+msgstr "Negeer een checkpunt een opgegeven aantal keer. Als er geen aantal is\n"
+"opgegeven dan wordt de standaard waarde van 1 worden gebruikt."
 
 #: src/translate.c.po.c:2038
 msgid "[<address>]"
@@ -9668,11 +9730,15 @@ msgid ""
 "If an address is given, a temporary breakpoint is set for that address\n"
 "and the breakpoint number is printed.  Control is returned to the\n"
 "emulator by this command.  The breakpoint is deleted once it is hit."
-msgstr ""
+msgstr "Als er geen adres is opgegeven dan zullen de huidig geldige breekpunten\n"
+"worden geprint. Als er een adres is opgegeven dan wordt er een tijdelijk\n"
+"breekpunt worden gezet voor dat adres en het breekpunt nummer zal worden\n"
+"getoond. Na het geven van dit commando zal er terug worden gegaan naar de\n"
+"emulator. Het breekpunt zal worden verwijdert na het uitvoeren."
 
 #: src/translate.c.po.c:2077
 msgid "[loadstore] [address [address]]"
-msgstr ""
+msgstr "[laad/opslaan] [adres [adres]]"
 
 #: src/translate.c.po.c:2089
 msgid ""
@@ -9682,7 +9748,13 @@ msgid ""
 "`loadstore' is either `load' or `store' to specify on which operation\n"
 "the monitor breaks. If not specified, the monitor breaks on both\n"
 "operations."
-msgstr ""
+msgstr "Zet een kijkpunt. Als er een enkel adres is opgegeven dan zal er een\n"
+"kijkpunt worden gezet voor dat adres. Als er twee adressen zijn opgegeven\n"
+"dan zal er een kijkpunt worden gezet voor de adressen tussen de twee\n"
+"adressen.\n"
+"laad/opslaan is 'load' of 'store' om aan te geven bij welke operatie de\n"
+"monitor zou moeten starten. Als deze niet opgegeven is dan zal de monitor\n"
+"starten bij beide operaties."
 
 #: src/translate.c.po.c:2122
 msgid "[address [address]]"
@@ -9693,7 +9765,10 @@ msgid ""
 "Set a tracepoint.  If a single address is specified, set a tracepoint\n"
 "for that address.  If two addresses are specified, set a tracepoint\n"
 "for the memory locations between the two addresses."
-msgstr ""
+msgstr "Zet een traceerpunt. Als er een enkel adres is opgegeven dan zal er een\n"
+"traceerpunt worden gezet voor het adres. Als er twee adressen zijn\n"
+"opgegeven dan zal er een traceerpunt worden gezet voor de adressen tussen\n"
+"de twee adressen."
 
 #: src/translate.c.po.c:2155
 msgid "Monitor state commands:"
@@ -9703,11 +9778,12 @@ msgstr "Monitor status commandos:"
 msgid ""
 "Set the default memory device to either the computer `c:' or the\n"
 "specified disk drive (`8:', `9:')."
-msgstr ""
+msgstr "Zet de standaard geheugen apparaat naar of de computer `c:' of de\n"
+"opgegeven disk drive (`8:', `9:')."
 
 #: src/translate.c.po.c:2183
 msgid "Leave the monitor and return to execution."
-msgstr ""
+msgstr "Verlaat de monitor en ga terug naar de uitvoering."
 
 #: src/translate.c.po.c:2195
 msgid "Exit the emulator immediately."
@@ -9717,11 +9793,12 @@ msgstr "Onmiddelijk de emulator sluiten."
 msgid ""
 "Set the default radix to hex, decimal, octal, or binary.  With no\n"
 "argument, the current radix is printed."
-msgstr ""
+msgstr "Zet de standaard radix naar hex, decimaal, octaal of binair. Als er\n"
+"geen parameter is opgegeven dan zal de huidige radix worden getoond."
 
 #: src/translate.c.po.c:2223
 msgid "[on|off|toggle]"
-msgstr ""
+msgstr "[on|off|toggle]"
 
 #: src/translate.c.po.c:2235
 msgid ""
@@ -9730,7 +9807,12 @@ msgid ""
 "side-effects.  If the argument is 'off' then reads don't cause\n"
 "side-effects.  If the argument is 'toggle' then the current mode is\n"
 "switched.  No argument displays the current state."
-msgstr ""
+msgstr "Geef aan hoe de lees acties van de monitor de geheugen locaties met lees\n"
+"bij-effecten beinvloed. Als de parameter 'off' is dan zullen lees acties\n"
+"geen bij-effecten vertonen. Als de parameter 'on' is dan zullen lees\n"
+"acties bij-effecten vertonen. Als de parameter 'toggle' is dan zal de\n"
+"huidige modus worden geschakeld. Als er geen parameter is dan zal de\n"
+"huidige modus worden getoond."
 
 #: src/translate.c.po.c:2265
 msgid "Disk commands:"
@@ -9738,13 +9820,15 @@ msgstr "Disk commandos:"
 
 #: src/translate.c.po.c:2277
 msgid "<disk command>"
-msgstr ""
+msgstr "<disk commando>"
 
 #: src/translate.c.po.c:2289
 msgid ""
 "Perform a disk command on the currently attached disk image on drive 8.\n"
 "The specified disk command is sent to the drive's channel #15."
-msgstr ""
+msgstr "Doe een disk commando operatie op de huidig gekoppelde disk bestand in drive\n"
+"8, Het opgegeven disk commando zal worden gestuurt naar kanaal #15 van de\n"
+"drive."
 
 #: src/translate.c.po.c:2306
 msgid "<filename> <device>"
@@ -9752,17 +9836,19 @@ msgstr "<bestandsnaam> <apparaat>"
 
 #: src/translate.c.po.c:2318
 msgid "Attach file to device. (device 32 = cart)"
-msgstr ""
+msgstr "Koppel bestand aan apparaat. (apparaat 32 = cart"
 
 #: src/translate.c.po.c:2330
 msgid "\"<filename>\" <device> <address>"
-msgstr ""
+msgstr "\"<bestandsnaam>\" <aparraat> <adres>"
 
 #: src/translate.c.po.c:2342
 msgid ""
 "Load the specified file into memory at the specified address.\n"
 "If device is 0, the file is read from the file system."
-msgstr ""
+msgstr "Laad het opgegeven bestand naar het geheugen met het opgegeven adres.\n"
+"Als het apparaat 0 is dan zal het bestand van het bestandssysteem\n"
+"worden geladen."
 
 #: src/translate.c.po.c:2358
 msgid "<track> <sector> [<address>]"
@@ -9773,17 +9859,22 @@ msgid ""
 "Read the block at the specified track and sector.  If an address is\n"
 "specified, the data is loaded into memory.  If no address is given, the\n"
 "data is displayed using the default datatype."
-msgstr ""
+msgstr "Lees het blok van de opgegeven spoor en sector. Als er een adres is\n"
+"opgegeven dan zal de data naar dat adres in geheugen worden geladen.\n"
+"Als er geen adres is opgegeven dan zal de data worder getoond met de\n"
+"huidige datasoort."
 
 #: src/translate.c.po.c:2390
 msgid "\"<filename>\" <device> <address1> <address2>"
-msgstr ""
+msgstr "\"<bestandsnaam>\" <aparraat> <adres1> <adres2>"
 
 #: src/translate.c.po.c:2402
 msgid ""
 "Save the memory from address1 to address2 to the specified file.\n"
 "If device is 0, the file is written to the file system."
-msgstr ""
+msgstr "Sla het geheugen tussen adres1 en adres2 op naar het opgegeven bestand.\n"
+"Als het apparaat 0 is dan zal het bestand naar het bestandssysteem worden\n"
+"geschreven."
 
 #: src/translate.c.po.c:2418
 msgid "<track> <sector> <address>"
@@ -9793,7 +9884,8 @@ msgstr "<spoor> <sector> <adres>"
 msgid ""
 "Write a block of data at `address' on the specified track and sector\n"
 "of disk in drive 8."
-msgstr ""
+msgstr "Schrijf een data blok van `adres' naar de opgegeven spoor en sector van\n"
+"de disk in drive 8."
 
 #: src/translate.c.po.c:2446
 msgid "<directory>"
@@ -9805,7 +9897,7 @@ msgstr "Verander de werkdirectory."
 
 #: src/translate.c.po.c:2470
 msgid "Detach file from device. (device 32 = cart)"
-msgstr ""
+msgstr "Ontkoppel bestand van apparaat. (apparaat 32 = cart)"
 
 #: src/translate.c.po.c:2482
 msgid "[<directory>]"
@@ -9813,11 +9905,11 @@ msgstr "[<directory>]"
 
 #: src/translate.c.po.c:2494
 msgid "Display the directory contents."
-msgstr ""
+msgstr "Toon de directory inhoud."
 
 #: src/translate.c.po.c:2506
 msgid "\"<filename>\" <device> [<address>]"
-msgstr ""
+msgstr "\"<bestandsnaam>\" <apparaat> [<adres>]"
 
 #: src/translate.c.po.c:2518
 msgid ""
@@ -9826,7 +9918,11 @@ msgid ""
 "Use (otherwise ignored) two-byte load address from file if no address\n"
 "specified.\n"
 "If device is 0, the file is read from the file system."
-msgstr ""
+msgstr "Laad het opgegeven bestand naar geheugen op het opgegeven adres. Zet de BASIC\n"
+"start en eind indicators correct als het bestand naar het computer geheugen\n"
+"geladen wordt (niet alle emulatoren). De eerste twee bytes van het bestand\n"
+"zullen als laad adres worden gebruikt als er geen adres is opgegeven. Als\n"
+"het apparaat 0 is dan zal het bestand van het bestandssysteem worden geladen."
 
 #: src/translate.c.po.c:2548
 msgid "Show current working directory."
@@ -9837,7 +9933,10 @@ msgid ""
 "Save the memory from address1 to address2 to the specified file.\n"
 "Write two-byte load address.\n"
 "If device is 0, the file is written to the file system."
-msgstr ""
+msgstr "Sla het geheugen tussen adres1 en adres2 op naar het opgegeven bestand.\n"
+"Schrijf een load adres van twee bytes.\n"
+"Als het apparaat 0 is dan zal het bestand geschreven worden naar het\n"
+"bestandssysteem."
 
 #: src/translate.c.po.c:2581
 msgid "Other commands:"
@@ -9845,7 +9944,7 @@ msgstr "Andere commandos:"
 
 #: src/translate.c.po.c:2593
 msgid "Display the specified number in decimal, hex, octal and binary."
-msgstr ""
+msgstr "Toon het opgegeven nummer in decimaal, hex, octaal en binair."
 
 #: src/translate.c.po.c:2605
 msgid "Use cartridge freeze."
@@ -9859,7 +9958,9 @@ msgstr "[<commando>]"
 msgid ""
 "If no argument is given, prints out a list of all available commands\n"
 "If an argument is given, prints out specific help for that command."
-msgstr ""
+msgstr "Als er geen parameter is opgegeven dan zal een lijst van alle commandos\n"
+"worden weergegeven. Als er een parameter is opgegeven dan zal de help voor\n"
+"het opgegeven command worden weergegeven."
 
 #: src/translate.c.po.c:2647
 msgid "\"<string>\""
@@ -9873,7 +9974,9 @@ msgstr "Plaats de opgegeven string in de toetsenbordbuffer."
 msgid ""
 "Monitor commands from the specified file are read and executed.  This\n"
 "command stops at the end of file or when a STOP command is read."
-msgstr ""
+msgstr "Monitor commandos van het opgegeven bestand zullen worden gelezen en\n"
+"uitgevoerd. Dit commando stopt aan het einde van het bestand of wanneer\n"
+"een STOP commando wordt gelezen."
 
 #: src/translate.c.po.c:2689
 msgid "<expression>"
@@ -9881,50 +9984,54 @@ msgstr "<expressie>"
 
 #: src/translate.c.po.c:2701
 msgid "Evaluate the specified expression and output the result."
-msgstr ""
+msgstr "Evalueer de opgegeven expressie en toon het resultaat."
 
 #: src/translate.c.po.c:2713
 msgid ""
 "After this command, all commands entered are written to the specified\n"
 "file until the STOP command is entered."
-msgstr ""
+msgstr "Na dit commando zullen alle opgegeven commandos worden geschreven naar\n"
+"het opgegeven bestand totdat het STOP command wordt opgegeven."
 
 #: src/translate.c.po.c:2729
 msgid "\"<resource>\""
-msgstr ""
+msgstr "\"<resource>\""
 
 #: src/translate.c.po.c:2741
 msgid "Displays the value of the resource."
-msgstr ""
+msgstr "Toont de waarde van de resource."
 
 #: src/translate.c.po.c:2753
 msgid "\"<resource>\" \"<value>\""
-msgstr ""
+msgstr "\"<resource>\" \"<waarde>\""
 
 #: src/translate.c.po.c:2765
 msgid "Sets the value of the resource."
-msgstr ""
+msgstr "Plaats de waarde in de resource."
 
 #: src/translate.c.po.c:2777
 msgid "Stop recording commands.  See `record'."
-msgstr ""
+msgstr "Stop de opname van commandos. Zie 'record'."
 
 #: src/translate.c.po.c:2789
 msgid "\"<filename>\" [<format>]"
-msgstr ""
+msgstr "\"<bestandsnaam>\" [<formaat>]"
 
 #: src/translate.c.po.c:2801
 msgid ""
 "Take a screenshot. Format is:\n"
 "default = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
-msgstr ""
+msgstr "Sla een schermafdruk op. Formaat is:\n"
+"standaard = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
 
 #: src/translate.c.po.c:2829
 msgid ""
 "Control the datasette. Valid commands:\n"
 "0 = stop, 1 = start, 2 = forward, 3 = rewind, 4 = record,\n"
 "5 = reset, 6 = reset counter."
-msgstr ""
+msgstr "Geef datasetta commandos. Geldige commandos:\n"
+"0 = stop, 1 = start, 2 = vooruit, 3 = terug, 4 = opnemen,\n"
+"5 = reset, 6 = reset teller."
 
 #: src/translate.c.po.c:2851
 msgid "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
@@ -10972,11 +11079,8 @@ msgstr ""
 "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 4: ParSID)"
 
 #: src/translate.c.po.c:6059
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 7: ReSID-FP)"
-msgstr ""
-"Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 7: ReSID-"
-"FP)"
+msgstr "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6073
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)"
@@ -11194,7 +11298,6 @@ msgid "Do not emulate SID filters"
 msgstr "SID-filters niet emuleren"
 
 #: src/translate.c.po.c:6642
-#, fuzzy
 msgid ""
 "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast "
 "resampling)"
@@ -11380,36 +11483,20 @@ msgid "Specify RS232 device this ACIA should work on"
 msgstr "Geef het RS232-apparaat waarmee deze ACIA moet werken"
 
 #: src/translate.c.po.c:7196
-#, fuzzy
-msgid ""
-"Set device type for device #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
-"DEVICE)"
-msgstr ""
-"Zet het apparaatsoort voor apparaat #10 (0: GEEN, 1: FS, 2: ECHT, 3: BINAIR"
+msgid "Set device type for device #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"
+msgstr "Zet het apparaatsoort voor apparaat #8 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK APPARAAT)"
 
 #: src/translate.c.po.c:7210
-#, fuzzy
-msgid ""
-"Set device type for device #9 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
-"DEVICE)"
-msgstr ""
-"Zet het apparaatsoort voor apparaat #10 (0: GEEN, 1: FS, 2: ECHT, 3: BINAIR"
+msgid "Set device type for device #9 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"
+msgstr "Zet het apparaatsoort voor apparaat #9 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK APPARAAT)"
 
 #: src/translate.c.po.c:7224
-#, fuzzy
-msgid ""
-"Set device type for device #10 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
-"DEVICE)"
-msgstr ""
-"Zet het apparaatsoort voor apparaat #10 (0: GEEN, 1: FS, 2: ECHT, 3: BINAIR"
+msgid "Set device type for device #10 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"
+msgstr "Zet het apparaatsoort voor apparaat #10 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK APPARAAT)"
 
 #: src/translate.c.po.c:7238
-#, fuzzy
-msgid ""
-"Set device type for device #11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
-"DEVICE)"
-msgstr ""
-"Zet het apparaatsoort voor apparaat #11 (0: GEEN, 1: FS, 2: ECHT, 3: BINAIR"
+msgid "Set device type for device #11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"
+msgstr "Zet het apparaatsoort voor apparaat #11 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK APPARAAT)"
 
 #: src/translate.c.po.c:7252
 msgid "Attach disk image for drive #8 read only"
@@ -11785,12 +11872,10 @@ msgid "Disable DTV blitter logs."
 msgstr "DTV Blitter logs afsluiten."
 
 #: src/translate.c.po.c:8402
-#, fuzzy
 msgid "Enable DTV DMA logs."
 msgstr "Aktiveer DTV DMA logs."
 
 #: src/translate.c.po.c:8414
-#, fuzzy
 msgid "Disable DTV DMA logs."
 msgstr "DTV DMA logs afsluiten."
 
@@ -11815,18 +11900,16 @@ msgid "Disable DTV flash chip logs."
 msgstr "DTV flash chip logs afsluiten."
 
 #: src/translate.c.po.c:8486
-#, fuzzy
 msgid "Use <name> as directory for flash file system device"
-msgstr "Gebruik <naam> als directory voor bestandssysteemapparaat #8"
+msgstr "Gebruik <naam> als directory voor het flash bestandssysteem apparaat"
 
 #: src/translate.c.po.c:8498
 msgid "Enable true hardware flash file system"
-msgstr ""
+msgstr "Activeer hardwarmatige flash bestandssysteem"
 
 #: src/translate.c.po.c:8510
-#, fuzzy
 msgid "Disable true hardware flash file system"
-msgstr "Hardwareschaling uitschakelen"
+msgstr "Hardwatematig flash bestandssysteem uitschakelen"
 
 #: src/translate.c.po.c:8522
 msgid "Enable the Hummer ADC"
@@ -11837,20 +11920,18 @@ msgid "Disable the Hummer ADC"
 msgstr "De Hummer ADC afsluiten"
 
 #: src/translate.c.po.c:8547
-#, fuzzy
 msgid "Enable MIDI emulation"
-msgstr "*Activeer hardware drive emulatie"
+msgstr "Activeer MIDI emulatie"
 
 #: src/translate.c.po.c:8559
-#, fuzzy
 msgid "Disable MIDI emulation"
-msgstr "RS232-userportemulatie uitschakelen"
+msgstr "MIDI emulatie uitschakelen"
 
 #: src/translate.c.po.c:8571
 msgid ""
 "MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
-msgstr ""
+msgstr "MIDI interface soort (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)"
 
 #: src/translate.c.po.c:8586
 msgid "Enable the digimax cartridge"
@@ -11863,99 +11944,3 @@ msgstr "De digimaxcartridge uitschakelen"
 #: src/translate.c.po.c:8610
 msgid "Base address of the digimax cartridge"
 msgstr "Basisadres van de digimaxcartridge"
-
-#~ msgid "resampling)"
-#~ msgstr "resampling)"
-
-#, fuzzy
-#~ msgid ""
-#~ "Set device type for device #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: "
-#~ msgstr ""
-#~ "Zet het apparaatsoort voor apparaat #8 (0: GEEN, 1: FS, 2: ECHT, 3: BINAIR"
-
-#, fuzzy
-#~ msgid ""
-#~ "Set device type for device #9 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: "
-#~ msgstr ""
-#~ "Zet het apparaatsoort voor apparaat #9 (0: GEEN, 1: FS, 2: ECHT, 3: BINAIR"
-
-#, fuzzy
-#~ msgid "DEVICE)"
-#~ msgstr "VICE"
-
-#, fuzzy
-#~ msgid "Maplin)"
-#~ msgstr "Mapping"
-
-#~ msgid "Initialization failed for device `%s'."
-#~ msgstr "Initialisatie voor apparaat `%s' is mislukt."
-
-#~ msgid "write to sounddevice failed."
-#~ msgstr "schrijfactie naar geluidsapparaat is mislukt."
-
-#~ msgid "Disable the Hummer Userport Joystick Emulation"
-#~ msgstr "De Hummer Userport Joystick emulatie afsluiten"
-
-#~ msgid "Enable DTV dma logs."
-#~ msgstr "Aktiveer DTV DMA logs."
-
-#~ msgid "Disable DTV dma logs."
-#~ msgstr "DTV DMA logs afsluiten."
-
-#~ msgid "<0-2000>"
-#~ msgstr "<0-2000>"
-
-#~ msgid "<0-2>"
-#~ msgstr "<0-2>"
-
-#~ msgid "<0-3>"
-#~ msgstr "<0-3>"
-
-#, fuzzy
-#~ msgid "<0-4>"
-#~ msgstr "<0-2>"
-
-#~ msgid "PAL Mode"
-#~ msgstr "PAL-modus"
-
-#~ msgid "Put the specified string into the keyboard buffer"
-#~ msgstr "Plaats de opgegeven string in de toetsenbordbuffer"
-
-#~ msgid "*Fast PAL Emulation"
-#~ msgstr "*Snelle PAL-emulatie"
-
-#~ msgid "*Old Exact PAL Emulation"
-#~ msgstr "*Oude Exacte PAL-emulatie"
-
-#~ msgid "*New Exact PAL Emulation"
-#~ msgstr "*Nieuwe Exacte PAL-emulatie"
-
-#~ msgid "Fast"
-#~ msgstr "Snel"
-
-#~ msgid "New Exact"
-#~ msgstr "Nieuw Exact"
-
-#, fuzzy
-#~ msgid ""
-#~ "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost, 3: 6581R4 "
-#~ "(unimplemented), 4: DTV)"
-#~ msgstr "Geef het SID-model (0: 6581, 1: 8580, 2: 8580 + digi boost)"
-
-#, fuzzy
-#~ msgid "Disable DTV blitter logs"
-#~ msgstr "Dubbele grootte uitschakelen"
-
-#, fuzzy
-#~ msgid "Enable C64DTV flash chip logs."
-#~ msgstr "*Activeer MMC64-flashjumper"
-
-#, fuzzy
-#~ msgid "Disable C64DTV flash chip logs."
-#~ msgstr "*Activeer MMC64-flashjumper"
-
-#~ msgid "Fast PAL"
-#~ msgstr "Snelle PAL"
-
-#~ msgid "New PAL Emulation"
-#~ msgstr "Nieuwe PAL emulatie"
