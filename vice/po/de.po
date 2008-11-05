@@ -1,13 +1,12 @@
 # German Translation File for VICE
 # Copyright (C) 2000 Free Software Foundation, Inc.
-# Martin Pottendorfer <pottendo@utanet.at>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-11-02 16:45-0800\n"
-"PO-Revision-Date: 2008-10-22 22:05+0200\n"
+"PO-Revision-Date: 2008-11-05 11:12+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -37,9 +36,8 @@ msgstr "MIDI-Out Gerät spezifieren"
 
 #: src/arch/unix/rs232.c:164 src/arch/unix/rs232.c:169
 #: src/arch/unix/rs232.c:174 src/arch/unix/rs232.c:179
-#, fuzzy
 msgid "<baudrate>"
-msgstr "<Baud>"
+msgstr "<Baudrate>"
 
 #: src/arch/unix/rs232.c:164
 msgid "Specify baudrate of first RS232 device"
@@ -3912,18 +3910,16 @@ msgid "Never use shared memory (slower)"
 msgstr "Shared Memory nicht benutzen (langsamer)"
 
 #: src/arch/unix/x11/xaw/x11video.c:247
-#, fuzzy
 msgid "<fourcc>"
-msgstr "\"<Ressource>\""
+msgstr "<fourcc>"
 
 #: src/arch/unix/x11/xaw/x11video.c:247
 msgid "Request YUV FOURCC format"
 msgstr "YUV FOURCC Format"
 
 #: src/arch/unix/x11/xaw/x11video.c:252
-#, fuzzy
 msgid "<aspect ratio>"
-msgstr "<Spec>"
+msgstr "<Seitenverhältnis>"
 
 #: src/arch/unix/x11/xaw/x11video.c:252
 msgid "Set aspect ratio (0.8 - 1.2)"
@@ -3939,46 +3935,44 @@ msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM erfolgreich initialisiert.\n"
 
 #: src/arch/unix/macosx/joy.c:236
-#, fuzzy
 msgid "Set HID A device"
-msgstr "ACIA Gerät"
+msgstr "Setzte Gerät HID A"
 
 #: src/arch/unix/macosx/joy.c:241
 msgid "Set X Axis for HID A device"
-msgstr ""
+msgstr "Setze X Achse für Gerät HID A"
 
 #: src/arch/unix/macosx/joy.c:246 src/arch/unix/macosx/joy.c:251
 msgid "Set Y Axis for HID A device"
-msgstr ""
+msgstr "Setze Y Achse für Gerät HID A"
 
 #: src/arch/unix/macosx/joy.c:256
 msgid "Set X Axis Threshold in Percent of HID A device"
-msgstr ""
+msgstr "Setze Schwellwert für X Achse in Prozent für Gerät HID A"
 
 #: src/arch/unix/macosx/joy.c:261
 msgid "Set Y Axis Threshold in Percent of HID A device"
-msgstr ""
+msgstr "Setze Schwellwert für Y Achse in Prozent für Gerät HID A"
 
 #: src/arch/unix/macosx/joy.c:266
-#, fuzzy
 msgid "Set HID B device"
-msgstr "Reales IEC Gerät"
+msgstr "Setze Gerät HID B"
 
 #: src/arch/unix/macosx/joy.c:271
 msgid "Set X Axis for HID B device"
-msgstr ""
+msgstr "Setze X Achse für Gerät HID B"
 
 #: src/arch/unix/macosx/joy.c:276 src/arch/unix/macosx/joy.c:281
 msgid "Set Y Axis for HID B device"
-msgstr ""
+msgstr "Setze Y Achse für Gerät HID B"
 
 #: src/arch/unix/macosx/joy.c:286
 msgid "Set X Axis Threshold in Percent of HID B device"
-msgstr ""
+msgstr "Setze Schwellwert für X Achse in Prozent für Gerät HID B"
 
 #: src/arch/unix/macosx/joy.c:291
 msgid "Set Y Axis Threshold in Percent of HID B device"
-msgstr ""
+msgstr "Setze Schwellwert für Y Achse in Prozent für Gerät HID B"
 
 #: src/arch/win32/res.rc.po.c:82 src/arch/win32/res.rc.po.c:4884
 #: src/arch/win32/resc128.rc.po.c:16 src/arch/win32/resc64.rc.po.c:16
@@ -8630,14 +8624,12 @@ msgstr ""
 "AI)"
 
 #: src/arch/amigaos/intl.c.po.c:3394
-#, fuzzy
 msgid "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-msgstr "Joystick #1 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3"
+msgstr "Joystick #1 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3)"
 
 #: src/arch/amigaos/intl.c.po.c:3403
-#, fuzzy
 msgid "Joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-msgstr "Joystick #2 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3"
+msgstr "Joystick #2 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3)"
 
 #: src/arch/amigaos/intl.c.po.c:3448
 msgid "PET REU Size"
@@ -11088,9 +11080,8 @@ msgid "Specify SID engine (0: FastSID, 4: ParSID)"
 msgstr "SID Engine wählen (0: FastSID, 4: ParSID)"
 
 #: src/translate.c.po.c:6003
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 7: ReSID-FP)"
-msgstr "SID Engine wählen (0: FastSID, 1: ReSID)"
+msgstr "SID Engine wählen (0: FastSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6017
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)"
@@ -11105,9 +11096,8 @@ msgid "Specify SID engine (0: FastSID, 1: ReSID, 4: ParSID)"
 msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 4: ParSID)"
 
 #: src/translate.c.po.c:6059
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 7: ReSID-FP)"
-msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 4: ParSID)"
+msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6073
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)"
@@ -11118,23 +11108,20 @@ msgid "Specify SID engine (0: FastSID, 2: Catweasel, 4: ParSID)"
 msgstr "SID Engine wählen (0: FastSID, 2: Catweasel, 4: ParSID)"
 
 #: src/translate.c.po.c:6103
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 7: ReSID-FP)"
-msgstr "SID Engine wählen (0: FastSID, 2: Catweasel, 4: ParSID)"
+msgstr "SID Engine wählen (0: FastSID, 2: Catweasel, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6118
 msgid "Specify SID engine (0: FastSID, 3: HardSID, 4: ParSID)"
 msgstr "SID Engine wählen (0: FastSID, 3: HardSID, 4: ParSID)"
 
 #: src/translate.c.po.c:6132
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 3: HardSID, 7: ReSID-FP)"
-msgstr "SID Engine wählen (0: FastSID, 3: HardSID, 4: ParSID)"
+msgstr "SID Engine wählen (0: FastSID, 3: HardSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6147
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 4: ParSID, 7: ReSID-FP)"
-msgstr "SID Engine wählen (0: FastSID, 4: ParSID)"
+msgstr "SID Engine wählen (0: FastSID, 4: ParSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6162
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
@@ -11145,42 +11132,36 @@ msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
 msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
 
 #: src/translate.c.po.c:6192
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 7: ReSID-FP)"
-msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
+msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6207
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
 msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
 
 #: src/translate.c.po.c:6222
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID, 7: ReSID-FP)"
-msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
+msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 3: HardSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6237
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 4: ParSID, 7: ReSID-FP)"
-msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 4: ParSID)"
+msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 4: ParSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6252
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 msgstr "SID Engine wählen (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 
 #: src/translate.c.po.c:6267
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)"
-msgstr "SID Engine wählen (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
+msgstr "SID Engine wählen (0: FastSID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6282
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)"
-msgstr "SID Engine wählen (0: FastSID, 2: Catweasel, 4: ParSID)"
+msgstr "SID Engine wählen (0: FastSID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6297
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"
-msgstr "SID Engine wählen (0: FastSID, 3: HardSID, 4: ParSID)"
+msgstr "SID Engine wählen (0: FastSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6312
 msgid ""
@@ -11190,40 +11171,33 @@ msgstr ""
 "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 
 #: src/translate.c.po.c:6329
-#, fuzzy
 msgid ""
 "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 7: ReSID-"
 "FP)"
-msgstr ""
-"SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
+msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6346
-#, fuzzy
 msgid ""
 "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID, 7: ReSID-"
 "FP)"
-msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
+msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6363
-#, fuzzy
 msgid ""
 "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"
-msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
+msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6380
-#, fuzzy
 msgid ""
 "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID, 7: "
 "ReSID-FP)"
-msgstr "SID Engine wählen (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
+msgstr "SID Engine wählen (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6398
-#, fuzzy
 msgid ""
 "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: "
 "ParSID, 7: ReSID-FP)"
-msgstr ""
-"SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
+msgstr "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6432
 msgid "Specify SID engine (0: FastSID, 1: Catweasel)"
@@ -11262,9 +11236,8 @@ msgid "Enable SID Cartridge"
 msgstr "SID Modul aktivieren"
 
 #: src/translate.c.po.c:6557
-#, fuzzy
 msgid "Disable SID Cartridge"
-msgstr "SID Modul aktivieren"
+msgstr "SID Modul deaktivieren"
 
 #: src/translate.c.po.c:6569
 msgid "<base address>"
@@ -11291,7 +11264,6 @@ msgid "Do not emulate SID filters"
 msgstr "SID Filter Emulation deaktivieren"
 
 #: src/translate.c.po.c:6642
-#, fuzzy
 msgid ""
 "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast "
 "resampling)"
@@ -11478,32 +11450,28 @@ msgid "Specify RS232 device this ACIA should work on"
 msgstr "RS232 Gerät für welches ACIA funktionieren soll ist zu spezifizieren"
 
 #: src/translate.c.po.c:7196
-#, fuzzy
 msgid ""
 "Set device type for device #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
-msgstr "Geräte Typ für Gerät #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
+msgstr "Geräte Typ für Gerät #8 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"
 
 #: src/translate.c.po.c:7210
-#, fuzzy
 msgid ""
 "Set device type for device #9 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
-msgstr "Geräte Typ für Gerät #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
+msgstr "Geräte Typ für Gerät #9 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"
 
 #: src/translate.c.po.c:7224
-#, fuzzy
 msgid ""
 "Set device type for device #10 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
-msgstr "Geräte Typ für Gerät #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
+msgstr "Geräte Typ für Gerät #10 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"
 
 #: src/translate.c.po.c:7238
-#, fuzzy
 msgid ""
 "Set device type for device #11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
-msgstr "Geräte Typ für Gerät #11 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
+msgstr "Geräte Typ für Gerät #11 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"
 
 #: src/translate.c.po.c:7252
 msgid "Attach disk image for drive #8 read only"
@@ -11935,7 +11903,6 @@ msgid "Disable MIDI emulation"
 msgstr "MIDI Emulation deaktivieren"
 
 #: src/translate.c.po.c:8571
-#, fuzzy
 msgid ""
 "MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
