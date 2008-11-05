@@ -24,12 +24,15 @@ To keep the code easy to follow please read the following statements:
 
 - No variable declarations after the first line of code, some compilers
   just can't handle it.
-- Don't use mixtures of tabs and spaces as indentation, using 3 or 4 spaces
-  or using a single tab per level will make the code look the same no matter
-  what editor you use. However, make sure the indentation style is the
+- Don't use mixtures of tabs and spaces as indentation, using 4 spaces per
+  level will make the code look the same no matter what editor you use.
+  When changing an existing file, make sure the indentation style is the
   same throughout the source file.
 - For 'if' and 'for' always use braces.
-
+  example: if (foo)
+           {
+               ...
+           }
 
 
 Common code guidelines
