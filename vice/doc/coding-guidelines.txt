@@ -24,15 +24,29 @@ To keep the code easy to follow please read the following statements:
 
 - No variable declarations after the first line of code, some compilers
   just can't handle it.
+
 - Don't use mixtures of tabs and spaces as indentation, using 4 spaces per
   level will make the code look the same no matter what editor you use.
   When changing an existing file, make sure the indentation style is the
   same throughout the source file.
+
 - For 'if' and 'for' always use braces.
-  example: if (foo)
-           {
-               ...
-           }
+  examples:
+
+    if (foo) {
+        ...
+    }
+
+    if (foo) {
+        ...
+    } else {
+        ...
+    }
+
+    for (i = 0; i < 255; i++)
+    {
+        ...
+    }
 
 
 Common code guidelines
@@ -42,8 +56,10 @@ Many different compilers are used to compile the common code parts.
 
 - When using headers which are tested for in configure.in don't assume they
   exist, use the #ifdef HAVE_*_H instead.
+
 - Don't use C++ style comments (// comment), use C-style comments instead
   (/* comment */).
+
 - When adding header files use VICE_*_H as shown in the following example:
 
 #ifndef VICE_RS232_H
