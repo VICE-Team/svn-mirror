@@ -43,8 +43,7 @@ To keep the code easy to follow please read the following statements:
         ...
     }
 
-    for (i = 0; i < 255; i++)
-    {
+    for (i = 0; i < 255; i++) {
         ...
     }
 
