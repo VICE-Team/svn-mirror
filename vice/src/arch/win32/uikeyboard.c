@@ -40,6 +40,7 @@
 #include "keyboard.h"
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "res.h"
 #include "resources.h"
 #include "sysfile.h"
@@ -253,7 +254,10 @@ static void dump_shortcuts(void)
     int item_used[MAXACCEL];
 
     memset(item_used, 0, MAXACCEL * sizeof(int));
-    fp = sysfile_open("win_shortcuts.vsc", &complete_path, MODE_WRITE_TEXT);
+    /* adapted patch of iAN CooG */
+    complete_path = util_concat(archdep_boot_path(), "\\", machine_name, 
+                                "\\win_shortcuts.vsc", NULL);
+    fp = fopen(complete_path, "wt");
 
     if (fp == NULL) {
         ui_error("Failed to write file %s", complete_path);
@@ -305,13 +309,17 @@ static void dump_shortcuts(void)
         else
             fprintf(fp, "0x%02X        %-34s", accel.key, idmlist[j].str);
 
-        p = strrchr(menuitemmodifier[idmlist[j].cmd], '\t');
-        if (strrchr(p, '+'))
-            p = strrchr(p, '+');
-        if (*(p+1))
-            p++;
+        if(menuitemmodifier[idmlist[j].cmd] != NULL ) {
+            p = strrchr(menuitemmodifier[idmlist[j].cmd], '\t');
+            if (strrchr(p, '+'))
+                p = strrchr(p, '+');
+            if (*(p+1))
+                p++;
 
-        fprintf(fp, "%s\n", p);
+            fprintf(fp, "%s\n", p);
+        } else {
+            fprintf(fp, "\n");
+        }
     }
 
     fprintf(fp, "\n#\n"
