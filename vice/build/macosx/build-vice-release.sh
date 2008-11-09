@@ -20,7 +20,7 @@ fi
 # check repository directory
 SVN_REPO="$1"
 if [ "x$SVN_REPO" = x ]; then
-  SVN_REPO=vice-emu-cocoa
+  SVN_REPO=vice-emu-trunk
 fi
 if [ ! -d "$SVN_REPO" ]; then
   echo "ERROR: SVN repository '$SVN_REPO' not found!"
@@ -45,9 +45,9 @@ echo "external libs:  $EXTLIB"
 BUILD_DIR="$3"
 if [ "x$BUILD_DIR" = x ]; then
   if [ $SNAPSHOT = 1 ]; then
-    BUILD_DIR=build-vice-snapshot
+    BUILD_DIR=BUILD-snapshot
   else
-    BUILD_DIR=build-vice-release
+    BUILD_DIR=BUILD-release
   fi
 fi
 if [ -d "$BUILD_DIR" ]; then
@@ -109,15 +109,21 @@ if [ "x$ARCH" = "x" ]; then
 fi
 UI="$5"
 if [ "x$UI" = "x" ]; then
-  UI="x11 gtk cocoa"
+  UI="x11 gtk cocoa cocoa+10.5"
 fi
 if [ "$UI" != "none" ]; then
   echo "--- binaries for $UI ---"
   for dist in $UI ; do
-    echo "building binaries for $dist/$ARCH"
+    UI_TYPE="${dist%+*}"
+    if [ "$UI_TYPE" != "$dist" ]; then
+      SDK="${dist#*+}"
+    else
+      SDK="10.3+4"
+    fi
+    echo "building binaries for $UI_TYPE $ARCH $SDK"
     LOG="$BUILD_DIR/build-$dist.log"
-    (cd "$SRC_DIR" && $BASH build/macosx/build-vice-dist.sh $ARCH $dist dmg "$EXTLIB" "$BUILD_DIR") >"$LOG" 2>&1 
-    FILES="$(ls $BUILD_DIR/$dist/$ARCH/*.dmg 2>/dev/null)"
+    (cd "$SRC_DIR" && $BASH build/macosx/build-vice-dist.sh $ARCH "$UI_TYPE" dmg "$EXTLIB" "$BUILD_DIR" "$SDK") >"$LOG" 2>&1 
+    FILES="$(ls $BUILD_DIR/$UI_TYPE-$SDK/$ARCH/*.dmg 2>/dev/null)"
     echo "generated files: $FILES"
     if [ "x$FILES" = "x" ]; then
       echo "no file found!"

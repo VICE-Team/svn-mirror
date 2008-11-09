@@ -2,7 +2,7 @@
 # make-bindist.sh for Mac OSX
 # written by Christian Vogelgsang <chris@vogelgsang.org>
 #
-# make-bindist.sh <top_srcdir> <strip> <vice-version> <zip|nozip>
+# make-bindist.sh <top_srcdir> <strip> <vice-version> <zip|nozip> <ui_type> [sdk_tag]
 
 RUN_PATH=`dirname $0`
 
@@ -13,6 +13,7 @@ STRIP=$2
 VICE_VERSION=$3
 ZIP=$4
 UI_TYPE=$5
+SDK_TAG=$6
 
 # ui type
 if [ "x$UI_TYPE" = "x" ]; then
@@ -42,7 +43,11 @@ fi
 echo "  binary format: $BIN_FORMAT"
 
 # setup BUILD dir
-BUILD_DIR=vice-macosx-$UI_TYPE-$BIN_FORMAT-$VICE_VERSION
+if [ x"$SDK_TAG" != "x" ]; then
+  BUILD_DIR=vice-macosx-$UI_TYPE-$BIN_FORMAT-$SDK_TAG-$VICE_VERSION
+else
+  BUILD_DIR=vice-macosx-$UI_TYPE-$BIN_FORMAT-$VICE_VERSION
+fi
 if [ -d $BUILD_DIR ]; then
   rm -rf $BUILD_DIR
 fi

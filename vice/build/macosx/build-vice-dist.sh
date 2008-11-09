@@ -26,12 +26,13 @@ fi
 
 # ----- check args -----
 if [ "x$1" = "x" ]; then
-  echo "Usage: $0 <arch> <ui-type> <dist-type> <extlib-dir> <build-dir>"
+  echo "Usage: $0 <arch> <ui-type> <dist-type> <extlib-dir> <build-dir> [sdk-ver]"
   echo "   arch        Build architecture       ub,i386,ppc"
   echo "   ui-type     User Interface Type      x11,gtk,cocoa"
   echo "   dist-type   Type of Distribution     dmg,dir"
   echo "   extlib-dir  External Libraries"
   echo "   build-dir   Where VICE is built"
+  echo "   sdk-ver     Select SDK version       10.5"
   exit 1
 fi
 ARCH="$1"
@@ -59,14 +60,20 @@ if [ "$BUILD_DIR" = "" ]; then
   echo "No Build Directory given!"
   exit 1
 fi
+SDK_VERSION="$6"
+if [ "x$SDK_VERSION" = "x" ]; then
+  SDK_VERSION="10.3+4"
+fi
 echo "  architecture: $ARCH"
 echo "  ui type:      $UI_TYPE"
 echo "  dist type:    $DIST_TYPE"
 echo "  ext lib dir:  $EXTLIB_DIR"
 echo "  build dir:    $BUILD_DIR"
+echo "  sdk version:  $SDK_VERSION"
 echo
 
 # ----- determine build options -----
+echo "----- Determine Build Options -----"
 
 # check if a library is available for the selected architecture
 check_lib () {
@@ -141,7 +148,7 @@ if [ "$?" = "0" ]; then
 fi
 
 # ----- setup build dir -----
-BUILD_DIR="$BUILD_DIR/$UI_TYPE"
+BUILD_DIR="$BUILD_DIR/$UI_TYPE-$SDK_VERSION"
 if [ ! -d "$BUILD_DIR" ]; then
   mkdir -p "$BUILD_DIR"
 fi
@@ -296,11 +303,38 @@ fix_ref () {
 }
 
 # setup SDK paths
-PPC_SDK=/Developer/SDKs/MacOSX10.3.9.sdk
-I386_SDK=/Developer/SDKs/MacOSX10.4u.sdk
-PPC_SDK_VERSION=10.3
-I386_SDK_VERSION=10.4
+echo "----- Choosing SDKs -----"
+SDK_BASE=/Developer/SDKs
+case "$SDK_VERSION" in
+10.3+4)
+  PPC_SDK=$SDK_BASE/MacOSX10.3.9.sdk
+  I386_SDK=$SDK_BASE/MacOSX10.4u.sdk
+  PPC_SDK_VERSION=10.3
+  I386_SDK_VERSION=10.4
+  ;;
+10.5)
+  PPC_SDK=$SDK_BASE/MacOSX10.5.sdk
+  I386_SDK=$SDK_BASE/MacOSX10.5.sdk
+  PPC_SDK_VERSION=10.5
+  I386_SDK_VERSION=10.5
+  ;;
+*)
+  echo "Invalid SDK given: $SDK_VERSION"
+  exit 1
+  ;;
+esac
+echo "ppc:  $PPC_SDK_VERSION $PPC_SDK"
+if [ ! -d "$PPC_SDK" ]; then
+  echo "ERROR: ppc SDK not found!"
+  exit 1
+fi
+echo "i386: $I386_SDK_VERSION $I386_SDK"
+if [ ! -d "$I386_SDK" ]; then
+  echo "ERROR: i386 SDK not found!"
+  exit 1
+fi
 
+# build vice
 if [ "$ARCH" = "ub" ]; then
   build_vice i386 $I386_SDK $I386_SDK_VERSION
   build_vice ppc $PPC_SDK $PPC_SDK_VERSION
@@ -380,7 +414,7 @@ if [ "$DIST_TYPE" = "dir" ]; then
   ZIP="nozip"
 fi
 (cd "$BUILD_DIR/$ARCH" && \
-$SHELL $VICE_SRC/src/arch/unix/macosx/make-bindist.sh $VICE_SRC strip $VICE_VERSION $ZIP $UI_TYPE)
+$SHELL $VICE_SRC/src/arch/unix/macosx/make-bindist.sh $VICE_SRC strip $VICE_VERSION $ZIP $UI_TYPE $SDK_VERSION)
 
 echo "----- Ready: architecture: $ARCH, ui-type: $UI_TYPE, dist-type: $DIST_TYPE -----"
 echo "VICE was configured with: $CONFIGURE_OPTS"
