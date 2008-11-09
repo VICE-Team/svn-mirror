@@ -26,3 +26,6 @@ info_TEXINFOS = vice.texi
 EXTRA_DIST = $(doc_DATA)
 
 SUBDIRS = html
+
+AM_MAKEINFOHTMLFLAGS = 
+AM_MAKEINFOFLAGS = --no-split
