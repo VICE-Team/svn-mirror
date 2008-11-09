@@ -1451,10 +1451,7 @@ IDCLS_DISABLE_DIGIMAX
 IDCLS_DIGIMAX_BASE
 
 /* c64dtv/c64dtv-cmdline-options.c */
-IDCLS_ENABLE_HUMMER_USERPORT_JOY
-
-/* c64dtv/c64dtv-cmdline-options.c */
-IDCLS_DISABLE_HUMMER_USERPORT_JOY
+IDCLS_SELECT_HUMMER_USERPORT_DEVICE
 
 /* c64dtv/c64dtv-cmdline-options.c */
 IDCLS_P_PORT
@@ -1494,12 +1491,6 @@ IDCLS_ENABLE_TRUE_FLASH_FS
 
 /* c64dtv/flash-trap.c */
 IDCLS_DISABLE_TRUE_FLASH_FS
-
-/* c64dtv/hummeradc.c */
-IDCLS_ENABLE_HUMMERADC
-
-/* c64dtv/hummeradc.c */
-IDCLS_DISABLE_HUMMERADC
 
 /* midi.c */
 IDCLS_ENABLE_MIDI_EMU

@@ -57,7 +57,7 @@
 
 void REGPARM2 cia2_store(WORD addr, BYTE data)
 {
-    if ((addr&0x1f) == 1 && hummeradc_enabled)
+    if ((addr&0x1f) == 1 && c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC)
         hummeradc_store(data);
     if ((addr&0x1f) == 1 && ps2mouse_enabled)
         ps2mouse_store(data);
@@ -71,9 +71,9 @@ BYTE REGPARM1 cia2_read(WORD addr)
     if ((addr&0x1f) == 1) {
         if (ps2mouse_enabled)
             retval &= (ps2mouse_read() | 0x3f);
-        if (hummeradc_enabled)
+        if (c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC)
             retval &= (hummeradc_read() | 0xf8);
-        if (c64dtv_hummer_userport_joy_enabled)
+        if (c64dtv_hummer_userport_device == HUMMER_USERPORT_JOY)
             retval &= (~(joystick_value[c64dtv_hummer_userport_joy_port]) | 0xe0);
         return retval;
     }

@@ -1050,8 +1050,7 @@ int c64dtvmem_resources_init(void)
 {
   return c64dtvblitter_resources_init() < 0 ||
     c64dtvdma_resources_init() < 0 ||
-    c64dtvflash_resources_init() < 0 ||
-    hummeradc_resources_init() < 0;
+    c64dtvflash_resources_init() < 0;
 }
 
 void c64dtvmem_resources_shutdown(void)
@@ -1066,6 +1065,5 @@ int c64dtvmem_cmdline_options_init(void)
 {
   return c64dtvblitter_cmdline_options_init() < 0 ||
     c64dtvdma_cmdline_options_init() < 0 ||
-    c64dtvflash_cmdline_options_init() < 0 ||
-    hummeradc_cmdline_options_init() < 0;
+    c64dtvflash_cmdline_options_init() < 0;
 }

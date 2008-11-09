@@ -135,6 +135,7 @@ static const ui_menu_toggle_t toggle_list[] = {
     { "ConfirmOnExit", IDM_TOGGLE_CONFIRM_ON_EXIT },
     { "FullScreenEnabled", IDM_TOGGLE_FULLSCREEN },
     { "AlwaysOnTop", IDM_TOGGLE_ALWAYSONTOP },
+    { "KeySetEnable", IDM_JOYKEYS_TOGGLE },
 #ifdef DEBUG
     { "MainCPU_TRACE", IDM_TOGGLE_MAINCPU_TRACE },
     { "Drive0CPU_TRACE", IDM_TOGGLE_DRIVE0CPU_TRACE },

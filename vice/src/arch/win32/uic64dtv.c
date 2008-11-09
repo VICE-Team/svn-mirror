@@ -43,8 +43,8 @@
 static void enable_c64dtv_controls(HWND hwnd)
 {
   EnableWindow(GetDlgItem(hwnd, IDC_DTV_REVISION), 1);
+  EnableWindow(GetDlgItem(hwnd, IDC_HUMMER_USERPORT_DEVICE), 1);
   EnableWindow(GetDlgItem(hwnd, IDC_C64DTV_HUMMER_JOY_PORT), 1);
-  EnableWindow(GetDlgItem(hwnd, IDC_C64DTV_HUMMER_USR_JOY_ENABLE), 1);
 }
 
 static void enable_c64dtv_attach_flash_controls(HWND hwnd)
@@ -73,8 +73,13 @@ static void init_c64dtv_dialog(HWND hwnd)
   res_value-=2;
   SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-  resources_get_int("HummerUserportJoy", &res_value);
-  CheckDlgButton(hwnd, IDC_C64DTV_HUMMER_USR_JOY_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
+  temp_hwnd = GetDlgItem(hwnd, IDC_HUMMER_USERPORT_DEVICE);
+  SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NONE));
+  SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"ADC");
+  SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_JOYSTICK));
+
+  resources_get_int("HummerUserportDevice", &res_value);
+  SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
   temp_hwnd = GetDlgItem(hwnd, IDC_C64DTV_HUMMER_JOY_PORT);
   SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Joy1");
@@ -115,11 +120,11 @@ static void init_c64dtv_create_flash_dialog(HWND hwnd)
 
 static void end_c64dtv_dialog(HWND hwnd)
 {
-  resources_set_int("HummerUserportJoy", (IsDlgButtonChecked(hwnd,
-                    IDC_C64DTV_HUMMER_USR_JOY_ENABLE) == BST_CHECKED ? 1 : 0 ));
-
   resources_set_int("DtvRevision",SendMessage(GetDlgItem(
                     hwnd, IDC_DTV_REVISION), CB_GETCURSEL, 0, 0)+2);
+
+  resources_set_int("HummerUserportDevice",SendMessage(GetDlgItem(
+                    hwnd, IDC_C64DTV_HUMMER_JOY_PORT), CB_GETCURSEL, 0, 0));
 
   resources_set_int("HummerUserportJoyPort",SendMessage(GetDlgItem(
                     hwnd, IDC_C64DTV_HUMMER_JOY_PORT), CB_GETCURSEL, 0, 0)+1);

@@ -3503,27 +3503,15 @@ translate_t string_table[] = {
 #endif
 
 /* c64dtv/c64dtv-cmdline-options.c */
-/* en */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY,    N_("Enable the Hummer Userport Joystick Emulation")},
+/* en */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE,    N_("Select Hummer Userport device (0: None, 1: ADC, 2: Joystick)")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY_DE, "Hummer Userport Emulation deaktivieren"},
-/* fr */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY_HU, "Hummer Userport botkormány emuláció engedélyezése"},
-/* it */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY_IT, "Attiva l'emulazione del joystick sulla userport dell'Hummer"},
-/* nl */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY_NL, "Aktiveer de Hummer Userport Joystick emulatie"},
-/* pl */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_HUMMER_USERPORT_JOY_SV, "Aktivera emulering av Hummer-användarportstyrspak"},
-#endif
-
-/* c64dtv/c64dtv-cmdline-options.c */
-/* en */ {IDCLS_DISABLE_HUMMER_USERPORT_JOY,    N_("Disable the Hummer Userport Joystick emulation")},
-#ifdef HAS_TRANSLATION
-/* de */ {IDCLS_DISABLE_HUMMER_USERPORT_JOY_DE, ""},  /* fuzzy */
-/* fr */ {IDCLS_DISABLE_HUMMER_USERPORT_JOY_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_HUMMER_USERPORT_JOY_HU, "Hummer userport botkormány emuláció tiltása"},
-/* it */ {IDCLS_DISABLE_HUMMER_USERPORT_JOY_IT, "Disattiva il joystick sulla userport dell'Hummer"},
-/* nl */ {IDCLS_DISABLE_HUMMER_USERPORT_JOY_NL, "De Hummer Userport Joystick emulatie afsluiten"},
-/* pl */ {IDCLS_DISABLE_HUMMER_USERPORT_JOY_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_HUMMER_USERPORT_JOY_SV, "Inaktivera emulering av Hummer-användarportstyrspak"},
+/* de */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_NL, "Selecteer Hummer Userport apparaat (0: Geen, 1: ADC, 2: Joystick"},
+/* pl */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_SV, ""},  /* fuzzy */
 #endif
 
 /* c64dtv/c64dtv-cmdline-options.c */
@@ -8650,30 +8638,6 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_DISABLE_TRUE_FLASH_FS_NL, "Hardwatematig flash bestandssysteem uitschakelen"},
 /* pl */ {IDCLS_DISABLE_TRUE_FLASH_FS_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_TRUE_FLASH_FS_SV, "Inaktivera maskinvaruemelring för flashfilsystem"},
-#endif
-
-/* c64dtv/hummeradc.c */
-/* en */ {IDCLS_ENABLE_HUMMERADC,    N_("Enable the Hummer ADC")},
-#ifdef HAS_TRANSLATION
-/* de */ {IDCLS_ENABLE_HUMMERADC_DE, ""},  /* fuzzy */
-/* fr */ {IDCLS_ENABLE_HUMMERADC_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_HUMMERADC_HU, "Hummer ADC engedélyezése"},
-/* it */ {IDCLS_ENABLE_HUMMERADC_IT, "Attiva l'ADC dell'Hummer"},
-/* nl */ {IDCLS_ENABLE_HUMMERADC_NL, "Aktiveer de Hummer ADC"},
-/* pl */ {IDCLS_ENABLE_HUMMERADC_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_HUMMERADC_SV, "Aktivera Hummer ADC"},
-#endif
-
-/* c64dtv/hummeradc.c */
-/* en */ {IDCLS_DISABLE_HUMMERADC,    N_("Disable the Hummer ADC")},
-#ifdef HAS_TRANSLATION
-/* de */ {IDCLS_DISABLE_HUMMERADC_DE, ""},  /* fuzzy */
-/* fr */ {IDCLS_DISABLE_HUMMERADC_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_HUMMERADC_HU, "Hummer ADC tiltása"},
-/* it */ {IDCLS_DISABLE_HUMMERADC_IT, "Disattiva l'ADC dell'Hummer"},
-/* nl */ {IDCLS_DISABLE_HUMMERADC_NL, "De Hummer ADC afsluiten"},
-/* pl */ {IDCLS_DISABLE_HUMMERADC_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_HUMMERADC_SV, "Inaktivera Hummer ADC"},
 #endif
 
 #ifdef HAVE_MIDI

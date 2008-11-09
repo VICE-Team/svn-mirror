@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _HUMMERADC_H
-#define _HUMMERADC_H
+#ifndef VICE_HUMMERADC_H
+#define VICE_HUMMERADC_H
 
 #include "types.h"
 
@@ -36,16 +36,11 @@ extern void hummeradc_shutdown(void);
 extern BYTE hummeradc_read(void);
 extern void hummeradc_store(BYTE value);
 
-extern int hummeradc_resources_init(void);
-extern int hummeradc_cmdline_options_init(void);
-
 extern BYTE hummeradc_value;
 extern BYTE hummeradc_channel;
 extern BYTE hummeradc_control;
 extern BYTE hummeradc_chanattr;
 extern BYTE hummeradc_chanwakeup;
 extern BYTE hummeradc_prev;
-
-extern int hummeradc_enabled;
 
 #endif

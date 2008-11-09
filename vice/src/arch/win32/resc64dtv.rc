@@ -156,6 +156,7 @@ BEGIN
         MENUITEM "", IDM_TOGGLE_SCALE2X, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "", IDM_SWAP_JOYSTICK
+        MENUITEM "", IDM_JOYKEYS_TOGGLE
         MENUITEM SEPARATOR
         MENUITEM "", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
@@ -1282,8 +1283,10 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "HUMMER",
                     IDC_STATIC,3,22,174,40
-    AUTOCHECKBOX    "Enable &Hummer Userport Joystick", IDC_C64DTV_HUMMER_USR_JOY_ENABLE,
-                    7, 32, 160, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "Userport device",
+                    IDC_HUMMER_USERPORT_DEVICE_LABEL, 63, 32, 110, 8
+    COMBOBOX        IDC_HUMMER_USERPORT_DEVICE, 9, 32, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
     LTEXT           "Joyport mapped to userport",
                     IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
     COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
@@ -1306,8 +1309,10 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "HUMMER",
                     IDC_STATIC,3,22,174,40
-    AUTOCHECKBOX    "&Hummer Userport Joystick aktivieren", IDC_C64DTV_HUMMER_USR_JOY_ENABLE,
-                    7, 32, 160, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "Userport device",
+                    IDC_HUMMER_USERPORT_DEVICE_LABEL, 63, 32, 110, 8
+    COMBOBOX        IDC_HUMMER_USERPORT_DEVICE, 9, 32, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
     LTEXT           "Joystickport auf Userport zugeordnet",
                     IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
     COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
@@ -1330,8 +1335,10 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "HUMMER",
                     IDC_STATIC,3,22,174,40
-    AUTOCHECKBOX    "Enable &Hummer Userport Joystick", IDC_C64DTV_HUMMER_USR_JOY_ENABLE,
-                    7, 32, 160, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "Userport device",
+                    IDC_HUMMER_USERPORT_DEVICE_LABEL, 63, 32, 110, 8
+    COMBOBOX        IDC_HUMMER_USERPORT_DEVICE, 9, 32, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
     LTEXT           "Joyport mapped to userport",
                     IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
     COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
@@ -1355,8 +1362,10 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "HUMMER",
                     IDC_STATIC,3,22,174,40
-    AUTOCHECKBOX    "&Hummer userport botkormány engedélyezése", IDC_C64DTV_HUMMER_USR_JOY_ENABLE,
-                    7, 32, 160, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "Userport device",
+                    IDC_HUMMER_USERPORT_DEVICE_LABEL, 63, 32, 110, 8
+    COMBOBOX        IDC_HUMMER_USERPORT_DEVICE, 9, 32, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
     LTEXT           "Botkormány port leképezve a userportra",
                     IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
     COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
@@ -1380,8 +1389,10 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "HUMMER",
                     IDC_STATIC,3,22,174,40
-    AUTOCHECKBOX    "Attiva il joystick sulla userport dell'&Hummer", IDC_C64DTV_HUMMER_USR_JOY_ENABLE,
-                    7, 32, 160, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "Userport device",
+                    IDC_HUMMER_USERPORT_DEVICE_LABEL, 63, 32, 110, 8
+    COMBOBOX        IDC_HUMMER_USERPORT_DEVICE, 9, 32, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
     LTEXT           "Porta joystick mappata su userport",
                     IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
     COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
@@ -1404,8 +1415,10 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "HUMMER",
                     IDC_STATIC,3,22,174,40
-    AUTOCHECKBOX    "Aktiveer &Hummer Userport Joystick", IDC_C64DTV_HUMMER_USR_JOY_ENABLE,
-                    7, 32, 160, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "Userport apparaat",
+                    IDC_HUMMER_USERPORT_DEVICE_LABEL, 63, 32, 110, 8
+    COMBOBOX        IDC_HUMMER_USERPORT_DEVICE, 9, 32, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
     LTEXT           "Joystick poort omgeleidt naar userpoort",
                     IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
     COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
@@ -1429,8 +1442,10 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "HUMMER",
                     IDC_STATIC,3,22,174,40
-    AUTOCHECKBOX    "Enable &Hummer Userport Joystick", IDC_C64DTV_HUMMER_USR_JOY_ENABLE,
-                    7, 32, 160, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "Userport device",
+                    IDC_HUMMER_USERPORT_DEVICE_LABEL, 63, 32, 110, 8
+    COMBOBOX        IDC_HUMMER_USERPORT_DEVICE, 9, 32, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
     LTEXT           "Joyport mapped to userport",
                     IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
     COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
@@ -1454,8 +1469,10 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "HUMMER",
                     IDC_STATIC,3,22,174,40
-    AUTOCHECKBOX    "Aktivera &Hummer-användarportsstyrspak", IDC_C64DTV_HUMMER_USR_JOY_ENABLE,
-                    7, 32, 160, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "Userport device",
+                    IDC_HUMMER_USERPORT_DEVICE_LABEL, 63, 32, 110, 8
+    COMBOBOX        IDC_HUMMER_USERPORT_DEVICE, 9, 32, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
     LTEXT           "Spelport styrd till användarporten",
                     IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
     COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
@@ -1809,6 +1826,7 @@ BEGIN
     IDS_MI_FLASH_TRUE_FILESYSTEM   "&True flash filesystem"
     IDS_MI_PS2MOUSE                "&PS/2 mouse emulation"
     IDS_MI_C64DTV_SETTINGS         "&C64DTV settings..."
+    IDS_JOYSTICK                   "Joystick"
 END
 
 // GERMAN text
@@ -1824,6 +1842,7 @@ BEGIN
     IDS_MI_FLASH_TRUE_FILESYSTEM   "&True flash Dateisystem"
     IDS_MI_PS2MOUSE                "&PS/2 Mausemulation"
     IDS_MI_C64DTV_SETTINGS         "&C64DTV Einstellungen..."
+    IDS_JOYSTICK                   "Joystick"
 END
 
 // FRENCH text
@@ -1839,6 +1858,7 @@ BEGIN
     IDS_MI_FLASH_TRUE_FILESYSTEM   "&True flash filesystem"
     IDS_MI_PS2MOUSE                "&PS/2 mouse emulation"
     IDS_MI_C64DTV_SETTINGS         "&C64DTV settings..."
+    IDS_JOYSTICK                   "Joystick"
 END
 
 
@@ -1856,6 +1876,7 @@ BEGIN
     IDS_MI_FLASH_TRUE_FILESYSTEM   "&Igazi flash fájlrendszer"
     IDS_MI_PS2MOUSE                "&PS/2 egér emuláció"
     IDS_MI_C64DTV_SETTINGS         "&C64DTV beállításai..."
+    IDS_JOYSTICK                   "Joystick"
 END
 #pragma code_page(28591)
 
@@ -1873,6 +1894,7 @@ BEGIN
     IDS_MI_FLASH_TRUE_FILESYSTEM   "Attiva l'emulazione &hardware del filesystem flash"
     IDS_MI_PS2MOUSE                "Emulazione del mouse &PS/2"
     IDS_MI_C64DTV_SETTINGS         "Impostazioni &C64DTV..."
+    IDS_JOYSTICK                   "Joystick"
 END
 
 // DUTCH text
@@ -1888,6 +1910,7 @@ BEGIN
     IDS_MI_FLASH_TRUE_FILESYSTEM   "&Hardwarematig flash bestandssysteem"
     IDS_MI_PS2MOUSE                "&PS/2 muis emulatie"
     IDS_MI_C64DTV_SETTINGS         "&C64DTV instellingen..."
+    IDS_JOYSTICK                   "Joystick"
 END
 
 // POLISH text
@@ -1904,6 +1927,7 @@ BEGIN
     IDS_MI_FLASH_TRUE_FILESYSTEM   "&True flash filesystem"
     IDS_MI_PS2MOUSE                "&PS/2 mouse emulation"
     IDS_MI_C64DTV_SETTINGS         "&C64DTV settings..."
+    IDS_JOYSTICK                   "Joystick"
 END
 #pragma code_page(28591)
 
@@ -1920,4 +1944,5 @@ BEGIN
     IDS_MI_FLASH_TRUE_FILESYSTEM   "&Äkta flash-filsystem"
     IDS_MI_PS2MOUSE                "&PS/2-musemulering"
     IDS_MI_C64DTV_SETTINGS         "&C64DTV-inställningar..."
+    IDS_JOYSTICK                   "Joystick"
 END

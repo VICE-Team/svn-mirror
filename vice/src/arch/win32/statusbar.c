@@ -478,7 +478,7 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
             led.top = part_top + 22;
             led.bottom = part_top + 38;
 
-            DrawText(hDC, translate_text(IDS_JOYSTICK), -1, &led, 0);
+            DrawText(hDC, translate_text(IDS_JOYSTICK_C), -1, &led, 0);
 
             for (joynum = 1; joynum <= 2; joynum ++) {
 

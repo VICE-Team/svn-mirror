@@ -1173,6 +1173,15 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDMS_SWAP_JOYSTICKS_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_SWAP_JOYSTICKS_SV, "Växla spelportarna"},
 
+/* en */ {IDMS_ENABLE_JOY_KEYS,    "Enable Joy Keys"},
+/* de */ {IDMS_SWAP_JOYSTICKS_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_SWAP_JOYSTICKS_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_SWAP_JOYSTICKS_HU, ""},  /* fuzzy */
+/* it */ {IDMS_SWAP_JOYSTICKS_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_SWAP_JOYSTICKS_NL, "Activeer Joy Keys"},
+/* pl */ {IDMS_SWAP_JOYSTICKS_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_SWAP_JOYSTICKS_SV, ""},  /* fuzzy */
+
 /* en */ {IDMS_SOUND_PLAYBACK,    "Sound playback"},
 /* de */ {IDMS_SOUND_PLAYBACK_DE, "Sound Einschalten"},
 /* fr */ {IDMS_SOUND_PLAYBACK_FR, "Lecture audio"},
@@ -2788,6 +2797,24 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDS_NONE_PL, ""},  /* fuzzy */
 /* sv */ {IDS_NONE_SV, "Ingen"},
 
+/* en */ {IDS_ADC,    "ADC"},
+/* de */ {IDS_ADC_DE, ""},  /* fuzzy */
+/* fr */ {IDS_ADC_FR, ""},  /* fuzzy */
+/* hu */ {IDS_ADC_HU, ""},  /* fuzzy */
+/* it */ {IDS_ADC_IT, ""},  /* fuzzy */
+/* nl */ {IDS_ADC_NL, "ADC"},
+/* pl */ {IDS_ADC_PL, ""},  /* fuzzy */
+/* sv */ {IDS_ADC_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_JOYSTICK,    "Joystick"},
+/* de */ {IDS_JOYSTICK_DE, ""},  /* fuzzy */
+/* fr */ {IDS_JOYSTICK_FR, ""},  /* fuzzy */
+/* hu */ {IDS_JOYSTICK_HU, ""},  /* fuzzy */
+/* it */ {IDS_JOYSTICK_IT, ""},  /* fuzzy */
+/* nl */ {IDS_JOYSTICK_NL, "Joystick"},
+/* pl */ {IDS_JOYSTICK_PL, ""},  /* fuzzy */
+/* sv */ {IDS_JOYSTICK_SV, ""},  /* fuzzy */
+
 /* en */ {IDS_IRQ,    "IRQ"},
 /* de */ {IDS_IRQ_DE, "IRQ"},
 /* fr */ {IDS_IRQ_FR, "IRQ"},
@@ -2923,14 +2950,14 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDS_C64DTV_WRITE_ENABLE_PL, ""},  /* fuzzy */
 /* sv */ {IDS_C64DTV_WRITE_ENABLE_SV, ""},  /* fuzzy */
 
-/* en */ {IDS_C64DTV_HUMMER_JOY_ENABLE,    "Hummer Userport joystick"},
-/* de */ {IDS_C64DTV_HUMMER_JOY_ENABLE_DE, "Hummer Userport Joystick"},
-/* fr */ {IDS_C64DTV_HUMMER_JOY_ENABLE_FR, ""},  /* fuzzy */
-/* hu */ {IDS_C64DTV_HUMMER_JOY_ENABLE_HU, "Hummer Userport botkormány"},
-/* it */ {IDS_C64DTV_HUMMER_JOY_ENABLE_IT, "Joystick della userport dell'Hummer"},
-/* nl */ {IDS_C64DTV_HUMMER_JOY_ENABLE_NL, "Hummer Userport joystick"},
-/* pl */ {IDS_C64DTV_HUMMER_JOY_ENABLE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_C64DTV_HUMMER_JOY_ENABLE_SV, ""},  /* fuzzy */
+/* en */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE,    "Hummer Userport device"},
+/* de */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_HU, ""},  /* fuzzy */
+/* it */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_NL, "Hummer Userport apparaat"},
+/* pl */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_C64DTV_HUMMER_JOY_PORT,    "Joystick port mapped to Hummer Userport"},
 /* de */ {IDS_C64DTV_HUMMER_JOY_PORT_DE, "Joystick Port auf Hummer Userport zugeordnet"},

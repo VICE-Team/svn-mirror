@@ -38,9 +38,8 @@
 
 UI_MENU_DEFINE_RADIO(DtvRevision)
 UI_MENU_DEFINE_TOGGLE(c64dtvromrw)
-UI_MENU_DEFINE_TOGGLE(HummerADC)
-UI_MENU_DEFINE_TOGGLE(HummerUserportJoy)
 UI_MENU_DEFINE_RADIO(HummerUserportJoyPort)
+UI_MENU_DEFINE_RADIO(HummerUserportDevice)
 
 UI_CALLBACK(set_c64dtv_rom_name)
 {
@@ -79,10 +78,20 @@ static ui_menu_entry_t c64dtv_revision_submenu[] = {
 };
 
 static ui_menu_entry_t c64dtv_hummer_joy_submenu[] = {
-    { "*Joy1", (ui_callback_t)radio_HummerUserportJoyPort,
+    { N_("*Joy1"), (ui_callback_t)radio_HummerUserportJoyPort,
       (ui_callback_data_t)1, NULL },
-    { "*Joy2", (ui_callback_t)radio_HummerUserportJoyPort,
+    { N_("*Joy2"), (ui_callback_t)radio_HummerUserportJoyPort,
       (ui_callback_data_t)2, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t c64dtv_hummer_userport_device_submenu[] = {
+    { N_("*None"), (ui_callback_t)radio_HummerUserportDevice,
+      (ui_callback_data_t)HUMMER_USERPORT_NONE, NULL },
+    { "*ADC", (ui_callback_t)radio_HummerUserportDevice,
+      (ui_callback_data_t)HUMMER_USERPORT_ADC, NULL },
+    { N_("*Joystick"), (ui_callback_t)radio_HummerUserportDevice,
+      (ui_callback_data_t)HUMMER_USERPORT_JOY, NULL },
     { NULL }
 };
 
@@ -96,10 +105,8 @@ ui_menu_entry_t c64dtv_submenu[] = {
     { N_("C64DTV blitter revision"),
       NULL, NULL, c64dtv_revision_submenu },
     { "--" },
-    { N_("*Enable Hummer ADC"),
-      (ui_callback_t)toggle_HummerADC, NULL, NULL },
-    { N_("*Enable Hummer Userport joystick"),
-      (ui_callback_t)toggle_HummerUserportJoy, NULL, NULL },
+    { N_("*Hummer Userport Device"),
+      NULL, NULL, c64dtv_hummer_userport_device_submenu },
     { N_("Hummer joystick port mapped to Userport"),
       NULL, NULL, c64dtv_hummer_joy_submenu },
     { N_("PS/2 mouse on Userport"),

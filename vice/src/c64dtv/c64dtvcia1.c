@@ -146,7 +146,7 @@ static BYTE read_ciapa(cia_context_t *cia_context)
     BYTE m;
     int i;
 
-    if ((c64dtv_hummer_userport_joy_enabled || hummeradc_enabled)
+    if ((c64dtv_hummer_userport_device == HUMMER_USERPORT_JOY || c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC)
        && c64dtv_hummer_userport_joy_port==1)
         msk = cia_context->old_pb & (BYTE)~0;
     else
@@ -156,7 +156,7 @@ static BYTE read_ciapa(cia_context_t *cia_context)
         if (!(msk & m))
             val &= ~rev_keyarr[i];
 
-    if ((c64dtv_hummer_userport_joy_enabled || hummeradc_enabled)
+    if ((c64dtv_hummer_userport_device == HUMMER_USERPORT_JOY || c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC)
        && c64dtv_hummer_userport_joy_port==2)
         byte = (val & (cia_context->c_cia[CIA_PRA]
                | ~(cia_context->c_cia[CIA_DDRA]))) & (BYTE)~0;
@@ -175,7 +175,7 @@ static BYTE read_ciapb(cia_context_t *cia_context)
     BYTE m;
     int i;
 
-    if ((c64dtv_hummer_userport_joy_enabled || hummeradc_enabled)
+    if ((c64dtv_hummer_userport_device == HUMMER_USERPORT_JOY || c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC)
        && c64dtv_hummer_userport_joy_port==2)
         msk = cia_context->old_pa & (BYTE)~0;
     else
@@ -185,10 +185,10 @@ static BYTE read_ciapb(cia_context_t *cia_context)
         if (!(msk & m))
             val &= ~keyarr[i];
 
-    if (hummeradc_enabled && (!(msk & 1)))
+    if (c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC && (!(msk & 1)))
         val &= ~(joystick_value[c64dtv_hummer_userport_joy_port] & 3);
 
-    if ((c64dtv_hummer_userport_joy_enabled || hummeradc_enabled)
+    if ((c64dtv_hummer_userport_device == HUMMER_USERPORT_JOY || c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC)
        && c64dtv_hummer_userport_joy_port==1)
         byte = (val & (cia_context->c_cia[CIA_PRB]
                | ~(cia_context->c_cia[CIA_DDRB]))) & (BYTE)~0;

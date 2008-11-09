@@ -24,8 +24,12 @@
  *
  */
 
-#ifndef _C64DTV_RESOURCES_H
-#define _C64DTV_RESOURCES_H
+#ifndef VICE_C64DTV_RESOURCES_H
+#define VICE_C64DTV_RESOURCES_H
+
+#define HUMMER_USERPORT_NONE  0
+#define HUMMER_USERPORT_ADC   1
+#define HUMMER_USERPORT_JOY   2
 
 extern int c64dtv_resources_init(void);
 extern void c64dtv_resources_shutdown(void);
@@ -33,7 +37,7 @@ extern void c64dtv_resources_shutdown(void);
 extern int emu_id_enabled;
 extern char *kernal_revision;
 
-extern unsigned int c64dtv_hummer_userport_joy_enabled;
+extern int c64dtv_hummer_userport_device;
 extern unsigned int c64dtv_hummer_userport_joy_port;
 
 #endif
