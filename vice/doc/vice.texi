@@ -4295,15 +4295,13 @@ can be used simultaneously with either Hummer ADC or userport joystick.
 
 @table @code
 
-@cindex -hummeradc, +hummeradc
-@item -hummeradc
-@itemx +hummeradc
-Enable or disable Hummer ADC
+@cindex -hummerusrdev
+@item -hummerusrdev DEVICE
+Select Hummer Userport device (0: None, 1: ADC, 2: Joystick)
 
-@cindex -hummerusrjoy, +hummerusrjoy
-@item -hummerusrjoy
-@itemx +hummerusrjoy
-Enable or disable Hummer userport joystick emulation
+@cindex -hummerusrjoyport
+@item -hummerusrjoyport PORT
+Select which joystick port should be mapped to the userport
 
 @cindex -ps2mouse, +ps2mouse
 @item -ps2mouse

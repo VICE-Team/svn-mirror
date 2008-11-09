@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "c64dtv-resources.h"
 #include "lib.h"
 #include "resources.h"
 #include "uilib.h"
@@ -111,4 +112,5 @@ ui_menu_entry_t c64dtv_submenu[] = {
       NULL, NULL, c64dtv_hummer_joy_submenu },
     { N_("PS/2 mouse on Userport"),
       NULL, NULL, ps2_mouse_submenu },
+    { NULL }
 };
