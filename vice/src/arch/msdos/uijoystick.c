@@ -43,6 +43,8 @@
 #include "uijoystick.h"
 
 
+TUI_MENU_DEFINE_TOGGLE(KeySetEnable)
+
 static TUI_MENU_CALLBACK(get_joystick_device_callback)
 {
     int port = (int) param;
@@ -657,6 +659,10 @@ static tui_menu_item_def_t double_joystick_submenu[] = {
       "Swap joystick ports",
       swap_joysticks_callback, NULL, 0,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_Key set enable",
+      "Enable joystick key set emulation",
+      toggle_KeySetEnable_callback, NULL, 3,
+      TUI_MENU_BEH_RESUME, NULL, NULL },
     { "--" },
     { "Port #_1:",
       "Specify device for emulation of joystick in port #1",

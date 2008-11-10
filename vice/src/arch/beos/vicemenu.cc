@@ -441,8 +441,14 @@ BMenuBar *menu_create(int machine_class) {
 						new BMessage(MENU_C64DTV_REVISION_3)));
 				submenu->AddItem(new BMenuItem("C64DTV ROM writable",
 					new BMessage(MENU_TOGGLE_C64DTV_WRITE_ENABLE)));
-				submenu->AddItem(new BMenuItem("Hummer Userport joystick",
-					new BMessage(MENU_TOGGLE_HUMMER_USERPORT_JOY)));
+				submenu->AddItem(extsubmenu = new BMenu("Hummer Userport device"));
+					extsubmenu->SetRadioMode(true);
+					extsubmenu->AddItem(new BMenuItem("None",
+						new BMessage(MENU_HUMMER_USERPORT_NONE)));
+					extsubmenu->AddItem(new BMenuItem("ADC",
+						new BMessage(MENU_HUMMER_USERPORT_ADC)));
+					extsubmenu->AddItem(new BMenuItem("Joystick",
+						new BMessage(MENU_HUMMER_USERPORT_JOY)));
 				submenu->AddItem(extsubmenu = new BMenu("Joystick port mapped to Hummer Userport"));
 					extsubmenu->SetRadioMode(true);
 					extsubmenu->AddItem(new BMenuItem("Joy1",

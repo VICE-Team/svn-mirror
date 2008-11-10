@@ -96,7 +96,12 @@ BEGIN
         MENUITEM "DTV~2",   IDM_DTV2,    MIS_TEXT
         MENUITEM "DTV~3",   IDM_DTV3,    MIS_TEXT
       END
-      MENUITEM "Enable Hummer userport joystick",  IDM_C64DTV_HUMMER_JOY,          MIS_TEXT
+      SUBMENU  "Hummer Userport device", IDM_HUMMER_USERPORT_DEVICE, MIS_TEXT
+      BEGIN
+        MENUITEM "~None",     IDM_HUMMER_USERPORT_NONE, MIS_TEXT
+        MENUITEM "~ADC",      IDM_HUMMER_USERPORT_ADC,  MIS_TEXT
+        MENUITEM "~Joystick", IDM_HUMMER_USERPORT_JOY,  MIS_TEXT
+      END
       SUBMENU  "Joyport mapped to userport",       IDM_C64DTV_HUMMER_MAPPED_JOY,   MIS_TEXT
       BEGIN
         MENUITEM "Joy~1",   IDM_HUMMER_JOY1,    MIS_TEXT

@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "c64dtv-resources.h"
 #include "resources.h"
 #include "tui.h"
 #include "tuimenu.h"
@@ -36,7 +37,7 @@
 TUI_MENU_DEFINE_RADIO(DtvRevision)
 TUI_MENU_DEFINE_RADIO(HummerUserportJoyPort)
 TUI_MENU_DEFINE_TOGGLE(c64dtvromrw)
-TUI_MENU_DEFINE_TOGGLE(HummerUserportJoy)
+TUI_MENU_DEFINE_RADIO(HummerUserportDevice)
 
 static TUI_MENU_CALLBACK(DtvRevision_submenu_callback)
 {
@@ -58,6 +59,25 @@ static TUI_MENU_CALLBACK(HummerUserportJoyPort_submenu_callback)
     return s;
 }
 
+static TUI_MENU_CALLBACK(HummerUserportDevice_submenu_callback)
+{
+    int value;
+
+    resources_get_int("HummerUserportDevice", &value);
+    switch (value)
+    {
+        case HUMMER_USERPORT_ADC:
+            return "ADC";
+            break;
+        case HUMMER_USERPORT_JOY:
+            return "Joystick";
+            break;
+        case HUMMER_USERPORT_NONE:
+        default:
+            return "None";
+    }
+}
+
 static tui_menu_item_def_t DtvRevision_submenu[] = {
     { "DTV_2", NULL, radio_DtvRevision_callback,
       (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
@@ -71,6 +91,16 @@ static tui_menu_item_def_t HummerUserportJoyPort_submenu[] = {
       (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "Joy_2", NULL, radio_HummerUserportJoyPort_callback,
       (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
+static tui_menu_item_def_t HummerUserportDevice_submenu[] = {
+    { "_None", NULL, radio_HummerUserportDevice_callback,
+      (void *)HUMMER_USERPORT_NONE, 10, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_ADC", NULL, radio_HummerUserportDevice_callback,
+      (void *)HUMMER_USERPORT_ADC, 10, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_Joystick", NULL, radio_HummerUserportDevice_callback,
+      (void *)HUMMER_USERPORT_JOY, 10, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 
@@ -109,13 +139,14 @@ static tui_menu_item_def_t c64dtv_menu_items[] = {
     { "C64DTV ROM _write enabled:", "C64DTV ROM is writable",
       toggle_c64dtvromrw_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Hummer Userport joystick enabled:", "Hummer Userport joystick enabled",
-      toggle_HummerUserportJoy_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Hummer Userport device:", "Select the userport device",
+      HummerUserportDevice_submenu_callback, NULL, 11,
+      TUI_MENU_BEH_CONTINUE, HummerUserportDevice_submenu,
+      "Hummer Userport device" },
     { "Joystick mapped to Hummer Userport:", "Select the joystick to be mapped",
       HummerUserportJoyPort_submenu_callback, NULL, 11,
       TUI_MENU_BEH_CONTINUE, HummerUserportJoyPort_submenu,
-      "HummerUserportJoyPort" },
+      "Hummer Userport Joystick Port" },
     { NULL }
 };
 

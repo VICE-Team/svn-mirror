@@ -60,6 +60,7 @@
 #include "screenshot.h"      // screenshot_save
 #include "dlg-fileio.h"      // ViceFileDialog
 #include "video-resources.h" // VIDEO_RESOURCE_PAL_*
+#include "c64dtv-resource.h"
 
 #ifdef __XCBM__
 #include "cbm2mem.h"     // cbm2_set_model
@@ -637,8 +638,14 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_DTV3:
         resources_set_int("DtvRevision", 3);
         return;
-    case IDM_C64DTV_HUMMER_JOY:
-        toggle("HummerUserportJoy");
+    case IDM_HUMMER_USERPORT_NONE:
+        resources_set_int("HummerUserportDevice", HUMMER_USERPORT_NONE);
+        return;
+    case IDM_HUMMER_USERPORT_ADC:
+        resources_set_int("HummerUserportDevice", HUMMER_USERPORT_ADC);
+        return;
+    case IDM_HUMMER_USERPORT_JOY:
+        resources_set_int("HummerUserportDevice", HUMMER_USERPORT_JOY);
         return;
     case IDM_HUMMER_JOY1:
         resources_set_int("HummerUserportJoyPort", 1);
@@ -1411,6 +1418,12 @@ void menu_select(HWND hwnd, USHORT item)
         resources_get_int("HummerUserportJoyPort", &val);
         WinCheckMenuItem(hwnd, IDM_HUMMER_JOY1,   val==1);
         WinCheckMenuItem(hwnd, IDM_HUMMER_JOY2,   val==2);
+        return;
+    case IDM_HUMMER_USERPORT_DEVICE:
+        resources_get_int("HummerUserportDevice", &val);
+        WinCheckMenuItem(hwnd, IDM_HUMMER_USERPORT_NONE, val==HUMMER_USERPORT_NONE);
+        WinCheckMenuItem(hwnd, IDM_HUMMER_USERPORT_ADC,  val==HUMMER_USERPORT_ADC);
+        WinCheckMenuItem(hwnd, IDM_HUMMER_USERPORT_JOY,  val==HUMMER_USERPORT_JOY);
         return;
 #endif
 

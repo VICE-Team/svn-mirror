@@ -113,13 +113,19 @@
 #define IDM_C64DTV_FLASHROM_ATTACH   0x1a4
 #define IDM_C64DTV_FLASHROM_DETACH   0x1a5
 #define IDM_C64DTV_FLASHROM_RW       0x1a6
+
 #define IDM_C64DTV_REVISION          0x1a7
 #define IDM_DTV2                     0x1a8
 #define IDM_DTV3                     0x1a9
-#define IDM_C64DTV_HUMMER_JOY        0x1aa
-#define IDM_C64DTV_HUMMER_MAPPED_JOY 0x1ab
-#define IDM_HUMMER_JOY1              0x1ac
-#define IDM_HUMMER_JOY2              0x1ad
+
+#define IDM_C64DTV_HUMMER_MAPPED_JOY 0x1aa
+#define IDM_HUMMER_JOY1              0x1ab
+#define IDM_HUMMER_JOY2              0x1ac
+
+#define IDM_HUMMER_USERPORT_DEVICE   0x1ad
+#define IDM_HUMMER_USERPORT_NONE     0x1ae
+#define IDM_HUMMER_USERPORT_ADC      0x1af
+#define IDM_HUMMER_USERPORT_JOY      0x1b0
 
 #define IDM_REU          0x149
 #define IDM_REUSIZE      0x150
