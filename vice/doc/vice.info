@@ -420,10 +420,10 @@ File: vice.info,  Node: Preface,  Next: Usage,  Prev: License,  Up: Top
 ************
 
 VICE is the one and only "Versatile Commodore Emulator".  It provides
-emulation of the Commodore C64, C128, VIC20, PET, PLUS4 and CBM-II
-computers within a single package.  The emulators run as separate
-programs, but have the same user interface, share the same settings and
-support the same file formats.
+emulation of the Commodore C64, C64DTV, C128, VIC20, PET, PLUS4 and
+CBM-II computers within a single package.  The emulators run as
+separate programs, but have the same user interface, share the same
+settings and support the same file formats.
 
    *Important notice:* If you have no idea what a Commodore 8-bit
 computer is, or have questions about how these machines are used, how
@@ -438,15 +438,16 @@ and accurate timing.  Unlike other emulators, VICE aims to be cycle
 accurate; it tries to emulate chip timings as precisely as possible and
 does so _efficiently_.
 
-   Please do _not_ expect the C128, PET, PLUS4 and CBM-II emulators to
-be as good as the C64 or VIC20 one, as they are still under
-construction.
+   Please do _not_ expect the C64DTV, C128, PET, PLUS4 and CBM-II
+emulators to be as good as the C64 or VIC20 one, as they are still
+under construction.
 
    _Notice:_ This documentation is written for the Unix release of VICE.
 
 * Menu:
 
 * C64 emulator features::
+* C64DTV emulator features::
 * C128 emulator features::
 * VIC20 emulator features::
 * PET emulator features::
@@ -458,7 +459,7 @@ construction.
 * Common problems::
 
 
-File: vice.info,  Node: C64 emulator features,  Next: C128 emulator features,  Prev: Preface,  Up: Preface
+File: vice.info,  Node: C64 emulator features,  Next: C64DTV emulator features,  Prev: Preface,  Up: Preface
 
 2.1 C64 emulator features
 =========================
@@ -471,32 +472,45 @@ version 0.13.0.
    A rather complete emulation of the SID sound chip is also provided.
 All the basic features are implemented as well as most of the complex
 ones including synchronisation, ring modulation and filters.  There are
-two emulators of the SID chip available: one is the "standard" VICE
-emulator, available since VICE 0.12; the other one is Dag Lem's reSID
-engine.  The reSID engine is a lot more accurate than the standard
-engine, but it is also a lot slower, and only suitable for faster
-machines.
+three emulators of the SID chip available: first is the "standard" VICE
+emulator, available since VICE 0.12; the second is Dag Lem's reSID
+engine and the third one is reSID-fp. The reSID engines are a lot more
+accurate than the standard engine, but they are also a lot slower, and
+only suitable for faster machines.
 
    Naturally, also both CIAs (or VIAs, in some cases) are fully emulated
 and cycle accurate.
 
 
-File: vice.info,  Node: C128 emulator features,  Next: VIC20 emulator features,  Prev: C64 emulator features,  Up: Preface
+File: vice.info,  Node: C64DTV emulator features,  Next: C128 emulator features,  Prev: C64 emulator features,  Up: Preface
 
-2.2 C128 emulator features
+2.2 C64DTV emulator features
+============================
+
+The C64DTV emulator, called `x64dtv', features emulation of C64DTV
+revisions 2 and 3. The emulator is under construction, but most of the
+DTV specific features are already supported (with varying accuracy).
+
+   Video cache is disabled by default as it currently doesn't work with
+some of C64DTV's new video modes. The new video modes have a simple
+"fake" video cache implementation that may give incorrect results and
+decreased performance.
+
+
+File: vice.info,  Node: C128 emulator features,  Next: VIC20 emulator features,  Prev: C64DTV emulator features,  Up: Preface
+
+2.3 C128 emulator features
 ==========================
 
 The C128 emulator, called `x128', features a complete emulation of the
 internal MMU ("Memory Management Unit"), 80 column VDC screen, fast IEC
-bus emulation, Z80 emulation plus all the features of the C64 emulation.
-The following things are missing, though:
-
-   * 2 MHz mode;
+bus emulation, 2 MHz mode, Z80 emulation plus all the features of the
+C64 emulation.
 
 
 File: vice.info,  Node: VIC20 emulator features,  Next: PET emulator features,  Prev: C128 emulator features,  Up: Preface
 
-2.3 VIC20 emulator features
+2.4 VIC20 emulator features
 ===========================
 
 The VIC20 emulates all the internal hardware, including the VIA chips.
@@ -517,7 +531,7 @@ then started by `SYS45065'.
 
 File: vice.info,  Node: PET emulator features,  Next: CBM-II emulator features,  Prev: VIC20 emulator features,  Up: Preface
 
-2.4 PET emulator features
+2.5 PET emulator features
 =========================
 
 The PET emulator emulates the 2001, 3032, 4032, 8032, 8096, 8296 and
@@ -574,7 +588,7 @@ model numbers, all described in *note PET model::
 
 File: vice.info,  Node: CBM-II emulator features,  Next: Keyboard emulation,  Prev: PET emulator features,  Up: Preface
 
-2.5 CBM-II emulator features
+2.6 CBM-II emulator features
 ============================
 
 The CBM-II emulator emulates several types of CBM-II models.  Those
@@ -620,7 +634,7 @@ can be emulated as well.
 
 File: vice.info,  Node: Keyboard emulation,  Next: Joystick emulation,  Prev: CBM-II emulator features,  Up: Preface
 
-2.6 The keyboard emulation
+2.7 The keyboard emulation
 ==========================
 
 There are two ways of emulating the keyboard in VICE.
@@ -665,7 +679,7 @@ could be recognized as `F5'.  In that case, use the shift key manually
 
 File: vice.info,  Node: Joystick emulation,  Next: Disk drive emulation,  Prev: Keyboard emulation,  Up: Preface
 
-2.7 The joystick emulation
+2.8 The joystick emulation
 ==========================
 
 Joysticks can be emulated both via the keyboard and via a real joystick
@@ -685,7 +699,7 @@ and "custom".
 
 File: vice.info,  Node: Disk drive emulation,  Next: Supported file formats,  Prev: Joystick emulation,  Up: Preface
 
-2.8 The disk drive emulation
+2.9 The disk drive emulation
 ============================
 
 All the emulators support up to 4 external disk drives as devices 8, 9,
@@ -802,8 +816,8 @@ The DOS version used is 2.7.
 
 File: vice.info,  Node: Supported file formats,  Next: Common problems,  Prev: Disk drive emulation,  Up: Preface
 
-2.9 Supported file formats
-==========================
+2.10 Supported file formats
+===========================
 
 VICE supports the most popular Commodore file formats:
 
@@ -843,7 +857,7 @@ file formats.
 
 File: vice.info,  Node: Common problems,  Prev: Supported file formats,  Up: Preface
 
-2.10 Common problems
+2.11 Common problems
 ====================
 
 This section tries to describe the most common known problems with VICE,
@@ -859,7 +873,7 @@ and how to resolve them.
 
 File: vice.info,  Node: Sound problems,  Next: Shared memory problems,  Prev: Common problems,  Up: Common problems
 
-2.10.1 Sound problems
+2.11.1 Sound problems
 ---------------------
 
 VICE should compile and run without major problems on many UNIX systems,
@@ -885,7 +899,7 @@ completely wrong.  This is not a VICE bug, but rather an OSS bug.
 
 File: vice.info,  Node: Shared memory problems,  Next: Printer problems,  Prev: Sound problems,  Up: Common problems
 
-2.10.2 Shared memory problems
+2.11.2 Shared memory problems
 -----------------------------
 
 If you cannot start VICE because you get errors about shared memory, try
@@ -914,7 +928,7 @@ right-button menu.
 
 File: vice.info,  Node: Printer problems,  Next: PET keyboard problems,  Prev: Shared memory problems,  Up: Common problems
 
-2.10.3 Printer problems
+2.11.3 Printer problems
 -----------------------
 
 VICE supports the emulation of a printer either on the userport or as
@@ -933,7 +947,7 @@ from the problem mentioned above it should work fine now.
 
 File: vice.info,  Node: PET keyboard problems,  Prev: Printer problems,  Up: Common problems
 
-2.10.4 PET keyboard problems
+2.11.4 PET keyboard problems
 ----------------------------
 
 If you find that the German keyboard mapping (plus German charset) does
@@ -957,6 +971,8 @@ File: vice.info,  Node: Usage,  Next: System files,  Prev: Preface,  Up: Top
 The names of the available emulators are:
 
    * `x64', the C64 emulator
+
+   * `x64dtv', the C64DTV emulator
 
    * `x128', the C128 emulator
 
@@ -3131,15 +3147,17 @@ File: vice.info,  Node: Machine-specific features,  Next: Snapshots,  Prev: Sett
 
 * C64/128-specific::            Commands and settings specific to the
                                 C64/128 emulators
+* C64DTV-specific::             Commands and settings specific to the
+                                C64DTV emulator
 * VIC20-specific::              Commands and settings specific to the
                                 VIC20 emulator
 * PET-specific::                Commands and settings specific to the
                                 PET emulator
 * CBM-II-specific::             Commands and settings specific to the
-				CBM-II emulator
+                                CBM-II emulator
 
 
-File: vice.info,  Node: C64/128-specific,  Next: VIC20-specific,  Prev: Machine-specific features,  Up: Machine-specific features
+File: vice.info,  Node: C64/128-specific,  Next: C64DTV-specific,  Prev: Machine-specific features,  Up: Machine-specific features
 
 7.1 C64/128-specific commands and settings
 ==========================================
@@ -3569,9 +3587,178 @@ File: vice.info,  Node: C64/128 system ROM options,  Prev: C64/128 system ROM re
 
 
 
-File: vice.info,  Node: VIC20-specific,  Next: PET-specific,  Prev: C64/128-specific,  Up: Machine-specific features
+File: vice.info,  Node: C64DTV-specific,  Next: VIC20-specific,  Prev: C64/128-specific,  Up: Machine-specific features
 
-7.2 VIC20-specific commands and settings
+7.2 C64DTV-specific commands and settings
+=========================================
+
+This section lists the settings and commands that are C64DTV specific
+and thus are not present in the other emulators.
+
+* Menu:
+
+* C64DTV ROM image::
+* DTV revision::
+* LumaFix::
+* Userport::
+* Debug::
+* Monitor DTV features::
+
+
+File: vice.info,  Node: C64DTV ROM image,  Next: DTV revision,  Prev: C64DTV-specific,  Up: C64DTV-specific
+
+7.2.1 C64DTV ROM image
+----------------------
+
+The DTV has a 2MB Flash chip which contains the kernal, basic and
+character set ROMs along with other data, such as games in the case of
+the original C64DTV ROM.
+
+   The image file is a dump of the flash chip. It is exactly 2MB
+(2097152 bytes).
+
+   If you do not have a suitable image file, an image using the C64
+kernal, basic and charset is automatically created.
+
+   If writing to the C64DTV ROM is enabled, the image file is rewritten
+with the current data when exiting x64dtv.
+
+   Note that x64dtv tries to load the image file from the C64DTV
+directory first, and if it isn't found there, x64dtv tries to load it
+from the current directory. If you do not have `dtvrom.bin' in your
+C64DTV directory and writing to DTV ROM is enabled, the `dtvrom.bin'
+file is created to the current directory.
+
+   NOTE: The original C64DTV ROM has somewhat distorted colors,
+normally you should use a patched rom.
+
+`-c64dtvromimage NAME'
+     Specify `NAME' as the C64DTV ROM image
+
+`-c64dtvromrw'
+`+c64dtvromrw'
+     Enable or disable writing to C64DTV ROM image
+
+
+   The trueflashfs option is analogous to True drive emulation.  If
+disabled, any file access to the flash filesystem (device 1) will go to
+the local file system instead.
+
+`-trueflashfs'
+`+trueflashfs'
+     Enable or disable true hardware flash file system
+
+`-fsflash NAME'
+     Specify `NAME' as directory for flash file system device
+
+
+
+File: vice.info,  Node: DTV revision,  Next: LumaFix,  Prev: C64DTV ROM image,  Up: C64DTV-specific
+
+7.2.2 DTV revision
+------------------
+
+The DTV revision 2 has a bug in the Blitter. Using revision 3 is
+recommended. Emulation of DTV revision 2 including Blitter bug is
+intended for testing DTV software.
+
+`-dtvrev REVISION'
+     Specify DTV `REVISION' (2 or 3)
+
+
+
+File: vice.info,  Node: LumaFix,  Next: Userport,  Prev: DTV revision,  Up: C64DTV-specific
+
+7.2.3 LumaFix
+-------------
+
+The PAL C64DTVs have wrong resistors in the video output circuit, which
+causes incorrect luminances. Several hardware solutions ("LumaFixes")
+have been developed to fix this flaw.
+
+   The fixed video output is emulated by selecting "New Luminances".
+The unmodified C64DTV video output can be emulated with "Old
+Luminances".
+
+   The default setting is "New Luminances".
+
+
+File: vice.info,  Node: Userport,  Next: Debug,  Prev: LumaFix,  Up: C64DTV-specific
+
+7.2.4 Userport
+--------------
+
+The C64DTV userport emulation currently supports three devices: Hummer
+ADC, userport joystick and PS/2 mouse.
+
+   The joystick that controls either the Hummer ADC or userport joystick
+can be selected using the same parameter or menu option.
+
+   While using the Hummer ADC, joystick UP and DOWN are mapped to the
+Hummer buttons A and B respectively. LEFT and RIGHT set the ADCs output
+to 0 and 255. Centering the joystick results in the ADC value of 128.
+
+   Currently the Hummer ADC and userport joystick are mutually
+exclusive.  This means that enabling one disables the other. PS/2 mouse
+emulation can be used simultaneously with either Hummer ADC or userport
+joystick.
+
+`-hummerusrdev DEVICE'
+     Select Hummer Userport device (0: None, 1: ADC, 2: Joystick)
+
+`-hummerusrjoyport PORT'
+     Select which joystick port should be mapped to the userport
+
+`-ps2mouse'
+`+ps2mouse'
+     Enable or disable PS/2 mouse on userport
+
+
+
+File: vice.info,  Node: Debug,  Next: Monitor DTV features,  Prev: Userport,  Up: C64DTV-specific
+
+7.2.5 Debug
+-----------
+
+Debugging information on Blitter, DMA and Flash can be enabled with
+command line parameters. This can be useful for DTV software
+development.
+
+`-dtvblitterlog'
+`+dtvblitterlog'
+     Enable or disable DTV Blitter log
+
+`-dtvdmalog'
+`+dtvdmalog'
+     Enable or disable DTV DMA log
+
+`-dtvflashlog'
+`+dtvflashlog'
+     Enable or disable DTV Flash log
+
+
+
+File: vice.info,  Node: Monitor DTV features,  Prev: Debug,  Up: C64DTV-specific
+
+7.2.6 Monitor DTV features
+--------------------------
+
+Currently the registers A, Y and X are registers R0, R1 and R2
+regardless of the mapping, which can be seen and modified via the
+registers ACM and XYM.
+
+   The monitor can access all 2MB of RAM and 2MB of Flash, but only 64
+kB at a time.  The 64kB bank can be selected with "bank ram00".."ram1f"
+for RAM and "bank rom00".."rom1f" for Flash.
+
+   The "load" command can load large files (>64kB) correctly if the
+bank is set to "ramXX", where XX is the starting bank (usually
+"bank00").
+
+
+File: vice.info,  Node: VIC20-specific,  Next: PET-specific,  Prev: C64DTV-specific,  Up: Machine-specific features
+
+7.3 VIC20-specific commands and settings
 ========================================
 
 This section lists the settings and commands that are VIC20-specific and
@@ -3586,7 +3773,7 @@ thus are not present in the other emulators.
 
 File: vice.info,  Node: VIC20 cartridges,  Next: VIC20 memory expansions,  Prev: VIC20-specific,  Up: VIC20-specific
 
-7.2.1 Using cartridge images
+7.3.1 Using cartridge images
 ----------------------------
 
 As with the C64 (*note C64 cartridges::), it is possible to attach
@@ -3629,7 +3816,7 @@ you also have to enable the IEEE488 hardware by menu.
 
 File: vice.info,  Node: VIC20 memory expansions,  Next: VIC20 system ROM settings,  Prev: VIC20 cartridges,  Up: VIC20-specific
 
-7.2.2 Changing memory configuration
+7.3.2 Changing memory configuration
 -----------------------------------
 
 It is possible to change the VIC20 memory configuration in two ways: by
@@ -3685,7 +3872,7 @@ identification" option.
 
 File: vice.info,  Node: VIC20 memconf resources,  Next: VIC20 memconf options,  Prev: VIC20 memory expansions,  Up: VIC20 memory expansions
 
-7.2.2.1 VIC20 memory configuration resources
+7.3.2.1 VIC20 memory configuration resources
 ............................................
 
 `RAMBlock0'
@@ -3704,7 +3891,7 @@ File: vice.info,  Node: VIC20 memconf resources,  Next: VIC20 memconf options,  
 
 File: vice.info,  Node: VIC20 memconf options,  Prev: VIC20 memconf resources,  Up: VIC20 memory expansions
 
-7.2.2.2 VIC20 memory configuration command-line options
+7.3.2.2 VIC20 memory configuration command-line options
 .......................................................
 
 `-memory CONFIG'
@@ -3751,7 +3938,7 @@ File: vice.info,  Node: VIC20 memconf options,  Prev: VIC20 memconf resources,  
 
 File: vice.info,  Node: VIC20 system ROM settings,  Prev: VIC20 memory expansions,  Up: VIC20-specific
 
-7.2.3 VIC20 system ROM settings
+7.3.3 VIC20 system ROM settings
 -------------------------------
 
 These settings can be used to control what system ROMs are loaded in the
@@ -3765,7 +3952,7 @@ VIC20 emulator at startup.  They cannot be changed from the menus.
 
 File: vice.info,  Node: VIC20 system ROM resources,  Next: VIC20 system ROM options,  Prev: VIC20 system ROM settings,  Up: VIC20 system ROM settings
 
-7.2.3.1 VIC20 system ROM resources
+7.3.3.1 VIC20 system ROM resources
 ..................................
 
 `KernalName'
@@ -3789,7 +3976,7 @@ File: vice.info,  Node: VIC20 system ROM resources,  Next: VIC20 system ROM opti
 
 File: vice.info,  Node: VIC20 system ROM options,  Prev: VIC20 system ROM resources,  Up: VIC20 system ROM settings
 
-7.2.3.2 VIC20 system ROM command-line options
+7.3.3.2 VIC20 system ROM command-line options
 .............................................
 
 `-kernal NAME'
@@ -3813,7 +4000,7 @@ File: vice.info,  Node: VIC20 system ROM options,  Prev: VIC20 system ROM resour
 
 File: vice.info,  Node: PET-specific,  Next: CBM-II-specific,  Prev: VIC20-specific,  Up: Machine-specific features
 
-7.3 PET-specific commands and settings
+7.4 PET-specific commands and settings
 ======================================
 
 This section lists the settings and commands that are PET-specific and
@@ -3829,7 +4016,7 @@ thus are not present in the other emulators.
 
 File: vice.info,  Node: PET model,  Next: PET diagnostic pin,  Prev: PET-specific,  Up: PET-specific
 
-7.3.1 Changing PET model settings
+7.4.1 Changing PET model settings
 ---------------------------------
 
 With `xpet', it is possible to change at runtime the characteristics of
@@ -3944,7 +4131,7 @@ emulate a PET 3032 while `xpet -model 8296' will emulate a PET 8296.
 
 File: vice.info,  Node: PET diagnostic pin,  Next: PET commandline options,  Prev: PET model,  Up: PET-specific
 
-7.3.2 The PET diagnostic pin
+7.4.2 The PET diagnostic pin
 ----------------------------
 
 It is possible to enable or disable emulation of the PET diagnostic pin
@@ -3957,7 +4144,7 @@ the BASIC, but directly jumps into the builtin machine monitor.
 
 File: vice.info,  Node: PET commandline options,  Next: PET colors,  Prev: PET diagnostic pin,  Up: PET-specific
 
-7.3.3 PET command line options
+7.4.3 PET command line options
 ------------------------------
 
 These are the commandline options specific for the CBM-II models.
@@ -4009,7 +4196,7 @@ These are the commandline options specific for the CBM-II models.
 
 File: vice.info,  Node: PET colors,  Prev: PET commandline options,  Up: PET-specific
 
-7.3.4 Changing screen colors
+7.4.4 Changing screen colors
 ----------------------------
 
 It is also possible to choose what color set is used for the emulation
@@ -4027,7 +4214,7 @@ following values:
 
 File: vice.info,  Node: CBM-II-specific,  Prev: PET-specific,  Up: Machine-specific features
 
-7.4 CBM-II-specific commands and settings
+7.5 CBM-II-specific commands and settings
 =========================================
 
 This section lists the settings and commands that are CBM-II-specific
@@ -4042,7 +4229,7 @@ and thus are not present in the other emulators.
 
 File: vice.info,  Node: CBM-II model,  Next: CBM-II commandline options,  Prev: CBM-II-specific,  Up: CBM-II-specific
 
-7.4.1 Changing CBM-II model
+7.5.1 Changing CBM-II model
 ---------------------------
 
 With `xcbm2', it is possible to change at runtime the characteristics
@@ -4110,7 +4297,7 @@ Notably this is the only way to start a C510 emulation, with `-model
 
 File: vice.info,  Node: CBM-II commandline options,  Next: CBM-II colors,  Prev: CBM-II model,  Up: CBM-II-specific
 
-7.4.2 CBM-II command line options
+7.5.2 CBM-II command line options
 ---------------------------------
 
 These are the commandline options specific for the CBM-II models.
@@ -4145,7 +4332,7 @@ These are the commandline options specific for the CBM-II models.
 
 File: vice.info,  Node: CBM-II colors,  Prev: CBM-II commandline options,  Up: CBM-II-specific
 
-7.4.3 Changing screen colors
+7.5.3 Changing screen colors
 ----------------------------
 
 It is also possible to choose what color set is used for the emulation
@@ -6213,12 +6400,13 @@ in the development of X64 and VICE:
      the GEORAM and RamCart cartridge code. Wrote the c64 +60K, +256K
      and 256K memory expansions code. Wrote the pet REU code. Wrote the
      plus4 memory expansions code. Made the ethernet support for the
-     Msdos port. Maintains the RiscOS, QNX 4.x, QNX 6.x, SkyOS, Solaris,
-     Openserver, Unixware, HPUX, GP2X, Minix 3.x, Amiga, ppc-BeOS and
-     newly resurrected OS/2 binary ports. Added new .crt support. Added
-     new screenshot formats. Added new sound recording support. Added
-     SIDcart support for pet, plus4 and vic20. Improved the MMC64
-     emulation. Added 2 MHz mode for x128. And lots of other fixes and
+     Msdos port.  Maintains the RiscOS, QNX 4.x, QNX 6.x, SkyOS,
+     Solaris, Openserver, Unixware, HPUX, GP2X, Minix 3.x, Amiga,
+     ppc-BeOS and newly resurrected OS/2 binary ports. Added new .crt
+     support. Added new screenshot formats. Added new sound recording
+     support. Added SIDcart support for pet, plus4 and vic20. Improved
+     the MMC64 emulation. Added 2 MHz mode for x128. Added the Hummer
+     userport joystick emulation.  And lots of other fixes and
      improvements.
 
    * Christian Vogelgsang maintains the Mac OS X port. Added Intel Mac
@@ -6229,14 +6417,20 @@ in the development of X64 and VICE:
    * Fabrizio Gennari added some improvements to the MSDOS- and GTK
      port.
 
-   * Hannu Nuotio Added experimental NEOS and Amiga mouse support.
-     Fixed mouse support for single size in unix. Fixed mouse grab and
-     menu popup for xaw. Added new monitor commands and features. Added
-     the memmap feature.
+   * Hannu Nuotio implemented DTV flash emulation, DTV support in the
+     monitor, large parts of the DTV VIC emulation, burst mode and skip
+     cycle emulation as well as many other things. Added experimental
+     NEOS and Amiga mouse support. Fixed mouse support for single size
+     in unix.  Fixed mouse grab and menu popup for xaw. Added new
+     monitor commands and features. Added the memmap feature.
 
-   * M. Kiesel Added new monitor commands and features.
+   * M. Kiesel started implementing x64dtv. The C64DTV memory model and
+     early versions of the DMA and Blitter engine have been implemented
+     by him. Added new monitor commands and features.
 
-   * Daniel Kahlin Added new monitor commands and features.
+   * Daniel Kahlin Worked on DTV VIC emulation, palette, DTV SID support
+     in resid, better DMA/Blitter support and did lots of refactoring.
+     Added new monitor commands and features.
 
 
    Former team members:
@@ -6750,6 +6944,8 @@ Concept Index
                                                                (line 35)
 * -bdesymkeymap -bdeposkeymap:           Keyboard options.     (line 29)
 * -buksymkeymap -bukposkeymap:           Keyboard options.     (line 17)
+* -c64dtvromimage:                       C64DTV ROM image.     (line 28)
+* -c64dtvromrw, +c64dtvromrw:            C64DTV ROM image.     (line 31)
 * -cart2 <1>:                            CBM-II commandline options.
                                                                (line 22)
 * -cart2:                                VIC20 system ROM options.
@@ -6794,6 +6990,10 @@ Concept Index
 * -drivesync:                            Drive options.        (line 43)
 * -dscan, +dscan:                        Video options.        (line 15)
 * -dsize, +dsize:                        Video options.        (line 10)
+* -dtvblitterlog, +dtvblitterlog:        Debug.                (line 10)
+* -dtvdmalog, +dtvdmalog:                Debug.                (line 14)
+* -dtvflashlog, +dtvflashlog:            Debug.                (line 18)
+* -dtvrev:                               DTV revision.         (line 10)
 * -editor:                               PET commandline options.
                                                                (line 14)
 * -emuid, +emuid <1>:                    PET commandline options.
@@ -6812,10 +7012,13 @@ Concept Index
                                                                (line  6)
 * -fs9:                                  File system device options.
                                                                (line  7)
+* -fsflash:                              C64DTV ROM image.     (line 44)
 * -grsymkeymap -grposkeymap:             Keyboard options.     (line 23)
 * -help:                                 Command-line initialization.
                                                                (line 12)
 * -htmlbrowser:                          Misc options.         (line  7)
+* -hummerusrdev:                         Userport.             (line 21)
+* -hummerusrjoyport:                     Userport.             (line 24)
 * -ieee488, +ieee488:                    C64 I/O extension options.
                                                                (line  6)
 * -install, +install:                    Video options.        (line 33)
@@ -6859,6 +7062,7 @@ Concept Index
 * -printer4, +printer4:                  Printer options.      (line 12)
 * -pruser, +pruser:                      Printer options.      (line 20)
 * -pruserdev:                            Printer options.      (line 25)
+* -ps2mouse, +ps2mouse:                  Userport.             (line 27)
 * -ram08:                                CBM-II commandline options.
                                                                (line 26)
 * -ram1:                                 CBM-II commandline options.
@@ -6909,6 +7113,7 @@ Concept Index
                                                                (line 28)
 * -symkeymap:                            Keyboard options.     (line 11)
 * -truedrive, +truedrive:                Drive options.        (line  6)
+* -trueflashfs, +trueflashfs:            C64DTV ROM image.     (line 40)
 * -usevicii +usevicii:                   CBM-II commandline options.
                                                                (line  8)
 * -vcache, +vcache:                      Video options.        (line  6)
@@ -7157,169 +7362,177 @@ Tag Table:
 Node: Top605
 Node: License1902
 Node: Preface21042
-Node: C64 emulator features22612
-Node: C128 emulator features23590
-Node: VIC20 emulator features24048
-Node: PET emulator features24969
-Node: CBM-II emulator features27914
-Node: Keyboard emulation30336
-Node: Joystick emulation32669
-Node: Disk drive emulation33390
-Node: Supported file formats39720
-Node: Common problems40761
-Node: Sound problems41094
-Node: Shared memory problems42286
-Node: Printer problems43552
-Node: PET keyboard problems44432
-Node: Usage45189
-Node: Command-line initialization46064
-Node: Command-line autostart47120
-Node: System files48431
-Node: ROM files50600
-Node: Keymap files56823
-Node: Palette files59564
-Node: Romset files60802
-Node: Basics61596
-Node: Emulation window62200
-Node: Menus63448
-Node: Help65025
-Node: File Selector65675
-Node: Disk and tape images66967
-Node: Previewing contents69164
-Node: Autostart69876
-Node: Compressed files70940
-Node: Zipcode and Lynx72276
-Node: Reset73681
-Node: Settings and resources74697
-Node: Resource files77045
-Node: Resources and command-line78572
-Node: Performance settings79843
-Node: Performance resources81477
-Node: Performance options82023
-Node: Video settings82630
-Node: Video resources84337
-Node: Video options86237
-Node: Keyboard settings87305
-Node: Keyboard resources88020
-Node: Keyboard options89454
-Node: Sound settings90577
-Node: Sound resources92461
-Node: Sound options95246
-Node: Drive settings95962
-Node: Drive resources100479
-Node: Drive options101779
-Node: Peripheral settings103342
-Node: File system device settings104026
-Node: File system device resources105899
-Node: File system device options106986
-Node: Printer settings107441
-Node: Printer resources108905
-Node: Printer options109635
-Node: No kernal traps110317
-Node: No traps resources110858
-Node: No traps options111331
-Node: RS232 settings111648
-Node: RS232 resources114586
-Node: RS232 options115826
-Node: RS232 usage116836
-Node: Monitor settings118598
-Node: Monitor options118866
-Node: Misc settings119313
-Node: Misc resources119590
-Node: Misc options122166
-Node: Machine-specific features122911
-Node: C64/128-specific123532
-Node: C64 cartridges124244
-Node: VIC-II settings125836
-Node: VIC-II resources127434
-Node: VIC-II options127837
-Node: SID settings128324
-Node: SID resources131442
-Node: SID options132286
-Node: C64 I/O extension settings133287
-Node: C64 I/O extension resources134584
-Node: C64 I/O extension options135123
-Node: C64/128 system ROM settings135672
-Node: C64/128 system ROM resources136072
-Node: C64/128 system ROM options137303
-Node: VIC20-specific137830
-Node: VIC20 cartridges138241
-Node: VIC20 memory expansions140056
-Node: VIC20 memconf resources141863
-Node: VIC20 memconf options142344
-Node: VIC20 system ROM settings143480
-Node: VIC20 system ROM resources143862
-Node: VIC20 system ROM options144529
-Node: PET-specific145156
-Node: PET model145561
-Node: PET diagnostic pin148651
-Node: PET commandline options149132
-Node: PET colors150600
-Node: CBM-II-specific151171
-Node: CBM-II model151548
-Node: CBM-II commandline options153846
-Node: CBM-II colors154922
-Node: Snapshots155501
-Node: Snapshot usage155919
-Node: Snapshot format156831
-Node: Emulator modules157168
-Node: x64 modules157533
-Node: x128 modules159325
-Node: xvic modules161031
-Node: xpet modules162028
-Node: xcbm2 modules163396
-Node: Drive modules165327
-Node: Module formats165745
-Node: Module Terminology166627
-Node: Module framework167363
-Node: CPU 6502 module169170
-Node: CIA 6526 module170633
-Node: VIA 6522 module174093
-Node: PIA 6520 module175964
-Node: TPI 6525 module176921
-Node: RIOT 6532 module178286
-Node: SID 6581 module179726
-Node: ACIA 6551 module179930
-Node: VIC-I module181323
-Node: VIC-II module181527
-Node: CRTC module181728
-Node: C64 memory module187825
-Node: C128 memory module189116
-Node: VIC20 memory module190333
-Node: PET memory module193741
-Node: CBM-II memory module197955
-Node: C500 data module201983
-Node: Monitor202412
-Node: Terminology203255
-Node: Machine state commands205474
-Node: Memory commands206286
-Node: Assembly commands209211
-Node: Checkpoint commands209963
-Node: General commands212377
-Node: Disk commands213238
-Node: Command file commands214506
-Node: Label commands215038
-Node: Miscellaneous commands216509
-Node: c1541216921
-Node: c1541 file specification218497
-Node: c1541 quoting219101
-Node: c1541 commands and options219952
-Node: c1541 executing shell commands223137
-Node: File formats223540
-Node: T64223910
-Node: T64 file structure224322
-Node: T64 tape record224788
-Node: T64 file record225586
-Node: G64226846
-Node: Acknowledgments240840
-Node: Copyright252536
-Node: Contacts254335
-Node: Home page254847
-Node: Sending feedback255251
-Node: Contributing257601
-Node: Newsgroups258720
-Node: FAQs you should read259359
-Node: Concept Index259681
-Node: Resource Index280791
+Node: C64 emulator features22657
+Node: C64DTV emulator features23672
+Node: C128 emulator features24300
+Node: VIC20 emulator features24713
+Node: PET emulator features25634
+Node: CBM-II emulator features28579
+Node: Keyboard emulation31001
+Node: Joystick emulation33334
+Node: Disk drive emulation34055
+Node: Supported file formats40385
+Node: Common problems41428
+Node: Sound problems41761
+Node: Shared memory problems42953
+Node: Printer problems44219
+Node: PET keyboard problems45099
+Node: Usage45856
+Node: Command-line initialization46767
+Node: Command-line autostart47823
+Node: System files49134
+Node: ROM files51303
+Node: Keymap files57526
+Node: Palette files60267
+Node: Romset files61505
+Node: Basics62299
+Node: Emulation window62903
+Node: Menus64151
+Node: Help65728
+Node: File Selector66378
+Node: Disk and tape images67670
+Node: Previewing contents69867
+Node: Autostart70579
+Node: Compressed files71643
+Node: Zipcode and Lynx72979
+Node: Reset74384
+Node: Settings and resources75400
+Node: Resource files77748
+Node: Resources and command-line79275
+Node: Performance settings80546
+Node: Performance resources82180
+Node: Performance options82726
+Node: Video settings83333
+Node: Video resources85040
+Node: Video options86940
+Node: Keyboard settings88008
+Node: Keyboard resources88723
+Node: Keyboard options90157
+Node: Sound settings91280
+Node: Sound resources93164
+Node: Sound options95949
+Node: Drive settings96665
+Node: Drive resources101182
+Node: Drive options102482
+Node: Peripheral settings104045
+Node: File system device settings104729
+Node: File system device resources106602
+Node: File system device options107689
+Node: Printer settings108144
+Node: Printer resources109608
+Node: Printer options110338
+Node: No kernal traps111020
+Node: No traps resources111561
+Node: No traps options112034
+Node: RS232 settings112351
+Node: RS232 resources115289
+Node: RS232 options116529
+Node: RS232 usage117539
+Node: Monitor settings119301
+Node: Monitor options119569
+Node: Misc settings120016
+Node: Misc resources120293
+Node: Misc options122869
+Node: Machine-specific features123614
+Node: C64/128-specific124381
+Node: C64 cartridges125094
+Node: VIC-II settings126686
+Node: VIC-II resources128284
+Node: VIC-II options128687
+Node: SID settings129174
+Node: SID resources132292
+Node: SID options133136
+Node: C64 I/O extension settings134137
+Node: C64 I/O extension resources135434
+Node: C64 I/O extension options135973
+Node: C64/128 system ROM settings136522
+Node: C64/128 system ROM resources136922
+Node: C64/128 system ROM options138153
+Node: C64DTV-specific138680
+Node: C64DTV ROM image139116
+Node: DTV revision140665
+Node: LumaFix141032
+Node: Userport141526
+Node: Debug142571
+Node: Monitor DTV features143045
+Node: VIC20-specific143669
+Node: VIC20 cartridges144079
+Node: VIC20 memory expansions145894
+Node: VIC20 memconf resources147701
+Node: VIC20 memconf options148182
+Node: VIC20 system ROM settings149318
+Node: VIC20 system ROM resources149700
+Node: VIC20 system ROM options150367
+Node: PET-specific150994
+Node: PET model151399
+Node: PET diagnostic pin154489
+Node: PET commandline options154970
+Node: PET colors156438
+Node: CBM-II-specific157009
+Node: CBM-II model157386
+Node: CBM-II commandline options159684
+Node: CBM-II colors160760
+Node: Snapshots161339
+Node: Snapshot usage161757
+Node: Snapshot format162669
+Node: Emulator modules163006
+Node: x64 modules163371
+Node: x128 modules165163
+Node: xvic modules166869
+Node: xpet modules167866
+Node: xcbm2 modules169234
+Node: Drive modules171165
+Node: Module formats171583
+Node: Module Terminology172465
+Node: Module framework173201
+Node: CPU 6502 module175008
+Node: CIA 6526 module176471
+Node: VIA 6522 module179931
+Node: PIA 6520 module181802
+Node: TPI 6525 module182759
+Node: RIOT 6532 module184124
+Node: SID 6581 module185564
+Node: ACIA 6551 module185768
+Node: VIC-I module187161
+Node: VIC-II module187365
+Node: CRTC module187566
+Node: C64 memory module193663
+Node: C128 memory module194954
+Node: VIC20 memory module196171
+Node: PET memory module199579
+Node: CBM-II memory module203793
+Node: C500 data module207821
+Node: Monitor208250
+Node: Terminology209093
+Node: Machine state commands211312
+Node: Memory commands212124
+Node: Assembly commands215049
+Node: Checkpoint commands215801
+Node: General commands218215
+Node: Disk commands219076
+Node: Command file commands220344
+Node: Label commands220876
+Node: Miscellaneous commands222347
+Node: c1541222759
+Node: c1541 file specification224335
+Node: c1541 quoting224939
+Node: c1541 commands and options225790
+Node: c1541 executing shell commands228975
+Node: File formats229378
+Node: T64229748
+Node: T64 file structure230160
+Node: T64 tape record230626
+Node: T64 file record231424
+Node: G64232684
+Node: Acknowledgments246678
+Node: Copyright258875
+Node: Contacts260674
+Node: Home page261186
+Node: Sending feedback261590
+Node: Contributing263940
+Node: Newsgroups265059
+Node: FAQs you should read265698
+Node: Concept Index266020
+Node: Resource Index287933
 
 End Tag Table

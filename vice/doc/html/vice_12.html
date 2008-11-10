@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 20 August 2008 -->
+     from ../vice.texi on 10 November 2008 -->
 
 <TITLE>VICE Manual - 12  Acknowledgments</TITLE>
 </HEAD>
@@ -10,7 +10,7 @@ Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_11.html">previous</A>, 
 <P><HR><P>
 
 
-<H1><A NAME="SEC160" HREF="vice_toc.html#TOC160">12  Acknowledgments</A></H1>
+<H1><A NAME="SEC168" HREF="vice_toc.html#TOC168">12  Acknowledgments</A></H1>
 
 <P>
 VICE derives from X64, the first Commodore 64 emulator for the X Window
@@ -91,14 +91,14 @@ devices and improved the tape emulation.
 Internationalization support for the Win32 and Amiga ports. Wrote
 the GEORAM and RamCart cartridge code. Wrote the c64 +60K, +256K and
 256K memory expansions code. Wrote the pet REU code. Wrote the plus4
-memory expansions code. Made the ethernet support for the Msdos
-port. Maintains the RiscOS, QNX 4.x, QNX 6.x, SkyOS, Solaris,
-Openserver, Unixware, HPUX, GP2X, Minix 3.x, Amiga, ppc-BeOS and
-newly resurrected OS/2 binary ports. Added new .crt support. Added
-new screenshot formats. Added new sound recording support. Added
-SIDcart support for pet, plus4 and vic20. Improved the MMC64
-emulation. Added 2 MHz mode for x128. And lots of other fixes and
-improvements.
+memory expansions code. Made the ethernet support for the Msdos port.
+Maintains the RiscOS, QNX 4.x, QNX 6.x, SkyOS, Solaris, Openserver,
+Unixware, HPUX, GP2X, Minix 3.x, Amiga, ppc-BeOS and newly
+resurrected OS/2 binary ports. Added new .crt support. Added new
+screenshot formats. Added new sound recording support. Added SIDcart
+support for pet, plus4 and vic20. Improved the MMC64 emulation. Added
+2 MHz mode for x128. Added the Hummer userport joystick emulation.
+And lots of other fixes and improvements.
 
 <LI>
 
@@ -114,18 +114,24 @@ port.
 
 <LI>
 
-<B>Hannu Nuotio</B> Added experimental NEOS and Amiga mouse support.
-Fixed mouse support for single size in unix. Fixed mouse grab and
-menu popup for xaw. Added new monitor commands and features. Added
-the memmap feature.
+<B>Hannu Nuotio</B> implemented DTV flash emulation, DTV support in the
+monitor, large parts of the DTV VIC emulation, burst mode and skip
+cycle emulation as well as many other things. Added experimental NEOS
+and Amiga mouse support. Fixed mouse support for single size in unix.
+Fixed mouse grab and menu popup for xaw. Added new monitor commands
+and features. Added the memmap feature.
 
 <LI>
 
-<B>M. Kiesel</B> Added new monitor commands and features.
+<B>M. Kiesel</B> started implementing x64dtv. The C64DTV memory model
+and early versions of the DMA and Blitter engine have been implemented
+by him. Added new monitor commands and features.
 
 <LI>
 
-<B>Daniel Kahlin</B> Added new monitor commands and features.
+<B>Daniel Kahlin</B> Worked on DTV VIC emulation, palette, DTV SID support
+in resid, better DMA/Blitter support and did lots of refactoring. Added
+new monitor commands and features.
 
 </UL>
 

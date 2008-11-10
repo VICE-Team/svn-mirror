@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 20 August 2008 -->
+     from ../vice.texi on 10 November 2008 -->
 
 <TITLE>VICE Manual - 2  About VICE</TITLE>
 </HEAD>
@@ -14,7 +14,7 @@ Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_1.html">previous</A>, <
 
 <P>
 VICE is the one and only <EM>Versatile Commodore Emulator</EM>.  It provides
-emulation of the Commodore C64, C128, VIC20, PET, PLUS4 and CBM-II computers
+emulation of the Commodore C64, C64DTV, C128, VIC20, PET, PLUS4 and CBM-II computers
 within a single package.  The emulators run as separate programs, but have
 the same user interface, share the same settings and support the same
 file formats.
@@ -25,7 +25,7 @@ file formats.
 8-bit computer is, or have questions about how these machines are used,
 how the file formats work or anything else that is not strictly
 related to VICE, you should read the appropriate FAQs <EM>first</EM>, as
-that kind of information is not available here.  See section <A HREF="vice_14.html#SEC162">14  Contact information</A>. for
+that kind of information is not available here.  See section <A HREF="vice_14.html#SEC170">14  Contact information</A>. for
 information about how to retrieve the FAQs.
 
 </P>
@@ -38,7 +38,7 @@ does so <EM>efficiently</EM>.
 
 </P>
 <P>
-Please do <EM>not</EM> expect the C128, PET, PLUS4 and CBM-II emulators to
+Please do <EM>not</EM> expect the C64DTV, C128, PET, PLUS4 and CBM-II emulators to
 be as good as the C64 or VIC20 one, as they are still under construction.
 
 </P>
@@ -61,12 +61,12 @@ since version 0.13.0.
 <P>
 A rather complete emulation of the SID sound chip is also provided.  All
 the basic features are implemented as well as most of the complex ones
-including synchronisation, ring modulation and filters.  There are two
-emulators of the SID chip available: one is the "standard" VICE
-emulator, available since VICE 0.12; the other one is Dag Lem's reSID
-engine.  The reSID engine is a lot more accurate than the standard
-engine, but it is also a lot slower, and only suitable for faster
-machines.
+including synchronisation, ring modulation and filters.  There are three
+emulators of the SID chip available: first is the "standard" VICE
+emulator, available since VICE 0.12; the second is Dag Lem's reSID
+engine and the third one is reSID-fp. The reSID engines are a lot more 
+accurate than the standard engine, but they are also a lot slower, and 
+only suitable for faster machines.
 
 </P>
 <P>
@@ -77,25 +77,37 @@ and cycle accurate.
 
 
 
-<H2><A NAME="SEC7" HREF="vice_toc.html#TOC7">2.2  C128 emulator features</A></H2>
+<H2><A NAME="SEC7" HREF="vice_toc.html#TOC7">2.2  C64DTV emulator features</A></H2>
+
+<P>
+The C64DTV emulator, called <SAMP>`x64dtv'</SAMP>, features emulation of C64DTV
+revisions 2 and 3. The emulator is under construction, but most of the
+DTV specific features are already supported (with varying accuracy).
+
+</P>
+<P>
+Video cache is disabled by default as it currently doesn't work with
+some of C64DTV's new video modes. The new video modes have a simple
+"fake" video cache implementation that may give incorrect results
+and decreased performance.
+
+</P>
+
+
+
+<H2><A NAME="SEC8" HREF="vice_toc.html#TOC8">2.3  C128 emulator features</A></H2>
 
 <P>
 The C128 emulator, called <SAMP>`x128'</SAMP>, features a complete emulation of
 the internal MMU (<EM>Memory Management Unit</EM>), 80 column VDC screen, fast
-IEC bus emulation, Z80 emulation plus all the features of the C64 emulation.
-The following things are missing, though:
+IEC bus emulation, 2 MHz mode, Z80 emulation plus all the features of the 
+C64 emulation.
 
 </P>
 
-<UL>
-<LI>
-
-2 MHz mode;
-</UL>
 
 
-
-<H2><A NAME="SEC8" HREF="vice_toc.html#TOC8">2.3  VIC20 emulator features</A></H2>
+<H2><A NAME="SEC9" HREF="vice_toc.html#TOC9">2.4  VIC20 emulator features</A></H2>
 
 <P>
 The VIC20 emulates all the internal hardware, including the VIA chips.
@@ -106,7 +118,7 @@ graphical effects will work correctly.
 <P>
 Sound support is implemented, but is still at an experimental stage.  If
 you think it could be improved and know how to do so, feel
-free to contact us (see section <A HREF="vice_14.html#SEC162">14  Contact information</A>).
+free to contact us (see section <A HREF="vice_14.html#SEC170">14  Contact information</A>).
 
 </P>
 <P>
@@ -120,7 +132,7 @@ The IEEE-488 code is then started by <CODE>SYS45065</CODE>.
 
 
 
-<H2><A NAME="SEC9" HREF="vice_toc.html#TOC9">2.4  PET emulator features</A></H2>
+<H2><A NAME="SEC10" HREF="vice_toc.html#TOC10">2.5  PET emulator features</A></H2>
 
 <P>
 The PET emulator emulates the 2001, 3032, 4032, 8032, 8096, 8296 and
@@ -190,13 +202,13 @@ addresses.
 To select which model to run, specify it on the
 command line with the <CODE>-model MODEL</CODE> option, where
 <CODE>MODEL</CODE> can be one of a list of PET model numbers, all
-described in see section <A HREF="vice_7.html#SEC100">7.3.1  Changing PET model settings</A>
+described in see section <A HREF="vice_7.html#SEC108">7.4.1  Changing PET model settings</A>
 
 </P>
 
 
 
-<H2><A NAME="SEC10" HREF="vice_toc.html#TOC10">2.5  CBM-II emulator features</A></H2>
+<H2><A NAME="SEC11" HREF="vice_toc.html#TOC11">2.6  CBM-II emulator features</A></H2>
 
 <P>
 The CBM-II emulator emulates several types of CBM-II models.  Those
@@ -247,12 +259,12 @@ emulated as well.
 
 </P>
 <P>
-The different settings are described in see section <A HREF="vice_7.html#SEC105">7.4.1  Changing CBM-II model</A>.
+The different settings are described in see section <A HREF="vice_7.html#SEC113">7.5.1  Changing CBM-II model</A>.
 
 </P>
 
 
-<H2><A NAME="SEC11" HREF="vice_toc.html#TOC11">2.6  The keyboard emulation</A></H2>
+<H2><A NAME="SEC12" HREF="vice_toc.html#TOC12">2.7  The keyboard emulation</A></H2>
 
 <P>
 There are two ways of emulating the keyboard in VICE.
@@ -312,7 +324,7 @@ default.
 
 
 
-<H2><A NAME="SEC12" HREF="vice_toc.html#TOC12">2.7  The joystick emulation</A></H2>
+<H2><A NAME="SEC13" HREF="vice_toc.html#TOC13">2.8  The joystick emulation</A></H2>
 
 <P>
 Joysticks can be emulated both via the keyboard and via a real joystick
@@ -340,7 +352,7 @@ and <KBD>space</KBD> for the fire button instead.
 
 
 
-<H2><A NAME="SEC13" HREF="vice_toc.html#TOC13">2.8  The disk drive emulation</A></H2>
+<H2><A NAME="SEC14" HREF="vice_toc.html#TOC14">2.9  The disk drive emulation</A></H2>
 
 <P>
 All the emulators support up to 4 external disk drives as
@@ -486,7 +498,7 @@ needed. The DOS version used is 2.7.
 </P>
 
 
-<H2><A NAME="SEC14" HREF="vice_toc.html#TOC14">2.9  Supported file formats</A></H2>
+<H2><A NAME="SEC15" HREF="vice_toc.html#TOC15">2.10  Supported file formats</A></H2>
 
 <P>
 VICE supports the most popular Commodore file formats:
@@ -534,7 +546,7 @@ VICE supports the most popular Commodore file formats:
 </UL>
 
 <P>
-An utility (<CODE>c1541</CODE>, see section <A HREF="vice_10.html#SEC149">10  c1541</A>) is provided to allow transfers
+An utility (<CODE>c1541</CODE>, see section <A HREF="vice_10.html#SEC157">10  c1541</A>) is provided to allow transfers
 and conversions between these formats.
 
 </P>
@@ -554,13 +566,13 @@ dd bs=64 skip=1 if=IMAGE.X64 of=IMAGE.D64
 </PRE>
 
 <P>
-See section <A HREF="vice_11.html#SEC154">11  The emulator file formats</A>. for a technical description of the supported file
+See section <A HREF="vice_11.html#SEC162">11  The emulator file formats</A>. for a technical description of the supported file
 formats.
 
 </P>
 
 
-<H2><A NAME="SEC15" HREF="vice_toc.html#TOC15">2.10  Common problems</A></H2>
+<H2><A NAME="SEC16" HREF="vice_toc.html#TOC16">2.11  Common problems</A></H2>
 
 <P>
 This section tries to describe the most common known problems with VICE,
@@ -570,7 +582,7 @@ and how to resolve them.
 
 
 
-<H3><A NAME="SEC16" HREF="vice_toc.html#TOC16">2.10.1  Sound problems</A></H3>
+<H3><A NAME="SEC17" HREF="vice_toc.html#TOC17">2.11.1  Sound problems</A></H3>
 
 <P>
 VICE should compile and run without major problems on many UNIX systems,
@@ -605,13 +617,13 @@ completely wrong.  This is not a VICE bug, but rather an OSS bug.
 
 
 
-<H3><A NAME="SEC17" HREF="vice_toc.html#TOC17">2.10.2  Shared memory problems</A></H3>
+<H3><A NAME="SEC18" HREF="vice_toc.html#TOC18">2.11.2  Shared memory problems</A></H3>
 
 <P>
 <A NAME="IDX4"></A>
 <A NAME="IDX5"></A>
 If you cannot start VICE because you get errors about shared memory, try
-to run it with the <SAMP>`+mitshm'</SAMP> command-line option (see section <A HREF="vice_6.html#SEC47">6.4.2  Video command-line options</A>).  This will completely disable usage of the MITSHM extensions,
+to run it with the <SAMP>`+mitshm'</SAMP> command-line option (see section <A HREF="vice_6.html#SEC48">6.4.2  Video command-line options</A>).  This will completely disable usage of the MITSHM extensions,
 that are normally used to speed up the emulation window updates.  Of
 course, this will also result in a big loss in speed.
 
@@ -645,7 +657,7 @@ from the right-button menu.
 </P>
 
 
-<H3><A NAME="SEC18" HREF="vice_toc.html#TOC18">2.10.3  Printer problems</A></H3>
+<H3><A NAME="SEC19" HREF="vice_toc.html#TOC19">2.11.3  Printer problems</A></H3>
 
 <P>
 VICE supports the emulation of a printer either on the userport or as 
@@ -667,7 +679,7 @@ from the problem mentioned above it should work fine now.
 </P>
 
 
-<H3><A NAME="SEC19" HREF="vice_toc.html#TOC19">2.10.4  PET keyboard problems</A></H3>
+<H3><A NAME="SEC20" HREF="vice_toc.html#TOC20">2.11.4  PET keyboard problems</A></H3>
 
 <P>
 If you find that the German keyboard mapping (plus German charset) 
