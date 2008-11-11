@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-11-10 16:58+0100\n"
-"PO-Revision-Date: 2008-11-05 11:12+0100\n"
+"PO-Revision-Date: 2008-11-11 20:11+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1813,9 +1813,8 @@ msgid "Define keysets"
 msgstr "Keymap definieren"
 
 #: src/arch/unix/gui/uijoystick2.c:196
-#, fuzzy
 msgid "*Allow keyset joystick"
-msgstr "*Analog Joystick 0"
+msgstr "*Joystick Keymaps erlauben"
 
 #: src/arch/unix/gui/uijoystick2.c:198 src/arch/unix/gui/uijoystick2.c:204
 msgid "Swap joystick ports"
@@ -5747,9 +5746,8 @@ msgid "Swap &Joystick"
 msgstr "&Joystick ports austauschen"
 
 #: src/arch/win32/res.rc.po.c:5000 src/arch/amigaos/intl.c.po.c:1149
-#, fuzzy
 msgid "Enable Joy Keys"
-msgstr "*Maus aktivieren"
+msgstr "Joystick Tasten aktivieren"
 
 #: src/arch/win32/res.rc.po.c:5001
 msgid "&Virtual device traps"
@@ -6640,9 +6638,8 @@ msgid "&C64DTV settings..."
 msgstr "&C64DTV Einstellungen..."
 
 #: src/arch/win32/resc64dtv.rc.po.c:1732 src/arch/amigaos/intl.c.po.c:2782
-#, fuzzy
 msgid "Joystick"
-msgstr "Joystick:"
+msgstr "Joystick"
 
 #: src/arch/win32/rescbm2.rc.po.c:164 src/arch/win32/respet.rc.po.c:164
 msgid "&PAL"
@@ -8424,7 +8421,7 @@ msgstr "RS232 Gerät 4"
 
 #: src/arch/amigaos/intl.c.po.c:2773
 msgid "ADC"
-msgstr ""
+msgstr "ADC"
 
 #: src/arch/amigaos/intl.c.po.c:2809
 msgid "ACIA Device"
@@ -8463,9 +8460,8 @@ msgid "Writes to C64DTV ROM"
 msgstr "Schreibzugriff auf C64DTV ROM"
 
 #: src/arch/amigaos/intl.c.po.c:2926
-#, fuzzy
 msgid "Hummer Userport device"
-msgstr "Userport Gerät"
+msgstr "Hummer Userport Gerät"
 
 #: src/arch/amigaos/intl.c.po.c:2935
 msgid "Joystick port mapped to Hummer Userport"
@@ -10250,7 +10246,7 @@ msgstr "Alten NTSC Sync Faktor verwenden"
 
 #: src/translate.c.po.c:3453
 msgid "Select Hummer Userport device (0: None, 1: ADC, 2: Joystick)"
-msgstr ""
+msgstr "Hummer Userport Gerät auswählen (0: Kein, 1: ADC, 2: Joystick)"
 
 #: src/translate.c.po.c:3465
 msgid "<port>"
