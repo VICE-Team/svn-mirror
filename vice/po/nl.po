@@ -1819,9 +1819,8 @@ msgid "Define keysets"
 msgstr "Definieer keysets"
 
 #: src/arch/unix/gui/uijoystick2.c:196
-#, fuzzy
 msgid "*Allow keyset joystick"
-msgstr "*Analoge Joystick 0"
+msgstr "*Activeer keyset joystick"
 
 #: src/arch/unix/gui/uijoystick2.c:198 src/arch/unix/gui/uijoystick2.c:204
 msgid "Swap joystick ports"
@@ -5766,9 +5765,8 @@ msgid "Swap &Joystick"
 msgstr "Verwissel &joysticks"
 
 #: src/arch/win32/res.rc.po.c:5000 src/arch/amigaos/intl.c.po.c:1149
-#, fuzzy
 msgid "Enable Joy Keys"
-msgstr "*Activeer muis"
+msgstr "Activeer Joy Keys"
 
 #: src/arch/win32/res.rc.po.c:5001
 msgid "&Virtual device traps"
@@ -6659,9 +6657,8 @@ msgid "&C64DTV settings..."
 msgstr "&C64DTV instellingen..."
 
 #: src/arch/win32/resc64dtv.rc.po.c:1732 src/arch/amigaos/intl.c.po.c:2782
-#, fuzzy
 msgid "Joystick"
-msgstr "Joystick:"
+msgstr "Joystick"
 
 #: src/arch/win32/rescbm2.rc.po.c:164 src/arch/win32/respet.rc.po.c:164
 msgid "&PAL"
@@ -8441,7 +8438,7 @@ msgstr "RS232 apparaat 4"
 
 #: src/arch/amigaos/intl.c.po.c:2773
 msgid "ADC"
-msgstr ""
+msgstr "ADC"
 
 #: src/arch/amigaos/intl.c.po.c:2809
 msgid "ACIA Device"
@@ -8480,9 +8477,8 @@ msgid "Writes to C64DTV ROM"
 msgstr "Schrijven naar C64DTV ROM"
 
 #: src/arch/amigaos/intl.c.po.c:2926
-#, fuzzy
 msgid "Hummer Userport device"
-msgstr "Userport apparaat"
+msgstr "Hummer Userport apparaat"
 
 #: src/arch/amigaos/intl.c.po.c:2935
 msgid "Joystick port mapped to Hummer Userport"
@@ -10282,7 +10278,7 @@ msgstr "Gebruik oude NTSC-synchronisatiefactor"
 
 #: src/translate.c.po.c:3453
 msgid "Select Hummer Userport device (0: None, 1: ADC, 2: Joystick)"
-msgstr ""
+msgstr "Selecteer Hummer Userport apparaat (0: Geen, 1: ADC, 2: Joystick"
 
 #: src/translate.c.po.c:3465
 msgid "<port>"
@@ -12031,21 +12027,3 @@ msgstr "De digimaxcartridge uitschakelen"
 #: src/translate.c.po.c:8647
 msgid "Base address of the digimax cartridge"
 msgstr "Basisadres van de digimaxcartridge"
-
-#~ msgid "Enable &Hummer Userport Joystick"
-#~ msgstr "Aktiveer &Hummer Userport Joystick"
-
-#~ msgid "Hummer Userport joystick"
-#~ msgstr "Hummer Userport joystick"
-
-#~ msgid "Enable the Hummer Userport Joystick Emulation"
-#~ msgstr "Aktiveer de Hummer Userport Joystick emulatie"
-
-#~ msgid "Disable the Hummer Userport Joystick emulation"
-#~ msgstr "De Hummer Userport Joystick emulatie afsluiten"
-
-#~ msgid "Enable the Hummer ADC"
-#~ msgstr "Aktiveer de Hummer ADC"
-
-#~ msgid "Disable the Hummer ADC"
-#~ msgstr "De Hummer ADC afsluiten"

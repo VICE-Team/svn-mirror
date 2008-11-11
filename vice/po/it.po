@@ -12078,21 +12078,3 @@ msgstr "Disattiva la cartuccia digimax"
 #: src/translate.c.po.c:8647
 msgid "Base address of the digimax cartridge"
 msgstr "Indirizzo base della cartuccia digimax"
-
-#~ msgid "Enable &Hummer Userport Joystick"
-#~ msgstr "Attiva il joystick sulla userport dell'&Hummer"
-
-#~ msgid "Hummer Userport joystick"
-#~ msgstr "Joystick della userport dell'Hummer"
-
-#~ msgid "Enable the Hummer Userport Joystick Emulation"
-#~ msgstr "Attiva l'emulazione del joystick sulla userport dell'Hummer"
-
-#~ msgid "Disable the Hummer Userport Joystick emulation"
-#~ msgstr "Disattiva il joystick sulla userport dell'Hummer"
-
-#~ msgid "Enable the Hummer ADC"
-#~ msgstr "Attiva l'ADC dell'Hummer"
-
-#~ msgid "Disable the Hummer ADC"
-#~ msgstr "Disattiva l'ADC dell'Hummer"

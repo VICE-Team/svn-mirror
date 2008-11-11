@@ -1174,7 +1174,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_SWAP_JOYSTICKS_SV, "Växla spelportarna"},
 
 /* en */ {IDMS_ENABLE_JOY_KEYS,    "Enable Joy Keys"},
-/* de */ {IDMS_SWAP_JOYSTICKS_DE, ""},  /* fuzzy */
+/* de */ {IDMS_SWAP_JOYSTICKS_DE, "Joystick Tasten aktivieren"},
 /* fr */ {IDMS_SWAP_JOYSTICKS_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_SWAP_JOYSTICKS_HU, ""},  /* fuzzy */
 /* it */ {IDMS_SWAP_JOYSTICKS_IT, ""},  /* fuzzy */
@@ -2798,16 +2798,16 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_NONE_SV, "Ingen"},
 
 /* en */ {IDS_ADC,    "ADC"},
-/* de */ {IDS_ADC_DE, ""},  /* fuzzy */
-/* fr */ {IDS_ADC_FR, ""},  /* fuzzy */
-/* hu */ {IDS_ADC_HU, ""},  /* fuzzy */
-/* it */ {IDS_ADC_IT, ""},  /* fuzzy */
+/* de */ {IDS_ADC_DE, "ADC"},
+/* fr */ {IDS_ADC_FR, "ADC"},
+/* hu */ {IDS_ADC_HU, "ADC"},
+/* it */ {IDS_ADC_IT, "ADC"},
 /* nl */ {IDS_ADC_NL, "ADC"},
-/* pl */ {IDS_ADC_PL, ""},  /* fuzzy */
-/* sv */ {IDS_ADC_SV, ""},  /* fuzzy */
+/* pl */ {IDS_ADC_PL, "ADC"},
+/* sv */ {IDS_ADC_SV, "ADC"},
 
 /* en */ {IDS_JOYSTICK,    "Joystick"},
-/* de */ {IDS_JOYSTICK_DE, ""},  /* fuzzy */
+/* de */ {IDS_JOYSTICK_DE, "Joystick"},
 /* fr */ {IDS_JOYSTICK_FR, ""},  /* fuzzy */
 /* hu */ {IDS_JOYSTICK_HU, ""},  /* fuzzy */
 /* it */ {IDS_JOYSTICK_IT, ""},  /* fuzzy */
@@ -2951,7 +2951,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_C64DTV_WRITE_ENABLE_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE,    "Hummer Userport device"},
-/* de */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_DE, ""},  /* fuzzy */
+/* de */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_DE, "Hummer Userport Gerät"},
 /* fr */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_FR, ""},  /* fuzzy */
 /* hu */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_HU, ""},  /* fuzzy */
 /* it */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_IT, ""},  /* fuzzy */

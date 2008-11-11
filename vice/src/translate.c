@@ -769,7 +769,7 @@ translate_t string_table[] = {
 /* c64dtv/c64dtvflash.c */
 /* en */ {IDGS_NO_FILENAME,    N_("No filename!")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDGS_NO_FILENAME_DE, ""},  /* fuzzy */
+/* de */ {IDGS_NO_FILENAME_DE, "Dateiname fehlt!"},
 /* fr */ {IDGS_NO_FILENAME_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_NO_FILENAME_HU, "Nincs fájlnév!"},
 /* it */ {IDGS_NO_FILENAME_IT, "Nessun nome file!"},
@@ -781,7 +781,7 @@ translate_t string_table[] = {
 /* c64dtv/c64dtvflash.c */
 /* en */ {IDGS_ILLEGAL_FILENAME,    N_("Illegal filename!")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDGS_ILLEGAL_FILENAME_DE, ""},  /* fuzzy */
+/* de */ {IDGS_ILLEGAL_FILENAME_DE, "Ungültiger Dateiname!"},
 /* fr */ {IDGS_ILLEGAL_FILENAME_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_ILLEGAL_FILENAME_HU, "Érvénytelen fájlnév!"},
 /* it */ {IDGS_ILLEGAL_FILENAME_IT, "Nome file non valido!"},
@@ -793,7 +793,7 @@ translate_t string_table[] = {
 /* c64dtv/c64dtvflash.c */
 /* en */ {IDGS_ERROR_CREATING_FILE_S,    N_("Error creating file %s!")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDGS_ERROR_CREATING_FILE_S_DE, ""},  /* fuzzy */
+/* de */ {IDGS_ERROR_CREATING_FILE_S_DE, "Fehler beim Schreiben: %s."},
 /* fr */ {IDGS_ERROR_CREATING_FILE_S_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_ERROR_CREATING_FILE_S_HU, "Hiba %s fájl létrehozása közben!"},
 /* it */ {IDGS_ERROR_CREATING_FILE_S_IT, "Errore durante la creazione del file %s!"},
@@ -805,7 +805,7 @@ translate_t string_table[] = {
 /* c64dtv/c64dtvflash.c */
 /* en */ {IDGS_ERROR_WRITING_TO_FILE_S,    N_("Error writing to file %s!")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDGS_ERROR_WRITING_TO_FILE_S_DE, ""},  /* fuzzy */
+/* de */ {IDGS_ERROR_WRITING_TO_FILE_S_DE, "Fehler bei Schreibzugriff: %s!"},
 /* fr */ {IDGS_ERROR_WRITING_TO_FILE_S_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_ERROR_WRITING_TO_FILE_S_HU, "Hiba %s fájlba írás közben!"},
 /* it */ {IDGS_ERROR_WRITING_TO_FILE_S_IT, "Errore durante la scrittura sul file %s!"},
@@ -817,7 +817,7 @@ translate_t string_table[] = {
 /* c64dtv/c64dtvflash.c */
 /* en */ {IDGS_DTV_ROM_CREATED,    N_("DTV ROM image created successfully")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDGS_DTV_ROM_CREATED_DE, ""},  /* fuzzy */
+/* de */ {IDGS_DTV_ROM_CREATED_DE, "DTV ROM Image erfolgreich erzeugt"},
 /* fr */ {IDGS_DTV_ROM_CREATED_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_DTV_ROM_CREATED_HU, "DTV ROM képmás sikeresen létrehozva"},
 /* it */ {IDGS_DTV_ROM_CREATED_IT, "Immagine ROM DTV creata con successo"},
@@ -3505,7 +3505,7 @@ translate_t string_table[] = {
 /* c64dtv/c64dtv-cmdline-options.c */
 /* en */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE,    N_("Select Hummer Userport device (0: None, 1: ADC, 2: Joystick)")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_DE, "Hummer Userport Gerät auswählen (0: Kein, 1: ADC, 2: Joystick)"},
 /* fr */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_IT, ""},  /* fuzzy */
@@ -3517,7 +3517,7 @@ translate_t string_table[] = {
 /* c64dtv/c64dtv-cmdline-options.c */
 /* en */ {IDCLS_P_PORT,    N_("<port>")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_P_PORT_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_P_PORT_DE, "<Port>"},
 /* fr */ {IDCLS_P_PORT_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_PORT_HU, "<port>"},
 /* it */ {IDCLS_P_PORT_IT, "<porta>"},
@@ -3529,7 +3529,7 @@ translate_t string_table[] = {
 /* c64dtv/c64dtv-cmdline-options.c */
 /* en */ {IDCLS_HUMMER_JOY_PORT,    N_("Select which joystick port should be mapped to the userport")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_HUMMER_JOY_PORT_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_HUMMER_JOY_PORT_DE, "Wähle welches Joystickport dem Userport zugeordnet werden soll"},
 /* fr */ {IDCLS_HUMMER_JOY_PORT_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_HUMMER_JOY_PORT_HU, "Válassza ki a joystick portot, amely a userport-ra képzõdik le"},
 /* it */ {IDCLS_HUMMER_JOY_PORT_IT, "Seleziona quali porte joystick devono essere mappate sulla userport"},
@@ -6678,7 +6678,7 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_SIDCART,    N_("Disable SID Cartridge")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_DISABLE_SIDCART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_SIDCART_DE, "SID Modul deaktivieren"},
 /* fr */ {IDCLS_DISABLE_SIDCART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_SIDCART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_SIDCART_IT, ""},  /* fuzzy */
@@ -7318,7 +7318,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_DEVICE_TYPE_8,    N_("Set device type for device #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: "
                                          "BLOCK DEVICE)")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_SET_DEVICE_TYPE_8_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DEVICE_TYPE_8_DE, "Geräte Typ für Gerät #8 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"},
 /* fr */ {IDCLS_SET_DEVICE_TYPE_8_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_DEVICE_TYPE_8_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DEVICE_TYPE_8_IT, ""},  /* fuzzy */
@@ -7332,7 +7332,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_DEVICE_TYPE_9,    N_("Set device type for device #9 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: "
                                          "BLOCK DEVICE)")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_SET_DEVICE_TYPE_9_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DEVICE_TYPE_9_DE, "Geräte Typ für Gerät #9 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"},
 /* fr */ {IDCLS_SET_DEVICE_TYPE_9_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_DEVICE_TYPE_9_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DEVICE_TYPE_9_IT, ""},  /* fuzzy */
@@ -7346,7 +7346,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_DEVICE_TYPE_10,    N_("Set device type for device #10 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
                                           "DEVICE)")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_SET_DEVICE_TYPE_10_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DEVICE_TYPE_10_DE, "Geräte Typ für Gerät #10 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"},
 /* fr */ {IDCLS_SET_DEVICE_TYPE_10_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_DEVICE_TYPE_10_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DEVICE_TYPE_10_IT, ""},  /* fuzzy */
@@ -7360,7 +7360,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_DEVICE_TYPE_11,    N_("Set device type for device #11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
                                           "DEVICE)")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_SET_DEVICE_TYPE_11_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DEVICE_TYPE_11_DE, "Geräte Typ für Gerät #11 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"},
 /* fr */ {IDCLS_SET_DEVICE_TYPE_11_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_DEVICE_TYPE_11_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DEVICE_TYPE_11_IT, ""},  /* fuzzy */
@@ -7965,7 +7965,7 @@ translate_t string_table[] = {
 /* ps2mouse.c */
 /* en */ {IDCLS_ENABLE_PS2MOUSE,    N_("Enable PS/2 mouse on userport")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_ENABLE_PS2MOUSE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_PS2MOUSE_DE, "PS/2 Userport Emulation aktivieren"},
 /* fr */ {IDCLS_ENABLE_PS2MOUSE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_PS2MOUSE_HU, "PS/2 egér engedélyezése a userporton"},
 /* it */ {IDCLS_ENABLE_PS2MOUSE_IT, "Attiva mouse PS/2 su userport"},
@@ -7977,7 +7977,7 @@ translate_t string_table[] = {
 /* ps2mouse.c */
 /* en */ {IDCLS_DISABLE_PS2MOUSE,    N_("Disable PS/2 mouse on userport")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_DISABLE_PS2MOUSE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_PS2MOUSE_DE, "PS/2 Userport Emulation deaktivieren\""},
 /* fr */ {IDCLS_DISABLE_PS2MOUSE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_PS2MOUSE_HU, "PS/2 egér tiltása a userporton"},
 /* it */ {IDCLS_DISABLE_PS2MOUSE_IT, "Disattiva mouse PS/2 su userport"},
@@ -8487,7 +8487,7 @@ translate_t string_table[] = {
 /* c64dtv/c64dtvblitter.c */
 /* en */ {IDCLS_SPECIFY_DTV_REVISION,    N_("Specify DTV Revision (2: DTV2, 3: DTV3)")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_SPECIFY_DTV_REVISION_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_DTV_REVISION_DE, "DTV Revision definieren (2: DTV2, 3: DTV3)"},
 /* fr */ {IDCLS_SPECIFY_DTV_REVISION_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_DTV_REVISION_HU, "Adja meg a DTV verzióját (2: DTV2, 3: DTV3)"},
 /* it */ {IDCLS_SPECIFY_DTV_REVISION_IT, "Specifica la revisione DTV (2: DTV2, 3: DTV3)"},
@@ -8547,7 +8547,7 @@ translate_t string_table[] = {
 /* c64dtv/c64dtvflash.c */
 /* en */ {IDCLS_SPECIFY_C64DTVROM_NAME,    N_("Specify name of C64DTV ROM image")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_SPECIFY_C64DTVROM_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_C64DTVROM_NAME_DE, "Name von C64DTV ROM Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_C64DTVROM_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_C64DTVROM_NAME_HU, "Adja meg a C64DTV ROM képmás nevét"},
 /* it */ {IDCLS_SPECIFY_C64DTVROM_NAME_IT, "Specifica il nome dell'immagine ROM DTV"},
@@ -8607,7 +8607,7 @@ translate_t string_table[] = {
 /* c64dtv/flash-trap.c */
 /* en */ {IDCLS_USE_AS_DIRECTORY_FLASH_FS,    N_("Use <name> as directory for flash file system device")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_USE_AS_DIRECTORY_FLASH_FS_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_USE_AS_DIRECTORY_FLASH_FS_DE, "Benutze <Name> für Verzeichnis Gerät Flash Dateisystem"},
 /* fr */ {IDCLS_USE_AS_DIRECTORY_FLASH_FS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_USE_AS_DIRECTORY_FLASH_FS_HU, "<név> könyvtár használata a flash fájlrendszer eszközhöz"},
 /* it */ {IDCLS_USE_AS_DIRECTORY_FLASH_FS_IT, "Una <nome> come directory per il file system flash"},
@@ -8631,7 +8631,7 @@ translate_t string_table[] = {
 /* c64dtv/flash-trap.c */
 /* en */ {IDCLS_DISABLE_TRUE_FLASH_FS,    N_("Disable true hardware flash file system")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_DISABLE_TRUE_FLASH_FS_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_TRUE_FLASH_FS_DE, "Präzises Hardware Flashdateisystem deaktivieren"},
 /* fr */ {IDCLS_DISABLE_TRUE_FLASH_FS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_TRUE_FLASH_FS_HU, "Igazi hardver flash fájlrendszer tiltása"},
 /* it */ {IDCLS_DISABLE_TRUE_FLASH_FS_IT, "Disattiva l'emulazione hardware del file system flash"},
@@ -8644,7 +8644,7 @@ translate_t string_table[] = {
 /* midi.c */
 /* en */ {IDCLS_ENABLE_MIDI_EMU,    N_("Enable MIDI emulation")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_ENABLE_MIDI_EMU_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_MIDI_EMU_DE, "MIDI Emulation aktivieren"},
 /* fr */ {IDCLS_ENABLE_MIDI_EMU_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_MIDI_EMU_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_MIDI_EMU_IT, ""},  /* fuzzy */
@@ -8656,7 +8656,7 @@ translate_t string_table[] = {
 /* midi.c */
 /* en */ {IDCLS_DISABLE_MIDI_EMU,    N_("Disable MIDI emulation")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_DISABLE_MIDI_EMU_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_MIDI_EMU_DE, "MIDI Emulation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_MIDI_EMU_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_MIDI_EMU_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_MIDI_EMU_IT, ""},  /* fuzzy */

@@ -13097,19 +13097,3 @@ msgstr "W³±cz Expert Cartridge..."
 #, fuzzy
 msgid "Base address of the digimax cartridge"
 msgstr "Rozszerzenie RAM napêdu #8 "
-
-#, fuzzy
-#~ msgid "Enable &Hummer Userport Joystick"
-#~ msgstr "*Pin diagnostyczny userportu PET"
-
-#, fuzzy
-#~ msgid "Enable the Hummer Userport Joystick Emulation"
-#~ msgstr "*Port emulacji drukarki"
-
-#, fuzzy
-#~ msgid "Disable the Hummer Userport Joystick emulation"
-#~ msgstr "*Port emulacji drukarki"
-
-#, fuzzy
-#~ msgid "Enable the Hummer ADC"
-#~ msgstr "*Napêd #9 - w³±cz kabel równoleg³y "

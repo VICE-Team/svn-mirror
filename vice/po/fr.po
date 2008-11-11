@@ -12331,23 +12331,3 @@ msgstr "Désactiver la cartouche Digimax"
 #: src/translate.c.po.c:8647
 msgid "Base address of the digimax cartridge"
 msgstr "Adresse de base de la cartouche Digimax"
-
-#, fuzzy
-#~ msgid "Enable &Hummer Userport Joystick"
-#~ msgstr "Activer la pin de diagnostique userport"
-
-#, fuzzy
-#~ msgid "Enable the Hummer Userport Joystick Emulation"
-#~ msgstr "Acviver l'émulation de l'imprimante userport"
-
-#, fuzzy
-#~ msgid "Disable the Hummer Userport Joystick emulation"
-#~ msgstr "Désactiver l'émulation de l'imprimante userport"
-
-#, fuzzy
-#~ msgid "Enable the Hummer ADC"
-#~ msgstr "Activer le cache vidéo"
-
-#, fuzzy
-#~ msgid "Disable the Hummer ADC"
-#~ msgstr "Désactiver le cache vidéo"

@@ -12019,21 +12019,3 @@ msgstr "Digimax cartridge tiltása"
 #: src/translate.c.po.c:8647
 msgid "Base address of the digimax cartridge"
 msgstr "A digimax cartridge báziscíme"
-
-#~ msgid "Enable &Hummer Userport Joystick"
-#~ msgstr "&Hummer userport botkormány engedélyezése"
-
-#~ msgid "Hummer Userport joystick"
-#~ msgstr "Hummer Userport botkormány"
-
-#~ msgid "Enable the Hummer Userport Joystick Emulation"
-#~ msgstr "Hummer Userport botkormány emuláció engedélyezése"
-
-#~ msgid "Disable the Hummer Userport Joystick emulation"
-#~ msgstr "Hummer userport botkormány emuláció tiltása"
-
-#~ msgid "Enable the Hummer ADC"
-#~ msgstr "Hummer ADC engedélyezése"
-
-#~ msgid "Disable the Hummer ADC"
-#~ msgstr "Hummer ADC tiltása"
