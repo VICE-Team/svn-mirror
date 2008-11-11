@@ -45,9 +45,8 @@ ALT             'Q'         IDM_MOUSE                         Q
 ALT             0x79        IDM_TOGGLE_MAINCPU_TRACE          F10
 ALT             0x7A        IDM_TOGGLE_DRIVE0CPU_TRACE        F11
 ALT             0x7B        IDM_TOGGLE_DRIVE1CPU_TRACE        F12
-CTRL            'C'         IDM_EDIT_COPY                     C
-CTRL            'V'         IDM_EDIT_PASTE                    V
-CTRL            0x2D        IDM_EDIT_COPY                     C
+ALT             0x2E        IDM_EDIT_COPY                     Del
+ALT             0x2D        IDM_EDIT_PASTE                    Ins
 
 #
 # Other command identifier that can be used in shortcuts
