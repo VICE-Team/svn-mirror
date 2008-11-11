@@ -224,7 +224,7 @@ static const resource_int_t resources_int[] = {
       &ui_resources.window_xpos[1], set_window_xpos, (void *)1 },
     { "Window1Ypos", CW_USEDEFAULT, RES_EVENT_NO, NULL,
       &ui_resources.window_ypos[1], set_window_ypos, (void *)1 },
-    { "VBLANKSync", 1, RES_EVENT_NO, NULL,
+    { "VBLANKSync", 0, RES_EVENT_NO, NULL,
       &ui_resources.vblank_sync, set_vblank_sync, NULL },
     { "AlwaysOnTop", 0, RES_EVENT_NO, NULL,
       &ui_resources.alwaysontop, set_alwaysontop, NULL },
