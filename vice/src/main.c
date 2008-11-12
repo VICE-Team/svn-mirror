@@ -82,7 +82,8 @@ int main_program(int argc, char **argv)
     int i;
     char *program_name;
 
-    /* Check for -console and -vsid before initializing the user interface.
+    /* Check for -config, -console and -vsid before initializing the user interface.
+       -config  => use specified configuration file
        -console => no user interface
        -vsid    => user interface in separate process */
     for (i = 0; i < argc; i++) {
@@ -93,6 +94,10 @@ int main_program(int argc, char **argv)
 #endif
         if (strcmp(argv[i], "-vsid") == 0) {
             vsid_mode = 1;
+        } else if (strcmp(argv[i], "-config") == 0) {
+            if ((i+1) < argc) {
+                vice_config_file = lib_stralloc(argv[++i]);
+            }
         }
     }
 

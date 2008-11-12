@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _RESOURCES_H
-#define _RESOURCES_H
+#ifndef VICE_RESOURCES_H
+#define VICE_RESOURCES_H
 
 #include <stdio.h>
 
@@ -111,6 +111,8 @@ typedef struct resource_string_s resource_string_t;
 #define RESERR_CANNOT_RENAME_FILE   -7
 
 /* ------------------------------------------------------------------------- */
+
+extern char *vice_config_file;
 
 extern int resources_init(const char *machine);
 extern int resources_register_int(const resource_int_t *r);

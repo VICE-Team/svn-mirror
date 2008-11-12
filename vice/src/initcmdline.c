@@ -68,6 +68,14 @@ static int cmdline_help(const char *param, void *extra_param)
     return 0;   /* OSF1 cc complains */
 }
 
+static int cmdline_config(const char *param, void *extra_param)
+{
+    /* "-config" needs to be handled before this gets called
+       but it also needs to be registered as a cmdline option,
+       hence this kludge. */
+    return 0;
+}
+
 static int cmdline_default(const char *param, void *extra_param)
 {
     return resources_set_defaults();
@@ -183,6 +191,11 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_RESTORE_DEFAULT_SETTINGS,
       NULL, NULL },
+    { "-config", CALL_FUNCTION, 1,
+      cmdline_config, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      T_("file"), T_("Specify config file") },
     { "-autostart", CALL_FUNCTION, 1,
       cmdline_autostart, NULL, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,

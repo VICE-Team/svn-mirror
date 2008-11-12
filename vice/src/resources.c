@@ -206,6 +206,8 @@ static void resources_check_hash_table(FILE *f)
 }
 #endif
 
+/* Configuration filename set via -config */
+char *vice_config_file = NULL;
 
 /* ------------------------------------------------------------------------- */
 int resources_register_int(const resource_int_t *r)
@@ -313,6 +315,7 @@ void resources_shutdown(void)
     lib_free(resources);
     lib_free(hashTable);
     lib_free(machine_id);
+    lib_free(vice_config_file);
 }
 
 static resource_ram_t *lookup(const char *name)
@@ -991,7 +994,11 @@ int resources_load(const char *fname)
     char *default_name = NULL;
 
     if (fname == NULL) {
-        default_name = archdep_default_resource_file_name();
+        if (vice_config_file == NULL) {
+            default_name = archdep_default_resource_file_name();
+        } else {
+            default_name = lib_stralloc(vice_config_file);
+        }
         fname = default_name;
     }
 
@@ -1098,7 +1105,11 @@ int resources_save(const char *fname)
     char *default_name = NULL;
 
     if (fname == NULL) {
-        default_name = archdep_default_save_resource_file_name();
+        if (vice_config_file == NULL) {
+            default_name = archdep_default_save_resource_file_name();
+        } else {
+            default_name = lib_stralloc(vice_config_file);
+        }
         fname = default_name;
     }
 
