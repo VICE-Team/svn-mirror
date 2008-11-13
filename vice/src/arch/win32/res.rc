@@ -5243,7 +5243,7 @@ BEGIN
 #ifdef DEBUG
   IDS_MP_MODE                     "M&ode"
 #endif
-  IDS_MP_EDIT                     "&Edit"
+  IDS_MP_EDIT                     "Edit"
   IDS_MP_SNAPSHOT                 "Sna&pshot"
   IDS_MP_RECORDING_START_MODE     "Recording start mode"
   IDS_MP_OPTIONS                  "&Options"
@@ -6021,7 +6021,7 @@ BEGIN
 #ifdef DEBUG
   IDS_MP_MODE                     "M&ode"
 #endif
-  IDS_MP_EDIT                     "&Edit"
+  IDS_MP_EDIT                     "Edit"
   IDS_MP_SNAPSHOT                 "&Sauvegarde"
   IDS_MP_RECORDING_START_MODE     "Mode de départ d'enregistrement"
   IDS_MP_OPTIONS                  "&Options"
@@ -7580,7 +7580,7 @@ BEGIN
 #ifdef DEBUG
   IDS_MP_MODE                     "M&ode"
 #endif
-  IDS_MP_EDIT                     "&Edit"
+  IDS_MP_EDIT                     "Edit"
   IDS_MP_SNAPSHOT                 "z&rzutu"
   IDS_MP_RECORDING_START_MODE     "Rozpocznij tryb zapisu"
   IDS_MP_OPTIONS                  "&Opcje"

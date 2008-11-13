@@ -93,7 +93,7 @@ BEGIN
        MENUITEM SEPARATOR
        MENUITEM "", IDM_EXIT
     END
-    POPUP "&Edit"
+    POPUP "Edit"
     BEGIN
         MENUITEM "", IDM_EDIT_COPY
         MENUITEM "", IDM_EDIT_PASTE
