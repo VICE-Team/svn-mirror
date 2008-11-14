@@ -964,7 +964,7 @@ static void reu_dma_update_regs(WORD host_addr, unsigned int reu_addr,
         maincpu_set_irq(reu_int_num, 1);
     }
 
-    if ( new_status_or_mask | REU_REG_R_STATUS_VERIFY_ERROR ) {
+    if (( new_status_or_mask & REU_REG_R_STATUS_VERIFY_ERROR) == REU_REG_R_STATUS_VERIFY_ERROR) {
         if ((rec.int_mask_reg 
                & (REU_REG_RW_INTERRUPT_VERIFY_ENABLED | REU_REG_RW_INTERRUPT_INTERRUPTS_ENABLED))
               == (REU_REG_RW_INTERRUPT_VERIFY_ENABLED | REU_REG_RW_INTERRUPT_INTERRUPTS_ENABLED))
