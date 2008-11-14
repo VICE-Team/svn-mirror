@@ -1291,6 +1291,9 @@ BOOLEAN MarkModeEnd( console_private_t *pcp, int fwKeys, short xPos, short yPos 
 
     ReleaseCapture();
 
+    MarkModeInClipboard(pcp); 
+    cursor(pcp, CS_RESUME);
+
     return TRUE;
 }
 
