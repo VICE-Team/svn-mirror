@@ -151,7 +151,7 @@ void FilterFP::set_w0()
     float type3_fc_kink = SIDFP::kinked_dac(fc, kinkiness, 11) / kinkiness;
     type3_fc_kink_exp = type3_offset * expf(type3_fc_kink * type3_steepness);
     if (distortion_rate != 0.f) {
-	type3_fc_distortion_offset_hp = (distortion_point - type3_fc_kink) * (0.5f * 0.5f) / distortion_rate;
+	type3_fc_distortion_offset_hp = (distortion_point - type3_fc_kink) * (0.5f) / distortion_rate;
 	type3_fc_distortion_offset_bp = type3_fc_distortion_offset_hp;
     }
     else {
@@ -168,5 +168,5 @@ void FilterFP::set_w0()
 void FilterFP::set_Q()
 {
   float Q = res / 15.f;
-  _1_div_Q = 1.f / (0.707f + Q * 1.8f);
+  _1_div_Q = 1.f / (0.707f + Q * 1.6f);
 }

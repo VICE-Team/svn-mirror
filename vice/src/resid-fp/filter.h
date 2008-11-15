@@ -325,11 +325,11 @@ float FilterFP::clock(float voice1,
         float diff1, diff2;
 
         /* -3 dB level correction for more resistance through filter path */
-	Vhp = Vbp * _1_div_Q - Vlp - Vi * 0.5f;
+	Vhp = Vbp * _1_div_Q * (1.f/1.25f) - Vlp * (1.f/1.25f/1.25f) - Vi * 0.5f;
 
         /* the input summer mixing, or something like it... */
-        diff1 = (Vlp - Vbp) * distortion_cf_threshold;
-        diff2 = (Vhp - Vbp) * distortion_cf_threshold;
+        diff1 = (Vlp - Vbp) * distortion_cf_threshold * 1.25f;
+        diff2 = (Vhp - Vbp) * distortion_cf_threshold * 1.25f;
         Vlp -= diff1;
         Vbp += diff1;
         Vbp += diff2;
@@ -354,7 +354,7 @@ float FilterFP::clock(float voice1,
         if (Vnf > 3.2e6f)
             Vnf = 3.2e6f;
         
-        Vf += Vnf + Vlp * 0.41f;
+        Vf += Vnf;
     } else {
         /* On the 8580, BP appears mixed in phase with the rest. */
         Vhp = -Vbp * _1_div_Q - Vlp - Vi;
