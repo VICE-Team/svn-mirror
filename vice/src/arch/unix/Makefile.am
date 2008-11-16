@@ -27,6 +27,7 @@ INCLUDES = \
 	@FFMPEG_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/rs232drv \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/c64dtv \
 	-I$(top_srcdir)/src/c128 \

@@ -138,3 +138,21 @@ int rs232_getc(int fi, BYTE *b)
   *b = fgetc(fd[fi]);
   return 0;
 }
+
+/* set the status lines of the RS232 device */
+int rs232_set_status(int fd, enum rs232handshake_out status)
+{
+    return -1;
+}
+
+/* get the status lines of the RS232 device */
+enum rs232handshake_in rs232_get_status(int fd)
+{
+    /*! \todo dummy */
+    return RS232_HSI_CTS | RS232_HSI_DSR;
+}
+
+/* set the bps rate of the physical device */
+void rs232_set_bps(int fd, unsigned int bps)
+{
+}

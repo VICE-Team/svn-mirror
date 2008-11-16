@@ -16,6 +16,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/monitor \
+	-I$(top_srcdir)/src/rs232drv \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/c64dtv \
 	-I$(top_srcdir)/src/c128 \
@@ -93,6 +94,8 @@ libarch_a_SOURCES = \
 	resvic20.rc \
 	resvicii.rc \
 	rs232.c \
+	rs232dev.c \
+	rs232net.c \
 	signals.c \
 	statusbar.c \
 	statusbar.h \

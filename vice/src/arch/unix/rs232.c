@@ -71,10 +71,8 @@
 #include "coproc.h"
 #include "log.h"
 #include "resources.h"
-#include "translate.h"
+#include "rs232.h"
 #include "types.h"
-
-#define MAXRS232 4
 
 #ifdef __NeXT__
 int cfsetispeed(struct termios *t, int speed)
@@ -122,10 +120,7 @@ int tcsetattr(int fd, int opt, const struct termios *t)
 
 /* resource handling */
 
-#define NUM_DEVICES 4
-
-extern char *devfile[NUM_DEVICES];
-static int devbaud[NUM_DEVICES];
+static int devbaud[RS232_NUM_DEVICES];
 
 static int set_devbaud(int val, void *param)
 {
@@ -200,7 +195,7 @@ typedef struct rs232 {
 #define T_TTY           1
 #define T_PROC          2
 
-static rs232_t fds[MAXRS232];
+static rs232_t fds[RS232_NUM_DEVICES];
 
 static log_t rs232_log = LOG_ERR;
 
@@ -213,7 +208,7 @@ void rs232_init(void)
 {
     int i;
 
-    for (i = 0; i < MAXRS232; i++)
+    for (i = 0; i < RS232_NUM_DEVICES; i++)
         fds[i].inuse = 0;
 
     rs232_log = log_open("RS232");
@@ -290,7 +285,7 @@ void rs232_reset(void)
 {
     int i;
 
-    for (i = 0; i < MAXRS232; i++) {
+    for (i = 0; i < RS232_NUM_DEVICES; i++) {
         if (fds[i].inuse) {
             rs232_close(i);
         }
@@ -302,11 +297,11 @@ int rs232_open(int device)
 {
     int i, fd;
 
-    for (i = 0; i < MAXRS232; i++) {
+    for (i = 0; i < RS232_NUM_DEVICES; i++) {
         if (!fds[i].inuse)
             break;
     }
-    if (i >= MAXRS232) {
+    if (i >= RS232_NUM_DEVICES) {
         log_error(rs232_log, "No more devices available.");
         return -1;
     }
@@ -315,29 +310,29 @@ int rs232_open(int device)
     log_message(rs232_log, "rs232_open(device=%d).", device);
 #endif
 
-    if (devfile[device][0] == '|') {
+    if (rs232_devfile[device][0] == '|') {
 #ifdef MINIX_SUPPORT
         log_error(rs232_log, "Forking not supported on minix.");
         return -1;
 #else
-        if (fork_coproc(&fds[i].fd_w, &fds[i].fd_r, devfile[device] + 1) < 0) {
+        if (fork_coproc(&fds[i].fd_w, &fds[i].fd_r, rs232_devfile[device] + 1) < 0) {
             log_error(rs232_log, "Cannot fork process.");
             return -1;
         }
 #endif
         fds[i].type = T_PROC;
         fds[i].inuse = 1;
-        fds[i].file = devfile[device];
+        fds[i].file = rs232_devfile[device];
     } else {
-        fd = open(devfile[device], O_RDWR | O_NOCTTY | O_CREAT | O_TRUNC,
+        fd = open(rs232_devfile[device], O_RDWR | O_NOCTTY | O_CREAT | O_TRUNC,
                   S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
         if (fd < 0) {
             log_error(rs232_log, "Cannot open file \"%s\": %s",
-                      devfile[device], strerror(errno));
+                      rs232_devfile[device], strerror(errno));
             return -1;
         }
         fds[i].fd_r = fds[i].fd_w = fd;
-        fds[i].file = devfile[device];
+        fds[i].file = rs232_devfile[device];
 
         if (isatty(fd)) {
             fds[i].type = T_TTY;
@@ -358,7 +353,7 @@ void rs232_close(int fd)
     log_debug(rs232_log, "close(fd=%d).", fd);
 #endif
 
-    if (fd < 0 || fd >= MAXRS232) {
+    if (fd < 0 || fd >= RS232_NUM_DEVICES) {
         log_error(rs232_log, "Attempt to close invalid fd %d.", fd);
         return;
     }
@@ -382,7 +377,7 @@ int rs232_putc(int fd, BYTE b)
 {
     ssize_t n;
 
-    if (fd < 0 || fd >= MAXRS232) {
+    if (fd < 0 || fd >= RS232_NUM_DEVICES) {
         log_error(rs232_log, "Attempt to write to invalid fd %d.", fd);
         return -1;
     }
@@ -413,7 +408,7 @@ int rs232_getc(int fd, BYTE * b)
     fd_set rdset;
     struct timeval ti;
 
-    if (fd < 0 || fd >= MAXRS232) {
+    if (fd < 0 || fd >= RS232_NUM_DEVICES) {
         log_error(rs232_log, "Attempt to read from invalid fd %d.", fd);
         return -1;
     }
@@ -445,3 +440,20 @@ int rs232_getc(int fd, BYTE * b)
     return 0;
 }
 
+/* set the status lines of the RS232 device */
+int rs232_set_status(int fd, enum rs232handshake_out status)
+{
+    return -1;
+}
+
+/* get the status lines of the RS232 device */
+enum rs232handshake_in rs232_get_status(int fd)
+{
+    /*! \todo dummy */
+    return RS232_HSI_CTS | RS232_HSI_DSR;
+}
+
+/* set the bps rate of the physical device */
+void rs232_set_bps(int fd, unsigned int bps)
+{
+}

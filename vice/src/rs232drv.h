@@ -1,5 +1,5 @@
 /*
- * rs232drv.c - Common RS232 driver handling.
+ * rs232drv.h - Common RS232 driver handling.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -37,6 +37,24 @@ extern int rs232drv_open(int device);
 extern void rs232drv_close(int fd);
 extern int rs232drv_putc(int fd, BYTE b);
 extern int rs232drv_getc(int fd, BYTE *b);
+
+enum rs232handshake_out {
+    RS232_HSO_RTS = 0x01,
+    RS232_HSO_DTR = 0x02
+};
+
+enum rs232handshake_in {
+    RS232_HSI_CTS = 0x01, /* we assume DCD = CTS */
+    RS232_HSI_DSR = 0x02
+};
+
+/* write the output handshake lines */
+extern int rs232drv_set_status(int fd, enum rs232handshake_out status);
+
+/* write the output handshake lines */
+extern enum rs232handshake_in rs232drv_get_status(int fd);
+
+extern void rs232drv_set_bps(int fd, unsigned int bps);
 
 #endif
 

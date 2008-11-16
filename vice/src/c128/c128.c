@@ -392,7 +392,6 @@ int machine_resources_init(void)
         || sound_resources_init() < 0
         || sid_resources_init() < 0
         || acia1_resources_init() < 0
-        || acia1_mode_resources_init() < 0
         || rs232drv_resources_init() < 0
         || rsuser_resources_init() < 0
         || serial_resources_init() < 0

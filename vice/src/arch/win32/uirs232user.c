@@ -33,13 +33,11 @@
 #include "intl.h"
 #include "res.h"
 #include "resources.h"
+#include "rs232.h"
 #include "translate.h"
 #include "uirs232user.h"
 #include "winmain.h"
 #include "uilib.h"
-
-
-#define MAXRS232 4
 
 
 #define NUM_OF_BAUDRATES 6
@@ -106,7 +104,7 @@ static void init_rs232user_dialog(HWND hwnd)
                    res_value ? BST_CHECKED : BST_UNCHECKED);
 
     temp_hwnd = GetDlgItem(hwnd, IDC_RS232USER_DEVICE);
-    for (res_value_loop = 0; res_value_loop < MAXRS232; res_value_loop++) {
+    for (res_value_loop = 0; res_value_loop < RS232_NUM_DEVICES; res_value_loop++) {
         TCHAR st[20];
         _stprintf(st, translate_text(IDS_RS232_DEVICE_I), res_value_loop + 1);
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
@@ -115,7 +113,7 @@ static void init_rs232user_dialog(HWND hwnd)
 
     resources_get_int("RsUserDev", &res_value);
     active_value = 0;
-    for (res_value_loop = 0; res_value_loop < MAXRS232; res_value_loop++) {
+    for (res_value_loop = 0; res_value_loop < RS232_NUM_DEVICES; res_value_loop++) {
         if (res_value_loop == res_value)
             active_value = res_value_loop;
     }
@@ -131,7 +129,7 @@ static void init_rs232user_dialog(HWND hwnd)
 
     resources_get_int("RsUserBaud", &res_value);
     active_value = 0;
-    for (res_value_loop = 0; res_value_loop < MAXRS232; res_value_loop++) {
+    for (res_value_loop = 0; res_value_loop < RS232_NUM_DEVICES; res_value_loop++) {
         if (baudrates[res_value_loop] == res_value)
             active_value = res_value_loop;
     }

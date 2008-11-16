@@ -33,13 +33,12 @@
 #include "intl.h"
 #include "res.h"
 #include "resources.h"
+#include "rs232.h"
 #include "translate.h"
 #include "uiacia.h"
 #include "winmain.h"
 #include "uilib.h"
 
-
-#define MAXRS232 4
 
 
 static const int interrupt_names[] = {
@@ -209,7 +208,7 @@ static void init_acia_dialog(HWND hwnd)
 
     resources_get_int("Acia1Dev", &res_value);
     temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_DEVICE);
-    for (i = 0; i < MAXRS232; i++) {
+    for (i = 0; i < RS232_NUM_DEVICES; i++) {
         TCHAR st[20];
         _stprintf(st, translate_text(IDS_RS232_DEVICE_I), i + 1);
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);

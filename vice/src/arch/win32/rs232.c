@@ -33,9 +33,11 @@
  */
 
 #undef        DEBUG
+/* #define DEBUG */
 
 #include "vice.h"
 
+#include <assert.h>
 #include <errno.h>
 #include <string.h>
 #include <winsock.h>
@@ -45,230 +47,141 @@
 #endif
 
 #include "log.h"
+#include "rs232.h"
+#include "rs232win.h"
 #include "types.h"
 #include "util.h"
 
-#define MAXRS232 4
+#ifdef DEBUG
+# define DEBUG_LOG_MESSAGE(_xxx) log_message _xxx
+#else
+# define DEBUG_LOG_MESSAGE(_xxx)
+#endif
 
 /* ------------------------------------------------------------------------- */
 
-#define NUM_DEVICES 4
+enum { RS232_IS_PHYSICAL_DEVICE = 0x4000 };
 
-extern char *devfile[NUM_DEVICES];
+/* ------------------------------------------------------------------------- */
 
 int rs232_resources_init(void)
 {
+    rs232dev_resources_init();
+    rs232net_resources_init();
     return 0;
 }
 
 void rs232_resources_shutdown(void)
 {
+    rs232dev_resources_shutdown();
+    rs232net_resources_shutdown();
 }
 
 int rs232_cmdline_options_init(void)
 {
+    rs232dev_cmdline_options_init();
+    rs232net_cmdline_options_init();
     return 0;
 }
 
 /* ------------------------------------------------------------------------- */
 
-typedef struct rs232 {
-    int inuse;
-    SOCKET fd;
-    char *file;
-} rs232_t;
-
-static rs232_t fds[MAXRS232];
-
-static log_t rs232_log = LOG_ERR;
-
-/* ------------------------------------------------------------------------- */
-
-void rs232_close(int fd);
-
 /* initializes all RS232 stuff */
 void rs232_init(void)
 {
-    WORD wVersionRequested = MAKEWORD(1, 1);
-    WSADATA wsaData;
-    int i;
-
-    WSAStartup(wVersionRequested, &wsaData);
-
-    for (i = 0; i < MAXRS232; i++)
-        fds[i].inuse = 0;
-
-    rs232_log = log_open("RS232");
+    rs232dev_init();
+    rs232net_init();
 }
 
 /* reset RS232 stuff */
 void rs232_reset(void)
 {
-    int i;
-
-    for (i = 0; i < MAXRS232; i++) {
-        if (fds[i].inuse) {
-            rs232_close(i);
-        }
-    }
+    rs232dev_reset();
+    rs232net_reset();
 }
 
-static int
-getaddr(char *dev, struct sockaddr_in *ad)
+/*! \internal find out if the rs232 channel is for a physical device (COMx:) or for networking.
+ *
+ * A RS232 channel is for a physical device if its name starts with "\\\\.\\COM"
+ *
+ */
+static int rs232_is_physical_device(int device)
 {
-    char *p;
-
-    memset(ad, 0, sizeof ad);
-    ad->sin_family = AF_INET;
-
-    dev = strdup(dev);
-    p = strchr(dev, ':');
-    if(!p) {
-        free(dev);
-        return -1;
+    if (strnicmp(rs232_devfile[device], "\\\\.\\COM", (sizeof "\\\\.\\COM") - 1) == 0) {
+        return 1;
     }
-
-    *p = 0;
-    ad->sin_addr.s_addr = inet_addr(dev);
-    ad->sin_port = htons((unsigned short)atoi(p+1));
-    free(dev);
-    if(ad->sin_addr.s_addr == -1 || ad->sin_port == 0)
-        return -1;
-
-    return 0;
+    else {
+        return 0;
+    }
 }
 
 /* opens a rs232 window, returns handle to give to functions below. */
 int rs232_open(int device)
 {
-    struct sockaddr_in ad;
-    int i;
+    int ret;
 
-    // parse the address
-    if(getaddr(devfile[device], &ad) == -1) {
-        log_error(rs232_log, "Bad device name.  Should be ipaddr:port.");
-        return -1;
+    assert(device < RS232_NUM_DEVICES);
+
+    if (rs232_is_physical_device(device)) {
+        ret = rs232dev_open(device);
+        if (ret >= 0) {
+            ret |= RS232_IS_PHYSICAL_DEVICE;
+        }
     }
-
-    for (i = 0; i < MAXRS232; i++) {
-        if (!fds[i].inuse)
-            break;
+    else {
+        ret = rs232net_open(device);
     }
-    if (i >= MAXRS232) {
-        log_error(rs232_log, "No more devices available.");
-        return -1;
-    }
-
-#ifdef DEBUG
-    log_message(rs232_log, "rs232_open(device=%d).", device);
-#endif
-
-    // connect socket
-    fds[i].fd = socket(AF_INET, SOCK_STREAM, 0);
-    if(fds[i].fd == INVALID_SOCKET ||
-       connect(fds[i].fd, (struct sockaddr*)&ad, sizeof ad) == -1) {
-        log_error(rs232_log, "Cant open connection.");
-        return -1;
-    }
-
-    fds[i].inuse = 1;
-    fds[i].file = devfile[device];
-    return i;
+    return ret;
 }
 
 /* closes the rs232 window again */
 void rs232_close(int fd)
 {
-#ifdef DEBUG
-    log_debug(rs232_log, "close(fd=%d).", fd);
-#endif
-
-    if (fd < 0 || fd >= MAXRS232) {
-        log_error(rs232_log, "Attempt to close invalid fd %d.", fd);
-        return;
-    }
-    if (!fds[fd].inuse) {
-        log_error(rs232_log, "Attempt to close non-open fd %d.", fd);
-        return;
-    }
-
-    close(fds[fd].fd);
-    fds[fd].inuse = 0;
+    if (fd & RS232_IS_PHYSICAL_DEVICE)
+        rs232dev_close(fd & ~RS232_IS_PHYSICAL_DEVICE);
+    else
+        rs232net_close(fd);
 }
 
 /* sends a byte to the RS232 line */
 int rs232_putc(int fd, BYTE b)
 {
-    size_t n;
-
-    if (fd < 0 || fd >= MAXRS232) {
-        log_error(rs232_log, "Attempt to write to invalid fd %d.", fd);
-        return -1;
-    }
-    if (!fds[fd].inuse) {
-        log_error(rs232_log, "Attempt to write to non-open fd %d.", fd);
-        return -1;
-    }
-
-    /* silently drop if socket is shut */
-    if (fds[fd].fd < 0)
-        return 0;
-
-    /* for the beginning... */
-#ifdef DEBUG
-    log_message(rs232_log, "Output `%c'.", b);
-#endif
-
-    n = send(fds[fd].fd, &b, 1, 0);
-    if (n != 1) {
-        log_error(rs232_log, "Error writing: %s.", strerror(errno));
-        close(fds[fd].fd);
-        fds[fd].fd = -1;
-        return -1;
-    }
-
-    return 0;
+    if (fd & RS232_IS_PHYSICAL_DEVICE)
+        return rs232dev_putc(fd & ~RS232_IS_PHYSICAL_DEVICE, b);
+    else
+        return rs232net_putc(fd, b);
 }
 
 /* gets a byte to the RS232 line, returns !=0 if byte received, byte in *b. */
 int rs232_getc(int fd, BYTE * b)
 {
-    int ret;
-    size_t n;
-    fd_set rdset;
-    struct timeval ti;
-
-    if (fd < 0 || fd >= MAXRS232) {
-        log_error(rs232_log, "Attempt to read from invalid fd %d.", fd);
-        return -1;
-    }
-    if (!fds[fd].inuse) {
-        log_error(rs232_log, "Attempt to read from non-open fd %d.", fd);
-        return -1;
-    }
-
-    /* silently drop if socket is shut */
-    if (fds[fd].fd < 0)
-        return 0;
-
-    FD_ZERO(&rdset);
-    FD_SET(fds[fd].fd, &rdset);
-    ti.tv_sec = ti.tv_usec = 0;
-    ret = select(fds[fd].fd + 1, &rdset, NULL, NULL, &ti);
-
-    if (ret > 0 && (FD_ISSET(fds[fd].fd, &rdset))) {
-        n = recv(fds[fd].fd, b, 1, 0);
-        if (n != 1) {
-            if(n < 0)
-                log_error(rs232_log, "Error reading: %s.", strerror(errno));
-            else
-                log_error(rs232_log, "EOF");
-            close(fds[fd].fd);
-            fds[fd].fd = -1;
-            return -1;
-        }
-        return 1;
-    }
-    return 0;
+    if (fd & RS232_IS_PHYSICAL_DEVICE)
+        return rs232dev_getc(fd & ~RS232_IS_PHYSICAL_DEVICE, b);
+    else
+        return rs232net_getc(fd, b);
 }
 
+/* set the status lines of the RS232 device */
+int rs232_set_status(int fd, enum rs232handshake_out status)
+{
+    if (fd & RS232_IS_PHYSICAL_DEVICE)
+        return rs232dev_set_status(fd & ~RS232_IS_PHYSICAL_DEVICE, status);
+    else
+        return rs232net_set_status(fd, status);
+}
+
+/* get the status lines of the RS232 device */
+enum rs232handshake_in rs232_get_status(int fd)
+{
+    if (fd & RS232_IS_PHYSICAL_DEVICE)
+        return rs232dev_get_status(fd & ~RS232_IS_PHYSICAL_DEVICE);
+    else
+        return rs232net_get_status(fd);
+}
+
+/* set the bps rate of the physical device */
+void rs232_set_bps(int fd, unsigned int bps)
+{
+    if (fd & RS232_IS_PHYSICAL_DEVICE)
+        rs232dev_set_bps(fd & ~RS232_IS_PHYSICAL_DEVICE, bps);
+}

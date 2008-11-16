@@ -32,13 +32,12 @@
 
 #include "res.h"
 #include "resources.h"
+#include "rs232.h"
 #include "system.h"
 #include "translate.h"
 #include "uirs232.h"
 #include "winmain.h"
 
-
-#define MAXRS232 4
 
 
 static void init_rs232_dialog(HWND hwnd)
