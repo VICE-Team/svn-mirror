@@ -1,5 +1,5 @@
 /*
- * peripheraldrawer.h - PeripheralDrawer
+ * controlwindow.h - Control Window
  *
  * Written by
  *  Christian Vogelgsang <chris@vogelgsang.org>
@@ -30,25 +30,18 @@
 #import "driveview.h"
 #import "tapeview.h"
 
-@interface PeripheralDrawer : NSDrawer
+@interface FlippedView : NSView
+@end
+
+@interface ControlWindow : NSPanel
 {
-    /* tape control */
+    FlippedView *main_view;
     TapeView * tape_view;
-
-    /* red/green */
     NSColor * led_color[2];
-
-    /* set in enableDriveStatus */
-/*    int * drive_led_color;*/
-
-    /* drive controls */
     DriveView * drive_view[DRIVE_NUM];
-
-/*    ui_drive_enable_t enabled_drives;*/
-/*    int drive_count;*/
 }
 
-- (id)initWithPreferredEdge:(NSRectEdge)edge;
+- (id)initWithContentRect:(NSRect)rect title:(NSString *)title;
 
 @end
 

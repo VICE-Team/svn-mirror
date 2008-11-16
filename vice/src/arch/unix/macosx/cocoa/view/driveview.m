@@ -28,6 +28,17 @@
 #import "driveview.h"
 #import "vicenotifications.h"
 #import "viceapplication.h"
+#import "viceappcontroller.h"
+
+static const char *button_texts[] = {
+     "\xe2\x8f\x8f",  /* eject */
+     "\xe2\x8f\x8e"   /* attach */
+};
+
+static NSString *help_texts[] = {
+    @"Eject Disk Image",
+    @"Attach Disk Image"
+};
 
 @implementation DriveView
 
@@ -46,12 +57,13 @@
     float fw = NSWidth(frame);
     float fh = NSHeight(frame);
     
-    float ledH = fh / 2.0;
-    float ledW = ledH * 2.0;
+    float bw = fh / 2.0;
 
-    NSRect trackRect = NSMakeRect(0,0,fw - ledW,ledH);
-    NSRect ledRect   = NSMakeRect(fw-ledW,0,ledW,ledH);
-    NSRect imageRect = NSMakeRect(0,ledH,fw,ledH);
+    NSRect trackRect = NSMakeRect(0,0,fw - bw * 3,bw);
+    NSRect ledRect   = NSMakeRect(fw-bw,0,bw,bw);
+    NSRect imageRect = NSMakeRect(0,bw-4,fw,bw);
+
+    NSFont *font = [NSFont labelFontOfSize:10];
     
     // text box for track display
     trackText = [[NSTextField alloc] initWithFrame:trackRect];
@@ -66,11 +78,30 @@
     driveLed = [[NSColorWell alloc] initWithFrame:ledRect];
     [driveLed setEnabled:NO];
     [driveLed setBordered:YES];
-    [driveLed setAutoresizingMask:NSViewMinXMargin];
     [self addSubview:driveLed];
+
+    // buttons
+    int i;
+    float x = fw - bw * 3;
+    for(i=0;i<2;i++) {
+        buttons[i] = [[NSButton alloc] initWithFrame:NSMakeRect(x,0,bw,bw)];
+        [buttons[i] setFont:[NSFont fontWithName:@"Apple Symbols" size:14]];    
+        [buttons[i] setTag:i];
+        [buttons[i] setTitle:
+            [NSString stringWithCString:button_texts[i]   
+                encoding:NSUTF8StringEncoding]];
+        [buttons[i] setToolTip:help_texts[i]];
+    
+        [buttons[i] setTarget:self];
+        [buttons[i] setAction:@selector(buttonPressed:)];    
+        [self addSubview:buttons[i]];
+
+        x += bw;
+    }
 
     // image name text field
     imageText = [[NSTextField alloc] initWithFrame:imageRect];
+    [imageText setFont:font];
     [imageText setDrawsBackground:NO];
     [imageText setAutoresizingMask:NSViewWidthSizable];
     [imageText setEditable:NO];
@@ -98,6 +129,7 @@
                                                  name:VICEDisplayDriveTrackNotification
                                                object:nil];
 
+    [self updateImage:@""];
     return self;
 }
 
@@ -138,6 +170,19 @@
     }
 }
 
+- (void)updateImage:(NSString *)image
+{
+    if([image length]==0) {
+        [imageText setStringValue:@"<no disk image>"];
+        // toggle eject button
+        [buttons[0] setEnabled:NO];
+    } else {
+        [imageText setStringValue:image];
+        // toggle eject button
+        [buttons[0] setEnabled:YES];
+    }    
+}
+
 - (void)displayImage:(NSNotification*)notification
 {
     NSDictionary * dict = [notification userInfo];
@@ -145,8 +190,7 @@
     
     if (drive == driveNumber) {
         NSString *image = [dict objectForKey:@"image"];
-        [image retain];
-        [imageText setStringValue:image];
+        [self updateImage:image];
     }
 }
 
@@ -167,22 +211,23 @@
     }
 }
 
-
-#if 0
-- (void)driveMenuChanged:(NSNotification*)notification
+- (void)buttonPressed:(id)sender
 {
-    NSDictionary * dict = [notification userInfo];
-    int drive = [[dict objectForKey:@"drive"] intValue];
-
-    if (drive == driveNumber)
-        [self setMenu:[dict objectForKey:@"menu"]];
+    int command = [sender tag];
+    if(command==0) {
+        // eject disk image
+        [[VICEApplication theAppController] detachDiskImage:self];
+    } else if(command==1) {
+        // attach disk image
+        [[VICEApplication theAppController] attachDiskImage:self];
+    }
 }
 
-- (void)mouseDown:(NSEvent*)event
+- (int)tag
 {
-    [NSMenu popUpContextMenu:[self menu] withEvent:event forView:self];
+    // callback from button pressed
+    return driveNumber + driveBase;
 }
-#endif
 
 // ----- Drag & Drop -----
 

@@ -36,10 +36,13 @@
     NSTextField *trackText;
     NSColorWell *driveLed;
     NSTextField *imageText;
+    NSButton *buttons[2];
 }
 
 - (id)initWithFrame:(NSRect)frame driveNumber:(int)drive;
 - (void)initLedColor:(NSColor*)color;
+
+- (void)updateImage:(NSString *)image;
 
 @end
 

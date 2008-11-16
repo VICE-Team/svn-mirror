@@ -30,23 +30,27 @@
 @interface TapeView : NSView
 {
     /* text field for track display */
+    NSTextField * tape_image;
     NSTextField * tape_counter;
-    NSTextField * tape_control;
+    NSTextField * tape_status;
+    NSButton    * buttons[9];    
 
     int tape_motor_status;
     int tape_control_status;
+    int counter;
+    int enabled;
 }
 
 - (id)initWithFrame:(NSRect)frame;
-
-- (void)setImageFile:(NSString*)image;
 
 - (void)displayImage:(NSNotification*)notification;
 - (void)displayCounter:(NSNotification*)notification;
 - (void)displayControlStatus:(NSNotification*)notification;
 - (void)displayMotorStatus:(NSNotification*)notification;
 
+- (void)updateImage:(NSString*)image;
 - (void)updateTapeStatus;
+- (void)updateCounter;
 
 - (void)setEnabled:(BOOL)flag;
 

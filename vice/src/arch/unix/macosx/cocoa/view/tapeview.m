@@ -28,6 +28,40 @@
 #import "tapeview.h"
 #import "vicenotifications.h"
 #import "viceapplication.h"
+#import "viceappcontroller.h"
+
+static const char *button_texts[] = {
+    "\xe2\x96\xa0",  /* 0: stop    */
+    "\xe2\x96\xb6",  /* 1: play    */
+    "\xe2\x96\xb6\xe2\x96\xb6",      /* 2: forward */
+    "\xe2\x97\x80\xe2\x97\x80",      /* 3: rewind  */
+    "\xe2\x97\x89",  /* 4: record  */
+    "R",             /* 5: reset */
+    "C",             /* 6: reset counter */
+    "\xe2\x8f\x8f",  /* 7: eject */
+    "\xe2\x8f\x8e"   /* 8: attach */
+};
+
+static const char *status_texts[] =
+{
+    "\xe2\x96\xa1", "\xe2\x96\xa0",                           /* stop    */
+    "\xe2\x96\xb7", "\xe2\x96\xb6",                             /* play    */
+    "\xe2\x96\xb7\xe2\x96\xb7", "\xe2\x96\xb6\xe2\x96\xb6",     /* forward */
+    "\xe2\x97\x81\xe2\x97\x81", "\xe2\x97\x80\xe2\x97\x80",     /* rewind  */
+    "\xe2\x97\x8b", "\xe2\x97\x8f"                              /* record  */
+};
+
+static NSString *help_texts[] = {
+    @"Stop Datasette",
+    @"Press Play on Tape",
+    @"Fast Forwart",
+    @"Rewind",
+    @"Record",
+    @"Reset Datasette",
+    @"Reset Counter",
+    @"Eject Tape Image",
+    @"Attach Tape Image"
+};
 
 @implementation TapeView
 
@@ -37,37 +71,86 @@
     if(self==nil)
         return nil;
     
+    // calculate width
     float w = NSWidth(frame);
+    float bw = w / 6.0;
+    float sw = bw;
+    float cw = bw * 3;
+    float h = NSHeight(frame) / 3.0;
+
+    NSFont *font = [NSFont labelFontOfSize:10];
+
+    // text box for track display
+    tape_image = [[NSTextField alloc] initWithFrame:NSMakeRect(0,2*h-4,w,h)];
+    [tape_image setFont:font];
+    [tape_image setDrawsBackground:NO];
+    [tape_image setAutoresizingMask:NSViewWidthSizable];
+    [tape_image setEditable:NO];
+    [tape_image setBordered:NO];
+    [tape_image setAlignment:NSLeftTextAlignment];
+    [[tape_image cell] setLineBreakMode:NSLineBreakByTruncatingHead];
+    [self addSubview:tape_image];
+
+    // counter display
     tape_counter = [[NSTextField alloc]
-        initWithFrame:NSMakeRect(0 , 0, w * 0.65, NSHeight(frame))];
+        initWithFrame:NSMakeRect(0 , h, cw, h)];
     [tape_counter setDrawsBackground:NO];
-    [tape_counter setAlignment:NSRightTextAlignment];
+    [tape_counter setAlignment:NSLeftTextAlignment];
     [tape_counter setEditable:NO];
     [tape_counter setBordered:NO];
-    [tape_counter setAutoresizingMask: (NSViewWidthSizable | NSViewMaxXMargin)];
-
-    tape_control = [[NSTextField alloc]
-        initWithFrame:NSMakeRect(w * 0.65, 0, w * 0.35, 0.75 * NSHeight(frame))];
-    [tape_control setFont:[NSFont fontWithName:@"Apple Symbols" size:10.0]];
-    [tape_control setDrawsBackground:NO];
-    [tape_control setAlignment:NSLeftTextAlignment];
-    [tape_control setEditable:NO];
-    [tape_control setBordered:NO];
-    [tape_control setAutoresizingMask: (NSViewWidthSizable | NSViewMinXMargin)];
-
     [self addSubview:tape_counter];
-    [self addSubview:tape_control];
 
-    [self setImageFile:nil]; /* set tool tip */
+    // status display
+    tape_status = [[NSTextField alloc]
+        initWithFrame:NSMakeRect(w-bw, h-4, sw, h)];
+    [tape_status setFont:[NSFont fontWithName:@"Apple Symbols" size:16.0]];    
+    [tape_status setDrawsBackground:NO];
+    [tape_status setAlignment:NSCenterTextAlignment];
+    [tape_status setEditable:NO];
+    [tape_status setBordered:NO];
+    [self addSubview:tape_status];
 
-    NSMenu * datasetteControls = [[NSMenu alloc] initWithTitle:@""];
-    //uiattach_append_tape_menu(datasetteControls);
-    [datasetteControls addItem:[NSMenuItem separatorItem]];
-    //uidatasette_append_datasette_menu(datasetteControls, 0);
+    // build control buttons
+    int i;
+    float x = 0.0;
+    float y = 0.0;
+    for(i=0;i<9;i++) {
+        float font_size = 14.0;
+        // make ff and fr buttons smaller
+        if((i==2)||(i==3)) {
+            font_size = 10;
+        }
 
-    [self setMenu:datasetteControls];
-    [datasetteControls release];
+        buttons[i] = [[NSButton alloc] initWithFrame:NSMakeRect(x,y,bw,h)];
+        [buttons[i] setFont:[NSFont fontWithName:@"Apple Symbols" size:font_size]];    
+        [buttons[i] setTag:i];
+        [buttons[i] setTitle:
+            [NSString stringWithCString:button_texts[i]   
+                encoding:NSUTF8StringEncoding]];
+        [buttons[i] setToolTip:help_texts[i]];
+    
+        [buttons[i] setTarget:self];
+        [buttons[i] setAction:@selector(controlDatasette:)];    
+        [self addSubview:buttons[i]];
 
+        if(i!=5) {
+            x += bw;
+        } else {
+            // reset counter button
+            x = bw*2;
+            y = h;
+        }
+    }
+
+    // preset value
+    tape_control_status = 0;
+    tape_motor_status = 0;
+    [self updateImage:@""];
+    [self updateCounter];
+    [self updateTapeStatus];
+    [self setEnabled:false];
+        
+    // allow drop of images
     [self registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -96,43 +179,47 @@
 - (void)dealloc
 {
     [tape_counter release];
-    [tape_control release];
+    [tape_status release];
 
     [super dealloc];
 }
 
-- (void)setImageFile:(NSString*)image
+- (void)updateImage:(NSString*)image
 {
-    [self setToolTip:(image == nil) ? @"<no tape>" : image];
+    if([image length]==0) {
+        [tape_image setStringValue:@"<no tape image>"];
+        // toggle eject button
+        [buttons[7] setEnabled:NO];
+    } else {
+        [tape_image setStringValue:image];
+        // toggle eject button
+        [buttons[7] setEnabled:YES];
+    }
 }
 
 - (void)displayImage:(NSNotification*)notification
 {
     NSDictionary * dict = [notification userInfo];
-    [self setImageFile:[dict objectForKey:@"image"]];
+    [self updateImage:[dict objectForKey:@"image"]];
 }
 
-
-- (void)displayCounter:(NSNotification*)notification
+- (void)updateCounter
 {
-    int counter = [[[notification userInfo] objectForKey:@"counter"] intValue];
     NSString * s = [NSString stringWithFormat:@"T: %03d", counter];
     [tape_counter setStringValue:s];
 }
 
+- (void)displayCounter:(NSNotification*)notification
+{
+    counter = [[[notification userInfo] objectForKey:@"counter"] intValue];
+    [self updateCounter];
+}
+
 - (void)updateTapeStatus
 {
-    static const char * tape_controls[] =
-    {
-        "\xe2\x96\xa1", "\xe2\x96\xa0",                           /* stop    */
-        "\xe2\x96\xb7", "\xe2\x96\xb6",                             /* play    */
-        "\xe2\x96\xb7\xe2\x96\xb7", "\xe2\x96\xb6\xe2\x96\xb6",     /* forward */
-        "\xe2\x97\x81\xe2\x97\x81", "\xe2\x97\x80\xe2\x97\x80",     /* rewind  */
-        "\xe2\x97\x8b", "\xe2\x97\x8f"                              /* record  */
-    };
-
-    NSString * s = [NSString stringWithUTF8String:tape_controls[tape_control_status*2+tape_motor_status]];
-    [tape_control setStringValue:s];
+    NSString * s = [NSString stringWithUTF8String:
+                        status_texts[tape_control_status*2+tape_motor_status]];
+    [tape_status setStringValue:s];
 }
 
 - (void)displayControlStatus:(NSNotification*)notification
@@ -147,23 +234,36 @@
     [self updateTapeStatus];
 }
 
-- (void)setEnabled:(BOOL)flag
+- (void)setEnabled:(BOOL)do_enable
 {
-    if (!flag)
-    {
-        [tape_control setStringValue:@""];
-        [tape_counter setStringValue:@""];
-    }
-    else
-    {
-        [self updateTapeStatus];
+    enabled = do_enable;
+    
+    [self updateCounter];
+    [self updateTapeStatus];
+        
+    // toggle button
+    int i;
+    for(i=0;i<7;i++) {
+        [buttons[i] setEnabled:enabled];
     }
 }
 
-
-- (void)mouseDown:(NSEvent*)event
+- (void)controlDatasette:(id)sender
 {
-    [NSMenu popUpContextMenu:[self menu] withEvent:event forView:self];
+    int command = [sender tag];
+    
+    // attach tape image
+    if(command==7) {
+        [[VICEApplication theAppController] detachTapeImage:self];
+    } 
+    // eject tape image
+    else if(command==8) {
+        [[VICEApplication theAppController] attachTapeImage:self];
+    } 
+    // datasette command 0..6
+    else {
+        [[VICEApplication theMachineController] controlDatasette:command];
+    }
 }
 
 // ----- Drag & Drop -----

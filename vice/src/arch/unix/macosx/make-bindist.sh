@@ -257,18 +257,34 @@ for bundle in $BUNDLES ; do
       # rename emu nib
       RES_LANGUAGES="English"
       for lang in $RES_LANGUAGES ; do
+        echo -n "[lang:$lang"
+        
         RES_DIR="$APP_RESOURCES/$lang.lproj"
         # make emu nib the MainMenu.nib
         EMU_NIB="$RES_DIR/$bundle.nib"
         if [ -e "$EMU_NIB" ]; then
-          echo -n "[$lang emu nib] "
+          echo -n " nib"
           MAIN_NIB="$RES_DIR/MainMenu.nib"
           mv "$EMU_NIB" "$MAIN_NIB"
         else 
-          echo -n "[MISSING: $lang emu nib] "
+          echo -n " **MISSING:nib"
         fi
         # remove unwanted emu nibs
         rm -f "$RES_DIR/x*.nib"
+        
+        # make ResourceTree for emu
+        EMU_RT="$RES_DIR/$bundle-ResourceTree.plist"
+        if [ -e "$EMU_RT" ]; then
+          echo -n " res"
+          MAIN_RT="$RES_DIR/ResourceTree.plist"
+          mv "$EMU_RT" "$MAIN_RT"
+        else
+          echo -n " **MISSING:res"
+        fi
+        # remove unwanted resource trees
+        rm -f "$RES_DIR/*-ResourceTree.plist"
+        
+        echo -n "]"
       done
     fi
   fi

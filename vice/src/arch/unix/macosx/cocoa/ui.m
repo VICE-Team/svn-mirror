@@ -92,9 +92,9 @@ void ui_display_drive_current_image(unsigned int drive_number,
 
 // ----- Tape Status & Control -----
 
-void ui_set_tape_status(int status)
+void ui_set_tape_status(int enable)
 {
-    // TODO
+    [[theVICEMachine machineNotifier] postEnableTapeStatusNotification:enable];
 }
 
 void ui_display_tape_current_image(const char *image)
@@ -222,5 +222,16 @@ int ui_extend_image_dialog(void)
 
 char* ui_get_file(const char *format,...)
 {
-    return NULL;
+    va_list args;
+    va_start(args, format);
+    NSString * string = [[NSString alloc] initWithFormat:[NSString stringWithCString:format]
+                                               arguments:args];
+    va_end(args);
+
+    NSString * path = [[theVICEMachine app] getOpenFileName:string types:nil];
+    if(path != nil) {
+        return strdup([path cStringUsingEncoding:NSUTF8StringEncoding]);
+    } else {
+        return NULL;
+    }
 }

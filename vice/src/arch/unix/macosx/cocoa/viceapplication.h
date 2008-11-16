@@ -28,6 +28,7 @@
 #import "viceapplicationprotocol.h"
 #import "vicemachineprotocol.h"
 #import "consolewindow.h"
+#import "controlwindow.h"
 
 @class VICEAppController;
 
@@ -42,9 +43,13 @@
     ConsoleWindow *consoleWindow;
     int canvasCount;
     int currentCanvasId;
+    int canvasStartXPos;
     
     ConsoleWindow *monitorWindow;
     NSWindow *oldKeyWindow;
+    BOOL closeMonitor;
+    
+    ControlWindow *controlWindow;
     
     IBOutlet VICEAppController *appController;
 }
@@ -75,11 +80,15 @@
 - (void)toggleConsoleWindow:(id)sender;
 // show/hide the monitor window
 - (void)toggleMonitorWindow:(id)sender;
+// show/hide the control window
+- (void)toggleControlWindow:(id)sender;
 
 // show error message
 + (void)runErrorMessage:(NSString *)message;
 // show warning message
 + (void)runWarningMessage:(NSString *)message;
+// get a open file name
++ (NSString *)getOpenFileName:(NSString *)title types:(NSArray *)types;
 
 // get the app controller
 - (VICEAppController *)appController;

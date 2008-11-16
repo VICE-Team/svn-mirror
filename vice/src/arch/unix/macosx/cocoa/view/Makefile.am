@@ -19,24 +19,24 @@ noinst_LIBRARIES = libarchmacosxcocoaview.a
 
 noinst_HEADERS = \
 	consolewindow.h \
+	controlwindow.h \
 	driveview.h \
 	fullscreenwindow.h \
 	joystickview.h \
 	keypressview.h \
 	logview.h \
-	peripheraldrawer.h \
 	tapeview.h \
 	viceglview.h \
 	vicewindow.h
    
 libarchmacosxcocoaview_a_SOURCES = \
 	consolewindow.m \
+	controlwindow.m \
 	driveview.m \
 	fullscreenwindow.m \
 	joystickview.m \
 	logview.m \
 	keypressview.m \
-	peripheraldrawer.m \
 	tapeview.m \
 	viceglview.m \
 	vicewindow.m

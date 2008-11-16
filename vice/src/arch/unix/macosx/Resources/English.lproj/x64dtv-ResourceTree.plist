@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>DTV</key>
+	<dict>
+		<key>Flash Filesystem Directory</key>
+		<string>FSFlashDir,fd</string>
+		<key>Hummer</key>
+		<dict>
+			<key>Userport Device</key>
+			<string>HummerUserportDevice,e,None,ADC,Joystick</string>
+			<key>Userport Joy Port</key>
+			<string>HummerUserportJoyPort,m,Joy1=1,Joy2=2</string>
+		</dict>
+		<key>ROM Image</key>
+		<string>c64dtvromfilename,fo</string>
+		<key>ROM Write Enable</key>
+		<string>c64dtvromrw,b</string>
+		<key>Revision</key>
+		<string>DtvRevision,m,DTV2=2,DTV3=3</string>
+		<key>True Flash Filesystem</key>
+		<string>FlashTrueFS,b</string>
+	</dict>
+	<key>Mouse</key>
+	<dict>
+		<key>Port</key>
+		<string>Mousetype,e,1351,NEOS,AMIGA</string>
+		<key>Type</key>
+		<string>Mouseport,m,Joy1=1,Joy2=2</string>
+	</dict>
+	<key>RAM</key>
+	<dict>
+		<key>Length of constant pattern</key>
+		<string>RAMInitPatternInvert,i</string>
+		<key>Length of constant values</key>
+		<string>RAMInitValueInvert,i</string>
+		<key>Value of first Byte</key>
+		<string>RAMInitStartValue,i</string>
+	</dict>
+	<key>SID</key>
+	<dict>
+		<key>Engine</key>
+		<string>SidEngine,m,Fast SID=0,ReSID=1,ReSID-FP=7</string>
+		<key>Filters</key>
+		<string>SidFilters,b</string>
+		<key>Model</key>
+		<string>SidModel,m,6581=0,8580=1,8580D=2,6581R4=3,DTVSID=4,6581R3 4885=8,6581R3 0486S=9,6581R3 3984=10,6581R4AR 3789=11,6581R3 4485=12,6581R4 1986S=13,8580R5 3691=16,8580R5 3691D=17,8580R5 1489=18,8580R5 1489D=19</string>
+		<key>ReSID</key>
+		<dict>
+			<key>Passband (0-90%)</key>
+			<string>SidResidPassband,r,0,90</string>
+			<key>Sample Method</key>
+			<string>SidResidSampling,e,Fast,Interpolating,Resampling,Fast Resampling</string>
+		</dict>
+		<key>Stereo SID</key>
+		<dict>
+			<key>Base Address</key>
+			<string>SidStereoStartAddress,e,$D4,$D5,$D6,$D7,$DE,$DF</string>
+			<key>Enable</key>
+			<string>SidStereo,b</string>
+		</dict>
+	</dict>
+	<key>VIC II</key>
+	<dict>
+		<key>Border Mode</key>
+		<string>VICIIBorderMode,e,Normal,Full,Debug</string>
+		<key>Check Sprite Background Collision</key>
+		<string>VICIICheckSbColl,b</string>
+		<key>Check Sprite Sprite Collision</key>
+		<string>VICIICheckSsColl,b</string>
+		<key>New Luminances</key>
+		<string>VICIINewLuminances,b</string>
+	</dict>
+</dict>
+</plist>

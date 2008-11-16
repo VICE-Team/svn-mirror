@@ -150,6 +150,10 @@
         type = ResourceTreeItemTypeString;
         hint = ResourceTreeItemHintNone;
         break;
+    case 'm': // map string to integer
+        type = ResourceTreeItemTypeInteger;
+        hint = ResourceTreeItemHintMapInteger;
+        break;
     case 'f': // file
         {
             unichar mode = [typeStr characterAtIndex:1];
@@ -224,6 +228,24 @@
                         }
                     }
                 }
+                // map string to ineger:   txt=value
+                else if(hint == ResourceTreeItemHintMapInteger) {
+                    int i;
+                    for(i=2;i<numArgs;i++) {
+                        NSString *argString = (NSString *)[args objectAtIndex:i];
+                        NSArray *pair = [argString componentsSeparatedByString:@"="];
+                        if([pair count]>=2) {
+                            NSString *keyStr = (NSString *)[pair objectAtIndex:0];
+                            NSString *valueStr = (NSString *)[pair objectAtIndex:1]; 
+                            if(keyStr && valueStr) {
+                                if([self parseIntFromString:valueStr]==value) {
+                                    cacheValue = [keyStr retain];
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
                 // integer
                 else {
                     cacheValue = [[NSNumber alloc] initWithInt:value];
@@ -278,6 +300,24 @@
                     break;
                 }
             }
+        }
+        // map
+        else if(hint==ResourceTreeItemHintMapInteger) {
+            int i;
+             for(i=2;i<numArgs;i++) {
+                 NSString *argString = (NSString *)[args objectAtIndex:i];
+                 NSArray *pair = [argString componentsSeparatedByString:@"="];
+                 if([pair count]>=2) {
+                     NSString *keyStr = (NSString *)[pair objectAtIndex:0];
+                     NSString *valueStr = (NSString *)[pair objectAtIndex:1]; 
+                     if(keyStr && valueStr) {
+                         if([keyStr isEqualToString:string]) {
+                             value = [self parseIntFromString:valueStr];
+                             break;
+                         }
+                     }
+                 }
+             }
         } 
         // range
         else if(hint==ResourceTreeItemHintRange) {
@@ -353,6 +393,23 @@
                 [ccell setButtonBordered:FALSE];
                 for(i=2;i<numArgs;i++) {
                     [ccell addItemWithObjectValue:[args objectAtIndex:i]];
+                }
+                dataCell = ccell;
+                break;
+            }
+        case ResourceTreeItemHintMapInteger:
+            {
+                NSComboBoxCell *ccell = [[NSComboBoxCell alloc] initTextCell:@""];
+                int i;
+                [ccell setButtonBordered:FALSE];
+                for(i=2;i<numArgs;i++) {
+                    NSString *argString = (NSString *)[args objectAtIndex:i];
+                    NSArray *pair = [argString componentsSeparatedByString:@"="];
+                    if([pair count]>=2) {
+                         NSString *keyStr = (NSString *)[pair objectAtIndex:0];
+                         NSString *valueStr = (NSString *)[pair objectAtIndex:1]; 
+                         [ccell addItemWithObjectValue:keyStr];
+                    }
                 }
                 dataCell = ccell;
                 break;

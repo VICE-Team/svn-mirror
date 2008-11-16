@@ -59,6 +59,9 @@
                                    image:(NSString *)image;
 
 // ----- Tape Display -----
+// display tape status
+-(void)postEnableTapeStatusNotification:(int)enable;
+
 // display image name
 -(void)postDisplayTapeImageNotification:(NSString *)image;
 

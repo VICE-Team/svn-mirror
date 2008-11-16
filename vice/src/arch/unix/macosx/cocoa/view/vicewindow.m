@@ -26,7 +26,6 @@
  */
 
 #import "vicenotifications.h"
-#import "peripheraldrawer.h"
 #import "vicewindow.h"
 #import "viceapplication.h"
 
@@ -34,11 +33,10 @@
 
 @implementation VICEWindow
 
-- (id)initWithRect:(NSRect)rect title:(NSString *)title
-{
+- (id)initWithContentRect:(NSRect)rect title:(NSString *)title
+{    
+    // store initial canvas size
     NSSize size = rect.size;
-    
-    // setup canvas size
     unsigned int canvas_width = size.width;
     unsigned int canvas_height = size.height;
     original_canvas_size = size;
@@ -49,7 +47,8 @@
         NSMiniaturizableWindowMask | NSResizableWindowMask;
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Textured Windows"])
         style |= NSTexturedBackgroundWindowMask;
-        
+    
+    // create window
     rect.size.height += STATUS_HEIGHT;
     self = [super initWithContentRect:rect
                             styleMask:style
@@ -60,10 +59,17 @@
 
     // setup window
     [self setTitle:title];
+    [self setFrameAutosaveName:title];
     [self setContentMinSize:NSMakeSize(canvas_width / 2, STATUS_HEIGHT + canvas_height / 2)];
 
+    // now size could have changed due to prefences size
+    // so determine current canvas size
+    NSRect bounds = [[self contentView] bounds];
+    unsigned int cw = NSWidth(bounds);
+    unsigned int ch = NSHeight(bounds) - STATUS_HEIGHT;
+
     // the container box for the canvas
-    rect = NSMakeRect(0, STATUS_HEIGHT, canvas_width, canvas_height);
+    rect = NSMakeRect(0, STATUS_HEIGHT, cw, ch);
     canvasContainer = [[NSBox alloc] initWithFrame:rect];
     [canvasContainer setContentViewMargins:NSMakeSize(0, 0)];
     [canvasContainer setTitlePosition:NSNoTitle];
@@ -72,14 +78,14 @@
     [[self contentView] addSubview:canvasContainer];
     
     // canvasView: the OpenGL render canvas
-    rect = NSMakeRect(0, 0, canvas_width, canvas_height);
+    rect = NSMakeRect(0, 0, cw, ch);
     canvasView = [[VICEGLView alloc] initWithFrame:rect];
     [canvasView setupTexture:size];
     [canvasView setAutoresizingMask: (NSViewWidthSizable | NSViewHeightSizable)];
     [canvasContainer addSubview:canvasView];
 
     // status line rect
-    rect = NSMakeRect(20, 0, canvas_width - 50, STATUS_HEIGHT);
+    rect = NSMakeRect(20, 0, cw - 50, STATUS_HEIGHT);
     statusBox = [[NSBox alloc] initWithFrame:rect];
     [statusBox setContentViewMargins:NSMakeSize(0, 0)];
     [statusBox setTitlePosition:NSNoTitle];
@@ -111,13 +117,6 @@
     joystickView2 = [[JoystickView alloc] initWithFrame:NSMakeRect(speedWidth+50+STATUS_HEIGHT,0,STATUS_HEIGHT,STATUS_HEIGHT)];
     [joystickView2 setAutoresizingMask: NSViewMinXMargin];
     [statusBox addSubview:joystickView2];
-
-    // drawer
-    peripheralDrawer = [[PeripheralDrawer alloc] initWithPreferredEdge:NSMaxXEdge];
-    [peripheralDrawer setParentWindow:self];
-    [peripheralDrawer open];
-
-    [self setFrameAutosaveName:title];
 
     // register notifcations
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -186,20 +185,30 @@
 
 - (void)resizeCanvas:(NSSize)size
 {
+    // do not resize if same size
+    if((original_canvas_size.width  == size.width) && 
+       (original_canvas_size.height == size.height)) {
+      return;
+    }
+    
     original_canvas_size = size;
     [canvasView setupTexture:size];
 
     [self setContentMinSize:NSMakeSize(size.width / 2, STATUS_HEIGHT + size.height / 2)];
-    [self resizeToCanvasSize:nil];
+    [self resizeCanvasToMultipleSize:nil];
 }
 
-- (void)resizeToCanvasSize:(id)sender
+- (void)resizeCanvasToMultipleSize:(id)sender
 {
+    int factor = 1;
+    if(sender!=nil)
+        factor = [sender tag];
+    
     NSRect f = [self frame];
     NSSize s = [[self contentView] bounds].size;
     
-    f.size.width  = original_canvas_size.width;
-    f.size.height += original_canvas_size.height - s.height + STATUS_HEIGHT;
+    f.size.width  = original_canvas_size.width * factor;
+    f.size.height += original_canvas_size.height * factor - s.height + STATUS_HEIGHT;
     f.origin.y    += s.height - original_canvas_size.height;
     [self setFrame:f display:YES];
 }
@@ -328,6 +337,35 @@
     else
         [recplayView setToolTip:@""];
 //    [recplayView animate:self];
+}
+
+// ----- copy & paste support -----
+
+-(IBAction)copy:(id)sender
+{
+    NSString *data = [[VICEApplication theMachineController] readScreenOutput];
+    if(data) {
+        NSPasteboard *pb = [NSPasteboard generalPasteboard];
+        [pb declareTypes:[NSArray arrayWithObject:NSStringPboardType]
+            owner:self];
+        [pb setString:data forType:NSStringPboardType];
+    } else {
+        NSBeep();
+    }
+}
+
+-(IBAction)paste:(id)sender
+{
+    NSPasteboard *pb = [NSPasteboard generalPasteboard];
+    NSString *type = [pb availableTypeFromArray:
+                        [NSArray arrayWithObject:NSStringPboardType]];
+    if(type) {
+        NSString *value = [pb stringForType:NSStringPboardType];
+        // type string on keyboard
+        [[VICEApplication theMachineController] typeStringOnKeyboard:value toPetscii:YES];
+    } else {
+        NSBeep();
+    }
 }
 
 @end

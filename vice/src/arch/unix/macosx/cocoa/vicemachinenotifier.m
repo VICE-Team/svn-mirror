@@ -109,6 +109,16 @@
 
 // ----- Tape Notification -----
 
+-(void)postEnableTapeStatusNotification:(int)enable
+{
+    NSDictionary * dict =
+        [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:enable]
+                                    forKey:@"enable"];
+
+    [self postNotificationName:VICEEnableTapeStatusNotification
+                      userInfo:dict];    
+}
+
 -(void)postDisplayTapeImageNotification:(NSString *)image
 {
     NSDictionary * dict =

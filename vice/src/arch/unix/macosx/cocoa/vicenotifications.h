@@ -39,6 +39,7 @@
 #define VICEDisplayDriveTrackNotification         @"VICEDisplayDriveTrackNotification"
 
 // Tape Status Display
+#define VICEEnableTapeStatusNotification          @"VICEEnableTapeStatusNotification"
 #define VICEDisplayTapeImageNotification          @"VICEDisplayTapeImageNotification"
 #define VICEDisplayTapeControlStatusNotification  @"VICEDisplayTapeControlStatusNotification"
 #define VICEDisplayTapeMotorStatusNotification    @"VICEDisplayTapeMotorStatusNotification"

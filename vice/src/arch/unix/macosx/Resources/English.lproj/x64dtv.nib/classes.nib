@@ -7,9 +7,11 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
-				<key>resizeToCanvasSize</key>
+				<key>resizeCanvasToMultipleSize</key>
 				<string>id</string>
 				<key>toggleConsoleWindow</key>
+				<string>id</string>
+				<key>toggleControlWindow</key>
 				<string>id</string>
 				<key>toggleFullscreen</key>
 				<string>id</string>
@@ -211,6 +213,8 @@
 			<key>ACTIONS</key>
 			<dict>
 				<key>toggleConsoleWindow</key>
+				<string>id</string>
+				<key>toggleControlWindow</key>
 				<string>id</string>
 				<key>toggleMonitorWindow</key>
 				<string>id</string>

@@ -42,7 +42,7 @@ thread is passed through this protocol.
 
 // ----- video -----
 // create a new canvas
--(void)createCanvas:(NSData *)canvasPtr withRect:(NSRect)rect;
+-(void)createCanvas:(NSData *)canvasPtr withSize:(NSSize)size;
 // destroy a canvas
 -(void)destroyCanvas:(NSData *)canvasPtr;
 // resize a canvase

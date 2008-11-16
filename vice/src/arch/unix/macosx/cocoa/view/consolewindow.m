@@ -42,15 +42,21 @@
         return nil;
 
     [self setReleasedWhenClosed:NO];
+    [self setFloatingPanel:NO];
+    // set title
+    [self setTitle:title];
+    [self setFrameAutosaveName:[self title]];
 
+    // create scroll view
     scroll = [[NSScrollView alloc] initWithFrame:NSMakeRect(0, 0,
                                                             NSWidth(rect), NSHeight(rect))];
     [scroll setAutoresizingMask: (NSViewWidthSizable | NSViewHeightSizable)];
     [scroll setHasVerticalScroller:YES];
     [scroll setHasHorizontalScroller:NO];
-
+    
     NSSize size = [scroll contentSize];
 
+    // embed a text view
     log_view = [[LogView alloc] initWithFrame:NSMakeRect(0, 0, size.width, size.height)];
     [log_view setFont:[NSFont userFixedPitchFontOfSize:0]];
     [log_view setAutoresizingMask: (NSViewWidthSizable | NSViewHeightSizable)];
@@ -60,11 +66,7 @@
     [[log_view textContainer] setWidthTracksTextView:YES];
 
     [scroll setDocumentView:log_view];
-    [[self contentView] addSubview:scroll];
-
-    // set title
-    [self setTitle:title];
-    [self setFrameAutosaveName:[self title]];
+    [self setContentView:scroll];
 
     // init log file
     log_file = 0;
@@ -77,6 +79,9 @@
 
 - (void)appendText:(NSString*)text
 {
+    if(text==nil)
+        return;
+    
     if(buffer==nil)
         buffer = [[NSMutableString alloc] initWithCapacity:BUFFER_SIZE];
 

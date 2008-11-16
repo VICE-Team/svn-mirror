@@ -215,13 +215,11 @@
 
 - (IBAction)attachTapeImage:(id)sender
 {
-    NSOpenPanel *panel = [NSOpenPanel openPanel];
-    int result = [panel runModalForDirectory:nil file:nil types:nil];
-    if(result==NSOKButton) {
-        NSString *path = [panel filename];
+    NSArray *types = [NSArray arrayWithObjects:@"t64",@"tap",nil];
+    NSString *path = [self pickOpenFileWithTitle:@"Open Tape Image" types:types];
+    if(path!=nil) {
         [[VICEApplication theMachineController] attachTapeImage:path];
     }
-    [panel release];
 }
 
 - (IBAction)detachTapeImage:(id)sender
@@ -565,6 +563,8 @@
 {
     NSOpenPanel *panel = [NSOpenPanel openPanel];
     [panel setAllowsMultipleSelection:NO];
+    [panel setCanChooseFiles:YES];
+    [panel setCanChooseDirectories:NO];
     [panel setTitle:title];    
     
     int result = [panel runModalForDirectory:nil file:nil types:types];
@@ -589,6 +589,16 @@
 
 - (NSString *)pickDirectoryWithTitle:(NSString *)title
 {
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    [panel setAllowsMultipleSelection:NO];
+    [panel setCanChooseFiles:NO];
+    [panel setCanChooseDirectories:YES];
+    [panel setTitle:title];    
+    
+    int result = [panel runModalForDirectory:nil file:nil types:nil];
+    if(result==NSOKButton) {
+        return [panel filename];
+    }    
     return nil;
 }
 

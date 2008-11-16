@@ -80,7 +80,7 @@ video_canvas_t *video_canvas_create(struct video_canvas_s *canvas,
     NSData *data = [NSData dataWithBytes:&canvasPtr length:sizeof(video_canvas_t *)];
 
     // call UI thread to create canvas
-    [[theVICEMachine app] createCanvas:data withRect:NSMakeRect(100,100,w,h)];
+    [[theVICEMachine app] createCanvas:data withSize:NSMakeSize(w,h)];
 
     // init rendering
     video_canvas_set_palette(canvas,canvas->palette);

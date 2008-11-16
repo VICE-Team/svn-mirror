@@ -34,6 +34,7 @@
 #define ResourceTreeItemHintEnum        2 // e
 #define ResourceTreeItemHintEnumDirect  3 // E
 #define ResourceTreeItemHintRange       4 // r
+#define ResourceTreeItemHintMapInteger  5 // m
 
 #define ResourceTreeItemHintFileOpen    10 // fo
 #define ResourceTreeItemHintFileSave    11 // fs

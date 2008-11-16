@@ -49,7 +49,7 @@
 }
 
 // create the window and setup canvas structure
-- (id)initWithRect:(NSRect)rect title:(NSString *)title;
+- (id)initWithContentRect:(NSRect)rect title:(NSString *)title;
 
 // return the GLView for render access
 - (VICEGLView *)getVICEGLView;
@@ -61,10 +61,16 @@
 
 // toggle fullscreen of canvas
 - (void)toggleFullscreen:(id)sender;
-// restore original size
-- (void)resizeToCanvasSize:(id)sender;
+// resize to multiple size taken from [sender tag]
+- (void)resizeCanvasToMultipleSize:(id)sender;
 
 -(void)updateCanvas:(id)sender;
+
+// ----- copy & paste support -----
+// copy
+-(IBAction)copy:(id)sender;
+// paste
+-(IBAction)paste:(id)sender;
 
 @end
 

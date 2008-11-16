@@ -66,7 +66,7 @@
 -(void)updateResources:(NSNotification *)notification
 {
     if([notification object] != self) { 
-        NSLog(@"Invalidate Resources");
+//        NSLog(@"Invalidate Resources");
         [rootItem invalidateCache];
     }
     [treeView setNeedsDisplay:TRUE];
