@@ -1106,7 +1106,7 @@ static void int_acia_rx(CLOCK offset, void *data)
     assert(data == NULL);
 
     do {
-        unsigned char received_byte;
+        BYTE received_byte;
 
         if (fd < 0) {
             break;
