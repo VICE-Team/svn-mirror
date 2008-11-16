@@ -72,6 +72,7 @@
 #include "log.h"
 #include "resources.h"
 #include "rs232.h"
+#include "translate.h"
 #include "types.h"
 
 #ifdef __NeXT__

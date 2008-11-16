@@ -351,6 +351,12 @@ static void set_acia_ticks(void)
     case ACIA_CTRL_BITS_WORD_LENGTH_6:
         bits = 6;
         break;
+    default:
+        /*
+         * this case is only for gcc to calm down, as it wants to warn that
+         * bits is used uninitialised - which it is not.
+         */
+        /* FALL THROUGH */
     case ACIA_CTRL_BITS_WORD_LENGTH_5:
         bits = 5;
         break;
@@ -1090,14 +1096,8 @@ static void int_acia_tx(CLOCK offset, void *data)
    For the acia implementation, this is always NULL.
 
  \remark
-   If we just transmitted a value, the alarm is re-scheduled for
-   the time when the transmission has completed. This way, we
-   ensure that we do not send out faster than a real ACIA could
-   do.
-
- \todo
-   If no transmit is in progress (in_tx == ACIA_TX_STATE_NO_TRANSMIT),
-   it is not necessary to schedule a new alarm.
+   The alarm is re-scheduled for the time when the reception
+   has completed.
 */
 static void int_acia_rx(CLOCK offset, void *data)
 {
@@ -1106,7 +1106,7 @@ static void int_acia_rx(CLOCK offset, void *data)
     assert(data == NULL);
 
     do {
-        char received_byte;
+        unsigned char received_byte;
 
         if (fd < 0) {
             break;
