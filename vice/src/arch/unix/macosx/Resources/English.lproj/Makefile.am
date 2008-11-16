@@ -2,9 +2,11 @@ EXTRA_DIST = \
 	x64.nib/classes.nib \
 	x64.nib/info.nib \
 	x64.nib/keyedobjects.nib \
+	x64-ResourceTree.plist \
 	x64dtv.nib/classes.nib \
 	x64dtv.nib/info.nib \
 	x64dtv.nib/keyedobjects.nib \
+	x64dtv-ResourceTree.plist \
 	VICEInformation.nib/classes.nib \
 	VICEInformation.nib/info.nib \
 	VICEInformation.nib/keyedobjects.nib \
@@ -28,7 +30,6 @@ EXTRA_DIST = \
 	ResourceEditor.nib/classes.nib \
 	ResourceEditor.nib/info.nib \
 	ResourceEditor.nib/keyedobjects.nib \
-	ResourceTree.plist \
 	SoundSettings.nib/classes.nib \
 	SoundSettings.nib/info.nib \
 	SoundSettings.nib/keyedobjects.nib
