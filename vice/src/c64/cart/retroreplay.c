@@ -48,7 +48,8 @@ static const c64export_resource_t export_res = {
 };
 
 /* Cart is activated.  */
-static unsigned int rr_active;
+unsigned int rr_active;
+unsigned int rr_clockport_enabled;
 
 /* Only one write access is allowed.  */
 static unsigned int write_once;
@@ -73,7 +74,7 @@ BYTE REGPARM1 retroreplay_io1_read(WORD addr)
                    | reu_mapping;
           default:
 #ifdef HAVE_TFE
-            if (tfe_enabled && tfe_as_rr_net && (addr&0xff)<0x10)
+            if (rr_clockport_enabled && tfe_enabled && tfe_as_rr_net && (addr&0xff)<0x10)
               return 0;
 #endif
             if (reu_mapping) {
@@ -123,10 +124,15 @@ void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value)
                 allow_bank = value & 2;
                 no_freeze = value & 4;
                 reu_mapping = value & 0x40;
+                rr_clockport_enabled = value & 1;
                 write_once = 1;
             }
             break;
           default:
+#ifdef HAVE_TFE
+            if (rr_clockport_enabled && tfe_enabled && tfe_as_rr_net && (addr&0xff)<0x10)
+              return;
+#endif
             if (reu_mapping) {
                 if (export_ram) {
                     if (allow_bank) {
