@@ -5,6 +5,31 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Changes in VICE 2.1
+======================
+
+** General
+----------
+
+** Unix changes
+---------------
+
+- XRandR fullscreen implemented
+
+- command line option `-fullscreen' is supposed to do something
+  useful. 
+
+- vsync code imported from win32 (based on openGL extension).
+  see also doc/openGLsync-howto.txt.
+
+- vidmode (fullscreen support) is broken and therefore marked as
+  deprecated. It will be removed in the next release if no-one takes
+  responsibility to fix the broken code and is willing to maintain the
+  code. 
+
+- PAL Emulation (new implementation, improved speed) should be usable
+  again (it was broken on certain display depths).
+
 * Changes in VICE 2.0
 ======================
 

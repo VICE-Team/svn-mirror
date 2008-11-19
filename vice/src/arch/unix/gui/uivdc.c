@@ -34,7 +34,7 @@
 #include "uivdc.h"
 
 #include "uifullscreen-menu.h"
-UI_FULLSCREEN(VDC)
+UI_FULLSCREEN(VDC, KEYSYM_f)
 
 UI_MENU_DEFINE_STRING_RADIO(VDCPaletteFile)
 

@@ -37,7 +37,7 @@
 #include "openGL_sync.h"
 
 #include "uifullscreen-menu.h"
-UI_FULLSCREEN(VIC)
+UI_FULLSCREEN(VIC, KEYSYM_d)
 
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 

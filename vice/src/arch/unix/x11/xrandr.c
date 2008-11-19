@@ -58,6 +58,7 @@ static struct video_canvas_s *current_canvas;
 
 static int init_XRandR(Display *dpy);
 static int set_xrandr(int mode);
+static int sd = 0;
 
 typedef struct 
 {
@@ -189,6 +190,10 @@ xrandr_menu_shutdown(struct ui_menu_entry_s *menu)
 {
     int i;
     
+    sd = 1;			/* kludge to avoid segfault in shutdown, 
+				   where some resources seemed to be freed 
+				   already */
+    
     xrandr_shutdown();		/* early shutdown, otherwhise 
 				   screen_info.all_modes[0] is freed  */
     if (resolutions_submenu)
@@ -285,7 +290,8 @@ set_xrandr(int val)
 {
     Status status;
 
-    ui_update_menus();
+    if (!sd) 
+	ui_update_menus();
     if (no_xrandr)
 	return 1;
 
@@ -332,7 +338,8 @@ set_xrandr(int val)
 
     }
 	
-    ui_update_menus();
+    if (!sd) 
+	ui_update_menus();
     return 0;
 }
 

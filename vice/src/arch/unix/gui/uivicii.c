@@ -52,7 +52,7 @@ struct ui_menu_entry_s set_video_standard_submenu[4] = {
 };
 
 #include "uifullscreen-menu.h"
-UI_FULLSCREEN(VICII)
+UI_FULLSCREEN(VICII, KEYSYM_d)
 
 UI_MENU_DEFINE_STRING_RADIO(VICIIPaletteFile)
 

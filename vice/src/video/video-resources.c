@@ -320,8 +320,7 @@ static int set_fullscreen_device(const char *val, void *param)
 }
 
 static const char *vname_chip_fullscreen[] = {
-    "Fullscreen", "FullscreenStatusbar", "FullscreenDoubleSize", 
-    "FullscreenDoubleScan", "FullscreenDevice", NULL
+    "Fullscreen", "FullscreenStatusbar", "FullscreenDevice", NULL
 };
 
 static resource_string_t resources_chip_fullscreen_string[] =
@@ -506,20 +505,8 @@ int video_resources_chip_init(const char *chipname,
             = &((*canvas)->videoconfig->fullscreen_statusbar_enabled);
         resources_chip_fullscreen_int[1].param = (void *)*canvas;
 
-        resources_chip_fullscreen_int[2].name
-            = util_concat(chipname, vname_chip_fullscreen[2], NULL);
-        resources_chip_fullscreen_int[2].value_ptr
-            = &((*canvas)->videoconfig->fullscreen_double_size_enabled);
-        resources_chip_fullscreen_int[2].param = (void *)*canvas;
-
-        resources_chip_fullscreen_int[3].name
-            = util_concat(chipname, vname_chip_fullscreen[3], NULL);
-        resources_chip_fullscreen_int[3].value_ptr
-            = &((*canvas)->videoconfig->fullscreen_double_scan_enabled);
-        resources_chip_fullscreen_int[3].param = (void *)*canvas;
-
         resources_chip_fullscreen_string[0].name
-            = util_concat(chipname, vname_chip_fullscreen[4], NULL);
+            = util_concat(chipname, vname_chip_fullscreen[2], NULL);
         resources_chip_fullscreen_string[0].factory_value
             = video_chip_cap->fullscreen.device_name[0];
         resources_chip_fullscreen_string[0].value_ptr
@@ -534,8 +521,6 @@ int video_resources_chip_init(const char *chipname,
 
         lib_free((char *)(resources_chip_fullscreen_int[0].name));
         lib_free((char *)(resources_chip_fullscreen_int[1].name));
-        lib_free((char *)(resources_chip_fullscreen_int[2].name));
-        lib_free((char *)(resources_chip_fullscreen_int[3].name));
         lib_free((char *)(resources_chip_fullscreen_string[0].name));
 
         for (i = 0; i < video_chip_cap->fullscreen.device_num; i++) {

@@ -79,7 +79,7 @@
 	{ NULL }							\
     };
 
-#define UI_FULLSCREEN(__CHIP__) \
+#define UI_FULLSCREEN(__CHIP__, __HOTKEY__)			\
     UI_MENU_DEFINE_TOGGLE(__CHIP__##Fullscreen)		\
     UI_MENU_DEFINE_TOGGLE(__CHIP__##FullscreenStatusbar)	\
     UI_MENU_DEFINE_STRING_RADIO(__CHIP__##FullscreenDevice)	\
@@ -92,7 +92,7 @@
 ui_menu_entry_t fullscreen_menu##__CHIP__[] =				\
 {									\
     { N_("*Enable fullscreen"),						\
-      (ui_callback_t)toggle_##__CHIP__##Fullscreen, NULL, NULL, KEYSYM_d, \
+      (ui_callback_t)toggle_##__CHIP__##Fullscreen, NULL, NULL, __HOTKEY__, \
       UI_HOTMOD_META },							\
     { N_("*Show Statusbar/Menu"),					\
       (ui_callback_t)toggle_##__CHIP__##FullscreenStatusbar, NULL, NULL, KEYSYM_b, \

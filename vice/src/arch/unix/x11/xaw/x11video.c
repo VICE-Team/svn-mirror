@@ -933,7 +933,8 @@ void video_canvas_refresh(video_canvas_t *canvas,
         log_debug("Attempt to draw outside canvas!\n"
                   "XI%i YI%i W%i H%i CW%i CH%i\n",
                   xi, yi, w, h, canvas->width, canvas->height);
-        exit(-1);
+	return;			/* this makes `-fullscreen -80col' work 
+				   XXX fix me some day */
     }
 
     video_canvas_render(canvas, (BYTE *)canvas->x_image->data,

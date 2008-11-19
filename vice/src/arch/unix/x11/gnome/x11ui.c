@@ -87,6 +87,7 @@
 #include "screenshot.h"
 #include "event.h"
 #include "uifliplist.h"
+#include "c128/c128.h"
 
 /* FIXME: We want these to be static.  */
 char last_attached_images[NUM_DRIVES][256]; /* FIXME MP */
@@ -129,8 +130,8 @@ static int tape_control_status = -1;
 
 static GtkWidget *tape_menu, *speed_menu;
 static GtkWidget *drive_menus[NUM_DRIVES];
-GtkWidget *status_bar;
 GtkWidget *video_ctrl_checkbox;
+GtkWidget *status_bar;		/* still needed for vidmode, remove me asap */
 static GtkWidget *video_ctrl_checkbox_label;
 static GtkWidget *event_rec_checkbox;
 static GtkWidget *event_rec_checkbox_label;
@@ -200,6 +201,7 @@ typedef struct {
     gchar *title;
     GtkWidget *shell;
     GtkWidget *topmenu;
+    GtkWidget *status_bar;
     GtkLabel *speed_label;
     GtkLabel *statustext;
     GtkAccelGroup *accel;
@@ -524,8 +526,7 @@ static gboolean speed_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 int ui_init_finish(void)
 {
     ui_log = log_open("X11");
-    
-    
+
     have_cbm_font = TRUE;
     fixed_font_desc = pango_font_description_from_string(fixedfontname);
     if (!fixed_font_desc)
@@ -538,7 +539,6 @@ int ui_init_finish(void)
     if (fullscreen_init() < 0)
 	return -1;
 #endif
-    
     return ui_menu_init();
 }
 
@@ -580,11 +580,12 @@ static void statusbar_setstatustext(const char *t)
 	gtk_label_set_text(app_shells[i].statustext, t);
 }
 
-void ui_create_status_bar(GtkWidget *pane)
+static GtkWidget *
+ui_create_status_bar(GtkWidget *pane)
 {
     /* Create the status bar on the bottom.  */
     GtkWidget *speed_label, *drive_box, *frame, *event_box, *pcb, *vcb, *tmp,
-              *pal_ctrl_checkbox;
+	*pal_ctrl_checkbox, *status_bar;
     int i;
     app_shell_type *as;
 
@@ -866,6 +867,7 @@ void ui_create_status_bar(GtkWidget *pane)
     /* finalize event-box */
     gdk_window_set_cursor (event_box->window, 
 			   gdk_cursor_new (GDK_HAND1)); 
+    return status_bar;
 }
 
 #ifdef USE_XF86_EXTENSIONS
@@ -993,7 +995,7 @@ static void build_screen_canvas_widget(video_canvas_t *c)
 int ui_open_canvas_window(video_canvas_t *c, const char *title,
 			  int w, int h, int no_autorepeat)
 {
-    GtkWidget *new_window, *topmenu, *panelcontainer;
+    GtkWidget *new_window, *topmenu, *panelcontainer, *sb;
     GtkAccelGroup* accel;
     GdkColor black = { 0, 0, 0, 255 };
     int i;
@@ -1042,7 +1044,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title,
     } else
         build_screen_canvas_widget(c);
 
-    ui_create_status_bar(panelcontainer);
+    sb = ui_create_status_bar(panelcontainer);
     if (! vsid_mode) {
         pal_ctrl_widget = build_pal_ctrl_widget(c);
         gtk_box_pack_end(GTK_BOX(panelcontainer), pal_ctrl_widget, FALSE, FALSE, 0);
@@ -1074,6 +1076,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title,
     app_shells[num_app_shells - 1].title = lib_stralloc(title);
     app_shells[num_app_shells - 1].topmenu = topmenu;
     app_shells[num_app_shells - 1].accel = accel;
+    app_shells[num_app_shells - 1].status_bar = sb;
 
     gtk_window_set_title(GTK_WINDOW(new_window),title);
 
@@ -1124,12 +1127,15 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title,
 /* Attach `w' as the left menu of all the current open windows.  */
 void ui_set_left_menu(ui_menu_entry_t *menu)
 {
+    int i;
+    
     static GtkAccelGroup *accel;
     if (accel)
 	g_object_unref(accel);
     
     accel = gtk_accel_group_new();
-    gtk_window_add_accel_group (GTK_WINDOW (app_shells[0].shell), accel);
+    for (i = 0; i < num_app_shells; i++)
+	gtk_window_add_accel_group (GTK_WINDOW (app_shells[i].shell), accel);
 
     if (left_menu != NULL)
         gtk_widget_destroy(left_menu);
@@ -1140,12 +1146,15 @@ void ui_set_left_menu(ui_menu_entry_t *menu)
 /* Attach `w' as the right menu of all the current open windows.  */
 void ui_set_right_menu(ui_menu_entry_t *menu)
 {
+    int i;
+    
     static GtkAccelGroup *accel;
     if (accel)
 	g_object_unref(accel);
     
     accel = gtk_accel_group_new();
-    gtk_window_add_accel_group (GTK_WINDOW (app_shells[0].shell), accel);
+    for (i = 0; i < num_app_shells; i++)
+	gtk_window_add_accel_group (GTK_WINDOW (app_shells[i].shell), accel);
 
     if (right_menu != NULL)
         gtk_widget_destroy(right_menu);
@@ -1628,16 +1637,26 @@ void ui_dispatch_events(void)
 void
 x11ui_fullscreen(int i)
 {
+    GtkWidget *s;
+    int key = 0;
+	
+    /* special case of x128, where we have 2 shells is handled
+       by checking the related resource */
+    if (strncmp(machine_name, "C128", 4) == 0)
+	resources_get_int("40/80ColumnKey", &key);
+    s = _ui_top_level = gtk_widget_get_toplevel(app_shells[key].shell);
+    
     if (i) {
         /* window managers (bug detected on compiz 0.7.4) may ignore
          * fullscreen requests for windows not visible inside the screen.
          * This can happen especially when using XRandR to resize the desktop.
          * This tries to workaround that problem by ensuring^Whinting that the
          * window should be placed to the top-left corner. GTK/X sucks. */
-        gtk_window_move(GTK_WINDOW(_ui_top_level), 0, 0);
-	gtk_window_fullscreen(GTK_WINDOW(_ui_top_level));
+        gtk_window_move(GTK_WINDOW(s), 0, 0);
+	gtk_window_fullscreen(GTK_WINDOW(s));
+	gtk_window_present(GTK_WINDOW(s));
     } else
-	gtk_window_unfullscreen(GTK_WINDOW(_ui_top_level));
+	gtk_window_unfullscreen(GTK_WINDOW(s));
 }
 
 int
@@ -1647,17 +1666,17 @@ ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable)
     
     if (enable)
     {
-	gtk_widget_show(status_bar);
         for (j = 0; j < num_app_shells; j++)
         {
+	    gtk_widget_show(app_shells[j].status_bar);
 	    gtk_widget_show(app_shells[j].topmenu);
         }
     }
     else
     {
-	gtk_widget_hide(status_bar);
         for (j = 0; j < num_app_shells; j++)
         {
+	    gtk_widget_hide(app_shells[j].status_bar);
 	    gtk_widget_hide(app_shells[j].topmenu);
         }
     }
@@ -2385,6 +2404,8 @@ void ui_popup(GtkWidget *w, const char *title, gboolean wait_popdown)
 
     gtk_window_set_transient_for(GTK_WINDOW(w),GTK_WINDOW(_ui_top_level));
     gtk_widget_show(w);
+    gtk_window_present(GTK_WINDOW(w));
+
     gdk_window_set_decorations (w->window, GDK_DECOR_ALL | GDK_DECOR_MENU);
     gdk_window_set_functions (w->window, GDK_FUNC_ALL | GDK_FUNC_RESIZE);
     

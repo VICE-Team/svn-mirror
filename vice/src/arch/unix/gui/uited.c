@@ -38,7 +38,7 @@
 #include "openGL_sync.h"
 
 #include "uifullscreen-menu.h"
-UI_FULLSCREEN(TED)
+UI_FULLSCREEN(TED, KEYSYM_d)
 
 /*
 UI_MENU_DEFINE_STRING_RADIO(TEDPaletteFile)

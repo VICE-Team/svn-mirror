@@ -32,6 +32,7 @@
 
 #include "lib.h"
 #include "resources.h"
+#include "log.h"
 #include "ui.h"
 #include "util.h"
 
@@ -44,6 +45,10 @@ struct ui_resources_s {
     int depth;
     int window_width;
     int window_height;
+#if defined (USE_XF86_EXTENSIONS) && \
+    (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
+    int fs_enabled_pending;
+#endif
 };
 typedef struct ui_resources_s ui_resources_t;
 
@@ -120,6 +125,18 @@ static const resource_string_t resources_string[] = {
     { NULL }
 };
 
+#if defined (USE_XF86_EXTENSIONS) && \
+    (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
+static int fullscreen_set_fs(int val, void *param)
+{
+    log_message(LOG_DEFAULT, 
+		_("%s fullscreen from commandline."), 
+		val ? _("Enabling") : _("Disabling"));
+    ui_resources.fs_enabled_pending = val;
+    return 0;
+}
+#endif
+
 static const resource_int_t resources_int[] = {
     { "PrivateColormap", 0, RES_EVENT_NO, NULL,
       &ui_resources.use_private_colormap, set_use_private_colormap, NULL },
@@ -133,6 +150,11 @@ static const resource_int_t resources_int[] = {
       &ui_resources.window_width, set_width, NULL },
     { "WindowHeight", 0, RES_EVENT_NO, NULL,
       &ui_resources.window_height, set_height, NULL },
+#if defined (USE_XF86_EXTENSIONS) && \
+    (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
+    { "UseFullscreen", 0, RES_EVENT_NO, NULL,
+      &ui_resources.fs_enabled_pending, fullscreen_set_fs, NULL },
+#endif
     { NULL }
 };
 

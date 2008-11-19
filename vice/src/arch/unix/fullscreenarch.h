@@ -53,6 +53,5 @@ extern void fullscreen_menu_shutdown(struct ui_menu_entry_s *menu);
 extern int fullscreen_init(void);
 extern int fullscreen_init_alloc_hooks(struct video_canvas_s *canvas);
 extern void fullscreen_shutdown_alloc_hooks(struct video_canvas_s *canvas);
-
 #endif
 

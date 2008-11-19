@@ -32,6 +32,7 @@
 
 #include "fullscreen.h"
 #include "fullscreenarch.h"
+#include "resources.h"
 #include "lib.h"
 #include "video.h"
 #include "videoarch.h"
@@ -125,13 +126,13 @@ void fullscreen_menu_shutdown(struct ui_menu_entry_s *menu)
 
 int fullscreen_init(void)
 {
-#ifdef USE_XF86_VIDMODE_EXT
-    if (vidmode_init() < 0)
-        return -1;
-#endif
 #ifdef HAVE_XRANDR
     if (xrandr_init() < 0)
 	return -1;
+#endif
+#ifdef USE_XF86_VIDMODE_EXT
+    if (vidmode_init() < 0)
+        return -1;
 #endif
     return 0;
 }
@@ -168,6 +169,7 @@ static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
             return -1;
 #endif
     fullscreen_is_enabled = canvas->fullscreenconfig->enable = enable;
+    resources_set_int("UseFullscreen",  enable);
     return 0;
 }
 
@@ -229,16 +231,6 @@ void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
 {
     cap_fullscreen->device_num = 0;
 
-#ifdef USE_XF86_VIDMODE_EXT
-    cap_fullscreen->device_name[cap_fullscreen->device_num] = STR_VIDMODE;
-    cap_fullscreen->enable = fullscreen_enable;
-    cap_fullscreen->statusbar = fullscreen_statusbar;
-    cap_fullscreen->double_size = fullscreen_double_size;
-    cap_fullscreen->double_scan = fullscreen_double_scan;
-    cap_fullscreen->device = fullscreen_device;
-    cap_fullscreen->mode[cap_fullscreen->device_num] = fullscreen_mode_vidmode;
-    cap_fullscreen->device_num += 1;
-#endif
 #ifdef HAVE_XRANDR
     cap_fullscreen->device_name[cap_fullscreen->device_num] = STR_XRANDR;
     cap_fullscreen->enable = fullscreen_enable;
@@ -247,6 +239,16 @@ void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
     cap_fullscreen->double_scan = fullscreen_double_scan;
     cap_fullscreen->device = fullscreen_device;
     cap_fullscreen->mode[cap_fullscreen->device_num] = fullscreen_mode_xrandr;
+    cap_fullscreen->device_num += 1;
+#endif
+#ifdef USE_XF86_VIDMODE_EXT
+    cap_fullscreen->device_name[cap_fullscreen->device_num] = STR_VIDMODE;
+    cap_fullscreen->enable = fullscreen_enable;
+    cap_fullscreen->statusbar = fullscreen_statusbar;
+    cap_fullscreen->double_size = fullscreen_double_size;
+    cap_fullscreen->double_scan = fullscreen_double_scan;
+    cap_fullscreen->device = fullscreen_device;
+    cap_fullscreen->mode[cap_fullscreen->device_num] = fullscreen_mode_vidmode;
     cap_fullscreen->device_num += 1;
 #endif
 }

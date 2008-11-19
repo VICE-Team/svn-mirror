@@ -37,7 +37,7 @@
 #include "openGL_sync.h"
 
 #include "uifullscreen-menu.h"
-UI_FULLSCREEN(CRTC)
+UI_FULLSCREEN(CRTC, KEYSYM_f)
 
 UI_MENU_DEFINE_STRING_RADIO(CrtcPaletteFile)
 

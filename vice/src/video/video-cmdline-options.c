@@ -162,52 +162,16 @@ static cmdline_option_t cmdline_options_chip_palette[] =
 
 static const char *cname_chip_fullscreen[] =
 {
-   "-", "full", "Fullscreen",
-   "+", "full", "Fullscreen",
    "-", "fulldevice", "FullscreenDevice",
-   "-", "fulldsize", "FullscreenDoubleSize",
-   "+", "fulldsize", "FullscreenDoubleSize",
-   "-", "fulldscan", "FullscreenDoubleScan",
-   "+", "fulldscan", "FullscreenDoubleScan",
    NULL
 };
 
 static cmdline_option_t cmdline_options_chip_fullscreen[] =
 {
-    { NULL, SET_RESOURCE, 0,
-      NULL, NULL, NULL, (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_FULLSCREEN_MODE,
-      NULL, NULL },
-    { NULL, SET_RESOURCE, 0,
-      NULL, NULL, NULL, (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_FULLSCREEN_MODE,
-      NULL, NULL },
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_DEVICE, IDCLS_SELECT_FULLSCREEN_DEVICE,
-      NULL, NULL },
-    { NULL, SET_RESOURCE, 0,
-      NULL, NULL, NULL, (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN,
-      NULL, NULL },
-    { NULL, SET_RESOURCE, 0,
-      NULL, NULL, NULL, (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN,
-      NULL, NULL },
-    { NULL, SET_RESOURCE, 0,
-      NULL, NULL, NULL, (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN,
-      NULL, NULL },
-    { NULL, SET_RESOURCE, 0,
-      NULL, NULL, NULL, (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN,
       NULL, NULL },
     { NULL }
 };

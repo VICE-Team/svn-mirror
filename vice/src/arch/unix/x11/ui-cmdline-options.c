@@ -71,17 +71,18 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, N_("Never save settings (resources) on exit") },
-#ifdef USE_XF86_EXTENSIONS
+#if defined (USE_XF86_EXTENSIONS) && \
+    (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
     { "-fullscreen", SET_RESOURCE, 0,
       NULL, NULL, "UseFullscreen", (void *)1,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, N_("Enable fullscreen") },
+      NULL, N_("Enable fullscreen (default Chip)") },
     { "+fullscreen", SET_RESOURCE, 0,
       NULL, NULL, "UseFullscreen", (void *)0,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, N_("Disable fullscreen") },
+      NULL, N_("Disable fullscreen (default Chip)") },
 #endif
     { "-displaydepth", SET_RESOURCE, 1,
       NULL, NULL, "DisplayDepth", NULL,
