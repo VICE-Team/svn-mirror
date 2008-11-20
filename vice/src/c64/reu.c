@@ -7,7 +7,10 @@
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
  *  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
- * 
+ *
+ * Additions upon extensive REU hardware testing:
+ *  Wolfgang Moser <http://d81.de>
+ *
  * Based on old code by
  *  Jouko Valta <jopi@stekt.oulu.fi>
  *  Richard Hable <K3027E7@edvz.uni-linz.ac.at>
@@ -955,13 +958,16 @@ static void reu_dma_update_regs(WORD host_addr, unsigned int reu_addr,
         DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "Autoload.") );
     }
 
-    if ((rec.int_mask_reg 
-            & (REU_REG_RW_INTERRUPT_END_OF_BLOCK_ENABLED | REU_REG_RW_INTERRUPT_INTERRUPTS_ENABLED)) 
-           == (REU_REG_RW_INTERRUPT_END_OF_BLOCK_ENABLED | REU_REG_RW_INTERRUPT_INTERRUPTS_ENABLED))
-    {
-        DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "Interrupt pending") );
-        rec.status |= REU_REG_R_STATUS_INTERRUPT_PENDING;
-        maincpu_set_irq(reu_int_num, 1);
+    if ((new_status_or_mask & REU_REG_R_STATUS_END_OF_BLOCK) == REU_REG_R_STATUS_END_OF_BLOCK) {
+        // only check for interrupt, when the transfer ended correctly (no verify error)
+        if ((rec.int_mask_reg 
+               & (REU_REG_RW_INTERRUPT_END_OF_BLOCK_ENABLED | REU_REG_RW_INTERRUPT_INTERRUPTS_ENABLED)) 
+              == (REU_REG_RW_INTERRUPT_END_OF_BLOCK_ENABLED | REU_REG_RW_INTERRUPT_INTERRUPTS_ENABLED))
+        {
+            DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "Interrupt pending") );
+            rec.status |= REU_REG_R_STATUS_INTERRUPT_PENDING;
+            maincpu_set_irq(reu_int_num, 1);
+        }
     }
 
     if (( new_status_or_mask & REU_REG_R_STATUS_VERIFY_ERROR) == REU_REG_R_STATUS_VERIFY_ERROR) {
@@ -1175,12 +1181,13 @@ static void reu_dma_compare(WORD host_addr, unsigned int reu_addr,
             DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "VERIFY ERROR") );
             new_status_or_mask |= REU_REG_R_STATUS_VERIFY_ERROR;
 
-            /* weird behaviour of the 17xx: If the last or next-to-last byte
-             * failed, the "end of block transfer" bit is set, too (cf. below),
-             * and the reported length is 1
+            /* weird behaviour no. 1 of the 17xx:
+             * failed verify operations consume one extra cycle, except if
+             * the failed comparison happened on the last byte of the buffer.
              */
-            if (len <= 1) {
-                len = 1;
+            if( len >= 1 ) {
+                maincpu_clk++;
+                machine_handle_pending_alarms(0);
             }
             break;
         }
@@ -1189,15 +1196,30 @@ static void reu_dma_compare(WORD host_addr, unsigned int reu_addr,
     /* the length was decremented once too much, correct this */
     if (len == 0) {
         ++len;
-    }
 
-    assert( len >= 1 );
-
-    if (len == 1) {
+        /* weird behaviour no. 2 of the 17xx:
+         * If the last byte failed, the "end of block transfer" bit is set, too
+         */
         /* all bytes are equal, mark End Of Block */
         new_status_or_mask |= REU_REG_R_STATUS_END_OF_BLOCK;
     }
+    else if (len == 1) {
+        /* weird behaviour no. 3 of the 17xx:
+         * If the next-to-last byte failed, the "end of block transfer" bit is
+         * set, but only if the last byte compares equal
+         */
 
+        value_from_reu = read_from_reu(reu_addr);
+        value_from_c64 = mem_read(host_addr);
+        DEBUG_LOG( DEBUG_LEVEL_TRANSFER_LOW_LEVEL, (reu_log,
+                    "Comparing bytes after verify error: %x from main $%04X with %x from ext $%05X.",
+                    value_from_c64, host_addr, value_from_reu, reu_addr) );
+        if (value_from_reu == value_from_c64) {
+            new_status_or_mask |= REU_REG_R_STATUS_END_OF_BLOCK;
+        }
+    }
+
+    assert( len >= 1 );
     reu_dma_update_regs(host_addr, reu_addr, len, new_status_or_mask);
 }
 
