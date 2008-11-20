@@ -44,6 +44,7 @@
 #include "generic.h"
 #include "ide64.h"
 #include "interrupt.h"
+#include "isepic.h"
 #include "lib.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -456,6 +457,11 @@ void cartridge_trigger_freeze(void)
             alarm_set(cartridge_alarm, maincpu_clk + 3);
         }
         break;
+    }
+    if (isepic_enabled && isepic_switch)
+    {
+        maincpu_set_nmi(cartridge_int_num, IK_NMI);
+        alarm_set(cartridge_alarm, maincpu_clk + 3);
     }
 }
 

@@ -69,6 +69,9 @@ ui_menu_toggle  c64_ui_menu_toggles[]={
     { "REU", MENU_TOGGLE_REU },
     { "GEORAM", MENU_TOGGLE_GEORAM },
     { "RAMCART", MENU_TOGGLE_RAMCART },
+    { "DQBB", MENU_TOGGLE_DQBB },
+    { "Isepic", MENU_TOGGLE_ISEPIC },
+    { "IsepicSwitch", MENU_TOGGLE_ISEPIC_SWITCH },
     { "PLUS60K", MENU_TOGGLE_PLUS60K },
     { "PLUS256K", MENU_TOGGLE_PLUS256K },
     { "256K", MENU_TOGGLE_C64_256K },
@@ -326,6 +329,9 @@ void c64_ui_specific(void *msg, void *window)
             break;
         case MENU_RAMCART_FILE:
             ui_select_file(windowlist[0]->savepanel,RAMCART_FILE,(void*)0);
+            break;
+        case MENU_DQBB_FILE:
+            ui_select_file(windowlist[0]->savepanel,DQBB_FILE,(void*)0);
             break;
         case MENU_PLUS60K_FILE:
             ui_select_file(windowlist[0]->savepanel,PLUS60K_FILE,(void*)0);

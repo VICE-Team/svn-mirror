@@ -57,6 +57,7 @@
 #define IO_SOURCE_ACTION_REPLAY4     25
 #define IO_SOURCE_STARDOS            26
 #define IO_SOURCE_MIDI               27
+#define IO_SOURCE_ISEPIC             28
 
 #define IO_DETACH_CART       0
 #define IO_DETACH_RESOURCE   1

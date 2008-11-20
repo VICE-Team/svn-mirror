@@ -177,6 +177,7 @@ void c64meminit(unsigned int base)
             for (i = 0x80; i <= 0x9f; i++) {
                 mem_read_tab_set(base + j, i, roml_read);
                 mem_read_base_set(base + j, i, NULL);
+                mem_set_write_hook(base + j, i, roml_no_ultimax_store);
             }
         }
     }
@@ -188,6 +189,10 @@ void c64meminit(unsigned int base)
                 i <= c64meminit_romh_mapping[j] + 0x1f; i++) {
                 mem_read_tab_set(base + j, i, romh_read);
                 mem_read_base_set(base + j, i, NULL);
+                if (i >= 0xa0 && i <= 0xbf)
+                {
+                    mem_set_write_hook(base + j, i, romh_no_ultimax_store);
+                }
             }
         }
     }

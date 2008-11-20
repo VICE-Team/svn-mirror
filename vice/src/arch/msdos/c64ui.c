@@ -44,7 +44,9 @@
 #include "uic64_256k.h"
 #include "uic64cart.h"
 #include "uidigimax.h"
+#include "uidqbb.h"
 #include "uigeoram.h"
+#include "uiisepic.h"
 #include "uimmc64.h"
 #include "uiplus256k.h"
 #include "uiplus60k.h"
@@ -374,6 +376,10 @@ int c64ui_init(void)
     uigeoram_init(ui_ioextensions_submenu);
 
     uiramcart_init(ui_ioextensions_submenu);
+
+    uidqbb_init(ui_ioextensions_submenu);
+
+    uiisepic_init(ui_ioextensions_submenu);
 
     uiplus60k_init(ui_ioextensions_submenu);
 

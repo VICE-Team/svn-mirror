@@ -473,6 +473,10 @@ BEGIN
       END
 #endif // __X64__ || __X128__
 #ifdef __X64__
+      MENUITEM "~Double Quick Brown Box", IDM_DQBB,       MIS_TEXT
+      MENUITEM "DQBB Filename",           IDM_DQBBFILE,   MIS_TEXT
+      MENUITEM "~Isepic cartridge", IDM_ISEPIC,       MIS_TEXT
+      MENUITEM "Isepic ~Switch",    IDM_ISEPIC_SWITCH,   MIS_TEXT
       MENUITEM "PLUS~60K - Memory Expansion", IDM_PLUS60K,       MIS_TEXT
       SUBMENU  "PLUS60K Base ~Address",        IDM_PLUS60KBASE,   MIS_TEXT
       BEGIN

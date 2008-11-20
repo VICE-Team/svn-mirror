@@ -46,6 +46,7 @@
 #include "cart/c64cartmem.h"
 #include "cartridge.h"
 #include "clkguard.h"
+#include "dqbb.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -396,6 +397,16 @@ BYTE REGPARM1 mem_read_without_ultimax(WORD addr)
 
     return read_tab_ptr[addr >> 8](addr);
 }
+
+void REGPARM2 mem_store_without_romlh(WORD addr, BYTE value)
+{
+    store_func_ptr_t *write_tab_ptr;
+
+    write_tab_ptr = mem_write_tab[vbank][0];
+
+    write_tab_ptr[addr >> 8](addr, value);
+}
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -757,6 +768,7 @@ void mem_initialize_memory(void)
     plus256k_init_config();
     c64_256k_init_config();
     mmc64_init_config();
+    dqbb_init_config();
 }
 
 /* ------------------------------------------------------------------------- */

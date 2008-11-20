@@ -41,9 +41,11 @@
 #include "uic64_256k.h"
 #include "uic64cart.h"
 #include "uidigimax.h"
+#include "uidqbb.h"
 #include "uidrivec64.h"
 #include "uigeoram.h"
 #include "uiide64.h"
+#include "uiisepic.h"
 #include "uikeyboard.h"
 #include "uimidi.h"
 #include "uimmc64.h"
@@ -254,6 +256,8 @@ ui_menu_translation_table_t c64ui_menu_translation_table[] = {
     { IDM_REU_SETTINGS, IDS_MI_REU_SETTINGS },
     { IDM_GEORAM_SETTINGS, IDS_MI_GEORAM_SETTINGS },
     { IDM_RAMCART_SETTINGS, IDS_MI_RAMCART_SETTINGS },
+    { IDM_DQBB_SETTINGS, IDS_MI_DQBB_SETTINGS },
+    { IDM_ISEPIC_SETTINGS, IDS_MI_ISEPIC_SETTINGS },
     { IDM_MIDI_SETTINGS, IDS_MI_MIDI_SETTINGS },
     { IDM_MMC64_SETTINGS, IDS_MI_MMC64_SETTINGS },
     { IDM_DIGIMAX_SETTINGS, IDS_MI_DIGIMAX_SETTINGS },
@@ -334,6 +338,12 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_RAMCART_SETTINGS:
         ui_ramcart_settings_dialog(hwnd);
+        break;
+      case IDM_DQBB_SETTINGS:
+        ui_dqbb_settings_dialog(hwnd);
+        break;
+      case IDM_ISEPIC_SETTINGS:
+        ui_isepic_settings_dialog(hwnd);
         break;
       case IDM_PLUS60K_SETTINGS:
         ui_plus60k_settings_dialog(hwnd);

@@ -577,6 +577,18 @@ BMenuBar *menu_create(int machine_class) {
 				new BMessage(MENU_DIGIMAX_BASE_DFE0)));
 
 			if (machine_class == VICE_MACHINE_C64) {
+				menu->AddItem(submenu = new BMenu("Double Quick Brown Box Options"));
+				submenu->AddItem(new BMenuItem("DQBB emulation",
+					new BMessage(MENU_TOGGLE_DWBB)));
+				submenu->AddItem(new BMenuItem("DQBB File",
+					new BMessage(MENU_DQBB_FILE)));
+
+				menu->AddItem(submenu = new BMenu("Isepic Options"));
+				submenu->AddItem(new BMenuItem("Isepic emulation",
+					new BMessage(MENU_TOGGLE_ISEPIC)));
+				submenu->AddItem(new BMenuItem("Isepic switch",
+					new BMessage(MENU_TOGGLE_ISEPIC_SWITCH)));
+
 				menu->AddItem(submenu = new BMenu("PLUS60K Options"));
 				submenu->AddItem(new BMenuItem("PLUS60K emulation",
 					new BMessage(MENU_TOGGLE_PLUS60K)));

@@ -70,6 +70,7 @@ libarch_a_SOURCES = \
 	rescbm2.rc \
 	rescommon.h \
 	resdigimax.rc \
+	resqbb.rc \
 	resdrivec128.rc \
 	resdrivec64.rc \
 	resdrivepetcbm2.rc \
@@ -77,6 +78,7 @@ libarch_a_SOURCES = \
 	resdrivevic20.rc \
 	resgeoram.rc \
 	reside64.rc \
+	resisepic.rc \
 	resmidi.rc \
 	resmmc64.rc \
 	resmouse.rc \
@@ -127,6 +129,8 @@ libarch_a_SOURCES = \
 	uidatasette.h \
 	uidigimax.c \
 	uidigimax.h \
+	uidqbb.c \
+	uidqbb.h \
 	uidrivec64.c \
 	uidrivec64.h \
 	uidrivec128.c \
@@ -147,6 +151,8 @@ libarch_a_SOURCES = \
 	uihelp.h \
 	uiide64.c \
 	uiide64.h \
+	uiisepic.c \
+	uiisepic.h \
 	uijoystick.c \
 	uijoystick.h \
 	uikeyboard.c \
@@ -412,7 +418,8 @@ resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resmmc64.rc $(srcdir)/resplus256k.rc $(srcdir)/resplus60k.rc \
 	$(srcdir)/resc64_256k.rc $(srcdir)/reside64.rc \
 	$(srcdir)/resdrivec64.rc $(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc \
-	$(srcdir)/restfe.rc $(srcdir)/resmidi.rc $(top_srcdir)/src/debug.h
+	$(srcdir)/restfe.rc $(srcdir)/resmidi.rc $(srcdir)/resdqbb.rc \
+	$(srcdir)/resisepic.rc $(top_srcdir)/src/debug.h
 	cat >resc64cat.rc $(srcdir)/resc64.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivec64.rc \
 	$(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc \
@@ -420,7 +427,7 @@ resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resplus60k.rc $(srcdir)/resc64_256k.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
 	$(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc $(srcdir)/restfe.rc \
-	$(srcdir)/resmidi.rc
+	$(srcdir)/resmidi.rc $(srcdir)/resdqbb.rc $(srcdir)/resisepic.rc
 	$(WRC) -i resc64cat.rc -o resc64.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32  \

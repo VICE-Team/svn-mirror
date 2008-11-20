@@ -81,10 +81,14 @@ libarch_a_SOURCES = \
 	uicmdline.c \
 	uidigimax.c \
 	uidigimax.h \
+	uidqbb.c \
+	uidqbb.h \
 	uidrive.c \
 	uidrive.h \
 	uigeoram.c \
 	uigeoram.h \
+	uiisepic.c \
+	uiisepic.h \
 	uijoystick.c \
 	uijoystick.h \
 	uimon.c \

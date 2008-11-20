@@ -56,12 +56,14 @@
 #include "datasette.h"
 #include "debug.h"
 #include "digimax.h"
+#include "dqbb.h"
 #include "drive-cmdline-options.h"
 #include "drive-resources.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "georam.h"
 #include "imagecontents.h"
+#include "isepic.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"
@@ -252,6 +254,8 @@ int machine_resources_init(void)
         || reu_resources_init() < 0
         || georam_resources_init() < 0
         || ramcart_resources_init() < 0
+        || isepic_resources_init() < 0
+        || dqbb_resources_init() < 0
         || plus60k_resources_init() < 0
         || plus256k_resources_init() < 0
         || c64_256k_resources_init() < 0
@@ -301,6 +305,7 @@ void machine_resources_shutdown(void)
     plus256k_resources_shutdown();
     c64_256k_resources_shutdown();
     mmc64_resources_shutdown();
+    dqbb_resources_shutdown();
     sound_resources_shutdown();
     rs232drv_resources_shutdown();
     printer_resources_shutdown();
@@ -331,6 +336,8 @@ int machine_cmdline_options_init(void)
         || reu_cmdline_options_init() < 0
         || georam_cmdline_options_init() < 0
         || ramcart_cmdline_options_init() < 0
+        || isepic_cmdline_options_init() < 0
+        || dqbb_cmdline_options_init() < 0
         || plus60k_cmdline_options_init() < 0
         || plus256k_cmdline_options_init() < 0
         || c64_256k_cmdline_options_init() < 0
@@ -584,6 +591,7 @@ void machine_specific_reset(void)
 #ifdef HAVE_MIDI
     midi_reset();
 #endif
+    dqbb_reset();
 }
 
 void machine_specific_powerup(void)
@@ -609,6 +617,7 @@ void machine_specific_shutdown(void)
     reu_shutdown();
     georam_shutdown();
     ramcart_shutdown();
+    dqbb_shutdown();
     plus60k_shutdown();
     plus256k_shutdown();
     c64_256k_shutdown();

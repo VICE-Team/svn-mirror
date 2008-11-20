@@ -123,6 +123,8 @@ libarch_a_SOURCES = \
 	mui/uidatasette.h \
 	mui/uidigimax.c \
 	mui/uidigimax.h \
+	mui/uidqbb.c \
+	mui/uidqbb.h \
 	mui/uidrivec128.c \
 	mui/uidrivec128.h \
 	mui/uidrivec64vic20.c \
@@ -137,6 +139,8 @@ libarch_a_SOURCES = \
 	mui/uigeoram.h \
 	mui/uiide64.c \
 	mui/uiide64.h \
+	mui/uiisepic.c \
+	mui/uiisepic.h \
 	mui/uijoystick.c \
 	mui/uijoystick.h \
 	mui/uijoystickll.c \

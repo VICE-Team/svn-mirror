@@ -1560,6 +1560,24 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDMS_RAMCART_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_RAMCART_SETTINGS_SV, "RAMCART-inställningar..."},
 
+/* en */ {IDMS_DQBB_SETTINGS,    "Double Quick Brown Box settings..."},
+/* de */ {IDMS_DQBB_SETTINGS_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_DQBB_SETTINGS_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_DQBB_SETTINGS_HU, ""},  /* fuzzy */
+/* it */ {IDMS_DQBB_SETTINGS_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_DQBB_SETTINGS_NL, "Double Quick Brown Box instellingen..."},
+/* pl */ {IDMS_DQBB_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_DQBB_SETTINGS_SV, ""},  /* fuzzy */
+
+/* en */ {IDMS_ISEPIC_SETTINGS,    "Isepic settings..."},
+/* de */ {IDMS_ISEPIC_SETTINGS_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_ISEPIC_SETTINGS_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_ISEPIC_SETTINGS_HU, ""},  /* fuzzy */
+/* it */ {IDMS_ISEPIC_SETTINGS_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_ISEPIC_SETTINGS_NL, "Isepic instellingen..."},
+/* pl */ {IDMS_ISEPIC_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_ISEPIC_SETTINGS_SV, ""},  /* fuzzy */
+
 /* en */ {IDMS_PLUS60K_SETTINGS,    "PLUS60K settings..."},
 /* de */ {IDMS_PLUS60K_SETTINGS_DE, "PLUS60K Einstellungen..."},
 /* fr */ {IDMS_PLUS60K_SETTINGS_FR, "Paramètres PLUS60K..."},
@@ -3255,6 +3273,42 @@ intl_translate_t intl_string_table[] = {
 /* nl */ {IDS_GEORAM_SETTINGS_NL, "GEORAM-instellingen"},
 /* pl */ {IDS_GEORAM_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDS_GEORAM_SETTINGS_SV, "GEORAM-inställningar"},
+
+/* en */ {IDS_GEORAM_FILENAME,    "DQBB file"},
+/* de */ {IDS_GEORAM_FILENAME_DE, ""},  /* fuzzy */
+/* fr */ {IDS_GEORAM_FILENAME_FR, ""},  /* fuzzy */
+/* hu */ {IDS_GEORAM_FILENAME_HU, ""},  /* fuzzy */
+/* it */ {IDS_GEORAM_FILENAME_IT, ""},  /* fuzzy */
+/* nl */ {IDS_GEORAM_FILENAME_NL, "DQBB bestand"},
+/* pl */ {IDS_GEORAM_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDS_GEORAM_FILENAME_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_GEORAM_FILENAME_SELECT,    "Select file for DQBB"},
+/* de */ {IDS_GEORAM_FILENAME_SELECT_DE, ""},  /* fuzzy */
+/* fr */ {IDS_GEORAM_FILENAME_SELECT_FR, ""},  /* fuzzy */
+/* hu */ {IDS_GEORAM_FILENAME_SELECT_HU, ""},  /* fuzzy */
+/* it */ {IDS_GEORAM_FILENAME_SELECT_IT, ""},  /* fuzzy */
+/* nl */ {IDS_GEORAM_FILENAME_SELECT_NL, "Selecteer bestand voor DQBB"},
+/* pl */ {IDS_GEORAM_FILENAME_SELECT_PL, ""},  /* fuzzy */
+/* sv */ {IDS_GEORAM_FILENAME_SELECT_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_DQBB_SETTINGS,    "DQBB Settings"},
+/* de */ {IDS_DQBB_SETTINGS_DE, ""},  /* fuzzy */
+/* fr */ {IDS_DQBB_SETTINGS_FR, ""},  /* fuzzy */
+/* hu */ {IDS_DQBB_SETTINGS_HU, ""},  /* fuzzy */
+/* it */ {IDS_DQBB_SETTINGS_IT, ""},  /* fuzzy */
+/* nl */ {IDS_DQBB_SETTINGS_NL, "DQBB instellingen"},
+/* pl */ {IDS_DQBB_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_DQBB_SETTINGS_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_ISEPIC_SETTINGS,    "Isepic Settings"},
+/* de */ {IDS_ISEPIC_SETTINGS_DE, ""},  /* fuzzy */
+/* fr */ {IDS_ISEPIC_SETTINGS_FR, ""},  /* fuzzy */
+/* hu */ {IDS_ISEPIC_SETTINGS_HU, ""},  /* fuzzy */
+/* it */ {IDS_ISEPIC_SETTINGS_IT, ""},  /* fuzzy */
+/* nl */ {IDS_ISEPIC_SETTINGS_NL, "Isepic instellingen"},
+/* pl */ {IDS_ISEPIC_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_ISEPIC_SETTINGS_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_JOYSTICK_IN_PORT_1,    "Joystick in port #1"},
 /* de */ {IDS_JOYSTICK_IN_PORT_1_DE, "Joystick in Port #1"},

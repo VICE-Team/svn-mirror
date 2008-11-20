@@ -42,11 +42,13 @@
 #include "uicommands.h"
 #include "uidatasette.h"
 #include "uidigimax.h"
+#include "uidqbb.h"
 #include "uidrive.h"
 #include "uidrivec64.h"
 #include "uidrivec64vic20.h"
 #include "uigeoram.h"
 #include "uiide64.h"
+#include "uiisepic.h"
 #include "uijoystick2.h"
 #include "uikeyboard.h"
 #include "uimenu.h"
@@ -274,6 +276,10 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, georam_submenu },
     { N_("RAM Expansion Cart"),
       NULL, NULL, ramcart_submenu },
+    { N_("Double Quick Brown Box cartridge"),
+      NULL, NULL, dqbb_submenu },
+    { N_("Isepic cartridge"),
+      NULL, NULL, isepic_submenu },
     { N_("PLUS60K RAM Expansion"),
       NULL, NULL, plus60k_submenu },
     { N_("PLUS256K RAM Expansion"),

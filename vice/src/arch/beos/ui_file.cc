@@ -309,6 +309,8 @@ void ui_select_file(ViceFilePanel *filepanel,
 		sprintf(title,"Select GEORAM file");
 	if (filetype == RAMCART_FILE)
 		sprintf(title,"Select RAMCART file");
+	if (filetype == DQBB_FILE)
+		sprintf(title,"Select DQBB file");
 	if (filetype == PLUS60K_FILE)
 		sprintf(title,"Select +60K file");
 	if (filetype == PLUS256K_FILE)
@@ -463,6 +465,8 @@ void ui_select_file_action(BMessage *msg) {
 			resources_set_string("GEORAMfilename", fullpath);
       } else if (last_filetype[1] == RAMCART_FILE) {
 			resources_set_string("RAMCARTfilename", fullpath);
+      } else if (last_filetype[1] == DQBB_FILE) {
+			resources_set_string("DQBBfilename", fullpath);
       } else if (last_filetype[1] == PLUS60K_FILE) {
 			resources_set_string("PLUS60Kfilename", fullpath);
       } else if (last_filetype[1] == PLUS256K_FILE) {

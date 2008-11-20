@@ -255,6 +255,26 @@ static int intl_table[][countof(language_table)] = {
 /* pl */  IDD_GEORAM_SETTINGS_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_GEORAM_SETTINGS_DIALOG_SV},   /* size */
 
+/* resisepic.rc */
+/* en */ {IDD_ISEPIC_SETTINGS_DIALOG,
+/* de */  IDD_ISEPIC_SETTINGS_DIALOG_DE,    /* size */
+/* fr */  IDD_ISEPIC_SETTINGS_DIALOG_FR,    /* size */
+/* hu */  IDD_ISEPIC_SETTINGS_DIALOG_HU,    /* size */
+/* it */  IDD_ISEPIC_SETTINGS_DIALOG_IT,    /* size */
+/* nl */  IDD_ISEPIC_SETTINGS_DIALOG_NL,
+/* pl */  IDD_ISEPIC_SETTINGS_DIALOG_PL,    /* fuzzy, size */
+/* sv */  IDD_ISEPIC_SETTINGS_DIALOG_SV},   /* size */
+
+/* resdqbb.rc */
+/* en */ {IDD_DQBB_SETTINGS_DIALOG,
+/* de */  IDD_DQBB_SETTINGS_DIALOG_DE,    /* size */
+/* fr */  IDD_DQBB_SETTINGS_DIALOG_FR,    /* size */
+/* hu */  IDD_DQBB_SETTINGS_DIALOG_HU,    /* size */
+/* it */  IDD_DQBB_SETTINGS_DIALOG_IT,    /* size */
+/* nl */  IDD_DQBB_SETTINGS_DIALOG_NL,
+/* pl */  IDD_DQBB_SETTINGS_DIALOG_PL,    /* fuzzy, size */
+/* sv */  IDD_DQBB_SETTINGS_DIALOG_SV},   /* size */
+
 /* resc64.rc */
 /* en */ {IDD_C64ROM_SETTINGS_DIALOG,
 /* de */  IDD_C64ROM_SETTINGS_DIALOG_DE,    /* size */

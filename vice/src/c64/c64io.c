@@ -36,6 +36,7 @@
 #include "c64io.h"
 #include "cartridge.h"
 #include "digimax.h"
+#include "dqbb.h"
 #include "emuid.h"
 #include "lib.h"
 #include "mmc64.h"
@@ -43,6 +44,7 @@
 #include "monitor.h"
 #include "reu.h"
 #include "georam.h"
+#include "isepic.h"
 #include "ramcart.h"
 #include "resources.h"
 #include "sid-resources.h"
@@ -110,6 +112,7 @@ static io_source_t io_source_table[] = {
     {IO_SOURCE_ACTION_REPLAY4, "ACTION REPLAY 4", IO_DETACH_CART, NULL},
     {IO_SOURCE_STARDOS, "STARDOS", IO_DETACH_CART, NULL},
     {IO_SOURCE_MIDI, "MIDI", IO_DETACH_RESOURCE, "MIDIEnable"},
+    {IO_SOURCE_ISEPIC, "ISEPIC", IO_DETACH_RESOURCE, "Isepic"},
     {-1,NULL,0,NULL}
 };
 
@@ -141,8 +144,8 @@ static int get_io_source_index(int id)
   return 0;
 }
 
-#define MAX_IO1_RETURNS 9
-#define MAX_IO2_RETURNS 11
+#define MAX_IO1_RETURNS 10
+#define MAX_IO2_RETURNS 12
 
 #if MAX_IO1_RETURNS>MAX_IO2_RETURNS
 static int io_source_return[MAX_IO1_RETURNS];
@@ -260,6 +263,12 @@ BYTE REGPARM1 c64io1_read(WORD addr)
         io_source_counter++;
     }
 
+    if (isepic_enabled) {
+        return_value = isepic_reg_read(addr);
+        io_source_check(io_source_counter);
+        io_source_counter++;
+    }
+
 #ifdef HAVE_TFE
     if (tfe_enabled)
     {
@@ -346,6 +355,9 @@ void REGPARM2 c64io1_store(WORD addr, BYTE value)
     if (ramcart_enabled) {
         ramcart_reg_store((WORD)(addr&1), value);
     }
+    if (isepic_enabled) {
+        isepic_reg_store(addr, value);
+    }
     if (mmc64_enabled && mmc64_hw_clockport==0xde02 && addr==0xde01) {
         mmc64_clockport_enable_store(value);
     }
@@ -380,7 +392,9 @@ void REGPARM2 c64io1_store(WORD addr, BYTE value)
         midi_store((WORD)(addr & 0xff), value);
     }
 #endif
-
+    if (dqbb_enabled) {
+        dqbb_reg_store(addr, value);
+    }
     return;
 }
 
@@ -416,6 +430,11 @@ BYTE REGPARM1 c64io2_read(WORD addr)
     }
     if (ramcart_enabled) {
         return_value = ramcart_window_read(addr);
+        io_source_check(io_source_counter);
+        io_source_counter++;
+    }
+    if (isepic_enabled) {
+        return_value = isepic_window_read(addr);
         io_source_check(io_source_counter);
         io_source_counter++;
     }
@@ -507,6 +526,9 @@ void REGPARM2 c64io2_store(WORD addr, BYTE value)
     }
     if (ramcart_enabled) {
         ramcart_window_store(addr, value);
+    }
+    if (isepic_enabled) {
+        isepic_window_store(addr, value);
     }
     if (mmc64_enabled && addr >= 0xdf10 && addr <= 0xdf13) {
         mmc64_io2_store(addr, value);

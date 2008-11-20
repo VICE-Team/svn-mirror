@@ -287,6 +287,10 @@ SOURCE=.\uidigimax.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uidqbb.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uidrivec128.c
 # End Source File
 # Begin Source File
@@ -324,6 +328,10 @@ SOURCE=.\uihelp.c
 # Begin Source File
 
 SOURCE=.\uiide64.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\uiisepic.c
 # End Source File
 # Begin Source File
 

@@ -185,6 +185,12 @@
 #define IDM_PLUS256K      0x18b
 #define IDM_PLUS256KFILE  0x14e
 
+#define IDM_DQBB          0x1b1
+#define IDM_DQBBFILE      0x1b2
+
+#define IDM_ISEPIC        0x1b3
+#define IDM_ISEPIC_SWITCH 0x1b4
+
 #define IDM_C64_256K          0x16d
 #define IDM_C64_256K_BASE	0x16e
 #define IDM_C64_256K_BASEDE00	0x18c

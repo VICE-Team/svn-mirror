@@ -33,6 +33,8 @@ extern BYTE REGPARM1 roml_read(WORD addr);
 extern void REGPARM2 roml_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 romh_read(WORD addr);
 extern void REGPARM2 romh_store(WORD addr, BYTE value);
+extern void REGPARM2 roml_no_ultimax_store(WORD addr, BYTE value);
+extern void REGPARM2 romh_no_ultimax_store(WORD addr, BYTE value);
 
 extern BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr);
 extern void REGPARM2 ultimax_1000_7fff_store(WORD addr, BYTE value);

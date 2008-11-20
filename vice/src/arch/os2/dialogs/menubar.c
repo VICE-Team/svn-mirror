@@ -513,6 +513,15 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_RAMCART:
         toggle("RAMCART");
         return;
+    case IDM_DQBB:
+        toggle("DQBB");
+        return;
+    case IDM_ISEPIC:
+        toggle("Isepic");
+        return;
+    case IDM_ISEPIC_SWITCH:
+        toggle("IsepicSwitch");
+        return;
     case IDM_DIGIMAX:
         toggle("DIGIMAX");
         return;
@@ -568,6 +577,10 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 
     case IDM_RAMCARTFILE:
         resources_set_string("RAMCARTfilename", ViceFileSelect(hwnd, 1));
+        return;
+
+    case IDM_DQBBFILE:
+        resources_set_string("DQBBfilename", ViceFileSelect(hwnd, 1));
         return;
 
     case IDM_DIGIMAXDD00:
@@ -1322,6 +1335,13 @@ void menu_select(HWND hwnd, USHORT item)
         WinEnableMenuItem(hwnd, IDM_DIGIMAXBASE, val);
 #endif
 #ifdef __X64__
+        resources_get_int("DQBB", &val);
+        WinCheckMenuItem(hwnd,  IDM_DQBB,     val);
+        WinEnableMenuItem(hwnd, IDM_DQBBFILE, val);
+        resources_get_int("Isepic", &val);
+        WinCheckMenuItem(hwnd,  IDM_ISEPIC,     val);
+        resources_get_int("IsepicSwitch", &val);
+        WinCheckMenuItem(hwnd,  IDM_ISEPIC_SWITCH,     val);
         resources_get_int("PLUS60K", &val);
         WinCheckMenuItem(hwnd,  IDM_PLUS60K,     val);
         WinEnableMenuItem(hwnd, IDM_PLUS60KBASE, val);
