@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _AUTOSTART_H
-#define _AUTOSTART_H
+#ifndef VICE_AUTOSTART_H
+#define VICE_AUTOSTART_H
 
 #include "types.h"
 
@@ -53,6 +53,7 @@ extern int autostart_disk(const char *file_name, const char *program_name,
 extern int autostart_tape(const char *file_name, const char *program_name,
                           unsigned int program_number, unsigned int runmode);
 extern int autostart_prg(const char *file_name, unsigned int runmode);
+extern int autostart_snapshot(const char *file_name, const char *program_name);
 
 extern void autostart_disable(void);
 extern void autostart_advance(void);
