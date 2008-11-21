@@ -1561,7 +1561,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_RAMCART_SETTINGS_SV, "RAMCART-inställningar..."},
 
 /* en */ {IDMS_DQBB_SETTINGS,    "Double Quick Brown Box settings..."},
-/* de */ {IDMS_DQBB_SETTINGS_DE, ""},  /* fuzzy */
+/* de */ {IDMS_DQBB_SETTINGS_DE, "Double Quick Brown Box Einstellungen..."},
 /* fr */ {IDMS_DQBB_SETTINGS_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_DQBB_SETTINGS_HU, ""},  /* fuzzy */
 /* it */ {IDMS_DQBB_SETTINGS_IT, ""},  /* fuzzy */
@@ -1570,7 +1570,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_DQBB_SETTINGS_SV, ""},  /* fuzzy */
 
 /* en */ {IDMS_ISEPIC_SETTINGS,    "Isepic settings..."},
-/* de */ {IDMS_ISEPIC_SETTINGS_DE, ""},  /* fuzzy */
+/* de */ {IDMS_ISEPIC_SETTINGS_DE, "Isepic Einstellungen..."},
 /* fr */ {IDMS_ISEPIC_SETTINGS_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_ISEPIC_SETTINGS_HU, ""},  /* fuzzy */
 /* it */ {IDMS_ISEPIC_SETTINGS_IT, ""},  /* fuzzy */
@@ -3275,7 +3275,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_GEORAM_SETTINGS_SV, "GEORAM-inställningar"},
 
 /* en */ {IDS_GEORAM_FILENAME,    "DQBB file"},
-/* de */ {IDS_GEORAM_FILENAME_DE, ""},  /* fuzzy */
+/* de */ {IDS_GEORAM_FILENAME_DE, "DQBB Datei"},
 /* fr */ {IDS_GEORAM_FILENAME_FR, ""},  /* fuzzy */
 /* hu */ {IDS_GEORAM_FILENAME_HU, ""},  /* fuzzy */
 /* it */ {IDS_GEORAM_FILENAME_IT, ""},  /* fuzzy */
@@ -3284,7 +3284,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_GEORAM_FILENAME_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_GEORAM_FILENAME_SELECT,    "Select file for DQBB"},
-/* de */ {IDS_GEORAM_FILENAME_SELECT_DE, ""},  /* fuzzy */
+/* de */ {IDS_GEORAM_FILENAME_SELECT_DE, "Datei für DQBB selektieren"},
 /* fr */ {IDS_GEORAM_FILENAME_SELECT_FR, ""},  /* fuzzy */
 /* hu */ {IDS_GEORAM_FILENAME_SELECT_HU, ""},  /* fuzzy */
 /* it */ {IDS_GEORAM_FILENAME_SELECT_IT, ""},  /* fuzzy */
@@ -3293,7 +3293,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_GEORAM_FILENAME_SELECT_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_DQBB_SETTINGS,    "DQBB Settings"},
-/* de */ {IDS_DQBB_SETTINGS_DE, ""},  /* fuzzy */
+/* de */ {IDS_DQBB_SETTINGS_DE, "DQBB Einstellungen"},
 /* fr */ {IDS_DQBB_SETTINGS_FR, ""},  /* fuzzy */
 /* hu */ {IDS_DQBB_SETTINGS_HU, ""},  /* fuzzy */
 /* it */ {IDS_DQBB_SETTINGS_IT, ""},  /* fuzzy */
@@ -3302,7 +3302,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_DQBB_SETTINGS_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_ISEPIC_SETTINGS,    "Isepic Settings"},
-/* de */ {IDS_ISEPIC_SETTINGS_DE, ""},  /* fuzzy */
+/* de */ {IDS_ISEPIC_SETTINGS_DE, "Isepic Einstellungen"},
 /* fr */ {IDS_ISEPIC_SETTINGS_FR, ""},  /* fuzzy */
 /* hu */ {IDS_ISEPIC_SETTINGS_HU, ""},  /* fuzzy */
 /* it */ {IDS_ISEPIC_SETTINGS_IT, ""},  /* fuzzy */
