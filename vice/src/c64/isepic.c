@@ -166,14 +166,14 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-isepic", SET_RESOURCE, 0,
       NULL, NULL, "Isepic", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Enable the isepic cart.") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_ISEPIC,
+      NULL, NULL },
     { "+isepic", SET_RESOURCE, 0,
       NULL, NULL, "Isepic", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Disable the isepic cart.") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_ISEPIC,
+      NULL, NULL },
     { NULL }
 };
 

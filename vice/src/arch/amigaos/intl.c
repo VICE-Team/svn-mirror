@@ -3274,23 +3274,23 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDS_GEORAM_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDS_GEORAM_SETTINGS_SV, "GEORAM-inställningar"},
 
-/* en */ {IDS_GEORAM_FILENAME,    "DQBB file"},
-/* de */ {IDS_GEORAM_FILENAME_DE, "DQBB Datei"},
-/* fr */ {IDS_GEORAM_FILENAME_FR, ""},  /* fuzzy */
-/* hu */ {IDS_GEORAM_FILENAME_HU, ""},  /* fuzzy */
-/* it */ {IDS_GEORAM_FILENAME_IT, ""},  /* fuzzy */
-/* nl */ {IDS_GEORAM_FILENAME_NL, "DQBB bestand"},
-/* pl */ {IDS_GEORAM_FILENAME_PL, ""},  /* fuzzy */
-/* sv */ {IDS_GEORAM_FILENAME_SV, ""},  /* fuzzy */
+/* en */ {IDS_DQBB_FILENAME,    "DQBB file"},
+/* de */ {IDS_DQBB_FILENAME_DE, "DQBB Datei"},
+/* fr */ {IDS_DQBB_FILENAME_FR, ""},  /* fuzzy */
+/* hu */ {IDS_DQBB_FILENAME_HU, ""},  /* fuzzy */
+/* it */ {IDS_DQBB_FILENAME_IT, ""},  /* fuzzy */
+/* nl */ {IDS_DQBB_FILENAME_NL, "DQBB bestand"},
+/* pl */ {IDS_DQBB_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDS_DQBB_FILENAME_SV, ""},  /* fuzzy */
 
-/* en */ {IDS_GEORAM_FILENAME_SELECT,    "Select file for DQBB"},
-/* de */ {IDS_GEORAM_FILENAME_SELECT_DE, "Datei für DQBB selektieren"},
-/* fr */ {IDS_GEORAM_FILENAME_SELECT_FR, ""},  /* fuzzy */
-/* hu */ {IDS_GEORAM_FILENAME_SELECT_HU, ""},  /* fuzzy */
-/* it */ {IDS_GEORAM_FILENAME_SELECT_IT, ""},  /* fuzzy */
-/* nl */ {IDS_GEORAM_FILENAME_SELECT_NL, "Selecteer bestand voor DQBB"},
-/* pl */ {IDS_GEORAM_FILENAME_SELECT_PL, ""},  /* fuzzy */
-/* sv */ {IDS_GEORAM_FILENAME_SELECT_SV, ""},  /* fuzzy */
+/* en */ {IDS_DQBB_FILENAME_SELECT,    "Select file for DQBB"},
+/* de */ {IDS_DQBB_FILENAME_SELECT_DE, "Datei für DQBB selektieren"},
+/* fr */ {IDS_DQBB_FILENAME_SELECT_FR, ""},  /* fuzzy */
+/* hu */ {IDS_DQBB_FILENAME_SELECT_HU, ""},  /* fuzzy */
+/* it */ {IDS_DQBB_FILENAME_SELECT_IT, ""},  /* fuzzy */
+/* nl */ {IDS_DQBB_FILENAME_SELECT_NL, "Selecteer bestand voor DQBB"},
+/* pl */ {IDS_DQBB_FILENAME_SELECT_PL, ""},  /* fuzzy */
+/* sv */ {IDS_DQBB_FILENAME_SELECT_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_DQBB_SETTINGS,    "DQBB Settings"},
 /* de */ {IDS_DQBB_SETTINGS_DE, "DQBB Einstellungen"},
@@ -3309,6 +3309,15 @@ intl_translate_t intl_string_table[] = {
 /* nl */ {IDS_ISEPIC_SETTINGS_NL, "Isepic instellingen"},
 /* pl */ {IDS_ISEPIC_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDS_ISEPIC_SETTINGS_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_ISEPIC_SWITCH,    "Isepic Switch"},
+/* de */ {IDS_ISEPIC_SWITCH_DE, ""},  /* fuzzy */
+/* fr */ {IDS_ISEPIC_SWITCH_FR, ""},  /* fuzzy */
+/* hu */ {IDS_ISEPIC_SWITCH_HU, ""},  /* fuzzy */
+/* it */ {IDS_ISEPIC_SWITCH_IT, ""},  /* fuzzy */
+/* nl */ {IDS_ISEPIC_SWITCH_NL, "Isepic schakelaar"},
+/* pl */ {IDS_ISEPIC_SWITCH_PL, ""},  /* fuzzy */
+/* sv */ {IDS_ISEPIC_SWITCH_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_JOYSTICK_IN_PORT_1,    "Joystick in port #1"},
 /* de */ {IDS_JOYSTICK_IN_PORT_1_DE, "Joystick in Port #1"},

@@ -62,7 +62,7 @@ static APTR build_gui(void)
 
   ui = GroupObject,
     CYCLE(ui_to_from[0].object, "Isepic", ui_isepic_enable)
-    CYCLE(ui_to_from[1].object, T_("Isepic Switch"), ui_isepic_enable)
+    CYCLE(ui_to_from[1].object, translate_text(IDS_ISEPIC_SWITCH), ui_isepic_enable)
     OK_CANCEL_BUTTON
   End;
 

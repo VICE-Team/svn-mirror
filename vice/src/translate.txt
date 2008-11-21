@@ -402,6 +402,21 @@ IDCLS_SPECIFY_RAMCART_NAME
 /* c64/ramcart.c */
 IDCLS_RAMCART_SIZE
 
+/* c64/dqbb.c */
+IDCLS_ENABLE_DQBB
+
+/* c64/dqbb.c */
+IDCLS_DISABLE_DQBB
+
+/* c64/dqbb.c */
+IDCLS_SPECIFY_DQBB_NAME
+
+/* c64/isepic.c */
+IDCLS_ENABLE_ISEPIC
+
+/* c64/isepic.c */
+IDCLS_DISABLE_ISEPIC
+
 /* c64/mmc64.c */
 IDCLS_ENABLE_MMC64
 
@@ -1251,6 +1266,12 @@ IDCLS_CALL_EXCEPTION_HANDLER
 
 /* initcmdline.c */
 IDCLS_RESTORE_DEFAULT_SETTINGS
+
+/* initcmdline.c */
+IDCLS_P_FILE
+
+/* initcmdline.c */
+IDCLS_SPECIFY_CONFIG_FILE
 
 /* initcmdline.c */
 IDCLS_ATTACH_AND_AUTOSTART

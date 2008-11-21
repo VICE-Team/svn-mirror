@@ -3801,6 +3801,66 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_RAMCART_SIZE_SV, "Storlek på RAMCART-expansion"},
 #endif
 
+/* c64/dqbb.c */
+/* en */ {IDCLS_ENABLE_DQBB,    N_("Enable Double Quick Brown Box")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDCLS_ENABLE_DQBB_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_DQBB_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_DQBB_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_DQBB_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DQBB_NL, "Activeer de Double Quick Brown Box cartridge"},
+/* pl */ {IDCLS_ENABLE_DQBB_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DQBB_SV, ""},  /* fuzzy */
+#endif
+
+/* c64/dqbb.c */
+/* en */ {IDCLS_DISABLE_DQBB,    N_("Disable Double Quick Brown Box")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDCLS_DISABLE_DQBB_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_DQBB_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_DQBB_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_DQBB_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DQBB_NL, "De Double Quick Brown Box cartridge uitschakelen"},
+/* pl */ {IDCLS_DISABLE_DQBB_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DQBB_SV, ""},  /* fuzzy */
+#endif
+
+/* c64/dqbb.c */
+/* en */ {IDCLS_SPECIFY_DQBB_NAME,    N_("Specify Double Quick Brown Box filename")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDCLS_SPECIFY_DQBB_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_DQBB_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_DQBB_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_DQBB_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_DQBB_NAME_NL, "Geef de naam van het Double Quick Brown Box cartridge-bestand"},
+/* pl */ {IDCLS_SPECIFY_DQBB_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_DQBB_NAME_SV, ""},  /* fuzzy */
+#endif
+
+/* c64/isepic.c */
+/* en */ {IDCLS_ENABLE_ISEPIC,    N_("Enable the isepic cart.")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDCLS_ENABLE_ISEPIC_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_ISEPIC_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_ISEPIC_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_ISEPIC_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_ISEPIC_NL, "Activeer de isepic cartridge"},
+/* pl */ {IDCLS_ENABLE_ISEPIC_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_ISEPIC_SV, ""},  /* fuzzy */
+#endif
+
+/* c64/isepic.c */
+/* en */ {IDCLS_DISABLE_ISEPIC,    N_("Disable Double Quick Brown Box")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDCLS_DISABLE_ISEPIC_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_ISEPIC_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_ISEPIC_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_ISEPIC_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_ISEPIC_NL, "De isepic cartridge uitschakelen"},
+/* pl */ {IDCLS_DISABLE_ISEPIC_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_ISEPIC_SV, ""},  /* fuzzy */
+#endif
+
 /* c64/mmc64.c */
 /* en */ {IDCLS_ENABLE_MMC64,    N_("Enable the MMC64 expansion")},
 #ifdef HAS_TRANSLATION
@@ -7792,6 +7852,30 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_RESTORE_DEFAULT_SETTINGS_NL, "Herstel standaardinstelling"},
 /* pl */ {IDCLS_RESTORE_DEFAULT_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_RESTORE_DEFAULT_SETTINGS_SV, "Återställ förvalda inställningar"},
+#endif
+
+/* initcmdline.c */
+/* en */ {IDCLS_P_FILE,    N_("<filename>")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDCLS_P_FILE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_FILE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_FILE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_FILE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_FILE_NL, "<bestandsnaam>"},
+/* pl */ {IDCLS_P_FILE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_FILE_SV, ""},  /* fuzzy */
+#endif
+
+/* initcmdline.c */
+/* en */ {IDCLS_SPECIFY_CONFIG_FILE,    N_("Specify config file")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDCLS_SPECIFY_CONFIG_FILE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_CONFIG_FILE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_CONFIG_FILE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_CONFIG_FILE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_CONFIG_FILE_NL, "Geef configuratie bestandsnaam"},
+/* pl */ {IDCLS_SPECIFY_CONFIG_FILE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_CONFIG_FILE_SV, ""},  /* fuzzy */
 #endif
 
 /* initcmdline.c */

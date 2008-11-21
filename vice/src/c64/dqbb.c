@@ -178,19 +178,19 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-dqbb", SET_RESOURCE, 0,
       NULL, NULL, "DQBB", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Enable Double Quick Brown Box") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_DQBB,
+      NULL, NULL },
     { "+dqbb", SET_RESOURCE, 0,
       NULL, NULL, "DQBB", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Disable Double Quick Brown Box") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_DQBB,
+      NULL, NULL },
     { "-dqbbimage", SET_RESOURCE, 1,
       NULL, NULL, "DQBBfilename", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_SPECIFY_GEORAM_NAME,
-      NULL, T_("Specify Double Quick Brown Box filename") },
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_DQBB_NAME,
+      NULL, NULL },
     { NULL }
 };
 
