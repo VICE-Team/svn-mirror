@@ -117,7 +117,7 @@ ui_menu_entry_t fullscreen_menu##__CHIP__[] =				\
     fullscreen_menu_shutdown(fullscreen_menu##__CHIP__);
 
 #else
-#define UI_FULLSCREEN(__CHIP__)
+#define UI_FULLSCREEN(__CHIP__,__HOTKEY__)
 #define UI_FULLSCREEN_MENU_CREATE(__CHIP__)
 #define UI_FULLSCREEN_MENU_SHUTDOWN(__CHIP__)
 #endif	/* USE_XF86_EXTENSIONS && HAVE_FULLSCREEN */
