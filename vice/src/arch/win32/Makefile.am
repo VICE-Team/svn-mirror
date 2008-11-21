@@ -70,7 +70,7 @@ libarch_a_SOURCES = \
 	rescbm2.rc \
 	rescommon.h \
 	resdigimax.rc \
-	resqbb.rc \
+	resdqbb.rc \
 	resdrivec128.rc \
 	resdrivec64.rc \
 	resdrivepetcbm2.rc \
