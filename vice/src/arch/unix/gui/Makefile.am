@@ -64,6 +64,8 @@ libarchgui_a_SOURCES = \
 	uidriveplus4.h \
 	uidrivevic20.c \
 	uidrivevic20.h \
+	uidqbb.c \
+	uidqbb.h \
 	uiedisk.h \
 	uifliplist.c \
 	uifliplist.h \
@@ -73,6 +75,8 @@ libarchgui_a_SOURCES = \
 	uihotkey.h \
 	uiide64.c \
 	uiide64.h \
+	uiisepic.c \
+	uiisepic.h \
 	uijoystick2.c \
 	uijoystick2.h \
 	uijoystickkeys.h \

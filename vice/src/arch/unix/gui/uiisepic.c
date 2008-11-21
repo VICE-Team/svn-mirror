@@ -36,7 +36,7 @@
 UI_MENU_DEFINE_TOGGLE(Isepic)
 UI_MENU_DEFINE_TOGGLE(IsepicSwitch)
 
-ui_menu_entry_t georam_submenu[] = {
+ui_menu_entry_t isepic_submenu[] = {
     { N_("*Enable Isepic"),
       (ui_callback_t)toggle_Isepic, NULL, NULL },
     { N_("*Enable Isepic Switch"),

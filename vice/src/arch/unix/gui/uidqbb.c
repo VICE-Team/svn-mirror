@@ -41,7 +41,7 @@ UI_CALLBACK(set_dqbb_image_name)
                         _("Name:"));
 }
 
-ui_menu_entry_t georam_submenu[] = {
+ui_menu_entry_t dqbb_submenu[] = {
     { N_("*Enable DQBB"),
       (ui_callback_t)toggle_DQBB, NULL, NULL },
     { N_("DQBB image name..."),
