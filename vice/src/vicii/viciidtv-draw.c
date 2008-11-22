@@ -1401,7 +1401,10 @@ static int get_idle(raster_cache_t *cache, unsigned int *xs, unsigned int *xe,
         cache->color_data_1[1] = vicii.raster.idle_background_color;
         cache->color_data_1[2] = vicii.raster.video_mode;
         *xs = 0;
-        *xe = VICII_SCREEN_TEXTCOLS - 1;
+        if (!vicii.overscan) 
+            *xe = VICII_SCREEN_TEXTCOLS - 1;
+        else
+            *xe = VICII_SCREEN_TEXTCOLS+8 - 1;
         return 1;
     } else {
         return 0;
