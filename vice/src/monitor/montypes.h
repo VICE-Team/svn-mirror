@@ -217,8 +217,6 @@ extern int mon_console_close_on_leaving;
 extern RADIXTYPE default_radix;
 extern MEMSPACE default_memspace;
 extern bool asm_mode;
-extern char *playback_name;
-extern bool playback;
 extern MON_ADDR asm_mode_addr;
 extern struct monitor_cpu_type_s monitor_cpu_type;
 extern MON_ADDR dot_addr[NUM_MEMSPACES];
@@ -293,6 +291,7 @@ extern void mon_save_symbols(MEMSPACE mem, const char *filename);
 
 extern void mon_record_commands(char *filename);
 extern void mon_end_recording(void);
+extern void mon_playback_init(const char* filename);
 extern void monitor_change_device(MEMSPACE mem);
 
 #endif

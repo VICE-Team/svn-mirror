@@ -256,14 +256,12 @@ register_mod: CMD_REGISTERS end_cmd
 symbol_table_rules: CMD_LOAD_LABELS memspace opt_sep filename end_cmd
                     {
                         /* What about the memspace? */
-                        playback = TRUE; playback_name = $4;
-                        /*mon_load_symbols($2, $3);*/
+                        mon_playback_init($4);
                     }
                   | CMD_LOAD_LABELS filename end_cmd
                     {
                         /* What about the memspace? */
-                        playback = TRUE; playback_name = $2;
-                        /*mon_load_symbols($2, $3);*/
+                        mon_playback_init($2);
                     }
                   | CMD_SAVE_LABELS memspace opt_sep filename end_cmd
                     { mon_save_symbols($2, $4); }
@@ -509,7 +507,7 @@ cmd_file_rules: CMD_RECORD filename end_cmd
               | CMD_STOP end_cmd
                 { mon_end_recording(); }
               | CMD_PLAYBACK filename end_cmd
-                { playback=TRUE; playback_name = $2; }
+                { mon_playback_init($2); }
               ;
 
 data_entry_rules: CMD_ENTER_DATA address data_list end_cmd

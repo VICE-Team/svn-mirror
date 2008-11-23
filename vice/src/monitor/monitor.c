@@ -180,9 +180,10 @@ static bool watch_store_occurred;
 static bool recording;
 static FILE *recording_fp;
 static char *recording_name;
-bool playback;
-char *playback_name;
-static void playback_commands(const char *filename);
+#define MAX_PLAYBACK 4
+int playback = 0;
+char *playback_name[MAX_PLAYBACK];
+static void playback_commands(int current_playback);
 static int set_playback_name(const char *param, void *extra_param);
 
 /* Disassemble the current opcode on entry.  Used for single step.  */
@@ -931,7 +932,6 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     int i, j;
     unsigned int dnr;
     monitor_cpu_type_list_t *monitor_cpu_type_list_ptr;
-    char* freeme;
 
     yydebug = 0;
     sidefx = e_OFF;
@@ -996,10 +996,8 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     if (mon_init_break != -1)
         mon_breakpoint_add_checkpoint((WORD)mon_init_break, BAD_ADDR, FALSE, FALSE,FALSE, FALSE);
 
-    if (playback) {
-        freeme = playback_name;
-        playback_commands(playback_name);
-        free(freeme);
+    if (playback > 0) {
+        playback_commands(playback);
     }
 }
 
@@ -1163,16 +1161,6 @@ void mon_change_dir(const char *path)
     mon_out("Changing to directory: `%s'\n", path);
 }
 
-void mon_load_symbols(MEMSPACE mem, const char *filename)
-{
-    /* Switched to a command-line format for the symbol file
-     * so loading just involves "playing back" the commands.
-     * It is no longer possible to just load symbols from a
-     * single memory space.
-     */
-    playback_commands(filename);
-}
-
 void mon_save_symbols(MEMSPACE mem, const char *filename)
 {
     FILE *fp;
@@ -1237,17 +1225,18 @@ void mon_end_recording(void)
 
 static int set_playback_name(const char *param, void *extra_param)
 {
-    if (!playback_name) {
-        playback_name = strdup(param);
-        playback = TRUE;
+    if (!playback_name[0]) {
+        playback_name[0] = strdup(param);
+        playback = 1;
     }
     return 0;
 }
 
-static void playback_commands(const char *filename)
+static void playback_commands(int current_playback)
 {
     FILE *fp;
     char string[256];
+    char *filename = playback_name[current_playback-1];
 
     fp = fopen(filename, MODE_READ_TEXT);
 
@@ -1256,6 +1245,9 @@ static void playback_commands(const char *filename)
 
     if (fp == NULL) {
         mon_out("Playback for `%s' failed.\n", filename);
+        free(playback_name[current_playback-1]);
+        playback_name[current_playback-1] = NULL;
+        --playback;
         return;
     }
 
@@ -1265,10 +1257,25 @@ static void playback_commands(const char *filename)
 
         string[strlen(string) - 1] = '\0';
         parse_and_execute_line(string);
+
+        if (playback > current_playback) {
+            playback_commands(playback);
+        }
     }
 
     fclose(fp);
-    playback = FALSE;
+    free(playback_name[current_playback-1]);
+    playback_name[current_playback-1] = NULL;
+    --playback;
+}
+
+void mon_playback_init(const char *filename)
+{
+    if (playback < MAX_PLAYBACK) {
+        playback_name[playback++] = strdup(filename);
+    } else {
+        mon_out("Playback for `%s' failed (recursion > %i).\n", filename, MAX_PLAYBACK);
+    }
 }
 
 
@@ -1969,8 +1976,9 @@ static int monitor_process(char *cmd)
 
             parse_and_execute_line(cmd);
 
-            if (playback)
-                playback_commands(playback_name);
+            if (playback > 0) {
+                playback_commands(playback);
+            }
         }
     }
     if (last_cmd)
