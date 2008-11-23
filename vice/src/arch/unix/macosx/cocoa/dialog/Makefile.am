@@ -20,6 +20,7 @@ noinst_LIBRARIES = libarchmacosxcocoadialog.a
 noinst_HEADERS = \
 	drivesettingswindowcontroller.h \
 	iecdrivesettingswindowcontroller.h \
+	netplaycontrolwindowcontroller.h \
 	printersettingswindowcontroller.h \
 	joysticksettingswindowcontroller.h \
 	keyboardsettingswindowcontroller.h \
@@ -28,11 +29,14 @@ noinst_HEADERS = \
 	viceinformationwindowcontroller.h \
 	resourceeditorcontroller.h \
 	resourcetreeitem.h \
-	recordmediawindowcontroller.h
+	recordmediawindowcontroller.h \
+	recordhistorywindowcontroller.h \
+	videosettingswindowcontroller.h
    
 libarchmacosxcocoadialog_a_SOURCES = \
 	drivesettingswindowcontroller.m \
 	iecdrivesettingswindowcontroller.m \
+	netplaycontrolwindowcontroller.m \
 	printersettingswindowcontroller.m \
 	joysticksettingswindowcontroller.m \
 	keyboardsettingswindowcontroller.m \
@@ -41,4 +45,7 @@ libarchmacosxcocoadialog_a_SOURCES = \
 	viceinformationwindowcontroller.m \
 	resourceeditorcontroller.m \
 	resourcetreeitem.m \
-	recordmediawindowcontroller.m
+	recordmediawindowcontroller.m \
+	recordhistorywindowcontroller.m \
+	videosettingswindowcontroller.m
+

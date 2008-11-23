@@ -47,6 +47,9 @@
 #include "datasette.h"
 #include "vdrive-internal.h"
 #include "gfxoutputdrv/ffmpegdrv.h"
+#include "fliplist.h"
+#include "network.h"
+#include "event.h"
 
 #import "vicemachinecontroller.h"
 #import "vicemachine.h"
@@ -276,6 +279,48 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
     }
 }
 
+// ----- History -----
+
+-(BOOL)startRecordHistory
+{
+    return event_record_start() == 0;
+}
+
+-(BOOL)stopRecordHistory
+{
+    return event_record_stop() == 0;
+}
+
+-(BOOL)startPlaybackHistory
+{
+    return event_playback_start() == 0;
+}
+
+-(BOOL)stopPlaybackHistory
+{
+    return event_playback_stop() == 0;
+}
+
+-(BOOL)isRecordingHistory
+{
+    return event_record_active();
+}
+
+-(BOOL)isPlayingBackHistory
+{
+    return event_playback_active();
+}
+
+-(BOOL)setRecordMilestone
+{
+    return event_record_set_milestone() == 0;
+}
+
+-(BOOL)resetRecordMilestone
+{
+    return event_record_reset_milestone() == 0;
+}
+
 // ----- Media -----
 
 -(BOOL)startRecordingMedia:(NSString *)driver fromCanvas:(int)canvasId
@@ -500,5 +545,60 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
         kbdbuf_feed(cstr);
     }
 }        
+
+// ----- Fliplist -----
+
+-(BOOL)loadFliplist:(int)unit path:(NSString *)path autoAttach:(BOOL)autoAttach
+{
+    const char *cstr = [path cStringUsingEncoding:NSUTF8StringEncoding];
+    return fliplist_load_list(unit,cstr,autoAttach) == 0;
+}
+
+-(BOOL)saveFliplist:(int)unit path:(NSString *)path
+{
+    const char *cstr = [path cStringUsingEncoding:NSUTF8StringEncoding];
+    return fliplist_save_list(unit,cstr) == 0;
+}
+
+-(void)addCurrentToFliplist:(int)unit
+{
+    fliplist_add_image(unit);
+}
+
+-(void)removeFromFliplist:(int)unit path:(NSString *)path
+{
+    const char *cstr = NULL;
+    if(path!=nil) {
+        cstr = [path cStringUsingEncoding:NSUTF8StringEncoding];
+    }
+    fliplist_remove(unit,cstr);
+}
+
+-(void)attachNextInFliplist:(int)unit direction:(BOOL)next
+{
+    fliplist_attach_head(unit,next);
+}
+
+// ----- Netplay -----
+
+-(BOOL)startNetplayServer
+{
+    return network_start_server() == 0;
+}
+
+-(BOOL)connectNetplayClient
+{
+    return network_connect_client() == 0;
+}
+
+-(void)disconnectNetplay
+{
+    network_disconnect();
+}
+
+-(int)getNetplayMode
+{
+    return network_get_mode();
+}
 
 @end

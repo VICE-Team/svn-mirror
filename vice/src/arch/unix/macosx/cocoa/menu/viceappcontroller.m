@@ -189,26 +189,48 @@
 
 - (IBAction)fliplistAddCurrentImage:(id)sender
 {
+    int unit = [sender tag];
+    [[VICEApplication theMachineController] addCurrentToFliplist:unit];
 }
 
 - (IBAction)fliplistRemoveCurrentImage:(id)sender
 {
+    int unit = [sender tag];
+    [[VICEApplication theMachineController] removeFromFliplist:unit path:nil];
 }
 
 - (IBAction)fliplistAttachNextImage:(id)sender
 {
+    int unit = [sender tag];
+    [[VICEApplication theMachineController] attachNextInFliplist:unit direction:TRUE];
 }
 
 - (IBAction)fliplistAttachPrevImage:(id)sender
 {
+    int unit = [sender tag];
+    [[VICEApplication theMachineController] attachNextInFliplist:unit direction:TRUE];
 }
 
 - (IBAction)fliplistLoad:(id)sender
 {
+    int unit = [sender tag];
+    NSArray *types = [NSArray arrayWithObject:@"vfl"];
+    NSString *path = [self pickOpenFileWithTitle:@"Loading Fliplist" types:types];
+    if(path!=nil) {
+        if(![[VICEApplication theMachineController] loadFliplist:unit path:path autoAttach:TRUE])
+            [VICEApplication runErrorMessage:@"Error loading fliplist!"];
+    }
 }
 
 - (IBAction)fliplistSave:(id)sender
 {
+    int unit = [sender tag];
+    NSArray *types = [NSArray arrayWithObject:@"vfl"];
+    NSString *path = [self pickSaveFileWithTitle:@"Saving Fliplist" types:types];
+    if(path!=nil) {
+        if(![[VICEApplication theMachineController] saveFliplist:unit path:path])
+            [VICEApplication runErrorMessage:@"Error saving fliplist!"];
+    }
 }
 
 // ----- Tape Image -----
@@ -285,8 +307,12 @@
     [[VICEApplication theMachineController] saveQuickSnapshot];
 }
 
-- (IBAction)showRecordSnapshot:(id)sender
+- (IBAction)showRecordHistory:(id)sender
 {
+    if(!recordHistoryController) {
+        recordHistoryController = [[RecordHistoryWindowController alloc] init];
+    }
+    [recordHistoryController showWindow:self];
 }
 
 - (IBAction)showRecordMedia:(id)sender
@@ -299,6 +325,10 @@
 
 - (IBAction)showNetplay:(id)sender
 {
+    if(!netplayController) {
+        netplayController = [[NetplayControlWindowController alloc] init];
+    }
+    [netplayController showWindow:self];
 }
 
 // ----- Options -----
@@ -426,6 +456,14 @@
         soundSettingsController = [[SoundSettingsWindowController alloc] init];
     }
     [soundSettingsController showWindow:self];
+}
+
+- (IBAction)showVideoSettings:(id)sender
+{
+    if(!videoSettingsController) {
+        videoSettingsController = [[VideoSettingsWindowController alloc] init];
+    }
+    [videoSettingsController showWindow:self];
 }
 
 // ----- Resources -----

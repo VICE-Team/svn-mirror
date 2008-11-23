@@ -130,21 +130,6 @@
                                                object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(displayRecording:)
-                                                 name:VICEDisplayRecordingNotification
-                                               object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(displayPlayback:)
-                                                 name:VICEDisplayPlaybackNotification
-                                               object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(displayEventTime:)
-                                                 name:VICEDisplayEventTimeNotification
-                                               object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayJoystick:)
                                                  name:VICEDisplayJoystickNotification
                                                object:nil];
@@ -323,20 +308,6 @@
     
     [joystickView1 setJoyValue:joyVal1];
     [joystickView2 setJoyValue:joyVal2];
-}
-
-- (void)displayRecording:(NSNotification*)notification
-{
-    [recplayView setStringValue:[notification object]];
-}
-
-- (void)displayEventTime:(unsigned int)current totalTime:(unsigned int)total
-{
-    if (total > 0)
-        [recplayView setToolTip:[NSString stringWithFormat:@"%.f%%", (float)current/total*100]];
-    else
-        [recplayView setToolTip:@""];
-//    [recplayView animate:self];
 }
 
 // ----- copy & paste support -----

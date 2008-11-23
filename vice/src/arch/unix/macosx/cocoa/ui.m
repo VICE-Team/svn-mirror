@@ -30,6 +30,7 @@
 #include "archdep.h"
 
 #import "vicemachine.h"
+#import "viceapplication.h"
 
 // ----- VICEMachineNotifier -----
 
@@ -136,7 +137,7 @@ void ui_display_recording(int recording_status)
 
 void ui_display_playback(int playback_status, char *version)
 {
-    NSString *string = [NSString stringWithCString:version];
+    NSString *string = [NSString stringWithCString:version ? version : ""];
     [[theVICEMachine machineNotifier] postDisplayPlaybackNotification:(BOOL)playback_status
                                                version:string];
 }
@@ -149,6 +150,7 @@ void ui_display_event_time(unsigned int current, unsigned int total)
 void ui_display_statustext(const char *text, int fade_out)
 {
     // TODO
+    NSLog(@"Status: %s %d",text,fade_out);
 }
 
 void ui_display_joyport(BYTE *joyport)

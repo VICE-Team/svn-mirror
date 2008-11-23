@@ -73,6 +73,16 @@
 // save a quick snapshot to a file
 -(void)saveQuickSnapshot;
 
+// ----- History -----
+-(BOOL)startRecordHistory;
+-(BOOL)stopRecordHistory;
+-(BOOL)startPlaybackHistory;
+-(BOOL)stopPlaybackHistory;
+-(BOOL)isRecordingHistory;
+-(BOOL)isPlayingBackHistory;
+-(BOOL)setRecordMilestone;
+-(BOOL)resetRecordMilestone;
+
 // ----- Media -----
 // start recording media/save screen shot
 -(BOOL)startRecordingMedia:(NSString *)driver 
@@ -137,6 +147,28 @@
 -(NSString *)readScreenOutput;
 //! type string on keyboard
 -(void)typeStringOnKeyboard:(NSString *)string toPetscii:(BOOL)convert;
+
+// ----- Fliplist -----
+//! load flip list
+-(BOOL)loadFliplist:(int)unit path:(NSString *)path autoAttach:(BOOL)autoAttach;
+//! save flip list
+-(BOOL)saveFliplist:(int)unit path:(NSString *)path;
+//! add current image to fliplist
+-(void)addCurrentToFliplist:(int)unit;
+//! remove image from fliplist
+-(void)removeFromFliplist:(int)unit path:(NSString *)path;
+//! attach next
+-(void)attachNextInFliplist:(int)unit direction:(BOOL)next;
+
+// ----- Netplay -----
+//! start server
+-(BOOL)startNetplayServer;
+//! connect to client
+-(BOOL)connectNetplayClient;
+//! disconnect
+-(void)disconnectNetplay;
+//! netplay mode (see network.h: network_mode_t)
+-(int)getNetplayMode;
 
 @end
 

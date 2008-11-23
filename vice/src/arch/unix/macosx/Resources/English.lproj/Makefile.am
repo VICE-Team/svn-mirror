@@ -16,6 +16,9 @@ EXTRA_DIST = \
 	IECDriveSettings.nib/classes.nib \
 	IECDriveSettings.nib/info.nib \
 	IECDriveSettings.nib/keyedobjects.nib \
+	NetplayControl.nib/classes.nib \
+	NetplayControl.nib/info.nib \
+	NetplayControl.nib/keyedobjects.nib \
 	PrinterSettings.nib/classes.nib \
 	PrinterSettings.nib/info.nib \
 	PrinterSettings.nib/keyedobjects.nib \
@@ -27,9 +30,17 @@ EXTRA_DIST = \
 	JoystickSettings.nib/keyedobjects.nib \
 	RecordMedia.nib/classes.nib \
 	RecordMedia.nib/info.nib \
+	RecordMedia.nib/keyedobjects.nib \
+	RecordHistory.nib/classes.nib \
+	RecordHistory.nib/info.nib \
+	RecordHistory.nib/keyedobjects.nib \
 	ResourceEditor.nib/classes.nib \
 	ResourceEditor.nib/info.nib \
 	ResourceEditor.nib/keyedobjects.nib \
 	SoundSettings.nib/classes.nib \
 	SoundSettings.nib/info.nib \
-	SoundSettings.nib/keyedobjects.nib
+	SoundSettings.nib/keyedobjects.nib \
+	VideoSettings.nib/classes.nib \
+	VideoSettings.nib/info.nib \
+	VideoSettings.nib/keyedobjects.nib
+

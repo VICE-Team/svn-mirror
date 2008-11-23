@@ -31,6 +31,13 @@
 			<key>Enable</key>
 			<string>DIGIMAX,b</string>
 		</dict>
+		<key>Double Quick Brown Box</key>
+		<dict>
+			<key>Enable</key>
+			<string>DQBB,b</string>
+			<key>Image File</key>
+			<string>DQBBfilename,fs</string>
+		</dict>
 		<key>GEORAM</key>
 		<dict>
 			<key>Enable</key>
@@ -52,6 +59,13 @@
 			<string>IDE64Heads,i</string>
 			<key>Sectors</key>
 			<string>IDE64Sectors,i</string>
+		</dict>
+		<key>Isepic</key>
+		<dict>
+			<key>Enable</key>
+			<string>Isepic,b</string>
+			<key>Enable Switch</key>
+			<string>IsepicSwitch,b</string>
 		</dict>
 		<key>MIDI</key>
 		<dict>
@@ -176,6 +190,41 @@
 		<string>RAMInitValueInvert,i</string>
 		<key>Value of first Byte</key>
 		<string>RAMInitStartValue,i</string>
+	</dict>
+	<key>ROM</key>
+	<dict>
+		<key>Drives</key>
+		<dict>
+			<key>1001</key>
+			<string>DosName1001,fo</string>
+			<key>1541</key>
+			<string>DosName1541,fo</string>
+			<key>1541-II</key>
+			<string>DosName1541ii,fo</string>
+			<key>1570</key>
+			<string>DosName1570,fo</string>
+			<key>1571</key>
+			<string>DosName1571,fo</string>
+			<key>1581</key>
+			<string>DosName1581,fo</string>
+			<key>2031</key>
+			<string>DosName2031,fo</string>
+			<key>2040</key>
+			<string>DosName2040,fo</string>
+			<key>3040</key>
+			<string>DosName3040,fo</string>
+			<key>4040</key>
+			<string>DosName4040,fo</string>
+		</dict>
+		<key>Machine</key>
+		<dict>
+			<key>Basic</key>
+			<string>BasicName,fo</string>
+			<key>Character</key>
+			<string>ChargenName,fo</string>
+			<key>Kernal</key>
+			<string>KernalName,fo</string>
+		</dict>
 	</dict>
 	<key>SID</key>
 	<dict>

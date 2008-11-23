@@ -98,6 +98,8 @@
 				<string>id</string>
 				<key>showSoundSettings</key>
 				<string>id</string>
+				<key>showVideoSettings</key>
+				<string>id</string>
 				<key>smartAttachImage</key>
 				<string>id</string>
 				<key>swapJoysticks</key>

@@ -90,13 +90,15 @@
 				<string>id</string>
 				<key>showPrinterSettings</key>
 				<string>id</string>
-				<key>showRecordMedia</key>
+				<key>showRecordHistory</key>
 				<string>id</string>
-				<key>showRecordSnapshot</key>
+				<key>showRecordMedia</key>
 				<string>id</string>
 				<key>showResourceEditor</key>
 				<string>id</string>
 				<key>showSoundSettings</key>
+				<string>id</string>
+				<key>showVideoSettings</key>
 				<string>id</string>
 				<key>smartAttachImage</key>
 				<string>id</string>

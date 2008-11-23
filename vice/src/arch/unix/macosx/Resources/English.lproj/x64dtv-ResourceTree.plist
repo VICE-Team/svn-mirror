@@ -24,10 +24,8 @@
 	</dict>
 	<key>Mouse</key>
 	<dict>
-		<key>Port</key>
-		<string>Mousetype,e,1351,NEOS,AMIGA</string>
-		<key>Type</key>
-		<string>Mouseport,m,Joy1=1,Joy2=2</string>
+		<key>PS2 Mouse on Userport</key>
+		<string>PS2Mouse,b</string>
 	</dict>
 	<key>RAM</key>
 	<dict>
@@ -37,6 +35,31 @@
 		<string>RAMInitValueInvert,i</string>
 		<key>Value of first Byte</key>
 		<string>RAMInitStartValue,i</string>
+	</dict>
+	<key>ROM</key>
+	<dict>
+		<key>Drives</key>
+		<dict>
+			<key>1541</key>
+			<string>DosName1541,fo</string>
+			<key>1541-II</key>
+			<string>DosName1541ii,fo</string>
+			<key>1570</key>
+			<string>DosName1570,fo</string>
+			<key>1571</key>
+			<string>DosName1571,fo</string>
+			<key>1581</key>
+			<string>DosName1581,fo</string>
+		</dict>
+		<key>Machine</key>
+		<dict>
+			<key>Basic</key>
+			<string>BasicName,fo</string>
+			<key>Chargen</key>
+			<string>ChargenName,fo</string>
+			<key>Kernal</key>
+			<string>KernalName,fo</string>
+		</dict>
 	</dict>
 	<key>SID</key>
 	<dict>
@@ -52,13 +75,6 @@
 			<string>SidResidPassband,r,0,90</string>
 			<key>Sample Method</key>
 			<string>SidResidSampling,e,Fast,Interpolating,Resampling,Fast Resampling</string>
-		</dict>
-		<key>Stereo SID</key>
-		<dict>
-			<key>Base Address</key>
-			<string>SidStereoStartAddress,e,$D4,$D5,$D6,$D7,$DE,$DF</string>
-			<key>Enable</key>
-			<string>SidStereo,b</string>
 		</dict>
 	</dict>
 	<key>VIC II</key>
