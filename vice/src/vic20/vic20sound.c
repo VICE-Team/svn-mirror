@@ -299,7 +299,7 @@ void vic_sound_clock(int cycles)
     {
         int a = (~snd.ch[3].reg)&127;
         a=a?a:128;
-        snd.ch[j].ctr += a << 4;
+        snd.ch[3].ctr += a << 4;
         if(snd.ch[3].reg&128)
         {
           snd.ch[3].out =
