@@ -155,8 +155,8 @@ void FilterFP::set_w0()
 	type3_fc_distortion_offset_bp = type3_fc_distortion_offset_hp;
     }
     else {
-	type3_fc_distortion_offset_bp = 9e9;
-	type3_fc_distortion_offset_hp = 9e9;
+	type3_fc_distortion_offset_bp = 9e9f;
+	type3_fc_distortion_offset_hp = 9e9f;
     }
   }
   if (model == MOS8580FP) {

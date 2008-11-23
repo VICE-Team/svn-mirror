@@ -173,8 +173,9 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec)
 	break;
     }
 
-    if (!psid->sid->set_sampling_parameters(cycles_per_sec, method,
-					   speed, passband)) {
+    //! \todo FIXME: These casts have to go away
+    if (!psid->sid->set_sampling_parameters((float)cycles_per_sec, method,
+					   (float)speed, passband)) {
         log_warning(LOG_DEFAULT,
                     "ReSID-FP: unable to set sampling mode; try increasing sampling frequency to 44.1-48 kHz and keep passband around 80-90 %%.");
 	return 0;
