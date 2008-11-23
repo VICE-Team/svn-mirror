@@ -1138,7 +1138,7 @@ TODO: MERGE
 
 TODO: NAME!
 
-2008-10-06  nafmo
+2008-10-06  Peter Krefting <@softwolves.pp.se>
 
 	* po/sv.po, src/arch/unix/x11/gnome/about.c: Changed my surname.
 
@@ -1184,7 +1184,7 @@ TODO: MERGE ChangeLog.add.v2.0.4-palemurewrite
 	  src/resid-fp/sid.cc, src/sid/resid-fp.cc: ReSID-fp
 	  improvements as provided by Antti Lankila
 
-2008-10-03  nafmo
+2008-10-03  Peter Krefting <@softwolves.pp.se>
 
 	* po/sv.po: Partial update of Swedish translation
 	  (2442t116f81u).
