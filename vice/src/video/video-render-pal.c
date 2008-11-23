@@ -44,7 +44,8 @@
 static void video_render_pal_main(video_render_config_t *config,
                                   BYTE *src, BYTE *trg,
                                   int width, int height, int xs, int ys, int xt,
-                                  int yt, int pitchs, int pitcht, int depth, int viewport_height)
+                                  int yt, int pitchs, int pitcht, int depth,
+                                  viewport_t *viewport)
 {
     video_render_color_tables_t *colortab;
     int doublescan, delayloop, rendermode, scale2x;
@@ -113,17 +114,17 @@ static void video_render_pal_main(video_render_config_t *config,
               case 16:
                 render_16_2x2_pal(colortab, src, trg, width, height,
                                   xs, ys, xt, yt, pitchs, pitcht,
-                                  viewport_height);
+                                  viewport);
                 return;
               case 24:
                 render_24_2x2_pal(colortab, src, trg, width, height,
                                  xs, ys, xt, yt, pitchs, pitcht,
-                                 viewport_height);
+                                 viewport);
                 return;
               case 32:
                 render_32_2x2_pal(colortab, src, trg, width, height,
                                   xs, ys, xt, yt, pitchs, pitcht,
-                                  viewport_height);
+                                  viewport);
                 return;
             }
         } else if (scale2x) {

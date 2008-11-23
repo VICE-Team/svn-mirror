@@ -147,7 +147,7 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
                        unsigned int xs, const unsigned int ys,
                        unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs, const unsigned int pitcht,
-		       unsigned int viewport_height, unsigned int pixelstride,
+		               viewport_t *viewport, unsigned int pixelstride,
                        void (*store_func)(
                             BYTE *line, BYTE *scanline, WORD *prevline,
                             const WORD red, const WORD grn, const WORD blu))
@@ -164,8 +164,6 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
     SDWORD off, off_flip;
     WORD red, grn, blu, red2, grn2, blu2;
     BYTE cl0, cl1, cl2, cl3;
-
-    viewport_height *= 2;
 
     src = src + pitchs * ys + xs - 2;
     trg = trg + pitcht * yt + xt * pixelstride;
@@ -220,7 +218,7 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
         if (y == yys + height) {
             /* no place to put scanline in: we are outside viewport or still
              * doing the first iteration (height == 0) */
-            if (y == yys || yys == 0 || yys > viewport_height)
+            if (y == yys || yys == viewport->first_line * 2 || yys > viewport->last_line * 2)
                 break;
 
             tmptrg = &color_tab->rgbscratchbuffer[0];
@@ -232,7 +230,7 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
              * otherwise we dump it to the scratch region... We must never
              * render the scanline for the first row, because prevlinergb is not
              * yet initialized and scanline data would be bogus! */
-            tmptrgscanline = y != yys && yys > 0 && yys <= viewport_height
+            tmptrgscanline = y != yys && yys > viewport->first_line && yys <= viewport->last_line * 2
                 ? trg - pitcht
                 : &color_tab->rgbscratchbuffer[0];
         }
@@ -302,10 +300,10 @@ void render_16_2x2_pal(video_render_color_tables_t *color_tab,
                        const unsigned int xs, const unsigned int ys,
                        const unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs, const unsigned int pitcht,
-		       const unsigned int viewport_height)
+		               viewport_t *viewport)
 {
     render_generic_2x2_pal(color_tab, src, trg, width, height, xs, ys,
-                           xt, yt, pitchs, pitcht, viewport_height,
+                           xt, yt, pitchs, pitcht, viewport,
                            2, store_line_and_scanline_2);
 }
 
@@ -315,10 +313,10 @@ void render_24_2x2_pal(video_render_color_tables_t *color_tab,
                        const unsigned int xs, const unsigned int ys,
                        const unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs, const unsigned int pitcht,
-		       const unsigned int viewport_height)
+		               viewport_t *viewport)
 {
     render_generic_2x2_pal(color_tab, src, trg, width, height, xs, ys,
-                           xt, yt, pitchs, pitcht, viewport_height,
+                           xt, yt, pitchs, pitcht, viewport,
                            3, store_line_and_scanline_3);
 }
 
@@ -328,9 +326,9 @@ void render_32_2x2_pal(video_render_color_tables_t *color_tab,
                        const unsigned int xs, const unsigned int ys,
                        const unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs, const unsigned int pitcht,
-		       const unsigned int viewport_height)
+		               viewport_t *viewport)
 {
     render_generic_2x2_pal(color_tab, src, trg, width, height, xs, ys,
-                           xt, yt, pitchs, pitcht, viewport_height,
+                           xt, yt, pitchs, pitcht, viewport,
                            4, store_line_and_scanline_4);
 }
