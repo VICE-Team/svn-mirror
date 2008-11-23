@@ -377,31 +377,133 @@
 
 2008-11-16  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
-	* src/aciacore.c: unsigned char --> BYTE (as it is the defined
-	  type which is used everywhere else).
+	* src/aciacore.c: unsigned char --> BYTE (as it is the defined type
+	which is used everywhere else).
 
 	* src/aciacore.c, src/arch/unix/rs232.c: Fixed compilation error
-	  (missing #include "translate.h"), removed warnings and fixed a
-	  wrongly copy-n-pasted comment for int_acia_rx().
+	(missing #include "translate.h"), removed warnings and fixed a wrongly
+	copy-n-pasted comment for int_acia_rx().
 
-TODO: MERGE
+2008-11-14  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
-2008-11-16  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+	* src/arch/win32/rs232win.h: Added missing prototype for
+	rs232dev_set_bps().
 
-	* ., src/6510core.c, src/acia.h, src/aciacore.c,
-	  src/arch/amigaos/rs232.c, src/arch/os2/rs232.c,
-	  src/arch/riscos/rs232.c, src/arch/unix/Makefile.am,
-	  src/arch/unix/rs232.c, src/arch/win32/Makefile.am,
-	  src/arch/win32/arch.dsp, src/arch/win32/res.rc,
-	  src/arch/win32/rs232.c, src/arch/win32/rs232dev.c,
-	  src/arch/win32/rs232net.c, src/arch/win32/rs232win.h,
-	  src/arch/win32/uiacia.c, src/arch/win32/uirs232.c,
-	  src/arch/win32/uirs232user.c, src/c128/c128.c, src/c64/c64.c,
-	  src/c64/c64acia.h, src/c64/c64acia1.c, src/rs232drv.h,
-	  src/rs232drv/rs232.h, src/rs232drv/rs232drv.c: Merged
-	  branches/spiro/vice-2.0.6-rs232-19513. (svn merge
-	  $VICESVN/trunk/vice@19513
-	  $VICESVN/branches/spiro/vice-2.0.6-rs232-19513/vice .)
+	* src/arch/win32/rs232dev.c: Fixed documentation; slightly reworked
+	DEBUG_FAKE_INPUT_OUTPUT.
+
+	* src/aciacore.c: When the RX is switched off, stop the RX alarm, too.
+
+	* src/aciacore.c, src/arch/amigaos/rs232.c, src/arch/os2/rs232.c,
+	src/arch/riscos/rs232.c, src/arch/unix/rs232.c,
+	src/arch/win32/rs232.c, src/arch/win32/rs232dev.c,
+	src/arch/win32/rs232net.c, src/arch/win32/rs232win.h, src/rs232drv.h,
+	src/rs232drv/rs232.h, src/rs232drv/rs232drv.c: aciacore: changed
+	behaviour of TX alarm (only fire when there is something to send);
+	added commentary; new functions rs232_set_status(),
+	rs232_get_status(), rs232_set_bps(), rs232drv_set_status(),
+	rs232drv_get_status(), rs232drv_set_bps(), rs232dev_set_status(),
+	rs232dev_get_status(), rs232dev_set_bps(), rs232net_set_status(),
+	rs232net_get_status() to handle the handshake lines;
+	src/arch/win32/rs232dev.c: DEBUG_FAKE_INPUT_OUTPUT can be used to
+	generate artificial data (for debugging purposes).
+
+2008-11-09  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/aciacore.c: New enum acia_tx_state to explain in_tx states.
+
+2008-11-07  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/aciacore.c: renamed "intx" to "in_tx" to make it clear that it
+	is not meant as "int_x"; simplified int_acia_read_data(); made RX
+	alarm a permanent alarm now (that is, it is retriggered periodically);
+	when writing the Turbo232 Extended Control register, recalculate bps
+	rate; calculate a character as consisting of 15 bits, giving the
+	reception routine more time to react.
+
+	* src/aciacore.c, src/c128/c128.c, src/c64/c64.c, src/c64/c64acia.h,
+	src/c64/c64acia1.c: Removed myacia_init_mode_resources() and joined
+	the contents with myacia_init_resources(); added more doxygen
+	documentation.
+
+2008-11-06  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/aciacore.c: get_acia_ticks() replaced by set_acia_ticks();
+	set_acia_ticks() calculates ticks for one character of 10 bits now,
+	not for every bit (this seems to be the intended behaviour in the
+	first place); added some doxygen commentary.
+
+2008-11-02  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/aciacore.c: Make sure the RX interrupt is not generated too
+	often.
+
+2008-11-01  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/aciacore.c: Fixed a comment which did not stop.
+
+	* src/acia.h, src/aciacore.c: RX interrupt was generated with every
+	possible bit before; fixed it (assuming data + parity + start + stop =
+	10 bits); clarified some constants; clarified some code path.
+
+2008-10-26  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/res.rc: Add ES_AUTOHSCROLL to RS232 dialog so the
+	long RS232 paths for COM access can be entered.
+
+	* src/aciacore.c: Write RX alarm into snapshot and read it back from
+	there.
+
+	* src/acia.h, src/aciacore.c: Renamed ACIA_CMD_BITS_IRQ_ENABLED to
+	ACIA_CMD_BITS_IRQ_DISABLED (descriptive name was wrong, but its usage
+	right); split ACIA alarm into two separate alarms for TX and RX;
+	int_acia_read_data() ensures that the read character is buffered until
+	it is read from the data register.
+
+	* src/acia.h, src/aciacore.c: Replaced "magic numbers" by cleaner
+	enumerated definitions of ACIA bits.
+
+	* src/6510core.c: Removed a warning via cast; changed indentation to
+	make nesting clearer.
+
+	* src/6510core.c: In DEBUG builds, the variable
+	debug_perform_break_into_monitor can be set unequal to 0 in order to
+	break into the monitor.
+
+2008-10-25  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/rs232dev.c: Added curly braces after if ().
+
+	* src/arch/win32/rs232dev.c: Fixed byte reception.
+
+2008-10-23  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/rs232.c, src/arch/win32/rs232dev.c: Call
+	rs232dev_getc() if needed(); fix recognition of "real" COM device; set
+	comm mode.
+
+2008-10-21  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/arch.dsp,
+	src/arch/win32/rs232.c, src/arch/win32/rs232dev.c,
+	src/arch/win32/rs232net.c, src/arch/win32/rs232win.h: First version of
+	RS232 support for "real" COMx. (mostly untested due to lack of testing
+	programs).
+
+2008-10-17  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/rs232.c: Replaced "#ifdef DEBUG" with a macro.
+
+2008-10-16  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/unix/Makefile.am, src/arch/unix/rs232.c,
+	src/arch/win32/Makefile.am, src/arch/win32/arch.dsp,
+	src/arch/win32/rs232.c, src/arch/win32/uiacia.c,
+	src/arch/win32/uirs232.c, src/arch/win32/uirs232user.c,
+	src/rs232drv/rs232.h, src/rs232drv/rs232drv.c: Consolidated spread
+	around definitions of NUM_DEVICES into rs232.h, renaming to
+	RS232_NUM_DEVICES; all spread around definitions of MAXRS232 now use
+	RS232_NUM_DEVICES instead.
 
 2008-11-15  Hannu Nuotio <hannu.nuotio@tut.fi>
 
@@ -695,75 +797,128 @@ TODO: MERGE
 
 	* doc/coding-guidelines.txt: Reformatted for 80 cols.
 
-TODO: MERGE
-
 2008-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
 
-	* doc/Makefile.am, doc/coding-guidelines.txt, po/POTFILES.in,
-	  src/Makefile.am, src/aciacore.c, src/arch/amigaos/joy.c,
-	  src/arch/amigaos/joyll.c, src/arch/amigaos/uiapi.c,
-	  src/arch/amigaos/uicmdline.c, src/arch/beos/joy.cc,
-	  src/arch/beos/kbd.c, src/arch/beos/uicmdline.c,
-	  src/arch/beos/video.cc, src/arch/msdos/joy.c,
-	  src/arch/msdos/ui.c, src/arch/msdos/uicmdline.c,
-	  src/arch/msdos/video.c, src/arch/msdos/vsync.c,
-	  src/arch/os2/joy.c, src/arch/os2/kbd.c,
-	  src/arch/os2/kbd/kmap-pet.c, src/arch/os2/kbd/kmap.c,
-	  src/arch/os2/mousedrv.c, src/arch/os2/ui.c,
-	  src/arch/os2/uicmdline.c, src/arch/os2/unused/video_gpi.c,
-	  src/arch/os2/unused/vsync.c, src/arch/os2/video.c,
-	  src/arch/riscos/uicmdline.c, src/arch/unix/gp2x/uicmdline.c,
-	  src/arch/unix/gui/uicmdline.c, src/arch/unix/joy.c,
-	  src/arch/unix/macosx/cocoa/ui-cmdline-options.c,
-	  src/arch/unix/macosx/joy.c, src/arch/unix/mididrv.c,
-	  src/arch/unix/rs232.c, src/arch/unix/x11/ui-cmdline-options.c,
-	  src/arch/unix/x11/xaw/x11video.c, src/arch/win32/joy.c,
-	  src/arch/win32/mididrv.c, src/arch/win32/ui-resources.c,
-	  src/arch/win32/uicmdline.c,
-	  src/arch/win32/utils/gentranslate.c, src/arch/win32/video.c,
-	  src/attach.c, src/autostart.c,
-	  src/c128/c128-cmdline-options.c, src/c128/c128mmu.c,
-	  src/c128/functionrom.c, src/c64/c64-cmdline-options.c,
-	  src/c64/c64-midi.c, src/c64/c64_256k.c, src/c64/c64export.c,
-	  src/c64/c64io.c, src/c64/cart/c64cart.c, src/c64/cart/ide64.c,
-	  src/c64/digimax.c, src/c64/georam.c, src/c64/mmc64.c,
-	  src/c64/plus256k.c, src/c64/plus60k.c, src/c64/psid.c,
-	  src/c64/ramcart.c, src/c64/reu.c, src/c64/tfe.c,
-	  src/c64dtv/c64dtv-cmdline-options.c,
-	  src/c64dtv/c64dtvblitter.c, src/c64dtv/c64dtvdma.c,
-	  src/c64dtv/c64dtvflash.c, src/c64dtv/flash-trap.c,
-	  src/c64dtv/hummeradc.c, src/cbm2/cbm2-cmdline-options.c,
-	  src/cmdline.c, src/cmdline.h, src/datasette.c, src/debug.c,
-	  src/drive/drive-cmdline-options.c,
-	  src/drive/iec/c64exp/c64exp-cmdline-options.c,
-	  src/drive/iec/iec-cmdline-options.c,
-	  src/drive/iec/plus4exp/plus4exp-cmdline-options.c,
-	  src/drive/iec128dcr/iec128dcr-cmdline-options.c,
-	  src/drive/ieee/ieee-cmdline-options.c,
-	  src/drive/tcbm/tcbm-cmdline-options.c, src/event.c,
-	  src/fliplist.c, src/fsdevice/fsdevice-cmdline-options.c,
-	  src/gentranslate_h.sh, src/gfxoutputdrv/ffmpegdrv.c,
-	  src/initcmdline.c, src/kbdbuf.c, src/log.c, src/midi.c,
-	  src/monitor/monitor.c, src/mouse.c, src/network.c,
-	  src/pet/pet-cmdline-options.c, src/pet/pet.c,
-	  src/pet/petpia1.c, src/pet/petreu.c,
-	  src/plus4/plus4-cmdline-options.c,
-	  src/plus4/plus4memcsory256k.c, src/plus4/plus4memhannes256k.c,
-	  src/plus4/ted-cmdline-options.c,
-	  src/printerdrv/driver-select.c,
-	  src/printerdrv/interface-serial.c,
-	  src/printerdrv/interface-userport.c,
-	  src/printerdrv/output-select.c, src/printerdrv/output-text.c,
-	  src/ps2mouse.c, src/ram.c,
-	  src/raster/raster-cmdline-options.c, src/rs232drv/rs232drv.c,
-	  src/rs232drv/rsuser.c, src/screenshot.c,
-	  src/serial/serial-iec-device.c, src/sid/sid-cmdline-options.c,
-	  src/sound.c, src/sysfile.c, src/translate.c,
-	  src/translate.txt, src/traps.c, src/vdc/vdc-cmdline-options.c,
-	  src/vic20/vic20-cmdline-options.c, src/vic20/vic20cartridge.c,
-	  src/vice.h, src/vicii/vicii-cmdline-options.c,
-	  src/video/video-cmdline-options.c, src/vsync.c: Merged the
-	  intl unification branch.
+	* doc/Makefile.am, doc/coding-guidelines.txt, src/vice.h: Added
+	T_(...) define to vice.h and started a coding guidelines
+	document.
+
+2008-10-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uivideoc128.c,
+	src/arch/amigaos/uicmdline.c, src/arch/beos/uicmdline.c,
+	src/arch/msdos/uicmdline.c, src/arch/os2/uicmdline.c,
+	src/arch/riscos/uicmdline.c, src/arch/unix/gp2x/uicmdline.c,
+	src/arch/unix/gui/uicmdline.c,
+	src/arch/unix/macosx/cocoa/ui-cmdline-options.c,
+	src/arch/win32/uicmdline.c, src/cmdline.c, src/cmdline.h:
+	Finished up the intl unification code.
+
+2008-10-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/aciacore.c, src/arch/amigaos/joy.c,
+	src/arch/amigaos/joyll.c, src/arch/amigaos/uiapi.c,
+	src/arch/beos/joy.cc, src/arch/beos/kbd.c,
+	src/arch/beos/video.cc, src/arch/msdos/joy.c,
+	src/arch/msdos/ui.c, src/arch/msdos/video.c,
+	src/arch/msdos/vsync.c, src/arch/os2/joy.c, src/arch/os2/kbd.c,
+	src/arch/os2/kbd/kmap-pet.c, src/arch/os2/kbd/kmap.c,
+	src/arch/os2/mousedrv.c, src/arch/os2/ui.c,
+	src/arch/os2/unused/video_gpi.c, src/arch/os2/unused/vsync.c,
+	src/arch/os2/video.c, src/arch/unix/joy.c,
+	src/arch/unix/macosx/cocoa/ui-cmdline-options.c,
+	src/arch/unix/macosx/joy.c, src/arch/unix/mididrv.c,
+	src/arch/unix/rs232.c, src/arch/unix/x11/ui-cmdline-options.c,
+	src/arch/unix/x11/xaw/x11video.c, src/arch/win32/joy.c,
+	src/arch/win32/mididrv.c, src/arch/win32/ui-resources.c,
+	src/arch/win32/uicmdline.c, src/arch/win32/utils/gentranslate.c,
+	src/arch/win32/video.c, src/attach.c, src/autostart.c,
+	src/c128/c128-cmdline-options.c, src/c128/c128mmu.c,
+	src/c128/functionrom.c, src/c64/c64-cmdline-options.c,
+	src/c64/c64-midi.c, src/c64/c64_256k.c, src/c64/cart/c64cart.c,
+	src/c64/cart/ide64.c, src/c64/digimax.c, src/c64/georam.c,
+	src/c64/mmc64.c, src/c64/plus256k.c, src/c64/plus60k.c,
+	src/c64/psid.c, src/c64/ramcart.c, src/c64/reu.c, src/c64/tfe.c,
+	src/c64dtv/c64dtv-cmdline-options.c, src/c64dtv/c64dtvblitter.c,
+	src/c64dtv/c64dtvdma.c, src/c64dtv/c64dtvflash.c,
+	src/c64dtv/flash-trap.c, src/c64dtv/hummeradc.c,
+	src/cbm2/cbm2-cmdline-options.c, src/cmdline.c, src/cmdline.h,
+	src/datasette.c, src/debug.c, src/drive/drive-cmdline-options.c,
+	src/drive/iec/c64exp/c64exp-cmdline-options.c,
+	src/drive/iec/iec-cmdline-options.c,
+	src/drive/iec/plus4exp/plus4exp-cmdline-options.c,
+	src/drive/iec128dcr/iec128dcr-cmdline-options.c,
+	src/drive/ieee/ieee-cmdline-options.c,
+	src/drive/tcbm/tcbm-cmdline-options.c, src/event.c,
+	src/fliplist.c, src/fsdevice/fsdevice-cmdline-options.c,
+	src/gentranslate_h.sh, src/gfxoutputdrv/ffmpegdrv.c,
+	src/initcmdline.c, src/kbdbuf.c, src/log.c, src/midi.c,
+	src/monitor/monitor.c, src/mouse.c,
+	src/pet/pet-cmdline-options.c, src/pet/pet.c, src/pet/petpia1.c,
+	src/pet/petreu.c, src/plus4/plus4-cmdline-options.c,
+	src/plus4/plus4memcsory256k.c, src/plus4/plus4memhannes256k.c,
+	src/plus4/ted-cmdline-options.c, src/printerdrv/driver-select.c,
+	src/printerdrv/interface-serial.c,
+	src/printerdrv/interface-userport.c,
+	src/printerdrv/output-select.c, src/printerdrv/output-text.c,
+	src/ps2mouse.c, src/ram.c, src/raster/raster-cmdline-options.c,
+	src/rs232drv/rs232drv.c, src/rs232drv/rsuser.c,
+	src/serial/serial-iec-device.c, src/sid/sid-cmdline-options.c,
+	src/sound.c, src/sysfile.c, src/translate.c, src/translate.txt,
+	src/traps.c, src/vdc/vdc-cmdline-options.c,
+	src/vic20/vic20-cmdline-options.c, src/vic20/vic20cartridge.c,
+	src/vicii/vicii-cmdline-options.c,
+	src/video/video-cmdline-options.c, src/vsync.c: More intl
+	unification updates.
+
+2008-10-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/initcmdline.c, src/kbdbuf.c, src/log.c,
+	src/monitor/monitor.c, src/mouse.c,
+	src/pet/pet-cmdline-options.c, src/pet/petpia1.c,
+	src/pet/petreu.c, src/plus4/plus4-cmdline-options.c,
+	src/plus4/plus4memcsory256k.c, src/plus4/plus4memhannes256k.c,
+	src/plus4/ted-cmdline-options.c, src/printerdrv/driver-select.c,
+	src/printerdrv/interface-serial.c,
+	src/printerdrv/interface-userport.c,
+	src/printerdrv/output-select.c, src/printerdrv/output-text.c,
+	src/ps2mouse.c, src/ram.c, src/raster/raster-cmdline-options.c,
+	src/rs232drv/rs232drv.c, src/rs232drv/rsuser.c,
+	src/serial/serial-iec-device.c, src/sid/sid-cmdline-options.c,
+	src/translate.c: Some more intl unification changes.
+
+2008-10-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/c128/functionrom.c,
+	src/c64/c64-cmdline-options.c, src/c64/c64_256k.c,
+	src/c64/cart/c64cart.c, src/c64/cart/ide64.c, src/c64/digimax.c,
+	src/c64/georam.c, src/c64/mmc64.c, src/c64/plus256k.c,
+	src/c64/plus60k.c, src/c64/psid.c, src/c64/ramcart.c,
+	src/c64/reu.c, src/c64/tfe.c,
+	src/c64dtv/c64dtv-cmdline-options.c, src/c64dtv/c64dtvblitter.c,
+	src/c64dtv/c64dtvdma.c, src/c64dtv/c64dtvflash.c,
+	src/c64dtv/flash-trap.c, src/c64dtv/hummeradc.c,
+	src/cbm2/cbm2-cmdline-options.c, src/datasette.c,
+	src/drive/drive-cmdline-options.c,
+	src/drive/iec/c64exp/c64exp-cmdline-options.c,
+	src/drive/iec/iec-cmdline-options.c,
+	src/drive/iec/plus4exp/plus4exp-cmdline-options.c,
+	src/drive/iec128dcr/iec128dcr-cmdline-options.c,
+	src/drive/ieee/ieee-cmdline-options.c,
+	src/drive/tcbm/tcbm-cmdline-options.c, src/fliplist.c,
+	src/fsdevice/fsdevice-cmdline-options.c,
+	src/gfxoutputdrv/ffmpegdrv.c, src/translate.c: Some more intl
+	unification changes.
+
+2008-10-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/Makefile.am, src/aciacore.c, src/attach.c,
+	src/autostart.c, src/c128/c128-cmdline-options.c,
+	src/c128/c128mmu.c, src/c64/c64export.c, src/c64/c64io.c,
+	src/cmdline.c, src/cmdline.h, src/debug.c, src/event.c,
+	src/gentranslate_h.sh, src/network.c, src/screenshot.c,
+	src/sound.c, src/translate.c, src/vsync.c: intl unification
+	changes.
 
 2008-10-22  Martin Pottendorfer <pottendo@aon.at>
 
@@ -808,15 +963,18 @@ TODO: MERGE
 	* src/resid-fp/sid.cc: ReSID-fp hardclip fix as provided by
 	  Antti Lankila
 
-TODO: MERGE
+2008-10-12  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/unix/macosx/mididrv.c: Added svn-properties
+
+TODO: MERGE ChangeLog.add.v2.0.6-macmidi-chris
 
 2008-10-12  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
 	* ., configure.in, src/arch/unix/macosx/Makefile.am,
 	  src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist,
 	  src/arch/unix/macosx/mididrv.c: Merged
-	  tags/chris/v2.0.6-macmidi and add svn-properties for new file
-	  src/arch/unix/macosx/mididrv.c
+	  tags/chris/v2.0.6-macmidi
 
 2008-10-12  Hannu Nuotio <hannu.nuotio@tut.fi>
 
@@ -847,7 +1005,7 @@ TODO: MERGE
 	* configure.in, po/de.po, po/fr.po, po/hu.po, po/it.po,
 	  po/nl.po, po/pl.po, po/sv.po, src/version.h: Version 2.0.6
 
-TODO: MERGE
+TODO: MERGE ChangeLog.add.v2.0.5-macjoyupdate-chris
 
 2008-10-11  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
@@ -998,7 +1156,7 @@ TODO: NAME!
 	* src/resid/extfilt.cc, src/resid/filter.cc: Changed DTVSID to
 	  have the same DC as 6581
 
-TODO: MERGE
+TODO: MERGE ChangeLog.add.v2.0.4-palemurewrite
 
 2008-10-05  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
@@ -1227,7 +1385,7 @@ TODO: MERGE
 	  src/resid/wave.cc, src/resid/wave.h: Fixed DTVSID by removing
 	  obsolete SUPPORT_C64DTV ifdefs from resid
 
-TODO: MERGE
+TODO: MERGE ChangeLog.add.v2.0.4-irq-andreasm
 
 2008-09-13  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -1313,7 +1471,7 @@ TODO: MERGE
 	  po/nl.po, po/pl.po, po/sv.po, src/resid-fp/siddefs.h,
 	  src/version.h: Version 2.0.4
 
-TODO: MERGE
+TODO: MERGE ChangeLog.add.v2.0.3-win32menucleanup-marco
 
 2008-09-02  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -1382,7 +1540,7 @@ TODO: MERGE
 	  src/arch/win32/sid.dsp: Compile C++ files without copying them
 	  to .cpp first.
 
-TODO: MERGE
+TODO: MERGE ChangeLog.add.v2.0.3-residfp
 
 2008-08-31  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
@@ -1441,7 +1599,7 @@ TODO: MERGE
 	* configure.in, po/de.po, po/fr.po, po/hu.po, po/it.po,
 	  po/nl.po, po/pl.po, po/sv.po, src/version.h: Version 2.0.3
 
-TODO: MERGE
+TODO: MERGE ChangeLog.add.v2.0.2-mac-x64dtv
 
 2008-08-24  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
@@ -1596,163 +1754,163 @@ TODO: MERGE
 	  Likewise. * vsyncapi.h: new prototype for
 	  `vsyncarch_sync_with_raster()'.
 
-TODO: MERGE
+2008-08-17  Marco van den Heuvel <blackystardust68@yahoo.com>
 
-2008-08-19  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+	* src/arch/os2/watcom/archdep.tgt, src/arch/os2/watcom/c128.tgt,
+	src/arch/os2/watcom/c128c64.tgt, src/arch/os2/watcom/c64.tgt,
+	src/arch/os2/watcom/c64cart.tgt,
+	src/arch/os2/watcom/c64common.tgt,
+	src/arch/os2/watcom/c64dtv.tgt,
+	src/arch/os2/watcom/c64dtvc64.tgt,
+	src/arch/os2/watcom/cartconv.tgt, src/arch/os2/watcom/cbm2.tgt,
+	src/arch/os2/watcom/core.tgt, src/arch/os2/watcom/crtc.tgt,
+	src/arch/os2/watcom/dialogs.tgt,
+	src/arch/os2/watcom/diskimage.tgt,
+	src/arch/os2/watcom/drive.tgt, src/arch/os2/watcom/fileio.tgt,
+	src/arch/os2/watcom/fsdevice.tgt,
+	src/arch/os2/watcom/gfxoutputdrv.tgt,
+	src/arch/os2/watcom/iec.tgt, src/arch/os2/watcom/iecbus.tgt,
+	src/arch/os2/watcom/iecc64exp.tgt,
+	src/arch/os2/watcom/iecieee.tgt,
+	src/arch/os2/watcom/iecplus4exp.tgt,
+	src/arch/os2/watcom/ieee.tgt,
+	src/arch/os2/watcom/imagecontents.tgt,
+	src/arch/os2/watcom/kbd.tgt, src/arch/os2/watcom/mainsrc.tgt,
+	src/arch/os2/watcom/monitor.tgt,
+	src/arch/os2/watcom/nonresid-specific.tgt,
+	src/arch/os2/watcom/nonvic1or2-specific.tgt,
+	src/arch/os2/watcom/nonx128-specific.tgt,
+	src/arch/os2/watcom/nonx1541-specific.tgt,
+	src/arch/os2/watcom/nonx64-specific.tgt,
+	src/arch/os2/watcom/parallel.tgt, src/arch/os2/watcom/pet.tgt,
+	src/arch/os2/watcom/petcat-specific.tgt,
+	src/arch/os2/watcom/petcat.tgt, src/arch/os2/watcom/plus4.tgt,
+	src/arch/os2/watcom/printerdrv.tgt,
+	src/arch/os2/watcom/raster.tgt,
+	src/arch/os2/watcom/resid-specific.tgt,
+	src/arch/os2/watcom/resid.tgt, src/arch/os2/watcom/rs232drv.tgt,
+	src/arch/os2/watcom/serial.tgt,
+	src/arch/os2/watcom/sounddrv.tgt, src/arch/os2/watcom/tape.tgt,
+	src/arch/os2/watcom/tcbm.tgt, src/arch/os2/watcom/vdc.tgt,
+	src/arch/os2/watcom/vdrive.tgt, src/arch/os2/watcom/vic20.tgt,
+	src/arch/os2/watcom/vice.wpj, src/arch/os2/watcom/vicii.tgt,
+	src/arch/os2/watcom/viciicommon.tgt,
+	src/arch/os2/watcom/viciidtv.tgt, src/arch/os2/watcom/video.tgt,
+	src/arch/os2/watcom/vsid.tgt,
+	src/arch/os2/watcom/x128-specific.tgt,
+	src/arch/os2/watcom/x128.tgt,
+	src/arch/os2/watcom/x1541-specific.tgt,
+	src/arch/os2/watcom/x1541.tgt,
+	src/arch/os2/watcom/x64-specific.tgt,
+	src/arch/os2/watcom/x64.tgt,
+	src/arch/os2/watcom/x64dtv-specific.tgt,
+	src/arch/os2/watcom/x64dtv.tgt,
+	src/arch/os2/watcom/x64x128-specific.tgt,
+	src/arch/os2/watcom/xall-specific.tgt,
+	src/arch/os2/watcom/xcbm2-specific.tgt,
+	src/arch/os2/watcom/xcbm2.tgt,
+	src/arch/os2/watcom/xpet-specific.tgt,
+	src/arch/os2/watcom/xpet.tgt,
+	src/arch/os2/watcom/xplus4-specific.tgt,
+	src/arch/os2/watcom/xplus4.tgt,
+	src/arch/os2/watcom/xvic-specific.tgt,
+	src/arch/os2/watcom/xvic.tgt, src/arch/win32/watcom/arch.tgt,
+	src/arch/win32/watcom/base.tgt, src/arch/win32/watcom/c128.tgt,
+	src/arch/win32/watcom/c1541.tgt, src/arch/win32/watcom/c64.tgt,
+	src/arch/win32/watcom/c64cart.tgt,
+	src/arch/win32/watcom/c64commonc128.tgt,
+	src/arch/win32/watcom/c64commonc128c64dtv.tgt,
+	src/arch/win32/watcom/c64commonc64dtv.tgt,
+	src/arch/win32/watcom/c64dtv.tgt,
+	src/arch/win32/watcom/c64exp.tgt,
+	src/arch/win32/watcom/cartconv.tgt,
+	src/arch/win32/watcom/cbm2.tgt, src/arch/win32/watcom/core.tgt,
+	src/arch/win32/watcom/crtc.tgt,
+	src/arch/win32/watcom/diskimage.tgt,
+	src/arch/win32/watcom/drive.tgt,
+	src/arch/win32/watcom/fileio.tgt,
+	src/arch/win32/watcom/fsdevice.tgt,
+	src/arch/win32/watcom/gfxoutputdrv.tgt,
+	src/arch/win32/watcom/iec.tgt,
+	src/arch/win32/watcom/iec128dcr.tgt,
+	src/arch/win32/watcom/iecbus.tgt,
+	src/arch/win32/watcom/iecieee.tgt,
+	src/arch/win32/watcom/ieee.tgt,
+	src/arch/win32/watcom/imagecontents.tgt,
+	src/arch/win32/watcom/maincpu.tgt,
+	src/arch/win32/watcom/monitor.tgt,
+	src/arch/win32/watcom/parallel.tgt,
+	src/arch/win32/watcom/pet.tgt, src/arch/win32/watcom/petcat.tgt,
+	src/arch/win32/watcom/plus4.tgt,
+	src/arch/win32/watcom/plus4exp.tgt,
+	src/arch/win32/watcom/printerdrv.tgt,
+	src/arch/win32/watcom/raster.tgt,
+	src/arch/win32/watcom/rs232drv.tgt,
+	src/arch/win32/watcom/serial.tgt, src/arch/win32/watcom/sid.tgt,
+	src/arch/win32/watcom/sounddrv.tgt,
+	src/arch/win32/watcom/tape.tgt, src/arch/win32/watcom/tcbm.tgt,
+	src/arch/win32/watcom/vdc.tgt, src/arch/win32/watcom/vdrive.tgt,
+	src/arch/win32/watcom/vic20.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/watcom/vicii.tgt,
+	src/arch/win32/watcom/viciicommon.tgt,
+	src/arch/win32/watcom/viciidtv.tgt,
+	src/arch/win32/watcom/video.tgt, src/arch/win32/watcom/x128.tgt,
+	src/arch/win32/watcom/x64.tgt, src/arch/win32/watcom/x64dtv.tgt,
+	src/arch/win32/watcom/xcbm2.tgt, src/arch/win32/watcom/xpet.tgt,
+	src/arch/win32/watcom/xplus4.tgt,
+	src/arch/win32/watcom/xvic.tgt: Tweaked the watcom speed
+	optimizations to make the exes run faster.
 
-	* ., AUTHORS, Makefile.am, README, configure.in,
-	  doc/html/index.html, doc/vice.texi, po/fr.po,
-	  src/arch/amigaos/amigamain.c, src/arch/amigaos/intl.c,
-	  src/arch/amigaos/mui/mui.c, src/arch/amigaos/signals.c,
-	  src/arch/beos/ui.cc, src/arch/msdos/menudefs.c,
-	  src/arch/os2/dialogs, src/arch/os2/dialogs/dialogs.rc,
-	  src/arch/os2/watcom, src/arch/os2/watcom/archdep.tgt,
-	  src/arch/os2/watcom/c128.tgt, src/arch/os2/watcom/c128c64.tgt,
-	  src/arch/os2/watcom/c64.tgt, src/arch/os2/watcom/c64cart.tgt,
-	  src/arch/os2/watcom/c64common.tgt,
-	  src/arch/os2/watcom/c64dtv.tgt,
-	  src/arch/os2/watcom/c64dtvc64.tgt,
-	  src/arch/os2/watcom/cartconv.tgt,
-	  src/arch/os2/watcom/cbm2.tgt, src/arch/os2/watcom/core.tgt,
-	  src/arch/os2/watcom/crtc.tgt, src/arch/os2/watcom/dialogs.tgt,
-	  src/arch/os2/watcom/diskimage.tgt,
-	  src/arch/os2/watcom/drive.tgt, src/arch/os2/watcom/fileio.tgt,
-	  src/arch/os2/watcom/fsdevice.tgt,
-	  src/arch/os2/watcom/gfxoutputdrv.tgt,
-	  src/arch/os2/watcom/iec.tgt, src/arch/os2/watcom/iecbus.tgt,
-	  src/arch/os2/watcom/iecc64exp.tgt,
-	  src/arch/os2/watcom/iecieee.tgt,
-	  src/arch/os2/watcom/iecplus4exp.tgt,
-	  src/arch/os2/watcom/ieee.tgt,
-	  src/arch/os2/watcom/imagecontents.tgt,
-	  src/arch/os2/watcom/kbd.tgt, src/arch/os2/watcom/mainsrc.tgt,
-	  src/arch/os2/watcom/monitor.tgt,
-	  src/arch/os2/watcom/nonresid-specific.tgt,
-	  src/arch/os2/watcom/nonvic1or2-specific.tgt,
-	  src/arch/os2/watcom/nonx128-specific.tgt,
-	  src/arch/os2/watcom/nonx1541-specific.tgt,
-	  src/arch/os2/watcom/nonx64-specific.tgt,
-	  src/arch/os2/watcom/parallel.tgt, src/arch/os2/watcom/pet.tgt,
-	  src/arch/os2/watcom/petcat-specific.tgt,
-	  src/arch/os2/watcom/petcat.tgt, src/arch/os2/watcom/plus4.tgt,
-	  src/arch/os2/watcom/printerdrv.tgt,
-	  src/arch/os2/watcom/raster.tgt,
-	  src/arch/os2/watcom/resid-specific.tgt,
-	  src/arch/os2/watcom/resid.tgt,
-	  src/arch/os2/watcom/rs232drv.tgt,
-	  src/arch/os2/watcom/serial.tgt,
-	  src/arch/os2/watcom/sounddrv.tgt,
-	  src/arch/os2/watcom/tape.tgt, src/arch/os2/watcom/tcbm.tgt,
-	  src/arch/os2/watcom/vdc.tgt, src/arch/os2/watcom/vdrive.tgt,
-	  src/arch/os2/watcom/vic20.tgt, src/arch/os2/watcom/vice.wpj,
-	  src/arch/os2/watcom/vicii.tgt,
-	  src/arch/os2/watcom/viciicommon.tgt,
-	  src/arch/os2/watcom/viciidtv.tgt,
-	  src/arch/os2/watcom/video.tgt, src/arch/os2/watcom/vsid.tgt,
-	  src/arch/os2/watcom/x128-specific.tgt,
-	  src/arch/os2/watcom/x128.tgt,
-	  src/arch/os2/watcom/x1541-specific.tgt,
-	  src/arch/os2/watcom/x1541.tgt,
-	  src/arch/os2/watcom/x64-specific.tgt,
-	  src/arch/os2/watcom/x64.tgt,
-	  src/arch/os2/watcom/x64dtv-specific.tgt,
-	  src/arch/os2/watcom/x64dtv.tgt,
-	  src/arch/os2/watcom/x64x128-specific.tgt,
-	  src/arch/os2/watcom/xall-specific.tgt,
-	  src/arch/os2/watcom/xcbm2-specific.tgt,
-	  src/arch/os2/watcom/xcbm2.tgt,
-	  src/arch/os2/watcom/xpet-specific.tgt,
-	  src/arch/os2/watcom/xpet.tgt,
-	  src/arch/os2/watcom/xplus4-specific.tgt,
-	  src/arch/os2/watcom/xplus4.tgt,
-	  src/arch/os2/watcom/xvic-specific.tgt,
-	  src/arch/os2/watcom/xvic.tgt, src/arch/unix/gui/uicommands.c,
-	  src/arch/unix/gui/vsidui.c, src/arch/unix/joy.c,
-	  src/arch/unix/joy_usb.c,
-	  src/arch/unix/macosx/Resources/Credits.html,
-	  src/arch/unix/rs232.c, src/arch/unix/signals.c,
-	  src/arch/unix/unixmain.c, src/arch/unix/x11/gnome/about.c,
-	  src/arch/unix/x11/gnome/uinetplay.c,
-	  src/arch/unix/x11/gnome/uiscreenshot.c,
-	  src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/vidmode.c,
-	  src/arch/unix/x11/xaw/about.c,
-	  src/arch/unix/x11/xaw/uicolor.c,
-	  src/arch/unix/x11/xaw/x11ui.c,
-	  src/arch/unix/x11/xaw/x11video.c, src/arch/win32/res.rc,
-	  src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
-	  src/arch/win32/resc64_256k.rc, src/arch/win32/resc64dtv.rc,
-	  src/arch/win32/rescbm2.rc, src/arch/win32/resdrivec128.rc,
-	  src/arch/win32/resdrivec64.rc,
-	  src/arch/win32/resdriveplus4.rc,
-	  src/arch/win32/resdrivevic20.rc, src/arch/win32/resmmc64.rc,
-	  src/arch/win32/resmouse.rc, src/arch/win32/respet.rc,
-	  src/arch/win32/resplus256k.rc, src/arch/win32/resplus4.rc,
-	  src/arch/win32/ressidcart.rc, src/arch/win32/resvic20.rc,
-	  src/arch/win32/resvicii.rc, src/arch/win32/rs232.c,
-	  src/arch/win32/watcom, src/arch/win32/watcom/arch.tgt,
-	  src/arch/win32/watcom/base.tgt,
-	  src/arch/win32/watcom/c128.tgt,
-	  src/arch/win32/watcom/c1541.tgt,
-	  src/arch/win32/watcom/c64.tgt,
-	  src/arch/win32/watcom/c64cart.tgt,
-	  src/arch/win32/watcom/c64commonc128.tgt,
-	  src/arch/win32/watcom/c64commonc128c64dtv.tgt,
-	  src/arch/win32/watcom/c64commonc64dtv.tgt,
-	  src/arch/win32/watcom/c64dtv.tgt,
-	  src/arch/win32/watcom/c64exp.tgt,
-	  src/arch/win32/watcom/cartconv.tgt,
-	  src/arch/win32/watcom/cbm2.tgt,
-	  src/arch/win32/watcom/core.tgt,
-	  src/arch/win32/watcom/crtc.tgt,
-	  src/arch/win32/watcom/diskimage.tgt,
-	  src/arch/win32/watcom/drive.tgt,
-	  src/arch/win32/watcom/fileio.tgt,
-	  src/arch/win32/watcom/fsdevice.tgt,
-	  src/arch/win32/watcom/gfxoutputdrv.tgt,
-	  src/arch/win32/watcom/iec.tgt,
-	  src/arch/win32/watcom/iec128dcr.tgt,
-	  src/arch/win32/watcom/iecbus.tgt,
-	  src/arch/win32/watcom/iecieee.tgt,
-	  src/arch/win32/watcom/ieee.tgt,
-	  src/arch/win32/watcom/imagecontents.tgt,
-	  src/arch/win32/watcom/maincpu.tgt,
-	  src/arch/win32/watcom/monitor.tgt,
-	  src/arch/win32/watcom/parallel.tgt,
-	  src/arch/win32/watcom/pet.tgt,
-	  src/arch/win32/watcom/petcat.tgt,
-	  src/arch/win32/watcom/plus4.tgt,
-	  src/arch/win32/watcom/plus4exp.tgt,
-	  src/arch/win32/watcom/printerdrv.tgt,
-	  src/arch/win32/watcom/raster.tgt,
-	  src/arch/win32/watcom/rs232drv.tgt,
-	  src/arch/win32/watcom/serial.tgt,
-	  src/arch/win32/watcom/sid.tgt,
-	  src/arch/win32/watcom/sounddrv.tgt,
-	  src/arch/win32/watcom/tape.tgt,
-	  src/arch/win32/watcom/tcbm.tgt, src/arch/win32/watcom/vdc.tgt,
-	  src/arch/win32/watcom/vdrive.tgt,
-	  src/arch/win32/watcom/vic20.tgt,
-	  src/arch/win32/watcom/vice.wpj,
-	  src/arch/win32/watcom/vicii.tgt,
-	  src/arch/win32/watcom/viciicommon.tgt,
-	  src/arch/win32/watcom/viciidtv.tgt,
-	  src/arch/win32/watcom/video.tgt,
-	  src/arch/win32/watcom/x128.tgt, src/arch/win32/watcom/x64.tgt,
-	  src/arch/win32/watcom/x64dtv.tgt,
-	  src/arch/win32/watcom/xcbm2.tgt,
-	  src/arch/win32/watcom/xpet.tgt,
-	  src/arch/win32/watcom/xplus4.tgt,
-	  src/arch/win32/watcom/xvic.tgt, src/c64/tfe.c,
-	  src/diskimage/diskimage.c, src/info.c, src/keyboard.c,
-	  src/main.c, src/plus4/ted-snapshot.c, src/sound.c,
-	  src/translate.c, src/vsync.c: Merged changes from Marco:
-	  Tweaked the watcom speed optimizations to make the exes run
-	  faster; Added some svn ignores for watcom generated files;
-	  Changed to use a 'common' files list and a 'po' files list for
-	  the 'make dist' fix. Got rid of (most of) the translation of
-	  log entries; Fixed a typo; Fixed to make 'make dist' work on
-	  all platforms; Added the VICEplus members to the VICE members
-	  lists; Updated the french translations.
+2008-08-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs, src/arch/os2/watcom,
+	src/arch/win32/watcom: Added some svn ignores for watcom
+	generated files.
+
+2008-08-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am: Changed to use a 'common' files list and a 'po'
+	files list for the 'make dist' fix.
+
+	* src/arch/amigaos/amigamain.c, src/arch/amigaos/signals.c,
+	src/arch/unix/gui/uicommands.c, src/arch/unix/gui/vsidui.c,
+	src/arch/unix/joy.c, src/arch/unix/joy_usb.c,
+	src/arch/unix/rs232.c, src/arch/unix/signals.c,
+	src/arch/unix/unixmain.c, src/arch/unix/x11/gnome/uinetplay.c,
+	src/arch/unix/x11/gnome/uiscreenshot.c,
+	src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/vidmode.c,
+	src/arch/unix/x11/xaw/uicolor.c, src/arch/unix/x11/xaw/x11ui.c,
+	src/arch/unix/x11/xaw/x11video.c, src/arch/win32/rs232.c,
+	src/c64/tfe.c, src/diskimage/diskimage.c, src/keyboard.c,
+	src/plus4/ted-snapshot.c, src/sound.c, src/vsync.c: Got rid of
+	(most of) the translation of log entries.
+
+	* Makefile.am: Fixed a typo.
+
+	* Makefile.am, configure.in: Fixed to make 'make dist' work on
+	all platforms.
+
+2008-08-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* AUTHORS, README, doc/html/index.html, doc/vice.texi,
+	src/ARch/amigaos/mui/mui.c, src/arch/beos/ui.cc,
+	src/arch/msdos/menudefs.c, src/arch/os2/dialogs/dialogs.rc,
+	src/arch/unix/macosx/Resources/Credits.html,
+	src/arch/unix/x11/gnome/about.c, src/arch/unix/x11/xaw/about.c,
+	src/arch/win32/res.rc, src/info.c, src/main.c: Added the
+	VICEplus members to the VICE members lists.
+
+	* po/fr.po, src/arch/amigaos/intl.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64_256k.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/resdrivec128.rc,
+	src/arch/win32/resdrivec64.rc, src/arch/win32/resdriveplus4.rc,
+	src/arch/win32/resdrivevic20.rc, src/arch/win32/resmmc64.rc,
+	src/arch/win32/resmouse.rc, src/arch/win32/respet.rc,
+	src/arch/win32/resplus256k.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/ressidcart.rc, src/arch/win32/resvic20.rc,
+	src/arch/win32/resvicii.rc, src/translate.c: Updated the french
+	translations.
 
 2008-08-18  Marco van den Heuvel <blackystardust68@yahoo.com>
 
