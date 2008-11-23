@@ -120,7 +120,46 @@ volatile unsigned long   gp2x_sound_pausei=1,           gp2x_ticks=0,      gp2x_
          unsigned short *gp2x_memregs,                 *gp2x_screen15,    *gp2x_logvram15[4],  gp2x_sound_buffer[4+((44100/25)*2)*8]; /* 25 Hz gives our biggest supported sampling buffer */
 volatile unsigned short  gp2x_palette[512];
          pthread_t       gp2x_sound_thread=0;
+	 struct termios  initial_settings, new_settings;
+	 unsigned char   keybuffer[64];
+static   int             gp2x_usbjoy[4];
+         unsigned long   gp2x_usbjoys;
 
+/* Credits: GnoStiC */
+
+unsigned char gp2x_keyboard_read(void) {
+	if (gp2x_dev[5] == -1) { return 0; }
+	unsigned char key;
+
+	read(gp2x_dev[5],&key,1);
+
+	if ((key&0x80)) { key = 0; } else { key = key & 0x7F; }
+	return key;
+}
+
+unsigned int gp2x_keyboard_readext(void) {
+	if (gp2x_dev[5] == -1) { return 0; }
+	return read(gp2x_dev[5], keybuffer, 64);
+}
+
+unsigned int gp2x_keyboard_ledget(void) {
+	unsigned long int leds;
+	ioctl(gp2x_dev[5], KDGETLED, &leds);
+	return leds;
+/*
+if ( == LED_SCROLLLOCK) printf ("Scroll Lock led is on\n");
+else if (arg == LED_NUMLOCK) printf ("Num Lock led is on\n");
+else if (arg == LED_CAPSLOCK) printf ("Caps Lock led is on\n");
+else if (arg == LED_NUMLOCK + LED_CAPLOCK) printf("Num Lock & Caps Lock leds are on\n");
+else if (arg == LED_NUMLOCK + LED_SCROLLLOCK) printf("Num Lock & Scroll Lock leds are on\n");
+else if (arg == LED_CAPLOCK + LED_SCROLLLOCK) printf("Caps Lock & Scroll Lock LEDs are on\n");
+else if (arg == LED_NUMLOCK + LED_SCROLLLOCK + LED_CAPLOCK) printf("Num Lock, Scroll Lock & Caps Lock leds are on\n");
+*/
+}
+
+void gp2x_keyboard_ledset(unsigned int led) {
+	ioctl(gp2x_dev[5], KDSETLED, led);
+}
 
 void gp2x_video_flip(void)
 {
@@ -174,16 +213,187 @@ void gp2x_blitter_rect8(gp2x_rect *r)
                       offset+=320-x; }
 }
  
-unsigned long gp2x_joystick_read(void)
+
+/*
+   ,--------------------.
+   |                    |X
+   |   GP2X - JOYSTICK  |X
+   |                    |X
+   `--------------------'X
+    XXXXXXXXXXXXXXXXXXXXXX 
+*/
+
+/* Internal function which inits usb joystick variables.
+
+   Credits:
+   rlyeh */
+
+static void gp2x_joystick_init (void)
 {
-  unsigned long value=(gp2x_memregs[0x1198>>1] & 0x00FF);
+ char device[32]; int i=-1; gp2x_usbjoys = 0;
+
+ while(++i<4) { sprintf (device, "/dev/input/js%d", i); 
+                if((gp2x_usbjoy[i] = open(device, O_RDONLY|O_NONBLOCK, 0)) >0) gp2x_usbjoys++; }
+#if 0
+	printf("Joystick(s) found: %d\n",gp2x_usbjoys+1);
+ for (i=0;i<gp2x_usbjoys+1;i++) {
+	printf("Joystick %d: %s\n",i,gp2x_joystick_name(i));
+ }
+#endif
+}
+
+
+/* Internal function which deinits usb joystick variables.
+
+   Credits:
+   rlyeh */
+
+static void gp2x_joystick_deinit(void)
+{
+ int i; for(gp2x_usbjoys=i=0;i<4;i++) if(gp2x_usbjoy[i] > 0) close(gp2x_usbjoy[i]);
+}
+
+
+/* Function: gp2x_joystick_scan
+   This function forces a new scan looking for recently plugged joysticks.
+
+   Note:
+   - Notice that Minimal Library scans already for plugged USB joysticks at start of program.
+   - It would be wise to check, after calling this function, new and old joysticks both together with <gp2x_joystick_name>
+   
+   See also:
+   <gp2x_joystick_name>, <gp2x_usbjoys>
+
+   Credits:
+   rlyeh */
+
+void gp2x_joystick_scan(void)
+{
+ gp2x_joystick_deinit();
+ gp2x_joystick_init();
+}
+
+/* Function: gp2x_joystick_read
+   This function returns the active <GP2X joystick values>.
+
+   Usage:
+   Call this function once per frame to keep your joystick values updated.
+
+   Parameters:
+   joystick - 0 for GP2X pad, 1 for first USB joystick, 2 for second USB joystick, etc...
+
+   Note:
+   In order to detect simultaneous buttons you will have to mask the value.
+
+   See also:
+   <gp2x_joystick_wait>, <GP2X joystick values>, <gp2x_usbjoys>
+
+   Example:
+   > unsigned long pad=gp2x_joystick_read(0);
+   >
+   > if(pad==GP2X_A) ...               //check that only A is pressed.
+   > if(pad&GP2X_A)  ...               //check that A is pressed, despite the other buttons.
+   > if(pad&GP2X_R) if(pad&GP2X_L) ... //check that both L and R are pressed, despite the other buttons.
+
+   Credits:
+   Puck2099 and GnoStiC (original code)
+   rlyeh */
+
+unsigned long gp2x_joystick_read(int joystick)
+{
+ unsigned long value;
+ 
+ if(!joystick)
+ {
+  value=(gp2x_memregs[0x1198>>1] & 0x00FF);
 
   if(value==0xFD) value=0xFA;
   if(value==0xF7) value=0xEB;
   if(value==0xDF) value=0xAF;
   if(value==0x7F) value=0xBE;
+  
+  value = (~((gp2x_memregs[0x1184>>1] & 0xFF00) | value | (gp2x_memregs[0x1186>>1] << 16))) & (~0xc0040000);
+  
+//  if(gp2x_f200)
+//    value |= ((value & (GP2X_LEFT|GP2X_RIGHT|GP2X_UP|GP2X_DOWN)) == (GP2X_LEFT|GP2X_RIGHT|GP2X_UP|GP2X_DOWN) ? GP2X_PUSH : 0);
+  
+  return value;
+ }
+ else
+ { 
+  struct JS_DATA_TYPE js; int i;
+
+  if(read(gp2x_usbjoy[joystick-1], &js, JS_RETURN) != JS_RETURN) return 0;
+
+  i = js.buttons;
+  value  = ((i &    1)>> 0) * (GP2X_Y); /* these values should be optimized at compilation time */
+  value |= ((i &    2)>> 1) * (GP2X_B);
+  value |= ((i &    4)>> 2) * (GP2X_X);
+  value |= ((i &    8)>> 3) * (GP2X_A);
+  value |= ((i &   16)>> 4) * (GP2X_L);
+  value |= ((i &   32)>> 5) * (GP2X_R);
+  value |= ((i &   64)>> 6) * (GP2X_L);
+  value |= ((i &  128)>> 7) * (GP2X_R);
+  value |= ((i &  256)>> 8) * (GP2X_SELECT);
+  value |= ((i &  512)>> 9) * (GP2X_START);
+  value |= ((i & 1024)>>10) * (GP2X_PUSH);
+  value |= ((i & 2048)>>11) * (GP2X_PUSH);
+
+  if(js.x & 0x7F) value |= (js.x & 0x80 ? GP2X_RIGHT : GP2X_LEFT);
+  if(js.y & 0x7F) value |= (js.y & 0x80 ? GP2X_DOWN  : GP2X_UP);
+ }
+ return value;
+} 
+
+/* Function: gp2x_joystick_name
+   This function returns name for joystick.
+
+   Note:
+   - Function returns an empty string if joystick not found.
+
+   Parameters:
+   joystick - 0 for GP2X pad, 1 for first USB joystick, 2 for second USB joystick, etc...
+
+   Example:
+   > printf(gp2x_joystick_name(0)); // printfs "GP2X gamepad"
+   > printf(gp2x_joystick_name(1)); // printfs 1st usb joystick name if plugged
+
+   See also:
+   <gp2x_joystick_scan>, <gp2x_usbjoys>
+
+   Credits:
+   rlyeh */
+
+char *gp2x_joystick_name(int joystick)
+{
+ static char name[128];
  
-  return ~((gp2x_memregs[0x1184>>1] & 0xFF00) | value | (gp2x_memregs[0x1186>>1] << 16));
+ sprintf(name, !joystick ? "GP2X gamepad" : "");
+ if(joystick>0) if(gp2x_usbjoy[joystick-1] > 0) ioctl(gp2x_usbjoy[joystick-1], JSIOCGNAME(sizeof(name)), name); 
+ 
+ return name;
+}
+
+/* Function: gp2x_joystick_wait
+   This function waits for joystick to press *and* release a combination.
+
+   Parameters:
+   joystick - 0 for GP2X pad, 1 for first USB joystick, 2 for second USB joystick, etc...
+   combination - a combination of or'ed <GP2X joystick values> values
+
+   Example:
+   > gp2x_joystick_wait(1, GP2X_A | GP2X_START); // waits until A & START are simultaneously pressed and released on usb joystick #1
+
+   See also:
+   <gp2x_joystick_read>, <GP2X joystick values>, <gp2x_usbjoys>
+
+   Credits:
+   rlyeh */
+
+void gp2x_joystick_wait(int joystick, unsigned long combination)
+{
+ while(gp2x_joystick_read(joystick) != combination);
+ while(gp2x_joystick_read(joystick) == combination);
 }
 
 void gp2x_sound_volume(int l, int r)
@@ -294,6 +504,10 @@ void gp2x_init(int ticks_per_second, int bpp, int rate, int bits, int stereo, in
   struct fb_fix_screeninfo fixed_info;
   static int first=1;
 
+  system("/sbin/insmod input    &> /dev/null");
+  system("/sbin/insmod joydev   &> /dev/null");
+  system("/sbin/insmod keybdev  &> /dev/null");
+  system("/sbin/insmod mousedev &> /dev/null");
 
   gp2x_ticks_per_second=7372800/ticks_per_second; 
 
@@ -301,7 +515,37 @@ void gp2x_init(int ticks_per_second, int bpp, int rate, int bits, int stereo, in
   if(!gp2x_dev[1])   gp2x_dev[1] = open("/dev/fb1",   O_RDWR);
   if(!gp2x_dev[2])   gp2x_dev[2] = open("/dev/mem",   O_RDWR); 
   if(!gp2x_dev[4])   gp2x_dev[4] = open("/dev/mixer", O_RDWR);
+  if(!gp2x_dev[5])   {
+		     gp2x_dev[5] = -1;
+		     gp2x_dev[5] = open("/dev/tty0",  O_RDWR | O_NDELAY, 0);
+	if (gp2x_dev[5] < 0) {
+		     gp2x_dev[5] = open("/dev/vc/0",  O_RDWR | O_NDELAY, 0);
+	}
 
+	if (gp2x_dev[5] >= 0) {
+		tcgetattr(gp2x_dev[5], &initial_settings);
+		new_settings = initial_settings;
+		new_settings.c_lflag &= ~(ICANON | ECHO | ISIG);
+		new_settings.c_iflag &= ~(ISTRIP | IGNCR | ICRNL | INLCR | IXOFF | IXON);
+		new_settings.c_cc[VMIN] = 0;
+		new_settings.c_cc[VTIME] = 0;
+		tcsetattr(gp2x_dev[5], TCSAFLUSH, &new_settings);
+		//tcsetattr(gp2x_dev[5], TCSANOW, &new_settings);
+
+		ioctl(gp2x_dev[5], KDSKBMODE, K_MEDIUMRAW); /* 7bits, 8th bit press/release */
+		ioctl(gp2x_dev[5], KDSETMODE, KD_GRAPHICS);
+		ioctl(gp2x_dev[5], KDSETLED, 0);
+		printf("keyboard enabled\n");
+
+#if 0
+              int data = 0;
+              ioctl(gp2x_dev[5], KDGKBTYPE, &data);
+              if(data==KB_84||data==KB_101) printf("!!\n");
+              printf("kb %d\n",data);
+#endif
+	}
+  }
+              gp2x_joystick_init(); /* open joystick devices */
 
   gp2x_dualcore_ram=(unsigned long  *)mmap(0, 0x1000000, PROT_READ|PROT_WRITE, MAP_SHARED, gp2x_dev[2], 0x03000000);
        gp2x_memregl=(unsigned long  *)mmap(0, 0x10000,   PROT_READ|PROT_WRITE, MAP_SHARED, gp2x_dev[2], 0xc0000000);
@@ -344,7 +588,9 @@ void gp2x_deinit(void)
   gp2x_memregs[0x28DA>>1]=0x4AB;                               /* set video mode */
   gp2x_memregs[0x290C>>1]=640;   
  
-  { int i; for(i=0;i<8;i++) if(gp2x_dev[i]) close(gp2x_dev[i]); }    /* close all devices */
+  gp2x_joystick_deinit();
+
+  { unsigned int i; for(i=0;i<8;i++) if(gp2x_dev[i]) close(gp2x_dev[i]); }    /* close all devices */
 
   fcloseall();                                                   /* close all files */
 

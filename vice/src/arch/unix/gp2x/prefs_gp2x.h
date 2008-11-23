@@ -3,6 +3,7 @@
  *
  * Written by
  *  Mike Dawson <mike@gp2x.org>
+ *  Mustafa 'GnoStiC' Tufan <mtufan@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,8 +25,8 @@
  *
  */
 
-#ifndef _PREFS_GP2X_H
-#define _PREFS_GP2X_H
+#ifndef VICE_PREFS_GP2X_H
+#define VICE_PREFS_GP2X_H
 
 extern int vkeyb_open;
 extern int prefs_open;
@@ -66,20 +67,25 @@ extern void (*ui_attach_cart)(char *, int);
 #define X6           9
 #define X7          10
 #define X8          11
-#define RESET       12
-#define BLANK1      13
-#define SAVE_SNAP   14
-#define JOYSTICK    15
-#define FRAMESKIP   16
-#define WARP        17
-#define TRUEDRIVE   18
-#define VDEVICES    19
-#define SIDENGINE   20
-#define SCALED      21
-#define CENTRED     22
-#define CPUSPEED    23
-#define BLANK2      24
+#define RESET        9
+#define BLANK1      10
+
+#define SAVE_SNAP   12
+#define KEYMAP      13
+#define JOYSTICK    14
+#define USBJOYSTICK1    15
+#define USBJOYSTICK2    16
+#define FRAMESKIP   17
+#define WARP        18
+#define TRUEDRIVE   19
+#define VDEVICES    20
+#define SIDENGINE   21
+#define SCALED      22
+#define CENTRED     23
+#define CPUSPEED    24
+//#define BLANK2      24
 #define EXITVICE    25
+
 #define NUM_OPTIONS 26
 #define D64         27
 #define LOADSTAR    28
@@ -93,10 +99,16 @@ extern void (*ui_attach_cart)(char *, int);
 #define BLANK4      36
 #define LOAD_SNAP   37
 #define PRG         38
-#define TVOUT       39
 
 extern void draw_stats(unsigned char *screen);
 extern void draw_prefs(unsigned char *screen);
 extern void display_set();
+extern unsigned int cur_portusb1;
+extern unsigned int cur_portusb2;
+
+extern unsigned int mapped_up;
+extern unsigned int mapped_down;
+extern unsigned int mapped_left;
+extern unsigned int mapped_right;
 
 #endif

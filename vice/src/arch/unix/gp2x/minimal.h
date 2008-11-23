@@ -1,5 +1,4 @@
 /*
-
   GP2X minimal library v0.A by rlyeh, (c) 2005. emulnation.info@rlyeh (swap it!)
 
   Thanks to Squidge, Robster, snaff, Reesy and NK, for the help & previous work! :-)
@@ -26,6 +25,11 @@
 #include <sys/soundcard.h>
 #include <sys/time.h>
 #include <unistd.h>
+#include <linux/keyboard.h>
+#include <linux/kd.h>
+#include <linux/joystick.h>
+#include <termios.h>
+#include <keycodes.h>
 
 #ifndef __MINIMAL_H__
 #define __MINIMAL_H__
@@ -84,8 +88,8 @@ extern void             gp2x_deinit(void);
 extern void             gp2x_video_flip(void);
 extern void             gp2x_video_setpalette(void);
 
-extern unsigned long    gp2x_joystick_read(void);
-
+extern unsigned long 	gp2x_joystick_read(int joystick);
+extern unsigned long    gp2x_usbjoys;
 extern void             gp2x_sound_volume(int left, int right);
 
 extern unsigned long    gp2x_timer_read(void);
@@ -100,4 +104,3 @@ extern void             gp2x_dualcore_launch_program_from_disk(const char *file,
 #define gp2x_dualcore_launch_subprogram(name)  gp2x_dualcore_launch_## name ##_subprogram()
 
 #endif
-

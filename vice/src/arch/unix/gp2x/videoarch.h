@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VIDEOARCH_H
-#define _VIDEOARCH_H
+#ifndef VICE_VIDEOARCH_H
+#define VICE_VIDEOARCH_H
 
 #include "vice.h"
 #include "types.h"

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UITEXT_GP2X_H
-#define _UITEXT_GP2X_H
+#ifndef VICE_UITEXT_GP2X_H
+#define VICE_UITEXT_GP2X_H
 
 extern void draw_ascii_string(unsigned char *screen, int screen_width, 
 		int x, int y, const char *text, 

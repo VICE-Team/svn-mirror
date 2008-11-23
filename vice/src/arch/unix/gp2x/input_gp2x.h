@@ -3,6 +3,7 @@
  *
  * Written by
  *  Mike Dawson <mike@gp2x.org>
+ *  Mustafa 'GnoStiC' Tufan <mtufan@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +25,19 @@
  *
  */
 
-#ifndef _INPUT_GP2X_H
-#define _INPUT_GP2X_H
+#ifndef VICE_INPUT_GP2X_H
+#define VICE_INPUT_GP2X_H
 
-extern int input_up, input_down, input_left, input_right, 
+extern unsigned int input_up, input_down, input_left, input_right, 
 	input_a, input_b, input_x, input_y, 
-	input_select;
+	input_select, input_start;
 
-extern int cur_port;
+extern unsigned long gp2x_usbjoys;
+extern unsigned int cur_port;
 
 extern void gp2x_poll_input();
+
+extern signed long kbd_arch_keyname_to_keynum(char *keyname);
+extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
 
 #endif

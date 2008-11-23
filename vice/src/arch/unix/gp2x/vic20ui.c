@@ -69,19 +69,6 @@ int vic20ui_set_ramblocks(int value)
 /* reserved for future sid cart support */
 void vic20ui_draw_resid_string(unsigned char *screen, int menu_x, int menu_y)
 {
-#if 0
-  int sidengine;
-
-  resources_get_int("SidEngine", &sidengine);
-  if(sidengine)
-  {
-    draw_ascii_string(screen, display_width, menu_x, menu_y, "ReSID", menu_fg, menu_bg);
-  }
-  else
-  {
-    draw_ascii_string(screen, display_width, menu_x, menu_y, "FastSID", menu_fg, menu_bg);
-  }
-#endif
 }
 
 void vic20ui_draw_memory_string(unsigned char *screen, int menu_x, int menu_y, int mem)

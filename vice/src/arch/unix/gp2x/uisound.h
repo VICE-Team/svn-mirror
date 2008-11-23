@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UISOUND_H
-#define _UISOUND_H
+#ifndef VICE_UISOUND_H
+#define VICE_UISOUND_H
 
 #include "uimenu.h"
 

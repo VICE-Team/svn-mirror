@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VKEYBOARD_GP2X_H
-#define _VKEYBOARD_GP2X_H
+#ifndef VICE_VKEYBOARD_GP2X_H
+#define VICE_VKEYBOARD_GP2X_H
 
 extern void draw_vkeyb(unsigned char *screen);
 extern char **keyb;
@@ -36,6 +36,10 @@ extern int cursor_fg;
 extern int cursor_bg;
 extern int kb_height;
 extern int kb_width;
+
+extern int mapped_key_a,     mapped_key_x;
+extern int mapped_key_a_row, mapped_key_a_col;
+extern int mapped_key_x_row, mapped_key_x_col;
 
 extern void (*ui_set_keyarr)(int);
 

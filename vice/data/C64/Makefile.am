@@ -29,6 +29,8 @@ extra_keymaps = \
 	beos_pos.vkm \
 	dos_sym.vkm \
 	dos_pos.vkm \
+	gp2x_sym.vkm \
+	gp2x_pos.vkm \
 	os2.vkm \
 	os2_sym.vkm \
 	osx_pos.vkm \

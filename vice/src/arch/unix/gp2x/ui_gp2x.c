@@ -3,6 +3,7 @@
  *
  * Written by
  *  Mike Dawson <mike@gp2x.org>
+ *  Mustafa 'GnoStiC' Tufan <mtufan@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -32,7 +33,7 @@
 #include "machine.h"
 #include "ui_gp2x.h"
 
-extern unsigned short *gp2x_memregs;
+extern volatile unsigned short *gp2x_memregs;
 
 int num_checkmark_menu_items;
 char *last_attached_images[8];
@@ -52,8 +53,8 @@ void ui_error(const char *text)
 
 void ui_display_drive_current_image(unsigned int drive_number,
 		const char *image) {
-	if(drive_number==0) drive8_image=(char *)image;
-	if(drive_number==1) drive9_image=(char *)image;
+	if (drive_number==0) drive8_image = (char *)image;
+	if (drive_number==1) drive9_image = (char *)image;
 }
 
 void ui_update_menus(void)
@@ -96,9 +97,8 @@ void ui_display_playback()
   /* needed */
 }
 
-void ui_init()
-{
-	gp2x_init(1000, 8, 11025,16,1,60);
+void ui_init() {
+	gp2x_init (1000,8,11025,16,1,60);
 }
 
 void archdep_ui_init()
@@ -123,31 +123,27 @@ void ui_extend_image_dialog()
 
 void ui_display_drive_led(int drive_number, unsigned int led_pwm1,
                           unsigned int led_pwm2) {
-    int status = 0;
+	int status = 0;
 
-    if (led_pwm1 > 100)
-        status |= 1;
-    if (led_pwm2 > 100)
-        status |= 2;
+	if (led_pwm1 > 100) status |= 1;
+	if (led_pwm2 > 100) status |= 2;
 
-	if(drive_number==0) {
-		drive8_status=status;
-		if(status) {
-			/* switch battery led on */
-			gp2x_memregs[0x106e>>1]&=~16;
+	if (drive_number == 0) {
+		drive8_status = status;
+		if (status) {
+			gp2x_memregs[0x106e>>1]&=~16; /* switch battery led on */
 		} else {
-			/* switch battery led off */
-			gp2x_memregs[0x106e>>1]|=16;
+			gp2x_memregs[0x106e>>1]|=16; /* switch battery led off */
 		}
 	}
-	if(drive_number==1) drive9_status=status;
+	if (drive_number==1) drive9_status = status;
 }
 
 void ui_display_drive_track(unsigned int drive_number,
 		unsigned int drive_base, 
 		unsigned int half_track_number) {
-	if(drive_number==0) drive8_half_track=half_track_number;
-	if(drive_number==1) drive9_half_track=half_track_number;
+	if (drive_number == 0) drive8_half_track = half_track_number;
+	if (drive_number == 1) drive9_half_track = half_track_number;
 }
 
 void ui_resources_init()
@@ -161,21 +157,6 @@ void ui_cmdline_options_init()
 }
 
 void ui_init_finalize()
-{
-  /* needed */
-}
-
-void kbd_arch_keyname_to_keynum()
-{
-  /* needed */
-}
-
-void kbd_arch_keynum_to_keyname()
-{
-  /* needed */
-}
-
-void kbd_arch_init()
 {
   /* needed */
 }
@@ -212,6 +193,6 @@ void ui_dispatch_events()
 
 void ui_display_speed(float speed, float frame_rate, int warp_enabled)
 {
-	emu_speed=speed;
-	emu_fps=frame_rate;
+	emu_speed = speed;
+	emu_fps = frame_rate;
 }

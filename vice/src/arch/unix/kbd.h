@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _KBD_H
-#define _KBD_H
+#ifndef VICE_KBD_H
+#define VICE_KBD_H
 
 extern void kbd_arch_init(void);
 
@@ -33,9 +33,15 @@ extern signed long kbd_arch_keyname_to_keynum(char *keyname);
 extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
 extern void kbd_initialize_numpad_joykeys(int *joykeys);
 
+#ifdef GP2X
+#define KBD_C64_SYM_US  "gp2x_sym.vkm"
+#define KBD_C64_SYM_DE  "gp2x_sym.vkm"
+#define KBD_C64_POS     "gp2x_pos.vkm"
+#else
 #define KBD_C64_SYM_US  "x11_sym.vkm"
 #define KBD_C64_SYM_DE  "x11_sym.vkm"
 #define KBD_C64_POS     "x11_pos.vkm"
+#endif
 #define KBD_C128_SYM    "x11_sym.vkm"
 #define KBD_C128_POS    "x11_pos.vkm"
 #define KBD_VIC20_SYM   "x11_sym.vkm"

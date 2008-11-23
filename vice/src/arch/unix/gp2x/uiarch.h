@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIARCH_H
-#define _UIARCH_H
+#ifndef VICE_UIARCH_H
+#define VICE_UIARCH_H
 
 #include "vice.h"
 #include "types.h"

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _AUDIO_GP2X_H
-#define _AUDIO_GP2X_H
+#ifndef VICE_AUDIO_GP2X_H
+#define VICE_AUDIO_GP2X_H
 
 extern void volume_up(void);
 extern void volume_down(void);

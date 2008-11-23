@@ -25,6 +25,7 @@ libarchgp2x_a_SOURCES = \
 	gp2xui.h \
 	input_gp2x.c \
 	input_gp2x.h \
+	keycodes.h \
 	minimal.c \
 	minimal.h \
 	minimal_940t.h \
@@ -50,7 +51,6 @@ libarchgp2x_a_SOURCES = \
 	vsidui.c
 
 EXTRA_DIST = \
-	gpe-files/vsid.gpe \
 	gpe-files/x128.gpe \
 	gpe-files/x64.gpe \
 	gpe-files/xvic.gpe \

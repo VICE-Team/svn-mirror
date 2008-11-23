@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UI_GP2X_H
-#define _UI_GP2X_H
+#ifndef VICE_UI_GP2X_H
+#define VICE_UI_GP2X_H
 
 extern float emu_speed, emu_fps;
 extern int drive8_status, drive8_half_track;

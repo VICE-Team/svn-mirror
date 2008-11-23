@@ -28,7 +28,6 @@ cp $TOPSRCDIR/src/arch/unix/gp2x/gpe-files/xvic.gpe vice-gp2x-$VICEVERSION
 cp $TOPSRCDIR/src/arch/unix/gp2x/gpe-files/xpet.gpe vice-gp2x-$VICEVERSION
 cp $TOPSRCDIR/src/arch/unix/gp2x/gpe-files/xplus4.gpe vice-gp2x-$VICEVERSION
 cp $TOPSRCDIR/src/arch/unix/gp2x/gpe-files/xcbm2.gpe vice-gp2x-$VICEVERSION
-cp $TOPSRCDIR/src/arch/unix/gp2x/gpe-files/vsid.gpe vice-gp2x-$VICEVERSION
 mkdir vice-gp2x-$VICEVERSION/data
 cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 $TOPSRCDIR/data/CBM-II $TOPSRCDIR/data/DRIVES vice-gp2x-$VICEVERSION/data
 cp -a $TOPSRCDIR/data/PET $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/VIC20 vice-gp2x-$VICEVERSION/data
