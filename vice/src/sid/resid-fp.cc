@@ -58,13 +58,13 @@ typedef struct sound_s sound_t;
 static sound_t *residfp_open(BYTE *sidstate)
 {
     sound_t *psid;
-    int	i;
+    int i;
 
     psid = new sound_t;
     psid->sid = new SIDFP;
 
     for (i = 0x00; i <= 0x18; i++) {
-	psid->sid->write(i, sidstate[i]);
+        psid->sid->write(i, sidstate[i]);
     }
 
     return psid;
@@ -162,23 +162,23 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec)
       default:
       case 1:
         method = SAMPLE_INTERPOLATE;
-	strcpy(method_text, "interpolation");
-	break;
+        strcpy(method_text, "interpolation");
+        break;
       case 2:
       case 3:
         method = SAMPLE_RESAMPLE_INTERPOLATE;
-	sprintf(method_text, "%sresampling, cutoff %d Hz",
+        sprintf(method_text, "%sresampling, cutoff %d Hz",
                              (psid->sid->sse_enabled() ? "SSE " : ""),
                              (int) (passband > 20000.f ? 20000.f : passband));
-	break;
+        break;
     }
 
     //! \todo FIXME: These casts have to go away
     if (!psid->sid->set_sampling_parameters((float)cycles_per_sec, method,
-					   (float)speed, passband)) {
+                                            (float)speed, passband)) {
         log_warning(LOG_DEFAULT,
                     "ReSID-FP: unable to set sampling mode; try increasing sampling frequency to 44.1-48 kHz and keep passband around 80-90 %%.");
-	return 0;
+        return 0;
     }
 
     log_message(LOG_DEFAULT,
@@ -267,10 +267,10 @@ static void residfp_state_write(sound_t *psid, sid_snapshot_state_t *sid_state)
         state.accumulator[i] = (reg24)sid_state->accumulator[i];
         state.shift_register[i] = (reg24)sid_state->shift_register[i];
         state.rate_counter[i] = (reg16)sid_state->rate_counter[i];
-	if (sid_state->rate_counter_period[i])
+        if (sid_state->rate_counter_period[i])
             state.rate_counter_period[i] = (reg16)sid_state->rate_counter_period[i];
         state.exponential_counter[i] = (reg16)sid_state->exponential_counter[i];
-	if (sid_state->exponential_counter_period[i])
+        if (sid_state->exponential_counter_period[i])
             state.exponential_counter_period[i] = (reg16)sid_state->exponential_counter_period[i];
         state.envelope_counter[i] = (reg8)sid_state->envelope_counter[i];
         state.envelope_state[i] = (EnvelopeGeneratorFP::State)sid_state->envelope_state[i];

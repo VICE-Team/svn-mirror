@@ -151,12 +151,12 @@ void FilterFP::set_w0()
     float type3_fc_kink = SIDFP::kinked_dac(fc, kinkiness, 11) / kinkiness;
     type3_fc_kink_exp = type3_offset * expf(type3_fc_kink * type3_steepness);
     if (distortion_rate != 0.f) {
-	type3_fc_distortion_offset_hp = (distortion_point - type3_fc_kink) * (0.5f) / distortion_rate;
-	type3_fc_distortion_offset_bp = type3_fc_distortion_offset_hp;
+        type3_fc_distortion_offset_hp = (distortion_point - type3_fc_kink) * (0.5f) / distortion_rate;
+        type3_fc_distortion_offset_bp = type3_fc_distortion_offset_hp;
     }
     else {
-	type3_fc_distortion_offset_bp = 9e9f;
-	type3_fc_distortion_offset_hp = 9e9f;
+        type3_fc_distortion_offset_bp = 9e9f;
+        type3_fc_distortion_offset_hp = 9e9f;
     }
   }
   if (model == MOS8580FP) {

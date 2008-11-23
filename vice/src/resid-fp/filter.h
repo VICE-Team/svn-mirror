@@ -327,7 +327,7 @@ float FilterFP::clock(float voice1,
         float diff1, diff2;
 
         /* -3 dB level correction for more resistance through filter path */
-	Vhp = Vbp * _1_div_Q * (1.f/outputleveldifference_bp_hp) - Vlp * (1.f/outputleveldifference_lp_bp/outputleveldifference_bp_hp) - Vi * 0.5f;
+        Vhp = Vbp * _1_div_Q * (1.f/outputleveldifference_bp_hp) - Vlp * (1.f/outputleveldifference_lp_bp/outputleveldifference_bp_hp) - Vi * 0.5f;
 
         /* the input summer mixing, or something like it... */
         diff1 = (Vlp - Vbp) * distortion_cf_threshold;
@@ -337,19 +337,19 @@ float FilterFP::clock(float voice1,
         Vbp += diff2;
         Vhp -= diff2;
 
-	/* Model output strip mixing. Doing it now that HP state
+        /* Model output strip mixing. Doing it now that HP state
          * variable modifying still makes some difference.
          * (Phase error, though.) */
-	if (hp_bp_lp & 1)
-	    Vlp += (Vf + Vnf - Vlp) * distortion_cf_threshold;
-	if (hp_bp_lp & 2)
-	    Vbp += (Vf + Vnf - Vbp) * distortion_cf_threshold;
-	if (hp_bp_lp & 4)
-	    Vhp += (Vf + Vnf - Vhp) * distortion_cf_threshold;
+        if (hp_bp_lp & 1)
+            Vlp += (Vf + Vnf - Vlp) * distortion_cf_threshold;
+        if (hp_bp_lp & 2)
+            Vbp += (Vf + Vnf - Vbp) * distortion_cf_threshold;
+        if (hp_bp_lp & 4)
+            Vhp += (Vf + Vnf - Vhp) * distortion_cf_threshold;
        
-	/* Simulating the exponential VCR that the FET block is... */
-	Vlp -= Vbp * type3_w0(Vbp, type3_fc_distortion_offset_bp) * outputleveldifference_lp_bp;
-	Vbp -= Vhp * type3_w0(Vhp, type3_fc_distortion_offset_hp) * outputleveldifference_bp_hp;
+        /* Simulating the exponential VCR that the FET block is... */
+        Vlp -= Vbp * type3_w0(Vbp, type3_fc_distortion_offset_bp) * outputleveldifference_lp_bp;
+        Vbp -= Vhp * type3_w0(Vhp, type3_fc_distortion_offset_hp) * outputleveldifference_bp_hp;
 
         /* Tuned based on Fred Gray's Break Thru. It is probably not a hard
          * discontinuity but a saturation effect... */
