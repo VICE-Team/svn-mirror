@@ -100,8 +100,9 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
     m = snapshot_module_create(p, SNAP_MEM_MODULE_NAME,
                                VIC20MEM_DUMP_VER_MAJOR,
                                VIC20MEM_DUMP_VER_MINOR);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     SMW_B(m, config);
 
@@ -137,8 +138,9 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     BYTE config;
 
     m = snapshot_module_open(p, SNAP_MEM_MODULE_NAME, &vmajor, &vminor);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     if (vmajor != VIC20MEM_DUMP_VER_MAJOR) {
         snapshot_module_close(m);
@@ -154,23 +156,23 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
 
     SMR_BA(m, mem_ram + 0x9400, 0x0800);
 
-    resources_set_int("RAMBlock0", config & 1);
+    resources_set_int("RAMBlock0", (config & 1) ? 1 : 0 );
     if (config & 1) {
         SMR_BA(m, mem_ram + 0x0400, 0x0c00);
     }
-    resources_set_int("RAMBlock1", config & 2);
+    resources_set_int("RAMBlock1", (config & 2) ? 1 : 0 );
     if (config & 2) {
         SMR_BA(m, mem_ram + 0x2000, 0x2000);
     }
-    resources_set_int("RAMBlock2", config & 4);
+    resources_set_int("RAMBlock2", (config & 4) ? 1 : 0 );
     if (config & 4) {
         SMR_BA(m, mem_ram + 0x4000, 0x2000);
     }
-    resources_set_int("RAMBlock3", config & 8);
+    resources_set_int("RAMBlock3", (config & 8) ? 1 : 0 );
     if (config & 8) {
         SMR_BA(m, mem_ram + 0x6000, 0x2000);
     }
-    resources_set_int("RAMBlock5", config & 32);
+    resources_set_int("RAMBlock5", (config & 32) ? 1 : 0 );
     if (config & 32) {
         SMR_BA(m, mem_ram + 0xA000, 0x2000);
     }
@@ -220,13 +222,15 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     BYTE config;
     int trapfl;
 
-    if (!save_roms)
+    if (!save_roms) {
         return 0;
+    }
 
     m = snapshot_module_create(p, SNAP_ROM_MODULE_NAME,
                           VIC20MEM_DUMP_VER_MAJOR, VIC20MEM_DUMP_VER_MINOR);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     /* disable traps before saving the ROM */
     resources_get_int("VirtualDevices", &trapfl);
@@ -284,8 +288,9 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     int trapfl;
 
     m = snapshot_module_open(p, SNAP_ROM_MODULE_NAME, &vmajor, &vminor);
-    if (m == NULL)
+    if (m == NULL) {
         return 0;       /* optional */
+    }
 
     if (vmajor != VIC20ROM_DUMP_VER_MAJOR) {
         snapshot_module_close(m);
@@ -360,16 +365,18 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
 int vic20_snapshot_write_module(snapshot_t *m, int save_roms)
 {
     if (mem_write_ram_snapshot_module(m) < 0
-        || mem_write_rom_snapshot_module(m, save_roms) < 0 )
+        || mem_write_rom_snapshot_module(m, save_roms) < 0 ) {
         return -1;
+    }
     return 0;
 }
 
 int vic20_snapshot_read_module(snapshot_t *m)
 {
     if (mem_read_ram_snapshot_module(m) < 0
-        || mem_read_rom_snapshot_module(m) < 0 )
+        || mem_read_rom_snapshot_module(m) < 0 ) {
         return -1;
+    }
     return 0;
 }
 

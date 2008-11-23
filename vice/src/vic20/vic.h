@@ -51,15 +51,12 @@
 
 #define VIC_NUM_COLORS 16
 
-/* This is the only machine that needs those defines.  */
+/* This is the only machine that needs those defines.  (MSDOS?, OS2?) */
 #define RASTER_PIXEL(c) (vic.pixel_table.sing[(c)])
 
-/* FIXME: MSDOS does not need double or quad pixel.
+/* FIXME: MSDOS does not need double pixel.
 `ifdef' them out once all video chips actually honour this.  */
-
 #define RASTER_PIXEL2(c) (vic.pixel_table.doub[(c)])
-#define RASTER_PIXEL4(c) (vic.pixel_table.quad[(c)])
-
 
 /* On MS-DOS, do not duplicate pixels.  Otherwise, we would always need at
    least 466 horizontal pixels to contain the whole screen.  */
@@ -71,15 +68,11 @@
 #ifdef VIC_DUPLICATES_PIXELS
 typedef WORD VIC_PIXEL;
 #define VIC_PIXEL(n)    RASTER_PIXEL2(n)
-typedef DWORD VIC_PIXEL2;
-#define VIC_PIXEL2(n)   RASTER_PIXEL4(n)
 #define VIC_PIXEL_WIDTH 2
 #define VIC_PIXEL_WIDTH_SHIFT 1
 #else
 typedef BYTE VIC_PIXEL;
 #define VIC_PIXEL(n)    RASTER_PIXEL(n)
-typedef WORD VIC_PIXEL2;
-#define VIC_PIXEL2(n)   RASTER_PIXEL2(n)
 #define VIC_PIXEL_WIDTH 1
 #define VIC_PIXEL_WIDTH_SHIFT 0
 #endif
@@ -103,7 +96,6 @@ typedef WORD VIC_PIXEL2;
 enum vic_video_mode_s
 {
     VIC_STANDARD_MODE,
-    VIC_REVERSE_MODE,
     VIC_NUM_VMODES
 };
 typedef enum vic_video_mode_s vic_video_mode_t;
@@ -140,6 +132,10 @@ struct vic_s
 
     int auxiliary_color;
     int mc_border_color;
+    int reverse;
+    int old_auxiliary_color;
+    int old_mc_border_color;
+    int old_reverse;
 
     BYTE *color_ptr;
     BYTE *screen_ptr;
@@ -191,7 +187,6 @@ struct vic_s
     struct {
         BYTE sing[0x100];
         WORD doub[0x100];
-        DWORD quad[0x100];
     } pixel_table;
 };
 typedef struct vic_s vic_t;

@@ -4,6 +4,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Daniel Kahlin <daniel@kahlin.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -49,8 +50,9 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
     vic.regs[addr] = value;
     VIC_DEBUG_REGISTER (("VIC: write $90%02X, value = $%02X.", addr, value));
 
-    if (maincpu_clk >= vic.draw_clk)
+    if (maincpu_clk >= vic.draw_clk) {
         vic_raster_draw_alarm_handler(maincpu_clk - vic.draw_clk, NULL);
+    }
 
     switch (addr) {
       case 0:                     /* $9000  Screen X Location. */
@@ -66,10 +68,10 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
             xstart = MIN((unsigned int)(value * 4), vic.screen_width);
 
             xstop = xstart + vic.text_cols * 8;
-            if (xstop >= (int)vic.screen_width)
+            if (xstop >= (int)vic.screen_width) {
                 xstop = vic.screen_width - 1;
                 /* FIXME: SCREEN-MIXUP not handled */
-
+            }
 
             xstart *= VIC_PIXEL_WIDTH;
             xstop *= VIC_PIXEL_WIDTH;
@@ -267,7 +269,7 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
 
       case 14:                    /* $900E  Auxiliary Colour, Master Volume. */
         /*
-            changes of auxiliary color in cycle n is visible at pixel 4*(n-7)
+            changes of auxiliary color in cycle n is visible at pixel 4*(n-7)+1
         */
         {
             static int old_aux_color = -1;
@@ -278,7 +280,12 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
                     VIC_RASTER_CHAR(VIC_RASTER_CYCLE(maincpu_clk)),
                     &vic.auxiliary_color,
                     new_aux_color);
-
+                /* old_mc_auxilary_color is used by vic-draw.c to handle the
+                   one hires vic pixel lateness of change */
+                raster_changes_foreground_add_int(&vic.raster,
+                    VIC_RASTER_CHAR(VIC_RASTER_CYCLE(maincpu_clk+1)),
+                    &vic.old_auxiliary_color,
+                    new_aux_color);
 
                 old_aux_color = new_aux_color;
             }
@@ -291,24 +298,21 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
                                      Reverse Video. */
         /*
             changes of border/background in cycle n are visible at pixel
-            4*(n-7),
-            changes of reverse mode at pixel 4*(n-7)+3, which is quite ugly
-            'cause we're using a character-based emulation :(FIXME)
+            4*(n-7)+1, changes of reverse mode at pixel 4*(n-7)+3.
         */
         {
-            static int old_video_mode = -1;
             static int old_background_color = -1;
             static int old_border_color = -1;
-            int new_video_mode, new_background_color, new_border_color;
+            static int old_reverse = -1;
+            int new_background_color, new_border_color, new_reverse;
 
             new_background_color = value>>4;
             new_border_color = value & 0x7;
-            new_video_mode = ((value & 0x8)
-                             ? VIC_STANDARD_MODE : VIC_REVERSE_MODE);
+            new_reverse = ((value & 0x8) ? 0 : 1);
 
             if (new_background_color != old_background_color) {
                 raster_changes_background_add_int(&vic.raster,
-                    VIC_RASTER_X(VIC_RASTER_CYCLE(maincpu_clk)),
+                    VIC_RASTER_X(VIC_RASTER_CYCLE(maincpu_clk)) + VIC_PIXEL_WIDTH,
                     (int*)&vic.raster.background_color,
                     new_background_color);
 
@@ -317,7 +321,7 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
 
             if (new_border_color != old_border_color) {
                 raster_changes_border_add_int(&vic.raster,
-                    VIC_RASTER_X(VIC_RASTER_CYCLE(maincpu_clk)),
+                    VIC_RASTER_X(VIC_RASTER_CYCLE(maincpu_clk)) + VIC_PIXEL_WIDTH,
                     (int*)&vic.raster.border_color,
                     new_border_color);
 
@@ -327,18 +331,37 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
                     VIC_RASTER_CHAR(VIC_RASTER_CYCLE(maincpu_clk)),
                     &vic.mc_border_color,
                     new_border_color);
+            }
 
+            if (new_reverse != old_reverse) {
+
+                raster_changes_foreground_add_int(&vic.raster,
+                    VIC_RASTER_CHAR(VIC_RASTER_CYCLE(maincpu_clk)),
+                    &vic.reverse,
+                    new_reverse);
+            }
+
+
+            if (new_border_color != old_border_color) {
+                /* old_mc_border_color is used by vic-draw.c to handle the
+                   one hires vic pixel lateness of change */
+                raster_changes_foreground_add_int(&vic.raster,
+                    VIC_RASTER_CHAR(VIC_RASTER_CYCLE(maincpu_clk+1)),
+                    &vic.old_mc_border_color,
+                    new_border_color);
 
                 old_border_color = new_border_color;
             }
 
-            if (new_video_mode != old_video_mode) {
+            if (new_reverse != old_reverse) {
+                /* old_reverse is used by vic-draw.c to handle the
+                   3 hires vic pixels lateness of change */
                 raster_changes_foreground_add_int(&vic.raster,
-                    VIC_RASTER_CHAR(VIC_RASTER_CYCLE(maincpu_clk)),
-                    &vic.raster.video_mode,
-                    new_video_mode);
+                    VIC_RASTER_CHAR(VIC_RASTER_CYCLE(maincpu_clk+1)),
+                    &vic.old_reverse,
+                    new_reverse);
 
-                old_video_mode = new_video_mode;
+                old_reverse = new_reverse;
             }
 
             return;
