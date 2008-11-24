@@ -40,9 +40,12 @@ $STRIP src/cartconv
 cp src/x64 src/x64dtv src/x128 src/xvic BeVICE-$VICEVERSION.$BEOSCPU
 cp src/xpet src/xplus4 src/xcbm2 BeVICE-$VICEVERSION.$BEOSCPU
 cp src/c1541 src/petcat src/cartconv BeVICE-$VICEVERSION.$BEOSCPU
-cp -a data/C128 data/C64 data/C64DTV data/CBM-II data/DRIVES BeVICE-$VICEVERSION.$BEOSCPU
-cp -a data/PET data/PLUS4 data/PRINTER data/VIC20 BeVICE-$VICEVERSION.$BEOSCPU
-cp -a data/fonts BeVICE-$VICEVERSION.$BEOSCPU
+cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 BeVICE-$VICEVERSION.$BEOSCPU
+cp -a $TOPSRCDIR/data/C64DTV $TOPSRCDIR/data/CBM-II BeVICE-$VICEVERSION.$BEOSCPU
+cp -a $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET BeVICE-$VICEVERSION.$BEOSCPU
+cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER BeVICE-$VICEVERSION.$BEOSCPU
+cp -a $TOPSRCDIR/data/VIC20 BeVICE-$VICEVERSION.$BEOSCPU
+cp -a $TOPSRCDIR/data/fonts BeVICE-$VICEVERSION.$BEOSCPU
 mkdir BeVICE-$VICEVERSION.$BEOSCPU/doc
 cp -a $TOPSRCDIR/doc/html BeVICE-$VICEVERSION.$BEOSCPU/doc
 cp $TOPSRCDIR/doc/iec-bus.txt BeVICE-$VICEVERSION.$BEOSCPU/doc
@@ -50,13 +53,8 @@ cp $TOPSRCDIR/doc/mon.txt BeVICE-$VICEVERSION.$BEOSCPU/doc
 cp $TOPSRCDIR/doc/cartconv.txt BeVICE-$VICEVERSION.$BEOSCPU/doc
 cp $TOPSRCDIR/doc/Readme.beos BeVICE-$VICEVERSION.$BEOSCPU/doc
 cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README BeVICE-$VICEVERSION.$BEOSCPU
-rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "Makefile*"`
-rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "amiga_*.vkm"`
-rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "dos_*.vkm"`
-rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "os2*.vkm"`
-rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "osx*.vkm"`
-rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "win_*.vkm"`
-rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "x11_*.vkm"`
+rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "Makefile*"
+rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "*.vkm" -and ! -name "beos*.vkm"`
 rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "*.vsc"`
 if [ -e BeVICE-$VICEVERSION.$BEOSCPU/html/texi2html ]
 then
