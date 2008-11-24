@@ -77,6 +77,7 @@ static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "Mouse", IDM_MOUSE },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
+    { "IsepicSwitch", IDM_ISEPIC_SWITCH },
     { NULL, 0 }
 };
 

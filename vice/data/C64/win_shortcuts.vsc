@@ -12,6 +12,7 @@
 # Fourth column: text to display in the menu item; missing this lets
 #   the keycode char be displayed.
 
+CTRL|ALT        'I'         IDM_ISEPIC_SWITCH                 I
 CTRL|ALT        'R'         IDM_RESET_HARD                    R
 ALT             'R'         IDM_RESET_SOFT                    R
 ALT             '4'         IDM_FORMFEED_PRINTERIEC4          4
