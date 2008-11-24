@@ -355,12 +355,11 @@ msgstr "*Oud NTSC-M"
 
 #: src/arch/unix/gui/c64ui.c:279
 msgid "Double Quick Brown Box cartridge"
-msgstr ""
+msgstr "Double Quick Brown Box cartridge"
 
 #: src/arch/unix/gui/c64ui.c:281
-#, fuzzy
 msgid "Isepic cartridge"
-msgstr "SID-cartridge"
+msgstr "Isepic cartridge"
 
 #: src/arch/unix/gui/c64ui.c:283
 msgid "PLUS60K RAM Expansion"
@@ -3718,14 +3717,12 @@ msgid "Never save settings (resources) on exit"
 msgstr "Instellingen (resources) niet opslaan bij afsluiten"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:80
-#, fuzzy
 msgid "Enable fullscreen (default Chip)"
-msgstr "Activeer volschermmodus"
+msgstr "Activeer volschermmodus (standaard chip)"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:85
-#, fuzzy
 msgid "Disable fullscreen (default Chip)"
-msgstr "Volschermmodus uitschakelen"
+msgstr "Volschermmodus uitschakelen (standaard chip)"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:91 src/translate.c.po.c:4170
 msgid "<value>"
@@ -3736,19 +3733,17 @@ msgid "Specify X display depth (1..32)"
 msgstr "Geef een X-weergavediepte (1..32)"
 
 #: src/arch/unix/x11/ui-resources.c:133
-#, fuzzy, c-format
+#, c-format
 msgid "%s fullscreen from commandline."
-msgstr "Volschermmodus uitschakelen"
+msgstr "%s Volschermmodus van commando invoer."
 
 #: src/arch/unix/x11/ui-resources.c:134
-#, fuzzy
 msgid "Enabling"
-msgstr "Activeer"
+msgstr "Activeren"
 
 #: src/arch/unix/x11/ui-resources.c:134
-#, fuzzy
 msgid "Disabling"
-msgstr "Uit"
+msgstr "Uitschakelen"
 
 #: src/arch/unix/x11/xrandr.c:261
 msgid "*Desktop"
@@ -5868,14 +5863,12 @@ msgid "&RAMCART settings..."
 msgstr "&RAMCART-instellingen..."
 
 #: src/arch/win32/res.rc.po.c:5019
-#, fuzzy
 msgid "&Double Quick Brown Box settings..."
-msgstr "&Joystick-instellingen..."
+msgstr "&Double Quick Brown Box instellingen..."
 
 #: src/arch/win32/res.rc.po.c:5020
-#, fuzzy
 msgid "I&sepic settings..."
-msgstr "M&uis instellingen..."
+msgstr "I&sepic-instelling..."
 
 #: src/arch/win32/res.rc.po.c:5021
 msgid "&MMC64 settings..."
@@ -8215,12 +8208,11 @@ msgstr "RAMCART-instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1536
 msgid "Double Quick Brown Box settings..."
-msgstr ""
+msgstr "Double Quick Brown Box instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1545
-#, fuzzy
 msgid "Isepic settings..."
-msgstr "Muis instellingen..."
+msgstr "Isepic instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1554
 msgid "PLUS60K settings..."
@@ -8607,24 +8599,20 @@ msgid "GEORAM Size"
 msgstr "GEORAM-grootte"
 
 #: src/arch/amigaos/intl.c.po.c:3250
-#, fuzzy
 msgid "DQBB file"
-msgstr "Dumpbestand:"
+msgstr "DQBB bestand"
 
 #: src/arch/amigaos/intl.c.po.c:3259
-#, fuzzy
 msgid "Select file for DQBB"
-msgstr "Selecteer bestand voor REU"
+msgstr "Selecteer bestand voor DQBB"
 
 #: src/arch/amigaos/intl.c.po.c:3268
-#, fuzzy
 msgid "DQBB Settings"
-msgstr "SID-instellingen"
+msgstr "DQBB instellingen"
 
 #: src/arch/amigaos/intl.c.po.c:3277
-#, fuzzy
 msgid "Isepic Settings"
-msgstr "Muis Instellingen"
+msgstr "Isepic instellingen"
 
 #: src/arch/amigaos/intl.c.po.c:3286
 msgid "Joystick in port #1"

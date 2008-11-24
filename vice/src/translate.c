@@ -3804,7 +3804,7 @@ translate_t string_table[] = {
 /* c64/dqbb.c */
 /* en */ {IDCLS_ENABLE_DQBB,    N_("Enable Double Quick Brown Box")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_ENABLE_DQBB_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_DQBB_DE, "Double Quick Brown Box aktivieren"},
 /* fr */ {IDCLS_ENABLE_DQBB_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_DQBB_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_DQBB_IT, ""},  /* fuzzy */
@@ -3816,7 +3816,7 @@ translate_t string_table[] = {
 /* c64/dqbb.c */
 /* en */ {IDCLS_DISABLE_DQBB,    N_("Disable Double Quick Brown Box")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_DISABLE_DQBB_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_DQBB_DE, "Double Quick Brown Box Modul deaktivieren"},
 /* fr */ {IDCLS_DISABLE_DQBB_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_DQBB_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_DQBB_IT, ""},  /* fuzzy */
@@ -3828,7 +3828,7 @@ translate_t string_table[] = {
 /* c64/dqbb.c */
 /* en */ {IDCLS_SPECIFY_DQBB_NAME,    N_("Specify Double Quick Brown Box filename")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_SPECIFY_DQBB_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_DQBB_NAME_DE, "Double Quick Brown Box Dateiname spezifizieren"},
 /* fr */ {IDCLS_SPECIFY_DQBB_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_DQBB_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_DQBB_NAME_IT, ""},  /* fuzzy */
@@ -3840,7 +3840,7 @@ translate_t string_table[] = {
 /* c64/isepic.c */
 /* en */ {IDCLS_ENABLE_ISEPIC,    N_("Enable the isepic cart.")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_ENABLE_ISEPIC_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_ISEPIC_DE, "Isepic Modul aktivieren"},
 /* fr */ {IDCLS_ENABLE_ISEPIC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_ISEPIC_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_ISEPIC_IT, ""},  /* fuzzy */
@@ -3850,7 +3850,7 @@ translate_t string_table[] = {
 #endif
 
 /* c64/isepic.c */
-/* en */ {IDCLS_DISABLE_ISEPIC,    N_("Disable Double Quick Brown Box")},
+/* en */ {IDCLS_DISABLE_ISEPIC,    N_("Disable the isepic cart")},
 #ifdef HAS_TRANSLATION
 /* de */ {IDCLS_DISABLE_ISEPIC_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_ISEPIC_FR, ""},  /* fuzzy */
@@ -7857,7 +7857,7 @@ translate_t string_table[] = {
 /* initcmdline.c */
 /* en */ {IDCLS_P_FILE,    N_("<filename>")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_P_FILE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_P_FILE_DE, "<Dateiname>"},
 /* fr */ {IDCLS_P_FILE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_FILE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_FILE_IT, ""},  /* fuzzy */
@@ -7869,7 +7869,7 @@ translate_t string_table[] = {
 /* initcmdline.c */
 /* en */ {IDCLS_SPECIFY_CONFIG_FILE,    N_("Specify config file")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_SPECIFY_CONFIG_FILE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_CONFIG_FILE_DE, "Konfigurationsdateiname definieren"},
 /* fr */ {IDCLS_SPECIFY_CONFIG_FILE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_CONFIG_FILE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_CONFIG_FILE_IT, ""},  /* fuzzy */

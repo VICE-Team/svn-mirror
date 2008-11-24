@@ -3311,7 +3311,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_ISEPIC_SETTINGS_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_ISEPIC_SWITCH,    "Isepic Switch"},
-/* de */ {IDS_ISEPIC_SWITCH_DE, ""},  /* fuzzy */
+/* de */ {IDS_ISEPIC_SWITCH_DE, "Isepic Schalter"},
 /* fr */ {IDS_ISEPIC_SWITCH_FR, ""},  /* fuzzy */
 /* hu */ {IDS_ISEPIC_SWITCH_HU, ""},  /* fuzzy */
 /* it */ {IDS_ISEPIC_SWITCH_IT, ""},  /* fuzzy */
