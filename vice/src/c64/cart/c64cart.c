@@ -166,6 +166,12 @@ void cartridge_resources_shutdown(void)
 
 static int attach_cartridge_cmdline(const char *param, void *extra_param)
 {
+    /* patch: iAN CooG */
+    if (!param)
+    {
+        cartridge_detach_image();
+        return 0;
+    }
     return cartridge_attach_image((int)extra_param, param);
 }
 
@@ -265,6 +271,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_ENABLE_EXPERT_CART,
       NULL, NULL },
+    { "+cart", CALL_FUNCTION, 0,
+      attach_cartridge_cmdline, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_CART,
+      NULL, NULL }, /* patch: iAN CooG */
     { NULL }
 };
 

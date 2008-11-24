@@ -4272,6 +4272,18 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_ENABLE_EXPERT_CART_SV, "Aktivera Expert Cartridge"},
 #endif
 
+/* c64/cart/c64cart.c */
+/* en */ {IDCLS_DISABLE_CART,    N_("Disable default cartridge")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDCLS_DISABLE_CART_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_CART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_CART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_CART_IT, "Disattiva la cartuccia predefinita"},
+/* nl */ {IDCLS_DISABLE_CART_NL, "De standaard cartridge uitschakelen"},
+/* pl */ {IDCLS_DISABLE_CART_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_CART_SV, ""},  /* fuzzy */
+#endif
+
 /* c64/cart/ide64.c */
 /* en */ {IDCLS_SPECIFY_IDE64_NAME,    N_("Specify name of IDE64 image file")},
 #ifdef HAS_TRANSLATION
