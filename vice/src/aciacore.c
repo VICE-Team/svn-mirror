@@ -823,16 +823,16 @@ int myacia_snapshot_read_module(snapshot_t *p)
   \param byte
     The value to set the register to
 */
-void REGPARM2 myacia_store(WORD a, BYTE b)
+void REGPARM2 myacia_store(WORD addr, BYTE byte)
 {
     int acia_register_size;
 
-    DEBUG_LOG_MESSAGE((acia_log, "store_myacia(%04x,%02x)", a, b));
+    DEBUG_LOG_MESSAGE((acia_log, "store_myacia(%04x,%02x)", addr, byte));
 
     if (mycpu_rmw_flag) {
         myclk --;
         mycpu_rmw_flag = 0;
-        myacia_store(a, acia_last_read);
+        myacia_store(addr, acia_last_read);
         myclk ++;
     }
 
@@ -841,9 +841,9 @@ void REGPARM2 myacia_store(WORD a, BYTE b)
     else
       acia_register_size=3;
 
-    switch(a & acia_register_size) {
+    switch(addr & acia_register_size) {
       case ACIA_DR:
-        txdata = b;
+        txdata = byte;
         if (cmd & ACIA_CMD_BITS_DTR_ENABLE_RECV_AND_IRQ) {
             if (in_tx == ACIA_TX_STATE_NO_TRANSMIT) {
                 in_tx = ACIA_TX_STATE_DR_WRITTEN;
@@ -875,11 +875,11 @@ void REGPARM2 myacia_store(WORD a, BYTE b)
         alarm_active_tx = 0;
         break;
       case ACIA_CTRL:
-        ctrl = b;
+        ctrl = byte;
         set_acia_ticks();
         break;
       case ACIA_CMD:
-        cmd = b;
+        cmd = byte;
         acia_set_handshake_lines();
         if ((cmd & ACIA_CMD_BITS_DTR_ENABLE_RECV_AND_IRQ) && (fd < 0)) {
             fd = rs232drv_open(acia_device);
@@ -896,7 +896,7 @@ void REGPARM2 myacia_store(WORD a, BYTE b)
         break;
       case T232_ECTRL:
         if ((ctrl & ACIA_CTRL_BITS_BPS_MASK) == ACIA_CTRL_BITS_BPS_16X_EXT_CLK) {
-          ectrl=b;
+          ectrl=byte;
           set_acia_ticks();
         }
     }
@@ -913,21 +913,21 @@ void REGPARM2 myacia_store(WORD a, BYTE b)
   \return
     The value the register has
 */
-BYTE REGPARM1 myacia_read(WORD a)
+BYTE REGPARM1 myacia_read(WORD addr)
 {
 #if 0 /* def DEBUG */
     static BYTE myacia_read_(WORD);
-    BYTE b = myacia_read_(a);
-    static WORD lasta = 0;
-    static BYTE lastb = 0;
+    BYTE byte = myacia_read_(addr);
+    static WORD last_addr = 0;
+    static BYTE last_byte = 0;
 
-    if ((a != lasta) || (b != lastb)) {
-        DEBUG_LOG_MESSAGE((acia_log, "read_myacia(%04x) -> %02x", a, b));
+    if ((addr != last_addr) || (byte != last_byte)) {
+        DEBUG_LOG_MESSAGE((acia_log, "read_myacia(%04x) -> %02x", addr, byte));
     }
-    lasta = a; lastb = b;
-    return b;
+    last_addr = addr; last_byte = byte;
+    return byte;
 }
-static BYTE myacia_read_(WORD a)
+static BYTE myacia_read_(WORD addr)
 {
 #endif
     int acia_register_size;
@@ -937,7 +937,7 @@ static BYTE myacia_read_(WORD a)
     else
       acia_register_size=3;
 
-    switch(a & acia_register_size) {
+    switch(addr & acia_register_size) {
       case ACIA_DR:
         status &= ~ ACIA_SR_BITS_RECEIVE_DR_FULL;
         acia_last_read = rxdata;
@@ -984,9 +984,9 @@ static BYTE myacia_read_(WORD a)
   \todo
     Currently unused
 */
-BYTE myacia_peek(WORD a)
+BYTE myacia_peek(WORD addr)
 {
-    switch(a & 3) {
+    switch(addr & 3) {
       case ACIA_DR:
         return rxdata;
       case ACIA_SR:
