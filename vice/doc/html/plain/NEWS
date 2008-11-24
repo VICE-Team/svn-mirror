@@ -11,24 +11,81 @@ list of all the changes in the code.
 ** General
 ----------
 
+- Added a more accurate ReSID engine using floating point math (ReSID-FP).
+
+- Added support for the USB HardSID.
+
+- PAL emulation has been rewritten and optimized.
+
+** C64/C128 changes
+-------------------
+
+- Fixed the digimax sound generation.
+
+** C64 changes
+--------------
+
+- Added isepic cartridge emulation.
+
+- Added Double Quick Brown Box cartridge emulation.
+
+** VIC20 changes
+----------------
+
+- Improved the sound emulation.
+
+- Fixed the lowest note bug.
+
 ** Unix changes
 ---------------
 
 - XRandR fullscreen implemented
 
-- command line option `-fullscreen' is supposed to do something
+- Command line option `-fullscreen' is supposed to do something
   useful. 
 
-- vsync code imported from win32 (based on openGL extension).
+- Vsync code imported from win32 (based on openGL extension).
   see also doc/openGLsync-howto.txt.
 
-- vidmode (fullscreen support) is broken and therefore marked as
+- Vidmode (fullscreen support) is broken and therefore marked as
   deprecated. It will be removed in the next release if no-one takes
   responsibility to fix the broken code and is willing to maintain the
   code. 
 
 - PAL Emulation (new implementation, improved speed) should be usable
   again (it was broken on certain display depths).
+
+- Log messages are always english.
+
+- Only x11 keymaps will be installed when doing a 'make install'.
+
+- MIDI cartridge emulation for x128, x64 and xvic.
+
+- Monitor commands help text is now translated too.
+
+** MS-Windows changes
+---------------------
+
+- Watcom generated executables are more optimized.
+
+- MIDI cartridge emulation for x128, x64 and xvic.
+
+- Monitor commands help text is now translated too.
+
+** AmigaOS changes
+------------------
+
+- Monitor commands help text is now translated too.
+
+** OS/2 changes
+---------------
+
+- Fixed 24/32bit display depth problem.
+
+** GP2X changes
+---------------
+
+- Fixed black screen problem.
 
 * Changes in VICE 2.0
 ======================
