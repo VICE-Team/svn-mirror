@@ -218,7 +218,7 @@
 	* arch/unix/x11/gnome/x11ui.c (ui_create_status_bar): made static
 	  and return the status_bar widget.
 	  (ui_fullscreen_statusbar): adjusted to app_shell local
-	  status_bar. 
+	  status_bar.
 	  (x11ui_fullscreen): take care of x128 and enlarge window
 	  depending on the 40/80 column key.
 
@@ -227,7 +227,7 @@
 
 	* arch/unix/gui/uicrtc.c (UI_FULLSCREEN): Use `Alt-f' for fullscreen
 	  hotkey (was `Alt-d'). This is necessary for distinguishing VICII
-	  fullscreen from CRTC fullscreen in case of xcbm2. 
+	  fullscreen from CRTC fullscreen in case of xcbm2.
 	  VICII FS remains with `Alt-d'.
 
 	* arch/unix/gui/uifullscreen-menu.h (UI_FULLSCREEN): Added
@@ -717,7 +717,7 @@
 	  src/arch/unix/x11/xaw/uiarch.h: Added KeySetEnable menu item
 	  (and hotkey) to unix UI
 
-TODO: MERGE
+TODO: MERGE ???
 
 2008-11-02  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -967,7 +967,11 @@ TODO: MERGE
 
 	* src/arch/unix/macosx/mididrv.c: Added svn-properties
 
-TODO: MERGE ChangeLog.add.v2.0.6-macmidi-chris
+2008-10-12  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* configure.in, src/arch/unix/macosx/Makefile.am,
+	src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist,
+	src/arch/unix/macosx/mididrv.c: added mac midi driver
 
 2008-10-12  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
@@ -1005,23 +1009,67 @@ TODO: MERGE ChangeLog.add.v2.0.6-macmidi-chris
 	* configure.in, po/de.po, po/fr.po, po/hu.po, po/it.po,
 	  po/nl.po, po/pl.po, po/sv.po, src/version.h: Version 2.0.6
 
-TODO: MERGE ChangeLog.add.v2.0.5-macjoyupdate-chris
+2008-10-11  Christian Vogelgsang <chris@vogelgsang.org>
 
-2008-10-11  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+	* src/arch/unix/macosx/Makefile.am: fixed typo in Makefile.am
 
-	* configure.in, src/arch/unix/archdep.c,
-	  src/arch/unix/macosx/Makefile.am,
-	  src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/classes.nib,
-	  src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/info.nib,
-	  src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/keyedobjects.nib,
-	  src/arch/unix/macosx/cocoa/dialog/joysticksettingswindowcontroller.h,
-	  src/arch/unix/macosx/cocoa/dialog/joysticksettingswindowcontroller.m,
-	  src/arch/unix/macosx/cocoa/menu/viceappcontroller.m,
-	  src/arch/unix/macosx/cocoa/viceapplication.m,
-	  src/arch/unix/macosx/cocoa/view/consolewindow.h,
-	  src/arch/unix/macosx/cocoa/view/consolewindow.m,
-	  src/arch/unix/macosx/joy.c, src/arch/unix/macosx/joy.h: Merged
-	  tags/chris/v2.0.5-macjoyupdate.
+	* configure.in: add arch source dir include in cocoa port
+
+	* src/arch/unix/macosx/joy.c: joy driver output redirected to
+	log channel
+
+	* src/arch/unix/archdep.c,
+	src/arch/unix/macosx/cocoa/viceapplication.m,
+	src/arch/unix/macosx/cocoa/view/consolewindow.h,
+	src/arch/unix/macosx/cocoa/view/consolewindow.m: fixed console
+	output after reopening the default log file
+
+	* src/arch/unix/macosx/joy.h: fix for X11/gtk+ compile
+
+	* src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/classes.nib,
+	src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/info.nib,
+	src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/keyedobjects.nib,
+	src/arch/unix/macosx/cocoa/dialog/joysticksettingswindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/joysticksettingswindowcontroller.m,
+	src/arch/unix/macosx/cocoa/menu/viceappcontroller.m,
+	src/arch/unix/macosx/joy.c, src/arch/unix/macosx/joy.h: updated
+	cocoa ui to support new joystick driver
+
+2008-10-06  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/joy.c, src/arch/unix/macosx/joy.h:
+	rewrote Mac joystick driver to better support HID
+	joysticks/gamepads
+
+2008-08-23  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* build/macosx/build-vice-dist.sh,
+	src/arch/unix/macosx/Resources/English.lproj/Makefile.am,
+	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/classes.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/info.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/Makefile.am,
+	src/arch/unix/macosx/Resources/x64dtv.icns,
+	src/arch/unix/macosx/cocoa/menu/Makefile.am,
+	src/arch/unix/macosx/cocoa/menu/c64dtvcontroller.h,
+	src/arch/unix/macosx/cocoa/menu/c64dtvcontroller.m,
+	src/arch/unix/macosx/cocoa/menu/c64dtvmachinecontroller.h,
+	src/arch/unix/macosx/cocoa/menu/c64dtvmachinecontroller.m,
+	src/arch/unix/macosx/cocoa/menu/c64dtvui.m,
+	src/arch/unix/macosx/make-bindist.sh,
+	src/arch/unix/macosx/x11-launcher.sh: Added x64dtv Mac support
+	(ported from vp)
+
+2008-07-20  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/x11/gnome/uicolor.c: fixed gtk color setup to be
+	endian safe. big endian now works, too.
+
+	* build/macosx/build-gtk.sh, build/macosx/build-inc.sh,
+	build/macosx/build-vice-dist.sh,
+	src/arch/unix/x11/gnome/x11ui.c: mac: fix to compile a 10.3/10.4
+	binary with the correct X11 headers/libs on 10.5 OSX
 
 2008-10-10  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -1050,7 +1098,7 @@ TODO: MERGE ChangeLog.add.v2.0.5-macjoyupdate-chris
 
 	* po/nl.po: Corrected some dutch translation errors.
 
-TODO: MERGE
+TODO: MERGE ???
 
 2008-10-09  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -1136,8 +1184,6 @@ TODO: MERGE
 	  src/info.c, src/translate.c, src/vic20/vic20sound.c: Updated
 	  some of the swedish translations.
 
-TODO: NAME!
-
 2008-10-06  Peter Krefting <@softwolves.pp.se>
 
 	* po/sv.po, src/arch/unix/x11/gnome/about.c: Changed my surname.
@@ -1156,7 +1202,101 @@ TODO: NAME!
 	* src/resid/extfilt.cc, src/resid/filter.cc: Changed DTVSID to
 	  have the same DC as 6581
 
-TODO: MERGE ChangeLog.add.v2.0.4-palemurewrite
+2008-09-28  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/video/render2x2pal.c: Last pixel initialization fix as
+	provided by Antti Lankila
+
+2008-09-26  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/uicolor.c,
+	src/arch/unix/x11/gnome/videoarch.h, src/video/render1x1pal.c,
+	src/video/render2x2pal.c: Pixel format detection and 24bit PAL
+	renderer byte order fixes as provided by Antti Lankila
+
+2008-09-23  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/x11/gnome/x11ui.c: Mouse button menu restoration
+	and no-fullscreen fix as provided by Antti Lankila
+
+2008-09-17  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/video/render2x2pal.c: MSVC compiler fixes.
+
+2008-09-13  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/gui/uifullscreen-menu.h,
+	src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/x11ui.c, src/raster/raster-canvas.c: GTK
+	fullscreen improvements and PAL emu scanline fixes by Antti
+	Lankila
+
+2008-09-07  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/uiarch.h,
+	src/arch/unix/x11/gnome/videoarch.h,
+	src/arch/unix/x11/gnome/x11ui.c,
+	src/video/video-resources-pal.c, src/video/video-resources.c,
+	src/video/video-resources.h: win32 PAL emu warning removal and
+	gnomeui hwscale fixes by Antti Lankila
+
+2008-09-05  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/video/render1x1pal.c, src/video/video-render-pal.c: 24b
+	and 1x1 PAL render and fixes by Antti Lankila
+
+	* src/video.h, src/video/render1x1pal.c,
+	src/video/render2x2pal.c: Render fixes by Antti Lankila
+
+	* src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/videoarch.h,
+	src/arch/unix/x11/gnome/x11ui.c: gnomeui hwscale fixes including
+	untested OSX hwscale enable by Antti Lankila
+
+2008-09-04  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/uicolor.c,
+	src/arch/unix/x11/gnome/videoarch.h,
+	src/arch/unix/x11/gnome/x11ui.c, src/video/render1x1pal.c,
+	src/video/render2x2pal.c: gnomeui hwscale fixes by Antti Lankila
+
+	* src/arch/unix/x11/gnome/uicolor.c, src/video.h,
+	src/video/render1x1pal.c, src/video/render2x2pal.c,
+	src/video/video-color.c, src/video/video-render.c: Color and
+	gnomeui 16bpp fixes by Antti Lankila
+
+2008-09-03  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/uicolor.c, src/video/render1x1pal.c,
+	src/video/render2x2pal.c: Render and gnomeui fixes by Antti
+	Lankila
+
+	* src/video/render1x1.c, src/video/render1x1.h,
+	src/video/render1x1pal.h, src/video/video-render-pal.c: Unused
+	rendermode removal by Antti Lankila
+
+	* src/arch/unix/gui/uipalemu.c,
+	src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/uicolor.c,
+	src/arch/unix/x11/gnome/uipalcontrol.c,
+	src/arch/unix/x11/gnome/videoarch.h,
+	src/arch/unix/x11/gnome/x11ui.c, src/video/render1x1pal.c,
+	src/video/render2x2.c, src/video/render2x2.h,
+	src/video/render2x2pal.c, src/video/video-color.c,
+	src/video/video-render-pal.c: Fast and old exact PAL modes
+	removed & gnomeui video changes from Antti Lankila
+
+2008-09-02  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/raster/raster-canvas.c, src/video/render2x2pal.c,
+	src/video/render2x2pal.h, src/video/video-canvas.c,
+	src/video/video-color.c, src/video/video-render-pal.c,
+	src/video/video-render.c, src/video/video-render.h: PAL
+	emulation rewrite as provided by Antti Lankila
 
 2008-10-05  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
@@ -1385,7 +1525,26 @@ TODO: MERGE ChangeLog.add.v2.0.4-palemurewrite
 	  src/resid/wave.cc, src/resid/wave.h: Fixed DTVSID by removing
 	  obsolete SUPPORT_C64DTV ifdefs from resid
 
-TODO: MERGE ChangeLog.add.v2.0.4-irq-andreasm
+2008-09-12  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/6510core.c, src/core/viacore.c, src/drive/iec/via1d1541.c,
+	src/drive/iecieee/via2d.c, src/drive/ieee/via1d2031.c,
+	src/interrupt.h, src/pet/petvia.c, src/via.h,
+	src/vic20/vic20ieeevia1.c, src/vic20/vic20ieeevia2.c,
+	src/vic20/vic20via1.c, src/vic20/vic20via2.c: VIA interrupt hook
+	set_int gets a relative clock parameter to handle CPU clock
+	offset. Fixed check for pending alarm in viacore_read by one
+	cycle. This fixes VIC20 game Bandits.
+
+2008-09-02  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/6510core.c, src/drive/drivecpu.c, src/interrupt.h,
+	src/maincpu.c, src/vicii/vicii-mem.c: Introduced some kind of
+	flipflop on the CPU IRQ line via IK_IRQPEND flag which is set
+	together with IK_IRQ and if IRQ is pending but delayed by an IRQ
+	enabling opcode. Flag is resetted after interrupt handler. D019
+	needs to trigger pending alarm if IRQ condition is already
+	triggered.
 
 2008-09-13  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -1423,12 +1582,12 @@ TODO: MERGE ChangeLog.add.v2.0.4-irq-andreasm
 	  arch/unix/x11/gnome/gnomevideo.c (video_canvas_create): pass
 	  canvas to openGL_sync_init(). * arch/unix/x11/xaw/x11video.c
 	  (video_canvas_create): Likewise.
-	  
+
 	  * arch/unix/openGL_sync.h: new prototypes for
 	  openGL_{set,get}_canvas_refreshrate(), openGL_sync_init() now
 	  expects a canvas in order to get/set the current canvas'
 	  refreshrate.
-	  
+
 	  * arch/unix/gui/uivicii.c (openGL_set_desktoprefresh): New
 	  function to enter Desktop frequency, in case the automatic
 	  detection is wrong or not available. (vicii_submenu): New menu
@@ -1540,7 +1699,210 @@ TODO: MERGE ChangeLog.add.v2.0.3-win32menucleanup-marco
 	  src/arch/win32/sid.dsp: Compile C++ files without copying them
 	  to .cpp first.
 
-TODO: MERGE ChangeLog.add.v2.0.3-residfp
+2008-08-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/resid-fp/ChangeLog, src/resid-fp/INSTALL,
+	src/resid-fp/NEWS, src/resid-fp/README: Added latest changes by
+	Antti.
+
+	* src/arch/win32/residfp.dsp: Added convolve.cpp to the resid-fp
+	msvc project file.
+
+2008-08-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/resid-fp/Makefile.am, src/resid-fp/configure.in,
+	src/resid-fp/convolve-sse.cc, src/resid-fp/convolve.cc,
+	src/resid-fp/sid.cc, src/resid-fp/sid.h, src/resid-fp/siddefs.h,
+	src/resid-fp/siddefs.h.in: Changed to where convolve.cc will
+	always get compiled and linked in and concolve-sse.cc will only
+	get compiled (and linked) if sse compile is available.
+
+	* src/resid-fp/convolve-sse.cc, src/resid-fp/convolve.cc:
+	Duplicated sid.cc to convolve.cc and convolve-sse.cc in order to
+	use the right convolve function at runtime.
+
+2008-08-29  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/resid-fp/configure.in, src/resid-fp/sid.cc: detect_sse
+	fixes, forced nuke_denormals
+
+	* src/resid-fp/sid.cc: Added detect_sse for non-SSE
+
+	* src/resid-fp/envelope.cc, src/resid-fp/extfilt.h,
+	src/resid-fp/filter.h, src/resid-fp/sid.cc, src/resid-fp/sid.h,
+	src/resid-fp/siddefs.h, src/resid-fp/siddefs.h.in,
+	src/resid-fp/wave.h: ReSID-fp improvements
+
+2008-08-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/resid-fp/sid.cc, src/resid-fp/siddefs.h,
+	src/resid-fp/siddefs.h.in, src/sid/resid-fp.cc: Added latest
+	changes by Antti.
+
+2008-08-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/resid-fp/sid.cc, src/resid-fp/sid.h: Added Antti's latest
+	changes.
+
+2008-08-28  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/resid-fp/sid.cc, src/resid-fp/sid.h, src/resid-fp/wave.cc,
+	src/resid-fp/wave.h, src/sid/resid-fp.cc: ReSID-fp improvements
+	as provided by Antti Lankila
+
+2008-08-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/residfp.dsp, src/arch/win32/vice.dsw,
+	src/resid-fp/siddefs.h, src/resid-fp/siddefs.h.in,
+	src/resid-fp/voice.cc: Added msvc support for resid-fp.
+
+	* src/arch/amigaos/mui/uisid.c, src/arch/beos/ui_sid.cc,
+	src/arch/msdos/uisid.c: Added resid-fp support to the msdos ui.
+
+	* src/arch/beos/ui_sid.cc: Added resid-fp support to the beos
+	ui.
+
+	* src/resid-fp/configure.in: Added a check for the possible
+	'broken' xmmintrin.h header.
+
+2008-08-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/resid-fp, src/resid-fp/AUTHORS, src/resid-fp/ChangeLog,
+	src/resid-fp/INSTALL, src/resid-fp/Makefile.am,
+	src/resid-fp/NEWS, src/resid-fp/README,
+	src/resid-fp/README.VICE, src/resid-fp/THANKS,
+	src/resid-fp/TODO, src/resid-fp/configure.in,
+	src/resid-fp/envelope.cc, src/resid-fp/envelope.h,
+	src/resid-fp/extfilt.cc, src/resid-fp/extfilt.h,
+	src/resid-fp/filter.cc, src/resid-fp/filter.h,
+	src/resid-fp/pot.cc, src/resid-fp/pot.h,
+	src/resid-fp/samp2src.pl, src/resid-fp/sid.cc,
+	src/resid-fp/sid.h, src/resid-fp/siddefs.h,
+	src/resid-fp/siddefs.h.in, src/resid-fp/spline.h,
+	src/resid-fp/voice.cc, src/resid-fp/voice.h,
+	src/resid-fp/wave.cc, src/resid-fp/wave.h,
+	src/resid-fp/wave6581_PST.cc, src/resid-fp/wave6581_PS_.cc,
+	src/resid-fp/wave6581_P_T.cc, src/resid-fp/wave6581__ST.cc,
+	src/resid-fp/wave8580_PST.cc, src/resid-fp/wave8580_PS_.cc,
+	src/resid-fp/wave8580_P_T.cc, src/resid-fp/wave8580__ST.cc:
+	Re-added the resid-fp directory.
+
+	* src/resid-fp: Removed resid-fp directory so I can re-add it as
+	a copy of resid with the svn history intact.
+
+	* src/arch/amigaos/mui/uisid.c, src/resid-fp/ChangeLog,
+	src/resid-fp/INSTALL, src/resid-fp/NEWS, src/resid-fp/README,
+	src/resid-fp/sid.cc, src/resid-fp/sid.h: Added amiga resid-fp UI
+	elements and added updates by Antti.
+
+	* src/resid-fp/Makefile.am, src/resid-fp/sid.cc: Added runtime
+	SSE detection.
+
+2008-08-26  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/x11/gnome/x11ui.c, src/resid-fp/filter.cc,
+	src/resid-fp/filter.h, src/resid-fp/sid.cc: Added casts to
+	resid-fp to remove warnings, fixed vsid crash
+
+2008-08-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resdialogs.txt, src/arch/win32/ressid.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/uisid.c,
+	src/resid-fp, src/resid-fp/configure.in: Added an -msse check to
+	the resid-fp configure.in and added win32 UI elements to support
+	resid-fp.
+
+2008-08-25  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/gui/uisid.c, src/arch/unix/x11/gnome/x11ui.c:
+	Added vsid check to gnomeui ui_open_canvas_window, seems to fix
+	vsid crash. Cosmetic SID model fix.
+
+	* src/arch/unix/gui/uisid.c, src/sid/resid-fp.cc,
+	src/sid/sid-resources.c, src/sid/sid.h: Added defines for new
+	SID models, converted unix/gui/uisid.c to use sid.h defines,
+	added experimental automatic ReSID/-FP switching on SID model
+	change
+
+2008-08-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sid/sid.h: Added new sid models.
+
+2008-08-25  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/gui/uisid.c: Added Unix GUI menu items for
+	ReSID-FP
+
+2008-08-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/resid-fp/ChangeLog, src/resid-fp/INSTALL,
+	src/resid-fp/NEWS, src/resid-fp/README,
+	src/resid-fp/README.VICE, src/resid-fp/THANKS,
+	src/resid-fp/TODO, src/resid-fp/configure.in,
+	src/resid-fp/envelope.h, src/resid-fp/extfilt.cc,
+	src/resid-fp/filter.cc, src/resid-fp/filter.h,
+	src/resid-fp/sid.cc, src/resid-fp/sid.h, src/resid-fp/siddefs.h,
+	src/resid-fp/siddefs.h.in, src/resid-fp/voice.cc,
+	src/resid-fp/wave.cc, src/sid/resid-fp.cc: Added some more
+	changes by Antti.
+
+2008-08-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/resid-fp/envelope.cc, src/resid-fp/envelope.h,
+	src/resid-fp/extfilt.cc, src/resid-fp/extfilt.h,
+	src/resid-fp/filter.cc, src/resid-fp/filter.h,
+	src/resid-fp/pot.cc, src/resid-fp/pot.h,
+	src/resid-fp/samp2src.pl, src/resid-fp/sid.cc,
+	src/resid-fp/sid.h, src/resid-fp/siddefs.h,
+	src/resid-fp/siddefs.h.in, src/resid-fp/voice.cc,
+	src/resid-fp/voice.h, src/resid-fp/wave.cc, src/resid-fp/wave.h,
+	src/resid-fp/wave6581_PST.cc, src/resid-fp/wave6581_PS_.cc,
+	src/resid-fp/wave6581_P_T.cc, src/resid-fp/wave6581__ST.cc,
+	src/resid-fp/wave8580_PST.cc, src/resid-fp/wave8580_PS_.cc,
+	src/resid-fp/wave8580_P_T.cc, src/resid-fp/wave8580__ST.cc,
+	src/sid/resid-fp.cc, src/sid/resid.cc, src/sid/sid.c: Added
+	changes by Antti to make reSID-fp work.
+
+	* configure.in: Fixed more typos.
+
+	* src/sid/Makefile.am: Fixed more typos.
+
+	* src/sid/Makefile.am: Fixed a typo.
+
+	* configure.in, src/Makefile.am, src/resid-fp/Makefile.am,
+	src/sid/Makefile.am, src/sid/resid-fp.cc, src/sid/resid-fp.h,
+	src/sid/sid-resources.c, src/sid/sid.c, src/sid/sid.h: Added
+	resid-fp to the build system, and added the resid-fp engine as
+	choice number 7.
+
+	* src/resid-fp/spline.h, src/sid/resid-fp.cc: Deleted obsolete
+	spline.h file and changed the function table names to have
+	residfp_* instead of resid_*
+
+	* src/resid-fp, src/resid-fp/AUTHORS, src/resid-fp/COPYING,
+	src/resid-fp/ChangeLog, src/resid-fp/INSTALL,
+	src/resid-fp/Makefile.am, src/resid-fp/NEWS,
+	src/resid-fp/README, src/resid-fp/README.VICE,
+	src/resid-fp/THANKS, src/resid-fp/TODO,
+	src/resid-fp/configure.in, src/resid-fp/envelope.cc,
+	src/resid-fp/envelope.h, src/resid-fp/extfilt.cc,
+	src/resid-fp/extfilt.h, src/resid-fp/filter.cc,
+	src/resid-fp/filter.h, src/resid-fp/pot.cc, src/resid-fp/pot.h,
+	src/resid-fp/samp2src.pl, src/resid-fp/sid.cc,
+	src/resid-fp/sid.h, src/resid-fp/siddefs.h,
+	src/resid-fp/siddefs.h.in, src/resid-fp/spline.h,
+	src/resid-fp/version.cc, src/resid-fp/voice.cc,
+	src/resid-fp/voice.h, src/resid-fp/wave.cc, src/resid-fp/wave.h,
+	src/resid-fp/wave6581_PST.cc, src/resid-fp/wave6581_PST.dat,
+	src/resid-fp/wave6581_PS_.cc, src/resid-fp/wave6581_PS_.dat,
+	src/resid-fp/wave6581_P_T.cc, src/resid-fp/wave6581_P_T.dat,
+	src/resid-fp/wave6581__ST.cc, src/resid-fp/wave6581__ST.dat,
+	src/resid-fp/wave8580_PST.cc, src/resid-fp/wave8580_PST.dat,
+	src/resid-fp/wave8580_PS_.cc, src/resid-fp/wave8580_PS_.dat,
+	src/resid-fp/wave8580_P_T.cc, src/resid-fp/wave8580_P_T.dat,
+	src/resid-fp/wave8580__ST.cc, src/resid-fp/wave8580__ST.dat,
+	src/sid/resid-fp.cc: Duplicated the resid directory and applied
+	the new resid engine patch by Antti S. Lankila to it.
 
 2008-08-31  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
@@ -1686,7 +2048,7 @@ TODO: MERGE ChangeLog.add.v2.0.2-mac-x64dtv
 	  po/hu.po, po/it.po, po/nl.po, po/pl.po, po/sv.po,
 	  src/version.h: Version 2.0.2
 
-TODO: MERGE
+TODO: MERGE ChangeLog.add.v2.0-winshortcuts-amatthies
 
 2008-08-19  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
@@ -1701,58 +2063,62 @@ TODO: MERGE
 	  Matthies (r19112): Fixed and improved win32 keyboard shortcuts
 	  (thanks iAN CooG).
 
-TODO: MERGE
+2008-08-19  Martin Pottendorfer <<pottendo@aon.at>
 
-2008-08-19  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+	* src/arch/unix/gui/uipalemu.c (PALMode_submenu): reactivated
+	`old' exact PAL emulation of `USE_GNOMEUI';
 
-	* ., src/arch/unix/gui/uipalemu.c, src/arch/unix/openGL_sync.h,
-	  src/arch/unix/vsyncarch.c,
-	  src/arch/unix/x11/gnome/gnomevideo.c,
-	  src/arch/unix/x11/gnome/uicolor.c,
-	  src/arch/unix/x11/gnome/uipalcontrol.c,
-	  src/arch/unix/x11/gnome/videoarch.h,
-	  src/arch/unix/x11/gnome/x11ui.c,
-	  src/arch/unix/x11/openGL_sync.c,
-	  src/arch/unix/x11/xaw/videoarch.h,
-	  src/arch/unix/x11/xaw/x11video.c, src/arch/unix/x11/xrandr.c,
-	  src/arch/win32/vsyncarch.c, src/vsync.c, src/vsyncapi.h:
-	  Merged changes from Martin: * arch/unix/gui/uipalemu.c
-	  (PALMode_submenu): reactivated `old' exact PAL emulation of
-	  `USE_GNOMEUI'; * arch/unix/openGL_sync.h: New prototype for
-	  `openGL_sync_enabled()'; * arch/unix/vsyncarch.c
-	  (vsyncarch_sync_with_raster): New function.
-	  (vsyncarch_vbl_sync_enabled): Likewise. *
-	  arch/unix/x11/gnome/gnomevideo.c (video_canvas_resize):
-	  Allocate sufficient memory for 32bit color info.
-	  (video_canvas_refresh): Hardware 32 bit instead of 24 bit
-	  color depth. This reenables `old' exact PAL emu on GTK. *
-	  arch/unix/x11/gnome/uicolor.c (uicolor_set_palette): Use 32
-	  bit color depth. * arch/unix/x11/gnome/uipalcontrol.c:
-	  Activate `old' exact PAL emulation. *
-	  arch/unix/x11/gnome/videoarch.h (struct video_canvas_s): new
-	  field `refreshrate'. * arch/unix/x11/gnome/x11ui.c
-	  (ui_open_canvas_window): GDK_GL_MODE_RGB -> GDK_GL_MODE_RGBA
-	  (exposure_callback_canvas): GL_RGB -> GL_RGBA
-	  (exposure_callback_canvas): Replaced `gdk_draw_rgb_image()' by
-	  `gdk_draw_rgb_32_image()' and adjusted parameters.
-	  (fliplist_popup_cb): Fixed minor bug. *
-	  arch/unix/x11/openGL_sync.c: All: removed `mult' kludge.
-	  (openGL_sync_enabled): New function. *
-	  arch/unix/x11/xaw/videoarch.h (struct video_canvas_s): New
-	  field `refreshrate'. * arch/unix/x11/xaw/x11video.c
-	  (video_canvas_refresh): Removed call to
-	  `openGL_sync_with_raster()'. This is handled by vsyncarch.c
-	  now. * arch/unix/x11/xrandr.c: (all): introduced a
-	  `current_canvas' to remember the current refreshrate. Removed
-	  `mult' kludge. * arch/win32/vsyncarch.c: Moved vsync/vblank
-	  related code to common src/vsync.c.
-	  (vsyncarch_sync_with_raster): New function - remaining arch
-	  specific code to synchronize with raster. * vsync.c
-	  (vsync_do_vsync): enabled vblank synchronization for
-	  `HAVE_OPENGL_SYNC'. (vsyncarch_verticalblank): New function
-	  coming from arch/win32/vsync.c. (vsyncarch_prepare_vbl):
-	  Likewise. * vsyncapi.h: new prototype for
-	  `vsyncarch_sync_with_raster()'.
+	* src/arch/unix/openGL_sync.h: New prototype for
+	`openGL_sync_enabled()';
+
+	* src/arch/unix/vsyncarch.c (vsyncarch_sync_with_raster): New
+	function.  (vsyncarch_vbl_sync_enabled): Likewise.
+
+	* src/arch/unix/x11/gnome/gnomevideo.c (video_canvas_resize):
+	Allocate sufficient memory for 32bit color info.
+	(video_canvas_refresh): Hardware 32 bit instead of 24 bit color
+	depth. This reenables `old' exact PAL emu on GTK.
+
+	* src/arch/unix/x11/gnome/uicolor.c (uicolor_set_palette): Use
+	32 bit color depth.
+
+	* src/arch/unix/x11/gnome/uipalcontrol.c: Activate `old' exact
+	PAL emulation.
+
+	* src/arch/unix/x11/gnome/videoarch.h (struct video_canvas_s):
+	new field `refreshrate'.
+
+	* src/arch/unix/x11/gnome/x11ui.c (ui_open_canvas_window):
+	GDK_GL_MODE_RGB -> GDK_GL_MODE_RGBA (exposure_callback_canvas):
+	GL_RGB -> GL_RGBA (exposure_callback_canvas): Replaced
+	`gdk_draw_rgb_image()' by `gdk_draw_rgb_32_image()' and adjusted
+	parameters.  (fliplist_popup_cb): Fixed minor bug.
+
+	* src/arch/unix/x11/openGL_sync.c: All: removed `mult' kludge.
+	(openGL_sync_enabled): New function.
+
+	* src/arch/unix/x11/xaw/videoarch.h (struct video_canvas_s): New
+	field `refreshrate'.
+
+	* src/arch/unix/x11/xaw/x11video.c (video_canvas_refresh):
+	Removed call to `openGL_sync_with_raster()'. This is handled by
+	vsyncarch.c now.
+
+	* src/arch/unix/x11/xrandr.c: (all): introduced a
+	`current_canvas' to remember the current refreshrate. Removed
+	`mult' kludge.
+
+	* src/arch/win32/vsyncarch.c: Moved vsync/vblank related code to
+	common src/vsync.c.  (vsyncarch_sync_with_raster): New function
+	- remaining arch specific code to synchronize with raster.
+
+	* src/vsync.c (vsync_do_vsync): enabled vblank synchronization
+	for `HAVE_OPENGL_SYNC'. (vsyncarch_verticalblank): New function
+	coming from arch/win32/vsync.c. (vsyncarch_prepare_vbl):
+	Likewise.
+
+	* src/vsyncapi.h: new prototype for
+	`vsyncarch_sync_with_raster()'.
 
 2008-08-17  Marco van den Heuvel <blackystardust68@yahoo.com>
 
