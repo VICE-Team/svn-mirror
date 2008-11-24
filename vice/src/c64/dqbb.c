@@ -75,6 +75,7 @@ static BYTE *dqbb_ram = NULL;
 
 static int dqbb_activate(void);
 static int dqbb_deactivate(void);
+static void dqbb_change_config(void);
 
 static const c64export_resource_t export_res = {
     "Double Quick Brown Box", 1, 1
@@ -101,6 +102,7 @@ static int set_dqbb_enabled(int val, void *param)
         }
         dqbb_enabled = 0;
         dqbb_reset();
+        dqbb_change_config();
         return 0;
     }
     else
@@ -118,6 +120,7 @@ static int set_dqbb_enabled(int val, void *param)
         }
         dqbb_enabled = 1;
         dqbb_reset();
+        dqbb_change_config();
         return 0;
     }
 }
@@ -232,7 +235,10 @@ void dqbb_reset(void)
     dqbb_a000_mapped = 0;
     dqbb_readwrite = 0;
     dqbb_off = 0;
-    dqbb_change_config();
+    if (dqbb_enabled)
+    {
+        dqbb_change_config();
+    }
 }
 
 void dqbb_init_config(void)
