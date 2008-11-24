@@ -180,9 +180,9 @@ static bool watch_store_occurred;
 static bool recording;
 static FILE *recording_fp;
 static char *recording_name;
-#define MAX_PLAYBACK 4
+#define MAX_PLAYBACK 8
 int playback = 0;
-char *playback_name[MAX_PLAYBACK];
+char *playback_name = NULL;
 static void playback_commands(int current_playback);
 static int set_playback_name(const char *param, void *extra_param);
 
@@ -1225,8 +1225,8 @@ void mon_end_recording(void)
 
 static int set_playback_name(const char *param, void *extra_param)
 {
-    if (!playback_name[0]) {
-        playback_name[0] = strdup(param);
+    if (!playback_name) {
+        playback_name = strdup(param);
         playback = 1;
     }
     return 0;
@@ -1236,7 +1236,7 @@ static void playback_commands(int current_playback)
 {
     FILE *fp;
     char string[256];
-    char *filename = playback_name[current_playback-1];
+    char *filename = playback_name;
 
     fp = fopen(filename, MODE_READ_TEXT);
 
@@ -1245,11 +1245,14 @@ static void playback_commands(int current_playback)
 
     if (fp == NULL) {
         mon_out("Playback for `%s' failed.\n", filename);
-        free(playback_name[current_playback-1]);
-        playback_name[current_playback-1] = NULL;
+        free(playback_name);
+        playback_name = NULL;
         --playback;
         return;
     }
+
+    free(playback_name);
+    playback_name = NULL;
 
     while (fgets(string, 255, fp) != NULL) {
         if (strcmp(string, "stop\n") == 0)
@@ -1264,15 +1267,14 @@ static void playback_commands(int current_playback)
     }
 
     fclose(fp);
-    free(playback_name[current_playback-1]);
-    playback_name[current_playback-1] = NULL;
     --playback;
 }
 
 void mon_playback_init(const char *filename)
 {
     if (playback < MAX_PLAYBACK) {
-        playback_name[playback++] = strdup(filename);
+        playback_name = strdup(filename);
+        ++playback;
     } else {
         mon_out("Playback for `%s' failed (recursion > %i).\n", filename, MAX_PLAYBACK);
     }
