@@ -103,6 +103,14 @@ enum {
 
 #endif
 
+/*! \brief Shortcut to check for masked bits being all set */
+#define BITS_ARE_ALL_SET(_where, _bits) \
+  ( (((_where) & (_bits)) == (_bits)) )
+
+/*! \brief Shortcut to check for masked bits being all cleared */
+#define BITS_ARE_ALL_UNSET(_where, _bits) \
+  ( (((_where) & (_bits)) == 0) )
+
 /*
  * Status and Command Registers
  * bit  7       6       5       4       3       2       1       0
@@ -645,12 +653,12 @@ static BYTE reu_read_without_sideeffects(WORD addr)
         break;
 
       case REU_REG_RW_INTERRUPT:
-        assert((rec.int_mask_reg & REU_REG_RW_INTERRUPT_UNUSED_MASK) == REU_REG_RW_INTERRUPT_UNUSED_MASK);
+        assert( BITS_ARE_ALL_SET(rec.int_mask_reg, REU_REG_RW_INTERRUPT_UNUSED_MASK) );
         retval = rec.int_mask_reg;
         break;
 
       case REU_REG_RW_ADDR_CONTROL:
-        assert((rec.address_control_reg & REU_REG_RW_ADDR_CONTROL_UNUSED_MASK) == REU_REG_RW_ADDR_CONTROL_UNUSED_MASK);
+        assert( BITS_ARE_ALL_SET(rec.address_control_reg, REU_REG_RW_ADDR_CONTROL_UNUSED_MASK) );
         retval = rec.address_control_reg;
         break;
     }
@@ -798,11 +806,39 @@ void REGPARM2 reu_store(WORD addr, BYTE byte)
 
         DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "store [$%02X] <= $%02X.", addr, (int)byte) );
 
-        /* write REC command register
-         * DMA only if execution bit (7) set  - RH */
-        if ((addr == REU_REG_RW_COMMAND) && (rec.command & REU_REG_RW_COMMAND_EXECUTE)) {
-            reu_dma(rec.command & REU_REG_RW_COMMAND_FF00_TRIGGER_DISABLED);
+        switch (addr)
+        {
+        case REU_REG_RW_COMMAND:
+            /* write REC command register
+             * DMA only if execution bit (7) set  - RH */
+            if (BITS_ARE_ALL_SET(rec.command, REU_REG_RW_COMMAND_EXECUTE)) {
+                reu_dma(rec.command & REU_REG_RW_COMMAND_FF00_TRIGGER_DISABLED);
+            }
+            break;
+
+        case REU_REG_RW_INTERRUPT:
+            if (BITS_ARE_ALL_SET(rec.int_mask_reg,
+                    REU_REG_RW_INTERRUPT_END_OF_BLOCK_ENABLED | REU_REG_RW_INTERRUPT_INTERRUPTS_ENABLED)
+                && BITS_ARE_ALL_SET(rec.status, REU_REG_R_STATUS_END_OF_BLOCK))
+            {
+                DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "End-of-transfer interrupt pending") );
+                rec.status |= REU_REG_R_STATUS_INTERRUPT_PENDING;
+                maincpu_set_irq(reu_int_num, 1);
+            }
+            if (BITS_ARE_ALL_SET(rec.int_mask_reg,
+                    REU_REG_RW_INTERRUPT_VERIFY_ENABLED | REU_REG_RW_INTERRUPT_INTERRUPTS_ENABLED)
+                && BITS_ARE_ALL_SET(rec.status, REU_REG_R_STATUS_VERIFY_ERROR))
+            {
+                DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "Verify interrupt pending") );
+                rec.status |= REU_REG_R_STATUS_INTERRUPT_PENDING;
+                maincpu_set_irq(reu_int_num, 1);
+            }
+            break;
+
+        default:
+            break;
         }
+
     }
 }
 
@@ -938,11 +974,11 @@ static void reu_dma_update_regs(WORD host_addr, unsigned int reu_addr,
          * address changes only if not fixed, correct reu base registers  -RH
          */
         DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "No autoload.") );
-        if ( (rec.address_control_reg & REU_REG_RW_ADDR_CONTROL_FIX_C64) == 0) {
+        if ( BITS_ARE_ALL_UNSET(rec.address_control_reg, REU_REG_RW_ADDR_CONTROL_FIX_C64) ) {
             rec.base_computer = host_addr;
         }
 
-        if ( (rec.address_control_reg & REU_REG_RW_ADDR_CONTROL_FIX_REC) == 0) {
+        if ( BITS_ARE_ALL_UNSET(rec.address_control_reg, REU_REG_RW_ADDR_CONTROL_FIX_REC) ) {
             rec.base_reu = reu_addr & 0xffff;
             rec.bank_reu = (reu_addr >> 16) & 0xff;
         }
@@ -958,11 +994,10 @@ static void reu_dma_update_regs(WORD host_addr, unsigned int reu_addr,
         DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "Autoload.") );
     }
 
-    if ((new_status_or_mask & REU_REG_R_STATUS_END_OF_BLOCK) == REU_REG_R_STATUS_END_OF_BLOCK) {
+    if ( BITS_ARE_ALL_SET(new_status_or_mask, REU_REG_R_STATUS_END_OF_BLOCK) ) {
         // only check for interrupt, when the transfer ended correctly (no verify error)
-        if ((rec.int_mask_reg 
-               & (REU_REG_RW_INTERRUPT_END_OF_BLOCK_ENABLED | REU_REG_RW_INTERRUPT_INTERRUPTS_ENABLED)) 
-              == (REU_REG_RW_INTERRUPT_END_OF_BLOCK_ENABLED | REU_REG_RW_INTERRUPT_INTERRUPTS_ENABLED))
+        if ( BITS_ARE_ALL_SET(rec.int_mask_reg,
+             REU_REG_RW_INTERRUPT_END_OF_BLOCK_ENABLED | REU_REG_RW_INTERRUPT_INTERRUPTS_ENABLED))
         {
             DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "Interrupt pending") );
             rec.status |= REU_REG_R_STATUS_INTERRUPT_PENDING;
@@ -970,10 +1005,9 @@ static void reu_dma_update_regs(WORD host_addr, unsigned int reu_addr,
         }
     }
 
-    if (( new_status_or_mask & REU_REG_R_STATUS_VERIFY_ERROR) == REU_REG_R_STATUS_VERIFY_ERROR) {
-        if ((rec.int_mask_reg 
-               & (REU_REG_RW_INTERRUPT_VERIFY_ENABLED | REU_REG_RW_INTERRUPT_INTERRUPTS_ENABLED))
-              == (REU_REG_RW_INTERRUPT_VERIFY_ENABLED | REU_REG_RW_INTERRUPT_INTERRUPTS_ENABLED))
+    if ( BITS_ARE_ALL_SET(new_status_or_mask, REU_REG_R_STATUS_VERIFY_ERROR)) {
+        if ( BITS_ARE_ALL_SET(rec.int_mask_reg,
+             REU_REG_RW_INTERRUPT_VERIFY_ENABLED | REU_REG_RW_INTERRUPT_INTERRUPTS_ENABLED))
         {
             DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "Verify Interrupt pending") );
             rec.status |= REU_REG_R_STATUS_INTERRUPT_PENDING;
