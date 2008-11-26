@@ -1704,6 +1704,24 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDMS_RS232_USERPORT_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_RS232_USERPORT_SETTINGS_SV, "RS232-användarportinställningar..."},
 
+/* en */ {IDMS_SAVE_CURRENT_SETTINGS_FILE,    "Save current settings to specified file"},
+/* de */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_HU, ""},  /* fuzzy */
+/* it */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_NL, "Huidige instellingen opslaan naar opgegeven bestand"},
+/* pl */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_SV, ""},  /* fuzzy */
+
+/* en */ {IDMS_LOAD_SAVED_SETTINGS_FILE,    "Load settings from specified file"},
+/* de */ {IDMS_LOAD_SAVED_SETTINGS_FILE_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_LOAD_SAVED_SETTINGS_FILE_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_LOAD_SAVED_SETTINGS_FILE_HU, ""},  /* fuzzy */
+/* it */ {IDMS_LOAD_SAVED_SETTINGS_FILE_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_LOAD_SAVED_SETTINGS_FILE_NL, "Instelling laden van opgegevn bestand"},
+/* pl */ {IDMS_LOAD_SAVED_SETTINGS_FILE_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_LOAD_SAVED_SETTINGS_FILE_SV, ""},  /* fuzzy */
+
 /* en */ {IDMS_SAVE_CURRENT_SETTINGS,    "Save current settings"},
 /* de */ {IDMS_SAVE_CURRENT_SETTINGS_DE, "Einstellungen speichern"},
 /* fr */ {IDMS_SAVE_CURRENT_SETTINGS_FR, "Enregistrer les paramètres courants"},
@@ -3318,6 +3336,15 @@ intl_translate_t intl_string_table[] = {
 /* nl */ {IDS_ISEPIC_SWITCH_NL, "Isepic schakelaar"},
 /* pl */ {IDS_ISEPIC_SWITCH_PL, ""},  /* fuzzy */
 /* sv */ {IDS_ISEPIC_SWITCH_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_CONFIG_FILENAME_SELECT,    "Select config file"},
+/* de */ {IDS_CONFIG_FILENAME_SELECT_DE, ""},  /* fuzzy */
+/* fr */ {IDS_CONFIG_FILENAME_SELECT_FR, ""},  /* fuzzy */
+/* hu */ {IDS_CONFIG_FILENAME_SELECT_HU, ""},  /* fuzzy */
+/* it */ {IDS_CONFIG_FILENAME_SELECT_IT, ""},  /* fuzzy */
+/* nl */ {IDS_CONFIG_FILENAME_SELECT_NL, "Selecteer configuratie bestand"},
+/* pl */ {IDS_CONFIG_FILENAME_SELECT_PL, ""},  /* fuzzy */
+/* sv */ {IDS_CONFIG_FILENAME_SELECT_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_JOYSTICK_IN_PORT_1,    "Joystick in port #1"},
 /* de */ {IDS_JOYSTICK_IN_PORT_1_DE, "Joystick in Port #1"},

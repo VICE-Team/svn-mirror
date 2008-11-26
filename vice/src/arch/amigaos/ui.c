@@ -677,7 +677,34 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
     case IDM_DATASETTE_RESET_COUNTER:
       datasette_control(DATASETTE_CONTROL_RESET_COUNTER);
       break;
-
+    case IDM_SETTINGS_SAVE_FILE:
+      fname=BrowseFile(translate_text(IDS_CONFIG_FILENAME_SELECT), "#?", canvas);
+      if (fname != NULL)
+      {
+        if (resources_save(fname) < 0)
+        {
+          ui_error(translate_text(IDMES_CANNOT_SAVE_SETTINGS));
+        }
+        else
+        {
+          ui_message(translate_text(IDMES_SETTINGS_SAVED_SUCCESS));
+        }
+      }
+      break;
+    case IDM_SETTINGS_LOAD_FILE:
+      fname=BrowseFile(translate_text(IDS_CONFIG_FILENAME_SELECT), "#?", canvas);
+      if (fname != NULL)
+      {
+        if (resources_load(NULL) < 0)
+        {
+          ui_error(translate_text(IDMES_CANNOT_LOAD_SETTINGS));
+        }
+        else
+        {
+          ui_message(translate_text(IDMES_SETTINGS_LOAD_SUCCESS));
+        }
+      }
+      break;
     case IDM_SETTINGS_SAVE:
       if (resources_save(NULL) < 0) {
         ui_error(translate_text(IDMES_CANNOT_SAVE_SETTINGS));
@@ -696,7 +723,6 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
       resources_set_defaults();
       ui_message(translate_text(IDMES_DFLT_SETTINGS_RESTORED));
       break;
-
     case IDM_MONITOR:
       if (!ui_emulation_is_paused())
           monitor_startup_trap();
