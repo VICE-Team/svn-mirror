@@ -1313,6 +1313,8 @@ static void handle_wm_initmenupopup(HMENU menu)
 
 static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
 {
+    TCHAR *st_name;
+
     wparam &= 0xffff;
     /* Handle machine specific commands first.  */
     if (ui_machine_specific)
@@ -1446,6 +1448,50 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         vsync_suspend_speed_eval();
         SwitchFullscreenMode(hwnd);
         break;
+      case IDM_SETTINGS_SAVE_FILE:
+          if ((st_name = uilib_select_file(hwnd, translate_text(IDS_SAVE_CONFIG_FILE),
+              UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE,
+              UILIB_SELECTOR_STYLE_DEFAULT)) != NULL)
+          {
+              char *name;
+
+              name = system_wcstombs_alloc(st_name);
+
+              if (resources_save(st_name) < 0)
+              {
+                  ui_error(translate_text(IDS_CANNOT_SAVE_SETTINGS));
+              }
+              else
+              {
+                  ui_message(translate_text(IDS_SETTINGS_SAVED_SUCCESS));
+              }
+              uifliplist_save_settings();
+              system_wcstombs_free(name);
+              lib_free(st_name);
+          }
+          break;
+      case IDM_SETTINGS_LOAD_FILE:
+          if ((st_name = uilib_select_file(hwnd, translate_text(IDS_LOAD_CONFIG_FILE),
+              UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD,
+              UILIB_SELECTOR_STYLE_DEFAULT)) != NULL)
+          {
+              char *name;
+
+              name = system_wcstombs_alloc(st_name);
+
+              if (resources_load(st_name) < 0)
+              {
+                  ui_error(translate_text(IDS_CANNOT_LOAD_SETTINGS));
+              }
+              else
+              {
+                  ui_message(translate_text(IDS_SETTINGS_LOADED_SUCCESS));
+              }
+              uifliplist_save_settings();
+              system_wcstombs_free(name);
+              lib_free(st_name);
+          }
+          break;
       case IDM_SETTINGS_SAVE:
         if (resources_save(NULL) < 0)
             ui_error(translate_text(IDS_CANNOT_SAVE_SETTINGS));
