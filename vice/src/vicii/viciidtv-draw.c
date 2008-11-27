@@ -985,7 +985,7 @@ inline static void _draw_ext_text(BYTE *p, unsigned int xs, unsigned int xe,
         d = *(char_ptr + (vicii.vbuf[i] & 0x3f) * 8);
 
         fcolor = vicii.dtvpalette[vicii.cbuf[i] & cmask];
-        bcolor = (bg_idx == 0) ? vicii.raster.background_color : vicii.ext_background_color[bg_idx - 1];
+        bcolor = (bg_idx == 0) ? (BYTE)vicii.raster.background_color : vicii.ext_background_color[bg_idx - 1];
         *(msk_ptr + i) = d;
         *(p+i*8+0) = (d & 0x80) ? fcolor : bcolor;
         *(p+i*8+1) = (d & 0x40) ? fcolor : bcolor;
