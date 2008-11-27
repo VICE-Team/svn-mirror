@@ -279,8 +279,8 @@ static void acia_set_int(int aciairq, unsigned int int_num, int value)
 */
 static int acia_set_irq(int new_irq_res, void *param)
 {
-    int new_irq;
-    static const int irq_tab[] = { IK_NONE, IK_IRQ, IK_NMI };
+    enum cpu_int new_irq;
+    static const enum cpu_int irq_tab[] = { IK_NONE, IK_IRQ, IK_NMI };
 
     /*
      * if an invalid interrupt type has been given, return
