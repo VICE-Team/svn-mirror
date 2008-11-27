@@ -242,6 +242,66 @@ static UI_CALLBACK(load_resources)
     ui_update_menus();
 }
 
+static UI_CALLBACK(save_resources_file)
+{
+    char *filename;
+    ui_button_t button;
+    int len = 1024;
+
+    vsync_suspend_speed_eval();
+
+    filename = lib_malloc(len + 1);
+    strcpy(filename, "");
+
+    button = ui_input_string(_("File to save settings to"),
+                             _("Name:"), filename, len);
+
+    if (button == UI_BUTTON_OK && filename != NULL) {
+        if (resources_save(filename) < 0) {
+            ui_error(_("Cannot save settings."));
+        } else {
+            if (w != NULL) {
+                ui_message(_("Settings saved successfully."));
+            }
+        }
+    }
+
+    lib_free(filename);
+    ui_update_menus();
+}
+
+static UI_CALLBACK(load_resources_file)
+{
+    static char *resources_last_dir = NULL;
+    char *filename;
+    ui_button_t button;
+    int r;
+
+    vsync_suspend_speed_eval();
+    filename = ui_select_file(_("Resource file name"),
+                              NULL, 0, 0, resources_last_dir,
+                              "*", &button, 0, NULL);
+
+    if (button == UI_BUTTON_OK && filename != NULL) {
+        r = resources_load(filename);
+        if (r < 0) {
+            if (r == RESERR_FILE_INVALID) {
+                ui_error(_("Cannot load settings:\nresource file not valid."));
+            } else {
+                ui_error(_("Cannot load settings:\nresource file not found."));
+            }
+        }
+        if (resources_last_dir) {
+            lib_free(resources_last_dir);
+        }
+    }
+
+    if (filename != NULL) {
+        lib_free(filename);
+    }
+    ui_update_menus();
+}
+
 static UI_CALLBACK(set_default_resources)
 {
     vsync_suspend_speed_eval();
@@ -322,6 +382,10 @@ ui_menu_entry_t ui_settings_settings_menu[] = {
       (ui_callback_t)save_resources, NULL, NULL },
     { N_("Load settings"),
       (ui_callback_t)load_resources, NULL, NULL },
+    { N_("Save settings to file..."),
+      (ui_callback_t)save_resources_file, NULL, NULL },
+    { N_("Load settings from file..."),
+      (ui_callback_t)load_resources_file, NULL, NULL },
     { N_("Restore default settings"),
       (ui_callback_t)set_default_resources, NULL, NULL },
     { N_("*Save settings on exit"),
