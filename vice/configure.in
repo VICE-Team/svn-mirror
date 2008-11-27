@@ -638,6 +638,21 @@ AC_TRY_COMPILE([],
 CFLAGS=$old_CFLAGS
 AC_SUBST(INLINE_UNIT_GROWTH)
 
+dnl Check if --param max-inline-insns-single=600 can be used.
+old_CFLAGS=$CFLAGS
+CFLAGS="$CFLAGS --param max-inline-insns-single=600"
+AC_MSG_CHECKING([if the compiler accepts --param max-inline-insns-single=600])
+AC_TRY_COMPILE([],
+               [int test;],
+               [ AC_MSG_RESULT(yes)
+                 MAX_INLINE_INSN_SINGLE="--param max-inline-insns-single=600"
+                ],
+               [ AC_MSG_RESULT(no)
+                MAX_INLINE_INSN_SINGLE=""
+                ])
+CFLAGS=$old_CFLAGS
+AC_SUBST(MAX_INLINE_INSN_SINGLE)
+
 dnl Check and setup aRts compilation.
 if test x"$with_arts" = "xyes"; then
 	AC_CHECK_PROGS(artsc_config, artsc-config, no)

@@ -1,3 +1,5 @@
+AM_CFLAGS = @MAX_INLINE_INSN_SINGLE@
+
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \

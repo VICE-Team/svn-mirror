@@ -695,7 +695,7 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
       fname=BrowseFile(translate_text(IDS_CONFIG_FILENAME_SELECT), "#?", canvas);
       if (fname != NULL)
       {
-        if (resources_load(NULL) < 0)
+        if (resources_load(fname) < 0)
         {
           ui_error(translate_text(IDMES_CANNOT_LOAD_SETTINGS));
         }

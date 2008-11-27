@@ -141,7 +141,7 @@ static void read_name_from_mem(void)
  */
 int flash_trap_seek_next(void)
 {
-    int i;
+    unsigned int i;
     BYTE direntry[0x20];
     DWORD entry;
 
