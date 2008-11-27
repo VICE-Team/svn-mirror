@@ -1494,8 +1494,8 @@ void ui_dispatch_events(void)
 
 void x11ui_fullscreen(int i)
 {
-    static Atom _net_wm_state = -1;
-    static Atom _net_wm_state_fullscreen = -1;
+    static Atom _net_wm_state = None;
+    static Atom _net_wm_state_fullscreen = None;
     XEvent xev;
     int mode;
     
@@ -1507,7 +1507,7 @@ void x11ui_fullscreen(int i)
     else
 	mode = 0;
     
-    if (_net_wm_state == -1)
+    if (_net_wm_state == None)
     {
 	_net_wm_state = XInternAtom(display, "_NET_WM_STATE", False);
 	_net_wm_state_fullscreen = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False);
