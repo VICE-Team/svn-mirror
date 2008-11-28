@@ -703,7 +703,7 @@ static void update_menus(HWND hwnd)
 
 static void ui_set_language(unsigned int lang_id)
 {
-    int i;
+    unsigned int i;
 
     for (i = 0; (ui_lang_menu_entries[i].lang_code != NULL)
         && (i < countof(ui_lang_menu_entries)); i++) {
@@ -1137,7 +1137,7 @@ static void reset_dialog_proc(WPARAM wparam)
 static void ui_copy_clipboard(HWND window)
 {
     BOOL clipboard_is_open = FALSE;
-    char * text;
+    char * text = NULL;
     HGLOBAL globaltext = NULL;
 
     do {
