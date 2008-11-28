@@ -33,7 +33,7 @@
  */
 
 #undef        DEBUG
-/* #define DEBUG /**/
+/* #define DEBUG */
 
 #define DEBUG_FAKE_INPUT_OUTPUT (5*80)
 #undef DEBUG_FAKE_INPUT_OUTPUT
