@@ -235,6 +235,8 @@ EXTRA_DIST = \
 	evc/system.h \
 	msvc/config.h \
 	msvc/system.h \
+	nsvc/siddefs.h \
+	msvc/siddefs-fp.h \
 	msvc/wpcap/bittypes.h \
 	msvc/wpcap/ip6_misc.h \
 	msvc/wpcap/pcap-stdinc.h \
