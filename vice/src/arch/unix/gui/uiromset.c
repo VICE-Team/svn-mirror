@@ -56,7 +56,7 @@ UI_CALLBACK(ui_load_rom_file)
 
     filename = ui_select_file(_("Load ROM file"),
                               NULL, 0, 0, last_dir, "*", &button,
-                              0, NULL);
+                              0, NULL, UI_FC_LOAD);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -100,7 +100,7 @@ static UI_CALLBACK(uiromset_archive_load)
 
     filename = ui_select_file(_("Load custom ROM set archive"),
                               NULL, 0, 0, last_dir, "*.vra",
-                              &button, 0, NULL);
+                              &button, 0, NULL, UI_FC_LOAD);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -242,7 +242,7 @@ static UI_CALLBACK(uiromset_file_load)
 
     filename = ui_select_file(_("Load custom ROM set file"),
                               NULL, 0, 0, last_dir, "*.vrs",
-                              &button, 0, NULL);
+                              &button, 0, NULL, UI_FC_LOAD);
 
     switch (button) {
       case UI_BUTTON_OK:

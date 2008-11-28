@@ -129,9 +129,6 @@ static const resource_string_t resources_string[] = {
     (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
 static int fullscreen_set_fs(int val, void *param)
 {
-    log_message(LOG_DEFAULT, 
-		_("%s fullscreen from commandline."), 
-		val ? _("Enabling") : _("Disabling"));
     ui_resources.fs_enabled_pending = val;
     return 0;
 }

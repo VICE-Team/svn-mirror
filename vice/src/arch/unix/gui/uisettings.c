@@ -43,6 +43,7 @@
 #include "uisettings.h"
 #include "uisound.h"
 #include "vsync.h"
+#include "libgen.h"
 
 
 /* Big kludge to get the ticks right in the refresh rate submenu.  This only
@@ -242,6 +243,8 @@ static UI_CALLBACK(load_resources)
     ui_update_menus();
 }
 
+static char *resources_last_dir = NULL;
+
 static UI_CALLBACK(save_resources_file)
 {
     char *filename;
@@ -253,9 +256,15 @@ static UI_CALLBACK(save_resources_file)
     filename = lib_malloc(len + 1);
     strcpy(filename, "");
 
+#ifdef USE_GNOMEUI
+    filename = ui_select_file(_("File to save settings to"), 
+			      NULL, 0, 0, resources_last_dir,
+                              "*", &button, 0, NULL, UI_FC_SAVE);
+#else
     button = ui_input_string(_("File to save settings to"),
                              _("Name:"), filename, len);
-
+#endif
+    
     if (button == UI_BUTTON_OK && filename != NULL) {
         if (resources_save(filename) < 0) {
             ui_error(_("Cannot save settings."));
@@ -264,6 +273,11 @@ static UI_CALLBACK(save_resources_file)
                 ui_message(_("Settings saved successfully."));
             }
         }
+	if (resources_last_dir) {
+	    lib_free(resources_last_dir);
+	}
+	resources_last_dir = lib_stralloc(filename);
+	resources_last_dir = dirname(resources_last_dir);
     }
 
     lib_free(filename);
@@ -272,7 +286,6 @@ static UI_CALLBACK(save_resources_file)
 
 static UI_CALLBACK(load_resources_file)
 {
-    static char *resources_last_dir = NULL;
     char *filename;
     ui_button_t button;
     int r;
@@ -280,7 +293,7 @@ static UI_CALLBACK(load_resources_file)
     vsync_suspend_speed_eval();
     filename = ui_select_file(_("Resource file name"),
                               NULL, 0, 0, resources_last_dir,
-                              "*", &button, 0, NULL);
+                              "*", &button, 0, NULL, UI_FC_LOAD);
 
     if (button == UI_BUTTON_OK && filename != NULL) {
         r = resources_load(filename);
@@ -290,9 +303,6 @@ static UI_CALLBACK(load_resources_file)
             } else {
                 ui_error(_("Cannot load settings:\nresource file not found."));
             }
-        }
-        if (resources_last_dir) {
-            lib_free(resources_last_dir);
         }
     }
 

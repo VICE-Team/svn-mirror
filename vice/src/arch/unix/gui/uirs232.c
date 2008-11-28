@@ -120,7 +120,7 @@ UI_CALLBACK(set_rs232_device_file)
 
     filename = ui_select_file(_("Select RS232 device file"),
                               NULL, 0, 0, "/dev", "ttyS*", &button, 0,
-                              NULL);
+                              NULL, UI_FC_LOAD);
     switch (button) {
       case UI_BUTTON_OK:
         resources_set_string(resource, filename);

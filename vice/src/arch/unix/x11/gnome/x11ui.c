@@ -230,7 +230,8 @@ static GtkWidget* build_file_selector(const char *title,
 				      int allow_autostart,
 				      int show_preview,
 				      const char *pat,
-				      const char *default_dir);
+				      const char *default_dir,
+				      GtkFileChooserAction action);
 static GtkWidget* build_show_text(const gchar *text, int width, int height);
 static GtkWidget* build_confirm_dialog(GtkWidget **confirm_dialog_message);
 static gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p);
@@ -2154,7 +2155,8 @@ char *ui_select_file(const char *title,
 						 unsigned int unit), unsigned int unit,
                      unsigned int allow_autostart, const char *default_dir,
                      const char *default_pattern, ui_button_t *button_return,
-		     unsigned int show_preview, int *attach_wp)
+		     unsigned int show_preview, int *attach_wp,
+		     ui_filechooser_t action)
 {  
     static GtkWidget* file_selector = NULL;
     static char *filesel_dir = NULL;
@@ -2163,6 +2165,17 @@ char *ui_select_file(const char *title,
     char *filename = NULL;
     GtkWidget *wp;
     gint res;
+    GtkFileChooserAction a;
+
+    switch (action)
+    {
+    case UI_FC_LOAD: a = GTK_FILE_CHOOSER_ACTION_OPEN;
+	break;
+    case UI_FC_SAVE: a = GTK_FILE_CHOOSER_ACTION_SAVE;
+	break;
+    default:
+	return NULL;
+    }
 
     /* reset old selection */
     ui_set_selected_file(0);
@@ -2176,11 +2189,11 @@ char *ui_select_file(const char *title,
     if (attach_wp)
 	file_selector = build_file_selector(title, &wp, allow_autostart, 
 					    show_preview, default_pattern, 
-					    default_dir);
+					    default_dir, a);
     else
 	file_selector = build_file_selector(title, NULL, allow_autostart, 
 					    show_preview, default_pattern, 
-					    default_dir);
+					    default_dir, a);
 
     g_signal_connect(G_OBJECT(file_selector),
 		     "destroy",
@@ -2454,7 +2467,8 @@ static GtkWidget *build_file_selector(const char *title,
 				      int allow_autostart,
 				      int show_preview,
 				      const char *pat,
-				      const char *default_dir)
+				      const char *default_dir,
+				      GtkFileChooserAction action)
 {  
     GtkWidget *fileselect, *scrollw, *wp_checkbox, *sh_checkbox, *extra;
     GtkFileFilter *ff = NULL, *allf;
@@ -2473,7 +2487,7 @@ static GtkWidget *build_file_selector(const char *title,
     gtk_file_filter_set_name(allf, _("all files"));
 
     fileselect = gtk_file_chooser_dialog_new(title, GTK_WINDOW(_ui_top_level), 
-					     GTK_FILE_CHOOSER_ACTION_OPEN, 
+					     action, 
 					     GTK_STOCK_CANCEL, 
 					     GTK_RESPONSE_CANCEL,
 					     GTK_STOCK_OPEN, 

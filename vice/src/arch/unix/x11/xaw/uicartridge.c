@@ -77,7 +77,7 @@ static UI_CALLBACK(browse_callback)
 
     filename = ui_select_file(_("Save cartridge image file"),
                               NULL, 0, False, NULL, "*.[cC][rR][tT]",
-                              &button, 0, NULL);
+                              &button, 0, NULL, UI_FC_LOAD);
 
     if (button == UI_BUTTON_OK)
         XtVaSetValues(file_name_field, XtNstring, filename, NULL);

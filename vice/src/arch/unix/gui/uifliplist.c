@@ -88,7 +88,7 @@ static UI_CALLBACK(load_save_fliplist)
                         NULL);
     filename = ui_select_file(title, NULL, 0, 0,
                               load_save_fliplist_last_dir, "*.vfl",
-                              &button, 1, NULL);
+                              &button, 1, NULL, UI_FC_LOAD);
     lib_free(title);
     switch (button) {
       case UI_BUTTON_OK:

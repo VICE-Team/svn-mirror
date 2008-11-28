@@ -60,6 +60,8 @@ typedef enum {
 struct video_canvas_s;
 struct palette_s;
 
+typedef enum { UI_FC_LOAD = 0, UI_FC_SAVE } ui_filechooser_t;
+
 void ui_display_speed(float percent, float framerate, int warp_flag);
 void ui_display_paused(int flag);
 void ui_dispatch_next_event(void);
@@ -68,6 +70,7 @@ extern void ui_exit(void);
 extern void ui_message(const char *format,...);
 extern void ui_show_text(const char *title, const char *text, int width,
                          int height);
+
 extern char *ui_select_file(const char *title,
                             char *(*read_contents_func)(const char *,
                             unsigned int unit), unsigned int unit,
@@ -76,9 +79,12 @@ extern char *ui_select_file(const char *title,
                             const char *default_pattern,
                             ui_button_t *button_return,
                             unsigned int show_preview,
-                            int *attach_wp);
+                            int *attach_wp,
+			    ui_filechooser_t action);
+
 extern ui_button_t ui_input_string(const char *title, const char *prompt,
                                    char *buf, unsigned int buflen);
+
 extern ui_button_t ui_ask_confirmation(const char *title, const char *text);
 extern void ui_autorepeat_on(void);
 extern void ui_autorepeat_off(void);

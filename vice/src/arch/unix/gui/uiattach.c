@@ -76,7 +76,8 @@ UI_CALLBACK(attach_disk)
     title = lib_msprintf(_("Attach Disk Image as unit #%d"), unit);
     filename = ui_select_file(title, read_disk_image_contents, unit,
                               unit == 8 ? 1 : 0, attach_disk_last_dir,
-                              "*.[gdxGDX]*", &button, 1, &attach_wp);
+                              "*.[gdxGDX]*", &button, 1, &attach_wp,
+			      UI_FC_LOAD);
 
     lib_free(title);
     if (attach_wp) {
@@ -213,7 +214,7 @@ static UI_CALLBACK(attach_tape)
     filename = ui_select_file(_("Attach a tape image"),
                               read_tape_image_contents, 0,
                               1, attach_tape_last_dir, "*.[tT]*",
-                              &button, 1, NULL);
+                              &button, 1, NULL, UI_FC_LOAD);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -285,7 +286,7 @@ static UI_CALLBACK(smart_attach)
     }
     filename = ui_select_file(_("Smart-attach a file"),
                               read_disk_or_tape_image_contents, 0,
-                              1, dir, NULL, &button, 1, NULL);
+                              1, dir, NULL, &button, 1, NULL, UI_FC_LOAD);
     if (do_free_dir)
         lib_free(dir);
 

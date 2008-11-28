@@ -66,7 +66,7 @@ static UI_CALLBACK(attach_cartridge)
             filename = ui_select_file(_("Attach cartridge image"),
                                       NULL, 0, 0, last_dir,
                                       "*.[cCbB][rRiI][tTnN]",
-                                      &button, 0, NULL);
+                                      &button, 0, NULL, UI_FC_LOAD);
 
             switch (button) {
               case UI_BUTTON_OK:

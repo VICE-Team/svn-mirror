@@ -1797,7 +1797,8 @@ char *ui_select_file(const char *title,
                      unsigned int unit), unsigned int unit,
                      unsigned int allow_autostart, const char *default_dir,
                      const char *default_pattern, ui_button_t *button_return,
-                     unsigned int show_preview, int *attach_wp)
+                     unsigned int show_preview, int *attach_wp,
+		     ui_filechooser_t action)
 {
     static ui_button_t button;
     char *ret;

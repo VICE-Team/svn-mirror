@@ -241,7 +241,7 @@ static UI_CALLBACK(psid_load)
     ui_button_t button;
 
     filename = ui_select_file(_("Load PSID file"), NULL, 0, 0, NULL,
-                              "*.[psPS]*", &button, 0, NULL);
+                              "*.[psPS]*", &button, 0, NULL, UI_FC_LOAD);
 
     vsync_suspend_speed_eval();
 

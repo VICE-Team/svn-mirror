@@ -266,7 +266,7 @@ static void load_snapshot_trap(WORD unused_addr, void *data)
     } else {
         filename = ui_select_file(_("Load snapshot"), NULL, 0, 0,
                                   load_snapshot_last_dir,
-                                  "*.vsf", &button, 0, NULL);
+                                  "*.vsf", &button, 0, NULL, UI_FC_LOAD);
         if (button != UI_BUTTON_OK) {
             if (filename)
                 lib_free(filename);
@@ -402,7 +402,7 @@ static void sound_record_start(char *format, char *extension)
 
     resources_set_string("SoundRecordDeviceName", "");
     s = ui_select_file(_("Record sound to file"), NULL, 0, 0, NULL,
-                              extension, &button, 0, NULL);
+		       extension, &button, 0, NULL, UI_FC_LOAD);
     if (button == UI_BUTTON_OK && s != NULL)
     {
         util_add_extension(&s, format);

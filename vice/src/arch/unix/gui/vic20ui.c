@@ -260,7 +260,7 @@ static UI_CALLBACK(attach_cartridge)
     vsync_suspend_speed_eval();
     filename = ui_select_file(_("Attach cartridge image"),
                               NULL, 0, 0, last_dir, "*.prg", &button,
-                              0, NULL);
+                              0, NULL, UI_FC_LOAD);
     switch (button) {
       case UI_BUTTON_OK:
         if (cartridge_attach_image(type, filename) < 0)
