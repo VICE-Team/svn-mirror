@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-11-28 15:37+0100\n"
-"PO-Revision-Date: 2008-11-23 21:01+0100\n"
+"PO-Revision-Date: 2008-11-28 23:56+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2679,14 +2679,12 @@ msgid "Settings loaded."
 msgstr "Einstellungen geladen."
 
 #: src/arch/unix/gui/uisettings.c:256
-#, fuzzy
 msgid "File to save settings to"
-msgstr "Rom Satz Definition speichern unter"
+msgstr "Einstellungsdateiname"
 
 #: src/arch/unix/gui/uisettings.c:281
-#, fuzzy
 msgid "Resource file name"
-msgstr "Dateiname fehlt!"
+msgstr "Dateiname für Einstellungen"
 
 #: src/arch/unix/gui/uisettings.c:321
 msgid "*Auto"
@@ -2717,14 +2715,12 @@ msgid "Load settings"
 msgstr "Einstellungen laden"
 
 #: src/arch/unix/gui/uisettings.c:385
-#, fuzzy
 msgid "Save settings to file..."
-msgstr "Einstellungen beim Beenden speichern"
+msgstr "Einstellungen speichern unter..."
 
 #: src/arch/unix/gui/uisettings.c:387
-#, fuzzy
 msgid "Load settings from file..."
-msgstr "Einstellungen laden"
+msgstr "Einstellungen von Datei laden..."
 
 #: src/arch/unix/gui/uisettings.c:389
 msgid "Restore default settings"
@@ -4804,14 +4800,12 @@ msgid "Cannot write keymap file"
 msgstr "Schreiben von keymap Datei fehlgeschlagen"
 
 #: src/arch/win32/res.rc.po.c:4731
-#, fuzzy
 msgid "Save config file"
-msgstr "Konfigurationsdateiname definieren"
+msgstr "Speichere Konfigurationsdatei"
 
 #: src/arch/win32/res.rc.po.c:4732
-#, fuzzy
 msgid "Load config file"
-msgstr "Fliplist Datei laden"
+msgstr "Lade Konfigurationsdatei"
 
 #: src/arch/win32/res.rc.po.c:4733
 msgid "Mapping"
@@ -5910,14 +5904,12 @@ msgid "RS&232 userport settings..."
 msgstr "RS&232 Userport Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:5032 src/arch/amigaos/intl.c.po.c:1680
-#, fuzzy
 msgid "Save current settings to specified file"
-msgstr "Einstellungen speichern"
+msgstr "Speichere Einstellungen in angegebene Datei"
 
 #: src/arch/win32/res.rc.po.c:5033 src/arch/amigaos/intl.c.po.c:1689
-#, fuzzy
 msgid "Load settings from specified file"
-msgstr "Kann Image Datei nicht einlegen"
+msgstr "Lade Einstellungen von Datei"
 
 #: src/arch/win32/res.rc.po.c:5034
 msgid "&Save current settings"
@@ -8642,7 +8634,6 @@ msgid "Isepic Switch"
 msgstr "Isepic Schalter"
 
 #: src/arch/amigaos/intl.c.po.c:3313
-#, fuzzy
 msgid "Select config file"
 msgstr "Konfigurationsdateiname definieren"
 
@@ -10456,9 +10447,8 @@ msgid "Enable the isepic cart."
 msgstr "Isepic Modul aktivieren"
 
 #: src/translate.c.po.c:3795
-#, fuzzy
 msgid "Disable the isepic cart"
-msgstr "Isepic Modul aktivieren"
+msgstr "Isepic Modul deaktivieren"
 
 #: src/translate.c.po.c:3807
 msgid "Enable the MMC64 expansion"
@@ -10596,9 +10586,8 @@ msgid "Enable expert cartridge"
 msgstr "Expert Cartridge aktivieren"
 
 #: src/translate.c.po.c:4218
-#, fuzzy
 msgid "Disable default cartridge"
-msgstr "Digimax Cartridge deaktivieren"
+msgstr "Standard Modul deaktivieren"
 
 #: src/translate.c.po.c:4230
 msgid "Specify name of IDE64 image file"
