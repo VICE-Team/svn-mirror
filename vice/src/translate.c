@@ -8892,7 +8892,7 @@ char *translate_text(int en_resource)
   if (retval == NULL)
   {
     log_error(LOG_DEFAULT, "TRANSLATE ERROR: ID %d was requested, and would be returning NULL.",en_resource);
-    sprintf(translate_id_error_text,"ID %d translate error\0",en_resource);
+    sprintf(translate_id_error_text,"ID %d translate error",en_resource);
     retval = translate_id_error_text;
   }
 
