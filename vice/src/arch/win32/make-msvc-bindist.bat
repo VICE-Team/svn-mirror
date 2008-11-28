@@ -39,13 +39,14 @@ copy ..\..\..\data\C64\*.vrs %VICEDIR%\C64
 copy ..\..\..\data\C64\kernal %VICEDIR%\C64
 copy ..\..\..\data\C64\win_*.v* %VICEDIR%\C64
 mkdir %VICEDIR%\C64DTV
-copy ..\..\..\data\C64\basic %VICEDIR%\C64DTV
-copy ..\..\..\data\C64\*.vpl %VICEDIR%\C64DTV
-copy ..\..\..\data\C64\c64mem.sym %VICEDIR%\C64DTV
-copy ..\..\..\data\C64\chargen %VICEDIR%\C64DTV
-copy ..\..\..\data\C64\*.vrs %VICEDIR%\C64DTV
-copy ..\..\..\data\C64\kernal %VICEDIR%\C64DTV
-copy ..\..\..\data\C64\win_*.v* %VICEDIR%\C64DTV
+copy ..\..\..\data\C64DTV\basic %VICEDIR%\C64DTV
+copy ..\..\..\data\C64DTV\*.vpl %VICEDIR%\C64DTV
+copy ..\..\..\data\C64DTV\c64mem.sym %VICEDIR%\C64DTV
+copy ..\..\..\data\C64DTV\chargen %VICEDIR%\C64DTV
+copy ..\..\..\data\C64DTV\*.vrs %VICEDIR%\C64DTV
+copy ..\..\..\data\C64DTV\kernal %VICEDIR%\C64DTV
+copy ..\..\..\data\C64DTV\win_*.v* %VICEDIR%\C64DTV
+copy ..\..\..\data\C64DTV\dtvrom.bin %VICEDIR%\C64DTV
 mkdir %VICEDIR%\CBM-II
 copy ..\..\..\data\CBM-II\*.vpl %VICEDIR%\CBM-II
 copy ..\..\..\data\CBM-II\basic.* %VICEDIR%\CBM-II

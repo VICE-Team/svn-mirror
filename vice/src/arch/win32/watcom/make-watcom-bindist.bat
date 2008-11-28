@@ -46,6 +46,7 @@ copy ..\..\..\..\data\C64DTV\chargen %VICEDIR%\C64DTV
 copy ..\..\..\..\data\C64DTV\*.vrs %VICEDIR%\C64DTV
 copy ..\..\..\..\data\C64DTV\kernal %VICEDIR%\C64DTV
 copy ..\..\..\..\data\C64DTV\win_*.v* %VICEDIR%\C64DTV
+copy ..\..\..\..\data\C64DTV\dtvrom.bin %VICEDIR%\C64DTV
 mkdir %VICEDIR%\CBM-II
 copy ..\..\..\..\data\CBM-II\*.vpl %VICEDIR%\CBM-II
 copy ..\..\..\..\data\CBM-II\basic.* %VICEDIR%\CBM-II
