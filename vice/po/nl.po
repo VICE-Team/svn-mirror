@@ -12077,12 +12077,3 @@ msgstr "De digimaxcartridge uitschakelen"
 #: src/translate.c.po.c:8647
 msgid "Base address of the digimax cartridge"
 msgstr "Basisadres van de digimaxcartridge"
-
-#~ msgid "Enable fullscreen"
-#~ msgstr "Activeer volscherm"
-
-#~ msgid "Disable fullscreen"
-#~ msgstr "Volscherm uitschakelen"
-
-#~ msgid "&Edit"
-#~ msgstr "&Bewerken"

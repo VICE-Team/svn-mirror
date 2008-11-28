@@ -8552,7 +8552,7 @@ msgstr "Scrivi sulla ROM C64DTV"
 
 #: src/arch/amigaos/intl.c.po.c:2962
 msgid "Hummer Userport device"
-msgstr " Dispositivo sulla userport dell'Humme"
+msgstr "Dispositivo sulla userport dell'Humme"
 
 #: src/arch/amigaos/intl.c.po.c:2971
 msgid "Joystick port mapped to Hummer Userport"
@@ -12173,12 +12173,3 @@ msgstr "Disattiva la cartuccia digimax"
 #: src/translate.c.po.c:8743
 msgid "Base address of the digimax cartridge"
 msgstr "Indirizzo base della cartuccia digimax"
-
-#~ msgid "Enable fullscreen"
-#~ msgstr "Visualizza a tutto schermo"
-
-#~ msgid "Disable fullscreen"
-#~ msgstr "Non visualizzare a tutto schermo"
-
-#~ msgid "&Edit"
-#~ msgstr "&Modifica"

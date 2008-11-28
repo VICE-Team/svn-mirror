@@ -12392,13 +12392,3 @@ msgstr "Désactiver la cartouche Digimax"
 #: src/translate.c.po.c:8647
 msgid "Base address of the digimax cartridge"
 msgstr "Adresse de base de la cartouche Digimax"
-
-#~ msgid "Enable fullscreen"
-#~ msgstr "Activer le mode plein écran"
-
-#~ msgid "Disable fullscreen"
-#~ msgstr "Désactiver le mode plein écran"
-
-#, fuzzy
-#~ msgid "&Edit"
-#~ msgstr "Éditeur"

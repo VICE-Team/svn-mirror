@@ -1878,7 +1878,7 @@ BEGIN
     IDS_MI_FLASH_TRUE_FILESYSTEM   "&Igazi flash fájlrendszer"
     IDS_MI_PS2MOUSE                "&PS/2 egér emuláció"
     IDS_MI_C64DTV_SETTINGS         "&C64DTV beállításai..."
-    IDS_JOYSTICK                   "Joystick"
+    IDS_JOYSTICK                   "Botkormány"
 END
 #pragma code_page(28591)
 

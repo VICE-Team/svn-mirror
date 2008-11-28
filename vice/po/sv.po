@@ -11977,12 +11977,3 @@ msgstr "Inaktivera Digimax Cartridge"
 #: src/translate.c.po.c:8647
 msgid "Base address of the digimax cartridge"
 msgstr "Basadress för Digimax-cartridge"
-
-#~ msgid "Enable fullscreen"
-#~ msgstr "Aktivera fullskärm"
-
-#~ msgid "Disable fullscreen"
-#~ msgstr "Inaktivera fullskärm"
-
-#~ msgid "&Edit"
-#~ msgstr "&Redigera"

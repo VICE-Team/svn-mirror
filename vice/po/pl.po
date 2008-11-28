@@ -13159,13 +13159,3 @@ msgstr "W³±cz Expert Cartridge..."
 #, fuzzy
 msgid "Base address of the digimax cartridge"
 msgstr "Rozszerzenie RAM napêdu #8 "
-
-#~ msgid "Enable fullscreen"
-#~ msgstr "W³±cz pe³ny ekran"
-
-#~ msgid "Disable fullscreen"
-#~ msgstr "Wy³±cz pe³ny ekran"
-
-#, fuzzy
-#~ msgid "&Edit"
-#~ msgstr "Monitor"

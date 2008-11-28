@@ -11628,7 +11628,7 @@ msgid ""
 "Set device type for device #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
 msgstr ""
-"Adja meg a #10-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3 "
+"Adja meg a #8-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3 "
 "blokk eszköz)"
 
 #: src/translate.c.po.c:7343
@@ -11636,7 +11636,7 @@ msgid ""
 "Set device type for device #9 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
 msgstr ""
-"Adja meg a #10-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3: "
+"Adja meg a #9-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3: "
 "blokk eszköz)"
 
 #: src/translate.c.po.c:7357
@@ -12103,12 +12103,3 @@ msgstr "Digimax cartridge tiltása"
 #: src/translate.c.po.c:8743
 msgid "Base address of the digimax cartridge"
 msgstr "A digimax cartridge báziscíme"
-
-#~ msgid "Enable fullscreen"
-#~ msgstr "Teljes kÄ‚Å pernyÄ¹Â‘ engedÄ‚Å lyezÄ‚Å se"
-
-#~ msgid "Disable fullscreen"
-#~ msgstr "Teljes kÄ‚Å pernyÄ¹Â‘ tiltÄ‚Ä„sa"
-
-#~ msgid "&Edit"
-#~ msgstr "&Szerkeszt"

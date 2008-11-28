@@ -3507,8 +3507,9 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* de */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_DE, "Hummer Userport Gerät auswählen (0: Kein, 1: ADC, 2: Joystick)"},
 /* fr */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_HU, "Hummer Userport eszköz megadása (0: nincs, 1: ADC, 2: Joystick)"},
+/* it */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_IT, "Seleziona il dispositivo sulla userport dell'Hummer (0: Nessuno, 1:"
+                                                  " ADC, 2: Joystick)"},
 /* nl */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_NL, "Selecteer Hummer Userport apparaat (0: Geen, 1: ADC, 2: Joystick"},
 /* pl */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_SV, ""},  /* fuzzy */
@@ -3806,8 +3807,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* de */ {IDCLS_ENABLE_DQBB_DE, "Double Quick Brown Box aktivieren"},
 /* fr */ {IDCLS_ENABLE_DQBB_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_DQBB_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_DQBB_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_DQBB_HU, "Double Quick Brown Box engedélyezése"},
+/* it */ {IDCLS_ENABLE_DQBB_IT, "Attiva Double Quick Brown Box"},
 /* nl */ {IDCLS_ENABLE_DQBB_NL, "Activeer de Double Quick Brown Box cartridge"},
 /* pl */ {IDCLS_ENABLE_DQBB_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_DQBB_SV, ""},  /* fuzzy */
@@ -3818,8 +3819,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* de */ {IDCLS_DISABLE_DQBB_DE, "Double Quick Brown Box Modul deaktivieren"},
 /* fr */ {IDCLS_DISABLE_DQBB_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_DQBB_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_DQBB_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_DQBB_HU, "Double Quick Brown Box tiltása"},
+/* it */ {IDCLS_DISABLE_DQBB_IT, "Disattiva Double Quick Brown Box"},
 /* nl */ {IDCLS_DISABLE_DQBB_NL, "De Double Quick Brown Box cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_DQBB_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_DQBB_SV, ""},  /* fuzzy */
@@ -3830,8 +3831,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* de */ {IDCLS_SPECIFY_DQBB_NAME_DE, "Double Quick Brown Box Dateiname spezifizieren"},
 /* fr */ {IDCLS_SPECIFY_DQBB_NAME_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_DQBB_NAME_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_DQBB_NAME_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_DQBB_NAME_HU, "Adja meg a Double Quick Brown Box fájlnevet"},
+/* it */ {IDCLS_SPECIFY_DQBB_NAME_IT, "Specifica il nome del file Double Quick Brown Box"},
 /* nl */ {IDCLS_SPECIFY_DQBB_NAME_NL, "Geef de naam van het Double Quick Brown Box cartridge-bestand"},
 /* pl */ {IDCLS_SPECIFY_DQBB_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_DQBB_NAME_SV, ""},  /* fuzzy */
@@ -3842,8 +3843,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* de */ {IDCLS_ENABLE_ISEPIC_DE, "Isepic Modul aktivieren"},
 /* fr */ {IDCLS_ENABLE_ISEPIC_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_ISEPIC_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_ISEPIC_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_ISEPIC_HU, "Isepic cartridge engedélyezése."},
+/* it */ {IDCLS_ENABLE_ISEPIC_IT, "Attiva la cartuccia isepic."},
 /* nl */ {IDCLS_ENABLE_ISEPIC_NL, "Activeer de isepic cartridge"},
 /* pl */ {IDCLS_ENABLE_ISEPIC_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_ISEPIC_SV, ""},  /* fuzzy */
@@ -3852,7 +3853,7 @@ translate_t string_table[] = {
 /* c64/isepic.c */
 /* en */ {IDCLS_DISABLE_ISEPIC,    N_("Disable the isepic cart")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_DISABLE_ISEPIC_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_ISEPIC_DE, "Isepic Modul deaktivieren"},
 /* fr */ {IDCLS_DISABLE_ISEPIC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_ISEPIC_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_ISEPIC_IT, ""},  /* fuzzy */
@@ -4275,7 +4276,7 @@ translate_t string_table[] = {
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_DISABLE_CART,    N_("Disable default cartridge")},
 #ifdef HAS_TRANSLATION
-/* de */ {IDCLS_DISABLE_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_CART_DE, "Standard Modul deaktivieren"},
 /* fr */ {IDCLS_DISABLE_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_CART_IT, "Disattiva la cartuccia predefinita"},
@@ -6752,8 +6753,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* de */ {IDCLS_DISABLE_SIDCART_DE, "SID Modul deaktivieren"},
 /* fr */ {IDCLS_DISABLE_SIDCART_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_SIDCART_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_SIDCART_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_SIDCART_HU, "SID cartridge tiltása"},
+/* it */ {IDCLS_DISABLE_SIDCART_IT, "Disattiva cartuccia SID"},
 /* nl */ {IDCLS_DISABLE_SIDCART_NL, "SID-Cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_SIDCART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_SIDCART_SV, ""},  /* fuzzy */
@@ -7392,8 +7393,10 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* de */ {IDCLS_SET_DEVICE_TYPE_8_DE, "Geräte Typ für Gerät #8 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"},
 /* fr */ {IDCLS_SET_DEVICE_TYPE_8_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SET_DEVICE_TYPE_8_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_DEVICE_TYPE_8_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DEVICE_TYPE_8_HU, "Adja meg a #8-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3 "
+                                      "blokk eszköz)"},
+/* it */ {IDCLS_SET_DEVICE_TYPE_8_IT, "Imposta il tipo di periferica #8 (0 NESSUNA, 1: FILESYSTEM, 2: OPENCBM, 3: "
+                                      "DISPOSITIVO A BLOCCHI)"},
 /* nl */ {IDCLS_SET_DEVICE_TYPE_8_NL, "Zet het apparaatsoort voor apparaat #8 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, 3: "
                                       "BLOCK APPARAAT)"},
 /* pl */ {IDCLS_SET_DEVICE_TYPE_8_PL, ""},  /* fuzzy */
@@ -7406,8 +7409,10 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* de */ {IDCLS_SET_DEVICE_TYPE_9_DE, "Geräte Typ für Gerät #9 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"},
 /* fr */ {IDCLS_SET_DEVICE_TYPE_9_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SET_DEVICE_TYPE_9_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_DEVICE_TYPE_9_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DEVICE_TYPE_9_HU, "Adja meg a #9-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3 "
+                                      "blokk eszköz)"},
+/* it */ {IDCLS_SET_DEVICE_TYPE_9_IT, "Imposta il tipo di periferica #9 (0 NESSUNA, 1: FILESYSTEM, 2: OPENCBM, 3: "
+                                      "DISPOSITIVO A BLOCCHI)"},
 /* nl */ {IDCLS_SET_DEVICE_TYPE_9_NL, "Zet het apparaatsoort voor apparaat #9 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, 3: "
                                       "BLOCK APPARAAT)"},
 /* pl */ {IDCLS_SET_DEVICE_TYPE_9_PL, ""},  /* fuzzy */
@@ -7420,8 +7425,10 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* de */ {IDCLS_SET_DEVICE_TYPE_10_DE, "Geräte Typ für Gerät #10 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"},
 /* fr */ {IDCLS_SET_DEVICE_TYPE_10_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SET_DEVICE_TYPE_10_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_DEVICE_TYPE_10_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DEVICE_TYPE_10_HU, "Adja meg a #10-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3 "
+                                       "blokk eszköz)"},
+/* it */ {IDCLS_SET_DEVICE_TYPE_10_IT, "Imposta il tipo di periferica #10 (0 NESSUNA, 1: FILESYSTEM, 2: OPENCBM, 3: "
+                                      "DISPOSITIVO A BLOCCHI)"},
 /* nl */ {IDCLS_SET_DEVICE_TYPE_10_NL, "Zet het apparaatsoort voor apparaat #10 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, 3: "
                                        "BLOCK APPARAAT)"},
 /* pl */ {IDCLS_SET_DEVICE_TYPE_10_PL, ""},  /* fuzzy */
@@ -7434,8 +7441,10 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* de */ {IDCLS_SET_DEVICE_TYPE_11_DE, "Geräte Typ für Gerät #11 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"},
 /* fr */ {IDCLS_SET_DEVICE_TYPE_11_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SET_DEVICE_TYPE_11_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_DEVICE_TYPE_11_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DEVICE_TYPE_11_HU, "Adja meg a #11-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3 "
+                                       "blokk eszköz)"},
+/* it */ {IDCLS_SET_DEVICE_TYPE_11_IT, "Imposta il tipo di periferica #11 (0 NESSUNA, 1: FILESYSTEM, 2: OPENCBM, 3: "
+                                      "DISPOSITIVO A BLOCCHI)"},
 /* nl */ {IDCLS_SET_DEVICE_TYPE_11_NL, "Zet het apparaatsoort voor apparaat #11 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, 3: "
                                        "BLOCK APPARAAT)"},
 /* pl */ {IDCLS_SET_DEVICE_TYPE_11_PL, ""},  /* fuzzy */
@@ -7871,8 +7880,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* de */ {IDCLS_P_FILE_DE, "<Dateiname>"},
 /* fr */ {IDCLS_P_FILE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_FILE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_P_FILE_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_FILE_HU, "<fájlnév>"},
+/* it */ {IDCLS_P_FILE_IT, "<nome del file>"},
 /* nl */ {IDCLS_P_FILE_NL, "<bestandsnaam>"},
 /* pl */ {IDCLS_P_FILE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_P_FILE_SV, ""},  /* fuzzy */
@@ -7883,8 +7892,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* de */ {IDCLS_SPECIFY_CONFIG_FILE_DE, "Konfigurationsdateiname definieren"},
 /* fr */ {IDCLS_SPECIFY_CONFIG_FILE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_CONFIG_FILE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_CONFIG_FILE_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_CONFIG_FILE_HU, "Adja meg a konfigurációs fájl nevét"},
+/* it */ {IDCLS_SPECIFY_CONFIG_FILE_IT, "Specifica il nome del file di configurazione"},
 /* nl */ {IDCLS_SPECIFY_CONFIG_FILE_NL, "Geef configuratie bestandsnaam"},
 /* pl */ {IDCLS_SPECIFY_CONFIG_FILE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_CONFIG_FILE_SV, ""},  /* fuzzy */
@@ -8742,8 +8751,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* de */ {IDCLS_ENABLE_MIDI_EMU_DE, "MIDI Emulation aktivieren"},
 /* fr */ {IDCLS_ENABLE_MIDI_EMU_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_MIDI_EMU_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_MIDI_EMU_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_MIDI_EMU_HU, "MIDI emuláció engedélyezése"},
+/* it */ {IDCLS_ENABLE_MIDI_EMU_IT, "Attiva l'emulazione MIDI"},
 /* nl */ {IDCLS_ENABLE_MIDI_EMU_NL, "Activeer MIDI emulatie"},
 /* pl */ {IDCLS_ENABLE_MIDI_EMU_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_MIDI_EMU_SV, ""},  /* fuzzy */
@@ -8754,8 +8763,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* de */ {IDCLS_DISABLE_MIDI_EMU_DE, "MIDI Emulation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_MIDI_EMU_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_MIDI_EMU_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_MIDI_EMU_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_MIDI_EMU_HU, "MIDI emuláció tiltása"},
+/* it */ {IDCLS_DISABLE_MIDI_EMU_IT, "Disattiva l'emulazione MIDI"},
 /* nl */ {IDCLS_DISABLE_MIDI_EMU_NL, "MIDI emulatie uitschakelen"},
 /* pl */ {IDCLS_DISABLE_MIDI_EMU_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_MIDI_EMU_SV, ""},  /* fuzzy */
@@ -8767,8 +8776,9 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* de */ {IDCLS_SPECIFY_C64_MIDI_TYPE_DE, "MIDI Interface Typ (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)"},
 /* fr */ {IDCLS_SPECIFY_C64_MIDI_TYPE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_C64_MIDI_TYPE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_C64_MIDI_TYPE_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_C64_MIDI_TYPE_HU, "MIDI interfész típus (0: soros, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)"},
+/* it */ {IDCLS_SPECIFY_C64_MIDI_TYPE_IT, "Tipo interfaccia MIDI (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
+                                          "Maplin)"},
 /* nl */ {IDCLS_SPECIFY_C64_MIDI_TYPE_NL, "MIDI interface soort (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
                                           "Maplin)"},
 /* pl */ {IDCLS_SPECIFY_C64_MIDI_TYPE_PL, ""},  /* fuzzy */

@@ -1176,8 +1176,8 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDMS_ENABLE_JOY_KEYS,    "Enable Joy Keys"},
 /* de */ {IDMS_SWAP_JOYSTICKS_DE, "Joystick Tasten aktivieren"},
 /* fr */ {IDMS_SWAP_JOYSTICKS_FR, ""},  /* fuzzy */
-/* hu */ {IDMS_SWAP_JOYSTICKS_HU, ""},  /* fuzzy */
-/* it */ {IDMS_SWAP_JOYSTICKS_IT, ""},  /* fuzzy */
+/* hu */ {IDMS_SWAP_JOYSTICKS_HU, "Botkormány gombok engedélyezése"},
+/* it */ {IDMS_SWAP_JOYSTICKS_IT, "Attiva tasti joystick"},
 /* nl */ {IDMS_SWAP_JOYSTICKS_NL, "Activeer Joy Keys"},
 /* pl */ {IDMS_SWAP_JOYSTICKS_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_SWAP_JOYSTICKS_SV, ""},  /* fuzzy */
@@ -1563,8 +1563,8 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDMS_DQBB_SETTINGS,    "Double Quick Brown Box settings..."},
 /* de */ {IDMS_DQBB_SETTINGS_DE, "Double Quick Brown Box Einstellungen..."},
 /* fr */ {IDMS_DQBB_SETTINGS_FR, ""},  /* fuzzy */
-/* hu */ {IDMS_DQBB_SETTINGS_HU, ""},  /* fuzzy */
-/* it */ {IDMS_DQBB_SETTINGS_IT, ""},  /* fuzzy */
+/* hu */ {IDMS_DQBB_SETTINGS_HU, "Double Quick Brown Box beállítások..."},
+/* it */ {IDMS_DQBB_SETTINGS_IT, "Impostazioni Double Quick Brown Box..."},
 /* nl */ {IDMS_DQBB_SETTINGS_NL, "Double Quick Brown Box instellingen..."},
 /* pl */ {IDMS_DQBB_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_DQBB_SETTINGS_SV, ""},  /* fuzzy */
@@ -1572,8 +1572,8 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDMS_ISEPIC_SETTINGS,    "Isepic settings..."},
 /* de */ {IDMS_ISEPIC_SETTINGS_DE, "Isepic Einstellungen..."},
 /* fr */ {IDMS_ISEPIC_SETTINGS_FR, ""},  /* fuzzy */
-/* hu */ {IDMS_ISEPIC_SETTINGS_HU, ""},  /* fuzzy */
-/* it */ {IDMS_ISEPIC_SETTINGS_IT, ""},  /* fuzzy */
+/* hu */ {IDMS_ISEPIC_SETTINGS_HU, "Isepic beállításai..."},
+/* it */ {IDMS_ISEPIC_SETTINGS_IT, "Impostazioni Isepic..."},
 /* nl */ {IDMS_ISEPIC_SETTINGS_NL, "Isepic instellingen..."},
 /* pl */ {IDMS_ISEPIC_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_ISEPIC_SETTINGS_SV, ""},  /* fuzzy */
@@ -1705,7 +1705,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_RS232_USERPORT_SETTINGS_SV, "RS232-användarportinställningar..."},
 
 /* en */ {IDMS_SAVE_CURRENT_SETTINGS_FILE,    "Save current settings to specified file"},
-/* de */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_DE, ""},  /* fuzzy */
+/* de */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_DE, "Speichere Einstellungen in angegebene Datei"},
 /* fr */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_HU, ""},  /* fuzzy */
 /* it */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_IT, ""},  /* fuzzy */
@@ -1714,7 +1714,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_SV, ""},  /* fuzzy */
 
 /* en */ {IDMS_LOAD_SAVED_SETTINGS_FILE,    "Load settings from specified file"},
-/* de */ {IDMS_LOAD_SAVED_SETTINGS_FILE_DE, ""},  /* fuzzy */
+/* de */ {IDMS_LOAD_SAVED_SETTINGS_FILE_DE, "Lade Einstellungen von Datei"},
 /* fr */ {IDMS_LOAD_SAVED_SETTINGS_FILE_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_LOAD_SAVED_SETTINGS_FILE_HU, ""},  /* fuzzy */
 /* it */ {IDMS_LOAD_SAVED_SETTINGS_FILE_IT, ""},  /* fuzzy */
@@ -2539,7 +2539,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_ATTACH_STARDOS_IMAGE,    "Attach StarDOS cartridge image"},
 /* de */ {IDS_ATTACH_STARDOS_IMAGE_DE, "Erweiterungsmodul StarDOS Image einlegen"},
 /* fr */ {IDS_ATTACH_STARDOS_IMAGE_FR, ""},  /* fuzzy */
-/* hu */ {IDS_ATTACH_STARDOS_IMAGE_HU, ""},  /* fuzzy */
+/* hu */ {IDS_ATTACH_STARDOS_IMAGE_HU, "StarDOS cartridge képmás csatolása"},
 /* it */ {IDS_ATTACH_STARDOS_IMAGE_IT, "Seleziona l'immagine di una cartuccia StarDOS"},
 /* nl */ {IDS_ATTACH_STARDOS_IMAGE_NL, "Koppel StarDOS cartridgebestand"},
 /* pl */ {IDS_ATTACH_STARDOS_IMAGE_PL, ""},  /* fuzzy */
@@ -2845,8 +2845,8 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_JOYSTICK,    "Joystick"},
 /* de */ {IDS_JOYSTICK_DE, "Joystick"},
 /* fr */ {IDS_JOYSTICK_FR, ""},  /* fuzzy */
-/* hu */ {IDS_JOYSTICK_HU, ""},  /* fuzzy */
-/* it */ {IDS_JOYSTICK_IT, ""},  /* fuzzy */
+/* hu */ {IDS_JOYSTICK_HU, "Botkormány"},
+/* it */ {IDS_JOYSTICK_IT, "Joystick"},
 /* nl */ {IDS_JOYSTICK_NL, "Joystick"},
 /* pl */ {IDS_JOYSTICK_PL, ""},  /* fuzzy */
 /* sv */ {IDS_JOYSTICK_SV, ""},  /* fuzzy */
@@ -2989,8 +2989,8 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE,    "Hummer Userport device"},
 /* de */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_DE, "Hummer Userport Gerät"},
 /* fr */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_FR, ""},  /* fuzzy */
-/* hu */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_HU, ""},  /* fuzzy */
-/* it */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_IT, ""},  /* fuzzy */
+/* hu */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_HU, "Hummer Userport eszköz"},
+/* it */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_IT, "Dispositivo sulla userport dell'Humme"},
 /* nl */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_NL, "Hummer Userport apparaat"},
 /* pl */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_PL, ""},  /* fuzzy */
 /* sv */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_SV, ""},  /* fuzzy */
@@ -3007,7 +3007,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_C64DTV_SETTINGS,    "C64DTV Settings"},
 /* de */ {IDS_C64DTV_SETTINGS_DE, "C64DTV Einstellungen"},
 /* fr */ {IDS_C64DTV_SETTINGS_FR, ""},  /* fuzzy */
-/* hu */ {IDS_C64DTV_SETTINGS_HU, ""},  /* fuzzy */
+/* hu */ {IDS_C64DTV_SETTINGS_HU, "C64DTV beállításai"},
 /* it */ {IDS_C64DTV_SETTINGS_IT, "Impostazioni C64DTV"},
 /* nl */ {IDS_C64DTV_SETTINGS_NL, "C64DTV Instellingen"},
 /* pl */ {IDS_C64DTV_SETTINGS_PL, ""},  /* fuzzy */
@@ -3295,8 +3295,8 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_DQBB_FILENAME,    "DQBB file"},
 /* de */ {IDS_DQBB_FILENAME_DE, "DQBB Datei"},
 /* fr */ {IDS_DQBB_FILENAME_FR, ""},  /* fuzzy */
-/* hu */ {IDS_DQBB_FILENAME_HU, ""},  /* fuzzy */
-/* it */ {IDS_DQBB_FILENAME_IT, ""},  /* fuzzy */
+/* hu */ {IDS_DQBB_FILENAME_HU, "DQBB fájl"},
+/* it */ {IDS_DQBB_FILENAME_IT, "File DQBB"},
 /* nl */ {IDS_DQBB_FILENAME_NL, "DQBB bestand"},
 /* pl */ {IDS_DQBB_FILENAME_PL, ""},  /* fuzzy */
 /* sv */ {IDS_DQBB_FILENAME_SV, ""},  /* fuzzy */
@@ -3304,8 +3304,8 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_DQBB_FILENAME_SELECT,    "Select file for DQBB"},
 /* de */ {IDS_DQBB_FILENAME_SELECT_DE, "Datei für DQBB selektieren"},
 /* fr */ {IDS_DQBB_FILENAME_SELECT_FR, ""},  /* fuzzy */
-/* hu */ {IDS_DQBB_FILENAME_SELECT_HU, ""},  /* fuzzy */
-/* it */ {IDS_DQBB_FILENAME_SELECT_IT, ""},  /* fuzzy */
+/* hu */ {IDS_DQBB_FILENAME_SELECT_HU, "Válasszon fájlt a DQBB-hez"},
+/* it */ {IDS_DQBB_FILENAME_SELECT_IT, "Seleziona il file per DQBB"},
 /* nl */ {IDS_DQBB_FILENAME_SELECT_NL, "Selecteer bestand voor DQBB"},
 /* pl */ {IDS_DQBB_FILENAME_SELECT_PL, ""},  /* fuzzy */
 /* sv */ {IDS_DQBB_FILENAME_SELECT_SV, ""},  /* fuzzy */
@@ -3313,8 +3313,8 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_DQBB_SETTINGS,    "DQBB Settings"},
 /* de */ {IDS_DQBB_SETTINGS_DE, "DQBB Einstellungen"},
 /* fr */ {IDS_DQBB_SETTINGS_FR, ""},  /* fuzzy */
-/* hu */ {IDS_DQBB_SETTINGS_HU, ""},  /* fuzzy */
-/* it */ {IDS_DQBB_SETTINGS_IT, ""},  /* fuzzy */
+/* hu */ {IDS_DQBB_SETTINGS_HU, "DQBB beállításai"},
+/* it */ {IDS_DQBB_SETTINGS_IT, "Impostazioni DQBB"},
 /* nl */ {IDS_DQBB_SETTINGS_NL, "DQBB instellingen"},
 /* pl */ {IDS_DQBB_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDS_DQBB_SETTINGS_SV, ""},  /* fuzzy */
@@ -3322,8 +3322,8 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_ISEPIC_SETTINGS,    "Isepic Settings"},
 /* de */ {IDS_ISEPIC_SETTINGS_DE, "Isepic Einstellungen"},
 /* fr */ {IDS_ISEPIC_SETTINGS_FR, ""},  /* fuzzy */
-/* hu */ {IDS_ISEPIC_SETTINGS_HU, ""},  /* fuzzy */
-/* it */ {IDS_ISEPIC_SETTINGS_IT, ""},  /* fuzzy */
+/* hu */ {IDS_ISEPIC_SETTINGS_HU, "Isepic beállítások"},
+/* it */ {IDS_ISEPIC_SETTINGS_IT, "Impostazioni Isepic"},
 /* nl */ {IDS_ISEPIC_SETTINGS_NL, "Isepic instellingen"},
 /* pl */ {IDS_ISEPIC_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDS_ISEPIC_SETTINGS_SV, ""},  /* fuzzy */
@@ -3331,14 +3331,14 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_ISEPIC_SWITCH,    "Isepic Switch"},
 /* de */ {IDS_ISEPIC_SWITCH_DE, "Isepic Schalter"},
 /* fr */ {IDS_ISEPIC_SWITCH_FR, ""},  /* fuzzy */
-/* hu */ {IDS_ISEPIC_SWITCH_HU, ""},  /* fuzzy */
-/* it */ {IDS_ISEPIC_SWITCH_IT, ""},  /* fuzzy */
+/* hu */ {IDS_ISEPIC_SWITCH_HU, "Isepic kapcsoló"},
+/* it */ {IDS_ISEPIC_SWITCH_IT, "Interruttore Isepic"},
 /* nl */ {IDS_ISEPIC_SWITCH_NL, "Isepic schakelaar"},
 /* pl */ {IDS_ISEPIC_SWITCH_PL, ""},  /* fuzzy */
 /* sv */ {IDS_ISEPIC_SWITCH_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_CONFIG_FILENAME_SELECT,    "Select config file"},
-/* de */ {IDS_CONFIG_FILENAME_SELECT_DE, ""},  /* fuzzy */
+/* de */ {IDS_CONFIG_FILENAME_SELECT_DE, "Konfigurationsdateiname definieren"},
 /* fr */ {IDS_CONFIG_FILENAME_SELECT_FR, ""},  /* fuzzy */
 /* hu */ {IDS_CONFIG_FILENAME_SELECT_HU, ""},  /* fuzzy */
 /* it */ {IDS_CONFIG_FILENAME_SELECT_IT, ""},  /* fuzzy */
@@ -5014,7 +5014,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_MOUSE_PORT,    "Mouse port"},
 /* de */ {IDS_MOUSE_PORT_DE, "Maus Port"},
 /* fr */ {IDS_MOUSE_PORT_FR, "Port de la souris"},
-/* hu */ {IDS_MOUSE_PORT_HU, ""},  /* fuzzy */
+/* hu */ {IDS_MOUSE_PORT_HU, "Egér port"},
 /* it */ {IDS_MOUSE_PORT_IT, "Porta del mouse"},
 /* nl */ {IDS_MOUSE_PORT_NL, "Muis poort"},
 /* pl */ {IDS_MOUSE_PORT_PL, ""},  /* fuzzy */
