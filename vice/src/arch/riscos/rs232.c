@@ -31,7 +31,7 @@
 #include "types.h"
 #include "resources.h"
 #include "util.h"
-
+#include "rs232drv.h"
 
 static char *SerialFile=NULL;
 static int SerialBaud;
