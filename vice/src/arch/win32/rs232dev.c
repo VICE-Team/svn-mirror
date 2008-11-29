@@ -97,7 +97,7 @@ void rs232dev_close(int fd);
 /* initializes all RS232 stuff */
 void rs232dev_init(void)
 {
-    rs232dev_log = log_open("RS232");
+    rs232dev_log = log_open("RS232DEV");
 }
 
 /* reset RS232 stuff */
