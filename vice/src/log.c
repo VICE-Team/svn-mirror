@@ -69,7 +69,9 @@ static void log_file_open(void)
 
 static int set_log_file_name(const char *val, void *param)
 {
-    util_string_set(&log_file_name, val);
+    if (util_string_set(&log_file_name, val) < 0) {
+        return 0;
+    }
 
     if (log_file) {
         fclose(log_file);
