@@ -110,7 +110,7 @@ void vsid_disp(int txout_x, int txout_y, const char *str1, const char* str2)
             SelectObject (hDC, GetStockObject (SYSTEM_FIXED_FONT)) ;
             GetTextExtentPoint32( hDC, " ", 1, &size );
             sprintf(dummy,str1,str2);
-            SetBkColor(hDC,GetSysColor(COLOR_WINDOW));
+            SetBkColor(hDC, GetSysColor(COLOR_BTNFACE));
             TextOut(hDC, 3+(txout_x*size.cx),
                          3+(txout_y*(size.cy+3)),
                          dummy, strlen(dummy));
@@ -118,7 +118,7 @@ void vsid_disp(int txout_x, int txout_y, const char *str1, const char* str2)
         else
         {
             GetClientRect(hwnd, &r);
-            FillRect(hDC, &r, (HBRUSH)COLOR_WINDOW );
+            FillRect(hDC, &r, GetSysColorBrush(COLOR_BTNFACE) );
         }
         ReleaseDC(hwnd, hDC);
     }
@@ -134,7 +134,7 @@ int vsid_ui_init(void)
     wndclass.hIcon         = LoadIcon(winmain_instance,
                                MAKEINTRESOURCE(IDI_ICON1));
     wndclass.hCursor       = LoadCursor(NULL, IDC_ARROW);
-    wndclass.hbrBackground = (HBRUSH)COLOR_WINDOW ;
+    wndclass.hbrBackground = GetSysColorBrush(COLOR_BTNFACE);
     wndclass.lpszMenuName  = szAppName ;
     wndclass.lpszClassName = szAppName ;
 
