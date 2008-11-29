@@ -1100,6 +1100,14 @@ void mon_display_io_regs(void)
     mem_ioreg_list_t *mem_ioreg_list_base;
     unsigned int n;
     MON_ADDR start,end;
+    int newbank;
+    int currbank = mon_interfaces[default_memspace]->current_bank;
+
+    newbank = mon_interfaces[default_memspace]->mem_bank_from_name("io");
+
+    if (newbank >= 0) {
+        mon_interfaces[default_memspace]->current_bank = newbank;
+    }
 
     mem_ioreg_list_base
         = mon_interfaces[default_memspace]->mem_ioreg_list_get(
@@ -1118,6 +1126,7 @@ void mon_display_io_regs(void)
         n++;
     }
 
+    mon_interfaces[default_memspace]->current_bank = currbank;
     lib_free(mem_ioreg_list_base);
 }
 
