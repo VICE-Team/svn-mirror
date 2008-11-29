@@ -17,6 +17,14 @@ list of all the changes in the code.
 
 - PAL emulation has been rewritten and optimized.
 
+- Fixed the ACIA 6551 emulation. (x64/x128/xcbm2/xpet/xplus4)
+
+- Monitor commands help text is now translated too
+  (in ports where translation is available at all)
+
+- Monitor IO command now displays IO area even if it is currently
+  banked out.
+
 ** C64/C128 changes
 -------------------
 
@@ -61,8 +69,6 @@ list of all the changes in the code.
 
 - MIDI cartridge emulation for x128, x64 and xvic.
 
-- Monitor commands help text is now translated too.
-
 ** MS-Windows changes
 ---------------------
 
@@ -70,12 +76,44 @@ list of all the changes in the code.
 
 - MIDI cartridge emulation for x128, x64 and xvic.
 
-- Monitor commands help text is now translated too.
+- When specifying the target for the RS232 communication
+  (Menu Settings/RS232 Settings), the target can be specified by
+  name now. Before, you had to use the IP address.
+
+- Fixed some minor errors with the RS232 communication via TCP
+  connections.
+
+- RS232 can use real devices now, too.
+  To use this feature, you have to specify the COM port used in
+  Settings/RS232 Settings like:
+  \\.\com1: baud=57600 parity=N data=8 stop=1
+
+  The characters after the colon can be used to specify additional
+  settings for the COM port. The string must have the same form as the
+  mode command's command-line arguments:
+  [baud=b][parity=p][data=d][stop=s][to={on|off}][xon={on|off}] 
+  [odsr={on|off}][octs={on|off}][dtr={on|off|hs}][rts={on|off|hs|tg}]
+  [idsr={on|off}]
+
+  The above example specifies COM1 with a baud rate of 57600, no parity,
+  8 data bits and 1 stop bit.
+
+  Note that the leading \\.\ is used to distinguish between TCP/IP
+  targets and real devices, thus, you have to use it.
+
+  (Sorry, no fancy UI yet.)
+
+- vsid GUI reworked: 
+  * infoline appears only by pressing "I"
+  * raises process priority. Otherwise, when in background,
+    looses cpu power and music is not played at correct speed
+  * drag&drop support; window also gets focus back on drop
+  * correct display of emulated sid model (when using -keepenv)
+  * changed colors
+
 
 ** AmigaOS changes
 ------------------
-
-- Monitor commands help text is now translated too.
 
 ** OS/2 changes
 ---------------
@@ -86,6 +124,7 @@ list of all the changes in the code.
 ---------------
 
 - Fixed black screen problem.
+
 
 * Changes in VICE 2.0
 ======================
