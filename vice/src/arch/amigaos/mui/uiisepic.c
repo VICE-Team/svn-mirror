@@ -56,7 +56,7 @@ static ui_to_from_t ui_to_from[] = {
 
 static APTR build_gui(void)
 {
-  APTR app, ui, ok, browse_button, cancel;
+  APTR app, ui, ok, cancel;
 
   app = mui_get_app();
 

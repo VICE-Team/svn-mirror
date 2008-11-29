@@ -29,6 +29,7 @@
 #include <string.h>
 
 #include "private.h"
+#include "charset.h"
 #include "clipboard.h"
 #include "datasette.h"
 #include "tape.h"
@@ -73,6 +74,8 @@
 #if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
 #include <proto/cybergraphics.h>
 #endif
+
+extern char *BrowseFile(char *select_text, char *pattern, video_canvas_t *canvas);
 
 static int do_quit_vice = 0;
 
@@ -253,7 +256,7 @@ static void ui_copy_clipboard(void)
 
         InitIFFasClip (iff);
 
-        if (error = OpenIFF(iff, IFFF_WRITE))
+        if ((error = OpenIFF(iff, IFFF_WRITE)))
             break;
 
         if (!(error=PushChunk(iff, ID_FTXT, ID_FORM, IFFSIZE_UNKNOWN)))
@@ -289,7 +292,7 @@ static void ui_paste_clipboard_text(void)
     struct ContextNode *cn;
     long unitnumber = 0;
     long error;
-    int textlen;
+    int textlen = 0;
     char *text_in_petscii = NULL;
     
     do {
@@ -304,10 +307,10 @@ static void ui_paste_clipboard_text(void)
 
         InitIFFasClip (iff);
 
-        if (error = OpenIFF(iff, IFFF_READ))
+        if ((error = OpenIFF(iff, IFFF_READ)))
             break;
 
-        if (error = StopChunk(iff, ID_FTXT, ID_CHRS))
+        if ((error = StopChunk(iff, ID_FTXT, ID_CHRS)))
             break;
 
         while(1)

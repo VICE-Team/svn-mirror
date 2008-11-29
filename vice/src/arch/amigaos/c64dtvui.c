@@ -55,8 +55,6 @@ static const ui_menu_toggle_t c64dtv_ui_menu_toggles[] = {
 
 static int c64dtv_ui_specific(video_canvas_t *canvas, int idm)
 {
-    uic64cart_proc(canvas, idm);
-
     switch (idm) {
       case IDM_C64DTV_SETTINGS:
         ui_c64dtv_settings_dialog(canvas);
