@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PSID_H
-#define _PSID_H
+#ifndef VICE_PSID_H
+#define VICE_PSID_H
 
 extern int psid_init_resources(void);
 extern int psid_init_cmdline_options(void);
@@ -36,6 +36,8 @@ extern int psid_tunes(int* default_tune);
 extern void psid_init_driver(void);
 extern unsigned int psid_increment_frames(void);
 extern int reloc65(char** buf, int* fsize, int addr);
+
+extern const char csidmodel[20][16];
 
 #endif
 

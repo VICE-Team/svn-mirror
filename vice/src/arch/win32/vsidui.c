@@ -41,10 +41,21 @@
 #include "machine.h"
 #include "psid.h"
 
+enum {VSID_S_TITLE=0
+     ,VSID_S_AUTHOR
+     ,VSID_S_RELEASED
+     ,VSID_S_SYNC
+     ,VSID_S_MODEL
+     ,VSID_S_IRQ
+     ,VSID_S_PLAYING
+     ,VSID_S_TIMER
+     ,VSID_S_LASTLINE
+     };
+
 int psid_ui_set_tune(resource_value_t tune, void *param);
 
 char szAppName[]="WinVice VSID GUI";
-char vsidstrings[10][80]={0};
+char vsidstrings[VSID_S_LASTLINE+1][80]={0};
 
 typedef struct psid_s {
     /* PSID data */
@@ -99,14 +110,15 @@ void vsid_disp(int txout_x, int txout_y, const char *str1, const char* str2)
             SelectObject (hDC, GetStockObject (SYSTEM_FIXED_FONT)) ;
             GetTextExtentPoint32( hDC, " ", 1, &size );
             sprintf(dummy,str1,str2);
+            SetBkColor(hDC,GetSysColor(COLOR_WINDOW));
             TextOut(hDC, 3+(txout_x*size.cx),
-                         3+(txout_y*size.cy),
+                         3+(txout_y*(size.cy+3)),
                          dummy, strlen(dummy));
         }
         else
         {
             GetClientRect(hwnd, &r);
-            FillRect(hDC, &r, (HBRUSH) (COLOR_WINDOW+1));
+            FillRect(hDC, &r, (HBRUSH)COLOR_WINDOW );
         }
         ReleaseDC(hwnd, hDC);
     }
@@ -122,65 +134,73 @@ int vsid_ui_init(void)
     wndclass.hIcon         = LoadIcon(winmain_instance,
                                MAKEINTRESOURCE(IDI_ICON1));
     wndclass.hCursor       = LoadCursor(NULL, IDC_ARROW);
-    wndclass.hbrBackground = GetStockObject( WHITE_BRUSH );
+    wndclass.hbrBackground = (HBRUSH)COLOR_WINDOW ;
     wndclass.lpszMenuName  = szAppName ;
     wndclass.lpszClassName = szAppName ;
 
     RegisterClass (&wndclass) ;
-    hwnd = CreateWindow (szAppName,
-                         szAppName,
-                         /*WS_OVERLAPPED|*/WS_SYSMENU,
-                         0, 0, 500,300,
-                         NULL,
-                         NULL,
-                         winmain_instance,
-                         NULL) ;
+    if(!hwnd) /* do not recreate on drag&drop */
+    {
+        hwnd = CreateWindow (szAppName,
+                             szAppName,
+                             /*WS_OVERLAPPED|*/WS_SYSMENU,
+                             0, 0, 480,200,
+                             NULL,
+                             NULL,
+                             winmain_instance,
+                             NULL) ;
+        SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
+    }
+    else
+    {
+        SetForegroundWindow(hwnd);
+    }
     ShowWindow (hwnd, SW_SHOW) ;
-    //UpdateWindow (hwnd) ; //ferkoff! took me some to find out. With UpdateWindow after ShowWindow does not paint, unless an alt-tab is pressed ???
+    DragAcceptFiles(hwnd, TRUE);
     return 0;
 }
 
 void vsid_ui_display_name(const char *name)
 {
-    log_message(LOG_DEFAULT, "Name: %s", name);
-    sprintf(vsidstrings[1], "Name: %s", name);
+    sprintf(vsidstrings[VSID_S_TITLE],  "   Title: %s", name);
+    log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_TITLE]);
+
 }
 
 void vsid_ui_display_author(const char *author)
 {
-    log_message(LOG_DEFAULT, "Author: %s", author);
-    sprintf(vsidstrings[2], "Author: %s", author);
+    sprintf(vsidstrings[VSID_S_AUTHOR],  "  Author: %s", author);
+    log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_AUTHOR]);
+
 }
 
 void vsid_ui_display_copyright(const char *copyright)
 {
-    log_message(LOG_DEFAULT, "Copyright by: %s", copyright);
-    sprintf(vsidstrings[3], "Copyright by: %s", copyright);
+    sprintf(vsidstrings[VSID_S_RELEASED],  "Released: %s", copyright);
+    log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_RELEASED]);
+
 }
 
 void vsid_ui_display_sync(int sync)
 {
-    log_message(LOG_DEFAULT, "Using %s sync",
+    sprintf(vsidstrings[VSID_S_SYNC], "Using %s sync",
                 sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
-    sprintf(vsidstrings[4], "Using %s sync",
-                sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
+    log_message(LOG_DEFAULT, "%s",vsidstrings[VSID_S_SYNC]);
 }
 
 void vsid_ui_display_sid_model(int model)
 {
-    log_message(LOG_DEFAULT, "Using %s emulation",
-		model == 0 ? "MOS6581" : "MOS8580");
-    sprintf(vsidstrings[5], "Using %s emulation",
-        model == 0 ? "MOS6581" : "MOS8580");
+    sprintf(vsidstrings[VSID_S_MODEL], "Using %s emulation",
+                    csidmodel[ model>19 ? 7 : model ]);
+
+    log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_MODEL]);
+
 }
 
 void vsid_ui_display_tune_nr(int nr)
 {
-/*
-Playing Tune: 00 / 00  -  Default Tune: 00
-*/
-    sprintf(vsidstrings[7],"Playing Tune: %2d /  0  -  Default Tune: 00", nr);
-    log_message(LOG_DEFAULT, "Playing Tune: %i", nr);
+    sprintf(vsidstrings[VSID_S_PLAYING],"Playing Tune: %2d /  0  -  Default Tune: 00", nr);
+    log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_PLAYING]);
 }
 
 void vsid_ui_set_default_tune(int nr)
@@ -189,8 +209,8 @@ void vsid_ui_set_default_tune(int nr)
     sprintf(dummy,"%2d", nr);
 
     log_message(LOG_DEFAULT, "Default Tune: %i", nr);
-    vsidstrings[7][40]=dummy[0];
-    vsidstrings[7][41]=dummy[1];
+    vsidstrings[VSID_S_PLAYING][40]=dummy[0];
+    vsidstrings[VSID_S_PLAYING][41]=dummy[1];
 }
 
 
@@ -200,8 +220,8 @@ void vsid_ui_display_nr_of_tunes(int count)
     sprintf(dummy,"%2d", count);
 
     log_message(LOG_DEFAULT, "Number of Tunes: %i", count);
-    vsidstrings[7][19]=dummy[0];
-    vsidstrings[7][20]=dummy[1];
+    vsidstrings[VSID_S_PLAYING][19]=dummy[0];
+    vsidstrings[VSID_S_PLAYING][20]=dummy[1];
 }
 
 void vsid_ui_display_time(unsigned int sec)
@@ -213,14 +233,14 @@ void vsid_ui_display_time(unsigned int sec)
     sec= sec-(h*3600);
     m=sec/60;
     sec= sec-(m*60);
-    sprintf(vsidstrings[8], dummy,h,m,sec);
-    vsid_disp( 0, 8, "%s", vsidstrings[8]);
+    sprintf(vsidstrings[VSID_S_TIMER], dummy,h,m,sec);
+    vsid_disp( 0, VSID_S_TIMER, "%s", vsidstrings[VSID_S_TIMER]);
     UpdateWindow (hwnd) ;
 }
 
 void vsid_ui_display_irqtype(const char *irq)
 {
-    sprintf(vsidstrings[6],"Using %s interrupt", irq);
+    sprintf(vsidstrings[VSID_S_IRQ],"Using %s interrupt", irq);
 }
 
 void vsid_ui_close(void)
@@ -232,10 +252,8 @@ void vsid_ui_close(void)
 
 void vsid_setdrv(char* dummy)
 {
-    strcpy(vsidstrings[0], dummy);
+    strcpy(vsidstrings[VSID_S_LASTLINE], dummy);
 }
-
-
 
 /* Window procedure.  All messages are handled here.  */
 static long CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -245,8 +263,9 @@ static long CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lp
     int i;
     switch (msg)
     {
+
     case WM_CREATE:
-       	songs = psid_tunes(&default_song);
+        songs = psid_tunes(&default_song);
         current_song = default_song;
 
         if(songs == 0)
@@ -261,6 +280,9 @@ static long CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lp
     case WM_KEYDOWN:
         switch(wparam)
         {
+        case 'I': /* infoline on request, just press I */
+            vsid_disp( 0, VSID_S_LASTLINE, "%s", vsidstrings[VSID_S_LASTLINE]);
+            break;
         case VK_LEFT:
         case VK_DOWN:
             if(current_song > 1)
@@ -271,7 +293,6 @@ static long CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lp
                 vsid_ui_set_default_tune(default_song);
                 vsid_ui_display_nr_of_tunes(songs);
                 InvalidateRect(window, NULL, 0);
-
             }
 
             break;
@@ -286,10 +307,20 @@ static long CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lp
                 vsid_ui_set_default_tune(default_song);
                 vsid_ui_display_nr_of_tunes(songs);
                 InvalidateRect(window, NULL, 0);
-
             }
             break;
         }
+        return 0;
+
+    case WM_KEYUP:
+        switch(wparam)
+        {
+        case 'I': /* infoline on request, just press I */
+            vsid_disp( 0, VSID_S_LASTLINE, "%79s", " ");
+            break;
+        }
+        return 0;
+
     case WM_SIZE:
         return 0;
     case WM_COMMAND:
@@ -303,13 +334,35 @@ static long CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lp
         PostQuitMessage(0);
         return 0;
     case WM_DROPFILES:
+        {
+            char dummy[MAX_PATH];
+            DragQueryFile( (HDROP)wparam, 0, dummy, sizeof(dummy) );
+            if (machine_autodetect_psid(dummy)>=0)
+            {
+                vsid_disp( 0, 0,  NULL, NULL);
+                psid_init_driver();
+                psid_init_tune();
+
+                vsid_ui_init();
+                machine_play_psid(0);
+                machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+                songs = psid_tunes(&default_song);
+                current_song = default_song;
+                psid_ui_set_tune((resource_value_t)current_song,NULL);
+                vsid_ui_display_tune_nr(current_song);
+                vsid_ui_set_default_tune(default_song);
+                vsid_ui_display_nr_of_tunes(songs);
+                InvalidateRect(window, NULL, 0);
+            }
+        }
         return 0;
+
 
     case WM_PAINT:
         {
             hdc = BeginPaint(window, &ps);
-            if(*vsidstrings[8])
-                for(i=0;i<9;i++)
+            if(*vsidstrings[VSID_S_TIMER]) /* start only when timer string has been filled */
+                for(i=0;i < VSID_S_LASTLINE;i++)
                     vsid_disp( 0, i, "%s", vsidstrings[i]);
 
             EndPaint(window, &ps);

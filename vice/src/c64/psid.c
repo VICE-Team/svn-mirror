@@ -72,6 +72,27 @@ typedef struct psid_s {
     DWORD frames_played;
 } psid_t;
 
+const char csidmodel[20][16]={ "6581"
+                             , "8580"
+                             , "8580D"
+                             , "6581R4"
+                             , "DTVSID"
+                             , "?"
+                             , "?"
+                             , "?"
+                             , "6581R3_4885"
+                             , "6581R3_0486S"
+                             , "6581R3_3984"
+                             , "6581R4AR_3789"
+                             , "6581R3_4485"
+                             , "6581R4_1986S"
+                             , "?"
+                             , "?"
+                             , "8580R5_3691"
+                             , "8580R5_3691D"
+                             , "8580R5_1489"
+                             , "8580R5_1489D"
+                             };
 
 #define PSID_V1_DATA_OFFSET 0x76
 #define PSID_V2_DATA_OFFSET 0x7c
@@ -363,6 +384,7 @@ void psid_init_tune(void)
     int speedbit;
     char* irq;
     char irq_str[20];
+    const char csidflag[4][8]={"UNKNOWN","6581","8580","ANY"};
 
     if (!psid) {
         return;
@@ -372,7 +394,7 @@ void psid_init_tune(void)
 
     reloc_addr = psid->start_page << 8;
 
-    log_message(vlog, "driver=$%04X, image=$%04X-$%04X, init=$%04X, play=$%04X",
+    log_message(vlog, "Driver=$%04X, Image=$%04X-$%04X, Init=$%04X, Play=$%04X",
                 reloc_addr,
                 psid->load_addr, psid->load_addr + psid->data_size - 1,
                 psid->init_addr, psid->play_addr);
@@ -412,18 +434,28 @@ void psid_init_tune(void)
     }
 
     if (console_mode) {
-        log_message(vlog, "Name: %s",      (char *)(psid->name));
-        log_message(vlog, "Author: %s",    (char *)(psid->author));
-        log_message(vlog, "Copyright: %s", (char *)(psid->copyright));
+        log_message(vlog, "   Title: %s", (char *) psid->name);
+        log_message(vlog, "  Author: %s", (char *) psid->author);
+        log_message(vlog, "Released: %s", (char *) psid->copyright);
         log_message(vlog, "Using %s sync",
                     (int)sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
-        log_message(vlog, "Using %s emulation",
-                    sid_model ? "MOS8580" : "MOS6581");
+        log_message(vlog, "SID model: %s  (Using %s)",
+                    csidflag[ (psid->flags>>4)&3 ],
+                    csidmodel[ sid_model>19 ? 7 : sid_model ] );
         log_message(vlog, "Using %s interrupt", irq_str);
         log_message(vlog, "Playing tune %d out of %d (default=%d)",
                     start_song, psid->songs, psid->start_song);
     }
     else {
+        if(vsid_mode)
+        {
+            char dummy[100];
+            sprintf(dummy,"Driver=$%04X, Image=$%04X-$%04X, Init=$%04X, Play=$%04X",
+                    reloc_addr,
+                    psid->load_addr, psid->load_addr + psid->data_size - 1,
+                    psid->init_addr, psid->play_addr);
+            vsid_setdrv( dummy );
+        }
         vsid_ui_display_name((char *)(psid->name));
         vsid_ui_display_author((char *)(psid->author));
         vsid_ui_display_copyright((char *)(psid->copyright));
@@ -435,7 +467,7 @@ void psid_init_tune(void)
         vsid_ui_set_default_tune(psid->start_song);
         vsid_ui_display_nr_of_tunes(psid->songs);
         vsid_ui_display_time(0);
-    } 
+    }
 
     /* Store parameters for PSID player. */
 

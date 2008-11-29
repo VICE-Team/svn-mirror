@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VSIDUI_H
-#define _VSIDUI_H
+#ifndef VICE_VSIDUI_H
+#define VICE_VSIDUI_H
 
 extern int vsid_ui_init(void);
 extern void vsid_ui_close(void);
@@ -40,5 +40,7 @@ extern void vsid_ui_display_nr_of_tunes(int count);
 extern void vsid_ui_set_default_tune(int nr);
 extern void vsid_ui_display_time(unsigned int sec);
 extern void vsid_ui_display_irqtype(const char *irq);
+
+extern void vsid_setdrv(char* dummy);
 
 #endif
