@@ -44,6 +44,11 @@ list of all the changes in the code.
 
 - Fixed the lowest note bug.
 
+** C64DTV changes
+-----------------
+
+- New emulator.
+
 ** Unix changes
 ---------------
 
@@ -124,6 +129,12 @@ list of all the changes in the code.
 ---------------
 
 - Fixed black screen problem.
+
+- Pause emulation while the menu is open.
+
+- Added experimental support for USB keyboard and joystick.
+
+- Removed vsid.
 
 
 * Changes in VICE 2.0
