@@ -338,7 +338,7 @@ static void ui_paste_clipboard_text(void)
 
         text_in_petscii[textlen] = 0;
 
-        charset_petconvstring(text_in_petscii, 0);
+        charset_petconvstring((BYTE *)text_in_petscii, 0);
 
         kbdbuf_feed(text_in_petscii);
 

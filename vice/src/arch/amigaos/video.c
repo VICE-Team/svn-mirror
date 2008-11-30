@@ -903,10 +903,10 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
     h += dy;
     dy = 0;
   }
-  if (w > canvas->os->visible_width) {
+  if (w > (unsigned int)canvas->os->visible_width) {
     w = canvas->os->visible_width;
   }
-  if (h > canvas->os->visible_height) {
+  if (h > (unsigned int)canvas->os->visible_height) {
     h = canvas->os->visible_height;
   }
 
@@ -967,11 +967,13 @@ static int makecol_RGB555BE(int r, int g, int b)
   return c;
 }
 
+#ifdef HAVE_PROTO_CYBERGRAPHICS_H
 static int makecol_BGR555BE(int r, int g, int b)
 {
   int c = ((b & 0xf8) << 7) | ((g & 0xf8) << 2) | ((r & 0xf8) >> 3);
   return c;
 }
+#endif
 
 /* 16bit - LE */
 
