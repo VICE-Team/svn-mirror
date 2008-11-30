@@ -37,7 +37,7 @@ extern void psid_init_driver(void);
 extern unsigned int psid_increment_frames(void);
 extern int reloc65(char** buf, int* fsize, int addr);
 
-extern const char csidmodel[20][16];
+extern const char * csidmodel[];
 
 #endif
 

@@ -72,27 +72,34 @@ typedef struct psid_s {
     DWORD frames_played;
 } psid_t;
 
-const char csidmodel[20][16]={ "6581"
-                             , "8580"
-                             , "8580D"
-                             , "6581R4"
-                             , "DTVSID"
-                             , "?"
-                             , "?"
-                             , "?"
-                             , "6581R3_4885"
-                             , "6581R3_0486S"
-                             , "6581R3_3984"
-                             , "6581R4AR_3789"
-                             , "6581R3_4485"
-                             , "6581R4_1986S"
-                             , "?"
-                             , "?"
-                             , "8580R5_3691"
-                             , "8580R5_3691D"
-                             , "8580R5_1489"
-                             , "8580R5_1489D"
-                             };
+const char * csidmodel[] = { "6581"
+                           , "8580"
+                           , "8580D"
+                           , "6581R4"
+                           , "DTVSID"
+
+                           , "?"
+                           , "?"
+                           , "?"
+                           , "6581R3_4885"
+                           , "6581R3_0486S"   /* this is the default one if an invalid model has been specified */
+
+                           , "6581R3_3984"
+                           , "6581R4AR_3789"
+                           , "6581R3_4485"
+                           , "6581R4_1986S"
+                           , "?"
+
+                           , "?"
+                           , "8580R5_3691"
+                           , "8580R5_3691D"
+                           , "8580R5_1489"
+                           , "8580R5_1489D"
+                           };
+
+#define NO_OF_SIDMODELS ( sizeof csidmodel / sizeof csidmodel[0] )
+#define MAX_SIDMODEL ( NO_OF_SIDMODELS - 1 )
+#define DEFAULT_SIDMODEL 9   /* defines the default as "6581R3_0486S" */
 
 #define PSID_V1_DATA_OFFSET 0x76
 #define PSID_V2_DATA_OFFSET 0x7c
@@ -438,30 +445,34 @@ void psid_init_tune(void)
         log_message(vlog, "  Author: %s", (char *) psid->author);
         log_message(vlog, "Released: %s", (char *) psid->copyright);
         log_message(vlog, "Using %s sync",
-                    (int)sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
+                    sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
         log_message(vlog, "SID model: %s  (Using %s)",
                     csidflag[ (psid->flags>>4)&3 ],
-                    csidmodel[ sid_model>19 ? 7 : sid_model ] );
+                    csidmodel[ sid_model > MAX_SIDMODEL ? DEFAULT_SIDMODEL : sid_model ] );
         log_message(vlog, "Using %s interrupt", irq_str);
         log_message(vlog, "Playing tune %d out of %d (default=%d)",
                     start_song, psid->songs, psid->start_song);
     }
     else {
+#ifdef WIN32 /*! \todo Remove #ifdef */
         if(vsid_mode)
         {
-            char dummy[100];
-            sprintf(dummy,"Driver=$%04X, Image=$%04X-$%04X, Init=$%04X, Play=$%04X",
+            char * driver_info_text;
+            driver_info_text =
+                lib_msprintf("Driver=$%04X, Image=$%04X-$%04X, Init=$%04X, Play=$%04X",
                     reloc_addr,
                     psid->load_addr, psid->load_addr + psid->data_size - 1,
                     psid->init_addr, psid->play_addr);
-            vsid_setdrv( dummy );
+            vsid_setdrv(driver_info_text);
+            lib_free(driver_info_text);
         }
+#endif /* #ifdef WIN32 */
         vsid_ui_display_name((char *)(psid->name));
         vsid_ui_display_author((char *)(psid->author));
         vsid_ui_display_copyright((char *)(psid->copyright));
 
-        vsid_ui_display_sync((int)sync);
-        vsid_ui_display_sid_model((int)sid_model);
+        vsid_ui_display_sync(sync);
+        vsid_ui_display_sid_model(sid_model);
         vsid_ui_display_irqtype(irq_str);
         vsid_ui_display_tune_nr(start_song);
         vsid_ui_set_default_tune(psid->start_song);
