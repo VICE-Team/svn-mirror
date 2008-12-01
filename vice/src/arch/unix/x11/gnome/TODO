@@ -14,10 +14,7 @@ Missing features
 - Session Management
 
 Known Bugs (help is appreciated !):
-- x128 gives a GTK warning because topmenu is reused. However this seems not
-  to be a problem.
-- Gnome commandline is ignored.
-- Get font from X Resource database for textwindows/CBM font preview windows.
+- Gnome/GTK+ commandline is ignored.
 
 Things, which will change (don't ask when!):
 - Tape status widget (.TAP vs .t64) handling is lousy.
@@ -32,13 +29,8 @@ Things, which will change (don't ask when!):
 To compile the gnome2/gtk2 version use configure option
 `--enable-gnomeui'.
 
-The port is fully functional. Only the CBM font in the content preview
-widget and within the context menu is not working yet.
-Credits to Andrew Burton for a few inspiring lines of code donated
-about 2 years ago. ;^)
-
 To compile this version you need to have certain gnome2/gtk2 devel
 packages installed. 
 
-The port is known to work pretty well on Linux Fedora Core 4.
-
+The port is known to work pretty well on recent Linux desktops with
+GTK+/Gnome featured libraries.
