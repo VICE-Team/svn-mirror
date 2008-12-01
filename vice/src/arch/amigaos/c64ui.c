@@ -85,6 +85,12 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
       case IDM_RAMCART_SETTINGS:
         ui_ramcart_settings_dialog(canvas);
         break;
+      case IDM_DQBB_SETTINGS:
+        ui_dqbb_settings_dialog(canvas);
+        break;
+      case IDM_ISEPIC_SETTINGS:
+        ui_isepic_settings_dialog(canvas);
+        break;
       case IDM_PLUS60K_SETTINGS:
         ui_plus60k_settings_dialog(canvas);
         break;
