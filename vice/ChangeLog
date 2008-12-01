@@ -231,7 +231,78 @@
 
 	* src/monitor/monitor.c: Monitor playback code cleanup
 
-TODO: MERGE
+2008-11-19  Martin Pottendorfer <pottendo@aon.at>
+
+	* src/arch/unix/x11/fullscreen.c (fullscreen_enable): Set
+	resource "UseFullscreen" to preserve state in case of the user
+	saves the settings.
+
+2008-11-19  Martin Pottendorfer <pottendo@aon.at>
+	  
+	* src/video/video-resources.c (video_resources_chip_init):
+	Removed creation of unused fullscreen related resources: dsize,
+	dscan.
+	  
+	* src/video/video-cmdline-options.c
+	(cmdline_options_chip_fullscreen): Removed unused cmdline
+	options: `...full, ...fullscreendsize, etc.'
+	(cname_chip_fullscreen): Likewise.
+
+2008-11-19  Martin Pottendorfer <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/x11ui.c (x11ui_fullscreen): set
+	`_ui_top_level' to reflect latest window on top; necessary to
+	make x128 happy.
+
+2008-11-19  Martin Pottendorfer <pottendo@aon.at>
+	  
+	* src/arch/unix/x11/gnome/x11ui.c (x11ui_fullscreen): raise
+	window to user focus. (ui_popup): Likewise. (ui_set_left_menu):
+	Attach accelgroup to all shells. (ui_set_right_menu): Likewise.
+
+2008-11-18  Martin Pottendorfer <pottendo@aon.at>
+
+	* src/arch/unix/x11/xaw/x11video.c (video_canvas_refresh):
+	return in case we draw outside the canvas. This makes 80 column
+	work on startup using `-fullscreen -80col'.
+	  
+	* src/arch/unix/x11/ui-cmdline-options.c (cmdline_options):
+	Fixed `UseFullscreen', made it conditional to XRANDR or VIDMODE.
+	  
+	* src/arch/unix/x11/xrandr.c (set_xrandr): introduced
+	work-around for shutdown problem (segfault caused by already
+	freed resource).
+	  
+	* src/arch/unix/x11/gnome/x11ui.c (ui_create_status_bar): made
+	static and return the status_bar widget.
+	(ui_fullscreen_statusbar): adjusted to app_shell local
+	status_bar. (x11ui_fullscreen): take care of x128 and enlarge
+	window depending on the 40/80 column key.
+	  
+	* src/arch/unix/gui/uivdc.c (UI_FULLSCREEN): Use `Alt-f' for
+	fullscren hotekey. VICII FS remains with `Alt-d'.
+	  
+	* src/arch/unix/gui/uicrtc.c (UI_FULLSCREEN): Use `Alt-f' for
+	fullscreen hotkey (was `Alt-d'). This is necessary for
+	distinguishing VICII fullscreen from CRTC fullscreen in case of
+	xcbm2. VICII FS remains with `Alt-d'.
+	  
+	* src/arch/unix/gui/uifullscreen-menu.h (UI_FULLSCREEN): Added
+	parameter for hotkey.
+	  
+	* src/c128/c128.c (machine_specific_init): Enable fullscreen if
+	`-fullscreen' was given on commandline. Use VICII as default.
+	  
+	* src/c64/c64.c (machine_specific_init): Enable fullscreen if
+	`-fullscreen' was given on commandline. * vic20/vic20.c
+	(machine_specific_init): Likewise. * pet/pet.c
+	(machine_specific_init): Likewise. * plus4/plus4.c
+	(machine_specific_init): Likewise. * cbm2/cbm2.c
+	(machine_specific_init): Likewise. * c64dtv/c64dtv.c
+	(machine_specific_init): Likewise.
+	  
+	* src/arch/unix/x11/fullscreen.c (fullscreen_capability): Moved
+	XRANDR case to top in order to have XRANDR as default.
 
 2008-11-23  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -299,19 +370,30 @@ TODO: MERGE
 	* src/vic20/vic20sound.c: Hardcoded '3' in vic20sound.c to avoid
 	future problems.
 
-TODO: MERGE
-
 2008-11-23  Marco van den Heuvel <blackystardust68@yahoo.com>
 
-	* configure.in, data/C64/Makefile.am, data/C64/gp2x_pos.vkm,
+	* src/arch/unix/gp2x/make-bindist.sh: Fixed the gp2x
+	make-bindist.sh script.
+
+2008-11-11  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/gp2x/Makefile.am,
+	src/arch/unix/gp2x/gpe-files/vsid.gpe,
+	src/arch/unix/gp2x/make-bindist.sh: Removed useless vsid.gpe
+
+2008-11-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Disabled resid-fp for gp2x compile.
+
+2008-11-11  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* data/C64/Makefile.am, data/C64/gp2x_pos.vkm,
 	data/C64/gp2x_sym.vkm, src/arch/unix/gp2x/Makefile.am,
 	src/arch/unix/gp2x/audio_gp2x.c,
 	src/arch/unix/gp2x/audio_gp2x.h, src/arch/unix/gp2x/c64ui.c,
 	src/arch/unix/gp2x/fullscreenarch.h,
-	src/arch/unix/gp2x/gpe-files/vsid.gpe,
 	src/arch/unix/gp2x/input_gp2x.c,
 	src/arch/unix/gp2x/input_gp2x.h, src/arch/unix/gp2x/keycodes.h,
-	src/arch/unix/gp2x/make-bindist.sh,
 	src/arch/unix/gp2x/minimal.c, src/arch/unix/gp2x/minimal.h,
 	src/arch/unix/gp2x/prefs_gp2x.c,
 	src/arch/unix/gp2x/prefs_gp2x.h, src/arch/unix/gp2x/ui_gp2x.c,
@@ -321,8 +403,8 @@ TODO: MERGE
 	src/arch/unix/gp2x/uitext_gp2x.h, src/arch/unix/gp2x/vic20ui.c,
 	src/arch/unix/gp2x/video.c, src/arch/unix/gp2x/videoarch.h,
 	src/arch/unix/gp2x/vkeyboard_gp2x.c,
-	src/arch/unix/gp2x/vkeyboard_gp2x.h, src/arch/unix/kbd.h: Merged
-	the gp2x improvements branch.
+	src/arch/unix/gp2x/vkeyboard_gp2x.h, src/arch/unix/kbd.h: gp2x
+	improvements from GnoStiC (with small changes)
 
 2008-11-23  Hannu Nuotio <hannu.nuotio@tut.fi>
 
@@ -507,73 +589,83 @@ TODO: MERGE
 	  behaviour on verify if interrupts are enabled. Analysis and
 	  patch provided by Wolfgang Moser.
 
-2008-11-19  Martin Pottendorfer  <pottendo@aon.at>
+2008-11-19  Martin Pottendorfer <pottendo@aon.at>
+	  
+	* src/arch/unix/x11/fullscreen.c (fullscreen_enable): Set
+	resource "UseFullscreen" to preserve state in case of the user
+	saves the settings.
 
-	* arch/unix/x11/fullscreen.c (fullscreen_enable): Set resource
-	  "UseFullscreen" to preserve state in case of the user
-	  saves the settings.
-
-	* video/video-resources.c (video_resources_chip_init): Removed
-	creation of unused fullscreen related resources: dsize, dscan.
-
-	* video/video-cmdline-options.c (cmdline_options_chip_fullscreen):
-	Removed unused cmdline options: `...full, ...fullscreendsize, etc.'
+2008-11-19  Martin Pottendorfer <pottendo@aon.at>
+	  
+	* src/video/video-resources.c (video_resources_chip_init):
+	Removed creation of unused fullscreen related resources: dsize,
+	dscan.
+	  
+	* src/video/video-cmdline-options.c
+	(cmdline_options_chip_fullscreen): Removed unused cmdline
+	options: `...full, ...fullscreendsize, etc.'
 	(cname_chip_fullscreen): Likewise.
 
-	* (x11ui_fullscreen): set `_ui_top_level' to reflect latest window
-	on top; necessary to make x128 happy.
+2008-11-19  Martin Pottendorfer <pottendo@aon.at>
 
-	* arch/unix/x11/gnome/x11ui.c (x11ui_fullscreen): raise window to
-	user focus.
-	(ui_popup): Likewise.
-	(ui_set_left_menu): Attach accelgroup to all shells.
-	(ui_set_right_menu): Likewise.
+	* src/arch/unix/x11/gnome/x11ui.c (x11ui_fullscreen): set
+	`_ui_top_level' to reflect latest window on top; necessary to
+	make x128 happy.
 
-2008-11-18  Martin Pottendorfer  <pottendo@aon.at>
+2008-11-19  Martin Pottendorfer <pottendo@aon.at>
+	  
+	* src/arch/unix/x11/gnome/x11ui.c (x11ui_fullscreen): raise
+	window to user focus. (ui_popup): Likewise.  (ui_set_left_menu):
+	Attach accelgroup to all shells.  (ui_set_right_menu): Likewise.
 
-	* arch/unix/x11/xaw/x11video.c (video_canvas_refresh): return in
-	  case we draw outside the canvas. This makes 80 column work on
-	  startup using `-fullscreen -80col'.
-
-	* arch/unix/x11/ui-cmdline-options.c (cmdline_options): Fixed
-	  `UseFullscreen', made it conditional to XRANDR or VIDMODE.
-
-	* arch/unix/x11/xrandr.c (set_xrandr): introduced work-around for
-	  shutdown problem (segfault caused by already freed resource).
-
-	* arch/unix/x11/gnome/x11ui.c (ui_create_status_bar): made static
-	  and return the status_bar widget.
-	  (ui_fullscreen_statusbar): adjusted to app_shell local
-	  status_bar.
-	  (x11ui_fullscreen): take care of x128 and enlarge window
-	  depending on the 40/80 column key.
-
-	* arch/unix/gui/uivdc.c (UI_FULLSCREEN): Use `Alt-f' for fullscren
-	  hotekey. VICII FS remains with `Alt-d'.
-
-	* arch/unix/gui/uicrtc.c (UI_FULLSCREEN): Use `Alt-f' for fullscreen
-	  hotkey (was `Alt-d'). This is necessary for distinguishing VICII
-	  fullscreen from CRTC fullscreen in case of xcbm2.
-	  VICII FS remains with `Alt-d'.
-
-	* arch/unix/gui/uifullscreen-menu.h (UI_FULLSCREEN): Added
+2008-11-18  Martin Pottendorfer <pottendo@aon.at>
+	  
+	* src/arch/unix/x11/xaw/x11video.c (video_canvas_refresh):
+	return in case we draw outside the canvas. This makes 80 column
+	work on startup using `-fullscreen -80col'.
+	  
+	* src/arch/unix/x11/ui-cmdline-options.c (cmdline_options):
+	Fixed `UseFullscreen', made it conditional to XRANDR or VIDMODE.
+	  
+	* src/arch/unix/x11/xrandr.c (set_xrandr): introduced
+	work-around for shutdown problem (segfault caused by already
+	freed resource).
+	  
+	* src/arch/unix/x11/gnome/x11ui.c (ui_create_status_bar): made
+	static and return the status_bar widget.
+	(ui_fullscreen_statusbar): adjusted to app_shell local
+	status_bar. (x11ui_fullscreen): take care of x128 and enlarge
+	window depending on the 40/80 column key.
+	  
+	* src/arch/unix/gui/uivdc.c (UI_FULLSCREEN): Use `Alt-f' for
+	fullscren hotekey. VICII FS remains with `Alt-d'.
+	  
+	* src/arch/unix/gui/uicrtc.c (UI_FULLSCREEN): Use `Alt-f' for
+	fullscreen hotkey (was `Alt-d'). This is necessary for
+	distinguishing VICII fullscreen from CRTC fullscreen in case of
+	xcbm2. VICII FS remains with `Alt-d'.
+	  
+	* src/arch/unix/gui/uifullscreen-menu.h (UI_FULLSCREEN): Added
 	parameter for hotkey.
+	  
+	* src/c128/c128.c (machine_specific_init): Enable fullscreen if
+	`-fullscreen' was given on commandline. Use VICII as default.
+	  
+	* src/c64/c64.c (machine_specific_init): Enable fullscreen if
+	`-fullscreen' was given on commandline. 
 
-	* c128/c128.c (machine_specific_init): Enable fullscreen if
-	  `-fullscreen' was given on commandline. Use VICII as default.
+	* src/vic20/vic20.c (machine_specific_init): Likewise.
 
-	* c64/c64.c (machine_specific_init): Enable fullscreen if
-	  `-fullscreen' was given on commandline.
-	* vic20/vic20.c (machine_specific_init): Likewise.
-	* pet/pet.c (machine_specific_init): Likewise.
-	* plus4/plus4.c (machine_specific_init): Likewise.
-	* cbm2/cbm2.c (machine_specific_init): Likewise.
-	* c64dtv/c64dtv.c (machine_specific_init): Likewise.
+	* src/pet/pet.c (machine_specific_init): Likewise. 
 
-	* arch/unix/x11/fullscreen.c (fullscreen_capability): Moved XRANDR
-	  case to top in order to have XRANDR as default.
+	* src/plus4/plus4.c (machine_specific_init): Likewise. 
 
-TODO: MERGE
+	* src/cbm2/cbm2.c (machine_specific_init): Likewise. 
+
+	* src/c64dtv/c64dtv.c (machine_specific_init): Likewise.
+	  
+	* src/arch/unix/x11/fullscreen.c (fullscreen_capability): Moved
+	XRANDR case to top in order to have XRANDR as default.
 
 2008-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -1031,16 +1123,37 @@ TODO: MERGE
 
 	* src/translate.c: Fixed a double quotation.
 
-TODO: MERGE (???)
+2008-11-02  Hannu Nuotio <hannu.nuotio@tut.fi>
 
-2008-11-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+	* data/C64DTV/Makefile.am, data/C64DTV/dtvrom.bin: Added
+	dtvrom.bin
 
-	* data/C64DTV/Makefile.am, data/C64DTV/dtvrom.bin,
-	  doc/vice.texi, man/vice.1, src/arch/unix/gui/uic64dtv.c,
-	  src/c64dtv/c64dtvblitter.c, src/c64dtv/c64dtvdma.c,
-	  src/c64dtv/hummeradc.c, src/raster/raster-resources.c,
-	  src/sid/sid-resources.c, src/sid/sid.h, src/vicii/vicii-mem.c,
-	  src/vicii/vicii.c: Merged the x64dtv branch.
+2008-11-01  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* doc/vice.texi, man/vice.1: Documentation and man page DTV
+	updates
+
+2008-10-31  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* doc/vice.texi: C64DTV documentation added to vice.txi
+
+2008-10-30  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/raster/raster-resources.c: Disable vcache by default on
+	x64dtv
+
+	* src/arch/unix/gui/uic64dtv.c, src/c64dtv/c64dtvblitter.c,
+	src/c64dtv/c64dtvdma.c, src/c64dtv/hummeradc.c,
+	src/sid/sid-resources.c, src/sid/sid.h, src/vicii/vicii-mem.c:
+	Default SID model is now DTVSID for x64dtv, HummerADC added to
+	unix menu, fixed DMA/Blitter log resource setter return value,
+	some code cleanup
+
+2008-10-26  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vicii/vicii-mem.c, src/vicii/vicii.c: Disable raster cache
+	when switching to new DTV vmodes. Fixes most x64dtv vcache
+	issues.
 
 2008-11-02  Hannu Nuotio <hannu.nuotio@tut.fi>
 
@@ -2930,41 +3043,6 @@ TODO: Determine what was already included in v2.0, and remove it!
 	src/sid/resid-fp.cc: Duplicated the resid directory and applied
 	the new resid engine patch by Antti S. Lankila to it.
 
-2008-08-31  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
-
-	* configure.in, src/Makefile.am, src/arch/amigaos/mui/uisid.c,
-	  src/arch/beos/ui_sid.cc, src/arch/msdos/uisid.c,
-	  src/arch/unix/gui/uisid.c, src/arch/unix/x11/gnome/x11ui.c,
-	  src/arch/win32/resdialogs.txt, src/arch/win32/residfp.dsp,
-	  src/arch/win32/ressid.rc, src/arch/win32/resstrings.txt,
-	  src/arch/win32/uisid.c, src/arch/win32/vice.dsw, src/resid-fp,
-	  src/resid-fp/AUTHORS, src/resid-fp/COPYING,
-	  src/resid-fp/ChangeLog, src/resid-fp/INSTALL,
-	  src/resid-fp/Makefile.am, src/resid-fp/NEWS,
-	  src/resid-fp/README, src/resid-fp/README.VICE,
-	  src/resid-fp/configure.in, src/resid-fp/convolve-sse.cc,
-	  src/resid-fp/convolve.cc, src/resid-fp/envelope.cc,
-	  src/resid-fp/envelope.h, src/resid-fp/extfilt.cc,
-	  src/resid-fp/extfilt.h, src/resid-fp/filter.cc,
-	  src/resid-fp/filter.h, src/resid-fp/pot.cc,
-	  src/resid-fp/pot.h, src/resid-fp/samp2src.pl,
-	  src/resid-fp/sid.cc, src/resid-fp/sid.h,
-	  src/resid-fp/siddefs.h, src/resid-fp/siddefs.h.in,
-	  src/resid-fp/version.cc, src/resid-fp/voice.cc,
-	  src/resid-fp/voice.h, src/resid-fp/wave.cc,
-	  src/resid-fp/wave.h, src/resid-fp/wave6581_PST.cc,
-	  src/resid-fp/wave6581_PST.dat, src/resid-fp/wave6581_PS_.cc,
-	  src/resid-fp/wave6581_PS_.dat, src/resid-fp/wave6581_P_T.cc,
-	  src/resid-fp/wave6581_P_T.dat, src/resid-fp/wave6581__ST.cc,
-	  src/resid-fp/wave6581__ST.dat, src/resid-fp/wave8580_PST.cc,
-	  src/resid-fp/wave8580_PST.dat, src/resid-fp/wave8580_PS_.cc,
-	  src/resid-fp/wave8580_PS_.dat, src/resid-fp/wave8580_P_T.cc,
-	  src/resid-fp/wave8580_P_T.dat, src/resid-fp/wave8580__ST.cc,
-	  src/resid-fp/wave8580__ST.dat, src/sid/Makefile.am,
-	  src/sid/resid-fp.cc, src/sid/resid-fp.h, src/sid/resid.cc,
-	  src/sid/sid-resources.c, src/sid/sid.c, src/sid/sid.h: Merged
-	  tags/contributions/v2.0.3-resid-fp.
-
 2008-08-31  Daniel Kahlin <tlr@users.sourceforge.net>
 
 	* src/c64dtv/c64dtvblitter.c, src/c64dtv/c64dtvdma.c: detabified
@@ -3244,19 +3322,6 @@ TODO: Determine what was already included in v2.0, and remove it!
 	src/arch/win32/resvic20.rc, src/arch/win32/ui.c,
 	src/arch/win32/uikeyboard.c: Fixed and improved win32 keyboard
 	shortcuts (thanks iAN CooG).
-
-2008-08-19  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
-
-	* ., data/C128/win_shortcuts.vsc, data/C64/win_shortcuts.vsc,
-	  data/CBM-II/win_shortcuts.vsc, data/PET/win_shortcuts.vsc,
-	  data/PLUS4/win_shortcuts.vsc, data/VIC20/win_shortcuts.vsc,
-	  src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
-	  src/arch/win32/rescbm2.rc, src/arch/win32/resdialogs.txt,
-	  src/arch/win32/respet.rc, src/arch/win32/resplus4.rc,
-	  src/arch/win32/resvic20.rc, src/arch/win32/ui.c,
-	  src/arch/win32/uikeyboard.c: Merged changes from Andreas
-	  Matthies (r19112): Fixed and improved win32 keyboard shortcuts
-	  (thanks iAN CooG).
 
 2008-08-19  Martin Pottendorfer <<pottendo@aon.at>
 
