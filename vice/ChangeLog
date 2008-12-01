@@ -1,3 +1,183 @@
+2008-12-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c64ui.c: Added previously missing dialog
+	  calls.
+
+2008-11-30  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* doc/html/plain/NEWS: Added some news
+
+2008-11-30  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/c64/psid.c, src/c64/psid.h, src/vsidui.h: Fixed
+	  compilation for non-WIN archs by encapsulating vsid_setdrv()
+	  in #ifdef, and some code cleanup.
+
+2008-11-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/ui.c, src/arch/amigaos/video.c: Fixed some
+	  warnings.
+
+2008-11-29  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* doc/html/plain/NEWS: Added some news.
+
+	* src/arch/win32/rs232net.c: Reworked code which was using Unix
+	  style calls sometimes (SOCKET is unsigned on Windows, but
+	  tested for < 0 to find out about invalid socket; used close()
+	  for closing a socket, not closesocket(), ...); use
+	  gethostbyname() to accept names for remote targets, too.
+
+	* src/arch/win32/rs232dev.c: Open the log with the name
+	  "RS232DEV", not "RS232".
+
+2008-11-29  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/monitor/monitor.c: Monitor io command temporarily changes
+	  to io bank if it's available (fixes bug 2076132)
+
+2008-11-29  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/vsidui.c, src/c64/psid.c, src/c64/psid.h,
+	  src/vsidui.h: #2353122: win32 vsid GUI Patch by iAN CooG,
+	  reworked by Spiro: Improved -vsid GUI for win32: infoline
+	  appears only by pressing "I"; self-raises process priority
+	  (above normal) because when in background looses cpu power and
+	  music is not played at correct speed; drag&drop support;
+	  window also gets focus back on drop; correct display of
+	  emulated sid model (when using -keepenv); gray background is
+	  more relaxing than all white; a little code cleanup and minor
+	  cosmetic changes;
+
+2008-11-29  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/log.c: Do not close/open log_file when setting the log
+	  file name to the same value; (partially) fixes Load Settings &
+	  *nix logging bug
+
+2008-11-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c64dtvui.c, src/arch/amigaos/mui/uiisepic.c,
+	  src/arch/amigaos/ui.c, src/arch/amigaos/uires.h: Fixed some
+	  warnings.
+
+	* src/arch/riscos/rs232.c: Added a previously missing include,
+
+	* src/arch/win32/Makefile.am: Fixed a typo.
+
+2008-11-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, po/de.po, po/fr.po, po/hu.po, po/it.po,
+	  po/nl.po, po/pl.po, po/sv.po, src/arch/amigaos/intl.c,
+	  src/arch/win32/res.rc, src/arch/win32/resc64dtv.rc,
+	  src/translate.c: Updated german, italian and hungarian
+	  translations.
+
+2008-11-28  Martin Pottendorfer <pottendo@aon.at>
+
+	  * arch/unix/x11/ui-resources.c (fullscreen_set_fs): Removed
+	  verbosy log_message.
+
+	  * arch/unix/gui/uisettings.c (save_resources_file): In case of
+	  GTK+ make use of the extended `ui_select_file()'.
+
+	  * src/arch/unix/ui.h: New type `ui_filechooser_t'. New
+	  parameter to `ui_select_file()'.
+
+	  * arch/unix/x11/gnome/x11ui.c (build_file_selector): Make use
+	  of GTK+'s GtkFileChooserAction.
+
+	  * arch/unix/x11/gnome/x11ui.c (ui_select_file): Take care of
+	  new parameter action to show input line in the filechooser
+	  dialog.
+
+	  * arch/unix/gui/c128ui.c (UI_MENU_DEFINE_TOGGLE):
+	  arch/unix/gui/c128ui.c
+	  arch/unix/gui/uiattach.c
+	  arch/unix/gui/uic64cart.c
+	  arch/unix/gui/uic64dtv.c
+	  arch/unix/gui/uicommands.c
+	  arch/unix/gui/uifliplist.c
+	  arch/unix/gui/uikeyboard.c
+	  arch/unix/gui/uipalette.c
+	  arch/unix/gui/uiromset.c
+	  arch/unix/gui/uirs232.c
+	  arch/unix/gui/vic20ui.c
+	  arch/unix/gui/vsidui.c
+	  arch/unix/x11/xaw/uicartridge.c
+	  arch/unix/x11/xaw/uiedisk.c
+	  arch/unix/x11/xaw/uiscreenshot.c
+	  arch/unix/x11/xaw/uisnapshot.c
+	  arch/unix/x11/xaw/x11ui.c:
+	  Adjusted to new API to ui_select_file() - added new parameter.
+	  Xaw currently ignores this parameter.
+
+	* po/de.po: Updated.
+
+2008-11-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/arch.tgt: Fixed the watcom project
+	  files.
+
+	* src/arch/win32/make-msvc-bindist.bat,
+	  src/arch/win32/watcom/make-watcom-bindist.bat: Added the
+	  dtvrom.bin file to the msvc and watcom bindist generation
+	  batch files.
+
+	* src/arch/win32/Makefile.am, src/resid-fp/Makefile.am,
+	  src/resid/Makefile.am: Fixed the inclusion of siddefs.h and
+	  siddefs-fp.h when using 'make dist'.
+
+2008-11-28  Martin Pottendorfer <pottendo@aon.at>
+
+	* po/de.po, po/hu.po, po/it.po: Updated.
+
+2008-11-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/ui.c: Fixed some warnings.
+
+	* src/arch/win32/rs232dev.c: Removed stray '/*' within a
+	  comment.
+
+	* src/translate.c: Removed stray '\0'.
+
+2008-11-27  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/unix/x11/xaw/x11ui.c: Fixed another compilation
+	  warning on some machines.
+
+	* src/aciacore.c: Fixed warning about comparing different types.
+
+2008-11-27  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/gui/uisettings.c: Added load/save settings
+	  from/to file *nix UI menu items
+
+2008-11-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/amigaos/ui.c, src/c64dtv/flash-trap.c,
+	  src/video/Makefile.am: Fixed some warnings.
+
+2008-11-27  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vicii/viciidtv-draw.c: Added a cast to fix a warning
+
+2008-11-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128uires.h, src/arch/amigaos/c64dtvuires.h,
+	  src/arch/amigaos/c64uires.h, src/arch/amigaos/cbm2uires.h,
+	  src/arch/amigaos/intl.c, src/arch/amigaos/intl.txt,
+	  src/arch/amigaos/petuires.h, src/arch/amigaos/plus4uires.h,
+	  src/arch/amigaos/ui.c, src/arch/amigaos/uires.h,
+	  src/arch/amigaos/vic20uires.h: Added 'save settings to
+	  specified file' and 'load settings from specified file' items
+	  to the amiga ui.
+
+2008-11-26  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/c64/reu.c: Fixed the IRQ generation behaviour of the REU.
+	  Behaviour found and patch written by Wolfgang Moser.
+
 2008-11-26  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
