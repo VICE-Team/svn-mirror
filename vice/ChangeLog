@@ -238,11 +238,11 @@
 	saves the settings.
 
 2008-11-19  Martin Pottendorfer <pottendo@aon.at>
-	  
+
 	* src/video/video-resources.c (video_resources_chip_init):
 	Removed creation of unused fullscreen related resources: dsize,
 	dscan.
-	  
+
 	* src/video/video-cmdline-options.c
 	(cmdline_options_chip_fullscreen): Removed unused cmdline
 	options: `...full, ...fullscreendsize, etc.'
@@ -255,7 +255,7 @@
 	make x128 happy.
 
 2008-11-19  Martin Pottendorfer <pottendo@aon.at>
-	  
+
 	* src/arch/unix/x11/gnome/x11ui.c (x11ui_fullscreen): raise
 	window to user focus. (ui_popup): Likewise. (ui_set_left_menu):
 	Attach accelgroup to all shells. (ui_set_right_menu): Likewise.
@@ -265,34 +265,34 @@
 	* src/arch/unix/x11/xaw/x11video.c (video_canvas_refresh):
 	return in case we draw outside the canvas. This makes 80 column
 	work on startup using `-fullscreen -80col'.
-	  
+
 	* src/arch/unix/x11/ui-cmdline-options.c (cmdline_options):
 	Fixed `UseFullscreen', made it conditional to XRANDR or VIDMODE.
-	  
+
 	* src/arch/unix/x11/xrandr.c (set_xrandr): introduced
 	work-around for shutdown problem (segfault caused by already
 	freed resource).
-	  
+
 	* src/arch/unix/x11/gnome/x11ui.c (ui_create_status_bar): made
 	static and return the status_bar widget.
 	(ui_fullscreen_statusbar): adjusted to app_shell local
 	status_bar. (x11ui_fullscreen): take care of x128 and enlarge
 	window depending on the 40/80 column key.
-	  
+
 	* src/arch/unix/gui/uivdc.c (UI_FULLSCREEN): Use `Alt-f' for
 	fullscren hotekey. VICII FS remains with `Alt-d'.
-	  
+
 	* src/arch/unix/gui/uicrtc.c (UI_FULLSCREEN): Use `Alt-f' for
 	fullscreen hotkey (was `Alt-d'). This is necessary for
 	distinguishing VICII fullscreen from CRTC fullscreen in case of
 	xcbm2. VICII FS remains with `Alt-d'.
-	  
+
 	* src/arch/unix/gui/uifullscreen-menu.h (UI_FULLSCREEN): Added
 	parameter for hotkey.
-	  
+
 	* src/c128/c128.c (machine_specific_init): Enable fullscreen if
 	`-fullscreen' was given on commandline. Use VICII as default.
-	  
+
 	* src/c64/c64.c (machine_specific_init): Enable fullscreen if
 	`-fullscreen' was given on commandline. * vic20/vic20.c
 	(machine_specific_init): Likewise. * pet/pet.c
@@ -300,7 +300,7 @@
 	(machine_specific_init): Likewise. * cbm2/cbm2.c
 	(machine_specific_init): Likewise. * c64dtv/c64dtv.c
 	(machine_specific_init): Likewise.
-	  
+
 	* src/arch/unix/x11/fullscreen.c (fullscreen_capability): Moved
 	XRANDR case to top in order to have XRANDR as default.
 
@@ -590,17 +590,17 @@
 	  patch provided by Wolfgang Moser.
 
 2008-11-19  Martin Pottendorfer <pottendo@aon.at>
-	  
+
 	* src/arch/unix/x11/fullscreen.c (fullscreen_enable): Set
 	resource "UseFullscreen" to preserve state in case of the user
 	saves the settings.
 
 2008-11-19  Martin Pottendorfer <pottendo@aon.at>
-	  
+
 	* src/video/video-resources.c (video_resources_chip_init):
 	Removed creation of unused fullscreen related resources: dsize,
 	dscan.
-	  
+
 	* src/video/video-cmdline-options.c
 	(cmdline_options_chip_fullscreen): Removed unused cmdline
 	options: `...full, ...fullscreendsize, etc.'
@@ -613,57 +613,57 @@
 	make x128 happy.
 
 2008-11-19  Martin Pottendorfer <pottendo@aon.at>
-	  
+
 	* src/arch/unix/x11/gnome/x11ui.c (x11ui_fullscreen): raise
 	window to user focus. (ui_popup): Likewise.  (ui_set_left_menu):
 	Attach accelgroup to all shells.  (ui_set_right_menu): Likewise.
 
 2008-11-18  Martin Pottendorfer <pottendo@aon.at>
-	  
+
 	* src/arch/unix/x11/xaw/x11video.c (video_canvas_refresh):
 	return in case we draw outside the canvas. This makes 80 column
 	work on startup using `-fullscreen -80col'.
-	  
+
 	* src/arch/unix/x11/ui-cmdline-options.c (cmdline_options):
 	Fixed `UseFullscreen', made it conditional to XRANDR or VIDMODE.
-	  
+
 	* src/arch/unix/x11/xrandr.c (set_xrandr): introduced
 	work-around for shutdown problem (segfault caused by already
 	freed resource).
-	  
+
 	* src/arch/unix/x11/gnome/x11ui.c (ui_create_status_bar): made
 	static and return the status_bar widget.
 	(ui_fullscreen_statusbar): adjusted to app_shell local
 	status_bar. (x11ui_fullscreen): take care of x128 and enlarge
 	window depending on the 40/80 column key.
-	  
+
 	* src/arch/unix/gui/uivdc.c (UI_FULLSCREEN): Use `Alt-f' for
 	fullscren hotekey. VICII FS remains with `Alt-d'.
-	  
+
 	* src/arch/unix/gui/uicrtc.c (UI_FULLSCREEN): Use `Alt-f' for
 	fullscreen hotkey (was `Alt-d'). This is necessary for
 	distinguishing VICII fullscreen from CRTC fullscreen in case of
 	xcbm2. VICII FS remains with `Alt-d'.
-	  
+
 	* src/arch/unix/gui/uifullscreen-menu.h (UI_FULLSCREEN): Added
 	parameter for hotkey.
-	  
+
 	* src/c128/c128.c (machine_specific_init): Enable fullscreen if
 	`-fullscreen' was given on commandline. Use VICII as default.
-	  
+
 	* src/c64/c64.c (machine_specific_init): Enable fullscreen if
-	`-fullscreen' was given on commandline. 
+	`-fullscreen' was given on commandline.
 
 	* src/vic20/vic20.c (machine_specific_init): Likewise.
 
-	* src/pet/pet.c (machine_specific_init): Likewise. 
+	* src/pet/pet.c (machine_specific_init): Likewise.
 
-	* src/plus4/plus4.c (machine_specific_init): Likewise. 
+	* src/plus4/plus4.c (machine_specific_init): Likewise.
 
-	* src/cbm2/cbm2.c (machine_specific_init): Likewise. 
+	* src/cbm2/cbm2.c (machine_specific_init): Likewise.
 
 	* src/c64dtv/c64dtv.c (machine_specific_init): Likewise.
-	  
+
 	* src/arch/unix/x11/fullscreen.c (fullscreen_capability): Moved
 	XRANDR case to top in order to have XRANDR as default.
 
@@ -2368,6 +2368,12 @@ TODO: Determine what was already included in v2.0, and remove it!
 	src/arch/win32/watcom/xvic.tgt: Tweaked the watcom speed
 	optimizations to make the exes run faster.
 
+2008-08-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs, src/arch/os2/watcom,
+	src/arch/win32/watcom: Added some svn ignores for watcom
+	generated files.
+
 2008-08-15  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* Makefile.am: Changed to use a 'common' files list and a 'po'
@@ -2469,6 +2475,8 @@ TODO: Determine what was already included in v2.0, and remove it!
 	* src/c64/digimax.c, src/pet/petsound.c, src/plus4/ted-sound.c,
 	src/sound.h, src/vic20/vic20sound.c: Added a proper digital
 	audio mixing routine and fixed the multiple audio-source mixing.
+
+2008-07-01  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 2008-06-30  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -2767,33 +2775,7 @@ TODO: Determine what was already included in v2.0, and remove it!
 	src/initcmdline.c, src/network.c, src/sounddrv/soundbeos.cc,
 	src/video.h: Added some more warning fixes and beos fixes
 
-
 ------------------------------
-
-
-2008-09-02  Marco van den Heuvel <blackystardust68@yahoo.com>
-
-	* data/C128/Makefile.am, data/C128/win_shortcuts.vsc,
-	  data/C64/Makefile.am, data/C64/win_shortcuts.vsc,
-	  data/C64DTV/Makefile.am, data/C64DTV/win_shortcuts.vsc,
-	  data/CBM-II/Makefile.am, data/CBM-II/win_shortcuts.vsc,
-	  data/PET/Makefile.am, data/PET/win_shortcuts.vsc,
-	  data/PLUS4/Makefile.am, data/PLUS4/win_shortcuts.vsc,
-	  data/VIC20/Makefile.am, data/VIC20/win_shortcuts.vsc,
-	  src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
-	  src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
-	  src/arch/win32/intl.c, src/arch/win32/petui.c,
-	  src/arch/win32/plus4ui.c, src/arch/win32/res.rc,
-	  src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
-	  src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
-	  src/arch/win32/resmenu.txt, src/arch/win32/respet.rc,
-	  src/arch/win32/resplus4.rc, src/arch/win32/resstrings.txt,
-	  src/arch/win32/resvic20.rc, src/arch/win32/ui.c,
-	  src/arch/win32/ui.h, src/arch/win32/uimon.c,
-	  src/arch/win32/vic20ui.c, src/monitor/mon_command.c: Merged my
-	  tag with the win32 menu duplcation cleanup, data directory
-	  cleanup and monitor *nix po additions changes.
-	  (tags/marco/v2.0.3-win32menucleanup-datacleanup-monpo)
 
 2008-09-01  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -3065,16 +3047,6 @@ TODO: Determine what was already included in v2.0, and remove it!
 	* configure.in, po/de.po, po/fr.po, po/hu.po, po/it.po,
 	  po/nl.po, po/pl.po, po/sv.po, src/version.h: Version 2.0.3
 
-TODO: MERGE ChangeLog.add.v2.0.2-mac-x64dtv
-TODO: Determine what was already included in v2.0, and remove it!
-
-------------------------------
-
-2008-08-24  Christian Vogelgsang <chris@vogelgsang.org>
-
-	* Added missing files from VICEplus tree to compile x64dtv on
-	Mac/Cocoa.
-
 2008-08-23  Christian Vogelgsang <chris@vogelgsang.org>
 
 	* build/macosx/build-vice-dist.sh,
@@ -3094,7 +3066,6 @@ TODO: Determine what was already included in v2.0, and remove it!
 	src/arch/unix/macosx/make-bindist.sh,
 	src/arch/unix/macosx/x11-launcher.sh: Added x64dtv Mac support
 	(ported from vp)
-
 
 2008-07-20  Christian Vogelgsang <chris@vogelgsang.org>
 
@@ -3133,8 +3104,7 @@ TODO: Determine what was already included in v2.0, and remove it!
 
 	* src/arch/unix/archdep.*: made archdep_pref_path const
 
-	* src/arch/unix/macosx/Resources/English.lproj/RecordMedia.nib:
-	added
+	* src/arch/unix/macosx/Resources/English.lproj/RecordMedia.nib: added
 
 	* src/arch/unix/macosx/Resources/English.lproj/x64.nib: adjusted
 	menu for record media entry
@@ -3160,13 +3130,16 @@ TODO: Determine what was already included in v2.0, and remove it!
 
 2008-05-18  Christian Vogelgsang <chris@vogelgsang.org>
 
+	* Makefile.am, configure.in,
+	src/arch/unix/macosx/cocoa/dialog/resourcetreeitem.m:
+
+TODO: FIX ABOVE!
+
 	* configure.in: added Carbon framework for Mac OS X (required
-	for UIType stuff)
-
-	* Makefile.am: call bindist script always with bash on Mac OS X
-
-	* src/arch/unix/macosx/cocoa/dialog/resourcetreeitem.m: do not
-	use 10.5 code
+	for UIType stuff) * Makefile.am: call bindist script always with
+	bash on Mac OS X *
+	src/arch/unix/macosx/cocoa/dialog/resourcetreeitem.m: do not use
+	10.5 code
 
 	* src/arch/unix/macosx/Resources/English.lproj/Makefile.am,
 	src/arch/unix/macosx/Resources/English.lproj/ResourceEditor.nib,
@@ -3192,7 +3165,8 @@ TODO: Determine what was already included in v2.0, and remove it!
 
 2008-05-01  Christian Vogelgsang <chris@vogelgsang.org>
 
-	* src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/keyedobjects.nib,
+	* src/arch/unix/macosx/cocoa/view/consolewindow.m,
+	src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/keyedobjects.nib,
 	src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/keyedobjects.nib,
 	src/arch/unix/macosx/Resources/English.lproj/VICEInformation.nib/keyedobjects.nib,
 	src/arch/unix/macosx/Resources/English.lproj/x64.nib/classes.nib,
@@ -3201,10 +3175,9 @@ TODO: Determine what was already included in v2.0, and remove it!
 	src/arch/unix/macosx/cocoa/menu/viceappcontroller.h,
 	src/arch/unix/macosx/cocoa/menu/viceappcontroller.m,
 	src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.h,
-	src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
-	src/arch/unix/macosx/cocoa/view/consolewindow.m: added quick
-	snapshot and snapshot support. fixed mime-type property of
-	binary keyedobjects.nib files
+	src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m: added
+	quick snapshot and snapshot support.  fixed mime-type property
+	of binary keyedobjects.nib files
 
 2008-04-29  Christian Vogelgsang <chris@vogelgsang.org>
 
@@ -3224,7 +3197,80 @@ TODO: Determine what was already included in v2.0, and remove it!
 	build/macosx/build-vice-release.sh to build mac binary/source
 	code releases and snapshots fully automatically from SVN
 
-------------------------------
+2008-04-20  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Info.plist,
+	src/arch/unix/macosx/Makefile.am,
+	src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/classes.nib,
+	src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/info.nib,
+	src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/IECDriveSettings.nib,
+	src/arch/unix/macosx/Resources/English.lproj/IECDriveSettings.nib/classes.nib,
+	src/arch/unix/macosx/Resources/English.lproj/IECDriveSettings.nib/info.nib,
+	src/arch/unix/macosx/Resources/English.lproj/IECDriveSettings.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/classes.nib,
+	src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/info.nib,
+	src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/KeyboardSettings.nib,
+	src/arch/unix/macosx/Resources/English.lproj/KeyboardSettings.nib/classes.nib,
+	src/arch/unix/macosx/Resources/English.lproj/KeyboardSettings.nib/info.nib,
+	src/arch/unix/macosx/Resources/English.lproj/KeyboardSettings.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/Makefile.am,
+	src/arch/unix/macosx/Resources/English.lproj/PrinterSettings.nib,
+	src/arch/unix/macosx/Resources/English.lproj/PrinterSettings.nib/classes.nib,
+	src/arch/unix/macosx/Resources/English.lproj/PrinterSettings.nib/info.nib,
+	src/arch/unix/macosx/Resources/English.lproj/PrinterSettings.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/SoundSettings.nib,
+	src/arch/unix/macosx/Resources/English.lproj/SoundSettings.nib/classes.nib,
+	src/arch/unix/macosx/Resources/English.lproj/SoundSettings.nib/info.nib,
+	src/arch/unix/macosx/Resources/English.lproj/SoundSettings.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64.nib/classes.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64.nib/info.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/Makefile.am,
+	src/arch/unix/macosx/Resources/VICE.icns,
+	src/arch/unix/macosx/Resources/cartridge.icns,
+	src/arch/unix/macosx/Resources/floppy525.icns,
+	src/arch/unix/macosx/Resources/tape.icns,
+	src/arch/unix/macosx/Resources/x128.icns,
+	src/arch/unix/macosx/Resources/x64.icns,
+	src/arch/unix/macosx/Resources/x65.icns,
+	src/arch/unix/macosx/Resources/xcbm2.icns,
+	src/arch/unix/macosx/Resources/xpet.icns,
+	src/arch/unix/macosx/Resources/xplus4.icns,
+	src/arch/unix/macosx/Resources/xvic.icns,
+	src/arch/unix/macosx/cocoa/dialog/Makefile.am,
+	src/arch/unix/macosx/cocoa/dialog/drivesettingswindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/drivesettingswindowcontroller.m,
+	src/arch/unix/macosx/cocoa/dialog/iecdrivesettingswindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/iecdrivesettingswindowcontroller.m,
+	src/arch/unix/macosx/cocoa/dialog/keyboardsettingswindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/keyboardsettingswindowcontroller.m,
+	src/arch/unix/macosx/cocoa/dialog/printersettingswindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/printersettingswindowcontroller.m,
+	src/arch/unix/macosx/cocoa/dialog/soundsettingswindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/soundsettingswindowcontroller.m,
+	src/arch/unix/macosx/cocoa/dialog/viceresourcewindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/viceresourcewindowcontroller.m,
+	src/arch/unix/macosx/cocoa/main.m,
+	src/arch/unix/macosx/cocoa/menu/c64controller.h,
+	src/arch/unix/macosx/cocoa/menu/c64controller.m,
+	src/arch/unix/macosx/cocoa/menu/viceappcontroller.h,
+	src/arch/unix/macosx/cocoa/menu/viceappcontroller.m,
+	src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.h,
+	src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	src/arch/unix/macosx/cocoa/viceapplication.h,
+	src/arch/unix/macosx/cocoa/viceapplication.m,
+	src/arch/unix/macosx/cocoa/vicemachine.m,
+	src/arch/unix/macosx/cocoa/videoarch.h,
+	src/arch/unix/macosx/cocoa/view/viceglview.m,
+	src/arch/unix/macosx/cocoa/view/vicewindow.m,
+	src/arch/unix/macosx/make-bindist.sh: imported ui-part of my
+	private svn tree
+
+	* build/macosx/build-ffmpeglame.sh, build/macosx/build-inc.sh,
+	src/arch/unix/archdep.c, src/arch/unix/archdep.h: added non-ui
+	changes from my private svn tree
 
 2008-08-24  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
