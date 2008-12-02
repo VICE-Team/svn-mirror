@@ -204,3 +204,7 @@ void vsid_ui_display_time(unsigned int sec)
 void vsid_ui_close(void)
 {
 }
+
+void vsid_ui_setdrv(char* driver_info_text)
+{
+}

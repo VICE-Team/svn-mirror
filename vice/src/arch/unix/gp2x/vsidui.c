@@ -187,3 +187,6 @@ void vsid_ui_close(void)
   /* needed */
 }
 
+void vsid_ui_setdrv(char* driver_info_text)
+{
+}

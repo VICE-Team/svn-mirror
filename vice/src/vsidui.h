@@ -41,6 +41,6 @@ extern void vsid_ui_set_default_tune(int nr);
 extern void vsid_ui_display_time(unsigned int sec);
 extern void vsid_ui_display_irqtype(const char *irq);
 
-extern void vsid_setdrv(char* driver_info_text);
+extern void vsid_ui_setdrv(char* driver_info_text);
 
 #endif

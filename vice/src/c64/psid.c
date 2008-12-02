@@ -454,7 +454,6 @@ void psid_init_tune(void)
                     start_song, psid->songs, psid->start_song);
     }
     else {
-#ifdef WIN32 /*! \todo Remove #ifdef */
         if(vsid_mode)
         {
             char * driver_info_text;
@@ -463,10 +462,9 @@ void psid_init_tune(void)
                     reloc_addr,
                     psid->load_addr, psid->load_addr + psid->data_size - 1,
                     psid->init_addr, psid->play_addr);
-            vsid_setdrv(driver_info_text);
+            vsid_ui_setdrv(driver_info_text);
             lib_free(driver_info_text);
         }
-#endif /* #ifdef WIN32 */
         vsid_ui_display_name((char *)(psid->name));
         vsid_ui_display_author((char *)(psid->author));
         vsid_ui_display_copyright((char *)(psid->copyright));

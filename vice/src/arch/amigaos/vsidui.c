@@ -76,3 +76,6 @@ void vsid_ui_display_irqtype(const char *irq)
 {
 }
 
+void vsid_ui_setdrv(char* driver_info_text)
+{
+}

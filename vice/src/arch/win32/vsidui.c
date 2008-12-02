@@ -250,9 +250,9 @@ void vsid_ui_close(void)
     hwnd=NULL;
 }
 
-void vsid_setdrv(char* dummy)
+void vsid_ui_setdrv(char* driver_info_text)
 {
-    strcpy(vsidstrings[VSID_S_LASTLINE], dummy);
+    strcpy(vsidstrings[VSID_S_LASTLINE], driver_info_text);
 }
 
 /* Window procedure.  All messages are handled here.  */
