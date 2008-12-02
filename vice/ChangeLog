@@ -939,9 +939,6 @@
 	  IRQ (the EOT mask flag was not set in combination with the IRQ
 	  flag). Bug found and fix provided by Wolfgang Moser.
 
-	* src/arch/win32/console.c: When lifting the mouse key in mark
-	  mode, copy data into clipboard.
-
 2008-11-13  Andreas Matthies <andreas.matthies@gmx.net>
 
 	* src/arch/win32/res.rc, src/arch/win32/resc128.rc,
