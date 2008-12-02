@@ -38,6 +38,8 @@
 #include "palette.h"
 #include "machine.h"
 #include "input_gp2x.h"
+#include "vsync.h"
+#include "interrupt.h"
 
 int machine_ui_done=0;
 int vicii_setup_delay=0;

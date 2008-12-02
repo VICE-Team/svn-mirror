@@ -167,7 +167,7 @@ void sort_dir(struct dir_item *list, int num_items, int sepdir) {
 	unsigned int i;
 	struct dir_item temp;
 
-	for(i=0; i<(num_items-1); i++) {
+	for(i=0; i<(unsigned int)(num_items-1); i++) {
 		if (strcmp(list[i].name, list[i+1].name)>0) {
 			temp=list[i];
 			list[i]=list[i+1];
@@ -176,7 +176,7 @@ void sort_dir(struct dir_item *list, int num_items, int sepdir) {
 		}
 	}
 	if (sepdir) {
-		for(i=0; i<(num_items-1); i++) {
+		for(i=0; i<(unsigned int)(num_items-1); i++) {
 			if ((list[i].type!=0)&&(list[i+1].type == 0)) {
 				temp=list[i];
 				list[i]=list[i+1];
@@ -199,7 +199,7 @@ int sidemu_menu (unsigned char *screen) {
 	contents_list[05] = NULL;
 	static unsigned int num_items = 4;
 	unsigned int row;
-	static int cursor_pos;
+	static unsigned int cursor_pos;
 	int bg;
 	int sidengine, sidmodel, sidfilters, sidsampling;
 
@@ -267,7 +267,7 @@ int keymapping_menu (unsigned char *screen) {
 	contents_list[05] = NULL;
 	static unsigned int num_items = 4;
 	unsigned int row;
-	static int cursor_pos;
+	static unsigned int cursor_pos;
 	int bg;
 
         draw_ascii_string (screen, display_width, MENU_X, MENU_Y, contents_list[0], menu_fg, menu_bg);
@@ -342,7 +342,7 @@ char *image_file_req(unsigned char *screen, const char *image) {
 	static int cursor_pos;
 	static int first_visible;
 	int bg;
-	char *selected;
+	char *selected = NULL;
 	char *contents_str;
 	static char *contents_list[255];
 	int row;
@@ -470,7 +470,7 @@ char *file_req(unsigned char *screen, char *dir) {
 				return (char *)-1;
 			}
 			/* read directory entries */
-			while(direntry=readdir(dirstream)) {
+			while((direntry=readdir(dirstream))) {
 				dir_items[num_items].name=(char *)malloc(strlen(direntry->d_name)+1);
 				strcpy(dir_items[num_items].name, direntry->d_name);
 				num_items++;
@@ -620,7 +620,6 @@ void draw_prefs (unsigned char *screen) {
 	char tmp_string2[1024];
 	char tmp_string3[1024];
 	static unsigned int keymapping = 0;
-	static unsigned int keymapdone;
 	static unsigned int getfilename = 0;
 	static unsigned int gotfilename = 0;
 	static int auto_start=0;
@@ -927,7 +926,7 @@ void draw_prefs (unsigned char *screen) {
 				DIR *snaps_dir=opendir("./snapshots");
 				struct dirent *direntry;
 				freename=1;
-				while(direntry=readdir(snaps_dir)) {
+				while((direntry=readdir(snaps_dir))) {
 					sprintf(tmp_string, "%04d.sna", snapnum);
 					if (!strcmp(tmp_string, direntry->d_name)) freename=0;
 				}

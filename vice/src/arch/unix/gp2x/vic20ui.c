@@ -73,7 +73,7 @@ void vic20ui_draw_resid_string(unsigned char *screen, int menu_x, int menu_y)
 
 void vic20ui_draw_memory_string(unsigned char *screen, int menu_x, int menu_y, int mem)
 {
-  char *mem_str;
+  char *mem_str = NULL;
 
   if (mem==0) mem_str="none";
   else if(mem==5) mem_str="all";

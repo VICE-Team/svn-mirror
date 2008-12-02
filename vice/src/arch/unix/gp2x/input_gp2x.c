@@ -59,9 +59,9 @@ unsigned int input_start=0;
 
 int input_left_last;
 int input_right_last;
-int input_a_last;
-int input_b_last;
-int input_x_last;
+unsigned int input_a_last;
+unsigned int input_b_last;
+unsigned int input_x_last;
 extern unsigned char keybuffer[64];
 int pos = 25;
 

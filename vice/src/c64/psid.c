@@ -448,7 +448,7 @@ void psid_init_tune(void)
                     sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
         log_message(vlog, "SID model: %s  (Using %s)",
                     csidflag[ (psid->flags>>4)&3 ],
-                    csidmodel[ sid_model > MAX_SIDMODEL ? DEFAULT_SIDMODEL : sid_model ] );
+                    csidmodel[ sid_model > (int)MAX_SIDMODEL ? DEFAULT_SIDMODEL : sid_model ] );
         log_message(vlog, "Using %s interrupt", irq_str);
         log_message(vlog, "Playing tune %d out of %d (default=%d)",
                     start_song, psid->songs, psid->start_song);

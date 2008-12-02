@@ -100,6 +100,8 @@ extern void             gp2x_dualcore_exec(unsigned long command);
 extern void             gp2x_dualcore_launch_program(unsigned long *area, unsigned long size);
 extern void             gp2x_dualcore_launch_program_from_disk(const char *file, unsigned long offset, unsigned long size);
 
+extern unsigned int     gp2x_keyboard_readext(void);
+
 #define gp2x_dualcore_declare_subprogram(name) extern void gp2x_dualcore_launch_## name ##_subprogram(void);
 #define gp2x_dualcore_launch_subprogram(name)  gp2x_dualcore_launch_## name ##_subprogram()
 
