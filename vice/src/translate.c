@@ -3855,8 +3855,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* de */ {IDCLS_DISABLE_ISEPIC_DE, "Isepic Modul deaktivieren"},
 /* fr */ {IDCLS_DISABLE_ISEPIC_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_ISEPIC_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_ISEPIC_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_ISEPIC_HU, "Isepic cartridge tiltása"},
+/* it */ {IDCLS_DISABLE_ISEPIC_IT, "Disattiva la cartuccia isepic"},
 /* nl */ {IDCLS_DISABLE_ISEPIC_NL, "De isepic cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_ISEPIC_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_ISEPIC_SV, ""},  /* fuzzy */
@@ -4278,7 +4278,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* de */ {IDCLS_DISABLE_CART_DE, "Standard Modul deaktivieren"},
 /* fr */ {IDCLS_DISABLE_CART_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_CART_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_CART_HU, "Alap cartridge tiltása"},
 /* it */ {IDCLS_DISABLE_CART_IT, "Disattiva la cartuccia predefinita"},
 /* nl */ {IDCLS_DISABLE_CART_NL, "De standaard cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_CART_PL, ""},  /* fuzzy */

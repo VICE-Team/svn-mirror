@@ -1309,7 +1309,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_GRAB_MOUSE_SV, "Fånga mushändelser"},
 
 /* en */ {IDMS_PS2_MOUSE,    "PS/2 mouse emulation"},
-/* de */ {IDMS_PS2_MOUSE_DE, ""},  /* fuzzy */
+/* de */ {IDMS_PS2_MOUSE_DE, "PS/2 Mausemulation"},
 /* fr */ {IDMS_PS2_MOUSE_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_PS2_MOUSE_HU, "PS/2 egér emuláció"},
 /* it */ {IDMS_PS2_MOUSE_IT, "Emulazione del mouse PS/2"},
@@ -1687,7 +1687,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_SIDCART_SETTINGS_SV, "SID-modulinställningar..."},
 
 /* en */ {IDMS_C64DTV_SETTINGS,    "C64DTV settings..."},
-/* de */ {IDMS_C64DTV_SETTINGS_DE, ""},  /* fuzzy */
+/* de */ {IDMS_C64DTV_SETTINGS_DE, "C64DTV Einstellungen..."},
 /* fr */ {IDMS_C64DTV_SETTINGS_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_C64DTV_SETTINGS_HU, "C64DTV beállításai..."},
 /* it */ {IDMS_C64DTV_SETTINGS_IT, "Impostazioni C64DTV..."},
@@ -1707,8 +1707,8 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDMS_SAVE_CURRENT_SETTINGS_FILE,    "Save current settings to specified file"},
 /* de */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_DE, "Speichere Einstellungen in angegebene Datei"},
 /* fr */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_FR, ""},  /* fuzzy */
-/* hu */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_HU, ""},  /* fuzzy */
-/* it */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_IT, ""},  /* fuzzy */
+/* hu */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_HU, "Jelenlegi beállítások mentése adott fájlba"},
+/* it */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_IT, "Salva le impostazioni attuali sul file specificato"},
 /* nl */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_NL, "Huidige instellingen opslaan naar opgegeven bestand"},
 /* pl */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_SAVE_CURRENT_SETTINGS_FILE_SV, ""},  /* fuzzy */
@@ -1716,8 +1716,8 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDMS_LOAD_SAVED_SETTINGS_FILE,    "Load settings from specified file"},
 /* de */ {IDMS_LOAD_SAVED_SETTINGS_FILE_DE, "Lade Einstellungen von Datei"},
 /* fr */ {IDMS_LOAD_SAVED_SETTINGS_FILE_FR, ""},  /* fuzzy */
-/* hu */ {IDMS_LOAD_SAVED_SETTINGS_FILE_HU, ""},  /* fuzzy */
-/* it */ {IDMS_LOAD_SAVED_SETTINGS_FILE_IT, ""},  /* fuzzy */
+/* hu */ {IDMS_LOAD_SAVED_SETTINGS_FILE_HU, "Beállítások betöltése a megadott fájlból"},
+/* it */ {IDMS_LOAD_SAVED_SETTINGS_FILE_IT, "Carica le impostazioni dal file specificato"},
 /* nl */ {IDMS_LOAD_SAVED_SETTINGS_FILE_NL, "Instelling laden van opgegevn bestand"},
 /* pl */ {IDMS_LOAD_SAVED_SETTINGS_FILE_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_LOAD_SAVED_SETTINGS_FILE_SV, ""},  /* fuzzy */
@@ -2951,7 +2951,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_256K_SETTINGS_SV, "256K-inställningar"},
 
 /* en */ {IDS_C64DTV_ROM_FILENAME_SELECT,    "Select file for C64DTV ROM"},
-/* de */ {IDS_C64DTV_ROM_FILENAME_SELECT_DE, ""},  /* fuzzy */
+/* de */ {IDS_C64DTV_ROM_FILENAME_SELECT_DE, "Datei für C64DTV ROM selektieren"},
 /* fr */ {IDS_C64DTV_ROM_FILENAME_SELECT_FR, ""},  /* fuzzy */
 /* hu */ {IDS_C64DTV_ROM_FILENAME_SELECT_HU, "Válasszon fájlt a C64DTV ROM-hoz"},
 /* it */ {IDS_C64DTV_ROM_FILENAME_SELECT_IT, "Seleziona il file per la ROM C64DTV"},
@@ -2960,7 +2960,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_C64DTV_ROM_FILENAME_SELECT_SV, "Välj fil för C64DTV-ROM"},
 
 /* en */ {IDS_C64DTV_ROM_FILENAME,    "C64DTV ROM file"},
-/* de */ {IDS_C64DTV_ROM_FILENAME_DE, ""},  /* fuzzy */
+/* de */ {IDS_C64DTV_ROM_FILENAME_DE, "C64DTV ROM Datei"},
 /* fr */ {IDS_C64DTV_ROM_FILENAME_FR, ""},  /* fuzzy */
 /* hu */ {IDS_C64DTV_ROM_FILENAME_HU, "C64DTV ROM fájl"},
 /* it */ {IDS_C64DTV_ROM_FILENAME_IT, "File ROM C64DTV"},
@@ -2969,7 +2969,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_C64DTV_ROM_FILENAME_SV, "C64DTV-ROM-fil"},
 
 /* en */ {IDS_C64DTV_REVISION,    "C64DTV revision"},
-/* de */ {IDS_C64DTV_REVISION_DE, ""},  /* fuzzy */
+/* de */ {IDS_C64DTV_REVISION_DE, "C64DTV Revision"},
 /* fr */ {IDS_C64DTV_REVISION_FR, ""},  /* fuzzy */
 /* hu */ {IDS_C64DTV_REVISION_HU, "C64DTV változat"},
 /* it */ {IDS_C64DTV_REVISION_IT, "Revisione C64DTV"},
@@ -3340,8 +3340,8 @@ intl_translate_t intl_string_table[] = {
 /* en */ {IDS_CONFIG_FILENAME_SELECT,    "Select config file"},
 /* de */ {IDS_CONFIG_FILENAME_SELECT_DE, "Konfigurationsdateiname definieren"},
 /* fr */ {IDS_CONFIG_FILENAME_SELECT_FR, ""},  /* fuzzy */
-/* hu */ {IDS_CONFIG_FILENAME_SELECT_HU, ""},  /* fuzzy */
-/* it */ {IDS_CONFIG_FILENAME_SELECT_IT, ""},  /* fuzzy */
+/* hu */ {IDS_CONFIG_FILENAME_SELECT_HU, "Válassza ki a konfigurációs fájlt"},
+/* it */ {IDS_CONFIG_FILENAME_SELECT_IT, "Seleziona il file di configurazione"},
 /* nl */ {IDS_CONFIG_FILENAME_SELECT_NL, "Selecteer configuratie bestand"},
 /* pl */ {IDS_CONFIG_FILENAME_SELECT_PL, ""},  /* fuzzy */
 /* sv */ {IDS_CONFIG_FILENAME_SELECT_SV, ""},  /* fuzzy */

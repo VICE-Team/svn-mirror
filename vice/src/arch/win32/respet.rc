@@ -2223,7 +2223,7 @@ BEGIN
     PUSHBUTTON  "Tallózás...", IDC_PETKBD_MAPPING_DEPOS_BROWSE, 185,109,50,14, 0
 
     PUSHBUTTON  "Billentyûzetleképzés fájlba írása", IDC_PETKBD_MAPPING_DUMP, 10,134,60,14, 0
-    PUSHBUTTON  "Dump shortcuts", IDC_KBD_SHORTCUT_DUMP, 80,134,60,14, 0
+    PUSHBUTTON  "Rövidítések kiírása", IDC_KBD_SHORTCUT_DUMP, 80,134,60,14, 0
 END
 #pragma code_page(28591)
 

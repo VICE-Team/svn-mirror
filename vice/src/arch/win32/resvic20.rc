@@ -909,7 +909,7 @@ BEGIN
     PUSHBUTTON  "Tallózás...", IDC_VIC20KBD_MAPPING_POS_BROWSE, 185,29,50,14, 0
 
     PUSHBUTTON  "Billentyûzetleképzés fájlba írása", IDC_VIC20KBD_MAPPING_DUMP, 10,54,60,14, 0
-    PUSHBUTTON  "Dump shortcuts", IDC_KBD_SHORTCUT_DUMP, 80,54,60,14, 0
+    PUSHBUTTON  "Rövidítések kiírása", IDC_KBD_SHORTCUT_DUMP, 80,54,60,14, 0
 END
 #pragma code_page(28591)
 

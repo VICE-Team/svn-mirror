@@ -33,9 +33,9 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "DQBB Einstellungen"
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&DQBB aktivieren",IDC_DQBB_ENABLE,
+    AUTOCHECKBOX    "DQBB Aktivier&en",IDC_DQBB_ENABLE,
                     7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "DQBB datei",
+    LTEXT           "DQBB Datei",
                     IDC_STATIC,9,44,46,8
     PUSHBUTTON      "&Stöbern...",IDC_DQBB_BROWSE,55,42,50,14, 0
     EDITTEXT        IDC_DQBB_FILE, 9,58,160,12,WS_TABSTOP
