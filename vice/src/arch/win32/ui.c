@@ -403,6 +403,8 @@ void ui_exit(void)
 
 static void ui_translate_menu_popups(HMENU menu, ui_popup_translation_table_t *trans_table)
 {
+    int amount;
+
     int pos1 = -1;
     int pos2 = -1;
     int pos3 = -1;
@@ -416,11 +418,18 @@ static void ui_translate_menu_popups(HMENU menu, ui_popup_translation_table_t *t
     if (trans_table == NULL)
         return;
 
-    while (trans_table[i].level != 0)
+    amount = GetMenuItemCount(menu);
+
+    while (trans_table[i].level != 0 && amount != -1)
     {
         switch (trans_table[i].level)
         {
             case 1:
+                amount --;
+                if (amount == -1)
+                {
+                    break;
+                }
                 menu1 = NULL;
                 while (menu1 == NULL)
                 {
