@@ -37,12 +37,12 @@
 TUI_MENU_DEFINE_TOGGLE(Isepic)
 TUI_MENU_DEFINE_TOGGLE(IsepicSwitch)
 
-static tui_menu_item_def_t georam_menu_items[] = {
+static tui_menu_item_def_t isepic_menu_items[] = {
     { "_Enable Isepic:", "Emulate isepic cartridge",
       toggle_Isepic_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Enable Isepic _Switch:", "Isepic switch on/off",
-      toggle_IsepicSwotch_callback, NULL, 3,
+      toggle_IsepicSwitch_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
