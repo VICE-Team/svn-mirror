@@ -1154,7 +1154,7 @@ long CALLBACK mon_window_proc(HWND hwnd,
         hwndToolbar = CreateAToolbar(hwnd);
 
         EnableCommands(GetMenu(hwnd),hwndToolbar);
-
+        ui_translate_monitor_menu(GetMenu(hwnd));
         {
             CLIENTCREATESTRUCT ccs;
             ccs.hWindowMenu  = GetSubMenu(GetMenu(hwnd),3);
@@ -2178,8 +2178,6 @@ console_t *uimon_window_open( void )
     }
 
     EnableCommands(GetMenu(hwndMonitor),hwndToolbar);
-
-    ui_translate_monitor_menu(GetMenu(hwndMonitor));
 
     SetActiveWindow( hwndMonitor );
 

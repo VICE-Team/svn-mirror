@@ -223,7 +223,6 @@ static const struct {
 };
 
 ui_menu_translation_table_t monitor_trans_popup_table[] = {
-    { 1, 0 },
     { 1, IDS_MP_FILE },
     { 1, IDS_MP_DEBUG },
     { 1, IDS_MP_VIEW },
@@ -403,8 +402,6 @@ void ui_exit(void)
 
 static void ui_translate_menu_popups(HMENU menu, ui_popup_translation_table_t *trans_table)
 {
-    int amount;
-
     int pos1 = -1;
     int pos2 = -1;
     int pos3 = -1;
@@ -418,18 +415,11 @@ static void ui_translate_menu_popups(HMENU menu, ui_popup_translation_table_t *t
     if (trans_table == NULL)
         return;
 
-    amount = GetMenuItemCount(menu);
-
-    while (trans_table[i].level != 0 && amount != -1)
+    while (trans_table[i].level != 0)
     {
         switch (trans_table[i].level)
         {
             case 1:
-                amount --;
-                if (amount == -1)
-                {
-                    break;
-                }
                 menu1 = NULL;
                 while (menu1 == NULL)
                 {
@@ -524,9 +514,9 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
     ui_resize_canvas_window(hwnd, width, height);
 
     menu=LoadMenu(winmain_instance, MAKEINTRESOURCE(emu_menu));
-    SetMenu(hwnd,menu);
     ui_translate_menu_items(menu, menu_translation_table);
     ui_translate_menu_popups(menu, popup_translation_table);
+    SetMenu(hwnd,menu);
     uikeyboard_menu_shortcuts(menu);
     ShowWindow(hwnd, winmain_cmd_show);
     return hwnd;
