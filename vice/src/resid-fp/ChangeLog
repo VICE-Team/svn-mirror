@@ -1,3 +1,20 @@
+2008-12-05  Antti S. Lankila  <alankila@bel.fi>
+
+	* Sync against V27 patch version. Filter updates described below.
+
+	* Reduce Q maximum to 2.2 or so. This may still be slightly too much,
+	  but it's hard to say exactly...
+
+	* Arrange for about 3 dB boost of lowpass output that is independent
+	  of state variable mixing or other feedback. This seems to produce
+	  the right kind of sounds for songs like AMJ's Blasphemy.
+
+	* Assume that bp is slightly louder than bp (= more distorted).
+	  This seems to help against very large number of songs which sport
+	  lead sounds and effects distorted in a smooth, bassy way.
+
+	* Parameter tuneup.
+
 2008-10-31  Antti S. Lankila  <alankila@bel.fi>
 
 	* Sync against V25 patch version. Filter updates described below.
