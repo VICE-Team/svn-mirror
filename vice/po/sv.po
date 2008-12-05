@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-11-21 20:14+0100\n"
-"PO-Revision-Date: 2008-10-06 13:24+0100\n"
+"PO-Revision-Date: 2008-12-05 16:10+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -28,20 +28,17 @@ msgid "<name>"
 msgstr "<namn>"
 
 #: src/arch/unix/mididrv.c:110 src/arch/win32/res.rc.po.c:4882
-#, fuzzy
 msgid "Specify MIDI-In device"
-msgstr "Ange ljuddrivrutin"
+msgstr "Ange enhet för MIDI-in"
 
 #: src/arch/unix/mididrv.c:115 src/arch/win32/res.rc.po.c:4883
-#, fuzzy
 msgid "Specify MIDI-Out device"
-msgstr "Ange ljuddrivrutin"
+msgstr "Ange enhet för MIDI-ut"
 
 #: src/arch/unix/rs232.c:160 src/arch/unix/rs232.c:165
 #: src/arch/unix/rs232.c:170 src/arch/unix/rs232.c:175
-#, fuzzy
 msgid "<baudrate>"
-msgstr "<baud>"
+msgstr "<baudhastighet>"
 
 #: src/arch/unix/rs232.c:160
 msgid "Specify baudrate of first RS232 device"
@@ -200,9 +197,8 @@ msgid "*Mouse Emulation"
 msgstr "*Musemulering"
 
 #: src/arch/unix/gui/c128ui.c:264 src/arch/unix/gui/c64ui.c:306
-#, fuzzy
 msgid "MIDI Emulation"
-msgstr "IDE64-emulering"
+msgstr "MIDI-emulering"
 
 #: src/arch/unix/gui/c128ui.c:273
 msgid "Load new Int. Kernal ROM"
@@ -358,12 +354,11 @@ msgstr "*Gammal NTSC-M"
 
 #: src/arch/unix/gui/c64ui.c:279
 msgid "Double Quick Brown Box cartridge"
-msgstr ""
+msgstr "Dubbel Quick Brown Box-insticksmodul"
 
 #: src/arch/unix/gui/c64ui.c:281
-#, fuzzy
 msgid "Isepic cartridge"
-msgstr "SID-insticksmodul"
+msgstr "Isepic-insticksmodul"
 
 #: src/arch/unix/gui/c64ui.c:283
 msgid "PLUS60K RAM Expansion"
@@ -1340,22 +1335,19 @@ msgstr "Modell för enhet 8"
 
 #: src/arch/unix/gui/uidrivec128.c:150 src/arch/unix/gui/uidrivec64.c:49
 #: src/arch/unix/gui/uidriveplus4.c:216 src/arch/unix/gui/uidrivevic20.c:72
-#, fuzzy
 msgid "Drive #8 expansion"
-msgstr "*Utökning för enhet 8"
+msgstr "Utökning för enhet 8"
 
 #: src/arch/unix/gui/uidrivec128.c:153 src/arch/unix/gui/uidrivec64.c:52
 #: src/arch/unix/gui/uidrivepetcbm2.c:98 src/arch/unix/gui/uidriveplus4.c:219
 #: src/arch/unix/gui/uidrivevic20.c:75
-#, fuzzy
 msgid "Drive #8 40-track image support"
-msgstr "*40-spårsstöd för enhet 8"
+msgstr "40-spårsstöd för enhet 8"
 
 #: src/arch/unix/gui/uidrivec128.c:156 src/arch/unix/gui/uidrivec64.c:55
 #: src/arch/unix/gui/uidriveplus4.c:222 src/arch/unix/gui/uidrivevic20.c:78
-#, fuzzy
 msgid "Drive #8 idle method"
-msgstr "*Pausmetod för enhet 8"
+msgstr "Pausmetod för enhet 8"
 
 #: src/arch/unix/gui/uidrivec128.c:160 src/arch/unix/gui/uidrivec64.c:59
 #: src/arch/unix/gui/uidriveplus4.c:226 src/arch/unix/gui/uidrivevic20.c:82
@@ -1364,22 +1356,19 @@ msgstr "Modell för enhet 9"
 
 #: src/arch/unix/gui/uidrivec128.c:162 src/arch/unix/gui/uidrivec64.c:61
 #: src/arch/unix/gui/uidriveplus4.c:228 src/arch/unix/gui/uidrivevic20.c:84
-#, fuzzy
 msgid "Drive #9 expansion"
-msgstr "*Utökning för enhet 9"
+msgstr "Utökning för enhet 9"
 
 #: src/arch/unix/gui/uidrivec128.c:165 src/arch/unix/gui/uidrivec64.c:64
 #: src/arch/unix/gui/uidrivepetcbm2.c:104 src/arch/unix/gui/uidriveplus4.c:231
 #: src/arch/unix/gui/uidrivevic20.c:87
-#, fuzzy
 msgid "Drive #9 40-track image support"
-msgstr "*40-spårsstöd för enhet 9"
+msgstr "40-spårsstöd för enhet 9"
 
 #: src/arch/unix/gui/uidrivec128.c:168 src/arch/unix/gui/uidrivec64.c:67
 #: src/arch/unix/gui/uidriveplus4.c:234 src/arch/unix/gui/uidrivevic20.c:90
-#, fuzzy
 msgid "Drive #9 idle method"
-msgstr "*Pausmetod för enhet 9"
+msgstr "Pausmetod för enhet 9"
 
 #: src/arch/unix/gui/uidrivec128.c:172 src/arch/unix/gui/uidrivec64.c:71
 #: src/arch/unix/gui/uidriveplus4.c:238 src/arch/unix/gui/uidrivevic20.c:94
@@ -1388,22 +1377,19 @@ msgstr "Modell för enhet 10"
 
 #: src/arch/unix/gui/uidrivec128.c:174 src/arch/unix/gui/uidrivec64.c:73
 #: src/arch/unix/gui/uidriveplus4.c:240 src/arch/unix/gui/uidrivevic20.c:96
-#, fuzzy
 msgid "Drive #10 expansion"
-msgstr "*Utökning för enhet 10"
+msgstr "Utökning för enhet 10"
 
 #: src/arch/unix/gui/uidrivec128.c:177 src/arch/unix/gui/uidrivec64.c:76
 #: src/arch/unix/gui/uidrivepetcbm2.c:110 src/arch/unix/gui/uidriveplus4.c:243
 #: src/arch/unix/gui/uidrivevic20.c:99
-#, fuzzy
 msgid "Drive #10 40-track image support"
-msgstr "*40-spårsstöd för enhet 10"
+msgstr "40-spårsstöd för enhet 10"
 
 #: src/arch/unix/gui/uidrivec128.c:180 src/arch/unix/gui/uidrivec64.c:79
 #: src/arch/unix/gui/uidriveplus4.c:246 src/arch/unix/gui/uidrivevic20.c:102
-#, fuzzy
 msgid "Drive #10 idle method"
-msgstr "*Pausmetod för enhet 10"
+msgstr "Pausmetod för enhet 10"
 
 #: src/arch/unix/gui/uidrivec128.c:184 src/arch/unix/gui/uidrivec64.c:83
 #: src/arch/unix/gui/uidriveplus4.c:250 src/arch/unix/gui/uidrivevic20.c:106
@@ -1412,22 +1398,19 @@ msgstr "Modell för enhet 11"
 
 #: src/arch/unix/gui/uidrivec128.c:186 src/arch/unix/gui/uidrivec64.c:85
 #: src/arch/unix/gui/uidriveplus4.c:252 src/arch/unix/gui/uidrivevic20.c:108
-#, fuzzy
 msgid "Drive #11 expansion"
-msgstr "*Utökning för enhet 11"
+msgstr "Utökning för enhet 11"
 
 #: src/arch/unix/gui/uidrivec128.c:189 src/arch/unix/gui/uidrivec64.c:88
 #: src/arch/unix/gui/uidrivepetcbm2.c:116 src/arch/unix/gui/uidriveplus4.c:255
 #: src/arch/unix/gui/uidrivevic20.c:111
-#, fuzzy
 msgid "Drive #11 40-track image support"
-msgstr "*40-spårsstöd för enhet 11"
+msgstr "40-spårsstöd för enhet 11"
 
 #: src/arch/unix/gui/uidrivec128.c:192 src/arch/unix/gui/uidrivec64.c:91
 #: src/arch/unix/gui/uidriveplus4.c:258 src/arch/unix/gui/uidrivevic20.c:114
-#, fuzzy
 msgid "Drive #11 idle method"
-msgstr "*Pausmetod för enhet 11"
+msgstr "Pausmetod för enhet 11"
 
 #: src/arch/unix/gui/uidrivec128.c:199 src/arch/unix/gui/uidrivec64.c:98
 #: src/arch/unix/gui/uidrivepetcbm2.c:123 src/arch/unix/gui/uidriveplus4.c:265
@@ -1843,9 +1826,8 @@ msgid "Define keysets"
 msgstr "Definiera tangener"
 
 #: src/arch/unix/gui/uijoystick2.c:196
-#, fuzzy
 msgid "*Allow keyset joystick"
-msgstr "*Analog styrspak 0"
+msgstr "*Tillåt tangentbordsstyrspak"
 
 #: src/arch/unix/gui/uijoystick2.c:198 src/arch/unix/gui/uijoystick2.c:204
 msgid "Swap joystick ports"
@@ -2005,7 +1987,7 @@ msgstr "Skannlinjeskuggning i procent"
 
 #: src/arch/unix/gui/uipalemu.c:86 src/arch/unix/gui/uipalemu.c:139
 msgid "New PAL Tint"
-msgstr ""
+msgstr "Färgton för ny PAL"
 
 #: src/arch/unix/gui/uipalemu.c:86
 msgid "Tint in percent"
@@ -2013,7 +1995,7 @@ msgstr "Färgton i procent"
 
 #: src/arch/unix/gui/uipalemu.c:93
 msgid "New PAL Odd Line Phase"
-msgstr ""
+msgstr "Fas för udda linjer för ny PAL"
 
 #: src/arch/unix/gui/uipalemu.c:93
 msgid "Phase in percent"
@@ -2021,7 +2003,7 @@ msgstr "Fas i procent"
 
 #: src/arch/unix/gui/uipalemu.c:100
 msgid "New PAL Odd Line Offset"
-msgstr ""
+msgstr "Utjämning för udda linjer för ny PAL"
 
 #: src/arch/unix/gui/uipalemu.c:100
 msgid "Offset in percent"
@@ -2045,11 +2027,11 @@ msgstr "Skuggning av PAL-skannlinjer"
 
 #: src/arch/unix/gui/uipalemu.c:141
 msgid "New PAL Odd Lines Phase"
-msgstr ""
+msgstr "Fas för udda linjer för ny PAL"
 
 #: src/arch/unix/gui/uipalemu.c:143
 msgid "New PAL Odd Lines Offset"
-msgstr ""
+msgstr "Utjämning för udda linjer för ny PAL"
 
 #: src/arch/unix/gui/uipalette.c:47
 msgid "Load custom palette"
@@ -2803,19 +2785,19 @@ msgstr "*DTVSID"
 
 #: src/arch/unix/gui/uisid.c:89
 msgid "*6581R3 4885 (very light)"
-msgstr ""
+msgstr "*6581R3 4885 (mycket ljus)"
 
 #: src/arch/unix/gui/uisid.c:91
 msgid "*6581R3 0486S (light)"
-msgstr ""
+msgstr "*6581R3 0486S (ljus)"
 
 #: src/arch/unix/gui/uisid.c:93
 msgid "*6581R3 3984 (light avg)"
-msgstr ""
+msgstr "*6581R3 3984 (medelljus)"
 
 #: src/arch/unix/gui/uisid.c:95
 msgid "*6581R4AR 3789 (avg)"
-msgstr ""
+msgstr "*6581R4AR 3789 (medel)"
 
 #: src/arch/unix/gui/uisid.c:97
 msgid "*6581R3 4485 (dark)"
@@ -2823,11 +2805,11 @@ msgstr "*6581R3 4485 (mörk)"
 
 #: src/arch/unix/gui/uisid.c:99
 msgid "*6581R4 1986S (very dark)"
-msgstr ""
+msgstr "*6581R4 1986S (mycket mörk)"
 
 #: src/arch/unix/gui/uisid.c:101
 msgid "*8580 3691 (light)"
-msgstr ""
+msgstr "*8580 3691 (ljus)"
 
 #: src/arch/unix/gui/uisid.c:103
 msgid "*8580 3691 + digi boost"
@@ -2835,7 +2817,7 @@ msgstr "*8580 3691 + digiboost"
 
 #: src/arch/unix/gui/uisid.c:105
 msgid "*8580 1489 (dark)"
-msgstr ""
+msgstr "*8580 1489 (mörk)"
 
 #: src/arch/unix/gui/uisid.c:107
 msgid "*8580 1489 + digi boost"
@@ -3213,9 +3195,8 @@ msgid "VIC settings"
 msgstr "VIC-inställningar"
 
 #: src/arch/unix/gui/vic20ui.c:474
-#, fuzzy
 msgid "MIDI emulation"
-msgstr "IDE64-emulering"
+msgstr "MIDI-emulering"
 
 #: src/arch/unix/gui/vsidui.c:233
 msgid "Tunes"
@@ -3385,11 +3366,11 @@ msgstr "Färgton"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:55
 msgid "Odd Line Phase"
-msgstr ""
+msgstr "Fas för udda linjer"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:56
 msgid "Odd Line Offset"
-msgstr ""
+msgstr "Utjämning för udda linjer"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:109
 msgid "PAL Settings"
@@ -3734,14 +3715,12 @@ msgid "Never save settings (resources) on exit"
 msgstr "Spara aldrig inställningar (resurser) vid avslut"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:80
-#, fuzzy
 msgid "Enable fullscreen (default Chip)"
-msgstr "Aktivera fullskärmsläge"
+msgstr "Aktivera fullskärmsläge (standardkrets)"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:85
-#, fuzzy
 msgid "Disable fullscreen (default Chip)"
-msgstr "Inaktivera fullskärmsläge"
+msgstr "Inaktivera fullskärmsläge (standardkrets)"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:91 src/translate.c.po.c:4170
 msgid "<value>"
@@ -3752,19 +3731,17 @@ msgid "Specify X display depth (1..32)"
 msgstr "Ange färgdjup för X-display (1..32)"
 
 #: src/arch/unix/x11/ui-resources.c:133
-#, fuzzy, c-format
+#, c-format
 msgid "%s fullscreen from commandline."
-msgstr "Inaktivera fullskärmsläge"
+msgstr "%s fullskärmsläge från kommandorad."
 
 #: src/arch/unix/x11/ui-resources.c:134
-#, fuzzy
 msgid "Enabling"
-msgstr "Aktivera"
+msgstr "Aktiverar"
 
 #: src/arch/unix/x11/ui-resources.c:134
-#, fuzzy
 msgid "Disabling"
-msgstr "Inaktiverad"
+msgstr "Inaktiverar"
 
 #: src/arch/unix/x11/xrandr.c:261
 msgid "*Desktop"
@@ -3973,16 +3950,15 @@ msgstr "Använd aldrig delat minne (långsammare)"
 
 #: src/arch/unix/x11/xaw/x11video.c:247
 msgid "<fourcc>"
-msgstr ""
+msgstr "<fourcc>"
 
 #: src/arch/unix/x11/xaw/x11video.c:247
 msgid "Request YUV FOURCC format"
 msgstr "Be om YUV FOURCC-format"
 
 #: src/arch/unix/x11/xaw/x11video.c:252
-#, fuzzy
 msgid "<aspect ratio>"
-msgstr "<spec>"
+msgstr "<storleksförhållande>"
 
 #: src/arch/unix/x11/xaw/x11video.c:252
 msgid "Set aspect ratio (0.8 - 1.2)"
@@ -3998,46 +3974,44 @@ msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM-initiering färdig.\n"
 
 #: src/arch/unix/macosx/joy.c:236
-#, fuzzy
 msgid "Set HID A device"
-msgstr "ACIA-enhet"
+msgstr "Välj HID-enhet A"
 
 #: src/arch/unix/macosx/joy.c:241
 msgid "Set X Axis for HID A device"
-msgstr ""
+msgstr "Välj X-axel för HID-enhet A"
 
 #: src/arch/unix/macosx/joy.c:246 src/arch/unix/macosx/joy.c:251
 msgid "Set Y Axis for HID A device"
-msgstr ""
+msgstr "Välj Y-axel för HID-enhet A"
 
 #: src/arch/unix/macosx/joy.c:256
 msgid "Set X Axis Threshold in Percent of HID A device"
-msgstr ""
+msgstr "Välj X-axeltröskel i procent för HID-enhet A"
 
 #: src/arch/unix/macosx/joy.c:261
 msgid "Set Y Axis Threshold in Percent of HID A device"
-msgstr ""
+msgstr "Välj Y-axeltröskel i procent för HID-enhet A"
 
 #: src/arch/unix/macosx/joy.c:266
-#, fuzzy
 msgid "Set HID B device"
-msgstr "Äkta IEC-enhet"
+msgstr "Välj HID-enhet B"
 
 #: src/arch/unix/macosx/joy.c:271
 msgid "Set X Axis for HID B device"
-msgstr ""
+msgstr "Välj X-axel för HID-enhet B"
 
 #: src/arch/unix/macosx/joy.c:276 src/arch/unix/macosx/joy.c:281
 msgid "Set Y Axis for HID B device"
-msgstr ""
+msgstr "Välj Y-axel för HID-enhet B"
 
 #: src/arch/unix/macosx/joy.c:286
 msgid "Set X Axis Threshold in Percent of HID B device"
-msgstr ""
+msgstr "Välj X-axeltröskel i procent för HID-enhet B"
 
 #: src/arch/unix/macosx/joy.c:291
 msgid "Set Y Axis Threshold in Percent of HID B device"
-msgstr ""
+msgstr "Välj Y-axeltröskel i procent för HID-enhet B"
 
 #: src/arch/win32/res.rc.po.c:82 src/arch/win32/res.rc.po.c:4884
 #: src/arch/win32/resc128.rc.po.c:16 src/arch/win32/resc64.rc.po.c:16
@@ -4452,11 +4426,11 @@ msgstr "(0..2)"
 
 #: src/arch/win32/res.rc.po.c:2630
 msgid "Odd lines phase"
-msgstr ""
+msgstr "Fas för udda linjer"
 
 #: src/arch/win32/res.rc.po.c:2633
 msgid "Odd lines offset"
-msgstr ""
+msgstr "Utjämning för udda linjer"
 
 #: src/arch/win32/res.rc.po.c:2768
 msgid "Phase"
@@ -5808,9 +5782,8 @@ msgid "Swap &Joystick"
 msgstr "Växla &spelportarna"
 
 #: src/arch/win32/res.rc.po.c:5000 src/arch/amigaos/intl.c.po.c:1149
-#, fuzzy
 msgid "Enable Joy Keys"
-msgstr "*Aktivera mus"
+msgstr "Aktivera styrspak via tangenter"
 
 #: src/arch/win32/res.rc.po.c:5001
 msgid "&Virtual device traps"
@@ -5885,23 +5858,20 @@ msgid "&RAMCART settings..."
 msgstr "&RAMCART-inställningar..."
 
 #: src/arch/win32/res.rc.po.c:5019
-#, fuzzy
 msgid "&Double Quick Brown Box settings..."
-msgstr "Inställningar för &styrspak..."
+msgstr "Inställningar för &dubbel Quick Brown Box..."
 
 #: src/arch/win32/res.rc.po.c:5020
-#, fuzzy
 msgid "I&sepic settings..."
-msgstr "M&usinställningar..."
+msgstr "I&sepic-inställningar..."
 
 #: src/arch/win32/res.rc.po.c:5021
 msgid "&MMC64 settings..."
 msgstr "&MMC64-inställningar..."
 
 #: src/arch/win32/res.rc.po.c:5022
-#, fuzzy
 msgid "M&IDI settings..."
-msgstr "S&ID-inställningar..."
+msgstr "M&IDI-inställningar..."
 
 #: src/arch/win32/res.rc.po.c:5023
 msgid "&DIGIMAX settings..."
@@ -6523,7 +6493,7 @@ msgstr "Spara tangentbord"
 #: src/arch/win32/rescbm2.rc.po.c:1704 src/arch/win32/respet.rc.po.c:2013
 #: src/arch/win32/resplus4.rc.po.c:1381 src/arch/win32/resvic20.rc.po.c:797
 msgid "Dump shortcuts"
-msgstr ""
+msgstr "Spara genvägar"
 
 #: src/arch/win32/resc128.rc.po.c:2558
 msgid "Select internal function ROM image"
@@ -6628,7 +6598,7 @@ msgstr "Ange fil för 256K"
 
 #: src/arch/win32/resc64dtv.rc.po.c:36 src/arch/win32/resc64dtv.rc.po.c:1724
 msgid "DTV flash &rom image"
-msgstr ""
+msgstr "Avbildningsfil för DTV-flash&rom"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1212 src/arch/amigaos/intl.c.po.c:2962
 msgid "C64DTV Settings"
@@ -6640,7 +6610,7 @@ msgstr "DTV-utgåva"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1218
 msgid "HUMMER"
-msgstr ""
+msgstr "HUMMER"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1220
 #: src/arch/win32/resrs232user.rc.po.c:29
@@ -6649,7 +6619,7 @@ msgstr "Användarportensenhet"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1224
 msgid "Joyport mapped to userport"
-msgstr ""
+msgstr "Spelport kopplad till användarport"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1414
 msgid "Attach DTV Flash Image"
@@ -6657,7 +6627,7 @@ msgstr "Anslut en DTV-flashavbildningsfil"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1416
 msgid "DTV ROM"
-msgstr ""
+msgstr "DTV-ROM"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1418 src/arch/win32/resc64dtv.rc.po.c:1573
 msgid "DTV ROM &image File"
@@ -6665,7 +6635,7 @@ msgstr "DTV ROM-&avbildningsfil"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1422
 msgid "Enable &writes to DTV ROM image"
-msgstr ""
+msgstr "Aktivera &skrivning till DTV-ROM-avbildning"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1569
 msgid "Create DTV Flash Image"
@@ -6673,11 +6643,11 @@ msgstr "Skapa DTV-flashavbildning"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1571
 msgid "DTV ROM Creation"
-msgstr ""
+msgstr "Skapa DTV-ROM"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1577
 msgid "Copy C64 ROMS into image"
-msgstr ""
+msgstr "Kopiera C64-ROM:ar till avbild"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1579
 msgid "Create"
@@ -6701,7 +6671,7 @@ msgstr "*Skapa ny flash-rom-avbildningsfil"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1729
 msgid "&True flash filesystem"
-msgstr ""
+msgstr "&Äkta flash-filsystem"
 
 #: src/arch/win32/resc64dtv.rc.po.c:1730
 msgid "&PS/2 mouse emulation"
@@ -6712,9 +6682,8 @@ msgid "&C64DTV settings..."
 msgstr "&C64DTV-inställningar..."
 
 #: src/arch/win32/resc64dtv.rc.po.c:1732 src/arch/amigaos/intl.c.po.c:2800
-#, fuzzy
 msgid "Joystick"
-msgstr "Styrspak:"
+msgstr "Styrspak"
 
 #: src/arch/win32/rescbm2.rc.po.c:164 src/arch/win32/respet.rc.po.c:164
 msgid "&PAL"
@@ -7930,7 +7899,7 @@ msgstr "Avsluta"
 
 #: src/arch/amigaos/intl.c.po.c:708
 msgid "Copy"
-msgstr ""
+msgstr "Kopiera"
 
 #: src/arch/amigaos/intl.c.po.c:717
 msgid "Paste"
@@ -8234,12 +8203,11 @@ msgstr "RAMCART-inställningar..."
 
 #: src/arch/amigaos/intl.c.po.c:1536
 msgid "Double Quick Brown Box settings..."
-msgstr ""
+msgstr "Inställninga för dubbel Quick Brown Box..."
 
 #: src/arch/amigaos/intl.c.po.c:1545
-#, fuzzy
 msgid "Isepic settings..."
-msgstr "Musinställningar..."
+msgstr "Isepic-inställningar..."
 
 #: src/arch/amigaos/intl.c.po.c:1554
 msgid "PLUS60K settings..."
@@ -8501,7 +8469,7 @@ msgstr "RS232-enhet 4"
 
 #: src/arch/amigaos/intl.c.po.c:2791
 msgid "ADC"
-msgstr ""
+msgstr "ADC"
 
 #: src/arch/amigaos/intl.c.po.c:2827
 msgid "ACIA Device"
@@ -8537,16 +8505,15 @@ msgstr "C64DTV-utgåva"
 
 #: src/arch/amigaos/intl.c.po.c:2935
 msgid "Writes to C64DTV ROM"
-msgstr ""
+msgstr "Skrivningar till C64DTV-ROM"
 
 #: src/arch/amigaos/intl.c.po.c:2944
-#, fuzzy
 msgid "Hummer Userport device"
-msgstr "Användarportensenhet"
+msgstr "Hummeranvändarportsenhet"
 
 #: src/arch/amigaos/intl.c.po.c:2953
 msgid "Joystick port mapped to Hummer Userport"
-msgstr ""
+msgstr "Spelport kopplad till Hummeranvändarport"
 
 #: src/arch/amigaos/intl.c.po.c:2971
 msgid "model line"
@@ -8629,24 +8596,20 @@ msgid "GEORAM Size"
 msgstr "GEORAM-storlek"
 
 #: src/arch/amigaos/intl.c.po.c:3250
-#, fuzzy
 msgid "DQBB file"
-msgstr "Dumpfil:"
+msgstr "DQBB-fil"
 
 #: src/arch/amigaos/intl.c.po.c:3259
-#, fuzzy
 msgid "Select file for DQBB"
-msgstr "Välj fil för REU"
+msgstr "Välj fil för DQBB"
 
 #: src/arch/amigaos/intl.c.po.c:3268
-#, fuzzy
 msgid "DQBB Settings"
-msgstr "SID-inställningar"
+msgstr "DQBB-inställningar"
 
 #: src/arch/amigaos/intl.c.po.c:3277
-#, fuzzy
 msgid "Isepic Settings"
-msgstr "Musinställningar"
+msgstr "Isepic-inställningar"
 
 #: src/arch/amigaos/intl.c.po.c:3286
 msgid "Joystick in port #1"
@@ -8739,16 +8702,14 @@ msgstr ""
 "AI, 3: tangentuppsättning B/AI)"
 
 #: src/arch/amigaos/intl.c.po.c:3475
-#, fuzzy
 msgid "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 msgstr ""
-"Emulering för styrspak 1: (0: ingen, 1: numerisk, 2-5: Amigastyrspak 0-3"
+"Emulering för styrspak 1: (0: ingen, 1: numerisk, 2-5: Amigastyrspak 0-3)"
 
 #: src/arch/amigaos/intl.c.po.c:3484
-#, fuzzy
 msgid "Joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 msgstr ""
-"Emulering för styrspak 2: (0: ingen, 1: numerisk, 2-5: Amigastyrspak 0-3"
+"Emulering för styrspak 2: (0: ingen, 1: numerisk, 2-5: Amigastyrspak 0-3)"
 
 #: src/arch/amigaos/intl.c.po.c:3529
 msgid "PET REU Size"
@@ -9359,12 +9320,12 @@ msgstr "DTV-ROM-avbildning skapades framgångsrikt"
 #: src/translate.c.po.c:803
 #, c-format
 msgid "Command `%s' unknown.\n"
-msgstr ""
+msgstr "Kommandot \"%s\" är okänt.\n"
 
 #: src/translate.c.po.c:815
 #, c-format
 msgid "No help available for `%s'\n"
-msgstr ""
+msgstr "Hjälp saknas för \"%s\"\n"
 
 #: src/translate.c.po.c:827
 #, c-format
@@ -9372,11 +9333,13 @@ msgid ""
 "\n"
 "Syntax: %s %s\n"
 msgstr ""
+"\n"
+"Syntax: %s %s\n"
 
 #: src/translate.c.po.c:839
 #, c-format
 msgid "Abbreviation: %s\n"
-msgstr ""
+msgstr "Förkortning: %s\n"
 
 #: src/translate.c.po.c:851
 msgid "Available commands are:"
@@ -9811,14 +9774,24 @@ msgid ""
 "a memspace prefix (i.e., c:, 8:, 9:, 10:, 11:\n"
 "Examples: .A == 0, .X == .Y, 8:.X == .X\n"
 msgstr ""
+"Villkoret utvärderas varje gång den givna kontrollpunkten\n"
+"undersöks. Om det utvärderas till sant aktiveras kontrollpunkten.\n"
+"I annat fall ignoreras den. Om uttrycket innehåller register\n"
+"används de värden de har då kontrollpunkten utvärderas, inte\n"
+"när villkoret sattes.\n"
+"Villkoret kan använda register (.A, .X, .Y, .PC, .SP) och\n"
+"jämföra dem (==, !=, <, >, <=, >=) mot andra register eller\n"
+"konstanter. Register kan vara register i andra enheter, detta\n"
+"anges som ett minnesområdesprefix (dvs., c:, 8:, 9:, 10:, 11:)\n"
+"Exempel: .A == 0, .X == .Y, 8:.X == .X\n"
 
 #: src/translate.c.po.c:2013
 msgid "Disable checkpoint `checknum'."
-msgstr ""
+msgstr "Inaktivera kontrollpunkt \"kontrollnr\"."
 
 #: src/translate.c.po.c:2025
 msgid "Enable checkpoint `checknum'."
-msgstr ""
+msgstr "Aktivera kontrollpunkt \"kontrollnr\"."
 
 #: src/translate.c.po.c:2037
 msgid "<checknum> [<count>]"
@@ -9829,6 +9802,8 @@ msgid ""
 "Ignore a checkpoint a given number of crossings.  If no count is given,\n"
 "the default value is 1."
 msgstr ""
+"Ignorera en kontrollpunkt det givna antalet gånger. Om inget antal ges\n"
+"är standardvärdet 1."
 
 #: src/translate.c.po.c:2066
 msgid "[<address>]"
@@ -9841,10 +9816,15 @@ msgid ""
 "and the breakpoint number is printed.  Control is returned to the\n"
 "emulator by this command.  The breakpoint is deleted once it is hit."
 msgstr ""
+"Om du inte anger någon adress visas de för närvarande giltiga\n"
+"brytpunkterna. Om en adress anges sätts en temporär brytpunkt för\n"
+"den adressen och numret på den nya brytpunkten visas. Styrningen\n"
+"återlämnas till emulatorn för det här kommandot. Brytpunkten\n"
+"tas bort när den har nåtts."
 
 #: src/translate.c.po.c:2109
 msgid "[loadstore] [address [address]]"
-msgstr ""
+msgstr "[loadstore] [adress [adress]]"
 
 #: src/translate.c.po.c:2121
 msgid ""
@@ -9855,6 +9835,12 @@ msgid ""
 "the monitor breaks. If not specified, the monitor breaks on both\n"
 "operations."
 msgstr ""
+"Sätt en övervakningspunkt. Om du anger en ensam adress sätts en\n"
+"övervakningspunkt för adressen. Om två adresser anges sätts en\n"
+"övervakningspunkt för minnesområdet mellan adresserna.\n"
+"\"loadstore\" är antingen \"load\" eller \"store\" och anger vilken\n"
+"operation emulatorn skall stoppa för. Om den inte anges stoppar\n"
+"emulatorn på bägge operationerna."
 
 #: src/translate.c.po.c:2160
 msgid "[address [address]]"
@@ -9865,7 +9851,9 @@ msgid ""
 "Set a tracepoint.  If a single address is specified, set a tracepoint\n"
 "for that address.  If two addresses are specified, set a tracepoint\n"
 "for the memory locations between the two addresses."
-msgstr ""
+msgstr "Sätt en spårningspunkt. Om du anger en ensam adress sätts en\n"
+"spårningspunkt för adressen. Om två adresser anges sätts en\n"
+"spårningspunkt för minnesområdet mellan adresserna."
 
 #: src/translate.c.po.c:2196
 msgid "Monitor state commands:"
@@ -9876,10 +9864,12 @@ msgid ""
 "Set the default memory device to either the computer `c:' or the\n"
 "specified disk drive (`8:', `9:')."
 msgstr ""
+"Sätt förvald minnesenhet antingen till datorn \"c:\" eller\n"
+"den angivna diskettenheten (\"8:\", \"9:\")."
 
 #: src/translate.c.po.c:2225
 msgid "Leave the monitor and return to execution."
-msgstr ""
+msgstr "Lämna monitorn och återgå till programkörningen."
 
 #: src/translate.c.po.c:2237
 msgid "Exit the emulator immediately."
@@ -9889,11 +9879,12 @@ msgstr "Avsluta emulatorn omedelbart."
 msgid ""
 "Set the default radix to hex, decimal, octal, or binary.  With no\n"
 "argument, the current radix is printed."
-msgstr ""
+msgstr "Sätt standardradix till hex, decimal, oktal eller binär. Om du\n"
+"inte ger något argument visas nuvarande radix."
 
 #: src/translate.c.po.c:2266
 msgid "[on|off|toggle]"
-msgstr ""
+msgstr "[on|off|toggle]"
 
 #: src/translate.c.po.c:2278
 msgid ""
@@ -9903,6 +9894,12 @@ msgid ""
 "side-effects.  If the argument is 'toggle' then the current mode is\n"
 "switched.  No argument displays the current state."
 msgstr ""
+"Styr hur läsningar i monitorn påverkar minnesområden som har\n"
+"sidoeffekter vid läsning. Om argumentet är \"on\" tillåts läsningar\n"
+"att orsaka sidoeffekter. Om argumentet är \"off\" tillåts inte\n"
+"läsningar att orsaka sidoeffekter. Om argumentet är \"toggle\" byts\n"
+"det nuvarande läget. Om du inte anger några argument visas\n"
+"nuvarande läge."
 
 #: src/translate.c.po.c:2313
 msgid "Disk commands:"
@@ -9910,13 +9907,15 @@ msgstr "Diskettkommandon:"
 
 #: src/translate.c.po.c:2325
 msgid "<disk command>"
-msgstr ""
+msgstr "<diskkommando>"
 
 #: src/translate.c.po.c:2337
 msgid ""
 "Perform a disk command on the currently attached disk image on drive 8.\n"
 "The specified disk command is sent to the drive's channel #15."
 msgstr ""
+"Utför ett diskkommando på den diskettavbildning som är ansluten till\n"
+"enhet 8. Diskkommandot sänds på diskettenhetens kanal nummer 15."
 
 #: src/translate.c.po.c:2356
 msgid "<filename> <device>"
@@ -9924,17 +9923,19 @@ msgstr "<filnamn> <enhet>"
 
 #: src/translate.c.po.c:2368
 msgid "Attach file to device. (device 32 = cart)"
-msgstr ""
+msgstr "Anslut en fil till en enhet. (enhet 32 = insticksmodul)"
 
 #: src/translate.c.po.c:2380
 msgid "\"<filename>\" <device> <address>"
-msgstr ""
+msgstr "\"<filnamn>\" <enhet> <adress>"
 
 #: src/translate.c.po.c:2392
 msgid ""
 "Load the specified file into memory at the specified address.\n"
 "If device is 0, the file is read from the file system."
 msgstr ""
+"Läs den angivna filen till minnet på den angivna adressen.\n"
+"Om enheten är 0 läses filen från filsystemet."
 
 #: src/translate.c.po.c:2410
 msgid "<track> <sector> [<address>]"
@@ -9946,16 +9947,21 @@ msgid ""
 "specified, the data is loaded into memory.  If no address is given, the\n"
 "data is displayed using the default datatype."
 msgstr ""
+"Läser blocket på det angivna spåret och sektorn. Om du anger en\n"
+"adress läses data till minnet. Om du inte anger någon adress visas\n"
+"innehållet enligt standarddatatypen."
 
 #: src/translate.c.po.c:2445
 msgid "\"<filename>\" <device> <address1> <address2>"
-msgstr ""
+msgstr "\"<filnamn>\" <enhet> <adress1> <adress2>"
 
 #: src/translate.c.po.c:2457
 msgid ""
 "Save the memory from address1 to address2 to the specified file.\n"
 "If device is 0, the file is written to the file system."
 msgstr ""
+"Spara minnet från adress1 till adress2 till den angivna filen.\n"
+"Om enheten är 0 skrivs filen till filsystemet."
 
 #: src/translate.c.po.c:2475
 msgid "<track> <sector> <address>"
@@ -9965,7 +9971,8 @@ msgstr "<spår> <sektor> <adress>"
 msgid ""
 "Write a block of data at `address' on the specified track and sector\n"
 "of disk in drive 8."
-msgstr ""
+msgstr "Skriv ett datablock på \"adress\" till det angivna spåret och sektorn\n"
+"på disken i enhet 8."
 
 #: src/translate.c.po.c:2504
 msgid "<directory>"
@@ -9977,7 +9984,7 @@ msgstr "Byt arbetskatalog."
 
 #: src/translate.c.po.c:2528
 msgid "Detach file from device. (device 32 = cart)"
-msgstr ""
+msgstr "Koppla från filen från enheten. (enhet 32 = insticksmodul)"
 
 #: src/translate.c.po.c:2540
 msgid "[<directory>]"
@@ -9985,11 +9992,11 @@ msgstr "[<katalog>]"
 
 #: src/translate.c.po.c:2552
 msgid "Display the directory contents."
-msgstr ""
+msgstr "Visa katalogens innehåll."
 
 #: src/translate.c.po.c:2564
 msgid "\"<filename>\" <device> [<address>]"
-msgstr ""
+msgstr "\"<filnamn>\" <enhet> [<adress>]"
 
 #: src/translate.c.po.c:2576
 msgid ""
@@ -9999,6 +10006,11 @@ msgid ""
 "specified.\n"
 "If device is 0, the file is read from the file system."
 msgstr ""
+"Läs in den angivna filen i minnet på den angivna adressen. Sätter\n"
+"motsvarande BASIC-pekare vid läsning till datorminnet (inte alla\n"
+"emulatorer). Om ingen adress anges används tvåbytesadressen i filen"
+"(ignoreras annars).\n"
+"Om enheten är 0 läses filen från filsystemet."
 
 #: src/translate.c.po.c:2610
 msgid "Show current working directory."
@@ -10009,7 +10021,9 @@ msgid ""
 "Save the memory from address1 to address2 to the specified file.\n"
 "Write two-byte load address.\n"
 "If device is 0, the file is written to the file system."
-msgstr ""
+msgstr "Spara minnet från adress1 till adress2 till den angivna filen.\n"
+"Skriv tvåbytes inläsningsadress.\n"
+"Om enheten är 0 skrivs filen till filsystemet."
 
 #: src/translate.c.po.c:2646
 msgid "Other commands:"
@@ -10017,7 +10031,7 @@ msgstr "Andra kommandon:"
 
 #: src/translate.c.po.c:2658
 msgid "Display the specified number in decimal, hex, octal and binary."
-msgstr ""
+msgstr "Visa det angivna talet decimalt, hexadecimalt, oktalt och binärt."
 
 #: src/translate.c.po.c:2670
 msgid "Use cartridge freeze."
@@ -10032,6 +10046,8 @@ msgid ""
 "If no argument is given, prints out a list of all available commands\n"
 "If an argument is given, prints out specific help for that command."
 msgstr ""
+"Om du inte anger några argument visas alla tillgängliga kommandon.\n"
+"Om du anger ett argument visas hjälp för det specifika kommandot."
 
 #: src/translate.c.po.c:2714
 msgid "\"<string>\""
@@ -10046,6 +10062,8 @@ msgid ""
 "Monitor commands from the specified file are read and executed.  This\n"
 "command stops at the end of file or when a STOP command is read."
 msgstr ""
+"Monitorkommandon läses in och körs från den angivna filen. Kommandot\n"
+"stoppar vid filslut eller när ett STOP-kommando läses."
 
 #: src/translate.c.po.c:2758
 msgid "<expression>"
@@ -10053,50 +10071,54 @@ msgstr "<uttryck>"
 
 #: src/translate.c.po.c:2770
 msgid "Evaluate the specified expression and output the result."
-msgstr ""
+msgstr "Utvärdera det angivna uttrycket och visa resultatet."
 
 #: src/translate.c.po.c:2782
 msgid ""
 "After this command, all commands entered are written to the specified\n"
 "file until the STOP command is entered."
-msgstr ""
+msgstr "Efter detta kommando kommer alla kommandon som anges att skrivas till\n"
+"den angivna filen tills ett STOP-kommando anges."
 
 #: src/translate.c.po.c:2799
 msgid "\"<resource>\""
-msgstr ""
+msgstr "\"<resurs>\""
 
 #: src/translate.c.po.c:2811
 msgid "Displays the value of the resource."
-msgstr ""
+msgstr "Visar värdet för resursen."
 
 #: src/translate.c.po.c:2823
 msgid "\"<resource>\" \"<value>\""
-msgstr ""
+msgstr "\"<resurs>\" \"<värde>\""
 
 #: src/translate.c.po.c:2835
 msgid "Sets the value of the resource."
-msgstr ""
+msgstr "Ställer in ett värde för resursen."
 
 #: src/translate.c.po.c:2847
 msgid "Stop recording commands.  See `record'."
-msgstr ""
+msgstr "Sluta spela in kommandon. Se \"record\"."
 
 #: src/translate.c.po.c:2859
 msgid "\"<filename>\" [<format>]"
-msgstr ""
+msgstr "\"<filnamn>\" [<format>]"
 
 #: src/translate.c.po.c:2871
 msgid ""
 "Take a screenshot. Format is:\n"
 "default = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
-msgstr ""
+msgstr "Ta en skärmbild. Format är:\n"
+"standard = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
 
 #: src/translate.c.po.c:2900
 msgid ""
 "Control the datasette. Valid commands:\n"
 "0 = stop, 1 = start, 2 = forward, 3 = rewind, 4 = record,\n"
 "5 = reset, 6 = reset counter."
-msgstr ""
+msgstr "Styr bandspelaren. Giltiga kommandon:\n"
+"0 = stoppa, 1 = starta, 2 = spola framåt, 3 = spola bakåt,\n"
+"4 = spela in, 5 = återställ, 6 = nollställ räknare."
 
 #: src/translate.c.po.c:2924
 msgid "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
@@ -10266,7 +10288,7 @@ msgstr "Använd gammal NTSC-synkfaktor"
 
 #: src/translate.c.po.c:3453
 msgid "Select Hummer Userport device (0: None, 1: ADC, 2: Joystick)"
-msgstr ""
+msgstr "Välj enhet för Hummeranvändarport (0: ingen, 1: ADC, 2: styrspak)"
 
 #: src/translate.c.po.c:3465
 msgid "<port>"
@@ -10941,11 +10963,11 @@ msgstr "Ställ in ton på internt beräknad palett [1000]"
 
 #: src/translate.c.po.c:5506
 msgid "Set phase for color carrier in odd lines [1250]"
-msgstr ""
+msgstr "Välj fas för färgbärarvåg på udda rader [1250]"
 
 #: src/translate.c.po.c:5518
 msgid "Set phase offset for color carrier in odd lines [750]"
-msgstr ""
+msgstr "Välj fasutjämning för färgbärarvåg på udda rader [1250]"
 
 #: src/translate.c.po.c:5530
 msgid "Specify name of printer driver for device #4"
@@ -11120,9 +11142,8 @@ msgid "Specify SID engine (0: FastSID, 4: ParSID)"
 msgstr "Ange SID-motor (0: FastSID, 4: ParSID)"
 
 #: src/translate.c.po.c:6064
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 7: ReSID-FP)"
-msgstr "Ange SID-motor (0: FastSID, 1: ReSID)"
+msgstr "Ange SID-motor (0: FastSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6078
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)"
@@ -11137,9 +11158,8 @@ msgid "Specify SID engine (0: FastSID, 1: ReSID, 4: ParSID)"
 msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 4: ParSID)"
 
 #: src/translate.c.po.c:6120
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 7: ReSID-FP)"
-msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 4: ParSID)"
+msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 7: ParSID-FP)"
 
 #: src/translate.c.po.c:6134
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)"
@@ -11150,23 +11170,20 @@ msgid "Specify SID engine (0: FastSID, 2: Catweasel, 4: ParSID)"
 msgstr "Ange SID-motor (0: FastSID, 2: Catweasel, 4: ParSID)"
 
 #: src/translate.c.po.c:6164
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 7: ReSID-FP)"
-msgstr "Ange SID-motor (0: FastSID, 2: Catweasel, 4: ParSID)"
+msgstr "Ange SID-motor (0: FastSID, 2: Catweasel, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6179
 msgid "Specify SID engine (0: FastSID, 3: HardSID, 4: ParSID)"
 msgstr "Ange SID-motor (0: FastSID, 3: HardSID, 4: ParSID)"
 
 #: src/translate.c.po.c:6193
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 3: HardSID, 7: ReSID-FP)"
-msgstr "Ange SID-motor (0: FastSID, 3: HardSID, 4: ParSID)"
+msgstr "Ange SID-motor (0: FastSID, 3: HardSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6208
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 4: ParSID, 7: ReSID-FP)"
-msgstr "Ange SID-motor (0: FastSID, 4: ParSID)"
+msgstr "Ange SID-motor (0: FastSID, 4: ParSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6223
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
@@ -11177,42 +11194,36 @@ msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
 msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
 
 #: src/translate.c.po.c:6253
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 7: ReSID-FP)"
-msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
+msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6268
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
 msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
 
 #: src/translate.c.po.c:6283
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID, 7: ReSID-FP)"
-msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
+msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 3: HardSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6298
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 4: ParSID, 7: ReSID-FP)"
-msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 4: ParSID)"
+msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 4: ParSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6313
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 msgstr "Ange SID-motor (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 
 #: src/translate.c.po.c:6328
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)"
-msgstr "Ange SID-motor (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
+msgstr "Ange SID-motor (0: FastSID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6343
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)"
-msgstr "Ange SID-motor (0: FastSID, 2: Catweasel, 4: ParSID)"
+msgstr "Ange SID-motor (0: FastSID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6358
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"
-msgstr "Ange SID-motor (0: FastSID, 3: HardSID, 4: ParSID)"
+msgstr "Ange SID-motor (0: FastSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6373
 msgid ""
@@ -11222,40 +11233,35 @@ msgstr ""
 "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 
 #: src/translate.c.po.c:6390
-#, fuzzy
 msgid ""
 "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 7: ReSID-"
 "FP)"
 msgstr ""
-"Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
+"Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6407
-#, fuzzy
 msgid ""
 "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID, 7: ReSID-"
 "FP)"
-msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
+msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6424
-#, fuzzy
 msgid ""
 "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"
-msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
+msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6441
-#, fuzzy
 msgid ""
 "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID, 7: "
 "ReSID-FP)"
-msgstr "Ange SID-motor (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
+msgstr "Ange SID-motor (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6459
-#, fuzzy
 msgid ""
 "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: "
 "ParSID, 7: ReSID-FP)"
 msgstr ""
-"Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
+"Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6493
 msgid "Specify SID engine (0: FastSID, 1: Catweasel)"
@@ -11294,9 +11300,8 @@ msgid "Enable SID Cartridge"
 msgstr "Aktivera SID-instickskort"
 
 #: src/translate.c.po.c:6618
-#, fuzzy
 msgid "Disable SID Cartridge"
-msgstr "Aktivera SID-instickskort"
+msgstr "Inaktivera SID-instickskort"
 
 #: src/translate.c.po.c:6630
 msgid "<base address>"
@@ -11323,12 +11328,11 @@ msgid "Do not emulate SID filters"
 msgstr "Emulera inte SID-filter"
 
 #: src/translate.c.po.c:6703
-#, fuzzy
 msgid ""
 "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast "
 "resampling)"
 msgstr ""
-"reSID-samplingsmetod (0: snabb, 1: interpolerande, 2: omsamplning, 3: snabb "
+"reSID-samplingsmetod (0: snabb, 1: interpolerande, 2: omsampling, 3: snabb "
 "omsampling)"
 
 #: src/translate.c.po.c:6722
@@ -11508,32 +11512,28 @@ msgid "Specify RS232 device this ACIA should work on"
 msgstr "Ange RS232-enhet denna ACIA skall arbeta på"
 
 #: src/translate.c.po.c:7257
-#, fuzzy
 msgid ""
 "Set device type for device #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
-msgstr "Ställ in enhetstyp för enhet 10 (0: INGEN, 1: FS, 2: ÄKTA, 3: RÅ)"
+msgstr "Ställ in enhetstyp för enhet 8 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: BLOCKENHET)"
 
 #: src/translate.c.po.c:7271
-#, fuzzy
 msgid ""
 "Set device type for device #9 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
-msgstr "Ställ in enhetstyp för enhet 10 (0: INGEN, 1: FS, 2: ÄKTA, 3: RÅ)"
+msgstr "Ställ in enhetstyp för enhet 9 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: BLOCKENHET)"
 
 #: src/translate.c.po.c:7285
-#, fuzzy
 msgid ""
 "Set device type for device #10 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
-msgstr "Ställ in enhetstyp för enhet 10 (0: INGEN, 1: FS, 2: ÄKTA, 3: RÅ)"
+msgstr "Ställ in enhetstyp för enhet 10 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: BLOCKENHET)"
 
 #: src/translate.c.po.c:7299
-#, fuzzy
 msgid ""
 "Set device type for device #11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
-msgstr "Ställ in enhetstyp för enhet 11 (0: INGEN, 1: FS, 2: ÄKTA, 3: RÅ)"
+msgstr "Ställ in enhetstyp för enhet 11 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: BLOCKENHET)"
 
 #: src/translate.c.po.c:7313
 msgid "Attach disk image for drive #8 read only"
@@ -11909,14 +11909,12 @@ msgid "Disable DTV blitter logs."
 msgstr "Inaktivera DTV-blitterloggar."
 
 #: src/translate.c.po.c:8463
-#, fuzzy
 msgid "Enable DTV DMA logs."
-msgstr "Aktivera DTV DMA-loggning"
+msgstr "Aktivera DTV DMA-loggning."
 
 #: src/translate.c.po.c:8475
-#, fuzzy
 msgid "Disable DTV DMA logs."
-msgstr "Inaktivera DTV DMA-loggning"
+msgstr "Inaktivera DTV DMA-loggning."
 
 #: src/translate.c.po.c:8487
 msgid "Specify name of C64DTV ROM image"
@@ -11944,27 +11942,26 @@ msgstr "Ange <namn> som katalog för filsystemsbaserad flashenhet"
 
 #: src/translate.c.po.c:8559
 msgid "Enable true hardware flash file system"
-msgstr ""
+msgstr "Aktivera äkta maskinvaru-flashfilsystem"
 
 #: src/translate.c.po.c:8571
 msgid "Disable true hardware flash file system"
 msgstr "Inaktivera maskinvaruemelring för flashfilsystem"
 
 #: src/translate.c.po.c:8584
-#, fuzzy
 msgid "Enable MIDI emulation"
-msgstr "*Aktivera äkta diskettenhetsemulering"
+msgstr "Aktivera MIDI-emulering"
 
 #: src/translate.c.po.c:8596
-#, fuzzy
 msgid "Disable MIDI emulation"
-msgstr "Inaktivera RS232-emulering på användarporten"
+msgstr "Inaktivera MIDI-emulering"
 
 #: src/translate.c.po.c:8608
 msgid ""
 "MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
-msgstr ""
+msgstr "Typ av MIDI-gränssnitt (0: sekventiell, 1: Passport, 2: DATEL, 3: Namesoft, "
+"4: Maplin)"
 
 #: src/translate.c.po.c:8623
 msgid "Enable the digimax cartridge"
@@ -11977,3 +11974,4 @@ msgstr "Inaktivera Digimax Cartridge"
 #: src/translate.c.po.c:8647
 msgid "Base address of the digimax cartridge"
 msgstr "Basadress för Digimax-cartridge"
+
