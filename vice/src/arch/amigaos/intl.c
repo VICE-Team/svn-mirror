@@ -739,7 +739,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_COPY_IT, "Copia"},
 /* nl */ {IDMS_COPY_NL, "Kopie"},
 /* pl */ {IDMS_COPY_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_COPY_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_COPY_SV, "Kopiera"},
 
 /* en */ {IDMS_PASTE,    "Paste"},
 /* de */ {IDMS_PASTE_DE, "Einfúgen"},
@@ -1173,14 +1173,14 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDMS_SWAP_JOYSTICKS_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_SWAP_JOYSTICKS_SV, "Växla spelportarna"},
 
-/* en */ {IDMS_ENABLE_JOY_KEYS,    "Enable Joy Keys"},
+/* en */ {IDMS_ENABLE_JOY_KEYS,   "Enable Joy Keys"},
 /* de */ {IDMS_SWAP_JOYSTICKS_DE, "Joystick Tasten aktivieren"},
 /* fr */ {IDMS_SWAP_JOYSTICKS_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_SWAP_JOYSTICKS_HU, "Botkormány gombok engedélyezése"},
 /* it */ {IDMS_SWAP_JOYSTICKS_IT, "Attiva tasti joystick"},
 /* nl */ {IDMS_SWAP_JOYSTICKS_NL, "Activeer Joy Keys"},
 /* pl */ {IDMS_SWAP_JOYSTICKS_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_SWAP_JOYSTICKS_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_SWAP_JOYSTICKS_SV, "Aktivera styrspak via tangenter"},
 
 /* en */ {IDMS_SOUND_PLAYBACK,    "Sound playback"},
 /* de */ {IDMS_SOUND_PLAYBACK_DE, "Sound Einschalten"},
@@ -1567,7 +1567,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_DQBB_SETTINGS_IT, "Impostazioni Double Quick Brown Box..."},
 /* nl */ {IDMS_DQBB_SETTINGS_NL, "Double Quick Brown Box instellingen..."},
 /* pl */ {IDMS_DQBB_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_DQBB_SETTINGS_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_DQBB_SETTINGS_SV, "Inställninga för dubbel Quick Brown Box..."},
 
 /* en */ {IDMS_ISEPIC_SETTINGS,    "Isepic settings..."},
 /* de */ {IDMS_ISEPIC_SETTINGS_DE, "Isepic Einstellungen..."},
@@ -1576,7 +1576,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_ISEPIC_SETTINGS_IT, "Impostazioni Isepic..."},
 /* nl */ {IDMS_ISEPIC_SETTINGS_NL, "Isepic instellingen..."},
 /* pl */ {IDMS_ISEPIC_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_ISEPIC_SETTINGS_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_ISEPIC_SETTINGS_SV, "Isepic-inställningar..."},
 
 /* en */ {IDMS_PLUS60K_SETTINGS,    "PLUS60K settings..."},
 /* de */ {IDMS_PLUS60K_SETTINGS_DE, "PLUS60K Einstellungen..."},
@@ -2849,7 +2849,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_JOYSTICK_IT, "Joystick"},
 /* nl */ {IDS_JOYSTICK_NL, "Joystick"},
 /* pl */ {IDS_JOYSTICK_PL, ""},  /* fuzzy */
-/* sv */ {IDS_JOYSTICK_SV, ""},  /* fuzzy */
+/* sv */ {IDS_JOYSTICK_SV, "Styrspak"},
 
 /* en */ {IDS_IRQ,    "IRQ"},
 /* de */ {IDS_IRQ_DE, "IRQ"},
@@ -2984,7 +2984,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_C64DTV_WRITE_ENABLE_IT, "Scrivi sulla ROM C64DTV"},
 /* nl */ {IDS_C64DTV_WRITE_ENABLE_NL, "Schrijven naar C64DTV ROM"},
 /* pl */ {IDS_C64DTV_WRITE_ENABLE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_C64DTV_WRITE_ENABLE_SV, ""},  /* fuzzy */
+/* sv */ {IDS_C64DTV_WRITE_ENABLE_SV, "Skrivningar till C64DTV-ROM"},
 
 /* en */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE,    "Hummer Userport device"},
 /* de */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_DE, "Hummer Userport Gerät"},
@@ -2993,7 +2993,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_IT, "Dispositivo sulla userport dell'Humme"},
 /* nl */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_NL, "Hummer Userport apparaat"},
 /* pl */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_SV, ""},  /* fuzzy */
+/* sv */ {IDS_C64DTV_HUMMER_USERPORT_DEVICE_SV, "Hummeranvändarportsenhet"},
 
 /* en */ {IDS_C64DTV_HUMMER_JOY_PORT,    "Joystick port mapped to Hummer Userport"},
 /* de */ {IDS_C64DTV_HUMMER_JOY_PORT_DE, "Joystick Port auf Hummer Userport zugeordnet"},
@@ -3002,7 +3002,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_C64DTV_HUMMER_JOY_PORT_IT, "Porta joystick mappata sulla userport dell'Hummer"},
 /* nl */ {IDS_C64DTV_HUMMER_JOY_PORT_NL, "Joystick omgeleidt naar Hummer Userport"},
 /* pl */ {IDS_C64DTV_HUMMER_JOY_PORT_PL, ""},  /* fuzzy */
-/* sv */ {IDS_C64DTV_HUMMER_JOY_PORT_SV, ""},  /* fuzzy */
+/* sv */ {IDS_C64DTV_HUMMER_JOY_PORT_SV, "Spelport kopplad till Hummeranvändarport"},
 
 /* en */ {IDS_C64DTV_SETTINGS,    "C64DTV Settings"},
 /* de */ {IDS_C64DTV_SETTINGS_DE, "C64DTV Einstellungen"},
@@ -3299,7 +3299,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_DQBB_FILENAME_IT, "File DQBB"},
 /* nl */ {IDS_DQBB_FILENAME_NL, "DQBB bestand"},
 /* pl */ {IDS_DQBB_FILENAME_PL, ""},  /* fuzzy */
-/* sv */ {IDS_DQBB_FILENAME_SV, ""},  /* fuzzy */
+/* sv */ {IDS_DQBB_FILENAME_SV, "DQBB-fil"},
 
 /* en */ {IDS_DQBB_FILENAME_SELECT,    "Select file for DQBB"},
 /* de */ {IDS_DQBB_FILENAME_SELECT_DE, "Datei für DQBB selektieren"},
@@ -3308,7 +3308,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_DQBB_FILENAME_SELECT_IT, "Seleziona il file per DQBB"},
 /* nl */ {IDS_DQBB_FILENAME_SELECT_NL, "Selecteer bestand voor DQBB"},
 /* pl */ {IDS_DQBB_FILENAME_SELECT_PL, ""},  /* fuzzy */
-/* sv */ {IDS_DQBB_FILENAME_SELECT_SV, ""},  /* fuzzy */
+/* sv */ {IDS_DQBB_FILENAME_SELECT_SV, "Välj fil för DQBB"},
 
 /* en */ {IDS_DQBB_SETTINGS,    "DQBB Settings"},
 /* de */ {IDS_DQBB_SETTINGS_DE, "DQBB Einstellungen"},
@@ -3317,7 +3317,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_DQBB_SETTINGS_IT, "Impostazioni DQBB"},
 /* nl */ {IDS_DQBB_SETTINGS_NL, "DQBB instellingen"},
 /* pl */ {IDS_DQBB_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDS_DQBB_SETTINGS_SV, ""},  /* fuzzy */
+/* sv */ {IDS_DQBB_SETTINGS_SV, "DQBB-inställningar"},
 
 /* en */ {IDS_ISEPIC_SETTINGS,    "Isepic Settings"},
 /* de */ {IDS_ISEPIC_SETTINGS_DE, "Isepic Einstellungen"},
@@ -3326,7 +3326,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_ISEPIC_SETTINGS_IT, "Impostazioni Isepic"},
 /* nl */ {IDS_ISEPIC_SETTINGS_NL, "Isepic instellingen"},
 /* pl */ {IDS_ISEPIC_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDS_ISEPIC_SETTINGS_SV, ""},  /* fuzzy */
+/* sv */ {IDS_ISEPIC_SETTINGS_SV, "Isepic-inställningar"},
 
 /* en */ {IDS_ISEPIC_SWITCH,    "Isepic Switch"},
 /* de */ {IDS_ISEPIC_SWITCH_DE, "Isepic Schalter"},
@@ -5018,7 +5018,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_MOUSE_PORT_IT, "Porta del mouse"},
 /* nl */ {IDS_MOUSE_PORT_NL, "Muis poort"},
 /* pl */ {IDS_MOUSE_PORT_PL, ""},  /* fuzzy */
-/* sv */ {IDS_MOUSE_PORT_SV, ""},  /* fuzzy */
+/* sv */ {IDS_MOUSE_PORT_SV, "Musport"},
 
 /* en */ {IDS_MOUSE_1351,    "1351 mouse"},
 /* de */ {IDS_MOUSE_1351_DE, "1351 Maus"},

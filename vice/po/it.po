@@ -12167,12 +12167,3 @@ msgstr "Disattiva la cartuccia digimax"
 #: src/translate.c.po.c:8753
 msgid "Base address of the digimax cartridge"
 msgstr "Indirizzo base della cartuccia digimax"
-
-#~ msgid "%s fullscreen from commandline."
-#~ msgstr "%s tutto schermo da riga di comando."
-
-#~ msgid "Enabling"
-#~ msgstr "In attivazione"
-
-#~ msgid "Disabling"
-#~ msgstr "In disattivazione"

@@ -12061,12 +12061,3 @@ msgstr "Digimax Cartridge deaktivieren"
 #: src/translate.c.po.c:8753
 msgid "Base address of the digimax cartridge"
 msgstr "Basis Adresse für Digimax Erweiterung"
-
-#~ msgid "%s fullscreen from commandline."
-#~ msgstr "%s Vollbild Modus von Kommandozeile."
-
-#~ msgid "Enabling"
-#~ msgstr "Aktiviere"
-
-#~ msgid "Disabling"
-#~ msgstr "Deaktiviere"

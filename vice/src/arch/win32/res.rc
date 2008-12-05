@@ -2987,10 +2987,10 @@ BEGIN
     LTEXT           "Färgton",IDC_STATIC,12,12,60,8
     LTEXT           "(0..2)",IDC_STATIC,72,12,28,8
     EDITTEXT        IDC_VIDEO_NEW_PAL_TINT, 105,10,32,12,WS_TABSTOP
-    LTEXT           "Odd lines phase",IDC_STATIC,12,24,60,8
+    LTEXT           "Fas för udda linjer",IDC_STATIC,12,24,60,8
     LTEXT           "(0..2)",IDC_STATIC,72,24,28,8
     EDITTEXT        IDC_VIDEO_NEW_PAL_PHASE, 105,22,32,12,WS_TABSTOP
-    LTEXT           "Odd lines offset",IDC_STATIC,12,36,60,8
+    LTEXT           "Utjämning för udda linjer",IDC_STATIC,12,36,60,8
     LTEXT           "(0..2)",IDC_STATIC,72,36,28,8
     EDITTEXT        IDC_VIDEO_NEW_PAL_OFFSET, 105,34,32,12,WS_TABSTOP
 END
@@ -8000,8 +8000,8 @@ BEGIN
   IDS_CANCEL                      "Avbryt"
   IDS_NONE                        "Ingen"
   IDS_BROWSE                      "&Bläddra..."
-  IDS_SPECIFY_MIDI_IN             "Specify MIDI-In device"
-  IDS_SPECIFY_MIDI_OUT            "Specify MIDI-Out device"
+  IDS_SPECIFY_MIDI_IN             "Ange enhet för MIDI-in"
+  IDS_SPECIFY_MIDI_OUT            "Ange enhet för MIDI-ut"
   IDS_MP_FILE                     "&Arkiv"
   IDS_MP_ATTACH_DISK_IMAGE        "Anslut &diskettavbildningsfil"
   IDS_MP_DETACH_DISK_IMAGE        "Koppla &från diskettavbildningsfil"
@@ -8117,7 +8117,7 @@ BEGIN
   IDS_MI_TOGGLE_ALWAYSONTOP       "Alltid överst"
   IDS_MI_TOGGLE_FASTPAL           "PAL-emulering"
   IDS_MI_TOGGLE_SCALE2X           "Scale2x"
-  IDS_MI_JOYKEYS_TOGGLE           "Enable Joy Keys"
+  IDS_MI_JOYKEYS_TOGGLE           "Aktivera styrspak via tangenter"
   IDS_MI_SWAP_JOYSTICK            "Växla &spelportarna"
   IDS_MI_TOGGLE_VIRTUAL_DEVICES   "&Virtuella enhetstrap:ar"
   IDS_MI_TOGGLE_EMUID             "Emulator&identifiering"
@@ -8137,11 +8137,11 @@ BEGIN
   IDS_MI_REU_SETTINGS             "&REU-inställningar..."
   IDS_MI_GEORAM_SETTINGS          "&GEORAM-inställningar..."
   IDS_MI_RAMCART_SETTINGS         "&RAMCART-inställningar..."
-  IDS_MI_DQBB_SETTINGS            "&Double Quick Brown Box settings..."
-  IDS_MI_ISEPIC_SETTINGS          "I&sepic settings..."
+  IDS_MI_DQBB_SETTINGS            "Inställningar för &dubbel Quick Brown Box..."
+  IDS_MI_ISEPIC_SETTINGS          "I&sepic-inställningar..."
   IDS_MI_MMC64_SETTINGS           "&MMC64-inställningar..."
-  IDS_MI_MIDI_SETTINGS            "M&IDI settings..."
-  IDS_MI_DIGIMAX_SETTINGS         "&DIGIMAX settings..."
+  IDS_MI_MIDI_SETTINGS            "M&IDI-inställningar..."
+  IDS_MI_DIGIMAX_SETTINGS         "&DIGIMAX-inställningar..."
   IDS_MI_IDE64_SETTINGS           "&IDE64-inställningar..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS             "&Ethernetinställningar..."

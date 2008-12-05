@@ -12097,12 +12097,3 @@ msgstr "Digimax cartridge tiltása"
 #: src/translate.c.po.c:8753
 msgid "Base address of the digimax cartridge"
 msgstr "A digimax cartridge báziscíme"
-
-#~ msgid "%s fullscreen from commandline."
-#~ msgstr "Teljes képernyõs mód %s a parancssorból."
-
-#~ msgid "Enabling"
-#~ msgstr "Engedélyezés"
-
-#~ msgid "Disabling"
-#~ msgstr "Tiltás"
