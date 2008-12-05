@@ -44,6 +44,8 @@ list of all the changes in the code.
 
 - Fixed the lowest note bug.
 
+- Improved VIC emulation (exact in-line color/reverse mode changes).
+
 ** C64DTV changes
 -----------------
 
