@@ -50,7 +50,7 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/petcat
 %{prefix}/bin/vsid
 %{prefix}/lib/vice/
-%{prefix}/share/man/man1/*
-%{prefix}/share/info/vice.info*
+%{prefix}/man/man1/*
+%{prefix}/info/vice.info*
 
 %changelog
