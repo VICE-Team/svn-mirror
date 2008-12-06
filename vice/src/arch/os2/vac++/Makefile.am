@@ -11,6 +11,8 @@ EXTRA_DIST = \
 	config.h \
 	fonts1.icc \
 	fonts2.icc \
+	gentranslate.icc \
+	gentransfiles.icc \
 	PETcat.ICC \
 	RESID.ICC \
 	VICE_INF.ICC \

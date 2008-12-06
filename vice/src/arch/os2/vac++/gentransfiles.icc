@@ -1,0 +1,4 @@
+option  link(pmtype, vio), opt(level, "2")
+{
+   run "gentranslate.exe ..\\..\\..\\translate.txt ..\\..\\..\\translate.h ..\\..\\..\\translate_table.h"
+}

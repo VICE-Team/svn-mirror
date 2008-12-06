@@ -1,0 +1,7 @@
+option  link(pmtype, vio), opt(level, "2")
+{
+   target "gentranslate.exe"
+   {
+       source type(c) "..\\..\\win32\\utils\\gentranslate.c"
+   }
+}
