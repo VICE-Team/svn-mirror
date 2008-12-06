@@ -28,8 +28,8 @@ make
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{prefix}
 make prefix=$RPM_BUILD_ROOT%{prefix} VICEDIR=$RPM_BUILD_ROOT%{prefix}/lib/vice install-strip
-gzip -9 $RPM_BUILD_ROOT%{prefix}/share/man/man1/*
-gzip -9 $RPM_BUILD_ROOT%{prefix}/share/info/*
+gzip -9 $RPM_BUILD_ROOT%{prefix}/man/man1/*
+gzip -9 $RPM_BUILD_ROOT%{prefix}/info/*
 mkdir -p $RPM_BUILD_ROOT%{_menudir}
 
 %clean
