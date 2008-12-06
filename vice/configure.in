@@ -752,6 +752,10 @@ else
         disable_resid_fp=yes
     fi
 
+    if test x"$host_os" = "xbeos" -a x"$host_cpu" = "xpowerpc"; then
+        disable_resid_fp=yes
+    fi
+
     if test x"$disable_resid_fp" != "xyes"; then
       AC_DEFINE(HAVE_RESID_FP,,[This version provides ReSID_FP support.])
       AC_CONFIG_SUBDIRS(src/resid-fp)
