@@ -130,4 +130,31 @@ AC_SUBST(RESID_USE_SSE)
 
 dnl Checks for library functions.
 
+AC_CHECK_FUNCS(logf expf)
+
+AC_MSG_CHECKING([if the logf prototype is present])
+AC_TRY_COMPILE([#include <math.h>
+                #include <stdio.h>],
+               [printf("%d",logf);],
+               [ AC_MSG_RESULT(yes)
+                 HAVE_LOGF_PROTOTYPE=1
+                ],
+               [ AC_MSG_RESULT(no)
+                HAVE_LOGF_PROTOTYPE=0
+                ])
+
+AC_MSG_CHECKING([if the expf prototype is present])
+AC_TRY_COMPILE([#include <math.h>
+                #include <stdio.h>],
+               [printf("%d",expf);],
+               [ AC_MSG_RESULT(yes)
+                 HAVE_EXPF_PROTOTYPE=1
+                ],
+               [ AC_MSG_RESULT(no)
+                HAVE_EXPF_PROTOTYPE=0
+                ])
+
+AC_SUBST(HAVE_LOGF_PROTOTYPE)
+AC_SUBST(HAVE_EXPF_PROTOTYPE)
+
 AC_OUTPUT(Makefile siddefs-fp.h)

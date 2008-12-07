@@ -76,4 +76,12 @@ const char* resid_version_string = VERSION;
 
 #define RESID_USE_SSE @RESID_USE_SSE@
 
+#if @HAVE_LOGF_PROTOTYPE@
+#define HAVE_LOGF_PROTOTYPE
+#endif
+
+#if @HAVE_EXPF_PROTOTYPE@
+#define HAVE_EXPF_PROTOTYPE
+#endif
+
 #endif // not __SIDDEFS_H__

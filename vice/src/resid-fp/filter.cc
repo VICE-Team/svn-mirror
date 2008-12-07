@@ -22,6 +22,28 @@
 #include "filter.h"
 #include "sid.h"
   
+#ifndef HAVE_LOGF_PROTOTYPE
+extern float logf(float val);
+#endif
+
+#ifndef HAVE_EXPF_PROTOTYPE
+extern float expf(float val);
+#endif
+
+#ifndef HAVE_LOGF
+float logf(float val)
+{
+    return (float)log((double)val);
+}
+#endif
+
+#ifndef HAVE_EXPF
+float expf(float val)
+{
+    return (float)exp((double)val);
+}
+#endif
+
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------

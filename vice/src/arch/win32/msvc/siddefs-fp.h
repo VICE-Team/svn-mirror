@@ -80,4 +80,9 @@ const char* resid_version_string = VERSION;
 #define RESID_USE_SSE 0
 #endif
 
+#define HAVE_LOGF
+#define HAVE_EXPF
+#define HAVE_LOGF_PROTOTYPE
+#define HAVE_EXPF_PROTOTYPE
+
 #endif // not __SIDDEFS_H__
