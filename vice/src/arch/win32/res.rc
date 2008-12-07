@@ -7357,7 +7357,7 @@ BEGIN
   IDS_MI_ACIA_SETTINGS            "&ACIA-instellingen..."
   IDS_MI_RS232USER_SETTINGS       "RS&232-userportinstellingen..."
   IDS_MI_SETTINGS_SAVE_FILE       "Huidige instellingen opslaan naar opgegeven bestand"
-  IDS_MI_SETTINGS_LOAD_FILE       "instellingen laden can opgegeven bestand"
+  IDS_MI_SETTINGS_LOAD_FILE       "Instellingen laden van opgegeven bestand"
   IDS_MI_SETTINGS_SAVE            "Huidige instellingen op&slaan"
   IDS_MI_SETTINGS_LOAD            "Opges&lagen instelling laden"
   IDS_MI_SETTINGS_DEFAULT         "Herstel standaar&dinstellingen"

@@ -2694,14 +2694,12 @@ msgid "Settings loaded."
 msgstr "Instellingen geladen."
 
 #: src/arch/unix/gui/uisettings.c:260 src/arch/unix/gui/uisettings.c:264
-#, fuzzy
 msgid "File to save settings to"
-msgstr "Bestand voor opslaan van de ROM-set definitie"
+msgstr "Bestand voor opslaan van de instellingen"
 
 #: src/arch/unix/gui/uisettings.c:294
-#, fuzzy
 msgid "Resource file name"
-msgstr "Geen bestandsnaam!"
+msgstr "Resource bestandsnaam"
 
 #: src/arch/unix/gui/uisettings.c:331
 msgid "*Auto"
@@ -2732,14 +2730,12 @@ msgid "Load settings"
 msgstr "Instellingen laden"
 
 #: src/arch/unix/gui/uisettings.c:395
-#, fuzzy
 msgid "Save settings to file..."
-msgstr "Sla instellingen op bij afsluiten"
+msgstr "Sla instellingen op naar bestand..."
 
 #: src/arch/unix/gui/uisettings.c:397
-#, fuzzy
 msgid "Load settings from file..."
-msgstr "Instellingen laden"
+msgstr "Instellingen laden van bestand..."
 
 #: src/arch/unix/gui/uisettings.c:399
 msgid "Restore default settings"
@@ -4811,14 +4807,12 @@ msgid "Cannot write keymap file"
 msgstr "Kan het keymapbestand niet schrijven"
 
 #: src/arch/win32/res.rc.po.c:4731
-#, fuzzy
 msgid "Save config file"
-msgstr "Opslaan mediabestand"
+msgstr "Sla configuratie bestand op"
 
 #: src/arch/win32/res.rc.po.c:4732
-#, fuzzy
 msgid "Load config file"
-msgstr "Laad fliplijstbestand"
+msgstr "Laad configuratie bestand"
 
 #: src/arch/win32/res.rc.po.c:4733
 msgid "Mapping"
@@ -5919,14 +5913,12 @@ msgid "RS&232 userport settings..."
 msgstr "RS&232-userportinstellingen..."
 
 #: src/arch/win32/res.rc.po.c:5032 src/arch/amigaos/intl.c.po.c:1680
-#, fuzzy
 msgid "Save current settings to specified file"
-msgstr "Huidige instellingen opslaan"
+msgstr "Huidige instellingen opslaan naar opgegeven bestand"
 
 #: src/arch/win32/res.rc.po.c:5033 src/arch/amigaos/intl.c.po.c:1689
-#, fuzzy
 msgid "Load settings from specified file"
-msgstr "Kan het opgegeven bestand niet koppelen"
+msgstr "Instellingen laden van opgegeven bestand"
 
 #: src/arch/win32/res.rc.po.c:5034
 msgid "&Save current settings"
@@ -6895,9 +6887,8 @@ msgid "DQBB Settings"
 msgstr "DQBB instellingen"
 
 #: src/arch/win32/resdqbb.rc.po.c:12
-#, fuzzy
 msgid "&Enable DQBB"
-msgstr "&Activeer SID"
+msgstr "&Activeer DQBB"
 
 #: src/arch/win32/resdqbb.rc.po.c:14 src/arch/amigaos/intl.c.po.c:3268
 msgid "DQBB file"
@@ -7171,13 +7162,12 @@ msgid "Isepic Settings"
 msgstr "Isepic instellingen"
 
 #: src/arch/win32/resisepic.rc.po.c:12
-#, fuzzy
 msgid "&Enable Isepic"
-msgstr "&Activeer SID"
+msgstr "&Activeer Isepic"
 
 #: src/arch/win32/resisepic.rc.po.c:14
 msgid "&Isepic switch"
-msgstr ""
+msgstr "&Isepic schakelaar"
 
 #: src/arch/win32/resmmc64.rc.po.c:11
 msgid "&Enable MMC64"
@@ -8659,14 +8649,12 @@ msgid "GEORAM Size"
 msgstr "GEORAM-grootte"
 
 #: src/arch/amigaos/intl.c.po.c:3304
-#, fuzzy
 msgid "Isepic Switch"
-msgstr "Isepic instellingen"
+msgstr "Isepic schakelaar"
 
 #: src/arch/amigaos/intl.c.po.c:3313
-#, fuzzy
 msgid "Select config file"
-msgstr "Selecteer HD-bestand"
+msgstr "Selecteer configuratie bestand"
 
 #: src/arch/amigaos/intl.c.po.c:3322
 msgid "Joystick in port #1"
@@ -10477,29 +10465,24 @@ msgid "Size of the RAMCART expansion"
 msgstr "Grootte van de RAMCART-uitbreiding"
 
 #: src/translate.c.po.c:3793
-#, fuzzy
 msgid "Enable Double Quick Brown Box"
-msgstr "Double Quick Brown Box cartridge"
+msgstr "Activeer de Double Quick Brown Box cartridge"
 
 #: src/translate.c.po.c:3805
-#, fuzzy
 msgid "Disable Double Quick Brown Box"
-msgstr "Double Quick Brown Box cartridge"
+msgstr "De Double Quick Brown Box cartridge uitschakelen"
 
 #: src/translate.c.po.c:3817
-#, fuzzy
 msgid "Specify Double Quick Brown Box filename"
-msgstr "Double Quick Brown Box cartridge"
+msgstr "Geef de naam van het Double Quick Brown Box cartridge-bestand"
 
 #: src/translate.c.po.c:3829
-#, fuzzy
-msgid "Enable the isepic cart."
-msgstr "Activeer de videocache"
+msgid "Enable the isepic cart"
+msgstr "Activeer de isepic cartridge"
 
 #: src/translate.c.po.c:3841
-#, fuzzy
 msgid "Disable the isepic cart"
-msgstr "De videocache uitschakelen"
+msgstr "De isepic cartridge uitschakelen"
 
 #: src/translate.c.po.c:3853
 msgid "Enable the MMC64 expansion"
@@ -10634,9 +10617,8 @@ msgid "Enable expert cartridge"
 msgstr "Activeer expertcartridge"
 
 #: src/translate.c.po.c:4264
-#, fuzzy
 msgid "Disable default cartridge"
-msgstr "De digimaxcartridge uitschakelen"
+msgstr "De standaard cartridge uitschakelen"
 
 #: src/translate.c.po.c:4276
 msgid "Specify name of IDE64 image file"
@@ -11858,14 +11840,12 @@ msgid "Restore default (factory) settings"
 msgstr "Herstel standaardinstellingen"
 
 #: src/translate.c.po.c:7863
-#, fuzzy
 msgid "<filename>"
-msgstr "\"<bestandsnaam>\""
+msgstr "<bestandsnaam>"
 
 #: src/translate.c.po.c:7875
-#, fuzzy
 msgid "Specify config file"
-msgstr "Geef de naam van het logbestand"
+msgstr "Geef configuratie bestandsnaam"
 
 #: src/translate.c.po.c:7887
 msgid "Attach and autostart tape/disk image <name>"
@@ -12171,12 +12151,3 @@ msgstr "De digimaxcartridge uitschakelen"
 #: src/translate.c.po.c:8799
 msgid "Base address of the digimax cartridge"
 msgstr "Basisadres van de digimaxcartridge"
-
-#~ msgid "%s fullscreen from commandline."
-#~ msgstr "%s Volschermmodus van commando invoer."
-
-#~ msgid "Enabling"
-#~ msgstr "Activeren"
-
-#~ msgid "Disabling"
-#~ msgstr "Uitschakelen"

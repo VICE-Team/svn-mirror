@@ -13253,15 +13253,3 @@ msgstr "W³±cz Expert Cartridge..."
 #, fuzzy
 msgid "Base address of the digimax cartridge"
 msgstr "Rozszerzenie RAM napêdu #8 "
-
-#, fuzzy
-#~ msgid "%s fullscreen from commandline."
-#~ msgstr "Wy³±cz pe³ny ekran"
-
-#, fuzzy
-#~ msgid "Enabling"
-#~ msgstr "*W³±cz"
-
-#, fuzzy
-#~ msgid "Disabling"
-#~ msgstr "Wy³±cz tryb przy¶pieszony (Turbo)"

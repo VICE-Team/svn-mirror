@@ -12484,15 +12484,3 @@ msgstr "Désactiver la cartouche Digimax"
 #: src/translate.c.po.c:8799
 msgid "Base address of the digimax cartridge"
 msgstr "Adresse de base de la cartouche Digimax"
-
-#, fuzzy
-#~ msgid "%s fullscreen from commandline."
-#~ msgstr "Désactiver le mode plein écran"
-
-#, fuzzy
-#~ msgid "Enabling"
-#~ msgstr "Activer"
-
-#, fuzzy
-#~ msgid "Disabling"
-#~ msgstr "Désactiver mode turbo"

@@ -3884,12 +3884,12 @@ translate_t string_table[] = {
 #endif
 
 /* c64/isepic.c */
-/* en */ {IDCLS_ENABLE_ISEPIC,    N_("Enable the isepic cart.")},
+/* en */ {IDCLS_ENABLE_ISEPIC,    N_("Enable the isepic cart")},
 #ifdef HAS_TRANSLATION
 /* de */ {IDCLS_ENABLE_ISEPIC_DE, "Isepic Modul aktivieren"},
 /* fr */ {IDCLS_ENABLE_ISEPIC_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_ISEPIC_HU, "Isepic cartridge engedélyezése."},
-/* it */ {IDCLS_ENABLE_ISEPIC_IT, "Attiva la cartuccia isepic."},
+/* hu */ {IDCLS_ENABLE_ISEPIC_HU, "Isepic cartridge engedélyezése"},
+/* it */ {IDCLS_ENABLE_ISEPIC_IT, "Attiva la cartuccia isepic"},
 /* nl */ {IDCLS_ENABLE_ISEPIC_NL, "Activeer de isepic cartridge"},
 /* pl */ {IDCLS_ENABLE_ISEPIC_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_ISEPIC_SV, ""},  /* fuzzy */
