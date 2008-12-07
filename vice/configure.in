@@ -2011,6 +2011,10 @@ if test x"$is_unix" = "xyes"; then
     solaris*)
       solariscompile=yes
       AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, true)
+      sol_version=`uname -r`
+      if test x"$sol_version" = "x5.7"; then
+        ac_configure_args="$ac_configure_args --disable-sse"
+      fi
       ;;
     sco3.2v5*)
       openserver5compile=yes
