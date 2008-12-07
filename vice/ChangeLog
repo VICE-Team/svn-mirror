@@ -1,6 +1,107 @@
+2008-12-07  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* New version 2.0.10
+
+2008-12-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/siddefs-fp.h, src/resid-fp/configure.in,
+	  src/resid-fp/filter.cc, src/resid-fp/siddefs-fp.h.in: Added
+	  logf and expf tests to the resid-fp configure scripts and
+	  work-arounds for the possibly missing functions in filter.cc
+
+2008-12-06  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/vsidui.m: added missing vsid
+	  callback to cocoa port
+
+2008-12-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/Makefile.am,
+	  src/arch/os2/vac++/gentransfiles.icc,
+	  src/arch/os2/vac++/gentranslate.icc: Added translate files
+	  generation to the os/2 vac++ project files.
+
+	* vice-mint.spec: Fixed.
+
+	* vice-mint.spec: Fixed the man and info paths for atari-mint.
+
+	* configure.in: Disabled resid-fp build for ppc-beos.
+
+2008-12-05  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* doc/html/plain/NEWS: Added a note about improved VIC emulation
+	  in NEWS.
+
+2008-12-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/de.po, po/hu.po, po/it.po, src/arch/amigaos/intl.c,
+	  src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	  src/arch/win32/resc64.rc, src/arch/win32/resc64dtv.rc,
+	  src/arch/win32/rescbm2.rc, src/arch/win32/respet.rc,
+	  src/arch/win32/resplus4.rc, src/arch/win32/resvic20.rc,
+	  src/translate.c, vice-mint.spec: Updated the atari mint rpm
+	  spec file and updated the swedish translations.
+
 2008-12-05  Peter Krefting <peter@softwolves.pp.se>
 
 	* po/sv.po: Updated Swedish translation (2665t0f0u).
+
+2008-12-05  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/resid-fp/ChangeLog, src/resid-fp/filter.h,
+	  src/sid/resid-fp.cc: ReSID-fp update to V27 as provided by
+	  Antti Lankila
+
+2008-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/ui.h, src/arch/msdos/uiisepic.c: Fixed some
+	  warnings and errors.
+
+	* src/arch/win32/ui.c, src/arch/win32/uimon.c: Made a proper fix
+	  for the win32 menu popups translation bug.
+
+	* src/arch/win32/x64.dsp: Fixed a typo.
+
+	* src/arch/win32/ui.c: Fixed the win32 monitor menu translation
+	  bug.
+
+2008-12-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.c, src/arch/win32/res.rc,
+	  src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	  src/arch/win32/rescbm2.rc, src/arch/win32/resdqbb.rc,
+	  src/arch/win32/resisepic.rc, src/arch/win32/respet.rc,
+	  src/arch/win32/resplus4.rc, src/arch/win32/resvic20.rc,
+	  src/translate.c: Updated the german, hungarian and italian
+	  translations.
+
+	* src/arch/unix/gp2x/input_gp2x.c, src/arch/unix/gp2x/minimal.h,
+	  src/arch/unix/gp2x/prefs_gp2x.c,
+	  src/arch/unix/gp2x/uitext_gp2x.c,
+	  src/arch/unix/gp2x/vic20ui.c, src/arch/unix/gp2x/video.c,
+	  src/c64/psid.c: Fixed some warnings.
+
+2008-12-02  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/amigaos/vsidui.c, src/arch/msdos/vsidui.c,
+	  src/arch/os2/vsidui.c, src/arch/riscos/vsidui.c,
+	  src/arch/unix/gp2x/vsidui.c, src/arch/unix/gui/vsidui.c,
+	  src/arch/win32/vsidui.c, src/c64/psid.c, src/vsidui.h: Renamed
+	  vsid_setdrv() to vsid_ui_setdrv(); added it as a dummy
+	  function for all ports that do not have it defined yet.
+
+	* src/arch/win32/console.c: Undone r19606: When lifting the
+	  mouse key in mark mode, copy data into clipboard.
+
+2008-12-01  Martin Pottendorfer <pottendo@aon.at>
+
+	* doc/html/plain/BUGS: Removed some obsolete `GTK+/Gnome' bugs
+	  and added `-logfile' issue, known also as the pottendo
+	  syndrome.
+
+	* src/arch/unix/x11/gnome/TODO: Updated.
+
+	* po/de.po, po/hu.po, po/it.po: Updated.
 
 2008-12-01  Marco van den Heuvel <blackystardust68@yahoo.com>
 
