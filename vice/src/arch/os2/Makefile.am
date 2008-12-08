@@ -48,6 +48,7 @@ EXTRA_DIST = \
 	install.cmd \
 	makedist.cmd \
 	makeclean.cmd \
+	siddefs.h \
 	unused/pm/winaddon.c \
 	unused/pm/winaddon.h \
 	unused/pm/scrollbars.c \
