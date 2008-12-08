@@ -296,7 +296,12 @@ endif
 
 translate.h:	$(srcdir)/translate.txt
 	echo "generating translate.h..."
+if MINIX_SUPPORT
+	cc $(srcdir)/arch/win32/utils/gentranslate.c -o gentranslate
+	./gentranslate translate.txt translate.h translate_table.h
+else
 	$(SHELL) $(srcdir)/gentranslate_h.sh <$(srcdir)/translate.txt >translate.h
+endif
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a

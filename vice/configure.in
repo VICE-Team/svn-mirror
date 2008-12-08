@@ -134,6 +134,9 @@ if test x"$host_os" = "xminix"; then
       AC_DEFINE(MINIX_HAS_RECV_SEND,,[Define if this version of minix has the recv and send prototypes])
       ;;
   esac  
+  AM_CONDITIONAL(MINIX_SUPPORT, true)
+else
+  AM_CONDITIONAL(MINIX_SUPPORT, false)
 fi
 
 if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin"; then
