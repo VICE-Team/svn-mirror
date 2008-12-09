@@ -47,7 +47,6 @@
 #include "uisettings.h"
 #include "uisound.h"
 #include "vsync.h"
-#include "libgen.h"
 
 
 /* Big kludge to get the ticks right in the refresh rate submenu.  This only
