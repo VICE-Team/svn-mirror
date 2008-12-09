@@ -27,6 +27,10 @@
 
 #include "vice.h"
 
+#ifdef HAVE_LIBGEN_H
+#include <libgen.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -250,6 +254,9 @@ static UI_CALLBACK(save_resources_file)
     char *filename;
     ui_button_t button;
     int len = 1024;
+#ifndef HAVE_DIRNAME
+    char *tmp;
+#endif
 
     vsync_suspend_speed_eval();
 
@@ -277,7 +284,17 @@ static UI_CALLBACK(save_resources_file)
 	    lib_free(resources_last_dir);
 	}
 	resources_last_dir = lib_stralloc(filename);
+#ifdef HAVE_DIRNAME
 	resources_last_dir = dirname(resources_last_dir);
+#else
+        tmp = resources_last_dir + strlen(resources_last_dir);
+        while (*tmp != '/')
+        {
+            tmp--;
+        }
+        tmp--;
+        *tmp = 0;
+#endif
     }
 
     lib_free(filename);
