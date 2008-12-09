@@ -117,8 +117,8 @@ static const cmdline_option_t cmdline_options[] =
     { "+directwindow", SET_RESOURCE, 0, NULL, NULL, "DirectWindow",
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      (resource_value_t) 0, NULL, "Disable BeOS DirectWindow API"},
-	{ NULL }
+      NULL, "Disable BeOS DirectWindow API"},
+    { NULL }
 };
 
 int video_init_cmdline_options(void)

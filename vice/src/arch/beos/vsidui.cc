@@ -281,5 +281,8 @@ void vsid_ui_close(void)
 	delete vsidwindow;
 }
 
+void vsid_ui_setdrv(char* driver_info_text)
+{
+}
 
 } /* extern "C" */

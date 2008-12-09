@@ -579,7 +579,7 @@ BMenuBar *menu_create(int machine_class) {
 			if (machine_class == VICE_MACHINE_C64) {
 				menu->AddItem(submenu = new BMenu("Double Quick Brown Box Options"));
 				submenu->AddItem(new BMenuItem("DQBB emulation",
-					new BMessage(MENU_TOGGLE_DWBB)));
+					new BMessage(MENU_TOGGLE_DQBB)));
 				submenu->AddItem(new BMenuItem("DQBB File",
 					new BMessage(MENU_DQBB_FILE)));
 

@@ -53,7 +53,7 @@ cp $TOPSRCDIR/doc/mon.txt BeVICE-$VICEVERSION.$BEOSCPU/doc
 cp $TOPSRCDIR/doc/cartconv.txt BeVICE-$VICEVERSION.$BEOSCPU/doc
 cp $TOPSRCDIR/doc/Readme.beos BeVICE-$VICEVERSION.$BEOSCPU/doc
 cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README BeVICE-$VICEVERSION.$BEOSCPU
-rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "Makefile*"
+rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "Makefile*"`
 rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "*.vkm" -and ! -name "beos*.vkm"`
 rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "*.vsc"`
 if [ -e BeVICE-$VICEVERSION.$BEOSCPU/html/texi2html ]
