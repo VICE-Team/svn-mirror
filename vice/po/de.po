@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-07 20:57+0100\n"
-"PO-Revision-Date: 2008-12-01 20:49+0100\n"
+"POT-Creation-Date: 2008-12-10 20:28+0100\n"
+"PO-Revision-Date: 2008-12-10 21:16+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -826,7 +826,7 @@ msgstr "256K Image Name"
 #: src/arch/unix/gui/uimmc64.c:51 src/arch/unix/gui/uipetreu.c:42
 #: src/arch/unix/gui/uiplus256k.c:41 src/arch/unix/gui/uiplus60k.c:42
 #: src/arch/unix/gui/uiramcart.c:43 src/arch/unix/gui/uireu.c:42
-#: src/arch/unix/gui/uisettings.c:265 src/arch/unix/gui/uitfe.c:44
+#: src/arch/unix/gui/uisettings.c:271 src/arch/unix/gui/uitfe.c:44
 msgid "Name:"
 msgstr "Name:"
 
@@ -2626,39 +2626,39 @@ msgstr "*4800 Baud"
 msgid "*9600 baud"
 msgstr "*9600 Baud"
 
-#: src/arch/unix/gui/uisettings.c:112
+#: src/arch/unix/gui/uisettings.c:115
 msgid "Enter refresh rate"
 msgstr "Wiederholrate einstellen"
 
-#: src/arch/unix/gui/uisettings.c:113 src/arch/unix/gui/uisettings.c:381
+#: src/arch/unix/gui/uisettings.c:116 src/arch/unix/gui/uisettings.c:397
 #: src/arch/amigaos/intl.c.po.c:888
 msgid "Refresh rate"
 msgstr "Wiederholrate"
 
-#: src/arch/unix/gui/uisettings.c:185
+#: src/arch/unix/gui/uisettings.c:188
 msgid "Enter speed"
 msgstr "Geschwindigkeit einstellen"
 
-#: src/arch/unix/gui/uisettings.c:186
+#: src/arch/unix/gui/uisettings.c:189
 msgid "Maximum run speed"
 msgstr "Maximale Geschwindigkeit"
 
-#: src/arch/unix/gui/uisettings.c:200
+#: src/arch/unix/gui/uisettings.c:203
 msgid "Invalid speed value"
 msgstr "Ungültige Geschwindigkeit"
 
-#: src/arch/unix/gui/uisettings.c:214 src/arch/unix/gui/uisettings.c:270
+#: src/arch/unix/gui/uisettings.c:217 src/arch/unix/gui/uisettings.c:276
 #: src/arch/unix/x11/gnome/x11ui.c:1229 src/arch/unix/x11/xaw/x11ui.c:1152
 #: src/arch/win32/res.rc.po.c:4695 src/arch/amigaos/intl.c.po.c:2033
 msgid "Cannot save settings."
 msgstr "Fehler beim Speichern der Einstellungen."
 
-#: src/arch/unix/gui/uisettings.c:217 src/arch/unix/gui/uisettings.c:273
+#: src/arch/unix/gui/uisettings.c:220 src/arch/unix/gui/uisettings.c:279
 #: src/arch/win32/res.rc.po.c:4713 src/arch/amigaos/intl.c.po.c:1952
 msgid "Settings saved successfully."
 msgstr "Einstellungen erfolgreich gespeichert"
 
-#: src/arch/unix/gui/uisettings.c:234 src/arch/unix/gui/uisettings.c:302
+#: src/arch/unix/gui/uisettings.c:237 src/arch/unix/gui/uisettings.c:318
 msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
@@ -2666,7 +2666,7 @@ msgstr ""
 "Kann Einstellungen nicht laden:\n"
 "Ungültige Ressource-Datei."
 
-#: src/arch/unix/gui/uisettings.c:236 src/arch/unix/gui/uisettings.c:304
+#: src/arch/unix/gui/uisettings.c:239 src/arch/unix/gui/uisettings.c:320
 msgid ""
 "Cannot load settings:\n"
 "resource file not found."
@@ -2674,63 +2674,63 @@ msgstr ""
 "Kann Einstellungen nicht laden:\n"
 "Ressource-Datei nicht gefunden."
 
-#: src/arch/unix/gui/uisettings.c:240
+#: src/arch/unix/gui/uisettings.c:243
 msgid "Settings loaded."
 msgstr "Einstellungen geladen."
 
-#: src/arch/unix/gui/uisettings.c:260 src/arch/unix/gui/uisettings.c:264
+#: src/arch/unix/gui/uisettings.c:266 src/arch/unix/gui/uisettings.c:270
 msgid "File to save settings to"
 msgstr "Einstellungsdateiname"
 
-#: src/arch/unix/gui/uisettings.c:294
+#: src/arch/unix/gui/uisettings.c:310
 msgid "Resource file name"
 msgstr "Dateiname für Einstellungen"
 
-#: src/arch/unix/gui/uisettings.c:331
+#: src/arch/unix/gui/uisettings.c:347
 msgid "*Auto"
 msgstr "*Automatisch"
 
-#: src/arch/unix/gui/uisettings.c:354 src/arch/unix/gui/uisettings.c:373
+#: src/arch/unix/gui/uisettings.c:370 src/arch/unix/gui/uisettings.c:389
 msgid "*Custom..."
 msgstr "*Benutzerdefiniert..."
 
-#: src/arch/unix/gui/uisettings.c:370
+#: src/arch/unix/gui/uisettings.c:386
 msgid "*No limit"
 msgstr "*Kein Limit"
 
-#: src/arch/unix/gui/uisettings.c:383
+#: src/arch/unix/gui/uisettings.c:399
 msgid "Maximum speed"
 msgstr "Maximale Geschwindigkeit"
 
-#: src/arch/unix/gui/uisettings.c:385
+#: src/arch/unix/gui/uisettings.c:401
 msgid "*Enable warp mode"
 msgstr "*Warp Mode Aktivieren"
 
-#: src/arch/unix/gui/uisettings.c:391
+#: src/arch/unix/gui/uisettings.c:407
 msgid "Save settings"
 msgstr "Einstellungen speichern"
 
-#: src/arch/unix/gui/uisettings.c:393
+#: src/arch/unix/gui/uisettings.c:409
 msgid "Load settings"
 msgstr "Einstellungen laden"
 
-#: src/arch/unix/gui/uisettings.c:395
+#: src/arch/unix/gui/uisettings.c:411
 msgid "Save settings to file..."
 msgstr "Einstellungen speichern unter..."
 
-#: src/arch/unix/gui/uisettings.c:397
+#: src/arch/unix/gui/uisettings.c:413
 msgid "Load settings from file..."
 msgstr "Einstellungen von Datei laden..."
 
-#: src/arch/unix/gui/uisettings.c:399
+#: src/arch/unix/gui/uisettings.c:415
 msgid "Restore default settings"
 msgstr "Wiederherstellen Standard Einstellungen"
 
-#: src/arch/unix/gui/uisettings.c:401
+#: src/arch/unix/gui/uisettings.c:417
 msgid "*Save settings on exit"
 msgstr "*Einstellungen beim Beenden speichern"
 
-#: src/arch/unix/gui/uisettings.c:403
+#: src/arch/unix/gui/uisettings.c:419
 msgid "*Confirm on exit"
 msgstr "*Bestätigung beim Beenden"
 
@@ -10445,7 +10445,7 @@ msgid "Specify Double Quick Brown Box filename"
 msgstr "Double Quick Brown Box Dateiname spezifizieren"
 
 #: src/translate.c.po.c:3829
-msgid "Enable the isepic cart."
+msgid "Enable the isepic cart"
 msgstr "Isepic Modul aktivieren"
 
 #: src/translate.c.po.c:3841
