@@ -65,6 +65,10 @@ static unsigned int fragment_count;
 /* current number of fragments in buffer */
 static atomic_int_t fragments_in_queue;
 
+/* proc id */
+#if defined(MAC_OS_X_VERSION_10_5) && (MAC_OS_X_VERSION_MIN_REQUIRED>=MAC_OS_X_VERSION_10_5)
+AudioDeviceIOProcID procID;
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -115,6 +119,8 @@ static inline void atomic_decrement(atomic_int_t * addr)
 
 /* ------------------------------------------------------------------------- */
 
+#ifdef OLD_API
+
 static OSStatus coreaudio_converter_inputproc(AudioConverterRef converter,
                                               UInt32 * io_data_size,
                                               void ** out_data,
@@ -139,6 +145,37 @@ static OSStatus coreaudio_converter_inputproc(AudioConverterRef converter,
     return kAudioHardwareNoError;
 }
 
+#else
+
+static OSStatus coreaudio_converter_inputproc(AudioConverterRef inAudioConverter, 
+                                              UInt32 * ioNumberDataPackets, 
+                                              AudioBufferList * ioData, 
+                                              AudioStreamPacketDescription** outDataPacketDescription, 
+                                              void * inUserData)
+{
+  SWORD *buffer;
+  if (fragments_in_queue)
+  {
+      /* convert one fragment */
+      buffer = soundbuffer + fragment_size * read_position;
+
+      read_position = (read_position + 1) % fragment_count;
+      atomic_decrement(&fragments_in_queue);
+  }
+  else
+  {
+      /* output silence */
+      buffer = silence;
+  }
+
+  ioData->mBuffers[0].mDataByteSize = fragment_byte_size;
+  ioData->mBuffers[0].mData = buffer;
+  *ioNumberDataPackets = fragment_size;
+
+  return kAudioHardwareNoError;
+}
+
+#endif
 
 static OSStatus coreaudio_ioproc(AudioDeviceID device,
                                  const AudioTimeStamp  * now,
@@ -148,11 +185,21 @@ static OSStatus coreaudio_ioproc(AudioDeviceID device,
                                  const AudioTimeStamp  * output_time,
                                  void                  * client_data)
 {
+#ifdef OLD_API
     return AudioConverterFillBuffer(converter,
                                     coreaudio_converter_inputproc,
                                     NULL,
                                     &output_data->mBuffers[0].mDataByteSize,
                                     output_data->mBuffers[0].mData);
+#else
+    UInt32 dataPacketSize = fragment_size;
+    return AudioConverterFillComplexBuffer(converter,
+                                    coreaudio_converter_inputproc,
+                                    NULL,
+                                    &dataPacketSize,
+                                    output_data,
+                                    NULL);
+#endif
 }
 
 
@@ -203,7 +250,7 @@ static int coreaudio_init(const char *param, int *speed,
         log_error(LOG_DEFAULT, "sound (coreaudio_init): stream format not support");
         return -1;
     }
-
+    
     if ((int)out.mSampleRate != *speed)
     {
         log_warning(LOG_DEFAULT, "sound (coreaudio_init): sampling rate conversion %dHz->%dHz",
@@ -261,7 +308,11 @@ static int coreaudio_init(const char *param, int *speed,
     write_position = 0;
     fragments_in_queue = 0;
 
-    err = AudioDeviceAddIOProc(device, coreaudio_ioproc, NULL);
+#if defined(MAC_OS_X_VERSION_10_5) && (MAC_OS_X_VERSION_MIN_REQUIRED>=MAC_OS_X_VERSION_10_5)
+    err = AudioDeviceCreateIOProcID( device, coreaudio_ioproc, NULL, &procID );
+#else
+    err = AudioDeviceAddIOProc( device, coreaudio_ioproc, NULL );
+#endif
     if (err != kAudioHardwareNoError)
     {
     	log_error(LOG_DEFAULT,
@@ -322,7 +373,11 @@ static int coreaudio_bufferspace(void)
 
 static void coreaudio_close(void)
 {
+#if defined(MAC_OS_X_VERSION_10_5) && (MAC_OS_X_VERSION_MIN_REQUIRED>=MAC_OS_X_VERSION_10_5)
+    AudioDeviceDestroyIOProcID(device, procID);
+#else
     AudioDeviceRemoveIOProc(device, coreaudio_ioproc);
+#endif
     if (converter)
     {
         AudioConverterDispose(converter);
