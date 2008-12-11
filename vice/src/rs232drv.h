@@ -27,6 +27,8 @@
 #ifndef _RS232DRV_H
 #define _RS232DRV_H
 
+#include "types.h"
+
 extern int rs232drv_resources_init(void);
 extern void rs232drv_resources_shutdown(void);
 extern int rs232drv_cmdline_options_init(void);
