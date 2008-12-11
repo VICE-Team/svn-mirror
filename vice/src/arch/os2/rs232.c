@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "resources.h"
+#include "rs232drv.h"
 #include "util.h"
 
 

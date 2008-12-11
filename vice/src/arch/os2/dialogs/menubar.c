@@ -60,7 +60,7 @@
 #include "screenshot.h"      // screenshot_save
 #include "dlg-fileio.h"      // ViceFileDialog
 #include "video-resources.h" // VIDEO_RESOURCE_PAL_*
-#include "c64dtv-resource.h"
+#include "c64dtv-resources.h"
 
 #ifdef __XCBM__
 #include "cbm2mem.h"     // cbm2_set_model
@@ -419,10 +419,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_PALOFF:
         resources_set_int("PALEmulation", 0);
         return;
-    case IDM_FAKEPAL:
-        toggle("PALEmulation");
-        return;
-     */
     case IDM_DSIZE:
         interrupt_maincpu_trigger_trap(toggle_async, (resource_value_t*)DOUBLE_SIZE);
         return;

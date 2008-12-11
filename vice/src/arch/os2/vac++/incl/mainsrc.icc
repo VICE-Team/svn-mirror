@@ -8,6 +8,7 @@ source type(c)
     "charset.c",
     "clipboard.c",
     "cmdline.c",
+    "crc32.c",
     "datasette.c",
     "debug.c",
     "dma.c",
