@@ -995,7 +995,7 @@ static void reu_dma_update_regs(WORD host_addr, unsigned int reu_addr,
     }
 
     if ( BITS_ARE_ALL_SET(new_status_or_mask, REU_REG_R_STATUS_END_OF_BLOCK) ) {
-        // only check for interrupt, when the transfer ended correctly (no verify error)
+        /* only check for interrupt, when the transfer ended correctly (no verify error) */
         if ( BITS_ARE_ALL_SET(rec.int_mask_reg,
              REU_REG_RW_INTERRUPT_END_OF_BLOCK_ENABLED | REU_REG_RW_INTERRUPT_INTERRUPTS_ENABLED))
         {
