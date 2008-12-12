@@ -7668,20 +7668,24 @@ datasette support, the VIC20 video emulation and some ui stuff
 in the Win32 and MSDOS port. He also wrote the BeOS port and
 implemented video/audio capture support.
 Improved history recording/playback and implented support for
-video recording and netlink feature. Various bug(fixe)s. ;-)
+video recording and netlink feature. Made the win32 user
+changable keyboard shortcut system. Various bug(fixe)s. ;-)
 
 @item
 @b{Martin Pottendorfer}
 Implemented Gnome Port based on Oliver Schaertels GTK+ port
 Added support code for internationalization based on gettext
+Improved the *nix fullscreen support
 Translated the Unix Port to German
 Implemented the fliplists + ui (unix).
 
 @item
 @b{Spiro Trikaliotis} wrote the Win32
 console implementation for the built-in monitor, corrected some
-REU related bugs, added support for the TFE and RR-Net
-(cs8900a), and wrote some further patches.
+REU related bugs, improved the CIA emulation, added com-port
+CIA support to the win32 port, added text copy and paste support
+to the win32 port, added support for the TFE and RR-Net (cs8900a),
+and wrote some further patches.
 
 @item
 @b{Markus Brenner} added VDC emulation to x128
@@ -7703,7 +7707,9 @@ resurrected OS/2 binary ports. Added new .crt support. Added new
 screenshot formats. Added new sound recording support. Added SIDcart
 support for pet, plus4 and vic20. Improved the MMC64 emulation. Added
 2 MHz mode for x128. Added the Hummer userport joystick emulation.
-And lots of other fixes and improvements.
+Added text copy and paste support to the amiga and beos ports. Added
+DQBB and Isepic cartridge support. And lots of other fixes and
+improvements.
 
 @item
 @b{Christian Vogelgsang} maintains the Mac OS X port. Added Intel Mac
@@ -7721,7 +7727,8 @@ monitor, large parts of the DTV VIC emulation, burst mode and skip
 cycle emulation as well as many other things. Added experimental NEOS
 and Amiga mouse support. Fixed mouse support for single size in unix.
 Fixed mouse grab and menu popup for xaw. Added new monitor commands
-and features. Added the memmap feature.
+and features. Added the memmap feature. Made MIDI support and MIDI
+driver code for *nix.
 
 @item
 @b{M. Kiesel} started implementing x64dtv. The C64DTV memory model
@@ -7731,7 +7738,8 @@ by him. Added new monitor commands and features.
 @item
 @b{Daniel Kahlin} Worked on DTV VIC emulation, palette, DTV SID support
 in resid, better DMA/Blitter support and did lots of refactoring. Added
-new monitor commands and features.
+new monitor commands and features. Improved the VIC emulation for xvic.
+Made MIDI driver code for win32.
 
 @end itemize
 
@@ -7984,7 +7992,7 @@ emulation and did some small fixes.
 @b{Rami Rasanen} rewrote the VIC20 sound code.
 
 @item
-@b{iAN CooG} contributed various small patches.
+@b{iAN CooG} Added win32 vsid GUI and contributed various small patches.
 
 @item
 @b{Mike Dawson} provided the GP2X port and co-maintains the GP2X
@@ -8031,7 +8039,7 @@ the win32 port.
 
 @item
 @b{Groepaz/Hitmen} Added new more precise PAL emulation. Added support
-for the Action Replay 4 and StarDos cartridges.
+for the Action Replay 4 and StarDos cartridges. Provided several fixes.
 
 @item
 @b{Ingo Korb} Corrected block allocation and interleave for
@@ -8051,6 +8059,16 @@ cartridge.
 @item
 @b{Marcus Sutton} Made some console, dialog and joystick fixes for
 the BeOS port.
+
+@item
+@b{Antti Lankila} Made the ReSID-fp engine and rewrote the PAL emulation
+code.
+
+@item
+@b{Mustafa 'GnoStiC' Tufan} Made improvements to the gp2x port.
+
+@item
+@b{Ville-Matias Heikkila} Rewrote the vic20 sound code.\n"
 
 @end itemize
 
