@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-07 20:57+0100\n"
-"PO-Revision-Date: 2008-12-01 11:38+0100\n"
+"POT-Creation-Date: 2008-12-10 20:28+0100\n"
+"PO-Revision-Date: 2008-12-11 14:00+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -828,7 +828,7 @@ msgstr "Nome dell'immagine 256K"
 #: src/arch/unix/gui/uimmc64.c:51 src/arch/unix/gui/uipetreu.c:42
 #: src/arch/unix/gui/uiplus256k.c:41 src/arch/unix/gui/uiplus60k.c:42
 #: src/arch/unix/gui/uiramcart.c:43 src/arch/unix/gui/uireu.c:42
-#: src/arch/unix/gui/uisettings.c:265 src/arch/unix/gui/uitfe.c:44
+#: src/arch/unix/gui/uisettings.c:271 src/arch/unix/gui/uitfe.c:44
 msgid "Name:"
 msgstr "Nome:"
 
@@ -2640,39 +2640,39 @@ msgstr "*4800 baud"
 msgid "*9600 baud"
 msgstr "*9600 baud"
 
-#: src/arch/unix/gui/uisettings.c:112
+#: src/arch/unix/gui/uisettings.c:115
 msgid "Enter refresh rate"
 msgstr "Inserire la frequenza di aggiornamento"
 
-#: src/arch/unix/gui/uisettings.c:113 src/arch/unix/gui/uisettings.c:381
+#: src/arch/unix/gui/uisettings.c:116 src/arch/unix/gui/uisettings.c:397
 #: src/arch/amigaos/intl.c.po.c:888
 msgid "Refresh rate"
 msgstr "Frequenza di aggiornamento"
 
-#: src/arch/unix/gui/uisettings.c:185
+#: src/arch/unix/gui/uisettings.c:188
 msgid "Enter speed"
 msgstr "Inserire la velocità"
 
-#: src/arch/unix/gui/uisettings.c:186
+#: src/arch/unix/gui/uisettings.c:189
 msgid "Maximum run speed"
 msgstr "Velocità di esecuzione massima"
 
-#: src/arch/unix/gui/uisettings.c:200
+#: src/arch/unix/gui/uisettings.c:203
 msgid "Invalid speed value"
 msgstr "Valore della velocità non valido"
 
-#: src/arch/unix/gui/uisettings.c:214 src/arch/unix/gui/uisettings.c:270
+#: src/arch/unix/gui/uisettings.c:217 src/arch/unix/gui/uisettings.c:276
 #: src/arch/unix/x11/gnome/x11ui.c:1229 src/arch/unix/x11/xaw/x11ui.c:1152
 #: src/arch/win32/res.rc.po.c:4695 src/arch/amigaos/intl.c.po.c:2033
 msgid "Cannot save settings."
 msgstr "Non è possibile salvare le impostazioni."
 
-#: src/arch/unix/gui/uisettings.c:217 src/arch/unix/gui/uisettings.c:273
+#: src/arch/unix/gui/uisettings.c:220 src/arch/unix/gui/uisettings.c:279
 #: src/arch/win32/res.rc.po.c:4713 src/arch/amigaos/intl.c.po.c:1952
 msgid "Settings saved successfully."
 msgstr "Impostazioni salvate con successo."
 
-#: src/arch/unix/gui/uisettings.c:234 src/arch/unix/gui/uisettings.c:302
+#: src/arch/unix/gui/uisettings.c:237 src/arch/unix/gui/uisettings.c:318
 msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
@@ -2680,7 +2680,7 @@ msgstr ""
 "Non è possibile caricare le impostazioni:\n"
 "il file non è valido."
 
-#: src/arch/unix/gui/uisettings.c:236 src/arch/unix/gui/uisettings.c:304
+#: src/arch/unix/gui/uisettings.c:239 src/arch/unix/gui/uisettings.c:320
 msgid ""
 "Cannot load settings:\n"
 "resource file not found."
@@ -2688,63 +2688,63 @@ msgstr ""
 "Non è possibile caricare le impostazioni:\n"
 "il file non è stato trovato."
 
-#: src/arch/unix/gui/uisettings.c:240
+#: src/arch/unix/gui/uisettings.c:243
 msgid "Settings loaded."
 msgstr "Impostazioni caricate."
 
-#: src/arch/unix/gui/uisettings.c:260 src/arch/unix/gui/uisettings.c:264
+#: src/arch/unix/gui/uisettings.c:266 src/arch/unix/gui/uisettings.c:270
 msgid "File to save settings to"
 msgstr "File su cui scrivere le impostazioni"
 
-#: src/arch/unix/gui/uisettings.c:294
+#: src/arch/unix/gui/uisettings.c:310
 msgid "Resource file name"
 msgstr "Nome del file per le risorse"
 
-#: src/arch/unix/gui/uisettings.c:331
+#: src/arch/unix/gui/uisettings.c:347
 msgid "*Auto"
 msgstr "*Automatica"
 
-#: src/arch/unix/gui/uisettings.c:354 src/arch/unix/gui/uisettings.c:373
+#: src/arch/unix/gui/uisettings.c:370 src/arch/unix/gui/uisettings.c:389
 msgid "*Custom..."
 msgstr "*Personalizzata..."
 
-#: src/arch/unix/gui/uisettings.c:370
+#: src/arch/unix/gui/uisettings.c:386
 msgid "*No limit"
 msgstr "*Nessun limite"
 
-#: src/arch/unix/gui/uisettings.c:383
+#: src/arch/unix/gui/uisettings.c:399
 msgid "Maximum speed"
 msgstr "Velocità massima"
 
-#: src/arch/unix/gui/uisettings.c:385
+#: src/arch/unix/gui/uisettings.c:401
 msgid "*Enable warp mode"
 msgstr "*Attiva la modalità turbo"
 
-#: src/arch/unix/gui/uisettings.c:391
+#: src/arch/unix/gui/uisettings.c:407
 msgid "Save settings"
 msgstr "Salva le impostazioni"
 
-#: src/arch/unix/gui/uisettings.c:393
+#: src/arch/unix/gui/uisettings.c:409
 msgid "Load settings"
 msgstr "Carica le impostazioni"
 
-#: src/arch/unix/gui/uisettings.c:395
+#: src/arch/unix/gui/uisettings.c:411
 msgid "Save settings to file..."
 msgstr "Salva le impostazioni su file..."
 
-#: src/arch/unix/gui/uisettings.c:397
+#: src/arch/unix/gui/uisettings.c:413
 msgid "Load settings from file..."
 msgstr "Carica le impostazioni da file..."
 
-#: src/arch/unix/gui/uisettings.c:399
+#: src/arch/unix/gui/uisettings.c:415
 msgid "Restore default settings"
 msgstr "Ripristina le impostazioni predefinite"
 
-#: src/arch/unix/gui/uisettings.c:401
+#: src/arch/unix/gui/uisettings.c:417
 msgid "*Save settings on exit"
 msgstr "*Salva le impostazioni all'uscita"
 
-#: src/arch/unix/gui/uisettings.c:403
+#: src/arch/unix/gui/uisettings.c:419
 msgid "*Confirm on exit"
 msgstr "*Conferma all'uscita"
 
@@ -6885,9 +6885,8 @@ msgid "DQBB Settings"
 msgstr "Impostazioni DQBB"
 
 #: src/arch/win32/resdqbb.rc.po.c:12
-#, fuzzy
 msgid "&Enable DQBB"
-msgstr "&Attiva SID"
+msgstr "&Attiva DQBB"
 
 #: src/arch/win32/resdqbb.rc.po.c:14 src/arch/amigaos/intl.c.po.c:3268
 msgid "DQBB file"
@@ -7161,14 +7160,12 @@ msgid "Isepic Settings"
 msgstr "Impostazioni Isepic"
 
 #: src/arch/win32/resisepic.rc.po.c:12
-#, fuzzy
 msgid "&Enable Isepic"
-msgstr "&Attiva SID"
+msgstr "&Attiva Isepic"
 
 #: src/arch/win32/resisepic.rc.po.c:14
-#, fuzzy
 msgid "&Isepic switch"
-msgstr "Interruttore Isepic"
+msgstr "Interruttore &Isepic"
 
 #: src/arch/win32/resmmc64.rc.po.c:11
 msgid "&Enable MMC64"
@@ -10501,8 +10498,8 @@ msgid "Specify Double Quick Brown Box filename"
 msgstr "Specifica il nome del file Double Quick Brown Box"
 
 #: src/translate.c.po.c:3829
-msgid "Enable the isepic cart."
-msgstr "Attiva la cartuccia isepic."
+msgid "Enable the isepic cart"
+msgstr "Attiva la cartuccia isepic"
 
 #: src/translate.c.po.c:3841
 msgid "Disable the isepic cart"
