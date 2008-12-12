@@ -60,7 +60,10 @@
 #include "screenshot.h"      // screenshot_save
 #include "dlg-fileio.h"      // ViceFileDialog
 #include "video-resources.h" // VIDEO_RESOURCE_PAL_*
+
+#ifdef __X64DTV__
 #include "c64dtv-resources.h"
+#endif
 
 #ifdef __XCBM__
 #include "cbm2mem.h"     // cbm2_set_model
@@ -1353,8 +1356,6 @@ void menu_select(HWND hwnd, USHORT item)
 #ifdef __X64DTV__
         resources_get_int("c64dtvromrw", &val);
         WinCheckMenuItem(hwnd,  IDM_C64DTV_FLASHROM_RW,     val);
-        resources_get_int("HummerUserportJoy", &val);
-        WinCheckMenuItem(hwnd,  IDM_C64DTV_HUMMER_JOY,     val);
 #endif
 #ifdef __XPET__
         resources_get_int("REU", &val);

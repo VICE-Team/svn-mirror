@@ -49,6 +49,7 @@ copy ..\..\..\data\C64DTV\ccs64.vpl    Vice2\C64DTV
 copy ..\..\..\data\C64DTV\chargen      Vice2\C64DTV
 copy ..\..\..\data\C64DTV\default.vpl  Vice2\C64DTV
 copy ..\..\..\data\C64DTV\default.vrs  Vice2\C64DTV
+copy ..\..\..\data\C64DTV\dtvrom.bin Vice2\C64DTV
 copy ..\..\..\data\C64DTV\frodo.vpl    Vice2\C64DTV
 copy ..\..\..\data\C64DTV\godot.vpl    Vice2\C64DTV
 copy ..\..\..\data\C64DTV\kernal       Vice2\C64DTV
