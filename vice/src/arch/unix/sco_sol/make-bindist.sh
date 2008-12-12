@@ -25,7 +25,9 @@ setnormalmake()
   OLD_IFS=$IFS
   IFS=":"
 
-  for i in /usr/ccs/bin:$PATH
+  TOTALPATH="/usr/ccs/bin:$PATH"
+
+  for i in $TOTALPATH
   do
     if [ -e $i/make ]; then
       GNUMAKE=`$i/make --version`
