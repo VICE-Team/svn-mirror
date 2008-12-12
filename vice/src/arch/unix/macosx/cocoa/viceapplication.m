@@ -564,7 +564,7 @@ const float control_win_width = 200;
     return result == NSAlertFirstButtonReturn;
 }
 
-+ (NSString *)getOpenFileName:(NSString *)title types:(NSArray *)types
+- (NSString *)getOpenFileName:(NSString *)title types:(NSArray *)types
 {
     return [[VICEApplication theAppController] getOpenFileName:title types:types];
 }

@@ -74,7 +74,7 @@ thread is passed through this protocol.
 // show extend image dialog
 - (BOOL)runExtendImageDialog;
 // get a open file name
-+ (NSString *)getOpenFileName:(NSString *)title types:(NSArray *)types;
+- (NSString *)getOpenFileName:(NSString *)title types:(NSArray *)types;
 
 @end
 

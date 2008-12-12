@@ -534,7 +534,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
     const char *cstr = [string cStringUsingEncoding:NSUTF8StringEncoding];
     if(convert) {
         int len = [string length];
-        char *pstr = lib_malloc(len+1);
+        char *pstr = (char *)lib_malloc(len+1);
         memcpy(pstr,cstr,len);
         charset_petconvstring(pstr,0);
         
