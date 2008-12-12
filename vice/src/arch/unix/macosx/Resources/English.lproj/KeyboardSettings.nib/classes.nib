@@ -7,19 +7,6 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
-				<key>triggerResourceUpdate</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>VICEResourceWindowController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSWindowController</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
 				<key>changedKeymapFile</key>
 				<string>id</string>
 				<key>dumpKeymap</key>
@@ -46,6 +33,19 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>VICEResourceWindowController</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>triggerResourceUpdate</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>VICEResourceWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>
