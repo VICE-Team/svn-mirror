@@ -60,7 +60,7 @@ Note that:
 
 - On some systems the XRandR system isn't informed about desktop
   display frequency changes if you switch resolutions via hotkeys like 
-  CRTL-Alt-+ (Numpad), which is possible e.g. with the X11
+  CTRL-Alt-+ (Numpad), which is possible e.g. with the X11
   implementation of Xorg.
   In that case you can override/tell the current frequency via menu:
   Settings->VICII Settings->Desktop Refreshrate (e.g. in x64)
