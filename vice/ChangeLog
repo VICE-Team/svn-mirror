@@ -1,3 +1,9 @@
+2008-12-13  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* doc/vice.texi, src/info.c: Added some documentation.
+
+	* doc/html/plain/NEWS: Added some entries.
+
 2008-12-13  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* doc/vice.texi: Fixed a stray '\n'.
@@ -3829,10 +3835,6 @@
 
 	* data, src/arch/win32: Added files to ignore from a Windows
 	  build for the x64dtv.
-
-2008-08-12  Marco van den Heuvel <blackystardust68@yahoo.com>
-
-	* doc/html/index.html: Updated to 2.0 release changes.
 
 2008-08-12  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
