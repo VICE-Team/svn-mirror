@@ -1,5 +1,5 @@
 Notes to use openGL Rastersynchronization under X11 
-(both Xaw and Gnome)
+(both Xaw and Gnome).
 
 ATTENTION:
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -10,20 +10,21 @@ This description is a suggestion -
 Follow this instructions at your own risk!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-The development is tested on a fairly up-to-date system (2006-12)
-under Ubuntu Linux (6.10) featuring Xorg Xserver 7.1.1. and mesa
+The development is tested on a fairly up-to-date system (2008-12)
+under Ubuntu Linux (8.04) featuring Xorg Xserver 1:7.3+10ubuntu and mesa
 openGL including HW support (NVIDIA driver) supporting glx version 1.4
 supplying GLX_SGI_video_sync.
 It is assumed that this works also on other systems supporting the
 required extensions.
 
 Preconditions:
-- openGl extension GLX_SGI_video_sync in your X11 setup.
+- openGL extension GLX_SGI_video_sync in your X11 setup.
   The availability of the extension is checked at startup.
   
-- XRandR extension to switch proper modes (50Hz/100Hz/150Hz) is preferrable
+- XRandR extension to switch proper modes (50Hz for PAL, 60Hz for
+  NTSC) is mandatory
   Proper modelines in your /etc/X11/xorg.conf must be present.
-  If your systems lacks 50 or 100Hz modes you might try using
+  If your systems lacks 50 or 60Hz modes you might try using
   `gtf' (typcally shipped with Xorg, xserver) - see related man page. 
   You might need to add the output such as:
     # 800x600 @ 50.00 Hz (GTF) hsync: 30.90 kHz; pclk: 31.15 MHz
@@ -44,27 +45,23 @@ Preconditions:
   ATTENTION: Disabling such features might allow X11 to access your HW
   in a way that it gets damaged! You are at your own risk!
 
-Usage: 
+Intended Usage: 
 Enable fullscreen (not necessary, but makes sense):
 - choose your preferred resolution/refresh XRandR Resolutions and 
-  enable XRandR as fullscreen device
+  enable XRandR as fullscreen device (50Hz/PAL or 60Hz/NTSC mode).
 - Activate fullscreen with `Alt-D'.
-
 - choose `OpenGL Rastersynchronization' in the
   video chip menu (VIC-II Settings, VIC Setting, etc.)
-- to get synchronized video output even on a non-aligned frequency
-  (e.g. when you cannot install a proper modeline supporting a 50 or
-  100Hz frequency) then try:
-  - disable sound output
-  - set refresh rate to 1/1
-  - set max speed to `no limit'.
-  of course emulation speed then is driven by the video refresh rate
-  (and might be significant faster) and sound output is disabled. 
 
-Todo:
-- integrate in vsync properly
-- Decide whether to drop non-aligned frequencies (i.e. not multiple of
-  50Hz)
-- fix Xaw fullscreen enabling.
-- introduce in other emulators (not only x64).
-- handle double size fullscreen mode
+Note that:
+- the current implementation is dropping synchronization
+  silently in case the display frequency isn't aligned (50Hz
+  for PAL, 60Hz for NTSC). 
+
+- On some systems the XRandR system isn't informed about desktop
+  display frequency changes if you switch resolutions via hotkeys like 
+  CRTL-Alt-+ (Numpad), which is possible e.g. with the X11
+  implementation of Xorg.
+  In that case you can override/tell the current frequency via menu:
+  Settings->VICII Settings->Desktop Refreshrate (e.g. in x64)
+  (this shouldn't be necessary if you use fullscreen via XRandR.
