@@ -8068,7 +8068,7 @@ code.
 @b{Mustafa 'GnoStiC' Tufan} Made improvements to the gp2x port.
 
 @item
-@b{Ville-Matias Heikkila} Rewrote the vic20 sound code.\n"
+@b{Ville-Matias Heikkila} Rewrote the vic20 sound code.
 
 @end itemize
 
