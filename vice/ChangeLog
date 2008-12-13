@@ -1,10 +1,130 @@
+2008-12-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Fixed a stray '\n'.
+
+2008-12-13  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* doc/html/plain/NEWS: Added pointer to IRC and merge of
+	  VICEplus and VICE.
+
+2008-12-13  Martin Pottendorfer <pottendo@aon.at>
+
+	* doc/openGLsync-howto.txt: Fixed a typo.
+
+	* src/arch/unix/gui/uivic.c: 2008-12-13 pottendo
+	  <pottendo@aon.at>
+	  
+	  * arch/unix/gui/uivic.c: Added menu for setting desktop
+	  frequency (as it's available for VICII).
+
+	* doc/openGLsync-howto.txt: Updated.
+
+2008-12-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resisepic.rc: Updated the hungarian and italian
+	  translations.
+
+	* doc/vice.texi, src/info.c: Updated info.c and vice.texi
+
+2008-12-12  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/IECDriveSettings.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/IECDriveSettings.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/KeyboardSettings.nib/classes.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/KeyboardSettings.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/KeyboardSettings.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/NetplayControl.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/NetplayControl.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/PrinterSettings.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/PrinterSettings.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/RecordHistory.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/RecordHistory.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/RecordMedia.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/RecordMedia.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/ResourceEditor.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/ResourceEditor.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/SoundSettings.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/SoundSettings.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/VICEInformation.nib/classes.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/VICEInformation.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/VICEInformation.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib/keyedobjects.nib:
+	  fixed nib file window flags
+
+	* src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	  src/arch/unix/macosx/cocoa/viceapplication.m,
+	  src/arch/unix/macosx/cocoa/viceapplicationprotocol.h,
+	  src/arch/unix/macosx/mididrv.c: fixed compiler warnings in mac
+	  os x port
+
+2008-12-12  Martin Pottendorfer <pottendo@aon.at>
+
+	* po/hu.po, po/it.po: Updated.
+
+2008-12-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/makedist.cmd:
+	  Fixed some os/2 related issues.
+
+	* build/qnx4/build.sh: Fixed some qnx 4.x issues.
+
+	* src/arch/unix/sco_sol/make-bindist.sh: Changed the way the
+	  make command is tested so it will work on openserver 6.x
+
+2008-12-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/reu.c: Changed a // style comment into a /* */ style
+	  comment.
+
+	* src/rs232drv.h: Included types.h
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/rs232.c,
+	  src/arch/os2/vac++/incl/mainsrc.icc: Fixed some os/2 related
+	  issues.
+
+2008-12-10  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/sounddrv/soundcoreaudio.c: fixed deprecated API calls in
+	  mac os x sound driver
+
+2008-12-10  Martin Pottendorfer <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2008-12-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/uisettings.c: Removed duplicate libgen.h
+	  include.
+
+	* configure.in, src/arch/unix/gui/uisettings.c: Added
+	  dirname/libgen.h work-around for platforms that don't have
+	  either.
+
+	* src/arch/beos/make-bindist.sh, src/arch/beos/vicemenu.cc,
+	  src/arch/beos/video.cc, src/arch/beos/vsidui.cc: Fixed some
+	  beos related issues.
+
+2008-12-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/Makefile.am: Made minix use the
+	  gentranslate.c file instead of the translate.h generation
+	  script.
+
+	* src/arch/os2/Makefile.am, src/arch/os2/siddefs.h: Added
+	  siddefs.h for os/2 vac++ compile.
+
+2008-12-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/fr.po, po/nl.po, po/pl.po, po/sv.po, src/arch/win32/res.rc,
+	  src/translate.c: Updated the dutch translations.
+
+	* configure.in, src/resid-fp/configure.in: Added a --disable-sse
+	  parameter to the resid-fp configure script.
+
 2008-12-07  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.0.10
-
-2008-12-07  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
-
-	* New version 2.0.10
 
 2008-12-07  Marco van den Heuvel <blackystardust68@yahoo.com>
 
