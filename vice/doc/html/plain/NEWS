@@ -30,10 +30,21 @@ list of all the changes in the code.
 - Monitor IO command now displays IO area even if it is currently
   banked out.
 
+- GCR file handling (.G64) issues an error message if the .G64 does not
+  have the expected outline. Before, VICE just silently ignored such
+  files.
+
+- IRQ handling fix
+
 ** C64/C128 changes
 -------------------
 
 - Fixed the digimax sound generation.
+
+- Added the RR clockport disable functionality at $DF00.0. Allows
+  to disable the RRnet.
+
+- Improved REU compatibility and timing.
 
 ** C64 changes
 --------------
@@ -123,6 +134,7 @@ list of all the changes in the code.
   * correct display of emulated sid model (when using -keepenv)
   * changed colors
 
+- fixed copy function from the VICE monitor window.
 
 ** AmigaOS changes
 ------------------
