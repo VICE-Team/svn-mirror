@@ -2211,11 +2211,6 @@
 	  po/nl.po, po/pl.po, po/sv.po, src/resid-fp/siddefs.h,
 	  src/version.h: Version 2.0.4
 
-TODO: MERGE ChangeLog.add.v2.0.3-win32menucleanup-marco
-TODO: Determine what was already included in v2.0, and remove it!
-
-------------------------------
-
 2008-09-02  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* src/monitor/mon_command.c: Added *nix intl N_() and _() to
@@ -2881,8 +2876,6 @@ TODO: Determine what was already included in v2.0, and remove it!
 	src/initcmdline.c, src/network.c, src/sounddrv/soundbeos.cc,
 	src/video.h: Added some more warning fixes and beos fixes
 
-------------------------------
-
 2008-09-01  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* configure.in, src/c64dtv/Makefile.am: Added a check for
@@ -3236,16 +3229,13 @@ TODO: Determine what was already included in v2.0, and remove it!
 
 2008-05-18  Christian Vogelgsang <chris@vogelgsang.org>
 
-	* Makefile.am, configure.in,
-	src/arch/unix/macosx/cocoa/dialog/resourcetreeitem.m:
-
-TODO: FIX ABOVE!
-
 	* configure.in: added Carbon framework for Mac OS X (required
-	for UIType stuff) * Makefile.am: call bindist script always with
-	bash on Mac OS X *
-	src/arch/unix/macosx/cocoa/dialog/resourcetreeitem.m: do not use
-	10.5 code
+	for UIType stuff)
+
+	* Makefile.am: call bindist script always with bash on Mac OS X 
+	
+	* src/arch/unix/macosx/cocoa/dialog/resourcetreeitem.m: do not
+	use 10.5 code
 
 	* src/arch/unix/macosx/Resources/English.lproj/Makefile.am,
 	src/arch/unix/macosx/Resources/English.lproj/ResourceEditor.nib,
