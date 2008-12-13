@@ -11,6 +11,11 @@ list of all the changes in the code.
 ** General
 ----------
 
+- The VICEplus project has been joined with VICE. Thus, x64dtv is now
+  part of VICE.
+
+- We can be contacted via IRC: #vice-dev on freenode
+
 - Added a more accurate ReSID engine using floating point math (ReSID-FP).
 
 - Added support for the USB HardSID.
