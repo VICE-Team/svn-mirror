@@ -8018,7 +8018,9 @@ cybergraphics support for the Amiga ports.
 
 @item
 @b{Wolfgang Moser} provided small optimization fixes
-to the GCR code.
+to the GCR code, provided an excellent REU test suite and added
+REU fixes, and is always the good guy reviewing and commenting
+changes in the background.
 
 @item
 @b{Peter Gordon} provided support for native AmigaOS4 compiling.
@@ -8199,15 +8201,47 @@ home page:
 @uref{http://www.viceteam.org/}
 @end example
 
+VICE has moved its source repository to public services provided by
+SourceForge. You can find it at 
+@example
+@uref{http://sf.net/projects/vice-emu}.
+@end example
+
+We would like to thank the SourceForge staff for that help.
+
 If you are going to report a bug, please check those pages @emph{first};
 it is possible that the problem you encountered has already been
 fixed with a newer version.
 
+Please, also have a look at the VICE knowledge base at
+
+@example
+@uref{http://vicekb.trikaliotis.net/}
+@end example
+
 @node Sending feedback, Contributing, Home page, Contacts
 @section How to send feedback
 
-If you want to report bugs, make suggestions or contribute to
-the project, please email the VICE team mailing list:
+Before contacting us, have a look at the VICE knowledge base at
+@uref{http://vicekb.trikaliotis.net/} if your question is answered
+there. Keep in mind that we work on VICE in our spare-time, so the more
+time we don't need to answer the same questions over and over again, the
+more time we have to improve the emulation itself. On the other hand,
+that does not mean that you should not contact us, especially if you
+find bugs or have suggestions which might improve the emulation.
+
+Bug reports, suggestions, support requests should be directed to the
+SourceForge trackers at
+
+@itemize @bullet
+
+@item
+@uref{http://sourceforge.net/tracker/?group_id=223021}.
+@end itemize
+
+This way, you, the users, and we, the developers, can track what has
+been reported and what has been already fixed. Ideally, also sent the
+report to the mailing address of the Vice team at
 
 @itemize @bullet
 
@@ -8216,6 +8250,8 @@ VICE Mailing List (@email{vice-devel@@firenze.linux.it}) for all
 general questions, bug reports, suggestions.
 
 @end itemize
+
+You can also contact (some of) us on IRC, at #vice-dev on freenode.
 
 It's always nice to receive feedback and/or bugreports about VICE, but
 please read these few notes before sending mail to anybody in the
@@ -8249,6 +8285,9 @@ the VICE FAQ (it is available on the Internet, and reachable from the
 VICE home page:
 @uref{http://www.viceteam.org/});
 @item
+The VICE knowledge base (it is available on the Internet at
+@uref{http://vicekb.trikaliotis.net/});
+@item
 the @code{comp.emulators.cbm} and @code{comp.sys.cbm} FAQs (@pxref{FAQs
 you should read}).
 @end itemize
@@ -8263,8 +8302,9 @@ using as well as the version of it.
 Please don't ask us how to transfer original C64 disk or tapes to your
 PC; this has been asked a gazillion times through email.  To transfer
 disks, you can use the Star Commander
-(@uref{http://sta.c64.org/sc.html}).  And no, you cannot read C64 disks
-with your old 5"1/4 PC drive.
+(@uref{http://sta.c64.org/sc.html}) on DOS, and OpenCBM
+(@uref{http://www.trikaliotis.net/opencbm}) on Windows and Linux.  And
+no, you cannot read C64 disks with your old 5"1/4 PC drive.
 
 @item
 Please don't ask us where to find games for the emulator on the
@@ -8299,8 +8339,23 @@ to the very latest version, and provide us with the following:
 
 @itemize @bullet
 @item
-a unified diff file containing all the changes you have made
-@samp{diff -u} is fine; please don't use plain @samp{diff});
+Make sure you are giving us a diff against the latest Subversion
+trunk version of VICE. For instructions on accessing the Subversion
+repository, first read @uref{http://sourceforge.net/svn/?group_id=223021} and
+get it with the command:
+@example
+@samp{svn co https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/trunk vice-src}
+@end example
+@item
+send a unified diff file against the trunk version of VICE (see above
+bullet point) by using the command: @samp{svn diff} inside of the
+SVN workspace you checked out before.
+
+@item
+If you cannot use SVN for one or the other reason, send a unified diff
+file containing all the changes you have made @samp{diff -u};
+please don't use plain @samp{diff}), as it adds much work for us to get
+it working;
 @item
 GNU-style @file{ChangeLog} entries with a description of the changes you
 have made (look at the @file{ChangeLog}s provided with the original VICE
@@ -8312,7 +8367,7 @@ safer.
 
 People willing to port VICE to other platforms are always welcome.
 But notice from experience it will take at least a full year of
-continious work to write a well working and stable port.
+continuous work to write a well working and stable port.
 
 @node Newsgroups, FAQs you should read, Contributing, Contacts
 @section Interesting newsgroups
@@ -8336,7 +8391,7 @@ here).
 
 @end itemize
 
-@node FAQs you should read,  , Newsgroups, Contacts
+@node FAQs you should read, , Newsgroups, Contacts
 @section FAQs you should read
 
 We recommend reading the @code{comp.emulators.cbm} and
