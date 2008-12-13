@@ -3031,6 +3031,10 @@ File: vice.info,  Node: Monitor options,  Up: Monitor settings
      labels and to set breakpoints.  Not all other commands are useful
      to be executed in this way, some may even lead to strange effects.
 
+`-initbreak <address>'
+     Set an initial breakpoint for the monitor. Addresses with prefix
+     "0x" are hexadecimal.
+
 
 File: vice.info,  Node: Misc settings,  Prev: Monitor settings,  Up: Settings and resources
 
@@ -5451,6 +5455,12 @@ File: vice.info,  Node: Terminology,  Next: Machine state commands,  Prev: Monit
      Watchpoints are triggered by a read and/or write to an address.
      When a watchpoint is triggered, the monitor is entered.
 
+`memmap'
+     The memmap keeps track of RAM/ROM/IO read/write/execute accesses.
+     The feature must be enabled with "-enable-memmap" configure
+     option, as it might decrease performance notably on slower
+     hardware. The option also enables CPU history.
+
 `<...>'
      A data type.
 
@@ -5467,6 +5477,15 @@ File: vice.info,  Node: Machine state commands,  Next: Memory commands,  Prev: T
 9.2 Machine state commands
 ==========================
 
+`backtrace'
+     Print JSR call chain (most recent call first). Stack offset
+     relative to SP+1 is printed in parentheses. This is a best guess
+     only.
+
+`cpuhistory [<count>]'
+     Show <count> last executed commands.  (disabled by default;
+     configure with -enable-memmap to enable)
+
 `goto <address>'
      Change the PC to address and continue execution.
 
@@ -5480,6 +5499,10 @@ File: vice.info,  Node: Machine state commands,  Next: Memory commands,  Prev: T
 `registers [<reg_name> = <number> [, <reg_name> = <number>]*]'
      Assign respective registers.  With no parameters, display register
      values.
+
+`reset [<type>]'
+     Reset the machine or drive.  `type': 0 = soft, 1 = hard, 8-11 =
+     drive.
 
 `return'
      Continues execution  and returns to the monitor just after the
@@ -5522,7 +5545,7 @@ File: vice.info,  Node: Memory commands,  Next: Assembly commands,  Prev: Machin
      Hunt memory in the specified address range for the data in
      <data_list>.  If the data is found, the starting address of the
      match is displayed.  The entire range is searched for all possible
-     matches.
+     matches.  The data list may have `xx' as a wildcard.
 
 `i <address_opt_range>'
      Display memory contents as PETSCII text.
@@ -5535,6 +5558,22 @@ File: vice.info,  Node: Memory commands,  Next: Assembly commands,  Prev: Machin
      default is used.  If only one address is specified, the length of
      data displayed is based on the datatype.  If no addresses are
      given, the 'dot' address is used.
+
+`memmapshow [<mask>] [<address_opt_range>]'
+     Show the memmap. The mask can be specified to show only those
+     locations with accesses of certain type(s). The mask is a number
+     with the bits "ioRWXrwx", where RWX are for ROM and rwx for RAM.
+     Optionally, an address range can be specified.  (disabled by
+     default; configure with -enable-memmap to enable)
+
+`memmapzap'
+     Clear the memmap.  (disabled by default; configure with
+     -enable-memmap to enable)
+
+`memmapsave "<filename>" <format>'
+     Save the memmap as a picture. `format': 0 = BMP, 1 = PCX, 2 = PNG,
+     3 = GIF, 4 = IFF.  (disabled by default; configure with
+     -enable-memmap to enable)
 
 `mc [<data_type>] [<address_opt_range>]'
      Display the contents of memory as character data.  If only one
@@ -5650,6 +5689,12 @@ File: vice.info,  Node: General commands,  Next: Disk commands,  Prev: Checkpoin
      Set the default memory device to either the computer (`c:') or the
      disk (`d:').
 
+`dir [<directory>]'
+     Display the directory contents.
+
+`pwd'
+     Show current working directory.
+
 `radix [H|D|O|B]'
      Set the default radix to hex, decimal, octal, or binary.  With no
      argument, the current radix is printed.
@@ -5671,6 +5716,9 @@ File: vice.info,  Node: Disk commands,  Next: Command file commands,  Prev: Gene
 9.7 Disk commands
 =================
 
+`attach <filename> <device>'
+     Attach file to device. (device 32 = cart)
+
 `br <track> <sector> [<address>]'
      Read the block at the specified track and sector.  If an address is
      specified, the data is loaded into memory.  If no address is given,
@@ -5679,6 +5727,9 @@ File: vice.info,  Node: Disk commands,  Next: Command file commands,  Prev: Gene
 `bw <track> <sector> <address>'
      Write a block of data at `address' to the specified track and
      sector of disk in drive 8.
+
+`detach <device>'
+     Detach file from device. (device 32 = cart)
 
 `@<disk command>'
      Perform a disk command on the currently attached disk image on
@@ -5693,7 +5744,16 @@ File: vice.info,  Node: Disk commands,  Next: Command file commands,  Prev: Gene
      are skipped.  If device is 0, the file is read from the file
      system.
 
+`bload "<filename>" <device> <address>'
+     Load the specified file into memory at the specified address.  If
+     device is 0, the file is read from the file system.
+
 `save "<filename>" <device> <address1> <address2>'
+     Save the memory from address1 to address2 to the specified file.
+     Write two-byte load address.  If device is 0, the file is written
+     to the file system.
+
+`bsave "<filename>" <device> <address1> <address2>'
      Save the memory from address1 to address2 to the specified file.
      If device is 0, the file is written to the file system.
 
@@ -5761,11 +5821,33 @@ File: vice.info,  Node: Miscellaneous commands,  Prev: Label commands,  Up: Moni
 9.10 Miscellaneous commands
 ===========================
 
+`cartfreeze'
+     Use cartridge freeze.
+
 `exit'
      Leave the monitor and return to execution.
 
+`help [<command>]'
+     If no argument is given, prints out a list of all available
+     commands.  If an argument is given, prints out specific help for
+     that command.
+
 `print <expression>'
      Evaluate the specified expression and output the result.
+
+`resourceget "<resource>"'
+     Displays the value of the `resource'.
+
+`resourceset "<resource>" "<value>"'
+     Sets the value of the `resource'.
+
+`screenshot "<filename>" [<format>]'
+     Take a screenshot. `format': default = BMP, 1 = PCX, 2 = PNG, 3 =
+     GIF, 4 = IFF.
+
+`tapectrl <command>'
+     Control the datasette. `command': 0 = stop, 1 = start, 2 =
+     forward, 3 = rewind, 4 = record, 5 = reset, 6 = reset counter.
 
 `quit'
      Exit the emulator immediately.
@@ -6378,16 +6460,19 @@ in the development of X64 and VICE:
      emulation and some ui stuff in the Win32 and MSDOS port. He also
      wrote the BeOS port and implemented video/audio capture support.
      Improved history recording/playback and implented support for
-     video recording and netlink feature. Various bug(fixe)s. ;-)
+     video recording and netlink feature. Made the win32 user changable
+     keyboard shortcut system. Various bug(fixe)s. ;-)
 
    * Martin Pottendorfer Implemented Gnome Port based on Oliver
      Schaertels GTK+ port Added support code for internationalization
-     based on gettext Translated the Unix Port to German Implemented
-     the fliplists + ui (unix).
+     based on gettext Improved the *nix fullscreen support Translated
+     the Unix Port to German Implemented the fliplists + ui (unix).
 
    * Spiro Trikaliotis wrote the Win32 console implementation for the
-     built-in monitor, corrected some REU related bugs, added support
-     for the TFE and RR-Net (cs8900a), and wrote some further patches.
+     built-in monitor, corrected some REU related bugs, improved the
+     CIA emulation, added com-port CIA support to the win32 port, added
+     text copy and paste support to the win32 port, added support for
+     the TFE and RR-Net (cs8900a), and wrote some further patches.
 
    * Markus Brenner added VDC emulation to x128 and added support for
      some more cartridges.
@@ -6406,8 +6491,9 @@ in the development of X64 and VICE:
      support. Added new screenshot formats. Added new sound recording
      support. Added SIDcart support for pet, plus4 and vic20. Improved
      the MMC64 emulation. Added 2 MHz mode for x128. Added the Hummer
-     userport joystick emulation.  And lots of other fixes and
-     improvements.
+     userport joystick emulation.  Added text copy and paste support to
+     the amiga and beos ports. Added DQBB and Isepic cartridge support.
+     And lots of other fixes and improvements.
 
    * Christian Vogelgsang maintains the Mac OS X port. Added Intel Mac
      support and universal binary creation. Wrote the build scripts for
@@ -6422,7 +6508,8 @@ in the development of X64 and VICE:
      cycle emulation as well as many other things. Added experimental
      NEOS and Amiga mouse support. Fixed mouse support for single size
      in unix.  Fixed mouse grab and menu popup for xaw. Added new
-     monitor commands and features. Added the memmap feature.
+     monitor commands and features. Added the memmap feature. Made MIDI
+     support and MIDI driver code for *nix.
 
    * M. Kiesel started implementing x64dtv. The C64DTV memory model and
      early versions of the DMA and Blitter engine have been implemented
@@ -6430,7 +6517,8 @@ in the development of X64 and VICE:
 
    * Daniel Kahlin Worked on DTV VIC emulation, palette, DTV SID support
      in resid, better DMA/Blitter support and did lots of refactoring.
-     Added new monitor commands and features.
+     Added new monitor commands and features. Improved the VIC
+     emulation for xvic.  Made MIDI driver code for win32.
 
 
    Former team members:
@@ -6602,7 +6690,8 @@ in the development of X64 and VICE:
 
    * Rami Rasanen rewrote the VIC20 sound code.
 
-   * iAN CooG contributed various small patches.
+   * iAN CooG Added win32 vsid GUI and contributed various small
+     patches.
 
    * Mike Dawson provided the GP2X port and co-maintains the GP2X ports.
 
@@ -6619,7 +6708,10 @@ in the development of X64 and VICE:
    * Ilkka "itix" Lehtoranta provided the routines for the
      cybergraphics support for the Amiga ports.
 
-   * Wolfgang Moser provided small optimization fixes to the GCR code.
+   * Wolfgang Moser provided small optimization fixes to the GCR code,
+     provided an excellent REU test suite and added REU fixes, and is
+     always the good guy reviewing and commenting changes in the
+     background.
 
    * Peter Gordon provided support for native AmigaOS4 compiling.
 
@@ -6634,7 +6726,8 @@ in the development of X64 and VICE:
      the win32 port.
 
    * Groepaz/Hitmen Added new more precise PAL emulation. Added support
-     for the Action Replay 4 and StarDos cartridges.
+     for the Action Replay 4 and StarDos cartridges. Provided several
+     fixes.
 
    * Ingo Korb Corrected block allocation and interleave for
      c1541/vdrive.
@@ -6649,6 +6742,13 @@ in the development of X64 and VICE:
 
    * Marcus Sutton Made some console, dialog and joystick fixes for the
      BeOS port.
+
+   * Antti Lankila Made the ReSID-fp engine and rewrote the PAL
+     emulation code.
+
+   * Mustafa 'GnoStiC' Tufan Made improvements to the gp2x port.
+
+   * Ville-Matias Heikkila Rewrote the vic20 sound code.
 
 
    * Lutz Sammer
@@ -6772,9 +6872,19 @@ You can find the latest news about VICE at the official VICE home page:
 
      http://www.viceteam.org/
 
+   VICE has moved its source repository to public services provided by
+SourceForge. You can find it at
+     http://sf.net/projects/vice-emu.
+
+   We would like to thank the SourceForge staff for that help.
+
    If you are going to report a bug, please check those pages _first_;
 it is possible that the problem you encountered has already been fixed
 with a newer version.
+
+   Please, also have a look at the VICE knowledge base at
+
+     http://vicekb.trikaliotis.net/
 
 
 File: vice.info,  Node: Sending feedback,  Next: Contributing,  Prev: Home page,  Up: Contacts
@@ -6782,12 +6892,28 @@ File: vice.info,  Node: Sending feedback,  Next: Contributing,  Prev: Home page,
 14.2 How to send feedback
 =========================
 
-If you want to report bugs, make suggestions or contribute to the
-project, please email the VICE team mailing list:
+Before contacting us, have a look at the VICE knowledge base at
+http://vicekb.trikaliotis.net/ if your question is answered there. Keep
+in mind that we work on VICE in our spare-time, so the more time we
+don't need to answer the same questions over and over again, the more
+time we have to improve the emulation itself. On the other hand, that
+does not mean that you should not contact us, especially if you find
+bugs or have suggestions which might improve the emulation.
+
+   Bug reports, suggestions, support requests should be directed to the
+SourceForge trackers at
+
+   * http://sourceforge.net/tracker/?group_id=223021.
+
+   This way, you, the users, and we, the developers, can track what has
+been reported and what has been already fixed. Ideally, also sent the
+report to the mailing address of the Vice team at
 
    * VICE Mailing List (<vice-devel@firenze.linux.it>) for all general
      questions, bug reports, suggestions.
 
+
+   You can also contact (some of) us on IRC, at #vice-dev on freenode.
 
    It's always nice to receive feedback and/or bugreports about VICE,
 but please read these few notes before sending mail to anybody in the
@@ -6812,6 +6938,9 @@ team.
         * the VICE FAQ (it is available on the Internet, and reachable
           from the VICE home page: http://www.viceteam.org/);
 
+        * The VICE knowledge base (it is available on the Internet at
+          http://vicekb.trikaliotis.net/);
+
         * the `comp.emulators.cbm' and `comp.sys.cbm' FAQs (*note FAQs
           you should read::).
 
@@ -6823,8 +6952,9 @@ team.
    * Please don't ask us how to transfer original C64 disk or tapes to
      your PC; this has been asked a gazillion times through email.  To
      transfer disks, you can use the Star Commander
-     (http://sta.c64.org/sc.html).  And no, you cannot read C64 disks
-     with your old 5"1/4 PC drive.
+     (http://sta.c64.org/sc.html) on DOS, and OpenCBM
+     (http://www.trikaliotis.net/opencbm) on Windows and Linux.  And
+     no, you cannot read C64 disks with your old 5"1/4 PC drive.
 
    * Please don't ask us where to find games for the emulator on the
      Internet.
@@ -6855,8 +6985,20 @@ and we really do _not_ want anybody to waste time.
    If you are going to make a patch, please make sure the patch is
 relative to the very latest version, and provide us with the following:
 
-   * a unified diff file containing all the changes you have made `diff
-     -u' is fine; please don't use plain `diff');
+   * Make sure you are giving us a diff against the latest Subversion
+     trunk version of VICE. For instructions on accessing the Subversion
+     repository, first read http://sourceforge.net/svn/?group_id=223021
+     and get it with the command:
+          `svn co https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/trunk vice-src'
+
+   * send a unified diff file against the trunk version of VICE (see
+     above bullet point) by using the command: `svn diff' inside of the
+     SVN workspace you checked out before.
+
+   * If you cannot use SVN for one or the other reason, send a unified
+     diff file containing all the changes you have made `diff -u';
+     please don't use plain `diff'), as it adds much work for us to get
+     it working;
 
    * GNU-style `ChangeLog' entries with a description of the changes you
      have made (look at the `ChangeLog's provided with the original VICE
@@ -6867,7 +7009,7 @@ safer.
 
    People willing to port VICE to other platforms are always welcome.
 But notice from experience it will take at least a full year of
-continious work to write a well working and stable port.
+continuous work to write a well working and stable port.
 
 
 File: vice.info,  Node: Newsgroups,  Next: FAQs you should read,  Prev: Contributing,  Up: Contacts
@@ -7430,109 +7572,109 @@ Node: RS232 options116529
 Node: RS232 usage117539
 Node: Monitor settings119301
 Node: Monitor options119569
-Node: Misc settings120016
-Node: Misc resources120293
-Node: Misc options122869
-Node: Machine-specific features123614
-Node: C64/128-specific124381
-Node: C64 cartridges125094
-Node: VIC-II settings126686
-Node: VIC-II resources128284
-Node: VIC-II options128687
-Node: SID settings129174
-Node: SID resources132292
-Node: SID options133136
-Node: C64 I/O extension settings134137
-Node: C64 I/O extension resources135434
-Node: C64 I/O extension options135973
-Node: C64/128 system ROM settings136522
-Node: C64/128 system ROM resources136922
-Node: C64/128 system ROM options138153
-Node: C64DTV-specific138680
-Node: C64DTV ROM image139116
-Node: DTV revision140665
-Node: LumaFix141032
-Node: Userport141526
-Node: Debug142571
-Node: Monitor DTV features143045
-Node: VIC20-specific143669
-Node: VIC20 cartridges144079
-Node: VIC20 memory expansions145894
-Node: VIC20 memconf resources147701
-Node: VIC20 memconf options148182
-Node: VIC20 system ROM settings149318
-Node: VIC20 system ROM resources149700
-Node: VIC20 system ROM options150367
-Node: PET-specific150994
-Node: PET model151399
-Node: PET diagnostic pin154489
-Node: PET commandline options154970
-Node: PET colors156438
-Node: CBM-II-specific157009
-Node: CBM-II model157386
-Node: CBM-II commandline options159684
-Node: CBM-II colors160760
-Node: Snapshots161339
-Node: Snapshot usage161757
-Node: Snapshot format162669
-Node: Emulator modules163006
-Node: x64 modules163371
-Node: x128 modules165163
-Node: xvic modules166869
-Node: xpet modules167866
-Node: xcbm2 modules169234
-Node: Drive modules171165
-Node: Module formats171583
-Node: Module Terminology172465
-Node: Module framework173201
-Node: CPU 6502 module175008
-Node: CIA 6526 module176471
-Node: VIA 6522 module179931
-Node: PIA 6520 module181802
-Node: TPI 6525 module182759
-Node: RIOT 6532 module184124
-Node: SID 6581 module185564
-Node: ACIA 6551 module185768
-Node: VIC-I module187161
-Node: VIC-II module187365
-Node: CRTC module187566
-Node: C64 memory module193663
-Node: C128 memory module194954
-Node: VIC20 memory module196171
-Node: PET memory module199579
-Node: CBM-II memory module203793
-Node: C500 data module207821
-Node: Monitor208250
-Node: Terminology209093
-Node: Machine state commands211312
-Node: Memory commands212124
-Node: Assembly commands215049
-Node: Checkpoint commands215801
-Node: General commands218215
-Node: Disk commands219076
-Node: Command file commands220344
-Node: Label commands220876
-Node: Miscellaneous commands222347
-Node: c1541222759
-Node: c1541 file specification224335
-Node: c1541 quoting224939
-Node: c1541 commands and options225790
-Node: c1541 executing shell commands228975
-Node: File formats229378
-Node: T64229748
-Node: T64 file structure230160
-Node: T64 tape record230626
-Node: T64 file record231424
-Node: G64232684
-Node: Acknowledgments246678
-Node: Copyright258875
-Node: Contacts260674
-Node: Home page261186
-Node: Sending feedback261590
-Node: Contributing263940
-Node: Newsgroups265059
-Node: FAQs you should read265698
-Node: Concept Index266020
-Node: Resource Index287933
+Node: Misc settings120137
+Node: Misc resources120414
+Node: Misc options122990
+Node: Machine-specific features123735
+Node: C64/128-specific124502
+Node: C64 cartridges125215
+Node: VIC-II settings126807
+Node: VIC-II resources128405
+Node: VIC-II options128808
+Node: SID settings129295
+Node: SID resources132413
+Node: SID options133257
+Node: C64 I/O extension settings134258
+Node: C64 I/O extension resources135555
+Node: C64 I/O extension options136094
+Node: C64/128 system ROM settings136643
+Node: C64/128 system ROM resources137043
+Node: C64/128 system ROM options138274
+Node: C64DTV-specific138801
+Node: C64DTV ROM image139237
+Node: DTV revision140786
+Node: LumaFix141153
+Node: Userport141647
+Node: Debug142692
+Node: Monitor DTV features143166
+Node: VIC20-specific143790
+Node: VIC20 cartridges144200
+Node: VIC20 memory expansions146015
+Node: VIC20 memconf resources147822
+Node: VIC20 memconf options148303
+Node: VIC20 system ROM settings149439
+Node: VIC20 system ROM resources149821
+Node: VIC20 system ROM options150488
+Node: PET-specific151115
+Node: PET model151520
+Node: PET diagnostic pin154610
+Node: PET commandline options155091
+Node: PET colors156559
+Node: CBM-II-specific157130
+Node: CBM-II model157507
+Node: CBM-II commandline options159805
+Node: CBM-II colors160881
+Node: Snapshots161460
+Node: Snapshot usage161878
+Node: Snapshot format162790
+Node: Emulator modules163127
+Node: x64 modules163492
+Node: x128 modules165284
+Node: xvic modules166990
+Node: xpet modules167987
+Node: xcbm2 modules169355
+Node: Drive modules171286
+Node: Module formats171704
+Node: Module Terminology172586
+Node: Module framework173322
+Node: CPU 6502 module175129
+Node: CIA 6526 module176592
+Node: VIA 6522 module180052
+Node: PIA 6520 module181923
+Node: TPI 6525 module182880
+Node: RIOT 6532 module184245
+Node: SID 6581 module185685
+Node: ACIA 6551 module185889
+Node: VIC-I module187282
+Node: VIC-II module187486
+Node: CRTC module187687
+Node: C64 memory module193784
+Node: C128 memory module195075
+Node: VIC20 memory module196292
+Node: PET memory module199700
+Node: CBM-II memory module203914
+Node: C500 data module207942
+Node: Monitor208371
+Node: Terminology209214
+Node: Machine state commands211695
+Node: Memory commands212900
+Node: Assembly commands216547
+Node: Checkpoint commands217299
+Node: General commands219713
+Node: Disk commands220676
+Node: Command file commands222477
+Node: Label commands223009
+Node: Miscellaneous commands224480
+Node: c1541225537
+Node: c1541 file specification227113
+Node: c1541 quoting227717
+Node: c1541 commands and options228568
+Node: c1541 executing shell commands231753
+Node: File formats232156
+Node: T64232526
+Node: T64 file structure232938
+Node: T64 tape record233404
+Node: T64 file record234202
+Node: G64235462
+Node: Acknowledgments249456
+Node: Copyright262548
+Node: Contacts264347
+Node: Home page264859
+Node: Sending feedback265565
+Node: Contributing268886
+Node: Newsgroups270633
+Node: FAQs you should read271272
+Node: Concept Index271594
+Node: Resource Index293507
 
 End Tag Table

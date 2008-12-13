@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-10 20:28+0100\n"
+"POT-Creation-Date: 2008-12-13 20:25+0100\n"
 "PO-Revision-Date: 2008-12-11 14:00+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -59,13 +59,13 @@ msgstr "Specifica la velocità della quarta RS232 (in baud)"
 
 #: src/arch/unix/gui/c128ui.c:72 src/arch/unix/gui/c64ui.c:77
 #: src/arch/unix/gui/cbm2ui.c:64 src/arch/unix/gui/uited.c:56
-#: src/arch/unix/gui/uivic.c:45 src/arch/unix/gui/vsidui.c:290
+#: src/arch/unix/gui/uivic.c:49 src/arch/unix/gui/vsidui.c:290
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/gui/c128ui.c:74 src/arch/unix/gui/c64ui.c:79
 #: src/arch/unix/gui/cbm2ui.c:66 src/arch/unix/gui/uited.c:58
-#: src/arch/unix/gui/uivic.c:47 src/arch/unix/gui/vsidui.c:292
+#: src/arch/unix/gui/uivic.c:51 src/arch/unix/gui/vsidui.c:292
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
@@ -1183,31 +1183,31 @@ msgid "*White"
 msgstr "*Bianco"
 
 #: src/arch/unix/gui/uicrtc.c:52 src/arch/unix/gui/uited.c:48
-#: src/arch/unix/gui/uivdc.c:45 src/arch/unix/gui/uivic.c:57
+#: src/arch/unix/gui/uivdc.c:45 src/arch/unix/gui/uivic.c:61
 #: src/arch/unix/gui/uivicii.c:75
 msgid "Load custom"
 msgstr "Personalizzata"
 
 #: src/arch/unix/gui/uicrtc.c:69 src/arch/unix/gui/uited.c:95
-#: src/arch/unix/gui/uivdc.c:71 src/arch/unix/gui/uivic.c:94
+#: src/arch/unix/gui/uivdc.c:71 src/arch/unix/gui/uivic.c:116
 #: src/arch/unix/gui/uivicii.c:148
 msgid "*Double size"
 msgstr "*Dimensione doppia"
 
 #: src/arch/unix/gui/uicrtc.c:71 src/arch/unix/gui/uited.c:97
-#: src/arch/unix/gui/uivdc.c:73 src/arch/unix/gui/uivic.c:96
+#: src/arch/unix/gui/uivdc.c:73 src/arch/unix/gui/uivic.c:118
 #: src/arch/unix/gui/uivicii.c:150
 msgid "*Double scan"
 msgstr "*Scansione doppia"
 
 #: src/arch/unix/gui/uicrtc.c:73 src/arch/unix/gui/uited.c:99
-#: src/arch/unix/gui/uivdc.c:75 src/arch/unix/gui/uivic.c:98
+#: src/arch/unix/gui/uivdc.c:75 src/arch/unix/gui/uivic.c:120
 #: src/arch/unix/gui/uivicii.c:152
 msgid "*Video cache"
 msgstr "*Cache video"
 
 #: src/arch/unix/gui/uicrtc.c:76 src/arch/unix/gui/uited.c:113
-#: src/arch/unix/gui/uivic.c:108 src/arch/unix/gui/uivicii.c:164
+#: src/arch/unix/gui/uivic.c:130 src/arch/unix/gui/uivicii.c:164
 msgid "*Scale 2x render"
 msgstr "*Render Scale 2x"
 
@@ -1216,18 +1216,18 @@ msgid "*CRTC Screen color"
 msgstr "*Tinta dello schermo CRTC"
 
 #: src/arch/unix/gui/uicrtc.c:83 src/arch/unix/gui/uited.c:124
-#: src/arch/unix/gui/uivic.c:119 src/arch/unix/gui/uivicii.c:183
+#: src/arch/unix/gui/uivic.c:141 src/arch/unix/gui/uivicii.c:183
 msgid "*OpenGL Rastersynchronization"
 msgstr "*OpenGL sincronizzazione raster"
 
 #: src/arch/unix/gui/uicrtc.c:87 src/arch/unix/gui/uited.c:128
-#: src/arch/unix/gui/uivdc.c:79 src/arch/unix/gui/uivic.c:123
+#: src/arch/unix/gui/uivdc.c:79 src/arch/unix/gui/uivic.c:147
 #: src/arch/unix/gui/uivicii.c:189
 msgid "*Fullscreen settings"
 msgstr "Impostazioni *schermo intero"
 
 #: src/arch/unix/gui/uicrtc.c:90 src/arch/unix/gui/uited.c:131
-#: src/arch/unix/gui/uivdc.c:82 src/arch/unix/gui/uivic.c:126
+#: src/arch/unix/gui/uivdc.c:82 src/arch/unix/gui/uivic.c:150
 #: src/arch/unix/gui/uivicii.c:192
 msgid "*Use XSync()"
 msgstr "*Usa XSync()"
@@ -2977,12 +2977,12 @@ msgstr "Sovracampionamento"
 msgid "Sound settings"
 msgstr "Impostazioni audio"
 
-#: src/arch/unix/gui/uited.c:102 src/arch/unix/gui/uivic.c:101
+#: src/arch/unix/gui/uited.c:102 src/arch/unix/gui/uivic.c:123
 #: src/arch/unix/gui/uivicii.c:157
 msgid "*External color set"
 msgstr "*Palette esterna"
 
-#: src/arch/unix/gui/uited.c:104 src/arch/unix/gui/uivic.c:103
+#: src/arch/unix/gui/uited.c:104 src/arch/unix/gui/uivic.c:125
 #: src/arch/unix/gui/uivicii.c:159
 msgid "*Color set"
 msgstr "*Palette"
@@ -2996,13 +2996,13 @@ msgstr "*Emulazione PAL veloce"
 msgid "PAL Emulation"
 msgstr "Emulazione PAL"
 
-#: src/arch/unix/gui/uited.c:116 src/arch/unix/gui/uivic.c:111
+#: src/arch/unix/gui/uited.c:116 src/arch/unix/gui/uivic.c:133
 #: src/arch/unix/gui/uivicii.c:167 src/arch/unix/gui/vsidui.c:342
 #: src/arch/amigaos/intl.c.po.c:1212
 msgid "Video standard"
 msgstr "Standard video"
 
-#: src/arch/unix/gui/uited.c:120 src/arch/unix/gui/uivic.c:115
+#: src/arch/unix/gui/uited.c:120 src/arch/unix/gui/uivic.c:137
 #: src/arch/unix/gui/uivicii.c:179
 msgid "*Hardware scaling"
 msgstr "*Hardware scaling"
@@ -3023,7 +3023,7 @@ msgstr "Modalità compatibile *RR-NET"
 msgid "Interface..."
 msgstr "Interfaccia..."
 
-#: src/arch/unix/gui/uivdc.c:42 src/arch/unix/gui/uivic.c:55
+#: src/arch/unix/gui/uivdc.c:42 src/arch/unix/gui/uivic.c:59
 #: src/arch/unix/gui/uivicii.c:60
 msgid "*Default"
 msgstr "*Predefinita"
@@ -3052,9 +3052,21 @@ msgstr "Revisione"
 msgid "Color set"
 msgstr "Palette"
 
-#: src/arch/unix/gui/uivic.c:106
+#: src/arch/unix/gui/uivic.c:82 src/arch/unix/gui/uivicii.c:111
+msgid "Refreshrate: "
+msgstr "Frequenza di aggiornamento: "
+
+#: src/arch/unix/gui/uivic.c:82 src/arch/unix/gui/uivicii.c:111
+msgid "Enter Refreshrate (Hz): "
+msgstr "Inserire la frequenza di aggiornamento (Hz): "
+
+#: src/arch/unix/gui/uivic.c:128
 msgid "PAL Emulation Settings"
 msgstr "Impostazioni dell'emulazione PAL"
+
+#: src/arch/unix/gui/uivic.c:143 src/arch/unix/gui/uivicii.c:185
+msgid "Desktop Refreshrate..."
+msgstr "Frequenza di aggiornamento desktop..."
 
 #: src/arch/unix/gui/uivicii.c:64
 msgid "*CCS64"
@@ -3076,14 +3088,6 @@ msgstr "*Intero"
 msgid "*Debug"
 msgstr "*Debug"
 
-#: src/arch/unix/gui/uivicii.c:111
-msgid "Refreshrate: "
-msgstr "Frequenza di aggiornamento: "
-
-#: src/arch/unix/gui/uivicii.c:111
-msgid "Enter Refreshrate (Hz): "
-msgstr "Inserire la frequenza di aggiornamento (Hz): "
-
 #: src/arch/unix/gui/uivicii.c:155
 msgid "*New Luminances"
 msgstr "*Nuove luminanze"
@@ -3099,10 +3103,6 @@ msgstr "*Collisioni sprite-sprite"
 #: src/arch/unix/gui/uivicii.c:175
 msgid "*Sprite-background collisions"
 msgstr "*Collisioni sprite-sfondo"
-
-#: src/arch/unix/gui/uivicii.c:185
-msgid "Desktop Refreshrate..."
-msgstr "Frequenza di aggiornamento desktop..."
 
 #. Shouldn't happen.
 #: src/arch/unix/gui/vic20ui.c:105

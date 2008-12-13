@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 10 November 2008 -->
+     from ../vice.texi on 13 December 2008 -->
 
 <TITLE>VICE Manual - 9  Monitor</TITLE>
 </HEAD>
@@ -95,6 +95,13 @@ printed and execution continues.
 Watchpoints are triggered by a read and/or write to an address.  When
 a watchpoint is triggered, the monitor is entered.
 
+<DT><SAMP>`memmap'</SAMP>
+<DD>
+The memmap keeps track of RAM/ROM/IO read/write/execute
+accesses. The feature must be enabled with "--enable-memmap"
+configure option, as it might decrease performance notably on
+slower hardware. The option also enables CPU history.
+
 <DT><SAMP>`&#60;...&#62;'</SAMP>
 <DD>
 A data type.
@@ -115,6 +122,17 @@ An optional argument.
 
 <DL COMPACT>
 
+<DT><CODE>backtrace</CODE>
+<DD>
+Print JSR call chain (most recent call first). Stack offset
+relative to SP+1 is printed in parentheses. This is a best guess
+only.
+
+<DT><CODE>cpuhistory [&#60;count&#62;]</CODE>
+<DD>
+Show &#60;count&#62; last executed commands.
+(disabled by default; configure with --enable-memmap to enable)
+
 <DT><CODE>goto &#60;address&#62;</CODE>
 <DD>
 Change the PC to address and continue execution.
@@ -132,6 +150,11 @@ instruction.
 <DD>
 Assign respective registers.  With no parameters, display register
 values.
+
+<DT><CODE>reset [&#60;type&#62;]</CODE>
+<DD>
+Reset the machine or drive.
+<CODE>type</CODE>: 0 = soft, 1 = hard, 8-11 = drive.
 
 <DT><CODE>return</CODE>
 <DD>
@@ -180,6 +203,7 @@ size of the data_list, the data_list is repeated.
 Hunt memory in the specified address range for the data in
 &#60;data_list&#62;.  If the data is found, the starting address of the match
 is displayed.  The entire range is searched for all possible matches.
+The data list may have `xx' as a wildcard.
 
 <DT><CODE>i &#60;address_opt_range&#62;</CODE>
 <DD>
@@ -195,6 +219,25 @@ Display the contents of memory.  If no datatype is given, the default
 is used.  If only one address is specified, the length of data
 displayed is based on the datatype.  If no addresses are given, the
 'dot' address is used.
+
+<DT><CODE>memmapshow [&#60;mask&#62;] [&#60;address_opt_range&#62;]</CODE>
+<DD>
+Show the memmap. The mask can be specified to show only those
+locations with accesses of certain type(s). The mask is a number
+with the bits "ioRWXrwx", where RWX are for ROM and rwx for RAM.
+Optionally, an address range can be specified.
+(disabled by default; configure with --enable-memmap to enable)
+
+<DT><CODE>memmapzap</CODE>
+<DD>
+Clear the memmap.
+(disabled by default; configure with --enable-memmap to enable)
+
+<DT><CODE>memmapsave "&#60;filename&#62;" &#60;format&#62;</CODE>
+<DD>
+Save the memmap as a picture. <CODE>format</CODE>:
+0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF.
+(disabled by default; configure with --enable-memmap to enable)
 
 <DT><CODE>mc [&#60;data_type&#62;] [&#60;address_opt_range&#62;]</CODE>
 <DD>
@@ -330,6 +373,14 @@ Change the working directory.
 Set the default memory device to either the computer (<CODE>c:</CODE>) or
 the disk (<CODE>d:</CODE>).
 
+<DT><CODE>dir [&#60;directory&#62;]</CODE>
+<DD>
+Display the directory contents.
+
+<DT><CODE>pwd</CODE>
+<DD>
+Show current working directory.
+
 <DT><CODE>radix [H|D|O|B]</CODE>
 <DD>
 Set the default radix to hex, decimal, octal, or binary.  With no
@@ -355,6 +406,10 @@ Nothing yet.
 
 <DL COMPACT>
 
+<DT><CODE>attach &#60;filename&#62; &#60;device&#62;</CODE>
+<DD>
+Attach file to device. (device 32 = cart)
+
 <DT><CODE>br &#60;track&#62; &#60;sector&#62; [&#60;address&#62;]</CODE>
 <DD>
 Read the block at the specified track and sector.  If an address is
@@ -365,6 +420,10 @@ the data is displayed using the default datatype.
 <DD>
 Write a block of data at <CODE>address</CODE> to the specified track and
 sector of disk in drive 8.
+
+<DT><CODE>detach &#60;device&#62;</CODE>
+<DD>
+Detach file from device. (device 32 = cart)
 
 <DT><CODE>@&#60;disk command&#62;</CODE>
 <DD>
@@ -379,10 +438,21 @@ the file.  If address is given, the file is loaded to the specified
 address and the first two bytes read from the file are skipped.  If
 device is 0, the file is read from the file system.
 
+<DT><CODE>bload "&#60;filename&#62;" &#60;device&#62; &#60;address&#62;</CODE>
+<DD>
+Load the specified file into memory at the specified address.
+If device is 0, the file is read from the file system.
+
 <DT><CODE>save "&#60;filename&#62;" &#60;device&#62; &#60;address1&#62; &#60;address2&#62;</CODE>
 <DD>
-Save the memory from address1 to address2 to the specified file.  If
-device is 0, the file is written to the file system.
+Save the memory from address1 to address2 to the specified file.
+Write two-byte load address.
+If device is 0, the file is written to the file system.
+
+<DT><CODE>bsave "&#60;filename&#62;" &#60;device&#62; &#60;address1&#62; &#60;address2&#62;</CODE>
+<DD>
+Save the memory from address1 to address2 to the specified file.
+If device is 0, the file is written to the file system.
 
 </DL>
 
@@ -457,13 +527,41 @@ all labels.
 
 <DL COMPACT>
 
+<DT><CODE>cartfreeze</CODE>
+<DD>
+Use cartridge freeze.
+
 <DT><CODE>exit</CODE>
 <DD>
 Leave the monitor and return to execution.
 
+<DT><CODE>help [&#60;command&#62;]</CODE>
+<DD>
+If no argument is given, prints out a list of all available commands.
+If an argument is given, prints out specific help for that command.
+
 <DT><CODE>print &#60;expression&#62;</CODE>
 <DD>
 Evaluate the specified expression and output the result.
+
+<DT><CODE>resourceget "&#60;resource&#62;"</CODE>
+<DD>
+Displays the value of the <CODE>resource</CODE>.
+
+<DT><CODE>resourceset "&#60;resource&#62;" "&#60;value&#62;"</CODE>
+<DD>
+Sets the value of the <CODE>resource</CODE>.
+
+<DT><CODE>screenshot "&#60;filename&#62;" [&#60;format&#62;]</CODE>
+<DD>
+Take a screenshot. <CODE>format</CODE>:
+default = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF.
+
+<DT><CODE>tapectrl &#60;command&#62;</CODE>
+<DD>
+Control the datasette. <CODE>command</CODE>:
+0 = stop, 1 = start, 2 = forward, 3 = rewind, 4 = record,
+5 = reset, 6 = reset counter.
 
 <DT><CODE>quit</CODE>
 <DD>

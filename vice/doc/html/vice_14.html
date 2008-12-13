@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 10 November 2008 -->
+     from ../vice.texi on 13 December 2008 -->
 
 <TITLE>VICE Manual - 14  Contact information</TITLE>
 </HEAD>
@@ -27,18 +27,63 @@ home page:
 </PRE>
 
 <P>
+VICE has moved its source repository to public services provided by
+SourceForge. You can find it at 
+
+<PRE>
+<A HREF="http://sf.net/projects/vice-emu">http://sf.net/projects/vice-emu</A>.
+</PRE>
+
+<P>
+We would like to thank the SourceForge staff for that help.
+
+</P>
+<P>
 If you are going to report a bug, please check those pages <EM>first</EM>;
 it is possible that the problem you encountered has already been
 fixed with a newer version.
 
 </P>
+<P>
+Please, also have a look at the VICE knowledge base at
+
+</P>
+
+<PRE>
+<A HREF="http://vicekb.trikaliotis.net/">http://vicekb.trikaliotis.net/</A>
+</PRE>
+
 
 
 <H2><A NAME="SEC172" HREF="vice_toc.html#TOC172">14.2  How to send feedback</A></H2>
 
 <P>
-If you want to report bugs, make suggestions or contribute to
-the project, please email the VICE team mailing list:
+Before contacting us, have a look at the VICE knowledge base at
+<A HREF="http://vicekb.trikaliotis.net/">http://vicekb.trikaliotis.net/</A> if your question is answered
+there. Keep in mind that we work on VICE in our spare-time, so the more
+time we don't need to answer the same questions over and over again, the
+more time we have to improve the emulation itself. On the other hand,
+that does not mean that you should not contact us, especially if you
+find bugs or have suggestions which might improve the emulation.
+
+</P>
+<P>
+Bug reports, suggestions, support requests should be directed to the
+SourceForge trackers at
+
+</P>
+
+<UL>
+
+<LI>
+
+<A HREF="http://sourceforge.net/tracker/?group_id=223021">http://sourceforge.net/tracker/?group_id=223021</A>.
+</UL>
+
+<P>
+This way, you, the users, and we, the developers, can track what has
+been reported and what has been already fixed. Ideally, also sent the
+report to the mailing address of the Vice team at
 
 </P>
 
@@ -51,6 +96,10 @@ general questions, bug reports, suggestions.
 
 </UL>
 
+<P>
+You can also contact (some of) us on IRC, at #vice-dev on freenode.
+
+</P>
 <P>
 It's always nice to receive feedback and/or bugreports about VICE, but
 please read these few notes before sending mail to anybody in the
@@ -94,6 +143,10 @@ VICE home page:
 <A HREF="http://www.viceteam.org/">http://www.viceteam.org/</A>);
 <LI>
 
+The VICE knowledge base (it is available on the Internet at
+<A HREF="http://vicekb.trikaliotis.net/">http://vicekb.trikaliotis.net/</A>);
+<LI>
+
 the <CODE>comp.emulators.cbm</CODE> and <CODE>comp.sys.cbm</CODE> FAQs (see section <A HREF="vice_14.html#SEC175">14.5  FAQs you should read</A>).
 </UL>
 
@@ -109,8 +162,9 @@ using as well as the version of it.
 Please don't ask us how to transfer original C64 disk or tapes to your
 PC; this has been asked a gazillion times through email.  To transfer
 disks, you can use the Star Commander
-(<A HREF="http://sta.c64.org/sc.html">http://sta.c64.org/sc.html</A>).  And no, you cannot read C64 disks
-with your old 5"1/4 PC drive.
+(<A HREF="http://sta.c64.org/sc.html">http://sta.c64.org/sc.html</A>) on DOS, and OpenCBM
+(<A HREF="http://www.trikaliotis.net/opencbm">http://www.trikaliotis.net/opencbm</A>) on Windows and Linux.  And
+no, you cannot read C64 disks with your old 5"1/4 PC drive.
 
 <LI>
 
@@ -159,8 +213,27 @@ to the very latest version, and provide us with the following:
 <UL>
 <LI>
 
-a unified diff file containing all the changes you have made
-<SAMP>`diff -u'</SAMP> is fine; please don't use plain <SAMP>`diff'</SAMP>);
+Make sure you are giving us a diff against the latest Subversion
+trunk version of VICE. For instructions on accessing the Subversion
+repository, first read <A HREF="http://sourceforge.net/svn/?group_id=223021">http://sourceforge.net/svn/?group_id=223021</A> and
+get it with the command:
+
+<PRE>
+<SAMP>`svn co https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/trunk vice-src'</SAMP>
+</PRE>
+
+<LI>
+
+send a unified diff file against the trunk version of VICE (see above
+bullet point) by using the command: <SAMP>`svn diff'</SAMP> inside of the
+SVN workspace you checked out before.
+
+<LI>
+
+If you cannot use SVN for one or the other reason, send a unified diff
+file containing all the changes you have made <SAMP>`diff -u'</SAMP>;
+please don't use plain <SAMP>`diff'</SAMP>), as it adds much work for us to get
+it working;
 <LI>
 
 GNU-style <TT>`ChangeLog'</TT> entries with a description of the changes you
@@ -176,7 +249,7 @@ safer.
 <P>
 People willing to port VICE to other platforms are always welcome.
 But notice from experience it will take at least a full year of
-continious work to write a well working and stable port.
+continuous work to write a well working and stable port.
 
 </P>
 

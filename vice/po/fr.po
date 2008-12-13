@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-07 20:57+0100\n"
+"POT-Creation-Date: 2008-12-13 20:25+0100\n"
 "PO-Revision-Date: 2008-06-10 18:00+0500\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -63,13 +63,13 @@ msgstr "Spécifiez la vitesse du 4ième port RS232"
 
 #: src/arch/unix/gui/c128ui.c:72 src/arch/unix/gui/c64ui.c:77
 #: src/arch/unix/gui/cbm2ui.c:64 src/arch/unix/gui/uited.c:56
-#: src/arch/unix/gui/uivic.c:45 src/arch/unix/gui/vsidui.c:290
+#: src/arch/unix/gui/uivic.c:49 src/arch/unix/gui/vsidui.c:290
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/gui/c128ui.c:74 src/arch/unix/gui/c64ui.c:79
 #: src/arch/unix/gui/cbm2ui.c:66 src/arch/unix/gui/uited.c:58
-#: src/arch/unix/gui/uivic.c:47 src/arch/unix/gui/vsidui.c:292
+#: src/arch/unix/gui/uivic.c:51 src/arch/unix/gui/vsidui.c:292
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
@@ -849,7 +849,7 @@ msgstr "Nom d'image IDE64"
 #: src/arch/unix/gui/uimmc64.c:51 src/arch/unix/gui/uipetreu.c:42
 #: src/arch/unix/gui/uiplus256k.c:41 src/arch/unix/gui/uiplus60k.c:42
 #: src/arch/unix/gui/uiramcart.c:43 src/arch/unix/gui/uireu.c:42
-#: src/arch/unix/gui/uisettings.c:265 src/arch/unix/gui/uitfe.c:44
+#: src/arch/unix/gui/uisettings.c:271 src/arch/unix/gui/uitfe.c:44
 msgid "Name:"
 msgstr "Nom:"
 
@@ -1218,31 +1218,31 @@ msgid "*White"
 msgstr "*Blanc"
 
 #: src/arch/unix/gui/uicrtc.c:52 src/arch/unix/gui/uited.c:48
-#: src/arch/unix/gui/uivdc.c:45 src/arch/unix/gui/uivic.c:57
+#: src/arch/unix/gui/uivdc.c:45 src/arch/unix/gui/uivic.c:61
 #: src/arch/unix/gui/uivicii.c:75
 msgid "Load custom"
 msgstr "Charger un fichier..."
 
 #: src/arch/unix/gui/uicrtc.c:69 src/arch/unix/gui/uited.c:95
-#: src/arch/unix/gui/uivdc.c:71 src/arch/unix/gui/uivic.c:94
+#: src/arch/unix/gui/uivdc.c:71 src/arch/unix/gui/uivic.c:116
 #: src/arch/unix/gui/uivicii.c:148
 msgid "*Double size"
 msgstr "*Double pixels"
 
 #: src/arch/unix/gui/uicrtc.c:71 src/arch/unix/gui/uited.c:97
-#: src/arch/unix/gui/uivdc.c:73 src/arch/unix/gui/uivic.c:96
+#: src/arch/unix/gui/uivdc.c:73 src/arch/unix/gui/uivic.c:118
 #: src/arch/unix/gui/uivicii.c:150
 msgid "*Double scan"
 msgstr "*Doubler les lignes"
 
 #: src/arch/unix/gui/uicrtc.c:73 src/arch/unix/gui/uited.c:99
-#: src/arch/unix/gui/uivdc.c:75 src/arch/unix/gui/uivic.c:98
+#: src/arch/unix/gui/uivdc.c:75 src/arch/unix/gui/uivic.c:120
 #: src/arch/unix/gui/uivicii.c:152
 msgid "*Video cache"
 msgstr "*Cache vidéo"
 
 #: src/arch/unix/gui/uicrtc.c:76 src/arch/unix/gui/uited.c:113
-#: src/arch/unix/gui/uivic.c:108 src/arch/unix/gui/uivicii.c:164
+#: src/arch/unix/gui/uivic.c:130 src/arch/unix/gui/uivicii.c:164
 msgid "*Scale 2x render"
 msgstr "*Rendu 2x plus net"
 
@@ -1251,20 +1251,20 @@ msgid "*CRTC Screen color"
 msgstr "*Couleurs CRTC"
 
 #: src/arch/unix/gui/uicrtc.c:83 src/arch/unix/gui/uited.c:124
-#: src/arch/unix/gui/uivic.c:119 src/arch/unix/gui/uivicii.c:183
+#: src/arch/unix/gui/uivic.c:141 src/arch/unix/gui/uivicii.c:183
 #, fuzzy
 msgid "*OpenGL Rastersynchronization"
 msgstr "Synchronisation du son"
 
 #: src/arch/unix/gui/uicrtc.c:87 src/arch/unix/gui/uited.c:128
-#: src/arch/unix/gui/uivdc.c:79 src/arch/unix/gui/uivic.c:123
+#: src/arch/unix/gui/uivdc.c:79 src/arch/unix/gui/uivic.c:147
 #: src/arch/unix/gui/uivicii.c:189
 #, fuzzy
 msgid "*Fullscreen settings"
 msgstr "Périphérique plein écran"
 
 #: src/arch/unix/gui/uicrtc.c:90 src/arch/unix/gui/uited.c:131
-#: src/arch/unix/gui/uivdc.c:82 src/arch/unix/gui/uivic.c:126
+#: src/arch/unix/gui/uivdc.c:82 src/arch/unix/gui/uivic.c:150
 #: src/arch/unix/gui/uivicii.c:192
 msgid "*Use XSync()"
 msgstr "*Utiliser XSync()"
@@ -2723,39 +2723,39 @@ msgstr "*4800 baud"
 msgid "*9600 baud"
 msgstr "*9600 baud"
 
-#: src/arch/unix/gui/uisettings.c:112
+#: src/arch/unix/gui/uisettings.c:115
 msgid "Enter refresh rate"
 msgstr "Entrer le taux de rafraîchissement"
 
-#: src/arch/unix/gui/uisettings.c:113 src/arch/unix/gui/uisettings.c:381
+#: src/arch/unix/gui/uisettings.c:116 src/arch/unix/gui/uisettings.c:397
 #: src/arch/amigaos/intl.c.po.c:888
 msgid "Refresh rate"
 msgstr "Taux de rafraîchissement"
 
-#: src/arch/unix/gui/uisettings.c:185
+#: src/arch/unix/gui/uisettings.c:188
 msgid "Enter speed"
 msgstr "Entrez la vitesse"
 
-#: src/arch/unix/gui/uisettings.c:186
+#: src/arch/unix/gui/uisettings.c:189
 msgid "Maximum run speed"
 msgstr "Vitesse maximale d'exécution"
 
-#: src/arch/unix/gui/uisettings.c:200
+#: src/arch/unix/gui/uisettings.c:203
 msgid "Invalid speed value"
 msgstr "Valeur de vitesse invalide"
 
-#: src/arch/unix/gui/uisettings.c:214 src/arch/unix/gui/uisettings.c:270
+#: src/arch/unix/gui/uisettings.c:217 src/arch/unix/gui/uisettings.c:276
 #: src/arch/unix/x11/gnome/x11ui.c:1229 src/arch/unix/x11/xaw/x11ui.c:1152
 #: src/arch/win32/res.rc.po.c:4695 src/arch/amigaos/intl.c.po.c:2033
 msgid "Cannot save settings."
 msgstr "Impossible d'enregistrer les paramètres."
 
-#: src/arch/unix/gui/uisettings.c:217 src/arch/unix/gui/uisettings.c:273
+#: src/arch/unix/gui/uisettings.c:220 src/arch/unix/gui/uisettings.c:279
 #: src/arch/win32/res.rc.po.c:4713 src/arch/amigaos/intl.c.po.c:1952
 msgid "Settings saved successfully."
 msgstr "Sauvegarde des paramètres effectuée correctement."
 
-#: src/arch/unix/gui/uisettings.c:234 src/arch/unix/gui/uisettings.c:302
+#: src/arch/unix/gui/uisettings.c:237 src/arch/unix/gui/uisettings.c:318
 msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
@@ -2763,7 +2763,7 @@ msgstr ""
 "Impossible de charger les paramètres:\n"
 "Fichier de ressources invalide."
 
-#: src/arch/unix/gui/uisettings.c:236 src/arch/unix/gui/uisettings.c:304
+#: src/arch/unix/gui/uisettings.c:239 src/arch/unix/gui/uisettings.c:320
 msgid ""
 "Cannot load settings:\n"
 "resource file not found."
@@ -2771,67 +2771,67 @@ msgstr ""
 "Impossible de charger les paramètres:\n"
 "Fichier de ressources introuvable."
 
-#: src/arch/unix/gui/uisettings.c:240
+#: src/arch/unix/gui/uisettings.c:243
 msgid "Settings loaded."
 msgstr "Les paramètres ont été chargés."
 
-#: src/arch/unix/gui/uisettings.c:260 src/arch/unix/gui/uisettings.c:264
+#: src/arch/unix/gui/uisettings.c:266 src/arch/unix/gui/uisettings.c:270
 #, fuzzy
 msgid "File to save settings to"
 msgstr "Fichier vers lequel exporter les définitions ROM"
 
-#: src/arch/unix/gui/uisettings.c:294
+#: src/arch/unix/gui/uisettings.c:310
 #, fuzzy
 msgid "Resource file name"
 msgstr "Nom de fichier"
 
-#: src/arch/unix/gui/uisettings.c:331
+#: src/arch/unix/gui/uisettings.c:347
 msgid "*Auto"
 msgstr "*Auto"
 
-#: src/arch/unix/gui/uisettings.c:354 src/arch/unix/gui/uisettings.c:373
+#: src/arch/unix/gui/uisettings.c:370 src/arch/unix/gui/uisettings.c:389
 msgid "*Custom..."
 msgstr "*Personnalisé..."
 
-#: src/arch/unix/gui/uisettings.c:370
+#: src/arch/unix/gui/uisettings.c:386
 msgid "*No limit"
 msgstr "*Aucune limite"
 
-#: src/arch/unix/gui/uisettings.c:383
+#: src/arch/unix/gui/uisettings.c:399
 msgid "Maximum speed"
 msgstr "Vitesse maximale"
 
-#: src/arch/unix/gui/uisettings.c:385
+#: src/arch/unix/gui/uisettings.c:401
 msgid "*Enable warp mode"
 msgstr "*Activer le mode Turbo"
 
-#: src/arch/unix/gui/uisettings.c:391
+#: src/arch/unix/gui/uisettings.c:407
 msgid "Save settings"
 msgstr "Enregistrer les paramètres"
 
-#: src/arch/unix/gui/uisettings.c:393
+#: src/arch/unix/gui/uisettings.c:409
 msgid "Load settings"
 msgstr "Charger les paramètres"
 
-#: src/arch/unix/gui/uisettings.c:395
+#: src/arch/unix/gui/uisettings.c:411
 #, fuzzy
 msgid "Save settings to file..."
 msgstr "Enregistrer les pa&ramètres à la sortie"
 
-#: src/arch/unix/gui/uisettings.c:397
+#: src/arch/unix/gui/uisettings.c:413
 #, fuzzy
 msgid "Load settings from file..."
 msgstr "Charger les paramètres"
 
-#: src/arch/unix/gui/uisettings.c:399
+#: src/arch/unix/gui/uisettings.c:415
 msgid "Restore default settings"
 msgstr "Rétablir les paramètres par défaut"
 
-#: src/arch/unix/gui/uisettings.c:401
+#: src/arch/unix/gui/uisettings.c:417
 msgid "*Save settings on exit"
 msgstr "*Enregistrer les paramètres à la sortie"
 
-#: src/arch/unix/gui/uisettings.c:403
+#: src/arch/unix/gui/uisettings.c:419
 msgid "*Confirm on exit"
 msgstr "*Confirmation à la sortie"
 
@@ -3074,12 +3074,12 @@ msgstr "Suréchantillonage"
 msgid "Sound settings"
 msgstr "Paramètres son"
 
-#: src/arch/unix/gui/uited.c:102 src/arch/unix/gui/uivic.c:101
+#: src/arch/unix/gui/uited.c:102 src/arch/unix/gui/uivic.c:123
 #: src/arch/unix/gui/uivicii.c:157
 msgid "*External color set"
 msgstr "*Palette de couleurs externe"
 
-#: src/arch/unix/gui/uited.c:104 src/arch/unix/gui/uivic.c:103
+#: src/arch/unix/gui/uited.c:104 src/arch/unix/gui/uivic.c:125
 #: src/arch/unix/gui/uivicii.c:159
 msgid "*Color set"
 msgstr "*Palette de couleurs"
@@ -3093,13 +3093,13 @@ msgstr "*Émulation PAL rapide"
 msgid "PAL Emulation"
 msgstr "Émulation PAL"
 
-#: src/arch/unix/gui/uited.c:116 src/arch/unix/gui/uivic.c:111
+#: src/arch/unix/gui/uited.c:116 src/arch/unix/gui/uivic.c:133
 #: src/arch/unix/gui/uivicii.c:167 src/arch/unix/gui/vsidui.c:342
 #: src/arch/amigaos/intl.c.po.c:1212
 msgid "Video standard"
 msgstr "Standard vidéo"
 
-#: src/arch/unix/gui/uited.c:120 src/arch/unix/gui/uivic.c:115
+#: src/arch/unix/gui/uited.c:120 src/arch/unix/gui/uivic.c:137
 #: src/arch/unix/gui/uivicii.c:179
 msgid "*Hardware scaling"
 msgstr "*'scaling' matériel"
@@ -3121,7 +3121,7 @@ msgstr "*Mode de compatibilité RR-NET"
 msgid "Interface..."
 msgstr "Interface..."
 
-#: src/arch/unix/gui/uivdc.c:42 src/arch/unix/gui/uivic.c:55
+#: src/arch/unix/gui/uivdc.c:42 src/arch/unix/gui/uivic.c:59
 #: src/arch/unix/gui/uivicii.c:60
 msgid "*Default"
 msgstr "*Défaut"
@@ -3150,9 +3150,24 @@ msgstr "Révision"
 msgid "Color set"
 msgstr "Palette de couleurs"
 
-#: src/arch/unix/gui/uivic.c:106
+#: src/arch/unix/gui/uivic.c:82 src/arch/unix/gui/uivicii.c:111
+#, fuzzy
+msgid "Refreshrate: "
+msgstr "Taux de rafraîchissement:"
+
+#: src/arch/unix/gui/uivic.c:82 src/arch/unix/gui/uivicii.c:111
+#, fuzzy
+msgid "Enter Refreshrate (Hz): "
+msgstr "Entrer le taux de rafraîchissement"
+
+#: src/arch/unix/gui/uivic.c:128
 msgid "PAL Emulation Settings"
 msgstr "Paramètres d'émulation PAL"
+
+#: src/arch/unix/gui/uivic.c:143 src/arch/unix/gui/uivicii.c:185
+#, fuzzy
+msgid "Desktop Refreshrate..."
+msgstr "Taux de rafraîchissement"
 
 #: src/arch/unix/gui/uivicii.c:64
 msgid "*CCS64"
@@ -3175,16 +3190,6 @@ msgstr "*Complet"
 msgid "*Debug"
 msgstr "&Débug"
 
-#: src/arch/unix/gui/uivicii.c:111
-#, fuzzy
-msgid "Refreshrate: "
-msgstr "Taux de rafraîchissement:"
-
-#: src/arch/unix/gui/uivicii.c:111
-#, fuzzy
-msgid "Enter Refreshrate (Hz): "
-msgstr "Entrer le taux de rafraîchissement"
-
 #: src/arch/unix/gui/uivicii.c:155
 msgid "*New Luminances"
 msgstr "*Nouvelles luminescences"
@@ -3200,11 +3205,6 @@ msgstr "*Collisions sprite-sprite"
 #: src/arch/unix/gui/uivicii.c:175
 msgid "*Sprite-background collisions"
 msgstr "*Collisions sprite-arrière-plan"
-
-#: src/arch/unix/gui/uivicii.c:185
-#, fuzzy
-msgid "Desktop Refreshrate..."
-msgstr "Taux de rafraîchissement"
 
 #. Shouldn't happen.
 #: src/arch/unix/gui/vic20ui.c:105
@@ -10812,7 +10812,7 @@ msgstr "Paramètres des joysticks..."
 
 #: src/translate.c.po.c:3829
 #, fuzzy
-msgid "Enable the isepic cart."
+msgid "Enable the isepic cart"
 msgstr "Activer le cache vidéo"
 
 #: src/translate.c.po.c:3841
