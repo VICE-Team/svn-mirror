@@ -34,7 +34,11 @@
 #include "uimenu.h"
 #include "uipalemu.h"
 #include "uipalette.h"
+#ifdef HAVE_OPENGL_SYNC
+#include <stdlib.h>		/* strtol() */
 #include "openGL_sync.h"
+#include "lib.h"
+#endif
 
 #include "uifullscreen-menu.h"
 UI_FULLSCREEN(VIC, KEYSYM_d)
@@ -69,6 +73,24 @@ UI_MENU_DEFINE_TOGGLE(VICHwScale)
 UI_MENU_DEFINE_TOGGLE(VICScale2x)
 #ifdef HAVE_OPENGL_SYNC
 UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
+static UI_CALLBACK(openGL_set_desktoprefresh)
+{
+    if (!CHECK_MENUS) {
+	float f;
+	char *buf = lib_calloc(sizeof(char), 10);
+	sprintf(buf, "%.0f", openGL_get_canvas_refreshrate());
+	ui_input_string(_("Refreshrate: "), _("Enter Refreshrate (Hz): "), 
+			buf, 10);
+	f = (float) strtol(buf, NULL, 10);
+	openGL_set_canvas_refreshrate(f);
+	lib_free(buf);
+    } else {
+        if (openGL_available(0) && openGL_sync_enabled())
+            ui_menu_set_sensitive(w, 1);
+        else
+            ui_menu_set_sensitive(w, 0);
+    }
+}
 #endif
 #ifndef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(UseXSync)
@@ -118,6 +140,8 @@ ui_menu_entry_t vic_submenu[] = {
 #ifdef HAVE_OPENGL_SYNC
     { N_("*OpenGL Rastersynchronization"),
       (ui_callback_t)toggle_openGL_sync, NULL, NULL },
+    { N_("Desktop Refreshrate..."),
+      (ui_callback_t)openGL_set_desktoprefresh, NULL, NULL },
 #endif
 #ifdef HAVE_FULLSCREEN
     { N_("*Fullscreen settings"), NULL, NULL, fullscreen_menuVIC },
