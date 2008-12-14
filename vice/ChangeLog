@@ -1,3 +1,23 @@
+2008-12-14  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* doc/html/macosx.html: updated macosx download page to use new
+	  file naming scheme
+
+	* doc/html/plain/NEWS: updated 2.1 NEWS for Mac OS X
+
+2008-12-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/macosx.html: Updated,
+
+	* doc/html/amigaos.html, doc/html/beos.html, doc/html/hpux.html,
+	  doc/html/index.html, doc/html/macosx.html, doc/html/qnx.html,
+	  doc/html/sco.html, doc/html/solaris.html: Updated the html
+	  files for the 2.1 release.
+
+2008-12-14  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* doc/html/plain/BUGS: Removed fixed and added new known bugs.
+
 2008-12-13  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
 	* doc/vice.texi, src/info.c: Added some documentation.
