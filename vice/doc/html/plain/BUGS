@@ -1,5 +1,8 @@
-- IRQ acknowledge handling is buggy. Visible in e.g.
-  Charlatan/Beyond Force, Enforcer, Bandits (VIC20).
+- VIC-II shows wrong colors when switching from hires background to idle
+  with borders open (Krestology).
+  
+- Wrong emulation of illegal opcode ANE (aka XAA) makes some Mastertronic 
+  tape loader fail.
 
 - Xaw UI context popup menu for drive attach is broken if more than
   two drives are active.
