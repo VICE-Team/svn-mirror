@@ -29,4 +29,5 @@ EXTRA_DIST = \
 	make-bindist.sh \
 	x11-launcher.sh \
 	vice-launcher.sh \
+	VICE.icns \
 	VICE.xcodeproj/project.pbxproj
