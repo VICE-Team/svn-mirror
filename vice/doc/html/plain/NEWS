@@ -155,6 +155,37 @@ list of all the changes in the code.
 
 - Removed vsid.
 
+** Mac OS X changes
+-------------------
+
+- x64a.app and x64dtv.app (Cocoa) are now feature complete
+  * added flip lists
+  * added netplay dialog
+  * added ROM resources
+  * added video settings dialog
+  * added record snapshot dialog
+
+- Introduced new control window that replaces old peripherals drawer
+  * with tape control buttons
+  * attach/eject buttons for each drive
+  * drag & drop of disk/tape images
+
+- Introduced Cocoa compile for Mac OS X 10.5 and greater with more features
+  (see extended Resource Inspector)
+
+- Completely rewritten joystick driver that supports user-definable buttons
+  for fire and all directions. 
+
+- Copy & Paste support for emulator and monitor/log window
+
+- Added x2, x3, x4 view scaling like in Quicktime Player
+
+- Store visibility and size of all windows in user's preferences
+
+- Added Keyset Joystick toggle to quickly disable keyboard joysticks
+
+- Added MIDI support
+
 
 * Changes in VICE 2.0
 ======================
