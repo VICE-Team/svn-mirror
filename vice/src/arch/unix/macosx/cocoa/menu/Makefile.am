@@ -22,6 +22,7 @@ noinst_HEADERS = \
 	c64dtvcontroller.h \
 	c128controller.h \
 	c64machinecontroller.h \
+	c64dtvmachinecontroller.h \
 	c128machinecontroller.h \
 	viceappcontroller.h \
 	vicemachinecontroller.h
