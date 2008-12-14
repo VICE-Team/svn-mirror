@@ -1,3 +1,15 @@
+2008-12-14  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.1
+
+2008-12-14  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/unix/macosx/Makefile.am: Added missing file
+	  VICE.icns.
+
+	* src/arch/unix/macosx/cocoa/menu/Makefile.am: Added missing
+	  file c64dtvmachinecontroller.h.
+
 2008-12-14  Christian Vogelgsang <chris@vogelgsang.org>
 
 	* doc/html/macosx.html: updated macosx download page to use new
