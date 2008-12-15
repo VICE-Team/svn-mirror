@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-14 21:35+0100\n"
+"POT-Creation-Date: 2008-12-15 21:20+0100\n"
 "PO-Revision-Date: 2008-12-15 08:31+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -12067,4 +12067,3 @@ msgstr "Inaktivera Digimax Cartridge"
 #: src/translate.c.po.c:8799
 msgid "Base address of the digimax cartridge"
 msgstr "Basadress för Digimax-cartridge"
-

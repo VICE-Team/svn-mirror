@@ -1,6 +1,41 @@
+2008-12-15  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* Version 2.1
+
+2008-12-15  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/unix/macosx/Makefile.am,
+	  src/arch/unix/macosx/VICE.icns: Removed VICE.icns.
+
+2008-12-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/sv.po, src/arch/amigaos/intl.c, src/arch/win32/res.rc,
+	  src/arch/win32/resisepic.rc, src/translate.c: Updated the
+	  swedish translations.
+
+2008-12-15  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* README: Case fixes
+
+2008-12-15  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* README, doc/vice.texi, vice.spec: Adjusted to release 2.1.
+
 2008-12-15  Peter Krefting <peter@softwolves.pp.se>
 
-	* po/sv.po: Updated Swedish translation (2683t0f0u).
+	* po/sv.po: Updated Swedish translation to 2683t0f0u.
+
+2008-12-14  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* configure.in, po/de.po, po/fr.po, po/hu.po,
+	  po/it.po, po/nl.po, po/pl.po, po/sv.po, src/version.h: Version
+	  2.1 (revoked)
+
+	* src/arch/unix/macosx/Makefile.am: Added missing file
+	  VICE.icns.
+
+	* src/arch/unix/macosx/cocoa/menu/Makefile.am: Added missing
+	  file c64dtvmachinecontroller.h.
 
 2008-12-14  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
