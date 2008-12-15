@@ -3856,7 +3856,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_DQBB_IT, "Attiva Double Quick Brown Box"},
 /* nl */ {IDCLS_ENABLE_DQBB_NL, "Activeer de Double Quick Brown Box cartridge"},
 /* pl */ {IDCLS_ENABLE_DQBB_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_DQBB_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DQBB_SV, "Aktivera Double Quick Brown Box"},
 #endif
 
 /* c64/dqbb.c */
@@ -3868,7 +3868,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_DQBB_IT, "Disattiva Double Quick Brown Box"},
 /* nl */ {IDCLS_DISABLE_DQBB_NL, "De Double Quick Brown Box cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_DQBB_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_DQBB_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DQBB_SV, "Inaktivera Double Quick Brown Box"},
 #endif
 
 /* c64/dqbb.c */
@@ -3880,7 +3880,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_DQBB_NAME_IT, "Specifica il nome del file Double Quick Brown Box"},
 /* nl */ {IDCLS_SPECIFY_DQBB_NAME_NL, "Geef de naam van het Double Quick Brown Box cartridge-bestand"},
 /* pl */ {IDCLS_SPECIFY_DQBB_NAME_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_DQBB_NAME_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_DQBB_NAME_SV, "Ange filnamn för Double Quick Brown Box"},
 #endif
 
 /* c64/isepic.c */
@@ -3892,7 +3892,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_ISEPIC_IT, "Attiva la cartuccia isepic"},
 /* nl */ {IDCLS_ENABLE_ISEPIC_NL, "Activeer de isepic cartridge"},
 /* pl */ {IDCLS_ENABLE_ISEPIC_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_ISEPIC_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_ISEPIC_SV, "Aktivera isepic-insticksmodul"},
 #endif
 
 /* c64/isepic.c */
@@ -3904,7 +3904,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_ISEPIC_IT, "Disattiva la cartuccia isepic"},
 /* nl */ {IDCLS_DISABLE_ISEPIC_NL, "De isepic cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_ISEPIC_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_ISEPIC_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_ISEPIC_SV, "Inaktivera isepic-insticksmodul."},
 #endif
 
 /* c64/mmc64.c */
@@ -4327,7 +4327,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_CART_IT, "Disattiva la cartuccia predefinita"},
 /* nl */ {IDCLS_DISABLE_CART_NL, "De standaard cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_CART_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_CART_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_CART_SV, "Inaktivera standardinsticksmodul"},
 #endif
 
 /* c64/cart/ide64.c */
@@ -7929,7 +7929,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_P_FILE_IT, "<nome del file>"},
 /* nl */ {IDCLS_P_FILE_NL, "<bestandsnaam>"},
 /* pl */ {IDCLS_P_FILE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_FILE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_FILE_SV, "<filnamn>"},
 #endif
 
 /* initcmdline.c */
@@ -7941,7 +7941,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_CONFIG_FILE_IT, "Specifica il nome del file di configurazione"},
 /* nl */ {IDCLS_SPECIFY_CONFIG_FILE_NL, "Geef configuratie bestandsnaam"},
 /* pl */ {IDCLS_SPECIFY_CONFIG_FILE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_CONFIG_FILE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_CONFIG_FILE_SV, "Ange inställningsfil"},
 #endif
 
 /* initcmdline.c */

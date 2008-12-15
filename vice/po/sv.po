@@ -10435,15 +10435,15 @@ msgstr "Storlek på RAMCART-expansion"
 
 #: src/translate.c.po.c:3793
 msgid "Enable Double Quick Brown Box"
-msgstr "Aktivera Dubbel Quick Brown Box"
+msgstr "Aktivera Double Quick Brown Box"
 
 #: src/translate.c.po.c:3805
 msgid "Disable Double Quick Brown Box"
-msgstr "Inaktivera Quick Brown Box"
+msgstr "Inaktivera Double Quick Brown Box"
 
 #: src/translate.c.po.c:3817
 msgid "Specify Double Quick Brown Box filename"
-msgstr "Ange filnamn för Dubbel Quick Brown Box"
+msgstr "Ange filnamn för Double Quick Brown Box"
 
 #: src/translate.c.po.c:3829
 msgid "Enable the isepic cart"
