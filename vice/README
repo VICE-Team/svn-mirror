@@ -1,5 +1,5 @@
 
-  VICE  2.0							Jul 2008
+  VICE  2.1							Dec 2008
 
 
 		 _______________
@@ -28,6 +28,8 @@
  The following programs are included:
 
    - x64, a C64 emulator;
+
+   - x64DTV, a C64 Direct-to-TV (DTV) emulator;
 
    - x128, a C128 emulator;
 
@@ -158,3 +160,7 @@
  `PRINTER' and `VIC20' directories are Copyright C by Commodore
  Business Machines.
 
+ The ROM files in the `C64DTV` directory are Copyright C by Commodore
+ Business Machines, as well as mammoth toys, a division of nsi ltd.,
+ digital concepts dc studios inc., ironstone partners ltd., and
+ toy:lobster company ltd.
