@@ -29,7 +29,7 @@
 
    - x64, a C64 emulator;
 
-   - x64DTV, a C64 Direct-to-TV (DTV) emulator;
+   - x64dtv, a C64 Direct-to-TV (DTV) emulator;
 
    - x128, a C128 emulator;
 
