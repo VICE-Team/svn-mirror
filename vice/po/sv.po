@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-14 21:35+0100\n"
-"PO-Revision-Date: 2008-12-05 16:10+0100\n"
+"POT-Creation-Date: 2008-12-07 20:57+0100\n"
+"PO-Revision-Date: 2008-12-15 08:25+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -58,13 +58,13 @@ msgstr "Ange baudhastighet för fjärde RS232-enheten"
 
 #: src/arch/unix/gui/c128ui.c:72 src/arch/unix/gui/c64ui.c:77
 #: src/arch/unix/gui/cbm2ui.c:64 src/arch/unix/gui/uited.c:56
-#: src/arch/unix/gui/uivic.c:49 src/arch/unix/gui/vsidui.c:290
+#: src/arch/unix/gui/uivic.c:45 src/arch/unix/gui/vsidui.c:290
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/gui/c128ui.c:74 src/arch/unix/gui/c64ui.c:79
 #: src/arch/unix/gui/cbm2ui.c:66 src/arch/unix/gui/uited.c:58
-#: src/arch/unix/gui/uivic.c:51 src/arch/unix/gui/vsidui.c:292
+#: src/arch/unix/gui/uivic.c:47 src/arch/unix/gui/vsidui.c:292
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
@@ -827,7 +827,7 @@ msgstr "Namn på 256K-avbildning"
 #: src/arch/unix/gui/uimmc64.c:51 src/arch/unix/gui/uipetreu.c:42
 #: src/arch/unix/gui/uiplus256k.c:41 src/arch/unix/gui/uiplus60k.c:42
 #: src/arch/unix/gui/uiramcart.c:43 src/arch/unix/gui/uireu.c:42
-#: src/arch/unix/gui/uisettings.c:271 src/arch/unix/gui/uitfe.c:44
+#: src/arch/unix/gui/uisettings.c:265 src/arch/unix/gui/uitfe.c:44
 msgid "Name:"
 msgstr "Namn:"
 
@@ -1182,31 +1182,31 @@ msgid "*White"
 msgstr "*Vit"
 
 #: src/arch/unix/gui/uicrtc.c:52 src/arch/unix/gui/uited.c:48
-#: src/arch/unix/gui/uivdc.c:45 src/arch/unix/gui/uivic.c:61
+#: src/arch/unix/gui/uivdc.c:45 src/arch/unix/gui/uivic.c:57
 #: src/arch/unix/gui/uivicii.c:75
 msgid "Load custom"
 msgstr "Läs egen"
 
 #: src/arch/unix/gui/uicrtc.c:69 src/arch/unix/gui/uited.c:95
-#: src/arch/unix/gui/uivdc.c:71 src/arch/unix/gui/uivic.c:116
+#: src/arch/unix/gui/uivdc.c:71 src/arch/unix/gui/uivic.c:94
 #: src/arch/unix/gui/uivicii.c:148
 msgid "*Double size"
 msgstr "*Dubbel storlek"
 
 #: src/arch/unix/gui/uicrtc.c:71 src/arch/unix/gui/uited.c:97
-#: src/arch/unix/gui/uivdc.c:73 src/arch/unix/gui/uivic.c:118
+#: src/arch/unix/gui/uivdc.c:73 src/arch/unix/gui/uivic.c:96
 #: src/arch/unix/gui/uivicii.c:150
 msgid "*Double scan"
 msgstr "*Dubbelskanning"
 
 #: src/arch/unix/gui/uicrtc.c:73 src/arch/unix/gui/uited.c:99
-#: src/arch/unix/gui/uivdc.c:75 src/arch/unix/gui/uivic.c:120
+#: src/arch/unix/gui/uivdc.c:75 src/arch/unix/gui/uivic.c:98
 #: src/arch/unix/gui/uivicii.c:152
 msgid "*Video cache"
 msgstr "*Grafikcache"
 
 #: src/arch/unix/gui/uicrtc.c:76 src/arch/unix/gui/uited.c:113
-#: src/arch/unix/gui/uivic.c:130 src/arch/unix/gui/uivicii.c:164
+#: src/arch/unix/gui/uivic.c:108 src/arch/unix/gui/uivicii.c:164
 msgid "*Scale 2x render"
 msgstr "*Skala 2x-rendrering"
 
@@ -1215,18 +1215,18 @@ msgid "*CRTC Screen color"
 msgstr "*CRTC-skärmfärg"
 
 #: src/arch/unix/gui/uicrtc.c:83 src/arch/unix/gui/uited.c:124
-#: src/arch/unix/gui/uivic.c:141 src/arch/unix/gui/uivicii.c:183
+#: src/arch/unix/gui/uivic.c:119 src/arch/unix/gui/uivicii.c:183
 msgid "*OpenGL Rastersynchronization"
 msgstr "*OpenGL-rastersynkronisering"
 
 #: src/arch/unix/gui/uicrtc.c:87 src/arch/unix/gui/uited.c:128
-#: src/arch/unix/gui/uivdc.c:79 src/arch/unix/gui/uivic.c:147
+#: src/arch/unix/gui/uivdc.c:79 src/arch/unix/gui/uivic.c:123
 #: src/arch/unix/gui/uivicii.c:189
 msgid "*Fullscreen settings"
 msgstr "*Fullskärmsinställningar"
 
 #: src/arch/unix/gui/uicrtc.c:90 src/arch/unix/gui/uited.c:131
-#: src/arch/unix/gui/uivdc.c:82 src/arch/unix/gui/uivic.c:150
+#: src/arch/unix/gui/uivdc.c:82 src/arch/unix/gui/uivic.c:126
 #: src/arch/unix/gui/uivicii.c:192
 msgid "*Use XSync()"
 msgstr "*Använd XSync()"
@@ -2639,39 +2639,39 @@ msgstr "*4800 baud"
 msgid "*9600 baud"
 msgstr "*9600 baud"
 
-#: src/arch/unix/gui/uisettings.c:115
+#: src/arch/unix/gui/uisettings.c:112
 msgid "Enter refresh rate"
 msgstr "Ange uppdateringsfrekvens"
 
-#: src/arch/unix/gui/uisettings.c:116 src/arch/unix/gui/uisettings.c:397
+#: src/arch/unix/gui/uisettings.c:113 src/arch/unix/gui/uisettings.c:381
 #: src/arch/amigaos/intl.c.po.c:888
 msgid "Refresh rate"
 msgstr "Uppdateringshastighet"
 
-#: src/arch/unix/gui/uisettings.c:188
+#: src/arch/unix/gui/uisettings.c:185
 msgid "Enter speed"
 msgstr "Ange hastighet"
 
-#: src/arch/unix/gui/uisettings.c:189
+#: src/arch/unix/gui/uisettings.c:186
 msgid "Maximum run speed"
 msgstr "Maximal hastighet"
 
-#: src/arch/unix/gui/uisettings.c:203
+#: src/arch/unix/gui/uisettings.c:200
 msgid "Invalid speed value"
 msgstr "Ogiltigt hastighetsvärde"
 
-#: src/arch/unix/gui/uisettings.c:217 src/arch/unix/gui/uisettings.c:276
+#: src/arch/unix/gui/uisettings.c:214 src/arch/unix/gui/uisettings.c:270
 #: src/arch/unix/x11/gnome/x11ui.c:1229 src/arch/unix/x11/xaw/x11ui.c:1152
 #: src/arch/win32/res.rc.po.c:4695 src/arch/amigaos/intl.c.po.c:2033
 msgid "Cannot save settings."
 msgstr "Kan inte spara inställningar."
 
-#: src/arch/unix/gui/uisettings.c:220 src/arch/unix/gui/uisettings.c:279
+#: src/arch/unix/gui/uisettings.c:217 src/arch/unix/gui/uisettings.c:273
 #: src/arch/win32/res.rc.po.c:4713 src/arch/amigaos/intl.c.po.c:1952
 msgid "Settings saved successfully."
 msgstr "Inställningarna har sparats."
 
-#: src/arch/unix/gui/uisettings.c:237 src/arch/unix/gui/uisettings.c:318
+#: src/arch/unix/gui/uisettings.c:234 src/arch/unix/gui/uisettings.c:302
 msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
@@ -2679,7 +2679,7 @@ msgstr ""
 "Kan inte läsa inställningar:\n"
 "resursfilen ogiltig."
 
-#: src/arch/unix/gui/uisettings.c:239 src/arch/unix/gui/uisettings.c:320
+#: src/arch/unix/gui/uisettings.c:236 src/arch/unix/gui/uisettings.c:304
 msgid ""
 "Cannot load settings:\n"
 "resource file not found."
@@ -2687,67 +2687,63 @@ msgstr ""
 "Kan inte läsa inställningar:\n"
 "resursfilen ej funnen."
 
-#: src/arch/unix/gui/uisettings.c:243
+#: src/arch/unix/gui/uisettings.c:240
 msgid "Settings loaded."
 msgstr "Inställnigarna har lästs."
 
-#: src/arch/unix/gui/uisettings.c:266 src/arch/unix/gui/uisettings.c:270
-#, fuzzy
+#: src/arch/unix/gui/uisettings.c:260 src/arch/unix/gui/uisettings.c:264
 msgid "File to save settings to"
-msgstr "Fil att spara ROM-uppsättningsdefinition till"
+msgstr "Fil att spara inställningar i"
 
-#: src/arch/unix/gui/uisettings.c:310
-#, fuzzy
+#: src/arch/unix/gui/uisettings.c:294
 msgid "Resource file name"
-msgstr "Filnamn saknas!"
+msgstr "Resursfilnamn"
 
-#: src/arch/unix/gui/uisettings.c:347
+#: src/arch/unix/gui/uisettings.c:331
 msgid "*Auto"
 msgstr "*Auto"
 
-#: src/arch/unix/gui/uisettings.c:370 src/arch/unix/gui/uisettings.c:389
+#: src/arch/unix/gui/uisettings.c:354 src/arch/unix/gui/uisettings.c:373
 msgid "*Custom..."
 msgstr "*Egen..."
 
-#: src/arch/unix/gui/uisettings.c:386
+#: src/arch/unix/gui/uisettings.c:370
 msgid "*No limit"
 msgstr "*Ingen gräns"
 
-#: src/arch/unix/gui/uisettings.c:399
+#: src/arch/unix/gui/uisettings.c:383
 msgid "Maximum speed"
 msgstr "Maximal hastighet"
 
-#: src/arch/unix/gui/uisettings.c:401
+#: src/arch/unix/gui/uisettings.c:385
 msgid "*Enable warp mode"
 msgstr "*Aktivera warpläge"
 
-#: src/arch/unix/gui/uisettings.c:407
+#: src/arch/unix/gui/uisettings.c:391
 msgid "Save settings"
 msgstr "Spara inställningar"
 
-#: src/arch/unix/gui/uisettings.c:409
+#: src/arch/unix/gui/uisettings.c:393
 msgid "Load settings"
 msgstr "Läs inställningar"
 
-#: src/arch/unix/gui/uisettings.c:411
-#, fuzzy
+#: src/arch/unix/gui/uisettings.c:395
 msgid "Save settings to file..."
-msgstr "Spara inställningar vid avslut"
+msgstr "Spara inställningar till fil..."
 
-#: src/arch/unix/gui/uisettings.c:413
-#, fuzzy
+#: src/arch/unix/gui/uisettings.c:397
 msgid "Load settings from file..."
-msgstr "Läs inställningar"
+msgstr "Läs inställningar från fil..."
 
-#: src/arch/unix/gui/uisettings.c:415
+#: src/arch/unix/gui/uisettings.c:399
 msgid "Restore default settings"
 msgstr "Återställ förvalda inställningar"
 
-#: src/arch/unix/gui/uisettings.c:417
+#: src/arch/unix/gui/uisettings.c:401
 msgid "*Save settings on exit"
 msgstr "*Spara inställningar vid avslut"
 
-#: src/arch/unix/gui/uisettings.c:419
+#: src/arch/unix/gui/uisettings.c:403
 msgid "*Confirm on exit"
 msgstr "*Bekräfta avslutning"
 
@@ -2980,12 +2976,12 @@ msgstr "Översampling"
 msgid "Sound settings"
 msgstr "Ljudinställningar"
 
-#: src/arch/unix/gui/uited.c:102 src/arch/unix/gui/uivic.c:123
+#: src/arch/unix/gui/uited.c:102 src/arch/unix/gui/uivic.c:101
 #: src/arch/unix/gui/uivicii.c:157
 msgid "*External color set"
 msgstr "*Extern färguppsättning"
 
-#: src/arch/unix/gui/uited.c:104 src/arch/unix/gui/uivic.c:125
+#: src/arch/unix/gui/uited.c:104 src/arch/unix/gui/uivic.c:103
 #: src/arch/unix/gui/uivicii.c:159
 msgid "*Color set"
 msgstr "*Färguppsättning"
@@ -2999,13 +2995,13 @@ msgstr "*Snabb PAL-emulering"
 msgid "PAL Emulation"
 msgstr "PAL-emulering"
 
-#: src/arch/unix/gui/uited.c:116 src/arch/unix/gui/uivic.c:133
+#: src/arch/unix/gui/uited.c:116 src/arch/unix/gui/uivic.c:111
 #: src/arch/unix/gui/uivicii.c:167 src/arch/unix/gui/vsidui.c:342
 #: src/arch/amigaos/intl.c.po.c:1212
 msgid "Video standard"
 msgstr "TV-standard"
 
-#: src/arch/unix/gui/uited.c:120 src/arch/unix/gui/uivic.c:137
+#: src/arch/unix/gui/uited.c:120 src/arch/unix/gui/uivic.c:115
 #: src/arch/unix/gui/uivicii.c:179
 msgid "*Hardware scaling"
 msgstr "*Maskinvaruskalning"
@@ -3026,7 +3022,7 @@ msgstr "*RR-NET-kompatibilitetsläge"
 msgid "Interface..."
 msgstr "Gränssnitt..."
 
-#: src/arch/unix/gui/uivdc.c:42 src/arch/unix/gui/uivic.c:59
+#: src/arch/unix/gui/uivdc.c:42 src/arch/unix/gui/uivic.c:55
 #: src/arch/unix/gui/uivicii.c:60
 msgid "*Default"
 msgstr "*Förval"
@@ -3055,21 +3051,9 @@ msgstr "Utgåva"
 msgid "Color set"
 msgstr "Färguppsättning"
 
-#: src/arch/unix/gui/uivic.c:82 src/arch/unix/gui/uivicii.c:111
-msgid "Refreshrate: "
-msgstr "Uppdateringsfrekvens:"
-
-#: src/arch/unix/gui/uivic.c:82 src/arch/unix/gui/uivicii.c:111
-msgid "Enter Refreshrate (Hz): "
-msgstr "Ange uppdateringsfrekvens (Hz):"
-
-#: src/arch/unix/gui/uivic.c:128
+#: src/arch/unix/gui/uivic.c:106
 msgid "PAL Emulation Settings"
 msgstr "Inställningar för PAL-emulering"
-
-#: src/arch/unix/gui/uivic.c:143 src/arch/unix/gui/uivicii.c:185
-msgid "Desktop Refreshrate..."
-msgstr "Uppdateringshastighet för skrivbord..."
 
 #: src/arch/unix/gui/uivicii.c:64
 msgid "*CCS64"
@@ -3091,6 +3075,14 @@ msgstr "*Full"
 msgid "*Debug"
 msgstr "*Felsök"
 
+#: src/arch/unix/gui/uivicii.c:111
+msgid "Refreshrate: "
+msgstr "Uppdateringsfrekvens:"
+
+#: src/arch/unix/gui/uivicii.c:111
+msgid "Enter Refreshrate (Hz): "
+msgstr "Ange uppdateringsfrekvens (Hz):"
+
 #: src/arch/unix/gui/uivicii.c:155
 msgid "*New Luminances"
 msgstr "*Nya ljusstyrkor"
@@ -3106,6 +3098,10 @@ msgstr "*Sprite-till-sprite-kollision"
 #: src/arch/unix/gui/uivicii.c:175
 msgid "*Sprite-background collisions"
 msgstr "*Sprite-till-bakgrund-kollision"
+
+#: src/arch/unix/gui/uivicii.c:185
+msgid "Desktop Refreshrate..."
+msgstr "Uppdateringshastighet för skrivbord..."
 
 #. Shouldn't happen.
 #: src/arch/unix/gui/vic20ui.c:105
@@ -4809,14 +4805,12 @@ msgid "Cannot write keymap file"
 msgstr "Kan inte skriva tangentbordsfil"
 
 #: src/arch/win32/res.rc.po.c:4731
-#, fuzzy
 msgid "Save config file"
-msgstr "Spara mediafil"
+msgstr "Spara inställningsfil"
 
 #: src/arch/win32/res.rc.po.c:4732
-#, fuzzy
 msgid "Load config file"
-msgstr "Läs vallistefil"
+msgstr "Läs inställningsfil"
 
 #: src/arch/win32/res.rc.po.c:4733
 msgid "Mapping"
@@ -5914,14 +5908,12 @@ msgid "RS&232 userport settings..."
 msgstr "RS&232-användarportinställningar..."
 
 #: src/arch/win32/res.rc.po.c:5032 src/arch/amigaos/intl.c.po.c:1680
-#, fuzzy
 msgid "Save current settings to specified file"
-msgstr "Spara nuvarande inställningar"
+msgstr "Spara nuvarande inställningar till den angivna filen"
 
 #: src/arch/win32/res.rc.po.c:5033 src/arch/amigaos/intl.c.po.c:1689
-#, fuzzy
 msgid "Load settings from specified file"
-msgstr "Kan inte ansluta filen"
+msgstr "Läs inställningar från den angivna filen"
 
 #: src/arch/win32/res.rc.po.c:5034
 msgid "&Save current settings"
@@ -6890,9 +6882,8 @@ msgid "DQBB Settings"
 msgstr "DQBB-inställningar"
 
 #: src/arch/win32/resdqbb.rc.po.c:12
-#, fuzzy
 msgid "&Enable DQBB"
-msgstr "&Aktivera SID"
+msgstr "&Aktivera DQBB"
 
 #: src/arch/win32/resdqbb.rc.po.c:14 src/arch/amigaos/intl.c.po.c:3268
 msgid "DQBB file"
@@ -7166,13 +7157,12 @@ msgid "Isepic Settings"
 msgstr "Isepic-inställningar"
 
 #: src/arch/win32/resisepic.rc.po.c:12
-#, fuzzy
 msgid "&Enable Isepic"
-msgstr "&Aktivera SID"
+msgstr "&Aktivera Isepic"
 
 #: src/arch/win32/resisepic.rc.po.c:14
 msgid "&Isepic switch"
-msgstr ""
+msgstr "&Isepic-omkopplare"
 
 #: src/arch/win32/resmmc64.rc.po.c:11
 msgid "&Enable MMC64"
@@ -8656,14 +8646,12 @@ msgid "GEORAM Size"
 msgstr "GEORAM-storlek"
 
 #: src/arch/amigaos/intl.c.po.c:3304
-#, fuzzy
 msgid "Isepic Switch"
-msgstr "Isepic-inställningar"
+msgstr "Isepic-omkopplare"
 
 #: src/arch/amigaos/intl.c.po.c:3313
-#, fuzzy
 msgid "Select config file"
-msgstr "Ange HD-avbildningsfil"
+msgstr "Ange inställningsfil"
 
 #: src/arch/amigaos/intl.c.po.c:3322
 msgid "Joystick in port #1"
@@ -10446,29 +10434,24 @@ msgid "Size of the RAMCART expansion"
 msgstr "Storlek på RAMCART-expansion"
 
 #: src/translate.c.po.c:3793
-#, fuzzy
 msgid "Enable Double Quick Brown Box"
-msgstr "Dubbel Quick Brown Box-insticksmodul"
+msgstr "Aktivera Dubbel Quick Brown Box"
 
 #: src/translate.c.po.c:3805
-#, fuzzy
 msgid "Disable Double Quick Brown Box"
-msgstr "Dubbel Quick Brown Box-insticksmodul"
+msgstr "Inaktivera Quick Brown Box"
 
 #: src/translate.c.po.c:3817
-#, fuzzy
 msgid "Specify Double Quick Brown Box filename"
-msgstr "Dubbel Quick Brown Box-insticksmodul"
+msgstr "Ange filnamn för Dubbel Quick Brown Box"
 
 #: src/translate.c.po.c:3829
-#, fuzzy
-msgid "Enable the isepic cart"
-msgstr "Aktivera videocache"
+msgid "Enable the isepic cart."
+msgstr "Aktivera isepic-insticksmodul."
 
 #: src/translate.c.po.c:3841
-#, fuzzy
 msgid "Disable the isepic cart"
-msgstr "Inaktivera videocache"
+msgstr "Inaktivera isepic-insticksmodul."
 
 #: src/translate.c.po.c:3853
 msgid "Enable the MMC64 expansion"
@@ -10603,9 +10586,8 @@ msgid "Enable expert cartridge"
 msgstr "Aktivera Expert Cartridge"
 
 #: src/translate.c.po.c:4264
-#, fuzzy
 msgid "Disable default cartridge"
-msgstr "Inaktivera Digimax Cartridge"
+msgstr "Inaktivera standardinsticksmodul"
 
 #: src/translate.c.po.c:4276
 msgid "Specify name of IDE64 image file"
@@ -11774,14 +11756,12 @@ msgid "Restore default (factory) settings"
 msgstr "Återställ förvalda inställningar"
 
 #: src/translate.c.po.c:7863
-#, fuzzy
 msgid "<filename>"
-msgstr "\"<filnamn>\""
+msgstr "<filnamn>"
 
 #: src/translate.c.po.c:7875
-#, fuzzy
 msgid "Specify config file"
-msgstr "Ange namn på loggfil"
+msgstr "Ange inställningsfil"
 
 #: src/translate.c.po.c:7887
 msgid "Attach and autostart tape/disk image <name>"
@@ -12087,3 +12067,4 @@ msgstr "Inaktivera Digimax Cartridge"
 #: src/translate.c.po.c:8799
 msgid "Base address of the digimax cartridge"
 msgstr "Basadress för Digimax-cartridge"
+
