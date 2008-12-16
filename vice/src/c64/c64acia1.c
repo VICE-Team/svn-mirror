@@ -60,7 +60,7 @@
 
 BYTE REGPARM1 acia1_read(WORD addr)
 {
-  if (acia_mode==2 && (addr&7)>3 && (addr&7)!=7)
+  if (acia.mode==2 && (addr&7)>3 && (addr&7)!=7)
       return 0;
   io_source=IO_SOURCE_ACIA;
   return myacia_read(addr);
