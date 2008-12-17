@@ -869,15 +869,11 @@ void REGPARM2 myacia_store(WORD addr, BYTE byte)
       case ACIA_DR:
         acia.txdata = byte;
         if (acia.cmd & ACIA_CMD_BITS_DTR_ENABLE_RECV_AND_IRQ) {
-            if (acia.in_tx == ACIA_TX_STATE_NO_TRANSMIT) {
-                acia.in_tx = ACIA_TX_STATE_DR_WRITTEN;
-            } else {
-                if (acia.in_tx == ACIA_TX_STATE_DR_WRITTEN) {
-                    log_message(acia.log, "ACIA: data register written "
-                        "although data has not been sent yet.");
-                }
-                acia.in_tx = ACIA_TX_STATE_DR_WRITTEN;
+            if (acia.in_tx == ACIA_TX_STATE_DR_WRITTEN) {
+                log_message(acia.log, "ACIA: data register written "
+                    "although data has not been sent yet.");
             }
+            acia.in_tx = ACIA_TX_STATE_DR_WRITTEN;
             if (acia.alarm_active_tx == 0) {
                 acia.alarm_clk_tx = myclk + 1;
                 alarm_set(acia.alarm_tx, acia.alarm_clk_tx);
