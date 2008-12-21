@@ -98,8 +98,8 @@ static unsigned int mon_register_get_val(int mem, int reg_id)
         return MOS6510DTV_REGS_GET_R15(reg_ptr);
       case e_ACM:
         return MOS6510DTV_REGS_GET_ACM(reg_ptr);
-      case e_XYM:
-        return MOS6510DTV_REGS_GET_XYM(reg_ptr);
+      case e_YXM:
+        return MOS6510DTV_REGS_GET_YXM(reg_ptr);
       default:
         log_error(LOG_ERR, "Unknown register!");
     }
@@ -110,7 +110,6 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
 {
     mos6510dtv_regs_t *reg_ptr;
 
-    
     if (monitor_diskspace_dnr(mem) >= 0)
         if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
             return;
@@ -134,6 +133,9 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
         break;
       case e_SP:
         MOS6510DTV_REGS_SET_SP(reg_ptr, (BYTE)val);
+        break;
+      case e_FLAGS:
+        MOS6510DTV_REGS_SET_STATUS(reg_ptr, (BYTE)val);
         break;
       case e_R3:
         MOS6510DTV_REGS_SET_R3(reg_ptr, (BYTE)val);
@@ -177,8 +179,8 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
       case e_ACM:
         MOS6510DTV_REGS_SET_ACM(reg_ptr, (BYTE)val);
         break;
-      case e_XYM:
-        MOS6510DTV_REGS_SET_XYM(reg_ptr, (BYTE)val);
+      case e_YXM:
+        MOS6510DTV_REGS_SET_YXM(reg_ptr, (BYTE)val);
         break;
       default:
         log_error(LOG_ERR, "Unknown register!");
@@ -240,7 +242,7 @@ static void mon_register_print(int mem)
     }
 
     if (mem == e_comp_space) {
-        mon_out("R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15 ACM XYM\n");
+        mon_out("R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15 ACM YXM\n");
         mon_out("%02x %02x %02x %02x %02x %02x %02x %02x  %02x  %02x  %02x  %02x  %02x  %02x  %02x\n",
                   mon_register_get_val(mem, e_R3),
                   mon_register_get_val(mem, e_R4),
@@ -256,7 +258,7 @@ static void mon_register_print(int mem)
                   mon_register_get_val(mem, e_R14),
                   mon_register_get_val(mem, e_R15),
                   mon_register_get_val(mem, e_ACM),
-                  mon_register_get_val(mem, e_XYM));
+                  mon_register_get_val(mem, e_YXM));
     }
 }
 
@@ -417,8 +419,8 @@ static mon_reg_list_t *mon_register_list_get6502dtv(int mem)
     mon_reg_list[22].flags = 0;
     mon_reg_list[22].next = &mon_reg_list[23];
 
-    mon_reg_list[23].name = "XYM";
-    mon_reg_list[23].val = (unsigned int)mon_register_get_val(mem, e_XYM);
+    mon_reg_list[23].name = "YXM";
+    mon_reg_list[23].val = (unsigned int)mon_register_get_val(mem, e_YXM);
     mon_reg_list[23].size = 8;
     mon_reg_list[23].flags = 0;
     mon_reg_list[23].next = NULL;
@@ -473,8 +475,8 @@ static void mon_register_list_set6502dtv(mon_reg_list_t *reg_list, int mem)
             mon_register_set_val(mem, e_R15, (WORD)(reg_list->val));
         if (!strcmp(reg_list->name, "ACM"))
             mon_register_set_val(mem, e_ACM, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "XYM"))
-            mon_register_set_val(mem, e_XYM, (WORD)(reg_list->val));
+        if (!strcmp(reg_list->name, "YXM"))
+            mon_register_set_val(mem, e_YXM, (WORD)(reg_list->val));
 
         reg_list = reg_list->next;
     } while (reg_list != NULL);

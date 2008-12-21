@@ -102,6 +102,9 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
       case e_SP:
         MOS6510_REGS_SET_SP(reg_ptr, (BYTE)val);
         break;
+      case e_FLAGS:
+        MOS6510_REGS_SET_STATUS(reg_ptr, (BYTE)val);
+        break;
       default:
         log_error(LOG_ERR, "Unknown register!");
         return;

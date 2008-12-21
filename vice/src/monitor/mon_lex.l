@@ -234,6 +234,7 @@ O|o		{ yylval.i = e_octal; return RADIX_TYPE; }
 	Y|y 		{ yylval.i = e_Y; return REGISTER; }
 	[Pp][Cc]	{ yylval.i = e_PC; return REGISTER; }
 	[Ss][Pp]	{ yylval.i = e_SP; return REGISTER; }
+	[Ff][Ll]	{ yylval.i = e_FLAGS; return REGISTER; }
         [Rr]3           { yylval.i = e_R3; return REGISTER; }
         [Rr]4           { yylval.i = e_R4; return REGISTER; }
         [Rr]5           { yylval.i = e_R5; return REGISTER; }
@@ -248,7 +249,7 @@ O|o		{ yylval.i = e_octal; return RADIX_TYPE; }
         [Rr]14          { yylval.i = e_R14; return REGISTER; }
         [Rr]15          { yylval.i = e_R15; return REGISTER; }
         [Aa][Cc][Mm]    { yylval.i = e_ACM; return REGISTER; }
-        [Xx][Yy][Mm]    { yylval.i = e_XYM; return REGISTER; }
+        [Yy][Xx][Mm]    { yylval.i = e_YXM; return REGISTER; }
 }
 
 <COND_MODE>{
@@ -280,7 +281,7 @@ O|o		{ yylval.i = e_octal; return RADIX_TYPE; }
         \.R14           { yylval.i = e_R14; return REGISTER; }
         \.R15           { yylval.i = e_R15; return REGISTER; }
         \.ACM           { yylval.i = e_ACM; return REGISTER; }
-        \.XYM           { yylval.i = e_XYM; return REGISTER; }
+        \.YXM           { yylval.i = e_YXM; return REGISTER; }
 
 	\(		{ return L_PAREN; }
 	\)		{ return R_PAREN; }

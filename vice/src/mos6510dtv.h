@@ -27,8 +27,8 @@
  *
  */
 
-#ifndef _MOS6510DTV_H
-#define _MOS6510DTV_H
+#ifndef VICE_MOS6510DTV_H
+#define VICE_MOS6510DTV_H
 
 #include "types.h"
 
@@ -59,7 +59,7 @@ typedef struct mos6510dtv_regs_s {
     BYTE r14;
     BYTE r15;
     BYTE acm;
-    BYTE xym;
+    BYTE yxm;
 } mos6510dtv_regs_t;
 
 /* These define the position of the status flags in the P (`status')
@@ -111,8 +111,8 @@ typedef struct mos6510dtv_regs_s {
     (regs)->r15 = (val)
 #define MOS6510DTV_REGS_SET_ACM(regs, val) \
     (regs)->acm = (val)
-#define MOS6510DTV_REGS_SET_XYM(regs, val) \
-    (regs)->xym = (val)
+#define MOS6510DTV_REGS_SET_YXM(regs, val) \
+    (regs)->yxm = (val)
 
 #define MOS6510DTV_REGS_SET_OVERFLOW(regs, val) \
     do {                                     \
@@ -205,8 +205,8 @@ typedef struct mos6510dtv_regs_s {
     ((regs)->r15)
 #define MOS6510DTV_REGS_GET_ACM(regs) \
     ((regs)->acm)
-#define MOS6510DTV_REGS_GET_XYM(regs) \
-    ((regs)->xym)
+#define MOS6510DTV_REGS_GET_YXM(regs) \
+    ((regs)->yxm)
 #define MOS6510DTV_REGS_GET_OVERFLOW(regs) \
     ((regs)->p & P_OVERFLOW)
 #define MOS6510DTV_REGS_GET_BREAK(regs) \

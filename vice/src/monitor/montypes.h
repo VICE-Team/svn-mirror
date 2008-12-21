@@ -75,7 +75,7 @@ enum t_reg_id {
    e_R14,
    e_R15,
    e_ACM,
-   e_XYM
+   e_YXM
 };
 typedef enum t_reg_id REG_ID;
 

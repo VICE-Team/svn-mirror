@@ -537,7 +537,7 @@ int maincpu_snapshot_write_module(snapshot_t *s)
         || SMW_B(m, MOS6510DTV_REGS_GET_R14(&maincpu_regs)) < 0
         || SMW_B(m, MOS6510DTV_REGS_GET_R15(&maincpu_regs)) < 0
         || SMW_B(m, MOS6510DTV_REGS_GET_ACM(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510DTV_REGS_GET_XYM(&maincpu_regs)) < 0
+        || SMW_B(m, MOS6510DTV_REGS_GET_YXM(&maincpu_regs)) < 0
         || SMW_BA(m, burst_cache, 4) < 0
         || SMW_W(m, burst_addr) < 0
         || SMW_DW(m, dtvclockneg) < 0
@@ -574,7 +574,7 @@ int maincpu_snapshot_read_module(snapshot_t *s)
 {
     BYTE a, x, y, sp, status;
 #ifdef C64DTV
-    BYTE r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, acm, xym;
+    BYTE r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, acm, yxm;
 #endif
     WORD pc;
     BYTE major, minor;
@@ -612,7 +612,7 @@ int maincpu_snapshot_read_module(snapshot_t *s)
         || SMR_B(m, &r14) < 0
         || SMR_B(m, &r15) < 0
         || SMR_B(m, &acm) < 0
-        || SMR_B(m, &xym) < 0
+        || SMR_B(m, &yxm) < 0
         || SMR_BA(m, burst_cache, 4) < 0
         || SMR_W(m, &burst_addr) < 0
         || SMR_DW_INT(m, &dtvclockneg) < 0
@@ -641,7 +641,7 @@ int maincpu_snapshot_read_module(snapshot_t *s)
     MOS6510DTV_REGS_SET_R14(&maincpu_regs, r14);
     MOS6510DTV_REGS_SET_R15(&maincpu_regs, r15);
     MOS6510DTV_REGS_SET_ACM(&maincpu_regs, acm);
-    MOS6510DTV_REGS_SET_XYM(&maincpu_regs, xym);
+    MOS6510DTV_REGS_SET_YXM(&maincpu_regs, yxm);
 #else
     MOS6510_REGS_SET_A(&maincpu_regs, a);
     MOS6510_REGS_SET_X(&maincpu_regs, x);
