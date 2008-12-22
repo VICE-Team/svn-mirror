@@ -285,6 +285,7 @@ int drive_image_attach(disk_image_t *image, unsigned int unit)
 
     if (drive->image->type == DISK_IMAGE_TYPE_G64) {
         if (disk_image_read_gcr_image(drive->image) < 0) {
+            drive->image = NULL;
             return -1;
         }
     } else {
