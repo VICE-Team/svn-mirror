@@ -174,8 +174,9 @@ installfile data/C64DTV/c64mem.sym vice/vice-RUN runtmp /usr/local/lib/vice/C64D
 installfile data/C64DTV/c64s.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/c64s.vpl run 0644
 installfile data/C64DTV/ccs64.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/ccs64.vpl run 0644
 installfile data/C64DTV/chargen vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/chargen run 0644
-installfile data/C64DTV/default.vpl vice/vice-RUN runtmp /usr/local/lib/viceDTV/C64/default.vpl run 0644
-installfile data/C64DTV/default.vrs vice/vice-RUN runtmp /usr/local/lib/viceDTV/C64/default.vrs run 0644
+installfile data/C64DTV/default.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/default.vpl run 0644
+installfile data/C64DTV/default.vrs vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/default.vrs run 0644
+installfile data/C64DTV/dtvrom.bin vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/dtvrom.bin run 0644
 installfile data/C64DTV/frodo.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/frodo.vpl run 0644
 installfile data/C64DTV/godot.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/godot.vpl run 0644
 installfile data/C64DTV/kernal vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/kernal run 0644

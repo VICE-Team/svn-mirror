@@ -63,13 +63,6 @@ $STRIP VICE-$VERSION/programs/VICE/bin/petcat.app
 mv /boot/programs/VICE/bin/cartconv VICE-$VERSION/programs/VICE/bin/cartconv.app
 $STRIP VICE-$VERSION/programs/VICE/bin/cartconv.app
 mv /boot/programs/VICE/lib/vice VICE-$VERSION/programs/VICE/lib
-rm `find VICE-$VERSION -name "amiga_*.vkm"`
-rm `find VICE-$VERSION -name "beos_*.vkm"`
-rm `find VICE-$VERSION -name "dos_*.vkm"`
-rm `find VICE-$VERSION -name "os2*.vkm"`
-rm `find VICE-$VERSION -name "osx*.vkm"`
-rm `find VICE-$VERSION -name "win_*.vkm"`
-rm `find VICE-$VERSION -name "RO*.vkm"`
 mkdir -p VICE-$VERSION/programs/VICE/share/man/man1
 mv /boot/programs/VICE/share/man/man1/* VICE-$VERSION/programs/VICE/share/man/man1/
 mkdir -p VICE-$VERSION/programs/VICE/info
@@ -113,8 +106,7 @@ DefaultPath=
 /file="\$INSTALL_ROOT/programs/VICE/bin/xvic.app"	/icon="/boot/programs/VICE/icons/xvic.ico"
 
 [SS_DESCRIPTION]
-VICE is a program that runs on a Unix, MS-DOS, Win32, OS/2, Acorn RISC OS, BeOS, QNX, SkyOS, Amiga, GP2X or Mac OS X machine and executes programs intended for the old 8-bit computers. The current version emulates the C64, the C128, the VIC20, almost all PET models, the PLUS4 and the CBM-II (aka C610).
-[/SS_DESCRIPTION]
+VICE is a program that runs on a Unix, MS-DOS, Win32, OS/2, Acorn RISC OS, BeOS, QNX, SkyOS, Amiga, GP2X or Mac OS X machine and executes programs intended for the old 8-bit computers. The current version emulates the C64, the C64DTV, the C128, the VIC20, almost all PET models, the PLUS4 and the CBM-II (aka C610). [/SS_DESCRIPTION]
 
 [END]
 _END

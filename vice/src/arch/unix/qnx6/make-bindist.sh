@@ -44,14 +44,6 @@ $STRIP VICE-$VICEVERSION/opt/bin/xcbm2
 $STRIP VICE-$VICEVERSION/opt/bin/c1541
 $STRIP VICE-$VICEVERSION/opt/bin/petcat
 $STRIP VICE-$VICEVERSION/opt/bin/cartconv
-rm `find VICE-$VICEVERSION -name "amiga_*.vkm"`
-rm `find VICE-$VICEVERSION -name "beos_*.vkm"`
-rm `find VICE-$VICEVERSION -name "dos_*.vkm"`
-rm `find VICE-$VICEVERSION -name "os2*.vkm"`
-rm `find VICE-$VICEVERSION -name "osx*.vkm"`
-rm `find VICE-$VICEVERSION -name "win_*.vkm"`
-rm `find VICE-$VICEVERSION -name "RO*.vkm"`
-rm `find VICE-$VICEVERSION -name "*.vsc"`
 if test x"$ZIPKIND" = "xzip"; then
   gcc $TOPSRCDIR/src/arch/unix/qnx6/getsize.c -o ./getsize
   gcc $TOPSRCDIR/src/arch/unix/qnx6/getlibs.c -o ./getlibs
@@ -107,7 +99,7 @@ _END
             <QPM:ProductIconSmall>http://www.trikaliotis.net/vicekb/common/vice-logo.png</QPM:ProductIconSmall>
             <QPM:ProductIconLarge>http://www.viceteam.org/images/vice-logo.jpg</QPM:ProductIconLarge>
             <QPM:ProductDescriptionShort>The Versatile Commodore Emulator</QPM:ProductDescriptionShort>
-            <QPM:ProductDescriptionLong>VICE is a program that runs on a Unix, MS-DOS, Win32, OS/2, Acorn RISC OS, QNX 6.x, AmigaOS or BeOS machine and executes programs intended for the old 8-bit computers. The current version emulates the C64, the C128, the VIC20, all the PET models (except the SuperPET 9000, which is out of line anyway), the PLUS4 and the CBM-II (aka C610).</QPM:ProductDescriptionLong>
+            <QPM:ProductDescriptionLong>VICE is a program that runs on a Unix, MS-DOS, Win32, OS/2, Acorn RISC OS, QNX 6.x, AmigaOS or BeOS machine and executes programs intended for the old 8-bit computers. The current version emulates the C64, the C64DTV, the C128, the VIC20, all the PET models (except the SuperPET 9000, which is out of line anyway), the PLUS4 and the CBM-II (aka C610).</QPM:ProductDescriptionLong>
             <QPM:ProductDescriptionURL>http://www.viceteam.org</QPM:ProductDescriptionURL>
             <QPM:ProductDescriptionEmbedURL/>
 _END
@@ -390,6 +382,7 @@ _END
                            <QPM:File>chargen</QPM:File>
                            <QPM:File>default.vpl</QPM:File>
                            <QPM:File>default.vrs</QPM:File>
+                           <QPM:File>dtvrom.bin</QPM:File>
                            <QPM:File>frodo.vpl</QPM:File>
                            <QPM:File>godot.vpl</QPM:File>
                            <QPM:File>kernal</QPM:File>

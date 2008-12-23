@@ -110,14 +110,6 @@ $STRIP VICE-$VICEVERSION/usr/local/bin/xcbm2
 $STRIP VICE-$VICEVERSION/usr/local/bin/c1541
 $STRIP VICE-$VICEVERSION/usr/local/bin/petcat
 $STRIP VICE-$VICEVERSION/usr/local/bin/cartconv
-rm `find VICE-$VICEVERSION -name "amiga_*.vkm"`
-rm `find VICE-$VICEVERSION -name "beos_*.vkm"`
-rm `find VICE-$VICEVERSION -name "dos_*.vkm"`
-rm `find VICE-$VICEVERSION -name "os2*.vkm"`
-rm `find VICE-$VICEVERSION -name "osx*.vkm"`
-rm `find VICE-$VICEVERSION -name "win_*.vkm"`
-rm `find VICE-$VICEVERSION -name "RO*.vkm"`
-rm `find VICE-$VICEVERSION -name "*.vsc"`
 mkdir -p VICE-$VICEVERSION$MANDIR/man1
 if test x"$ZIPKIND" = "xzip"; then
   rm -f -r /var/spool/pkg/UMCVICE
