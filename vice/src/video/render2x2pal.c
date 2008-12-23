@@ -217,8 +217,8 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
          * the scanline. */
         if (y == yys + height) {
             /* no place to put scanline in: we are outside viewport or still
-             * doing the first iteration (height == 0) */
-            if (y == yys || yys == viewport->first_line * 2 || yys > viewport->last_line * 2)
+             * doing the first iteration (y == yys), height == 0 */
+            if (y == yys || y <= viewport->first_line * 2 || y > viewport->last_line * 2)
                 break;
 
             tmptrg = &color_tab->rgbscratchbuffer[0];
@@ -230,7 +230,7 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
              * otherwise we dump it to the scratch region... We must never
              * render the scanline for the first row, because prevlinergb is not
              * yet initialized and scanline data would be bogus! */
-            tmptrgscanline = y != yys && yys > viewport->first_line && yys <= viewport->last_line * 2
+            tmptrgscanline = y != yys && y > viewport->first_line * 2 && y <= viewport->last_line * 2
                 ? trg - pitcht
                 : &color_tab->rgbscratchbuffer[0];
         }
