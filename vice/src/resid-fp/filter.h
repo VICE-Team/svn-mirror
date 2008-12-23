@@ -206,8 +206,8 @@ friend class SIDFP;
  * some chips have more, some less. We should make this tunable. */
 const float kinkiness = 0.966f;
 const float sidcaps_6581 = 470e-12f;
-const float outputleveldifference_lp_bp = 1.4f;
-const float outputleveldifference_bp_hp = 1.2f;
+const float outputleveldifference_lp_bp = 1.5f;
+const float outputleveldifference_bp_hp = 1.5f;
 
 RESID_INLINE
 static float fastexp(float val) {
@@ -324,17 +324,20 @@ float FilterFP::clock(float voice1,
         Vf += Vhp;
     
     if (model == MOS6581FP) {
-        float diff1, diff2;
+        float diff1, diff2, diff3;
 
-        Vhp = Vbp * _1_div_Q * (1.f/outputleveldifference_bp_hp) - Vlp * (1.f/outputleveldifference_bp_hp) - Vi * 0.5f;
+        Vhp = Vbp * _1_div_Q * (1.f/outputleveldifference_bp_hp) - Vlp * (1.f/outputleveldifference_bp_hp/outputleveldifference_lp_bp) - Vi * 0.5f;
 
         /* the input summer mixing, or something like it... */
         diff1 = (Vlp - Vbp) * distortion_cf_threshold;
         diff2 = (Vhp - Vbp) * distortion_cf_threshold;
+        diff3 = (Vlp - Vhp) * distortion_cf_threshold;
         Vlp -= diff1;
+        Vlp -= diff3;
         Vbp += diff1;
         Vbp += diff2;
         Vhp -= diff2;
+        Vhp += diff3;
 
         /* Model output strip mixing. Doing it now that HP state
          * variable modifying still makes some difference.
@@ -347,7 +350,7 @@ float FilterFP::clock(float voice1,
             Vhp += (Vf + Vnf - Vhp) * distortion_cf_threshold;
        
         /* Simulating the exponential VCR that the FET block is... */
-        Vlp -= Vbp * type3_w0(Vbp, type3_fc_distortion_offset_bp);
+        Vlp -= Vbp * type3_w0(Vbp, type3_fc_distortion_offset_bp) * outputleveldifference_lp_bp;
         Vbp -= Vhp * type3_w0(Vhp, type3_fc_distortion_offset_hp) * outputleveldifference_bp_hp;
 
         /* Tuned based on Fred Gray's Break Thru. It is probably not a hard
@@ -355,7 +358,7 @@ float FilterFP::clock(float voice1,
         if (Vnf > 3.2e6f)
             Vnf = 3.2e6f;
         
-        Vf += Vnf + Vlp * (outputleveldifference_lp_bp - 1.f);
+        Vf += Vnf;
     } else {
         /* On the 8580, BP appears mixed in phase with the rest. */
         Vhp = -Vbp * _1_div_Q - Vlp - Vi;

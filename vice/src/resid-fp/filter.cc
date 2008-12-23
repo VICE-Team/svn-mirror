@@ -190,5 +190,8 @@ void FilterFP::set_w0()
 void FilterFP::set_Q()
 {
   float Q = res / 15.f;
-  _1_div_Q = 1.f / (0.707f + Q * 1.5f);
+  if (model == MOS6581FP)
+      _1_div_Q = 1.f / (0.707f + Q * 1.0f);
+  if (model == MOS8580FP)
+      _1_div_Q = 1.f / (0.707f + Q * 1.5f);
 }
