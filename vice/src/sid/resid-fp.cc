@@ -142,7 +142,7 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec)
       break;
     default:
     case SID_MODEL_6581R4AR_3789:
-      psid->sid->get_filter().set_type3_properties(1.40e6f, 1.47e8f, 1.0059f, 1.55e4f);
+      psid->sid->get_filter().set_type3_properties(1.37e6f, 1.70e8f, 1.006f, 1.55e4f);
       strcpy(model_text, "6581R4AR 3789");
       break;
     case SID_MODEL_6581R3_4485:

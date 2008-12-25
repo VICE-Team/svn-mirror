@@ -206,8 +206,8 @@ friend class SIDFP;
  * some chips have more, some less. We should make this tunable. */
 const float kinkiness = 0.966f;
 const float sidcaps_6581 = 470e-12f;
-const float outputleveldifference_lp_bp = 1.5f;
-const float outputleveldifference_bp_hp = 1.5f;
+const float outputleveldifference_lp_bp = 1.46f;
+const float outputleveldifference_bp_hp = 1.46f;
 
 RESID_INLINE
 static float fastexp(float val) {
@@ -329,8 +329,8 @@ float FilterFP::clock(float voice1,
         Vhp = Vbp * _1_div_Q * (1.f/outputleveldifference_bp_hp) - Vlp * (1.f/outputleveldifference_bp_hp/outputleveldifference_lp_bp) - Vi * 0.5f;
 
         /* the input summer mixing, or something like it... */
-        diff1 = (Vlp - Vbp) * distortion_cf_threshold;
-        diff2 = (Vhp - Vbp) * distortion_cf_threshold;
+        diff1 = (Vlp - Vbp * _1_div_Q) * distortion_cf_threshold;
+        diff2 = (Vhp - Vbp * _1_div_Q) * distortion_cf_threshold;
         diff3 = (Vlp - Vhp) * distortion_cf_threshold;
         Vlp -= diff1;
         Vlp -= diff3;
@@ -353,12 +353,11 @@ float FilterFP::clock(float voice1,
         Vlp -= Vbp * type3_w0(Vbp, type3_fc_distortion_offset_bp) * outputleveldifference_lp_bp;
         Vbp -= Vhp * type3_w0(Vhp, type3_fc_distortion_offset_hp) * outputleveldifference_bp_hp;
 
-        /* Tuned based on Fred Gray's Break Thru. It is probably not a hard
-         * discontinuity but a saturation effect... */
-        if (Vnf > 3.2e6f)
-            Vnf = 3.2e6f;
-        
         Vf += Vnf;
+
+        /* saturate. This is likely the output inverter saturation. */
+        if (Vf > 3.1e6f)
+            Vf -= (Vf - 3.1e6f) / 2.f;
     } else {
         /* On the 8580, BP appears mixed in phase with the rest. */
         Vhp = -Vbp * _1_div_Q - Vlp - Vi;
