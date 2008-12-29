@@ -11,7 +11,13 @@ list of all the changes in the code.
 ** General
 ----------
 
-- 
+- On autostart, do not change true drive emulation (TDE) anymore by
+  default. The old behaviour can be switched on again by specifiying
+  -autostart-handle-tde on the command line.
+  There is one drawback of this behaviour: If TDE is switched on, an
+  image attached must fit to the drive type set. For example, when you
+  attach a .D81, you must have the drive type set to 1581, or the
+  autostart will fail.
 
 ** C64/C128 changes
 -------------------

@@ -111,5 +111,5 @@ ALT             0x2D        IDM_EDIT_PASTE                    Ins
 # IDM_MON_SET_BP                          IDM_MON_UNSET_BP
 # IDM_MON_ENABLE_BP                       IDM_MON_DISABLE_BP
 # IDM_PETREU_SETTINGS                     IDM_SIDCART_SETTINGS
-# IDM_SOUND_RECORD_START                  IDM_SOUND_RECORD_STOP                   
-# IDM_WNDCHILD
+# IDM_SOUND_RECORD_START                  IDM_SOUND_RECORD_STOP
+# IDM_WNDCHILD                            IDM_TOOGLE_AUTOSTART_HANDLE_TDE

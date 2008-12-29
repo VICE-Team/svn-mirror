@@ -117,3 +117,4 @@ ALT             0x2D        IDM_EDIT_PASTE                    Ins
 # IDM_WNDCHILD                            IDM_C64DTV_SETTINGS
 # IDM_SOUND_RECORD_START                  IDM_PS2MOUSE
 # IDM_SOUND_RECORD_STOP                   IDM_TOGGLE_FLASH_TRUE_FILESYSTEM
+# IDM_TOGGLE_AUTOSTART_HANDLE_TDE

@@ -133,4 +133,5 @@ ALT             0x2D        IDM_EDIT_PASTE                    Ins
 # IDM_MON_SET_BP                          IDM_MON_UNSET_BP
 # IDM_MON_ENABLE_BP                       IDM_MON_DISABLE_BP
 # IDM_WNDCHILD                            IDM_DIGIMAX_SETTINGS
-# IDM_SOUND_RECORD_START                  IDM_SOUND_RECORD_STOP                   
+# IDM_SOUND_RECORD_START                  IDM_SOUND_RECORD_STOP
+# IDM_TOGGLE_AUTOSTART_HANDLE_TDE

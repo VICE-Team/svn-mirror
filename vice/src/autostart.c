@@ -98,8 +98,15 @@ static BYTE *autostart_program_name = NULL;
 /* Minimum number of cycles before we feed BASIC with commands.  */
 static CLOCK min_cycles;
 
-/* Flag: Do we want to switch true drive emulation on/off during autostart?  */
-static int handle_drive_true_emulation;
+/* Flag: Do we want to switch true drive emulation on/off during autostart?
+ * Normally, this is the same as handle_drive_true_emulation_by_machine;
+ * however, the user can override this decision by specifying
+ * -autostart-no-true-drive-emulation
+ */
+static int handle_drive_true_emulation_overridden;
+
+/* Flag: Does the machine want us to switch true drive emulation on/off during autostart? */
+static int handle_drive_true_emulation_by_machine;
 
 /* Flag: autostart is initialized.  */
 static int autostart_enabled = 0;
@@ -113,14 +120,24 @@ static int autostart_wait_for_reset;
 
 static int AutostartRunWithColon = 0;
 
+static int AutostartHandleTrueDriveEmulation = 1;
+
 static const char * const AutostartRunCommandsAvailable[] = { "RUN\r", "RUN:\r" };
 
 static const char * AutostartRunCommand = NULL;
 
-/*! \internal \brief set the reu to the enabled or disabled state
+static void set_handle_true_drive_emulation_state(void)
+{
+    handle_drive_true_emulation_overridden =
+        AutostartHandleTrueDriveEmulation ?
+            handle_drive_true_emulation_by_machine : 0;
+}
+
+/*! \internal \brief set if autostart should execute with a colon or not
 
  \param val
-   if 0, disable the REU; else, enable it.
+   if 0, the "RUN" command at the end of autostart is executed without
+   a colon; else, it will be executed with a colon.
 
  \param param
    unused
@@ -137,11 +154,33 @@ static int set_autostart_run_with_colon(int val, void *param)
     return 0;
 }
 
+/*! \internal \brief set if autostart should handle TDE or not
+
+ \param val
+   if 0, autostart does not handle TDE even if the machine says it can
+   handle it.
+
+ \param param
+   unused
+
+ \return
+   0 on success. else -1.
+*/
+static int set_autostart_handle_tde(int val, void *param)
+{
+    AutostartHandleTrueDriveEmulation = val ? 1 : 0;
+
+    set_handle_true_drive_emulation_state();
+
+    return 0;
+}
 
 /*! \brief integer resources used by the REU module */
 static const resource_int_t resources_int[] = {
     { "AutostartRunWithColon", 0, RES_EVENT_NO, (resource_value_t)0,
       &AutostartRunWithColon, set_autostart_run_with_colon, NULL },
+    { "AutostartHandleTrueDriveEmulation", 0, RES_EVENT_NO, (resource_value_t)0,
+      &AutostartHandleTrueDriveEmulation, set_autostart_handle_tde, NULL },
     { NULL }
 };
 
@@ -170,6 +209,16 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "AutostartRunWithColon", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_AUTOSTARTWITHCOLON,
+      NULL, NULL },
+    { "-autostart-handle-tde", SET_RESOURCE, 0,
+      NULL, NULL, "AutostartHandleTrueDriveEmulation", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_AUTOSTART_HANDLE_TDE,
+      NULL, NULL },
+    { "+autostart-handle-tde", SET_RESOURCE, 0,
+      NULL, NULL, "AutostartHandleTrueDriveEmulation", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_AUTOSTART_HANDLE_TDE,
       NULL, NULL },
     { NULL }
 };
@@ -273,7 +322,10 @@ void autostart_reinit(CLOCK _min_cycles, int _handle_drive_true_emulation,
     lnmx = _lnmx;
 
     min_cycles = _min_cycles;
-    handle_drive_true_emulation = _handle_drive_true_emulation;
+
+    handle_drive_true_emulation_by_machine = _handle_drive_true_emulation;
+
+    set_handle_true_drive_emulation_state();
 
     if (_min_cycles)
         autostart_enabled = 1;
@@ -313,7 +365,7 @@ void autostart_disable(void)
    is reached.  */
 static void disk_eof_callback(void)
 {
-    if (handle_drive_true_emulation) {
+    if (handle_drive_true_emulation_overridden) {
         BYTE id[2], *buffer;
         unsigned int track, sector;
 
@@ -432,7 +484,7 @@ static void advance_hasdisk(void)
         else
             log_message(autostart_log, "Loading program '*'");
         orig_drive_true_emulation_state = get_true_drive_emulation_state();
-        if (handle_drive_true_emulation) {
+        if (handle_drive_true_emulation_overridden) {
             resources_get_int("VirtualDevices", &traps);
             if (traps) {
                 if (orig_drive_true_emulation_state)
@@ -448,10 +500,9 @@ static void advance_hasdisk(void)
         } else {
             traps = 1;
         }
-        if (autostart_program_name)
-            tmp = lib_msprintf("LOAD\"%s\",8,1:\r", autostart_program_name);
-        else
-            tmp = lib_stralloc("LOAD\"*\",8,1:\r");
+        tmp = lib_msprintf("LOAD\"%s\",8,1:\r", 
+            autostart_program_name ?
+              autostart_program_name : "*");
         kbdbuf_feed(tmp);
         lib_free(tmp);
 
@@ -479,7 +530,7 @@ static void advance_hassnapshot(void)
     switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
       case YES:
         log_message(autostart_log, "Restoring snapshot.");
-        interrupt_maincpu_trigger_trap(load_snapshot_trap, (void*)0);
+        interrupt_maincpu_trigger_trap(load_snapshot_trap, 0);
         autostartmode = AUTOSTART_DONE;
         break;
       case NO:
@@ -532,7 +583,7 @@ void autostart_advance(void)
         return;
     }
 
-    if (autostartmode == AUTOSTART_ERROR && handle_drive_true_emulation) {
+    if (autostartmode == AUTOSTART_ERROR && handle_drive_true_emulation_overridden) {
         log_message(autostart_log, "Now turning true drive emulation %s.",
                     orig_drive_true_emulation_state ? "on" : "off");
         set_true_drive_emulation_mode(orig_drive_true_emulation_state);
@@ -553,8 +604,9 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
     mem_powerup();
     autostart_ignore_reset = 1;
     deallocate_program_name();
-    if (program_name && program_name[0])
-        autostart_program_name = (BYTE *)lib_stralloc(program_name);
+    if (program_name && program_name[0]) {
+        autostart_program_name = lib_stralloc(program_name);
+    }
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
     /* The autostartmode must be set AFTER the shutdown to make the autostart
        threadsafe for OS/2 */
@@ -584,8 +636,8 @@ int autostart_snapshot(const char *file_name, const char *program_name)
     log_message(autostart_log, "Loading snapshot file `%s'.", file_name);
     snapshot_close(snap);
 
-    /*autostart_program_name = (BYTE *)lib_stralloc(file_name);
-    interrupt_maincpu_trigger_trap(load_snapshot_trap, (void*)0);*/
+    /*autostart_program_name = lib_stralloc(file_name);
+    interrupt_maincpu_trigger_trap(load_snapshot_trap, 0);*/
     /* use for snapshot */
     reboot_for_autostart(file_name, AUTOSTART_HASSNAPSHOT, AUTOSTART_MODE_RUN);
 
