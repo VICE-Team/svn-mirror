@@ -48,12 +48,11 @@ const float control_win_width = 200;
     NSString *key = [title stringByAppendingString:@"Visible"];
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
 
-    NSString *value = [def stringForKey:key];
     BOOL visible;
-    if(value == nil) {
+    if([def objectForKey:key] == nil) {
         visible = show;
     } else {
-        visible = [value boolValue];
+        visible = [def boolForKey:key];
     }
     return visible;
 }
@@ -64,7 +63,7 @@ const float control_win_width = 200;
     NSString *key = [title stringByAppendingString:@"Visible"];
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
 
-    [def setObject:[[NSNumber numberWithBool:visible] stringValue] forKey:key];
+    [def setBool:visible forKey:key];
 }
 
 - (void)setWindowVisibilityFromUserDefaults:(NSWindow *)window default:(BOOL)show

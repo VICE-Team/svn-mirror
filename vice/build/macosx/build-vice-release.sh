@@ -129,7 +129,8 @@ if [ "$UI" != "none" ]; then
       echo "no file found!"
       exit 1
     fi
-    grep +++ "$LOG"
+    fgrep +++ "$LOG"
+    fgrep warning: "$LOG"
     du -sh "$FILES"
     mv "$FILES" "$BUILD_DIR"
   done

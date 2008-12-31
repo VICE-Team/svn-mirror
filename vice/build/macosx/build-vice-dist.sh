@@ -220,6 +220,7 @@ build_vice () {
     PATH="$EXTLIB_DIR/$BUILD_ARCH/bin:$PATH" \
     CPPFLAGS="-I$EXTLIB_DIR/$BUILD_ARCH/include" \
     CFLAGS="$COMMON_CFLAGS" \
+    OBJCFLAGS="$COMMON_CFLAGS" \
     LDFLAGS="-L$EXTLIB_DIR/$BUILD_ARCH/lib $LDFLAGS_EXTRA" \
     CC="gcc -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
     CXX="g++ -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
@@ -227,7 +228,9 @@ build_vice () {
     $VICE_SRC/configure --host=$BUILD_ARCH2-apple-darwin $CONFIGURE_FLAGS \
       --x-includes=$BUILD_SDK/usr/X11R6/include --x-libraries=$BUILD_SDK/usr/X11R6/lib
   set +x
-  make
+  make 2>&1 | tee build.log 
+  echo "--- Warnings ---" 
+  fgrep warning: build.log
   popd
 
   # check if all went well
