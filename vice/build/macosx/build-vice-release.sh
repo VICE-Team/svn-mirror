@@ -109,7 +109,7 @@ if [ "x$ARCH" = "x" ]; then
 fi
 UI="$5"
 if [ "x$UI" = "x" ]; then
-  UI="x11 gtk cocoa cocoa+10.5"
+  UI="x11 gtk cocoa+10.4 cocoa+10.5"
 fi
 if [ "$UI" != "none" ]; then
   echo "--- binaries for $UI ---"
@@ -130,7 +130,7 @@ if [ "$UI" != "none" ]; then
       exit 1
     fi
     fgrep +++ "$LOG"
-    fgrep warning: "$LOG"
+    fgrep warning: "$LOG" | sort | uniq
     du -sh "$FILES"
     mv "$FILES" "$BUILD_DIR"
   done
