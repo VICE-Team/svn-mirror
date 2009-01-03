@@ -490,7 +490,7 @@ dnl a simple check to find `libintl.h' and `gettext'.
 dnl
 
 dnl Add new languages here
-ALL_LINGUAS="de fr it sv pl nl hu tr"
+ALL_LINGUAS="de fr it sv pl nl hu tr da"
 
 dnl These rules are solely for the distribution goal.  While doing this
 dnl we only have to keep exactly one list of the available catalogs
