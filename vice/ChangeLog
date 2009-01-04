@@ -1,3 +1,168 @@
+2009-01-04  Martin Pottendorfer <pottendo@aon.at>
+
+	* src/arch/unix/x11/fullscreen.c (fullscreen_init),
+	  src/arch/unix/x11/gnome/x11ui.c (ui_init_finish),
+	  src/arch/unix/x11/xaw/x11ui.c (ui_init_finish): fixed error
+	  handling for failed initializations. fixes: #2482192 "X64,
+	  X128, x64dtv, others? XFree86 fullscreen crash"
+
+	* AUTHORS, src/arch/unix/gui/uifliplist.c,
+	  src/arch/unix/gui/uifliplist.h, src/arch/unix/gui/uipalemu.c,
+	  src/arch/unix/gui/uipalemu.h, src/arch/unix/openGL_sync.h,
+	  src/arch/unix/ui.h, src/arch/unix/vsiduiunix.h,
+	  src/arch/unix/x11/fullscreen.c,
+	  src/arch/unix/x11/gnome/about.c,
+	  src/arch/unix/x11/gnome/gnomekbd.c,
+	  src/arch/unix/x11/gnome/gnomevideo.c,
+	  src/arch/unix/x11/gnome/uiarch.h,
+	  src/arch/unix/x11/gnome/uicartridge.c,
+	  src/arch/unix/x11/gnome/uiedisk.c,
+	  src/arch/unix/x11/gnome/uifileentry.c,
+	  src/arch/unix/x11/gnome/uifileentry.h,
+	  src/arch/unix/x11/gnome/uimenu.c,
+	  src/arch/unix/x11/gnome/uinetplay.c,
+	  src/arch/unix/x11/gnome/uipalcontrol.c,
+	  src/arch/unix/x11/gnome/uiscreenshot.c,
+	  src/arch/unix/x11/gnome/uisnapshot.c,
+	  src/arch/unix/x11/gnome/uivsidcontrol.c,
+	  src/arch/unix/x11/gnome/x11ui.c,
+	  src/arch/unix/x11/openGL_sync.c, src/arch/unix/x11/vidmode.c,
+	  src/arch/unix/x11/vidmode.h,
+	  src/arch/unix/x11/xaw/uivsidcontrol.c,
+	  src/arch/unix/x11/xrandr.c, src/arch/unix/x11/xrandr.h,
+	  src/fileio/p00.c, src/fileio/p00.h, src/fliplist.c,
+	  src/fliplist.h, src/fsdevice.h, src/fsdevice/fsdevice-close.c,
+	  src/fsdevice/fsdevice-flush.c, src/fsdevice/fsdevice-open.c,
+	  src/fsdevice/fsdevice-read.c, src/fsdevice/fsdevice-write.c,
+	  src/fsdevice/fsdevice.c, src/info.c, src/vdrive/vdrive-bam.c,
+	  src/vdrive/vdrive-dir.c, src/vdrive/vdrive-iec.c,
+	  src/vdrive/vdrive.c: Corrected pottendos obsolete email
+	  addresses. Added credits for Turkish and Danish translations.
+
+2009-01-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/readline: Added an svn ignore for
+	  vice/src/arch/unix/readline/libreadline.a
+
+2009-01-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, po/da.po: Added da.po
+
+2009-01-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* README, doc/vice.texi, src/arch/amigaos/mui/mui.c,
+	  src/arch/beos/ui.cc, src/arch/msdos/menudefs.c,
+	  src/arch/os2/dialogs/dialogs.rc,
+	  src/arch/unix/x11/gnome/about.c,
+	  src/arch/unix/x11/xaw/about.c, src/arch/win32/res.rc,
+	  src/resid-fp/filter.cc, src/resid-fp/filter.h: Changed some
+	  '2008' to '2009'.
+
+2008-12-31  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* build/macosx/build-vice-dist.sh,
+	  build/macosx/build-vice-release.sh: cocoa requires at least
+	  10.4 for correct builds
+
+	* build/macosx/build-vice-dist.sh,
+	  build/macosx/build-vice-release.sh,
+	  src/arch/unix/macosx/cocoa/viceapplication.m: fixed 10.5
+	  messages in console preferences and increased build verbosity
+
+2008-12-30  Martin Pottendorfer <pottendo@aon.at>
+
+	* configure.in: New translation file for Turkish - Credits to
+	  Emir
+
+	* po/tr.po: New translation file for Turkish - Credits to Emir
+
+2008-12-30  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* doc/html/images/CommodoreInnovationPriceSoftware2008.jpg,
+	  doc/html/index.html: Added text for the Dutch Innovation Price
+	  2008 (Software).
+
+2008-12-29  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* data/C128/win_shortcuts.vsc, data/C64/win_shortcuts.vsc,
+	  data/C64DTV/win_shortcuts.vsc, data/CBM-II/win_shortcuts.vsc,
+	  data/PET/win_shortcuts.vsc, data/PLUS4/win_shortcuts.vsc,
+	  data/VIC20/win_shortcuts.vsc, doc/html/plain/NEWS,
+	  src/arch/win32/c128ui.c, src/arch/win32/c64ui.c,
+	  src/arch/win32/cbm2ui.c, src/arch/win32/petui.c,
+	  src/arch/win32/plus4ui.c, src/arch/win32/res.rc,
+	  src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	  src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	  src/arch/win32/resmenu.txt, src/arch/win32/respet.rc,
+	  src/arch/win32/resplus4.rc, src/arch/win32/resstrings.txt,
+	  src/arch/win32/resvic20.rc, src/arch/win32/ui.c,
+	  src/arch/win32/vic20ui.c, src/autostart.c, src/translate.c,
+	  src/translate.txt: On autostart, do not change true drive
+	  emulation (TDE) anymore by default. The old behaviour can be
+	  switched on again by specifiying -autostart-handle-tde on the
+	  command line. There is one drawback of this behaviour: If TDE
+	  is switched on, an image attached must fit to the drive type
+	  set. For example, when you attach a .D81, you must have the
+	  drive type set to 1581, or the autostart will fail.
+
+	* doc/html/plain/NEWS: Prepared for 2.2.
+
+2008-12-27  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/vicii/vicii-mem.c: Don't open sideborder if lower border
+	  starts on the same line. This fixes testprog border-251.prg.
+
+2008-12-25  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/resid-fp/filter.h, src/sid/resid-fp.cc: ReSID-fp update to
+	  V29plus as provided by Antti Lankila
+
+2008-12-23  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/resid-fp/filter.cc, src/resid-fp/filter.h,
+	  src/sid/resid-fp.cc: ReSID-fp update to V29 as provided by
+	  Antti Lankila
+
+	* src/video/render2x2pal.c: PAL emu bugfix as provided by Antti
+	  Lankila
+
+2008-12-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/hpux/make-bindist.sh, src/arch/unix/minix/descr,
+	  src/arch/unix/qnx6/make-bindist.sh,
+	  src/arch/unix/sco_sol/make-bindist.sh,
+	  src/arch/unix/skyos/make-bindist.sh: fixed some of the *nix
+	  based make bindist scripts.
+
+2008-12-22  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/drive/driveimage.c: Clear image pointer if
+	  disk_image_read_gcr_image fails. This is needed to avoid
+	  SEGFAULT in e.g. set_drive_true_emulation.
+
+2008-12-21  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/6510core.c, src/maincpu.c, src/monitor/mon_lex.c,
+	  src/monitor/mon_lex.l, src/monitor/mon_register6502.c,
+	  src/monitor/mon_register6502dtv.c, src/monitor/montypes.h,
+	  src/mos6510dtv.h: Allowed setting flags/status via monitor (r
+	  fl=xx) and renamed DTV (pseudo)register XYM to YXM
+
+2008-12-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/index.html: Updated link to the vice 2.1 source
+	  tarball in index.html
+
+2008-12-17  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/aciacore.c: Simplified logic as proposed by Hannu.
+
+2008-12-16  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/aciacore.c, src/c64/c64acia1.c: Small reorganisation: Use
+	  static structure instead of lots of static variables for ACIA
+	  state.
+
 2008-12-15  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
 	* Version 2.1
