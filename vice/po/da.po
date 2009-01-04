@@ -11040,7 +11040,7 @@ msgstr "Vælg fase for farve-bærebølge på ulige scanlinjer [1250]"
 
 #: src/translate.c.po.c:5636
 msgid "Set phase offset for color carrier in odd lines [750]"
-msgstr "Vælg fase-offset for farve-bærebølge på ulige scanlinjer [1250]"
+msgstr "Vælg fase-offset for farve-bærebølge på ulige scanlinjer [750]"
 
 #: src/translate.c.po.c:5648
 msgid "Specify name of printer driver for device #4"
