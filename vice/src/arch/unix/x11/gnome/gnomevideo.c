@@ -2,7 +2,7 @@
  * ui.c - Gnome based graphical user interface.  
  *
  * Written by
- *  Martin Pottendorfer <Martin.Pottendorfer@alcatel.at>
+ *  pottendo <pottendo@gmx.net>
  *  Heavily derived from Oliver Schaertel <orschaer@forwiss.uni-erlangen.de>
  *  GTK+ port.
  *

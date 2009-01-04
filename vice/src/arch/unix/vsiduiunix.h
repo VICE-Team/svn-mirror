@@ -2,7 +2,7 @@
  * vsiduiunix.h - Implementation of the VSID-specific part of the UI.
  *
  * Written by
- *  Martin Pottendorfer (pottendo@utanet.at)
+ *  pottendo <pottendo@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

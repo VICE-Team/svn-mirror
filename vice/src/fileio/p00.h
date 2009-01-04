@@ -7,7 +7,7 @@
  * Based on older code by
  *  Dan Fandrich         <dan@fch.wimsey.bc.ca>
  *  Jouko Valta          <jopi@stekt.oulu.fi>
- *  Martin Pottendorfer  <Martin.Pottendorfer@autalcatel.at>
+ *  pottendo <pottendo@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

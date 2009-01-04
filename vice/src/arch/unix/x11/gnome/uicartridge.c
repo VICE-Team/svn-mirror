@@ -2,7 +2,7 @@
  * uicartridge.c - Cartridge save image dialog for the Xaw widget set.
  *
  * Written by
- *  Martin Pottendorfer <Martin.Pottendorfer@alcatel.at>
+ *  pottendo <pottendo@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

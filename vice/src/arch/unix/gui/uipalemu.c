@@ -2,7 +2,7 @@
  * uipalemu.c
  *
  * Written by
- *  Martin Pottendorfer (pottend@utanet.at)
+ *  pottendo <pottendo@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

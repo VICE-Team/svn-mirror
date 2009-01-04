@@ -2,7 +2,7 @@
  * xrandr.h
  *
  * Written by
- * Martin Pottendorfer
+ * pottendo <pottendo@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

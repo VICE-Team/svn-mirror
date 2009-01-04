@@ -2,7 +2,7 @@
  * uiarch.h 
  *
  * Written by
- *  Martin Pottendorfer
+ *  pottendo <pottendo@gmx.net>
  *  Oliver Schaertel
  *
  * This file is part of VICE, the Versatile Commodore Emulator.

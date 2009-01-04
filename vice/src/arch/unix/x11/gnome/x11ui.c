@@ -4,7 +4,7 @@
  * Written by
  *  Ettore Perazzoli
  *  Oliver Schaertel
- *  Martin Pottendorfer
+ *  pottendo <pottendo@gmx.net>
  *
  * Support for multiple visuals and depths by
  *  Teemu Rantanen <tvr@cs.hut.fi>
