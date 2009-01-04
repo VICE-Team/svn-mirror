@@ -6753,6 +6753,14 @@ Otherwise, it is ignores.  If registers are specified in the
 expression, the values used are those at the time the checkpoint is
 examined, not when the condition is set.
 
+Currently, the cond_expr is very limited. You can use registers (.A, .X,
+.Y, .PC, and .SP) and compare against other registers or absolute
+values. For example, the following are all valid conditions:
+.A == 0, .X == .Y, 8:.X == .X, .A != 5, .A < .X.
+
+However, you cannot specify memory contents and compare that.
+
+
 @item delete <checknum>
 Delete the specified checkpoint.
 
@@ -6892,7 +6900,11 @@ Stop recording commands.  See @code{record}.
 
 @item add_label <address> <label>
 Map a given address to a label.  This label can be used when entering
-assembly code and is shown during disassembly.
+assembly code and is shown during disassembly.  Additionally, it can
+be used whenever an address must be specified.
+
+<label> is the name of the label; it must start with a dot (".") in
+order for the monitor to recognize it as a label.
 
 @item delete_label [<memspace>] <label>
 Remove the specified label from the label tables.  If no memory space is
