@@ -126,15 +126,16 @@ void fullscreen_menu_shutdown(struct ui_menu_entry_s *menu)
 
 int fullscreen_init(void)
 {
+    int ret = 0;
 #ifdef HAVE_XRANDR
     if (xrandr_init() < 0)
-	return -1;
+	ret++;
 #endif
 #ifdef USE_XF86_VIDMODE_EXT
     if (vidmode_init() < 0)
-        return -1;
+        ret++;
 #endif
-    return 0;
+    return ret;
 }
 
 int fullscreen_init_alloc_hooks(struct video_canvas_s *canvas)
