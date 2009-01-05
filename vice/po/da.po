@@ -11316,7 +11316,7 @@ msgstr ""
 msgid ""
 "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID, 7: ReSID-"
 "FP)"
-msgstr "Vælg SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 7: ReSID-FP)"
+msgstr "Vælg SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)"
 
 #: src/translate.c.po.c:6542
 msgid ""
