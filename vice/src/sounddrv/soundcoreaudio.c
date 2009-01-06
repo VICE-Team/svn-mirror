@@ -65,6 +65,9 @@ static unsigned int fragment_count;
 /* current number of fragments in buffer */
 static atomic_int_t fragments_in_queue;
 
+/* bytes per output packet/frame */
+static unsigned int out_bytes_per_packet;
+
 /* proc id */
 #if defined(MAC_OS_X_VERSION_10_5) && (MAC_OS_X_VERSION_MIN_REQUIRED>=MAC_OS_X_VERSION_10_5)
 AudioDeviceIOProcID procID;
@@ -193,6 +196,10 @@ static OSStatus coreaudio_ioproc(AudioDeviceID device,
                                     output_data->mBuffers[0].mData);
 #else
     UInt32 dataPacketSize = fragment_size;
+    UInt32 bufferPacketSize = output_data->mBuffers[0].mDataByteSize / out_bytes_per_packet;
+    if(dataPacketSize > bufferPacketSize)
+        dataPacketSize = bufferPacketSize;
+
     return AudioConverterFillComplexBuffer(converter,
                                     coreaudio_converter_inputproc,
                                     NULL,
@@ -250,6 +257,8 @@ static int coreaudio_init(const char *param, int *speed,
         log_error(LOG_DEFAULT, "sound (coreaudio_init): stream format not support");
         return -1;
     }
+    
+    out_bytes_per_packet = out.mBytesPerPacket;
     
     if ((int)out.mSampleRate != *speed)
     {
