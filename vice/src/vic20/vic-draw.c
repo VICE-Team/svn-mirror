@@ -166,6 +166,7 @@ inline static void draw(BYTE *p, unsigned int xs, unsigned int xe,
 
         /* mark this char as processed */
         xs++;
+        p += 8 * VIC_PIXEL_WIDTH;
     }
 
     /* put the rest of the chars if any */
