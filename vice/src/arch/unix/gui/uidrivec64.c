@@ -38,11 +38,14 @@
 
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
+UI_MENU_DEFINE_TOGGLE(AutostartHandleTrueDriveEmulation)
 
 
 static ui_menu_entry_t drivec64_settings_submenu[] = {
     { N_("*Enable true drive emulation"),
       (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
+    { N_("*Handle True Drive Emulation on autostart"),
+      (ui_callback_t)toggle_AutostartHandleTrueDriveEmulation, NULL, NULL },
     { "--" },
     { N_("Drive #8 model"),
       NULL, NULL, uidrivec64vic20_set_drive0_type_submenu },

@@ -38,11 +38,14 @@
 
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
+UI_MENU_DEFINE_TOGGLE(AutostartHandleTrueDriveEmulation)
 UI_MENU_DEFINE_TOGGLE(FlashTrueFS)
 
 static ui_menu_entry_t drivec64dtv_settings_submenu[] = {
     { N_("*Enable true drive emulation"),
       (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
+    { N_("*Handle True Drive Emulation on autostart"),
+      (ui_callback_t)toggle_AutostartHandleTrueDriveEmulation, NULL, NULL },
     { N_("*Enable true flash filesystem"),
       (ui_callback_t)toggle_FlashTrueFS, NULL, NULL },
     { "--" },

@@ -38,6 +38,7 @@
 
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
+UI_MENU_DEFINE_TOGGLE(AutostartHandleTrueDriveEmulation)
 UI_MENU_DEFINE_RADIO(Drive8ParallelCable)
 UI_MENU_DEFINE_RADIO(Drive9ParallelCable)
 UI_MENU_DEFINE_RADIO(Drive10ParallelCable)
@@ -210,6 +211,8 @@ static ui_menu_entry_t set_drive3_type_submenu[] = {
 static ui_menu_entry_t driveplus4_settings_submenu[] = {
     { N_("*Enable true drive emulation"),
       (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
+    { N_("*Handle True Drive Emulation on autostart"),
+      (ui_callback_t)toggle_AutostartHandleTrueDriveEmulation, NULL, NULL },
     { "--" },
     { N_("Drive #8 model"),
       NULL, NULL, set_drive0_type_submenu },
