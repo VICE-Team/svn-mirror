@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-11 15:04+0100\n"
-"PO-Revision-Date: 2008-12-10 21:16+0100\n"
+"PO-Revision-Date: 2009-01-11 19:56+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1326,9 +1326,8 @@ msgstr "*Kein"
 #: src/arch/unix/gui/uidrivec128.c:148 src/arch/unix/gui/uidrivec64.c:47
 #: src/arch/unix/gui/uidrivepetcbm2.c:96 src/arch/unix/gui/uidriveplus4.c:214
 #: src/arch/unix/gui/uidrivevic20.c:70
-#, fuzzy
 msgid "*Handle True Drive Emulation on autostart"
-msgstr "*Präzise Floppy Emulation"
+msgstr "*Präzise Floppy Emulation bei Autostart beachten"
 
 #: src/arch/unix/gui/uidrivec128.c:151 src/arch/unix/gui/uidrivec64.c:50
 #: src/arch/unix/gui/uidriveplus4.c:217 src/arch/unix/gui/uidrivevic20.c:73
@@ -3277,9 +3276,8 @@ msgstr ""
 "Czirkos Zoltan, Karai Csaba - Ungarisch\n"
 
 #: src/arch/unix/x11/gnome/about.c:108
-#, fuzzy
 msgid "(c) 1998 - 2009 The Vice Team"
-msgstr "(c) 1998 - 2008 Das Vice Team"
+msgstr "(c) 1998 - 2009 Das Vice Team"
 
 #: src/arch/unix/x11/gnome/about.c:119 src/arch/win32/res.rc.po.c:4806
 #: src/arch/amigaos/intl.c.po.c:1779
@@ -4073,64 +4071,52 @@ msgid "Version 0.0"
 msgstr "Version 0.0"
 
 #: src/arch/win32/res.rc.po.c:229
-#, fuzzy
 msgid "Copyright (c) 1998-2009 Andreas Boose"
-msgstr "Copyright (c) 1998-2008 Andreas Boose"
+msgstr "Copyright (c) 1998-2009 Andreas Boose"
 
 #: src/arch/win32/res.rc.po.c:230
-#, fuzzy
 msgid "Copyright (c) 1998-2009 Dag Lem"
-msgstr "Copyright (c) 1998-2008 Dag Lem"
+msgstr "Copyright (c) 1998-2009 Dag Lem"
 
 #: src/arch/win32/res.rc.po.c:231
-#, fuzzy
 msgid "Copyright (c) 1998-2009 Tibor Biczo"
-msgstr "Copyright (c) 1998-2008 Tibor Biczo"
+msgstr "Copyright (c) 1998-2009 Tibor Biczo"
 
 #: src/arch/win32/res.rc.po.c:232
-#, fuzzy
 msgid "Copyright (c) 1999-2009 Andreas Matthies"
-msgstr "Copyright (c) 1999-2008 Andreas Matthies"
+msgstr "Copyright (c) 1999-2009 Andreas Matthies"
 
 #: src/arch/win32/res.rc.po.c:233
-#, fuzzy
 msgid "Copyright (c) 1999-2009 Martin Pottendorfer"
-msgstr "Copyright (c) 1999-2008 Martin Pottendorfer"
+msgstr "Copyright (c) 1999-2009 Martin Pottendorfer"
 
 #: src/arch/win32/res.rc.po.c:234
-#, fuzzy
 msgid "Copyright (c) 2000-2009 Spiro Trikaliotis"
-msgstr "Copyright (c) 2000-2008 Spiro Trikaliotis"
+msgstr "Copyright (c) 2000-2009 Spiro Trikaliotis"
 
 #: src/arch/win32/res.rc.po.c:235
-#, fuzzy
 msgid "Copyright (c) 2005-2009 Marco van den Heuvel"
-msgstr "Copyright (c) 2005-2008 Marco van den Heuvel"
+msgstr "Copyright (c) 2005-2009 Marco van den Heuvel"
 
 #: src/arch/win32/res.rc.po.c:236
-#, fuzzy
 msgid "Copyright (c) 2006-2009 Christian Vogelgsang"
-msgstr "Copyright (c) 2006-2008 Christian Vogelgsang"
+msgstr "Copyright (c) 2006-2009 Christian Vogelgsang"
 
 #: src/arch/win32/res.rc.po.c:237
-#, fuzzy
 msgid "Copyright (c) 2007-2009 Fabrizio Gennari"
-msgstr "Copyright (c) 2007-2008 Fabrizio Gennari"
+msgstr "Copyright (c) 2007-2009 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:238
-#, fuzzy
 msgid "Copyright (c) 2007-2009 M. Kiesel"
-msgstr "Copyright (c) 2007-2008 M. Kiesel"
+msgstr "Copyright (c) 2007-2009 M. Kiesel"
 
 #: src/arch/win32/res.rc.po.c:239
-#, fuzzy
 msgid "Copyright (c) 2007-2009 Hannu Nuotio"
-msgstr "Copyright (c) 2007-2008 Hannu Nuotio"
+msgstr "Copyright (c) 2007-2009 Hannu Nuotio"
 
 #: src/arch/win32/res.rc.po.c:240
-#, fuzzy
 msgid "Copyright (c) 2007-2009 Daniel Kahlin"
-msgstr "Copyright (c) 2007-2008 Daniel Kahlin"
+msgstr "Copyright (c) 2007-2009 Daniel Kahlin"
 
 #: src/arch/win32/res.rc.po.c:241
 msgid "Copyright (c) 1999-2007 Andreas Dehmel"
@@ -5539,7 +5525,7 @@ msgstr "&Präzise Floppy Emulation"
 
 #: src/arch/win32/res.rc.po.c:4931
 msgid "Ha&ndle TDE for autostart"
-msgstr ""
+msgstr "TDE bei Autostart beachten"
 
 #: src/arch/win32/res.rc.po.c:4932
 msgid "Video &cache"
@@ -10205,13 +10191,12 @@ msgid "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"
 msgstr "Bei Autostart soll 'RUN' ohne Doppelpunkt ausgeführt werden ('RUN')"
 
 #: src/translate.c.po.c:2995
-#, fuzzy
 msgid "Handle True Drive Emulation on autostart"
-msgstr "*Präzise Floppy Emulation"
+msgstr "Präzise Floppy Emulation bei Autostart beachten"
 
 #: src/translate.c.po.c:3007
 msgid "Do not handle True Drive Emulation on autostart"
-msgstr ""
+msgstr "Präzise Floppy Emulation bei Autostart nicht beachten"
 
 #: src/translate.c.po.c:3019
 msgid "Use PAL sync factor"
