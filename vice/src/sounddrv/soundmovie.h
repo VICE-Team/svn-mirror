@@ -1,8 +1,8 @@
 /*
- * ffmpegdrv.h - Movie driver using FFMPEG library and screenshot API.
+ * soundmovie.h - Interface of the audio stream for movie encoding
  *
  * Written by
- *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Christian Vogelgsang <chris@vogelgsang.org>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,25 @@
  *
  */
 
-#ifndef _FFMPEGDRV_H
-#define _FFMPEGDRV_H
+#ifndef _SOUNDMOVIE_H
+#define _SOUNDMOVIE_H
 
-#include "screenshot.h"
-#include "gfxoutput.h"
+#include "vice.h"
 
-extern void gfxoutput_init_ffmpeg(void);
+typedef struct soundmovie_buffer_s {
+    SWORD *buffer;
+    int size;
+    int used;
+} soundmovie_buffer_t;
 
-/* deprecated access for UIs that do not use the gfxoutputdrv->formatlist yet: */
-extern gfxoutputdrv_format_t ffmpegdrv_formatlist[];
+typedef struct soundmovie_funcs_t {
+  int  (*init)(int speed,int channels,soundmovie_buffer_t **buffer);
+  int  (*encode)(soundmovie_buffer_t *buffer);
+  void (*close)(void);
+} soundmovie_funcs_t;
+
+extern int soundmovie_start(soundmovie_funcs_t *funcs);
+extern int soundmovie_stop(void);
 
 #endif
+

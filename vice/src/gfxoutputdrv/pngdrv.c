@@ -274,15 +274,17 @@ static gfxoutputdrv_t png_drv =
     "PNG",
     "PNG screenshot",
     "png",
+    NULL, /* formatlist */
     pngdrv_open,
     pngdrv_close,
     pngdrv_write,
     pngdrv_save,
-#ifdef FEATURE_CPUMEMHISTORY
     NULL,
-    pngdrv_save_memmap
-#else
+    NULL,
+    NULL,
     NULL
+#ifdef FEATURE_CPUMEMHISTORY
+    ,pngdrv_save_memmap
 #endif
 };
 

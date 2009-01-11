@@ -236,15 +236,17 @@ static gfxoutputdrv_t ppm_drv =
     "PPM",
     "PPM screenshot",
     "ppm",
+    NULL, /* formatlist */
     ppmdrv_open,
     ppmdrv_close,
     ppmdrv_write,
     ppmdrv_save,
-#ifdef FEATURE_CPUMEMHISTORY
     NULL,
-    ppmdrv_save_memmap
-#else
+    NULL,
+    NULL,
     NULL
+#ifdef FEATURE_CPUMEMHISTORY
+    ,ppmdrv_save_memmap
 #endif
 };
 

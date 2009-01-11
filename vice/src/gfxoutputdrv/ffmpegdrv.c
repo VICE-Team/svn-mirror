@@ -43,22 +43,23 @@
 #include "ui.h"
 #include "util.h"
 #include "vsync.h"
+#include "../sounddrv/soundmovie.h"
 
-static ffmpegdrv_codec_t avi_audio_codeclist[] = { 
+static gfxoutputdrv_codec_t avi_audio_codeclist[] = { 
     { CODEC_ID_MP2, "MP2" },
     { CODEC_ID_MP3, "MP3" },
     { CODEC_ID_PCM_S16LE, "PCM uncompressed" },
     { 0, NULL }
 };
 
-static ffmpegdrv_codec_t avi_video_codeclist[] = { 
+static gfxoutputdrv_codec_t avi_video_codeclist[] = { 
     { CODEC_ID_MPEG4, "MPEG4 (DivX)" },
     { CODEC_ID_MPEG1VIDEO, "MPEG1" },
     { CODEC_ID_FFV1, "FFV1 (lossless)" },
     { 0, NULL }
 };
 
-ffmpegdrv_format_t ffmpegdrv_formatlist[] =
+gfxoutputdrv_format_t ffmpegdrv_formatlist[] =
 {
     { "avi", avi_audio_codeclist, avi_video_codeclist },
     { "wav", NULL, NULL },
@@ -75,7 +76,7 @@ static int file_init_done;
 
 /* audio */
 static AVStream *audio_st;
-static ffmpegdrv_audio_in_t ffmpegdrv_audio_in;
+static soundmovie_buffer_t ffmpegdrv_audio_in;
 static int audio_init_done;
 static int audio_is_open;
 static unsigned char *audio_outbuf;
@@ -170,7 +171,7 @@ static const resource_int_t resources_int[] = {
 };
 
 
-int ffmpegdrv_resources_init(void)
+static int ffmpegdrv_resources_init(void)
 {
     if (resources_register_string(resources_string) < 0)
         return -1;
@@ -196,7 +197,7 @@ static const cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
-int ffmpegdrv_cmdline_options_init(void)
+static int ffmpegdrv_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }
@@ -250,7 +251,7 @@ static int ffmpegdrv_open_audio(AVFormatContext *oc, AVStream *st)
     } else {
         audio_inbuf_samples = c->frame_size * c->channels;
     }
-    ffmpegdrv_audio_in.buffersamples = audio_inbuf_samples;
+    ffmpegdrv_audio_in.size = audio_inbuf_samples;
     ffmpegdrv_audio_in.buffer = (SWORD*)lib_malloc(audio_inbuf_samples
                                                     * sizeof(SWORD));
 
@@ -269,7 +270,7 @@ static void ffmpegdrv_close_audio(void)
     audio_is_open = 0;
     lib_free(ffmpegdrv_audio_in.buffer);
     ffmpegdrv_audio_in.buffer = NULL;
-    ffmpegdrv_audio_in.buffersamples = 0;
+    ffmpegdrv_audio_in.size = 0;
     if (audio_outbuf) {
         lib_free(audio_outbuf);
         audio_outbuf = NULL;
@@ -277,29 +278,29 @@ static void ffmpegdrv_close_audio(void)
 }
 
 
-void ffmpegdrv_init_audio(int speed, int channels,
-                          ffmpegdrv_audio_in_t** audio_in)
+static int ffmpegdrv_init_audio(int speed, int channels,
+                                 soundmovie_buffer_t ** audio_in)
 {
     AVCodecContext *c;
     AVStream *st;
 
     if (ffmpegdrv_oc == NULL || ffmpegdrv_fmt == NULL)
-        return;
+        return -1;
 
     audio_init_done = 1;
 
     if (ffmpegdrv_fmt->audio_codec == CODEC_ID_NONE)
-        return;
+        return -1;
 
     *audio_in = &ffmpegdrv_audio_in;
     
-    (*audio_in)->buffersamples = 0; /* not allocated yet */
+    (*audio_in)->size = 0; /* not allocated yet */
     (*audio_in)->used = 0;
 
     st = (*ffmpeglib.p_av_new_stream)(ffmpegdrv_oc, 1);
     if (!st) {
         log_debug("ffmpegdrv: Could not alloc audio stream\n");
-        return;
+        return -1;
     }
 
     c = st->codec;
@@ -315,11 +316,13 @@ void ffmpegdrv_init_audio(int speed, int channels,
 
     if (video_init_done)
         ffmpegdrv_init_file();
+
+    return 0;
 }
 
 
 /* triggered by soundffmpegaudio->write */
-void ffmpegdrv_encode_audio(ffmpegdrv_audio_in_t *audio_in)
+static int ffmpegdrv_encode_audio(soundmovie_buffer_t *audio_in)
 {
     if (audio_st) {
 #if FFMPEG_VERSION_INT==0x000408
@@ -355,8 +358,14 @@ void ffmpegdrv_encode_audio(ffmpegdrv_audio_in_t *audio_in)
     }
 
     audio_in->used = 0;
+    return 0;
 }
 
+static soundmovie_funcs_t ffmpegdrv_soundmovie_funcs = {
+    ffmpegdrv_init_audio,
+    ffmpegdrv_encode_audio,
+    NULL
+};
 
 /*-----------------------*/
 /* video stream encoding */
@@ -605,7 +614,7 @@ static int ffmpegdrv_save(screenshot_t *screenshot, const char *filename)
 
     if (format_index >= 0) {
 
-        ffmpegdrv_format_t *format = &ffmpegdrv_formatlist[format_index];
+        gfxoutputdrv_format_t *format = &ffmpegdrv_formatlist[format_index];
 
         if (format->audio_codecs !=NULL
             && (*ffmpeglib.p_avcodec_find_encoder)(audio_codec) != NULL)
@@ -634,8 +643,7 @@ static int ffmpegdrv_save(screenshot_t *screenshot, const char *filename)
 
     ffmpegdrv_init_video(screenshot);
 
-    resources_set_string("SoundRecordDeviceName", "ffmpegaudio");
-    resources_set_int("Sound", 1);
+    soundmovie_start(&ffmpegdrv_soundmovie_funcs);
 
     return 0;
 }
@@ -644,6 +652,8 @@ static int ffmpegdrv_save(screenshot_t *screenshot, const char *filename)
 static int ffmpegdrv_close(screenshot_t *screenshot)
 {
     int i;
+
+    soundmovie_stop();
 
     if (video_st)
         ffmpegdrv_close_video();
@@ -665,12 +675,9 @@ static int ffmpegdrv_close(screenshot_t *screenshot)
         ffmpegdrv_oc->streams[i] = NULL;
     }
 
-
     /* free the stream */
     lib_free(ffmpegdrv_oc);
     log_debug("ffmpegdrv: Closed successfully");
-
-    resources_set_string("SoundRecordDeviceName", "");
 
     file_init_done = 0;
 
@@ -770,78 +777,37 @@ static int ffmpegdrv_write(screenshot_t *screenshot)
     return 0;
 }
 
-
-static gfxoutputdrv_t ffmpeg_drv[] = {
-    {
-        "FFMPEG",
-        "FFMPEG",
-        NULL,
-        NULL,
-        ffmpegdrv_close,
-        ffmpegdrv_write,
-        ffmpegdrv_save,
-#ifdef FEATURE_CPUMEMHISTORY
-        ffmpegdrv_record,
-        NULL
-#else
-        ffmpegdrv_record
-#endif
-    },
-/*
+static void ffmpegdrv_shutdown(void)
 {
-        "FFMPEG",
-        "MPEG video (MPEG1/MP2)",
-        "mpeg",
-        NULL,
-        ffmpegdrv_close,
-        ffmpegdrv_write,
-        ffmpegdrv_save,
-        ffmpegdrv_record
-    },
-    {
-        "FFMPEG",
-        "MP3 audio",
-        "mp3",
-        NULL,
-        ffmpegdrv_close,
-        ffmpegdrv_write,
-        ffmpegdrv_save,
-        ffmpegdrv_record
-    },
-    {
-        "FFMPEG",
-        "WAV audio",
-        "wav",
-        NULL,
-        ffmpegdrv_close,
-        ffmpegdrv_write,
-        ffmpegdrv_save,
-        ffmpegdrv_record
-    },
-*/
-    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, 
+    ffmpeglib_close(&ffmpeglib);
+    lib_free(ffmpeg_format);
+}
+
+static gfxoutputdrv_t ffmpeg_drv = {
+    "FFMPEG",
+    "FFMPEG",
+    NULL,
+    ffmpegdrv_formatlist,
+    NULL, /* open */
+    ffmpegdrv_close,
+    ffmpegdrv_write,
+    ffmpegdrv_save,
+    ffmpegdrv_record,
+    ffmpegdrv_shutdown,
+    ffmpegdrv_resources_init,
+    ffmpegdrv_cmdline_options_init
 #ifdef FEATURE_CPUMEMHISTORY
-      NULL,
+    ,NULL
 #endif
-      NULL }
 };
 
 void gfxoutput_init_ffmpeg(void)
 {
-    int i = 0;
-
     if (ffmpeglib_open(&ffmpeglib) < 0)
         return;
 
-    while (ffmpeg_drv[i].name != NULL)
-        gfxoutput_register(&ffmpeg_drv[i++]);
+    gfxoutput_register(&ffmpeg_drv);
 
     (*ffmpeglib.p_av_register_all)();
-}
-
-void ffmpegdrv_shutdown(void)
-{
-    ffmpeglib_close(&ffmpeglib);
-    lib_free(ffmpeg_format);
 }
 

@@ -1,3 +1,64 @@
+2009-01-05  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* build/macosx/build-vice-release.sh, configure.in: fixed
+	autoconf issue. set default sdk to 10.4
+
+	* src/gfxoutputdrv/ffmpegdrv.h: added missing include
+
+	* build/macosx/build-vice-dist.sh: added missing config for 10.4
+	ppc+i386
+
+	* build/macosx/build-vice-dist.sh, configure.in,
+	src/arch/unix/x11/gnome/uiscreenshot.c,
+	src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/ffmpegdrv.h:
+	improved autoconf check for QuickTime. added ffmpeg formatlist
+	access for non-adapted UIs. build vice on macx+ppc with 10.4
+	always
+
+	* build/macosx/build-vice-dist.sh,
+	src/gfxoutputdrv/quicktimedrv.c: link fix for x11
+
+	* src/gfxoutputdrv/quicktimedrv.c, src/sounddrv/soundmovie.c:
+	added sound support for quicktime
+
+	* configure.in, src/gfxoutputdrv/ffmpegdrv.c,
+	src/gfxoutputdrv/ffmpegdrv.h, src/sound.c, src/sound.h,
+	src/sounddrv/Makefile.am, src/sounddrv/soundffmpegaudio.c,
+	src/sounddrv/soundmovie.c, src/sounddrv/soundmovie.h: introduced
+	soundmovie device for generic sound recording in movies. adapted
+	ffmpeg to use soundmovie.
+
+2009-01-04  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/dialog/recordmediawindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/recordmediawindowcontroller.m,
+	src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.h,
+	src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	src/gfxoutput.h, src/gfxoutputdrv/bmpdrv.c,
+	src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/ffmpegdrv.h,
+	src/gfxoutputdrv/gifdrv.c, src/gfxoutputdrv/iffdrv.c,
+	src/gfxoutputdrv/jpegdrv.c, src/gfxoutputdrv/pcxdrv.c,
+	src/gfxoutputdrv/pngdrv.c, src/gfxoutputdrv/ppmdrv.c,
+	src/gfxoutputdrv/quicktimedrv.c: made format lists a general
+	concept in the gfxouputdrv and added support for quicktime video
+	formats. added cocoa support for generic format lists.
+
+	* src/gfxoutput.h, src/gfxoutputdrv/bmpdrv.c,
+	src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/ffmpegdrv.h,
+	src/gfxoutputdrv/gfxoutput.c, src/gfxoutputdrv/gifdrv.c,
+	src/gfxoutputdrv/iffdrv.c, src/gfxoutputdrv/jpegdrv.c,
+	src/gfxoutputdrv/pcxdrv.c, src/gfxoutputdrv/pngdrv.c,
+	src/gfxoutputdrv/ppmdrv.c, src/gfxoutputdrv/quicktimedrv.c,
+	src/main.c: added more interface functions to gfxdriver
+	interface and reduced ffmpeg dependencies
+
+2009-01-03  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* configure.in, src/Makefile.am, src/gfxoutputdrv/Makefile.am,
+	src/gfxoutputdrv/gfxoutput.c, src/gfxoutputdrv/quicktimedrv.c,
+	src/gfxoutputdrv/quicktimedrv.h: added initial support for
+	quicktime movie export on mac os x
+
 2009-01-11  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* po/tr.po: Corrected some typos.

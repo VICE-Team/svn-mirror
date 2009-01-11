@@ -435,15 +435,17 @@ static gfxoutputdrv_t pcx_drv =
     "PCX",
     "PCX screenshot",
     "pcx",
+    NULL, /* formatlist */
     pcxdrv_open,
     pcxdrv_close,
     pcxdrv_write,
     pcxdrv_save,
-#ifdef FEATURE_CPUMEMHISTORY
     NULL,
-    pcxdrv_save_memmap
-#else
+    NULL,
+    NULL,
     NULL
+#ifdef FEATURE_CPUMEMHISTORY
+    ,pcxdrv_save_memmap
 #endif
 };
 

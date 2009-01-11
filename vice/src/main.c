@@ -126,6 +126,8 @@ int main_program(int argc, char **argv)
     /* Initialize system file locator.  */
     sysfile_init(machine_name);
 
+    gfxoutput_early_init();
+
     if (init_resources() < 0 || init_cmdline_options() < 0)
         return -1;
 
@@ -164,8 +166,6 @@ int main_program(int argc, char **argv)
         resources_set_int("SoundSuspendTime", 0);
     } else {
         int retval;
-
-        gfxoutput_early_init();
 
         retval = resources_load(NULL);
 

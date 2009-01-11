@@ -118,7 +118,7 @@ if [ "$UI" != "none" ]; then
     if [ "$UI_TYPE" != "$dist" ]; then
       SDK="${dist#*+}"
     else
-      SDK="10.3+4"
+      SDK="10.4"
     fi
     echo "building binaries for $UI_TYPE $ARCH $SDK"
     LOG="$BUILD_DIR/build-$dist.log"

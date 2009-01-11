@@ -46,7 +46,6 @@
 #include "clipboard.h"
 #include "datasette.h"
 #include "vdrive-internal.h"
-#include "gfxoutputdrv/ffmpegdrv.h"
 #include "fliplist.h"
 #include "network.h"
 #include "event.h"
@@ -362,26 +361,50 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
     return [a autorelease];
 }
 
--(BOOL)mediaDriverHasOptions:(NSString *)driver
+-(gfxoutputdrv_t *)findDriverByName:(NSString *)driverName
 {
-    if([driver compare:@"FFMPEG"]==NSOrderedSame)
-        return TRUE;
-    else
-        return FALSE;
+    int i;
+    gfxoutputdrv_t *driver = gfxoutput_drivers_iter_init();
+    for (i = 0; i < gfxoutput_num_drivers(); i++) {
+        NSString *name = [NSString stringWithCString:driver->name encoding:NSUTF8StringEncoding];
+        if([name compare:driverName]==NSOrderedSame) {
+            return driver;
+        }
+        driver = gfxoutput_drivers_iter_next();        
+    }
+    return NULL;
 }
 
--(NSArray *)enumMediaFormats:(NSString *)driver
+-(BOOL)mediaDriverHasFormats:(NSString *)driverName
 {
-    // currently only FFMPEG here
+    gfxoutputdrv_t *driver = [self findDriverByName:driverName];
+    if(driver == NULL)
+        return FALSE;
+    
+    return (driver->formatlist != NULL);
+}
+
+-(NSArray *)enumMediaFormats:(NSString *)driverName
+{
+    // find driver
+    gfxoutputdrv_t *driver = [self findDriverByName:driverName];
+    if(driver == NULL)
+        return nil;
+        
+    // get formatlist
+    gfxoutputdrv_format_t *formatlist = driver->formatlist;
+    if(formatlist == NULL)
+        return nil;
+
+    // enumerate all formats and codecs
     int i;
     NSMutableArray *a = [[NSMutableArray alloc] init];
-#ifdef HAVE_FFMPEG 
-    for (i=0;ffmpegdrv_formatlist[i].name!=NULL;i++) {
-        NSString *fname = [NSString stringWithCString:ffmpegdrv_formatlist[i].name encoding:NSUTF8StringEncoding];
+    for (i=0;formatlist[i].name!=NULL;i++) {
+        NSString *fname = [NSString stringWithCString:formatlist[i].name encoding:NSUTF8StringEncoding];
         
         // fetch video codecs
         int j;
-        ffmpegdrv_codec_t *video_codecs = ffmpegdrv_formatlist[i].video_codecs;
+        gfxoutputdrv_codec_t *video_codecs = formatlist[i].video_codecs;
         NSMutableDictionary *video = [[NSMutableDictionary alloc] init];
         if(video_codecs!=NULL) {
             for(j=0;video_codecs->name!=NULL;j++) {
@@ -392,7 +415,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
         }
         
         // fetch audio codecs
-        ffmpegdrv_codec_t *audio_codecs = ffmpegdrv_formatlist[i].audio_codecs;
+        gfxoutputdrv_codec_t *audio_codecs = formatlist[i].audio_codecs;
         NSMutableDictionary *audio = [[NSMutableDictionary alloc] init];
         if(audio_codecs!=NULL) {
             for(j=0;audio_codecs->name!=NULL;j++) {
@@ -404,17 +427,34 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
 
         [a addObject:[NSArray arrayWithObjects:fname,video,audio,nil]];
     }
-#endif
+
     return [a autorelease];
 }
 
--(NSString *)defaultExtensionForMediaDriver:(NSString *)driver andFormat:(NSString *)format
+-(NSString *)defaultExtensionForMediaDriver:(NSString *)driverName andFormat:(NSString *)formatName
 {
-    if(format==nil) {
-        return [driver lowercaseString];
-    } else {
-        return format;
+    // find driver
+    gfxoutputdrv_t *driver = [self findDriverByName:driverName];
+    if(driver == NULL)
+        return nil;
+
+    // use global extension if available
+    if(driver->default_extension != NULL)
+        return [NSString stringWithCString:driver->default_extension encoding:NSUTF8StringEncoding];
+    
+    // search format
+    gfxoutputdrv_format_t *formatlist = driver->formatlist;
+    if(formatlist == NULL)
+        return nil;
+
+    int i;
+    for (i=0;formatlist[i].name!=NULL;i++) {
+        NSString *fname = [NSString stringWithCString:formatlist[i].name encoding:NSUTF8StringEncoding];
+        if([fname compare:formatName]==NSOrderedSame) {
+            return fname;
+        }
     }
+    return nil;
 }
 
 // ----- Keyboard -----

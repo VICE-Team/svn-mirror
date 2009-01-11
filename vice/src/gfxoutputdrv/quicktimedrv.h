@@ -1,8 +1,8 @@
 /*
- * ffmpegdrv.h - Movie driver using FFMPEG library and screenshot API.
+ * quicktimedrv.h - Movie driver using Apple QuickTime.
  *
  * Written by
- *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Christian Vogelgsang <chris@vogelgsang.org>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,11 @@
  *
  */
 
-#ifndef _FFMPEGDRV_H
-#define _FFMPEGDRV_H
+#ifndef _QUICKTIMEDRV_H
+#define _QUICKTIMEDRV_H
 
 #include "screenshot.h"
-#include "gfxoutput.h"
 
-extern void gfxoutput_init_ffmpeg(void);
-
-/* deprecated access for UIs that do not use the gfxoutputdrv->formatlist yet: */
-extern gfxoutputdrv_format_t ffmpegdrv_formatlist[];
+extern void gfxoutput_init_quicktime(void);
 
 #endif

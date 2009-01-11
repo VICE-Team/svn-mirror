@@ -95,7 +95,7 @@
 // enumerate media
 -(NSArray *)enumMediaDrivers;
 // has driver container
--(BOOL)mediaDriverHasOptions:(NSString *)driver;
+-(BOOL)mediaDriverHasFormats:(NSString *)driver;
 // enumerate media formats
 -(NSArray *)enumMediaFormats:(NSString *)driver;
 // extension for media 

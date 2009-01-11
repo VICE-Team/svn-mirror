@@ -46,7 +46,8 @@
 
 -(void)windowDidLoad
 {
-    [mediaFileName setStringValue:@"capture"];
+    NSString *fileName = [NSString stringWithString:@"~/capture"];
+    [mediaFileName setStringValue:[fileName stringByExpandingTildeInPath]];
     [stopRecord setEnabled:FALSE];
 
     [self setupMediaType];
@@ -122,7 +123,7 @@
 
 -(void)updateMediaFormat
 {
-    if(!currentMediaTypeHasOptions)
+    if(!currentMediaTypeHasFormats)
         return;
     
     // get current format
@@ -180,17 +181,17 @@
     [currentMediaType retain];
     
     // ask the machine controller if the media type has options
-    currentMediaTypeHasOptions = [[VICEApplication theMachineController] mediaDriverHasOptions:currentMediaType];
-    BOOL hasOptions = currentMediaTypeHasOptions;
+    currentMediaTypeHasFormats = [[VICEApplication theMachineController] mediaDriverHasFormats:currentMediaType];
+    BOOL hasFormats = currentMediaTypeHasFormats;
 
     // enable/disable options
-    [mediaFormat setEnabled:hasOptions];
-    [videoFormat setEnabled:hasOptions];
-    [videoBitrate setEnabled:hasOptions];
-    [audioFormat setEnabled:hasOptions];
-    [audioBitrate setEnabled:hasOptions];
+    [mediaFormat setEnabled:hasFormats];
+    [videoFormat setEnabled:hasFormats];
+    [videoBitrate setEnabled:hasFormats];
+    [audioFormat setEnabled:hasFormats];
+    [audioBitrate setEnabled:hasFormats];
     
-    if(hasOptions) {
+    if(hasFormats) {
         // fetch all formats and video/audio codecs from machine controller
         [currentMediaFormats release];
         currentMediaFormats = [[VICEApplication theMachineController] enumMediaFormats:currentMediaType];

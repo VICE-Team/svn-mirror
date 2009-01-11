@@ -244,15 +244,17 @@ static gfxoutputdrv_t gif_drv =
     "GIF",
     "GIF screenshot",
     "gif",
+    NULL, /* formatlist */
     gifdrv_open,
     gifdrv_close,
     gifdrv_write,
     gifdrv_save,
-#ifdef FEATURE_CPUMEMHISTORY
     NULL,
-    gifdrv_save_memmap
-#else
+    NULL,
+    NULL,
     NULL
+#ifdef FEATURE_CPUMEMHISTORY
+    ,gifdrv_save_memmap
 #endif
 };
 

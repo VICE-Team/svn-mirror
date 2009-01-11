@@ -31,15 +31,30 @@
 
 struct screenshot_s;
 
+typedef struct gfxoutputdrv_codec_s {
+    int id;
+    const char *name;
+} gfxoutputdrv_codec_t;
+
+typedef struct gfxoutputdrv_format_s {
+    char *name;
+    gfxoutputdrv_codec_t *audio_codecs;
+    gfxoutputdrv_codec_t *video_codecs;
+} gfxoutputdrv_format_t;
+
 typedef struct gfxoutputdrv_s {
     const char *name;
     const char *displayname;
     const char *default_extension;
+    gfxoutputdrv_format_t *formatlist;
     int (*open)(struct screenshot_s *, const char *);
     int (*close)(struct screenshot_s *);
     int (*write)(struct screenshot_s *);
     int (*save)(struct screenshot_s *, const char *);
     int (*record)(struct screenshot_s *);
+    void (*shutdown)(void);
+    int (*resources_init)(void);
+    int (*cmdline_options_init)(void);
 #ifdef FEATURE_CPUMEMHISTORY
     int (*savememmap)(const char *, int, int, BYTE *, BYTE *);
 #endif

@@ -501,15 +501,17 @@ static gfxoutputdrv_t bmp_drv =
     "BMP",
     "BMP screenshot",
     "bmp",
+    NULL, /* formatlist */
     bmpdrv_open,
     bmpdrv_close,
     bmpdrv_write,
     bmpdrv_save,
-#ifdef FEATURE_CPUMEMHISTORY
     NULL,
-    bmpdrv_memmap_save
-#else
+    NULL,
+    NULL,
     NULL
+#ifdef FEATURE_CPUMEMHISTORY
+    ,bmpdrv_memmap_save
 #endif
 };
 

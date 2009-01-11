@@ -62,7 +62,7 @@ if [ "$BUILD_DIR" = "" ]; then
 fi
 SDK_VERSION="$6"
 if [ "x$SDK_VERSION" = "x" ]; then
-  SDK_VERSION="10.3+4"
+  SDK_VERSION="10.4"
 fi
 echo "  architecture: $ARCH"
 echo "  ui type:      $UI_TYPE"
@@ -190,7 +190,7 @@ export PATH=/usr/X11R6/bin:$PATH
 COMMON_CFLAGS="-O3"
 
 # extra flags
-if [ "$UI_TYPE" = "gtk" ]; then
+if [ "$UI_TYPE" != "cocoa" ]; then
   LDFLAGS_EXTRA="-dylib_file /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib:/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib"
 fi
 

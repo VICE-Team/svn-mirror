@@ -45,7 +45,7 @@
     NSArray *currentMediaFormats;
 
     NSString *currentMediaType;
-    BOOL currentMediaTypeHasOptions;
+    BOOL currentMediaTypeHasFormats;
     NSString *currentMediaFormat;
     NSDictionary *currentVideoFormats;
     NSDictionary *currentAudioFormats;
