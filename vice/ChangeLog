@@ -1,3 +1,11 @@
+2009-01-11  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.1.1
+
+2009-01-11  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/autostart.c: Fixed two warnings.
+
 2009-01-05  Christian Vogelgsang <chris@vogelgsang.org>
 
 	* build/macosx/build-vice-release.sh, configure.in: fixed

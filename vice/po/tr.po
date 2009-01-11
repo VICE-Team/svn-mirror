@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-30 18:51+0100\n"
+"POT-Creation-Date: 2009-01-11 15:04+0100\n"
 "PO-Revision-Date: 2008-12-30 18:48+0100\n"
 "Last-Translator: Emir Akaydin <emir@akaydin.com>\n"
 "Language-Team: tr <tr@li.org>\n"
@@ -1296,9 +1296,9 @@ msgstr "*Geniþletirken sor"
 msgid "*Extend on access"
 msgstr "*Eriþildiðinde geniþlet"
 
-#: src/arch/unix/gui/uidrive.c:183 src/arch/unix/gui/uidrivec128.c:145
-#: src/arch/unix/gui/uidrivec64.c:44 src/arch/unix/gui/uidrivepetcbm2.c:93
-#: src/arch/unix/gui/uidriveplus4.c:211 src/arch/unix/gui/uidrivevic20.c:67
+#: src/arch/unix/gui/uidrive.c:183 src/arch/unix/gui/uidrivec128.c:146
+#: src/arch/unix/gui/uidrivec64.c:45 src/arch/unix/gui/uidrivepetcbm2.c:94
+#: src/arch/unix/gui/uidriveplus4.c:212 src/arch/unix/gui/uidrivevic20.c:68
 msgid "*Enable true drive emulation"
 msgstr "*Gerçek sürücü emülasyonunu aktif et"
 
@@ -1306,8 +1306,8 @@ msgstr "*Gerçek sürücü emülasyonunu aktif et"
 msgid "*Enable true flash filesystem emulation"
 msgstr "*Gerçek flash dosya sistemi emülasyonunu aktif et"
 
-#: src/arch/unix/gui/uidrivec128.c:45 src/arch/unix/gui/uidrivec128.c:77
-#: src/arch/unix/gui/uidrivec128.c:99 src/arch/unix/gui/uidrivec128.c:121
+#: src/arch/unix/gui/uidrivec128.c:46 src/arch/unix/gui/uidrivec128.c:78
+#: src/arch/unix/gui/uidrivec128.c:100 src/arch/unix/gui/uidrivec128.c:122
 #: src/arch/unix/gui/uidrivec64c128.c:70 src/arch/unix/gui/uidrivec64c128.c:80
 #: src/arch/unix/gui/uidrivec64c128.c:90
 #: src/arch/unix/gui/uidrivec64c128.c:100
@@ -1315,12 +1315,12 @@ msgstr "*Gerçek flash dosya sistemi emülasyonunu aktif et"
 #: src/arch/unix/gui/uidrivec64vic20.c:70
 #: src/arch/unix/gui/uidrivec64vic20.c:90
 #: src/arch/unix/gui/uidrivec64vic20.c:110
-#: src/arch/unix/gui/uidrivepetcbm2.c:43 src/arch/unix/gui/uidrivepetcbm2.c:63
-#: src/arch/unix/gui/uidrivepetcbm2.c:73 src/arch/unix/gui/uidrivepetcbm2.c:83
-#: src/arch/unix/gui/uidriveplus4.c:65 src/arch/unix/gui/uidriveplus4.c:73
-#: src/arch/unix/gui/uidriveplus4.c:81 src/arch/unix/gui/uidriveplus4.c:89
-#: src/arch/unix/gui/uidriveplus4.c:137 src/arch/unix/gui/uidriveplus4.c:155
-#: src/arch/unix/gui/uidriveplus4.c:173 src/arch/unix/gui/uidriveplus4.c:191
+#: src/arch/unix/gui/uidrivepetcbm2.c:44 src/arch/unix/gui/uidrivepetcbm2.c:64
+#: src/arch/unix/gui/uidrivepetcbm2.c:74 src/arch/unix/gui/uidrivepetcbm2.c:84
+#: src/arch/unix/gui/uidriveplus4.c:66 src/arch/unix/gui/uidriveplus4.c:74
+#: src/arch/unix/gui/uidriveplus4.c:82 src/arch/unix/gui/uidriveplus4.c:90
+#: src/arch/unix/gui/uidriveplus4.c:138 src/arch/unix/gui/uidriveplus4.c:156
+#: src/arch/unix/gui/uidriveplus4.c:174 src/arch/unix/gui/uidriveplus4.c:192
 #: src/arch/unix/gui/uijoystick2.c:81 src/arch/unix/gui/uijoystick2.c:133
 #: src/arch/unix/gui/uiperipheral.c:60 src/arch/unix/gui/uiperipheral.c:74
 #: src/arch/unix/gui/uiperipheral.c:88 src/arch/unix/gui/uiperipheral.c:102
@@ -1330,154 +1330,161 @@ msgid "*None"
 msgstr "*Yok"
 
 #: src/arch/unix/gui/uidrivec128.c:148 src/arch/unix/gui/uidrivec64.c:47
-#: src/arch/unix/gui/uidriveplus4.c:214 src/arch/unix/gui/uidrivevic20.c:70
+#: src/arch/unix/gui/uidrivepetcbm2.c:96 src/arch/unix/gui/uidriveplus4.c:214
+#: src/arch/unix/gui/uidrivevic20.c:70
+#, fuzzy
+msgid "*Handle True Drive Emulation on autostart"
+msgstr "*Gerçek sürücü emülasyonunu aktif et"
+
+#: src/arch/unix/gui/uidrivec128.c:151 src/arch/unix/gui/uidrivec64.c:50
+#: src/arch/unix/gui/uidriveplus4.c:217 src/arch/unix/gui/uidrivevic20.c:73
 msgid "Drive #8 model"
 msgstr "Sürücü #8 modeli"
 
-#: src/arch/unix/gui/uidrivec128.c:150 src/arch/unix/gui/uidrivec64.c:49
-#: src/arch/unix/gui/uidriveplus4.c:216 src/arch/unix/gui/uidrivevic20.c:72
+#: src/arch/unix/gui/uidrivec128.c:153 src/arch/unix/gui/uidrivec64.c:52
+#: src/arch/unix/gui/uidriveplus4.c:219 src/arch/unix/gui/uidrivevic20.c:75
 msgid "Drive #8 expansion"
 msgstr "Sürücü #8 geniþlemesi"
 
-#: src/arch/unix/gui/uidrivec128.c:153 src/arch/unix/gui/uidrivec64.c:52
-#: src/arch/unix/gui/uidrivepetcbm2.c:98 src/arch/unix/gui/uidriveplus4.c:219
-#: src/arch/unix/gui/uidrivevic20.c:75
+#: src/arch/unix/gui/uidrivec128.c:156 src/arch/unix/gui/uidrivec64.c:55
+#: src/arch/unix/gui/uidrivepetcbm2.c:101 src/arch/unix/gui/uidriveplus4.c:222
+#: src/arch/unix/gui/uidrivevic20.c:78
 msgid "Drive #8 40-track image support"
 msgstr "Sürücü #8 40-track imaj desteði"
 
-#: src/arch/unix/gui/uidrivec128.c:156 src/arch/unix/gui/uidrivec64.c:55
-#: src/arch/unix/gui/uidriveplus4.c:222 src/arch/unix/gui/uidrivevic20.c:78
+#: src/arch/unix/gui/uidrivec128.c:159 src/arch/unix/gui/uidrivec64.c:58
+#: src/arch/unix/gui/uidriveplus4.c:225 src/arch/unix/gui/uidrivevic20.c:81
 msgid "Drive #8 idle method"
 msgstr "Sürücü #8 boþa vakit geçirme metodu"
 
-#: src/arch/unix/gui/uidrivec128.c:160 src/arch/unix/gui/uidrivec64.c:59
-#: src/arch/unix/gui/uidriveplus4.c:226 src/arch/unix/gui/uidrivevic20.c:82
+#: src/arch/unix/gui/uidrivec128.c:163 src/arch/unix/gui/uidrivec64.c:62
+#: src/arch/unix/gui/uidriveplus4.c:229 src/arch/unix/gui/uidrivevic20.c:85
 msgid "Drive #9 model"
 msgstr "Sürücü #9 modeli"
 
-#: src/arch/unix/gui/uidrivec128.c:162 src/arch/unix/gui/uidrivec64.c:61
-#: src/arch/unix/gui/uidriveplus4.c:228 src/arch/unix/gui/uidrivevic20.c:84
+#: src/arch/unix/gui/uidrivec128.c:165 src/arch/unix/gui/uidrivec64.c:64
+#: src/arch/unix/gui/uidriveplus4.c:231 src/arch/unix/gui/uidrivevic20.c:87
 msgid "Drive #9 expansion"
 msgstr "Sürücü #9 geniþlemesi"
 
-#: src/arch/unix/gui/uidrivec128.c:165 src/arch/unix/gui/uidrivec64.c:64
-#: src/arch/unix/gui/uidrivepetcbm2.c:104 src/arch/unix/gui/uidriveplus4.c:231
-#: src/arch/unix/gui/uidrivevic20.c:87
+#: src/arch/unix/gui/uidrivec128.c:168 src/arch/unix/gui/uidrivec64.c:67
+#: src/arch/unix/gui/uidrivepetcbm2.c:107 src/arch/unix/gui/uidriveplus4.c:234
+#: src/arch/unix/gui/uidrivevic20.c:90
 msgid "Drive #9 40-track image support"
 msgstr "Sürücü #9 40-track imaj desteði"
 
-#: src/arch/unix/gui/uidrivec128.c:168 src/arch/unix/gui/uidrivec64.c:67
-#: src/arch/unix/gui/uidriveplus4.c:234 src/arch/unix/gui/uidrivevic20.c:90
+#: src/arch/unix/gui/uidrivec128.c:171 src/arch/unix/gui/uidrivec64.c:70
+#: src/arch/unix/gui/uidriveplus4.c:237 src/arch/unix/gui/uidrivevic20.c:93
 msgid "Drive #9 idle method"
 msgstr "Sürücü #9 boþa vakit geçirme metodu"
 
-#: src/arch/unix/gui/uidrivec128.c:172 src/arch/unix/gui/uidrivec64.c:71
-#: src/arch/unix/gui/uidriveplus4.c:238 src/arch/unix/gui/uidrivevic20.c:94
+#: src/arch/unix/gui/uidrivec128.c:175 src/arch/unix/gui/uidrivec64.c:74
+#: src/arch/unix/gui/uidriveplus4.c:241 src/arch/unix/gui/uidrivevic20.c:97
 msgid "Drive #10 model"
 msgstr "Sürücü #10 modeli"
 
-#: src/arch/unix/gui/uidrivec128.c:174 src/arch/unix/gui/uidrivec64.c:73
-#: src/arch/unix/gui/uidriveplus4.c:240 src/arch/unix/gui/uidrivevic20.c:96
+#: src/arch/unix/gui/uidrivec128.c:177 src/arch/unix/gui/uidrivec64.c:76
+#: src/arch/unix/gui/uidriveplus4.c:243 src/arch/unix/gui/uidrivevic20.c:99
 msgid "Drive #10 expansion"
 msgstr "Sürücü #10 geniþlemesi"
 
-#: src/arch/unix/gui/uidrivec128.c:177 src/arch/unix/gui/uidrivec64.c:76
-#: src/arch/unix/gui/uidrivepetcbm2.c:110 src/arch/unix/gui/uidriveplus4.c:243
-#: src/arch/unix/gui/uidrivevic20.c:99
+#: src/arch/unix/gui/uidrivec128.c:180 src/arch/unix/gui/uidrivec64.c:79
+#: src/arch/unix/gui/uidrivepetcbm2.c:113 src/arch/unix/gui/uidriveplus4.c:246
+#: src/arch/unix/gui/uidrivevic20.c:102
 msgid "Drive #10 40-track image support"
 msgstr "Sürücü #10 40-track imaj desteði"
 
-#: src/arch/unix/gui/uidrivec128.c:180 src/arch/unix/gui/uidrivec64.c:79
-#: src/arch/unix/gui/uidriveplus4.c:246 src/arch/unix/gui/uidrivevic20.c:102
+#: src/arch/unix/gui/uidrivec128.c:183 src/arch/unix/gui/uidrivec64.c:82
+#: src/arch/unix/gui/uidriveplus4.c:249 src/arch/unix/gui/uidrivevic20.c:105
 msgid "Drive #10 idle method"
 msgstr "Sürücü #10 boþa vakit geçirme metodu"
 
-#: src/arch/unix/gui/uidrivec128.c:184 src/arch/unix/gui/uidrivec64.c:83
-#: src/arch/unix/gui/uidriveplus4.c:250 src/arch/unix/gui/uidrivevic20.c:106
+#: src/arch/unix/gui/uidrivec128.c:187 src/arch/unix/gui/uidrivec64.c:86
+#: src/arch/unix/gui/uidriveplus4.c:253 src/arch/unix/gui/uidrivevic20.c:109
 msgid "Drive #11 model"
 msgstr "Sürücü #11 modeli"
 
-#: src/arch/unix/gui/uidrivec128.c:186 src/arch/unix/gui/uidrivec64.c:85
-#: src/arch/unix/gui/uidriveplus4.c:252 src/arch/unix/gui/uidrivevic20.c:108
+#: src/arch/unix/gui/uidrivec128.c:189 src/arch/unix/gui/uidrivec64.c:88
+#: src/arch/unix/gui/uidriveplus4.c:255 src/arch/unix/gui/uidrivevic20.c:111
 msgid "Drive #11 expansion"
 msgstr "Sürücü #11 geniþlemesi"
 
-#: src/arch/unix/gui/uidrivec128.c:189 src/arch/unix/gui/uidrivec64.c:88
-#: src/arch/unix/gui/uidrivepetcbm2.c:116 src/arch/unix/gui/uidriveplus4.c:255
-#: src/arch/unix/gui/uidrivevic20.c:111
+#: src/arch/unix/gui/uidrivec128.c:192 src/arch/unix/gui/uidrivec64.c:91
+#: src/arch/unix/gui/uidrivepetcbm2.c:119 src/arch/unix/gui/uidriveplus4.c:258
+#: src/arch/unix/gui/uidrivevic20.c:114
 msgid "Drive #11 40-track image support"
 msgstr "Sürücü #11 40-track imaj desteði"
 
-#: src/arch/unix/gui/uidrivec128.c:192 src/arch/unix/gui/uidrivec64.c:91
-#: src/arch/unix/gui/uidriveplus4.c:258 src/arch/unix/gui/uidrivevic20.c:114
+#: src/arch/unix/gui/uidrivec128.c:195 src/arch/unix/gui/uidrivec64.c:94
+#: src/arch/unix/gui/uidriveplus4.c:261 src/arch/unix/gui/uidrivevic20.c:117
 msgid "Drive #11 idle method"
 msgstr "Sürücü #11 boþa vakit geçirme metodu"
 
-#: src/arch/unix/gui/uidrivec128.c:199 src/arch/unix/gui/uidrivec64.c:98
-#: src/arch/unix/gui/uidrivepetcbm2.c:123 src/arch/unix/gui/uidriveplus4.c:265
-#: src/arch/unix/gui/uidrivevic20.c:121
+#: src/arch/unix/gui/uidrivec128.c:202 src/arch/unix/gui/uidrivec64.c:101
+#: src/arch/unix/gui/uidrivepetcbm2.c:126 src/arch/unix/gui/uidriveplus4.c:268
+#: src/arch/unix/gui/uidrivevic20.c:124
 msgid "Drive settings"
 msgstr "Sürücü ayarlarý"
 
-#: src/arch/unix/gui/uidrivec128.c:207 src/arch/unix/gui/uidrivec64vic20.c:132
-#: src/arch/unix/gui/uidriveplus4.c:273
+#: src/arch/unix/gui/uidrivec128.c:210 src/arch/unix/gui/uidrivec64vic20.c:132
+#: src/arch/unix/gui/uidriveplus4.c:276
 msgid "Load new 1541 ROM"
 msgstr "Yeni 1541 ROM'u yükle"
 
-#: src/arch/unix/gui/uidrivec128.c:210 src/arch/unix/gui/uidrivec64vic20.c:135
-#: src/arch/unix/gui/uidriveplus4.c:276
+#: src/arch/unix/gui/uidrivec128.c:213 src/arch/unix/gui/uidrivec64vic20.c:135
+#: src/arch/unix/gui/uidriveplus4.c:279
 msgid "Load new 1541-II ROM"
 msgstr "Yeni 1541-II ROM'u yükle"
 
-#: src/arch/unix/gui/uidrivec128.c:213 src/arch/unix/gui/uidrivec64vic20.c:138
-#: src/arch/unix/gui/uidriveplus4.c:282
+#: src/arch/unix/gui/uidrivec128.c:216 src/arch/unix/gui/uidrivec64vic20.c:138
+#: src/arch/unix/gui/uidriveplus4.c:285
 msgid "Load new 1570 ROM"
 msgstr "Yeni 1580 ROM'u yükle"
 
-#: src/arch/unix/gui/uidrivec128.c:216 src/arch/unix/gui/uidrivec64vic20.c:141
-#: src/arch/unix/gui/uidriveplus4.c:285
+#: src/arch/unix/gui/uidrivec128.c:219 src/arch/unix/gui/uidrivec64vic20.c:141
+#: src/arch/unix/gui/uidriveplus4.c:288
 msgid "Load new 1571 ROM"
 msgstr "Yeni 1571 ROM'u yükle"
 
-#: src/arch/unix/gui/uidrivec128.c:219
+#: src/arch/unix/gui/uidrivec128.c:222
 msgid "Load new 1571CR ROM"
 msgstr "Yeni 1571CR ROM'u yükle"
 
-#: src/arch/unix/gui/uidrivec128.c:222 src/arch/unix/gui/uidrivec64vic20.c:144
-#: src/arch/unix/gui/uidriveplus4.c:288
+#: src/arch/unix/gui/uidrivec128.c:225 src/arch/unix/gui/uidrivec64vic20.c:144
+#: src/arch/unix/gui/uidriveplus4.c:291
 msgid "Load new 1581 ROM"
 msgstr "Yeni 1581 ROM'u yükle"
 
-#: src/arch/unix/gui/uidrivec128.c:225 src/arch/unix/gui/uidrivec64vic20.c:147
-#: src/arch/unix/gui/uidrivepetcbm2.c:131
+#: src/arch/unix/gui/uidrivec128.c:228 src/arch/unix/gui/uidrivec64vic20.c:147
+#: src/arch/unix/gui/uidrivepetcbm2.c:134
 msgid "Load new 2031 ROM"
 msgstr "Yeni 2031 ROM'u yükle"
 
-#: src/arch/unix/gui/uidrivec128.c:228 src/arch/unix/gui/uidrivec64vic20.c:150
-#: src/arch/unix/gui/uidrivepetcbm2.c:134
+#: src/arch/unix/gui/uidrivec128.c:231 src/arch/unix/gui/uidrivec64vic20.c:150
+#: src/arch/unix/gui/uidrivepetcbm2.c:137
 msgid "Load new 2040 ROM"
 msgstr "Yeni 2040 ROM'u yükle"
 
-#: src/arch/unix/gui/uidrivec128.c:231 src/arch/unix/gui/uidrivec64vic20.c:153
-#: src/arch/unix/gui/uidrivepetcbm2.c:137
+#: src/arch/unix/gui/uidrivec128.c:234 src/arch/unix/gui/uidrivec64vic20.c:153
+#: src/arch/unix/gui/uidrivepetcbm2.c:140
 msgid "Load new 3040 ROM"
 msgstr "Yeni 3040 ROM'u yükle"
 
-#: src/arch/unix/gui/uidrivec128.c:234 src/arch/unix/gui/uidrivec64vic20.c:156
-#: src/arch/unix/gui/uidrivepetcbm2.c:140
+#: src/arch/unix/gui/uidrivec128.c:237 src/arch/unix/gui/uidrivec64vic20.c:156
+#: src/arch/unix/gui/uidrivepetcbm2.c:143
 msgid "Load new 4040 ROM"
 msgstr "Yeni 4040 ROM'u yükle"
 
-#: src/arch/unix/gui/uidrivec128.c:237 src/arch/unix/gui/uidrivec64vic20.c:159
-#: src/arch/unix/gui/uidrivepetcbm2.c:143
+#: src/arch/unix/gui/uidrivec128.c:240 src/arch/unix/gui/uidrivec64vic20.c:159
+#: src/arch/unix/gui/uidrivepetcbm2.c:146
 msgid "Load new 1001 ROM"
 msgstr "Yeni 1001 ROM'u yükle"
 
 #: src/arch/unix/gui/uidrivec64c128.c:72 src/arch/unix/gui/uidrivec64c128.c:82
 #: src/arch/unix/gui/uidrivec64c128.c:92
-#: src/arch/unix/gui/uidrivec64c128.c:102 src/arch/unix/gui/uidriveplus4.c:67
-#: src/arch/unix/gui/uidriveplus4.c:75 src/arch/unix/gui/uidriveplus4.c:83
-#: src/arch/unix/gui/uidriveplus4.c:91
+#: src/arch/unix/gui/uidrivec64c128.c:102 src/arch/unix/gui/uidriveplus4.c:68
+#: src/arch/unix/gui/uidriveplus4.c:76 src/arch/unix/gui/uidriveplus4.c:84
+#: src/arch/unix/gui/uidriveplus4.c:92
 msgid "*Standard Userport"
 msgstr "*Standart Userport"
 
@@ -1541,28 +1548,28 @@ msgstr "*Cyclelarý atla"
 msgid "*Trap idle"
 msgstr "*Trap boþa vakit geçirme"
 
-#: src/arch/unix/gui/uidrivepetcbm2.c:96
+#: src/arch/unix/gui/uidrivepetcbm2.c:99
 msgid "Drive #8 floppy disk type"
 msgstr "Sürücü #8 disket sürücü tipi"
 
-#: src/arch/unix/gui/uidrivepetcbm2.c:102
+#: src/arch/unix/gui/uidrivepetcbm2.c:105
 msgid "Drive #9 floppy disk type"
 msgstr "Sürücü #9 disket sürücü tipi"
 
-#: src/arch/unix/gui/uidrivepetcbm2.c:108
+#: src/arch/unix/gui/uidrivepetcbm2.c:111
 msgid "Drive #10 floppy disk type"
 msgstr "Sürücü #10 disket sürücü tipi"
 
-#: src/arch/unix/gui/uidrivepetcbm2.c:114
+#: src/arch/unix/gui/uidrivepetcbm2.c:117
 msgid "Drive #11 floppy disk type"
 msgstr "Sürücü #11 disket sürücü tipi"
 
-#: src/arch/unix/gui/uidriveplus4.c:97 src/arch/unix/gui/uidriveplus4.c:107
-#: src/arch/unix/gui/uidriveplus4.c:117 src/arch/unix/gui/uidriveplus4.c:127
+#: src/arch/unix/gui/uidriveplus4.c:98 src/arch/unix/gui/uidriveplus4.c:108
+#: src/arch/unix/gui/uidriveplus4.c:118 src/arch/unix/gui/uidriveplus4.c:128
 msgid "*Parallel cable"
 msgstr "*Paralel kablo"
 
-#: src/arch/unix/gui/uidriveplus4.c:279
+#: src/arch/unix/gui/uidriveplus4.c:282
 msgid "Load new 1551 ROM"
 msgstr "Yeni 1551 ROM'u yükle"
 
@@ -3285,7 +3292,8 @@ msgstr ""
 "Emir Akaydýn - Türkçe\n"
 
 #: src/arch/unix/x11/gnome/about.c:108
-msgid "(c) 1998 - 2008 The Vice Team"
+#, fuzzy
+msgid "(c) 1998 - 2009 The Vice Team"
 msgstr "(c) 1998 - 2008 The Vice Team"
 
 #: src/arch/unix/x11/gnome/about.c:119 src/arch/win32/res.rc.po.c:4806
@@ -4081,51 +4089,63 @@ msgid "Version 0.0"
 msgstr "Versiyon 0.0"
 
 #: src/arch/win32/res.rc.po.c:229
-msgid "Copyright (c) 1998-2008 Andreas Boose"
+#, fuzzy
+msgid "Copyright (c) 1998-2009 Andreas Boose"
 msgstr "Copyright (c) 1998-2008 Andreas Boose"
 
 #: src/arch/win32/res.rc.po.c:230
-msgid "Copyright (c) 1998-2008 Dag Lem"
+#, fuzzy
+msgid "Copyright (c) 1998-2009 Dag Lem"
 msgstr "Copyright (c) 1998-2008 Dag Lem"
 
 #: src/arch/win32/res.rc.po.c:231
-msgid "Copyright (c) 1998-2008 Tibor Biczo"
+#, fuzzy
+msgid "Copyright (c) 1998-2009 Tibor Biczo"
 msgstr "Copyright (c) 1998-2008 Tibor Biczo"
 
 #: src/arch/win32/res.rc.po.c:232
-msgid "Copyright (c) 1999-2008 Andreas Matthies"
+#, fuzzy
+msgid "Copyright (c) 1999-2009 Andreas Matthies"
 msgstr "Copyright (c) 1999-2008 Andreas Matthies"
 
 #: src/arch/win32/res.rc.po.c:233
-msgid "Copyright (c) 1999-2008 Martin Pottendorfer"
+#, fuzzy
+msgid "Copyright (c) 1999-2009 Martin Pottendorfer"
 msgstr "Copyright (c) 1999-2008 Martin Pottendorfer"
 
 #: src/arch/win32/res.rc.po.c:234
-msgid "Copyright (c) 2000-2008 Spiro Trikaliotis"
+#, fuzzy
+msgid "Copyright (c) 2000-2009 Spiro Trikaliotis"
 msgstr "Copyright (c) 2000-2008 Spiro Trikaliotis"
 
 #: src/arch/win32/res.rc.po.c:235
-msgid "Copyright (c) 2005-2008 Marco van den Heuvel"
+#, fuzzy
+msgid "Copyright (c) 2005-2009 Marco van den Heuvel"
 msgstr "Copyright (c) 2005-2008 Marco van den Heuvel"
 
 #: src/arch/win32/res.rc.po.c:236
-msgid "Copyright (c) 2006-2008 Christian Vogelgsang"
+#, fuzzy
+msgid "Copyright (c) 2006-2009 Christian Vogelgsang"
 msgstr "Copyright (c) 2006-2008 Christian Vogelgsang"
 
 #: src/arch/win32/res.rc.po.c:237
-msgid "Copyright (c) 2007-2008 Fabrizio Gennari"
+#, fuzzy
+msgid "Copyright (c) 2007-2009 Fabrizio Gennari"
 msgstr "Copyright (c) 2007-2008 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:238
-msgid "Copyright (c) 2007-2008 M. Kiesel"
+#, fuzzy
+msgid "Copyright (c) 2007-2009 M. Kiesel"
 msgstr "Copyright (c) 2007-2008 M. Kiesel"
 
 #: src/arch/win32/res.rc.po.c:239
-msgid "Copyright (c) 2007-2008 Hannu Nuotio"
+#, fuzzy
+msgid "Copyright (c) 2007-2009 Hannu Nuotio"
 msgstr "Copyright (c) 2007-2008 Hannu Nuotio"
 
 #: src/arch/win32/res.rc.po.c:240
-msgid "Copyright (c) 2007-2008 Daniel Kahlin"
+#, fuzzy
+msgid "Copyright (c) 2007-2009 Daniel Kahlin"
 msgstr "Copyright (c) 2007-2008 Daniel Kahlin"
 
 #: src/arch/win32/res.rc.po.c:241

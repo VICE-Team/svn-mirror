@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 15 December 2008 -->
+     from ../vice.texi on 11 January 2009 -->
 
 <TITLE>VICE Manual - 9  Monitor</TITLE>
 </HEAD>
@@ -329,6 +329,13 @@ Otherwise, it is ignores.  If registers are specified in the
 expression, the values used are those at the time the checkpoint is
 examined, not when the condition is set.
 
+Currently, the cond_expr is very limited. You can use registers (.A, .X,
+.Y, .PC, and .SP) and compare against other registers or absolute
+values. For example, the following are all valid conditions:
+.A == 0, .X == .Y, 8:.X == .X, .A != 5, .A &#60; .X.
+
+However, you cannot specify memory contents and compare that.
+
 <DT><CODE>delete &#60;checknum&#62;</CODE>
 <DD>
 Delete the specified checkpoint.
@@ -487,7 +494,11 @@ Stop recording commands.  See <CODE>record</CODE>.
 <DT><CODE>add_label &#60;address&#62; &#60;label&#62;</CODE>
 <DD>
 Map a given address to a label.  This label can be used when entering
-assembly code and is shown during disassembly.
+assembly code and is shown during disassembly.  Additionally, it can
+be used whenever an address must be specified.
+
+&#60;label&#62; is the name of the label; it must start with a dot (".") in
+order for the monitor to recognize it as a label.
 
 <DT><CODE>delete_label [&#60;memspace&#62;] &#60;label&#62;</CODE>
 <DD>

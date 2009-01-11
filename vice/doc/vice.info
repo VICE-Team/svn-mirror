@@ -5652,6 +5652,13 @@ File: vice.info,  Node: Checkpoint commands,  Next: General commands,  Prev: Ass
      expression, the values used are those at the time the checkpoint is
      examined, not when the condition is set.
 
+     Currently, the cond_expr is very limited. You can use registers
+     (.A, .X, .Y, .PC, and .SP) and compare against other registers or
+     absolute values. For example, the following are all valid
+     conditions: .A == 0, .X == .Y, 8:.X == .X, .A != 5, .A < .X.
+
+     However, you cannot specify memory contents and compare that.
+
 `delete <checknum>'
      Delete the specified checkpoint.
 
@@ -5786,6 +5793,10 @@ File: vice.info,  Node: Label commands,  Next: Miscellaneous commands,  Prev: Co
 `add_label <address> <label>'
      Map a given address to a label.  This label can be used when
      entering assembly code and is shown during disassembly.
+     Additionally, it can be used whenever an address must be specified.
+
+     <label> is the name of the label; it must start with a dot (".") in
+     order for the monitor to recognize it as a label.
 
 `delete_label [<memspace>] <label>'
      Remove the specified label from the label tables.  If no memory
@@ -6789,29 +6800,29 @@ File: vice.info,  Node: Copyright,  Next: Contacts,  Prev: Acknowledgments,  Up:
 13 Copyright
 ************
 
-   * Copyright (C) 1998-2008 Andreas Boose
+   * Copyright (C) 1998-2009 Andreas Boose
 
-   * Copyright (C) 1998-2008 Dag Lem
+   * Copyright (C) 1998-2009 Dag Lem
 
-   * Copyright (C) 1998-2008 Tibor Biczo
+   * Copyright (C) 1998-2009 Tibor Biczo
 
-   * Copyright (C) 1999-2008 Andreas Matthies
+   * Copyright (C) 1999-2009 Andreas Matthies
 
-   * Copyright (C) 1999-2008 Martin Pottendorfer
+   * Copyright (C) 1999-2009 Martin Pottendorfer
 
-   * Copyright (C) 2000-2008 Spiro Trikaliotis
+   * Copyright (C) 2000-2009 Spiro Trikaliotis
 
-   * Copyright (C) 2005-2008 Marco van den Heuvel
+   * Copyright (C) 2005-2009 Marco van den Heuvel
 
-   * Copyright (C) 2006-2008 Christian Vogelgsang
+   * Copyright (C) 2006-2009 Christian Vogelgsang
 
-   * Copyright (C) 2007-2008 Fabrizio Gennari
+   * Copyright (C) 2007-2009 Fabrizio Gennari
 
-   * Copyright (C) 2007-2008 M. Kiesel
+   * Copyright (C) 2007-2009 M. Kiesel
 
-   * Copyright (C) 2007-2008 Hannu Nuotio
+   * Copyright (C) 2007-2009 Hannu Nuotio
 
-   * Copyright (C) 2007-2008 Daniel Kahlin
+   * Copyright (C) 2007-2009 Daniel Kahlin
 
    * Copyright (C) 1999-2007 Andreas Dehmel
 
@@ -7650,31 +7661,31 @@ Node: Machine state commands211695
 Node: Memory commands212900
 Node: Assembly commands216547
 Node: Checkpoint commands217299
-Node: General commands219713
-Node: Disk commands220676
-Node: Command file commands222477
-Node: Label commands223009
-Node: Miscellaneous commands224480
-Node: c1541225537
-Node: c1541 file specification227113
-Node: c1541 quoting227717
-Node: c1541 commands and options228568
-Node: c1541 executing shell commands231753
-Node: File formats232156
-Node: T64232526
-Node: T64 file structure232938
-Node: T64 tape record233404
-Node: T64 file record234202
-Node: G64235462
-Node: Acknowledgments249456
-Node: Copyright262548
-Node: Contacts264347
-Node: Home page264859
-Node: Sending feedback265565
-Node: Contributing268886
-Node: Newsgroups270633
-Node: FAQs you should read271272
-Node: Concept Index271594
-Node: Resource Index293507
+Node: General commands220051
+Node: Disk commands221014
+Node: Command file commands222815
+Node: Label commands223347
+Node: Miscellaneous commands225020
+Node: c1541226077
+Node: c1541 file specification227653
+Node: c1541 quoting228257
+Node: c1541 commands and options229108
+Node: c1541 executing shell commands232293
+Node: File formats232696
+Node: T64233066
+Node: T64 file structure233478
+Node: T64 tape record233944
+Node: T64 file record234742
+Node: G64236002
+Node: Acknowledgments249996
+Node: Copyright263088
+Node: Contacts264887
+Node: Home page265399
+Node: Sending feedback266105
+Node: Contributing269426
+Node: Newsgroups271173
+Node: FAQs you should read271812
+Node: Concept Index272134
+Node: Resource Index294047
 
 End Tag Table
