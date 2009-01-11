@@ -93,7 +93,7 @@ static log_t autostart_log = LOG_ERR;
 static int orig_drive_true_emulation_state = -1;
 
 /* PETSCII name of the program to load. NULL if default */
-static BYTE *autostart_program_name = NULL;
+static char *autostart_program_name = NULL;
 
 /* Minimum number of cycles before we feed BASIC with commands.  */
 static CLOCK min_cycles;
