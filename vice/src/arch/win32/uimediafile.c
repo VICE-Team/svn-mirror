@@ -68,7 +68,7 @@ static gfxoutputdrv_t *selected_driver;
 static void update_ffmpeg_codecs(HWND hwnd)
 {
     HWND audio_codec_combo, video_codec_combo;
-    ffmpegdrv_format_t *current_format = NULL;
+    gfxoutputdrv_format_t *current_format = NULL;
     TCHAR st_selection[MAXSCRNDRVLEN];
     int ac, vc, i;
 
