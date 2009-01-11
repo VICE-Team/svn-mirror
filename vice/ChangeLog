@@ -1,3 +1,46 @@
+2009-01-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/tr.po: Corrected some typos.
+
+2009-01-07  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/c64dtvui.c: Added missing "handle TDE on
+	  autostart" menu element.
+
+2009-01-07  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/gui/uidrivec128.c,
+	  src/arch/unix/gui/uidrivec64.c,
+	  src/arch/unix/gui/uidrivec64dtv.c,
+	  src/arch/unix/gui/uidrivepetcbm2.c,
+	  src/arch/unix/gui/uidriveplus4.c,
+	  src/arch/unix/gui/uidrivevic20.c: Added unix UI menu items for
+	  AutostartHandleTrueDriveEmulation
+
+2009-01-06  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/vic20/vic-draw.c: Fixed a typo in the VIC-I emulation
+	  which sometimes caused graphic glitches when changing 0x900e
+	  or 0x900f.
+
+2009-01-06  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/sounddrv/soundcoreaudio.c: fixed soundcoreaudio for sample
+	  rates != 22050
+
+2009-01-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po: Corrected a danish translation item.
+
+2009-01-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po: Changed a 1250 to 750 in the da.po file.
+
+2009-01-04  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* doc/vice.texi: Added some more information about monitor
+	  conditions and the format format of labels.
+
 2009-01-04  Martin Pottendorfer <pottendo@aon.at>
 
 	* src/arch/unix/x11/fullscreen.c (fullscreen_init),
