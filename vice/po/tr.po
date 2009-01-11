@@ -1492,7 +1492,7 @@ msgstr "*Dolphin DOS 3"
 #: src/arch/unix/gui/uidrivec64c128.c:136
 #: src/arch/unix/gui/uidrivec64c128.c:149 src/arch/amigaos/intl.c.po.c:3214
 msgid "Parallel cable"
-msgstr "*Paralel kablo"
+msgstr "Paralel kablo"
 
 #: src/arch/unix/gui/uidrivec64c128.c:117
 #: src/arch/unix/gui/uidrivec64c128.c:130
@@ -7868,7 +7868,7 @@ msgstr "4/8/16KB imajý $2000 adresinde..."
 
 #: src/arch/amigaos/intl.c.po.c:348
 msgid "4/8/16KB image at $4000..."
-msgstr "4/8/16KB imajý $5000 adresinde..."
+msgstr "4/8/16KB imajý $4000 adresinde..."
 
 #: src/arch/amigaos/intl.c.po.c:357
 msgid "4/8/16KB image at $6000..."
