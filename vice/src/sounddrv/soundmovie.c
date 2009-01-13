@@ -69,6 +69,7 @@ static int soundmovie_write(SWORD *pbuf, size_t nr)
 {
     size_t copied = 0;
     int samples_to_copy;
+    int buffer_size;
 
     if( (funcs == NULL) || (funcs->encode == NULL) ) {
         return 0;
@@ -77,7 +78,7 @@ static int soundmovie_write(SWORD *pbuf, size_t nr)
         return 0;
     }
 
-    size_t buffer_size = buffer->size;
+    buffer_size = buffer->size;
     while (copied < nr) {
         samples_to_copy = buffer_size - buffer->used;
         if (samples_to_copy > (int)(nr - copied))
