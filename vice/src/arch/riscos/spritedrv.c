@@ -242,11 +242,18 @@ static gfxoutputdrv_t sprite_drv =
   "Sprite",
   "Sprite Driver",
   NULL, /* default extension */
+  NULL, /* formatlist */
   sprite_open,
   sprite_close,
   sprite_write,
   sprite_save,
+  NULL,
+  NULL,
+  NULL,
   NULL
+#ifdef FEATURE_CPUMEMHISTORY
+  ,NULL
+#endif
 };
 
 
