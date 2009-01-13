@@ -8891,7 +8891,7 @@ msgstr "Vælg MMC/SD-image"
 
 #: src/arch/amigaos/intl.c.po.c:4213
 msgid "MMC64 settings"
-msgstr "MMC64-indstillinger..."
+msgstr "MMC64-indstillinger"
 
 #: src/arch/amigaos/intl.c.po.c:4222
 msgid "SID Cart"

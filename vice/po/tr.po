@@ -4804,7 +4804,7 @@ msgstr "Sýralama listesi dosyasýný yükle"
 
 #: src/arch/win32/res.rc.po.c:4725 src/arch/amigaos/intl.c.po.c:4276
 msgid "Cannot read flip list file"
-msgstr "Sýralama listesi dosyasý okunamadý."
+msgstr "Sýralama listesi dosyasý okunamadý"
 
 #: src/arch/win32/res.rc.po.c:4726 src/arch/amigaos/intl.c.po.c:4285
 msgid "Save flip list file"
@@ -5484,7 +5484,7 @@ msgstr "Çý&kýþ"
 
 #: src/arch/win32/res.rc.po.c:4913
 msgid "&About..."
-msgstr "H&akkýnda"
+msgstr "H&akkýnda..."
 
 #: src/arch/win32/res.rc.po.c:4914
 msgid "&Pause"
