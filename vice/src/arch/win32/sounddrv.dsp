@@ -98,15 +98,15 @@ SOURCE=..\..\sounddrv\sounddx.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\sounddrv\soundffmpegaudio.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\sounddrv\soundfs.c
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\sounddrv\soundiff.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\sounddrv\soundmovie.c
 # End Source File
 # Begin Source File
 
