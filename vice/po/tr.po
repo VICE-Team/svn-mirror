@@ -7217,7 +7217,7 @@ msgstr "Salt Okunur MMC/SD Imajý"
 
 #: src/arch/win32/resmmc64.rc.po.c:27
 msgid "MMC/SD &Image File"
-msgstr "MMC/SD &Imaj Dosyasý "
+msgstr "MMC/SD &Imaj Dosyasý"
 
 #: src/arch/win32/respet.rc.po.c:245 src/arch/win32/respet.rc.po.c:850
 msgid "Editor"
