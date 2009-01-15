@@ -1,7 +1,7 @@
 // +60K specific resources.
 //
 
-// original and default ENGLISH version of dialog
+// template of dialog for all languages
 
 IDD_PLUS60K_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -34,6 +34,19 @@ BEGIN
     IDS_PLUS60K_BASE                "PLUS60K base address"
     IDS_PLUS60K_FILE                "PLUS60K file"
     IDS_PLUS60K_SELECT_FILE         "Select file for PLUS60K"
+END
+
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_PLUS60K_CAPTION             "PLUS60K-indstillinger"
+    IDS_PLUS60K_ENABLE              "&Aktivér PLUS60K"
+    IDS_PLUS60K_BASE                "Basadress för PLUS60K"
+    IDS_PLUS60K_FILE                "PLUS60K-fil"
+    IDS_PLUS60K_SELECT_FILE         "Vælg fil for PLUS60K"
 END
 
 
@@ -118,6 +131,7 @@ BEGIN
 END
 #pragma code_page(28591)
 
+
 // SWEDISH text
 
 STRINGTABLE
@@ -129,3 +143,18 @@ BEGIN
     IDS_PLUS60K_FILE                "PLUS60K-fil"
     IDS_PLUS60K_SELECT_FILE         "Ange fil för PLUS60K"
 END
+
+
+// TURKISH text
+
+#pragma code_page(28599)
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_PLUS60K_CAPTION             "PLUS60K Ayarlarý"
+    IDS_PLUS60K_ENABLE              "PLUS60K'yý aktif &et"
+    IDS_PLUS60K_BASE                "PLUS60K taban adresi"
+    IDS_PLUS60K_FILE                "PLUS60K dosyasý"
+    IDS_PLUS60K_SELECT_FILE         "PLUS60K için dosya seçin"
+END
+#pragma code_page(28591)

@@ -131,6 +131,7 @@ void generate_translate_h(char *in_filename, char *out_filename)
     if (found==FOUND_ID)
     {
       fprintf(outfile,"%s,\n",line_buffer);
+      fprintf(outfile,"%s_DA,\n",line_buffer);
       fprintf(outfile,"%s_DE,\n",line_buffer);
       fprintf(outfile,"%s_FR,\n",line_buffer);
       fprintf(outfile,"%s_HU,\n",line_buffer);
@@ -138,6 +139,7 @@ void generate_translate_h(char *in_filename, char *out_filename)
       fprintf(outfile,"%s_NL,\n",line_buffer);
       fprintf(outfile,"%s_PL,\n",line_buffer);
       fprintf(outfile,"%s_SV,\n",line_buffer);
+      fprintf(outfile,"%s_TR,\n",line_buffer);
     }
     else
     {
@@ -211,13 +213,15 @@ void generate_translate_table_h(char *in_filename, char *out_filename)
     if (found==FOUND_ID)
     {
       fprintf(outfile,"/* en */ {%s,\n",line_buffer);
+      fprintf(outfile,"/* da */  %s_DA,\n",line_buffer);
       fprintf(outfile,"/* de */  %s_DE,\n",line_buffer);
       fprintf(outfile,"/* fr */  %s_FR,\n",line_buffer);
       fprintf(outfile,"/* hu */  %s_HU,\n",line_buffer);
       fprintf(outfile,"/* it */  %s_IT,\n",line_buffer);
       fprintf(outfile,"/* nl */  %s_NL,\n",line_buffer);
       fprintf(outfile,"/* pl */  %s_PL,\n",line_buffer);
-      fprintf(outfile,"/* sv */  %s_SV},\n",line_buffer);
+      fprintf(outfile,"/* sv */  %s_SV,\n",line_buffer);
+      fprintf(outfile,"/* tr */  %s_TR},\n",line_buffer);
     }
     else
     {

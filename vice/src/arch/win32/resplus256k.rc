@@ -1,7 +1,7 @@
 // +256K specific resources.
 //
 
-// original and default ENGLISH version of dialog
+// template of dialog for all languages
 
 IDD_PLUS256K_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -29,6 +29,18 @@ BEGIN
     IDS_PLUS256K_ENABLE              "&Enable PLUS256K"
     IDS_PLUS256K_FILE                "PLUS256K file"
     IDS_PLUS256K_SELECT_FILE         "Select file for PLUS256K"
+END
+
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_PLUS256K_CAPTION             "PLUS256K-indstillinger"
+    IDS_PLUS256K_ENABLE              "&Aktivér PLUS256K"
+    IDS_PLUS256K_FILE                "PLUS256K-fil"
+    IDS_PLUS256K_SELECT_FILE         "Vælg fil for PLUS256K"
 END
 
 
@@ -107,6 +119,7 @@ BEGIN
 END
 #pragma code_page(28591)
 
+
 // SWEDISH text
 
 STRINGTABLE
@@ -117,3 +130,17 @@ BEGIN
     IDS_PLUS256K_FILE                "PLUS256K-fil"
     IDS_PLUS256K_SELECT_FILE         "Ange fil för PLUS256K"
 END
+
+
+// TURKISH text
+
+#pragma code_page(28599)
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_PLUS256K_CAPTION             "PLUS256K Ayarlarý"
+    IDS_PLUS256K_ENABLE              "PLUS256K'yý aktif &et"
+    IDS_PLUS256K_FILE                "PLUS256K dosyasý"
+    IDS_PLUS256K_SELECT_FILE         "PLUS256K için dosya seçin"
+END
+#pragma code_page(28591)

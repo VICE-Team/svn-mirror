@@ -845,6 +845,14 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
           ui_menu_destroy(canvas);
         }
         break;
+      case IDM_LANGUAGE_DANISH:
+        resources_get_value("Language", (void *)&curlang);
+        if (strcasecmp(curlang,"da"))
+        {
+          resources_set_value("Language", (resource_value_t *)"da");
+          ui_menu_destroy(canvas);
+        }
+        break;
       case IDM_LANGUAGE_GERMAN:
         resources_get_value("Language", (void *)&curlang);
         if (strcasecmp(curlang,"de"))
@@ -898,6 +906,14 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
         if (strcasecmp(curlang,"sv"))
         {
           resources_set_value("Language", (resource_value_t *)"sv");
+          ui_menu_destroy(canvas);
+        }
+        break;
+      case IDM_LANGUAGE_TURKISH:
+        resources_get_value("Language", (void *)&curlang);
+        if (strcasecmp(curlang,"tr"))
+        {
+          resources_set_value("Language", (resource_value_t *)"tr");
           ui_menu_destroy(canvas);
         }
         break;

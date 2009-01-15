@@ -38,6 +38,37 @@ BEGIN
 END
 
 
+// DANISH version of dialog
+
+IDD_MMC64_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 175
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Aktivér MMC64", IDC_MMC64_ENABLE,
+                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "BIOS-revision",
+                    IDC_MMC64_REVISION_LABEL, 9, 24, 53, 8
+    COMBOBOX        IDC_MMC64_REVISION, 66, 22, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "Aktivér BIOS-&flashjumper", IDC_MMC64_FLASHJUMPER,
+                    7, 40, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX    "&Gem BIOS ved ændringer", IDC_MMC64_BIOS_SAVE,
+                    7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "&BIOS-fil",
+                    IDC_MMC64_BIOS_FILE_LABEL, 9, 62, 50, 8
+    PUSHBUTTON      "Gennemse...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
+    EDITTEXT        IDC_MMC64_BIOS_FILE, 9, 78, 160, 12, WS_TABSTOP
+    AUTOCHECKBOX    "MMC/SD-image skrivebeskyttet", IDC_MMC64_IMAGE_RO,
+                    7, 98, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "MMC/SD-&imagefil",
+                    IDC_MMC64_IMAGE_FILE_LABEL, 9, 110, 56, 8
+    PUSHBUTTON      "Gennemse...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
+    EDITTEXT        IDC_MMC64_IMAGE_FILE, 9, 126, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annullér", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
+END
+
+
 // GERMAN version of dialog
 
 IDD_MMC64_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 175
@@ -257,3 +288,36 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Avbryt", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
 END
+
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_MMC64_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 175
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "MMC64'ý aktif et", IDC_MMC64_ENABLE,
+                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "BIOS Revizyonu",
+                    IDC_MMC64_REVISION_LABEL, 9, 24, 53, 8
+    COMBOBOX        IDC_MMC64_REVISION, 66, 22, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "BIOS &Flash Jumper'ý aktif et", IDC_MMC64_FLASHJUMPER,
+                    7, 40, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX    "BIO&S deðiþtiðinde kaydet", IDC_MMC64_BIOS_SAVE,
+                    7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "&BIOS Dosyasý",
+                    IDC_MMC64_BIOS_FILE_LABEL, 9, 62, 50, 8
+    PUSHBUTTON      "Göz at...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
+    EDITTEXT        IDC_MMC64_BIOS_FILE, 9, 78, 160, 12, WS_TABSTOP
+    AUTOCHECKBOX    "Salt Okunur MMC/SD Imajý", IDC_MMC64_IMAGE_RO,
+                    7, 98, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "MMC/SD &Imaj Dosyasý",
+                    IDC_MMC64_IMAGE_FILE_LABEL, 9, 110, 56, 8
+    PUSHBUTTON      "Göz at...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
+    EDITTEXT        IDC_MMC64_IMAGE_FILE, 9, 126, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON   "Tamam", IDOK, 30, 150, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Ýptal", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
+END
+#pragma code_page(28591)

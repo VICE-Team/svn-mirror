@@ -7,7 +7,7 @@
 
 #pragma code_page(28591)
 
-// original and default ENGLISH version of dialog
+// template of dialog for all languages
 
 IDD_PETREU_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -40,6 +40,19 @@ BEGIN
     IDS_PETREU_SIZE                "PET REU size"
     IDS_PETREU_FILE                "PET REU file"
     IDS_PETREU_SELECT_FILE         "Select file for PET REU"
+END
+
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_PETREU_CAPTION             "PET REU-indstillinger"
+    IDS_PETREU_ENABLE              "&Aktivér PET REU"
+    IDS_PETREU_SIZE                "PET REU størrelse"
+    IDS_PETREU_FILE                "PET REU-fil"
+    IDS_PETREU_SELECT_FILE         "Vælg fil for PET REU"
 END
 
 
@@ -96,6 +109,7 @@ BEGIN
     IDS_PETREU_SELECT_FILE         "Seleziona il file per il PET REU"
 END
 
+
 // DUTCH text
 
 STRINGTABLE
@@ -107,6 +121,7 @@ BEGIN
     IDS_PETREU_FILE                "PET REU-bestand"
     IDS_PETREU_SELECT_FILE         "Selecteer bestand voor PET REU"
 END
+
 
 // POLISH text
 
@@ -122,6 +137,7 @@ BEGIN
 END
 #pragma code_page(28591)
 
+
 // SWEDISH text
 
 STRINGTABLE
@@ -133,3 +149,18 @@ BEGIN
     IDS_PETREU_FILE                "PET REU-fil"
     IDS_PETREU_SELECT_FILE         "Välj fil för PET REU"
 END
+
+
+// TURKISH text
+
+#pragma code_page(28599)
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_PETREU_CAPTION             "PET REU Ayarlarý"
+    IDS_PETREU_ENABLE              "PET REU'yu aktif &et"
+    IDS_PETREU_SIZE                "PET REU boyutu"
+    IDS_PETREU_FILE                "PET REU dosyasý"
+    IDS_PETREU_SELECT_FILE         "PET REU için dosya seçin"
+END
+#pragma code_page(28591)

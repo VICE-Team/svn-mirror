@@ -51,6 +51,7 @@ do
   case ${data%%_*} in
     ID*)
            echo $data","
+           echo $data"_DA,"
            echo $data"_DE,"
            echo $data"_FR,"
            echo $data"_HU,"
@@ -58,6 +59,7 @@ do
            echo $data"_NL,"
            echo $data"_PL,"
            echo $data"_SV,"
+           echo $data"_TR,"
            ok="yes"
     ;;
   esac

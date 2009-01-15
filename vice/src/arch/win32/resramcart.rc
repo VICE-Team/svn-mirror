@@ -7,7 +7,7 @@
 
 #pragma code_page(28591)
 
-// original and default ENGLISH version of dialog
+// template of dialog for all languages
 
 IDD_RAMCART_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -43,6 +43,20 @@ BEGIN
     IDS_RAMCART_SIZE            "RAMCART size"
     IDS_RAMCART_FILE            "RAMCART file"
     IDS_RAMCART_SELECT_FILE     "Select file for RAMCART"
+END
+
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_RAMCART_CAPTION         "RAMCART-indstillinger"
+    IDS_RAMCART_ENABLE          "&Aktivér RAMCART"
+    IDS_RAMCART_READONLY        "&Kun læseadgang"
+    IDS_RAMCART_SIZE            "RAMCART størrelse"
+    IDS_RAMCART_FILE            "RAMCART-fil"
+    IDS_RAMCART_SELECT_FILE     "Vælg fil for RAMCART"
 END
 
 
@@ -146,3 +160,19 @@ BEGIN
     IDS_RAMCART_FILE            "RAMCART-fil"
     IDS_RAMCART_SELECT_FILE     "Välj fil för RAMCART"
 END
+
+
+// TURKISH text
+
+#pragma code_page(28599)
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_RAMCART_CAPTION         "RAMCART Ayarlarý"
+    IDS_RAMCART_ENABLE          "RAMCART'ý aktif &et"
+    IDS_RAMCART_READONLY        "Salt Okunu&r"
+    IDS_RAMCART_SIZE            "RAMCART Boyutu"
+    IDS_RAMCART_FILE            "RAMCART dosyasý"
+    IDS_RAMCART_SELECT_FILE     "RAMCART için dosya seçin"
+END
+#pragma code_page(28591)

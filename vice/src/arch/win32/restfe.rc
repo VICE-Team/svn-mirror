@@ -7,7 +7,7 @@
 
 #pragma code_page(28591)
 
-// original and default ENGLISH version of dialog
+// template of dialog for all languages
 
 IDD_TFE_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 270, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -37,6 +37,17 @@ STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_TFE_CAPTION         "Ethernet Settings"
+    IDS_TFE_ETHERNET        "&Ethernet"
+    IDS_TFE_INTERFACE       "&Interface"
+END
+
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_TFE_CAPTION         "Ethernetindstillinger"
     IDS_TFE_ETHERNET        "&Ethernet"
     IDS_TFE_INTERFACE       "&Interface"
 END
@@ -121,3 +132,16 @@ BEGIN
     IDS_TFE_ETHERNET        "&Ethernet"
     IDS_TFE_INTERFACE       "&Gränssnitt"
 END
+
+
+// TURKISH text
+
+#pragma code_page(28599)
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_TFE_CAPTION         "Ethernet Ayarlarý"
+    IDS_TFE_ETHERNET        "&Ethernet"
+    IDS_TFE_INTERFACE       "Arab&irim"
+END
+#pragma code_page(28591)

@@ -38,13 +38,15 @@ do
   case ${data%%_*} in
     ID*)
            echo "/* en */ {"$data","
+           echo "/* de */  "$data"_DA,"
            echo "/* de */  "$data"_DE,"
            echo "/* fr */  "$data"_FR,"
            echo "/* hu */  "$data"_HU,"
            echo "/* it */  "$data"_IT,"
            echo "/* nl */  "$data"_NL,"
            echo "/* pl */  "$data"_PL,"
-           echo "/* sv */  "$data"_SV},"
+           echo "/* sv */  "$data"_SV,"
+           echo "/* tr */  "$data"_TR},"
            ok="yes"
     ;;
   esac

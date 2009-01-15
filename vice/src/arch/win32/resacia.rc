@@ -7,7 +7,7 @@
 
 #pragma code_page(28591)
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
 IDD_ACIA_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 170, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -53,6 +53,25 @@ BEGIN
   IDS_ACIA_LOCATION    "ACIA location"
   IDS_ACIA_INTERRUPT   "ACIA interrupt"
   IDS_ACIA_MODE        "ACIA mode"
+END
+
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_IRQ              "IRQ"
+  IDS_NMI              "NMI"
+  IDS_NORMAL           "Normal"
+  IDS_SWIFTLINK        "Swiftlink"
+  IDS_TURBO232         "Turbo232"
+  IDS_ACIA_CAPTION     "ACIA-indstillinger"
+  IDS_ACIA_ENABLE      "&Aktivér ACIA"
+  IDS_ACIA_DEVICE      "ACIA-enhed"
+  IDS_ACIA_LOCATION    "ACIA placering"
+  IDS_ACIA_INTERRUPT   "ACIA-interrupt"
+  IDS_ACIA_MODE        "ACIA-tilstand"
 END
 
 
@@ -191,3 +210,24 @@ BEGIN
   IDS_ACIA_INTERRUPT   "ACIA-avbrott"
   IDS_ACIA_MODE        "ACIA-läge"
 END
+
+
+// TURKISH text
+
+#pragma code_page(28599)
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_IRQ              "IRQ"
+  IDS_NMI              "NMI"
+  IDS_NORMAL           "Normal"
+  IDS_SWIFTLINK        "Swiftlink"
+  IDS_TURBO232         "Turbo232"
+  IDS_ACIA_CAPTION     "ACIA Ayarlarý"
+  IDS_ACIA_ENABLE      "ACIA'ý aktif et"
+  IDS_ACIA_DEVICE      "ACIA aygýtý"
+  IDS_ACIA_LOCATION    "ACIA yeri"
+  IDS_ACIA_INTERRUPT   "ACIA kesmesi"
+  IDS_ACIA_MODE        "ACIA modu"
+END
+#pragma code_page(28591)

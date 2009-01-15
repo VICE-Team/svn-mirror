@@ -1,7 +1,7 @@
 // DIGIMAX specific resources.
 //
 
-// original and default ENGLISH version of dialog
+// template of dialog for all languages
 
 IDD_DIGIMAX_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -30,6 +30,18 @@ BEGIN
     IDS_DIGIMAX_BASE                "Digimax base address"
 END
 
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_DIGIMAX_CAPTION             "Digimaxindstillinger"
+    IDS_DIGIMAX_ENABLE              "&Aktivér Digimax"
+    IDS_DIGIMAX_BASE                "Digimax baseadresse"
+END
+
+
 // GERMAN text
 
 STRINGTABLE
@@ -39,6 +51,7 @@ BEGIN
     IDS_DIGIMAX_ENABLE              "Digimax aktivi&eren"
     IDS_DIGIMAX_BASE                "Digimax Basis Adresse"
 END
+
 
 // FRENCH text
 
@@ -74,6 +87,7 @@ BEGIN
     IDS_DIGIMAX_BASE                "Indirizzo base Digimax"
 END
 
+
 // DUTCH text
 
 STRINGTABLE
@@ -83,6 +97,7 @@ BEGIN
     IDS_DIGIMAX_ENABLE              "&Activeer digimax"
     IDS_DIGIMAX_BASE                "Digimax-basisadres"
 END
+
 
 // POLISH text
 
@@ -96,6 +111,7 @@ BEGIN
 END
 #pragma code_page(28591)
 
+
 // SWEDISH text
 
 STRINGTABLE
@@ -105,3 +121,16 @@ BEGIN
     IDS_DIGIMAX_ENABLE              "Aktiverad"
     IDS_DIGIMAX_BASE                "Digimax base address"
 END
+
+
+// TURKISH text
+
+#pragma code_page(28599)
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_DIGIMAX_CAPTION             "Digimax Ayarlarý"
+    IDS_DIGIMAX_ENABLE              "Digimax'ý aktif &et"
+    IDS_DIGIMAX_BASE                "Digimax taban adresi"
+END
+#pragma code_page(28591)

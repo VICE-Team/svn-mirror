@@ -16,7 +16,7 @@
 // Menu
 //
 
-// original and default ENGLISH version of menu
+// template of menu for all languages
 
 IDR_MENUC64DTV MENU DISCARDABLE
 BEGIN
@@ -201,6 +201,7 @@ BEGIN
     POPUP "&Language"
     BEGIN
         MENUITEM "", IDM_LANG_EN
+        MENUITEM "", IDM_LANG_DA
         MENUITEM "", IDM_LANG_DE
         MENUITEM "", IDM_LANG_FR
         MENUITEM "", IDM_LANG_HU
@@ -208,6 +209,7 @@ BEGIN
         MENUITEM "", IDM_LANG_NL
         MENUITEM "", IDM_LANG_PL
         MENUITEM "", IDM_LANG_SV
+        MENUITEM "", IDM_LANG_TR
     END
     POPUP "&Help"
     BEGIN
@@ -246,6 +248,30 @@ BEGIN
     EDITTEXT    IDC_C64ROM_CHARGEN_FILE, 55,47,125,12,WS_TABSTOP |
                 ES_AUTOHSCROLL
     PUSHBUTTON  "Browse...", IDC_C64ROM_CHARGEN_BROWSE, 185,47,50,14, 0
+END
+
+
+// DANISH version of dialog
+
+IDD_C64ROM_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 240, 70
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ROM-indstillinger"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT       "Kernal",IDC_STATIC,9,8,40,8
+    EDITTEXT    IDC_C64ROM_KERNAL_FILE, 55,7,125,12,WS_TABSTOP |
+                ES_AUTOHSCROLL
+    PUSHBUTTON  "Gennemse...", IDC_C64ROM_KERNAL_BROWSE, 185,7,50,14, 0
+
+    LTEXT       "Basic", IDC_STATIC, 9,28,40,8
+    EDITTEXT    IDC_C64ROM_BASIC_FILE, 55,27,125,12,WS_TABSTOP |
+                ES_AUTOHSCROLL
+    PUSHBUTTON  "Gennemse...", IDC_C64ROM_BASIC_BROWSE, 185,27,50,14, 0
+
+    LTEXT       "Tegngenerator", IDC_STATIC, 9,48,40,8
+    EDITTEXT    IDC_C64ROM_CHARGEN_FILE, 55,47,125,12,WS_TABSTOP |
+                ES_AUTOHSCROLL
+    PUSHBUTTON  "Gennemse...", IDC_C64ROM_CHARGEN_BROWSE, 185,47,50,14, 0
 END
 
 
@@ -420,6 +446,32 @@ BEGIN
     PUSHBUTTON  "Bläddra...", IDC_C64ROM_CHARGEN_BROWSE, 185,47,50,14, 0
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_C64ROM_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 240, 70
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ROM ayarlarý"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT       "Kernal",IDC_STATIC,9,8,40,8
+    EDITTEXT    IDC_C64ROM_KERNAL_FILE, 55,7,125,12,WS_TABSTOP |
+                ES_AUTOHSCROLL
+    PUSHBUTTON  "Göz at...", IDC_C64ROM_KERNAL_BROWSE, 185,7,50,14, 0
+
+    LTEXT       "Basic", IDC_STATIC, 9,28,40,8
+    EDITTEXT    IDC_C64ROM_BASIC_FILE, 55,27,125,12,WS_TABSTOP |
+                ES_AUTOHSCROLL
+    PUSHBUTTON  "Göz at...", IDC_C64ROM_BASIC_BROWSE, 185,27,50,14, 0
+
+    LTEXT       "Karakter", IDC_STATIC, 9,48,40,8
+    EDITTEXT    IDC_C64ROM_CHARGEN_FILE, 55,47,125,12,WS_TABSTOP |
+                ES_AUTOHSCROLL
+    PUSHBUTTON  "Göz at...", IDC_C64ROM_CHARGEN_BROWSE, 185,47,50,14, 0
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -453,6 +505,40 @@ BEGIN
     EDITTEXT    IDC_DRIVEROM_1581_FILE, 55,87,125,12,WS_TABSTOP |
                 ES_AUTOHSCROLL
     PUSHBUTTON  "Browse...", IDC_DRIVEROM_1581_BROWSE, 185,87,50,14, 0
+END
+
+
+// DANISH version of dialog
+
+IDD_C64DRIVEROM_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 240, 210
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ROM-indstillinger"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT       "1541",IDC_STATIC,9,8,40,8
+    EDITTEXT    IDC_DRIVEROM_1541_FILE, 55,7,125,12,WS_TABSTOP |
+                ES_AUTOHSCROLL
+    PUSHBUTTON  "Gennemse...", IDC_DRIVEROM_1541_BROWSE, 185,7,50,14, 0
+
+    LTEXT       "1541-II", IDC_STATIC, 9,28,40,8
+    EDITTEXT    IDC_DRIVEROM_1541II_FILE, 55,27,125,12,WS_TABSTOP |
+                ES_AUTOHSCROLL
+    PUSHBUTTON  "Gennemse...", IDC_DRIVEROM_1541II_BROWSE, 185,27,50,14, 0
+
+    LTEXT       "1570", IDC_STATIC, 9,48,40,8
+    EDITTEXT    IDC_DRIVEROM_1570_FILE, 55,47,125,12,WS_TABSTOP |
+                ES_AUTOHSCROLL
+    PUSHBUTTON  "Gennemse...", IDC_DRIVEROM_1570_BROWSE, 185,47,50,14, 0
+
+    LTEXT       "1571",IDC_STATIC,9,68,40,8
+    EDITTEXT    IDC_DRIVEROM_1571_FILE, 55,67,125,12,WS_TABSTOP |
+                ES_AUTOHSCROLL
+    PUSHBUTTON  "Gennemse...", IDC_DRIVEROM_1571_BROWSE, 185,67,50,14, 0
+
+    LTEXT       "1581", IDC_STATIC, 9,88,40,8
+    EDITTEXT    IDC_DRIVEROM_1581_FILE, 55,87,125,12,WS_TABSTOP |
+                ES_AUTOHSCROLL
+    PUSHBUTTON  "Gennemse...", IDC_DRIVEROM_1581_BROWSE, 185,87,50,14, 0
 END
 
 
@@ -697,6 +783,42 @@ BEGIN
     PUSHBUTTON  "Bläddra...", IDC_DRIVEROM_1581_BROWSE, 185,87,50,14, 0
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_C64DRIVEROM_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 240, 210
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ROM Ayarlarý"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT       "1541",IDC_STATIC,9,8,40,8
+    EDITTEXT    IDC_DRIVEROM_1541_FILE, 55,7,125,12,WS_TABSTOP |
+                ES_AUTOHSCROLL
+    PUSHBUTTON  "Göz at...", IDC_DRIVEROM_1541_BROWSE, 185,7,50,14, 0
+
+    LTEXT       "1541-II", IDC_STATIC, 9,28,40,8
+    EDITTEXT    IDC_DRIVEROM_1541II_FILE, 55,27,125,12,WS_TABSTOP |
+                ES_AUTOHSCROLL
+    PUSHBUTTON  "Göz at...", IDC_DRIVEROM_1541II_BROWSE, 185,27,50,14, 0
+
+    LTEXT       "1570", IDC_STATIC, 9,48,40,8
+    EDITTEXT    IDC_DRIVEROM_1570_FILE, 55,47,125,12,WS_TABSTOP |
+                ES_AUTOHSCROLL
+    PUSHBUTTON  "Göz at...", IDC_DRIVEROM_1570_BROWSE, 185,47,50,14, 0
+
+    LTEXT       "1571",IDC_STATIC,9,68,40,8
+    EDITTEXT    IDC_DRIVEROM_1571_FILE, 55,67,125,12,WS_TABSTOP |
+                ES_AUTOHSCROLL
+    PUSHBUTTON  "Göz at...", IDC_DRIVEROM_1571_BROWSE, 185,67,50,14, 0
+
+    LTEXT       "1581", IDC_STATIC, 9,88,40,8
+    EDITTEXT    IDC_DRIVEROM_1581_FILE, 55,87,125,12,WS_TABSTOP |
+                ES_AUTOHSCROLL
+    PUSHBUTTON  "Göz at...", IDC_DRIVEROM_1581_BROWSE, 185,87,50,14, 0
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -717,6 +839,27 @@ BEGIN
 
     DEFPUSHBUTTON   "OK", IDOK, 20,65,50,14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDCANCEL, 80,65,50,14, WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_C64ROM_RESOURCE_DIALOG_DA DIALOG DISCARDABLE  0, 0, 160, 85
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Computerressourcer"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Computerressourcer gemt i ROM-set",
+                    IDC_STATIC,4,3,151,55
+    AUTOCHECKBOX    "Kernal",IDC_C64ROM_KERNAL_RESOURCE,
+                    11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Basic",IDC_C64ROM_BASIC_RESOURCE,
+                    11,28,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Tegngenerator",IDC_C64ROM_CHARGEN_RESOURCE,
+                    11,43,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 20,65,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annullér", IDCANCEL, 80,65,50,14, WS_TABSTOP
 END
 
 
@@ -870,6 +1013,29 @@ BEGIN
     PUSHBUTTON      "Avbryt", IDCANCEL, 80,65,50,14, WS_TABSTOP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_C64ROM_RESOURCE_DIALOG_TR DIALOG DISCARDABLE  0, 0, 160, 85
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Bilgisayar kaynaklarý"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Bilgisayar kaynaklarý romsete kaydedildi",
+                    IDC_STATIC,4,3,151,55
+    AUTOCHECKBOX    "Kernal",IDC_C64ROM_KERNAL_RESOURCE,
+                    11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Basic",IDC_C64ROM_BASIC_RESOURCE,
+                    11,28,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Karakter",IDC_C64ROM_CHARGEN_RESOURCE,
+                    11,43,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+
+    DEFPUSHBUTTON   "Tamam", IDOK, 20,65,50,14, WS_TABSTOP
+    PUSHBUTTON      "Ýptal", IDCANCEL, 80,65,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -894,6 +1060,31 @@ BEGIN
 
     DEFPUSHBUTTON   "OK", IDOK, 20,170,50,14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDCANCEL, 80,170,50,14, WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_C64ROMDRIVE_RESOURCE_DIALOG_DA DIALOG DISCARDABLE  0, 0, 160, 190
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Drev-ressourcer"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Drev-ressourcer gemt i ROM-set",
+                    IDC_STATIC,4,3,151,160
+    AUTOCHECKBOX    "1541",IDC_DRIVEROM_1541_RESOURCE,
+                    11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "1541-II",IDC_DRIVEROM_1541II_RESOURCE,
+                    11,28,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "1570",IDC_DRIVEROM_1570_RESOURCE,
+                    11,43,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "1571",IDC_DRIVEROM_1571_RESOURCE,
+                    11,58,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "1581",IDC_DRIVEROM_1581_RESOURCE,
+                    11,73,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 20,170,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annullér", IDCANCEL, 80,170,50,14, WS_TABSTOP
 END
 
 
@@ -1075,6 +1266,33 @@ BEGIN
     PUSHBUTTON      "Avbryt", IDCANCEL, 80,170,50,14, WS_TABSTOP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_C64ROMDRIVE_RESOURCE_DIALOG_TR DIALOG DISCARDABLE  0, 0, 160, 190
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Sürücü kaynaklarý"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Sürücü kaynaklarý romsete kaydedildi",
+                    IDC_STATIC,4,3,151,160
+    AUTOCHECKBOX    "1541",IDC_DRIVEROM_1541_RESOURCE,
+                    11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "1541-II",IDC_DRIVEROM_1541II_RESOURCE,
+                    11,28,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "1570",IDC_DRIVEROM_1570_RESOURCE,
+                    11,43,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "1571",IDC_DRIVEROM_1571_RESOURCE,
+                    11,58,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "1581",IDC_DRIVEROM_1581_RESOURCE,
+                    11,73,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+
+    DEFPUSHBUTTON   "Tamam", IDOK, 20,170,50,14, WS_TABSTOP
+    PUSHBUTTON      "Ýptal", IDCANCEL, 80,170,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -1098,6 +1316,30 @@ BEGIN
     PUSHBUTTON  "Browse...", IDC_C64KBD_MAPPING_POS_BROWSE, 185,49,50,14, 0
 
     PUSHBUTTON  "Dump keyset", IDC_C64KBD_MAPPING_DUMP, 10,74,50,14, 0
+END
+
+
+// DANISH version of dialog
+
+IDD_C64KBD_MAPPING_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 240, 140
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "&Symbolsk US",IDC_C64KBD_MAPPING_SELECT_SYM,
+                    10,10,54,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "&Symbolsk DE",IDC_C64KBD_MAPPING_SELECT_SYMDE,
+                    10,30,54,10,BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "&Positionsbestemt",IDC_C64KBD_MAPPING_SELECT_POS,
+                    10,50,54,10,BS_AUTORADIOBUTTON
+
+    EDITTEXT    IDC_C64KBD_MAPPING_SYM, 65,9,110,12,WS_TABSTOP
+    PUSHBUTTON  "Gennemse...", IDC_C64KBD_MAPPING_SYM_BROWSE, 185,9,50,14, 0
+    EDITTEXT    IDC_C64KBD_MAPPING_SYMDE, 65,29,110,12,WS_TABSTOP
+    PUSHBUTTON  "Gennemse...", IDC_C64KBD_MAPPING_SYMDE_BROWSE, 185,29,50,14, 0
+    EDITTEXT    IDC_C64KBD_MAPPING_POS, 65,49,110,12,WS_TABSTOP
+    PUSHBUTTON  "Gennemse...", IDC_C64KBD_MAPPING_POS_BROWSE, 185,49,50,14, 0
+
+    PUSHBUTTON  "Gem tastesæt", IDC_C64KBD_MAPPING_DUMP, 10,74,50,14, 0
 END
 
 
@@ -1272,9 +1514,36 @@ BEGIN
     PUSHBUTTON  "Spara tangentbord", IDC_C64KBD_MAPPING_DUMP, 10,74,50,14, 0
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_C64KBD_MAPPING_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 240, 140
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "&Sembolik US",IDC_C64KBD_MAPPING_SELECT_SYM,
+                    10,10,54,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "&Sembolik DE",IDC_C64KBD_MAPPING_SELECT_SYMDE,
+                    10,30,54,10,BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "&Konumsal",IDC_C64KBD_MAPPING_SELECT_POS,
+                    10,50,54,10,BS_AUTORADIOBUTTON
+
+    EDITTEXT    IDC_C64KBD_MAPPING_SYM, 65,9,110,12,WS_TABSTOP
+    PUSHBUTTON  "Göz at...", IDC_C64KBD_MAPPING_SYM_BROWSE, 185,9,50,14, 0
+    EDITTEXT    IDC_C64KBD_MAPPING_SYMDE, 65,29,110,12,WS_TABSTOP
+    PUSHBUTTON  "Göz at...", IDC_C64KBD_MAPPING_SYMDE_BROWSE, 185,29,50,14, 0
+    EDITTEXT    IDC_C64KBD_MAPPING_POS, 65,49,110,12,WS_TABSTOP
+    PUSHBUTTON  "Göz at...", IDC_C64KBD_MAPPING_POS_BROWSE, 185,49,50,14, 0
+
+    PUSHBUTTON  "Tuþ Setini dök", IDC_C64KBD_MAPPING_DUMP, 10,74,50,14, 0
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
+
 IDD_C64DTV_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "C64DTV Settings"
@@ -1296,6 +1565,32 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30, 84, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_C64DTV_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "C64DTV-indstillinger"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "DTV-revision",
+                    IDC_DTV_REVISION_LABEL, 63, 6, 110, 8
+    COMBOBOX        IDC_DTV_REVISION, 9, 5, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "HUMMER",
+                    IDC_STATIC,3,22,174,40
+    LTEXT           "Brugerport enhed",
+                    IDC_HUMMER_USERPORT_DEVICE_LABEL, 63, 32, 110, 8
+    COMBOBOX        IDC_HUMMER_USERPORT_DEVICE, 9, 32, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Joystick tilsluttet brugerport",
+                    IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
+    COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30, 84, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annullér", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
 END
 
 
@@ -1484,6 +1779,34 @@ BEGIN
     PUSHBUTTON      "Avbryt", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_C64DTV_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "C64DTV Ayarlarý"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "DTV Revizyonu",
+                    IDC_DTV_REVISION_LABEL, 63, 6, 110, 8
+    COMBOBOX        IDC_DTV_REVISION, 9, 5, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "HUMMER",
+                    IDC_STATIC,3,22,174,40
+    LTEXT           "Userport aygýtý",
+                    IDC_HUMMER_USERPORT_DEVICE_LABEL, 63, 32, 110, 8
+    COMBOBOX        IDC_HUMMER_USERPORT_DEVICE, 9, 32, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Joystick portu userportla eþleþtirildi",
+                    IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
+    COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Tamam", IDOK, 30, 84, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Ýptal", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -1503,6 +1826,26 @@ BEGIN
                     7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30, 74, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 100
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Tilslut DTV-flashimage"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "DTV-ROM",
+                    IDC_STATIC,3,2,174,55
+    LTEXT           "DTV ROM-&imagefil",
+                    IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
+    PUSHBUTTON      "Gennemse...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
+    EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
+    AUTOCHECKBOX    "Aktivér &skrivning til DTV-ROM-image", IDC_C64DTV_ROM_WRITE_ENABLE,
+                    7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30, 74, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annullér", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
 END
 
 
@@ -1650,6 +1993,27 @@ BEGIN
 END
 
 
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 100
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "DTV Flash Imajý Yerleþtir"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "DTV ROM",
+                    IDC_STATIC,3,2,174,55
+    LTEXT           "DTV ROM &imaj Dosyasý",
+                    IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
+    PUSHBUTTON      "Göz at...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
+    EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
+    AUTOCHECKBOX    "DTV ROM imajýnda &yazmalarý aktif et", IDC_C64DTV_ROM_WRITE_ENABLE,
+                    7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    DEFPUSHBUTTON   "Tamam", IDOK, 30, 74, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Ýptal", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -1669,6 +2033,26 @@ BEGIN
                     7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     DEFPUSHBUTTON   "Create", IDOK, 30, 74, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 100
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Opret DTV-flashimage"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "DTV-ROM oprettelse",
+                    IDC_STATIC,3,2,174,55
+    LTEXT           "DTV ROM-&imagefil",
+                    IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
+    PUSHBUTTON      "Gennemse...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
+    EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
+    AUTOCHECKBOX    "Kopiér C64-ROM'mer til image", IDC_C64DTV_ROM_COPY_C64,
+                    7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    DEFPUSHBUTTON   "Opret", IDOK, 30, 74, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annullér", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
 END
 
 
@@ -1816,6 +2200,29 @@ BEGIN
 END
 
 
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 100
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "DTV Flash Imajý Oluþtur"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "DTV ROM Yaratma",
+                    IDC_STATIC,3,2,174,55
+    LTEXT           "DTV ROM &imaj Dosyasý",
+                    IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
+    PUSHBUTTON      "Göz at...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
+    EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
+    AUTOCHECKBOX    "C64 ROMlarýný imaja kopyala", IDC_C64DTV_ROM_COPY_C64,
+                    7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    DEFPUSHBUTTON   "Yarat", IDOK, 30, 74, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Ýptal", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
+// -----------------------------------------------------------------------------
+
 // original and default ENGLISH text
 
 STRINGTABLE
@@ -1832,6 +2239,24 @@ BEGIN
     IDS_JOYSTICK                   "Joystick"
 END
 
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_MP_DTV_FLASH_ROM_IMAGE     "DTV-flash&rom image"
+    IDS_MI_AUTOSTART_DISK          "&Autostart disketteimage..."
+    IDS_MI_ATTACH_DTV_FLASH        "Tilslut &flash-rom-image"
+    IDS_MI_DETACH_DTV_FLASH        "Fra&kobl flash-rom-imagesfil"
+    IDS_MI_CREATE_DTV_FLASH        "&Opret nyt flash-rom-image"
+    IDS_MI_FLASH_TRUE_FILESYSTEM   "&Ægte flash-filsystem"
+    IDS_MI_PS2MOUSE                "Emulering af &PS/2-mus"
+    IDS_MI_C64DTV_SETTINGS         "&C64DTV-indstillinger..."
+    IDS_JOYSTICK                   "Joystick"
+END
+
+
 // GERMAN text
 
 STRINGTABLE
@@ -1847,6 +2272,7 @@ BEGIN
     IDS_MI_C64DTV_SETTINGS         "&C64DTV Einstellungen..."
     IDS_JOYSTICK                   "Joystick"
 END
+
 
 // FRENCH text
 
@@ -1900,6 +2326,7 @@ BEGIN
     IDS_JOYSTICK                   "Joystick"
 END
 
+
 // DUTCH text
 
 STRINGTABLE
@@ -1915,6 +2342,7 @@ BEGIN
     IDS_MI_C64DTV_SETTINGS         "&C64DTV instellingen..."
     IDS_JOYSTICK                   "Joystick"
 END
+
 
 // POLISH text
 
@@ -1934,6 +2362,7 @@ BEGIN
 END
 #pragma code_page(28591)
 
+
 // SWEDISH text
 
 STRINGTABLE
@@ -1949,3 +2378,22 @@ BEGIN
     IDS_MI_C64DTV_SETTINGS         "&C64DTV-inställningar..."
     IDS_JOYSTICK                   "Styrspak"
 END
+
+
+// TURKISH text
+
+#pragma code_page(28599)
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_MP_DTV_FLASH_ROM_IMAGE     "DTV flash &rom imajý"
+    IDS_MI_AUTOSTART_DISK          "Disk imajýný otom&atik baþlat..."
+    IDS_MI_ATTACH_DTV_FLASH        "&Flash rom imajý yerleþtir"
+    IDS_MI_DETACH_DTV_FLASH        "Flash rom imajýný çý&kart"
+    IDS_MI_CREATE_DTV_FLASH        "&Yeni flash rom imajý oluþtur"
+    IDS_MI_FLASH_TRUE_FILESYSTEM   "Gerçek flash dosya sis&temi"
+    IDS_MI_PS2MOUSE                "&PS/2 mouse emülasyonu"
+    IDS_MI_C64DTV_SETTINGS         "&C64DTV ayarlarý..."
+    IDS_JOYSTICK                   "Joystick"
+END
+#pragma code_page(28591)

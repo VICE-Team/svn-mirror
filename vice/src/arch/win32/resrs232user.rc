@@ -7,7 +7,7 @@
 
 #pragma code_page(28591)
 
-// original and default ENGLISH version of dialog
+// template of dialog for all languages
 
 IDD_RS232USER_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 170, 90
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -36,6 +36,18 @@ BEGIN
     IDS_RS232USER_ENABLE        "&Enable RS232 userport"
     IDS_RS232USER_DEVICE        "Userport device"
     IDS_RS232USER_BAUD          "Userport baud rate"
+END
+
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_RS232USER_CAPTION       "RS232-brugerportindstillinger"
+    IDS_RS232USER_ENABLE        "&Aktivér RS232-brugerport"
+    IDS_RS232USER_DEVICE        "Brugerport enhed"
+    IDS_RS232USER_BAUD          "Brugerportens baudhastighet"
 END
 
 
@@ -125,3 +137,17 @@ BEGIN
     IDS_RS232USER_DEVICE        "Användarportensenhet"
     IDS_RS232USER_BAUD          "Användarportens baudhastighet"
 END
+
+
+// TURKISH text
+
+#pragma code_page(28599)
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_RS232USER_CAPTION       "RS232 Userport Ayarlarý"
+    IDS_RS232USER_ENABLE        "RS232 userportu aktif &et"
+    IDS_RS232USER_DEVICE        "Userport aygýtý"
+    IDS_RS232USER_BAUD          "Userport baud rate"
+END
+#pragma code_page(28591)

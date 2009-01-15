@@ -354,6 +354,41 @@ BEGIN
 END
 
 
+// DANISH version of dialog
+
+IDD_DISKDEVICE_DIALOG_DA DIALOG DISCARDABLE  0, 0, 287, 190
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Anvend IEC-enhed",IDC_TOGGLE_USEIECDEVICE,15,10,100,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTORADIOBUTTON "Disk&image",IDC_SELECTDISK,
+                    15,30,51,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "&Katalog",IDC_SELECTDIR,15,75,44,10,BS_AUTORADIOBUTTON
+#ifdef HAVE_OPENCBM
+    AUTORADIOBUTTON "&Ægte IEC-enhed",IDC_SELECTREAL,
+                    15,120,70,10,BS_AUTORADIOBUTTON
+#endif
+    AUTORADIOBUTTON "&Ingen",IDC_SELECTNONE,15,160,33,10,BS_AUTORADIOBUTTON
+    COMBOBOX        IDC_DISKIMAGE,81,29,190,12,CBS_DROPDOWN | CBS_SORT |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Gennemse...",IDC_BROWSEDISK,81,47,50,14,WS_GROUP
+    PUSHBUTTON      "Start &Automatisk",IDC_AUTOSTART,141,47,50,14,WS_GROUP
+    AUTOCHECKBOX    "Tilslut skrivebeskyttet",IDC_TOGGLE_ATTACH_READONLY,201,47,80,14,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    COMBOBOX        IDC_DIR,81,74,190,12,CBS_DROPDOWN | CBS_SORT |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Gennemse...",IDC_BROWSEDIR,81,92,50,14,WS_GROUP
+    GROUPBOX        "&Indstillinger",IDC_STATIC,175,90,95,63
+    AUTOCHECKBOX    "&Læs P00-filer",IDC_TOGGLE_READP00,185,105,62,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "&Skriv P00-filer",IDC_TOGGLE_WRITEP00,185,120,61,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX    "&Gem ikke-P00-filer",IDC_TOGGLE_HIDENONP00,185,135,73,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+
 // GERMAN version of dialog
 
 IDD_DISKDEVICE_DIALOG_DE DIALOG DISCARDABLE  0, 0, 287, 190
@@ -602,6 +637,43 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_TABSTOP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_DISKDEVICE_DIALOG_TR DIALOG DISCARDABLE  0, 0, 287, 190
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "IEC Aygýtý K&ullan",IDC_TOGGLE_USEIECDEVICE,15,10,100,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTORADIOBUTTON "Disk &imajý",IDC_SELECTDISK,
+                    15,30,51,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "&Dizin",IDC_SELECTDIR,15,75,44,10,BS_AUTORADIOBUTTON
+#ifdef HAVE_OPENCBM
+    AUTORADIOBUTTON "Ge&rçek IEC aygýtý",IDC_SELECTREAL,
+                    15,120,70,10,BS_AUTORADIOBUTTON
+#endif
+    AUTORADIOBUTTON "&Yok",IDC_SELECTNONE,15,160,33,10,BS_AUTORADIOBUTTON
+    COMBOBOX        IDC_DISKIMAGE,81,29,190,12,CBS_DROPDOWN | CBS_SORT |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Göz at...",IDC_BROWSEDISK,81,47,50,14,WS_GROUP
+    PUSHBUTTON      "Otom&atik Baþlat",IDC_AUTOSTART,141,47,50,14,WS_GROUP
+    AUTOCHECKBOX    "Salt okunur yerleþtir",IDC_TOGGLE_ATTACH_READONLY,201,47,80,14,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    COMBOBOX        IDC_DIR,81,74,190,12,CBS_DROPDOWN | CBS_SORT |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Göz at...",IDC_BROWSEDIR,81,92,50,14,WS_GROUP
+    GROUPBOX        "&Seçenekler",IDC_STATIC,175,90,95,63
+    AUTOCHECKBOX    "P00 dosyala&rýný oku",IDC_TOGGLE_READP00,185,105,62,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "P00 dosyalarýný &yaz",IDC_TOGGLE_WRITEP00,185,120,61,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX    "P00 &harici dosyalarý gizle",IDC_TOGGLE_HIDENONP00,185,135,73,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -623,6 +695,28 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDCANCEL, 90,90,50,14, WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_DATASETTE_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 170, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Datasetteindstillinger"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Reset Datasette ved CPU-reset",IDC_DATASETTE_RESET_WITH_CPU,
+                    7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "Datasettehastighed under læsning",IDC_STATIC,5,25,160,60
+    LTEXT           "klokcykler yderligere &fforsinkelse per puls",
+                    IDC_STATIC,42,42,120,8
+    COMBOBOX        IDC_DATASETTE_SPEED_TUNING,9,41,30,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "klokcykler forsinkelse vid &nulværdier",IDC_STATIC,60,62,100,8
+    COMBOBOX        IDC_DATASETTE_ZERO_GAP_DELAY,9,61,48,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annullér", IDCANCEL, 90,90,50,14, WS_TABSTOP
 END
 
 
@@ -783,6 +877,30 @@ BEGIN
     PUSHBUTTON      "Avbryt", IDCANCEL, 90,90,50,14, WS_TABSTOP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_DATASETTE_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 170, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Teyp Ayarlarý"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "CPU ile birlikte Teyp'i &resetle",IDC_DATASETTE_RESET_WITH_CPU,
+                    7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "Motorun okurkenki hýzý",IDC_STATIC,5,25,160,60
+    LTEXT           "cycle(lar) her tetikleme&de eklenen gecikme",
+                    IDC_STATIC,42,42,120,8
+    COMBOBOX        IDC_DATASETTE_SPEED_TUNING,9,41,30,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "cyclelar sýfýr &gecikme deðerinde",IDC_STATIC,60,62,100,8
+    COMBOBOX        IDC_DATASETTE_ZERO_GAP_DELAY,9,61,48,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Tamam", IDOK, 30,90,50,14, WS_TABSTOP
+    PUSHBUTTON      "Ýptal", IDCANCEL, 90,90,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -826,6 +944,50 @@ BEGIN
                     78,120,70,14, WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 48,141,50,14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDCANCEL, 129,141,50,14, WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_JOY_SETTINGS_DIALOG_DA DIALOG DISCARDABLE 0, 0, 226, 161
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Joystickindstillinger"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Joystick i port &1",IDC_STATIC,7,5,102,113
+    COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Vælg skydeknap",IDC_STATIC,12,34,70,8
+    COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Autofireindstillinger",IDC_STATIC,12,61,93,8
+    LTEXT           "Autofire&hastighed (1..32)",IDC_STATIC,12,74,70,8
+    EDITTEXT        IDC_JOY_FIRE1_SPEED, 87,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE1_AXIS, 12,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE1_BUTTON, 12,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    GROUPBOX        "Joystick i port &2",IDC_STATIC,117,5,102,113
+    COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Vælg skydeknap",IDC_STATIC,122,34,70,8
+    COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Autofireindstillinger",IDC_STATIC,122,61,93,8
+    LTEXT           "Autofire&hastighed (1..32)",IDC_STATIC,122,74,70,8
+    EDITTEXT        IDC_JOY_FIRE2_SPEED, 197,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE2_AXIS, 122,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE2_BUTTON, 122,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Tastesæt &A", IDC_JOY_CONFIG_A,
+                    8,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "Tastesæt &B", IDC_JOY_CONFIG_B,
+                    159,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "&Kalibrér Joystick(s)", IDC_JOY_CALIBRATE,
+                    78,120,70,14, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 48,141,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annullér", IDCANCEL, 129,141,50,14, WS_TABSTOP
 END
 
 
@@ -1140,6 +1302,52 @@ BEGIN
     PUSHBUTTON      "Avbryt", IDCANCEL, 129,141,50,14, WS_TABSTOP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_JOY_SETTINGS_DIALOG_TR DIALOG DISCARDABLE 0, 0, 226, 161
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Joystick Ayarlarý"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Joystick port #&1'de",IDC_STATIC,7,5,102,113
+    COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Ateþ düðmesini seç",IDC_STATIC,12,34,70,8
+    COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Otomatik ateþ düðmesi ayarlarý",IDC_STATIC,12,61,93,8
+    LTEXT           "Otomatik ateþ &hýzý (1..32)",IDC_STATIC,12,74,70,8
+    EDITTEXT        IDC_JOY_FIRE1_SPEED, 87,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE1_AXIS, 12,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE1_BUTTON, 12,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    GROUPBOX        "Joystick port #&2'de",IDC_STATIC,117,5,102,113
+    COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Ateþ düðmesini seç",IDC_STATIC,122,34,70,8
+    COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Otomatik ateþ düðmesi ayarlarý",IDC_STATIC,122,61,93,8
+    LTEXT           "Otomatik ateþ &hýzý (1..32)",IDC_STATIC,122,74,70,8
+    EDITTEXT        IDC_JOY_FIRE2_SPEED, 197,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE2_AXIS, 122,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE2_BUTTON, 122,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Tuþ Seti &A'yý konfigüre et", IDC_JOY_CONFIG_A,
+                    8,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "Tuþ Seti &B'yý konfigüre et", IDC_JOY_CONFIG_B,
+                    159,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "Joysti&ck(ler)i kalibre et", IDC_JOY_CALIBRATE,
+                    78,120,70,14, WS_TABSTOP
+    DEFPUSHBUTTON   "Tamam", IDOK, 48,141,50,14, WS_TABSTOP
+    PUSHBUTTON      "Ýptal", IDCANCEL, 129,141,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -1168,6 +1376,35 @@ BEGIN
     LTEXT           "",IDC_KEY_FIRE,80,152,100,8
     DEFPUSHBUTTON   "OK", IDOK, 15,170,50,14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDCANCEL, 70,170,50,14, WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_CONFIG_KEYSET_DIALOG_DA DIALOG DISCARDABLE 0, 0, 130, 190
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "S&ydvest",IDC_KEYSET_SW,7,5,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_SW,80,8,100,8
+    PUSHBUTTON      "&Syd",IDC_KEYSET_S,7,23,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_S,80,26,100,8
+    PUSHBUTTON      "Sy&døst",IDC_KEYSET_SE,7,41,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_SE,80,44,100,8
+    PUSHBUTTON      "&Vest",IDC_KEYSET_W,7,59,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_W,80,62,100,8
+    PUSHBUTTON      "&Øst",IDC_KEYSET_E,7,77,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_E,80,80,100,8
+    PUSHBUTTON      "No&rdvest",IDC_KEYSET_NW,7,95,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_NW,80,98,100,8
+    PUSHBUTTON      "&Nord",IDC_KEYSET_N,7,113,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_N,80,116,100,8
+    PUSHBUTTON      "N&ordøst",IDC_KEYSET_NE,7,131,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_NE,80,134,100,8
+    PUSHBUTTON      "Skyde&knap",IDC_KEYSET_FIRE,7,149,60,14,WS_TABSTOP
+    LTEXT           "",IDC_KEY_FIRE,80,152,100,8
+    DEFPUSHBUTTON   "OK", IDOK, 15,170,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annullér", IDCANCEL, 70,170,50,14, WS_TABSTOP
 END
 
 
@@ -1377,6 +1614,37 @@ BEGIN
     PUSHBUTTON      "Avbryt", IDCANCEL, 70,170,50,14, WS_TABSTOP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_CONFIG_KEYSET_DIALOG_TR DIALOG DISCARDABLE 0, 0, 130, 190
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Gü&ney Batý",IDC_KEYSET_SW,7,5,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_SW,80,8,100,8
+    PUSHBUTTON      "Güne&y",IDC_KEYSET_S,7,23,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_S,80,26,100,8
+    PUSHBUTTON      "Güney Doð&u",IDC_KEYSET_SE,7,41,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_SE,80,44,100,8
+    PUSHBUTTON      "&Batý",IDC_KEYSET_W,7,59,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_W,80,62,100,8
+    PUSHBUTTON      "&Doðu",IDC_KEYSET_E,7,77,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_E,80,80,100,8
+    PUSHBUTTON      "Ku&zey Batý",IDC_KEYSET_NW,7,95,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_NW,80,98,100,8
+    PUSHBUTTON      "&Kuzey",IDC_KEYSET_N,7,113,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_N,80,116,100,8
+    PUSHBUTTON      "Kuz&ey Doðu",IDC_KEYSET_NE,7,131,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_NE,80,134,100,8
+    PUSHBUTTON      "&Ateþ düðmesi",IDC_KEYSET_FIRE,7,149,60,14,WS_TABSTOP
+    LTEXT           "",IDC_KEY_FIRE,80,152,100,8
+    DEFPUSHBUTTON   "Tamam", IDOK, 15,170,50,14, WS_TABSTOP
+    PUSHBUTTON      "Ýptal", IDCANCEL, 70,170,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 IDD_CONFIG_KEY_DIALOG DIALOG DISCARDABLE 0, 0, 120, 24
@@ -1412,6 +1680,34 @@ BEGIN
                     WS_GROUP | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 40,80,50,14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDCANCEL, 95,80,50,14, WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_SOUND_SETTINGS_DIALOG_DA DIALOG DISCARDABLE 0, 0, 180, 100
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Indstillinger for lydenheder"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "DirectX-driver",IDC_SOUND_DIRECTX,10,10,60,10,
+                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "WMM-driver",IDC_SOUND_WMM,75,10,60,10,
+                            BS_AUTORADIOBUTTON
+    LTEXT           "Sampling&frekvens:",IDC_STATIC,7,25,118,8
+    COMBOBOX        IDC_SOUND_FREQ,100,22,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Lydbuffer&størrelse:",IDC_STATIC,7,38,118,8
+    COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "&Oversamplingsfaktor:",IDC_STATIC,7,51,118,8
+    COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Synkroniserings&metode:",IDC_STATIC,7,64,118,8
+    COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 40,80,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annullér", IDCANCEL, 95,80,50,14, WS_TABSTOP
 END
 
 
@@ -1614,6 +1910,36 @@ BEGIN
     PUSHBUTTON      "Avbryt", IDCANCEL, 95,80,50,14, WS_TABSTOP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_SOUND_SETTINGS_DIALOG_TR DIALOG DISCARDABLE 0, 0, 180, 100
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Ses Aygýtý Ayarlarýný Konfigüre Et"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "DirectX sürücüsü",IDC_SOUND_DIRECTX,10,10,60,10,
+                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "WMM sürücüsü",IDC_SOUND_WMM,75,10,60,10,
+                            BS_AUTORADIOBUTTON
+    LTEXT           "Örnekleme &Frekansý :",IDC_STATIC,7,25,118,8
+    COMBOBOX        IDC_SOUND_FREQ,100,22,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "&Ses Arabellek Boyutu :",IDC_STATIC,7,38,118,8
+    COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Yüksek Hýzda Örnekleme Fakt&orü :",IDC_STATIC,7,51,118,8
+    COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Senkronizasyon &Metodu :",IDC_STATIC,7,64,118,8
+    COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    DEFPUSHBUTTON   "Tamam", IDOK, 40,80,50,14, WS_TABSTOP
+    PUSHBUTTON      "Ýptal", IDCANCEL, 95,80,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -1636,6 +1962,29 @@ BEGIN
     COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     PUSHBUTTON      "Create Image", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_OPEN_TEMPLATE_DA DIALOG DISCARDABLE 0,0, 350, 140
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Indhold i image ",IDC_STATIC,3,0,185,138
+    LISTBOX         IDC_PREVIEW,6,9,178,125,
+                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX    "Tilslut skrivebeskyttet",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "Nyt image",IDC_STATIC,190,25,80,90
+    LTEXT           "Navn",IDC_STATIC,198,40,20,8
+    EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
+    LTEXT           "ID",IDC_STATIC,198,63,15,8
+    EDITTEXT        IDC_BLANK_IMAGE_ID, 195,71,20,12,WS_TABSTOP
+    LTEXT           "Type",IDC_STATIC,233,73,20,8
+    COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "Opret image", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
 END
 
 
@@ -1803,6 +2152,31 @@ BEGIN
     PUSHBUTTON      "Skapa avbildning", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_OPEN_TEMPLATE_TR DIALOG DISCARDABLE 0,0, 350, 140
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Imaj Ýçeriði ",IDC_STATIC,3,0,185,138
+    LISTBOX         IDC_PREVIEW,6,9,178,125,
+                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX    "Salt okunur yerleþtir",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "Yeni Ýmaj",IDC_STATIC,190,25,80,90
+    LTEXT           "Ýsim",IDC_STATIC,198,40,20,8
+    EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
+    LTEXT           "ID",IDC_STATIC,198,63,15,8
+    EDITTEXT        IDC_BLANK_IMAGE_ID, 195,71,20,12,WS_TABSTOP
+    LTEXT           "Tip",IDC_STATIC,233,73,20,8
+    COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "Imaj Yarat", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -1816,6 +2190,20 @@ BEGIN
                     WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
     GROUPBOX        "New TAP Image",IDC_STATIC,190,0,80,40
     PUSHBUTTON      "Create Image", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_OPENTAPE_TEMPLATE_DA DIALOG DISCARDABLE 0,0, 350, 140
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Indhold i image ",IDC_STATIC,3,0,185,138
+    LISTBOX         IDC_PREVIEW,6,9,178,125,
+                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
+    GROUPBOX        "Nyt TAP-image",IDC_STATIC,190,0,80,40
+    PUSHBUTTON      "Opret image", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
 END
 
 
@@ -1920,6 +2308,22 @@ BEGIN
     PUSHBUTTON      "Skapa avbildning", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_OPENTAPE_TEMPLATE_TR DIALOG DISCARDABLE 0,0, 350, 140
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Imaj Ýçeriði ",IDC_STATIC,3,0,185,138
+    LISTBOX         IDC_PREVIEW,6,9,178,125,
+                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
+    GROUPBOX        "Yeni TAP Imajý",IDC_STATIC,190,0,80,40
+    PUSHBUTTON      "Imaj Yarat", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -1932,6 +2336,21 @@ BEGIN
                     IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
                     10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "Save currently loaded &ROM images",
+                    IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
+                    10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_SNAPSHOT_SAVE_DIALOG_DA DIALOG DISCARDABLE 0,0, 250, 35
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Gem tilsluttede &disk-images",
+                    IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
+                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Gem tilsluttede &ROM-images",
                     IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
                     10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
 END
@@ -2045,6 +2464,23 @@ BEGIN
                     10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_SNAPSHOT_SAVE_DIALOG_TR DIALOG DISCARDABLE 0,0, 250, 35
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Halihazýrda yerleþtirilmiþ &disk imajlarýný kaydet",
+                    IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
+                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Halihazýrda yüklenmiþ &ROM imajlarýný kaydet",
+                    IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
+                    10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -2067,6 +2503,34 @@ BEGIN
     EDITTEXT        IDC_SCREENSHOT_FFMPEGAUDIOBITRATE, 180,55,40,12, 
                     WS_GROUP | WS_TABSTOP
     LTEXT           "Video: codec",IDC_STATIC,15,77,45,15
+    COMBOBOX        IDC_SCREENSHOT_FFMPEGVIDEOCODEC, 65,75,80,200,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "bitrate",IDC_STATIC,155,77,25,15
+    EDITTEXT        IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, 180,75,40,12, 
+                    WS_GROUP | WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_MEDIAFILE_DIALOG_DA DIALOG DISCARDABLE 0,0, 300, 100
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Vælg driver:",IDC_STATIC,5,0,45,20
+    COMBOBOX        IDC_SCREENSHOT_DRIVER, 55,0,155,200,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    GROUPBOX        "FFMPEG-indstillinger",IDC_STATIC,5,20,250,75
+    LTEXT           "Format:",IDC_STATIC,15,37,40,20
+    COMBOBOX        IDC_SCREENSHOT_FFMPEGFORMAT, 50,35,60,200,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Lyd: kodeks",IDC_STATIC,15,57,45,15
+    COMBOBOX        IDC_SCREENSHOT_FFMPEGAUDIOCODEC, 65,55,80,200,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "bitrate",IDC_STATIC,155,57,25,15
+    EDITTEXT        IDC_SCREENSHOT_FFMPEGAUDIOBITRATE, 180,55,40,12, 
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Video: kodeks",IDC_STATIC,15,77,45,15
     COMBOBOX        IDC_SCREENSHOT_FFMPEGVIDEOCODEC, 65,75,80,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     LTEXT           "bitrate",IDC_STATIC,155,77,25,15
@@ -2274,6 +2738,36 @@ BEGIN
                     WS_GROUP | WS_TABSTOP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_MEDIAFILE_DIALOG_TR DIALOG DISCARDABLE 0,0, 300, 100
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Sürücü Seç:",IDC_STATIC,5,0,45,20
+    COMBOBOX        IDC_SCREENSHOT_DRIVER, 55,0,155,200,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    GROUPBOX        "FFMPEG ayarlarý",IDC_STATIC,5,20,250,75
+    LTEXT           "Biçim:",IDC_STATIC,15,37,40,20
+    COMBOBOX        IDC_SCREENSHOT_FFMPEGFORMAT, 50,35,60,200,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Ses: kodek",IDC_STATIC,15,57,45,15
+    COMBOBOX        IDC_SCREENSHOT_FFMPEGAUDIOCODEC, 65,55,80,200,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "bithýzý",IDC_STATIC,155,57,25,15
+    EDITTEXT        IDC_SCREENSHOT_FFMPEGAUDIOBITRATE, 180,55,40,12, 
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Görüntü: kodek",IDC_STATIC,15,77,45,15
+    COMBOBOX        IDC_SCREENSHOT_FFMPEGVIDEOCODEC, 65,75,80,200,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "bithýzý",IDC_STATIC,155,77,25,15
+    EDITTEXT        IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, 180,75,40,12, 
+                    WS_GROUP | WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -2283,6 +2777,18 @@ STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_
 FONT 8, "MS Sans Serif"
 BEGIN
     AUTOCHECKBOX    "&Append log to existing file",
+                    IDC_TOGGLE_CONSOLE_APPEND,
+                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_CONSOLE_SAVE_DIALOG_DA DIALOG DISCARDABLE 0,0, 250, 22
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Tilføj log i eksisterende fil",
                     IDC_TOGGLE_CONSOLE_APPEND,
                     10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
@@ -2375,6 +2881,20 @@ BEGIN
                     10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_CONSOLE_SAVE_DIALOG_TR DIALOG DISCARDABLE 0,0, 250, 22
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "V&arolan dosyaya log ekle",
+                    IDC_TOGGLE_CONSOLE_APPEND,
+                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -2387,7 +2907,19 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
     LTEXT           "Read this:",IDC_HEADER,7,7,156,10
     EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
-//                  ES_MULTILINE
+END
+
+
+// DANISH version of dialog
+
+IDD_TEXTDLG_DA DIALOG DISCARDABLE  0, 0, 279, 242
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
+    LTEXT           "Læs dette:",IDC_HEADER,7,7,156,10
+    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
 END
 
 
@@ -2401,7 +2933,6 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
     LTEXT           "Lese:",IDC_HEADER,7,7,156,10
     EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
-//                  ES_MULTILINE
 END
 
 
@@ -2415,7 +2946,6 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
     LTEXT           "Lisez bien ceci:",IDC_HEADER,7,7,156,10
     EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
-//                  ES_MULTILINE
 END
 
 
@@ -2430,7 +2960,6 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
     LTEXT           "Ezt olvassa:",IDC_HEADER,7,7,156,10
     EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
-//                  ES_MULTILINE
 END
 #pragma code_page(28591)
 
@@ -2445,7 +2974,6 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
     LTEXT           "Leggi questo:",IDC_HEADER,7,7,156,10
     EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
-//                  ES_MULTILINE
 END
 
 
@@ -2459,7 +2987,6 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
     LTEXT           "Lees dit:",IDC_HEADER,7,7,156,10
     EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
-//                  ES_MULTILINE
 END
 
 
@@ -2474,7 +3001,6 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
     LTEXT           "Read this:",IDC_HEADER,7,7,156,10
     EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
-//                  ES_MULTILINE
 END
 #pragma code_page(28591)
 
@@ -2489,8 +3015,22 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
     LTEXT           "Läs detta:",IDC_HEADER,7,7,156,10
     EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
-//                  ES_MULTILINE
 END
+
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_TEXTDLG_TR DIALOG DISCARDABLE  0, 0, 279, 242
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Diyalog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Tamam",IDOK,118,221,50,14
+    LTEXT           "Bunu oku:",IDC_HEADER,7,7,156,10
+    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
+END
+#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 
@@ -2515,6 +3055,31 @@ BEGIN
     AUTOCHECKBOX    "VBLANK synchronization", IDC_TOGGLE_VIDEO_VBLANK_SYNC,
                     9,77,100,8, BS_AUTOCHECKBOX | WS_TABSTOP
     AUTOCHECKBOX    "Render to DX Primary surface", IDC_TOGGLE_VIDEO_DX_PRIMARY,
+                    9,92,120,8, BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_FULLSCREEN_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180,87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Driver:",IDC_STATIC,9,2,120,8
+    COMBOBOX        IDC_FULLSCREEN_DEVICE,9,13,150,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Bitdybde:",IDC_STATIC,9,32,100,8
+    COMBOBOX        IDC_FULLSCREEN_BITDEPTH,99,28,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Opløsning:",IDC_STATIC,9,47,100,8
+    COMBOBOX        IDC_FULLSCREEN_RESOLUTION,99,43,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Opdateringsfrekvens:",IDC_STATIC,9,62,100,8
+    COMBOBOX        IDC_FULLSCREEN_REFRESHRATE,99,58,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "VBLANK-synkronisering", IDC_TOGGLE_VIDEO_VBLANK_SYNC,
+                    9,77,100,8, BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX    "Rendér til DXs primære overflade", IDC_TOGGLE_VIDEO_DX_PRIMARY,
                     9,92,120,8, BS_AUTOCHECKBOX | WS_TABSTOP
 END
 
@@ -2697,6 +3262,33 @@ BEGIN
                     9,92,120,8, BS_AUTOCHECKBOX | WS_TABSTOP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_FULLSCREEN_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180,87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Sürücü:",IDC_STATIC,9,2,120,8
+    COMBOBOX        IDC_FULLSCREEN_DEVICE,9,13,150,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Bit derinliði:",IDC_STATIC,9,32,100,8
+    COMBOBOX        IDC_FULLSCREEN_BITDEPTH,99,28,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Çözünürlük:",IDC_STATIC,9,47,100,8
+    COMBOBOX        IDC_FULLSCREEN_RESOLUTION,99,43,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Yenileme hýzý:",IDC_STATIC,9,62,100,8
+    COMBOBOX        IDC_FULLSCREEN_REFRESHRATE,99,58,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "VBLANK senkronizasyonu", IDC_TOGGLE_VIDEO_VBLANK_SYNC,
+                    9,77,100,8, BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX    "DX Birincil yüzeyine çiz", IDC_TOGGLE_VIDEO_DX_PRIMARY,
+                    9,92,120,8, BS_AUTOCHECKBOX | WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -2712,6 +3304,24 @@ BEGIN
     LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
     EDITTEXT        IDC_VIDEO_COLORS_CON, 85,22,32,12,WS_TABSTOP
     LTEXT           "Brightness",IDC_STATIC,12,36,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,36,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_BRI, 85,34,32,12,WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_VIDEO_COLORS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Mættethed",IDC_STATIC,12,12,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,12,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_SAT, 85,10,32,12,WS_TABSTOP
+    LTEXT           "Kontrast",IDC_STATIC,12,24,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_CON, 85,22,32,12,WS_TABSTOP
+    LTEXT           "Lysstyrke",IDC_STATIC,12,36,40,8
     LTEXT           "(0..2)",IDC_STATIC,52,36,28,8
     EDITTEXT        IDC_VIDEO_COLORS_BRI, 85,34,32,12,WS_TABSTOP
 END
@@ -2846,6 +3456,26 @@ BEGIN
     EDITTEXT        IDC_VIDEO_COLORS_BRI, 85,34,32,12,WS_TABSTOP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_VIDEO_COLORS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Doygunluk",IDC_STATIC,12,12,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,12,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_SAT, 85,10,32,12,WS_TABSTOP
+    LTEXT           "Karþýtlýk",IDC_STATIC,12,24,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_CON, 85,22,32,12,WS_TABSTOP
+    LTEXT           "Parlaklýk",IDC_STATIC,12,36,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,36,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_BRI, 85,34,32,12,WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -2861,6 +3491,24 @@ BEGIN
     LTEXT           "(0..2)",IDC_STATIC,72,24,28,8
     EDITTEXT        IDC_VIDEO_NEW_PAL_PHASE, 105,22,32,12,WS_TABSTOP
     LTEXT           "Odd lines offset",IDC_STATIC,12,36,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,36,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_OFFSET, 105,34,32,12,WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_VIDEO_NEW_PAL_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Farvetone",IDC_STATIC,12,12,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,12,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_TINT, 105,10,32,12,WS_TABSTOP
+    LTEXT           "Fase for ulige linjer",IDC_STATIC,12,24,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,24,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_PHASE, 105,22,32,12,WS_TABSTOP
+    LTEXT           "Offset for ulige linjer",IDC_STATIC,12,36,60,8
     LTEXT           "(0..2)",IDC_STATIC,72,36,28,8
     EDITTEXT        IDC_VIDEO_NEW_PAL_OFFSET, 105,34,32,12,WS_TABSTOP
 END
@@ -2995,6 +3643,26 @@ BEGIN
     EDITTEXT        IDC_VIDEO_NEW_PAL_OFFSET, 105,34,32,12,WS_TABSTOP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_VIDEO_NEW_PAL_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Ton",IDC_STATIC,12,12,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,12,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_TINT, 105,10,32,12,WS_TABSTOP
+    LTEXT           "Tek satýrlar fazý",IDC_STATIC,12,24,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,24,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_PHASE, 105,22,32,12,WS_TABSTOP
+    LTEXT           "Tek satýrlar ofseti",IDC_STATIC,12,36,60,8
+    LTEXT           "(0..2)",IDC_STATIC,72,36,28,8
+    EDITTEXT        IDC_VIDEO_NEW_PAL_OFFSET, 105,34,32,12,WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -3021,6 +3689,33 @@ BEGIN
     COMBOBOX        IDC_VIDEO_CUSTOM_NAME,85,45+23+12,120,112,CBS_DROPDOWN | CBS_AUTOHSCROLL |
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
     PUSHBUTTON      "&Browse...",IDC_VIDEO_CUSTOM_BROWSE,85,63+23+12,50,14,WS_GROUP
+END
+
+
+// DANISH version of dialog
+
+IDD_VIDEO_ADVANCED_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Gamma",IDC_STATIC,12,12,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,12,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_GAM, 85,10,32,12,WS_TABSTOP
+    LTEXT           "Fase",IDC_STATIC,12,24,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_PHA, 85,22,32,12,WS_TABSTOP
+    LTEXT           "Skanlinjeskygge",IDC_STATIC,12,36+5,40,8
+    LTEXT           "(0..1)",IDC_STATIC,52,36+5,28,8
+    EDITTEXT        IDC_VIDEO_ADVANCED_SHADE, 85,34+5,32,12,WS_TABSTOP
+    LTEXT           "PAL-udtværing",IDC_STATIC,12,48+5,40,8
+    LTEXT           "(0..1)",IDC_STATIC,52,48+5,28,8
+    EDITTEXT        IDC_VIDEO_ADVANCED_BLUR, 85,46+5,32,12,WS_TABSTOP
+
+    AUTOCHECKBOX    "Ekstern palette:", IDC_TOGGLE_VIDEO_EXTPALETTE,
+                    12,47+23+12,70,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    COMBOBOX        IDC_VIDEO_CUSTOM_NAME,85,45+23+12,120,112,CBS_DROPDOWN | CBS_AUTOHSCROLL |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Gennemse...",IDC_VIDEO_CUSTOM_BROWSE,85,63+23+12,50,14,WS_GROUP
 END
 
 
@@ -3216,6 +3911,35 @@ BEGIN
     PUSHBUTTON      "&Bläddra...",IDC_VIDEO_CUSTOM_BROWSE,85,63+23+12,50,14,WS_GROUP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_VIDEO_ADVANCED_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Gama",IDC_STATIC,12,12,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,12,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_GAM, 85,10,32,12,WS_TABSTOP
+    LTEXT           "Faz",IDC_STATIC,12,24,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_PHA, 85,22,32,12,WS_TABSTOP
+    LTEXT           "PAL Nüansý",IDC_STATIC,12,36+5,40,8
+    LTEXT           "(0..1)",IDC_STATIC,52,36+5,28,8
+    EDITTEXT        IDC_VIDEO_ADVANCED_SHADE, 85,34+5,32,12,WS_TABSTOP
+    LTEXT           "PAL Bulanýklýðý",IDC_STATIC,12,48+5,40,8
+    LTEXT           "(0..1)",IDC_STATIC,52,48+5,28,8
+    EDITTEXT        IDC_VIDEO_ADVANCED_BLUR, 85,46+5,32,12,WS_TABSTOP
+
+    AUTOCHECKBOX    "Harici Palet:", IDC_TOGGLE_VIDEO_EXTPALETTE,
+                    12,47+23+12,70,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    COMBOBOX        IDC_VIDEO_CUSTOM_NAME,85,45+23+12,120,112,CBS_DROPDOWN | CBS_AUTOHSCROLL |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Göz at...",IDC_VIDEO_CUSTOM_BROWSE,85,63+23+12,50,14,WS_GROUP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -3227,6 +3951,18 @@ BEGIN
     COMBOBOX        IDC_VIDEO_CUSTOM_NAME,12,12,120,112,CBS_DROPDOWN |
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
     PUSHBUTTON      "&Browse...",IDC_VIDEO_CUSTOM_BROWSE,12,12+18,50,14,WS_GROUP
+END
+
+
+// DANISH version of dialog
+
+IDD_VIDEO_PALETTE_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_VIDEO_CUSTOM_NAME,12,12,120,112,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Gennemse...",IDC_VIDEO_CUSTOM_BROWSE,12,12+18,50,14,WS_GROUP
 END
 
 
@@ -3317,6 +4053,20 @@ BEGIN
     PUSHBUTTON      "&Bläddra...",IDC_VIDEO_CUSTOM_BROWSE,12,12+18,50,14,WS_GROUP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_VIDEO_PALETTE_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_VIDEO_CUSTOM_NAME,12,12,120,112,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Göz at...",IDC_VIDEO_CUSTOM_BROWSE,12,12+18,50,14,WS_GROUP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -3341,6 +4091,31 @@ BEGIN
                     ES_READONLY
     DEFPUSHBUTTON   "OK", IDOK, 30,187,50,14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDCANCEL, 90,187,50,14, WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_RAM_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 170, 210
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RAM-indstillinger"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Initialisering ved power-up",IDC_STATIC,5,5,160,180
+    LTEXT           "Værdi på første byte",
+                    IDC_STATIC,55,17,100,8
+    COMBOBOX        IDC_RAMINIT_STARTVALUE,9,15,40,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Længde af konstant værdi",IDC_STATIC,55,32,100,8
+    COMBOBOX        IDC_RAMINIT_VALUEINVERT,9,30,40,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Længde af konstant mønster",IDC_STATIC,55,47,100,8
+    COMBOBOX        IDC_RAMINIT_PATTERNINVERT,9,45,40,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_RAMINIT_PREVIEW, 9,60,152,110, (0x4L) | WS_VSCROLL | 
+                    ES_READONLY
+    DEFPUSHBUTTON   "OK", IDOK, 30,187,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annullér", IDCANCEL, 90,187,50,14, WS_TABSTOP
 END
 
 
@@ -3522,6 +4297,33 @@ BEGIN
     PUSHBUTTON      "Avbryt", IDCANCEL, 90,187,50,14, WS_TABSTOP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_RAM_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 170, 210
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RAM Ayarlarý"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Güç verildiðinde baþlangýç ayarlarýný yap",IDC_STATIC,5,5,160,180
+    LTEXT           "Ýlk byte deðeri",
+                    IDC_STATIC,55,17,100,8
+    COMBOBOX        IDC_RAMINIT_STARTVALUE,9,15,40,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Sabit deðerlerin uzunluðu",IDC_STATIC,55,32,100,8
+    COMBOBOX        IDC_RAMINIT_VALUEINVERT,9,30,40,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Sabit desenlerin uzunluðu",IDC_STATIC,55,47,100,8
+    COMBOBOX        IDC_RAMINIT_PATTERNINVERT,9,45,40,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_RAMINIT_PREVIEW, 9,60,152,110, (0x4L) | WS_VSCROLL | 
+                    ES_READONLY
+    DEFPUSHBUTTON   "Tamam", IDOK, 30,187,50,14, WS_TABSTOP
+    PUSHBUTTON      "Ýptal", IDCANCEL, 90,187,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -3536,6 +4338,21 @@ BEGIN
 
     DEFPUSHBUTTON   "OK", IDOK, 25,35,50,14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDCANCEL, 85,35,50,14, WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_CUSTOM_SPEED_DIALOG_DA DIALOG DISCARDABLE  0, 0, 160, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Egen hastighet"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Angiv hastighed [%]", IDC_STATIC,5,7,80,8
+    EDITTEXT        IDC_CUSTOM_SPEED, 90,7,60,12,WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 25,35,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annullér", IDCANCEL, 85,35,50,14, WS_TABSTOP
 END
 
 
@@ -3647,6 +4464,23 @@ BEGIN
     PUSHBUTTON      "Avbryt", IDCANCEL, 85,35,50,14, WS_TABSTOP
 END
 
+
+// DANISH version of dialog
+
+#pragma code_page(28599)
+IDD_CUSTOM_SPEED_DIALOG_TR DIALOG DISCARDABLE  0, 0, 160, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Özel hýz"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Özel hýzý girin [%]", IDC_STATIC,5,7,80,8
+    EDITTEXT        IDC_CUSTOM_SPEED, 90,7,60,12,WS_TABSTOP
+
+    DEFPUSHBUTTON   "Tamam", IDOK, 25,35,50,14, WS_TABSTOP
+    PUSHBUTTON      "Ýptal", IDCANCEL, 85,35,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -3677,6 +4511,38 @@ BEGIN
     LTEXT           "Output file #2 name", IDC_STATIC,15,132,70,8
     EDITTEXT        IDC_PRINTER_OUTPUT_FILE2_NAME, 80,130,190,12,WS_TABSTOP
     LTEXT           "Output file #3 name", IDC_STATIC,15,152,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE3_NAME, 80,150,190,12,WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_PRINTER_SETTINGS_DIALOG_DA DIALOG DISCARDABLE 0, 0, 285, 175
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Printerindstillinger"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Anvend IEC-enhed",IDC_PRINTER_USEIECDEVICE,15,10,100,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "Printeremulering",IDC_STATIC,15,25,70,8
+    COMBOBOX        IDC_PRINTER_TYPE, 80,23,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Send sideskift", IDC_PRINTER_FORMFEED, 220,23,60,15
+    GROUPBOX        "Filsystemprinter",IDC_STATIC,5,40,275,130
+    LTEXT           "Printerdriver",IDC_STATIC,15,52,70,8
+    COMBOBOX        IDC_PRINTER_DRIVER, 80,50,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Uddata",IDC_STATIC,15,72,70,8
+    COMBOBOX        IDC_PRINTER_OUTPUT, 80,70,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Uddata til fil #",IDC_STATIC,15,92,70,8
+    COMBOBOX        IDC_PRINTER_TEXTOUT, 80,90,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Navn på uddatafil #1", IDC_STATIC,15,112,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE1_NAME, 80,110,190,12,WS_TABSTOP
+    LTEXT           "Navn på uddatafil #2", IDC_STATIC,15,132,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE2_NAME, 80,130,190,12,WS_TABSTOP
+    LTEXT           "Navn på uddatafil #3", IDC_STATIC,15,152,70,8
     EDITTEXT        IDC_PRINTER_OUTPUT_FILE3_NAME, 80,150,190,12,WS_TABSTOP
 END
 
@@ -3908,6 +4774,40 @@ BEGIN
     EDITTEXT        IDC_PRINTER_OUTPUT_FILE3_NAME, 80,150,190,12,WS_TABSTOP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_PRINTER_SETTINGS_DIALOG_TR DIALOG DISCARDABLE 0, 0, 285, 175
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Yazýcý Ayarlarý"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "IEC Aygýtý K&ullan",IDC_PRINTER_USEIECDEVICE,15,10,100,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "Yazýcý emülasyonu",IDC_STATIC,15,25,70,8
+    COMBOBOX        IDC_PRINTER_TYPE, 80,23,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Sayfa ilerletme gönder", IDC_PRINTER_FORMFEED, 220,23,60,15
+    GROUPBOX        "Dosya sistemi yazýcýsý",IDC_STATIC,5,40,275,130
+    LTEXT           "Yazýcý sürücüsü",IDC_STATIC,15,52,70,8
+    COMBOBOX        IDC_PRINTER_DRIVER, 80,50,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Çýktý",IDC_STATIC,15,72,70,8
+    COMBOBOX        IDC_PRINTER_OUTPUT, 80,70,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Çýktý dosyasý #",IDC_STATIC,15,92,70,8
+    COMBOBOX        IDC_PRINTER_TEXTOUT, 80,90,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Çýktý dosyasý #1 ismi", IDC_STATIC,15,112,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE1_NAME, 80,110,190,12,WS_TABSTOP
+    LTEXT           "Çýktý dosyasý #2 ismi", IDC_STATIC,15,132,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE2_NAME, 80,130,190,12,WS_TABSTOP
+    LTEXT           "Çýktý dosyasý #3 ismi", IDC_STATIC,15,152,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE3_NAME, 80,150,190,12,WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -3941,9 +4841,40 @@ BEGIN
                     ES_READONLY|ES_AUTOHSCROLL
     PUSHBUTTON      "Computer", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
     PUSHBUTTON      "Drive", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
-#if 0
-    PUSHBUTTON      "Other", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
-#endif
+END
+
+
+// DANISH version of dialog
+
+IDD_ROMSET_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 265, 265
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ROM-indstillinger"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "ROM-set arkiv",IDC_ROMSET_SELECT_ARCHIVE,
+                    13,8,70,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    EDITTEXT        IDC_ROMSET_ARCHIVE_NAME, 13,23,150,12, WS_TABSTOP | 
+                    ES_AUTOHSCROLL
+    PUSHBUTTON      "Gennemse", IDC_ROMSET_ARCHIVE_BROWSE, 178,22,60,15
+    PUSHBUTTON      "Indlæs arkiv", IDC_ROMSET_ARCHIVE_LOAD, 13,42,60,15
+    PUSHBUTTON      "Gem arkiv", IDC_ROMSET_ARCHIVE_SAVE, 85,42,60,15
+    GROUPBOX        "&Indstillinger",IDC_STATIC,13,60,230,60
+    COMBOBOX        IDC_ROMSET_ARCHIVE_ACTIVE,23,75,90,80,CBS_DROPDOWNLIST |
+                    CBS_SORT | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Anvend", IDC_ROMSET_ARCHIVE_APPLY, 23,95,60,15
+    PUSHBUTTON      "Ny", IDC_ROMSET_ARCHIVE_NEW, 95,95,60,15
+    PUSHBUTTON      "Slet", IDC_ROMSET_ARCHIVE_DELETE, 167,95,60,15
+    AUTORADIOBUTTON "ROM-set fil",IDC_ROMSET_SELECT_FILE,
+                    13,130,60,10,BS_AUTORADIOBUTTON
+    EDITTEXT        IDC_ROMSET_FILE_NAME, 13,145,150,12,WS_TABSTOP |
+                    ES_AUTOHSCROLL
+    PUSHBUTTON      "Gennemse", IDC_ROMSET_FILE_BROWSE, 178,145,60,15
+    PUSHBUTTON      "Indlæs ROM-set", IDC_ROMSET_FILE_LOAD, 13,165,60,15
+    PUSHBUTTON      "Gem ROM-set", IDC_ROMSET_FILE_SAVE, 85,165,60,15
+    EDITTEXT        IDC_ROMSET_PREVIEW, 13,195,180,60, (0x4L) | WS_VSCROLL |
+                    ES_READONLY|ES_AUTOHSCROLL
+    PUSHBUTTON      "Computer", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
+    PUSHBUTTON      "Drev", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
 END
 
 
@@ -3978,9 +4909,6 @@ BEGIN
                     ES_READONLY | ES_AUTOHSCROLL
     PUSHBUTTON      "Computer", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
     PUSHBUTTON      "Laufwerk", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
-#if 0
-    PUSHBUTTON      "Anderer", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
-#endif
 END
 
 
@@ -4015,9 +4943,6 @@ BEGIN
                     ES_READONLY | ES_AUTOHSCROLL
     PUSHBUTTON      "Ordinateur", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
     PUSHBUTTON      "Lecteur", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
-#if 0
-    PUSHBUTTON      "Autre", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
-#endif
 END
 
 
@@ -4053,9 +4978,6 @@ BEGIN
                     ES_READONLY | ES_AUTOHSCROLL
     PUSHBUTTON      "Számítógép", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
     PUSHBUTTON      "Lemezegység", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
-#if 0
-    PUSHBUTTON      "Egyéb", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
-#endif
 END
 #pragma code_page(28591)
 
@@ -4091,9 +5013,6 @@ BEGIN
                     ES_READONLY | ES_AUTOHSCROLL
     PUSHBUTTON      "Computer", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
     PUSHBUTTON      "Drive", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
-#if 0
-    PUSHBUTTON      "Altro", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
-#endif
 END
 
 
@@ -4128,9 +5047,6 @@ BEGIN
                     ES_READONLY | ES_AUTOHSCROLL
     PUSHBUTTON      "Computer", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
     PUSHBUTTON      "Drive", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
-#if 0
-    PUSHBUTTON      "Other", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
-#endif
 END
 
 
@@ -4166,9 +5082,6 @@ BEGIN
                     ES_READONLY | ES_AUTOHSCROLL
     PUSHBUTTON      "Znak", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
     PUSHBUTTON      "edytor", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
-#if 0
-    PUSHBUTTON      "Other", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
-#endif
 END
 #pragma code_page(28591)
 
@@ -4204,10 +5117,43 @@ BEGIN
                     ES_READONLY | ES_AUTOHSCROLL
     PUSHBUTTON      "Dator", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
     PUSHBUTTON      "Enhet", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
-#if 0
-    PUSHBUTTON      "Annan", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
-#endif
 END
+
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_ROMSET_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 265, 265
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ROM Ayarlarý"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "Romset arþivi",IDC_ROMSET_SELECT_ARCHIVE,
+                    13,8,70,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    EDITTEXT        IDC_ROMSET_ARCHIVE_NAME, 13,23,150,12, WS_TABSTOP | 
+                    ES_AUTOHSCROLL
+    PUSHBUTTON      "Göz at", IDC_ROMSET_ARCHIVE_BROWSE, 178,22,60,15
+    PUSHBUTTON      "Arþiv yükle", IDC_ROMSET_ARCHIVE_LOAD, 13,42,60,15
+    PUSHBUTTON      "Arþiv kaydet", IDC_ROMSET_ARCHIVE_SAVE, 85,42,60,15
+    GROUPBOX        "&Konfigürasyon",IDC_STATIC,13,60,230,60
+    COMBOBOX        IDC_ROMSET_ARCHIVE_ACTIVE,23,75,90,80,CBS_DROPDOWNLIST |
+                    CBS_SORT | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Uygula", IDC_ROMSET_ARCHIVE_APPLY, 23,95,60,15
+    PUSHBUTTON      "Yeni", IDC_ROMSET_ARCHIVE_NEW, 95,95,60,15
+    PUSHBUTTON      "Sil", IDC_ROMSET_ARCHIVE_DELETE, 167,95,60,15
+    AUTORADIOBUTTON "Romset dosyasý",IDC_ROMSET_SELECT_FILE,
+                    13,130,60,10,BS_AUTORADIOBUTTON
+    EDITTEXT        IDC_ROMSET_FILE_NAME, 13,145,150,12,WS_TABSTOP |
+                    ES_AUTOHSCROLL
+    PUSHBUTTON      "Göz at", IDC_ROMSET_FILE_BROWSE, 178,145,60,15
+    PUSHBUTTON      "Romset yükle", IDC_ROMSET_FILE_LOAD, 13,165,60,15
+    PUSHBUTTON      "Romset kaydet", IDC_ROMSET_FILE_SAVE, 85,165,60,15
+    EDITTEXT        IDC_ROMSET_PREVIEW, 13,195,180,60, (0x4L) | WS_VSCROLL |
+                    ES_READONLY|ES_AUTOHSCROLL
+    PUSHBUTTON      "Bilgisayar", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
+    PUSHBUTTON      "Sürücü", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
+END
+#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 
@@ -4223,6 +5169,21 @@ BEGIN
                     ES_AUTOHSCROLL
     DEFPUSHBUTTON   "OK", IDOK, 35,35,50,14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDCANCEL, 95,35,50,14, WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_ROMSET_ENTER_NAME_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Ny indstillingsfil"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Angiv konfigurationsnavn", IDC_STATIC,5,7,80,8
+    EDITTEXT        IDC_ROMSET_ENTER_NAME, 90,7,80,12,WS_TABSTOP |
+                    ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK", IDOK, 35,35,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annullér", IDCANCEL, 95,35,50,14, WS_TABSTOP
 END
 
 
@@ -4334,6 +5295,23 @@ BEGIN
     PUSHBUTTON      "Avbryt", IDCANCEL, 95,35,50,14, WS_TABSTOP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_ROMSET_ENTER_NAME_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Yeni konfigürasyon"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Konfigürasyon ismi girin", IDC_STATIC,5,7,80,8
+    EDITTEXT        IDC_ROMSET_ENTER_NAME, 90,7,80,12,WS_TABSTOP |
+                    ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "Tamam", IDOK, 35,35,50,14, WS_TABSTOP
+    PUSHBUTTON      "Ýptal", IDCANCEL, 95,35,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -4353,6 +5331,26 @@ BEGIN
     EDITTEXT        IDC_RS232_DEVICE4, 75,67,85,12,WS_TABSTOP | ES_AUTOHSCROLL
     DEFPUSHBUTTON   "OK", IDOK, 30,100,50,14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDCANCEL, 90,100,50,14, WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_RS232_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 120
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RS232-indstillinger"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "RS232-enhed 1",IDC_STATIC, 9,8,60,8
+    EDITTEXT        IDC_RS232_DEVICE1, 75,7,85,12,WS_TABSTOP | ES_AUTOHSCROLL
+    LTEXT           "RS232-enhed 2", IDC_STATIC, 9,28,60,8
+    EDITTEXT        IDC_RS232_DEVICE2, 75,27,85,12,WS_TABSTOP | ES_AUTOHSCROLL
+    LTEXT           "RS232-enhed 3", IDC_STATIC, 9,48,60,8
+    EDITTEXT        IDC_RS232_DEVICE3, 75,47,85,12,WS_TABSTOP | ES_AUTOHSCROLL
+    LTEXT           "RS232-enhed 4",IDC_STATIC, 9,68,60,8
+    EDITTEXT        IDC_RS232_DEVICE4, 75,67,85,12,WS_TABSTOP | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK", IDOK, 30,100,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annullér", IDCANCEL, 90,100,50,14, WS_TABSTOP
 END
 
 
@@ -4499,6 +5497,28 @@ BEGIN
     PUSHBUTTON      "Avbryt", IDCANCEL, 90,100,50,14, WS_TABSTOP | ES_AUTOHSCROLL
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_RS232_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 120
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RS232 Ayarlarý"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "RS232 aygýt 1",IDC_STATIC, 9,8,60,8
+    EDITTEXT        IDC_RS232_DEVICE1, 75,7,85,12,WS_TABSTOP | ES_AUTOHSCROLL
+    LTEXT           "RS232 aygýt 2", IDC_STATIC, 9,28,60,8
+    EDITTEXT        IDC_RS232_DEVICE2, 75,27,85,12,WS_TABSTOP | ES_AUTOHSCROLL
+    LTEXT           "RS232 aygýt 3", IDC_STATIC, 9,48,60,8
+    EDITTEXT        IDC_RS232_DEVICE3, 75,47,85,12,WS_TABSTOP | ES_AUTOHSCROLL
+    LTEXT           "RS232 aygýt 4",IDC_STATIC, 9,68,60,8
+    EDITTEXT        IDC_RS232_DEVICE4, 75,67,85,12,WS_TABSTOP | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "Tamam", IDOK, 30,100,50,14, WS_TABSTOP
+    PUSHBUTTON      "Ýptal", IDCANCEL, 90,100,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -4512,7 +5532,7 @@ BEGIN
     EDITTEXT        IDC_NETWORK_MODE, 60,7,75,12,WS_TABSTOP
     LTEXT           "TCP-Port",IDC_STATIC, 9,32,30,8
     EDITTEXT        IDC_NETWORK_PORT, 45,31,30,12,WS_TABSTOP
-    PUSHBUTTON      "Start Server", IDC_NETWORK_SERVER, 85,30,48,14,WS_TABSTOP
+    PUSHBUTTON      "Start server", IDC_NETWORK_SERVER, 85,30,48,14,WS_TABSTOP
     PUSHBUTTON      "Connect to", IDC_NETWORK_CLIENT, 9,54,50,14,WS_TABSTOP
     EDITTEXT        IDC_NETWORK_SERVERNAME, 65,55,70,12,WS_TABSTOP
     PUSHBUTTON      "Disconnect", IDC_NETWORK_DISCONNECT, 37,78,60,14,WS_TABSTOP
@@ -4540,6 +5560,52 @@ BEGIN
     AUTOCHECKBOX    "",IDC_NETWORK_DEVC_CLIENT,230,66,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     LTEXT           "Settings", IDC_STATIC, 150,78,45,10
+    AUTOCHECKBOX    "",IDC_NETWORK_RSRC_SERVER,200,78,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "",IDC_NETWORK_RSRC_CLIENT,230,78,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_NETWORK_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 260, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Nætværksspilindstillinger"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Nuværende tilstand",IDC_STATIC, 9,8,45,8
+    EDITTEXT        IDC_NETWORK_MODE, 60,7,75,12,WS_TABSTOP
+    LTEXT           "TCP-port",IDC_STATIC, 9,32,30,8
+    EDITTEXT        IDC_NETWORK_PORT, 45,31,30,12,WS_TABSTOP
+    PUSHBUTTON      "Start server", IDC_NETWORK_SERVER, 85,30,48,14,WS_TABSTOP
+    PUSHBUTTON      "Tilslut til", IDC_NETWORK_CLIENT, 9,54,50,14,WS_TABSTOP
+    EDITTEXT        IDC_NETWORK_SERVERNAME, 65,55,70,12,WS_TABSTOP
+    PUSHBUTTON      "Afbryd forbindelse", IDC_NETWORK_DISCONNECT, 37,78,60,14,WS_TABSTOP
+    GROUPBOX        "Styring",IDC_STATIC,140,5,115,100
+    LTEXT           "Server", IDC_STATIC, 195,15,25,10
+    LTEXT           "Klient", IDC_STATIC, 225,15,25,10
+    LTEXT           "Tastatur", IDC_STATIC, 150,30,45,10
+    AUTOCHECKBOX    "",IDC_NETWORK_KEYB_SERVER,200,30,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "",IDC_NETWORK_KEYB_CLIENT,230,30,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    LTEXT           "Joystick 1", IDC_STATIC, 150,42,45,10
+    AUTOCHECKBOX    "",IDC_NETWORK_JOY1_SERVER,200,42,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "",IDC_NETWORK_JOY1_CLIENT,230,42,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    LTEXT           "Joystick 2", IDC_STATIC, 150,54,45,10
+    AUTOCHECKBOX    "",IDC_NETWORK_JOY2_SERVER,200,54,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "",IDC_NETWORK_JOY2_CLIENT,230,54,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    LTEXT           "Enheder", IDC_STATIC, 150,66,45,10
+    AUTOCHECKBOX    "",IDC_NETWORK_DEVC_SERVER,200,66,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "",IDC_NETWORK_DEVC_CLIENT,230,66,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    LTEXT           "Indstillinger", IDC_STATIC, 150,78,45,10
     AUTOCHECKBOX    "",IDC_NETWORK_RSRC_SERVER,200,78,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "",IDC_NETWORK_RSRC_CLIENT,230,78,10,10,
@@ -4872,6 +5938,54 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
 
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_NETWORK_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 260, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Netplay Ayarlarý"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Geçerli mod",IDC_STATIC, 9,8,45,8
+    EDITTEXT        IDC_NETWORK_MODE, 60,7,75,12,WS_TABSTOP
+    LTEXT           "TCP-Port",IDC_STATIC, 9,32,30,8
+    EDITTEXT        IDC_NETWORK_PORT, 45,31,30,12,WS_TABSTOP
+    PUSHBUTTON      "Sunucuyu baþlat", IDC_NETWORK_SERVER, 85,30,48,14,WS_TABSTOP
+    PUSHBUTTON      "Baðlanýlan", IDC_NETWORK_CLIENT, 9,54,50,14,WS_TABSTOP
+    EDITTEXT        IDC_NETWORK_SERVERNAME, 65,55,70,12,WS_TABSTOP
+    PUSHBUTTON      "Baðlantýyý kes", IDC_NETWORK_DISCONNECT, 37,78,60,14,WS_TABSTOP
+    GROUPBOX        "Kontrol",IDC_STATIC,140,5,115,100
+    LTEXT           "Sunucu", IDC_STATIC, 195,15,25,10
+    LTEXT           "Ýstemci", IDC_STATIC, 225,15,25,10
+    LTEXT           "Klavye", IDC_STATIC, 150,30,45,10
+    AUTOCHECKBOX    "",IDC_NETWORK_KEYB_SERVER,200,30,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "",IDC_NETWORK_KEYB_CLIENT,230,30,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    LTEXT           "Joystick 1", IDC_STATIC, 150,42,45,10
+    AUTOCHECKBOX    "",IDC_NETWORK_JOY1_SERVER,200,42,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "",IDC_NETWORK_JOY1_CLIENT,230,42,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    LTEXT           "Joystick 2", IDC_STATIC, 150,54,45,10
+    AUTOCHECKBOX    "",IDC_NETWORK_JOY2_SERVER,200,54,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "",IDC_NETWORK_JOY2_CLIENT,230,54,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    LTEXT           "Aygýtlar", IDC_STATIC, 150,66,45,10
+    AUTOCHECKBOX    "",IDC_NETWORK_DEVC_SERVER,200,66,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "",IDC_NETWORK_DEVC_CLIENT,230,66,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    LTEXT           "Ayarlar", IDC_STATIC, 150,78,45,10
+    AUTOCHECKBOX    "",IDC_NETWORK_RSRC_SERVER,200,78,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "",IDC_NETWORK_RSRC_CLIENT,230,78,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+END
+#pragma code_page(28591)
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
@@ -4890,6 +6004,25 @@ BEGIN
     EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30, 64, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_SOUND_RECORD_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 90
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Format for lydoptagelse",
+                    IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
+    COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Fil for lydoptagelse",
+                    IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
+    PUSHBUTTON      "Gennemse...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
+    EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30, 64, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annullér", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
 END
 
 
@@ -5029,8 +6162,28 @@ BEGIN
     PUSHBUTTON      "Avbryt", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
 END
 
-// -----------------------------------------------------------------------------
 
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_SOUND_RECORD_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 90
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Ses Kayýt Biçimi",
+                    IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
+    COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Ses Kayýt Dosyasý",
+                    IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
+    PUSHBUTTON      "Göz at...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
+    EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON   "Tamam", IDOK, 30, 64, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Ýptal", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
+// -----------------------------------------------------------------------------
 
 // original and default ENGLISH text
 
@@ -5388,6 +6541,7 @@ BEGIN
   IDS_MI_SAVE_SETTINGS_ON_EXIT    "Save settings on e&xit"
   IDS_MI_CONFIRM_ON_EXIT          "&Confirm on exit"
   IDS_MI_LANG_EN                  "&English"
+  IDS_MI_LANG_DA                  "D&anish"
   IDS_MI_LANG_DE                  "&German"
   IDS_MI_LANG_FR                  "&French"
   IDS_MI_LANG_HU                  "&Hungarian"
@@ -5395,6 +6549,7 @@ BEGIN
   IDS_MI_LANG_NL                  "&Dutch"
   IDS_MI_LANG_PL                  "&Polish"
   IDS_MI_LANG_SV                  "&Swedish"
+  IDS_MI_LANG_TR                  "&Turkish"
   IDS_MI_CMDLINE                  "Command line &options"
   IDS_MI_CONTRIBUTORS             "&Contributors"
   IDS_MI_LICENSE                  "&License"
@@ -5425,6 +6580,403 @@ BEGIN
   IDS_MI_MON_TILE_VERT            "Tile &vertically"
   IDS_MI_MON_TILE_HORIZ           "Tile &horizontally"
   IDS_MI_MON_ARRANGE_ICONS        "&Arrange icons"
+END
+
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_VICE_ERROR                  "VICE-fejl!"
+  IDS_VICE_INFORMATION            "VICE-information"
+  IDS_VICE_QUESTION               "VICE-spørgsmål"
+  IDS_FFMPEG_DLL_MISMATCH         "Versionen på din ffmpeg-dll passer ikke."
+  IDS_DIRECTDRAW_ERROR            "DirectDraw-fejl: Kode:%8x Fejl:%s"
+  IDS_CANNOT_SAVE_SETTINGS        "Kunne ikke gemme indstillinger."
+  IDS_CANNOT_LOAD_SETTINGS        "Kunne ikke indlæse indstillinger."
+  IDS_DEFAULT_SETTINGS_RESTORED   "Standardindstillinger gendannet."
+  IDS_CANNOT_ATTACH_FILE          "Kan ikke tilslutte den valgte fil"
+  IDS_START_MONITOR               "%s\012\012Start monitor? (Nej resetter, Annuler Fortsætter)"
+  IDS_VICE_CPU_JAM                "VICE CPU JAM"
+  IDS_EXTEND_TO_40_TRACKS         "Udvid disk-image til 40 spor?"
+  IDS_DETACHED_DEVICE_S           "Frakoblet enhed %s"
+  IDS_ATTACHED_S_TO_DEVICE_S      "Tilsluttet %s til enhed %s"
+  IDS_DETACHED_TAPE               "Frakoblet bånd"
+  IDS_HISTORY_RECORDED_UNKNOWN    "Historik optaget med ukendt version"
+  IDS_HISTORY_RECORDED_VICE_S     "Historik optaget med VICE-%s"
+  IDS_PAUSED                      "pauset"
+  IDS_FRAME_NUMBER                "frame #"
+  IDS_RESUMED                     "genoptaget"
+  IDS_REALLY_EXIT                 "Vil du virkelig afslutte?\012\012Alla data i emuleret RAM går tabt."
+  IDS_CANNOT_AUTOSTART_FILE       "Kan ikke autostarte valgt fil"
+  IDS_ATTACHED_TAPE_S             "Tilsluttet bånd %s"
+  IDS_SETTINGS_SAVED_SUCCESS      "Indstillingerne er gemt."
+  IDS_SETTINGS_LOADED_SUCCESS     "Indstillinger indlæst med success."
+  IDS_ATTACH_DISK_IMAGE           "Tilslut disk-image"
+  IDS_ATTACH_TAPE_IMAGE           "Tilslut bånd-image"
+  IDS_AUTOSTART_IMAGE             "Autostart disk-/bånd-image"
+  IDS_INVALID_CARTRIDGE           "Ugyldigt cartridge"
+  IDS_BAD_CARTRIDGE_CONFIG        "Ugyldig cartridgekonfiguration i brugergrænseflade!"
+  IDS_INVALID_CARTRIDGE_IMAGE     "Ugyldigt cartridge-image"
+  IDS_LOG_CONSOLE_OUTPUT_IMAGE    "Log konsol uddata image"
+  IDS_LOG_FILES_TYPE              "VICE konsolloggfiler (*.dbg)"
+  IDS_CANNOT_WRITE_LOGFILE_S      "Kan ikke skrive logfil \042%s\042."
+  IDS_LOAD_FLIP_LIST_FILE         "Indlæs bladrelistefil"
+  IDS_CANNOT_READ_FLIP_LIST       "Kunne ikke læse bladrelistefil"
+  IDS_SAVE_FLIP_LIST_FILE         "Gem bladrelistefil"
+  IDS_CANNOT_WRITE_FLIP_LIST      "Kunne ikke skrive bladrelistefil"
+  IDS_SELECT_KEYMAP_FILE          "Vælg tastelayout"
+  IDS_SAVE_KEYMAP_FILE            "Gem tastelayout"
+  IDS_CANNOT_WRITE_KEYMAP_FILE    "Kunne ikke gemme tastelayour"
+  IDS_SAVE_CONFIG_FILE            "Gem indstillinger"
+  IDS_LOAD_CONFIG_FILE            "Indlæs indstillinger"
+  IDS_MAPPING                     "Mapning"
+  IDS_KEYBOARD_SETTINGS           "Tastaturindstillinger"
+  IDS_ATTACH                      "&Tilslut"
+  IDS_PLEASE_ENTER_A_FILENAME     "Angiv filnavn."
+  IDS_OVERWRITE_EXISTING_IMAGE    "Overskriv eksisterende image?"
+  IDS_CANNOT_CREATE_IMAGE         "Kunne ikke oprette image"
+  IDS_COMMAND_LINE_OPTIONS        "Kommandolinjeparametre"
+  IDS_COMMAND_OPTIONS_AVAIL       "Hvilke kommandolinjeparametre er tilgængelige?"
+  IDS_NO_DRIVER_SELECT_SUPPORT    "Ingen driver valgt, eller valgt driver ikke understøttet"
+  IDS_CANT_WRITE_SCREENSHOT_S     "Kunne ikke gemme screenshot \042%s\042."
+  IDS_AUTOSTART_DISK_IMAGE        "Autostart disk-image"
+  IDS_SELECT_FS_DIRECTORY         "Angiv katalog"
+  IDS_PRINTER_USERPORT            "Printer brugerport"
+  IDS_PRINTER_4                   "Printer 4"
+  IDS_PRINTER_5                   "Printer 5"
+  IDS_DRIVE_8                     "Drev 8"
+  IDS_DRIVE_9                     "Drev 9"
+  IDS_DRIVE_10                    "Drev 10"
+  IDS_DRIVE_11                    "Drev 11"
+  IDS_PERIPHERAL_SETTINGS         "Indstillinger for eksterne enheder"
+  IDS_CANT_WRITE_SNAPSHOT_FILE    "Kunne ikke skrive snapshot fil."
+  IDS_CANNOT_READ_SNAPSHOT_IMG    "Kunne ikke indlæse snapshot fil"
+  IDS_LOAD_S_ROM_IMAGE            "Indlæs %s-ROM-fil"
+  IDS_SELECT_ROMSET_ARCHIVE       "Vælg ROM-set arkiv"
+  IDS_CANNOT_LOAD_ROMSET_ARCH     "Kunne ikke indlæse ROM-set arkiv!"
+  IDS_CANNOT_SAVE_ROMSET_ARCH     "Kunne ikke gemme ROM-set arkiv!"
+  IDS_CANNOT_LOAD_ROMSET_FILE     "Kunne ikke indlæse ROM-set fil!"
+  IDS_CANNOT_SAVE_ROMSET_FILE     "Kunne ikke gemme ROM-set fil!"
+  IDS_SELECT_ROMSET_FILE          "Vælg ROM-set fil"
+  IDS_ROMSET                      "ROM-set"
+  IDS_COMPUTER                    "Computer"
+  IDS_DRIVE                       "Drev"
+  IDS_ROM_SETTINGS                "ROM-indstillinger"
+  IDS_SAVE_SNAPSHOT_IMAGE         "Gem snapshot"
+  IDS_CANNOT_WRITE_SNAPSHOT_S     "Kunne ikke gemme snapshot \042%s\042."
+  IDS_LOAD_SNAPSHOT_IMAGE         "Indlæs snapshot"
+  IDS_COULD_NOT_LOAD_PALETTE      "Kunne ikke indlæse palettefil."
+  IDS_LOAD_VICE_PALETTE_FILE      "Indlæs VICE-palette"
+  IDS_FULLSCREEN                  "Fuldskærm"
+  IDS_COLORS                      "Farver"
+  IDS_NEW_PAL                     "Ny PAL-emulering"
+  IDS_VIDEO_SETTINGS              "Grafikindstillinger"
+  IDS_FILE_SYSTEM                 "Filsystem"
+#ifdef HAVE_OPENCBM
+  IDS_REAL_IEC_DEVICE             "Ægte IEC-enhed"
+#endif
+  IDS_RS232_DEVICE_I              "RS232-enhed %i"
+  IDS_ATTACH_CRT_CART_IMAGE       "Tilslut CRT-cartridge image"
+  IDS_ATTACH_RAW_8KB_CART_IMAGE   "Tilslut råt 8KB-cartridge image"
+  IDS_ATTACH_RAW_16KB_CART_IMG    "Tilslut råt 16KB-cartridge image"
+  IDS_ATTACH_AR_CART_IMAGE        "Tilslut Action Replay-cartridge image"
+  IDS_ATTACH_AR3_CART_IMAGE       "Tilslut Action Replay III-cartridge image"
+  IDS_ATTACH_AR4_CART_IMAGE       "Tilslut Action Replay 4-cartridge image"
+  IDS_ATTACH_STARDOS_CART_IMAGE   "Tilslut StarDOS-cartridge image"
+  IDS_ATTACH_ATOMIC_P_CART_IMG    "Tilslut Atomic Power-cartridge image"
+  IDS_ATTACH_EPYX_FL_CART_IMG     "Tilslut Epyx fastload-cartridge image"
+  IDS_ATTACH_IEEE488_CART_IMG     "Tilslut IEEE-interface cartridge image"
+  IDS_ATTACH_RETRO_R_CART_IMG     "Tilslut Retro Replay-cartridge image"
+  IDS_ATTACH_IDE64_CART_IMAGE     "Tilslut IDE64-interface cartridge image"
+  IDS_ATTACH_SS4_CART_IMAGE       "Tilslut Super Snapshot 4-cartridge image"
+  IDS_ATTACH_SS5_CART_IMAGE       "Tilslut Super Snapshot 5-cartridge image"
+  IDS_ATTACH_STB_CART_IMAGE       "Tilslut Strucured Basic-cartridge image"
+  IDS_MODEL                       "Model"
+  IDS_DRIVE_SETTINGS              "Diskettedrevindstillinger"
+  IDS_SELECT_START_SNAP_EVENT     "Vælg start-snapshot for hændelseshistorik"
+  IDS_SELECT_END_SNAP_EVENT       "Vælg slut-snapshot for hændelseshistorik"
+#ifdef UNSTABLE
+  IDS_VERSION_S_UNSTABLE          "Version %s *USTABIL*"
+#else
+  IDS_VERSION_S                   "Version %s"
+#endif
+  IDS_VICE_CONTRIBUTORS           "VICE bidragsydere"
+  IDS_WHO_MADE_WHAT               "Hvem har lavet hvad?"
+  IDS_LICENSE                     "Licens"
+  IDS_NO_WARRANTY                 "Ingen garanti!"
+  IDS_VICE_WITHOUT_WARRANTY       "VICE distribueres UDEN NOGEN SOM HELST GARANTI!"
+  IDS_PRESS_KEY_NORTHWEST         "Tryk tast for nordvest"
+  IDS_PRESS_KEY_NORTH             "Tryk tast for nord"
+  IDS_PRESS_KEY_NORTHEAST         "Tryk tast for nordøst"
+  IDS_PRESS_KEY_EAST              "Tryk tast for øst"
+  IDS_PRESS_KEY_SOUTHEAST         "Tryk tast for sydøst"
+  IDS_PRESS_KEY_SOUTH             "Tryk tast for syd"
+  IDS_PRESS_KEY_SOUTHWEST         "Tryk tast for sydvest"
+  IDS_PRESS_KEY_WEST              "Tryk tast for vest"
+  IDS_PRESS_KEY_FIRE              "Tryk tast for skyd"
+  IDS_NUMPAD_AND_RCTRL            "Numerisk tastatur + højre Ctrl"
+  IDS_KEYSET_A                    "Tastesæt A"
+  IDS_KEYSET_B                    "Tastesæt B"
+  IDS_ALL_BUTTONS_AS_FIRE         "Alle knapper bruges som skydeknap"
+  IDS_NUMERIC_SEE_ABOVE           "numerisk (se ovenfor)"
+  IDS_NO_BUTTON_NO_AUTOFIRE       "Ingen knap - Autofire inaktiv"
+  IDS_ALL_FILES_FILTER            "Alle filer (*.*)"
+  IDS_PALETTE_FILES_FILTER        "VICE-palettefiler (*.vpl)"
+  IDS_SNAPSHOT_FILES_FILTER       "VICE-snapshot filer (*.vsf)"
+  IDS_CBM_IMAGE_FILES_FILTER      "CBM-filer (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
+  IDS_DISK_IMAGE_FILES_FILTER     "Disk-image filer (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+  IDS_TAPE_IMAGE_FILES_FILTER     "Bånd-image filer (*.t64;*.tap)"
+  IDS_ZIPPED_FILES_FILTER         "Pakkede filer (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_CRT_FILES_FILTER            "CRT cartridge-image filer (*.crt)"
+  IDS_RAW_CART_FILES_FILTER       "Rå cartridge-image filer (*.bin)"
+  IDS_FLIP_LIST_FILES_FILTER      "VICE-bladrelistefiler (*.vfl)"
+  IDS_ROMSET_FILES_FILTER         "VICE-ROM-set filer (*.vrs)"
+  IDS_ROMSET_ARCHIVES_FILTER      "VICE-ROM-set arkiver (*.vra)"
+  IDS_KEYMAP_FILES_FILTER         "VICE-tastesæt filer (*.vkm)"
+  IDS_PRGP00_FILES_FILTER         "Commodoreemulatorfiler (*.prg;*.p00)"
+  IDS_FLEXIBLE                    "Fleksibel"
+  IDS_ADJUSTING                   "Tilpassende"
+  IDS_EXACT                       "Nøjagtig"
+  IDS_SOUND_DRIVER_DIRECTX        "Lyd-driver: DirectX"
+  IDS_SOUND_DRIVER_WMM            "Lyd-driver: WMM"
+  IDS_MEDIA_FILES_FILTER          "Mediefiler (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
+  IDS_SPACE_KB                    " kB"
+  IDS_CONFIGURE_KEYSET_A          "Konfigurér tastesæt A"
+  IDS_CONFIGURE_KEYSET_B          "Konfigurér tastesæt B"
+  IDS_SAVE_MEDIA_IMAGE            "Gem medie-image"
+  IDS_S_AT_D_SPEED                "%s med %d%% hastighed, %d b/s%s"
+  IDS_TAPE                        "Bånd:"
+  IDS_JOYSTICK_C                  "Joystick:"
+  IDS_RECORDING                   "Optager\n%02d:%02d"
+  IDS_PLAYBACK                    "Afspiller\n%02d:%02d (%02d:%02d)"
+  IDS_UNKNOWN                     "Ukendt"
+  IDS_P_NUMBER                    "<nummer>"
+  IDS_SET_INPUT_JOYSTICK_1        "Vælg inddataenhed for joystick 1"
+  IDS_SET_INPUT_JOYSTICK_2        "Vælg inddataenhed for joystick 2"
+  IDS_SAVE_SETTINGS_ON_EXIT       "Gem indstillinger når programmet afsluttes"
+  IDS_NO_SAVE_SETTINGS_ON_EXIT    "Gem aldrig indstillinger når programmet afsluttes"
+  IDS_CONFIRM_QUIT_VICE           "Bekræft programafslutning"
+  IDS_NO_CONFIRM_QUIT_VICE        "Bekræft ikke programafslutning"
+  IDS_USE_ALL_CPU_SMP             "Brug alle CPU'er på SMP-systemer"
+  IDS_USE_FIRST_CPU_SMP           "Brug kun første CPU på SMP-systemer"
+  IDS_START_VICE_FULLSCREEN_MODE  "Start VICE i fullscreen-tilstand"
+#ifdef SYS_SIGLIST_DECLARED
+  IDS_RECEIVED_SIGNAL_D_S         "Uventet fejl. Modtog signal %d (%s)."
+#else
+  IDS_RECEIVED_SIGNAL_D           "Uventet fejl. Modtog signal %d."
+#endif
+#ifdef HAVE_NETWORK
+  IDS_IDLE                        "Venter"
+  IDS_SERVER_LISTENING            "Server lytter"
+  IDS_CONNECTED_SERVER            "Tilsluttet server"
+  IDS_CONNECTED_CLIENT            "Tilsluttet klient"
+  IDS_INVALID_PORT_NUMBER         "Ugyldigt portnummer"
+  IDS_ERROR_STARTING_SERVER       "Fejl under start af serveren."
+  IDS_ERROR_CONNECTING_CLIENT     "Fejl under tilslutning af klienten."
+#endif
+  IDS_SOUND_RECORDING_STARTED     "Lydoptagelse startet..."
+  IDS_SOUND_RECORDING_STOPPED     "Lydoptagelse stoppet..."
+  IDS_OK                          "OK"
+  IDS_CANCEL                      "Annullér"
+  IDS_NONE                        "Ingen"
+  IDS_BROWSE                      "&Gennemse..."
+  IDS_SPECIFY_MIDI_IN             "Angiv enhed for MIDI-ind"
+  IDS_SPECIFY_MIDI_OUT            "Angiv enhed for MIDI-ud"
+  IDS_MP_FILE                     "&Fil"
+  IDS_MP_ATTACH_DISK_IMAGE        "Tilslut &Disk-image"
+  IDS_MP_DETACH_DISK_IMAGE        "&Frakobl disk-image"
+  IDS_MP_FLIP_LIST                "&Bladreliste"
+  IDS_MP_DATASETTE_CONTROL        "Datasette kontro&l"
+  IDS_MP_ATTACH_CARTRIDGE_IMAGE   "Tilslut &cartridge-image..."
+  IDS_MP_EXPERT_CARTRIDGE         "Expert Cartridge"
+  IDS_MP_RESET                    "&Reset"
+  IDS_MP_DEBUG                    "&Debug"
+#ifdef DEBUG
+  IDS_MP_MODE                     "&Tilstand"
+#endif
+  IDS_MP_EDIT                     "Redigér"
+  IDS_MP_SNAPSHOT                 "Sna&pshot"
+  IDS_MP_RECORDING_START_MODE     "Indspiller start-tilstand"
+  IDS_MP_OPTIONS                  "&Indstillinger"
+  IDS_MP_REFRESH_RATE             "&Opdateringsfrekvens"
+  IDS_MP_MAXIMUM_SPEED            "&Maksimal hastighed"
+  IDS_MP_VIDEO_STANDARD           "&TV-standard"
+  IDS_MP_DRIVE_SYNC_FACTOR        "S&ynkfaktor for diskettedrev"
+  IDS_MP_SETTINGS                 "&Indstillinger"
+  IDS_MP_CARTRIDGE_IO_SETTINGS    "&Cartridge/IO-indstillinger"
+  IDS_MP_LANGUAGE                 "&Sprog"
+  IDS_MP_HELP                     "&Hjælp"
+  IDS_MP_VIEW                     "&Vis"
+  IDS_MP_WINDOW                   "Vi&ndue"
+  IDS_MI_EXIT                     "Af&slut"
+  IDS_MI_ABOUT                    "&Om VICE..."
+  IDS_MI_PAUSE                    "&Pause"
+  IDS_MI_EDIT_COPY                "&Kopiér"
+  IDS_MI_EDIT_PASTE               "&Indsæt"
+  IDS_MI_AUTOSTART                "&Autostart disk-/bånd-image..."
+  IDS_MI_RESET_HARD               "&Hård"
+  IDS_MI_RESET_SOFT               "&Blød"
+  IDS_MI_DRIVE8                   "Enhed &8"
+  IDS_MI_DRIVE9                   "Enhed &9"
+  IDS_MI_DRIVE10                  "Enhed 1&0"
+  IDS_MI_DRIVE11                  "Enhed 1&1"
+  IDS_MI_ATTACH_TAPE              "&Tilslut et bånd-image..."
+  IDS_MI_DETACH_TAPE              "F&rakobl bånd-image"
+  IDS_MI_DETACH_ALL               "&Alle"
+  IDS_MI_TOGGLE_SOUND             "Aktivér l&ydemulering"
+  IDS_MI_TOGGLE_DOUBLESIZE        "&Dobbelt størrelse"
+  IDS_MI_TOGGLE_DOUBLESCAN        "Do&bbelt-skan"
+  IDS_MI_DRIVE_TRUE_EMULATION     "Æg&te drev-emulering"
+  IDS_MI_TOGGLE_VIDEOCACHE        "Grafik&cache"
+  IDS_MI_DRIVE_SETTINGS           "&Diskettedrevsindstillinger..."
+  IDS_MI_CART_ATTACH_CRT          "&CRT-image..."
+  IDS_MI_CART_ATTACH_8KB          "Almindeligt &8KB-image..."
+  IDS_MI_CART_ATTACH_16KB         "Almindeligt &16KB-image..."
+  IDS_MI_CART_ATTACH_AR           "&Action Replay-image..."
+  IDS_MI_CART_ATTACH_AR3          "&Action Replay 3-image..."
+  IDS_MI_CART_ATTACH_AR4          "&Action Replay 4-image..."
+  IDS_MI_CART_ATTACH_STARDOS      "&StarDOS-image..."
+  IDS_MI_CART_ATTACH_AT           "Atomic &Power-image..."
+  IDS_MI_CART_ATTACH_EPYX         "&Epyx FastLoad-image..."
+  IDS_MI_CART_ATTACH_IEEE488      "&IEEE488-interface image..."
+  IDS_MI_CART_ATTACH_RR           "&Retro Replay-image..."
+  IDS_MI_CART_ATTACH_IDE64        "IDE&64-interface image..."
+  IDS_MI_CART_ATTACH_SS4          "Super Snapshot &4-image..."
+  IDS_MI_CART_ATTACH_SS5          "Super Snapshot &5-image..."
+  IDS_MI_CART_ATTACH_STB          "Structured &BASIC-image..."
+  IDS_MI_FLIP_ADD                 "&Tilføj nuværende image"
+  IDS_MI_FLIP_REMOVE              "&Fjern nuværende image"
+  IDS_MI_FLIP_NEXT                "Tilslut &næste image"
+  IDS_MI_FLIP_PREVIOUS            "Tilslut f&orrige image"
+  IDS_MI_FLIP_LOAD                "Ind&læs bladreliste"
+  IDS_MI_FLIP_SAVE                "Gem Bladreli&ste"
+  IDS_MI_DATASETTE_STOP           "S&top"
+  IDS_MI_DATASETTE_START          "&Start"
+  IDS_MI_DATASETTE_FORWARD        "Spol &frem"
+  IDS_MI_DATASETTE_REWIND         "Spol Til&bage"
+  IDS_MI_DATASETTE_RECORD         "&Optag"
+  IDS_MI_DATASETTE_RESET          "R&eset"
+  IDS_MI_DATASETTE_RESET_COUNTER  "Nulstil T&æller"
+  IDS_MI_CART_ENABLE_EXPERT       "Aktivér"
+  IDS_MI_CART_MODE_OFF            "Slukket"
+  IDS_MI_CART_MODE_ON             "Tændt"
+  IDS_MI_CART_SET_DEFAULT         "Vælg cartridge som stan&dard"
+  IDS_MI_TOGGLE_CART_RESET        "Reset &ved cartridge-skift"
+  IDS_MI_CART_DETACH              "Frakobl cartridge-&image"
+  IDS_MI_CART_FREEZE              "Cartridge &frys-funktion"
+  IDS_MI_MONITOR                  "&Monitor"
+#ifdef DEBUG
+  IDS_MI_DEBUG_MODE_NORMAL        "&Normal"
+  IDS_MI_DEBUG_MODE_SMALL         "&Lille"
+  IDS_MI_DEBUG_MODE_HISTORY       "&Historik"
+  IDS_MI_DEBUG_MODE_AUTOPLAY      "Automatisk afspilning af &Historik"
+  IDS_MI_TOGGLE_MAINCPU_TRACE     "Hoved-&CPU trace"
+  IDS_MI_TOGGLE_DRIVE0CPU_TRACE   "Enhed &0 CPU trace"
+  IDS_MI_TOGGLE_DRIVE1CPU_TRACE   "Enhed &1 CPU trace"
+#endif
+  IDS_MI_SNAPSHOT_LOAD            "&Indlæs snapshot..."
+  IDS_MI_SNAPSHOT_SAVE            "Gem Sna&pshot..."
+  IDS_MI_LOADQUICK                "Hurtigind&læs snapshot"
+  IDS_MI_SAVEQUICK                "Hurtig-gem &snapshot"
+  IDS_MI_EVENT_TOGGLE_RECORD      "Start/stop optagelse af &hændelser"
+  IDS_MI_EVENT_TOGGLE_PLAYBACK    "Start/stop afspilning af &hændelser"
+  IDS_MI_EVENT_SETMILESTONE       "Angiv optagelses-bogmærke"
+  IDS_MI_EVENT_RESETMILESTONE     "Gå til bogmærke"
+  IDS_MI_EVENT_START_MODE_SAVE    "Gem nyt &snapshot"
+  IDS_MI_EVENT_START_MODE_LOAD    "Ind&læs eksisterende snapshot"
+  IDS_MI_EVENT_START_MODE_RESET   "Start med &reset"
+  IDS_MI_EVENT_START_MODE_PLAYBCK "Overskriv eksisterende o&ptagelse"
+  IDS_MI_EVENT_DIRECTORY          "Vælg historikfiler/-katalog"
+  IDS_MI_MEDIAFILE                "Gem/stop mediefil..."
+  IDS_MI_SOUND_RECORD_START       "Optag lyd..."
+  IDS_MI_SOUND_RECORD_STOP        "Stop lydoptagelse"
+  IDS_MI_REFRESH_RATE_AUTO        "&Auto"
+  IDS_MI_MAXIMUM_SPEED_NO_LIMIT   "&Ubegrænset"
+  IDS_MI_MAXIMUM_SPEED_CUSTOM     "&Egen"
+  IDS_MI_TOGGLE_WARP_MODE         "&Warp-tilstand"
+  IDS_MI_TOGGLE_ALWAYSONTOP       "Altid øverst"
+  IDS_MI_TOGGLE_FASTPAL           "PAL-emulering"
+  IDS_MI_TOGGLE_SCALE2X           "Scale2x"
+  IDS_MI_SWAP_JOYSTICK            "Byt om på &joystickportene"
+  IDS_MI_JOYKEYS_TOGGLE           "Aktivér joystick via keyboard"
+  IDS_MI_TOGGLE_VIRTUAL_DEVICES   "&Virtuelle enheds-traps"
+  IDS_MI_TOGGLE_EMUID             "Emulator&identificering"
+  IDS_MI_MOUSE                    "Fan&g mussehændelser"
+  IDS_MI_VIDEO_SETTINGS           "&Grafikindstillinger..."
+  IDS_MI_DEVICEMANAGER            "&Ekstern-enhedsindstillinger..."
+  IDS_MI_JOY_SETTINGS             "&Joystick indstillinger..."
+  IDS_MI_KEYBOARD_SETTINGS        "&Tastaturindstillinger..."
+  IDS_MI_SOUND_SETTINGS           "L&ydindstillinger..."
+  IDS_MI_ROM_SETTINGS             "&ROM-indstillinger..."
+  IDS_MI_RAM_SETTINGS             "RA&M-indstillinger..."
+  IDS_MI_DATASETTE_SETTINGS       "D&atasetteindstillinger..."
+  IDS_MI_VICII_SETTINGS           "VIC-II-indstillinger..."
+  IDS_MI_MOUSE_SETTINGS           "M&usseindstillinger..."
+  IDS_MI_SID_SETTINGS             "S&ID-indstillinger..."
+  IDS_MI_RS232_SETTINGS           "RS&232-indstillinger..."
+  IDS_MI_REU_SETTINGS             "&REU-indstillinger..."
+  IDS_MI_GEORAM_SETTINGS          "&GEORAM-indstillinger..."
+  IDS_MI_RAMCART_SETTINGS         "&RAMCART-indstillinger..."
+  IDS_MI_DQBB_SETTINGS            "&Double Quick Brown Box indstillinger..."
+  IDS_MI_ISEPIC_SETTINGS          "I&sepic-indstillinger..."
+  IDS_MI_MMC64_SETTINGS           "&MMC64-indstillinger..."
+  IDS_MI_MIDI_SETTINGS            "M&IDI-indstillinger..."
+  IDS_MI_DIGIMAX_SETTINGS         "&DIGIMAX-indstillinger..."
+  IDS_MI_IDE64_SETTINGS           "&IDE64-indstillinger..."
+#ifdef HAVE_TFE
+  IDS_MI_TFE_SETTINGS             "&Ethernetindstillinger..."
+#endif
+  IDS_MI_ACIA_SETTINGS            "&ACIA-indstillinger..."
+  IDS_MI_RS232USER_SETTINGS       "RS&232-brugerportsindstillinger..."
+  IDS_MI_SETTINGS_SAVE_FILE       "Gem indstillinger som"
+  IDS_MI_SETTINGS_LOAD_FILE       "Indlæs indstillinger fra"
+  IDS_MI_SETTINGS_SAVE            "Gem nuværende ind&stillinger"
+  IDS_MI_SETTINGS_LOAD            "Ind&læs gemte indstillinger"
+  IDS_MI_SETTINGS_DEFAULT         "Gen&dan standardindstillinger"
+  IDS_MI_SAVE_SETTINGS_ON_EXIT    "Gem indstillinger når programmet afs&luttes"
+  IDS_MI_CONFIRM_ON_EXIT          "&Bekræft programafslutning"
+  IDS_MI_LANG_EN                  "&Engelsk"
+  IDS_MI_LANG_DA                  "D&anish"
+  IDS_MI_LANG_DE                  "&Tysk"
+  IDS_MI_LANG_FR                  "&Fransk"
+  IDS_MI_LANG_HU                  "&Ungersk"
+  IDS_MI_LANG_IT                  "&Italiensk"
+  IDS_MI_LANG_NL                  "&Hollandsk"
+  IDS_MI_LANG_PL                  "&Polsk"
+  IDS_MI_LANG_SV                  "&Svensk"
+  IDS_MI_LANG_TR                  "&Turkish"
+  IDS_MI_CMDLINE                  "Kommand&olinjeparametre"
+  IDS_MI_CONTRIBUTORS             "&Bidragslämnare"
+  IDS_MI_LICENSE                  "&Licens"
+  IDS_MI_WARRANTY                 "Ingen &garanti"
+  IDS_MI_TOGGLE_FULLSCREEN        "Fuldskærm"
+  IDS_MI_SIDCART_SETTINGS         "&SID-cartridge indstillinger..."
+  IDS_MI_MON_OPEN                 "&Åbn"
+  IDS_MI_MON_SAVE                 "&Gem"
+  IDS_MI_MON_PRINT                "&Print"
+  IDS_MI_MON_EXIT                 "&Afslut\tAlt+F4"
+  IDS_MI_MON_STOP_DEBUG           "&Stop debugging"
+  IDS_MI_MON_STOP_EXEC            "Stop E&ksekvering"
+  IDS_MI_MON_STEP_INTO            "Step &ind i"
+  IDS_MI_MON_STEP_OVER            "Step &over"
+  IDS_MI_MON_SKIP_RETURN          "Step til &retur"
+  IDS_MI_MON_GOTO_CURSOR          "Gå til &cursor"
+  IDS_MI_MON_EVAL                 "&Evaluér udtryk"
+  IDS_MI_MON_CURRENT              "&Aktuel instruktion"
+  IDS_MI_MON_WND_EVAL             "Evaluerings&vindue"
+  IDS_MI_MON_WND_REG              "&Registervindue"
+  IDS_MI_MON_WND_MEM              "&Hukommelsesvindue"
+  IDS_MI_MON_WND_DIS              "&Disassembleringsvindue"
+  IDS_MI_MON_WND_CONSOLE          "&Konsolvindue"
+  IDS_MI_MON_COMPUTER             "&Computer"
+  IDS_MI_MON_DRIVE8               "Enhed &8"
+  IDS_MI_MON_DRIVE9               "Enhed &9"
+  IDS_MI_MON_CASCADE              "&Kaskade"
+  IDS_MI_MON_TILE_VERT            "&Side om side"
+  IDS_MI_MON_TILE_HORIZ           "&Over og under"
+  IDS_MI_MON_ARRANGE_ICONS        "&Arrangér ikoner"
 END
 
 
@@ -5784,6 +7336,7 @@ BEGIN
   IDS_MI_SAVE_SETTINGS_ON_EXIT    "Einstellungen beim Beenden speichern"
   IDS_MI_CONFIRM_ON_EXIT          "&Bestätigung beim Beenden"
   IDS_MI_LANG_EN                  "&Englisch"
+  IDS_MI_LANG_DA                  "D&anish"
   IDS_MI_LANG_DE                  "&Deutsch"
   IDS_MI_LANG_FR                  "&Französisch"
   IDS_MI_LANG_HU                  "&Ungarisch"
@@ -5791,6 +7344,7 @@ BEGIN
   IDS_MI_LANG_NL                  "&Holländisch"
   IDS_MI_LANG_PL                  "&Polnisch"
   IDS_MI_LANG_SV                  "&Schwedisch"
+  IDS_MI_LANG_TR                  "&Turkish"
   IDS_MI_CMDLINE                  "Kommandozeilen &Optionen"
   IDS_MI_CONTRIBUTORS             "VICE Hackers"
   IDS_MI_LICENSE                  "&Lizenz"
@@ -6180,6 +7734,7 @@ BEGIN
   IDS_MI_SAVE_SETTINGS_ON_EXIT    "Enregistrer les pa&ramètres à la sortie"
   IDS_MI_CONFIRM_ON_EXIT          "&Confirmation à la sortie"
   IDS_MI_LANG_EN                  "&Anglais"
+  IDS_MI_LANG_DA                  "D&anish"
   IDS_MI_LANG_DE                  "&Allemand"
   IDS_MI_LANG_FR                  "&Français"
   IDS_MI_LANG_HU                  "&Hungarian"
@@ -6187,6 +7742,7 @@ BEGIN
   IDS_MI_LANG_NL                  "&Hollandais"
   IDS_MI_LANG_PL                  "&Polonais"
   IDS_MI_LANG_SV                  "&Suédois"
+  IDS_MI_LANG_TR                  "&Turkish"
   IDS_MI_CMDLINE                  "&Options de ligne de commande"
   IDS_MI_CONTRIBUTORS             "&Contributeurs"
   IDS_MI_LICENSE                  "&License"
@@ -6576,6 +8132,7 @@ BEGIN
   IDS_MI_SETTINGS_DEFAULT         "Alapértelmezések &beállítása"
   IDS_MI_SAVE_SETTINGS_ON_EXIT    "Beállítások mentése k&ilépéskor"
   IDS_MI_CONFIRM_ON_EXIT          "&Megerõsítés kilépéskor"
+  IDS_MI_LANG_DA                  "D&anish"
   IDS_MI_LANG_EN                  "&Angol"
   IDS_MI_LANG_DE                  "&Német"
   IDS_MI_LANG_FR                  "&Francia"
@@ -6584,6 +8141,7 @@ BEGIN
   IDS_MI_LANG_NL                  "&Holland"
   IDS_MI_LANG_PL                  "&Lengyel"
   IDS_MI_LANG_SV                  "&Svéd"
+  IDS_MI_LANG_TR                  "&Turkish"
   IDS_MI_CMDLINE                  "Parancssori &opciók"
   IDS_MI_CONTRIBUTORS             "&Közremûködõk"
   IDS_MI_LICENSE                  "&Licensz"
@@ -6974,6 +8532,7 @@ BEGIN
   IDS_MI_SAVE_SETTINGS_ON_EXIT    "Salva le impostazioni in u&scita"
   IDS_MI_CONFIRM_ON_EXIT          "&Conferma all'uscita"
   IDS_MI_LANG_EN                  "&Inglese"
+  IDS_MI_LANG_DA                  "D&anish"
   IDS_MI_LANG_DE                  "&Tedesco"
   IDS_MI_LANG_FR                  "&Francese"
   IDS_MI_LANG_HU                  "&Ungherese"
@@ -6981,6 +8540,7 @@ BEGIN
   IDS_MI_LANG_NL                  "&Olandese"
   IDS_MI_LANG_PL                  "&Polacco"
   IDS_MI_LANG_SV                  "&Svedese"
+  IDS_MI_LANG_TR                  "&Turkish"
   IDS_MI_CMDLINE                  "&Opzioni della riga di comando"
   IDS_MI_CONTRIBUTORS             "&Collaboratori"
   IDS_MI_LICENSE                  "&Licenza"
@@ -7370,6 +8930,7 @@ BEGIN
   IDS_MI_SAVE_SETTINGS_ON_EXIT    "Sla instellingen op bij afslui&ten"
   IDS_MI_CONFIRM_ON_EXIT          "Bevestigen bij afsl&uiten"
   IDS_MI_LANG_EN                  "&Engels"
+  IDS_MI_LANG_DA                  "D&eens"
   IDS_MI_LANG_DE                  "&Duits"
   IDS_MI_LANG_FR                  "&Frans"
   IDS_MI_LANG_HU                  "&Hongaars"
@@ -7377,6 +8938,7 @@ BEGIN
   IDS_MI_LANG_NL                  "&Nederlands"
   IDS_MI_LANG_PL                  "&Pools"
   IDS_MI_LANG_SV                  "&Zweeds"
+  IDS_MI_LANG_TR                  "&Turks"
   IDS_MI_CMDLINE                  "Commando invoer &opties"
   IDS_MI_CONTRIBUTORS             "&Medewerkers aan het VICE project"
   IDS_MI_LICENSE                  "&Licensie"
@@ -7767,6 +9329,7 @@ BEGIN
   IDS_MI_SAVE_SETTINGS_ON_EXIT    "&Zapisz ustawienia przy wyj¶ciu"
   IDS_MI_CONFIRM_ON_EXIT          "&Confirm on exit"
   IDS_MI_LANG_EN                  "&English"
+  IDS_MI_LANG_DA                  "D&anish"
   IDS_MI_LANG_DE                  "&German"
   IDS_MI_LANG_FR                  "&French"
   IDS_MI_LANG_HU                  "&Hungarian"
@@ -7774,6 +9337,7 @@ BEGIN
   IDS_MI_LANG_NL                  "&Dutch"
   IDS_MI_LANG_PL                  "&Polish"
   IDS_MI_LANG_SV                  "&Swedish"
+  IDS_MI_LANG_TR                  "&Turkish"
   IDS_MI_CMDLINE                  "Command line &options"
   IDS_MI_CONTRIBUTORS             "&Wspó³pracownicy projektu VICE"
   IDS_MI_LICENSE                  "&Licencja"
@@ -8164,6 +9728,7 @@ BEGIN
   IDS_MI_SAVE_SETTINGS_ON_EXIT    "Spara inställningar vid &avslut"
   IDS_MI_CONFIRM_ON_EXIT          "&Bekräfta avslutning"
   IDS_MI_LANG_EN                  "&Engelska"
+  IDS_MI_LANG_DA                  "D&anish"
   IDS_MI_LANG_DE                  "&Tyska"
   IDS_MI_LANG_FR                  "&Franska"
   IDS_MI_LANG_HU                  "&Ungerska"
@@ -8171,6 +9736,7 @@ BEGIN
   IDS_MI_LANG_NL                  "&Nederländska"
   IDS_MI_LANG_PL                  "&Polska"
   IDS_MI_LANG_SV                  "&Svenska"
+  IDS_MI_LANG_TR                  "&Turkish"
   IDS_MI_CMDLINE                  "Kommandorads&flaggor"
   IDS_MI_CONTRIBUTORS             "&Bidragslämnare"
   IDS_MI_LICENSE                  "&Licens"
@@ -8202,6 +9768,405 @@ BEGIN
   IDS_MI_MON_TILE_HORIZ           "&Över och under"
   IDS_MI_MON_ARRANGE_ICONS        "&Arrangera ikoner"
 END
+
+
+// TURKISH text
+
+#pragma code_page(28599)
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_VICE_ERROR                  "VICE Hatasý!"
+  IDS_VICE_INFORMATION            "VICE Bilgisi"
+  IDS_VICE_QUESTION               "VICE sorusu"
+  IDS_FFMPEG_DLL_MISMATCH         "ffmpeg dll versiyonunuz uyumlu deðil."
+  IDS_DIRECTDRAW_ERROR            "DirectDraw hatasý: Kod:%8x Hata:%s"
+  IDS_CANNOT_SAVE_SETTINGS        "Ayarlar kaydedilemedi."
+  IDS_CANNOT_LOAD_SETTINGS        "Ayarlar yüklenemedi."
+  IDS_DEFAULT_SETTINGS_RESTORED   "Varsayýlan ayarlara geri dönüldü."
+  IDS_CANNOT_ATTACH_FILE          "Belirtilen dosya yerleþtirilemedi"
+  IDS_START_MONITOR               "%s\012\012Monitörü baþlat? (Hayýr reset atacaktýr, Ýptal devam edecektir)"
+  IDS_VICE_CPU_JAM                "VICE CPU SIKIÞMASI"
+  IDS_EXTEND_TO_40_TRACKS         "Imaj 40-track biçimine geniþletilsin mi?"
+  IDS_DETACHED_DEVICE_S           "Aygýt %s çýkartýldý"
+  IDS_ATTACHED_S_TO_DEVICE_S      "%s aygýt#%s'a yerleþtirildi"
+  IDS_DETACHED_TAPE               "Teyp çýkartýldý"
+  IDS_HISTORY_RECORDED_UNKNOWN    "Tarihçe bilinmeyen yayýmlanmayla kaydedildi"
+  IDS_HISTORY_RECORDED_VICE_S     "Tarihçe VICE-%s ile kaydedildi"
+  IDS_PAUSED                      "duraklatýldý"
+  IDS_FRAME_NUMBER                "frame #"
+  IDS_RESUMED                     "yeniden baþlatýldý"
+  IDS_REALLY_EXIT                 "Çýkmak istediðinizden emin misiniz?\n\nEmüle edilmiþ RAM'de bulunan mevcut tüm veri kaybedilecektir."
+  IDS_CANNOT_AUTOSTART_FILE       "Belirtilen dosya otomatik baþlatýlamadý."
+  IDS_ATTACHED_TAPE_S             "Yerleþtirilmiþ teyp %s"
+  IDS_SETTINGS_SAVED_SUCCESS      "Ayarlar baþarýyla kaydedildi."
+  IDS_SETTINGS_LOADED_SUCCESS     "Ayarlar baþarýyla yüklendi."
+  IDS_ATTACH_DISK_IMAGE           "Disk imajýný yerleþtir"
+  IDS_ATTACH_TAPE_IMAGE           "Teyp imajýný yerleþtir"
+  IDS_AUTOSTART_IMAGE             "Disk/Teyp imajýný otomatik baþlat"
+  IDS_INVALID_CARTRIDGE           "Geçersiz kartuþ"
+  IDS_BAD_CARTRIDGE_CONFIG        "UI'de kötü kartuþ konfigürasyonu!"
+  IDS_INVALID_CARTRIDGE_IMAGE     "Geçersiz kartuþ imajý"
+  IDS_LOG_CONSOLE_OUTPUT_IMAGE    "konsol imaj çýktýsý loglanýyor"
+  IDS_LOG_FILES_TYPE              "VICE konsol log dosyalarý (*.dbg)"
+  IDS_CANNOT_WRITE_LOGFILE_S      "Log dosyasý `%s' yazýlamadý."
+  IDS_LOAD_FLIP_LIST_FILE         "Sýralama listesi dosyasýný yükle"
+  IDS_CANNOT_READ_FLIP_LIST       "Sýralama listesi dosyasý okunamadý."
+  IDS_SAVE_FLIP_LIST_FILE         "Sýralama listesi dosyasýný kaydet"
+  IDS_CANNOT_WRITE_FLIP_LIST      "Sýralama listesi dosyasý yazýlamadý"
+  IDS_SELECT_KEYMAP_FILE          "Tuþ Haritasý dosyasý seç"
+  IDS_SAVE_KEYMAP_FILE            "Tuþ Haritasý dosyasýný kaydet"
+  IDS_CANNOT_WRITE_KEYMAP_FILE    "Tuþ Haritasý dosyasý yazýlamadý"
+  IDS_SAVE_CONFIG_FILE            "Konfigürasyon dosyasýný kaydet"
+  IDS_LOAD_CONFIG_FILE            "Konfigürasyon dosyasýný yükle"
+  IDS_MAPPING                     "Haritalama"
+  IDS_KEYBOARD_SETTINGS           "Klavye ayarlarý"
+  IDS_ATTACH                      "&Yerleþtir"
+  IDS_PLEASE_ENTER_A_FILENAME     "Lütfen dosya ismi girin."
+  IDS_OVERWRITE_EXISTING_IMAGE    "Varolan imajýn üzerine yazýlsýn mý?"
+  IDS_CANNOT_CREATE_IMAGE         "Imaj yaratýlamadý"
+  IDS_COMMAND_LINE_OPTIONS        "Komut satýrý seçenekleri"
+  IDS_COMMAND_OPTIONS_AVAIL       "Hangi komut satýrý seçenekleri mevcut?"
+  IDS_NO_DRIVER_SELECT_SUPPORT    "Seçilmiþ sürücü yok ya da desteklenmiyor"
+  IDS_CANT_WRITE_SCREENSHOT_S     "Ekran görüntüsü dosyasý `%s' yazýlamadý."
+  IDS_AUTOSTART_DISK_IMAGE        "Disk imajýný otomatik baþlat"
+  IDS_SELECT_FS_DIRECTORY         "Dosya sistem dizinini seç"
+  IDS_PRINTER_USERPORT            "Yazýcý Userport'u"
+  IDS_PRINTER_4                   "Yazýcý 4"
+  IDS_PRINTER_5                   "Yazýcý 5"
+  IDS_DRIVE_8                     "Sürücü 8"
+  IDS_DRIVE_9                     "Sürücü 9"
+  IDS_DRIVE_10                    "Sürücü 10"
+  IDS_DRIVE_11                    "Sürücü 11"
+  IDS_PERIPHERAL_SETTINGS         "Çevresel Ayarlar"
+  IDS_CANT_WRITE_SNAPSHOT_FILE    "Anlýk görüntü dosyasý yazýlamadý."
+  IDS_CANNOT_READ_SNAPSHOT_IMG    "Anlýk görüntü dosyasý okunamadý."
+  IDS_LOAD_S_ROM_IMAGE            "%s ROM imajýný yükle"
+  IDS_SELECT_ROMSET_ARCHIVE       "Romset arþivini seç"
+  IDS_CANNOT_LOAD_ROMSET_ARCH     "Romset arþivi yüklenemedi!"
+  IDS_CANNOT_SAVE_ROMSET_ARCH     "Romset arþivi kaydedilemedi!"
+  IDS_CANNOT_LOAD_ROMSET_FILE     "Romset dosyasý yüklenemedi!"
+  IDS_CANNOT_SAVE_ROMSET_FILE     "Romset dosyasý kaydedilemedi!"
+  IDS_SELECT_ROMSET_FILE          "Romset dosyasýný seç"
+  IDS_ROMSET                      "Romset"
+  IDS_COMPUTER                    "Bilgisayar"
+  IDS_DRIVE                       "Sürücü"
+  IDS_ROM_SETTINGS                "ROM ayarlarý"
+  IDS_SAVE_SNAPSHOT_IMAGE         "Anlýk görüntü imajýný kaydet"
+  IDS_CANNOT_WRITE_SNAPSHOT_S     "Anlýk görüntü dosyasý yazýlamadý `%s'."
+  IDS_LOAD_SNAPSHOT_IMAGE         "Anlýk görüntü imajýný yükle"
+  IDS_COULD_NOT_LOAD_PALETTE      "Palet dosyasý yüklenemedi."
+  IDS_LOAD_VICE_PALETTE_FILE      "VICE palet dosyasý yükle"
+  IDS_FULLSCREEN                  "Tam ekran"
+  IDS_COLORS                      "Renkler"
+  IDS_NEW_PAL                     "Yeni PAL emülasyonu"
+  IDS_VIDEO_SETTINGS              "Görüntü ayarlarý"
+  IDS_FILE_SYSTEM                 "Dosya sistemi"
+#ifdef HAVE_OPENCBM
+  IDS_REAL_IEC_DEVICE             "Gerçek IEC aygýtý"
+#endif
+  IDS_RS232_DEVICE_I              "RS232 aygýtý %i"
+  IDS_ATTACH_CRT_CART_IMAGE       "CRT kartuþ imajý yerleþtir"
+  IDS_ATTACH_RAW_8KB_CART_IMAGE   "Düz 8KB kartuþ imajý yerleþtir"
+  IDS_ATTACH_RAW_16KB_CART_IMG    "Düz 16KB kartuþ imajý yerleþtir"
+  IDS_ATTACH_AR_CART_IMAGE        "Action Replay kartuþ imajý yerleþtir"
+  IDS_ATTACH_AR3_CART_IMAGE       "Action Replay III kartuþ imajý yerleþtir"
+  IDS_ATTACH_AR4_CART_IMAGE       "Action Replay 4 kartuþ imajý yerleþtir"
+  IDS_ATTACH_STARDOS_CART_IMAGE   "StarDOS kartuþ imajý yerleþtir"
+  IDS_ATTACH_ATOMIC_P_CART_IMG    "Atomic Power kartuþ imajý yerleþtir"
+  IDS_ATTACH_EPYX_FL_CART_IMG     "Epyx fastload kartuþ imajý yerleþtir"
+  IDS_ATTACH_IEEE488_CART_IMG     "IEEE arabirimi kartuþ imajý yerleþtir"
+  IDS_ATTACH_RETRO_R_CART_IMG     "Retro Replay kartuþ imajý yerleþtir"
+  IDS_ATTACH_IDE64_CART_IMAGE     "IDE64 arabirimi kartuþ imajý yerleþtir"
+  IDS_ATTACH_SS4_CART_IMAGE       "Super Snapshot 4 kartuþ imajý yerleþtir"
+  IDS_ATTACH_SS5_CART_IMAGE       "Super Snapshot 5 kartuþ imajý yerleþtir"
+  IDS_ATTACH_STB_CART_IMAGE       "Structured Basic kartuþ imajý yerleþtir"
+  IDS_MODEL                       "Model"
+  IDS_DRIVE_SETTINGS              "Sürücü Ayarlarý"
+  IDS_SELECT_START_SNAP_EVENT     "Olay tarihçesi için baþlangýç anlýk görüntüsünü seç"
+  IDS_SELECT_END_SNAP_EVENT       "Olay tarihçesi için bitiþ anlýk görüntüsünü seç"
+#ifdef UNSTABLE
+  IDS_VERSION_S_UNSTABLE          "Versiyon %s *ÝSTÝKRARSIZ*"
+#else
+  IDS_VERSION_S                   "Versiyon %s"
+#endif
+  IDS_VICE_CONTRIBUTORS           "VICE katýlýmcýlarý"
+  IDS_WHO_MADE_WHAT               "Kim ne yaptý?"
+  IDS_LICENSE                     "Lisans"
+  IDS_NO_WARRANTY                 "Garanti verilmez!"
+  IDS_VICE_WITHOUT_WARRANTY       "VICE HÝÇBÝR GARANTÝ VERÝLMEDEN daðýtýlmýþtýr!"
+  IDS_PRESS_KEY_NORTHWEST         "KuzeyBatý için bir tuþa basýn"
+  IDS_PRESS_KEY_NORTH             "Kuzey için bir tuþa basýn"
+  IDS_PRESS_KEY_NORTHEAST         "KuzeyDoðu için bir tuþa basýn"
+  IDS_PRESS_KEY_EAST              "Doðu için bir tuþa basýn"
+  IDS_PRESS_KEY_SOUTHEAST         "GüneyDoðu için bir tuþa basýn"
+  IDS_PRESS_KEY_SOUTH             "Güney için bir tuþa basýn"
+  IDS_PRESS_KEY_SOUTHWEST         "GüneyBatý için bir tuþa basýn"
+  IDS_PRESS_KEY_WEST              "Batý için bir tuþa basýn"
+  IDS_PRESS_KEY_FIRE              "Ateþ için bir tuþa basýn"
+  IDS_NUMPAD_AND_RCTRL            "Numpad + Sað Ctrl"
+  IDS_KEYSET_A                    "Tuþ Seti A"
+  IDS_KEYSET_B                    "Tuþ Seti B"
+  IDS_ALL_BUTTONS_AS_FIRE         "Tüm düðmeler ateþ olarak kullanýlýr"
+  IDS_NUMERIC_SEE_ABOVE           "Nümerik (yukarýya bakýn)"
+  IDS_NO_BUTTON_NO_AUTOFIRE       "Düðme yok - Otomatik ateþi pasifleþtir"
+  IDS_ALL_FILES_FILTER            "Tüm dosyalar (*.*)"
+  IDS_PALETTE_FILES_FILTER        "VICE palet dosyalarý (*.vpl)"
+  IDS_SNAPSHOT_FILES_FILTER       "VICE anlýk görüntü dosyalarý (*.vsf)"
+  IDS_CBM_IMAGE_FILES_FILTER      "CBM dosyalarý (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
+  IDS_DISK_IMAGE_FILES_FILTER     "Disk imaj dosyalarý (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+  IDS_TAPE_IMAGE_FILES_FILTER     "Teyp imaj dosyalarý (*.t64;*.tap)"
+  IDS_ZIPPED_FILES_FILTER         "Ziplenmiþ dosyalar (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_CRT_FILES_FILTER            "CRT kartuþ imajý dosyalarý (*.crt)"
+  IDS_RAW_CART_FILES_FILTER       "Düz kartuþ imajý dosyalarý (*.bin)"
+  IDS_FLIP_LIST_FILES_FILTER      "VICE sýralama listesi dosyalarý (*.vfl)"
+  IDS_ROMSET_FILES_FILTER         "VICE romset dosyalarý (*.vrs)"
+  IDS_ROMSET_ARCHIVES_FILTER      "VICE romset arþivleri (*.vra)"
+  IDS_KEYMAP_FILES_FILTER         "VICE tuþ haritasý dosyalarý (*.vkm)"
+  IDS_PRGP00_FILES_FILTER         "Commodore emülatörü dosyalarý (*.prg;*.p00)"
+  IDS_FLEXIBLE                    "Esnek"
+  IDS_ADJUSTING                   "Düzeltme"
+  IDS_EXACT                       "Aynen"
+  IDS_SOUND_DRIVER_DIRECTX        "Ses sürücüsü: DirectX"
+  IDS_SOUND_DRIVER_WMM            "Ses sürücüsü: WMM"
+  IDS_MEDIA_FILES_FILTER          "Ortam dosyalarý (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
+  IDS_SPACE_KB                    " kB"
+  IDS_CONFIGURE_KEYSET_A          "Tuþ Seti A'yý Konfigüre Et"
+  IDS_CONFIGURE_KEYSET_B          "Tuþ Seti B'yi Konfigüre Et"
+  IDS_SAVE_MEDIA_IMAGE            "Ortam imajý kaydet"
+  IDS_S_AT_D_SPEED                "%s %d%% hýzýnda, %d fps%s"
+  IDS_TAPE                        "Teyp:"
+  IDS_JOYSTICK_C                  "Joystick:"
+  IDS_RECORDING                   "Kaydediliyor\n%02d:%02d"
+  IDS_PLAYBACK                    "Kayýttan yürütülüyor\n%02d:%02d (%02d:%02d)"
+  IDS_UNKNOWN                     "Bilinmeyen"
+  IDS_P_NUMBER                    "<sayý>"
+  IDS_SET_INPUT_JOYSTICK_1        "Joystick #1 için giriþ aygýtý belirle"
+  IDS_SET_INPUT_JOYSTICK_2        "Joystick #2 için giriþ aygýtý belirle"
+  IDS_SAVE_SETTINGS_ON_EXIT       "Çýkýþta ayarlarý (kaynaklarý) kaydet"
+  IDS_NO_SAVE_SETTINGS_ON_EXIT    "Çýkýþta asla ayarlarý (kaynaklarý) kaydetme"
+  IDS_CONFIRM_QUIT_VICE           "VICE'dan çýkarken teyit et"
+  IDS_NO_CONFIRM_QUIT_VICE        "VICE'dan çýkarken asla teyit etme"
+  IDS_USE_ALL_CPU_SMP             "SMP sistemlerinde tüm CPUlarý kullan"
+  IDS_USE_FIRST_CPU_SMP           "SMP sistemlerinde yalnýzca ilk CPU'yu kullan"
+  IDS_START_VICE_FULLSCREEN_MODE  "VICE'ý tam ekran modunda baþlat"
+#ifdef SYS_SIGLIST_DECLARED
+  IDS_RECEIVED_SIGNAL_D_S         "Beklenmeyen hata oluþtu. %d sinyali alýndý (%s)."
+#else
+  IDS_RECEIVED_SIGNAL_D           "Beklenmeyen hata oluþtu. %d sinyali alýndý."
+#endif
+#ifdef HAVE_NETWORK
+  IDS_IDLE                        "Boþa vakit geçirme"
+  IDS_SERVER_LISTENING            "Sunucu dinleniyor"
+  IDS_CONNECTED_SERVER            "Sunucu Baðlandý"
+  IDS_CONNECTED_CLIENT            "Ýstemci Baðlandý"
+  IDS_INVALID_PORT_NUMBER         "Geçersiz port numarasý"
+  IDS_ERROR_STARTING_SERVER       "Sunucu baþlatýlýrken bir hata oluþtu."
+  IDS_ERROR_CONNECTING_CLIENT     "Ýstemciye baðlanýrken bir hata oluþtu."
+#endif
+  IDS_SOUND_RECORDING_STARTED     "Ses Kaydý baþladý..."
+  IDS_SOUND_RECORDING_STOPPED     "Ses Kaydý durduruldu"
+  IDS_OK                          "Tamam"
+  IDS_CANCEL                      "Ýptal"
+  IDS_NONE                        "Yok"
+  IDS_BROWSE                      "&Göz at..."
+  IDS_SPECIFY_MIDI_IN             "Midi-In aygýtýný belirleyin"
+  IDS_SPECIFY_MIDI_OUT            "Midi-Out aygýtýný belirleyin"
+  IDS_MP_FILE                     "&Dosya"
+  IDS_MP_ATTACH_DISK_IMAGE        "&Disk imajý yerleþtir"
+  IDS_MP_DETACH_DISK_IMAGE        "Disk imajý çýkar&t"
+  IDS_MP_FLIP_LIST                "&Sýralama listesi"
+  IDS_MP_DATASETTE_CONTROL        "Teyp kontro&lü"
+  IDS_MP_ATTACH_CARTRIDGE_IMAGE   "&Kartuþ imajý yerleþtir..."
+  IDS_MP_EXPERT_CARTRIDGE         "Expert Kartuþu"
+  IDS_MP_RESET                    "&Reset"
+  IDS_MP_DEBUG                    "&Hata Ayýkla"
+#ifdef DEBUG
+  IDS_MP_MODE                     "M&od"
+#endif
+  IDS_MP_EDIT                     "Düzenle"
+  IDS_MP_SNAPSHOT                 "&Anlýk Görüntü"
+  IDS_MP_RECORDING_START_MODE     "Kayýt baþlangýç modu"
+  IDS_MP_OPTIONS                  "&Seçenekler"
+  IDS_MP_REFRESH_RATE             "&Yenileme hýzý"
+  IDS_MP_MAXIMUM_SPEED            "&Maksimum Hýz"
+  IDS_MP_VIDEO_STANDARD           "G&orüntü standartý"
+  IDS_MP_DRIVE_SYNC_FACTOR        "Sürücü s&ync faktörü"
+  IDS_MP_SETTINGS                 "&Ayarlar"
+  IDS_MP_CARTRIDGE_IO_SETTINGS    "&Kartuþ/GÇ ayarlarý"
+  IDS_MP_LANGUAGE                 "Di&l"
+  IDS_MP_HELP                     "&Yardým"
+  IDS_MP_VIEW                     "&Görünüm"
+  IDS_MP_WINDOW                   "&Pencere"
+  IDS_MI_EXIT                     "Çý&kýþ"
+  IDS_MI_ABOUT                    "H&akkýnda..."
+  IDS_MI_PAUSE                    "&Duraklat"
+  IDS_MI_EDIT_COPY                "&Kopyala"
+  IDS_MI_EDIT_PASTE               "Ya&pýþtýr"
+  IDS_MI_AUTOSTART                "Disk/Teyp imajlarýný otom&atik baþlat..."
+  IDS_MI_RESET_HARD               "&Hard"
+  IDS_MI_RESET_SOFT               "&Soft"
+  IDS_MI_DRIVE8                   "Sürücü &8"
+  IDS_MI_DRIVE9                   "Sürücü &9"
+  IDS_MI_DRIVE10                  "Sürücü 1&0"
+  IDS_MI_DRIVE11                  "Sürücü 1&1"
+  IDS_MI_ATTACH_TAPE              "&Teyp imajý yerleþtir..."
+  IDS_MI_DETACH_TAPE              "Teyp imajýný çý&kart"
+  IDS_MI_DETACH_ALL               "&Tümü"
+  IDS_MI_TOGGLE_SOUND             "&Ses"
+  IDS_MI_TOGGLE_DOUBLESIZE        "Çift &boyut"
+  IDS_MI_TOGGLE_DOUBLESCAN        "Çift &tarama"
+  IDS_MI_DRIVE_TRUE_EMULATION     "&Gerçek sürücü emülasyonu"
+  IDS_MI_TOGGLE_VIDEOCACHE        "Görüntü ö&nbelleði"
+  IDS_MI_DRIVE_SETTINGS           "&Sürücü ayarlarý..."
+  IDS_MI_CART_ATTACH_CRT          "&CRT imajý..."
+  IDS_MI_CART_ATTACH_8KB          "&8KB jenerik imaj..."
+  IDS_MI_CART_ATTACH_16KB         "&16KB jenerik imaj..."
+  IDS_MI_CART_ATTACH_AR           "&Action Replay imajý..."
+  IDS_MI_CART_ATTACH_AR3          "&Action Replay 3 imajý..."
+  IDS_MI_CART_ATTACH_AR4          "&Action Replay 4 imajý..."
+  IDS_MI_CART_ATTACH_STARDOS      "&StarDOS imajý..."
+  IDS_MI_CART_ATTACH_AT           "Atomic &Power imajý..."
+  IDS_MI_CART_ATTACH_EPYX         "&Epyx fastload imajý..."
+  IDS_MI_CART_ATTACH_IEEE488      "&IEEE488 arabirimi imajý..."
+  IDS_MI_CART_ATTACH_RR           "&Retro Replay imajý..."
+  IDS_MI_CART_ATTACH_IDE64        "IDE&64 arabirimi imajý..."
+  IDS_MI_CART_ATTACH_SS4          "Super Snapshot &4 imajý..."
+  IDS_MI_CART_ATTACH_SS5          "Super Snapshot &5 imajý..."
+  IDS_MI_CART_ATTACH_STB          "Structured &Basic imajý..."
+  IDS_MI_FLIP_ADD                 "Geçerli im&ajý ekle"
+  IDS_MI_FLIP_REMOVE              "Geçerli imajý kaldý&r"
+  IDS_MI_FLIP_NEXT                "So&nraki imajý yerleþtir"
+  IDS_MI_FLIP_PREVIOUS            "Önce&ki imajý yerleþtir"
+  IDS_MI_FLIP_LOAD                "Sýralama &listesi yükle"
+  IDS_MI_FLIP_SAVE                "&Sýralama listesi kaydet"
+  IDS_MI_DATASETTE_STOP           "&Durdur"
+  IDS_MI_DATASETTE_START          "&Baþlat"
+  IDS_MI_DATASETTE_FORWARD        "Ýle&ri"
+  IDS_MI_DATASETTE_REWIND         "&Geri"
+  IDS_MI_DATASETTE_RECORD         "&Kayýt"
+  IDS_MI_DATASETTE_RESET          "R&eset"
+  IDS_MI_DATASETTE_RESET_COUNTER  "Sayacý &Resetle"
+  IDS_MI_CART_ENABLE_EXPERT       "Aktif Et"
+  IDS_MI_CART_MODE_OFF            "Kapalý"
+  IDS_MI_CART_MODE_ON             "Açýk"
+  IDS_MI_CART_SET_DEFAULT         "Kartuþu &varsayýlan yap"
+  IDS_MI_TOGGLE_CART_RESET        "Kartuþ &deðiþiminde resetle"
+  IDS_MI_CART_DETACH              "Kartuþ &imajýný çýkart"
+  IDS_MI_CART_FREEZE              "&Kartuþ dondurma"
+  IDS_MI_MONITOR                  "&Monitör"
+#ifdef DEBUG
+  IDS_MI_DEBUG_MODE_NORMAL        "&Normal"
+  IDS_MI_DEBUG_MODE_SMALL         "&Küçük"
+  IDS_MI_DEBUG_MODE_HISTORY       "Tari&hçe"
+  IDS_MI_DEBUG_MODE_AUTOPLAY      "Tari&h Otomatik Yürütme"
+  IDS_MI_TOGGLE_MAINCPU_TRACE     "Ana CPU Ýzle&me"
+  IDS_MI_TOGGLE_DRIVE0CPU_TRACE   "Sürücü&0 CPU Ýzleme"
+  IDS_MI_TOGGLE_DRIVE1CPU_TRACE   "Sürücü&1 CPU Ýzleme"
+#endif
+  IDS_MI_SNAPSHOT_LOAD            "Anlýk görüntü imajýný yükle..."
+  IDS_MI_SNAPSHOT_SAVE            "Anlýk görüntü imajýný &kaydet..."
+  IDS_MI_LOADQUICK                "Hýzlý anlýk görüntü imajý yük&le"
+  IDS_MI_SAVEQUICK                "Hýzlý anlýk görüntü imajý ka&ydet"
+  IDS_MI_EVENT_TOGGLE_RECORD      "Kayýt Tarihçesini Baþlat/Du&rdur"
+  IDS_MI_EVENT_TOGGLE_PLAYBACK    "K&ayýttan Yürütme Tarihçesini Baþlat/Durdur"
+  IDS_MI_EVENT_SETMILESTONE       "Kayýt kilometre taþý koy"
+  IDS_MI_EVENT_RESETMILESTONE     "Kilometre taþýna geri dön"
+  IDS_MI_EVENT_START_MODE_SAVE    "Yeni anlýk görüntü &kaydet"
+  IDS_MI_EVENT_START_MODE_LOAD    "Varolan anlýk görüntüyü yük&le"
+  IDS_MI_EVENT_START_MODE_RESET   "&Reset ile baþla"
+  IDS_MI_EVENT_START_MODE_PLAYBCK "Kayýttan yürütmenin ü&zerine yaz"
+  IDS_MI_EVENT_DIRECTORY          "Tarihçe dosyalarý/dizin seç"
+  IDS_MI_MEDIAFILE                "Ortam dosyasý kaydet/durdur..."
+  IDS_MI_SOUND_RECORD_START       "Ses Kaydet..."
+  IDS_MI_SOUND_RECORD_STOP        "Ses Kaydýný Durdur"
+  IDS_MI_REFRESH_RATE_AUTO        "Otom&atik"
+  IDS_MI_MAXIMUM_SPEED_NO_LIMIT   "&Limitsiz"
+  IDS_MI_MAXIMUM_SPEED_CUSTOM     "Öz&el"
+  IDS_MI_TOGGLE_WARP_MODE         "&Warp modu"
+  IDS_MI_TOGGLE_ALWAYSONTOP       "Her zaman üstte"
+  IDS_MI_TOGGLE_FASTPAL           "PAL Emülasyonu"
+  IDS_MI_TOGGLE_SCALE2X           "2x Geniþlet"
+  IDS_MI_SWAP_JOYSTICK            "&Joystickleri Yer Deðiþtir"
+  IDS_MI_JOYKEYS_TOGGLE           "Joy Tuþlarýný Aktif Et"
+  IDS_MI_TOGGLE_VIRTUAL_DEVICES   "Sanal a&ygýt trapleri"
+  IDS_MI_TOGGLE_EMUID             "Emülatör Tesp&iti"
+  IDS_MI_MOUSE                    "Mouse olaylarýný &yakala"
+  IDS_MI_VIDEO_SETTINGS           "&Görüntü ayalarlarý..."
+  IDS_MI_DEVICEMANAGER            "Çe&vresel ayarlar..."
+  IDS_MI_JOY_SETTINGS             "&Joystick ayarlarý..."
+  IDS_MI_KEYBOARD_SETTINGS        "&Klavye ayarlarý..."
+  IDS_MI_SOUND_SETTINGS           "&Ses ayarlarý..."
+  IDS_MI_ROM_SETTINGS             "&ROM ayarlarý..."
+  IDS_MI_RAM_SETTINGS             "RA&M ayarlarý..."
+  IDS_MI_DATASETTE_SETTINGS       "Teyp &ayarlarý..."
+  IDS_MI_VICII_SETTINGS           "VIC-II ayarlarý..."
+  IDS_MI_MOUSE_SETTINGS           "Mo&use ayarlarý..."
+  IDS_MI_SID_SETTINGS             "S&ID ayarlarý..."
+  IDS_MI_RS232_SETTINGS           "RS&232 ayarlarý"
+  IDS_MI_REU_SETTINGS             "&REU ayarlarý..."
+  IDS_MI_GEORAM_SETTINGS          "&GEORAM ayarlarý..."
+  IDS_MI_RAMCART_SETTINGS         "&RAMCART ayarlarý..."
+  IDS_MI_DQBB_SETTINGS            "&Double Quick Brown Box ayarlarý..."
+  IDS_MI_ISEPIC_SETTINGS          "I&sepic ayarlarý..."
+  IDS_MI_MMC64_SETTINGS           "&MMC64 ayarlarý..."
+  IDS_MI_MIDI_SETTINGS            "M&IDI ayarlarý..."
+  IDS_MI_DIGIMAX_SETTINGS         "&DIGIMAX ayarlarý..."
+  IDS_MI_IDE64_SETTINGS           "&IDE64 ayarlarý..."
+#ifdef HAVE_TFE
+  IDS_MI_TFE_SETTINGS             "&Ethernet ayarlarý..."
+#endif
+  IDS_MI_ACIA_SETTINGS            "&ACIA ayarlarý..."
+  IDS_MI_RS232USER_SETTINGS       "RS&232 userport ayarlarý..."
+  IDS_MI_SETTINGS_SAVE_FILE       "Belirtilen dosyaya geçerli ayarlarý kaydet"
+  IDS_MI_SETTINGS_LOAD_FILE       "Belirtilen dosyadan ayarlarý yükle"
+  IDS_MI_SETTINGS_SAVE            "Geçerli ayarlarý &kaydet"
+  IDS_MI_SETTINGS_LOAD            "Kaydedilmiþ ayarlarý yük&le"
+  IDS_MI_SETTINGS_DEFAULT         "&Varsayýlan ayarlarý belirle"
+  IDS_MI_SAVE_SETTINGS_ON_EXIT    "Çý&kýþta ayarlarý kaydet"
+  IDS_MI_CONFIRM_ON_EXIT          "Çýkýþta &teyit et"
+  IDS_MI_LANG_EN                  "Ýngilizc&e"
+  IDS_MI_LANG_DA                  "D&anish"
+  IDS_MI_LANG_DE                  "&Almanca"
+  IDS_MI_LANG_FR                  "&Fransýzca"
+  IDS_MI_LANG_HU                  "&Macarca"
+  IDS_MI_LANG_IT                  "&Ýtalyanca"
+  IDS_MI_LANG_NL                  "Hollan&daca"
+  IDS_MI_LANG_PL                  "&Polonyaca"
+  IDS_MI_LANG_SV                  "Ý&sveççe"
+  IDS_MI_LANG_TR                  "&Turkish"
+  IDS_MI_CMDLINE                  "K&omut satýrý seçenekleri"
+  IDS_MI_CONTRIBUTORS             "Katýlým&cýlar"
+  IDS_MI_LICENSE                  "&Lisans"
+  IDS_MI_WARRANTY                 "Garanti &verilmez"
+  IDS_MI_TOGGLE_FULLSCREEN        "Tam ekran"
+  IDS_MI_SIDCART_SETTINGS         "&SID kartuþu ayarlarý..."
+  IDS_MI_MON_OPEN                 "&Aç"
+  IDS_MI_MON_SAVE                 "&Kaydet"
+  IDS_MI_MON_PRINT                "&Yazdýr"
+  IDS_MI_MON_EXIT                 "Çý&kýþ\tAlt+F4"
+  IDS_MI_MON_STOP_DEBUG           "Hata Ayýklamayý &Durdur"
+  IDS_MI_MON_STOP_EXEC            "Çalýþtý&rmayý Durdur"
+  IDS_MI_MON_STEP_INTO            "&Adýmla"
+  IDS_MI_MON_STEP_OVER            "Üzerinden &geç"
+  IDS_MI_MON_SKIP_RETURN          "Dönene kada&r adýmla"
+  IDS_MI_MON_GOTO_CURSOR          "Ýmle&ce git"
+  IDS_MI_MON_EVAL                 "H&esapla"
+  IDS_MI_MON_CURRENT              "&Geçerli komut"
+  IDS_MI_MON_WND_EVAL             "Hesaplama &penceresi"
+  IDS_MI_MON_WND_REG              "Pence&reyi kaydet"
+  IDS_MI_MON_WND_MEM              "&Bellek penceresi"
+  IDS_MI_MON_WND_DIS              "&Daðýlým penceresi"
+  IDS_MI_MON_WND_CONSOLE          "Konsol pen&ceresi"
+  IDS_MI_MON_COMPUTER             "&Bilgisayar"
+  IDS_MI_MON_DRIVE8               "Sürücü &8"
+  IDS_MI_MON_DRIVE9               "Sürücü &9"
+  IDS_MI_MON_CASCADE              "&Basamakla"
+  IDS_MI_MON_TILE_VERT            "&Dikey döþe"
+  IDS_MI_MON_TILE_HORIZ           "&Yatay döþe"
+  IDS_MI_MON_ARRANGE_ICONS        "&Simgeleri yerleþtir"
+END
+#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 

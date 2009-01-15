@@ -7,7 +7,7 @@
 
 #pragma code_page(28591)
 
-// original and default ENGLISH version of dialog
+// template of dialog for all languages
 
 IDD_REU_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -40,6 +40,19 @@ BEGIN
     IDS_REU_SIZE                "REU size"
     IDS_REU_FILE                "REU file"
     IDS_REU_SELECT_FILE         "Select file for REU"
+END
+
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_REU_CAPTION             "REU-indstillinger"
+    IDS_REU_ENABLE              "&Aktivér REU"
+    IDS_REU_SIZE                "REU-størrelse"
+    IDS_REU_FILE                "REU-fil"
+    IDS_REU_SELECT_FILE         "Vælg fil for REU"
 END
 
 
@@ -136,3 +149,18 @@ BEGIN
     IDS_REU_FILE                "REU-fil"
     IDS_REU_SELECT_FILE         "Välj fil för REU"
 END
+
+
+// TURKISH text
+
+#pragma code_page(28599)
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_REU_CAPTION             "REU Ayarlarý"
+    IDS_REU_ENABLE              "REU'yý aktif &et"
+    IDS_REU_SIZE                "REU Boyutu"
+    IDS_REU_FILE                "REU dosyasý"
+    IDS_REU_SELECT_FILE         "REU için dosya seçin"
+END
+#pragma code_page(28591)

@@ -1,7 +1,7 @@
 // +60K specific resources.
 //
 
-// original and default ENGLISH version of dialog
+// template of dialog for all languages
 
 IDD_C64_256K_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -36,6 +36,20 @@ BEGIN
     IDS_C64_256K_SELECT_FILE         "Select file for 256K"
 END
 
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_C64_256K_CAPTION             "256K-indstillinger"
+    IDS_C64_256K_ENABLE              "&Aktivér 256K"
+    IDS_C64_256K_BASE                "256K-baseadresse"
+    IDS_C64_256K_FILE                "256K-fil"
+    IDS_C64_256K_SELECT_FILE         "Angiv fil for 256K"
+END
+
+
 // GERMAN text
 
 STRINGTABLE
@@ -47,6 +61,7 @@ BEGIN
     IDS_C64_256K_FILE                "256K Datei"
     IDS_C64_256K_SELECT_FILE         "Datei für 256K selektieren"
 END
+
 
 // FRENCH text
 
@@ -88,6 +103,7 @@ BEGIN
     IDS_C64_256K_SELECT_FILE         "Seleziona file per 256K"
 END
 
+
 // DUTCH text
 
 STRINGTABLE
@@ -99,6 +115,7 @@ BEGIN
     IDS_C64_256K_FILE                "256K-bestand"
     IDS_C64_256K_SELECT_FILE         "Selecteer bestand voor 256K"
 END
+
 
 // POLISH text
 
@@ -114,6 +131,7 @@ BEGIN
 END
 #pragma code_page(28591)
 
+
 // SWEDISH text
 
 STRINGTABLE
@@ -125,3 +143,18 @@ BEGIN
     IDS_C64_256K_FILE                "256K-fil"
     IDS_C64_256K_SELECT_FILE         "Ange fil för 256K"
 END
+
+
+// TURKISH text
+
+#pragma code_page(28599)
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_C64_256K_CAPTION             "256K Ayarlarý"
+    IDS_C64_256K_ENABLE              "256K'yý aktif &et"
+    IDS_C64_256K_BASE                "256K taban adresi"
+    IDS_C64_256K_FILE                "256K dosyasý"
+    IDS_C64_256K_SELECT_FILE         "256K için dosya seçin"
+END
+#pragma code_page(28591)

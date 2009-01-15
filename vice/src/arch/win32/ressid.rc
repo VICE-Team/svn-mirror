@@ -7,7 +7,7 @@
 
 #pragma code_page(28591)
 
-// original and default ENGLISH version of dialog
+// template of dialog for all languages
 
 IDD_SID_GENERAL_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 145, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -30,7 +30,7 @@ END
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// template of dialog for all languages
 
 IDD_SID_RESID_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 145, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -46,7 +46,7 @@ END
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// template of dialog for all languages
 
 IDD_SID_HARDSID_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 145, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -86,6 +86,32 @@ BEGIN
   IDS_HARDSID_GROUP         "Device selection"
   IDS_HARDSID_LEFT_LABEL    "Left/Main device"
   IDS_HARDSID_RIGHT_LABEL   "Right device"
+END
+
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_THIS_MACHINE_NO_SID   "Denne maskine kan ikke have en SID"
+  IDS_GENERAL               "Generelt"
+  IDS_SID_SETTINGS          "SID-indstillinger"
+  IDS_FAST                  "hurtig"
+  IDS_INTERPOLATING         "interpolerende"
+  IDS_RESAMPLING            "om-samplende"
+  IDS_FAST_RESAMPLING       "hurtig omsampling"
+  IDS_SID_GENGROUP1         "SID-motor"
+  IDS_SID_GENGROUP2         "SID-model"
+  IDS_SID_GENGROUP3         "SID-stereo"
+  IDS_SID_STEREO_AT         "Stereo-SID på"
+  IDS_SID_FILTERS           "SID-filter"
+  IDS_SID_RESID_GROUP       "reSID-/reSID-fp-indstillinger"
+  IDS_SID_RESID_SAMPLE      "Samplingmetode"
+  IDS_SID_RESID_PASSBAND    "Pasbånd (0-90%)"
+  IDS_HARDSID_GROUP         "Enhedsvalg"
+  IDS_HARDSID_LEFT_LABEL    "Venstre/hovedenhed"
+  IDS_HARDSID_RIGHT_LABEL   "Højre enhed"
 END
 
 
@@ -273,3 +299,31 @@ BEGIN
   IDS_HARDSID_LEFT_LABEL    "Vänster/huvudenhet"
   IDS_HARDSID_RIGHT_LABEL   "Höger enhet"
 END
+
+
+// TURKISH text
+
+#pragma code_page(28599)
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_THIS_MACHINE_NO_SID   "Bu makinede SID olmayabilir"
+  IDS_GENERAL               "Genel"
+  IDS_SID_SETTINGS          "SID Ayarlarý"
+  IDS_FAST                  "hýzlý"
+  IDS_INTERPOLATING         "ara deðer bulma"
+  IDS_RESAMPLING            "yeniden örnekleme"
+  IDS_FAST_RESAMPLING       "hýzlý yeniden örnekleme"
+  IDS_SID_GENGROUP1         "SID Motoru"
+  IDS_SID_GENGROUP2         "SID Modeli"
+  IDS_SID_GENGROUP3         "Stereo SID"
+  IDS_SID_STEREO_AT         "Stereo SID konumu"
+  IDS_SID_FILTERS           "SID Filtreleri"
+  IDS_SID_RESID_GROUP       "reSID/reSID-fp seçenekleri"
+  IDS_SID_RESID_SAMPLE      "Örnekleme metodu"
+  IDS_SID_RESID_PASSBAND    "Passband (0-90%)"
+  IDS_HARDSID_GROUP         "Aygýt seçimi"
+  IDS_HARDSID_LEFT_LABEL    "Sol/Ana aygýt"
+  IDS_HARDSID_RIGHT_LABEL   "Sað aygýt"
+END
+#pragma code_page(28591)

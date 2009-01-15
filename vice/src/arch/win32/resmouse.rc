@@ -27,6 +27,26 @@ BEGIN
 END
 
 
+// DANISH version of dialog
+
+IDD_MOUSE_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 75
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Mussetype",
+                    IDC_MOUSE_TYPE_LABEL, 9, 6, 53, 8
+    COMBOBOX        IDC_MOUSE_TYPE, 70, 5, 80, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Musseport",
+                    IDC_MOUSE_PORT_LABEL, 9, 24, 53, 8
+    COMBOBOX        IDC_MOUSE_PORT, 70, 23, 80, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 30, 50, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annullér", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
+END
+
+
 // GERMAN version of dialog
 
 IDD_MOUSE_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 75
@@ -169,3 +189,25 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 30, 50, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Avbryt", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
 END
+
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_MOUSE_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 75
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Mouse tipi",
+                    IDC_MOUSE_TYPE_LABEL, 9, 6, 53, 8
+    COMBOBOX        IDC_MOUSE_TYPE, 70, 5, 80, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Mouse portu",
+                    IDC_MOUSE_PORT_LABEL, 9, 24, 53, 8
+    COMBOBOX        IDC_MOUSE_PORT, 70, 23, 80, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "Tamam", IDOK, 30, 50, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Ýptal", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
+END
+#pragma code_page(28591)

@@ -7,7 +7,7 @@
 
 #pragma code_page(28591)
 
-// original and default ENGLISH version of dialog
+// template of dialog for all languages
 
 IDD_IDE64_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 170
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -51,6 +51,23 @@ BEGIN
     IDS_IDE64_SECTORS           "Sectors"
     IDS_IDE64_TOTAL_SIZE        "Total size: %iKB"
     IDS_IDE64_SELECT_IMAGE      "Select HD image file"
+END
+
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_IDE64_CAPTION           "IDE64-indstilliinger"
+    IDS_IDE64_IMAGE             "&HD-imagefil"
+    IDS_IDE64_GEOMETRY          "&Geometri"
+    IDS_IDE64_AUTODETECT        "&Autodetektér"
+    IDS_IDE64_CYLINDERS         "Cylindrer"
+    IDS_IDE64_HEADS             "Hoveder"
+    IDS_IDE64_SECTORS           "Sektorer"
+    IDS_IDE64_TOTAL_SIZE        "Total størrelse: %iKB"
+    IDS_IDE64_SELECT_IMAGE      "Angiv HD-imagefil"
 END
 
 
@@ -123,6 +140,7 @@ BEGIN
     IDS_IDE64_SELECT_IMAGE      "Seleziona il file immagine dell'HD"
 END
 
+
 // DUTCH text
 
 STRINGTABLE
@@ -138,6 +156,7 @@ BEGIN
     IDS_IDE64_TOTAL_SIZE        "Totale grootte: %iKB"
     IDS_IDE64_SELECT_IMAGE      "Selecteer HD-bestand"
 END
+
 
 // POLISH text
 
@@ -157,6 +176,7 @@ BEGIN
 END
 #pragma code_page(28591)
 
+
 // SWEDISH text
 
 STRINGTABLE
@@ -172,3 +192,22 @@ BEGIN
     IDS_IDE64_TOTAL_SIZE        "Total storlek: %iKB"
     IDS_IDE64_SELECT_IMAGE      "Ange HD-avbildningsfil"
 END
+
+
+// TURKISH text
+
+#pragma code_page(28599)
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_IDE64_CAPTION           "IDE64 Ayarlarý"
+    IDS_IDE64_IMAGE             "&HD imaj dosyasý"
+    IDS_IDE64_GEOMETRY          "&Geometri"
+    IDS_IDE64_AUTODETECT        "Otom&atik algýla"
+    IDS_IDE64_CYLINDERS         "Silindirler"
+    IDS_IDE64_HEADS             "Kafalar"
+    IDS_IDE64_SECTORS           "Sektörler"
+    IDS_IDE64_TOTAL_SIZE        "Toplam boyut: %iKB"
+    IDS_IDE64_SELECT_IMAGE      "HD imaj dosyasý seç"
+END
+#pragma code_page(28591)

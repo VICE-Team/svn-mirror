@@ -7,7 +7,7 @@
 
 #pragma code_page(28591)
 
-// original and default ENGLISH version of dialog
+// template of dialog for all languages
 
 IDD_VICII_DIALOG DIALOG DISCARDABLE 0, 0, 145, 145
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -47,6 +47,23 @@ BEGIN
     IDS_VICII_SPRITECOLL        "Sprite-&sprite collisions"
     IDS_VICII_BACKCOLL          "Sprite-background &collisions"
     IDS_VICII_LUMINANCE         "New &Luminances"
+END
+
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_VICII_CAPTION           "VIC-II-indstillinger"
+    IDS_VICII_BORDERSGROUP      "Rammer"
+    IDS_VICII_NORMALBORDERS     "&Normal"
+    IDS_VICII_FULLBORDERS       "&Fuld"
+    IDS_VICII_DEBUGBORDERS      "&Debug"
+    IDS_VICII_SPRITEGROUP       "Spritekollisioner"
+    IDS_VICII_SPRITECOLL        "Sprite-&sprite-kollisioner"
+    IDS_VICII_BACKCOLL          "Sprite-&baggrundskollisioner"
+    IDS_VICII_LUMINANCE         "Nye &lysstyrker"
 END
 
 
@@ -171,3 +188,22 @@ BEGIN
     IDS_VICII_BACKCOLL          "Sprite-&bakgrundkollisioner"
     IDS_VICII_LUMINANCE         "Nya ljusstyrkor"
 END
+
+
+// TURKISH text
+
+#pragma code_page(28599)
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_VICII_CAPTION           "VIC-II Ayarlarý"
+    IDS_VICII_BORDERSGROUP      "Çerçeveler"
+    IDS_VICII_NORMALBORDERS     "&Normal"
+    IDS_VICII_FULLBORDERS       "&Tam"
+    IDS_VICII_DEBUGBORDERS      "&Hata Ayýkla"
+    IDS_VICII_SPRITEGROUP       "Yaratýk Çarpýþmalarý"
+    IDS_VICII_SPRITECOLL        "Yaratýk-&yaratýk çarpýþmalarý"
+    IDS_VICII_BACKCOLL          "Yaratýk-arka plan ça&rpýþmalarý"
+    IDS_VICII_LUMINANCE         "Yeni Par&laklýklar"
+END
+#pragma code_page(28591)

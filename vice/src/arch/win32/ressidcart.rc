@@ -45,6 +45,44 @@ BEGIN
 END
 
 
+// DANISH version of dialog
+
+IDD_SIDCART_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 175
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Aktivér SID", IDC_SIDCART_ENABLE,
+                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "SID-motor",
+                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
+    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "SID-model",
+                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
+    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "SID-filter", IDC_SIDCART_FILTERS,
+                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "SID-adresse",
+                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
+    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "SID-klok",
+                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
+    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "HardSID-enhedsvalg",
+                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
+    LTEXT           "Hovedenhed",
+                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
+    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annullér", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
+END
+
+
 // GERMAN version of dialog
 
 IDD_SIDCART_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 175
@@ -313,3 +351,43 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Avbryt", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
 END
+
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_SIDCART_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 175
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "SID'i aktif &et", IDC_SIDCART_ENABLE,
+                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "SID motoru",
+                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
+    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "SID Modeli",
+                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
+    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "SID Filtreleri", IDC_SIDCART_FILTERS,
+                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "SID adresi",
+                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
+    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "SID saati",
+                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
+    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "HardSID aygýt seçimi",
+                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
+    LTEXT           "Ana aygýt",
+                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
+    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "Tamam", IDOK, 30, 150, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Ýptal", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
+END
+#pragma code_page(28591)
