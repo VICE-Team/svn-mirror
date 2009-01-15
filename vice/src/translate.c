@@ -3607,13 +3607,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_AUTOSTART_HANDLE_TDE,    N_("Handle True Drive Emulation on autostart")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_AUTOSTART_HANDLE_TDE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_AUTOSTART_HANDLE_TDE_DE, "Autostart soll sich um True Drive Emulation kümmern"},
+/* de */ {IDCLS_ENABLE_AUTOSTART_HANDLE_TDE_DE, "Präzise Floppy Emulation bei Autostart beachten"},
 /* fr */ {IDCLS_ENABLE_AUTOSTART_HANDLE_TDE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_AUTOSTART_HANDLE_TDE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_AUTOSTART_HANDLE_TDE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_AUTOSTART_HANDLE_TDE_NL, "Manipuleer hardwarematige drive emulatie bij autostarten"},
 /* pl */ {IDCLS_ENABLE_AUTOSTART_HANDLE_TDE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_AUTOSTART_HANDLE_TDE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_AUTOSTART_HANDLE_TDE_SV, "Hantera äkta diskettenhetsemulering vid autostart"},
 /* tr */ {IDCLS_ENABLE_AUTOSTART_HANDLE_TDE_TR, ""},  /* fuzzy */
 #endif
 
@@ -3621,13 +3621,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_AUTOSTART_HANDLE_TDE,    N_("Do not handle True Drive Emulation on autostart")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_AUTOSTART_HANDLE_TDE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_AUTOSTART_HANDLE_TDE_DE, "Autostart soll sich nicht um True Drive Emulation kümmern"},
+/* de */ {IDCLS_DISABLE_AUTOSTART_HANDLE_TDE_DE, "Präzise Floppy Emulation bei Autostart nicht beachten"},
 /* fr */ {IDCLS_DISABLE_AUTOSTART_HANDLE_TDE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_AUTOSTART_HANDLE_TDE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_AUTOSTART_HANDLE_TDE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_AUTOSTART_HANDLE_TDE_NL, "Geen manipulatie van de hardwarematige drive emulatie bij autostarten"},
 /* pl */ {IDCLS_DISABLE_AUTOSTART_HANDLE_TDE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_AUTOSTART_HANDLE_TDE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_AUTOSTART_HANDLE_TDE_SV, "Hantera inte äkta diskettenhetsemulering vid autostart"},
 /* tr */ {IDCLS_DISABLE_AUTOSTART_HANDLE_TDE_TR, ""},  /* fuzzy */
 #endif
 
