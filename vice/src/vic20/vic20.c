@@ -83,6 +83,10 @@
 #include "video.h"
 #include "vsync.h"
 
+#ifdef HAVE_MOUSE
+#include "mouse.h"
+#endif
+
 int io_source;
 
 machine_context_t machine_context;
@@ -231,6 +235,9 @@ int machine_resources_init(void)
         || rsuser_resources_init() < 0
         || serial_resources_init() < 0
         || printer_resources_init() < 0
+#ifdef HAVE_MOUSE
+        || mouse_resources_init() < 0
+#endif
 #ifndef COMMON_KBD
         || kbd_resources_init() < 0
 #endif
@@ -275,6 +282,9 @@ int machine_cmdline_options_init(void)
         || rsuser_cmdline_options_init() < 0
         || serial_cmdline_options_init() < 0
         || printer_cmdline_options_init() < 0
+#ifdef HAVE_MOUSE
+        || mouse_cmdline_options_init() < 0
+#endif
 #ifndef COMMON_KBD
         || kbd_cmdline_options_init() < 0
 #endif
@@ -399,6 +409,9 @@ int machine_specific_init(void)
 
     vic20iec_init();
 
+#ifdef HAVE_MOUSE
+    mouse_init();
+#endif
 #ifdef HAVE_MIDI
     midi_init();
 #endif

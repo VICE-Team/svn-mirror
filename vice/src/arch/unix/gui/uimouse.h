@@ -24,12 +24,13 @@
  *
  */
 
-#ifndef _UIMOUSE_H
-#define _UIMOUSE_H
+#ifndef VICE_UIMOUSE_H
+#define VICE_UIMOUSE_H
 
 #include "uimenu.h"
 
 extern struct ui_menu_entry_s mouse_submenu[];
+extern struct ui_menu_entry_s mouse_vic20_submenu[];
 
 #endif
 

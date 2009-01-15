@@ -5,7 +5,7 @@
  *  Andreas Boose <viceteam@t-online.de>
  *
  * NEOS and Amiga mouse support by
- *  H.Nuotio <hannu.nuotio@pp.inet.fi>
+ *  Hannu Nuotio <hannu.nuotio@tut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,8 +27,8 @@
  *
  */
 
-#ifndef _MOUSE_H
-#define _MOUSE_H
+#ifndef VICE_MOUSE_H
+#define VICE_MOUSE_H
 
 #include "types.h"
 
@@ -49,9 +49,11 @@ extern int mouse_port;
 extern void neos_mouse_store(BYTE val);
 extern BYTE neos_mouse_read(void);
 extern BYTE amiga_mouse_read(void);
+extern void mouse_set_paddle_port(int port);
 
 #define MOUSE_TYPE_1351   0
 #define MOUSE_TYPE_NEOS   1
 #define MOUSE_TYPE_AMIGA  2
+#define MOUSE_TYPE_PADDLE 3
 
 #endif

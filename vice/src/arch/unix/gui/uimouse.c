@@ -43,6 +43,8 @@ static ui_menu_entry_t mousetype_submenu[] = {
       (ui_callback_data_t)1, NULL },
     { "*AMIGA", (ui_callback_t)radio_Mousetype,
       (ui_callback_data_t)2, NULL },
+    { "*Paddles", (ui_callback_t)radio_Mousetype,
+      (ui_callback_data_t)3, NULL },
     { NULL }
 };
 
@@ -63,6 +65,12 @@ ui_menu_entry_t mouse_submenu[] = {
       NULL, NULL, mousetype_submenu },
     { N_("Mouse port"),
       NULL, NULL, mouseport_submenu },
+    { NULL }
+};
+
+ui_menu_entry_t mouse_vic20_submenu[] = {
+    { N_("*Enable paddles"),
+      (ui_callback_t)toggle_Mouse, NULL, NULL, KEYSYM_m, UI_HOTMOD_META },
     { NULL }
 };
 

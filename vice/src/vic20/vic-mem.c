@@ -41,6 +41,9 @@
 #include "vic20sound.h"
 #include "viewport.h"
 
+#ifdef HAVE_MOUSE
+#include "mouse.h"
+#endif
 
 /* VIC access functions. */
 
@@ -383,6 +386,22 @@ BYTE REGPARM1 vic_read(WORD addr)
         return vic.light_pen.x;
       case 7:
         return vic.light_pen.y;
+#ifdef HAVE_MOUSE
+      case 8:
+        if (_mouse_enabled) {
+            return mouse_get_x();
+        } else {
+            return vic.regs[addr];
+        }
+        break;
+      case 9:
+        if (_mouse_enabled) {
+            return mouse_get_y();
+        } else {
+            return vic.regs[addr];
+        }
+        break;
+#endif
       default:
         return vic.regs[addr];
     }
