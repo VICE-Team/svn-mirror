@@ -1,3 +1,103 @@
+2009-01-16  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.1.2
+
+2009-01-16  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/nl.po,
+	  po/pl.po, po/sv.po, po/tr.po: updated.
+
+2009-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resplus4.rc: Fixed a duplicate resource in the
+	  resplus4.rc file.
+
+2009-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc, src/translate.c: Updated some german
+	  and swedish translations.
+
+	* src/arch/unix/gui/uimouse.c, src/arch/unix/gui/uimouse.h,
+	  src/arch/unix/gui/vic20ui.c, src/c128/c128cia1.c,
+	  src/c64/c64cia1.c, src/mouse.c, src/mouse.h, src/translate.c,
+	  src/vic20/vic-mem.c, src/vic20/vic20.c: Merged the paddles tag
+	  (tags/contributions/v2.1-paddle).
+
+	* src/arch/win32/res.rc, src/translate.c: Added danish and
+	  turkish translation text elements for the new TDE handling
+	  intl items.
+
+	* po/POTFILES.in, po/intl2po.c, src/arch/amigaos/c128uires.h,
+	  src/arch/amigaos/c64dtvuires.h, src/arch/amigaos/c64uires.h,
+	  src/arch/amigaos/cbm2uires.h, src/arch/amigaos/genintl_h.sh,
+	  src/arch/amigaos/genintltable.sh, src/arch/amigaos/intl.c,
+	  src/arch/amigaos/intl.txt, src/arch/amigaos/petuires.h,
+	  src/arch/amigaos/plus4uires.h, src/arch/amigaos/ui.c,
+	  src/arch/amigaos/uires.h, src/arch/amigaos/vic20uires.h,
+	  src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	  src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	  src/arch/win32/intl.c, src/arch/win32/petui.c,
+	  src/arch/win32/plus4ui.c, src/arch/win32/res.rc,
+	  src/arch/win32/resacia.rc, src/arch/win32/resc128.rc,
+	  src/arch/win32/resc64.rc, src/arch/win32/resc64_256k.rc,
+	  src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	  src/arch/win32/resdialogs.txt, src/arch/win32/resdigimax.rc,
+	  src/arch/win32/resdqbb.rc, src/arch/win32/resdrivec128.rc,
+	  src/arch/win32/resdrivec64.rc,
+	  src/arch/win32/resdrivepetcbm2.rc,
+	  src/arch/win32/resdriveplus4.rc,
+	  src/arch/win32/resdrivevic20.rc, src/arch/win32/resgeoram.rc,
+	  src/arch/win32/reside64.rc, src/arch/win32/resisepic.rc,
+	  src/arch/win32/resmenu.txt, src/arch/win32/resmidi.rc,
+	  src/arch/win32/resmmc64.rc, src/arch/win32/resmouse.rc,
+	  src/arch/win32/respet.rc, src/arch/win32/respetreu.rc,
+	  src/arch/win32/resplus256k.rc, src/arch/win32/resplus4.rc,
+	  src/arch/win32/resplus60k.rc, src/arch/win32/resramcart.rc,
+	  src/arch/win32/resreu.rc, src/arch/win32/resrs232user.rc,
+	  src/arch/win32/ressid.rc, src/arch/win32/ressidcart.rc,
+	  src/arch/win32/resstrings.txt, src/arch/win32/restfe.rc,
+	  src/arch/win32/resvic20.rc, src/arch/win32/resvicii.rc,
+	  src/arch/win32/ui.c, src/arch/win32/utils/gentranslate.c,
+	  src/arch/win32/vic20ui.c, src/gentranslate_h.sh,
+	  src/gentranslatetable.sh, src/translate.c: Merged the
+	  danish/turkish intl tag (tags/marco/v2.1-turkish-danish-intl).
+
+	* po/nl.po: Updated the nl.po file.
+
+2009-01-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/tr.po: Fixed a typo.
+
+2009-01-13  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/riscos/spritedrv.c, src/arch/win32/gifdrv.c: adapted
+	  arch-dependent gfxoutputdrv to new interface
+
+2009-01-13  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/sounddrv.dsp: Remove soundffmpegaudio.c, add
+	  soundmovie.c
+
+	* src/sounddrv/soundmovie.c: Make sure buffer_size is not
+	  defined after statements (C89 style); make sure it has the
+	  same type as buffer->used, as it is compared against it.
+
+2009-01-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/tr.po: Fixed some more typos.
+
+2009-01-13  Peter Krefting <peter@softwolves.pp.se>
+
+	* po/sv.po: Update Swedish translation
+
+2009-01-11  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/win32/uimediafile.c: fix for win compile
+
+2009-01-11  Martin Pottendorfer <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
 2009-01-11  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.1.1
