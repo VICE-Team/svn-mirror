@@ -1428,6 +1428,9 @@ static void _p_toascii(int c, int ctrls)
       case 0x0d:
         fputc ('\n', dest);
         break;
+      case 0x40:
+        fputc ('@', dest);
+        break;
       case 0x60:
         fprintf(dest, CLARIF_LP_ST "SHIFT-*" CLARIF_RP_ST);
         break;
