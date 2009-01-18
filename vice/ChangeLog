@@ -1,3 +1,13 @@
+2009-01-17  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* build/macosx/build-vice-release.sh: updated macosx build
+	  release script to use command line options
+
+2009-01-17  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/petcat.c: petcat fix for @ in literal strings (f.ex 10
+	  rem@ test) as provided by Groepaz
+
 2009-01-16  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.1.2
@@ -17,11 +27,30 @@
 	* src/arch/win32/res.rc, src/translate.c: Updated some german
 	  and swedish translations.
 
-	* src/arch/unix/gui/uimouse.c, src/arch/unix/gui/uimouse.h,
-	  src/arch/unix/gui/vic20ui.c, src/c128/c128cia1.c,
-	  src/c64/c64cia1.c, src/mouse.c, src/mouse.h, src/translate.c,
-	  src/vic20/vic-mem.c, src/vic20/vic20.c: Merged the paddles tag
-	  (tags/contributions/v2.1-paddle).
+2009-01-05  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* branches/contributions/jvaltane-2.1-paddle/vice/src/arch/unix/gui/uimouse.c,
+	  branches/contributions/jvaltane-2.1-paddle/vice/src/arch/unix/gui/vic20ui.c,
+	  branches/contributions/jvaltane-2.1-paddle/vice/src/c128/c128cia1.c,
+	  branches/contributions/jvaltane-2.1-paddle/vice/src/c64/c64cia1.c,
+	  branches/contributions/jvaltane-2.1-paddle/vice/src/mouse.c:
+	  Swapped paddle ports, removed mice from xvic
+
+2009-01-04  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* branches/contributions/jvaltane-2.1-paddle/vice/src/arch/unix/gui/uimouse.c,
+	  branches/contributions/jvaltane-2.1-paddle/vice/src/arch/unix/gui/uimouse.h,
+	  branches/contributions/jvaltane-2.1-paddle/vice/src/arch/unix/gui/vic20ui.c,
+	  branches/contributions/jvaltane-2.1-paddle/vice/src/c128/c128cia1.c,
+	  branches/contributions/jvaltane-2.1-paddle/vice/src/c64/c64cia1.c,
+	  branches/contributions/jvaltane-2.1-paddle/vice/src/mouse.c,
+	  branches/contributions/jvaltane-2.1-paddle/vice/src/mouse.h,
+	  branches/contributions/jvaltane-2.1-paddle/vice/src/vic20/vic-mem.c,
+	  branches/contributions/jvaltane-2.1-paddle/vice/src/vic20/vic20.c:
+	  Added paddle port selection handling and mouse/paddle support
+	  for xvic
+
+2009-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* src/arch/win32/res.rc, src/translate.c: Added danish and
 	  turkish translation text elements for the new TDE handling
@@ -59,8 +88,10 @@
 	  src/arch/win32/resvic20.rc, src/arch/win32/resvicii.rc,
 	  src/arch/win32/ui.c, src/arch/win32/utils/gentranslate.c,
 	  src/arch/win32/vic20ui.c, src/gentranslate_h.sh,
-	  src/gentranslatetable.sh, src/translate.c: Merged the
-	  danish/turkish intl tag (tags/marco/v2.1-turkish-danish-intl).
+	  src/gentranslatetable.sh, src/translate.c: Added danish and turkish
+	  language support.
+
+2009-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* po/nl.po: Updated the nl.po file.
 
@@ -94,7 +125,7 @@
 
 	* src/arch/win32/uimediafile.c: fix for win compile
 
-2009-01-11  Martin Pottendorfer <pottendo@aon.at>
+2009-01-11  pottendo <pottendo@aon.at>
 
 	* po/de.po: Updated.
 
@@ -210,7 +241,7 @@
 	* doc/vice.texi: Added some more information about monitor
 	  conditions and the format format of labels.
 
-2009-01-04  Martin Pottendorfer <pottendo@aon.at>
+2009-01-04  pottendo <pottendo@aon.at>
 
 	* src/arch/unix/x11/fullscreen.c (fullscreen_init),
 	  src/arch/unix/x11/gnome/x11ui.c (ui_init_finish),
@@ -281,7 +312,7 @@
 	  src/arch/unix/macosx/cocoa/viceapplication.m: fixed 10.5
 	  messages in console preferences and increased build verbosity
 
-2008-12-30  Martin Pottendorfer <pottendo@aon.at>
+2008-12-30  pottendo <pottendo@aon.at>
 
 	* configure.in: New translation file for Turkish - Credits to
 	  Emir
@@ -461,7 +492,7 @@
 	* doc/html/plain/NEWS: Added pointer to IRC and merge of
 	  VICEplus and VICE.
 
-2008-12-13  Martin Pottendorfer <pottendo@aon.at>
+2008-12-13  pottendo <pottendo@aon.at>
 
 	* doc/openGLsync-howto.txt: Fixed a typo.
 
@@ -512,7 +543,7 @@
 	  src/arch/unix/macosx/mididrv.c: fixed compiler warnings in mac
 	  os x port
 
-2008-12-12  Martin Pottendorfer <pottendo@aon.at>
+2008-12-12  pottendo <pottendo@aon.at>
 
 	* po/hu.po, po/it.po: Updated.
 
@@ -542,7 +573,7 @@
 	* src/sounddrv/soundcoreaudio.c: fixed deprecated API calls in
 	  mac os x sound driver
 
-2008-12-10  Martin Pottendorfer <pottendo@aon.at>
+2008-12-10  pottendo <pottendo@aon.at>
 
 	* po/de.po: Updated.
 
@@ -671,7 +702,7 @@
 	* src/arch/win32/console.c: Undone r19606: When lifting the
 	  mouse key in mark mode, copy data into clipboard.
 
-2008-12-01  Martin Pottendorfer <pottendo@aon.at>
+2008-12-01  pottendo <pottendo@aon.at>
 
 	* doc/html/plain/BUGS: Removed some obsolete `GTK+/Gnome' bugs
 	  and added `-logfile' issue, known also as the pottendo
@@ -756,7 +787,7 @@
 	  src/translate.c: Updated german, italian and hungarian
 	  translations.
 
-2008-11-28  Martin Pottendorfer <pottendo@aon.at>
+2008-11-28  pottendo <pottendo@aon.at>
 
 	  * arch/unix/x11/ui-resources.c (fullscreen_set_fs): Removed
 	  verbosy log_message.
@@ -811,7 +842,7 @@
 	  src/resid/Makefile.am: Fixed the inclusion of siddefs.h and
 	  siddefs-fp.h when using 'make dist'.
 
-2008-11-28  Martin Pottendorfer <pottendo@aon.at>
+2008-11-28  pottendo <pottendo@aon.at>
 
 	* po/de.po, po/hu.po, po/it.po: Updated.
 
@@ -914,13 +945,13 @@
 
 	* src/monitor/monitor.c: Monitor playback code cleanup
 
-2008-11-19  Martin Pottendorfer <pottendo@aon.at>
+2008-11-19  pottendo <pottendo@aon.at>
 
 	* src/arch/unix/x11/fullscreen.c (fullscreen_enable): Set
 	resource "UseFullscreen" to preserve state in case of the user
 	saves the settings.
 
-2008-11-19  Martin Pottendorfer <pottendo@aon.at>
+2008-11-19  pottendo <pottendo@aon.at>
 
 	* src/video/video-resources.c (video_resources_chip_init):
 	Removed creation of unused fullscreen related resources: dsize,
@@ -931,19 +962,19 @@
 	options: `...full, ...fullscreendsize, etc.'
 	(cname_chip_fullscreen): Likewise.
 
-2008-11-19  Martin Pottendorfer <pottendo@aon.at>
+2008-11-19  pottendo <pottendo@aon.at>
 
 	* src/arch/unix/x11/gnome/x11ui.c (x11ui_fullscreen): set
 	`_ui_top_level' to reflect latest window on top; necessary to
 	make x128 happy.
 
-2008-11-19  Martin Pottendorfer <pottendo@aon.at>
+2008-11-19  pottendo <pottendo@aon.at>
 
 	* src/arch/unix/x11/gnome/x11ui.c (x11ui_fullscreen): raise
 	window to user focus. (ui_popup): Likewise. (ui_set_left_menu):
 	Attach accelgroup to all shells. (ui_set_right_menu): Likewise.
 
-2008-11-18  Martin Pottendorfer <pottendo@aon.at>
+2008-11-18  pottendo <pottendo@aon.at>
 
 	* src/arch/unix/x11/xaw/x11video.c (video_canvas_refresh):
 	return in case we draw outside the canvas. This makes 80 column
@@ -987,49 +1018,85 @@
 	* src/arch/unix/x11/fullscreen.c (fullscreen_capability): Moved
 	XRANDR case to top in order to have XRANDR as default.
 
-2008-11-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+2008-11-23  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/RecordHistory.nib/info.nib,
+	src/arch/unix/macosx/Resources/English.lproj/RecordHistory.nib/keyedobjects.nib:
+	small nib update
+
+	* src/arch/unix/macosx/Resources/English.lproj/Makefile.am,
+	src/arch/unix/macosx/Resources/English.lproj/RecordHistory.nib,
+	src/arch/unix/macosx/Resources/English.lproj/RecordHistory.nib/classes.nib,
+	src/arch/unix/macosx/Resources/English.lproj/RecordHistory.nib/info.nib,
+	src/arch/unix/macosx/Resources/English.lproj/RecordHistory.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64.nib/classes.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64.nib/info.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64.nib/keyedobjects.nib,
+	src/arch/unix/macosx/cocoa/dialog/Makefile.am,
+	src/arch/unix/macosx/cocoa/dialog/recordhistorywindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/recordhistorywindowcontroller.m,
+	src/arch/unix/macosx/cocoa/menu/viceappcontroller.h,
+	src/arch/unix/macosx/cocoa/menu/viceappcontroller.m,
+	src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.h,
+	src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	src/arch/unix/macosx/cocoa/ui.m,
+	src/arch/unix/macosx/cocoa/view/vicewindow.m: added record
+	history dialog
+
+	* src/arch/unix/macosx/Resources/English.lproj/Makefile.am,
+	src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib,
+	src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib/classes.nib,
+	src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib/info.nib,
+	src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64.nib/classes.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/classes.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/info.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/keyedobjects.nib,
+	src/arch/unix/macosx/cocoa/dialog/Makefile.am,
+	src/arch/unix/macosx/cocoa/dialog/videosettingswindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/videosettingswindowcontroller.m,
+	src/arch/unix/macosx/cocoa/menu/viceappcontroller.h,
+	src/arch/unix/macosx/cocoa/menu/viceappcontroller.m: added video
+	settings dialog
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceEditor.nib/info.nib,
+	src/arch/unix/macosx/Resources/English.lproj/ResourceEditor.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64-ResourceTree.plist,
+	src/arch/unix/macosx/Resources/English.lproj/x64.nib/info.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64dtv-ResourceTree.plist,
+	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/info.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/keyedobjects.nib:
+	added missing ROM resources and added new cartridges
+
+2008-11-22  Christian Vogelgsang <chris@vogelgsang.org>
 
 	* src/arch/unix/macosx/Resources/English.lproj/Makefile.am,
 	src/arch/unix/macosx/Resources/English.lproj/NetplayControl.nib,
 	src/arch/unix/macosx/Resources/English.lproj/NetplayControl.nib/classes.nib,
 	src/arch/unix/macosx/Resources/English.lproj/NetplayControl.nib/info.nib,
 	src/arch/unix/macosx/Resources/English.lproj/NetplayControl.nib/keyedobjects.nib,
-	src/arch/unix/macosx/Resources/English.lproj/RecordHistory.nib,
-	src/arch/unix/macosx/Resources/English.lproj/RecordHistory.nib/classes.nib,
-	src/arch/unix/macosx/Resources/English.lproj/RecordHistory.nib/info.nib,
-	src/arch/unix/macosx/Resources/English.lproj/RecordHistory.nib/keyedobjects.nib,
-	src/arch/unix/macosx/Resources/English.lproj/ResourceEditor.nib/info.nib,
-	src/arch/unix/macosx/Resources/English.lproj/ResourceEditor.nib/keyedobjects.nib,
-	src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib,
-	src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib/classes.nib,
-	src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib/info.nib,
-	src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib/keyedobjects.nib,
-	src/arch/unix/macosx/Resources/English.lproj/x64-ResourceTree.plist,
-	src/arch/unix/macosx/Resources/English.lproj/x64.nib/classes.nib,
-	src/arch/unix/macosx/Resources/English.lproj/x64.nib/info.nib,
-	src/arch/unix/macosx/Resources/English.lproj/x64.nib/keyedobjects.nib,
-	src/arch/unix/macosx/Resources/English.lproj/x64dtv-ResourceTree.plist,
-	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/classes.nib,
-	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/info.nib,
-	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/keyedobjects.nib,
 	src/arch/unix/macosx/cocoa/dialog/Makefile.am,
 	src/arch/unix/macosx/cocoa/dialog/netplaycontrolwindowcontroller.h,
 	src/arch/unix/macosx/cocoa/dialog/netplaycontrolwindowcontroller.m,
-	src/arch/unix/macosx/cocoa/dialog/recordhistorywindowcontroller.h,
-	src/arch/unix/macosx/cocoa/dialog/recordhistorywindowcontroller.m,
-	src/arch/unix/macosx/cocoa/dialog/videosettingswindowcontroller.h,
-	src/arch/unix/macosx/cocoa/dialog/videosettingswindowcontroller.m,
 	src/arch/unix/macosx/cocoa/menu/viceappcontroller.h,
+	src/arch/unix/macosx/cocoa/menu/viceappcontroller.m,
+	src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.h,
+	src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	src/arch/unix/macosx/cocoa/ui.m: added netplay control
+
+	* src/arch/unix/macosx/Resources/English.lproj/x64.nib/info.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/info.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/keyedobjects.nib,
 	src/arch/unix/macosx/cocoa/menu/viceappcontroller.m,
 	src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.h,
 	src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
 	src/arch/unix/macosx/cocoa/ui.m,
 	src/arch/unix/macosx/cocoa/viceapplication.h,
-	src/arch/unix/macosx/cocoa/viceapplicationprotocol.h,
-	src/arch/unix/macosx/cocoa/view/vicewindow.m: Merged osx tag
-	(svn merge
-	https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v2.0/v2.0.9
-	https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/chris/v2.0.9-cocoa).
+	src/arch/unix/macosx/cocoa/viceapplicationprotocol.h: added
+	fliplist support
 
 2008-11-23  Andreas Matthies <andreas.matthies@gmx.net>
 
@@ -1039,7 +1106,7 @@
 	needs to care for viewports first and last line.  This fixes PAL
 	update bugs in lower border.
 
-2008-11-23  Martin Pottendorfer <pottendo@aon.at>
+2008-11-23  pottendo <pottendo@aon.at>
 
 	* po/de.po: Updated by pottendo.
 
@@ -1189,7 +1256,7 @@
 	* src/arch/amigaos/intl.c, src/arch/win32/res.rc: Updated the
 	  german translations for the win32 and amiga intl.
 
-2008-11-21  Martin Pottendorfer <pottendo@aon.at>
+2008-11-21  pottendo <pottendo@aon.at>
 
 	* po/de.po: Updated by pottendo.
 
@@ -1272,13 +1339,13 @@
 	  behaviour on verify if interrupts are enabled. Analysis and
 	  patch provided by Wolfgang Moser.
 
-2008-11-19  Martin Pottendorfer <pottendo@aon.at>
+2008-11-19  pottendo <pottendo@aon.at>
 
 	* src/arch/unix/x11/fullscreen.c (fullscreen_enable): Set
 	resource "UseFullscreen" to preserve state in case of the user
 	saves the settings.
 
-2008-11-19  Martin Pottendorfer <pottendo@aon.at>
+2008-11-19  pottendo <pottendo@aon.at>
 
 	* src/video/video-resources.c (video_resources_chip_init):
 	Removed creation of unused fullscreen related resources: dsize,
@@ -1289,19 +1356,19 @@
 	options: `...full, ...fullscreendsize, etc.'
 	(cname_chip_fullscreen): Likewise.
 
-2008-11-19  Martin Pottendorfer <pottendo@aon.at>
+2008-11-19  pottendo <pottendo@aon.at>
 
 	* src/arch/unix/x11/gnome/x11ui.c (x11ui_fullscreen): set
 	`_ui_top_level' to reflect latest window on top; necessary to
 	make x128 happy.
 
-2008-11-19  Martin Pottendorfer <pottendo@aon.at>
+2008-11-19  pottendo <pottendo@aon.at>
 
 	* src/arch/unix/x11/gnome/x11ui.c (x11ui_fullscreen): raise
 	window to user focus. (ui_popup): Likewise.  (ui_set_left_menu):
 	Attach accelgroup to all shells.  (ui_set_right_menu): Likewise.
 
-2008-11-18  Martin Pottendorfer <pottendo@aon.at>
+2008-11-18  pottendo <pottendo@aon.at>
 
 	* src/arch/unix/x11/xaw/x11video.c (video_canvas_refresh):
 	return in case we draw outside the canvas. This makes 80 column
@@ -1350,23 +1417,77 @@
 	* src/arch/unix/x11/fullscreen.c (fullscreen_capability): Moved
 	XRANDR case to top in order to have XRANDR as default.
 
-2008-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+2008-11-19  pottendo  <pottendo@aon.at>
 
-	* doc/html/plain/NEWS, src/arch/unix/fullscreenarch.h,
-	  src/arch/unix/gui/uicrtc.c,
-	  src/arch/unix/gui/uifullscreen-menu.h,
-	  src/arch/unix/gui/uited.c, src/arch/unix/gui/uivdc.c,
-	  src/arch/unix/gui/uivic.c, src/arch/unix/gui/uivicii.c,
-	  src/arch/unix/x11/fullscreen.c,
-	  src/arch/unix/x11/gnome/x11ui.c,
-	  src/arch/unix/x11/ui-cmdline-options.c,
-	  src/arch/unix/x11/ui-resources.c,
-	  src/arch/unix/x11/xaw/x11video.c, src/arch/unix/x11/xrandr.c,
-	  src/c128/c128.c, src/c64/c64.c, src/c64dtv/c64dtv.c,
-	  src/cbm2/cbm2.c, src/pet/pet.c, src/plus4/plus4.c,
-	  src/vic20/vic20.c, src/video/video-cmdline-options.c,
-	  src/video/video-resources.c: Merged
-	  tags/pottendo/v2.0.8-fixunixfs+fixcmdline.
+	* src/arch/unix/x11/fullscreen.c (fullscreen_enable): Set
+	resource "UseFullscreen" to preserve state in case of the user
+	saves the settings.
+
+2008-11-19  pottendo  <pottendo@aon.at>
+
+	* src/video/video-resources.c (video_resources_chip_init):
+	Removed creation of unused fullscreen related resources: dsize,
+	dscan.
+
+	* src/video/video-cmdline-options.c
+	(cmdline_options_chip_fullscreen), (cname_chip_fullscreen):
+	Removed unused cmdline options: `...full, ...fullscreendsize,
+	etc.'
+
+2008-11-19  pottendo  <pottendo@aon.at>
+
+	* ??? (x11ui_fullscreen): set `_ui_top_level' to reflect latest
+	window on top; necessary to make x128 happy.
+
+2008-11-19  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/x11ui.c (x11ui_fullscreen),
+	(ui_popup), (ui_set_left_menu), (ui_set_right_menu): raise
+	window to user focus.
+
+2008-11-18  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/x11/xaw/x11video.c (video_canvas_refresh):
+	return in case we draw outside the canvas. This makes 80 column
+	work on startup using `-fullscreen -80col'.
+
+	* src/arch/unix/x11/ui-cmdline-options.c (cmdline_options):
+	Fixed `UseFullscreen', made it conditional to XRANDR or VIDMODE.
+
+	* src/arch/unix/x11/xrandr.c (set_xrandr): introduced
+	work-around for shutdown problem (segfault caused by already
+	freed resource).
+
+	* src/arch/unix/x11/gnome/x11ui.c (ui_create_status_bar): made
+	static and return the status_bar widget.
+	(ui_fullscreen_statusbar): adjusted to app_shell local
+	status_bar.
+	(x11ui_fullscreen): take care of x128 and enlarge window
+	depending on the 40/80 column key.
+
+	* src/arch/unix/gui/uivdc.c (UI_FULLSCREEN): Use `Alt-f' for
+	fullscreen hotkey. VICII FS remains with `Alt-d'.
+
+	* src/arch/unix/gui/uicrtc.c (UI_FULLSCREEN): Use `Alt-f' for
+	fullscreen hotkey (was `Alt-d'). This is necessary for
+	distinguishing VICII fullscreen from CRTC fullscreen in case of
+	xcbm2.  VICII FS remains with `Alt-d'.
+
+	* src/arch/unix/gui/uifullscreen-menu.h (UI_FULLSCREEN): Added
+	parameter for hotkey.
+
+	* src/c128/c128.c (machine_specific_init): Enable fullscreen if
+	`-fullscreen' was given on commandline. Use VICII as default.
+
+	* src/c64/c64.c (machine_specific_init), src/vic20/vic20.c
+	(machine_specific_init), src/pet/pet.c (machine_specific_init),
+	src/plus4/plus4.c (machine_specific_init), src/cbm2/cbm2.c
+	(machine_specific_init), src/c64dtv/c64dtv.c
+	(machine_specific_init): Enable fullscreen if `-fullscreen' was
+	given on commandline.
+
+	* src/arch/unix/x11/fullscreen.c (fullscreen_capability): Moved
+	XRANDR case to top in order to have XRANDR as default.
 
 2008-11-17  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
@@ -1642,7 +1763,7 @@
 	  po/sv.po, src/arch/amigaos/intl.c, src/arch/win32/res.rc,
 	  src/translate.c: Updated the dutch and german translations.
 
-2008-11-11  Martin Pottendorfer <pottendo@aon.at>
+2008-11-11  pottendo <pottendo@aon.at>
 
 	* po/de.po: Updated.
 
@@ -1751,7 +1872,7 @@
 	* doc/coding-guidelines.txt: Changed the indentation to be 4
 	  spaces for external contributions.
 
-2008-11-05  Martin Pottendorfer <pottendo@aon.at>
+2008-11-05  pottendo <pottendo@aon.at>
 
 	* po/de.po: Updated.
 
@@ -2047,7 +2168,7 @@
 	src/sound.c, src/translate.c, src/vsync.c: intl unification
 	changes.
 
-2008-10-22  Martin Pottendorfer <pottendo@aon.at>
+2008-10-22  pottendo <pottendo@aon.at>
 
 	* po/de.po: Updated by pottendo.
 
@@ -2064,7 +2185,7 @@
 	  options for drives by removing wrong `*' (checkbox markers)
 	  from menu definition.
 
-2008-10-18  Martin Pottendorfer <pottendo@aon.at>
+2008-10-18  pottendo <pottendo@aon.at>
 
 	* po/it.po: Updated by Andrea.
 
@@ -2072,7 +2193,7 @@
 
 	* src/arch/win32/types.h: Changed #define'd "types" to typedefs.
 
-2008-10-13  Martin Pottendorfer <pottendo@aon.at>
+2008-10-13  pottendo <pottendo@aon.at>
 
 	* po/de.po: Updated.
 
@@ -2511,7 +2632,7 @@
 	  wrong speed in NTSC mode in combination with non-default
 	  border mode.
 
-2008-09-30  Martin Pottendorfer <pottendo@aon.at>
+2008-09-30  pottendo <pottendo@aon.at>
 
 	* po/de.po: Updated by pottendo.
 
@@ -2529,7 +2650,7 @@
 
 	* src/sound.c: Changes some int variables to time_t.
 
-2008-09-29  Martin Pottendorfer <pottendo@aon.at>
+2008-09-29  pottendo <pottendo@aon.at>
 
 	* po/de.po: Updated by pottendo.
 
@@ -2674,7 +2795,7 @@
 	  src/sid/resid.cc, src/sid/sid.c: Added some resid-fp define
 	  fixes.
 
-2008-09-14  Martin Pottendorfer <pottendo@aon.at>
+2008-09-14  pottendo <pottendo@aon.at>
 
 	* po/hu.po: Updated by Zoltan.
 
@@ -2729,7 +2850,7 @@
 	* src/resid-fp/configure.in: resid-fp: added check for -fno-pic
 	  if using gcc. -fno-pic is required to compile on osx.
 
-2008-09-06  Martin Pottendorfer <pottendo@aon.at>
+2008-09-06  pottendo <pottendo@aon.at>
 
 	* src/arch/unix/x11/openGL_sync.c
 	(openGL_{set,get}_canvas_refreshrate): new functions.
@@ -3458,7 +3579,7 @@
 
 	* src/resid-fp/wave.cc, src/resid-fp/wave.h: Added fix by Antti.
 
-2008-09-01  Martin Pottendorfer <pottendo@aon.at>
+2008-09-01  pottendo <pottendo@aon.at>
 
 	* src/arch/unix/x11/gnome/uipalcontrol.c: *
 	  arch/unix/x11/gnome/uipalcontrol.c (pal_ctrl_reset): fixed
@@ -3703,7 +3824,7 @@
 	* src/c64dtv/c64dtvblitter.c, src/c64dtv/c64dtvdma.c: detabified
 	  and corrected indentation.
 
-2008-08-30  Martin Pottendorfer <pottendo@aon.at>
+2008-08-30  pottendo <pottendo@aon.at>
 
 	* src/arch/unix/x11/gnome/x11ui.c: (ui_open_canvas_window):
 	  Fixed -vsid option by not attaching the exposure and other
@@ -3944,7 +4065,7 @@
 
 2008-08-24  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
-	* ., build/macosx/build-vice-dist.sh,
+	* build/macosx/build-vice-dist.sh,
 	  src/arch/unix/macosx/Resources/English.lproj/Makefile.am,
 	  src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib,
 	  src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/classes.nib,
@@ -3959,8 +4080,8 @@
 	  src/arch/unix/macosx/cocoa/menu/c64dtvmachinecontroller.m,
 	  src/arch/unix/macosx/cocoa/menu/c64dtvui.m,
 	  src/arch/unix/macosx/make-bindist.sh,
-	  src/arch/unix/macosx/x11-launcher.sh: Merged
-	  tags/chris/v2.0.2-mac-x64dtv/vice.
+	  src/arch/unix/macosx/x11-launcher.sh: Added missing files from
+	  VICEplus tree to compile x64dtv on Mac/Cocoa.
 
 2008-08-23  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
@@ -4039,7 +4160,7 @@
 	src/arch/win32/uikeyboard.c: Fixed and improved win32 keyboard
 	shortcuts (thanks iAN CooG).
 
-2008-08-19  Martin Pottendorfer <<pottendo@aon.at>
+2008-08-19  pottendo <<pottendo@aon.at>
 
 	* src/arch/unix/gui/uipalemu.c (PALMode_submenu): reactivated
 	`old' exact PAL emulation of `USE_GNOMEUI';
