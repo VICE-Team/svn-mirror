@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-18 15:10+0100\n"
-"PO-Revision-Date: 2009-01-11 19:56+0100\n"
+"PO-Revision-Date: 2009-01-18 20:11+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1929,9 +1929,8 @@ msgid "Mouse port"
 msgstr "Maus Port"
 
 #: src/arch/unix/gui/uimouse.c:72
-#, fuzzy
 msgid "*Enable paddles"
-msgstr "Scale2x aktivieren"
+msgstr "*Paddles aktivieren"
 
 #: src/arch/unix/gui/uinetplay.c:69
 msgid "Enter port"
@@ -2788,9 +2787,8 @@ msgid "*ParSID Port 3"
 msgstr "*ParSID Port 3"
 
 #: src/arch/unix/gui/uisid.c:76
-#, fuzzy
 msgid "*ReSID-DTV"
-msgstr "*ReSID"
+msgstr "*ReSID-DTV"
 
 #: src/arch/unix/gui/uisid.c:105 src/arch/unix/gui/uisid.c:145
 #: src/arch/unix/gui/uisidcart.c:63
@@ -3222,9 +3220,8 @@ msgid "VIC settings"
 msgstr "VIC Einstellungen"
 
 #: src/arch/unix/gui/vic20ui.c:474
-#, fuzzy
 msgid "Paddle emulation"
-msgstr "Drucke Emulation"
+msgstr "Paddle Emulation"
 
 #: src/arch/unix/gui/vic20ui.c:477
 msgid "MIDI emulation"
@@ -5956,9 +5953,8 @@ msgid "&English"
 msgstr "&Englisch"
 
 #: src/arch/win32/res.rc.po.c:6154
-#, fuzzy
 msgid "D&anish"
-msgstr "&Englisch"
+msgstr "D&änisch"
 
 #: src/arch/win32/res.rc.po.c:6155
 msgid "&German"
@@ -5990,7 +5986,7 @@ msgstr "&Schwedisch"
 
 #: src/arch/win32/res.rc.po.c:6162
 msgid "&Turkish"
-msgstr ""
+msgstr "&Türkisch"
 
 #: src/arch/win32/res.rc.po.c:6163
 msgid "Command line &options"
@@ -7190,24 +7186,20 @@ msgid "&Isepic switch"
 msgstr "&Isepic Schalter"
 
 #: src/arch/win32/resmidi.rc.po.c:11
-#, fuzzy
 msgid "&Enable midi"
-msgstr "Digimax aktivi&eren"
+msgstr "Midi aktivi&eren"
 
 #: src/arch/win32/resmidi.rc.po.c:13
-#, fuzzy
 msgid "Midi cart type"
-msgstr "ROM Satz Typ"
+msgstr "Midi Modul Type"
 
 #: src/arch/win32/resmidi.rc.po.c:17
-#, fuzzy
 msgid "Midi-in device"
-msgstr "Haupt Gerät"
+msgstr "Midi-Eingang Gerät"
 
 #: src/arch/win32/resmidi.rc.po.c:21
-#, fuzzy
 msgid "Midi-out device"
-msgstr "Haupt Gerät"
+msgstr "Midi-Ausgang Gerät"
 
 #: src/arch/win32/resmmc64.rc.po.c:11
 msgid "&Enable MMC64"
@@ -8392,9 +8384,8 @@ msgid "English"
 msgstr "Englisch"
 
 #: src/arch/amigaos/intl.c.po.c:2206
-#, fuzzy
 msgid "Danish"
-msgstr "Englisch"
+msgstr "Dänisch"
 
 #: src/arch/amigaos/intl.c.po.c:2217
 msgid "German"
@@ -8434,7 +8425,7 @@ msgstr "Schwedisch"
 
 #: src/arch/amigaos/intl.c.po.c:2316
 msgid "Turkish"
-msgstr ""
+msgstr "Türkisch"
 
 #: src/arch/amigaos/intl.c.po.c:2327
 msgid "Language"
@@ -11865,9 +11856,8 @@ msgid "Select the joystick port the mouse is attached to"
 msgstr "Joystickport für Maus auswählen"
 
 #: src/translate.c.po.c:9477
-#, fuzzy
 msgid "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles)"
-msgstr "Maus typ wählen (0 = 1351, 1 = NEOS, 2 = Amiga)"
+msgstr "Maus typ wählen (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles)"
 
 #: src/translate.c.po.c:9491
 msgid "Enable PS/2 mouse on userport"
