@@ -1,3 +1,8 @@
+2009-01-18  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/resid-dtv/Makefile.am: removed (non-existant) VICE.README
+	  from src/resid-dtv/Makefile.am.
+
 2009-01-18  Hannu Nuotio <hannu.nuotio@tut.fi>
 
 	* src/resid-dtv/ChangeLog, src/resid-dtv/envelope.cc,
