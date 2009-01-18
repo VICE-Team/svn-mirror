@@ -67,8 +67,8 @@ void Filter::clock(sound_sample voice1,
 		   sound_sample voice2,
 		   sound_sample voice3)
 {
-  // NB! Voice 3 is not silenced by voice3off if it is routed through
-  // the filter.
+  /* Voice3off always disables the voice, even when the filter routing bits are
+     set. (We don't track routing bits at all.) */
   if (voice3off) {
     voice3 = 0;
   }
