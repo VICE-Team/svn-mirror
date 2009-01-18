@@ -80,7 +80,6 @@ SID::SID()
   set_sampling_parameters(985248, SAMPLE_FAST, 44100);
 
   bus_value = 0;
-  bus_value_ttl = 0;
 
   master_volume = 0;
 }
@@ -107,7 +106,6 @@ void SID::reset()
   extfilt.reset();
 
   bus_value = 0;
-  bus_value_ttl = 0;
 }
 
 // ----------------------------------------------------------------------------
@@ -166,7 +164,6 @@ reg8 SID::read(reg8 offset)
 void SID::write(reg8 offset, reg8 value)
 {
   bus_value = value;
-  bus_value_ttl = 0x4000;
 
   switch (offset) {
   case 0x00:
@@ -260,7 +257,6 @@ SID::State::State()
   }
 
   bus_value = 0;
-  bus_value_ttl = 0;
 
   for (i = 0; i < 3; i++) {
     accumulator[i] = 0;
@@ -314,7 +310,6 @@ SID::State SID::read_state()
   }
 
   state.bus_value = bus_value;
-  state.bus_value_ttl = bus_value_ttl;
 
   for (i = 0; i < 3; i++) {
     state.accumulator[i] = voice[i].wave.accumulator;
@@ -344,7 +339,6 @@ void SID::write_state(const State& state)
   }
 
   bus_value = state.bus_value;
-  bus_value_ttl = state.bus_value_ttl;
 
   for (i = 0; i < 3; i++) {
     voice[i].wave.accumulator = state.accumulator[i];
@@ -566,12 +560,6 @@ void SID::adjust_sampling_frequency(double sample_freq)
 void SID::clock()
 {
   int i;
-
-  // Age bus value.
-  if (--bus_value_ttl <= 0) {
-    bus_value = 0;
-    bus_value_ttl = 0;
-  }
 
   // Clock amplitude modulators.
   for (i = 0; i < 3; i++) {

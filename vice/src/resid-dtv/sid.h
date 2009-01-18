@@ -65,7 +65,6 @@ public:
     char sid_register[0x20];
 
     reg8 bus_value;
-    cycle_count bus_value_ttl;
 
     reg24 accumulator[3];
     reg24 shift_register[3];
@@ -98,7 +97,6 @@ protected:
   ExternalFilter extfilt;
 
   reg8 bus_value;
-  cycle_count bus_value_ttl;
 
   double clock_frequency;
 

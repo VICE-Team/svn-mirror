@@ -7,6 +7,8 @@
           is not actually used, it is there only to keep ABI compatibility with
           reSID.
 
+        * sid.cc: value written on chip doesn't fade.
+
         * sid.cc: Fixed a phase error in output "interpolated resampling" mode,
           which improves stopband attenuation.
 
