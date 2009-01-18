@@ -39,7 +39,7 @@ void EnvelopeGenerator::init_train_lut() {
                  * clocks at max, so it's always repeating twice within one
                  * system clock. */
                 unsigned int envcounter = phase1 * 32;
-                unsigned int volcounter = vol;
+                unsigned int volcounter = (16 - vol) & 0xf;
                 
                 unsigned int voltrain = 0;
                 unsigned int envtrain = 0;
