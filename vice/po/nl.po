@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-16 20:07+0100\n"
+"POT-Creation-Date: 2009-01-18 15:10+0100\n"
 "PO-Revision-Date: 2008-06-11 11:57+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -2764,7 +2764,8 @@ msgstr "*Sla instellingen op bij afsluiten"
 msgid "*Confirm on exit"
 msgstr "*Bevestigen bij afsluiten"
 
-#: src/arch/unix/gui/uisid.c:43 src/arch/unix/gui/uisidcart.c:39
+#: src/arch/unix/gui/uisid.c:43 src/arch/unix/gui/uisid.c:73
+#: src/arch/unix/gui/uisidcart.c:39
 msgid "*Fast SID"
 msgstr "*Fast SID"
 
@@ -2772,107 +2773,115 @@ msgstr "*Fast SID"
 msgid "*ReSID"
 msgstr "*ReSID"
 
-#: src/arch/unix/gui/uisid.c:50
+#: src/arch/unix/gui/uisid.c:50 src/arch/unix/gui/uisid.c:80
 msgid "*ReSID-FP"
 msgstr "*ReSID-FP"
 
-#: src/arch/unix/gui/uisid.c:54 src/arch/unix/gui/uisidcart.c:42
+#: src/arch/unix/gui/uisid.c:54 src/arch/unix/gui/uisid.c:84
+#: src/arch/unix/gui/uisidcart.c:42
 msgid "*Catweasel MKIII"
 msgstr "*Catweasel MKIII"
 
-#: src/arch/unix/gui/uisid.c:58 src/arch/unix/gui/uisidcart.c:46
+#: src/arch/unix/gui/uisid.c:58 src/arch/unix/gui/uisid.c:88
+#: src/arch/unix/gui/uisidcart.c:46
 msgid "*HardSID"
 msgstr "*HardSID"
 
-#: src/arch/unix/gui/uisid.c:62 src/arch/unix/gui/uisidcart.c:50
+#: src/arch/unix/gui/uisid.c:62 src/arch/unix/gui/uisid.c:92
+#: src/arch/unix/gui/uisidcart.c:50
 msgid "*ParSID Port 1"
 msgstr "*ParSID poort 1"
 
-#: src/arch/unix/gui/uisid.c:64 src/arch/unix/gui/uisidcart.c:52
+#: src/arch/unix/gui/uisid.c:64 src/arch/unix/gui/uisid.c:94
+#: src/arch/unix/gui/uisidcart.c:52
 msgid "*ParSID Port 2"
 msgstr "*ParSID poort 2"
 
-#: src/arch/unix/gui/uisid.c:66 src/arch/unix/gui/uisidcart.c:54
+#: src/arch/unix/gui/uisid.c:66 src/arch/unix/gui/uisid.c:96
+#: src/arch/unix/gui/uisidcart.c:54
 msgid "*ParSID Port 3"
 msgstr "*ParSID poort 3"
 
-#: src/arch/unix/gui/uisid.c:75 src/arch/unix/gui/uisidcart.c:63
+#: src/arch/unix/gui/uisid.c:76
+#, fuzzy
+msgid "*ReSID-DTV"
+msgstr "*ReSID"
+
+#: src/arch/unix/gui/uisid.c:105 src/arch/unix/gui/uisid.c:145
+#: src/arch/unix/gui/uisidcart.c:63
 msgid "*6581 (old)"
 msgstr "*6581 (oud)"
 
-#: src/arch/unix/gui/uisid.c:77 src/arch/unix/gui/uisidcart.c:65
+#: src/arch/unix/gui/uisid.c:107 src/arch/unix/gui/uisid.c:147
+#: src/arch/unix/gui/uisidcart.c:65
 msgid "*8580 (new)"
 msgstr "*8580 (nieuw)"
 
-#: src/arch/unix/gui/uisid.c:79 src/arch/unix/gui/uisidcart.c:67
+#: src/arch/unix/gui/uisid.c:109 src/arch/unix/gui/uisidcart.c:67
 msgid "*8580 + digi boost"
 msgstr "*8500 + digi boost"
 
-#.
-#. { N_("*6581R4 (not yet implemented)"),
-#. (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_6581R4, NULL },
-#.
-#: src/arch/unix/gui/uisid.c:85
-msgid "*DTVSID"
-msgstr "*DTVSID"
-
-#: src/arch/unix/gui/uisid.c:89
+#: src/arch/unix/gui/uisid.c:117 src/arch/unix/gui/uisid.c:151
 msgid "*6581R3 4885 (very light)"
 msgstr "*6581R3 4885 (heel licht)"
 
-#: src/arch/unix/gui/uisid.c:91
+#: src/arch/unix/gui/uisid.c:119 src/arch/unix/gui/uisid.c:153
 msgid "*6581R3 0486S (light)"
 msgstr "*6581R3 0486S (licht)"
 
-#: src/arch/unix/gui/uisid.c:93
+#: src/arch/unix/gui/uisid.c:121 src/arch/unix/gui/uisid.c:155
 msgid "*6581R3 3984 (light avg)"
 msgstr "*6581R3 3984 (licht gem)"
 
-#: src/arch/unix/gui/uisid.c:95
+#: src/arch/unix/gui/uisid.c:123 src/arch/unix/gui/uisid.c:157
 msgid "*6581R4AR 3789 (avg)"
 msgstr "*6581R4AR 3789 (med)"
 
-#: src/arch/unix/gui/uisid.c:97
+#: src/arch/unix/gui/uisid.c:125 src/arch/unix/gui/uisid.c:159
 msgid "*6581R3 4485 (dark)"
 msgstr "*6581R3 4485 (donker)"
 
-#: src/arch/unix/gui/uisid.c:99
+#: src/arch/unix/gui/uisid.c:127 src/arch/unix/gui/uisid.c:161
 msgid "*6581R4 1986S (very dark)"
 msgstr "*6581R4 1986S (erg donker)"
 
-#: src/arch/unix/gui/uisid.c:101
+#: src/arch/unix/gui/uisid.c:129 src/arch/unix/gui/uisid.c:163
 msgid "*8580 3691 (light)"
 msgstr "*8580 3691 (licht)"
 
-#: src/arch/unix/gui/uisid.c:103
+#: src/arch/unix/gui/uisid.c:131 src/arch/unix/gui/uisid.c:165
 msgid "*8580 3691 + digi boost"
 msgstr "*8500 3691 + digi boost"
 
-#: src/arch/unix/gui/uisid.c:105
+#: src/arch/unix/gui/uisid.c:133 src/arch/unix/gui/uisid.c:167
 msgid "*8580 1489 (dark)"
 msgstr "*8580 1489 (donker)"
 
-#: src/arch/unix/gui/uisid.c:107
+#: src/arch/unix/gui/uisid.c:135 src/arch/unix/gui/uisid.c:169
 msgid "*8580 1489 + digi boost"
 msgstr "*8500 1489 + digi boost"
 
-#: src/arch/unix/gui/uisid.c:117
+#: src/arch/unix/gui/uisid.c:142
+msgid "*DTVSID"
+msgstr "*DTVSID"
+
+#: src/arch/unix/gui/uisid.c:179
 msgid "*Fast"
 msgstr "*Snel"
 
-#: src/arch/unix/gui/uisid.c:119
+#: src/arch/unix/gui/uisid.c:181
 msgid "*Interpolating"
 msgstr "*Interpoleren"
 
-#: src/arch/unix/gui/uisid.c:121
+#: src/arch/unix/gui/uisid.c:183
 msgid "*Resampling"
 msgstr "*Resampling"
 
-#: src/arch/unix/gui/uisid.c:123
+#: src/arch/unix/gui/uisid.c:185
 msgid "*Fast Resampling"
 msgstr "*Snelle Resampling"
 
-#: src/arch/unix/gui/uisid.c:140
+#: src/arch/unix/gui/uisid.c:202
 msgid ""
 "Enter passband in percentage of total bandwidth\n"
 "(0 - 90, lower is faster, higher is better)"
@@ -2880,7 +2889,7 @@ msgstr ""
 "Geef passband in percentage van de totale bandbreedte\n"
 "(0 - 90, lager is sneller, hoger is beter)"
 
-#: src/arch/unix/gui/uisid.c:141
+#: src/arch/unix/gui/uisid.c:203
 msgid "Passband percentage"
 msgstr "Passband percentage"
 
