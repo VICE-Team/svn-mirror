@@ -39,7 +39,7 @@
         * voice.h, envelope.h: Simulate voice output based on emulation of two
           of the three sigma-delta converters:
 
-          - 12-bit delta-sigma converter at oscillator
+          - 8-bit delta-sigma converter at oscillator
           - 8-bit delta-sigma for envelope level
           - 4-bit delta-sigma for volume level
 
@@ -50,10 +50,10 @@
           correlation is apparent as sound level jumping during slow ADSR
           curves, and as scratchy noises during faster ADSR curves.
 
-          The oscillator sigma-delta converter produces some wideband noise,
-          as its repetition length is 4096 clocks or about 8 kHz, bringing it
-          well into audible range. How bad the phenomenom is depends on the
-          envelope and volume levels.
+          The waveform delta-sigma converter has been found to produce wideband
+          hissing noise for the ramping waveforms such as sawtooth. This is
+          most likely due to interaction with envelope generator and irregular
+          switching intervals for the top 8 bits of the waveform.
 
         * sid.cc, envelope.cc: New register added to set the voice 2 envelope
           level.

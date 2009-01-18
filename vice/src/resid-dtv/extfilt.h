@@ -40,18 +40,15 @@ class ExternalFilter
 public:
   ExternalFilter();
 
-  void enable_filter(bool enable);
-
   RESID_INLINE void clock(sound_sample Vi);
   void reset();
 
   // Audio output (20 bits).
   RESID_INLINE sound_sample output();
 
+  /* API compat only */
+  void enable_filter(bool enable);
 protected:
-  // Filter enabled.
-  bool enabled;
-
   // State of filters.
   sound_sample Vlp; // lowpass
   sound_sample Vhp1; // highpass
@@ -81,14 +78,6 @@ friend class SID;
 RESID_INLINE
 void ExternalFilter::clock(sound_sample Vi)
 {
-  // This is handy for testing.
-  if (!enabled) {
-    // Remove maximum DC level since there is no filter to do it.
-    Vlp = Vhp1 = Vhp2 = 0;
-    Vo = Vi;
-    return;
-  }
-
   // Calculate filter outputs.
   // Vo  = Vlp - Vhp;
   // Vlp = Vlp + w0lp*(Vi - Vlp);

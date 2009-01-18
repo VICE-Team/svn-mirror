@@ -89,12 +89,12 @@ protected:
   // The gate bit is handled by the EnvelopeGenerator.
 
   // 16 possible combinations of waveforms.
-  RESID_INLINE reg12 output___T();
-  RESID_INLINE reg12 output__S_();
-  RESID_INLINE reg12 output_P__();
-  RESID_INLINE reg12 outputN___();
+  RESID_INLINE reg8 output___T();
+  RESID_INLINE reg8 output__S_();
+  RESID_INLINE reg8 output_P__();
+  RESID_INLINE reg8 outputN___();
 
-  static int wave_train_lut[4096][128];
+  static int wave_train_lut[256][8];
 
 friend class Voice;
 friend class SID;
@@ -118,14 +118,14 @@ void WaveformGenerator::clock_noise()
   shift_register |= bit0;
     
   noise =
-    ((shift_register & 0x400000) >> 11) |
-    ((shift_register & 0x100000) >> 10) |
-    ((shift_register & 0x010000) >> 7) |
-    ((shift_register & 0x002000) >> 5) |
-    ((shift_register & 0x000800) >> 4) |
-    ((shift_register & 0x000080) >> 1) |
-    ((shift_register & 0x000010) << 1) |
-    ((shift_register & 0x000004) << 2);
+    ((shift_register & 0x400000) >> 15) |
+    ((shift_register & 0x100000) >> 14) |
+    ((shift_register & 0x010000) >> 11) |
+    ((shift_register & 0x002000) >> 9) |
+    ((shift_register & 0x000800) >> 8) |
+    ((shift_register & 0x000080) >> 5) |
+    ((shift_register & 0x000010) >> 3) |
+    ((shift_register & 0x000004) >> 2);
 }
 
 // ----------------------------------------------------------------------------
@@ -180,19 +180,19 @@ void WaveformGenerator::synchronize()
 // Ring modulation substitutes the MSB with sync_source MSB.
 //
 RESID_INLINE
-reg12 WaveformGenerator::output___T()
+reg8 WaveformGenerator::output___T()
 {
   reg24 msb = (ring_mod ? sync_source->accumulator : accumulator) & 0x800000;
-  return ((msb ? ~accumulator : accumulator) >> 11) & 0xfff;
+  return ((msb ? ~accumulator : accumulator) >> 15) & 0xff;
 }
 
 // Sawtooth:
 // The output is identical to the upper 12 bits of the accumulator.
 //
 RESID_INLINE
-reg12 WaveformGenerator::output__S_()
+reg8 WaveformGenerator::output__S_()
 {
-  return accumulator >> 12;
+  return accumulator >> 16;
 }
 
 // Pulse:
@@ -206,9 +206,9 @@ reg12 WaveformGenerator::output__S_()
 // regardless of the pulse width setting.
 //
 RESID_INLINE
-reg12 WaveformGenerator::output_P__()
+reg8 WaveformGenerator::output_P__()
 {
-  return (accumulator >> 12) >= pw ? 0xfff : 0x000;
+  return (accumulator >> 12) >= pw ? 0xff : 0x00;
 }
 
 // Noise:
@@ -231,7 +231,7 @@ reg12 WaveformGenerator::output_P__()
 // Since waveform output is 12 bits the output is left-shifted 4 times.
 //
 RESID_INLINE
-reg12 WaveformGenerator::outputN___()
+reg8 WaveformGenerator::outputN___()
 {
   return noise;
 }
@@ -242,7 +242,7 @@ reg12 WaveformGenerator::outputN___()
 RESID_INLINE
 int WaveformGenerator::output()
 {
-  reg12 output = 0;
+  reg8 output = 0;
   if (waveform & 0x1)
     output |= output___T();
   if (waveform & 0x2)
@@ -253,7 +253,7 @@ int WaveformGenerator::output()
     output |= outputN___();
 
   counter += output;
-  counter &= 0x7f;
+  counter &= 0x7;
   return wave_train_lut[output][counter];
 }
 

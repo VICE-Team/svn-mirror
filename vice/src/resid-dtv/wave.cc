@@ -25,11 +25,11 @@
 #define __WAVE_CC__
 #include "wave.h"
 
-int WaveformGenerator::wave_train_lut[4096][128];
+int WaveformGenerator::wave_train_lut[256][8];
 
 void WaveformGenerator::init_train_lut() {
-    for (int level = 0; level < 4096; level ++) {
-        for (int phase1 = 0; phase1 < 128; phase1 ++) {
+    for (int level = 0; level < 256; level ++) {
+        for (int phase1 = 0; phase1 < 8; phase1 ++) {
             unsigned int counter = phase1 * 32;
             unsigned int train = 0;
 
@@ -37,8 +37,8 @@ void WaveformGenerator::init_train_lut() {
             for (int phase2 = 0; phase2 < 32; phase2 ++) {
                 counter += level;
                 train <<= 1;
-                train |= counter >> 12;
-                counter &= 0xfff;
+                train |= counter >> 8;
+                counter &= 0xff;
             }
 
             wave_train_lut[level][phase1] = train;
@@ -112,7 +112,7 @@ void WaveformGenerator::writeCONTROL_REG(reg8 control)
 
 reg8 WaveformGenerator::readOSC()
 {
-  return outputN___() >> 4;
+  return outputN___();
 }
 
 /* LFSR is clocked if the bit 19 is incremented */

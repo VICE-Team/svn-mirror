@@ -27,22 +27,11 @@
 ExternalFilter::ExternalFilter()
 {
   reset();
-  enable_filter(true);
 
   w0lp = 64475; /* 10 kHz, 3.3 kO and 4.7 nF RC filter from schematic */
   w0hp1 = 100;  /* 0.1 uF to transistor base, unknown resistance, estimated */
   w0hp2 = 167;  /* 26.5 Hz output */
 }
-
-
-// ----------------------------------------------------------------------------
-// Enable filter.
-// ----------------------------------------------------------------------------
-void ExternalFilter::enable_filter(bool enable)
-{
-  enabled = enable;
-}
-
 
 // ----------------------------------------------------------------------------
 // SID reset.
@@ -51,3 +40,6 @@ void ExternalFilter::reset()
 {
   Vhp1 = Vhp2 = Vlp = Vo = 0;
 }
+
+/* API compatibility hacks */
+void ExternalFilter::enable_filter(bool enable) { ; }
