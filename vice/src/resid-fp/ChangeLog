@@ -1,6 +1,24 @@
+2009-01-18  Antti S. Lankila  <alankila@bel.fi>
+
+        Sync against upcoming V31 patch version. Filter updates described
+        below.
+
+        * filter.h: Add direct mixing between lp-hp. Reduce mixing factor
+          to half to compensate.
+
+        * filter.h, filter.cc: Repurpose tunable distortion_rate. It now sets
+          the highpass level in relation to unfiltered output. -6 dB or 0.5 is
+          approximately correct.
+
+        * resid-fp/filter.h: Reduce the level difference between the lp, bp and hp.
+
+        * filter.cc: Slightly more resonance for 8580 (Q in [0.7, 2.3]).
+
+        * ../sid/sid.cc: Tweak distortion parameters.
+
 2008-12-05  Antti S. Lankila  <alankila@bel.fi>
 
-	* Sync against V27 patch version. Filter updates described below.
+	Sync against V27 patch version. Filter updates described below.
 
 	* Reduce Q maximum to 2.2 or so. This may still be slightly too much,
 	  but it's hard to say exactly...
@@ -17,7 +35,7 @@
 
 2008-10-31  Antti S. Lankila  <alankila@bel.fi>
 
-	* Sync against V25 patch version. Filter updates described below.
+	Sync against V25 patch version. Filter updates described below.
 
 	* Tweak filter algorithm to do some state variable mixing in the
 	  6581 code path. This corresponds with assumed output impedance of
