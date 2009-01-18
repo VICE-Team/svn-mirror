@@ -35,7 +35,7 @@ void Voice::set_chip_model(chip_model model)
 {
   wave.set_chip_model(model);
 
-  if (model == MOS6581 || model == DTVSID) {
+  if (model == MOS6581) {
     // The waveform D/A converter introduces a DC offset in the signal
     // to the envelope multiplying D/A converter. The "zero" level of
     // the waveform D/A converter can be found as follows:

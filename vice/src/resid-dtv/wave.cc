@@ -16,19 +16,49 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
+// C64 DTV modifications written by
+//   Daniel Kahlin <daniel@kahlin.net>
+// Copyright (C) 2007  Daniel Kahlin <daniel@kahlin.net>
+//   Antti S. Lankila <alankila@bel.fi>
+// Copyright (C) 2009  Antti S. Lankila <alankila@bel.fi>
 
 #define __WAVE_CC__
 #include "wave.h"
+
+int WaveformGenerator::wave_train_lut[4096][128];
+
+void WaveformGenerator::init_train_lut() {
+    for (int level = 0; level < 4096; level ++) {
+        for (int phase1 = 0; phase1 < 128; phase1 ++) {
+            unsigned int counter = phase1 * 32;
+            unsigned int train = 0;
+
+            /* calculate wave train */
+            for (int phase2 = 0; phase2 < 32; phase2 ++) {
+                counter += level;
+                train <<= 1;
+                train |= counter >> 12;
+                counter &= 0xfff;
+            }
+
+            wave_train_lut[level][phase1] = train;
+        }
+    }
+}
+
 
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------
 WaveformGenerator::WaveformGenerator()
 {
+  static bool tableinit = false;
+  if (! tableinit) {
+    init_train_lut();
+    tableinit = true;
+  }
+
   sync_source = this;
-
-  set_chip_model(MOS6581);
-
   reset();
 }
 
@@ -42,48 +72,27 @@ void WaveformGenerator::set_sync_source(WaveformGenerator* source)
   source->sync_dest = this;
 }
 
-
-// ----------------------------------------------------------------------------
-// Set chip model.
-// ----------------------------------------------------------------------------
-void WaveformGenerator::set_chip_model(chip_model model)
-{
-  if (model == MOS6581) {
-    wave__ST = wave6581__ST;
-    wave_P_T = wave6581_P_T;
-    wave_PS_ = wave6581_PS_;
-    wave_PST = wave6581_PST;
-  }
-  else {
-    wave__ST = wave8580__ST;
-    wave_P_T = wave8580_P_T;
-    wave_PS_ = wave8580_PS_;
-    wave_PST = wave8580_PST;
-  }
-}
-
-
 // ----------------------------------------------------------------------------
 // Register functions.
 // ----------------------------------------------------------------------------
 void WaveformGenerator::writeFREQ_LO(reg8 freq_lo)
 {
-  freq = freq & 0xff00 | freq_lo & 0x00ff;
+  freq = (freq & 0xff00) | (freq_lo & 0x00ff);
 }
 
 void WaveformGenerator::writeFREQ_HI(reg8 freq_hi)
 {
-  freq = (freq_hi << 8) & 0xff00 | freq & 0x00ff;
+  freq = ((freq_hi << 8) & 0xff00) | (freq & 0x00ff);
 }
 
 void WaveformGenerator::writePW_LO(reg8 pw_lo)
 {
-  pw = pw & 0xf00 | pw_lo & 0x0ff;
+  pw = (pw & 0xf00) | (pw_lo & 0x0ff);
 }
 
 void WaveformGenerator::writePW_HI(reg8 pw_hi)
 {
-  pw = (pw_hi << 8) & 0xf00 | pw & 0x0ff;
+  pw = ((pw_hi << 8) & 0xf00) | (pw & 0x0ff);
 }
 
 void WaveformGenerator::writeCONTROL_REG(reg8 control)
@@ -91,39 +100,30 @@ void WaveformGenerator::writeCONTROL_REG(reg8 control)
   waveform = (control >> 4) & 0x0f;
   ring_mod = control & 0x04;
   sync = control & 0x02;
+  test = control & 0x08;
 
-  reg8 test_next = control & 0x08;
-
-  // Test bit set.
-  // The accumulator and the shift register are both cleared.
-  // NB! The shift register is not really cleared immediately. It seems like
-  // the individual bits in the shift register start to fade down towards
-  // zero when test is set. All bits reach zero within approximately
-  // $2000 - $4000 cycles.
-  // This is not modeled. There should fortunately be little audible output
-  // from this peculiar behavior.
-  if (test_next) {
+  // Test bit set. Accumulator is cleared.
+  if (test) {
     accumulator = 0;
-    shift_register = 0;
   }
-  // Test bit cleared.
-  // The accumulator starts counting, and the shift register is reset to
-  // the value 0x7ffff8.
-  // NB! The shift register will not actually be set to this exact value if the
-  // shift register bits have not had time to fade to zero.
-  // This is not modeled.
-  else if (test) {
-    shift_register = 0x7ffff8;
-  }
-
-  test = test_next;
 
   // The gate bit is handled by the EnvelopeGenerator.
 }
 
 reg8 WaveformGenerator::readOSC()
 {
-  return output() >> 4;
+  return outputN___() >> 4;
+}
+
+/* LFSR is clocked if the bit 19 is incremented */
+void WaveformGenerator::writeACC_HI(reg8 value)
+{
+  reg24 accumulator_prev = accumulator;
+  accumulator = (value << 16) | (accumulator & 0xffff);
+  if (!(accumulator_prev & 0x080000) && (accumulator & 0x080000)) {
+    /* This has been measured to happen also with test bit on. */
+    clock_noise();
+  }
 }
 
 // ----------------------------------------------------------------------------
@@ -132,7 +132,9 @@ reg8 WaveformGenerator::readOSC()
 void WaveformGenerator::reset()
 {
   accumulator = 0;
-  shift_register = 0x7ffff8;
+  counter = 0;
+  shift_register = 0x7ffffc;
+  noise = 0xff0;
   freq = 0;
   pw = 0;
 

@@ -16,9 +16,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
-// C64 DTV modifications written by
-//   Daniel Kahlin <daniel@kahlin.net>
-// Copyright (C) 2007  Daniel Kahlin <daniel@kahlin.net>
 
 #ifndef __ENVELOPE_H__
 #define __ENVELOPE_H__
@@ -49,7 +46,6 @@ public:
   void writeATTACK_DECAY(reg8);
   void writeSUSTAIN_RELEASE(reg8);
   reg8 readENV();
-  void writeENV(reg8);
 
   // 8-bit envelope output.
   RESID_INLINE reg8 output();

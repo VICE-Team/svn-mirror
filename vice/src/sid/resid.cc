@@ -5,8 +5,6 @@
  *  Teemu Rantanen <tvr@cs.hut.fi>
  *  Dag Lem <resid@nimrod.no>
  *  Andreas Boose <viceteam@t-online.de>
- * C64 DTV modifications written by
- *  Daniel Kahlin <daniel@kahlin.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,8 +26,8 @@
  *
  */
 
-/* resid itself is always compiled with C64DTV support */
 #include "resid/sid.h"
+/* resid-dtv/ is used for DTVSID, but the API is the same */
 
 extern "C" {
 
@@ -97,16 +95,6 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
     passband = speed * passband_percentage / 200.0;
     gain = gain_percentage / 100.0;
  
-#if 0
-    psid->sid->set_chip_model(model == 0 ? MOS6581 : MOS8580);
-
-    /* 8580 + digi boost. */
-    psid->sid->input(model == 2 ? -32768 : 0);
-
-    psid->sid->enable_filter(filters_enabled ? true : false);
-    psid->sid->enable_external_filter(filters_enabled ? true : false);
-#endif
-
     switch (model) {
     default:
     case 0:
@@ -132,9 +120,7 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
       break;
 #endif
     case 4:
-      psid->sid->set_chip_model(DTVSID);
-      psid->sid->input(0);
-      filters_enabled = 0;
+      /* resid-dtv has only the DTVSID model and no ext input*/
       strcpy(model_text, "DTVSID");
       break;
     }

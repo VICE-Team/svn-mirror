@@ -17,63 +17,38 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#define __EXTFILT_CC__
-#include "extfilt.h"
-
+#define __VOICE_CC__
+#include "voice.h"
 
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------
-ExternalFilter::ExternalFilter()
+Voice::Voice()
 {
-  reset();
-  enable_filter(true);
-  set_chip_model(MOS6581);
-
-  // Low-pass:  R = 10kOhm, C = 1000pF; w0l = 1/RC = 1/(1e4*1e-9) = 100000
-  // High-pass: R =  1kOhm, C =   10uF; w0h = 1/RC = 1/(1e3*1e-5) =    100
-  // Multiply with 1.048576 to facilitate division by 1 000 000 by right-
-  // shifting 20 times (2 ^ 20 = 1048576).
-
-  w0lp = 104858;
-  w0hp = 105;
 }
 
-
 // ----------------------------------------------------------------------------
-// Enable filter.
+// Set sync source.
 // ----------------------------------------------------------------------------
-void ExternalFilter::enable_filter(bool enable)
+void Voice::set_sync_source(Voice* source)
 {
-  enabled = enable;
+  wave.set_sync_source(&source->wave);
 }
 
-
 // ----------------------------------------------------------------------------
-// Set chip model.
+// Register functions.
 // ----------------------------------------------------------------------------
-void ExternalFilter::set_chip_model(chip_model model)
+void Voice::writeCONTROL_REG(reg8 control)
 {
-  if (model == MOS6581) {
-    // Maximum mixer DC output level; to be removed if the external
-    // filter is turned off: ((wave DC + voice DC)*voices + mixer DC)*volume
-    // See voice.cc and filter.cc for an explanation of the values.
-    mixer_DC = ((((0x800 - 0x380) + 0x800)*0xff*3 - 0xfff*0xff/18) >> 7)*0x0f;
-  }
-  else {
-    // No DC offsets in the MOS8580.
-    mixer_DC = 0;
-  }
+  wave.writeCONTROL_REG(control);
+  envelope.writeCONTROL_REG(control);
 }
-
 
 // ----------------------------------------------------------------------------
 // SID reset.
 // ----------------------------------------------------------------------------
-void ExternalFilter::reset()
+void Voice::reset()
 {
-  // State of filter.
-  Vlp = 0;
-  Vhp = 0;
-  Vo = 0;
+  wave.reset();
+  envelope.reset();
 }

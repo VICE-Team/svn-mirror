@@ -353,6 +353,7 @@ EXTRA_DIST = \
 	printerdrv.dsp \
 	raster.dsp \
 	resid.dsp \
+	residdtv.dsp \
 	residfp.dsp \
 	res.txt \
 	resdialogs.txt \

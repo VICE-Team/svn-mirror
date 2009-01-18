@@ -16,9 +16,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
-// C64 DTV modifications written by
-//   Daniel Kahlin <daniel@kahlin.net>
-// Copyright (C) 2007  Daniel Kahlin <daniel@kahlin.net>
 
 #define __ENVELOPE_CC__
 #include "envelope.h"
@@ -227,9 +224,4 @@ void EnvelopeGenerator::writeSUSTAIN_RELEASE(reg8 sustain_release)
 reg8 EnvelopeGenerator::readENV()
 {
   return output();
-}
-
-void EnvelopeGenerator::writeENV(reg8 value)
-{
-    envelope_counter = value;
 }

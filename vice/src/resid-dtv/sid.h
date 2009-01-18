@@ -16,6 +16,9 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
+// C64 DTV modifications written by
+//   Daniel Kahlin <daniel@kahlin.net>
+// Copyright (C) 2007  Daniel Kahlin <daniel@kahlin.net>
 
 #ifndef __SID_H__
 #define __SID_H__
@@ -24,24 +27,24 @@
 #include "voice.h"
 #include "filter.h"
 #include "extfilt.h"
-#include "pot.h"
 
 class SID
 {
 public:
   SID();
   ~SID();
-
-  void set_chip_model(chip_model model);
+  
+  /* Some hacks to keep DTV looking like regular ReSID engine -- hopefully
+   * removed at some point. */
+  void set_chip_model(chip_model ignored);
   void enable_filter(bool enable);
+  void input(int input);
+
   void enable_external_filter(bool enable);
   bool set_sampling_parameters(double clock_freq, sampling_method method,
 			       double sample_freq, double pass_freq = -1,
 			       double filter_scale = 0.97);
   void adjust_sampling_frequency(double sample_freq);
-
-  void fc_default(const fc_point*& points, int& count);
-  PointPlotter<sound_sample> fc_plotter();
 
   void clock();
   void clock(cycle_count delta_t);
@@ -77,18 +80,11 @@ public:
   State read_state();
   void write_state(const State& state);
 
-  // 16-bit input (EXT IN).
-  void input(int sample);
-
   // 16-bit output (AUDIO OUT).
   int output();
-  // n-bit output.
-  int output(int bits);
 
 protected:
   static double I0(double x);
-  RESID_INLINE int clock_fast(cycle_count& delta_t, short* buf, int n,
-			      int interleave);
   RESID_INLINE int clock_interpolate(cycle_count& delta_t, short* buf, int n,
 				     int interleave);
   RESID_INLINE int clock_resample_interpolate(cycle_count& delta_t, short* buf,
@@ -99,16 +95,11 @@ protected:
   Voice voice[3];
   Filter filter;
   ExternalFilter extfilt;
-  Potentiometer potx;
-  Potentiometer poty;
 
   reg8 bus_value;
   cycle_count bus_value_ttl;
 
   double clock_frequency;
-
-  // External audio input.
-  int ext_in;
 
   // Resampling constants.
   // The error in interpolated lookup is bounded by 1.234/L^2,
@@ -127,12 +118,15 @@ protected:
   enum { FIXP_SHIFT = 16 };
   enum { FIXP_MASK = 0xffff };
 
+  // for DTV volume bittrain emulation
+  unsigned int master_volume;
+
   // Sampling variables.
   sampling_method sampling;
   cycle_count cycles_per_sample;
   cycle_count sample_offset;
   int sample_index;
-  short sample_prev;
+  int sample_prev;
   int fir_N;
   int fir_RES;
 

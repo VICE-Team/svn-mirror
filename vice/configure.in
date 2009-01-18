@@ -698,6 +698,11 @@ RESID_FP_LIBS=
 RESID_FP_INCLUDES=
 RESID_FP_DEP=
 
+RESID_DTV_DIR=
+RESID_DTV_LIBS=
+RESID_DTV_INCLUDES=
+RESID_DTV_DEP=
+
 
 LINKCC='$(CC)'
 
@@ -768,6 +773,14 @@ else
       RESID_FP_INCLUDES="-I\$(top_builddir)/src/resid-fp"
       RESID_FP_DEP=libresidfp
     fi
+
+    AC_DEFINE(HAVE_RESID_DTV,,[This version provides ReSID-DTV support.])
+    AC_CONFIG_SUBDIRS(src/resid-dtv)
+    RESID_DTV_DIR=resid-dtv
+    RESID_DTV_LIBS="\$(top_builddir)/src/resid-dtv/libresiddtv.a"
+    RESID_DTV_INCLUDES="-I\$(top_builddir)/src/resid-dtv"
+    RESID_DTV_DEP=libresiddtv
+
   else
     dnl reSID is installed elsewhere, no need to configure.
     no_recursion=yes
@@ -811,6 +824,12 @@ AC_SUBST(RESID_FP_DIR)
 AC_SUBST(RESID_FP_LIBS)
 AC_SUBST(RESID_FP_INCLUDES)
 AC_SUBST(RESID_FP_DEP)
+
+AM_CONDITIONAL(HAVE_RESID_DTV, test x"$with_resid" != "xno")
+AC_SUBST(RESID_DTV_DIR)
+AC_SUBST(RESID_DTV_LIBS)
+AC_SUBST(RESID_DTV_INCLUDES)
+AC_SUBST(RESID_DTV_DEP)
 
 dnl Check for typedefs, structures, and compiler characteristics.
 AC_CHECK_HEADERS(sys/types.h)
@@ -2400,6 +2419,7 @@ if false ; then
     mkdir -p printerdrv
     mkdir -p raster
     mkdir -p resid
+    mkdir -p resid-dtv
     mkdir -p resid-fp
     mkdir -p rs232drv
     mkdir -p serial

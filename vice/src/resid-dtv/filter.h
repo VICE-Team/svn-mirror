@@ -17,63 +17,89 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#define __EXTFILT_CC__
-#include "extfilt.h"
+#ifndef __FILTER_H__
+#define __FILTER_H__
 
+#include "siddefs.h"
 
-// ----------------------------------------------------------------------------
-// Constructor.
-// ----------------------------------------------------------------------------
-ExternalFilter::ExternalFilter()
+class Filter
 {
-  reset();
-  enable_filter(true);
-  set_chip_model(MOS6581);
+public:
+  Filter();
 
-  // Low-pass:  R = 10kOhm, C = 1000pF; w0l = 1/RC = 1/(1e4*1e-9) = 100000
-  // High-pass: R =  1kOhm, C =   10uF; w0h = 1/RC = 1/(1e3*1e-5) =    100
-  // Multiply with 1.048576 to facilitate division by 1 000 000 by right-
-  // shifting 20 times (2 ^ 20 = 1048576).
+  RESID_INLINE
+  void clock(sound_sample voice1, sound_sample voice2, sound_sample voice3);
+  void reset();
 
-  w0lp = 104858;
-  w0hp = 105;
-}
+  // Write registers.
+  void writeFC_LO(reg8);
+  void writeFC_HI(reg8);
+  void writeRES_FILT(reg8);
+  void writeMODE_VOL(reg8);
+
+  // SID audio output (16 bits).
+  sound_sample output();
+
+protected:
+  // Filter cutoff frequency.
+  reg12 fc;
+
+  // Filter resonance.
+  reg8 res;
+
+  // Selects which inputs to route through filter.
+  reg8 filt;
+
+  // Switch voice 3 off.
+  reg8 voice3off;
+
+  // Highpass, bandpass, and lowpass filter modes.
+  reg8 hp_bp_lp;
+
+  // Output master volume.
+  reg4 vol;
+
+  // Temporary state of filter.
+  sound_sample Vnf;
+
+friend class SID;
+};
 
 
 // ----------------------------------------------------------------------------
-// Enable filter.
+// Inline functions.
+// The following functions are defined inline because they are called every
+// time a sample is calculated.
 // ----------------------------------------------------------------------------
-void ExternalFilter::enable_filter(bool enable)
+
+#if RESID_INLINING || defined(__FILTER_CC__)
+
+// ----------------------------------------------------------------------------
+// SID clocking - 1 cycle.
+// ----------------------------------------------------------------------------
+RESID_INLINE
+void Filter::clock(sound_sample voice1,
+		   sound_sample voice2,
+		   sound_sample voice3)
 {
-  enabled = enable;
-}
-
-
-// ----------------------------------------------------------------------------
-// Set chip model.
-// ----------------------------------------------------------------------------
-void ExternalFilter::set_chip_model(chip_model model)
-{
-  if (model == MOS6581) {
-    // Maximum mixer DC output level; to be removed if the external
-    // filter is turned off: ((wave DC + voice DC)*voices + mixer DC)*volume
-    // See voice.cc and filter.cc for an explanation of the values.
-    mixer_DC = ((((0x800 - 0x380) + 0x800)*0xff*3 - 0xfff*0xff/18) >> 7)*0x0f;
+  // NB! Voice 3 is not silenced by voice3off if it is routed through
+  // the filter.
+  if (voice3off && !(filt & 0x04)) {
+    voice3 = 0;
   }
-  else {
-    // No DC offsets in the MOS8580.
-    mixer_DC = 0;
-  }
+  
+  Vnf = (voice1 + voice2 + voice3) << 9;
 }
 
-
 // ----------------------------------------------------------------------------
-// SID reset.
+// SID audio output (20 bits).
 // ----------------------------------------------------------------------------
-void ExternalFilter::reset()
+RESID_INLINE
+sound_sample Filter::output()
 {
-  // State of filter.
-  Vlp = 0;
-  Vhp = 0;
-  Vo = 0;
+  return Vnf + (static_cast<sound_sample>(vol) << 10);
 }
+
+#endif // RESID_INLINING || defined(__FILTER_CC__)
+
+#endif // not __FILTER_H__

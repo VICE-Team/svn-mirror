@@ -1,3 +1,130 @@
+2009-01-18  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/resid-dtv/ChangeLog, src/resid-dtv/envelope.cc,
+	src/resid-dtv/envelope.h, src/resid-dtv/filter.h,
+	src/resid-dtv/sid.cc, src/resid-dtv/sid.h,
+	src/resid-dtv/voice.h, src/resid-dtv/wave.cc,
+	src/resid-dtv/wave.h, src/sid/resid.cc: DTVSID waveform bittrain
+	emulation by Antti Lankila
+
+2009-01-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/msvc/config.h,
+	src/arch/win32/residdtv.dsp, src/arch/win32/vice.dsw: Added
+	resid-dtv support to the msvc project files.
+
+2009-01-17  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/resid-dtv/AUTHORS, src/resid-dtv/ChangeLog,
+	src/resid-dtv/NEWS, src/resid-dtv/README,
+	src/resid-dtv/README.VICE: ReSID-DTV README etc updates by Antti
+	Lankila
+
+2009-01-16  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/gui/c64dtvui.c, src/arch/unix/gui/uisid.c,
+	src/arch/unix/gui/uisid.h, src/sid/resid.cc,
+	src/sid/sid-resources.c: Removed DTVSID from non-x64dtv and
+	regular ReSID models from x64dtv unix UI menus
+
+	* src/resid-dtv/extfilt.cc, src/resid-dtv/extfilt.h: More DTVSID
+	extfilt fixes by Antti Lankila
+
+	* src/resid-dtv/extfilt.cc, src/resid-dtv/extfilt.h,
+	src/resid-dtv/filter.h, src/resid-dtv/sid.cc: DTVSID extfilt
+	fixes by Antti Lankila
+
+2009-01-15  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/resid-dtv/extfilt.cc, src/resid-dtv/extfilt.h,
+	src/resid-dtv/filter.cc, src/resid-dtv/siddefs.h.in,
+	src/resid-dtv/wave.cc, src/resid-dtv/wave.h: DTVSID noise fixes
+	by Antti Lankila
+
+	* src/resid-dtv/envelope.cc, src/resid-dtv/envelope.h: DTVSID
+	envelope fixes by Antti Lankila
+
+2009-01-13  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/resid-dtv/envelope.cc, src/resid-dtv/envelope.h,
+	src/resid-dtv/extfilt.h, src/resid-dtv/filter.h,
+	src/resid-dtv/sid.cc, src/resid-dtv/sid.h,
+	src/resid-dtv/voice.h, src/resid-dtv/wave.h: DTVSID envelope
+	emulation by Antti Lankila
+
+2009-01-12  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/resid-dtv/envelope.cc, src/resid-dtv/envelope.h,
+	src/resid-dtv/spline.h, src/resid-dtv/wave.h: Waveform changes
+	by Antti Lankila, fixed release rates, removed empty spline.h
+
+	* src/resid-dtv/Makefile.am, src/resid-dtv/extfilt.cc,
+	src/resid-dtv/extfilt.h, src/resid-dtv/filter.cc,
+	src/resid-dtv/filter.h, src/resid-dtv/sid.cc,
+	src/resid-dtv/sid.h, src/resid-dtv/siddefs.h.in,
+	src/resid-dtv/spline.h, src/resid-dtv/voice.cc,
+	src/resid-dtv/voice.h, src/resid-dtv/wave.cc,
+	src/resid-dtv/wave.h: Waveform inversion, tweaks and
+	SID-specific code removal as provided by Antti Lankila
+
+2009-01-11  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/resid-dtv/envelope.cc, src/resid-dtv/envelope.h,
+	src/resid-dtv/filter.cc: DTVSID sustain values and attack &
+	decay times added
+
+	* src/Makefile.am, src/resid-dtv/envelope.cc,
+	src/resid-dtv/envelope.h, src/resid-dtv/extfilt.cc,
+	src/resid-dtv/extfilt.h, src/resid-dtv/filter.cc,
+	src/resid-dtv/filter.h, src/resid-dtv/sid.cc,
+	src/resid-dtv/sid.h, src/resid-dtv/voice.cc,
+	src/resid-dtv/voice.h, src/resid-dtv/wave.cc,
+	src/resid-dtv/wave.h, src/sid/Makefile.am, src/sid/resid-dtv.cc,
+	src/sid/resid-dtv.h, src/sid/sid-resources.c, src/sid/sid.c,
+	src/sid/sid.h: Removed resid-dtv as a new engine, instead it
+	replaces resid on x64dtv
+
+2009-01-10  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/resid-dtv/Makefile.am, src/resid-dtv/pot.cc,
+	src/resid-dtv/pot.h, src/resid-dtv/samp2src.pl,
+	src/resid-dtv/sid.cc, src/resid-dtv/sid.h,
+	src/resid-dtv/wave.cc, src/resid-dtv/wave.h,
+	src/resid-dtv/wave6581_PST.cc, src/resid-dtv/wave6581_PST.dat,
+	src/resid-dtv/wave6581_PS_.cc, src/resid-dtv/wave6581_PS_.dat,
+	src/resid-dtv/wave6581_P_T.cc, src/resid-dtv/wave6581_P_T.dat,
+	src/resid-dtv/wave6581__ST.cc, src/resid-dtv/wave6581__ST.dat,
+	src/resid-dtv/wave8580_PST.cc, src/resid-dtv/wave8580_PST.dat,
+	src/resid-dtv/wave8580_PS_.cc, src/resid-dtv/wave8580_PS_.dat,
+	src/resid-dtv/wave8580_P_T.cc, src/resid-dtv/wave8580_P_T.dat,
+	src/resid-dtv/wave8580__ST.cc, src/resid-dtv/wave8580__ST.dat,
+	src/resid/envelope.cc, src/resid/envelope.h,
+	src/resid/extfilt.cc, src/resid/filter.cc, src/resid/sid.cc,
+	src/resid/sid.h, src/resid/siddefs.h.in, src/resid/voice.cc,
+	src/resid/wave.cc, src/resid/wave.h, src/sid/resid.cc: Removed
+	DTVSID support from resid, waveform data & potentiometer from
+	resid-dtv, switch to AND'd combined waveforms on resid-dtv
+
+2009-01-09  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* configure.in, src/Makefile.am, src/resid-dtv,
+	src/resid-dtv/Makefile.am, src/resid-dtv/THANKS,
+	src/resid-dtv/TODO, src/resid-dtv/envelope.cc,
+	src/resid-dtv/envelope.h, src/resid-dtv/extfilt.cc,
+	src/resid-dtv/extfilt.h, src/resid-dtv/filter.cc,
+	src/resid-dtv/filter.h, src/resid-dtv/pot.cc,
+	src/resid-dtv/pot.h, src/resid-dtv/samp2src.pl,
+	src/resid-dtv/sid.cc, src/resid-dtv/sid.h,
+	src/resid-dtv/voice.cc, src/resid-dtv/voice.h,
+	src/resid-dtv/wave.cc, src/resid-dtv/wave.h,
+	src/resid-dtv/wave6581_PST.cc, src/resid-dtv/wave6581_PS_.cc,
+	src/resid-dtv/wave6581_P_T.cc, src/resid-dtv/wave6581__ST.cc,
+	src/resid-dtv/wave8580_PST.cc, src/resid-dtv/wave8580_PS_.cc,
+	src/resid-dtv/wave8580_P_T.cc, src/resid-dtv/wave8580__ST.cc,
+	src/sid/Makefile.am, src/sid/resid-dtv.cc, src/sid/resid-dtv.h,
+	src/sid/sid-resources.c, src/sid/sid.c, src/sid/sid.h: Forked
+	resid-dtv/ from resid/
+
 2009-01-17  Christian Vogelgsang <chris@vogelgsang.org>
 
 	* build/macosx/build-vice-release.sh: updated macosx build

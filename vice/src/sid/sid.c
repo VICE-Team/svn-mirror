@@ -215,6 +215,8 @@ sound_t *sid_sound_machine_open(int chipno)
     if (resources_get_int("SidEngine", &sidengine) < 0)
         return NULL;
 
+    sid_engine = fastsid_hooks;
+
 #ifdef HAVE_RESID
     if (sidengine == SID_ENGINE_RESID)
         sid_engine = resid_hooks;
@@ -224,20 +226,6 @@ sound_t *sid_sound_machine_open(int chipno)
     if (sidengine == SID_ENGINE_RESID_FP)
         sid_engine = residfp_hooks;
 #endif
-
-#if defined(HAVE_RESID) && defined(HAVE_RESID_FP)
-    if (sidengine != SID_ENGINE_RESID && sidengine != SID_ENGINE_RESID_FP)
-#endif
-
-#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP)
-    if (sidengine != SID_ENGINE_RESID)
-#endif
-
-#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP)
-    if (sidengine != SID_ENGINE_RESID_FP)
-#endif
-
-    sid_engine = fastsid_hooks;
 
     return sid_engine.open(siddata[chipno]);
 }

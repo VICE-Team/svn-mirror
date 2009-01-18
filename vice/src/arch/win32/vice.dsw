@@ -648,6 +648,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "residdtv"=".\residdtv.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "rs232drv"=".\rs232drv.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -1101,7 +1113,7 @@ Package=<4>
     Project_Dep_Name printerdrv
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name resid
+    Project_Dep_Name residdtv
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name residfp

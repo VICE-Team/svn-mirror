@@ -72,12 +72,12 @@ UI_MENU_DEFINE_TOGGLE(SidFilters)
 
 ui_menu_entry_t sid_submenu[] = {
     { N_("SID engine"),
-      NULL, NULL, sid_engine_submenu },
+      NULL, NULL, sid_dtv_engine_submenu },
     { "--" },
     { N_("*Emulate filters"),
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
     { N_("Chip model"),
-      NULL, NULL, sid_model_submenu },
+      NULL, NULL, sid_dtv_model_submenu },
 #ifdef HAVE_RESID
     { "--" },
     { N_("reSID sampling method"),

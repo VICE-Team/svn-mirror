@@ -168,7 +168,7 @@ int sid_set_sid_stereo_address(int val, void *param)
 
 static int set_sid_model(int val, void *param)
 {
-#if defined(HAVE_RESID) || defined(HAVE_RESID_FP)
+#if defined(HAVE_RESID) || defined(HAVE_RESID_FP) || defined(HAVE_RESID_DTV)
     int sidengine = 0;
 #endif
 
@@ -182,14 +182,20 @@ static int set_sid_model(int val, void *param)
         }
     }
 
-#if defined(HAVE_RESID) || defined(HAVE_RESID_FP)
+#if defined(HAVE_RESID) || defined(HAVE_RESID_FP) || defined(HAVE_RESID_DTV)
     /* Select ReSID or ReSID-FP based on the model number */
     if (resources_get_int("SidEngine", &sidengine) < 0)
         return -1;
 
-    /* DTVSID is only supported in ReSID */
+    /* DTVSID is only supported in ReSID-DTV */
     if((sid_model == SID_MODEL_DTVSID) && (sidengine != SID_ENGINE_RESID)) {
         set_sid_engine(SID_ENGINE_RESID, NULL);
+        return 0;
+    }
+
+    /* Only DTVSID is supported in ReSID-DTV */
+    if ((machine_class == VICE_MACHINE_C64DTV) && (sid_model < SID_MODEL_DTVSID)) {
+        set_sid_engine(SID_ENGINE_FASTSID, NULL);
         return 0;
     }
 #ifdef HAVE_RESID_FP
@@ -208,7 +214,7 @@ static int set_sid_model(int val, void *param)
     return 0;
 }
 
-#if defined(HAVE_RESID) || defined(HAVE_RESID_FP)
+#if defined(HAVE_RESID) || defined(HAVE_RESID_FP) || defined(HAVE_RESID_DTV)
 static int set_sid_resid_sampling(int val, void *param)
 {
     sid_resid_sampling = val;
@@ -314,7 +320,7 @@ static const resource_int_t sidengine_resources_int[] = {
     { NULL }
 };
 
-#if defined(HAVE_RESID) || defined(HAVE_RESID_FP)
+#if defined(HAVE_RESID) || defined(HAVE_RESID_FP) || defined(HAVE_RESID_DTV)
 static const resource_int_t resid_resources_int[] = {
     { "SidResidSampling", 0, RES_EVENT_NO, NULL,
       &sid_resid_sampling, set_sid_resid_sampling, NULL },
@@ -359,7 +365,7 @@ int sid_resources_init(void)
     if (resources_register_int(sidengine_resources_int)<0)
         return -1;
 
-#if defined(HAVE_RESID) || defined(HAVE_RESID_FP)
+#if defined(HAVE_RESID) || defined(HAVE_RESID_FP) || defined(HAVE_RESID_DTV)
     if (resources_register_int(resid_resources_int)<0)
         return -1;
 #endif

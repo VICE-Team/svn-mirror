@@ -17,63 +17,53 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#define __EXTFILT_CC__
-#include "extfilt.h"
-
+#define __FILTER_CC__
+#include "filter.h"
 
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------
-ExternalFilter::ExternalFilter()
+Filter::Filter()
 {
   reset();
-  enable_filter(true);
-  set_chip_model(MOS6581);
-
-  // Low-pass:  R = 10kOhm, C = 1000pF; w0l = 1/RC = 1/(1e4*1e-9) = 100000
-  // High-pass: R =  1kOhm, C =   10uF; w0h = 1/RC = 1/(1e3*1e-5) =    100
-  // Multiply with 1.048576 to facilitate division by 1 000 000 by right-
-  // shifting 20 times (2 ^ 20 = 1048576).
-
-  w0lp = 104858;
-  w0hp = 105;
 }
-
-
-// ----------------------------------------------------------------------------
-// Enable filter.
-// ----------------------------------------------------------------------------
-void ExternalFilter::enable_filter(bool enable)
-{
-  enabled = enable;
-}
-
-
-// ----------------------------------------------------------------------------
-// Set chip model.
-// ----------------------------------------------------------------------------
-void ExternalFilter::set_chip_model(chip_model model)
-{
-  if (model == MOS6581) {
-    // Maximum mixer DC output level; to be removed if the external
-    // filter is turned off: ((wave DC + voice DC)*voices + mixer DC)*volume
-    // See voice.cc and filter.cc for an explanation of the values.
-    mixer_DC = ((((0x800 - 0x380) + 0x800)*0xff*3 - 0xfff*0xff/18) >> 7)*0x0f;
-  }
-  else {
-    // No DC offsets in the MOS8580.
-    mixer_DC = 0;
-  }
-}
-
 
 // ----------------------------------------------------------------------------
 // SID reset.
 // ----------------------------------------------------------------------------
-void ExternalFilter::reset()
+void Filter::reset()
 {
-  // State of filter.
-  Vlp = 0;
-  Vhp = 0;
-  Vo = 0;
+  fc = 0;
+  res = 0;
+  filt = 0;
+  voice3off = 0;
+  hp_bp_lp = 0;
+  vol = 0;
+  Vnf = 0;
+}
+
+// ----------------------------------------------------------------------------
+// Register functions.
+// ----------------------------------------------------------------------------
+void Filter::writeFC_LO(reg8 fc_lo)
+{
+  fc = (fc & 0x7f8) | (fc_lo & 0x007);
+}
+
+void Filter::writeFC_HI(reg8 fc_hi)
+{
+  fc = ((fc_hi << 3) & 0x7f8) | (fc & 0x007);
+}
+
+void Filter::writeRES_FILT(reg8 res_filt)
+{
+  res = (res_filt >> 4) & 0x0f;
+  filt = res_filt & 0x0f;
+}
+
+void Filter::writeMODE_VOL(reg8 mode_vol)
+{
+  voice3off = mode_vol & 0x80;
+  hp_bp_lp = (mode_vol >> 4) & 0x07;
+  vol = mode_vol & 0x0f;
 }
