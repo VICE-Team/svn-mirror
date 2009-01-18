@@ -24,6 +24,7 @@
 #define __SID_H__
 
 #include "siddefs.h"
+#include "bittrain.h"
 #include "voice.h"
 #include "filter.h"
 #include "extfilt.h"

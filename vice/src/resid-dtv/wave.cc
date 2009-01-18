@@ -25,39 +25,11 @@
 #define __WAVE_CC__
 #include "wave.h"
 
-int WaveformGenerator::wave_train_lut[256][8];
-
-void WaveformGenerator::init_train_lut() {
-    for (int level = 0; level < 256; level ++) {
-        for (int phase1 = 0; phase1 < 8; phase1 ++) {
-            unsigned int counter = phase1 * 32;
-            unsigned int train = 0;
-
-            /* calculate wave train */
-            for (int phase2 = 0; phase2 < 32; phase2 ++) {
-                counter += level;
-                train <<= 1;
-                train |= counter >> 8;
-                counter &= 0xff;
-            }
-
-            wave_train_lut[level][phase1] = train;
-        }
-    }
-}
-
-
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------
 WaveformGenerator::WaveformGenerator()
 {
-  static bool tableinit = false;
-  if (! tableinit) {
-    init_train_lut();
-    tableinit = true;
-  }
-
   sync_source = this;
   reset();
 }

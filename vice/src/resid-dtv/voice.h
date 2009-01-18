@@ -62,7 +62,7 @@ RESID_INLINE
 sound_sample Voice::output(unsigned int volume)
 {
   /* AND oscillator output with envelope output ANDed with volume output */
-  int v = wave.output() & envelope.output(volume);
+  unsigned int v = wave.output() & envelope.output() & volume_train_lut[volume];
 
   /* http://graphics.stanford.edu/~seander/bithacks.html#CountBitsSetParallel */
   v = v - ((v >> 1) & 0x55555555);

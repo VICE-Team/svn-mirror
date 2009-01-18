@@ -28,6 +28,7 @@
 #define __ENVELOPE_H__
 
 #include "siddefs.h"
+#include "bittrain.h"
 
 // ----------------------------------------------------------------------------
 // A 15 bit counter is used to implement the envelope rates, in effect
@@ -54,11 +55,9 @@ public:
   reg8 readENV();
   void writeENV(reg8);
 
-  RESID_INLINE int output(unsigned int bittrain);
+  RESID_INLINE unsigned int output();
 
 protected:
-  void init_train_lut();
-
   reg16 rate_counter;
   reg16 rate_period;
   reg8 exponential_counter;
@@ -82,9 +81,6 @@ protected:
 
   // The 16 selectable sustain levels.
   static reg8 sustain_level[];
-
-  // bit train construction
-  static int envelope_train_lut[16][256][8];
 
 friend class SID;
 };
@@ -163,9 +159,9 @@ void EnvelopeGenerator::clock()
 // Read the envelope generator output.
 // ----------------------------------------------------------------------------
 RESID_INLINE
-int EnvelopeGenerator::output(unsigned int volume)
+unsigned int EnvelopeGenerator::output()
 {
-  return envelope_train_lut[volume][envelope_counter][envelope_train_counter];
+  return wave_env_train_lut[envelope_counter][envelope_train_counter];
 }
 
 #endif // RESID_INLINING || defined(__ENVELOPE_CC__)

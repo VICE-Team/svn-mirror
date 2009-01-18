@@ -25,56 +25,11 @@
 #define __ENVELOPE_CC__
 #include "envelope.h"
 
-/* volume, envelope level, phase */
-int EnvelopeGenerator::envelope_train_lut[16][256][8];
-
-void EnvelopeGenerator::init_train_lut() {
-    for (int vol = 0; vol < 16; vol ++) {
-        for (int env = 0; env < 256; env ++) {
-            for (int phase1 = 0; phase1 < 8; phase1 ++) {
-                /* we always start envelope on particular phase value out of
-                 * 256, which corresponds to how many clock we have been
-                 * running. The volume train always begins from reset-synced
-                 * position of being 1 clock ahead of ENV. Its loop time is 16
-                 * clocks at max, so it's always repeating twice within one
-                 * system clock. */
-                unsigned int envcounter = phase1 * 32;
-                unsigned int volcounter = (16 - vol) & 0xf;
-                
-                unsigned int voltrain = 0;
-                unsigned int envtrain = 0;
-
-                /* calculate envelope train */
-                for (int phase2 = 0; phase2 < 32; phase2 ++) {
-                    envcounter += env;
-                    envtrain <<= 1;
-                    envtrain |= envcounter >> 8;
-                    envcounter &= 0xff;
-
-                    volcounter += vol;
-                    voltrain <<= 1;
-                    voltrain |= volcounter >> 4;
-                    volcounter &= 0xf;
-                }
-
-                /* Volume is the count of 1-bits in the ANDed
-                 * envelope and volume trains. */
-                envelope_train_lut[vol][env][phase1] = envtrain & voltrain;
-            }
-        }
-    }
-}
-
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------
 EnvelopeGenerator::EnvelopeGenerator()
 {
-  static bool tableinit = false;
-  if (! tableinit) {
-    init_train_lut();
-    tableinit = true;
-  }
   reset();
 }
 

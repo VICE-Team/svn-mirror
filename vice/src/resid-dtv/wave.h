@@ -28,6 +28,7 @@
 #define __WAVE_H__
 
 #include "siddefs.h"
+#include "bittrain.h"
 
 // ----------------------------------------------------------------------------
 // A 24 bit accumulator is the basis for waveform generation. FREQ is added to
@@ -56,12 +57,10 @@ public:
   reg8 readOSC();
   void writeACC_HI(reg8);
 
-  // 12-bit waveform output.
-  RESID_INLINE int output();
+  RESID_INLINE unsigned int output();
 
 protected:
   RESID_INLINE void clock_noise();
-  void init_train_lut();
 
   const WaveformGenerator* sync_source;
   WaveformGenerator* sync_dest;
@@ -93,8 +92,6 @@ protected:
   RESID_INLINE reg8 output__S_();
   RESID_INLINE reg8 output_P__();
   RESID_INLINE reg8 outputN___();
-
-  static int wave_train_lut[256][8];
 
 friend class Voice;
 friend class SID;
@@ -240,7 +237,7 @@ reg8 WaveformGenerator::outputN___()
 // Select one of 16 possible combinations of waveforms.
 // ----------------------------------------------------------------------------
 RESID_INLINE
-int WaveformGenerator::output()
+unsigned int WaveformGenerator::output()
 {
   reg8 output = 0;
   if (waveform & 0x1)
@@ -254,7 +251,7 @@ int WaveformGenerator::output()
 
   counter += output;
   counter &= 0x7;
-  return wave_train_lut[output][counter];
+  return wave_env_train_lut[output][counter];
 }
 
 #endif // RESID_INLINING || defined(__WAVE_CC__)

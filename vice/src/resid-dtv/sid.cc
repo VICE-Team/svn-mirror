@@ -23,11 +23,52 @@
 #include "sid.h"
 #include <math.h>
 
+unsigned int volume_train_lut[16];
+unsigned int wave_env_train_lut[256][8];
+
+static void init_lut() {
+    for (int env = 0; env < 256; env ++) {
+        for (int phase1 = 0; phase1 < 8; phase1 ++) {
+            /* we always start envelope on particular phase value out of
+             * 256, which corresponds to how many clock we have been
+             * running. */
+            unsigned int envcounter = phase1 * 32;
+                
+            unsigned int envtrain = 0;
+            for (int phase2 = 0; phase2 < 32; phase2 ++) {
+                envcounter += env;
+                envtrain <<= 1;
+                envtrain |= envcounter >> 8;
+                envcounter &= 0xff;
+            }
+            wave_env_train_lut[env][phase1] = envtrain;
+        }
+    }
+    
+    for (int vol = 0; vol < 16; vol ++) {
+        unsigned int volcounter = (16 - vol) & 0xf;
+        unsigned int voltrain = 0;
+        for (int phase2 = 0; phase2 < 32; phase2 ++) {
+            volcounter += vol;
+            voltrain <<= 1;
+            voltrain |= volcounter >> 4;
+            volcounter &= 0xf;
+        }
+        volume_train_lut[vol] = voltrain;
+    }
+}
+
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------
 SID::SID()
 {
+  static bool tableinit = false;
+  if (! tableinit) {
+    init_lut();
+    tableinit = true;
+  }
+
   // Initialize pointers.
   sample = 0;
   fir = 0;
