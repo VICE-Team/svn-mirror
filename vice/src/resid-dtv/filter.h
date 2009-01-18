@@ -31,30 +31,15 @@ public:
   void clock(sound_sample voice1, sound_sample voice2, sound_sample voice3);
   void reset();
 
-  // Write registers.
-  void writeFC_LO(reg8);
-  void writeFC_HI(reg8);
-  void writeRES_FILT(reg8);
+  // volume + voice3off.
   void writeMODE_VOL(reg8);
 
   // SID audio output (16 bits).
   sound_sample output();
 
 protected:
-  // Filter cutoff frequency.
-  reg12 fc;
-
-  // Filter resonance.
-  reg8 res;
-
-  // Selects which inputs to route through filter.
-  reg8 filt;
-
   // Switch voice 3 off.
   reg8 voice3off;
-
-  // Highpass, bandpass, and lowpass filter modes.
-  reg8 hp_bp_lp;
 
   // Output master volume.
   reg4 vol;
@@ -84,7 +69,7 @@ void Filter::clock(sound_sample voice1,
 {
   // NB! Voice 3 is not silenced by voice3off if it is routed through
   // the filter.
-  if (voice3off && !(filt & 0x04)) {
+  if (voice3off) {
     voice3 = 0;
   }
   

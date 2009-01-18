@@ -33,37 +33,13 @@ Filter::Filter()
 // ----------------------------------------------------------------------------
 void Filter::reset()
 {
-  fc = 0;
-  res = 0;
-  filt = 0;
   voice3off = 0;
-  hp_bp_lp = 0;
   vol = 0;
   Vnf = 0;
-}
-
-// ----------------------------------------------------------------------------
-// Register functions.
-// ----------------------------------------------------------------------------
-void Filter::writeFC_LO(reg8 fc_lo)
-{
-  fc = (fc & 0x7f8) | (fc_lo & 0x007);
-}
-
-void Filter::writeFC_HI(reg8 fc_hi)
-{
-  fc = ((fc_hi << 3) & 0x7f8) | (fc & 0x007);
-}
-
-void Filter::writeRES_FILT(reg8 res_filt)
-{
-  res = (res_filt >> 4) & 0x0f;
-  filt = res_filt & 0x0f;
 }
 
 void Filter::writeMODE_VOL(reg8 mode_vol)
 {
   voice3off = mode_vol & 0x80;
-  hp_bp_lp = (mode_vol >> 4) & 0x07;
   vol = mode_vol & 0x0f;
 }

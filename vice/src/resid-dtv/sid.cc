@@ -191,15 +191,6 @@ void SID::write(reg8 offset, reg8 value)
   case 0x14:
     voice[2].envelope.writeSUSTAIN_RELEASE(value);
     break;
-  case 0x15:
-    filter.writeFC_LO(value);
-    break;
-  case 0x16:
-    filter.writeFC_HI(value);
-    break;
-  case 0x17:
-    filter.writeRES_FILT(value);
-    break;
   case 0x18:
     filter.writeMODE_VOL(value);
     master_volume = value & 0xf;
@@ -269,12 +260,8 @@ SID::State SID::read_state()
     state.sid_register[j + 6] = (envelope.sustain << 4) | envelope.release;
   }
 
-  state.sid_register[j++] = filter.fc & 0x007;
-  state.sid_register[j++] = filter.fc >> 3;
-  state.sid_register[j++] = (filter.res << 4) | filter.filt;
   state.sid_register[j++] =
     (filter.voice3off ? 0x80 : 0)
-    | (filter.hp_bp_lp << 4)
     | filter.vol;
 
   // These registers are superfluous, but included for completeness.
