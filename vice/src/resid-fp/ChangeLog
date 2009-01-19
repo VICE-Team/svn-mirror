@@ -1,7 +1,6 @@
 2009-01-18  Antti S. Lankila  <alankila@bel.fi>
 
-        Sync against upcoming V31 patch version. Filter updates described
-        below.
+        Sync against V30 patch version. Filter updates described below.
 
         * filter.h: Add direct mixing between lp-hp. Reduce mixing factor
           to half to compensate.
