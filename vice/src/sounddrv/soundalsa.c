@@ -167,17 +167,14 @@ static int alsa_write(SWORD *pbuf, size_t nr)
 
 static int alsa_bufferspace(void)
 {
-    int err;
-    snd_pcm_sframes_t delay;
-
-    if ((err = snd_pcm_delay(handle, &delay)) < 0) {
-	if ((err = xrun_recovery(handle, err)) < 0) {
-	    log_message(LOG_DEFAULT, "Delay error: %s", snd_strerror(err));
-	}
-	return alsa_bufsize;
-    }
-
-    return alsa_bufsize - delay;
+    snd_pcm_sframes_t space = snd_pcm_avail_update(handle);
+    /* keep alsa values real. Someone else figures out under/overruns, which
+     * these results most likely signify. */
+    if (space < 0)
+        space = 0;
+    if (space > alsa_bufsize)
+        space = alsa_bufsize;
+    return space;
 }
 
 static void alsa_close(void)
