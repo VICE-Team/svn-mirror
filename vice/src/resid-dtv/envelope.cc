@@ -130,10 +130,11 @@ void EnvelopeGenerator::writeCONTROL_REG(reg8 control)
   else if (gate && !gate_next) {
     state = RELEASE;
     rate_period = rate_counter_period[release];
-    /* during switch to release, envelope spends at least one full period
-     * twiddling its thumbs. */
-    exponential_counter = 2;
-    exponential_counter_period = 1;
+    /* Envelope appears to wait 1 .. 2 release intervals before doing stuff...
+     * this likely means that the exponential_counter is not reset at any point
+     * when switching to release. */
+    rate_counter = (rate_counter & 7) + rate_counter_period[release];
+    exponential_counter_period = 8 - (envelope_counter >> 5);
   }
 
   gate = gate_next;
