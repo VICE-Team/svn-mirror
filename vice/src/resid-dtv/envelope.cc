@@ -130,10 +130,12 @@ void EnvelopeGenerator::writeCONTROL_REG(reg8 control)
   else if (gate && !gate_next) {
     state = RELEASE;
     rate_period = rate_counter_period[release];
-    /* Envelope appears to wait 1 .. 2 release intervals before doing stuff...
-     * this likely means that the exponential_counter is not reset at any point
-     * when switching to release. */
-    rate_counter = (rate_counter & 7) + rate_counter_period[release];
+    /* Envelope appears to wait decay interval and some number of release
+     * intervals, however at least 1, before doing stuff.
+     * This likely means that the exponential_counter is not reset at any point
+     * when switching to release. The exponential period however is updated
+     * instantly. */
+    rate_counter = (rate_counter & 7) + rate_counter_period[decay] + rate_counter_period[release];
     exponential_counter_period = 8 - (envelope_counter >> 5);
   }
 
