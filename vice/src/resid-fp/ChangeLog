@@ -15,6 +15,11 @@
 
         * ../sid/sid.cc: Tweak distortion parameters.
 
+        Features from V30-devel:
+
+        * filter.h: add bit of lowpass inverted into bandpass in proportion to
+          enabled resonance level. This seems to happen, but no idea why...
+
 2008-12-05  Antti S. Lankila  <alankila@bel.fi>
 
 	Sync against V27 patch version. Filter updates described below.

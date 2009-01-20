@@ -326,6 +326,12 @@ float FilterFP::clock(float voice1,
     if (model == MOS6581FP) {
         float diff1, diff2, diff3;
 
+        /* Turning on resonance doesn't come alone: it brings a bit of
+         * lowpass into the bandpass in its wake, but in the opposite phase...
+         */
+        if (hp_bp_lp & 2)
+            Vf -= Vlp * res * (1.f / 15.f / 5.f);
+
         Vhp = Vbp * _1_div_Q * (1.f/outputleveldifference_bp_hp) - Vlp * (1.f/outputleveldifference_bp_hp/outputleveldifference_lp_bp) - Vi * distortion_rate;
 
         /* the input summer mixing, or something like it... */
