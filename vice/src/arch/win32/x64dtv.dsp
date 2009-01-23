@@ -102,24 +102,24 @@ SOURCE=.\resc64dtv.rc
 !IF  "$(CFG)" == "x64dtv - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESC6="..\..\debug.h"	"resc64dtv.rc"	"res.rc"	"resdrivec64.rc"	"ressid.rc"	"resvicii.rc"	
+USERDEP__RESC6="..\..\debug.h"	"resc64dtv.rc"	"res.rc"	"resdrivec64.rc"	"ressiddtv.rc"	"resvicii.rc"	
 # Begin Custom Build
 InputPath=.\resc64dtv.rc
 
 "resc64dtvcat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b resc64dtv.rc + res.rc + resdrivec64.rc  + ressid.rc + resvicii.rc  resc64dtvcat.rc /b
+	copy /b resc64dtv.rc + res.rc + resdrivec64.rc  + ressiddtv.rc + resvicii.rc  resc64dtvcat.rc /b
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "x64dtv - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESC6="..\..\debug.h"	"resc64dtv.rc"	"res.rc"	"resdrivec64.rc"	"ressid.rc"	"resvicii.rc"	
+USERDEP__RESC6="..\..\debug.h"	"resc64dtv.rc"	"res.rc"	"resdrivec64.rc"	"ressiddtv.rc"	"resvicii.rc"	
 # Begin Custom Build
 InputPath=.\resc64dtv.rc
 
 "resc64dtvcat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b resc64dtv.rc + res.rc + resdrivec64.rc + ressid.rc + resvicii.rc  resc64dtvcat.rc /b
+	copy /b resc64dtv.rc + res.rc + resdrivec64.rc + ressiddtv.rc + resvicii.rc  resc64dtvcat.rc /b
 
 # End Custom Build
 

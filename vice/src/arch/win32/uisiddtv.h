@@ -1,8 +1,8 @@
 /*
- * uisid.h - Implementation of the C64, C128 and CBM-II SID settings dialog box.
+ * uisiddtv.h - Implementation of the C64DTV SID settings dialog box.
  *
  * Written by
- *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,10 +24,9 @@
  *
  */
 
-#ifndef VICE_UISID_H
-#define VICE_UISID_H
+#ifndef VICE_UISIDDTV_H
+#define VICE_UISIDDTV_H
 
-void ui_sid_settings_dialog(HWND hwnd);
+void ui_siddtv_settings_dialog(HWND hwnd);
 
 #endif
-

@@ -518,13 +518,12 @@ static UINT APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
     return 0;
 }
 
-static struct filter_per_list_s {
+typedef struct filter_per_list_s {
     DWORD filterlist;
     DWORD active_filter;
     struct filter_per_list_s *next;
-};
+} filter_per_list_t;
 
-typedef struct filter_per_list_s filter_per_list_t;
 static filter_per_list_t filter_history;
 static filter_per_list_t *filter_history_last;
 

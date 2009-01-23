@@ -43,7 +43,7 @@
 #include "uikeyboard.h"
 #include "uirom.h"
 #include "uirs232user.h"
-#include "uisid.h"
+#include "uisiddtv.h"
 #include "uivicii.h"
 #include "uivideo.h"
 
@@ -254,7 +254,7 @@ static void c64dtv_ui_specific(WPARAM wparam, HWND hwnd)
         ui_vicii_settings_dialog(hwnd);
         break;
       case IDM_SID_SETTINGS:
-        ui_sid_settings_dialog(hwnd);
+        ui_siddtv_settings_dialog(hwnd);
         break;
       case IDM_ROM_SETTINGS:
         uirom_settings_dialog(hwnd, translate_res(IDD_C64ROM_SETTINGS_DIALOG),

@@ -92,6 +92,7 @@ libarch_a_SOURCES = \
 	resrs232user.rc \
 	ressid.rc \
 	ressidcart.rc \
+	ressiddtv.rc \
 	restfe.rc \
 	resvic20.rc \
 	resvicii.rc \
@@ -204,6 +205,8 @@ libarch_a_SOURCES = \
 	uisid.h \
 	uisidcart.c \
 	uisidcart.h \
+	uisiddtv.c \
+	uisiddtv.h \
 	uisnapshot.h \
 	uisnapshot.c \
 	uisound.c \
@@ -439,11 +442,11 @@ resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(WINDRES) -i resc64.res -o $@
 	rm -f resc64.res resc64cat.rc
 
-resc64dtv.o : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h $(srcdir)/ressid.rc \
+resc64dtv.o : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h $(srcdir)/ressiddtv.rc \
 	$(srcdir)/resvicii.rc $(srcdir)/resdrivec64.rc \
 	$(top_srcdir)/src/debug.h
 	cat >resc64dtvcat.rc $(srcdir)/resc64dtv.rc $(srcdir)/res.rc \
-	$(srcdir)/resdrivec64.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc
+	$(srcdir)/resdrivec64.rc $(srcdir)/ressiddtv.rc $(srcdir)/resvicii.rc
 	$(WRC) -i resc64dtvcat.rc -o resc64dtv.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32  \

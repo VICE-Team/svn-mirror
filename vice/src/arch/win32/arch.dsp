@@ -435,6 +435,10 @@ SOURCE=.\uisidcart.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uisiddtv.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uisnapshot.c
 # End Source File
 # Begin Source File

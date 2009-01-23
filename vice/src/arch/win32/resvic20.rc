@@ -189,6 +189,7 @@ BEGIN
 	MENUITEM SEPARATOR
 	MENUITEM "", IDM_TOGGLE_EMUID
 	MENUITEM "", IDM_IEEE488
+      MENUITEM "", IDM_PADDLES
     END
     POPUP "S&ettings"
     BEGIN
@@ -1934,6 +1935,7 @@ BEGIN
     IDS_ATTACH_4_8_CART_A000      "Attach 4/8KB cartridge image at $A000"
     IDS_ATTACH_4_CART_B000        "Attach 4KB cartridge image at $B000"
     IDS_MI_IEEE488                "VIC-1112 IEEE &488 module"
+    IDS_MI_PADDLES                "Enable Paddles"
     IDS_MI_CART_VIC20_8KB_2000    "4/8/16KB image at $&2000..."
     IDS_MI_CART_VIC20_16KB_4000   "4/8/16KB image at $&4000..."
     IDS_MI_CART_VIC20_8KB_6000    "4/8/16KB image at $&6000..."
@@ -1972,6 +1974,7 @@ BEGIN
     IDS_ATTACH_4_8_CART_A000      "Tilslut 4/8KB-cartridge image på $A000"
     IDS_ATTACH_4_CART_B000        "Tilslut 4KB-cartridge image på $B000"
     IDS_MI_IEEE488                "VIC-1112 IEEE &488-modul"
+    IDS_MI_PADDLES                "Enable Paddles"
     IDS_MI_CART_VIC20_8KB_2000    "4/8/16KB-image på $&2000..."
     IDS_MI_CART_VIC20_16KB_4000   "4/8/16KB-image på $&4000..."
     IDS_MI_CART_VIC20_8KB_6000    "4/8/16KB-image på $&6000..."
@@ -2010,6 +2013,7 @@ BEGIN
     IDS_ATTACH_4_8_CART_A000      "4/8KB Modul Image bei $A000 einlegen"
     IDS_ATTACH_4_CART_B000        "4KB Modul Image bei $B000 einlegen"
     IDS_MI_IEEE488                "VIC-1112 IEEE &488 Modul"
+    IDS_MI_PADDLES                "Enable Paddles"
     IDS_MI_CART_VIC20_8KB_2000    "4/8/16KB Modul Image bei $2000..."
     IDS_MI_CART_VIC20_16KB_4000   "4/8/16KB Modul Image bei $4000..."
     IDS_MI_CART_VIC20_8KB_6000    "4/8/16KB Modul Image bei $6000..."
@@ -2048,6 +2052,7 @@ BEGIN
     IDS_ATTACH_4_8_CART_A000      "Insertion d'une image 4/8Ko à $A000"
     IDS_ATTACH_4_CART_B000        "Insertion d'une image 4Ko à $B000"
     IDS_MI_IEEE488                "Module VIC-1112 IEEE &488"
+    IDS_MI_PADDLES                "Enable Paddles"
     IDS_MI_CART_VIC20_8KB_2000    "Insertion d'une image 4/8/16Ko à $2000..."
     IDS_MI_CART_VIC20_16KB_4000   "Insertion d'une image 4/8/16Ko à $4000..."
     IDS_MI_CART_VIC20_8KB_6000    "Insertion d'une image 4/8/16Ko à $6000..."
@@ -2087,6 +2092,7 @@ BEGIN
     IDS_ATTACH_4_8_CART_A000      "4/8KB képmás csatolása $A000 címre"
     IDS_ATTACH_4_CART_B000        "4KB képmás csatolása $B000 címre"
     IDS_MI_IEEE488                "VIC-1112 IEEE &488 modul"
+    IDS_MI_PADDLES                "Enable Paddles"
     IDS_MI_CART_VIC20_8KB_2000    "4/8/16KB képmás $&2000 címen..."
     IDS_MI_CART_VIC20_16KB_4000   "4/8/16KB képmás $&4000 címen..."
     IDS_MI_CART_VIC20_8KB_6000    "4/8/16KB képmás $&6000 címen..."
@@ -2126,6 +2132,7 @@ BEGIN
     IDS_ATTACH_4_8_CART_A000      "Seleziona l'immagine di una cartuccia di 4/8KB a $A000"
     IDS_ATTACH_4_CART_B000        "Seleziona l'immagine di una cartuccia di 4KB a $B000"
     IDS_MI_IEEE488                "Modulo VIC-1112 IEEE &488"
+    IDS_MI_PADDLES                "Enable Paddles"
     IDS_MI_CART_VIC20_8KB_2000    "Immagine di 4/8/16KB a $&2000..."
     IDS_MI_CART_VIC20_16KB_4000   "Immagine di 4/8/16KB a $&4000..."
     IDS_MI_CART_VIC20_8KB_6000    "Immagine di 4/8/16KB a $&6000..."
@@ -2164,6 +2171,7 @@ BEGIN
     IDS_ATTACH_4_8_CART_A000      "Koppel 4/8KB-cartridgebestand op $&A000"
     IDS_ATTACH_4_CART_B000        "Koppel 4KB-cartridgebestand op $&B000"
     IDS_MI_IEEE488                "VIC-1112 IEEE &488 module"
+    IDS_MI_PADDLES                "Aktiveer Paddles"
     IDS_MI_CART_VIC20_8KB_2000    "Koppel 4/8/16KB-bestand in $&2000..."
     IDS_MI_CART_VIC20_16KB_4000   "Koppel 4/8/16KB-bestand in $&4000..."
     IDS_MI_CART_VIC20_8KB_6000    "Koppel 4/8/16KB-bestand in $&6000..."
@@ -2203,6 +2211,7 @@ BEGIN
     IDS_ATTACH_4_8_CART_A000      "Attach 4/8KB cartridge image at $A000"
     IDS_ATTACH_4_CART_B000        "Attach 4KB cartridge image at $B000"
     IDS_MI_IEEE488                "VIC-1112 IEEE &488 module"
+    IDS_MI_PADDLES                "Enable Paddles"
     IDS_MI_CART_VIC20_8KB_2000    "Wsuñ 4/8/16KB obraz w $&2000..."
     IDS_MI_CART_VIC20_16KB_4000   "Wsuñ 4/8/16KB obraz w $&4000..."
     IDS_MI_CART_VIC20_8KB_6000    "Wsuñ 4/8/16KB obraz w $&6000..."
@@ -2242,6 +2251,7 @@ BEGIN
     IDS_ATTACH_4_8_CART_A000      "Anslut 4/8KB-modulfil vid $A000"
     IDS_ATTACH_4_CART_B000        "Anslut 4KB-modulfil vid $B000"
     IDS_MI_IEEE488                "VIC-1112 IEEE &488-modul"
+    IDS_MI_PADDLES                "Enable Paddles"
     IDS_MI_CART_VIC20_8KB_2000    "4/8/16KB-fil vid $&2000..."
     IDS_MI_CART_VIC20_16KB_4000   "4/8/16KB-fil vid $&4000..."
     IDS_MI_CART_VIC20_8KB_6000    "4/8/16KB-fil vid $&6000..."
@@ -2281,6 +2291,7 @@ BEGIN
     IDS_ATTACH_4_8_CART_A000      "$A000 adresine 4/8KB kartuþ imajý yerleþtir"
     IDS_ATTACH_4_CART_B000        "$B000 adresine 4KB kartuþ imajý yerleþtir"
     IDS_MI_IEEE488                "VIC-1112 IEEE &488 modülü"
+    IDS_MI_PADDLES                "Enable Paddles"
     IDS_MI_CART_VIC20_8KB_2000    "4/8/16KB imajý $&2000 adresinde..."
     IDS_MI_CART_VIC20_16KB_4000   "4/8/16KB imajý $&4000 adresinde..."
     IDS_MI_CART_VIC20_8KB_6000    "4/8/16KB imajý $&6000 adresinde..."

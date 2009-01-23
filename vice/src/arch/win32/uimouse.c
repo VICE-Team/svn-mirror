@@ -54,6 +54,7 @@ static void init_mouse_dialog(HWND hwnd)
   SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"1351");
   SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"NEOS");
   SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"AMIGA");
+  SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Paddle");
   resources_get_int("Mousetype", &res_value);
   SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
@@ -109,4 +110,3 @@ void ui_mouse_settings_dialog(HWND hwnd)
   DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_MOUSE_SETTINGS_DIALOG), hwnd,
             dialog_proc);
 }
-

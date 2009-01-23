@@ -63,6 +63,7 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { "VICVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "IEEE488", IDM_IEEE488 },
+    { "Mouse", IDM_PADDLES },
     { NULL, 0 }
 };
 
@@ -243,6 +244,7 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_TOGGLE_VIRTUAL_DEVICES, IDS_MI_TOGGLE_VIRTUAL_DEVICES },
     { IDM_TOGGLE_EMUID, IDS_MI_TOGGLE_EMUID },
     { IDM_IEEE488, IDS_MI_IEEE488 },
+    { IDM_PADDLES, IDS_MI_PADDLES },
     { IDM_VIDEO_SETTINGS, IDS_MI_VIDEO_SETTINGS },
     { IDM_DEVICEMANAGER, IDS_MI_DEVICEMANAGER },
     { IDM_JOY_SETTINGS, IDS_MI_JOY_SETTINGS },
