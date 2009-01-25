@@ -65,11 +65,7 @@ BYTE dtvrewind;
 
 int dtvclockneg = 0;
 
-#if defined CYCLE_EXACT_DMA || defined CYCLE_EXACT_BLITTER
 #define REWIND_FETCH_OPCODE(clock) clock-=dtvrewind; dtvclockneg+=dtvrewind
-#else
-#define REWIND_FETCH_OPCODE(clock) clock-=dtvrewind
-#endif
 
 /* Burst mode implementation */
 
@@ -80,29 +76,23 @@ WORD burst_addr, burst_last_addr;
 
 inline static void c64dtvcpu_clock_add(CLOCK *clock, int amount)
 {
-    if(burst_diff && (amount>0)) {
-        if(burst_diff>=amount) {
+    if (burst_diff && (amount > 0)) {
+        if (burst_diff >= amount) {
             burst_diff -= amount;
             return;
         }
         amount -= burst_diff;
         burst_diff = 0;
     }
-#if defined CYCLE_EXACT_DMA || defined CYCLE_EXACT_BLITTER
-    if(amount>0) {
-        while(amount) {
+
+    if (amount >= 0) {
+        while (amount) {
             (*clock)++;
             --amount;
             if (dtvclockneg == 0) {
-#if defined CYCLE_EXACT_DMA && defined CYCLE_EXACT_BLITTER
-                if (!c64dtvblitter_perform_blitter()) c64dtvdma_perform_dma();
-#else
-#ifdef CYCLE_EXACT_BLITTER
-                c64dtvblitter_perform_blitter();
-#else
-                c64dtvdma_perform_dma();
-#endif
-#endif
+                if (!c64dtvblitter_perform_blitter()) {
+                    c64dtvdma_perform_dma();
+                }
             } else {
                 --dtvclockneg;
             }
@@ -111,9 +101,6 @@ inline static void c64dtvcpu_clock_add(CLOCK *clock, int amount)
         dtvclockneg -= amount;
         *clock += amount;
     }
-#else
-    *clock += amount;
-#endif
 }
 
 #define CLK_ADD(clock, amount) c64dtvcpu_clock_add(&clock, amount)

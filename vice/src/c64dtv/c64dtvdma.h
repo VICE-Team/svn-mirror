@@ -27,12 +27,10 @@
  *
  */
 
-#ifndef _C64DTVDMA_H
-#define _C64DTVDMA_H
+#ifndef VICE_C64DTVDMA_H
+#define VICE_C64DTVDMA_H
 
 #include "types.h"
-
-#define CYCLE_EXACT_DMA
 
 extern int dma_on_irq;
 extern int dma_busy;

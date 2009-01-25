@@ -27,12 +27,10 @@
  *
  */
 
-#ifndef _C64DTVBLITTER_H
-#define _C64DTVBLITTER_H
+#ifndef VICE_C64DTVBLITTER_H
+#define VICE_C64DTVBLITTER_H
 
 #include "types.h"
-
-#define CYCLE_EXACT_BLITTER
 
 extern int blitter_on_irq;
 

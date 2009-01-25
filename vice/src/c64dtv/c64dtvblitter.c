@@ -356,17 +356,6 @@ void c64dtvblitter_trigger_blitter(void)
 
         blitter_state = BLITTER_READ_A;
 
-#ifndef CYCLE_EXACT_BLITTER
-        int blitter_time = 0;
-
-        do {
-            perform_blitter_cycle();
-            blitter_time++;
-        } while (blitter_state != BLITTER_IDLE);
-
-        alarm_set(c64dtv_blitter_irq_alarm, maincpu_clk+blitter_time);
-#endif
-
         if (GET_REG8(0x1a) & 0x80) {
             blitter_irq = 1;
         } else blitter_irq = 0;
@@ -438,7 +427,6 @@ void c64dtv_blitter_store(WORD addr, BYTE value)
 
 int c64dtvblitter_perform_blitter(void)
 {
-#ifdef CYCLE_EXACT_BLITTER
     if(blitter_active) {
         perform_blitter_cycle();
 
@@ -447,7 +435,6 @@ int c64dtvblitter_perform_blitter(void)
         }
         return 1;
     }
-#endif
     return 0;
 }
 

@@ -307,18 +307,6 @@ void c64dtvdma_trigger_dma(void)
 
         dma_state = DMA_READ;
 
-#ifndef CYCLE_EXACT_DMA
-        int dma_time = 0;
-
-        do {
-            perform_dma_cycle();
-            dma_time++;
-            if(dma_log_enabled && (dma_state == DMA_WRITE)) log_message(c64dtvdma_log, "%s from %x (%s) to %x (%s), %d to go, dma_time %d", GET_REG8(0x1f)&0x02 ? "Swapped" : "Copied", dma_source_off, source_memtype == 0 ? "Flash" : "RAM", dma_dest_off, dest_memtype == 0 ? "Flash" : "RAM", dma_count - 1, dma_time);
-        } while (dma_state != DMA_IDLE);
-
-        alarm_set(c64dtv_dma_irq_alarm, maincpu_clk+dma_time);
-#endif
-
         if (GET_REG8(0x1f) & 0x80) {
             dma_irq = 1;
         } else dma_irq = 0;
@@ -384,7 +372,6 @@ void c64dtv_dma_store(WORD addr, BYTE value)
 
 void c64dtvdma_perform_dma(void)
 {
-#ifdef CYCLE_EXACT_DMA
     if(dma_active) {
         /* set maincpu_rmw_flag to 0 during DMA */
         int dma_maincpu_rmw = maincpu_rmw_flag;
@@ -397,9 +384,6 @@ void c64dtvdma_perform_dma(void)
             c64dtv_dma_irq_alarm_handler(0, NULL);
         }
     }
-#else
-    return;
-#endif
 }
 
 
