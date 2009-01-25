@@ -88,9 +88,10 @@ void ExternalFilter::clock(sound_sample Vi)
 
   Vhp1 += w0hp1 * (Vlp - Vhp1) >> 20;
   sound_sample output = Vlp - Vhp1;
-  /* hardclipping at transistor amplifier */
-  if (output > 23000 << 7)
-    output = 23000 << 7;
+  /* Hardclipping at transistor amplifier. Tuned based on Linus's
+   * Echoes and Matilda Mother. */
+  if (output > 22000 << 7)
+    output = 22000 << 7;
 
   Vhp2 += w0hp2 * (output - Vhp2) >> 20;
   Vo = (output - Vhp2) >> 7;
