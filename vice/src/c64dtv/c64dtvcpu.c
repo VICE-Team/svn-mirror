@@ -27,6 +27,7 @@
 
 #include "vice.h"
 
+#include "alarm.h"
 #include "c64mem.h"
 #include "c64dtvblitter.h"
 #include "c64dtvdma.h"
@@ -65,6 +66,13 @@ BYTE dtvrewind;
 
 int dtvclockneg = 0;
 
+/* Experimental cycle exact alarm handling */
+#define CYCLE_EXACT_ALARM
+
+#ifdef CYCLE_EXACT_ALARM
+alarm_context_t *maincpu_alarm_context = NULL;
+#endif
+
 #define REWIND_FETCH_OPCODE(clock) clock-=dtvrewind; dtvclockneg+=dtvrewind
 
 /* Burst mode implementation */
@@ -87,6 +95,11 @@ inline static void c64dtvcpu_clock_add(CLOCK *clock, int amount)
 
     if (amount >= 0) {
         while (amount) {
+#ifdef CYCLE_EXACT_ALARM
+            while ((*clock) >= alarm_context_next_pending_clk(maincpu_alarm_context)) {
+                alarm_context_dispatch(maincpu_alarm_context, (*clock));
+            }
+#endif
             (*clock)++;
             --amount;
             if (dtvclockneg == 0) {

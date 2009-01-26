@@ -45,23 +45,24 @@
 #include "resources.h"
 #include "maincpu.h"
 #include "interrupt.h"
-#include "alarm.h"
 #include "snapshot.h"
 #include "translate.h"
 
 static log_t c64dtvblitter_log = LOG_ERR;
+static unsigned int c64dtv_blitter_int_num;
 
 /* I/O of the blitter engine ($D3XX) */
 BYTE c64dtvmem_blitter[0x20];
 
-int blit_sourceA_off;
-int blit_sourceB_off;
-int blit_dest_off;
-int blitter_busy;
-int blitter_irq;
 int blitter_on_irq;
-int blitter_log_enabled = 0;
-int blitter_active;
+
+static int blit_sourceA_off;
+static int blit_sourceB_off;
+static int blit_dest_off;
+static int blitter_busy;
+static int blitter_irq;
+static int blitter_log_enabled = 0;
+static int blitter_active;
 
 static BYTE srca_data[4];
 static int srca_data_offs;
@@ -95,7 +96,7 @@ void c64dtvblitter_init(void)
         c64dtvblitter_log = log_open("C64DTVBLITTER");
 
     /* init Blitter IRQ */
-    c64dtv_blitter_irq_init();
+    c64dtv_blitter_int_num = interrupt_cpu_status_int_new(maincpu_int_status, "C64DTVBLITTER");
 }
 
 
@@ -138,7 +139,7 @@ void c64dtvblitter_reset(void)
 /* ------------------------------------------------------------------------- */
 /* blitter transfer state machine */
 
-static int do_blitter_read_a(void)
+static inline int do_blitter_read_a(void)
 {
     int was_read = 0;
     int offs  = (blit_sourceA_off >> 4) & 0x1ffffc;
@@ -155,7 +156,7 @@ static int do_blitter_read_a(void)
     return was_read;
 }
 
-static int do_blitter_read_b(void)
+static inline int do_blitter_read_b(void)
 {
     int force_sourceB_zero = GET_REG8(0x1b) & 0x01;
 
@@ -178,7 +179,7 @@ static int do_blitter_read_b(void)
 }
 
 
-static int do_blitter_write(void)
+static inline int do_blitter_write(void)
 {
     int sourceA_right_shift = GET_REG8(0x1e) & 0x07;
     int mintermALU = (GET_REG8(0x1e) >> 3) & 0x07;
@@ -222,7 +223,7 @@ static int do_blitter_write(void)
     return was_write;
 }
 
-static void update_counters(void)
+static inline void update_counters(void)
 {
     int sourceA_modulo = GET_REG16(0x03);
     int sourceA_line_length = GET_REG16(0x05);
@@ -263,7 +264,7 @@ static void update_counters(void)
 
 /* 32 MHz processing clock */
 #define SUBCYCLES 32
-static void perform_blitter_cycle(void)
+static inline void perform_blitter_cycle(void)
 {
     int subcycle = 0;
     while (subcycle < SUBCYCLES) {
@@ -313,11 +314,6 @@ static void perform_blitter_cycle(void)
 
 /* These are the $D3xx Blitter register engine handlers */
 
-/* Blitter IRQ code */
-
-static unsigned int c64dtv_blitter_int_num;
-struct alarm_s *c64dtv_blitter_irq_alarm;
-
 void c64dtvblitter_trigger_blitter(void)
 {
     if(!blitter_active) {
@@ -365,14 +361,13 @@ void c64dtvblitter_trigger_blitter(void)
     }
 }
 
-void c64dtv_blitter_irq_alarm_handler(CLOCK offset, void *data)
+static inline void c64dtv_blitter_done(void)
 {
     if(blitter_log_enabled) log_message(c64dtvblitter_log, "IRQ/Done");
     if(blitter_irq) {
         maincpu_set_irq(c64dtv_blitter_int_num, 1);
         blitter_busy = 2;
     }
-    alarm_unset(c64dtv_blitter_irq_alarm);
     blitter_busy &= 0xfe;
     blitter_active = 0;
 
@@ -381,15 +376,6 @@ void c64dtv_blitter_irq_alarm_handler(CLOCK offset, void *data)
         c64dtvdma_trigger_dma();
     }
 }
-
-void c64dtv_blitter_irq_init(void)
-{
-    c64dtv_blitter_int_num = interrupt_cpu_status_int_new(maincpu_int_status, "C64DTVBLITTER");
-
-    c64dtv_blitter_irq_alarm = alarm_new(maincpu_alarm_context, "C64DTVBLITTERIrq",
-                                         c64dtv_blitter_irq_alarm_handler, NULL);
-}
-
 
 void c64dtv_blitter_store(WORD addr, BYTE value)
 {
@@ -431,7 +417,7 @@ int c64dtvblitter_perform_blitter(void)
         perform_blitter_cycle();
 
         if(blitter_state == BLITTER_IDLE) {
-            c64dtv_blitter_irq_alarm_handler(0, NULL);
+            c64dtv_blitter_done();
         }
         return 1;
     }

@@ -41,7 +41,6 @@ extern int c64dtvdma_cmdline_options_init(void);
 extern void c64dtvdma_init(void);
 extern void c64dtvdma_reset(void);
 extern void c64dtvdma_shutdown(void);
-extern void c64dtv_dma_irq_init(void);
 
 extern void c64dtv_dma_store(WORD addr, BYTE value);
 extern void c64dtvdma_perform_dma(void);

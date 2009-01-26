@@ -179,9 +179,13 @@ inline static int do_matrix_fetch(CLOCK sub)
             vicii.ycounter_reset_checked = 1;
             vicii.memory_fetch_done = 2;
 
-            if ((vicii.fastmode == 0) && !vicii.badline_disable && !vicii.colorfetch_disable) 
+            if ((vicii.fastmode == 0) && !vicii.badline_disable && !vicii.colorfetch_disable) {
                 dma_maincpu_steal_cycles(vicii.fetch_clk,
                                          VICII_SCREEN_TEXTCOLS + 3 - sub, sub);
+            } else if (vicii.viciidtv && !vicii.colorfetch_disable) {
+                /* Steal cycles from DMA/Blitter */
+                dtvclockneg += VICII_SCREEN_TEXTCOLS + 3;
+            }
             vicii.bad_line = 1;
             return 1;
         }
@@ -461,8 +465,12 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
 
     /*log_debug("SF %i VBL %i SUB %i",sf->num,vicii.bad_line,sub);*/
 
-    if ((vicii.fastmode == 0) && !vicii.badline_disable)
+    if ((vicii.fastmode == 0) && !vicii.badline_disable) {
         dma_maincpu_steal_cycles(vicii.fetch_clk, num_cycles - sub, sub);
+    } else if(vicii.viciidtv) {
+        /* Steal cycles from DMA/Blitter */
+        dtvclockneg += num_cycles;
+    }
 
     *write_offset = sub == 0 ? num_cycles : 0;
 

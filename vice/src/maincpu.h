@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _MAINCPU_H
-#define _MAINCPU_H
+#ifndef VICE_MAINCPU_H
+#define VICE_MAINCPU_H
 
 #include "types.h"
 
@@ -60,6 +60,11 @@ extern int maincpu_stretch;
 
 /* 8502 memory refresh alarm */
 extern CLOCK c128cpu_memory_refresh_clk;
+
+/* C64DTV negative clock counter for cycle exact operations,
+   also used by common code in vicii/.
+   Actual variable in c64dtv/c64dtvcpu.c or vicii/vicii-stubs.c. */
+extern int dtvclockneg;
 
 /* ------------------------------------------------------------------------- */
 

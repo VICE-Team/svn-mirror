@@ -41,22 +41,23 @@
 #include "resources.h"
 #include "maincpu.h"
 #include "interrupt.h"
-#include "alarm.h"
 #include "snapshot.h"
 #include "translate.h"
 
 static log_t c64dtvdma_log = LOG_ERR;
+static unsigned int c64dtv_dma_int_num;
 
 /* I/O of the DMA engine ($D3XX) */
 BYTE c64dtvmem_dma[0x20];
 
-int dma_source_off;
-int dma_dest_off;
-int dma_busy;
-int dma_irq;
 int dma_on_irq;
-int dma_log_enabled = 0;
-int dma_active;
+int dma_busy;
+
+static int dma_source_off;
+static int dma_dest_off;
+static int dma_irq;
+static int dma_log_enabled = 0;
+static int dma_active;
 
 static BYTE dma_data;
 static BYTE dma_data_swap;
@@ -79,9 +80,8 @@ void c64dtvdma_init(void)
         c64dtvdma_log = log_open("C64DTVDMA");
 
     /* init DMA IRQ */
-    c64dtv_dma_irq_init();
+    c64dtv_dma_int_num = interrupt_cpu_status_int_new(maincpu_int_status, "C64DTVDMA");
 }
-
 
 void c64dtvdma_shutdown(void)
 {
@@ -90,9 +90,13 @@ void c64dtvdma_shutdown(void)
 void c64dtvdma_reset(void)
 {
     int i;
+
     if(dma_log_enabled) log_message(c64dtvdma_log, "reset");
+
     /* TODO move register file initialization somewhere else? */
-    for (i=0;i<0x20;++i) c64dtvmem_dma[i] = 0;
+    for (i=0;i<0x20;++i) {
+        c64dtvmem_dma[i] = 0;
+    }
 
     dma_source_off = 0;
     source_memtype = 0x00;
@@ -113,7 +117,7 @@ void c64dtvdma_reset(void)
 /* ------------------------------------------------------------------------- */
 /* DMA transfer state machine */
 
-static void do_dma_read(int swap)
+static inline void do_dma_read(int swap)
 {
     BYTE data;
     int offs;
@@ -157,7 +161,7 @@ static void do_dma_read(int swap)
     }
 }
 
-static void do_dma_write(int swap)
+static inline void do_dma_write(int swap)
 {
     BYTE data;
     int offs;
@@ -195,7 +199,7 @@ static void do_dma_write(int swap)
     }
 }
 
-static void update_counters(void)
+static inline void update_counters(void)
 {
     int source_step = GET_REG16(0x06);
     int dest_step = GET_REG16(0x08);
@@ -226,7 +230,7 @@ static void update_counters(void)
     }
 }
 
-static void perform_dma_cycle(void)
+static inline void perform_dma_cycle(void)
 {
     int swap = GET_REG8(0x1f)&0x02;
 
@@ -273,11 +277,6 @@ static void perform_dma_cycle(void)
 
 /* These are the $D3xx DMA register engine handlers */
 
-/* DMA IRQ code */
-
-static unsigned int c64dtv_dma_int_num;
-struct alarm_s *c64dtv_dma_irq_alarm;
-
 void c64dtvdma_trigger_dma(void)
 {
     if(!dma_active) {
@@ -316,25 +315,15 @@ void c64dtvdma_trigger_dma(void)
     }
 }
 
-void c64dtv_dma_irq_alarm_handler(CLOCK offset, void *data)
+static inline void c64dtv_dma_done(void)
 {
     if(dma_irq) {
         maincpu_set_irq(c64dtv_dma_int_num, 1);
         dma_busy = 2;
     }
-    alarm_unset(c64dtv_dma_irq_alarm);
     dma_busy &= 0xfe;
     dma_active = 0;
 }
-
-void c64dtv_dma_irq_init(void)
-{
-    c64dtv_dma_int_num = interrupt_cpu_status_int_new(maincpu_int_status, "C64DTVDMA");
-
-    c64dtv_dma_irq_alarm = alarm_new(maincpu_alarm_context, "C64DTVDMAIrq",
-                                     c64dtv_dma_irq_alarm_handler, NULL);
-}
-
 
 void c64dtv_dma_store(WORD addr, BYTE value)
 {
@@ -381,7 +370,7 @@ void c64dtvdma_perform_dma(void)
 
         if(dma_log_enabled && (dma_state == DMA_WRITE)) log_message(c64dtvdma_log, "%s from %x (%s) to %x (%s), %d to go", GET_REG8(0x1f)&0x02 ? "Swapped" : "Copied", dma_source_off, source_memtype == 0 ? "Flash" : "RAM", dma_dest_off, dest_memtype == 0 ? "Flash" : "RAM", dma_count - 1);
         if(dma_state == DMA_IDLE) {
-            c64dtv_dma_irq_alarm_handler(0, NULL);
+            c64dtv_dma_done();
         }
     }
 }

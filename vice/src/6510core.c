@@ -1861,10 +1861,12 @@ static const BYTE rewind_fetch_tab[] = {
 
     CPU_DELAY_CLK
 
+#ifndef CYCLE_EXACT_ALARM
     while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT)) {
         alarm_context_dispatch(ALARM_CONTEXT, CLK);
         CPU_DELAY_CLK
     }
+#endif
 
     {
         enum cpu_int pending_interrupt;
@@ -1876,10 +1878,12 @@ static const BYTE rewind_fetch_tab[] = {
                 && CPU_INT_STATUS->global_pending_int & IK_IRQPEND)
                     CPU_INT_STATUS->global_pending_int &= ~IK_IRQPEND;
             CPU_DELAY_CLK
+#ifndef CYCLE_EXACT_ALARM
             while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT)) {
                 alarm_context_dispatch(ALARM_CONTEXT, CLK);
                 CPU_DELAY_CLK
             }
+#endif
         }
     }
 

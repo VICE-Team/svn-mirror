@@ -29,14 +29,15 @@
 #include "c64dtvblitter.h"
 #include "c64dtvdma.h"
 
+int dtvclockneg = 0;
 int blitter_on_irq = 0;
 int dma_on_irq = 0;
 
-inline void c64dtvdma_trigger_dma(void)
+void c64dtvdma_trigger_dma(void)
 {
 }
 
-inline void c64dtvblitter_trigger_blitter(void)
+void c64dtvblitter_trigger_blitter(void)
 {
 }
 
