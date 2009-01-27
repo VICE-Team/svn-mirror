@@ -32,6 +32,7 @@
 #include "c64dtvblitter.h"
 #include "c64dtvdma.h"
 #include "monitor.h"
+#include "types.h"
 
 /* ------------------------------------------------------------------------- */
 
