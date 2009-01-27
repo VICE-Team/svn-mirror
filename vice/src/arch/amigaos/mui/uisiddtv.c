@@ -33,7 +33,7 @@
 #include "sid.h"
 #include "machine.h"
 #include "ui.h"
-#include "uisid.h"
+#include "uisiddtv.h"
 #include "intl.h"
 #include "translate.h"
 
@@ -111,9 +111,11 @@ static const int ui_sid_samplemethod_values[] =
 
 static char *ui_sid_model[] =
 {
+#ifdef HAVE_RESID
+  "DTVSID (ReSID)",
+#endif
   "6581",
   "8580",
-  "8580 + digiboost",
 #ifdef HAVE_RESID_FP
   "6581R3 4885 (ReSID-fp)",
   "6581R3 0486S (ReSID-fp)",
@@ -131,9 +133,11 @@ static char *ui_sid_model[] =
 
 static const int ui_sid_model_values[] =
 {
+#ifdef HAVE_RESID
+  SID_MODEL_DTVSID,
+#endif
   SID_MODEL_6581,
   SID_MODEL_8580,
-  SID_MODEL_8580D,
 #ifdef HAVE_RESID_FP
   SID_MODEL_6581R3_4885,
   SID_MODEL_6581R3_0486S,
@@ -149,26 +153,9 @@ static const int ui_sid_model_values[] =
   -1
 };
 
-#define MAX_BASEADDRESS ((6 * 8) + 1) /* (6 hi * 8 low/hi) + end */
-
-static char ui_sid_baseaddress_buffer[(MAX_BASEADDRESS * 6)]; /* $XXXX + '\0' */
-static char *ui_sid_baseaddress_name[MAX_BASEADDRESS];
-static int ui_sid_baseaddress[MAX_BASEADDRESS];
-
-static const int ui_sid_c64baseaddress[] =
-    { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
-
-static const int ui_sid_c128baseaddress[] =
-    { 0xd4, 0xde, 0xdf, -1 };
-
-static const int ui_sid_cbm2baseaddress[] =
-    { 0xda, -1 };
-
 static ui_to_from_t ui_to_from[] = {
   { NULL, MUI_TYPE_CYCLE, "SidEngine", ui_sid_engine, ui_sid_engine_values },
   { NULL, MUI_TYPE_CYCLE, "SidModel", ui_sid_model, ui_sid_model_values },
-  { NULL, MUI_TYPE_CHECK, "SidStereo", NULL, NULL },
-  { NULL, MUI_TYPE_CYCLE, "SidStereoAddressStart", (char **)ui_sid_baseaddress_name, (const int *)ui_sid_baseaddress },
   { NULL, MUI_TYPE_CHECK, "SidFilters", NULL, NULL },
 #ifdef HAVE_RESID
   { NULL, MUI_TYPE_CYCLE, "SidResidSampling", ui_sid_samplemethod, ui_sid_samplemethod_values },
@@ -181,67 +168,19 @@ static ui_to_from_t ui_to_from[] = {
   UI_END /* mandatory */
 };
 
-static void build_stereo_cycle(void)
-{
-    int adr, ladr, hi, index = -1;
-    const int *hadr;
-
-    ui_sid_baseaddress_name[0] = NULL;
-    ui_sid_baseaddress[0] = -1;
-
-    switch (machine_class) {
-      case VICE_MACHINE_C64:
-        hadr = ui_sid_c64baseaddress;
-        break;
-      case VICE_MACHINE_C128:
-        hadr = ui_sid_c128baseaddress;
-        break;
-      case VICE_MACHINE_CBM2:
-        hadr = ui_sid_cbm2baseaddress;
-        break;
-      default:
-        ui_error(translate_text(IDMES_THIS_MACHINE_NO_SID));
-        return;
-    }
-
-    memset(ui_sid_baseaddress_buffer, 0, sizeof(ui_sid_baseaddress_buffer));
-    for (hi = 0; hadr[hi] >= 0; hi++) {
-        for (ladr = (hi > 0 ? 0x0 : 0x20); ladr < 0x100; ladr += 0x20) {
-            index++;
-            adr = hadr[hi] * 0x100 + ladr;
-            sprintf(ui_sid_baseaddress_buffer + (index * 6), "$%04X", adr);
-            ui_sid_baseaddress_name[index] = ui_sid_baseaddress_buffer + (index * 6);
-            ui_sid_baseaddress[index] = adr;
-        }
-    }
-
-    index++;
-    ui_sid_baseaddress_name[index] = NULL;
-    ui_sid_baseaddress[index] = -1;
-}
-
 static APTR build_gui(void)
 {
-  build_stereo_cycle();
-
   return RegisterObject,
     MUIA_Register_Titles, ui_sid_pages,
     Child, GroupObject,
       CYCLE(ui_to_from[0].object, translate_text(IDS_SID_ENGINE), ui_sid_engine)
       CYCLE(ui_to_from[1].object, translate_text(IDS_SID_MODEL), ui_sid_model)
-      Child, GroupObject,
-        MUIA_Frame, MUIV_Frame_Group,
-        MUIA_Group_Horiz, TRUE,
-        MUIA_FrameTitle, translate_text(IDS_SID_STEREO),
-          CHECK(ui_to_from[2].object, translate_text(IDS_STEREO_SID_AT))
-          CYCLE(ui_to_from[3].object, "", ui_sid_baseaddress_name)
-      End,
-      CHECK(ui_to_from[4].object, translate_text(IDS_SID_FILTERS))
+      CHECK(ui_to_from[2].object, translate_text(IDS_SID_FILTERS))
     End,
 #if defined(HAVE_RESID) || defined(HAVE_RESID_FP)
     Child, GroupObject,
-      CYCLE(ui_to_from[5].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
-      Child, ui_to_from[6].object = StringObject,
+      CYCLE(ui_to_from[3].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
+      Child, ui_to_from[4].object = StringObject,
         MUIA_Frame, MUIV_Frame_String,
         MUIA_FrameTitle, translate_text(IDS_PASSBAND_0_90),
         MUIA_String_Accept, "0123456789",
@@ -262,7 +201,7 @@ static APTR build_gui(void)
   End;
 }
 
-void ui_sid_settings_dialog(void)
+void ui_siddtv_settings_dialog(void)
 {
   intl_convert_mui_table(ui_sid_samplemethod_translate, ui_sid_samplemethod);
   mui_show_dialog(build_gui(), translate_text(IDS_SID_SETTINGS), ui_to_from);

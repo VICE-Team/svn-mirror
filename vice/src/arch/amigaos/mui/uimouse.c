@@ -32,21 +32,24 @@
 
 #include "uimouse.h"
 #include "intl.h"
+#include "mouse.h"
 #include "translate.h"
 
 static int ui_mouse_type_translate[] = {
   IDS_MOUSE_1351,
   IDS_MOUSE_NEOS,
   IDS_MOUSE_AMIGA,
+  IDS_MOUSE_PADDLES,
   0
 };
 
 static char *ui_mouse_type[countof(ui_mouse_type_translate)];
 
 static const int ui_mouse_type_values[] = {
-  0,
-  1,
-  2,
+  MOUSE_TYPE_1351,
+  MOUSE_TYPE_NEOS,
+  MOUSE_TYPE_AMIGA,
+  MOUSE_TYPE_PADDLE,
   -1
 };
 

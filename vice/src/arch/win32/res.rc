@@ -6829,7 +6829,7 @@ BEGIN
   IDS_MI_TOGGLE_DOUBLESIZE        "&Dobbelt størrelse"
   IDS_MI_TOGGLE_DOUBLESCAN        "Do&bbelt-skan"
   IDS_MI_DRIVE_TRUE_EMULATION     "Æg&te drev-emulering"
-  IDS_MI_AUTOSTART_HANDLE_TDE     "TDE bei Autostart beachten"
+  IDS_MI_AUTOSTART_HANDLE_TDE     "Handle TDE for autostart"
   IDS_MI_TOGGLE_VIDEOCACHE        "Grafik&cache"
   IDS_MI_DRIVE_SETTINGS           "&Diskettedrevsindstillinger..."
   IDS_MI_CART_ATTACH_CRT          "&CRT-image..."

@@ -183,6 +183,8 @@ libarch_a_SOURCES = \
 	mui/uisid.h \
 	mui/uisidcart.c \
 	mui/uisidcart.h \
+	mui/uisiddtv.c \
+	mui/uisiddtv.h \
 	mui/uisnapshot.c \
 	mui/uisnapshot.h \
 	mui/uisound.c \

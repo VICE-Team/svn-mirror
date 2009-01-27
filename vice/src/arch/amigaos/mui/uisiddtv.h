@@ -1,8 +1,8 @@
 /*
- * uisid.h
+ * uisiddtv.h
  *
  * Written by
- *  Mathias Roslund <vice.emu@amidog.se>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,10 +24,9 @@
  *
  */
 
-#ifndef VICE_UISID_H
-#define VICE_UISID_H
+#ifndef VICE_UISIDDTV_H
+#define VICE_UISIDDTV_H
 
-extern void ui_sid_settings_dialog(void);
+extern void ui_siddtv_settings_dialog(void);
 
 #endif
-

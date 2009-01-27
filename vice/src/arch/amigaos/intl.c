@@ -1449,6 +1449,17 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_TRUE_DRIVE_EMU_SV, "Äkta diskettenhetsemulering"},
 /* tr */ {IDMS_TRUE_DRIVE_EMU_TR, "Gerçek sürücü emülasyonu"},
 
+/* en */ {IDMS_AUTOSTART_HANDLE_TDE,    "Handle TDE for autostart"},
+/* da */ {IDMS_AUTOSTART_HANDLE_TDE_DA, ""},  /* fuzzy */
+/* de */ {IDMS_AUTOSTART_HANDLE_TDE_DE, "&Autostart mit TDE"},
+/* fr */ {IDMS_AUTOSTART_HANDLE_TDE_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_AUTOSTART_HANDLE_TDE_HU, ""},  /* fuzzy */
+/* it */ {IDMS_AUTOSTART_HANDLE_TDE_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_AUTOSTART_HANDLE_TDE_NL, "Manipuleer hardwarematige drive emulatie bij autostarten"},
+/* pl */ {IDMS_AUTOSTART_HANDLE_TDE_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_AUTOSTART_HANDLE_TDE_SV, ""},  /* fuzzy */
+/* tr */ {IDMS_AUTOSTART_HANDLE_TDE_TR, ""},  /* fuzzy */
+
 /* en */ {IDMS_VIRTUAL_DEVICE_TRAPS,    "Virtual device traps"},
 /* da */ {IDMS_VIRTUAL_DEVICE_TRAPS_DA, "Virtuelle enheds-traps"},
 /* de */ {IDMS_VIRTUAL_DEVICE_TRAPS_DE, "Virtuelle Geräte Traps"},
@@ -1558,6 +1569,17 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDMS_VIC_1112_IEEE_488_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_VIC_1112_IEEE_488_SV, "VIC-1112 IEEE 488-modul"},
 /* tr */ {IDMS_VIC_1112_IEEE_488_TR, "VIC-1112 IEEE 488 modülü"},
+
+/* en */ {IDMS_ENABLE_PADDLES,    "Enable Paddles"},
+/* da */ {IDMS_ENABLE_PADDLES_DA, ""},  /* fuzzy */
+/* de */ {IDMS_ENABLE_PADDLES_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_ENABLE_PADDLES_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_ENABLE_PADDLES_HU, ""},  /* fuzzy */
+/* it */ {IDMS_ENABLE_PADDLES_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_ENABLE_PADDLES_NL, "Aktiveer Paddles"},
+/* pl */ {IDMS_ENABLE_PADDLES_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_ENABLE_PADDLES_SV, ""},  /* fuzzy */
+/* tr */ {IDMS_ENABLE_PADDLES_TR, ""},  /* fuzzy */
 
 /* en */ {IDMS_IEEE_488_INTERFACE,    "IEEE 488 Interface emulation"},
 /* da */ {IDMS_IEEE_488_INTERFACE_DA, "Emulering af IEEE 488-interface"},
@@ -6179,6 +6201,17 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDS_MOUSE_AMIGA_PL, ""},  /* fuzzy */
 /* sv */ {IDS_MOUSE_AMIGA_SV, "Amigamus"},
 /* tr */ {IDS_MOUSE_AMIGA_TR, "Amiga mouse"},
+
+/* en */ {IDS_MOUSE_PADDLES,    "Paddle"},
+/* da */ {IDS_MOUSE_PADDLES_DA, ""},  /* fuzzy */
+/* de */ {IDS_MOUSE_PADDLES_DE, ""},  /* fuzzy */
+/* fr */ {IDS_MOUSE_PADDLES_FR, ""},  /* fuzzy */
+/* hu */ {IDS_MOUSE_PADDLES_HU, ""},  /* fuzzy */
+/* it */ {IDS_MOUSE_PADDLES_IT, ""},  /* fuzzy */
+/* nl */ {IDS_MOUSE_PADDLES_NL, "Paddle"},
+/* pl */ {IDS_MOUSE_PADDLES_PL, ""},  /* fuzzy */
+/* sv */ {IDS_MOUSE_PADDLES_SV, ""},  /* fuzzy */
+/* tr */ {IDS_MOUSE_PADDLES_TR, ""},  /* fuzzy */
 
 };
 

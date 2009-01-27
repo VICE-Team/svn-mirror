@@ -37,7 +37,7 @@
 #include "mui/uic64dtv.h"
 #include "mui/uidrivec64vic20.h"
 #include "mui/uiromc64vic20settings.h"
-#include "mui/uisid.h"
+#include "mui/uisiddtv.h"
 #include "mui/uivicii.h"
 #include "mui/uivideoc64plus4vic20.h"
 
@@ -63,7 +63,7 @@ static int c64dtv_ui_specific(video_canvas_t *canvas, int idm)
         ui_vicii_settings_dialog();
         break;
       case IDM_SID_SETTINGS:
-        ui_sid_settings_dialog();
+        ui_siddtv_settings_dialog();
         break;
       case IDM_COMPUTER_ROM_SETTINGS:
         ui_c64vic20_computer_rom_settings_dialog(canvas);
