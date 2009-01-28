@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _MEMIEEE_H
-#define _MEMIEEE_H
+#ifndef VICE_MEMIEEE_H
+#define VICE_MEMIEEE_H
 
 struct drive_context_s;
 

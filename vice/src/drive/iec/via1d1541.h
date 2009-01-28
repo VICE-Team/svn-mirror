@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VIA1D1541_H
-#define _VIA1D1541_H
+#ifndef VICE_VIA1D1541_H
+#define VICE_VIA1D1541_H
 
 #include "types.h"
 

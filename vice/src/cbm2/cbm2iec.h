@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _CBM2IEC_H
-#define _CBM2IEC_H
+#ifndef VICE_CBM2IEC_H
+#define VICE_CBM2IEC_H
 
 extern void cbm2iec_init(void);
 

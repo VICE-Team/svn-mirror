@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _MEM1551_H
-#define _MEM1551_H
+#ifndef VICE_MEM1551_H
+#define VICE_MEM1551_H
 
 struct drive_context_s;
 

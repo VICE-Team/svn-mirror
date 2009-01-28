@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIC64DTV_H
-#define _UIC64DTV_H
+#ifndef VICE_UIC64DTV_H
+#define VICE_UIC64DTV_H
 
 extern void ui_c64dtv_settings_dialog(video_canvas_t *canvas);
 

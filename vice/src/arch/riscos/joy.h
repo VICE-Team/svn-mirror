@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _JOY_H
-#define _JOY_H
+#ifndef VICE_JOY_H
+#define VICE_JOY_H
 
 #define JOYDEV_NUMBER	5
 #define JOYDEV_NONE	0

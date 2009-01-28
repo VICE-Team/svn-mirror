@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _CIAD_H
-#define _CIAD_H
+#ifndef VICE_CIAD_H
+#define VICE_CIAD_H
 
 #include "types.h"
 

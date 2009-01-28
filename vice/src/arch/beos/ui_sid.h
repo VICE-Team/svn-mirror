@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef __UI_SID_H__
-#define __UI_SID_H__
+#ifndef VICE__UI_SID_H__
+#define VICE__UI_SID_H__
 
 const uint32 MESSAGE_SID_MODEL				= 'MSD1';
 const uint32 MESSAGE_SID_RESID				= 'MSD2';

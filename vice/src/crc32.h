@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _CRC32_H
-#define _CRC32_H
+#ifndef VICE_CRC32_H
+#define VICE_CRC32_H
 
 extern unsigned long crc32_buf(const char *buffer, unsigned int len);
 extern unsigned long crc32_file(const char *filename);

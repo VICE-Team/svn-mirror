@@ -28,8 +28,8 @@
  *
  */
 
-#ifndef _C64IEC_H
-#define _C64IEC_H
+#ifndef VICE_C64IEC_H
+#define VICE_C64IEC_H
 
 extern void c64iec_init(void);
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DISKCONTENTS_IEC_H
-#define _DISKCONTENTS_IEC_H
+#ifndef VICE_DISKCONTENTS_IEC_H
+#define VICE_DISKCONTENTS_IEC_H
 
 struct image_contents_s;
 

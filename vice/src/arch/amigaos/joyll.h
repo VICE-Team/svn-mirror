@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _JOYLL_H
-#define _JOYLL_H
+#ifndef VICE_JOYLL_H
+#define VICE_JOYLL_H
 
 #define JOYDEV_NONE     0
 #define JOYDEV_NUMPAD   1

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VDRIVE_COMMAND_H
-#define _VDRIVE_COMMAND_H
+#ifndef VICE_VDRIVE_COMMAND_H
+#define VICE_VDRIVE_COMMAND_H
 
 #include "types.h"
 

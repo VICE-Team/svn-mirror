@@ -42,10 +42,6 @@
 #include "pngdrv.h"
 #endif
 
-#if defined(HAVE_GIF) || defined(WIN32)
-#include "gifdrv.h"
-#endif
-
 #ifdef HAVE_JPEG
 #include "jpegdrv.h"
 #endif

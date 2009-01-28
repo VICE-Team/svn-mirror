@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _MON_DRIVE_H
-#define _MON_DRIVE_H
+#ifndef VICE_MON_DRIVE_H
+#define VICE_MON_DRIVE_H
 
 #include "monitor.h"
 

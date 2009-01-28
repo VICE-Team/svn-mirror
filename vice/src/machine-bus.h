@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _MACHINE_BUS_H
-#define _MACHINE_BUS_H
+#ifndef VICE_MACHINE_BUS_H
+#define VICE_MACHINE_BUS_H
 
 #include "types.h"
 

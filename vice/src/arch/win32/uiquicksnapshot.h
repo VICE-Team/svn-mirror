@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _UIQUICKSNAPSHOT_H
-#define _UIQUICKSNAPSHOT_H
+#ifndef VICE_UIQUICKSNAPSHOT_H
+#define VICE_UIQUICKSNAPSHOT_H
 
 extern void ui_quicksnapshot_load(HWND hwnd);
 extern void ui_quicksnapshot_save(HWND hwnd);

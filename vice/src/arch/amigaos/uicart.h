@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UICART_H
-#define _UICART_H
+#ifndef VICE_UICART_H
+#define VICE_UICART_H
 
 struct uicart_params_s {
     int idm;

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIFLIPLIST_H
-#define _UIFLIPLIST_H
+#ifndef VICE_UIFLIPLIST_H
+#define VICE_UIFLIPLIST_H
 
 extern void uifliplist_command(HWND hwnd, WPARAM wparam);
 extern void uifliplist_save_settings(void);

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIPLUS60K_H
-#define _UIPLUS60K_H
+#ifndef VICE_UIPLUS60K_H
+#define VICE_UIPLUS60K_H
 
 extern void ui_plus60k_settings_dialog(HWND hwnd);
 

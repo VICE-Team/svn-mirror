@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _C64IO_H
-#define _C64IO_H
+#ifndef VICE_C64IO_H
+#define VICE_C64IO_H
  
 #include "types.h"
 

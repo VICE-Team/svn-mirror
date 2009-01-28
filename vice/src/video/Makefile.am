@@ -26,7 +26,6 @@ libvideo_a_SOURCES = \
 	video-canvas.c \
 	video-canvas.h \
 	video-cmdline-options.c \
-	video-cmdline-options.h \
 	video-color.c \
 	video-color.h \
 	video-render-1x2.c \

@@ -20,8 +20,8 @@
 //   Daniel Kahlin <daniel@kahlin.net>
 // Copyright (C) 2007  Daniel Kahlin <daniel@kahlin.net>
 
-#ifndef __SID_H__
-#define __SID_H__
+#ifndef VICE__SID_H__
+#define VICE__SID_H__
 
 #include "siddefs.h"
 #include "bittrain.h"

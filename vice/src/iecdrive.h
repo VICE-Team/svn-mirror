@@ -29,8 +29,8 @@
  */
 
 
-#ifndef _IECDRIVE_H
-#define _IECDRIVE_H
+#ifndef VICE_IECDRIVE_H
+#define VICE_IECDRIVE_H
 
 #include "types.h"
 

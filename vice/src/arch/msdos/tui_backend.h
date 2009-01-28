@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _TUI_BACKEND_H
-#define _TUI_BACKEND_H
+#ifndef VICE_TUI_BACKEND_H
+#define VICE_TUI_BACKEND_H
 
 #include "types.h"
 

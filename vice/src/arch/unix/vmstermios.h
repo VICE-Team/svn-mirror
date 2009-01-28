@@ -1,5 +1,5 @@
-# ifndef __TERMIOS_LOADED
-# define __TERMIOS_LOADED 1
+# ifndef VICE__TERMIOS_LOADED
+# define VICE__TERMIOS_LOADED 1
 
 # if __DECC_VER<50000000 && __DECCXX_VER<50000000   /* PROLOGUE version X-7 */
 #   error POSIX for OpenVMS V3.0 requires DEC C or DEC C++ V5.0 or later

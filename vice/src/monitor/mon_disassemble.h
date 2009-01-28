@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _MON_DISASSEMBLE_H
-#define _MON_DISASSEMBLE_H
+#ifndef VICE_MON_DISASSEMBLE_H
+#define VICE_MON_DISASSEMBLE_H
 
 #include "montypes.h"
 #include "types.h"

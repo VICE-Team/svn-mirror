@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef __UI_DATASETTE_H__
-#define __UI_DATASETTE_H__
+#ifndef VICE__UI_DATASETTE_H__
+#define VICE__UI_DATASETTE_H__
 
 const uint32 MESSAGE_DATASETTE_RESET		= 'MDA1';
 const uint32 MESSAGE_DATASETTE_SPEED		= 'MDA2';

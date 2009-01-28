@@ -33,8 +33,8 @@
  *
  */
 
-#ifndef _FSDEVICE_H
-#define _FSDEVICE_H
+#ifndef VICE_FSDEVICE_H
+#define VICE_FSDEVICE_H
 
 extern int fsdevice_cmdline_options_init(void);
 extern int fsdevice_resources_init(void);

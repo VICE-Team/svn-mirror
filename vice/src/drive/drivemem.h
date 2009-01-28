@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DRIVEMEM_H
-#define _DRIVEMEM_H
+#ifndef VICE_DRIVEMEM_H
+#define VICE_DRIVEMEM_H
 
 #include "drivetypes.h"
 #include "types.h"

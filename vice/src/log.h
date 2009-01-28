@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _LOG_H
-#define _LOG_H
+#ifndef VICE_LOG_H
+#define VICE_LOG_H
 
 #include <stdio.h>
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DRV_NL10_H
-#define _DRV_NL10_H
+#ifndef VICE_DRV_NL10_H
+#define VICE_DRV_NL10_H
 
 extern int drv_nl10_init_resources(void);
 extern int drv_nl10_init(void);

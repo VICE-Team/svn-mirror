@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _CATWEASELMKIII_H
-#define _CATWEASELMKIII_H
+#ifndef VICE_CATWEASELMKIII_H
+#define VICE_CATWEASELMKIII_H
 
 #include "types.h"
 

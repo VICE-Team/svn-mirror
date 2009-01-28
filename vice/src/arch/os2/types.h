@@ -23,8 +23,8 @@
  *  02111-1307  USA.
  *
  */
-#ifndef _VICE_TYPES_H
-#define _VICE_TYPES_H
+#ifndef VICE_TYPES_H
+#define VICE_TYPES_H
 
 #include <limits.h>
 

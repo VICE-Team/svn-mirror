@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DRIVESYNC_H
-#define _DRIVESYNC_H
+#ifndef VICE_DRIVESYNC_H
+#define VICE_DRIVESYNC_H
 
 struct drive_s;
 struct drive_context_s;

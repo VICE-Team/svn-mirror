@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VDRIVE_SNAPSHOT_H
-#define _VDRIVE_SNAPSHOT_H
+#ifndef VICE_VDRIVE_SNAPSHOT_H
+#define VICE_VDRIVE_SNAPSHOT_H
 
 struct snapshot_s;
 

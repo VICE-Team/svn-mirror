@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _DRIVETYPES_H
-#define _DRIVETYPES_H
+#ifndef VICE_DRIVETYPES_H
+#define VICE_DRIVETYPES_H
 
 #include "drive.h"
 #include "mos6510.h"

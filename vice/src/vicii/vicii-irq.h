@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VICII_IRQ_H
-#define _VICII_IRQ_H
+#ifndef VICE_VICII_IRQ_H
+#define VICE_VICII_IRQ_H
 
 #include "types.h"
 

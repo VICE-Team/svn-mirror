@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIMON_H
-#define _UIMON_H
+#ifndef VICE_UIMON_H
+#define VICE_UIMON_H
 
 struct console_s;
 struct monitor_interface_s;

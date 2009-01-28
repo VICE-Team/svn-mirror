@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _6510CORE_H
-#define _6510CORE_H
+#ifndef VICE_6510CORE_H
+#define VICE_6510CORE_H
 
 /* Masks to extract information. */
 #define OPINFO_DELAYS_INTERRUPT_MSK     (1 << 8)

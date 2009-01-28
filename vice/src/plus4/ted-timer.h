@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _TED_TIMER_H
-#define _TED_TIMER_H
+#ifndef VICE_TED_TIMER_H
+#define VICE_TED_TIMER_H
 
 #include "types.h"
 

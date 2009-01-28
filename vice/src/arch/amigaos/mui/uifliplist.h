@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIFLIPLIST_H
-#define _UIFLIPLIST_H
+#ifndef VICE_UIFLIPLIST_H
+#define VICE_UIFLIPLIST_H
 
 extern void uifliplist_load_dialog(video_canvas_t *canvas);
 extern void uifliplist_save_dialog(video_canvas_t *canvas);

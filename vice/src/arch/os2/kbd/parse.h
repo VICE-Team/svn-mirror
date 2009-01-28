@@ -23,8 +23,8 @@
  *  02111-1307  USA.
  *
  */
-#ifndef _PARSE_H
-#define _PARSE_H
+#ifndef VICE_PARSE_H
+#define VICE_PARSE_H
 
 #include "kbd.h"
 

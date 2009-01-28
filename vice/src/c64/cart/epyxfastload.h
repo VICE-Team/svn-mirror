@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _EPYXFASTLOAD_H
-#define _EPYXFASTLOAD_H
+#ifndef VICE_EPYXFASTLOAD_H
+#define VICE_EPYXFASTLOAD_H
 
 #include <stdio.h>
 

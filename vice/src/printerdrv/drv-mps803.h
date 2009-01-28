@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DRV_MPS803_H
-#define _DRV_MPS803_H
+#ifndef VICE_DRV_MPS803_H
+#define VICE_DRV_MPS803_H
 
 #include <stdio.h>
 

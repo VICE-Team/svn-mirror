@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _UICRTC_H
-#define _UICRTC_H
+#ifndef VICE_UICRTC_H
+#define VICE_UICRTC_H
 
 #include "uimenu.h"
 

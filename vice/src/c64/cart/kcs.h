@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _KCS_H
-#define _KCS_H
+#ifndef VICE_KCS_H
+#define VICE_KCS_H
 
 #include <stdio.h>
 

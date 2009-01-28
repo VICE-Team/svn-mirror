@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _ICON_H
-#define _ICON_H
+#ifndef VICE_ICON_H
+#define VICE_ICON_H
 
 extern const char *c128_icon_data[];
 extern const char *c64_icon_data[];

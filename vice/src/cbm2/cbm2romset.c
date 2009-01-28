@@ -28,7 +28,6 @@
 
 #include <stdio.h>
 
-#include "cbm2romset.h"
 #include "romset.h"
 
 

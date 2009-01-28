@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _RENDER2X2_H
-#define _RENDER2X2_H
+#ifndef VICE_RENDER2X2_H
+#define VICE_RENDER2X2_H
 
 #include "types.h"
 #include "video.h"

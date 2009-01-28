@@ -4,8 +4,8 @@
  *
  */
 
-#ifndef _QNXSHM_H
-#define _QNXSHM_H
+#ifndef VICE_QNXSHM_H
+#define VICE_QNXSHM_H
 
 #include "qnxipc.h"
 

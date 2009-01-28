@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIRAM_H
-#define _UIRAM_H
+#ifndef VICE_UIRAM_H
+#define VICE_UIRAM_H
 
 extern void ui_ram_settings_dialog(void);
 

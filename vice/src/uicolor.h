@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UICOLOR_H
-#define _UICOLOR_H
+#ifndef VICE_UICOLOR_H
+#define VICE_UICOLOR_H
 
 #include "types.h"
 

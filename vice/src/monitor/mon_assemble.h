@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _MON_ASSEMBLE_H
-#define _MON_ASSEMBLE_H
+#ifndef VICE_MON_ASSEMBLE_H
+#define VICE_MON_ASSEMBLE_H
 
 struct monitor_cpu_type_s;
 

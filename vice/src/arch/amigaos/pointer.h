@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _POINTER_H_
-#define _POINTER_H_
+#ifndef VICE_POINTER_H_
+#define VICE_POINTER_H_
 
 #include "types.h"
 

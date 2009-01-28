@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _SERIAL_TRAP_H
-#define _SERIAL_TRAP_H
+#ifndef VICE_SERIAL_TRAP_H
+#define VICE_SERIAL_TRAP_H
 
 #include "types.h"
 

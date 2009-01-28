@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIDRIVEPETCBM2_H
-#define _UIDRIVEPETCBM2_H
+#ifndef VICE_UIDRIVEPETCBM2_H
+#define VICE_UIDRIVEPETCBM2_H
 
 #include "uimenu.h"
 

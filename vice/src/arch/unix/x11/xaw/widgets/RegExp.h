@@ -24,8 +24,8 @@
  * See ChangeLog for the list of changes.
  */
 
-#ifndef _FWF_REGEXP_H_
-#define	_FWF_REGEXP_H_
+#ifndef VICE_FWF_REGEXP_H_
+#define VICE_FWF_REGEXP_H_
 
 #include <stdio.h>
 

@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _UIPERIPHERAL_H
-#define _UIPERIPHERAL_H
+#ifndef VICE_UIPERIPHERAL_H
+#define VICE_UIPERIPHERAL_H
 
 extern void uiperipheral_command(HWND hwnd, WPARAM wparam);
 

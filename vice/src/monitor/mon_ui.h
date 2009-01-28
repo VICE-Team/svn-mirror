@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _MON_UI_H
-#define _MON_UI_H
+#ifndef VICE_MON_UI_H
+#define VICE_MON_UI_H
 
 #include <stdio.h>
 

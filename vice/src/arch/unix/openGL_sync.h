@@ -24,8 +24,9 @@
  *
  */
 
-#ifndef __openGL_sync_h__
-#define __openGL_sync_h__
+#ifndef VICE__openGL_sync_h__
+#define VICE__openGL_sync_h__
+
 #include "vice.h"
 #include "videoarch.h"
 

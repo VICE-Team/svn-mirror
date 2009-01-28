@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _IEC128DCRROM_H
-#define _IEC128DCRROM_H
+#ifndef VICE_IEC128DCRROM_H
+#define VICE_IEC128DCRROM_H
 
 #include "types.h"
 

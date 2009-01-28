@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FIXPOINT_H
-#define _FIXPOINT_H
+#ifndef VICE_FIXPOINT_H
+#define VICE_FIXPOINT_H
 
 #define INLINE_FIXPOINT_FUNCTIONS
 

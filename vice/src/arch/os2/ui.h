@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UI_H
-#define _UI_H
+#ifndef VICE_UI_H
+#define VICE_UI_H
 
 #include "types.h"
 #include "uiapi.h"

@@ -29,8 +29,8 @@
  *
  */
 
-#ifndef _CRTC_DRAW_H
-#define _CRTC_DRAW_H
+#ifndef VICE_CRTC_DRAW_H
+#define VICE_CRTC_DRAW_H
 
 extern void crtc_draw_init(void);
 

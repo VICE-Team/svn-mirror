@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIRES_H_
-#define _UIRES_H_
+#ifndef VICE_UIRES_H_
+#define VICE_UIRES_H_
 
 enum {
   IDM_NONE = 0,

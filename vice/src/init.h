@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _INIT_H
-#define _INIT_H
+#ifndef VICE_INIT_H
+#define VICE_INIT_H
 
 extern int init_resources(void);
 extern int init_cmdline_options(void);

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _TAP_H
-#define _TAP_H
+#ifndef VICE_TAP_H
+#define VICE_TAP_H
 
 #include <stdio.h>
 

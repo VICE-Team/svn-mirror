@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIDRIVEPLUS4_H
-#define _UIDRIVEPLUS4_H
+#ifndef VICE_UIDRIVEPLUS4_H
+#define VICE_UIDRIVEPLUS4_H
 
 extern void uidriveplus4_settings_dialog(HWND hwnd);
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef __UI_FILE_H__
-#define __UI_FILE_H__
+#ifndef VICE__UI_FILE_H__
+#define VICE__UI_FILE_H__
 
 #include <FilePanel.h>
 #include <ListView.h>

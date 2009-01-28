@@ -29,8 +29,8 @@
  *
  */
 
-#ifndef _VICIITYPES_H
-#define _VICIITYPES_H
+#ifndef VICE_VICIITYPES_H
+#define VICE_VICIITYPES_H
 
 #include "raster.h"
 #include "types.h"

@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _PALETTE_H
-#define _PALETTE_H
+#ifndef VICE_PALETTE_H
+#define VICE_PALETTE_H
 
 #include "types.h"
 

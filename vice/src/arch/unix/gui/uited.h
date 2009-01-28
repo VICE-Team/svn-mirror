@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UITED_H
-#define _UITED_H
+#ifndef VICE_UITED_H
+#define VICE_UITED_H
 
 #include "uimenu.h"
 

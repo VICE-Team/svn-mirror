@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _C64TPI_H
-#define _C64TPI_H
+#ifndef VICE_C64TPI_H
+#define VICE_C64TPI_H
 
 #include "types.h"
 

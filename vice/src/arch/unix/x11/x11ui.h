@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _X11UI_H
-#define _X11UI_H
+#ifndef VICE_X11UI_H
+#define VICE_X11UI_H
 
 #include "vice.h"
 

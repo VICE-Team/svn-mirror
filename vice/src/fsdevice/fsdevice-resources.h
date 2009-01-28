@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FSDEVICE_RESOURCES_H
-#define _FSDEVICE_RESOURCES_H
+#ifndef VICE_FSDEVICE_RESOURCES_H
+#define VICE_FSDEVICE_RESOURCES_H
 
 extern int fsdevice_convert_p00_enabled[4];
 extern int fsdevice_save_p00_enabled[4];

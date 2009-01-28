@@ -1,5 +1,5 @@
 /*
- * resid.h - reSID interface code.
+ * resid-fp.h - reSID-fp interface code.
  *
  * Written by
  *  Teemu Rantanen <tvr@cs.hut.fi>
@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _RESID_FP_H
-#define _RESID_FP_H
+#ifndef VICE_RESID_FP_H
+#define VICE_RESID_FP_H
 
 #include "types.h"
 

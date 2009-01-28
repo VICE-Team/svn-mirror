@@ -28,8 +28,8 @@
  *
  */
 
-#ifndef _RASTER_H
-#define _RASTER_H
+#ifndef VICE_RASTER_H
+#define VICE_RASTER_H
 
 #include "vice.h"
 

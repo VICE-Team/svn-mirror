@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FSIMAGE_GCR_H
-#define _FSIMAGE_GCR_H
+#ifndef VICE_FSIMAGE_GCR_H
+#define VICE_FSIMAGE_GCR_H
 
 #include "types.h"
 

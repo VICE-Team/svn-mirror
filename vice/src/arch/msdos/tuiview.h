@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _TUI_VIEW_H
-#define _TUI_VIEW_H
+#ifndef VICE_TUI_VIEW_H
+#define VICE_TUI_VIEW_H
 
 extern void tui_view_text(int width, int height, const char *title,
 			  const char *text);

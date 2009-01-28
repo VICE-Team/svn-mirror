@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _C64KEYBOARD_H
-#define _C64KEYBOARD_H
+#ifndef VICE_C64KEYBOARD_H
+#define VICE_C64KEYBOARD_H
 
 extern void c64keyboard_init(void);
 extern void c64keyboard_restore_key(int v);

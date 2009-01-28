@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _TUI_MENU_H
-#define _TUI_MENU_H
+#ifndef VICE_TUI_MENU_H
+#define VICE_TUI_MENU_H
 
 #define TUI_MENU_HOT_KEY_PREFIX		'_'
 

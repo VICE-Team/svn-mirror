@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PLUS4UI_H
-#define _PLUS4UI_H
+#ifndef VICE_PLUS4UI_H
+#define VICE_PLUS4UI_H
 
 extern int plus4ui_init(void);
 extern void plus4ui_shutdown(void);

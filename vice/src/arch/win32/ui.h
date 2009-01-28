@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _UI_WIN32_H
-#define _UI_WIN32_H
+#ifndef VICE_UI_WIN32_H
+#define VICE_UI_WIN32_H
 
 #include "types.h"
 #include "uiapi.h"

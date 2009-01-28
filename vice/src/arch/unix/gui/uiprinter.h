@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UI_PRINTER_H
-#define _UI_PRINTER_H
+#ifndef VICE_UI_PRINTER_H
+#define VICE_UI_PRINTER_H
 
 extern UI_CALLBACK(uiprinter_set_printer_exec_file);
 extern UI_CALLBACK(uiprinter_formfeed);

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _RESID_H
-#define _RESID_H
+#ifndef VICE_RESID_H
+#define VICE_RESID_H
 
 #include "types.h"
 

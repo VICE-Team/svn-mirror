@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _TAPEIMAGE_H
-#define _TAPEIMAGE_H
+#ifndef VICE_TAPEIMAGE_H
+#define VICE_TAPEIMAGE_H
 
 extern void tape_image_init(void);
 

@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _CBM2ROM_H
-#define _CBM2ROM_H
+#ifndef VICE_CBM2ROM_H
+#define VICE_CBM2ROM_H
 
 extern int cbm2rom_load_chargen(const char *rom_name);
 extern int cbm2rom_load_kernal(const char *rom_name);

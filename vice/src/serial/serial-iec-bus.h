@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _SERIAL_IEC_BUS_H
-#define _SERIAL_IEC_BUS_H
+#ifndef VICE_SERIAL_IEC_BUS_H
+#define VICE_SERIAL_IEC_BUS_H
 
 #include "types.h"
 

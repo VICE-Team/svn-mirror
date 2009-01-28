@@ -27,8 +27,8 @@
  *
  */
 
-#ifndef _VDC_SNAPSHOT_H
-#define _VDC_SNAPSHOT_H
+#ifndef VICE_VDC_SNAPSHOT_H
+#define VICE_VDC_SNAPSHOT_H
 
 struct snapshot_s;
 

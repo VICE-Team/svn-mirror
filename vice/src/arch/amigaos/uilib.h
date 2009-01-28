@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UILIB_H
-#define _UILIB_H
+#ifndef VICE_UILIB_H
+#define VICE_UILIB_H
 
 #define UILIB_SELECTOR_TYPE_FILE_LOAD 0
 #define UILIB_SELECTOR_TYPE_FILE_SAVE 1

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PETUIRES_H_
-#define _PETUIRES_H_
+#ifndef VICE_PETUIRES_H_
+#define VICE_PETUIRES_H_
 
 #include "uires.h"
 #include "intl.h"

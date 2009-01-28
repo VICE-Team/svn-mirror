@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PLUS4CART_H
-#define _PLUS4CART_H
+#ifndef VICE_PLUS4CART_H
+#define VICE_PLUS4CART_H
 
 extern int plus4cart_load_func_lo(const char *rom_name);
 extern int plus4cart_load_func_hi(const char *rom_name);

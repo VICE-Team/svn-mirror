@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _C64PARALLEL_H
-#define _C64PARALLEL_H
+#ifndef VICE_C64PARALLEL_H
+#define VICE_C64PARALLEL_H
 
 #include "types.h"
 

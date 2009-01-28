@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _RENDERSCALE2X_H
-#define _RENDERSCALE2X_H
+#ifndef VICE_RENDERSCALE2X_H
+#define VICE_RENDERSCALE2X_H
 
 #include "types.h"
 #include "video.h"

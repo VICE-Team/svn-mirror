@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PETS_H
-#define _PETS_H
+#ifndef VICE_PETS_H
+#define VICE_PETS_H
 
 #include "types.h"
 

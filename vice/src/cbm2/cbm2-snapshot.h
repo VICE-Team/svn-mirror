@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _CBM2_SNAPSHOT_H
-#define _CBM2_SNAPSHOT_H
+#ifndef VICE_CBM2_SNAPSHOT_H
+#define VICE_CBM2_SNAPSHOT_H
 
 extern int cbm2_snapshot_write(const char *name, int save_roms, int save_disks,
                                int event_mode);

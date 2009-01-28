@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PLUS4_SNAPSHOT_H
-#define _PLUS4_SNAPSHOT_H
+#ifndef VICE_PLUS4_SNAPSHOT_H
+#define VICE_PLUS4_SNAPSHOT_H
 
 extern int plus4_snapshot_write(const char *name, int save_roms, int save_disks,
                                 int event_mode);

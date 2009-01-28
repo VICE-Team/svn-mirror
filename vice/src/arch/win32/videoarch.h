@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VIDEOARCH_H
-#define _VIDEOARCH_H
+#ifndef VICE_VIDEOARCH_H
+#define VICE_VIDEOARCH_H
 
 /*  Nasty patch to avoid defining BYTE, WORD, DWORD more than once.  */
 

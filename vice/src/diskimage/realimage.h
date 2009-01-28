@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _REALIMAGE_H
-#define _REALIMAGE_H
+#ifndef VICE_REALIMAGE_H
+#define VICE_REALIMAGE_H
 
 #include "types.h"
 

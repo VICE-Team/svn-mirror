@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PRIVATE_H_
-#define _PRIVATE_H_
+#ifndef VICE_PRIVATE_H_
+#define VICE_PRIVATE_H_
 
 /* This is just a temporary place for some stuff */
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _C64UIRES_H_
-#define _C64UIRES_H_
+#ifndef VICE_C64UIRES_H_
+#define VICE_C64UIRES_H_
 
 #include "uires.h"
 #include "intl.h"

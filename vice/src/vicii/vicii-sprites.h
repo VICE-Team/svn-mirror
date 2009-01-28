@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VICII_SPRITES_H
-#define _VICII_SPRITES_H
+#ifndef VICE_VICII_SPRITES_H
+#define VICE_VICII_SPRITES_H
 
 /* This defines the stolen sprite cycles for all the values of `dma_msk'.  */
 /* The table derives from what Christian Bauer <bauec002@physik.uni-mainz.de>

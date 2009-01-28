@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIMIDI_H
-#define _UIMIDI_H
+#ifndef VICE_UIMIDI_H
+#define VICE_UIMIDI_H
 
 extern void ui_midi_settings_dialog(HWND hwnd);
 

@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VIAD_H
-#define _VIAD_H
+#ifndef VICE_VIAD_H
+#define VICE_VIAD_H
 
 #include "types.h"
 

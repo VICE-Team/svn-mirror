@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIPLUS4CART_H
-#define _UIPLUS4CART_H
+#ifndef VICE_UIPLUS4CART_H
+#define VICE_UIPLUS4CART_H
 
 extern void uiplus4cart_init(void);
 extern void uiplus4cart_proc(WPARAM wparam, HWND hwnd);

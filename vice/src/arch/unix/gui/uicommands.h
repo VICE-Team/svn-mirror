@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _UICOMMANDS_H
-#define _UICOMMANDS_H
+#ifndef VICE_UICOMMANDS_H
+#define VICE_UICOMMANDS_H
 
 #include "uimenu.h"
 

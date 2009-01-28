@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef __UI_PET_H__
-#define __UI_PET_H__
+#ifndef VICE__UI_PET_H__
+#define VICE__UI_PET_H__
 
 const uint32 MESSAGE_PET_MODEL		= 'MP01';
 const uint32 MESSAGE_PET_MEMORY		= 'MP02';

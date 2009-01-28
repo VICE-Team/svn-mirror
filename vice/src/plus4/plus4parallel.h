@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PLUS4PARALLEL_H
-#define _PLUS4PARALLEL_H
+#ifndef VICE_PLUS4PARALLEL_H
+#define VICE_PLUS4PARALLEL_H
 
 #include "types.h"
 

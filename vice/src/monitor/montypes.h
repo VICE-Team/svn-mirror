@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _MONTYPES_H
-#define _MONTYPES_H
+#ifndef VICE_MONTYPES_H
+#define VICE_MONTYPES_H
 
 #include "monitor.h"
 #include "types.h"

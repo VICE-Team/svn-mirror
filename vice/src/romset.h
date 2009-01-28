@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _ROMSET_H
-#define _ROMSET_H
+#ifndef VICE_ROMSET_H
+#define VICE_ROMSET_H
 
 extern void romset_init(void);
 extern int romset_resources_init(void);

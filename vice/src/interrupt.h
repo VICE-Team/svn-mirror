@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _INTERRUPT_H
-#define _INTERRUPT_H
+#ifndef VICE_INTERRUPT_H
+#define VICE_INTERRUPT_H
 
 #include <stdio.h>
 

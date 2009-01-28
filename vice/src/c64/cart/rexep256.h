@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _REXEP256_H
-#define _REXEP256_H
+#ifndef VICE_REXEP256_H
+#define VICE_REXEP256_H
 
 #include <stdio.h>
 

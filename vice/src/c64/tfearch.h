@@ -30,8 +30,8 @@
   #error TFEARCH.H should not be included if HAVE_TFE is not defined!
 #endif /* #ifdef HAVE_TFE */
 
-#ifndef _TFEARCH_H
-#define _TFEARCH_H
+#ifndef VICE_TFEARCH_H
+#define VICE_TFEARCH_H
 
 #include "types.h"
 

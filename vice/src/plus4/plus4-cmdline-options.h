@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PLUS4_CMDLINE_OPTIONS_H
-#define _PLUS4_CMDLINE_OPTIONS_H
+#ifndef VICE_PLUS4_CMDLINE_OPTIONS_H
+#define VICE_PLUS4_CMDLINE_OPTIONS_H
 
 extern int plus4_cmdline_options_init(void);
 

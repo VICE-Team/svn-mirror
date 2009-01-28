@@ -26,8 +26,8 @@
 
 
 
-#ifndef _UIHELP_RO_H
-#define _UIHELP_RO_H
+#ifndef VICE_UIHELP_RO_H
+#define VICE_UIHELP_RO_H
 
 /* Note: -1 must still legal for help on entire windows, so just use something very big */
 #define Help_Icon_End	0x10000

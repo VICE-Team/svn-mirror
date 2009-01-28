@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _INTL_H
-#define _INTL_H
+#ifndef VICE_INTL_H
+#define VICE_INTL_H
 
 extern char *intl_speed_at_text;
 

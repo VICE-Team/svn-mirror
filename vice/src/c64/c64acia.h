@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _C64ACIA_H
-#define _C64ACIA_H
+#ifndef VICE_C64ACIA_H
+#define VICE_C64ACIA_H
 
 #include "types.h"
 

@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _RENDER2X2PAL_H
-#define _RENDER2X2PAL_H
+#ifndef VICE_RENDER2X2PAL_H
+#define VICE_RENDER2X2PAL_H
 
 #include "types.h"
 #include "viewport.h"

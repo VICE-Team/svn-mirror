@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PLUS60K_H
-#define _PLUS60K_H
+#ifndef VICE_PLUS60K_H
+#define VICE_PLUS60K_H
 
 #include "types.h"
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIROMC64VIC20SETTINGS_H
-#define _UIROMC64VIC20SETTINGS_H
+#ifndef VICE_UIROMC64VIC20SETTINGS_H
+#define VICE_UIROMC64VIC20SETTINGS_H
 
 extern void ui_c64vic20_computer_rom_settings_dialog(video_canvas_t *canvas);
 extern void ui_c64vic20_drive_rom_settings_dialog(video_canvas_t *canvas);

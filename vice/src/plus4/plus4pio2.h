@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PLUS4PIO2_H
-#define _PLUS4PIO2_H
+#ifndef VICE_PLUS4PIO2_H
+#define VICE_PLUS4PIO2_H
 
 #include "types.h"
 

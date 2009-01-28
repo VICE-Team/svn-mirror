@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _JOYAI_H
-#define _JOYAI_H
+#ifndef VICE_JOYAI_H
+#define VICE_JOYAI_H
 
 extern int joyai_init_resources(void);
 extern int joyai_open(void);

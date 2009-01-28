@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _SOUND_H
-#define _SOUND_H
+#ifndef VICE_SOUND_H
+#define VICE_SOUND_H
 
 #include "vice.h"
 

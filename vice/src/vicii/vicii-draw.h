@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VICII_DRAW_H
-#define _VICII_DRAW_H
+#ifndef VICE_VICII_DRAW_H
+#define VICE_VICII_DRAW_H
 
 extern void vicii_draw_init(void);
 

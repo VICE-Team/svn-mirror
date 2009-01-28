@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _CLKGUARD_H
-#define _CLKGUARD_H
+#ifndef VICE_CLKGUARD_H
+#define VICE_CLKGUARD_H
 
 #include "types.h"
 

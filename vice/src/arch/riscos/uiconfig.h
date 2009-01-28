@@ -26,8 +26,8 @@
 
 
 
-#ifndef _UICONFIG_RO_H
-#define _UICONFIG_RO_H
+#ifndef VICE_UICONFIG_RO_H
+#define VICE_UICONFIG_RO_H
 
 
 struct RO_MenuHead_s;

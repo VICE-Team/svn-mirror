@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _TRAPS_H
-#define _TRAPS_H
+#ifndef VICE_TRAPS_H
+#define VICE_TRAPS_H
 
 #include "mem.h"
 #include "types.h"

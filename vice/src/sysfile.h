@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _SYSFILE_H
-#define _SYSFILE_H
+#ifndef VICE_SYSFILE_H
+#define VICE_SYSFILE_H
 
 #include <stdio.h>
 

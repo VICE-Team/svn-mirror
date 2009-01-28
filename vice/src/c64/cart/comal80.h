@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _COMAL80_H
-#define _COMAL80_H
+#ifndef VICE_COMAL80_H
+#define VICE_COMAL80_H
 
 #include <stdio.h>
 

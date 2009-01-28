@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _MON_COMMAND_H
-#define _MON_COMMAND_H
+#ifndef VICE_MON_COMMAND_H
+#define VICE_MON_COMMAND_H
 
 extern void mon_command_print_help(const char *cmd);
 

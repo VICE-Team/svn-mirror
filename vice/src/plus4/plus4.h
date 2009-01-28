@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PLUS4_H
-#define _PLUS4_H
+#ifndef VICE_PLUS4_H
+#define VICE_PLUS4_H
 
 #define PLUS4_PAL_CYCLES_PER_SEC  1773447
 #define PLUS4_PAL_CYCLES_PER_LINE 114

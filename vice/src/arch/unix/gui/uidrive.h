@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIDRIVE_H
-#define _UIDRIVE_H
+#ifndef VICE_UIDRIVE_H
+#define VICE_UIDRIVE_H
 
 #include "uimenu.h"
 

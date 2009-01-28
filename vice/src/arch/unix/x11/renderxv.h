@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _RENDERXV_H
-#define _RENDERXV_H
+#ifndef VICE_RENDERXV_H
+#define VICE_RENDERXV_H
 
 #include "vice.h"
 

@@ -27,8 +27,8 @@
  *
  */
 
-#ifndef _VIC20ROM_H
-#define _VIC20ROM_H
+#ifndef VICE_VIC20ROM_H
+#define VICE_VIC20ROM_H
 
 extern int vic20rom_load_kernal(const char *rom_name);
 extern int vic20rom_load_basic(const char *rom_name);

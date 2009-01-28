@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _C128ROM_H
-#define _C128ROM_H
+#ifndef VICE_C128ROM_H
+#define VICE_C128ROM_H
 
 extern int c128rom_load_kernal_int(const char *rom_name);
 extern int c128rom_load_kernal_de(const char *rom_name);

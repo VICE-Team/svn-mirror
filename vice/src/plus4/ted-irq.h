@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _TED_IRQ_H
-#define _TED_IRQ_H
+#ifndef VICE_TED_IRQ_H
+#define VICE_TED_IRQ_H
 
 #include "types.h"
 

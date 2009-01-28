@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _SCREENSHOT_H
-#define _SCREENSHOT_H
+#ifndef VICE_SCREENSHOT_H
+#define VICE_SCREENSHOT_H
 
 #include <stdio.h>
 

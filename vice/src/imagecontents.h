@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _IMAGE_CONTENTS_H
-#define _IMAGE_CONTENTS_H
+#ifndef VICE_IMAGE_CONTENTS_H
+#define VICE_IMAGE_CONTENTS_H
 
 #include "types.h"
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UI_DIGIMAX_H
-#define _UI_DIGIMAX_H
+#ifndef VICE_UI_DIGIMAX_H
+#define VICE_UI_DIGIMAX_H
 
 extern struct ui_menu_entry_s digimax_submenu[];
 

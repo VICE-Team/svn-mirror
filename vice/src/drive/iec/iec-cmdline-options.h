@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _IEC_CMDLINE_OPTIONS_H
-#define _IEC_CMDLINE_OPTIONS_H
+#ifndef VICE_IEC_CMDLINE_OPTIONS_H
+#define VICE_IEC_CMDLINE_OPTIONS_H
 
 extern int iec_cmdline_options_init(void);
 

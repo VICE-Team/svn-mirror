@@ -19,8 +19,8 @@
  * (small changes by Ettore Perazzoli <ettore@comm2000.it>, search for [EP]
  */
 
-#ifndef _FILESELECTOR_H_
-#define _FILESELECTOR_H_
+#ifndef VICE_FILESELECTOR_H_
+#define VICE_FILESELECTOR_H_
 
 #include "ScrList.h"
 #include "DirMgr.h"

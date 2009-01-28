@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VICII_BADLINE_H
-#define _VICII_BADLINE_H
+#ifndef VICE_VICII_BADLINE_H
+#define VICE_VICII_BADLINE_H
 
 #include "types.h"
 

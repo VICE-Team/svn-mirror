@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _MIKROASS_H
-#define _MIKROASS_H
+#ifndef VICE_MIKROASS_H
+#define VICE_MIKROASS_H
 
 #include <stdio.h>
 

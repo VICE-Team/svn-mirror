@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FFMPEGLIB_H
-#define _FFMPEGLIB_H
+#ifndef VICE_FFMPEGLIB_H
+#define VICE_FFMPEGLIB_H
 
 #include "vice.h"
 

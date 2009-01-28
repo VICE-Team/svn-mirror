@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _MACHINE_PRINTER_H
-#define _MACHINE_PRINTER_H
+#ifndef VICE_MACHINE_PRINTER_H
+#define VICE_MACHINE_PRINTER_H
 
 struct machine_context_s;
 

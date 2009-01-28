@@ -29,8 +29,8 @@
  *
  */
 
-#ifndef _CRTCTYPES_H
-#define _CRTCTYPES_H
+#ifndef VICE_CRTCTYPES_H
+#define VICE_CRTCTYPES_H
 
 #include "crtc.h"
 #include "raster.h"

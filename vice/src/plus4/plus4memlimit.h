@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PLUS4MEMLIMIT_H
-#define _PLUS4MEMLIMIT_H
+#ifndef VICE_PLUS4MEMLIMIT_H
+#define VICE_PLUS4MEMLIMIT_H
 
 extern void mem_limit_init(int mem_read_limit_tab[2][0x101]);
 

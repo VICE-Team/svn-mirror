@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UISNAPSHOT_H
-#define _UISNAPSHOT_H
+#ifndef VICE_UISNAPSHOT_H
+#define VICE_UISNAPSHOT_H
 
 extern void ui_snapshot_load(HWND hwnd);
 extern void ui_snapshot_save(HWND hwnd);

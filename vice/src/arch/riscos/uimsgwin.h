@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIMSGWIN_H
-#define _UIMSGWIN_H
+#ifndef VICE_UIMSGWIN_H
+#define VICE_UIMSGWIN_H
 
 
 struct wimp_msg_desc_s;

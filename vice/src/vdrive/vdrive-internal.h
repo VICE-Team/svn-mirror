@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VDRIVE_INTERNAL_H
-#define _VDRIVE_INTERNAL_H
+#ifndef VICE_VDRIVE_INTERNAL_H
+#define VICE_VDRIVE_INTERNAL_H
 
 struct vdrive_s;
 

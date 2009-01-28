@@ -28,8 +28,8 @@
  *
  */
 
-#ifndef _C128MEM_H
-#define _C128MEM_H
+#ifndef VICE_C128MEM_H
+#define VICE_C128MEM_H
 
 #ifdef WATCOM_COMPILE
 #include "../mem.h"

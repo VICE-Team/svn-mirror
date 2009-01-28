@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DEBUG_H
-#define _DEBUG_H
+#ifndef VICE_DEBUG_H
+#define VICE_DEBUG_H
 
 #include "types.h"
 

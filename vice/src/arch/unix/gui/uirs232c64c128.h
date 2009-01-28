@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIRS232C64C128_H
-#define _UIRS232C64C128_H
+#ifndef VICE_UIRS232C64C128_H
+#define VICE_UIRS232C64C128_H
 
 #include "uimenu.h"
 

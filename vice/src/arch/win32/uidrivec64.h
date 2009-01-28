@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _UIDRIVEC64_H
-#define _UIDRIVEC64_H
+#ifndef VICE_UIDRIVEC64_H
+#define VICE_UIDRIVEC64_H
 
 extern void uidrivec64_settings_dialog(HWND hwnd);
 

@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VICII_MEM_H
-#define _VICII_MEM_H
+#ifndef VICE_VICII_MEM_H
+#define VICE_VICII_MEM_H
 
 #include "types.h"
 

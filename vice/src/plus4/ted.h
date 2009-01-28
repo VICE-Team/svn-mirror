@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _TED_H
-#define _TED_H
+#ifndef VICE_TED_H
+#define VICE_TED_H
 
 #include "types.h"
 

@@ -50,7 +50,6 @@ libplus4_a_SOURCES = \
 	plus4rom.c \
 	plus4rom.h \
 	plus4romset.c \
-	plus4romset.h \
 	plus4tcbm.c \
 	plus4tcbm.h \
 	plus4video.c \

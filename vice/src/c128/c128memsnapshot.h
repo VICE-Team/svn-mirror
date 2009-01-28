@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _C128MEMSNAPSHOT_H
-#define _C128MEMSNAPSHOT_H
+#ifndef VICE_C128MEMSNAPSHOT_H
+#define VICE_C128MEMSNAPSHOT_H
 
 struct snapshot_s;
 

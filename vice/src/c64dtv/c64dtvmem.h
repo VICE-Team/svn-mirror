@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _C64DTVMEM_H
-#define _C64DTVMEM_H
+#ifndef VICE_C64DTVMEM_H
+#define VICE_C64DTVMEM_H
 
 #include "types.h"
 

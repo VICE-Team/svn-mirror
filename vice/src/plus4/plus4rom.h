@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PLUS4ROM_H
-#define _PLUS4ROM_H
+#ifndef VICE_PLUS4ROM_H
+#define VICE_PLUS4ROM_H
 
 extern int plus4rom_load_kernal(const char *rom_name);
 extern int plus4rom_load_basic(const char *rom_name);

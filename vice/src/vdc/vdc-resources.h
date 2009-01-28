@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VDC_RESOURCES_H
-#define _VDC_RESOURCES_H
+#ifndef VICE_VDC_RESOURCES_H
+#define VICE_VDC_RESOURCES_H
 
 /* VDC resources.  */
 struct vdc_resources_s

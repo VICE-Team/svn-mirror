@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _RAWIMAGE_H
-#define _RAWIMAGE_H
+#ifndef VICE_RAWIMAGE_H
+#define VICE_RAWIMAGE_H
 
 #include "types.h"
 

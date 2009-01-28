@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FSIMAGE_H
-#define _FSIMAGE_H
+#ifndef VICE_FSIMAGE_H
+#define VICE_FSIMAGE_H
 
 #include <stdio.h>
 

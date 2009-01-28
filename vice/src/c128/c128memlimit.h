@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _C128MEMLIMIT_H
-#define _C128MEMLIMIT_H
+#ifndef VICE_C128MEMLIMIT_H
+#define VICE_C128MEMLIMIT_H
 
 extern void mem_limit_init(int mem_read_limit_tab[256][0x101]);
 

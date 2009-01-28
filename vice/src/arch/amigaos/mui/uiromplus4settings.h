@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIROMPLUS4SETTINGS_H
-#define _UIROMPLUS4SETTINGS_H
+#ifndef VICE_UIROMPLUS4SETTINGS_H
+#define VICE_UIROMPLUS4SETTINGS_H
 
 extern void ui_plus4_computer_rom_settings_dialog(video_canvas_t *canvas);
 extern void ui_plus4_drive_rom_settings_dialog(video_canvas_t *canvas);

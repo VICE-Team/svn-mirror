@@ -50,8 +50,8 @@
  * Original Athena Author:  Chris D. Peterson, MIT X Consortium
  */
 
-#ifndef _MULTILISTP_H_
-#define _MULTILISTP_H_
+#ifndef VICE_MULTILISTP_H_
+#define VICE_MULTILISTP_H_
 
 #include <X11/Xaw/SimpleP.h>
 #include "MultiList.h"

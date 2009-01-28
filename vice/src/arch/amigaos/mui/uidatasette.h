@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIDATASETTE_H
-#define _UIDATASETTE_H
+#ifndef VICE_UIDATASETTE_H
+#define VICE_UIDATASETTE_H
 
 extern void ui_datasette_settings_dialog(void);
 

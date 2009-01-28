@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PET_SNAPSHOT_H
-#define _PET_SNAPSHOT_H
+#ifndef VICE_PET_SNAPSHOT_H
+#define VICE_PET_SNAPSHOT_H
 
 extern int pet_snapshot_write(const char *name, int save_roms, int save_disks,
                               int event_mode);

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _IEEE_CMDLINE_OPTIONS_H
-#define _IEEE_CMDLINE_OPTIONS_H
+#ifndef VICE_IEEE_CMDLINE_OPTIONS_H
+#define VICE_IEEE_CMDLINE_OPTIONS_H
 
 extern int ieee_cmdline_options_init(void);
 

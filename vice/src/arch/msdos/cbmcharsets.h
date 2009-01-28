@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _CBMCHARSETS_H
-#define _CBMCHARSETS_H
+#ifndef VICE_CBMCHARSETS_H
+#define VICE_CBMCHARSETS_H
 
 #include "types.h"
 

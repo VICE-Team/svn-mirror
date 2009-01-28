@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIKEYBOARD_H
-#define _UIKEYBOARD_H
+#ifndef VICE_UIKEYBOARD_H
+#define VICE_UIKEYBOARD_H
 
 struct uikeyboard_mapping_entry_s {
     int idc_select;

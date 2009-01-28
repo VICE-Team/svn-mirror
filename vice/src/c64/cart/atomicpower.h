@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _ATOMICPOWER_H
-#define _ATOMICPOWER_H
+#ifndef VICE_ATOMICPOWER_H
+#define VICE_ATOMICPOWER_H
 
 #include <stdio.h>
 

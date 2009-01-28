@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _C128_H
-#define _C128_H
+#ifndef VICE_C128_H
+#define VICE_C128_H
 
 #define C128_PAL_CYCLES_PER_SEC  985248
 #define C128_PAL_CYCLES_PER_LINE 63

@@ -4,8 +4,8 @@
  *
  */
 
-#ifndef _QNXIPC_H
-#define _QNXIPC_H
+#ifndef VICE_QNXIPC_H
+#define VICE_QNXIPC_H
 
 #include <sys/types.h>
 

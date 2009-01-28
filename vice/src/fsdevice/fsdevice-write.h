@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FSDEVICE_WRITE_H
-#define _FSDEVICE_WRITE_H
+#ifndef VICE_FSDEVICE_WRITE_H
+#define VICE_FSDEVICE_WRITE_H
 
 #include "types.h"
 

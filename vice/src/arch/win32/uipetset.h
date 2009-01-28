@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIPETSET_H
-#define _UIPETSET_H
+#ifndef VICE_UIPETSET_H
+#define VICE_UIPETSET_H
 
 #include <windows.h>
 

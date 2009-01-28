@@ -27,8 +27,8 @@
  *
  */
 
-#ifndef _MIDI_H
-#define _MIDI_H
+#ifndef VICE_MIDI_H
+#define VICE_MIDI_H
 
 #include "types.h"
 

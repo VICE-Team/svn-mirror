@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIPS2MOUSE_H
-#define _UIPS2MOUSE_H
+#ifndef VICE_UIPS2MOUSE_H
+#define VICE_UIPS2MOUSE_H
 
 #include "uimenu.h"
 

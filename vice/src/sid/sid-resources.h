@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _SID_RESOURCES_H
-#define _SID_RESOURCES_H
+#ifndef VICE_SID_RESOURCES_H
+#define VICE_SID_RESOURCES_H
 
 extern int sid_resources_init(void);
 extern int sidcart_resources_init(void);

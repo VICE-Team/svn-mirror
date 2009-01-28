@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VICII_H
-#define _VICII_H
+#ifndef VICE_VICII_H
+#define VICE_VICII_H
 
 #include "types.h"
 

@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _CHAR_ROM_H
-#define _CHAR_ROM_H
+#ifndef VICE_CHAR_ROM_H
+#define VICE_CHAR_ROM_H
 
 static const unsigned char builtin_char_rom[] = {
  0x3c, 0x66, 0x6e, 0x6e, 0x60, 0x62, 0x3c, 0x00,

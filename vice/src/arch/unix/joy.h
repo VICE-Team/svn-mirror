@@ -31,8 +31,8 @@
  *
  */
 
-#ifndef _JOY_H
-#define _JOY_H
+#ifndef VICE_JOY_H
+#define VICE_JOY_H
 
 extern int joy_arch_init(void);
 extern void joystick_close(void);

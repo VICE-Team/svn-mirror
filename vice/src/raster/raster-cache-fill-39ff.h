@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _RASTER_CACHE_FILL_39FF_H
-#define _RASTER_CACHE_FILL_39FF_H
+#ifndef VICE_RASTER_CACHE_FILL_39FF_H
+#define VICE_RASTER_CACHE_FILL_39FF_H
 
 #include <string.h>
 

@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _TAPE_H
-#define _TAPE_H
+#ifndef VICE_TAPE_H
+#define VICE_TAPE_H
 
 #include <stdio.h>
 

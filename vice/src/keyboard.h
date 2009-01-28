@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _KEYBOARD_H
-#define _KEYBOARD_H
+#ifndef VICE_KEYBOARD_H
+#define VICE_KEYBOARD_H
 
 #include "types.h"
 

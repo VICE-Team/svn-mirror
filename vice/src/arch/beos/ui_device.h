@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef __UI_DEVICE_H__
-#define __UI_DEVICE_H__
+#ifndef VICE__UI_DEVICE_H__
+#define VICE__UI_DEVICE_H__
 
 const uint32 MESSAGE_DEVICE_P00				= 'MDV1';
 const uint32 MESSAGE_DEVICE_BROWSE			= 'MDV2';

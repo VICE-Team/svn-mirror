@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VMIDAS_H
-#define _VMIDAS_H
+#ifndef VICE_VMIDAS_H
+#define VICE_VMIDAS_H
 
 /* This is a dirty kludge to avoid that the `midasdll.h' header redefines
    `DWORD', which we already have. */

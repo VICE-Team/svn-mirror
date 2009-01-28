@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VIC20_SNAPSHOT_H
-#define _VIC20_SNAPSHOT_H
+#ifndef VICE_VIC20_SNAPSHOT_H
+#define VICE_VIC20_SNAPSHOT_H
 
 extern int vic20_snapshot_write(const char *name, int save_roms, int save_disks,
                                 int event_mode);

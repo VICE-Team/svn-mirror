@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _C64RSUSER_H
-#define _C64RSUSER_H
+#ifndef VICE_C64RSUSER_H
+#define VICE_C64RSUSER_H
 
 extern void c64_rsuser_init(void);
 

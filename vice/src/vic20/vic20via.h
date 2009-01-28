@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VIC20VIA_H
-#define _VIC20VIA_H
+#ifndef VICE_VIC20VIA_H
+#define VICE_VIC20VIA_H
 
 #include "types.h"
 

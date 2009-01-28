@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UISOUND_H_
-#define _UISOUND_H_
+#ifndef VICE_UISOUND_H_
+#define VICE_UISOUND_H_
 
 extern void ui_sound_settings_dialog(HWND hwnd);
 extern void ui_sound_record_settings_dialog(HWND hwnd);

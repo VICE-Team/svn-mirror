@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _MACHINE_VIDEO_H
-#define _MACHINE_VIDEO_H
+#ifndef VICE_MACHINE_VIDEO_H
+#define VICE_MACHINE_VIDEO_H
 
 struct video_canvas_s;
 

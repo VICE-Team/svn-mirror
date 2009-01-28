@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _C64EXPORT_H
-#define _C64EXPORT_H
+#ifndef VICE_C64EXPORT_H
+#define VICE_C64EXPORT_H
 
 struct c64export_resource_s {
     const char *name;

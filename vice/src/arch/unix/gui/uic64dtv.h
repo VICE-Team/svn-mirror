@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UI_C64DTV_H
-#define _UI_C64DTV_H
+#ifndef VICE_UI_C64DTV_H
+#define VICE_UI_C64DTV_H
 
 extern struct ui_menu_entry_s c64dtv_submenu[];
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PLUS4IEC_H
-#define _PLUS4IEC_H
+#ifndef VICE_PLUS4IEC_H
+#define VICE_PLUS4IEC_H
 
 extern void plus4iec_init(void);
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UICBM2SET_H
-#define _UICBM2SET_H
+#ifndef VICE_UICBM2SET_H
+#define VICE_UICBM2SET_H
 
 #include <windows.h>
 

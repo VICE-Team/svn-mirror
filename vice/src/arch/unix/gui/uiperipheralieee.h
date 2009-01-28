@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIPERIPHERIALIEEE_H
-#define _UIPERIPHERIALIEEE_H
+#ifndef VICE_UIPERIPHERIALIEEE_H
+#define VICE_UIPERIPHERIALIEEE_H
 
 #include "uimenu.h"
 

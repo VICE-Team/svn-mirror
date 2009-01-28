@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _IEEEROM_H
-#define _IEEEROM_H
+#ifndef VICE_IEEEROM_H
+#define VICE_IEEEROM_H
 
 #include "types.h"
 

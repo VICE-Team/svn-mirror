@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _UICMDLINE_H
-#define _UICMDLINE_H
+#ifndef VICE_UICMDLINE_H
+#define VICE_UICMDLINE_H
 
 struct cmdline_option_ram_s;
 

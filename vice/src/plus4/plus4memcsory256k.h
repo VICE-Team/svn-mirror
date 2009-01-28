@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _CS256K_H
-#define _CS256K_H
+#ifndef VICE_CS256K_H
+#define VICE_CS256K_H
 
 #include "types.h"
 

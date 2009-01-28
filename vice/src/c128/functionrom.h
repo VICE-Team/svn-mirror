@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FUNCTIONROM_H
-#define _FUNCTIONROM_H
+#ifndef VICE_FUNCTIONROM_H
+#define VICE_FUNCTIONROM_H
 
 #include "types.h"
 

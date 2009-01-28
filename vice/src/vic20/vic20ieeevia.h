@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VIC20IEEEVIA_H
-#define _VIC20IEEEVIA_H
+#ifndef VICE_VIC20IEEEVIA_H
+#define VICE_VIC20IEEEVIA_H
 
 #include "types.h"
 

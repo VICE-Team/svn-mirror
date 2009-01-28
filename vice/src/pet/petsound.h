@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PETSOUND_H
-#define _PETSOUND_H
+#ifndef VICE_PETSOUND_H
+#define VICE_PETSOUND_H
 
 #include "types.h"
 

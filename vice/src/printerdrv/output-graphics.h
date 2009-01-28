@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _OUTPUT_GRAPHICS_H
-#define _OUTPUT_GRAPHICS_H
+#ifndef VICE_OUTPUT_GRAPHICS_H
+#define VICE_OUTPUT_GRAPHICS_H
 
 extern int output_graphics_init_resources(void);
 extern int output_graphics_init_cmdline_options(void);

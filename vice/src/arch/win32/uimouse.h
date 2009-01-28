@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIMOUSE_H
-#define _UIMOUSE_H
+#ifndef VICE_UIMOUSE_H
+#define VICE_UIMOUSE_H
 
 extern void ui_mouse_settings_dialog(HWND hwnd);
 

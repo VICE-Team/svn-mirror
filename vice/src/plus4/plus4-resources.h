@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PLUS4_RESOURCES_H
-#define _PLUS4_RESOURCES_H
+#ifndef VICE_PLUS4_RESOURCES_H
+#define VICE_PLUS4_RESOURCES_H
 
 extern int plus4_resources_init(void);
 extern void plus4_resources_shutdown(void);

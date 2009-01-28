@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _MAIN_H
-#define _MAIN_H
+#ifndef VICE_MAIN_H
+#define VICE_MAIN_H
 
 extern int main_program(int argc, char **argv);
 extern void main_exit(void);

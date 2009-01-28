@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VICII_TIMING_H
-#define _VICII_TIMING_H
+#ifndef VICE_VICII_TIMING_H
+#define VICE_VICII_TIMING_H
 
 struct machine_timing_s;
 

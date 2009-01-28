@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FSDEVICE_READ_H
-#define _FSDEVICE_READ_H
+#ifndef VICE_FSDEVICE_READ_H
+#define VICE_FSDEVICE_READ_H
 
 #include "types.h"
 

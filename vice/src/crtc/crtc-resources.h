@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _CRTC_RESOURCES_H
-#define _CRTC_RESOURCES_H
+#ifndef VICE_CRTC_RESOURCES_H
+#define VICE_CRTC_RESOURCES_H
 
 #endif
 

@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef	_FILESELECTORP_H_
-#define _FILESELECTORP_H_
+#ifndef VICE_FILESELECTORP_H_
+#define VICE_FILESELECTORP_H_
 
 #include "DirMgr.h"
 

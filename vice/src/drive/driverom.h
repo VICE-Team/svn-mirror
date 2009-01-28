@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DRIVEROM_H
-#define _DRIVEROM_H
+#ifndef VICE_DRIVEROM_H
+#define VICE_DRIVEROM_H
 
 #include "types.h"
 

@@ -28,8 +28,8 @@
  *
  */
 
-#ifndef _TED_COLOR_H
-#define _TED_COLOR_H
+#ifndef VICE_TED_COLOR_H
+#define VICE_TED_COLOR_H
 
 struct video_canvas_s;
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _C64DTVFLASH_H
-#define _C64DTVFLASH_H
+#ifndef VICE_C64DTVFLASH_H
+#define VICE_C64DTVFLASH_H
 
 #include "types.h"
 

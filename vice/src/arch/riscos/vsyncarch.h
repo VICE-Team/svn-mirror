@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VSYNCARCH_RO_H
-#define _VSYNCARCH_RO_H
+#ifndef VICE_VSYNCARCH_RO_H
+#define VICE_VSYNCARCH_RO_H
 
 extern int vsync_resync_speed(void);
 extern int vsync_resync_poll(void);

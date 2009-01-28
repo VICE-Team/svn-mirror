@@ -17,8 +17,8 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#ifndef __SPLINE_H__
-#define __SPLINE_H__
+#ifndef VICE__SPLINE_H__
+#define VICE__SPLINE_H__
 
 // Our objective is to construct a smooth interpolating single-valued function
 // y = f(x).

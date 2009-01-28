@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _CIA_H
-#define _CIA_H
+#ifndef VICE_CIA_H
+#define VICE_CIA_H
 
 #include "types.h"
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _INTERFACE_USERPORT_H
-#define _INTERFACE_USERPORT_H
+#ifndef VICE_INTERFACE_USERPORT_H
+#define VICE_INTERFACE_USERPORT_H
 
 #include "types.h"
 

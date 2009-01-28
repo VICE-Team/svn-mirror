@@ -28,7 +28,6 @@
 
 #include <stdio.h>
 
-#include "plus4romset.h"
 #include "romset.h"
 
 

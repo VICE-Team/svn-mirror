@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FULLSCREEN_H
-#define _FULLSCREEN_H
+#ifndef VICE_FULLSCREEN_H
+#define VICE_FULLSCREEN_H
 
 struct cap_fullscreen_s;
 

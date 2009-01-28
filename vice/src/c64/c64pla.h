@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _C64PLA_H
-#define _C64PLA_H
+#ifndef VICE_C64PLA_H
+#define VICE_C64PLA_H
 
 #include "types.h"
 

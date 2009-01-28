@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VICII_FETCH_H
-#define _VICII_FETCH_H
+#ifndef VICE_VICII_FETCH_H
+#define VICE_VICII_FETCH_H
 
 #include "types.h"
 

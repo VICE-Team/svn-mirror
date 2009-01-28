@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UISIDCART_H
-#define _UISIDCART_H
+#ifndef VICE_UISIDCART_H
+#define VICE_UISIDCART_H
 
 extern void ui_sidcart_settings_dialog(HWND hwnd);
 

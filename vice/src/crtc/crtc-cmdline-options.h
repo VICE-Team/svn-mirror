@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _CRTC_CMDLINE_OPTIONS_H
-#define _CRTC_CMDLINE_OPTIONS_H
+#ifndef VICE_CRTC_CMDLINE_OPTIONS_H
+#define VICE_CRTC_CMDLINE_OPTIONS_H
 
 #endif
 

@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _FINDPATH_H
-#define _FINDPATH_H
+#ifndef VICE_FINDPATH_H
+#define VICE_FINDPATH_H
 
 char *findpath(const char *cmd, const char *syspath, int mode);
 

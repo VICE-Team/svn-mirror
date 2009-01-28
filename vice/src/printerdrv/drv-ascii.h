@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DRV_ASCII_H
-#define _DRV_ASCII_H
+#ifndef VICE_DRV_ASCII_H
+#define VICE_DRV_ASCII_H
 
 extern int drv_ascii_init_resources(void);
 extern void drv_ascii_init(void);

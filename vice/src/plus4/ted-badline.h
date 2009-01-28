@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _TED_BADLINE_H
-#define _TED_BADLINE_H
+#ifndef VICE_TED_BADLINE_H
+#define VICE_TED_BADLINE_H
 
 #include "types.h"
 

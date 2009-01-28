@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _CBMDOS_H
-#define _CBMDOS_H
+#ifndef VICE_CBMDOS_H
+#define VICE_CBMDOS_H
 
 #include "types.h"
 

@@ -28,8 +28,8 @@
  *
  */
 
-#ifndef _VIC_H
-#define _VIC_H
+#ifndef VICE_VIC_H
+#define VICE_VIC_H
 
 #include "vice.h"
 

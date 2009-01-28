@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _OUTPUT_H
-#define _OUTPUT_H
+#ifndef VICE_OUTPUT_H
+#define VICE_OUTPUT_H
 
 #define OUTPUT_PIXEL_BLACK '*'
 #define OUTPUT_PIXEL_WHITE ' '

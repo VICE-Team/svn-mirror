@@ -210,8 +210,8 @@ int i;
         fprintf(houtput, " *\n");
         fprintf(houtput, " */\n");
         fprintf(houtput, "\n");
-        fprintf(houtput, "#ifndef _RES_H\n");
-        fprintf(houtput, "#define _RES_H\n");
+        fprintf(houtput, "#ifndef VICE_RES_H\n");
+        fprintf(houtput, "#define VICE_RES_H\n");
         fprintf(houtput, "\n");
 
         fprintf(moutput, "/*\n");

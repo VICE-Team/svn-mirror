@@ -24,8 +24,8 @@
 //   Antti S. Lankila <alankila@bel.fi>
 // Copyright (C) 2009  Antti S. Lankila <alankila@bel.fi>
 
-#ifndef __WAVE_H__
-#define __WAVE_H__
+#ifndef VICE__WAVE_H__
+#define VICE__WAVE_H__
 
 #include "siddefs.h"
 #include "bittrain.h"

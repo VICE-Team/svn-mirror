@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _IEC128DCR_RESOURCES_H
-#define _IEC128DCR_RESOURCES_H
+#ifndef VICE_IEC128DCR_RESOURCES_H
+#define VICE_IEC128DCR_RESOURCES_H
 
 extern int iec128dcr_resources_init(void);
 extern void iec128dcr_resources_shutdown(void);

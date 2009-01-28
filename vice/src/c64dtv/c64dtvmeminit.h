@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _C64DTVMEMINIT_H
-#define _C64DTVMEMINIT_H
+#ifndef VICE_C64DTVMEMINIT_H
+#define VICE_C64DTVMEMINIT_H
 
 extern void c64dtvmeminit(unsigned int base);
 

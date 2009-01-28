@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UI_FILEREQ_H
-#define _UI_FILEREQ_H
+#ifndef VICE_UI_FILEREQ_H
+#define VICE_UI_FILEREQ_H
 
 enum {
   IDD_NONE = 0,

@@ -26,8 +26,8 @@
 
 
 
-#ifndef _UISHAREDEF_RO_H
-#define _UISHAREDEF_RO_H
+#ifndef VICE_UISHAREDEF_RO_H
+#define VICE_UISHAREDEF_RO_H
 
 #include "uiconfig.h"
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _GLUE1571_H
-#define _GLUE1571_H
+#ifndef VICE_GLUE1571_H
+#define VICE_GLUE1571_H
 
 struct drive_s;
 

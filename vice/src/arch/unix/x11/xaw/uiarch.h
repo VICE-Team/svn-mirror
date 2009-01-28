@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _UIARCH_XAW_H
-#define _UIARCH_XAW_H
+#ifndef VICE_UIARCH_XAW_H
+#define VICE_UIARCH_XAW_H
 
 #include "vice.h"
 

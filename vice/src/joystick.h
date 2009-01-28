@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _JOYSTICK_H
-#define _JOYSTICK_H
+#ifndef VICE_JOYSTICK_H
+#define VICE_JOYSTICK_H
 
 #include "types.h"
 

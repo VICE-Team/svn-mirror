@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VIC20_H
-#define _VIC20_H
+#ifndef VICE_VIC20_H
+#define VICE_VIC20_H
 
 #define VIC20_PAL_CYCLES_PER_SEC        1108405
 #define VIC20_PAL_CYCLES_PER_LINE       71

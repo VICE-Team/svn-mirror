@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _LIBM_MATH_H
-#define _LIBM_MATH_H
+#ifndef VICE_LIBM_MATH_H
+#define VICE_LIBM_MATH_H
 
 /* This is a placeholder to be filled in with actual prototypes
    and defines once I come across a case where even the math.h

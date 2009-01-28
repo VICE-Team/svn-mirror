@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIPLUS4MEM_H
-#define _UIPLUS4MEM_H
+#ifndef VICE_UIPLUS4MEM_H
+#define VICE_UIPLUS4MEM_H
 
 #include <windows.h>
 

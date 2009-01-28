@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _C64EXP_RESOURCES_H
-#define _C64EXP_RESOURCES_H
+#ifndef VICE_C64EXP_RESOURCES_H
+#define VICE_C64EXP_RESOURCES_H
 
 extern int c64exp_resources_init(void);
 extern void c64exp_resources_shutdown(void);

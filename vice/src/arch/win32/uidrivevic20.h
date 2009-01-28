@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _UIDRIVEVIC20_H
-#define _UIDRIVEVIC20_H
+#ifndef VICE_UIDRIVEVIC20_H
+#define VICE_UIDRIVEVIC20_H
 
 extern void uidrivevic20_settings_dialog(HWND hwnd);
 

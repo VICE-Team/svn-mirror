@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _MOS6510_H
-#define _MOS6510_H
+#ifndef VICE_MOS6510_H
+#define VICE_MOS6510_H
 
 #include "types.h"
 

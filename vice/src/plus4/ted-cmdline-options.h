@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _TED_CMDLINE_OPTIONS_H
-#define _TED_CMDLINE_OPTIONS_H
+#ifndef VICE_TED_CMDLINE_OPTIONS_H
+#define VICE_TED_CMDLINE_OPTIONS_H
 
 extern int ted_cmdline_options_init(void);
 

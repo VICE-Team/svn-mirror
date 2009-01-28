@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _TED_DRAW_H
-#define _TED_DRAW_H
+#ifndef VICE_TED_DRAW_H
+#define VICE_TED_DRAW_H
 
 extern void ted_draw_init(void);
 

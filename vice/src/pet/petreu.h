@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PET_REU_H
-#define _PET_REU_H
+#ifndef VICE_PET_REU_H
+#define VICE_PET_REU_H
 
 #include "types.h"
 

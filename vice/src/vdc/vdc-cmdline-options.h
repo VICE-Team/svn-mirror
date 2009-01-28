@@ -27,8 +27,8 @@
  *
  */
 
-#ifndef _VDC_CMDLINE_OPTIONS_H
-#define _VDC_CMDLINE_OPTIONS_H
+#ifndef VICE_VDC_CMDLINE_OPTIONS_H
+#define VICE_VDC_CMDLINE_OPTIONS_H
 
 extern int vdc_cmdline_options_init(void);
 

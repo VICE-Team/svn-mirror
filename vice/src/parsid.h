@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PARSID_H
-#define _PARSID_H
+#ifndef VICE_PARSID_H
+#define VICE_PARSID_H
 
 #include "types.h"
 

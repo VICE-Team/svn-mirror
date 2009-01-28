@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _SERIAL_H
-#define _SERIAL_H
+#ifndef VICE_SERIAL_H
+#define VICE_SERIAL_H
 
 #include "types.h"
 

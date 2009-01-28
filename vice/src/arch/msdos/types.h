@@ -27,8 +27,8 @@
  *
  */
 
-#ifndef _TYPES_H
-#define _TYPES_H
+#ifndef VICE_TYPES_H
+#define VICE_TYPES_H
 
 #include "vice.h"
 

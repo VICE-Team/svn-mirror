@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _SOUNDMOVIE_H
-#define _SOUNDMOVIE_H
+#ifndef VICE_SOUNDMOVIE_H
+#define VICE_SOUNDMOVIE_H
 
 #include "vice.h"
 

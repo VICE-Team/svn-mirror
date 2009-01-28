@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIPLUS60K_H
-#define _UIPLUS60K_H
+#ifndef VICE_UIPLUS60K_H
+#define VICE_UIPLUS60K_H
 
 #include "uimenu.h"
 

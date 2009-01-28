@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _REALDEVICE_H
-#define _REALDEVICE_H
+#ifndef VICE_REALDEVICE_H
+#define VICE_REALDEVICE_H
 
 #include "types.h"
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _SERIAL_DEVICE_H
-#define _SERIAL_DEVICE_H
+#ifndef VICE_SERIAL_DEVICE_H
+#define VICE_SERIAL_DEVICE_H
 
 #endif
 

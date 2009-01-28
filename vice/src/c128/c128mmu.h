@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _C128MMU_H
-#define _C128MMU_H
+#ifndef VICE_C128MMU_H
+#define VICE_C128MMU_H
 
 #include "types.h"
 

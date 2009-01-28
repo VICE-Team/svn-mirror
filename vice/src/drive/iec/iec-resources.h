@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _IEC_RESOURCES_H
-#define _IEC_RESOURCES_H
+#ifndef VICE_IEC_RESOURCES_H
+#define VICE_IEC_RESOURCES_H
 
 extern int iec_resources_init(void);
 extern void iec_resources_shutdown(void);

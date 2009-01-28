@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _CARTRIDGE_H
-#define _CARTRIDGE_H
+#ifndef VICE_CARTRIDGE_H
+#define VICE_CARTRIDGE_H
 
 #include "types.h"
 

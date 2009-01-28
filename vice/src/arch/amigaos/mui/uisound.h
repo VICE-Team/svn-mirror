@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UISOUND_H
-#define _UISOUND_H
+#ifndef VICE_UISOUND_H
+#define VICE_UISOUND_H
 
 extern void ui_sound_settings_dialog(void);
 extern void ui_sound_record_settings_dialog(video_canvas_t *canvas);

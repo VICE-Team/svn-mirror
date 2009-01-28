@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIJOYSTICKLL_H_
-#define _UIJOYSTICKLL_H_
+#ifndef VICE_UIJOYSTICKLL_H_
+#define VICE_UIJOYSTICKLL_H_
 
 extern void ui_joystick_device_dialog(void);
 extern void ui_joystick_fire_dialog(void);

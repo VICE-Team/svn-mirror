@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VIDEO_COLOR_H
-#define _VIDEO_COLOR_H
+#ifndef VICE_VIDEO_COLOR_H
+#define VICE_VIDEO_COLOR_H
 
 struct palette_s;
 

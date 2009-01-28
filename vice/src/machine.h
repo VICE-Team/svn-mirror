@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _MACHINE_H
-#define _MACHINE_H
+#ifndef VICE_MACHINE_H
+#define VICE_MACHINE_H
 
 #include "types.h"
 

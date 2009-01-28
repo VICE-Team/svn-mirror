@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FLASH_TRAP_H
-#define _FLASH_TRAP_H
+#ifndef VICE_FLASH_TRAP_H
+#define VICE_FLASH_TRAP_H
 
 #include "traps.h"
 #include "types.h"

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _STATUSBAR_H
-#define _STATUSBAR_H
+#ifndef VICE_STATUSBAR_H
+#define VICE_STATUSBAR_H
 
 #include <allegro.h>
 

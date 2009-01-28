@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _TCBMROM_H
-#define _TCBMROM_H
+#ifndef VICE_TCBMROM_H
+#define VICE_TCBMROM_H
 
 #include "types.h"
 

@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _KBDBUF_H
-#define _KBDBUF_H
+#ifndef VICE_KBDBUF_H
+#define VICE_KBDBUF_H
 
 #include "types.h"
 

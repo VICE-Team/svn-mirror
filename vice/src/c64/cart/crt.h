@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _CRT_H
-#define _CRT_H
+#ifndef VICE_CRT_H
+#define VICE_CRT_H
 
 #include "types.h"
 

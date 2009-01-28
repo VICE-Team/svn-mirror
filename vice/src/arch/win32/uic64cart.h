@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIC64CART_H
-#define _UIC64CART_H
+#ifndef VICE_UIC64CART_H
+#define VICE_UIC64CART_H
 
 extern void uic64cart_init(void);
 extern void uic64cart_proc(WPARAM wparam, HWND hwnd);

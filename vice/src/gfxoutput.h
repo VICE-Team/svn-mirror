@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _GFXOUTPUT_H
-#define _GFXOUTPUT_H
+#ifndef VICE_GFXOUTPUT_H
+#define VICE_GFXOUTPUT_H
 
 #include "types.h"
 

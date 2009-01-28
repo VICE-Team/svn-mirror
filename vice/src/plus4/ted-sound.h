@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _TEDSOUND_H
-#define _TEDSOUND_H
+#ifndef VICE_TEDSOUND_H
+#define VICE_TEDSOUND_H
 
 #include "types.h"
 

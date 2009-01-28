@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VICEWINDOW_H
-#define _VICEWINDOW_H
+#ifndef VICE_VICEWINDOW_H
+#define VICE_VICEWINDOW_H
 
 #include <Bitmap.h>
 #include <MenuBar.h>

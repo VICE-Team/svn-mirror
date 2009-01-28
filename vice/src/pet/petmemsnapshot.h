@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PETMEMSNAPSHOT_H
-#define _PETMEMSNAPSHOT_H
+#ifndef VICE_PETMEMSNAPSHOT_H
+#define VICE_PETMEMSNAPSHOT_H
 
 struct snapshot_s;
 

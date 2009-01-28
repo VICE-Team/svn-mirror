@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DIGIMAX_H
-#define _DIGIMAX_H
+#ifndef VICE_DIGIMAX_H
+#define VICE_DIGIMAX_H
 
 #include "types.h"
 #include "sound.h"

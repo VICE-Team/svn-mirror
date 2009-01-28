@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _PIACORE_H
-#define _PIACORE_H
+#ifndef VICE_PIACORE_H
+#define VICE_PIACORE_H
 
 #include "log.h"
 #include "types.h"

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UI_DRIVEC128_H
-#define _UI_DRIVEC128_H
+#ifndef VICE_UI_DRIVEC128_H
+#define VICE_UI_DRIVEC128_H
 
 extern void uidrivec128_settings_dialog(void);
 

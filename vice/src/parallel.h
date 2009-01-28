@@ -34,8 +34,8 @@
  * simulated) serial bus, as it's parallel. So we need no traps.
  */
 
-#ifndef _PARALLEL_H
-#define _PARALLEL_H
+#ifndef VICE_PARALLEL_H
+#define VICE_PARALLEL_H
 
 #include "types.h"
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _MON_REGISTER_H
-#define _MON_REGISTER_H
+#ifndef VICE_MON_REGISTER_H
+#define VICE_MON_REGISTER_H
 
 struct mon_reg_list_s {
     /* Name of the register.  */

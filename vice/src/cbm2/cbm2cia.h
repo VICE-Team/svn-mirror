@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _CBM2CIA_H
-#define _CBM2CIA_H
+#ifndef VICE_CBM2CIA_H
+#define VICE_CBM2CIA_H
 
 #include "types.h"
 

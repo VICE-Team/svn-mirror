@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _CBM2MEM_H
-#define _CBM2MEM_H
+#ifndef VICE_CBM2MEM_H
+#define VICE_CBM2MEM_H
 
 #include "types.h"
 

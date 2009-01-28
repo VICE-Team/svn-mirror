@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _CHARSET_H
-#define _CHARSET_H
+#ifndef VICE_CHARSET_H
+#define VICE_CHARSET_H
 
 #include "types.h"
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PLUS4TCBM_H
-#define _PLUS4TCBM_H
+#ifndef VICE_PLUS4TCBM_H
+#define VICE_PLUS4TCBM_H
 
 #include "types.h"
 

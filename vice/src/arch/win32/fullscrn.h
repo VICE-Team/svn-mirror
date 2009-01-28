@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FULLSCRN_H
-#define _FULLSCRN_H
+#ifndef VICE_FULLSCRN_H
+#define VICE_FULLSCRN_H
 
 extern void GetCurrentModeParameters(int *width, int *height, int *bitdepth,
                                      int *refreshrate);

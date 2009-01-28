@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FLIPLIST_H
-#define _FLIPLIST_H
+#ifndef VICE_FLIPLIST_H
+#define VICE_FLIPLIST_H
 
 #define FLIP_NEXT 1
 #define FLIP_PREV 0

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _TED_RESOURCES_H
-#define _TED_RESOURCES_H
+#ifndef VICE_TED_RESOURCES_H
+#define VICE_TED_RESOURCES_H
 
 #if 0
 /* TED resources.  */

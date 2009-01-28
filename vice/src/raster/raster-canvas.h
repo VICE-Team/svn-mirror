@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _RASTER_CANVAS_H
-#define _RASTER_CANVAS_H
+#ifndef VICE_RASTER_CANVAS_H
+#define VICE_RASTER_CANVAS_H
 
 struct raster_s;
 

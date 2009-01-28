@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _IEEE_RESOURCES_H
-#define _IEEE_RESOURCES_H
+#ifndef VICE_IEEE_RESOURCES_H
+#define VICE_IEEE_RESOURCES_H
 
 extern int ieee_resources_init(void);
 extern void ieee_resources_shutdown(void);

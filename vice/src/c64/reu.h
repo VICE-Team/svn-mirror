@@ -29,8 +29,8 @@
  *
  */
 
-#ifndef _REU_H
-#define _REU_H
+#ifndef VICE_REU_H
+#define VICE_REU_H
 
 #include "types.h"
 

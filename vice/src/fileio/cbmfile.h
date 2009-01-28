@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _CBMFILE_H
-#define _CBMFILE_H
+#ifndef VICE_CBMFILE_H
+#define VICE_CBMFILE_H
 
 #include "types.h"
 

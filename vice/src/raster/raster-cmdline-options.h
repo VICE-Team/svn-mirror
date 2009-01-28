@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _RASTER_CMDLINE_OPTIONS_H
-#define _RASTER_CMDLINE_OPTIONS_H
+#ifndef VICE_RASTER_CMDLINE_OPTIONS_H
+#define VICE_RASTER_CMDLINE_OPTIONS_H
 
 struct video_chip_cap_s;
 

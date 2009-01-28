@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UI_SID_H
-#define _UI_SID_H
+#ifndef VICE_UI_SID_H
+#define VICE_UI_SID_H
 
 #include "uimenu.h"
 

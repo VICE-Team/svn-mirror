@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIMMC64_H
-#define _UIMMC64_H
+#ifndef VICE_UIMMC64_H
+#define VICE_UIMMC64_H
 
 #include "uimenu.h"
 

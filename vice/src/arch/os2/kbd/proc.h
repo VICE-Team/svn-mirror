@@ -23,8 +23,8 @@
  *  02111-1307  USA.
  *
  */
-#ifndef _PROC_H
-#define _PROC_H
+#ifndef VICE_PROC_H
+#define VICE_PROC_H
 
 /* BYTE is already defined in os2def.h    */
 //#undef BYTE

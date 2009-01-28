@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _MMC64_H
-#define _MMC64_H
+#ifndef VICE_MMC64_H
+#define VICE_MMC64_H
 
 #include "types.h"
 

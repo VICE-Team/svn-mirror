@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VIC20UIRES_H_
-#define _VIC20UIRES_H_
+#ifndef VICE_VIC20UIRES_H_
+#define VICE_VIC20UIRES_H_
 
 #include "uires.h"
 #include "intl.h"

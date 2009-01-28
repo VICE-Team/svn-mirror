@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VIC_RESOURCES_H
-#define _VIC_RESOURCES_H
+#ifndef VICE_VIC_RESOURCES_H
+#define VICE_VIC_RESOURCES_H
 
 #if 0
 struct vic_resources_s

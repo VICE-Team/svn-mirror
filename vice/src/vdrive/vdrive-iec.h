@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VDRIVEIEC_H
-#define _VDRIVEIEC_H
+#ifndef VICE_VDRIVEIEC_H
+#define VICE_VDRIVEIEC_H
 
 #include "types.h"
 

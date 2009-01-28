@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _C64CART_H
-#define _C64CART_H
+#ifndef VICE_C64CART_H
+#define VICE_C64CART_H
 
 #include "types.h"
 

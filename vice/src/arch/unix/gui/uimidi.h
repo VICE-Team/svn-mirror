@@ -27,8 +27,8 @@
  *
  */
 
-#ifndef _UIMIDI_H
-#define _UIMIDI_H
+#ifndef VICE_UIMIDI_H
+#define VICE_UIMIDI_H
 
 #include "uimenu.h"
 

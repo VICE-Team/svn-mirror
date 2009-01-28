@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VIDEORENDER_H
-#define _VIDEORENDER_H
+#ifndef VICE_VIDEORENDER_H
+#define VICE_VIDEORENDER_H
 
 #include "types.h"
 #include "viewport.h"

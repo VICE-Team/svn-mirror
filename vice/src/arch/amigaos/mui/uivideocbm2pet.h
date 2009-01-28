@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIVIDEOCBM2PET_H
-#define _UIVIDEOCBM2PET_H
+#ifndef VICE_UIVIDEOCBM2PET_H
+#define VICE_UIVIDEOCBM2PET_H
 
 extern void ui_video_cbm2pet_settings_dialog(video_canvas_t *canvas);
 

@@ -26,8 +26,8 @@
 
 /* Do not include this header file, include `ui.h' instead.  */
 
-#ifndef _UIAPI
-#define _UIAPI
+#ifndef VICE_UIAPI
+#define VICE_UIAPI
 
 typedef enum {
     UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR, UI_JAM_NONE

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DMA_H
-#define _DMA_H
+#ifndef VICE_DMA_H
+#define VICE_DMA_H
 
 #include "types.h"
 

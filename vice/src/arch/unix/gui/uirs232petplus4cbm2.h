@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIRS232PETPLUS4CBM2_H
-#define _UIRS232PETPLUS4CBM2_H
+#ifndef VICE_UIRS232PETPLUS4CBM2_H
+#define VICE_UIRS232PETPLUS4CBM2_H
 
 #include "uimenu.h"
 

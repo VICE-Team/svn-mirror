@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _C64DTV_H
-#define _C64DTV_H
+#ifndef VICE_C64DTV_H
+#define VICE_C64DTV_H
 
 #define C64_PAL_CYCLES_PER_SEC  985248
 #define C64_PAL_CYCLES_PER_LINE 63

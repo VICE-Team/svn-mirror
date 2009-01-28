@@ -29,8 +29,8 @@
  *
  */
 
-#ifndef _CRTC_H
-#define _CRTC_H
+#ifndef VICE_CRTC_H
+#define VICE_CRTC_H
 
 #include "vice.h"
 

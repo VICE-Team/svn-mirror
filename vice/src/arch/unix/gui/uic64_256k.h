@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UI_C64_256K_H
-#define _UI_C64_256K_H
+#ifndef VICE_UI_C64_256K_H
+#define VICE_UI_C64_256K_H
 
 extern struct ui_menu_entry_s c64_256k_submenu[];
 

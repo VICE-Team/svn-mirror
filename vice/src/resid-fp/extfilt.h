@@ -17,8 +17,8 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#ifndef __EXTFILT_H__
-#define __EXTFILT_H__
+#ifndef VICE__EXTFILT_H__
+#define VICE__EXTFILT_H__
 
 #include <math.h>
 

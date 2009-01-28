@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIMEDIAFILE_H
-#define _UIMEDIAFILE_H
+#ifndef VICE_UIMEDIAFILE_H
+#define VICE_UIMEDIAFILE_H
 
 void ui_mediafile_save_dialog(HWND hwnd);
 

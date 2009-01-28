@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _RETROREPLAY_H
-#define _RETROREPLAY_H
+#ifndef VICE_RETROREPLAY_H
+#define VICE_RETROREPLAY_H
 
 #include <stdio.h>
 

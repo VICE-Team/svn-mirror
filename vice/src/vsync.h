@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VSYNC_H
-#define _VSYNC_H
+#ifndef VICE_VSYNC_H
+#define VICE_VSYNC_H
 
 struct video_canvas_s;
 

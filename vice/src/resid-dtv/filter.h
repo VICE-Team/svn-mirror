@@ -17,8 +17,8 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#ifndef __FILTER_H__
-#define __FILTER_H__
+#ifndef VICE__FILTER_H__
+#define VICE__FILTER_H__
 
 #include "siddefs.h"
 

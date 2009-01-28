@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FSDRIVE_H
-#define _FSDRIVE_H
+#ifndef VICE_FSDRIVE_H
+#define VICE_FSDRIVE_H
 
 #include "types.h"
 

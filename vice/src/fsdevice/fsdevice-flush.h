@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FSDEVICE_FLUSH_H
-#define _FSDEVICE_FLUSH_H
+#ifndef VICE_FSDEVICE_FLUSH_H
+#define VICE_FSDEVICE_FLUSH_H
 
 struct vdrive_s;
 

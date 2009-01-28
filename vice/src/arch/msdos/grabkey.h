@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _GRABKEY_H
-#define _GRABKEY_H
+#ifndef VICE_GRABKEY_H
+#define VICE_GRABKEY_H
 
 #include "kbd.h"
 

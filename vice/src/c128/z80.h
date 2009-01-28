@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _Z80_H
-#define _Z80_H
+#ifndef VICE_Z80_H
+#define VICE_Z80_H
 
 struct z80_regs_s;
 

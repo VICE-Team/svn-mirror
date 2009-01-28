@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIVIC20MEM_H
-#define _UIVIC20MEM_H
+#ifndef VICE_UIVIC20MEM_H
+#define VICE_UIVIC20MEM_H
 
 extern void ui_vic_settings_dialog(void);
 

@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _VICE_H
-#define _VICE_H
+#ifndef VICE_VICE_H
+#define VICE_VICE_H
 
 /* We use <config.h> instead of "config.h" so that a compilation using
    -I. -I$srcdir will use ./config.h rather than $srcdir/config.h

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _SIGNALS_H
-#define _SIGNALS_H
+#ifndef VICE_SIGNALS_H
+#define VICE_SIGNALS_H
 
 extern void signals_init(int do_core_dumps);
 extern void signals_abort_set(void);

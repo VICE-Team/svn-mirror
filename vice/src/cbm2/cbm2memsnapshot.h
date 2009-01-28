@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _CBM2MEMSNAPSHOT_H
-#define _CBM2MEMSNAPSHOT_H
+#ifndef VICE_CBM2MEMSNAPSHOT_H
+#define VICE_CBM2MEMSNAPSHOT_H
 
 struct snapshot_s;
 

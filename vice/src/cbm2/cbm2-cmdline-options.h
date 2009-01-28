@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _CBM2_CMDLINE_OPTIONS_H
-#define _CBM2_CMDLINE_OPTIONS_H
+#ifndef VICE_CBM2_CMDLINE_OPTIONS_H
+#define VICE_CBM2_CMDLINE_OPTIONS_H
 
 extern int cbm2_cmdline_options_init(void);
 

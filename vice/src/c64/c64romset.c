@@ -28,7 +28,6 @@
 
 #include <stdio.h>
 
-#include "c64romset.h"
 #include "romset.h"
 
 

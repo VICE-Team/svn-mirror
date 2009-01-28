@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FSIMAGE_CREATE_H
-#define _FSIMAGE_CREATE_H
+#ifndef VICE_FSIMAGE_CREATE_H
+#define VICE_FSIMAGE_CREATE_H
 
 extern void fsimage_create_init(void);
 

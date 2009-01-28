@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _C64EXP_CMDLINE_OPTIONS_H
-#define _C64EXP_CMDLINE_OPTIONS_H
+#ifndef VICE_C64EXP_CMDLINE_OPTIONS_H
+#define VICE_C64EXP_CMDLINE_OPTIONS_H
 
 extern int c64exp_cmdline_options_init(void);
 

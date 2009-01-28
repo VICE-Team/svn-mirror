@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _EMUID_H
-#define _EMUID_H
+#ifndef VICE_EMUID_H
+#define VICE_EMUID_H
 
 #include "types.h"
 

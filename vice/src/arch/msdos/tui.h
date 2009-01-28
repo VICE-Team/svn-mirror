@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _TUI_H
-#define _TUI_H
+#ifndef VICE_TUI_H
+#define VICE_TUI_H
 
 #define CENTER_X(w)      ((tui_num_cols() - (w)) / 2)
 #define CENTER_Y(h)      ((tui_num_lines() - (h)) / 2)

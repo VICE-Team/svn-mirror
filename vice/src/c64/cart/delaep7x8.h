@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DELAEP7x8_H
-#define _DELAEP7x8_H
+#ifndef VICE_DELAEP7x8_H
+#define VICE_DELAEP7x8_H
 
 #include <stdio.h>
 

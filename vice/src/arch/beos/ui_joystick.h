@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef __UI_JOYSTICK_H__
-#define __UI_JOYSTICK_H__
+#ifndef VICE__UI_JOYSTICK_H__
+#define VICE__UI_JOYSTICK_H__
 
 const uint32 JOYMESSAGE_DEVPORT = 'J000';
 const uint32 JOYMESSAGE_KEYSET1 = 'J001';

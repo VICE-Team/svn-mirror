@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _CMDLINE_H
-#define _CMDLINE_H
+#ifndef VICE_CMDLINE_H
+#define VICE_CMDLINE_H
 
 /* This describes a command-line option.  */
 /* Warning: all the pointers should point to areas that are valid throughout

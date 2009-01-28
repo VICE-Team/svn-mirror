@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _SUPERGAMES_H
-#define _SUPERGAMES_H
+#ifndef VICE_SUPERGAMES_H
+#define VICE_SUPERGAMES_H
 
 #include <stdio.h>
 

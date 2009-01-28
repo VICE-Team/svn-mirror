@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _TUIFS_H
-#define _TUIFS_H
+#ifndef VICE_TUIFS_H
+#define VICE_TUIFS_H
 
 struct image_contents_s;
 

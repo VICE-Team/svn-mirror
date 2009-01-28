@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _Z80MEM_H
-#define _Z80MEM_H
+#ifndef VICE_Z80MEM_H
+#define VICE_Z80MEM_H
 
 #ifdef WATCOM_COMPILE
 #include "../mem.h"

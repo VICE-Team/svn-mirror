@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UINETWORK_H
-#define _UINETWORK_H
+#ifndef VICE_UINETWORK_H
+#define VICE_UINETWORK_H
 
 void ui_network_dialog(HWND hwnd);
 

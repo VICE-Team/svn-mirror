@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VIC20UI_H
-#define _VIC20UI_H
+#ifndef VICE_VIC20UI_H
+#define VICE_VIC20UI_H
 
 extern int vic20ui_init(void);
 extern void vic20ui_shutdown(void);

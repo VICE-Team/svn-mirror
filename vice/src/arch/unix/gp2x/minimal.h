@@ -31,8 +31,8 @@
 #include <termios.h>
 #include <keycodes.h>
 
-#ifndef __MINIMAL_H__
-#define __MINIMAL_H__
+#ifndef VICE__MINIMAL_H__
+#define VICE__MINIMAL_H__
 
 #define MINILIB_VERSION  "GP2X minimal library v0.A by rlyeh, (c) 2005."
 

@@ -19,8 +19,8 @@
  * 	
  */ 
 
-#ifndef	_SCROLLEDLISTP_H_
-#define _SCROLLEDLISTP_H_
+#ifndef VICE_SCROLLEDLISTP_H_
+#define VICE_SCROLLEDLISTP_H_
 
 typedef struct _XfwfScrolledListClassPart
 {

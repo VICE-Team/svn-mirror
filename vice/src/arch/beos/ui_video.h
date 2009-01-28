@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef __UI_VIDEO_H__
-#define __UI_VIDEO_H__
+#ifndef VICE__UI_VIDEO_H__
+#define VICE__UI_VIDEO_H__
 
 const uint32 MESSAGE_VIDEO_COLOR				= 'MVD1';
 const uint32 MESSAGE_VIDEO_PALETTEFILE			= 'MVD2';

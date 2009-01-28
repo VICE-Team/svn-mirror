@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef __UI_NETPLAY_H__
-#define __UI_NETPLAY_H__
+#ifndef VICE__UI_NETPLAY_H__
+#define VICE__UI_NETPLAY_H__
 
 const uint32 MESSAGE_NETPLAY_APPLY		= 'MNP1';
 

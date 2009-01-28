@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VIC20_RESOURCES_H
-#define _VIC20_RESOURCES_H
+#ifndef VICE_VIC20_RESOURCES_H
+#define VICE_VIC20_RESOURCES_H
 
 extern int vic20_resources_init(void);
 extern void vic20_resources_shutdown(void);

@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _TPI_H
-#define _TPI_H
+#ifndef VICE_TPI_H
+#define VICE_TPI_H
 
 #include "types.h"
 

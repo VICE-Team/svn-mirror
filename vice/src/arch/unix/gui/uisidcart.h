@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UISIDCART_H
-#define _UISIDCART_H
+#ifndef VICE_UISIDCART_H
+#define VICE_UISIDCART_H
 
 #include "uimenu.h"
 

@@ -37,7 +37,6 @@ libcbm2_a_SOURCES = \
 	cbm2rom.c \
 	cbm2rom.h \
 	cbm2romset.c \
-	cbm2romset.h \
 	cbm2sound.c \
 	cbm2tpi.h \
 	cbm2tpi1.c \

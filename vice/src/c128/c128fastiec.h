@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _C128FASTIEC_H
-#define _C128FASTIEC_H
+#ifndef VICE_C128FASTIEC_H
+#define VICE_C128FASTIEC_H
 
 #include "types.h"
 

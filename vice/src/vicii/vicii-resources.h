@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VICII_RESOURCES_H
-#define _VICII_RESOURCES_H
+#ifndef VICE_VICII_RESOURCES_H
+#define VICE_VICII_RESOURCES_H
 
 /* VIC-II resources.  */
 struct vicii_resources_s

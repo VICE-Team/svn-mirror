@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DRIVE_RESOURCES_H
-#define _DRIVE_RESOURCES_H
+#ifndef VICE_DRIVE_RESOURCES_H
+#define VICE_DRIVE_RESOURCES_H
 
 extern int drive_resources_init(void);
 extern void drive_resources_shutdown(void);

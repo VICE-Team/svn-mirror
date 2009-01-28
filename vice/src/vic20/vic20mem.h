@@ -27,8 +27,8 @@
  *
  */
 
-#ifndef _VIC20MEM_H
-#define _VIC20MEM_H
+#ifndef VICE_VIC20MEM_H
+#define VICE_VIC20MEM_H
 
 #include "types.h"
 

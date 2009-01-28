@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _MAGICFORMEL_H
-#define _MAGICFORMEL_H
+#ifndef VICE_MAGICFORMEL_H
+#define VICE_MAGICFORMEL_H
 
 #include <stdio.h>
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef __VICEAPP_H__
-#define __VICEAPP_H__
+#ifndef VICE__VICEAPP_H__
+#define VICE__VICEAPP_H__
 
 extern char APP_SIGNATURE[256];
 

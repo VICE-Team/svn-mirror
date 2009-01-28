@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FILEIO_H
-#define _FILEIO_H
+#ifndef VICE_FILEIO_H
+#define VICE_FILEIO_H
 
 #include "types.h"
 

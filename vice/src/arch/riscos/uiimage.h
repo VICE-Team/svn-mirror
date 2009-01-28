@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIIMAGE_H
-#define _UIIMAGE_H
+#ifndef VICE_UIIMAGE_H
+#define VICE_UIIMAGE_H
 
 #define FileType_D64File	0x164
 #define FileType_Data		0xffd

@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _C64_H
-#define _C64_H
+#ifndef VICE_C64_H
+#define VICE_C64_H
 
 #define C64_PAL_CYCLES_PER_SEC  985248
 #define C64_PAL_CYCLES_PER_LINE 63

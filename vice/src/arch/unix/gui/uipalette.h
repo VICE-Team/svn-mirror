@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UI_PALETTE_H
-#define _UI_PALETTE_H
+#ifndef VICE_UI_PALETTE_H
+#define VICE_UI_PALETTE_H
 
 #include "uimenu.h"
 

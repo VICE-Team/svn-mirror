@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIDIGIMAX_H
-#define _UIDIGIMAX_H
+#ifndef VICE_UIDIGIMAX_H
+#define VICE_UIDIGIMAX_H
 
 extern void ui_digimax_settings_dialog(HWND hwnd);
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIVIDEOC128_H
-#define _UIVIDEOC128_H
+#ifndef VICE_UIVIDEOC128_H
+#define VICE_UIVIDEOC128_H
 
 extern void ui_video_c128_settings_dialog(video_canvas_t *canvas);
 

@@ -27,8 +27,8 @@
 /* ACIA 6551 register number declarations.
  * Interrupt signals are defined in interrupt.h. */
 
-#ifndef _CBM2ACIA_H
-#define _CBM2ACIA_H
+#ifndef VICE_CBM2ACIA_H
+#define VICE_CBM2ACIA_H
 
 #include "types.h"
 

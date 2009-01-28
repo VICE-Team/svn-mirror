@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FULLSCREENARCH_H
-#define _FULLSCREENARCH_H
+#ifndef VICE_FULLSCREENARCH_H
+#define VICE_FULLSCREENARCH_H
 
 struct video_canvas_s;
 

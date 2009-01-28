@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _TED_FETCH_H
-#define _TED_FETCH_H
+#ifndef VICE_TED_FETCH_H
+#define VICE_TED_FETCH_H
 
 #include "types.h"
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _SOUNDDRV_H
-#define _SOUNDDRV_H
+#ifndef VICE_SOUNDDRV_H
+#define VICE_SOUNDDRV_H
 
 #include "log.h"
 

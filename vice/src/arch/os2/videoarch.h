@@ -1,5 +1,5 @@
-#ifndef _VIDEOARCH_H
-#define _VIDEOARCH_H
+#ifndef VICE_VIDEOARCH_H
+#define VICE_VIDEOARCH_H
 
 #define INCL_DOSSEMAPHORES
 #include <os2.h>

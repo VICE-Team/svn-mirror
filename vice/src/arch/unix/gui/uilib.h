@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UILIB_H
-#define _UILIB_H
+#ifndef VICE_UILIB_H
+#define VICE_UILIB_H
 
 extern void uilib_select_string(const char *resname, const char *title,
                                 const char *name);

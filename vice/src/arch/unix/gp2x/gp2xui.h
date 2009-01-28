@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _GP2XUI_H
-#define _GP2XUI_H
+#ifndef VICE_GP2XUI_H
+#define VICE_GP2XUI_H
 
 #include "vice.h"
 

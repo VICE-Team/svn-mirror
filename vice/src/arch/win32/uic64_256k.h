@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIC64_256K_H
-#define _UIC64_256K_H
+#ifndef VICE_UIC64_256K_H
+#define VICE_UIC64_256K_H
 
 extern void ui_c64_256k_settings_dialog(HWND hwnd);
 

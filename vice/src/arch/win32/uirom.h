@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIROM_H
-#define _UIROM_H
+#ifndef VICE_UIROM_H
+#define VICE_UIROM_H
 
 #include <tchar.h>
 

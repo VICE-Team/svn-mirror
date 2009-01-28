@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VIEWPORT_H
-#define _VIEWPORT_H
+#ifndef VICE_VIEWPORT_H
+#define VICE_VIEWPORT_H
 
 #include "types.h"
 

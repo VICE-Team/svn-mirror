@@ -28,7 +28,6 @@
 
 #include <stdio.h>
 
-#include "vic20romset.h"
 #include "romset.h"
 
 

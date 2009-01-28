@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UI_DRIVEPETCBM2_H
-#define _UI_DRIVEPETCBM2_H
+#ifndef VICE_UI_DRIVEPETCBM2_H
+#define VICE_UI_DRIVEPETCBM2_H
 
 extern void uidrivepetcbm2_settings_dialog(void);
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VIDEO_H
-#define _VIDEO_H
+#ifndef VICE_VIDEO_H
+#define VICE_VIDEO_H
 
 #include "types.h"
 

@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _C64UI_H
-#define _C64UI_H
+#ifndef VICE_C64UI_H
+#define VICE_C64UI_H
 
 extern int c64ui_init(void);
 extern void c64ui_shutdown(void);

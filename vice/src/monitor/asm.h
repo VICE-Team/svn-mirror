@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef _ASM_H
-#define _ASM_H
+#ifndef VICE_ASM_H
+#define VICE_ASM_H
 
 #include "types.h"
 

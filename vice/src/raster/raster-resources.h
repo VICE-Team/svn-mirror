@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _RASTER_RESOURCES_H
-#define _RASTER_RESOURCES_H
+#ifndef VICE_RASTER_RESOURCES_H
+#define VICE_RASTER_RESOURCES_H
 
 struct raster_s;
 struct video_chip_cap_s;

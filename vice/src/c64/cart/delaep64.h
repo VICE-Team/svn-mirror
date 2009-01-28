@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DELAEP64_H
-#define _DELAEP64_H
+#ifndef VICE_DELAEP64_H
+#define VICE_DELAEP64_H
 
 #include <stdio.h>
 

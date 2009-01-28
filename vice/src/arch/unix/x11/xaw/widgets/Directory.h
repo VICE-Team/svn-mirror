@@ -23,8 +23,8 @@
  * 	
  */ 
 
-#ifndef _FWF_DIRECTORY_H_
-#define _FWF_DIRECTORY_H_
+#ifndef VICE_FWF_DIRECTORY_H_
+#define VICE_FWF_DIRECTORY_H_
 
 #ifdef MINIXVMD
 #undef NAME_MAX

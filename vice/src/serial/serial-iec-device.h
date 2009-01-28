@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _SERIAL_IEC_DEVICE_H
-#define _SERIAL_IEC_DEVICE_H
+#ifndef VICE_SERIAL_IEC_DEVICE_H
+#define VICE_SERIAL_IEC_DEVICE_H
 
 extern int serial_iec_device_resources_init(void);
 extern int serial_iec_device_cmdline_options_init(void);

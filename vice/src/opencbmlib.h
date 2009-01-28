@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _OPENCBMLIB_H
-#define _OPENCBMLIB_H
+#ifndef VICE_OPENCBMLIB_H
+#define VICE_OPENCBMLIB_H
 
 #include "vice.h"
 

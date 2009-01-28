@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PET_RESOURCES_H
-#define _PET_RESOURCES_H
+#ifndef VICE_PET_RESOURCES_H
+#define VICE_PET_RESOURCES_H
 
 extern int pet_resources_init(void);
 extern void pet_resources_shutdown(void);

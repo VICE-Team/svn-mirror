@@ -28,8 +28,8 @@
  *
  */
 
-#ifndef _VICII_COLOR_H
-#define _VICII_COLOR_H
+#ifndef VICE_VICII_COLOR_H
+#define VICE_VICII_COLOR_H
 
 struct video_canvas_s;
 

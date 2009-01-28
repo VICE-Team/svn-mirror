@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _RASTER_CACHE_TEXT_STD_H
-#define _RASTER_CACHE_TEXT_STD_H
+#ifndef VICE_RASTER_CACHE_TEXT_STD_H
+#define VICE_RASTER_CACHE_TEXT_STD_H
 
 #include "types.h"
 

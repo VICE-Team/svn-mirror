@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIROMCBM2SETTINGS_H
-#define _UIROMCBM2SETTINGS_H
+#ifndef VICE_UIROMCBM2SETTINGS_H
+#define VICE_UIROMCBM2SETTINGS_H
 
 extern void ui_cbm2_computer_rom_settings_dialog(video_canvas_t *canvas);
 extern void ui_cbm2_drive_rom_settings_dialog(video_canvas_t *canvas);

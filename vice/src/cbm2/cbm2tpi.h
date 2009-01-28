@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _CBM2TPI_H
-#define _CBM2TPI_H
+#ifndef VICE_CBM2TPI_H
+#define VICE_CBM2TPI_H
 
 #include "types.h"
 

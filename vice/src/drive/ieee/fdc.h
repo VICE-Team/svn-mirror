@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FDC_H
-#define _FDC_H
+#ifndef VICE_FDC_H
+#define VICE_FDC_H
 
 #include "types.h"
 

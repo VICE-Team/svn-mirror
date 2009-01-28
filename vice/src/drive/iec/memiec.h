@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _MEMIEC_H
-#define _MEMIEC_H
+#ifndef VICE_MEMIEC_H
+#define VICE_MEMIEC_H
 
 struct drive_context_s;
 

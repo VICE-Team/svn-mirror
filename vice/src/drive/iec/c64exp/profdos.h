@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PROFDOS_H
-#define _PROFDOS_H
+#ifndef VICE_PROFDOS_H
+#define VICE_PROFDOS_H
 
 #include "types.h"
 

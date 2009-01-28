@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _WD1770_H
-#define _WD1770_H
+#ifndef VICE_WD1770_H
+#define VICE_WD1770_H
 
 #include "types.h"
 

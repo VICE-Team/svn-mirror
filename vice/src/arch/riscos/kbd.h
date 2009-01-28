@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _KBD_RO_H
-#define _KBD_RO_H
+#ifndef VICE_KBD_RO_H
+#define VICE_KBD_RO_H
 
 #include "vice.h"
 

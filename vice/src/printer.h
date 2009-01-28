@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PRINTER_H
-#define _PRINTER_H
+#ifndef VICE_PRINTER_H
+#define VICE_PRINTER_H
 
 #include "types.h"
 

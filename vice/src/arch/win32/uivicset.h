@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIVICSET_H
-#define _UIVICSET_H
+#ifndef VICE_UIVICSET_H
+#define VICE_UIVICSET_H
 
 #include <windows.h>
 

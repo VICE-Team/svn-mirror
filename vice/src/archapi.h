@@ -26,8 +26,8 @@
 
 /* Do not include this header file, include `archdep.h' instead.  */
 
-#ifndef _ARCHAPI
-#define _ARCHAPI
+#ifndef VICE_ARCHAPI
+#define VICE_ARCHAPI
 
 #include <stdarg.h>
 #include <stdio.h>

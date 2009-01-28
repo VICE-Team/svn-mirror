@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _TIMER_H_
-#define _TIMER_H_
+#ifndef VICE_TIMER_H_
+#define VICE_TIMER_H_
 
 #include "vice.h"
 

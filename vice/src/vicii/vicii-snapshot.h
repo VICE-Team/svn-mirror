@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _VICII_SNAPSHOT_H
-#define _VICII_SNAPSHOT_H
+#ifndef VICE_VICII_SNAPSHOT_H
+#define VICE_VICII_SNAPSHOT_H
 
 struct snapshot_s;
 

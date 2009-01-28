@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DISKIMAGE_H
-#define _DISKIMAGE_H
+#ifndef VICE_DISKIMAGE_H
+#define VICE_DISKIMAGE_H
 
 #include "types.h"
 

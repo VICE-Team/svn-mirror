@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _IOUTIL_H
-#define _IOUTIL_H
+#ifndef VICE_IOUTIL_H
+#define VICE_IOUTIL_H
 
 #define IOUTIL_ACCESS_R_OK 4
 #define IOUTIL_ACCESS_W_OK 2

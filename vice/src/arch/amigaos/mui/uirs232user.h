@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIRS232USER_H
-#define _UIRS232USER_H
+#ifndef VICE_UIRS232USER_H
+#define VICE_UIRS232USER_H
 
 extern void ui_rs232user_settings_dialog(void);
 

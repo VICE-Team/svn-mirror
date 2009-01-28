@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _UIHOTKEY_H
-#define _UIHOTKEY_H
+#ifndef VICE_UIHOTKEY_H
+#define VICE_UIHOTKEY_H
 
 typedef enum {
     UI_HOTMOD_NONE = 0,

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DRIVER_SELECT_H
-#define _DRIVER_SELECT_H
+#ifndef VICE_DRIVER_SELECT_H
+#define VICE_DRIVER_SELECT_H
 
 #include "types.h"
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _LIB_H
-#define _LIB_H
+#ifndef VICE_LIB_H
+#define VICE_LIB_H
 
 #include "vice.h"
 

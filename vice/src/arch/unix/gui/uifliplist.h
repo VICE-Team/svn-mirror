@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _UIFLIPLIST_H
-#define _UIFLIPLIST_H
+#ifndef VICE_UIFLIPLIST_H
+#define VICE_UIFLIPLIST_H
 
 #include "uimenu.h"
 

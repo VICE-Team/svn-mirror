@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PETACIA_H
-#define _PETACIA_H
+#ifndef VICE_PETACIA_H
+#define VICE_PETACIA_H
 
 #include "types.h"
 

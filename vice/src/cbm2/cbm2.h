@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _CBM2_H
-#define _CBM2_H
+#ifndef VICE_CBM2_H
+#define VICE_CBM2_H
 
 /* except for the exact CYCLES_PER_SEC those values are reasonable default
    values. they get overwritten when writing to the CRTC */

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _CONSOLE_H
-#define _CONSOLE_H
+#ifndef VICE_CONSOLE_H
+#define VICE_CONSOLE_H
 
 struct console_private_s;
 

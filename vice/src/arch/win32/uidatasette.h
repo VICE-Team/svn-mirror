@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIDATASETTE_H
-#define _UIDATASETTE_H
+#ifndef VICE_UIDATASETTE_H
+#define VICE_UIDATASETTE_H
 
 extern void uidatasette_command(HWND hwnd, WPARAM wparam);
 

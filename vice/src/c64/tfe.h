@@ -29,8 +29,8 @@
   #error TFE.H should not be included if HAVE_TFE is not defined!
 #endif /* #ifdef HAVE_TFE */
 
-#ifndef _TFE_H
-#define _TFE_H
+#ifndef VICE_TFE_H
+#define VICE_TFE_H
 
 #include "types.h"
 

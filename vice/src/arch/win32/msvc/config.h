@@ -1,5 +1,5 @@
-#ifndef _CONFIG_H_
-#define _CONFIG_H_
+#ifndef VICE_CONFIG_H_
+#define VICE_CONFIG_H_
 
 #define UNSTABLE
 

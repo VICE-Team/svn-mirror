@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _RSUSER_H_
-#define _RSUSER_H_
+#ifndef VICE_RSUSER_H_
+#define VICE_RSUSER_H_
 
 #include "types.h"
 

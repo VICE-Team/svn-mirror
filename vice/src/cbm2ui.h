@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _CBM2UI_H
-#define _CBM2UI_H
+#ifndef VICE_CBM2UI_H
+#define VICE_CBM2UI_H
 
 extern int cbm2ui_init(void);
 extern void cbm2ui_shutdown(void);

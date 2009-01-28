@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _DRIVECPU_H
-#define _DRIVECPU_H
+#ifndef VICE_DRIVECPU_H
+#define VICE_DRIVECPU_H
 
 #include "types.h"
 

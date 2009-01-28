@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _SID_SNAPSHOT_H
-#define _SID_SNAPSHOT_H
+#ifndef VICE_SID_SNAPSHOT_H
+#define VICE_SID_SNAPSHOT_H
 
 #include "types.h"
 

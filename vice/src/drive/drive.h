@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _DRIVE_H
-#define _DRIVE_H
+#ifndef VICE_DRIVE_H
+#define VICE_DRIVE_H
 
 #include "types.h"
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PETIEC_H
-#define _PETIEC_H
+#ifndef VICE_PETIEC_H
+#define VICE_PETIEC_H
 
 extern void petiec_init(void);
 

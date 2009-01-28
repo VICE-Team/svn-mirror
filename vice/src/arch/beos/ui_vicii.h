@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef __UI_VICII_H__
-#define __UI_VICII_H__
+#ifndef VICE__UI_VICII_H__
+#define VICE__UI_VICII_H__
 
 const uint32 MESSAGE_VICII_NEWLUMINANCE		= 'MVI1';
 const uint32 MESSAGE_VICII_SSCOLL			= 'MVI2';

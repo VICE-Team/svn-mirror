@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _UIEVENT_H
-#define _UIEVENT_H
+#ifndef VICE_UIEVENT_H
+#define VICE_UIEVENT_H
 
 extern void uievent_command(HWND hwnd, WPARAM wparam);
 

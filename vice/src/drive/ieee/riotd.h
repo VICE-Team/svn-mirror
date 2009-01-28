@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _RIOTD_H
-#define _RIOTD_H
+#ifndef VICE_RIOTD_H
+#define VICE_RIOTD_H
 
 #include "types.h"
 

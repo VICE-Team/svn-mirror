@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _C64MEM_H
-#define _C64MEM_H
+#ifndef VICE_C64MEM_H
+#define VICE_C64MEM_H
 
 #include "types.h"
 

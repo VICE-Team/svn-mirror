@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIROMSET_H
-#define _UIROMSET_H
+#ifndef VICE_UIROMSET_H
+#define VICE_UIROMSET_H
 
 #include "uimenu.h"
 

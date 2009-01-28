@@ -22,8 +22,8 @@
  *         http://www.ae.utexas.edu/~rwmcm
  */
 
-#ifndef _TextField_H
-#define _TextField_H
+#ifndef VICE_TextField_H
+#define VICE_TextField_H
 
 #include <X11/Core.h>
 

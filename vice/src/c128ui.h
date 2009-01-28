@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _C128UI_H
-#define _C128UI_H
+#ifndef VICE_C128UI_H
+#define VICE_C128UI_H
 
 extern int c128ui_init(void);
 extern void c128ui_shutdown(void);

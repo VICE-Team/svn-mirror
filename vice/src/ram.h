@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _RAM_H
-#define _RAM_H
+#ifndef VICE_RAM_H
+#define VICE_RAM_H
 
 #include "types.h"
 

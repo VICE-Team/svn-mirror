@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _ROTATION_H
-#define _ROTATION_H
+#ifndef VICE_ROTATION_H
+#define VICE_ROTATION_H
 
 #include "types.h"
 

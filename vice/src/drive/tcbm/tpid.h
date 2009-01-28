@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _TPID_H
-#define _TPID_H
+#ifndef VICE_TPID_H
+#define VICE_TPID_H
 
 #include "types.h"
 

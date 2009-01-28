@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _MONITOR_H
-#define _MONITOR_H
+#ifndef VICE_MONITOR_H
+#define VICE_MONITOR_H
 
 #include "types.h"
 

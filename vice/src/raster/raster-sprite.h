@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _RASTER_SPRITE_H
-#define _RASTER_SPRITE_H
+#ifndef VICE_RASTER_SPRITE_H
+#define VICE_RASTER_SPRITE_H
 
 struct raster_sprite_s
 {

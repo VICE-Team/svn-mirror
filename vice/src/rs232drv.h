@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _RS232DRV_H
-#define _RS232DRV_H
+#ifndef VICE_RS232DRV_H
+#define VICE_RS232DRV_H
 
 #include "types.h"
 

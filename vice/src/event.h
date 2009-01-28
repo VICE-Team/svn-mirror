@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _EVENT_H
-#define _EVENT_H
+#ifndef VICE_EVENT_H
+#define VICE_EVENT_H
 
 #include "types.h"
 

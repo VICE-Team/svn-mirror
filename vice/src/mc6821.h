@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _MC6821_H
-#define _MC6821_H
+#ifndef VICE_MC6821_H
+#define VICE_MC6821_H
 
 #include "types.h"
 

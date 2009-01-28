@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _CBM2UIRES_H_
-#define _CBM2UIRES_H_
+#ifndef VICE_CBM2UIRES_H_
+#define VICE_CBM2UIRES_H_
 
 #include "uires.h"
 #include "intl.h"

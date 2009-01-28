@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _AHI_H_
-#define _AHI_H_
+#ifndef VICE_AHI_H_
+#define VICE_AHI_H_
 
 /* 8bit */
 typedef   signed char s8;

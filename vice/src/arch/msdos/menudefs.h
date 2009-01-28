@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _MENUDEFS_H
-#define _MENUDEFS_H
+#ifndef VICE_MENUDEFS_H
+#define VICE_MENUDEFS_H
 
 #include "tuimenu.h"
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _C64MEMLIMIT_H
-#define _C64MEMLIMIT_H
+#ifndef VICE_C64MEMLIMIT_H
+#define VICE_C64MEMLIMIT_H
 
 extern void mem_limit_init(int mem_read_limit_tab[32][0x101]);
 extern void mem_limit_plus60k_init(int mem_read_limit_tab[32][0x101]);

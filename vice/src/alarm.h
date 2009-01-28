@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _ALARM_H
-#define _ALARM_H
+#ifndef VICE_ALARM_H
+#define VICE_ALARM_H
 
 #include "types.h"
 

@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _MEM_H_
-#define _MEM_H_
+#ifndef VICE_MEM_H_
+#define VICE_MEM_H_
 
 #include "types.h"
 

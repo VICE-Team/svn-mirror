@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VIC20_MIDI_H
-#define _VIC20_MIDI_H
+#ifndef VICE_VIC20_MIDI_H
+#define VICE_VIC20_MIDI_H
 
 #include "midi.h"
 

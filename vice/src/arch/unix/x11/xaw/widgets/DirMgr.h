@@ -22,8 +22,8 @@
  *
  */
 
-#ifndef _FWF_DIRECTORY_MGR_H_
-#define	_FWF_DIRECTORY_MGR_H_
+#ifndef VICE_FWF_DIRECTORY_MGR_H_
+#define VICE_FWF_DIRECTORY_MGR_H_
 
 #include "Directory.h"
 #include "RegExp.h"

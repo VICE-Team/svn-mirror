@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VIDMODE_H
-#define _VIDMODE_H
+#ifndef VICE_VIDMODE_H
+#define VICE_VIDMODE_H
 
 struct video_canvas_s;
 struct ui_menu_entry_s;

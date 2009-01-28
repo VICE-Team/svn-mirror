@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _C128_RESOURCES_H
-#define _C128_RESOURCES_H
+#ifndef VICE_C128_RESOURCES_H
+#define VICE_C128_RESOURCES_H
 
 extern int c128_resources_init(void);
 extern void c128_resources_shutdown(void);

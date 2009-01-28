@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _TUICHARSET_H
-#define _TUICHARSET_H
+#ifndef VICE_TUICHARSET_H
+#define VICE_TUICHARSET_H
 
 typedef enum {
     TUI_CHARSET_DEFAULT,

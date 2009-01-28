@@ -27,8 +27,8 @@
  *
  */
 
-#ifndef _MIDIDRV_H
-#define _MIDIDRV_H
+#ifndef VICE_MIDIDRV_H
+#define VICE_MIDIDRV_H
 
 #include "types.h"
 

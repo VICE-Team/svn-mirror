@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _OUTPUT_SELECT_H
-#define _OUTPUT_SELECT_H
+#ifndef VICE_OUTPUT_SELECT_H
+#define VICE_OUTPUT_SELECT_H
 
 #include "types.h"
 

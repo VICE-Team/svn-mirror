@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UI_STATUS_H
-#define _UI_STATUS_H
+#ifndef VICE_UI_STATUS_H
+#define VICE_UI_STATUS_H
 
 typedef struct _ui_status
 {

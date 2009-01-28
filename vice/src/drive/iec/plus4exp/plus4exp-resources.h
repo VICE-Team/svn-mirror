@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PLUS4EXP_RESOURCES_H
-#define _PLUS4EXP_RESOURCES_H
+#ifndef VICE_PLUS4EXP_RESOURCES_H
+#define VICE_PLUS4EXP_RESOURCES_H
 
 extern int plus4exp_resources_init(void);
 extern void plus4exp_resources_shutdown(void);

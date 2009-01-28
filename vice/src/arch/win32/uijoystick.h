@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIJOYSTICK_H_
-#define _UIJOYSTICK_H_
+#ifndef VICE_UIJOYSTICK_H_
+#define VICE_UIJOYSTICK_H_
 
 void ui_joystick_settings_dialog(HWND hwnd);
 void ui_joystick_swap_joystick(void);

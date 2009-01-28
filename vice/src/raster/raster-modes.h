@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _RASTER_MODES_H
-#define _RASTER_MODES_H
+#ifndef VICE_RASTER_MODES_H
+#define VICE_RASTER_MODES_H
 
 #include "raster-cache.h"
 

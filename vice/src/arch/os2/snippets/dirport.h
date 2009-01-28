@@ -1,5 +1,5 @@
-#ifndef _DIRPORT_H
-#define _DIRPORT_H
+#ifndef VICE_DIRPORT_H
+#define VICE_DIRPORT_H
 
 #include "vice.h"
 

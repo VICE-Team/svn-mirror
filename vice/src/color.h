@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _COLOR_H
-#define _COLOR_H
+#ifndef VICE_COLOR_H
+#define VICE_COLOR_H
 
 struct palette_s;
 

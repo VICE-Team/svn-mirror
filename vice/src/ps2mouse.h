@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _PS2MOUSE_H
-#define _PS2MOUSE_H
+#ifndef VICE_PS2MOUSE_H
+#define VICE_PS2MOUSE_H
 
 #include "types.h"
 

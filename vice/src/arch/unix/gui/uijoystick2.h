@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIJOYSTICK2_H
-#define _UIJOYSTICK2_H
+#ifndef VICE_UIJOYSTICK2_H
+#define VICE_UIJOYSTICK2_H
 
 #include "uimenu.h"
 

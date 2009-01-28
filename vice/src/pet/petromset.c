@@ -28,7 +28,6 @@
 
 #include <stdio.h>
 
-#include "petromset.h"
 #include "romset.h"
 
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef __xrandr_h__
-#define __xrandr_h__
+#ifndef VICE__xrandr_h__
+#define VICE__xrandr_h__
 
 struct ui_menu_entry_s;
 

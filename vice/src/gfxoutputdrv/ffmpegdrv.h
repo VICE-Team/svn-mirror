@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FFMPEGDRV_H
-#define _FFMPEGDRV_H
+#ifndef VICE_FFMPEGDRV_H
+#define VICE_FFMPEGDRV_H
 
 #include "screenshot.h"
 #include "gfxoutput.h"

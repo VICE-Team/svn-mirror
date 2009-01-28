@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _PLUS4ACIA_H
-#define _PLUS4ACIA_H
+#ifndef VICE_PLUS4ACIA_H
+#define VICE_PLUS4ACIA_H
 
 #include "types.h"
 

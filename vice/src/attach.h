@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _ATTACH_H
-#define _ATTACH_H
+#ifndef VICE_ATTACH_H
+#define VICE_ATTACH_H
 
 #include "types.h"
 

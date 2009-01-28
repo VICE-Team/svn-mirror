@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _STATUSBAR_H_
-#define _STATUSBAR_H_
+#ifndef VICE_STATUSBAR_H_
+#define VICE_STATUSBAR_H_
 
 #define REFRESH_ALL (-1)
 

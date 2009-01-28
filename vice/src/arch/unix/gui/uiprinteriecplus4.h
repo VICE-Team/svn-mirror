@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIPRINTERIECPLUS4_H
-#define _UIPRINTERIECPLUS4_H
+#ifndef VICE_UIPRINTERIECPLUS4_H
+#define VICE_UIPRINTERIECPLUS4_H
 
 #include "uimenu.h"
 

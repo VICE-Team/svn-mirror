@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _GCR_H
-#define _GCR_H
+#ifndef VICE_GCR_H
+#define VICE_GCR_H
 
 #include "types.h"
 

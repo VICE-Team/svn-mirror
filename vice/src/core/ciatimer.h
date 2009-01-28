@@ -36,8 +36,8 @@
  *
  */
 
-#ifndef _CIATIMER_H
-#define _CIATIMER_H
+#ifndef VICE_CIATIMER_H
+#define VICE_CIATIMER_H
 
 #include "alarm.h"
 #include "types.h"

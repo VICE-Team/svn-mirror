@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _PETUI_H
-#define _PETUI_H
+#ifndef VICE_PETUI_H
+#define VICE_PETUI_H
 
 extern int petui_init(void);
 extern void petui_shutdown(void);

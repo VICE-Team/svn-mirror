@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _IEC_C64EXP_H
-#define _IEC_C64EXP_H
+#ifndef VICE_IEC_C64EXP_H
+#define VICE_IEC_C64EXP_H
 
 struct drive_context_s;
 

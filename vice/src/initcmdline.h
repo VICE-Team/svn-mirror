@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _INITCMDLINE_H
-#define _INITCMDLINE_H
+#ifndef VICE_INITCMDLINE_H
+#define VICE_INITCMDLINE_H
 
 extern int initcmdline_init(void);
 extern int initcmdline_check_psid(void);

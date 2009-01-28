@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _MACHINE_DRIVE_H
-#define _MACHINE_DRIVE_H
+#ifndef VICE_MACHINE_DRIVE_H
+#define VICE_MACHINE_DRIVE_H
 
 #include "types.h"
 

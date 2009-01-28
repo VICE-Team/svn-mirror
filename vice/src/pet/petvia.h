@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PETVIA_H
-#define _PETVIA_H
+#ifndef VICE_PETVIA_H
+#define VICE_PETVIA_H
 
 #include "types.h"
 

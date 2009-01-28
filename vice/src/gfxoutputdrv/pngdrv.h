@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PNGDRV_H
-#define _PNGDRV_H
+#ifndef VICE_PNGDRV_H
+#define VICE_PNGDRV_H
 
 extern void gfxoutput_init_png(void);
 

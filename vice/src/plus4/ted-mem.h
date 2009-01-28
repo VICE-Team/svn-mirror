@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _TED_MEM_H
-#define _TED_MEM_H
+#ifndef VICE_TED_MEM_H
+#define VICE_TED_MEM_H
 
 #include "types.h"
 

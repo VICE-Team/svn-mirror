@@ -18,8 +18,8 @@
  * 	
  */ 
 
-#ifndef _SCROLLEDLIST_H_
-#define _SCROLLEDLIST_H_
+#ifndef VICE_SCROLLEDLIST_H_
+#define VICE_SCROLLEDLIST_H_
 
 extern WidgetClass		xfwfScrolledListWidgetClass;
 

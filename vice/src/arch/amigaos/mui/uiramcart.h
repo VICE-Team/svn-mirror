@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIRAMCART_H
-#define _UIRAMCART_H
+#ifndef VICE_UIRAMCART_H
+#define VICE_UIRAMCART_H
 
 extern void ui_ramcart_settings_dialog(video_canvas_t *canvas);
 

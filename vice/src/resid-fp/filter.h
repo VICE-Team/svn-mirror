@@ -17,8 +17,8 @@
 //  ---------------------------------------------------------------------------
 //  Filter distortion code written by Antti S. Lankila 2007 - 2009.
 
-#ifndef __FILTER_H__
-#define __FILTER_H__
+#ifndef VICE__FILTER_H__
+#define VICE__FILTER_H__
 
 #include <math.h>
 #include "siddefs-fp.h"

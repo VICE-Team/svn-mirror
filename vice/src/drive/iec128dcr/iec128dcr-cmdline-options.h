@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _IEC128DCR_CMDLINE_OPTIONS_H
-#define _IEC128DCR_CMDLINE_OPTIONS_H
+#ifndef VICE_IEC128DCR_CMDLINE_OPTIONS_H
+#define VICE_IEC128DCR_CMDLINE_OPTIONS_H
 
 extern int iec128dcr_cmdline_options_init(void);
 

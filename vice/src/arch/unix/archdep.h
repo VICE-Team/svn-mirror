@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _ARCHDEP_H
-#define _ARCHDEP_H
+#ifndef VICE_ARCHDEP_H
+#define VICE_ARCHDEP_H
 
 #include "archapi.h"
 

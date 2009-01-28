@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIATTACH_H
-#define _UIATTACH_H
+#ifndef VICE_UIATTACH_H
+#define VICE_UIATTACH_H
 
 #include "uimenu.h"
 

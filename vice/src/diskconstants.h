@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DISKCONSTANTS_H
-#define _DISKCONSTANTS_H
+#ifndef VICE_DISKCONSTANTS_H
+#define VICE_DISKCONSTANTS_H
 
 /*
  * Disk Drive Specs

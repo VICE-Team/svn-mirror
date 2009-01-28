@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _CBMIMAGE_H
-#define _CBMIMAGE_H
+#ifndef VICE_CBMIMAGE_H
+#define VICE_CBMIMAGE_H
 
 extern int cbmimage_create_image(const char *name, unsigned int type);
 

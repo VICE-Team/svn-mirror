@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _ZIPCODE_H
-#define _ZIPCODE_H
+#ifndef VICE_ZIPCODE_H
+#define VICE_ZIPCODE_H
 
 #include <stdio.h>
 

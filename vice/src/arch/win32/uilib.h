@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _UILIB_H
-#define _UILIB_H
+#ifndef VICE_UILIB_H
+#define VICE_UILIB_H
 
 #include <windows.h>
 #include <tchar.h>

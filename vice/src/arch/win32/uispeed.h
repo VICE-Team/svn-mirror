@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UISPEED_H
-#define _UISPEED_H
+#ifndef VICE_UISPEED_H
+#define VICE_UISPEED_H
 
 extern void ui_speed_settings_dialog(HWND hwnd);
 extern int ui_speed_current(void);

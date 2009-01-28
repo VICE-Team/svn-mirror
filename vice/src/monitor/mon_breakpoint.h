@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _MON_BREAKPOINT_H
-#define _MON_BREAKPOINT_H
+#ifndef VICE_MON_BREAKPOINT_H
+#define VICE_MON_BREAKPOINT_H
 
 #include "montypes.h"
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _MON_FILE_H
-#define _MON_FILE_H
+#ifndef VICE_MON_FILE_H
+#define VICE_MON_FILE_H
 
 #include "monitor.h"
 

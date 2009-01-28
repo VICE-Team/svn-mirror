@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _PIA_H
-#define _PIA_H
+#ifndef VICE_PIA_H
+#define VICE_PIA_H
 
 #include "types.h"
 

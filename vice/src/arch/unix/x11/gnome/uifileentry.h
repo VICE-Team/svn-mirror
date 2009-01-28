@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef __uifileentry_h__
-#define __uifileentry_h__
+#ifndef VICE__uifileentry_h__
+#define VICE__uifileentry_h__
 
 extern GtkWidget *
 vice_file_entry(const char *title, const char *default_dir,

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _X64_H
-#define _X64_H
+#ifndef VICE_X64_H
+#define VICE_X64_H
 
 #define X64_HEADER_MAGIC_OFFSET     0       /* Length 4 bytes */
 #define X64_HEADER_MAGIC_1          'C'

@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _VDCTYPES_H
-#define _VDCTYPES_H
+#ifndef VICE_VDCTYPES_H
+#define VICE_VDCTYPES_H
 
 #include "raster.h"
 #include "types.h"

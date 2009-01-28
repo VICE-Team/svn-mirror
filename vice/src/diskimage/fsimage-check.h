@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FSIMAGE_CHECK_H
-#define _FSIMAGE_CHECK_H
+#ifndef VICE_FSIMAGE_CHECK_H
+#define VICE_FSIMAGE_CHECK_H
 
 struct disk_image_s;
 

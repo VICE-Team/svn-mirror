@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIC128_H
-#define _UIC128_H
+#ifndef VICE_UIC128_H
+#define VICE_UIC128_H
 
 void ui_c128_dialog(HWND hwnd);
 

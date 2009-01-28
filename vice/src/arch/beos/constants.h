@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef __CONSTANTS_H__
-#define __CONSTANTS_H__
+#ifndef VICE__CONSTANTS_H__
+#define VICE__CONSTANTS_H__
 
 #ifndef uint32
 #define uint32 unsigned int

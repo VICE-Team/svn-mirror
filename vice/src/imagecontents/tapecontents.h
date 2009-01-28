@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _TAPECONTENTS_H
-#define _TAPECONTENTS_H
+#ifndef VICE_TAPECONTENTS_H
+#define VICE_TAPECONTENTS_H
 
 struct image_contents_s;
 

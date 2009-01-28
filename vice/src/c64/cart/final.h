@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _FINAL_H
-#define _FINAL_H
+#ifndef VICE_FINAL_H
+#define VICE_FINAL_H
 
 #include <stdio.h>
 

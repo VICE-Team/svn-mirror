@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIGEORAM_H
-#define _UIGEORAM_H
+#ifndef VICE_UIGEORAM_H
+#define VICE_UIGEORAM_H
 
 #include "uimenu.h"
 

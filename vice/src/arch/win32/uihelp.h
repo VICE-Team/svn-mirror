@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _UIHELP_H
-#define _UIHELP_H
+#ifndef VICE_UIHELP_H
+#define VICE_UIHELP_H
 
 extern void uihelp_dialog(HWND hwnd, WPARAM wparam);
 

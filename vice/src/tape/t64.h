@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _T64_H
-#define _T64_H
+#ifndef VICE_T64_H
+#define VICE_T64_H
 
 #include <stdio.h>
 

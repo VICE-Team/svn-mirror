@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UI_PERIPHERIAL_H
-#define _UI_PERIPHERIAL_H
+#ifndef VICE_UI_PERIPHERIAL_H
+#define VICE_UI_PERIPHERIAL_H
 
 extern UI_CALLBACK(uiperipheral_set_fsdevice_directory);
 

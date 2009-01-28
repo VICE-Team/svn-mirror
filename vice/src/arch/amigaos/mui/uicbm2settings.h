@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UICBM2SETTINGS_H
-#define _UICBM2SETTINGS_H
+#ifndef VICE_UICBM2SETTINGS_H
+#define VICE_UICBM2SETTINGS_H
 
 extern void ui_cbm2_settings_dialog(void);
 

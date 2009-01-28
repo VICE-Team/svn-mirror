@@ -16,8 +16,8 @@
 
 #include "minimal.h"
 
-#ifndef __MINIMAL_H_STUB_940T__
-#define __MINIMAL_H_STUB_940T__
+#ifndef VICE__MINIMAL_H_STUB_940T__
+#define VICE__MINIMAL_H_STUB_940T__
 
 #undef    gp2x_dualcore_data
 #define   gp2x_dualcore_data(v)         gp2x_2ndcore_data(v)

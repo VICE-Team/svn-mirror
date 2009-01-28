@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UI_MUI_H
-#define _UI_MUI_H
+#ifndef VICE_UI_MUI_H
+#define VICE_UI_MUI_H
 
 #include "vice.h"
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PLUS4MEMSNAPSHOT_H
-#define _PLUS4MEMSNAPSHOT_H
+#ifndef VICE_PLUS4MEMSNAPSHOT_H
+#define VICE_PLUS4MEMSNAPSHOT_H
 
 struct snapshot_s;
 

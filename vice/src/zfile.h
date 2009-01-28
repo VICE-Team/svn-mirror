@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _ZFILE_H
-#define _ZFILE_H
+#ifndef VICE_ZFILE_H
+#define VICE_ZFILE_H
 
 #include <stdio.h>
 

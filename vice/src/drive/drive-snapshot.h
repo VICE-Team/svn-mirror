@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DRIVE_SNAPSHOT_H
-#define _DRIVE_SNAPSHOT_H
+#ifndef VICE_DRIVE_SNAPSHOT_H
+#define VICE_DRIVE_SNAPSHOT_H
 
 struct snapshot_s;
 

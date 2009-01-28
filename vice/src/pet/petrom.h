@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _PETROM_H
-#define _PETROM_H
+#ifndef VICE_PETROM_H
+#define VICE_PETROM_H
 
 #include "types.h"
 

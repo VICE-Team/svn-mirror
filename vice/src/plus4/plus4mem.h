@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PLUS4MEM_H
-#define _PLUS4MEM_H
+#ifndef VICE_PLUS4MEM_H
+#define VICE_PLUS4MEM_H
 
 #include "types.h"
 

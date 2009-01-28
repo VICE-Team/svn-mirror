@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _TED_SNAPSHOT_H
-#define _TED_SNAPSHOT_H
+#ifndef VICE_TED_SNAPSHOT_H
+#define VICE_TED_SNAPSHOT_H
 
 struct snapshot_s;
 

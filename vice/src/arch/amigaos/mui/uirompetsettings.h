@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIROMPETSETTINGS_H
-#define _UIROMPETSETTINGS_H
+#ifndef VICE_UIROMPETSETTINGS_H
+#define VICE_UIROMPETSETTINGS_H
 
 extern void ui_pet_computer_rom_settings_dialog(video_canvas_t *canvas);
 extern void ui_pet_drive_rom_settings_dialog(video_canvas_t *canvas);

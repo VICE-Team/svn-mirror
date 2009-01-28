@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIPALEMU_H
-#define _UIPALEMU_H
+#ifndef VICE_UIPALEMU_H
+#define VICE_UIPALEMU_H
 
 #include "uimenu.h"
 

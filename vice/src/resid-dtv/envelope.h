@@ -24,8 +24,8 @@
 //   Antti S. Lankila <alankila@bel.fi>
 // Copyright (C) 2009  Antti S. Lankila <alankila@bel.fi>
 
-#ifndef __ENVELOPE_H__
-#define __ENVELOPE_H__
+#ifndef VICE__ENVELOPE_H__
+#define VICE__ENVELOPE_H__
 
 #include "siddefs.h"
 #include "bittrain.h"

@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _PET_H
-#define _PET_H
+#ifndef VICE_PET_H
+#define VICE_PET_H
 
 /* Except for the exact CYCLES_PER_SEC those are only reasonable defaults.
    They get overwritten when writing to the CRTC */

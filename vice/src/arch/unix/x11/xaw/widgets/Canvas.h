@@ -20,8 +20,8 @@
 
  */
 
-#ifndef _Canvas_h
-#define _Canvas_h
+#ifndef VICE_Canvas_h
+#define VICE_Canvas_h
 
 #include <X11/Core.h>
 

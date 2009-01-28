@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VDRIVE_BAM_H
-#define _VDRIVE_BAM_H
+#ifndef VICE_VDRIVE_BAM_H
+#define VICE_VDRIVE_BAM_H
 
 #include "types.h"
 

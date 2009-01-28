@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _ZAXXON_H
-#define _ZAXXON_H
+#ifndef VICE_ZAXXON_H
+#define VICE_ZAXXON_H
 
 #include <stdio.h>
 

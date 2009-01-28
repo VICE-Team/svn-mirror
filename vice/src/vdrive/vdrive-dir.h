@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _VDRIVE_DIR_H
-#define _VDRIVE_DIR_H
+#ifndef VICE_VDRIVE_DIR_H
+#define VICE_VDRIVE_DIR_H
 
 #include "types.h"
 

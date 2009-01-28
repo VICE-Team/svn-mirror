@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DRIVE_OVERFLOW_H
-#define _DRIVE_OVERFLOW_H
+#ifndef VICE_DRIVE_OVERFLOW_H
+#define VICE_DRIVE_OVERFLOW_H
 
 extern void drive_overflow_init(void);
 

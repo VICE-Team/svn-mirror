@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _RAMCART_H
-#define _RAMCART_H
+#ifndef VICE_RAMCART_H
+#define VICE_RAMCART_H
 
 #include "types.h"
 

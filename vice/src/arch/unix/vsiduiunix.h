@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VSIDUIUNIX_H
-#define _VSIDUIUNIX_H
+#ifndef VICE_VSIDUIUNIX_H
+#define VICE_VSIDUIUNIX_H
 
 #include "ui.h"
 

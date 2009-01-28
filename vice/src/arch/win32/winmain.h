@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _WINMAIN_H
-#define _WINMAIN_H
+#ifndef VICE_WINMAIN_H
+#define VICE_WINMAIN_H
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>

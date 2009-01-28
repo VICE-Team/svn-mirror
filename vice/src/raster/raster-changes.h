@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _RASTER_CHANGES_H
-#define _RASTER_CHANGES_H
+#ifndef VICE_RASTER_CHANGES_H
+#define VICE_RASTER_CHANGES_H
 
 #include "types.h"
 

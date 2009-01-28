@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PLUS4UIRES_H_
-#define _PLUS4UIRES_H_
+#ifndef VICE_PLUS4UIRES_H_
+#define VICE_PLUS4UIRES_H_
 
 #include "uires.h"
 #include "intl.h"

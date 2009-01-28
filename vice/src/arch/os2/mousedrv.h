@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _MOUSEDRV_H
-#define _MOUSEDRV_H
+#ifndef VICE_MOUSEDRV_H
+#define VICE_MOUSEDRV_H
 
 #include <os2.h>
 

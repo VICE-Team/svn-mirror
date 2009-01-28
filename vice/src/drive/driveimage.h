@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DRIVEIMAGE_H
-#define _DRIVEIMAGE_H
+#ifndef VICE_DRIVEIMAGE_H
+#define VICE_DRIVEIMAGE_H
 
 struct disk_image_s;
 struct drive_s;

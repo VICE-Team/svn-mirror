@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIPLUS4SETTINGS_H
-#define _UIPLUS4SETTINGS_H
+#ifndef VICE_UIPLUS4SETTINGS_H
+#define VICE_UIPLUS4SETTINGS_H
 
 extern void ui_plus4_settings_dialog(void);
 

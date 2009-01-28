@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _SCREENSHOT_H_
-#define _SCREENSHOT_H_
+#ifndef VICE_SCREENSHOT_H_
+#define VICE_SCREENSHOT_H_
 
 extern void ui_screenshot_dialog(video_canvas_t *canvas);
 

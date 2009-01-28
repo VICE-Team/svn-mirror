@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIPETREU_H
-#define _UIPETREU_H
+#ifndef VICE_UIPETREU_H
+#define VICE_UIPETREU_H
 
 extern void ui_petreu_settings_dialog(HWND hwnd);
 

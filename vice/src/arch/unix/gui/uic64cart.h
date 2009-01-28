@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIC64CART_H
-#define _UIC64CART_H
+#ifndef VICE_UIC64CART_H
+#define VICE_UIC64CART_H
 
 #include "uimenu.h"
 

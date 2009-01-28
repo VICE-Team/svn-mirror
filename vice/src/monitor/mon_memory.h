@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _MON_MEMORY_H
-#define _MON_MEMORY_H
+#ifndef VICE_MON_MEMORY_H
+#define VICE_MON_MEMORY_H
 
 #include "montypes.h"
 

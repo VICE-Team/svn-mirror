@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _TAPE_INTERNAL_H
-#define _TAPE_INTERNAL_H
+#ifndef VICE_TAPE_INTERNAL_H
+#define VICE_TAPE_INTERNAL_H
 
 extern void tape_internal_init(void);
 

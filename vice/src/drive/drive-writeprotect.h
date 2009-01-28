@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DRIVE_WRITEPROTECT_H
-#define _DRIVE_WRITEPROTECT_H
+#ifndef VICE_DRIVE_WRITEPROTECT_H
+#define VICE_DRIVE_WRITEPROTECT_H
 
 #include "types.h"
 

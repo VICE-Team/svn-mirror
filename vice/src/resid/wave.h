@@ -17,8 +17,8 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#ifndef __WAVE_H__
-#define __WAVE_H__
+#ifndef VICE__WAVE_H__
+#define VICE__WAVE_H__
 
 #include "siddefs.h"
 

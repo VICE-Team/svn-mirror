@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _NETWORK_H
-#define _NETWORK_H
+#ifndef VICE_NETWORK_H
+#define VICE_NETWORK_H
 
 typedef enum {
     NETWORK_IDLE,

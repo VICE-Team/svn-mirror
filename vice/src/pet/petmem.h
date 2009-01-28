@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _PETMEM_H
-#define _PETMEM_H
+#ifndef VICE_PETMEM_H
+#define VICE_PETMEM_H
 
 #include <stdio.h>
 

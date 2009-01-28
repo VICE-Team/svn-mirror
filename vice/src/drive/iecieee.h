@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _IECIEEE_H
-#define _IECIEEE_H
+#ifndef VICE_IECIEEE_H
+#define VICE_IECIEEE_H
 
 #include "types.h"
 

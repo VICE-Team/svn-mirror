@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _ACTIONREPLAY4_H
-#define _ACTIONREPLAY4_H
+#ifndef VICE_ACTIONREPLAY4_H
+#define VICE_ACTIONREPLAY4_H
 
 #include <stdio.h>
 

@@ -20,8 +20,8 @@
 //   Daniel Kahlin <daniel@kahlin.net>
 // Copyright (C) 2007  Daniel Kahlin <daniel@kahlin.net>
 
-#ifndef __BITTRAIN_H__
-#define __BITTRAIN_H__
+#ifndef VICE__BITTRAIN_H__
+#define VICE__BITTRAIN_H__
 
 extern unsigned int volume_train_lut[16];
 extern unsigned int wave_env_train_lut[256][8];

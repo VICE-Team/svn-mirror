@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _MON_UTIL_H
-#define _MON_UTIL_H
+#ifndef VICE_MON_UTIL_H
+#define VICE_MON_UTIL_H
 
 #include "monitor.h"
 #include "types.h"

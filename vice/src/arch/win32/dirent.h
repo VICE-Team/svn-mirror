@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VICE_DIRENT_H
-#define _VICE_DIRENT_H
+#ifndef VICE_DIRENT_H
+#define VICE_DIRENT_H
 
 typedef struct _vice_dir DIR;
 

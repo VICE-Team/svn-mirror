@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _SYSTEM_H
-#define _SYSTEM_H
+#ifndef VICE_SYSTEM_H
+#define VICE_SYSTEM_H
 
 #undef BYTE
 #undef WORD

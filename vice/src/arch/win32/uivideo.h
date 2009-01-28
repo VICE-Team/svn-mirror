@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _UIVIDEO_H
-#define _UIVIDEO_H
+#ifndef VICE_UIVIDEO_H
+#define VICE_UIVIDEO_H
 
 #include <windows.h>
 

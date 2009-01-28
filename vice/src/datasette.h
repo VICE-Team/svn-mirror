@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DATASETTE_H
-#define _DATASETTE_H
+#ifndef VICE_DATASETTE_H
+#define VICE_DATASETTE_H
 
 #include "types.h"
 

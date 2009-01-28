@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _STB_H
-#define _STB_H
+#ifndef VICE_STB_H
+#define VICE_STB_H
 
 #include <stdio.h>
 

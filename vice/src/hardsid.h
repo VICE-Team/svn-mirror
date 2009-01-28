@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _HARDSID_H
-#define _HARDSID_H
+#ifndef VICE_HARDSID_H
+#define VICE_HARDSID_H
 
 #include "types.h"
 

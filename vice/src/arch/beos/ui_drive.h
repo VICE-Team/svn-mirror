@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef __UI_DRIVE_H__
-#define __UI_DRIVE_H__
+#ifndef VICE__UI_DRIVE_H__
+#define VICE__UI_DRIVE_H__
 
 #define DRIVE_EXPANSION_2000(type) (        \
         ((type) == DRIVE_TYPE_1541)         \

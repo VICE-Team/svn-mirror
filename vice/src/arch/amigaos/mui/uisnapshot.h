@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UISNAPSHOT_H
-#define _UISNAPSHOT_H
+#ifndef VICE_UISNAPSHOT_H
+#define VICE_UISNAPSHOT_H
 
 extern void uisnapshot_load_dialog(video_canvas_t *canvas);
 extern void uisnapshot_save_dialog(video_canvas_t *canvas);

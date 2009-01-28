@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _PARALLEL_TRAP_H
-#define _PARALLEL_TRAP_H
+#ifndef VICE_PARALLEL_TRAP_H
+#define VICE_PARALLEL_TRAP_H
 
 #include "types.h"
 

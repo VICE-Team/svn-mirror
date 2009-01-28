@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _QUICKTIMEDRV_H
-#define _QUICKTIMEDRV_H
+#ifndef VICE_QUICKTIMEDRV_H
+#define VICE_QUICKTIMEDRV_H
 
 #include "screenshot.h"
 

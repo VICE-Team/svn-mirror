@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIKEYBOARD_H
-#define _UIKEYBOARD_H
+#ifndef VICE_UIKEYBOARD_H
+#define VICE_UIKEYBOARD_H
 
 #include "uimenu.h"
 

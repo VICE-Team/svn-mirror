@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _DELAEP256_H
-#define _DELAEP256_H
+#ifndef VICE_DELAEP256_H
+#define VICE_DELAEP256_H
 
 #include <stdio.h>
 

@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _C64_MIDI_H
-#define _C64_MIDI_H
+#ifndef VICE_C64_MIDI_H
+#define VICE_C64_MIDI_H
 
 #include "midi.h"
 

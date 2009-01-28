@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _BLOCKDEV_H
-#define _BLOCKDEV_H
+#ifndef VICE_BLOCKDEV_H
+#define VICE_BLOCKDEV_H
 
 #include "types.h"
 

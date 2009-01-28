@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _VDC_MEM_H
-#define _VDC_MEM_H
+#ifndef VICE_VDC_MEM_H
+#define VICE_VDC_MEM_H
 
 #include "types.h"
 

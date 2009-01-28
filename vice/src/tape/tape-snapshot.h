@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _TAPE_SNAPSHOT_H
-#define _TAPE_SNAPSHOT_H
+#ifndef VICE_TAPE_SNAPSHOT_H
+#define VICE_TAPE_SNAPSHOT_H
 
 struct snapshot_s;
 

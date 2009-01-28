@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _SUPERSNAPSHOT_H
-#define _SUPERSNAPSHOT_H
+#ifndef VICE_SUPERSNAPSHOT_H
+#define VICE_SUPERSNAPSHOT_H
 
 #include "types.h"
 

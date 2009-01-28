@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _RASTER_SPRITE_STATUS_H
-#define _RASTER_SPRITE_STATUS_H
+#ifndef VICE_RASTER_SPRITE_STATUS_H
+#define VICE_RASTER_SPRITE_STATUS_H
 
 #include "types.h"
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _ROSS_H
-#define _ROSS_H
+#ifndef VICE_ROSS_H
+#define VICE_ROSS_H
 
 #include <stdio.h>
 

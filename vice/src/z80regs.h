@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _Z80REGS_H
-#define _Z80REGS_H
+#ifndef VICE_Z80REGS_H
+#define VICE_Z80REGS_H
 
 #include "types.h"
 

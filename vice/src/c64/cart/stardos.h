@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _STARDOS_H
-#define _STARDOS_H
+#ifndef VICE_STARDOS_H
+#define VICE_STARDOS_H
 
 #include <stdio.h>
 

@@ -36,8 +36,8 @@ echo " *  02111-1307  USA."
 echo " *"
 echo " */"
 echo ""
-echo "#ifndef _RES_H"
-echo "#define _RES_H"
+echo "#ifndef VICE_RES_H"
+echo "#define VICE_RES_H"
 
 while read data
 do

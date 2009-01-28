@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIVIDEOC64PLUS4VIC20_H
-#define _UIVIDEOC64PLUS4VIC20_H
+#ifndef VICE_UIVIDEOC64PLUS4VIC20_H
+#define VICE_UIVIDEOC64PLUS4VIC20_H
 
 extern void ui_video_c64plus4vic20_settings_dialog(video_canvas_t *canvas, char *external_palette, char *palette_file);
 

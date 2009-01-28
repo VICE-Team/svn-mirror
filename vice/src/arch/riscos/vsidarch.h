@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VSID_ARCH_H_
-#define _VSID_ARCH_H_
+#ifndef VICE_VSID_ARCH_H_
+#define VICE_VSID_ARCH_H_
 
 
 /* Window icons */

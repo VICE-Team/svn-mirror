@@ -28,8 +28,8 @@
  *
  */
 
-#ifndef _KBD_DOS_H
-#define _KBD_DOS_H
+#ifndef VICE_KBD_DOS_H
+#define VICE_KBD_DOS_H
 
 #include "types.h"
 

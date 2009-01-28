@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _UIMONMSG_H
-#define _UIMONMSG_H
+#ifndef VICE_UIMONMSG_H
+#define VICE_UIMONMSG_H
 
 
 #define WM_CONSOLE_INSERTLINE           (WM_USER)

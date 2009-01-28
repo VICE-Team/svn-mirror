@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _GLUE1551_H
-#define _GLUE1551_H
+#ifndef VICE_GLUE1551_H
+#define VICE_GLUE1551_H
 
 #include "types.h"
 

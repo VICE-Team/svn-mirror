@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIVICII_H
-#define _UIVICII_H
+#ifndef VICE_UIVICII_H
+#define VICE_UIVICII_H
 
 extern void ui_vicii_settings_dialog(void);
 

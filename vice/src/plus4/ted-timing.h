@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _TED_TIMING_H
-#define _TED_TIMING_H
+#ifndef VICE_TED_TIMING_H
+#define VICE_TED_TIMING_H
 
 struct machine_timing_s;
 

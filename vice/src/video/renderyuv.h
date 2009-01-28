@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _RENDERYUV_H
-#define _RENDERYUV_H
+#ifndef VICE_RENDERYUV_H
+#define VICE_RENDERYUV_H
 
 #include "types.h"
 

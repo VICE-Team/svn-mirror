@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _VICEMENU_H
-#define _VICEMENU_H
+#ifndef VICE_VICEMENU_H
+#define VICE_VICEMENU_H
 
 #include <MenuBar.h>
 

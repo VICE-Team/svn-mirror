@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UIROMC128SETTINGS_H
-#define _UIROMC128SETTINGS_H
+#ifndef VICE_UIROMC128SETTINGS_H
+#define VICE_UIROMC128SETTINGS_H
 
 extern void ui_c128_computer_rom_settings_dialog(video_canvas_t *canvas);
 extern void ui_c128_drive_rom_settings_dialog(video_canvas_t *canvas);

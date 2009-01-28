@@ -28,8 +28,8 @@
  *
  */
 
-#ifndef _PATCHROM_H
-#define _PATCHROM_H
+#ifndef VICE_PATCHROM_H
+#define VICE_PATCHROM_H
 
 extern int patch_rom(const char *s);
 
