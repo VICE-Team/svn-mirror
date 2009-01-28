@@ -32,7 +32,6 @@
 #include <gif_lib.h>
 
 #include "archdep.h"
-#include "gifdrv.h"
 #include "lib.h"
 #include "log.h"
 #include "gfxoutput.h"
