@@ -17,7 +17,6 @@ EXTRA_libgfxoutputdrv_a_SOURCES = \
 	ffmpegdrv.h \
 	ffmpeglib.h \
 	gifdrv.c \
-	gifdrv.h \
 	jpegdrv.c \
 	jpegdrv.h \
 	pngdrv.c \
