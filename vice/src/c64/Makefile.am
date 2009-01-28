@@ -109,7 +109,6 @@ libc64c64dtv_a_SOURCES = \
 	c64rom.c \
 	c64rom.h \
 	c64romset.c \
-	c64romset.h \
 	c64rsuser.c \
 	c64rsuser.h \
 	c64video.c \
