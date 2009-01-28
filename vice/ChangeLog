@@ -1,3 +1,11 @@
+2009-01-28  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.1.3
+
+2009-01-28  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/c64/Makefile.am: Removed c64romset.h.
+
 2009-01-28  Daniel Kahlin <tlr@users.sourceforge.net>
 
 	* src/arch/amigaos/types.h, src/arch/beos/types.h,
