@@ -1,3 +1,596 @@
+2009-01-28  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/arch/amigaos/types.h, src/arch/beos/types.h,
+	  src/arch/msdos/types.h, src/arch/os2/types.h,
+	  src/arch/riscos/types.h, src/arch/unix/types.h,
+	  src/arch/win32/types.h, src/c64dtv/c64dtvcpu.c: Reverted
+	  definitions for NULL, TRUE and FALSE in types.h. Use
+	  <stdio.h> to define NULL instead.
+
+2009-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/6510core.h, src/alarm.h, src/arch/amigaos/ahi.h,
+	  src/arch/amigaos/archdep.h, src/arch/amigaos/c128uires.h,
+	  src/arch/amigaos/c64dtvuires.h, src/arch/amigaos/c64uires.h,
+	  src/arch/amigaos/cbm2uires.h,
+	  src/arch/amigaos/fullscreenarch.h,
+	  src/arch/amigaos/genintl_h.sh, src/arch/amigaos/joy.h,
+	  src/arch/amigaos/joyai.h, src/arch/amigaos/joyll.h,
+	  src/arch/amigaos/kbd.h, src/arch/amigaos/mousedrv.h,
+	  src/arch/amigaos/mui/filereq.h, src/arch/amigaos/mui/mui.h,
+	  src/arch/amigaos/mui/uiacia.h,
+	  src/arch/amigaos/mui/uic128settings.h,
+	  src/arch/amigaos/mui/uic64_256k.h,
+	  src/arch/amigaos/mui/uic64dtv.h,
+	  src/arch/amigaos/mui/uicbm2settings.h,
+	  src/arch/amigaos/mui/uidatasette.h,
+	  src/arch/amigaos/mui/uidigimax.h,
+	  src/arch/amigaos/mui/uidrivec128.h,
+	  src/arch/amigaos/mui/uidrivec64vic20.h,
+	  src/arch/amigaos/mui/uidrivepetcbm2.h,
+	  src/arch/amigaos/mui/uidriveplus4.h,
+	  src/arch/amigaos/mui/uifliplist.h,
+	  src/arch/amigaos/mui/uigeoram.h,
+	  src/arch/amigaos/mui/uiide64.h,
+	  src/arch/amigaos/mui/uijoystick.h,
+	  src/arch/amigaos/mui/uijoystickll.h,
+	  src/arch/amigaos/mui/uimmc64.h,
+	  src/arch/amigaos/mui/uimouse.h,
+	  src/arch/amigaos/mui/uinetwork.h,
+	  src/arch/amigaos/mui/uipetreu.h,
+	  src/arch/amigaos/mui/uipetsettings.h,
+	  src/arch/amigaos/mui/uiplus256k.h,
+	  src/arch/amigaos/mui/uiplus4settings.h,
+	  src/arch/amigaos/mui/uiplus60k.h,
+	  src/arch/amigaos/mui/uiram.h,
+	  src/arch/amigaos/mui/uiramcart.h,
+	  src/arch/amigaos/mui/uireu.h,
+	  src/arch/amigaos/mui/uiromc128settings.h,
+	  src/arch/amigaos/mui/uiromc64vic20settings.h,
+	  src/arch/amigaos/mui/uiromcbm2settings.h,
+	  src/arch/amigaos/mui/uirompetsettings.h,
+	  src/arch/amigaos/mui/uiromplus4settings.h,
+	  src/arch/amigaos/mui/uirs232user.h,
+	  src/arch/amigaos/mui/uisidcart.h,
+	  src/arch/amigaos/mui/uisnapshot.h,
+	  src/arch/amigaos/mui/uisound.h,
+	  src/arch/amigaos/mui/uivic20mem.h,
+	  src/arch/amigaos/mui/uivicii.h,
+	  src/arch/amigaos/mui/uivideoc128.h,
+	  src/arch/amigaos/mui/uivideoc64plus4vic20.h,
+	  src/arch/amigaos/mui/uivideocbm2pet.h,
+	  src/arch/amigaos/petuires.h, src/arch/amigaos/plus4uires.h,
+	  src/arch/amigaos/pointer.h, src/arch/amigaos/private.h,
+	  src/arch/amigaos/screen-shot.h, src/arch/amigaos/statusbar.h,
+	  src/arch/amigaos/timer.h, src/arch/amigaos/types.h,
+	  src/arch/amigaos/ui.h, src/arch/amigaos/uiattach.h,
+	  src/arch/amigaos/uic64cart.h, src/arch/amigaos/uicart.h,
+	  src/arch/amigaos/uilib.h, src/arch/amigaos/uires.h,
+	  src/arch/amigaos/vic20uires.h, src/arch/amigaos/videoarch.h,
+	  src/arch/beos/archdep.h, src/arch/beos/constants.h,
+	  src/arch/beos/joy.h, src/arch/beos/kbd.h,
+	  src/arch/beos/mousedrv.h, src/arch/beos/statusbar.h,
+	  src/arch/beos/types.h, src/arch/beos/ui.h,
+	  src/arch/beos/ui_cbm2.h, src/arch/beos/ui_datasette.h,
+	  src/arch/beos/ui_device.h, src/arch/beos/ui_drive.h,
+	  src/arch/beos/ui_file.h, src/arch/beos/ui_joystick.h,
+	  src/arch/beos/ui_netplay.h, src/arch/beos/ui_pet.h,
+	  src/arch/beos/ui_ram.h, src/arch/beos/ui_sid.h,
+	  src/arch/beos/ui_sound.h, src/arch/beos/ui_vic20.h,
+	  src/arch/beos/ui_vicii.h, src/arch/beos/ui_video.h,
+	  src/arch/beos/viceapp.h, src/arch/beos/vicemenu.h,
+	  src/arch/beos/vicewindow.h, src/arch/beos/videoarch.h,
+	  src/arch/msdos/archdep.h, src/arch/msdos/cbmcharsets.h,
+	  src/arch/msdos/grabkey.h, src/arch/msdos/joy.h,
+	  src/arch/msdos/kbd.h, src/arch/msdos/menudefs.h,
+	  src/arch/msdos/mousedrv.h, src/arch/msdos/statusbar.h,
+	  src/arch/msdos/tui.h, src/arch/msdos/tui_backend.h,
+	  src/arch/msdos/tuicharset.h, src/arch/msdos/tuifs.h,
+	  src/arch/msdos/tuimenu.h, src/arch/msdos/tuiview.h,
+	  src/arch/msdos/types.h, src/arch/msdos/ui.h,
+	  src/arch/msdos/videoarch.h, src/arch/msdos/vmidas.h,
+	  src/arch/os2/archdep.h, src/arch/os2/kbd.h,
+	  src/arch/os2/kbd/parse.h, src/arch/os2/kbd/proc.h,
+	  src/arch/os2/mousedrv.h, src/arch/os2/siddefs.h,
+	  src/arch/os2/snippets/dirport.h, src/arch/os2/sounddrv.h,
+	  src/arch/os2/types.h, src/arch/os2/ui.h,
+	  src/arch/os2/ui_status.h, src/arch/os2/videoarch.h,
+	  src/arch/riscos/archdep.h, src/arch/riscos/c64c128ui.h,
+	  src/arch/riscos/config.h, src/arch/riscos/joy.h,
+	  src/arch/riscos/kbd.h, src/arch/riscos/mousedrv.h,
+	  src/arch/riscos/types.h, src/arch/riscos/ui.h,
+	  src/arch/riscos/uiconfig.h, src/arch/riscos/uihelp.h,
+	  src/arch/riscos/uiimage.h, src/arch/riscos/uimsgwin.h,
+	  src/arch/riscos/uisharedef.h, src/arch/riscos/videoarch.h,
+	  src/arch/riscos/vsidarch.h, src/arch/riscos/vsyncarch.h,
+	  src/arch/unix/archdep.h, src/arch/unix/coproc.h,
+	  src/arch/unix/fullscreenarch.h, src/arch/unix/gp2x/Char_ROM.h,
+	  src/arch/unix/gp2x/gp2xui.h, src/arch/unix/gp2x/minimal.h,
+	  src/arch/unix/gp2x/minimal_940t.h,
+	  src/arch/unix/gui/uiacia1.h, src/arch/unix/gui/uiattach.h,
+	  src/arch/unix/gui/uic64_256k.h, src/arch/unix/gui/uic64cart.h,
+	  src/arch/unix/gui/uic64dtv.h, src/arch/unix/gui/uicommands.h,
+	  src/arch/unix/gui/uicrtc.h, src/arch/unix/gui/uidatasette.h,
+	  src/arch/unix/gui/uidigimax.h, src/arch/unix/gui/uidrive.h,
+	  src/arch/unix/gui/uidrivec128.h,
+	  src/arch/unix/gui/uidrivec64.h,
+	  src/arch/unix/gui/uidrivec64c128.h,
+	  src/arch/unix/gui/uidrivec64dtv.h,
+	  src/arch/unix/gui/uidrivec64vic20.h,
+	  src/arch/unix/gui/uidriveiec.h,
+	  src/arch/unix/gui/uidrivepetcbm2.h,
+	  src/arch/unix/gui/uidriveplus4.h,
+	  src/arch/unix/gui/uidrivevic20.h,
+	  src/arch/unix/gui/uifliplist.h, src/arch/unix/gui/uigeoram.h,
+	  src/arch/unix/gui/uihotkey.h, src/arch/unix/gui/uiide64.h,
+	  src/arch/unix/gui/uijoystick2.h,
+	  src/arch/unix/gui/uikeyboard.h, src/arch/unix/gui/uilib.h,
+	  src/arch/unix/gui/uimidi.h, src/arch/unix/gui/uimmc64.h,
+	  src/arch/unix/gui/uipalemu.h, src/arch/unix/gui/uipalette.h,
+	  src/arch/unix/gui/uiperipheral.h,
+	  src/arch/unix/gui/uiperipheraliec.h,
+	  src/arch/unix/gui/uiperipheralieee.h,
+	  src/arch/unix/gui/uipetreu.h, src/arch/unix/gui/uiplus256k.h,
+	  src/arch/unix/gui/uiplus60k.h, src/arch/unix/gui/uiprinter.h,
+	  src/arch/unix/gui/uiprinteriec.h,
+	  src/arch/unix/gui/uiprinteriecplus4.h,
+	  src/arch/unix/gui/uiprinterieee.h,
+	  src/arch/unix/gui/uips2mouse.h, src/arch/unix/gui/uiramcart.h,
+	  src/arch/unix/gui/uireu.h, src/arch/unix/gui/uiromset.h,
+	  src/arch/unix/gui/uirs232.h,
+	  src/arch/unix/gui/uirs232c64c128.h,
+	  src/arch/unix/gui/uirs232petplus4cbm2.h,
+	  src/arch/unix/gui/uirs232user.h,
+	  src/arch/unix/gui/uisettings.h, src/arch/unix/gui/uisid.h,
+	  src/arch/unix/gui/uisidcart.h, src/arch/unix/gui/uisound.h,
+	  src/arch/unix/gui/uited.h, src/arch/unix/gui/uitfe.h,
+	  src/arch/unix/gui/uivdc.h, src/arch/unix/gui/uivic.h,
+	  src/arch/unix/gui/uivicii.h, src/arch/unix/icon.h,
+	  src/arch/unix/joy.h, src/arch/unix/macosx/cocoa/kbd.h,
+	  src/arch/unix/macosx/cocoa/videoarch.h,
+	  src/arch/unix/macosx/joy.h, src/arch/unix/mousedrv.h,
+	  src/arch/unix/openGL_sync.h, src/arch/unix/types.h,
+	  src/arch/unix/ui.h, src/arch/unix/vmstermios.h,
+	  src/arch/unix/vsiduiunix.h, src/arch/unix/x11/gnome/uiarch.h,
+	  src/arch/unix/x11/gnome/uifileentry.h,
+	  src/arch/unix/x11/gnome/uimenu.h,
+	  src/arch/unix/x11/gnome/videoarch.h,
+	  src/arch/unix/x11/qnxipc.h, src/arch/unix/x11/qnxshm.h,
+	  src/arch/unix/x11/renderxv.h, src/arch/unix/x11/vidmode.h,
+	  src/arch/unix/x11/x11menu.h, src/arch/unix/x11/x11ui.h,
+	  src/arch/unix/x11/xaw/uiarch.h,
+	  src/arch/unix/x11/xaw/uimenu.h,
+	  src/arch/unix/x11/xaw/videoarch.h,
+	  src/arch/unix/x11/xaw/widgets/Canvas.h,
+	  src/arch/unix/x11/xaw/widgets/CanvasP.h,
+	  src/arch/unix/x11/xaw/widgets/DirMgr.h,
+	  src/arch/unix/x11/xaw/widgets/Directory.h,
+	  src/arch/unix/x11/xaw/widgets/FileSel.h,
+	  src/arch/unix/x11/xaw/widgets/FileSelP.h,
+	  src/arch/unix/x11/xaw/widgets/MultiList.h,
+	  src/arch/unix/x11/xaw/widgets/MultiListP.h,
+	  src/arch/unix/x11/xaw/widgets/RegExp.h,
+	  src/arch/unix/x11/xaw/widgets/ScrList.h,
+	  src/arch/unix/x11/xaw/widgets/ScrListP.h,
+	  src/arch/unix/x11/xaw/widgets/TextField.h,
+	  src/arch/unix/x11/xaw/widgets/TextFieldP.h,
+	  src/arch/unix/x11/xrandr.h, src/arch/win32/archdep.h,
+	  src/arch/win32/dirent.h, src/arch/win32/evc/config.h,
+	  src/arch/win32/evc/system.h, src/arch/win32/fullscrn.h,
+	  src/arch/win32/genmenuid.sh, src/arch/win32/genwinres.sh,
+	  src/arch/win32/intl.h, src/arch/win32/joy.h,
+	  src/arch/win32/kbd.h, src/arch/win32/mingw32/system.h,
+	  src/arch/win32/mousedrv.h, src/arch/win32/msvc/config.h,
+	  src/arch/win32/msvc/siddefs-fp.h,
+	  src/arch/win32/msvc/siddefs.h, src/arch/win32/msvc/system.h,
+	  src/arch/win32/msvc/wpcap/bittypes.h,
+	  src/arch/win32/statusbar.h, src/arch/win32/ui.h,
+	  src/arch/win32/uiacia.h, src/arch/win32/uiattach.h,
+	  src/arch/win32/uic128.h, src/arch/win32/uic64_256k.h,
+	  src/arch/win32/uic64cart.h, src/arch/win32/uic64dtv.h,
+	  src/arch/win32/uicart.h, src/arch/win32/uicbm2set.h,
+	  src/arch/win32/uidatasette.h, src/arch/win32/uidigimax.h,
+	  src/arch/win32/uidrivec128.h, src/arch/win32/uidrivec64.h,
+	  src/arch/win32/uidrivepetcbm2.h,
+	  src/arch/win32/uidriveplus4.h, src/arch/win32/uidrivevic20.h,
+	  src/arch/win32/uievent.h, src/arch/win32/uifliplist.h,
+	  src/arch/win32/uigeoram.h, src/arch/win32/uihelp.h,
+	  src/arch/win32/uiide64.h, src/arch/win32/uijoystick.h,
+	  src/arch/win32/uikeyboard.h, src/arch/win32/uilib.h,
+	  src/arch/win32/uimediafile.h, src/arch/win32/uimidi.h,
+	  src/arch/win32/uimmc64.h, src/arch/win32/uimonmsg.h,
+	  src/arch/win32/uimouse.h, src/arch/win32/uinetwork.h,
+	  src/arch/win32/uiperipheral.h, src/arch/win32/uipetreu.h,
+	  src/arch/win32/uipetset.h, src/arch/win32/uiplus256k.h,
+	  src/arch/win32/uiplus4cart.h, src/arch/win32/uiplus4mem.h,
+	  src/arch/win32/uiplus60k.h, src/arch/win32/uiquicksnapshot.h,
+	  src/arch/win32/uiram.h, src/arch/win32/uiramcart.h,
+	  src/arch/win32/uireu.h, src/arch/win32/uirom.h,
+	  src/arch/win32/uirs232.h, src/arch/win32/uirs232user.h,
+	  src/arch/win32/uisidcart.h, src/arch/win32/uisnapshot.h,
+	  src/arch/win32/uisound.h, src/arch/win32/uispeed.h,
+	  src/arch/win32/uitfe.h, src/arch/win32/uivicii.h,
+	  src/arch/win32/uivicset.h, src/arch/win32/uivideo.h,
+	  src/arch/win32/utils/genwinres.c, src/arch/win32/videoarch.h,
+	  src/arch/win32/winmain.h, src/archapi.h, src/attach.h,
+	  src/blockdev.h, src/c128/c128-cmdline-options.h,
+	  src/c128/c128-resources.h, src/c128/c128-snapshot.h,
+	  src/c128/c128.h, src/c128/c128fastiec.h, src/c128/c128mem.h,
+	  src/c128/c128meminit.h, src/c128/c128memlimit.h,
+	  src/c128/c128memrom.h, src/c128/c128memsnapshot.h,
+	  src/c128/c128mmu.h, src/c128/c128rom.h, src/c128/daa.h,
+	  src/c128/functionrom.h, src/c128/z80.h, src/c128/z80mem.h,
+	  src/c128ui.h, src/c64/Makefile.am,
+	  src/c64/c64-cmdline-options.h, src/c64/c64-midi.h,
+	  src/c64/c64-resources.h, src/c64/c64-snapshot.h,
+	  src/c64/c64.h, src/c64/c64_256k.h, src/c64/c64acia.h,
+	  src/c64/c64cart.h, src/c64/c64cia.h, src/c64/c64export.h,
+	  src/c64/c64fastiec.h, src/c64/c64iec.h, src/c64/c64io.h,
+	  src/c64/c64keyboard.h, src/c64/c64mem.h, src/c64/c64meminit.h,
+	  src/c64/c64memlimit.h, src/c64/c64memrom.h,
+	  src/c64/c64memsnapshot.h, src/c64/c64parallel.h,
+	  src/c64/c64pla.h, src/c64/c64rom.h, src/c64/c64romset.c,
+	  src/c64/c64romset.h, src/c64/c64rsuser.h, src/c64/c64tpi.h,
+	  src/c64/cart/actionreplay.h, src/c64/cart/actionreplay3.h,
+	  src/c64/cart/actionreplay4.h, src/c64/cart/atomicpower.h,
+	  src/c64/cart/c64cartmem.h, src/c64/cart/comal80.h,
+	  src/c64/cart/crt.h, src/c64/cart/delaep256.h,
+	  src/c64/cart/delaep64.h, src/c64/cart/delaep7x8.h,
+	  src/c64/cart/epyxfastload.h, src/c64/cart/expert.h,
+	  src/c64/cart/final.h, src/c64/cart/generic.h,
+	  src/c64/cart/ide64.h, src/c64/cart/kcs.h,
+	  src/c64/cart/magicformel.h, src/c64/cart/mikroass.h,
+	  src/c64/cart/retroreplay.h, src/c64/cart/rexep256.h,
+	  src/c64/cart/ross.h, src/c64/cart/stardos.h,
+	  src/c64/cart/stb.h, src/c64/cart/supergames.h,
+	  src/c64/cart/supersnapshot.h, src/c64/cart/zaxxon.h,
+	  src/c64/digimax.h, src/c64/georam.h, src/c64/mmc64.h,
+	  src/c64/patchrom.h, src/c64/plus256k.h, src/c64/plus60k.h,
+	  src/c64/ramcart.h, src/c64/reu.h, src/c64/tfe.h,
+	  src/c64/tfearch.h, src/c64dtv/c64dtv-cmdline-options.h,
+	  src/c64dtv/c64dtv-snapshot.h, src/c64dtv/c64dtv.h,
+	  src/c64dtv/c64dtvflash.h, src/c64dtv/c64dtvmem.h,
+	  src/c64dtv/c64dtvmeminit.h, src/c64dtv/c64dtvmemsnapshot.h,
+	  src/c64dtv/flash-trap.h, src/c64ui.h, src/cartridge.h,
+	  src/catweaselmkiii.h, src/cbm2/Makefile.am,
+	  src/cbm2/cbm2-cmdline-options.h, src/cbm2/cbm2-resources.h,
+	  src/cbm2/cbm2-snapshot.h, src/cbm2/cbm2.h,
+	  src/cbm2/cbm2acia.h, src/cbm2/cbm2cia.h, src/cbm2/cbm2iec.h,
+	  src/cbm2/cbm2mem.h, src/cbm2/cbm2memsnapshot.h,
+	  src/cbm2/cbm2rom.h, src/cbm2/cbm2romset.c,
+	  src/cbm2/cbm2romset.h, src/cbm2/cbm2tpi.h, src/cbm2ui.h,
+	  src/cbmdos.h, src/cbmimage.h, src/charset.h, src/cia.h,
+	  src/clipboard.h, src/clkguard.h, src/cmdline.h, src/color.h,
+	  src/console.h, src/core/ciatimer.h, src/crc32.h,
+	  src/crtc/crtc-cmdline-options.h, src/crtc/crtc-draw.h,
+	  src/crtc/crtc-mem.h, src/crtc/crtc-resources.h,
+	  src/crtc/crtc.h, src/crtc/crtctypes.h, src/datasette.h,
+	  src/debug.h, src/diskconstants.h, src/diskimage.h,
+	  src/diskimage/fsimage-check.h, src/diskimage/fsimage-create.h,
+	  src/diskimage/fsimage-gcr.h, src/diskimage/fsimage-probe.h,
+	  src/diskimage/fsimage.h, src/diskimage/rawimage.h,
+	  src/diskimage/realimage.h, src/diskimage/x64.h, src/dma.h,
+	  src/drive/drive-check.h, src/drive/drive-cmdline-options.h,
+	  src/drive/drive-overflow.h, src/drive/drive-resources.h,
+	  src/drive/drive-snapshot.h, src/drive/drive-writeprotect.h,
+	  src/drive/drive.h, src/drive/drivecpu.h,
+	  src/drive/driveimage.h, src/drive/drivemem.h,
+	  src/drive/driverom.h, src/drive/drivesync.h,
+	  src/drive/drivetypes.h, src/drive/iec-c64exp.h,
+	  src/drive/iec-plus4exp.h, src/drive/iec.h,
+	  src/drive/iec/c64exp/c64exp-cmdline-options.h,
+	  src/drive/iec/c64exp/c64exp-resources.h,
+	  src/drive/iec/c64exp/profdos.h, src/drive/iec/ciad.h,
+	  src/drive/iec/glue1571.h, src/drive/iec/iec-cmdline-options.h,
+	  src/drive/iec/iec-resources.h, src/drive/iec/iecrom.h,
+	  src/drive/iec/memiec.h,
+	  src/drive/iec/plus4exp/plus4exp-cmdline-options.h,
+	  src/drive/iec/plus4exp/plus4exp-resources.h,
+	  src/drive/iec/via1d1541.h, src/drive/iec/wd1770.h,
+	  src/drive/iec128dcr.h,
+	  src/drive/iec128dcr/iec128dcr-cmdline-options.h,
+	  src/drive/iec128dcr/iec128dcr-resources.h,
+	  src/drive/iec128dcr/iec128dcrrom.h, src/drive/iecieee.h,
+	  src/drive/ieee.h, src/drive/ieee/fdc.h,
+	  src/drive/ieee/ieee-cmdline-options.h,
+	  src/drive/ieee/ieee-resources.h, src/drive/ieee/ieeerom.h,
+	  src/drive/ieee/memieee.h, src/drive/ieee/riotd.h,
+	  src/drive/ieee/via1d2031.h, src/drive/rotation.h,
+	  src/drive/tcbm.h, src/drive/tcbm/glue1551.h,
+	  src/drive/tcbm/mem1551.h,
+	  src/drive/tcbm/tcbm-cmdline-options.h,
+	  src/drive/tcbm/tcbm-resources.h, src/drive/tcbm/tcbmrom.h,
+	  src/drive/tcbm/tpid.h, src/drive/viad.h, src/emuid.h,
+	  src/event.h, src/fileio.h, src/fileio/cbmfile.h,
+	  src/findpath.h, src/fixpoint.h, src/fliplist.h,
+	  src/fsdevice.h, src/fsdevice/fsdevice-close.h,
+	  src/fsdevice/fsdevice-cmdline-options.h,
+	  src/fsdevice/fsdevice-flush.h, src/fsdevice/fsdevice-open.h,
+	  src/fsdevice/fsdevice-read.h,
+	  src/fsdevice/fsdevice-resources.h,
+	  src/fsdevice/fsdevice-write.h, src/fsdevice/fsdevicetypes.h,
+	  src/fullscreen.h, src/gcr.h, src/gfxoutput.h,
+	  src/gfxoutputdrv/bmpdrv.h, src/gfxoutputdrv/ffmpegdrv.h,
+	  src/gfxoutputdrv/ffmpeglib.h, src/gfxoutputdrv/gfxoutput.c,
+	  src/gfxoutputdrv/iffdrv.h, src/gfxoutputdrv/jpegdrv.h,
+	  src/gfxoutputdrv/pcxdrv.h, src/gfxoutputdrv/pngdrv.h,
+	  src/gfxoutputdrv/ppmdrv.h, src/gfxoutputdrv/quicktimedrv.h,
+	  src/hardsid.h, src/iecbus.h, src/iecdrive.h,
+	  src/imagecontents.h, src/imagecontents/diskcontents-block.h,
+	  src/imagecontents/diskcontents-iec.h,
+	  src/imagecontents/diskcontents.h,
+	  src/imagecontents/tapecontents.h, src/info.h, src/init.h,
+	  src/initcmdline.h, src/interrupt.h, src/ioutil.h,
+	  src/joystick.h, src/kbdbuf.h, src/keyboard.h, src/lib.h,
+	  src/libm_math.h, src/log.h, src/machine-bus.h,
+	  src/machine-drive.h, src/machine-printer.h,
+	  src/machine-video.h, src/machine.h, src/main.h, src/mc6821.h,
+	  src/mem.h, src/midi.h, src/mididrv.h, src/monitor.h,
+	  src/monitor/asm.h, src/monitor/mon_assemble.h,
+	  src/monitor/mon_breakpoint.h, src/monitor/mon_command.h,
+	  src/monitor/mon_disassemble.h, src/monitor/mon_drive.h,
+	  src/monitor/mon_file.h, src/monitor/mon_memory.h,
+	  src/monitor/mon_register.h, src/monitor/mon_ui.h,
+	  src/monitor/mon_util.h, src/monitor/montypes.h, src/mos6510.h,
+	  src/network.h, src/opencbmlib.h, src/palette.h,
+	  src/parallel.h, src/parallel/parallel-trap.h, src/parsid.h,
+	  src/pet/Makefile.am, src/pet/pet-cmdline-options.h,
+	  src/pet/pet-resources.h, src/pet/pet-snapshot.h,
+	  src/pet/pet.h, src/pet/petacia.h, src/pet/petiec.h,
+	  src/pet/petmem.h, src/pet/petmemsnapshot.h, src/pet/petpia.h,
+	  src/pet/petreu.h, src/pet/petrom.h, src/pet/petromset.c,
+	  src/pet/petromset.h, src/pet/pets.h, src/pet/petsound.h,
+	  src/pet/petvia.h, src/petui.h, src/piacore.h,
+	  src/plus4/Makefile.am, src/plus4/plus4-cmdline-options.h,
+	  src/plus4/plus4-resources.h, src/plus4/plus4-snapshot.h,
+	  src/plus4/plus4.h, src/plus4/plus4acia.h,
+	  src/plus4/plus4cart.h, src/plus4/plus4iec.h,
+	  src/plus4/plus4mem.h, src/plus4/plus4memcsory256k.h,
+	  src/plus4/plus4memhannes256k.h, src/plus4/plus4memlimit.h,
+	  src/plus4/plus4memrom.h, src/plus4/plus4memsnapshot.h,
+	  src/plus4/plus4parallel.h, src/plus4/plus4pio1.h,
+	  src/plus4/plus4pio2.h, src/plus4/plus4rom.h,
+	  src/plus4/plus4romset.c, src/plus4/plus4romset.h,
+	  src/plus4/plus4tcbm.h, src/plus4/ted-badline.h,
+	  src/plus4/ted-cmdline-options.h, src/plus4/ted-color.h,
+	  src/plus4/ted-draw.h, src/plus4/ted-fetch.h,
+	  src/plus4/ted-irq.h, src/plus4/ted-mem.h,
+	  src/plus4/ted-resources.h, src/plus4/ted-snapshot.h,
+	  src/plus4/ted-sound.h, src/plus4/ted-timer.h,
+	  src/plus4/ted-timing.h, src/plus4/ted.h, src/plus4/tedtypes.h,
+	  src/plus4ui.h, src/printer.h, src/printerdrv/driver-select.h,
+	  src/printerdrv/drv-ascii.h, src/printerdrv/drv-mps803.h,
+	  src/printerdrv/drv-nl10.h, src/printerdrv/interface-serial.h,
+	  src/printerdrv/interface-userport.h,
+	  src/printerdrv/output-graphics.h,
+	  src/printerdrv/output-select.h, src/printerdrv/output-text.h,
+	  src/printerdrv/output.h, src/ps2mouse.h, src/ram.h,
+	  src/raster/raster-cache-const.h,
+	  src/raster/raster-cache-fill-1fff.h,
+	  src/raster/raster-cache-fill-39ff.h,
+	  src/raster/raster-cache-fill.h,
+	  src/raster/raster-cache-nibbles.h,
+	  src/raster/raster-cache-text-ext.h,
+	  src/raster/raster-cache-text-std.h, src/raster/raster-cache.h,
+	  src/raster/raster-canvas.h, src/raster/raster-changes.h,
+	  src/raster/raster-cmdline-options.h, src/raster/raster-line.h,
+	  src/raster/raster-modes.h, src/raster/raster-resources.h,
+	  src/raster/raster-sprite-cache.h,
+	  src/raster/raster-sprite-status.h, src/raster/raster-sprite.h,
+	  src/raster/raster.h, src/rawfile.h, src/resid-dtv/bittrain.h,
+	  src/resid-dtv/envelope.h, src/resid-dtv/extfilt.h,
+	  src/resid-dtv/filter.h, src/resid-dtv/sid.h,
+	  src/resid-dtv/siddefs.h.in, src/resid-dtv/voice.h,
+	  src/resid-dtv/wave.h, src/resid-fp/envelope.h,
+	  src/resid-fp/extfilt.h, src/resid-fp/filter.h,
+	  src/resid-fp/pot.h, src/resid-fp/sid.h,
+	  src/resid-fp/siddefs-fp.h.in, src/resid-fp/voice.h,
+	  src/resid-fp/wave.h, src/resid/envelope.h,
+	  src/resid/extfilt.h, src/resid/filter.h, src/resid/pot.h,
+	  src/resid/sid.h, src/resid/siddefs.h.in, src/resid/spline.h,
+	  src/resid/voice.h, src/resid/wave.h, src/riot.h, src/romset.h,
+	  src/rs232drv.h, src/rsuser.h, src/screenshot.h, src/serial.h,
+	  src/serial/Makefile.am, src/serial/fsdrive.h,
+	  src/serial/realdevice.h, src/serial/serial-device.h,
+	  src/serial/serial-iec-bus.h, src/serial/serial-iec-device.h,
+	  src/serial/serial-iec-lib.h, src/serial/serial-iec.h,
+	  src/serial/serial-realdevice.h, src/serial/serial-trap.h,
+	  src/sid/fastsid.h, src/sid/resid-fp.h, src/sid/resid.h,
+	  src/sid/sid-cmdline-options.h, src/sid/sid-resources.h,
+	  src/sid/sid-snapshot.h, src/signals.h, src/sound.h,
+	  src/sounddrv/soundmovie.h, src/sysfile.h, src/tap.h,
+	  src/tape.h, src/tape/t64.h, src/tape/tape-internal.h,
+	  src/tape/tape-snapshot.h, src/tape/tapeimage.h, src/tpi.h,
+	  src/traps.h, src/uiapi.h, src/uicmdline.h, src/uicolor.h,
+	  src/uimon.h, src/util.h, src/vdc/vdc-cmdline-options.h,
+	  src/vdc/vdc-draw.h, src/vdc/vdc-mem.h,
+	  src/vdc/vdc-resources.h, src/vdc/vdc-snapshot.h,
+	  src/vdc/vdc.h, src/vdc/vdctypes.h, src/vdrive/vdrive-bam.h,
+	  src/vdrive/vdrive-command.h, src/vdrive/vdrive-dir.h,
+	  src/vdrive/vdrive-iec.h, src/vdrive/vdrive-internal.h,
+	  src/vdrive/vdrive-rel.h, src/vdrive/vdrive-snapshot.h,
+	  src/vdrive/vdrive.h, src/version.h, src/version.h.in,
+	  src/via.h, src/vic20/Makefile.am,
+	  src/vic20/vic-cmdline-options.h, src/vic20/vic-color.h,
+	  src/vic20/vic-draw.h, src/vic20/vic-mem.h,
+	  src/vic20/vic-resources.h, src/vic20/vic-snapshot.h,
+	  src/vic20/vic.h, src/vic20/vic20-cmdline-options.h,
+	  src/vic20/vic20-midi.h, src/vic20/vic20-resources.h,
+	  src/vic20/vic20-snapshot.h, src/vic20/vic20.h,
+	  src/vic20/vic20iec.h, src/vic20/vic20ieeevia.h,
+	  src/vic20/vic20mem.h, src/vic20/vic20memrom.h,
+	  src/vic20/vic20memsnapshot.h, src/vic20/vic20rom.h,
+	  src/vic20/vic20romset.c, src/vic20/vic20romset.h,
+	  src/vic20/vic20sound.h, src/vic20/vic20via.h, src/vic20ui.h,
+	  src/vice.h, src/vicii.h, src/vicii/vicii-badline.h,
+	  src/vicii/vicii-cmdline-options.h, src/vicii/vicii-color.h,
+	  src/vicii/vicii-draw.h, src/vicii/vicii-fetch.h,
+	  src/vicii/vicii-irq.h, src/vicii/vicii-mem.h,
+	  src/vicii/vicii-phi1.h, src/vicii/vicii-resources.h,
+	  src/vicii/vicii-snapshot.h, src/vicii/vicii-sprites.h,
+	  src/vicii/vicii-timing.h, src/vicii/viciitypes.h, src/video.h,
+	  src/video/Makefile.am, src/video/render1x1.h,
+	  src/video/render1x1pal.h, src/video/render1x2.h,
+	  src/video/render2x2.h, src/video/render2x2pal.h,
+	  src/video/renderscale2x.h, src/video/renderyuv.h,
+	  src/video/video-canvas.h, src/video/video-cmdline-options.h,
+	  src/video/video-color.h, src/video/video-render.h,
+	  src/video/video-resources.h, src/viewport.h, src/vsync.h,
+	  src/z80regs.h, src/zfile.h, src/zipcode.h: Changed #ifndef _*
+	  ... #define _* ... #endif to #ifndef VICE_* ... #define VICE_*
+	  ... #endif where needed and deleted some obsolete headers.
+
+	* src/c128/Makefile.am, src/gfxoutputdrv/Makefile.am,
+	  src/c128/c128romset.c, src/c128/c128romset.h,
+	  src/gfxoutputdrv/gifdrv.c, src/gfxoutputdrv/gifdrv.h: Deleted
+	  obsolete header.
+
+2009-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/c128uires.h,
+	  src/arch/amigaos/c64dtvui.c, src/arch/amigaos/c64dtvuires.h,
+	  src/arch/amigaos/c64uires.h, src/arch/amigaos/cbm2uires.h,
+	  src/arch/amigaos/intl.c, src/arch/amigaos/intl.txt,
+	  src/arch/amigaos/mui/uimouse.c, src/arch/amigaos/mui/uisid.c,
+	  src/arch/amigaos/mui/uisid.h, src/arch/amigaos/mui/uisiddtv.c,
+	  src/arch/amigaos/mui/uisiddtv.h, src/arch/amigaos/petuires.h,
+	  src/arch/amigaos/plus4uires.h, src/arch/amigaos/ui.c,
+	  src/arch/amigaos/uires.h, src/arch/amigaos/vic20uires.h,
+	  src/arch/win32/res.rc: Added amiga port UI elements for TDE
+	  handling, paddle support and dtv-sid.
+
+	* src/arch/amigaos/types.h, src/arch/beos/types.h,
+	  src/arch/msdos/types.h, src/arch/os2/types.h,
+	  src/arch/riscos/types.h, src/arch/unix/types.h: Added defines
+	  for NULL, TRUE and FALSE for all platforms incase they are not
+	  defined.
+
+2009-01-27  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/c64dtv/c64dtvcpu.c: Included types.h to get definition of
+	  NULL. Might not be present for all archs yet.
+
+	* src/arch/win32/types.h: Added portable definition of NULL,
+	  TRUE and FALSE for win32.
+
+2009-01-26  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/6510core.c, src/c64dtv/c64dtvblitter.c,
+	  src/c64dtv/c64dtvblitter.h, src/c64dtv/c64dtvcpu.c,
+	  src/c64dtv/c64dtvdma.c, src/c64dtv/c64dtvdma.h, src/maincpu.c,
+	  src/maincpu.h, src/vicii/vicii-badline.c,
+	  src/vicii/vicii-fetch.c, src/vicii/vicii-stubs.c:
+	  Color/spritefetch DMA/Blitter cycle stealing and experimental
+	  cycle exact alarm handling, DMA/Blitter cleanup and inlining
+
+2009-01-25  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64dtv/c64dtvblitter.c, src/c64dtv/c64dtvblitter.h,
+	  src/c64dtv/c64dtvcpu.c, src/c64dtv/c64dtvdma.c,
+	  src/c64dtv/c64dtvdma.h: Removed obsolete non-cycle exact
+	  DMA/Blitter code
+
+2009-01-25  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-dtv/extfilt.h: increase hardclipping on output.
+	  This improves Echoes drums, but doesn't yet make them quite
+	  right.
+
+2009-01-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data/VIC20/win_shortcuts.vsc, src/arch/win32/Makefile.am,
+	  src/arch/win32/arch.dsp, src/arch/win32/c64dtvui.c,
+	  src/arch/win32/resmenu.txt, src/arch/win32/ressiddtv.rc,
+	  src/arch/win32/resstrings.txt, src/arch/win32/resvic20.rc,
+	  src/arch/win32/uilib.c, src/arch/win32/uimouse.c,
+	  src/arch/win32/uisid.c, src/arch/win32/uisid.h,
+	  src/arch/win32/uisiddtv.c, src/arch/win32/uisiddtv.h,
+	  src/arch/win32/vic20ui.c, src/arch/win32/watcom/arch.tgt,
+	  src/arch/win32/watcom/sounddrv.tgt,
+	  src/arch/win32/watcom/vice.wpj, src/arch/win32/x64dtv.dsp:
+	  Added TDE handling, paddles and dtv-sid UI elements to the
+	  win32 port including msvc and watcom project files.
+
+2009-01-22  Peter Krefting <peter@softwolves.pp.se>
+
+	* po/sv.po: Update Swedish translation. Fix typos.
+
+2009-01-21  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-dtv/envelope.cc: Nuotio fixed a bug with the test
+	  program. We still have issues with DMA and CPU interaction, so
+	  the results are not exactly the same, but this looks like it
+	  could be it, though. *sigh*
+
+2009-01-20  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-dtv/envelope.cc: release appears to wait one decay
+	  interval before doing stuff. Add this, so Nuotio's testprog
+	  "top" results for release are nearly correct. More testing
+	  still needed. It really seems that there is a state caused
+	  by every control register write, which spends decay interval
+	  in itself. Following that, the envelope moves into actual
+	  action.
+
+	* src/resid-fp/ChangeLog, src/resid-fp/filter.h,
+	  src/sid/resid-fp.cc: fix intro sound in Blasphemy,
+	  Needledrop.
+
+2009-01-19  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-dtv/envelope.cc: fix first release interval
+	  according to assumption that the internal counter is
+	  overwritten with some value during gate on/off events.
+
+	* src/resid-fp/ChangeLog, src/resid-fp/filter.cc,
+	  src/sid/resid-fp.cc: update to V30-final. (Talk about V31
+	  was premature; earlier release was V29.)
+
+	* src/sounddrv/soundalsa.c: fix "fragment problems" message
+	  with ALSA. Technically, the code was using snd_pcm_delay()
+	  which returns the true sound latency from "writing now and
+	  hearing it" instead of the more appropriate measure of "how
+	  much buffer is free" that was intended.
+
+2009-01-18  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-dtv/filter.h: update comment to match reality
+
+	* src/resid-dtv/ChangeLog, src/resid-dtv/sid.cc,
+	  src/resid-dtv/sid.h: bus value doesn't fade
+
+	* src/resid-dtv/Makefile.am, src/resid-dtv/bittrain.h,
+	  src/resid-dtv/envelope.cc, src/resid-dtv/envelope.h,
+	  src/resid-dtv/sid.cc, src/resid-dtv/sid.h,
+	  src/resid-dtv/voice.h, src/resid-dtv/wave.cc,
+	  src/resid-dtv/wave.h: separate volume and envelope
+	  bittrains. Computation is stashed in sid.cc for the time
+	  being, could be separated to bittrain.cc if desired...
+
+	* src/resid-dtv/envelope.cc: fix phase of the volume train
+
+	* src/resid-dtv/filter.cc, src/resid-dtv/filter.h,
+	  src/resid-dtv/sid.cc, src/resid-dtv/wave.cc: remove support
+	  for filter registers not cared by DTV; fix initial noise
+	  state
+
+2009-01-18  Martin Pottendorfer <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2009-01-18  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/ChangeLog, src/resid-fp/filter.cc,
+	  src/resid-fp/filter.h, src/sid/resid-fp.cc: update resid-fp
+	  to V31. See ChangeLog for details.
+
+	* src/resid-dtv/ChangeLog, src/resid-dtv/extfilt.cc,
+	  src/resid-dtv/extfilt.h, src/resid-dtv/wave.cc,
+	  src/resid-dtv/wave.h: make it impossible to disable external
+	  filter (we need it to reconstruct the 32 MHz-cum-1 MHz
+	  bitstream to listenable audio); use 8-bit delta-sigma
+	  converter for oscillator; this seems to sound more like DTV.
+
 2009-01-18  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
 	* src/resid-dtv/Makefile.am: removed (non-existant) VICE.README
