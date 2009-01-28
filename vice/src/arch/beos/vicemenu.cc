@@ -389,6 +389,8 @@ BMenuBar *menu_create(int machine_class) {
 	if (!vsid_mode) {
 		menu->AddItem(new BMenuItem("True Drive Emulation", 
 			new BMessage(MENU_TOGGLE_DRIVE_TRUE_EMULATION)));
+		menu->AddItem(new BMenuItem("Handle TDE for autostart", 
+			new BMessage(MENU_TOGGLE_HANDLE_TDE_AUTOSTART)));
 		menu->AddItem(new BMenuItem("Virtual Devices", 
 			new BMessage(MENU_TOGGLE_VIRTUAL_DEVICES)));
 		menu->AddSeparatorItem();
@@ -424,6 +426,11 @@ BMenuBar *menu_create(int machine_class) {
 			menu->AddItem(new BMenuItem("Emulator ID",
 				new BMessage(MENU_TOGGLE_EMUID)));
 			menu->AddItem(new BMenuItem("Grab mouse events",
+				new BMessage(MENU_TOGGLE_MOUSE)));
+		}
+		if (machine_class == VICE_MACHINE_VIC20) {
+			menu->AddSeparatorItem();
+			menu->AddItem(new BMenuItem("Enable Paddles",
 				new BMessage(MENU_TOGGLE_MOUSE)));
 		}
 		if (machine_class == VICE_MACHINE_C64DTV) {
@@ -468,6 +475,8 @@ BMenuBar *menu_create(int machine_class) {
 					new BMessage(MENU_MOUSE_TYPE_NEOS)));
 				extsubmenu->AddItem(new BMenuItem("AMIGA",
 					new BMessage(MENU_MOUSE_TYPE_AMIGA)));
+				extsubmenu->AddItem(new BMenuItem("PADDLE",
+					new BMessage(MENU_MOUSE_TYPE_PADDLE)));
 			submenu->AddItem(extsubmenu = new BMenu("Mouse Port"));
 				extsubmenu->SetRadioMode(true);
 				extsubmenu->AddItem(new BMenuItem("Joy1",
@@ -762,11 +771,14 @@ BMenuBar *menu_create(int machine_class) {
 	menu->AddItem(new BMenuItem("Sound ...", 
 		new BMessage(MENU_SOUND_SETTINGS)));
 	if (machine_class == VICE_MACHINE_C64
-		|| machine_class == VICE_MACHINE_C64DTV
 		|| machine_class == VICE_MACHINE_C128
 		|| machine_class == VICE_MACHINE_CBM2) {
 		menu->AddItem(new BMenuItem("SID ...", 
 			new BMessage(MENU_SID_SETTINGS)));
+	}
+	if (machine_class == VICE_MACHINE_C64DTV) {
+		menu->AddItem(new BMenuItem("SID ...", 
+			new BMessage(MENU_SIDDTV_SETTINGS)));
 	}
 	menu->AddItem(new BMenuItem("RAM ...", 
 		new BMessage(MENU_RAM_SETTINGS)));

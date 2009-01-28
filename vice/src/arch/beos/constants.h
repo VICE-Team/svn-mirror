@@ -117,6 +117,7 @@ const uint32 MENU_PASTE						= 'M162';
 const uint32 MENU_TOGGLE_SOUND					= 'M100';
 const uint32 MENU_TOGGLE_WARP_MODE				= 'M101';
 const uint32 MENU_TOGGLE_DRIVE_TRUE_EMULATION	= 'M102';
+const uint32 MENU_TOGGLE_HANDLE_TDE_AUTOSTART	= 'M169';
 const uint32 MENU_TOGGLE_VIRTUAL_DEVICES		= 'M103';
 const uint32 MENU_TOGGLE_EMUID					= 'M104';
 const uint32 MENU_TOGGLE_DOUBLESIZE				= 'M106';
@@ -184,6 +185,7 @@ const uint32 MENU_VICII_SETTINGS				= 'M207';
 const uint32 MENU_VIC20_SETTINGS				= 'M208';
 const uint32 MENU_VIDEO_SETTINGS				= 'M209';
 const uint32 MENU_SID_SETTINGS					= 'M210';
+const uint32 MENU_SIDDTV_SETTINGS					= 'M171';
 const uint32 MENU_RAM_SETTINGS					= 'M211';
 
 const uint32 MENU_SETTINGS_LOAD					= 'M220';
@@ -308,6 +310,7 @@ const uint32 MENU_TOGGLE_PS2MOUSE					= 'M152';
 const uint32 MENU_MOUSE_TYPE_1351				= 'M153';
 const uint32 MENU_MOUSE_TYPE_NEOS				= 'M154';
 const uint32 MENU_MOUSE_TYPE_AMIGA				= 'M155';
+const uint32 MENU_MOUSE_TYPE_PADDLE				= 'M170';
 
 const uint32 MENU_MOUSE_PORT_JOY1				= 'M156';
 const uint32 MENU_MOUSE_PORT_JOY2				= 'M157';

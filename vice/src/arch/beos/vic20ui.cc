@@ -69,6 +69,7 @@ ui_menu_toggle  vic20_ui_menu_toggles[]={
     { "IEEE488", MENU_TOGGLE_IEEE488 },
     { "SidCart", MENU_TOGGLE_SIDCART },
     { "SidFilters", MENU_TOGGLE_SIDCART_FILTERS },
+    { "Mouse", MENU_TOGGLE_MOUSE },
     { NULL, 0 }
 };
 

@@ -64,6 +64,8 @@ libarch_a_SOURCES = \
 	ui_ram.h \
 	ui_sid.cc \
 	ui_sid.h \
+	ui_siddtv.cc \
+	ui_siddtv.h \
 	ui_sound.cc \
 	ui_sound.h \
 	ui_vic20.cc \

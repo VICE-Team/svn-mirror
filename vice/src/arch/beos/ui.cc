@@ -86,6 +86,7 @@ extern "C" {
 #include "ui_netplay.h"
 #include "ui_ram.h"
 #include "ui_sid.h"
+#include "ui_siddtv.h"
 #include "ui_sound.h"
 #include "ui_vicii.h"
 #include "ui_video.h"
@@ -108,6 +109,7 @@ int window_count = 0;
 ui_menu_toggle  toggle_list[] = {
     { "Sound", MENU_TOGGLE_SOUND },
     { "DriveTrueEmulation", MENU_TOGGLE_DRIVE_TRUE_EMULATION },
+    { "AutostartHandleTrueDriveEmulation", MENU_TOGGLE_HANDLE_TDE_AUTOSTART },
     { "EmuID", MENU_TOGGLE_EMUID },
     { "DirectWindow", MENU_TOGGLE_DIRECTWINDOW },
     { "WarpMode", MENU_TOGGLE_WARP_MODE },
@@ -733,6 +735,9 @@ void ui_dispatch_events(void)
 				break;
 			case MENU_SID_SETTINGS:
 				ui_sid();
+				break;
+			case MENU_SIDDTV_SETTINGS:
+				ui_siddtv();
 				break;
 			case MENU_RAM_SETTINGS:
 				ui_ram();

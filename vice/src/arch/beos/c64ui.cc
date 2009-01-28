@@ -49,6 +49,7 @@ extern "C" {
 #include "cartridge.h"
 #include "constants.h"
 #include "keyboard.h"
+#include "mouse.h"
 #include "resources.h"
 #include "statusbar.h"
 #include "types.h"
@@ -164,9 +165,10 @@ ui_res_possible_values c64viciiBorders[] = {
 };
 
 ui_res_possible_values c64mousetypes[] = {
-        {0, MENU_MOUSE_TYPE_1351},
-        {1, MENU_MOUSE_TYPE_NEOS},
-        {2, MENU_MOUSE_TYPE_AMIGA},
+        {MOUSE_TYPE_1351, MENU_MOUSE_TYPE_1351},
+        {MOUSE_TYPE_NEOS, MENU_MOUSE_TYPE_NEOS},
+        {MOUSE_TYPE_AMIGA, MENU_MOUSE_TYPE_AMIGA},
+        {MOUSE_TYPE_PADDLE, MENU_MOUSE_TYPE_PADDLE},
         {-1, 0}
 };
 
