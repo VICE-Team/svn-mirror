@@ -33,16 +33,6 @@
 //#include <os2me.h>
 //#undef VERSION
 
-#ifndef NULL
-#define NULL 0
-#endif
-#ifndef TRUE
-#define TRUE 1
-#endif
-#ifndef FALSE
-#define FALSE 0
-#endif
-
 #ifdef __IBMC__
  #define inline _Inline  // This means only a possible inline. See doku.
  #define getcwd _getcwd

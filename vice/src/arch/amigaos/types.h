@@ -31,16 +31,6 @@
 
 #if 1
 
-#ifndef NULL
-#define NULL 0
-#endif
-#ifndef TRUE
-#define TRUE 1
-#endif
-#ifndef FALSE
-#define FALSE 0
-#endif
-
 #define BYTE unsigned char
 #define SIGNED_CHAR signed char
 
