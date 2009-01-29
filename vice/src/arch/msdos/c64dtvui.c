@@ -41,7 +41,7 @@
 #include "types.h"
 #include "ui.h"
 #include "uic64dtv.h"
-#include "uisid.h"
+#include "uisiddtv.h"
 
 TUI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
 TUI_MENU_DEFINE_TOGGLE(VICIICheckSsColl)
@@ -305,7 +305,7 @@ int c64dtvui_init(void)
     add_palette_submenu(ui_video_submenu);
 
     tui_menu_add(ui_video_submenu, vicii_menu_items);
-    tui_menu_add(ui_sound_submenu, sid_ui_menu_items);
+    tui_menu_add(ui_sound_submenu, siddtv_ui_menu_items);
     tui_menu_add(ui_rom_submenu, rom_menu_items);
 
     return 0;

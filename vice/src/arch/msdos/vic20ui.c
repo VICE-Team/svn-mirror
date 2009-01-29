@@ -299,11 +299,16 @@ TUI_MENU_DEFINE_TOGGLE(RAMBlock3)
 TUI_MENU_DEFINE_TOGGLE(RAMBlock5)
 
 TUI_MENU_DEFINE_TOGGLE(EmuID)
+TUI_MENU_DEFINE_TOGGLE(Mouse)
 
 static tui_menu_item_def_t special_menu_items[] = {
     { "_Emulator Identification:",
       "Allow programs to identify the emulator they are running on",
       toggle_EmuID_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Enable _Paddles:",
+      "Enable paddles emulation",
+      toggle_Mouse_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "--" },
     { "Choose Common _Memory Configuration...",

@@ -116,6 +116,8 @@ libarch_a_SOURCES = \
 	uisid.h \
 	uisidcart.c \
 	uisidcart.h \
+	uisiddtv.c \
+	uisiddtv.h \
 	uisnapshot.c \
 	uisnapshot.h \
 	uisound.c \

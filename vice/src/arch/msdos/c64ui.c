@@ -35,6 +35,7 @@
 #include "lib.h"
 #include "machine.h"
 #include "menudefs.h"
+#include "mouse.h"
 #include "resources.h"
 #include "tui.h"
 #include "tuifs.h"
@@ -134,12 +135,14 @@ static TUI_MENU_CALLBACK(toggle_MouseType_callback)
     }
 
     switch (value) {
-      case 0:
+      case MOUSE_TYPE_1351:
         return "1351";
-      case 1:
+      case MOUSE_TYPE_NEOS:
         return "NEOS";
-      case 2:
+      case MOUSE_TYPE_AMIGA:
         return "AMIGA";
+      case MOUSE_TYPE_PADDLE:
+        return "PADDLE";
       default:
         return "unknown";
     }

@@ -1,9 +1,8 @@
 /*
- * uisid.c - SID UI interface for MS-DOS.
+ * uisiddtv.c - DTV SID UI interface for MS-DOS.
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,7 +32,7 @@
 #include "sid.h"
 #include "tui.h"
 #include "tuimenu.h"
-#include "uisid.h"
+#include "uisiddtv.h"
 
 
 TUI_MENU_DEFINE_RADIO(SidModel)
@@ -46,14 +45,16 @@ static TUI_MENU_CALLBACK(sid_model_submenu_callback)
     resources_get_int("SidModel", &value);
 
     switch (value) {
+#ifdef HAVE_RESID
+      case SID_MODEL_DTVSID:
+        sprintf(s, "DTVSID");
+        break;
+#endif
       case SID_MODEL_6581:
         sprintf(s, "6581");
         break;
       case SID_MODEL_8580:
         sprintf(s, "8580");
-        break;
-      case SID_MODEL_8580D:
-        sprintf(s, "8580 + digi boost");
         break;
 #ifdef HAVE_RESID_FP
       case SID_MODEL_6581R3_4885:
@@ -93,6 +94,12 @@ static TUI_MENU_CALLBACK(sid_model_submenu_callback)
 }
 
 static tui_menu_item_def_t sid_model_submenu[] = {
+#ifdef HAVE_RESID
+    { "_DTVSID",
+      "DTVSID emulation (reSID)",
+      radio_SidModel_callback, (void *)SID_MODEL_DTVSID, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+#endif
     { "_6581",
       "SID 6581 emulation",
       radio_SidModel_callback, (void *)SID_MODEL_6581, 0,
@@ -100,10 +107,6 @@ static tui_menu_item_def_t sid_model_submenu[] = {
     { "_8580",
       "SID 8580 emulation",
       radio_SidModel_callback, (void *)SID_MODEL_8580, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "8580 + _digi boost",
-      "SID 8580 + digi boost emulation",
-      radio_SidModel_callback, (void *)SID_MODEL_8580D, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
 #ifdef HAVE_RESID_FP
     { "_6581R3 4885",
@@ -238,7 +241,7 @@ static tui_menu_item_def_t sid_engine_submenu[] = {
     { NULL }
 };
 
-tui_menu_item_def_t sid_ui_menu_items[] = {
+tui_menu_item_def_t siddtv_ui_menu_items[] = {
     { "--" },
     { "SID _Model:",
       "Select the SID model to emulate",
