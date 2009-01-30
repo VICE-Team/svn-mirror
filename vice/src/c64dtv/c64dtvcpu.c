@@ -105,7 +105,9 @@ inline static void c64dtvcpu_clock_add(CLOCK *clock, int amount)
             (*clock)++;
             --amount;
             if (dtvclockneg == 0) {
-                if (!c64dtvblitter_perform_blitter()) {
+                if (blitter_active) {
+                    c64dtvblitter_perform_blitter();
+                } else if (dma_active) {
                     c64dtvdma_perform_dma();
                 }
             } else {

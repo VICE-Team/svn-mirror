@@ -32,6 +32,7 @@
 
 #include "types.h"
 
+extern int blitter_active;
 extern int blitter_on_irq;
 
 extern int c64dtvblitter_resources_init(void);
@@ -44,7 +45,7 @@ extern void c64dtvblitter_shutdown(void);
 extern BYTE REGPARM1 c64dtv_dmablit_read(WORD addr);
 extern void REGPARM2 c64dtv_dmablit_store(WORD addr, BYTE value);
 
-extern int c64dtvblitter_perform_blitter(void);
+extern void c64dtvblitter_perform_blitter(void);
 extern void c64dtvblitter_trigger_blitter(void);
 
 struct snapshot_s;

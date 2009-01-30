@@ -50,6 +50,7 @@ static unsigned int c64dtv_dma_int_num;
 /* I/O of the DMA engine ($D3XX) */
 BYTE c64dtvmem_dma[0x20];
 
+int dma_active;
 int dma_on_irq;
 int dma_busy;
 
@@ -57,7 +58,6 @@ static int dma_source_off;
 static int dma_dest_off;
 static int dma_irq;
 static int dma_log_enabled = 0;
-static int dma_active;
 
 static BYTE dma_data;
 static BYTE dma_data_swap;
@@ -361,17 +361,16 @@ void c64dtv_dma_store(WORD addr, BYTE value)
 
 void c64dtvdma_perform_dma(void)
 {
-    if(dma_active) {
-        /* set maincpu_rmw_flag to 0 during DMA */
-        int dma_maincpu_rmw = maincpu_rmw_flag;
-        maincpu_rmw_flag = 0;
-        perform_dma_cycle();
-        maincpu_rmw_flag = dma_maincpu_rmw;
+    /* set maincpu_rmw_flag to 0 during DMA */
+    int dma_maincpu_rmw = maincpu_rmw_flag;
+    maincpu_rmw_flag = 0;
+    perform_dma_cycle();
+    maincpu_rmw_flag = dma_maincpu_rmw;
 
-        if(dma_log_enabled && (dma_state == DMA_WRITE)) log_message(c64dtvdma_log, "%s from %x (%s) to %x (%s), %d to go", GET_REG8(0x1f)&0x02 ? "Swapped" : "Copied", dma_source_off, source_memtype == 0 ? "Flash" : "RAM", dma_dest_off, dest_memtype == 0 ? "Flash" : "RAM", dma_count - 1);
-        if(dma_state == DMA_IDLE) {
-            c64dtv_dma_done();
-        }
+    if(dma_log_enabled && (dma_state == DMA_WRITE)) log_message(c64dtvdma_log, "%s from %x (%s) to %x (%s), %d to go", GET_REG8(0x1f)&0x02 ? "Swapped" : "Copied", dma_source_off, source_memtype == 0 ? "Flash" : "RAM", dma_dest_off, dest_memtype == 0 ? "Flash" : "RAM", dma_count - 1);
+
+    if(dma_state == DMA_IDLE) {
+        c64dtv_dma_done();
     }
 }
 

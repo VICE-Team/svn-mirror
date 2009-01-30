@@ -32,6 +32,7 @@
 
 #include "types.h"
 
+extern int dma_active;
 extern int dma_on_irq;
 extern int dma_busy;
 

@@ -54,6 +54,7 @@ static unsigned int c64dtv_blitter_int_num;
 /* I/O of the blitter engine ($D3XX) */
 BYTE c64dtvmem_blitter[0x20];
 
+int blitter_active;
 int blitter_on_irq;
 
 static int blit_sourceA_off;
@@ -62,7 +63,6 @@ static int blit_dest_off;
 static int blitter_busy;
 static int blitter_irq;
 static int blitter_log_enabled = 0;
-static int blitter_active;
 
 static BYTE srca_data[4];
 static int srca_data_offs;
@@ -411,17 +411,13 @@ void c64dtv_blitter_store(WORD addr, BYTE value)
 }
 
 
-int c64dtvblitter_perform_blitter(void)
+void c64dtvblitter_perform_blitter(void)
 {
-    if(blitter_active) {
-        perform_blitter_cycle();
+    perform_blitter_cycle();
 
-        if(blitter_state == BLITTER_IDLE) {
-            c64dtv_blitter_done();
-        }
-        return 1;
+    if(blitter_state == BLITTER_IDLE) {
+        c64dtv_blitter_done();
     }
-    return 0;
 }
 
 
