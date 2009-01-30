@@ -39,7 +39,7 @@
 
 UI_MENU_DEFINE_TOGGLE(MIDIEnable)
 UI_MENU_DEFINE_RADIO(MIDIMode)
-#ifdef HAVE_ALSA_ASOUNDLIB_H
+#ifdef USE_ALSA
 UI_MENU_DEFINE_RADIO(MIDIDriver)
 #endif
 
@@ -55,7 +55,7 @@ UI_CALLBACK(set_midi_out_name)
                         _("Name:"));
 }
 
-#ifdef HAVE_ALSA_ASOUNDLIB_H
+#ifdef USE_ALSA
 static ui_menu_entry_t midi_driver_submenu[] = {
     { "*OSS", (ui_callback_t)radio_MIDIDriver,
       (ui_callback_data_t)0, NULL },
@@ -83,7 +83,7 @@ ui_menu_entry_t midi_c64_submenu[] = {
       (ui_callback_t)toggle_MIDIEnable, NULL, NULL },
     { N_("MIDI type"),
       NULL, NULL, midi_mode_submenu },
-#ifdef HAVE_ALSA_ASOUNDLIB_H
+#ifdef USE_ALSA
     { N_("MIDI driver"),
       NULL, NULL, midi_driver_submenu },
 #endif
@@ -99,7 +99,7 @@ ui_menu_entry_t midi_c64_submenu[] = {
 ui_menu_entry_t midi_vic20_submenu[] = {
     { N_("*Enable MIDI"),
       (ui_callback_t)toggle_MIDIEnable, NULL, NULL },
-#ifdef HAVE_ALSA_ASOUNDLIB_H
+#ifdef USE_ALSA
     { N_("MIDI driver"),
       NULL, NULL, midi_driver_submenu },
 #endif

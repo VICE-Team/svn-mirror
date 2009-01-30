@@ -49,11 +49,7 @@
 #include <sys/select.h>
 #endif
 
-#ifdef HAVE_ALSA_ASOUNDLIB_H
-#define HAVE_ALSA
-#endif
-
-#ifdef HAVE_ALSA
+#ifdef USE_ALSA
 #include <alsa/asoundlib.h>
 #endif
 
@@ -236,7 +232,7 @@ static void mididrv_oss_shutdown(void)
 /* ------------------------------------------------------------------------- */
 /* ALSA driver */
 
-#ifdef HAVE_ALSA
+#ifdef USE_ALSA
 
 /** the ALSA sequencer object which handles MIDI */
 static snd_seq_t *seq = NULL;
@@ -491,7 +487,7 @@ static void mididrv_alsa_init(void)
     snd_midi_event_no_status(midi_event_parser, 1);
 }
 
-#endif /* HAVE_ALSA */
+#endif /* USE_ALSA */
 
 /* ------------------------------------------------------------------------- */
 /* external interface */
@@ -518,7 +514,7 @@ static midi_driver_t midi_drivers[] = {
         mididrv_oss_out_open,
         mididrv_oss_out_close,
     },
-#ifdef HAVE_ALSA
+#ifdef USE_ALSA
     { /* ALSA driver */
         mididrv_alsa_init,
         mididrv_alsa_shutdown,
@@ -594,7 +590,7 @@ static const resource_string_t resources_string[] = {
     { NULL }
 };
 
-#ifdef HAVE_ALSA
+#ifdef USE_ALSA
 static int set_midi_driver(int val, void *param)
 {
     int in_was_open, out_was_open;
@@ -637,7 +633,7 @@ static const resource_int_t resources_int[] = {
 
 int mididrv_resources_init(void)
 {
-#ifdef HAVE_ALSA
+#ifdef USE_ALSA
     if (resources_register_int(resources_int) < 0) {
         return -1;
     }
@@ -666,7 +662,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       N_("<name>"), N_("Specify MIDI-Out device") },
-#ifdef HAVE_ALSA
+#ifdef USE_ALSA
     { "-mididrv", SET_RESOURCE, 1,
       NULL, NULL, "MIDIDriver", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
