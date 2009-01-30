@@ -41,7 +41,7 @@ static char *ui_sid_pages[] =
 {
   "General",
 #ifdef HAVE_RESID
-  "ReSID/ReSID-fp",
+  "ReSID-DTV/ReSID-fp",
 #endif
 #ifdef HAVE_CATWEASELMKIII
   "Catweasel MK3",
@@ -57,7 +57,7 @@ static char *ui_sid_engine[] =
 {
   "Fast SID",
 #ifdef HAVE_RESID
-  "reSID",
+  "reSID-DTV",
 #endif
 #ifdef HAVE_RESID_FP
   "reSID-fp",
@@ -112,7 +112,7 @@ static const int ui_sid_samplemethod_values[] =
 static char *ui_sid_model[] =
 {
 #ifdef HAVE_RESID
-  "DTVSID (ReSID)",
+  "DTVSID (ReSID-DTV)",
 #endif
   "6581",
   "8580",

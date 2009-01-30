@@ -620,7 +620,11 @@ BEGIN
      END
 #ifdef HAVE_RESID
      MENUITEM SEPARATOR
+#ifndef __X64DTV__
      MENUITEM "~reSID (HiFi)",          IDM_RESID,         MIS_TEXT
+#else
+     MENUITEM "~reSID-DTV (HiFi)",          IDM_RESID,         MIS_TEXT
+#endif
      SUBMENU "Sampling ~Method",        IDM_RESIDMETHOD,   MIS_TEXT
      BEGIN
        SUBMENU "Resampling ~Bandwidth", IDM_RESIDBAND,     MIS_TEXT

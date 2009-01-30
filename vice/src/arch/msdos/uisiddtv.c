@@ -96,7 +96,7 @@ static TUI_MENU_CALLBACK(sid_model_submenu_callback)
 static tui_menu_item_def_t sid_model_submenu[] = {
 #ifdef HAVE_RESID
     { "_DTVSID",
-      "DTVSID emulation (reSID)",
+      "DTVSID emulation (reSID-DTV)",
       radio_SidModel_callback, (void *)SID_MODEL_DTVSID, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
 #endif
@@ -183,7 +183,7 @@ static TUI_MENU_CALLBACK(sid_engine_submenu_callback)
         break;
 #ifdef HAVE_RESID
       case SID_ENGINE_RESID:
-        return "ReSID";
+        return "ReSID-DTV";
         break;
 #endif
 #ifdef HAVE_RESID_FP
@@ -213,7 +213,7 @@ static tui_menu_item_def_t sid_engine_submenu[] = {
       radio_SidEngine_callback, (void *)SID_ENGINE_FASTSID, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
 #ifdef HAVE_RESID
-    { "_ReSID",
+    { "_ReSID-DTV",
       "Cycle accurate SID emulation",
       radio_SidEngine_callback, (void *)SID_ENGINE_RESID, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },

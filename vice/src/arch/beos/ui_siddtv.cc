@@ -58,7 +58,7 @@ static char *samplingmode[] = {
 
 static char *sidmodel[] = {
 #ifdef HAVE_RESID
-	"DTVSID (reSID)",
+	"DTVSID (reSID-DTV)",
 #endif
 	"6581 (old)",
 	"8580 (new)",
@@ -160,7 +160,7 @@ SidWindow::SidWindow()
 	/* ReSID */
     resources_get_int("SidEngine", &res_val);
 	checkbox = new BCheckBox(BRect(10, 90, r.Width()/2-20, 105),
-		"Enable reSID", "Enable reSID",
+		"Enable reSID-DTV", "Enable reSID-DTV",
 		new BMessage(MESSAGE_SIDDTV_RESID));
 	checkbox->SetValue(res_val == SID_ENGINE_RESID);
 	background->AddChild(checkbox);

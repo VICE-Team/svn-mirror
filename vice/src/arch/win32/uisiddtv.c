@@ -54,7 +54,7 @@ static const TCHAR *ui_sid_engine[] =
 {
     TEXT("Fast SID"),
 #ifdef HAVE_RESID
-    TEXT("reSID"),
+    TEXT("reSID-DTV"),
 #endif
 #ifdef HAVE_CATWEASELMKIII
     TEXT("Catweasel MK3"),
@@ -99,7 +99,7 @@ static const int ui_sid_engine_values[] =
 static const TCHAR *ui_sid_model[] = 
 {
 #ifdef HAVE_RESID
-    TEXT("DTVSID (reSID)"),
+    TEXT("DTVSID (reSID-DTV)"),
 #endif
     TEXT("6581"),
     TEXT("8580"),
@@ -573,7 +573,7 @@ void ui_siddtv_settings_dialog(HWND hwnd)
 //    psp[0].pszTitle = translate_text(IDS_GENERAL);
     psp[0].pszTitle = translate_text(IDS_GENERAL);
     psp[1].pfnDlgProc = resid_dialog_proc;
-    psp[1].pszTitle = TEXT("ReSID/ReSID-fp");
+    psp[1].pszTitle = TEXT("ReSID-DTV/ReSID-fp");
     psp[2].pfnDlgProc = hardsid_dialog_proc;
     psp[2].pszTitle = TEXT("HardSID");
 
