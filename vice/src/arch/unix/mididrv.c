@@ -3,6 +3,7 @@
  *
  * Written by
  *  Hannu Nuotio <hannu.nuotio@tut.fi>
+ *  Dirk Jagdmann <doj@cubic.org>
  *
  * Based on code by
  *  André Fachat <a.fachat@physik.tu-chemnitz.de>
@@ -27,8 +28,6 @@
  *
  */
 
-#undef        DEBUG
-
 #include "vice.h"
 
 #include <errno.h>
@@ -50,6 +49,14 @@
 #include <sys/select.h>
 #endif
 
+#ifdef HAVE_ALSA_ASOUNDLIB_H
+#define HAVE_ALSA
+#endif
+
+#ifdef HAVE_ALSA
+#include <alsa/asoundlib.h>
+#endif
+
 #include "archdep.h"
 #include "cmdline.h"
 #include "lib.h"
@@ -67,9 +74,505 @@ static char *midi_out_dev = NULL;
 static int fd_in = -1;
 static int fd_out = -1;
 
+#define MIDI_DRIVER_OSS  0
+#define MIDI_DRIVER_ALSA 1
+static int midi_driver_num = MIDI_DRIVER_OSS;
+
 static log_t mididrv_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
+/* OSS driver */
+
+/* opens a MIDI-In device, returns handle */
+static int mididrv_oss_in_open(void)
+{
+#ifdef DEBUG
+    log_message(mididrv_log, "oss_in_open");
+#endif
+    if (fd_in >= 0) {
+        mididrv_in_close();
+    }
+
+    if (midi_in_dev == NULL) {
+        return -1;
+    }
+
+    fd_in = open(midi_in_dev, O_RDONLY);
+    if (fd_in < 0) {
+        log_error(mididrv_log, "Cannot open file \"%s\": %s",
+                  midi_in_dev, strerror(errno));
+        return -1;
+    }
+
+    return fd_in;
+}
+
+/* opens a MIDI-Out device, returns handle */
+static int mididrv_oss_out_open(void)
+{
+#ifdef DEBUG
+    log_message(mididrv_log, "oss_out_open");
+#endif
+    if (fd_out >= 0) {
+        mididrv_out_close();
+    }
+
+    if (midi_out_dev == NULL) {
+        return -1;
+    }
+
+    fd_out = open(midi_out_dev, O_WRONLY);
+    if (fd_out < 0) {
+        log_error(mididrv_log, "Cannot open file \"%s\": %s",
+                  midi_out_dev, strerror(errno));
+        return -1;
+    }
+
+    return fd_out;
+}
+
+/* closes the MIDI-In device*/
+static void mididrv_oss_in_close(void)
+{
+#ifdef DEBUG
+    log_message(mididrv_log, "oss_in_close");
+#endif
+    if (fd_in < 0) {
+        log_error(mididrv_log, "Attempt to close invalid fd %d.", fd_in);
+        return;
+    }
+    close(fd_in);
+    fd_in = -1;
+}
+
+/* closes the MIDI-Out device*/
+static void mididrv_oss_out_close(void)
+{
+#ifdef DEBUG
+    log_message(mididrv_log, "oss_out_close");
+#endif
+    if (fd_out < 0) {
+        log_error(mididrv_log, "Attempt to close invalid fd %d.", fd_out);
+        return;
+    }
+    close(fd_out);
+    fd_out = -1;
+}
+
+/* sends a byte to MIDI-Out */
+static void mididrv_oss_out(BYTE b)
+{
+    ssize_t n;
+#ifdef DEBUG
+    log_message(mididrv_log, "oss_out %02x", b);
+#endif
+    if (fd_out < 0) {
+        log_error(mididrv_log, "Attempt to write to invalid fd %d.", fd_out);
+        return;
+    }
+
+    do {
+        n = write(fd_out, &b, 1);
+        if (n < 0) {
+            log_error(mididrv_log, "Error writing: %s.", strerror(errno));
+        }
+    } while(n != 1);
+
+    return;
+}
+
+/* gets a byte from MIDI-In, returns !=0 if byte received, byte in *b. */
+static int mididrv_oss_in(BYTE *b)
+{
+    int ret;
+    size_t n;
+    fd_set rdset;
+    struct timeval ti;
+
+    if (fd_in < 0) {
+        log_error(mididrv_log, "Attempt to read from invalid fd %d.", fd_in);
+        return -1;
+    }
+
+    FD_ZERO(&rdset);
+    FD_SET(fd_in, &rdset);
+    ti.tv_sec = ti.tv_usec = 0;
+
+#ifndef MINIXVMD
+    /* for now this change will break MIDI support on Minix-vmd
+       till I can implement the same functionality using the
+       poll() function */
+
+    ret = select(fd_in + 1, &rdset, NULL, NULL, &ti);
+#endif
+
+    if (ret && (FD_ISSET(fd_in, &rdset))) {
+        n = read(fd_in, b, 1);
+        if (n) {
+#ifdef DEBUG
+            log_message(mididrv_log, "oss_in got %02x", *b);
+#endif
+            return 1;
+        }
+    }
+    return 0;
+}
+
+static void mididrv_oss_init(void)
+{
+}
+
+static void mididrv_oss_shutdown(void)
+{
+    if (fd_in >= 0) {
+        mididrv_oss_in_close();
+    }
+
+    if (fd_out >= 0) {
+        mididrv_oss_out_close();
+    }
+}
+
+/* ------------------------------------------------------------------------- */
+/* ALSA driver */
+
+#ifdef HAVE_ALSA
+
+/** the ALSA sequencer object which handles MIDI */
+static snd_seq_t *seq = NULL;
+/** identifier of the ALSA MIDI port */
+static int port;
+/** the MIDI event parser is used to create ALSA MIDI events from bytes outputted by the AIC */
+static snd_midi_event_t *midi_event_parser = NULL;
+/** size in bytes of buffers used by ALSA MIDI driver */
+#define RINGBUFFER_SIZE 1024
+
+/** this function is called when the AIC has been initialized for MIDI
+    transmission.
+
+    @return file descriptor for MIDI out
+*/
+static int mididrv_alsa_out_open(void)
+{
+#ifdef DEBUG
+    log_message(mididrv_log, "alsa_out_open");
+#endif
+    if (midi_event_parser) {
+        snd_midi_event_reset_encode(midi_event_parser);
+    }
+    fd_out = 1;
+    return fd_out;
+}
+
+/** this function is called when the AIC can no longer transmit
+    MIDI. */
+static void mididrv_alsa_out_close(void)
+{
+#ifdef DEBUG
+    log_message(mididrv_log, "alsa_out_close");
+#endif
+    /* clear output MIDI queue */
+    if(seq) {
+        snd_seq_drop_output(seq);
+    }
+    fd_out = -1;
+}
+  
+/** this function is called when one MIDI byte need to be transmitted.
+    @param b MIDI byte
+ */
+static void mididrv_alsa_out(BYTE b)
+{
+    snd_seq_event_t ev;
+  
+#ifdef DEBUG
+    log_message(mididrv_log, "alsa_out %02x", b);
+#endif
+      
+    /* if ALSA MIDI has not been initialized, we skip transmission */
+    if (!seq) {
+        return;
+    }
+    snd_seq_ev_clear(&ev);        /* setup sequencer event */
+  
+    /* add the MIDI byte to the event parser. */
+    if (snd_midi_event_encode_byte(midi_event_parser, b, &ev) > 0) {
+        /* the MIDI event is complete, fill out remaining details on the event */
+        snd_seq_ev_set_source(&ev, port);
+        snd_seq_ev_set_subs(&ev);
+        snd_seq_ev_set_direct(&ev);
+        /* give event to ALSA */
+        snd_seq_event_output(seq, &ev);
+        /* tell ALSA to transmit event immiediately */
+        snd_seq_drain_output(seq);
+    }
+}
+
+static BYTE buf[RINGBUFFER_SIZE]; /* a received MIDI event is rendered into this buffer */
+static int bufI = -1;             /* index of next byte to read from buf */
+static int eventSize = -1;        /* size of event in buf */
+
+/** this function is called when the AIC has been initialized for MIDI
+    receiption.
+
+    @return file descriptor for MIDI in
+*/
+static int mididrv_alsa_in_open(void)
+{
+#ifdef DEBUG
+    log_message(mididrv_log, "alsa_in_open");
+#endif
+    /* clear any old MIDI data not processed yet */
+    if (seq) {
+        snd_seq_drop_input(seq);
+    }
+    if (midi_event_parser) {
+        snd_midi_event_reset_decode(midi_event_parser);
+    }
+    bufI = eventSize = -1;
+    fd_in = 1;
+    return fd_in;
+}
+
+/** this function is called when the AIC can no longer receive
+    MIDI. */
+static void mididrv_alsa_in_close(void)
+{
+#ifdef DEBUG
+    log_message(mididrv_log, "alsa_in_close");
+#endif
+    fd_in = -1;
+}
+
+/** get a byte from the input MIDI stream.
+
+    @param[out] b if a byte was available, place it in b
+    @return 1 if a byte was received and b was set, 0 if no byte available now, -1 upon error
+*/
+static int mididrv_alsa_in(BYTE *b)
+{
+    snd_seq_event_t *ev = NULL;
+    int alsa_err;
+
+    if (!seq) {
+        return -1;
+    }
+
+    /* check if we have a byte in the buffer from the last ALSA MIDI event */
+    if (bufI < eventSize) {
+        *b = buf[bufI++];
+        return 1;
+    }
+    
+    /* reset buf */
+    bufI = eventSize = -1;
+
+    /* check for new ALSA MIDI event */
+    snd_seq_event_input(seq, &ev);
+    if (!ev) {
+        return 0;
+    }
+
+    /* ignore some events */
+    switch(ev->type) {
+        /* these are all ALSA internal events, which don't produce MIDI bytes */
+        case SND_SEQ_EVENT_OSS:
+        case SND_SEQ_EVENT_CLIENT_START:
+        case SND_SEQ_EVENT_CLIENT_EXIT:
+        case SND_SEQ_EVENT_CLIENT_CHANGE:
+        case SND_SEQ_EVENT_PORT_START:
+        case SND_SEQ_EVENT_PORT_EXIT:
+        case SND_SEQ_EVENT_PORT_CHANGE:
+        case SND_SEQ_EVENT_PORT_SUBSCRIBED:
+        case SND_SEQ_EVENT_PORT_UNSUBSCRIBED:
+        case SND_SEQ_EVENT_USR0:
+        case SND_SEQ_EVENT_USR1:
+        case SND_SEQ_EVENT_USR2:
+        case SND_SEQ_EVENT_USR3:
+        case SND_SEQ_EVENT_USR4:
+        case SND_SEQ_EVENT_USR5:
+        case SND_SEQ_EVENT_USR6:
+        case SND_SEQ_EVENT_USR7:
+        case SND_SEQ_EVENT_USR8:
+        case SND_SEQ_EVENT_USR9:
+        case SND_SEQ_EVENT_BOUNCE:
+        case SND_SEQ_EVENT_USR_VAR0:
+        case SND_SEQ_EVENT_USR_VAR1:
+        case SND_SEQ_EVENT_USR_VAR2:
+        case SND_SEQ_EVENT_USR_VAR3:
+        case SND_SEQ_EVENT_USR_VAR4:
+        case SND_SEQ_EVENT_NONE:
+            return 0;
+    }
+
+    /* Decode Alsa event into raw bytes */
+    snd_midi_event_reset_decode(midi_event_parser);
+    alsa_err = snd_midi_event_decode(midi_event_parser, buf, sizeof(buf), ev);
+    if (alsa_err < 0) {
+        log_error(mididrv_log, "could not decode midi event: %s\n", snd_strerror(alsa_err));
+        return -1;
+    }
+
+    /* upon success, we return the first byte */
+    if (alsa_err > 0) {
+        eventSize = alsa_err;
+        bufI = 1;
+        *b = buf[0];
+        return 1;
+    }
+    
+    /* no MIDI available now */
+    return 0;
+}
+
+/** a function to destroy ALSA MIDI objects */
+static void mididrv_alsa_shutdown(void)
+{
+#ifdef DEBUG
+    log_message(mididrv_log, "alsa_shutdown");
+#endif
+
+    if (fd_in >= 0) {
+        mididrv_alsa_in_close();
+    }
+
+    if (fd_out >= 0) {
+        mididrv_alsa_out_close();
+    }
+
+    if (midi_event_parser) {
+        snd_midi_event_free(midi_event_parser);
+        midi_event_parser = NULL;
+    }
+
+    if (seq) {
+        snd_seq_close(seq);
+        seq = NULL;
+    }
+}
+
+static void mididrv_alsa_init(void)
+{
+    int alsa_err;
+
+#ifdef DEBUG
+    log_message(mididrv_log, "alsa_init");
+#endif
+
+    /* if we have already been initialized, just return */
+    if (seq) {
+        return;
+    }
+
+    /* create ALSA sequencer object */
+    if (snd_seq_open(&seq, "default", SND_SEQ_OPEN_DUPLEX, SND_SEQ_NONBLOCK) < 0) {
+        log_error(mididrv_log, "could not init ALSA sequencer");
+        seq = 0;
+        return;
+    }
+
+    /* set application name */
+    snd_seq_set_client_name(seq, "VICE");
+
+    /* create one MIDI port */
+    port = snd_seq_create_simple_port(seq, "MIDI in/out",
+                                      SND_SEQ_PORT_CAP_WRITE|SND_SEQ_PORT_CAP_SUBS_WRITE|SND_SEQ_PORT_CAP_READ|SND_SEQ_PORT_CAP_SUBS_READ,
+                                      SND_SEQ_PORT_TYPE_APPLICATION);
+    if (port < 0) {
+        log_error(mididrv_log, "could not create ALSA sequencer port");
+        return;
+    }
+
+    /* create event parser */
+    if ((alsa_err = snd_midi_event_new(RINGBUFFER_SIZE, &midi_event_parser)) < 0) {
+        log_error(mididrv_log, "could not create midi_event_parser: %s", snd_strerror(alsa_err));
+        return;
+    }
+    snd_midi_event_no_status(midi_event_parser, 1);
+}
+
+#endif /* HAVE_ALSA */
+
+/* ------------------------------------------------------------------------- */
+/* external interface */
+
+typedef struct midi_driver_s {
+    void (*init)(void);
+    void (*shutdown)(void);
+    int  (*in)(BYTE *b);
+    void (*out)(BYTE b);
+    int  (*in_open)(void);
+    void (*in_close)(void);
+    int  (*out_open)(void);
+    void (*out_close)(void);
+} midi_driver_t;
+
+static midi_driver_t midi_drivers[] = {
+    { /* OSS driver */
+        mididrv_oss_init,
+        mididrv_oss_shutdown,
+        mididrv_oss_in,
+        mididrv_oss_out,
+        mididrv_oss_in_open,
+        mididrv_oss_in_close,
+        mididrv_oss_out_open,
+        mididrv_oss_out_close,
+    },
+#ifdef HAVE_ALSA
+    { /* ALSA driver */
+        mididrv_alsa_init,
+        mididrv_alsa_shutdown,
+        mididrv_alsa_in,
+        mididrv_alsa_out,
+        mididrv_alsa_in_open,
+        mididrv_alsa_in_close,
+        mididrv_alsa_out_open,
+        mididrv_alsa_out_close,
+    },
+#endif
+    { NULL }
+};
+
+void mididrv_init(void)
+{
+    if (mididrv_log == LOG_ERR) {
+        mididrv_log = log_open("MIDIdrv");
+    }
+
+    midi_drivers[midi_driver_num].init();
+}
+
+int mididrv_in(BYTE *b)
+{
+    return midi_drivers[midi_driver_num].in(b);
+}
+
+void mididrv_out(BYTE b)
+{
+    midi_drivers[midi_driver_num].out(b);
+}
+int mididrv_in_open(void)
+{
+    return midi_drivers[midi_driver_num].in_open();
+}
+
+void mididrv_in_close(void)
+{
+    midi_drivers[midi_driver_num].in_close();
+}
+
+int mididrv_out_open(void)
+{
+    return midi_drivers[midi_driver_num].out_open();
+}
+
+void mididrv_out_close(void)
+{
+    midi_drivers[midi_driver_num].out_close();
+}
+
+/* ------------------------------------------------------------------------- */
+/* Resources and cmdline */
 
 static int set_midi_in_dev(const char *val, void *param)
 {
@@ -91,13 +594,63 @@ static const resource_string_t resources_string[] = {
     { NULL }
 };
 
+#ifdef HAVE_ALSA
+static int set_midi_driver(int val, void *param)
+{
+    int in_was_open, out_was_open;
+
+    if (midi_driver_num == val) {
+        return 0;
+    }
+
+    if (val != MIDI_DRIVER_OSS && val != MIDI_DRIVER_ALSA) {
+        return -1;
+    }
+
+    in_was_open = (fd_in >= 0)?1:0;
+    out_was_open = (fd_out >= 0)?1:0;
+
+    midi_drivers[midi_driver_num].shutdown();
+
+    midi_driver_num = val;
+
+    midi_drivers[midi_driver_num].init();
+
+    if (in_was_open) {
+        midi_drivers[midi_driver_num].in_open();
+    }
+
+    if (out_was_open) {
+        midi_drivers[midi_driver_num].out_open();
+    }
+    return 0;
+}
+
+
+static const resource_int_t resources_int[] = {
+    { "MIDIDriver", MIDI_DRIVER_OSS,
+      RES_EVENT_SAME, (resource_value_t)MIDI_DRIVER_OSS,
+      &midi_driver_num, set_midi_driver, NULL },
+    { NULL }
+};
+#endif
+
 int mididrv_resources_init(void)
 {
+#ifdef HAVE_ALSA
+    if (resources_register_int(resources_int) < 0) {
+        return -1;
+    }
+#endif
+
     return resources_register_string(resources_string);
 }
 
 void mididrv_resources_shutdown(void)
 {
+    /* TODO move somewhere else */
+    midi_drivers[midi_driver_num].shutdown();
+
     lib_free(midi_in_dev);
     lib_free(midi_out_dev);
 }
@@ -113,6 +666,13 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       N_("<name>"), N_("Specify MIDI-Out device") },
+#ifdef HAVE_ALSA
+    { "-mididrv", SET_RESOURCE, 1,
+      NULL, NULL, "MIDIDriver", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      N_("<driver>"), N_("Specify MIDI driver (0 = OSS, 1 = ALSA)") },
+#endif
     { NULL }
 };
 
@@ -121,143 +681,3 @@ int mididrv_cmdline_options_init(void)
     return cmdline_register_options(cmdline_options);
 }
 
-void mididrv_init(void)
-{
-    if(mididrv_log == LOG_ERR) {
-        mididrv_log = log_open("MIDIdrv");
-    }
-}
-
-/* opens a MIDI-In device, returns handle */
-int mididrv_in_open(void)
-{
-#ifdef DEBUG
-    log_message(mididrv_log, "in_open");
-#endif
-    if(fd_in >= 0) {
-        mididrv_in_close();
-    }
-
-    if(midi_in_dev == NULL) {
-        return -1;
-    }
-
-    fd_in = open(midi_in_dev, O_RDONLY);
-    if(fd_in < 0) {
-        log_error(mididrv_log, "Cannot open file \"%s\": %s",
-                  midi_in_dev, strerror(errno));
-        return -1;
-    }
-
-    return fd_in;
-}
-
-/* opens a MIDI-Out device, returns handle */
-int mididrv_out_open(void)
-{
-#ifdef DEBUG
-    log_message(mididrv_log, "out_open");
-#endif
-    if(fd_out >= 0) {
-        mididrv_out_close();
-    }
-
-    if(midi_out_dev == NULL) {
-        return -1;
-    }
-
-    fd_out = open(midi_out_dev, O_WRONLY);
-    if(fd_out < 0) {
-        log_error(mididrv_log, "Cannot open file \"%s\": %s",
-                  midi_out_dev, strerror(errno));
-        return -1;
-    }
-
-    return fd_out;
-}
-
-/* closes the MIDI-In device*/
-void mididrv_in_close(void)
-{
-#ifdef DEBUG
-    log_message(mididrv_log, "in_close");
-#endif
-    if(fd_in < 0) {
-        log_error(mididrv_log, "Attempt to close invalid fd %d.", fd_in);
-        return;
-    }
-    close(fd_in);
-    fd_in = -1;
-}
-
-/* closes the MIDI-Out device*/
-void mididrv_out_close(void)
-{
-#ifdef DEBUG
-    log_error(mididrv_log, "out_close");
-#endif
-    if(fd_out < 0) {
-        log_error(mididrv_log, "Attempt to close invalid fd %d.", fd_out);
-        return;
-    }
-    close(fd_out);
-    fd_out = -1;
-}
-
-/* sends a byte to MIDI-Out */
-void mididrv_out(BYTE b)
-{
-    ssize_t n;
-#ifdef DEBUG
-    log_message(mididrv_log, "out %02x", b);
-#endif
-    if(fd_out < 0) {
-        log_error(mididrv_log, "Attempt to write to invalid fd %d.", fd_out);
-        return;
-    }
-
-    do {
-        n = write(fd_out, &b, 1);
-        if(n < 0)
-            log_error(mididrv_log, "Error writing: %s.", strerror(errno));
-    } while(n != 1);
-
-    return;
-}
-
-/* gets a byte from MIDI-In, returns !=0 if byte received, byte in *b. */
-int mididrv_in(BYTE *b)
-{
-    int ret;
-    size_t n;
-    fd_set rdset;
-    struct timeval ti;
-
-    if(fd_in < 0) {
-        log_error(mididrv_log, "Attempt to read from invalid fd %d.", fd_in);
-        return -1;
-    }
-
-    FD_ZERO(&rdset);
-    FD_SET(fd_in, &rdset);
-    ti.tv_sec = ti.tv_usec = 0;
-
-#ifndef MINIXVMD
-    /* for now this change will break MIDI support on Minix-vmd
-       till I can implement the same functionality using the
-       poll() function */
-
-    ret = select(fd_in + 1, &rdset, NULL, NULL, &ti);
-#endif
-
-    if(ret && (FD_ISSET(fd_in, &rdset))) {
-        n = read(fd_in, b, 1);
-        if(n) {
-#ifdef DEBUG
-            log_message(mididrv_log, "in got %02x", *b);
-#endif
-            return 1;
-        }
-    }
-    return 0;
-}

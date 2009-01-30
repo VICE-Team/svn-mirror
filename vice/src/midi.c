@@ -429,7 +429,7 @@ static void int_midi(CLOCK offset, void *data)
 #endif
     }
 
-    if(status & MIDI_STATUS_TDRE) {
+    if(!(status & MIDI_STATUS_TDRE)) {
         status |= MIDI_STATUS_TDRE;
         /* TODO: TX IRQ */
     }

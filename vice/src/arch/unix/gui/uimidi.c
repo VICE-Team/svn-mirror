@@ -39,6 +39,9 @@
 
 UI_MENU_DEFINE_TOGGLE(MIDIEnable)
 UI_MENU_DEFINE_RADIO(MIDIMode)
+#ifdef HAVE_ALSA_ASOUNDLIB_H
+UI_MENU_DEFINE_RADIO(MIDIDriver)
+#endif
 
 UI_CALLBACK(set_midi_in_name)
 {
@@ -51,6 +54,15 @@ UI_CALLBACK(set_midi_out_name)
     uilib_select_string((char *)UI_MENU_CB_PARAM, _("MIDI-Out device"),
                         _("Name:"));
 }
+
+#ifdef HAVE_ALSA_ASOUNDLIB_H
+static ui_menu_entry_t midi_driver_submenu[] = {
+    { "*OSS", (ui_callback_t)radio_MIDIDriver,
+      (ui_callback_data_t)0, NULL },
+    { "*ALSA", (ui_callback_t)radio_MIDIDriver,
+      (ui_callback_data_t)1, NULL },
+};
+#endif
 
 static ui_menu_entry_t midi_mode_submenu[] = {
     { "*Sequential", (ui_callback_t)radio_MIDIMode,
@@ -71,6 +83,10 @@ ui_menu_entry_t midi_c64_submenu[] = {
       (ui_callback_t)toggle_MIDIEnable, NULL, NULL },
     { N_("MIDI type"),
       NULL, NULL, midi_mode_submenu },
+#ifdef HAVE_ALSA_ASOUNDLIB_H
+    { N_("MIDI driver"),
+      NULL, NULL, midi_driver_submenu },
+#endif
     { N_("MIDI-In device..."),
       (ui_callback_t)set_midi_in_name,
       (ui_callback_data_t)"MIDIInDev", NULL },
@@ -83,6 +99,10 @@ ui_menu_entry_t midi_c64_submenu[] = {
 ui_menu_entry_t midi_vic20_submenu[] = {
     { N_("*Enable MIDI"),
       (ui_callback_t)toggle_MIDIEnable, NULL, NULL },
+#ifdef HAVE_ALSA_ASOUNDLIB_H
+    { N_("MIDI driver"),
+      NULL, NULL, midi_driver_submenu },
+#endif
     { N_("MIDI-In device..."),
       (ui_callback_t)set_midi_in_name,
       (ui_callback_data_t)"MIDIInDev", NULL },
