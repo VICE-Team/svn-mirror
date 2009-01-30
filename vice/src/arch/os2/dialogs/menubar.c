@@ -61,6 +61,10 @@
 #include "dlg-fileio.h"      // ViceFileDialog
 #include "video-resources.h" // VIDEO_RESOURCE_PAL_*
 
+#ifdef HAVE_MOUSE
+#include "mouse.h"
+#endif
+
 #ifdef __X64DTV__
 #include "c64dtv-resources.h"
 #endif
@@ -696,6 +700,32 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_HIDEMOUSE:
         toggle("HideMousePtr");
         return;
+
+#if defined(__X128__) || defined(__X64__)
+    case IDM_MOUSE_TYPE_1351:
+        resources_set_int("Mousetype", MOUSE_TYPE_1351);
+        return;
+
+    case IDM_MOUSE_TYPE_NEOS:
+        resources_set_int("Mousetype", MOUSE_TYPE_NEOS);
+        return;
+
+    case IDM_MOUSE_TYPE_AMIGA:
+        resources_set_int("Mousetype", MOUSE_TYPE_AMIGA);
+        return;
+
+    case IDM_MOUSE_TYPE_PADDLE:
+        resources_set_int("Mousetype", MOUSE_TYPE_PADDLE);
+        return;
+
+    case IDM_MOUSE_PORT_1:
+        resources_set_int("Mouseport", 1);
+        return;
+
+    case IDM_MOUSE_PORT_2:
+        resources_set_int("Mouseport", 2);
+        return;
+#endif
 #endif // HAVE_MOUSE
 
     case IDM_PRT4IEC:
@@ -870,21 +900,48 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         resources_set_int("SidResidPassband", (idm&0xf) * 10);
         return;
 #endif // HAVE_RESID
-#if defined __X64__ || defined __X128__ || defined __XCBM__
+#if defined __X64__ || defined __X128__ || defined __XCBM__ || defined __X64DTV__
     case IDM_SIDFILTER:
         toggle("SidFilters");
         return;
 
+#ifndef __X64DTV__
     case IDM_STEREO:
         toggle("SidStereo");
         return;
+#endif
 
     case IDM_SC6581:
     case IDM_SC8580:
+#ifndef __X64DTV__
     case IDM_SC8580DB:
         resources_set_int("SidModel", idm-IDM_SC6581);
         return;
-#endif // __X64__ || __X128__ || __XCBM__
+#else
+    case IDM_SCDTV:
+        resources_set_int("SidModel", 4);
+        return;
+#endif
+
+#ifdef HAVE_RESID_FP
+    case IDM_SC6581R3_4885:
+    case IDM_SC6581R3_0486S:
+    case IDM_SC6581R3_3984:
+    case IDM_SC6581R4AR_3789:
+    case IDM_SC6581R3_4485:
+    case IDM_SC6581R4_1986S:
+        resources_set_int("SidModel", idm-IDM_SC6581R3_4885+8);
+        return;
+
+    case IDM_SC8580R5_3691:
+    case IDM_SC8580R5_3691DB:
+    case IDM_SC8580R5_1489:
+    case IDM_SC8580R5_1489DB:
+        resources_set_int("SidModel", idm-IDM_SC8580R5_3691+16);
+        return;
+#endif
+
+#endif // __X64__ || __X128__ || __XCBM__ || __X64DTV__
 
     case IDM_OSOFF:
     case IDM_OS2X:
@@ -1301,6 +1358,10 @@ void menu_select(HWND hwnd, USHORT item)
 #ifdef HAVE_MOUSE
         WinCheckRes(hwnd, IDM_MOUSE,     "Mouse");
         WinCheckRes(hwnd, IDM_HIDEMOUSE, "HideMousePtr");
+#if defined(__X128__) || defined(__X64__)
+        WinEnableMenuItem(hwnd, IDM_MOUSE_TYPE, 1);
+        WinEnableMenuItem(hwnd, IDM_MOUSE_PORT, 1);
+#endif
 #endif // HAVE_MOUSE
         //WinCheckRes(hwnd, IDM_PRTIEC,    "Printer4");
         //WinCheckRes(hwnd, IDM_PRTUPORT,  "PrUser");
@@ -1370,6 +1431,21 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckRes(hwnd, IDM_CRTC,     "Crtc");
 #endif // __XPET__
         return;
+
+#if defined(HAVE_MOUSE) && (defined (__X64__) || defined (__X128__))
+    case IDM_MOUSE_TYPE:
+        resources_get_int("Mousetype", &val);
+        WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_1351,      val==MOUSE_TYPE_1351);
+        WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_NEOS,      val==MOUSE_TYPE_NEOS);
+        WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_AMIGA,     val==MOUSE_TYPE_AMIGA);
+        WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_PADDLE,    val==MOUSE_TYPE_1351);
+        return;
+    case IDM_MOUSE_PORT:
+        resources_get_int("Mouseport", &val);
+        WinCheckMenuItem(hwnd, IDM_MOUSE_PORT_1,   val==1);
+        WinCheckMenuItem(hwnd, IDM_MOUSE_PORT_2,   val==2);
+        return;
+#endif
 
     case IDM_PRINTER4:
     case IDM_PRINTER5:
@@ -1557,9 +1633,11 @@ void menu_select(HWND hwnd, USHORT item)
         WinEnableMenuItem(hwnd, IDM_OVERSAMPLING, !val);
         WinEnableMenuItem(hwnd, IDM_SOUNDSYNC,    !val);
 #endif // HAVE_RESID
-#if defined __X64__ || defined __X128__ || defined __XCBM__
+#if defined __X64__ || defined __X128__ || defined __XCBM__ || defined __X64DTV__
         WinCheckRes(hwnd, IDM_SIDFILTER, "SidFilters");
+#ifndef __X64DTV__
         WinCheckRes(hwnd, IDM_STEREO, "SidStereo");
+#endif
 #endif // __X64__ || __X128__ || __XCBM__
         return;
 
@@ -1587,7 +1665,24 @@ void menu_select(HWND hwnd, USHORT item)
         resources_get_int("SidModel", &val);
         WinCheckMenuItem(hwnd, IDM_SC6581,   val==0);
         WinCheckMenuItem(hwnd, IDM_SC8580,   val==1);
+#ifndef __X64DTV__
         WinCheckMenuItem(hwnd, IDM_SC8580DB, val==2);
+#endif
+#if defined(HAVE_RESID) && defined(__X64DTV__)
+        WinCheckMenuItem(hwnd, IDM_SCDTV, val==4);
+#endif
+#ifdef HAVE_RESID_FP
+        WinCheckMenuItem(hwnd, IDM_SC6581R3_4885,   val==8);
+        WinCheckMenuItem(hwnd, IDM_SC6581R3_0486S,  val==9);
+        WinCheckMenuItem(hwnd, IDM_SC6581R3_3984,   val==10);
+        WinCheckMenuItem(hwnd, IDM_SC6581R4AR_3789, val==11);
+        WinCheckMenuItem(hwnd, IDM_SC6581R3_4485,   val==12);
+        WinCheckMenuItem(hwnd, IDM_SC6581R4_1986S,  val==13);
+        WinCheckMenuItem(hwnd, IDM_SC8580R5_3691,   val==16);
+        WinCheckMenuItem(hwnd, IDM_SC8580R5_3691DB, val==17);
+        WinCheckMenuItem(hwnd, IDM_SC8580R5_1489,   val==18);
+        WinCheckMenuItem(hwnd, IDM_SC8580R5_1489DB, val==19);
+#endif
         return;
 #endif // __X64__ || __X128__ || __XCBM__
     case IDM_SOUNDSYNC:

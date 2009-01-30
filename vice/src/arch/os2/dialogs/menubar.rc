@@ -300,10 +300,26 @@ BEGIN
         END
 */
       END  
-#ifdef HAVE_MOUSE
-      MENUITEM "~Mouse 1531 Emulation", IDM_MOUSE,      MIS_TEXT
+#if defined(HAVE_MOUSE) && (defined(__X128__) || defined(__X64__))
+      SUBMENU "Mouse Type", IDM_MOUSE_TYPE, MIS_TEXT
+      BEGIN
+         MENUITEM "~1351",    IDM_MOUSE_TYPE_1351,    MIS_TEXT
+         MENUITEM "~NEOS",    IDM_MOUSE_TYPE_NEOS,    MIS_TEXT
+         MENUITEM "~AMIGA",   IDM_MOUSE_TYPE_AMIGA,   MIS_TEXT
+         MENUITEM "~PADDLE",  IDM_MOUSE_TYPE_PADDLE,  MIS_TEXT
+      END
+      SUBMENU "Mouse port", IDM_MOUSE_TYPE, MIS_TEXT
+      BEGIN
+         MENUITEM "Port ~1",    IDM_MOUSE_PORT_1,    MIS_TEXT
+         MENUITEM "Port ~2",    IDM_MOUSE_PORT_2,    MIS_TEXT
+      END
+      MENUITEM "~Grab Mouse Events", IDM_MOUSE,      MIS_TEXT
       MENUITEM "~Hide Mouse Pointer",   IDM_HIDEMOUSE,  MIS_TEXT
-#endif // HAVE_MOUSE
+#endif
+#if defined(HAVE_MOUSE) && defined(__XVIC__)
+      MENUITEM "~Enable Paddles", IDM_MOUSE,      MIS_TEXT
+      MENUITEM "~Hide Mouse Pointer",   IDM_HIDEMOUSE,  MIS_TEXT
+#endif
       MENUITEM SEPARATOR
 #if defined __XVIC__ || defined __X128__
       MENUITEM "VIC-1112 IEEE~488 Interface",      IDM_IEEE,       MIS_TEXT
@@ -535,14 +551,32 @@ BEGIN
      END
      MENUITEM SEPARATOR
 #if defined __X64__ || defined __X128__ || defined __XCBM__ || defined __X64DTV__
-     SUBMENU "SID ~Chip",               IDM_SIDCHIP,      MIS_TEXT
+     SUBMENU "SID ~Chip",                      IDM_SIDCHIP,         MIS_TEXT
      BEGIN
-       MENUITEM "~6581",                IDM_SC6581,       MIS_TEXT
-       MENUITEM "~8580",                IDM_SC8580,       MIS_TEXT
-       MENUITEM "~8580 + digi boost",   IDM_SC8580DB,     MIS_TEXT
+       MENUITEM "~6581",                       IDM_SC6581,          MIS_TEXT
+       MENUITEM "~8580",                       IDM_SC8580,          MIS_TEXT
+#ifndef __X64DTV__
+       MENUITEM "~8580 + digi boost",          IDM_SC8580DB,        MIS_TEXT
+#else
+       MENUITEM "~DTV SID",                    IDM_SCDTV,           MIS_TEXT
+#endif
+#ifdef HAVE_RESID_FP
+       MENUITEM "~6581R3 (4885)",              IDM_SC6581R3_4885,   MIS_TEXT
+       MENUITEM "~6581R3 (0486S)",             IDM_SC6581R3_0486S,  MIS_TEXT
+       MENUITEM "~6581R3 (3984)",              IDM_SC6581R3_3984,   MIS_TEXT
+       MENUITEM "~6581R4AR (3789)",            IDM_SC6581R4AR_3789, MIS_TEXT
+       MENUITEM "~6581R3 (4485)",              IDM_SC6581R3_4485,   MIS_TEXT
+       MENUITEM "~6581R4 (1986S)",             IDM_SC6581R4_1986S,  MIS_TEXT
+       MENUITEM "~8580R5 (3691)",              IDM_SC8580R5_3691,   MIS_TEXT
+       MENUITEM "~8580R5 (3691) + digi boost", IDM_SC8580R5_3691DB, MIS_TEXT
+       MENUITEM "~8580R5 (1489)",              IDM_SC8580R5_1489,   MIS_TEXT
+       MENUITEM "~8580R5 (1489) + digi boost", IDM_SC8580R5_1489DB, MIS_TEXT
+#endif
      END
      MENUITEM "SID ~Filter",            IDM_SIDFILTER,    MIS_TEXT
+#ifndef __X64DTV__
      MENUITEM "2nd SID (stereo)",       IDM_STEREO,       MIS_TEXT
+#endif
      MENUITEM SEPARATOR
 #endif // __X64__ || __X128__ || __XCBM__
      SUBMENU "~Oversampling",           IDM_OVERSAMPLING, MIS_TEXT

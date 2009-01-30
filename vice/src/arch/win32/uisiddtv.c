@@ -104,8 +104,6 @@ static const TCHAR *ui_sid_model[] =
     TEXT("6581"),
     TEXT("8580"),
 #ifdef HAVE_RESID_FP
-    TEXT("8580R5 1489 (reSID-fp)"),
-    TEXT("8580R5 1489 + digi boost (reSID-fp)"),
     TEXT("6581R3 4885 (reSID-fp)"),
     TEXT("6581R3 0486S (reSID-fp)"),
     TEXT("6581R3 3984 (reSID-fp)"),
@@ -128,8 +126,6 @@ static const int ui_sid_model_values[] =
     SID_MODEL_6581,
     SID_MODEL_8580,
 #ifdef HAVE_RESID_FP
-    SID_MODEL_8580R5_1489,
-    SID_MODEL_8580R5_1489D,
     SID_MODEL_6581R3_4885,
     SID_MODEL_6581R3_0486S,
     SID_MODEL_6581R3_3984,

@@ -150,7 +150,7 @@
 #define IDM_GEORAM4096   0x940
 #define IDM_GEORAMFILE   0x14b
 
-#define IDM_RAMCART      0x16e
+#define IDM_RAMCART      0x12e
 #define IDM_RAMCARTSIZE  0x16f
 #define IDM_RAMCART64    0x941
 #define IDM_RAMCART128   0x942
@@ -209,8 +209,17 @@
 
 #define IDM_TFE          0x158
 
-#define IDM_MOUSE        0x151
-#define IDM_HIDEMOUSE    0x152
+#define IDM_MOUSE               0x151
+#define IDM_HIDEMOUSE           0x152
+#define IDM_MOUSE_TYPE          0x140
+#define IDM_MOUSE_TYPE_1351     0x15a
+#define IDM_MOUSE_TYPE_NEOS     0x15b
+#define IDM_MOUSE_TYPE_AMIGA    0x15c
+#define IDM_MOUSE_TYPE_PADDLE   0x15d
+#define IDM_MOUSE_PORT          0x15e
+#define IDM_MOUSE_PORT_1        0x15f
+#define IDM_MOUSE_PORT_2        0x18a
+
 #define IDM_EMUID        0x153
 #define IDM_VCACHE       0x154
 #define IDM_SBCOLL       0x155
@@ -228,9 +237,21 @@
 #define IDM_REFRATE9     0x169
 #define IDM_REFRATE10    0x16a
 
-#define IDM_SC6581        0x170
-#define IDM_SC8580        0x171
-#define IDM_SC8580DB      0x172
+#define IDM_SC6581           0x170
+#define IDM_SC8580           0x171
+#define IDM_SC8580DB         0x172
+#define IDM_SCDTV            0x1b5
+#define IDM_SC6581R3_4885    0x1b6
+#define IDM_SC6581R3_0486S   0x1b7
+#define IDM_SC6581R3_3984    0x1b8
+#define IDM_SC6581R4AR_3789  0x1b9
+#define IDM_SC6581R3_4485    0x1ba
+#define IDM_SC6581R4_1986S   0x1bb
+#define IDM_SC8580R5_3691    0x1bc
+#define IDM_SC8580R5_3691DB  0x1bd
+#define IDM_SC8580R5_1489    0x1be
+#define IDM_SC8580R5_1489DB  0x1bf
+
 #define IDM_SOUNDON       0x173
 #define IDM_SIDFILTER     0x174
 #define IDM_RESID         0x175
@@ -241,7 +262,7 @@
 #define IDM_RESIDFASTRES  0x17a
 #define IDM_STEREO        0x17b
 
-#define IDM_RESIDBAND     0x17f
+#define IDM_RESIDBAND     0x13d
 #define IDM_RESIDPASS0    0x180
 #define IDM_RESIDPASS10   0x181
 #define IDM_RESIDPASS20   0x182
@@ -333,7 +354,7 @@
 #define IDM_RAM512       0x258
 #define IDM_RAM1024      0x260
       
-#define IDM_RAMMAPPING   0x237
+#define IDM_RAMMAPPING   0x13e
       
 #define IDM_RAM08        0x238
 #define IDM_RAM10        0x239

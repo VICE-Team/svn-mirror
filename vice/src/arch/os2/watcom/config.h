@@ -80,7 +80,7 @@
 #endif
 
 /* Do we support a 1351 mouse?  */
-#if defined __X64__ || defined __X128__ || defined __X64DTV__
+#if defined __X64__ || defined __X128__ || defined __X64DTV__ || defined __XVIC__
 #define HAVE_MOUSE            1
 #endif
 
