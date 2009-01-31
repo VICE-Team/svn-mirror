@@ -834,7 +834,7 @@ int main(int argc, char **argv)
             "   -k<version>\tlist all keywords for the specified Basic version\n"
             "   -k\t\tlist all Basic versions available.\n"
             "   -l\t\tSpecify load address for program (in hex, no loading chars!).\n"
-            "   -o<name>\tSpecify the output file name\n"
+            "   -o <name>\tSpecify the output file name\n"
             "   -f\t\tForce overwritten the output file\n"
             "   \t\tThe default depends on the BASIC version.\n");
 
@@ -870,7 +870,7 @@ int main(int argc, char **argv)
                 "\t10\tBasic v10.0 program (C64DX)\n\n");
 
         fprintf(stdout, "\tUsage examples:\n"
-            "\tpetcat -w2 -o outputfile.txt -- inputfile.prg\n"
+            "\tpetcat -2 -o outputfile.txt -- inputfile.prg\n"
             "\t\tConvert inputfile.prg to a text file in outputfile.txt,\n"
             "\t\tusing BASIC V2 only\n"
             "\tpetcat -wsimon -o outputfile.prg -- inputfile.txt\n"
