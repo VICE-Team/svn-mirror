@@ -53,6 +53,7 @@
 #include "intl.h"
 #include "kbd.h"
 #include "kbdbuf.h"
+#include "keyboard.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -1689,6 +1690,7 @@ static long CALLBACK window_proc(HWND window, UINT msg,
         break;
       case WM_KILLFOCUS:
 //      log_debug("WM_KILLFOCUS");
+        keyboard_key_clear();
         break;
       case WM_SETFOCUS:
 //      log_debug("WM_SETFOCUS");
