@@ -18,9 +18,19 @@ n_2sn
 1
 4
 MCommand
-179
-genwinres ..\res.h ..\menuid.h ..\res.txt ..\resdialogs.txt ..\resmenu.txt ..\resstrings.txt
-gentranslate ..\..\..\translate.txt ..\..\..\translate.h ..\..\..\translate_table.h
+464
+copy ..\res.txt res.txt
+copy ..\resdialogs.txt resd.txt
+copy ..\resmenu.txt resm.txt
+copy ..\resstrings.txt ress.txt
+copy ..\..\..\translate.txt trans.txt
+genwr res.h menuid.h res.txt resd.txt resm.txt ress.txt
+gentr trans.txt trans.h transtab.h
+copy res.h ..\res.h
+copy menuid.h ..\menuid.h
+copy trans.h ..\..\..\translate.h
+copy transtab.h ..\..\..\translate_table.h
+del res.txt resd.txt resm.txt ress.txt trans.txt res.h menuid.h trans.h transtab.h
 
 5
 MCommand
@@ -45,7 +55,7 @@ WVList
 0
 10
 WPickList
-2
+5
 11
 MItem
 3
@@ -143,6 +153,60 @@ WVList
 WVList
 0
 11
+1
+1
+0
+35
+MItem
+5
+*.exe
+36
+WString
+3
+NIL
+37
+WVList
+0
+38
+WVList
+0
+-1
+1
+1
+0
+39
+MItem
+9
+gentr.exe
+40
+WString
+3
+NIL
+41
+WVList
+0
+42
+WVList
+0
+35
+1
+1
+0
+43
+MItem
+9
+genwr.exe
+44
+WString
+3
+NIL
+45
+WVList
+0
+46
+WVList
+0
+35
 1
 1
 0

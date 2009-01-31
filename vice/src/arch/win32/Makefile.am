@@ -265,8 +265,8 @@ EXTRA_DIST = \
 	watcom/drive.tgt \
 	watcom/fileio.tgt \
 	watcom/fsdevice.tgt \
-	watcom/gentranslate.tgt \
-	watcom/genwinres.tgt \
+	watcom/gentr.tgt \
+	watcom/genwr.tgt \
 	watcom/gfxoutputdrv.tgt \
 	watcom/iec.tgt \
 	watcom/iec128dcr.tgt \
