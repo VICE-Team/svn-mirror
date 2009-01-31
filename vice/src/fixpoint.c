@@ -24,10 +24,10 @@
  *
  */
 
-#ifndef _FIXPOINT_C
-#define _FIXPOINT_C
+#ifndef VICE_FIXPOINT_C
+#define VICE_FIXPOINT_C
 
-#ifdef _FIXPOINT_H
+#ifdef VICE_FIXPOINT_H
 #define FIXPOINT_FROM_HEADER
 #endif
 

@@ -18,7 +18,13 @@ o_2sn
 1
 4
 MCommand
-0
+188
+copy ..\..\..\translate.txt trans.txt
+gentr trans.txt trans.h transtab.h
+copy trans.h ..\..\..\translate.h
+copy transtab.h ..\..\..\translate_table.h
+del trans.txt trans.h transtab.h
+
 5
 MCommand
 0
@@ -42,7 +48,7 @@ WVList
 0
 10
 WPickList
-3
+5
 11
 MItem
 3
@@ -146,6 +152,42 @@ WVList
 WVList
 0
 11
+1
+1
+0
+36
+MItem
+5
+*.exe
+37
+WString
+3
+NIL
+38
+WVList
+0
+39
+WVList
+0
+-1
+1
+1
+0
+40
+MItem
+9
+gentr.exe
+41
+WString
+3
+NIL
+42
+WVList
+0
+43
+WVList
+0
+36
 1
 1
 0
