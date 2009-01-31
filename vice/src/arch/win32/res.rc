@@ -708,11 +708,11 @@ BEGIN
     AUTOCHECKBOX    "&Reset Datasette ved CPU-reset",IDC_DATASETTE_RESET_WITH_CPU,
                     7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
     GROUPBOX        "Datasettehastighed under læsning",IDC_STATIC,5,25,160,60
-    LTEXT           "klokcykler yderligere &fforsinkelse per puls",
+    LTEXT           "klok ekstra &forsinkelse per puls",
                     IDC_STATIC,42,42,120,8
     COMBOBOX        IDC_DATASETTE_SPEED_TUNING,9,41,30,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "klokcykler forsinkelse vid &nulværdier",IDC_STATIC,60,62,100,8
+    LTEXT           "klok forsinkelse ved &nulværdier",IDC_STATIC,60,62,100,8
     COMBOBOX        IDC_DATASETTE_ZERO_GAP_DELAY,9,61,48,80,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
@@ -4752,7 +4752,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     AUTOCHECKBOX    "&Använd IEC-enhet",IDC_PRINTER_USEIECDEVICE,15,10,100,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Skrivaremularing",IDC_STATIC,15,25,70,8
+    LTEXT           "Skrivaremulering",IDC_STATIC,15,25,70,8
     COMBOBOX        IDC_PRINTER_TYPE, 80,23,55,50,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     PUSHBUTTON      "Sänd sidmatning", IDC_PRINTER_FORMFEED, 220,23,60,15
@@ -6607,8 +6607,8 @@ BEGIN
   IDS_HISTORY_RECORDED_VICE_S     "Historik optaget med VICE-%s"
   IDS_PAUSED                      "pauset"
   IDS_FRAME_NUMBER                "frame #"
-  IDS_RESUMED                     "genoptaget"
-  IDS_REALLY_EXIT                 "Vil du virkelig afslutte?\012\012Alla data i emuleret RAM går tabt."
+  IDS_RESUMED                     "fortsat"
+  IDS_REALLY_EXIT                 "Vil du virkelig afslutte?\012\012Alle data i emuleret RAM går tabt."
   IDS_CANNOT_AUTOSTART_FILE       "Kan ikke autostarte valgt fil"
   IDS_ATTACHED_TAPE_S             "Tilsluttet bånd %s"
   IDS_SETTINGS_SAVED_SUCCESS      "Indstillingerne er gemt."
@@ -6798,7 +6798,7 @@ BEGIN
 #endif
   IDS_MP_EDIT                     "Redigér"
   IDS_MP_SNAPSHOT                 "Sna&pshot"
-  IDS_MP_RECORDING_START_MODE     "Indspiller start-tilstand"
+  IDS_MP_RECORDING_START_MODE     "Start-tilstand for optagelse"
   IDS_MP_OPTIONS                  "&Indstillinger"
   IDS_MP_REFRESH_RATE             "&Opdateringsfrekvens"
   IDS_MP_MAXIMUM_SPEED            "&Maksimal hastighed"
@@ -6829,7 +6829,7 @@ BEGIN
   IDS_MI_TOGGLE_DOUBLESIZE        "&Dobbelt størrelse"
   IDS_MI_TOGGLE_DOUBLESCAN        "Do&bbelt-skan"
   IDS_MI_DRIVE_TRUE_EMULATION     "Æg&te drev-emulering"
-  IDS_MI_AUTOSTART_HANDLE_TDE     "Handle TDE for autostart"
+  IDS_MI_AUTOSTART_HANDLE_TDE     "Brug TDE ved autostart"
   IDS_MI_TOGGLE_VIDEOCACHE        "Grafik&cache"
   IDS_MI_DRIVE_SETTINGS           "&Diskettedrevsindstillinger..."
   IDS_MI_CART_ATTACH_CRT          "&CRT-image..."
@@ -6949,7 +6949,7 @@ BEGIN
   IDS_MI_LANG_SV                  "&Svensk"
   IDS_MI_LANG_TR                  "&Turkish"
   IDS_MI_CMDLINE                  "Kommand&olinjeparametre"
-  IDS_MI_CONTRIBUTORS             "&Bidragslämnare"
+  IDS_MI_CONTRIBUTORS             "&Bidragsydere"
   IDS_MI_LICENSE                  "&Licens"
   IDS_MI_WARRANTY                 "Ingen &garanti"
   IDS_MI_TOGGLE_FULLSCREEN        "Fuldskærm"
@@ -7337,7 +7337,7 @@ BEGIN
   IDS_MI_SAVE_SETTINGS_ON_EXIT    "Einstellungen beim Beenden speichern"
   IDS_MI_CONFIRM_ON_EXIT          "&Bestätigung beim Beenden"
   IDS_MI_LANG_EN                  "&Englisch"
-  IDS_MI_LANG_DA                  "D&anish"
+  IDS_MI_LANG_DA                  "D&änisch"
   IDS_MI_LANG_DE                  "&Deutsch"
   IDS_MI_LANG_FR                  "&Französisch"
   IDS_MI_LANG_HU                  "&Ungarisch"
@@ -7345,7 +7345,7 @@ BEGIN
   IDS_MI_LANG_NL                  "&Holländisch"
   IDS_MI_LANG_PL                  "&Polnisch"
   IDS_MI_LANG_SV                  "&Schwedisch"
-  IDS_MI_LANG_TR                  "&Turkish"
+  IDS_MI_LANG_TR                  "&Türkisch"
   IDS_MI_CMDLINE                  "Kommandozeilen &Optionen"
   IDS_MI_CONTRIBUTORS             "VICE Hackers"
   IDS_MI_LICENSE                  "&Lizenz"
@@ -9729,7 +9729,7 @@ BEGIN
   IDS_MI_SAVE_SETTINGS_ON_EXIT    "Spara inställningar vid &avslut"
   IDS_MI_CONFIRM_ON_EXIT          "&Bekräfta avslutning"
   IDS_MI_LANG_EN                  "&Engelska"
-  IDS_MI_LANG_DA                  "D&anish"
+  IDS_MI_LANG_DA                  "D&anska"
   IDS_MI_LANG_DE                  "&Tyska"
   IDS_MI_LANG_FR                  "&Franska"
   IDS_MI_LANG_HU                  "&Ungerska"
@@ -9737,7 +9737,7 @@ BEGIN
   IDS_MI_LANG_NL                  "&Nederländska"
   IDS_MI_LANG_PL                  "&Polska"
   IDS_MI_LANG_SV                  "&Svenska"
-  IDS_MI_LANG_TR                  "&Turkish"
+  IDS_MI_LANG_TR                  "&Turkiska"
   IDS_MI_CMDLINE                  "Kommandorads&flaggor"
   IDS_MI_CONTRIBUTORS             "&Bidragslämnare"
   IDS_MI_LICENSE                  "&Licens"

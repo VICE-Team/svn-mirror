@@ -12161,18 +12161,3 @@ msgstr "Digimax kartuþunu pasifleþtir"
 #: src/translate.c.po.c:10362
 msgid "Base address of the digimax cartridge"
 msgstr "Digimax kartuþunun taban adresi"
-
-#~ msgid "Other"
-#~ msgstr "Diðer"
-
-#~ msgid "ACIA Device"
-#~ msgstr "ACIA Aygýtý"
-
-#~ msgid "PET REU Size"
-#~ msgstr "PET REU Boyutu"
-
-#~ msgid "SID Address"
-#~ msgstr "SID Adresi"
-
-#~ msgid "SID Clock"
-#~ msgstr "SID Saati"

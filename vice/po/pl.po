@@ -13324,15 +13324,3 @@ msgstr "W³±cz Expert Cartridge..."
 #, fuzzy
 msgid "Base address of the digimax cartridge"
 msgstr "Rozszerzenie RAM napêdu #8 "
-
-#, fuzzy
-#~ msgid "ACIA Device"
-#~ msgstr "Urz±dzenia ACIA"
-
-#, fuzzy
-#~ msgid "PET REU Size"
-#~ msgstr "Rozmiar REU"
-
-#, fuzzy
-#~ msgid "SID Address"
-#~ msgstr "Za³aduj ustawienia"

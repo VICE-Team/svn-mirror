@@ -12171,18 +12171,3 @@ msgstr "Digimax cartridge tiltása"
 #: src/translate.c.po.c:10362
 msgid "Base address of the digimax cartridge"
 msgstr "A digimax cartridge báziscíme"
-
-#~ msgid "Other"
-#~ msgstr "Egyéb"
-
-#~ msgid "ACIA Device"
-#~ msgstr "ACIA eszköz"
-
-#~ msgid "PET REU Size"
-#~ msgstr "PET REU mérete"
-
-#~ msgid "SID Address"
-#~ msgstr "SID cím"
-
-#~ msgid "SID Clock"
-#~ msgstr "SID órajel"

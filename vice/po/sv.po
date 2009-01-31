@@ -12132,18 +12132,3 @@ msgstr "Inaktivera Digimax Cartridge"
 #: src/translate.c.po.c:10362
 msgid "Base address of the digimax cartridge"
 msgstr "Basadress för Digimax-cartridge"
-
-#~ msgid "Other"
-#~ msgstr "Annan"
-
-#~ msgid "ACIA Device"
-#~ msgstr "ACIA-enhet"
-
-#~ msgid "PET REU Size"
-#~ msgstr "Storlek på PET REU"
-
-#~ msgid "SID Address"
-#~ msgstr "SID-adress"
-
-#~ msgid "SID Clock"
-#~ msgstr "SID-klocka"

@@ -12226,18 +12226,3 @@ msgstr "De digimaxcartridge uitschakelen"
 #: src/translate.c.po.c:10362
 msgid "Base address of the digimax cartridge"
 msgstr "Basisadres van de digimaxcartridge"
-
-#~ msgid "Other"
-#~ msgstr "Andere"
-
-#~ msgid "ACIA Device"
-#~ msgstr "ACIA-apparaat"
-
-#~ msgid "PET REU Size"
-#~ msgstr "PET REU-grootte"
-
-#~ msgid "SID Address"
-#~ msgstr "SID-adres"
-
-#~ msgid "SID Clock"
-#~ msgstr "SID-klok"

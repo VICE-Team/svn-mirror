@@ -1,13 +1,13 @@
 # Danish translation file for VICE
 # Mikkel Holm Olsen <vice-dk@symlink.dk>
 # Copyright 2009
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-28 21:49+0100\n"
-"PO-Revision-Date: 2009-01-01 17:58+0100\n"
+"POT-Creation-Date: 2009-01-31 09:04-0800\n"
+"PO-Revision-Date: 2009-01-16 22:10+0100\n"
 "Last-Translator: Mikkel Holm Olsen <vice-dk@symlink.dk>\n"
 "Language-Team: Danish <vice-dk@symlink.dk>\n"
 "MIME-Version: 1.0\n"
@@ -22,18 +22,28 @@ msgstr "Vælg enhed for joystick port 1"
 msgid "Set device for joystick port 2"
 msgstr "Vælg enhed for joystick port 2"
 
-#: src/arch/unix/mididrv.c:110 src/arch/unix/mididrv.c:115
+#: src/arch/unix/mididrv.c:659 src/arch/unix/mididrv.c:664
 #: src/translate.c.po.c:3636
 msgid "<name>"
 msgstr "<navn>"
 
-#: src/arch/unix/mididrv.c:110 src/arch/win32/res.rc.po.c:5997
+#: src/arch/unix/mididrv.c:659 src/arch/win32/res.rc.po.c:5997
 msgid "Specify MIDI-In device"
 msgstr "Angiv enhed for MIDI-ind"
 
-#: src/arch/unix/mididrv.c:115 src/arch/win32/res.rc.po.c:5998
+#: src/arch/unix/mididrv.c:664 src/arch/win32/res.rc.po.c:5998
 msgid "Specify MIDI-Out device"
 msgstr "Angiv enhed for MIDI-ud"
+
+#: src/arch/unix/mididrv.c:670
+#, fuzzy
+msgid "<driver>"
+msgstr "WMM-driver"
+
+#: src/arch/unix/mididrv.c:670
+#, fuzzy
+msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
+msgstr "Vælg SID-motor (0: FastSID, 1: ReSID)"
 
 #: src/arch/unix/rs232.c:160 src/arch/unix/rs232.c:165
 #: src/arch/unix/rs232.c:170 src/arch/unix/rs232.c:175
@@ -1108,7 +1118,7 @@ msgstr "Gå til bogmærke"
 #: src/arch/win32/respet.rc.po.c:105 src/arch/win32/resplus4.rc.po.c:117
 #: src/arch/win32/resvic20.rc.po.c:116 src/arch/amigaos/intl.c.po.c:974
 msgid "Recording start mode"
-msgstr "Indspiller start-tilstand"
+msgstr "Start-tilstand for optagelse"
 
 #: src/arch/unix/gui/uicommands.c:519 src/arch/unix/gui/uinetplay.c:111
 msgid "Netplay (experimental)"
@@ -4268,11 +4278,11 @@ msgstr "Datasettehastighed under læsning"
 
 #: src/arch/win32/res.rc.po.c:600
 msgid "cycle(s) additional &delay each trigger"
-msgstr "klokcykler yderligere &fforsinkelse per puls"
+msgstr "klok ekstra &forsinkelse per puls"
 
 #: src/arch/win32/res.rc.po.c:604
 msgid "cycles delay at &zero-values"
-msgstr "klokcykler forsinkelse vid &nulværdier"
+msgstr "klok forsinkelse ved &nulværdier"
 
 #: src/arch/win32/res.rc.po.c:811
 msgid "Joystick in port #&1"
@@ -4758,7 +4768,7 @@ msgstr "frame #"
 
 #: src/arch/win32/res.rc.po.c:5822
 msgid "resumed"
-msgstr "genoptaget"
+msgstr "fortsat"
 
 #: src/arch/win32/res.rc.po.c:5823 src/arch/amigaos/intl.c.po.c:3025
 msgid ""
@@ -4768,7 +4778,7 @@ msgid ""
 msgstr ""
 "Vil du virkelig afslutte?\n"
 "\n"
-"Alla data i emuleret RAM går tabt."
+"Alle data i emuleret RAM går tabt."
 
 #: src/arch/win32/res.rc.po.c:5824 src/arch/amigaos/intl.c.po.c:2604
 msgid "Cannot autostart specified file."
@@ -5573,7 +5583,7 @@ msgstr "Æg&te drev-emulering"
 
 #: src/arch/win32/res.rc.po.c:6044
 msgid "Ha&ndle TDE for autostart"
-msgstr ""
+msgstr "Brug TDE ved autostart"
 
 #: src/arch/win32/res.rc.po.c:6045
 msgid "Video &cache"
@@ -6026,7 +6036,7 @@ msgstr "Kommand&olinjeparametre"
 
 #: src/arch/win32/res.rc.po.c:6164
 msgid "&Contributors"
-msgstr "&Bidragslämnare"
+msgstr "&Bidragsydere"
 
 #: src/arch/win32/res.rc.po.c:6165
 msgid "&License"
@@ -7096,7 +7106,7 @@ msgstr "&Parallellkabel"
 #: src/arch/win32/resdriveplus4.rc.po.c:42
 #: src/arch/win32/resdrivevic20.rc.po.c:52
 msgid "Drive &expansion"
-msgstr "Enhets&udviddelse"
+msgstr "Enheds&udviddelse"
 
 #: src/arch/win32/resdrivec128.rc.po.c:57
 #: src/arch/win32/resdrivec64.rc.po.c:55
@@ -8181,9 +8191,8 @@ msgid "True drive emulation"
 msgstr "Ægte drev-emulering"
 
 #: src/arch/amigaos/intl.c.po.c:1425
-#, fuzzy
 msgid "Handle TDE for autostart"
-msgstr "*Brug ægte drev-emulering"
+msgstr "Brug TDE ved autostart"
 
 #: src/arch/amigaos/intl.c.po.c:1436
 msgid "Virtual device traps"
@@ -8430,9 +8439,8 @@ msgid "English"
 msgstr "Engelsk"
 
 #: src/arch/amigaos/intl.c.po.c:2228
-#, fuzzy
 msgid "Danish"
-msgstr "Engelsk"
+msgstr "Dansk"
 
 #: src/arch/amigaos/intl.c.po.c:2239
 msgid "German"
@@ -11223,7 +11231,7 @@ msgstr "Angiv baudhastighet for RS232-emuleringen på brugerporten."
 
 #: src/translate.c.po.c:7045
 msgid "Specify VICE RS232 device for userport"
-msgstr "Angiv VICE RS232-enhet for brugerporten"
+msgstr "Angiv VICE RS232-enhed for brugerporten"
 
 #: src/translate.c.po.c:7059
 msgid "Enable IEC device emulation for device #4"
@@ -12149,18 +12157,3 @@ msgstr "Deaktiver Digimax-cartridge"
 #: src/translate.c.po.c:10362
 msgid "Base address of the digimax cartridge"
 msgstr "Baseadresse for Digimax-cartridge"
-
-#~ msgid "Other"
-#~ msgstr "Anden"
-
-#~ msgid "ACIA Device"
-#~ msgstr "ACIA-enhed"
-
-#~ msgid "PET REU Size"
-#~ msgstr "PET REU-størrelse"
-
-#~ msgid "SID Address"
-#~ msgstr "SID-adresse"
-
-#~ msgid "SID Clock"
-#~ msgstr "SID-klok"

@@ -7105,7 +7105,7 @@ translate_t string_table[] = {
 /* rs232drv/rsuser.c */
 /* en */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT,    N_("Specify VICE RS232 device for userport")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT_DA, "Angiv VICE RS232-enhet for brugerporten"},
+/* da */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT_DA, "Angiv VICE RS232-enhed for brugerporten"},
 /* de */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT_DE, "VICE RS232 Gerät für Userport definieren"},
 /* fr */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT_FR, "Spécifier un périphérique VICE RS232 pour le userport"},
 /* hu */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT_HU, "VICE RS232-es userport eszköz megadása"},
@@ -9537,15 +9537,15 @@ translate_t string_table[] = {
 /* mouse.c */
 /* en */ {IDCLS_SELECT_MOUSE_TYPE,    N_("Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SELECT_MOUSE_TYPE_DA, "Vælg mussetype (0 = 1351, 1 = NEOS, 2 = Amiga)"},
-/* de */ {IDCLS_SELECT_MOUSE_TYPE_DE, "Maus typ wählen (0 = 1351, 1 = NEOS, 2 = Amiga)"},
-/* fr */ {IDCLS_SELECT_MOUSE_TYPE_FR, "Sélectionner le type de souris (0 = 1351, 1 = NEOS, 2 = Amiga)"},
-/* hu */ {IDCLS_SELECT_MOUSE_TYPE_HU, "Egér típus kiválasztása (0 = 1351, 1 = NEOS, 2 = Amiga)"},
-/* it */ {IDCLS_SELECT_MOUSE_TYPE_IT, "Seleziona il tipo di mouse (0 = 1351, 1 = NEOS, 2 = Amiga)"},
+/* da */ {IDCLS_SELECT_MOUSE_TYPE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SELECT_MOUSE_TYPE_DE, "Maus typ wählen (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles)"},
+/* fr */ {IDCLS_SELECT_MOUSE_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SELECT_MOUSE_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SELECT_MOUSE_TYPE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SELECT_MOUSE_TYPE_NL, "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles)"},
 /* pl */ {IDCLS_SELECT_MOUSE_TYPE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SELECT_MOUSE_TYPE_SV, "Välj mustyp (0 = 1351, 1 = NEOS, 2 = Amiga)"},
-/* tr */ {IDCLS_SELECT_MOUSE_TYPE_TR, "Mouse tipini seçin (0 = 1351, 1 = NEOS, 2 = Amiga)"},
+/* sv */ {IDCLS_SELECT_MOUSE_TYPE_SV, "Välj mustyp (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = paddlar)"},
+/* tr */ {IDCLS_SELECT_MOUSE_TYPE_TR, ""},  /* fuzzy */
 #endif
 
 /* ps2mouse.c */

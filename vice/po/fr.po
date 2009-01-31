@@ -12568,20 +12568,3 @@ msgstr "Désactiver la cartouche Digimax"
 #: src/translate.c.po.c:10362
 msgid "Base address of the digimax cartridge"
 msgstr "Adresse de base de la cartouche Digimax"
-
-#~ msgid "Other"
-#~ msgstr "Autre"
-
-#, fuzzy
-#~ msgid "ACIA Device"
-#~ msgstr "Périphérique ACIA"
-
-#, fuzzy
-#~ msgid "PET REU Size"
-#~ msgstr "Taille du REU"
-
-#~ msgid "SID Address"
-#~ msgstr "Adresse SID"
-
-#~ msgid "SID Clock"
-#~ msgstr "Horloge SID"

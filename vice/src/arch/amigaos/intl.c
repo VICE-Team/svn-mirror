@@ -999,7 +999,7 @@ intl_translate_t intl_string_table[] = {
 /* tr */ {IDMS_RETURN_TO_MILESTONE_TR, "Kilometre taþýna geri dön"},
 
 /* en */ {IDMS_RECORDING_START_MODE,    "Recording start mode"},
-/* da */ {IDMS_RECORDING_START_MODE_DA, "Indspiller start-tilstand"},
+/* da */ {IDMS_RECORDING_START_MODE_DA, "Start-tilstand for optagelse"},
 /* de */ {IDMS_RECORDING_START_MODE_DE, "Aufnahme Start Modus"},
 /* fr */ {IDMS_RECORDING_START_MODE_FR, "Mode de départ d'enregistrement"},
 /* hu */ {IDMS_RECORDING_START_MODE_HU, "Rögzítés indításának módja"},
@@ -1450,8 +1450,8 @@ intl_translate_t intl_string_table[] = {
 /* tr */ {IDMS_TRUE_DRIVE_EMU_TR, "Gerçek sürücü emülasyonu"},
 
 /* en */ {IDMS_AUTOSTART_HANDLE_TDE,    "Handle TDE for autostart"},
-/* da */ {IDMS_AUTOSTART_HANDLE_TDE_DA, ""},  /* fuzzy */
-/* de */ {IDMS_AUTOSTART_HANDLE_TDE_DE, "&Autostart mit TDE"},
+/* da */ {IDMS_AUTOSTART_HANDLE_TDE_DA, "Brug TDE ved autostart"},
+/* de */ {IDMS_AUTOSTART_HANDLE_TDE_DE, "Autostart mit TDE"},
 /* fr */ {IDMS_AUTOSTART_HANDLE_TDE_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_AUTOSTART_HANDLE_TDE_HU, ""},  /* fuzzy */
 /* it */ {IDMS_AUTOSTART_HANDLE_TDE_IT, ""},  /* fuzzy */
@@ -2253,14 +2253,14 @@ intl_translate_t intl_string_table[] = {
 /* tr */ {IDMS_LANGUAGE_ENGLISH_TR, "Ýngilizce"},
 
 /* en */ {IDMS_LANGUAGE_DANISH,    "Danish"},
-/* da */ {IDMS_LANGUAGE_DANISH_DA, ""},  /* fuzzy */
-/* de */ {IDMS_LANGUAGE_DANISH_DE, ""},  /* fuzzy */
+/* da */ {IDMS_LANGUAGE_DANISH_DA, "Dansk"},
+/* de */ {IDMS_LANGUAGE_DANISH_DE, "Dänisch"},
 /* fr */ {IDMS_LANGUAGE_DANISH_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_LANGUAGE_DANISH_HU, ""},  /* fuzzy */
 /* it */ {IDMS_LANGUAGE_DANISH_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_LANGUAGE_DANISH_NL, "Deens"},
 /* pl */ {IDMS_LANGUAGE_DANISH_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_LANGUAGE_DANISH_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_LANGUAGE_DANISH_SV, "Danska"},
 /* tr */ {IDMS_LANGUAGE_DANISH_TR, ""},  /* fuzzy */
 
 /* en */ {IDMS_LANGUAGE_GERMAN,    "German"},
@@ -2364,13 +2364,13 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDMS_LANGUAGE_TURKISH,    "Turkish"},
 /* da */ {IDMS_LANGUAGE_TURKISH_DA, ""},  /* fuzzy */
-/* de */ {IDMS_LANGUAGE_TURKISH_DE, ""},  /* fuzzy */
+/* de */ {IDMS_LANGUAGE_TURKISH_DE, "Türkisch"},
 /* fr */ {IDMS_LANGUAGE_TURKISH_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_LANGUAGE_TURKISH_HU, ""},  /* fuzzy */
 /* it */ {IDMS_LANGUAGE_TURKISH_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_LANGUAGE_TURKISH_NL, "Turks"},
 /* pl */ {IDMS_LANGUAGE_TURKISH_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_LANGUAGE_TURKISH_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_LANGUAGE_TURKISH_SV, "Turkiska"},
 /* tr */ {IDMS_LANGUAGE_TURKISH_TR, ""},  /* fuzzy */
 
 /* en */ {IDMS_LANGUAGE,    "Language"},
@@ -3050,7 +3050,7 @@ intl_translate_t intl_string_table[] = {
 /* tr */ {IDS_SELECT_END_SNAPSHOT_TR, "Olay tarihçesi için bitiþ anlýk görüntüsünü seç"},
 
 /* en */ {IDS_REALLY_EXIT,    "Do you really want to exit?\n\nAll the data present in the emulated RAM will be lost."},
-/* da */ {IDS_REALLY_EXIT_DA, "Vil du virkelig afslutte?\n\nAlla data i emuleret RAM går tabt."},
+/* da */ {IDS_REALLY_EXIT_DA, "Vil du virkelig afslutte?\n\nAlle data i emuleret RAM går tabt."},
 /* de */ {IDS_REALLY_EXIT_DE, "Willst Du wirklich beenden?\n\nDaten im emulierten Speicher RAM gehen verloren."},
 /* fr */ {IDS_REALLY_EXIT_FR, "Désirez-vous vraiment quitter?\n\nToutes les données présentes dans la mémoire de "
                               "l'émulateur seront perdues."},

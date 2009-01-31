@@ -12126,18 +12126,3 @@ msgstr "Digimax Cartridge deaktivieren"
 #: src/translate.c.po.c:10362
 msgid "Base address of the digimax cartridge"
 msgstr "Basis Adresse für Digimax Erweiterung"
-
-#~ msgid "Other"
-#~ msgstr "Anderer"
-
-#~ msgid "ACIA Device"
-#~ msgstr "ACIA Gerät"
-
-#~ msgid "PET REU Size"
-#~ msgstr "PET REU Größe"
-
-#~ msgid "SID Address"
-#~ msgstr "SID Adresse"
-
-#~ msgid "SID Clock"
-#~ msgstr "SID Uhr"

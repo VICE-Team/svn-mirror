@@ -157,6 +157,7 @@ src/arch/win32/resreu.rc.po.c
 src/arch/win32/resrs232user.rc.po.c
 src/arch/win32/ressid.rc.po.c
 src/arch/win32/ressidcart.rc.po.c
+src/arch/win32/ressiddtv.rc.po.c
 src/arch/win32/restfe.rc.po.c
 src/arch/win32/resvic20.rc.po.c
 src/arch/win32/resvicii.rc.po.c
