@@ -191,7 +191,7 @@ private:
 
   /* Resonance/Distortion/Type3/Type4 helpers. */
   float type4_w0_cache, _1_div_Q, type3_fc_kink_exp, distortion_CT,
-        type3_fc_distortion_offset_bp, type3_fc_distortion_offset_hp;
+        type3_fc_distortion_offset;
 
 friend class SIDFP;
 };
@@ -207,7 +207,6 @@ friend class SIDFP;
 const float kinkiness = 0.966f;
 const float sidcaps_6581 = 470e-12f;
 const float outputleveldifference_lp_bp = 1.33f;
-const float outputleveldifference_bp_hp = 1.33f;
 
 RESID_INLINE
 static float fastexp(float val) {
@@ -329,10 +328,11 @@ float FilterFP::clock(float voice1,
         /* Turning on resonance doesn't come alone: it brings a bit of
          * lowpass into the bandpass in its wake, but in the opposite phase...
          */
-        if (hp_bp_lp & 2)
-            Vf -= Vlp * res * (1.f / 15.f / 5.f);
+        float lpleak = Vlp * res * (1.f / 15.f / 6.f);
 
-        Vhp = Vbp * _1_div_Q * (1.f/outputleveldifference_bp_hp) - Vlp * (1.f/outputleveldifference_bp_hp/outputleveldifference_lp_bp) - Vi * distortion_rate;
+        Vhp = (Vbp + lpleak) * _1_div_Q
+            - Vlp * (1.f/outputleveldifference_lp_bp)
+            - Vi * distortion_rate;
 
         /* the input summer mixing, or something like it... */
         diff1 = (Vlp - Vbp) * (distortion_cf_threshold * 0.5f);
@@ -356,17 +356,17 @@ float FilterFP::clock(float voice1,
             Vhp += (Vf - Vhp) * distortion_cf_threshold;
        
         /* Simulating the exponential VCR that the FET block is... */
-        Vlp -= Vbp * type3_w0(Vbp, type3_fc_distortion_offset_bp) * outputleveldifference_lp_bp;
-        Vbp -= Vhp * type3_w0(Vhp, type3_fc_distortion_offset_hp) * outputleveldifference_bp_hp;
+        Vlp -= (Vbp - lpleak) * type3_w0(Vbp, type3_fc_distortion_offset) * outputleveldifference_lp_bp;
+        Vbp -= Vhp * type3_w0(Vhp, type3_fc_distortion_offset);
 
         /* saturate. This is likely the output inverter saturation. */
         if (Vf > 3.0e6f)
             Vf -= (Vf - 3.0e6f) / 2.f;
     } else {
         /* On the 8580, BP appears mixed in phase with the rest. */
-        Vhp = -Vbp * _1_div_Q - Vlp - Vi;
         Vlp += Vbp * type4_w0_cache;
         Vbp += Vhp * type4_w0_cache;
+        Vhp = -Vbp * _1_div_Q - Vlp - Vi;
     }
     
     return Vf * volf;
