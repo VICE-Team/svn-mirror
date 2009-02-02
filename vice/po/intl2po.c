@@ -347,7 +347,7 @@ int convert_rc(char *in_filename, char *out_filename)
       case FOUND_DIALOG:
         if (status!=SCANNING)
         {
-          printf(line_buffer);
+          printf("%s", line_buffer);
           wrong_location("DIALOG",infile,outfile,in_filename);
           return 0;
         }

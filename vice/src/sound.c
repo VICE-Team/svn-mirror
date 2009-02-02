@@ -445,7 +445,7 @@ static int sound_error(const char *msg)
     sound_close();
 
     if (console_mode || vsid_mode) {
-        log_message(sound_log, msg);
+        log_message(sound_log, "%s", msg);
     } else {
         char *txt = lib_msprintf("Sound: %s", msg);
         ui_error(txt);

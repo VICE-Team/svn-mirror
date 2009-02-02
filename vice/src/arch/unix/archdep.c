@@ -322,7 +322,7 @@ int archdep_num_text_columns(void)
 
 int archdep_default_logger(const char *level_string, const char *txt) {
     if (fputs(level_string, stdout) == EOF
-        || fprintf(stdout, txt) < 0
+        || fprintf(stdout, "%s", txt) < 0
         || fputc ('\n', stdout) == EOF)
         return -1;
     return 0;
