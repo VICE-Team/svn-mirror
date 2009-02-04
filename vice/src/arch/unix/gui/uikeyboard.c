@@ -81,7 +81,7 @@ static UI_CALLBACK(select_user_keymap)
     resname = machine_keymap_res_name_list[kindex];
 
     vsync_suspend_speed_eval();
-    filename = ui_select_file(_("Read Keymap File"), NULL, 0, 0, last_dir,
+    filename = ui_select_file(_("Read Keymap File"), NULL, 0, last_dir,
                               "*.vkm", &button, 0, NULL, UI_FC_LOAD);
 
     switch (button) {

@@ -88,7 +88,7 @@ static void tape_read_contents(tape_image_t *tape_image, image_contents_t *new)
     }
 }
 
-image_contents_t *tapecontents_read(const char *file_name, unsigned int unit)
+image_contents_t *tapecontents_read(const char *file_name)
 {
     tape_image_t *tape_image;
     image_contents_t *new;
@@ -109,35 +109,3 @@ image_contents_t *tapecontents_read(const char *file_name, unsigned int unit)
     tape_internal_close_tape_image(tape_image);
     return new;
 }
-
-char *tapecontents_filename_by_number(const char *filename, unsigned int unit,
-                                      unsigned int file_index)
-{
-    image_contents_t *contents;
-    image_contents_file_list_t *current;
-    char *s;
-
-    contents = tapecontents_read(filename, unit);
-
-    if (contents == NULL)
-        return NULL;
-
-    s = NULL;
-
-    if (file_index != 0) {
-        current = contents->file_list;
-        file_index--;
-        while ((file_index != 0) && (current != NULL)) {
-            current = current->next;
-            file_index--;
-        }
-        if (current != NULL) {
-            s = lib_stralloc((char *)(current->name));
-        }
-    }
-
-    image_contents_destroy(contents);
-
-    return s;
-}
-

@@ -4,10 +4,10 @@ projectIdent
 VpeMain
 1
 WRect
-10
-0
+-40
+-53
 10320
-9960
+9973
 2
 MProject
 3
@@ -1160,4 +1160,4 @@ WFileName
 gentr.tgt
 0
 0
-84
+183

@@ -1793,8 +1793,7 @@ int ui_extend_image_dialog(void)
 
 /* File browser. */
 char *ui_select_file(const char *title,
-                     char *(*read_contents_func)(const char *,
-                     unsigned int unit), unsigned int unit,
+                     read_contents_func_type read_contents_func,
                      unsigned int allow_autostart, const char *default_dir,
                      const char *default_pattern, ui_button_t *button_return,
                      unsigned int show_preview, int *attach_wp,
@@ -1818,7 +1817,8 @@ char *ui_select_file(const char *title,
        fixes the problem...  */
     file_selector = build_file_selector(_ui_top_level, &button);
 
-    XtVaSetValues(file_selector, XtNshowAutostartButton, allow_autostart, NULL);    XtVaSetValues(file_selector, XtNshowContentsButton,
+    XtVaSetValues(file_selector, XtNshowAutostartButton, allow_autostart, NULL);
+    XtVaSetValues(file_selector, XtNshowContentsButton,
                   read_contents_func ? 1 : 0,  NULL);
 
     XtVaSetValues(file_selector, XtNpattern,
@@ -1845,14 +1845,44 @@ char *ui_select_file(const char *title,
         if (fs_status.file_selected
             && button == UI_BUTTON_CONTENTS
             && read_contents_func != NULL) {
-            char *contents;
+            image_contents_t *contents;
             char *f = util_concat(fs_status.path, fs_status.file, NULL);
 
-            contents = read_contents_func(f, unit);
+            contents = read_contents_func(f);
             lib_free(f);
             if (contents != NULL) {
-                ui_show_text(fs_status.file, contents, 250, 240);
-                lib_free(contents);
+                char *buf, *tmp;
+                image_contents_file_list_t *p;
+                int buf_size;
+                size_t max_buf_size;
+
+                max_buf_size = 4096;
+                buf = (BYTE *)lib_malloc(max_buf_size);
+                buf_size = 0;
+
+                tmp = image_contents_to_string(contents, 1);
+#define BUFCAT(s) \
+    util_bufcat(buf, &buf_size, &max_buf_size, ((BYTE *)s), strlen(s))
+                BUFCAT(tmp);
+                lib_free(tmp);
+
+                if (contents->file_list == NULL)
+                    BUFCAT("\n(Empty image.)");
+                for (p = contents->file_list; p != NULL; p = p->next) {
+                    BUFCAT("\n");
+                    tmp = image_contents_file_to_string(p, 1);
+                    BUFCAT(tmp);
+                    lib_free(tmp);
+                }
+                if (contents->blocks_free >= 0) {
+                    tmp = lib_msprintf("\n%d BLOCKS FREE.", contents->blocks_free);
+                    BUFCAT(tmp);
+                    lib_free(tmp);
+                }
+
+                ui_show_text(fs_status.file, buf, 250, 240);
+                image_contents_destroy(contents);
+                lib_free(buf);
             } else {
                 ui_error(_("Unknown image type"));
             }

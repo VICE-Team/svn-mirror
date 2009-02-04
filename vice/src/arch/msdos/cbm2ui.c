@@ -73,7 +73,7 @@ static TUI_MENU_CALLBACK(custom_palette_callback)
         char *name;
 
         name = tui_file_selector("Load custom palette",
-                                 NULL, "*.vpl", NULL, 0, NULL, 0, NULL, NULL);
+                                 NULL, "*.vpl", NULL, NULL, NULL, NULL);
 
         if (name != NULL) {
             if (resources_set_string("CrtcPaletteFile", name) < 0)
@@ -153,7 +153,7 @@ static TUI_MENU_CALLBACK(load_rom_file_callback)
         char *name;
 
         name = tui_file_selector("Load ROM file",
-                                 NULL, "*", NULL, 0, NULL, 0, NULL, NULL);
+                                 NULL, "*", NULL, NULL, NULL, NULL);
 
         if (name != NULL) {
             if (resources_set_string(param, name) < 0)

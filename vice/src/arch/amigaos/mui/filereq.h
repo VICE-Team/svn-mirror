@@ -27,6 +27,8 @@
 #ifndef VICE_UI_FILEREQ_H
 #define VICE_UI_FILEREQ_H
 
+#include "imagecontents.h"
+
 enum {
   IDD_NONE = 0,
   IDD_OPENTAPE_TEMPLATE,
@@ -35,8 +37,7 @@ enum {
 
 extern char *ui_filereq(const char *title, int template,
                         char *initialdir, char *initialfile,
-                        char *(*read_content)(const char *),
+                        image_contents_t *(*read_content)(const char *),
                         int *autostart, char *resource_readonly);
 
 #endif
-

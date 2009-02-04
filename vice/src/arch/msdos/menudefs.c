@@ -41,6 +41,7 @@
 #include "datasette.h"
 #include "drivecpu.h"
 #include "imagecontents.h"
+#include "tapecontents.h"
 #include "info.h"
 #include "interrupt.h"
 #include "ioutil.h"
@@ -111,8 +112,8 @@ static TUI_MENU_CALLBACK(attach_tape_callback)
 
         name = tui_file_selector("Attach a tape image", directory,
                                  "*.t64;*.tap;*.t6z;*.taz;*.zip;*.gz;*.lzh",
-                                 default_item, IMAGE_CONTENTS_TAPE,
-                                 image_contents_read, 0, &file, NULL);
+                                 default_item,
+                                 tapecontents_read, &file, NULL);
 
         if (file != NULL) {
             if (autostart_tape(name, file, 0, AUTOSTART_MODE_RUN) < 0)
@@ -379,7 +380,7 @@ static TUI_MENU_CALLBACK(load_romset_callback)
         char *name;
 
         name = tui_file_selector("Load custom ROM set definition",
-                                 NULL, "*.vrs", NULL, 0, NULL, 0, NULL, NULL);
+                                 NULL, "*.vrs", NULL, NULL, NULL, NULL);
 
         if (name != NULL) {
             if (machine_romset_file_load(name) < 0)

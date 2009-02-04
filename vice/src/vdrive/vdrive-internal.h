@@ -31,8 +31,7 @@ struct vdrive_s;
 
 extern void vdrive_internal_init(void);
 
-extern struct vdrive_s *vdrive_internal_open_disk_image(const char *name,
-                                                        unsigned int unit,
+extern struct vdrive_s *vdrive_internal_open_fsimage(const char *name,
                                                         unsigned int read_only);
 extern int vdrive_internal_close_disk_image(struct vdrive_s *vdrive);
 extern int vdrive_internal_create_format_disk_image(const char *filename,

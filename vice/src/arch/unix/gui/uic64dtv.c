@@ -49,7 +49,7 @@ UI_CALLBACK(set_c64dtv_rom_name)
     static char *last_dir;
 
     filename = ui_select_file(_("C64DTV ROM image name"),
-                              NULL, 0, 0, last_dir,
+                              NULL, 0, last_dir,
                     	      "*.[bB][iI][nN]",
                     	      &button, 0, NULL, UI_FC_LOAD);
 

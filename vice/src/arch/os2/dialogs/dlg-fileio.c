@@ -658,7 +658,7 @@ static void ShowContents(HWND hwnd, char *image_name)
     //
     // try to open as a disk or tape image
     //
-    image = image_contents_read(IMAGE_CONTENTS_DISK, image_name, IMAGE_CONTENTS_AUTO);
+    image = diskcontents_read(image_name, 0);
     if (!image)
         return;
 

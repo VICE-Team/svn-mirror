@@ -38,6 +38,7 @@
 #include "attach.h"
 #include "autostart.h"
 #include "cartridge.h"
+#include "diskcontents.h"
 #include "imagecontents.h"
 #include "input_gp2x.h"
 #include "interrupt.h"
@@ -46,6 +47,7 @@
 #include "prefs_gp2x.h"
 #include "resources.h"
 #include "screenshot.h"
+#include "tapecontents.h"
 #include "ui_gp2x.h"
 #include "uiarch.h"
 #include "uitext_gp2x.h"
@@ -337,29 +339,49 @@ int keymapping_menu (unsigned char *screen) {
 	return 0;
 }
 
+static image_contents_t *get_file_list(const char *name)
+{
+    image_contents_t *contents;
+
+    contents = diskcontents_filesystem_read(name);
+    if (contents == NULL)
+    {
+        contents = tapecontents_read(name);
+    }
+    return contents;
+}
+
 char *image_file_req(unsigned char *screen, const char *image) {
 	static int num_items=0;
 	static int cursor_pos;
 	static int first_visible;
 	int bg;
 	char *selected = NULL;
-	char *contents_str;
-	static char *contents_list[255];
+	image_contents_t *contents;
+	image_contents_file_list_t *p;
+	char *start;
+	static char *contents_list[300];
 	int row;
 	int i;
 
 	if (num_items == 0) {
-		contents_str=image_contents_read_string(IMAGE_CONTENTS_AUTO,
-				image, 8, IMAGE_CONTENTS_STRING_PETSCII);
-		if (contents_str == NULL) return (char*)-1;
-		contents_list[0]=contents_str;
-		for(i=0; contents_str[i]; i++) {
-			if (contents_str[i] == '\n') {
-				num_items++;
-				contents_list[num_items]=contents_str+i+1;
-				contents_str[i]='\0';
-			}
+		contents = get_file_list(image);
+		if (contents == NULL) return (char*)-1;
+
+		start = image_contents_to_string(contents, 0);
+		contents_list[0]=start;
+
+		p = contents->file_list;
+
+		if (p == NULL) {
+			contents_list[1]=(char *)lib_stralloc("(EMPTY IMAGE.)");
+			num_items++;
 		}
+		else do {
+			start = image_contents_file_to_string(p, 0);
+			num_items++;
+			contents_list[num_items]= start;
+		} while ( (p = p->next) != NULL);
 		contents_list[num_items+1]=NULL;
 		cursor_pos=0;
 		first_visible=0;

@@ -212,6 +212,9 @@ void file_system_init(void)
 
     attach_log = log_open("Attach");
 
+    for (i = 0; i < 8; i++)
+        serial_device_type_set(SERIAL_DEVICE_VIRT, i);
+    
     for (i = 0; i < 4; i++) {
         file_system[i].serial = serial_device_get(i + 8);;
         file_system[i].vdrive = (vdrive_t *)lib_calloc(1, sizeof(vdrive_t));

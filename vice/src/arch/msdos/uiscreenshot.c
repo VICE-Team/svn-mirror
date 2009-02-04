@@ -203,7 +203,7 @@ tui_menu_item_def_t ui_screenshot_menu_def[] = {
 
 static char *screenshot_selector(const char *title, char *extension)
 {
-    return tui_file_selector(title, NULL, extension, NULL, 0, NULL, 0, NULL,
+    return tui_file_selector(title, NULL, extension, NULL, NULL, NULL,
                              NULL);
 }
 

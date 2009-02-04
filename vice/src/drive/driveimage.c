@@ -262,19 +262,11 @@ int drive_image_attach(disk_image_t *image, unsigned int unit)
 
     switch(image->type) {
       case DISK_IMAGE_TYPE_D64:
-        disk_image_attach_log(image, driveimage_log, unit, "D64");
-        break;
       case DISK_IMAGE_TYPE_D67:
-        disk_image_attach_log(image, driveimage_log, unit, "D67");
-        break;
       case DISK_IMAGE_TYPE_D71:
-        disk_image_attach_log(image, driveimage_log, unit, "D71");
-        break;
       case DISK_IMAGE_TYPE_G64:
-        disk_image_attach_log(image, driveimage_log, unit, "G64");
-        break;
       case DISK_IMAGE_TYPE_X64:
-        disk_image_attach_log(image, driveimage_log, unit, "X64");
+        disk_image_attach_log(image, driveimage_log, unit);
         break;
       default:
         return -1;
@@ -317,19 +309,11 @@ int drive_image_detach(disk_image_t *image, unsigned int unit)
     if (drive->image != NULL) {
         switch(image->type) {
           case DISK_IMAGE_TYPE_D64:
-            disk_image_detach_log(image, driveimage_log, unit, "D64");
-            break;
           case DISK_IMAGE_TYPE_D67:
-            disk_image_detach_log(image, driveimage_log, unit, "D67");
-            break;
           case DISK_IMAGE_TYPE_D71:
-            disk_image_detach_log(image, driveimage_log, unit, "D71");
-            break;
           case DISK_IMAGE_TYPE_G64:
-            disk_image_detach_log(image, driveimage_log, unit, "G64");
-            break;
           case DISK_IMAGE_TYPE_X64:
-            disk_image_detach_log(image, driveimage_log, unit, "X64");
+            disk_image_detach_log(image, driveimage_log, unit);
             break;
           default:
             return -1;

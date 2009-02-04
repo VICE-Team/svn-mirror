@@ -55,7 +55,7 @@ UI_CALLBACK(ui_load_rom_file)
     vsync_suspend_speed_eval();
 
     filename = ui_select_file(_("Load ROM file"),
-                              NULL, 0, 0, last_dir, "*", &button,
+                              NULL, 0, last_dir, "*", &button,
                               0, NULL, UI_FC_LOAD);
 
     switch (button) {
@@ -99,7 +99,7 @@ static UI_CALLBACK(uiromset_archive_load)
     vsync_suspend_speed_eval();
 
     filename = ui_select_file(_("Load custom ROM set archive"),
-                              NULL, 0, 0, last_dir, "*.vra",
+                              NULL, 0, last_dir, "*.vra",
                               &button, 0, NULL, UI_FC_LOAD);
 
     switch (button) {
@@ -241,7 +241,7 @@ static UI_CALLBACK(uiromset_file_load)
     vsync_suspend_speed_eval();
 
     filename = ui_select_file(_("Load custom ROM set file"),
-                              NULL, 0, 0, last_dir, "*.vrs",
+                              NULL, 0, last_dir, "*.vrs",
                               &button, 0, NULL, UI_FC_LOAD);
 
     switch (button) {

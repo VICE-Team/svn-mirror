@@ -14,7 +14,6 @@ libserial_a_SOURCES = \
 	fsdrive.c \
 	fsdrive.h \
 	serial-device.c \
-	serial-device.h \
 	serial-iec-bus.c \
 	serial-iec-bus.h \
 	serial-iec-device.c \

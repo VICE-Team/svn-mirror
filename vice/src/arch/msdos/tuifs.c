@@ -432,10 +432,7 @@ static char *change_path(struct file_list *fl, char *return_path,
 /* FIXME: documentation.  */
 char *tui_file_selector(const char *title, const char *directory,
                         const char *pattern, const char *default_item,
-                        unsigned int type,
-                        image_contents_t *(*contents_func)(unsigned int,
-                        const char *, unsigned int),
-                        unsigned int unit,
+                        read_contents_func_type contents_func,
                         char **browse_file_return,
                         unsigned int *browse_file_number_return)
 {
@@ -662,9 +659,8 @@ char *tui_file_selector(const char *title, const char *directory,
                 && fl->items[curr_item].type != FT_DIR
                 && browse_file_return != NULL) {
                 tui_display(0, tui_num_lines() - 1, tui_num_cols(), "");
-                *browse_file_return = tui_image_browser(type,
-                                          fl->items[curr_item].name,
-                                          contents_func, unit,
+                *browse_file_return = tui_image_browser(fl->items[curr_item].name,
+                                          contents_func,
                                           browse_file_number_return);
                 if (*browse_file_return != NULL) {
                     char *p = util_concat(return_path,

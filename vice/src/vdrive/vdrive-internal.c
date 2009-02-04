@@ -45,7 +45,7 @@
 static log_t vdrive_internal_log = LOG_DEFAULT;
 
 
-static vdrive_t *open_fsimage(const char *name, unsigned int read_only)
+vdrive_t *vdrive_internal_open_fsimage(const char *name, unsigned int read_only)
 {
     vdrive_t *vdrive;
     disk_image_t *image;
@@ -76,70 +76,26 @@ static vdrive_t *open_fsimage(const char *name, unsigned int read_only)
     return vdrive;
 }
 
-static vdrive_t *open_rawimage(unsigned int unit, unsigned int read_only)
-{
-    vdrive_t *vdrive;
-
-    vdrive = file_system_get_vdrive(unit);
-
-    return vdrive;
-}
-
-vdrive_t *vdrive_internal_open_disk_image(const char *name,
-                                          unsigned int unit,
-                                          unsigned int read_only)
-{
-    machine_drive_flush();
-
-    switch (unit) {
-      case 8:
-      case 9:
-      case 10:
-      case 11:
-        return open_rawimage(unit, read_only);
-      default:
-        break;
-    }
-
-    return open_fsimage(name, read_only);
-}
-
-static int close_fsimage(vdrive_t *vdrive)
-{
-    disk_image_t *image;
-
-    image = vdrive->image;
-
-    vdrive_detach_image(image, 100, vdrive);
-
-    if (disk_image_close(image) < 0)
-        return -1;
-
-    disk_image_media_destroy(image);
-    lib_free(image);
-    lib_free(vdrive);
-
-    return 0;
-}
-
-static int close_rawimage(vdrive_t *vdrive)
-{
-    return 0;
-}
-
 int vdrive_internal_close_disk_image(vdrive_t *vdrive)
 {
-    switch (vdrive->unit) {
-      case 8:
-      case 9:
-      case 10:
-      case 11:
-        return close_rawimage(vdrive);
-      default:
-        break;
+    disk_image_t *image = vdrive->image;
+
+    if (vdrive->unit != 8
+      && vdrive->unit != 9
+      && vdrive->unit != 10
+      && vdrive->unit != 11)
+    {
+        vdrive_detach_image(image, 100, vdrive);
+
+        if (disk_image_close(image) < 0)
+          return -1;
+
+        disk_image_media_destroy(image);
+        lib_free(image);
+        lib_free(vdrive);
     }
 
-    return close_fsimage(vdrive);
+    return 0;
 }
 
 static int vdrive_internal_format_disk_image(const char *filename,
@@ -152,7 +108,8 @@ static int vdrive_internal_format_disk_image(const char *filename,
     format_name = (disk_name == NULL) ? " " : disk_name;
 
     /* FIXME: Pass unit here.  */
-    vdrive = vdrive_internal_open_disk_image(filename, 0, 0);
+    machine_drive_flush();
+    vdrive = vdrive_internal_open_fsimage(filename, 0);
 
     if (vdrive == NULL)
         return -1;

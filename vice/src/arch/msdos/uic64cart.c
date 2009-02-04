@@ -55,7 +55,7 @@ static TUI_MENU_CALLBACK(attach_cartridge_callback)
         filter = (type == CARTRIDGE_CRT) ? "*.crt" : "*";
 
         name = tui_file_selector("Attach cartridge image",
-                                 directory, filter, default_item, 0, NULL, 0,
+                                 directory, filter, default_item, NULL,
                                  NULL, NULL);
         if (name != NULL
             && (s == NULL || strcasecmp(name, s) != 0)

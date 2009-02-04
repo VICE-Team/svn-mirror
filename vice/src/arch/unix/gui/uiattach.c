@@ -33,6 +33,8 @@
 #include "attach.h"
 #include "autostart.h"
 #include "imagecontents.h"
+#include "tapecontents.h"
+#include "diskcontents.h"
 #include "lib.h"
 #include "resources.h"
 #include "tape.h"
@@ -52,18 +54,13 @@ void ui_set_selected_file(int num)
     selection_from_image = num;
 }
 
-static char *read_disk_image_contents(const char *name, unsigned int unit)
-{
-#ifdef USE_GNOMEUI
-    return image_contents_read_string(IMAGE_CONTENTS_DISK, name, unit,
-                                      IMAGE_CONTENTS_STRING_PETSCII);
-#else
-    return image_contents_read_string(IMAGE_CONTENTS_DISK, name, unit,
-                                      IMAGE_CONTENTS_STRING_ASCII);
-#endif
-}
-
 static char *attach_disk_last_dir = NULL;
+static read_contents_func_type funcs[] = {
+    diskcontents_read_unit8,
+    diskcontents_read_unit9,
+    diskcontents_read_unit10,
+    diskcontents_read_unit11
+};
 
 UI_CALLBACK(attach_disk)
 {
@@ -74,7 +71,7 @@ UI_CALLBACK(attach_disk)
 
     vsync_suspend_speed_eval();
     title = lib_msprintf(_("Attach Disk Image as unit #%d"), unit);
-    filename = ui_select_file(title, read_disk_image_contents, unit,
+    filename = ui_select_file(title, funcs[unit - 8],
                               unit == 8 ? 1 : 0, attach_disk_last_dir,
                               "*.[gdxGDX]*", &button, 1, &attach_wp,
 			      UI_FC_LOAD);
@@ -191,17 +188,6 @@ ui_menu_entry_t uiattach_disk_menu[] = {
     { NULL }
 };
 
-static char *read_tape_image_contents(const char *name, unsigned int unit)
-{
-#ifdef USE_GNOMEUI
-    return image_contents_read_string(IMAGE_CONTENTS_TAPE, name, unit,
-                                      IMAGE_CONTENTS_STRING_PETSCII);
-#else
-    return image_contents_read_string(IMAGE_CONTENTS_TAPE, name, unit,
-                                      IMAGE_CONTENTS_STRING_ASCII);
-#endif
-}
-
 static char *attach_tape_last_dir = NULL;
 
 static UI_CALLBACK(attach_tape)
@@ -212,7 +198,7 @@ static UI_CALLBACK(attach_tape)
     vsync_suspend_speed_eval();
 
     filename = ui_select_file(_("Attach a tape image"),
-                              read_tape_image_contents, 0,
+                              tapecontents_read,
                               1, attach_tape_last_dir, "*.[tT]*",
                               &button, 1, NULL, UI_FC_LOAD);
 
@@ -254,15 +240,14 @@ ui_menu_entry_t uiattach_tape_menu[] = {
     { NULL }
 };
 
-static char *read_disk_or_tape_image_contents(const char *fname,
-                                              unsigned int unit)
+static image_contents_t *read_disk_or_tape_image_contents(const char *fname)
 {
-    char *tmp;
+    image_contents_t *tmp;
 
-    tmp = read_disk_image_contents(fname, unit);
+    tmp = diskcontents_filesystem_read(fname);
     if (tmp)
         return tmp;
-    return read_tape_image_contents(fname, unit);
+    return tapecontents_read(fname);
 }
 
 static char *smart_attach_last_dir = NULL;
@@ -285,7 +270,7 @@ static UI_CALLBACK(smart_attach)
         do_free_dir = 1;
     }
     filename = ui_select_file(_("Smart-attach a file"),
-                              read_disk_or_tape_image_contents, 0,
+                              read_disk_or_tape_image_contents,
                               1, dir, NULL, &button, 1, NULL, UI_FC_LOAD);
     if (do_free_dir)
         lib_free(dir);

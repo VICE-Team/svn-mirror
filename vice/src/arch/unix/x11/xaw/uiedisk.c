@@ -94,7 +94,7 @@ static UI_CALLBACK(browse_callback)
     ui_button_t button;
     char *filename;
 
-    filename = ui_select_file(_("Save emptydisk file"), NULL, 0, False, NULL,
+    filename = ui_select_file(_("Save emptydisk file"), NULL, False, NULL,
                               "*", &button, 0, NULL, UI_FC_LOAD);
 
     if (button == UI_BUTTON_OK)

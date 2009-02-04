@@ -119,7 +119,7 @@ UI_CALLBACK(set_rs232_device_file)
     vsync_suspend_speed_eval();
 
     filename = ui_select_file(_("Select RS232 device file"),
-                              NULL, 0, 0, "/dev", "ttyS*", &button, 0,
+                              NULL, 0, "/dev", "ttyS*", &button, 0,
                               NULL, UI_FC_LOAD);
     switch (button) {
       case UI_BUTTON_OK:

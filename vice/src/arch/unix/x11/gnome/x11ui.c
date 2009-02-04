@@ -65,6 +65,8 @@
 #include "drive/drive.h"
 #include "fullscreenarch.h"
 #include "imagecontents.h"
+#include "tapecontents.h"
+#include "diskcontents.h"
 #include "ioutil.h"
 #include "lib.h"
 #include "log.h"
@@ -142,7 +144,6 @@ static GtkStyle *ui_style_green;
 static GdkCursor *blankCursor;
 static GtkWidget *image_preview_list, *auto_start_button, *last_file_selection;
 static GtkWidget *pal_ctrl_widget;
-static char *(*current_image_contents_func)(const char *, unsigned int unit);
 static char *fixedfontname="CBM 10";
 static PangoFontDescription *fixed_font_desc;
 static int have_cbm_font = 0;
@@ -209,6 +210,7 @@ typedef struct {
     tape_status_widget tape_status;
 } app_shell_type;
 
+
 static app_shell_type app_shells[MAX_APP_SHELLS];
 static int num_app_shells = 0;
 
@@ -231,7 +233,8 @@ static GtkWidget* build_file_selector(const char *title,
 				      int show_preview,
 				      const char *pat,
 				      const char *default_dir,
-				      GtkFileChooserAction action);
+				      GtkFileChooserAction action,
+				      read_contents_func_type read_contents_func);
 static GtkWidget* build_show_text(const gchar *text, int width, int height);
 static GtkWidget* build_confirm_dialog(GtkWidget **confirm_dialog_message);
 static gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p);
@@ -1966,16 +1969,15 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
     ui_menu_entry_t *menu;
     int limit = 16;
     int fno = 0, mask, i;
-    char *title, *tmp, *s, *tmp1, *tmp2;
+    char *title, *tmp, *tmp1;
     GtkWidget *menu_widget;
     GtkStyle *menu_entry_style;
+    image_contents_t *s;
+    image_contents_file_list_t *element;
 
-    if (unit == 1)
-	s = image_contents_read_string(IMAGE_CONTENTS_TAPE, name, 0,
-                                       IMAGE_CONTENTS_STRING_PETSCII);
-    else
-	s = image_contents_read_string(IMAGE_CONTENTS_DISK, name, 0,
-                                       IMAGE_CONTENTS_STRING_PETSCII);
+    s = (unit == 1) ?
+        tapecontents_read(name) :
+        diskcontents_filesystem_read(name);
 
     if (s == NULL)
         return (GtkWidget *)NULL;
@@ -1997,45 +1999,44 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
     fno++;
     menu[fno].string = lib_stralloc("--");
     fno++;
-    
-    tmp1 = tmp2 = s;
-    tmp1 = util_find_next_line(tmp2);
-    while (tmp1 > tmp2)
+    tmp1 = image_contents_to_string(s, !have_cbm_font);
+    menu[fno].string = (char *)convert_utf8((unsigned char *)tmp1);
+    menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
+    menu[fno].callback_data = (ui_callback_data_t) ((fno - 2) | mask);
+    menu[fno].sub_menu = NULL;
+    menu[fno].hotkey_keysym = 0;
+    menu[fno].hotkey_modifier = 0;
+    lib_free(tmp1);
+    fno++;
+
+    for (element = s->file_list; element != NULL; element = element->next)
     {
-	if (fno >= limit)
-	{
-	    limit *= 2;
-	    menu = g_renew(ui_menu_entry_t, menu, limit + 1); /* ditto */
-	}
+        if (fno >= limit)
+        {
+            limit *= 2;
+            menu = g_renew(ui_menu_entry_t, menu, limit + 1); /* ditto */
+        }
 
-	*(tmp1 - 1) = '\0';
-	if (!have_cbm_font)
-	    tmp2 = (char *)charset_petconvstring((BYTE *)tmp2, 1);
+        tmp1 = (char *)image_contents_file_to_string(element, !have_cbm_font);
 
-	if (tmp2[0] == '-')
-	    tmp2[0] = ' ';	    /* Arg, this is the line magic */ 
-	menu[fno].string = (char *)convert_utf8((unsigned char *)tmp2);
-	menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
-	menu[fno].callback_data = (ui_callback_data_t) ((fno - 2) | mask);
-	menu[fno].sub_menu = NULL;
-	menu[fno].hotkey_keysym = 0;
-	menu[fno].hotkey_modifier = 0;
-	fno++;
-
-	tmp2 = tmp1;
-	tmp1 = util_find_next_line(tmp2);
+	if (tmp1[0] == '-')
+	    tmp1[0] = ' ';	    /* Arg, this is the line magic */ 
+        menu[fno].string = (char *)convert_utf8((unsigned char *)tmp1);
+        menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
+        menu[fno].callback_data = (ui_callback_data_t) ((fno - 2) | mask);
+        menu[fno].sub_menu = NULL;
+        menu[fno].hotkey_keysym = 0;
+        menu[fno].hotkey_modifier = 0;
+        lib_free(tmp1);
+        fno++;
     }
-    if (strcmp(tmp2, "") != 0)	/* last line may be without newline */
-    {
-	if (tmp2[0] == '-')
-	    tmp2[0] = ' ';	    /* Arg, this is the line magic */ 
-	menu[fno].string = (char *)convert_utf8((unsigned char *)tmp2);
+    if (s->blocks_free >= 0) {
+	menu[fno].string = lib_msprintf("%d BLOCKS FREE.", s->blocks_free);
 	menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
 	menu[fno].callback_data = (ui_callback_data_t) ((fno - 1) | mask);
 	menu[fno].sub_menu = NULL;
 	menu[fno].hotkey_keysym = 0;
 	menu[fno].hotkey_modifier = 0;
-	fno++;
     }
     memset(&menu[fno++], 0, sizeof(ui_menu_entry_t)); /* end delimiter */
 
@@ -2056,79 +2057,66 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
 	lib_free(menu[i].string);
     lib_free(title);
     g_free(menu);
-    lib_free(s);
+    image_contents_destroy(s);
     
     return menu_widget;
 }
 
 static void ui_fill_preview(GtkFileChooser *fs, gpointer data)
 {
-    char *tmp1, *tmp2, *contents = NULL;
+    char *tmp1, *tmp2;
+    image_contents_t *contents = NULL;
+    image_contents_file_list_t *element;
     gchar *fname;
-    char *text[2];
     GtkListStore *store;
     GtkTreeIter iter;
     int row;
+    read_contents_func_type current_image_contents_func = 
+        (read_contents_func_type)data;
         
     g_return_if_fail(fs != NULL);
     g_return_if_fail(GTK_IS_FILE_CHOOSER(fs));
 
     fname = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fs));
-    if (!fname || !current_image_contents_func)
-	contents = (char *)lib_stralloc(_("NO IMAGE CONTENTS AVAILABLE"));
-    else
+    if (fname && current_image_contents_func)
     {
 	struct stat st;
 	if (stat(fname, &st) == 0)
 	    if (S_ISREG(st.st_mode))
-		contents = current_image_contents_func(fname, 0);
+		contents = current_image_contents_func(fname);
 	g_free(fname);
     }
-    if (!contents)
-	contents = (char *)lib_stralloc(_("NO IMAGE CONTENTS AVAILABLE"));
-
-    tmp1 = tmp2 = contents;
-    text[1] = NULL;
 
     store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(image_preview_list)));
     gtk_list_store_clear(store);
 
     row = 0;
-    tmp1 = util_find_next_line(tmp2);
-    while (tmp1 > tmp2)
-    {
-	*(tmp1 - 1) = '\0';
-	if (!have_cbm_font)
-	    tmp2 = (char *)charset_petconvstring((BYTE *) tmp2, 1);
-	
-	text[0] = (char *)convert_utf8((unsigned char *)tmp2);
-#if 0
-	{
-	    gchar *e;
-	    if (g_utf8_validate(text[0], -1, &e) == FALSE)
-		printf("UTF8 Problem: %s - %s: %s\n", tmp2, text[0], e);
+
+    if (!contents) {
+	gtk_list_store_append(store, &iter);
+	gtk_list_store_set(store, &iter, 0, (char *)lib_stralloc(_("NO IMAGE CONTENTS AVAILABLE")), 1, row, -1);
+    }
+    else {
+        tmp1 = image_contents_to_string(contents, !have_cbm_font);
+        tmp2 = (char *)convert_utf8((unsigned char *)tmp1);
+	gtk_list_store_append(store, &iter);
+	gtk_list_store_set(store, &iter, 0, tmp2, 1, row++, -1);
+        lib_free(tmp1);
+        for (element = contents->file_list; element != NULL; element = element->next, row++) {
+            tmp1 = (char *)image_contents_file_to_string(element, !have_cbm_font);
+            tmp2 = (char *)convert_utf8((unsigned char *)tmp1);
+            gtk_list_store_append(store, &iter);
+            gtk_list_store_set(store, &iter, 0, tmp2, 1, row, -1);
+            lib_free(tmp1);
+        }
+        if (contents->blocks_free >= 0) {
+            tmp2 = lib_msprintf("%d BLOCKS FREE.", contents->blocks_free);
+            gtk_list_store_append(store, &iter);
+            gtk_list_store_set(store, &iter, 0, tmp2, 1, row, -1);
+            lib_free(tmp2);
 	}
-#endif
-	gtk_list_store_append(store, &iter);
-	gtk_list_store_set(store, &iter, 0, text[0], 1, row, -1);
-	
-	row++;
-	tmp2 = tmp1;
-	tmp1 = util_find_next_line(tmp2);
-	lib_free(text[0]);
+        image_contents_destroy(contents);
     }
-
-    /* Last Line might be without newline char*/
-    if (strcmp(tmp2, "") != 0)
-    {
-	text[0] = (char *)convert_utf8((unsigned char *)tmp2);
-
-	gtk_list_store_append(store, &iter);
-	gtk_list_store_set(store, &iter, 0, text[0], 1, row, -1);
-	lib_free(text[0]);
-    }
-
-    lib_free(contents);
 }
 
 static gboolean 
@@ -2151,8 +2139,7 @@ ui_select_contents_cb(GtkTreeSelection *selection,
 
 /* File browser. */
 char *ui_select_file(const char *title,
-                     char *(*read_contents_func)(const char *,
-						 unsigned int unit), unsigned int unit,
+                     read_contents_func_type read_contents_func,
                      unsigned int allow_autostart, const char *default_dir,
                      const char *default_pattern, ui_button_t *button_return,
 		     unsigned int show_preview, int *attach_wp,
@@ -2189,18 +2176,17 @@ char *ui_select_file(const char *title,
     if (attach_wp)
 	file_selector = build_file_selector(title, &wp, allow_autostart, 
 					    show_preview, default_pattern, 
-					    default_dir, a);
+					    default_dir, a, read_contents_func);
     else
 	file_selector = build_file_selector(title, NULL, allow_autostart, 
 					    show_preview, default_pattern, 
-					    default_dir, a);
+					    default_dir, a, read_contents_func);
 
     g_signal_connect(G_OBJECT(file_selector),
 		     "destroy",
 		     G_CALLBACK(gtk_widget_destroyed),
 		     &file_selector);
 
-    current_image_contents_func = read_contents_func;
     res = gtk_dialog_run(GTK_DIALOG(file_selector));
     switch (res)
     {
@@ -2318,7 +2304,7 @@ void ui_show_text(const char *title, const char *text, int width, int height)
     ui_popdown(show_text);
     
     if (show_text)
-	gtk_widget_destroy(show_text);
+        gtk_widget_destroy(show_text);
 }
 
 /* Ask for a confirmation. */
@@ -2468,7 +2454,8 @@ static GtkWidget *build_file_selector(const char *title,
 				      int show_preview,
 				      const char *pat,
 				      const char *default_dir,
-				      GtkFileChooserAction action)
+				      GtkFileChooserAction action,
+				      read_contents_func_type read_contents_func)
 {  
     GtkWidget *fileselect, *scrollw, *wp_checkbox, *sh_checkbox, *extra;
     GtkFileFilter *ff = NULL, *allf;
@@ -2548,7 +2535,7 @@ static GtkWidget *build_file_selector(const char *title,
 	gtk_widget_show(scrollw);
 	gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(fileselect), scrollw);
 	g_signal_connect (fileselect, "update-preview",
-			  G_CALLBACK (ui_fill_preview), image_preview_list);
+			  G_CALLBACK (ui_fill_preview), read_contents_func);
 	if (allow_autostart)
 	    gtk_tree_selection_set_select_function(
 		gtk_tree_view_get_selection(GTK_TREE_VIEW(image_preview_list)), 

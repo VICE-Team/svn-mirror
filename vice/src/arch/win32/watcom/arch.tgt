@@ -75,8 +75,8 @@ n????Include directories:
 1
 17
 WString
-215
-$(%watcom)\h;$(%watcom)\h\nt;.;..;..\..\..;..\..\..\lib\libffmpeg;..\..\..\sid;..\..\..\drive;..\..\..\cbm2;..\..\..\vdrive;..\..\..\monitor;..\..\..\pet;..\..\..\plus4;..\..\..\c64dtv;..\..\..\c64;..\..\..\rs232drv
+238
+$(%watcom)\h;$(%watcom)\h\nt;.;..;..\..\..;..\..\..\lib\libffmpeg;..\..\..\sid;..\..\..\drive;..\..\..\cbm2;..\..\..\vdrive;..\..\..\monitor;..\..\..\pet;..\..\..\plus4;..\..\..\c64dtv;..\..\..\c64;..\..\..\rs232drv;..\..\..\imagecontents
 0
 18
 MRState

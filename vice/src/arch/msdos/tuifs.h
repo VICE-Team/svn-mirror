@@ -27,14 +27,11 @@
 #ifndef VICE_TUIFS_H
 #define VICE_TUIFS_H
 
-struct image_contents_s;
+#include "imagecontents.h"
 
 extern char *tui_file_selector(const char *title, const char *directory,
                                const char *pattern, const char *default_item,
-                               unsigned int type,
-                               struct image_contents_s *(*contents_func)(
-                               unsigned int, const char *, unsigned int),
-                               unsigned int unit,
+                               read_contents_func_type contents_func,
                                char **browse_file_return,
                                unsigned int *browse_file_number_return);
 

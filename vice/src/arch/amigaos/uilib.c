@@ -40,7 +40,8 @@
 #include "uilib.h"
 #include "lib.h"
 #include "imagecontents.h"
-
+#include "diskcontents.h"
+#include "tapecontents.h"
 #include "mui/filereq.h"
 
 #if 0 /* doesn't seem to be used anywhere (yet?) */
@@ -73,7 +74,7 @@ static uilib_filefilter_t uilib_filefilter[] = {
 #endif
 
 struct uilib_fs_style_type_s {
-    char *(*content_read_function)(const char *);
+    image_contents_t *(*content_read_function)(const char *);
     void *hook_proc;
     int TemplateID;
     char *initialdir_resource;
@@ -81,9 +82,9 @@ struct uilib_fs_style_type_s {
 };
 typedef struct uilib_fs_style_type_s uilib_fs_style_type_t;
 
-static char *read_disk_image_contents(const char *name);
-static char *read_tape_image_contents(const char *name);
-static char *read_disk_or_tape_image_contents(const char *name);
+static image_contents_t *read_disk_image_contents(const char *name);
+static image_contents_t *read_tape_image_contents(const char *name);
+static image_contents_t *read_disk_or_tape_image_contents(const char *name);
 
 static void uilib_select_tape_hook_proc(void){} /* FIXME */
 static void uilib_select_hook_proc(void){} /* FIXME */
@@ -121,22 +122,26 @@ static uilib_fs_style_type_t styles[UILIB_SELECTOR_STYLES_NUM + 1] = {
 
 static char *ui_file_selector_initialfile[UILIB_SELECTOR_STYLES_NUM];
 
-static char *read_disk_image_contents(const char *name)
+static image_contents_t *read_disk_image_contents(const char *name)
 {
-    return image_contents_read_string(IMAGE_CONTENTS_DISK, name, 0,
-                                      IMAGE_CONTENTS_STRING_PETSCII);
+    return diskcontents_filesystem_read(name);
 }
 
-static char *read_tape_image_contents(const char *name)
+static image_contents_t *read_tape_image_contents(const char *name)
 {
-    return image_contents_read_string(IMAGE_CONTENTS_TAPE, name, 0,
-                                      IMAGE_CONTENTS_STRING_PETSCII);
+    return tapecontents_read(name);
 }
 
-static char *read_disk_or_tape_image_contents(const char *name)
+static image_contents_t *read_disk_or_tape_image_contents(const char *name)
 {
-    return image_contents_read_string(IMAGE_CONTENTS_AUTO, name, 0,
-                                      IMAGE_CONTENTS_STRING_PETSCII);
+    image_contents_t *contents;
+
+    contents = diskcontents_filesystem_read(name);
+    if (contents == NULL)
+    {
+        contents = tapecontents_read(name);
+    }
+    return contents;
 }
 
 char *uilib_select_file_autostart(const char *title,

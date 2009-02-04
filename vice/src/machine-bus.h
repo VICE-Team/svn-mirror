@@ -42,8 +42,7 @@ extern int machine_bus_lib_read_sector(unsigned int unit, unsigned int track,
 extern int machine_bus_lib_write_sector(unsigned int unit, unsigned int track,
                                         unsigned int sector, BYTE *buf);
 
-extern unsigned int machine_bus_device_fsimage_state_get(unsigned int unit);
-extern unsigned int machine_bus_device_realdevice_state_get(unsigned int unit);
+extern unsigned int machine_bus_device_type_get(unsigned int unit);
 
 extern void machine_bus_status_truedrive_set(unsigned int enable);
 extern void machine_bus_status_drivetype_set(unsigned int unit,

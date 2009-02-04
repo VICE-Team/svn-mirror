@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include "machine-bus.h"
+#include "serial.h"
 #include "parallel.h"
 #include "types.h"
 
@@ -49,14 +50,9 @@ int machine_bus_lib_write_sector(unsigned int unit, unsigned int track,
     return -1;
 }
 
-unsigned int machine_bus_device_fsimage_state_get(unsigned int unit)
+unsigned int machine_bus_device_type_get(unsigned int unit)
 {
-    return 1;
-}
-
-unsigned int machine_bus_device_realdevice_state_get(unsigned int unit)
-{
-    return 0;
+    return SERIAL_DEVICE_VIRT;
 }
 
 void machine_bus_status_truedrive_set(unsigned int enable)

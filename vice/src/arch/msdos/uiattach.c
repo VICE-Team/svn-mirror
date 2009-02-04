@@ -36,6 +36,7 @@
 #include "diskimage.h"
 #include "fliplist.h"
 #include "imagecontents.h"
+#include "diskcontents.h"
 #include "lib.h"
 #include "tui.h"
 #include "tuifs.h"
@@ -200,8 +201,7 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
         name = tui_file_selector("Attach a disk image", directory,
                                  "*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82;"
                                  "*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z;*.zip;*.gz;*.lzh",
-                                 default_item, IMAGE_CONTENTS_DISK,
-                                 image_contents_read, 0, &file,
+                                 default_item, diskcontents_filesystem_read, &file,
                                  &file_number);
         if (file_number > 0) {
             if (autostart_disk(name, NULL, file_number, AUTOSTART_MODE_RUN) < 0)
@@ -257,12 +257,6 @@ static TUI_MENU_CALLBACK(create_set_disk_image_type_callback)
     return NULL;
 }
 
-static char *create_image_selector(const char *title)
-{
-    return tui_file_selector(title, NULL, "*.d64", NULL, 0, NULL, 0, NULL,
-                             NULL);
-}
-
 static TUI_MENU_CALLBACK(create_disk_image_name_callback)
 {
     if (been_activated) {
@@ -279,7 +273,8 @@ static TUI_MENU_CALLBACK(create_disk_image_name_callback)
             if (*new_file_name == 0) {
                 char *tmp;
 
-                tmp = create_image_selector("Create disk image");
+                tmp = tui_file_selector("Create disk image", NULL, "*.d64", NULL, NULL, NULL,
+                             NULL);
                 if (tmp != NULL) {
                     strcpy(new_file_name, tmp);
                     lib_free(tmp);

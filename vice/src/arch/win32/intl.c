@@ -798,6 +798,18 @@ static int intl_table[][countof(language_table)] = {
 /* tr */  IDD_OPEN_TEMPLATE_TR},   /* fuzzy, size */
 
 /* res.rc */
+/* en */ {IDD_OPENDISK_TEMPLATE,
+/* da */  IDD_OPENDISK_TEMPLATE_DA,    /* fuzzy, size */
+/* de */  IDD_OPENDISK_TEMPLATE_DE,    /* size */
+/* fr */  IDD_OPENDISK_TEMPLATE_FR,    /* size */
+/* hu */  IDD_OPENDISK_TEMPLATE_HU,    /* size */
+/* it */  IDD_OPENDISK_TEMPLATE_IT,    /* size */
+/* nl */  IDD_OPENDISK_TEMPLATE_NL,
+/* pl */  IDD_OPENDISK_TEMPLATE_PL,    /* fuzzy, size */
+/* sv */  IDD_OPENDISK_TEMPLATE_SV,    /* size */
+/* tr */  IDD_OPENDISK_TEMPLATE_TR},   /* fuzzy, size */
+
+/* res.rc */
 /* en */ {IDD_OPENTAPE_TEMPLATE,
 /* da */  IDD_OPENTAPE_TEMPLATE_DA,    /* fuzzy, size */
 /* de */  IDD_OPENTAPE_TEMPLATE_DE,    /* size */

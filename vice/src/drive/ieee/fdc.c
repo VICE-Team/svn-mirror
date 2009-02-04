@@ -778,10 +778,8 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit)
         || fdc[drive_no].drive_type == DRIVE_TYPE_1001) {
         switch(image->type) {
           case DISK_IMAGE_TYPE_D80:
-            disk_image_attach_log(image, fdc_log, unit, "D80");
-            break;
           case DISK_IMAGE_TYPE_D82:
-            disk_image_attach_log(image, fdc_log, unit, "D82");
+            disk_image_attach_log(image, fdc_log, unit);
             break;
           default:
 #ifdef FDC_DEBUG
@@ -793,16 +791,10 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit)
     } else {
         switch(image->type) {
           case DISK_IMAGE_TYPE_D64:
-            disk_image_attach_log(image, fdc_log, unit, "D64");
-            break;
           case DISK_IMAGE_TYPE_D67:
-            disk_image_attach_log(image, fdc_log, unit, "D67");
-            break;
           case DISK_IMAGE_TYPE_G64:
-            disk_image_attach_log(image, fdc_log, unit, "G64");
-            break;
           case DISK_IMAGE_TYPE_X64:
-            disk_image_attach_log(image, fdc_log, unit, "X64");
+            disk_image_attach_log(image, fdc_log, unit);
             break;
           default:
 #ifdef FDC_DEBUG
@@ -845,10 +837,8 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit)
         || fdc[drive_no].drive_type == DRIVE_TYPE_1001) {
         switch(image->type) {
           case DISK_IMAGE_TYPE_D80:
-            disk_image_detach_log(image, fdc_log, unit, "D80");
-            break;
           case DISK_IMAGE_TYPE_D82:
-            disk_image_detach_log(image, fdc_log, unit, "D82");
+            disk_image_detach_log(image, fdc_log, unit);
             break;
           default:
             return -1;
@@ -856,16 +846,10 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit)
     } else {
         switch(image->type) {
           case DISK_IMAGE_TYPE_D64:
-            disk_image_detach_log(image, fdc_log, unit, "D64");
-            break;
           case DISK_IMAGE_TYPE_D67:
-            disk_image_detach_log(image, fdc_log, unit, "D67");
-            break;
           case DISK_IMAGE_TYPE_G64:
-            disk_image_detach_log(image, fdc_log, unit, "G64");
-            break;
           case DISK_IMAGE_TYPE_X64:
-            disk_image_detach_log(image, fdc_log, unit, "X64");
+            disk_image_detach_log(image, fdc_log, unit);
             break;
           default:
             return -1;

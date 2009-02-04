@@ -116,9 +116,8 @@ static void display_title(int x, int y, BYTE *name, BYTE *id)
     }
 }
 
-char *tui_image_browser(unsigned int type, const char *filename,
-                        image_contents_t *(*contents_func)(unsigned int,
-                        const char *, unsigned int), unsigned int unit,
+char *tui_image_browser(const char *filename,
+                        read_contents_func_type contents_func,
                         unsigned int *file_number)
 {
     image_contents_t *contents;
@@ -133,7 +132,7 @@ char *tui_image_browser(unsigned int type, const char *filename,
     if (char_conv_table == NULL)
         char_conv_table = cbm_petscii_graphics_to_charset;
 
-    contents = contents_func(type, filename, unit);
+    contents = contents_func(filename);
     if (contents == NULL) {
         tui_error("Invalid image");
         return NULL;

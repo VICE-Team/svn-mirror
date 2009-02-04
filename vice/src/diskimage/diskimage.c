@@ -165,9 +165,29 @@ int disk_image_check_sector(disk_image_t *image, unsigned int track,
 
 /*-----------------------------------------------------------------------*/
 
-void disk_image_attach_log(disk_image_t *image, signed int lognum,
-                           unsigned int unit, const char *type)
+static const char *disk_image_type(disk_image_t *image)
 {
+    switch(image->type) {
+        case DISK_IMAGE_TYPE_D80: return "D80";
+        case DISK_IMAGE_TYPE_D82: return "D82";
+        case DISK_IMAGE_TYPE_D64: return "D64";
+        case DISK_IMAGE_TYPE_D67: return "D67";
+        case DISK_IMAGE_TYPE_G64: return "G64";
+        case DISK_IMAGE_TYPE_X64: return "X64";
+        case DISK_IMAGE_TYPE_D71: return "D71";
+        case DISK_IMAGE_TYPE_D81: return "D81";
+        default: return NULL;
+    }
+}
+
+void disk_image_attach_log(disk_image_t *image, signed int lognum,
+                           unsigned int unit)
+{
+    const char *type = disk_image_type(image);
+
+    if (type == NULL)
+        return;
+
     switch (image->device) {
       case DISK_IMAGE_DEVICE_FS:
         log_message(lognum, "Unit %d: %s disk image attached: %s.",
@@ -183,8 +203,13 @@ void disk_image_attach_log(disk_image_t *image, signed int lognum,
 }
 
 void disk_image_detach_log(disk_image_t *image, signed int lognum,
-                           unsigned int unit, const char *type)
+                           unsigned int unit)
 {
+    const char *type = disk_image_type(image);
+
+    if (type == NULL)
+        return;
+
     switch (image->device) {
       case DISK_IMAGE_DEVICE_FS:
         log_message(lognum, "Unit %d: %s disk image detached: %s.",

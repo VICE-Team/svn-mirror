@@ -43,12 +43,14 @@ extern "C" {
 #include "autostart.h"
 #include "c64ui.h"
 #include "constants.h"
+#include "diskcontents.h"
 #include "imagecontents.h"
 #include "interrupt.h"
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
 #include "tape.h"
+#include "tapecontents.h"
 #include "ui.h"
 #include "uiapi.h"
 #include "ui_file.h"
@@ -63,56 +65,52 @@ static int last_filetype[2];
 static BCheckBox *cb_readonly;
 
 
-char *read_disk_image_contents(const char *name)
+static image_contents_t *read_disk_or_tape_image_contents(const char *name)
 {
-   return image_contents_read_string(IMAGE_CONTENTS_DISK, name, 0,
-                                     IMAGE_CONTENTS_STRING_ASCII);
-}
+    image_contents_t *contents;
 
-char *read_tape_image_contents(const char *name)
-{
-   return image_contents_read_string(IMAGE_CONTENTS_TAPE, name, 0,
-                                     IMAGE_CONTENTS_STRING_ASCII);
-}
-
-char *read_disk_or_tape_image_contents(const char *name)
-{
-   return image_contents_read_string(IMAGE_CONTENTS_AUTO, name, 0,
-                                     IMAGE_CONTENTS_STRING_ASCII);
+    contents = diskcontents_filesystem_read(name);
+    if (contents == NULL)
+    {
+        contents = tapecontents_read(name);
+    }
+    return contents;
 }
 
 
-
-static void create_content_list(BListView *contentlist, char *text)
+static void create_content_list(BListView *contentlist, image_contents_t *contents)
 {
-char    *start;
-char    buffer[256];
-int     index;
+    char *start;
+    image_contents_file_list_t *p = contents->file_list;
 
-	while (contentlist->CountItems()) {
-		BListItem *item = contentlist->FirstItem();
-		contentlist->RemoveItem(item);
-		delete item;
-	}
+    while (contentlist->CountItems())
+    {
+        BListItem *item = contentlist->FirstItem();
+        contentlist->RemoveItem(item);
+        delete item;
+    }
 
-    if (text==NULL) return;
-    start=text;
-    index=0;
-    while (1) {
-        if (*start=='\n') {
-            buffer[index]=0;
-            index=0;
-            contentlist->AddItem(new BStringItem(buffer));
-        } else if (*start==0x0d) {
-        } else if (*start==0) {
-            break;
-        } else {
-            buffer[index++]=*start;
-        }
-        start++;
+    start = image_contents_to_string(contents, 0);
+    contentlist->AddItem(new BStringItem(start));
+    lib_free(start);
+
+    if (p == NULL)
+    {
+        contentlist->AddItem(new BStringItem("(EMPRY IMAGE.)"));
+    }
+    else do
+    {
+        start = image_contents_file_to_string(p, 0);
+        contentlist->AddItem(new BStringItem(start));
+        lib_free(start);
+    } while ( (p = p->next) != NULL);
+
+    if (contents->blocks_free >= 0) {
+        start = lib_msprintf("%d BLOCKS FREE.", contents->blocks_free);
+        contentlist->AddItem(new BStringItem(start));
+        lib_free(start);
     }
 }
-
 
 VicePreview::VicePreview(BPoint origin, ViceFilePanel *f)
 	: BWindow(

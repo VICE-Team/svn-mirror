@@ -351,35 +351,33 @@ static ULONG NewVolume( struct Hook *hook, Object *obj, APTR arg )
   return 0;
 }
 
-static void create_content_list(char *text, Object *list)
+static void create_content_list(image_contents_t *contents, Object *list)
 {
     char *start;
-    char buffer[256];
-    int index;
-
+    image_contents_file_list_t *p = contents->file_list;
     DoMethod(list, MUIM_List_Clear);
 
-    if (text == NULL)
-        return;
+    start = image_contents_to_string(contents, 0);
+    DoMethod(list, MUIM_List_InsertSingle, start, MUIV_List_Insert_Bottom);
+    lib_free(start);
 
-    start = text;
-    index = 0;
-    while (1) {
-        if (*start == 0x0a) {
-            buffer[index] = 0;
-            index = 0;
-            DoMethod(list, MUIM_List_InsertSingle, buffer, MUIV_List_Insert_Bottom);
-        } else if (*start == 0x0d) {
-        } else if (*start == 0) {
-            break;
-        } else {
-            buffer[index++] = *start;
-        }
-        start++;
+    if (p == NULL) {
+        DoMethod(list, MUIM_List_InsertSingle, "(EMPTY IMAGE.)", MUIV_List_Insert_Bottom);
+    }
+    else do {
+        start = image_contents_file_to_string(p, 0);
+        DoMethod(list, MUIM_List_InsertSingle, start, MUIV_List_Insert_Bottom);
+        lib_free(start);
+    } while ( (p = p->next) != NULL);
+
+    if (contents->blocks_free >= 0) {
+        start = lib_msprintf("%d BLOCKS FREE.", contents->blocks_free);
+        DoMethod(list, MUIM_List_InsertSingle, start, MUIV_List_Insert_Bottom);
+        lib_free(start);
     }
 }
 
-static char *(*read_content_func)(const char *) = NULL;
+static image_contents_t *(*read_content_func)(const char *) = NULL;
 
 enum {
   RET_NONE = 0,
@@ -390,20 +388,28 @@ enum {
 static ULONG NewFile( struct Hook *hook, Object *obj, APTR arg )
 {
   char *buf;
+  image_contents_t *contents;
 
   get(app->LV_FILELIST, MUIA_Dirlist_Path, (APTR)&buf);
-  if (buf != NULL) {
+  if (buf != NULL)
+  {
     struct FileInfoBlock *fib;
     DoMethod(app->LV_FILELIST, MUIM_List_GetEntry, MUIV_List_GetEntry_Active, &fib);
-    if (fib->fib_DirEntryType > 0) {
-    } else {
+    if (fib->fib_DirEntryType > 0)
+    {
+    }
+    else
+    {
       set(app->STR_PA_FILEREQ, MUIA_String_Contents, buf);
 
-      if (read_content_func != NULL) {
-        char *contents;
+      if (read_content_func != NULL)
+      {
         contents = read_content_func(buf);
-        create_content_list(contents, app->LV_CONTENTS);
-        lib_free(contents);
+        if (contents != NULL)
+        {
+          create_content_list(contents, app->LV_CONTENTS);
+          image_contents_destroy(contents);
+        }
       }
     }
   }
@@ -457,9 +463,11 @@ static ULONG NewParentDir( struct Hook *hook, Object *obj, APTR arg )
 static ULONG NewPopFile( struct Hook *hook, Object *obj, APTR arg )
 {
   char *buf;
+  image_contents_t *contents;
 
   get(app->STR_PA_FILEREQ, MUIA_String_Contents, (APTR)&buf);
-  if (buf != NULL) {
+  if (buf != NULL)
+  {
     char newdir[1024], *ptr = PathPart(buf);
 
     memcpy(newdir, buf, (int)(ptr - buf));
@@ -467,11 +475,14 @@ static ULONG NewPopFile( struct Hook *hook, Object *obj, APTR arg )
 
     set(app->LV_FILELIST, MUIA_Dirlist_Directory, newdir);
 
-    if (read_content_func != NULL) {
-      char *contents;
+    if (read_content_func != NULL)
+    {
       contents = read_content_func(buf);
-      create_content_list(contents, app->LV_CONTENTS);
-      lib_free(contents);
+      if (contents != NULL)
+      {
+        create_content_list(contents, app->LV_CONTENTS);
+        image_contents_destroy(contents);
+      }
     }
   }
 
@@ -483,6 +494,7 @@ static ULONG NewCreateImage( struct Hook *hook, Object *obj, APTR arg )
   char name[1024], *ext, *format_name;
   char *filename = NULL, *disk_name = NULL, *disk_id = NULL;
   int imagetype = 0;
+  image_contents_t *contents;
 
   get(app->STR_PA_FILEREQ, MUIA_String_Contents, (APTR)&filename);
   get(app->STR_IMAGENAME, MUIA_String_Contents, (APTR)&disk_name);
@@ -493,23 +505,29 @@ static ULONG NewCreateImage( struct Hook *hook, Object *obj, APTR arg )
   ext = strrchr(filename, '.');
 
   strcpy(name, filename);
-  if ((ext == NULL) || (strcasecmp(ext + 1, image_type_name[imagetype]) != 0)) {
+  if ((ext == NULL) || (strcasecmp(ext + 1, image_type_name[imagetype]) != 0))
+  {
     strcat(name, ".");
     strcat(name, image_type_name[imagetype]);
   }
 
-  if (util_file_exists(name)) {
+  if (util_file_exists(name))
+  {
     LONG result = MUI_RequestA(app->App, app->FILEREQ, 0, translate_text(IDS_VICE_QUESTION),
                                translate_text(IDS_YES_NO), translate_text(IDS_OVERWRITE_EXISTING_IMAGE), NULL);
-    if (result != 1) {
+    if (result != 1)
+    {
       return 0;
     }
   }
 
   format_name = lib_msprintf("%s,%s", disk_name, disk_id);
-  if (vdrive_internal_create_format_disk_image(name, format_name, image_type[imagetype]) < 0) {
+  if (vdrive_internal_create_format_disk_image(name, format_name, image_type[imagetype]) < 0)
+  {
     ui_error(translate_text(IDMES_CANNOT_CREATE_IMAGE));
-  } else {
+  }
+  else
+  {
     char newdir[1024], *ptr = PathPart(name);
 
     memcpy(newdir, name, (int)(ptr - name));
@@ -519,11 +537,11 @@ static ULONG NewCreateImage( struct Hook *hook, Object *obj, APTR arg )
     DoMethod(app->LV_FILELIST, MUIM_Dirlist_ReRead);
     set(app->STR_PA_FILEREQ, MUIA_String_Contents, name);
 
-    if (read_content_func != NULL) {
-      char *contents;
+    if (read_content_func != NULL)
+    {
       contents = read_content_func(name);
       create_content_list(contents, app->LV_CONTENTS);
-      lib_free(contents);
+      image_contents_destroy(contents);
     }
   }
   lib_free(format_name);
@@ -602,7 +620,7 @@ static char *request_file(const char *title, char *initialdir, char *initialfile
 
 char *ui_filereq(const char *title, int template,
                  char *initialdir, char *initialfile,
-                 char *(*read_content)(const char *),
+                 image_contents_t *(*read_content)(const char *),
                  int *autostart, char *resource_readonly)
 {
   static char filename[1024];

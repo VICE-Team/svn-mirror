@@ -28,9 +28,9 @@
 #define VICE_DISKCONTENTS_BLOCK_H
 
 struct image_contents_s;
+struct vdrive_s;
 
-extern struct image_contents_s *diskcontents_block_read(const char *file_name,
-                                                        unsigned int unit);
+extern struct image_contents_s *diskcontents_block_read(struct vdrive_s *vdrive);
 
 #endif
 

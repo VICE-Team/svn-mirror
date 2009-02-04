@@ -26,7 +26,6 @@
 
 #include "vice.h"
 
-#include "serial-device.h"
 #include "serial.h"
 
 
@@ -56,37 +55,3 @@ void serial_device_type_set(unsigned int type, unsigned int unit)
 
     p->device = type;
 }
-
-unsigned int serial_device_fsimage_state_get(unsigned int unit)
-{
-    unsigned int type;
-
-    if (unit < 8)
-        return 1;
-
-    type = serial_device_type_get(unit);
-
-    if (type == SERIAL_DEVICE_REAL)
-        return 0;
-
-    if (type == SERIAL_DEVICE_RAW)
-        return 0;
-
-    return 1;
-}
-
-unsigned int serial_device_realdevice_state_get(unsigned int unit)
-{
-    unsigned int type;
-
-    if (unit < 8)
-        return 0;
-
-    type = serial_device_type_get(unit);
-
-    if (type == SERIAL_DEVICE_REAL)
-        return 1;
-
-    return 0;
-}
-

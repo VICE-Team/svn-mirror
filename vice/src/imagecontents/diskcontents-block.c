@@ -41,6 +41,7 @@
 #include "vdrive-dir.h"
 #include "vdrive-internal.h"
 #include "vdrive.h"
+#include "machine-drive.h"
 
 
 /* This code is used to check whether the directory is circular.  It should
@@ -86,16 +87,14 @@ static int circular_check(unsigned int track, unsigned int sector)
     return 0;
 }
 
-image_contents_t *diskcontents_block_read(const char *file_name,
-                                          unsigned int unit)
+image_contents_t *diskcontents_block_read(vdrive_t *vdrive)
 {
     image_contents_t *contents;
-    vdrive_t *vdrive;
     BYTE buffer[256];
     int retval;
     image_contents_file_list_t *lp;
 
-    vdrive = vdrive_internal_open_disk_image(file_name, unit, 1);
+    machine_drive_flush();
 
     if (vdrive == NULL)
         return NULL;

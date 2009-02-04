@@ -138,7 +138,7 @@ static TUI_MENU_CALLBACK(attach_cartridge_callback)
             util_fname_split(s, &directory, &default_item);
 
         name = tui_file_selector("Attach cartridge image",
-                                 directory, "*", default_item, 0, NULL, 0,
+                                 directory, "*", default_item, NULL,
                                  NULL, NULL);
         if (name != NULL
             && (s == NULL || strcasecmp(name, s) != 0)
@@ -347,7 +347,7 @@ static TUI_MENU_CALLBACK(load_rom_file_callback)
         char *name;
 
         name = tui_file_selector("Load ROM file",
-                                 NULL, "*", NULL, 0, NULL, 0, NULL, NULL);
+                                 NULL, "*", NULL, NULL, NULL, NULL);
 
         if (name != NULL) {
             if (resources_set_string(param, name) < 0)

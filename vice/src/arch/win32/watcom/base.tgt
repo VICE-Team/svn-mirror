@@ -67,8 +67,8 @@ n????Include directories:
 1
 17
 WString
-73
-$(%watcom)\h;$(%watcom)\h\nt;.;..;..\..\..;..\..\..\drive;..\..\..\vdrive
+96
+$(%watcom)\h;$(%watcom)\h\nt;.;..;..\..\..;..\..\..\drive;..\..\..\vdrive;..\..\..\imagecontents
 0
 18
 MRState
@@ -123,7 +123,7 @@ WVList
 0
 -1
 1
-0
+1
 0
 31
 MItem

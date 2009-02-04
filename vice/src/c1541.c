@@ -40,6 +40,7 @@
 #include "vice.h"
 #include "diskimage.h"
 #include "diskimage/fsimage.h"
+#include "diskcontents.h"
 
 #include <ctype.h>
 #include <stdarg.h>
@@ -1303,7 +1304,8 @@ static int info_cmd(int nargs, char **args)
 
 static int list_cmd(int nargs, char **args)
 {
-    char *listing, *pattern, *name;
+    char *pattern, *name;
+    image_contents_t *listing;
     unsigned int dnr;
     vdrive_t *vdrive;
 
@@ -1326,13 +1328,30 @@ static int list_cmd(int nargs, char **args)
     vdrive = drives[dnr & 3];
     name = disk_image_name_get(vdrive->image);
 
-    listing = image_contents_read_string(IMAGE_CONTENTS_DISK, name, dnr + 8,
-                                         IMAGE_CONTENTS_STRING_ASCII);
+    listing = diskcontents_read(name, dnr + 8);
 
     if (listing != NULL) {
+        char *string = image_contents_to_string(listing, 1);
+        image_contents_file_list_t *element = listing->file_list;
+
         pager_init();
-        pager_print(listing);
-        lib_free(listing);
+        pager_print(string);
+        pager_print("\n");
+        lib_free(string);
+        if (element == NULL) {
+            pager_print("Empty image\n");
+        }
+        else do {
+            string = image_contents_file_to_string(element, 1);
+            pager_print(string);
+            pager_print("\n");
+            lib_free(string);
+        } while ( (element = element->next) != NULL);
+        if (listing->blocks_free >= 0) {
+            string = lib_msprintf("%d blocks free.\n", listing->blocks_free);
+            pager_print(string);
+            lib_free(string);
+        }
     }
 
     return FD_OK;
@@ -3084,14 +3103,9 @@ int machine_bus_lib_write_sector(unsigned int unit, unsigned int track,
     return serial_iec_lib_write_sector(unit, track, sector, buf);
 }
 
-unsigned int machine_bus_device_fsimage_state_get(unsigned int unit)
+unsigned int machine_bus_device_type_get(unsigned int unit)
 {
-    return serial_device_fsimage_state_get(unit);
-}
-
-unsigned int machine_bus_device_realdevice_state_get(unsigned int unit)
-{
-    return serial_device_realdevice_state_get(unit);
+    return serial_device_type_get(unit);
 }
 
 void machine_drive_flush(void)

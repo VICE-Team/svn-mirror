@@ -31,6 +31,7 @@
 
 #include "types.h"
 #include "uiapi.h"
+#include "imagecontents.h"
 
 
 /* If this is #defined, `Alt' is handled the same as `Meta'.  On
@@ -72,8 +73,7 @@ extern void ui_show_text(const char *title, const char *text, int width,
                          int height);
 
 extern char *ui_select_file(const char *title,
-                            char *(*read_contents_func)(const char *,
-                            unsigned int unit), unsigned int unit,
+                            read_contents_func_type read_contents_func,
                             unsigned int allow_autostart,
                             const char *default_dir,
                             const char *default_pattern,

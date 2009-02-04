@@ -37,61 +37,44 @@
 #include "lib.h"
 #include "machine-bus.h"
 #include "machine.h"
+#include "serial.h"
+#include "attach.h"
+#include "vdrive-internal.h"
 
 
 image_contents_t *diskcontents_read(const char *file_name, unsigned int unit)
 {
-    image_contents_t *contents = NULL;
-
-    if (machine_bus_device_fsimage_state_get(unit))
-        unit = 0;
-
-    switch (unit) {
-      case 0:
-        contents = diskcontents_block_read(file_name, unit);
-        break;
-      case 8:
-      case 9:
-      case 10:
-      case 11:
-        if (machine_bus_device_realdevice_state_get(unit))
-            contents = machine_diskcontents_bus_read(unit);
-        else
-            contents = diskcontents_block_read(file_name, unit);
-        break;
+    switch (machine_bus_device_type_get(unit)) {
+    default:
+        return diskcontents_filesystem_read(file_name);
+    case SERIAL_DEVICE_REAL:
+        return machine_diskcontents_bus_read(unit);
+    case SERIAL_DEVICE_RAW:
+        return diskcontents_block_read(file_system_get_vdrive(unit));
     }
-
-    return contents;
 }
 
-char *diskcontents_filename_by_number(const char *filename, unsigned int unit,
-                                      unsigned int file_index)
+image_contents_t *diskcontents_filesystem_read(const char *file_name)
 {
-    image_contents_t *contents;
-    image_contents_file_list_t *current;
-    char *s;
-
-    contents = diskcontents_read(filename, unit);
-
-    if (contents == NULL)
-        return NULL;
-
-    s = NULL;
-
-    if (file_index != 0) {
-        current = contents->file_list;
-        file_index--;
-        while ((file_index != 0) && (current != NULL)) {
-            current = current->next;
-            file_index--;
-        }
-        if (current != NULL) {
-            s = lib_stralloc((char *)(current->name));
-        }
-    }
-
-    image_contents_destroy(contents);
-
-    return s;
+    return diskcontents_block_read(vdrive_internal_open_fsimage(file_name, 1));
 }
 
+image_contents_t *diskcontents_read_unit8(const char *file_name)
+{
+    return diskcontents_read(file_name, 8);
+}
+
+image_contents_t *diskcontents_read_unit9(const char *file_name)
+{
+    return diskcontents_read(file_name, 9);
+}
+
+image_contents_t *diskcontents_read_unit10(const char *file_name)
+{
+    return diskcontents_read(file_name, 10);
+}
+
+image_contents_t *diskcontents_read_unit11(const char *file_name)
+{
+    return diskcontents_read(file_name, 11);
+}
