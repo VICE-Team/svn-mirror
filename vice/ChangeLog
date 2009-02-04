@@ -1,3 +1,186 @@
+2009-02-04  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/riscos/uiimage.c: Fix a compile error (untested, but
+	  should work)
+
+2009-02-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/filereq.c,
+	  src/arch/os2/dialogs/dlg-fileio.c, src/arch/riscos/uiimage.c,
+	  src/arch/unix/gp2x/Makefile.am,
+	  src/arch/unix/gp2x/prefs_gp2x.c: fixed the os/2, riscos and
+	  gp2x ports.
+
+2009-01-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/Makefile.am, src/arch/beos/ui_file.cc: Fixed the
+	  beos port.
+
+2009-01-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/mui/filereq.c,
+	  src/arch/amigaos/mui/filereq.h, src/arch/amigaos/uilib.c:
+	  Fixed the amiga port.
+
+2009-01-12  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/msdos/uiattach.c, src/arch/msdos/uiscreenshot.c,
+	  src/arch/msdos/tuifs.c, src/arch/msdos/c64ui.c,
+	  src/arch/msdos/tuifs.h, src/arch/msdos/petui.c,
+	  src/arch/msdos/menudefs.c, src/arch/msdos/c64dtvui.c,
+	  src/arch/msdos/vic20ui.c, src/arch/msdos/uic64cart.c,
+	  src/arch/msdos/plus4ui.c, src/arch/msdos/tuiimagebrowser.c,
+	  src/arch/msdos/c128ui.c, src/arch/msdos/tuiimagebrowser.h,
+	  src/arch/msdos/cbm2ui.c, src/arch/msdos/Makefile.am,
+	  src/arch/msdos/uisnapshot.c, src/arch/win32/Makefile.am,
+	  src/arch/win32/uilib.c, src/arch/unix/ui.h,
+	  src/arch/unix/gui/uikeyboard.c,
+	  src/arch/unix/gui/uicommands.c, src/arch/unix/gui/vsidui.c,
+	  src/arch/unix/gui/uipalette.c, src/arch/unix/gui/uiattach.c,
+	  src/arch/unix/gui/vic20ui.c, src/arch/unix/gui/uic64cart.c,
+	  src/arch/unix/gui/uifliplist.c, src/arch/unix/gui/Makefile.am,
+	  src/arch/unix/gui/uic64dtv.c, src/arch/unix/gui/uirs232.c,
+	  src/arch/unix/gui/uisettings.c, src/arch/unix/gui/uiromset.c,
+	  src/arch/unix/gui/c128ui.c,
+	  src/arch/unix/x11/xaw/uicartridge.c,
+	  src/arch/unix/x11/xaw/x11ui.c,
+	  src/arch/unix/x11/xaw/uiscreenshot.c,
+	  src/arch/unix/x11/xaw/uisnapshot.c,
+	  src/arch/unix/x11/xaw/uiedisk.c,
+	  src/arch/unix/x11/gnome/x11ui.c,
+	  src/arch/unix/x11/gnome/Makefile.am,
+	  src/serial/serial-device.c, src/serial/serial-device.h,
+	  src/machine-bus.h, src/diskimage.h, src/vic20/vic20bus.c,
+	  src/imagecontents.h, src/vdrive/vdrive.c,
+	  src/vdrive/vdrive-internal.c, src/vdrive/vdrive-internal.h,
+	  src/plus4/plus4bus.c, src/diskimage/diskimage.c,
+	  src/autostart.c, src/c64/c64bus.c, src/serial.h,
+	  src/imagecontents/diskcontents-block.c,
+	  src/imagecontents/imagecontents.c,
+	  src/imagecontents/diskcontents-block.h,
+	  src/imagecontents/tapecontents.c,
+	  src/imagecontents/diskcontents.c,
+	  src/imagecontents/tapecontents.h,
+	  src/imagecontents/diskcontents.h, src/Makefile.am,
+	  src/c1541.c, src/cbm2/cbm2bus.c, src/attach.c,
+	  src/drive/iec/wd1770.c, src/drive/ieee/fdc.c,
+	  src/drive/driveimage.c, src/pet/petbus.c: Change the way image
+	  content listing are created. Instead of turning a list into a
+	  string and calculate another list from the string, the
+	  elements of the final list are mapped 1-1 with the element of
+	  the original one. Fixes a bug with C64 names containing a 0x0a
+	  (Ctrl-J) character being incorrectly split in two.
+
+	* src/arch/win32/res.rc, src/arch/win32/resdialogs.txt: Removed
+	  button Create image from window Autostart disk/tape image, it
+	  is unfair with tapes. Button still present in window Attach
+	  disk image.
+
+2009-02-02  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* po/intl2po.c, src/arch/unix/archdep.c,
+	  src/arch/unix/gui/vsidui.c, src/sound.c: Make sure printf()
+	  like functions do not get a buffer as format specifier. Closes
+	  #2516398.
+
+2009-02-01  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.cc, src/resid-fp/filter.h,
+	  src/sid/resid-fp.cc: - distortion simulation update to
+	  V31beta.
+
+2009-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* vice-mint.spec, vice.spec: Fixed the URL's in the rpm spec
+	  files.
+
+	* src/petcat.c: Fixed some help screen typos.
+
+	* po/POTFILES.in, po/da.po, po/de.po, po/fr.po, po/hu.po,
+	  po/it.po, po/nl.po, po/pl.po, po/sv.po, po/tr.po,
+	  src/arch/amigaos/intl.c, src/arch/win32/res.rc,
+	  src/arch/win32/resdrivec128.rc, src/arch/win32/resdrivec64.rc,
+	  src/arch/win32/resdriveplus4.rc,
+	  src/arch/win32/resdrivevic20.rc, src/arch/win32/resmidi.rc,
+	  src/translate.c: Updated some german, danish and swedish
+	  translations.
+
+2009-01-31  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/ui.c: Stop autorepeat when emulator Window
+	  looses focus. This fixes #2500315.
+
+	* src/arch/win32/kbd.c: Changed data type in order to be able to
+	  remove cast.
+
+2009-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/Makefile.am, src/arch/os2/watcom/gentr.tgt,
+	  src/arch/os2/watcom/mainsrc.tgt,
+	  src/arch/os2/watcom/sounddrv.tgt,
+	  src/arch/os2/watcom/vice.wpj,
+	  src/arch/os2/watcom/x64dtv-specific.tgt,
+	  src/arch/os2/watcom/xall-specific.tgt, src/fixpoint.c: Made
+	  cross compiling possible again for the os2 watcom project
+	  files.
+
+	* src/arch/win32/Makefile.am, src/arch/win32/watcom/base.tgt,
+	  src/arch/win32/watcom/gentr.tgt,
+	  src/arch/win32/watcom/gentranslate.tgt,
+	  src/arch/win32/watcom/genwinres.tgt,
+	  src/arch/win32/watcom/genwr.tgt,
+	  src/arch/win32/watcom/maincpu.tgt,
+	  src/arch/win32/watcom/vice.wpj: Made cross compiling possible
+	  again for the win32 watcom project files.
+
+2009-01-30  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/gui/uimidi.c, src/arch/unix/mididrv.c: Use
+	  USE_ALSA as suggested by Marco
+
+	* src/c64dtv/c64dtvblitter.c, src/c64dtv/c64dtvblitter.h,
+	  src/c64dtv/c64dtvcpu.c, src/c64dtv/c64dtvdma.c,
+	  src/c64dtv/c64dtvdma.h: Small x64dtv CLK_ADD optimization.
+
+	* src/arch/unix/gui/uimidi.c, src/arch/unix/mididrv.c,
+	  src/midi.c: MIDI TDRE bugfix and ALSA MIDI driver by Dirk
+	  Jagdmann. Slight modifications, combined with OSS driver and
+	  added UI driver selection.
+
+2009-01-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uisiddtv.c, src/arch/beos/ui_siddtv.cc,
+	  src/arch/msdos/uisiddtv.c, src/arch/os2/dialogs/menubar.rc,
+	  src/arch/win32/uisiddtv.c: Changed the 'ReSID' text to
+	  'ReSID-DTV' for the dtv sid in the various ports.
+
+	* src/arch/win32: Generalized some svn ignores.
+
+	* src/arch/os2/dialogs/menubar.c,
+	  src/arch/os2/dialogs/menubar.h,
+	  src/arch/os2/dialogs/menubar.rc, src/arch/os2/vac++/config.h,
+	  src/arch/os2/watcom/config.h, src/arch/win32/uisid.c,
+	  src/arch/win32/uisiddtv.c: Added paddles and dtv-sid UI
+	  elements to the os/2 port.
+
+2009-01-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c128ui.c,
+	  src/arch/msdos/c64dtvui.c, src/arch/msdos/c64ui.c,
+	  src/arch/msdos/uidrive.c, src/arch/msdos/uisid.c,
+	  src/arch/msdos/uisid.h, src/arch/msdos/uisiddtv.c,
+	  src/arch/msdos/uisiddtv.h, src/arch/msdos/vic20ui.c: Added TDE
+	  handling, paddles and dtv-sid UI elements to the msdos port.
+
+2009-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/Makefile.am, src/arch/beos/c128ui.cc,
+	  src/arch/beos/c64ui.cc, src/arch/beos/constants.h,
+	  src/arch/beos/ui.cc, src/arch/beos/ui_sid.cc,
+	  src/arch/beos/ui_siddtv.cc, src/arch/beos/ui_siddtv.h,
+	  src/arch/beos/vic20ui.cc, src/arch/beos/vicemenu.cc: Added TDE
+	  handling, paddles and dtv-sid UI elements to the beos port.
+
 2009-01-28  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.1.3
