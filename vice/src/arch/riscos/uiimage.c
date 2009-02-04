@@ -253,7 +253,7 @@ int ui_image_contents_tape(const char *imagename)
 {
   vsync_suspend_speed_eval();
   delete_contents();
-  contents = tapecontents_read(imagename, 0);
+  contents = tapecontents_read(imagename);
   wimp_strcpy(image_content_file, imagename);
   image_content_type = IMAGE_CONTENT_TAPE;
   return setup_window(imagename);
