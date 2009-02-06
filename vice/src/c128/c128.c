@@ -629,18 +629,18 @@ int machine_specific_init(void)
 #if defined (USE_XF86_EXTENSIONS) && \
     (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
     {
-	/* set fullscreen if user used `-fullscreen' on cmdline 
-	   use VICII as default */
-	int fs;
-	resources_get_int("UseFullscreen", &fs);
-	if (fs)
-	{
-	    resources_get_int("40/80ColumnKey", &fs);
-	    if (fs == 1)
-		resources_set_int("VICIIFullscreen", 1);
-	    else
-		resources_set_int("VDCFullscreen", 1);
-	}
+        /* set fullscreen if user used `-fullscreen' on cmdline 
+           use VICII as default */
+        int fs;
+        resources_get_int("UseFullscreen", &fs);
+        if (fs) {
+            resources_get_int("40/80ColumnKey", &fs);
+            if (fs == 1) {
+                resources_set_int("VICIIFullscreen", 1);
+            } else {
+                resources_set_int("VDCFullscreen", 1);
+            }
+        }
     }
 #endif
 

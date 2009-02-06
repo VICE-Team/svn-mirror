@@ -252,20 +252,16 @@ static int set_fullscreen_enabled(int val, void *param)
     
     canvas->videoconfig->fullscreen_enabled = val;
     
-    if (canvas->initialized)
-    {
-	if (val)
-	{
-	    r = (video_chip_cap->fullscreen.enable)(canvas, val);
-	    (void) (video_chip_cap->fullscreen.statusbar)
-		(canvas, canvas->videoconfig->fullscreen_statusbar_enabled); 
-	}
-	else
-	{
-	    /* always show statusbar when coming back to window mode */
-	    (void) (video_chip_cap->fullscreen.statusbar) (canvas, 1); 
-	    r = (video_chip_cap->fullscreen.enable)(canvas, val);
-	}
+    if (canvas->initialized) {
+        if (val) {
+            r = (video_chip_cap->fullscreen.enable)(canvas, val);
+            (void) (video_chip_cap->fullscreen.statusbar)
+            (canvas, canvas->videoconfig->fullscreen_statusbar_enabled); 
+        } else {
+            /* always show statusbar when coming back to window mode */
+            (void) (video_chip_cap->fullscreen.statusbar) (canvas, 1); 
+            r = (video_chip_cap->fullscreen.enable)(canvas, val);
+        }
     }
     return r;
 }
