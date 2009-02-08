@@ -575,7 +575,7 @@ static void montor_list_destroy(monitor_cpu_type_list_t *list)
     lib_free(list);
 }
 
-void mon_backtrace()
+void mon_backtrace(void)
 {
     BYTE opc;
     WORD sp, i, addr, n;
@@ -1100,10 +1100,12 @@ void mon_display_io_regs(void)
     mem_ioreg_list_t *mem_ioreg_list_base;
     unsigned int n;
     MON_ADDR start,end;
-    int newbank;
+    int newbank = 0;
     int currbank = mon_interfaces[default_memspace]->current_bank;
 
-    newbank = mon_interfaces[default_memspace]->mem_bank_from_name("io");
+    if (mon_interfaces[default_memspace]->mem_bank_list) {
+        newbank = mon_interfaces[default_memspace]->mem_bank_from_name("io");
+    }
 
     if (newbank >= 0) {
         mon_interfaces[default_memspace]->current_bank = newbank;
