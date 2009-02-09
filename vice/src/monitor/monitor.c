@@ -154,7 +154,7 @@ struct break_list_s *watchpoints_store[NUM_MEMSPACES];
 MEMSPACE caller_space;
 
 const char *_mon_space_strings[] = {
-    "Default", "Computer", "Disk8", "Disk9", "<<Invalid>>"
+    "Default", "Computer", "Disk8", "Disk9", "Disk10", "Disk11", "<<Invalid>>"
 };
 
 static WORD watch_load_array[10][NUM_MEMSPACES];
@@ -210,7 +210,7 @@ static const char *cond_op_string[] = { "",
                                         "||"
                                        };
 
-const char *mon_memspace_string[] = {"default", "C", "8", "9" };
+const char *mon_memspace_string[] = {"default", "C", "8", "9", "0", "1" };
 
 static const char *register_string[] = { "A",
                                          "X",
@@ -1116,16 +1116,20 @@ void mon_display_io_regs(void)
             mon_interfaces[default_memspace]->context);
     n = 0;
 
-    while (1) {
-        mon_out("%s:\n", mem_ioreg_list_base[n].name);
-        start = new_addr(default_memspace, mem_ioreg_list_base[n].start);
-        end = new_addr(default_memspace, mem_ioreg_list_base[n].end);
-        mon_memory_display(e_hexadecimal, start, end, DF_PETSCII);
+    if (mem_ioreg_list_base) {
+        while (1) {
+            mon_out("%s:\n", mem_ioreg_list_base[n].name);
+            start = new_addr(default_memspace, mem_ioreg_list_base[n].start);
+            end = new_addr(default_memspace, mem_ioreg_list_base[n].end);
+            mon_memory_display(e_hexadecimal, start, end, DF_PETSCII);
 
-        if (mem_ioreg_list_base[n].next == 0)
-            break;
-
-        n++;
+            if (mem_ioreg_list_base[n].next == 0) {
+                break;
+            }
+            n++;
+        }
+    } else {
+        mon_out("No I/O regs available\n");
     }
 
     mon_interfaces[default_memspace]->current_bank = currbank;
