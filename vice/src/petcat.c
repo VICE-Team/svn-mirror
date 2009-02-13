@@ -245,11 +245,28 @@ const char *a_ctrl1[] = {
     "", "down", "rvs on", "home", "delete", "", "", "",
     "",  "",  "",  "esc", "red", "right", "grn", "blu"
 };
+
+/* 0x00 - 0x1f */
+const char *b_ctrl1[] = {
+    "", "", "", "", "", "", "", "",
+    "", "", "", "", "", "", "", "",
+    "", "", "REVERSE ON", "", "", "", "", "",
+    "",  "",  "",  "", "", "", "", ""
+};
+
+/* 0x20 - 0x3f */
+const char *cbmchars[] = {
+    "space", "", "", "", "", "", "", "",
+    "", "", "", "", "", "", "", "",
+    "", "", "", "", "", "", "", "",
+    "",  "",  "",  "", "", "", "", ""
+};
+
 /* 0x80 - 0x9f */
 const char *a_ctrl2[] = {
     "", "orange", "", "", "", "f1", "f3", "f5",
     "f7", "f2", "f4", "f6", "f8", "shift return", "upper case", "",
-    "blk",  "up", "rvs off", "clr", "insert", "brown", "lt red", "grey1",
+    "blk",  "up", "rvs off", "clear", "insert", "brown", "lt red", "grey1",
     "grey2", "lt green", "lt blue", "grey3", "pur", "left", "yel", "cyn"
 };
 
@@ -684,11 +701,14 @@ static int p_expand(int version, int addr, int ctrls);
 static void p_tokenize(int version, unsigned int addr, int ctrls);
 static unsigned char sstrcmp(unsigned char *line, const char **wordlist,
                              int token, int maxitems);
+static unsigned char sstrcmp_codes(unsigned char *line, const char **wordlist,
+                            int token, int maxitems);
 
 /* ------------------------------------------------------------------------- */
 
 static FILE *source, *dest;
 static int kwlen;
+static int codesnocase=0; /* flag, =1 if controlcodes should be interpreted case insensitive */
 
 /* dummy functions */
 int cmdline_register_options(const cmdline_option_t *c)
@@ -717,6 +737,10 @@ void event_record_in_list(event_list_state_t *list, unsigned int type,
 
 /* ------------------------------------------------------------------------- */
 
+/*
+29/01/2009 gpz
+- added -ic option
+*/
 int main(int argc, char **argv)
 {
     char *progname, *outfilename = NULL;
@@ -745,6 +769,11 @@ int main(int argc, char **argv)
             continue;
             }
             /* Fall to error */
+        }
+
+        if (!strcmp(argv[0], "-ic")) {
+            codesnocase = 1;
+            continue;
         }
 
         if (!strcmp(argv[0], "-c")) {
@@ -825,6 +854,7 @@ int main(int argc, char **argv)
             "   -c\t\tcontrols (interpret also control codes) <default if textmode>\n"
             "   -nc\t\tno controls (suppress control codes in printout)\n"
             "   \t\t<default if non-textmode>\n"
+            "   -ic\t\tinterpret control codes case-insensitive\n"
             "   -h\t\twrite header <default if output is stdout>\n"
             "   -nh\t\tno header <default if output is a file>\n"
             "   -skip <n>\tSkip <n> bytes in the beginning of input file. Ignored on P00.\n"
@@ -1419,7 +1449,12 @@ static void pet_2_asc(int ctrls)
     }      /* line */
 }
 
+/*
+      translate petscii code into an ascii representation
 
+29/01/2009 gpz
+- fixed $5b,$5d
+*/
 static void _p_toascii(int c, int ctrls)
 {
     switch (c) {
@@ -1431,7 +1466,16 @@ static void _p_toascii(int c, int ctrls)
       case 0x40:
         fputc ('@', dest);
         break;
-      case 0x60:
+      case 0x5b:
+        fputc ('[', dest);
+        break;
+      case 0x5d:
+        fputc (']', dest);
+        break;
+      case 0x60: /* produces the same screencode as $c0! */
+        fprintf(dest, CLARIF_LP_ST "$%02x" CLARIF_RP_ST, c & 0xff);
+        break;
+      case 0xc0:
         fprintf(dest, CLARIF_LP_ST "SHIFT-*" CLARIF_RP_ST);
         break;
       case 0x7c:
@@ -1718,10 +1762,26 @@ static int p_expand(int version, int addr, int ctrls)
   previous versions of petcat segfault (or with luck, output trash)
 - added error message when there is an unknown controlcode inside braces
 */
+
+/*
+29/01/2009 gpz:
+- raised length of input buffer from 256 to 256*8
+
+   the line may contain 256 _basic tokens_, some of which may either be
+   represented as literal basic commands or as petsciicodes in braces -
+   either of these representations is a few characters long so the input
+   buffer must consider this
+
+   note: this is still ugly =P
+- added recognition of control codes in the form {123} (decimal number)
+*/
+#define MAX_INLINE_LEN	(256*8)
+#define MAX_OUTLINE_LEN 256
+
 static void p_tokenize(int version, unsigned int addr, int ctrls)
 {
-    static char line[256];
-    static char tokenizedline[256];
+    static char line[MAX_INLINE_LEN+1];
+    static char tokenizedline[MAX_OUTLINE_LEN+1];
     unsigned char *p1, *p2, quote, c;
     unsigned char rem_data_mode, rem_data_endchar = '\0';
     int len = 0, match;
@@ -1731,9 +1791,9 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
     /* Copies from p2 to p1 */
 
-    while((p2 = (unsigned char *)fgets(line, 255, source)) != NULL) {
+    while((p2 = (unsigned char *)fgets(line, MAX_INLINE_LEN, source)) != NULL) {
 
-	memset(tokenizedline, 0, 256);
+	memset(tokenizedline, 0, MAX_OUTLINE_LEN);
 	p1 = (unsigned char *)tokenizedline;
 
 #ifndef GEMDOS
@@ -1745,7 +1805,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 #endif
 
 #ifdef DEBUG
-	fprintf(stderr,"line: %d\n",linum);
+	fprintf(stderr,"line: %d [%s]\n",linum,line);
 #endif
         quote = 0;
         rem_data_mode = 0;
@@ -1787,47 +1847,98 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 #ifdef DEBUG
 	fprintf(stderr,"controlcode repeat count: len:%d kwlen:%d\n", len,kwlen);
 #endif
+			/* if we are already at the closing brace, then the previous
+			   value wasnt the repeat count but an actual decimal charactercode */
+                        if (*p == CLARIF_RP)
+			{
+
+				*p1++ = len;
+				p2 = p + (++kwlen);
+ 				continue;				
+			}
+	
 
                         if (*p == ' ')
                             ++p;
                     }
 
+#ifdef DEBUG
+	fprintf(stderr,"controlcode test: %s\n", p);
+#endif
+		    
 		if (
 		    ( 
-			((c = sstrcmp(p,hexcodes, 0, 0x100)) != KW_NONE) || /* 0x00-0xff */
+			((c = sstrcmp_codes(p,hexcodes, 0, 0x100)) != KW_NONE) || /* 0x00-0xff */
 
-			((c = sstrcmp(p,   ctrl1, 0, 0x20)) != KW_NONE) || /* 0x00-0x20 */
-                        ((c = sstrcmp(p, a_ctrl1, 0, 0x20)) != KW_NONE) || /* 0x00-0x20 */
+			((c = sstrcmp_codes(p,   ctrl1, 0, 0x20)) != KW_NONE) || /* 0x00-0x1f */
+                        ((c = sstrcmp_codes(p, a_ctrl1, 0, 0x20)) != KW_NONE) || /* 0x00-0x1f */
+                        ((c = sstrcmp_codes(p, b_ctrl1, 0, 0x20)) != KW_NONE) || /* 0x00-0x1f */
 
-                       (( ((c = sstrcmp(p,   ctrl2, 0, 0x20)) != KW_NONE) ||
-                          ((c = sstrcmp(p, a_ctrl2, 0, 0x20)) != KW_NONE)
+                       (( ((c = sstrcmp_codes(p,cbmchars, 0, 0x20)) != KW_NONE)  /* 0x20-0x3f */
+                         ) && (c += 0x20)) ||
+
+                       (( ((c = sstrcmp_codes(p,   ctrl2, 0, 0x20)) != KW_NONE) ||
+                          ((c = sstrcmp_codes(p, a_ctrl2, 0, 0x20)) != KW_NONE)
                          ) && (c += 0x80)) ||
 
-                       (( ((c = sstrcmp(p, cbmkeys, 0, 0x40)) != KW_NONE) ||
-			  ((c = sstrcmp(p,a_cbmkeys, 0, 0x40)) != KW_NONE)
+                       (( ((c = sstrcmp_codes(p, cbmkeys, 0, 0x40)) != KW_NONE) ||
+			  ((c = sstrcmp_codes(p,a_cbmkeys, 0, 0x40)) != KW_NONE)
 			) && (c += 0xA0)) 
 
 
-                    ) && (p[kwlen] == CLARIF_RP)
+                    )
 		   ) {
+#ifdef DEBUG
+	fprintf(stderr,"controlcode test 2: %c %s %d\n", p[kwlen],p,kwlen);
+#endif
+				if(p[kwlen] == '*')
+				{
+				    /* repetition count */
+					p+=(kwlen);
+					
+#ifdef DEBUG
+	fprintf(stderr,"controlcode test rpt: %s\n", p);
+#endif
+				    len = 1;
+#ifndef GEMDOS
+				    if (sscanf((char *)++p, "%d%n", &len, &kwlen) == 1) {
+					p += kwlen;
+#else
+				    if (sscanf(++p, "%d", &len) == 1) {
+					while (isspace(*p) || isdigit(*p)) p++;
+#endif
 
-                        for (; len-- > 0;)
-			{
-                            *p1++ = c;
-			}
-                        p2 = p + (++kwlen);
+#ifdef DEBUG
+	fprintf(stderr,"controlcode repeat count: len:%d kwlen:%d\n", len,kwlen);
+#endif
+					kwlen=0;
+				    }
+
+				}
+
+#ifdef DEBUG
+	fprintf(stderr,"controlcode test 3: %c %s %d\n", p[0],p,kwlen);
+#endif
+				
+				if(p[kwlen] == CLARIF_RP)
+				{
+					for (; len-- > 0;)
+					{
+					    *p1++ = c;
+					}
+					p2 = p + (++kwlen);
 
 #ifdef DEBUG
 	fprintf(stderr,"controlcode continue\n");
 #endif
 
-                        continue;
+					continue;
+				}
+			
                     	}
-			else
-			{
-				fprintf(stderr,"error: line %d - unknown control code: %s\n",linum,p);
-				exit(-1);
-			}
+
+			fprintf(stderr,"error: line %d - unknown control code: %s\n",linum,p);
+			exit(-1);
                 }
 #ifdef DEBUG
 /*	fprintf(stderr,"controlcode end\n"); */
@@ -2135,7 +2246,49 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
     fprintf(dest, "%c%c", 0, 0);        /* program end marker */
 }
 
+/*
+     look up a controlcode
+*/
+static unsigned char sstrcmp_codes(unsigned char *line, const char **wordlist,
+                            int token, int maxitems)
+{
+    int j;
+    const char *p, *q;
 
+    kwlen = 1;
+    /* search for keyword */
+    for (; token < maxitems; token++)
+    {
+        if(codesnocase)
+        {
+            for (p = wordlist[token], q = (char *)line, j = 0;
+                *p && *q && tolower(*p) == tolower(*q); p++, q++, j++);
+        }
+        else
+        {
+            for (p = wordlist[token], q = (char *)line, j = 0;
+                *p && *q && *p == *q; p++, q++, j++);
+        }
+
+        /*fprintf (stderr,
+                 "compare %s %s - %d %d\n", wordlist[token], line, j, kwlen);*/
+
+        /* found an exact or abbreviated keyword
+         */
+        if (j && (!*p) )
+        {
+            kwlen = j;
+            /*fprintf (stderr, "found %s %2x\n", wordlist[token], token);*/
+            return token;
+        }
+    } /* for */
+
+    return (KW_NONE);
+}
+
+/*
+     look up a keyword
+*/
 static unsigned char sstrcmp(unsigned char *line, const char **wordlist,
                             int token, int maxitems)
 {
@@ -2144,7 +2297,8 @@ static unsigned char sstrcmp(unsigned char *line, const char **wordlist,
 
     kwlen = 1;
     /* search for keyword */
-    for (; token < maxitems; token++) {
+    for (; token < maxitems; token++)
+    {
         for (p = wordlist[token], q = (char *)line, j = 0;
              *p && *q && *p == *q; p++, q++, j++);
 
