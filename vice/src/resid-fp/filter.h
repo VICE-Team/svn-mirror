@@ -206,7 +206,7 @@ friend class SIDFP;
  * some chips have more, some less. We should make this tunable. */
 const float kinkiness = 0.966f;
 const float sidcaps_6581 = 470e-12f;
-const float outputleveldifference_lp_bp = 1.33f;
+const float outputleveldifference_lp_bp = 1.41f;
 
 RESID_INLINE
 static float fastexp(float val) {
@@ -323,12 +323,12 @@ float FilterFP::clock(float voice1,
         Vf += Vhp;
     
     if (model == MOS6581FP) {
-        float diff1, diff2, diff3;
+        float diff1, diff2, lpleak;
 
         /* Turning on resonance doesn't come alone: it brings a bit of
          * lowpass into the bandpass in its wake, but in the opposite phase...
          */
-        float lpleak = Vlp * res * (1.f / 15.f / 6.f);
+        lpleak = Vlp * res * (1.f / 15.f / 7.f);
 
         Vhp = (Vbp + lpleak) * _1_div_Q
             - Vlp * (1.f/outputleveldifference_lp_bp)
@@ -337,13 +337,13 @@ float FilterFP::clock(float voice1,
         /* the input summer mixing, or something like it... */
         diff1 = (Vlp - Vbp) * (distortion_cf_threshold * 0.5f);
         diff2 = (Vhp - Vbp) * (distortion_cf_threshold * 0.5f);
-        diff3 = (Vlp - Vhp) * (distortion_cf_threshold * 0.5f);
+        //diff3 = (Vlp - Vhp) * (distortion_cf_threshold * 0.5f);
         Vlp -= diff1;
-        Vlp -= diff3;
+        //Vlp -= diff3;
         Vbp += diff1;
         Vbp += diff2;
         Vhp -= diff2;
-        Vhp += diff3;
+        //Vhp += diff3;
 
         /* Model output strip mixing. Doing it now that HP state
          * variable modifying still makes some difference.
@@ -360,8 +360,8 @@ float FilterFP::clock(float voice1,
         Vbp -= Vhp * type3_w0(Vhp, type3_fc_distortion_offset);
 
         /* saturate. This is likely the output inverter saturation. */
-        if (Vf > 3.0e6f)
-            Vf -= (Vf - 3.0e6f) / 2.f;
+        if (Vf > 3.4e6f)
+            Vf -= (Vf - 3.4e6f) / 2.f;
     } else {
         /* On the 8580, BP appears mixed in phase with the rest. */
         Vlp += Vbp * type4_w0_cache;

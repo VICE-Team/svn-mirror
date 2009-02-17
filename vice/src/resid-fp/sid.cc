@@ -144,6 +144,18 @@ static int host_cpu_features(void)
 }
 #endif
 
+/* tables used by voice/wavegen/envgen */
+float dac[12];
+float env_dac[256];
+float wftable[11][4096];
+
+/* nonlinear DAC support, set 1 for 8580 / no effect, about 0.96 otherwise */
+void SIDFP::set_voice_nonlinearity(float nl)
+{
+  voice[0].set_nonlinearity(nl);
+  voice[0].wave.set_nonlinearity(nl);
+}
+
 float SIDFP::kinked_dac(const int x, const float nonlinearity, const int max)
 {
     float value = 0.f;
@@ -210,14 +222,6 @@ void SIDFP::set_chip_model(chip_model model)
 
   filter.set_chip_model(model);
   extfilt.set_chip_model(model);
-}
-
-/* nonlinear DAC support, set 1 for 8580 / no effect, about 0.96 otherwise */
-void SIDFP::set_voice_nonlinearity(float nl)
-{
-  for (int i = 0; i < 3; i++) {
-    voice[i].set_nonlinearity(nl);
-  }
 }
 
 // ----------------------------------------------------------------------------

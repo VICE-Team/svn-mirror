@@ -24,6 +24,8 @@
 #include "wave.h"
 #include "envelope.h"
 
+extern float env_dac[256];
+
 class VoiceFP
 {
 public:
@@ -49,8 +51,6 @@ protected:
   // Multiplying D/A DC offset.
   float voice_DC, wave_zero, nonlinearity;
 
-  float env_dac[256];
-  float voice_dac[4096];
 friend class SIDFP;
 };
 
@@ -62,12 +62,9 @@ friend class SIDFP;
 RESID_INLINE
 float VoiceFP::output()
 {
-    unsigned int w = wave.output();
-    unsigned int e = envelope.output();
-    float _w = voice_dac[w];
-    float _e = env_dac[e];
-
-    return _w * _e + voice_DC;
+    float w = wave.output();
+    float e = env_dac[envelope.output()];
+    return w * e + voice_DC;
 }
 
 #endif // not __VOICE_H__

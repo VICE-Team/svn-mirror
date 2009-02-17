@@ -21,6 +21,14 @@
 #include "voice.h"
 #include "sid.h"
 
+extern float env_dac[256];
+
+void VoiceFP::calculate_dac_tables()
+{
+    for (int i = 0; i < 256; i ++)
+        env_dac[i] = SIDFP::kinked_dac(i, nonlinearity, 8);
+}
+
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------
@@ -54,7 +62,7 @@ void VoiceFP::set_chip_model(chip_model model)
      * offset change as envelope grows, indicating that the waveforms are not
      * perfectly centered. I estimate the value ~ 0x600 for my R4AR, and ReSID
      * has used another measurement technique and got 0x380. */
-    wave_zero = 0x600;
+    wave_zero = 0x380;
     calculate_dac_tables();
   }
   else {
@@ -64,15 +72,6 @@ void VoiceFP::set_chip_model(chip_model model)
     wave_zero = 0x800;
     calculate_dac_tables();
   }
-}
-
-void VoiceFP::calculate_dac_tables()
-{
-    int i;
-    for (i = 0; i < 256; i ++)
-        env_dac[i] = SIDFP::kinked_dac(i, nonlinearity, 8);
-    for (i = 0; i < 4096; i ++)
-        voice_dac[i] = SIDFP::kinked_dac(i, nonlinearity, 12) - wave_zero;
 }
 
 // ----------------------------------------------------------------------------

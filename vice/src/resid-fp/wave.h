@@ -22,6 +22,9 @@
 
 #include "siddefs-fp.h"
 
+extern float dac[12];
+extern float wftable[11][4096];
+
 // ----------------------------------------------------------------------------
 // A 24 bit accumulator is the basis for waveform generation. FREQ is added to
 // the lower 16 bits of the accumulator each cycle.
@@ -49,68 +52,49 @@ public:
   void writeCONTROL_REG(reg8);
   reg8 readOSC();
 
-  // 12-bit waveform output.
-  RESID_INLINE reg12 output();
+  RESID_INLINE float output();
 
 protected:
+  RESID_INLINE void clock_noise(const bool clock);
+  void set_nonlinearity(float nl);
+  void rebuild_wftable();
+  void calculate_waveform_sample(float *o);
+
   const WaveformGeneratorFP* sync_source;
   WaveformGeneratorFP* sync_dest;
+
+  chip_model model;
 
   // Tell whether the accumulator MSB was set high on this cycle.
   bool msb_rising;
 
   reg24 accumulator;
   reg24 shift_register;
-  reg12 previous, noise_output_cached;
+  reg12 noise_output_cached;
+  reg8 previous;
   int noise_overwrite_delay;
 
   // Fout  = (Fn*Fclk/16777216)Hz
   reg16 freq;
-  // PWout = (PWn/40.95)%, also the same << 12 for direct comparison against acc
-  reg12 pw; reg24 pw_acc_scale;
+  // PWout = (PWn/40.95)%
+  reg12 pw;
 
   // The control register right-shifted 4 bits; used for output function
   // table lookup.
   reg8 waveform;
 
   // The remaining control register bits.
-  reg8 test;
-  reg8 ring_mod;
-  reg8 sync;
+  bool test, ring_mod, sync;
   // The gate bit is handled by the EnvelopeGenerator.
 
-  // 16 possible combinations of waveforms.
+  float previous_dac, noise_output_cached_dac;
+
+  // 4 possible combinations of waveforms.
+  // These do generate the waveforms, but ignore ring modulation and test bit.
   RESID_INLINE reg12 output___T();
   RESID_INLINE reg12 output__S_();
-  RESID_INLINE reg12 output__ST();
   RESID_INLINE reg12 output_P__();
-  RESID_INLINE reg12 output_P_T();
-  RESID_INLINE reg12 output_PS_();
-  RESID_INLINE reg12 output_PST();
   RESID_INLINE reg12 outputN___();
-  RESID_INLINE reg12 outputN__T();
-  RESID_INLINE reg12 outputN_S_();
-  RESID_INLINE reg12 outputN_ST();
-  RESID_INLINE reg12 outputNP__();
-  RESID_INLINE reg12 outputNP_T();
-  RESID_INLINE reg12 outputNPS_();
-  RESID_INLINE reg12 outputNPST();
-
-  // Sample data for combinations of waveforms.
-  static reg8 wave6581__ST[];
-  static reg8 wave6581_P_T[];
-  static reg8 wave6581_PS_[];
-  static reg8 wave6581_PST[];
-
-  static reg8 wave8580__ST[];
-  static reg8 wave8580_P_T[];
-  static reg8 wave8580_PS_[];
-  static reg8 wave8580_PST[];
-
-  reg8* wave__ST;
-  reg8* wave_P_T;
-  reg8* wave_PS_;
-  reg8* wave_PST;
 
 friend class VoiceFP;
 friend class SIDFP;
@@ -128,6 +112,12 @@ void WaveformGeneratorFP::clock()
         if (-- noise_overwrite_delay == 0) {
             shift_register |= 0x7ffffc;
             noise_output_cached = outputN___();
+            noise_output_cached_dac = 0;
+            for (int i = 0; i < 12; i ++) {
+                if (noise_output_cached & (1 << i)) {
+                    noise_output_cached_dac += dac[i];
+                }
+            }
         }
     }
     return;
@@ -144,22 +134,31 @@ void WaveformGeneratorFP::clock()
 
   // Shift noise register once for each time accumulator bit 19 is set high.
   if (!(accumulator_prev & 0x080000) && (accumulator & 0x080000)) {
+    clock_noise(true);
+  }
+}
+
+RESID_INLINE
+void WaveformGeneratorFP::clock_noise(const bool clock)
+{
+  if (clock) {
     reg24 bit0 = ((shift_register >> 22) ^ (shift_register >> 17)) & 0x1;
     shift_register <<= 1;
-    // optimization: fall into the bit bucket
-    //shift_register &= 0x7fffff;
     shift_register |= bit0;
-
-    /* since noise changes relatively infrequently, we'll avoid the relatively
-     * expensive bit shuffling at output time. */
-    noise_output_cached = outputN___();
   }
 
   // clear output bits of shift register if noise and other waveforms
   // are selected simultaneously
   if (waveform > 8) {
     shift_register &= 0x7fffff^(1<<22)^(1<<20)^(1<<16)^(1<<13)^(1<<11)^(1<<7)^(1<<4)^(1<<2);
-    noise_output_cached = outputN___();
+  }
+
+  noise_output_cached = outputN___();
+  noise_output_cached_dac = 0;
+  for (int i = 0; i < 12; i ++) {
+    if (noise_output_cached & (1 << i)) {
+      noise_output_cached_dac += dac[i];
+    }
   }
 }
 
@@ -198,8 +197,7 @@ void WaveformGeneratorFP::synchronize()
 RESID_INLINE
 reg12 WaveformGeneratorFP::output___T()
 {
-  reg24 msb = (ring_mod ? accumulator ^ sync_source->accumulator : accumulator)
-    & 0x800000;
+  reg24 msb = accumulator & 0x800000;
   return ((msb ? ~accumulator : accumulator) >> 11) & 0xfff;
 }
 
@@ -225,7 +223,7 @@ reg12 WaveformGeneratorFP::output__S_()
 RESID_INLINE
 reg12 WaveformGeneratorFP::output_P__()
 {
-  return (test || accumulator >= pw_acc_scale) ? 0xfff : 0x000;
+  return ((accumulator >> 12) >= pw) ? 0xfff : 0x000;
 }
 
 // Noise:
@@ -261,197 +259,35 @@ reg12 WaveformGeneratorFP::outputN___()
     ((shift_register & 0x000004) << 2);
 }
 
-// Combined waveforms:
-// By combining waveforms, the bits of each waveform are effectively short
-// circuited. A zero bit in one waveform will result in a zero output bit
-// (thus the infamous claim that the waveforms are AND'ed).
-// However, a zero bit in one waveform will also affect the neighboring bits
-// in the output. The reason for this has not been determined.
-//
-// Example:
-// 
-//             1 1
-// Bit #       1 0 9 8 7 6 5 4 3 2 1 0
-//             -----------------------
-// Sawtooth    0 0 0 1 1 1 1 1 1 0 0 0
-//
-// Triangle    0 0 1 1 1 1 1 1 0 0 0 0
-//
-// AND         0 0 0 1 1 1 1 1 0 0 0 0
-//
-// Output      0 0 0 0 1 1 1 0 0 0 0 0
-//
-//
-// This behavior would be quite difficult to model exactly, since the SID
-// in this case does not act as a digital state machine. Tests show that minor
-// (1 bit)  differences can actually occur in the output from otherwise
-// identical samples from OSC3 when waveforms are combined. To further
-// complicate the situation the output changes slightly with time (more
-// neighboring bits are successively set) when the 12-bit waveform
-// registers are kept unchanged.
-//
-// It is probably possible to come up with a valid model for the
-// behavior, however this would be far too slow for practical use since it
-// would have to be based on the mutual influence of individual bits.
-//
-// The output is instead approximated by using the upper bits of the
-// accumulator as an index to look up the combined output in a table
-// containing actual combined waveform samples from OSC3.
-// These samples are 8 bit, so 4 bits of waveform resolution is lost.
-// All OSC3 samples are taken with FREQ=0x1000, adding a 1 to the upper 12
-// bits of the accumulator each cycle for a sample period of 4096 cycles.
-//
-// Sawtooth+Triangle:
-// The sawtooth output is used to look up an OSC3 sample.
-// 
-// Pulse+Triangle:
-// The triangle output is right-shifted and used to look up an OSC3 sample.
-// The sample is output if the pulse output is on.
-// The reason for using the triangle output as the index is to handle ring
-// modulation. Only the first half of the sample is used, which should be OK
-// since the triangle waveform has half the resolution of the accumulator.
-// 
-// Pulse+Sawtooth:
-// The sawtooth output is used to look up an OSC3 sample.
-// The sample is output if the pulse output is on.
-//
-// Pulse+Sawtooth+Triangle:
-// The sawtooth output is used to look up an OSC3 sample.
-// The sample is output if the pulse output is on.
-// 
-RESID_INLINE
-reg12 WaveformGeneratorFP::output__ST()
-{
-  return wave__ST[output__S_()] << 4;
-}
-
-RESID_INLINE
-reg12 WaveformGeneratorFP::output_P_T()
-{
-  /* ring modulation does something odd with this waveform. But I don't know
-   * how to emulate it. */
-  return (wave_P_T[output___T() >> 1] << 4) & output_P__();
-}
-
-RESID_INLINE
-reg12 WaveformGeneratorFP::output_PS_()
-{
-  return (wave_PS_[output__S_()] << 4) & output_P__();
-}
-
-RESID_INLINE
-reg12 WaveformGeneratorFP::output_PST()
-{
-  return (wave_PST[output__S_()] << 4) & output_P__();
-}
-
-// Combined waveforms including noise:
-// All waveform combinations including noise output zero after a few cycles.
-// NB! The effects of such combinations are not fully explored. It is claimed
-// that the shift register may be filled with zeroes and locked up, which
-// seems to be true.
-// We have not attempted to model this behavior, suffice to say that
-// there is very little audible output from waveform combinations including
-// noise. We hope that nobody is actually using it.
-//
-RESID_INLINE
-reg12 WaveformGeneratorFP::outputN__T()
-{
-  return 0;
-}
-
-RESID_INLINE
-reg12 WaveformGeneratorFP::outputN_S_()
-{
-  return 0;
-}
-
-RESID_INLINE
-reg12 WaveformGeneratorFP::outputN_ST()
-{
-  return 0;
-}
-
-RESID_INLINE
-reg12 WaveformGeneratorFP::outputNP__()
-{
-  return 0;
-}
-
-RESID_INLINE
-reg12 WaveformGeneratorFP::outputNP_T()
-{
-  return 0;
-}
-
-RESID_INLINE
-reg12 WaveformGeneratorFP::outputNPS_()
-{
-  return 0;
-}
-
-RESID_INLINE
-reg12 WaveformGeneratorFP::outputNPST()
-{
-  return 0;
-}
-
 // ----------------------------------------------------------------------------
 // Select one of 16 possible combinations of waveforms.
 // ----------------------------------------------------------------------------
 RESID_INLINE
-reg12 WaveformGeneratorFP::output()
+float WaveformGeneratorFP::output()
 {
-  switch (waveform) {
-  case 0x1:
-    previous = output___T();
-    break;
-  case 0x2:
-    previous = output__S_();
-    break;
-  case 0x3:
-    previous = output__ST();
-    break;
-  case 0x4:
-    previous = output_P__();
-    break;
-  case 0x5:
-    previous = output_P_T();
-    break;
-  case 0x6:
-    previous = output_PS_();
-    break;
-  case 0x7:
-    previous = output_PST();
-    break;
-  case 0x8:
-    previous = noise_output_cached;
-    break;
-  case 0x9:
-    previous = outputN__T();
-    break;
-  case 0xa:
-    previous = outputN_S_();
-    break;
-  case 0xb:
-    previous = outputN_ST();
-    break;
-  case 0xc:
-    previous = outputNP__();
-    break;
-  case 0xd:
-    previous = outputNP_T();
-    break;
-  case 0xe:
-    previous = outputNPS_();
-    break;
-  case 0xf:
-    previous = outputNPST();
-    break;
-  default:
-    break;
+  if (waveform == 0) {
+    return previous_dac;
   }
-  return previous;
+  if (waveform == 8) {
+    return noise_output_cached_dac;
+  }
+  if (waveform > 8) {
+    return 0;
+  }
+  /* waveforms 1 .. 7 left */
+
+  /* Phase for all waveforms */
+  reg12 phase = accumulator >> 12;
+  /* pulse on/off generates 4 more variants after the main pulse types */
+  int variant = waveform >= 4 && (test || phase >= pw) ? 3 : -1;
+
+  /* triangle waveform XOR circuit. Since the table already makes a triangle
+   * wave internally, we only need to account for the sync source here.
+   * Flipping the top bit suffices to reproduce the original SID ringmod */
+  if ((waveform & 3) == 1 && ring_mod && (sync_source->accumulator & 0x800000)) {
+    phase ^= 0x800;
+  }
+  return wftable[waveform + variant][phase];
 }
 
-#endif // not __WAVE_H__
+#endif // not VICE__WAVE_H__

@@ -54,7 +54,7 @@ FilterFP::FilterFP()
   /* approximate; sid.cc calls us when set_sampling_parameters() occurs. */
   set_clock_frequency(1e6f);
   /* these parameters are a work-in-progress. */
-  set_distortion_properties(0.5f, 2048.f, 1.2e-4f);
+  set_distortion_properties(0.5f, 1100.f, 1.5e-4f);
   /* sound similar to alankila6581r4ar3789 */
   set_type3_properties(1.37e6f, 1.70e8f, 1.006f, 1.55e4f);
   /* sound similar to trurl8580r5_3691 */
@@ -129,6 +129,9 @@ void FilterFP::reset()
   res = filt = voice3off = hp_bp_lp = 0; 
   vol = 0;
   volf = Vhp = Vbp = Vlp = 0;
+  type3_fc_distortion_offset = 9e9f;
+  type3_fc_kink_exp = 0;
+  type4_w0_cache = 0;
   set_w0();
   set_Q();
 }
@@ -190,7 +193,7 @@ void FilterFP::set_Q()
 {
   float Q = res / 15.f;
   if (model == MOS6581FP)
-      _1_div_Q = 1.f / (0.707f + Q * 1.0f);
+      _1_div_Q = 1.f / (0.707f + Q);
   if (model == MOS8580FP)
       _1_div_Q = 1.f / (0.707f + Q * 1.6f);
 }

@@ -1,3 +1,19 @@
+2009-02-17  Antti S. Lankila  <alankila@bel.fi>
+
+        Sync against V31 beta.
+
+        * filter.h: tune 6581 clipping distortion.
+
+        * filer.cc: fix 6581/8580 use of uninitialized values at start.
+
+        * sid.cc, voice.h, voice.cc, wave.h, wave.cc: Derive combined
+          waveforms from measurements provided one year ago by kevtris.
+          The combined waveforms are currently not tunable. The chosen chips
+          produce somewhat untypical 6581R3 sound. 8580 may be correct enough,
+          though.
+
+        * wave6581*, wave8580*, samp2src.pl: Deleted.
+
 2009-01-18  Antti S. Lankila  <alankila@bel.fi>
 
         Sync against V30 patch version. Filter updates described below.
