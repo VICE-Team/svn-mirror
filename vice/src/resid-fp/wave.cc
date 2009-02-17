@@ -121,10 +121,10 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
     float bias;
     if (model == MOS6581FP) {
         len = 7;
-        bias = 0.4f;
+        bias = 0.3f;
     } else {
         len = 3;
-        bias = 0.22f;
+        bias = 0.2f;
     }
 
     float pulse = (accumulator >> 12) >= pw ? 1.0f : 0.0f;
@@ -135,8 +135,8 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
             start = 0;
         }
         int end = i + len;
-        if (len > 12) {
-            len = 12;
+        if (end > 12) {
+            end = 12;
         }
 
         float avg = 0;
