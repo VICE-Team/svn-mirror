@@ -34,6 +34,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "romset.h"
+#include "uilib.h"
 #include "uimenu.h"
 #include "uiromset.h"
 #include "util.h"
@@ -51,11 +52,12 @@ UI_CALLBACK(ui_load_rom_file)
     char *filename;
     ui_button_t button;
     static char *last_dir;
+    uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
 
     vsync_suspend_speed_eval();
 
     filename = ui_select_file(_("Load ROM file"),
-                              NULL, 0, last_dir, "*", &button,
+                              NULL, 0, last_dir, &filter, 1, &button,
                               0, NULL, UI_FC_LOAD);
 
     switch (button) {
@@ -95,11 +97,13 @@ static UI_CALLBACK(uiromset_archive_load)
     char *filename;
     ui_button_t button;
     static char *last_dir;
+    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_ROMSET_ARCHIVE, UILIB_FILTER_ALL };
 
     vsync_suspend_speed_eval();
 
     filename = ui_select_file(_("Load custom ROM set archive"),
-                              NULL, 0, last_dir, "*.vra",
+                              NULL, 0, last_dir,
+                              filter, sizeof(filter) / sizeof(*filter),
                               &button, 0, NULL, UI_FC_LOAD);
 
     switch (button) {
@@ -237,11 +241,13 @@ static UI_CALLBACK(uiromset_file_load)
     char *filename;
     ui_button_t button;
     static char *last_dir;
+    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_ROMSET_FILE, UILIB_FILTER_ALL };
 
     vsync_suspend_speed_eval();
 
     filename = ui_select_file(_("Load custom ROM set file"),
-                              NULL, 0, last_dir, "*.vrs",
+                              NULL, 0, last_dir,
+                              filter, sizeof(filter) / sizeof(*filter),
                               &button, 0, NULL, UI_FC_LOAD);
 
     switch (button) {

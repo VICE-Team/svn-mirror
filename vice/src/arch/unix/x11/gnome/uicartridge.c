@@ -32,35 +32,10 @@
 #include "uiarch.h"
 #include "cartridge.h"
 #include "uifileentry.h"
+#include "uilib.h"
 #include "lib.h"
 
-static GtkWidget *cartridge_dialog, *fileentry;
-
-static GtkWidget *build_cartridge_dialog(void)
-{
-    GtkWidget *d, *box;
-    
-    d = gtk_dialog_new_with_buttons(_("Save Cartridge"), 
-				    NULL,
-				    GTK_DIALOG_DESTROY_WITH_PARENT,
-				    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				    GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-				    NULL);
-    box = gtk_hbox_new(0, FALSE);
-
-    fileentry = vice_file_entry(_("Save Cartridge"), NULL, NULL, 
-				GTK_FILE_CHOOSER_ACTION_SAVE);
-    gtk_dialog_set_default_response(GTK_DIALOG(d), GTK_RESPONSE_ACCEPT);
-
-    gtk_box_pack_start(GTK_BOX(box), fileentry,
-		       TRUE, TRUE, 0);
-    gtk_widget_show(fileentry);
-    
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), box, TRUE, TRUE, 0);
-    gtk_widget_show(box);
-    
-    return d;
-}
+static GtkWidget *cartridge_dialog;
 
 void ui_cartridge_dialog(void)
 {
@@ -75,7 +50,9 @@ void ui_cartridge_dialog(void)
     }
     else
     {
-	cartridge_dialog = build_cartridge_dialog();
+        uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
+	cartridge_dialog = vice_file_entry(_("Save Cartridge"), NULL, NULL, &filter, 1,
+				UI_FC_SAVE);
 	g_signal_connect(G_OBJECT(cartridge_dialog),
 			 "destroy",
 			 G_CALLBACK(gtk_widget_destroyed),
@@ -89,7 +66,7 @@ void ui_cartridge_dialog(void)
     if (res != GTK_RESPONSE_ACCEPT)
 	return;
     
-    name = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fileentry));
+    name = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(cartridge_dialog));
     if (!name)
     {
 	ui_error(_("Invalid filename"));

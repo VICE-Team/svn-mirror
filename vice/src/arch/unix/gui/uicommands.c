@@ -46,6 +46,7 @@
 #include "sound.h"
 #include "types.h"
 #include "uicommands.h"
+#include "uilib.h"
 #include "uimenu.h"
 #include "uisnapshot.h"
 #include "uinetplay.h"
@@ -265,8 +266,11 @@ static void load_snapshot_trap(WORD unused_addr, void *data)
         filename = (char *)data;
     } else {
         filename = ui_select_file(_("Load snapshot"), NULL, 0,
+        uilib_file_filter_enum_t filter[] = { UILIB_FILTER_SNAPSHOT, UILIB_FILTER_ALL };
+        filename = ui_select_file(_("Load snapshot"), NULL, 0,
                                   load_snapshot_last_dir,
-                                  "*.vsf", &button, 0, NULL, UI_FC_LOAD);
+                                  filter, sizeof(filter) / sizeof(*filter),
+                                  &button, 0, NULL, UI_FC_LOAD);
         if (button != UI_BUTTON_OK) {
             if (filename)
                 lib_free(filename);
@@ -393,7 +397,7 @@ static void sound_record_stop(void)
     ui_display_statustext(_("Sound Recording stopped..."),10);
 }
 
-static void sound_record_start(char *format, char *extension)
+static void sound_record_start(char *format, uilib_file_filter_enum_t extension)
 {
     ui_button_t button;
     char *s;
@@ -402,7 +406,7 @@ static void sound_record_start(char *format, char *extension)
 
     resources_set_string("SoundRecordDeviceName", "");
     s = ui_select_file(_("Record sound to file"), NULL, 0, NULL,
-		       extension, &button, 0, NULL, UI_FC_LOAD);
+                              &extension, 1, &button, 0, NULL, UI_FC_LOAD);
     if (button == UI_BUTTON_OK && s != NULL)
     {
         util_add_extension(&s, format);
@@ -416,28 +420,28 @@ static void sound_record_start(char *format, char *extension)
 
 static UI_CALLBACK(sound_record_wav)
 {
-    sound_record_start("wav","*.wav");
+    sound_record_start("wav",UILIB_FILTER_WAV);
 }
 
 static UI_CALLBACK(sound_record_voc)
 {
-    sound_record_start("voc","*.voc");
+    sound_record_start("voc",UILIB_FILTER_VOC);
 }
 
 static UI_CALLBACK(sound_record_iff)
 {
-    sound_record_start("iff","*.iff");
+    sound_record_start("iff",UILIB_FILTER_IFF);
 }
 
 static UI_CALLBACK(sound_record_aiff)
 {
-    sound_record_start("aiff","*.aiff");
+    sound_record_start("aiff",UILIB_FILTER_AIFF);
 }
 
 #ifdef USE_LAMEMP3
 static UI_CALLBACK(sound_record_mp3)
 {
-    sound_record_start("mp3","*.mp3");
+    sound_record_start("mp3",UILIB_FILTER_MP3);
 }
 #endif
 
@@ -585,4 +589,3 @@ void uicommands_shutdown(void)
 {
     lib_free(load_snapshot_last_dir);
 }
-

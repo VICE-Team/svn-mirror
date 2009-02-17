@@ -54,6 +54,7 @@
 #include "machine.h"
 #include "ui.h"
 #include "uiarch.h"
+#include "uilib.h"
 
 static Widget cartridge_dialog;
 static Widget cartridge_dialog_pane;
@@ -72,11 +73,11 @@ static Widget cancel_button;
 static UI_CALLBACK(browse_callback)
 {
     ui_button_t button;
-
+    uilib_file_filter_enum_t filter = UILIB_FILTER_CRT_CARTRIDGE;
     char *filename;
 
     filename = ui_select_file(_("Save cartridge image file"),
-                              NULL, False, NULL, "*.[cC][rR][tT]",
+                              NULL, False, NULL, &filter, 1,
                               &button, 0, NULL, UI_FC_LOAD);
 
     if (button == UI_BUTTON_OK)

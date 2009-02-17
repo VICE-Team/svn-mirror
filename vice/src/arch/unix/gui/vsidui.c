@@ -5,7 +5,7 @@
  *  Dag Lem <resid@nimrod.no>
  * based on c64ui.c written by
  *  Ettore Perazzoli <ettore@comm2000.it>
- *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andrï¿½ Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -44,6 +44,7 @@
 #include "psid.h"
 #include "resources.h"
 #include "uicommands.h"
+#include "uilib.h"
 #include "uimenu.h"
 #include "uisettings.h"
 #include "uisid.h"
@@ -239,9 +240,11 @@ static UI_CALLBACK(psid_load)
 {
     char *filename;
     ui_button_t button;
+    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_SID, UILIB_FILTER_ALL };
 
     filename = ui_select_file(_("Load PSID file"), NULL, 0, NULL,
-                              "*.[psPS]*", &button, 0, NULL, UI_FC_LOAD);
+                              filter, sizeof(filter) / sizeof(*filter),
+                              &button, 0, NULL, UI_FC_LOAD);
 
     vsync_suspend_speed_eval();
 

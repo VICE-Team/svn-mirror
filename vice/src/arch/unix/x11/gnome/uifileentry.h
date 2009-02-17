@@ -27,7 +27,14 @@
 #ifndef VICE__uifileentry_h__
 #define VICE__uifileentry_h__
 
+enum uilib_file_filter_enum_s;
+enum ui_filechooser_s;
+
 extern GtkWidget *
-vice_file_entry(const char *title, const char *default_dir,
-		const char *pat, GtkFileChooserAction action);
+vice_file_entry(const char *title,
+                GtkWidget* parent_window,
+                const char *default_dir,
+                enum uilib_file_filter_enum_s* patterns,
+                int num_patterns,
+                enum ui_filechooser_s action);
 #endif /* __uifileentry_h__ */

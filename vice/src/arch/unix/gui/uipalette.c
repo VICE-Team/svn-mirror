@@ -32,6 +32,7 @@
 #include "lib.h"
 #include "resources.h"
 #include "ui.h"
+#include "uilib.h"
 #include "uimenu.h"
 #include "util.h"
 #include "vsync.h"
@@ -42,10 +43,12 @@ UI_CALLBACK(ui_load_palette)
     char *filename, *title;
     ui_button_t button;
     static char *last_dir;
+    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_PALETTE, UILIB_FILTER_ALL };
 
     vsync_suspend_speed_eval();
     title = lib_stralloc(_("Load custom palette"));
-    filename = ui_select_file(title, NULL, 0, last_dir, "*.vpl",
+    filename = ui_select_file(title, NULL, 0, last_dir,
+                              filter, sizeof(filter) / sizeof(*filter),
                               &button, 0, NULL, UI_FC_LOAD);
 
     lib_free(title);

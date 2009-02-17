@@ -3,7 +3,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
- *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andrï¿½ Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -37,6 +37,7 @@
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
+#include "uilib.h"
 #include "uikeyboard.h"
 #include "uimenu.h"
 #include "util.h"
@@ -75,6 +76,7 @@ static UI_CALLBACK(select_user_keymap)
     ui_button_t button;
     int kindex;
     static char *last_dir;
+    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_KEYMAP, UILIB_FILTER_ALL };
 
     resources_get_int("KeymapIndex", &kindex);
     kindex = (kindex & ~1) + (int)UI_MENU_CB_PARAM;
@@ -82,7 +84,8 @@ static UI_CALLBACK(select_user_keymap)
 
     vsync_suspend_speed_eval();
     filename = ui_select_file(_("Read Keymap File"), NULL, 0, last_dir,
-                              "*.vkm", &button, 0, NULL, UI_FC_LOAD);
+                              filter, sizeof(filter) / sizeof(*filter),
+                              &button, 0, NULL, UI_FC_LOAD);
 
     switch (button) {
       case UI_BUTTON_OK:

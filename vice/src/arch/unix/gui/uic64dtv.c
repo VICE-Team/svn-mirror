@@ -47,10 +47,11 @@ UI_CALLBACK(set_c64dtv_rom_name)
     char *filename;
     ui_button_t button;
     static char *last_dir;
+    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_DTVROM, UILIB_FILTER_ALL };
 
     filename = ui_select_file(_("C64DTV ROM image name"),
                               NULL, 0, last_dir,
-                    	      "*.[bB][iI][nN]",
+                    	      filter, sizeof(filter) / sizeof(*filter),
                     	      &button, 0, NULL, UI_FC_LOAD);
 
     switch (button) {

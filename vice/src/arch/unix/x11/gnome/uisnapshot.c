@@ -32,31 +32,22 @@
 #include "uiarch.h"
 #include "machine.h"
 #include "uifileentry.h"
+#include "uilib.h"
 #include "lib.h"
 
-static GtkWidget *snapshot_dialog, *attach_disk, *attach_rom, *fileentry;
+static GtkWidget *snapshot_dialog, *attach_disk, *attach_rom;
 
 static GtkWidget *build_snapshot_dialog(void)
 {
     GtkWidget *d, *box, *tmp;
+    uilib_file_filter_enum_t filter[] = {UILIB_FILTER_SNAPSHOT, UILIB_FILTER_ALL};
     
-    d = gtk_dialog_new_with_buttons(_("Save Snapshot"), 
-			 NULL,
-			 GTK_DIALOG_DESTROY_WITH_PARENT,
-			 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-			 GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-			 NULL);
+    d = vice_file_entry(_("Save Snapshot"), NULL, NULL,
+				filter, sizeof(filter) / sizeof(*filter),
+				UI_FC_SAVE);
     box = gtk_hbox_new(0, FALSE);
 
-    fileentry = vice_file_entry(_("Save Snapshot"), NULL, "*.vsf", 
-				GTK_FILE_CHOOSER_ACTION_SAVE);
     gtk_dialog_set_default_response(GTK_DIALOG(d), GTK_RESPONSE_ACCEPT);
-    
-    gtk_box_pack_start(GTK_BOX(box), fileentry, TRUE, TRUE, 0);
-    gtk_widget_show(fileentry);
-    
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), box, TRUE, TRUE, 0);
-    gtk_widget_show(box);
     
     tmp = gtk_frame_new(_("Snapshot options"));
     box = gtk_vbox_new(0, FALSE);
@@ -74,8 +65,13 @@ static GtkWidget *build_snapshot_dialog(void)
     gtk_container_add(GTK_CONTAINER(tmp), box);
     gtk_widget_show(box);
     
+#if GTK_CHECK_VERSION(2, 14, 0)
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(d))), tmp, TRUE, TRUE, 
+		       0);
+#else
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), tmp, TRUE, TRUE, 
 		       0);
+#endif
     gtk_widget_show(tmp);
     
     return d;
@@ -108,7 +104,7 @@ void ui_snapshot_dialog(void)
     if (res != GTK_RESPONSE_ACCEPT)
 	return;
     
-    name = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fileentry));
+    name = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(snapshot_dialog));
     if (!name)
     {
 	ui_error(_("Invalid filename"));

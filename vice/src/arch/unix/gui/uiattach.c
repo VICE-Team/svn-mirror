@@ -41,6 +41,7 @@
 #include "uiattach.h"
 #include "uiedisk.h"
 #include "uifliplist.h"
+#include "uilib.h"
 #include "uimenu.h"
 #include "util.h"
 #include "vsync.h"
@@ -68,12 +69,13 @@ UI_CALLBACK(attach_disk)
     char *filename, *title;
     ui_button_t button;
     int attach_wp = 0;
+    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_DISK, UILIB_FILTER_ALL };
 
     vsync_suspend_speed_eval();
     title = lib_msprintf(_("Attach Disk Image as unit #%d"), unit);
     filename = ui_select_file(title, funcs[unit - 8],
                               unit == 8 ? 1 : 0, attach_disk_last_dir,
-                              "*.[gdxGDX]*", &button, 1, &attach_wp,
+                              filter, sizeof(filter) / sizeof(*filter), &button,  1, &attach_wp,
 			      UI_FC_LOAD);
 
     lib_free(title);
@@ -194,12 +196,13 @@ static UI_CALLBACK(attach_tape)
 {
     char *filename;
     ui_button_t button;
+    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_TAPE, UILIB_FILTER_ALL };
 
     vsync_suspend_speed_eval();
 
     filename = ui_select_file(_("Attach a tape image"),
                               tapecontents_read,
-                              1, attach_tape_last_dir, "*.[tT]*",
+                              1, attach_tape_last_dir, filter, sizeof(filter) / sizeof(*filter),
                               &button, 1, NULL, UI_FC_LOAD);
 
     switch (button) {
@@ -258,6 +261,7 @@ static UI_CALLBACK(smart_attach)
     ui_button_t button;
     int do_free_dir;
     char *dir;
+    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_TAPE, UILIB_FILTER_DISK, UILIB_FILTER_PRGP00, UILIB_FILTER_ALL };
 
     vsync_suspend_speed_eval();
 
@@ -271,7 +275,7 @@ static UI_CALLBACK(smart_attach)
     }
     filename = ui_select_file(_("Smart-attach a file"),
                               read_disk_or_tape_image_contents,
-                              1, dir, NULL, &button, 1, NULL, UI_FC_LOAD);
+                              1, dir, filter, sizeof(filter) / sizeof(*filter), &button, 1, NULL, UI_FC_LOAD);
     if (do_free_dir)
         lib_free(dir);
 

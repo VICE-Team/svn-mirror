@@ -61,7 +61,11 @@ typedef enum {
 struct video_canvas_s;
 struct palette_s;
 
-typedef enum { UI_FC_LOAD = 0, UI_FC_SAVE } ui_filechooser_t;
+enum uilib_file_filter_enum_s;
+typedef enum ui_filechooser_s {
+    UI_FC_LOAD = 0,
+    UI_FC_SAVE
+} ui_filechooser_t;
 
 void ui_display_speed(float percent, float framerate, int warp_flag);
 void ui_display_paused(int flag);
@@ -76,7 +80,8 @@ extern char *ui_select_file(const char *title,
                             read_contents_func_type read_contents_func,
                             unsigned int allow_autostart,
                             const char *default_dir,
-                            const char *default_pattern,
+                            enum uilib_file_filter_enum_s* patterns,
+                            int num_patterns,
                             ui_button_t *button_return,
                             unsigned int show_preview,
                             int *attach_wp,

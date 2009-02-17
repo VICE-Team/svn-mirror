@@ -45,6 +45,7 @@
 #include "uidrivec64vic20.h"
 #include "uidrivevic20.h"
 #include "uikeyboard.h"
+#include "uilib.h"
 #include "uimenu.h"
 #include "uimidi.h"
 #include "uimouse.h"
@@ -257,10 +258,12 @@ static UI_CALLBACK(attach_cartridge)
     char *filename;
     ui_button_t button;
     static char *last_dir;
+    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_VIC20CART, UILIB_FILTER_ALL };
 
     vsync_suspend_speed_eval();
     filename = ui_select_file(_("Attach cartridge image"),
-                              NULL, 0, last_dir, "*.prg", &button,
+                              NULL, 0, last_dir,
+                              filter, sizeof(filter) / sizeof(*filter), &button,
                               0, NULL, UI_FC_LOAD);
     switch (button) {
       case UI_BUTTON_OK:

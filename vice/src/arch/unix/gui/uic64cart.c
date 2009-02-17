@@ -36,6 +36,7 @@
 #include "ui.h"
 #include "uic64cart.h"
 #include "uicartridge.h"
+#include "uilib.h"
 #include "uimenu.h"
 #include "util.h"
 #include "vsync.h"
@@ -62,10 +63,11 @@ static UI_CALLBACK(attach_cartridge)
             char *filename;
             ui_button_t button;
             static char *last_dir;
+            uilib_file_filter_enum_t filter[] = { UILIB_FILTER_CARTRIDGE, UILIB_FILTER_ALL };
 
             filename = ui_select_file(_("Attach cartridge image"),
                                       NULL, 0, last_dir,
-                                      "*.[cCbB][rRiI][tTnN]",
+                                      filter, sizeof(filter) / sizeof(*filter),
                                       &button, 0, NULL, UI_FC_LOAD);
 
             switch (button) {

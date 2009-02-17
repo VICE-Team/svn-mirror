@@ -46,6 +46,7 @@
 #include "uiide64.h"
 #include "uijoystick2.h"
 #include "uikeyboard.h"
+#include "uilib.h"
 #include "uimenu.h"
 #include "uimidi.h"
 #include "uimouse.h"
@@ -205,11 +206,12 @@ UI_CALLBACK(set_function_rom_name)
     ui_button_t button;
     char *filename;
     static char *last_dir;
+    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_ALL };
 
     vsync_suspend_speed_eval();
 
     filename = ui_select_file(_("Function ROM image"), NULL, 0,
-                              last_dir, "*", &button, 0, NULL,  UI_FC_LOAD);
+                              last_dir, filter, 1, &button,  0, NULL, UI_FC_LOAD);
 
     if (button == UI_BUTTON_OK && filename != NULL) {
         if (resources_set_string(resname, filename) < 0)

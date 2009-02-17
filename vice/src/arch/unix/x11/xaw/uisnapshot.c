@@ -50,6 +50,7 @@
 #include "machine.h"
 #include "ui.h"
 #include "uiarch.h"
+#include "uilib.h"
 #include "uisnapshot.h"
 #include "util.h"
 
@@ -80,9 +81,10 @@ static UI_CALLBACK(browse_callback)
 {
     ui_button_t button;
     char *filename;
+    uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
 
     filename = ui_select_file(_("Save snapshot file"), NULL, False, NULL,
-                              "*", &button, 0, NULL, UI_FC_LOAD);
+                              &filter, 1, &button, 0, NULL, UI_FC_LOAD);
 
     if (button == UI_BUTTON_OK)
         XtVaSetValues(file_name_field, XtNstring, filename, NULL);

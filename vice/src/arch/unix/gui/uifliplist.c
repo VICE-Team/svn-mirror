@@ -38,6 +38,7 @@
 #include "resources.h"
 #include "uifliplist.h"
 #include "uidrive.h"
+#include "uilib.h"
 #include "uimenu.h"
 #include "util.h"
 #include "vsync.h"
@@ -82,12 +83,14 @@ static UI_CALLBACK(load_save_fliplist)
     char *filename, *title;
     int what = (int)UI_MENU_CB_PARAM;
     ui_button_t button;
+    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_FLIPLIST, UILIB_FILTER_ALL };
 
     vsync_suspend_speed_eval();
     title = util_concat(what ? _("Load ") : _("Save"), _("Fliplist File"),
                         NULL);
     filename = ui_select_file(title, NULL, 0,
-                              load_save_fliplist_last_dir, "*.vfl",
+                              load_save_fliplist_last_dir,
+                              filter, sizeof(filter) / sizeof(*filter),
                               &button, 1, NULL, UI_FC_LOAD);
     lib_free(title);
     switch (button) {

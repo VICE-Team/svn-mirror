@@ -83,6 +83,7 @@
 #include "uicolor.h"
 #include "uifliplist.h"
 #include "uihotkey.h"
+#include "uilib.h"
 #include "uimenu.h"
 #include "uisettings.h"
 #include "util.h"
@@ -1791,11 +1792,40 @@ int ui_extend_image_dialog(void)
     return (b == UI_BUTTON_YES) ? 1 : 0;
 }
 
+/* this must be in sync with uilib_file_filter_enum_t */
+static const char* file_filters[] = {
+/* all */ "*",
+/* palette */ "*.vpl",
+/* snapshot */ "*.vsf",
+/* disk */ "*.[gdxGDX]*",
+/* tape */ "*.[tT]",
+/* cartridge */ "*.[cCbB][rRiI][tTnN]",
+/* crt filter */ "*.[cC][rR][tT]",
+/* flip_list */ "*.vfl",
+/* romset */ "*.vrs",
+/* romset archive */ "*.vra",
+/* keymap */ "*.vkm",
+/* emulator_filter unused in X11 */ "",
+/* wav */ "wav",
+/* voc */ "voc",
+/* iff */ "iff",
+/* aiff */ "aiff",
+/* mp3 */ "mp3",
+/* serial */ "ttyS*",
+/* vic20cart */ "*.prg",
+/* sid */ "*.[psPS]*",
+/* dtvrom */ ".[bB][iI][nN]"
+};
+
+
+
 /* File browser. */
 char *ui_select_file(const char *title,
                      read_contents_func_type read_contents_func,
                      unsigned int allow_autostart, const char *default_dir,
-                     const char *default_pattern, ui_button_t *button_return,
+                     enum uilib_file_filter_enum_s* patterns,
+                     int num_patterns,
+                     ui_button_t *button_return,
                      unsigned int show_preview, int *attach_wp,
 		     ui_filechooser_t action)
 {
@@ -1822,7 +1852,7 @@ char *ui_select_file(const char *title,
                   read_contents_func ? 1 : 0,  NULL);
 
     XtVaSetValues(file_selector, XtNpattern,
-                  default_pattern ? default_pattern : "*", NULL);
+                  file_filters[patterns[0]], NULL);
 
     if (default_dir != NULL) {
         XfwfFileSelectorChangeDirectory((XfwfFileSelectorWidget) file_selector,

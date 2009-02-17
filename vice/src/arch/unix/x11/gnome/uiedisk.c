@@ -35,6 +35,7 @@
 #include "diskimage.h"
 #include "vdrive/vdrive-internal.h"
 #include "util.h"
+#include "uilib.h"
 #include "uifileentry.h"
 #include "lib.h"
 
@@ -51,32 +52,19 @@ static struct {
 		   {"x64", NULL, DISK_IMAGE_TYPE_X64},
 		   { NULL, NULL, 0} };
 
-static GtkWidget *edisk_dialog, *fileentry, *diskname, *diskid;
+static GtkWidget *edisk_dialog, *diskname, *diskid;
 
 static GtkWidget *build_empty_disk_dialog(void)
 {
     GtkWidget *d, *box, *hbox, *tmp, *frame;
     int i;
+    uilib_file_filter_enum_t filter[] = {UILIB_FILTER_DISK, UILIB_FILTER_ALL};
     
-    d = gtk_dialog_new_with_buttons(_("Create empty disk"),
-				    NULL,
-				    GTK_DIALOG_DESTROY_WITH_PARENT,
-				    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				    GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-				    NULL);
-    box = gtk_hbox_new(0, FALSE);
-
-    fileentry = vice_file_entry(_("Create disk"), NULL, "*.[gdxGDX]*",
-				GTK_FILE_CHOOSER_ACTION_SAVE);
+    d = vice_file_entry(_("Create disk"), NULL, NULL,
+				filter, sizeof(filter) / sizeof(*filter),
+				UI_FC_SAVE);
     gtk_dialog_set_default_response(GTK_DIALOG(d), GTK_RESPONSE_ACCEPT);
 
-    gtk_box_pack_start(GTK_BOX(box), fileentry,
-		       TRUE, TRUE, 0);
-    gtk_widget_show(fileentry);
-
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), box, TRUE, TRUE, 0);
-    gtk_widget_show(box);
-    
     frame = gtk_frame_new(_("Disk options"));
     box = gtk_vbox_new(0, FALSE);
 
@@ -132,10 +120,14 @@ static GtkWidget *build_empty_disk_dialog(void)
     gtk_container_add(GTK_CONTAINER(frame), box);
     gtk_widget_show(box);
 
+#if GTK_CHECK_VERSION(2, 14, 0)
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(d))), frame, 
+		       FALSE, FALSE, 0);
+#else
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), frame, 
 		       FALSE, FALSE, 0);
+#endif
     gtk_widget_show(frame);
-    gtk_widget_show(d);
     
     return d;
 }
@@ -171,7 +163,7 @@ int ui_empty_disk_dialog(char *name)
 	return -1;
 
     /* filename */
-    fname = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fileentry));
+    fname = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(edisk_dialog));
     if (!fname)
 	return -1;
     

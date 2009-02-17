@@ -30,5 +30,29 @@
 extern void uilib_select_string(const char *resname, const char *title,
                                 const char *name);
 
+typedef enum uilib_file_filter_enum_s {
+  UILIB_FILTER_ALL,
+  UILIB_FILTER_PALETTE,
+  UILIB_FILTER_SNAPSHOT,
+  UILIB_FILTER_DISK,
+  UILIB_FILTER_TAPE,
+  UILIB_FILTER_CARTRIDGE,
+  UILIB_FILTER_CRT_CARTRIDGE,
+  UILIB_FILTER_FLIPLIST,
+  UILIB_FILTER_ROMSET_FILE,
+  UILIB_FILTER_ROMSET_ARCHIVE,
+  UILIB_FILTER_KEYMAP,
+  UILIB_FILTER_PRGP00,
+  UILIB_FILTER_WAV,
+  UILIB_FILTER_VOC,
+  UILIB_FILTER_IFF,
+  UILIB_FILTER_AIFF,
+  UILIB_FILTER_MP3,
+  UILIB_FILTER_SERIAL,
+  UILIB_FILTER_VIC20CART,
+  UILIB_FILTER_SID,
+  UILIB_FILTER_DTVROM,
+} uilib_file_filter_enum_t;
+
 #endif
 

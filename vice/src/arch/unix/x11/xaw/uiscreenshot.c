@@ -51,6 +51,7 @@
 #include "gfxoutput.h"
 #include "lib.h"
 #include "screenshot.h"
+#include "uilib.h"
 #include "uimenu.h"
 #include "uiscreenshot.h"
 #include "util.h"
@@ -84,11 +85,11 @@ extern Widget rec_button;
 static UI_CALLBACK(browse_callback)
 {
     ui_button_t button;
-
+    uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
     char *filename;
 
     filename = ui_select_file(_("Save screenshot file"), NULL, False, NULL,
-                              "*", &button, 0, NULL, UI_FC_LOAD);
+                              &filter, 1, &button, 0, NULL, UI_FC_LOAD);
 
     if (button == UI_BUTTON_OK)
         XtVaSetValues(file_name_field, XtNstring, filename, NULL);

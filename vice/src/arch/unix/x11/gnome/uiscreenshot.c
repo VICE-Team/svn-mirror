@@ -36,6 +36,7 @@
 #include "resources.h"
 #include "ui.h"
 #include "uiarch.h"
+#include "uilib.h"
 #include "uiscreenshot.h"
 #include "util.h"
 #include "uifileentry.h"
@@ -45,7 +46,7 @@
 
 
 extern GtkWidget *video_ctrl_checkbox;
-static GtkWidget *screenshot_dialog, *fileentry;
+static GtkWidget *screenshot_dialog;
 static GtkWidget *drv_menu;
 #ifdef HAVE_FFMPEG
 static GtkWidget *ffmpg_opts, *ffmpg_audio, *ffmpg_video;
@@ -215,9 +216,10 @@ ffmpeg_details (GtkWidget *w, gpointer data)
 
 static GtkWidget *build_screenshot_dialog(void)
 {
-    GtkWidget *d, *box, *frame, *vbox, *omenu;
+    GtkWidget *d, *frame, *vbox, *omenu;
     int i, num_buttons;
     gfxoutputdrv_t *driver;
+    uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
 #ifdef HAVE_FFMPEG
     GtkWidget *l, *hbox, *tmp;
     GtkObject *adj;
@@ -236,30 +238,14 @@ static GtkWidget *build_screenshot_dialog(void)
 	return 0;
     }
 
-    d = gtk_dialog_new_with_buttons(_("Save Screenshot"), 
-			 NULL,
-			 GTK_DIALOG_DESTROY_WITH_PARENT,
-			 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-			 GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-			 NULL);
-    box = gtk_hbox_new(0, FALSE);
-
-    fileentry = vice_file_entry(_("Save Media File..."),  
-				NULL, NULL, 
-				GTK_FILE_CHOOSER_ACTION_SAVE);
-    if (!fileentry)
+    d = vice_file_entry(_("Save Media File..."), NULL,
+				NULL, &filter, 1,
+				UI_FC_SAVE);
+    if (!d)
     {
-	gtk_widget_destroy(d);
 	return 0;
     }
     gtk_dialog_set_default_response(GTK_DIALOG(d), GTK_RESPONSE_ACCEPT);
-
-    gtk_box_pack_start(GTK_BOX(box), fileentry,
-		       TRUE, TRUE, 0);
-    gtk_widget_show(fileentry);
-
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), box, TRUE, TRUE, 0);
-    gtk_widget_show(box);
 
     frame = gtk_frame_new(_("Image Format"));
     vbox = gtk_vbox_new(FALSE, 5);
@@ -420,7 +406,11 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_container_add(GTK_CONTAINER(frame), vbox);
     gtk_widget_show(vbox);
 
+#if GTK_CHECK_VERSION(2, 14, 0)
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(d))), frame, TRUE, TRUE, 0);
+#else
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), frame, TRUE, TRUE, 0);
+#endif
     gtk_widget_show(frame);
     gtk_widget_show(d);
 
@@ -455,7 +445,7 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
     if (res != GTK_RESPONSE_ACCEPT)
 	return -1;
     
-    fn = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fileentry));
+    fn = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(screenshot_dialog));
     if (!fn) {
 	ui_error(_("Invalid filename"));
 	return -1;

@@ -3,7 +3,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
- *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andrï¿½ Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -115,11 +115,12 @@ UI_CALLBACK(set_rs232_device_file)
     char *resource = (char *)UI_MENU_CB_PARAM;
     char *filename;
     ui_button_t button;
+    uilib_file_filter_enum_t filter = UILIB_FILTER_SERIAL;
 
     vsync_suspend_speed_eval();
 
     filename = ui_select_file(_("Select RS232 device file"),
-                              NULL, 0, "/dev", "ttyS*", &button, 0,
+                              NULL, 0, "/dev", &filter, 1, &button, 0,
                               NULL, UI_FC_LOAD);
     switch (button) {
       case UI_BUTTON_OK:

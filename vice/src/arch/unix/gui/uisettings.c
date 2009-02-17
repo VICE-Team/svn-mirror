@@ -41,6 +41,7 @@
 #include "lib.h"
 #include "resources.h"
 #include "types.h"
+#include "uilib.h"
 #include "uimenu.h"
 #include "uiperipheral.h"
 #include "uirs232.h"
@@ -256,6 +257,7 @@ static UI_CALLBACK(save_resources_file)
 #ifndef HAVE_DIRNAME
     char *tmp;
 #endif
+    uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
 
     vsync_suspend_speed_eval();
 
@@ -265,7 +267,7 @@ static UI_CALLBACK(save_resources_file)
 #ifdef USE_GNOMEUI
     filename = ui_select_file(_("File to save settings to"), 
 			      NULL, 0, resources_last_dir,
-                              "*", &button, 0, NULL, UI_FC_SAVE);
+                              &filter, 1, &button, 0, NULL, UI_FC_SAVE);
 #else
     button = ui_input_string(_("File to save settings to"),
                              _("Name:"), filename, len);
@@ -305,11 +307,12 @@ static UI_CALLBACK(load_resources_file)
     char *filename;
     ui_button_t button;
     int r;
+    uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
 
     vsync_suspend_speed_eval();
     filename = ui_select_file(_("Resource file name"),
                               NULL, 0, resources_last_dir,
-                              "*", &button, 0, NULL, UI_FC_LOAD);
+                              &filter, 1, &button, 0, NULL, UI_FC_LOAD);
 
     if (button == UI_BUTTON_OK && filename != NULL) {
         r = resources_load(filename);
