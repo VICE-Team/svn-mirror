@@ -1046,8 +1046,8 @@ int main(int argc, char **argv)
         if (wr_mode) {
             p_tokenize(version, load_addr, ctrls);
         } else {
-            if (hdr)
-                fprintf(dest, "\n\n%s ", (fil ? argv[0] : "<stdin>"));
+            if (hdr) /* iAN: name as comment when using petcat name.prg > name.txt */
+                fprintf(dest, "\n\n;%s ", (fil ? argv[0] : "<stdin>"));
 
             /*
              * Use TEXT mode if the offset doesn't equal BASIC load addresses
@@ -1069,12 +1069,14 @@ int main(int argc, char **argv)
             else {
 
                 /* get load address */
-                load_addr =(getc(source) & 0xff) + ((getc(source) & 0xff)<< 8);
+                /* iAN: load_addr split into 2 lines, when compiled with VC7.1 I got ==0108== instead of ==0801== !! */
+                load_addr = (getc(source) & 0xff) ;
+                load_addr |= (getc(source) & 0xff) << 8;
                 if (hdr)
                     fprintf(dest, "==%04x==\n", load_addr);
 
                 if (p_expand(version, load_addr, ctrls)) {
-                    fprintf(dest, "\n*** Machine language part skipped. ***\n");
+                    fprintf(dest, "\n;*** Machine language part skipped. ***\n");
                 }
                 else    /* End of BASIC on stdin. Is there more ? */
                     if (!fil && (c = getc(source)) != EOF &&
@@ -1455,6 +1457,9 @@ static void pet_2_asc(int ctrls)
 29/01/2009 gpz
 - fixed $5b,$5d
 */
+/*
+iAN: "left arrow" petscii 0x5f was converted as ascii 0x7f and not translated back correctly
+*/
 static void _p_toascii(int c, int ctrls)
 {
     switch (c) {
@@ -1469,8 +1474,17 @@ static void _p_toascii(int c, int ctrls)
       case 0x5b:
         fputc ('[', dest);
         break;
+      case 0x5c:
+        fputc ('\\', dest);
+        break;
       case 0x5d:
         fputc (']', dest);
+        break;
+      case 0x5e:
+        fputc ('^', dest);
+        break;
+      case 0x5f:
+        fputc ('_', dest);
         break;
       case 0x60: /* produces the same screencode as $c0! */
         fprintf(dest, CLARIF_LP_ST "$%02x" CLARIF_RP_ST, c & 0xff);
@@ -1792,6 +1806,11 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
     /* Copies from p2 to p1 */
 
     while((p2 = (unsigned char *)fgets(line, MAX_INLINE_LEN, source)) != NULL) {
+        /*
+        iAN: skip comment line when starting with ";"
+        */
+        if (*line==';')
+            continue;
 
 	memset(tokenizedline, 0, MAX_OUTLINE_LEN);
 	p1 = (unsigned char *)tokenizedline;
@@ -2206,7 +2225,10 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                 if (*p2 == 0x7e)                /*  '~' is ASCII for 'pi' */
                     *p1++ = 0xff;
 
-                else if ((*p2 >= 0x5b) && (*p2 <= 0x7e))
+                else if ((*p2 >= 0x5b) && (*p2 <= 0x5f)) /* iAN: '_' -> left arrow, no char value change */
+                    *p1++ = *p2;
+
+                else if ((*p2 >= 0x60) && (*p2 <= 0x7e))
                     *p1++ = *p2 ^ 0x20;
 
                 else if ((*p2 >= 'A') && (*p2 <= 'Z'))
@@ -2225,7 +2247,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
 #ifdef DEBUG
 	fprintf(stderr,"output line start: %s\n", line);
-/*	fprintf(stderr,"output line petscii: %s\n", tokenizedline); */
+        /*  fprintf(stderr,"output line petscii: %s\n", tokenizedline); */
 #endif
 
         *p1 = 0;
