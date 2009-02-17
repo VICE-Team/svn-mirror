@@ -265,7 +265,6 @@ static void load_snapshot_trap(WORD unused_addr, void *data)
         log_debug("Quickloading file %s.", (char *)data);
         filename = (char *)data;
     } else {
-        filename = ui_select_file(_("Load snapshot"), NULL, 0,
         uilib_file_filter_enum_t filter[] = { UILIB_FILTER_SNAPSHOT, UILIB_FILTER_ALL };
         filename = ui_select_file(_("Load snapshot"), NULL, 0,
                                   load_snapshot_last_dir,
