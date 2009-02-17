@@ -101,6 +101,7 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
     for (i = 11; i > 0; i --) {
       o[i] = (o[i - 1] + o[i]) * 0.5f;
     }
+    o[0] = 1;
 
     old = 0;
     for (i = 0; i < 12; i ++) {
@@ -116,45 +117,44 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
 
   /* P* waveform? */
   if (waveform > 4) {
-    /* FIR length in both directions */
-    int len;
+    /* attenuation rate of adjacent bits */
+    float distance;
+    /* tunable to set combined waveform loudness */
     float bias;
     if (model == MOS6581FP) {
-        len = 7;
-        bias = 0.3f;
+        distance = 0.03f;
+        bias = 0.31f;
     } else {
-        len = 3;
-        bias = 0.2f;
+        distance = 0.2f;
+        bias = 0.22f;
+    }
+
+    float distancetable[12 * 2 + 1];
+    for (i = 0; i <= 12; i ++) {
+        distancetable[12+i] = distancetable[12-i] = 1.f / (1.f + i * i * distance);
     }
 
     float pulse = (accumulator >> 12) >= pw ? 1.0f : 0.0f;
     float tmp[12];
     for (i = 0; i < 12; i ++) {
-        int start = i - len;
-        if (start < 0) {
-            start = 0;
-        }
-        int end = i + len;
-        if (end > 12) {
-            end = 12;
-        }
-
         float avg = 0;
-        int n = 0;
-        for (int j = start; j <= end; j ++) {
+        float n = 0;
+        for (int j = 0; j <= 12; j ++) {
             if (i == j) {
                 continue;
-            } else if (j == 12) {
-                avg += pulse;
-            } else {
-                avg += o[j];
             }
-            n ++;
+            float weight = distancetable[i - j + 12];
+            if (j == 12) {
+                avg += pulse * weight;
+            } else {
+                avg += o[j] * weight;
+            }
+            n += weight;
         }
 
         tmp[i] = (o[i] + avg / n + bias) * 0.5f;
-        if (tmp[i] > 1.0) {
-            tmp[i] = 1.0;
+        if (tmp[i] > 1.f) {
+            tmp[i] = 1.f;
         }
     }
 
@@ -176,7 +176,6 @@ void WaveformGeneratorFP::set_nonlinearity(float nl)
   for (int i = 0; i < 12; i ++) {
     dac[i] = SIDFP::kinked_dac((1 << i), nl, 12);
   }
-  rebuild_wftable();
 }
 
 // ----------------------------------------------------------------------------
@@ -208,7 +207,6 @@ void WaveformGeneratorFP::set_sync_source(WaveformGeneratorFP* source)
 void WaveformGeneratorFP::set_chip_model(chip_model model)
 {
   this->model = model;
-  rebuild_wftable();
 }
 
 

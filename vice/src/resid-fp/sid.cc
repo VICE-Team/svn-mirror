@@ -154,6 +154,7 @@ void SIDFP::set_voice_nonlinearity(float nl)
 {
   voice[0].set_nonlinearity(nl);
   voice[0].wave.set_nonlinearity(nl);
+  voice[0].wave.rebuild_wftable();
 }
 
 float SIDFP::kinked_dac(const int x, const float nonlinearity, const int max)
@@ -219,6 +220,7 @@ void SIDFP::set_chip_model(chip_model model)
   for (int i = 0; i < 3; i++) {
     voice[i].set_chip_model(model);
   }
+  voice[0].wave.rebuild_wftable();
 
   filter.set_chip_model(model);
   extfilt.set_chip_model(model);
