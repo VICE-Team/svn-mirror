@@ -19,6 +19,15 @@
 
 #define __ENVELOPE_CC__
 #include "envelope.h"
+#include "sid.h"
+
+extern float env_dac[256];
+
+void EnvelopeGeneratorFP::set_nonlinearity(float nl)
+{
+    for (int i = 0; i < 256; i ++)
+        env_dac[i] = SIDFP::kinked_dac(i, nl, 8);
+}
 
 // ----------------------------------------------------------------------------
 // Constructor.

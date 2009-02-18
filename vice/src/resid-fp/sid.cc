@@ -152,7 +152,7 @@ float wftable[11][4096];
 /* nonlinear DAC support, set 1 for 8580 / no effect, about 0.96 otherwise */
 void SIDFP::set_voice_nonlinearity(float nl)
 {
-  voice[0].set_nonlinearity(nl);
+  voice[0].envelope.set_nonlinearity(nl);
   voice[0].wave.set_nonlinearity(nl);
   voice[0].wave.rebuild_wftable();
 }

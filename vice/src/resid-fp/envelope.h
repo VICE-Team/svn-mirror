@@ -22,6 +22,8 @@
 
 #include "siddefs-fp.h"
 
+extern float env_dac[256];
+
 // ----------------------------------------------------------------------------
 // A 15 bit counter is used to implement the envelope rates, in effect
 // dividing the clock to the envelope counter by the currently selected rate
@@ -46,10 +48,10 @@ public:
   void writeSUSTAIN_RELEASE(reg8);
   reg8 readENV();
 
-  // 8-bit envelope output.
-  RESID_INLINE reg8 output();
+  RESID_INLINE float output();
 
 protected:
+  void set_nonlinearity(float nl);
   void update_rate_period(reg16 period);
 
   int rate_counter;
@@ -57,6 +59,7 @@ protected:
   reg8 exponential_counter;
   reg8 exponential_counter_period;
   reg8 envelope_counter;
+  float envelope_counter_dac;
   bool hold_zero;
 
   reg4 attack;
@@ -159,6 +162,8 @@ void EnvelopeGeneratorFP::clock()
       hold_zero = true;
       break;
     }
+
+    envelope_counter_dac = env_dac[envelope_counter];
   }
 }
 
@@ -166,9 +171,9 @@ void EnvelopeGeneratorFP::clock()
 // Read the envelope generator output.
 // ----------------------------------------------------------------------------
 RESID_INLINE
-reg8 EnvelopeGeneratorFP::output()
+float EnvelopeGeneratorFP::output()
 {
-  return envelope_counter;
+  return envelope_counter_dac;
 }
 
 #endif // not __ENVELOPE_H__
