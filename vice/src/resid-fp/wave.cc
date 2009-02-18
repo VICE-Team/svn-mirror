@@ -103,7 +103,8 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
     for (i = 11; i > 0; i --) {
       o[i] = (o[i - 1] + o[i]) * 0.5f;
     }
-    o[0] = 1;
+    /* bottom bit is grounded via T waveform selector */
+    o[0] = o[0] * 0.5f;
 
     old = 0;
     for (i = 0; i < 12; i ++) {
@@ -127,7 +128,7 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
         /* This controls the high-frequency content of the waveform by
          * adjusting the FIR length. Low value means a long FIR, and lots
          * of noise as the lowest bits toggle often. */
-        distance = 0.05f;
+        distance = 0.04f;
         /* Various chips are reproduced by settings from 0.1 to 0.35.
          * the lower this value, the quieter and edgier the combined waves
          * become. There is a threshold around 0.25f where the PS waveform
@@ -139,16 +140,14 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
             if (bias < 0.25f) {
                 o[11] = 0;
             }
-            /* PS is significantly louder than PT */
-            bias *= 1.33f;
         }
         if (waveform == 7) {
-            /* PST is quiet compared to PT. */
+            /* PST is quiet compared to the others. */
             bias *= 0.6f;
         }
     } else {
-        distance = 0.2f;
-        bias = 0.25f;
+        distance = 0.25f;
+        bias = 0.27f;
     }
 
     float distancetable[12 * 2 + 1];

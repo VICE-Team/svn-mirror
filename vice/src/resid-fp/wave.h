@@ -197,8 +197,7 @@ void WaveformGeneratorFP::synchronize()
 RESID_INLINE
 reg12 WaveformGeneratorFP::output___T()
 {
-  reg24 msb = accumulator & 0x800000;
-  return ((msb ? ~accumulator : accumulator) >> 11) & 0xfff;
+  return ((accumulator & 0x800000 ? ~accumulator : accumulator) >> 11) & 0xfff;
 }
 
 // Sawtooth:

@@ -208,6 +208,7 @@ friend class SIDFP;
 const float kinkiness = 0.966f;
 const float sidcaps_6581 = 470e-12f;
 const float outputleveldifference_lp_bp = 1.41f;
+const float outputleveldifference_lp_bp2 = 1.6f;
 
 RESID_INLINE
 static float fastexp(float val) {
@@ -329,7 +330,7 @@ float FilterFP::clock(float voice1,
         /* Turning on resonance doesn't come alone: it brings a bit of
          * lowpass into the bandpass in its wake, but in the opposite phase...
          */
-        lpleak = Vi * distortion_rate * resf * (1.f / 15.f / 5.f);
+        lpleak = (Vi + Vlp * (1.f/outputleveldifference_lp_bp2)) * distortion_rate * resf * (1.f / 15.f / 5.f);
 
         Vhp = (Vbp + lpleak) * _1_div_Q
             - Vlp * (1.f/outputleveldifference_lp_bp)
