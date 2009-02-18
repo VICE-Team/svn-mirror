@@ -122,11 +122,31 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
     /* tunable to set combined waveform loudness */
     float bias;
     if (model == MOS6581FP) {
-        distance = 0.03f;
-        bias = 0.31f;
+        /* This controls the high-frequency content of the waveform by
+         * adjusting the FIR length. Low value means a long FIR, and lots
+         * of noise as the lowest bits toggle often. */
+        distance = 0.05f;
+        /* Various chips are reproduced by settings from 0.1 to 0.35.
+         * the lower this value, the quieter and edgier the combined waves
+         * become. There is a threshold around 0.25f where the PS waveform
+         * (a jagged rising sawtooth) becomes two half-intensity sawtooths.
+         * only kevtris chips C, D, E and H have a complete ramp in PS. */
+        bias = 0.25f;
+
+        if (waveform == 6) {
+            if (bias < 0.25f) {
+                o[11] = 0;
+            }
+            /* PS is significantly louder than PT */
+            bias *= 1.33f;
+        }
+        if (waveform == 7) {
+            /* PST is quiet compared to PT. */
+            bias *= 0.6f;
+        }
     } else {
         distance = 0.2f;
-        bias = 0.22f;
+        bias = 0.25f;
     }
 
     float distancetable[12 * 2 + 1];
