@@ -128,7 +128,7 @@ void FilterFP::reset()
   fc = 0;
   res = filt = voice3off = hp_bp_lp = 0; 
   vol = 0;
-  volf = Vhp = Vbp = Vlp = 0;
+  resf = volf = Vhp = Vbp = Vlp = 0;
   type3_fc_distortion_offset = 9e9f;
   type3_fc_kink_exp = 0;
   type4_w0_cache = 0;
@@ -154,6 +154,7 @@ void FilterFP::writeFC_HI(reg8 fc_hi)
 void FilterFP::writeRES_FILT(reg8 res_filt)
 {
   res = (res_filt >> 4) & 0x0f;
+  resf = (float) res;
   set_Q();
 
   filt = res_filt & 0x0f;
@@ -177,7 +178,7 @@ void FilterFP::set_w0()
     float type3_fc_kink = SIDFP::kinked_dac(fc, kinkiness, 11) / kinkiness;
     type3_fc_kink_exp = type3_offset * expf(type3_fc_kink * type3_steepness * 256.f);
     if (distortion_point != 0.f) {
-        type3_fc_distortion_offset = (distortion_point - type3_fc_kink) * 256.f;
+        type3_fc_distortion_offset = (distortion_point - type3_fc_kink) * 256.f * distortion_rate;
     }
     else {
         type3_fc_distortion_offset = 9e9f;

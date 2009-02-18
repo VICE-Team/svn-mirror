@@ -160,6 +160,7 @@ private:
 
   // Filter resonance.
   reg8 res;
+  float resf;
 
   // Selects which inputs to route through filter.
   reg8 filt;
@@ -328,7 +329,7 @@ float FilterFP::clock(float voice1,
         /* Turning on resonance doesn't come alone: it brings a bit of
          * lowpass into the bandpass in its wake, but in the opposite phase...
          */
-        lpleak = Vlp * res * (1.f / 15.f / 7.f);
+        lpleak = Vi * distortion_rate * resf * (1.f / 15.f / 5.f);
 
         Vhp = (Vbp + lpleak) * _1_div_Q
             - Vlp * (1.f/outputleveldifference_lp_bp)
