@@ -25,6 +25,8 @@ extern float env_dac[256];
 
 void EnvelopeGeneratorFP::set_nonlinearity(float nl)
 {
+    /* use perfect env-dac until I figure out what is appropriate for this. */
+    nl = 1.0f;
     for (int i = 0; i < 256; i ++)
         env_dac[i] = SIDFP::kinked_dac(i, nl, 8);
 }
