@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-28 21:49+0100\n"
-"PO-Revision-Date: 2009-01-18 20:11+0100\n"
+"PO-Revision-Date: 2009-02-19 21:31+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -7792,9 +7792,8 @@ msgid "VIC-1112 IEEE &488 module"
 msgstr "VIC-1112 IEEE &488 Modul"
 
 #: src/arch/win32/resvic20.rc.po.c:1855 src/arch/amigaos/intl.c.po.c:1546
-#, fuzzy
 msgid "Enable Paddles"
-msgstr "*Paddles aktivieren"
+msgstr "Paddles aktivieren"
 
 #: src/arch/win32/resvic20.rc.po.c:1856
 msgid "4/8/16KB image at $&2000..."
@@ -8145,7 +8144,6 @@ msgid "True drive emulation"
 msgstr "Präzise Floppy Emulation"
 
 #: src/arch/amigaos/intl.c.po.c:1425
-#, fuzzy
 msgid "Handle TDE for autostart"
 msgstr "TDE bei Autostart beachten"
 
@@ -9137,9 +9135,8 @@ msgid "Amiga mouse"
 msgstr "Amiga Maus"
 
 #: src/arch/amigaos/intl.c.po.c:6178
-#, fuzzy
 msgid "Paddle"
-msgstr "Idle"
+msgstr "Paddle"
 
 #: src/translate.c.po.c:112
 msgid "Cannot load snapshot file."
