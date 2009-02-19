@@ -96,9 +96,9 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
      * The XOR circuit doesn't seem to work on 8580 either, though. */
     if (model == MOS6581FP) {
         o[11] = 0;
-        factor = 0.5;
+        factor = 0.5f;
     } else {
-        factor = 0.75;
+        factor = 0.75f;
     }
     for (i = 11; i > 0; i --) {
       o[i] = (o[i - 1] + o[i]) * 0.5f;
@@ -113,9 +113,9 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
     }
     break;
 
-  default: /* P */
+  default: /* P, nothing else to do */
     populate(output_P__(), o);
-    break;
+    return;
   }
 
   /* P* waveform? */
@@ -134,7 +134,7 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
          * become. There is a threshold around 0.25f where the PS waveform
          * (a jagged rising sawtooth) becomes two half-intensity sawtooths.
          * only kevtris chips C, D, E and H have a complete ramp in PS. */
-        bias = 0.25f;
+        bias = 0.29f;
 
         if (waveform == 6) {
             if (bias < 0.25f) {
@@ -147,7 +147,7 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
         }
     } else {
         distance = 0.25f;
-        bias = 0.27f;
+        bias = 0.29f;
     }
 
     float distancetable[12 * 2 + 1];
@@ -184,8 +184,9 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
     }
   }
 
-  /* x^8 seems to approximate the DAC output well enough */
+  /* x^16 seems to approximate the DAC output well enough */
   for (i = 0; i < 12; i ++) {
+    o[i] = o[i] * o[i];
     o[i] = o[i] * o[i];
     o[i] = o[i] * o[i];
     o[i] = o[i] * o[i];
