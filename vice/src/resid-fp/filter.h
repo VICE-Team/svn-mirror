@@ -324,31 +324,18 @@ float FilterFP::clock(float voice1,
         Vf += Vhp;
     
     if (model == MOS6581FP) {
-        float diff1, diff2, lpleak;
+        float tmp, lpleak;
 
-        /* Turning on resonance doesn't come alone: it brings a bit of
-         * lowpass into the bandpass in its wake, but in the opposite phase...
-         */
-        lpleak = (Vi + Vlp * (1.f/outputleveldifference_lp_bp)) * distortion_rate * resf * (1.f / 15.f / 5.f);
+        /* turning on some resonance causes lp to appear in bp. */
+        lpleak = Vi * distortion_rate * resf * (1.f / 15.f / 6.f);
 
-        Vhp = (Vbp + lpleak) * _1_div_Q
-            - Vlp * (1.f/outputleveldifference_lp_bp)
-            - Vi * distortion_rate;
+        /* allow some intermixing of state variables. */        
+        tmp = Vhp + Vlp + Vbp;
+        Vlp += (tmp - Vlp) * distortion_cf_threshold;
+        Vbp += (tmp - Vbp) * distortion_cf_threshold;
+        Vhp += (tmp - Vhp) * distortion_cf_threshold;
 
-        /* the input summer mixing, or something like it... */
-        diff1 = (Vlp - Vbp) * (distortion_cf_threshold * 0.5f);
-        diff2 = (Vhp - Vbp) * (distortion_cf_threshold * 0.5f);
-        //diff3 = (Vlp - Vhp) * (distortion_cf_threshold * 0.5f);
-        Vlp -= diff1;
-        //Vlp -= diff3;
-        Vbp += diff1;
-        Vbp += diff2;
-        Vhp -= diff2;
-        //Vhp += diff3;
-
-        /* Model output strip mixing. Doing it now that HP state
-         * variable modifying still makes some difference.
-         * (Phase error, though.) */
+        /* output strip mixing to filter state */
         if (hp_bp_lp & 1)
             Vlp += (Vf - Vlp) * distortion_cf_threshold;
         if (hp_bp_lp & 2)
@@ -356,9 +343,11 @@ float FilterFP::clock(float voice1,
         if (hp_bp_lp & 4)
             Vhp += (Vf - Vhp) * distortion_cf_threshold;
        
-        /* Simulating the exponential VCR that the FET block is... */
         Vlp -= (Vbp - lpleak) * type3_w0(Vbp, type3_fc_distortion_offset) * outputleveldifference_lp_bp;
         Vbp -= Vhp * type3_w0(Vhp, type3_fc_distortion_offset);
+        Vhp = (Vbp + lpleak) * _1_div_Q
+            - Vlp * (1.f/outputleveldifference_lp_bp)
+            - Vi * distortion_rate;
 
         /* saturate. This is likely the output inverter saturation. */
         if (Vf > 3.4e6f)

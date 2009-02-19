@@ -144,7 +144,7 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
             bias *= 0.6f;
         }
     } else {
-        distance = 0.25f;
+        distance = 0.2f;
         bias = 0.29f;
     }
 
