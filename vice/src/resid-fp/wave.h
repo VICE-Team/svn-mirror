@@ -87,6 +87,9 @@ protected:
   bool test, ring_mod, sync;
   // The gate bit is handled by the EnvelopeGenerator.
 
+  // zero level offset of waveform (< 0)
+  float wave_zero;
+
   float previous_dac, noise_output_cached_dac;
 
   // 4 possible combinations of waveforms.
@@ -112,7 +115,7 @@ void WaveformGeneratorFP::clock()
         if (-- noise_overwrite_delay == 0) {
             shift_register |= 0x7ffffc;
             noise_output_cached = outputN___();
-            noise_output_cached_dac = 0;
+            noise_output_cached_dac = wave_zero;
             for (int i = 0; i < 12; i ++) {
                 if (noise_output_cached & (1 << i)) {
                     noise_output_cached_dac += dac[i];
@@ -154,7 +157,7 @@ void WaveformGeneratorFP::clock_noise(const bool clock)
   }
 
   noise_output_cached = outputN___();
-  noise_output_cached_dac = 0;
+  noise_output_cached_dac = wave_zero;
   for (int i = 0; i < 12; i ++) {
     if (noise_output_cached & (1 << i)) {
       noise_output_cached_dac += dac[i];
@@ -271,7 +274,7 @@ float WaveformGeneratorFP::output()
     return noise_output_cached_dac;
   }
   if (waveform > 8) {
-    return 0;
+    return wave_zero;
   }
   /* waveforms 1 .. 7 left */
 

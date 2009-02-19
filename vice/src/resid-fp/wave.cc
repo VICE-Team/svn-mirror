@@ -37,20 +37,18 @@ void WaveformGeneratorFP::rebuild_wftable() {
     reg24 oldacc = accumulator;
     reg12 oldpw = pw;
 
-    float wave_zero = (float) (model == MOS6581FP ? 0x380 : 0x800);
-
     for (waveform = 1; waveform < 8; waveform ++) {
         for (accumulator = 0; accumulator < (1<<24); accumulator += (1<<12)) {
             /* generate pulse-low variants. Also,
              * when waveform < 4, pw doesn't matter. */
             pw = 0xfff; /* pulse low except for accumulator = 0xfff???. */
             calculate_waveform_sample(o);
-            wftable[waveform - 1][accumulator >> 12] = make_sample(o) - wave_zero;
+            wftable[waveform - 1][accumulator >> 12] = make_sample(o) + wave_zero;
             /* Add pulse-high variants after pulse-low state variants */
             if (waveform >= 4) {
                 pw = 0x000; /* pulse always high */
                 calculate_waveform_sample(o);
-                wftable[waveform + 3][accumulator >> 12] = make_sample(o) - wave_zero;
+                wftable[waveform + 3][accumulator >> 12] = make_sample(o) + wave_zero;
             }
         }
     }
@@ -229,6 +227,7 @@ void WaveformGeneratorFP::set_sync_source(WaveformGeneratorFP* source)
 void WaveformGeneratorFP::set_chip_model(chip_model model)
 {
   this->model = model;
+  wave_zero = (float) (model == MOS6581FP ? -0x380 : -0x800);
 }
 
 
