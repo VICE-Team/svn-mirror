@@ -39,10 +39,6 @@
 #include "uinetplay.h"
 #include "vsync.h"
 
-#ifdef HAVE_IPV6
-UI_MENU_DEFINE_TOGGLE(NetworkIPV6)
-#endif
-
 #ifdef USE_GNOMEUI
 
 static UI_CALLBACK(netplay)
@@ -123,11 +119,6 @@ ui_menu_entry_t netplay_submenu[] = {
     { N_("Disconnect"),
       (ui_callback_t)ui_netplay_disconnect, NULL, NULL },
 #endif /* USE_GNOMEUI */
-#ifdef HAVE_IPV6
-    { "--" },
-    { N_("*Enable IPV6"),
-      (ui_callback_t)toggle_NetworkIPV6, NULL, NULL },
-#endif
     { NULL }
 };
 

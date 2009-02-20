@@ -40,7 +40,6 @@
 #include <assert.h>
 #include <errno.h>
 #include <string.h>
-#include <winsock.h>
 
 #ifdef HAVE_IO_H
 #include <io.h>

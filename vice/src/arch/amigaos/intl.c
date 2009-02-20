@@ -2829,6 +2829,17 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_START_SERVER_SV, "Starta server"},
 /* tr */ {IDS_START_SERVER_TR, "Sunucuyu baþlat"},
 
+/* en */ {IDS_SERVER_BIND,    "Server Bind"},
+/* da */ {IDS_SERVER_BIND_DA, ""},  /* fuzzy */
+/* de */ {IDS_SERVER_BIND_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SERVER_BIND_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SERVER_BIND_HU, ""},  /* fuzzy */
+/* it */ {IDS_SERVER_BIND_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SERVER_BIND_NL, "Server binding"},
+/* pl */ {IDS_SERVER_BIND_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SERVER_BIND_SV, ""},  /* fuzzy */
+/* tr */ {IDS_SERVER_BIND_TR, ""},  /* fuzzy */
+
 /* en */ {IDS_CONNECT_TO,    "Connect to"},
 /* da */ {IDS_CONNECT_TO_DA, "Tilslut til"},
 /* de */ {IDS_CONNECT_TO_DE, "Verbinden mit"},

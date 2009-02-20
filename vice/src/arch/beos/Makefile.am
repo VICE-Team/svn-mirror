@@ -40,6 +40,7 @@ libarch_a_SOURCES = \
 	petui.cc \
 	plus4ui.cc \
 	signals.c \
+	socketimpl.h \
 	statusbar.cc \
 	statusbar.h \
 	types.h \

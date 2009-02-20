@@ -33,7 +33,6 @@
 #include <ctype.h>
 #include <string.h>
 #include <windows.h>
-#include <winsock.h>
 #include <tlhelp32.h>
 #include <tchar.h>
 

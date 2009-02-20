@@ -48,17 +48,20 @@ static void init_network_dialog(HWND hwnd)
 {
     int port;
     const char *server_name;
+    const char *server_bind_address;
     int control;
     TCHAR st[256];
     int connected;
 
     resources_get_int("NetworkServerPort", &port);
     resources_get_string("NetworkServerName", &server_name);
+    resources_get_string("NetworkServerBindAddress", &server_bind_address);
     resources_get_int("NetworkControl", &control);
 
     _stprintf(st, TEXT("%d"), port);
     SetDlgItemText(hwnd, IDC_NETWORK_PORT, st);
     SetDlgItemText(hwnd, IDC_NETWORK_SERVERNAME, TEXT(server_name));
+    SetDlgItemText(hwnd, IDC_NETWORK_SERVER_BIND, TEXT(server_bind_address));
 
     switch(network_get_mode()) {
       case NETWORK_IDLE:
@@ -107,6 +110,7 @@ static void init_network_dialog(HWND hwnd)
     connected = ((network_get_mode() != NETWORK_IDLE) ? 1 : 0);
     EnableWindow(GetDlgItem(hwnd, IDC_NETWORK_PORT), !connected);
     EnableWindow(GetDlgItem(hwnd, IDC_NETWORK_SERVERNAME), !connected);
+    EnableWindow(GetDlgItem(hwnd, IDC_NETWORK_SERVER_BIND), !connected);
     EnableWindow(GetDlgItem(hwnd, IDC_NETWORK_CLIENT), !connected);
     EnableWindow(GetDlgItem(hwnd, IDC_NETWORK_SERVER), !connected);
     EnableWindow(GetDlgItem(hwnd, IDC_NETWORK_DISCONNECT), connected);
@@ -156,6 +160,9 @@ static int set_resources(HWND hwnd)
 
     GetDlgItemText(hwnd, IDC_NETWORK_SERVERNAME, st, MAX_PATH);
     resources_set_string("NetworkServerName", st);
+
+    GetDlgItemText(hwnd, IDC_NETWORK_SERVER_BIND, st, MAX_PATH);
+    resources_set_string("NetworkServerBindAddress", st);
 
     return 0;
 }

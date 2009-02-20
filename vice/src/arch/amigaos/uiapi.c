@@ -35,7 +35,7 @@
 #include <proto/exec.h>
 #endif
 
-#define _UIAPI
+#define VICE_UIAPI
 #include "private.h"
 #include "ui.h"
 #include "cmdline.h"

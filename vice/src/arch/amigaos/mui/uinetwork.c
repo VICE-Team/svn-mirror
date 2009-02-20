@@ -45,6 +45,7 @@
 
 static ui_to_from_t ui_to_from[] = {
   { NULL, MUI_TYPE_INTEGER, "NetworkServerPort", NULL, NULL },
+  { NULL, MUI_TYPE_TEXT, "NetworkServerBindAddress", NULL, NULL },
   { NULL, MUI_TYPE_TEXT, "NetworkServerName", NULL, NULL },
   UI_END /* mandatory */
 };
@@ -55,7 +56,7 @@ static ui_to_from_t ui_to_from[] = {
 
 static APTR build_gui(void)
 {
-  APTR app, ui, mode, start_server, connect_to, disconnect, cancel;
+  APTR app, ui, mode, start_server, connect_to, disconnect, cancel, bind_server;
 
   app = mui_get_app();
 
@@ -86,6 +87,23 @@ static APTR build_gui(void)
     Child, GroupObject,
       MUIA_Frame, MUIV_Frame_Group,
       MUIA_Group_Horiz, TRUE,
+      Child, bind_server = TextObject,
+        ButtonFrame,
+        MUIA_Background, MUII_ButtonBack,
+        MUIA_Text_Contents, translate_text(IDS_SERVER_BIND),
+        MUIA_Text_PreParse, "\033c",
+        MUIA_InputMode, MUIV_InputMode_RelVerify,
+      End,
+      Child, ui_to_from[1].object = StringObject,
+        MUIA_Frame, MUIV_Frame_String,
+        MUIA_String_Accept, ".0123456789",
+        MUIA_String_MaxLen, 15+1,
+      End,
+    End,
+
+    Child, GroupObject,
+      MUIA_Frame, MUIV_Frame_Group,
+      MUIA_Group_Horiz, TRUE,
       Child, connect_to = TextObject,
         ButtonFrame,
         MUIA_Background, MUII_ButtonBack,
@@ -93,7 +111,7 @@ static APTR build_gui(void)
         MUIA_Text_PreParse, "\033c",
         MUIA_InputMode, MUIV_InputMode_RelVerify,
       End,
-      Child, ui_to_from[1].object = StringObject,
+      Child, ui_to_from[2].object = StringObject,
         MUIA_Frame, MUIV_Frame_String,
         MUIA_String_Accept, ".0123456789",
         MUIA_String_MaxLen, 15+1,

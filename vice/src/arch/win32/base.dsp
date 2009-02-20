@@ -246,6 +246,10 @@ SOURCE="..\..\snapshot.c"
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\socket.c
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\sound.c"
 # End Source File
 # Begin Source File

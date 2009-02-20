@@ -51,6 +51,7 @@ libarch_a_SOURCES = \
 	petui.c \
 	plus4ui.c \
 	signals.c \
+	socketimpl.h \
 	statusbar.c \
 	statusbar.h \
 	tfearch.c \

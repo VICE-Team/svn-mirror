@@ -29,17 +29,6 @@
 
 #ifdef HAVE_NETWORK
 
-#ifdef MINIX_SUPPORT
-#include <limits.h>
-#define PF_INET AF_INET
-
-#ifndef MINIX_HAS_RECV_SEND
-extern ssize_t recv(int socket, void *buffer, size_t length, int flags);
-extern ssize_t send(int socket, const void *buffer, size_t length, int flags);
-#endif
-
-#endif
-
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -48,90 +37,6 @@ extern ssize_t send(int socket, const void *buffer, size_t length, int flags);
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
 #endif
-
-#ifdef AMIGA_SUPPORT
-#ifndef AMIGA_OS4
-#ifdef AMIGA_M68K
-#include <utility/tagitem.h>
-#include <clib/exec_protos.h>
-#endif
-#ifdef AMIGA_AROS
-#include <proto/exec.h>
-#endif
-#include <proto/socket.h>
-struct Library *SocketBase;
-#else
-#define __USE_INLINE__
-#include <proto/bsdsocket.h>
-#endif
-#if !defined(AMIGA_AROS) && !defined(AMIGA_MORPHOS)
-#define select(nfds, read_fds, write_fds, except_fds, timeout) \
-        WaitSelect(nfds, read_fds, write_fds, except_fds, timeout, NULL)
-#endif
-#endif
-
-#ifdef WIN32
-#include <winsock.h>
-#ifndef FD_SETSIZE
-#define FD_SETSIZE 64 /* just in case mingw or msvc doesn't define it */
-#endif
-#endif
-
-#ifdef __BEOS__
-#include <socket.h>
-#include <netdb.h>
-#include <byteorder.h>
-typedef unsigned int SOCKET;
-typedef struct timeval TIMEVAL;
-#define PF_INET AF_INET
-#define INVALID_SOCKET (SOCKET)(~0)
-#define HAVE_HTONS
-#define HAVE_HTONL
-#endif
-
-#if !defined(WIN32) && !defined(__BEOS__)
-#if !defined(HAVE_GETDTABLESIZE) && defined(HAVE_GETRLIMIT)
-#include <sys/resource.h>
-#endif
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#ifndef __MSDOS__
-#include <sys/time.h>
-#if !defined(AMIGA_SUPPORT) && !defined(VMS)
-#include <sys/select.h>
-#endif
-#endif
-#if !defined(AMIGA_M68K) && !defined(AMIGA_AROS)
-#include <unistd.h>
-#endif
-
-#ifdef __minix
-#define recv(socket, buffer, length, flags) \
-        recvfrom(socket, buffer, length, flags, NULL, NULL)
-extern ssize_t send(int socket, const void *buffer, size_t length, int flags);
-#endif
-
-typedef unsigned int SOCKET;
-typedef struct timeval TIMEVAL;
-
-#ifdef AMIGA_SUPPORT
-#ifdef AMIGA_OS4
-#define closesocket close
-#else
-#define closesocket CloseSocket
-#endif
-#else
-#define closesocket close
-#endif
-
-#ifndef INVALID_SOCKET
-#define INVALID_SOCKET (SOCKET)(~0)
-#endif
-
-#endif /* UNIX */
 
 #include "archdep.h"
 #include "event.h"
@@ -143,6 +48,7 @@ typedef struct timeval TIMEVAL;
 #include "mos6510.h"
 #include "network.h"
 #include "resources.h"
+#include "socket.h"
 #include "translate.h"
 #include "types.h"
 #include "ui.h"
@@ -157,13 +63,13 @@ static network_mode_t network_mode = NETWORK_IDLE;
 
 static int current_send_frame;
 static int last_received_frame;
-static SOCKET listen_socket;
-static SOCKET network_socket;
-static fd_set fdsockset;
+static vice_network_socket_t listen_socket;
+static vice_network_socket_t network_socket;
 static int network_init_done = 0;
 static int suspended;
 
 static char *server_name = NULL;
+static char *server_bind_address = NULL;
 static unsigned short server_port;
 static int res_server_port;
 static int frame_delta;
@@ -174,45 +80,15 @@ static int current_frame, frame_to_play;
 static event_list_state_t *frame_event_list = NULL;
 static char *snapshotfilename;
 
-#ifdef HAVE_IPV6
-static int netplay_ipv6 = 0;
-#endif
-
-#ifndef HAVE_HTONL
-#ifndef htonl
-static unsigned int htonl(unsigned int ip)
-{
-#ifdef WORDS_BIGENDIAN
-    return ip;
-#else
-    unsigned int ip2;
-
-    ip2=((ip>>24)&0xff)+(((ip>>16)&0xff)<<8)+(((ip>>8)&0xff)<<16)+((ip&0xff)<<24);
-    return ip2;
-#endif
-}
-#endif
-#endif
-
-#ifndef HAVE_HTONS
-#ifndef htons
-static unsigned short htons(unsigned short ip)
-{
-#ifdef WORDS_BIGENDIAN
-    return ip;
-#else
-    unsigned short ip2;
-
-    ip2=((ip>>8)&0xff)+((ip&0xff)<<8);
-    return ip2;
-#endif
-}
-#endif
-#endif
-
 static int set_server_name(const char *val, void *param)
 {
     util_string_set(&server_name, val);
+    return 0;
+}
+
+static int set_server_bind_address(const char *val, void *param)
+{
+    util_string_set(&server_bind_address, val);
     return 0;
 }
 
@@ -239,42 +115,19 @@ static int network_init(void)
     if (network_init_done)
         return 0;
 
-#if defined(AMIGA_SUPPORT) && defined(HAVE_NETWORK) && !defined(AMIGA_OS4)
-    if (SocketBase == NULL) {
-        SocketBase = OpenLibrary("bsdsocket.library", 3);
-        if (SocketBase == NULL) {
-            return -1;
-        }
-    }
-#endif
-
     network_mode = NETWORK_IDLE;
     network_init_done = 1;
 
-    return 0;
+    return vice_network_init();
 }
-
-#ifdef HAVE_IPV6
-static int set_netplay_ipv6(int val, void *param)
-{
-    if (network_init() < 0)
-        return -1;
-
-    if (network_mode!=NETWORK_IDLE) {
-        ui_error(translate_text(IDGS_CANNOT_SWITCH_IPV4_IPV6));
-        return -1;
-    }
-    netplay_ipv6 = val;
-
-    return 0;
-}
-#endif
 
 /*---------- Resources ------------------------------------------------*/
 
 static const resource_string_t resources_string[] = {
     { "NetworkServerName", "127.0.0.1", RES_EVENT_NO, NULL,
       &server_name, set_server_name, NULL },
+    { "NetworkServerBindAddress", "", RES_EVENT_NO, NULL,
+      &server_bind_address, set_server_bind_address, NULL },
     { NULL }
 };
 
@@ -283,10 +136,6 @@ static const resource_int_t resources_int[] = {
       &res_server_port, set_server_port, NULL },
     { "NetworkControl", NETWORK_CONTROL_DEFAULT, RES_EVENT_SAME, NULL,
       &network_control, set_network_control, NULL },
-#ifdef HAVE_IPV6
-    { "NetworkIPV6", 0, RES_EVENT_NO, NULL,
-      &netplay_ipv6, set_netplay_ipv6, NULL },
-#endif
     { NULL }
 };
 
@@ -299,25 +148,6 @@ int network_resources_init(void)
 }
 
 /*---------------------------------------------------------------------*/
-
-static int get_select_fd_size(void)
-{
-#if !defined(HAVE_GETDTABLESIZE) && !defined(HAVE_GETRLIMIT)
-    return FD_SETSIZE;
-#endif
-
-#if !defined(HAVE_GETDTABLESIZE) && defined(HAVE_GETRLIMIT)
-    struct rlimit size;
-    if (!getrlimit(RLIMIT_NOFILE, &size))
-        return size.rlim_cur;
-    else
-        return FD_SETSIZE;
-#endif
-
-#if defined(HAVE_GETDTABLESIZE)
-    return getdtablesize();
-#endif
-}
 
 static void network_free_frame_event_list(void)
 {
@@ -430,13 +260,13 @@ static event_list_state_t *network_create_event_list(BYTE *remote_event_buffer)
     return list;
 }
 
-static int network_recv_buffer(SOCKET s, BYTE *buf, int len)
+static int network_recv_buffer(vice_network_socket_t s, BYTE *buf, int len)
 {
     int t;
     int received_total = 0;
 
     while (received_total < len) {
-        t = recv(s, buf, len - received_total, 0);
+        t = vice_network_receive(s, buf, len - received_total, 0);
         
         if (t < 0)
             return t;
@@ -453,13 +283,13 @@ static int network_recv_buffer(SOCKET s, BYTE *buf, int len)
 #define SEND_FLAGS 0
 #endif
 
-static int network_send_buffer(SOCKET s, const BYTE *buf, int len)
+static int network_send_buffer(vice_network_socket_t s, const BYTE *buf, int len)
 {
     int t;
     int sent_total = 0;
 
     while (sent_total < len) {
-        t = send(s, buf, len - sent_total, SEND_FLAGS);
+        t = vice_network_send(s, buf, len - sent_total, SEND_FLAGS);
         
         if (t < 0)
             return t;
@@ -712,11 +542,7 @@ int network_connected(void)
 
 int network_start_server(void)
 {
-#ifdef HAVE_IPV6
-    struct sockaddr_in6 server_addr6;
-#endif
-    int return_value;
-    struct sockaddr_in server_addr;
+    vice_network_socket_address_t * server_addr;
 
     if (network_init() < 0)
         return -1;
@@ -724,50 +550,20 @@ int network_start_server(void)
     if (network_mode != NETWORK_IDLE)
         return -1;
 
-#ifdef HAVE_IPV6
-    if (netplay_ipv6) {
-        bzero((char*)&server_addr6, sizeof(struct sockaddr_in6));
-        server_addr6.sin6_port = htons(server_port);
-        server_addr6.sin6_family = PF_INET6;
-        server_addr6.sin6_addr=in6addr_any;
-    } else {
-#endif
-    server_addr.sin_port = htons(server_port);
-    server_addr.sin_addr.s_addr = htonl(0);
-    server_addr.sin_family = PF_INET;
-#ifndef MINIX_SUPPORT
-    memset(server_addr.sin_zero, 0, sizeof(server_addr.sin_zero));
-#endif
-#ifdef HAVE_IPV6
-    }
-    if (netplay_ipv6)
-        listen_socket = socket(PF_INET6, SOCK_STREAM, IPPROTO_TCP);
-    else
-#endif
-    listen_socket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (listen_socket == INVALID_SOCKET)
-        return -1;
-
-#ifdef HAVE_IPV6
-    if (netplay_ipv6)
-        return_value=bind(listen_socket, (struct sockaddr *)&server_addr6, sizeof(server_addr6));
-    else
-#endif
-    return_value=bind(listen_socket, (struct sockaddr *)&server_addr, sizeof(server_addr));
-
-    if (return_value < 0) {
-        closesocket(listen_socket);
+    server_addr = vice_network_address_generate(server_bind_address, server_port);
+    if ( ! server_addr ) {
         return -1;
     }
 
-    if (listen(listen_socket, 2) < 0) {
-        closesocket(listen_socket);
+    listen_socket = vice_network_server(server_addr);
+    if ( ! listen_socket ) {
         return -1;
     }
 
     /* Set proper settings */
-    if (resources_set_event_safe() < 0)
+    if (resources_set_event_safe() < 0) {
         ui_error("Warning! Failed to set netplay-safe settings.");
+    }
 
     network_mode = NETWORK_SERVER;
 
@@ -779,19 +575,11 @@ int network_start_server(void)
 
 int network_connect_client(void)
 {
-    struct sockaddr_in server_addr;
-#ifdef HAVE_IPV6
-    struct sockaddr_in6 server_addr6;
-#ifndef HAVE_GETHOSTBYNAME2
-    int err6;
-#endif
-#endif
-    struct hostent *server_hostent;
+    vice_network_socket_address_t * server_addr;
     FILE *f;
     BYTE *buf;
     BYTE recv_buf4[4];
     size_t buf_size;
-    int return_value;
 
     if (network_init() < 0)
         return -1;
@@ -809,75 +597,24 @@ int network_connect_client(void)
         return -1;
     }
 
-#ifdef HAVE_IPV6
-    if (netplay_ipv6)
-#ifdef HAVE_GETHOSTBYNAME2
-        server_hostent = gethostbyname2(server_name, PF_INET6);
-#else
-        server_hostent = getipnodebyname(server_name, PF_INET6, AI_DEFAULT, &err6);
-#endif
-    else
-#endif
-    server_hostent = gethostbyname(server_name);
-    if (server_hostent == NULL) {
+    server_addr = vice_network_address_generate(server_name, server_port);
+    if (server_addr == NULL) {
         ui_error(translate_text(IDGS_CANNOT_RESOLVE_S), server_name);
         return -1;
     }
-#ifdef HAVE_IPV6
-    if (netplay_ipv6) {
-        bzero((char*)&server_addr6, sizeof(struct sockaddr_in6));
-        server_addr6.sin6_port = htons(server_port);
-        server_addr6.sin6_family = PF_INET6;
-        memcpy(&server_addr6.sin6_addr, server_hostent->h_addr, server_hostent->h_length);
-    } else {
-#endif
-    server_addr.sin_port = htons(server_port);
-    server_addr.sin_family = PF_INET;
-    server_addr.sin_addr = *(struct in_addr *)server_hostent->h_addr_list[0];
-#ifdef HAVE_IPV6
-    }
-    if (netplay_ipv6)
-        network_socket = socket(PF_INET6, SOCK_STREAM, IPPROTO_TCP);
-    else
-#endif
-    network_socket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (network_socket == INVALID_SOCKET) {
-        lib_free(snapshotfilename);
-#if defined(HAVE_IPV6) && !defined(HAVE_GETHOSTBYNAME2)
-        if (netplay_ipv6)
-            freehostent(server_hostent);
-#endif
-        return -1;
-    }
+    network_socket = vice_network_client(server_addr);
 
-#ifdef HAVE_IPV6
-    if (netplay_ipv6)
-        return_value=connect(network_socket, (struct sockaddr *)&server_addr6,
-                             sizeof(server_addr6));
-    else
-#endif
-    return_value=connect(network_socket, (struct sockaddr *)&server_addr, 
-        sizeof(server_addr));
-    if (return_value < 0) {
-        closesocket(network_socket);
+    if ( ! network_socket ) {
         ui_error(translate_text(IDGS_CANNOT_CONNECT_TO_S),
                     server_name, server_port);
         lib_free(snapshotfilename);
-#if defined(HAVE_IPV6) && !defined(HAVE_GETHOSTBYNAME2)
-        if (netplay_ipv6)
-            freehostent(server_hostent);
-#endif
         return -1;
     }
 
     ui_display_statustext(translate_text(IDGS_RECEIVING_SNAPSHOT_SERVER), 0);
     if (network_recv_buffer(network_socket, recv_buf4, 4) < 0) {
         lib_free(snapshotfilename);
-        closesocket(network_socket);
-#if defined(HAVE_IPV6) && !defined(HAVE_GETHOSTBYNAME2)
-        if (netplay_ipv6)
-            freehostent(server_hostent);
-#endif
+        vice_network_socket_close(network_socket);
         return -1;
     }
 
@@ -886,21 +623,13 @@ int network_connect_client(void)
 
     if (network_recv_buffer(network_socket, buf, buf_size) < 0) {
         lib_free(snapshotfilename);
-        closesocket(network_socket);
-#if defined(HAVE_IPV6) && !defined(HAVE_GETHOSTBYNAME2)
-        if (netplay_ipv6)
-            freehostent(server_hostent);
-#endif
+        vice_network_socket_close(network_socket);
         return -1;
     }
 
     fwrite(buf, 1, buf_size, f);
     fclose(f);
     lib_free(buf);
-#if defined(HAVE_IPV6) && !defined(HAVE_GETHOSTBYNAME2)
-    if (netplay_ipv6)
-        freehostent(server_hostent);
-#endif
 
     interrupt_maincpu_trigger_trap(network_client_connect_trap, (void *)0);
     vsync_suspend_speed_eval();
@@ -910,11 +639,11 @@ int network_connect_client(void)
 
 void network_disconnect(void)
 {
-    closesocket(network_socket);
+    vice_network_socket_close(network_socket);
     if (network_mode == NETWORK_SERVER_CONNECTED) {
         network_mode = NETWORK_SERVER;
     } else {
-        closesocket(listen_socket);
+        vice_network_socket_close(listen_socket);
         network_mode = NETWORK_IDLE;
     }
 }
@@ -1050,24 +779,14 @@ static void network_hook_connected_receive(void)
 
 void network_hook(void)
 {
-    TIMEVAL time_out = { 0, 0 };
-    int fd_size;
-
     if (network_mode == NETWORK_IDLE)
         return;
 
     if (network_mode == NETWORK_SERVER) {
-        FD_ZERO(&fdsockset);
-        FD_SET(listen_socket, &fdsockset);
+        if (vice_network_select_poll_one(listen_socket) != 0) {
+            network_socket = vice_network_accept(listen_socket, NULL);
 
-        fd_size = get_select_fd_size();
-        if (fd_size > FD_SETSIZE)
-            fd_size = FD_SETSIZE;
-
-        if (select(fd_size, &fdsockset, NULL, NULL, &time_out) != 0) {
-            network_socket = accept(listen_socket, NULL, NULL);
-
-            if (network_socket != INVALID_SOCKET)
+            if (network_socket)
                 interrupt_maincpu_trigger_trap(network_server_connect_trap,
                                                (void *)0);
         }
@@ -1090,13 +809,8 @@ void network_shutdown(void)
 
     network_free_frame_event_list();
     lib_free(server_name);
-
-#if defined(AMIGA_SUPPORT) && !defined(AMIGA_OS4)
-    if (SocketBase != NULL) {
-        CloseLibrary(SocketBase);
-        SocketBase = NULL;
-    }
-#endif
+    lib_free(server_bind_address);
+    vice_network_shutdown();
 }
 
 #else

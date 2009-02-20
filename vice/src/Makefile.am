@@ -247,6 +247,7 @@ base_sources = \
 	romset.c \
 	screenshot.c \
 	snapshot.c \
+	socket.c \
 	sound.c \
 	sysfile.c \
 	translate.c \

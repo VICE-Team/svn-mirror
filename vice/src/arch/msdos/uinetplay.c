@@ -45,6 +45,7 @@
 #include "videoarch.h"
 
 static TUI_MENU_CALLBACK(ui_netplay_set_port_callback);
+static TUI_MENU_CALLBACK(ui_netplay_set_bind_callback);
 static TUI_MENU_CALLBACK(ui_netplay_start_server_callback);
 static TUI_MENU_CALLBACK(ui_netplay_set_host_callback);
 static TUI_MENU_CALLBACK(ui_netplay_connect_to_server_callback);
@@ -54,6 +55,10 @@ tui_menu_item_def_t ui_netplay_menu_def[] = {
     { "TCP Port",
       "Set the TCP port to use",
       ui_netplay_set_port_callback, NULL, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Server Bind",
+      "Bind to this host",
+      ui_netplay_set_bind_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Start server",
       "Start the netplay server",
@@ -89,6 +94,28 @@ static TUI_MENU_CALLBACK(ui_netplay_set_host_callback)
     {
       resources_set_string("NetworkServerName", buf);
       tui_message("Hostname set to : %s",buf);
+    }
+    else
+      return NULL;
+  }
+  return NULL;
+}
+
+static TUI_MENU_CALLBACK(ui_netplay_set_bind_callback)
+{
+  if (been_activated)
+  {
+    const char *current_bind;
+    char buf[44];
+
+    resources_get_string("NetworkServerBindAddress", &current_bind);
+    
+    strncpy(buf, current_bind, 40);
+
+    if (tui_input_string("Bind address", "Enter the address to bind to:", buf, 40) == 0)
+    {
+      resources_set_string("NetworkServerBindAddress", buf);
+      tui_message("Bind address set to : %s",buf);
     }
     else
       return NULL;

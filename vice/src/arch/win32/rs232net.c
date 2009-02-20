@@ -34,14 +34,16 @@
  * is read and written data is discarded.
  */
 
+#define WIN32_LEAN_AND_MEAN
+
 #undef        DEBUG
 /* #define DEBUG */
 
 #include "vice.h"
 
 #include <errno.h>
+#include <stdlib.h>
 #include <string.h>
-#include <winsock.h>
 
 #ifdef HAVE_IO_H
 #include <io.h>
@@ -50,6 +52,7 @@
 #include "lib.h"
 #include "log.h"
 #include "rs232.h"
+#include "socket.h"
 #include "types.h"
 #include "util.h"
 
@@ -79,7 +82,8 @@ int rs232net_cmdline_options_init(void)
 
 typedef struct rs232net {
     int inuse; /*!< 0 if the connection has not been opened, 1 otherwise. */
-    SOCKET fd; /*!< the SOCKET for the connection. If fd is INVALID_SOCKET
+    vice_network_socket_t fd; /*!< the vice_network_socket_t for the connection.
+                    If fd is 0
                     although inuse == 1, then the socket has been closed
                     because of a previous error. This prevents the error
                     log from being flooded with error messages. */
@@ -96,14 +100,7 @@ void rs232net_close(int fd);
 /* initializes all RS232 stuff */
 void rs232net_init(void)
 {
-    WORD wVersionRequested = MAKEWORD(1, 1);
-    WSADATA wsaData;
-
     rs232net_log = log_open("RS232NET");
-
-    if ( WSAStartup(wVersionRequested, &wsaData) != 0 ) {
-        log_message(rs232net_log, "WSAStartup() failed!");
-    }
 }
 
 /* reset RS232 stuff */
@@ -118,79 +115,18 @@ void rs232net_reset(void)
     }
 }
 
-static int
-getaddr(const char * const dev_in, struct sockaddr_in *ad)
-{
-    char *port;
-    char *dev;
-    int ret = -1;
-
-    /*! \todo: Also accept HOSTNAME:port */
-
-    do {
-        struct hostent * hostentry;
-
-        ad->sin_family = AF_INET;
-
-        dev = lib_stralloc(dev_in);
-        port = strchr(dev, ':');
-
-        if ( ! port ) {
-            break;
-        }
-
-        *port++ = 0;
-
-        /* first, check if we have a host name */
-
-        hostentry = gethostbyname(dev);
-
-        if (hostentry != NULL && hostentry->h_addrtype == AF_INET) {
-            /* yes, we have a host name: process it */
-            if ( hostentry->h_length != sizeof ad->sin_addr.s_addr ) {
-                /* something weird happened... SHOULD NOT HAPPEN! */
-                log_error(rs232net_log,
-                          "gethostbyname() returned an IPv4 address, "
-                          "but the length is wrong: %u", hostentry->h_length );
-                break;
-            }
-
-            memcpy(&ad->sin_addr.s_addr,
-                   hostentry->h_addr_list[0],
-                   sizeof ad->sin_addr.s_addr);
-        }
-        else {
-            /* no host name: Assume it is an IP address */
-            ad->sin_addr.s_addr = inet_addr(dev);
-        }
-
-        ad->sin_port = htons( (unsigned short) atoi(port) );
-
-        if ( ntohl(ad->sin_addr.s_addr) != -1 && ntohs(ad->sin_port) != 0 ) {
-            ret = 0;
-        }
-
-        log_message(rs232net_log, "Connecting to %s:%u", 
-                                  inet_ntoa(ad->sin_addr), ntohs(ad->sin_port));
-
-    } while (0);
-
-    lib_free(dev);
-
-    return ret;
-}
-
 /* opens a rs232 window, returns handle to give to functions below. */
 int rs232net_open(int device)
 {
-    struct sockaddr_in ad = { 0 };
+    vice_network_socket_address_t * ad = NULL;
     int index = -1;
 
     do {
         int i;
 
         /* parse the address */
-        if ( getaddr(rs232_devfile[device], &ad) == -1 ) {
+        ad = vice_network_address_generate(rs232_devfile[device], 0);
+        if ( ! ad ) {
             log_error(rs232net_log, "Bad device name.  Should be ipaddr:port, but is '%s'.",
                                     rs232_devfile[device]);
             break;
@@ -210,13 +146,8 @@ int rs232net_open(int device)
         DEBUG_LOG_MESSAGE((rs232net_log, "rs232net_open(device=%d).", device));
 
         /* connect socket */
-        fds[i].fd = socket(AF_INET, SOCK_STREAM, 0);
-        if ( fds[i].fd == INVALID_SOCKET ) {
-            log_error(rs232net_log, "Can't open socket.");
-            break;
-        }
-
-        if ( connect(fds[i].fd, (struct sockaddr*) &ad, sizeof ad) == SOCKET_ERROR ) {
+        fds[i].fd = vice_network_client(ad);
+        if ( ! fds[i].fd ) {
             log_error(rs232net_log, "Cant open connection.");
             break;
         }
@@ -227,13 +158,17 @@ int rs232net_open(int device)
 
     } while (0);
 
+    if (ad) {
+        vice_network_address_close(ad);
+    }
+
     return index;
 }
 
 static void rs232net_closesocket(int index)
 {
-    closesocket(fds[index].fd);
-    fds[index].fd = INVALID_SOCKET;
+    vice_network_socket_close(fds[index].fd);
+    fds[index].fd = 0;
 }
 
 /* closes the rs232 window again */
@@ -273,15 +208,15 @@ int rs232net_putc(int fd, BYTE b)
     }
 
     /* silently drop if socket is shut because of a previous error */
-    if (fds[fd].fd == INVALID_SOCKET)
+    if ( ! fds[fd].fd )
         return 0;
 
     /* for the beginning... */
     DEBUG_LOG_MESSAGE((rs232net_log, "Output `%c'.", b));
 
-    n = send(fds[fd].fd, &b, 1, 0);
-    if (n == SOCKET_ERROR) {
-        log_error(rs232net_log, "Error writing: %u.", WSAGetLastError());
+    n = vice_network_send(fds[fd].fd, &b, 1, 0);
+    if (n < 0) {
+        log_error(rs232net_log, "Error writing: %u.", vice_network_get_errorcode());
         rs232net_closesocket(fd);
         return -1;
     }
@@ -296,9 +231,6 @@ int rs232net_getc(int fd, BYTE * b)
     size_t no_of_read_byte = -1;
 
     do {
-        fd_set rdset;
-        struct timeval ti;
-
         if (fd < 0 || fd >= RS232_NUM_DEVICES) {
             log_error(rs232net_log, "Attempt to read from invalid fd %d.", fd);
             break;
@@ -314,22 +246,19 @@ int rs232net_getc(int fd, BYTE * b)
         no_of_read_byte = 0;
 
         /* silently drop if socket is shut because of a previous error  */
-        if (fds[fd].fd == INVALID_SOCKET) {
+        if ( ! fds[fd].fd ) {
             break;
         }
 
-        FD_ZERO(&rdset);
-        FD_SET(fds[fd].fd, &rdset);
-        ti.tv_sec = ti.tv_usec = 0;
-        ret = select(fds[fd].fd + 1, &rdset, NULL, NULL, &ti);
+        ret = vice_network_select_poll_one(fds[fd].fd);
 
-        if (ret > 0 && (FD_ISSET(fds[fd].fd, &rdset))) {
+        if (ret > 0) {
 
-            no_of_read_byte = recv(fds[fd].fd, b, 1, 0);
+            no_of_read_byte = vice_network_receive(fds[fd].fd, b, 1, 0);
 
             if ( no_of_read_byte != 1 ) {
-                if ( no_of_read_byte == SOCKET_ERROR ) {
-                    log_error(rs232net_log, "Error reading: %u.", WSAGetLastError());
+                if ( no_of_read_byte < 0 ) {
+                    log_error(rs232net_log, "Error reading: %u.", vice_network_get_errorcode());
                 }
                 else {
                     log_error(rs232net_log, "EOF");

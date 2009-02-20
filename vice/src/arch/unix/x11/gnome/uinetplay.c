@@ -37,7 +37,7 @@
 #include "log.h"
 #include "uinetplay.h"
 
-static GtkWidget *netplay_dialog, *current_mode, *dcb, *ctrls, *np_server, *np_port;
+static GtkWidget *netplay_dialog, *current_mode, *dcb, *ctrls, *np_server, *np_server_bind, *np_port;
 static log_t np_log = LOG_ERR;
 
 typedef struct np_control_s 
@@ -109,11 +109,13 @@ static void
 netplay_update_resources (void)
 {
     const gchar *server_name;
+    const gchar *server_bind_address;
     char p[256];
     long port;
     
     strncpy(p, gtk_entry_get_text(GTK_ENTRY(np_port)), 256);
     server_name = gtk_entry_get_text(GTK_ENTRY(np_server));
+    server_bind_address = gtk_entry_get_text(GTK_ENTRY(np_server_bind));
     util_string_to_long(p, NULL, 10, &port);
     if (port < 1 || port > 0xFFFF) {
         ui_error(_("Invalid Port number"));
@@ -121,6 +123,7 @@ netplay_update_resources (void)
     }
     resources_set_int("NetworkServerPort", (int)port);
     resources_set_string("NetworkServerName", server_name);
+    resources_set_string("NetworkServerBindAddress", server_bind_address);
 }
 
 static void
@@ -128,6 +131,7 @@ netplay_update_status(void)
 {
     gchar *text = NULL;
     const char *server_name;
+    const char *server_bind_address;
     int port;
     char st[256];
     
@@ -160,11 +164,13 @@ netplay_update_status(void)
 
     resources_get_int("NetworkServerPort", &port);
     resources_get_string("NetworkServerName", &server_name);
+    resources_get_string("NetworkServerBindAddress", &server_bind_address);
     snprintf(st, 256, "%d", port);
     gtk_entry_set_text(GTK_ENTRY(np_port), st);
     gtk_entry_set_text(GTK_ENTRY(np_server), server_name);
-    log_message(np_log, "Status: %s, Server: %s, Port: %d",
-		text, server_name, port);
+    gtk_entry_set_text(GTK_ENTRY(np_server_bind), server_bind_address);
+    log_message(np_log, "Status: %s, Server: %s, Port: %d; server bind address: %s",
+		text, server_name, port, server_bind_address);
     netplay_update_control_gui();
 }
 
@@ -236,6 +242,18 @@ build_netplay_dialog(void)
     gtk_container_add(GTK_CONTAINER(hb), l);
     gtk_widget_show(l);
     
+    /* entry IP server bind address */
+    np_server_bind = entry = gtk_entry_new();
+    gtk_box_pack_start(GTK_BOX(hb), entry, FALSE, FALSE, 0);
+    gtk_widget_set_size_request(entry, 100, -1);
+    gtk_widget_show(entry);
+
+    gtk_box_pack_start(GTK_BOX(b), hb, FALSE, FALSE, 5);
+    gtk_widget_show(hb);
+
+    gtk_box_pack_start(GTK_BOX(h), b, FALSE, FALSE, 5);
+    gtk_widget_show(b);
+
     /* entry port */
     np_port = entry = gtk_entry_new();
     gtk_box_pack_start(GTK_BOX(hb), entry, FALSE, FALSE, 0);
@@ -265,7 +283,7 @@ build_netplay_dialog(void)
 
     gtk_box_pack_start(GTK_BOX(h), b, FALSE, FALSE, 5);
     gtk_widget_show(b);
-    
+
     /* Control widgets */
     {
 	GtkWidget *cf, *tmp, *table;
