@@ -1900,6 +1900,8 @@ elif test x"$is_win32" = "xyes"; then
 
   LIBS="$LIBS -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound -ldinput -lth32 -lwsock32 -lversion"
 
+  AC_CHECK_HEADER(d3d9.h,
+      [ AC_DEFINE(HAVE_D3D9_H,,[Support for DirectX9.]) ],)
   AC_CHECK_LIB(dxguid, GUID_SysMouse,[LIBS="$LIBS -ldxguid";
                AC_DEFINE(HAVE_GUIDLIB,,
                          [Is the GUID lib of DX SDK present?])],,$LIBS)

@@ -126,6 +126,14 @@ SOURCE=.\fullscrn.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\fullscrn-ddraw.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\fullscrn-dx9.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\gifdrv.c
 # End Source File
 # Begin Source File
@@ -472,6 +480,14 @@ SOURCE=.\vic20ui.c
 # Begin Source File
 
 SOURCE=.\video.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\video-ddraw.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\video-dx9.c
 # End Source File
 # Begin Source File
 

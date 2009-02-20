@@ -6533,6 +6533,7 @@ BEGIN
   IDS_USE_ALL_CPU_SMP             "Use all CPU on SMP systems"
   IDS_USE_FIRST_CPU_SMP           "Use only first CPU on SMP systems"
   IDS_START_VICE_FULLSCREEN_MODE  "Start VICE in fullscreen mode"
+  IDS_DISABLE_DX9                 "Disable DirectX9 video driver"
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S         "An unexpected error occured. Received signal %d (%s)."
 #else

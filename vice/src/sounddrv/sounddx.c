@@ -41,7 +41,7 @@
 #include "lib.h"
 #include "sound.h"
 #include "types.h"
-#include "ui.h"
+#include "uiapi.h"
 
 #ifndef HAVE_GUIDLIB
 /* FIXME: It would be better to convert the dxguid.lib from DX5 into the

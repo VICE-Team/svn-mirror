@@ -34,7 +34,7 @@
 #include "uiapi.h"
 
 void statusbar_create(HWND hwnd);
-void statusbar_destroy(void);
+void statusbar_destroy(HWND hwnd);
 void statusbar_create_brushes(void);
 void statusbar_delete_brushes(void);
 int statusbar_get_status_height(void);

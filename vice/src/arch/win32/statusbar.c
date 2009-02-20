@@ -151,51 +151,61 @@ void statusbar_create(HWND hwnd)
 {
     RECT rect;
     int res_val;
+    int i = 0;
 
-    status_hwnd[number_of_status_windows] =
+    while (status_hwnd[i] != NULL) {
+        i++;
+    }
+    status_hwnd[i] =
         CreateStatusWindow(WS_CHILD | WS_VISIBLE, TEXT(""), hwnd,
                            IDM_STATUS_WINDOW);
-    SendMessage(status_hwnd[number_of_status_windows], SB_SETMINHEIGHT, 40,
+    SendMessage(status_hwnd[i], SB_SETMINHEIGHT, 40,
                 (LPARAM)0);
-    SendMessage(status_hwnd[number_of_status_windows], WM_SIZE, 0, (LPARAM)0);
+    SendMessage(status_hwnd[i], WM_SIZE, 0, (LPARAM)0);
     
-    GetClientRect(status_hwnd[number_of_status_windows], &rect);
+    GetClientRect(status_hwnd[i], &rect);
     status_height = rect.bottom;
 
     /* the volume part */
-    slider_hwnd[number_of_status_windows] = CreateWindow(
+    slider_hwnd[i] = CreateWindow(
                                TRACKBAR_CLASS,
                                TEXT("Volume"),
                                WS_CHILD|WS_VISIBLE|TBS_VERT|TBS_NOTICKS,
                                0, 0, 0, 0,
-                               status_hwnd[number_of_status_windows],
+                               status_hwnd[i],
                                (HMENU)IDC_SLIDER,
                                NULL,NULL);
 
     resources_get_int("SoundVolume", &res_val);
-    SendMessage(slider_hwnd[number_of_status_windows], TBM_SETPOS, 1, 100 - res_val);
+    SendMessage(slider_hwnd[i], TBM_SETPOS, 1, 100 - res_val);
 
     /* Max Steps */
-    SendMessage(slider_hwnd[number_of_status_windows], TBM_SETRANGEMAX, 1, 100);
+    SendMessage(slider_hwnd[i], TBM_SETRANGEMAX, 1, 100);
 
     /* Steps Wide for display the small lines */
-    SendMessage(slider_hwnd[number_of_status_windows], TBM_SETTICFREQ, 25, 0);
+    SendMessage(slider_hwnd[i], TBM_SETTICFREQ, 25, 0);
 
-    SetStatusWindowParts(status_hwnd[number_of_status_windows]);
+    SetStatusWindowParts(status_hwnd[i]);
 
     number_of_status_windows++;
 }
 
-void statusbar_destroy(void)
+
+void statusbar_destroy(HWND hwnd)
 {
     int i;
 
+
     for (i = 0; i < number_of_status_windows; i++) {
-        DestroyWindow(status_hwnd[i]);
+        if (IsChild(hwnd, status_hwnd[i])) {
+            DestroyWindow(status_hwnd[i]);
+            status_hwnd[i] = NULL;
+        }
     }
     status_height = 0;
-    number_of_status_windows = 0;
+    number_of_status_windows--;
 }
+
 
 void statusbar_create_brushes(void)
 {

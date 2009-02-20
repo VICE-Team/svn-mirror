@@ -479,9 +479,19 @@ void ui_translate_monitor_menu(HMENU menu)
   ui_translate_menu_items(menu, (ui_menu_translation_table_t *)monitor_trans_item_table);
 }
 
+
+void ui_set_render_window(video_canvas_t *canvas, int fullscreen)
+{
+    if (fullscreen) {
+		canvas->render_hwnd = canvas->hwnd;
+	} else {
+		canvas->render_hwnd = canvas->client_hwnd;
+	}		
+}
+
+
 /*  Create a Window for the emulation.  */
-HWND ui_open_canvas_window(const char *title, unsigned int width,
-                           unsigned int height)
+void ui_open_canvas_window(video_canvas_t *canvas)
 {
     HWND hwnd;
     int xpos, ypos;
@@ -490,10 +500,10 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
     resources_get_int_sprintf("Window%dXpos", &xpos, number_of_windows);
     resources_get_int_sprintf("Window%dYpos", &ypos, number_of_windows);
 
-    hwnd_titles[number_of_windows] = system_mbstowcs_alloc(title);
+    hwnd_titles[number_of_windows] = system_mbstowcs_alloc(canvas->title);
     hwnd = CreateWindow(APPLICATION_CLASS,
                             hwnd_titles[number_of_windows],
-                            WS_OVERLAPPED | WS_CLIPCHILDREN | WS_BORDER
+                            WS_CAPTION | WS_CLIPCHILDREN | WS_BORDER
                             | WS_DLGFRAME | WS_SYSMENU | WS_MINIMIZEBOX
                             | WS_MAXIMIZEBOX,
                             xpos,
@@ -509,13 +519,14 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
         log_debug("Window creation failed");
 
     window_handles[number_of_windows] = hwnd;
-    window_canvas_xsize[number_of_windows] = width;
-    window_canvas_ysize[number_of_windows] = height;
+    window_canvas_xsize[number_of_windows] = canvas->width;
+    window_canvas_ysize[number_of_windows] = canvas->height;
     number_of_windows++;
 
     statusbar_create(hwnd);
+    canvas->hwnd = hwnd;
 
-    ui_resize_canvas_window(hwnd, width, height);
+    ui_resize_canvas_window(canvas);
 
     menu=LoadMenu(winmain_instance, MAKEINTRESOURCE(emu_menu));
     ui_translate_menu_items(menu, menu_translation_table);
@@ -523,33 +534,65 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
     SetMenu(hwnd,menu);
     uikeyboard_menu_shortcuts(menu);
     ShowWindow(hwnd, winmain_cmd_show);
-    return hwnd;
-
+    canvas->client_hwnd = NULL; /* disabled for DDraw interface */
 }
 
-void ui_update_menu()
+
+/*  Create a child Window for the DX9 rendering.  */
+void ui_canvas_child_window(video_canvas_t *canvas, int enable)
 {
-HMENU menu;
-int   i;
+    if (canvas->client_hwnd == NULL) {
+        canvas->client_hwnd = CreateWindowEx(WS_EX_NOPARENTNOTIFY, 
+                            APPLICATION_CLASS,
+                            TEXT(""),
+                            WS_VISIBLE | WS_CHILD,
+                            0,
+                            0,
+                            CW_USEDEFAULT,
+                            CW_USEDEFAULT,
+                            canvas->hwnd,
+                            NULL,
+                            winmain_instance,
+                            NULL);
+    }
 
-    menu = LoadMenu(winmain_instance, MAKEINTRESOURCE(emu_menu));
-    if (menu_translation_table != NULL)
-    {
-        ui_translate_menu_items(menu, menu_translation_table);
-        ui_translate_menu_popups(menu, popup_translation_table);
-        uikeyboard_menu_shortcuts(menu);
+    if (enable) {
+        ShowWindow(canvas->client_hwnd, SW_SHOW);
+    } else {
+        ShowWindow(canvas->client_hwnd, SW_HIDE);
     }
-    for (i = 0; i < number_of_windows; i++) {
-        SetMenu(window_handles[i], menu);
-    }
+    ui_set_render_window(canvas, 0);
 }
+
+
+void ui_make_resizable(video_canvas_t *canvas, int enable)
+{
+    DWORD style;
+
+    style = GetWindowLong(canvas->hwnd, GWL_STYLE);
+    if (enable) {
+        style |= WS_SIZEBOX;
+    } else {
+        style &= ~WS_SIZEBOX;
+    }
+    SetWindowLong(canvas->hwnd, GWL_STYLE, style);
+}
+
 
 /* Resize `w' so that the client rectangle is of the requested size.  */
-void ui_resize_canvas_window(HWND w, unsigned int width, unsigned int height)
+void ui_resize_canvas_window(video_canvas_t *canvas)
 {
     RECT wrect;
     int window_index;
     WINDOWPLACEMENT place;
+    HWND w, cw;
+    unsigned int width, height;
+    DWORD adjust_style;
+
+    w = canvas->hwnd;
+    cw = canvas->client_hwnd;
+    width = canvas->width;
+    height = canvas->height;
 
 /*  TODO:
     We should store the windowplacement when the window is
@@ -575,8 +618,10 @@ void ui_resize_canvas_window(HWND w, unsigned int width, unsigned int height)
     ClientToScreen(w, ((LPPOINT)&wrect) + 1);
     wrect.right = wrect.left + width;
     wrect.bottom = wrect.top + height + statusbar_get_status_height();
-    //status_height;
-    AdjustWindowRect(&wrect, WS_OVERLAPPED|WS_BORDER|WS_DLGFRAME, TRUE);
+    adjust_style = WS_CAPTION | WS_BORDER | WS_DLGFRAME
+                    | (GetWindowLong(w, GWL_STYLE) & WS_SIZEBOX);
+
+    AdjustWindowRect(&wrect, adjust_style, TRUE);
     if (place.showCmd == SW_SHOWNORMAL) {
         MoveWindow(w,
                    wrect.left,
@@ -584,6 +629,9 @@ void ui_resize_canvas_window(HWND w, unsigned int width, unsigned int height)
                    wrect.right - wrect.left,
                    wrect.bottom - wrect.top,
                    TRUE);
+        if (cw != 0)
+            MoveWindow(cw, 0, 0, width, height, TRUE);
+
     } else {
         place.rcNormalPosition.right = place.rcNormalPosition.left
                                        + wrect.right - wrect.left;
@@ -594,6 +642,23 @@ void ui_resize_canvas_window(HWND w, unsigned int width, unsigned int height)
     }
 }
 
+
+static void ui_resize_render_window(video_canvas_t *canvas)
+{
+    RECT wrect;
+
+    if (canvas == NULL || canvas->hwnd == NULL || canvas->render_hwnd == NULL)
+        return;
+
+    GetClientRect(canvas->hwnd, &wrect);
+    MoveWindow(canvas->render_hwnd, 0, 0, 
+               wrect.right - wrect.left, 
+               wrect.bottom - wrect.top - statusbar_get_status_height(),
+               TRUE);
+
+}
+
+
 void ui_set_alwaysontop(int alwaysontop)
 {
     int i;
@@ -603,13 +668,33 @@ void ui_set_alwaysontop(int alwaysontop)
                         0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 }
 
+
+static const ui_menu_toggle_t *machine_specific_toggles = NULL;
+static const ui_res_value_list_t *machine_specific_values = NULL;
+
 /* Update all the menus according to the current settings.  */
 void ui_update_menus(void)
 {
 }
 
-static const ui_menu_toggle_t *machine_specific_toggles = NULL;
-static const ui_res_value_list_t *machine_specific_values = NULL;
+
+void ui_update_menu()
+{
+    HMENU menu;
+    int   i;
+
+    menu = LoadMenu(winmain_instance, MAKEINTRESOURCE(emu_menu));
+    if (menu_translation_table != NULL)
+    {
+        ui_translate_menu_items(menu, menu_translation_table);
+        ui_translate_menu_popups(menu, popup_translation_table);
+        uikeyboard_menu_shortcuts(menu);
+    }
+    for (i = 0; i < number_of_windows; i++) {
+        SetMenu(window_handles[i], menu);
+    }
+}
+
 
 void ui_register_menu_toggles(const ui_menu_toggle_t *toggles)
 {
@@ -623,11 +708,11 @@ void ui_register_res_values(const ui_res_value_list_t *valuelist)
 
 static void update_menus(HWND hwnd)
 {
-    HMENU menu = GetMenu(hwnd);
     unsigned int i, j;
     int value;
     int result;
     const char *lang;
+    HMENU menu = GetMenu(hwnd);
 
     for (i = 0; grayed_list[i].name != NULL; i++) {
         resources_get_int(grayed_list[i].name, &value);
@@ -1726,6 +1811,7 @@ static long CALLBACK window_proc(HWND window, UINT msg,
         if (window_index<number_of_windows) {
             statusbar_handle_WMSIZE(msg, wparam, lparam, window_index);
         }
+        ui_resize_render_window(video_canvas_for_hwnd(window));
         return 0;
       case WM_DRAWITEM:
         statusbar_handle_WMDRAWITEM(wparam,lparam);

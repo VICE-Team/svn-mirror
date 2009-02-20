@@ -33,6 +33,11 @@
 #undef BYTE
 #undef WORD
 #undef DWORD
+
+#ifdef HAVE_D3D9_H
+#include <d3d9.h>
+#endif
+
 #include <ddraw.h>
 
 #include "types.h"
@@ -58,6 +63,8 @@ typedef struct video_canvas_s {
     struct palette_s *palette;
     BYTE *pixels;
     HWND hwnd;
+    HWND render_hwnd;
+    HWND client_hwnd;
     LPDIRECTDRAW        dd_object;
     LPDIRECTDRAW2       dd_object2;
     LPDIRECTDRAWSURFACE render_surface;
@@ -66,6 +73,10 @@ typedef struct video_canvas_s {
     LPDIRECTDRAWSURFACE temporary_surface;
     LPDIRECTDRAWCLIPPER clipper;
     LPDIRECTDRAWPALETTE dd_palette;
+#ifdef HAVE_D3D9_H
+    LPDIRECT3DDEVICE9 d3ddev;
+    LPDIRECT3DSURFACE9 d3dsurface;
+#endif
     int client_width;
     int client_height;
     struct video_draw_buffer_callback_s *video_draw_buffer_callback;
@@ -84,11 +95,54 @@ extern int video_create_single_surface(struct video_canvas_s *canvas,
                                        int width, int height);
 
 extern video_canvas_t *video_canvas_for_hwnd(HWND hwnd);
+extern void video_canvas_add(video_canvas_t *canvas);
 
 extern void video_canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient,
                                 int w, int h);
 
 extern float video_refresh_rate(video_canvas_t *c);
+extern int video_dx9_enabled(void);
+
+/* DDraw functions */
+extern video_canvas_t *video_canvas_create_ddraw(video_canvas_t *canvas, 
+                            unsigned int *width, unsigned int *height);
+extern void video_canvas_destroy_ddraw(video_canvas_t *canvas);
+extern void video_canvas_refresh_ddraw(video_canvas_t *canvas,
+                            unsigned int xs, unsigned int ys,
+                            unsigned int xi, unsigned int yi,
+                            unsigned int w, unsigned int h);
+extern void video_canvas_set_palette_ddraw_8bit(video_canvas_t *canvas);
+extern int video_set_physical_colors_ddraw(video_canvas_t *c);
+extern DWORD video_get_color_from_palette_ddraw(video_canvas_t *c, unsigned int i);
+extern void video_set_physical_colors_get_format_ddraw(video_canvas_t *c, 
+                            int *rshift, int *rbits, DWORD *rmask,
+                            int *gshift, int *gbits, DWORD *gmask,
+                            int *bshift, int *bbits, DWORD *bmask);
+extern void video_canvas_update_ddraw(HWND hwnd, HDC hdc, 
+                                      int xclient, int yclient, int w, int h);
+
+/* DX9 functions */
+extern int video_setup_dx9(void);
+extern void video_shutdown_dx9(void);
+extern int video_device_create_dx9(video_canvas_t *canvas, int fullscreen);
+extern video_canvas_t *video_canvas_create_dx9(video_canvas_t *canvas, 
+                            unsigned int *width, unsigned int *height);
+extern void video_device_release_dx9(video_canvas_t *canvas);
+extern HRESULT video_canvas_reset_dx9(video_canvas_t *canvas);
+extern int video_canvas_refresh_dx9(video_canvas_t *canvas,
+                            unsigned int xs, unsigned int ys,
+                            unsigned int xi, unsigned int yi,
+                            unsigned int w, unsigned int h);
+extern void video_canvas_update_dx9(HWND hwnd, HDC hdc, 
+                                    int xclient, int yclient, int w, int h);
+
+
+/* FIXME: ugly */
+extern int fullscreen_enabled;
+extern int dx_primary_surface_rendering;
+#ifdef HAVE_D3D9_H
+extern LPDIRECT3D9 d3d;
+#endif
 
 #endif
 
