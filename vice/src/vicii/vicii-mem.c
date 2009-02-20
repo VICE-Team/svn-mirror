@@ -502,6 +502,10 @@ inline static void d016_store(const BYTE value)
                                                 + (vicii.regs[0x16] & 7),
                                            &raster->sprite_xsmooth_shift_right,
                                            1);
+            raster_changes_sprites_add_int(raster,
+                                           VICII_RASTER_X(cycle) + 8 + xsmooth,
+                                           &raster->sprite_xsmooth_shift_right,
+                                           0);
         }
         raster_changes_foreground_add_int(raster,
                                           VICII_RASTER_CHAR(cycle) - 1,
