@@ -1,3 +1,195 @@
+2009-02-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/base.tgt,
+	  src/arch/win32/watcom/config.h: Fixed the watcom project files.
+
+	* src/arch/unix/socketimpl.h: Removed the non-*nix stuff from
+	  the *nix socketimpl.h
+
+	* src/arch/beos/Makefile.am, src/arch/beos/socketimpl.h,
+	  src/arch/msdos/Makefile.am, src/arch/msdos/socketimpl.h,
+	  src/arch/msdos/uinetplay.c: Added a beos and msdos
+	  socketimpl.h and added a 'server bind' ui element to the msdos
+	  port.
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/intl.c,
+	  src/arch/amigaos/intl.txt, src/arch/amigaos/mui/uinetwork.c,
+	  src/arch/amigaos/socketimpl.h, src/arch/amigaos/uiapi.c,
+	  src/network.c, src/socket.c, src/socket.h: Added 'server bind'
+	  to the amiga ui netplay dialog, added a vice_network_init()
+	  and vice_network_shutdown() for handling of arch specific
+	  code, and added an amiga socketimpl.h
+
+2009-02-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/socket.c: Don't compile socket.c if HAVE_NETWORK has not
+	  been defined.
+
+	* src/socket.c: Added htonl and htons replacement functions for
+	  platforms that don't define/have them.
+
+	* src/arch/win32/res.rc: Added the win32 'server bind' dialog
+	  item to the other languages.
+
+2009-02-17  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/unix/x11/gnome/uinetplay.c: Allow user to enter
+	  server bind address for Gnome UI.
+
+	* src/arch/unix/gui/uinetplay.c: Removed now obsolete "enable
+	  IPv6" menu entry.
+
+	* src/arch/win32/res.rc, src/arch/win32/resdialogs.txt,
+	  src/arch/win32/uinetwork.c: Added "server bind address" to the
+	  netplay UI for Windows.
+
+	* src/arch/unix/Makefile.am: Added src/arch/unix/socketimpl.h
+
+	* src/arch/win32/Makefile.am, src/arch/win32/base.dsp: Added
+	  src/arch/win32/socketimpl.h
+
+	* src/arch/unix/socketimpl.h, src/arch/win32/socketimpl.h: New
+	  files for arch-specific definitions for socket API
+
+	* src/network.c, src/arch/win32/rs232net.c: removed arch
+	  specific socket accesses and use socket API instead
+
+	* src/Makefile.am: Added src/socket.c.
+
+	* src/socket.c: New file for socket API
+
+	* src/arch/win32/archdep.c, src/arch/win32/rs232.c: Removed
+	superfluous #include <winsock.h>.
+
+2009-02-19  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2009-02-19  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.h, src/resid-fp/wave.cc: Add final tweaks
+	  to V31 model. Neither the filter or the combined waveforms are
+	  perfect yet, but it will have to do for now.
+
+	* src/resid-fp/envelope.cc: Earlier changes to envdac removed a
+	  bug which caused this feature to start working. (It never
+	  worked before.) Alas, it sounds bad, so disable it for now.
+
+	* src/resid-fp/wave.cc, src/resid-fp/wave.h: Adjust noise
+	  waveform zero level, too.
+
+	* src/resid-fp/filter.h, src/resid-fp/wave.cc: Revert earlier
+	  tweak to filter: turned out to make artifacts. Use x^16 to
+	  approximate DAC bit behaviour instead of x^8.
+
+2009-02-18  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.h, src/resid-fp/wave.cc,
+	  src/resid-fp/wave.h: PS/PT level difference can be explained
+	  by properly treating the bottom bit, but PST level difference
+	  still remains unexplained. Inject LP in suitable phase for the
+	  bp/resonance mix.
+
+	* src/resid-fp/filter.cc, src/resid-fp/filter.h,
+	  src/sid/resid-fp.cc: Avoid hot path integer to float
+	  conversion. Rebase lp-leak parameter to filter input.
+
+	* src/resid-fp/envelope.cc, src/resid-fp/envelope.h,
+	  src/resid-fp/sid.cc, src/resid-fp/voice.cc,
+	  src/resid-fp/voice.h, src/resid-fp/wave.cc: Lost wave_zero
+	  parameter. Migrate it into wftable. Avoid envelope dac lookup
+	  in the hot path.
+
+	* src/resid-fp/wave.cc: Implement different sound levels of the
+	  PT, PS and PST waveforms.
+
+2009-02-17  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/sid.cc, src/resid-fp/wave.cc: Found improved
+	  variant of the P* combined waveforms through loosely modeling
+	  a resistor network model for the pulse strip.
+
+2009-02-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Added petcat fixes by ian coog.
+
+	* src/arch/unix/gui/uicommands.c: Removed left over incomplete
+	  line.
+
+2009-02-17  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/wave.cc: Fix a mistake made during porting from
+	  Python to C.
+
+	* src/resid-fp/ChangeLog, src/resid-fp/Makefile.am,
+	  src/resid-fp/filter.cc, src/resid-fp/filter.h,
+	  src/resid-fp/samp2src.pl, src/resid-fp/sid.cc,
+	  src/resid-fp/voice.cc, src/resid-fp/voice.h,
+	  src/resid-fp/wave.cc, src/resid-fp/wave.h,
+	  src/resid-fp/wave6581_PST.cc, src/resid-fp/wave6581_PST.dat,
+	  src/resid-fp/wave6581_PS_.cc, src/resid-fp/wave6581_PS_.dat,
+	  src/resid-fp/wave6581_P_T.cc, src/resid-fp/wave6581_P_T.dat,
+	  src/resid-fp/wave6581__ST.cc, src/resid-fp/wave6581__ST.dat,
+	  src/resid-fp/wave8580_PST.cc, src/resid-fp/wave8580_PST.dat,
+	  src/resid-fp/wave8580_PS_.cc, src/resid-fp/wave8580_PS_.dat,
+	  src/resid-fp/wave8580_P_T.cc, src/resid-fp/wave8580_P_T.dat,
+	  src/resid-fp/wave8580__ST.cc, src/resid-fp/wave8580__ST.dat,
+	  src/sid/resid-fp.cc: Derive combined waveforms
+	  programmatically. Apply some small filter tweaks. Fixes some
+	  uses of uninitialized values.
+
+2009-02-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/screenshot.c: Fixed the screenshot height.
+
+@@@TODO
+
+2009-02-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ., src/arch/unix/gui/c128ui.c, src/arch/unix/gui/uiattach.c,
+	  src/arch/unix/gui/uic64cart.c, src/arch/unix/gui/uic64dtv.c,
+	  src/arch/unix/gui/uicommands.c,
+	  src/arch/unix/gui/uifliplist.c,
+	  src/arch/unix/gui/uikeyboard.c, src/arch/unix/gui/uilib.h,
+	  src/arch/unix/gui/uipalette.c, src/arch/unix/gui/uiromset.c,
+	  src/arch/unix/gui/uirs232.c, src/arch/unix/gui/uisettings.c,
+	  src/arch/unix/gui/vic20ui.c, src/arch/unix/gui/vsidui.c,
+	  src/arch/unix/ui.h, src/arch/unix/x11/gnome/uicartridge.c,
+	  src/arch/unix/x11/gnome/uiedisk.c,
+	  src/arch/unix/x11/gnome/uifileentry.c,
+	  src/arch/unix/x11/gnome/uifileentry.h,
+	  src/arch/unix/x11/gnome/uiscreenshot.c,
+	  src/arch/unix/x11/gnome/uisnapshot.c,
+	  src/arch/unix/x11/gnome/x11ui.c,
+	  src/arch/unix/x11/xaw/uicartridge.c,
+	  src/arch/unix/x11/xaw/uiedisk.c,
+	  src/arch/unix/x11/xaw/uiscreenshot.c,
+	  src/arch/unix/x11/xaw/uisnapshot.c,
+	  src/arch/unix/x11/xaw/x11ui.c, src/arch/win32/rs232dev.c,
+	  src/arch/win32/rs232net.c, src/arch/win32/rs232win.h,
+	  src/resid-dtv: Merged the gtk filters tag (svn merge
+	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v2.1/v2.1.3/vice
+	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/fabrizio/v2.1.3-gtkfilefilters).
+
+2009-02-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Added petcat fixes made by Groepaz.
+
+2009-02-09  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/monitor/monitor.c: Monitor io fixes by iAN CooG
+
+2009-02-08  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/monitor/monitor.c: Fixed monitor dev 8: -> io crash
+
+2009-02-06  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c128/c128.c, src/c64/c64.c, src/c64dtv/c64dtv.c,
+	  src/cbm2/cbm2.c, src/plus4/plus4.c, src/vic20/vic20.c,
+	  src/video/video-resources.c: Fixed to follow the coding
+	  guidelines
+
 2009-02-04  Fabrizio Gennari <fabrizio.ge@tiscali.it>
 
 	* src/arch/riscos/uiimage.c: Fix a compile error (untested, but
