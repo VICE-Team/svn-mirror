@@ -887,6 +887,22 @@ AC_CHECK_HEADER(regexp.h,,,[#define	INIT		register char *sp = instring;
 ])
 AC_DECL_SYS_SIGLIST
 
+dnl ----- Dynamic Lib Loading Support -----
+dynlib_support=no
+DYNLIB_LIBS=
+dnl check for dlopen support on unix systems
+if test x"$is_unix" = "xyes" ; then
+  AC_CHECK_HEADER(dlfcn.h,,)
+  if test x"$ac_cv_header_dlfcn_h" = "xyes" ; then
+    AC_CHECK_LIB(dl, dlopen,
+                 [ DYNLIB_LIBS="-ldl";
+                   AC_DEFINE(HAVE_DYNLIB_SUPPORT,,
+                             [Support for dynamic library loading.])
+                   dynlib_support=yes
+                 ],,)
+  fi
+fi
+AC_SUBST(DYNLIB_LIBS)
 
 dnl ----- Joystick support -----
 JOY_LIBS=
@@ -1942,26 +1958,25 @@ unsigned long test; ],
 fi
 
 dnl CBM4Linux/OpenCBM
+AC_MSG_CHECKING([for OpenCBM support])
 if test x"$enable_realdevice" != "xno"; then
   if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32"; then
     AC_DEFINE(HAVE_OPENCBM,,[Support for OpenCBM (former CBM4Linux).])
     AM_CONDITIONAL(HAVE_REALDEVICE, true)
+    AC_MSG_RESULT([yes])
   else
-    AC_CHECK_HEADER(opencbm.h,,)
-    if test x"$ac_cv_header_opencbm_h" = "xyes" ; then
-      AC_DEFINE(HAVE_OPENCBM_H,,[OpenCBM header file is available.])
-      AC_CHECK_LIB(opencbm, cbm_get_eoi,
-                   [ LIBS="$LIBS -lopencbm";
-                     AC_DEFINE(HAVE_OPENCBM,,
-                               [Support for OpenCBM (former CBM4Linux).]) ],,)  
-      AM_CONDITIONAL(HAVE_REALDEVICE,
-                     test x"$ac_cv_lib_opencbm_cbm_get_eoi" = "xyes")
+    if test x"$dynlib_support" = "xyes"; then
+      AC_DEFINE(HAVE_OPENCBM,,[Support for OpenCBM (former CBM4Linux).])
+      AM_CONDITIONAL(HAVE_REALDEVICE, true)
+      AC_MSG_RESULT([yes])
     else
       AM_CONDITIONAL(HAVE_REALDEVICE, false)
+      AC_MSG_RESULT([no (dynamic lib support missing)])
     fi
   fi
 else
   AM_CONDITIONAL(HAVE_REALDEVICE, false)
+  AC_MSG_RESULT([no (realdevice disabled)])
 fi
 
 AC_SUBST(x64_LDFLAGS)

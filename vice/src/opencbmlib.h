@@ -28,12 +28,7 @@
 #define VICE_OPENCBMLIB_H
 
 #include "vice.h"
-
-#ifdef HAVE_OPENCBM_H
-#include <opencbm.h>
-#else
 #include "opencbm.h"
-#endif
 
 typedef int (CBMAPIDECL *cbm_driver_open_t)(CBM_FILE *f, int port);
 typedef void (CBMAPIDECL *cbm_driver_close_t)(CBM_FILE f);

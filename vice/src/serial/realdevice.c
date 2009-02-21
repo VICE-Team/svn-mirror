@@ -220,5 +220,6 @@ void realdevice_disable(void)
     }
 
     opencbmlib_close();
+    realdevice_available = 0;
 }
 

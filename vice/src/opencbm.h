@@ -38,8 +38,10 @@ extern "C" {
 # define EXTERN extern
 # define CBMAPIDECL
 # define WINAPI
-  /* this is already defined here! #define __u_char */
 # define CBM_FILE int
+#ifdef MACOSX_SUPPORT
+# define __u_char unsigned char
+#endif
 #endif
 
 #define IEC_DATA   0x01
