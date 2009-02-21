@@ -34,11 +34,21 @@
 #undef WORD
 #undef DWORD
 
+#include <ddraw.h>
+
+/* Hack to check if d3d9.h is present */ 	 
+#ifdef MSVC_RC
+#define _WINSOCKAPI_
+#include <dsound.h> 	 
+#undef _WINSOCKAPI_
+#if (DIRECTSOUND_VERSION >= 0x0900) 	 
+#define HAVE_D3D9_H 1
+#endif
+#endif
+
 #ifdef HAVE_D3D9_H
 #include <d3d9.h>
 #endif
-
-#include <ddraw.h>
 
 #include "types.h"
 #include "video.h"
