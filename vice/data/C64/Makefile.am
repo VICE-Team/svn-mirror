@@ -20,7 +20,9 @@ palettes = \
 
 x11_keymaps = \
 	x11_sym.vkm \
-	x11_pos.vkm
+	x11_pos.vkm \
+	x11_posger.vkm \
+	x11_symger.vkm
 
 extra_keymaps = \
 	amiga_sym.vkm \
