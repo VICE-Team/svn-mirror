@@ -210,6 +210,8 @@ PCMWAVEFORMAT pcmwf;
 DSCAPS  capabilities;
 WAVEFORMATEX    wfex;
 
+HWND ui_get_main_hwnd(void);
+
 static void dx_clear(void)
 {
 LPVOID  lpvPtr1;
