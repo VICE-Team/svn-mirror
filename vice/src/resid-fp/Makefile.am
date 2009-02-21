@@ -8,7 +8,7 @@ libresidfp_a_SOURCES = sid.cc voice.cc wave.cc envelope.cc filter.cc extfilt.cc 
 
 noinst_HEADERS = sid.h voice.h wave.h envelope.h filter.h extfilt.h pot.h
 
-EXTRA_DIST = $(noinst_HEADERS) $(noinst_DATA) $(noinst_SCRIPTS) README.VICE convolve-sse.cc
+EXTRA_DIST = $(noinst_HEADERS) README.VICE convolve-sse.cc
 
 SUFFIXES = .dat
 
