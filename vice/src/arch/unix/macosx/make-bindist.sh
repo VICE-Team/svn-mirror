@@ -250,16 +250,24 @@ for bundle in $BUNDLES ; do
       LAUNCHER_SCRIPT_REL="MacOS/VICE"
     else
       # embed resources for cocoa
-      echo -n "[resources] "
       LOC_RESOURCES="$RUN_PATH/Resources"
-      copy_tree "$LOC_RESOURCES" "$APP_RESOURCES"
+      
+      # copy extra files from Resources
+      EXTRA_RES_FILES="Credits.html"
+      for f in $EXTRA_RES_FILES ; do
+        echo -n "[$f] "
+        cp "$LOC_RESOURCES/$f" "$APP_RESOURCES/"
+      done
       
       # rename emu nib
       RES_LANGUAGES="English"
       for lang in $RES_LANGUAGES ; do
         echo -n "[lang:$lang"
+
+        RES_DIR="$APP_RESOURCES/${lang}.lproj"
+        mkdir -p "$RES_DIR"
+        copy_tree "$LOC_RESOURCES/${lang}.lproj" "$RES_DIR"
         
-        RES_DIR="$APP_RESOURCES/$lang.lproj"
         # make emu nib the MainMenu.nib
         EMU_NIB="$RES_DIR/$bundle.nib"
         if [ -e "$EMU_NIB" ]; then
@@ -270,7 +278,7 @@ for bundle in $BUNDLES ; do
           echo -n " **MISSING:nib"
         fi
         # remove unwanted emu nibs
-        rm -f "$RES_DIR/x*.nib"
+        find -d "$RES_DIR" -name "x*.nib" -exec rm -rf {} \;
         
         # make ResourceTree for emu
         EMU_RT="$RES_DIR/$bundle-ResourceTree.plist"
@@ -282,7 +290,7 @@ for bundle in $BUNDLES ; do
           echo -n " **MISSING:res"
         fi
         # remove unwanted resource trees
-        rm -f "$RES_DIR/*-ResourceTree.plist"
+        find "$RES_DIR" -name "*-ResourceTree.plist" -exec rm -f {} \;
         
         echo -n "]"
       done
