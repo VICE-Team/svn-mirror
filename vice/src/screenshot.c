@@ -158,6 +158,7 @@ int screenshot_save(const char *drvname, const char *filename,
 {
     screenshot_t screenshot;
     gfxoutputdrv_t *drv;
+    int result;
 
     if ((drv = gfxoutput_get_driver(drvname)) == NULL)
         return -1;
@@ -181,7 +182,14 @@ int screenshot_save(const char *drvname, const char *filename,
         reopen_filename = lib_stralloc(filename);
     }
 
-    return screenshot_save_core(&screenshot, drv, filename);
+    result = screenshot_save_core(&screenshot, drv, filename);
+
+    if (result < 0) {
+        recording_driver = NULL;
+        recording_canvas = NULL;
+    }
+    
+    return result;
 }
 
 #ifdef FEATURE_CPUMEMHISTORY
