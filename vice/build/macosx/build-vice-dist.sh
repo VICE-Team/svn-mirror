@@ -137,15 +137,15 @@ if [ "$?" = "0" ]; then
 fi
 
 # check for ffmpeg and lame
-check_lib "libavcodec.dylib"
-if [ "$?" = "0" ]; then
-  check_lib "libmp3lame.dylib"
-  if [ "$?" = "0" ]; then
-    CONFIGURE_FLAGS="--enable-ffmpeg $CONFIGURE_FLAGS"
-    CONFIGURE_OPTS="FFMPEG $CONFIGURE_OPTS"
-    echo "+++ With FFMPEG + Lame Support +++"
-  fi
-fi
+#check_lib "libavcodec.dylib"
+#if [ "$?" = "0" ]; then
+#  check_lib "libmp3lame.dylib"
+#  if [ "$?" = "0" ]; then
+#    CONFIGURE_FLAGS="--enable-ffmpeg $CONFIGURE_FLAGS"
+#    CONFIGURE_OPTS="FFMPEG $CONFIGURE_OPTS"
+#    echo "+++ With FFMPEG + Lame Support +++"
+#  fi
+#fi
 
 # ----- setup build dir -----
 BUILD_DIR="$BUILD_DIR/$UI_TYPE-$SDK_VERSION"
