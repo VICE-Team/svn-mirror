@@ -828,7 +828,7 @@ c1541_LDADD = \
 	$(serial_lib) \
 	@INTLLIBS@ \
 	@READLINE@ @READLINE_LIBS@ \
-	@VICE_ZLIB@ @ZLIB_LIBS@
+	@VICE_ZLIB@ @ZLIB_LIBS@ @DYNLIB_LIBS@
 
 # petcat
 petcat_SOURCES = \
