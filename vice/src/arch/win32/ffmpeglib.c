@@ -75,7 +75,7 @@ static void ffmpeglib_free_library(ffmpeglib_t *lib)
     }
     avformat_dll = NULL;
 
-    lib->p_av_init_packet = NULL
+    lib->p_av_init_packet = NULL;
     lib->p_av_register_all = NULL;
     lib->p_av_new_stream = NULL;
     lib->p_av_set_parameters = NULL;
