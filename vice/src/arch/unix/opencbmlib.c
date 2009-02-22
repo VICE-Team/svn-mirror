@@ -34,7 +34,7 @@
 #include "dlfcn.h"
 
 #ifdef MACOSX_SUPPORT
-#define OPENCBM_LIBNAME "libopencbm.dylib"
+#define OPENCBM_LIBNAME "/opt/opencbm/lib/libopencbm.dylib"
 #else
 #define OPENCBM_LIBNAME "libopencbm.so"
 #endif
@@ -46,7 +46,7 @@ static void *opencbmlib_handle = NULL;
     if (opencbmlib->p_##_name_ == NULL) {                                   \
         log_debug("dlsym " #_name_ " failed!");                             \
     } else {                                                                \
-        log_debug("dlsym " #_name_ " success: %p",opencbmlib->p_##_name_);                             \
+        log_debug("dlsym " #_name_ " success: %p",opencbmlib->p_##_name_);  \
     }
 
 static int opencbmlib_load_library(opencbmlib_t *opencbmlib)
