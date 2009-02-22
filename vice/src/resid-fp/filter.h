@@ -338,9 +338,9 @@ float FilterFP::clock(float voice1,
         if (hp_bp_lp & 4)
             Vhp += (Vf - Vhp) * distortion_cf_threshold;
 
-        float lpleak = Vi * distortion_rate * resf * (1.0f / 15.f / 4.f);
+        float lpleak = Vi * distortion_rate * resf * (1.0f / 15.f / 6.f);
 
-        Vlp -= (Vbp - lpleak) * type3_w0(Vbp - lpleak * 0.75f, type3_fc_distortion_offset) * outputleveldifference_lp_bp;
+        Vlp -= (Vbp - lpleak) * type3_w0(Vbp, type3_fc_distortion_offset) * outputleveldifference_lp_bp;
         Vbp -= Vhp * type3_w0(Vhp, type3_fc_distortion_offset);
         Vhp = (Vbp + lpleak) * _1_div_Q
             - Vlp * (1.f/outputleveldifference_lp_bp)

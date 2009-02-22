@@ -92,11 +92,6 @@ protected:
 
   float previous_dac, noise_output_cached_dac;
 
-  // 4 possible combinations of waveforms.
-  // These do generate the waveforms, but ignore ring modulation and test bit.
-  RESID_INLINE reg12 output___T();
-  RESID_INLINE reg12 output__S_();
-  RESID_INLINE reg12 output_P__();
   RESID_INLINE reg12 outputN___();
 
 friend class VoiceFP;
@@ -181,51 +176,6 @@ void WaveformGeneratorFP::synchronize()
   if (msb_rising && sync_dest->sync && !(sync && sync_source->msb_rising)) {
     sync_dest->accumulator = 0;
   }
-}
-
-
-// ----------------------------------------------------------------------------
-// Output functions.
-// NB! The output from SID 8580 is delayed one cycle compared to SID 6581,
-// this is not modeled.
-// ----------------------------------------------------------------------------
-
-// Triangle:
-// The upper 12 bits of the accumulator are used.
-// The MSB is used to create the falling edge of the triangle by inverting
-// the lower 11 bits. The MSB is thrown away and the lower 11 bits are
-// left-shifted (half the resolution, full amplitude).
-// Ring modulation substitutes the MSB with MSB EOR sync_source MSB.
-//
-RESID_INLINE
-reg12 WaveformGeneratorFP::output___T()
-{
-  return ((accumulator & 0x800000 ? ~accumulator : accumulator) >> 11) & 0xfff;
-}
-
-// Sawtooth:
-// The output is identical to the upper 12 bits of the accumulator.
-//
-RESID_INLINE
-reg12 WaveformGeneratorFP::output__S_()
-{
-  return accumulator >> 12;
-}
-
-// Pulse:
-// The upper 12 bits of the accumulator are used.
-// These bits are compared to the pulse width register by a 12 bit digital
-// comparator; output is either all one or all zero bits.
-// NB! The output is actually delayed one cycle after the compare.
-// This is not modeled.
-//
-// The test bit, when set to one, holds the pulse waveform output at 0xfff
-// regardless of the pulse width setting.
-//
-RESID_INLINE
-reg12 WaveformGeneratorFP::output_P__()
-{
-  return ((accumulator >> 12) >= pw) ? 0xfff : 0x000;
 }
 
 // Noise:

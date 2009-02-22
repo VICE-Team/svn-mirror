@@ -1,3 +1,15 @@
+2009-02-22  Antti S. Lankila  <alankila@bel.fi>
+
+        Sync against V32.
+
+        * filter.h: tune clipping distortion against newest changes.
+
+        * wave.h, wave.cc: remove unnecessary methods. Fit combined waveforms
+          against samplings using external program. Fix noise waveform offset.
+          Make waveforms 5, 6 and 7 quieter when pulse is off.
+
+        * envelope.cc: use perfect envelope DAC.
+
 2009-02-17  Antti S. Lankila  <alankila@bel.fi>
 
         Sync against V31 beta.
