@@ -155,9 +155,9 @@
 	<key>Mouse</key>
 	<dict>
 		<key>Port</key>
-		<string>Mousetype,e,1351,NEOS,AMIGA</string>
-		<key>Type</key>
 		<string>Mouseport,m,Joy1=1,Joy2=2</string>
+		<key>Type</key>
+		<string>Mousetype,e,1351,NEOS,AMIGA,Paddles</string>
 	</dict>
 	<key>Peripherals</key>
 	<dict>
