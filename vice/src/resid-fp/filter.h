@@ -324,13 +324,8 @@ float FilterFP::clock(float voice1,
         Vf += Vhp;
     
     if (model == MOS6581FP) {
-        float tmp, lpleak;
-
-        /* turning on some resonance causes lp to appear in bp. */
-        lpleak = Vi * distortion_rate * resf * (1.f / 15.f / 6.f);
-
         /* allow some intermixing of state variables. */        
-        tmp = Vhp + Vlp + Vbp;
+        float tmp = Vhp + Vlp + Vbp;
         Vlp += (tmp - Vlp) * distortion_cf_threshold;
         Vbp += (tmp - Vbp) * distortion_cf_threshold;
         Vhp += (tmp - Vhp) * distortion_cf_threshold;
@@ -342,16 +337,18 @@ float FilterFP::clock(float voice1,
             Vbp += (Vf - Vbp) * distortion_cf_threshold;
         if (hp_bp_lp & 4)
             Vhp += (Vf - Vhp) * distortion_cf_threshold;
-       
-        Vlp -= (Vbp - lpleak) * type3_w0(Vbp, type3_fc_distortion_offset) * outputleveldifference_lp_bp;
+
+        float lpleak = Vi * distortion_rate * resf * (1.0f / 15.f / 4.f);
+
+        Vlp -= (Vbp - lpleak) * type3_w0(Vbp - lpleak * 0.75f, type3_fc_distortion_offset) * outputleveldifference_lp_bp;
         Vbp -= Vhp * type3_w0(Vhp, type3_fc_distortion_offset);
         Vhp = (Vbp + lpleak) * _1_div_Q
             - Vlp * (1.f/outputleveldifference_lp_bp)
             - Vi * distortion_rate;
 
         /* saturate. This is likely the output inverter saturation. */
-        if (Vf > 3.4e6f)
-            Vf -= (Vf - 3.4e6f) / 2.f;
+        if (Vf > 3.2e6f)
+            Vf -= (Vf - 3.2e6f) / 2.f;
     } else {
         /* On the 8580, BP appears mixed in phase with the rest. */
         Vlp += Vbp * type4_w0_cache;
