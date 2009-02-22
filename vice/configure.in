@@ -1189,33 +1189,25 @@ GFXOUTPUT_DRIVERS=""
 dnl ----- FFMPEG -----
 FFMPEG_INCLUDES=
 FFMPEG_LIBS=
-if test x"$enable_ffmpeg" = "xyes" -o x"$is_win32" = "xyes"; then
+if test x"$enable_ffmpeg" = "xyes" -o x"$is_win32" = "xyes" -o x"$is_unix" = "xyes" ; then
   GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS ffmpegdrv.o"
   AC_CHECK_HEADERS( ffmpeg/avformat.h )
   if test x"$ac_cv_header_ffmpeg_avformat_h" = "xno" ; then
     FFMPEG_INCLUDES="-I\$(top_srcdir)/src/lib/libffmpeg"
   fi
+
+  AC_MSG_CHECKING([for FFMPEG support])
   if test x"$is_unix" = "xyes" ; then
-    old_LIBS="$LIBS"
-    AC_CHECK_LIB(mp3lame, lame_encode_frame,[
-      LIBS="-lmp3lame $LIBS";
-      FFMPEG_LIBS="-lmp3lame"
-    ],,$LIBS)
-    AC_CHECK_LIB(avutil, av_free,[
-      LIBS="-lavutil $LIBS";
-      AC_CHECK_LIB(avcodec, avcodec_init,[
-        LIBS="-lavcodec $LIBS";
-        AC_CHECK_LIB(avformat, av_register_all,[
-          LIBS="-lavformat $LIBS";
-          FFMPEG_LIBS="-lavformat -lavcodec -lavutil $FFMPEG_LIBS";
-          AC_DEFINE(HAVE_FFMPEG,,[Enable FFMPEG library support])
-        ],,$LIBS)
-      ],,$LIBS)
-    ],,$LIBS)
-    LIBS="$old_LIBS"
+    if test x"$dynlib_support" = "xyes" ; then
+      AC_DEFINE(HAVE_FFMPEG,,[Enable FFMPEG library support])
+      AC_MSG_RESULT([yes (dynamic linking)])
+    else
+      AC_MSG_RESULT([no (dynamic linking not available)])  
+    fi
   else
     dnl win always uses FFMPEG
     AC_DEFINE(HAVE_FFMPEG,,[Enable FFMPEG library support])
+    AC_MSG_RESULT([yes (dynamic linking)])
   fi
 fi
 AC_SUBST(FFMPEG_INCLUDES)

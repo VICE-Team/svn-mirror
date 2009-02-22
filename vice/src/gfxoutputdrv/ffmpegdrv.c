@@ -339,7 +339,7 @@ static int ffmpegdrv_encode_audio(soundmovie_buffer_t *audio_in)
 #else
         AVPacket pkt;
         AVCodecContext *c;
-        av_init_packet(&pkt);
+        (*ffmpeglib.p_av_init_packet)(&pkt);
         c = audio_st->codec;
         pkt.size = (*ffmpeglib.p_avcodec_encode_audio)(c, 
                         audio_outbuf, audio_outbuf_size, audio_in->buffer);
@@ -722,7 +722,7 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
                        (unsigned char *)picture, sizeof(AVPicture));
 #else
         AVPacket pkt;
-        av_init_packet(&pkt);
+        (*ffmpeglib.p_av_init_packet)(&pkt);
         pkt.flags |= PKT_FLAG_KEY;
         pkt.stream_index = video_st->index;
         pkt.data = (uint8_t*)picture;
@@ -742,7 +742,7 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
                                         video_outbuf, out_size);
 #else
             AVPacket pkt;
-            av_init_packet(&pkt);
+            (*ffmpeglib.p_av_init_packet)(&pkt);
             pkt.pts = c->coded_frame->pts;
             if (c->coded_frame->key_frame)
                 pkt.flags |= PKT_FLAG_KEY;

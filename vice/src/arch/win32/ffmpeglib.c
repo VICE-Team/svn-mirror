@@ -45,6 +45,10 @@ static HINSTANCE avcodec_dll = NULL;
 static HINSTANCE avformat_dll = NULL;
 static HINSTANCE avutil_dll = NULL;
 
+static void my_av_init_packet(AVPacket *pkt)
+{
+    av_init_packet(pkt);
+}
 
 static void ffmpeglib_free_library(ffmpeglib_t *lib)
 {
@@ -71,6 +75,7 @@ static void ffmpeglib_free_library(ffmpeglib_t *lib)
     }
     avformat_dll = NULL;
 
+    lib->p_av_init_packet = NULL
     lib->p_av_register_all = NULL;
     lib->p_av_new_stream = NULL;
     lib->p_av_set_parameters = NULL;
@@ -149,6 +154,10 @@ static int ffmpeglib_load_library(ffmpeglib_t *lib)
             return -1;
         }
 
+        /* the current version of FFMPEG uses an inline function 
+           v52 will replace this with an external function reference
+        */
+        lib->p_av_init_packet = my_av_init_packet;
         GET_PROC_ADDRESS_AND_TEST_AVFORMAT(av_register_all);
         GET_PROC_ADDRESS_AND_TEST_AVFORMAT(av_new_stream);
         GET_PROC_ADDRESS_AND_TEST_AVFORMAT(av_set_parameters);

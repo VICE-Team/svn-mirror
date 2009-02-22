@@ -52,6 +52,7 @@ typedef void (*av_free_t) (void**);
 typedef unsigned (*avcodec_version_t) (void);
 
 /* avformat fucntions */
+typedef void (*av_init_packet_t) (AVPacket *pkt);
 typedef void (*av_register_all_t) (void);
 typedef AVStream* (*av_new_stream_t) (AVFormatContext*, int);
 typedef int (*av_set_parameters_t) (AVFormatContext*, AVFormatParameters*);
@@ -78,6 +79,7 @@ struct ffmpeglib_s {
     img_convert_t               p_img_convert;
     av_free_t                   p_av_free;
 
+    av_init_packet_t            p_av_init_packet;
     av_register_all_t           p_av_register_all;
     av_new_stream_t             p_av_new_stream;
     av_set_parameters_t         p_av_set_parameters;
