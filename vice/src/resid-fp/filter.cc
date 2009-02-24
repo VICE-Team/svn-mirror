@@ -154,7 +154,7 @@ void FilterFP::writeFC_HI(reg8 fc_hi)
 void FilterFP::writeRES_FILT(reg8 res_filt)
 {
   res = (res_filt >> 4) & 0x0f;
-  resf = (float) res;
+  resf = (float) res / 15.f;
   set_Q();
 
   filt = res_filt & 0x0f;

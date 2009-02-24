@@ -207,7 +207,8 @@ friend class SIDFP;
  * some chips have more, some less. We should make this tunable. */
 const float kinkiness = 0.966f;
 const float sidcaps_6581 = 470e-12f;
-const float outputleveldifference_lp_bp = 1.41f;
+const float outputleveldifference_lp_bp = 1.25f;
+const float outputleveldifference_bp_hp = 1.25f;
 
 RESID_INLINE
 static float fastexp(float val) {
@@ -324,10 +325,16 @@ float FilterFP::clock(float voice1,
         Vf += Vhp;
     
     if (model == MOS6581FP) {
-        /* allow some intermixing of state variables. */        
-        float tmp = Vhp + Vlp + Vbp;
+        Vi *= distortion_rate;
+
+        /* Allow some intermixing of state variables. The tmp approximates the
+         * level in the vertical strip of n-well layer above the bp FET block
+         * between lp and bp amplifiers.
+         */
+        float tmp = Vi + Vhp + Vlp - Vbp * _1_div_Q;
         Vlp += (tmp - Vlp) * distortion_cf_threshold;
-        Vbp += (tmp - Vbp) * distortion_cf_threshold;
+        /* bp is mixed via resonance control */
+        Vbp += (tmp + Vbp * _1_div_Q) * distortion_cf_threshold * _1_div_Q;
         Vhp += (tmp - Vhp) * distortion_cf_threshold;
 
         /* output strip mixing to filter state */
@@ -338,13 +345,16 @@ float FilterFP::clock(float voice1,
         if (hp_bp_lp & 4)
             Vhp += (Vf - Vhp) * distortion_cf_threshold;
 
-        float lpleak = Vi * distortion_rate * resf * (1.0f / 15.f / 6.f);
+        /* The resonance control somehow also forms a circuit that causes
+         * partial lack of compensation for the lowpass signal in the bp.
+         * output. This is just a guess. */
+        float lpleak = Vi * resf * (1.0f / 6.f);
 
         Vlp -= (Vbp - lpleak) * type3_w0(Vbp, type3_fc_distortion_offset) * outputleveldifference_lp_bp;
-        Vbp -= Vhp * type3_w0(Vhp, type3_fc_distortion_offset);
-        Vhp = (Vbp + lpleak) * _1_div_Q
-            - Vlp * (1.f/outputleveldifference_lp_bp)
-            - Vi * distortion_rate;
+        Vbp -= Vhp * type3_w0(Vhp, type3_fc_distortion_offset) * outputleveldifference_bp_hp;
+        Vhp = (Vbp + lpleak) * _1_div_Q * (1.f/outputleveldifference_bp_hp)
+            - Vlp * (1.f/outputleveldifference_lp_bp/outputleveldifference_bp_hp)
+            - Vi;
 
         /* saturate. This is likely the output inverter saturation. */
         if (Vf > 3.2e6f)
