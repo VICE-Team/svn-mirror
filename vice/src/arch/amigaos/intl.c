@@ -1457,7 +1457,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_AUTOSTART_HANDLE_TDE_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_AUTOSTART_HANDLE_TDE_NL, "Manipuleer hardwarematige drive emulatie bij autostarten"},
 /* pl */ {IDMS_AUTOSTART_HANDLE_TDE_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_AUTOSTART_HANDLE_TDE_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_AUTOSTART_HANDLE_TDE_SV, "Hantera ÄDE för autostart"},
 /* tr */ {IDMS_AUTOSTART_HANDLE_TDE_TR, ""},  /* fuzzy */
 
 /* en */ {IDMS_VIRTUAL_DEVICE_TRAPS,    "Virtual device traps"},
@@ -1572,13 +1572,13 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDMS_ENABLE_PADDLES,    "Enable Paddles"},
 /* da */ {IDMS_ENABLE_PADDLES_DA, ""},  /* fuzzy */
-/* de */ {IDMS_ENABLE_PADDLES_DE, ""},  /* fuzzy */
+/* de */ {IDMS_ENABLE_PADDLES_DE, "Paddles aktivieren"},
 /* fr */ {IDMS_ENABLE_PADDLES_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_ENABLE_PADDLES_HU, ""},  /* fuzzy */
 /* it */ {IDMS_ENABLE_PADDLES_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_ENABLE_PADDLES_NL, "Aktiveer Paddles"},
 /* pl */ {IDMS_ENABLE_PADDLES_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_ENABLE_PADDLES_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_ENABLE_PADDLES_SV, "Aktivera paddlar"},
 /* tr */ {IDMS_ENABLE_PADDLES_TR, ""},  /* fuzzy */
 
 /* en */ {IDMS_IEEE_488_INTERFACE,    "IEEE 488 Interface emulation"},
@@ -2837,7 +2837,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SERVER_BIND_IT, ""},  /* fuzzy */
 /* nl */ {IDS_SERVER_BIND_NL, "Server binding"},
 /* pl */ {IDS_SERVER_BIND_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SERVER_BIND_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SERVER_BIND_SV, "Serverbindning"},
 /* tr */ {IDS_SERVER_BIND_TR, ""},  /* fuzzy */
 
 /* en */ {IDS_CONNECT_TO,    "Connect to"},
@@ -6215,13 +6215,13 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_MOUSE_PADDLES,    "Paddle"},
 /* da */ {IDS_MOUSE_PADDLES_DA, ""},  /* fuzzy */
-/* de */ {IDS_MOUSE_PADDLES_DE, ""},  /* fuzzy */
+/* de */ {IDS_MOUSE_PADDLES_DE, "Paddle"},
 /* fr */ {IDS_MOUSE_PADDLES_FR, ""},  /* fuzzy */
 /* hu */ {IDS_MOUSE_PADDLES_HU, ""},  /* fuzzy */
 /* it */ {IDS_MOUSE_PADDLES_IT, ""},  /* fuzzy */
 /* nl */ {IDS_MOUSE_PADDLES_NL, "Paddle"},
 /* pl */ {IDS_MOUSE_PADDLES_PL, ""},  /* fuzzy */
-/* sv */ {IDS_MOUSE_PADDLES_SV, ""},  /* fuzzy */
+/* sv */ {IDS_MOUSE_PADDLES_SV, "Paddel"},
 /* tr */ {IDS_MOUSE_PADDLES_TR, ""},  /* fuzzy */
 
 };

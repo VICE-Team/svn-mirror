@@ -6067,7 +6067,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT           "Nuvarande läge",IDC_STATIC, 9,8,45,8
     EDITTEXT        IDC_NETWORK_MODE, 60,7,75,12,WS_TABSTOP
-    LTEXT           "Server Bind",IDC_STATIC, 9,27,50,8
+    LTEXT           "Serverbindning",IDC_STATIC, 9,27,50,8
     EDITTEXT        IDC_NETWORK_SERVER_BIND, 45,26,90,12,WS_TABSTOP
     LTEXT           "TCP-Port",IDC_STATIC, 9,42,30,8
     EDITTEXT        IDC_NETWORK_PORT, 45,41,30,12,WS_TABSTOP
