@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-02-20 14:59+0100\n"
-"PO-Revision-Date: 2009-01-22 13:42+0100\n"
+"PO-Revision-Date: 2009-02-24 15:11+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -36,14 +36,12 @@ msgid "Specify MIDI-Out device"
 msgstr "Ange enhet för MIDI-ut"
 
 #: src/arch/unix/mididrv.c:670
-#, fuzzy
 msgid "<driver>"
-msgstr "WMM-drivrutin"
+msgstr "<drivrutin>"
 
 #: src/arch/unix/mididrv.c:670
-#, fuzzy
 msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
-msgstr "Ange SID-motor (0: FastSID, 1: ReSID)"
+msgstr "Ange MIDI-drivrutin (0 = OSS, 1 = ALSA)"
 
 #: src/arch/unix/rs232.c:160 src/arch/unix/rs232.c:165
 #: src/arch/unix/rs232.c:170 src/arch/unix/rs232.c:175
@@ -4648,9 +4646,8 @@ msgid "Current mode"
 msgstr "Nuvarande läge"
 
 #: src/arch/win32/res.rc.po.c:5304 src/arch/amigaos/intl.c.po.c:2805
-#, fuzzy
 msgid "Server Bind"
-msgstr "Server"
+msgstr "Serverbindning"
 
 #: src/arch/win32/res.rc.po.c:5306 src/arch/amigaos/intl.c.po.c:2783
 msgid "TCP-Port"
@@ -7817,9 +7814,8 @@ msgid "VIC-1112 IEEE &488 module"
 msgstr "VIC-1112 IEEE &488-modul"
 
 #: src/arch/win32/resvic20.rc.po.c:1855 src/arch/amigaos/intl.c.po.c:1546
-#, fuzzy
 msgid "Enable Paddles"
-msgstr "*Aktivera paddlar"
+msgstr "Aktivera paddlar"
 
 #: src/arch/win32/resvic20.rc.po.c:1856
 msgid "4/8/16KB image at $&2000..."
@@ -8170,9 +8166,8 @@ msgid "True drive emulation"
 msgstr "Äkta diskettenhetsemulering"
 
 #: src/arch/amigaos/intl.c.po.c:1425
-#, fuzzy
 msgid "Handle TDE for autostart"
-msgstr "Ha&ntera ÄDE för autostart"
+msgstr "Hantera ÄDE för autostart"
 
 #: src/arch/amigaos/intl.c.po.c:1436
 msgid "Virtual device traps"
@@ -9165,9 +9160,8 @@ msgid "Amiga mouse"
 msgstr "Amigamus"
 
 #: src/arch/amigaos/intl.c.po.c:6189
-#, fuzzy
 msgid "Paddle"
-msgstr "Väntar"
+msgstr "Paddel"
 
 #: src/translate.c.po.c:112
 msgid "Cannot load snapshot file."
