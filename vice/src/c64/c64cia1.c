@@ -118,11 +118,11 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
     }
 
 #ifdef HAVE_MOUSE
+    mouse_set_paddle_port((b >> 6) & 0x03);
+
     if (_mouse_enabled) {
         if ((mouse_type == MOUSE_TYPE_NEOS) && (mouse_port == 2)) {
             neos_mouse_store(b);
-        } else if (mouse_type == MOUSE_TYPE_PADDLE) {
-            mouse_set_paddle_port((b >> 6) & 0x03);
         }
     }
 #endif
