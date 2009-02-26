@@ -70,12 +70,12 @@ void fullscreen_set_res_from_current_display(void)
 /* check if the fullscreen resource values are valid */
 static int fullscrn_res_valid(void)
 {
-    int width, height, bitdepth, refreshrate;
+    int device, width, height, bitdepth, refreshrate;
 
-    GetCurrentModeParameters(&width, &height, &bitdepth,&refreshrate);
+    GetCurrentModeParameters(&device, &width, &height, &bitdepth,&refreshrate);
     
     /* FIXME: May use modelist to check if combination is valid */
-    if (width <= 0 || height <= 0 || bitdepth <= 0 || refreshrate < 0)
+    if (device < 0 || width <= 0 || height <= 0 || bitdepth <= 0 || refreshrate < 0)
         return -1;
 
     return 0;
@@ -125,9 +125,10 @@ void ui_fullscreen_shutdown(void)
 }
 
 
-void GetCurrentModeParameters(int *width, int *height, int *bitdepth,
-                              int *refreshrate)
+void GetCurrentModeParameters(int *device, int *width, int *height,
+							  int *bitdepth, int *refreshrate)
 {
+    resources_get_int("FullscreenDevice", device);
     resources_get_int("FullscreenBitdepth", bitdepth);
     resources_get_int("FullscreenWidth", width);
     resources_get_int("FullscreenHeight", height);
@@ -213,9 +214,9 @@ void ResumeFullscreenMode(HWND hwnd)
 
 void SuspendFullscreenModeKeep(HWND hwnd)
 {
-    int width, height, bitdepth, rate;
+    int device, width, height, bitdepth, rate;
 
-    GetCurrentModeParameters(&width, &height, &bitdepth, &rate);
+    GetCurrentModeParameters(&device, &width, &height, &bitdepth, &rate);
     if (video_dx9_enabled() || ((width < 640) && (height < 480))) {
         SuspendFullscreenMode(hwnd);
     } else {
@@ -230,9 +231,9 @@ void SuspendFullscreenModeKeep(HWND hwnd)
 
 void ResumeFullscreenModeKeep(HWND hwnd)
 {
-    int width, height, bitdepth, rate;
+    int device, width, height, bitdepth, rate;
 
-    GetCurrentModeParameters(&width, &height, &bitdepth, &rate);
+    GetCurrentModeParameters(&device, &width, &height, &bitdepth, &rate);
     if (video_dx9_enabled() || ((width < 640) && (height < 480))) {
         ResumeFullscreenMode(hwnd);
     } else {

@@ -294,6 +294,7 @@ int video_set_physical_colors(video_canvas_t *c)
 void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
                          unsigned int height)
 {
+	int device;
     int fullscreen_width;
     int fullscreen_height;
     int bitdepth;
@@ -308,8 +309,8 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
     canvas->width = width;
     canvas->height = height;
     if (IsFullscreenEnabled()) {
-        GetCurrentModeParameters(&fullscreen_width, &fullscreen_height,
-                                 &bitdepth, &refreshrate);
+        GetCurrentModeParameters(&device, &fullscreen_width,
+								 &fullscreen_height, &bitdepth, &refreshrate);
     } else {
         canvas->client_width = width;
         canvas->client_height = height;

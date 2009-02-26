@@ -73,6 +73,7 @@ void video_shutdown_dx9(void)
 int video_device_create_dx9(video_canvas_t *canvas, int fullscreen)
 {
     D3DPRESENT_PARAMETERS d3dpp;
+	int device = D3DADAPTER_DEFAULT;
 
     ZeroMemory(&d3dpp, sizeof(d3dpp));
     d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
@@ -86,7 +87,8 @@ int video_device_create_dx9(video_canvas_t *canvas, int fullscreen)
 
     if (fullscreen) {
         int width, height, bitdepth, refreshrate;
-        GetCurrentModeParameters(&width, &height, &bitdepth, &refreshrate);
+        GetCurrentModeParameters(&device, &width, &height,
+								 &bitdepth, &refreshrate);
         d3dpp.Windowed = FALSE;
         d3dpp.BackBufferWidth = width;
         d3dpp.BackBufferHeight = height;
@@ -183,8 +185,9 @@ HRESULT video_canvas_reset_dx9(video_canvas_t *canvas)
     canvas->d3dsurface = NULL;
 
     if (d3dpp.Windowed == 0) {
-        int width, height, bitdepth, refreshrate;
-        GetCurrentModeParameters(&width, &height, &bitdepth, &refreshrate);
+        int device, width, height, bitdepth, refreshrate;
+        GetCurrentModeParameters(&device, &width, &height,
+								 &bitdepth, &refreshrate);
         d3dpp.BackBufferWidth = width;
         d3dpp.BackBufferHeight = height;
     } else {

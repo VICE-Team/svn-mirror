@@ -217,12 +217,10 @@ void fullscreen_getmodes_ddraw(void)
 }
 
 
-static GUID *GetGUIDForActualDevice()
+static GUID *GetGUIDForActualDevice(int device)
 {
-    int device;
     DirectDrawDeviceList *search_device;
 
-    resources_get_int("FullscreenDevice", &device);
     search_device = devices;
     while (search_device != NULL) {
         if (device == 0) {
@@ -260,6 +258,7 @@ void SwitchToFullscreenModeDDraw(HWND hwnd)
     int fullscreen_height;
     int bitdepth;
     int refreshrate;
+	int device;
     video_canvas_t *c;
     HRESULT ddresult;
     DDSURFACEDESC desc2;
@@ -269,8 +268,8 @@ void SwitchToFullscreenModeDDraw(HWND hwnd)
 
     fullscreen_transition = 1;
     //  Get fullscreen parameters
-    GetCurrentModeParameters(&fullscreen_width, &fullscreen_height, &bitdepth,
-                             &refreshrate);
+    GetCurrentModeParameters(&device, &fullscreen_width, &fullscreen_height,
+							 &bitdepth, &refreshrate);
     //  Get the Canvas for this window
     c = video_canvas_for_hwnd(hwnd);
 
@@ -308,7 +307,7 @@ void SwitchToFullscreenModeDDraw(HWND hwnd)
     SetWindowPos(hwnd, HWND_NOTOPMOST, 0, 0, w, h, SWP_NOCOPYBITS);
     ShowCursor(FALSE);
 
-    device_guid = GetGUIDForActualDevice();
+    device_guid = GetGUIDForActualDevice(device);
     ddresult = DirectDrawCreate(device_guid, &c->dd_object, NULL);
     ddresult = IDirectDraw_SetCooperativeLevel(c->dd_object, c->hwnd,
                                                DDSCL_EXCLUSIVE

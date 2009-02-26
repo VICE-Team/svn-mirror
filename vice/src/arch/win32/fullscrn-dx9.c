@@ -83,7 +83,7 @@ void fullscreen_getmodes_dx9(void)
         numAdapterModes = IDirect3D9_GetAdapterModeCount(d3d, adapter, D3DFMT_X8R8G8B8);
     
         for (mode = 0; mode < numAdapterModes; mode++) {
-            if (S_OK == IDirect3D9_EnumAdapterModes(d3d, D3DADAPTER_DEFAULT, 
+            if (S_OK == IDirect3D9_EnumAdapterModes(d3d, adapter, 
                                                     D3DFMT_X8R8G8B8, mode, &displayMode))
             {
                 new_mode = lib_malloc(sizeof(DirectDrawModeList));

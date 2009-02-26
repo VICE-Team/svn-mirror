@@ -51,8 +51,8 @@ typedef struct _ML {
 } DirectDrawModeList;
 
 
-extern void GetCurrentModeParameters(int *width, int *height, int *bitdepth,
-                                     int *refreshrate);
+extern void GetCurrentModeParameters(int *device, int *width, int *height,
+									 int *bitdepth, int *refreshrate);
 extern void ui_fullscreen_init(void);
 extern void ui_fullscreen_shutdown(void);
 extern void fullscreen_set_res_from_current_display(void);
