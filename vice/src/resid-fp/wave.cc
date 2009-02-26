@@ -157,7 +157,7 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
      * more powerfully than mere 0-bit would, so I'm actually supplying a
      * negative value for this. Tel's song called 'Digi-Piece for Telecomsoft'
      * uses the pulse-low suppression. */
-    float pulse = (accumulator >> 12) >= pw ? 1.0f : -1.0f;
+    float pulse = (accumulator >> 12) >= pw ? 1.0f : -2.0f;
     float tmp[12];
     for (i = 0; i < 12; i ++) {
         float avg = 0;
