@@ -84,7 +84,7 @@ void WaveformGenerator::writeCONTROL_REG(reg8 control)
 
 reg8 WaveformGenerator::readOSC()
 {
-  return outputN___();
+  return outputN___() >> 4;
 }
 
 /* LFSR is clocked if the bit 19 is incremented */

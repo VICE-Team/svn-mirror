@@ -122,8 +122,7 @@ void WaveformGenerator::clock_noise()
     ((shift_register & 0x000080) >> 1) |
     ((shift_register & 0x000010) << 1) |
     ((shift_register & 0x000007) << 2);
-  if (noise & 0x4)
-    noise |= 3;
+  noise |= bit0 ? 0x3 : 0x0;
 }
 
 // ----------------------------------------------------------------------------
@@ -147,7 +146,7 @@ void WaveformGenerator::clock()
   msb_rising = !(accumulator_prev & 0x800000) && (accumulator & 0x800000);
 
   // Shift noise register once for each time accumulator bit 19 is set high.
-  if (!(accumulator_prev & 0x080000) && (accumulator & 0x080000)) {
+  if (!(accumulator_prev & 0x100000) && (accumulator & 0x100000)) {
     clock_noise();
   }
 }
