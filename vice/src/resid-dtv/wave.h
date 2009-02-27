@@ -114,18 +114,16 @@ void WaveformGenerator::clock_noise()
   shift_register |= bit0;
     
   noise =
-    ((shift_register & 0x400000) >> 15) |
-    ((shift_register & 0x100000) >> 14) |
-    ((shift_register & 0x010000) >> 11) |
-    ((shift_register & 0x002000) >> 9) |
-    ((shift_register & 0x000800) >> 8) |
-    ((shift_register & 0x000080) >> 5) |
-    ((shift_register & 0x000010) >> 3) |
-    ((shift_register & 0x000004) >> 2);
-  noise <<= 4;
-  /* Jeri appears to have expanded the noise register */
-  if (bit0)
-    noise |= 0xf;
+    ((shift_register & 0x400000) >> 11) |
+    ((shift_register & 0x100000) >> 10) |
+    ((shift_register & 0x010000) >> 7) |
+    ((shift_register & 0x002000) >> 5) |
+    ((shift_register & 0x000800) >> 4) |
+    ((shift_register & 0x000080) >> 1) |
+    ((shift_register & 0x000010) << 1) |
+    ((shift_register & 0x000007) << 2);
+  if (noise & 0x4)
+    noise |= 3;
 }
 
 // ----------------------------------------------------------------------------
