@@ -105,7 +105,7 @@ void WaveformGenerator::reset()
 {
   accumulator = 0;
   counter = 0;
-  shift_register = 0x7ffffc;
+  shift_register = 0x7fffff;
   noise = 0xfff;
   freq = 0;
   pw = 0;
