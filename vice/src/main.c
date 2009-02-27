@@ -62,7 +62,7 @@
 #include "translate.h"
 #endif
 #include "types.h"
-#include "ui.h"
+#include "uiapi.h"
 #include "version.h"
 #include "video.h"
 

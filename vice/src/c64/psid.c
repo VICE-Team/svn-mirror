@@ -40,7 +40,7 @@
 #include "resources.h"
 #include "translate.h"
 #include "types.h"
-#include "ui.h"
+#include "uiapi.h"
 #include "vsidui.h"
 #include "vsync.h"
 #include "zfile.h"

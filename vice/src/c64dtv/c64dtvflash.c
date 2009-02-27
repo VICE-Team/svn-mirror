@@ -38,7 +38,7 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
-#include "ui.h"
+#include "uiapi.h"
 #include "util.h"
 #include "sysfile.h"
 #include "resources.h"

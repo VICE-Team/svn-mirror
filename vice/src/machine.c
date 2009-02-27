@@ -62,7 +62,7 @@
 #include "tape.h"
 #include "traps.h"
 #include "types.h"
-#include "ui.h"
+#include "uiapi.h"
 #include "video.h"
 #include "vsync.h"
 #include "zfile.h"

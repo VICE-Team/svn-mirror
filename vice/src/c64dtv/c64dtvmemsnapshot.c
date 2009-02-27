@@ -44,7 +44,7 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "types.h"
-#include "ui.h"
+#include "uiapi.h"
 
 #include "c64dtvmem.h"
 #include "c64dtvflash.h"

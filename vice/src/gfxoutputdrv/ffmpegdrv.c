@@ -40,7 +40,7 @@
 #include "resources.h"
 #include "screenshot.h"
 #include "translate.h"
-#include "ui.h"
+#include "uiapi.h"
 #include "util.h"
 #include "vsync.h"
 #include "../sounddrv/soundmovie.h"

@@ -31,7 +31,7 @@
 
 #include "c64export.h"
 #include "translate.h"
-#include "ui.h"
+#include "uiapi.h"
 
 
 static const char *usage_roml, *usage_romh;

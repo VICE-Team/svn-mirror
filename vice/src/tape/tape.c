@@ -50,7 +50,7 @@
 #include "tapeimage.h"
 #include "traps.h"
 #include "types.h"
-#include "ui.h"
+#include "uiapi.h"
 
 
 /* #define DEBUG_TAPE */

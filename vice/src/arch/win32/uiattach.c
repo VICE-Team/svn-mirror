@@ -41,6 +41,7 @@
 #include "tape.h"
 #include "translate.h"
 #include "ui.h"
+#include "uiapi.h"
 #include "uiattach.h"
 #include "uilib.h"
 

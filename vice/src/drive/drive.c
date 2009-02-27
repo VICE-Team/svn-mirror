@@ -65,7 +65,7 @@
 #include "resources.h"
 #include "rotation.h"
 #include "types.h"
-#include "ui.h"
+#include "uiapi.h"
 
 
 drive_context_t *drive_context[DRIVE_NUM];

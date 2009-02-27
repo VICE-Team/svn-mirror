@@ -53,7 +53,7 @@
 #include "sid-resources.h"
 #include "sid.h"
 #include "types.h"
-#include "ui.h"
+#include "uiapi.h"
 #include "vic-mem.h"
 #include "vic20-resources.h"
 #include "vic20ieeevia.h"

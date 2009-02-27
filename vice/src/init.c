@@ -58,7 +58,7 @@
 #include "screenshot.h"
 #include "signals.h"
 #include "sysfile.h"
-#include "ui.h"
+#include "uiapi.h"
 #include "vdrive.h"
 
 

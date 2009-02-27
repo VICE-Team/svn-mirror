@@ -45,7 +45,7 @@
 #include "tap.h"
 #include "translate.h"
 #include "types.h"
-#include "ui.h"
+#include "uiapi.h"
 
 
 #define MOTOR_DELAY         32000

@@ -58,7 +58,7 @@
 #include "tape.h"
 #include "translate.h"
 #include "types.h"
-#include "ui.h"
+#include "uiapi.h"
 #include "util.h"
 #include "vdrive.h"
 #include "vdrive-bam.h"

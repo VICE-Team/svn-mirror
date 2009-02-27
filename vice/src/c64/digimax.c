@@ -38,7 +38,7 @@
 #include "resources.h"
 #include "sid.h"
 #include "sound.h"
-#include "ui.h"
+#include "uiapi.h"
 #include "translate.h"
 
 /* Flag: Do we enable the external DIGIMAX cartridge?  */

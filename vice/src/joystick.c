@@ -44,7 +44,7 @@
 #include "maincpu.h"
 #include "network.h"
 #include "snapshot.h"
-#include "ui.h"
+#include "uiapi.h"
 #include "types.h"
 #include "log.h"
 #include "resources.h"

@@ -51,7 +51,7 @@
 #include "sid.h"
 #include "translate.h"
 #include "types.h"
-#include "ui.h"
+#include "uiapi.h"
 #include "util.h"
 #include "vicii-phi1.h"
 #include "vicii.h"

@@ -44,7 +44,7 @@
 #include "georam.h"
 #include "snapshot.h"
 #include "types.h"
-#include "ui.h"
+#include "uiapi.h"
 
 #ifdef HAVE_RS232
 #include "c64acia.h"

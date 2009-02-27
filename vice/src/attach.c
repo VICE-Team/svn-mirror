@@ -46,7 +46,7 @@
 #include "snapshot.h"
 #include "translate.h"
 #include "types.h"
-#include "ui.h"
+#include "uiapi.h"
 #include "vdrive-bam.h"
 #include "vdrive-iec.h"
 #include "vdrive.h"
