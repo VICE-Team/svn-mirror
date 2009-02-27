@@ -348,7 +348,7 @@ float FilterFP::clock(float voice1,
         /* The resonance control somehow also forms a circuit that causes
          * partial lack of compensation for the lowpass signal in the bp.
          * output. This is just a guess. */
-        float lpleak = Vi * resf * (1.0f / 6.f);
+        float lpleak = Vi * resf * (1.0f / 5.f);
 
         Vlp -= (Vbp - lpleak) * type3_w0(Vbp, type3_fc_distortion_offset) * outputleveldifference_lp_bp;
         Vbp -= Vhp * type3_w0(Vhp, type3_fc_distortion_offset) * outputleveldifference_bp_hp;

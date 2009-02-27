@@ -129,28 +129,28 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec)
       break;
 
     case SID_MODEL_6581R3_4885:
-      psid->sid->get_filter().set_type3_properties(8.5e5f, 2.2e6f, 1.0075f, 1.8e4f);
+      psid->sid->get_filter().set_type3_properties(840577.4520801408f, 1909158.8633669745f, 1.0068865662510837f, 14858.140079688419f);
       strcpy(model_text, "6581R3 4885");
       break;
     case SID_MODEL_6581R3_0486S:
-      psid->sid->get_filter().set_type3_properties(1.1e6f, 1.5e7f, 1.006f, 1e4f);
+      psid->sid->get_filter().set_type3_properties(1164920.4999651583f, 12915042.165290257f, 1.0058853753357735f, 12914.5661141159f);
       strcpy(model_text, "6581R3 0486S");
       break;
     case SID_MODEL_6581R3_3984:
-      psid->sid->get_filter().set_type3_properties(1.8e6f, 3.5e7f, 1.0051f, 1.45e4f);
+      psid->sid->get_filter().set_type3_properties(1791818.499169074f, 35564657.77812113f, 1.0051916772894813f, 16797.553721476484f);
       strcpy(model_text, "6581R3 3984");
       break;
     default:
     case SID_MODEL_6581R4AR_3789:
-      psid->sid->get_filter().set_type3_properties(1.37e6f, 1.70e8f, 1.006f, 1.55e4f);
+      psid->sid->get_filter().set_type3_properties(1299501.5675945764f, 284015710.29875594f, 1.0065089724604026f, 18741.324073610594f);
       strcpy(model_text, "6581R4AR 3789");
       break;
     case SID_MODEL_6581R3_4485:
-      psid->sid->get_filter().set_type3_properties(1.3e6f, 5.2e8f, 1.0053f, 1.1e4f);
+      psid->sid->get_filter().set_type3_properties(1319746.6334817847f, 325484805.5228794f, 1.0049967859070095f, 8865.676531378584f);
       strcpy(model_text, "6581R3 4485");
       break;
     case SID_MODEL_6581R4_1986S:
-      psid->sid->get_filter().set_type3_properties(1.33e6f, 2.2e9f, 1.0056f, 7e3f);
+      psid->sid->get_filter().set_type3_properties(1326141.6346824165f, 2059653512.4261823f, 1.0055788469632323f, 7591.487542582334f);
       strcpy(model_text, "6581R4 1986S");
       break;
     }
