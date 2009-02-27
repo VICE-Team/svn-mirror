@@ -111,7 +111,6 @@ void WaveformGenerator::clock_noise()
 {
   reg24 bit0 = ((shift_register >> 22) ^ (shift_register >> 17)) & 0x1;
   shift_register <<= 1;
-  shift_register &= 0x7fffff;
   shift_register |= bit0;
     
   noise =
@@ -123,6 +122,7 @@ void WaveformGenerator::clock_noise()
     ((shift_register & 0x000080) >> 5) |
     ((shift_register & 0x000010) >> 3) |
     ((shift_register & 0x000004) >> 2);
+  noise <<= 4;
 }
 
 // ----------------------------------------------------------------------------
@@ -180,7 +180,7 @@ RESID_INLINE
 reg8 WaveformGenerator::output___T()
 {
   reg24 msb = (ring_mod ? sync_source->accumulator : accumulator) & 0x800000;
-  return ((msb ? ~accumulator : accumulator) >> 15) & 0xff;
+  return ((msb ? ~accumulator : accumulator) >> 11) & 0xfff;
 }
 
 // Sawtooth:
@@ -189,7 +189,7 @@ reg8 WaveformGenerator::output___T()
 RESID_INLINE
 reg8 WaveformGenerator::output__S_()
 {
-  return accumulator >> 16;
+  return accumulator >> 12;
 }
 
 // Pulse:
@@ -205,7 +205,7 @@ reg8 WaveformGenerator::output__S_()
 RESID_INLINE
 reg8 WaveformGenerator::output_P__()
 {
-  return (accumulator >> 12) >= pw ? 0xff : 0x00;
+  return (accumulator >> 12) >= pw ? 0xfff : 0x00;
 }
 
 // Noise:
@@ -239,7 +239,7 @@ reg8 WaveformGenerator::outputN___()
 RESID_INLINE
 unsigned int WaveformGenerator::output()
 {
-  reg8 output = 0;
+  reg12 output = 0;
   if (waveform & 0x1)
     output |= output___T();
   if (waveform & 0x2)
@@ -249,9 +249,15 @@ unsigned int WaveformGenerator::output()
   if (waveform & 0x8)
     output |= outputN___();
 
-  counter += output;
-  counter &= 0x7;
-  return wave_env_train_lut[output][counter];
+  /* conversion to sigma-delta bittrain, earliest bit in sequence MSB */
+  unsigned int bt = 0;
+  for (int i = 0; i < 32; i ++) {
+    bt <<= 1;
+    counter += output;
+    bt |= counter >> 12;
+    counter &= 0xfff;
+  }
+  return bt;
 }
 
 #endif // RESID_INLINING || defined(__WAVE_CC__)
