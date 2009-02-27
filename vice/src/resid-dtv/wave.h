@@ -123,6 +123,9 @@ void WaveformGenerator::clock_noise()
     ((shift_register & 0x000010) >> 3) |
     ((shift_register & 0x000004) >> 2);
   noise <<= 4;
+  /* Jeri appears to have expanded the noise register */
+  if (bit0)
+    noise |= 0xf;
 }
 
 // ----------------------------------------------------------------------------
@@ -252,8 +255,8 @@ unsigned int WaveformGenerator::output()
   /* conversion to sigma-delta bittrain, earliest bit in sequence MSB */
   unsigned int bt = 0;
   for (int i = 0; i < 32; i ++) {
-    bt <<= 1;
     counter += output;
+    bt <<= 1;
     bt |= counter >> 12;
     counter &= 0xfff;
   }
