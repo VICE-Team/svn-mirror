@@ -26,7 +26,7 @@ typedef struct {
     float distance;
 } waveformconfig_t;
 
-const float sharpness = 48.f;
+const float sharpness = 24.f;
 const waveformconfig_t wfconfig[2][4] = {
   { /* kevtris chip D */
     { 0.9157283f, 2.21507f,   }, /* 3 */
@@ -189,13 +189,14 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
   for (i = 0; i < 12; i ++) {
     o[i] = (o[i] - config.bias) * sharpness;
 
-    o[i] += 0.5f;
+    o[i] += 0.707107f;
     if (o[i] > 1.f) {
        o[i] = 1.f;
     }
     if (o[i] < 0.f) {
         o[i] = 0.;
     }
+    o[i] = o[i] * o[i];
   }
 }
 
