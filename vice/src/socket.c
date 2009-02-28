@@ -34,6 +34,7 @@
 
 #ifdef HAVE_NETWORK
 
+#include <assert.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
@@ -43,7 +44,19 @@
 #include "socket.h"
 #include "socketimpl.h"
 
+/*! \brief determine the number of elements of an array
+
+ \param _x
+   The array of which the size is to be determined
+
+ \remark
+   The count of elements of the array
+
+ \remark
+   Make sure to really pass an array, not a pointer, as _x
+*/
 #define arraysize(_x) ( sizeof _x / sizeof _x[0] )
+
 
 union socket_addresses_u {
     struct sockaddr     generic;
@@ -69,39 +82,74 @@ struct vice_network_socket_address_s
 };
 
 #ifndef HAVE_HTONL
-#ifndef htonl
+# ifndef htonl
+/*! \brief convert a long from host order into network order
+
+ \param ip
+   The value in host order which is to be converted into network order
+
+ \return
+   The value in network order
+   
+ \remark
+   This implementation is only used if the architecture does
+   not already provide it.
+
+*/
 static unsigned int htonl(unsigned int ip)
 {
-#ifdef WORDS_BIGENDIAN
+#  ifdef WORDS_BIGENDIAN
     return ip;
-#else /* !WORDS_BIGENDIAN */
+#  else /* !WORDS_BIGENDIAN */
     unsigned int ip2;
 
     ip2=((ip>>24)&0xff)+(((ip>>16)&0xff)<<8)+(((ip>>8)&0xff)<<16)+((ip&0xff)<<24);
     return ip2;
-#endif /* WORDS_BIGENDIAN */
+#  endif /* WORDS_BIGENDIAN */
 }
-#endif /* !htonl */
+# endif /* !htonl */
 #endif /* !HAVE_HTONL */
 
 #ifndef HAVE_HTONS
-#ifndef htons
+# ifndef htons
+/*! \brief convert a short from host order into network order
+
+ \param ip
+   The value in host order which is to be converted into network order
+
+ \return
+   The value in network order
+   
+ \remark
+   This implementation is only used if the architecture does
+   not already provide it.
+
+*/
 static unsigned short htons(unsigned short ip)
 {
-#ifdef WORDS_BIGENDIAN
+#  ifdef WORDS_BIGENDIAN
     return ip;
-#else /* !WORDS_BIGENDIAN */
+#  else /* !WORDS_BIGENDIAN */
     unsigned short ip2;
 
     ip2=((ip>>8)&0xff)+((ip&0xff)<<8);
     return ip2;
-#endif /* WORDS_BIGENDIAN */
+#  endif /* WORDS_BIGENDIAN */
 }
-#endif /* !htons */
+# endif /* !htons */
 #endif /* !HAVE_HTONS */
 
+/*! \internal \brief a memory pool for network addresses */
 static vice_network_socket_address_t address_pool[16] = { { 0 } };
 
+/*! \brief Initialize networking
+
+   Initialisation that is needed in order to work with
+   sockets has to be done here.
+
+  \return
+   0 on success, else -1.
+*/
 int vice_network_init(void)
 {
 #if defined(AMIGA_SUPPORT) && !defined(AMIGA_OS4)
@@ -115,6 +163,10 @@ int vice_network_init(void)
     return 0;
 }
 
+/*! \brief uninitialize networking
+
+  Undo the initialisations done in vice_network_init().
+*/
 void vice_network_shutdown(void)
 {
 #if defined(AMIGA_SUPPORT) && !defined(AMIGA_OS4)
@@ -125,10 +177,26 @@ void vice_network_shutdown(void)
 #endif
 }
 
+/*! \brief Open a socket and initialise it for server operation
+
+  \param server_address
+     The address of the server to which to bind to.
+
+  \return
+     0 on error;
+     else, a handle to the socket on success.
+
+  \remark
+     The server_address variable determines the type of
+     socket to be used (IPv4, IPv6, Unix Domain Socket, ...)
+     Thus, server_address must not be NULL.
+*/
 vice_network_socket_t vice_network_server(const vice_network_socket_address_t * server_address)
 {
     int sockfd = INVALID_SOCKET;
     int error = 1;
+
+    assert(server_address != NULL);
 
     do {
         sockfd = socket(server_address->domain, SOCK_STREAM, server_address->protocol);
@@ -157,10 +225,25 @@ vice_network_socket_t vice_network_server(const vice_network_socket_address_t * 
     return (vice_network_socket_t) (sockfd ^ INVALID_SOCKET);
 }
 
+/*! \brief Open a socket and initialise it for client operation
+
+  \param server_address
+     The address of the server to which to connect to.
+
+  \return
+     0 on error;
+     else, a handle to the socket on success.
+
+  \remark
+     The server_address variable determines the type of
+     socket to be used (IPv4, IPv6, Unix Domain Socket, ...)
+*/
 vice_network_socket_t vice_network_client(const vice_network_socket_address_t * server_address)
 {
     int sockfd = INVALID_SOCKET;
     int error = 1;
+
+    assert(server_address != NULL);
 
     do {
         sockfd = socket(server_address->domain, SOCK_STREAM, server_address->protocol);
@@ -186,6 +269,16 @@ vice_network_socket_t vice_network_client(const vice_network_socket_address_t * 
     return (vice_network_socket_t) (sockfd ^ INVALID_SOCKET);
 }
 
+/*! \internal \brief Get a free memory area for a socket address
+
+  \return
+     NULL on error;
+     else, a pointer to an empty vice_network_socket_address_t structure
+
+  \remark
+     If not used anymore, the returned pointer must be freed
+     with a call to vice_network_address_close().
+*/
 static vice_network_socket_address_t * vice_network_alloc_new_socket_address(void)
 {
     vice_network_socket_address_t * return_address = NULL;
@@ -205,6 +298,35 @@ static vice_network_socket_address_t * vice_network_alloc_new_socket_address(voi
     return return_address;
 }
 
+/*! \internal \brief Generate an IPv4 socket address
+
+  Initialises a socket address with an IPv4 address.
+
+  \param socket_address
+     Pointer to an empty socket address that will be initialized
+
+  \param address_string
+     A string describing the address to set.
+
+  \param port
+     A default port number. If address_string does not
+     specify a port number, the number here will be used.
+     If address_string specifies a port number, that one
+     will be used instead.
+
+  \return
+     0 on success,
+     else an error occurred.
+
+  \remark
+     address_string must be specified in the form
+     <host>
+     or
+     <host>:<port>
+     with <host> being the name or the IPv4 address of the host,
+     and <port> being the port number. If the first form is used,
+     the default port will be used.
+*/
 static int vice_network_address_generate_ipv4(vice_network_socket_address_t * socket_address, const char * address_string, unsigned short port)
 {
     const char * address_part = address_string;
@@ -307,11 +429,54 @@ static int vice_network_address_generate_ipv4(vice_network_socket_address_t * so
     return error;
 }
 
+/*! \internal \brief Generate an IPv6 socket address
+
+  Initialises a socket address with an IPv6 address.
+
+  \param socket_address
+     Pointer to an empty socket address that will be initialized
+
+  \param address_string
+     A string describing the address to set.
+
+  \param port
+     A default port number. If address_string does not
+     specify a port number, the number here will be used.
+     If address_string specifies a port number, that one
+     will be used instead.
+
+  \return
+     0 on success,
+     else an error occurred.
+
+  \remark
+     address_string must be specified in one of the forms
+     <host>
+     or
+     [<host>]:<port>
+     with <hostname> being the name of the host,
+     <hostipv6> being the IP of the host, and
+     <host> being the name of the host or its IPv6,
+     and <port> being the port number.
+
+     The extra braces [...] in case the port is specified are
+     needed as IPv6 addresses themselves already contain colons,
+     and it would be impossible to clearly distinguish between
+     an IPv6 address, and an IPv6 address where a port has been
+     specified. This format is a common one.
+
+  \remark
+     On platforms which do not support IPv6, this function
+     returns -1 as error.
+
+  \todo
+     Specifying a port is not implemented yet.
+*/
 static int vice_network_address_generate_ipv6(vice_network_socket_address_t * socket_address, const char * address_string, unsigned short port)
 {
+#ifdef HAVE_IPV6
     int error = 1;
 
-#ifdef HAVE_IPV6
     do {
         struct hostent * host_entry = NULL;
         int err6;
@@ -344,24 +509,47 @@ static int vice_network_address_generate_ipv6(vice_network_socket_address_t * so
         error = 0;
 
     } while (0);
-#else /* #ifdef HAVE_IPV6 */
-    log_message(LOG_DEFAULT, "IPv6 is not supported in this installation of VICE!\n");
-#endif /* #ifdef HAVE_IPV6 */
 
     return error;
+#else /* #ifdef HAVE_IPV6 */
+    log_message(LOG_DEFAULT, "IPv6 is not supported in this installation of VICE!\n");
+    return -1;
+#endif /* #ifdef HAVE_IPV6 */
 }
 
-static int vice_network_address_generate_local(vice_network_socket_address_t * socket_address, const char * address_string, unsigned short port)
+/*! \internal \brief Generate a unix domain socket address
+
+  Initialises a socket address with a unix domain socket address
+
+  \param socket_address
+     Pointer to an empty socket address that will be initialized
+
+  \param address_string
+     A string describing the address to set.
+
+  \return
+     0 on success,
+     else an error occurred.
+
+  \remark
+     address_string must be the path of a special file
+     which represents the Unix domain socket.
+
+  \remark
+     On platforms which do not support unix domain sockets, this function
+     returns -1 as error.
+*/
+static int vice_network_address_generate_local(vice_network_socket_address_t * socket_address, const char * address_string)
 {
+#ifdef HAVE_UNIX_DOMAIN_SOCKETS
     int error = 1;
 
-#ifdef HAVE_UNIX_DOMAIN_SOCKETS
     do {
         if (address_string[0] == 0) {
             break;
         }
 
-        /* preset the socket address with port and INADDR_ANY */
+        /* initialise the socket address */
 
         memset(&socket_address->address, 0, sizeof socket_address->address);
         socket_address->domain = PF_UNIX;
@@ -380,13 +568,45 @@ static int vice_network_address_generate_local(vice_network_socket_address_t * s
         error = 0;
     } while (0);
 
+    return error;
+
 #else /* #ifdef HAVE_UNIX_DOMAIN_SOCKETS */
     log_message(LOG_DEFAULT, "Unix domain sockets are not supported in this installation of VICE!\n");
+    return -1;
 #endif /* #ifdef HAVE_UNIX_DOMAIN_SOCKETS */
-
-    return error;
 }
 
+/*! \brief Generate a socket address
+
+  Initialises a socket address with the value
+  specified as input parameter.
+
+  \param address_string
+     A string describing the address to set.
+
+  \param port
+     A default port number. If address_string does not
+     specify a port number, the number here will be used.
+     If address_string specifies a port number, that one
+     will be used instead.
+
+  \return socket_address
+     Pointer to a socket address that has been initialised
+     to the specification in address_string (and port, if
+     supported).
+     NULL in case of an error.
+
+  \remark
+     If address_string starts with a pipe ('|'), then the
+     address_string is treated as a unix domain socket.
+     Otherwise, address_string can be prepended with ip6://
+     or ip4://, in which case address_string is treated
+     exactly as an IPv6 or IPv4 address, respectively.
+
+     If there is no specification, this routine tests for
+     an IPv6 address. If this fails, it tries an IPv4 address.
+
+*/
 vice_network_socket_address_t * vice_network_address_generate(const char * address_string, unsigned short port)
 {
     vice_network_socket_address_t * socket_address = NULL;
@@ -399,7 +619,7 @@ vice_network_socket_address_t * vice_network_address_generate(const char * addre
         }
 
         if (address_string && address_string[0] == '|') {
-            if (vice_network_address_generate_local(socket_address, &address_string[1], port)) {
+            if (vice_network_address_generate_local(socket_address, &address_string[1])) {
                 break;
             }
         }
@@ -439,6 +659,16 @@ vice_network_socket_address_t * vice_network_address_generate(const char * addre
 }
 
 
+/*! \brief Return memory of a socket address
+
+  This function returns a socket address to the memory pool
+  of addresses.
+
+  \param address
+     A socket address that has been allocated by
+     vice_network_alloc_new_socket_address()
+     or by vice_network_address_generate().
+*/
 void vice_network_address_close(vice_network_socket_address_t * address)
 {
     if (address)
@@ -447,9 +677,27 @@ void vice_network_address_close(vice_network_socket_address_t * address)
     }
 }
 
+/*! \brief Accept a connection on a listening socket
+
+  This function accepts a connection on a socket that
+  has been opened with vice_network_server().
+
+  \param sockfd
+     The socket that has been oped with vice_network_server()
+
+  \param client_address
+     Pointer to a pointer to a socket address.
+     The pointer is used to return the address of the
+     connecting client.
+     The pointer can be NULL if we are not interested
+     who connects.
+
+  \return
+     A new socket that can be used for transmission on this this connection.
+*/
 vice_network_socket_t vice_network_accept(vice_network_socket_t sockfd, vice_network_socket_address_t ** client_address)
 {
-    vice_network_socket_t newsocket = -1;
+    vice_network_socket_t newsocket = INVALID_SOCKET;
     vice_network_socket_address_t * socket_address;
 
     do {
@@ -472,6 +720,18 @@ vice_network_socket_t vice_network_accept(vice_network_socket_t sockfd, vice_net
     return newsocket ^ INVALID_SOCKET;
 }
 
+/*! \brief Close a socket
+
+  This function closes the socket that has been
+  opened either by vice_network_server(), vice_network_client()
+  or vice_network_accept().
+
+  \param sockfd
+     The socket to be closed
+
+  \return
+     0 on success, else an error occurred.
+*/
 int vice_network_socket_close(vice_network_socket_t sockfd)
 {
     return closesocket(sockfd ^ INVALID_SOCKET);
@@ -501,6 +761,10 @@ int vice_network_select_poll_one(vice_network_socket_t readsockfd)
 
 int vice_network_get_errorcode(void)
 {
+#ifdef WIN32
+    return WSAGetLastError();
+#else
     return errno;
+#endif
 }
 #endif
