@@ -84,7 +84,7 @@ static void populate(reg12 v, float *o)
 {
     int j = 1;
     for (int i = 0; i < 12; i ++) {
-        o[i] = v & j ? 1 : 0;
+        o[i] = v & j ? 1.f : 0.f;
         j <<= 1;
     }
 }
@@ -276,8 +276,8 @@ void WaveformGeneratorFP::writeCONTROL_REG(reg8 control)
   }
 
   waveform = (control >> 4) & 0x0f;
-  ring_mod = control & 0x04;
-  sync = control & 0x02;
+  ring_mod = (control & 0x04) != 0;
+  sync = (control & 0x02) != 0;
   reg8 test_next = control & 0x08;
 
   // Test bit rising? Invert bit 19 and write it to bit 1.
@@ -292,7 +292,7 @@ void WaveformGeneratorFP::writeCONTROL_REG(reg8 control)
   // otherwise just emulate noise's combined waveforms.
   clock_noise(!test_next && test);
  
-  test = test_next;
+  test = test_next != 0;
 }
 
 reg8 WaveformGeneratorFP::readOSC()
