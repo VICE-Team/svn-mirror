@@ -29,6 +29,7 @@
 #define VICE_UI_WIN32_H
 
 #include "types.h"
+#include "uiapi.h"
 #include "videoarch.h"
 
 #include <stdio.h>
