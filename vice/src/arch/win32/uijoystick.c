@@ -33,6 +33,7 @@
 #include "resources.h"
 #include "translate.h"
 #include "winmain.h"
+#include "kbd.h"
 
 /*  These are in joystick.c . */
 extern void joystick_calibrate(HWND hwnd);
@@ -364,7 +365,7 @@ static void init_joystick_dialog(HWND hwnd)
     EnableWindow(GetDlgItem(hwnd, IDC_JOY_AUTOFIRE2_BUTTON),
                             (device >= JOYDEV_HW1));
 
-    EnableWindow(GetDlgItem(hwnd, IDC_JOY_CALIBRATE), joystick_inited);
+    EnableWindow(GetDlgItem(hwnd, IDC_JOY_CALIBRATE), joystick_uses_direct_input());
 }
 
 static void rebuild_axis_list_1(HWND hwnd, int device)
@@ -453,9 +454,11 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
       case WM_COMMAND:
         command = LOWORD(wparam);
         switch (command) {
+#ifdef HAVE_DINPUT
           case IDC_JOY_CALIBRATE:
             joystick_calibrate(hwnd);
             return TRUE;
+#endif
           case IDC_JOY_CONFIG_A:
             current_keyset_index = 0;
             DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_CONFIG_KEYSET_DIALOG),

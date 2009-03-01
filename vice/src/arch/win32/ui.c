@@ -95,6 +95,7 @@
 
 
 extern char *intl_speed_at_text;
+extern int _mouse_x, _mouse_y, _mouse_enabled;
 
 #define countof(array) (sizeof(array) / sizeof((array)[0]))
 
@@ -1911,9 +1912,24 @@ static long CALLBACK window_proc(HWND window, UINT msg,
       case WM_NCLBUTTONDOWN:
         vsync_suspend_speed_eval();
         break;
+      case WM_MOUSEMOVE:
+        _mouse_x =  (lparam        & 0xFFFF)*4;
+        _mouse_y = ((lparam >> 16) & 0xFFFF)*4;
+        break;
+      case WM_LBUTTONDOWN:
+        if (_mouse_enabled) mouse_button_left(1);
+        break;
       case WM_RBUTTONDOWN:
+        if (_mouse_enabled)
+            mouse_button_right(1);
+        else
         ui_paste_clipboard_text(window);
         break;
+      case WM_LBUTTONUP:
+        if (_mouse_enabled) mouse_button_left(0);
+        break;
+      case WM_RBUTTONUP:
+        if (_mouse_enabled) mouse_button_right(0);
       case WM_NOTIFY:
         statusbar_notify(window, window_index, wparam, lparam);
         break;

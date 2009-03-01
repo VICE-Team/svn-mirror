@@ -293,6 +293,19 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   AC_TRY_LINK([#include <windows.h>],
               [HGLOBAL hGlobal; UnlockResource(hGlobal); return 0],
               AC_DEFINE(HAS_UNLOCKRESOURCE,,[Do we have UnlockResource()?]),)
+  AC_CHECK_HEADER(dinput.h,
+              [ AC_DEFINE(HAVE_DINPUT,,[Use DirectInput joystick driver]) ]
+              [ AC_MSG_CHECKING(for -ldinput) ]
+              [SAVELIBS="$LIBS"] [ LIBS="-ldinput $LIBS" ]
+              [ AC_LINK_IFELSE([
+                               AC_LANG_PROGRAM([#include <dinput.h>],[return DirectInputCreateA(0,0,0,0);])
+                               ],
+                            [ AC_DEFINE(HAVE_DINPUT_LIB, [], [dinput.lib or libdinput.a are present]) ]
+   	                        [ AC_MSG_RESULT(yes) ],
+                            [ LIBS="-lole32 $SAVELIBS" ]
+                            [ AC_MSG_RESULT(no) ]
+              )]
+		 )
 
 elif test x"$host_os" = "xbeos"; then
 
@@ -1906,7 +1919,7 @@ elif test x"$is_win32" = "xyes"; then
 
   dnl On Windows, we already know what we want.
 
-  LIBS="$LIBS -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound -ldinput -lth32 -lwsock32 -lversion"
+  LIBS="$LIBS -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound -lth32 -lwsock32 -lversion"
 
   AC_CHECK_HEADER(d3d9.h,
       [ AC_DEFINE(HAVE_D3D9_H,,[Support for DirectX9.]) ],)

@@ -27,7 +27,10 @@
 #include "vice.h"
 
 #include <windows.h>
-#include <dinput.h>
+
+#ifdef HAVE_DINPUT
+#include "dinput_handle.h"
+#endif
 #include <stdio.h>
 
 #include "log.h"
@@ -38,43 +41,11 @@
 
 
 int _mouse_x, _mouse_y;
+
+#ifdef HAVE_DINPUT
 static int mouse_acquired = 0;
-LPDIRECTINPUTDEVICE di_mouse = NULL;
-
-#ifndef HAVE_GUIDLIB
-const GUID GUID_XAxis = { 0xA36D02E0, 0xC9F3, 0x11CF,
-                        { 0xBF, 0xC7, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00 } };
-const GUID GUID_YAxis = { 0xA36D02E1, 0xC9F3, 0x11CF,
-                        { 0xBF, 0xC7, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00 } };
-const GUID GUID_Button = { 0xA36D02F0, 0xC9F3, 0x11CF,
-                         { 0xBF, 0xC7, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00 } };
-const GUID GUID_SysMouse = { 0x6F1D2B60, 0xD5A0, 0x11CF,
-                           { 0xBF, 0xC7, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00} };
+static LPDIRECTINPUTDEVICE di_mouse = NULL;
 #endif
-
-typedef struct mouse_data_t {
-    DWORD X;
-    DWORD Y;
-    BYTE LeftButton;
-    BYTE RightButton;
-    BYTE padding[2];
-} mouse_data;
-
-DIOBJECTDATAFORMAT mouse_objects[] = {
-    { &GUID_XAxis, 0, DIDFT_AXIS | DIDFT_ANYINSTANCE, 0 },
-    { &GUID_YAxis, 4, DIDFT_AXIS | DIDFT_ANYINSTANCE, 0 },
-    { &GUID_Button, 8, DIDFT_BUTTON | DIDFT_ANYINSTANCE, 0 },
-    { &GUID_Button, 9, DIDFT_BUTTON | DIDFT_ANYINSTANCE, 0 }
-};
-
-DIDATAFORMAT mouse_data_format={
-    sizeof(DIDATAFORMAT),
-    sizeof(DIOBJECTDATAFORMAT),
-    DIDF_RELAXIS,
-    sizeof(mouse_data),
-    4,
-    mouse_objects
-};
 
 /* ------------------------------------------------------------------------- */
 
@@ -95,69 +66,88 @@ int mousedrv_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-void mouse_set_format(void)
-{
-    HRESULT result;
-
-    result = IDirectInputDevice_SetDataFormat(di_mouse, &mouse_data_format);
-    if (result != DI_OK) {
-        log_debug("Can't set Mouse DataFormat");
-        di_mouse = NULL;
-    }
-}
-
 void mouse_update_mouse(void)
 {
-    mouse_data state;
+#ifdef HAVE_DINPUT
+    DIMOUSESTATE state;
     HRESULT result;
 
-    if (di_mouse == NULL)
+    if (di_mouse == NULL || !mouse_acquired)
         return;
 
-    result = DIERR_INPUTLOST;
-    while (result == DIERR_INPUTLOST) {
-        result = IDirectInputDevice_GetDeviceState(di_mouse, sizeof(mouse_data),
+    for (result = IDirectInputDevice_GetDeviceState(di_mouse, sizeof(state),
                                                    &state);
-        if (result == DIERR_INPUTLOST) {
-            result = IDirectInputDevice_Acquire(di_mouse);
-            if (result != DI_OK) {
-                return;
-            }
+         result != DI_OK;
+         result = IDirectInputDevice_GetDeviceState(di_mouse, sizeof(state),
+                                                   &state)) {
+        if (result != DIERR_INPUTLOST)
+            return;
+        result = IDirectInputDevice_Acquire(di_mouse);
+        if (result != DI_OK) {
+            return;
         }
     }
-    if (result != DI_OK) return;
 
-    _mouse_x += state.X;
-    _mouse_y += state.Y;
+    _mouse_x += state.lX;
+    _mouse_y += state.lY;
 
-    mouse_button_left((int)(state.LeftButton & 0x80));
-    mouse_button_right((int)(state.RightButton & 0x80));
+    mouse_button_left((int)(state.rgbButtons[0] & 0x80));
+    mouse_button_right((int)(state.rgbButtons[1] & 0x80));
+#endif
 }
 
 void mousedrv_init(void)
 {
-}
+#ifdef HAVE_DINPUT
+#ifdef HAVE_DINPUT_LIB
+    LPDIDATAFORMAT mouse_data_format_ptr = &c_dfDIMouse;
+#else
+    DIOBJECTDATAFORMAT mouse_objects[] = {
+        { &GUID_XAxis, 0, DIDFT_OPTIONAL | DIDFT_AXIS | DIDFT_ANYINSTANCE, 0 },
+        { &GUID_YAxis, 4, DIDFT_OPTIONAL | DIDFT_AXIS | DIDFT_ANYINSTANCE, 0 },
+        { &GUID_ZAxis, 8, DIDFT_OPTIONAL | DIDFT_AXIS | DIDFT_ANYINSTANCE, 0 },
+        { &GUID_Button, 12, DIDFT_OPTIONAL | DIDFT_BUTTON | DIDFT_ANYINSTANCE, 0 },
+        { &GUID_Button, 13, DIDFT_OPTIONAL | DIDFT_BUTTON | DIDFT_ANYINSTANCE, 0 },
+        { &GUID_Button, 14, DIDFT_OPTIONAL | DIDFT_BUTTON | DIDFT_ANYINSTANCE, 0 },
+        { &GUID_Button, 15, DIDFT_OPTIONAL | DIDFT_BUTTON | DIDFT_ANYINSTANCE, 0 }
+    };
 
-void mouse_set_cooperative_level(void)
-{
-    HRESULT result;
+    DIDATAFORMAT mouse_data_format = {
+        sizeof(DIDATAFORMAT),
+        sizeof(DIOBJECTDATAFORMAT),
+        DIDF_RELAXIS,
+        sizeof(DIMOUSESTATE),
+        sizeof(mouse_objects) / sizeof(*mouse_objects),
+        mouse_objects
+    };
+    LPDIDATAFORMAT mouse_data_format_ptr = &mouse_data_format;
+#endif
 
-    result = IDirectInputDevice_SetCooperativeLevel(
-             di_mouse, ui_active_window, DISCL_EXCLUSIVE | DISCL_FOREGROUND);
-    if (result != DI_OK) {
-        log_debug("Warning: couldn't set cooperation level of mice to exclusive! %i",
-                  (int)ui_active_window);
-        di_mouse = NULL;
+    LPDIRECTINPUT di = get_directinput_handle();
+
+    if (di == NULL)
+        return;
+
+    if (IDirectInput_CreateDevice(di, (GUID *)&GUID_SysMouse, &di_mouse,
+                                            NULL) == S_OK) {
+        if (IDirectInputDevice_SetDataFormat(di_mouse, mouse_data_format_ptr) !=S_OK) {
+            IDirectInput_Release(di_mouse);
+            log_debug("Can't set Mouse DataFormat");
+            di_mouse = NULL;
+        }
     }
+#endif
 }
 
 void mouse_update_mouse_acquire(void)
 {
+#ifdef HAVE_DINPUT
     if (di_mouse == NULL)
         return;
     if (_mouse_enabled) {
         if (ui_active) {
-            mouse_set_cooperative_level();
+            IDirectInputDevice_SetCooperativeLevel( 	 
+	              di_mouse, ui_active_window, DISCL_EXCLUSIVE | DISCL_FOREGROUND);
             IDirectInputDevice_Acquire(di_mouse);
             mouse_acquired = 1;
         } else {
@@ -170,6 +160,7 @@ void mouse_update_mouse_acquire(void)
             mouse_acquired = 0;
         }
     }
+#endif
 }
 
 BYTE mousedrv_get_x(void)
@@ -185,4 +176,3 @@ BYTE mousedrv_get_y(void)
         return 0xff;
     return (BYTE)(~_mouse_y >> 1) & 0x7e;
 }
-

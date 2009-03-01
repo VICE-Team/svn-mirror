@@ -41,6 +41,8 @@ libarch_a_SOURCES = \
 	catweaselmkiii.c \
 	cbm2ui.c \
 	console.c \
+	dinput_handle.c \
+	dinput_handle.h \
 	dirent.c \
 	dirent.h \
 	ffmpeglib.c \

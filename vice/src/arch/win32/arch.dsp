@@ -114,6 +114,10 @@ SOURCE=.\console.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\dinput_handle.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\dirent.c
 # End Source File
 # Begin Source File

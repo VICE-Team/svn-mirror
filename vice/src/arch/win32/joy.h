@@ -27,8 +27,6 @@
 #ifndef VICE_JOY_H
 #define VICE_JOY_H
 
-#include "kbd.h"
-
 typedef int joystick_device_t;
 
 #define JOYDEV_NONE     0
@@ -45,9 +43,7 @@ extern int joystick_arch_init_resources(void);
 extern int joystick_init_cmdline_options(void);
 extern int joystick_close(void);
 extern void joystick_update(void);
-extern int joystick_handle_key(kbd_code_t kcode, int pressed);
-
-extern int joystick_inited;
+extern char joystick_uses_direct_input(void);
 
 #endif
 
