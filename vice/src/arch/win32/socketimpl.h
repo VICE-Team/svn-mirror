@@ -1,4 +1,4 @@
-/*! \file socketimpl.h \n
+/*! \file win32/socketimpl.h \n
  *  \author Spiro Trikaliotis\n
  *  \brief  Abstraction from network sockets.
  *

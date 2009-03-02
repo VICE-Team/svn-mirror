@@ -1,4 +1,4 @@
-/*! \file socketimpl.h \n
+/*! \file beos/socketimpl.h \n
  *  \author Spiro Trikaliotis\n
  *  \brief  Abstraction from network sockets.
  *

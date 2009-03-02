@@ -1,4 +1,4 @@
-/*! \file socketimpl.h \n
+/*! \file amigaos/socketimpl.h \n
  *  \author Marco van den heuvel\n
  *  \brief  Abstraction from network sockets.
  *

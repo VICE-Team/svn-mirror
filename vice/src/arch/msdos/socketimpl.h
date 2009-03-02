@@ -1,4 +1,4 @@
-/*! \file socketimpl.h \n
+/*! \file msdos/socketimpl.h \n
  *  \author Marco van den Heuvel\n
  *  \brief  Abstraction from network sockets.
  *
