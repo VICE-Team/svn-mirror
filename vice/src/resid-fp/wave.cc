@@ -23,22 +23,27 @@
 
 typedef struct {
     float bias;
+    float pulsestrength;
+    float topbit;
     float distance;
+    float stmix;
 } waveformconfig_t;
 
 const float sharpness = 24.f;
-const waveformconfig_t wfconfig[2][4] = {
+const waveformconfig_t wfconfig[2][5] = {
   { /* kevtris chip D */
-    { 0.9157283f, 2.21507f,   }, /* 3 */
-    { 0.7928209f, 0.08109789f }, /* 5 */
-    { 0.7992666f, 0.04497359f }, /* 6 */
-    { 0.9184855f, 0.04872148f }, /* 7 */
+    { 0.8929141f, 0.0f,       0.0f,        0.6859394f,  0.5540202f }, /* 3 */
+    { 0.8605057f, 1.987184f,  0.0f,        0.05442346f, 0.0f       }, /* 5 */
+    { 0.8540176f, 1.953074f,  1.674773f,   0.0337444f,  0.0f       }, /* 6 */
+    { 0.8972421f, 0.4409605f, 0.0f,        0.0637642f,  0.2277697f }, /* 7 */
+    { 0.5f,       0.0f,       1.0f,        0.0f,        0.0f       }, /* 1/2 */
   },
   { /* kevtris chip V */
-    { 0.9113708f, 1.898943f   }, /* 3 */
-    { 0.8055819f, 0.2157787f  }, /* 5 */
-    { 0.827376f,  0.2223487f  }, /* 6 */
-    { 0.9409516f, 1.793725f   }, /* 7 */
+    { 0.9255172f, 0.0f,       1.001959f,   2.247879f,   0.7373171f }, /* 3 */
+    { 0.8729466f, 1.667356f,  0.0f,        0.1749714f,  0.0f       }, /* 5 */
+    { 0.8698949f, 1.538259f,  0.9861255f,  0.1671275f,  0.0f       }, /* 6 */
+    { 0.9441837f, 0.8419695f, 1.076439f,   1.277603f,   0.717594f, }, /* 7 */
+    { 0.5f,       0.0f,       1.0f,        0.0f,        0.0f       }, /* 1/2 */
   }
 };
 
@@ -106,25 +111,22 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
     waveform == 3 ? 0 :
     waveform == 5 ? 1 :
     waveform == 6 ? 2 :
-                    3
+    waveform == 7 ? 3 :
+                    4
   ];
-  /* table #3 is valid also for waveforms 1, 2 -- anything goes as long as
-   * 0 < bias < 1. */
 
   /* S with strong top bit for 6581 */
   populate(accumulator >> 12, o);
-  if (model == MOS6581FP) {
-    o[11] *= 1.5f;
-  }
+  o[11] *= config.topbit;
 
   /* convert to T */
   if ((waveform & 3) == 1) {
-    float top = o[11];
+    bool top = (accumulator & 0x800000) != 0;
     for (i = 11; i > 0; i --) {
-      if (top == 0.0f) {
-        o[i] = o[i-1];
-      } else {
+      if (top) {
         o[i] = 1.0f - o[i-1];
+      } else {
+        o[i] = o[i-1];
       }
     }
     o[0] = 0;
@@ -133,17 +135,10 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
   /* convert to ST */
   if ((waveform & 3) == 3) {
     for (i = 11; i > 0; i --) {
-      o[i] = (o[i - 1] + o[i]) * 0.5f;
+      o[i] = o[i - 1] * (1.f - config.stmix) + o[i] * config.stmix;
     }
     /* bottom bit is grounded via T waveform selector */
-    o[0] = o[0] * 0.5f;
-    /* For some reason, 6581 ST always has high bit low. Fitting against model
-     * of ST indicates a 50 % strength for the top bit. 8580 ST reaches 255
-     * according to OSC3 samplings. XOR circuit is disabled on both, because
-     * sawtooth is generated. */
-    if (model == MOS6581FP) {
-        o[11] *= 0.5;
-    }
+    o[0] *= config.stmix;
   }
 
   /* ST, P* waveform? */
@@ -153,11 +148,8 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
         distancetable[12+i] = distancetable[12-i] = 1.f / (1.f + i * i * config.distance);
     }
 
-    /* Is the pulse control high or low? The low state appears to suppress
-     * more powerfully than mere 0-bit would, so I'm actually supplying a
-     * negative value for this. Tel's song called 'Digi-Piece for Telecomsoft'
-     * uses the pulse-low suppression. */
-    float pulse = (accumulator >> 12) >= pw ? 1.0f : -2.0f;
+    float pulse = (accumulator >> 12) >= pw ? config.pulsestrength : -1.0f;
+
     float tmp[12];
     for (i = 0; i < 12; i ++) {
         float avg = 0;
@@ -170,7 +162,7 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
             avg += o[j] * weight;
             n += weight;
         }
-        /* pulse control bit is included for waveform > 4 */
+        /* pulse control bit */
         if (waveform > 4) {
             float weight = distancetable[i - 12 + 12];
             avg += pulse * weight;
@@ -185,7 +177,7 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
     }
   }
 
-  /* use the environment around 0.95 to set/clear dac bit */
+  /* use the environment around bias value to set/clear dac bit */
   for (i = 0; i < 12; i ++) {
     o[i] = (o[i] - config.bias) * sharpness;
 
@@ -194,7 +186,7 @@ void WaveformGeneratorFP::calculate_waveform_sample(float *o)
        o[i] = 1.f;
     }
     if (o[i] < 0.f) {
-        o[i] = 0.;
+        o[i] = 0.f;
     }
     o[i] = o[i] * o[i];
   }
