@@ -86,8 +86,6 @@ inline static void line_becomes_bad(const int cycle)
         if (cycle <= VICII_FETCH_CYCLE + 2)
             vicii.raster.ycounter = 0;
 
-        vicii.ycounter_reset_checked = 1;
-
         xpos = cycle - (VICII_FETCH_CYCLE + 3);
 
         if (vicii.viciidtv) {
@@ -176,6 +174,7 @@ inline static void line_becomes_bad(const int cycle)
            must happen in as in idle state.  */
         vicii.force_display_state = 1;
     }
+    vicii.ycounter_reset_checked = 1;
 }
 
 void vicii_badline_check_state(BYTE value, const int cycle,
