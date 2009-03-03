@@ -33,6 +33,7 @@
 #include "kbdbuf.h"
 #include "machine.h"
 #include "ui.h"
+#include "uiapi.h"
 #include "mousedrv.h"
 #include "videoarch.h"
 

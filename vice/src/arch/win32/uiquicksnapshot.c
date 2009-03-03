@@ -39,7 +39,7 @@
 #include "res.h"
 #include "system.h"
 #include "translate.h"
-#include "ui.h"
+#include "uiapi.h"
 #include "uiquicksnapshot.h"
 #include "util.h"
 

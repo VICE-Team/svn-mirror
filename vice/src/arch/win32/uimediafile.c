@@ -44,7 +44,7 @@
 #include "sound.h"
 #include "system.h"
 #include "translate.h"
-#include "ui.h"
+#include "uiapi.h"
 #include "uilib.h"
 #include "uimediafile.h"
 #include "winmain.h"

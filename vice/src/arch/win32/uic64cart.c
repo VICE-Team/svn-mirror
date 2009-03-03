@@ -38,6 +38,7 @@
 #include "res.h"
 #include "translate.h"
 #include "ui.h"
+#include "uiapi.h"
 #include "uic64cart.h"
 #include "uicart.h"
 #include "uilib.h"

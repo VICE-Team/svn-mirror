@@ -41,7 +41,7 @@
 #include "res.h"
 #include "signals.h"
 #include "translate.h"
-#include "ui.h"
+#include "uiapi.h"
 
 
 static const char * translated_text = "An unexpected error occurred. Received signal %d (%s).";

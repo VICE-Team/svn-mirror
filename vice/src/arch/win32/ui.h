@@ -29,8 +29,6 @@
 #define VICE_UI_WIN32_H
 
 #include "types.h"
-#include "uiapi.h"
-#include "videoarch.h"
 
 #include <stdio.h>
 
@@ -72,6 +70,8 @@ struct ui_res_value_list_s {
 };
 typedef struct ui_res_value_list_s ui_res_value_list_t;
 
+struct video_canvas_s;
+
 extern int  ui_active;
 extern HWND ui_active_window;
 
@@ -100,15 +100,14 @@ extern void ui_register_res_values(const ui_res_value_list_t *valuelist);
 
 extern void ui_update_menu();
 extern HWND ui_get_main_hwnd(void);
-extern void ui_open_canvas_window(video_canvas_t *canvas);
-extern void ui_canvas_child_window(video_canvas_t *canvas, int enable);
-extern void ui_set_render_window(video_canvas_t *canvas, int fullscreen);
-extern void ui_make_resizable(video_canvas_t *canvas, int enable);
-extern void ui_resize_canvas_window(video_canvas_t *canvas);
+extern void ui_open_canvas_window(struct video_canvas_s *canvas);
+extern void ui_canvas_child_window(struct video_canvas_s *canvas, int enable);
+extern void ui_set_render_window(struct video_canvas_s *canvas, int fullscreen);
+extern void ui_make_resizable(struct video_canvas_s *canvas, int enable);
+extern void ui_resize_canvas_window(struct video_canvas_s *canvas);
 extern FILE *ui_console_save_dialog(HWND hwnd);
 extern int ui_emulation_is_paused(void);
 extern void ui_set_alwaysontop(int alwaysontop);
-extern void ui_message(const char *format,...);
 
 struct ui_menu_translation_table_s {
     int idm;

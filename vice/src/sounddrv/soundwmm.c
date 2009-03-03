@@ -34,7 +34,7 @@
 
 #include <stdio.h>
 
-#if __GNUC__>2 || (__GNUC__==2 && __GNUC_MINOR__>=91)
+#if __GNUC__>2 || (__GNUC__==2 && __GNUC_MINOR__>=91) || defined _MSC_VER
 #include <windows.h>
 #include <ddraw.h>
 #include <mmsystem.h>
@@ -44,7 +44,7 @@
 #include "lib.h"
 #include "sound.h"
 #include "types.h"
-#include "ui.h"
+#include "uiapi.h"
 
 /* ------------------------------------------------------------------------ */
 

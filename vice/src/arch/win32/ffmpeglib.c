@@ -35,7 +35,7 @@
 #include "log.h"
 #include "res.h"
 #include "translate.h"
-#include "ui.h"
+#include "uiapi.h"
 
 #define AVCODEC_DLL_NAME "avcodec-51.dll"
 #define AVFORMAT_DLL_NAME "avformat-51.dll"

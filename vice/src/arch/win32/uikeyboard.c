@@ -46,7 +46,7 @@
 #include "sysfile.h"
 #include "system.h"
 #include "translate.h"
-#include "ui.h"
+#include "uiapi.h"
 #include "uikeyboard.h"
 #include "uilib.h"
 #include "util.h"

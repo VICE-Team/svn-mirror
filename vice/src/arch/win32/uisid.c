@@ -44,7 +44,7 @@
 #include "sid.h"
 #include "system.h"
 #include "translate.h"
-#include "ui.h"
+#include "uiapi.h"
 #include "uisid.h"
 #include "winmain.h"
 #include "uilib.h"
