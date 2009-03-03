@@ -106,7 +106,7 @@ void rs232dev_reset(void)
     int i;
 
     for (i = 0; i < RS232_NUM_DEVICES; i++) {
-        if (!fds[i].inuse) {
+        if (fds[i].inuse) {
             rs232dev_close(i);
         }
     }
