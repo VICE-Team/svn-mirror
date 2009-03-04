@@ -30,7 +30,6 @@
 #include "vice.h"
 
 #include "types.h"
-#include "uiapi.h"
 #include "imagecontents.h"
 
 
@@ -72,7 +71,6 @@ void ui_display_paused(int flag);
 void ui_dispatch_next_event(void);
 void ui_dispatch_events(void);
 extern void ui_exit(void);
-extern void ui_message(const char *format,...);
 extern void ui_show_text(const char *title, const char *text, int width,
                          int height);
 

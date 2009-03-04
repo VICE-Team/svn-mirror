@@ -36,6 +36,7 @@
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "uifliplist.h"
 #include "uidrive.h"
 #include "uilib.h"

@@ -76,6 +76,7 @@
 #include "mouse.h"
 #include "mousedrv.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "uicolor.h"
 #include "uimenu.h"
 #include "uisettings.h"
