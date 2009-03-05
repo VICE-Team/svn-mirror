@@ -1,3 +1,321 @@
+2009-03-05  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.1.5
+
+2009-03-05  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/aciacore.c: Fixed doxygen documentation errors.
+
+	* src/socket.c: Fixed <host>, <hostipv6>, <hostname> and <port>
+	  to use XML entities instead of looking like html tags.
+
+	* Doxyfile: Also include private docs.
+
+	* Doxyfile: Make sure doxygen treats HAVE_NETWORK,
+	  HAVE_UNIX_DOMAIN_SOCKETS and HAVE_IPV6 as defined.
+
+	* src/socket.c: Added more doxygen documentation.
+
+2009-03-04  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/ui.h: Undone my patch from yesterday which
+	  undid Fabbo's changes; this fixes compilation problems.
+
+2009-03-04  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/wave.cc: Apply a simplification to combined wave
+	  calculation that actually slightly improved all fits.
+
+2009-03-04  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/gui/uifliplist.c, src/arch/unix/ui.h,
+	  src/arch/unix/x11/gnome/x11ui.c: Include uiapi.h from .c files
+	  that use types defined in uiapi.h
+
+2009-03-03  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/ui.h: Mostly undone latest change from fabbo:
+	  ui.h now has video_canvas_t again, and it is used in the
+	  function prototypes.
+
+	* src/arch/win32/rs232dev.c: Fixed wrong logic on which fds to
+	  close on reset.
+
+2009-03-03  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/dinput_handle.c,
+	  src/arch/win32/dinput_handle.h: Add header+license to files
+
+	* src/arch/win32/ffmpeglib.c, src/arch/win32/signals.c,
+	  src/arch/win32/ui.h, src/arch/win32/uic64cart.c,
+	  src/arch/win32/uicart.c, src/arch/win32/uiconsole.c,
+	  src/arch/win32/uifliplist.c, src/arch/win32/uikeyboard.c,
+	  src/arch/win32/uilib.c, src/arch/win32/uimediafile.c,
+	  src/arch/win32/uinetwork.c, src/arch/win32/uiperipheral.c,
+	  src/arch/win32/uiplus4cart.c,
+	  src/arch/win32/uiquicksnapshot.c, src/arch/win32/uisid.c,
+	  src/arch/win32/uisnapshot.c, src/arch/win32/uisound.c,
+	  src/arch/win32/uivideo.c, src/arch/win32/video.c,
+	  src/arch/win32/vsyncarch.c, src/sounddrv/soundwmm.c,
+	  src/uiapi.h: Include uiapi.h from .c files that use functions
+	  defined in uiapi.h
+
+2009-03-02  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/vicii/vicii-badline.c: line_becomes_bad sets
+	  ycounter_reset_checked in any case to avoid problems if same
+	  line becomes good again.
+
+2009-03-02  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/amigaos/socketimpl.h, src/arch/beos/socketimpl.h,
+	  src/arch/msdos/socketimpl.h, src/arch/unix/socketimpl.h,
+	  src/arch/win32/socketimpl.h: More detailed file names (for
+	  doxygen).
+
+2009-03-02  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/wave.cc: Fit with variable pulse 1-bit strength.
+	  Add all chip-specific parameters into configuration set.
+
+2009-03-01  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/ui.c, src/arch/win32/ui.h: Added missing
+	  includes.
+
+2009-03-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+@@@TODO
+
+	* configure.in, src/arch/win32/Makefile.am,
+	  src/arch/win32/arch.dsp, src/arch/win32/dinput_handle.c,
+	  src/arch/win32/dinput_handle.h, src/arch/win32/joy.c,
+	  src/arch/win32/joy.h, src/arch/win32/mousedrv.c,
+	  src/arch/win32/msvc/config.h, src/arch/win32/ui.c,
+	  src/arch/win32/uijoystick.c, src/arch/win32/watcom/arch.tgt,
+	  src/arch/win32/watcom/config.h, src/arch/win32/x128.dsp,
+	  src/arch/win32/x64.dsp, src/arch/win32/x64dtv.dsp,
+	  src/arch/win32/xcbm2.dsp, src/arch/win32/xpet.dsp,
+	  src/arch/win32/xplus4.dsp, src/arch/win32/xvic.dsp: Merged the
+	  windowsmouse tag (svn merge
+	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v2.1/v2.1.2
+	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/fabrizio/v2.1.2-windowsmouse).
+
+2009-02-28  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/socket.c: Started doxygen documentation.
+
+	* src/resid-fp/wave.cc: Fixed some warnings.
+
+2009-02-27  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/resid-dtv/wave.cc: Correction to initial shift register
+	  value
+
+2009-02-27  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-dtv/wave.cc: Fix first iteration of noise sequence.
+
+	* src/resid-dtv/wave.h: The noisegen isn't half-clocked. I think
+	  there's some method to control the state of the bits in the
+	  noise generator, though.
+
+	* src/resid-dtv/wave.cc, src/resid-dtv/wave.h: Clock noise
+	  generator at half expected rate.
+
+	* src/resid-dtv/wave.h: Also use bit1 in the expanded noise
+	  definition.
+
+	* src/resid-dtv/wave.h: MULE sampling emulation improvement.
+
+	* src/resid-dtv/wave.h: The waveform sigma-delta converter is 12
+	  bits. Update resid-dtv to match.
+
+	* src/resid-fp/wave.cc: Make combined waveforms slightly more
+	  exciting; also the nonlinearity helps for quiet sounds and
+	  other action. 8580 is now almost correct, 6581 waves are still
+	  somewhat loud/smooth.
+
+2009-02-27  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/ui.h, src/arch/win32/uiattach.c,
+	  src/arch/win32/uirom.c, src/attach.c, src/autostart.c,
+	  src/c128/c128memsnapshot.c, src/c64/c64export.c,
+	  src/c64/c64io.c, src/c64/c64memsnapshot.c, src/c64/digimax.c,
+	  src/c64/psid.c, src/c64dtv/c64dtvflash.c,
+	  src/c64dtv/c64dtvmemsnapshot.c, src/datasette.c, src/debug.c,
+	  src/drive/drive.c, src/event.c, src/gfxoutputdrv/ffmpegdrv.c,
+	  src/init.c, src/joystick.c, src/machine.c, src/main.c,
+	  src/network.c, src/sound.c, src/tape/tape.c, src/uiapi.h,
+	  src/vic20/vic20-resources.c, src/vic20/vic20mem.c: ui.h is an
+	  arch-specific file: do not include it from non-arch-specific
+	  part, use uiapi.h instead
+
+2009-02-27  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.h, src/sid/resid-fp.cc: Include more Vi
+	  into Vbp. Use more precise automatically fitted type3 curves.
+
+2009-02-27  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/sid.dsp: Add quotes to avoid errors in case
+	  path contains spaces (only tested on VS2005)
+
+	* src/arch/win32/resid.dsp, src/arch/win32/residdtv.dsp,
+	  src/arch/win32/residfp.dsp: Add quotes to avoid errors in case
+	  path contains spaces (only tested on VS2005)
+
+2009-02-26  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/fullscrn-ddraw.c,
+	  src/arch/win32/fullscrn-dx9.c, src/arch/win32/fullscrn.c,
+	  src/arch/win32/fullscrn.h, src/arch/win32/video-dx9.c,
+	  src/arch/win32/video.c: Implemented selection of fullscreen
+	  adapter.
+
+2009-02-26  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c128/c128cia1.c, src/c64/c64cia1.c: Always update paddle
+	  port number
+
+2009-02-26  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/wave.cc: Pulse-low is still better at suppression
+	  than -1.0. Try -2.0. (Sigh.)
+
+2009-02-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.c, src/arch/win32/res.rc,
+	  src/arch/win32/resvic20.rc: Updated some german and swedish
+	  translations.
+
+2009-02-24  Peter Krefting <peter@softwolves.pp.se>
+
+	* po/sv.po: Update Swedish translation (2697t0f0u).
+
+2009-02-24  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.cc, src/resid-fp/filter.h: Work towards
+	  V33 has begun. The lp/bp/hp state mixing likely originates
+	  from the n-well layer strip between the lp and bp opamps above
+	  the bp fet block.
+
+	* src/resid-fp/wave.cc: Jarkko Lehti (Grue) discovered a sound
+	  issue in "Digi-Piece for Telecomsoft". Suppressing the
+	  combined waveforms more thoroughly during pulse-low states
+	  mitigates the problem.
+
+2009-02-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/ffmpeglib.c, src/arch/win32/watcom/arch.tgt:
+	  Added missing ';'.
+
+2009-02-22  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* build/macosx/build-vice-dist.sh: disabled ffmpeg check in mac
+	  build script
+
+	* src/arch/unix/opencbmlib.c: set default path for opencbm lib
+	  on mac
+
+	* src/arch/unix/macosx/make-bindist.sh: fixed cocoa resource
+	  bundling
+
+2009-02-22  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/ChangeLog, src/resid-fp/filter.h,
+	  src/resid-fp/wave.h, src/sid/resid-fp.cc: Update to V32.
+	  Details in ChangeLog.
+
+2009-02-22  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* configure.in, src/arch/unix/ffmpeglib.c,
+	  src/arch/win32/ffmpeglib.c, src/gfxoutputdrv/ffmpegdrv.c,
+	  src/gfxoutputdrv/ffmpeglib.h: FFMPEG is now bound dynamically
+	  on *nix systems where dlopen is available.
+
+	* src/arch/unix/macosx/Resources/English.lproj/x64-ResourceTree.plist:
+	  fixed mouse resources and added paddles type in cocoa port
+
+	* src/arch/unix/macosx/Resources/English.lproj/x64-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv-ResourceTree.plist:
+	  updated SID model selection in cocoa port
+
+	* src/screenshot.c: fixed recording state if record startup
+	  failed
+
+2009-02-22  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.h, src/resid-fp/wave.cc,
+	  src/sid/resid-fp.cc: New parameters. Reduce artifacts by
+	  seriously limiting the scope of the resonance leak that
+	  partakes in distortion. Use new C# fitting program derived
+	  results for all combined waveforms.
+
+2009-02-22  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/Makefile.am: added missing dynlib lib to c1541
+
+2009-02-21  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* configure.in, src/Makefile.am, src/arch/unix/opencbmlib.c,
+	  src/arch/win32/opencbm.h, src/opencbm.h, src/opencbmlib.h,
+	  src/serial/realdevice.c: opencbm library is now loaded
+	  dynamically on *nix systems that support dlopen. added generic
+	  query for dynamic linking and define HAVE_DYNLIB_SUPPORT if
+	  its available.
+
+2009-02-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data/C64/Makefile.am, data/C64/x11_posger.vkm,
+	  data/C64/x11_symger.vkm: Added german x11 .vkm files as
+	  provided by groepaz.
+
+	* src/resid-fp/Makefile.am: Fixed the resid-fp Makefile.am
+
+	* src/arch/win32/msvc/config.h, src/arch/win32/videoarch.h:
+	  Moved the msvc d3d9.h detection (hack) to the right spot, now
+	  msvc d3d9.h will be used when present.
+
+2009-02-21  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/sounddrv/soundcoreaudio.c: CoreAudio 64 bit fix
+
+2009-02-21  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/sounddrv/sounddx.c: Added missing function declaration.
+
+	* src/arch/win32/residfp.dsp: Updated projects file list.
+
+	* src/arch/win32/msvc/config.h: Replaced buggy d3d9.h check for
+	  now with a static HAVE_D3D9_H.
+
+	* src/arch/win32/archdep.c: Include WinSock.h
+
+2009-02-20  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/vicii/vicii-mem.c: Fixed bug introduced in 1.22.3 handling
+	  the sprite background mask at a shift right. Now both demos
+	  "Holy shit" and "Bubble Tale" work fine.
+
+2009-02-20  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+@@@TODO
+
+	* configure.in, src/arch/win32/Makefile.am,
+	  src/arch/win32/arch.dsp, src/arch/win32/fullscrn-ddraw.c,
+	  src/arch/win32/fullscrn-dx9.c, src/arch/win32/fullscrn.c,
+	  src/arch/win32/fullscrn.h, src/arch/win32/msvc/config.h,
+	  src/arch/win32/res.rc, src/arch/win32/resstrings.txt,
+	  src/arch/win32/statusbar.c, src/arch/win32/statusbar.h,
+	  src/arch/win32/ui-resources.c, src/arch/win32/ui.c,
+	  src/arch/win32/ui.h, src/arch/win32/video-ddraw.c,
+	  src/arch/win32/video-dx9.c, src/arch/win32/video.c,
+	  src/arch/win32/videoarch.h, src/sounddrv/sounddx.c: svn merge
+	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v2.1/v2.1.3/vice
+	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/amatthies/v2.1.3-win32dx9/vice
+	  .
+
 2009-02-20  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.1.4
