@@ -61,7 +61,6 @@ libarch_a_SOURCES = \
 	mididrv.c \
 	mousedrv.c \
 	mousedrv.h \
-	opencbm.h \
 	opencbmlib.c \
 	parsid.c \
 	petui.c \
