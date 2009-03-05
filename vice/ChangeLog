@@ -4,6 +4,9 @@
 
 2009-03-05  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
+	* src/arch/win32/Makefile.am: opencbm.h has been moved, remove
+	  it from file list.
+
 	* src/aciacore.c: Fixed doxygen documentation errors.
 
 	* src/socket.c: Fixed <host>, <hostipv6>, <hostname> and <port>
