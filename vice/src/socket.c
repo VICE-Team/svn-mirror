@@ -320,11 +320,11 @@ static vice_network_socket_address_t * vice_network_alloc_new_socket_address(voi
 
   \remark
      address_string must be specified in the form
-     <host>
+     &lt;host&gt;
      or
-     <host>:<port>
-     with <host> being the name or the IPv4 address of the host,
-     and <port> being the port number. If the first form is used,
+     &lt;host&gt;:&lt;port&gt;
+     with &lt;host&gt; being the name or the IPv4 address of the host,
+     and &lt;port&gt; being the port number. If the first form is used, 
      the default port will be used.
 */
 static int vice_network_address_generate_ipv4(vice_network_socket_address_t * socket_address, const char * address_string, unsigned short port)
@@ -451,13 +451,13 @@ static int vice_network_address_generate_ipv4(vice_network_socket_address_t * so
 
   \remark
      address_string must be specified in one of the forms
-     <host>
+     &lt;host&gt;
      or
-     [<host>]:<port>
-     with <hostname> being the name of the host,
-     <hostipv6> being the IP of the host, and
-     <host> being the name of the host or its IPv6,
-     and <port> being the port number.
+     [&lt;host&gt;]:&lt;port&gt;
+     with &lt;hostname&gt; being the name of the host,
+     &lt;hostipv6&gt; being the IP of the host, and
+     &lt;host&gt; being the name of the host or its IPv6,
+     and &lt;port&gt; being the port number.
 
      The extra braces [...] in case the port is specified are
      needed as IPv6 addresses themselves already contain colons,
