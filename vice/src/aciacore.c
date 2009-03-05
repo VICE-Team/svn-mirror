@@ -285,7 +285,7 @@ static void acia_set_int(int aciairq, unsigned int int_num, int value)
 
 /*! \internal \brief Change the Interrupt resource for this ACIA
 
- \param val
+ \param new_irq_res
    The interrupt type to use:
       0 = none,
       1 = IRQ,
@@ -426,7 +426,7 @@ static void set_acia_ticks(void)
 
 /*! \internal \brief Change the emulation mode for this ACIA
 
- \param val
+ \param new_mode
    The exact device type to emulate.
       ACIA_MODE_NORMAL for a "normal" 6551 device,
       ACIA_MODE_SWIFTLINK for a SwiftLink device, or
