@@ -83,7 +83,7 @@ struct vice_network_socket_address_s
 
 #ifndef HAVE_HTONL
 # ifndef htonl
-/*! \brief convert a long from host order into network order
+/*! \internal \brief convert a long from host order into network order
 
  \param ip
    The value in host order which is to be converted into network order
@@ -112,7 +112,7 @@ static unsigned int htonl(unsigned int ip)
 
 #ifndef HAVE_HTONS
 # ifndef htons
-/*! \brief convert a short from host order into network order
+/*! \internal \brief convert a short from host order into network order
 
  \param ip
    The value in host order which is to be converted into network order
@@ -737,16 +737,82 @@ int vice_network_socket_close(vice_network_socket_t sockfd)
     return closesocket(sockfd ^ INVALID_SOCKET);
 }
 
+/*! \brief Send data on a connected socket
+
+  This function sends outgoing data to a connected socket.
+  opened either by vice_network_client()
+  or vice_network_accept().
+
+  \param sockfd
+     The connected socket to send to
+
+  \param buffer
+     Pointer to the buffer which holds the data to send
+
+  \param buffer_length
+     The length of the buffer pointed to by buffer.
+
+  \param flags
+     Flags for the socket. These flags are architecture dependent.
+
+  \return
+     the number of bytes send. For non-blocking sockets,
+     this can be less than len. For blocking sockets (default),
+     any return value different than len must be treated as an error.
+*/
 int vice_network_send(vice_network_socket_t sockfd, const void * buffer, size_t buffer_length, int flags)
 {
     return send(sockfd ^ INVALID_SOCKET, buffer, buffer_length, flags);
 }
 
+/*! \brief Receive data from a connected socket
+
+  This function receives incoming data from a connected socket.
+  opened either by vice_network_client()
+  or vice_network_accept().
+
+  \param sockfd
+     The connected socket to receive from
+
+  \param buffer
+     Pointer to the buffer which will hold the received data
+
+  \param buffer_length
+     The length of the buffer pointed to by buffer. This
+     indicates the maximum number of bytes to receive.
+
+  \param flags
+     Flags for the socket. These flags are architecture dependent.
+
+  \return
+     the number of bytes received. This can be less than
+     buffer_length.
+
+     When the return value is 0, either the other site has
+     gracefully closed the socket (and all data has been
+     received), or no data was received in the case
+     of a non-blocking socket. 
+
+     In case of an error, -1 is returned.
+*/
 int vice_network_receive(vice_network_socket_t sockfd, void * buffer, size_t buffer_length, int flags)
 {
     return recv(sockfd ^ INVALID_SOCKET, buffer, buffer_length, flags);
 }
 
+/*! \brief Check if a data has incoming data to receive
+
+  This function is called in order to determine if there is
+  data to be received on a socket. For a blocking socket, this
+  is the only way to receive data without actually blocking.
+
+  \param readsockfd
+     The connected socket to test for data
+
+  \return
+     1 if the specified socket has data; 0 if it does not contain
+     any data, and -1 in case of an error.
+*/
 int vice_network_select_poll_one(vice_network_socket_t readsockfd)
 {
     TIMEVAL timeout = { 0 };
@@ -759,6 +825,26 @@ int vice_network_select_poll_one(vice_network_socket_t readsockfd)
     return select( (readsockfd ^ INVALID_SOCKET) + 1, &fdsockset, NULL, NULL, &timeout);
 }
 
+/*! \brief Get the error of the last socket operation
+
+  This function determines the error code for the last
+  socket operation.
+
+  \return
+     the error code
+
+´ \remark
+      It does not distinguish between
+      different sockets, thus, make sure to call it directly
+      after an erroneous socket operation. Furthermore,
+      reading the error status does not reset the error code.
+      Thus, do not expect correct results if the previous
+      operation did not produce an error.
+
+   \todo
+       Generate a mapping between WIN32 and Unix style 
+       error numbers
+*/
 int vice_network_get_errorcode(void)
 {
 #ifdef WIN32
