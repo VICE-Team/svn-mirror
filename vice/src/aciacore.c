@@ -599,6 +599,8 @@ static void acia_set_handshake_lines(void)
 /*! \brief initialize the ACIA */
 void myacia_init(void)
 {
+    acia_preinit();
+
     acia.int_num = interrupt_cpu_status_int_new(maincpu_int_status, MYACIA);
 
     acia.alarm_tx = alarm_new(mycpu_alarm_context, MYACIA, int_acia_tx, NULL);
