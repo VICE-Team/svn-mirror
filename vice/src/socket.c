@@ -371,6 +371,12 @@ static int vice_network_address_generate_ipv4(vice_network_socket_address_t * so
                     socket_address->address.ipv4.sin_port = htons((unsigned short) new_port);
                 }
             }
+
+            if (address_part[0] == 0) {
+                /* there was no address give, do not try to process it. */
+                error = 0;
+                break;
+            }
  
             host_entry = gethostbyname(address_part);
 
