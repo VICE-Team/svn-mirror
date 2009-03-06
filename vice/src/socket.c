@@ -497,6 +497,11 @@ static int vice_network_address_generate_ipv6(vice_network_socket_address_t * so
         socket_address->address.ipv6.sin6_port = htons(port);
         socket_address->address.ipv6.sin6_addr = in6addr_any;
 
+        if ( ! address_string || address_string[0] == 0) {
+            /* there was no address give, do not try to process it. */
+            error = 0;
+            break;
+        }
 #ifdef HAVE_GETHOSTBYNAME2
         host_entry = gethostbyname2(address_string, AF_INET6);
 #else
