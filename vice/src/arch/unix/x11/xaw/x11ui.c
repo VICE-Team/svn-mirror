@@ -80,6 +80,7 @@
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
+#include "uiapi.h"
 #include "uicolor.h"
 #include "uifliplist.h"
 #include "uihotkey.h"
