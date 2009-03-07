@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-03-05 21:20+0100\n"
-"PO-Revision-Date: 2009-02-19 21:31+0100\n"
+"PO-Revision-Date: 2009-03-07 10:50+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -35,14 +35,12 @@ msgid "Specify MIDI-Out device"
 msgstr "MIDI-Out Gerät spezifieren"
 
 #: src/arch/unix/mididrv.c:670
-#, fuzzy
 msgid "<driver>"
-msgstr "WMM Treiber"
+msgstr "<Treiber>"
 
 #: src/arch/unix/mididrv.c:670
-#, fuzzy
 msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
-msgstr "SID Engine wählen (0: FastSID, 1: ReSID)"
+msgstr "MIDI Treiber wählen (0 = OSS, 1 = ALSA)"
 
 #: src/arch/unix/rs232.c:160 src/arch/unix/rs232.c:165
 #: src/arch/unix/rs232.c:170 src/arch/unix/rs232.c:175
@@ -4634,9 +4632,8 @@ msgid "Current mode"
 msgstr "Aktueller Modus"
 
 #: src/arch/win32/res.rc.po.c:5304 src/arch/amigaos/intl.c.po.c:2805
-#, fuzzy
 msgid "Server Bind"
-msgstr "Server"
+msgstr "Server Bind"
 
 #: src/arch/win32/res.rc.po.c:5306 src/arch/amigaos/intl.c.po.c:2783
 msgid "TCP-Port"
@@ -5317,9 +5314,8 @@ msgid "Start VICE in fullscreen mode"
 msgstr "Aktiviere VICE Vollbild Modus"
 
 #: src/arch/win32/res.rc.po.c:6133
-#, fuzzy
 msgid "Disable DirectX9 video driver"
-msgstr "Video Cache deaktivieren"
+msgstr "DirectX9 Video Treiber deaktivieren"
 
 #: src/arch/win32/res.rc.po.c:6135
 #, c-format
