@@ -33,7 +33,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <windows.h>
-#include <WinSock.h>
+#include <winsock.h>
 #include <tlhelp32.h>
 #include <tchar.h>
 
@@ -486,7 +486,7 @@ int archdep_spawn(const char *name, char **argv,
     }
 
     /* Spawn the child process.  */
-    retval = _spawnvp(_P_WAIT, name, (const char **)argv);
+    retval = _spawnvp(_P_WAIT, name, argv);
 
 cleanup:
     if (old_stdout >= 0) {
