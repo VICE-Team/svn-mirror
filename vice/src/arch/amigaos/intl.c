@@ -2831,7 +2831,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SERVER_BIND,    "Server Bind"},
 /* da */ {IDS_SERVER_BIND_DA, ""},  /* fuzzy */
-/* de */ {IDS_SERVER_BIND_DE, ""},  /* fuzzy */
+/* de */ {IDS_SERVER_BIND_DE, "Server Bind"},
 /* fr */ {IDS_SERVER_BIND_FR, ""},  /* fuzzy */
 /* hu */ {IDS_SERVER_BIND_HU, ""},  /* fuzzy */
 /* it */ {IDS_SERVER_BIND_IT, ""},  /* fuzzy */

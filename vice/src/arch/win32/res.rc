@@ -6932,6 +6932,7 @@ BEGIN
   IDS_USE_ALL_CPU_SMP             "Brug alle CPU'er på SMP-systemer"
   IDS_USE_FIRST_CPU_SMP           "Brug kun første CPU på SMP-systemer"
   IDS_START_VICE_FULLSCREEN_MODE  "Start VICE i fullscreen-tilstand"
+  IDS_DISABLE_DX9                 "Disable DirectX9 video driver"
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S         "Uventet fejl. Modtog signal %d (%s)."
 #else
@@ -7330,6 +7331,7 @@ BEGIN
   IDS_USE_ALL_CPU_SMP             "Alle SMP CPUs benutzen"
   IDS_USE_FIRST_CPU_SMP           "Nur erste SMP SPU nutzen"
   IDS_START_VICE_FULLSCREEN_MODE  "Aktiviere VICE Vollbild Modus"
+  IDS_DISABLE_DX9                 "DirectX9 Video Treiber deaktivieren"
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S         "Ein unerwarteter Fehler ist aufgetreten. Signal %d (%s) empfangen."
 #else
@@ -7728,6 +7730,7 @@ BEGIN
   IDS_USE_ALL_CPU_SMP             "Utiliser tous les processeurs (systèmes SMP)"
   IDS_USE_FIRST_CPU_SMP           "N'utiliser que le premier processeur (systèmes SMP)"
   IDS_START_VICE_FULLSCREEN_MODE  "Activer le mode plein écran au démarrage de VICE"
+  IDS_DISABLE_DX9                 "Disable DirectX9 video driver"
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S         "An unexpected error occured. Received signal %d (%s)."
 #else
@@ -8127,6 +8130,7 @@ BEGIN
   IDS_USE_ALL_CPU_SMP             "SMP rendszereken az összes CPU használata"
   IDS_USE_FIRST_CPU_SMP           "SMP rendszereken csak az elsõ CPU használata"
   IDS_START_VICE_FULLSCREEN_MODE  "A VICE indítása teljes képernyõs módban"
+  IDS_DISABLE_DX9                 "Disable DirectX9 video driver"
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S         "Váratlan hiba történt. %d szignál érkezett (%s)."
 #else
@@ -8526,6 +8530,7 @@ BEGIN
   IDS_USE_ALL_CPU_SMP             "Usa tutte le CPU sui sistemi SMP"
   IDS_USE_FIRST_CPU_SMP           "Usa solo la prima CPU sui sistemi SMP"
   IDS_START_VICE_FULLSCREEN_MODE  "Avvia VICE a tutto schermo"
+  IDS_DISABLE_DX9                 "Disable DirectX9 video driver"
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S         "Si è verificato un errore imprevisto. E' stato ricevuto il segnale %d (%s)."
 #else
@@ -8924,6 +8929,7 @@ BEGIN
   IDS_USE_ALL_CPU_SMP             "Gebruik alle CPU's op SMP-systemen"
   IDS_USE_FIRST_CPU_SMP           "Gebruik alleen de eerste CPU op SMP-systemen"
   IDS_START_VICE_FULLSCREEN_MODE  "Start VICE in volschermmodus"
+  IDS_DISABLE_DX9                 "DirectX9 video driver uitschakelen"
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S         "Onverwachte fout. Kreeg signaal %d (%s)."
 #else
@@ -9323,6 +9329,7 @@ BEGIN
   IDS_USE_ALL_CPU_SMP             "Use all CPU on SMP systems"
   IDS_USE_FIRST_CPU_SMP           "Use only first CPU on SMP systems"
   IDS_START_VICE_FULLSCREEN_MODE  "Start VICE in fullscreen mode"
+  IDS_DISABLE_DX9                 "Disable DirectX9 video driver"
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S         "An unexpected error occured. Received signal %d (%s)."
 #else
@@ -9722,6 +9729,7 @@ BEGIN
   IDS_USE_ALL_CPU_SMP             "Använd Alla CPU:er på SMP-system"
   IDS_USE_FIRST_CPU_SMP           "Använd bara första CPU:n på SMP-system"
   IDS_START_VICE_FULLSCREEN_MODE  "Starta VICE i fullskärmsläge"
+  IDS_DISABLE_DX9                 "Disable DirectX9 video driver"
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S         "Ett okänt fel uppstod. Tog emot signal %d (%s)."
 #else
@@ -10121,6 +10129,7 @@ BEGIN
   IDS_USE_ALL_CPU_SMP             "SMP sistemlerinde tüm CPUlarý kullan"
   IDS_USE_FIRST_CPU_SMP           "SMP sistemlerinde yalnýzca ilk CPU'yu kullan"
   IDS_START_VICE_FULLSCREEN_MODE  "VICE'ý tam ekran modunda baþlat"
+  IDS_DISABLE_DX9                 "Disable DirectX9 video driver"
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S         "Beklenmeyen hata oluþtu. %d sinyali alýndý (%s)."
 #else
