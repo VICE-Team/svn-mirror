@@ -32,6 +32,8 @@
 
 #include "vice.h"
 
+#if !defined(_WINDEF_) && !defined(_WINDEF_H)
+
 typedef unsigned char BYTE;
 
 typedef unsigned short WORD;
@@ -40,6 +42,7 @@ typedef unsigned short WORD;
 typedef unsigned long DWORD;
 #else
 typedef unsigned int DWORD;
+#endif
 #endif
 
 typedef signed char SIGNED_CHAR;
