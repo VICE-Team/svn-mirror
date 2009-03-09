@@ -141,6 +141,7 @@ static unsigned short htons(unsigned short ip)
 
 /*! \internal \brief a memory pool for network addresses */
 static vice_network_socket_address_t address_pool[16] = { { 0 } };
+static unsigned int address_pool_usage = 0;
 
 /*! \brief Initialize networking
 
@@ -269,6 +270,56 @@ vice_network_socket_t vice_network_client(const vice_network_socket_address_t * 
     return (vice_network_socket_t) (sockfd ^ INVALID_SOCKET);
 }
 
+/*! \internal \brief Get the next free entry of a pool
+
+  \param PoolUsage
+     Pointer to a bit pattern that contains the allocations
+     of the pool.
+
+  \return
+     The next free pool entry, or -1 if there is none left.
+
+  \remark
+     A 1 bit marks a used pool entry, a 0 bit a free pool entry.
+
+  \remark
+     In the current implementation, this function is restricted
+     to 16 entries.
+*/
+static int get_new_pool_entry(unsigned int * PoolUsage)
+{
+    int next_free = -1;
+
+    static int nextentry[] = { 0, 1, 0, 2, 0, 1, 0, 3,
+                               0, 1, 0, 2, 0, 1, 0, -1 };
+
+    next_free = nextentry[*PoolUsage & 0x0f];
+    if (next_free < 0) {
+        next_free = nextentry[(*PoolUsage >> 4) & 0x0f];
+        if (next_free >= 0) {
+            next_free += 4;
+        }
+        else {
+            next_free = nextentry[(*PoolUsage >> 8) & 0x0f];
+            if (next_free >= 0) {
+                next_free += 8;
+            }
+            else {
+                next_free = nextentry[(*PoolUsage >> 12) & 0x0f];
+                if (next_free >= 0) {
+                    next_free += 12;
+                }
+            }
+        }
+    }
+
+    if (next_free >= 0) {
+        *PoolUsage |= 1u << next_free;
+    }
+
+    return next_free;
+}
+
 /*! \internal \brief Get a free memory area for a socket address
 
   \return
@@ -282,17 +333,21 @@ vice_network_socket_t vice_network_client(const vice_network_socket_address_t * 
 static vice_network_socket_address_t * vice_network_alloc_new_socket_address(void)
 {
     vice_network_socket_address_t * return_address = NULL;
-    int i;
+    int i = get_new_pool_entry(&address_pool_usage);
 
-    for (i = 0; i < arraysize(address_pool); i++)
-    {
-        if (address_pool[i].used == 0) {
-            return_address = & address_pool[i];
-            memset(return_address, 0, sizeof * return_address);
-            return_address->used = 1;
-            return_address->len = sizeof return_address->address;
-            break;
-        }
+    if (i >= arraysize(address_pool)) {
+        i = -1;
+    }
+
+    assert(i >= 0);
+
+    if (i >= 0) {
+        assert(address_pool[i].used == 0);
+
+        return_address = & address_pool[i];
+        memset(return_address, 0, sizeof * return_address);
+        return_address->used = 1;
+        return_address->len = sizeof return_address->address;
     }
 
     return return_address;
@@ -684,7 +739,11 @@ void vice_network_address_close(vice_network_socket_address_t * address)
 {
     if (address)
     {
+        assert(address->used == 1);
+        assert(((address_pool_usage & (1u << (address - address_pool))) == 1));
+
         address->used = 0;
+        address_pool_usage &= ~ (1u << (address - address_pool));
     }
 }
 
