@@ -956,7 +956,7 @@ int keyboard_set_keymap_file(const char *val, void *param)
 {
     int oldindex, newindex;
 
-    newindex = (int)param;
+    newindex = (int)(long)param;
 
     if (newindex >= machine_num_keyboard_mappings())
         return -1;

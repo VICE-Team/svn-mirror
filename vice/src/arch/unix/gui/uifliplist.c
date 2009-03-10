@@ -62,7 +62,7 @@ extern UI_CALLBACK(detach_disk);
 
 static UI_CALLBACK(attach_from_fliplist3)
 {
-    fliplist_attach_head(8, (int)UI_MENU_CB_PARAM);
+    fliplist_attach_head(8, (int)(long)UI_MENU_CB_PARAM);
 }
 
 static UI_CALLBACK(add2fliplist)
@@ -82,7 +82,7 @@ static char *load_save_fliplist_last_dir = NULL;
 static UI_CALLBACK(load_save_fliplist)
 {
     char *filename, *title;
-    int what = (int)UI_MENU_CB_PARAM;
+    int what = (int)(long)UI_MENU_CB_PARAM;
     ui_button_t button;
     uilib_file_filter_enum_t filter[] = { UILIB_FILTER_FLIPLIST, UILIB_FILTER_ALL };
 
@@ -198,14 +198,14 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         t0 = lib_msprintf(_("Attach #%d"), drive + 8);
         flipmenu[drive][i].string = t0;
         flipmenu[drive][i].callback = (ui_callback_t)attach_disk;
-        flipmenu[drive][i].callback_data = (ui_callback_data_t)(drive + 8);
+        flipmenu[drive][i].callback_data = (ui_callback_data_t)(long)(drive + 8);
         i++;
 
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
         t5 = lib_msprintf(_("Detach #%d"), drive + 8);
         flipmenu[drive][i].string = t5;
         flipmenu[drive][i].callback = (ui_callback_t)detach_disk;
-        flipmenu[drive][i].callback_data = (ui_callback_data_t)(drive + 8);
+        flipmenu[drive][i].callback_data = (ui_callback_data_t)(long)(drive + 8);
         i++;
 
 #ifdef USE_GNOMEUI

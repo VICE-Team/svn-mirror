@@ -44,7 +44,7 @@
 
 static UI_CALLBACK(attach_cartridge)
 {
-    int type = (int)UI_MENU_CB_PARAM;
+    int type = (int)(long)UI_MENU_CB_PARAM;
 
     vsync_suspend_speed_eval();
 

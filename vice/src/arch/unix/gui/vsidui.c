@@ -434,7 +434,7 @@ static void vsid_create_menus(void)
         tune_menu[i].callback =
             (ui_callback_t) radio_PSIDTune;
         tune_menu[i].callback_data =
-            (ui_callback_data_t) i;
+            (ui_callback_data_t)(long) i;
         tune_menu[i].sub_menu = NULL;
         tune_menu[i].hotkey_keysym = i < 10 ? KEYSYM_0 + i : 0;
         tune_menu[i].hotkey_modifier =

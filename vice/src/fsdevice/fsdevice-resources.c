@@ -44,28 +44,28 @@ char *fsdevice_dir[4] = { NULL, NULL, NULL, NULL };
 
 static int set_fsdevice_convert_p00(int val, void *param)
 {
-    fsdevice_convert_p00_enabled[(int)param - 8] = val;
+    fsdevice_convert_p00_enabled[(int)(long)param - 8] = val;
     return 0;
 }
 
 static int set_fsdevice_dir(const char *name, void *param)
 {
-    util_string_set(&fsdevice_dir[(int)param - 8], name ? name : "");
+    util_string_set(&fsdevice_dir[(int)(long)param - 8], name ? name : "");
     return 0;
 }
 
 static int set_fsdevice_save_p00(int val, void *param)
 {
-    fsdevice_save_p00_enabled[(int)param - 8] = val;
+    fsdevice_save_p00_enabled[(int)(long)param - 8] = val;
     return 0;
 }
 
 static int set_fsdevice_hide_cbm_files(int val, void *param)
 {
-    if (val && !fsdevice_convert_p00_enabled[(int)param - 8])
+    if (val && !fsdevice_convert_p00_enabled[(int)(long)param - 8])
         return -1;
 
-    fsdevice_hide_cbm_files_enabled[(int)param - 8] = val;
+    fsdevice_hide_cbm_files_enabled[(int)(long)param - 8] = val;
     return 0;
 }
 

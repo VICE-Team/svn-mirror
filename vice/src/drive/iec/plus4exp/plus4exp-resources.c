@@ -50,13 +50,13 @@ static void set_drive_ram(unsigned int dnr)
 
 static int set_drive_parallel_cable(int val, void *param)
 {
-    drive_t *drive = drive_context[(unsigned int)param]->drive;
+    drive_t *drive = drive_context[(unsigned int)(unsigned long)param]->drive;
 
     if (val != DRIVE_PC_NONE && val != DRIVE_PC_STANDARD)
         return -1;
 
     drive->parallel_cable = val;
-    set_drive_ram((unsigned int)param);
+    set_drive_ram((unsigned int)(unsigned long)param);
 
     return 0;
 }
@@ -78,7 +78,7 @@ int plus4exp_resources_init(void)
 
         res_drive[0].name = lib_msprintf("Drive%iParallelCable", dnr + 8);
         res_drive[0].value_ptr = &(drive->parallel_cable);
-        res_drive[0].param = (void *)dnr;
+        res_drive[0].param = (void *)(unsigned long)dnr;
 
         if (resources_register_int(res_drive) < 0)
             return -1;

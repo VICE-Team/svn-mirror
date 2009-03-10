@@ -65,8 +65,8 @@ static int set_output_device(const char *name, void *param)
 
     do {
         if (!strcmp(list->output_select.output_name, name)) {
-            util_string_set(&output_device[(int)param], name);
-            memcpy(&output_select[(int)param], &(list->output_select),
+            util_string_set(&output_device[(int)(long)param], name);
+            memcpy(&output_select[(int)(long)param], &(list->output_select),
                    sizeof(output_select_t));
             return 0;
         }

@@ -296,7 +296,7 @@ static int set_attach_device_readonly(int val, void *param)
     char *new_filename;
     int rc;
 
-    unit = (unsigned int)param;
+    unit = (unsigned int)(unsigned long)param;
 
     /* Do nothing if resource is unchanged.  */
     if (attach_device_readonly_enabled[unit - 8] == val)
@@ -331,7 +331,7 @@ static int set_file_system_device(int val, void *param)
     unsigned int unit;
     int old_device_enabled;
 
-    unit = (unsigned int)param;
+    unit = (unsigned int)(unsigned long)param;
     old_device_enabled = file_system_device_enabled[unit - 8];
 
     vdrive = file_system_get_vdrive(unit);
@@ -578,7 +578,7 @@ static void file_system_detach_disk_single(unsigned int unit)
         ui_display_drive_current_image(unit - 8, "");
     }
 
-    set_file_system_device(file_system_device_enabled[unit - 8], (void *)unit);
+    set_file_system_device(file_system_device_enabled[unit - 8], (void *)(unsigned long)unit);
 }
 
 static void file_system_detach_disk_internal(int unit)

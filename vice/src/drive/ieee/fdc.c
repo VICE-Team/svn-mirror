@@ -704,7 +704,7 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 {
     unsigned int fnum;
 
-    fnum = (unsigned int)data;
+    fnum = (unsigned int)(unsigned long)data;
 
     if (fdc[fnum].fdc_state != FDC_UNUSED) {
         if (fdc[fnum].alarm_clk > sub) {
@@ -741,7 +741,7 @@ void fdc_init(drive_context_t *drv)
     lib_free(buffer);
 
     clk_guard_add_callback(drv->cpu->clk_guard, clk_overflow_callback,
-                           (void *)(drv->mynumber));
+                           (void *)(unsigned long)(drv->mynumber));
 }
 
 /************************************************************************/

@@ -154,7 +154,7 @@ xrandr_menu_create(struct ui_menu_entry_s *menu)
 	    resolutions_submenu[i].string = 
 		screen_info.all_modes[i].mode_string;
 	    resolutions_submenu[i].callback = (ui_callback_t)menu_callback;
-	    resolutions_submenu[i].callback_data = (ui_callback_data_t)i;
+	    resolutions_submenu[i].callback_data = (ui_callback_data_t)(long)i;
 	}
 	
 	/* finalize menu */

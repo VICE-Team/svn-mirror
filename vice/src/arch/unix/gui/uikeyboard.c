@@ -46,7 +46,7 @@
 
 static UI_CALLBACK(set_keymap_type)
 {
-     int kindex, newindex = (int)UI_MENU_CB_PARAM;
+     int kindex, newindex = (int)(long)UI_MENU_CB_PARAM;
 
      if (resources_get_int("KeymapIndex", &kindex) < 0)
          return;
@@ -79,7 +79,7 @@ static UI_CALLBACK(select_user_keymap)
     uilib_file_filter_enum_t filter[] = { UILIB_FILTER_KEYMAP, UILIB_FILTER_ALL };
 
     resources_get_int("KeymapIndex", &kindex);
-    kindex = (kindex & ~1) + (int)UI_MENU_CB_PARAM;
+    kindex = (kindex & ~1) + (int)(long)UI_MENU_CB_PARAM;
     resname = machine_keymap_res_name_list[kindex];
 
     vsync_suspend_speed_eval();

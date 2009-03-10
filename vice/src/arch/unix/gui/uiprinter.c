@@ -182,6 +182,6 @@ ui_menu_entry_t uiprinter_set_printer5_type_submenu[] = {
 
 UI_CALLBACK(uiprinter_formfeed)
 {
-    printer_formfeed((unsigned int)UI_MENU_CB_PARAM);
+    printer_formfeed((unsigned int)(unsigned long)UI_MENU_CB_PARAM);
 }
 

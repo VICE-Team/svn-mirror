@@ -554,12 +554,12 @@ void _ui_menu_radio_helper(Widget w,
     resources_get_int(resource_name, &current_value);
 
     if (!call_data) {
-        if (current_value != (int)client_data) {
-            resources_set_int(resource_name, (int)client_data);
+        if (current_value != (int)(long)client_data) {
+            resources_set_int(resource_name, (int)(long)client_data);
             ui_update_menus();
         }
     } else {
-        ui_menu_set_tick(w, current_value == (int)client_data);
+        ui_menu_set_tick(w, current_value == (int)(long)client_data);
     }
 }
 

@@ -57,7 +57,7 @@ static UI_CALLBACK(parallel_cable_control)
         int type;
 
         resources_get_int_sprintf("Drive%iType", &type,
-                                  (int)UI_MENU_CB_PARAM + 8);
+                                  (int)(long)UI_MENU_CB_PARAM + 8);
 
         if (drive_check_parallel_cable(type))
             ui_menu_set_sensitive(w, 1);

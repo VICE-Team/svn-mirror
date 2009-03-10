@@ -83,7 +83,7 @@ static UI_CALLBACK(set_common_memory_configuration)
 {
     int blocks;
 
-    switch ((int) UI_MENU_CB_PARAM) {
+    switch ((int)(long)UI_MENU_CB_PARAM) {
       case MEM_NONE:
         blocks = 0;
         break;
@@ -254,7 +254,7 @@ static ui_menu_entry_t memory_settings_menu[] = {
 
 static UI_CALLBACK(attach_cartridge)
 {
-    int type = (int)UI_MENU_CB_PARAM;
+    int type = (int)(long)UI_MENU_CB_PARAM;
     char *filename;
     ui_button_t button;
     static char *last_dir;
@@ -334,13 +334,13 @@ static UI_CALLBACK(set_joystick_device)
 {
     vsync_suspend_speed_eval();
     if (!CHECK_MENUS) {
-        resources_set_int("JoyDevice1", (int)UI_MENU_CB_PARAM);
+        resources_set_int("JoyDevice1", (int)(long)UI_MENU_CB_PARAM);
         ui_update_menus();
     } else {
         int tmp;
 
         resources_get_int("JoyDevice1", &tmp);
-        ui_menu_set_tick(w, tmp == (int)UI_MENU_CB_PARAM);
+        ui_menu_set_tick(w, tmp == (int)(long)UI_MENU_CB_PARAM);
     }
 }
 
@@ -450,7 +450,7 @@ static UI_CALLBACK(save_screenshot)
 {
     /* Where does the 1024 come from?  */
     char filename[1024];
-    unsigned int wid = (unsigned int)UI_MENU_CB_PARAM;
+    unsigned int wid = (unsigned int)(unsigned long)UI_MENU_CB_PARAM;
 
     vsync_suspend_speed_eval();
 

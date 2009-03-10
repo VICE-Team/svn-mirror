@@ -50,7 +50,7 @@ static int set_dos_rom_name_1571cr(const char *val, void *param)
 
 static int set_romset_firmware(int val, void *param)
 {
-    unsigned int num = (unsigned int)param;
+    unsigned int num = (unsigned int)(unsigned long)param;
 
     romset_firmware[num] = val;
 

@@ -125,7 +125,7 @@ static int devbaud[RS232_NUM_DEVICES];
 
 static int set_devbaud(int val, void *param)
 {
-    devbaud[(int)param] = val;
+    devbaud[(int)(long)param] = val;
     return 0;
 }
 

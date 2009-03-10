@@ -62,14 +62,14 @@ static UI_CALLBACK(set_refresh_rate)
     resources_get_int("RefreshRate", &current_refresh_rate);
 
     if (!CHECK_MENUS) {
-        if (current_refresh_rate != (int)UI_MENU_CB_PARAM) {
-            resources_set_int("RefreshRate", (int)UI_MENU_CB_PARAM);
+        if (current_refresh_rate != (int)(long)UI_MENU_CB_PARAM) {
+            resources_set_int("RefreshRate", (int)(long)UI_MENU_CB_PARAM);
             ui_update_menus();
         }
     } else {
-        if ((int)UI_MENU_CB_PARAM == 0)
+        if ((int)(long)UI_MENU_CB_PARAM == 0)
             have_custom_refresh_rate = 1;
-        if ((int)UI_MENU_CB_PARAM == current_refresh_rate) {
+        if ((int)(long)UI_MENU_CB_PARAM == current_refresh_rate) {
             ui_menu_set_tick(w, 1);
             have_custom_refresh_rate = 0;
         } else {
@@ -143,14 +143,14 @@ static UI_CALLBACK(set_maximum_speed)
     resources_get_int("Speed", &current_speed);
 
     if (!CHECK_MENUS) {
-        if (current_speed != (int)UI_MENU_CB_PARAM) {
-            resources_set_int("Speed", (int)UI_MENU_CB_PARAM);
+        if (current_speed != (int)(long)UI_MENU_CB_PARAM) {
+            resources_set_int("Speed", (int)(long)UI_MENU_CB_PARAM);
             ui_update_menus();
         }
     } else {
-        if ((int)UI_MENU_CB_PARAM == 100)
+        if ((int)(long)UI_MENU_CB_PARAM == 100)
             have_custom_maximum_speed = 1;
-        if (current_speed == (int)UI_MENU_CB_PARAM) {
+        if (current_speed == (int)(long)UI_MENU_CB_PARAM) {
             ui_menu_set_tick(w, 1);
             have_custom_maximum_speed = 0;
         } else {

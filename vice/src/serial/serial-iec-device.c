@@ -54,7 +54,7 @@ static int set_iec_device_enable(int enable, void *param)
 {
     unsigned int unit;
 
-    unit = (unsigned int)param;
+    unit = (unsigned int)(unsigned long)param;
 
     if ((unit < 4 || unit > 5) && (unit < 8 || unit > 11))
         return -1;

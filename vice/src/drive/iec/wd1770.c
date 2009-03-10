@@ -93,7 +93,7 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 {
     unsigned int dnr;
 
-    dnr = (unsigned int)data;
+    dnr = (unsigned int)(unsigned long)data;
 
     if (wd1770[dnr].busy_clk > (CLOCK) 0)
         wd1770[dnr].busy_clk -= sub;
@@ -114,7 +114,7 @@ void wd1770d_init(drive_context_t *drv)
         wd1770_log = log_open("WD1770");
 
     clk_guard_add_callback(drv->cpu->clk_guard, clk_overflow_callback,
-                           (void *)(drv->mynumber));
+                           (void *)(unsigned long)(drv->mynumber));
 }
 
 void REGPARM3 wd1770d_store(drive_context_t *drv, WORD addr, BYTE byte)

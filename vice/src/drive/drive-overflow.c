@@ -41,7 +41,7 @@ static void drive_clk_overflow_callback(CLOCK sub, void *data)
     unsigned int dnr;
     drive_t *drive;
 
-    dnr = (unsigned int)data;
+    dnr = (unsigned int)(unsigned long)data;
     drive = drive_context[dnr]->drive;
 
     if (drive->byte_ready_active == 0x06)
@@ -71,7 +71,7 @@ void drive_overflow_init(void)
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         clk_guard_add_callback(drive_context[dnr]->cpu->clk_guard,
-                               drive_clk_overflow_callback, (void *)dnr);
+                               drive_clk_overflow_callback, (void *)(unsigned long)dnr);
     }
 }
 

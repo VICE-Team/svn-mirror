@@ -172,7 +172,7 @@ static int attach_cartridge_cmdline(const char *param, void *extra_param)
         cartridge_detach_image();
         return 0;
     }
-    return cartridge_attach_image((int)extra_param, param);
+    return cartridge_attach_image((int)(long)extra_param, param);
 }
 
 static const cmdline_option_t cmdline_options[] =

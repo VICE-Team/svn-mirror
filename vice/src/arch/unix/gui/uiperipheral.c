@@ -43,7 +43,7 @@ UI_MENU_DEFINE_RADIO(FileSystemDevice11)
 
 UI_CALLBACK(uiperipheral_set_fsdevice_directory)
 {
-    int unit = (int)UI_MENU_CB_PARAM;
+    int unit = (int)(long)UI_MENU_CB_PARAM;
     char *resname;
     char *title;
 

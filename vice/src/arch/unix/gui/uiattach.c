@@ -65,7 +65,7 @@ static read_contents_func_type funcs[] = {
 
 UI_CALLBACK(attach_disk)
 {
-    int unit = (int)UI_MENU_CB_PARAM;
+    int unit = (int)(long)UI_MENU_CB_PARAM;
     char *filename, *title;
     ui_button_t button;
     int attach_wp = 0;
@@ -127,7 +127,7 @@ static ui_menu_entry_t attach_disk_image_submenu[] = {
 
 static UI_CALLBACK(attach_empty_disk)
 {
-    int unit = (int)UI_MENU_CB_PARAM;
+    int unit = (int)(long)UI_MENU_CB_PARAM;
     /* Where does the 1024 come from?  */
     char filename[1024];
 
@@ -157,7 +157,7 @@ static ui_menu_entry_t attach_empty_disk_image_submenu[] = {
 
 UI_CALLBACK(detach_disk)
 {
-    int unit = (int)UI_MENU_CB_PARAM;
+    int unit = (int)(long)UI_MENU_CB_PARAM;
 
     vsync_suspend_speed_eval();
     file_system_detach_disk(unit);
