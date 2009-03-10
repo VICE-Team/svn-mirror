@@ -334,7 +334,7 @@ float FilterFP::clock(float voice1,
         float tmp = Vi + Vhp + Vlp - Vbp * _1_div_Q;
         Vlp += (tmp - Vlp) * distortion_cf_threshold;
         /* bp is mixed via resonance control */
-        Vbp += (tmp + Vbp * _1_div_Q) * distortion_cf_threshold * _1_div_Q;
+        Vbp += (tmp - Vbp) * distortion_cf_threshold * _1_div_Q;
         Vhp += (tmp - Vhp) * distortion_cf_threshold;
 
         /* output strip mixing to filter state */
