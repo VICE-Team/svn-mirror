@@ -31,6 +31,7 @@
 #include "uipalemu.h"
 #include "machine.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "uimenu.h"
 #include "uipalemu.h"
 #include "util.h"

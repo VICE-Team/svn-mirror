@@ -33,6 +33,7 @@
 #include "lib.h"
 #include "resources.h"
 #include "sid.h"
+#include "uiapi.h"
 #include "uimenu.h"
 #include "vsync.h"
 

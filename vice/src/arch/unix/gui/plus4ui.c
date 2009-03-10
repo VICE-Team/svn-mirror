@@ -35,6 +35,7 @@
 #include "machine-video.h"
 #include "plus4ui.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "uiattach.h"
 #include "uicommands.h"
 #include "uidatasette.h"

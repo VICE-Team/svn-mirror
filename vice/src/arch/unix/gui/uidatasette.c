@@ -30,6 +30,7 @@
 
 #include "datasette.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "uimenu.h"
 #include "util.h"
 

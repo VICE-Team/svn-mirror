@@ -37,6 +37,7 @@
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "uilib.h"
 #include "uikeyboard.h"
 #include "uimenu.h"

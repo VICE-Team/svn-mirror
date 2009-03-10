@@ -30,6 +30,7 @@
 
 #include "drive.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "uidriveiec.h"
 #include "uimenu.h"
 

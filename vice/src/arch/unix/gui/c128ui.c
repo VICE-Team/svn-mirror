@@ -36,6 +36,7 @@
 #include "machine-video.h"
 #include "machine.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "uiattach.h"
 #include "uic64cart.h"
 #include "uicommands.h"

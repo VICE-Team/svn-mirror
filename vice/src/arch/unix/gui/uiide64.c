@@ -31,6 +31,7 @@
 
 #include "lib.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "uiide64.h"
 #include "uilib.h"
 #include "uimenu.h"

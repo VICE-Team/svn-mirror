@@ -45,6 +45,7 @@
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "uiarch.h"
 #include "uimenu.h"
 #include "x11menu.h"

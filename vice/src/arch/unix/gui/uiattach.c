@@ -38,6 +38,7 @@
 #include "lib.h"
 #include "resources.h"
 #include "tape.h"
+#include "uiapi.h"
 #include "uiattach.h"
 #include "uiedisk.h"
 #include "uifliplist.h"

@@ -53,6 +53,7 @@
 #include "lib.h"
 #include "machine.h"
 #include "ui.h"
+#include "uiapi.h"
 #include "uiarch.h"
 #include "uilib.h"
 

@@ -45,6 +45,7 @@
 #include "resources.h"
 #include "sound.h"
 #include "types.h"
+#include "uiapi.h"
 #include "uicommands.h"
 #include "uilib.h"
 #include "uimenu.h"

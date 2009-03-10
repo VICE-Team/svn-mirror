@@ -34,6 +34,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "romset.h"
+#include "uiapi.h"
 #include "uilib.h"
 #include "uimenu.h"
 #include "uiromset.h"

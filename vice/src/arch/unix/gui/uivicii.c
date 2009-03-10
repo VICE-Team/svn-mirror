@@ -32,6 +32,7 @@
 #include "c64ui.h"
 #include "fullscreenarch.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "uipalette.h"
 #include "uimenu.h"
 #include "uivicii.h"

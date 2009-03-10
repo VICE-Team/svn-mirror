@@ -41,6 +41,7 @@
 #include "lib.h"
 #include "resources.h"
 #include "types.h"
+#include "uiapi.h"
 #include "uilib.h"
 #include "uimenu.h"
 #include "uiperipheral.h"
@@ -257,7 +258,9 @@ static UI_CALLBACK(save_resources_file)
 #ifndef HAVE_DIRNAME
     char *tmp;
 #endif
+#ifdef USE_GNOMEUI
     uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
+#endif
 
     vsync_suspend_speed_eval();
 

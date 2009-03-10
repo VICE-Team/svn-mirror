@@ -43,6 +43,7 @@
 #include "machine.h"
 #include "psid.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "uicommands.h"
 #include "uilib.h"
 #include "uimenu.h"

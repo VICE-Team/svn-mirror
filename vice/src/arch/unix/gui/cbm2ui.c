@@ -38,6 +38,7 @@
 #include "machine.h"
 #include "machine-video.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "uiattach.h"
 #include "uicommands.h"
 #include "uicrtc.h"

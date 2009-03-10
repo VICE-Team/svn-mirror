@@ -34,6 +34,7 @@
 #include "lib.h"
 #include "network.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "uilib.h"
 #include "uimenu.h"
 #include "uinetplay.h"
