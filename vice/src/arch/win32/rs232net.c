@@ -82,7 +82,7 @@ int rs232net_cmdline_options_init(void)
 
 typedef struct rs232net {
     int inuse; /*!< 0 if the connection has not been opened, 1 otherwise. */
-    vice_network_socket_t fd; /*!< the vice_network_socket_t for the connection.
+    vice_network_socket_t * fd; /*!< the vice_network_socket_t for the connection.
                     If fd is 0
                     although inuse == 1, then the socket has been closed
                     because of a previous error. This prevents the error

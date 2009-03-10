@@ -32,24 +32,24 @@
 
 #include "types.h"
 
-typedef unsigned int vice_network_socket_t;
+typedef struct vice_network_socket_opaque_s vice_network_socket_t;
 
 typedef struct vice_network_socket_address_s vice_network_socket_address_t;
 
-vice_network_socket_t vice_network_server(const vice_network_socket_address_t * server_address);
-vice_network_socket_t vice_network_client(const vice_network_socket_address_t * server_address);
+vice_network_socket_t * vice_network_server(const vice_network_socket_address_t * server_address);
+vice_network_socket_t * vice_network_client(const vice_network_socket_address_t * server_address);
 
 vice_network_socket_address_t * vice_network_address_generate(const char * address, unsigned short port);
 void vice_network_address_close(vice_network_socket_address_t *);
 
-vice_network_socket_t vice_network_accept(vice_network_socket_t sockfd, vice_network_socket_address_t ** client_address);
+vice_network_socket_t * vice_network_accept(vice_network_socket_t * sockfd);
 
-int vice_network_socket_close(vice_network_socket_t sockfd);
+int vice_network_socket_close(vice_network_socket_t * sockfd);
 
-int vice_network_send(vice_network_socket_t sockfd, const void * buffer, size_t buffer_length, int flags);
-int vice_network_receive(vice_network_socket_t sockfd, void * buffer, size_t buffer_length, int flags);
+int vice_network_send(vice_network_socket_t * sockfd, const void * buffer, size_t buffer_length, int flags);
+int vice_network_receive(vice_network_socket_t * sockfd, void * buffer, size_t buffer_length, int flags);
 
-int vice_network_select_poll_one(vice_network_socket_t readsockfd);
+int vice_network_select_poll_one(vice_network_socket_t * readsockfd);
 
 int vice_network_get_errorcode(void);
 

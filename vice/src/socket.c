@@ -81,6 +81,12 @@ struct vice_network_socket_address_s
     union socket_addresses_u address;
 };
 
+struct vice_network_socket_opaque_s {
+    SOCKET sockfd;
+    vice_network_socket_address_t address;
+    unsigned int used;
+};
+
 #ifndef HAVE_HTONL
 # ifndef htonl
 /*! \internal \brief convert a long from host order into network order
@@ -143,132 +149,8 @@ static unsigned short htons(unsigned short ip)
 static vice_network_socket_address_t address_pool[16] = { { 0 } };
 static unsigned int address_pool_usage = 0;
 
-/*! \brief Initialize networking
-
-   Initialisation that is needed in order to work with
-   sockets has to be done here.
-
-  \return
-   0 on success, else -1.
-*/
-int vice_network_init(void)
-{
-#if defined(AMIGA_SUPPORT) && !defined(AMIGA_OS4)
-    if (SocketBase == NULL) {
-        SocketBase = OpenLibrary("bsdsocket.library", 3);
-        if (SocketBase == NULL) {
-            return -1;
-        }
-    }
-#endif
-    return 0;
-}
-
-/*! \brief uninitialize networking
-
-  Undo the initialisations done in vice_network_init().
-*/
-void vice_network_shutdown(void)
-{
-#if defined(AMIGA_SUPPORT) && !defined(AMIGA_OS4)
-    if (SocketBase != NULL) {
-        CloseLibrary(SocketBase);
-        SocketBase = NULL;
-    }
-#endif
-}
-
-/*! \brief Open a socket and initialise it for server operation
-
-  \param server_address
-     The address of the server to which to bind to.
-
-  \return
-     0 on error;
-     else, a handle to the socket on success.
-
-  \remark
-     The server_address variable determines the type of
-     socket to be used (IPv4, IPv6, Unix Domain Socket, ...)
-     Thus, server_address must not be NULL.
-*/
-vice_network_socket_t vice_network_server(const vice_network_socket_address_t * server_address)
-{
-    int sockfd = INVALID_SOCKET;
-    int error = 1;
-
-    assert(server_address != NULL);
-
-    do {
-        sockfd = socket(server_address->domain, SOCK_STREAM, server_address->protocol);
-
-        if (SOCKET_IS_INVALID(sockfd)) {
-            sockfd = INVALID_SOCKET;
-            break;
-        }
-
-        if (bind(sockfd, & server_address->address.generic, server_address->len) < 0) {
-            break;
-        }
-        if (listen(sockfd, 2) < 0) {
-            break;
-        }
-        error = 0;
-    } while(0);
-
-    if (error) {
-        if ( ! SOCKET_IS_INVALID(sockfd) ) {
-            closesocket(sockfd);
-        }
-        sockfd = INVALID_SOCKET;
-    }
-
-    return (vice_network_socket_t) (sockfd ^ INVALID_SOCKET);
-}
-
-/*! \brief Open a socket and initialise it for client operation
-
-  \param server_address
-     The address of the server to which to connect to.
-
-  \return
-     0 on error;
-     else, a handle to the socket on success.
-
-  \remark
-     The server_address variable determines the type of
-     socket to be used (IPv4, IPv6, Unix Domain Socket, ...)
-*/
-vice_network_socket_t vice_network_client(const vice_network_socket_address_t * server_address)
-{
-    int sockfd = INVALID_SOCKET;
-    int error = 1;
-
-    assert(server_address != NULL);
-
-    do {
-        sockfd = socket(server_address->domain, SOCK_STREAM, server_address->protocol);
-
-        if (SOCKET_IS_INVALID(sockfd)) {
-            sockfd = INVALID_SOCKET;
-            break;
-        }
-
-        if (connect(sockfd, & server_address->address.generic, server_address->len) < 0) {
-            break;
-        }
-        error = 0;
-    } while(0);
-
-    if (error) {
-        if ( ! SOCKET_IS_INVALID(sockfd) ) {
-            closesocket(sockfd);
-        }
-        sockfd = INVALID_SOCKET;
-    }
-
-    return (vice_network_socket_t) (sockfd ^ INVALID_SOCKET);
-}
+static vice_network_socket_t socket_pool[16] = { 0 };
+static unsigned int socket_pool_usage = 0;
 
 /*! \internal \brief Get the next free entry of a pool
 
@@ -320,6 +202,46 @@ static int get_new_pool_entry(unsigned int * PoolUsage)
     return next_free;
 }
 
+/*! \internal \brief Get a free memory area for a socket
+
+  \return
+     NULL on error;
+     else, a pointer to an empty vice_network_socket_t structure
+
+  \remark
+     If not used anymore, the returned pointer must be freed
+     with a call to vice_network_socket_close().
+*/
+static vice_network_socket_t * vice_network_alloc_new_socket(SOCKET sockfd)
+{
+    vice_network_socket_t * return_address = NULL;
+    int i = get_new_pool_entry(&socket_pool_usage);
+
+    if (i >= arraysize(socket_pool)) {
+        i = -1;
+    }
+
+    assert(i >= 0);
+
+    if (i >= 0) {
+        assert(socket_pool[i].used == 0);
+
+        return_address = & socket_pool[i];
+        memset(return_address, 0, sizeof * return_address);
+        return_address->used = 1;
+        return_address->sockfd = sockfd;
+    }
+
+    return return_address;
+}
+
+static void initialize_socket_address(vice_network_socket_address_t * address)
+{
+    memset(address, 0, sizeof * address);
+    address->used = 1;
+    address->len = sizeof address->address;
+}
+
 /*! \internal \brief Get a free memory area for a socket address
 
   \return
@@ -345,12 +267,137 @@ static vice_network_socket_address_t * vice_network_alloc_new_socket_address(voi
         assert(address_pool[i].used == 0);
 
         return_address = & address_pool[i];
-        memset(return_address, 0, sizeof * return_address);
-        return_address->used = 1;
-        return_address->len = sizeof return_address->address;
+        initialize_socket_address(return_address);
     }
 
     return return_address;
+}
+
+/*! \brief Initialize networking
+
+   Initialisation that is needed in order to work with
+   sockets has to be done here.
+
+  \return
+   0 on success, else -1.
+*/
+int vice_network_init(void)
+{
+#if defined(AMIGA_SUPPORT) && !defined(AMIGA_OS4)
+    if (SocketBase == NULL) {
+        SocketBase = OpenLibrary("bsdsocket.library", 3);
+        if (SocketBase == NULL) {
+            return -1;
+        }
+    }
+#endif
+    return 0;
+}
+
+/*! \brief uninitialize networking
+
+  Undo the initialisations done in vice_network_init().
+*/
+void vice_network_shutdown(void)
+{
+#if defined(AMIGA_SUPPORT) && !defined(AMIGA_OS4)
+    if (SocketBase != NULL) {
+        CloseLibrary(SocketBase);
+        SocketBase = NULL;
+    }
+#endif
+}
+
+/*! \brief Open a socket and initialise it for server operation
+
+  \param server_address
+     The address of the server to which to bind to.
+
+  \return
+     0 on error;
+     else, a handle to the socket on success.
+
+  \remark
+     The server_address variable determines the type of
+     socket to be used (IPv4, IPv6, Unix Domain Socket, ...)
+     Thus, server_address must not be NULL.
+*/
+vice_network_socket_t * vice_network_server(const vice_network_socket_address_t * server_address)
+{
+    int sockfd = INVALID_SOCKET;
+    int error = 1;
+
+    assert(server_address != NULL);
+
+    do {
+        sockfd = socket(server_address->domain, SOCK_STREAM, server_address->protocol);
+
+        if (SOCKET_IS_INVALID(sockfd)) {
+            sockfd = INVALID_SOCKET;
+            break;
+        }
+
+        if (bind(sockfd, & server_address->address.generic, server_address->len) < 0) {
+            break;
+        }
+        if (listen(sockfd, 2) < 0) {
+            break;
+        }
+        error = 0;
+    } while(0);
+
+    if (error) {
+        if ( ! SOCKET_IS_INVALID(sockfd) ) {
+            closesocket(sockfd);
+        }
+        sockfd = INVALID_SOCKET;
+    }
+
+    return SOCKET_IS_INVALID(socket) ? NULL : vice_network_alloc_new_socket(sockfd);
+}
+
+/*! \brief Open a socket and initialise it for client operation
+
+  \param server_address
+     The address of the server to which to connect to.
+
+  \return
+     0 on error;
+     else, a handle to the socket on success.
+
+  \remark
+     The server_address variable determines the type of
+     socket to be used (IPv4, IPv6, Unix Domain Socket, ...)
+*/
+vice_network_socket_t * vice_network_client(const vice_network_socket_address_t * server_address)
+{
+    int sockfd = INVALID_SOCKET;
+    int error = 1;
+
+    assert(server_address != NULL);
+
+    do {
+        sockfd = socket(server_address->domain, SOCK_STREAM, server_address->protocol);
+
+        if (SOCKET_IS_INVALID(sockfd)) {
+            sockfd = INVALID_SOCKET;
+            break;
+        }
+
+        if (connect(sockfd, & server_address->address.generic, server_address->len) < 0) {
+            break;
+        }
+        error = 0;
+    } while(0);
+
+    if (error) {
+        if ( ! SOCKET_IS_INVALID(sockfd) ) {
+            closesocket(sockfd);
+        }
+        sockfd = INVALID_SOCKET;
+    }
+
+    return SOCKET_IS_INVALID(socket) ? NULL : vice_network_alloc_new_socket(sockfd);
 }
 
 /*! \internal \brief Generate an IPv4 socket address
@@ -765,29 +812,15 @@ void vice_network_address_close(vice_network_socket_address_t * address)
   \return
      A new socket that can be used for transmission on this this connection.
 */
-vice_network_socket_t vice_network_accept(vice_network_socket_t sockfd, vice_network_socket_address_t ** client_address)
+vice_network_socket_t * vice_network_accept(vice_network_socket_t * sockfd)
 {
-    vice_network_socket_t newsocket = INVALID_SOCKET;
-    vice_network_socket_address_t * socket_address;
+    SOCKET newsocket = INVALID_SOCKET;
 
-    do {
-        socket_address = vice_network_alloc_new_socket_address();
-        if (socket_address == NULL) {
-            break;
-        }
+    initialize_socket_address( & sockfd->address );
 
-        newsocket = accept(sockfd ^ INVALID_SOCKET, & socket_address->address.generic, & socket_address->len);
+    newsocket = accept(sockfd->sockfd, & sockfd->address.address.generic, & sockfd->address.len);
 
-    } while (0);
-
-    if ( ! SOCKET_IS_INVALID(newsocket) && client_address) {
-        * client_address = socket_address;
-    }
-    else {
-        vice_network_address_close(socket_address);
-    }
-
-    return newsocket ^ INVALID_SOCKET;
+    return SOCKET_IS_INVALID(newsocket) ? NULL : vice_network_alloc_new_socket(newsocket);
 }
 
 /*! \brief Close a socket
@@ -802,9 +835,20 @@ vice_network_socket_t vice_network_accept(vice_network_socket_t sockfd, vice_net
   \return
      0 on success, else an error occurred.
 */
-int vice_network_socket_close(vice_network_socket_t sockfd)
+int vice_network_socket_close(vice_network_socket_t * sockfd)
 {
-    return closesocket(sockfd ^ INVALID_SOCKET);
+    SOCKET localsockfd = INVALID_SOCKET;
+    
+    if (sockfd) {
+        localsockfd = sockfd->sockfd;
+
+        assert(sockfd->used == 1);
+        assert(((socket_pool_usage & (1u << (sockfd - socket_pool))) != 0));
+
+        sockfd->used = 0;
+        socket_pool_usage &= ~ (1u << (sockfd - socket_pool));
+    }
+    return closesocket(localsockfd);
 }
 
 /*! \brief Send data on a connected socket
@@ -830,9 +874,9 @@ int vice_network_socket_close(vice_network_socket_t sockfd)
      this can be less than len. For blocking sockets (default),
      any return value different than len must be treated as an error.
 */
-int vice_network_send(vice_network_socket_t sockfd, const void * buffer, size_t buffer_length, int flags)
+int vice_network_send(vice_network_socket_t * sockfd, const void * buffer, size_t buffer_length, int flags)
 {
-    return send(sockfd ^ INVALID_SOCKET, buffer, buffer_length, flags);
+    return send(sockfd->sockfd, buffer, buffer_length, flags);
 }
 
 /*! \brief Receive data from a connected socket
@@ -865,9 +909,9 @@ int vice_network_send(vice_network_socket_t sockfd, const void * buffer, size_t 
 
      In case of an error, -1 is returned.
 */
-int vice_network_receive(vice_network_socket_t sockfd, void * buffer, size_t buffer_length, int flags)
+int vice_network_receive(vice_network_socket_t * sockfd, void * buffer, size_t buffer_length, int flags)
 {
-    return recv(sockfd ^ INVALID_SOCKET, buffer, buffer_length, flags);
+    return recv(sockfd->sockfd, buffer, buffer_length, flags);
 }
 
 /*! \brief Check if a data has incoming data to receive
@@ -883,16 +927,16 @@ int vice_network_receive(vice_network_socket_t sockfd, void * buffer, size_t buf
      1 if the specified socket has data; 0 if it does not contain
      any data, and -1 in case of an error.
 */
-int vice_network_select_poll_one(vice_network_socket_t readsockfd)
+int vice_network_select_poll_one(vice_network_socket_t * readsockfd)
 {
     TIMEVAL timeout = { 0 };
 
     fd_set fdsockset;
 
     FD_ZERO(&fdsockset);
-    FD_SET(readsockfd ^ INVALID_SOCKET, &fdsockset);
+    FD_SET(readsockfd->sockfd, &fdsockset);
 
-    return select( (readsockfd ^ INVALID_SOCKET) + 1, &fdsockset, NULL, NULL, &timeout);
+    return select( readsockfd->sockfd + 1, &fdsockset, NULL, NULL, &timeout);
 }
 
 /*! \brief Get the error of the last socket operation

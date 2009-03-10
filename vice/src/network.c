@@ -62,8 +62,8 @@ static network_mode_t network_mode = NETWORK_IDLE;
 
 static int current_send_frame;
 static int last_received_frame;
-static vice_network_socket_t listen_socket;
-static vice_network_socket_t network_socket;
+static vice_network_socket_t * listen_socket;
+static vice_network_socket_t * network_socket;
 static int network_init_done = 0;
 static int suspended;
 
@@ -259,7 +259,7 @@ static event_list_state_t *network_create_event_list(BYTE *remote_event_buffer)
     return list;
 }
 
-static int network_recv_buffer(vice_network_socket_t s, BYTE *buf, int len)
+static int network_recv_buffer(vice_network_socket_t * s, BYTE *buf, int len)
 {
     int t;
     int received_total = 0;
@@ -282,7 +282,7 @@ static int network_recv_buffer(vice_network_socket_t s, BYTE *buf, int len)
 #define SEND_FLAGS 0
 #endif
 
-static int network_send_buffer(vice_network_socket_t s, const BYTE *buf, int len)
+static int network_send_buffer(vice_network_socket_t * s, const BYTE *buf, int len)
 {
     int t;
     int sent_total = 0;
@@ -783,7 +783,7 @@ void network_hook(void)
 
     if (network_mode == NETWORK_SERVER) {
         if (vice_network_select_poll_one(listen_socket) != 0) {
-            network_socket = vice_network_accept(listen_socket, NULL);
+            network_socket = vice_network_accept(listen_socket);
 
             if (network_socket)
                 interrupt_maincpu_trigger_trap(network_server_connect_trap,
