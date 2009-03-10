@@ -740,7 +740,7 @@ void vice_network_address_close(vice_network_socket_address_t * address)
     if (address)
     {
         assert(address->used == 1);
-        assert(((address_pool_usage & (1u << (address - address_pool))) == 1));
+        assert(((address_pool_usage & (1u << (address - address_pool))) != 0));
 
         address->used = 0;
         address_pool_usage &= ~ (1u << (address - address_pool));
