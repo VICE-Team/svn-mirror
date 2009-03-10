@@ -56,7 +56,16 @@ int dx9_disable;
 
 static int set_dx_primary_surface_rendering(int val, void *param)
 {
+    video_canvas_t *c;
+    int i;
+
     dx_primary_surface_rendering = val;
+
+    if (video_dx9_enabled()) {
+        for (i = 0; i < video_number_of_canvases; i++)
+            video_canvas_reset_dx9(video_canvases[i]);
+    }
+
     return 0;
 }
 

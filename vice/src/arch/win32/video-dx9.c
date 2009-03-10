@@ -83,7 +83,11 @@ int video_device_create_dx9(video_canvas_t *canvas, int fullscreen)
     d3dpp.Flags = 0;
     d3dpp.EnableAutoDepthStencil = FALSE;
     d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
-    d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+    if (dx_primary_surface_rendering) {
+        d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+    } else {
+        d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
+    }
 
     if (fullscreen) {
         int width, height, bitdepth, refreshrate;
@@ -193,6 +197,12 @@ HRESULT video_canvas_reset_dx9(video_canvas_t *canvas)
     } else {
         d3dpp.BackBufferWidth = canvas->width;
         d3dpp.BackBufferHeight = canvas->height;
+    }
+
+    if (dx_primary_surface_rendering) {
+        d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+    } else {
+        d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
     }
 
     if (S_OK != (ddresult = IDirect3DDevice9_Reset(canvas->d3ddev, &d3dpp)))
