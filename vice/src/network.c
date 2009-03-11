@@ -541,34 +541,44 @@ int network_connected(void)
 
 int network_start_server(void)
 {
-    vice_network_socket_address_t * server_addr;
+    vice_network_socket_address_t * server_addr = NULL;
+    int ret = -1;
 
-    if (network_init() < 0)
-        return -1;
+    do {
+        if (network_init() < 0)
+            break;
 
-    if (network_mode != NETWORK_IDLE)
-        return -1;
+        if (network_mode != NETWORK_IDLE)
+            break;
 
-    server_addr = vice_network_address_generate(server_bind_address, server_port);
-    if ( ! server_addr ) {
-        return -1;
+        server_addr = vice_network_address_generate(server_bind_address, server_port);
+        if ( ! server_addr ) {
+            break;
+        }
+
+        listen_socket = vice_network_server(server_addr);
+        if ( ! listen_socket ) {
+            break;
+        }
+
+        /* Set proper settings */
+        if (resources_set_event_safe() < 0) {
+            ui_error("Warning! Failed to set netplay-safe settings.");
+        }
+
+        network_mode = NETWORK_SERVER;
+
+        vsync_suspend_speed_eval();
+        ui_display_statustext(translate_text(IDGS_SERVER_IS_WAITING_FOR_CLIENT), 1);
+
+        ret = 0;
+    } while (0);
+
+    if (server_addr) {
+        vice_network_address_close(server_addr);
     }
 
-    listen_socket = vice_network_server(server_addr);
-    if ( ! listen_socket ) {
-        return -1;
-    }
-
-    /* Set proper settings */
-    if (resources_set_event_safe() < 0) {
-        ui_error("Warning! Failed to set netplay-safe settings.");
-    }
-
-    network_mode = NETWORK_SERVER;
-
-    vsync_suspend_speed_eval();
-    ui_display_statustext(translate_text(IDGS_SERVER_IS_WAITING_FOR_CLIENT), 1);
-    return 0;
+    return ret;
 } 
 
 
@@ -602,6 +612,9 @@ int network_connect_client(void)
         return -1;
     }
     network_socket = vice_network_client(server_addr);
+
+    vice_network_address_close(server_addr);
+    server_addr = NULL;
 
     if ( ! network_socket ) {
         ui_error(translate_text(IDGS_CANNOT_CONNECT_TO_S),
