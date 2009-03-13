@@ -22,9 +22,6 @@
 
 void EnvelopeGeneratorFP::set_nonlinearity(float nl)
 {
-    // temporarily override envelope nonlinearity, for some reason
-    // it sounds quite artifacty otherwise.
-    nl = 1.0f;
     for (int i = 0; i < 256; i ++)
         env_dac[i] = SIDFP::kinked_dac(i, nl, 8);
 }
