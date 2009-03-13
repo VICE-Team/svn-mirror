@@ -349,7 +349,7 @@ static ui_menu_entry_t psid_menu[] = {
 };
 
 static ui_menu_entry_t vsidui_left_menu[] = {
-  { "",
+  { "--",
     NULL, NULL, ui_load_commands_menu },
   { "",
     NULL, NULL, ui_tune_menu },
