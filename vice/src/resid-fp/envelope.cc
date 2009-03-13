@@ -266,5 +266,5 @@ void EnvelopeGeneratorFP::update_rate_period(reg16 newperiod)
 
 reg8 EnvelopeGeneratorFP::readENV()
 {
-  return output();
+  return envelope_counter;
 }
