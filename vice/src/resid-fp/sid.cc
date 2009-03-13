@@ -189,10 +189,6 @@ SIDFP::SIDFP()
   sample = 0;
   fir = 0;
 
-  voice[0].set_sync_source(&voice[2]);
-  voice[1].set_sync_source(&voice[0]);
-  voice[2].set_sync_source(&voice[1]);
-
   set_sampling_parameters(985248, SAMPLE_INTERPOLATE, 44100);
 
   bus_value = 0;
@@ -223,7 +219,6 @@ void SIDFP::set_chip_model(chip_model model)
   voice[0].wave.rebuild_wftable();
 
   filter.set_chip_model(model);
-  extfilt.set_chip_model(model);
 }
 
 // ----------------------------------------------------------------------------
@@ -252,11 +247,16 @@ void SIDFP::input(int sample)
 {
   // Voice outputs are 20 bits. Scale up to match three voices in order
   // to facilitate simulation of the MOS8580 "digi boost" hardware hack.
-  ext_in = (float) ( (sample << 4) * 3 );
+  ext_in = static_cast<float>((sample << 4) * 3);
 }
 
 float SIDFP::output()
 {
+  /* Oscillators go from 0 to 4095, envelope from 0 to 255, volume goes to 1
+   * and there are 3 voices. With strong resonance, it's still possible to
+   * exceed the max (Drum Fool, for instance). So extra 50 % is allocated.
+   *
+   * Output range is -32768 to 32767. */
   const float range = 1 << 15;
   return extfilt.output() / (4095.f * 255.f * 3.f * 1.5f / range);
 }
@@ -286,7 +286,7 @@ reg8 SIDFP::read(reg8 offset)
   case 0x1a:
     return poty.readPOT();
   case 0x1b:
-    return voice[2].wave.readOSC();
+    return voice[2].wave.readOSC(voice[0].wave);
   case 0x1c:
     return voice[2].envelope.readENV();
   default:
@@ -317,7 +317,7 @@ void SIDFP::write(reg8 offset, reg8 value)
     voice[0].wave.writePW_HI(value);
     break;
   case 0x04:
-    voice[0].writeCONTROL_REG(value);
+    voice[0].writeCONTROL_REG(voice[1].wave, value);
     break;
   case 0x05:
     voice[0].envelope.writeATTACK_DECAY(value);
@@ -338,7 +338,7 @@ void SIDFP::write(reg8 offset, reg8 value)
     voice[1].wave.writePW_HI(value);
     break;
   case 0x0b:
-    voice[1].writeCONTROL_REG(value);
+    voice[1].writeCONTROL_REG(voice[2].wave, value);
     break;
   case 0x0c:
     voice[1].envelope.writeATTACK_DECAY(value);
@@ -359,7 +359,7 @@ void SIDFP::write(reg8 offset, reg8 value)
     voice[2].wave.writePW_HI(value);
     break;
   case 0x12:
-    voice[2].writeCONTROL_REG(value);
+    voice[2].writeCONTROL_REG(voice[0].wave, value);
     break;
   case 0x13:
     voice[2].envelope.writeATTACK_DECAY(value);
@@ -507,15 +507,6 @@ void SIDFP::write_state(const State& state)
 void SIDFP::enable_filter(bool enable)
 {
   filter.enable_filter(enable);
-}
-
-
-// ----------------------------------------------------------------------------
-// Enable external filter.
-// ----------------------------------------------------------------------------
-void SIDFP::enable_external_filter(bool enable)
-{
-  extfilt.enable_filter(enable);
 }
 
 
@@ -708,23 +699,21 @@ void SIDFP::clock()
 {
   int i;
 
-  // Clock amplitude modulators.
+  // Clock waveform and envelope generators
   for (i = 0; i < 3; i++) {
     voice[i].envelope.clock();
-  }
-
-  // Clock oscillators.
-  for (i = 0; i < 3; i++) {
     voice[i].wave.clock();
   }
 
-  // Synchronize oscillators.
-  for (i = 0; i < 3; i++) {
-    voice[i].wave.synchronize();
-  }
+  // Emulate SYNC bit
+  voice[0].wave.synchronize(voice[1].wave, voice[2].wave);
+  voice[1].wave.synchronize(voice[2].wave, voice[0].wave);
+  voice[2].wave.synchronize(voice[0].wave, voice[1].wave);
 
   // Clock filter.
-  extfilt.clock(filter.clock(voice[0].output(), voice[1].output(), voice[2].output(), ext_in));
+  extfilt.clock(
+    filter.clock(voice[0].output(voice[2].wave), voice[1].output(voice[0].wave), voice[2].output(voice[1].wave), ext_in)
+  );
 }
 
 // ----------------------------------------------------------------------------
@@ -773,14 +762,14 @@ int SIDFP::clock(cycle_count& delta_t, short* buf, int n, int interleave)
 // ----------------------------------------------------------------------------
 RESID_INLINE
 int SIDFP::clock_interpolate(cycle_count& delta_t, short* buf, int n,
-                           int interleave)
+                             int interleave)
 {
   int s = 0;
   int i;
 
   for (;;) {
     float next_sample_offset = sample_offset + cycles_per_sample;
-    int delta_t_sample = (int) next_sample_offset;
+    int delta_t_sample = static_cast<int>(next_sample_offset);
     if (delta_t_sample > delta_t) {
       break;
     }
@@ -799,7 +788,7 @@ int SIDFP::clock_interpolate(cycle_count& delta_t, short* buf, int n,
     sample_offset = next_sample_offset - delta_t_sample;
 
     float sample_now = output();
-    int v = (int)(sample_prev + (sample_offset * (sample_now - sample_prev)));
+    int v = static_cast<int>(sample_prev + (sample_offset * (sample_now - sample_prev)));
     // Saturated arithmetics to guard against 16 bit sample overflow.
     const int half = 1 << 15;
     if (v >= half) {
@@ -863,14 +852,14 @@ int SIDFP::clock_interpolate(cycle_count& delta_t, short* buf, int n,
 // ----------------------------------------------------------------------------
 RESID_INLINE
 int SIDFP::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
-                                    int interleave)
+                                      int interleave)
 {
   int s = 0;
 
   for (;;) {
     float next_sample_offset = sample_offset + cycles_per_sample;
     /* full clocks left to next sample */
-    int delta_t_sample = (int) next_sample_offset;
+    int delta_t_sample = static_cast<int>(next_sample_offset);
     if (delta_t_sample > delta_t || s >= n)
       break;
 
@@ -884,13 +873,13 @@ int SIDFP::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
     delta_t -= delta_t_sample;
 
     /* Phase of the sample in terms of clock, [0 .. 1[. */
-    sample_offset = next_sample_offset - (float) delta_t_sample;
+    sample_offset = next_sample_offset - static_cast<float>(delta_t_sample);
 
     /* find the first of the nearest fir tables close to the phase */
     float fir_offset_rmd = sample_offset * fir_RES;
-    int fir_offset = (int) fir_offset_rmd;
+    int fir_offset = static_cast<int>(fir_offset_rmd);
     /* [0 .. 1[ */
-    fir_offset_rmd -= (float) fir_offset;
+    fir_offset_rmd -= static_cast<float>(fir_offset);
 
     /* find fir_N most recent samples, plus one extra in case the FIR wraps. */
     float* sample_start = sample + sample_index - fir_N + RINGSIZE - 1;
@@ -902,7 +891,7 @@ int SIDFP::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
         convolve(sample_start, fir + fir_offset*fir_N, fir_N);
 
     // Use next FIR table, wrap around to first FIR table using
-    // previous sample.
+    // the next sample.
     if (++ fir_offset == fir_RES) {
       fir_offset = 0;
       ++ sample_start;
@@ -915,7 +904,7 @@ int SIDFP::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
 
     // Linear interpolation between the sinc tables yields good approximation
     // for the exact value.
-    int v = (int) (v1 + fir_offset_rmd * (v2 - v1));
+    int v = static_cast<int>(v1 + fir_offset_rmd * (v2 - v1));
 
     // Saturated arithmetics to guard against 16 bit sample overflow.
     const int half = 1 << 15;
@@ -936,7 +925,7 @@ int SIDFP::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
     ++ sample_index;
     sample_index &= RINGSIZE - 1;
   }
-  sample_offset -= (float) delta_t;
+  sample_offset -= static_cast<float>(delta_t);
   delta_t = 0;
   return s;
 }

@@ -132,7 +132,7 @@ public:
 
   RESID_INLINE
   float clock(float voice1, float voice2, float voice3,
-              float ext_in);
+	      float ext_in);
   void reset();
 
   // Write registers.
@@ -144,7 +144,7 @@ public:
 private:
   void set_Q();
   void set_w0();
-  float type3_w0(const float source, const float offset);
+  float type3_w0(const float dist);
   float type4_w0();
   void calculate_helpers();
   void nuke_denormals();
@@ -203,12 +203,9 @@ friend class SIDFP;
 // time a sample is calculated.
 // ----------------------------------------------------------------------------
 
-/* kinkiness of DAC:
- * some chips have more, some less. We should make this tunable. */
 const float kinkiness = 0.966f;
 const float sidcaps_6581 = 470e-12f;
-const float outputleveldifference_lp_bp = 1.25f;
-const float outputleveldifference_bp_hp = 1.25f;
+const float outputleveldifference = 1.25f;
 
 RESID_INLINE
 static float fastexp(float val) {
@@ -222,24 +219,24 @@ static float fastexp(float val) {
     /* single precision fp has 1 + 8 + 23 bits, exponent bias is 127.
      * It therefore follows that we need to shift left by 23 bits, and to
      * calculate exp(x) instead of pow(2, x) we divide the power by ln(2). */
-    const float a = (1 << 23) / M_LN2_f;
+    const float a = static_cast<float>((1 << 23) / M_LN2);
     /* The other factor corrects for the exponent bias so that 2^0 = 1. */
-    const float b = (1 << 23) * 127;
+    const float b = static_cast<float>((1 << 23) * 127);
     /* According to "A Fast, Compact Approximation of the Exponential Function"
      * by Nicol N. Schraudolph, 60801.48 yields the minimum RMS error for the
      * piecewise-linear approximation when using doubles (20 bits residual).
      * We have 23 bits, so we scale this value by 8. */
-    const float c = 60801.48f * 8.f + 0.5f;
+    const float c = 60801.48f * 8.f;
 
     /* Parenthesis are important: C standard disallows folding subtraction.
      * Unfortunately GCC appears to generate a write to memory rather than
      * handle this conversion entirely in registers. */
-    tmp.i = (int)(a * val + (b - c));
+    tmp.i = static_cast<int>(a * val + (b - c + 0.5f));
     return tmp.f;
 }
 
 RESID_INLINE
-float FilterFP::type3_w0(const float source, const float distoffset)
+float FilterFP::type3_w0(const float dist)
 {
     /* The distortion appears to be the result of MOSFET entering saturation
      * mode. The conductance of a FET is proportional to:
@@ -272,8 +269,7 @@ float FilterFP::type3_w0(const float source, const float distoffset)
      * match levels is 1/256. */
 
     float fetresistance = type3_fc_kink_exp;
-    if (source > distoffset) {
-        const float dist = source - distoffset;
+    if (dist > 0) {
         fetresistance *= fastexp(dist * type3_steepness);
     }
     const float dynamic_resistance = type3_minimumfetresistance + fetresistance;
@@ -288,7 +284,7 @@ RESID_INLINE
 float FilterFP::type4_w0()
 {
     const float freq = type4_k * fc + type4_b;
-    return 2.f * M_PI_f * freq / clock_frequency;
+    return 2.f * static_cast<float>(M_PI) * freq / clock_frequency;
 }
 
 // ----------------------------------------------------------------------------
@@ -296,11 +292,10 @@ float FilterFP::type4_w0()
 // ----------------------------------------------------------------------------
 RESID_INLINE
 float FilterFP::clock(float voice1,
-                   float voice2,
-                   float voice3,
-                   float ext_in)
+		   float voice2,
+		   float voice3,
+		   float ext_in)
 {
-    /* Avoid denormal numbers by using small offsets from 0 */
     float Vi = 0.f, Vf = 0.f;
 
     // Route voices into or around filter.
@@ -308,57 +303,64 @@ float FilterFP::clock(float voice1,
     ((filt & 2) ? Vi : Vf) += voice2;
     // NB! Voice 3 is not silenced by voice3off if it is routed through
     // the filter.
-    if (filt & 4)
-        Vi += voice3;
-    else if (! voice3off)
-        Vf += voice3;
+    if (filt & 4) {
+	Vi += voice3;
+    } else if (! voice3off) {
+	Vf += voice3;
+    }
     ((filt & 8) ? Vi : Vf) += ext_in;
-  
-    if (! enabled)
-        return (Vf - Vi) * volf;
 
-    if (hp_bp_lp & 1)
-        Vf += Vlp;
-    if (hp_bp_lp & 2)
-        Vf += Vbp;
-    if (hp_bp_lp & 4)
-        Vf += Vhp;
+    if (hp_bp_lp & 1) {
+	Vf += Vlp;
+    }
+    if (hp_bp_lp & 2) {
+	Vf += Vbp;
+    }
+    if (hp_bp_lp & 4) {
+	Vf += Vhp;
+    }
     
     if (model == MOS6581FP) {
-        Vi *= distortion_rate;
-
         /* Allow some intermixing of state variables. The tmp approximates the
          * level in the vertical strip of n-well layer above the bp FET block
          * between lp and bp amplifiers.
          */
-        float tmp = Vi + Vhp + Vlp - Vbp * _1_div_Q;
+        const float tmp = Vi + Vhp + Vlp - Vbp * _1_div_Q;
         Vlp += (tmp - Vlp) * distortion_cf_threshold;
-        /* bp is mixed via resonance control */
+        /* bp is mixed via resonance control, there is no direct connection */
         Vbp += (tmp - Vbp) * distortion_cf_threshold * _1_div_Q;
         Vhp += (tmp - Vhp) * distortion_cf_threshold;
 
         /* output strip mixing to filter state */
-        if (hp_bp_lp & 1)
+        if (hp_bp_lp & 1) {
             Vlp += (Vf - Vlp) * distortion_cf_threshold;
-        if (hp_bp_lp & 2)
+        }
+        if (hp_bp_lp & 2) {
             Vbp += (Vf - Vbp) * distortion_cf_threshold;
-        if (hp_bp_lp & 4)
+        }
+        if (hp_bp_lp & 4) {
             Vhp += (Vf - Vhp) * distortion_cf_threshold;
+        }
 
         /* The resonance control somehow also forms a circuit that causes
          * partial lack of compensation for the lowpass signal in the bp.
-         * output. This is just a guess. */
-        float lpleak = Vi * resf * (1.0f / 5.f);
+         * output. It doesn't occur during res=0, but seems to increase
+         * steadily until res=0xF is reached. So, this is just a guess... */
+        const float lpleak = tmp * resf;
 
-        Vlp -= (Vbp - lpleak) * type3_w0(Vbp, type3_fc_distortion_offset) * outputleveldifference_lp_bp;
-        Vbp -= Vhp * type3_w0(Vhp, type3_fc_distortion_offset) * outputleveldifference_bp_hp;
-        Vhp = (Vbp + lpleak) * _1_div_Q * (1.f/outputleveldifference_bp_hp)
-            - Vlp * (1.f/outputleveldifference_lp_bp/outputleveldifference_bp_hp)
-            - Vi;
-
+        // outputleveldifference folded into distortion_CT term
+	Vlp -= (Vbp - lpleak) * type3_w0(Vbp - type3_fc_distortion_offset);
+	Vbp -= Vhp * type3_w0(Vhp - type3_fc_distortion_offset);
+	Vhp = (Vbp + lpleak) * _1_div_Q * (1.f/outputleveldifference)
+            - Vlp * (1.f/outputleveldifference/outputleveldifference)
+        /* the loss of level by about half is likely due to feedback
+         * between Vhp amp input and output. */
+            - Vi * distortion_rate;
+	
         /* saturate. This is likely the output inverter saturation. */
-        if (Vf > 3.2e6f)
+        if (Vf > 3.2e6f) {
             Vf -= (Vf - 3.2e6f) / 2.f;
+        }
     } else {
         /* On the 8580, BP appears mixed in phase with the rest. */
         Vlp += Vbp * type4_w0_cache;
@@ -372,13 +374,11 @@ float FilterFP::clock(float voice1,
 RESID_INLINE
 void FilterFP::nuke_denormals()
 {
-    /* We could use the flush-to-zero flag or denormals-are-zero on systems
-     * where compiling with -msse and -mfpmath=sse is acceptable. Since this
-     * doesn't include general VICE builds, we do this instead. */
+    /* We only need this for systems that don't do -msse and -mfpmath=sse */
     if (Vbp > -1e-12f && Vbp < 1e-12f)
         Vbp = 0;
     if (Vlp > -1e-12f && Vlp < 1e-12f)
         Vlp = 0;
 }
 
-#endif // not __FILTER_H__
+#endif // not VICE__FILTER_H__

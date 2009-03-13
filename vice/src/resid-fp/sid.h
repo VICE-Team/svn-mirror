@@ -38,9 +38,8 @@ public:
   void set_chip_model(chip_model model);
   FilterFP& get_filter() { return filter; }
   void enable_filter(bool enable);
-  void enable_external_filter(bool enable);
   bool set_sampling_parameters(float clock_freq, sampling_method method,
-                               float sample_freq, float pass_freq = -1);
+                               float sample_freq, float pass_freq = 20000);
   void adjust_sampling_frequency(float sample_freq);
   void set_voice_nonlinearity(float nonlinearity);
 
@@ -80,7 +79,7 @@ public:
   // 16-bit input (EXT IN).
   void input(int sample);
 
-  // output in range -32768 .. 32767, not clipped (AUDIO OUT)
+  // 16-bit output (AUDIO OUT)
   float output();
 
 protected:
@@ -105,7 +104,8 @@ protected:
   // External audio input.
   float ext_in;
 
-  enum { RINGSIZE = 16384 };
+  // Resampling constants.
+  enum { RINGSIZE = 2048 };
 
   // Sampling variables.
   sampling_method sampling;
@@ -115,7 +115,7 @@ protected:
   int fir_N;
   int fir_RES;
   
-  // Linear interpolation helper
+  /* for linear interpolation mode */
   float sample_prev;
 
   // Ring buffer with overflow for contiguous storage of RINGSIZE samples.

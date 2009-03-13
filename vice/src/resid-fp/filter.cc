@@ -18,18 +18,17 @@
 //  ---------------------------------------------------------------------------
 //  Filter distortion code written by Antti S. Lankila 2007 - 2009.
 
-#define __FILTER_CC__
 #include "filter.h"
 #include "sid.h"
-  
+
 #ifndef HAVE_LOGF_PROTOTYPE
 extern float logf(float val);
 #endif
-
+ 
 #ifndef HAVE_EXPF_PROTOTYPE
 extern float expf(float val);
 #endif
-
+ 
 #ifndef HAVE_LOGF
 float logf(float val)
 {
@@ -54,7 +53,7 @@ FilterFP::FilterFP()
   /* approximate; sid.cc calls us when set_sampling_parameters() occurs. */
   set_clock_frequency(1e6f);
   /* these parameters are a work-in-progress. */
-  set_distortion_properties(0.5f, 1100.f, 1.5e-4f);
+  set_distortion_properties(0.5f, 2048.f, 1.2e-4f);
   /* sound similar to alankila6581r4ar3789 */
   set_type3_properties(1.37e6f, 1.70e8f, 1.006f, 1.55e4f);
   /* sound similar to trurl8580r5_3691 */
@@ -70,8 +69,9 @@ FilterFP::FilterFP()
 void FilterFP::enable_filter(bool enable)
 {
   enabled = enable;
+  if (! enabled)
+    filt = 0; // XXX should also restore this...
 }
-
 
 // ----------------------------------------------------------------------------
 // Set chip model.
@@ -86,22 +86,24 @@ void FilterFP::set_chip_model(chip_model model)
 /* dist_CT eliminates 1/x at hot spot */
 void FilterFP::set_clock_frequency(float clock) {
     clock_frequency = clock;
-    calculate_helpers();
+    // outputleveldifference compensated back during Vhp computation.
+    distortion_CT = 1.f / (sidcaps_6581 * clock_frequency) * outputleveldifference;
+    set_w0();
 }
 
 void FilterFP::set_distortion_properties(float r, float p, float cft)
 {
     distortion_rate = r;
     distortion_point = p;
-    /* baseresistance is used to determine material resistivity later */
     distortion_cf_threshold = cft;
-    calculate_helpers();
+    set_w0();
 }
 
 void FilterFP::set_type4_properties(float k, float b)
 {
     type4_k = k;
     type4_b = b;
+    set_w0();
 }
 
 void FilterFP::set_type3_properties(float br, float o, float s, float mfr)
@@ -111,12 +113,6 @@ void FilterFP::set_type3_properties(float br, float o, float s, float mfr)
     /* 256 scales the FC control and env*osc electrical values to common unit */
     type3_steepness = -logf(s) / 256.f; /* s^x to e^(x*ln(s)), 1/e^x == e^-x. */
     type3_minimumfetresistance = mfr;
-}
-
-void FilterFP::calculate_helpers()
-{
-    if (clock_frequency != 0.f)
-        distortion_CT = 1.f / (sidcaps_6581 * clock_frequency);
     set_w0();
 }
 
@@ -154,20 +150,19 @@ void FilterFP::writeFC_HI(reg8 fc_hi)
 void FilterFP::writeRES_FILT(reg8 res_filt)
 {
   res = (res_filt >> 4) & 0x0f;
-  resf = (float) res / 15.f;
   set_Q();
-
-  filt = res_filt & 0x0f;
+  resf = static_cast<float>(res) / 15.f * 0.2f;
+  filt = enabled ? res_filt & 0x0f : 0;
 }
 
 void FilterFP::writeMODE_VOL(reg8 mode_vol)
 {
   voice3off = mode_vol & 0x80;
 
-  hp_bp_lp = (mode_vol >> 4) & 0x07;
+  hp_bp_lp = mode_vol >> 4;
 
   vol = mode_vol & 0x0f;
-  volf = (float) vol / 15.f;
+  volf = static_cast<float>(vol) / 15.f;
 }
 
 // Set filter cutoff frequency.
@@ -178,10 +173,10 @@ void FilterFP::set_w0()
     float type3_fc_kink = SIDFP::kinked_dac(fc, kinkiness, 11) / kinkiness;
     type3_fc_kink_exp = type3_offset * expf(type3_fc_kink * type3_steepness * 256.f);
     if (distortion_point != 0.f) {
-        type3_fc_distortion_offset = (distortion_point - type3_fc_kink) * 256.f * distortion_rate;
+	type3_fc_distortion_offset = (distortion_point - type3_fc_kink) * 256.f * distortion_rate;
     }
     else {
-        type3_fc_distortion_offset = 9e9f;
+	type3_fc_distortion_offset = 9e9f;
     }
   }
   if (model == MOS8580FP) {

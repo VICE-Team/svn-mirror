@@ -46,9 +46,10 @@ else
 fi
 
 dnl Set CXXFLAGS for g++. Use -fno-exceptions if supported.
+OPT="-O3 -ffast-math"
 if test "$GXX" = yes; then
   if test "$ac_test_CXXFLAGS" != set; then
-    CXXFLAGS="-g -Wall -O2 $MSSE -fno-exceptions"
+    CXXFLAGS="-g -Wall $OPT $MSSE -fno-exceptions"
     AC_MSG_CHECKING([whether the C++ compiler ($CXX $CXXFLAGS $LDFLAGS) works])
     AC_TRY_COMPILE([],
                    [int test;],
@@ -63,7 +64,7 @@ fi
 dnl Set CXXFLAGS for g++. Use -fno-pic if supported.
 if test "$GXX" = yes; then
   if test "$ac_test_CXXFLAGS" != set; then
-    CXXFLAGS="-g -Wall -O2 $MSSE -fno-exceptions $NO_EXCEPTIONS -fno-pic"
+    CXXFLAGS="-g -Wall $OPT $MSSE -fno-exceptions $NO_EXCEPTIONS -fno-pic"
     AC_MSG_CHECKING([whether the C++ compiler ($CXX $CXXFLAGS $LDFLAGS) works])
     AC_TRY_COMPILE([],
                    [int test;],
@@ -75,7 +76,7 @@ if test "$GXX" = yes; then
   fi
 fi
 
-CXXFLAGS="-g -Wall -O2 $MSSE $NO_EXCEPTIONS $NO_PIC"
+CXXFLAGS="-g -Wall $OPT $MSSE $NO_EXCEPTIONS $NO_PIC"
 if test x"$MSSE" = "x-msse"; then
   AC_MSG_CHECKING([if the xmmintrin.h include can be used])
   AC_TRY_COMPILE([#include <xmmintrin.h>],
@@ -85,7 +86,7 @@ if test x"$MSSE" = "x-msse"; then
                  [ AC_MSG_RESULT(no)
                    MSSE=""
                    ])
-  CXXFLAGS="-g -Wall -O2 $NO_EXCEPTIONS $NO_PIC"
+  CXXFLAGS="-g -Wall $OPT $NO_EXCEPTIONS $NO_PIC"
 fi
 
 AC_CHECK_PROG(AR, ar, ar, ar)

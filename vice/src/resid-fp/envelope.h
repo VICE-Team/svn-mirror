@@ -42,6 +42,7 @@ public:
 
   RESID_INLINE void clock();
   void reset();
+  void mute(bool enable);
 
   void writeCONTROL_REG(reg8);
   void writeATTACK_DECAY(reg8);
@@ -61,6 +62,7 @@ protected:
   reg8 envelope_counter;
   float envelope_counter_dac;
   bool hold_zero;
+  bool muted;
 
   reg4 attack;
   reg4 decay;
@@ -80,7 +82,6 @@ protected:
 
 friend class SIDFP;
 };
-
 
 // ----------------------------------------------------------------------------
 // SID clocking - 1 cycle.
@@ -163,7 +164,7 @@ void EnvelopeGeneratorFP::clock()
       break;
     }
 
-    envelope_counter_dac = env_dac[envelope_counter];
+    envelope_counter_dac = muted ? 0.f : env_dac[envelope_counter];
   }
 }
 
@@ -176,4 +177,4 @@ float EnvelopeGeneratorFP::output()
   return envelope_counter_dac;
 }
 
-#endif // not __ENVELOPE_H__
+#endif // not VICE__ENVELOPE_H__

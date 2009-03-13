@@ -17,7 +17,6 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#define __VOICE_CC__
 #include "voice.h"
 
 // ----------------------------------------------------------------------------
@@ -40,27 +39,33 @@ void VoiceFP::set_chip_model(chip_model model)
      * is stopped. You can hear this by routing a voice into filter (filter
      * should be kept disabled for this) as the master level changes. This
      * tunable affects the volume of digis. */
-    voice_DC = 0x800 * 0xff;
+    voice_DC = static_cast<float>(0x800 * 0xff);
+    /* In 8580 the waveforms seem well centered, but on the 6581 there is some
+     * offset change as envelope grows, indicating that the waveforms are not
+     * perfectly centered. The likely cause for this is the follows:
+     *
+     * The waveform DAC generates a voltage between 5 and 12 V corresponding
+     * to oscillator state 0 .. 4095.
+     *
+     * The envelope DAC generates a voltage between waveform gen output and
+     * the 5V level.
+     *
+     * The outputs are amplified against the 12V voltage and sent to the
+     * mixer.
+     *
+     * The SID virtual ground is around 6.5 V. */
   }
   else {
-    voice_DC = 0;
+    voice_DC = 0.f;
   }
-}
-
-// ----------------------------------------------------------------------------
-// Set sync source.
-// ----------------------------------------------------------------------------
-void VoiceFP::set_sync_source(VoiceFP* source)
-{
-  wave.set_sync_source(&source->wave);
 }
 
 // ----------------------------------------------------------------------------
 // Register functions.
 // ----------------------------------------------------------------------------
-void VoiceFP::writeCONTROL_REG(reg8 control)
+void VoiceFP::writeCONTROL_REG(WaveformGeneratorFP& source, reg8 control)
 {
-  wave.writeCONTROL_REG(control);
+  wave.writeCONTROL_REG(source, control);
   envelope.writeCONTROL_REG(control);
 }
 
@@ -71,4 +76,13 @@ void VoiceFP::reset()
 {
   wave.reset();
   envelope.reset();
+}
+
+
+// ----------------------------------------------------------------------------
+// Voice mute.
+// ----------------------------------------------------------------------------
+void VoiceFP::mute(bool enable)
+{
+  envelope.mute(enable);
 }

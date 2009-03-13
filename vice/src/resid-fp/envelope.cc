@@ -17,15 +17,13 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#define __ENVELOPE_CC__
 #include "envelope.h"
 #include "sid.h"
 
-extern float env_dac[256];
-
 void EnvelopeGeneratorFP::set_nonlinearity(float nl)
 {
-    /* use perfect env-dac until I figure out what is appropriate for this. */
+    // temporarily override envelope nonlinearity, for some reason
+    // it sounds quite artifacty otherwise.
     nl = 1.0f;
     for (int i = 0; i < 256; i ++)
         env_dac[i] = SIDFP::kinked_dac(i, nl, 8);
@@ -44,7 +42,10 @@ EnvelopeGeneratorFP::EnvelopeGeneratorFP()
 // ----------------------------------------------------------------------------
 void EnvelopeGeneratorFP::reset()
 {
+  muted = false;
+
   envelope_counter = 0;
+  envelope_counter_dac = 0;
 
   attack = 0;
   decay = 0;
@@ -62,6 +63,10 @@ void EnvelopeGeneratorFP::reset()
   hold_zero = true;
 }
 
+void EnvelopeGeneratorFP::mute(bool enable)
+{
+  muted = enable;
+}
 
 // Rate counter periods are calculated from the Envelope Rates table in
 // the Programmer's Reference Guide. The rate counter period is the number of
@@ -232,11 +237,6 @@ void EnvelopeGeneratorFP::writeSUSTAIN_RELEASE(reg8 sustain_release)
   }
 }
 
-reg8 EnvelopeGeneratorFP::readENV()
-{
-  return output();
-}
-
 void EnvelopeGeneratorFP::update_rate_period(reg16 newperiod)
 {
     rate_period = newperiod;
@@ -262,4 +262,9 @@ void EnvelopeGeneratorFP::update_rate_period(reg16 newperiod)
 
     /* at this point it should be impossible for
      * rate_counter >= rate_period. If it is, there is a bug... */
+}
+
+reg8 EnvelopeGeneratorFP::readENV()
+{
+  return output();
 }

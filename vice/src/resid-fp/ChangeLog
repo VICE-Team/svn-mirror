@@ -1,3 +1,24 @@
+2009-03-13  Antti S. Lankila  <alankila@bel.fi>
+
+        Sync against V34. Functional changes below.
+
+        * filter.h: finalize n-well layer state variable mixup.
+
+        * wave.cc: new combined waveforms according to updated optimizer.
+
+        Optimizing changes below. These appear to give ~15 % speed boost.
+
+        * configure.in: Turn on -ffast-math.
+
+        * wave.h: optimize accumulator to drop high bits into bit bucket and
+          save an AND. Streamline output functions.
+
+        * envelope.h: implement muting here instead of at voice.h, at vanishing
+          CPU cost.
+
+        * filter.h: Fold easily foldable constants at setup code, speeding up
+          hot path.
+
 2009-02-22  Antti S. Lankila  <alankila@bel.fi>
 
         Sync against V32.

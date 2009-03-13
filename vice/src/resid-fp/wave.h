@@ -38,44 +38,41 @@ class WaveformGeneratorFP
 public:
   WaveformGeneratorFP();
 
-  void set_sync_source(WaveformGeneratorFP*);
   void set_chip_model(chip_model model);
 
   RESID_INLINE void clock();
-  RESID_INLINE void synchronize();
+  RESID_INLINE void synchronize(WaveformGeneratorFP& dest, WaveformGeneratorFP& source);
   void reset();
 
-  void writeFREQ_LO(reg8);
-  void writeFREQ_HI(reg8);
-  void writePW_LO(reg8);
-  void writePW_HI(reg8);
-  void writeCONTROL_REG(reg8);
-  reg8 readOSC();
+  void writeFREQ_LO(reg8 value);
+  void writeFREQ_HI(reg8 value);
+  void writePW_LO(reg8 value);
+  void writePW_HI(reg8 value);
+  void writeCONTROL_REG(WaveformGeneratorFP& source, reg8 value);
+  reg8 readOSC(WaveformGeneratorFP& source);
 
-  RESID_INLINE float output();
+  RESID_INLINE float output(WaveformGeneratorFP& source);
 
 protected:
-  RESID_INLINE void clock_noise(const bool clock);
+  void clock_noise(const bool clock);
+  reg12 outputN___();
   void set_nonlinearity(float nl);
   void rebuild_wftable();
-  void calculate_waveform_sample(float *o);
-
-  const WaveformGeneratorFP* sync_source;
-  WaveformGeneratorFP* sync_dest;
+  void calculate_waveform_sample(float o[12]);
 
   chip_model model;
 
   // Tell whether the accumulator MSB was set high on this cycle.
   bool msb_rising;
 
-  reg24 accumulator;
+  reg32 accumulator; /* shifted left by 8 for optimization */
   reg24 shift_register;
   reg12 noise_output_cached;
   reg8 previous;
   int noise_overwrite_delay;
 
   // Fout  = (Fn*Fclk/16777216)Hz
-  reg16 freq;
+  reg24 freq; /* shifted left by 8 for optimization */
   // PWout = (PWn/40.95)%
   reg12 pw;
 
@@ -92,9 +89,6 @@ protected:
 
   float previous_dac, noise_output_cached_dac;
 
-  RESID_INLINE reg12 outputN___();
-
-friend class VoiceFP;
 friend class SIDFP;
 };
 
@@ -107,56 +101,25 @@ void WaveformGeneratorFP::clock()
   /* no digital operation if test bit is set. Only emulate analog fade. */
   if (test) {
     if (noise_overwrite_delay != 0) {
-        if (-- noise_overwrite_delay == 0) {
-            shift_register |= 0x7ffffc;
-            noise_output_cached = outputN___();
-            noise_output_cached_dac = wave_zero;
-            for (int i = 0; i < 12; i ++) {
-                if (noise_output_cached & (1 << i)) {
-                    noise_output_cached_dac += dac[i];
-                }
-            }
-        }
+	if (-- noise_overwrite_delay == 0) {
+	    shift_register |= 0x7ffffc;
+	    clock_noise(false);
+	}
     }
     return;
   }
 
-  reg24 accumulator_prev = accumulator;
+  reg32 accumulator_prev = accumulator;
 
   // Calculate new accumulator value;
   accumulator += freq;
-  accumulator &= 0xffffff;
 
   // Check whether the MSB became set high. This is used for synchronization.
-  msb_rising = !(accumulator_prev & 0x800000) && (accumulator & 0x800000);
+  msb_rising = static_cast<int>(~accumulator_prev & accumulator) < 0;
 
   // Shift noise register once for each time accumulator bit 19 is set high.
-  if (!(accumulator_prev & 0x080000) && (accumulator & 0x080000)) {
+  if ((~accumulator_prev & accumulator) & 0x08000000) {
     clock_noise(true);
-  }
-}
-
-RESID_INLINE
-void WaveformGeneratorFP::clock_noise(const bool clock)
-{
-  if (clock) {
-    reg24 bit0 = ((shift_register >> 22) ^ (shift_register >> 17)) & 0x1;
-    shift_register <<= 1;
-    shift_register |= bit0;
-  }
-
-  // clear output bits of shift register if noise and other waveforms
-  // are selected simultaneously
-  if (waveform > 8) {
-    shift_register &= 0x7fffff^(1<<22)^(1<<20)^(1<<16)^(1<<13)^(1<<11)^(1<<7)^(1<<4)^(1<<2);
-  }
-
-  noise_output_cached = outputN___();
-  noise_output_cached_dac = wave_zero;
-  for (int i = 0; i < 12; i ++) {
-    if (noise_output_cached & (1 << i)) {
-      noise_output_cached_dac += dac[i];
-    }
   }
 }
 
@@ -165,57 +128,24 @@ void WaveformGeneratorFP::clock_noise(const bool clock)
 // This must be done after all the oscillators have been clock()'ed since the
 // oscillators operate in parallel.
 // Note that the oscillators must be clocked exactly on the cycle when the
-// MSB is set high for hard sync to operate correctly. See SID::clock().
+// MSB is set high for hard sync to operate correctly. See SIDFP::clock().
 // ----------------------------------------------------------------------------
 RESID_INLINE
-void WaveformGeneratorFP::synchronize()
+void WaveformGeneratorFP::synchronize(WaveformGeneratorFP& sync_dest, WaveformGeneratorFP& sync_source)
 {
   // A special case occurs when a sync source is synced itself on the same
   // cycle as when its MSB is set high. In this case the destination will
   // not be synced. This has been verified by sampling OSC3.
-  if (msb_rising && sync_dest->sync && !(sync && sync_source->msb_rising)) {
-    sync_dest->accumulator = 0;
+  if (msb_rising && sync_dest.sync && !(sync && sync_source.msb_rising)) {
+    sync_dest.accumulator = 0;
   }
-}
-
-// Noise:
-// The noise output is taken from intermediate bits of a 23-bit shift register
-// which is clocked by bit 19 of the accumulator.
-// NB! The output is actually delayed 2 cycles after bit 19 is set high.
-// This is not modeled.
-//
-// Operation: Calculate EOR result, shift register, set bit 0 = result.
-//
-//                        ----------------------->---------------------
-//                        |                                            |
-//                   ----EOR----                                       |
-//                   |         |                                       |
-//                   2 2 2 1 1 1 1 1 1 1 1 1 1                         |
-// Register bits:    2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 <---
-//                   |   |       |     |   |       |     |   |
-// OSC3 bits  :      7   6       5     4   3       2     1   0
-//
-// Since waveform output is 12 bits the output is left-shifted 4 times.
-//
-RESID_INLINE
-reg12 WaveformGeneratorFP::outputN___()
-{
-  return
-    ((shift_register & 0x400000) >> 11) |
-    ((shift_register & 0x100000) >> 10) |
-    ((shift_register & 0x010000) >> 7) |
-    ((shift_register & 0x002000) >> 5) |
-    ((shift_register & 0x000800) >> 4) |
-    ((shift_register & 0x000080) >> 1) |
-    ((shift_register & 0x000010) << 1) |
-    ((shift_register & 0x000004) << 2);
 }
 
 // ----------------------------------------------------------------------------
 // Select one of 16 possible combinations of waveforms.
 // ----------------------------------------------------------------------------
 RESID_INLINE
-float WaveformGeneratorFP::output()
+float WaveformGeneratorFP::output(WaveformGeneratorFP& sync_source)
 {
   if (waveform == 0) {
     return previous_dac;
@@ -229,16 +159,15 @@ float WaveformGeneratorFP::output()
   /* waveforms 1 .. 7 left */
 
   /* Phase for all waveforms */
-  reg12 phase = accumulator >> 12;
+  reg12 phase = accumulator >> 20;
   /* pulse on/off generates 4 more variants after the main pulse types */
-  int variant = waveform >= 4 && (test || phase >= pw) ? 3 : -1;
+  int variant = waveform < 4 || phase < pw ? -1 : 3;
 
   /* triangle waveform XOR circuit. Since the table already makes a triangle
    * wave internally, we only need to account for the sync source here.
    * Flipping the top bit suffices to reproduce the original SID ringmod */
-  if ((waveform & 3) == 1 && ring_mod && (sync_source->accumulator & 0x800000)) {
-    phase ^= 0x800;
-  }
+  phase ^= ring_mod && (waveform & 3) == 1 && (static_cast<int>(sync_source.accumulator) < 0) ? 0x800 : 0x000;
+
   return wftable[waveform + variant][phase];
 }
 

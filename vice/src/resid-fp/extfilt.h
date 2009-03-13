@@ -42,9 +42,6 @@ class ExternalFilterFP
 public:
   ExternalFilterFP();
 
-  void enable_filter(bool enable);
-  void set_sampling_parameter(float pass_freq);
-  void set_chip_model(chip_model model);
   void set_clock_frequency(float);
 
   RESID_INLINE void clock(float Vi);
@@ -54,22 +51,11 @@ public:
   RESID_INLINE float output();
 
 private:
-  void _set_sampling_parameter();
-  void nuke_denormals();
-
-  // Filter enabled.
-  bool enabled;
-
-  // Maximum mixer DC offset.
-  float mixer_DC;
-
-  // Relevant clocks
-  float clock_frequency, pass_frequency;
+  RESID_INLINE void nuke_denormals();
 
   // State of filters.
   float Vlp; // lowpass
   float Vhp; // highpass
-  float Vo;
 
   // Cutoff frequencies.
   float w0lp;
@@ -84,17 +70,8 @@ friend class SIDFP;
 RESID_INLINE
 void ExternalFilterFP::clock(float Vi)
 {
-  // This is handy for testing.
-  if (! enabled) {
-    // Remove maximum DC level since there is no filter to do it.
-    Vlp = Vhp = 0.f;
-    Vo = Vi - mixer_DC;
-    return;
-  }
-
   float dVlp = w0lp * (Vi - Vlp);
   float dVhp = w0hp * (Vlp - Vhp);
-  Vo = Vlp - Vhp;
   Vlp += dVlp;
   Vhp += dVhp;
 }
@@ -105,7 +82,7 @@ void ExternalFilterFP::clock(float Vi)
 RESID_INLINE
 float ExternalFilterFP::output()
 {
-  return Vo;
+  return Vlp - Vhp;
 }
 
 RESID_INLINE
@@ -117,4 +94,4 @@ void ExternalFilterFP::nuke_denormals()
         Vlp = 0;
 }
 
-#endif // not __EXTFILT_H__
+#endif // not VICE__EXTFILT_H__

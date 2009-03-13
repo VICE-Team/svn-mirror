@@ -30,14 +30,14 @@ public:
   VoiceFP();
 
   void set_chip_model(chip_model model);
-  void set_sync_source(VoiceFP*);
   void reset();
+  void mute(bool enable);
 
-  void writeCONTROL_REG(reg8);
+  void writeCONTROL_REG(WaveformGeneratorFP& source, reg8 value);
 
   // Amplitude modulated waveform output.
   // Range [-2048*255, 2047*255].
-  RESID_INLINE float output();
+  RESID_INLINE float output(WaveformGeneratorFP& source);
 
 protected:
   WaveformGeneratorFP wave;
@@ -45,7 +45,6 @@ protected:
 
   // Multiplying D/A DC offset.
   float voice_DC;
-
 friend class SIDFP;
 };
 
@@ -55,9 +54,9 @@ friend class SIDFP;
 // ----------------------------------------------------------------------------
 
 RESID_INLINE
-float VoiceFP::output()
+float VoiceFP::output(WaveformGeneratorFP& source)
 {
-    return wave.output() * envelope.output() + voice_DC;
+    return wave.output(source) * envelope.output() + voice_DC;
 }
 
-#endif // not __VOICE_H__
+#endif // not VICE__VOICE_H__
