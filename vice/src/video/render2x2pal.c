@@ -37,9 +37,9 @@ extern DWORD gamma_red[256 * 3];
 extern DWORD gamma_grn[256 * 3];
 extern DWORD gamma_blu[256 * 3];
 
-extern DWORD gamma_red_fac[256 * 3];
-extern DWORD gamma_grn_fac[256 * 3];
-extern DWORD gamma_blu_fac[256 * 3];
+extern DWORD gamma_red_fac[256 * 3 * 2];
+extern DWORD gamma_grn_fac[256 * 3 * 2];
+extern DWORD gamma_blu_fac[256 * 3 * 2];
 
 /* Often required function that stores gamma-corrected pixel to current line,
  * averages the current rgb with the contents of previous non-scanline-line,
@@ -51,14 +51,15 @@ extern DWORD gamma_blu_fac[256 * 3];
 
 static inline
 void store_line_and_scanline_2(
-    BYTE *line, BYTE *scanline, WORD *prevline,
+    BYTE *const line, BYTE *const scanline,
+    WORD *const prevline,
     const WORD red, const WORD grn, const WORD blu)
 {
-    WORD *tmp1 = (WORD *) scanline;
-    WORD *tmp2 = (WORD *) line;
-    *tmp1 = (WORD) (gamma_red_fac[(red + prevline[0]) >> 1]
-          | gamma_grn_fac[(grn + prevline[1]) >> 1]
-          | gamma_blu_fac[(blu + prevline[2]) >> 1]);
+    WORD *const tmp1 = (WORD *const) scanline;
+    WORD *const tmp2 = (WORD *const) line;
+    *tmp1 = (WORD) (gamma_red_fac[red + prevline[0]]
+          | gamma_grn_fac[grn + prevline[1]]
+          | gamma_blu_fac[blu + prevline[2]]);
     
     *tmp2 = (WORD) (gamma_red[red] | gamma_grn[grn] | gamma_blu[blu]);
 
@@ -69,12 +70,13 @@ void store_line_and_scanline_2(
 
 static inline
 void store_line_and_scanline_3(
-    BYTE *line, BYTE *scanline, WORD *prevline,
+    BYTE *const line, BYTE *const scanline,
+    WORD *const prevline,
     const WORD red, const WORD grn, const WORD blu)
 {
-    DWORD tmp1 = gamma_red_fac[(red + prevline[0]) >> 1]
-               | gamma_grn_fac[(grn + prevline[1]) >> 1]
-               | gamma_blu_fac[(blu + prevline[2]) >> 1];
+    DWORD tmp1 = gamma_red_fac[red + prevline[0]]
+               | gamma_grn_fac[grn + prevline[1]]
+               | gamma_blu_fac[blu + prevline[2]];
     DWORD tmp2 = gamma_red[red] | gamma_grn[grn] | gamma_blu[blu];
     scanline[0] = (BYTE) tmp1;
     tmp1 >>= 8;
@@ -95,14 +97,15 @@ void store_line_and_scanline_3(
 
 static inline
 void store_line_and_scanline_4(
-    BYTE *line, BYTE *scanline, WORD *prevline,
+    BYTE *const line, BYTE *const scanline,
+    WORD *const prevline,
     const WORD red, const WORD grn, const WORD blu)
 {
-    DWORD *tmp1 = (DWORD *) scanline;
-    DWORD *tmp2 = (DWORD *) line;
-    *tmp1 = gamma_red_fac[(red + prevline[0]) >> 1]
-          | gamma_grn_fac[(grn + prevline[1]) >> 1]
-          | gamma_blu_fac[(blu + prevline[2]) >> 1];
+    DWORD *const tmp1 = (DWORD *const) scanline;
+    DWORD *const tmp2 = (DWORD *const) line;
+    *tmp1 = gamma_red_fac[red + prevline[0]]
+          | gamma_grn_fac[grn + prevline[1]]
+          | gamma_blu_fac[blu + prevline[2]];
     
     *tmp2 = gamma_red[red] | gamma_grn[grn] | gamma_blu[blu];
 
@@ -113,23 +116,12 @@ void store_line_and_scanline_4(
 
 static inline
 void get_rgb_from_video(
-    const BYTE *src, SDWORD *line,
-    const int off_flip,
-    const SDWORD* ytablel, const SDWORD* ytableh,
-    const SDWORD* cbtable, const SDWORD* crtable,
-    WORD *red, WORD *grn, WORD *blu)
+    const SDWORD l, const SDWORD unew, const SDWORD vnew,
+    SDWORD *const line, const int off_flip,
+    WORD *const red, WORD *const grn, WORD *const blu)
 {
-    BYTE cl0, cl1, cl2, cl3;
-    SDWORD unew, vnew;
-    SDWORD l, u, v;
-    cl0 = src[0];
-    cl1 = src[1];
-    cl2 = src[2];
-    cl3 = src[3];
+    SDWORD u, v;
 
-    l = ytablel[cl1] + ytableh[cl2] + ytablel[cl3];
-    unew = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
-    vnew = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
     u = (unew - line[0]) * off_flip;
     v = (vnew - line[1]) * off_flip;
     line[0] = unew;
@@ -149,7 +141,8 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
                        const unsigned int pitchs, const unsigned int pitcht,
 		               viewport_t *viewport, unsigned int pixelstride,
                        void (*store_func)(
-                            BYTE *line, BYTE *scanline, WORD *prevline,
+                            BYTE *const line, BYTE *const scanline,
+                            WORD *const prevline,
                             const WORD red, const WORD grn, const WORD blu))
 {
     WORD *prevrgblineptr;
@@ -161,9 +154,8 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
     BYTE *tmptrg, *tmptrgscanline;
     SDWORD *line;
     DWORD x, y, wfirst, wlast, yys;
-    SDWORD off, off_flip;
+    SDWORD unew, vnew, l, off, off_flip;
     WORD red, grn, blu, red2, grn2, blu2;
-    BYTE cl0, cl1, cl2, cl3;
 
     src = src + pitchs * ys + xs - 2;
     trg = trg + pitcht * yt + xt * pixelstride;
@@ -190,13 +182,9 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
     
     /* Initialize line */
     for (x = 0; x < width + wfirst + wlast + 1; x++) {
-        cl0 = tmpsrc[0];
-        cl1 = tmpsrc[1];
-        cl2 = tmpsrc[2];
-        cl3 = tmpsrc[3];
-        line[0] = (cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3]) * off_flip;
-        line[1] = (crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3]) * off_flip;
-        tmpsrc++;
+        line[0] = (cbtable[tmpsrc[0]] + cbtable[tmpsrc[1]] + cbtable[tmpsrc[2]] + cbtable[tmpsrc[3]]) * off_flip;
+        line[1] = (crtable[tmpsrc[0]] + crtable[tmpsrc[1]] + crtable[tmpsrc[2]] + crtable[tmpsrc[3]]) * off_flip;
+        tmpsrc ++;
         line += 2;
     }
     /* That's all initialization we need for full lines. Unfortunately, for
@@ -250,16 +238,30 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
             crtable = color_tab->crtable;
         }
 
-	get_rgb_from_video(tmpsrc, line, off_flip, ytablel, ytableh, cbtable, crtable, &red, &grn, &blu);
+        unew = cbtable[tmpsrc[0]] + cbtable[tmpsrc[1]] + cbtable[tmpsrc[2]] + cbtable[tmpsrc[3]];
+        vnew = crtable[tmpsrc[0]] + crtable[tmpsrc[1]] + crtable[tmpsrc[2]] + crtable[tmpsrc[3]];
+
+        l = ytablel[tmpsrc[1]] + ytableh[tmpsrc[2]] + ytablel[tmpsrc[3]];
+	get_rgb_from_video(l, unew, vnew, line, off_flip, &red, &grn, &blu);
+        unew -= cbtable[tmpsrc[0]];
+        vnew -= crtable[tmpsrc[0]];
         tmpsrc += 1;
+        unew += cbtable[tmpsrc[3]];
+        vnew += crtable[tmpsrc[3]];
         line += 2;
 
         /* actual line */
 	prevrgblineptr = &color_tab->prevrgbline[0];
         if (wfirst) {
-            get_rgb_from_video(tmpsrc, line, off_flip, ytablel, ytableh, cbtable, crtable, &red2, &grn2, &blu2);
+            l = ytablel[tmpsrc[1]] + ytableh[tmpsrc[2]] + ytablel[tmpsrc[3]];
+            get_rgb_from_video(l, unew, vnew, line, off_flip, &red2, &grn2, &blu2);
+            unew -= cbtable[tmpsrc[0]];
+            vnew -= crtable[tmpsrc[0]];
             tmpsrc += 1;
+            unew += cbtable[tmpsrc[3]];
+            vnew += crtable[tmpsrc[3]];
             line += 2;
+
             store_func(tmptrg, tmptrgscanline, prevrgblineptr, (WORD) ((red+red2)>>1), (WORD) ((grn+grn2)>>1), (WORD) ((blu+blu2)>>1));
             tmptrgscanline += pixelstride;
             tmptrg += pixelstride;
@@ -274,9 +276,16 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
             tmptrgscanline += pixelstride;
             tmptrg += pixelstride;
             prevrgblineptr += 3;
-            get_rgb_from_video(tmpsrc, line, off_flip, ytablel, ytableh, cbtable, crtable, &red2, &grn2, &blu2);
+
+            l = ytablel[tmpsrc[1]] + ytableh[tmpsrc[2]] + ytablel[tmpsrc[3]];
+            get_rgb_from_video(l, unew, vnew, line, off_flip, &red2, &grn2, &blu2);
+            unew -= cbtable[tmpsrc[0]];
+            vnew -= crtable[tmpsrc[0]];
             tmpsrc += 1;
+            unew += cbtable[tmpsrc[3]];
+            vnew += crtable[tmpsrc[3]];
             line += 2;
+
             store_func(tmptrg, tmptrgscanline, prevrgblineptr, (WORD) ((red+red2)>>1), (WORD) ((grn+grn2)>>1), (WORD) ((blu+blu2)>>1));
             tmptrgscanline += pixelstride;
             tmptrg += pixelstride;

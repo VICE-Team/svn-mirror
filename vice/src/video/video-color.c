@@ -43,9 +43,9 @@ DWORD gamma_red[256 * 3];
 DWORD gamma_grn[256 * 3];
 DWORD gamma_blu[256 * 3];
 
-DWORD gamma_red_fac[256 * 3];
-DWORD gamma_grn_fac[256 * 3];
-DWORD gamma_blu_fac[256 * 3];
+DWORD gamma_red_fac[256 * 3 * 2];
+DWORD gamma_grn_fac[256 * 3 * 2];
+DWORD gamma_blu_fac[256 * 3 * 2];
 
 static DWORD color_red[256];
 static DWORD color_grn[256];
@@ -304,9 +304,16 @@ static void video_calc_gammatable(void)
         vi = (DWORD)(v * scn);
         if (vi > 255)
             vi = 255;
-        gamma_red_fac[i] = color_red[vi];
-        gamma_grn_fac[i] = color_grn[vi];
-        gamma_blu_fac[i] = color_blu[vi];
+        gamma_red_fac[i * 2] = color_red[vi];
+        gamma_grn_fac[i * 2] = color_grn[vi];
+        gamma_blu_fac[i * 2] = color_blu[vi];
+        v = video_gamma((float)(i - 256) + 0.5f, gam, bri, con);
+        vi = (DWORD)(v * scn);
+        if (vi > 255)
+            vi = 255;
+        gamma_red_fac[i * 2 + 1] = color_red[vi];
+        gamma_grn_fac[i * 2 + 1] = color_grn[vi];
+        gamma_blu_fac[i * 2 + 1] = color_blu[vi];
     }
 }
 
