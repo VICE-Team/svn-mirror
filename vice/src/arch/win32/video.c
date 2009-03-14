@@ -56,7 +56,6 @@ int dx9_disable;
 
 static int set_dx_primary_surface_rendering(int val, void *param)
 {
-    video_canvas_t *c;
     int i;
 
     dx_primary_surface_rendering = val;
