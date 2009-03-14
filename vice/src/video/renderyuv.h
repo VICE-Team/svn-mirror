@@ -28,6 +28,7 @@
 #define VICE_RENDERYUV_H
 
 #include "types.h"
+#include "video-render.h"
 
 /* Image struct, modeled after XvImage. */
 typedef struct {
@@ -75,7 +76,7 @@ typedef union {
 
 
 extern void render_yuv_image(int double_size,
-                             int double_scan,
+                             viewport_t *viewport,
                              int pal_mode,
                              int pal_blur,
                              int pal_scanline_shade,
@@ -83,7 +84,7 @@ extern void render_yuv_image(int double_size,
                              image_t* image,
                              unsigned char* src,
                              int src_pitch,
-                             unsigned int* src_color,
+                             struct video_render_config_s *config,
                              int src_x, int src_y,
                              unsigned int src_w, unsigned int src_h,
                              int dest_x, int dest_y);
@@ -108,29 +109,6 @@ extern void renderyuv_2x_4_2_2(image_t* image,
                                unsigned int src_w, unsigned int src_h,
                                int dest_x, int dest_y,
                                int double_scan, int pal_scanline_shade);
-
-extern void renderyuv_4_2_2_pal(image_t* image,
-                                int shift_y0, int shift_u,
-                                int shift_v, int shift_y1,
-                                unsigned char* src,
-                                int src_pitch,
-                                unsigned int* src_color,
-                                int src_x, int src_y,
-                                unsigned int src_w, unsigned int src_h,
-                                int dest_x, int dest_y,
-                                int pal_blur);
-
-extern void renderyuv_2x_4_2_2_pal(image_t* image,
-                                   int shift_y0, int shift_u,
-                                   int shift_v, int shift_y1,
-                                   unsigned char* src,
-                                   int src_pitch,
-                                   unsigned int* src_color,
-                                   int src_x, int src_y,
-                                   unsigned int src_w, unsigned int src_h,
-                                   int dest_x, int dest_y,
-                                   int pal_blur,
-                                   int double_scan, int pal_scanline_shade);
 
 extern void renderyuv_4_1_1(image_t* image,
                             int plane_y, int plane_u, int plane_v,

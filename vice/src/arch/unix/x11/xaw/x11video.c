@@ -878,7 +878,7 @@ void video_canvas_refresh(video_canvas_t *canvas,
         display = x11ui_get_display_ptr();
 
         render_yuv_image(doublesize,
-                         canvas->videoconfig->doublescan,
+                         canvas->viewport,
                          video_resources.pal_mode,
                          video_resources.pal_blur * 64 / 1000,
                          video_resources.pal_scanlineshade * 1024 / 1000,
@@ -886,7 +886,7 @@ void video_canvas_refresh(video_canvas_t *canvas,
                          &canvas->yuv_image,
                          canvas->draw_buffer->draw_buffer,
                          canvas->draw_buffer->draw_buffer_width,
-                         canvas->videoconfig->color_tables.yuv_table,
+                         canvas->videoconfig,
                          xs, ys, w, h,
                          xi, yi);
 

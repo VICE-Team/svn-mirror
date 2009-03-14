@@ -820,7 +820,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
                          &canvas->vlayer_image,
                          canvas->draw_buffer->draw_buffer,
                          canvas->draw_buffer->draw_buffer_width,
-                         canvas->videoconfig->color_tables.yuv_table,
+                         canvas->videoconfig,
                          xs, ys, w, h,
                          xi, yi);
       }
