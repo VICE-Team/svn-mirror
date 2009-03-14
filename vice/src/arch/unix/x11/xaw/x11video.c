@@ -879,7 +879,7 @@ void video_canvas_refresh(video_canvas_t *canvas,
 
         render_yuv_image(doublesize,
                          canvas->viewport,
-                         video_resources.pal_mode,
+                         video_resources.delayloop_emulation,
                          video_resources.pal_blur * 64 / 1000,
                          video_resources.pal_scanlineshade * 1024 / 1000,
                          canvas->xv_format,

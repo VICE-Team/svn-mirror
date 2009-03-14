@@ -77,7 +77,7 @@ typedef union {
 
 extern void render_yuv_image(int double_size,
                              viewport_t *viewport,
-                             int pal_mode,
+                             int true_pal_mode,
                              int pal_blur,
                              int pal_scanline_shade,
                              fourcc_t format,

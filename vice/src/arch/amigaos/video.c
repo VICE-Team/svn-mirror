@@ -813,7 +813,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
 
         render_yuv_image(doublesize,
                          canvas->videoconfig->doublescan,
-                         video_resources.pal_mode,
+                         video_resources.delayloop_emulation,
                          video_resources.pal_blur * 64 / 1000,
                          video_resources.pal_scanlineshade * 1024 / 1000,
                          canvas->vlayer_yuvfmt,

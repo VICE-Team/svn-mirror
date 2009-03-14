@@ -188,7 +188,7 @@ void video_render_palfunc_set(void(*func)(video_render_config_t *,
 /* Render YUV 4:2:2 and 4:1:1 formats. */
 void render_yuv_image(int double_size,
                       viewport_t *viewport,
-                      int pal_mode,
+                      int true_pal_mode,
                       int pal_blur,
                       int pal_scanline_shade,
                       fourcc_t format,
@@ -251,32 +251,25 @@ void render_yuv_image(int double_size,
   if (double_size) {
     /* 2x2 */
     if (planar) {
-      switch(pal_mode) {
-      case VIDEO_RESOURCE_PAL_MODE_FAST:
+      if (! true_pal_mode) {
         renderyuv_2x_4_1_1(image, plane_y, plane_u, plane_v,
                            src, src_pitch, config->color_tables.yuv_table,
                            src_x, src_y, src_w, src_h, dest_x, dest_y,
                            double_scan, pal_scanline_shade);
-        break;
-      default:
-      case VIDEO_RESOURCE_PAL_MODE_TRUE:
+      } else {
         renderyuv_2x_4_1_1_pal(image, plane_y, plane_u, plane_v,
                                src, src_pitch, config->color_tables.yuv_table,
                                src_x, src_y, src_w, src_h, dest_x, dest_y,
                                pal_blur, double_scan, pal_scanline_shade);
-        break;
       }
     }
     else {
-      switch(pal_mode) {
-      case VIDEO_RESOURCE_PAL_MODE_FAST:
+      if (! true_pal_mode) {
         renderyuv_2x_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
                            src, src_pitch, config->color_tables.yuv_table,
                            src_x, src_y, src_w, src_h, dest_x, dest_y,
                            double_scan, pal_scanline_shade);
-        break;
-      default:
-      case VIDEO_RESOURCE_PAL_MODE_TRUE:
+      } else {
         src_w *= 2;
         src_h *= 2;
         dest_y *= 2;
@@ -303,37 +296,29 @@ void render_yuv_image(int double_size,
             );
         break;
         }
-        break;
       }
     }
   }
   else {
     /* 1x1 */
     if (planar) {
-      switch(pal_mode) {
-      case VIDEO_RESOURCE_PAL_MODE_FAST:
+      if (! true_pal_mode) {
         renderyuv_4_1_1(image, plane_y, plane_u, plane_v,
                         src, src_pitch, config->color_tables.yuv_table,
                         src_x, src_y, src_w, src_h, dest_x, dest_y);
-        break;
-      default:
-      case VIDEO_RESOURCE_PAL_MODE_TRUE:
+      } else {
         renderyuv_4_1_1_pal(image, plane_y, plane_u, plane_v,
                             src, src_pitch, config->color_tables.yuv_table,
                             src_x, src_y, src_w, src_h, dest_x, dest_y,
                             pal_blur);
-        break;
       }
     }
     else {
-      switch(pal_mode) {
-      case VIDEO_RESOURCE_PAL_MODE_FAST:
+      if (! true_pal_mode) {
         renderyuv_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
                         src, src_pitch, config->color_tables.yuv_table,
                         src_x, src_y, src_w, src_h, dest_x, dest_y);
-        break;
-      default:
-      case VIDEO_RESOURCE_PAL_MODE_TRUE:
+      } else {
         switch (format.id) {
         case FOURCC_UYVY:
             render_UYVY_1x1_pal(
@@ -357,7 +342,6 @@ void render_yuv_image(int double_size,
             );
         break;
         }
-        break;
       }
     }
   }

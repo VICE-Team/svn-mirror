@@ -49,7 +49,6 @@ video_resources_t video_resources =
     0,    /* delayloop_emulation */
     667,  /* pal_scanlineshade */
     500,  /* pal_blur */
-    1,    /* pal_mode */
     1250, /* pal_oddlines_phase */
     750   /* pal_oddlines_offset */
 };
