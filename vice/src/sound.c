@@ -84,7 +84,6 @@ static char *recorddevice_arg = NULL; /* app_resources.soundDeviceArg */
 static int buffer_size;               /* app_resources.soundBufferSize */
 static int suspend_time;              /* app_resources.soundSuspendTime */
 static int speed_adjustment_setting;  /* app_resources.soundSpeedAdjustment */
-static int oversampling_factor;       /* app_resources.soundOversample */
 static int volume;
 
 /* I need this to serialize close_sound and enablesound/sound_open in
@@ -168,20 +167,6 @@ static int set_speed_adjustment_setting(int val, void *param)
     return 0;
 }
 
-static int set_oversampling_factor(int val, void *param)
-{
-    oversampling_factor = val;
-
-    if (oversampling_factor < 0 || oversampling_factor > 3) {
-        log_warning(sound_log, "Invalid oversampling factor %d.  Forcing 3.",
-                    oversampling_factor);
-        oversampling_factor = 3;
-    }
-
-    sound_state_changed = TRUE;
-    return 0;
-}
-
 static int set_volume(int val, void *param)
 {
     volume = val;
@@ -220,8 +205,6 @@ static const resource_int_t resources_int[] = {
       (void *)&suspend_time, set_suspend_time, NULL },
     { "SoundSpeedAdjustment", SOUND_ADJUST_FLEXIBLE, RES_EVENT_NO, NULL,
       (void *)&speed_adjustment_setting, set_speed_adjustment_setting, NULL },
-    { "SoundOversample", 0, RES_EVENT_NO, NULL,
-      (void *)&oversampling_factor, set_oversampling_factor, NULL },
     { "SoundVolume", 100, RES_EVENT_NO, NULL,
       (void *)&volume, set_volume, NULL },
     { NULL }
@@ -366,12 +349,6 @@ typedef struct
     /* is the device suspended? */
     int issuspended;
     SWORD lastsample[SOUND_CHANNELS_MAX];
-
-    /* nr of samples to oversame / real sample */
-    int oversamplenr;
-
-    /* number of shift needed on oversampling */
-    int oversampleshift;
 } snddata_t;
 
 static snddata_t snddata;
@@ -529,15 +506,11 @@ static int sid_init(void)
         /* "No limit" doesn't make sense for cycle based sound engines,
            which have a fixed sampling rate. */
         int speed_factor = speed_percent ? speed_percent : 100;
-        snddata.oversampleshift = 0;
-        snddata.oversamplenr = 1;
         speed = sample_rate * 100 / speed_factor;
     } else {
         /* For sample based sound engines, both simple average filtering
            and sample rate conversion is handled here. */
-        snddata.oversampleshift = oversampling_factor;
-        snddata.oversamplenr = 1 << snddata.oversampleshift;
-        speed = sample_rate*snddata.oversamplenr;
+        speed = sample_rate;
     }
 
     for (c = 0; c < snddata.channels; c++) {
@@ -547,12 +520,6 @@ static int sid_init(void)
     }
 
     snddata.clkstep = SOUNDCLK_CONSTANT(cycles_per_sec) / sample_rate;
-
-    if (snddata.oversamplenr > 1) {
-        snddata.clkstep /= snddata.oversamplenr;
-        log_message(sound_log, "Using %dx oversampling",
-                    snddata.oversamplenr);
-    }
 
     snddata.origclkstep = snddata.clkstep;
     snddata.clkfactor = SOUNDCLK_CONSTANT(1.0);
@@ -624,10 +591,13 @@ int sound_open(void)
     speed = (sample_rate < 8000 || sample_rate > 96000)
             ? SOUND_SAMPLE_RATE : sample_rate;
 
-    /* Calculate optimal fragments.
-       fragsize is rounded up to 2^i.
-       fragnr is rounded up to bufsize/fragsize. */
-    fragsize = speed / ((rfsh_per_sec < 1.0) ? 1 : ((int)rfsh_per_sec));
+    /* Calculate reasonable fragments. Target is 4 fragments per frame,
+     * which gives a reasonable number of fillable audio chunks to avoid
+     * ugly situation where a full frame refresh needs to occur before more
+     * audio is generated. It also improves the estimate of optimal frame
+     * length for vsync, which is closely tied to audio and uses the fragment
+     * information to calculate it. */
+    fragsize = speed / ((rfsh_per_sec < 1.0) ? 1 : ((int)rfsh_per_sec)) / 4;
     for (i = 1; 1 << i < fragsize; i++);
     fragsize = 1 << i;
     fragnr = (int)((speed * bufsize + fragsize - 1) / fragsize);
@@ -968,37 +938,10 @@ double sound_flush(int relative_speed)
 
     /* Calculate the number of samples to flush - whole fragments. */
     nr = snddata.bufptr -
-         snddata.bufptr % (snddata.fragsize * snddata.oversamplenr);
+         snddata.bufptr % snddata.fragsize;
     if (!nr)
         return 0;
 
-    /* handle oversampling */
-    if (snddata.oversamplenr > 1) {
-        int j, newnr;
-
-        newnr = nr >> snddata.oversampleshift;
-
-        /* Simple average filtering. */
-        for (c = 0; c < snddata.channels; c++) {
-            SDWORD v;
-            for (i = 0; i < newnr; i++) {
-                for (v = j = 0; j < snddata.oversamplenr; j++)
-                    v += snddata.buffer[(i * snddata.oversamplenr + j)
-                         * snddata.channels + c];
-                snddata.buffer[i * snddata.channels + c] =
-                    v >> snddata.oversampleshift;
-            }
-        }
-
-        /* Move remaining n % oversamplenr samples to new end of buffer. */
-        for (c = 0; c < snddata.channels; c++) {
-            for (i = 0; i < snddata.bufptr - nr; i++)
-                snddata.buffer[(newnr + i) * snddata.channels + c] =
-                      snddata.buffer[(nr + i) * snddata.channels + c];
-        }
-        snddata.bufptr -= (nr - newnr);
-        nr = newnr;
-    }
     /* adjust speed */
     if (snddata.playdev->bufferspace) {
         space = snddata.playdev->bufferspace();

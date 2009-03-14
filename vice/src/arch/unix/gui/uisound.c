@@ -83,6 +83,16 @@ static ui_menu_entry_t set_sound_buffer_size_submenu[] = {
       (ui_callback_data_t)150, NULL },
     { N_("*0.10 sec"), (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)100, NULL },
+    { N_("*0.09 sec"), (ui_callback_t)radio_SoundBufferSize,
+      (ui_callback_data_t)90, NULL },
+    { N_("*0.08 sec"), (ui_callback_t)radio_SoundBufferSize,
+      (ui_callback_data_t)80, NULL },
+    { N_("*0.07 sec"), (ui_callback_t)radio_SoundBufferSize,
+      (ui_callback_data_t)70, NULL },
+    { N_("*0.06 sec"), (ui_callback_t)radio_SoundBufferSize,
+      (ui_callback_data_t)60, NULL },
+    { N_("*0.05 sec"), (ui_callback_t)radio_SoundBufferSize,
+      (ui_callback_data_t)50, NULL },
     { NULL }
 };
 
@@ -97,18 +107,6 @@ static ui_menu_entry_t set_sound_suspend_time_submenu[] = {
       (ui_callback_data_t)5, NULL },
     { N_("*10 sec suspend"), (ui_callback_t)radio_SoundSuspendTime,
       (ui_callback_data_t)10, NULL },
-    { NULL }
-};
-
-ui_menu_entry_t set_sound_oversample_submenu [] = {
-    { "*1x",
-      (ui_callback_t)radio_SoundOversample, (ui_callback_data_t)0, NULL },
-    { "*2x",
-      (ui_callback_t)radio_SoundOversample, (ui_callback_data_t)1, NULL },
-    { "*4x",
-      (ui_callback_t)radio_SoundOversample, (ui_callback_data_t)2, NULL },
-    { "*8x",
-      (ui_callback_t)radio_SoundOversample, (ui_callback_data_t)3, NULL },
     { NULL }
 };
 
@@ -145,8 +143,6 @@ ui_menu_entry_t sound_settings_submenu[] = {
       NULL, NULL, set_sound_buffer_size_submenu },
     { N_("Suspend time"),
       NULL, NULL, set_sound_suspend_time_submenu },
-    { N_("Oversample"),
-      NULL, NULL, set_sound_oversample_submenu },
     { NULL },
 };
 
