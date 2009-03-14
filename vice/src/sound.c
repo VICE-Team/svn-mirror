@@ -1074,7 +1074,7 @@ double sound_flush(int relative_speed)
            of getting interrupted before vsync delay calculation. */
         /* Aim for utilization of bufsize - fragsize. */
         int remspace =
-            snddata.playdev->bufferspace() - snddata.fragsize - snddata.bufptr;
+            snddata.playdev->bufferspace() - snddata.bufptr;
         /* Return delay in seconds. */
         return (double)remspace/sample_rate;
     }
