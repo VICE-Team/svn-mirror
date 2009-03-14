@@ -802,13 +802,6 @@ void vice_network_address_close(vice_network_socket_address_t * address)
   \param sockfd
      The socket that has been oped with vice_network_server()
 
-  \param client_address
-     Pointer to a pointer to a socket address.
-     The pointer is used to return the address of the
-     connecting client.
-     The pointer can be NULL if we are not interested
-     who connects.
-
   \return
      A new socket that can be used for transmission on this this connection.
 */
