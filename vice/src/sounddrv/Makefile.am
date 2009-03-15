@@ -37,7 +37,6 @@ libsounddrv_a_SOURCES = \
 	sounddump.c \
 	soundfs.c \
 	soundiff.c \
-	soundspeed.c \
 	soundvoc.c \
 	soundwav.c \
 	soundmovie.c
@@ -52,7 +51,6 @@ libsounddrv_a_DEPENDENCIES = \
 	sounddump.o \
 	soundfs.o \
 	soundiff.o \
-	soundspeed.o \
 	soundvoc.o \
 	soundwav.o
 

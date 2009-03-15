@@ -1226,7 +1226,6 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 
     sound_init_dummy_device();
     sound_init_fs_device();
-    sound_init_speed_device();
     sound_init_dump_device();
     sound_init_wav_device();
     sound_init_voc_device();
