@@ -982,7 +982,6 @@ double sound_flush(int relative_speed)
             log_warning(sound_log, "Buffer drained");
 #endif
             vsync_sync_reset();
-            return 0;
         }
         if (cycle_based || speed_adjustment_setting
             != SOUND_ADJUST_ADJUSTING) {
