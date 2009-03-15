@@ -289,7 +289,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     static unsigned long next_frame_start = 0;
     unsigned long network_hook_time = 0;
 
-    /*
+   /*
      * this are the counters to show how many frames are skipped
      * since the last vsync_display_speed
      */
@@ -388,7 +388,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     /* Start afresh after "out of sync" cases. */
     if (sync_reset) {
         sync_reset = 0;
-        frame_ticks = frame_ticks_orig;
+        frame_ticks = (frame_ticks + frame_ticks_orig) / 2;
     }
 
 
