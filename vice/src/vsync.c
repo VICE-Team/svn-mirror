@@ -483,7 +483,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
             /* correct frame ticks gradually towards the right delay. This acts
              * as a long-term average. I must confess that this technique has
              * its limits... :-/ */
-            frame_ticks -= sdelay >> 7;
+            frame_ticks -= (sdelay + 64) >> 7;
         }
     }
     next_frame_start += frame_ticks;
