@@ -35,7 +35,7 @@
 
 
 /* Sound defaults.  */
-#define SOUND_SAMPLE_RATE 22050
+#define SOUND_SAMPLE_RATE 44100
 #define SOUND_CHANNELS_MAX 2
 #define SOUND_BUFSIZE 32768
 
@@ -46,7 +46,7 @@
 # define SOUND_SAMPLE_BUFFER_SIZE       400
 #endif
 #ifndef SOUND_SAMPLE_BUFFER_SIZE
-# define SOUND_SAMPLE_BUFFER_SIZE       350
+# define SOUND_SAMPLE_BUFFER_SIZE       100
 #endif
 
 /* I need this to serialize close_sound and enablesound/sound_open in
