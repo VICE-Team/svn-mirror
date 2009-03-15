@@ -110,10 +110,6 @@ SOURCE=..\..\sounddrv\soundmovie.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\sounddrv\soundspeed.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\sounddrv\soundvoc.c
 # End Source File
 # Begin Source File
