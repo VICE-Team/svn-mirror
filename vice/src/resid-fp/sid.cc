@@ -562,10 +562,9 @@ bool SIDFP::set_sampling_parameters(float clock_freq, sampling_method method,
                                   float sample_freq, float pass_freq)
 {
   clock_frequency = clock_freq;
-  sampling = method;
 
-  filter.set_clock_frequency(clock_freq);
-  extfilt.set_clock_frequency(clock_freq);
+  filter.set_clock_frequency(clock_freq * 0.5f);
+  extfilt.set_clock_frequency(clock_freq * 0.5f);
   adjust_sampling_frequency(sample_freq);
 
   sample_offset = 0;
@@ -574,6 +573,7 @@ bool SIDFP::set_sampling_parameters(float clock_freq, sampling_method method,
   // FIR initialization is only necessary for resampling.
   if (method != SAMPLE_RESAMPLE_INTERPOLATE)
   {
+    sampling = method;
     delete[] sample;
     delete[] fir;
     sample = 0;
@@ -597,8 +597,10 @@ bool SIDFP::set_sampling_parameters(float clock_freq, sampling_method method,
   const double beta = 0.1102*(A - 8.7);
   const double I0beta = I0(beta);
 
-  double f_samples_per_cycle = sample_freq/clock_freq;
-  double f_cycles_per_sample = clock_freq/sample_freq;
+  // Since we clock the filter at half the rate, we need to design the FIR
+  // with the reduced rate in mind.
+  double f_samples_per_cycle = sample_freq/(clock_freq * 0.5f);
+  double f_cycles_per_sample = (clock_freq * 0.5f)/sample_freq;
 
   /* This code utilizes the fact that aliasing back to 20 kHz from
    * sample_freq/2 is inaudible. This allows us to define a passband
@@ -627,6 +629,7 @@ bool SIDFP::set_sampling_parameters(float clock_freq, sampling_method method,
     /* Error is bound by 1.234 / L^2 */
     fir_RES = (int) (sqrt(1.234 * (1 << bits)) / f_cycles_per_sample + 0.5);
   }
+  sampling = method;
  
   // Allocate memory for FIR tables.
   delete[] fir;
@@ -710,10 +713,27 @@ void SIDFP::clock()
   voice[1].wave.synchronize(voice[2].wave, voice[0].wave);
   voice[2].wave.synchronize(voice[0].wave, voice[1].wave);
 
-  // Clock filter.
-  extfilt.clock(
-    filter.clock(voice[0].output(voice[2].wave), voice[1].output(voice[0].wave), voice[2].output(voice[1].wave), ext_in)
-  );
+  /* because the analog parts are relatively expensive and do not really need
+   * the precision of 1 MHz calculations, I average successive samples here to
+   * reduce the cpu drain for filter calculations and output resampling. */
+  float voicestate[3];
+  voicestate[0] = voice[0].output(voice[2].wave);
+  voicestate[1] = voice[1].output(voice[0].wave);
+  voicestate[2] = voice[2].output(voice[1].wave);
+
+  /* for every second sample in sequence, clock filter */
+  if (filtercyclegate ++ & 1) {
+    extfilt.clock(filter.clock(
+      (lastsample[0] + voicestate[0]) * 0.5f,
+      (lastsample[1] + voicestate[1]) * 0.5f,
+      (lastsample[2] + voicestate[2]) * 0.5f,
+      ext_in
+    ));
+  }
+
+  lastsample[0] = voicestate[0];
+  lastsample[1] = voicestate[1];
+  lastsample[2] = voicestate[2];
 }
 
 // ----------------------------------------------------------------------------
@@ -866,9 +886,11 @@ int SIDFP::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
     /* clock forward delta_t_sample samples */
     for (int i = 0; i < delta_t_sample; i++) {
       clock();
-      sample[sample_index] = sample[sample_index + RINGSIZE] = output();
-      ++ sample_index;
-      sample_index &= RINGSIZE - 1;
+      if (filtercyclegate & 1) {
+        sample[sample_index] = sample[sample_index + RINGSIZE] = output();
+        ++ sample_index;
+        sample_index &= RINGSIZE - 1;
+      }
     }
     delta_t -= delta_t_sample;
 
@@ -921,9 +943,11 @@ int SIDFP::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
   /* clock forward delta_t samples */
   for (int i = 0; i < delta_t; i++) {
     clock();
-    sample[sample_index] = sample[sample_index + RINGSIZE] = output();
-    ++ sample_index;
-    sample_index &= RINGSIZE - 1;
+    if (filtercyclegate & 1) {
+      sample[sample_index] = sample[sample_index + RINGSIZE] = output();
+      ++ sample_index;
+      sample_index &= RINGSIZE - 1;
+    }
   }
   sample_offset -= static_cast<float>(delta_t);
   delta_t = 0;

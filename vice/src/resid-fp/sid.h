@@ -125,6 +125,10 @@ protected:
   float* fir;
 
   bool can_use_sse;
+
+  /* analog parts are run at half the rate of digital ones. */
+  float lastsample[3];
+  unsigned char filtercyclegate;
 };
 
 #endif // not __SID_H__
