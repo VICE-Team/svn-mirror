@@ -954,7 +954,7 @@ double sound_flush(int relative_speed)
         }
         used = snddata.bufsize - space;
         /* buffer empty */
-        if (used <= snddata.fragsize) {
+        if (used < snddata.fragsize) {
             int j;
             static time_t prev;
             time_t now;
