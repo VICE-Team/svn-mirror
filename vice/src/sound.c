@@ -1019,10 +1019,6 @@ double sound_flush(int relative_speed)
             }
             return 0;
         }
-
-        /* Don't block on write unless we're seriously out of sync. */
-        if (nr > space && nr < used)
-            nr = space;
     }
 
     /* Flush buffer, all channels are already mixed into it. */
