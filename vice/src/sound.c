@@ -953,7 +953,7 @@ double sound_flush(int relative_speed)
             return 0;
         }
         used = snddata.bufsize - space;
-        /* buffer empty */
+        /* buffer emptied during vsync? Looks like underrun. */
         if (used < snddata.fragsize) {
             int j;
             static time_t prev;
@@ -967,8 +967,9 @@ double sound_flush(int relative_speed)
                 prev = now;
             }
 
-            /* Calculate unused space in buffer. Leave one fragment. */
-            j = snddata.bufsize - snddata.fragsize;
+            /* Calculate unused space in buffer, accounting for data we are
+             * about to write. */
+            j = snddata.bufsize - nr;
 
             /* Fill up sound hardware buffer. */
             if (j > 0) {
