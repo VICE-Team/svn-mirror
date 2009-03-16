@@ -497,7 +497,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         && (signed long)(now - adjust_start) >= vsyncarch_freq / 10) {
         if (min_sdelay != LONG_MAX) {
             /* Account for both relative and absolute delay. */
-            signed long adjust = (min_sdelay - prev_sdelay + min_sdelay / 2)
+            signed long adjust = (min_sdelay - prev_sdelay + min_sdelay / 8)
                                  / frames_adjust;
             /* Maximum adjustment step 1%. */
             if (labs(adjust) > frame_ticks/100) {
