@@ -58,6 +58,7 @@ int vsync_frame_counter;
 #include "log.h"
 #include "maincpu.h"
 #include "machine.h"
+#include "monitor_network.h"
 #include "network.h"
 #include "resources.h"
 #include "sound.h"
@@ -290,7 +291,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     unsigned long network_hook_time = 0;
 
     /*
-     * this are the counters to show how many frames are skipped
+     * these are the counters to show how many frames are skipped
      * since the last vsync_display_speed
      */
     static int frame_counter  = 0;
@@ -316,6 +317,9 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     float refresh_cmp;
     int refresh_div;
 #endif
+
+    /* check if someone wants to connect remotely to the monitor */
+    monitor_check_remote();
 
     vsync_frame_counter++;
 

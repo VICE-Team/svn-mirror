@@ -48,8 +48,9 @@
 #include "log.h"
 #include "machine-bus.h"
 #include "machine.h"
-#include "monitor.h"
 #include "maincpu.h"
+#include "monitor.h"
+#include "monitor_network.h"
 #include "network.h"
 #include "palette.h"
 #include "ram.h"
@@ -137,6 +138,10 @@ int init_resources(void)
     }
     if (network_resources_init() < 0) {
         init_resource_fail("network");
+        return -1;
+    }
+    if (monitor_network_resources_init() < 0) {
+        init_resource_fail("monitor");
         return -1;
     }
 
@@ -228,6 +233,10 @@ int init_cmdline_options(void)
     }
     if (gfxoutput_cmdline_options_init() < 0) {
         init_cmdline_options_fail("GFXOUTPUT");
+        return -1;
+    }
+    if (monitor_network_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("MONITOR_NETWORK");
         return -1;
     }
     return 0;

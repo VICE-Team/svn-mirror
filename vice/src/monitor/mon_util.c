@@ -37,6 +37,7 @@
 #include "mon_disassemble.h"
 #include "mon_util.h"
 #include "monitor.h"
+#include "monitor_network.h"
 #include "types.h"
 #include "uimon.h"
 
@@ -118,7 +119,13 @@ int mon_out(const char *format, ...)
     va_start(ap, format);
     buffer = lib_mvsprintf(format, ap);
 
-    rc = mon_out_buffered(buffer);
+    if (monitor_is_remote) {
+        rc = monitor_network_transmit(buffer, strlen(buffer));
+    }
+    else {
+        rc = mon_out_buffered(buffer);
+    }
+
     lib_free(buffer);
 
     if (rc < 0)
@@ -181,11 +188,21 @@ char *uimon_in(const char *prompt)
     while (!p && !pchCommandLine) {
         /* as long as we don't have any return value... */
 
-        /* make sure to flush the output buffer */
-        mon_buffer_flush();
+        if (monitor_is_remote) {
+            monitor_network_transmit(prompt, strlen(prompt));
 
-        /* get input from the user */
-        p = uimon_get_in(&pchCommandLine, prompt);
+            p = monitor_network_get_command_line();
+            if (p == NULL) {
+                mon_set_command(NULL, "x", NULL);
+            }
+        }
+        else {
+            /* make sure to flush the output buffer */
+            mon_buffer_flush();
+
+            /* get input from the user */
+            p = uimon_get_in(&pchCommandLine, prompt);
+        }
     }
 
     if (pchCommandLine) {

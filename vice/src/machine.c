@@ -53,6 +53,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
+#include "monitor_network.h"
 #include "network.h"
 #include "printer.h"
 #include "resources.h"
@@ -261,6 +262,7 @@ void machine_shutdown(void)
     log_resources_shutdown();
     fliplist_resources_shutdown();
     romset_resources_shutdown();
+    monitor_network_resources_shutdown();
 
     archdep_shutdown();
 

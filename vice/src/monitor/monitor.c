@@ -56,6 +56,7 @@
 #include "log.h"
 #include "machine.h"
 #include "machine-video.h"
+#include "monitor_network.h"
 #include "translate.h"
 
 #ifdef WATCOM_COMPILE
@@ -64,6 +65,7 @@
 #include "mem.h"
 #endif
 
+#include "console.h"
 #include "mon_breakpoint.h"
 #include "mon_disassemble.h"
 #include "mon_memory.h"
@@ -106,6 +108,8 @@ int mon_init_break = -1;
 #define MONITOR_GET_OPCODE(mem) (mon_get_mem_val(mem, MONITOR_GET_PC(mem)))
 
 console_t *console_log = NULL;
+
+static int monitor_trap_triggered = 0;
 
 /* External functions */
 #ifdef HAVE_READLINE
@@ -1889,21 +1893,31 @@ void monitor_abort(void)
     mon_stop_output = 1;
 }
 
-static void monitor_open(void)
+static void monitor_open(int is_remote)
 {
     unsigned int dnr;
 
-    if (mon_console_close_on_leaving) {
-        console_log = uimon_window_open();
-        uimon_set_interface(mon_interfaces, NUM_MEMSPACES);
-    } else {
-        console_log = uimon_window_resume();
-        mon_console_close_on_leaving = 1;
+    monitor_is_remote = is_remote;
+
+    if (monitor_is_remote) {
+        static console_t console_log_remote = { 80, 25, 1, 0 };
+
+        console_log = & console_log_remote;
+    }
+    else {
+        if (mon_console_close_on_leaving) {
+            console_log = uimon_window_open();
+            uimon_set_interface(mon_interfaces, NUM_MEMSPACES);
+        } else {
+            console_log = uimon_window_resume();
+            mon_console_close_on_leaving = 1;
+        }
     }
 
     signals_abort_set();
 
     inside_monitor = TRUE;
+    monitor_trap_triggered = FALSE;
     vsync_suspend_speed_eval();
 
     uimon_notify_change();
@@ -2008,7 +2022,7 @@ static int monitor_process(char *cmd)
     return exit_mon;
 }
 
-static void monitor_close(int check)
+static void monitor_close(int check, int is_remote)
 {
     inside_monitor = FALSE;
     vsync_suspend_speed_eval();
@@ -2025,33 +2039,51 @@ static void monitor_close(int check)
     if (console_log->console_can_stay_open == 0)
                 mon_console_close_on_leaving = 1;
 
-    if (mon_console_close_on_leaving) {
-        uimon_window_close();
-    } else {
-        uimon_window_suspend();
+    if ( ! is_remote ) {
+        if (mon_console_close_on_leaving) {
+            uimon_window_close();
+        } else {
+            uimon_window_suspend();
+        }
     }
 }
 
 
-void monitor_startup(void)
+static void monitor_startup_internal(int is_remote)
 {
     char prompt[40];
 
-    monitor_open();
+    monitor_open(is_remote);
     while (!exit_mon) {
         make_prompt(prompt);
         monitor_process(uimon_in(prompt));
     }
-    monitor_close(1);
+    monitor_close(1, is_remote);
+}
+
+void monitor_startup(void)
+{
+    monitor_startup_internal(0);
 }
 
 static void monitor_trap(WORD addr, void *unused_data)
 {
-    monitor_startup();
+    int is_remote = (int) unused_data;
+    monitor_startup_internal(is_remote);
 }
 
 void monitor_startup_trap(void)
 {
-    interrupt_maincpu_trigger_trap(monitor_trap, (void *)0);
+    if ( ! monitor_trap_triggered && ! inside_monitor ) {
+        monitor_trap_triggered = TRUE;
+        interrupt_maincpu_trigger_trap(monitor_trap, (void *)0);
+    }
 }
 
+void monitor_remote_startup_trap(void)
+{
+    if ( ! monitor_trap_triggered && ! inside_monitor ) {
+        monitor_trap_triggered = TRUE;
+        interrupt_maincpu_trigger_trap(monitor_trap, (void *)1);
+    }
+}

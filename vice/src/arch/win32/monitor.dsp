@@ -164,5 +164,9 @@ SOURCE=..\..\monitor\mon_util.c
 
 SOURCE=..\..\monitor\monitor.c
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\monitor\monitor_network.c
+# End Source File
 # End Target
 # End Project
