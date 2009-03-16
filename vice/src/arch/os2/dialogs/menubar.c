@@ -943,13 +943,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 
 #endif // __X64__ || __X128__ || __XCBM__ || __X64DTV__
 
-    case IDM_OSOFF:
-    case IDM_OS2X:
-    case IDM_OS4X:
-    case IDM_OS8X:
-        resources_set_int("SoundOversample", idm&0xf);
-        return;
-
     case IDM_SYNCFLEX:
     case IDM_SYNCADJUST:
     case IDM_SYNCEXACT:
@@ -1690,14 +1683,6 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckMenuItem(hwnd, IDM_SYNCFLEX,   val==SOUND_ADJUST_FLEXIBLE);
         WinCheckMenuItem(hwnd, IDM_SYNCADJUST, val==SOUND_ADJUST_ADJUSTING);
         WinCheckMenuItem(hwnd, IDM_SYNCEXACT,  val==SOUND_ADJUST_EXACT);
-        return;
-
-    case IDM_OVERSAMPLING:
-        resources_get_int("SoundOversample", &val);
-        WinCheckMenuItem(hwnd, IDM_OSOFF, val==0);
-        WinCheckMenuItem(hwnd, IDM_OS2X,  val==1);
-        WinCheckMenuItem(hwnd, IDM_OS4X,  val==2);
-        WinCheckMenuItem(hwnd, IDM_OS8X,  val==3);
         return;
 
     case IDM_SAMPLINGRATE:

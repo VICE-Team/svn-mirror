@@ -131,14 +131,6 @@ static void init_sound_dialog(HWND hwnd)
     }
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_OVERSAMPLE);
-    SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)translate_text(IDS_NONE));
-    SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("2x"));
-    SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("4x"));
-    SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("8x"));
-    resources_get_int("SoundOversample", &res_value);
-    SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
-
     snd_hwnd=GetDlgItem(hwnd, IDC_SOUND_SYNCH);
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_FLEXIBLE));
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_ADJUSTING));
@@ -173,9 +165,6 @@ static void end_sound_dialog(HWND hwnd)
                       GetDlgItem(hwnd,IDC_SOUND_FREQ), CB_GETCURSEL, 0, 0)]);
     resources_set_int("SoundBufferSize", ui_sound_buffer[SendMessage(
                       GetDlgItem(hwnd,IDC_SOUND_BUFFER), CB_GETCURSEL, 0, 0)]);
-    resources_set_int("SoundOversample", SendMessage(
-                      GetDlgItem(hwnd,IDC_SOUND_OVERSAMPLE),
-                      CB_GETCURSEL, 0, 0));
     resources_set_int("SoundSpeedAdjustment", ui_sound_adjusting[SendMessage(
                       GetDlgItem(hwnd, IDC_SOUND_SYNCH), CB_GETCURSEL, 0, 0)]);
 }

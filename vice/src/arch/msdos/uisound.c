@@ -66,25 +66,6 @@ static TUI_MENU_CALLBACK(sound_buffer_size_submenu_callback)
     return s;
 }
 
-TUI_MENU_DEFINE_RADIO(SoundOversample)
-
-static TUI_MENU_CALLBACK(sound_oversample_submenu_callback)
-{
-    static char s[40];
-    int value;
-
-    resources_get_int("SoundOversample", &value);
-    if (value != 0) {
-        int n = 1, i;
-
-        for (i = 0; i < value; i++)
-            n *= 2;
-        sprintf(s, "%dx", n);
-        return s;
-    } else
-        return "None";
-}
-
 TUI_MENU_DEFINE_RADIO(SoundSpeedAdjustment)
 
 static TUI_MENU_CALLBACK(sound_synchronization_submenu_callback)
@@ -206,10 +187,6 @@ static tui_menu_item_def_t sound_submenu[] = {
       "Specify playback latency",
       sound_buffer_size_submenu_callback, NULL, 10,
       TUI_MENU_BEH_CONTINUE, sound_buffer_size_submenu, "Latency" },
-    { "_Oversampling Factor:",
-      "Specify amount of oversampling on sound output",
-      sound_oversample_submenu_callback, NULL, 4,
-      TUI_MENU_BEH_CONTINUE, sound_oversample_submenu, "Oversample" },
     { "S_ynchronization Method:",
       "Specify method used to synchronize the sound playback with the emulator",
       sound_synchronization_submenu_callback, NULL, 9,

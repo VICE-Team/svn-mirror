@@ -73,27 +73,6 @@ static const int ui_sound_buffer_values[] = {
   -1
 };
 
-static int ui_sound_oversample_translate[] = {
-  IDS_NONE,
-  -1
-};
-
-static char *ui_sound_oversample[] = {
-  NULL,		/* "None" placeholder */
-  "2x",
-  "4x",
-  "8x",
-  NULL
-};
-
-static const int ui_sound_oversample_values[] = {
-  0,
-  1,
-  2,
-  3,
-  -1
-};
-
 static int ui_sound_adjusting_translate[] = {
   IDS_FLEXIBLE,
   IDS_ADJUSTING,
@@ -124,7 +103,6 @@ static char *ui_sound_formats[] = {
 static ui_to_from_t ui_to_from[] = {
   { NULL, MUI_TYPE_CYCLE, "SoundSampleRate", ui_sound_freq, ui_sound_freq_values },
   { NULL, MUI_TYPE_CYCLE, "SoundBufferSize", ui_sound_buffer, ui_sound_buffer_values },
-  { NULL, MUI_TYPE_CYCLE, "SoundOversample", ui_sound_oversample, ui_sound_oversample_values },
   { NULL, MUI_TYPE_CYCLE, "SoundSpeedAdjustment", ui_sound_adjusting, ui_sound_adjusting_values },
   { NULL, MUI_TYPE_INTEGER, "SoundVolume", NULL, NULL },
   UI_END /* mandatory */
@@ -152,9 +130,8 @@ static APTR build_gui(void)
   return GroupObject,
     CYCLE(ui_to_from[0].object, translate_text(IDS_SAMPLE_RATE), ui_sound_freq)
     CYCLE(ui_to_from[1].object, translate_text(IDS_BUFFER_SIZE), ui_sound_buffer)
-    CYCLE(ui_to_from[2].object, translate_text(IDS_OVERSAMPLE), ui_sound_oversample)
-    CYCLE(ui_to_from[3].object, translate_text(IDS_SPEED_ADJUSTMENT), ui_sound_adjusting)
-    STRING(ui_to_from[4].object, translate_text(IDS_VOLUME), "0123456789", 5+1)
+    CYCLE(ui_to_from[2].object, translate_text(IDS_SPEED_ADJUSTMENT), ui_sound_adjusting)
+    STRING(ui_to_from[3].object, translate_text(IDS_VOLUME), "0123456789", 5+1)
   End;
 }
 
@@ -195,7 +172,6 @@ static APTR build_gui_record(void)
 
 void ui_sound_settings_dialog(void)
 {
-  intl_convert_mui_table(ui_sound_oversample_translate, ui_sound_oversample);
   intl_convert_mui_table(ui_sound_adjusting_translate, ui_sound_adjusting);
   mui_show_dialog(build_gui(), translate_text(IDS_SOUND_SETTINGS), ui_to_from);
 }

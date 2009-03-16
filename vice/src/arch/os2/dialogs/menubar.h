@@ -48,7 +48,6 @@
 #define IDM_SETUP        0x10f
 #define IDM_SOUND        0x110
 #define IDM_SIDCHIP      0x111
-#define IDM_OVERSAMPLING 0x112
 #define IDM_SAMPLINGRATE 0x113
 #define IDM_SOUNDSYNC    0x114
 #define IDM_SOUNDDEV     0x115
@@ -273,11 +272,6 @@
 #define IDM_RESIDPASS70   0x187
 #define IDM_RESIDPASS80   0x188
 #define IDM_RESIDPASS90   0x189
-
-#define IDM_OSOFF        0x190
-#define IDM_OS2X         0x191
-#define IDM_OS4X         0x192
-#define IDM_OS8X         0x193
 
 #define IDM_SR8000       0x194
 #define IDM_SR11025      0x195

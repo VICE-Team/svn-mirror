@@ -1672,9 +1672,6 @@ BEGIN
     LTEXT           "Sound Buffer &Size :",IDC_STATIC,7,38,118,8
     COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "&Oversampling Factor :",IDC_STATIC,7,51,118,8
-    COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
     LTEXT           "Synchronization &Method :",IDC_STATIC,7,64,118,8
     COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
@@ -1699,9 +1696,6 @@ BEGIN
                     WS_GROUP | WS_TABSTOP
     LTEXT           "Lydbuffer&størrelse:",IDC_STATIC,7,38,118,8
     COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    LTEXT           "&Oversamplingsfaktor:",IDC_STATIC,7,51,118,8
-    COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     LTEXT           "Synkroniserings&metode:",IDC_STATIC,7,64,118,8
     COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
@@ -1728,9 +1722,6 @@ BEGIN
     LTEXT           "Sound Puffergröße",IDC_STATIC,7,38,118,8
     COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "&Oversampling Faktor :",IDC_STATIC,7,51,118,8
-    COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
     LTEXT           "Synchronisations&methode",IDC_STATIC,7,64,118,8
     COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
@@ -1755,9 +1746,6 @@ BEGIN
                     WS_GROUP | WS_TABSTOP
     LTEXT           "Taille du &tampon son :",IDC_STATIC,7,38,118,8
     COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    LTEXT           "Facteur D'&Oversampling :",IDC_STATIC,7,51,118,8
-    COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     LTEXT           "&Méthode de synchronisation :",IDC_STATIC,7,64,118,8
     COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
@@ -1785,9 +1773,6 @@ BEGIN
     LTEXT           "Hang puffer &méret:",IDC_STATIC,7,38,118,8
     COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "Túlmintavételezési fakt&or: ",IDC_STATIC,7,51,118,8
-    COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
     LTEXT           "Szinkronizáció módja:",IDC_STATIC,7,64,118,8
     COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
@@ -1814,9 +1799,6 @@ BEGIN
     LTEXT           "Dimensione del buffer del suono :",IDC_STATIC,7,38,118,8
     COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "Fattore di &sovracampionamento :",IDC_STATIC,7,51,118,8
-    COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
     LTEXT           "&Metodo di sincronizzazione :",IDC_STATIC,7,64,118,8
     COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
@@ -1841,9 +1823,6 @@ BEGIN
                     WS_GROUP | WS_TABSTOP
     LTEXT           "Geluidsbuffer&grootte :",IDC_STATIC,7,38,118,8
     COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    LTEXT           "&Oversampling Faktor :",IDC_STATIC,7,51,118,8
-    COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     LTEXT           "Synchronisatie&methode :",IDC_STATIC,7,64,118,8
     COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
@@ -1871,9 +1850,6 @@ BEGIN
     LTEXT           "Ro&zmiar buffora :",IDC_STATIC,7,38,118,8
     COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "Przesampl&owanie :",IDC_STATIC,7,51,118,8
-    COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
     LTEXT           "Synchronizac&ja d¼wiêku :",IDC_STATIC,7,64,118,8
     COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
@@ -1900,9 +1876,6 @@ BEGIN
     LTEXT           "Ljudbuffert&storlek:",IDC_STATIC,7,38,118,8
     COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "&Översamplingsfaktor:",IDC_STATIC,7,51,118,8
-    COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
     LTEXT           "Synkroniserings&metod:",IDC_STATIC,7,64,118,8
     COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
@@ -1928,9 +1901,6 @@ BEGIN
                     WS_GROUP | WS_TABSTOP
     LTEXT           "&Ses Arabellek Boyutu :",IDC_STATIC,7,38,118,8
     COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    LTEXT           "Yüksek Hýzda Örnekleme Fakt&orü :",IDC_STATIC,7,51,118,8
-    COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     LTEXT           "Senkronizasyon &Metodu :",IDC_STATIC,7,64,118,8
     COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |

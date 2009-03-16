@@ -49,7 +49,6 @@ static const char Rsrc_PrUsrDev[] = "PrinterUserportTextDevice";
 static const char Rsrc_Sound[] = "Sound";
 static const char Rsrc_SndRate[] = "SoundSampleRate";
 static const char Rsrc_SndDev[] = "SoundDeviceName";
-static const char Rsrc_SndOver[] = "SoundOversample";
 static const char Rsrc_SndBuff[] = "SoundBufferSize";
 static const char Rsrc_SpdAdjust[] = "SoundSpeedAdjustment";
 static const char Rsrc_Snd16Bit[] = "Use16BitSound";
@@ -1103,15 +1102,6 @@ static struct MenuDisplaySoundDevice {
   {SoundDevice0, SoundDevice1, SoundDevice2, SoundDevice3, SoundDevice4, SoundDevice5, SoundDevice6}
 };
 
-static struct MenuDisplaySoundOver {
-  disp_desc_t dd;
-  int values[Menu_SoundOver_Items];
-} MenuDisplaySoundOver = {
-  {Rsrc_SndOver, {CONF_WIN_SOUND, Icon_ConfSnd_OversampleT},
-    (RO_MenuHead*)&MenuSoundOver, Menu_SoundOver_Items, 0, 0},
-  {0, 1, 2, 3}
-};
-
 static struct MenuDisplaySidModel {
   disp_desc_t dd;
   int values[Menu_SidModel_Items];
@@ -1450,8 +1440,6 @@ menu_icon_t ConfigMenus[] = {
     {CONF_WIN_SOUND, Icon_ConfSnd_SampleRate}},		/* 2 (sound.c) */
   {(RO_MenuHead*)&MenuSoundDevice, Rsrc_SndDev, (disp_desc_t*)&MenuDisplaySoundDevice,
     {CONF_WIN_SOUND, Icon_ConfSnd_SoundDev}},		/* 3 (sound.c) */
-  {(RO_MenuHead*)&MenuSoundOver, Rsrc_SndOver, (disp_desc_t*)&MenuDisplaySoundOver,
-    {CONF_WIN_SOUND, Icon_ConfSnd_Oversample}},		/* 4 (sound.c) */
   {(RO_MenuHead*)&MenuVideoSync, Rsrc_VideoSync, (disp_desc_t*)&MenuDisplayVideoSync,
     {CONF_WIN_SYSTEM, Icon_ConfSys_VideoSync}},		/* 5 (drive.c) */
   CONF_TRUEDRV_MENU_ENTRIES(8),

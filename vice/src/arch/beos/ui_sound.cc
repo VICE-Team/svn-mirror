@@ -150,28 +150,6 @@ SoundWindow::SoundWindow()
 	}
 	background->AddChild(box);
 
-	/* Oversampling */
-	r = Bounds();
-	r.right = r.left + r.Width()/4;
-	r.OffsetBy(2*r.Width(),0);
-	r.InsetBy(5,5);
-	r.bottom -= 20;
-	box = new BBox(r, "Oversample");
-	box->SetViewColor(220,220,220,0);
-	box->SetLabel("Oversample");
-
-    resources_get_int("SoundOversample", &res_value);
-	
-	for (i=0; i<ui_sound_oversample_count; i++) {
-		msg = new BMessage(MESSAGE_SOUND_SAMPLE);
-		msg->AddInt32("oversample", i);
-		radiobutton = new BRadioButton(BRect(10,20+20*i,r.Width()-10,35+20*i),
-			ui_sound_oversample[i], ui_sound_oversample[i], msg);
-		radiobutton->SetValue(res_value == i);
-		box->AddChild(radiobutton);
-	}
-	background->AddChild(box);
-
 	/* Sync method */
 	r = Bounds();
 	r.right = r.left + r.Width()/4;
@@ -214,10 +192,6 @@ void SoundWindow::MessageReceived(BMessage *msg) {
 		case MESSAGE_SOUND_BUFF:
 			msg->FindInt32("buffer", &res_value);
             resources_set_int("SoundBufferSize", res_value);
-			break;
-		case MESSAGE_SOUND_SAMPLE:
-			msg->FindInt32("oversample", &res_value);
-            resources_set_int("SoundOversample", res_value);
 			break;
 		case MESSAGE_SOUND_SYNC:
 			msg->FindInt32("sync", &res_value);

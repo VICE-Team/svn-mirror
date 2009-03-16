@@ -579,14 +579,6 @@ BEGIN
 #endif
      MENUITEM SEPARATOR
 #endif // __X64__ || __X128__ || __XCBM__
-     SUBMENU "~Oversampling",           IDM_OVERSAMPLING, MIS_TEXT
-     BEGIN
-       MENUITEM "~2x",                  IDM_OS2X,         MIS_TEXT
-       MENUITEM "~4x",                  IDM_OS4X,         MIS_TEXT
-       MENUITEM "~8x",                  IDM_OS8X,         MIS_TEXT
-       MENUITEM SEPARATOR
-       MENUITEM "~Off",                 IDM_OSOFF,        MIS_TEXT
-     END
      SUBMENU "~Sampling Rate",          IDM_SAMPLINGRATE, MIS_TEXT
      BEGIN
        MENUITEM "~8000 Hz",             IDM_SR8000,       MIS_TEXT
