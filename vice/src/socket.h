@@ -32,7 +32,7 @@
 
 #include "types.h"
 
-typedef struct vice_network_socket_opaque_s vice_network_socket_t;
+typedef struct vice_network_socket_s vice_network_socket_t;
 
 typedef struct vice_network_socket_address_s vice_network_socket_address_t;
 

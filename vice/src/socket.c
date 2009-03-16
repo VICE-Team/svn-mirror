@@ -57,34 +57,58 @@
 */
 #define arraysize(_x) ( sizeof _x / sizeof _x[0] )
 
-
+/*! \internal \brief Access to socket addresses
+ *
+ * This union is used to access socket addresses.
+ * It replaces the casts needed otherwise.
+ *
+ * Furthermore, it ensures we have always enough
+ * memory for any type needed. (sizeof struct sockaddr_in6
+ * is bigger than struct sockaddr).
+ *
+ * Note, however, that there is no consensus if the C standard
+ * guarantees that all union members start at the same
+ * address. There are arguments for and against this.
+ *
+ * However, in practice, this approach works.
+ */
 union socket_addresses_u {
-    struct sockaddr     generic;
+    struct sockaddr     generic; /*!< the generic type needed for calling the socket API */
 
 #ifdef HAVE_UNIX_DOMAIN_SOCKETS
-    struct sockaddr_un  local;
+    struct sockaddr_un  local;   /*!< an Unix Domain Socket (file system) socket address */
 #endif
 
-    struct sockaddr_in  ipv4;
+    struct sockaddr_in  ipv4;    /*!< an IPv4 socket address */
 
 #ifdef HAVE_IPV6
-    struct sockaddr_in6 ipv6;
+    struct sockaddr_in6 ipv6;    /*!< an IPv6 socket address */
 #endif
 };
 
+/*! \internal \brief opaque structure describing an address for use with socket functions
+ *
+ */
 struct vice_network_socket_address_s
 {
-    unsigned int used;
-    int domain;
-    int protocol;
-    size_t len;
-    union socket_addresses_u address;
+    unsigned int used;      /*!< 1 if this entry is being used, 0 else. 
+                             * This is used for debugging the buffer
+                             * allocation strategy.
+                             */
+    int domain;             /*!< the address family (AF_INET, ...) of this address */
+    int protocol;           /*!< the protocol of this address. This can be used to distinguish between different types of an address family. */
+    size_t len;             /*!< the length of the socket address */
+    union socket_addresses_u address; /* the socket address */
 };
 
-struct vice_network_socket_opaque_s {
-    SOCKET sockfd;
-    vice_network_socket_address_t address;
-    unsigned int used;
+/*! \internal \brief opaque structure describing a socket */
+struct vice_network_socket_s {
+    SOCKET sockfd;           /*!< the socket handle */
+    vice_network_socket_address_t address; /*!< place for an address. It is updated on accept(). */
+    unsigned int used;      /*!< 1 if this entry is being used, 0 else. 
+                             * This is used for debugging the buffer
+                             * allocation strategy.
+                             */
 };
 
 #ifndef HAVE_HTONL
@@ -147,9 +171,12 @@ static unsigned short htons(unsigned short ip)
 
 /*! \internal \brief a memory pool for network addresses */
 static vice_network_socket_address_t address_pool[16] = { { 0 } };
+/*! \internal \brief usage bit pattern for address_pool */
 static unsigned int address_pool_usage = 0;
 
+/*! \internal \brief a memory pool for sockets */
 static vice_network_socket_t socket_pool[16] = { 0 };
+/*! \internal \brief usage bit pattern for socket_pool */
 static unsigned int socket_pool_usage = 0;
 
 /*! \internal \brief Get the next free entry of a pool
@@ -204,6 +231,9 @@ static int get_new_pool_entry(unsigned int * PoolUsage)
 
 /*! \internal \brief Get a free memory area for a socket
 
+  \param sockfd
+     socket handle as initialisation value.
+
   \return
      NULL on error;
      else, a pointer to an empty vice_network_socket_t structure
@@ -235,6 +265,21 @@ static vice_network_socket_t * vice_network_alloc_new_socket(SOCKET sockfd)
     return return_address;
 }
 
+/*! \internal \brief Initialise a socket address structure
+ *
+ * This function initialises a socket address structure.
+ *
+ * Regardless of the structure was used before or not, after
+ * this call, the memory contents are as if the structure
+ * was never used before.
+ *
+ * \param address
+ *   Pointer to the memory structure to initialise
+ *
+ * \remark
+ *   This function marks the memory structure as being used
+ *   and initialises the length of the address field.
+ */
 static void initialize_socket_address(vice_network_socket_address_t * address)
 {
     memset(address, 0, sizeof * address);
@@ -907,7 +952,7 @@ int vice_network_receive(vice_network_socket_t * sockfd, void * buffer, size_t b
     return recv(sockfd->sockfd, buffer, buffer_length, flags);
 }
 
-/*! \brief Check if a data has incoming data to receive
+/*! \brief Check if a socket has incoming data to receive
 
   This function is called in order to determine if there is
   data to be received on a socket. For a blocking socket, this
