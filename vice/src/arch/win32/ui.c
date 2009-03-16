@@ -1786,6 +1786,22 @@ static long CALLBACK window_proc(HWND window, UINT msg,
 //      log_debug("WM_ENABLE %s %d %08x",
 //                wparam == TRUE ? "TRUE" : "FALSE", window_index, window);
         break;
+      case WM_POWERBROADCAST:
+        switch (wparam) {
+          case PBT_APMSUSPEND:
+              log_debug("PBT_APMSUSPEND");
+              vsync_suspend_speed_eval();
+              break;
+          case PBT_APMRESUMESUSPEND:
+              log_debug("PBT_APMRESUMESUSPEND");
+              vsync_suspend_speed_eval();
+              break;
+          case PBT_APMRESUMECRITICAL:
+              log_debug("PBT_APMRESUMECRITICAL");
+              vsync_suspend_speed_eval();
+              break;
+          }
+        break;
       case WM_ACTIVATEAPP:
         if (wparam == TRUE) {
 //          log_debug("WM_ACTIVATEAPP activate %d %08x", window_index,window);
