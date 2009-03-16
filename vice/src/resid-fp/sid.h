@@ -40,7 +40,6 @@ public:
   void enable_filter(bool enable);
   bool set_sampling_parameters(float clock_freq, sampling_method method,
                                float sample_freq, float pass_freq = 20000);
-  void adjust_sampling_frequency(float sample_freq);
   void set_voice_nonlinearity(float nonlinearity);
 
   void clock();
@@ -98,8 +97,6 @@ protected:
 
   reg8 bus_value;
   cycle_count bus_value_ttl;
-
-  float clock_frequency;
 
   // External audio input.
   float ext_in;

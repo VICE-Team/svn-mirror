@@ -561,11 +561,11 @@ double SIDFP::I0(double x)
 bool SIDFP::set_sampling_parameters(float clock_freq, sampling_method method,
                                   float sample_freq, float pass_freq)
 {
-  clock_frequency = clock_freq;
+  float clock_frequency = clock_freq;
 
   filter.set_clock_frequency(clock_freq * 0.5f);
   extfilt.set_clock_frequency(clock_freq * 0.5f);
-  adjust_sampling_frequency(sample_freq);
+  cycles_per_sample = clock_frequency/sample_freq;
 
   sample_offset = 0;
   sample_prev = 0;
@@ -666,23 +666,6 @@ bool SIDFP::set_sampling_parameters(float clock_freq, sampling_method method,
   sample_index = 0;
 
   return true;
-}
-
-// ----------------------------------------------------------------------------
-// Adjustment of SID sampling frequency.
-//
-// In some applications, e.g. a C64 emulator, it can be desirable to
-// synchronize sound with a timer source. This is supported by adjustment of
-// the SID sampling frequency.
-//
-// NB! Adjustment of the sampling frequency may lead to noticeable shifts in
-// frequency, and should only be used for interactive applications. Note also
-// that any adjustment of the sampling frequency will change the
-// characteristics of the resampling filter, since the filter is not rebuilt.
-// ----------------------------------------------------------------------------
-void SIDFP::adjust_sampling_frequency(float sample_freq)
-{
-  cycles_per_sample = clock_frequency/sample_freq;
 }
 
 void SIDFP::age_bus_value(cycle_count n) {
