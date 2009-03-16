@@ -3944,6 +3944,7 @@ void parse_and_execute_line(char *input)
        asm_mode = 0;
        new_cmd = 1;
    }
+   lib_free(temp_buf);
    free_buffer();
 }
 
