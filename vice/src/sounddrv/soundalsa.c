@@ -89,6 +89,8 @@ static int alsa_init(const char *param, int *speed,
         printf("Rate doesn't match (requested %iHz, got %iHz)", *speed, rate);
 	*speed = rate;
     }
+    /* calculate requested buffer size */
+    alsa_bufsize = (*fragsize)*(*fragnr);
 
     period_size = *fragsize;
     dir = 0;
@@ -97,6 +99,9 @@ static int alsa_init(const char *param, int *speed,
         goto fail;
     }
     *fragsize = period_size;
+
+    /* number of periods according to the buffer size we wanted, nearest val */
+    *fragnr = (alsa_bufsize + *fragsize/2) / *fragsize;
 
     periods = *fragnr;
     dir = 0;
