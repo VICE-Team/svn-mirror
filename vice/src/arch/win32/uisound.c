@@ -49,6 +49,13 @@ static int ui_sound_freq[] = {
 };
 
 static int ui_sound_buffer[] = {
+    20,
+    25,
+    30,
+    40,
+    50,
+    60,
+    80,
     100,
     150,
     200,
@@ -66,70 +73,29 @@ static int ui_sound_adjusting[] = {
 static void init_sound_dialog(HWND hwnd)
 {
     HWND snd_hwnd;
-    int res_value;
+    int i, res_value;
     const char *devicename;
+    char tmp[20];
 
     snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_FREQ);
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("8000 Hz"));
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("11025 Hz"));
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("22050 Hz"));
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("44100 Hz"));
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("48000 Hz"));
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("96000 Hz"));
     resources_get_int("SoundSampleRate", &res_value);
-    switch (res_value) {
-      case 8000:
-        res_value = 0;
-        break;
-      case 11025:
-        res_value = 1;
-        break;
-      case 22050:
-        res_value = 2;
-        break;
-      case 48000:
-        res_value = 4;
-        break;
-      case 96000:
-        res_value = 5;
-        break;
-      case 44100:
-      default:
-        res_value = 3;
-        break;
+    for (i = 0; i < sizeof(ui_sound_freq) / sizeof(*ui_sound_freq); i ++) {
+        sprintf(tmp, "%d Hz", ui_sound_freq[i]);
+        SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT(tmp));
+        if (ui_sound_freq[i] == res_value) {
+            SendMessage(snd_hwnd, CB_SETCURSEL, i, 0);
+        }
     }
-    SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_BUFFER);
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("100 msec"));
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("150 msec"));
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("200 msec"));
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("250 msec"));
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("300 msec"));
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("350 msec"));
     resources_get_int("SoundBufferSize", &res_value);
-    switch (res_value) {
-      case 100:
-        res_value = 0;
-        break;
-      case 150:
-        res_value = 1;
-        break;
-      case 200:
-        res_value = 2;
-        break;
-      case 250:
-        res_value = 3;
-        break;
-      case 300:
-        res_value = 4;
-        break;
-       case 350:
-       default:
-        res_value = 5;
-        break;
+    for (i = 0; i < sizeof(ui_sound_buffer) / sizeof(*ui_sound_buffer); i ++) {
+        sprintf(tmp, "%d msec", ui_sound_buffer[i]);
+        SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT(tmp));
+        if (ui_sound_buffer[i] == res_value) {
+            SendMessage(snd_hwnd, CB_SETCURSEL, i, 0);
+        }
     }
-    SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     snd_hwnd=GetDlgItem(hwnd, IDC_SOUND_SYNCH);
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_FLEXIBLE));

@@ -403,7 +403,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         min_sdelay = LONG_MAX;
         prev_sdelay = 0;
 
-        frame_ticks = frame_ticks_orig;
+        frame_ticks = (frame_ticks_orig + frame_ticks) / 2;
     }
 
 

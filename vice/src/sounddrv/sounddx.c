@@ -387,7 +387,10 @@ static int dx_bufferspace(void)
     int free_samples;
 
     IDirectSoundBuffer_GetCurrentPosition(buffer, &play_cursor, &write_cursor);
-    if (play_cursor <= buffer_offset)
+    /* We should properly distinguish between buffer empty and buffer fill
+     * case. However, it's absolutely essential that the state where play and
+     * write cursors overlap is read as buffer being filled with data. */
+    if (play_cursor < buffer_offset)
         free_samples = stream_buffer_size - (buffer_offset - play_cursor)
                        / (is16bit ? 2 : 1);
     else
