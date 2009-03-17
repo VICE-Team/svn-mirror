@@ -485,7 +485,7 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
   double transition_bandwidth = sample_freq/2 - pass_freq + aliasing_allowance;
   {
     /* Filter order according to Kaiser's paper. */
-    int N = int((A - 7.95)/(2 * M_PI * 2.285 * transition_bandwidth/sample_freq) + 0.5);
+    int N = int((A - 7.95)/(2 * pi * 2.285 * transition_bandwidth/sample_freq) + 0.5);
     N += N & 1;
 
     // The filter length is equal to the filter order + 1.
@@ -508,7 +508,7 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
   fir = new short[fir_N*fir_RES];
   
   // The cutoff frequency is midway through the transition band.
-  double wc = (pass_freq + transition_bandwidth/2) / sample_freq * M_PI * 2;
+  double wc = (pass_freq + transition_bandwidth/2) / sample_freq * pi * 2;
 
   // Calculate fir_RES FIR tables for linear interpolation.
   for (int i = 0; i < fir_RES; i++) {
