@@ -561,11 +561,9 @@ double SIDFP::I0(double x)
 bool SIDFP::set_sampling_parameters(float clock_freq, sampling_method method,
                                   float sample_freq, float pass_freq)
 {
-  float clock_frequency = clock_freq;
-
   filter.set_clock_frequency(clock_freq * 0.5f);
   extfilt.set_clock_frequency(clock_freq * 0.5f);
-  cycles_per_sample = clock_frequency/sample_freq;
+  cycles_per_sample = clock_freq/sample_freq;
 
   sample_offset = 0;
   sample_prev = 0;
