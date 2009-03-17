@@ -514,7 +514,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         adjust_start = now;
     } else {
         /* Actual sound delay is sound delay minus vsync delay. */
-        signed long sdelay = (signed long)(sound_delay*vsyncarch_freq) - delay;
+        signed long sdelay = (signed long)(sound_delay*vsyncarch_freq);
         avg_sdelay += sdelay;
     }
 

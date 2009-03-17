@@ -500,18 +500,10 @@ static int sid_init(void)
        engines. reSID is cycle based. */
     cycle_based = sound_machine_cycle_based();
 
-    /* Cycle based sound engines must do their own filtering,
-       and handle sample rate conversion. */
-    if (cycle_based) {
-        /* "No limit" doesn't make sense for cycle based sound engines,
-           which have a fixed sampling rate. */
-        int speed_factor = speed_percent ? speed_percent : 100;
-        speed = sample_rate * 100 / speed_factor;
-    } else {
-        /* For sample based sound engines, both simple average filtering
-           and sample rate conversion is handled here. */
-        speed = sample_rate;
-    }
+    /* "No limit" doesn't make sense for cycle based sound engines,
+       which have a fixed sampling rate. */
+    int speed_factor = speed_percent ? speed_percent : 100;
+    speed = sample_rate * 100 / speed_factor;
 
     for (c = 0; c < snddata.channels; c++) {
         if (!sound_machine_init(snddata.psid[c], speed, cycles_per_sec)) {
@@ -1039,6 +1031,11 @@ double sound_flush()
             sound_error(translate_text(IDGS_WRITE_TO_SOUND_DEVICE_FAILED));
             return 0;
         }
+    }
+
+    /* "No Limit" speed support: nuke the accumulated buffer. */
+    if (speed_percent == 0) {
+        nr = snddata.bufptr;
     }
 
     snddata.bufptr -= nr;
