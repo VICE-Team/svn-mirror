@@ -89,7 +89,7 @@ typedef struct rs232net {
                     log from being flooded with error messages. */
 } rs232net_t;
 
-static rs232net_t fds[RS232_NUM_DEVICES] = { 0 };
+static rs232net_t fds[RS232_NUM_DEVICES] = { { 0 } };
 
 static log_t rs232net_log = LOG_ERR;
 

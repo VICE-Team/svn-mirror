@@ -55,7 +55,7 @@ enum {VSID_S_TITLE=0
 int psid_ui_set_tune(resource_value_t tune, void *param);
 
 char szAppName[]="WinVice VSID GUI";
-char vsidstrings[VSID_S_LASTLINE+1][80]={0};
+char vsidstrings[VSID_S_LASTLINE+1][80]={{0}};
 
 typedef struct psid_s {
     /* PSID data */
