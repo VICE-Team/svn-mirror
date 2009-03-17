@@ -1,13 +1,13 @@
 # Swedish translation file for VICE
 # Peter Krefting <peter@softwolves.pp.se>
-# Copyright 2000-2008
+# Copyright 2000-2009
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-03-05 21:20+0100\n"
-"PO-Revision-Date: 2009-02-24 15:11+0100\n"
+"PO-Revision-Date: 2009-03-17 15:05+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -5328,9 +5328,8 @@ msgid "Start VICE in fullscreen mode"
 msgstr "Starta VICE i fullskärmsläge"
 
 #: src/arch/win32/res.rc.po.c:6133
-#, fuzzy
 msgid "Disable DirectX9 video driver"
-msgstr "Inaktivera videocache"
+msgstr "Inaktivera DirectX9-grafikdrivrutin"
 
 #: src/arch/win32/res.rc.po.c:6135
 #, c-format
