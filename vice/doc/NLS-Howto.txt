@@ -163,4 +163,4 @@ removed:
 Andrea Musuruane, 
 http://musuruane.cjb.net
 
-Martin Pottendorfer (pottendo@utanet.at)
+pottendo <pottendo@gmx.net>
