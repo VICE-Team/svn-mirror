@@ -952,6 +952,10 @@ double sound_flush(int relative_speed)
             sound_error(translate_text(IDGS_FRAGMENT_PROBLEMS));
             return 0;
         }
+        /* we only write complete fragments, sound drivers that can tell
+         * better accuracy aren't utilized at this stage. */
+        space -= space % snddata.fragsize;
+
         used = snddata.bufsize - space;
         /* buffer emptied during vsync? Looks like underrun. */
         if (used < snddata.fragsize) {
@@ -1018,6 +1022,10 @@ double sound_flush(int relative_speed)
             }
             return 0;
         }
+        /* Not all sound drivers block during writing. We must avoid
+         * overwriting. */
+        if (nr > space)
+            nr = space;
     }
 
     /* Flush buffer, all channels are already mixed into it. */

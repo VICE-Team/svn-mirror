@@ -52,10 +52,11 @@ const GUID IID_IDirectSoundNotify = {0xb0210783, 0x89cd, 0x11d0,
 
 /* ------------------------------------------------------------------------ */
 
-/* #define DEBUG_SOUND */
+#define DEBUG_SOUND 0
 
 /* Debugging stuff.  */
-#ifdef DEBUG_SOUND
+#if DEBUG_SOUND
+#include "log.h"
 static void sound_debug(const char *format, ...)
 {
     char tmp[1024];
@@ -299,11 +300,11 @@ HRESULT result;
     desc.dwSize = sizeof(DSBUFFERDESC);
     desc.dwFlags = DSBCAPS_PRIMARYBUFFER;
 
-    fragment_size = *fragsize;
-
-    buffer_size = *fragsize * *fragnr * (is16bit ? sizeof(SWORD) : 1)
-                  * *channels;
-
+    fragment_size = *fragsize; /* frames */
+    buffer_size = *fragsize * *fragnr * (is16bit ? 2 : 1) * *channels; /* bytes */
+    stream_buffer_size = fragment_size * *fragnr * *channels; /* nr of samples */
+    buffer_offset = 0; /* bytes */
+    
     result = IDirectSound_CreateSoundBuffer(ds, &desc, &pbuffer, NULL);
 
     if (result != DS_OK) {
@@ -320,8 +321,6 @@ HRESULT result;
 
     desc.dwBufferBytes = buffer_size;
     desc.lpwfxFormat = (LPWAVEFORMATEX)&pcmwf;
-
-    stream_buffer_size = fragment_size * *fragnr * *channels;
 
     result = IDirectSound_CreateSoundBuffer(ds, &desc, &buffer, NULL);
     if (result != DS_OK) {
@@ -344,8 +343,6 @@ HRESULT result;
         return -1;
     }
 
-    buffer_offset= *fragsize * (is16bit ? sizeof(SWORD) : 1) * (*fragnr - 1)
-                   * *channels;
     dx_clear();
     /* Let's go...  */
     result = IDirectSoundBuffer_Play(buffer, 0, 0, DSBPLAY_LOOPING);
@@ -383,20 +380,21 @@ static void dx_close(void)
 
 static int dx_bufferspace(void)
 {
-    DWORD play_cursor, write_cursor;
+    DWORD play_cursor;
     int free_samples;
 
-    IDirectSoundBuffer_GetCurrentPosition(buffer, &play_cursor, &write_cursor);
+    IDirectSoundBuffer_GetCurrentPosition(buffer, &play_cursor, NULL);
     /* We should properly distinguish between buffer empty and buffer fill
      * case. However, it's absolutely essential that the state where play and
      * write cursors overlap is read as buffer being filled with data. */
     if (play_cursor < buffer_offset)
-        free_samples = stream_buffer_size - (buffer_offset - play_cursor)
-                       / (is16bit ? 2 : 1);
+        free_samples = buffer_size - (buffer_offset - play_cursor);
     else
-        free_samples = (play_cursor - buffer_offset) / (is16bit ? 2 : 1);
+        free_samples = play_cursor - buffer_offset;
 
-    return free_samples / num_of_channels;
+    DEBUG(("play=%d, ourwrite=%d, free=%d", play_cursor, buffer_offset, free_samples));
+
+    return free_samples / (is16bit ? 2 : 1) / num_of_channels;
 }
 
 static int dx_write(SWORD *pbuf, size_t nr)
@@ -409,12 +407,12 @@ static int dx_write(SWORD *pbuf, size_t nr)
     DWORD buffer_lock_size; /* buffer_lock_end; */
     unsigned int i, count;
 
-    /* XXX: Assumes `nr' is multiple of `fragment_size'.  */
     count = nr / fragment_size;
-    buffer_lock_size = fragment_size * (is16bit ? sizeof(SWORD) : 1);
+    buffer_lock_size = fragment_size * (is16bit ? 2 : 1);
 
     /* Write one fragment at a time.  FIXME: This could be faster.  */
     for (i = 0; i < count; i++) {
+        /* lock buffer for writing */
         do {
             result = IDirectSoundBuffer_Lock(buffer, buffer_offset,
                                              buffer_lock_size,
@@ -423,36 +421,35 @@ static int dx_write(SWORD *pbuf, size_t nr)
 
             if (result == DSERR_BUFFERLOST) {
                 IDirectSoundBuffer_Restore(buffer);
-                result = IDirectSoundBuffer_Lock(buffer, buffer_offset,
-                                                 buffer_lock_size, &lpvPtr1,
-                                                 &dwBytes1,
-                                                 &lpvPtr2, &dwBytes2, 0);
+                dwBytes1 = dwBytes2 = 0;
             }
-        } while ((dwBytes1 + dwBytes2) < buffer_lock_size);
+        } while (dwBytes1 + dwBytes2 != buffer_lock_size);
+
+        /* put data as-is, or convert to 8 bits first */
         if (is16bit) {
             memcpy(lpvPtr1,pbuf,dwBytes1);
             if (lpvPtr2)
                 memcpy(lpvPtr2,(BYTE *)pbuf + dwBytes1, dwBytes2);
+            pbuf += fragment_size;
         } else {
-            SWORD *copyptr = pbuf;
             for (i = 0; i < dwBytes1; i++) {
-                ((BYTE *)lpvPtr1)[i]=(*(copyptr++) >> 8) + 0x80;
+                ((BYTE *)lpvPtr1)[i]=(*(pbuf++) >> 8) + 0x80;
             }
             if (lpvPtr2 != NULL) {
                 for (i = 0; i < dwBytes2; i++) {
-                    ((BYTE *)lpvPtr2)[i]=(*(copyptr++) >> 8) + 0x80;
+                    ((BYTE *)lpvPtr2)[i]=(*(pbuf++) >> 8) + 0x80;
                 }
             }
         }
 
+        /* done. */
         result = IDirectSoundBuffer_Unlock(buffer, lpvPtr1, dwBytes1,
                                            lpvPtr2, dwBytes2);
         buffer_offset += buffer_lock_size;
 
-        if (buffer_offset >= buffer_size)
+        /* loop */
+        if (buffer_offset == buffer_size)
             buffer_offset = 0;
-
-        pbuf += fragment_size;
     }
 
     pbuf -= num_of_channels;
@@ -466,16 +463,14 @@ static int dx_write(SWORD *pbuf, size_t nr)
 
 static int dx_suspend(void)
 {
-    int c, i;
+    int i;
     SWORD *p = (SWORD *)lib_malloc(stream_buffer_size * sizeof(SWORD));
 
     if (!p)
         return 0;
 
-    for (c = 0; c < num_of_channels; c++) {
-        for (i = 0; i < stream_buffer_size/num_of_channels; i++) 
-            p[i * num_of_channels + c] = last_buffered_sample[c];
-    }
+    for (i = 0; i < stream_buffer_size; i ++)
+         p[i] = last_buffered_sample[i % num_of_channels];
 
     i = dx_write(p, stream_buffer_size);
     lib_free(p);
@@ -483,15 +478,13 @@ static int dx_suspend(void)
     return 0;
 }
 
+
 static int dx_resume(void)
 {
-    buffer_offset = buffer_size - fragment_size;
+    buffer_offset = 0;
     IDirectSoundBuffer_Play(buffer, 0, 0, DSBPLAY_LOOPING);
-
     return 0;
 }
-
-
 
 static sound_device_t dx_device =
 {
@@ -511,4 +504,3 @@ int sound_init_dx_device(void)
 {
     return sound_register_device(&dx_device);
 }
-
