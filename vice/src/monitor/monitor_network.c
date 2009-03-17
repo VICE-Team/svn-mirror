@@ -56,7 +56,6 @@ int monitor_is_remote = 0;
 int monitor_network_transmit(const char * buffer, size_t buffer_length)
 {
     int error = 0;
-    int len = buffer_length;
 
     if (connected_socket) {
         size_t len = vice_network_send(connected_socket, buffer, buffer_length, 0);
