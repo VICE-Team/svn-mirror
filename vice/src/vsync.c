@@ -305,7 +305,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     /* Adjustment of frame output frequency. */
     static unsigned long adjust_start;
     static int frames_adjust;
-    static signed long min_sdelay, prev_sdelay;
+    static signed long avg_sdelay, prev_sdelay;
 
     double sound_delay;
     int skip_next_frame;
@@ -400,7 +400,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 
         adjust_start = now;
         frames_adjust = 0;
-        min_sdelay = LONG_MAX;
+        avg_sdelay = 0;
         prev_sdelay = 0;
 
         frame_ticks = (frame_ticks_orig + frame_ticks) / 2;
@@ -494,48 +494,39 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         frames_adjust++;
     }
 
-    /* Adjust audio-video sync 10 times per second. This is required for
-     * keeping sound buffers appropriately filled when the buffers are short,
-     * only some few dozen ms errors in sync are tolerated. */
+    /* Adjust audio-video sync */
     if (!network_connected()
-        && (signed long)(now - adjust_start) >= vsyncarch_freq / 10) {
-        if (min_sdelay != LONG_MAX) {
-            /* Account for both relative and absolute delay. */
-            signed long adjust = (min_sdelay - prev_sdelay + min_sdelay / 8)
-                                 / frames_adjust;
-            /* Maximum adjustment step 1%. */
-            if (labs(adjust) > frame_ticks/100) {
-                adjust = adjust / labs(adjust) * frame_ticks / 100;
-            }
-            frame_ticks -= adjust;
-
-            frames_adjust = 0;
-            prev_sdelay = min_sdelay;
-            min_sdelay = LONG_MAX;
+        && (signed long)(now - adjust_start) >= vsyncarch_freq / 5) {
+        avg_sdelay /= frames_adjust;
+        /* Account for both relative and absolute delay. */
+        signed long adjust = (avg_sdelay - prev_sdelay + avg_sdelay / 8)
+                             / frames_adjust;
+        /* Maximum adjustment step 1%. */
+        if (labs(adjust) > frame_ticks/100) {
+            adjust = adjust / labs(adjust) * frame_ticks / 100;
         }
+        frame_ticks -= adjust;
+
+        frames_adjust = 0;
+        prev_sdelay = avg_sdelay;
+        avg_sdelay = 0;
 
         adjust_start = now;
     } else {
-        if (sound_delay) {
-            /* Actual sound delay is sound delay minus vsync delay. */
-            signed long sdelay =
-                (signed long)(sound_delay*vsyncarch_freq) - delay;
-
-            /* Find smallest delay in this period. We don't compare
-               absolute values since we trust negative delays more
-               than positive delays. The reason for this is that a
-               higher delay has a greater chance of being caused by
-               e.g. OS scheduling. */
-            if (sdelay < min_sdelay) {
-                min_sdelay = sdelay;
-            }
-        }
+        /* Actual sound delay is sound delay minus vsync delay. */
+        signed long sdelay = (signed long)(sound_delay*vsyncarch_freq) - delay;
+        avg_sdelay += sdelay;
     }
 
     next_frame_start += frame_ticks;
 
     vsyncarch_postsync();
-
+#if 0
+    FILE *fd = fopen("latencylog.txt", "a");
+    fprintf(fd, "%d %ld %ld %lf\n",
+        vsync_frame_counter, frame_ticks, delay, sound_delay * 1000000);
+    fclose(fd);
+#endif
     return skip_next_frame;
 }
 
