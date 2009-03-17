@@ -36,6 +36,7 @@
 #include "resources.h"
 #include "ui.h"
 #include "uiarch.h"
+#include "uiapi.h"
 #include "uilib.h"
 #include "uiscreenshot.h"
 #include "util.h"

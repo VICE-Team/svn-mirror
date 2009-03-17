@@ -30,6 +30,7 @@
 #include "uisnapshot.h"
 #include "ui.h"
 #include "uiarch.h"
+#include "uiapi.h"
 #include "machine.h"
 #include "uifileentry.h"
 #include "uilib.h"

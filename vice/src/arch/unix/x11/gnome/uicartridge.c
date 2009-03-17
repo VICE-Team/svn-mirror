@@ -30,6 +30,7 @@
 
 #include "ui.h"
 #include "uiarch.h"
+#include "uiapi.h"
 #include "cartridge.h"
 #include "uifileentry.h"
 #include "uilib.h"

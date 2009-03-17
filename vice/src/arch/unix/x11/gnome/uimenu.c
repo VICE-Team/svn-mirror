@@ -39,6 +39,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "x11menu.h"
+#include "uiapi.h"
 #include "uimenu.h"
 
 /* Separator item.  */

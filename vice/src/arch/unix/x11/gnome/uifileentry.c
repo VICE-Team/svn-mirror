@@ -26,11 +26,13 @@
 
 #include "vice.h"
 
+#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 #include <gtk/gtk.h>
 
 #include "ui.h"
+#include "uiapi.h"
 #include "uifileentry.h"
 #include "uilib.h"
 

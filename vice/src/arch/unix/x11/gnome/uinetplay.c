@@ -31,6 +31,7 @@
 #ifdef HAVE_NETWORK
 #include "ui.h"
 #include "uiarch.h"
+#include "uiapi.h"
 #include "network.h"
 #include "resources.h"
 #include "util.h"

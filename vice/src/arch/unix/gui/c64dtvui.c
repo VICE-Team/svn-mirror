@@ -34,6 +34,7 @@
 #include "machine.h"
 #include "machine-video.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "uiattach.h"
 #include "uic64dtv.h"
 #include "uicommands.h"

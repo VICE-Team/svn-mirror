@@ -39,6 +39,7 @@
 #include "x11ui.h"
 #include "log.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "uimenu.h"
 #include "lib.h"
 #include "vsync.h"
