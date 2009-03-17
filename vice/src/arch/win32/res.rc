@@ -9699,7 +9699,7 @@ BEGIN
   IDS_USE_ALL_CPU_SMP             "Använd Alla CPU:er på SMP-system"
   IDS_USE_FIRST_CPU_SMP           "Använd bara första CPU:n på SMP-system"
   IDS_START_VICE_FULLSCREEN_MODE  "Starta VICE i fullskärmsläge"
-  IDS_DISABLE_DX9                 "Disable DirectX9 video driver"
+  IDS_DISABLE_DX9                 "Inaktivera DirectX9-grafikdrivrutin"
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S         "Ett okänt fel uppstod. Tog emot signal %d (%s)."
 #else
