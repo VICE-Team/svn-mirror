@@ -497,10 +497,10 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     /* Adjust audio-video sync */
     if (!network_connected()
         && (signed long)(now - adjust_start) >= vsyncarch_freq / 5) {
+        signed long adjust;
         avg_sdelay /= frames_adjust;
         /* Account for both relative and absolute delay. */
-        signed long adjust = (avg_sdelay - prev_sdelay + avg_sdelay / 8)
-                             / frames_adjust;
+        adjust = (avg_sdelay - prev_sdelay + avg_sdelay / 8) / frames_adjust;
         /* Maximum adjustment step 1%. */
         if (labs(adjust) > frame_ticks/100) {
             adjust = adjust / labs(adjust) * frame_ticks / 100;
