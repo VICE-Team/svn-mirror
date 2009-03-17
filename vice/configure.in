@@ -1574,6 +1574,9 @@ if test x"$is_win32" = "xno" -a x"$is_amiga_aros" = "xno" -a x"$is_riscos" = "xn
   AC_REPLACE_FUNCS(usleep)
 fi
 
+AC_CHECK_FUNC(nanosleep,
+              [ AC_DEFINE(HAVE_NANOSLEEP,,[Use nanosleep instead of usleep]) ])
+
 dnl Check time.h.
 
 dnl AC_HEADER_TIME

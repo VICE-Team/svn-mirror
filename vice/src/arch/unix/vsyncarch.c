@@ -78,16 +78,18 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
 /* Sleep a number of timer units. */
 void vsyncarch_sleep(signed long delay)
 {
-#ifdef __linux__
-    /* usleep can't guarantee us accurate small delays on Linux. It's probably
-     * best not sleep at all, when the delay is shorter than scheduler tick.
-     * We should use realtime timers, not usleep... 1/250 is used, assuming
-     * HZ = 250. We should really use realtime clock, or something better. */
-    if (delay < vsyncarch_frequency() / 250)
-        return;
-#endif
-
+#ifdef HAVE_NANOSLEEP
+    struct timespec {
+        time_t tv_sec;
+        long tv_nsec;
+    } ts;
+    ts.tv_sec = delay / 1000000;
+    ts.tv_nsec = (delay % 1000000) * 1000;
+    /* wait until whole interval has elapsed */
+    while (nanosleep(&ts, &ts));
+#else
     usleep(delay);
+#endif
 }
 
 void vsyncarch_presync(void)
