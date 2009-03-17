@@ -94,6 +94,17 @@
 #include "winmain.h"
 #include "statusbar.h"
 
+#ifndef PBT_APMSUSPEND
+# define PBT_APMSUSPEND        4
+#endif
+
+#ifndef PBT_APMRESUMECRITICAL
+# define PBT_APMRESUMECRITICAL 6
+#endif
+
+#ifndef PBT_APMRESUMESUSPEND
+# define PBT_APMRESUMESUSPEND  7
+#endif
 
 extern char *intl_speed_at_text;
 extern int _mouse_x, _mouse_y, _mouse_enabled;
