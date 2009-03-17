@@ -23,7 +23,8 @@
 #ifndef VICE__BITTRAIN_H__
 #define VICE__BITTRAIN_H__
 
+extern unsigned int wave_train_lut[4096][128];
+extern unsigned int env_train_lut[256][8];
 extern unsigned int volume_train_lut[16];
-extern unsigned int wave_env_train_lut[256][8];
 
 #endif

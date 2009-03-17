@@ -43,7 +43,7 @@ public:
 
   void enable_external_filter(bool enable);
   bool set_sampling_parameters(double clock_freq, sampling_method method,
-			       double sample_freq, double pass_freq = -1,
+			       double sample_freq, double pass_freq = 20000,
 			       double filter_scale = 0.97);
   void adjust_sampling_frequency(double sample_freq);
 
@@ -98,8 +98,6 @@ protected:
 
   reg8 bus_value;
 
-  double clock_frequency;
-
   // Resampling constants.
   // The error in interpolated lookup is bounded by 1.234/L^2,
   // while the error in non-interpolated lookup is bounded by
@@ -111,7 +109,7 @@ protected:
   enum { FIR_RES_INTERPOLATE = 285 };
   enum { FIR_RES_FAST = 51473 };
   enum { FIR_SHIFT = 15 };
-  enum { RINGSIZE = 16384 };
+  enum { RINGSIZE = 4096 };
 
   // Fixpoint constants (16.16 bits).
   enum { FIXP_SHIFT = 16 };

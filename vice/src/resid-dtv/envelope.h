@@ -161,7 +161,7 @@ void EnvelopeGenerator::clock()
 RESID_INLINE
 unsigned int EnvelopeGenerator::output()
 {
-  return wave_env_train_lut[envelope_counter][envelope_train_counter];
+  return env_train_lut[envelope_counter][envelope_train_counter];
 }
 
 #endif // RESID_INLINING || defined(__ENVELOPE_CC__)

@@ -249,15 +249,9 @@ unsigned int WaveformGenerator::output()
   if (waveform & 0x8)
     output |= outputN___();
 
-  /* conversion to sigma-delta bittrain, earliest bit in sequence MSB */
-  unsigned int bt = 0;
-  for (int i = 0; i < 32; i ++) {
-    counter += output;
-    bt <<= 1;
-    bt |= counter >> 12;
-    counter &= 0xfff;
-  }
-  return bt;
+  counter += output;
+  counter &= 0x7f;
+  return wave_train_lut[output][counter];
 }
 
 #endif // RESID_INLINING || defined(__WAVE_CC__)

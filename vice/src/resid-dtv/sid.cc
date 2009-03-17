@@ -23,17 +23,35 @@
 #include "sid.h"
 #include <math.h>
 
+unsigned int wave_train_lut[4096][128];
+unsigned int env_train_lut[256][8];
 unsigned int volume_train_lut[16];
-unsigned int wave_env_train_lut[256][8];
 
 static void init_lut() {
+    /* this table needs 2 MB, but the alternative of doing 32M iterations
+     * of this inner loop per second is worse. */
+    for (int wave = 0; wave < 4096; wave ++) {
+        for (int phase1 = 0; phase1 < 128; phase1 ++) {
+            unsigned int wavecounter = phase1 * 32;
+
+            unsigned int wavetrain = 0;
+            for (int phase2 = 0; phase2 < 32; phase2 ++) {
+                wavecounter += wave;
+                wavetrain <<= 1;
+                wavetrain |= wavecounter >> 12;
+                wavecounter &= 0xfff;
+            }
+            wave_train_lut[wave][phase1] = wavetrain;
+        }
+    }
+
     for (int env = 0; env < 256; env ++) {
         for (int phase1 = 0; phase1 < 8; phase1 ++) {
             /* we always start envelope on particular phase value out of
-             * 256, which corresponds to how many clock we have been
+             * 256, which corresponds to how many clocks we have been
              * running. */
             unsigned int envcounter = phase1 * 32;
-                
+
             unsigned int envtrain = 0;
             for (int phase2 = 0; phase2 < 32; phase2 ++) {
                 envcounter += env;
@@ -41,7 +59,7 @@ static void init_lut() {
                 envtrain |= envcounter >> 8;
                 envcounter &= 0xff;
             }
-            wave_env_train_lut[env][phase1] = envtrain;
+            env_train_lut[env][phase1] = envtrain;
         }
     }
     
@@ -370,7 +388,7 @@ void SID::enable_external_filter(bool enable)
 double SID::I0(double x)
 {
   // Max error acceptable in I0.
-  const double I0e = 1e-6;
+  const double I0e = 1e-10;
 
   double sum, u, halfx, temp;
   int n;
@@ -414,37 +432,6 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
 				  double sample_freq, double pass_freq,
 				  double filter_scale)
 {
-  // Check resampling constraints.
-  if (method == SAMPLE_RESAMPLE_INTERPOLATE || method == SAMPLE_RESAMPLE_FAST)
-  {
-    // Check whether the sample ring buffer would overfill.
-    if (FIR_N*clock_freq/sample_freq >= RINGSIZE) {
-      return false;
-    }
-
-    // The default passband limit is 0.9*sample_freq/2 for sample
-    // frequencies below ~ 44.1kHz, and 20kHz for higher sample frequencies.
-    if (pass_freq < 0) {
-      pass_freq = 20000;
-      if (2*pass_freq/sample_freq >= 0.9) {
-	pass_freq = 0.9*sample_freq/2;
-      }
-    }
-    // Check whether the FIR table would overfill.
-    else if (pass_freq > 0.9*sample_freq/2) {
-      return false;
-    }
-
-    // The filter scaling is only included to avoid clipping, so keep
-    // it sane.
-    if (filter_scale < 0.9 || filter_scale > 1.0) {
-      return false;
-    }
-  }
-
-  clock_frequency = clock_freq;
-  sampling = method;
-
   cycles_per_sample =
     cycle_count(clock_freq/sample_freq*(1 << FIXP_SHIFT) + 0.5);
 
@@ -454,6 +441,7 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
   // FIR initialization is only necessary for resampling.
   if (method != SAMPLE_RESAMPLE_INTERPOLATE && method != SAMPLE_RESAMPLE_FAST)
   {
+    sampling = method;
     delete[] sample;
     delete[] fir;
     sample = 0;
@@ -461,64 +449,79 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
     return true;
   }
 
+  const int bits = 16;
+
+  if (pass_freq > 20000)
+    pass_freq = 20000;  
+  if (2*pass_freq/sample_freq > 0.9)
+    pass_freq = 0.9f*sample_freq/2;
+
   const double pi = 3.1415926535897932385;
 
   // 16 bits -> -96dB stopband attenuation.
-  const double A = -20*log10(1.0/(1 << 16));
-  // A fraction of the bandwidth is allocated to the transition band,
-  double dw = (1 - 2*pass_freq/sample_freq)*pi;
-  // The cutoff frequency is midway through the transition band.
-  double wc = (2*pass_freq/sample_freq + 1)*pi/2;
+  const double A = -20*log10(1.0/(1 << bits));
 
   // For calculation of beta and N see the reference for the kaiserord
   // function in the MATLAB Signal Processing Toolbox:
   // http://www.mathworks.com/access/helpdesk/help/toolbox/signal/kaiserord.html
   const double beta = 0.1102*(A - 8.7);
   const double I0beta = I0(beta);
-
-  // The filter order will maximally be 124 with the current constraints.
-  // N >= (96.33 - 7.95)/(2.285*0.1*pi) -> N >= 123
-  // The filter order is equal to the number of zero crossings, i.e.
-  // it should be an even number (sinc is symmetric about x = 0).
-  int N = int((A - 7.95)/(2.285*dw) + 0.5);
-  N += N & 1;
-
+  
   double f_samples_per_cycle = sample_freq/clock_freq;
   double f_cycles_per_sample = clock_freq/sample_freq;
 
-  // The filter length is equal to the filter order + 1.
-  // The filter length must be an odd number (sinc is symmetric about x = 0).
-  fir_N = int(N*f_cycles_per_sample) + 1;
-  fir_N |= 1;
+  /* This code utilizes the fact that aliasing back to 20 kHz from
+   * sample_freq/2 is inaudible. This allows us to define a passband
+   * wider than normally. We might also consider aliasing back to pass_freq,
+   * but as this can be less than 20 kHz, it might become audible... */
+  double aliasing_allowance = sample_freq / 2 - 20000;
+  if (aliasing_allowance < 0)
+    aliasing_allowance = 0;
 
-  // We clamp the filter table resolution to 2^n, making the fixpoint
-  // sample_offset a whole multiple of the filter table resolution.
-  int res = method == SAMPLE_RESAMPLE_INTERPOLATE ?
-    (int)FIR_RES_INTERPOLATE : (int)FIR_RES_FAST;
-  int n = (int)ceil(log(res/f_cycles_per_sample)/log(2.0));
-  fir_RES = 1 << n;
+  double transition_bandwidth = sample_freq/2 - pass_freq + aliasing_allowance;
+  {
+    /* Filter order according to Kaiser's paper. */
+    int N = int((A - 7.95)/(2 * M_PI * 2.285 * transition_bandwidth/sample_freq) + 0.5);
+    N += N & 1;
+
+    // The filter length is equal to the filter order + 1.
+    // The filter length must be an odd number (sinc is symmetric about x = 0).
+    fir_N = int(N*f_cycles_per_sample) + 1;
+    fir_N |= 1;
+
+    // Check whether the sample ring buffer would overfill.
+    if (FIR_N > RINGSIZE - 1) {
+      return false;
+    }
+
+    /* Error is bound by 1.234 / L^2 */
+    fir_RES = (int) (sqrt(1.234 * (1 << bits)) / f_cycles_per_sample + 0.5);
+  }
+  sampling = method;
 
   // Allocate memory for FIR tables.
   delete[] fir;
   fir = new short[fir_N*fir_RES];
+  
+  // The cutoff frequency is midway through the transition band.
+  double wc = (pass_freq + transition_bandwidth/2) / sample_freq * M_PI * 2;
 
   // Calculate fir_RES FIR tables for linear interpolation.
   for (int i = 0; i < fir_RES; i++) {
-    int fir_offset = i*fir_N + fir_N/2;
     double j_offset = double(i)/fir_RES;
     // Calculate FIR table. This is the sinc function, weighted by the
     // Kaiser window.
-    for (int j = -fir_N/2; j <= fir_N/2; j++) {
-      double jx = j - j_offset;
+    for (int j = 0; j < fir_N; j++) {
+      double jx = j - fir_N/2. - j_offset;
       double wt = wc*jx/f_cycles_per_sample;
       double temp = jx/(fir_N/2);
       double Kaiser =
 	fabs(temp) <= 1 ? I0(beta*sqrt(1 - temp*temp))/I0beta : 0;
       double sincwt =
-	fabs(wt) >= 1e-6 ? sin(wt)/wt : 1;
+	fabs(wt) >= 1e-8 ? sin(wt)/wt : 1;
       double val =
 	(1 << FIR_SHIFT)*filter_scale*f_samples_per_cycle*wc/pi*sincwt*Kaiser;
-      fir[fir_offset + j] = short(val + 0.5);
+      fir[i * fir_N + j] = short(val + 0.5);
     }
   }
 
@@ -533,25 +536,6 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
   sample_index = 0;
 
   return true;
-}
-
-
-// ----------------------------------------------------------------------------
-// Adjustment of SID sampling frequency.
-//
-// In some applications, e.g. a C64 emulator, it can be desirable to
-// synchronize sound with a timer source. This is supported by adjustment of
-// the SID sampling frequency.
-//
-// NB! Adjustment of the sampling frequency may lead to noticeable shifts in
-// frequency, and should only be used for interactive applications. Note also
-// that any adjustment of the sampling frequency will change the
-// characteristics of the resampling filter, since the filter is not rebuilt.
-// ----------------------------------------------------------------------------
-void SID::adjust_sampling_frequency(double sample_freq)
-{
-  cycles_per_sample =
-    cycle_count(clock_frequency/sample_freq*(1 << FIXP_SHIFT) + 0.5);
 }
 
 // ----------------------------------------------------------------------------
@@ -721,7 +705,7 @@ int SID::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
       clock();
       sample[sample_index] = sample[sample_index + RINGSIZE] = output();
       ++sample_index;
-      sample_index &= 0x3fff;
+      sample_index &= RINGSIZE - 1;
     }
     delta_t -= delta_t_sample;
     sample_offset = next_sample_offset & FIXP_MASK;
@@ -739,10 +723,10 @@ int SID::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
     }
 
     // Use next FIR table, wrap around to first FIR table using
-    // previous sample.
+    // the next sample.
     if (++fir_offset == fir_RES) {
       fir_offset = 0;
-      --sample_start;
+      ++sample_start;
     }
     fir_start = fir + fir_offset*fir_N;
 
@@ -775,7 +759,7 @@ int SID::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
     clock();
     sample[sample_index] = sample[sample_index + RINGSIZE] = output();
     ++sample_index;
-    sample_index &= 0x3fff;
+    sample_index &= RINGSIZE - 1;
   }
   sample_offset -= delta_t << FIXP_SHIFT;
   delta_t = 0;
@@ -805,7 +789,7 @@ int SID::clock_resample_fast(cycle_count& delta_t, short* buf, int n,
       clock();
       sample[sample_index] = sample[sample_index + RINGSIZE] = output();
       ++sample_index;
-      sample_index &= 0x3fff;
+      sample_index &= RINGSIZE - 1;
     }
     delta_t -= delta_t_sample;
     sample_offset = next_sample_offset & FIXP_MASK;
@@ -838,7 +822,7 @@ int SID::clock_resample_fast(cycle_count& delta_t, short* buf, int n,
     clock();
     sample[sample_index] = sample[sample_index + RINGSIZE] = output();
     ++sample_index;
-    sample_index &= 0x3fff;
+    sample_index &= RINGSIZE - 1;
   }
   sample_offset -= delta_t << FIXP_SHIFT;
   delta_t = 0;
