@@ -42,7 +42,6 @@ UI_MENU_DEFINE_RADIO(SoundSpeedAdjustment)
 UI_MENU_DEFINE_RADIO(SoundSampleRate)
 UI_MENU_DEFINE_RADIO(SoundBufferSize)
 UI_MENU_DEFINE_RADIO(SoundSuspendTime)
-UI_MENU_DEFINE_RADIO(SoundOversample)
 
 UI_CALLBACK(set_sound_device_arg)
 {
@@ -65,12 +64,6 @@ ui_menu_entry_t set_sound_sample_rate_submenu[] = {
 };
 
 static ui_menu_entry_t set_sound_buffer_size_submenu[] = {
-    { N_("*1.00 sec"), (ui_callback_t)radio_SoundBufferSize,
-      (ui_callback_data_t)1000, NULL },
-    { N_("*0.75 sec"), (ui_callback_t)radio_SoundBufferSize,
-      (ui_callback_data_t)750, NULL },
-    { N_("*0.50 sec"), (ui_callback_t)radio_SoundBufferSize,
-      (ui_callback_data_t)500, NULL },
     { N_("*0.35 sec"), (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)350, NULL },
     { N_("*0.30 sec"), (ui_callback_t)radio_SoundBufferSize,
@@ -79,10 +72,8 @@ static ui_menu_entry_t set_sound_buffer_size_submenu[] = {
       (ui_callback_data_t)150, NULL },
     { N_("*0.10 sec"), (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)100, NULL },
-    { N_("*0.09 sec"), (ui_callback_t)radio_SoundBufferSize,
-      (ui_callback_data_t)80, NULL },
-    { N_("*0.07 sec"), (ui_callback_t)radio_SoundBufferSize,
-      (ui_callback_data_t)60, NULL },
+    { N_("*0.075 sec"), (ui_callback_t)radio_SoundBufferSize,
+      (ui_callback_data_t)75, NULL },
     { N_("*0.05 sec"), (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)50, NULL },
     { N_("*0.04 sec"), (ui_callback_t)radio_SoundBufferSize,

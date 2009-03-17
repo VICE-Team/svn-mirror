@@ -887,9 +887,9 @@ void sound_synthesize(SWORD *buffer, int length)
 /* flush all generated samples from buffer to sounddevice. adjust sid runspeed
    to match real running speed of program */
 #if defined(__MSDOS__) || defined(__riscos)
-int sound_flush(int relative_speed)
+int sound_flush()
 #else
-double sound_flush(int relative_speed)
+double sound_flush()
 #endif
 {
     int c, i, nr, space = 0, used;
@@ -989,8 +989,8 @@ double sound_flush(int relative_speed)
         }
         if (cycle_based || speed_adjustment_setting
             != SOUND_ADJUST_ADJUSTING) {
-            if (relative_speed > 0)
-                snddata.clkfactor = SOUNDCLK_CONSTANT(relative_speed) / 100;
+            if (speed_percent > 0)
+                snddata.clkfactor = SOUNDCLK_CONSTANT(speed_percent) / 100;
         } else {
             if (snddata.prevfill)
                 snddata.prevused = used;

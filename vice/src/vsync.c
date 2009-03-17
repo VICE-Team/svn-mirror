@@ -375,7 +375,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     }
 
     /* Flush sound buffer, get delay in seconds. */
-    sound_delay = sound_flush(warp_mode_enabled ? 0 : relative_speed);
+    sound_delay = sound_flush();
 
     /* Get current time, directly after getting the sound delay. */
     now = vsyncarch_gettime();

@@ -111,9 +111,9 @@ static inline SWORD sound_audio_mix(int ch1, int ch2)
 extern void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame);
 extern void sound_reset(void);
 #if defined(__MSDOS__) || defined(__riscos)
-extern int sound_flush(int relative_speed);
+extern int sound_flush();
 #else
-extern double sound_flush(int relative_speed);
+extern double sound_flush();
 #endif
 extern void sound_suspend(void);
 extern void sound_resume(void);
