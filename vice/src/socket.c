@@ -175,7 +175,7 @@ static vice_network_socket_address_t address_pool[16] = { { 0 } };
 static unsigned int address_pool_usage = 0;
 
 /*! \internal \brief a memory pool for sockets */
-static vice_network_socket_t socket_pool[16] = { 0 };
+static vice_network_socket_t socket_pool[16] = { { 0 } };
 /*! \internal \brief usage bit pattern for socket_pool */
 static unsigned int socket_pool_usage = 0;
 
@@ -398,7 +398,7 @@ vice_network_socket_t * vice_network_server(const vice_network_socket_address_t 
         sockfd = INVALID_SOCKET;
     }
 
-    return SOCKET_IS_INVALID(socket) ? NULL : vice_network_alloc_new_socket(sockfd);
+    return SOCKET_IS_INVALID(sockfd) ? NULL : vice_network_alloc_new_socket(sockfd);
 }
 
 /*! \brief Open a socket and initialise it for client operation
@@ -442,7 +442,7 @@ vice_network_socket_t * vice_network_client(const vice_network_socket_address_t 
         sockfd = INVALID_SOCKET;
     }
 
-    return SOCKET_IS_INVALID(socket) ? NULL : vice_network_alloc_new_socket(sockfd);
+    return SOCKET_IS_INVALID(sockfd) ? NULL : vice_network_alloc_new_socket(sockfd);
 }
 
 /*! \internal \brief Generate an IPv4 socket address
