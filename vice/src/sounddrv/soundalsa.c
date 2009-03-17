@@ -173,11 +173,9 @@ static int alsa_write(SWORD *pbuf, size_t nr)
 static int alsa_bufferspace(void)
 {
     snd_pcm_sframes_t space = snd_pcm_avail_update(handle);
-    /* keep alsa values real. Someone else figures out under/overruns, which
-     * these results most likely signify. */
-    if (space < 0)
-        space = 0;
-    if (space > alsa_bufsize)
+    /* keep alsa values real. Values < 0 mean errors, call to alsa_write
+     * will resume. */
+    if (space < 0 || space > alsa_bufsize)
         space = alsa_bufsize;
     return space;
 }
