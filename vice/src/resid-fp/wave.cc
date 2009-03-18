@@ -282,7 +282,7 @@ reg8 WaveformGeneratorFP::readOSC(WaveformGeneratorFP& source)
     return previous;
   }
   if (waveform == 8) {
-    return noise_output_cached;
+    return (reg8) (noise_output_cached >> 4);
   }
   if (waveform > 8) {
     return 0;
@@ -326,7 +326,7 @@ void WaveformGeneratorFP::clock_noise(const bool clock)
 
   noise_output_cached = outputN___();
   noise_output_cached_dac = wave_zero;
-  for (int i = 0; i < 12; i ++) {
+  for (int i = 4; i < 12; i ++) {
     if (noise_output_cached & (1 << i)) {
       noise_output_cached_dac += dac[i];
     }
