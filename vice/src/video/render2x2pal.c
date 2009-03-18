@@ -41,6 +41,14 @@ extern DWORD gamma_red_fac[256 * 3 * 2];
 extern DWORD gamma_grn_fac[256 * 3 * 2];
 extern DWORD gamma_blu_fac[256 * 3 * 2];
 
+static inline
+void convert_yuv_to_rgb(SDWORD y, SDWORD u, SDWORD v, SDWORD *red, SDWORD *grn, SDWORD *blu)
+{
+    *red = (y + v) >> 16;
+    *blu = (y + u) >> 16;
+    *grn = (y - ((50 * u + 130 * v) >> 8)) >> 16;
+}
+
 /* Often required function that stores gamma-corrected pixel to current line,
  * averages the current rgb with the contents of previous non-scanline-line,
  * stores the gamma-corrected scanline, and updates the prevline rgb buffer.
@@ -52,12 +60,11 @@ void store_line_and_scanline_2(
     SWORD *const prevline, const int shade, /* ignored by RGB modes */
     const SDWORD y, const SDWORD u, const SDWORD v)
 {
+    SDWORD red, grn, blu;
+    convert_yuv_to_rgb(y, u, v, &red, &grn, &blu);
+
     WORD *const tmp1 = (WORD *const) scanline;
     WORD *const tmp2 = (WORD *const) line;
-
-    SDWORD red = (y + v) >> 16;
-    SDWORD blu = (y + u) >> 16;
-    SDWORD grn = (y - ((50 * u + 130 * v) >> 8)) >> 16;
 
     *tmp1 = (WORD) (gamma_red_fac[512 + red + prevline[0]]
           | gamma_grn_fac[512 + grn + prevline[1]]
@@ -76,9 +83,8 @@ void store_line_and_scanline_3(
     SWORD *const prevline, const int shade, /* ignored by RGB modes */
     const SDWORD y, const SDWORD u, const SDWORD v)
 {
-    SDWORD red = (y + v) >> 16;
-    SDWORD blu = (y + u) >> 16;
-    SDWORD grn = (y - ((50 * u + 130 * v) >> 8)) >> 16;
+    SDWORD red, grn, blu;
+    convert_yuv_to_rgb(y, u, v, &red, &grn, &blu);
 
     DWORD tmp1 = gamma_red_fac[512 + red + prevline[0]]
                | gamma_grn_fac[512 + grn + prevline[1]]
@@ -88,7 +94,7 @@ void store_line_and_scanline_3(
     tmp1 >>= 8;
     scanline[1] = (BYTE) tmp1;
     tmp1 >>= 8;
-    scanline[2] = (BYTE) tmp1;
+    scanline[4] = (BYTE) tmp1;
     
     line[0] = (BYTE) tmp2;
     tmp2 >>= 8;
@@ -107,16 +113,14 @@ void store_line_and_scanline_4(
     SWORD *const prevline, const int shade, /* ignored by RGB modes */
     const SDWORD y, const SDWORD u, const SDWORD v)
 {
-    SDWORD red = (y + v) >> 16;
-    SDWORD blu = (y + u) >> 16;
-    SDWORD grn = (y - ((50 * u + 130 * v) >> 8)) >> 16;
+    SDWORD red, grn, blu;
+    convert_yuv_to_rgb(y, u, v, &red, &grn, &blu);
 
     DWORD *const tmp1 = (DWORD *const) scanline;
     DWORD *const tmp2 = (DWORD *const) line;
     *tmp1 = gamma_red_fac[512 + red + prevline[0]]
           | gamma_grn_fac[512 + grn + prevline[1]]
           | gamma_blu_fac[512 + blu + prevline[2]];
-    
     *tmp2 = gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu];
 
     prevline[0] = red;
