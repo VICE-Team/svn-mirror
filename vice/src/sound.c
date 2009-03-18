@@ -494,7 +494,7 @@ static int sid_open(void)
 /* initialize SID engine */
 static int sid_init(void)
 {
-    int c, speed;
+    int c, speed, speed_factor;
 
     /* Special handling for cycle based as opposed to sample based sound
        engines. reSID is cycle based. */
@@ -502,7 +502,7 @@ static int sid_init(void)
 
     /* "No limit" doesn't make sense for cycle based sound engines,
        which have a fixed sampling rate. */
-    int speed_factor = speed_percent ? speed_percent : 100;
+    speed_factor = speed_percent ? speed_percent : 100;
     speed = sample_rate * 100 / speed_factor;
 
     for (c = 0; c < snddata.channels; c++) {
