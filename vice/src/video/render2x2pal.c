@@ -270,9 +270,15 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
     }
     
     /* Initialize line */
-    for (x = 0; x < width + wfirst + wlast + 1; x++) {
-        line[0] = (cbtable[tmpsrc[0]] + cbtable[tmpsrc[1]] + cbtable[tmpsrc[2]] + cbtable[tmpsrc[3]]) * off_flip;
-        line[1] = (crtable[tmpsrc[0]] + crtable[tmpsrc[1]] + crtable[tmpsrc[2]] + crtable[tmpsrc[3]]) * off_flip;
+    unew = cbtable[tmpsrc[0]] + cbtable[tmpsrc[1]] + cbtable[tmpsrc[2]];
+    vnew = crtable[tmpsrc[0]] + crtable[tmpsrc[1]] + crtable[tmpsrc[2]];
+    for (x = 0; x < width + wfirst + 1; x++) {
+        unew += cbtable[tmpsrc[3]];
+        vnew += crtable[tmpsrc[3]];
+        line[0] = unew * off_flip;
+        line[1] = vnew * off_flip;
+        unew -= cbtable[tmpsrc[0]];
+        vnew -= crtable[tmpsrc[0]];
         tmpsrc ++;
         line += 2;
     }
