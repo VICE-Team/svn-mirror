@@ -368,12 +368,12 @@ static void video_calc_ycbcrtable_oddlines(const video_ycbcr_palette_t *p,
 	
 	/* create primary table */
         primary = &p->entries[i];
-        color_tab->cbtable_odd[i] = (SDWORD)((primary->cb) * sat);
-        color_tab->cutable_odd[i] = (SDWORD)(0.493111 * primary->cb * 256);
+        color_tab->cbtable_odd[i] = -(SDWORD)((primary->cb) * sat);
+        color_tab->cutable_odd[i] = -(SDWORD)(0.493111 * primary->cb * 256);
 	/* tint, substract from cr in odd lines */
 	val = (SDWORD)(tin);
-        color_tab->crtable_odd[i] = (SDWORD)((primary->cr - val) * sat);
-        color_tab->cvtable_odd[i] = (SDWORD)(0.877283 * (primary->cr - val) * 256);
+        color_tab->crtable_odd[i] = -(SDWORD)((primary->cr - val) * sat);
+        color_tab->cvtable_odd[i] = -(SDWORD)(0.877283 * (primary->cr - val) * 256);
     }
 }
 

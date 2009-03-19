@@ -222,8 +222,8 @@ void get_yuv_from_video(
     SDWORD *const line, const int off_flip,
     SDWORD *const u, SDWORD *const v)
 {
-    *u = (unew - line[0]) * off_flip;
-    *v = (vnew - line[1]) * off_flip;
+    *u = (unew + line[0]) * off_flip;
+    *v = (vnew + line[1]) * off_flip;
     line[0] = unew;
     line[1] = vnew;
 }
@@ -262,8 +262,6 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
     line = color_tab->line_yuv_0;
     /* get previous line into buffer. */
     tmpsrc = ys > 0 ? src - pitchs : src;
-    /* trick to get the first line to average with itself */
-    off_flip = ys > 0 ? 1 : -1;
 
     if (ys & 1) {
         cbtable = write_interpolated_pixels ? color_tab->cbtable : color_tab->cutable;
@@ -279,8 +277,8 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
     for (x = 0; x < width + wfirst + 1; x++) {
         unew += cbtable[tmpsrc[3]];
         vnew += crtable[tmpsrc[3]];
-        line[0] = unew * off_flip;
-        line[1] = vnew * off_flip;
+        line[0] = unew;
+        line[1] = vnew;
         unew -= cbtable[tmpsrc[0]];
         vnew -= crtable[tmpsrc[0]];
         tmpsrc ++;
@@ -294,7 +292,7 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
      * for one full line after it! */
 
     /* Calculate odd line shading */
-    off = (int) (((float) video_resources.pal_oddlines_offset * (1.5f / 2000.0f) - (1.5f / 2.0f - 1.0f)) * (1 << 5) * -1);
+    off = (int) (((float) video_resources.pal_oddlines_offset * (1.5f / 2000.0f) - (1.5f / 2.0f - 1.0f)) * (1 << 5));
     shade = (int) ((float) video_resources.pal_scanlineshade / 1000.0f * 256.f);
     
     /* height & 1 == 0. */

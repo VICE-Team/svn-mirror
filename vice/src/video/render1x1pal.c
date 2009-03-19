@@ -178,7 +178,6 @@ render_generic_1x1_pal(video_render_color_tables_t *color_tab, const BYTE *src, 
     
     line = color_tab->line_yuv_0;
     tmpsrc = ys > 0 ? src - pitchs : src;
-    off_flip = ys > 0 ? 1 : -1;
 
     /* is the previous line odd or even? (inverted condition!) */
     if (ys & 1) {
@@ -195,15 +194,15 @@ render_generic_1x1_pal(video_render_color_tables_t *color_tab, const BYTE *src, 
         cl2 = tmpsrc[2];
         cl3 = tmpsrc[3];
         tmpsrc += 1;
-        line[0] = (cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3]) * off_flip;
-        line[1] = (crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3]) * off_flip;
+        line[0] = (cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3]);
+        line[1] = (crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3]);
         line += 2;
     }
 
     width >>= 1;
 
     /* Calculate odd line shading */
-    off = (int) (((float) video_resources.pal_oddlines_offset * (1.5f / 2000.0f) - (1.5f / 2.0f - 1.0f)) * (1 << 5) * -1);
+    off = (int) (((float) video_resources.pal_oddlines_offset * (1.5f / 2000.0f) - (1.5f / 2.0f - 1.0f)) * (1 << 5));
 
     for (y = ys; y < height + ys; y++) {
         tmpsrc = src;
@@ -230,8 +229,8 @@ render_generic_1x1_pal(video_render_color_tables_t *color_tab, const BYTE *src, 
             l1 = ytablel[cl1] + ytableh[cl2] + ytablel[cl3];
             unew = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
             vnew = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
-            u1 = (unew - line[0]) * off_flip;
-            v1 = (vnew - line[1]) * off_flip;
+            u1 = (unew + line[0]) * off_flip;
+            v1 = (vnew + line[1]) * off_flip;
             line[0] = unew;
             line[1] = vnew;
             line += 2;
@@ -244,8 +243,8 @@ render_generic_1x1_pal(video_render_color_tables_t *color_tab, const BYTE *src, 
             l2 = ytablel[cl1] + ytableh[cl2] + ytablel[cl3];
             unew = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
             vnew = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
-            u2 = (unew - line[0]) * off_flip;
-            v2 = (vnew - line[1]) * off_flip;
+            u2 = (unew + line[0]) * off_flip;
+            v2 = (vnew + line[1]) * off_flip;
             line[0] = unew;
             line[1] = vnew;
             line += 2;
