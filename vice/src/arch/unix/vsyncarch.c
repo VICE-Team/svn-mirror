@@ -39,8 +39,12 @@
 #include "openGL_sync.h"
 #endif
 
-#include <sys/time.h>
+#ifdef HAVE_NANOSLEEP
+#include <time.h>
+#else
 #include <unistd.h>
+#endif
+#include <sys/time.h>
 
 /* hook to ui event dispatcher */
 static void_hook_t ui_dispatch_hook;
@@ -79,10 +83,7 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
 void vsyncarch_sleep(signed long delay)
 {
 #ifdef HAVE_NANOSLEEP
-    struct timespec {
-        time_t tv_sec;
-        long tv_nsec;
-    } ts;
+    struct timespec ts;
     ts.tv_sec = delay / 1000000;
     ts.tv_nsec = (delay % 1000000) * 1000;
     /* wait until whole interval has elapsed */
