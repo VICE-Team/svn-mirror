@@ -671,6 +671,7 @@ static inline int convolve(const short *a, const short *b, int n)
         n -= 4;
     }
     out = tmp.i32[0] + tmp.i32[1];
+    _mm_empty();
 #endif
     while (n --)
         out += (*(a++)) * (*(b++));
