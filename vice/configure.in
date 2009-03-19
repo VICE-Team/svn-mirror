@@ -1328,6 +1328,8 @@ if test x"$is_unix" = "xyes"; then
                      [SOUND_DRIVERS="$SOUND_DRIVERS soundalsa.o";
                       SOUND_LIBS="$SOUND_LIBS -lasound";
                       AC_DEFINE(USE_ALSA,,[Enable alsa support.])],,$SOUND_LIBS)])
+    AC_CHECK_LIB(asound, snd_pcm_avail,
+                 [AC_DEFINE(HAVE_SND_PCM_AVAIL,,[Use more accurate buffer fill reporting])])
   fi
 
   if test x"$with_oss" != "xno"; then

@@ -172,7 +172,11 @@ static int alsa_write(SWORD *pbuf, size_t nr)
 
 static int alsa_bufferspace(void)
 {
+#ifdef HAVE_SND_PCM_AVAIL
     snd_pcm_sframes_t space = snd_pcm_avail(handle);
+#else
+    snd_pcm_sframes_t space = snd_pcm_avail_update(handle);
+#endif
     /* keep alsa values real. Values < 0 mean errors, call to alsa_write
      * will resume. */
     if (space < 0 || space > alsa_bufsize)
