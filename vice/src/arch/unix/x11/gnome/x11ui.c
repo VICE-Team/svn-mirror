@@ -2713,7 +2713,7 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e,
         glTexParameteri (GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexImage2D  (GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA,
             canvas->gdk_image->width, canvas->gdk_image->height,
-            0, GL_RGB, GL_UNSIGNED_BYTE, canvas->hwscale_image);
+            0, GL_RGBA, GL_UNSIGNED_BYTE, canvas->hwscale_image);
 
         glBegin (GL_QUADS);
 

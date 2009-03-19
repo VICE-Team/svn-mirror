@@ -154,7 +154,7 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
     canvas->gdk_image = gdk_image_new(GDK_IMAGE_FASTEST, gtk_widget_get_visual(canvas->emuwindow), width, height);
 #ifdef HAVE_HWSCALE
     lib_free(canvas->hwscale_image);
-    canvas->hwscale_image = lib_malloc(canvas->gdk_image->width * canvas->gdk_image->height * 3);
+    canvas->hwscale_image = lib_malloc(canvas->gdk_image->width * canvas->gdk_image->height * 4);
 #endif
     if (video_canvas_set_palette(canvas, canvas->palette) < 0) {
         log_debug("Setting palette for this mode failed. (Try 16/24/32 bpp.)");
@@ -218,8 +218,8 @@ void video_canvas_refresh(video_canvas_t *canvas,
 #ifdef HAVE_HWSCALE
     if (canvas->videoconfig->hwscale) {
         video_canvas_render(canvas, canvas->hwscale_image,
-                            w, h, xs, ys, xi, yi, canvas->gdk_image->width * 3,
-                            24);
+                            w, h, xs, ys, xi, yi, canvas->gdk_image->width * 4,
+                            32);
         gtk_widget_queue_draw(canvas->emuwindow);
     } else
 #endif
