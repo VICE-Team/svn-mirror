@@ -1,3 +1,450 @@
+2009-03-19  Antti S. Lankila <alankila@bel.fi>
+
+	* src/video/render1x1pal.c, src/video/render2x2pal.c,
+	  src/video/video-color.c: Rotate the odd line color wheel by
+	  180 degrees to simplify the notion of averaging successive
+	  lines.
+
+	* src/resid-fp/filter.h: Tone down bp distortion slightly.
+
+	* src/arch/unix/x11/gnome/gnomevideo.c,
+	  src/arch/unix/x11/gnome/x11ui.c: GL_RGBA seems to be somewhat
+	  faster than GL_RGB for hwscale.
+
+	* src/video/render2x2pal.c: Narrow rgb type to maximum, and fix
+	  typo in storing rgb24 scanline.
+
+	* src/arch/unix/vsyncarch.c: Compile nanosleep() correctly.
+
+	* configure.in, src/sound.h, src/sounddrv/soundalsa.c: Fix
+	  compiling for ALSA without snd_pcm_avail() and fix warnings.
+
+	* src/resid-dtv/sid.cc: Clear x87 stack at end of convolve().
+
+2009-03-18  Antti S. Lankila <alankila@bel.fi>
+
+	* src/video/render2x2pal.c: Abstract the YUV->RGB code.
+
+	* src/video/render2x2pal.c: Optimize first line rendering.
+
+	* src/resid-fp/wave.cc: Return correct result for random OSC3
+	  read.
+
+	* src/sound.c: Don't declare variable in middle of block.
+
+2009-03-17  Antti S. Lankila <alankila@bel.fi>
+
+	* src/sound.c, src/vsync.c: Fix sample-based engines at
+	  increased speed. Lose samples when using "No Limit" speed.
+	  VSync framerate adjuster now only uses sound for adjusting
+	  frame length.
+
+	* src/arch/unix/gui/uisound.c, src/sound.c, src/sound.h,
+	  src/vsync.c: Improve sound_flush() api. Remove superlarge
+	  buffers >= 350 ms and unused variables.
+
+	* src/sounddrv/soundalsa.c: Request more accurate write cursor
+	  position from ALSA.
+
+2009-03-17  pottendo <pottendo@aon.at>
+
+	* doc/NLS-Howto.txt: Changed pottendos contact.
+
+2009-03-17  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-dtv/sid.cc: Use pi, not M_PI.
+
+2009-03-17  Antti S. Lankila <alankila@bel.fi>
+
+	* src/vsync.c: Fix C++ism.
+
+2009-03-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc: Updated a swedish translation item.
+
+2009-03-17  Antti S. Lankila <alankila@bel.fi>
+
+	* src/vsync.c: Use stabler average metric instead of minimum
+	  scheduling latency to get stabler timing. This helps with
+	  interlace display, and doesn't seem to be detrimental to
+	  audio.
+
+2009-03-17  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/dinput_handle.h: Did not end with a newline.
+
+	* src/monitor/monitor_network.c: Remove unused variable.
+
+	* src/arch/win32/rs232net.c, src/arch/win32/vsidui.c: Fixed
+	  wrong initialisation of arrays of structs.
+
+	* src/arch/unix/gui/c64dtvui.c,
+	  src/arch/unix/x11/gnome/uicartridge.c,
+	  src/arch/unix/x11/gnome/uiedisk.c,
+	  src/arch/unix/x11/gnome/uifileentry.c,
+	  src/arch/unix/x11/gnome/uimenu.c,
+	  src/arch/unix/x11/gnome/uinetplay.c,
+	  src/arch/unix/x11/gnome/uiscreenshot.c,
+	  src/arch/unix/x11/gnome/uisnapshot.c,
+	  src/arch/unix/x11/xrandr.c: Include missing headers.
+
+	* src/arch/win32/ui.c: Define Windows constants which are not
+	  know for MingW cross-compilation.
+
+	* src/socket.c: vice_network_server() and vice_network_client()
+	  never determined an invalid socket because of a typo (socket
+	  instead of sockfd). Fixed.
+
+2009-03-17  Antti S. Lankila <alankila@bel.fi>
+
+	* configure.in, src/arch/unix/vsyncarch.c: Use nanosleep()
+	  instead of deprecated usleep().
+
+	* src/resid-dtv/sid.cc: Implement integer convolution with MMX.
+
+	* src/resid-dtv/bittrain.h, src/resid-dtv/envelope.h,
+	  src/resid-dtv/sid.cc, src/resid-dtv/sid.h,
+	  src/resid-dtv/wave.h: Optimize DTVSID: implement aliasing
+	  allowance for resampler and tabularize waveform sigma-delta
+	  bittrains.
+
+	* src/resid-fp/sid.cc: Remove leftover variable.
+
+2009-03-17  Peter Krefting <peter@softwolves.pp.se>
+
+	* po/sv.po: Update Swedish translation (2698t0f0u).
+
+2009-03-17  Antti S. Lankila <alankila@bel.fi>
+
+	* src/sounddrv/soundalsa.c: Handle snd_pcm_delay() < 0
+	  correctly.
+
+	* src/sound.c, src/sounddrv/sounddx.c: 40-50 ms buffer in
+	  directsound should work properly for most systems.
+
+2009-03-17  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/Makefile.am: Fixed compilation errors introduced with the
+	  networked monitor for Unix based machines.
+
+2009-03-17  Antti S. Lankila <alankila@bel.fi>
+
+	* src/arch/win32/uisound.c, src/sounddrv/sounddx.c, src/vsync.c:
+	  Add low buffer sizes for win32 UI. Make DirectX detect "buffer
+	  full" when play and write cursors overlap. Tweak vsync reset
+	  code to remember parts of old state.
+
+2009-03-16  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/socket.c, src/socket.h: Doxygen additions and fixes.
+
+	* src/monitor/mon_parse.c, src/monitor/mon_parse.y: Fixed a
+	  monitor memory leak.
+
+	* src/arch/win32/base.dsp, src/arch/win32/monitor.dsp,
+	  src/init.c, src/machine.c, src/monitor.h,
+	  src/monitor/Makefile.am, src/monitor/mon_util.c,
+	  src/monitor/monitor.c, src/monitor/monitor_network.c,
+	  src/monitor/monitor_network.h, src/vsync.c: Add ability to
+	  invoke the monitor remotely via TCP.
+
+	* src/video/render1x1pal.h: Fixed prototypes so they are the
+	  same as in the implemented functions.
+
+	* src/arch/win32/ui.c: Make sure to suspend speed evaluation
+	  while in hibernate or suspend state (on Windows).
+
+2009-03-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uisound.c, src/arch/beos/ui_sound.cc,
+	  src/arch/beos/ui_sound.h, src/arch/msdos/uisound.c,
+	  src/arch/os2/dialogs/menubar.c,
+	  src/arch/os2/dialogs/menubar.h,
+	  src/arch/os2/dialogs/menubar.rc, src/arch/riscos/uiconfig.c,
+	  src/arch/win32/res.rc, src/arch/win32/resdialogs.txt,
+	  src/arch/win32/uisound.c: Removed oversampling from the amiga,
+	  beos, msdos, os/2, riscos and win32 ui's.
+
+2009-03-16  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/sid.cc, src/resid-fp/sid.h: Remove unused
+	  function adjust_sampling_frequency.
+
+	* src/vsync.c: Reduce adjustment factor from absolute delay. /8
+	  seems to work better than /2.
+
+	* src/sounddrv/soundalsa.c: Make ALSA readjust fragnr based on
+	  received fragment size.
+
+	* src/arch/unix/gui/uisound.c: Add buffer sizes down to 20 ms.
+	  Remove some intermediate values to keep menu size sane.
+
+	* src/vsync.c: Revert vsync syncing code for now. The earlier
+	  fix in sound.c still helps.
+
+2009-03-15  Antti S. Lankila <alankila@bel.fi>
+
+	* src/vsync.c: When resyncing, only move halfway towards initial
+	  value. This may avoid stubborn reset loops, or help in
+	  situations where there is not sufficient time to find the true
+	  A/V sync at first go.
+
+	* src/vsync.c: Avoid zero-crossing distortion on the delay
+	  metric.
+
+	* src/sound.c: Do not allow skipping frenzy to fill all buffer
+	  and do sound_error().
+
+	* src/sound.c: Remove test which is fundamentally invalid for
+	  small buffers.
+
+	* src/resid-fp/wave.cc: Replace 6581 combined waveform chip D by
+	  chip G.
+
+	* src/vsync.c: Use aggressive audio syncing algorithm: feed back
+	  audio subsystem progress into next frame's timing.
+
+	* src/sound.c: Handle underruns more gracefully.
+
+	* src/arch/unix/vsyncarch.c: Add Linux-specific hack to not
+	  sleep if requested delay is less than the 250 Hz kernel tick.
+	  This seems to help avoiding more underruns.
+
+	* src/sound.c: Groepaz vouches that not detecting buffer empty
+	  when one fragment is left to play improves his VICE
+	  experience. (Hardware only has 3 fragments at 60 ms.)
+
+	* src/vsync.c: Sync audio-video streams to each other more
+	  often, now 10 times per second.
+
+	* src/sound.h: Update VICE sonic standard to CD-quality audio.
+	  New default buffer size is 100 ms, and I hope it forms a
+	  working baseline for everyone.
+
+	* src/arch/os2/vac++/incl/sounddrv.icc,
+	  src/arch/win32/sounddrv.dsp: Fix win32 and OS2 builds.
+
+	* src/sound.c, src/sound.h, src/sounddrv/Makefile.am,
+	  src/sounddrv/soundspeed.c: Remove 'speed' driver. It is
+	  functionally equivalent to 'dummy' driver. (No sound is
+	  generated.)
+
+	* src/resid-fp/sid.cc, src/resid-fp/sid.h: Clock SID's analog
+	  parts at half the rate of the digital ones. Simple average is
+	  taken of successive digital samples before passing them to the
+	  filters. Resampling is 2x faster now, too.
+
+2009-03-14  Antti S. Lankila <alankila@bel.fi>
+
+	* src/sound.c: Aim for utilization of full buffer rather than
+	  leaving one fragment. This makes 50 ms work for me. Some sound
+	  drivers may have difficulties, so all should be tested if they
+	  can cope with this target.
+
+	* src/arch/unix/gui/uisound.c, src/sound.c: Remove oversampling;
+	  if anybody wants oversampling for some machine emulation, talk
+	  to me and we'll implement some better resampler. Shrink audio
+	  fragment to 1/4 of frame time to faciliate using smaller
+	  buffers. Add small buffer choices for Unix: I added 50, 60,
+	  70, 80 and 90 ms.
+
+	* src/arch/amigaos/video.c, src/arch/unix/x11/xaw/x11video.c,
+	  src/video/renderyuv.h, src/video/video-render.c,
+	  src/video/video-resources.c, src/video/video-resources.h:
+	  Remove dead setting pal_mode, superceded by
+	  delayloop_emulation (selects between true and fake pal
+	  emulation modes).
+
+	* src/arch/amigaos/video.c, src/arch/unix/x11/xaw/x11video.c,
+	  src/video.h, src/video/render1x1pal.c,
+	  src/video/render1x1pal.h, src/video/render2x2pal.c,
+	  src/video/render2x2pal.h, src/video/renderyuv.c,
+	  src/video/renderyuv.h, src/video/video-color.c,
+	  src/video/video-render.c: Use the "new-new" PAL-emu for packed
+	  YUV output modes. (Planar modes maybe supported later.)
+
+2009-03-14  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/video.c: Removed unused video_canvas_t * c.
+
+	* src/socket.c: Removed doxygen documentation for a parameter
+	  that was removed.
+
+2009-03-13  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/gui/vsidui.c: Fixed a xaw vsid menu bug that
+	  occasionally added a random submenu to the Load PSID file menu
+	  item
+
+2009-03-13  Antti S. Lankila <alankila@bel.fi>
+
+	* src/arch/win32/msvc/siddefs-fp.h: Apply changes required for
+	  new resid-fp.
+
+	* src/video/render2x2pal.c, src/video/video-color.c: Improve
+	  scanline colour reproduction by interpolating it. This also
+	  avoids a >> 1 in the hot path, so it's slightly faster.
+
+	* src/resid-fp/envelope.cc: Allow kinkiness in the envelope too.
+
+	* src/resid-fp/envelope.cc: Fix envelope_counter to return the
+	  digital data, not the analog output.
+
+	* src/resid-fp/ChangeLog, src/resid-fp/configure.in,
+	  src/resid-fp/envelope.cc, src/resid-fp/envelope.h,
+	  src/resid-fp/extfilt.cc, src/resid-fp/extfilt.h,
+	  src/resid-fp/filter.cc, src/resid-fp/filter.h,
+	  src/resid-fp/sid.cc, src/resid-fp/sid.h,
+	  src/resid-fp/siddefs-fp.h.in, src/resid-fp/voice.cc,
+	  src/resid-fp/voice.h, src/resid-fp/wave.cc,
+	  src/resid-fp/wave.h, src/sid/resid-fp.cc: Update to V34.
+
+2009-03-11  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/network.c: Fixed memory leaks which resulted of not
+	  calling vice_network_socket_address_close().
+
+2009-03-10  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64ui.c,
+	  src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/petui.c,
+	  src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/uiattach.c,
+	  src/arch/unix/gui/uic64cart.c, src/arch/unix/gui/uicommands.c,
+	  src/arch/unix/gui/uidatasette.c, src/arch/unix/gui/uidrive.c,
+	  src/arch/unix/gui/uidrivec64c128.c,
+	  src/arch/unix/gui/uidriveiec.c,
+	  src/arch/unix/gui/uidriveplus4.c, src/arch/unix/gui/uiide64.c,
+	  src/arch/unix/gui/uijoystick2.c,
+	  src/arch/unix/gui/uikeyboard.c, src/arch/unix/gui/uinetplay.c,
+	  src/arch/unix/gui/uipalemu.c, src/arch/unix/gui/uipalette.c,
+	  src/arch/unix/gui/uiromset.c, src/arch/unix/gui/uisettings.c,
+	  src/arch/unix/gui/uisid.c, src/arch/unix/gui/uited.c,
+	  src/arch/unix/gui/uivic.c, src/arch/unix/gui/uivicii.c,
+	  src/arch/unix/gui/vic20ui.c, src/arch/unix/gui/vsidui.c,
+	  src/arch/unix/x11/xaw/uicartridge.c,
+	  src/arch/unix/x11/xaw/uiedisk.c,
+	  src/arch/unix/x11/xaw/uimenu.c,
+	  src/arch/unix/x11/xaw/uisnapshot.c: Added missing uiapi.h
+	  include to *nix (and xaw) menus, ifdeffed one variable that is
+	  unused in xaw
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	  src/arch/unix/gui/c64ui.c, src/arch/unix/gui/cbm2ui.c,
+	  src/arch/unix/gui/petui.c, src/arch/unix/gui/plus4ui.c,
+	  src/arch/unix/gui/uiattach.c, src/arch/unix/gui/uic64cart.c,
+	  src/arch/unix/gui/uicommands.c,
+	  src/arch/unix/gui/uidatasette.c, src/arch/unix/gui/uidrive.c,
+	  src/arch/unix/gui/uidrivec64c128.c,
+	  src/arch/unix/gui/uidriveiec.c,
+	  src/arch/unix/gui/uidriveplus4.c,
+	  src/arch/unix/gui/uifliplist.c,
+	  src/arch/unix/gui/uijoystick2.c,
+	  src/arch/unix/gui/uikeyboard.c, src/arch/unix/gui/uipalemu.c,
+	  src/arch/unix/gui/uiperipheral.c,
+	  src/arch/unix/gui/uiprinter.c, src/arch/unix/gui/uisettings.c,
+	  src/arch/unix/gui/vic20ui.c, src/arch/unix/gui/vsidui.c,
+	  src/arch/unix/rs232.c, src/arch/unix/x11/vidmode.c,
+	  src/arch/unix/x11/xaw/uimenu.c, src/arch/unix/x11/xrandr.c,
+	  src/attach.c, src/c128/c128-resources.c,
+	  src/c64/c64-resources.c, src/c64/cart/c64cart.c,
+	  src/c64dtv/c64dtv-resources.c, src/cbm2/cbm2-resources.c,
+	  src/drive/drive-overflow.c, src/drive/drive-resources.c,
+	  src/drive/iec/c64exp/c64exp-resources.c,
+	  src/drive/iec/iec-resources.c,
+	  src/drive/iec/plus4exp/plus4exp-resources.c,
+	  src/drive/iec/wd1770.c,
+	  src/drive/iec128dcr/iec128dcr-resources.c,
+	  src/drive/ieee/fdc.c, src/drive/ieee/ieee-resources.c,
+	  src/drive/tcbm/tcbm-resources.c,
+	  src/fsdevice/fsdevice-cmdline-options.c,
+	  src/fsdevice/fsdevice-resources.c, src/initcmdline.c,
+	  src/joystick.c, src/keyboard.c, src/pet/pet-resources.c,
+	  src/plus4/plus4-resources.c, src/printerdrv/driver-select.c,
+	  src/printerdrv/interface-serial.c,
+	  src/printerdrv/output-select.c, src/printerdrv/output-text.c,
+	  src/resources.c, src/rs232drv/rs232drv.c,
+	  src/serial/serial-iec-device.c, src/vic20/vic20-resources.c:
+	  Changed some (int) casts to (int)(long) to get rid of harmless
+	  warnings on 64 bit systems
+
+2009-03-10  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/vicii/vicii-fetch.c: Reverted rev.19008 as it is
+	  definitely wrong and breaks 1993 part of "Totally Stoned 2"
+	  demo. Krestage multiplexer info screen needs some different
+	  fix. Leave the now obsolete cycle parameter as it may become
+	  useful again later.
+
+	* src/arch/win32/video-dx9.c, src/arch/win32/video.c: DX9 driver
+	  uses D3DPRESENT_INTERVAL_DEFAULT now instead of
+	  D3DPRESENT_INTERVAL_IMMEDIATE to avoid tearing. This needs a
+	  little more cpu and can be disabled with the
+	  DXPrimarySurfaceRendering resource.
+
+2009-03-10  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/rs232net.c, src/network.c, src/socket.c,
+	  src/socket.h: vice_network_accept() does not take a
+	  client_address parameter anymore. Thus, it does not need to
+	  alloc a new socket address structure which is not used anyway.
+
+	* src/socket.c: Fixed erroneous assert().
+
+2009-03-10  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.h, src/resid-fp/wave.cc: Work towards V34
+	  begun. Use ever harsher 1/0 toggles at combined waveforms. Fix
+	  a likely mistake with filter state variable mixing.
+
+2009-03-09  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/vicii/vicii-badline.c: Reverted a patch introduced in
+	  1.8.15 to fix a bug in 'Spiritual Dreams" demo. This patch
+	  caused Lemon Blues intro to fail and is obsolete now since
+	  rev19570 also fixes Spiritual Dreams.
+
+2009-03-09  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/socket.c: Got rid of allocation loop in
+	  vice_network_alloc_new_socket_address().
+
+2009-03-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.c, src/arch/win32/res.rc: Updated some
+	  german translations.
+
+2009-03-08  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/types.h: Try to ommit compilation
+	  warnings/errors for double typedef'd BYTE, WORD and DWORD by
+	  testing if _WINDEF_ (MSVC) or _WINDEF_H (mingw) have been
+	  defined, and ommitting local definitions if they are.
+
+	* src/arch/win32/archdep.c: Fix compilation problems on
+	  mingw/Linux.
+
+2009-03-07  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2009-03-06  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/socket.c: When generating an IPv6 address, make sure that
+	  no address means in6addr_any.
+
+	* src/arch/win32/res.rc: Adjust sizes of WIN32 netplay dialog
+	  items, and made the edit boxes for addresses autoscroll.
+
+	* src/socket.c: When generating IPV4 address, make sure that no
+	  address means INADDR_ANY.
+
+	* src/aciacore.c: Make sure to initialize all acia structure
+	  members on init by calling acia_preinit().
+
+2009-03-06  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/x11/xaw/x11ui.c: Added missing uiapi.h include
+
 2009-03-05  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.1.5
