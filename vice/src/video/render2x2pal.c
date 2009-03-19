@@ -42,7 +42,7 @@ extern DWORD gamma_grn_fac[256 * 3 * 2];
 extern DWORD gamma_blu_fac[256 * 3 * 2];
 
 static inline
-void convert_yuv_to_rgb(SDWORD y, SDWORD u, SDWORD v, SDWORD *red, SDWORD *grn, SDWORD *blu)
+void convert_yuv_to_rgb(SDWORD y, SDWORD u, SDWORD v, SWORD *red, SWORD *grn, SWORD *blu)
 {
     *red = (y + v) >> 16;
     *blu = (y + u) >> 16;
@@ -60,7 +60,7 @@ void store_line_and_scanline_2(
     SWORD *const prevline, const int shade, /* ignored by RGB modes */
     const SDWORD y, const SDWORD u, const SDWORD v)
 {
-    SDWORD red, grn, blu;
+    SWORD red, grn, blu;
     convert_yuv_to_rgb(y, u, v, &red, &grn, &blu);
 
     WORD *const tmp1 = (WORD *const) scanline;
@@ -83,7 +83,7 @@ void store_line_and_scanline_3(
     SWORD *const prevline, const int shade, /* ignored by RGB modes */
     const SDWORD y, const SDWORD u, const SDWORD v)
 {
-    SDWORD red, grn, blu;
+    SWORD red, grn, blu;
     convert_yuv_to_rgb(y, u, v, &red, &grn, &blu);
 
     DWORD tmp1 = gamma_red_fac[512 + red + prevline[0]]
@@ -94,7 +94,7 @@ void store_line_and_scanline_3(
     tmp1 >>= 8;
     scanline[1] = (BYTE) tmp1;
     tmp1 >>= 8;
-    scanline[4] = (BYTE) tmp1;
+    scanline[2] = (BYTE) tmp1;
     
     line[0] = (BYTE) tmp2;
     tmp2 >>= 8;
@@ -113,7 +113,7 @@ void store_line_and_scanline_4(
     SWORD *const prevline, const int shade, /* ignored by RGB modes */
     const SDWORD y, const SDWORD u, const SDWORD v)
 {
-    SDWORD red, grn, blu;
+    SWORD red, grn, blu;
     convert_yuv_to_rgb(y, u, v, &red, &grn, &blu);
 
     DWORD *const tmp1 = (DWORD *const) scanline;
