@@ -1,3 +1,12 @@
+2009-03-19  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.1.6
+
+2009-03-19  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/nl.po,
+	  po/pl.po, po/sv.po, po/tr.po: Updated.
+
 2009-03-19  Antti S. Lankila <alankila@bel.fi>
 
 	* src/video/render1x1pal.c, src/video/render2x2pal.c,
