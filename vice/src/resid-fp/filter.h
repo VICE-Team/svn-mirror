@@ -205,7 +205,7 @@ friend class SIDFP;
 
 const float kinkiness = 0.966f;
 const float sidcaps_6581 = 470e-12f;
-const float outputleveldifference = 1.25f;
+const float outputleveldifference = 1.2f;
 
 RESID_INLINE
 static float fastexp(float val) {
