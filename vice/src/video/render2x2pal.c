@@ -61,10 +61,11 @@ void store_line_and_scanline_2(
     const SDWORD y, const SDWORD u, const SDWORD v)
 {
     SWORD red, grn, blu;
+    WORD *tmp1, *tmp2;
     convert_yuv_to_rgb(y, u, v, &red, &grn, &blu);
 
-    WORD *tmp1 = (WORD *) scanline;
-    WORD *tmp2 = (WORD *) line;
+    tmp1 = (WORD *) scanline;
+    tmp2 = (WORD *) line;
 
     *tmp1 = (WORD) (gamma_red_fac[512 + red + prevline[0]]
           | gamma_grn_fac[512 + grn + prevline[1]]
@@ -115,10 +116,11 @@ void store_line_and_scanline_4(
     const SDWORD y, const SDWORD u, const SDWORD v)
 {
     SWORD red, grn, blu;
+    DWORD *tmp1, *tmp2;
     convert_yuv_to_rgb(y, u, v, &red, &grn, &blu);
 
-    DWORD *tmp1 = (DWORD *) scanline;
-    DWORD *tmp2 = (DWORD *) line;
+    tmp1 = (DWORD *) scanline;
+    tmp2 = (DWORD *) line;
     *tmp1 = gamma_red_fac[512 + red + prevline[0]]
           | gamma_grn_fac[512 + grn + prevline[1]]
           | gamma_blu_fac[512 + blu + prevline[2]];
