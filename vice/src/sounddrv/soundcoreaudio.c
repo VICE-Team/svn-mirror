@@ -59,6 +59,9 @@ static unsigned int fragment_size;
 /* Size of fragment (bytes).  */
 static unsigned int fragment_byte_size;
 
+/* Size of fragment in SWORDs */
+static unsigned int fragment_sword_size;
+
 /* total number of fragments */
 static unsigned int fragment_count;
 
@@ -67,6 +70,9 @@ static atomic_int_t fragments_in_queue;
 
 /* bytes per output packet/frame */
 static unsigned int out_bytes_per_packet;
+
+/* number of interleaved channels */
+static int fragment_channels;
 
 /* proc id */
 #if defined(MAC_OS_X_VERSION_10_5) && (MAC_OS_X_VERSION_MIN_REQUIRED>=MAC_OS_X_VERSION_10_5)
@@ -133,7 +139,7 @@ static OSStatus coreaudio_converter_inputproc(AudioConverterRef converter,
     {
         /* convert one fragment */
         *io_data_size = fragment_byte_size;
-        *out_data = soundbuffer + fragment_size * read_position;
+        *out_data = soundbuffer + fragment_sword_size * read_position;
 
         read_position = (read_position + 1) % fragment_count;
         atomic_decrement(&fragments_in_queue);
@@ -160,7 +166,7 @@ static OSStatus coreaudio_converter_inputproc(AudioConverterRef inAudioConverter
   if (fragments_in_queue)
   {
       /* convert one fragment */
-      buffer = soundbuffer + fragment_size * read_position;
+      buffer = soundbuffer + fragment_sword_size * read_position;
 
       read_position = (read_position + 1) % fragment_count;
       atomic_decrement(&fragments_in_queue);
@@ -195,15 +201,13 @@ static OSStatus coreaudio_ioproc(AudioDeviceID device,
                                     &output_data->mBuffers[0].mDataByteSize,
                                     output_data->mBuffers[0].mData);
 #else
-    UInt32 dataPacketSize = fragment_size;
+    // get the number of frames(=packets) in the output buffer
     UInt32 bufferPacketSize = output_data->mBuffers[0].mDataByteSize / out_bytes_per_packet;
-    if(dataPacketSize > bufferPacketSize)
-        dataPacketSize = bufferPacketSize;
 
     return AudioConverterFillComplexBuffer(converter,
                                     coreaudio_converter_inputproc,
                                     NULL,
-                                    &dataPacketSize,
+                                    &bufferPacketSize,
                                     output_data,
                                     NULL);
 #endif
@@ -259,7 +263,7 @@ static int coreaudio_init(const char *param, int *speed,
     }
     
     out_bytes_per_packet = out.mBytesPerPacket;
-    
+
     if ((int)out.mSampleRate != *speed)
     {
         log_warning(LOG_DEFAULT, "sound (coreaudio_init): sampling rate conversion %dHz->%dHz",
@@ -305,11 +309,15 @@ static int coreaudio_init(const char *param, int *speed,
         }
     }
 
-    fragment_count = *fragnr;
-    fragment_size  = *fragsize;
+    fragment_count    = *fragnr;
+    fragment_size     = *fragsize;
+    fragment_channels = *channels;
 
-    fragment_byte_size  = fragment_size * sizeof(SWORD);
+    /* the size of a fragment in bytes and SWORDs */
+    fragment_sword_size = fragment_size * fragment_channels;
+    fragment_byte_size  = fragment_sword_size * sizeof(SWORD);
 
+    /* allocate sound buffers */
     soundbuffer = (SWORD*)lib_calloc(fragment_count, fragment_byte_size);
     silence = (SWORD*)lib_calloc(1, fragment_byte_size);
 
@@ -343,17 +351,14 @@ static int coreaudio_write(SWORD *pbuf, size_t nr)
 
     for (i = 0; i < count; i++)
     {
-        if(fragments_in_queue >= (fragment_count-1))
+        if(fragments_in_queue == fragment_count)
         {
             log_warning(LOG_DEFAULT, "sound (coreaudio): buffer overrun");
-
-            /* block */
-            while (fragments_in_queue >= fragment_count)
-                ;
+            return -1;
         }
 
-        memcpy(soundbuffer + fragment_size * write_position,
-               pbuf + i * fragment_size,
+        memcpy(soundbuffer + fragment_sword_size * write_position,
+               pbuf + i * fragment_sword_size,
                fragment_byte_size);
 
         write_position = (write_position + 1) % fragment_count;
@@ -366,18 +371,7 @@ static int coreaudio_write(SWORD *pbuf, size_t nr)
 
 static int coreaudio_bufferspace(void)
 {
-    int ret;
-
-    if (fragment_count == fragments_in_queue)
-        ret = 0;
-    else
-        ret = (fragment_count - fragments_in_queue - 1) * fragment_size;
-
-    /*
-     * FIXME: ideally we should just return the available space here;
-     * but this causes massive buffer overruns in coreaudio_write().
-     */
-    return ret * 2 / 3;
+    return (fragment_count - fragments_in_queue) * fragment_size;
 }
 
 static void coreaudio_close(void)
