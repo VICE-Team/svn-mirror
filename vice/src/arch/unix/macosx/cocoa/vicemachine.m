@@ -210,3 +210,8 @@ void ui_dispatch_events()
 {
     [theVICEMachine triggerRunLoop];
 }
+
+void ui_dispatch_next_event(void)
+{
+    [theVICEMachine triggerRunLoop];
+}
