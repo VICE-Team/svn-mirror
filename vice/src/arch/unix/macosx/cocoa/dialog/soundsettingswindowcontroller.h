@@ -32,7 +32,6 @@
 {
     IBOutlet NSPopUpButton *sampleRateButton;
     IBOutlet NSPopUpButton *bufferSizeButton;
-    IBOutlet NSPopUpButton *oversampleButton;
     IBOutlet NSPopUpButton *speedAdjustmentButton;
 }
 
@@ -40,7 +39,6 @@
 
 -(IBAction)changeSampleRate:(id)sender;
 -(IBAction)changeBufferSize:(id)sender;
--(IBAction)changeOversample:(id)sender;
 -(IBAction)changeSpeedAdjustment:(id)sender;
 
 @end

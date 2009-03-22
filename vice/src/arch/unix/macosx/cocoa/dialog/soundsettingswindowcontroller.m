@@ -51,11 +51,9 @@
 {
     int sampleRate = [self getIntResource:@"SoundSampleRate"];
     int bufferSize = [self getIntResource:@"SoundBufferSize"];
-    int oversample = [self getIntResource:@"SoundOversample"];
     int speedAdjustment = [self getIntResource:@"SoundSpeedAdjustment"];
     [sampleRateButton selectItemWithTag:sampleRate];
     [bufferSizeButton selectItemWithTag:bufferSize];
-    [oversampleButton selectItemWithTag:oversample];
     [speedAdjustmentButton selectItemWithTag:speedAdjustment];
 }
 
@@ -73,13 +71,6 @@
     int bufferSize = [[bufferSizeButton selectedItem] tag];
     [self setIntResource:@"SoundBufferSize" 
                  toValue:bufferSize];
-}
-
--(IBAction)changeOversample:(id)sender
-{
-    int oversample = [[oversampleButton selectedItem] tag];
-    [self setIntResource:@"SoundOversample" 
-                 toValue:oversample];
 }
 
 -(IBAction)changeSpeedAdjustment:(id)sender
