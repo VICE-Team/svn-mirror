@@ -16,12 +16,13 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
-// C64 DTV modifications written by
-//   Daniel Kahlin <daniel@kahlin.net>
-// Copyright (C) 2007  Daniel Kahlin <daniel@kahlin.net>
 
 #include "sid.h"
 #include <math.h>
+
+#ifdef __MMX__
+#include <mmintrin.h>
+#endif
 
 // ----------------------------------------------------------------------------
 // Constructor.
@@ -830,6 +831,33 @@ int SID::clock_interpolate(cycle_count& delta_t, short* buf, int n,
   return s;
 }
 
+// Helper function to calculate convolution. When MMX is available, it is also
+// several times faster than the straightforward C loop.
+static inline int convolve(const short *a, const short *b, int n)
+{
+    int out = 0;
+#ifdef __MMX__
+    union {
+        __m64 m64;
+        int i32[2];
+    } tmp;
+    tmp.i32[0] = 0;
+    tmp.i32[1] = 0;    
+    while (n >= 4) {
+        tmp.m64 = _mm_add_pi32(tmp.m64,
+                               _mm_madd_pi16(*((__m64 *)a),
+                                             *((__m64 *)b)));
+        a += 4;
+        b += 4;
+        n -= 4;
+    }
+    out = tmp.i32[0] + tmp.i32[1];
+    _mm_empty();
+#endif
+    while (n --)
+        out += (*(a++)) * (*(b++));
+    return out;
+}
 
 // ----------------------------------------------------------------------------
 // SID clocking with audio sampling - cycle based with audio resampling.
@@ -886,7 +914,7 @@ int SID::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
       clock();
       sample[sample_index] = sample[sample_index + RINGSIZE] = output();
       ++sample_index;
-      sample_index &= 0x3fff;
+      sample_index &= RINGSIZE - 1;
     }
     delta_t -= delta_t_sample;
     sample_offset = next_sample_offset & FIXP_MASK;
@@ -894,28 +922,21 @@ int SID::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
     int fir_offset = sample_offset*fir_RES >> FIXP_SHIFT;
     int fir_offset_rmd = sample_offset*fir_RES & FIXP_MASK;
     short* fir_start = fir + fir_offset*fir_N;
-    short* sample_start = sample + sample_index - fir_N + RINGSIZE;
+    short* sample_start = sample + sample_index - fir_N + RINGSIZE - 1;
 
     // Convolution with filter impulse response.
-    int j;
-    int v1 = 0;
-    for (j = 0; j < fir_N; j++) {
-      v1 += sample_start[j]*fir_start[j];
-    }
+    int v1 = convolve(sample_start, fir_start, fir_N);
 
     // Use next FIR table, wrap around to first FIR table using
     // previous sample.
     if (++fir_offset == fir_RES) {
       fir_offset = 0;
-      --sample_start;
+      ++sample_start;
     }
     fir_start = fir + fir_offset*fir_N;
 
     // Convolution with filter impulse response.
-    int v2 = 0;
-    for (j = 0; j < fir_N; j++) {
-      v2 += sample_start[j]*fir_start[j];
-    }
+    int v2 = convolve(sample_start, fir_start, fir_N);
 
     // Linear interpolation.
     // fir_offset_rmd is equal for all samples, it can thus be factorized out:
@@ -940,7 +961,7 @@ int SID::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
     clock();
     sample[sample_index] = sample[sample_index + RINGSIZE] = output();
     ++sample_index;
-    sample_index &= 0x3fff;
+    sample_index &= RINGSIZE - 1;
   }
   sample_offset -= delta_t << FIXP_SHIFT;
   delta_t = 0;
@@ -970,7 +991,7 @@ int SID::clock_resample_fast(cycle_count& delta_t, short* buf, int n,
       clock();
       sample[sample_index] = sample[sample_index + RINGSIZE] = output();
       ++sample_index;
-      sample_index &= 0x3fff;
+      sample_index &= RINGSIZE - 1;
     }
     delta_t -= delta_t_sample;
     sample_offset = next_sample_offset & FIXP_MASK;
@@ -980,11 +1001,7 @@ int SID::clock_resample_fast(cycle_count& delta_t, short* buf, int n,
     short* sample_start = sample + sample_index - fir_N + RINGSIZE;
 
     // Convolution with filter impulse response.
-    int v = 0;
-    for (int j = 0; j < fir_N; j++) {
-      v += sample_start[j]*fir_start[j];
-    }
-
+    int v = convolve(sample_start, fir_start, fir_N);
     v >>= FIR_SHIFT;
 
     // Saturated arithmetics to guard against 16 bit sample overflow.
@@ -1003,7 +1020,7 @@ int SID::clock_resample_fast(cycle_count& delta_t, short* buf, int n,
     clock();
     sample[sample_index] = sample[sample_index + RINGSIZE] = output();
     ++sample_index;
-    sample_index &= 0x3fff;
+    sample_index &= RINGSIZE - 1;
   }
   sample_offset -= delta_t << FIXP_SHIFT;
   delta_t = 0;
