@@ -59,6 +59,10 @@ void ui_shutdown(void)
 {
 }
 
+void ui_dispatch_next_event(void)
+{
+}
+
 // ----- Drive Status Display -----
 
 void ui_enable_drive_status(ui_drive_enable_t enable, int * color)

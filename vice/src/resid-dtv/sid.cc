@@ -661,7 +661,8 @@ static inline int convolve(const short *a, const short *b, int n)
         __m64 m64;
         int i32[2];
     } tmp;
-    tmp.m64 = (__m64) { 0, 0 };
+    tmp.i32[0] = 0;
+    tmp.i32[1] = 0;    
     while (n >= 4) {
         tmp.m64 = _mm_add_pi32(tmp.m64,
                                _mm_madd_pi16(*((__m64 *)a),
