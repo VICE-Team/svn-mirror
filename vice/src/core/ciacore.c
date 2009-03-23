@@ -557,8 +557,8 @@ BYTE REGPARM2 ciacore_read(cia_context_t *cia_context, WORD addr)
 {
 #if defined(CIA_TIMER_DEBUG)
 
-    BYTE cia_read_(cia_context, WORD addr);
-    BYTE tmp = cia_read_(addr);
+    BYTE cia_read_(cia_context_t *, WORD addr);
+    BYTE tmp = cia_read_(cia_context, addr);
 
     if (cia_context->debugFlag)
         log_message(cia_context->log, "read cia[%x] returns %02x @ clk=%d.",
