@@ -64,6 +64,7 @@ static long cycles_per_sec = 1000000;
 static CLOCK clk_start_rx = 0;
 static CLOCK clk_start_tx = 0;
 static CLOCK clk_start_bit = 0;
+static CLOCK clk_end_tx = 0;
 
 static void (*start_bit_trigger)(void);
 static void (*byte_rx_func)(BYTE);
@@ -259,6 +260,7 @@ void rsuser_reset(void)
     clk_start_rx = 0;
     clk_start_tx = 0;
     clk_start_bit = 0;
+    clk_end_tx = 0;
     if (fd != -1) {
         rs232drv_close(fd);
     }
@@ -329,7 +331,7 @@ static void keepup_tx_buffer(void)
     if ((!clk_start_bit) || maincpu_clk < clk_start_bit)
         return;
 
-    while(clk_start_bit < (clk_start_tx + char_clk_ticks)) {
+    while(clk_start_bit < clk_end_tx) {
         LOG_DEBUG(("keepup: clk=%d, _bit=%d (%d), _tx=%d.",
                   maincpu_clk, clk_start_bit-clk_start_tx, clk_start_bit,
                   clk_start_tx));
@@ -345,9 +347,10 @@ static void keepup_tx_buffer(void)
         if (clk_start_bit >= maincpu_clk)
            break;
     }
-    if (clk_start_bit >= clk_start_tx + char_clk_ticks) {
+    if (clk_start_bit >= clk_end_tx) {
         clk_start_tx = 0;
         clk_start_bit = 0;
+        clk_end_tx = 0;
     }
 }
 
@@ -372,6 +375,10 @@ void rsuser_set_tx_bit(int b)
         /* the clock where we start sampling - in the middle of the bit */
         clk_start_tx = maincpu_clk + (bit_clk_ticks / 2) ;
         clk_start_bit = clk_start_tx;
+        /* note: bit_clk_ticks * 10 may not be the same as char_clk_ticks
+         *       because of integer division.  So always compute it
+         */
+        clk_end_tx = clk_start_tx + (bit_clk_ticks * 10);
         txdata = 0;
     }
 }
