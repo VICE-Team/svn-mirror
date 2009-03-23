@@ -83,8 +83,10 @@ static int set_dx9_disable(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "DXPrimarySurfaceRendering", 0, RES_EVENT_NO, NULL,
       &dx_primary_surface_rendering, set_dx_primary_surface_rendering, NULL },
+#ifdef HAVE_D3D9_H
     { "DX9Disable", 0, RES_EVENT_NO, NULL,
       &dx9_disable, set_dx9_disable, NULL },
+#endif
     { NULL }
 };
 
@@ -107,11 +109,13 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDS_START_VICE_FULLSCREEN_MODE,
       NULL, NULL },
+#ifdef HAVE_D3D9_H
     { "-dx9disable", SET_RESOURCE, 0,
       NULL, NULL, "DX9Disable", (resource_value_t) 1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDS_DISABLE_DX9,
       NULL, NULL },
+#endif
     { NULL }
 };
 
