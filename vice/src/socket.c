@@ -876,6 +876,7 @@ vice_network_socket_t * vice_network_accept(vice_network_socket_t * sockfd)
 int vice_network_socket_close(vice_network_socket_t * sockfd)
 {
     SOCKET localsockfd = INVALID_SOCKET;
+    int error = -1;
     
     if (sockfd) {
         localsockfd = sockfd->sockfd;
@@ -885,8 +886,11 @@ int vice_network_socket_close(vice_network_socket_t * sockfd)
 
         sockfd->used = 0;
         socket_pool_usage &= ~ (1u << (sockfd - socket_pool));
+
+        error = closesocket(localsockfd);
     }
-    return closesocket(localsockfd);
+
+    return error;
 }
 
 /*! \brief Send data on a connected socket
