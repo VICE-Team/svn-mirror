@@ -437,8 +437,8 @@ const char info_contrib_text[] =
 "  features. Improved the VIC emulation for xvic. Made MIDI driver\n"
 "  code for win32.\n"
 "\n"
-"  Antti S. Lankila <alankila@bel.fi> Made the ReSID-fp engine,
-"  rewrote the PAL emulation code and fixed the sound core for
+"  Antti S. Lankila <alankila@bel.fi> Made the ReSID-fp engine,\n"
+"  rewrote the PAL emulation code and fixed the sound core for\n"
 "  lower latency.\n"
 "\n"
 "Former team members:\n"
