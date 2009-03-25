@@ -144,6 +144,7 @@ UI_CALLBACK(ui_about)
              "Copyright C 2007-2009 M. Kiesel",
              "Copyright C 2007-2009 Hannu Nuotio",
              "Copyright C 2007-2009 Daniel Kahlin",
+             "Copyright C 2008-2009 Antti S. Lankila",
              "Copyright C 1999-2007 Andreas Dehmel",
              "Copyright C 1999-2005 Thomas Bretz",
              "Copyright C 2003-2005 David Hansel",

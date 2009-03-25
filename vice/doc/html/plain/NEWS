@@ -19,15 +19,27 @@ list of all the changes in the code.
   attach a .D81, you must have the drive type set to 1581, or the
   autostart will fail.
 
+- Improved PAL emulation is now available for Unix/Xaw XVideo mode, and
+  AmigaOS. Only the YUV packed modes work, the planar modes still use the
+  old code paths, though.
+
+- Sound core has been reworked to enable lower latency of operation.
+  Approximately 50 ms latency values are now routinely reached, and some
+  people have reported that as low as 30 ms still works for them.
+
 ** C64/C128 changes
 -------------------
 
-- 
+- ReSID's resampler has been optimized with MMX assembly. Some long-standing
+  bugs in resample-interpolate mode were also fixed.
+
+- ReSID-FP has been optimized, too. It clocks the analog parts at half the
+  rate now, which saves CPU during filter emulation especially for 6581 modes.
 
 ** C64 changes
 --------------
 
-- 
+-
 
 ** VIC20 changes
 ----------------
@@ -37,7 +49,7 @@ list of all the changes in the code.
 ** C64DTV changes
 -----------------
 
-- 
+- ReSID-DTV's resampler has been optimized with MMX assembly.
 
 ** Unix changes
 ---------------

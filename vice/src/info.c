@@ -437,6 +437,10 @@ const char info_contrib_text[] =
 "  features. Improved the VIC emulation for xvic. Made MIDI driver\n"
 "  code for win32.\n"
 "\n"
+"  Antti S. Lankila <alankila@bel.fi> Made the ReSID-fp engine,
+"  rewrote the PAL emulation code and fixed the sound core for
+"  lower latency.\n"
+"\n"
 "Former team members:\n"
 "\n"
 "  Thomas Bretz <tbretz@ph.tum.de>\n"
@@ -717,9 +721,6 @@ const char info_contrib_text[] =
 "\n"
 "  Marcus Sutton <loggedoubt@gmail.com> Made some console, dialog and\n"
 "  joystick fixes for the BeOS port.\n"
-"\n"
-"  Antti Lankila <alankila@bel.fi> Made the ReSID-fp engine and rewrote\n"
-"  the PAL emulation code.\n"
 "\n"
 "  Mustafa 'GnoStiC' Tufan <mtufan@gmail.com> Made improvements to the\n"
 "  gp2x port.\n"

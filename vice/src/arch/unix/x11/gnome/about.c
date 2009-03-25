@@ -76,6 +76,7 @@ void ui_about(gpointer data)
         "Copyright @ 2007-2009 M. Kiesel",
         "Copyright @ 2007-2009 Hannu Nuotio",
         "Copyright @ 2007-2009 Daniel Kahlin",
+        "Copyright @ 2008-2009 Antti S. Lankila",
         "Copyright @ 1999-2007 Andreas Dehmel",
         "Copyright @ 1999-2005 Thomas Bretz",
         "Copyright @ 2003-2005 David Hansel",
