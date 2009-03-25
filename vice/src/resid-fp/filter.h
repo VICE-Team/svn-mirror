@@ -160,7 +160,6 @@ private:
 
   // Filter resonance.
   reg8 res;
-  float resf;
 
   // Selects which inputs to route through filter.
   reg8 filt;
@@ -321,16 +320,6 @@ float FilterFP::clock(float voice1,
     }
     
     if (model == MOS6581FP) {
-        /* Allow some intermixing of state variables. The tmp approximates the
-         * level in the vertical strip of n-well layer above the bp FET block
-         * between lp and bp amplifiers.
-         */
-        const float tmp = Vi + Vhp + Vlp - Vbp * _1_div_Q;
-        Vlp += (tmp - Vlp) * distortion_cf_threshold;
-        /* bp is mixed via resonance control, there is no direct connection */
-        Vbp += (tmp - Vbp) * distortion_cf_threshold * _1_div_Q;
-        Vhp += (tmp - Vhp) * distortion_cf_threshold;
-
         /* output strip mixing to filter state */
         if (hp_bp_lp & 1) {
             Vlp += (Vf - Vlp) * distortion_cf_threshold;
@@ -345,8 +334,18 @@ float FilterFP::clock(float voice1,
         /* The resonance control somehow also forms a circuit that causes
          * partial lack of compensation for the lowpass signal in the bp.
          * output. It doesn't occur during res=0, but seems to increase
-         * steadily until res=0xF is reached. So, this is just a guess... */
-        const float lpleak = tmp * resf;
+         * steadily until res=0xF is reached. So, this is just a guess...
+         * The lpleak approximates the level in the vertical strip of n-well
+         * layer above the bp FET block between lp and bp amplifiers. Some
+         * ugly static bias correction factor seems required to avoid trouble
+         * with Needledrop. The factor here is about 0x380 * 0xff, which
+         * probably is significant.
+         */
+        float lpleak = Vi + Vhp + Vlp - Vbp * _1_div_Q;
+        //Vlp += (lpleak - Vlp) * distortion_cf_threshold;
+        Vbp += (lpleak - Vbp) * distortion_cf_threshold * _1_div_Q;
+        //Vhp += (lpleak - Vhp) * distortion_cf_threshold;
+        lpleak *= 0.20f;
 
         // outputleveldifference folded into distortion_CT term
 	Vlp -= (Vbp - lpleak) * type3_w0(Vbp - type3_fc_distortion_offset);

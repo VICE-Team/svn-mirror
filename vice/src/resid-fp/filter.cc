@@ -124,7 +124,7 @@ void FilterFP::reset()
   fc = 0;
   res = filt = voice3off = hp_bp_lp = 0; 
   vol = 0;
-  resf = volf = Vhp = Vbp = Vlp = 0;
+  volf = Vhp = Vbp = Vlp = 0;
   type3_fc_distortion_offset = 9e9f;
   type3_fc_kink_exp = 0;
   type4_w0_cache = 0;
@@ -151,7 +151,6 @@ void FilterFP::writeRES_FILT(reg8 res_filt)
 {
   res = (res_filt >> 4) & 0x0f;
   set_Q();
-  resf = static_cast<float>(res) / 15.f * 0.2f;
   filt = enabled ? res_filt & 0x0f : 0;
 }
 
