@@ -164,7 +164,7 @@ typedef struct acia_struct {
 
 /******************************************************************/
 
-acia_type acia;
+static acia_type acia = { NULL };
 
 void acia_preinit(void)
 {
@@ -238,7 +238,6 @@ static const double t232_bps_table[4] = {
 */
 static int acia_set_device(int val, void *param)
 {
-
     if (acia.fd >= 0) {
         log_error(acia.log,
                   "acia_set_device(): "
@@ -317,7 +316,7 @@ static int acia_set_irq(int new_irq_res, void *param)
 
     if (acia.irq_type != new_irq) {
         acia_set_int(acia.irq_type, acia.int_num, IK_NONE);
-        if (acia.irq) {
+        if (new_irq != IK_NONE) {
             acia_set_int(new_irq, acia.int_num, new_irq);
         }
     }
@@ -474,6 +473,8 @@ static const resource_int_t resources_int[] = {
 */
 int myacia_init_resources(void)
 {
+    acia_preinit();
+
     return resources_register_int(resources_int);
 }
 
@@ -599,8 +600,6 @@ static void acia_set_handshake_lines(void)
 /*! \brief initialize the ACIA */
 void myacia_init(void)
 {
-    acia_preinit();
-
     acia.int_num = interrupt_cpu_status_int_new(maincpu_int_status, MYACIA);
 
     acia.alarm_tx = alarm_new(mycpu_alarm_context, MYACIA, int_acia_tx, NULL);
