@@ -2068,7 +2068,7 @@ void monitor_startup(void)
 
 static void monitor_trap(WORD addr, void *unused_data)
 {
-    int is_remote = (int) unused_data;
+    int is_remote = unused_data ? 1 : 0;
     monitor_startup_internal(is_remote);
 }
 
