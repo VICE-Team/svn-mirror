@@ -97,7 +97,7 @@ struct vice_network_socket_address_s
                              */
     int domain;             /*!< the address family (AF_INET, ...) of this address */
     int protocol;           /*!< the protocol of this address. This can be used to distinguish between different types of an address family. */
-    size_t len;             /*!< the length of the socket address */
+    socklen_t len;          /*!< the length of the socket address */
     union socket_addresses_u address; /* the socket address */
 };
 

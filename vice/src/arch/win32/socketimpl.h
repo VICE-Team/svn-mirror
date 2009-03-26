@@ -41,6 +41,8 @@
 
 typedef unsigned long in_addr_t;
 
+typedef size_t socklen_t;
+
 #endif /* #ifdef HAVE_NETWORK */
 
 #endif /* #ifndef VICE_SOCKETIMPL_H */
