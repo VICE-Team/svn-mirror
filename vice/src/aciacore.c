@@ -412,7 +412,7 @@ static void set_acia_ticks(void)
     /* adjust the alarm rate for reception */
     if (acia.alarm_active_rx) {
         acia.alarm_clk_rx = myclk + acia.ticks_rx;
-        alarm_set(acia.alarm_tx, acia.alarm_clk_rx);
+        alarm_set(acia.alarm_rx, acia.alarm_clk_rx);
         acia.alarm_active_rx = 1;
     }
 
