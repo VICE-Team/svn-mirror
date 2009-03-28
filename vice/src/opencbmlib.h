@@ -33,14 +33,14 @@
 typedef int (CBMAPIDECL *cbm_driver_open_t)(CBM_FILE *f, int port);
 typedef void (CBMAPIDECL *cbm_driver_close_t)(CBM_FILE f);
 typedef const char *(CBMAPIDECL *cbm_get_driver_name_t)(int port);
-typedef int (CBMAPIDECL *cbm_listen_t)(CBM_FILE f, __u_char dev,
-                                       __u_char secadr);
-typedef int (CBMAPIDECL *cbm_talk_t)(CBM_FILE f, __u_char dev,
-                                     __u_char secadr);
-typedef int (CBMAPIDECL *cbm_open_t)(CBM_FILE f, __u_char dev, __u_char secadr,
+typedef int (CBMAPIDECL *cbm_listen_t)(CBM_FILE f, unsigned char dev,
+                                       unsigned char secadr);
+typedef int (CBMAPIDECL *cbm_talk_t)(CBM_FILE f, unsigned char dev,
+                                     unsigned char secadr);
+typedef int (CBMAPIDECL *cbm_open_t)(CBM_FILE f, unsigned char dev, unsigned char secadr,
                                      const void *fname, size_t len);
-typedef int (CBMAPIDECL *cbm_close_t)(CBM_FILE f, __u_char dev,
-                                      __u_char secadr);
+typedef int (CBMAPIDECL *cbm_close_t)(CBM_FILE f, unsigned char dev,
+                                      unsigned char secadr);
 typedef int (CBMAPIDECL *cbm_raw_read_t)(CBM_FILE f, void *buf, size_t size);
 typedef int (CBMAPIDECL *cbm_raw_write_t)(CBM_FILE f, const void *buf,
                                           size_t size);
