@@ -42,6 +42,7 @@
 #include "log.h"
 #include "openGL_sync.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "uimenu.h"
 #include "lib.h"
 
