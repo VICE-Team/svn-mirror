@@ -39,6 +39,10 @@
 #define OPENCBM_LIBNAME "libopencbm.so"
 #endif
 
+#ifndef RTLD_LOCAL
+#define RTLD_LOCAL 0
+#endif
+
 static void *opencbmlib_handle = NULL;
 
 #define GET_PROC_ADDRESS_AND_TEST(_name_) \

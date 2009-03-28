@@ -45,6 +45,10 @@
 #define AVUTIL_SO_NAME      "libavutil.so.49"
 #endif
 
+#ifndef RTLD_LOCAL
+#define RTLD_LOCAL 0
+#endif
+
 static void *avcodec_so = NULL;
 static void *avformat_so = NULL;
 static void *avutil_so = NULL;
