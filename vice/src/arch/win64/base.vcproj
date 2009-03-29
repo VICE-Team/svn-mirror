@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\lib\zlib,..\..\drive,..\..\vdrive,..\..\rs232drv,..\..\imagecontents"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\lib\zlib,..\..\drive,..\..\monitor,..\..\vdrive,..\..\rs232drv,..\..\imagecontents"
 				PreprocessorDefinitions="DONT_USE_UNISTD_H;WIN32;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -115,7 +115,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\lib\zlib,..\..\drive,..\..\vdrive,..\..\rs232drv,..\..\imagecontents"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\lib\zlib,..\..\drive,..\..\monitor,..\..\vdrive,..\..\rs232drv,..\..\imagecontents"
 				PreprocessorDefinitions="DONT_USE_UNISTD_H;WIN32;_DEBUG;_WINDOWS"
 				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\libs\base\Debug/base.pch"

@@ -591,6 +591,10 @@
 				/>
 			</FileConfiguration>
 		</File>
+		<File
+			RelativePath="..\..\monitor\monitor_network.c"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
