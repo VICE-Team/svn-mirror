@@ -172,27 +172,27 @@ static void end_sidcart_dialog(HWND hwnd)
 {
   int sid_engine;
 
-  sid_engine=SendMessage(GetDlgItem(hwnd, IDC_SIDCART_ENGINE), CB_GETCURSEL,
-                         0, 0);
+  sid_engine=(int)SendMessage(GetDlgItem(hwnd, IDC_SIDCART_ENGINE), CB_GETCURSEL,
+                              0, 0);
 
   resources_set_int("SidCart", (IsDlgButtonChecked(hwnd,
                     IDC_SIDCART_ENABLE) == BST_CHECKED ? 1 : 0 ));
  
   resources_set_int("SidEngine",(sid_engine==0) ? 0 : sid_engine+1);
 
-  resources_set_int("SidModel",SendMessage(GetDlgItem(
+  resources_set_int("SidModel",(int)SendMessage(GetDlgItem(
                     hwnd, IDC_SIDCART_MODEL), CB_GETCURSEL, 0, 0));
 
   resources_set_int("SidFilters", (IsDlgButtonChecked(hwnd,
                     IDC_SIDCART_FILTERS) == BST_CHECKED ? 1 : 0 ));
 
-  resources_set_int("SidAddress",SendMessage(GetDlgItem(
+  resources_set_int("SidAddress",(int)SendMessage(GetDlgItem(
                     hwnd, IDC_SIDCART_ADDRESS), CB_GETCURSEL, 0, 0));
 
-  resources_set_int("SidClock",SendMessage(GetDlgItem(
+  resources_set_int("SidClock",(int)SendMessage(GetDlgItem(
                     hwnd, IDC_SIDCART_CLOCK), CB_GETCURSEL, 0, 0));
 
-  resources_set_int("SidHardSIDMain",SendMessage(GetDlgItem(
+  resources_set_int("SidHardSIDMain",(int)SendMessage(GetDlgItem(
                     hwnd, IDC_SIDCART_HARDSID_MAIN_DEVICE), CB_GETCURSEL, 0, 0));
 }
 

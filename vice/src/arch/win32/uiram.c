@@ -130,20 +130,22 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
         command = LOWORD(wparam);
         switch (command) {
           case IDC_RAMINIT_STARTVALUE:
-           rv = SendMessage(GetDlgItem(hwnd,
-                            IDC_RAMINIT_STARTVALUE), CB_GETCURSEL, 0, 0);
+           rv = (int)SendMessage(GetDlgItem(hwnd,
+                                 IDC_RAMINIT_STARTVALUE), CB_GETCURSEL, 0, 0);
            resources_set_int("RAMInitStartValue", ui_ram_startvalue[rv]);
            update_preview(hwnd);
            break;
          case IDC_RAMINIT_VALUEINVERT:
-           rv = SendMessage(GetDlgItem(
-                            hwnd, IDC_RAMINIT_VALUEINVERT), CB_GETCURSEL, 0, 0);
+           rv = (int)SendMessage(GetDlgItem(
+                                 hwnd, IDC_RAMINIT_VALUEINVERT), CB_GETCURSEL,
+                                 0, 0);
            resources_set_int("RAMInitValueInvert", ui_ram_invertvalue[rv]);
            update_preview(hwnd);
            break;
          case IDC_RAMINIT_PATTERNINVERT:
-           rv = SendMessage(GetDlgItem(hwnd,
-                            IDC_RAMINIT_PATTERNINVERT), CB_GETCURSEL, 0, 0);
+           rv = (int)SendMessage(GetDlgItem(hwnd,
+                                 IDC_RAMINIT_PATTERNINVERT), CB_GETCURSEL,
+                                 0, 0);
            resources_set_int("RAMInitPatternInvert", ui_ram_invertvalue[rv]);
            update_preview(hwnd);
            break;

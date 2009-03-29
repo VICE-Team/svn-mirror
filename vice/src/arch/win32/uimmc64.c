@@ -126,7 +126,7 @@ static void end_mmc64_dialog(HWND hwnd)
   resources_set_int("MMC64_RO", (IsDlgButtonChecked(hwnd,
                     IDC_MMC64_IMAGE_RO) == BST_CHECKED ? 1 : 0 ));
 
-  resources_set_int("MMC64_revision",SendMessage(GetDlgItem(
+  resources_set_int("MMC64_revision",(int)SendMessage(GetDlgItem(
                     hwnd, IDC_MMC64_REVISION), CB_GETCURSEL, 0, 0));
 }
 

@@ -1184,7 +1184,7 @@ void ui_dispatch_next_event(void)
     MSG msg;
 
     if (!GetMessage(&msg, NULL, 0, 0))
-        exit(msg.wParam);
+        exit((int)msg.wParam);
     if (ui_accelerator) {
         if (!TranslateAccelerator(msg.hwnd, ui_accelerator, &msg)) {
             TranslateMessage(&msg);
@@ -1311,7 +1311,7 @@ static void ui_paste_clipboard_text(HWND window)
             break;
         }
 
-        size = GlobalSize(hdata);
+        size = (DWORD)GlobalSize(hdata);
 
         if (size < 1) {
             break;
@@ -1634,7 +1634,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_LANG_PL:
       case IDM_LANG_SV:
       case IDM_LANG_TR:
-        ui_set_language(wparam);
+        ui_set_language((unsigned int)wparam);
         break;
       case IDM_SOUND_RECORD_START:
         ui_sound_record_settings_dialog(hwnd);
@@ -1875,20 +1875,20 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg,
         break;
       case WM_SYSKEYDOWN:
         if (wparam == VK_F10) {
-            kbd_handle_keydown(wparam, lparam);
+            kbd_handle_keydown((DWORD)wparam, (DWORD)lparam);
             return 0;
         }
         break;
       case WM_KEYDOWN:
-        kbd_handle_keydown(wparam, lparam);
+        kbd_handle_keydown((DWORD)wparam, (DWORD)lparam);
         return 0;
       case WM_SYSKEYUP:
-        kbd_handle_keyup(wparam, lparam);
+        kbd_handle_keyup((DWORD)wparam, (DWORD)lparam);
         if (wparam == VK_F10)
               return 0;
         break;
       case WM_KEYUP:
-        kbd_handle_keyup(wparam, lparam);
+        kbd_handle_keyup((DWORD)wparam, (DWORD)lparam);
         return 0;
       case WM_SYSCOLORCHANGE:
         syscolorchanged = 1;
@@ -1941,8 +1941,8 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg,
         vsync_suspend_speed_eval();
         break;
       case WM_MOUSEMOVE:
-        _mouse_x =  (lparam        & 0xFFFF)*4;
-        _mouse_y = ((lparam >> 16) & 0xFFFF)*4;
+        _mouse_x = (int)((lparam & 0xFFFF)*4);
+        _mouse_y = (int)(((lparam >> 16) & 0xFFFF)*4);
         break;
       case WM_LBUTTONDOWN:
         if (_mouse_enabled) mouse_button_left(1);

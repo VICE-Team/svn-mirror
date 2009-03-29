@@ -440,8 +440,8 @@ static void enable_printer_controls(unsigned int num, HWND hwnd)
     } else
         EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_TYPE), TRUE);
 
-    res_value = SendMessage(GetDlgItem(hwnd, IDC_PRINTER_TYPE),
-                            CB_GETCURSEL, 0, 0);
+    res_value = (int)SendMessage(GetDlgItem(hwnd, IDC_PRINTER_TYPE),
+                                 CB_GETCURSEL, 0, 0);
   
     is_enabled = res_value == PRINTER_DEVICE_FS;
   
@@ -534,8 +534,9 @@ static BOOL store_printer_dialog_results(HWND hwnd, unsigned int num)
     else
         sprintf(printer_name, "Printer%d", num);
 
-    resources_set_int(printer_name, SendMessage(GetDlgItem(hwnd,
-                      IDC_PRINTER_TYPE), CB_GETCURSEL, 0, 0));
+    resources_set_int(printer_name, (int)SendMessage(GetDlgItem(hwnd, 
+                                                     IDC_PRINTER_TYPE), 
+                                                     CB_GETCURSEL, 0, 0));
 
     resources_set_string_sprintf("%sDriver",
                                  ui_printer_driver_ascii[SendMessage(
@@ -550,8 +551,10 @@ static BOOL store_printer_dialog_results(HWND hwnd, unsigned int num)
                                  printer_name);
 
     resources_set_int_sprintf("%sTextDevice",
-                              SendMessage(GetDlgItem(hwnd, IDC_PRINTER_TEXTOUT),
-                              CB_GETCURSEL, 0, 0), printer_name);
+                              (int)SendMessage(GetDlgItem(hwnd, 
+                                               IDC_PRINTER_TEXTOUT),
+                                               CB_GETCURSEL, 0, 0),
+                                               printer_name);
   
     resources_set_string("PrinterTextDevice1", printertextdevice[0]);
     resources_set_string("PrinterTextDevice2", printertextdevice[1]);

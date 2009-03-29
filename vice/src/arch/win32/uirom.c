@@ -317,8 +317,8 @@ static TCHAR *active_archive_name(HWND hwnd)
     TCHAR *st_name;
 
     temp_hwnd = GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_ACTIVE);
-    active = SendMessage(temp_hwnd, CB_GETCURSEL, 0, 0);
-    len = SendMessage(temp_hwnd, CB_GETLBTEXTLEN, active, 0);
+    active = (int)SendMessage(temp_hwnd, CB_GETCURSEL, 0, 0);
+    len = (int)SendMessage(temp_hwnd, CB_GETLBTEXTLEN, active, 0);
     st_name = lib_malloc((len + 1) * sizeof(TCHAR));
     SendMessage(temp_hwnd, CB_GETLBTEXT, active, (LPARAM)st_name);
 

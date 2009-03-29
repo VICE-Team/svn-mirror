@@ -143,7 +143,7 @@ static void end_rs232user_dialog(HWND hwnd)
     resources_set_int("RsUserEnable", (IsDlgButtonChecked(hwnd,
                       IDC_RS232USER_ENABLE) == BST_CHECKED ? 1 : 0 ));
 
-    resources_set_int("RsUserDev", SendMessage(GetDlgItem(hwnd,
+    resources_set_int("RsUserDev", (int)SendMessage(GetDlgItem(hwnd,
                       IDC_RS232USER_DEVICE), CB_GETCURSEL, 0, 0));
 
     resources_set_int("RsUserBaud", baudrates[SendMessage(GetDlgItem(

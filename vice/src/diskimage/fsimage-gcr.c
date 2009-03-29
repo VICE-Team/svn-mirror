@@ -134,7 +134,7 @@ int fsimage_read_gcr_image(disk_image_t *image)
                 return -1;
             }
 
-            image->gcr->track_size[track] = track_len;
+            image->gcr->track_size[track] = (unsigned int)track_len;
 
             fseek(fsimage->fd, offset + 2, SEEK_SET);
             if (fread(track_data, track_len, 1, fsimage->fd) < 1) {
@@ -142,7 +142,7 @@ int fsimage_read_gcr_image(disk_image_t *image)
                 return -1;
             }
 
-            zone_len = (track_len + 3) / 4;
+            zone_len = (unsigned int)((track_len + 3) / 4);
 
             if (gcr_speed_p[track * 2] > 3) {
                 unsigned int i;

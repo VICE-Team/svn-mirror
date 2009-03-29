@@ -74,7 +74,7 @@ static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
         mask = rname;
 
     /* Test on wildcards.  */
-    if (cbmdos_parse_wildcard_check(mask, strlen(mask))) {
+    if (cbmdos_parse_wildcard_check(mask, (unsigned int)strlen(mask))) {
         if (*mask == '/') {
             strcpy(bufinfo[secondary].dirmask, mask + 1);
             *mask++ = 0;
@@ -176,7 +176,7 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
 
     /* Test on wildcards.  */
     if (cbmdos_parse_wildcard_check(cmd_parse->parsecmd,
-        strlen(cmd_parse->parsecmd)) > 0) {
+        (unsigned int)strlen(cmd_parse->parsecmd)) > 0) {
         if (bufinfo[secondary].mode == Write
             || bufinfo[secondary].mode == Append) {
             fsdevice_error(vdrive, CBMDOS_IPE_BAD_NAME);

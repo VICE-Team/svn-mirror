@@ -211,18 +211,18 @@ static UINT_PTR APIENTRY hook_save_mediafile(HWND hwnd, UINT uimsg,
             }
             break;
           case IDC_SCREENSHOT_FFMPEGAUDIOCODEC:
-            i = SendDlgItemMessage(hwnd, IDC_SCREENSHOT_FFMPEGFORMAT,
-                                   CB_GETCURSEL, 0, 0);
-            j = SendDlgItemMessage(hwnd, IDC_SCREENSHOT_FFMPEGAUDIOCODEC,
-                                   CB_GETCURSEL, 0, 0);
+            i = (int)SendDlgItemMessage(hwnd, IDC_SCREENSHOT_FFMPEGFORMAT,
+                                        CB_GETCURSEL, 0, 0);
+            j = (int)SendDlgItemMessage(hwnd, IDC_SCREENSHOT_FFMPEGAUDIOCODEC,
+                                        CB_GETCURSEL, 0, 0);
             resources_set_int("FFMPEGAudioCodec", 
                               ffmpegdrv_formatlist[i].audio_codecs[j].id);
             break;            
           case IDC_SCREENSHOT_FFMPEGVIDEOCODEC:
-            i = SendDlgItemMessage(hwnd, IDC_SCREENSHOT_FFMPEGFORMAT,
-                                   CB_GETCURSEL, 0, 0);
-            j = SendDlgItemMessage(hwnd, IDC_SCREENSHOT_FFMPEGVIDEOCODEC,
-                                   CB_GETCURSEL, 0, 0);
+            i = (int)SendDlgItemMessage(hwnd, IDC_SCREENSHOT_FFMPEGFORMAT,
+                                        CB_GETCURSEL, 0, 0);
+            j = (int)SendDlgItemMessage(hwnd, IDC_SCREENSHOT_FFMPEGVIDEOCODEC,
+                                        CB_GETCURSEL, 0, 0);
             resources_set_int("FFMPEGVideoCodec",
                               ffmpegdrv_formatlist[i].video_codecs[j].id);
             break;            
@@ -303,8 +303,8 @@ void ui_mediafile_save_dialog(HWND hwnd)
         return;
     }
     s=translate_text(IDS_MEDIA_FILES_FILTER);
-    filter_len=strlen(s);
-    mask_len=strlen(mask);
+    filter_len=(int)strlen(s);
+    mask_len=(int)strlen(mask);
     filter = util_concat(s, "0", mask, "0", NULL);
     filter[filter_len]='\0';
     filter[filter_len+mask_len+1]='\0';

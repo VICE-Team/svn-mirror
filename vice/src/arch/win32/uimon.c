@@ -449,19 +449,19 @@ static
 char *encode( BYTE *content, size_t size )
 {
 char *buffer;
-unsigned long prefix = size;
+unsigned long prefix = (unsigned long)size;
 int i;
 BYTE *pb;
 size_t n;
 
 // calculate integrity check
 char *p = (char*) content;
-BYTE xor = (size & 0xFF) ^ (size>>8);
+BYTE xor = (BYTE)((size & 0xFF) ^ (size>>8));
 
 if (!content || size==0)
    return NULL;
 
-for (i=size; i; i--)
+for (i=(int)size; i; i--)
    {
    xor ^= *p++;
    }
@@ -1279,7 +1279,7 @@ BOOLEAN output_register(HDC hdc, reg_private_t *prp, RECT *clientrect)
     for (p = pMonRegs, cnt = 0; p != NULL; p = p->next, cnt++ )
     {
         char  buffer[5];
-        int   namelen    = strlen(p->name);
+        int   namelen    = (int)strlen(p->name);
         int   center     = 0;
         int   vallen;
 
@@ -1505,7 +1505,7 @@ static LRESULT CALLBACK reg_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
 /**/
 
                 AdjustWindowRectEx( &rect, 
-                    GetWindowLongPtr( hwnd, GWL_STYLE ), FALSE, GetWindowLongPtr( hwnd, GWL_EXSTYLE ) );
+                    (DWORD)GetWindowLongPtr( hwnd, GWL_STYLE ), FALSE, (DWORD)GetWindowLongPtr( hwnd, GWL_EXSTYLE ) );
 
                 MoveWindow( hwnd, rect.left, rect.top,
                     rect.right - rect.left, rect.bottom - rect.top, TRUE );

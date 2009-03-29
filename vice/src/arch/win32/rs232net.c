@@ -269,7 +269,7 @@ int rs232net_getc(int fd, BYTE * b)
         }
     } while (0);
 
-    return no_of_read_byte;
+    return (int)no_of_read_byte;
 }
 
 /* set the status lines of the RS232 device */

@@ -568,7 +568,7 @@ void statusbar_notify(HWND window, int window_index, WPARAM wparam, LPARAM lpara
 
     if (wparam == IDC_SLIDER) {
 
-        slider_pos = SendMessage(slider_hwnd[window_index], TBM_GETPOS, 0, 0);
+        slider_pos = (int)SendMessage(slider_hwnd[window_index], TBM_GETPOS, 0, 0);
         resources_set_int("SoundVolume", 100 - slider_pos);
 
         if (nmhdr->code == (UINT)NM_RELEASEDCAPTURE)

@@ -135,7 +135,7 @@ static void uiplus4cart_attach(WPARAM wparam, HWND hwnd,
         char *name;
 
         name = system_wcstombs_alloc(st_name);
-        if (uiplus4cart_attach_image(cartridges[i].wparam, name) < 0)
+        if (uiplus4cart_attach_image((int)cartridges[i].wparam, name) < 0)
             ui_error(translate_text(IDS_INVALID_CARTRIDGE_IMAGE));
         system_wcstombs_free(name);
         lib_free(st_name);

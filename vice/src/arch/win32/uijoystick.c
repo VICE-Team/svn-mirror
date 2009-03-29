@@ -75,7 +75,7 @@ static INT_PTR CALLBACK real_callback(HWND hwnd, UINT msg, WPARAM wparam,
       case WM_GETDLGCODE:
         return DLGC_WANTALLKEYS;
       case WM_KEYDOWN:
-        kcode = (lparam >> 16) & 0xff;
+        kcode = (int)((lparam >> 16) & 0xff);
 
         /*  Translate Extended scancodes */
         if (lparam & (1 << 24)) {
@@ -475,13 +475,13 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                 resources_set_int("JoyDevice1",
                                   (int)SendMessage(GetDlgItem(hwnd,
                                   IDC_JOY_DEV1), CB_GETCURSEL, 0, 0));
-                res_value = SendDlgItemMessage(hwnd, IDC_JOY_DEV1,
-                                               CB_GETCURSEL, 0, 0);
+                res_value = (int)SendDlgItemMessage(hwnd, IDC_JOY_DEV1,
+                                                    CB_GETCURSEL, 0, 0);
                 if (res_value >= JOYDEV_HW1) {
                     rebuild_axis_list_1(hwnd, res_value);
                     rebuild_button_list_1(hwnd, res_value);
                 }
-                axis = SendDlgItemMessage(hwnd,IDC_JOY_FIRE1_AXIS,CB_GETCURSEL,0,0);
+                axis = (int)SendDlgItemMessage(hwnd,IDC_JOY_FIRE1_AXIS,CB_GETCURSEL,0,0);
                 EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_BUTTON),
                              (res_value >= JOYDEV_HW1));
                 EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_SPEED),
@@ -497,13 +497,13 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                 resources_set_int("JoyDevice2",
                                   (int)SendMessage(GetDlgItem(hwnd,
                                   IDC_JOY_DEV2), CB_GETCURSEL, 0, 0));
-                res_value = SendDlgItemMessage(hwnd, IDC_JOY_DEV2,
-                                               CB_GETCURSEL, 0, 0);
+                res_value = (int)SendDlgItemMessage(hwnd, IDC_JOY_DEV2,
+                                                    CB_GETCURSEL, 0, 0);
                 if (res_value >= JOYDEV_HW1) {
                     rebuild_axis_list_2(hwnd, res_value);
                     rebuild_button_list_2(hwnd, res_value);
                 }
-                axis = SendDlgItemMessage(hwnd, IDC_JOY_FIRE2_AXIS, CB_GETCURSEL, 0, 0);
+                axis = (int)SendDlgItemMessage(hwnd, IDC_JOY_FIRE2_AXIS, CB_GETCURSEL, 0, 0);
                 EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_BUTTON),
                              (res_value >= JOYDEV_HW1));
                 EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_SPEED),
@@ -516,16 +516,16 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             return TRUE;
           case IDC_JOY_FIRE1_AXIS:
             if (HIWORD(wparam) == CBN_SELCHANGE) {
-                res_value = SendDlgItemMessage(hwnd, IDC_JOY_FIRE1_AXIS,
-                                               CB_GETCURSEL, 0, 0);
+                res_value = (int)SendDlgItemMessage(hwnd, IDC_JOY_FIRE1_AXIS,
+                                                    CB_GETCURSEL, 0, 0);
                 EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_SPEED),
                              (res_value == 0));
             }
             return TRUE;
           case IDC_JOY_FIRE1_SPEED:
             if (HIWORD(wparam) == EN_KILLFOCUS) {
-                res_value = GetDlgItemInt(hwnd, IDC_JOY_FIRE1_SPEED,NULL,
-                                          FALSE);
+                res_value = (int)GetDlgItemInt(hwnd, IDC_JOY_FIRE1_SPEED,NULL,
+                                               FALSE);
                 if (res_value > 32)
                     SetDlgItemInt(hwnd, IDC_JOY_FIRE1_SPEED, 32, FALSE);
                 if (res_value < 1)
@@ -534,8 +534,8 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             return TRUE;
           case IDC_JOY_FIRE2_AXIS:
             if (HIWORD(wparam) == CBN_SELCHANGE) {
-                res_value = SendDlgItemMessage(hwnd, IDC_JOY_FIRE2_AXIS,
-                                               CB_GETCURSEL, 0, 0);
+                res_value = (int)SendDlgItemMessage(hwnd, IDC_JOY_FIRE2_AXIS,
+                                                    CB_GETCURSEL, 0, 0);
                 EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_SPEED),
                              (res_value == 0));
             }

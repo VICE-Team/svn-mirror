@@ -1002,7 +1002,7 @@ static int delete_cmd(int nargs, char **args)
         printf("Deleting `%s' on unit %d.\n", name, dnr + 8);
 
         status = vdrive_command_execute(drives[dnr], (BYTE *)command,
-                                        strlen(command));
+                                        (unsigned int)strlen(command));
 
         lib_free(command);
 
@@ -1060,7 +1060,7 @@ static int extract_cmd(int nargs, char **args)
         int i, res;
 
         str = (BYTE *)lib_msprintf("B-R:%d 0 %d %d", channel, track, sector);
-        res = vdrive_command_execute(floppy, str, strlen((char *)str));
+        res = vdrive_command_execute(floppy, str, (unsigned int)strlen((char *)str));
 
         lib_free(str);
 
@@ -1202,7 +1202,7 @@ static int format_cmd(int nargs, char **args)
     charset_petconvstring((BYTE *)command, 0);
 
     printf("Formatting in unit %d...\n", unit + 8);
-    vdrive_command_execute(drives[unit], (BYTE *)command, strlen(command));
+    vdrive_command_execute(drives[unit], (BYTE *)command, (unsigned int)strlen(command));
 
     lib_free(command);
     return FD_OK;
@@ -1795,7 +1795,7 @@ static int read_geos_cmd(int nargs, char **args)
 
         dest_name_ascii = actual_name;
         vdrive_dir_no_a0_pads((BYTE *) dest_name_ascii, 16);
-        l = strlen(dest_name_ascii) - 1;
+        l = (int)strlen(dest_name_ascii) - 1;
         while (dest_name_ascii[l] == ' ') {
             dest_name_ascii[l] = 0;
             l--;
@@ -2227,7 +2227,7 @@ static int rename_cmd(int nargs, char **args)
     charset_petconvstring((BYTE *)command, 0);
 
     vdrive_command_execute(drives[dest_unit],
-                           (BYTE *)command, strlen(command));
+                           (BYTE *)command, (unsigned int)strlen(command));
 
     lib_free(command);
     lib_free(dest_name);
@@ -2498,7 +2498,7 @@ static int unlynx_loop(FILE *f, FILE *f2, vdrive_t *vdrive, long dentries)
 
         cmd_parse.parsecmd = lib_stralloc(cname);
         cmd_parse.secondary = 1;
-        cmd_parse.parselength = strlen(cname);
+        cmd_parse.parselength = (unsigned int)strlen(cname);
         cmd_parse.readmode = CBMDOS_FAM_WRITE;
         cmd_parse.filetype = filetype;
 
@@ -2707,7 +2707,7 @@ static int write_cmd(int nargs, char **args)
         dest_name = lib_stralloc((char *)(finfo->name));
         dest_len = finfo->length;
     } else {
-        dest_len = strlen(dest_name);
+        dest_len = (unsigned int)strlen(dest_name);
     }
 
     if (vdrive_iec_open(drives[dnr], (BYTE *)dest_name, (int)dest_len, 1,
@@ -2886,7 +2886,7 @@ static int raw_cmd(int nargs, char **args)
         char *command = lib_stralloc(args[1]);
 
         charset_petconvstring((BYTE *)command, 0);
-        vdrive_command_execute(vdrive, (BYTE *)command, strlen(command));
+        vdrive_command_execute(vdrive, (BYTE *)command, (unsigned int)strlen(command));
         lib_free(command);
     }
 

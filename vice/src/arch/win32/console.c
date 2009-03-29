@@ -470,7 +470,7 @@ static void size_window( console_private_t *pcp )
     rect.right  = rect.left + pcp->pConsole->console_xres * pcp->xCharDimension;
     rect.bottom = rect.top  + pcp->pConsole->console_yres * pcp->yCharDimension;
 
-    AdjustWindowRect( &rect, GetWindowLongPtr( pcp->hwndConsole, GWL_STYLE ), FALSE );
+    AdjustWindowRect( &rect, (DWORD)GetWindowLongPtr( pcp->hwndConsole, GWL_STYLE ), FALSE );
 
     MoveWindow( pcp->hwndConsole, rect.left, rect.top,
         rect.right - rect.left, rect.bottom - rect.top, TRUE );
@@ -941,7 +941,7 @@ char *console_in(console_t *log, const char *prompt)
     {
         int len;
 
-        for (len = strlen(p);
+        for (len = (int)strlen(p);
              len > 0 && (p[len - 1] == '\r'
                          || p[len - 1] == '\n');
              len--)
@@ -967,7 +967,7 @@ static void replace_current_input( console_private_t *pcp, const char *p )
     cursor(pcp, CS_SUSPEND);
 
     strcpy( pcp->achInputBuffer, p );
-    pcp->cntInputBuffer = strlen( pcp->achInputBuffer );
+    pcp->cntInputBuffer = (unsigned int)strlen( pcp->achInputBuffer );
 
     draw_current_input( pcp );
 
@@ -1656,13 +1656,13 @@ static LRESULT CALLBACK console_window_proc(HWND hwnd, UINT msg,
 
     case WM_LBUTTONDOWN:
         /* the user wants to mark a region */
-        if (MarkModeStart( pcp, wParam, LOWORD(lParam), HIWORD(lParam), FALSE ))
+        if (MarkModeStart( pcp, (int)wParam, LOWORD(lParam), HIWORD(lParam), FALSE ))
             return 0;
         break;
 
     case WM_RBUTTONDOWN:
         /* the user wants to mark a region */
-        if (MarkModeStart( pcp, wParam, LOWORD(lParam), HIWORD(lParam), TRUE ))
+        if (MarkModeStart( pcp, (int)wParam, LOWORD(lParam), HIWORD(lParam), TRUE ))
             return 0;
         break;
 
@@ -1671,13 +1671,13 @@ static LRESULT CALLBACK console_window_proc(HWND hwnd, UINT msg,
 
     case WM_RBUTTONUP:
         /* the user wants to mark a region */
-        if (MarkModeEnd( pcp, wParam, LOWORD(lParam), HIWORD(lParam) ))
+        if (MarkModeEnd( pcp, (int)wParam, LOWORD(lParam), HIWORD(lParam) ))
             return 0;
         break;
 
     case WM_MOUSEMOVE:
         /* the user wants to mark a region */
-        if (MarkModeMove( pcp, wParam, LOWORD(lParam), HIWORD(lParam) ))
+        if (MarkModeMove( pcp, (int)wParam, LOWORD(lParam), HIWORD(lParam) ))
             return 0;
         break;
 

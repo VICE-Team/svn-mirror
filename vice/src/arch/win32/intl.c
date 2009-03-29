@@ -1197,7 +1197,7 @@ char *intl_convert_cp(char *text, int cp)
 
   if (text==NULL)
     return NULL;
-  len=strlen(text);
+  len=(int)strlen(text);
   if (len==0)
     return NULL;
   switch (cp)

@@ -120,13 +120,13 @@ static void init_c64dtv_create_flash_dialog(HWND hwnd)
 
 static void end_c64dtv_dialog(HWND hwnd)
 {
-  resources_set_int("DtvRevision",SendMessage(GetDlgItem(
+  resources_set_int("DtvRevision",(int)SendMessage(GetDlgItem(
                     hwnd, IDC_DTV_REVISION), CB_GETCURSEL, 0, 0)+2);
 
-  resources_set_int("HummerUserportDevice",SendMessage(GetDlgItem(
+  resources_set_int("HummerUserportDevice",(int)SendMessage(GetDlgItem(
                     hwnd, IDC_C64DTV_HUMMER_JOY_PORT), CB_GETCURSEL, 0, 0));
 
-  resources_set_int("HummerUserportJoyPort",SendMessage(GetDlgItem(
+  resources_set_int("HummerUserportJoyPort",(int)SendMessage(GetDlgItem(
                     hwnd, IDC_C64DTV_HUMMER_JOY_PORT), CB_GETCURSEL, 0, 0)+1);
 }
 

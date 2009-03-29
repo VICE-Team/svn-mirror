@@ -79,7 +79,7 @@ struct dirent *readdir(DIR *dir)
 
     dir->first_passed = 1;
     ret.d_name = dir->find_data.cFileName;
-    ret.d_namlen = strlen(ret.d_name);
+    ret.d_namlen = (int)strlen(ret.d_name);
 
     return &ret;
 }

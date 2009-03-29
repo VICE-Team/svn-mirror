@@ -599,22 +599,25 @@ INT_PTR CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam,
         item = LOWORD(wparam);
         if (notifycode == CBN_SELENDOK) {
             if (item == IDC_FULLSCREEN_DEVICE) { 
-                fullscreen_device = SendMessage(GetDlgItem(hwnd,
-                                    IDC_FULLSCREEN_DEVICE), CB_GETCURSEL,
-                                    0, 0);
+                fullscreen_device = (int)SendMessage(GetDlgItem(hwnd,
+                                                     IDC_FULLSCREEN_DEVICE),
+                                                     CB_GETCURSEL, 0, 0);
             } else if (item == IDC_FULLSCREEN_BITDEPTH) {
-                index = SendMessage(GetDlgItem(hwnd,
-                        IDC_FULLSCREEN_BITDEPTH), CB_GETCURSEL, 0, 0);
+                index = (int)SendMessage(GetDlgItem(hwnd,
+                                         IDC_FULLSCREEN_BITDEPTH),
+                                         CB_GETCURSEL, 0, 0);
                 fullscreen_bitdepth = GetValueFromList(bitdepthlist, index);
             } else if (item == IDC_FULLSCREEN_RESOLUTION) {
-                index = SendMessage(GetDlgItem(hwnd,
-                        IDC_FULLSCREEN_RESOLUTION), CB_GETCURSEL, 0, 0);
+                index = (int)SendMessage(GetDlgItem(hwnd,
+                                         IDC_FULLSCREEN_RESOLUTION),
+                                         CB_GETCURSEL, 0, 0);
                 value = GetValueFromList(resolutionlist, index);
                 fullscreen_width = value >> 16;
                 fullscreen_height = value & 0xffff;
             } else if (item == IDC_FULLSCREEN_REFRESHRATE) {
-                index = SendMessage(GetDlgItem(hwnd,
-                        IDC_FULLSCREEN_REFRESHRATE), CB_GETCURSEL, 0, 0);
+                index = (int)SendMessage(GetDlgItem(hwnd,
+                                         IDC_FULLSCREEN_REFRESHRATE), 
+                                         CB_GETCURSEL, 0, 0);
                 fullscreen_refreshrate = GetValueFromList(refresh_rates,
                                                           index);
             }

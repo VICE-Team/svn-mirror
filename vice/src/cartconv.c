@@ -857,7 +857,7 @@ static int load_input_file(char *filename)
   else
   {
     loadfile_is_crt=0;
-    loadfile_size=fread(filebuffer+0x10,1,512*1024,infile)+0x10;
+    loadfile_size=(unsigned int)fread(filebuffer+0x10,1,512*1024,infile)+0x10;
     switch (loadfile_size)
     {
       case 4096:

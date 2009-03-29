@@ -138,8 +138,8 @@ FILE *ui_console_save_dialog(HWND hwnd)
     char *filter;
     char mask[]="*.dbg";
     s=translate_text(IDS_LOG_FILES_TYPE);
-    filter_len=strlen(s);
-    mask_len=strlen(mask);
+    filter_len=(int)strlen(s);
+    mask_len=(int)strlen(mask);
     filter = util_concat(s, "0", mask, "0", NULL);
     filter[filter_len]='\0';
     filter[filter_len+mask_len+1]='\0';

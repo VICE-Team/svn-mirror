@@ -63,13 +63,13 @@ static void update_text(HWND hwnd)
     int cylinders_idx, heads_idx, sectors_idx, total;
 
     ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_CYLINDERS);
-    cylinders_idx = SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
+    cylinders_idx = (int)SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
 
     ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_HEADS);
-    heads_idx = SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
+    heads_idx = (int)SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
 
     ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_SECTORS);
-    sectors_idx = SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
+    sectors_idx = (int)SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
 
     total = (cylinders_idx + 1) * (heads_idx + 1) * sectors_idx / 2;
 
@@ -171,15 +171,15 @@ static void end_ide64_dialog(HWND hwnd)
                       IDC_TOGGLE_IDE64_SIZEAUTODETECT) == BST_CHECKED ? 1 : 0));
 
     ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_CYLINDERS);
-    res_value = SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
+    res_value = (int)SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
     resources_set_int("IDE64Cylinders", res_value + 1);
 
     ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_HEADS);
-    res_value = SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
+    res_value = (int)SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
     resources_set_int("IDE64Heads", res_value + 1);
 
     ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_SECTORS);
-    res_value = SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
+    res_value = (int)SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
     resources_set_int("IDE64Sectors", res_value);
 }
 

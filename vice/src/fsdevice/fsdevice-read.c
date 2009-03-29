@@ -200,7 +200,7 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
         if (bufinfo->dirmask[0] == '\0')
             break;
 
-        l = strlen(bufinfo->dirmask);
+        l = (int)strlen(bufinfo->dirmask);
 
         for (p = finfo->name, i = 0;
             *p && bufinfo->dirmask[i] && i < l; i++) {
@@ -315,7 +315,7 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
 
         /* some (really very) old programs rely on the directory
            entry to be 32 Bytes in total (incl. nullbyte) */
-        l = strlen((char *)(bufinfo->name + 4)) + 4;
+        l = (int)strlen((char *)(bufinfo->name + 4)) + 4;
         while (l < 31) {
             *p++ = ' ';
             l++;

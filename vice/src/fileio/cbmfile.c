@@ -95,7 +95,7 @@ fileio_info_t *cbmfile_open(const char *file_name, const char *path,
     if (!(command & FILEIO_COMMAND_FSNAME))
         charset_petconvstring((BYTE *)fsname, 1);
 
-    if (cbmdos_parse_wildcard_check(fsname, strlen(fsname))) {
+    if (cbmdos_parse_wildcard_check(fsname, (unsigned int)strlen(fsname))) {
         rname = cbmfile_find_file(fsname, path);
         lib_free(fsname);
         if (rname == NULL)

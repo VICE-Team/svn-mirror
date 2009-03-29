@@ -256,7 +256,7 @@ static UINT_PTR APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg,
         switch (HIWORD(wparam)) {
           case LBN_DBLCLK:
             if (autostart_result != NULL) {
-                index = SendMessage((HWND)lparam, LB_GETCURSEL, 0, 0);
+                index = (int)SendMessage((HWND)lparam, LB_GETCURSEL, 0, 0);
                 if (SendMessage(GetParent(hwnd),
                     CDM_GETFILEPATH, 256, (LPARAM)filename) >= 0) {
                     *autostart_result = index;
@@ -392,7 +392,7 @@ static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg,
           /*  Figure out if it's a standard extension */
           for (counter = 0; image_type_name[counter]; counter++) {
             if (strncasecmp(extension, image_type_name[counter],
-              strlen(image_type_name[counter])) == 0) {
+              (int)strlen(image_type_name[counter])) == 0) {
                 is_it_standard_extension = 1;
                 break;
             }
@@ -404,8 +404,8 @@ static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg,
             char disk_id[3];
             char *format_name;
 
-            counter = SendMessage(GetDlgItem(hwnd, IDC_BLANK_IMAGE_TYPE),
-              CB_GETCURSEL, 0, 0);
+            counter = (int)SendMessage(GetDlgItem(hwnd, IDC_BLANK_IMAGE_TYPE),
+                                       CB_GETCURSEL, 0, 0);
             if (append_extension) {
               _tcscat(st_filename, TEXT("."));
               _tcscat(st_filename, image_type_name[counter]);
@@ -434,8 +434,8 @@ static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg,
             but leave at 'All files' if it was already there, otherwise
             select 'All files'
             */
-            index = SendMessage(GetDlgItem(GetParent(hwnd), 0x470),
-              CB_GETCOUNT, 0, 0);
+            index = (int)SendMessage(GetDlgItem(GetParent(hwnd), 0x470),
+                                     CB_GETCOUNT, 0, 0);
             if (is_it_standard_extension) {
               if (index - 1 != SendMessage(GetDlgItem(GetParent(hwnd),
                 0x470), CB_GETCURSEL, 0, 0)) {
@@ -460,8 +460,9 @@ static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg,
             }
             find.flags = LVFI_STRING;
             find.psz = st_filename;
-            index = SendMessage(GetDlgItem(GetDlgItem(GetParent(hwnd),
-              0x461), 1), LVM_FINDITEM, -1, (LPARAM)&find);
+            index = (int)SendMessage(GetDlgItem(GetDlgItem(GetParent(hwnd),
+                                     0x461), 1), LVM_FINDITEM, -1,
+                                     (LPARAM)&find);
             item.stateMask = LVIS_SELECTED | LVIS_FOCUSED;
             item.state = LVIS_SELECTED | LVIS_FOCUSED;
             SendMessage(GetDlgItem(GetDlgItem(GetParent(hwnd), 0x461), 1),
@@ -472,7 +473,7 @@ static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg,
         switch (HIWORD(wparam)) {
       case LBN_DBLCLK:
         if (autostart_result != NULL) {
-          index = SendMessage((HWND)lparam, LB_GETCURSEL, 0, 0);
+          index = (int)SendMessage((HWND)lparam, LB_GETCURSEL, 0, 0);
           if (SendMessage(GetParent(hwnd),
             CDM_GETFILEPATH, 256, (LPARAM)st_filename) >= 0) {
               *autostart_result = index;
@@ -569,7 +570,7 @@ static UINT_PTR APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
         switch (HIWORD(wparam)) {
           case LBN_DBLCLK:
             if (autostart_result != NULL) {
-                index = SendMessage((HWND)lparam, LB_GETCURSEL, 0, 0);
+                index = (int)SendMessage((HWND)lparam, LB_GETCURSEL, 0, 0);
                 if (SendMessage(GetParent(hwnd),
                     CDM_GETFILEPATH, 256, (LPARAM)st_filename) >= 0) {
                     *autostart_result = index;
@@ -651,8 +652,8 @@ static TCHAR *set_filter(DWORD filterlist, DWORD *filterindex)
     /* create the strings for the file filters */
     for (i = 0, b = 1; uilib_filefilter[i].name != 0; i++, b <<= 1) {
         if (filterlist & b) {
-            name_len = (_tcslen(translate_text(uilib_filefilter[i].name)) + 1) * sizeof(TCHAR);
-            pattern_len = (_tcslen(uilib_filefilter[i].pattern) + 1) * sizeof(TCHAR);
+            name_len = (DWORD)(_tcslen(translate_text(uilib_filefilter[i].name)) + 1) * sizeof(TCHAR);
+            pattern_len = (DWORD)(_tcslen(uilib_filefilter[i].pattern) + 1) * sizeof(TCHAR);
             filter = lib_realloc(filter, current_len + name_len + pattern_len);
             memmove(filter + name_len + pattern_len, filter, current_len);
             memcpy(filter, translate_text(uilib_filefilter[i].name), name_len);
@@ -1032,7 +1033,7 @@ void uilib_get_general_window_extents(HWND hwnd, int *xsize, int *ysize)
     SIZE  size;
 
     hFont = (HFONT)SendMessage(hwnd, WM_GETFONT, 0, 0);
-    strlen = SendMessage(hwnd, WM_GETTEXTLENGTH, 0, 0);
+    strlen = (int)SendMessage(hwnd, WM_GETTEXTLENGTH, 0, 0);
     buffer = malloc(strlen + 1);
     GetWindowText(hwnd, buffer, strlen + 1);
 

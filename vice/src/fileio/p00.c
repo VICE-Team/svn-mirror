@@ -183,7 +183,7 @@ static char *p00_file_find(const char *file_name, const char *path)
             unsigned int equal;
 
             p00_pad_a0(p00_header_file_name);
-            cname = cbmdos_dir_slot_create(file_name, strlen(file_name));
+            cname = cbmdos_dir_slot_create(file_name, (unsigned int)strlen(file_name));
             equal = cbmdos_parse_wildcard_compare(cname, p00_header_file_name);
             lib_free(cname);
 
@@ -285,7 +285,7 @@ static char *p00_filename_create(const char *file_name, unsigned int type)
     const char *typeext = NULL;
     int length;
 
-    length = strlen(file_name);
+    length = (int)strlen(file_name);
 
     if (length > 16)
         length = 16;

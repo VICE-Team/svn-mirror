@@ -2251,7 +2251,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 #endif
 
         *p1 = 0;
-        if ((len = strlen(tokenizedline) ) > 0) {
+        if ((len = (int)strlen(tokenizedline) ) > 0) {
             addr += len + 5;
             fprintf(dest, "%c%c%c%c%s%c", addr & 255, (addr>>8) & 255,
                    linum & 255, (linum>>8) & 255, tokenizedline, '\0');

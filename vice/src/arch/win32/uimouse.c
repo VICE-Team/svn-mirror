@@ -71,10 +71,10 @@ static void init_mouse_dialog(HWND hwnd)
 
 static void end_mouse_dialog(HWND hwnd)
 {
-  resources_set_int("Mousetype",SendMessage(GetDlgItem(
+  resources_set_int("Mousetype",(int)SendMessage(GetDlgItem(
                     hwnd, IDC_MOUSE_TYPE), CB_GETCURSEL, 0, 0));
 
-  resources_set_int("Mouseport",SendMessage(GetDlgItem(
+  resources_set_int("Mouseport",(int)SendMessage(GetDlgItem(
                     hwnd, IDC_MOUSE_PORT), CB_GETCURSEL, 0, 0)+1);
 }
 

@@ -125,13 +125,13 @@ static void end_midi_dialog(HWND hwnd)
   resources_set_int("MIDIEnable", (IsDlgButtonChecked(hwnd,
                     IDC_MIDI_ENABLE) == BST_CHECKED ? 1 : 0 ));
 
-  resources_set_int("MIDIMode",SendMessage(GetDlgItem(
+  resources_set_int("MIDIMode",(int)SendMessage(GetDlgItem(
                     hwnd, IDC_MIDI_TYPE), CB_GETCURSEL, 0, 0));
 
-  resources_set_int("MIDIInDev",SendMessage(GetDlgItem(
+  resources_set_int("MIDIInDev",(int)SendMessage(GetDlgItem(
                     hwnd, IDC_MIDI_IN_DEVICE), CB_GETCURSEL, 0, 0));
 
-  resources_set_int("MIDIOutDev",SendMessage(GetDlgItem(
+  resources_set_int("MIDIOutDev",(int)SendMessage(GetDlgItem(
                     hwnd, IDC_MIDI_OUT_DEVICE), CB_GETCURSEL, 0, 0));
 }
 
