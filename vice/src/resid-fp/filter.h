@@ -204,7 +204,7 @@ friend class SIDFP;
 
 const float kinkiness = 0.966f;
 const float sidcaps_6581 = 470e-12f;
-const float outputleveldifference = 1.2f;
+const float outputleveldifference = 1.22f;
 
 RESID_INLINE
 static float fastexp(float val) {
@@ -341,16 +341,16 @@ float FilterFP::clock(float voice1,
          * with Needledrop. The factor here is about 0x380 * 0xff, which
          * probably is significant.
          */
-        float lpleak = Vi + Vhp + Vlp - Vbp * _1_div_Q;
+        float lpleak = Vi * distortion_rate + Vhp + Vlp - Vbp * _1_div_Q;
         //Vlp += (lpleak - Vlp) * distortion_cf_threshold;
         Vbp += (lpleak - Vbp) * distortion_cf_threshold * _1_div_Q;
         //Vhp += (lpleak - Vhp) * distortion_cf_threshold;
-        lpleak *= 0.20f;
+        lpleak *= 0.50f;
 
         // outputleveldifference folded into distortion_CT term
-	Vlp -= (Vbp - lpleak) * type3_w0(Vbp - type3_fc_distortion_offset);
+	Vlp -= (Vbp + lpleak) * type3_w0(Vbp - type3_fc_distortion_offset);
 	Vbp -= Vhp * type3_w0(Vhp - type3_fc_distortion_offset);
-	Vhp = (Vbp + lpleak) * _1_div_Q * (1.f/outputleveldifference)
+	Vhp = (Vbp - lpleak) * _1_div_Q * (1.f/outputleveldifference)
             - Vlp * (1.f/outputleveldifference/outputleveldifference)
         /* the loss of level by about half is likely due to feedback
          * between Vhp amp input and output. */
