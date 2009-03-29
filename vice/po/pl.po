@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-19 20:02+0100\n"
+"POT-Creation-Date: 2009-03-29 19:58+0200\n"
 "PO-Revision-Date: 2007-07-26 11:55+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -3491,11 +3491,11 @@ msgstr "Wspó³pracownicy projektu VICE"
 msgid "The VICE Team"
 msgstr "Zespó³ VICE"
 
-#: src/arch/unix/x11/gnome/about.c:85 src/arch/unix/x11/xaw/about.c:152
+#: src/arch/unix/x11/gnome/about.c:86 src/arch/unix/x11/xaw/about.c:153
 msgid "Official VICE homepage:"
 msgstr "Oficjalna strona VICE:"
 
-#: src/arch/unix/x11/gnome/about.c:95
+#: src/arch/unix/x11/gnome/about.c:96
 #, fuzzy
 msgid ""
 "Martin Pottendorfer - German\n"
@@ -3513,20 +3513,20 @@ msgstr ""
 "Marco van den Heuvel - Dutch\n"
 "Flooder - Polish\n"
 
-#: src/arch/unix/x11/gnome/about.c:108
+#: src/arch/unix/x11/gnome/about.c:109
 msgid "(c) 1998 - 2009 The Vice Team"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/about.c:119 src/arch/win32/res.rc.po.c:6045
+#: src/arch/unix/x11/gnome/about.c:120 src/arch/win32/res.rc.po.c:6045
 #: src/arch/amigaos/intl.c.po.c:2184
 msgid "License"
 msgstr "Licencja"
 
-#: src/arch/unix/x11/gnome/about.c:123
+#: src/arch/unix/x11/gnome/about.c:124
 msgid "Warranty"
 msgstr "Gwarancja"
 
-#: src/arch/unix/x11/gnome/about.c:127 src/arch/amigaos/intl.c.po.c:2173
+#: src/arch/unix/x11/gnome/about.c:128 src/arch/amigaos/intl.c.po.c:2173
 msgid "Contributors"
 msgstr "Wspó³pracownicy"
 
@@ -3993,7 +3993,7 @@ msgstr "POdaj g³êbiê ekranu Xów (1..32)"
 msgid "*Desktop"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/about.c:158 src/arch/win32/res.rc.po.c:5930
+#: src/arch/unix/x11/xaw/about.c:159 src/arch/win32/res.rc.po.c:5930
 msgid "VICE Information"
 msgstr "Informacje"
 

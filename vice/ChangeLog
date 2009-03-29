@@ -1,3 +1,283 @@
+2009-03-29  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.1.7
+
+2009-03-29  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/raster/raster.c: perform_mode_change shouldn't do anything
+	  in vsid or console mode (fix by iAN).
+
+2009-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sounddrv/soundwmm.c: Changed DWORD_PTR to UINT_PTR which
+	  is defined for both win32 and win64 compilers.
+
+	* src/arch/win32/archdep.c, src/arch/win32/console.c,
+	  src/arch/win32/dirent.c, src/arch/win32/fullscrn.c,
+	  src/arch/win32/intl.c, src/arch/win32/rs232net.c,
+	  src/arch/win32/statusbar.c, src/arch/win32/ui.c,
+	  src/arch/win32/uic64dtv.c, src/arch/win32/uiconsole.c,
+	  src/arch/win32/uiide64.c, src/arch/win32/uijoystick.c,
+	  src/arch/win32/uilib.c, src/arch/win32/uimediafile.c,
+	  src/arch/win32/uimidi.c, src/arch/win32/uimmc64.c,
+	  src/arch/win32/uimon.c, src/arch/win32/uimouse.c,
+	  src/arch/win32/uiperipheral.c, src/arch/win32/uiplus4cart.c,
+	  src/arch/win32/uiram.c, src/arch/win32/uirom.c,
+	  src/arch/win32/uirs232user.c, src/arch/win32/uisid.c,
+	  src/arch/win32/uisidcart.c, src/c1541.c, src/cartconv.c,
+	  src/diskimage/fsimage-gcr.c, src/fileio/cbmfile.c,
+	  src/fileio/p00.c, src/fsdevice/fsdevice-open.c,
+	  src/fsdevice/fsdevice-read.c, src/petcat.c: Added some more
+	  size_t warning fixes.
+
+	* src/arch/win32/uisiddtv.c, src/arch/win32/uisnapshot.c,
+	  src/arch/win32/uisound.c, src/arch/win32/uitfe.c,
+	  src/arch/win32/vsidui.c, src/c64/cart/ide64.c,
+	  src/c64/mmc64.c, src/c64/psid.c, src/clipboard.c, src/crc32.c,
+	  src/datasette.c, src/event.c, src/initcmdline.c, src/kbdbuf.c,
+	  src/lib.c, src/lib/lpng/pngpread.c, src/lib/lpng/pngrutil.c,
+	  src/lib/lpng/pngset.c, src/lib/lpng/pngwio.c,
+	  src/lib/lpng/pngwutil.c, src/monitor/mon_command.c,
+	  src/monitor/mon_parse.c, src/monitor/mon_parse.y,
+	  src/monitor/mon_util.c, src/monitor/monitor.c,
+	  src/monitor/monitor_network.c, src/network.c,
+	  src/printerdrv/output-graphics.c, src/resources.c,
+	  src/serial/serial-iec-lib.c, src/snapshot.c, src/socket.c,
+	  src/sounddrv/soundaiff.c, src/sounddrv/sounddx.c,
+	  src/sounddrv/soundiff.c, src/sounddrv/soundmovie.c,
+	  src/sounddrv/soundvoc.c, src/sounddrv/soundwav.c,
+	  src/sounddrv/soundwmm.c, src/sysfile.c, src/tape/t64.c,
+	  src/tape/tap.c, src/tape/tape-snapshot.c, src/util.c,
+	  src/vdrive/vdrive-command.c, src/vdrive/vdrive-iec.c,
+	  src/zfile.c: Added some size_t warning fixes.
+
+	* src/arch/win64/base.vcproj, src/arch/win64/monitor.vcproj,
+	  src/arch/win64/sounddrv.vcproj: win64 project files fixes.
+
+	* Makefile.am, configure.in, src/arch/Makefile.am,
+	  src/arch/amigaos/types.h, src/arch/beos/types.h,
+	  src/arch/msdos/types.h, src/arch/os2/types.h,
+	  src/arch/os2/watcom/sounddrv.tgt,
+	  src/arch/os2/watcom/vice.wpj, src/arch/riscos/types.h,
+	  src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	  src/arch/unix/gui/c64ui.c, src/arch/unix/gui/cbm2ui.c,
+	  src/arch/unix/gui/petui.c, src/arch/unix/gui/plus4ui.c,
+	  src/arch/unix/gui/uiattach.c, src/arch/unix/gui/uic64cart.c,
+	  src/arch/unix/gui/uicommands.c,
+	  src/arch/unix/gui/uidatasette.c, src/arch/unix/gui/uidrive.c,
+	  src/arch/unix/gui/uidrivec64c128.c,
+	  src/arch/unix/gui/uidriveiec.c,
+	  src/arch/unix/gui/uidriveplus4.c,
+	  src/arch/unix/gui/uifliplist.c,
+	  src/arch/unix/gui/uijoystick2.c,
+	  src/arch/unix/gui/uikeyboard.c, src/arch/unix/gui/uipalemu.c,
+	  src/arch/unix/gui/uiperipheral.c,
+	  src/arch/unix/gui/uiprinter.c, src/arch/unix/gui/uisettings.c,
+	  src/arch/unix/gui/vic20ui.c, src/arch/unix/rs232.c,
+	  src/arch/unix/types.h, src/arch/unix/uimenu.h,
+	  src/arch/unix/x11/xaw/uimenu.c, src/arch/win32/Makefile.am,
+	  src/arch/win32/archdep.c, src/arch/win32/console.c,
+	  src/arch/win32/fullscrn-ddraw.c, src/arch/win32/fullscrn.c,
+	  src/arch/win32/fullscrn.h, src/arch/win32/make-bindist.sh,
+	  src/arch/win32/make-msvc-bindist.bat, src/arch/win32/types.h,
+	  src/arch/win32/ui-resources.c, src/arch/win32/ui.c,
+	  src/arch/win32/uiacia.c, src/arch/win32/uic128.c,
+	  src/arch/win32/uic64_256k.c, src/arch/win32/uic64dtv.c,
+	  src/arch/win32/uicbm2set.c, src/arch/win32/uiconsole.c,
+	  src/arch/win32/uidatasette.c, src/arch/win32/uidigimax.c,
+	  src/arch/win32/uidqbb.c, src/arch/win32/uidrivec128.c,
+	  src/arch/win32/uidrivec64.c, src/arch/win32/uidrivepetcbm2.c,
+	  src/arch/win32/uidriveplus4.c, src/arch/win32/uidrivevic20.c,
+	  src/arch/win32/uigeoram.c, src/arch/win32/uiide64.c,
+	  src/arch/win32/uiisepic.c, src/arch/win32/uijoystick.c,
+	  src/arch/win32/uikeyboard.c, src/arch/win32/uilib.c,
+	  src/arch/win32/uimediafile.c, src/arch/win32/uimidi.c,
+	  src/arch/win32/uimmc64.c, src/arch/win32/uimon.c,
+	  src/arch/win32/uimouse.c, src/arch/win32/uinetwork.c,
+	  src/arch/win32/uiperipheral.c, src/arch/win32/uipetreu.c,
+	  src/arch/win32/uipetset.c, src/arch/win32/uiplus256k.c,
+	  src/arch/win32/uiplus4mem.c, src/arch/win32/uiplus60k.c,
+	  src/arch/win32/uiram.c, src/arch/win32/uiramcart.c,
+	  src/arch/win32/uireu.c, src/arch/win32/uirom.c,
+	  src/arch/win32/uirs232.c, src/arch/win32/uirs232user.c,
+	  src/arch/win32/uisid.c, src/arch/win32/uisidcart.c,
+	  src/arch/win32/uisiddtv.c, src/arch/win32/uisnapshot.c,
+	  src/arch/win32/uisound.c, src/arch/win32/uitfe.c,
+	  src/arch/win32/uivicii.c, src/arch/win32/uivicset.c,
+	  src/arch/win32/uivideo.c, src/arch/win32/vice.manifest,
+	  src/arch/win32/video-ddraw.c, src/arch/win32/vsidui.c,
+	  src/arch/win32/watcom/make-watcom-bindist.bat,
+	  src/arch/win32/watcom/sounddrv.tgt,
+	  src/arch/win32/watcom/vice.wpj, src/arch/win32/winlong.h,
+	  src/arch/win32/winmain.c, src/arch/win32/x128.dsp,
+	  src/arch/win64, src/arch/win64/Makefile.am,
+	  src/arch/win64/_vice.vcproj, src/arch/win64/arch.vcproj,
+	  src/arch/win64/base.vcproj, src/arch/win64/c128.vcproj,
+	  src/arch/win64/c1541.vcproj, src/arch/win64/c64.vcproj,
+	  src/arch/win64/c64c128.vcproj,
+	  src/arch/win64/c64c64dtv.vcproj,
+	  src/arch/win64/c64cart.vcproj, src/arch/win64/c64dtv.vcproj,
+	  src/arch/win64/c64dtvstubs.vcproj,
+	  src/arch/win64/c64exp.vcproj, src/arch/win64/cartconv.vcproj,
+	  src/arch/win64/cbm2.vcproj, src/arch/win64/core.vcproj,
+	  src/arch/win64/crtc.vcproj, src/arch/win64/diskimage.vcproj,
+	  src/arch/win64/drive.vcproj, src/arch/win64/fileio.vcproj,
+	  src/arch/win64/fsdevice.vcproj,
+	  src/arch/win64/genmsvcver.vcproj,
+	  src/arch/win64/gentranslate.vcproj,
+	  src/arch/win64/genwinres.vcproj,
+	  src/arch/win64/gfxoutputdrv.vcproj, src/arch/win64/iec.vcproj,
+	  src/arch/win64/iec128dcr.vcproj, src/arch/win64/iecbus.vcproj,
+	  src/arch/win64/iecieee.vcproj, src/arch/win64/ieee.vcproj,
+	  src/arch/win64/imagecontents.vcproj,
+	  src/arch/win64/make-msvc-bindist.bat,
+	  src/arch/win64/monitor.vcproj, src/arch/win64/parallel.vcproj,
+	  src/arch/win64/pet.vcproj, src/arch/win64/petcat.vcproj,
+	  src/arch/win64/plus4.vcproj, src/arch/win64/plus4exp.vcproj,
+	  src/arch/win64/png.vcproj, src/arch/win64/printerdrv.vcproj,
+	  src/arch/win64/raster.vcproj, src/arch/win64/resid.vcproj,
+	  src/arch/win64/residdtv.vcproj, src/arch/win64/residfp.vcproj,
+	  src/arch/win64/rs232drv.vcproj, src/arch/win64/serial.vcproj,
+	  src/arch/win64/sid.vcproj, src/arch/win64/sounddrv.vcproj,
+	  src/arch/win64/tape.vcproj, src/arch/win64/tcbm.vcproj,
+	  src/arch/win64/vdc.vcproj, src/arch/win64/vdrive.vcproj,
+	  src/arch/win64/vic20.vcproj, src/arch/win64/vice.sln,
+	  src/arch/win64/vicii.vcproj, src/arch/win64/viciidtv.vcproj,
+	  src/arch/win64/video.vcproj, src/arch/win64/x128.vcproj,
+	  src/arch/win64/x64.vcproj, src/arch/win64/x64dtv.vcproj,
+	  src/arch/win64/xcbm2.vcproj, src/arch/win64/xpet.vcproj,
+	  src/arch/win64/xplus4.vcproj, src/arch/win64/xvic.vcproj,
+	  src/arch/win64/zlib.vcproj, src/attach.c,
+	  src/c128/c128-resources.c, src/c64/c64-resources.c,
+	  src/c64/cart/c64cart.c, src/c64dtv/c64dtv-resources.c,
+	  src/cbm2/cbm2-resources.c, src/drive/drive-overflow.c,
+	  src/drive/drive-resources.c,
+	  src/drive/iec/c64exp/c64exp-resources.c,
+	  src/drive/iec/iec-resources.c,
+	  src/drive/iec/plus4exp/plus4exp-resources.c,
+	  src/drive/iec/wd1770.c,
+	  src/drive/iec128dcr/iec128dcr-resources.c,
+	  src/drive/ieee/fdc.c, src/drive/ieee/ieee-resources.c,
+	  src/drive/tcbm/tcbm-resources.c,
+	  src/fsdevice/fsdevice-cmdline-options.c,
+	  src/fsdevice/fsdevice-resources.c, src/initcmdline.c,
+	  src/joystick.c, src/keyboard.c, src/lib.c,
+	  src/pet/pet-resources.c, src/plus4/plus4-resources.c,
+	  src/printerdrv/driver-select.c,
+	  src/printerdrv/interface-serial.c,
+	  src/printerdrv/output-select.c, src/printerdrv/output-text.c,
+	  src/resid-fp/convolve-sse.cc, src/resid-fp/sid.cc,
+	  src/resid/filter.cc, src/resid/wave.cc, src/resources.c,
+	  src/rs232drv/rs232drv.c, src/serial/serial-iec-device.c,
+	  src/sounddrv/soundwmm.c, src/vic20/vic20-resources.c,
+	  src/video/render1x1.c, src/video/render1x2.c,
+	  src/video/render2x2.c: Added Win64 compilation.
+
+2009-03-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/openGL_sync.c: Added missing uiapi.h
+	  include.
+
+	* src/arch/unix/ffmpeglib.c, src/arch/unix/opencbmlib.c: Added
+	  RTLD_LOCAL define for platforms that don't have it.
+
+2009-03-28  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/opencbm.h, src/opencbmlib.h: Get rid of that __u_char
+	  type.
+
+2009-03-27  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/aciacore.c: Due to a typo, the RX alarm was never set
+	  (instead, the TX alarm was set to wrong values). Thus, we were
+	  not able to receive any data. Fixed.
+
+2009-03-26  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/socketimpl.h, src/socket.c: Replaced size_t
+	  with socklen_t for the size of the socket address.
+
+	* src/monitor/monitor.c: Fix a warning about casting a pointer
+	  to an int.
+
+	* src/aciacore.c: Fix a problem with initialisation of acia on
+	  emulator startup: The resource settings were overwritten after
+	  they had been set.
+
+2009-03-26  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/sid.cc: For now, don't restore SID state
+	  perfectly, until things stabilize again.
+
+2009-03-25  Antti S. Lankila <alankila@bel.fi>
+
+	* src/info.c, src/resid-fp/wave.cc: Fix FTBFS with info.c. Refit
+	  8580 PST to parameters that are physically possible.
+
+	* README, doc/html/plain/NEWS, src/arch/unix/x11/gnome/about.c,
+	  src/arch/unix/x11/xaw/about.c, src/info.c, src/main.c: Fame
+	  for me. Update NEWS.
+
+	* src/resid-fp/filter.cc, src/resid-fp/filter.h,
+	  src/resid-fp/wave.cc, src/sid/resid-fp.cc: New distortion
+	  parameters. Remove 2 terms from distortion function.
+
+2009-03-24  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/socket.c: Make sure not to call closesocket() on a socket
+	  that is not available.
+
+2009-03-23  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/core/ciacore.c: Fixed wrong prototype for cia_read_() in
+	  code that is only compiled for debugging.
+
+	* src/rs232drv/rsuser.c: Introduce clk_end_tx instead of
+	  calculating the end of the transmission every time. This
+	  avoids a nasty "off-by-one" rounding error which resulted in
+	  garbaged transmission in the case that multiple byte were sent
+	  out.
+
+	* src/rs232drv/rsuser.c: Introduce DEBUG_TIMING_SEND,
+	  DEBUG_TIMING_RECV for debugging.
+
+2009-03-23  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/video.c: Disable DX9 specific resource and
+	  command line if compiled without DX9 support.
+
+2009-03-22  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid/sid.cc: Implement convolution via MMX where
+	  available.
+
+2009-03-22  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/ui.m,
+	  src/arch/unix/macosx/cocoa/vicemachine.m: relocated
+	  ui_dispatch_next_event in cocoa ui
+
+	* src/arch/unix/macosx/Resources/English.lproj/SoundSettings.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/SoundSettings.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/cocoa/dialog/soundsettingswindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/soundsettingswindowcontroller.m:
+	  removed oversample option in sound settings of cocoa ui
+
+	* src/sounddrv/soundcoreaudio.c: adjusted CoreAudio driver to
+	  improved sound.c and fixed some bugs
+
+	* src/arch/unix/macosx/cocoa/ui.m, src/resid-dtv/sid.cc: fixed
+	  mmx compile problem on mac gcc. added missing ui api function
+	  in cocoa
+
+2009-03-20  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/video/render2x2pal.c: Remove again new C99- (C++-) isms...
+
+2009-03-19  Antti S. Lankila <alankila@bel.fi>
+
+	* src/video/render2x2pal.c: MSVC compliance.
+
 2009-03-19  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.1.6

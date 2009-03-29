@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-19 20:02+0100\n"
+"POT-Creation-Date: 2009-03-29 19:58+0200\n"
 "PO-Revision-Date: 2008-12-30 18:48+0100\n"
 "Last-Translator: Emir Akaydin <emir@akaydin.com>\n"
 "Language-Team: tr <tr@li.org>\n"
@@ -3303,11 +3303,11 @@ msgstr "VICE projesine katkýda bulunanlar"
 msgid "The VICE Team"
 msgstr "The VICE Team"
 
-#: src/arch/unix/x11/gnome/about.c:85 src/arch/unix/x11/xaw/about.c:152
+#: src/arch/unix/x11/gnome/about.c:86 src/arch/unix/x11/xaw/about.c:153
 msgid "Official VICE homepage:"
 msgstr "Resmi VICE web sitesi:"
 
-#: src/arch/unix/x11/gnome/about.c:95
+#: src/arch/unix/x11/gnome/about.c:96
 msgid ""
 "Martin Pottendorfer - German\n"
 "Peter Krefting - Swedish\n"
@@ -3326,21 +3326,21 @@ msgstr ""
 "Czirkos Zoltan, Karai Csaba - Macarca\n"
 "Emir Akaydýn - Türkçe\n"
 
-#: src/arch/unix/x11/gnome/about.c:108
+#: src/arch/unix/x11/gnome/about.c:109
 #, fuzzy
 msgid "(c) 1998 - 2009 The Vice Team"
 msgstr "(c) 1998 - 2008 The Vice Team"
 
-#: src/arch/unix/x11/gnome/about.c:119 src/arch/win32/res.rc.po.c:6045
+#: src/arch/unix/x11/gnome/about.c:120 src/arch/win32/res.rc.po.c:6045
 #: src/arch/amigaos/intl.c.po.c:2184
 msgid "License"
 msgstr "Lisans"
 
-#: src/arch/unix/x11/gnome/about.c:123
+#: src/arch/unix/x11/gnome/about.c:124
 msgid "Warranty"
 msgstr "Garanti"
 
-#: src/arch/unix/x11/gnome/about.c:127 src/arch/amigaos/intl.c.po.c:2173
+#: src/arch/unix/x11/gnome/about.c:128 src/arch/amigaos/intl.c.po.c:2173
 msgid "Contributors"
 msgstr "Katýlýmcýlar"
 
@@ -3782,7 +3782,7 @@ msgstr "X görüntü derinliðini belirleyin (1..32)"
 msgid "*Desktop"
 msgstr "*Masaüstü"
 
-#: src/arch/unix/x11/xaw/about.c:158 src/arch/win32/res.rc.po.c:5930
+#: src/arch/unix/x11/xaw/about.c:159 src/arch/win32/res.rc.po.c:5930
 msgid "VICE Information"
 msgstr "VICE Bilgisi"
 
