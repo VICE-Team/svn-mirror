@@ -76,7 +76,7 @@ static UI_CALLBACK(petui_set_model)
 /* this is partially modeled after the radio_* callbacks */
 static UI_CALLBACK(set_KeyboardType)
 {
-    int current_value, new_value = 2 * (int)(long)UI_MENU_CB_PARAM;
+    int current_value, new_value = 2 * vice_ptr_to_int(UI_MENU_CB_PARAM);
 
     resources_get_int("KeymapIndex", &current_value);
     if (!CHECK_MENUS) {
@@ -347,7 +347,7 @@ static UI_CALLBACK(save_screenshot)
 {
     /* Where does the 1024 come from?  */
     char filename[1024];
-    unsigned int wid = (unsigned int)(unsigned long)UI_MENU_CB_PARAM;
+    unsigned int wid = vice_ptr_to_uint(UI_MENU_CB_PARAM);
 
     vsync_suspend_speed_eval();
 

@@ -126,9 +126,5 @@ InputPath=.\resc128.rc
 
 SOURCE=.\resc128cat.rc
 # End Source File
-# Begin Source File
-
-SOURCE=.\vice.manifest
-# End Source File
 # End Target
 # End Project

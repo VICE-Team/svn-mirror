@@ -177,8 +177,8 @@ static void init_mediafile_dialog(HWND hwnd)
 }
 
 
-static UINT APIENTRY hook_save_mediafile(HWND hwnd, UINT uimsg, WPARAM wparam,
-                                        LPARAM lparam)
+static UINT_PTR APIENTRY hook_save_mediafile(HWND hwnd, UINT uimsg,
+                                             WPARAM wparam, LPARAM lparam)
 {
     TCHAR st_selection[MAXSCRNDRVLEN];
     char s_selection[MAXSCRNDRVLEN];

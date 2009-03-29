@@ -53,6 +53,9 @@
 #include "viewport.h"
 #include "vsyncapi.h"
 
+#ifdef _WIN64
+#define _ANONYMOUS_UNION
+#endif
 
 void video_resize(void);
 

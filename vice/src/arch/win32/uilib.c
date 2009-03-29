@@ -101,12 +101,14 @@ typedef struct uilib_fs_style_type_s {
     char *file_resource;
 } uilib_fs_style_type_t;
 
-static UINT APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg,
-                                                 WPARAM wparam, LPARAM lparam);
-static UINT APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg,
-                                                 WPARAM wparam, LPARAM lparam);
-static UINT APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
-                                            WPARAM wparam, LPARAM lparam);
+static UINT_PTR APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg,
+                                                     WPARAM wparam,
+                                                     LPARAM lparam);
+static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg,
+                                                     WPARAM wparam,
+                                                     LPARAM lparam);
+static UINT_PTR APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
+                                                WPARAM wparam, LPARAM lparam);
 
 static uilib_fs_style_type_t styles[UILIB_SELECTOR_STYLES_NUM + 1] = {
     /* UILIB_SELECTOR_STYLE_DEFAULT */
@@ -161,8 +163,9 @@ static void create_content_list(image_contents_t *contents, HWND list)
 
 static HFONT hfont;
 
-static UINT APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg,
-                                                 WPARAM wparam, LPARAM lparam)
+static UINT_PTR APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg,
+                                                     WPARAM wparam,
+                                                     LPARAM lparam)
 {
     HWND preview;
     image_contents_t *contents;
@@ -289,8 +292,9 @@ static int image_type[] = {
     DISK_IMAGE_TYPE_X64
 };
 
-static UINT APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg,
-                                            WPARAM wparam, LPARAM lparam)
+static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg,
+                                                     WPARAM wparam,
+                                                     LPARAM lparam)
 {
   HWND preview;
   HWND image_type_list;
@@ -490,8 +494,8 @@ static UINT APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg,
   return 0;
 }
 
-static UINT APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
-                                            WPARAM wparam, LPARAM lparam)
+static UINT_PTR APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
+                                                WPARAM wparam, LPARAM lparam)
 {
     HWND preview;
     image_contents_t *contents;
@@ -830,10 +834,10 @@ HWND GetParentHWND()
     return GetLastActivePopup(hwndOut);
 }
 
-BOOL CALLBACK TextDlgProc(HWND hwndDlg,		// handle to dialog box
-			  UINT uMsg,		// message
-			  WPARAM wParam,	// first message parameter
-			  LPARAM lParam);	// second message parameter
+INT_PTR CALLBACK TextDlgProc(HWND hwndDlg,	// handle to dialog box
+                             UINT uMsg,		// message
+                             WPARAM wParam,	// first message parameter
+                             LPARAM lParam);	// second message parameter
 struct TEXTDLGDATA {
     char *szCaption;
     char *szHeader;
@@ -900,10 +904,10 @@ void AutoHideScrollBar(HWND hWnd, int fnBar)
 
 
 
-BOOL CALLBACK TextDlgProc(HWND hwndDlg,         // handle to dialog box
-                          UINT uMsg,            // message
-                          WPARAM wParam,        // first message parameter
-                          LPARAM lParam)        // second message parameter
+INT_PTR CALLBACK TextDlgProc(HWND hwndDlg,     // handle to dialog box
+                             UINT uMsg,        // message
+                             WPARAM wParam,    // first message parameter
+                             LPARAM lParam)    // second message parameter
 {
     switch (uMsg) {
       case WM_INITDIALOG:
@@ -982,8 +986,9 @@ void uilib_shutdown(void)
 
 static uilib_dialogbox_param_t *uilib_dialogbox_param;
 
-static BOOL CALLBACK uilib_dialogbox_dialog_proc(HWND hwnd, UINT msg,
-                                                 WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK uilib_dialogbox_dialog_proc(HWND hwnd, UINT msg,
+                                                    WPARAM wparam,
+                                                    LPARAM lparam)
 {
     switch (msg) {
       case WM_COMMAND:
@@ -1013,9 +1018,8 @@ void uilib_dialogbox(uilib_dialogbox_param_t *param)
 {
     uilib_dialogbox_param = param;
     uilib_dialogbox_param->updated = 0;
-    DialogBox(winmain_instance, (LPCTSTR)(uilib_dialogbox_param->idd_dialog),
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)(uilib_dialogbox_param->idd_dialog),
               uilib_dialogbox_param->hwnd, uilib_dialogbox_dialog_proc);
-
 }
 
 void uilib_get_general_window_extents(HWND hwnd, int *xsize, int *ysize)

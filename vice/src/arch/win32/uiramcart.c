@@ -36,6 +36,7 @@
 #include "resources.h"
 #include "system.h"
 #include "translate.h"
+#include "types.h"
 #include "uilib.h"
 #include "uiramcart.h"
 #include "winmain.h"
@@ -171,8 +172,8 @@ static void browse_ramcart_file(HWND hwnd)
                         IDC_RAMCART_FILE);
 }
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                 LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                    LPARAM lparam)
 {
     int command;
 
@@ -206,7 +207,6 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_ramcart_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)IDD_RAMCART_SETTINGS_DIALOG, hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_RAMCART_SETTINGS_DIALOG, hwnd,
               dialog_proc);
 }
-

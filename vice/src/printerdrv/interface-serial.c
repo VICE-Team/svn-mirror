@@ -63,7 +63,7 @@ static int set_printer_enabled(int flag, void *param)
         )
         return -1;
 
-    prnr = (unsigned int)(unsigned long)param;
+    prnr = vice_ptr_to_uint(param);
 
     if (printer_enabled[prnr] == PRINTER_DEVICE_FS
         && flag != PRINTER_DEVICE_FS) {

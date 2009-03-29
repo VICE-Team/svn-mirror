@@ -62,7 +62,7 @@ int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance,
     winmain_prev_instance = prev_instance;
     winmain_cmd_show = cmd_show;
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(_WIN64)
 #ifdef _DEBUG
     {
         int tmpFlag;

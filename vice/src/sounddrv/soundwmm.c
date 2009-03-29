@@ -143,8 +143,8 @@ int sound_init_wmm_device(void);
  * The job of the timer callback is only to clear the buffer if enough
  * inactivity from wmm_write()
  */
-static void CALLBACK wmm_timercallback(UINT uTimerID, UINT uMsg, DWORD dwUser,
-                                       DWORD dw1, DWORD dw2)
+static void CALLBACK wmm_timercallback(UINT uTimerID, UINT uMsg, DWORD_PTR dwUser,
+                                       DWORD_PTR dw1, DWORD_PTR dw2)
 {
     if (!sndinitted)
         return;

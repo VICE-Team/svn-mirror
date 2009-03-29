@@ -48,6 +48,9 @@
 #include "winmain.h"
 #include "statusbar.h"
 
+#ifdef _WIN64
+#define _ANONYMOUS_UNION
+#endif
 
 extern void init_palette(const palette_t *p, PALETTEENTRY *ape);
 

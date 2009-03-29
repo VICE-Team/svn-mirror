@@ -66,7 +66,7 @@ static void init_dialog(HWND hwnd)
 //    SetDlgItemText(hwnd, IDC_SNAPSHOT_SAVE_IMAGE, "");
 }
 
-static UINT APIENTRY hook_save_as_console(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam)
+static UINT_PTR APIENTRY hook_save_as_console(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam)
 {
     switch (uimsg) {
         case WM_INITDIALOG:
@@ -160,4 +160,3 @@ FILE *ui_console_save_dialog(HWND hwnd)
     }
     return pfile;
 }
-

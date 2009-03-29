@@ -88,7 +88,7 @@ static int set_drive_extend_image_policy(int val, void *param)
       case DRIVE_EXTEND_NEVER:
       case DRIVE_EXTEND_ASK:
       case DRIVE_EXTEND_ACCESS:
-        drive_context[(int)(long)param]->drive->extend_image_policy = val;
+        drive_context[vice_ptr_to_int(param)]->drive->extend_image_policy = val;
         return 0;
       default:
         return -1;
@@ -175,7 +175,7 @@ static int drive1_resources_type(int val, void *param)
     int busses;
     drive_t *drive, *drive0;
 
-    dnr = (unsigned int)(unsigned long)param;
+    dnr = vice_ptr_to_uint(param);
     drive = drive_context[dnr]->drive;
     drive0 = drive_context[0]->drive;
 
@@ -248,7 +248,7 @@ static int drive1_resources_type(int val, void *param)
 
 static int drive_resources_type(int val, void *param)
 {
-    switch ((unsigned int)(unsigned long)param) {
+    switch (vice_ptr_to_uint(param)) {
       case 0:
         return drive0_resources_type(val, param);
       case 1:
@@ -283,7 +283,7 @@ int drive_resources_type_init(unsigned int default_type)
         res_drive_type[0].name = lib_msprintf("Drive%iType", dnr + 8);
         res_drive_type[0].factory_value = (int)type;
         res_drive_type[0].value_ptr = (int *)&(drive->type);
-        res_drive_type[0].param = (void *)(unsigned long)dnr;
+        res_drive_type[0].param = uint_to_void_ptr(dnr);
 
         if (resources_register_int(res_drive_type) < 0)
             return -1;
@@ -317,7 +317,7 @@ int drive_resources_init(void)
 
         res_drive[0].name = lib_msprintf("Drive%iExtendImagePolicy", dnr + 8);
         res_drive[0].value_ptr = (int *)&(drive->extend_image_policy);
-        res_drive[0].param = (void *)(unsigned long)dnr;
+        res_drive[0].param = uint_to_void_ptr(dnr);
 
         if (resources_register_int(res_drive) < 0)
             return -1;

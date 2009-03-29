@@ -90,7 +90,7 @@ MSG  msg ;
 HWND hwnd;
 WNDCLASS wndclass;
 
-static long CALLBACK window_proc(HWND window, UINT msg,
+static LRESULT CALLBACK window_proc(HWND window, UINT msg,
                                  WPARAM wparam, LPARAM lparam);
 
 /*****************************************************************************/
@@ -256,7 +256,7 @@ void vsid_ui_setdrv(char* driver_info_text)
 }
 
 /* Window procedure.  All messages are handled here.  */
-static long CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam)
+static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     HDC hdc;
     PAINTSTRUCT ps;
@@ -288,7 +288,7 @@ static long CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lp
             if(current_song > 1)
             {
                 current_song--;
-                psid_ui_set_tune((resource_value_t)current_song,NULL);
+                psid_ui_set_tune(uint_to_void_ptr(current_song),NULL);
                 vsid_ui_display_tune_nr(current_song);
                 vsid_ui_set_default_tune(default_song);
                 vsid_ui_display_nr_of_tunes(songs);
@@ -302,7 +302,7 @@ static long CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lp
             if(current_song < songs)
             {
                 current_song++;
-                psid_ui_set_tune((resource_value_t)current_song,NULL);
+                psid_ui_set_tune(uint_to_void_ptr(current_song),NULL);
                 vsid_ui_display_tune_nr(current_song);
                 vsid_ui_set_default_tune(default_song);
                 vsid_ui_display_nr_of_tunes(songs);
@@ -348,7 +348,7 @@ static long CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lp
                 machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
                 songs = psid_tunes(&default_song);
                 current_song = default_song;
-                psid_ui_set_tune((resource_value_t)current_song,NULL);
+                psid_ui_set_tune(uint_to_void_ptr(current_song),NULL);
                 vsid_ui_display_tune_nr(current_song);
                 vsid_ui_set_default_tune(default_song);
                 vsid_ui_display_nr_of_tunes(songs);

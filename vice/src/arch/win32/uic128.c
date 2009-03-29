@@ -46,6 +46,9 @@
 #include "uilib.h"
 #include "winmain.h"
 
+#ifdef _WIN64
+#define _ANONYMOUS_UNION
+#endif
 
 static const TCHAR *ui_machine[] = 
 {
@@ -138,8 +141,8 @@ static void end_machine_dialog(HWND hwnd)
                       IDC_C128_MACHINE_TYPE), CB_GETCURSEL, 0, 0));
 }
 
-static BOOL CALLBACK machine_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                         LPARAM lparam)
+static INT_PTR CALLBACK machine_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                            LPARAM lparam)
 {
     switch (msg) {
       case WM_NOTIFY:
@@ -182,8 +185,8 @@ static void end_functionrom_dialog(HWND hwnd)
     resources_set_string("ExternalFunctionName", name);
 }
 
-static BOOL CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                             LPARAM lparam)
+static INT_PTR CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                                LPARAM lparam)
 {
     int command;
 

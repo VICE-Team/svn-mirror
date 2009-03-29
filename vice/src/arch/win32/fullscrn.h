@@ -33,6 +33,7 @@
 
 #include <windows.h>
 
+#include "types.h"
 
 typedef struct _DDL {
     struct _DDL *next;
@@ -63,8 +64,8 @@ extern void SuspendFullscreenModeKeep(HWND hwnd);
 extern void ResumeFullscreenModeKeep(HWND hwnd);
 extern void SwitchFullscreenMode(HWND hwnd);
 extern void SwitchToFullscreenMode(HWND hwnd);
-extern BOOL CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                            LPARAM lparam);
+extern INT_PTR CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                               LPARAM lparam);
 extern void fullscrn_invalidate_refreshrate(void);
 
 /* DDraw functions */

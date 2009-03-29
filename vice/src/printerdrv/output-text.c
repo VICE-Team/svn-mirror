@@ -47,7 +47,7 @@ static FILE *output_fd[3] = { NULL, NULL, NULL };
 
 static int set_printer_device_name(const char *val, void *param)
 {
-    util_string_set(&PrinterDev[(int)(long)param], val);
+    util_string_set(&PrinterDev[vice_ptr_to_int(param)], val);
     return 0;
 }
 
@@ -56,7 +56,7 @@ static int set_printer_device(int prn_dev, void *param)
     if (prn_dev > 3)
         return -1;
 
-    printer_device[(int)(long)param] = (unsigned int)prn_dev;
+    printer_device[vice_ptr_to_int(param)] = (unsigned int)prn_dev;
     return 0;
 }
 

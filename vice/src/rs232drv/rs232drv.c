@@ -42,7 +42,7 @@ char *rs232_devfile[RS232_NUM_DEVICES] = { NULL };
 
 static int set_devfile(const char *val, void *param)
 {
-    util_string_set(&rs232_devfile[(int)(long)param], val);
+    util_string_set(&rs232_devfile[vice_ptr_to_int(param)], val);
     return 0;
 }
 

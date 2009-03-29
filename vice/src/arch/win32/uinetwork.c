@@ -167,8 +167,8 @@ static int set_resources(HWND hwnd)
     return 0;
 }
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                 LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                    LPARAM lparam)
 {
     int command;
 

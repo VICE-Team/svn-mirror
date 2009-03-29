@@ -67,7 +67,7 @@ static UI_CALLBACK(PAL_control_cb)
     ui_button_t button;
     long res;
     int current;
-    int what = (int)(long)UI_MENU_CB_PARAM;
+    int what = vice_ptr_to_int(UI_MENU_CB_PARAM);
     char*resource;
 
     switch (what)

@@ -126,7 +126,7 @@ static UI_CALLBACK(run_c1541)
 static UI_CALLBACK(drive_reset)
 {
     vsync_suspend_speed_eval();
-    drivecpu_trigger_reset((unsigned int)(unsigned long)UI_MENU_CB_PARAM);
+    drivecpu_trigger_reset(vice_ptr_to_uint(UI_MENU_CB_PARAM));
 }
 
 static UI_CALLBACK(reset)

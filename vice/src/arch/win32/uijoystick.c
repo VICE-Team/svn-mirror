@@ -29,11 +29,12 @@
 
 #include "intl.h"
 #include "joy.h"
+#include "kbd.h"
 #include "res.h"
 #include "resources.h"
 #include "translate.h"
+#include "winlong.h"
 #include "winmain.h"
-#include "kbd.h"
 
 /*  These are in joystick.c . */
 extern void joystick_calibrate(HWND hwnd);
@@ -62,8 +63,8 @@ static int keydefine_texts[] = {
     IDS_PRESS_KEY_FIRE
 };
 
-static long CALLBACK real_callback(HWND hwnd, UINT msg, WPARAM wparam,
-                                   LPARAM lparam)
+static INT_PTR CALLBACK real_callback(HWND hwnd, UINT msg, WPARAM wparam,
+                                      LPARAM lparam)
 {
     int kcode;
 
@@ -91,13 +92,13 @@ static long CALLBACK real_callback(HWND hwnd, UINT msg, WPARAM wparam,
     return DefDlgProc(hwnd, msg, wparam, lparam);
 }
 
-static BOOL CALLBACK key_dialog(HWND hwnd, UINT msg, WPARAM wparam,
-                                LPARAM lparam)
+static INT_PTR CALLBACK key_dialog(HWND hwnd, UINT msg, WPARAM wparam,
+                                   LPARAM lparam)
 {
     switch (msg) {
       case WM_INITDIALOG:
         SetWindowText(hwnd, translate_text(keydefine_texts[current_key_index]));
-        SetWindowLong(hwnd, GWL_WNDPROC, (LONG)real_callback);
+        SetWindowLongPtr(hwnd, GWLP_WNDPROC, (INT_PTR)real_callback);
         return FALSE;
     }
     return FALSE;
@@ -185,8 +186,8 @@ static void set_keyset(void)
     }
 }
 
-static BOOL CALLBACK keyset_dialog(HWND hwnd, UINT msg, WPARAM wparam,
-                                   LPARAM lparam)
+static INT_PTR CALLBACK keyset_dialog(HWND hwnd, UINT msg, WPARAM wparam,
+                                      LPARAM lparam)
 {
     int command;
 
@@ -440,8 +441,8 @@ static void rebuild_button_list_2(HWND hwnd, int device)
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 }
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                 LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                    LPARAM lparam)
 {
     int command;
     int res_value;
@@ -461,12 +462,12 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 #endif
           case IDC_JOY_CONFIG_A:
             current_keyset_index = 0;
-            DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_CONFIG_KEYSET_DIALOG),
+            DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_CONFIG_KEYSET_DIALOG),
                       hwnd, keyset_dialog);
             return TRUE;
           case IDC_JOY_CONFIG_B:
             current_keyset_index = 1;
-            DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_CONFIG_KEYSET_DIALOG),
+            DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_CONFIG_KEYSET_DIALOG),
                       hwnd, keyset_dialog);
             return TRUE;
           case IDC_JOY_DEV1:
@@ -595,7 +596,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_joystick_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_JOY_SETTINGS_DIALOG),
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_JOY_SETTINGS_DIALOG),
               hwnd,dialog_proc);
 }
 

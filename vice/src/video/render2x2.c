@@ -59,7 +59,7 @@ void render_08_2x2_04(const video_render_color_tables_t *color_tab,
         wend = 0;
     } else {
         /* alignment: 8 pixels*/
-        wstart = (unsigned int)(8 - ((unsigned long)trg & 7));
+        wstart = (unsigned int)(8 - (vice_ptr_to_uint(trg) & 7));
         wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
         wend = (width - wstart) & 0x07; /* do not forget the rest*/
     }
@@ -152,7 +152,7 @@ void render_16_2x2_04(const video_render_color_tables_t *color_tab,
         wend = 0;
     } else {
         /* alignment: 8 pixels*/
-        wstart = (unsigned int)(8 - ((unsigned long)trg & 7));
+        wstart = (unsigned int)(8 - (vice_ptr_to_int(trg) & 7));
         wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
         wend = (width - wstart) & 0x07; /* do not forget the rest*/
     }
@@ -246,7 +246,7 @@ void render_24_2x2_04(const video_render_color_tables_t *color_tab,
         wend = 0;
     } else {
         /* alignment: 4 pixels*/
-        wstart = (unsigned int)(4 - ((unsigned long)trg & 3));
+        wstart = (unsigned int)(4 - (vice_ptr_to_uint(trg) & 3));
         wfast = (width - wstart) >> 2; /* fast loop for 4 pixel segments*/
         wend = (width - wstart) & 0x03; /* do not forget the rest*/
     }
@@ -442,7 +442,7 @@ void render_32_2x2_04(const video_render_color_tables_t *color_tab,
         wend = 0;
     } else {
         /* alignment: 8 pixels*/
-        wstart = (unsigned int)(8 - ((unsigned long)trg & 7));
+        wstart = (unsigned int)(8 - (vice_ptr_to_uint(trg) & 7));
         wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
         wend = (width - wstart) & 0x07; /* do not forget the rest*/
     }
@@ -570,7 +570,7 @@ void render_08_2x2_08(const video_render_color_tables_t *color_tab,
         wend = 0;
     } else {
         /* alignment: 8 pixels*/
-        wstart = (unsigned int)(8 - ((unsigned long)trg & 7));
+        wstart = (unsigned int)(8 - (vice_ptr_to_uint(trg) & 7));
         wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
         wend = (width - wstart) & 0x07; /* do not forget the rest*/
     }
@@ -671,7 +671,7 @@ void render_16_2x2_08(const video_render_color_tables_t *color_tab,
         wend = 0;
     } else {
         /* alignment: 8 pixels*/
-        wstart = (unsigned int)(8 - ((unsigned long)trg & 7));
+        wstart = (unsigned int)(8 - (vice_ptr_to_uint(trg) & 7));
         wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
         wend = (width - wstart) & 0x07; /* do not forget the rest*/
     }
@@ -773,7 +773,7 @@ void render_24_2x2_08(const video_render_color_tables_t *color_tab,
         wend = 0;
     } else {
         /* alignment: 4 pixels*/
-        wstart = (unsigned int)(4 - ((unsigned long)trg & 3));
+        wstart = (unsigned int)(4 - (vice_ptr_to_uint(trg) & 3));
         wfast = (width - wstart) >> 2; /* fast loop for 4 pixel segments*/
         wend = (width - wstart) & 0x03; /* do not forget the rest*/
     }
@@ -976,7 +976,7 @@ void render_32_2x2_08(const video_render_color_tables_t *color_tab,
         wend = 0;
    } else {
         /* alignment: 4 pixels*/
-        wstart = (unsigned int)(4 - ((unsigned long)trg & 3));
+        wstart = (unsigned int)(4 - (vice_ptr_to_uint(trg) & 3));
         wfast = (width - wstart) >> 2; /* fast loop for 4 pixel segments*/
         wend = (width - wstart) & 0x03; /* do not forget the rest*/
     }

@@ -49,6 +49,9 @@
 #include "uirom.h"
 #include "winmain.h"
 
+#ifdef _WIN64
+#define _ANONYMOUS_UNION
+#endif
 
 static const uirom_settings_t *settings;
 
@@ -142,14 +145,14 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
     return FALSE;
 }
 
-static BOOL CALLBACK dialog_proc_main(HWND hwnd, UINT msg, WPARAM wparam,
-                                 LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc_main(HWND hwnd, UINT msg, WPARAM wparam,
+                                         LPARAM lparam)
 {
     return dialog_proc(hwnd, msg, wparam, lparam, UIROM_TYPE_MAIN);
 }
 
-static BOOL CALLBACK dialog_proc_drive(HWND hwnd, UINT msg, WPARAM wparam,
-                                 LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc_drive(HWND hwnd, UINT msg, WPARAM wparam,
+                                          LPARAM lparam)
 {
     return dialog_proc(hwnd, msg, wparam, lparam, UIROM_TYPE_DRIVE);
 }
@@ -451,21 +454,23 @@ static BOOL CALLBACK resources_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
     return FALSE;
 }
 
-static BOOL CALLBACK resources_computer_dialog_proc(HWND hwnd, UINT msg,
-                                                    WPARAM wparam,
-                                                    LPARAM lparam)
+static INT_PTR CALLBACK resources_computer_dialog_proc(HWND hwnd, UINT msg,
+                                                       WPARAM wparam,
+                                                       LPARAM lparam)
 {
     return resources_dialog_proc(hwnd, msg, wparam, lparam, UIROM_TYPE_MAIN);
 }
 
-static BOOL CALLBACK resources_drive_dialog_proc(HWND hwnd, UINT msg,
-                                                 WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK resources_drive_dialog_proc(HWND hwnd, UINT msg,
+                                                    WPARAM wparam,
+                                                    LPARAM lparam)
 {
     return resources_dialog_proc(hwnd, msg, wparam, lparam, UIROM_TYPE_DRIVE);
 }
 
-static BOOL CALLBACK resources_other_dialog_proc(HWND hwnd, UINT msg,
-                                                 WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK resources_other_dialog_proc(HWND hwnd, UINT msg,
+                                                    WPARAM wparam,
+                                                    LPARAM lparam)
 {
     return resources_dialog_proc(hwnd, msg, wparam, lparam, UIROM_TYPE_OTHER);
 }
@@ -473,7 +478,7 @@ static BOOL CALLBACK resources_other_dialog_proc(HWND hwnd, UINT msg,
 static void uirom_resources_computer(HWND hwnd)
 {
     DialogBox(winmain_instance,
-              (LPCTSTR)translate_res(romset_dialog_resources[UIROM_TYPE_MAIN]), hwnd,
+              (LPCTSTR)(UINT_PTR)translate_res(romset_dialog_resources[UIROM_TYPE_MAIN]), hwnd,
               resources_computer_dialog_proc);
     update_romset_list(hwnd);
 }
@@ -481,7 +486,7 @@ static void uirom_resources_computer(HWND hwnd)
 static void uirom_resources_drive(HWND hwnd)
 {
     DialogBox(winmain_instance,
-              (LPCTSTR)translate_res(romset_dialog_resources[UIROM_TYPE_DRIVE]), hwnd,
+              (LPCTSTR)(UINT_PTR)translate_res(romset_dialog_resources[UIROM_TYPE_DRIVE]), hwnd,
               resources_drive_dialog_proc);
     update_romset_list(hwnd);
 }
@@ -489,13 +494,13 @@ static void uirom_resources_drive(HWND hwnd)
 static void uirom_resources_other(HWND hwnd)
 {
     DialogBox(winmain_instance,
-              (LPCTSTR)translate_res(romset_dialog_resources[UIROM_TYPE_OTHER]), hwnd,
+              (LPCTSTR)(UINT_PTR)translate_res(romset_dialog_resources[UIROM_TYPE_OTHER]), hwnd,
               resources_other_dialog_proc);
     update_romset_list(hwnd);
 }
 
-static BOOL CALLBACK dialog_proc_romset(HWND hwnd, UINT msg, WPARAM wparam,
-                                 LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc_romset(HWND hwnd, UINT msg, WPARAM wparam,
+                                           LPARAM lparam)
 {
     switch (msg) {
       case WM_INITDIALOG:

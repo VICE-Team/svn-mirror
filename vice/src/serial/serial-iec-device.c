@@ -54,7 +54,7 @@ static int set_iec_device_enable(int enable, void *param)
 {
     unsigned int unit;
 
-    unit = (unsigned int)(unsigned long)param;
+    unit = vice_ptr_to_uint(param);
 
     if ((unit < 4 || unit > 5) && (unit < 8 || unit > 11))
         return -1;
@@ -814,4 +814,3 @@ static void serial_iec_device_exec_main(unsigned int devnr, CLOCK clk_value)
         }
     }
 }
-

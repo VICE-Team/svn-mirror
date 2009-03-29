@@ -161,8 +161,8 @@ static void browse_c64dtv_bios_file(HWND hwnd)
                         IDC_C64DTV_ROM_IMAGE_FILE);
 }
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                 LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                    LPARAM lparam)
 {
   TCHAR st[MAX_PATH];
   char s[MAX_PATH];
@@ -198,8 +198,8 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
   return FALSE;
 }
 
-static BOOL CALLBACK dialog_attach_flash_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                              LPARAM lparam)
+static INT_PTR CALLBACK dialog_attach_flash_proc(HWND hwnd, UINT msg,
+                                                 WPARAM wparam, LPARAM lparam)
 {
   int command;
 
@@ -229,8 +229,8 @@ static BOOL CALLBACK dialog_attach_flash_proc(HWND hwnd, UINT msg, WPARAM wparam
   return FALSE;
 }
 
-static BOOL CALLBACK dialog_create_flash_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                              LPARAM lparam)
+static INT_PTR CALLBACK dialog_create_flash_proc(HWND hwnd, UINT msg,
+                                                 WPARAM wparam, LPARAM lparam)
 {
   int command;
 
@@ -262,18 +262,18 @@ static BOOL CALLBACK dialog_create_flash_proc(HWND hwnd, UINT msg, WPARAM wparam
 
 void ui_c64dtv_settings_dialog(HWND hwnd)
 {
-  DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_C64DTV_SETTINGS_DIALOG), hwnd,
+  DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_C64DTV_SETTINGS_DIALOG), hwnd,
             dialog_proc);
 }
 
 void ui_c64dtv_attach_flash_dialog(HWND hwnd)
 {
-  DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG), hwnd,
+  DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG), hwnd,
             dialog_attach_flash_proc);
 }
 
 void ui_c64dtv_create_flash_dialog(HWND hwnd)
 {
-  DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG), hwnd,
+  DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG), hwnd,
             dialog_create_flash_proc);
 }

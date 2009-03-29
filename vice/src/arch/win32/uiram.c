@@ -119,8 +119,8 @@ static void init_ram_dialog(HWND hwnd)
 }
 
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                 LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                    LPARAM lparam)
 {
     int command;
     int rv;
@@ -176,4 +176,3 @@ void ui_ram_settings_dialog(HWND hwnd)
     DialogBox(winmain_instance, MAKEINTRESOURCE(translate_res(IDD_RAM_SETTINGS_DIALOG)), hwnd,
               dialog_proc);
 }
-

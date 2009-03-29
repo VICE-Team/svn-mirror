@@ -37,6 +37,7 @@
 #include "resources.h"
 #include "system.h"
 #include "translate.h"
+#include "types.h"
 #include "uilib.h"
 #include "uipetreu.h"
 #include "winmain.h"
@@ -149,8 +150,8 @@ static void browse_petreu_file(HWND hwnd)
                         IDC_PETREU_FILE);
 }
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                 LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                    LPARAM lparam)
 {
   int command;
 
@@ -184,6 +185,6 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_petreu_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)IDD_PETREU_SETTINGS_DIALOG, hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_PETREU_SETTINGS_DIALOG, hwnd,
               dialog_proc);
 }

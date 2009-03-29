@@ -787,7 +787,7 @@ repeat:
                 flags |= ZEROPAD;
             }
             xmvsprintf_number(&buf, &bufsize, &position,
-                              (unsigned long) va_arg(args, void *), 16,
+                              vice_ptr_to_uint(va_arg(args, void *)), 16,
                               field_width, precision, flags);
             continue;
 

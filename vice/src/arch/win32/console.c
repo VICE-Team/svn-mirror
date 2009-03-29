@@ -41,8 +41,8 @@
 #include "ui.h"
 #include "uimon.h"
 #include "uimonmsg.h"
+#include "winlong.h"
 #include "winmain.h"
-
 
 /*
  MAX_WIDTH is not allowed to be bigger than (MIN_XSIZE * MIN_YSIZE) !
@@ -470,7 +470,7 @@ static void size_window( console_private_t *pcp )
     rect.right  = rect.left + pcp->pConsole->console_xres * pcp->xCharDimension;
     rect.bottom = rect.top  + pcp->pConsole->console_yres * pcp->yCharDimension;
 
-    AdjustWindowRect( &rect, GetWindowLong( pcp->hwndConsole, GWL_STYLE ), FALSE );
+    AdjustWindowRect( &rect, GetWindowLongPtr( pcp->hwndConsole, GWL_STYLE ), FALSE );
 
     MoveWindow( pcp->hwndConsole, rect.left, rect.top,
         rect.right - rect.left, rect.bottom - rect.top, TRUE );
@@ -1049,7 +1049,7 @@ static void external_resize_window( console_private_t *pcp, int nWidth, int nHei
         scroll_up( pcp );
     }
 
-    hwndFrame = (HWND)GetWindowLong((HWND)GetWindowLong(pcp->hwndConsole,GWL_HWNDPARENT),GWL_HWNDPARENT);
+    hwndFrame = (HWND)GetWindowLongPtr((HWND)GetWindowLongPtr(pcp->hwndConsole,GWLP_HWNDPARENT),GWLP_HWNDPARENT);
     SendMessage(hwndFrame,WM_CONSOLE_RESIZED,0,0);
 
     /* now, restore the current input */
@@ -1299,11 +1299,10 @@ static BOOLEAN  bIsMdiChild = FALSE;
 
 
 /* window procedure */
-static long CALLBACK console_window_proc(HWND hwnd, 
-    UINT msg, WPARAM wParam, LPARAM lParam)
-
+static LRESULT CALLBACK console_window_proc(HWND hwnd, UINT msg, 
+                                            WPARAM wParam, LPARAM lParam)
 {
-    console_private_t *pcp = (console_private_t*) GetWindowLong( hwnd, GWL_USERDATA );
+    console_private_t *pcp = (console_private_t*) GetWindowLongPtr( hwnd, GWLP_USERDATA );
 
     if (pcp)
     {
@@ -1344,7 +1343,7 @@ static long CALLBACK console_window_proc(HWND hwnd,
         /* inform parent that window is closed */
         if (bIsMdiChild)
         {
-            HWND hwndFrame = (HWND)GetWindowLong((HWND)GetWindowLong(hwnd,GWL_HWNDPARENT),GWL_HWNDPARENT);
+            HWND hwndFrame = (HWND)GetWindowLongPtr((HWND)GetWindowLongPtr(hwnd,GWLP_HWNDPARENT),GWLP_HWNDPARENT);
             SendMessage(hwndFrame,WM_CONSOLE_CLOSED,0,0);
             pcp->bInputReady       = TRUE;
             replace_current_input( pcp, "" );
@@ -1828,7 +1827,7 @@ static console_t *console_open_internal(const char *id, HWND hwndParent, HWND hw
     SetBkColor( pcp->hdc, GetSysColor( COLOR_WINDOW ) );
 
     /* store pointer to structure with window */
-    SetWindowLong( pcp->hwndConsole, GWL_USERDATA, (long) pcp );
+    SetWindowLongPtr( pcp->hwndConsole, GWLP_USERDATA, (UINT_PTR) pcp );
 
     /* get the dimensions of one char */
     get_char_dimensions( pcp );

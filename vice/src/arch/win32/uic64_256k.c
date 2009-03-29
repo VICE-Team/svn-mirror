@@ -36,6 +36,7 @@
 #include "resources.h"
 #include "system.h"
 #include "translate.h"
+#include "types.h"
 #include "uic64_256k.h"
 #include "uilib.h"
 #include "winmain.h"
@@ -148,8 +149,8 @@ static void browse_c64_256k_file(HWND hwnd)
                         IDC_C64_256K_FILE);
 }
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                 LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                    LPARAM lparam)
 {
     int command;
 

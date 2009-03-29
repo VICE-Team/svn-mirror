@@ -32,6 +32,7 @@
 #include "resources.h"
 #include "system.h"
 #include "translate.h"
+#include "types.h"
 #include "uilib.h"
 #include "winmain.h"
 
@@ -93,8 +94,8 @@ static void end_dialog(void)
     }
 }
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
-                                 WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg,
+                                    WPARAM wparam, LPARAM lparam)
 {
     int type;
 

@@ -62,7 +62,7 @@ extern UI_CALLBACK(detach_disk);
 
 static UI_CALLBACK(attach_from_fliplist3)
 {
-    fliplist_attach_head(8, (int)(long)UI_MENU_CB_PARAM);
+    fliplist_attach_head(8, vice_ptr_to_int(UI_MENU_CB_PARAM));
 }
 
 static UI_CALLBACK(add2fliplist)
@@ -82,7 +82,7 @@ static char *load_save_fliplist_last_dir = NULL;
 static UI_CALLBACK(load_save_fliplist)
 {
     char *filename, *title;
-    int what = (int)(long)UI_MENU_CB_PARAM;
+    int what = vice_ptr_to_int(UI_MENU_CB_PARAM);
     ui_button_t button;
     uilib_file_filter_enum_t filter[] = { UILIB_FILTER_FLIPLIST, UILIB_FILTER_ALL };
 

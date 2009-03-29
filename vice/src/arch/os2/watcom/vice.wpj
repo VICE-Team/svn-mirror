@@ -1099,7 +1099,7 @@ WFileName
 12
 sounddrv.tgt
 0
-0
+8
 227
 VComponent
 228
@@ -1489,9 +1489,9 @@ VComponent
 300
 WRect
 1240
-533
+520
 5700
-4293
+4280
 1
 0
 301
@@ -1500,4 +1500,4 @@ WFileName
 gentr.tgt
 0
 1
-89
+221

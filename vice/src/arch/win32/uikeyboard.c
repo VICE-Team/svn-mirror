@@ -54,6 +54,10 @@
 
 #include "menuid.h"
 
+#ifdef _WIN64
+#define _ANONYMOUS_UNION
+#endif
+
 #define MAXACCEL 1000
 
 static ACCEL accellist[MAXACCEL];
@@ -158,8 +162,8 @@ static void dump_mapping(HWND hwnd)
     }
 }
 
-static BOOL CALLBACK mapping_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                         LPARAM lparam)
+static INT_PTR CALLBACK mapping_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                            LPARAM lparam)
 {
     switch (msg) {
       case WM_NOTIFY:

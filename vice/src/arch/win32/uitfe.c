@@ -232,8 +232,8 @@ static void save_tfe_dialog(HWND hwnd)
     resources_set_string("ETHERNET_INTERFACE", buffer);
 }
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                 LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                    LPARAM lparam)
 {
     switch (msg) {
       case WM_COMMAND:
@@ -269,9 +269,8 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_tfe_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)IDD_TFE_SETTINGS_DIALOG, hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_TFE_SETTINGS_DIALOG, hwnd,
               dialog_proc);
 }
 
 #endif // #ifdef HAVE_TFE
-

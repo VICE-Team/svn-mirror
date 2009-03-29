@@ -72,8 +72,8 @@ static int set_printer_driver(const char *name, void *param)
 
     do {
         if (!strcmp(list->driver_select.drv_name, name)) {
-            util_string_set(&printer_driver[(int)(long)param], name);
-            memcpy(&driver_select[(int)(long)param], &(list->driver_select),
+            util_string_set(&printer_driver[vice_ptr_to_int(param)], name);
+            memcpy(&driver_select[vice_ptr_to_int(param)], &(list->driver_select),
                    sizeof(driver_select_t));
             return 0;
         }

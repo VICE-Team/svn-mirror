@@ -248,7 +248,7 @@ static int set_joykeys_enable(int val, void *param)
 #define DEFINE_SET_KEYSET(num)                       \
     static int set_keyset##num(int val, void *param) \
     {                                                \
-        joykeys[num][(int)(long)param] = val;        \
+        joykeys[num][vice_ptr_to_int(param)] = val;  \
                                                      \
         return 0;                                    \
     }

@@ -63,4 +63,16 @@ typedef DWORD CLOCK;
 #define REGPARM3
 #endif
 
+#ifdef _WIN64
+#define vice_ptr_to_int(x) ((int)(long long)(x))
+#define vice_ptr_to_uint(x) ((unsigned int)(unsigned long long)(x))
+#define int_to_void_ptr(x) ((void *)(long long)(x))
+#define uint_to_void_ptr(x) ((void *)(unsigned long long)(x))
+#else
+#define vice_ptr_to_int(x) ((int)(long)(x))
+#define vice_ptr_to_uint(x) ((unsigned int)(unsigned long)(x))
+#define int_to_void_ptr(x) ((void *)(long)(x))
+#define uint_to_void_ptr(x) ((void *)(unsigned long)(x))
+#endif
+
 #endif

@@ -51,7 +51,7 @@ UI_CALLBACK(uidrive_extend_policy_control)
         int type;
 
         resources_get_int_sprintf("Drive%iType", &type,
-                                  (int)(long)UI_MENU_CB_PARAM + 8);
+                                  vice_ptr_to_int(UI_MENU_CB_PARAM) + 8);
 
         if (drive_check_extend_policy(type))
             ui_menu_set_sensitive(w, 1);
@@ -106,13 +106,13 @@ UI_CALLBACK(radio_Drive8Type)
 
     resources_get_int("Drive8Type", &current_value);
     if (!CHECK_MENUS) {
-        if (current_value != (int)(long)UI_MENU_CB_PARAM) {
-            resources_set_int("Drive8Type", (int)(long)UI_MENU_CB_PARAM);
+        if (current_value != vice_ptr_to_int(UI_MENU_CB_PARAM)) {
+            resources_set_int("Drive8Type", vice_ptr_to_int(UI_MENU_CB_PARAM));
             ui_update_menus();
         }
     } else {
-        ui_menu_set_tick(w, current_value == (int)(long)UI_MENU_CB_PARAM);
-        if (drive_check_type((int)(long)UI_MENU_CB_PARAM, 0)) {
+        ui_menu_set_tick(w, current_value == vice_ptr_to_int(UI_MENU_CB_PARAM));
+        if (drive_check_type(vice_ptr_to_int(UI_MENU_CB_PARAM), 0)) {
             ui_menu_set_sensitive(w, 1);
         } else {
             ui_menu_set_sensitive(w, 0);
@@ -126,13 +126,13 @@ UI_CALLBACK(radio_Drive9Type)
 
     resources_get_int("Drive9Type", &current_value);
     if (!CHECK_MENUS) {
-        if (current_value != (int)(long)UI_MENU_CB_PARAM) {
-            resources_set_int("Drive9Type", (int)(long)UI_MENU_CB_PARAM);
+        if (current_value != vice_ptr_to_int(UI_MENU_CB_PARAM)) {
+            resources_set_int("Drive9Type", vice_ptr_to_int(UI_MENU_CB_PARAM));
             ui_update_menus();
         }
     } else {
-        ui_menu_set_tick(w, current_value == (int)(long)UI_MENU_CB_PARAM);
-        if (drive_check_type((int)(long)UI_MENU_CB_PARAM, 1)) {
+        ui_menu_set_tick(w, current_value == vice_ptr_to_int(UI_MENU_CB_PARAM));
+        if (drive_check_type(vice_ptr_to_int(UI_MENU_CB_PARAM), 1)) {
             ui_menu_set_sensitive(w, 1);
         } else {
             ui_menu_set_sensitive(w, 0);
@@ -146,13 +146,13 @@ UI_CALLBACK(radio_Drive10Type)
 
     resources_get_int("Drive10Type", &current_value);
     if (!CHECK_MENUS) {
-        if (current_value != (int)(long)UI_MENU_CB_PARAM) {
-            resources_set_int("Drive10Type", (int)(long)UI_MENU_CB_PARAM);
+        if (current_value != vice_ptr_to_int(UI_MENU_CB_PARAM)) {
+            resources_set_int("Drive10Type", vice_ptr_to_int(UI_MENU_CB_PARAM));
             ui_update_menus();
         }
     } else {
-        ui_menu_set_tick(w, current_value == (int)(long)UI_MENU_CB_PARAM);
-        if (drive_check_type((int)(long)UI_MENU_CB_PARAM, 2)) {
+        ui_menu_set_tick(w, current_value == vice_ptr_to_int(UI_MENU_CB_PARAM));
+        if (drive_check_type(vice_ptr_to_int(UI_MENU_CB_PARAM), 2)) {
             ui_menu_set_sensitive(w, 1);
         } else {
             ui_menu_set_sensitive(w, 0);
@@ -166,13 +166,13 @@ UI_CALLBACK(radio_Drive11Type)
 
     resources_get_int("Drive11Type", &current_value);
     if (!CHECK_MENUS) {
-        if (current_value != (int)(long)UI_MENU_CB_PARAM) {
-            resources_set_int("Drive11Type", (int)(long)UI_MENU_CB_PARAM);
+        if (current_value != vice_ptr_to_int(UI_MENU_CB_PARAM)) {
+            resources_set_int("Drive11Type", vice_ptr_to_int(UI_MENU_CB_PARAM));
             ui_update_menus();
         }
     } else {
-        ui_menu_set_tick(w, current_value == (int)(long)UI_MENU_CB_PARAM);
-        if (drive_check_type((int)(long)UI_MENU_CB_PARAM, 3)) {
+        ui_menu_set_tick(w, current_value == vice_ptr_to_int(UI_MENU_CB_PARAM));
+        if (drive_check_type(vice_ptr_to_int(UI_MENU_CB_PARAM), 3)) {
             ui_menu_set_sensitive(w, 1);
         } else {
             ui_menu_set_sensitive(w, 0);

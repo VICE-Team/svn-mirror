@@ -96,8 +96,8 @@ static void end_datasette_dialog(HWND hwnd)
                       IDC_DATASETTE_ZERO_GAP_DELAY, CB_GETCURSEL, 0, 0)]);
 }
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                 LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                    LPARAM lparam)
 {
     int command;
 

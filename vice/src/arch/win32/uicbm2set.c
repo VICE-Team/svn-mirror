@@ -44,6 +44,10 @@
 #include "uilib.h"
 #include "winmain.h"
 
+#ifdef _WIN64
+#define _ANONYMOUS_UNION
+#endif
+
 /*
 static void enable_controls_for_cbm2_settings(HWND hwnd, int type)
 {
@@ -106,8 +110,8 @@ static void init_dialog(HWND hwnd)
     CheckRadioButton(hwnd, IDC_SELECT_CBMII_HW0, IDC_SELECT_CBMII_HW2, n);
 }
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
-                                 WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg,
+                                    WPARAM wparam, LPARAM lparam)
 {
     int type;
 

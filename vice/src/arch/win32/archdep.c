@@ -184,7 +184,7 @@ int 	company_name_length = 0;
     if (version_info_size) {
         BYTE *version_info_buffer = lib_malloc(version_info_size);
 
-        if (GetFileVersionInfo(file_name, (DWORD)NULL, version_info_size, (VOID*)version_info_buffer)) {
+        if (GetFileVersionInfo(file_name, 0, version_info_size, (VOID*)version_info_buffer)) {
             if (VerQueryValue(version_info_buffer, "\\StringFileInfo\\04090000\\CompanyName", (void*)&company_name, &company_name_length)) {
                 if (company_name) {
                     if (strncmp("Vice Team", company_name, company_name_length) == 0) {

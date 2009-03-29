@@ -317,7 +317,7 @@ static UI_CALLBACK(save_screenshot)
 {
     /* Where does the 1024 come from?  */
     char filename[1024];
-    unsigned int wid = (unsigned int)(unsigned long)UI_MENU_CB_PARAM;
+    unsigned int wid = vice_ptr_to_uint(UI_MENU_CB_PARAM);
 
     vsync_suspend_speed_eval();
 

@@ -126,10 +126,10 @@ int window_canvas_ysize[2];
 static HACCEL ui_accelerator;
 
 /* Forward prototypes.  */
-static long CALLBACK dummywindowproc(HWND window, UINT msg,
-                                     WPARAM wparam, LPARAM lparam);
-static long CALLBACK window_proc(HWND window, UINT msg,
-                                 WPARAM wparam, LPARAM lparam);
+static LRESULT CALLBACK dummywindowproc(HWND window, UINT msg,
+                                        WPARAM wparam, LPARAM lparam);
+static LRESULT CALLBACK window_proc(HWND window, UINT msg,
+                                    WPARAM wparam, LPARAM lparam);
 
 /* List of resources that can be grayed out from the menus.  */
 static const ui_menu_toggle_t grayed_list[] = {
@@ -444,7 +444,7 @@ static void ui_translate_menu_popups(HMENU menu, ui_popup_translation_table_t *t
                     menu1 = GetSubMenu(menu, pos1);
                 }
                 if (trans_table[i].ids != 0)
-                    ModifyMenu(menu, (UINT)pos1, MF_BYPOSITION | MF_STRING | MF_POPUP, (UINT)menu1, translate_text(trans_table[i].ids));
+                    ModifyMenu(menu, (UINT)pos1, MF_BYPOSITION | MF_STRING | MF_POPUP, vice_ptr_to_uint(menu1), translate_text(trans_table[i].ids));
                 pos2 = -1;
                 pos3 = -1;
                 break;
@@ -455,7 +455,7 @@ static void ui_translate_menu_popups(HMENU menu, ui_popup_translation_table_t *t
                     pos2++;
                     menu2 = GetSubMenu(menu1, pos2);
                 }
-                ModifyMenu(menu1, (UINT)pos2, MF_BYPOSITION | MF_STRING | MF_POPUP, (UINT)menu2, translate_text(trans_table[i].ids));
+                ModifyMenu(menu1, (UINT)pos2, MF_BYPOSITION | MF_STRING | MF_POPUP, vice_ptr_to_uint(menu2), translate_text(trans_table[i].ids));
                 pos3 = -1;
                 break;
             case 3:
@@ -465,7 +465,7 @@ static void ui_translate_menu_popups(HMENU menu, ui_popup_translation_table_t *t
                     pos3++;
                     menu3 = GetSubMenu(menu2, pos3);
                 }
-                ModifyMenu(menu2, (UINT)pos3, MF_BYPOSITION | MF_STRING | MF_POPUP, (UINT)menu3, translate_text(trans_table[i].ids));
+                ModifyMenu(menu2, (UINT)pos3, MF_BYPOSITION | MF_STRING | MF_POPUP, vice_ptr_to_uint(menu3), translate_text(trans_table[i].ids));
                 break;
         }
         i++;
@@ -1653,8 +1653,8 @@ int ui_active = FALSE;
 HWND ui_active_window;
 
 /* Window procedure.  All messages are handled here.  */
-static long CALLBACK dummywindowproc(HWND window, UINT msg,
-                                     WPARAM wparam, LPARAM lparam)
+static LRESULT CALLBACK dummywindowproc(HWND window, UINT msg,
+                                        WPARAM wparam, LPARAM lparam)
 {
     switch (msg) {
       case WM_ENABLE:
@@ -1764,8 +1764,8 @@ static void ui_redraw_all_windows(void)
 }
 
 /* Window procedure.  All messages are handled here.  */
-static long CALLBACK window_proc(HWND window, UINT msg,
-                                 WPARAM wparam, LPARAM lparam)
+static LRESULT CALLBACK window_proc(HWND window, UINT msg,
+                                    WPARAM wparam, LPARAM lparam)
 {
     int window_index;
 

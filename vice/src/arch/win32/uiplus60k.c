@@ -36,6 +36,7 @@
 #include "resources.h"
 #include "system.h"
 #include "translate.h"
+#include "types.h"
 #include "uilib.h"
 #include "uiplus60k.h"
 #include "winmain.h"
@@ -147,8 +148,8 @@ static void browse_plus60k_file(HWND hwnd)
                         IDC_PLUS60K_FILE);
 }
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                 LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                    LPARAM lparam)
 {
     int command;
 
@@ -182,6 +183,6 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_plus60k_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)IDD_PLUS60K_SETTINGS_DIALOG, hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_PLUS60K_SETTINGS_DIALOG, hwnd,
               dialog_proc);
 }

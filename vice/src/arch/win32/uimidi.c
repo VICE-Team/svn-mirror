@@ -135,8 +135,8 @@ static void end_midi_dialog(HWND hwnd)
                     hwnd, IDC_MIDI_OUT_DEVICE), CB_GETCURSEL, 0, 0));
 }
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                 LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                    LPARAM lparam)
 {
   int command;
 
@@ -168,6 +168,6 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_midi_settings_dialog(HWND hwnd)
 {
-  DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_MIDI_SETTINGS_DIALOG), hwnd,
+  DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_MIDI_SETTINGS_DIALOG), hwnd,
             dialog_proc);
 }

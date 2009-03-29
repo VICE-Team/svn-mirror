@@ -55,8 +55,12 @@
 #include "uiapi.h"
 #include "uilib.h"
 #include "uiperipheral.h"
+#include "winlong.h"
 #include "winmain.h"
 
+#ifdef _WIN64
+#define _ANONYMOUS_UNION
+#endif
 
 /* -------------------------------------------------------------------------- */
 /*                             Disk Peripherals (8-11)                        */
@@ -315,7 +319,7 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
 
             switch (nmhdr->code) {
               case PSN_APPLY:
-                SetWindowLong(hwnd, DWL_MSGRESULT, 
+                SetWindowLongPtr(hwnd, DWLP_MSGRESULT, 
                               store_dialog_results(hwnd, num)
                               ? PSNRET_NOERROR : PSNRET_INVALID);
                 return TRUE;
@@ -349,11 +353,11 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
     return FALSE;
 }
 
-#define _CALLBACK(num)                                            \
-static BOOL CALLBACK callback_##num(HWND dialog, UINT msg,        \
-                                    WPARAM wparam, LPARAM lparam) \
-{                                                                 \
-    return dialog_proc(num, dialog, msg, wparam, lparam);         \
+#define _CALLBACK(num)                                               \
+static INT_PTR CALLBACK callback_##num(HWND dialog, UINT msg,        \
+                                       WPARAM wparam, LPARAM lparam) \
+{                                                                    \
+    return dialog_proc(num, dialog, msg, wparam, lparam);            \
 }
 
 _CALLBACK(8)
@@ -622,7 +626,7 @@ static BOOL CALLBACK printer_dialog_proc(unsigned int num, HWND hwnd, UINT msg,
 
             switch (nmhdr->code) {
               case PSN_APPLY:
-                SetWindowLong(hwnd, DWL_MSGRESULT, 
+                SetWindowLongPtr(hwnd, DWLP_MSGRESULT, 
                               store_printer_dialog_results(hwnd, num)
                               ? PSNRET_NOERROR : PSNRET_INVALID);
                 return TRUE;
@@ -648,11 +652,11 @@ static BOOL CALLBACK printer_dialog_proc(unsigned int num, HWND hwnd, UINT msg,
 }
 
 
-#define _CALLBACK_PRINTER(num)                                    \
-static BOOL CALLBACK callback_##num(HWND dialog, UINT msg,        \
-                                    WPARAM wparam, LPARAM lparam) \
-{                                                                 \
-    return printer_dialog_proc(num, dialog, msg, wparam, lparam); \
+#define _CALLBACK_PRINTER(num)                                       \
+static INT_PTR CALLBACK callback_##num(HWND dialog, UINT msg,        \
+                                       WPARAM wparam, LPARAM lparam) \
+{                                                                    \
+    return printer_dialog_proc(num, dialog, msg, wparam, lparam);    \
 }
 
 _CALLBACK_PRINTER(0)

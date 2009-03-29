@@ -28,8 +28,18 @@ enum host_cpu_feature {
     HOST_CPU_MMX=1, HOST_CPU_SSE=2, HOST_CPU_SSE2=4, HOST_CPU_SSE3=8
 };
 
+#ifdef _MSC_VER
+#  ifndef _WIN64
+#    define USE_ASM
+#  endif
+#else
+#  if defined(__x86_64__) || defined(__i386__)
+#    define USE_ASM
+#  endif
+#endif
+
 /* This code is appropriate for 32-bit and 64-bit x86 CPUs. */
-#if defined(__x86_64__) || defined(__i386__) || defined(_MSC_VER)
+#ifdef USE_ASM
 
 struct cpu_x86_regs_s {
   unsigned int eax;

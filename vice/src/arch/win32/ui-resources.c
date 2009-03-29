@@ -109,8 +109,8 @@ static int set_confirm_on_exit(int val, void *param)
 
 static int set_single_cpu(int val, void *param)
 {
-    DWORD process_affinity;
-    DWORD system_affinity;
+    UINT_PTR process_affinity;
+    UINT_PTR system_affinity;
 
     ui_resources.single_cpu = (int)val;
 
@@ -143,7 +143,7 @@ static int set_monitor_dimensions(const char *name, void *param)
 
 static int set_initial_dir(const char *name, void *param)
 {
-    int index = (int)param;
+    int index = vice_ptr_to_int(param);
 
     if (ui_resources.initialdir[index] != NULL && name != NULL)
         if (strcmp(name, ui_resources.initialdir[index]) == 0)
@@ -156,13 +156,13 @@ static int set_initial_dir(const char *name, void *param)
 
 static int set_window_xpos(int val, void *param)
 {
-    ui_resources.window_xpos[(int) param] = val;
+    ui_resources.window_xpos[vice_ptr_to_int(param)] = val;
     return 0;
 }
 
 static int set_window_ypos(int val, void *param)
 {
-    ui_resources.window_ypos[(int) param] = val;
+    ui_resources.window_ypos[vice_ptr_to_int(param)] = val;
     return 0;
 }
 

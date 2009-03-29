@@ -184,10 +184,10 @@ endif
 
 if WIN32_COMPILE
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip $(top_srcdir)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip $(top_srcdir) $(host_cpu)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip $(top_srcdir)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip $(top_srcdir) $(host_cpu)
 endif
 
 if RISCOS_COMPILE

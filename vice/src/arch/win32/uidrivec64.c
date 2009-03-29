@@ -46,6 +46,9 @@
 #include "uilib.h"
 #include "winmain.h"
 
+#ifdef _WIN64
+#define _ANONYMOUS_UNION
+#endif
 
 static void enable_controls_for_drive_settings(HWND hwnd, int type)
 {
@@ -383,11 +386,11 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg,
     return FALSE;
 }
 
-#define _CALLBACK(num)                                            \
-static BOOL CALLBACK callback_##num(HWND dialog, UINT msg,        \
-                                    WPARAM wparam, LPARAM lparam) \
-{                                                                 \
-    return dialog_proc(num, dialog, msg, wparam, lparam);         \
+#define _CALLBACK(num)                                               \
+static INT_PTR CALLBACK callback_##num(HWND dialog, UINT msg,        \
+                                       WPARAM wparam, LPARAM lparam) \
+{                                                                    \
+    return dialog_proc(num, dialog, msg, wparam, lparam);            \
 }
 
 _CALLBACK(8)

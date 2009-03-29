@@ -37,13 +37,13 @@
 
 static UI_CALLBACK(ui_datasette_control)
 {
-    int command = (int)(long)UI_MENU_CB_PARAM;
+    int command = vice_ptr_to_int(UI_MENU_CB_PARAM);
     datasette_control(command);
 }
 
 static UI_CALLBACK(datasette_settings)
 {
-    int what = (int)(long)UI_MENU_CB_PARAM;
+    int what = vice_ptr_to_int(UI_MENU_CB_PARAM);
     char *prompt, *title, *resource;
     char buf[50];
     ui_button_t button;

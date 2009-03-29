@@ -108,7 +108,7 @@ static int cmdline_console(const char *param, void *extra_param)
 
 static int cmdline_attach(const char *param, void *extra_param)
 {
-    int unit = (int)(long)extra_param;
+    int unit = vice_ptr_to_int(extra_param);
 
     switch (unit) {
       case 1:

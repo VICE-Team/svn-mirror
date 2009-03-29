@@ -35,6 +35,7 @@
 #include "resources.h"
 #include "system.h"
 #include "translate.h"
+#include "types.h"
 #include "uilib.h"
 #include "uimmc64.h"
 #include "winmain.h"
@@ -143,8 +144,8 @@ static void browse_mmc64_image_file(HWND hwnd)
                         IDC_MMC64_IMAGE_FILE);
 }
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                 LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                    LPARAM lparam)
 {
   int command;
 
@@ -182,6 +183,6 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_mmc64_settings_dialog(HWND hwnd)
 {
-  DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_MMC64_SETTINGS_DIALOG), hwnd,
+  DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_MMC64_SETTINGS_DIALOG), hwnd,
             dialog_proc);
 }

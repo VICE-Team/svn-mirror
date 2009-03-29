@@ -42,7 +42,7 @@ static int cmdline_fsdirectory(const char *param, void *extra_param)
     unsigned int unit;
     char *directory;
 
-    unit = (unsigned int)(unsigned long)extra_param;
+    unit = vice_ptr_to_uint(extra_param);
     directory = (char *)lib_malloc(ioutil_maxpathlen());
 
     strcpy(directory, param);

@@ -1,5 +1,7 @@
 #include "vice.h"
 
+#include "types.h"
+
 #ifndef MACOSX_COCOA
 #ifdef GP2X
 #include "gp2x/uimenu.h"

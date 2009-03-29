@@ -49,6 +49,10 @@
 #include "winmain.h"
 #include "uilib.h"
 
+#ifdef _WIN64
+#define _ANONYMOUS_UNION
+#endif
+
 static const TCHAR *ui_sid_engine[] = 
 {
     TEXT("Fast SID"),
@@ -525,8 +529,8 @@ static void end_general_dialog(HWND hwnd)
     CreateAndGetSidAddress(hwnd, 1);
 }
 
-static BOOL CALLBACK general_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                         LPARAM lparam)
+static INT_PTR CALLBACK general_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                            LPARAM lparam)
 {
     int command;
 
@@ -582,8 +586,8 @@ static void end_resid_dialog(HWND hwnd)
     resources_set_int("SidResidPassband", _ttoi(st));
 }
 
-static BOOL CALLBACK resid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                       LPARAM lparam)
+static INT_PTR CALLBACK resid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                          LPARAM lparam)
 {
     switch (msg) {
       case WM_NOTIFY:
@@ -618,8 +622,8 @@ static void end_hardsid_dialog(HWND hwnd)
                       IDC_SID_HARDSID_RIGHT_ENGINE), CB_GETCURSEL, 0, 0));
 }
 
-static BOOL CALLBACK hardsid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                         LPARAM lparam)
+static INT_PTR CALLBACK hardsid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                            LPARAM lparam)
 {
     int command;
 

@@ -165,7 +165,7 @@ static int set_sync_factor(int val, void *param)
 
 static int set_romset_firmware(int val, void *param)
 {
-    unsigned int num = (unsigned int)(unsigned long)param;
+    unsigned int num = vice_ptr_to_uint(param);
 
     romset_firmware[num] = val;
 

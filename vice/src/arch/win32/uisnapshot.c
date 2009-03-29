@@ -70,8 +70,8 @@ static void init_snapshot_dialog(HWND hwnd)
 }
 
 
-static UINT APIENTRY hook_save_snapshot(HWND hwnd, UINT uimsg, WPARAM wparam,
-                                        LPARAM lparam)
+static UINT_PTR APIENTRY hook_save_snapshot(HWND hwnd, UINT uimsg,
+                                            WPARAM wparam, LPARAM lparam)
 {
     switch (uimsg) {
       case WM_INITDIALOG:

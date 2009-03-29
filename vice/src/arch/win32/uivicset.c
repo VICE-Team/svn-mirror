@@ -32,6 +32,7 @@
 #include "resources.h"
 #include "system.h"
 #include "translate.h"
+#include "types.h"
 #include "uilib.h"
 #include "uivicset.h"
 #include "winmain.h"
@@ -202,8 +203,8 @@ static void init_dialog(HWND hwnd)
     update_config(hwnd);
 }
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
-                                 WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg,
+                                    WPARAM wparam, LPARAM lparam)
 {
     int command;
 
@@ -272,4 +273,3 @@ void ui_vic_settings_dialog(HWND hwnd)
     DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_VIC_SETTINGS_DIALOG), hwnd,
               dialog_proc);
 }
-

@@ -1,5 +1,5 @@
 @echo off
-set VICEDIR=WinVICE-2.1
+set VICEDIR=WinVICE-2.1-x86
 if not exist x64.exe goto missingwatcom
 if not exist x64dtv.exe goto missingwatcom
 if not exist x128.exe goto missingwatcom

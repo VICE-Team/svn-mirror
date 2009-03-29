@@ -107,8 +107,8 @@ static void end_vicii_dialog(HWND hwnd)
                       IDC_TOGGLE_VICII_NEWLUM) == BST_CHECKED ? 1 : 0 ));
 }
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
-                                 WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg,
+                                    WPARAM wparam, LPARAM lparam)
 {
     int type;
 

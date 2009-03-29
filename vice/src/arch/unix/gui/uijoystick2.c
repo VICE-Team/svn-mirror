@@ -42,11 +42,11 @@ static UI_CALLBACK(set_joystick_device_1)
     int tmp;
 
     if (!CHECK_MENUS) {
-        resources_set_int("JoyDevice1", (int)(long)UI_MENU_CB_PARAM);
+        resources_set_int("JoyDevice1", vice_ptr_to_int(UI_MENU_CB_PARAM));
         ui_update_menus();
     } else {
         resources_get_int("JoyDevice1", &tmp);
-        ui_menu_set_tick(w, tmp == (int)(long)UI_MENU_CB_PARAM);
+        ui_menu_set_tick(w, tmp == vice_ptr_to_int(UI_MENU_CB_PARAM));
     }
 }
 
@@ -55,11 +55,11 @@ static UI_CALLBACK(set_joystick_device_2)
     int tmp;
 
     if (!CHECK_MENUS) {
-        resources_set_int("JoyDevice2", (int)(long)UI_MENU_CB_PARAM);
+        resources_set_int("JoyDevice2", vice_ptr_to_int(UI_MENU_CB_PARAM));
         ui_update_menus();
     } else {
         resources_get_int("JoyDevice2", &tmp);
-        ui_menu_set_tick(w, tmp == (int)(long)UI_MENU_CB_PARAM);
+        ui_menu_set_tick(w, tmp == vice_ptr_to_int(UI_MENU_CB_PARAM));
     }
 }
 
