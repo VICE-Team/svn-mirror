@@ -57,31 +57,6 @@ int psid_ui_set_tune(resource_value_t tune, void *param);
 char szAppName[]="WinVice VSID GUI";
 char vsidstrings[VSID_S_LASTLINE+1][80]={{0}};
 
-typedef struct psid_s {
-    /* PSID data */
-    WORD version;
-    WORD data_offset;
-    WORD load_addr;
-    WORD init_addr;
-    WORD play_addr;
-    WORD songs;
-    WORD start_song;
-    DWORD speed;
-    BYTE name[32];
-    BYTE author[32];
-    BYTE copyright[32];
-    WORD flags;
-    BYTE start_page;
-    BYTE max_pages;
-    WORD reserved;
-    WORD data_size;
-    BYTE data[65536];
-
-    /* Non-PSID data */
-    DWORD frames_played;
-} psid_t;
-
-
 static int current_song;
 static int songs;
 static int default_song;
@@ -164,21 +139,18 @@ void vsid_ui_display_name(const char *name)
 {
     sprintf(vsidstrings[VSID_S_TITLE],  "   Title: %s", name);
     log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_TITLE]);
-
 }
 
 void vsid_ui_display_author(const char *author)
 {
     sprintf(vsidstrings[VSID_S_AUTHOR],  "  Author: %s", author);
     log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_AUTHOR]);
-
 }
 
 void vsid_ui_display_copyright(const char *copyright)
 {
     sprintf(vsidstrings[VSID_S_RELEASED],  "Released: %s", copyright);
     log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_RELEASED]);
-
 }
 
 void vsid_ui_display_sync(int sync)
@@ -194,7 +166,6 @@ void vsid_ui_display_sid_model(int model)
                     csidmodel[ model>19 ? 7 : model ]);
 
     log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_MODEL]);
-
 }
 
 void vsid_ui_display_tune_nr(int nr)
@@ -235,6 +206,10 @@ void vsid_ui_display_time(unsigned int sec)
     sec= sec-(m*60);
     sprintf(vsidstrings[VSID_S_TIMER], dummy,h,m,sec);
     vsid_disp( 0, VSID_S_TIMER, "%s", vsidstrings[VSID_S_TIMER]);
+    if(((h+m)==0) && (s<2))
+    {
+        InvalidateRect(hwnd, NULL, FALSE);
+    }
     UpdateWindow (hwnd) ;
 }
 
@@ -261,8 +236,7 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
     HDC hdc;
     PAINTSTRUCT ps;
     int i;
-    switch (msg)
-    {
+    switch (msg) {
 
     case WM_CREATE:
         songs = psid_tunes(&default_song);
@@ -336,15 +310,17 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
     case WM_DROPFILES:
         {
             char dummy[MAX_PATH];
-            DragQueryFile( (HDROP)wparam, 0, dummy, sizeof(dummy) );
+            DragQueryFile((HDROP)wparam, 0, dummy, sizeof(dummy) );
             if (machine_autodetect_psid(dummy)>=0)
             {
-                vsid_disp( 0, 0,  NULL, NULL);
+                vsid_disp(0, 0,  NULL, NULL);
                 psid_init_driver();
-                psid_init_tune();
-
                 vsid_ui_init();
                 machine_play_psid(0);
+                for(i=0;i < VSID_S_LASTLINE; i++)
+                {
+                   *vsidstrings[i]=0;
+                }
                 machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
                 songs = psid_tunes(&default_song);
                 current_song = default_song;
@@ -352,7 +328,7 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
                 vsid_ui_display_tune_nr(current_song);
                 vsid_ui_set_default_tune(default_song);
                 vsid_ui_display_nr_of_tunes(songs);
-                InvalidateRect(window, NULL, 0);
+                InvalidateRect(window, NULL, TRUE);
             }
         }
         return 0;
