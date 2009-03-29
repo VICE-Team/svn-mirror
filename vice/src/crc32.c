@@ -77,7 +77,7 @@ unsigned long crc32_file(const char *filename)
     if (fd == NULL)
         return 0;
 
-    len = util_file_length(fd);
+    len = (unsigned int)util_file_length(fd);
 
     buffer = lib_malloc(len);
 

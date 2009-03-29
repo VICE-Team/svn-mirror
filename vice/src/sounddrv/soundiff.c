@@ -90,7 +90,7 @@ static int iff_write(SWORD *pbuf, size_t nr)
   }
 
   /* Accumulate number of samples. */
-  samples+=nr;
+  samples+=(int)nr;
 
   return 0;
 }

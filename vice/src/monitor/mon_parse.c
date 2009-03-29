@@ -3882,7 +3882,7 @@ void parse_and_execute_line(char *input)
 
    temp_buf = (char *)lib_malloc(strlen(input) + 3);
    strcpy(temp_buf,input);
-   i = strlen(input);
+   i = (int)strlen(input);
    temp_buf[i++] = '\n';
    temp_buf[i++] = '\0';
    temp_buf[i++] = '\0';

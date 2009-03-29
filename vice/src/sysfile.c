@@ -281,7 +281,7 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
 
     fclose(fp);
     lib_free(complete_path);
-    return rsize;  /* return ok */
+    return (int)rsize;  /* return ok */
 
 fail:
     lib_free(complete_path);

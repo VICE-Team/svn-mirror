@@ -225,7 +225,7 @@ static int output_graphics_putc(unsigned int prnr, BYTE b)
           int i;
 
           /* increase page count in filename */
-          i = strlen(o->filename);
+          i = (int)strlen(o->filename);
           o->filename[i-1]++;
           if (o->filename[i-1] > '9')
             {

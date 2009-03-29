@@ -162,9 +162,9 @@ void event_record_attach_in_list(event_list_state_t *list, unsigned int unit,
     util_fname_split(filename, &strdir, &strfile);
 
     if (event_image_include)
-        size = strlen(filename) + 3;
+        size = (unsigned int)strlen(filename) + 3;
     else
-        size = strlen(strfile) + sizeof(long) + 4;
+        size = (unsigned int)strlen(strfile) + sizeof(long) + 4;
 
     event_data = lib_malloc(size);
     event_data[0] = unit;
@@ -189,7 +189,7 @@ void event_record_attach_in_list(event_list_state_t *list, unsigned int unit,
             } else {
                 log_error(event_log, "Cannot open image file %s", filename);
             }
-            size += file_len;
+            size += (unsigned int)file_len;
         }
     } else {
         strcpy(&event_data[2], "");
@@ -579,7 +579,7 @@ static void event_write_version(void)
 
         new_event = (event_list_t *)lib_calloc(1, sizeof(event_list_t));
         new_event->clk = event_list->base->clk;
-        new_event->size = strlen(event_start_snapshot) + 2;
+        new_event->size = (unsigned int)strlen(event_start_snapshot) + 2;
         new_event->type = EVENT_INITIAL;
         data = lib_malloc(new_event->size);
         data[0] = EVENT_START_MODE_FILE_SAVE;
@@ -593,9 +593,9 @@ static void event_write_version(void)
 
     ver_idx = 1;
     if (data[0] == EVENT_START_MODE_FILE_SAVE)
-        ver_idx += strlen((char *)&data[1]) + 1;
+        ver_idx += (unsigned int)strlen((char *)&data[1]) + 1;
 
-    event_list->base->size = ver_idx + strlen(VERSION) + 1;
+    event_list->base->size = ver_idx + (unsigned int)strlen(VERSION) + 1;
     new_data = lib_malloc(event_list->base->size);
 
     memcpy(new_data, data, ver_idx);

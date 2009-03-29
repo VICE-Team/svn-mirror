@@ -442,7 +442,7 @@ static void network_client_connect_trap(WORD addr, void *data)
     buf_size = (size_t)util_le_buf4_to_int(recv_buf4);
     buf = lib_malloc(buf_size);
 
-    if (network_recv_buffer(network_socket, buf, buf_size) < 0)
+    if (network_recv_buffer(network_socket, buf, (int)buf_size) < 0)
         return;
 
     settings_list = network_create_event_list(buf);
@@ -633,7 +633,7 @@ int network_connect_client(void)
     buf_size = (size_t)util_le_buf4_to_int(recv_buf4);
     buf = lib_malloc(buf_size);
 
-    if (network_recv_buffer(network_socket, buf, buf_size) < 0) {
+    if (network_recv_buffer(network_socket, buf, (int)buf_size) < 0) {
         lib_free(snapshotfilename);
         vice_network_socket_close(network_socket);
         return -1;

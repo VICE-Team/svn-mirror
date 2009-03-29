@@ -295,7 +295,7 @@ char *util_subst(const char *s, const char *string, const char *replacement)
          num_occurrences++, sp += string_len)
         ;
 
-    total_size = s_len - (string_len - replacement_len) * num_occurrences + 1;
+    total_size = (int)(s_len - (string_len - replacement_len) * num_occurrences + 1);
 
     result = (char *)lib_malloc(total_size);
 
@@ -330,7 +330,7 @@ size_t util_file_length(FILE *fd)
     off = ftell(fd);
     fseek(fd, 0, SEEK_END);
     filesize = ftell(fd);
-    fseek(fd, off, SEEK_SET);
+    fseek(fd, (long)off, SEEK_SET);
     return filesize;
 }
 
@@ -448,7 +448,7 @@ int util_get_line(char *buf, int bufsize, FILE *f)
         *(buf + len) = '\0';
     }
 
-    return len;
+    return (int)len;
 }
 
 /* Split `path' into a file name and a directory component.  Unlike

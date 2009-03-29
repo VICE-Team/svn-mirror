@@ -162,7 +162,7 @@ static int snapshot_write_string(FILE *f, const char *s)
         if (snapshot_write_byte(f, s[i]) < 0)
             return -1;
 
-    return len + sizeof(WORD);
+    return (int)(len + sizeof(WORD));
 }
 
 static int snapshot_read_byte(FILE *f, BYTE *b_return)
@@ -497,7 +497,7 @@ snapshot_module_t *snapshot_module_open(snapshot_t *s,
 {
     snapshot_module_t *m;
     char n[SNAPSHOT_MODULE_NAME_LEN];
-    unsigned int name_len = strlen(name);
+    unsigned int name_len = (unsigned int)strlen(name);
 
     if (fseek(s->file, s->first_module_offset, SEEK_SET) < 0)
         return NULL;
@@ -626,7 +626,7 @@ snapshot_t *snapshot_open(const char *filename,
         goto fail;
 
     /* Check machine name.  */
-    machine_name_len = strlen(snapshot_machine_name);
+    machine_name_len = (int)strlen(snapshot_machine_name);
     if (memcmp(read_name, snapshot_machine_name, machine_name_len) != 0
         || (machine_name_len != SNAPSHOT_MODULE_NAME_LEN
             && read_name[machine_name_len] != 0)) {

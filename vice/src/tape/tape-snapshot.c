@@ -109,7 +109,7 @@ static int tape_snapshot_write_tapimage_module(snapshot_t *s)
 
     /* read every BYTE and write to snapshot module */
     while (tap_size > 0) {
-        i = fread(buffer, 1, 256, ftap);
+        i = (int)fread(buffer, 1, 256, ftap);
         if (SMW_BA(m, buffer, i) < 0) {
             log_error(tape_snapshot_log, "Cannot write tap image");
             fseek(ftap, pos, SEEK_SET);

@@ -375,12 +375,12 @@ static void resource_create_event_data(char **event_data, int *data_size,
     int name_size;
     const char *name = r->name;
 
-    name_size = strlen(name) + 1;
+    name_size = (int)strlen(name) + 1;
 
     if (r->type == RES_INTEGER)
         *data_size = name_size + sizeof(DWORD);
     else
-        *data_size = name_size + strlen((char *)value) + 1;
+        *data_size = name_size + (int)strlen((char *)value) + 1;
 
     *event_data = lib_malloc(*data_size);
     strcpy(*event_data, name);

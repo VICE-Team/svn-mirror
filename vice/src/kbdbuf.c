@@ -173,7 +173,7 @@ int kbdbuf_is_empty(void)
 /* Feed `s' into the queue.  */
 int kbdbuf_feed(const char *string)
 {
-    const int num = strlen(string);
+    const int num = (int)strlen(string);
     int i, p;
 
     if (num_pending + num > QUEUE_SIZE || !kbd_buf_enabled)

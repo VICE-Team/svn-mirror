@@ -82,7 +82,7 @@ static int soundmovie_write(SWORD *pbuf, size_t nr)
     while (copied < nr) {
         samples_to_copy = buffer_size - buffer->used;
         if (samples_to_copy > (int)(nr - copied))
-            samples_to_copy = nr - copied;
+            samples_to_copy = (int)(nr - copied);
         memcpy(buffer->buffer + buffer->used, pbuf + copied,
                 samples_to_copy * sizeof(SWORD));
         buffer->used += samples_to_copy;

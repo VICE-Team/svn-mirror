@@ -940,7 +940,7 @@ static int mmc64_activate(void)
   if (bios_file==NULL)
     return -1;
 
-  amount_read=fread(&mmc64_bios,1,0x2002,bios_file);
+  amount_read=(int)fread(&mmc64_bios,1,0x2002,bios_file);
 
   fclose(bios_file);
 

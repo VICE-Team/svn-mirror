@@ -146,7 +146,7 @@ static void ui_snapshot_save_dialog(HWND hwnd)
     char mask[]="*.vsf";
     s=translate_text(IDS_SNAPSHOT_FILES_FILTER);
     filter_len=strlen(s);
-    mask_len=strlen(mask);
+    mask_len=(int)strlen(mask);
     filter = util_concat(s, "0", mask, "0", NULL);
     filter[filter_len]='\0';
     filter[filter_len+mask_len+1]='\0';

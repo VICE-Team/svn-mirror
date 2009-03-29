@@ -500,9 +500,9 @@ void mon_command_print_help(const char *cmd)
     if (cmd == NULL) {
         longest = 0;
         for (c = mon_cmd_array; c->str != NULL; c++) {
-            len = strlen(c->str);
+            len = (int)strlen(c->str);
             if (!util_check_null_string(c->abbrev))
-                len += 3 + strlen(c->abbrev); /* 3 => " ()" */
+                len += 3 + (int)strlen(c->abbrev); /* 3 => " ()" */
 
             if (len > longest)
                 longest = len;
@@ -512,7 +512,7 @@ void mon_command_print_help(const char *cmd)
 
         column = 0;
         for (c = mon_cmd_array; c->str != NULL; c++) {
-            int tot = strlen(c->str);
+            int tot = (int)strlen(c->str);
 
             /* "Empty" command, that's a head line  */
             if (tot == 0) {
@@ -528,7 +528,7 @@ void mon_command_print_help(const char *cmd)
 
             if (!util_check_null_string(c->abbrev)) {
                 mon_out(" (%s)", c->abbrev);
-                tot += 3 + strlen(c->abbrev);
+                tot += 3 + (int)strlen(c->abbrev);
             }
 
             if (column >= max_col) {

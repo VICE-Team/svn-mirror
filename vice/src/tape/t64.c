@@ -317,7 +317,7 @@ int t64_read(t64_t *t64, BYTE *buf, size_t size)
     if (recsize < (int)(t64->current_file_seek_position + size))
         size = recsize - t64->current_file_seek_position;
 
-    amount = fread(buf, 1, size, t64->fd);
+    amount = (int)fread(buf, 1, size, t64->fd);
 
     t64->current_file_seek_position += amount;
 

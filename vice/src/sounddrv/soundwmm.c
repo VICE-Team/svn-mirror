@@ -411,7 +411,7 @@ static int wmm_write(SWORD *pbuf, size_t nr)
         inactivity_timer = 0; /* Else, just reset inactivity timer */
 
 
-    worktodo = nr * (is16bit ? sizeof(SWORD) : 1);
+    worktodo = (DWORD)nr * (is16bit ? sizeof(SWORD) : 1);
 
     if (worktodo > buffer_size)
         return 0; /* Sanity check */

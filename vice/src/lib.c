@@ -770,7 +770,7 @@ repeat:
             if (!s)
                 s = "<NULL>";
 
-            len = xmvsprintf_strnlen(s, precision);
+            len = (int)xmvsprintf_strnlen(s, precision);
 
             if (!(flags & LEFT))
                 while (len < field_width--)

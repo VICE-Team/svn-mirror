@@ -207,7 +207,7 @@ png_decompress_chunk(png_structp png_ptr, int comp_type,
             if (text ==  NULL)
             {
                text_size = prefix_size + png_sizeof(msg) + 1;
-               text = (png_charp)png_malloc_warn(png_ptr, text_size);
+               text = (png_charp)png_malloc_warn(png_ptr, (png_uint_32)text_size);
                if (text ==  NULL)
                  {
                     png_free(png_ptr,chunkdata);
@@ -231,7 +231,7 @@ png_decompress_chunk(png_structp png_ptr, int comp_type,
             {
                text_size = prefix_size +
                    png_ptr->zbuf_size - png_ptr->zstream.avail_out;
-               text = (png_charp)png_malloc_warn(png_ptr, text_size + 1);
+               text = (png_charp)png_malloc_warn(png_ptr, (png_uint_32)text_size + 1);
                if (text ==  NULL)
                  {
                     png_free(png_ptr,chunkdata);
@@ -294,7 +294,7 @@ png_decompress_chunk(png_structp png_ptr, int comp_type,
          text_size=prefix_size;
          if (text ==  NULL)
          {
-            text = (png_charp)png_malloc_warn(png_ptr, text_size+1);
+            text = (png_charp)png_malloc_warn(png_ptr, (png_uint_32)text_size+1);
             if (text == NULL)
               {
                 png_free(png_ptr, chunkdata);
@@ -1057,7 +1057,7 @@ png_handle_iCCP(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    chunkdata = png_decompress_chunk(png_ptr, compression_type, chunkdata,
                                     slength, prefix_length, &data_length);
 
-   profile_length = data_length - prefix_length;
+   profile_length = (png_uint_32)(data_length - prefix_length);
 
    if ( prefix_length > data_length || profile_length < 4)
    {
@@ -1150,7 +1150,7 @@ png_handle_sPLT(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
    new_palette.depth = *entry_start++;
    entry_size = (new_palette.depth == 8 ? 6 : 10);
-   data_length = (slength - (entry_start - chunkdata));
+   data_length = (int)(slength - (entry_start - chunkdata));
 
    /* integrity-check the data length */
    if (data_length % entry_size)

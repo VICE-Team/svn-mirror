@@ -288,7 +288,7 @@ int psid_load_file(const char* filename)
     }
 
     /* Read binary C64 data. */
-    psid->data_size = fread(psid->data, 1, sizeof(psid->data), f);
+    psid->data_size = (WORD)fread(psid->data, 1, sizeof(psid->data), f);
 
     if (ferror(f)) {
         log_error(vlog, "Reading PSID data.");

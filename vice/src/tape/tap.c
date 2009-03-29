@@ -233,7 +233,7 @@ inline static int tap_get_pulse(tap_t *tap, int *pos_advance)
     if (res == 0)
         return -1;
 
-    *pos_advance += res;
+    *pos_advance += (int)res;
 
     if (data == 0) {
         if (tap->version == 0) {
@@ -243,7 +243,7 @@ inline static int tap_get_pulse(tap_t *tap, int *pos_advance)
             res = fread(size, 3, 1, tap->fd);
             if (res == 0)
                 return -1;
-            *pos_advance += res;
+            *pos_advance += (int)res;
             pulse_length = ((size[2] << 16) | (size[1] << 8) | size[0]) >> 3;
         }
     } else {
@@ -258,13 +258,13 @@ inline static int tap_get_pulse(tap_t *tap, int *pos_advance)
 
         if (res == 0)
             return -1;
-        *pos_advance += res;
+        *pos_advance += (int)res;
         if (data == 0) {
             BYTE size[3];
             res = fread(size, 3, 1, tap->fd);
             if (res == 0)
                 return -1;
-            *pos_advance += res;
+            *pos_advance += (int)res;
             pulse_length2 = ((size[2] << 16) | (size[1] << 8) | size[0]) >> 3;
         } else {
             pulse_length2 = data;
@@ -647,7 +647,7 @@ static int tap_cbm_read_file_prg(tap_t *tap)
       if( ret<0 ) return ret;
 
       return tap_cbm_read_block(tap, tap->current_file_data,
-                                tap->current_file_size+1);
+                                (int)tap->current_file_size+1);
     }
 }
 
@@ -959,7 +959,7 @@ static int tap_tt_read_file(tap_t *tap)
   /* read data */
   return tap_tt_read_block(tap, TT_BLOCK_TYPE_DATA, 
                            tap->current_file_data,
-                           tap->current_file_size);
+                           (unsigned int)tap->current_file_size);
 }
 
 
@@ -1032,7 +1032,7 @@ static int tap_find_pilot(tap_t *tap, int type)
       {
 /*        count = fread(&data, 1, 256, tap->fd); */
         int startpos = ftell(tap->fd);
-        int readlen = fread(buffer, 1, 256, tap->fd);
+        int readlen = (int)fread(buffer, 1, 256, tap->fd);
 	DWORD pulse_length = 0;
 	int j = 0;
         int needed;
@@ -1052,7 +1052,7 @@ static int tap_find_pilot(tap_t *tap, int type)
                            Read some more */
                         memcpy(buffer, buffer + i + 1, readlen - (i + 1));
                         needed = 3 - (readlen - (i + 1));
-                        res = fread(buffer + (readlen - (i + 1)), 1, needed, tap->fd);
+                        res = (int)fread(buffer + (readlen - (i + 1)), 1, needed, tap->fd);
                         if (res == 0) continue;
                         readlen = 3;
                         i = 0;
@@ -1070,7 +1070,7 @@ static int tap_find_pilot(tap_t *tap, int type)
                 DWORD pulse_length2;
                 /*  Read one more byte if run out of buffer */
                 if (i == readlen) {
-                    readlen = fread(buffer, 1, 1, tap->fd);
+                    readlen = (int)fread(buffer, 1, 1, tap->fd);
                     if (readlen == 0) continue;
                     i = 0;
                 }
@@ -1083,7 +1083,7 @@ static int tap_find_pilot(tap_t *tap, int type)
                            Read some more */
                         memcpy(buffer, buffer + i + 1, readlen - (i + 1));
                         needed = 3 - (readlen - (i + 1));
-                        res = fread(buffer + (readlen - (i + 1)), 1, needed, tap->fd);
+                        res = (int)fread(buffer + (readlen - (i + 1)), 1, needed, tap->fd);
                         if (res == 0) continue;
                         readlen = 3;
                         i = 0;

@@ -407,7 +407,7 @@ static int dx_write(SWORD *pbuf, size_t nr)
     DWORD buffer_lock_size; /* buffer_lock_end; */
     unsigned int i, count;
 
-    count = nr / fragment_size;
+    count = (unsigned int)nr / fragment_size;
     buffer_lock_size = fragment_size * (is16bit ? 2 : 1);
 
     /* Write one fragment at a time.  FIXME: This could be faster.  */

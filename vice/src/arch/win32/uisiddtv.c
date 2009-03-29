@@ -480,7 +480,7 @@ static INT_PTR CALLBACK resid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 static void end_hardsid_dialog(HWND hwnd)
 {
-    resources_set_int("SidHardSIDMain", SendMessage(GetDlgItem(hwnd,
+    resources_set_int("SidHardSIDMain", (int)SendMessage(GetDlgItem(hwnd,
                       IDC_SID_HARDSID_LEFT_ENGINE), CB_GETCURSEL, 0, 0));
 }
 

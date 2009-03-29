@@ -560,7 +560,7 @@ void mon_add_string_to_buffer(char *str)
 {
     unsigned int i = data_buf_len;
     strcpy((char *) &(data_buf[data_buf_len]), str);
-    data_buf_len += strlen(str);
+    data_buf_len += (unsigned int)strlen(str);
     data_buf[data_buf_len] = '\0';
     lib_free(str);
 

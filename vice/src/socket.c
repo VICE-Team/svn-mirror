@@ -97,7 +97,11 @@ struct vice_network_socket_address_s
                              */
     int domain;             /*!< the address family (AF_INET, ...) of this address */
     int protocol;           /*!< the protocol of this address. This can be used to distinguish between different types of an address family. */
+#ifdef _WIN32
+    int len;
+#else
     socklen_t len;          /*!< the length of the socket address */
+#endif
     union socket_addresses_u address; /* the socket address */
 };
 
@@ -375,7 +379,7 @@ vice_network_socket_t * vice_network_server(const vice_network_socket_address_t 
     assert(server_address != NULL);
 
     do {
-        sockfd = socket(server_address->domain, SOCK_STREAM, server_address->protocol);
+        sockfd = (int)socket(server_address->domain, SOCK_STREAM, server_address->protocol);
 
         if (SOCKET_IS_INVALID(sockfd)) {
             sockfd = INVALID_SOCKET;
@@ -422,7 +426,7 @@ vice_network_socket_t * vice_network_client(const vice_network_socket_address_t 
     assert(server_address != NULL);
 
     do {
-        sockfd = socket(server_address->domain, SOCK_STREAM, server_address->protocol);
+        sockfd = (int)socket(server_address->domain, SOCK_STREAM, server_address->protocol);
 
         if (SOCKET_IS_INVALID(sockfd)) {
             sockfd = INVALID_SOCKET;

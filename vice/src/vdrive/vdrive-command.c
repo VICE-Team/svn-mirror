@@ -466,7 +466,7 @@ static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
     log_debug("COPY: dest= '%s', orig= '%s'.", dest, files);
 #endif
 
-    if (vdrive_iec_open(vdrive, (BYTE *)dest, strlen(dest), 1, NULL))
+    if (vdrive_iec_open(vdrive, (BYTE *)dest, (unsigned int)strlen(dest), 1, NULL))
         return CBMDOS_IPE_FILE_EXISTS;
 
     p = name = files;
@@ -481,7 +481,7 @@ static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
 #ifdef DEBUG_DRIVE
         log_debug("searching for file '%s'.", name);
 #endif
-        if (vdrive_iec_open(vdrive, (BYTE *)name, strlen(name), 0, NULL)) {
+        if (vdrive_iec_open(vdrive, (BYTE *)name, (unsigned int)strlen(name), 0, NULL)) {
             vdrive_iec_close(vdrive, 1);
             return CBMDOS_IPE_NOT_FOUND;
         }
@@ -522,7 +522,7 @@ static int vdrive_command_rename(vdrive_t *vdrive, BYTE *dest, int length)
 #endif
 
     cmd_parse_dst.cmd = dest;
-    cmd_parse_dst.cmdlength = strlen((char *)dest);
+    cmd_parse_dst.cmdlength = (unsigned int)strlen((char *)dest);
     cmd_parse_dst.readmode = CBMDOS_FAM_READ;
 
     rc = cbmdos_command_parse(&cmd_parse_dst);
@@ -533,7 +533,7 @@ static int vdrive_command_rename(vdrive_t *vdrive, BYTE *dest, int length)
     }
 
     cmd_parse_src.cmd = src;
-    cmd_parse_src.cmdlength = strlen((char *)src);
+    cmd_parse_src.cmdlength = (unsigned int)strlen((char *)src);
     cmd_parse_src.readmode = CBMDOS_FAM_READ;
 
     rc = cbmdos_command_parse(&cmd_parse_src);
@@ -875,7 +875,7 @@ void vdrive_command_set_error(vdrive_t *vdrive, int code, unsigned int track,
                 message, track, sector);
 
         /* Length points to the last byte, and doesn't give the length.  */
-        p->length = strlen((char *)p->buffer) - 1;
+        p->length = (unsigned int)strlen((char *)p->buffer) - 1;
     } else {
         memcpy((char *)p->buffer, vdrive->mem_buf, vdrive->mem_length);
         p->length = vdrive->mem_length - 1;

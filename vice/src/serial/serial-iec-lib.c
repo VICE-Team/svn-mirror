@@ -44,7 +44,7 @@ int serial_iec_lib_directory(unsigned int unit, const char *pattern,
     BYTE data, *tmpbuf;
     size_t maxlen = 0;
 
-    serial_iec_open(unit, 0, pattern, strlen(pattern));
+    serial_iec_open(unit, 0, pattern, (unsigned int)strlen(pattern));
 
     length = 0;
     tmpbuf = NULL;
@@ -68,8 +68,8 @@ int serial_iec_lib_read_sector(unsigned int unit, unsigned int track,
 
     command = lib_msprintf("U1 2 0 %i %i", track, sector);
 
-    serial_iec_open(unit, 2, "#", strlen("#"));
-    serial_iec_open(unit, 15, command, strlen(command));
+    serial_iec_open(unit, 2, "#", (unsigned int)strlen("#"));
+    serial_iec_open(unit, 15, command, (unsigned int)strlen(command));
 
     for (i = 0; i < 256; i++)
         serial_iec_read(unit, 2, &buf[i]);

@@ -281,7 +281,7 @@ int initcmdline_check_args(int argc, char **argv)
         int len = 0, j;
 
         for (j = 1; j < argc; j++)
-            len += strlen(argv[j]);
+            len += (int)strlen(argv[j]);
 
         {
             char *txt = lib_calloc(1, len + argc + 1);
@@ -326,7 +326,7 @@ static char *replace_hexcodes(char *s)
     char *p;
     char *new_s;
 
-    len = strlen(s);
+    len = (unsigned int)strlen(s);
     new_s = (char*)lib_malloc(len + 1);
 
     p = s;

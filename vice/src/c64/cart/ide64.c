@@ -836,7 +836,7 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
 	int is_chs;
 
         /* read header */
-        res = fread(idebuf, 1, 24, ide_disk);
+        res = (int)fread(idebuf, 1, 24, ide_disk);
         if (res < 24) {
             log_message(LOG_DEFAULT, "IDE64: Couldn't read disk geometry from image, using default 8 MiB.");
             return 0;

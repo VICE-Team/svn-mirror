@@ -44,7 +44,7 @@ char *clipboard_read_screen_output(char *line_ending)
         BYTE allrows, allcols;
         unsigned int row, col;
         unsigned int size;
-        unsigned int line_ending_length = strlen(line_ending);
+        unsigned int line_ending_length = (unsigned int)strlen(line_ending);
         unsigned int i;
         int bank;
         char * p;

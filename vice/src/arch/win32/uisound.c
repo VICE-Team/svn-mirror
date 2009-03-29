@@ -235,8 +235,8 @@ static void end_sound_record_dialog(HWND hwnd)
   char s[MAX_PATH];
   int i;
 
-  i = SendMessage(GetDlgItem(hwnd, IDC_SOUND_RECORD_FORMAT),
-                             CB_GETCURSEL, 0, 0);
+  i = (int)SendMessage(GetDlgItem(hwnd, IDC_SOUND_RECORD_FORMAT),
+                       CB_GETCURSEL, 0, 0);
 
   GetDlgItemText(hwnd, IDC_SOUND_RECORD_FILE, st, MAX_PATH);
   system_wcstombs(s, st, MAX_PATH);

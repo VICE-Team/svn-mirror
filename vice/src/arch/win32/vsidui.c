@@ -113,7 +113,7 @@ void vsid_disp(int txout_x, int txout_y, const char *str1, const char* str2)
             SetBkColor(hDC, GetSysColor(COLOR_BTNFACE));
             TextOut(hDC, 3+(txout_x*size.cx),
                          3+(txout_y*(size.cy+3)),
-                         dummy, strlen(dummy));
+                         dummy, (int)strlen(dummy));
         }
         else
         {

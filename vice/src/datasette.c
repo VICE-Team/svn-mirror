@@ -228,7 +228,7 @@ inline static int datasette_move_buffer_forward(int offset)
             log_error(datasette_log,"Cannot read in tap-file.");
             return 0;
         }
-        last_tap = fread(tap_buffer, 1, TAP_BUFFER_LENGTH, current_image->fd);
+        last_tap = (long)fread(tap_buffer, 1, TAP_BUFFER_LENGTH, current_image->fd);
         next_tap = 0;
         if (next_tap >= last_tap)
             return 0;
@@ -251,7 +251,7 @@ inline static int datasette_move_buffer_back(int offset)
             log_error(datasette_log,"Cannot read in tap-file.");
             return 0;
         }
-        last_tap = fread(tap_buffer, 1, TAP_BUFFER_LENGTH, current_image->fd);
+        last_tap = (long)fread(tap_buffer, 1, TAP_BUFFER_LENGTH, current_image->fd);
         if (next_tap > last_tap)
             return 0;
     }
@@ -784,7 +784,7 @@ inline static void bit_write(void)
             long_gap[1] = (BYTE)((write_time >> 8) & 0xff);
             long_gap[2] = (BYTE)((write_time >> 16) & 0xff);
             write_time &= 0xffffff;
-            bytes_written = fwrite(long_gap, 1, 3, current_image->fd);
+            bytes_written = (int)fwrite(long_gap, 1, 3, current_image->fd);
             current_image->current_file_seek_position += bytes_written;
             if (bytes_written < 3) {
                 datasette_control(DATASETTE_CONTROL_STOP);

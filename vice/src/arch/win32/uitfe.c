@@ -95,8 +95,8 @@ static int gray_ungray_items(HWND hwnd)
         char *pname = NULL;
         char *pdescription = NULL;
 
-        number = SendMessage(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE),
-                             CB_GETCURSEL, 0, 0);
+        number = (int)SendMessage(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE),
+                                  CB_GETCURSEL, 0, 0);
 
         if (get_tfename(number, &pname, &pdescription)) {
             SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_NAME),
@@ -218,8 +218,8 @@ static void save_tfe_dialog(HWND hwnd)
     int tfe_as_rr_net;
     char buffer[256];
 
-    active_value = SendMessage(GetDlgItem(hwnd, IDC_TFE_SETTINGS_ENABLE),
-                               CB_GETCURSEL, 0, 0);
+    active_value = (int)SendMessage(GetDlgItem(hwnd, IDC_TFE_SETTINGS_ENABLE),
+                                    CB_GETCURSEL, 0, 0);
 
     tfe_enabled = active_value >= 1 ? 1 : 0;
     tfe_as_rr_net = active_value == 2 ? 1 : 0;

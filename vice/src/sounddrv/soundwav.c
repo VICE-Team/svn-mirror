@@ -93,7 +93,7 @@ static int wav_write(SWORD *pbuf, size_t nr)
 #endif
 
     /* Accumulate number of samples. */
-    samples += nr;
+    samples += (int)nr;
 
     return 0;
 }
