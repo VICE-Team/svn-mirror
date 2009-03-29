@@ -182,7 +182,8 @@ static int realize_canvas(raster_t *raster)
 
 static int perform_mode_change(raster_t *raster)
 {
-    if (raster->canvas && raster->canvas->palette != NULL) {
+    if (!console_mode && !vsid_mode
+        && raster->canvas && raster->canvas->palette != NULL) {
         if (video_canvas_set_palette(raster->canvas,
             raster->canvas->palette) < 0)
             return -1;
