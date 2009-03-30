@@ -120,10 +120,6 @@ SOURCE=..\..\util.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\zfile.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\zipcode.c
 # End Source File
 # End Target
