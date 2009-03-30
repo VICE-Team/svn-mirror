@@ -672,7 +672,8 @@ char *lib_mvsprintf(const char *fmt, va_list args)
     char *buf;
     unsigned int position, bufsize;
 
-    int len, i, base;
+    size_t len;
+    int i, base;
     unsigned long num;
     const char *s;
 
@@ -770,14 +771,14 @@ repeat:
             if (!s)
                 s = "<NULL>";
 
-            len = (int)xmvsprintf_strnlen(s, precision);
+            len = xmvsprintf_strnlen(s, precision);
 
             if (!(flags & LEFT))
-                while (len < field_width--)
+                while (field_width > 0 && len < field_width--)
                     xmvsprintf_add(&buf, &bufsize, &position, ' ');
             for (i = 0; i < len; ++i)
                 xmvsprintf_add(&buf, &bufsize, &position, *s++);
-            while (len < field_width--)
+            while (field_width > 0 && len < field_width--)
                 xmvsprintf_add(&buf, &bufsize, &position, ' ');
             continue;
 
