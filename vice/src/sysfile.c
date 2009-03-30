@@ -287,4 +287,3 @@ fail:
     lib_free(complete_path);
     return -1;
 }
-

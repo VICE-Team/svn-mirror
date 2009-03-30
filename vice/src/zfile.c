@@ -246,7 +246,7 @@ static char *try_uncompress_with_gzip(const char *name)
 static char *try_uncompress_with_bzip(const char *name)
 {
     char *tmp_name = NULL;
-    int l = (int)strlen(name);
+    size_t l = strlen(name);
     int exit_status;
     char *argv[4];
 
@@ -286,7 +286,7 @@ static char *try_uncompress_with_tzx(const char *name)
     return NULL;
 #else
     char *tmp_name = NULL;
-    int l = (int)strlen(name);
+    size_t l = strlen(name);
     int exit_status;
     char *argv[4];
 
@@ -347,13 +347,15 @@ static const char *extensions[] = {
 
 static int is_valid_extension(char *end, int l, int nameoffset)
 {
-    int i, len;
+    int i;
+    size_t len;
+
     /* zipcode testing is a special case */
     if (l > nameoffset + 2 && is_zipcode_name(end + nameoffset))
         return 1;
     /* others */
     for (i = 0; extensions[i]; i++) {
-        len = (int)strlen(extensions[i]);
+        len = strlen(extensions[i]);
         if (l < nameoffset + len)
             continue;
         if (!strcasecmp(extensions[i], end + l - len))
@@ -379,14 +381,15 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     return NULL;
 #else
     char *tmp_name = NULL;
-    int l = (int)strlen(name), nameoffset, found = 0, len;
+    size_t l = strlen(name), len, nameoffset;
+    int found = 0;
     int exit_status;
     char *argv[8];
     FILE *fd;
     char tmp[1024];
 
     /* Do we have correct extension?  */
-    len = (int)strlen(extension);
+    len = strlen(extension);
     if (l <= len || strcasecmp(name + l - len, extension) != 0)
         return NULL;
 
@@ -430,10 +433,10 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     /* Search for `search' first (if any) to see the offset where
        filename begins, then search for first recognizeable file.  */
     nameoffset = search ? -1 : 0;
-    len = search ? (int)strlen(search) : 0;
+    len = search ? strlen(search) : 0;
     while (!feof(fd) && !found) {
         fgets(tmp, 1024, fd);
-        l = (int)strlen(tmp);
+        l = strlen(tmp);
         while (l > 0) {
             tmp[--l] = 0;
             if (nameoffset < 0 && l >= len &&
@@ -591,7 +594,8 @@ static char *try_uncompress_zipcode(const char *name, int write_mode)
 static char *try_uncompress_lynx(const char *name, int write_mode)
 {
     char *tmp_name;
-    int i, count;
+    size_t i;
+    int count;
     FILE *fd;
     char tmp[256];
     char *argv[20];
@@ -602,14 +606,14 @@ static char *try_uncompress_lynx(const char *name, int write_mode)
     if (fd == NULL)
         return NULL;
     /* is this lynx -image? */
-    i = (int)fread(tmp, 1, 2, fd);
+    i = fread(tmp, 1, 2, fd);
     if (i != 2 || tmp[0] != 1 || tmp[1] != 8) {
         fclose(fd);
         return NULL;
     }
     count = 0;
     while (1) {
-        i = (int)fread(tmp, 1, 1, fd);
+        i = fread(tmp, 1, 1, fd);
         if (i != 1) {
             fclose(fd);
             return NULL;
@@ -621,14 +625,14 @@ static char *try_uncompress_lynx(const char *name, int write_mode)
         if (count == 3)
             break;
     }
-    i = (int)fread(tmp, 1, 1, fd);
+    i = fread(tmp, 1, 1, fd);
     if (i != 1 || tmp[0] != 13) {
         fclose(fd);
         return NULL;
     }
     count = 0;
     while (1) {
-        i = (int)fread(&tmp[count], 1, 1, fd);
+        i = fread(&tmp[count], 1, 1, fd);
         if (i != 1 || count == 254) {
             fclose(fd);
             return NULL;
@@ -764,7 +768,7 @@ static int compress_with_gzip(const char *src, const char *dest)
 #ifdef HAVE_ZLIB
     FILE *fdsrc;
     FILE *fddest;
-    int len;
+    size_t len;
 
     fdsrc = fopen(dest, MODE_READ);
     if (fdsrc == NULL)
@@ -778,7 +782,7 @@ static int compress_with_gzip(const char *src, const char *dest)
 
     do {
         char buf[256];
-        len = (int)fread((void *)buf, 256, 1, fdsrc);
+        len = fread((void *)buf, 256, 1, fdsrc);
         if (len > 0)
             gzwrite(fddest, (void *)buf, (unsigned int)len);
     } while (len > 0);
