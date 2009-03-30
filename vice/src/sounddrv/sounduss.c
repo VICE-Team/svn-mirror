@@ -227,7 +227,7 @@ static int uss_write(SWORD *pbuf, size_t nr)
 static int uss_bufferspace(void)
 {
     audio_buf_info info;
-    int st, ret;
+    int st;
 
     /* ioctl(uss_fd, SNDCTL_DSP_GETOSPACE, &info) yields space in bytes
        in info.bytes. */
@@ -236,21 +236,13 @@ static int uss_bufferspace(void)
         log_message(LOG_DEFAULT, "SNDCTL_DSP_GETOSPACE failed");
         return -1;
     }
-    ret = info.bytes;
-    if (ret < 0) {
-        log_message(LOG_DEFAULT, "GETOSPACE: bytes < 0");
-        ret = 0;
-    }
-    if (!uss_8bit)
-        ret /= sizeof(SWORD);
-    ret /= uss_channels;
-    if (ret > uss_bufsize) {
-#ifndef DEBUG
-        log_message(LOG_DEFAULT, "GETOSPACE: bytes > bufsize");
-#endif
-        ret = uss_bufsize;
-    }
-    return ret;
+
+    /* linux/soundcard.h says crazy things about the info.bytes metric, such
+     * as that the value could be more than fragment * fragsize. OSS 4.0 manual
+     * also says that GETOSPACE fragsize doesn't actually correspond to
+     * hardware buffer sizes due to resampling and format conversions. This
+     * probably also taints info.bytes to uselessness. */
+    return info.fragments * uss_fragsize / (uss_8bit ? 1 : 2);
 }
 
 static void uss_close(void)
