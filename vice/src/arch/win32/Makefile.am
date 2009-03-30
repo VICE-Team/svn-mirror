@@ -395,6 +395,8 @@ EXTRA_DIST = \
 	montb.bmp \
 	make-bindist.sh \
 	make-msvc-bindist.bat \
+	vice-version.bat \
+	vice-version.bat.in \
 	c64.ico 
 
 BUILT_SOURCES = res.h

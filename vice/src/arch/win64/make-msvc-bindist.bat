@@ -1,5 +1,6 @@
 @echo off
-set VICEDIR=WinVICE-2.1-x64
+call ..\win32\vice-version.bat
+set VICEDIR=WinVICE-%VICEVERSION%-x64
 if not exist ..\..\..\data\x64.exe goto missingmsvc
 if not exist ..\..\..\data\x64dtv.exe goto missingmsvc
 if not exist ..\..\..\data\x128.exe goto missingmsvc
