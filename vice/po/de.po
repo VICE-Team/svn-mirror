@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-03-29 19:58+0200\n"
-"PO-Revision-Date: 2009-03-30 21:48+0200\n"
+"PO-Revision-Date: 2009-03-30 22:13+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2890,19 +2890,19 @@ msgstr "Argument:"
 
 #: src/arch/unix/gui/uisound.c:67
 msgid "*0.35 sec"
-msgstr "*0.35 sec"
+msgstr "*0.35 Sek"
 
 #: src/arch/unix/gui/uisound.c:69
 msgid "*0.30 sec"
-msgstr "*0.30 sec"
+msgstr "*0.30 Sek"
 
 #: src/arch/unix/gui/uisound.c:71
 msgid "*0.20 sec"
-msgstr "*0.20 sec"
+msgstr "*0.20 Sek"
 
 #: src/arch/unix/gui/uisound.c:73
 msgid "*0.10 sec"
-msgstr "*0.10 sec"
+msgstr "*0.10 Sek"
 
 #: src/arch/unix/gui/uisound.c:75
 msgid "*0.075 sec"
@@ -2934,19 +2934,19 @@ msgstr "*Weiter Ausführen"
 
 #: src/arch/unix/gui/uisound.c:93
 msgid "*1 sec suspend"
-msgstr "*1 sec Unterbrechung"
+msgstr "*1 Sek Unterbrechung"
 
 #: src/arch/unix/gui/uisound.c:95
 msgid "*2 sec suspend"
-msgstr "*2 sec Unterbrechung"
+msgstr "*2 Sek Unterbrechung"
 
 #: src/arch/unix/gui/uisound.c:97
 msgid "*5 sec suspend"
-msgstr "*5 sec Unterbrechung"
+msgstr "*5 Sek Unterbrechung"
 
 #: src/arch/unix/gui/uisound.c:99
 msgid "*10 sec suspend"
-msgstr "*10 sec Unterbrechung"
+msgstr "*10 Sek Unterbrechung"
 
 #: src/arch/unix/gui/uisound.c:105
 msgid "*Flexible"
