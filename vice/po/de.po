@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-03-29 19:58+0200\n"
-"PO-Revision-Date: 2009-03-07 10:50+0100\n"
+"PO-Revision-Date: 2009-03-30 21:48+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2905,34 +2905,28 @@ msgid "*0.10 sec"
 msgstr "*0.10 sec"
 
 #: src/arch/unix/gui/uisound.c:75
-#, fuzzy
 msgid "*0.075 sec"
-msgstr "*0.75 sec"
+msgstr "*0.075 Sek"
 
 #: src/arch/unix/gui/uisound.c:77
-#, fuzzy
 msgid "*0.05 sec"
-msgstr "*0.75 sec"
+msgstr "*0.05 Sek"
 
 #: src/arch/unix/gui/uisound.c:79
-#, fuzzy
 msgid "*0.04 sec"
-msgstr "*0.50 sec"
+msgstr "*0.04 Sek"
 
 #: src/arch/unix/gui/uisound.c:81
-#, fuzzy
 msgid "*0.03 sec"
-msgstr "*0.50 sec"
+msgstr "*0.03 Sek"
 
 #: src/arch/unix/gui/uisound.c:83
-#, fuzzy
 msgid "*0.025 sec"
-msgstr "*0.25 sec"
+msgstr "*0.025 Sek"
 
 #: src/arch/unix/gui/uisound.c:85
-#, fuzzy
 msgid "*0.02 sec"
-msgstr "*0.50 sec"
+msgstr "*0.02 Sek"
 
 #: src/arch/unix/gui/uisound.c:91
 msgid "*Keep going"
