@@ -69,7 +69,7 @@ BYTE dtvrewind;
 int dtvclockneg = 0;
 
 /* Experimental cycle exact alarm handling */
-#define CYCLE_EXACT_ALARM
+/* #define CYCLE_EXACT_ALARM */
 
 #ifdef CYCLE_EXACT_ALARM
 alarm_context_t *maincpu_alarm_context = NULL;
