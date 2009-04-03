@@ -34,7 +34,6 @@
 extern int c64dtv_resources_init(void);
 extern void c64dtv_resources_shutdown(void);
 
-extern int emu_id_enabled;
 extern char *kernal_revision;
 
 extern int c64dtv_hummer_userport_device;
