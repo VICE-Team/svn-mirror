@@ -54,7 +54,6 @@ static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
 
 
 static const ui_menu_toggle_t c64dtv_ui_menu_toggles[] = {
-    { "EmuID", IDM_TOGGLE_EMUID },
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VICIIScale2x", IDM_TOGGLE_SCALE2X },
