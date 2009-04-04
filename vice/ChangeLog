@@ -1,3 +1,7 @@
+2009-04-04  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.1.8
+
 2009-04-03  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
 	* src/arch/win32/c64dtvui.c, src/arch/win32/resc64dtv.rc: Remove
