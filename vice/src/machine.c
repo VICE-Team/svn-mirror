@@ -53,7 +53,9 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
+#ifdef HAVE_NETWORK
 #include "monitor_network.h"
+#endif
 #include "network.h"
 #include "printer.h"
 #include "resources.h"
@@ -262,8 +264,9 @@ void machine_shutdown(void)
     log_resources_shutdown();
     fliplist_resources_shutdown();
     romset_resources_shutdown();
+#ifdef HAVE_NETWORK
     monitor_network_resources_shutdown();
-
+#endif
     archdep_shutdown();
 
     lib_debug_check();

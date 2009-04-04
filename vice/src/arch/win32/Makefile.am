@@ -43,8 +43,6 @@ libarch_a_SOURCES = \
 	console.c \
 	dinput_handle.c \
 	dinput_handle.h \
-	dirent.c \
-	dirent.h \
 	ffmpeglib.c \
 	fullscrn.c \
 	fullscrn.h \
@@ -245,6 +243,7 @@ EXTRA_DIST = \
 	evc/system.c \
 	evc/system.h \
 	msvc/config.h \
+	msvc/dirent.h \
 	msvc/system.h \
 	msvc/siddefs.h \
 	msvc/siddefs-fp.h \
@@ -338,6 +337,7 @@ EXTRA_DIST = \
 	cbm2.dsp \
 	core.dsp \
 	crtc.dsp \
+	dirent.c \
 	diskimage.dsp \
 	drive.dsp \
 	fileio.dsp \

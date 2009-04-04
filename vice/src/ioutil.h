@@ -52,11 +52,22 @@ extern int ioutil_stat(const char *file_name, unsigned int *len,
 
 extern char *ioutil_current_dir(void);
 
-struct ioutil_dir_s;
+struct ioutil_name_table_s {
+    char *name;
+};
+typedef struct ioutil_name_table_s ioutil_name_table_t;
 
-extern struct ioutil_dir_s *ioutil_opendir(const char *path);
-extern char *ioutil_readdir(struct ioutil_dir_s *ioutil_dir);
-extern void ioutil_closedir(struct ioutil_dir_s *ioutil_dir);
+struct ioutil_dir_s {
+    ioutil_name_table_t *dirs;
+    ioutil_name_table_t *files;
+    int dir_amount;
+    int file_amount;
+    int counter;
+};
+typedef struct ioutil_dir_s ioutil_dir_t;
+
+extern ioutil_dir_t *ioutil_opendir(const char *path);
+extern char *ioutil_readdir(ioutil_dir_t *ioutil_dir);
+extern void ioutil_closedir(ioutil_dir_t *ioutil_dir);
 
 #endif
-

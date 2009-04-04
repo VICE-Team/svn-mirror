@@ -54,6 +54,7 @@ libarchgp2x_a_SOURCES = \
 EXTRA_DIST = \
 	gpe-files/x128.gpe \
 	gpe-files/x64.gpe \
+	gpe-files/x64dtv.gpe \
 	gpe-files/xvic.gpe \
 	gpe-files/xpet.gpe \
 	gpe-files/xplus4.gpe \

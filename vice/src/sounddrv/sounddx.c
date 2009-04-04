@@ -38,6 +38,10 @@
 #define DIRECTSOUND_VERSION 0x0500
 #include <dsound.h>
 
+#ifdef USE_SDLUI
+#include <SDL/SDL_syswm.h>
+#endif
+
 #include "lib.h"
 #include "sound.h"
 #include "types.h"
@@ -49,6 +53,18 @@
 const GUID IID_IDirectSoundNotify = {0xb0210783, 0x89cd, 0x11d0,
                                     {0xaf,0x08,0x00,0xa0,0xc9,0x25,0xcd,0x16}};
 #endif
+
+#ifdef USE_SDLUI
+HWND ui_get_main_hwnd(void)
+{
+    SDL_SysWMinfo info;
+
+    SDL_GetWMInfo(&info);
+
+    return info.window;
+}
+#endif
+
 
 /* ------------------------------------------------------------------------ */
 

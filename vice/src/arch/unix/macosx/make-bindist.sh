@@ -86,10 +86,16 @@ DROP_FORMATS="x64 g64 d64 d71 d81 t64 tap prg p00 crt"
 # launcher script
 LAUNCHER=x11-launcher.sh
 
+# multi apps
+MULTI_APPS=0
+if [ "$UI_TYPE" = "cocoa" -o "$UI_TYPE" = "sdl" ]; then
+  MULTI_APPS=1
+fi
+
 # use platypus or launcher directly
 PLATYPUS_PATH=/usr/local/bin/platypus
 PLATYPUS=0
-if [ "$UI_TYPE" != "cocoa" ]; then
+if [ $MULTI_APPS -eq 0 ]; then
   if [ -e $PLATYPUS_PATH -a "$NO_PLATYPUS" = "" ]; then
     echo "  using platypus"
     PLATYPUS=1
@@ -112,7 +118,7 @@ fi
 
 # --- create bundles ---
 
-if [ "$UI_TYPE" = "cocoa" ]; then
+if [ $MULTI_APPS -eq 1 ]; then
   # create a bundle for each emulator
   BUNDLES="$EMULATORS"
 else
@@ -173,7 +179,7 @@ for bundle in $BUNDLES ; do
   APP_ROMS=$APP_RESOURCES/ROM
   APP_DOCS=$APP_RESOURCES/doc
   
-  if [ "$UI_TYPE" = "cocoa" ]; then
+  if [ $MULTI_APPS -eq 1 ]; then
     APP_BIN=$APP_MACOS
     APP_LIB=$APP_MACOS
   else
@@ -236,7 +242,7 @@ for bundle in $BUNDLES ; do
     echo -n "    "
 
     # copy launcher for non-cocoa
-    if [ "$UI_TYPE" != "cocoa" ]; then
+    if [ $MULTI_APPS -eq 0 ]; then
       echo -n "[launcher] "
       if [ ! -e $RUN_PATH/$LAUNCHER ]; then
         echo "ERROR: missing launcher script: $RUNPATH/$LAUNCHER"
@@ -248,7 +254,7 @@ for bundle in $BUNDLES ; do
 
       # where is the launcher script
       LAUNCHER_SCRIPT_REL="MacOS/VICE"
-    else
+    elif [ "$UI_TYPE" = "cocoa" ]; then
       # embed resources for cocoa
       LOC_RESOURCES="$RUN_PATH/Resources"
       

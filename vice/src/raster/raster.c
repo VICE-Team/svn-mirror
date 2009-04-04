@@ -168,6 +168,11 @@ static int realize_canvas(raster_t *raster)
 
         raster->canvas = new_canvas;
 
+#ifdef USE_SDLUI
+        /* A hack to allow raster_force_repaint() calls for SDL UI & vkbd */
+        raster->canvas->parent_raster = raster;
+#endif
+
         video_canvas_create_set(raster->canvas);
     }
 

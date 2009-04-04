@@ -11,6 +11,7 @@ doc_DATA = \
 	Readme.beos \
 	Readme.dos \
 	ReadmeMacOSX.txt \
+	ReadmeSDL.txt \
 	Win32-Cygwin-HOWTO.txt \
 	Win32-Howto.txt \
 	OpenVMS-Howto.txt \

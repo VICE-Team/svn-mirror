@@ -23,6 +23,7 @@ libarch_a_SOURCES = \
 	c64c128ui.h \
 	cbm2ui.c \
 	config.h \
+	config_sdl.h \
 	console.c \
 	joy.c \
 	joy.h \
@@ -66,7 +67,9 @@ EXTRA_DIST = \
 	binfiles/runothers \
 	binfiles/x128sprites \
 	binfiles/c64boot \
+	binfiles/c64dtvboot \
 	binfiles/runc64 \
+	binfiles/runc64dtv \
 	binfiles/x64sprites \
 	binfiles/xcbm2sprites \
 	binfiles/xpetsprites \

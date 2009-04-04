@@ -218,7 +218,9 @@ static int init_vidc_device(const char *device, int *speed, int *fragsize, int *
   SoundThreadActive = 1;
   timer_callback_install(&SoundTimer, timerPeriod, sound_poll, 1);
 
+#ifndef USE_SDLUI
   ui_set_sound_volume();
+#endif
 
   /*log_message(vidc_log, "vidc OK");*/
 
@@ -378,7 +380,9 @@ static int init_vidc_sync_device(const char *device, int *speed, int *fragsize, 
 
   log_message(LOG_DEFAULT, "fragsize %d, frags %d", *fragsize, *fragnr);
 
+#ifndef USE_SDLUI
   ui_set_sound_volume();
+#endif
 
   return 0;
 }

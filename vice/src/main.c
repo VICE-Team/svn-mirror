@@ -48,7 +48,7 @@
 #include "gfxoutput.h"
 #include "init.h"
 #include "initcmdline.h"
-#ifdef WIN32
+#ifdef HAS_TRANSLATION
 #include "intl.h"
 #endif
 #include "lib.h"

@@ -79,19 +79,35 @@ ChangeLog:
 	touch ChangeLog
 
 if AMIGA_COMPILE
+if SDL_COMPILE
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_amiga.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) nozip $(top_srcdir) $(EXEEXT)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_amiga.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) zip $(top_srcdir) $(EXEEXT)
+else
 bindist:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) nozip $(top_srcdir) $(EXEEXT)
 
 bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) zip $(top_srcdir) $(EXEEXT)
 endif
+endif
 
 if BEOS_COMPILE
+if SDL_COMPILE
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_beos.sh $(STRIP) $(VICE_VERSION) $(host_cpu) nozip $(top_srcdir)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_beos.sh $(STRIP) $(VICE_VERSION) $(host_cpu) zip $(top_srcdir)
+else
 bindist:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) nozip $(top_srcdir)
 
 bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) zip $(top_srcdir)
+endif
 endif
 
 if MSDOS_COMPILE
@@ -103,11 +119,19 @@ bindistzip:
 endif
 
 if UNIX_GP2X_COMPILE
+if SDL_COMPILE
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_gp2x.sh $(STRIP) $(VICE_VERSION) nozip $(top_srcdir)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_gp2x.sh $(STRIP) $(VICE_VERSION) zip $(top_srcdir)
+else
 bindist:
 	$(SHELL) @ARCH_SRC_DIR@/gp2x/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip $(top_srcdir)
 
 bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/gp2x/make-bindist.sh $(STRIP) $(VICE_VERSION) zip $(top_srcdir)
+endif
 endif
 
 if UNIX_MACOSX_COMPILE
@@ -119,19 +143,35 @@ bindistzip:
 endif
 
 if UNIX_SKYOS_COMPILE
+if SDL_COMPILE
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_skyos.sh $(STRIP) $(VICE_VERSION) $(prefix) nozip $(top_srcdir)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_skyos.sh $(STRIP) $(VICE_VERSION) $(prefix) zip $(top_srcdir)
+else
 bindist:
 	$(SHELL) @ARCH_SRC_DIR@/skyos/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) nozip $(top_srcdir)
 
 bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/skyos/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) zip $(top_srcdir)
 endif
+endif
 
 if UNIX_QNX6_COMPILE
+if SDL_COMPILE
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/qnx6/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip $(top_srcdir) $(MAKE)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_qnx6.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip $(top_srcdir) $(MAKE) $(host_cpu)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/qnx6/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip $(top_srcdir) $(MAKE)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_qnx6.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip $(top_srcdir) $(MAKE) $(host_cpu)
+else
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/qnx6/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip $(top_srcdir) $(MAKE) $(host_cpu)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/qnx6/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip $(top_srcdir) $(MAKE) $(host_cpu)
+endif
 endif
 
 if UNIX_QNX4_COMPILE
@@ -151,51 +191,99 @@ bindistzip:
 endif
 
 if UNIX_SOLARIS_COMPILE
+if SDL_COMPILE
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_scosol.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sol $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_scosol.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sol $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+else
 bindist:
 	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sol $(infodir) $(mandir) $(top_srcdir) $(MAKE)
 
 bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sol $(infodir) $(mandir) $(top_srcdir) $(MAKE)
 endif
+endif
 
 if UNIX_OPENSERVER5_COMPILE
+if SDL_COMPILE
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_scosol.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco5 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_scosol.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco5 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+else
 bindist:
 	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco5 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
 
 bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco5 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
 endif
+endif
 
 if UNIX_OPENSERVER6_COMPILE
+if SDL_COMPILE
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_scosol.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco6 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_scosol.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco6 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+else
 bindist:
 	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco6 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
 
 bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco6 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
 endif
+endif
 
 if UNIX_UNIXWARE_COMPILE
+if SDL_COMPILE
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_scosol.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco7 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_scosol.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco7 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+else
 bindist:
 	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco7 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
 
 bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco7 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
 endif
+endif
 
 if WIN32_COMPILE
+if SDL_COMPILE
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip $(top_srcdir) $(host_cpu)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) nozip $(top_srcdir) $(host_cpu)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) zip $(top_srcdir) $(host_cpu)
+else
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip $(top_srcdir)
 
 bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip $(top_srcdir) $(host_cpu)
 endif
+endif
 
 if RISCOS_COMPILE
+if SDL_COMPILE
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_riscos.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) nozip $(top_srcdir)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_riscos.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) zip $(top_srcdir)
+else
 bindist:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) nozip $(top_srcdir)
 
 bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) zip $(top_srcdir)
+endif
 endif
 
 @MAKE_BINDIST_TRUE@installvice:

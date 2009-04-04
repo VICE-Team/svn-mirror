@@ -29,8 +29,8 @@
 
 #include <stdio.h>
 
-#include "resources.h"
 #include "lib.h"
+#include "resources.h"
 #include "video-resources.h"
 #include "video-color.h"
 #include "video.h"
@@ -251,7 +251,10 @@ static int set_fullscreen_enabled(int val, void *param)
     
     canvas->videoconfig->fullscreen_enabled = val;
     
-    if (canvas->initialized) {
+#ifndef USE_SDLUI
+    if (canvas->initialized)
+#endif
+    {
         if (val) {
             r = (video_chip_cap->fullscreen.enable)(canvas, val);
             (void) (video_chip_cap->fullscreen.statusbar)

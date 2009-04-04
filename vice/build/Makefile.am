@@ -2,6 +2,7 @@ EXTRA_DIST = \
 	amigaos/build-os4-native.sh \
 	amigaos/build-vbcc.sh \
 	beos/ppc-build.sh \
+	beos/ppc-build-sdl.sh \
 	mingw32/build-cross.sh \
 	macosx/build-allext.sh \
 	macosx/build-gtk.sh \
@@ -16,4 +17,6 @@ EXTRA_DIST = \
 	minix3/build-package.sh \
 	qnx4/build.sh \
 	riscos/build-cross.sh \
-	vms/build.sh
+	riscos/build-cross-sdl.sh \
+	vms/build.sh \
+	xbox-sdl/build.sh

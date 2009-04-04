@@ -96,7 +96,7 @@
 
 /* ------------------------------------------------------------------------- */
 /* Which OS is using the common keyboard routines?  */
-#if !defined(__riscos) && !defined(__OS2__)
+#if (!defined(__riscos) && !defined(__OS2__)) || defined(USE_SDLUI)
 #define COMMON_KBD
 #endif
 

@@ -532,6 +532,37 @@ void keyboard_key_clear(void)
     keyboard_key_clear_internal();
 }
 
+void keyboard_set_keyarr_any(int row, int col, int value)
+{
+    signed long sym;
+
+    if (row < 0) {
+        if (row == -3 && col == 0) {
+            sym = key_ctrl_restore1;
+        } else
+        if (row == -3 && col == 1) {
+            sym = key_ctrl_restore2;
+        } else
+        if (row == -4 && col == 0) {
+            sym = key_ctrl_column4080;
+        } else
+        if (row == -4 && col == 1) {
+            sym = key_ctrl_caps;
+        } else {
+            return;
+        }
+
+        if(value) {
+            keyboard_key_pressed(sym);
+        } else {
+            keyboard_key_released(sym);
+        }
+
+    } else {
+        keyboard_set_keyarr(row, col, value);
+    }
+}
+
 /*-----------------------------------------------------------------------*/
 
 void keyboard_alternative_set(int alternative)
@@ -626,15 +657,10 @@ static void keyboard_keyword_include(void)
     keyboard_parse_keymap(key);
 }
 
-static void keyboard_keyword_undef(void)
+static void keyboard_keysym_undef(signed long sym)
 {
-    char *key;
-    signed long sym;
     int i;
 
-    /* TODO: this only unsets from the main table, not for joysticks */
-    key = strtok(NULL, " \t");
-    sym = kbd_arch_keyname_to_keynum(key);
     if (sym >= 0) {
         for (i = 0; i < keyc_num; i++) {
             if (keyconvmap[i].sym == sym) {
@@ -646,6 +672,15 @@ static void keyboard_keyword_undef(void)
             }
         }
     }
+}
+
+static void keyboard_keyword_undef(void)
+{
+    char *key;
+
+    /* TODO: this only unsets from the main table, not for joysticks */
+    key = strtok(NULL, " \t");
+    keyboard_keysym_undef(kbd_arch_keyname_to_keynum(key));
 }
 
 static void keyboard_parse_keyword(char *buffer)
@@ -824,6 +859,20 @@ static int keyboard_keymap_load(const char *filename)
 }
 
 /*-----------------------------------------------------------------------*/
+
+void keyboard_set_map_any(signed long sym, int row, int col, int shift)
+{
+    if (row >= 0) {
+        keyboard_parse_set_pos_row(sym, row, col, shift);
+    } else {
+        keyboard_parse_set_neg_row(sym, row, col);
+    }
+}
+
+void keyboard_set_unmap_any(signed long sym)
+{
+    keyboard_keysym_undef(sym);
+}
 
 int keyboard_keymap_dump(const char *filename)
 {

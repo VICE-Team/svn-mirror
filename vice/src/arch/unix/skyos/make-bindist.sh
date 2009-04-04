@@ -63,6 +63,7 @@ $STRIP VICE-$VERSION/programs/VICE/bin/petcat.app
 mv /boot/programs/VICE/bin/cartconv VICE-$VERSION/programs/VICE/bin/cartconv.app
 $STRIP VICE-$VERSION/programs/VICE/bin/cartconv.app
 mv /boot/programs/VICE/lib/vice VICE-$VERSION/programs/VICE/lib
+rm `find VICE-$VERSION -name "sdl*.vkm"`
 mkdir -p VICE-$VERSION/programs/VICE/share/man/man1
 mv /boot/programs/VICE/share/man/man1/* VICE-$VERSION/programs/VICE/share/man/man1/
 mkdir -p VICE-$VERSION/programs/VICE/info

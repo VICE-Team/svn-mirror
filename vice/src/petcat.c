@@ -70,6 +70,11 @@
 #include "network.h"
 #include "types.h"
 
+/* dummy functions */
+
+void ui_error(const char *format, ...)
+{
+}
 
 #define PETCATVERSION   2.17
 #define PETCATLEVEL     1

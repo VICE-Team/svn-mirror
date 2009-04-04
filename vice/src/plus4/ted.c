@@ -67,9 +67,9 @@
 #include "ted.h"
 #include "tedtypes.h"
 #include "types.h"
-#include "vsync.h"
-#include "videoarch.h"
 #include "video.h"
+#include "videoarch.h"
+#include "vsync.h"
 
 
 ted_t ted;

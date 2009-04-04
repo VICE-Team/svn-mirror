@@ -50,7 +50,9 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "monitor.h"
+#ifdef HAVE_NETWORK
 #include "monitor_network.h"
+#endif
 #include "network.h"
 #include "palette.h"
 #include "ram.h"
@@ -140,11 +142,12 @@ int init_resources(void)
         init_resource_fail("network");
         return -1;
     }
+#ifdef HAVE_NETWORK
     if (monitor_network_resources_init() < 0) {
         init_resource_fail("monitor");
         return -1;
     }
-
+#endif
     return 0;
 }
 
@@ -235,10 +238,12 @@ int init_cmdline_options(void)
         init_cmdline_options_fail("GFXOUTPUT");
         return -1;
     }
+#ifdef HAVE_NETWORK
     if (monitor_network_cmdline_options_init() < 0) {
         init_cmdline_options_fail("MONITOR_NETWORK");
         return -1;
     }
+#endif
     return 0;
 }
 

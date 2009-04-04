@@ -29,6 +29,8 @@
 
 #include "vice.h"
 
+#ifdef HAVE_NETWORK
+
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
@@ -349,3 +351,5 @@ int monitor_network_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }
+
+#endif

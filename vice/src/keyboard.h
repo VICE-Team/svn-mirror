@@ -44,6 +44,7 @@ struct snapshot_s;
 extern void keyboard_init(void);
 extern void keyboard_shutdown(void);
 extern void keyboard_set_keyarr(int row, int col, int value);
+extern void keyboard_set_keyarr_any(int row, int col, int value);
 extern void keyboard_clear_keymatrix(void);
 extern void keyboard_event_playback(CLOCK offset, void *data);
 extern void keyboard_restore_event_playback(CLOCK offset, void *data);
@@ -52,6 +53,8 @@ extern int keyboard_snapshot_read_module(struct snapshot_s *s);
 extern void keyboard_event_delayed_playback(void *data);
 extern void keyboard_register_delay(unsigned int delay);
 extern void keyboard_register_clear(void);
+extern void keyboard_set_map_any(signed long sym, int row, int col, int shift);
+extern void keyboard_set_unmap_any(signed long sym);
 
 extern int keyboard_set_keymap_index(int vak, void *param);
 extern int keyboard_set_keymap_file(const char *val, void *param);

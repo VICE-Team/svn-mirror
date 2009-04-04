@@ -119,12 +119,16 @@ int mon_out(const char *format, ...)
     va_start(ap, format);
     buffer = lib_mvsprintf(format, ap);
 
+#ifdef HAVE_NETWORK
     if (monitor_is_remote) {
         rc = monitor_network_transmit(buffer, strlen(buffer));
     }
     else {
+#endif
         rc = mon_out_buffered(buffer);
+#ifdef HAVE_NETWORK
     }
+#endif
 
     lib_free(buffer);
 
@@ -188,6 +192,7 @@ char *uimon_in(const char *prompt)
     while (!p && !pchCommandLine) {
         /* as long as we don't have any return value... */
 
+#ifdef HAVE_NETWORK
         if (monitor_is_remote) {
             monitor_network_transmit(prompt, strlen(prompt));
 
@@ -197,12 +202,15 @@ char *uimon_in(const char *prompt)
             }
         }
         else {
+#endif
             /* make sure to flush the output buffer */
             mon_buffer_flush();
 
             /* get input from the user */
             p = uimon_get_in(&pchCommandLine, prompt);
+#ifdef HAVE_NETWORK
         }
+#endif
     }
 
     if (pchCommandLine) {

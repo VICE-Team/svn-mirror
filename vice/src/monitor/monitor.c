@@ -1897,6 +1897,7 @@ static void monitor_open(int is_remote)
 {
     unsigned int dnr;
 
+#ifdef HAVE_NETWORK
     monitor_is_remote = is_remote;
 
     if (monitor_is_remote) {
@@ -1905,6 +1906,7 @@ static void monitor_open(int is_remote)
         console_log = & console_log_remote;
     }
     else {
+#endif
         if (mon_console_close_on_leaving) {
             console_log = uimon_window_open();
             uimon_set_interface(mon_interfaces, NUM_MEMSPACES);
@@ -1912,7 +1914,9 @@ static void monitor_open(int is_remote)
             console_log = uimon_window_resume();
             mon_console_close_on_leaving = 1;
         }
+#ifdef HAVE_NETWORK
     }
+#endif
 
     signals_abort_set();
 

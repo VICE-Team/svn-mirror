@@ -8,7 +8,7 @@
 #define FLEX_SCANNER
 #define YY_FLEX_MAJOR_VERSION 2
 #define YY_FLEX_MINOR_VERSION 5
-#define YY_FLEX_SUBMINOR_VERSION 33
+#define YY_FLEX_SUBMINOR_VERSION 35
 #if YY_FLEX_SUBMINOR_VERSION > 0
 #define FLEX_BETA
 #endif
@@ -30,7 +30,7 @@
 
 /* C99 systems have <inttypes.h>. Non-C99 systems may or may not. */
 
-#if __STDC_VERSION__ >= 199901L
+#if defined (__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
 
 /* C99 says to define __STDC_LIMIT_MACROS before including stdint.h,
  * if you want the limit (max/min) macros for int types. 
@@ -93,11 +93,12 @@ typedef unsigned int flex_uint32_t;
 
 #else	/* ! __cplusplus */
 
-#if __STDC__
+/* C99 requires __STDC__ to be defined as 1. */
+#if defined (__STDC__)
 
 #define YY_USE_CONST
 
-#endif	/* __STDC__ */
+#endif	/* defined (__STDC__) */
 #endif	/* ! __cplusplus */
 
 #ifdef YY_USE_CONST
@@ -177,14 +178,9 @@ extern FILE *yyin, *yyout;
 
 #define unput(c) yyunput( c, (yytext_ptr)  )
 
-/* The following is because we cannot portably get our hands on size_t
- * (without autoconf's help, which isn't available because we want
- * flex-generated scanners to compile on their own).
- */
-
 #ifndef YY_TYPEDEF_YY_SIZE_T
 #define YY_TYPEDEF_YY_SIZE_T
-typedef unsigned int yy_size_t;
+typedef size_t yy_size_t;
 #endif
 
 #ifndef YY_STRUCT_YY_BUFFER_STATE
@@ -1182,8 +1178,8 @@ static int *yy_full_state;
 { \
 *yy_cp = (yy_hold_char); /* undo effects of setting up yytext */ \
 yy_cp = (yy_full_match); /* restore poss. backed-over text */ \
-(yy_lp) = yy_full_lp; /* restore orig. accepting pos. */ \
-(yy_state_ptr) = yy_full_state; /* restore orig. state */ \
+(yy_lp) = (yy_full_lp); /* restore orig. accepting pos. */ \
+(yy_state_ptr) = (yy_full_state); /* restore orig. state */ \
 yy_current_state = *(yy_state_ptr); /* restore curr. state */ \
 ++(yy_lp); \
 goto find_rule; \
@@ -1254,7 +1250,7 @@ YY_BUFFER_STATE my_state;
 #define YY_USER_ACTION { last_len = cur_len; cur_len += yyleng; }
 
 
-#line 1258 "mon_lex.c"
+#line 1254 "mon_lex.c"
 
 #define INITIAL 0
 #define FNAME 1
@@ -1281,6 +1277,35 @@ YY_BUFFER_STATE my_state;
 #endif
 
 static int yy_init_globals (void );
+
+/* Accessor methods to globals.
+   These are made visible to non-reentrant scanners for convenience. */
+
+int yylex_destroy (void );
+
+int yyget_debug (void );
+
+void yyset_debug (int debug_flag  );
+
+YY_EXTRA_TYPE yyget_extra (void );
+
+void yyset_extra (YY_EXTRA_TYPE user_defined  );
+
+FILE *yyget_in (void );
+
+void yyset_in  (FILE * in_str  );
+
+FILE *yyget_out (void );
+
+void yyset_out  (FILE * out_str  );
+
+int yyget_leng (void );
+
+char *yyget_text (void );
+
+int yyget_lineno (void );
+
+void yyset_lineno (int line_number  );
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -1324,7 +1349,7 @@ static int input (void );
 /* This used to be an fputs(), but since the string might contain NUL's,
  * we now use fwrite().
  */
-#define ECHO (void) fwrite( yytext, yyleng, 1, yyout )
+#define ECHO fwrite( yytext, yyleng, 1, yyout )
 #endif
 
 /* Gets input and stuffs it into "buf".  number of characters read, or YY_NULL,
@@ -1335,7 +1360,7 @@ static int input (void );
 	if ( YY_CURRENT_BUFFER_LVALUE->yy_is_interactive ) \
 		{ \
 		int c = '*'; \
-		size_t n; \
+		int n; \
 		for ( n = 0; n < max_size && \
 			     (c = getc( yyin )) != EOF && c != '\n'; ++n ) \
 			buf[n] = (char) c; \
@@ -1434,7 +1459,7 @@ YY_DECL
    }
 
 
-#line 1438 "mon_lex.c"
+#line 1463 "mon_lex.c"
 
 	if ( !(yy_init) )
 		{
@@ -1447,6 +1472,8 @@ YY_DECL
         /* Create the reject buffer large enough to save one state per allowed character. */
         if ( ! (yy_state_buf) )
             (yy_state_buf) = (yy_state_type *)yyalloc(YY_STATE_BUF_SIZE  );
+            if ( ! (yy_state_buf) )
+                YY_FATAL_ERROR( "out of dynamic memory in yylex()" );
 
 		if ( ! (yy_start) )
 			(yy_start) = 1;	/* first start state */
@@ -1509,25 +1536,25 @@ find_rule: /* we branch to this label when backing up */
 				{
 				yy_act = yy_acclist[(yy_lp)];
 				if ( yy_act & YY_TRAILING_HEAD_MASK ||
-				     yy_looking_for_trail_begin )
+				     (yy_looking_for_trail_begin) )
 					{
-					if ( yy_act == yy_looking_for_trail_begin )
+					if ( yy_act == (yy_looking_for_trail_begin) )
 						{
-						yy_looking_for_trail_begin = 0;
+						(yy_looking_for_trail_begin) = 0;
 						yy_act &= ~YY_TRAILING_HEAD_MASK;
 						break;
 						}
 					}
 				else if ( yy_act & YY_TRAILING_MASK )
 					{
-					yy_looking_for_trail_begin = yy_act & ~YY_TRAILING_MASK;
-					yy_looking_for_trail_begin |= YY_TRAILING_HEAD_MASK;
+					(yy_looking_for_trail_begin) = yy_act & ~YY_TRAILING_MASK;
+					(yy_looking_for_trail_begin) |= YY_TRAILING_HEAD_MASK;
 					}
 				else
 					{
 					(yy_full_match) = yy_cp;
-					yy_full_state = (yy_state_ptr);
-					yy_full_lp = (yy_lp);
+					(yy_full_state) = (yy_state_ptr);
+					(yy_full_lp) = (yy_lp);
 					break;
 					}
 				++(yy_lp);
@@ -1828,7 +1855,7 @@ YY_RULE_SETUP
 case 57:
 YY_RULE_SETUP
 #line 140 "mon_lex.l"
-{ BEGIN(INITIAL);       return CMD_RESET; }
+{ BEGIN(INITIAL);       return CMD_MON_RESET; }
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
@@ -1883,7 +1910,7 @@ YY_RULE_SETUP
 case 68:
 YY_RULE_SETUP
 #line 151 "mon_lex.l"
-{ BEGIN(INITIAL);       return CMD_STOP; }
+{ BEGIN(INITIAL);       return CMD_MON_STOP; }
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
@@ -2097,107 +2124,107 @@ YY_RULE_SETUP
 case 105:
 YY_RULE_SETUP
 #line 232 "mon_lex.l"
-{ yylval.i = e_A; return REGISTER; }
+{ yylval.i = e_A; return MON_REGISTER; }
 	YY_BREAK
 case 106:
 YY_RULE_SETUP
 #line 233 "mon_lex.l"
-{ yylval.i = e_X; return REGISTER; }
+{ yylval.i = e_X; return MON_REGISTER; }
 	YY_BREAK
 case 107:
 YY_RULE_SETUP
 #line 234 "mon_lex.l"
-{ yylval.i = e_Y; return REGISTER; }
+{ yylval.i = e_Y; return MON_REGISTER; }
 	YY_BREAK
 case 108:
 YY_RULE_SETUP
 #line 235 "mon_lex.l"
-{ yylval.i = e_PC; return REGISTER; }
+{ yylval.i = e_PC; return MON_REGISTER; }
 	YY_BREAK
 case 109:
 YY_RULE_SETUP
 #line 236 "mon_lex.l"
-{ yylval.i = e_SP; return REGISTER; }
+{ yylval.i = e_SP; return MON_REGISTER; }
 	YY_BREAK
 case 110:
 YY_RULE_SETUP
 #line 237 "mon_lex.l"
-{ yylval.i = e_FLAGS; return REGISTER; }
+{ yylval.i = e_FLAGS; return MON_REGISTER; }
 	YY_BREAK
 case 111:
 YY_RULE_SETUP
 #line 238 "mon_lex.l"
-{ yylval.i = e_R3; return REGISTER; }
+{ yylval.i = e_R3; return MON_REGISTER; }
 	YY_BREAK
 case 112:
 YY_RULE_SETUP
 #line 239 "mon_lex.l"
-{ yylval.i = e_R4; return REGISTER; }
+{ yylval.i = e_R4; return MON_REGISTER; }
 	YY_BREAK
 case 113:
 YY_RULE_SETUP
 #line 240 "mon_lex.l"
-{ yylval.i = e_R5; return REGISTER; }
+{ yylval.i = e_R5; return MON_REGISTER; }
 	YY_BREAK
 case 114:
 YY_RULE_SETUP
 #line 241 "mon_lex.l"
-{ yylval.i = e_R6; return REGISTER; }
+{ yylval.i = e_R6; return MON_REGISTER; }
 	YY_BREAK
 case 115:
 YY_RULE_SETUP
 #line 242 "mon_lex.l"
-{ yylval.i = e_R7; return REGISTER; }
+{ yylval.i = e_R7; return MON_REGISTER; }
 	YY_BREAK
 case 116:
 YY_RULE_SETUP
 #line 243 "mon_lex.l"
-{ yylval.i = e_R8; return REGISTER; }
+{ yylval.i = e_R8; return MON_REGISTER; }
 	YY_BREAK
 case 117:
 YY_RULE_SETUP
 #line 244 "mon_lex.l"
-{ yylval.i = e_R9; return REGISTER; }
+{ yylval.i = e_R9; return MON_REGISTER; }
 	YY_BREAK
 case 118:
 YY_RULE_SETUP
 #line 245 "mon_lex.l"
-{ yylval.i = e_R10; return REGISTER; }
+{ yylval.i = e_R10; return MON_REGISTER; }
 	YY_BREAK
 case 119:
 YY_RULE_SETUP
 #line 246 "mon_lex.l"
-{ yylval.i = e_R11; return REGISTER; }
+{ yylval.i = e_R11; return MON_REGISTER; }
 	YY_BREAK
 case 120:
 YY_RULE_SETUP
 #line 247 "mon_lex.l"
-{ yylval.i = e_R12; return REGISTER; }
+{ yylval.i = e_R12; return MON_REGISTER; }
 	YY_BREAK
 case 121:
 YY_RULE_SETUP
 #line 248 "mon_lex.l"
-{ yylval.i = e_R13; return REGISTER; }
+{ yylval.i = e_R13; return MON_REGISTER; }
 	YY_BREAK
 case 122:
 YY_RULE_SETUP
 #line 249 "mon_lex.l"
-{ yylval.i = e_R14; return REGISTER; }
+{ yylval.i = e_R14; return MON_REGISTER; }
 	YY_BREAK
 case 123:
 YY_RULE_SETUP
 #line 250 "mon_lex.l"
-{ yylval.i = e_R15; return REGISTER; }
+{ yylval.i = e_R15; return MON_REGISTER; }
 	YY_BREAK
 case 124:
 YY_RULE_SETUP
 #line 251 "mon_lex.l"
-{ yylval.i = e_ACM; return REGISTER; }
+{ yylval.i = e_ACM; return MON_REGISTER; }
 	YY_BREAK
 case 125:
 YY_RULE_SETUP
 #line 252 "mon_lex.l"
-{ yylval.i = e_YXM; return REGISTER; }
+{ yylval.i = e_YXM; return MON_REGISTER; }
 	YY_BREAK
 
 
@@ -2244,102 +2271,102 @@ YY_RULE_SETUP
 case 134:
 YY_RULE_SETUP
 #line 265 "mon_lex.l"
-{ yylval.i = e_A; return REGISTER; }
+{ yylval.i = e_A; return MON_REGISTER; }
 	YY_BREAK
 case 135:
 YY_RULE_SETUP
 #line 266 "mon_lex.l"
-{ yylval.i = e_X; return REGISTER; }
+{ yylval.i = e_X; return MON_REGISTER; }
 	YY_BREAK
 case 136:
 YY_RULE_SETUP
 #line 267 "mon_lex.l"
-{ yylval.i = e_Y; return REGISTER; }
+{ yylval.i = e_Y; return MON_REGISTER; }
 	YY_BREAK
 case 137:
 YY_RULE_SETUP
 #line 268 "mon_lex.l"
-{ yylval.i = e_PC; return REGISTER; }
+{ yylval.i = e_PC; return MON_REGISTER; }
 	YY_BREAK
 case 138:
 YY_RULE_SETUP
 #line 269 "mon_lex.l"
-{ yylval.i = e_SP; return REGISTER; }
+{ yylval.i = e_SP; return MON_REGISTER; }
 	YY_BREAK
 case 139:
 YY_RULE_SETUP
 #line 270 "mon_lex.l"
-{ yylval.i = e_R3; return REGISTER; }
+{ yylval.i = e_R3; return MON_REGISTER; }
 	YY_BREAK
 case 140:
 YY_RULE_SETUP
 #line 271 "mon_lex.l"
-{ yylval.i = e_R4; return REGISTER; }
+{ yylval.i = e_R4; return MON_REGISTER; }
 	YY_BREAK
 case 141:
 YY_RULE_SETUP
 #line 272 "mon_lex.l"
-{ yylval.i = e_R5; return REGISTER; }
+{ yylval.i = e_R5; return MON_REGISTER; }
 	YY_BREAK
 case 142:
 YY_RULE_SETUP
 #line 273 "mon_lex.l"
-{ yylval.i = e_R6; return REGISTER; }
+{ yylval.i = e_R6; return MON_REGISTER; }
 	YY_BREAK
 case 143:
 YY_RULE_SETUP
 #line 274 "mon_lex.l"
-{ yylval.i = e_R7; return REGISTER; }
+{ yylval.i = e_R7; return MON_REGISTER; }
 	YY_BREAK
 case 144:
 YY_RULE_SETUP
 #line 275 "mon_lex.l"
-{ yylval.i = e_R8; return REGISTER; }
+{ yylval.i = e_R8; return MON_REGISTER; }
 	YY_BREAK
 case 145:
 YY_RULE_SETUP
 #line 276 "mon_lex.l"
-{ yylval.i = e_R9; return REGISTER; }
+{ yylval.i = e_R9; return MON_REGISTER; }
 	YY_BREAK
 case 146:
 YY_RULE_SETUP
 #line 277 "mon_lex.l"
-{ yylval.i = e_R10; return REGISTER; }
+{ yylval.i = e_R10; return MON_REGISTER; }
 	YY_BREAK
 case 147:
 YY_RULE_SETUP
 #line 278 "mon_lex.l"
-{ yylval.i = e_R11; return REGISTER; }
+{ yylval.i = e_R11; return MON_REGISTER; }
 	YY_BREAK
 case 148:
 YY_RULE_SETUP
 #line 279 "mon_lex.l"
-{ yylval.i = e_R12; return REGISTER; }
+{ yylval.i = e_R12; return MON_REGISTER; }
 	YY_BREAK
 case 149:
 YY_RULE_SETUP
 #line 280 "mon_lex.l"
-{ yylval.i = e_R13; return REGISTER; }
+{ yylval.i = e_R13; return MON_REGISTER; }
 	YY_BREAK
 case 150:
 YY_RULE_SETUP
 #line 281 "mon_lex.l"
-{ yylval.i = e_R14; return REGISTER; }
+{ yylval.i = e_R14; return MON_REGISTER; }
 	YY_BREAK
 case 151:
 YY_RULE_SETUP
 #line 282 "mon_lex.l"
-{ yylval.i = e_R15; return REGISTER; }
+{ yylval.i = e_R15; return MON_REGISTER; }
 	YY_BREAK
 case 152:
 YY_RULE_SETUP
 #line 283 "mon_lex.l"
-{ yylval.i = e_ACM; return REGISTER; }
+{ yylval.i = e_ACM; return MON_REGISTER; }
 	YY_BREAK
 case 153:
 YY_RULE_SETUP
 #line 284 "mon_lex.l"
-{ yylval.i = e_YXM; return REGISTER; }
+{ yylval.i = e_YXM; return MON_REGISTER; }
 	YY_BREAK
 case 154:
 YY_RULE_SETUP
@@ -2611,7 +2638,7 @@ YY_RULE_SETUP
 #line 357 "mon_lex.l"
 ECHO;
 	YY_BREAK
-#line 2615 "mon_lex.c"
+#line 2642 "mon_lex.c"
 			case YY_STATE_EOF(INITIAL):
 			case YY_STATE_EOF(FNAME):
 			case YY_STATE_EOF(CMD):
@@ -2846,6 +2873,14 @@ static int yy_get_next_buffer (void)
 
 	else
 		ret_val = EOB_ACT_CONTINUE_SCAN;
+
+	if ((yy_size_t) ((yy_n_chars) + number_to_move) > YY_CURRENT_BUFFER_LVALUE->yy_buf_size) {
+		/* Extend the array by 50%, plus the number we really need. */
+		yy_size_t new_size = (yy_n_chars) + number_to_move + ((yy_n_chars) >> 1);
+		YY_CURRENT_BUFFER_LVALUE->yy_ch_buf = (char *) yyrealloc((void *) YY_CURRENT_BUFFER_LVALUE->yy_ch_buf,new_size  );
+		if ( ! YY_CURRENT_BUFFER_LVALUE->yy_ch_buf )
+			YY_FATAL_ERROR( "out of dynamic memory in yy_get_next_buffer()" );
+	}
 
 	(yy_n_chars) += number_to_move;
 	YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[(yy_n_chars)] = YY_END_OF_BUFFER_CHAR;
@@ -3129,9 +3164,19 @@ static void yy_load_buffer_state  (void)
 	yyfree((void *) b  );
 }
 
-#ifndef __cplusplus
+#ifndef _UNISTD_H /* assume unistd.h has isatty() for us */
+#ifdef __cplusplus
+extern "C" {
+#endif
+#ifdef __THROW /* this is a gnuism */
+extern int isatty (int ) __THROW;
+#else
 extern int isatty (int );
-#endif /* __cplusplus */
+#endif
+#ifdef __cplusplus
+}
+#endif
+#endif
     
 /* Initializes or reinitializes a buffer.
  * This function is sometimes called more than once on the same buffer,
@@ -3257,7 +3302,9 @@ static void yyensure_buffer_stack (void)
 		(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc
 								(num_to_alloc * sizeof(struct yy_buffer_state*)
 								);
-		
+		if ( ! (yy_buffer_stack) )
+			YY_FATAL_ERROR( "out of dynamic memory in yyensure_buffer_stack()" );
+								  
 		memset((yy_buffer_stack), 0, num_to_alloc * sizeof(struct yy_buffer_state*));
 				
 		(yy_buffer_stack_max) = num_to_alloc;
@@ -3275,6 +3322,8 @@ static void yyensure_buffer_stack (void)
 								((yy_buffer_stack),
 								num_to_alloc * sizeof(struct yy_buffer_state*)
 								);
+		if ( ! (yy_buffer_stack) )
+			YY_FATAL_ERROR( "out of dynamic memory in yyensure_buffer_stack()" );
 
 		/* zero only the new slots.*/
 		memset((yy_buffer_stack) + (yy_buffer_stack_max), 0, grow_size * sizeof(struct yy_buffer_state*));

@@ -271,3 +271,8 @@ char *cmdline_options_string(void)
     }
     return cmdline_string;
 }
+
+int cmdline_get_num_options(void)
+{
+    return num_options;
+}

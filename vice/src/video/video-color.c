@@ -36,8 +36,8 @@
 #include "video-canvas.h"
 #include "video-color.h"
 #include "video-resources.h"
-#include "videoarch.h"
 #include "video.h"
+#include "videoarch.h"
 
 DWORD gamma_red[256 * 3];
 DWORD gamma_grn[256 * 3];

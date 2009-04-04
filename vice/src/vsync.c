@@ -40,10 +40,10 @@
 
 int vsync_frame_counter;
 
-/* Port me... */
-#if !defined(MSDOS) && !defined(RISCOS)
-
 #include "vice.h"
+
+/* Port me... */
+#if (!defined(MSDOS) && !defined(RISCOS)) || (defined(RISCOS) && defined(USE_SDLUI))
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -58,12 +58,15 @@ int vsync_frame_counter;
 #include "log.h"
 #include "maincpu.h"
 #include "machine.h"
+#ifdef HAVE_NETWORK
 #include "monitor_network.h"
+#endif
 #include "network.h"
 #include "resources.h"
 #include "sound.h"
 #include "translate.h"
 #include "types.h"
+#include "videoarch.h"
 #include "vsync.h"
 #include "vsyncapi.h"
 
@@ -281,8 +284,6 @@ void vsync_sync_reset(void)
     sync_reset = 1;
 }
 
-#include "videoarch.h"
-
 /* This is called at the end of each screen frame. It flushes the
    audio buffer and keeps control of the emulation speed. */
 int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
@@ -313,13 +314,15 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     signed long delay;
     long frame_ticks_remainder, frame_ticks_integer, compval;
 
-#if defined(WIN32) || defined(HAVE_OPENGL_SYNC)
+#if (defined(WIN32) || defined(HAVE_OPENGL_SYNC)) && !defined(USE_SDLUI)
     float refresh_cmp;
     int refresh_div;
 #endif
 
+#ifdef HAVE_NETWORK
     /* check if someone wants to connect remotely to the monitor */
     monitor_check_remote();
+#endif
 
     vsync_frame_counter++;
 
@@ -409,7 +412,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 
     /* This is the time between the start of the next frame and now. */
     delay = (signed long)(now - next_frame_start);
-#if defined(WIN32) || defined(HAVE_OPENGL_SYNC)
+#if (defined(WIN32) || defined(HAVE_OPENGL_SYNC)) && !defined(USE_SDLUI)
     refresh_cmp = (float)(c->refreshrate / refresh_frequency);
     refresh_div = (int)(refresh_cmp + 0.5f);
     refresh_cmp /= (float)refresh_div;
@@ -434,7 +437,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     if (!warp_mode_enabled && timer_speed && delay < 0) {
         vsyncarch_sleep(-delay);
     }
-#if defined(WIN32) || defined(HAVE_OPENGL_SYNC)
+#if (defined(WIN32) || defined(HAVE_OPENGL_SYNC)) && !defined(USE_SDLUI)
     vsyncarch_prepare_vbl();
 #endif
     /*
@@ -470,7 +473,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         skip_next_frame = 0;
         skipped_redraw = 0;
     }
-#if defined(WIN32) || defined(HAVE_OPENGL_SYNC)
+#if (defined(WIN32) || defined(HAVE_OPENGL_SYNC)) && !defined(USE_SDLUI)
 	}
 #endif
 
@@ -530,7 +533,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     return skip_next_frame;
 }
 
-#if defined(WIN32) || defined (HAVE_OPENGL_SYNC) 
+#if (defined(WIN32) || defined (HAVE_OPENGL_SYNC)) && !defined(USE_SDLUI)
 
 static unsigned long last = 0;
 static unsigned long nosynccount = 0;

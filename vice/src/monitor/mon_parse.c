@@ -137,7 +137,7 @@
      CMD_DEL_LABEL = 326,
      CMD_SHOW_LABELS = 327,
      CMD_RECORD = 328,
-     CMD_STOP = 329,
+     CMD_MON_STOP = 329,
      CMD_PLAYBACK = 330,
      CMD_CHAR_DISPLAY = 331,
      CMD_SPRITE_DISPLAY = 332,
@@ -160,7 +160,7 @@
      CMD_RESOURCE_SET = 349,
      CMD_ATTACH = 350,
      CMD_DETACH = 351,
-     CMD_RESET = 352,
+     CMD_MON_RESET = 352,
      CMD_TAPECTRL = 353,
      CMD_CARTFREEZE = 354,
      CMD_CPUHISTORY = 355,
@@ -200,7 +200,7 @@
      LABEL = 389,
      BANKNAME = 390,
      CPUTYPE = 391,
-     REGISTER = 392,
+     MON_REGISTER = 392,
      COMPARE_OP = 393,
      RADIX_TYPE = 394,
      INPUT_SPEC = 395,
@@ -282,7 +282,7 @@
 #define CMD_DEL_LABEL 326
 #define CMD_SHOW_LABELS 327
 #define CMD_RECORD 328
-#define CMD_STOP 329
+#define CMD_MON_STOP 329
 #define CMD_PLAYBACK 330
 #define CMD_CHAR_DISPLAY 331
 #define CMD_SPRITE_DISPLAY 332
@@ -305,7 +305,7 @@
 #define CMD_RESOURCE_SET 349
 #define CMD_ATTACH 350
 #define CMD_DETACH 351
-#define CMD_RESET 352
+#define CMD_MON_RESET 352
 #define CMD_TAPECTRL 353
 #define CMD_CARTFREEZE 354
 #define CMD_CPUHISTORY 355
@@ -345,7 +345,7 @@
 #define LABEL 389
 #define BANKNAME 390
 #define CPUTYPE 391
-#define REGISTER 392
+#define MON_REGISTER 392
 #define COMPARE_OP 393
 #define RADIX_TYPE 394
 #define INPUT_SPEC 395
@@ -980,31 +980,31 @@ static const char *const yytname[] =
   "CMD_DEVICE", "CMD_HELP", "CMD_WATCH", "CMD_DISK", "CMD_SYSTEM",
   "CMD_QUIT", "CMD_CHDIR", "CMD_BANK", "CMD_LOAD_LABELS",
   "CMD_SAVE_LABELS", "CMD_ADD_LABEL", "CMD_DEL_LABEL", "CMD_SHOW_LABELS",
-  "CMD_RECORD", "CMD_STOP", "CMD_PLAYBACK", "CMD_CHAR_DISPLAY",
+  "CMD_RECORD", "CMD_MON_STOP", "CMD_PLAYBACK", "CMD_CHAR_DISPLAY",
   "CMD_SPRITE_DISPLAY", "CMD_TEXT_DISPLAY", "CMD_SCREENCODE_DISPLAY",
   "CMD_ENTER_DATA", "CMD_ENTER_BIN_DATA", "CMD_KEYBUF", "CMD_BLOAD",
   "CMD_BSAVE", "CMD_SCREEN", "CMD_UNTIL", "CMD_CPU", "CMD_YYDEBUG",
   "CMD_BACKTRACE", "CMD_SCREENSHOT", "CMD_PWD", "CMD_DIR",
   "CMD_RESOURCE_GET", "CMD_RESOURCE_SET", "CMD_ATTACH", "CMD_DETACH",
-  "CMD_RESET", "CMD_TAPECTRL", "CMD_CARTFREEZE", "CMD_CPUHISTORY",
+  "CMD_MON_RESET", "CMD_TAPECTRL", "CMD_CARTFREEZE", "CMD_CPUHISTORY",
   "CMD_MEMMAPZAP", "CMD_MEMMAPSHOW", "CMD_MEMMAPSAVE", "CMD_LABEL_ASGN",
   "L_PAREN", "R_PAREN", "ARG_IMMEDIATE", "REG_A", "REG_X", "REG_Y",
   "COMMA", "INST_SEP", "REG_B", "REG_C", "REG_D", "REG_E", "REG_H",
   "REG_L", "REG_AF", "REG_BC", "REG_DE", "REG_HL", "REG_IX", "REG_IY",
   "REG_SP", "REG_IXH", "REG_IXL", "REG_IYH", "REG_IYL", "STRING",
   "FILENAME", "R_O_L", "OPCODE", "LABEL", "BANKNAME", "CPUTYPE",
-  "REGISTER", "COMPARE_OP", "RADIX_TYPE", "INPUT_SPEC", "CMD_CHECKPT_ON",
-  "CMD_CHECKPT_OFF", "TOGGLE", "MASK", "'+'", "'-'", "'*'", "'/'", "'('",
-  "')'", "$accept", "top_level", "command_list", "end_cmd", "command",
-  "machine_state_rules", "register_mod", "symbol_table_rules", "asm_rules",
-  "@1", "memory_rules", "checkpoint_rules", "checkpoint_control_rules",
-  "monitor_state_rules", "monitor_misc_rules", "disk_rules",
-  "cmd_file_rules", "data_entry_rules", "monitor_debug_rules",
-  "rest_of_line", "opt_rest_of_line", "filename", "device_num",
-  "opt_mem_op", "register", "reg_list", "reg_asgn", "breakpt_num",
-  "address_opt_range", "address_range", "opt_address", "address",
-  "opt_sep", "memspace", "memloc", "memaddr", "expression", "cond_expr",
-  "compare_operand", "data_list", "data_element", "hunt_list",
+  "MON_REGISTER", "COMPARE_OP", "RADIX_TYPE", "INPUT_SPEC",
+  "CMD_CHECKPT_ON", "CMD_CHECKPT_OFF", "TOGGLE", "MASK", "'+'", "'-'",
+  "'*'", "'/'", "'('", "')'", "$accept", "top_level", "command_list",
+  "end_cmd", "command", "machine_state_rules", "register_mod",
+  "symbol_table_rules", "asm_rules", "@1", "memory_rules",
+  "checkpoint_rules", "checkpoint_control_rules", "monitor_state_rules",
+  "monitor_misc_rules", "disk_rules", "cmd_file_rules", "data_entry_rules",
+  "monitor_debug_rules", "rest_of_line", "opt_rest_of_line", "filename",
+  "device_num", "opt_mem_op", "register", "reg_list", "reg_asgn",
+  "breakpt_num", "address_opt_range", "address_range", "opt_address",
+  "address", "opt_sep", "memspace", "memloc", "memaddr", "expression",
+  "cond_expr", "compare_operand", "data_list", "data_element", "hunt_list",
   "hunt_element", "value", "d_number", "guess_default", "number",
   "assembly_instr_list", "assembly_instruction", "post_assemble",
   "asm_operand_mode", 0

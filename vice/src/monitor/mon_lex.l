@@ -137,7 +137,7 @@ HDIGIT  [0-9a-fA-F]
         radix|rad       { BEGIN(INITIAL);       return CMD_RADIX; }
         record|rec      { BEGIN(FNAME);         return CMD_RECORD; }
         registers|r     { BEGIN(REG_ASGN);      return CMD_REGISTERS; }
-        reset           { BEGIN(INITIAL);       return CMD_RESET; }
+        reset           { BEGIN(INITIAL);       return CMD_MON_RESET; }
         resourceget|resget { BEGIN(INITIAL);    return CMD_RESOURCE_GET; }
         resourceset|resset { BEGIN(INITIAL);    return CMD_RESOURCE_SET; }
         return|ret      { BEGIN(INITIAL);       return CMD_RETURN; }
@@ -148,7 +148,7 @@ HDIGIT  [0-9a-fA-F]
         show_labels|shl { BEGIN(INITIAL);       return CMD_SHOW_LABELS; }
         sidefx|sfx      { BEGIN(INITIAL);       return CMD_SIDEFX; }
         step|z          { BEGIN(INITIAL);       return CMD_STEP; }
-        stop            { BEGIN(INITIAL);       return CMD_STOP; }
+        stop            { BEGIN(INITIAL);       return CMD_MON_STOP; }
         tapectrl        { BEGIN(INITIAL);       return CMD_TAPECTRL; }
         trace|tr        { BEGIN(INITIAL);       return CMD_TRACE; }
         until|un        { BEGIN(INITIAL);       return CMD_UNTIL; }
@@ -229,27 +229,27 @@ O|o		{ yylval.i = e_octal; return RADIX_TYPE; }
 <ROL>[^ \t\n][^\n]*          { yylval.str = lib_stralloc(yytext); return R_O_L; }
 
 <REG_ASGN>{
-	A|a 		{ yylval.i = e_A; return REGISTER; }
-	X|x 		{ yylval.i = e_X; return REGISTER; }
-	Y|y 		{ yylval.i = e_Y; return REGISTER; }
-	[Pp][Cc]	{ yylval.i = e_PC; return REGISTER; }
-	[Ss][Pp]	{ yylval.i = e_SP; return REGISTER; }
-	[Ff][Ll]	{ yylval.i = e_FLAGS; return REGISTER; }
-        [Rr]3           { yylval.i = e_R3; return REGISTER; }
-        [Rr]4           { yylval.i = e_R4; return REGISTER; }
-        [Rr]5           { yylval.i = e_R5; return REGISTER; }
-        [Rr]6           { yylval.i = e_R6; return REGISTER; }
-        [Rr]7           { yylval.i = e_R7; return REGISTER; }
-        [Rr]8           { yylval.i = e_R8; return REGISTER; }
-        [Rr]9           { yylval.i = e_R9; return REGISTER; }
-        [Rr]10          { yylval.i = e_R10; return REGISTER; }
-        [Rr]11          { yylval.i = e_R11; return REGISTER; }
-        [Rr]12          { yylval.i = e_R12; return REGISTER; }
-        [Rr]13          { yylval.i = e_R13; return REGISTER; }
-        [Rr]14          { yylval.i = e_R14; return REGISTER; }
-        [Rr]15          { yylval.i = e_R15; return REGISTER; }
-        [Aa][Cc][Mm]    { yylval.i = e_ACM; return REGISTER; }
-        [Yy][Xx][Mm]    { yylval.i = e_YXM; return REGISTER; }
+	A|a 		{ yylval.i = e_A; return MON_REGISTER; }
+	X|x 		{ yylval.i = e_X; return MON_REGISTER; }
+	Y|y 		{ yylval.i = e_Y; return MON_REGISTER; }
+	[Pp][Cc]	{ yylval.i = e_PC; return MON_REGISTER; }
+	[Ss][Pp]	{ yylval.i = e_SP; return MON_REGISTER; }
+	[Ff][Ll]	{ yylval.i = e_FLAGS; return MON_REGISTER; }
+        [Rr]3           { yylval.i = e_R3; return MON_REGISTER; }
+        [Rr]4           { yylval.i = e_R4; return MON_REGISTER; }
+        [Rr]5           { yylval.i = e_R5; return MON_REGISTER; }
+        [Rr]6           { yylval.i = e_R6; return MON_REGISTER; }
+        [Rr]7           { yylval.i = e_R7; return MON_REGISTER; }
+        [Rr]8           { yylval.i = e_R8; return MON_REGISTER; }
+        [Rr]9           { yylval.i = e_R9; return MON_REGISTER; }
+        [Rr]10          { yylval.i = e_R10; return MON_REGISTER; }
+        [Rr]11          { yylval.i = e_R11; return MON_REGISTER; }
+        [Rr]12          { yylval.i = e_R12; return MON_REGISTER; }
+        [Rr]13          { yylval.i = e_R13; return MON_REGISTER; }
+        [Rr]14          { yylval.i = e_R14; return MON_REGISTER; }
+        [Rr]15          { yylval.i = e_R15; return MON_REGISTER; }
+        [Aa][Cc][Mm]    { yylval.i = e_ACM; return MON_REGISTER; }
+        [Yy][Xx][Mm]    { yylval.i = e_YXM; return MON_REGISTER; }
 }
 
 <COND_MODE>{
@@ -262,26 +262,26 @@ O|o		{ yylval.i = e_octal; return RADIX_TYPE; }
 	&&		{ yylval.i = e_AND; return COMPARE_OP; }
 	\|\|		{ yylval.i = e_OR;  return COMPARE_OP; }
 
-	\.A 		{ yylval.i = e_A; return REGISTER; }
-	\.X 		{ yylval.i = e_X; return REGISTER; }
-	\.Y 		{ yylval.i = e_Y; return REGISTER; }
-	\.PC 		{ yylval.i = e_PC; return REGISTER; }
-	\.SP		{ yylval.i = e_SP; return REGISTER; }
-        \.R3            { yylval.i = e_R3; return REGISTER; }
-        \.R4            { yylval.i = e_R4; return REGISTER; }
-        \.R5            { yylval.i = e_R5; return REGISTER; }
-        \.R6            { yylval.i = e_R6; return REGISTER; }
-        \.R7            { yylval.i = e_R7; return REGISTER; }
-        \.R8            { yylval.i = e_R8; return REGISTER; }
-        \.R9            { yylval.i = e_R9; return REGISTER; }
-        \.R10           { yylval.i = e_R10; return REGISTER; }
-        \.R11           { yylval.i = e_R11; return REGISTER; }
-        \.R12           { yylval.i = e_R12; return REGISTER; }
-        \.R13           { yylval.i = e_R13; return REGISTER; }
-        \.R14           { yylval.i = e_R14; return REGISTER; }
-        \.R15           { yylval.i = e_R15; return REGISTER; }
-        \.ACM           { yylval.i = e_ACM; return REGISTER; }
-        \.YXM           { yylval.i = e_YXM; return REGISTER; }
+	\.A 		{ yylval.i = e_A; return MON_REGISTER; }
+	\.X 		{ yylval.i = e_X; return MON_REGISTER; }
+	\.Y 		{ yylval.i = e_Y; return MON_REGISTER; }
+	\.PC 		{ yylval.i = e_PC; return MON_REGISTER; }
+	\.SP		{ yylval.i = e_SP; return MON_REGISTER; }
+        \.R3            { yylval.i = e_R3; return MON_REGISTER; }
+        \.R4            { yylval.i = e_R4; return MON_REGISTER; }
+        \.R5            { yylval.i = e_R5; return MON_REGISTER; }
+        \.R6            { yylval.i = e_R6; return MON_REGISTER; }
+        \.R7            { yylval.i = e_R7; return MON_REGISTER; }
+        \.R8            { yylval.i = e_R8; return MON_REGISTER; }
+        \.R9            { yylval.i = e_R9; return MON_REGISTER; }
+        \.R10           { yylval.i = e_R10; return MON_REGISTER; }
+        \.R11           { yylval.i = e_R11; return MON_REGISTER; }
+        \.R12           { yylval.i = e_R12; return MON_REGISTER; }
+        \.R13           { yylval.i = e_R13; return MON_REGISTER; }
+        \.R14           { yylval.i = e_R14; return MON_REGISTER; }
+        \.R15           { yylval.i = e_R15; return MON_REGISTER; }
+        \.ACM           { yylval.i = e_ACM; return MON_REGISTER; }
+        \.YXM           { yylval.i = e_YXM; return MON_REGISTER; }
 
 	\(		{ return L_PAREN; }
 	\)		{ return R_PAREN; }

@@ -24,6 +24,9 @@ x11_keymaps = \
 	x11_posger.vkm \
 	x11_symger.vkm
 
+sdl_keymaps = \
+	sdl_sym.vkm
+
 extra_keymaps = \
 	amiga_sym.vkm \
 	amiga_pos.vkm \
@@ -39,6 +42,7 @@ extra_keymaps = \
 	osx_sym_de.vkm \
 	osx_sym_us.vkm \
 	ROdflt.vkm \
+	sdl_sym.vkm \
 	win_sym_de.vkm \
 	win_sym_us.vkm \
 	win_pos.vkm
@@ -49,6 +53,12 @@ win32_shortcuts = \
 sym_file = \
 	c64mem.sym
 
+if SDL_COMPILE
+c64_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file)
+
+EXTRA_DIST = $(c64_DATA) $(extra_keymaps) $(x11_keymaps) $(win32_shortcuts)
+else
 c64_DATA = $(roms) $(romsets) $(palettes) $(x11_keymaps) $(sym_file)
 
-EXTRA_DIST = $(c64_DATA) $(extra_keymaps) $(win32_shortcuts)
+EXTRA_DIST = $(c64_DATA) $(extra_keymaps) $(sdl_keymaps) $(win32_shortcuts)
+endif
