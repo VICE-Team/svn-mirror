@@ -1067,23 +1067,57 @@
 	* src/arch/win32/ui.c, src/arch/win32/ui.h: Added missing
 	  includes.
 
-2009-03-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+2009-02-28  Marco van den Heuvel <blackystardust68@yahoo.com>
 
-@@@TODO
+	* src/arch/win32/watcom/arch.tgt,
+	  src/arch/win32/watcom/config.h,
+	  src/arch/win32/watcom/vice.wpj: Fixed the watcom project files
+	  to compile without the dinput lib.
 
-	* configure.in, src/arch/win32/Makefile.am,
-	  src/arch/win32/arch.dsp, src/arch/win32/dinput_handle.c,
-	  src/arch/win32/dinput_handle.h, src/arch/win32/joy.c,
-	  src/arch/win32/joy.h, src/arch/win32/mousedrv.c,
-	  src/arch/win32/msvc/config.h, src/arch/win32/ui.c,
-	  src/arch/win32/uijoystick.c, src/arch/win32/watcom/arch.tgt,
-	  src/arch/win32/watcom/config.h, src/arch/win32/x128.dsp,
+	* src/arch/win32/arch.dsp, src/arch/win32/x128.dsp,
 	  src/arch/win32/x64.dsp, src/arch/win32/x64dtv.dsp,
 	  src/arch/win32/xcbm2.dsp, src/arch/win32/xpet.dsp,
-	  src/arch/win32/xplus4.dsp, src/arch/win32/xvic.dsp: Merged the
-	  windowsmouse tag (svn merge
-	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v2.1/v2.1.2
-	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/fabrizio/v2.1.2-windowsmouse).
+	  src/arch/win32/xplus4.dsp, src/arch/win32/xvic.dsp: Fixed the
+	  msvc project files to compile without the dinput lib.
+
+2009-02-09  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/joy.c, src/arch/win32/msvc/config.h: Do not
+	  initialize both DirectInput and winmm joysticks
+
+	* src/arch/win32/joy.c, src/drive/drive.c: Remove a warning
+
+2009-02-08  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* configure.in: Improve configure.in
+
+	* src/arch/win32/joy.c: Make one var static
+
+	* src/arch/win32/joy.c, src/arch/win32/mousedrv.c,
+	  src/arch/win32/uijoystick.c: Fix the case in which dinput.h is
+	  not present. Also extend the number of supported WinMM
+	  joysticks from 2 to the number supported by the system
+
+	* src/arch/win32/dinput_handle.h, src/arch/win32/joy.c,
+	  src/arch/win32/mousedrv.c: Fix to make DirectInput mouse work
+
+	* configure.in, src/arch/win32/joy.c: Add Tibor's modifications
+	  to compile joy/mouse support without dinput.lib
+
+2009-02-03  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/ui.c:
+	  Non-DirectInput mouse driver added
+
+2009-02-02  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* configure.in, src/arch/win32/Makefile.am,
+	  src/arch/win32/dinput_handle.c,
+	  src/arch/win32/dinput_handle.h, src/arch/win32/joy.c,
+	  src/arch/win32/joy.h, src/arch/win32/mousedrv.c,
+	  src/arch/win32/uijoystick.c: Work on Windows mouse
+	  improvements: work without DX headers or DX runtime (with
+	  reduced features), compile without dinput.lib
 
 2009-02-28  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
@@ -1282,23 +1316,86 @@
 	  the sprite background mask at a shift right. Now both demos
 	  "Holy shit" and "Bubble Tale" work fine.
 
-2009-02-20  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+2009-02-19  Andreas Matthies <andreas.matthies@gmx.net>
 
-@@@TODO
+	* src/arch/win32/video.c: Disable on-the-fly change of video engine.
+	This would need lots of changes and isn't worth the effort.
 
-	* configure.in, src/arch/win32/Makefile.am,
-	  src/arch/win32/arch.dsp, src/arch/win32/fullscrn-ddraw.c,
-	  src/arch/win32/fullscrn-dx9.c, src/arch/win32/fullscrn.c,
-	  src/arch/win32/fullscrn.h, src/arch/win32/msvc/config.h,
-	  src/arch/win32/res.rc, src/arch/win32/resstrings.txt,
-	  src/arch/win32/statusbar.c, src/arch/win32/statusbar.h,
-	  src/arch/win32/ui-resources.c, src/arch/win32/ui.c,
-	  src/arch/win32/ui.h, src/arch/win32/video-ddraw.c,
+2009-02-17  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/msvc/config.h: Added test for DirectX9 header in
+	  MSVC.
+
+	* configure.in, src/arch/win32/fullscrn-dx9.c,
+	  src/arch/win32/msvc/config.h, src/arch/win32/ui.c,
 	  src/arch/win32/video-dx9.c, src/arch/win32/video.c,
-	  src/arch/win32/videoarch.h, src/sounddrv/sounddx.c: svn merge
-	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v2.1/v2.1.3/vice
-	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/amatthies/v2.1.3-win32dx9/vice
-	  .
+	  src/arch/win32/videoarch.h: Don't compile DX9 video driver if d3d9.h
+	  isn't present.
+
+2009-02-12  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/video-dx9.c: Made DX9 driver robust against task
+	  switching (ALT-Tab) in fullscreen mode.
+
+2009-02-11  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/fullscrn.c: SuspendFullscreenModeKeep doesn't work
+	  using DirectX9, so switch to windowed mode in any case.
+
+	* src/arch/win32/fullscrn-ddraw.c, src/arch/win32/fullscrn-dx9.c,
+	  src/arch/win32/fullscrn.c, src/arch/win32/fullscrn.h,
+	  src/arch/win32/statusbar.c, src/arch/win32/statusbar.h,
+	  src/arch/win32/ui.c, src/arch/win32/ui.h,
+	  src/arch/win32/video-ddraw.c, src/arch/win32/video-dx9.c,
+	  src/arch/win32/video.c, src/arch/win32/videoarch.h: Fixed statusbar
+	  problem when switching fullscreen in a multi-canvas emulator. Fixed
+	  topmost bug when returning from fullscreen. Don't enable window
+	  resize box in old DirectDraw mode. Some cleanup in the video and
+	  fullscreen code. Only
+
+2009-02-10  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/res.rc, src/arch/win32/resstrings.txt,
+	  src/arch/win32/video.c: Added resource and commandline option
+	  DX9Disable.
+
+	* src/arch/win32/fullscrn-ddraw.c, src/arch/win32/fullscrn-dx9.c,
+	  src/arch/win32/video-ddraw.c, src/arch/win32/video-dx9.c,
+	  src/arch/win32/video.c, src/arch/win32/videoarch.h: Implemented
+	  canvas_update triggered by WM_PAINT in DX9. Fixed some svn file
+	  properties.
+
+2009-02-09  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/fullscrn.h, src/arch/win32/video-ddraw.c,
+	  src/arch/win32/videoarch.h: Fixed compiler warnings.
+
+	* src/arch/win32/fullscrn-ddraw.c, src/arch/win32/fullscrn-dx9.c,
+	  src/arch/win32/fullscrn.c, src/arch/win32/fullscrn.h,
+	  src/arch/win32/ui-resources.c, src/arch/win32/ui.c,
+	  src/arch/win32/ui.h, src/arch/win32/video-dx9.c,
+	  src/arch/win32/video.c, src/arch/win32/videoarch.h: Added error
+	  handling to DirectX9 stuff. Added some fall back if driver doesn't
+	  support (parts of) DirectX9. Moved more code to common fullscrn.c.
+	  Fullscreen resources don't have static default values anymore, they
+	  are determined by actual screen display mode (at least for DirectX,
+	  the DirectDraw branch still provides static values).
+
+2009-02-06  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/sounddrv/sounddx.c: Changed include to fix MingW compilation
+	  problem.
+
+	* src/arch/win32/fullscrn-ddraw.c, src/arch/win32/fullscrn-dx9.c,
+	  src/arch/win32/fullscrn.c, src/arch/win32/fullscrn.h,
+	  src/arch/win32/ui.c, src/arch/win32/ui.h,
+	  src/arch/win32/video-ddraw.c, src/arch/win32/video-dx9.c,
+	  src/arch/win32/video.c, src/arch/win32/videoarch.h: Splits video and
+	  fullscreen code into general part and DirectDraw branch and adds new
+	  branch for a DirectX9 video driver. Many parts especially fullscreen
+	  handling is still buggy.
+
+	* src/arch/win32/Makefile.am, src/arch/win32/arch.dsp: Added new files.
 
 2009-02-20  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
