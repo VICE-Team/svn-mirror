@@ -1,3 +1,130 @@
+2009-04-03  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/c64dtvui.c, src/arch/win32/resc64dtv.rc: Remove
+	  EmuID from Win32 port of DTV, as the resource has already been
+	  removed.
+
+2009-04-03  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64dtv/c64dtv-resources.c, src/c64dtv/c64dtv-resources.h:
+	  Removed unused EmuID from x64dtv
+
+2009-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/base.tgt,
+	  src/arch/win32/watcom/monitor.tgt,
+	  src/arch/win32/watcom/vice.wpj, src/opencbm.h: Win32 watcom
+	  fixes.
+
+2009-03-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/config.h,
+	  src/arch/win32/msvc/siddefs-fp.h, src/arch/win64/_vice.vcproj,
+	  src/arch/win64/arch.vcproj, src/arch/win64/base.vcproj,
+	  src/arch/win64/c128.vcproj, src/arch/win64/c1541.vcproj,
+	  src/arch/win64/c64.vcproj, src/arch/win64/c64c128.vcproj,
+	  src/arch/win64/c64c64dtv.vcproj,
+	  src/arch/win64/c64cart.vcproj, src/arch/win64/c64dtv.vcproj,
+	  src/arch/win64/c64dtvstubs.vcproj,
+	  src/arch/win64/c64exp.vcproj, src/arch/win64/cartconv.vcproj,
+	  src/arch/win64/cbm2.vcproj, src/arch/win64/core.vcproj,
+	  src/arch/win64/crtc.vcproj, src/arch/win64/diskimage.vcproj,
+	  src/arch/win64/drive.vcproj, src/arch/win64/fileio.vcproj,
+	  src/arch/win64/fsdevice.vcproj,
+	  src/arch/win64/gfxoutputdrv.vcproj, src/arch/win64/iec.vcproj,
+	  src/arch/win64/iec128dcr.vcproj, src/arch/win64/iecbus.vcproj,
+	  src/arch/win64/iecieee.vcproj, src/arch/win64/ieee.vcproj,
+	  src/arch/win64/imagecontents.vcproj,
+	  src/arch/win64/monitor.vcproj, src/arch/win64/parallel.vcproj,
+	  src/arch/win64/pet.vcproj, src/arch/win64/petcat.vcproj,
+	  src/arch/win64/plus4.vcproj, src/arch/win64/plus4exp.vcproj,
+	  src/arch/win64/png.vcproj, src/arch/win64/printerdrv.vcproj,
+	  src/arch/win64/raster.vcproj, src/arch/win64/resid.vcproj,
+	  src/arch/win64/residdtv.vcproj, src/arch/win64/residfp.vcproj,
+	  src/arch/win64/rs232drv.vcproj, src/arch/win64/serial.vcproj,
+	  src/arch/win64/sid.vcproj, src/arch/win64/sounddrv.vcproj,
+	  src/arch/win64/tape.vcproj, src/arch/win64/tcbm.vcproj,
+	  src/arch/win64/vdc.vcproj, src/arch/win64/vdrive.vcproj,
+	  src/arch/win64/vic20.vcproj, src/arch/win64/vice.sln,
+	  src/arch/win64/vicii.vcproj, src/arch/win64/viciidtv.vcproj,
+	  src/arch/win64/video.vcproj, src/arch/win64/x128.vcproj,
+	  src/arch/win64/x64.vcproj, src/arch/win64/x64dtv.vcproj,
+	  src/arch/win64/xcbm2.vcproj, src/arch/win64/xpet.vcproj,
+	  src/arch/win64/xplus4.vcproj, src/arch/win64/xvic.vcproj,
+	  src/arch/win64/zlib.vcproj: Added ia64 win64 support.
+
+2009-03-31  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* data/C64DTV/Makefile.am, data/C64DTV/c64hq.vpl,
+	  data/C64DTV/c64s.vpl, data/C64DTV/ccs64.vpl,
+	  data/C64DTV/default.vpl, data/C64DTV/frodo.vpl,
+	  data/C64DTV/godot.vpl, data/C64DTV/pc64.vpl,
+	  data/C64DTV/vice.vpl: Removed useless palette files from
+	  x64dtv data directory
+
+2009-03-31  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.h: BP needs still slightly more
+	  distortion.
+
+2009-03-30  Antti S. Lankila <alankila@bel.fi>
+
+	* src/sounddrv/sounduss.c: It seems the "bytes" metric for
+	  estimating buffer fill state is unreliable. OSS 4.0 claims the
+	  fragsize -- and probably bytes -- is affected by sample format
+	  conversion and resampling, and it's also seen to fail on
+	  cygwin. So we rely on available fragments only, but this makes
+	  it impossible to currently detect buffer underruns. (The sound
+	  will stutter but continue.)
+
+2009-03-30  pottendo <pottendo@aon.at>
+
+	* po/de.po: Harmonized "sec" -> "Sek".
+
+	* po/de.po: Updated.
+
+2009-03-30  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64dtv/c64dtvcpu.c: Disable x64dtv cycle exact alarm
+	  handling for now, as fixing the introduced regressions will
+	  need a lot of code/testing.
+
+2009-03-30  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/petcat.dsp: Remove superfluous zfile.c file, as
+	  it is already in the libraries.
+
+2009-03-30  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.h: More distortion, and slightly less
+	  reverse bp compensation.
+
+	* src/lib.c: Switch from int to size_t.
+
+2009-03-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/win32/Makefile.am,
+	  src/arch/win32/make-msvc-bindist.bat,
+	  src/arch/win32/vice-version.bat,
+	  src/arch/win32/vice-version.bat.in,
+	  src/arch/win32/watcom/make-watcom-bindist.bat,
+	  src/arch/win64/make-msvc-bindist.bat, src/lib.c: Added an
+	  automatic version system for the win32/win64 bindist batch
+	  files.
+
+	* src/lib.c, src/sysfile.c, src/zfile.c: Changed some size_t
+	  cast fixes to proper fixes.
+
+2009-03-29  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.h: Tweak filter to improve Wizball with
+	  0486S and correct for Jeff's 6581 House.
+
+2009-03-29  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/vsidui.c: Fix for sids starting at $8000 and
+	  destroyed by a second CPU reset (parts of iANs fixes).
+
 2009-03-29  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.1.7
