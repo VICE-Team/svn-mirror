@@ -1602,11 +1602,9 @@
 
 	* src/screenshot.c: Fixed the screenshot height.
 
-@@@TODO
-
 2009-02-17  Marco van den Heuvel <blackystardust68@yahoo.com>
 
-	* ., src/arch/unix/gui/c128ui.c, src/arch/unix/gui/uiattach.c,
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/uiattach.c,
 	  src/arch/unix/gui/uic64cart.c, src/arch/unix/gui/uic64dtv.c,
 	  src/arch/unix/gui/uicommands.c,
 	  src/arch/unix/gui/uifliplist.c,
@@ -1627,9 +1625,7 @@
 	  src/arch/unix/x11/xaw/uisnapshot.c,
 	  src/arch/unix/x11/xaw/x11ui.c, src/arch/win32/rs232dev.c,
 	  src/arch/win32/rs232net.c, src/arch/win32/rs232win.h,
-	  src/resid-dtv: Merged the gtk filters tag (svn merge
-	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v2.1/v2.1.3/vice
-	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/fabrizio/v2.1.3-gtkfilefilters).
+	  src/resid-dtv: GTK file chooser filter improvements.
 
 2009-02-13  Marco van den Heuvel <blackystardust68@yahoo.com>
 
