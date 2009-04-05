@@ -56,6 +56,10 @@ static log_t sdlvideo_log = LOG_ERR;
 
 static int sdl_bitdepth;
 
+static int sdl_limit_mode;
+static int sdl_limit_width;
+static int sdl_limit_height;
+
 int sdl_active_canvas_num = 0;
 static int sdl_num_screens = 0;
 static video_canvas_t *sdl_canvaslist[MAX_CANVAS_NUM];
@@ -87,6 +91,36 @@ static int set_sdl_bitdepth(int d, void *param)
     return -1;
 }
 
+static int set_sdl_limit_mode(int v, void *param)
+{
+    if ((v < 0) || (v > 2)) {
+        return -1;
+    }
+
+    sdl_limit_mode = v;
+    return 0;
+}
+
+static int set_sdl_limit_width(int w, void *param)
+{
+    if (w < 0) {
+        return -1;
+    }
+
+    sdl_limit_width = w;
+    return 0;
+}
+
+static int set_sdl_limit_height(int h, void *param)
+{
+    if (h < 0) {
+        return -1;
+    }
+
+    sdl_limit_height = h;
+    return 0;
+}
+
 static const resource_string_t resources_string[] = {
     { NULL }
 };
@@ -94,6 +128,12 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "SDLBitdepth", 0, RES_EVENT_NO, NULL,
       &sdl_bitdepth, set_sdl_bitdepth, NULL },
+    { "SDLLimitMode", 0, RES_EVENT_NO, NULL,
+      &sdl_limit_mode, set_sdl_limit_mode, NULL },
+    { "SDLLimitWidth", 800, RES_EVENT_NO, NULL,
+      &sdl_limit_width, set_sdl_limit_width, NULL },
+    { "SDLLimitHeight", 600, RES_EVENT_NO, NULL,
+      &sdl_limit_height, set_sdl_limit_height, NULL },
     { NULL }
 };
 
@@ -123,6 +163,15 @@ static const cmdline_option_t cmdline_options[] = {
     { "-sdlbitdepth", SET_RESOURCE, 1, NULL, NULL, "SDLBitdepth", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       "<bpp>", "Set bitdepth (0 = current, 8, 15, 16, 24, 32)" },
+    { "-sdllimitmode", SET_RESOURCE, 1, NULL, NULL, "SDLLimitMode", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      "<mode>", "Set resolution limiting mode (0 = off, 1 = max, 2 = fixed)" },
+    { "-sdllimitw", SET_RESOURCE, 1, NULL, NULL, "SDLLimitWidth", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      "<width>", "Set resolution limit width" },
+    { "-sdllimith", SET_RESOURCE, 1, NULL, NULL, "SDLLimitHeight", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      "<height>", "Set resolution limit height" },
     { NULL }
 };
 
@@ -172,7 +221,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
 #endif
 #endif
 
-    flags = SDL_SWSURFACE;
+    flags = SDL_SWSURFACE;  /* TODO: | SDL_RESIZABLE */
 
     new_width = *width;
     new_height = *height;
@@ -187,6 +236,14 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
 
     if (canvas->videoconfig->doublesizey) {
         new_height *= 2;
+    }
+
+    if ((canvas == sdl_active_canvas)
+       && (((sdl_limit_mode == 1) && ((new_width > sdl_limit_width) || (new_height > sdl_limit_height)))
+       || ((sdl_limit_mode == 2) && ((new_width != sdl_limit_width) || (new_height != sdl_limit_height))))) {
+        log_warning(sdlvideo_log, "Resolution %ix%i doesn't follow limit %ix%i, resizing...", new_width, new_height, sdl_limit_width, sdl_limit_height);
+        video_canvas_redraw_size(canvas, sdl_limit_width, sdl_limit_height);
+        return canvas;
     }
 
 #ifdef HAVE_HWSCALE
@@ -336,25 +393,25 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
         glTexImage2D  (GL_TEXTURE_RECTANGLE_EXT, 0, sdl_gl_mode,
             canvas->width, canvas->height,
             0, sdl_gl_mode, GL_UNSIGNED_BYTE, canvas->screen->pixels);
- 
+
         glBegin (GL_QUADS);
- 
+
         /* Lower Right Of Texture */
         glTexCoord2f(0.0f, 0.0f);
         glVertex2f(-1.0f, 1.0f);
- 
+
         /* Upper Right Of Texture */
         glTexCoord2f(0.0f, canvas->height);
         glVertex2f(-1.0f, -1.0f);
- 
+
         /* Upper Left Of Texture */
         glTexCoord2f(canvas->width, canvas->height);
         glVertex2f(1.0f, -1.0f);
- 
+
         /* Lower Left Of Texture */
         glTexCoord2f(canvas->width, 0.0f);
         glVertex2f(1.0f, 1.0f);
- 
+
         glEnd ();
 
         SDL_GL_SwapBuffers();
@@ -425,8 +482,12 @@ fprintf(stderr,"%s: %i,%i\n",__func__,w,h);
         } else {
             raster_force_repaint(sdl_active_canvas->parent_raster);
         }
-    }
+    } else
 #endif
+    {
+        /* FIXME this crashes on some situations */
+        /*video_canvas_redraw_size(sdl_active_canvas, w, h);*/
+    }
 }
 
 void sdl_video_canvas_switch(int index)

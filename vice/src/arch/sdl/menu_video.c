@@ -38,6 +38,37 @@
 #include "vicii.h"
 #include "videoarch.h"
 
+UI_MENU_DEFINE_RADIO(SDLLimitMode)
+UI_MENU_DEFINE_INT(SDLLimitWidth)
+UI_MENU_DEFINE_INT(SDLLimitHeight)
+
+static const ui_menu_entry_t limits_menu[] = {
+    SDL_MENU_ITEM_TITLE("Resolution limit mode"),
+    { "Off",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SDLLimitMode_callback,
+      (ui_callback_data_t)0 },
+    { "Max",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SDLLimitMode_callback,
+      (ui_callback_data_t)1 },
+    { "Fixed",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SDLLimitMode_callback,
+      (ui_callback_data_t)2 },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Limits"),
+    { "Width",
+      MENU_ENTRY_RESOURCE_INT,
+      int_SDLLimitWidth_callback,
+      (ui_callback_data_t)"Set width limit"},
+    { "Height",
+      MENU_ENTRY_RESOURCE_INT,
+      int_SDLLimitHeight_callback,
+      (ui_callback_data_t)"Set height limit"},
+    { NULL }
+};
+
 UI_MENU_DEFINE_RADIO(VICIIBorderMode)
 
 static const ui_menu_entry_t vicii_border_menu[] = {
@@ -287,6 +318,11 @@ const ui_menu_entry_t c128_video_menu[] = {
       submenu_callback,
       (ui_callback_data_t)c128_video_vdc_menu },
     SDL_MENU_ITEM_SEPARATOR,
+    { "Limit settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)limits_menu },
+    SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Video Standard"),
     { "PAL",
       MENU_ENTRY_RESOURCE_RADIO,
@@ -300,6 +336,10 @@ const ui_menu_entry_t c128_video_menu[] = {
 };
 
 const ui_menu_entry_t c64_video_menu[] = {
+    { "Limit settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)limits_menu },
     { "Fullscreen",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIFullscreen_callback,
@@ -364,6 +404,10 @@ const ui_menu_entry_t c64_video_menu[] = {
 };
 
 const ui_menu_entry_t c64dtv_video_menu[] = {
+    { "Limit settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)limits_menu },
     { "Fullscreen",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIFullscreen_callback,
@@ -424,6 +468,10 @@ const ui_menu_entry_t c64dtv_video_menu[] = {
 };
 
 const ui_menu_entry_t cbm5x0_video_menu[] = {
+    { "Limit settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)limits_menu },
     { "Fullscreen",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIFullscreen_callback,
@@ -478,6 +526,10 @@ const ui_menu_entry_t cbm5x0_video_menu[] = {
 };
 
 const ui_menu_entry_t cbm6x0_7x0_video_menu[] = {
+    { "Limit settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)limits_menu },
     { "Fullscreen",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_CrtcFullscreen_callback,
@@ -508,6 +560,10 @@ const ui_menu_entry_t cbm6x0_7x0_video_menu[] = {
 };
 
 const ui_menu_entry_t pet_video_menu[] = {
+    { "Limit settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)limits_menu },
     { "Fullscreen",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_CrtcFullscreen_callback,
@@ -538,6 +594,10 @@ const ui_menu_entry_t pet_video_menu[] = {
 };
 
 const ui_menu_entry_t plus4_video_menu[] = {
+    { "Limit settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)limits_menu },
     { "Fullscreen",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_TEDFullscreen_callback,
@@ -594,6 +654,10 @@ const ui_menu_entry_t plus4_video_menu[] = {
 };
 
 const ui_menu_entry_t vic20_video_menu[] = {
+    { "Limit settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)limits_menu },
     { "Fullscreen",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICFullscreen_callback,
