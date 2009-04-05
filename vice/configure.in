@@ -153,6 +153,11 @@ if test x"$host_os" = "xsyllable"; then
   enable_sdlui=yes
 fi
 
+dnl Disable nls for the sdl ui
+if test x"$enable_sdlui" = "xyes"; then
+  enable_nls=no
+fi
+
 dnl Setup crosscompiling.
 if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" = "xmsdosdjgpp"; then
 
