@@ -416,7 +416,7 @@ BEGIN
       MENUITEM "~Userport diagnostic pin",         IDM_DIAGPIN,    MIS_TEXT
       MENUITEM "S~witch upper/lower case charset", IDM_CHARSET,    MIS_TEXT
 #endif
-#ifndef __XPLUS4__
+#if !defined(__XPLUS4__) && !defined(__X64DTV__)
       MENUITEM "Emulator ~Identification",      IDM_EMUID,     MIS_TEXT
 #endif
 #ifdef __XPET__

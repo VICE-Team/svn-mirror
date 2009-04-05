@@ -807,7 +807,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         toggle("VDCVideoCache");
         return;
         #endif
-#ifndef __XPLUS4__
+#if !defined(__XPLUS4__) && !defined(__X64DTV__)
     case IDM_EMUID:
         toggle("EmuID");
         return;
@@ -1358,7 +1358,7 @@ void menu_select(HWND hwnd, USHORT item)
 #endif // HAVE_MOUSE
         //WinCheckRes(hwnd, IDM_PRTIEC,    "Printer4");
         //WinCheckRes(hwnd, IDM_PRTUPORT,  "PrUser");
-#ifndef __XPLUS4__
+#if !defined(__XPLUS4__) && !defined(__X64DTV__)
         WinCheckRes(hwnd, IDM_EMUID,     "EmuID");
 #endif
         WinCheckMenuItem(hwnd, IDM_PAUSE, isEmulatorPaused());

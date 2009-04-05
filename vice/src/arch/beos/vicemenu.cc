@@ -423,8 +423,10 @@ BMenuBar *menu_create(int machine_class) {
 			|| machine_class == VICE_MACHINE_C128) {
 			
 			menu->AddSeparatorItem();
-			menu->AddItem(new BMenuItem("Emulator ID",
-				new BMessage(MENU_TOGGLE_EMUID)));
+                  if (machine_class != VICE_MACHINE_C64DTV) {
+				menu->AddItem(new BMenuItem("Emulator ID",
+					new BMessage(MENU_TOGGLE_EMUID)));
+			}
 			menu->AddItem(new BMenuItem("Grab mouse events",
 				new BMessage(MENU_TOGGLE_MOUSE)));
 		}

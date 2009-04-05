@@ -104,7 +104,6 @@ static tui_menu_item_def_t vicii_menu_items[] = {
 
 TUI_MENU_DEFINE_TOGGLE(ps2mouse)
 TUI_MENU_DEFINE_TOGGLE(Mouse)
-TUI_MENU_DEFINE_TOGGLE(EmuID)
 
 static tui_menu_item_def_t ioextenstions_menu_items[] = {
     { "Grab mouse events",
@@ -114,10 +113,6 @@ static tui_menu_item_def_t ioextenstions_menu_items[] = {
     { "PS/2 mouse emulation",
       "Emulate a PS/2 mouse",
       toggle_ps2mouse_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "_Emulator Identification:",
-      "Allow programs to identify the emulator they are running on",
-      toggle_EmuID_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };

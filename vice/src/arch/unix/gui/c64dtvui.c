@@ -105,11 +105,7 @@ static ui_menu_entry_t sid_options_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-UI_MENU_DEFINE_TOGGLE(EmuID)
-
 static ui_menu_entry_t io_extensions_submenu[] = {
-    { N_("*Emulator identification"),
-      (ui_callback_t)toggle_EmuID, NULL, NULL },
 #ifdef HAVE_MOUSE
     { N_("*PS/2 Mouse Emulation"),
       NULL, NULL, ps2_mouse_submenu },

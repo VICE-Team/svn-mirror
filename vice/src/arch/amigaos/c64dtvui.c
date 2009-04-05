@@ -49,7 +49,6 @@ static const ui_menu_toggle_t c64dtv_ui_menu_toggles[] = {
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "Mouse", IDM_MOUSE },
     { "ps2mouse", IDM_PS2_MOUSE },
-    { "EmuID", IDM_TOGGLE_EMUID },
     { NULL, 0 }
 };
 
