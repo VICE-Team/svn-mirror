@@ -183,6 +183,92 @@ UI_MENU_DEFINE_TOGGLE(VDCHwScale)
 UI_MENU_DEFINE_TOGGLE(CrtcHwScale)
 UI_MENU_DEFINE_TOGGLE(TEDHwScale)
 UI_MENU_DEFINE_TOGGLE(VICHwScale)
+UI_MENU_DEFINE_TOGGLE(SDLGLAspectMode)
+UI_MENU_DEFINE_STRING(AspectRatio)
+
+static const ui_menu_entry_t c128_opengl_menu[] = {
+    { "VICII OpenGL",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIIHwScale_callback,
+      NULL },
+    { "VDC OpenGL",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VDCHwScale_callback,
+      NULL },
+    { "Fixed aspect ratio",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SDLGLAspectMode_callback,
+      NULL },
+    { "Aspect ratio",
+      MENU_ENTRY_RESOURCE_STRING,
+      string_AspectRatio_callback,
+      (ui_callback_data_t)"Set aspect ratio (0.8 - 1.2)" },
+    { NULL }
+};
+
+static const ui_menu_entry_t vicii_opengl_menu[] = {
+    { "OpenGL",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIIHwScale_callback,
+      NULL },
+    { "Fixed aspect ratio",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SDLGLAspectMode_callback,
+      NULL },
+    { "Aspect ratio",
+      MENU_ENTRY_RESOURCE_STRING,
+      string_AspectRatio_callback,
+      (ui_callback_data_t)"Set aspect ratio (0.8 - 1.2)" },
+    { NULL }
+};
+
+static const ui_menu_entry_t crtc_opengl_menu[] = {
+    { "OpenGL",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_CrtcHwScale_callback,
+      NULL },
+    { "Fixed aspect ratio",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SDLGLAspectMode_callback,
+      NULL },
+    { "Aspect ratio",
+      MENU_ENTRY_RESOURCE_STRING,
+      string_AspectRatio_callback,
+      (ui_callback_data_t)"Set aspect ratio (0.8 - 1.2)" },
+    { NULL }
+};
+
+static const ui_menu_entry_t ted_opengl_menu[] = {
+    { "OpenGL",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_TEDHwScale_callback,
+      NULL },
+    { "Fixed aspect ratio",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SDLGLAspectMode_callback,
+      NULL },
+    { "Aspect ratio",
+      MENU_ENTRY_RESOURCE_STRING,
+      string_AspectRatio_callback,
+      (ui_callback_data_t)"Set aspect ratio (0.8 - 1.2)" },
+    { NULL }
+};
+
+static const ui_menu_entry_t vic_opengl_menu[] = {
+    { "OpenGL",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICHwScale_callback,
+      NULL },
+    { "Fixed aspect ratio",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SDLGLAspectMode_callback,
+      NULL },
+    { "Aspect ratio",
+      MENU_ENTRY_RESOURCE_STRING,
+      string_AspectRatio_callback,
+      (ui_callback_data_t)"Set aspect ratio (0.8 - 1.2)" },
+    { NULL }
+};
 #endif
 
 UI_MENU_DEFINE_FILE_STRING(VICIIPaletteFile)
@@ -237,12 +323,6 @@ static const ui_menu_entry_t c128_video_vicii_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIScale2x_callback,
       NULL },
-#ifdef HAVE_HWSCALE
-    { "VICII OpenGL",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIHwScale_callback,
-      NULL },
-#endif
     SDL_MENU_ITEM_SEPARATOR,
     { "VICII border mode",
       MENU_ENTRY_SUBMENU,
@@ -284,12 +364,6 @@ static const ui_menu_entry_t c128_video_vdc_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VDCVideoCache_callback,
       NULL },
-#ifdef HAVE_HWSCALE
-    { "VDC OpenGL",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VDCHwScale_callback,
-      NULL },
-#endif
     { "VDC external palette file",
       MENU_ENTRY_DIALOG,
       file_string_VDCPaletteFile_callback,
@@ -322,6 +396,12 @@ const ui_menu_entry_t c128_video_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)limits_menu },
+#ifdef HAVE_HWSCALE
+    { "OpenGL settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)c128_opengl_menu },
+#endif
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Video Standard"),
     { "PAL",
@@ -361,10 +441,10 @@ const ui_menu_entry_t c64_video_menu[] = {
       toggle_VICIIScale2x_callback,
       NULL },
 #ifdef HAVE_HWSCALE
-    { "OpenGL",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIHwScale_callback,
-      NULL },
+    { "OpenGL settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)vicii_opengl_menu },
 #endif
     { "VICII border mode",
       MENU_ENTRY_SUBMENU,
@@ -429,10 +509,10 @@ const ui_menu_entry_t c64dtv_video_menu[] = {
       toggle_VICIIScale2x_callback,
       NULL },
 #ifdef HAVE_HWSCALE
-    { "OpenGL",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIHwScale_callback,
-      NULL },
+    { "OpenGL settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)vicii_opengl_menu },
 #endif
     { "VICII border mode",
       MENU_ENTRY_SUBMENU,
@@ -492,6 +572,12 @@ const ui_menu_entry_t cbm5x0_video_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIScale2x_callback,
       NULL },
+#ifdef HAVE_HWSCALE
+    { "OpenGL settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)vicii_opengl_menu },
+#endif
     { "VICII border mode",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
@@ -547,10 +633,10 @@ const ui_menu_entry_t cbm6x0_7x0_video_menu[] = {
       toggle_CrtcVideoCache_callback,
       NULL },
 #ifdef HAVE_HWSCALE
-    { "OpenGL",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CrtcHwScale_callback,
-      NULL },
+    { "OpenGL settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)crtc_opengl_menu },
 #endif
     { "External palette file",
       MENU_ENTRY_DIALOG,
@@ -581,10 +667,10 @@ const ui_menu_entry_t pet_video_menu[] = {
       toggle_CrtcVideoCache_callback,
       NULL },
 #ifdef HAVE_HWSCALE
-    { "OpenGL",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CrtcHwScale_callback,
-      NULL },
+    { "OpenGL settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)crtc_opengl_menu },
 #endif
     { "External palette file",
       MENU_ENTRY_DIALOG,
@@ -619,10 +705,10 @@ const ui_menu_entry_t plus4_video_menu[] = {
       toggle_TEDScale2x_callback,
       NULL },
 #ifdef HAVE_HWSCALE
-    { "OpenGL",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_TEDHwScale_callback,
-      NULL },
+    { "OpenGL settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ted_opengl_menu },
 #endif
     { "Color controls",
       MENU_ENTRY_SUBMENU,
@@ -679,10 +765,10 @@ const ui_menu_entry_t vic20_video_menu[] = {
       toggle_VICScale2x_callback,
       NULL },
 #ifdef HAVE_HWSCALE
-    { "OpenGL",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICHwScale_callback,
-      NULL },
+    { "OpenGL settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)vic_opengl_menu },
 #endif
     { "Color controls",
       MENU_ENTRY_SUBMENU,
