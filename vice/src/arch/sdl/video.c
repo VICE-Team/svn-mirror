@@ -70,7 +70,6 @@ GLint screen_texture;
 #endif
 
 /* ------------------------------------------------------------------------- */
-
 /* Video-related resources.  */
 
 static int set_sdl_bitdepth(int d, void *param)
@@ -203,6 +202,39 @@ fprintf(stderr,"%s\n",__func__);
 
 /* ------------------------------------------------------------------------- */
 
+static int sdl_video_canvas_limit(video_canvas_t *canvas, unsigned int w, unsigned int h)
+{
+    int limiting = 0, new_w, new_h;
+
+    switch (sdl_limit_mode & 3) {
+        case 1: /* max */
+            if ((w > sdl_limit_width) || (h > sdl_limit_height)) {
+                limiting = 1;
+                new_w = MIN(w, sdl_limit_width);
+                new_h = MIN(h, sdl_limit_height);
+            }
+            break;
+        case 2: /* fixed */
+            if ((w != sdl_limit_width) || (h != sdl_limit_height)) {
+                limiting = 1;
+                new_w = sdl_limit_width;
+                new_h = sdl_limit_height;
+            }
+            break;
+        default: /* off */
+            break;
+    }
+
+    if (limiting) {
+        log_warning(sdlvideo_log, "Resolution %ix%i exceeds limit %ix%i, resizing...", w, h, sdl_limit_width, sdl_limit_height);
+        video_canvas_redraw_size(canvas, new_w, new_h);
+    }
+
+    return limiting;
+}
+
+/* ------------------------------------------------------------------------- */
+
 video_canvas_t *video_canvas_create(video_canvas_t *canvas,
                                     unsigned int *width, unsigned int *height,
                                     int mapped)
@@ -221,7 +253,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
 #endif
 #endif
 
-    flags = SDL_SWSURFACE;  /* TODO: | SDL_RESIZABLE */
+    flags = SDL_SWSURFACE | SDL_RESIZABLE;
 
     new_width = *width;
     new_height = *height;
@@ -238,11 +270,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
         new_height *= 2;
     }
 
-    if ((canvas == sdl_active_canvas)
-       && (((sdl_limit_mode == 1) && ((new_width > sdl_limit_width) || (new_height > sdl_limit_height)))
-       || ((sdl_limit_mode == 2) && ((new_width != sdl_limit_width) || (new_height != sdl_limit_height))))) {
-        log_warning(sdlvideo_log, "Resolution %ix%i doesn't follow limit %ix%i, resizing...", new_width, new_height, sdl_limit_width, sdl_limit_height);
-        video_canvas_redraw_size(canvas, sdl_limit_width, sdl_limit_height);
+    if ((canvas == sdl_active_canvas) && sdl_video_canvas_limit(canvas, new_width, new_height)) {
         return canvas;
     }
 
@@ -352,6 +380,9 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
         h *= 2;
     }
 
+    w = MIN(w, canvas->width);
+    h = MIN(h, canvas->height);
+
     if (SDL_MUSTLOCK(canvas->screen)) {
         if (SDL_LockSurface(canvas->screen) < 0) {
             return;
@@ -372,7 +403,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
 /* XXX make use of glXBindTexImageEXT aka texture from pixmap extension */
 
         glClear(GL_COLOR_BUFFER_BIT);
-        glDisable (GL_DEPTH_TEST);
+        glDisable(GL_DEPTH_TEST);
 
 /* GL_TEXTURE_RECTANGLE is standardised as _EXT in OpenGL 1.4. Here's some
  * aliases in the meantime. */
@@ -386,15 +417,15 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
     #endif
 #endif
 
-        glEnable (GL_TEXTURE_RECTANGLE_EXT);
-        glBindTexture (GL_TEXTURE_RECTANGLE_EXT, screen_texture);
-        glTexParameteri (GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri (GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexImage2D  (GL_TEXTURE_RECTANGLE_EXT, 0, sdl_gl_mode,
+        glEnable(GL_TEXTURE_RECTANGLE_EXT);
+        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, screen_texture);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexImage2D (GL_TEXTURE_RECTANGLE_EXT, 0, sdl_gl_mode,
             canvas->width, canvas->height,
             0, sdl_gl_mode, GL_UNSIGNED_BYTE, canvas->screen->pixels);
 
-        glBegin (GL_QUADS);
+        glBegin(GL_QUADS);
 
         /* Lower Right Of Texture */
         glTexCoord2f(0.0f, 0.0f);
@@ -412,7 +443,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
         glTexCoord2f(canvas->width, 0.0f);
         glVertex2f(1.0f, 1.0f);
 
-        glEnd ();
+        glEnd();
 
         SDL_GL_SwapBuffers();
     } else
@@ -486,7 +517,7 @@ fprintf(stderr,"%s: %i,%i\n",__func__,w,h);
 #endif
     {
         /* FIXME this crashes on some situations */
-        /*video_canvas_redraw_size(sdl_active_canvas, w, h);*/
+        video_canvas_redraw_size(sdl_active_canvas, w, h);
     }
 }
 
