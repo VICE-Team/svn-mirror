@@ -1,4 +1,8 @@
 EXTRA_DIST = \
+	x128.nib/classes.nib \
+	x128.nib/info.nib \
+	x128.nib/keyedobjects.nib \
+	x128-ResourceTree.plist \
 	x64.nib/classes.nib \
 	x64.nib/info.nib \
 	x64.nib/keyedobjects.nib \
