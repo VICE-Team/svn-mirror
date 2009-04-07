@@ -72,7 +72,7 @@
 #include "ioutil.h"
 #include "lib.h"
 #include "types.h"
-
+#include "util.h"
 
 /* Mostly POSIX compatibily */
 
@@ -143,20 +143,18 @@ int ioutil_errno(unsigned int check)
 #if !defined(HAVE_GETCWD) && !defined(RISCOS)
 char *getcwd (char *buf, size_t len)
 {
-  char ourbuf[PATH_MAX];
-  char *result;
+    char ourbuf[PATH_MAX];
+    char *result;
 
-  result = getwd (ourbuf);
-  if (result)
-  {
-    if (strlen (ourbuf) >= len)
-    {
-      errno = ERANGE;
-      return 0;
+    result = getwd (ourbuf);
+    if (result) {
+        if (strlen (ourbuf) >= len) {
+            errno = ERANGE;
+            return 0;
+        }
+        strcpy (buf, ourbuf);
     }
-    strcpy (buf, ourbuf);
-  }
-  return buf;
+    return buf;
 }
 #endif
 #endif
@@ -223,73 +221,76 @@ static int files_amount = 0;
 
 static int ioutil_compare_names(const void* a, const void* b)
 {
-   ioutil_name_table_t *arg1 = (ioutil_name_table_t*)a;
-   ioutil_name_table_t *arg2 = (ioutil_name_table_t*)b;
-   return strcmp(arg1->name, arg2->name);
+    ioutil_name_table_t *arg1 = (ioutil_name_table_t*)a;
+    ioutil_name_table_t *arg2 = (ioutil_name_table_t*)b;
+    return strcmp(arg1->name, arg2->name);
 }
 
 static int ioutil_count_dir_items(const char *path)
 {
-  DIR *dirp;
-  struct dirent *dp;
-  unsigned int len, isdir;
+    DIR *dirp;
+    struct dirent *dp;
+    unsigned int len, isdir;
+    char *filename;
 
-  dirs_amount = 0;
-  files_amount = 0;
+    dirs_amount = 0;
+    files_amount = 0;
 
-  dirp = opendir(path);
+    dirp = opendir(path);
 
-  if (dirp == NULL)
-  {
-    return -1;
-  }
+    if (dirp == NULL)
+    {
+        return -1;
+    }
 
-  dp = readdir(dirp);
-
-  while (dp != NULL)
-  {
-    ioutil_stat(dp->d_name, &len, &isdir);
-    if (isdir)
-      dirs_amount++;
-    else
-      files_amount++;
     dp = readdir(dirp);
-  }
-  closedir(dirp);
 
-  return 0;
+    while (dp != NULL)
+    {
+        filename = util_concat(path, FSDEV_DIR_SEP_STR, dp->d_name, NULL);
+        ioutil_stat(filename, &len, &isdir);
+        if (isdir) {
+            dirs_amount++;
+        } else {
+            files_amount++;
+        }
+        dp = readdir(dirp);
+        lib_free(filename);
+    }
+    closedir(dirp);
+
+    return 0;
 }
 
 static void ioutil_filldir(const char *path,
                            ioutil_name_table_t *dirs,
                            ioutil_name_table_t *files)
 {
-  DIR *dirp = NULL;
-  struct dirent *dp = NULL;
-  int dir_count=0;
-  int file_count=0;
-  unsigned int len, isdir;
+    DIR *dirp = NULL;
+    struct dirent *dp = NULL;
+    int dir_count=0;
+    int file_count=0;
+    unsigned int len, isdir;
+    char *filename;
 
-  dirp = opendir(path);
+    dirp = opendir(path);
 
-  dp = readdir(dirp);
-
-  while (dp != NULL)
-  {
-    ioutil_stat(dp->d_name, &len, &isdir);
-    if (isdir)
-    {
-      dirs[dir_count].name = lib_stralloc(dp->d_name);
-      dir_count++;
-    }
-    else
-    {
-      files[file_count].name = lib_stralloc(dp->d_name);
-      file_count++;
-    }
     dp = readdir(dirp);
-  }
-  closedir(dirp);
+
+    while (dp != NULL) {
+        filename = util_concat(path, FSDEV_DIR_SEP_STR, dp->d_name, NULL);
+        ioutil_stat(filename, &len, &isdir);
+        if (isdir) {
+            dirs[dir_count].name = lib_stralloc(dp->d_name);
+            dir_count++;
+        } else {
+            files[file_count].name = lib_stralloc(dp->d_name);
+            file_count++;
+        }
+        dp = readdir(dirp);
+        lib_free(filename);
+    }
+    closedir(dirp);
 }
 
 ioutil_dir_t *ioutil_opendir(const char *path)
@@ -298,8 +299,9 @@ ioutil_dir_t *ioutil_opendir(const char *path)
     ioutil_dir_t *ioutil_dir;
 
     retval=ioutil_count_dir_items(path);
-    if (retval < 0)
+    if (retval < 0) {
         return NULL;
+    }
 
     ioutil_dir = (ioutil_dir_t *)lib_malloc(sizeof(ioutil_dir_t));
 
@@ -321,14 +323,15 @@ char *ioutil_readdir(ioutil_dir_t *ioutil_dir)
 {
     char *retval;
 
-    if (ioutil_dir->counter >= (ioutil_dir->dir_amount+ioutil_dir->file_amount))
+    if (ioutil_dir->counter >= (ioutil_dir->dir_amount+ioutil_dir->file_amount)) {
         return NULL;
+    }
 
-    if (ioutil_dir->counter >= ioutil_dir->dir_amount)
+    if (ioutil_dir->counter >= ioutil_dir->dir_amount) {
         retval = ioutil_dir->files[ioutil_dir->counter-ioutil_dir->dir_amount].name;
-    else
+    } else {
         retval = ioutil_dir->dirs[ioutil_dir->counter].name;
-
+    }
     ioutil_dir->counter++;
 
     return retval;
@@ -336,17 +339,15 @@ char *ioutil_readdir(ioutil_dir_t *ioutil_dir)
 
 void ioutil_closedir(ioutil_dir_t *ioutil_dir)
 {
-  int i;
+    int i;
 
-  for (i=0; i<ioutil_dir->dir_amount; i++)
-  {
-    lib_free(ioutil_dir->dirs[i].name);
-  }
-  for (i=0; i<ioutil_dir->file_amount; i++)
-  {
-    lib_free(ioutil_dir->files[i].name);
-  }
-  lib_free(ioutil_dir->dirs);
-  lib_free(ioutil_dir->files);
-  lib_free(ioutil_dir);
+    for (i=0; i<ioutil_dir->dir_amount; i++) {
+        lib_free(ioutil_dir->dirs[i].name);
+    }
+    for (i=0; i<ioutil_dir->file_amount; i++) {
+        lib_free(ioutil_dir->files[i].name);
+    }
+    lib_free(ioutil_dir->dirs);
+    lib_free(ioutil_dir->files);
+    lib_free(ioutil_dir);
 }
