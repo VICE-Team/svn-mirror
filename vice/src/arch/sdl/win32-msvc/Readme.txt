@@ -1,0 +1,31 @@
+Compiling SDL VICE on Win32 with MSVC
+=====================================
+
+To build SDL VICE in Windows with Visual C/C++, you will need to get the VC SDL
+headers and libraries (http://www.libsdl.org/).
+
+Once you have downloaded the VC SDL headers and libraries you need to make a
+directory for them to reside in, you can do this in the following way:
+
+- Make an SDL_dev directory and inside that directory make two new directories, one
+  called SDL (for the headers) and one called SDL_libs (for the libraries).
+- Move the files from the include directory of the downloaded SDL VC file to the
+  SDL_dev/SDL directory.
+- Move the files from the lib directory of the downloaded SDL VC file to the
+  SDL_dev/libs directory.
+
+Now you need to configure your VC to use those directories to find the
+headers and libraries, you can do this in the following way:
+
+- Start your Visual C/C++.
+- Go to the menu 'tools' and click on the item 'options'.
+- In the dialog window click on the tab 'directories'.
+- For 'Include files' add the path to SDL_dev to the list.
+- For 'Library files' add the path to SDL_dev/libs to the list.
+
+From now on your VC will be set up to search through these directories for
+the headers and libraries.
+
+Now you can open the vice.dsw file and compile VICE.
+
+Have fun!

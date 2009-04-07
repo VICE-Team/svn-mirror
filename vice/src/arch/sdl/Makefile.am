@@ -135,6 +135,7 @@ libarch_a_SOURCES = \
 	xvic_ui.c
 
 EXTRA_DIST = \
+	win32-msvc/Readme.txt \
 	win32-msvc/config.h \
 	win32-msvc/dirent.h \
 	win32-msvc/siddefs.h \
