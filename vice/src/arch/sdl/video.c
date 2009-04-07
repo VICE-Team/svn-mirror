@@ -160,10 +160,10 @@ static int set_aspect_ratio(const char *val, void *param)
         aspect_ratio = strtod(val, &endptr);
         if (val == endptr) {
             aspect_ratio = 1.0;
-        } else if (aspect_ratio < 0.8) {
-            aspect_ratio = 0.8;
-        } else if (aspect_ratio > 1.2) {
-            aspect_ratio = 1.2;
+        } else if (aspect_ratio < 0.5) {
+            aspect_ratio = 0.5;
+        } else if (aspect_ratio > 2.0) {
+            aspect_ratio = 2.0;
         }
     } else {
         aspect_ratio = 1.0;
@@ -249,7 +249,7 @@ static const cmdline_option_t cmdline_options[] = {
       "<mode>", "Set aspect ratio mode (0 = any, 1 = fixed)" },
     { "-aspect", SET_RESOURCE, 1, NULL, NULL, "AspectRatio", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-      "<aspect ratio>", "Set aspect ratio (0.8 - 1.2)" },
+      "<aspect ratio>", "Set aspect ratio (0.5 - 2.0)" },
 #endif
     { NULL }
 };
@@ -610,14 +610,14 @@ fprintf(stderr,"%s: %i,%i\n",__func__,w,h);
 #endif
 #ifdef HAVE_HWSCALE
     if (sdl_active_canvas->videoconfig->hwscale) {
-        sdl_active_canvas->hwscale_screen = SDL_SetVideoMode(w, h, sdl_bitdepth, SDL_OPENGL | SDL_RESIZABLE);
-        sdl_gl_set_viewport(sdl_active_canvas->width, sdl_active_canvas->height, w, h);
+        int flags = SDL_OPENGL | SDL_RESIZABLE;
 
-        if (sdl_menu_state) {
-            sdl_ui_refresh();
-        } else {
-            raster_force_repaint(sdl_active_canvas->parent_raster);
+        if (sdl_active_canvas->fullscreenconfig->enable) {
+            flags |= SDL_FULLSCREEN;
         }
+
+        sdl_active_canvas->hwscale_screen = SDL_SetVideoMode(w, h, sdl_bitdepth, flags);
+        sdl_gl_set_viewport(sdl_active_canvas->width, sdl_active_canvas->height, w, h);
     } else
 #endif
     {

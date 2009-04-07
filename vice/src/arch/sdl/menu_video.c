@@ -202,7 +202,7 @@ static const ui_menu_entry_t c128_opengl_menu[] = {
     { "Aspect ratio",
       MENU_ENTRY_RESOURCE_STRING,
       string_AspectRatio_callback,
-      (ui_callback_data_t)"Set aspect ratio (0.8 - 1.2)" },
+      (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" },
     { NULL }
 };
 
@@ -218,7 +218,7 @@ static const ui_menu_entry_t vicii_opengl_menu[] = {
     { "Aspect ratio",
       MENU_ENTRY_RESOURCE_STRING,
       string_AspectRatio_callback,
-      (ui_callback_data_t)"Set aspect ratio (0.8 - 1.2)" },
+      (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" },
     { NULL }
 };
 
@@ -234,7 +234,7 @@ static const ui_menu_entry_t crtc_opengl_menu[] = {
     { "Aspect ratio",
       MENU_ENTRY_RESOURCE_STRING,
       string_AspectRatio_callback,
-      (ui_callback_data_t)"Set aspect ratio (0.8 - 1.2)" },
+      (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" },
     { NULL }
 };
 
@@ -250,7 +250,7 @@ static const ui_menu_entry_t ted_opengl_menu[] = {
     { "Aspect ratio",
       MENU_ENTRY_RESOURCE_STRING,
       string_AspectRatio_callback,
-      (ui_callback_data_t)"Set aspect ratio (0.8 - 1.2)" },
+      (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" },
     { NULL }
 };
 
@@ -266,7 +266,7 @@ static const ui_menu_entry_t vic_opengl_menu[] = {
     { "Aspect ratio",
       MENU_ENTRY_RESOURCE_STRING,
       string_AspectRatio_callback,
-      (ui_callback_data_t)"Set aspect ratio (0.8 - 1.2)" },
+      (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" },
     { NULL }
 };
 #endif
