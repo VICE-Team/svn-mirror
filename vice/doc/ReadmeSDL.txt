@@ -138,7 +138,7 @@ Remember to save the relevant settings file.
 3. Building
 ===========
 
-3.1 autotools
+3.1 Building in *nix compile enviroments.
 
 ./configure --enable-sdlui
 make
@@ -147,5 +147,7 @@ make install
 You'll need the SDL libs and headers. For free scaling, the OpenGL is
 also needed (libGL, opengl32.dll, ...)
 
+
+3.2 Building in Visual Studio.
 
 For MSVC building instructions see src/arch/sdl/win32-msvc/Readme.txt
