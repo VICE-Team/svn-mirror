@@ -283,21 +283,24 @@ fprintf(stderr,"%s\n",__func__);
 
 static int sdl_video_canvas_limit(video_canvas_t *canvas, unsigned int w, unsigned int h)
 {
-    int limiting = 0, new_w, new_h;
+    int limiting = 0;
+    unsigned int new_w, new_h;
+    unsigned int limit_w = (unsigned int)sdl_limit_width;
+    unsigned int limit_h = (unsigned int)sdl_limit_height;
 
     switch (sdl_limit_mode & 3) {
         case 1: /* max */
-            if ((w > sdl_limit_width) || (h > sdl_limit_height)) {
+            if ((w > limit_w) || (h > limit_h)) {
                 limiting = 1;
-                new_w = MIN(w, sdl_limit_width);
-                new_h = MIN(h, sdl_limit_height);
+                new_w = MIN(w, limit_w);
+                new_h = MIN(h, limit_h);
             }
             break;
         case 2: /* fixed */
-            if ((w != sdl_limit_width) || (h != sdl_limit_height)) {
+            if ((w != limit_w) || (h != limit_h)) {
                 limiting = 1;
-                new_w = sdl_limit_width;
-                new_h = sdl_limit_height;
+                new_w = limit_w;
+                new_h = limit_h;
             }
             break;
         default: /* off */
@@ -305,7 +308,7 @@ static int sdl_video_canvas_limit(video_canvas_t *canvas, unsigned int w, unsign
     }
 
     if (limiting) {
-        log_warning(sdlvideo_log, "Resolution %ix%i exceeds limit %ix%i, resizing...", w, h, sdl_limit_width, sdl_limit_height);
+        log_warning(sdlvideo_log, "Resolution %ux%u exceeds limit %ux%u, resizing...", w, h, limit_w, limit_h);
         video_canvas_redraw_size(canvas, new_w, new_h);
     }
 
@@ -585,7 +588,7 @@ int video_canvas_set_palette(struct video_canvas_s *canvas,
         SDL_SetColors(canvas->screen, colors, 0, palette->num_entries);
     } else {
         for (i = 0; i < 256; i++) {
-            video_render_setrawrgb(i, SDL_MapRGB(fmt, i, 0, 0), SDL_MapRGB(fmt, 0, i, 0), SDL_MapRGB(fmt, 0, 0, i));
+            video_render_setrawrgb(i, SDL_MapRGB(fmt, (Uint8)i, 0, 0), SDL_MapRGB(fmt, 0, (Uint8)i, 0), SDL_MapRGB(fmt, 0, 0, (Uint8)i));
         }
         video_render_initraw();
     }
