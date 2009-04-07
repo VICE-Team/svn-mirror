@@ -87,7 +87,7 @@ void FilterFP::set_chip_model(chip_model model)
 void FilterFP::set_clock_frequency(float clock) {
     clock_frequency = clock;
     // outputleveldifference compensated back during Vhp computation.
-    distortion_CT = 1.f / (sidcaps_6581 * clock_frequency) * outputleveldifference;
+    distortion_CT = 1.f / (sidcaps_6581 * clock_frequency);
     set_w0();
 }
 
