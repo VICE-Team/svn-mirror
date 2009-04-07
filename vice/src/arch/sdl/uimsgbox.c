@@ -40,10 +40,10 @@
 
 static menu_draw_t *menu_draw;
 
-static int make_28_cols(char *text)
+static unsigned int make_28_cols(char *text)
 {
-    int i = 28;
-    int j = 1;
+    unsigned int i = 28;
+    unsigned int j = 1;
 
     while (i < (strlen(text) - 1)) {
         while (text[i] != ' ') {
@@ -61,9 +61,11 @@ static int handle_message_box(const char *title, const char *message, int messag
     char *text;
     char *pos;
     char template[40];
-    int lines, before;
+    unsigned int lines;
+    int before;
     int active = 1;
-    int i, j, x;
+    unsigned int i, j;
+    int x;
     int cur_pos = 0;
 
     text = lib_stralloc(message);

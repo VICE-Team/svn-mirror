@@ -79,7 +79,7 @@ static char *convert_cmdline_to_40_cols(char *text)
 
 static void make_40_cols(char *text)
 {
-    int i = 40;
+    unsigned int i = 40;
 
     while (i < (strlen(text) -1)) {
         while (text[i] != ' ') {
@@ -94,8 +94,8 @@ static char *contrib_convert(char *text)
 {
     char *new_text;
     char *pos;
-    int i=0;
-    int j=0;
+    unsigned int i=0;
+    unsigned int j=0;
     int single=0;
 
     new_text = (char *)malloc(strlen(text));
@@ -158,7 +158,7 @@ static void show_text(const char *text)
 {
     int next_line = 0;
     int next_page = 0;
-    int current_line = 0;
+    unsigned int current_line = 0;
     int x, y, z;
     int active = 1;
     int active_keys;
