@@ -44,7 +44,7 @@ typedef void (*video_refresh_func_t)(struct video_canvas_s *,
 struct video_canvas_s {
     unsigned int initialized;
     unsigned int created;
-    unsigned index;
+    int index;
     unsigned int width, height, depth;
     SDL_Surface* screen;
     struct video_render_config_s *videoconfig;

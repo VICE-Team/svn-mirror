@@ -500,7 +500,7 @@ void mouse_button_left(int pressed)
     if (pressed) {
         joystick_set_value_or(mouse_port, joypin);
     } else {
-        joystick_set_value_and(mouse_port, ~joypin);
+        joystick_set_value_and(mouse_port, (BYTE)~joypin);
     }
 }
 

@@ -201,7 +201,7 @@ const char *sdl_ui_menu_radio_helper(int activated, ui_callback_data_t param, co
 const char *sdl_ui_menu_string_helper(int activated, ui_callback_data_t param, const char *resource_name)
 {
     char *value = NULL;
-    static const char *previous = NULL;
+    const char *previous = NULL;
 
     if (resources_get_string(resource_name, &previous)) {
         return sdl_menu_text_unknown;
@@ -269,7 +269,7 @@ static char *sdl_ui_menu_file_translate_seperator(const char *text)
 const char *sdl_ui_menu_file_string_helper(int activated, ui_callback_data_t param, const char *resource_name)
 {
     char *value = NULL;
-    static const char *previous = NULL;
+    const char *previous = NULL;
 
     if (resources_get_string(resource_name, &previous)) {
         return sdl_menu_text_unknown;
@@ -286,10 +286,8 @@ const char *sdl_ui_menu_file_string_helper(int activated, ui_callback_data_t par
         if (previous != NULL && previous[0] != 0) {
             return (const char *)sdl_ui_menu_file_translate_seperator(previous);
         }
-        return previous;
-#else
-        return previous;
 #endif
+        return previous;
     }
     return NULL;
 }

@@ -749,7 +749,7 @@ static ui_menu_action_t sdljoy_perform_event(sdljoystick_mapping_t *event, int v
                 if (value) {
                     joystick_set_value_or(t+1, event->value.joy[1]);
                 } else {
-                    joystick_set_value_and(t+1, ~(event->value.joy[1]));
+                    joystick_set_value_and(t+1, (BYTE)~(event->value.joy[1]));
                 }
             }
             break;
