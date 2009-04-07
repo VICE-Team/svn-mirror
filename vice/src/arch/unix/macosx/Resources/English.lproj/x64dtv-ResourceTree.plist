@@ -88,5 +88,12 @@
 		<key>New Luminances</key>
 		<string>VICIINewLuminances,b</string>
 	</dict>
+	<key>Remote Monitor</key>
+	<dict>
+		<key>Enable</key>
+		<string>MonitorServer,b</string>
+		<key>IP Address</key>
+		<string>MonitorServerAddress,s</string>
+	</dict>
 </dict>
 </plist>
