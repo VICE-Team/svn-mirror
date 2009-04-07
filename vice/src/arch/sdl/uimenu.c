@@ -324,8 +324,8 @@ static ui_menu_retval_t sdl_ui_menu_item_activate(ui_menu_entry_t *item)
 
 static void sdl_ui_trap(WORD addr, void *data)
 {
-    int width;
-    int height;
+    unsigned int width;
+    unsigned int height;
 
     width = sdl_active_canvas->draw_buffer->draw_buffer_width;
     height = sdl_active_canvas->draw_buffer->draw_buffer_height;
@@ -556,11 +556,11 @@ void sdl_ui_activate(void)
 
 void sdl_ui_clear(void)
 {
-    unsigned int x, y;
+    int x, y;
     const char c = ' ';
 
-    for (y=0; y < menu_draw.max_text_y; ++y) {
-        for (x=0; x < menu_draw.max_text_x; ++x) {
+    for (y = 0; y < menu_draw.max_text_y; ++y) {
+        for (x = 0; x < menu_draw.max_text_x; ++x) {
             sdl_ui_putchar(c, x, y);
         }
     }
@@ -656,7 +656,7 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y, int escaped_is
                 }
                 break;
             case SDLK_RIGHT:
-                if (i<size) {
+                if (i < (int)size) {
                     ++i;
                 }
                 break;
@@ -674,7 +674,7 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y, int escaped_is
                     sdl_ui_print_wrap(new_string+i-1, pos_x+i-1, pos_y);
                     new_string[size] = 0;
                     --i;
-                    if (i != size) {
+                    if (i != (int)size) {
                         prev = -1;
                     }
                     string_changed = 1;

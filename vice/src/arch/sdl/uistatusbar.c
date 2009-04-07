@@ -362,7 +362,7 @@ void uistatusbar_draw(void)
         }
 
         if (c & 0x80) {
-            uistatusbar_putchar(c & 0x7f, i, 0, color_b, color_f);
+            uistatusbar_putchar((BYTE)(c & 0x7f), i, 0, color_b, color_f);
         } else {
             uistatusbar_putchar(c, i, 0, color_f, color_b);
         }
