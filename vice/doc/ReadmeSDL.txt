@@ -68,7 +68,7 @@ Down     | down  |  d   | Move cursor down
 Left     | left  |  l   | Cancel/Page up
 Right    | right |  r   | Enter menu/Page down
 Select   | enter | fire | Select the item
-Cancel   | <-    | N/A  | Return to previous menu
+Cancel   | <-    | btn2 | Return to previous menu
 Exit     | ESC   | N/A  | Exit the menu
 Map      | m     | btn3 | Map a hotkey (see 2.2)
 --------------------------------------------------
@@ -77,6 +77,8 @@ The keys and joystick events can be configured via the menu.
 
 Left/Right work as Page up/down on the file selector, otherwise
 left does Cancel and right enters the selected submenu.
+
+The joystick command Activate is behaves as Cancel while in the menu.
 
 
 2.2 Hotkeys
@@ -104,7 +106,7 @@ Down     | down  |  d   | Move cursor down
 Left     | left  |  l   | Move cursor left
 Right    | right |  r   | Move cursor right
 Select   | enter | fire | Press/release the key
-Cancel   | <-    | N/A  | Press/release with shift
+Cancel   | <-    | btn2 | Press/release with shift
 Exit     | ESC   | N/A  | Close the virtual kbd
 Map      | m     | btn3 | Map a key/button
 --------------------------------------------------
@@ -113,6 +115,9 @@ Note that pressing a key and releasing the key generate separate events.
 This means that pressing Select on a key, moving to an another key and
 releasing Select releases the latter key; with this, multiple keys
 can be pressed down at once.
+
+The joystick command Activate is behaves as Cancel while using the virtual
+keyboard.
 
 The virtual keyboard can be moved by pressing (and holding) Select on an
 empty space and moving the cursor.
