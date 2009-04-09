@@ -55,6 +55,8 @@
 #define SDL_DISABLE SDL_IGNORE
 #endif
 
+static int sdl_ui_ready = 0;
+
 /* ----------------------------------------------------------------- */
 /* ui.h */
 
@@ -153,8 +155,11 @@ void ui_message(const char* format, ...)
     tmp = lib_mvsprintf(format,ap);
     va_end(ap);
 
-    message_box("VICE MESSAGE", tmp, MESSAGE_OK);
-
+    if (sdl_ui_ready) {
+        message_box("VICE MESSAGE", tmp, MESSAGE_OK);
+    } else {
+        fprintf(stderr, "%s\n", tmp);
+    }
     lib_free(tmp);
 }
 
@@ -278,6 +283,7 @@ fprintf(stderr,"%s\n",__func__);
 #endif
 
     SDL_WM_SetCaption(sdl_active_canvas->viewport->title, "VICE");
+    sdl_ui_ready = 1;
     return 0;
 }
 
@@ -301,8 +307,11 @@ void ui_error(const char *format,...)
     tmp = lib_mvsprintf(format, ap);
     va_end(ap);
 
-    message_box("VICE ERROR", tmp, MESSAGE_OK);
-
+    if (sdl_ui_ready) {
+        message_box("VICE ERROR", tmp, MESSAGE_OK);
+    } else {
+        fprintf(stderr, "%s\n", tmp);
+    }
     lib_free(tmp);
 }
 

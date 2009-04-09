@@ -27,6 +27,7 @@
 #include "vice.h"
 #include "types.h"
 
+#include <assert.h>
 #include <string.h>
 #include <SDL/SDL.h>
 
@@ -38,19 +39,34 @@
 #include "uimsgbox.h"
 #include "vsync.h"
 
+#define MAX_MSGBOX_LEN 28
+
 static menu_draw_t *menu_draw;
 
 static unsigned int make_28_cols(char *text)
 {
-    unsigned int i = 28;
+    unsigned int i = MAX_MSGBOX_LEN;
     unsigned int j = 1;
+    char *retpos = NULL;
+    unsigned int len = strlen(text);
 
-    while (i < (strlen(text) - 1)) {
+    /* convert any return chars. */
+    retpos = strchr(text, '\n');
+    while (retpos != NULL) {
+        *retpos = ' ';
+        retpos = strchr(retpos + 1, '\n');
+    }
+
+    /* chop the text into lines of a maximum of 28 chars */
+    while (i < len ) {
         while (text[i] != ' ') {
+            assert(i != 0);
             i--;
         }
         text[i] = 0;
-        i += 28;
+        text += i + 1;
+        len = strlen(text);
+        i = MAX_MSGBOX_LEN;
         j++;
     }
     return j;
@@ -60,36 +76,65 @@ static int handle_message_box(const char *title, const char *message, int messag
 {
     char *text;
     char *pos;
-    char template[40];
-    unsigned int lines;
+    char *template;
+    unsigned int lines, len;
     int before;
     int active = 1;
-    unsigned int i, j;
+    unsigned int j;
     int x;
     int cur_pos = 0;
 
     text = lib_stralloc(message);
     pos = text;
+
+    /* split the message up into a max of 28 char sized lines and remember the amount of lines */
     lines = make_28_cols(text);
     sdl_ui_clear();
+
+    /* print the top edge of the dialog. */
     sdl_ui_print_center("\260\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\256", 2);
-    sprintf(template,"\335                            \335");
-    before = (28 - strlen(title))/2;
-    for (i = 0; i < strlen(title); i++) {
-        template[i + before + 1] = title[i];
-    }
+    template = lib_stralloc("\335                            \335");
+
+    /* make sure that the title length is not more than 28 chars. */
+    len = strlen(title);
+    assert(len <= MAX_MSGBOX_LEN);
+
+    /* calculate the position in the template to copy the title to. */
+    before = ((MAX_MSGBOX_LEN - len) / 2) + 1;
+
+    /* copy the title into the template. */
+    memcpy(template + before, title, len);
+
+    /* print the title part of the dialog. */
     sdl_ui_print_center(template, 3);
+    lib_free(template);
+
+    /* print the title/text seperator part of the dialog. */
     sdl_ui_print_center("\253\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\263", 4);
+
     for (j = 0; j < lines; j++) {
-        sprintf(template,"\335                            \335");
-        before = (28 - strlen(pos))/2;
-        for (i = 0; i < strlen(pos); i++) {
-            template[i + before + 1] = pos[i];
-        }
+        template = lib_stralloc("\335                            \335");
+
+        /* make sure that the message line length is not more than 28 chars. */
+        len = strlen(pos);
+        assert(len <= MAX_MSGBOX_LEN);
+
+        /* calculate the position in the template to copy the message line to. */
+        before = ((MAX_MSGBOX_LEN - len) / 2) + 1;
+
+        /* copy the message line into the template. */
+        memcpy(template + before, pos, len);
+
+        /* print the message line. */
         sdl_ui_print_center(template, j + 5);
 
+        lib_free(template);
+
+        /* advance the pointer to the next message line. */
         pos += strlen(pos) + 1;
     }
+
+    /* print any needed buttons. */
     sdl_ui_print_center("\335                            \335", j + 5);
     switch (message_mode) {
         case MESSAGE_OK:
@@ -109,7 +154,10 @@ static int handle_message_box(const char *title, const char *message, int messag
             sdl_ui_print_center("\335 \255\300\300\300\300\300\275  \255\300\300\300\300\300\300\300\275  \255\300\300\300\300\275 \335", j + 8);
             break;
     }
+
+    /* print the bottom part of the dialog. */
     sdl_ui_print_center("\255\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\275", j + 9);
+
     lib_free(text);
     x += (menu_draw->max_text_x - 30) / 2;
     while (active) {

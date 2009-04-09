@@ -77,8 +77,8 @@ static char* sdl_ui_get_file_selector_entry(ioutil_dir_t *directory, int offset,
 #if (FSDEV_DIR_SEP_CHR=='\\')
 static void sdl_ui_print_translate_seperator(const char *text, int x, int y)
 {
-    int len;
-    int i;
+    unsigned int len;
+    unsigned int i;
     char *new_text = NULL;
 
     len = strlen(text);

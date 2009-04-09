@@ -80,13 +80,15 @@ static char *convert_cmdline_to_40_cols(char *text)
 static void make_40_cols(char *text)
 {
     unsigned int i = 40;
+    unsigned int len = strlen(text);
 
-    while (i < (strlen(text) -1)) {
+    while (i < len) {
         while (text[i] != ' ') {
             i--;
         }
         text[i] = '\n';
-        i += 40;
+        text += i + 1;
+        i = 40;
     }
 }
 
