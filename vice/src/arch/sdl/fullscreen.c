@@ -146,6 +146,11 @@ fprintf(stderr,"%s: %i\n",__func__,enable);
     ui_check_mouse_cursor();
 
     if (canvas->initialized) {
+        /* resize window back to normal when leaving fullscreen */
+        if (!enable) {
+            sdl_video_resize(0, 0);
+        }
+        sdl_forced_resize = 1;
         video_viewport_resize(canvas);
     }
     return 0;
@@ -197,6 +202,7 @@ static int fullscreen_mode_sdl(struct video_canvas_s *canvas, int mode)
 fprintf(stderr,"%s: %i\n",__func__,mode);
 #endif
 
+    canvas->fullscreenconfig->mode = mode;
     return 0;
 }
 

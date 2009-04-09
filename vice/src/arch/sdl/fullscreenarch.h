@@ -53,5 +53,8 @@ extern int fullscreen_init(void);
 extern int fullscreen_init_alloc_hooks(struct video_canvas_s *canvas);
 extern void fullscreen_shutdown_alloc_hooks(struct video_canvas_s *canvas);
 
+#define FULLSCREEN_MODE_AUTO   0
+#define FULLSCREEN_MODE_CUSTOM 1
+
 #endif
 

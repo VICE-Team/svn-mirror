@@ -44,9 +44,23 @@ typedef void (*video_refresh_func_t)(struct video_canvas_s *,
 struct video_canvas_s {
     unsigned int initialized;
     unsigned int created;
+
+    /* Index of the canvas, needed for x128 and xcbm2 */
     int index;
-    unsigned int width, height, depth;
+    unsigned int depth;
+
+    /* Size of the drawable canvas area, including the black borders */
+    unsigned int width, height;
+
+    /* Size of the canvas as requested by the emulator itself, without double size */
+    unsigned int real_width, real_height;
+
+    /* Actual size of the window; in most cases the same as width/height */
+    unsigned int actual_width, actual_height;
+
+    /* Drawable surface */
     SDL_Surface* screen;
+
     struct video_render_config_s *videoconfig;
     struct draw_buffer_s *draw_buffer;
     struct viewport_s *viewport;
@@ -58,15 +72,27 @@ struct video_canvas_s {
     struct fullscreenconfig_s *fullscreenconfig;
     video_refresh_func_t video_fullscreen_refresh_func;
 #ifdef HAVE_HWSCALE
+    /* OpenGL context */
     SDL_Surface *hwscale_screen;
 #endif
-
 };
 typedef struct video_canvas_s video_canvas_t;
 
 extern video_canvas_t *sdl_active_canvas;
+
+/* Resize window to w/h. 0/0 resizes to stored real size */
 extern void sdl_video_resize(int w, int h);
+
+/* Switch to canvas with given index; used by x128 and xcbm2 */
 extern void sdl_video_canvas_switch(int index);
 extern int sdl_active_canvas_num;
+
+/* Flag for forced resize (as opposed to f.ex PAL/NTSC switch) */
+extern int sdl_forced_resize;
+
+/* Modes of resolution limitation */
+#define SDL_LIMIT_MODE_OFF   0
+#define SDL_LIMIT_MODE_MAX   1
+#define SDL_LIMIT_MODE_FIXED 2
 
 #endif
