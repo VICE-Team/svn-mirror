@@ -95,6 +95,4 @@ extern void ui_common_init(void);
 extern void ui_common_shutdown(void);
 extern void ui_sdl_quit(void);
 
-extern int sdl_ui_ready;
-
 #endif
