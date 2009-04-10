@@ -887,6 +887,10 @@ void ui_dispatch_events(void)
 	num_queued_messages = 0;
 }	
 
+void ui_dispatch_next_event(void)
+{
+}
+
 /* -----------------------------------------------------------*/
 /* Initialize the UI before setting all the resource values.  */
 
