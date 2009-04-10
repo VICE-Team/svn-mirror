@@ -210,7 +210,7 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"dummy" },
-#ifdef WIN32
+#if defined(WIN32) && defined(USE_DXSOUND)
     { "Direct-X",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,
