@@ -53,7 +53,4 @@ int vice_network_select_poll_one(vice_network_socket_t * readsockfd);
 
 int vice_network_get_errorcode(void);
 
-int vice_network_init(void);
-void vice_network_shutdown(void);
-
 #endif /* VICE_SOCKET_H */

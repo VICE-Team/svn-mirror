@@ -322,41 +322,6 @@ static vice_network_socket_address_t * vice_network_alloc_new_socket_address(voi
     return return_address;
 }
 
-/*! \brief Initialize networking
-
-   Initialisation that is needed in order to work with
-   sockets has to be done here.
-
-  \return
-   0 on success, else -1.
-*/
-int vice_network_init(void)
-{
-#if defined(AMIGA_SUPPORT) && !defined(AMIGA_OS4)
-    if (SocketBase == NULL) {
-        SocketBase = OpenLibrary("bsdsocket.library", 3);
-        if (SocketBase == NULL) {
-            return -1;
-        }
-    }
-#endif
-    return 0;
-}
-
-/*! \brief uninitialize networking
-
-  Undo the initialisations done in vice_network_init().
-*/
-void vice_network_shutdown(void)
-{
-#if defined(AMIGA_SUPPORT) && !defined(AMIGA_OS4)
-    if (SocketBase != NULL) {
-        CloseLibrary(SocketBase);
-        SocketBase = NULL;
-    }
-#endif
-}
-
 /*! \brief Open a socket and initialise it for server operation
 
   \param server_address

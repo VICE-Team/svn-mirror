@@ -221,9 +221,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     CFLAGS="$CFLAGS -noixemul"
     AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
     AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
-    if test x"$enable_sdlui" != "xyes"; then
-      AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
-    fi
+    AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
     if test x"$enable_sdlui" != "xyes"; then
         AC_DEFINE(HAVE_XVIDEO,,[Enable XVideo (overlay) support.])
     fi
@@ -240,9 +238,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
     AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
     if test x"$host_cpu" != "xpowerpc" -a x"$host_cpu" != "xppc" -a x"$host_cpu" != "xx86_64" -a x"$host_cpu" != "xamd64"; then
-      if test x"$enable_sdlui" != "xyes"; then
-        AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
-      fi
+      AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
     fi
     is_amigaos4=no
     is_amiga_aros=yes
@@ -253,9 +249,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     AC_DEFINE(AMIGA_M68K,,[Should we enable M68K AmigaOS support.])
     AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
     AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
-    if test x"$enable_sdlui" != "xyes"; then
-      AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
-    fi
+    AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
     with_png=no
     with_zlib=no
     is_amigaos4=no
@@ -300,6 +294,9 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
 
   AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
+  AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
+  AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
 
   if test x"$enable_sdlui" != "xyes"; then
     AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
@@ -307,9 +304,6 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
     AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
     AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
     AC_DEFINE(HAVE_TFE,,[Support for The final Ethernet.])
-    AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
-    AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
-    AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
     AC_DEFINE(HAVE_MIDI,,[Enable support for midi.])
     if test x"$enable_parsid" = "xyes"; then
       AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
@@ -1093,7 +1087,7 @@ NETPLAY_LIBS=
 old_LIBS="$LIBS"
 if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes" -o x"$is_unix_macosx" = "xyes"; then
 
-  if test x"$host_os" != "xqnx" -a x"$enable_sdlui" != "xyes"; then
+  if test x"$host_os" != "xqnx"; then
     dnl Check for needed network headers
     UNIX_NETWORK_HEADERS_PRESENT=yes
     AC_CHECK_HEADERS(sys/types.h unistd.h sys/socket.h sys/time.h sys/select.h netinet/in.h arpa/inet.h netdb.h,,
@@ -1130,7 +1124,7 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes" -o x"$is_unix_macosx" = 
       AC_CHECK_FUNCS(getdtablesize getrlimit)
     fi
   fi
-elif test x"$is_beos" = "xyes" -a x"$enable_sdlui" != "xyes"; then
+elif test x"$is_beos" = "xyes"; then
 
   dnl Check for needed network headers
   BEOS_NETWORK_HEADERS_PRESENT=yes

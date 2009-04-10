@@ -102,6 +102,7 @@ libarch_a_SOURCES = \
 	mousedrv.h \
 	sdlmain.c \
 	signals.c \
+	socketimpl.h \
 	types.h \
 	ui.c \
 	ui.h \

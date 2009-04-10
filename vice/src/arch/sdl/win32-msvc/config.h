@@ -14,6 +14,7 @@
 #define HAVE_ZLIB               1
 #define HAS_JOYSTICK            1
 #define HAVE_MOUSE              1
+#define HAVE_NETWORK            1
 
 #if 0
 #define HAVE_CATWEASELMKIII     1
@@ -27,7 +28,6 @@
 #define HAVE_OPENCBM            1
 #define HAVE_MIDI               1
 #define HAS_TRANSLATION         1
-#define HAVE_NETWORK            1
 #define HAVE_DINPUT             1
 #endif
 

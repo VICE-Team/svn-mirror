@@ -132,15 +132,17 @@ static void system_wcstombs_free(char *mbs)
         lib_free(mbs);
 }
 
-static void archdep_network_init(void)
+int archdep_network_init(void)
 {
     WORD wVersionRequested = MAKEWORD(1, 1);
     WSADATA wsaData;
 
     WSAStartup(wVersionRequested, &wsaData);
+
+    return 0;
 }
 
-static void archdep_network_shutdown(void)
+void archdep_network_shutdown(void)
 {
     WSACleanup();
 }
@@ -155,8 +157,6 @@ static int archdep_init_extra(int *argc, char **argv)
     argv0 = lib_stralloc(argv[0]);
 
     orig_workdir = getcwd(NULL, MAX_PATH);
-
-    archdep_network_init();
 
     return 0;
 }
@@ -539,8 +539,6 @@ int archdep_file_is_chardev(const char *name)
 
 static void archdep_shutdown_extra(void)
 {
-    archdep_network_shutdown();
-
     lib_free(argv0);
     lib_free(orig_workdir);
 }

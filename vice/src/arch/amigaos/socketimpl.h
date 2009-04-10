@@ -51,7 +51,6 @@
 #  include <proto/exec.h>
 # endif
 # include <proto/socket.h>
-struct Library *SocketBase;
 #else
 # define __USE_INLINE__
 # include <proto/bsdsocket.h>

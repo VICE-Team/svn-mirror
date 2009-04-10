@@ -117,7 +117,7 @@ static int network_init(void)
     network_mode = NETWORK_IDLE;
     network_init_done = 1;
 
-    return vice_network_init();
+    return archdep_network_init();
 }
 
 /*---------- Resources ------------------------------------------------*/
@@ -822,7 +822,7 @@ void network_shutdown(void)
     network_free_frame_event_list();
     lib_free(server_name);
     lib_free(server_bind_address);
-    vice_network_shutdown();
+    archdep_network_shutdown();
 }
 
 #else

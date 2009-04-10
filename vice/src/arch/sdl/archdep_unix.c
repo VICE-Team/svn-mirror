@@ -68,6 +68,15 @@ static char *boot_path = NULL;
 /* alternate storage of preferences */
 const char *archdep_pref_path = NULL; /* NULL -> use home_path + ".vice" */
 
+int archdep_network_init(void)
+{
+    return 0;
+}
+
+void archdep_network_shutdown(void)
+{
+}
+
 static int archdep_init_extra(int *argc, char **argv)
 {
     argv0 = lib_stralloc(argv[0]);
