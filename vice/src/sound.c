@@ -1150,6 +1150,9 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 
     devlist = lib_stralloc("");
 
+#ifdef USE_SDL_AUDIO
+    sound_init_sdl_device();
+#endif
 #ifdef USE_ARTS
     sound_init_arts_device();
 #endif
@@ -1183,9 +1186,6 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #endif
 #ifdef USE_AIX_AUDIO
     sound_init_aix_device();
-#endif
-#ifdef USE_SDL_AUDIO
-    sound_init_sdl_device();
 #endif
 
 #ifdef __MSDOS__
