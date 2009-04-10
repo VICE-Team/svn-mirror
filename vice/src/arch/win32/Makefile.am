@@ -10,7 +10,6 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	@ARCH_INCLUDES@/msvc/wpcap \
 	@ARCH_INCLUDES@/mingw32 \
-	@FFMPEG_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
@@ -43,7 +42,7 @@ libarch_a_SOURCES = \
 	console.c \
 	dinput_handle.c \
 	dinput_handle.h \
-	ffmpeglib.c \
+	dynlib.c \
 	fullscrn.c \
 	fullscrn.h \
 	fullscrn-ddraw.c \
@@ -59,7 +58,6 @@ libarch_a_SOURCES = \
 	mididrv.c \
 	mousedrv.c \
 	mousedrv.h \
-	opencbmlib.c \
 	parsid.c \
 	petui.c \
 	plus4ui.c \

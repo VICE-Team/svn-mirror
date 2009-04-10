@@ -1,13 +1,13 @@
 # Makefile.am for `libgfxoutputdrv.a'.
 
 INCLUDES = \
+  -I$(top_builddir)/src \
+  -I$(top_srcdir)/src \
 	@ARCH_INCLUDES@ \
 	@VICE_LIBPNG_INCLUDES@ \
 	@VICE_ZLIB_INCLUDES@ \
 	@FFMPEG_INCLUDES@ \
-	@QUICKTIME_INCLUDES@ \
-	-I$(top_builddir)/src \
-	-I$(top_srcdir)/src
+	@QUICKTIME_INCLUDES@
 
 noinst_LIBRARIES = libgfxoutputdrv.a
 
@@ -15,6 +15,7 @@ noinst_LIBRARIES = libgfxoutputdrv.a
 EXTRA_libgfxoutputdrv_a_SOURCES = \
 	ffmpegdrv.c \
 	ffmpegdrv.h \
+	ffmpeglib.c \
 	ffmpeglib.h \
 	gifdrv.c \
 	jpegdrv.c \

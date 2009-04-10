@@ -29,15 +29,13 @@
 
 #include "vice.h"
 
-#if defined (WIN32) && !defined(__GNUC__)
-/* #undef inline */
+#include "libavformat/avformat.h"
+#ifdef HAVE_FFMPEG_SWSCALE
+#include "libswscale/swscale.h"
 #endif
 
-#ifdef HAVE_FFMPEG_AVFORMAT_H
-#include <ffmpeg/avformat.h>
-#else
-#include "ffmpeg/avformat.h"
-#endif
+/* generic version function */
+typedef unsigned (*ffmpeg_version_t) (void);
 
 /* avcodec fucntions */
 typedef int (*avcodec_open_t) (AVCodecContext*, AVCodec*);
@@ -47,28 +45,37 @@ typedef int (*avcodec_encode_audio_t) (AVCodecContext*, uint8_t*, int, const sho
 typedef int (*avcodec_encode_video_t) (AVCodecContext*, uint8_t*, int, const AVFrame*);
 typedef int (*avpicture_fill_t) (AVPicture*, uint8_t*, int, int, int);
 typedef int (*avpicture_get_size_t) (int, int, int);
-typedef int (*img_convert_t) (AVPicture*, int, AVPicture*, int, int, int);
-typedef void (*av_free_t) (void**);
-typedef unsigned (*avcodec_version_t) (void);
 
-/* avformat fucntions */
+/* avformat functions */
 typedef void (*av_init_packet_t) (AVPacket *pkt);
 typedef void (*av_register_all_t) (void);
 typedef AVStream* (*av_new_stream_t) (AVFormatContext*, int);
 typedef int (*av_set_parameters_t) (AVFormatContext*, AVFormatParameters*);
 typedef int (*av_write_header_t) (AVFormatContext*);
-#if FFMPEG_VERSION_INT==0x000408
-typedef int (*av_write_frame_t) (AVFormatContext*, int, const uint8_t*, int);
-#else
 typedef int (*av_write_frame_t) (AVFormatContext*, AVPacket*);
-#endif
 typedef int (*av_write_trailer_t) (AVFormatContext*);
-typedef int (*url_fopen_t) (ByteIOContext*, const char*, int);
+typedef int (*url_fopen_t) (ByteIOContext**, const char*, int);
 typedef int (*url_fclose_t) (ByteIOContext*);
 typedef void (*dump_format_t) (AVFormatContext *, int, const char*, int);
 typedef AVOutputFormat* (*guess_format_t) (const char*, const char*, const char*);
+typedef int (*img_convert_t) (AVPicture*, int, AVPicture*, int, int, int);
+
+/* avutil functions */
+typedef void (*av_free_t) (void**);
+
+#ifdef HAVE_FFMPEG_SWSCALE
+/* swscale functions */
+typedef struct SwsContext * (*sws_getContext_t)(int srcW, int srcH,
+  enum PixelFormat srcFormat, int dstW, int dstH, enum PixelFormat dstFormat,
+  int flags, SwsFilter *srcFilter, SwsFilter *dstFilter, double *param);
+typedef void (*sws_freeContext_t)(struct SwsContext *swsContext);
+typedef int (*sws_scale_t)(struct SwsContext *context, uint8_t* srcSlice[],
+  int srcStride[], int srcSliceY, int srcSliceH, uint8_t* dst[],
+  int dstStride[]);
+#endif
 
 struct ffmpeglib_s {
+    /* avcodec */
     avcodec_open_t              p_avcodec_open;
     avcodec_close_t             p_avcodec_close;
     avcodec_find_encoder_t      p_avcodec_find_encoder;
@@ -76,9 +83,8 @@ struct ffmpeglib_s {
     avcodec_encode_video_t      p_avcodec_encode_video;
     avpicture_fill_t            p_avpicture_fill;
     avpicture_get_size_t        p_avpicture_get_size;
-    img_convert_t               p_img_convert;
-    av_free_t                   p_av_free;
 
+    /* avformat */
     av_init_packet_t            p_av_init_packet;
     av_register_all_t           p_av_register_all;
     av_new_stream_t             p_av_new_stream;
@@ -90,10 +96,22 @@ struct ffmpeglib_s {
     url_fclose_t                p_url_fclose;
     dump_format_t               p_dump_format;
     guess_format_t              p_guess_format;
+#ifndef HAVE_FFMPEG_SWSCALE
+    img_convert_t               p_img_convert;
+#endif
+
+    /* avutil */
+    av_free_t                   p_av_free;
+
+#ifdef HAVE_FFMPEG_SWSCALE    
+    /* swscale */
+    sws_getContext_t            p_sws_getContext;
+    sws_freeContext_t           p_sws_freeContext;
+    sws_scale_t                 p_sws_scale;
+#endif
 };
 
 typedef struct ffmpeglib_s ffmpeglib_t;
-
 
 extern int ffmpeglib_open(ffmpeglib_t *lib);
 extern void ffmpeglib_close(ffmpeglib_t *lib);

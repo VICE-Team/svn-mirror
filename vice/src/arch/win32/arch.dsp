@@ -122,7 +122,7 @@ SOURCE=.\dirent.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\ffmpeglib.c
+SOURCE=.\dynlib.c
 # End Source File
 # Begin Source File
 
@@ -163,10 +163,6 @@ SOURCE=.\mididrv.c
 # Begin Source File
 
 SOURCE=.\mousedrv.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\opencbmlib.c
 # End Source File
 # Begin Source File
 

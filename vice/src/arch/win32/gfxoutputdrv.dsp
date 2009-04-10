@@ -90,6 +90,10 @@ SOURCE=..\..\gfxoutputdrv\ffmpegdrv.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\gfxoutputdrv\ffmpeglib.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\gfxoutputdrv\gfxoutput.c
 # End Source File
 # Begin Source File

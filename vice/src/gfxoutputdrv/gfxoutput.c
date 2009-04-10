@@ -48,7 +48,6 @@
 
 #ifdef HAVE_FFMPEG
 #include "ffmpegdrv.h"
-#include "ffmpeglib.h"
 #endif
 
 #ifdef HAVE_QUICKTIME

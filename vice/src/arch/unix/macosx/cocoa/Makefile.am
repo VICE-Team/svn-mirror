@@ -4,7 +4,6 @@ SUBDIRS = view menu dialog
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
-	@FFMPEG_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/c64 \

@@ -24,7 +24,6 @@ endif
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
-	@FFMPEG_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/rs232drv \
@@ -47,7 +46,7 @@ libarch_a_SOURCES = \
 	console.c \
 	coproc.h \
 	coproc.c \
-	ffmpeglib.c \
+	dynlib.c \
 	fullscreenarch.h \
 	hardsid.c \
 	icon.h \
@@ -59,7 +58,6 @@ libarch_a_SOURCES = \
 	mousedrv.c \
 	mousedrv.h \
 	openGL_sync.h \
-	opencbmlib.c \
 	parsid.c \
 	rs232.c \
 	signals.c \

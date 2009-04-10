@@ -218,6 +218,10 @@ SOURCE="..\..\network.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\opencbmlib.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\palette.c"
 # End Source File
 # Begin Source File

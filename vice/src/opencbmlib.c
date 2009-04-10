@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  Christian Vogelgsang <chris@vogelgsang.org>
  * 
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,59 +30,66 @@
 #ifdef HAVE_OPENCBM
 
 #include <stdio.h>
-#include <windows.h>
 
 #include "log.h"
 #include "opencbmlib.h"
+#include "dynlib.h"
 
+#ifdef WIN32
+#define OPENCBM_SO_NAME  "opencbm.dll"
+#else
+#ifdef MACOSX_SUPPORT
+#define OPENCBM_SO_NAME  "/opt/opencbm/lib/libopencbm.dylib"
+#else
+#define OPENCBM_SO_NAME  "libopencbm.so"
+#endif
+#endif
 
-static HINSTANCE opencbm_dll = NULL;
-
+static void *opencbm_so = NULL;
 
 /* Macro for getting function pointers from opencbm dll.  */
-#define GET_PROC_ADDRESS_AND_TEST(_name_)                                      \
-    opencbmlib->p_##_name_ = (_name_##_t)GetProcAddress(opencbm_dll, #_name_); \
+#define GET_SYMBOL_AND_TEST(_name_)                                      \
+    opencbmlib->p_##_name_ = (_name_##_t)vice_dynlib_symbol(opencbm_so, #_name_); \
     if (opencbmlib->p_##_name_ == NULL) {                                      \
-        log_debug("GetProcAddress " #_name_ " failed!");                       \
-    } else { \
-        log_debug("GetProcAddress " #_name_ " success!"); \
+        log_debug("symbol " #_name_ " failed!");                       \
     }
-
 
 static void opencbmlib_free_library(void)
 {
-    if (opencbm_dll != NULL) {
-        if (!FreeLibrary(opencbm_dll)) {
-            log_debug("FreeLibrary opencbm.dll failed!");
+    if (opencbm_so != NULL) {
+        if (!vice_dynlib_close(opencbm_so)) {
+            log_debug("closing dynamic library " OPENCBM_SO_NAME " failed!");
         }
     }
 
-    opencbm_dll = NULL;
+    opencbm_so = NULL;
 }
 
 static int opencbmlib_load_library(opencbmlib_t *opencbmlib)
 {
-    if (opencbm_dll == NULL) {
-        opencbm_dll = LoadLibrary("opencbm.dll");
+    if (opencbm_so == NULL) {
+        opencbm_so = vice_dynlib_open(OPENCBM_SO_NAME);
 
-        if (opencbm_dll == NULL) {
-            log_debug("LoadLibrary opencbm.dll failed!" );
+        if (opencbm_so == NULL) {
+            log_debug("opening dynamic library " OPENCBM_SO_NAME " failed!");
             return -1;
         }
 
-        GET_PROC_ADDRESS_AND_TEST(cbm_driver_open);
-        GET_PROC_ADDRESS_AND_TEST(cbm_driver_close);
-        GET_PROC_ADDRESS_AND_TEST(cbm_get_driver_name);
-        GET_PROC_ADDRESS_AND_TEST(cbm_listen);
-        GET_PROC_ADDRESS_AND_TEST(cbm_talk);
-        GET_PROC_ADDRESS_AND_TEST(cbm_open);
-        GET_PROC_ADDRESS_AND_TEST(cbm_close);
-        GET_PROC_ADDRESS_AND_TEST(cbm_raw_read);
-        GET_PROC_ADDRESS_AND_TEST(cbm_raw_write);
-        GET_PROC_ADDRESS_AND_TEST(cbm_unlisten);
-        GET_PROC_ADDRESS_AND_TEST(cbm_untalk);
-        GET_PROC_ADDRESS_AND_TEST(cbm_get_eoi);
-        GET_PROC_ADDRESS_AND_TEST(cbm_reset);
+        GET_SYMBOL_AND_TEST(cbm_driver_open);
+        GET_SYMBOL_AND_TEST(cbm_driver_close);
+        GET_SYMBOL_AND_TEST(cbm_get_driver_name);
+        GET_SYMBOL_AND_TEST(cbm_listen);
+        GET_SYMBOL_AND_TEST(cbm_talk);
+        GET_SYMBOL_AND_TEST(cbm_open);
+        GET_SYMBOL_AND_TEST(cbm_close);
+        GET_SYMBOL_AND_TEST(cbm_raw_read);
+        GET_SYMBOL_AND_TEST(cbm_raw_write);
+        GET_SYMBOL_AND_TEST(cbm_unlisten);
+        GET_SYMBOL_AND_TEST(cbm_untalk);
+        GET_SYMBOL_AND_TEST(cbm_get_eoi);
+        GET_SYMBOL_AND_TEST(cbm_reset);
+        
+        log_debug("sucessfully loaded " OPENCBM_SO_NAME);
     }
 
     return 0;
@@ -99,7 +107,7 @@ void opencbmlib_close(void)
 
 unsigned int opencbmlib_is_available(void)
 {
-    if (opencbm_dll != NULL)
+    if (opencbm_so != NULL)
         return 1;
 
     return 0;

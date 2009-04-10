@@ -93,6 +93,9 @@ static int video_outbuf_size;
 static int video_width, video_height;
 static AVFrame *picture, *tmp_picture;
 static double video_pts;
+#ifdef HAVE_FFMPEG_SWSCALE
+static struct SwsContext *sws_ctx;
+#endif
 
 /* resources */
 static char *ffmpeg_format = NULL;
@@ -325,18 +328,6 @@ static int ffmpegdrv_init_audio(int speed, int channels,
 static int ffmpegdrv_encode_audio(soundmovie_buffer_t *audio_in)
 {
     if (audio_st) {
-#if FFMPEG_VERSION_INT==0x000408
-        int out_size = (*ffmpeglib.p_avcodec_encode_audio)(&audio_st->codec, 
-                        audio_outbuf, audio_outbuf_size, audio_in->buffer);
-        /* FIXME: Some sync needed ?? */
-    
-        if ((*ffmpeglib.p_av_write_frame)(ffmpegdrv_oc, audio_st->index, 
-                       audio_outbuf, out_size) != 0)
-            log_debug("ffmpegdrv_encode_audio: Error while writing audio frame");
-
-        audio_pts = (double)audio_st->pts.val * ffmpegdrv_oc->pts_num 
-                    / ffmpegdrv_oc->pts_den;
-#else
         AVPacket pkt;
         AVCodecContext *c;
         (*ffmpeglib.p_av_init_packet)(&pkt);
@@ -353,8 +344,6 @@ static int ffmpegdrv_encode_audio(soundmovie_buffer_t *audio_in)
 
         audio_pts = (double)audio_st->pts.val * audio_st->time_base.num 
                     / audio_st->time_base.den;
-#endif
-
     }
 
     audio_in->used = 0;
@@ -498,6 +487,12 @@ static void ffmpegdrv_close_video(void)
         lib_free(tmp_picture);
         tmp_picture = NULL;
     }
+
+#ifdef HAVE_FFMPEG_SWSCALE
+    if(sws_ctx != NULL) {
+        (*ffmpeglib.p_sws_freeContext)(sws_ctx);
+    }
+#endif
 }
 
 
@@ -540,6 +535,20 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
         c->strict_std_compliance = -1;
         c->pix_fmt = PIX_FMT_RGBA32;
     }
+
+#ifdef HAVE_FFMPEG_SWSCALE
+    /* setup scaler */
+    if(c->pix_fmt != PIX_FMT_RGB24) {
+        sws_ctx = (*ffmpeglib.p_sws_getContext)
+            (video_width, video_height, PIX_FMT_RGB24, 
+             video_width, video_height, c->pix_fmt, 
+             SWS_BICUBIC, 
+             NULL, NULL, NULL);
+        if(sws_ctx == NULL) {
+            log_debug("ffmpegdrv: Can't create Scaler!\n");
+        }
+    }
+#endif
 
     video_st = st;
     video_pts = 0;
@@ -665,7 +674,7 @@ static int ffmpegdrv_close(screenshot_t *screenshot)
         (*ffmpeglib.p_av_write_trailer)(ffmpegdrv_oc);
         if (!(ffmpegdrv_fmt->flags & AVFMT_NOFILE)) {
             /* close the output file */
-            (*ffmpeglib.p_url_fclose)(&ffmpegdrv_oc->pb);
+            (*ffmpeglib.p_url_fclose)(ffmpegdrv_oc->pb);
         }
     }
     
@@ -684,6 +693,28 @@ static int ffmpegdrv_close(screenshot_t *screenshot)
     return 0;
 }
 
+#if FFMPEG_ALIGNMENT_HACK
+__declspec(naked) static int ffmpeg_avcodec_encode_video(AVCodecContext* c, uint8_t* video_outbuf, int video_outbuf_size, const AVFrame* picture)
+{
+    _asm {
+        push ebp
+        mov ebp,esp
+        sub esp, __LOCAL_SIZE /* not needed, but safer against errors when changing this function */
+
+        /* adjust stack to 16 byte boundary */
+        and esp,~0x0f
+    }
+        /* now, copy the parameters for our new call */
+
+    (*ffmpeglib.p_avcodec_encode_video)(c, video_outbuf, video_outbuf_size, picture);
+
+    _asm {
+        mov esp,ebp
+        pop ebp
+        ret
+    }
+}
+#endif
 
 /* triggered by screenshot_record */
 static int ffmpegdrv_record(screenshot_t *screenshot)
@@ -707,20 +738,22 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
 
     if (c->pix_fmt != PIX_FMT_RGB24) {
         ffmpegdrv_fill_rgb_image(screenshot, tmp_picture);
+#ifdef HAVE_FFMPEG_SWSCALE
+        if(sws_ctx != NULL) {
+            (*ffmpeglib.p_sws_scale)(sws_ctx, 
+                tmp_picture->data, tmp_picture->linesize, 0, c->height,
+                picture->data, picture->linesize);
+        }
+#else
         (*ffmpeglib.p_img_convert)((AVPicture *)picture, c->pix_fmt,
                     (AVPicture *)tmp_picture, PIX_FMT_RGB24,
                     c->width, c->height);
+#endif
     } else {
         ffmpegdrv_fill_rgb_image(screenshot, picture);
     }
 
     if (ffmpegdrv_oc->oformat->flags & AVFMT_RAWPICTURE) {
-        /* raw video case. The API will change slightly in the near
-           futur for that */
-#if FFMPEG_VERSION_INT==0x000408
-        ret = (*ffmpeglib.p_av_write_frame)(ffmpegdrv_oc, video_st->index,
-                       (unsigned char *)picture, sizeof(AVPicture));
-#else
         AVPacket pkt;
         (*ffmpeglib.p_av_init_packet)(&pkt);
         pkt.flags |= PKT_FLAG_KEY;
@@ -729,18 +762,17 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
         pkt.size = sizeof(AVPicture);
 
         ret = (*ffmpeglib.p_av_write_frame)(ffmpegdrv_oc, &pkt);
-#endif
     } else {
         /* encode the image */
+#if FFMPEG_ALIGNMENT_HACK
+        out_size = ffmpeg_avcodec_encode_video(c, video_outbuf, video_outbuf_size, picture);
+#else
         out_size = (*ffmpeglib.p_avcodec_encode_video)(c, video_outbuf, 
                                                 video_outbuf_size, picture);
+#endif
         /* if zero size, it means the image was buffered */
         if (out_size != 0) {
             /* write the compressed frame in the media file */
-#if FFMPEG_VERSION_INT==0x000408
-            ret = (*ffmpeglib.p_av_write_frame)(ffmpegdrv_oc, video_st->index,
-                                        video_outbuf, out_size);
-#else
             AVPacket pkt;
             (*ffmpeglib.p_av_init_packet)(&pkt);
             pkt.pts = c->coded_frame->pts;
@@ -750,7 +782,6 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
             pkt.data = video_outbuf;
             pkt.size = out_size;
             ret = (*ffmpeglib.p_av_write_frame)(ffmpegdrv_oc, &pkt);
-#endif
         } else {
             ret = 0;
         }
@@ -760,13 +791,8 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
         return -1;
     }
 
-#if FFMPEG_VERSION_INT==0x000408
-    video_pts = (double)video_st->pts.val * ffmpegdrv_oc->pts_num 
-                    / ffmpegdrv_oc->pts_den;
-#else
     video_pts = (double)video_st->pts.val * video_st->time_base.num 
                     / video_st->time_base.den;
-#endif
 
     return 0;
 }

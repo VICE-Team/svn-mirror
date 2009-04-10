@@ -1,5 +1,5 @@
 /*
- * copyright (c) 2005 Michael Niedermayer <michaelni@gmx.at>
+ * Copyright (C) 2007 Michael Niedermayer <michaelni@gmx.at>
  *
  * This file is part of FFmpeg.
  *
@@ -18,22 +18,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef INTFLOAT_READWRITE_H
-#define INTFLOAT_READWRITE_H
+#ifndef AVUTIL_SHA1_H
+#define AVUTIL_SHA1_H
 
-#include "common.h"
+#include <stdint.h>
 
-/* IEEE 80 bits extended float */
-typedef struct AVExtFloat  {
-    uint8_t exponent[2];
-    uint8_t mantissa[8];
-} AVExtFloat;
+extern const int av_sha1_size;
 
-double av_int2dbl(int64_t v);
-float av_int2flt(int32_t v);
-double av_ext2dbl(const AVExtFloat ext);
-int64_t av_dbl2int(double d);
-int32_t av_flt2int(float d);
-AVExtFloat av_dbl2ext(double d);
+struct AVSHA1;
 
-#endif /* INTFLOAT_READWRITE_H */
+void av_sha1_init(struct AVSHA1* context);
+void av_sha1_update(struct AVSHA1* context, const uint8_t* data, unsigned int len);
+void av_sha1_final(struct AVSHA1* context, uint8_t digest[20]);
+
+#endif /* AVUTIL_SHA1_H */

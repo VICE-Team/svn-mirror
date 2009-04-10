@@ -117,6 +117,7 @@ noinst_HEADERS = \
 	diskconstants.h \
 	diskimage.h \
 	dma.h \
+	dynlib.h \
 	emuid.h \
 	event.h \
 	fileio.h \
@@ -241,6 +242,7 @@ base_sources = \
 	machine.c \
 	main.c \
 	network.c \
+	opencbmlib.c \
 	palette.c \
 	ram.c \
 	rawfile.c \
@@ -366,7 +368,7 @@ blockdev_lib =
 endif
 
 if HAVE_REALDEVICE
-realdevice_lib = @ARCH_DIR@/opencbmlib.o
+realdevice_lib = opencbmlib.o @ARCH_DIR@/dynlib.o
 else
 realdevice_lib =
 endif
