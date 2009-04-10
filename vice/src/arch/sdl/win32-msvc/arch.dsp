@@ -174,6 +174,10 @@ SOURCE=..\menu_mouse.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\menu_network.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\menu_petcart.c
 # End Source File
 # Begin Source File
