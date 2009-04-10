@@ -83,7 +83,7 @@ void ui_dispatch_next_event(void)
 {
     SDL_Event e;
     if (SDL_PollEvent(&e)) {
-        ui_handle_misc_sdl_event(e)
+        ui_handle_misc_sdl_event(e);
     }
 }
 
