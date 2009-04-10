@@ -29,6 +29,7 @@
 #include "fullscreenarch.h"
 #include "interrupt.h"
 #include "ui.h"
+#include "uiapi.h"
 #include "uiattach.h"
 #include "uicommands.h"
 #include "uifliplist.h"

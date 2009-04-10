@@ -69,6 +69,7 @@
 #include "translate.h"
 #include "types.h"
 #include "ui.h"
+#include "uiapi.h"
 #include "uiattach.h"
 #include "uiperipheral.h"
 #include "uicmdline.h"

@@ -68,7 +68,6 @@ typedef enum ui_filechooser_s {
 
 void ui_display_speed(float percent, float framerate, int warp_flag);
 void ui_display_paused(int flag);
-void ui_dispatch_next_event(void);
 void ui_dispatch_events(void);
 extern void ui_exit(void);
 extern void ui_show_text(const char *title, const char *text, int width,

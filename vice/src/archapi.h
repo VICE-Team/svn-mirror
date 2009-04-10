@@ -87,8 +87,11 @@ extern int archdep_file_set_gzip(const char *name);
 extern int archdep_file_is_blockdev(const char *name);
 extern int archdep_file_is_chardev(const char *name);
 
+/* Networking. */
+extern int archdep_network_init(void);
+extern void archdep_network_shutdown(void);
+
 /* Free everything on exit.  */
 extern void archdep_shutdown(void);
 
 #endif
-

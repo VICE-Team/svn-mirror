@@ -101,5 +101,7 @@ extern void ui_display_joyport(BYTE *joyport);
 /* Volume UI */
 void ui_display_volume(int vol);
 
-#endif
+/* Event related UI. */
+extern void ui_dispatch_next_event(void);
 
+#endif
