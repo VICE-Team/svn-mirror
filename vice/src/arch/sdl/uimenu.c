@@ -525,7 +525,7 @@ void sdl_ui_invert_char(int pos_x, int pos_y)
     int x, y;
     BYTE *draw_pos;
 
-    while(pos_x >= menu_draw.max_text_x) {
+    while (pos_x >= menu_draw.max_text_x) {
         pos_x -= menu_draw.max_text_x;
         ++pos_y;
     }
@@ -534,8 +534,8 @@ void sdl_ui_invert_char(int pos_x, int pos_y)
 
     draw_pos += menu_draw.offset;
 
-    for (y=0; y < menufont.h; ++y) {
-        for (x=0; x < menufont.w; ++x) {
+    for (y = 0; y < menufont.h; ++y) {
+        for (x = 0; x < menufont.w; ++x) {
             if (draw_pos[x] == menu_draw.color_front) {
                 draw_pos[x] = menu_draw.color_back;
             } else {
@@ -591,7 +591,6 @@ int sdl_ui_hotkey(ui_menu_entry_t *item)
 
 char* sdl_ui_readline(const char* previous, int pos_x, int pos_y, int escaped_is_null)
 {
-#define SDL_UI_STRING_LEN_MAX 1024
     int i = 0, prev = -1, done = 0, got_key = 0, string_changed = 0, screen_dirty = 1, escaped = 0;
     size_t size = 0, max;
     char *new_string = NULL;
@@ -601,15 +600,20 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y, int escaped_is
     Uint16 c_uni;
     char c;
 
+    /* restrict maximum length to screen size, leaving room for the prompt and the cursor*/
+    max = menu_draw.max_text_y * menu_draw.max_text_x - pos_x - 1;
+
     if (previous) {
         new_string = lib_stralloc(previous);
-        size = max = strlen(new_string) + 1;
-        if (max < SDL_UI_STRING_LEN_MAX) {
-            new_string = lib_realloc(new_string, SDL_UI_STRING_LEN_MAX);
-            max = SDL_UI_STRING_LEN_MAX;
+        size = strlen(new_string) + 1;
+        if (size < max) {
+            new_string = lib_realloc(new_string, max);
+        } else {
+            ui_error("Readline: previous %i >= max %i, returning NULL.", size, max);
+            lib_free(new_string);
+            return NULL;
         }
     } else {
-        max = SDL_UI_STRING_LEN_MAX;
         new_string = lib_malloc(max);
         new_string[0] = 0;
     }
@@ -620,7 +624,13 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y, int escaped_is
 
     do {
         if (i != prev) {
+            if ((pos_y * menu_draw.max_text_x + pos_x + i) >= (menu_draw.max_text_y * menu_draw.max_text_x)) {
+                sdl_ui_scroll_screen_up();
+                --pos_y;
+            }
+
             sdl_ui_invert_char(pos_x + i, pos_y);
+
             if (prev >= 0) {
                 sdl_ui_invert_char(pos_x + prev, pos_y);
             }
@@ -651,7 +661,7 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y, int escaped_is
 
         switch(key) {
             case SDLK_LEFT:
-                if (i>0) {
+                if (i > 0) {
                     --i;
                 }
                 break;
@@ -667,7 +677,7 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y, int escaped_is
                 i = size;
                 break;
             case SDLK_BACKSPACE:
-                if (i>0) {
+                if (i > 0) {
                     memmove(new_string+i-1, new_string+i, size - i + 1);
                     --size;
                     new_string[size] = ' ';
