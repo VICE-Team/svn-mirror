@@ -43,7 +43,7 @@
 #include "resources.h"
 #include "socket.h"
 #include "translate.h"
-#include "ui.h"
+#include "uiapi.h"
 #include "util.h"
 
 static vice_network_socket_t * listen_socket = NULL;
