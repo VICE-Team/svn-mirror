@@ -296,30 +296,20 @@ static mon_reg_list_t *mon_register_list_get6502dtv(int mem)
     mon_reg_list[4].val = (unsigned int)mon_register_get_val(mem, e_SP);
     mon_reg_list[4].size = 8;
     mon_reg_list[4].flags = 0;
-    /* mon_reg_list[4].next = &mon_reg_list[5];
-       this is depandant upon the following distinction! */
+    mon_reg_list[4].next = &mon_reg_list[5];
 
-    /* FIXME: This is not elegant. The destinction between 6502/6510
-       should not be done by the memory space.  This will change once
-       we have completely separated 6502, 6509, 6510 and Z80. */
-    if (mem == e_comp_space) {
-        mon_reg_list[4].next = &mon_reg_list[5];
+    /* Note: The DTV always has reg 00 and 01 */
+    mon_reg_list[5].name = "00";
+    mon_reg_list[5].val = (unsigned int)mon_get_mem_val(mem, 0);
+    mon_reg_list[5].size = 8;
+    mon_reg_list[5].flags = 0;
+    mon_reg_list[5].next = &mon_reg_list[6];
 
-        mon_reg_list[5].name = "00";
-        mon_reg_list[5].val = (unsigned int)mon_get_mem_val(mem, 0);
-        mon_reg_list[5].size = 8;
-        mon_reg_list[5].flags = 0;
-        mon_reg_list[5].next = &mon_reg_list[6];
-
-        mon_reg_list[6].name = "01";
-        mon_reg_list[6].val = (unsigned int)mon_get_mem_val(mem, 1);
-        mon_reg_list[6].size = 8;
-        mon_reg_list[6].flags = 0;
-        mon_reg_list[6].next = &mon_reg_list[7];
-
-    } else {
-        mon_reg_list[4].next = &mon_reg_list[7];
-    }
+    mon_reg_list[6].name = "01";
+    mon_reg_list[6].val = (unsigned int)mon_get_mem_val(mem, 1);
+    mon_reg_list[6].size = 8;
+    mon_reg_list[6].flags = 0;
+    mon_reg_list[6].next = &mon_reg_list[7];
 
     mon_reg_list[7].name = "FL";
     mon_reg_list[7].val = (unsigned int)mon_register_get_val(mem, e_FLAGS)

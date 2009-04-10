@@ -344,8 +344,8 @@ typedef union YYSTYPE
     ACTION action;
     char *str;
 }
-/* Line 1489 of yacc.c.  */
-#line 349 "mon_parse.h"
+/* Line 1529 of yacc.c.  */
+#line 349 "y.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

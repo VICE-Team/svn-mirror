@@ -38,25 +38,9 @@
 #include "types.h"
 #include "uimon.h"
 
-
-const char *mon_disassemble_to_string(MEMSPACE memspace, WORD addr,
-                                      BYTE x, BYTE p1, BYTE p2, BYTE p3,
-                                      int hex_mode, const char *cpu_type)
-{
-    static const char *cpu_type_prv;
-
-    if (cpu_type != NULL && cpu_type != cpu_type_prv) {
-        cpu_type_prv = cpu_type;
-        monitor_cpu_type_set(cpu_type);
-    }
-
-    return mon_disassemble_to_string_ex(memspace, addr, x, p1, p2, p3,
-                                        hex_mode, NULL);
-}
-
-const char *mon_disassemble_to_string_ex(MEMSPACE memspace, WORD addr,
-                                         BYTE x, BYTE p1, BYTE p2, BYTE p3,
-                                         int hex_mode, unsigned *opc_size_p)
+const char *mon_disassemble_to_string_internal(MEMSPACE memspace, WORD addr,
+                                               BYTE x, BYTE p1, BYTE p2, BYTE p3,
+                                               int hex_mode, unsigned *opc_size_p, monitor_cpu_type_t *mon_cpu_type)
 {
     static char buff[256];
     const char *string;
@@ -70,10 +54,13 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, WORD addr,
 
     buffp = buff;
 
-    opinfo = (monitor_cpu_type.asm_opcode_info_get)(x, p1, p2);
+    if (!mon_cpu_type) {
+        mon_cpu_type=monitor_cpu_for_memspace[memspace];
+    }
+    opinfo = (mon_cpu_type->asm_opcode_info_get)(x, p1, p2);
     string = opinfo->mnemonic;
     addr_mode = opinfo->addr_mode;
-    opc_size = (monitor_cpu_type.asm_addr_mode_get_size)
+    opc_size = (mon_cpu_type->asm_addr_mode_get_size)
                ((unsigned int)(addr_mode), x, p1);
 
     if (opc_size_p)
@@ -346,6 +333,22 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, WORD addr,
     return buff;
 }
 
+const char *mon_disassemble_to_string(MEMSPACE memspace, WORD addr,
+                                      BYTE x, BYTE p1, BYTE p2, BYTE p3,
+                                      int hex_mode, const char *cpu_type)
+{
+    return mon_disassemble_to_string_internal(memspace, addr, x, p1, p2, p3, 
+        hex_mode, NULL, monitor_find_cpu_type_from_string(cpu_type));
+}
+
+const char *mon_disassemble_to_string_ex(MEMSPACE memspace, WORD addr,
+                                         BYTE x, BYTE p1, BYTE p2, BYTE p3,
+                                         int hex_mode, unsigned *opc_size_p)
+{
+    return mon_disassemble_to_string_internal(memspace, addr, x, p1, p2, p3, 
+        hex_mode, opc_size_p, monitor_cpu_for_memspace[memspace]);
+}
+
 unsigned mon_disassemble_instr(MON_ADDR addr)
 {
     BYTE op, p1, p2, p3;
@@ -369,8 +372,8 @@ unsigned mon_disassemble_instr(MON_ADDR addr)
     if (label)
         mon_out(".%s:%04x   %s:\n", mon_memspace_string[mem], loc, label);
 
-    dis_inst = mon_disassemble_to_string_ex(mem, loc, op, p1, p2, p3, hex_mode,
-                                            &opc_size);
+    dis_inst = mon_disassemble_to_string_internal(mem, loc, op, p1, p2, p3, hex_mode,
+                                                  &opc_size, monitor_cpu_for_memspace[mem]);
 
     /* Print the disassembled instruction */
     mon_out(".%s:%04x   %s\n", mon_memspace_string[mem], loc, dis_inst);

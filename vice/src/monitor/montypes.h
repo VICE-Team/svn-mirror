@@ -218,7 +218,7 @@ extern RADIXTYPE default_radix;
 extern MEMSPACE default_memspace;
 extern bool asm_mode;
 extern MON_ADDR asm_mode_addr;
-extern struct monitor_cpu_type_s monitor_cpu_type;
+extern struct monitor_cpu_type_s *monitor_cpu_for_memspace[NUM_MEMSPACES];
 extern MON_ADDR dot_addr[NUM_MEMSPACES];
 extern const char *mon_memspace_string[];
 extern int mon_stop_output;

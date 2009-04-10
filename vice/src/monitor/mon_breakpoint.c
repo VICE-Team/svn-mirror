@@ -368,7 +368,8 @@ bool monitor_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr,
             result = TRUE;
 
             temp = new_addr(mem,
-                            (monitor_cpu_type.mon_register_get_val)(mem, e_PC));            if (bp->trace) {
+                            (monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC));
+            if (bp->trace) {
                 type = "Trace";
                 result = FALSE;
             }

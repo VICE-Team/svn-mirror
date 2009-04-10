@@ -213,6 +213,8 @@ machine_state_rules: CMD_BANK end_cmd
                      { mon_jump($2); }
                    | CMD_IO end_cmd
                      { mon_display_io_regs(); }
+                   | CMD_CPU end_cmd
+                     { monitor_cpu_type_set(""); }
                    | CMD_CPU CPUTYPE end_cmd
                      { monitor_cpu_type_set($2); }
                    | CMD_CPUHISTORY end_cmd
@@ -247,9 +249,9 @@ machine_state_rules: CMD_BANK end_cmd
                    ;
 
 register_mod: CMD_REGISTERS end_cmd
-              { (monitor_cpu_type.mon_register_print)(default_memspace); }
+              { (monitor_cpu_for_memspace[default_memspace]->mon_register_print)(default_memspace); }
             | CMD_REGISTERS memspace end_cmd
-              { (monitor_cpu_type.mon_register_print)($2); }
+              { (monitor_cpu_for_memspace[$2]->mon_register_print)($2); }
             | CMD_REGISTERS reg_list end_cmd
             ;
 
@@ -548,7 +550,7 @@ reg_list: reg_list COMMA reg_asgn
         ;
 
 reg_asgn: register EQUALS number 
-          { (monitor_cpu_type.mon_register_set_val)(reg_memspace($1), reg_regid($1), (WORD) $3); }
+          { (monitor_cpu_for_memspace[reg_memspace($1)]->mon_register_set_val)(reg_memspace($1), reg_regid($1), (WORD) $3); }
         ;
 
 breakpt_num: d_number { $$ = $1; }
@@ -661,7 +663,7 @@ hunt_element: number { mon_add_number_to_buffer($1); }
             ;
 
 value: number { $$ = $1; }
-     | register { $$ = (monitor_cpu_type.mon_register_get_val)(reg_memspace($1), reg_regid($1)); }
+     | register { $$ = (monitor_cpu_for_memspace[reg_memspace($1)]->mon_register_get_val)(reg_memspace($1), reg_regid($1)); }
      ;
 
 d_number: D_NUMBER { $$ = $1; }
@@ -689,7 +691,7 @@ assembly_instr_list: assembly_instr_list INST_SEP assembly_instruction
 
 assembly_instruction: OPCODE asm_operand_mode { $$ = 0;
                                                 if ($1) {
-                                                    (monitor_cpu_type.mon_assemble_instr)($1, $2);
+                                                    (monitor_cpu_for_memspace[default_memspace]->mon_assemble_instr)($1, $2);
                                                 } else {
                                                     new_cmd = 1;
                                                     asm_mode = 0;

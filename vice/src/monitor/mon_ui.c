@@ -299,7 +299,7 @@ void mon_disassembly_goto_address(struct mon_disassembly_private *pmdp,
 void mon_disassembly_goto_pc(struct mon_disassembly_private *pmdp)
 {
     mon_disassembly_goto_address(pmdp, 
-        (WORD)(monitor_cpu_type.mon_register_get_val(pmdp->memspace, e_PC)));
+        (WORD)(monitor_cpu_for_memspace[pmdp->memspace]->mon_register_get_val(pmdp->memspace, e_PC)));
 }
 
 

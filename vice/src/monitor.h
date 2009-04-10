@@ -130,6 +130,8 @@ extern unsigned monitor_mask[NUM_MEMSPACES];
 
 
 /* Prototypes */
+extern monitor_cpu_type_t* monitor_find_cpu_type_from_string(const char *cpu_type);
+
 extern void monitor_init(monitor_interface_t *maincpu_interface,
                          monitor_interface_t *drive_interface_init[],
                          struct monitor_cpu_type_s **asmarray);

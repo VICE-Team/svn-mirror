@@ -103,7 +103,7 @@ int mon_init_break = -1;
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
 
 #define MONITOR_GET_PC(mem) \
-    ((WORD)((monitor_cpu_type.mon_register_get_val)(mem, e_PC)))
+    ((WORD)((monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC)))
 
 #define MONITOR_GET_OPCODE(mem) (mon_get_mem_val(mem, MONITOR_GET_PC(mem)))
 
@@ -193,7 +193,18 @@ static int set_playback_name(const char *param, void *extra_param);
 /* Disassemble the current opcode on entry.  Used for single step.  */
 static int disassemble_on_entry = 0;
 
-monitor_cpu_type_t monitor_cpu_type;
+/* We now have an array of pointers to the current monitor_cpu_type for each memspace. */
+/* This gets initialized in monitor_init(). */
+monitor_cpu_type_t *monitor_cpu_for_memspace[NUM_MEMSPACES];
+
+struct supported_cpu_type_list_s {
+    monitor_cpu_type_t *monitor_cpu_type_p;
+    struct supported_cpu_type_list_s *next;
+};
+typedef struct supported_cpu_type_list_s supported_cpu_type_list_t;
+
+/* A linked list of supported monitor_cpu_types for each memspace */
+static supported_cpu_type_list_t *monitor_cpu_type_supported[NUM_MEMSPACES];
 
 struct monitor_cpu_type_list_s {
     monitor_cpu_type_t monitor_cpu_type;
@@ -223,6 +234,62 @@ static const char *register_string[] = { "A",
                                          "SP"
                                         };
 
+/* Some local helper functions */
+int find_cpu_type_from_string(const char *cpu_string)
+{
+    if ((strcasecmp(cpu_string, "6502")==0)||(strcasecmp(cpu_string, "6510")==0)) {
+        return CPU_6502;
+    } else if (strcasecmp(cpu_string, "z80")==0) {
+        return CPU_Z80;
+    } else if ((strcasecmp(cpu_string, "6502dtv")==0)||(strcasecmp(cpu_string, "6510dtv")==0)) {
+        return CPU_6502DTV;
+    } else {
+        return -1;
+    }
+}
+
+monitor_cpu_type_t* monitor_find_cpu_for_memspace(MEMSPACE mem, CPU_TYPE_t cpu)
+{
+    supported_cpu_type_list_t *ptr;
+    if (mem==e_default_space)
+        mem=default_memspace;
+    ptr=monitor_cpu_type_supported[mem];
+    while (ptr) {
+        if (ptr->monitor_cpu_type_p) {
+            if (ptr->monitor_cpu_type_p->cpu_type==cpu) {
+                return ptr->monitor_cpu_type_p;
+            }
+        }
+        ptr=ptr->next;
+    }
+    return NULL;
+}
+
+void monitor_print_cpu_types_supported(MEMSPACE mem)
+{
+    supported_cpu_type_list_t *ptr;
+    ptr=monitor_cpu_type_supported[mem];
+    while (ptr) {
+        if (ptr->monitor_cpu_type_p) {
+            switch (ptr->monitor_cpu_type_p->cpu_type) {
+            case CPU_6502:
+                mon_out(" 6502");
+                break;
+            case CPU_6502DTV:
+                mon_out(" 6502DTV");
+                break;
+            case CPU_Z80:
+                mon_out(" Z80");
+                break;
+            default:
+                mon_out(" unknown(%d)",ptr->monitor_cpu_type_p->cpu_type);
+                break;
+            }
+        }
+        ptr=ptr->next;
+    }
+    mon_out("\n");
+}
 
 /* *** ADDRESS FUNCTIONS *** */
 
@@ -322,7 +389,7 @@ long mon_evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr,
                 set_addr_memspace(end_addr, default_memspace);
             } else {
                 if (mem2 != e_invalid_space) {
-                set_addr_memspace(start_addr, mem2);
+                    set_addr_memspace(start_addr, mem2);
                 } else {
                     set_addr_memspace(start_addr, default_memspace);
                 }
@@ -367,7 +434,7 @@ long mon_evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr,
 
 mon_reg_list_t *mon_register_list_get(int mem)
 {
-    return monitor_cpu_type.mon_register_list_get(mem);
+    return monitor_cpu_for_memspace[mem]->mon_register_list_get(mem);
 }
 
 bool check_drive_emu_level_ok(int drive_num)
@@ -385,38 +452,23 @@ bool check_drive_emu_level_ok(int drive_num)
 
 void monitor_cpu_type_set(const char *cpu_type)
 {
-    CPU_TYPE_t serchcpu;
-    monitor_cpu_type_list_t *monitor_cpu_type_list_ptr;
+    int serchcpu;
+    monitor_cpu_type_t *monitor_cpu_type_p=NULL;
 
-    if (!strcasecmp(cpu_type, "6502")) {
-        serchcpu = CPU_6502;
+    serchcpu=find_cpu_type_from_string(cpu_type);
+    if (serchcpu>-1) {
+        monitor_cpu_type_p=monitor_find_cpu_for_memspace(default_memspace, serchcpu);
+    }
+    if (monitor_cpu_type_p) {
+        monitor_cpu_for_memspace[default_memspace]=monitor_cpu_type_p;
+        uimon_notify_change();
     } else {
-        if (!strcasecmp(cpu_type, "z80")) {
-            serchcpu = CPU_Z80;
-        } else {
-            if (!strcasecmp(cpu_type, "6502dtv")) {
-                serchcpu = CPU_6502DTV;
-            } else {
-                mon_out("Unknown CPU type `%s'\n", cpu_type);
-                return;
-            }
-        }
-    }
-
-    monitor_cpu_type_list_ptr = monitor_cpu_type_list;
-    while(monitor_cpu_type_list_ptr->monitor_cpu_type.cpu_type != serchcpu) {
-        monitor_cpu_type_list_ptr
-            = monitor_cpu_type_list_ptr->next_monitor_cpu_type;
-        if (monitor_cpu_type_list_ptr == NULL) {
+        if (strcmp(cpu_type,"")!=0) {
             mon_out("Unknown CPU type `%s'\n", cpu_type);
-            return;
         }
+        mon_out("This device (%s) supports the following CPU types:", _mon_space_strings[default_memspace]);
+        monitor_print_cpu_types_supported(default_memspace);
     }
-
-    memcpy(&monitor_cpu_type, &(monitor_cpu_type_list_ptr->monitor_cpu_type),
-           sizeof(monitor_cpu_type_t));
-
-    uimon_notify_change();
 }
 
 void mon_bank(MEMSPACE mem, const char *bankname)
@@ -483,7 +535,7 @@ void mon_set_mem_val(MEMSPACE mem, WORD mem_addr, BYTE val)
 void mon_jump(MON_ADDR addr)
 {
     mon_evaluate_default_addr(&addr);
-    (monitor_cpu_type.mon_register_set_val)(addr_memspace(addr), e_PC,
+    (monitor_cpu_for_memspace[addr_memspace(addr)]->mon_register_set_val)(addr_memspace(addr), e_PC,
                                             (WORD)(addr_location(addr)));
     exit_mon = 1;
 }
@@ -568,7 +620,7 @@ void mon_add_string_to_buffer(char *str)
       data_mask_buf[i]=0xff;
 }
 
-static monitor_cpu_type_list_t *montor_list_new(void)
+static monitor_cpu_type_list_t *monitor_list_new(void)
 {
     return (monitor_cpu_type_list_t *)lib_malloc(
         sizeof(monitor_cpu_type_list_t));
@@ -586,7 +638,7 @@ void mon_backtrace(void)
 
     /* TODO support DTV stack relocation, check memspace handling, move somewhere else */
     n = 0;
-    sp = (monitor_cpu_type.mon_register_get_val)(default_memspace, e_SP);
+    sp = (monitor_cpu_for_memspace[default_memspace]->mon_register_get_val)(default_memspace, e_SP);
     for(i = sp + 0x100 + 1; i < 0x1ff; i++) {
         addr = mon_get_mem_val(default_memspace, i);
         addr += ((WORD)mon_get_mem_val(default_memspace, (WORD)(i + 1))) << 8;
@@ -927,7 +979,53 @@ void mon_cart_freeze(void)
    }
 }
 
+/* Local helper functions for building the lists */
+static monitor_cpu_type_t* find_monitor_cpu_type(CPU_TYPE_t cputype)
+{
+    monitor_cpu_type_list_t *list_ptr=monitor_cpu_type_list;
+    while(list_ptr->monitor_cpu_type.cpu_type != cputype) {
+        list_ptr = list_ptr->next_monitor_cpu_type;
+        if (!list_ptr) {
+            return NULL;
+        }
+    }
+    return &(list_ptr->monitor_cpu_type);
+}
+
+static void add_monitor_cpu_type_supported(supported_cpu_type_list_t **list_ptr, monitor_cpu_type_t *mon_cpu_type)
+{
+    supported_cpu_type_list_t *element_ptr;
+    if (mon_cpu_type) {
+        element_ptr=(supported_cpu_type_list_t*)lib_malloc(sizeof(supported_cpu_type_list_t));
+        element_ptr->next=*list_ptr;
+        element_ptr->monitor_cpu_type_p=mon_cpu_type;
+        *list_ptr=element_ptr;
+    }
+}
+
+static void find_supported_monitor_cpu_types(supported_cpu_type_list_t **list_ptr, monitor_interface_t *mon_interface)
+{
+    if (mon_interface->z80_cpu_regs) {
+        add_monitor_cpu_type_supported(list_ptr, find_monitor_cpu_type(CPU_Z80));
+    }
+    if (mon_interface->dtv_cpu_regs) {
+        add_monitor_cpu_type_supported(list_ptr, find_monitor_cpu_type(CPU_6502DTV));
+    }
+    if (mon_interface->cpu_regs) {
+        add_monitor_cpu_type_supported(list_ptr, find_monitor_cpu_type(CPU_6502));
+    }
+}
+
 /* *** MISC COMMANDS *** */
+
+monitor_cpu_type_t* monitor_find_cpu_type_from_string(const char *cpu_type)
+{
+    int cpu;
+    cpu=find_cpu_type_from_string(cpu_type);
+    if (cpu<0)
+        return NULL;
+    return find_monitor_cpu_type(cpu);
+}
 
 void monitor_init(monitor_interface_t *maincpu_interface_init,
                   monitor_interface_t *drive_interface_init[],
@@ -953,22 +1051,42 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
 
     mon_ui_init();
 
-    monitor_cpu_type_list = montor_list_new();
+    monitor_cpu_type_list = monitor_list_new();
     monitor_cpu_type_list_ptr = monitor_cpu_type_list;
 
     i = 0;
     while(asmarray[i] != NULL) {
         memcpy(&(monitor_cpu_type_list_ptr->monitor_cpu_type),
                asmarray[i], sizeof(monitor_cpu_type_t));
-        monitor_cpu_type_list_ptr->next_monitor_cpu_type = montor_list_new();
+        monitor_cpu_type_list_ptr->next_monitor_cpu_type = monitor_list_new();
         monitor_cpu_type_list_ptr
             = monitor_cpu_type_list_ptr->next_monitor_cpu_type;
         monitor_cpu_type_list_ptr->next_monitor_cpu_type = NULL;
         i++;
     }
 
-    memcpy(&monitor_cpu_type, asmarray[0], sizeof(monitor_cpu_type_t));
+    for (i=0;i<NUM_MEMSPACES;i++) {
+        monitor_cpu_type_supported[i]=NULL;
+    }
+    /* We should really be told what CPUs are supported by each memspace, but that will
+     * require a bunch of changes, so for now we detect it based on the available registers. */
+    find_supported_monitor_cpu_types(&monitor_cpu_type_supported[e_comp_space], maincpu_interface_init);
 
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        find_supported_monitor_cpu_types(&monitor_cpu_type_supported[monitor_diskspace_mem(dnr)], 
+                                         drive_interface_init[dnr]);
+    }
+
+    /* Build array of pointers to monitor_cpu_type structs */
+    monitor_cpu_for_memspace[e_comp_space]=
+        monitor_cpu_type_supported[e_comp_space]->monitor_cpu_type_p;
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        monitor_cpu_for_memspace[monitor_diskspace_mem(dnr)]=
+            monitor_cpu_type_supported[monitor_diskspace_mem(dnr)]->monitor_cpu_type_p;
+    }
+    /* Safety precaution */
+    monitor_cpu_for_memspace[e_default_space]=monitor_cpu_for_memspace[e_comp_space];
+        
     watch_load_occurred = FALSE;
     watch_store_occurred = FALSE;
 
@@ -1354,7 +1472,7 @@ int mon_symbol_table_lookup_addr(MEMSPACE mem, char *name)
         mem = default_memspace;
 
     if (strcmp(name, ".PC") == 0) {
-        return (monitor_cpu_type.mon_register_get_val)(mem, e_PC);
+        return (monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC);
     }
 
     sym_ptr = monitor_labels[mem].name_list;
@@ -1628,7 +1746,7 @@ int mon_evaluate_conditional(cond_node_t *cnode)
         }
     } else {
         if (cnode->is_reg)
-            cnode->value = (monitor_cpu_type.mon_register_get_val)
+            cnode->value = (monitor_cpu_for_memspace[reg_memspace(cnode->reg_num)]->mon_register_get_val)
                            (reg_memspace(cnode->reg_num),
                            reg_regid(cnode->reg_num));
     }
@@ -1861,21 +1979,6 @@ void monitor_change_device(MEMSPACE mem)
 {
     mon_out("Setting default device to `%s'\n",_mon_space_strings[(int) mem]);
     default_memspace = mem;
-
-    if(machine_class == VICE_MACHINE_C64DTV) {
-        switch(mem) {
-            case e_comp_space:
-                monitor_cpu_type_set("6502dtv");
-                break;
-            case e_disk8_space:
-            case e_disk9_space:
-            case e_disk10_space:
-            case e_disk11_space:
-            default:
-                monitor_cpu_type_set("6502");
-                break;
-        }
-    }
 }
 
 static void make_prompt(char *str)
@@ -1926,25 +2029,13 @@ static void monitor_open(int is_remote)
 
     uimon_notify_change();
 
-    if (machine_class == VICE_MACHINE_C64DTV) {
-        monitor_cpu_type_set("6502dtv");
-    }
-
     dot_addr[e_comp_space] = new_addr(e_comp_space,
-                                      MONITOR_GET_PC(e_comp_space));
-
-    if (machine_class == VICE_MACHINE_C64DTV) {
-        monitor_cpu_type_set("6502");
-    }
+        ((WORD)((monitor_cpu_for_memspace[e_comp_space]->mon_register_get_val)(e_comp_space, e_PC))));
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         int mem = monitor_diskspace_mem(dnr);
-
-        dot_addr[mem] = new_addr(mem, MONITOR_GET_PC(mem));
-    }
-
-    if ((caller_space == e_comp_space) && (machine_class == VICE_MACHINE_C64DTV)) {
-        monitor_cpu_type_set("6502dtv");
+        dot_addr[mem] = new_addr(mem,
+            ((WORD)((monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC))));
     }
 
     mon_out("\n** Monitor");
@@ -1967,10 +2058,6 @@ static void monitor_open(int is_remote)
     if (disassemble_on_entry) {
         mon_disassemble_instr(dot_addr[caller_space]);
         disassemble_on_entry = 0;
-    }
-
-    if ((default_memspace != e_comp_space) && (machine_class == VICE_MACHINE_C64DTV)) {
-        monitor_cpu_type_set("6502");
     }
 }
 

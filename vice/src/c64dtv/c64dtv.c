@@ -276,7 +276,7 @@ int machine_cmdline_options_init(void)
     return 0;
 }
 
-static void c64_monitor_init(void)
+static void c64dtv_monitor_init(void)
 {
     unsigned int dnr;
     monitor_cpu_type_t asm6502dtv, asm6502;
@@ -356,7 +356,7 @@ int machine_specific_init(void)
 
     c64keyboard_init();
 
-    c64_monitor_init();
+    c64dtv_monitor_init();
 
     /* Initialize vsync and register our hook function.  */
     vsync_init(machine_vsync_hook);
