@@ -78,7 +78,7 @@ The keys and joystick events can be configured via the menu.
 Left/Right work as Page up/down on the file selector, otherwise
 left does Cancel and right enters the selected submenu.
 
-The joystick command Activate is behaves as Cancel while in the menu.
+The joystick command Activate behaves as Cancel while in the menu.
 
 
 2.2 Hotkeys
@@ -116,7 +116,7 @@ This means that pressing Select on a key, moving to an another key and
 releasing Select releases the latter key; with this, multiple keys
 can be pressed down at once.
 
-The joystick command Activate is behaves as Cancel while using the virtual
+The joystick command Activate behaves as Cancel while using the virtual
 keyboard.
 
 The virtual keyboard can be moved by pressing (and holding) Select on an
