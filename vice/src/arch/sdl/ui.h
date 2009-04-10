@@ -56,7 +56,6 @@ struct palette_s;
 
 void ui_display_speed(float percent, float framerate, int warp_flag);
 void ui_display_paused(int flag);
-void ui_dispatch_next_event(void);
 extern void ui_handle_misc_sdl_event(SDL_Event e);
 ui_menu_action_t ui_dispatch_events(void);
 extern void ui_exit(void);

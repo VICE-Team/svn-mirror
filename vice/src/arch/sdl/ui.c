@@ -79,6 +79,14 @@ void ui_handle_misc_sdl_event(SDL_Event e)
     }
 }
 
+void ui_dispatch_next_event(void)
+{
+    SDL_Event e;
+    if (SDL_PollEvent(&e)) {
+        ui_handle_misc_sdl_event(e)
+    }
+}
+
 /* Main event handler */
 ui_menu_action_t ui_dispatch_events(void)
 {
