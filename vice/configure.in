@@ -1236,7 +1236,7 @@ dnl ----- FFMPEG -----
 FFMPEG_INCLUDES=
 FFMPEG_LIBS=
 AC_MSG_CHECKING([for FFMPEG support])
-if test x"$enable_ffmpeg" != "xno" -o x"$enable_sdlui" != "xyes" ; then
+if test x"$enable_ffmpeg" != "xno" -a x"$enable_sdlui" != "xyes" ; then
   if test x"$is_win32" = "xyes" ; then
     dnl --- win32 ---
     AC_MSG_RESULT([yes (internal)])
