@@ -2395,12 +2395,12 @@ elif test x"$is_win32" = "xyes"; then
     ARCH_LIBS="$ARCH_DIR/libarch.a"
     ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/win32"
     if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin"; then
-      AC_DEFINE(PLATFORM, "win32 x86 cygwin")
+      AC_DEFINE([PLATFORM], ["win32 x86 cygwin"],[The current arch, cpu and compiler used.])
     else
       if test x"$host_cpu" = "xx86_64" -o x"$host_cpu" = "xamd64"; then
-        AC_DEFINE(PLATFORM, "win64 x64 mingw")
+        AC_DEFINE([PLATFORM], ["win64 x64 mingw"], [The current arch, cpu and conpiler used.])
       else
-        AC_DEFINE(PLATFORM, "win32 x86 mingw")
+        AC_DEFINE([PLATFORM], ["win32 x86 mingw"], [The current arch, cpu and compiler used.])
       fi
     fi
   else
