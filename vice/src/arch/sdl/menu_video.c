@@ -39,36 +39,8 @@
 #include "vicii.h"
 #include "videoarch.h"
 
-UI_MENU_DEFINE_RADIO(SDLLimitMode)
-UI_MENU_DEFINE_INT(SDLLimitWidth)
-UI_MENU_DEFINE_INT(SDLLimitHeight)
 
-static const ui_menu_entry_t limits_menu[] = {
-    SDL_MENU_ITEM_TITLE("Resolution limit mode"),
-    { "Off",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SDLLimitMode_callback,
-      (ui_callback_data_t)SDL_LIMIT_MODE_OFF },
-    { "Max",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SDLLimitMode_callback,
-      (ui_callback_data_t)SDL_LIMIT_MODE_MAX },
-    { "Fixed",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SDLLimitMode_callback,
-      (ui_callback_data_t)SDL_LIMIT_MODE_FIXED },
-    SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("Limits"),
-    { "Width",
-      MENU_ENTRY_RESOURCE_INT,
-      int_SDLLimitWidth_callback,
-      (ui_callback_data_t)"Set width limit"},
-    { "Height",
-      MENU_ENTRY_RESOURCE_INT,
-      int_SDLLimitHeight_callback,
-      (ui_callback_data_t)"Set height limit"},
-    { NULL }
-};
+/* Border mode menu */
 
 UI_MENU_DEFINE_RADIO(VICIIBorderMode)
 
@@ -87,6 +59,9 @@ static const ui_menu_entry_t vicii_border_menu[] = {
       (ui_callback_data_t)VICII_DEBUG_BORDERS },
     { NULL }
 };
+
+
+/* PAL emulation menu */
 
 UI_MENU_DEFINE_TOGGLE(PALEmulation)
 UI_MENU_DEFINE_INT(PALScanLineShade)
@@ -120,6 +95,9 @@ static const ui_menu_entry_t pal_controls_menu[] = {
     { NULL }
 };
 
+
+/* Color menu */
+
 UI_MENU_DEFINE_INT(ColorGamma)
 UI_MENU_DEFINE_INT(ColorTint)
 UI_MENU_DEFINE_INT(ColorSaturation)
@@ -150,135 +128,60 @@ static const ui_menu_entry_t color_controls_menu[] = {
     { NULL }
 };
 
-UI_MENU_DEFINE_TOGGLE(VICIIFullscreen)
-UI_MENU_DEFINE_RADIO(VICIISDLFullscreenMode)
 
-static const ui_menu_entry_t vicii_fullscreen_menu[] = {
-    { "Fullscreen",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIFullscreen_callback,
-      NULL },
-    SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("Fullscreen mode"),
-    { "Automatic",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICIISDLFullscreenMode_callback,
-      (ui_callback_data_t)FULLSCREEN_MODE_AUTO },
-    { "Custom",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICIISDLFullscreenMode_callback,
-      (ui_callback_data_t)FULLSCREEN_MODE_CUSTOM },
-    { NULL }
-};
+/* Size menu template */
 
-UI_MENU_DEFINE_TOGGLE(VDCFullscreen)
-UI_MENU_DEFINE_RADIO(VDCSDLFullscreenMode)
+UI_MENU_DEFINE_RADIO(SDLLimitMode)
+UI_MENU_DEFINE_INT(SDLLimitWidth)
+UI_MENU_DEFINE_INT(SDLLimitHeight)
 
-static const ui_menu_entry_t vdc_fullscreen_menu[] = {
-    { "Fullscreen",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VDCFullscreen_callback,
-      NULL },
-    SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("Fullscreen mode"),
-    { "Automatic",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VDCSDLFullscreenMode_callback,
-      (ui_callback_data_t)FULLSCREEN_MODE_AUTO },
-    { "Custom",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VDCSDLFullscreenMode_callback,
-      (ui_callback_data_t)FULLSCREEN_MODE_CUSTOM },
-    { NULL }
-};
-
-UI_MENU_DEFINE_TOGGLE(CrtcFullscreen)
-UI_MENU_DEFINE_RADIO(CrtcSDLFullscreenMode)
-
-static const ui_menu_entry_t crtc_fullscreen_menu[] = {
-    { "Fullscreen",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CrtcFullscreen_callback,
-      NULL },
-    SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("Fullscreen mode"),
-    { "Automatic",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_CrtcSDLFullscreenMode_callback,
-      (ui_callback_data_t)FULLSCREEN_MODE_AUTO },
-    { "Custom",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_CrtcSDLFullscreenMode_callback,
-      (ui_callback_data_t)FULLSCREEN_MODE_CUSTOM },
-    { NULL }
-};
-
-UI_MENU_DEFINE_TOGGLE(TEDFullscreen)
-UI_MENU_DEFINE_RADIO(TEDSDLFullscreenMode)
-
-static const ui_menu_entry_t ted_fullscreen_menu[] = {
-    { "Fullscreen",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_TEDFullscreen_callback,
-      NULL },
-    SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("Fullscreen mode"),
-    { "Automatic",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_TEDSDLFullscreenMode_callback,
-      (ui_callback_data_t)FULLSCREEN_MODE_AUTO },
-    { "Custom",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_TEDSDLFullscreenMode_callback,
-      (ui_callback_data_t)FULLSCREEN_MODE_CUSTOM },
-    { NULL }
-};
-
-UI_MENU_DEFINE_TOGGLE(VICFullscreen)
-UI_MENU_DEFINE_RADIO(VICSDLFullscreenMode)
-
-static const ui_menu_entry_t vic_fullscreen_menu[] = {
-    { "Fullscreen",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICFullscreen_callback,
-      NULL },
-    SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("Fullscreen mode"),
-    { "Automatic",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICSDLFullscreenMode_callback,
-      (ui_callback_data_t)FULLSCREEN_MODE_AUTO },
-    { "Custom",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICSDLFullscreenMode_callback,
-      (ui_callback_data_t)FULLSCREEN_MODE_CUSTOM },
-    { NULL }
-};
-
-
-UI_MENU_DEFINE_TOGGLE(VICIIDoubleSize)
-UI_MENU_DEFINE_TOGGLE(VICIIDoubleScan)
-UI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
-UI_MENU_DEFINE_TOGGLE(VICIIScale2x)
-UI_MENU_DEFINE_TOGGLE(VDCDoubleSize)
-UI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
-UI_MENU_DEFINE_TOGGLE(VDCVideoCache)
-UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
-UI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
-UI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
-UI_MENU_DEFINE_TOGGLE(TEDDoubleSize)
-UI_MENU_DEFINE_TOGGLE(TEDDoubleScan)
-UI_MENU_DEFINE_TOGGLE(TEDVideoCache)
-UI_MENU_DEFINE_TOGGLE(TEDScale2x)
-UI_MENU_DEFINE_TOGGLE(VICDoubleSize)
-UI_MENU_DEFINE_TOGGLE(VICDoubleScan)
-UI_MENU_DEFINE_TOGGLE(VICVideoCache)
-UI_MENU_DEFINE_TOGGLE(VICScale2x)
-UI_MENU_DEFINE_TOGGLE(VICExternalPalette)
-UI_MENU_DEFINE_TOGGLE(VICIIExternalPalette)
-UI_MENU_DEFINE_TOGGLE(TEDExternalPalette)
-UI_MENU_DEFINE_RADIO(MachineVideoStandard)
-
+#define VICE_SDL_SIZE_MENU_ITEMS(chip)  \
+    { "Double size", \
+      MENU_ENTRY_RESOURCE_TOGGLE, \
+      toggle_##chip##DoubleSize_callback, \
+      NULL }, \
+    { "Double scan", \
+      MENU_ENTRY_RESOURCE_TOGGLE, \
+      toggle_##chip##DoubleScan_callback, \
+      NULL }, \
+    { "Fullscreen", \
+      MENU_ENTRY_RESOURCE_TOGGLE, \
+      toggle_##chip##Fullscreen_callback, \
+      NULL }, \
+    SDL_MENU_ITEM_SEPARATOR, \
+    SDL_MENU_ITEM_TITLE("Fullscreen mode"), \
+    { "Automatic", \
+      MENU_ENTRY_RESOURCE_RADIO, \
+      radio_##chip##SDLFullscreenMode_callback, \
+      (ui_callback_data_t)FULLSCREEN_MODE_AUTO }, \
+    { "Custom", \
+      MENU_ENTRY_RESOURCE_RADIO, \
+      radio_##chip##SDLFullscreenMode_callback, \
+      (ui_callback_data_t)FULLSCREEN_MODE_CUSTOM }, \
+    SDL_MENU_ITEM_SEPARATOR, \
+    SDL_MENU_ITEM_TITLE("Custom resolution"), \
+    { "Width", \
+      MENU_ENTRY_RESOURCE_INT, \
+      int_SDLLimitWidth_callback, \
+      (ui_callback_data_t)"Set width" }, \
+    { "Height", \
+      MENU_ENTRY_RESOURCE_INT, \
+      int_SDLLimitHeight_callback, \
+      (ui_callback_data_t)"Set height" }, \
+    SDL_MENU_ITEM_SEPARATOR, \
+    SDL_MENU_ITEM_TITLE("Resolution limit mode"), \
+    { "Off", \
+      MENU_ENTRY_RESOURCE_RADIO, \
+      radio_SDLLimitMode_callback, \
+      (ui_callback_data_t)SDL_LIMIT_MODE_OFF }, \
+    { "Max", \
+      MENU_ENTRY_RESOURCE_RADIO, \
+      radio_SDLLimitMode_callback, \
+      (ui_callback_data_t)SDL_LIMIT_MODE_MAX }, \
+    { "Fixed", \
+      MENU_ENTRY_RESOURCE_RADIO, \
+      radio_SDLLimitMode_callback, \
+      (ui_callback_data_t)SDL_LIMIT_MODE_FIXED },
 
 #ifdef HAVE_HWSCALE
 UI_MENU_DEFINE_TOGGLE(VICIIHwScale)
@@ -289,90 +192,119 @@ UI_MENU_DEFINE_TOGGLE(VICHwScale)
 UI_MENU_DEFINE_TOGGLE(SDLGLAspectMode)
 UI_MENU_DEFINE_STRING(AspectRatio)
 
-static const ui_menu_entry_t c128_opengl_menu[] = {
-    { "VICII OpenGL",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIHwScale_callback,
-      NULL },
-    { "VDC OpenGL",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VDCHwScale_callback,
-      NULL },
-    { "Fixed aspect ratio",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_SDLGLAspectMode_callback,
-      NULL },
-    { "Aspect ratio",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_AspectRatio_callback,
+#define VICE_SDL_SIZE_MENU_OPENGL_ITEMS(chip)  \
+    SDL_MENU_ITEM_SEPARATOR, \
+    SDL_MENU_ITEM_TITLE("OpenGL"), \
+    { "OpenGL free scaling", \
+      MENU_ENTRY_RESOURCE_TOGGLE, \
+      toggle_##chip##HwScale_callback, \
+      NULL }, \
+    { "Fixed aspect ratio", \
+      MENU_ENTRY_RESOURCE_TOGGLE, \
+      toggle_SDLGLAspectMode_callback, \
+      NULL }, \
+    { "Aspect ratio", \
+      MENU_ENTRY_RESOURCE_STRING, \
+      string_AspectRatio_callback, \
       (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" },
-    { NULL }
-};
-
-static const ui_menu_entry_t vicii_opengl_menu[] = {
-    { "OpenGL",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIHwScale_callback,
-      NULL },
-    { "Fixed aspect ratio",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_SDLGLAspectMode_callback,
-      NULL },
-    { "Aspect ratio",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_AspectRatio_callback,
-      (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" },
-    { NULL }
-};
-
-static const ui_menu_entry_t crtc_opengl_menu[] = {
-    { "OpenGL",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CrtcHwScale_callback,
-      NULL },
-    { "Fixed aspect ratio",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_SDLGLAspectMode_callback,
-      NULL },
-    { "Aspect ratio",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_AspectRatio_callback,
-      (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" },
-    { NULL }
-};
-
-static const ui_menu_entry_t ted_opengl_menu[] = {
-    { "OpenGL",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_TEDHwScale_callback,
-      NULL },
-    { "Fixed aspect ratio",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_SDLGLAspectMode_callback,
-      NULL },
-    { "Aspect ratio",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_AspectRatio_callback,
-      (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" },
-    { NULL }
-};
-
-static const ui_menu_entry_t vic_opengl_menu[] = {
-    { "OpenGL",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICHwScale_callback,
-      NULL },
-    { "Fixed aspect ratio",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_SDLGLAspectMode_callback,
-      NULL },
-    { "Aspect ratio",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_AspectRatio_callback,
-      (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" },
-    { NULL }
-};
 #endif
+
+
+/* VICII size menu */
+
+UI_MENU_DEFINE_TOGGLE(VICIIDoubleSize)
+UI_MENU_DEFINE_TOGGLE(VICIIDoubleScan)
+UI_MENU_DEFINE_TOGGLE(VICIIFullscreen)
+UI_MENU_DEFINE_RADIO(VICIISDLFullscreenMode)
+
+static const ui_menu_entry_t vicii_size_menu[] = {
+    VICE_SDL_SIZE_MENU_ITEMS(VICII)
+#ifdef HAVE_HWSCALE
+    VICE_SDL_SIZE_MENU_OPENGL_ITEMS(VICII)
+#endif
+    { NULL }
+};
+
+
+/* VDC size menu */
+
+UI_MENU_DEFINE_TOGGLE(VDCDoubleSize)
+UI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
+UI_MENU_DEFINE_TOGGLE(VDCFullscreen)
+UI_MENU_DEFINE_RADIO(VDCSDLFullscreenMode)
+
+static const ui_menu_entry_t vdc_size_menu[] = {
+    VICE_SDL_SIZE_MENU_ITEMS(VDC)
+#ifdef HAVE_HWSCALE
+    VICE_SDL_SIZE_MENU_OPENGL_ITEMS(VDC)
+#endif
+    { NULL }
+};
+
+
+/* Crtc size menu */
+
+UI_MENU_DEFINE_TOGGLE(CrtcFullscreen)
+UI_MENU_DEFINE_RADIO(CrtcSDLFullscreenMode)
+UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
+UI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
+
+static const ui_menu_entry_t crtc_size_menu[] = {
+    VICE_SDL_SIZE_MENU_ITEMS(Crtc)
+#ifdef HAVE_HWSCALE
+    VICE_SDL_SIZE_MENU_OPENGL_ITEMS(Crtc)
+#endif
+    { NULL }
+};
+
+
+/* TED size menu */
+
+UI_MENU_DEFINE_TOGGLE(TEDDoubleSize)
+UI_MENU_DEFINE_TOGGLE(TEDDoubleScan)
+UI_MENU_DEFINE_TOGGLE(TEDFullscreen)
+UI_MENU_DEFINE_RADIO(TEDSDLFullscreenMode)
+
+static const ui_menu_entry_t ted_size_menu[] = {
+    VICE_SDL_SIZE_MENU_ITEMS(TED)
+#ifdef HAVE_HWSCALE
+    VICE_SDL_SIZE_MENU_OPENGL_ITEMS(TED)
+#endif
+    { NULL }
+};
+
+
+/* VIC size menu */
+
+UI_MENU_DEFINE_TOGGLE(VICDoubleSize)
+UI_MENU_DEFINE_TOGGLE(VICDoubleScan)
+UI_MENU_DEFINE_TOGGLE(VICFullscreen)
+UI_MENU_DEFINE_RADIO(VICSDLFullscreenMode)
+
+static const ui_menu_entry_t vic_size_menu[] = {
+    VICE_SDL_SIZE_MENU_ITEMS(VIC)
+#ifdef HAVE_HWSCALE
+    VICE_SDL_SIZE_MENU_OPENGL_ITEMS(VIC)
+#endif
+    { NULL }
+};
+
+
+/* Misc. callbacks */
+
+UI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
+UI_MENU_DEFINE_TOGGLE(VICIIScale2x)
+UI_MENU_DEFINE_TOGGLE(VDCVideoCache)
+UI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
+UI_MENU_DEFINE_TOGGLE(TEDVideoCache)
+UI_MENU_DEFINE_TOGGLE(TEDScale2x)
+UI_MENU_DEFINE_TOGGLE(VICVideoCache)
+UI_MENU_DEFINE_TOGGLE(VICScale2x)
+UI_MENU_DEFINE_TOGGLE(VICExternalPalette)
+UI_MENU_DEFINE_TOGGLE(VICIIExternalPalette)
+UI_MENU_DEFINE_TOGGLE(TEDExternalPalette)
+UI_MENU_DEFINE_RADIO(MachineVideoStandard)
+
 
 static UI_MENU_CALLBACK(restore_size_callback)
 {
@@ -389,6 +321,8 @@ UI_MENU_DEFINE_FILE_STRING(TEDPaletteFile)
 UI_MENU_DEFINE_FILE_STRING(VICPaletteFile)
 
 
+/* C128 video menu */
+
 static UI_MENU_CALLBACK(radio_VideoOutput_c128_callback)
 {
     int value = vice_ptr_to_int(param);
@@ -403,87 +337,6 @@ static UI_MENU_CALLBACK(radio_VideoOutput_c128_callback)
     return NULL;
 }
 
-static UI_MENU_CALLBACK(radio_MachineVideoStandard_vic20_callback)
-{
-    if (activated) {
-        int value = vice_ptr_to_int(param);
-        resources_set_int("MachineVideoStandard", value);
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-        return sdl_menu_text_exit_ui;
-    }
-    return sdl_ui_menu_radio_helper(activated, param, "MachineVideoStandard");
-}
-
-static const ui_menu_entry_t c128_video_vicii_menu[] = {
-    { "VICII Fullscreen settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_fullscreen_menu },
-    { "VICII Double size",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIDoubleSize_callback,
-      NULL },
-    { "VICII Double scan",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIDoubleScan_callback,
-      NULL },
-    { "VICII Video cache",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIVideoCache_callback,
-      NULL },
-    { "VICII Scale2x",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIScale2x_callback,
-      NULL },
-    SDL_MENU_ITEM_SEPARATOR,
-    { "VICII border mode",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)vicii_border_menu },
-    { "Color controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)color_controls_menu },
-    { "PAL emulation controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)pal_controls_menu },
-    { "External VICII palette",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIExternalPalette_callback,
-      NULL },
-    { "VICII external palette file",
-      MENU_ENTRY_DIALOG,
-      file_string_VICIIPaletteFile_callback,
-      (ui_callback_data_t)"Choose VICII palette file" },
-    { NULL }
-};
-
-static const ui_menu_entry_t c128_video_vdc_menu[] = {
-    { "VDC Fullscreen settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vdc_fullscreen_menu },
-    { "VDC Double size",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VDCDoubleSize_callback,
-      NULL },
-    { "VDC Double scan",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VDCDoubleScan_callback,
-      NULL },
-    { "VDC Video cache",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VDCVideoCache_callback,
-      NULL },
-    { "VDC external palette file",
-      MENU_ENTRY_DIALOG,
-      file_string_VDCPaletteFile_callback,
-      (ui_callback_data_t)"Choose VDC palette file" },
-    { NULL }
-};
-
-
 const ui_menu_entry_t c128_video_menu[] = {
     SDL_MENU_ITEM_TITLE("Video output"),
     { "VICII (40 cols)",
@@ -495,29 +348,56 @@ const ui_menu_entry_t c128_video_menu[] = {
       radio_VideoOutput_c128_callback,
       (ui_callback_data_t)1 },
     SDL_MENU_ITEM_SEPARATOR,
-    { "VICII settings",
+    { "VICII size settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)c128_video_vicii_menu },
-    { "VDC settings",
+      (ui_callback_data_t)vicii_size_menu },
+    { "VDC size settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)c128_video_vdc_menu },
-    SDL_MENU_ITEM_SEPARATOR,
-    { "Limit settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)limits_menu },
+      (ui_callback_data_t)vdc_size_menu },
     { "Restore window size",
       MENU_ENTRY_OTHER,
       restore_size_callback,
       NULL },
-#ifdef HAVE_HWSCALE
-    { "OpenGL settings",
+    SDL_MENU_ITEM_SEPARATOR,
+    { "VICII Video cache",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIIVideoCache_callback,
+      NULL },
+    { "VICII border mode",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)vicii_border_menu },
+    { "VICII Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)c128_opengl_menu },
-#endif
+      (ui_callback_data_t)color_controls_menu },
+    { "PAL emulation controls",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)pal_controls_menu },
+    { "VICII Scale2x",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIIScale2x_callback,
+      NULL },
+    { "External VICII palette",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIIExternalPalette_callback,
+      NULL },
+    { "VICII external palette file",
+      MENU_ENTRY_DIALOG,
+      file_string_VICIIPaletteFile_callback,
+      (ui_callback_data_t)"Choose VICII palette file" },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "VDC Video cache",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VDCVideoCache_callback,
+      NULL },
+    { "VDC external palette file",
+      MENU_ENTRY_DIALOG,
+      file_string_VDCPaletteFile_callback,
+      (ui_callback_data_t)"Choose VDC palette file" },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Video Standard"),
     { "PAL",
@@ -531,45 +411,29 @@ const ui_menu_entry_t c128_video_menu[] = {
     { NULL }
 };
 
+
+/* C64 video menu */
+
 const ui_menu_entry_t c64_video_menu[] = {
-    { "Limit settings",
+    { "Size settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)limits_menu },
-    { "Fullscreen settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_fullscreen_menu },
+      (ui_callback_data_t)vicii_size_menu },
     { "Restore window size",
       MENU_ENTRY_OTHER,
       restore_size_callback,
       NULL },
-    { "Double size",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIDoubleSize_callback,
-      NULL },
-    { "Double scan",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIDoubleScan_callback,
-      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Video cache",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIVideoCache_callback,
       NULL },
-    { "Scale2x",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIScale2x_callback,
-      NULL },
-#ifdef HAVE_HWSCALE
-    { "OpenGL settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_opengl_menu },
-#endif
+    SDL_MENU_ITEM_SEPARATOR,
     { "VICII border mode",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)vicii_border_menu },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -578,6 +442,11 @@ const ui_menu_entry_t c64_video_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)pal_controls_menu },
+    { "Scale2x",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIIScale2x_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
     { "External palette",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIExternalPalette_callback,
@@ -603,45 +472,29 @@ const ui_menu_entry_t c64_video_menu[] = {
     { NULL }
 };
 
+
+/* C64DTV video menu */
+
 const ui_menu_entry_t c64dtv_video_menu[] = {
-    { "Limit settings",
+    { "Size settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)limits_menu },
-    { "Fullscreen settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_fullscreen_menu },
+      (ui_callback_data_t)vicii_size_menu },
     { "Restore window size",
       MENU_ENTRY_OTHER,
       restore_size_callback,
       NULL },
-    { "Double size",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIDoubleSize_callback,
-      NULL },
-    { "Double scan",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIDoubleScan_callback,
-      NULL },
-    { "Video cache (broken)",
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Video cache",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIVideoCache_callback,
       NULL },
-    { "Scale2x",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIScale2x_callback,
-      NULL },
-#ifdef HAVE_HWSCALE
-    { "OpenGL settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_opengl_menu },
-#endif
+    SDL_MENU_ITEM_SEPARATOR,
     { "VICII border mode",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)vicii_border_menu },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -650,6 +503,11 @@ const ui_menu_entry_t c64dtv_video_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)pal_controls_menu },
+    { "Scale2x",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIIScale2x_callback,
+      NULL },
+#if 0   /* disabled until there are external DTV palette files available */
     { "External palette",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIExternalPalette_callback,
@@ -658,6 +516,7 @@ const ui_menu_entry_t c64dtv_video_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_VICIIPaletteFile_callback,
       (ui_callback_data_t)"Choose palette file" },
+#endif
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Video Standard"),
     { "PAL",
@@ -670,46 +529,30 @@ const ui_menu_entry_t c64dtv_video_menu[] = {
       (ui_callback_data_t)MACHINE_SYNC_NTSC },
     { NULL }
 };
+
+
+/* CBM-II 5x0 video menu */
 
 const ui_menu_entry_t cbm5x0_video_menu[] = {
-    { "Limit settings",
+    { "Size settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)limits_menu },
-    { "Fullscreen settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_fullscreen_menu },
+      (ui_callback_data_t)vicii_size_menu },
     { "Restore window size",
       MENU_ENTRY_OTHER,
       restore_size_callback,
       NULL },
-    { "Double size",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIDoubleSize_callback,
-      NULL },
-    { "Double scan",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIDoubleScan_callback,
-      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Video cache",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIVideoCache_callback,
       NULL },
-    { "Scale2x",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIScale2x_callback,
-      NULL },
-#ifdef HAVE_HWSCALE
-    { "OpenGL settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_opengl_menu },
-#endif
+    SDL_MENU_ITEM_SEPARATOR,
     { "VICII border mode",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)vicii_border_menu },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -718,6 +561,11 @@ const ui_menu_entry_t cbm5x0_video_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)pal_controls_menu },
+    { "Scale2x",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIIScale2x_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
     { "External palette",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIExternalPalette_callback,
@@ -739,71 +587,49 @@ const ui_menu_entry_t cbm5x0_video_menu[] = {
     { NULL }
 };
 
+
+/* CBM-II 6x0/7x0 video menu */
+
 const ui_menu_entry_t cbm6x0_7x0_video_menu[] = {
-    { "Limit settings",
+    { "Size settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)limits_menu },
-    { "Fullscreen settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)crtc_fullscreen_menu },
+      (ui_callback_data_t)crtc_size_menu },
     { "Restore window size",
       MENU_ENTRY_OTHER,
       restore_size_callback,
       NULL },
-    { "Double size",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CrtcDoubleSize_callback,
-      NULL },
-    { "Double scan",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CrtcDoubleScan_callback,
-      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Video cache",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_CrtcVideoCache_callback,
       NULL },
-#ifdef HAVE_HWSCALE
-    { "OpenGL settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)crtc_opengl_menu },
-#endif
+    SDL_MENU_ITEM_SEPARATOR,
     { "External palette file",
       MENU_ENTRY_DIALOG,
       file_string_CrtcPaletteFile_callback,
       (ui_callback_data_t)"Choose palette file" },
     { NULL }
 };
+
+
+/* PET video menu */
 
 const ui_menu_entry_t pet_video_menu[] = {
-    { "Limit settings",
+    { "Size settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)limits_menu },
-    { "Fullscreen",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CrtcFullscreen_callback,
+      (ui_callback_data_t)crtc_size_menu },
+    { "Restore window size",
+      MENU_ENTRY_OTHER,
+      restore_size_callback,
       NULL },
-    { "Double size",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CrtcDoubleSize_callback,
-      NULL },
-    { "Double scan",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CrtcDoubleScan_callback,
-      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Video cache",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_CrtcVideoCache_callback,
       NULL },
-#ifdef HAVE_HWSCALE
-    { "OpenGL settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)crtc_opengl_menu },
-#endif
+    SDL_MENU_ITEM_SEPARATOR,
     { "External palette file",
       MENU_ENTRY_DIALOG,
       file_string_CrtcPaletteFile_callback,
@@ -811,41 +637,24 @@ const ui_menu_entry_t pet_video_menu[] = {
     { NULL }
 };
 
+
+/* PLUS4 video menu */
+
 const ui_menu_entry_t plus4_video_menu[] = {
-    { "Limit settings",
+    { "Size settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)limits_menu },
-    { "Fullscreen settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ted_fullscreen_menu },
+      (ui_callback_data_t)ted_size_menu },
     { "Restore window size",
       MENU_ENTRY_OTHER,
       restore_size_callback,
       NULL },
-    { "Double size",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_TEDDoubleSize_callback,
-      NULL },
-    { "Double scan",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_TEDDoubleScan_callback,
-      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Video cache",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_TEDVideoCache_callback,
       NULL },
-    { "Scale2x",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_TEDScale2x_callback,
-      NULL },
-#ifdef HAVE_HWSCALE
-    { "OpenGL settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ted_opengl_menu },
-#endif
+    SDL_MENU_ITEM_SEPARATOR,
     { "Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -854,6 +663,11 @@ const ui_menu_entry_t plus4_video_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)pal_controls_menu },
+    { "Scale2x",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_TEDScale2x_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
     { "External palette",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_TEDExternalPalette_callback,
@@ -875,41 +689,35 @@ const ui_menu_entry_t plus4_video_menu[] = {
     { NULL }
 };
 
+
+/* VIC-20 video menu */
+
+static UI_MENU_CALLBACK(radio_MachineVideoStandard_vic20_callback)
+{
+    if (activated) {
+        int value = vice_ptr_to_int(param);
+        resources_set_int("MachineVideoStandard", value);
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        return sdl_menu_text_exit_ui;
+    }
+    return sdl_ui_menu_radio_helper(activated, param, "MachineVideoStandard");
+}
+
 const ui_menu_entry_t vic20_video_menu[] = {
-    { "Limit settings",
+    { "Size settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)limits_menu },
-    { "Fullscreen settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vic_fullscreen_menu },
+      (ui_callback_data_t)vic_size_menu },
     { "Restore window size",
       MENU_ENTRY_OTHER,
       restore_size_callback,
       NULL },
-    { "Double size",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICDoubleSize_callback,
-      NULL },
-    { "Double scan",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICDoubleScan_callback,
-      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Video cache",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICVideoCache_callback,
       NULL },
-    { "Scale2x",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICScale2x_callback,
-      NULL },
-#ifdef HAVE_HWSCALE
-    { "OpenGL settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vic_opengl_menu },
-#endif
+    SDL_MENU_ITEM_SEPARATOR,
     { "Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -918,6 +726,11 @@ const ui_menu_entry_t vic20_video_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)pal_controls_menu },
+    { "Scale2x",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICScale2x_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
     { "External palette",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICExternalPalette_callback,
