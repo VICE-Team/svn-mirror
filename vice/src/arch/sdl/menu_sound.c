@@ -183,19 +183,19 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
       (ui_callback_data_t)"alsa" },
 #endif
 #ifdef USE_ARTS
-    { "Arts",
+    { "aRts",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"arts" },
 #endif
 #ifdef __BEOS__
-    { "Beos",
+    { "BeOS",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"beos" },
 #endif
 #ifdef USE_COREAUDIO
-    { "Coreaudio",
+    { "Core Audio",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"coreaudio" },
@@ -211,13 +211,13 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"dummy" },
 #if defined(WIN32) && defined(USE_DXSOUND)
-    { "Direct-X",
+    { "DirectX",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"dx" },
 #endif
 #ifdef USE_ESD
-    { "Esd",
+    { "ESD",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"esd" },
@@ -273,7 +273,7 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
     { NULL }
 };
 
-const ui_menu_entry_t sound_record_menu[] = {
+static const ui_menu_entry_t sound_record_menu[] = {
     { "Start recording AIFF audio file",
       MENU_ENTRY_DIALOG,
       start_recording_callback,
@@ -364,6 +364,11 @@ const ui_menu_entry_t sound_output_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundSpeedAdjustment_callback,
       (ui_callback_data_t)SOUND_ADJUST_EXACT },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Sound recording",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sound_record_menu },
     { NULL }
 };
 

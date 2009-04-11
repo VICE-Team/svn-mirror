@@ -32,6 +32,5 @@
 #include "uimenu.h"
 
 extern const ui_menu_entry_t sound_output_menu[];
-extern const ui_menu_entry_t sound_record_menu[];
 
 #endif
