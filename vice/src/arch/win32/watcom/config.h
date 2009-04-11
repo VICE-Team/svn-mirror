@@ -36,6 +36,7 @@
 #define DWORD_IS_LONG           1
 #define HAVE_OPENCBM            1
 #define HAVE_FFMPEG             1
+#define HAVE_FFMPEG_SWSCALE     1
 #define HAVE_MIDI               1
 #define HAVE_CRTDBG             1
 #define HAS_TRANSLATION         1
@@ -76,5 +77,7 @@
 #define int64_t_C(c)     (c ## i64)
 #define uint64_t_C(c)    (c ## u64)
 /* end: for FFMPEG: common.h */
+
+#define PLATFORM "win32 x86 watcom"
 
 #endif

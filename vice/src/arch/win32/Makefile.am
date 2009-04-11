@@ -266,6 +266,7 @@ EXTRA_DIST = \
 	watcom/config.h \
 	watcom/core.tgt \
 	watcom/crtc.tgt \
+	watcom/dirent.h \
 	watcom/diskimage.tgt \
 	watcom/drive.tgt \
 	watcom/fileio.tgt \

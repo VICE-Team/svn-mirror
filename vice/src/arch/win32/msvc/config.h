@@ -89,5 +89,14 @@
 #define uint64_t_C(c)    (c ## u64)
 /* end: for FFMPEG: common.h */
 
+#ifdef WINIA64
+#define PLATFORM "win64 ia64 msvc"
+#else
+#  ifdef _WIN64
+#    define PLATFORM "win64 x64 msvc"
+#  else
+#    define PLATFORM "win32 x86 msvc"
+#  endif
 #endif
 
+#endif

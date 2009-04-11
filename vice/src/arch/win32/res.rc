@@ -297,7 +297,7 @@ BEGIN
 //#else
 //    CTEXT    "Release " VERSION ,IDC_STATIC,7,31,118,8
 //#endif
-    CTEXT    "Version 0.0",IDC_ABOUT_VERSION,7,31,118,8
+    CTEXT    "Version 0.0",IDC_ABOUT_VERSION,7,31,180,8
     LTEXT    "Copyright (c) 1998-2009 Andreas Boose",IDC_STATIC,5,50,158,8
     LTEXT    "Copyright (c) 1998-2009 Dag Lem",IDC_STATIC,5,59,158,8
     LTEXT    "Copyright (c) 1998-2009 Tibor Biczo",IDC_STATIC,5,68,158,8
@@ -6439,9 +6439,9 @@ BEGIN
   IDS_SELECT_START_SNAP_EVENT     "Select start snapshot for event history"
   IDS_SELECT_END_SNAP_EVENT       "Select end snapshot for event history"
 #ifdef UNSTABLE
-  IDS_VERSION_S_UNSTABLE          "Version %s *UNSTABLE*"
+  IDS_VERSION_S_UNSTABLE          "Version %s *UNSTABLE* (%s)"
 #else
-  IDS_VERSION_S                   "Version %s"
+  IDS_VERSION_S                   "Version %s (%s)"
 #endif
   IDS_VICE_CONTRIBUTORS           "VICE contributors"
   IDS_WHO_MADE_WHAT               "Who made what?"
@@ -6838,9 +6838,9 @@ BEGIN
   IDS_SELECT_START_SNAP_EVENT     "Vælg start-snapshot for hændelseshistorik"
   IDS_SELECT_END_SNAP_EVENT       "Vælg slut-snapshot for hændelseshistorik"
 #ifdef UNSTABLE
-  IDS_VERSION_S_UNSTABLE          "Version %s *USTABIL*"
+  IDS_VERSION_S_UNSTABLE          "Version %s *USTABIL* (%s)"
 #else
-  IDS_VERSION_S                   "Version %s"
+  IDS_VERSION_S                   "Version %s (%s)"
 #endif
   IDS_VICE_CONTRIBUTORS           "VICE bidragsydere"
   IDS_WHO_MADE_WHAT               "Hvem har lavet hvad?"
@@ -7237,9 +7237,9 @@ BEGIN
   IDS_SELECT_START_SNAP_EVENT     "Startsnapshot für Ereignishistory festlegen"
   IDS_SELECT_END_SNAP_EVENT       "Endsnapshot für Ereignishistory festlegen"
 #ifdef UNSTABLE
-  IDS_VERSION_S_UNSTABLE          "Version %s *INSTABIL*"
+  IDS_VERSION_S_UNSTABLE          "Version %s *INSTABIL* (%s)"
 #else
-  IDS_VERSION_S                   "Version %s"
+  IDS_VERSION_S                   "Version %s (%s)"
 #endif
   IDS_VICE_CONTRIBUTORS           "VICE Hackers"
   IDS_WHO_MADE_WHAT               "Wer hat was gemacht?"
@@ -7636,9 +7636,9 @@ BEGIN
   IDS_SELECT_START_SNAP_EVENT     "Sélectionner l'instantané de départ pour l'historique des événements"
   IDS_SELECT_END_SNAP_EVENT       "Sélectionner la sauvegarde de fin pour l'historique des événements"
 #ifdef UNSTABLE
-  IDS_VERSION_S_UNSTABLE          "Version %s *INSTABLE*"
+  IDS_VERSION_S_UNSTABLE          "Version %s *INSTABLE* (%s)"
 #else
-  IDS_VERSION_S                   "Version %s"
+  IDS_VERSION_S                   "Version %s (%s)"
 #endif
   IDS_VICE_CONTRIBUTORS           "Contributeurs à VICE"
   IDS_WHO_MADE_WHAT               "Qui fait quoi?"
@@ -8036,9 +8036,9 @@ BEGIN
   IDS_SELECT_START_SNAP_EVENT     "Válasszon kezdeti pillanatképet az esemény rögzítéshez"
   IDS_SELECT_END_SNAP_EVENT       "Válasszon végsõ pillanatképet az esemény rögzítéshez"
 #ifdef UNSTABLE
-  IDS_VERSION_S_UNSTABLE          "%s verzió *INSTABIL*"
+  IDS_VERSION_S_UNSTABLE          "%s verzió *INSTABIL* (%s)"
 #else
-  IDS_VERSION_S                   "%s verzió"
+  IDS_VERSION_S                   "%s verzió (%s)"
 #endif
   IDS_VICE_CONTRIBUTORS           "VICE - közremûködõk"
   IDS_WHO_MADE_WHAT               "Ki mit csinált?"
@@ -8436,9 +8436,9 @@ BEGIN
   IDS_SELECT_START_SNAP_EVENT     "Seleziona lo snapshot iniziale per la cronologia degli eventi"
   IDS_SELECT_END_SNAP_EVENT       "Seleziona lo snapshot finale per la cronologia degli eventi"
 #ifdef UNSTABLE
-  IDS_VERSION_S_UNSTABLE          "Versione %s *INSTABILE*"
+  IDS_VERSION_S_UNSTABLE          "Versione %s *INSTABILE* (%s)"
 #else
-  IDS_VERSION_S                   "Versione %s"
+  IDS_VERSION_S                   "Versione %s (%s)"
 #endif
   IDS_VICE_CONTRIBUTORS           "Collaboratori"
   IDS_WHO_MADE_WHAT               "Chi ha fatto cosa?"
@@ -8835,9 +8835,9 @@ BEGIN
   IDS_SELECT_START_SNAP_EVENT     "Selecteer start momentopname voor gebeurtenis geschiedenis"
   IDS_SELECT_END_SNAP_EVENT       "Selecteer eind momentopname voor gebeurtenis geschiedenis"
 #ifdef UNSTABLE
-  IDS_VERSION_S_UNSTABLE          "Versie %s *ONSTABIEL*"
+  IDS_VERSION_S_UNSTABLE          "Versie %s *ONSTABIEL* (%s)"
 #else
-  IDS_VERSION_S                   "Versie %s"
+  IDS_VERSION_S                   "Versie %s (%s)"
 #endif
   IDS_VICE_CONTRIBUTORS           "VICE medewerkers"
   IDS_WHO_MADE_WHAT               "Wie heeft wat gemaakt?"
@@ -9235,9 +9235,9 @@ BEGIN
   IDS_SELECT_START_SNAP_EVENT     "Select start snapshot for event history"
   IDS_SELECT_END_SNAP_EVENT       "Select end snapshot for event history"
 #ifdef UNSTABLE
-  IDS_VERSION_S_UNSTABLE          "Version %s *UNSTABLE*"
+  IDS_VERSION_S_UNSTABLE          "Version %s *UNSTABLE* (%s)"
 #else
-  IDS_VERSION_S                   "Version %s"
+  IDS_VERSION_S                   "Version %s (%s)"
 #endif
   IDS_VICE_CONTRIBUTORS           "VICE contributors"
   IDS_WHO_MADE_WHAT               "Who made what?"
@@ -9635,9 +9635,9 @@ BEGIN
   IDS_SELECT_START_SNAP_EVENT     "Välj startögonblicksmodul för händelsehistorik"
   IDS_SELECT_END_SNAP_EVENT       "Välj slutögonblicksmodul för händelsehistorik"
 #ifdef UNSTABLE
-  IDS_VERSION_S_UNSTABLE          "Version %s *INSTABIL*"
+  IDS_VERSION_S_UNSTABLE          "Version %s *INSTABIL* (%s)"
 #else
-  IDS_VERSION_S                   "Version %s"
+  IDS_VERSION_S                   "Version %s (%s)"
 #endif
   IDS_VICE_CONTRIBUTORS           "Bidragslämnare till VICE"
   IDS_WHO_MADE_WHAT               "Vem gjorde vad?"
@@ -10035,9 +10035,9 @@ BEGIN
   IDS_SELECT_START_SNAP_EVENT     "Olay tarihçesi için baþlangýç anlýk görüntüsünü seç"
   IDS_SELECT_END_SNAP_EVENT       "Olay tarihçesi için bitiþ anlýk görüntüsünü seç"
 #ifdef UNSTABLE
-  IDS_VERSION_S_UNSTABLE          "Versiyon %s *ÝSTÝKRARSIZ*"
+  IDS_VERSION_S_UNSTABLE          "Versiyon %s *ÝSTÝKRARSIZ* (%s)"
 #else
-  IDS_VERSION_S                   "Versiyon %s"
+  IDS_VERSION_S                   "Versiyon %s (%s)"
 #endif
   IDS_VICE_CONTRIBUTORS           "VICE katýlýmcýlarý"
   IDS_WHO_MADE_WHAT               "Kim ne yaptý?"

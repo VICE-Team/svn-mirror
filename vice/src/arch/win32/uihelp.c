@@ -55,9 +55,9 @@ int CALLBACK about_dialog_proc(HWND dialog, UINT msg, UINT wparam, LONG lparam)
     switch (msg) {
       case WM_INITDIALOG:
 #ifdef UNSTABLE
-        version = lib_msprintf(translate_text(IDS_VERSION_S_UNSTABLE), VERSION);
+        version = lib_msprintf(translate_text(IDS_VERSION_S_UNSTABLE), VERSION, PLATFORM);
 #else /* #ifdef UNSTABLE */
-        version = lib_msprintf(translate_text(IDS_VERSION_S), VERSION);
+        version = lib_msprintf(translate_text(IDS_VERSION_S), VERSION, PLATFORM);
 #endif /* #ifdef UNSTABLE */
         st_version = system_mbstowcs_alloc(version);
         SetDlgItemText(dialog, IDC_ABOUT_VERSION, st_version);
