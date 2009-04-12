@@ -536,6 +536,7 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
     return fd;
 #else
     char *tmp;
+    FILE *fd;
 
     tmp = tmpnam(NULL);
 

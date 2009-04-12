@@ -136,10 +136,10 @@ endif
 
 if UNIX_MACOSX_COMPILE
 bindist:
-	/bin/bash @ARCH_SRC_DIR@/macosx/make-bindist.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) nozip @UNIX_MACOSX_UITYPE@
+	/bin/bash @ARCH_SRC_DIR@/../unix/macosx/make-bindist.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) nozip @UNIX_MACOSX_UITYPE@
 
 bindistzip:
-	/bin/bash @ARCH_SRC_DIR@/macosx/make-bindist.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) zip @UNIX_MACOSX_UITYPE@
+	/bin/bash @ARCH_SRC_DIR@/../unix/macosx/make-bindist.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) zip @UNIX_MACOSX_UITYPE@
 endif
 
 if UNIX_SKYOS_COMPILE

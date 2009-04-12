@@ -428,7 +428,7 @@ darwin*)
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
 
   AC_DEFINE(MACOSX_SUPPORT,,[Enable Mac OS X specific code.])
-  if test "x$enable_bundle" != "xno" ; then
+  if test "x$enable_bundle" != "xno" -o "x$enable_sdlui" = "xyes"; then
     echo "enabled Mac application bundles"
     AC_DEFINE(MACOSX_BUNDLE,,[Enable Mac OS X application bundles.])
   else
@@ -1353,6 +1353,12 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
         AC_DEFINE(USE_SDL_AUDIO,,[Enable sdl sound support.])
         AC_DEFINE(USE_SDLUI,,[Enable sdl ui support.])
         AC_DEFINE(HAVE_SDLMAIN,,[Enable SDLmain replacement])
+    elif test x"$is_unix_macosx" = "xyes"; then
+        LIBS="$LIBS -lSDLmain -framework SDL -framework Cocoa -framework OpenGL"
+        CFLAGS="$CFLAGS -I/Library/Frameworks/SDL.framework/Headers -I/System/Library/Frameworks/OpenGL.framework/Headers"
+        SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
+        AC_DEFINE(USE_SDL_AUDIO,,[Enable sdl sound support.])
+        AC_DEFINE(USE_SDLUI,,[Enable sdl ui support.])
     else
 
         dnl check for sdl-config
@@ -1639,7 +1645,7 @@ if [[ x"$is_riscos" = "xyes" ]]; then
     SOUND_DRIVERS="$SOUND_DRIVERS soundacorn.o"
 fi
 
-if [[ x"$is_unix_macosx" = "xyes" ]]; then
+if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes"; then
 
 dnl --- check for CoreAudio ---
 AC_CHECK_HEADER(CoreAudio/CoreAudio.h,,)
