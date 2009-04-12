@@ -102,22 +102,6 @@ static void display_tape(void)
     }
 }
 
-static void display_tracks(void)
-{
-    int len;
-
-    if (tape_enabled) {
-        len = sprintf(&(statusbar_text[STATUSBAR_TAPE_POS]), "%c%03d%c", (tape_motor)?'*':' ', tape_counter," >f<R"[tape_control]);
-    } else {
-        len = sprintf(&(statusbar_text[STATUSBAR_TAPE_POS]), "     ");
-    }
-    statusbar_text[STATUSBAR_TAPE_POS + len] = ' ';
-
-    if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
-        uistatusbar_state |= UISTATUSBAR_REPAINT;
-    }
-}
-
 static int per = 0;
 static int fps = 0;
 static int warp = 0;
@@ -199,7 +183,7 @@ void ui_display_drive_track(unsigned int drive_number,
                             unsigned int drive_base,
                             unsigned int half_track_number)
 {
-  int track_number = (int)(half_track_number / 2.0);
+  unsigned int track_number = half_track_number / 2;
 
 #ifdef SDL_DEBUG
 fprintf(stderr,"%s\n",__func__);
