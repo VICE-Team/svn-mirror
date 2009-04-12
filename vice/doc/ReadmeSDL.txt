@@ -34,20 +34,20 @@ Some new features that are missing from (some of) the native versions:
 1.3 Ports
 
 The SDL port has been tested to work on:
- - Linux / x86, x86_64/amd64, ppc, alpha
- - Win32 / x86
- - Amiga OS 4.x / powerpc
- - Morphos / powerpc
- - AROS / x86, powerpc, x86_64/amd64
+ - Amiga OS 4.x / ppc
+ - AROS / ppc, x85, x64
+ - BeOS / ppc, x86
  - GP2X / arm (needs fixing)
- - BeOS / x86, powerpc
+ - Linux / alpha, ppc, x86, x64
+ - Morphos / ppc
  - Openserver / x86
- - Unixware / x86
- - Solaris / x86, sparc
+ - QNX 6.x / armle, mipsle, ppcbe, shle, x86
  - SkyOS / x86
- - QNX 6.x / x86, armle, mipsle, ppcbe, shle
+ - Solaris / sparc, sparc64, x86
  - Syllable / x86
- - Win64 / x86_64/amd64
+ - Unixware / x86
+ - Win32 / x86
+ - Win64 / x64
  - ...
 
 
