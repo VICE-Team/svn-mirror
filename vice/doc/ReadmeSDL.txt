@@ -34,7 +34,7 @@ Some new features that are missing from (some of) the native versions:
 1.3 Ports
 
 The SDL port has been tested to work on:
- - Linux / x86, x86_64/amd64, ppc
+ - Linux / x86, x86_64/amd64, ppc, alpha
  - Win32 / x86
  - Amiga OS 4.x / powerpc
  - Morphos / powerpc
