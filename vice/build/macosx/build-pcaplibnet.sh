@@ -20,19 +20,12 @@ set_compiler_env
 
 echo "===== pcaplibnet build for $ARCH ====="
 
-configure_make_install libpcap-0.9.8.tar.gz libpcap-0.9.8 lib/libpcap.a install \
+COMPILE_IN_SOURCE=1
+configure_make_install libpcap-1.0.0.tar.gz libpcap-1.0.0 lib/libpcap.a install \
                        "http://www.tcpdump.org/"
 
-# need to patch libnet
-PATCH="cp /usr/share/libtool/config.guess . ; cp /usr/share/libtool/config.sub . ; \
-cp include/libnet/libnet-headers.h tmp ; \
-sed -e 's/#if (__linux__)/#if (__linux__) || (defined(__APPLE__)\&\&defined(__i386__))/' < tmp > include/libnet/libnet-headers.h ; \
-cp Makefile.in tmp ;
-sed -e '/^.*\$(INSTALL_DATA) \$(MAN).*$/d' < tmp > Makefile.in"
-COMPILE_IN_SOURCE=1
-
-configure_make_install libnet0_1.0.2a.orig.tar.gz libnet-1.0.2a.orig lib/libnet.a install \
+configure_make_install libnet-1.1.2.1.tar.gz libnet lib/libnet.a install \
                        "http://ftp.debian.org/debian/pool/main/libn/libnet0/libnet0_1.0.2a.orig.tar.gz"
 
 echo "===== pcaplibnet ready for $ARCH ====="
-echo "(Read 'libpcap-0.9.5/README.macosx' to find out how to install pcap on Mac OS X correctly)"
+echo "(Read 'libpcap-1.0.0/README.macosx' to find out how to install pcap on Mac OS X correctly)"
