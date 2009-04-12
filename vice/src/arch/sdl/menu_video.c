@@ -131,9 +131,9 @@ static const ui_menu_entry_t color_controls_menu[] = {
 
 /* Size menu template */
 
+UI_MENU_DEFINE_INT(SDLCustomWidth)
+UI_MENU_DEFINE_INT(SDLCustomHeight)
 UI_MENU_DEFINE_RADIO(SDLLimitMode)
-UI_MENU_DEFINE_INT(SDLLimitWidth)
-UI_MENU_DEFINE_INT(SDLLimitHeight)
 
 #define VICE_SDL_SIZE_MENU_ITEMS(chip)  \
     { "Double size", \
@@ -162,11 +162,11 @@ UI_MENU_DEFINE_INT(SDLLimitHeight)
     SDL_MENU_ITEM_TITLE("Custom resolution"), \
     { "Width", \
       MENU_ENTRY_RESOURCE_INT, \
-      int_SDLLimitWidth_callback, \
+      int_SDLCustomWidth_callback, \
       (ui_callback_data_t)"Set width" }, \
     { "Height", \
       MENU_ENTRY_RESOURCE_INT, \
-      int_SDLLimitHeight_callback, \
+      int_SDLCustomHeight_callback, \
       (ui_callback_data_t)"Set height" }, \
     SDL_MENU_ITEM_SEPARATOR, \
     SDL_MENU_ITEM_TITLE("Resolution limit mode"), \

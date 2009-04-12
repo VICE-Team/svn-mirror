@@ -58,6 +58,9 @@ struct video_canvas_s {
     /* Actual size of the window; in most cases the same as width/height */
     unsigned int actual_width, actual_height;
 
+    /* Double size state, for keeping track of the real size */
+    unsigned int dsizex, dsizey;
+
     /* Drawable surface */
     SDL_Surface* screen;
 
