@@ -710,16 +710,10 @@ static ui_menu_action_t sdljoy_perform_event(sdljoystick_mapping_t *event, int v
                     retval = autorepeat = MENU_ACTION_DOWN;
                     break;
                 case 0x04:
-                    retval = MENU_ACTION_LEFT;
-                    if (sdl_vkbd_state) {
-                        autorepeat = retval;
-                    }
+                    retval = autorepeat = MENU_ACTION_LEFT;
                     break;
                 case 0x08:
-                    retval = MENU_ACTION_RIGHT;
-                    if (sdl_vkbd_state) {
-                        autorepeat = retval;
-                    }
+                    retval = autorepeat = MENU_ACTION_RIGHT;
                     break;
                 case 0x10:
                     retval = MENU_ACTION_SELECT;

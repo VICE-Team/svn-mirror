@@ -356,6 +356,41 @@ static UI_MENU_CALLBACK(warranty_callback)
     return NULL;
 }
 
+#ifdef SDL_DEBUG
+static UI_MENU_CALLBACK(show_font_callback)
+{
+    int active = 1;
+    int i, j;
+    char fontchars[] = "0x 0123456789abcdef";
+
+    if (activated) {
+        sdl_ui_clear();
+        sdl_ui_print_center("   0123456789ABCDEF", 0);
+        sdl_ui_print_center("0x \xff\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f", 1);
+        for (j = 1; j < 16; ++j) {
+            for (i = 0; i < 16; ++i) {
+                fontchars[3+i] = (char)(j*16 + i);
+            }
+            fontchars[0] = "0123456789ABCDEF"[j];
+            sdl_ui_print_center(fontchars, 1+j);
+        }
+        sdl_ui_refresh();
+        while(active) {
+            switch(sdl_ui_menu_poll_input()) {
+                case MENU_ACTION_CANCEL:
+                case MENU_ACTION_EXIT:
+                    active = 0;
+                    break;
+                default:
+                    SDL_Delay(10);
+                    break;
+            }
+        }
+    }
+    return NULL;
+}
+#endif
+
 const ui_menu_entry_t help_menu[] = {
     { "About",
       MENU_ENTRY_DIALOG,
@@ -377,5 +412,11 @@ const ui_menu_entry_t help_menu[] = {
       MENU_ENTRY_DIALOG,
       warranty_callback,
       NULL },
+#ifdef SDL_DEBUG
+    { "Show font",
+      MENU_ENTRY_DIALOG,
+      show_font_callback,
+      NULL },
+#endif
     { NULL }
 };

@@ -95,9 +95,10 @@ static void sdl_ui_putchar(BYTE c, int pos_x, int pos_y)
     }
 }
 
-static int sdl_ui_print_wrap(const char *text, int pos_x, int pos_y)
+static int sdl_ui_print_wrap(const char *text, int pos_x, int *pos_y_ptr)
 {
     int i = 0;
+    int pos_y = *pos_y_ptr;
     BYTE c;
 
     if (text == NULL) {
@@ -118,6 +119,7 @@ static int sdl_ui_print_wrap(const char *text, int pos_x, int pos_y)
         if (pos_y == menu_draw.max_text_y) {
             sdl_ui_scroll_screen_up();
             --pos_y;
+            --(*pos_y_ptr);
         }
 
         sdl_ui_putchar(c, pos_x++, pos_y);
@@ -352,6 +354,211 @@ static void sdl_ui_trap(WORD addr, void *data)
 }
 
 /* ------------------------------------------------------------------ */
+/* Readline static functions/variables */
+
+#define PC_VKBD_ACTIVATE SDLK_F10
+#define PC_VKBD_W 17
+#define PC_VKBD_H 4
+
+static const char *keyb_pc[] = {
+    "X'1234567890-= <-",
+    "escQWERTYUIOP\x1b\x1d\\ ",
+    "   ASDFGHJKL;' rt",
+    "spc ZXCVBNM,./ <>",
+    NULL
+};
+
+static const BYTE keytable_pc[] =
+    "\x87`1234567890-=\xff\x80\x80"
+    "\x81\x81\x81qwertyuiop[]\\\xff"
+    "\xff\xff\xff\x61sdfghjkl;'\xff\x82\x82"
+    "   \xffzxcvbnm,./\xff\x83\x84";
+
+static const BYTE keytable_pc_shift[] =
+    "\x87~!@#$%^&*()_+\x87\x80\x80"
+    "\x81\x81\x81QWERTYUIOP{}|\x87"
+    "\x87\x87\xff\x41SDFGHJKL:\"\x87\x82\x82"
+    "   \x87ZXCVBNM<>?\x87\x85\x86";
+
+static const SDLKey keytable_pc_special[] = {
+    SDLK_BACKSPACE,
+    SDLK_ESCAPE,
+    SDLK_RETURN,
+    SDLK_LEFT,
+    SDLK_RIGHT,
+    SDLK_HOME,
+    SDLK_END,
+    PC_VKBD_ACTIVATE
+};
+
+static int pc_vkbd_pos_x, pc_vkbd_pos_y, pc_vkbd_x, pc_vkbd_y;
+
+static void sdl_ui_readline_vkbd_draw(void)
+{
+    int i;
+
+    for (i = 0; i < PC_VKBD_H; ++i) {
+        sdl_ui_print(keyb_pc[i], pc_vkbd_pos_x, pc_vkbd_pos_y + i);
+    }
+
+    sdl_ui_invert_char(pc_vkbd_pos_x + pc_vkbd_x, pc_vkbd_pos_y + pc_vkbd_y);
+}
+
+static void sdl_ui_readline_vkbd_erase(void)
+{
+    int i;
+
+    for (i = 0; i < PC_VKBD_H; ++i) {
+        sdl_ui_print("                 ", pc_vkbd_pos_x, pc_vkbd_pos_y + i);
+    }
+}
+
+static void sdl_ui_readline_vkbd_move(int *var, int amount, int min, int max)
+{
+    sdl_ui_invert_char(pc_vkbd_pos_x + pc_vkbd_x, pc_vkbd_pos_y + pc_vkbd_y);
+
+    *var += amount;
+
+    if (*var < min) {
+        *var = max - 1;
+    } else if (*var >= max) {
+        *var = min;
+    }
+
+    sdl_ui_invert_char(pc_vkbd_pos_x + pc_vkbd_x, pc_vkbd_pos_y + pc_vkbd_y);
+    sdl_ui_refresh();
+}
+
+static int sdl_ui_readline_vkbd_press(SDLKey *key, SDLMod *mod, Uint16 *c_uni, int shift)
+{
+    const BYTE *table;
+    BYTE b;
+
+    table = (shift == 0) ? keytable_pc : keytable_pc_shift;
+    b = table[pc_vkbd_x + pc_vkbd_y * PC_VKBD_W];
+
+    if (b == 0xff) {
+        return 0;
+    }
+
+    if (b & 0x80) {
+        *key = keytable_pc_special[b & 0x7f];
+        *c_uni = 0;
+    } else {
+        *key = SDLK_UNKNOWN;
+        *c_uni = (Uint16)b;
+    }
+
+    return 1;
+}
+
+static int sdl_ui_readline_vkbd_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
+{
+    int done = 0;
+
+    do {
+        switch (sdl_ui_menu_poll_input()) {
+            case MENU_ACTION_UP:
+                sdl_ui_readline_vkbd_move(&pc_vkbd_y, -1, 0, PC_VKBD_H);
+                break;
+            case MENU_ACTION_DOWN:
+                sdl_ui_readline_vkbd_move(&pc_vkbd_y, 1, 0, PC_VKBD_H);
+                break;
+            case MENU_ACTION_LEFT:
+                sdl_ui_readline_vkbd_move(&pc_vkbd_x, -1, 0, PC_VKBD_W);
+                break;
+            case MENU_ACTION_RIGHT:
+                sdl_ui_readline_vkbd_move(&pc_vkbd_x, 1, 0, PC_VKBD_W);
+                break;
+            case MENU_ACTION_SELECT:
+                if (sdl_ui_readline_vkbd_press(key, mod, c_uni, 0)) {
+                    done = 1;
+                }
+                break;
+            case MENU_ACTION_CANCEL:
+                if (sdl_ui_readline_vkbd_press(key, mod, c_uni, 1)) {
+                    done = 1;
+                }
+                break;
+            case MENU_ACTION_MAP:
+            case MENU_ACTION_EXIT:
+                *key = PC_VKBD_ACTIVATE;
+                done = 1;
+                break;
+            default:
+                break;
+        }
+    } while (!done);
+
+    return 1;
+}
+
+static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
+{
+    SDL_Event e;
+    int got_key = 0;
+    ui_menu_action_t action = MENU_ACTION_NONE;
+
+    *mod = KMOD_NONE;
+    *c_uni = 0;
+
+    do {
+        action = MENU_ACTION_NONE;
+
+        SDL_WaitEvent(&e);
+
+        switch (e.type) {
+            case SDL_KEYDOWN:
+                *key = e.key.keysym.sym;
+                *mod = e.key.keysym.mod;
+                *c_uni = e.key.keysym.unicode;
+                got_key = 1;
+                break;
+            case SDL_JOYAXISMOTION:
+                action = sdljoy_axis_event(e.jaxis.which, e.jaxis.axis, e.jaxis.value);
+                break;
+            case SDL_JOYBUTTONDOWN:
+                action = sdljoy_button_event(e.jbutton.which, e.jbutton.button, 1);
+                break;
+            case SDL_JOYHATMOTION:
+                action = sdljoy_hat_event(e.jhat.which, e.jhat.hat, e.jhat.value);
+                break;
+            default:
+                ui_handle_misc_sdl_event(e);
+                break;
+        }
+
+        switch (action) {
+            case MENU_ACTION_LEFT:
+                *key = SDLK_LEFT;
+                got_key = 1;
+                break;
+            case MENU_ACTION_RIGHT:
+                *key = SDLK_RIGHT;
+                got_key = 1;
+                break;
+            case MENU_ACTION_SELECT:
+                *key = SDLK_RETURN;
+                got_key = 1;
+                break;
+            case MENU_ACTION_CANCEL:
+            case MENU_ACTION_MAP:
+                *key = PC_VKBD_ACTIVATE;
+                got_key = 1;
+                break;
+            case MENU_ACTION_UP:
+            case MENU_ACTION_DOWN:
+            default:
+                break;
+        }
+        SDL_Delay(20);
+
+    } while (!got_key);
+
+    return got_key;
+}
+
+/* ------------------------------------------------------------------ */
 /* External UI interface */
 
 ui_menu_retval_t sdl_ui_external_menu_activate(ui_menu_entry_t *item)
@@ -517,7 +724,8 @@ int sdl_ui_print_center(const char *text, int pos_y)
 
 int sdl_ui_display_title(const char *title)
 {
-    return sdl_ui_print_wrap(title, 0, 0);
+    int dummy = 0;
+    return sdl_ui_print_wrap(title, 0, &dummy);
 }
 
 void sdl_ui_invert_char(int pos_x, int pos_y)
@@ -589,15 +797,16 @@ int sdl_ui_hotkey(ui_menu_entry_t *item)
     return 0;
 }
 
+
 char* sdl_ui_readline(const char* previous, int pos_x, int pos_y, int escaped_is_null)
 {
     int i = 0, prev = -1, done = 0, got_key = 0, string_changed = 0, screen_dirty = 1, escaped = 0;
+    int pc_vkbd_state = 0, screen_redraw = 0;
     size_t size = 0, max;
     char *new_string = NULL;
-    SDL_Event e;
-    SDLKey key;
+    SDLKey key = SDLK_UNKNOWN;
     SDLMod mod;
-    Uint16 c_uni;
+    Uint16 c_uni = 0;
     char c;
 
     /* restrict maximum length to screen size, leaving room for the prompt and the cursor*/
@@ -618,7 +827,18 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y, int escaped_is
         new_string[0] = 0;
     }
 
-    size = i = sdl_ui_print_wrap(new_string, pos_x, pos_y);
+    /* set vkbd location away from the prompt */
+    if (pos_y < (menu_draw.max_text_y / 2)) {
+        pc_vkbd_pos_y = menu_draw.max_text_y - PC_VKBD_H;
+    } else {
+        pc_vkbd_pos_y = 0;
+    }
+    pc_vkbd_pos_x = menu_draw.max_text_x - PC_VKBD_W;
+    pc_vkbd_x = 0;
+    pc_vkbd_y = 0;
+
+    /* draw previous string (if any), initialize size and cursor position */
+    size = i = sdl_ui_print_wrap(new_string, pos_x, &pos_y);
 
     SDL_EnableUNICODE(1);
 
@@ -627,6 +847,10 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y, int escaped_is
             if ((pos_y * menu_draw.max_text_x + pos_x + i) >= (menu_draw.max_text_y * menu_draw.max_text_x)) {
                 sdl_ui_scroll_screen_up();
                 --pos_y;
+
+                if (pc_vkbd_state) {
+                    screen_redraw = 1;
+                }
             }
 
             sdl_ui_invert_char(pos_x + i, pos_y);
@@ -638,26 +862,25 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y, int escaped_is
             screen_dirty = 1;
         }
 
+        if (screen_redraw) {
+            sdl_ui_print_wrap(new_string, pos_x, &pos_y);
+            screen_redraw = 0;
+        }
+
         if (screen_dirty) {
+            if (pc_vkbd_state) {
+                sdl_ui_readline_vkbd_draw();
+            }
             sdl_ui_refresh();
             screen_dirty = 0;
         }
 
-        got_key = 0;
-        do {
-            SDL_WaitEvent(&e);
-            switch (e.type) {
-                case SDL_KEYDOWN:
-                    key = e.key.keysym.sym;
-                    mod = e.key.keysym.mod;
-                    c_uni = e.key.keysym.unicode;
-                    got_key = 1;
-                    break;
-                default:
-                    ui_handle_misc_sdl_event(e);
-                    break;
-            }
-        } while(!got_key);
+        /* get input */
+        if (pc_vkbd_state) {
+            got_key = sdl_ui_readline_vkbd_input(&key, &mod, &c_uni);
+        } else {
+            got_key = sdl_ui_readline_input(&key, &mod, &c_uni);
+        }
 
         switch(key) {
             case SDLK_LEFT:
@@ -676,12 +899,20 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y, int escaped_is
             case SDLK_END:
                 i = size;
                 break;
+            case PC_VKBD_ACTIVATE:
+                pc_vkbd_state ^= 1;
+                screen_dirty = 1;
+                if (!pc_vkbd_state) {
+                    sdl_ui_readline_vkbd_erase();
+                    screen_redraw = 1;
+                }
+                break;
             case SDLK_BACKSPACE:
                 if (i > 0) {
                     memmove(new_string+i-1, new_string+i, size - i + 1);
                     --size;
                     new_string[size] = ' ';
-                    sdl_ui_print_wrap(new_string+i-1, pos_x+i-1, pos_y);
+                    sdl_ui_print_wrap(new_string+i-1, pos_x+i-1, &pos_y);
                     new_string[size] = 0;
                     --i;
                     if (i != (int)size) {
@@ -695,6 +926,9 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y, int escaped_is
                 escaped = 1;
                 /* fall through */
             case SDLK_RETURN:
+                if (pc_vkbd_state) {
+                    sdl_ui_readline_vkbd_erase();
+                }
                 sdl_ui_invert_char(pos_x + i, pos_y);
                 done = 1;
                 break;
@@ -709,7 +943,7 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y, int escaped_is
             new_string[i] = c;
             ++size;
             new_string[size] = 0;
-            sdl_ui_print_wrap(new_string+i, pos_x+i, pos_y);
+            sdl_ui_print_wrap(new_string+i, pos_x+i, &pos_y);
             ++i;
             prev = -1;
             string_changed = 1;

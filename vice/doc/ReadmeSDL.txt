@@ -129,7 +129,43 @@ empty spot.
 Keys and joystick events can be mapped to the keyboard via the virtual keyboard.
 
 
-2.4 Settings
+2.4 Text input dialog virtual keyboard
+
+The text input dialog also has a virtual keyboard, which can be activated
+with the key F10 or joystick commands Cancel or Map.
+
+When the virtual keyboard is active, the following commands are active:
+(default keys/joymap shown)
+
+--------------------------------------------------
+Command  | Key   | Joy  | Function
+--------------------------------------------------
+Up       | up    |  u   | Move cursor up
+Down     | down  |  d   | Move cursor down
+Left     | left  |  l   | Move cursor left
+Right    | right |  r   | Move cursor right
+Select   | enter | fire | Press the key
+Cancel   | <-    | btn2 | Press with shift
+Exit     | ESC   | N/A  | Close the virtual kbd
+Map      | m     | btn3 | Close the virtual kbd
+--------------------------------------------------
+
+The joystick command Activate behaves as Cancel while using the virtual
+keyboard.
+
+Simultaneous keypresses are not possible. The virtual keyboard cannot be moved.
+
+The virtual keyboard can be closed by pressing the 'X' in the top left corner,
+with the commands Exit and Map or with the command Cancel when the cursor is at an
+empty spot.
+
+To exit/cancel the dialog itself, press "esc" on the virtual keyboard.
+
+Note that normal text input via keyboard is not possible while the virtual
+keyboard is active.
+
+
+2.5 Settings
 
 The settings are saved separately into 4 files:
  - main settings (sdl-vicerc, sdl-vice.ini, "Load/Save settings")

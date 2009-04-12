@@ -450,7 +450,7 @@ vkbd_t vkbd_c128 = {
 static const char *keyb_plus4[] = {
     "X  F1 F2 F3 Help       ",
     "esc 1234567890+-=h  del",
-    "ctrl QWERTYUIOP@x* ctrl",
+    "ctrl QWERTYUIOP@\x1c* ctrl",
     "rs sh ASDFGHJKL:; rtrn ",
     "c=  sh ZXCVBNM,./ sh \x1e ",
     "         space      \x1fv>",
@@ -497,8 +497,8 @@ vkbd_t vkbd_cbm2 = {
 
 static const char *keyb_pet_uk[] = {
     "X \x1f 1234567890:-\x1e> r/s  789",
-    "tab QWERTYUIOP[\\v del   456",
-    "esc ASDFGHJKL;@]  rtrn  123",
+    "tab QWERTYUIOP\x1b\\v del   456",
+    "esc ASDFGHJKL;@\x1d  rtrn  123",
     "rvs sh ZXCVBNM,./ sh rh 0 .",
     "        space              ",
     NULL
