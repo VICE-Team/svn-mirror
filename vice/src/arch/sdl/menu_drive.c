@@ -745,13 +745,13 @@ UI_MENU_CALLBACK(create_disk_image_callback)
                 if (message_box("VICE QUESTION","File exists, do you want to overwrite?", MESSAGE_YESNO) == 1) {
                     overwrite = 0;
                 }
-                if (overwrite == 1) {
-                    format_name = lib_msprintf("%s,dsk", name);
-                    if (vdrive_internal_create_format_disk_image(name, format_name, new_disk_image_type) < 0) {
-                        ui_error("Cannot create disk image");
-                    }
-                    lib_free(format_name);
+            }
+            if (overwrite == 1) {
+                format_name = lib_msprintf("%s,dsk", name);
+                if (vdrive_internal_create_format_disk_image(name, format_name, new_disk_image_type) < 0) {
+                    ui_error("Cannot create disk image");
                 }
+                lib_free(format_name);
             }
             lib_free(name);
         }

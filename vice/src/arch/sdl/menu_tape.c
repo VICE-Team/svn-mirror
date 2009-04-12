@@ -84,10 +84,10 @@ UI_MENU_CALLBACK(create_tape_image_callback)
                 if (message_box("VICE QUESTION","File exists, do you want to overwrite?", MESSAGE_YESNO) == 1) {
                     overwrite = 0;
                 }
-                if (overwrite == 1) {
-                    if (cbmimage_create_image(name, DISK_IMAGE_TYPE_TAP)) {
-                        ui_error("Cannot create tape image");
-                    }
+            }
+            if (overwrite == 1) {
+                if (cbmimage_create_image(name, DISK_IMAGE_TYPE_TAP)) {
+                    ui_error("Cannot create tape image");
                 }
             }
             lib_free(name);
