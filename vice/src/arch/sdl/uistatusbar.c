@@ -46,9 +46,13 @@
 #define STATUSBAR_SPEED_POS 0
 #define STATUSBAR_PAUSE_POS 4
 #define STATUSBAR_DRIVE_POS 12
-#define STATUSBAR_TAPE_POS 17
+#define STATUSBAR_DRIVE8_TRACK_POS 14
+#define STATUSBAR_DRIVE9_TRACK_POS 19
+#define STATUSBAR_DRIVE10_TRACK_POS 24
+#define STATUSBAR_DRIVE11_TRACK_POS 29
+#define STATUSBAR_TAPE_POS 33
 
-static char statusbar_text[MAX_STATUSBAR_LEN] = "                       ";
+static char statusbar_text[MAX_STATUSBAR_LEN] = "                                       ";
 
 static menufont_t *menufont = NULL;
 static int pitch;
@@ -83,6 +87,22 @@ static int tape_motor = 0;
 static int tape_control = 0;
 
 static void display_tape(void)
+{
+    int len;
+
+    if (tape_enabled) {
+        len = sprintf(&(statusbar_text[STATUSBAR_TAPE_POS]), "%c%03d%c", (tape_motor)?'*':' ', tape_counter," >f<R"[tape_control]);
+    } else {
+        len = sprintf(&(statusbar_text[STATUSBAR_TAPE_POS]), "     ");
+    }
+    statusbar_text[STATUSBAR_TAPE_POS + len] = ' ';
+
+    if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
+        uistatusbar_state |= UISTATUSBAR_REPAINT;
+    }
+}
+
+static void display_tracks(void)
 {
     int len;
 
@@ -179,9 +199,36 @@ void ui_display_drive_track(unsigned int drive_number,
                             unsigned int drive_base,
                             unsigned int half_track_number)
 {
+  int track_number = (int)(half_track_number / 2.0);
+
 #ifdef SDL_DEBUG
 fprintf(stderr,"%s\n",__func__);
 #endif
+
+  switch (drive_number)
+  {
+    case 1:
+        statusbar_text[STATUSBAR_DRIVE9_TRACK_POS] = (track_number / 10) + '0';
+        statusbar_text[STATUSBAR_DRIVE9_TRACK_POS + 1] = (track_number % 10) + '0';
+        break;
+    case 2:
+        statusbar_text[STATUSBAR_DRIVE10_TRACK_POS] = (track_number / 10) + '0';
+        statusbar_text[STATUSBAR_DRIVE10_TRACK_POS + 1] = (track_number % 10) + '0';
+        break;
+    case 3:
+        statusbar_text[STATUSBAR_DRIVE11_TRACK_POS] = (track_number / 10) + '0';
+        statusbar_text[STATUSBAR_DRIVE11_TRACK_POS + 1] = (track_number % 10) + '0';
+        break;
+    default:
+    case 0:
+        statusbar_text[STATUSBAR_DRIVE8_TRACK_POS] = (track_number / 10) + '0';
+        statusbar_text[STATUSBAR_DRIVE8_TRACK_POS + 1] = (track_number % 10) + '0';
+        break;
+  }
+
+  if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
+      uistatusbar_state |= UISTATUSBAR_REPAINT;
+  }
 }
 
 /* The pwm value will vary between 0 and 1000.  */
@@ -193,7 +240,8 @@ void ui_display_drive_led(int drive_number, unsigned int pwm1,
 fprintf(stderr,"%s: drive %i, pwm1 = %i, led_pwm2 = %u\n",__func__, drive_number, pwm1, led_pwm2);
 #endif
     c = "8901"[drive_number] | ((pwm1 > 500)?0x80:0);
-    statusbar_text[STATUSBAR_DRIVE_POS + drive_number] = c;
+    statusbar_text[STATUSBAR_DRIVE_POS + (drive_number*5)] = c;
+    statusbar_text[STATUSBAR_DRIVE_POS + (drive_number*5) + 1] = 'T';
 
     if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
         uistatusbar_state |= UISTATUSBAR_REPAINT;
