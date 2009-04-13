@@ -1658,7 +1658,7 @@ static LRESULT CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
 #else  // #ifdef OPEN_DISASSEMBLY_AS_POPUP
 
     case WM_MDIACTIVATE:
-        ActivateChild( ((HWND) wParam==hwnd)?FALSE:TRUE, hwnd, pdp->memspace );
+        ActivateChild( ((HWND) wParam==hwnd)?FALSE:TRUE, hwnd, mon_disassembly_get_memspace(pdp->pmdp) );
         break;
 
 #endif // #ifdef OPEN_DISASSEMBLY_AS_POPUP
