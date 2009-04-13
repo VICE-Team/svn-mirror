@@ -29,9 +29,16 @@
 
 #include "vice.h"
 
+#ifdef HAVE_FFMPEG_HEADER_SUBDIRS
 #include "libavformat/avformat.h"
 #ifdef HAVE_FFMPEG_SWSCALE
 #include "libswscale/swscale.h"
+#endif
+#else
+#include "avformat.h"
+#ifdef HAVE_FFMPEG_SWSCALE
+#include "swscale.h"
+#endif
 #endif
 
 /* generic version function */

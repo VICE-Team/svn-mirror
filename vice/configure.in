@@ -1243,12 +1243,26 @@ if test x"$enable_ffmpeg" != "xno" -a x"$enable_sdlui" != "xyes" ; then
     GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS ffmpegdrv.o ffmpeglib.o"
     AC_DEFINE([HAVE_FFMPEG],,[Have FFMPEG av* libs available])
     AC_DEFINE([HAVE_FFMPEG_SWSCALE],,[Have FFMPEG swscale lib available])
+    AC_DEFINE([HAVE_FFMPEG_HEADER_SUBDIRS],,[FFMPEG uses subdirs for headers])
     FFMPEG_INCLUDES="-I\$(top_srcdir)/src/lib/libffmpeg"
   elif test x"$is_unix" = "xyes" -a x"$dynlib_support" = "xyes" ; then
     dnl --- unix (requires dynlib support) ---
     AC_MSG_RESULT([via pkg-config])
     PKG_CHECK_MODULES(FFMPEG_AV,  [libavcodec libavformat libavutil], 
-      [AC_DEFINE([HAVE_FFMPEG],,[Have FFMPEG av* libs available])
+      [old_CFLAGS=$CFLAGS
+       old_CPPFLAGS=$CPPFLAGS
+       CFLAGS="$CFLAGS $FFMPEG_AV_CFLAGS"
+       CPPFLAGS="$CPPFLAGS $FFMPEG_AV_CFLAGS"
+
+       AC_CHECK_HEADER(libavformat/avformat.h,
+        [AC_DEFINE([HAVE_FFMPEG_HEADER_SUBDIRS],,[FFMPEG uses subdirs for headers])],
+        [AC_CHECK_HEADER(avformat.h,,
+          [AC_MSG_ERROR([No suitable FFMPEG header found!])])])
+
+       CFLAGS=$old_CFLAGS
+       CPPFLAGS=$old_CPPFLAGS
+      
+       AC_DEFINE([HAVE_FFMPEG],,[Have FFMPEG av* libs available])
        FFMPEG_INCLUDES="$FFMPEG_AV_CFLAGS"
        GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS ffmpegdrv.o ffmpeglib.o"],
       [echo "no. disabled."]
