@@ -41,7 +41,7 @@ if [ "$ARCH" != "ub" -a "$ARCH" != "i386" -a "$ARCH" != "ppc" ]; then
   exit 1
 fi
 UI_TYPE="$2"
-if [ "$UI_TYPE" != "x11" -a "$UI_TYPE" != "gtk" -a "$UI_TYPE" != "cocoa" ]; then
+if [ "$UI_TYPE" != "x11" -a "$UI_TYPE" != "gtk" -a "$UI_TYPE" != "cocoa" -a "$UI_TYPE" != "sdl" ]; then
   echo "Wrong UI Type given: use 'x11' or 'gtk', or 'cocoa'!"
   exit 1
 fi
@@ -116,6 +116,9 @@ if [ "$UI_TYPE" = "gtk" ]; then
 elif [ "$UI_TYPE" = "cocoa" ]; then
   CONFIGURE_FLAGS="--with-cocoa $CONFIGURE_FLAGS"
   CONFIGURE_OPTS="Cocoa"
+elif [ "$UI_TYPE" = "sdl" ]; then
+  CONFIGURE_FLAGS="--enable-sdlui $CONFIGURE_FLAGS"
+  CONFIGURE_OPTS="SDL"  
 fi
 
 # check for hidutil
@@ -126,13 +129,15 @@ if [ "$?" = "0" ]; then
 fi
 
 # check for libpcap and libnet
-check_lib "libpcap.a"
-if [ "$?" = "0" ]; then
-  check_lib "libnet.a"
+if [ "$UI_TYPE" != "sdl" ]; then
+  check_lib "libpcap.a"
   if [ "$?" = "0" ]; then
-    CONFIGURE_FLAGS="--enable-ethernet $CONFIGURE_FLAGS"
-    CONFIGURE_OPTS="Ethernet $CONFIGURE_OPTS"
-    echo "+++ With Ethernet Support +++"
+    check_lib "libnet.a"
+    if [ "$?" = "0" ]; then
+      CONFIGURE_FLAGS="--enable-ethernet $CONFIGURE_FLAGS"
+      CONFIGURE_OPTS="Ethernet $CONFIGURE_OPTS"
+      echo "+++ With Ethernet Support +++"
+    fi
   fi
 fi
 

@@ -401,6 +401,9 @@ for bundle in $BUNDLES ; do
     echo
   done
 
+  # print bundle size
+  echo -n "    => " ; du -sh "$APP_NAME" | awk '{ print $1 }'
+
 done
 
 # --- copy tools ---
