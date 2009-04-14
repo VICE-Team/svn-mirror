@@ -68,7 +68,7 @@ void ui_handle_misc_sdl_event(SDL_Event e)
             ui_sdl_quit();
             break;
         case SDL_VIDEORESIZE:
-            sdl_video_resize(e.resize.w, e.resize.h);
+            sdl_video_resize((unsigned int)e.resize.w, (unsigned int)e.resize.h);
             break;
         case SDL_VIDEOEXPOSE:
             video_canvas_refresh_all(sdl_active_canvas);

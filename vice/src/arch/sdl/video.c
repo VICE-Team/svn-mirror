@@ -727,7 +727,7 @@ fprintf(stderr,"%s: %ix%i (%i)\n",__func__,width,height,canvas->index);
     video_canvas_create(canvas, &width, &height, 0);
 }
 
-void sdl_video_resize(int w, int h)
+void sdl_video_resize(unsigned int w, unsigned int h)
 {
 #ifdef SDL_DEBUG
 fprintf(stderr,"%s: %ix%i\n",__func__,w,h);
@@ -754,7 +754,7 @@ fprintf(stderr,"%s: %ix%i\n",__func__,w,h);
             flags |= SDL_FULLSCREEN;
         }
 
-        sdl_active_canvas->hwscale_screen = SDL_SetVideoMode(w, h, sdl_bitdepth, flags);
+        sdl_active_canvas->hwscale_screen = SDL_SetVideoMode((int)w, (int)h, sdl_bitdepth, flags);
         sdl_gl_set_viewport(sdl_active_canvas->width, sdl_active_canvas->height, w, h);
     } else
 #endif
