@@ -204,6 +204,72 @@ EXTRA_DIST = \
 	win32-msvc/xplus4.dsp \
 	win32-msvc/xvic.dsp \
 	win32-msvc/zlib.dsp \
+	win64-msvc/config.h \
+	win64-msvc/dirent.h \
+	win64-msvc/siddefs.h \
+	win64-msvc/siddefs-fp.h \
+	win64-msvc/vice.manifest \
+	win64-msvc/_vice.vcproj \
+	win64-msvc/arch.vcproj \
+	win64-msvc/base.vcproj \
+	win64-msvc/c128.vcproj \
+	win64-msvc/c1541.vcproj \
+	win64-msvc/c64.vcproj \
+	win64-msvc/c64c128.vcproj \
+	win64-msvc/c64c64dtv.vcproj \
+	win64-msvc/c64cart.vcproj \
+	win64-msvc/c64dtv.vcproj \
+	win64-msvc/c64dtvstubs.vcproj \
+	win64-msvc/c64exp.vcproj \
+	win64-msvc/cartconv.vcproj \
+	win64-msvc/cbm2.vcproj \
+	win64-msvc/core.vcproj \
+	win64-msvc/crtc.vcproj \
+	win64-msvc/diskimage.vcproj \
+	win64-msvc/drive.vcproj \
+	win64-msvc/fileio.vcproj \
+	win64-msvc/fsdevice.vcproj \
+	win64-msvc/gentranslate.vcproj \
+	win64-msvc/gfxoutputdrv.vcproj \
+	win64-msvc/iec.vcproj \
+	win64-msvc/iec128dcr.vcproj \
+	win64-msvc/iecbus.vcproj \
+	win64-msvc/iecieee.vcproj \
+	win64-msvc/ieee.vcproj \
+	win64-msvc/imagecontents.vcproj \
+	win64-msvc/monitor.vcproj \
+	win64-msvc/parallel.vcproj \
+	win64-msvc/pet.vcproj \
+	win64-msvc/petcat.vcproj \
+	win64-msvc/plus4.vcproj \
+	win64-msvc/plus4exp.vcproj \
+	win64-msvc/png.vcproj \
+	win64-msvc/printerdrv.vcproj \
+	win64-msvc/raster.vcproj \
+	win64-msvc/resid.vcproj \
+	win64-msvc/residdtv.vcproj \
+	win64-msvc/residfp.vcproj \
+	win64-msvc/rs232drv.vcproj \
+	win64-msvc/serial.vcproj \
+	win64-msvc/sid.vcproj \
+	win64-msvc/sounddrv.vcproj \
+	win64-msvc/tape.vcproj \
+	win64-msvc/tcbm.vcproj \
+	win64-msvc/vdc.vcproj \
+	win64-msvc/vdrive.vcproj \
+	win64-msvc/vic20.vcproj \
+	win64-msvc/vice.sln \
+	win64-msvc/vicii.vcproj \
+	win64-msvc/viciidtv.vcproj \
+	win64-msvc/video.vcproj \
+	win64-msvc/x128.vcproj \
+	win64-msvc/x64.vcproj \
+	win64-msvc/x64dtv.vcproj \
+	win64-msvc/xcbm2.vcproj \
+	win64-msvc/xpet.vcproj \
+	win64-msvc/xplus4.vcproj \
+	win64-msvc/xvic.vcproj \
+	win64-msvc/zlib.vcproj \
 	archdep_amiga.c \
 	archdep_amiga.h \
 	archdep_beos.c \
