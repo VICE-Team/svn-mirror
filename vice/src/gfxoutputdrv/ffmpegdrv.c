@@ -698,7 +698,7 @@ __declspec(naked) static int ffmpeg_avcodec_encode_video(AVCodecContext* c, uint
 {
     _asm {
         /*
-         * Create a stand stack frame.
+         * Create a standard stack frame.
          * This way, we can be sure that we
          * can restore ESP afterwards.
          */
