@@ -211,10 +211,6 @@
 
 #ifndef DRIVE_CPU
 
-#ifdef DEBUG
-   int debug_perform_break_into_monitor = 0;
-#endif
-
 #ifndef C64DTV
 /* Export the local version of the registers.  */
 #define EXPORT_REGISTERS()      \
@@ -1948,10 +1944,10 @@ static const BYTE rewind_fetch_tab[] = {
                                                     lo, hi, 0, 1, "6502"),
                           reg_a_read, reg_x, reg_y, reg_sp);
         }
-        if (debug_perform_break_into_monitor)
+        if (debug.perform_break_into_monitor)
         {
             monitor_startup_trap();
-            debug_perform_break_into_monitor = 0;
+            debug.perform_break_into_monitor = 0;
         }
 #endif
 #endif
