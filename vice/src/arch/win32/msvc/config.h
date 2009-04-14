@@ -52,6 +52,7 @@
 #define HAVE_TFE                1
 #define HAVE_FFMPEG             1
 #define HAVE_FFMPEG_SWSCALE     1
+#define HAVE_FFMPEG_HEADER_SUBDIRS 1
 
 #ifndef _WIN64
 #define FFMPEG_ALIGNMENT_HACK   1
