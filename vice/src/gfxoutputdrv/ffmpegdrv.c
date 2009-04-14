@@ -697,6 +697,11 @@ static int ffmpegdrv_close(screenshot_t *screenshot)
 __declspec(naked) static int ffmpeg_avcodec_encode_video(AVCodecContext* c, uint8_t* video_outbuf, int video_outbuf_size, const AVFrame* picture)
 {
     _asm {
+        /*
+         * Create a stand stack frame.
+         * This way, we can be sure that we
+         * can restore ESP afterwards.
+         */
         push ebp
         mov ebp,esp
         sub esp, __LOCAL_SIZE /* not needed, but safer against errors when changing this function */
@@ -704,11 +709,13 @@ __declspec(naked) static int ffmpeg_avcodec_encode_video(AVCodecContext* c, uint
         /* adjust stack to 16 byte boundary */
         and esp,~0x0f
     }
-        /* now, copy the parameters for our new call */
+
+    /* execute the command */
 
     (*ffmpeglib.p_avcodec_encode_video)(c, video_outbuf, video_outbuf_size, picture);
 
     _asm {
+        /* undo the stack frame, restoring ESP and EBP */
         mov esp,ebp
         pop ebp
         ret
