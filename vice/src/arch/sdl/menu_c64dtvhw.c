@@ -78,6 +78,7 @@ static const ui_menu_entry_t c64dtv_userport_menu[] = {
       toggle_Mouse_callback,
       NULL },
 #endif
+    { NULL }
 };
 
 UI_MENU_DEFINE_FILE_STRING(c64dtvromfilename)
