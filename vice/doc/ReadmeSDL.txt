@@ -37,6 +37,7 @@ The SDL port has been tested to work on:
  - Amiga OS 4.x / ppc
  - AROS / ppc, x86, x64
  - BeOS / ppc, x86
+ - FreeBSD / alpha
  - GP2X / arm (needs fixing)
  - Linux / alpha, ppc, x86, x64
  - Morphos / ppc
