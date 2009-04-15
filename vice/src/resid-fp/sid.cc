@@ -165,6 +165,7 @@ void SIDFP::set_voice_nonlinearity(float nl)
   voice[0].envelope.set_nonlinearity(nl);
   voice[0].wave.set_nonlinearity(nl);
   voice[0].wave.rebuild_wftable();
+  filter.set_nonlinearity(nl);
 }
 
 float SIDFP::kinked_dac(const int x, const float nonlinearity, const int max)

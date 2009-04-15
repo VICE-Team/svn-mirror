@@ -83,10 +83,15 @@ void FilterFP::set_chip_model(chip_model model)
     set_w0();
 }
 
+void FilterFP::set_nonlinearity(float nl)
+{
+    nonlinearity = nl;
+    set_w0();
+}
+
 /* dist_CT eliminates 1/x at hot spot */
 void FilterFP::set_clock_frequency(float clock) {
     clock_frequency = clock;
-    // outputleveldifference compensated back during Vhp computation.
     distortion_CT = 1.f / (sidcaps_6581 * clock_frequency);
     set_w0();
 }
@@ -168,8 +173,8 @@ void FilterFP::writeMODE_VOL(reg8 mode_vol)
 void FilterFP::set_w0()
 {
   if (model == MOS6581FP) {
-    /* div once by extra kinkiness because I fitted the type3 eq with that variant. */
-    float type3_fc_kink = SIDFP::kinked_dac(fc, kinkiness, 11) / kinkiness;
+    /* div once by extra nonlinearity because I fitted the type3 eq with that variant. */
+    float type3_fc_kink = SIDFP::kinked_dac(fc, nonlinearity, 11) / nonlinearity;
     type3_fc_kink_exp = type3_offset * expf(type3_fc_kink * type3_steepness * 256.f);
     if (distortion_point != 0.f) {
 	type3_fc_distortion_offset = (distortion_point - type3_fc_kink) * 256.f * distortion_rate;
