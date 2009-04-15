@@ -166,6 +166,9 @@ BYTE *mem_get_tedmem_base(unsigned int segment)
 /* Tape motor status.  */
 static BYTE old_port_data_out = 0xff;
 
+/* Tape write line status.  */
+static BYTE old_port_write_bit = 0xff;
+
 /* Tape read input.  */
 static BYTE tape_read = 0xff;
 
@@ -177,6 +180,11 @@ inline static void mem_proc_port_store(void)
 
     pport.data_out = (pport.data_out & ~pport.dir)
                      | (pport.data & pport.dir);
+
+    if (((~pport.dir | pport.data) & 0x02) != old_port_write_bit) {
+        old_port_write_bit = (~pport.dir | pport.data) & 0x02;
+        datasette_toggle_write_bit((~pport.dir | ~pport.data) & 0x02);
+    }
 
     (*iecbus_callback_write)((BYTE)~pport.data_out, last_write_cycle);
 

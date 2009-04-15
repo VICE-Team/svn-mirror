@@ -763,6 +763,11 @@ inline static void bit_write(void)
     write_time = maincpu_clk - last_write_clk;
     last_write_clk = maincpu_clk;
 
+    /* C16 TAPs use half the machine clock as base cycle */
+    if (machine_class == VICE_MACHINE_PLUS4) {
+        write_time = write_time / 2;
+    }
+
     if (write_time < (CLOCK)7)
         return;
 
@@ -796,6 +801,11 @@ inline static void bit_write(void)
         current_image->size = current_image->current_file_seek_position;
 
     current_image->cycle_counter += write_time / 8;
+
+    /* Correct for C16 TAPs so the counter is the same during record/play */
+    if (machine_class == VICE_MACHINE_PLUS4) {
+        current_image->cycle_counter += write_time / 8;
+    }
 
     if (current_image->cycle_counter_total
         < current_image->cycle_counter)
