@@ -42,6 +42,7 @@ The SDL port has been tested to work on:
  - Linux / alpha, ppc, x86, x64
  - Morphos / ppc
  - NetBSD / alpha
+ - OpenBSD / alpha
  - Openserver / x86
  - QNX 6.x / armle, mipsle, ppcbe, shle, x86
  - SkyOS / x86
