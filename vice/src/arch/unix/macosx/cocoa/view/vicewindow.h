@@ -27,7 +27,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import "viceglview.h"
-#import "joystickview.h"
 #import "fullscreenwindow.h"
 
 @interface VICEWindow : NSWindow
@@ -35,14 +34,6 @@
     NSBox *canvasContainer;
     VICEGLView *canvasView;
     
-    NSBox * statusBox;
-    NSTextField * recplayView;
-    NSTextField * speedView;
-    JoystickView *joystickView1;
-    JoystickView *joystickView2;
-
-    NSDrawer * peripheralDrawer;
-
     NSSize original_canvas_size;
     BOOL isFullscreen;
     FullscreenWindow *fullscreenWindow;

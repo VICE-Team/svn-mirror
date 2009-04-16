@@ -25,11 +25,8 @@
  *
  */
 
-#import "vicenotifications.h"
 #import "vicewindow.h"
 #import "viceapplication.h"
-
-#define STATUS_HEIGHT 22
 
 @implementation VICEWindow
 
@@ -41,7 +38,7 @@
     unsigned int canvas_height = size.height;
     original_canvas_size = size;
 
-    // create main window
+    // set window style
     unsigned int style =
         NSTitledWindowMask | NSClosableWindowMask |
         NSMiniaturizableWindowMask | NSResizableWindowMask;
@@ -49,7 +46,6 @@
         style |= NSTexturedBackgroundWindowMask;
     
     // create window
-    rect.size.height += STATUS_HEIGHT;
     self = [super initWithContentRect:rect
                             styleMask:style
                               backing:NSBackingStoreBuffered
@@ -60,16 +56,16 @@
     // setup window
     [self setTitle:title];
     [self setFrameAutosaveName:title];
-    [self setContentMinSize:NSMakeSize(canvas_width / 2, STATUS_HEIGHT + canvas_height / 2)];
+    [self setContentMinSize:NSMakeSize(canvas_width / 2, canvas_height / 2)];
 
     // now size could have changed due to prefences size
     // so determine current canvas size
     NSRect bounds = [[self contentView] bounds];
     unsigned int cw = NSWidth(bounds);
-    unsigned int ch = NSHeight(bounds) - STATUS_HEIGHT;
+    unsigned int ch = NSHeight(bounds);
 
     // the container box for the canvas
-    rect = NSMakeRect(0, STATUS_HEIGHT, cw, ch);
+    rect = NSMakeRect(0, 0, cw, ch);
     canvasContainer = [[NSBox alloc] initWithFrame:rect];
     [canvasContainer setContentViewMargins:NSMakeSize(0, 0)];
     [canvasContainer setTitlePosition:NSNoTitle];
@@ -83,56 +79,6 @@
     [canvasView setupTexture:size];
     [canvasView setAutoresizingMask: (NSViewWidthSizable | NSViewHeightSizable)];
     [canvasContainer addSubview:canvasView];
-
-    // status line rect
-    rect = NSMakeRect(20, 0, cw - 50, STATUS_HEIGHT);
-    statusBox = [[NSBox alloc] initWithFrame:rect];
-    [statusBox setContentViewMargins:NSMakeSize(0, 0)];
-    [statusBox setTitlePosition:NSNoTitle];
-    [statusBox setBorderType:NSNoBorder]; // NSNoBorder/NSLineBorder/NSGrooveBorder
-    [statusBox setAutoresizingMask: (NSViewWidthSizable | NSViewMaxYMargin)];
-    [[self contentView] addSubview:statusBox];
-
-    int speedWidth = NSWidth(rect)-(50+STATUS_HEIGHT*2);
-    
-    speedView = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, speedWidth, STATUS_HEIGHT)];
-    [speedView setDrawsBackground:NO];
-    [speedView setEditable:NO];
-    [speedView setBordered:NO];
-    [speedView setAutoresizingMask: NSViewWidthSizable];
-    [statusBox addSubview:speedView];
-
-    recplayView = [[NSTextField alloc] initWithFrame:NSMakeRect(speedWidth, 0, 50, STATUS_HEIGHT)];
-    [recplayView setDrawsBackground:NO];
-    [recplayView setEditable:NO];
-    [recplayView setBordered:NO];
-    [recplayView setAlignment:NSRightTextAlignment];
-    [recplayView setAutoresizingMask: NSViewMinXMargin];
-    [statusBox addSubview:recplayView];
-
-    joystickView1 = [[JoystickView alloc] initWithFrame:NSMakeRect(speedWidth+50,0,STATUS_HEIGHT,STATUS_HEIGHT)];
-    [joystickView1 setAutoresizingMask: NSViewMinXMargin];
-    [statusBox addSubview:joystickView1];
-
-    joystickView2 = [[JoystickView alloc] initWithFrame:NSMakeRect(speedWidth+50+STATUS_HEIGHT,0,STATUS_HEIGHT,STATUS_HEIGHT)];
-    [joystickView2 setAutoresizingMask: NSViewMinXMargin];
-    [statusBox addSubview:joystickView2];
-
-    // register notifcations
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(displaySpeed:)
-                                                 name:VICEDisplaySpeedNotification
-                                               object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(displayPause:)
-                                                 name:VICETogglePauseNotification
-                                               object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(displayJoystick:)
-                                                 name:VICEDisplayJoystickNotification
-                                               object:nil];
 
     isFullscreen = false;
     return self;
@@ -150,11 +96,7 @@
 - (void)dealloc
 {
     [canvasView release];
-    [recplayView release];
-    [speedView release];
-    [peripheralDrawer release];
-    [statusBox release];
-
+    [canvasContainer release];
     [super dealloc];
 }
 
@@ -179,7 +121,7 @@
     original_canvas_size = size;
     [canvasView setupTexture:size];
 
-    [self setContentMinSize:NSMakeSize(size.width / 2, STATUS_HEIGHT + size.height / 2)];
+    [self setContentMinSize:NSMakeSize(size.width / 2, size.height / 2)];
     [self resizeCanvasToMultipleSize:nil];
 }
 
@@ -193,7 +135,7 @@
     NSSize s = [[self contentView] bounds].size;
     
     f.size.width  = original_canvas_size.width * factor;
-    f.size.height += original_canvas_size.height * factor - s.height + STATUS_HEIGHT;
+    f.size.height += original_canvas_size.height * factor - s.height;
     f.origin.y    += s.height - original_canvas_size.height;
     [self setFrame:f display:YES];
 }
@@ -217,7 +159,7 @@
     }
 
     float titleHeight = NSHeight([self frame]) - NSHeight([[self contentView] bounds]);
-    float contentHeight = proposedFrameSize.height - titleHeight - STATUS_HEIGHT;
+    float contentHeight = proposedFrameSize.height - titleHeight;
 
     if (modifierMask & NSAlternateKeyMask)
     {
@@ -229,7 +171,7 @@
 
     float aspect_ratio = original_canvas_size.width / original_canvas_size.height;
     float scaledWidth = contentHeight * aspect_ratio;
-    return NSMakeSize(scaledWidth, contentHeight + titleHeight + STATUS_HEIGHT);
+    return NSMakeSize(scaledWidth, contentHeight + titleHeight);
 }
 
 // toggle fullscreen
@@ -276,38 +218,6 @@
         FALSE						// don't wait for completion
         );
     CGReleaseDisplayFadeReservation (displayFadeReservation);
-}
-
-// ---------- Status Display ----------
-
-- (void)displaySpeed:(NSNotification*)notification
-{
-    NSDictionary *dict = [notification userInfo];
-    NSString *s = [NSString stringWithFormat:@"%.1f%%, %.1f FPS%s",
-                          [[dict objectForKey:@"speed"] floatValue],
-                          [[dict objectForKey:@"frame_rate"] floatValue],
-                          [[dict objectForKey:@"warp_enabled"] boolValue] ? " (warp)" : ""];
-
-    [speedView setStringValue:s];
-}
-
-- (void)displayPause:(NSNotification*)notification
-{
-    BOOL pauseFlag = [[notification object] boolValue];
-    if (pauseFlag)
-        [speedView setStringValue:@"PAUSE"];
-    else
-        [speedView setStringValue:@""];
-}
-
-- (void)displayJoystick:(NSNotification *)notification
-{
-    NSDictionary *dict = [notification userInfo];
-    int joyVal1 = [[dict objectForKey:@"joy1"] intValue];
-    int joyVal2 = [[dict objectForKey:@"joy2"] intValue];
-    
-    [joystickView1 setJoyValue:joyVal1];
-    [joystickView2 setJoyValue:joyVal2];
 }
 
 // ----- copy & paste support -----

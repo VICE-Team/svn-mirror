@@ -92,6 +92,11 @@
     [tape_view setAutoresizingMask: NSViewWidthSizable];
     [main_view addSubview:tape_view];
 
+    // status view
+    status_view = [[StatusView alloc] initWithFrame:NSMakeRect(0, 0, PERIPH_WIDTH, PERIPH_HEIGHT)];
+    [status_view setAutoresizingMask: NSViewWidthSizable];
+    [main_view addSubview:status_view];
+
     [self setContentView:main_view];
 
     // react on
@@ -163,9 +168,12 @@
 
     // reposition tape display and rec/play field
     [tape_view setFrame:NSMakeRect(x, y, w, PERIPH_HEIGHT*3)];
+    y += PERIPH_HEIGHT * 3;
+    [status_view setFrame:NSMakeRect(x, y, w, PERIPH_HEIGHT)];
+    
     [[self contentView] setNeedsDisplay:YES];
-    total_height += PERIPH_HEIGHT*3;
-    total_height += PERIPH_OFFSET;
+    total_height += PERIPH_HEIGHT*4;
+    total_height += 2;
     
     // adjust window frame to stay on same top
     float old_top = NSMinY(frameRect) + NSHeight(frameRect);

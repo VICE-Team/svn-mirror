@@ -1,5 +1,5 @@
 /*
- * controlwindow.h - Control Window
+ * statusview.h - Status bar view
  *
  * Written by
  *  Christian Vogelgsang <chris@vogelgsang.org>
@@ -25,26 +25,16 @@
  *
  */
 
-#include "drive.h"
+#import <Cocoa/Cocoa.h>
+#import "joystickview.h"
 
-#import "driveview.h"
-#import "tapeview.h"
-#import "statusview.h"
-
-@interface FlippedView : NSView
-@end
-
-@interface ControlWindow : NSPanel
+@interface StatusView : NSBox
 {
-    FlippedView *main_view;
-    TapeView *   tape_view;
-    DriveView *  drive_view[DRIVE_NUM];
-    StatusView * status_view;
-
-    NSColor * led_color[2];
+  NSTextField *  speedView;
+  JoystickView * joystickView1;
+  JoystickView * joystickView2;
 }
 
-- (id)initWithContentRect:(NSRect)rect title:(NSString *)title;
+- (id)initWithFrame:(NSRect)frame;
 
 @end
-
