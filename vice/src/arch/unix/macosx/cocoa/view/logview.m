@@ -170,14 +170,16 @@
     NSTextStorage * text = [self textStorage];
     unsigned int len = [text length];
 
+    [last_input release];
     if (len > input_pos)
     {
-        [last_input release];
         last_input = [[[text string] substringWithRange:NSMakeRange(input_pos, len - input_pos)] retain];
 #ifdef HAVE_EDITLINE
         HistEvent ev;
         history(hist, &ev, H_ENTER, [last_input cStringUsingEncoding:NSUTF8StringEncoding]);
 #endif
+    } else {
+        last_input = nil;
     }
 
     [target performSelector:action withObject:self];
