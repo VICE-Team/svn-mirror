@@ -167,6 +167,11 @@
 
 - (void)insertNewline:(id)sender
 {
+    // ignore newlines after editing
+    if(![self isEditable]) {
+        return;
+    }
+
     NSTextStorage * text = [self textStorage];
     unsigned int len = [text length];
 
