@@ -143,9 +143,9 @@
     if(buffer!=nil)
         [self flushBuffer];
 
+    [log_view setTarget:self];
+    [log_view setAction:@selector(endConsoleInput:)];
     [log_view setEditable:YES];
-    [(LogView*)log_view setTarget:self];
-    [(LogView*)log_view setAction:@selector(endConsoleInput:)];
     [NSApp runModalForWindow:self];
     [log_view setEditable:NO];
 

@@ -28,12 +28,8 @@
 #import "logview.h"
 
 #ifdef HAVE_EDITLINE
-#include <histedit.h>
-#endif  /* HAVE_EDITLINE */
-
-#ifdef HAVE_EDITLINE
 # define HISTORY_SIZE 500
-#endif  /* HAVE_EDITLINE */
+#endif
 
 @implementation LogView
 
@@ -70,23 +66,12 @@
 {
     if ((self = [super initWithFrame:frame]) != nil)
     {
-        NSData * data;
-        NSUserDefaults * def = [NSUserDefaults standardUserDefaults];
-
-        data = [def objectForKey:@"LogViewFont"];
-        if (data != nil)
-            [self setFont:[NSUnarchiver unarchiveObjectWithData:data]];
-
-        data = [def objectForKey:@"LogViewTextColor"];
-        if (data != nil)
-            [self setTextColor:[NSUnarchiver unarchiveObjectWithData:data]];
-
         last_input = nil;
 #ifdef HAVE_EDITLINE
         hist = history_init();
         HistEvent ev;
         history(hist, &ev, H_SETSIZE, HISTORY_SIZE);
-#endif  /* HAVE_EDITLINE */
+#endif
     }
     return self;
 }
@@ -95,7 +80,7 @@
 {
 #ifdef HAVE_EDITLINE
     history_end(hist);
-#endif  /* HAVE_EDITLINE */
+#endif
     [last_input dealloc];
     [super dealloc];
 }
@@ -107,7 +92,7 @@
         input_pos = [[self textStorage] length];
 #ifdef HAVE_EDITLINE
         in_history = NO;
-#endif  /* HAVE_EDITLINE */
+#endif
     }
 
     [super setEditable:flag];
@@ -152,7 +137,8 @@
                 if (in_history)
                 {
                     [self replaceCharactersInRange:sel
-                                        withString:[NSString stringWithCString:ev.str]];
+                                        withString:[NSString stringWithCString:ev.str
+                                                         encoding:NSUTF8StringEncoding]];
                 }
                 return;
 
@@ -167,7 +153,8 @@
                     else
                     {
                         [self replaceCharactersInRange:sel
-                                            withString:[NSString stringWithCString:ev.str]];
+                                            withString:[NSString stringWithCString:ev.str 
+                                                            encoding:NSUTF8StringEncoding]];
                     }
                 }
                 return;
@@ -176,7 +163,7 @@
 
     [super keyDown:event];
 }
-#endif  /* HAVE_EDITLINE */
+#endif
 
 - (void)insertNewline:(id)sender
 {
@@ -189,31 +176,12 @@
         last_input = [[[text string] substringWithRange:NSMakeRange(input_pos, len - input_pos)] retain];
 #ifdef HAVE_EDITLINE
         HistEvent ev;
-        history(hist, &ev, H_ENTER, [last_input cString]);
-#endif  /* HAVE_EDITLINE */
+        history(hist, &ev, H_ENTER, [last_input cStringUsingEncoding:NSUTF8StringEncoding]);
+#endif
     }
 
     [target performSelector:action withObject:self];
     [super insertNewline:sender];
-}
-
-- (void)changeFont:(id)sender
-{
-    NSFont * font = [sender convertFont:[self font]];
-    [self setFont:font];
-
-    NSUserDefaults * def = [NSUserDefaults standardUserDefaults];
-    NSString * key = @"LogViewFont";
-    [def setObject:[NSArchiver archivedDataWithRootObject:font] forKey:key];
-}
-
-- (void)changeColor:(id)sender
-{
-    [self setTextColor:[sender color]];
-
-    NSUserDefaults * def = [NSUserDefaults standardUserDefaults];
-    NSString * key = @"LogViewTextColor";
-    [def setObject:[NSArchiver archivedDataWithRootObject:[self textColor]] forKey:key];
 }
 
 @end

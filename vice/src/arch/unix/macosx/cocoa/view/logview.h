@@ -27,6 +27,11 @@
 
 #import <Cocoa/Cocoa.h>
 
+#include "vice.h"
+#ifdef HAVE_EDITLINE
+#include <histedit.h>
+#endif
+
 @interface LogView : NSTextView
 {
     unsigned int input_pos;

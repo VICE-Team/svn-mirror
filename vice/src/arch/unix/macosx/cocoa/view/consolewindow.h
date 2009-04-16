@@ -26,10 +26,11 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import "logview.h"
 
 @interface ConsoleWindow : NSPanel
 {
-    NSTextView * log_view;
+    LogView * log_view;
     NSScrollView * scroll;
 
     NSPipe *log_pipe;

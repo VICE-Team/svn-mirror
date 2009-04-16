@@ -66,7 +66,7 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
     NSString *line = [[theVICEMachine app] readMonitorLine:[NSString stringWithCString:prompt encoding:NSUTF8StringEncoding]];
     char *ret;
     if(line==nil)
-        ret = lib_stralloc("exit");
+        ret = lib_stralloc("");
     else
         ret = lib_stralloc([line cStringUsingEncoding:NSUTF8StringEncoding]);
     return ret;
