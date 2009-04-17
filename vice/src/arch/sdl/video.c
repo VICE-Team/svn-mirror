@@ -53,6 +53,7 @@
 #include "util.h"
 #include "videoarch.h"
 #include "vkbd.h"
+#include "vsync.h"
 
 static log_t sdlvideo_log = LOG_ERR;
 
@@ -739,6 +740,8 @@ void sdl_video_resize(unsigned int w, unsigned int h)
 #ifdef SDL_DEBUG
 fprintf(stderr,"%s: %ix%i\n",__func__,w,h);
 #endif
+    vsync_suspend_speed_eval();
+
     if ((w == 0) && (h == 0)) {
         w = sdl_active_canvas->real_width;
         h = sdl_active_canvas->real_height;
