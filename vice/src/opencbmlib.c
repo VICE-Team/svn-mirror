@@ -57,7 +57,7 @@ static void *opencbm_so = NULL;
 static void opencbmlib_free_library(void)
 {
     if (opencbm_so != NULL) {
-        if (!vice_dynlib_close(opencbm_so)) {
+        if (vice_dynlib_close(opencbm_so) != 0) {
             log_debug("closing dynamic library " OPENCBM_SO_NAME " failed!");
         }
     }

@@ -180,7 +180,7 @@ static int load_avcodec(ffmpeglib_t *lib)
 static void free_avcodec(ffmpeglib_t *lib)
 {
     if (avcodec_so) {
-        if (!vice_dynlib_close(avcodec_so)) {
+        if (vice_dynlib_close(avcodec_so) != 0) {
             log_debug("closing dynamic library " AVCODEC_SO_NAME " failed!");
         }
     }
@@ -231,7 +231,7 @@ static int load_avformat(ffmpeglib_t *lib)
 static void free_avformat(ffmpeglib_t *lib)
 {
     if (avformat_so) {
-        if (!vice_dynlib_close(avformat_so)) {
+        if (vice_dynlib_close(avformat_so) != 0) {
             log_debug("closing dynamic library " AVFORMAT_SO_NAME " failed!");
         }
     }
@@ -276,7 +276,7 @@ static int load_avutil(ffmpeglib_t *lib)
 static void free_avutil(ffmpeglib_t *lib)
 {
     if (avutil_so) {
-        if (!vice_dynlib_close(avutil_so)) {
+        if (vice_dynlib_close(avutil_so) != 0) {
             log_debug("closing dynamic library " AVUTIL_SO_NAME " failed!");
         }
     }
@@ -308,7 +308,7 @@ static int load_swscale(ffmpeglib_t *lib)
 static void free_swscale(ffmpeglib_t *lib)
 {
     if (swscale_so) {
-        if (!vice_dynlib_close(swscale_so)) {
+        if (vice_dynlib_close(swscale_so) != 0) {
             log_debug("closing dynamic library " SWSCALE_SO_NAME " failed!");
         }
     }

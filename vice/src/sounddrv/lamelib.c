@@ -81,7 +81,7 @@ static int load_lib(void)
 static void free_lib(void)
 {
     if (lib_so) {
-        if (!vice_dynlib_close(lib_so)) {
+        if (vice_dynlib_close(lib_so) != 0) {
             log_debug("closing dynamic library " SO_NAME " failed!");
         }
     }
