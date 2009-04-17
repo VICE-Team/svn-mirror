@@ -500,7 +500,11 @@ static void advance_hasdisk(void)
                 set_true_drive_emulation_mode(1);
             }
         } else {
-            traps = 1;
+            if(!orig_drive_true_emulation_state) {
+                traps = 1;
+            } else {
+                traps = 0;
+            }
         }
         tmp = lib_msprintf("LOAD\"%s\",8,1:\r", 
             autostart_program_name ?
