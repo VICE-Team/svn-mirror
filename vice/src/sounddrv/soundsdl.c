@@ -84,11 +84,6 @@ static int sdl_init(const char *param, int *speed,
     /* No stereo capability. */
     *channels = 1;
 
-#ifdef WIN32
-    /* FIXME win32 seems to need larger fragments to work properly */
-    *fragsize *= 2;
-#endif
-
     memset(&spec, 0, sizeof(spec));
     spec.freq = *speed;
     spec.format = AUDIO_S16;

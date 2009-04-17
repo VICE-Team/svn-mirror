@@ -583,13 +583,13 @@ int sound_open(void)
     speed = (sample_rate < 8000 || sample_rate > 96000)
             ? SOUND_SAMPLE_RATE : sample_rate;
 
-    /* Calculate reasonable fragments. Target is 4 fragments per frame,
+    /* Calculate reasonable fragments. Target is 2 fragments per frame,
      * which gives a reasonable number of fillable audio chunks to avoid
      * ugly situation where a full frame refresh needs to occur before more
      * audio is generated. It also improves the estimate of optimal frame
      * length for vsync, which is closely tied to audio and uses the fragment
      * information to calculate it. */
-    fragsize = speed / ((rfsh_per_sec < 1.0) ? 1 : ((int)rfsh_per_sec)) / 4;
+    fragsize = speed / ((rfsh_per_sec < 1.0) ? 1 : ((int)rfsh_per_sec)) / 2;
     for (i = 1; 1 << i < fragsize; i++);
     fragsize = 1 << i;
     fragnr = (int)((speed * bufsize + fragsize - 1) / fragsize);
