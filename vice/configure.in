@@ -365,7 +365,7 @@ elif test x"$host_os" = "xriscos"; then
   AM_CONDITIONAL(HAVE_RS232, false)
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
 
-elif test x"$host_os" = "xgp2x" -o x"$host_os" = "xlinux-gp2x" -o x"$host_vendor" = "xgp2x"; then
+elif test x"$host_os" = "xgp2x" -o x"$host_os" = "xlinux-gp2x" -o x"$host_vendor" = "xgp2x" -o "$host_os" = "xopen2x" -o x"$host_os" = "xlinux-open2x" -o x"$host_vendor" = "xopen2x"; then
 
   dnl This is used by subsequent tests.
   ac_cv_prog_gcc=yes
@@ -806,7 +806,7 @@ else
     if test x"$host_os" = "xamigaos" -a x"$host_cpu" = "xm68k"; then
         disable_resid_fp=yes
     fi
-    if test x"$host_os" = "xgp2x" -o x"$host_os" = "xlinux-gp2x" -o x"$host_vendor" = "xgp2x"; then
+    if test x"$is_unix_gp2x" = "xyes"; then
         disable_resid_fp=yes
     fi
 

@@ -1,8 +1,8 @@
 This document describes how to compile the GP2X port.
 
 
-First of all you will need to install DevkitGP2X, and make sure the 
-cross-toolchain binaries are in the PATH.
+First of all you will need to install DevkitGP2X or Open2x toolchain,
+and make sure the cross-toolchain binaries are in the PATH.
 
 After installing DevkitGP2X you will need to copy or make links for the 
 following files:
@@ -13,14 +13,20 @@ arm-linux-gcc    to arm-gp2x-linux-gcc
 arm-linux-ranlib to arm-gp2x-linux-ranlib
 arm-linux-strip  to arm-gp2x-linux-strip
 
+(NOTE: this is not needed for Open2x)
+
 After doing this you will be able to use the --host configure option for 
 VICE to have it build the GP2X port. In other words, you just use:
 
+(with DevkitGP2X)
 ./configure --host=arm-gp2x-linux
 
+(with Open2x toolchain)
+./configure --host=arm-open2x-linux
+
 And the configure script will try to find and use the correct 
-cross-toolchain (arm-gp2x-linux-*), and set the correct CFLAGS and LDFLAGS 
-for the GP2X port.
+cross-toolchain (arm-{gp2x,open2x}-linux-*), and set the correct CFLAGS 
+and LDFLAGS for the GP2X port.
 
 After the compile is done you can use 'make bindist' to create a binary 
 distribution directory, or use 'make bindistzip' to create a binary 
