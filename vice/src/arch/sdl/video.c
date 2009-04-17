@@ -605,6 +605,13 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
 
 #ifdef HAVE_HWSCALE
     if (canvas->videoconfig->hwscale) {
+        if (!(canvas->hwscale_screen)) {
+#ifdef SDL_DEBUG
+fprintf(stderr,"%s: hwscale refresh without hwscale screen, ignoring\n",__func__);
+#endif
+            return;
+        }
+
 /* XXX make use of glXBindTexImageEXT aka texture from pixmap extension */
 
         glClear(GL_COLOR_BUFFER_BIT);
