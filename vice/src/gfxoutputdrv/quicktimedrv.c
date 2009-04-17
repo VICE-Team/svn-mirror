@@ -618,7 +618,7 @@ static gfxoutputdrv_t quicktime_drv = {
     quicktimedrv_record,
     NULL,
     quicktimedrv_resources_init,
-    quicktimedrv_cmdline_options_init,
+    quicktimedrv_cmdline_options_init
 #ifdef FEATURE_CPUMEMHISTORY
     ,NULL
 #endif
