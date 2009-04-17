@@ -2,6 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Autostart</key>
+	<dict>
+		<key>Handle True Drive Emulation</key>
+		<string>AutostartHandleTrueDriveEmulation,b</string>
+		<key>Run With Colon</key>
+		<string>AutostartRunWithColon,b</string>
+	</dict>
 	<key>DTV</key>
 	<dict>
 		<key>Flash Filesystem Directory</key>
