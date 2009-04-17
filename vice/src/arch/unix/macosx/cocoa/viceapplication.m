@@ -26,6 +26,7 @@
 
 #include "videoarch.h"
 #include "viewport.h"
+#include "uiapi.h"
 
 #import "viceapplication.h"
 #import "vicemachine.h"
@@ -544,11 +545,11 @@ const float control_win_width = 200;
     [alert release];
     
     if(result==NSAlertFirstButtonReturn)
-        return 0;
+        return UI_JAM_RESET;
     else if(result==NSAlertSecondButtonReturn)
-        return 1;
+        return UI_JAM_MONITOR;
     else
-        return 2;
+        return UI_JAM_HARD_RESET;
 }
 
 - (BOOL)runExtendImageDialog
