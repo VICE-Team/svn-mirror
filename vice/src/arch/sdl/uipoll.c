@@ -43,6 +43,8 @@ static inline int is_not_modifier(SDLKey k)
 {
     return ((k != SDLK_RSHIFT) &&
             (k != SDLK_LSHIFT) &&
+            (k != SDLK_RMETA) &&
+            (k != SDLK_LMETA) &&
             (k != SDLK_RCTRL) &&
             (k != SDLK_LCTRL) &&
             (k != SDLK_RALT) &&

@@ -288,7 +288,9 @@ ui_menu_action_t sdlkbd_press(SDLKey key, SDLMod mod)
     ui_menu_action_t i, retval = MENU_ACTION_NONE;
     ui_menu_entry_t *hotkey_action = NULL;
 
-/*fprintf(stderr,"%s: %i (%s),%i\n",__func__,key,SDL_GetKeyName(key),mod);*/
+#ifdef SDL_DEBUG
+fprintf(stderr,"%s: %i (%s),%i\n",__func__,key,SDL_GetKeyName(key),mod);
+#endif
     if (sdl_menu_state || sdl_vkbd_state) {
         if (key != SDLK_UNKNOWN) {
             for (i = MENU_ACTION_UP; i < MENU_ACTION_NUM; ++i) {
