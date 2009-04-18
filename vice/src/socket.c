@@ -44,6 +44,10 @@
 #include "socket.h"
 #include "socketimpl.h"
 
+#ifndef HAVE_SOCKLEN_T
+typedef size_t socklen_t;
+#endif
+
 /*! \brief determine the number of elements of an array
 
  \param _x

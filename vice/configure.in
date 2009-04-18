@@ -1158,6 +1158,13 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes" -o x"$is_unix_macosx" = 
       AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
       AC_CHECK_FUNCS(htons htonl)
       AC_CHECK_FUNCS(getdtablesize getrlimit)
+      AC_MSG_CHECKING([For socklen_t])
+      AC_TRY_COMPILE([#include <sys/types.h>],
+                     [#include <sys/socket.h>],
+                     [socklen_t foo; foo = 1235;],
+                     [AC_DEFINE(HAVE_SOCKLEN_T)
+                      AC_MSG_RESULT(yes)],
+                     [AC_MSG_RESULT(no)])
     fi
   fi
 elif test x"$is_beos" = "xyes"; then
