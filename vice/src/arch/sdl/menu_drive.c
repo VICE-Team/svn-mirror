@@ -195,6 +195,7 @@ static char *get_drive_type_string(int drive)
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
 UI_MENU_DEFINE_TOGGLE(AutostartHandleTrueDriveEmulation)
+UI_MENU_DEFINE_TOGGLE(AutostartWarp)
 UI_MENU_DEFINE_TOGGLE(VirtualDevices)
 
 static UI_MENU_CALLBACK(set_hide_p00_files_callback)
@@ -1663,11 +1664,14 @@ const ui_menu_entry_t drive_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_AutostartHandleTrueDriveEmulation_callback,
       NULL },
+    { "Autostart warp",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_AutostartWarp_callback,
+      NULL },
     { "Virtual device traps",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VirtualDevices_callback,
       NULL },
-    SDL_MENU_ITEM_SEPARATOR,
    { "Fliplist settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
