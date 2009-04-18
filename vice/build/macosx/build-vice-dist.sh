@@ -70,6 +70,10 @@ echo "  dist type:    $DIST_TYPE"
 echo "  ext lib dir:  $EXTLIB_DIR"
 echo "  build dir:    $BUILD_DIR"
 echo "  sdk version:  $SDK_VERSION"
+
+# ----- determine number of CPUs -----
+NUM_CPUS=`hostinfo | grep 'processors are logically available' | awk '{print $1}'`
+echo "  cpu cores:    $NUM_CPUS"
 echo
 
 # ----- determine build options -----
@@ -233,7 +237,7 @@ build_vice () {
     $VICE_SRC/configure --host=$BUILD_ARCH2-apple-darwin $CONFIGURE_FLAGS \
       --x-includes=$BUILD_SDK/usr/X11R6/include --x-libraries=$BUILD_SDK/usr/X11R6/lib
   set +x
-  make 2>&1 | tee build.log 
+  make -j $NUM_CPUS 2>&1 | tee build.log 
   echo "--- Warnings ---" 
   fgrep warning: build.log
   popd
