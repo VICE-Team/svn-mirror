@@ -591,20 +591,35 @@ static void advance_hassnapshot(void)
     }
 }
 
+static void enable_warp_if_requested(void)
+{
+    /* enable warp mode? */
+    if(AutostartWarp) {
+        orig_warp_mode = get_warp_mode();
+        if(!orig_warp_mode) {
+            log_message(autostart_log, "Turning Warp mode on");
+            set_warp_mode(1);
+        }
+    }
+}
+
+static void disable_warp_if_was_requested(void)
+{
+    /* disable warp mode */
+    if(AutostartWarp) {
+        if(!orig_warp_mode) {
+            log_message(autostart_log, "Turning Warp mode off");
+            set_warp_mode(0);
+        }
+    }    
+}
+
 static void advance_waitromenter(void)
 {
     if(reg_pc >= 0xa000) {
         log_message(autostart_log, "ROM entered.");
         autostartmode = AUTOSTART_WAITROMLEAVE;
-
-        /* enable warp mode? */
-        if(AutostartWarp) {
-            orig_warp_mode = get_warp_mode();
-            if(!orig_warp_mode) {
-                log_message(autostart_log, "Turning Warp mode on");
-                set_warp_mode(1);
-            }
-        }            
+        enable_warp_if_requested();
     }
 }
 
@@ -613,14 +628,7 @@ static void advance_waitromleave(void)
     if(reg_pc < 0xa000) {
         log_message(autostart_log, "ROM left.");
         autostartmode = AUTOSTART_DONE;
-        
-        /* disable warp mode */
-        if(AutostartWarp) {
-            if(!orig_warp_mode) {
-                log_message(autostart_log, "Turning Warp mode off");
-                set_warp_mode(0);
-            }
-        }
+        disable_warp_if_was_requested();
     }
 }
 
@@ -967,8 +975,14 @@ void autostart_reset(void)
         && autostartmode != AUTOSTART_ERROR) {
         oldmode = autostartmode;
         autostartmode = AUTOSTART_NONE;
-        if (oldmode != AUTOSTART_DONE)
+        if (oldmode != AUTOSTART_DONE) {
             disk_eof_callback();
+        }
+        /* reset was issued while loading with warp in rom enabled 
+            -> disable warp again */
+        if (oldmode == AUTOSTART_WAITROMLEAVE) {
+            disable_warp_if_was_requested();
+        }
         autostartmode = AUTOSTART_NONE;
         deallocate_program_name();
         log_message(autostart_log, "Turned off.");
