@@ -82,8 +82,7 @@ static enum {
     AUTOSTART_HASDISK,
     AUTOSTART_LOADINGDISK,
     AUTOSTART_HASSNAPSHOT,
-    AUTOSTART_WAITROMENTER,
-    AUTOSTART_WAITROMLEAVE,
+    AUTOSTART_WAITLOADREADY,
     AUTOSTART_DONE
 } autostartmode = AUTOSTART_NONE;
 
@@ -346,6 +345,29 @@ static int get_warp_mode(void)
     return value;
 }
 
+static void enable_warp_if_requested(void)
+{
+    /* enable warp mode? */
+    if(AutostartWarp) {
+        orig_warp_mode = get_warp_mode();
+        if(!orig_warp_mode) {
+            log_message(autostart_log, "Turning Warp mode on");
+            set_warp_mode(1);
+        }
+    }
+}
+
+static void disable_warp_if_was_requested(void)
+{
+    /* disable warp mode */
+    if(AutostartWarp) {
+        if(!orig_warp_mode) {
+            log_message(autostart_log, "Turning Warp mode off");
+            set_warp_mode(0);
+        }
+    }    
+}
+
 /* ------------------------------------------------------------------------- */
 
 static void load_snapshot_trap(WORD unused_addr, void *unused_data)
@@ -557,9 +579,8 @@ static void advance_hasdisk(void)
         lib_free(tmp);
 
         if (!traps) {
-            if (autostart_run_mode == AUTOSTART_MODE_RUN)
-                kbdbuf_feed(AutostartRunCommand);
-            autostartmode = AUTOSTART_WAITROMENTER;
+            autostartmode = AUTOSTART_WAITLOADREADY;
+            enable_warp_if_requested();
         } else {
             autostartmode = AUTOSTART_LOADINGDISK;
             machine_bus_attention_callback_set(disk_attention_callback);
@@ -591,44 +612,27 @@ static void advance_hassnapshot(void)
     }
 }
 
-static void enable_warp_if_requested(void)
+static void advance_waitloadready(void)
 {
-    /* enable warp mode? */
-    if(AutostartWarp) {
-        orig_warp_mode = get_warp_mode();
-        if(!orig_warp_mode) {
-            log_message(autostart_log, "Turning Warp mode on");
-            set_warp_mode(1);
-        }
-    }
-}
-
-static void disable_warp_if_was_requested(void)
-{
-    /* disable warp mode */
-    if(AutostartWarp) {
-        if(!orig_warp_mode) {
-            log_message(autostart_log, "Turning Warp mode off");
-            set_warp_mode(0);
-        }
-    }    
-}
-
-static void advance_waitromenter(void)
-{
-    if(reg_pc >= 0xa000) {
-        log_message(autostart_log, "ROM entered.");
-        autostartmode = AUTOSTART_WAITROMLEAVE;
-        enable_warp_if_requested();
-    }
-}
-
-static void advance_waitromleave(void)
-{
-    if(reg_pc < 0xa000) {
-        log_message(autostart_log, "ROM left.");
+    switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
+      case YES:
+        if (autostart_run_mode == AUTOSTART_MODE_RUN)
+            kbdbuf_feed(AutostartRunCommand);
         autostartmode = AUTOSTART_DONE;
         disable_warp_if_was_requested();
+        break;
+      case NO:
+        disable_warp_if_was_requested();
+        autostart_disable();
+        break;
+      case NOT_YET:
+        /* special case for auto-starters */
+        if(reg_pc < 0xa000) {
+            log_message(autostart_log, "ROM left.");
+            autostartmode = AUTOSTART_DONE;
+            disable_warp_if_was_requested();
+        }
+        break;
     }
 }
 
@@ -669,11 +673,8 @@ void autostart_advance(void)
       case AUTOSTART_HASSNAPSHOT:
         advance_hassnapshot();
         break;
-      case AUTOSTART_WAITROMENTER:
-        advance_waitromenter();
-        break;
-      case AUTOSTART_WAITROMLEAVE:
-        advance_waitromleave();
+      case AUTOSTART_WAITLOADREADY:
+        advance_waitloadready();
         break;
       default:
         return;
@@ -980,7 +981,7 @@ void autostart_reset(void)
         }
         /* reset was issued while loading with warp in rom enabled 
             -> disable warp again */
-        if (oldmode == AUTOSTART_WAITROMLEAVE) {
+        if (oldmode == AUTOSTART_WAITLOADREADY) {
             disable_warp_if_was_requested();
         }
         autostartmode = AUTOSTART_NONE;
