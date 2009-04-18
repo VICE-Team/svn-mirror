@@ -51,6 +51,7 @@
 #include "log.h"
 #include "machine-bus.h"
 #include "machine.h"
+#include "maincpu.h"
 #include "mem.h"
 #include "network.h"
 #include "resources.h"
@@ -81,6 +82,8 @@ static enum {
     AUTOSTART_HASDISK,
     AUTOSTART_LOADINGDISK,
     AUTOSTART_HASSNAPSHOT,
+    AUTOSTART_WAITROMENTER,
+    AUTOSTART_WAITROMLEAVE,
     AUTOSTART_DONE
 } autostartmode = AUTOSTART_NONE;
 
@@ -93,6 +96,9 @@ static log_t autostart_log = LOG_ERR;
 /* Flag: was true drive emulation turned on when we started booting the disk
    image?  */
 static int orig_drive_true_emulation_state = -1;
+
+/* Flag: warp mode state before booting */
+static int orig_warp_mode = -1;
 
 /* PETSCII name of the program to load. NULL if default */
 static char *autostart_program_name = NULL;
@@ -122,7 +128,9 @@ static int autostart_wait_for_reset;
 
 static int AutostartRunWithColon = 0;
 
-static int AutostartHandleTrueDriveEmulation = 1;
+static int AutostartHandleTrueDriveEmulation = 0;
+
+static int AutostartWarp = 0;
 
 static const char * const AutostartRunCommandsAvailable[] = { "RUN\r", "RUN:\r" };
 
@@ -177,12 +185,22 @@ static int set_autostart_handle_tde(int val, void *param)
     return 0;
 }
 
+/*! \internal \brief set if autostart should enable warp mode */
+static int set_autostart_warp(int val, void *param)
+{
+    AutostartWarp = val ? 1 : 0;
+    
+    return 0;
+}
+
 /*! \brief integer resources used by the REU module */
 static const resource_int_t resources_int[] = {
     { "AutostartRunWithColon", 0, RES_EVENT_NO, (resource_value_t)0,
       &AutostartRunWithColon, set_autostart_run_with_colon, NULL },
     { "AutostartHandleTrueDriveEmulation", 0, RES_EVENT_NO, (resource_value_t)0,
       &AutostartHandleTrueDriveEmulation, set_autostart_handle_tde, NULL },
+    { "AutostartWarp", 1, RES_EVENT_NO, (resource_value_t)0,
+      &AutostartWarp, set_autostart_warp, NULL },
     { NULL }
 };
 
@@ -222,6 +240,16 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_AUTOSTART_HANDLE_TDE,
       NULL, NULL },
+    { "-autostart-warp", SET_RESOURCE, 0,
+      NULL, NULL, "AutostartWarp", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Enable warp mode during autostart") },
+    { "+autostart-warp", SET_RESOURCE, 0,
+      NULL, NULL, "AutostartWarp", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Disable warp mode during autostart") },
     { NULL }
 };
 
@@ -299,6 +327,22 @@ static int get_true_drive_emulation_state(void)
     if (resources_get_int("DriveTrueEmulation", &value) < 0)
         return 0;
 
+    return value;
+}
+
+static void set_warp_mode(int on)
+{
+    resources_set_int("WarpMode", on);
+    ui_update_menus();
+}
+
+static int get_warp_mode(void)
+{
+    int value;
+    
+    if (resources_get_int("WarpMode", &value) < 0)
+        return 0;
+        
     return value;
 }
 
@@ -515,7 +559,7 @@ static void advance_hasdisk(void)
         if (!traps) {
             if (autostart_run_mode == AUTOSTART_MODE_RUN)
                 kbdbuf_feed(AutostartRunCommand);
-            autostartmode = AUTOSTART_DONE;
+            autostartmode = AUTOSTART_WAITROMENTER;
         } else {
             autostartmode = AUTOSTART_LOADINGDISK;
             machine_bus_attention_callback_set(disk_attention_callback);
@@ -547,6 +591,39 @@ static void advance_hassnapshot(void)
     }
 }
 
+static void advance_waitromenter(void)
+{
+    if(reg_pc >= 0xa000) {
+        log_message(autostart_log, "ROM entered.");
+        autostartmode = AUTOSTART_WAITROMLEAVE;
+
+        /* enable warp mode? */
+        if(AutostartWarp) {
+            orig_warp_mode = get_warp_mode();
+            if(!orig_warp_mode) {
+                log_message(autostart_log, "Turning Warp mode on");
+                set_warp_mode(1);
+            }
+        }            
+    }
+}
+
+static void advance_waitromleave(void)
+{
+    if(reg_pc < 0xa000) {
+        log_message(autostart_log, "ROM left.");
+        autostartmode = AUTOSTART_DONE;
+        
+        /* disable warp mode */
+        if(AutostartWarp) {
+            if(!orig_warp_mode) {
+                log_message(autostart_log, "Turning Warp mode off");
+                set_warp_mode(0);
+            }
+        }
+    }
+}
+
 /* Execute the actions for the current `autostartmode', advancing to the next
    mode if necessary.  */
 void autostart_advance(void)
@@ -568,7 +645,6 @@ void autostart_advance(void)
     if (autostart_wait_for_reset)
         return;
 
-
     switch (autostartmode) {
       case AUTOSTART_HASTAPE:
         advance_hastape();
@@ -584,6 +660,12 @@ void autostart_advance(void)
         break;
       case AUTOSTART_HASSNAPSHOT:
         advance_hassnapshot();
+        break;
+      case AUTOSTART_WAITROMENTER:
+        advance_waitromenter();
+        break;
+      case AUTOSTART_WAITROMLEAVE:
+        advance_waitromleave();
         break;
       default:
         return;
