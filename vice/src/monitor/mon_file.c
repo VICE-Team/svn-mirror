@@ -47,6 +47,7 @@
 
 #define ADDR_LIMIT(x) ((WORD)(addr_mask(x)))
 
+#define curbank (mon_interfaces[mem]->current_bank)
 
 static FILE *fp;
 static vdrive_t *vdrive;
@@ -155,7 +156,6 @@ void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
     int ch = 0;
     MEMSPACE mem;
     int origbank = 0;
-    #define curbank (mon_interfaces[mem]->current_bank)
 
     if (mon_file_open(filename, 0, device) < 0) {
         mon_out("Cannot open %s.\n", filename);
