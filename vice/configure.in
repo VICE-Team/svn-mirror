@@ -449,6 +449,37 @@ dnl All other UN*X systems
       ;;
   esac
 
+  case "$host" in
+    alpha*-*-linux*)
+      if test x"$CC" = "xccc"; then
+        echo "Using Compaq C Compiler cflags."
+        CFLAGS="-w0 -g3 -migrate -fast -inline speed -unroll 0 -arch host -tune host"
+        AC_DEFINE(__DECALPHA__,1,[define when using the alpha compaq compiler])
+      fi
+      ;;
+
+    sparc-*-sunos4*)
+      if test x"$CC" = "xcc"; then
+        echo "Using Sun C Compiler cflags."
+        CFLAGS="-O -xCC"
+      fi
+      ;;
+
+    *-sgi-irix*)
+      if test x"$CC" = "xcc"; then
+        echo "Using SGI C Compiler cflags."
+        CFLAGS="-O2 -woff all"
+      fi
+      ;;
+
+    alpha*-dec-osf*)
+      if test x"$CC" = "xcc"; then
+        echo "Using Tru64 C Compiler cflags."
+        CFLAGS="-fast -O2 -std -g3 -non_shared"
+      fi
+      ;;
+  esac
+
   is_unix=yes
   is_unix_x11=yes
 
