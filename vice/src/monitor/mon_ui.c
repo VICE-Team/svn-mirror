@@ -32,6 +32,7 @@
 
 #include "lib.h"
 #include "mon_breakpoint.h"
+#include "mon_memory.h"
 #include "mon_register.h"
 #include "mon_ui.h"
 #include "mon_util.h"
@@ -40,22 +41,8 @@
 #include "resources.h"
 
 
-struct mon_disassembly_private
+void mon_disassembly_init(mon_disassembly_private_t * pmdp)
 {
-    MEMSPACE memspace;
-    WORD StartAddress;
-    WORD EndAddress;
-    WORD CurrentAddress;
-    int have_label;
-    int Lines;
-    MON_ADDR AddrClicked;
-};
-
-struct mon_disassembly_private *mon_disassembly_init(void)
-{
-    struct mon_disassembly_private *pmdp
-        = lib_malloc(sizeof(struct mon_disassembly_private));
-
     pmdp->memspace = e_comp_space;
     pmdp->StartAddress = -1;
     pmdp->EndAddress = 0;
@@ -63,17 +50,10 @@ struct mon_disassembly_private *mon_disassembly_init(void)
     pmdp->have_label = 0;
 
     mon_disassembly_goto_pc(pmdp);
-
-    return pmdp;
-}
-
-void mon_disassembly_deinit(struct mon_disassembly_private *pmdp)
-{
-    lib_free(pmdp);
 }
 
 static
-void mon_disassembly_check_if_in_range(struct mon_disassembly_private *pmdp)
+void mon_disassembly_check_if_in_range(mon_disassembly_private_t *pmdp)
 {
     if ((pmdp->CurrentAddress < pmdp->StartAddress)
         || (pmdp->CurrentAddress > pmdp->EndAddress)) {
@@ -82,33 +62,33 @@ void mon_disassembly_check_if_in_range(struct mon_disassembly_private *pmdp)
     }
 }
 
-void mon_disassembly_update(struct mon_disassembly_private *pmdp)
+void mon_disassembly_update(mon_disassembly_private_t *pmdp)
 {
     mon_disassembly_goto_pc(pmdp);
 }
 
-void mon_disassembly_set_memspace(struct mon_disassembly_private *pmdp,
+void mon_disassembly_set_memspace(mon_disassembly_private_t *pmdp,
                                   MEMSPACE memspace)
 {
     pmdp->memspace = memspace;
 }
 
-MEMSPACE mon_disassembly_get_memspace(struct mon_disassembly_private *pmdp)
+MEMSPACE mon_disassembly_get_memspace(mon_disassembly_private_t *pmdp)
 {
     return pmdp->memspace;
 }
 
 
-struct mon_disassembly *mon_disassembly_get_lines(
-    struct mon_disassembly_private *pmdp, int lines_visible,
+mon_disassembly_t * mon_disassembly_get_lines(
+    mon_disassembly_private_t *pmdp, int lines_visible,
     int lines_full_visible)
 {
     WORD loc;
     unsigned int size;
     int  i;
     unsigned int  have_label = pmdp->have_label;
-    struct mon_disassembly *contents = NULL;
-    struct mon_disassembly *ret;
+    mon_disassembly_t *contents = NULL;
+    mon_disassembly_t *ret;
 
     loc = pmdp->StartAddress;
     ret = NULL;
@@ -116,10 +96,10 @@ struct mon_disassembly *mon_disassembly_get_lines(
     pmdp->Lines = lines_full_visible;
 
     for (i = 0; i < lines_visible; i++ ) {
-        struct mon_disassembly *newcont;
+        mon_disassembly_t *newcont;
         mon_breakpoint_type_t bptype;
 
-        newcont = lib_malloc(sizeof(struct mon_disassembly));
+        newcont = lib_malloc(sizeof * newcont);
 
         if (ret == NULL) {
             ret      =
@@ -152,7 +132,7 @@ struct mon_disassembly *mon_disassembly_get_lines(
 }
 
 static
-WORD determine_address_of_line(struct mon_disassembly_private *pmdp, 
+WORD determine_address_of_line(mon_disassembly_private_t *pmdp, 
                                WORD loc, int line )
 {
     unsigned int size;
@@ -175,13 +155,13 @@ WORD determine_address_of_line(struct mon_disassembly_private *pmdp,
 }
 
 static
-WORD scroll_down(struct mon_disassembly_private *pmdp, WORD loc)
+WORD scroll_down(mon_disassembly_private_t *pmdp, WORD loc)
 {
     return determine_address_of_line(pmdp, loc, 1);
 }
 
 static
-WORD scroll_down_page(struct mon_disassembly_private *pmdp, WORD loc)
+WORD scroll_down_page(mon_disassembly_private_t *pmdp, WORD loc)
 {
     /* the count is one less than visible,
        so there will be one visible line left on the screen! */
@@ -189,7 +169,7 @@ WORD scroll_down_page(struct mon_disassembly_private *pmdp, WORD loc)
 }
 
 static
-WORD scroll_up_count(struct mon_disassembly_private *pmdp, WORD loc,
+WORD scroll_up_count(mon_disassembly_private_t *pmdp, WORD loc,
                         unsigned int count)
 {
     unsigned int size;
@@ -223,20 +203,20 @@ WORD scroll_up_count(struct mon_disassembly_private *pmdp, WORD loc,
 }
 
 static
-WORD scroll_up(struct mon_disassembly_private *pmdp, WORD loc)
+WORD scroll_up(mon_disassembly_private_t *pmdp, WORD loc)
 {
     return scroll_up_count( pmdp, loc, 1 );
 }
 
 static
-WORD scroll_up_page(struct mon_disassembly_private *pmdp, WORD loc)
+WORD scroll_up_page(mon_disassembly_private_t *pmdp, WORD loc)
 {
     /* the count is one less than visible,
        so there will be one visible line left on the screen! */
     return scroll_up_count(pmdp, loc, pmdp->Lines - 1);
 }
 
-WORD mon_disassembly_scroll(struct mon_disassembly_private *pmdp, 
+WORD mon_disassembly_scroll(mon_disassembly_private_t *pmdp, 
                             MON_SCROLL_TYPE ScrollType)
 {
     switch (ScrollType) {
@@ -262,49 +242,66 @@ WORD mon_disassembly_scroll(struct mon_disassembly_private *pmdp,
     return pmdp->StartAddress;
 }
 
-WORD mon_disassembly_scroll_to(struct mon_disassembly_private *pmdp, 
+WORD mon_disassembly_scroll_to(mon_disassembly_private_t *pmdp, 
                                WORD addr)
 {
     pmdp->StartAddress = addr;
     return pmdp->StartAddress;
 }
 
-void mon_disassembly_set_breakpoint(struct mon_disassembly_private *pmdp)
+void mon_disassembly_set_breakpoint(mon_disassembly_private_t *pmdp)
 {
     mon_breakpoint_set(pmdp->AddrClicked);
 }
 
-void mon_disassembly_unset_breakpoint(struct mon_disassembly_private *pmdp)
+void mon_disassembly_unset_breakpoint(mon_disassembly_private_t *pmdp)
 {
     mon_breakpoint_unset(pmdp->AddrClicked);
 }
 
-void mon_disassembly_enable_breakpoint(struct mon_disassembly_private *pmdp)
+void mon_disassembly_enable_breakpoint(mon_disassembly_private_t *pmdp)
 {
     mon_breakpoint_enable(pmdp->AddrClicked);
 }
 
-void mon_disassembly_disable_breakpoint(struct mon_disassembly_private *pmdp)
+void mon_disassembly_disable_breakpoint(mon_disassembly_private_t *pmdp)
 {
     mon_breakpoint_disable(pmdp->AddrClicked);
 }
 
-void mon_disassembly_goto_address(struct mon_disassembly_private *pmdp,
+void mon_disassembly_goto_address(mon_disassembly_private_t *pmdp,
                                   WORD addr)
 {
     pmdp->CurrentAddress = addr;
     mon_disassembly_check_if_in_range(pmdp);
 }
 
-void mon_disassembly_goto_pc(struct mon_disassembly_private *pmdp)
+void mon_disassembly_goto_pc(mon_disassembly_private_t *pmdp)
 {
     mon_disassembly_goto_address(pmdp, 
         (WORD)(monitor_cpu_for_memspace[pmdp->memspace]->mon_register_get_val(pmdp->memspace, e_PC)));
 }
 
+void mon_disassembly_set_next_instruction(mon_disassembly_private_t *pmdp)
+{
+    monitor_cpu_for_memspace[pmdp->memspace]->mon_register_set_val(pmdp->memspace, e_PC, (WORD) addr_location(pmdp->AddrClicked));
+}
+
+void mon_disassembly_goto_string(mon_disassembly_private_t * pmdp, char *addr)
+{
+    unsigned long address;
+    char * remain;
+
+    address = strtoul(addr, &remain, 16);
+
+    if (*remain == 0) {
+        mon_disassembly_goto_address(pmdp, (WORD) address);
+    }
+}
+
 
 void mon_disassembly_determine_popup_commands(
-                                   struct mon_disassembly_private *pmdp, 
+                                   mon_disassembly_private_t *pmdp, 
                                    int xPos, int yPos, WORD *ulMask,
                                    WORD *ulDefault)
 {
@@ -341,18 +338,23 @@ void mon_disassembly_determine_popup_commands(
     }
 
     if (drive_true_emulation) {
+        *ulMask |= MDDPC_SET_COMPUTER | MDDPC_SET_DRIVE8 | MDDPC_SET_DRIVE9 | MDDPC_SET_DRIVE10 | MDDPC_SET_DRIVE11;
+
         switch (pmdp->memspace) {
           case e_comp_space:
-            *ulMask |= MDDPC_SET_DRIVE8 | MDDPC_SET_DRIVE9;
+            *ulMask &= ~ MDDPC_SET_COMPUTER;
             break;
           case e_disk8_space:
-            *ulMask |= MDDPC_SET_COMPUTER | MDDPC_SET_DRIVE9;
+            *ulMask &= ~ MDDPC_SET_DRIVE8;
             break;
           case e_disk9_space:
-            *ulMask |= MDDPC_SET_COMPUTER | MDDPC_SET_DRIVE8;
+            *ulMask &= ~ MDDPC_SET_DRIVE9;
             break;
           case e_disk10_space:
+            *ulMask &= ~ MDDPC_SET_DRIVE10;
+            break;
           case e_disk11_space:
+            *ulMask &= ~ MDDPC_SET_DRIVE11;
             break;
           case e_default_space:
           case e_invalid_space:
@@ -365,3 +367,63 @@ void mon_ui_init(void)
 {
 }
 
+void mon_memory_init(mon_memory_private_t * pmmp)
+{
+    pmmp->memspace = e_comp_space;
+    pmmp->StartAddress = 0;
+    pmmp->EndAddress = 0;
+    pmmp->CurrentAddress = 0;
+    pmmp->have_label = 0;
+}
+
+void mon_memory_deinit(mon_memory_private_t * pmmp)
+{
+}
+
+void mon_memory_update(mon_memory_private_t * pmmp)
+{
+}
+
+mon_memory_t *mon_memory_get_lines(mon_memory_private_t * pmmp, int lines_visible, int lines_full_visible)
+{
+    WORD loc;
+    unsigned int size;
+    int  i;
+    unsigned int  have_label = pmmp->have_label;
+    mon_memory_t *contents = NULL;
+    mon_memory_t *ret;
+
+    loc = pmmp->StartAddress;
+    ret = NULL;
+
+    pmmp->Lines = lines_full_visible;
+
+    for (i = 0; i < lines_visible; i++ ) {
+        mon_memory_t *newcont;
+
+        newcont = lib_malloc(sizeof * newcont);
+
+        if (ret == NULL) {
+            ret      =
+            contents = newcont;
+        } else {
+            contents = contents->next = newcont;
+        }
+
+        contents->next = NULL;
+        contents->flags.active_line = 0;
+        contents->flags.is_breakpoint = 0;
+        contents->flags.breakpoint_active = 0;
+
+        contents->content = lib_stralloc(">C:a0e0  54 4f d0 4f  ce 57 41 49   TO.O.WAI");
+        size += 8;
+
+        contents->length  = strlen(contents->content);
+
+        pmmp->EndAddress = loc;
+
+        loc += size;
+    }
+
+    return ret;
+}

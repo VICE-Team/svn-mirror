@@ -30,21 +30,49 @@
 #include <stdio.h>
 
 #include "monitor.h"
+#include "montypes.h"
 
-struct mon_disassembly_private;
+typedef
+struct mon_disassembly_private_s
+{
+    MEMSPACE memspace;
+    WORD StartAddress;
+    WORD EndAddress;
+    WORD CurrentAddress;
+    int have_label;
+    int Lines;
+    MON_ADDR AddrClicked;
+} mon_disassembly_private_t;
 
-struct mon_disassembly_flags {
+typedef 
+struct mon_disassembly_flags_s {
     int active_line       : 1;
     int is_breakpoint     : 1;
     int breakpoint_active : 1;
-};
+} mon_disassembly_flags_t;
 
-struct mon_disassembly {
-    struct mon_disassembly *next;
-    struct mon_disassembly_flags flags;
+typedef struct mon_disassembly_s mon_disassembly_t;
+
+struct mon_disassembly_s {
+    mon_disassembly_t *next;
+    mon_disassembly_flags_t flags;
     size_t length;
     char * content;
 };
+
+typedef
+struct mon_memory_private_s {
+    MEMSPACE memspace;
+    WORD StartAddress;
+    WORD EndAddress;
+    WORD CurrentAddress;
+    int have_label;
+    int Lines;
+    MON_ADDR AddrClicked;
+} mon_memory_private_t;
+
+typedef mon_disassembly_t mon_memory_t;
+typedef mon_disassembly_flags_t mon_memory_flags_t;
 
 typedef
 enum MON_SCROLL_TYPE_TAG {
@@ -55,18 +83,17 @@ enum MON_SCROLL_TYPE_TAG {
     MON_SCROLL_PAGE_DOWN
 } MON_SCROLL_TYPE;
 
-extern struct mon_disassembly_private *mon_disassembly_init(void);
-extern void mon_disassembly_deinit(struct mon_disassembly_private *);
-extern void mon_disassembly_update(struct mon_disassembly_private *);
-extern struct mon_disassembly *mon_disassembly_get_lines(
-    struct mon_disassembly_private *,
+extern void mon_disassembly_init(mon_disassembly_private_t *);
+extern void mon_disassembly_update(mon_disassembly_private_t *);
+extern mon_disassembly_t *mon_disassembly_get_lines(
+    mon_disassembly_private_t *,
     int lines_visible, int lines_full_visible);
-extern void mon_disassembly_set_memspace(struct mon_disassembly_private *,
+extern void mon_disassembly_set_memspace(mon_disassembly_private_t *,
                                          MEMSPACE);
-extern MEMSPACE mon_disassembly_get_memspace(struct mon_disassembly_private *);
-extern WORD mon_disassembly_scroll(struct mon_disassembly_private *, 
+extern MEMSPACE mon_disassembly_get_memspace(mon_disassembly_private_t *);
+extern WORD mon_disassembly_scroll(mon_disassembly_private_t *, 
                                    MON_SCROLL_TYPE );
-extern WORD mon_disassembly_scroll_to(struct mon_disassembly_private *, WORD);
+extern WORD mon_disassembly_scroll_to(mon_disassembly_private_t *, WORD);
 
 #define MDDPC_SET_BREAKPOINT      (1<< 0)
 #define MDDPC_UNSET_BREAKPOINT    (1<< 1)
@@ -76,22 +103,35 @@ extern WORD mon_disassembly_scroll_to(struct mon_disassembly_private *, WORD);
 #define MDDPC_SET_COMPUTER        (1<< 4)
 #define MDDPC_SET_DRIVE8          (1<< 5)
 #define MDDPC_SET_DRIVE9          (1<< 6)
+#define MDDPC_SET_DRIVE10         (1<< 7)
+#define MDDPC_SET_DRIVE11         (1<< 8)
 
 extern void mon_disassembly_determine_popup_commands(
-                                     struct mon_disassembly_private *, 
+                                     mon_disassembly_private_t *, 
                                      int xPos, int yPos, WORD *ulMask,
                                      WORD *ulDefault);
 
-extern void mon_disassembly_set_breakpoint(struct mon_disassembly_private *);
-extern void mon_disassembly_unset_breakpoint(struct mon_disassembly_private *);
-extern void mon_disassembly_enable_breakpoint(struct mon_disassembly_private *);
-extern void mon_disassembly_disable_breakpoint(struct mon_disassembly_private *);
+extern void mon_disassembly_set_breakpoint(mon_disassembly_private_t *);
+extern void mon_disassembly_unset_breakpoint(mon_disassembly_private_t *);
+extern void mon_disassembly_enable_breakpoint(mon_disassembly_private_t *);
+extern void mon_disassembly_disable_breakpoint(mon_disassembly_private_t *);
 
-extern void mon_disassembly_goto_address(struct mon_disassembly_private *,
+extern void mon_disassembly_goto_address(mon_disassembly_private_t *,
                                          WORD addr);
-extern void mon_disassembly_goto_pc(struct mon_disassembly_private *);
-extern void mon_disassembly_goto_string(struct mon_disassembly_private *,
+extern void mon_disassembly_goto_pc(mon_disassembly_private_t *);
+extern void mon_disassembly_goto_string(mon_disassembly_private_t *,
                                         char *addr);
+
+extern void mon_disassembly_set_next_instruction(mon_disassembly_private_t *pmdp);
+
+
+
+extern void mon_memory_init(mon_memory_private_t *);
+extern void mon_memory_update(mon_memory_private_t *);
+extern mon_memory_t *mon_memory_get_lines(
+    mon_memory_private_t *, int lines_visible, int lines_full_visible);
+
+
 
 extern void mon_ui_init(void);
 

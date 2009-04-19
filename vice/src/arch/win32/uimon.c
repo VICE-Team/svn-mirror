@@ -26,11 +26,14 @@
 
 #include "vice.h"
 
+#include <assert.h>
 #include <stdarg.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
+#include <windowsx.h>
 #include <commctrl.h>
 
 #include "console.h"
@@ -90,13 +93,83 @@ static console_t *console_log = NULL;
 
 #ifdef UIMON_EXPERIMENTAL
 
-   #define OPEN_DISASSEMBLY_AS_POPUP
-   #define OPEN_REGISTRY_AS_POPUP
+   #define OPEN_DISASSEMBLY_AS_POPUP 1
+   #define OPEN_MEMORY_AS_POPUP 1
+   #define OPEN_REGISTRY_AS_POPUP 1
 
 static HWND hwndConsole   = NULL;
 static HWND hwndMdiClient = NULL;
 static HWND hwndToolbar   = NULL;
 static HWND hwndMonitor   = NULL;
+
+typedef struct window_data_s window_data_t;
+
+typedef LRESULT CALLBACK internal_window_procedure_t(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, window_data_t * window_data);
+
+static internal_window_procedure_t reg_window_proc;
+static internal_window_procedure_t dis_window_proc;
+static internal_window_procedure_t mem_window_proc;
+
+typedef
+enum window_type_e
+{
+    WT_END = 0, WT_CONSOLE, WT_DISASSEMBLY, WT_REGISTER, WT_MEMORY
+} window_type_t;
+
+typedef
+struct window_data_extra_s {
+    window_type_t window_type;
+    int as_popup;
+    MEMSPACE memspace;
+} window_data_extra_t;
+
+typedef
+struct window_data_s {
+    WNDPROC default_window_procedure;
+    internal_window_procedure_t * window_procedure;
+    window_data_extra_t * extra;
+    void * private_data;
+    /* DO NOT ADD ANYTHING HERE! It is already very large. Use window_data_extra_t instead! */
+} window_data_t;
+
+static /* volatile */ window_data_t * window_data_create = NULL;
+
+#if defined _MSC_VER && _MSC_VER < 1300 
+# ifndef InterlockedExchangePointer
+#  define InterlockedExchangePointer(_address, _what) ((void*)InterlockedExchange((LPLONG) _address, (LONG) _what))
+# endif
+#endif
+
+typedef
+struct reg_private_s
+{
+    int           charwidth;
+    int           charheight;
+    unsigned int *LastShownRegs;
+    unsigned int  RegCount;
+    MEMSPACE      memspace;
+} reg_private_t;
+
+typedef
+struct dis_private_s
+{
+    int      charwidth;
+    int      charheight;
+
+    mon_disassembly_private_t mdp;
+
+} dis_private_t;
+
+typedef
+struct mem_private_s
+{
+    int      charwidth;
+    int      charheight;
+
+    mon_memory_private_t mmp; // this *must* be the first entry!
+
+} mem_private_t;
+
 
 
 typedef
@@ -109,15 +182,15 @@ struct uimon_client_windows_s
 uimon_client_windows_t *first_client_window = NULL;
 
 
-static console_t  console_log_for_mon = { -50, -50, -50 };
 static char *pchCommandLine   = NULL;
 
-#define REG_CLASS MONITOR_CLASS ":Reg"
-#define DIS_CLASS MONITOR_CLASS ":Dis"
+#define CONTENTS_CLASS MONITOR_CLASS ":Contents"
 
 static HWND hwndParent = NULL;
 static HWND hwndActive = NULL;
 
+
+static void update_shown(void);
 
 /**/
 void add_client_window( HWND hwnd )
@@ -155,6 +228,8 @@ static monitor_interface_t **monitor_interface;
 static int                   count_monitor_interface;
 
 #endif // #ifdef UIMON_EXPERIMENTAL
+
+static console_t  console_log_for_mon = { -50, -50, -50 };
 
 
 void uimon_set_interface(monitor_interface_t **monitor_interface_init,
@@ -272,50 +347,82 @@ quit:
 }
 
 
+static
+HWND iOpenGeneric(HWND hwnd, DWORD dwStyleMDI, DWORD dwStylePopup,
+                  int x, int y, int dx, int dy,
+                  int as_popup,
+                  internal_window_procedure_t * window_procedure,
+                  char * WindowName,
+                  window_type_t window_type,
+                  size_t private_data_size)
+{
+    HWND hwndNew;
+    window_data_t * window_data = lib_malloc(sizeof * window_data);
+
+    if ( ! window_data ) {
+        return 0;
+    }
+
+    window_data->extra = lib_malloc(sizeof * window_data->extra);
+    window_data->private_data = lib_malloc(private_data_size);
+    window_data->window_procedure = window_procedure;
+    window_data->extra->as_popup = as_popup;
+    window_data->extra->window_type = window_type;
+
+    /* wait until we are the only window to be opened */
+    while (InterlockedCompareExchangePointer(&window_data_create, window_data, NULL)) {
+        ui_dispatch_next_event();
+    }
+
+    if (as_popup) {
+        window_data->default_window_procedure = DefWindowProc;
+        hwndNew = CreateWindowEx(
+            WS_EX_TOOLWINDOW,
+            CONTENTS_CLASS,
+            WindowName,
+            dwStylePopup, // WS_OVERLAPPEDWINDOW|WS_VSCROLL|dwStyle, // WS_CAPTION|WS_POPUPWINDOW|WS_THICKFRAME|WS_SYSMENU|dwStyle,
+            x,
+            y,
+            dx,
+            dy,
+            hwndMonitor,
+            NULL,
+            winmain_instance,
+            NULL);
+    }
+    else {
+        MDICREATESTRUCT mcs = { 0 };
+
+        mcs.szTitle = WindowName;
+        mcs.szClass = CONTENTS_CLASS;
+        mcs.style   = dwStyleMDI;
+        mcs.hOwner  = winmain_instance;
+        mcs.x       = x;
+        mcs.y       = y;
+        mcs.cx      = dx;
+        mcs.cy      = dy;
+        mcs.lParam  = (LPARAM) window_data;
+
+        window_data->default_window_procedure = DefMDIChildProc;
+
+        hwndNew = (HWND) SendMessage(hwndMdiClient, WM_MDICREATE, 0, (LPARAM) &mcs);
+    }
+
+    add_client_window(hwndNew);
+
+    if (as_popup) {
+        ShowWindow(hwndNew, SW_SHOW);
+    }
+
+    return hwndNew;
+}
 
 static
 HWND iOpenDisassembly( HWND hwnd, DWORD dwStyle, int x, int y, int dx, int dy )
 {
-    HWND hwndDis;
-
-#ifdef OPEN_DISASSEMBLY_AS_POPUP
-    #define DEF_DIS_PROG DefWindowProc
-    hwndDis = CreateWindowEx(
-        WS_EX_TOOLWINDOW,
-        DIS_CLASS,
-        "Disassembly",
-        WS_OVERLAPPEDWINDOW|WS_VSCROLL|dwStyle, // WS_CAPTION|WS_POPUPWINDOW|WS_THICKFRAME|WS_SYSMENU|dwStyle,
-        x,
-        y,
-        dx,
-        dy,
-        hwndMonitor, // hwndMdiClient,
-        NULL,
-        winmain_instance,
-        NULL);
-
-    add_client_window( hwndDis );
-
-    ShowWindow( hwndDis, SW_SHOW );
-
-#else /* #ifdef OPEN_DISASSEMBLY_AS_POPUP */
-    #define DEF_DIS_PROG DefMDIChildProc
-    hwndDis = CreateMDIWindow(DIS_CLASS,
-        "Disassembly",
-        dwStyle,
-        x,
-        y,
-        dx,
-        dy,
-        hwndMdiClient,
-        winmain_instance,
-        0);
-
-    add_client_window( hwndDis );
-
-#endif /* #ifdef OPEN_DISASSEMBLY_AS_POPUP */
-
-    return hwndDis;
+    return iOpenGeneric(hwnd, dwStyle, WS_OVERLAPPEDWINDOW|WS_VSCROLL|dwStyle, // WS_CAPTION|WS_POPUPWINDOW|WS_THICKFRAME|WS_SYSMENU|dwStyle,
+                        x, y, dx, dy, OPEN_DISASSEMBLY_AS_POPUP, dis_window_proc, "Disassembly", WT_DISASSEMBLY,
+                        sizeof(dis_private_t));
 }
 
 static
@@ -323,6 +430,21 @@ HWND OpenDisassembly( HWND hwnd )
 {
     // @SRT: TODO: Adjust parameter!
     return iOpenDisassembly( hwnd, 0, 0, 0, 300, 300 );
+}
+
+static
+HWND iOpenMemory( HWND hwnd, DWORD dwStyle, int x, int y, int dx, int dy )
+{
+    return iOpenGeneric(hwnd, dwStyle, WS_OVERLAPPEDWINDOW|WS_VSCROLL|dwStyle, // WS_CAPTION|WS_POPUPWINDOW|WS_THICKFRAME|WS_SYSMENU|dwStyle,
+                        x, y, dx, dy, OPEN_MEMORY_AS_POPUP, mem_window_proc, "Memory", WT_MEMORY,
+                        sizeof(mem_private_t));
+}
+
+static
+HWND OpenMemory( HWND hwnd )
+{
+    // @SRT: TODO: Adjust parameter!
+    return iOpenMemory( hwnd, 0, 0, 0, 300, 300 );
 }
 
 static
@@ -360,48 +482,9 @@ HWND OpenConsole( HWND hwnd, BOOLEAN bOpen )
 static
 HWND iOpenRegistry( HWND hwnd, DWORD dwStyle, int x, int y, int dx, int dy )
 {
-    HWND hwndReg;
-
-#ifdef OPEN_REGISTRY_AS_POPUP
-
-    #define DEF_REG_PROG DefWindowProc
-    hwndReg = CreateWindowEx(
-        WS_EX_TOOLWINDOW,
-        REG_CLASS,
-        "Register",
-        WS_CAPTION|WS_POPUPWINDOW|dwStyle,
-        x,
-        y,
-        dx,
-        dy,
-        hwnd,
-        NULL,
-        winmain_instance,
-        NULL);
-
-    add_client_window( hwndReg );
-    ShowWindow( hwndReg, SW_SHOW );
-    return hwndReg;
-
-#else /* #ifdef OPEN_REGISTRY_AS_POPUP */
-
-    #define DEF_REG_PROG DefMDIChildProc
-    hwndReg = CreateMDIWindow(REG_CLASS,
-        "Register",
-        dwStyle,
-        x,  // 0 is sufficient here
-        y,  // 0 is sufficient here
-        dx, // 0 is sufficient here
-        dy, // 0 is sufficient here
-        hwndMdiClient,
-        winmain_instance,
-        0);
-
-    add_client_window( hwndReg );
-
-#endif /* #ifdef OPEN_REGISTRY_AS_POPUP */
-
-    return hwndReg;
+    return iOpenGeneric(hwnd, dwStyle, WS_CAPTION|WS_POPUPWINDOW|dwStyle,
+                        x, y, dx, dy, OPEN_REGISTRY_AS_POPUP, reg_window_proc, "Register", WT_REGISTER,
+                        sizeof(reg_private_t));
 }
 
 static
@@ -584,13 +667,6 @@ return ok ? buffer : NULL;
 ***********************************************************************************
 **********************************************************************************/
 
-enum WindowType
-{
-    WT_END = 0, WT_CONSOLE, WT_DISASSEMBLY, WT_REGISTER
-};
-typedef enum WindowType WindowType;
-
-
 struct WindowDimensions
 {
     BYTE *pMonitorDimensionsBuffer;
@@ -660,9 +736,9 @@ BYTE **WritePlacement( BYTE **p, WINDOWPLACEMENT *pwp )
 }
  
 static
-WindowType GetNextMonitorDimensions( PWindowDimensions pwd )
+window_type_t GetNextMonitorDimensions( PWindowDimensions pwd )
 {
-    WindowType ret;
+    window_type_t ret;
 
     if (pwd->MonitorLen == 0)
     {
@@ -688,7 +764,7 @@ WindowType GetNextMonitorDimensions( PWindowDimensions pwd )
 }
 
 static
-void SetNextMonitorDimensions( HWND hwnd, WindowType wt, BYTE **p )
+void SetNextMonitorDimensions( HWND hwnd, window_type_t wt, BYTE **p )
 {
     WINDOWPLACEMENT wpPlacement;
     wpPlacement.length = sizeof(WINDOWPLACEMENT);
@@ -702,7 +778,7 @@ void SetNextMonitorDimensions( HWND hwnd, WindowType wt, BYTE **p )
 static
 void OpenFromWindowDimensions(HWND hwnd,PWindowDimensions wd)
 {
-    WindowType wt;
+    window_type_t wt;
     HWND hwndOpened = NULL;
 
     while ((wt = GetNextMonitorDimensions(wd)) != WT_END)
@@ -711,6 +787,10 @@ void OpenFromWindowDimensions(HWND hwnd,PWindowDimensions wd)
         {
         case WT_CONSOLE:
             hwndOpened = iOpenConsole(hwnd,TRUE,0,0,0,0,0);
+            break;
+
+        case WT_MEMORY:
+            hwndOpened = OpenMemory(hwnd);
             break;
 
         case WT_DISASSEMBLY:
@@ -816,9 +896,10 @@ void StoreMonitorDimensions(HWND hwnd)
 
     WritePlacement( &p, &wpPlacement );
 
-    // store info for open windows in structure
-    EnumChildWindows(hwndMdiClient,(WNDENUMPROC)WindowStoreProc,0);
+    if (hwndConsole) {
+        WindowStoreProc(hwndConsole, 0);
 
+    }
     for (clients = first_client_window; clients; clients=clients->next )
         WindowStoreProc( clients->hwnd, 0 );
 
@@ -864,25 +945,41 @@ void EnableCommands( HMENU hmnu, HWND hwndToolbar )
 }
 
 static
-void SetMemspace( HWND hwnd, MEMSPACE memspace )
+WORD SwitchOffUnavailableDrives(WORD ulMask)
+{
+    int drive_type;
+
+    resources_get_int("Drive8Type",  &drive_type); if (drive_type == 0) ulMask &= ~ MDDPC_SET_DRIVE8;
+    resources_get_int("Drive9Type",  &drive_type); if (drive_type == 0) ulMask &= ~ MDDPC_SET_DRIVE9;
+    resources_get_int("Drive10Type", &drive_type); if (drive_type == 0) ulMask &= ~ MDDPC_SET_DRIVE10;
+    resources_get_int("Drive11Type", &drive_type); if (drive_type == 0) ulMask &= ~ MDDPC_SET_DRIVE11;
+
+    return ulMask;
+}
+
+static
+void SetMemspace( HWND hwnd, window_data_t * window_data, MEMSPACE memspace )
 {
     BOOL bComputer = FALSE;
     BOOL bDrive8   = FALSE;
     BOOL bDrive9   = FALSE;
-        BOOL bDrive10  = FALSE;
-        BOOL bDrive11  = FALSE;
+    BOOL bDrive10  = FALSE;
+    BOOL bDrive11  = FALSE;
     HMENU hmnu     = GetMenu(hwnd);
     int drive_true_emulation;
+    WORD ulMask    = MDDPC_SET_DRIVE8 | MDDPC_SET_DRIVE9 | MDDPC_SET_DRIVE10 | MDDPC_SET_DRIVE11;
 
     char *pText = "";
+
+    window_data->extra->memspace = memspace;
 
     switch (memspace)
     {
     case e_comp_space:  bComputer = TRUE; pText = "Computer"; break;
     case e_disk8_space: bDrive8   = TRUE; pText = "Drive 8";  break;
     case e_disk9_space: bDrive9   = TRUE; pText = "Drive 9";  break;
-        case e_disk10_space: bDrive10 = TRUE; pText = "Drive 10";  break;
-        case e_disk11_space: bDrive11 = TRUE; pText = "Drive 11";  break;
+    case e_disk10_space: bDrive10 = TRUE; pText = "Drive 10";  break;
+    case e_disk11_space: bDrive11 = TRUE; pText = "Drive 11";  break;
 
     /* 
         these two cases should not occur; 
@@ -894,12 +991,18 @@ void SetMemspace( HWND hwnd, MEMSPACE memspace )
 
     resources_get_int("DriveTrueEmulation", &drive_true_emulation);
 
-    ENABLE( IDM_MON_COMPUTER, drive_true_emulation ? 1 : 0);
-    ENABLE( IDM_MON_DRIVE8,   drive_true_emulation ? 1 : 0);
-    ENABLE( IDM_MON_DRIVE9,   drive_true_emulation ? 1 : 0);
-    CHECK ( IDM_MON_COMPUTER, drive_true_emulation ? bComputer : TRUE);
+    ulMask = drive_true_emulation ? SwitchOffUnavailableDrives(ulMask) : 0;
+
+    ENABLE( IDM_MON_COMPUTER, 1);
+    ENABLE( IDM_MON_DRIVE8,   (ulMask & MDDPC_SET_DRIVE8)  ? 1 : 0);
+    ENABLE( IDM_MON_DRIVE9,   (ulMask & MDDPC_SET_DRIVE9)  ? 1 : 0);
+    ENABLE( IDM_MON_DRIVE10,  (ulMask & MDDPC_SET_DRIVE10) ? 1 : 0);
+    ENABLE( IDM_MON_DRIVE11,  (ulMask & MDDPC_SET_DRIVE11) ? 1 : 0);
+    CHECK ( IDM_MON_COMPUTER, bComputer);
     CHECK ( IDM_MON_DRIVE8,   drive_true_emulation ? bDrive8   : FALSE);
     CHECK ( IDM_MON_DRIVE9,   drive_true_emulation ? bDrive9   : FALSE);
+    CHECK ( IDM_MON_DRIVE10,  drive_true_emulation ? bDrive10  : FALSE);
+    CHECK ( IDM_MON_DRIVE11,  drive_true_emulation ? bDrive11  : FALSE);
 
     if (drive_true_emulation)
     {
@@ -929,9 +1032,13 @@ void ClearMemspace( HWND hwnd )
     ENABLE( IDM_MON_COMPUTER, 0 );
     ENABLE( IDM_MON_DRIVE8,   0 );
     ENABLE( IDM_MON_DRIVE9,   0 );
+    ENABLE( IDM_MON_DRIVE10,  0 );
+    ENABLE( IDM_MON_DRIVE11,  0 );
     CHECK ( IDM_MON_COMPUTER, FALSE );
     CHECK ( IDM_MON_DRIVE8,   FALSE );
     CHECK ( IDM_MON_DRIVE9,   FALSE );
+    CHECK ( IDM_MON_DRIVE10,  FALSE );
+    CHECK ( IDM_MON_DRIVE11,  FALSE );
 }
 
 
@@ -1060,6 +1167,10 @@ void OnCommand( HWND hwnd, WORD wNotifyCode, WORD wID, HWND hwndCtrl )
         SET_COMMAND("ret");
         break;
 
+    case IDM_MON_WND_MEM:
+        OpenMemory(hwnd);
+        break;
+
     case IDM_MON_WND_DIS:
         OpenDisassembly(hwnd);
         break;
@@ -1076,12 +1187,13 @@ void OnCommand( HWND hwnd, WORD wNotifyCode, WORD wID, HWND hwndCtrl )
     case IDM_MON_COMPUTER:
         /* FALL THROUGH */
 
-    case IDM_MON_DRIVE8:
-        /* FALL THROUGH */
-
-    case IDM_MON_DRIVE9:
-        if (hwndActive)
+    case IDM_MON_DRIVE8: /* FALL THROUGH */
+    case IDM_MON_DRIVE9: /* FALL THROUGH */
+    case IDM_MON_DRIVE10: /* FALL THROUGH */
+    case IDM_MON_DRIVE11:
+        if (hwndActive) {
             SendMessage( hwndActive, WM_CHANGECOMPUTERDRIVE, wID, 0 );
+        }
         break;
     }
 }
@@ -1193,34 +1305,22 @@ static LRESULT CALLBACK mon_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
 }
 
 static
-void ActivateChild( BOOL bActivated, HWND hwndOwn, MEMSPACE memspace )
+void ActivateChild( BOOL bActivated, HWND hwndOwn, window_data_t * window_data )
 {
     if (bActivated)
     {
         // we are activated
         hwndActive = hwndOwn;
-        SetMemspace( hwndOwn, memspace );
+        SetMemspace( hwndOwn, window_data, window_data->extra->memspace );
     }
     else
     {
-/**/
         // we are deactivated
         hwndActive = NULL;
         ClearMemspace( hwndOwn );
-/**/
     }
 }
 
-
-typedef
-struct reg_private
-{
-    int           charwidth;
-    int           charheight;
-    MEMSPACE      memspace;
-    unsigned int *LastShownRegs;
-    unsigned int  RegCount;
-} reg_private_t;
 
 static
 void update_last_shown_regs( reg_private_t *prp )
@@ -1373,11 +1473,79 @@ BOOLEAN output_register(HDC hdc, reg_private_t *prp, RECT *clientrect)
     return changed_dimensions;
 }
 
+static
+int ExecuteRegistryPopup( HWND hwnd, reg_private_t *prp, LPARAM lParam, BOOL bExecuteDefault )
+{
+    WORD ulDefault = 0;
+    WORD ulMask = 0xffff;
+
+    /* switch off drives that are not currently available */
+    ulMask = SwitchOffUnavailableDrives(ulMask);
+
+    /* now, create the appropriate pop up menu */
+    {
+        MENUITEMINFO mii;
+        HMENU        hPopupMenu;
+        POINT        curpos;
+        int          nMenuCount = 0;
+        UINT         uDefaultCommand = 0;
+
+        hPopupMenu     = CreatePopupMenu();
+
+        /* global initializations */
+        mii.cbSize     = sizeof(mii);
+        mii.fMask      = MIIM_STATE | MIIM_ID | MIIM_TYPE;
+        mii.fType      = MFT_STRING;
+
+/* make shotcuts for defining menu entries */
+#define IMAKE_ENTRY( _FLAG_, _ID_, _TEXT_, _ENABLE_ ) \
+        mii.fState     = _ENABLE_ | ((ulDefault & _FLAG_) ? MFS_DEFAULT : 0); \
+        mii.wID        = _ID_; \
+        mii.dwTypeData = _TEXT_; \
+        mii.cch        = strlen(mii.dwTypeData); \
+        InsertMenuItem( hPopupMenu, nMenuCount++, 1, &mii );
+
+#define MAKE_ENDISABLE_ENTRY( _FLAGS_, _ID_, _TEXT_ ) \
+        IMAKE_ENTRY( 0, _ID_, _TEXT_, ((ulMask & _FLAGS_) ? MFS_ENABLED : (MFS_GRAYED|MFS_DISABLED)) );
+
+
+        if (ulMask & (MDDPC_SET_COMPUTER | MDDPC_SET_DRIVE8 | MDDPC_SET_DRIVE9 | MDDPC_SET_DRIVE10 | MDDPC_SET_DRIVE11) )
+        {
+            MAKE_ENDISABLE_ENTRY( MDDPC_SET_COMPUTER, IDM_MON_COMPUTER, "&Computer" );
+            MAKE_ENDISABLE_ENTRY( MDDPC_SET_DRIVE8,   IDM_MON_DRIVE8,   "Drive &8"  );
+            MAKE_ENDISABLE_ENTRY( MDDPC_SET_DRIVE9,   IDM_MON_DRIVE9,   "Drive &9"  );
+            MAKE_ENDISABLE_ENTRY( MDDPC_SET_DRIVE10,  IDM_MON_DRIVE10,  "Drive 1&0" );
+            MAKE_ENDISABLE_ENTRY( MDDPC_SET_DRIVE11,  IDM_MON_DRIVE11,  "Drive 1&1" );
+        }
+
+/* don't need the shortcuts anymore */
+#undef IMAKE_ENTRY
+#undef MAKE_ENDISABLE_ENTRY
+
+        GetCursorPos(&curpos);
+
+        if (bExecuteDefault)
+        {
+            SendMessage( hwnd, WM_COMMAND, uDefaultCommand, 0 );
+        }
+        else
+        {
+            TrackPopupMenu(hPopupMenu, 
+                /*TPM_TOPALIGN* |*/ TPM_LEFTALIGN /*| TPM_NONOTIFY */
+                /* | TPM_RETURNCMD */ | TPM_LEFTBUTTON | TPM_RIGHTBUTTON, 
+                curpos.x, curpos.y, 0, hwnd, 0);
+        }
+        DestroyMenu(hPopupMenu);
+    }
+
+    return 0;
+}
+
 /* window procedure */
 static LRESULT CALLBACK reg_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
-                                        LPARAM lParam)
+                                        LPARAM lParam, window_data_t * window_data)
 {
-    reg_private_t *prp = (reg_private_t*) GetWindowLongPtr( hwnd, GWLP_USERDATA );
+    reg_private_t * prp = window_data->private_data;
 
     switch (msg)
     {
@@ -1385,66 +1553,21 @@ static LRESULT CALLBACK reg_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
         update_last_shown_regs(prp);
         return 0;
 
-    case WM_DESTROY:
-        delete_client_window(hwnd);
-        // free the reg_private info 
-        lib_free(prp);
-        SetWindowLongPtr( hwnd, GWLP_USERDATA, 0 );
+    case WM_LBUTTONDOWN:
+        return ExecuteRegistryPopup( hwnd, prp, lParam, TRUE );
 
-        return DEF_REG_PROG(hwnd, msg, wParam, lParam);
+    case WM_RBUTTONDOWN:
+        return ExecuteRegistryPopup( hwnd, prp, lParam, FALSE );
 
-#ifdef OPEN_REGISTRY_AS_POPUP
-
-    case WM_ACTIVATE:
-        ActivateChild( (LOWORD(wParam)!=WA_INACTIVE) ? TRUE:FALSE, hwnd, prp->memspace );
-        break;
-
-#else  // #ifdef OPEN_REGISTRY_AS_POPUP
-
-    case WM_MDIACTIVATE:
-        ActivateChild( ((HWND) wParam==hwnd)?FALSE:TRUE, hwnd, prp->memspace );
-        break;
-
-#endif  // #ifdef OPEN_REGISTRY_AS_POPUP
-
-    case WM_GETWINDOWTYPE:
-        {
-            LONG* lp = (PLONG) lParam;
-            *lp = WT_REGISTER;
-        }
-        return 0;
-
-    case WM_CHANGECOMPUTERDRIVE:
-        switch (wParam)
-        {
-        case IDM_MON_COMPUTER:
-            prp->memspace = e_comp_space;
-            break;
-
-        case IDM_MON_DRIVE8:
-            prp->memspace = e_disk8_space;
-            break;
-
-        case IDM_MON_DRIVE9:
-            prp->memspace = e_disk9_space;
-            break;
-        }
-        SetMemspace( hwnd, prp->memspace );
-        InvalidateRect(hwnd,NULL,FALSE);
+    case WM_NCCREATE:
+        prp->LastShownRegs = NULL;
+        prp->RegCount      = 0;
         break;
 
     case WM_CREATE:
         {
             HDC hdc = GetDC( hwnd );
             SIZE size;
-
-            prp = lib_malloc(sizeof(reg_private_t));
-
-            prp->LastShownRegs = NULL;
-            prp->RegCount      = 0;
-            
-            /* store pointer to structure with window */
-            SetWindowLongPtr( hwnd, GWLP_USERDATA, (UINT_PTR) prp );
 
             SelectObject( hdc, GetStockObject( ANSI_FIXED_FONT ) );
 
@@ -1457,6 +1580,9 @@ static LRESULT CALLBACK reg_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
 
             break;
         }
+
+    case WM_CHANGECOMPUTERDRIVE:
+        /* FALL THROUGH */
 
     case WM_COMMAND:
         {
@@ -1473,7 +1599,17 @@ static LRESULT CALLBACK reg_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
             case IDM_MON_DRIVE9:
                 prp->memspace = e_disk9_space;
                 break;
+
+            case IDM_MON_DRIVE10:
+                prp->memspace = e_disk10_space;
+                break;
+
+            case IDM_MON_DRIVE11:
+                prp->memspace = e_disk11_space;
+                break;
             }
+            SetMemspace( hwnd, window_data, prp->memspace );
+            InvalidateRect(hwnd,NULL,FALSE);
         }
         break;
 
@@ -1497,13 +1633,10 @@ static LRESULT CALLBACK reg_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
                 ClientToScreen( hwnd,  (LPPOINT) &rect);
                 ClientToScreen( hwnd, ((LPPOINT) &rect) + 1);
 
-/**/
-#ifdef OPEN_REGISTRY_AS_POPUP
-#else  // #ifdef OPEN_REGISTRY_AS_POPUP
-                ScreenToClient( hwndMdiClient,  (LPPOINT) &rect);
-                ScreenToClient( hwndMdiClient, ((LPPOINT) &rect) + 1);
-#endif // #ifdef OPEN_REGISTRY_AS_POPUP
-/**/
+                if ( ! window_data->extra->as_popup ) {
+                    ScreenToClient( hwndMdiClient,  (LPPOINT) &rect);
+                    ScreenToClient( hwndMdiClient, ((LPPOINT) &rect) + 1);
+                }
 
                 AdjustWindowRectEx( &rect, 
                     (DWORD)GetWindowLongPtr( hwnd, GWL_STYLE ), FALSE, (DWORD)GetWindowLongPtr( hwnd, GWL_EXSTYLE ) );
@@ -1516,20 +1649,8 @@ static LRESULT CALLBACK reg_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
         }
     }
 
-    return DEF_REG_PROG(hwnd, msg, wParam, lParam);
+    return window_data->default_window_procedure(hwnd, msg, wParam, lParam);
 }
-
-
-typedef
-struct dis_private
-{
-    int      charwidth;
-    int      charheight;
-
-    struct mon_disassembly_private *pmdp;
-
-} dis_private_t;
-
 
 static
 int ExecuteDisassemblyPopup( HWND hwnd, dis_private_t *pdp, LPARAM lParam, BOOL bExecuteDefault )
@@ -1540,7 +1661,10 @@ int ExecuteDisassemblyPopup( HWND hwnd, dis_private_t *pdp, LPARAM lParam, BOOL 
     WORD yPos = HIWORD(lParam) / pdp->charheight;
 
     /* determine which commands should be visible, and which one is the default */
-    mon_disassembly_determine_popup_commands( pdp->pmdp, xPos, yPos, &ulMask, &ulDefault );
+    mon_disassembly_determine_popup_commands( &pdp->mdp, xPos, yPos, &ulMask, &ulDefault );
+
+    /* switch off drives that are not currently available */
+    ulMask = SwitchOffUnavailableDrives(ulMask);
 
     /* now, create the appropriate pop up menu */
     {
@@ -1587,8 +1711,12 @@ int ExecuteDisassemblyPopup( HWND hwnd, dis_private_t *pdp, LPARAM lParam, BOOL 
             InsertMenuItem( hPopupMenu, nMenuCount++, 1, &mii ); \
             mii.fType      = MFT_STRING;
 
-        MAKE_ENTRY( IDM_MON_GOTO_PC, "go&to PC" );
-        MAKE_ENTRY( IDM_MON_GOTO_ADDRESS, "&goto address" );
+        MAKE_ENTRY( IDM_MON_GOTO_PC, "go &to PC" );
+        MAKE_ENTRY( IDM_MON_GOTO_ADDRESS, "&go to address" );
+
+        MAKE_SEPARATOR();
+
+        MAKE_ENTRY( IDM_MON_SET_NEXT_INSTRUCTION, "set &next instruction" );
 
         MAKE_SEPARATOR();
 
@@ -1597,13 +1725,15 @@ int ExecuteDisassemblyPopup( HWND hwnd, dis_private_t *pdp, LPARAM lParam, BOOL 
         MAKE_COND_ENTRY( MDDPC_ENABLE_BREAKPOINT,  IDM_MON_ENABLE_BP,  "&enable breakpoint" );
         MAKE_COND_ENTRY( MDDPC_DISABLE_BREAKPOINT, IDM_MON_DISABLE_BP, "&disable breakpoint" );
 
-        if (ulMask & (MDDPC_SET_COMPUTER | MDDPC_SET_DRIVE8 | MDDPC_SET_DRIVE9) )
+        if (ulMask & (MDDPC_SET_COMPUTER | MDDPC_SET_DRIVE8 | MDDPC_SET_DRIVE9 | MDDPC_SET_DRIVE10 | MDDPC_SET_DRIVE11) )
         {
             MAKE_SEPARATOR();
 
             MAKE_ENDISABLE_ENTRY( MDDPC_SET_COMPUTER, IDM_MON_COMPUTER, "&Computer" );
             MAKE_ENDISABLE_ENTRY( MDDPC_SET_DRIVE8,   IDM_MON_DRIVE8,   "Drive &8"  );
             MAKE_ENDISABLE_ENTRY( MDDPC_SET_DRIVE9,   IDM_MON_DRIVE9,   "Drive &9"  );
+            MAKE_ENDISABLE_ENTRY( MDDPC_SET_DRIVE10,  IDM_MON_DRIVE10,  "Drive 1&0" );
+            MAKE_ENDISABLE_ENTRY( MDDPC_SET_DRIVE11,  IDM_MON_DRIVE11,  "Drive 1&1" );
         }
 
 /* don't need the shortcuts anymore */
@@ -1632,60 +1762,67 @@ int ExecuteDisassemblyPopup( HWND hwnd, dis_private_t *pdp, LPARAM lParam, BOOL 
     return 0;
 }
 
+typedef enum LINETYPE_S { 
+    LT_NORMAL,     
+    LT_EXECUTE, 
+    LT_EXECUTE_BREAKPOINT,
+    LT_EXECUTE_BREAKPOINT_INACTIVE,
+    LT_BREAKPOINT, 
+    LT_BREAKPOINT_INACTIVE,
+    LT_LAST
+} LINETYPE; 
+
+static const COLORREF crTextLineType[LT_LAST] = 
+    { RGB( 0x00, 0x00, 0x00 ), // LT_NORMAL
+      RGB( 0xFF, 0xFF, 0xFF ), // LT_EXECUTE
+      RGB( 0xFF, 0xFF, 0xFF ), // LT_EXECUTE_BREAKPOINT
+      RGB( 0xFF, 0xFF, 0xFF ), // LT_EXECUTE_BREAKPOINT_INACTIVE
+      RGB( 0x00, 0x00, 0x00 ), // LT_BREAKPOINT
+      RGB( 0x00, 0x00, 0x00 )  // LT_BREAKPOINT_INACTIVE
+};
+
+static const COLORREF crBackLineType[LT_LAST] = 
+    { RGB( 0xFF, 0xFF, 0xFF ), // LT_NORMAL
+      RGB( 0x00, 0x00, 0xFF ), // LT_EXECUTE
+      RGB( 0x00, 0x80, 0x80 ), // LT_EXECUTE_BREAKPOINT
+      RGB( 0x00, 0x00, 0xFF ), // LT_EXECUTE_BREAKPOINT_INACTIVE
+      RGB( 0xFF, 0x00, 0x00 ), // LT_BREAKPOINT
+      RGB( 0xFF, 0xFF, 0x00 )  // LT_BREAKPOINT_INACTIVE
+};
+
 
 /* window procedure */
 static LRESULT CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
-                                        LPARAM lParam)
+                                        LPARAM lParam, window_data_t * window_data)
 {
-    dis_private_t *pdp = (dis_private_t*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+    dis_private_t * pdp = window_data->private_data;
 
     switch (msg)
     {
-    case WM_DESTROY:
-        delete_client_window(hwnd);
-        // clear the dis_private info 
-        SetWindowLongPtr( hwnd, GWLP_USERDATA, 0 );
-        lib_free(pdp);
-
-        return DEF_DIS_PROG(hwnd, msg, wParam, lParam);
-
-#ifdef OPEN_DISASSEMBLY_AS_POPUP
-
-    case WM_ACTIVATE:
-        ActivateChild( (LOWORD(wParam)!=WA_INACTIVE) ? TRUE:FALSE, hwnd, mon_disassembly_get_memspace(pdp->pmdp) );
-        break;
-
-#else  // #ifdef OPEN_DISASSEMBLY_AS_POPUP
-
-    case WM_MDIACTIVATE:
-        ActivateChild( ((HWND) wParam==hwnd)?FALSE:TRUE, hwnd, mon_disassembly_get_memspace(pdp->pmdp) );
-        break;
-
-#endif // #ifdef OPEN_DISASSEMBLY_AS_POPUP
-
-    case WM_GETWINDOWTYPE:
-        {
-            LONG* lp = (PLONG) lParam;
-            *lp = WT_DISASSEMBLY;
-        }
-        return 0;
-
     case WM_CHANGECOMPUTERDRIVE:
         switch (wParam)
         {
         case IDM_MON_COMPUTER:
-            mon_disassembly_set_memspace(pdp->pmdp, e_comp_space);
+            mon_disassembly_set_memspace(&pdp->mdp, e_comp_space);
             break;
 
         case IDM_MON_DRIVE8:
-            mon_disassembly_set_memspace(pdp->pmdp, e_disk8_space);
+            mon_disassembly_set_memspace(&pdp->mdp, e_disk8_space);
             break;
 
         case IDM_MON_DRIVE9:
-            mon_disassembly_set_memspace(pdp->pmdp, e_disk9_space);
+            mon_disassembly_set_memspace(&pdp->mdp, e_disk9_space);
+            break;
+
+        case IDM_MON_DRIVE10:
+            mon_disassembly_set_memspace(&pdp->mdp, e_disk10_space);
+            break;
+
+        case IDM_MON_DRIVE11:
+            mon_disassembly_set_memspace(&pdp->mdp, e_disk11_space);
             break;
         }
-        SetMemspace( hwnd, mon_disassembly_get_memspace(pdp->pmdp) );
+        SetMemspace( hwnd, window_data, mon_disassembly_get_memspace(&pdp->mdp) );
         InvalidateRect(hwnd,NULL,FALSE);
         break;
 
@@ -1693,11 +1830,6 @@ static LRESULT CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
         {
             HDC hdc = GetDC( hwnd );
             SIZE size;
-
-            pdp = lib_malloc(sizeof(dis_private_t));
-            
-            /* store pointer to structure with window */
-            SetWindowLongPtr( hwnd, GWLP_USERDATA, (UINT_PTR) pdp );
 
             SelectObject( hdc, GetStockObject( ANSI_FIXED_FONT ) );
 
@@ -1719,7 +1851,7 @@ static LRESULT CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
             }
 
             // initialize some window parameter
-            pdp->pmdp = mon_disassembly_init();
+            mon_disassembly_init(&pdp->mdp);
 
             {
                 SCROLLINFO ScrollInfo;
@@ -1728,7 +1860,7 @@ static LRESULT CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
                 ScrollInfo.fMask  = SIF_POS;
                 GetScrollInfo( hwnd, SB_VERT, &ScrollInfo );
 
-                ScrollInfo.nPos   = mon_disassembly_scroll( pdp->pmdp, MON_SCROLL_NOTHING );
+                ScrollInfo.nPos   = mon_disassembly_scroll( &pdp->mdp, MON_SCROLL_NOTHING );
 
                 SetScrollInfo( hwnd, SB_VERT, &ScrollInfo, TRUE );
                 InvalidateRect( hwnd, NULL, FALSE );
@@ -1738,7 +1870,7 @@ static LRESULT CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
         }
 
     case WM_UPDATE:
-        mon_disassembly_update(pdp->pmdp);
+        mon_disassembly_update(&pdp->mdp);
         return 0;
 
     case WM_LBUTTONDOWN:
@@ -1761,30 +1893,30 @@ static LRESULT CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
             switch ( LOWORD(wParam) )
             {
             case SB_THUMBPOSITION:
-                return DEF_DIS_PROG(hwnd, msg, wParam, lParam);
+                return window_data->default_window_procedure(hwnd, msg, wParam, lParam);
 
             case SB_THUMBTRACK:
-                ScrollInfo.nPos = mon_disassembly_scroll_to( pdp->pmdp, (WORD)ScrollInfo.nTrackPos );
+                ScrollInfo.nPos = mon_disassembly_scroll_to( &pdp->mdp, (WORD)ScrollInfo.nTrackPos );
                 changed         = TRUE;
                 break;
 
             case SB_LINEUP:
-                ScrollInfo.nPos = mon_disassembly_scroll( pdp->pmdp, MON_SCROLL_UP );
+                ScrollInfo.nPos = mon_disassembly_scroll( &pdp->mdp, MON_SCROLL_UP );
                 changed         = TRUE;
                 break;
 
             case SB_PAGEUP:
-                ScrollInfo.nPos = mon_disassembly_scroll( pdp->pmdp, MON_SCROLL_PAGE_UP );
+                ScrollInfo.nPos = mon_disassembly_scroll( &pdp->mdp, MON_SCROLL_PAGE_UP );
                 changed         = TRUE;
                 break;
 
             case SB_LINEDOWN:
-                ScrollInfo.nPos = mon_disassembly_scroll( pdp->pmdp, MON_SCROLL_DOWN );
+                ScrollInfo.nPos = mon_disassembly_scroll( &pdp->mdp, MON_SCROLL_DOWN );
                 changed         = TRUE;
                 break;
 
             case SB_PAGEDOWN:
-                ScrollInfo.nPos = mon_disassembly_scroll( pdp->pmdp, MON_SCROLL_PAGE_DOWN );
+                ScrollInfo.nPos = mon_disassembly_scroll( &pdp->mdp, MON_SCROLL_PAGE_DOWN );
                 changed         = TRUE;
                 break;
             };
@@ -1823,33 +1955,47 @@ static LRESULT CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
         switch (LOWORD(wParam))
         {
         case IDM_MON_GOTO_PC:
-            mon_disassembly_goto_pc( pdp->pmdp );
+            mon_disassembly_goto_pc( &pdp->mdp );
             break;
 
         case IDM_MON_GOTO_ADDRESS:
-/* @@@@@SRT not yet implemented
             {
                 char *result;
-                result = uimon_inputaddress( "Please enter the address you want to go to:" );
+#if 0
+                // @@@@@SRT not yet implemented
+                // result = uimon_inputaddress( "Please enter the address you want to go to:" );
+#else
+                // for testing purposes 
+                result = lib_stralloc("a474");
+#endif
                 if (result)
                 {
-                    mon_disassembly_goto_string( pdp->pmdp, result );
+                    mon_disassembly_goto_string( &pdp->mdp, result );
                     lib_free( result );
                 }
             }
-*/
+/* */
             break;
 
-        case IDM_MON_SET_BP:     mon_disassembly_set_breakpoint( pdp->pmdp );     break;
-        case IDM_MON_UNSET_BP:   mon_disassembly_unset_breakpoint( pdp->pmdp );   break;
-        case IDM_MON_ENABLE_BP:  mon_disassembly_enable_breakpoint( pdp->pmdp );  break;
-        case IDM_MON_DISABLE_BP: mon_disassembly_disable_breakpoint( pdp->pmdp ); break;
+        case IDM_MON_SET_NEXT_INSTRUCTION:
+            mon_disassembly_set_next_instruction(&pdp->mdp);
+            // mon_disassembly_update(&pdp->mdp);
+            // update_shown();
+            uimon_notify_change();
+            break;
+
+        case IDM_MON_SET_BP:     mon_disassembly_set_breakpoint( &pdp->mdp );     break;
+        case IDM_MON_UNSET_BP:   mon_disassembly_unset_breakpoint( &pdp->mdp );   break;
+        case IDM_MON_ENABLE_BP:  mon_disassembly_enable_breakpoint( &pdp->mdp );  break;
+        case IDM_MON_DISABLE_BP: mon_disassembly_disable_breakpoint( &pdp->mdp ); break;
 
         case IDM_MON_COMPUTER:
         case IDM_MON_DRIVE8:
         case IDM_MON_DRIVE9:
+        case IDM_MON_DRIVE10:
+        case IDM_MON_DRIVE11:
             SendMessage( hwnd, WM_CHANGECOMPUTERDRIVE, LOWORD(wParam), 0 );
-            mon_disassembly_goto_pc( pdp->pmdp );
+            mon_disassembly_goto_pc( &pdp->mdp );
             break;
         }
 
@@ -1859,7 +2005,7 @@ static LRESULT CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
 
     case WM_PAINT:
         {
-            struct mon_disassembly *md_contents = NULL;
+            mon_disassembly_t *md_contents = NULL;
             PAINTSTRUCT ps;
             HDC         hdc;
             RECT        rect;
@@ -1870,33 +2016,6 @@ static LRESULT CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
             HBRUSH      hbrushOld;
 
             int i;
-
-            typedef enum LINETYPE_S { 
-                LT_NORMAL,     
-                LT_EXECUTE, 
-                LT_EXECUTE_BREAKPOINT,
-                LT_EXECUTE_BREAKPOINT_INACTIVE,
-                LT_BREAKPOINT, 
-                LT_BREAKPOINT_INACTIVE,
-                LT_LAST } LINETYPE; 
-
-            const COLORREF crTextLineType[LT_LAST] = 
-                { RGB( 0x00, 0x00, 0x00 ), // LT_NORMAL
-                  RGB( 0xFF, 0xFF, 0xFF ), // LT_EXECUTE
-                  RGB( 0xFF, 0xFF, 0xFF ), // LT_EXECUTE_BREAKPOINT
-                  RGB( 0xFF, 0xFF, 0xFF ), // LT_EXECUTE_BREAKPOINT_INACTIVE
-                  RGB( 0x00, 0x00, 0x00 ), // LT_BREAKPOINT
-                  RGB( 0x00, 0x00, 0x00 )  // LT_BREAKPOINT_INACTIVE
-            };
-
-            const COLORREF crBackLineType[LT_LAST] = 
-                { RGB( 0xFF, 0xFF, 0xFF ), // LT_NORMAL
-                  RGB( 0x00, 0x00, 0xFF ), // LT_EXECUTE
-                  RGB( 0x00, 0x80, 0x80 ), // LT_EXECUTE_BREAKPOINT
-                  RGB( 0x00, 0x00, 0xFF ), // LT_EXECUTE_BREAKPOINT_INACTIVE
-                  RGB( 0xFF, 0x00, 0x00 ), // LT_BREAKPOINT
-                  RGB( 0xFF, 0xFF, 0x00 )  // LT_BREAKPOINT_INACTIVE
-            };
 
             HBRUSH hbrushBack[LT_LAST];
             HPEN   hpenBack  [LT_LAST];
@@ -1917,11 +2036,12 @@ static LRESULT CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
             hpenOld        = SelectObject( hdc, GetStockObject( BLACK_PEN   ) );
             hbrushOld      = SelectObject( hdc, GetStockObject( BLACK_BRUSH ) );
 
-            md_contents = mon_disassembly_get_lines( pdp->pmdp, nHeightToPrint, nHeightToPrint-1 );
+            md_contents = mon_disassembly_get_lines( &pdp->mdp, nHeightToPrint, nHeightToPrint-1 );
 
+            if (md_contents)
             for (i=0; i<nHeightToPrint; i++)
             {
-                struct mon_disassembly *next = md_contents->next;
+                mon_disassembly_t *next = md_contents->next;
 
                 LINETYPE    lt;
 
@@ -1987,7 +2107,219 @@ static LRESULT CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
         }
     }
 
-    return DEF_DIS_PROG(hwnd, msg, wParam, lParam);
+    return window_data->default_window_procedure(hwnd, msg, wParam, lParam);
+}
+
+/* window procedure */
+static LRESULT CALLBACK mem_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
+                                        LPARAM lParam, window_data_t * window_data)
+{
+    mem_private_t * pmp = window_data->private_data;
+
+    switch (msg)
+    {
+    case WM_CHANGECOMPUTERDRIVE:
+        switch (wParam)
+        {
+        case IDM_MON_COMPUTER:
+            pmp->mmp.memspace = e_comp_space;
+            break;
+
+        case IDM_MON_DRIVE8:
+            pmp->mmp.memspace = e_disk8_space;
+            break;
+
+        case IDM_MON_DRIVE9:
+            pmp->mmp.memspace = e_disk9_space;
+            break;
+
+        case IDM_MON_DRIVE10:
+            pmp->mmp.memspace = e_disk10_space;
+            break;
+
+        case IDM_MON_DRIVE11:
+            pmp->mmp.memspace = e_disk11_space;
+            break;
+        }
+        SetMemspace( hwnd, window_data, pmp->mmp.memspace );
+        InvalidateRect(hwnd,NULL,FALSE);
+        break;
+
+    case WM_CREATE:
+        {
+            HDC hdc = GetDC( hwnd );
+            SIZE size;
+
+            SelectObject( hdc, GetStockObject( ANSI_FIXED_FONT ) );
+
+            mon_memory_init(&pmp->mmp);
+
+            // get height and width of a character
+            GetTextExtentPoint32( hdc, " ", 1, &size );
+            pmp->charwidth    = size.cx;
+            pmp->charheight   = size.cy;
+
+            {
+            SCROLLINFO ScrollInfo;
+            ScrollInfo.cbSize = sizeof(ScrollInfo);
+            ScrollInfo.fMask  = SIF_RANGE;
+//          GetScrollInfo( hwnd, SB_VERT, &ScrollInfo );
+
+            ScrollInfo.nMin = 0;
+            ScrollInfo.nMax = 0x10000;
+
+            SetScrollInfo( hwnd, SB_VERT, &ScrollInfo, FALSE );
+            }
+
+            break;
+        }
+
+    case WM_PAINT:
+        {
+            mon_memory_t * contents = NULL;
+            PAINTSTRUCT ps;
+            HDC         hdc;
+            RECT        rect;
+            int         nHeightToPrint;
+            int         i;
+
+            hdc = BeginPaint(hwnd,&ps);
+
+            GetClientRect(hwnd,&rect);
+            nHeightToPrint = (rect.bottom - rect.top) / pmp->charheight + 1;
+
+            contents = mon_memory_get_lines( &pmp->mmp, nHeightToPrint, nHeightToPrint-1 );
+
+            if (contents)
+            for (i=0; i<nHeightToPrint; i++)
+            {
+                mon_memory_t *next = contents->next;
+
+                LINETYPE    lt;
+
+                COLORREF crText;
+                COLORREF crBack;
+
+                if (contents->flags.active_line)
+                {
+                    if (contents->flags.is_breakpoint)
+                    {
+                        if (contents->flags.breakpoint_active)
+                            lt = LT_EXECUTE_BREAKPOINT;
+                        else
+                            lt = LT_EXECUTE_BREAKPOINT_INACTIVE;
+                    }
+                    else
+                        lt = LT_EXECUTE;
+                }
+                else
+                {
+                    if (contents->flags.is_breakpoint)
+                    {
+                        if (contents->flags.breakpoint_active)
+                            lt = LT_BREAKPOINT;
+                        else
+                            lt = LT_BREAKPOINT_INACTIVE;
+                    }
+                    else
+                        lt = LT_NORMAL;
+                }
+
+                crText = crTextLineType[lt];
+                crBack = crBackLineType[lt];
+
+                SetTextColor( hdc, crText );
+                SetBkColor  ( hdc, crBack );
+
+                TextOut( hdc, 0, i*pmp->charheight, contents->content, contents->length );
+
+                /* make sure we clear all that is right from the text */
+                //SelectObject( hdc, hbrushBack[lt] );
+                //SelectObject( hdc, hpenBack[lt]   );
+                Rectangle( hdc, contents->length*pmp->charwidth, i*pmp->charheight, rect.right+1, (i+1)*pmp->charheight );
+
+                lib_free(contents->content);
+                lib_free(contents);
+                contents = next;
+            }
+
+            EndPaint(hwnd,&ps);
+        }
+    }
+
+    return window_data->default_window_procedure(hwnd, msg, wParam, lParam);
+}
+
+static LRESULT CALLBACK generic_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
+                                            LPARAM lParam)
+{
+    window_data_t window_data;
+
+    window_data.window_procedure = (void *) GetWindowLongPtr(hwnd, offsetof(window_data_t, window_procedure));
+
+    if (window_data.window_procedure == NULL) {
+        window_data_t * new_window_data = InterlockedExchangePointer((PULONG) &window_data_create, NULL);
+
+        assert(new_window_data != NULL);
+
+        SetWindowLongPtr(hwnd, offsetof(window_data_t, window_procedure),         (LONG_PTR) new_window_data->window_procedure         );
+        SetWindowLongPtr(hwnd, offsetof(window_data_t, default_window_procedure), (LONG_PTR) new_window_data->default_window_procedure );
+        SetWindowLongPtr(hwnd, offsetof(window_data_t, private_data),             (LONG_PTR) new_window_data->private_data             );
+        SetWindowLongPtr(hwnd, offsetof(window_data_t, extra),                    (LONG_PTR) new_window_data->extra                    );
+
+        window_data.window_procedure = new_window_data->window_procedure;
+
+        new_window_data->extra->memspace = e_comp_space;
+
+        lib_free(new_window_data);
+    }
+
+    window_data.default_window_procedure = (void *) GetWindowLongPtr(hwnd, offsetof(window_data_t, default_window_procedure));
+    window_data.private_data             = (void *) GetWindowLongPtr(hwnd, offsetof(window_data_t, private_data));
+    window_data.extra                    = (void *) GetWindowLongPtr(hwnd, offsetof(window_data_t, extra));
+
+    switch (msg)
+    {
+        LONG * lp;
+
+    case WM_NCDESTROY:
+        delete_client_window(hwnd);
+
+        if (window_data.private_data) {
+            // clear the private_data info 
+
+            SetWindowLongPtr(hwnd, offsetof(window_data_t, private_data), 0);
+
+            // clear the extra info
+            SetWindowLongPtr(hwnd, offsetof(window_data_t, extra), 0);
+
+            lib_free(window_data.extra);
+            lib_free(window_data.private_data);
+        }
+
+        break;
+
+    case WM_GETWINDOWTYPE:
+        lp = (PLONG) lParam;
+        *lp = window_data.extra->window_type;
+        return 0;
+
+    case WM_ACTIVATE:
+        if (window_data.extra->as_popup) {
+            if (LOWORD(wParam) != WA_INACTIVE) {
+                ActivateChild( TRUE, hwnd, &window_data );
+            }
+        }
+        break;
+
+    case WM_MDIACTIVATE:
+        if ( ! window_data.extra->as_popup ) {
+            ActivateChild( ((HWND) wParam == hwnd) ? FALSE : TRUE, hwnd, &window_data );
+        }
+        break;
+    }
+
+    return window_data.window_procedure(hwnd, msg, wParam, lParam, &window_data);
 }
 
 
@@ -2019,27 +2351,14 @@ void uimon_init( void )
         RegisterClassEx(&wc);
 
         /* Register window class for the disassembler window */
-        wc.lpfnWndProc   = dis_window_proc;
+        wc.lpfnWndProc   = generic_window_proc;
         wc.cbClsExtra    = 0;
-        wc.cbWndExtra    = 0;
+        wc.cbWndExtra    = sizeof(window_data_t);
         wc.hIcon         = NULL;
         wc.hCursor       = NULL;
         wc.hbrBackground = CreateSolidBrush(RGB(0xFF,0xFF,0xFF));
         wc.lpszMenuName  = 0;
-        wc.lpszClassName = DIS_CLASS;
-        wc.hIconSm       = NULL;
-
-        RegisterClassEx(&wc);
-
-        /* Register window class for the register window */
-        wc.lpfnWndProc   = reg_window_proc;
-        wc.cbClsExtra    = 0;
-        wc.cbWndExtra    = 0;
-        wc.hIcon         = NULL;
-        wc.hCursor       = NULL;
-        wc.hbrBackground = CreateSolidBrush(RGB(0xFF,0xFF,0xFF));
-        wc.lpszMenuName  = 0;
-        wc.lpszClassName = REG_CLASS;
+        wc.lpszClassName = CONTENTS_CLASS;
         wc.hIconSm       = NULL;
 
         RegisterClassEx(&wc);
