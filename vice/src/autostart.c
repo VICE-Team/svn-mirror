@@ -125,6 +125,10 @@ static unsigned int autostart_run_mode;
 
 /* Flag: maincpu_clk isn't resetted yet */
 static int autostart_wait_for_reset;
+
+/* Flag: load stage after LOADING enters ROM area */
+static int entered_rom = 0;
+
 /* ------------------------------------------------------------------------- */
 
 static int AutostartRunWithColon = 0;
@@ -370,6 +374,24 @@ static void disable_warp_if_was_requested(void)
     }    
 }
 
+static void check_rom_area(void)
+{
+    /* enter ROM ? */
+    if(!entered_rom) {
+        if(reg_pc >= 0xe000) {
+            log_message(autostart_log, "Entered ROM at $%04x", reg_pc);
+            entered_rom = 1;
+        }
+    } else {
+        /* special case for auto-starters: ROM left */
+        if(reg_pc < 0xe000) {
+            log_message(autostart_log, "Left ROM for $%04x", reg_pc);
+            autostartmode = AUTOSTART_DONE;
+            disable_warp_if_was_requested();
+        }
+    }
+}
+
 /* ------------------------------------------------------------------------- */
 
 static void load_snapshot_trap(WORD unused_addr, void *unused_data)
@@ -500,6 +522,8 @@ static void advance_hastape(void)
         } else {
             autostartmode = AUTOSTART_LOADINGTAPE;
         }
+        entered_rom = 0;
+        enable_warp_if_requested();
         deallocate_program_name();
         break;
       case NO:
@@ -518,6 +542,7 @@ static void advance_pressplayontape(void)
         datasette_control(DATASETTE_CONTROL_START);
         break;
       case NO:
+        disable_warp_if_was_requested();
         autostart_disable();
         break;
       case NOT_YET:
@@ -529,6 +554,7 @@ static void advance_loadingtape(void)
 {
     switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
       case YES:
+        disable_warp_if_was_requested();
         if (autostart_run_mode == AUTOSTART_MODE_RUN) {
             log_message(autostart_log, "Starting program.");
             kbdbuf_feed(AutostartRunCommand);
@@ -536,9 +562,12 @@ static void advance_loadingtape(void)
         autostartmode = AUTOSTART_DONE;
         break;
       case NO:
+        disable_warp_if_was_requested();
         autostart_disable();
         break;
       case NOT_YET:
+        /* leave autostart and disable warp if ROM area was left */
+        check_rom_area();
         break;
     }
 }
@@ -644,8 +673,6 @@ static void advance_waitsearchingfor(void)
     }
 }
 
-static int entered_rom = 0;
-
 static void advance_waitloading(void)
 {
     switch (check("LOADING", AUTOSTART_NOWAIT_BLINK)) {
@@ -688,20 +715,8 @@ static void advance_waitloadready(void)
         autostart_disable();
         break;
       case NOT_YET:
-        /* enter ROM ? */
-        if(!entered_rom) {
-            if(reg_pc >= 0xe000) {
-                log_message(autostart_log, "Entered ROM at $%04x", reg_pc);
-                entered_rom = 1;
-            }
-        } else {
-            /* special case for auto-starters: ROM left */
-            if(reg_pc < 0xe000) {
-                log_message(autostart_log, "Left ROM for $%04x", reg_pc);
-                autostartmode = AUTOSTART_DONE;
-                disable_warp_if_was_requested();
-            }
-        }
+        /* leave autostart and disable warp if ROM area was left */
+        check_rom_area();
         break;
     }
 }
