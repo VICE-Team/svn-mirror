@@ -83,6 +83,8 @@ static enum {
     AUTOSTART_LOADINGDISK,
     AUTOSTART_HASSNAPSHOT,
     AUTOSTART_WAITLOADREADY,
+    AUTOSTART_WAITLOADING,
+    AUTOSTART_WAITSEARCHINGFOR,
     AUTOSTART_DONE
 } autostartmode = AUTOSTART_NONE;
 
@@ -433,6 +435,8 @@ void autostart_disable(void)
    is reached.  */
 static void disk_eof_callback(void)
 {
+    disable_warp_if_was_requested();
+    
     if (handle_drive_true_emulation_overridden) {
         BYTE id[2], *buffer;
         unsigned int track, sector;
@@ -579,12 +583,21 @@ static void advance_hasdisk(void)
         lib_free(tmp);
 
         if (!traps) {
-            autostartmode = AUTOSTART_WAITLOADREADY;
-            enable_warp_if_requested();
+            if(AutostartWarp) {
+                autostartmode = AUTOSTART_WAITSEARCHINGFOR;
+            } else {
+                /* be most compatible if warp is disabled */
+                if (autostart_run_mode == AUTOSTART_MODE_RUN)
+                    kbdbuf_feed(AutostartRunCommand);
+                autostartmode = AUTOSTART_DONE;
+            }
         } else {
             autostartmode = AUTOSTART_LOADINGDISK;
             machine_bus_attention_callback_set(disk_attention_callback);
         }
+
+        enable_warp_if_requested();
+
         deallocate_program_name();
         break;
       case NO:
@@ -612,25 +625,82 @@ static void advance_hassnapshot(void)
     }
 }
 
-static void advance_waitloadready(void)
+/* ----- stages for tde disk loading with warp --------------------------- */
+
+static void advance_waitsearchingfor(void)
 {
-    switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
+    switch (check("SEARCHING FOR", AUTOSTART_NOWAIT_BLINK)) {
       case YES:
-        if (autostart_run_mode == AUTOSTART_MODE_RUN)
-            kbdbuf_feed(AutostartRunCommand);
-        autostartmode = AUTOSTART_DONE;
-        disable_warp_if_was_requested();
+        log_message(autostart_log, "Searching for ...");
+        autostartmode = AUTOSTART_WAITLOADING;
         break;
       case NO:
+        log_message(autostart_log, "NO Searching for ...");
         disable_warp_if_was_requested();
         autostart_disable();
         break;
       case NOT_YET:
-        /* special case for auto-starters */
-        if(reg_pc < 0xa000) {
-            log_message(autostart_log, "ROM left.");
-            autostartmode = AUTOSTART_DONE;
-            disable_warp_if_was_requested();
+        break;
+    }
+}
+
+static int entered_rom = 0;
+
+static void advance_waitloading(void)
+{
+    switch (check("LOADING", AUTOSTART_NOWAIT_BLINK)) {
+      case YES:
+        log_message(autostart_log, "Loading");
+        entered_rom = 0;
+        autostartmode = AUTOSTART_WAITLOADREADY;
+        break;
+      case NO:
+        /* still showing SEARCHING FOR ? */
+        if(check("SEARCHING FOR", AUTOSTART_NOWAIT_BLINK)==YES) {
+            return;
+        }
+        /* no something else is shown -> error! */
+        log_message(autostart_log, "NO Loading");
+        disable_warp_if_was_requested();
+        autostart_disable();
+        break;
+      case NOT_YET:
+        break;
+    }
+}
+
+static void advance_waitloadready(void)
+{    
+    switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
+      case YES:
+        log_message(autostart_log, "Ready");
+        autostartmode = AUTOSTART_DONE;
+        disable_warp_if_was_requested();
+
+        if (autostart_run_mode == AUTOSTART_MODE_RUN) {
+            kbdbuf_feed(AutostartRunCommand);
+            log_message(autostart_log, "Running program");
+        }
+        break;
+      case NO:
+        log_message(autostart_log, "NO Ready");
+        disable_warp_if_was_requested();
+        autostart_disable();
+        break;
+      case NOT_YET:
+        /* enter ROM ? */
+        if(!entered_rom) {
+            if(reg_pc >= 0xe000) {
+                log_message(autostart_log, "Entered ROM at $%04x", reg_pc);
+                entered_rom = 1;
+            }
+        } else {
+            /* special case for auto-starters: ROM left */
+            if(reg_pc < 0xe000) {
+                log_message(autostart_log, "Left ROM for $%04x", reg_pc);
+                autostartmode = AUTOSTART_DONE;
+                disable_warp_if_was_requested();
+            }
         }
         break;
     }
@@ -675,6 +745,12 @@ void autostart_advance(void)
         break;
       case AUTOSTART_WAITLOADREADY:
         advance_waitloadready();
+        break;
+      case AUTOSTART_WAITLOADING:
+        advance_waitloading();
+        break;
+      case AUTOSTART_WAITSEARCHINGFOR:
+        advance_waitsearchingfor();
         break;
       default:
         return;
@@ -978,11 +1054,6 @@ void autostart_reset(void)
         autostartmode = AUTOSTART_NONE;
         if (oldmode != AUTOSTART_DONE) {
             disk_eof_callback();
-        }
-        /* reset was issued while loading with warp in rom enabled 
-            -> disable warp again */
-        if (oldmode == AUTOSTART_WAITLOADREADY) {
-            disable_warp_if_was_requested();
         }
         autostartmode = AUTOSTART_NONE;
         deallocate_program_name();
