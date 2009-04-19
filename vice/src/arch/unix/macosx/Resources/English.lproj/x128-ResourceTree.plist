@@ -8,6 +8,8 @@
 		<string>AutostartHandleTrueDriveEmulation,b</string>
 		<key>Run With Colon</key>
 		<string>AutostartRunWithColon,b</string>
+		<key>Warp Mode during Autostart</key>
+		<string>AutostartWarp,b</string>
 	</dict>
 	<key>Cartridges</key>
 	<dict>
