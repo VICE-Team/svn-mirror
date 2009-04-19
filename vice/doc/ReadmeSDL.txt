@@ -48,6 +48,7 @@ The SDL port has been tested to work on:
  - SkyOS / x86
  - Solaris / sparc, sparc64, x86
  - Syllable / x86
+ - Tru64 4.x / alpha
  - Unixware / x86
  - Win32 / x86
  - Win64 / ia64, x64
