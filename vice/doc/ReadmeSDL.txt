@@ -33,7 +33,14 @@ Some new features that are missing from (some of) the native versions:
 Some missing features that are available in (some of) the native versions:
  - RS-232 support
  - MIDI support
-
+ - TFE/RRnet support
+ - shared lib support
+ - block device support
+ - opencbm support
+ - catweasel SID support
+ - HardSID support
+ - ParSID support
+ 
 
 1.3 Ports
 
