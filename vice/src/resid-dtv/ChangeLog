@@ -41,7 +41,7 @@
         * voice.h, envelope.h: Simulate voice output based on emulation of two
           of the three sigma-delta converters:
 
-          - 8-bit delta-sigma converter at oscillator
+          - 12-bit delta-sigma converter at oscillator
           - 8-bit delta-sigma for envelope level
           - 4-bit delta-sigma for volume level
 
@@ -54,8 +54,13 @@
 
           The waveform delta-sigma converter has been found to produce wideband
           hissing noise for the ramping waveforms such as sawtooth. This is
-          most likely due to interaction with envelope generator and irregular
-          switching intervals for the top 8 bits of the waveform.
+          due to interaction with envelope generator and changes in the top 12
+          bits of the waveform.
+
+          Additionally, the noise waveform appears to be generated at full 12
+          bits instead of just 8 bits. We are not quite sure what the algorithm
+          for the lowest bits is, but the other sigma-delta conversions seem to
+          just clone the bottom bits.
 
         * sid.cc, envelope.cc: New register added to set the voice 2 envelope
           level.
