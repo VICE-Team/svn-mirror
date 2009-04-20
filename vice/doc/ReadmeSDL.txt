@@ -24,11 +24,15 @@ may be omitted for portability. Everything is configurable via the UI.
 1.2 Features
 
 Some new features that are missing from (some of) the native versions:
- - Free scaling using OpenGL (from the GTK port)
+ - Free scaling using OpenGL (from the GTK port) with optional fixed aspect ratio
  - Virtual keyboard (adapted from the GP2X port)
  - Hotkey mapping to any menu item
  - (Host) joystick event mapping to (machine) joystick, keyboard or menu item
- - No mouse required
+ - No mouse or keyboard required, but both are supported
+
+Some missing features that are available in (some of) the native versions:
+ - RS-232 support
+ - MIDI support
 
 
 1.3 Ports
@@ -94,7 +98,14 @@ Mapping a hotkey is simple:
 2. Issue the Map command (default: 'm', button 3)
 3. Press the desired key(-combo) or joystick direction/button
 
+The keycombo can use multiple modifiers, for example Ctrl+q and
+Ctrl+Shift+q can be mapped to different menu entries. Note that
+the "left" and "right" versions of a modifier are regarded as the
+same key in the context of hotkeys.
+
 Hotkeys can be unmapped by mapping the hotkey to an empty menu item.
+
+Hotkeys do not work while using the menu or virtual keyboard.
 
 
 2.3 Virtual keyboard
@@ -183,7 +194,7 @@ Remember to save the relevant settings file.
 3. Building
 ===========
 
-3.1 Building in *nix compile enviroments.
+3.1 Building in *nix compile enviroments
 
 ./configure --enable-sdlui
 make
@@ -193,6 +204,6 @@ You'll need the SDL libs and headers. For free scaling, the OpenGL is
 also needed (libGL, opengl32.dll, ...)
 
 
-3.2 Building in Visual Studio.
+3.2 Building in Visual Studio
 
 For MSVC building instructions see src/arch/sdl/win32-msvc/Readme.txt

@@ -340,6 +340,11 @@ void joy_arch_init_default_mapping(int joynum)
 
     SDL_JoystickUpdate();
 
+    /* FIXME some joysticks seem to need some time to self-calibrate after the
+       first time it's opened/polled/read, otherwise the reported axis values
+       are incorrect and get mapped to NONE. Quitting and restarting seems to
+       fix this. Loading the joymap later in the init gets around this issue. */
+
     for (i=0; i<sdljoystick[joynum].input_max[AXIS]*input_mult[AXIS]; ++i) {
         joyport = ((1+joynum+((i&4)>>2))&1);
         pin = 8>>(i&3);
@@ -700,7 +705,7 @@ static ui_menu_action_t sdljoy_perform_event(sdljoystick_mapping_t *event, int v
 
     autorepeat = MENU_ACTION_NONE;
 
-    if (sdl_menu_state || sdl_vkbd_state) {
+    if (sdl_menu_state || (sdl_vkbd_state & SDL_VKBD_ACTIVE)) {
         if (event->action == JOYSTICK) {
             switch (event->value.joy[1]) {
                 case 0x01:

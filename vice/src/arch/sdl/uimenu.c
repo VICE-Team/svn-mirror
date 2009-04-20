@@ -590,7 +590,7 @@ void sdl_ui_activate_pre_action(void)
     vsync_suspend_speed_eval();
     sound_suspend();
 
-    if (sdl_vkbd_state) {
+    if (sdl_vkbd_state & SDL_VKBD_ACTIVE) {
         sdl_vkbd_close();
     }
 

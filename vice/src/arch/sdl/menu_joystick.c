@@ -309,6 +309,7 @@ const ui_menu_entry_t joystick_menu[] = {
       MENU_ENTRY_OTHER,
       custom_swap_ports_callback,
       NULL },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Allow keyset joystick",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_KeySetEnable_callback,
@@ -317,6 +318,7 @@ const ui_menu_entry_t joystick_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_keyset_menu },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Joystick 1 mapping", /* TODO better name */
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -337,6 +339,7 @@ const ui_menu_entry_t joystick_single_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port1_device_menu },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Allow keyset joystick",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_KeySetEnable_callback,
@@ -345,6 +348,7 @@ const ui_menu_entry_t joystick_single_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_keyset_menu },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Joystick mapping", /* TODO better name */
       MENU_ENTRY_SUBMENU,
       submenu_callback,
