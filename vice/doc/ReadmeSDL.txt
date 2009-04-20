@@ -35,11 +35,11 @@ Some new features that are missing from (some of) the native versions:
 
 The SDL port has been tested to work on:
  - Amiga OS 4.x / ppc
- - AROS / ppc, x86, x64
+ - AROS / amd64/x86_64, ppc, x86
  - BeOS / ppc, x86
- - FreeBSD / alpha
+ - FreeBSD / alpha, amd64/x86_64
  - GP2X / arm (needs fixing)
- - Linux / alpha, ppc, x86, x64
+ - Linux / amd64/x86_64, alpha, ppc, x86
  - Morphos / ppc
  - NetBSD / alpha
  - OpenBSD / alpha
