@@ -154,7 +154,8 @@ void WaveformGeneratorFP::calculate_waveform_sample(float o[12])
         distancetable[12+i] = distancetable[12-i] = 1.f / (1.f + i * i * config.distance);
     }
 
-    float pulse = (accumulator >> 12) >= pw ? config.pulsestrength : 0.f;
+    float pulse = (accumulator >> 12) >= pw ? 1.f : -1.f;
+    pulse *= config.pulsestrength;
 
     float tmp[12];
     for (i = 0; i < 12; i ++) {
