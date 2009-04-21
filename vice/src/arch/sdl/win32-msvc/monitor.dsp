@@ -135,6 +135,9 @@ SOURCE=..\..\..\monitor\mon_memory.c
 # Begin Source File
 
 SOURCE=..\..\..\monitor\mon_parse.c
+
+# ADD CPP /D YYMALLOC=malloc /D YYFREE=free
+
 # End Source File
 # Begin Source File
 
