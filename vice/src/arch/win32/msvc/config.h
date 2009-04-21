@@ -3,6 +3,11 @@
 
 #define UNSTABLE
 
+#define FEATURE_CPUMEMHISTORY 1
+#define HAVE_WORKING_VSNPRINTF
+
+#define vsnprintf _vsnprintf
+
 #pragma warning(disable:4996)
 
 #define HAVE_ALLOCA             1

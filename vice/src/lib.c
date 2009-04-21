@@ -549,6 +549,49 @@ char *lib_stralloc(const char *str)
     return ptr;
 }
 
+#ifdef HAVE_WORKING_VSNPRINTF
+
+/* taken shamelessly from printf(3) man page of the Linux Programmer's Manual */
+
+char *lib_mvsprintf(const char *fmt, va_list args)
+{
+    /* Guess we need no more than 100 bytes. */
+    int n, size = 100;
+    char *p, *np;
+
+    if ((p = lib_malloc (size)) == NULL) {
+        return NULL;
+    }
+
+    while (1) {
+        /* Try to print in the allocated space. */
+        n = vsnprintf (p, size, fmt, args /* ap */);
+
+        /* If that worked, return the string. */
+        if (n > -1 && n < size) {
+            return p;
+        }
+
+        /* Else try again with more space. */
+        if (n > -1) {     /* glibc 2.1 and C99 */
+            size = n + 1; /* precisely what is needed */
+        }
+        else {            /* glibc 2.0 */
+            size *= 2;    /* twice the old size */
+        }
+
+        if ((np = lib_realloc (p, size)) == NULL) {
+            free(p);
+            return NULL;
+        }
+        else {
+            p = np;
+        }
+    }
+}
+
+#else
+
 /* xmsprintf() is like sprintf() but lib_malloc's the buffer by itself.  */
 
 #define xmvsprintf_is_digit(c) ((c) >= '0' && (c) <= '9')
@@ -839,6 +882,7 @@ repeat:
 
     return buf;
 }
+#endif /* #ifdef HAVE_WORKING_VSNPRINTF */
 
 char *lib_msprintf(const char *fmt, ...)
 {
