@@ -186,7 +186,7 @@ BEGIN
     1, // wVersion
     16, // wWidth
     15, // wHeight
-    25, // wItemCount
+    27, // wItemCount
     IDM_MON_OPEN,
     IDM_MON_SAVE,
     IDM_MON_PRINT,
@@ -211,8 +211,8 @@ BEGIN
     IDM_MON_COMPUTER,
     IDM_MON_DRIVE8,
     IDM_MON_DRIVE9,
-//    IDM_MON_DRIVE10,
-//    IDM_MON_DRIVE11,
+    IDM_MON_DRIVE10,
+    IDM_MON_DRIVE11,
 	0,
     IDM_MON_HELP
 END
