@@ -2154,7 +2154,7 @@ static void monitor_startup_internal(int is_remote)
 
 void monitor_startup(void)
 {
-    monitor_startup_internal(0);
+    monitor_startup_internal(monitor_is_remote);
 }
 
 static void monitor_trap(WORD addr, void *unused_data)
