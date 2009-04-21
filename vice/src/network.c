@@ -64,7 +64,6 @@ static int current_send_frame;
 static int last_received_frame;
 static vice_network_socket_t * listen_socket;
 static vice_network_socket_t * network_socket;
-static int network_init_done = 0;
 static int suspended;
 
 static char *server_name = NULL;
@@ -107,17 +106,6 @@ static int set_network_control(int val, void *param)
     network_control |= NETWORK_CONTROL_RSRC;
 
     return 0;
-}
-
-static int network_init(void)
-{
-    if (network_init_done)
-        return 0;
-
-    network_mode = NETWORK_IDLE;
-    network_init_done = 1;
-
-    return archdep_network_init();
 }
 
 /*---------- Resources ------------------------------------------------*/
@@ -545,9 +533,6 @@ int network_start_server(void)
     int ret = -1;
 
     do {
-        if (network_init() < 0)
-            break;
-
         if (network_mode != NETWORK_IDLE)
             break;
 
@@ -589,9 +574,6 @@ int network_connect_client(void)
     BYTE *buf;
     BYTE recv_buf4[4];
     size_t buf_size;
-
-    if (network_init() < 0)
-        return -1;
 
     if (network_mode != NETWORK_IDLE)
         return -1;
@@ -822,7 +804,6 @@ void network_shutdown(void)
     network_free_frame_event_list();
     lib_free(server_name);
     lib_free(server_bind_address);
-    archdep_network_shutdown();
 }
 
 #else

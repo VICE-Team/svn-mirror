@@ -39,6 +39,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "lib.h"
 #include "log.h"
 #include "socket.h"
@@ -273,6 +274,35 @@ static vice_network_socket_t * vice_network_alloc_new_socket(SOCKET sockfd)
     return return_address;
 }
 
+/*! \internal \brief Initialise networking
+ *
+ * This function initialises networking. It ensures
+ * that the initialisation is performed only once.
+ *
+ * \return
+ *   0 on success, else -1.
+ *
+ * \remark
+ *   If this function returns with an error, it is
+ *   likely that all subsequent networking functions
+ *   will fail.
+ *
+ * \todo
+ *   Currently, archdep_network_shutdown() is never called!
+ */
+static int socket_init(void)
+{
+    static int init_done = 0;
+
+    if ( init_done ) {
+        return 0;
+    }
+
+    init_done = 1;
+
+    return archdep_network_init();
+}
+
 /*! \internal \brief Initialise a socket address structure
  *
  * This function initialises a socket address structure.
@@ -348,6 +378,10 @@ vice_network_socket_t * vice_network_server(const vice_network_socket_address_t 
     assert(server_address != NULL);
 
     do {
+        if (socket_init() < 0) {
+            break;
+        }
+
         sockfd = (int)socket(server_address->domain, SOCK_STREAM, server_address->protocol);
 
         if (SOCKET_IS_INVALID(sockfd)) {
@@ -395,6 +429,10 @@ vice_network_socket_t * vice_network_client(const vice_network_socket_address_t 
     assert(server_address != NULL);
 
     do {
+        if (socket_init() < 0) {
+            break;
+        }
+
         sockfd = (int)socket(server_address->domain, SOCK_STREAM, server_address->protocol);
 
         if (SOCKET_IS_INVALID(sockfd)) {
