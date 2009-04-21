@@ -64,4 +64,6 @@ const char* resid_version_string = VERSION;
 #define RESID_INLINING @RESID_INLINING@
 #define RESID_INLINE @RESID_INLINE@
 
+#define HAVE_MMINTRIN_H @HAVE_MMINTRIN_H@
+
 #endif // not __SIDDEFS_H__

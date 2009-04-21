@@ -20,7 +20,7 @@
 #include "sid.h"
 #include <math.h>
 
-#ifdef __MMX__
+#if defined(__MMX__) && (HAVE_MMINTRIN_H==1)
 #include <mmintrin.h>
 #endif
 
@@ -836,7 +836,7 @@ int SID::clock_interpolate(cycle_count& delta_t, short* buf, int n,
 static inline int convolve(const short *a, const short *b, int n)
 {
     int out = 0;
-#ifdef __MMX__
+#if defined(__MMX__) && (HAVE_MMINTRIN_H==1)
     union {
         __m64 m64;
         int i32[2];
