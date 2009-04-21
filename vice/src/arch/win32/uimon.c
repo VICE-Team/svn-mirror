@@ -33,7 +33,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
-#include <windowsx.h>
 #include <commctrl.h>
 
 #include "console.h"
@@ -195,7 +194,7 @@ static void update_shown(void);
 /**/
 void add_client_window( HWND hwnd )
 {
-    uimon_client_windows_t *new_client = lib_malloc( sizeof(uimon_client_windows_t) );
+    uimon_client_windows_t *new_client = lib_malloc( sizeof * new_client );
 
     new_client->hwnd = hwnd;
     new_client->next = first_client_window;
@@ -277,72 +276,81 @@ HWND CreateAToolbar( HWND hwnd )
 
     TBBUTTON *ptbb = NULL;
 
-    hRes = FindResource( winmain_instance, MAKEINTRESOURCE(IDR_MONTOOLBAR), RT_TOOLBAR );
+    do {
+        hRes = FindResource( winmain_instance, MAKEINTRESOURCE(IDR_MONTOOLBAR), RT_TOOLBAR );
 
-    if (hRes == NULL)
-        goto quit;
-
-    hGlobal = LoadResource( winmain_instance, hRes );
-    if (hGlobal == NULL)
-        goto quit;
-
-    pData = (CToolBarData*)LockResource(hGlobal);
-    if (pData == NULL)
-        goto unlock;
-
-    if (pData->wVersion != 1)
-        goto unlock;
-
-    ptbb = (PTBBUTTON) lib_malloc(pData->wItemCount*sizeof(TBBUTTON));
-    if (!ptbb)
-        goto unlock;
-
-    for (i = j = 0; i < pData->wItemCount; i++)
-    {
-        if (pData->aItems[i])
-        {
-            ptbb[i].iBitmap = j++;
-            ptbb[i].fsStyle = TBSTYLE_BUTTON;
-        }
-        else
-        {
-            ptbb[i].iBitmap = 5;
-            ptbb[i].fsStyle = TBSTYLE_SEP;
+        if (hRes == NULL) {
+            break;
         }
 
-        ptbb[i].idCommand = pData->aItems[i];
+        hGlobal = LoadResource( winmain_instance, hRes );
+        if (hGlobal == NULL) {
+            break;
+        }
 
-        ptbb[i].fsState = TBSTATE_ENABLED;
-        ptbb[i].dwData  = 0;
-        ptbb[i].iString = j;
+        pData = LockResource(hGlobal);
+        if (pData == NULL) {
+            break;
+        }
+
+        if (pData->wVersion != 1) {
+            break;
+        }
+
+        ptbb = lib_malloc(pData->wItemCount * sizeof * ptbb);
+        if (!ptbb) {
+            break;
+        }
+
+        for (i = j = 0; i < pData->wItemCount; i++)
+        {
+            if (pData->aItems[i])
+            {
+                ptbb[i].iBitmap = j++;
+                ptbb[i].fsStyle = TBSTYLE_BUTTON;
+            }
+            else
+            {
+                ptbb[i].iBitmap = 5;
+                ptbb[i].fsStyle = TBSTYLE_SEP;
+            }
+
+            ptbb[i].idCommand = pData->aItems[i];
+
+            ptbb[i].fsState = TBSTATE_ENABLED;
+            ptbb[i].dwData  = 0;
+            ptbb[i].iString = j;
+        }
+
+        hToolbar = CreateToolbarEx( hwnd,
+            WS_CHILD,           // WORD ws, 
+            3,                  // UINT wID, 
+            j,                  // int nBitmaps, 
+            winmain_instance,   // HINSTANCE hBMInst, 
+            IDR_MONTOOLBAR,     // UINT wBMID, 
+            ptbb,               // LPCTBBUTTON lpButtons, 
+            pData->wItemCount,  // int iNumButtons, 
+            pData->wWidth,      // int dxButton, 
+            pData->wHeight,     // int dyButton, 
+            pData->wWidth,      // int dxBitmap, 
+            pData->wHeight,     // int dyBitmap, 
+            sizeof(*ptbb)       // UINT uStructSize 
+            );
+
+        if (hToolbar) {
+            ShowWindow(hToolbar,SW_SHOW);
+        }
+
+    } while (0);
+
+    if (hGlobal != NULL) {
+        FreeResource(hGlobal);
     }
 
-    hToolbar = CreateToolbarEx( hwnd,
-        WS_CHILD, // WORD ws, 
-        3, // UINT wID, 
-        j, // int nBitmaps, 
-        winmain_instance, // HINSTANCE hBMInst, 
-        IDR_MONTOOLBAR, // UINT wBMID, 
-        ptbb, // LPCTBBUTTON lpButtons, 
-        pData->wItemCount, // int iNumButtons, 
-        pData->wWidth, // int dxButton, 
-        pData->wHeight, // int dyButton, 
-        pData->wWidth, // int dxBitmap, 
-        pData->wHeight, // int dyBitmap, 
-        sizeof(TBBUTTON) // UINT uStructSize 
-        );
+    if (ptbb) {
+        lib_free(ptbb);
+    }
 
-    if (hToolbar)
-        ShowWindow(hToolbar,SW_SHOW);
-
-    lib_free(ptbb);
-    
-unlock:
-#ifdef HAS_UNLOCKRESOURCE
-    UnlockResource(hGlobal);
-#endif
-    FreeResource(hGlobal);
-quit:
     return hToolbar;
 }
 
@@ -1360,7 +1368,7 @@ BOOLEAN output_register(HDC hdc, reg_private_t *prp, RECT *clientrect)
             ;
 
         prp->RegCount      = cnt;
-        prp->LastShownRegs = lib_malloc( sizeof(int) * cnt );
+        prp->LastShownRegs = lib_malloc( sizeof( * prp->LastShownRegs ) * cnt );
 
         // ensure that ALL registers appear changed this time!
         for (p = pMonRegs, cnt = 0; p != NULL; p = p->next )
