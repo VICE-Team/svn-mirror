@@ -1996,7 +1996,7 @@ void monitor_abort(void)
     mon_stop_output = 1;
 }
 
-static void monitor_open()
+static void monitor_open(void)
 {
     unsigned int dnr;
 
@@ -2156,13 +2156,5 @@ void monitor_startup_trap(void)
     if ( ! monitor_trap_triggered && ! inside_monitor ) {
         monitor_trap_triggered = TRUE;
         interrupt_maincpu_trigger_trap(monitor_trap, 0);
-    }
-}
-
-void monitor_remote_startup_trap(void)
-{
-    if ( ! monitor_trap_triggered && ! inside_monitor ) {
-        monitor_trap_triggered = TRUE;
-        interrupt_maincpu_trigger_trap(monitor_trap, (void *)1);
     }
 }

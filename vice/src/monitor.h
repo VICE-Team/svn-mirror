@@ -139,7 +139,6 @@ extern void monitor_shutdown(void);
 extern int monitor_cmdline_options_init(void);
 extern void monitor_startup(void);
 extern void monitor_startup_trap(void);
-extern void monitor_remote_startup_trap(void);
 
 extern void monitor_abort(void);
 

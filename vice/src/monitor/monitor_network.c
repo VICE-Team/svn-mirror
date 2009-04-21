@@ -118,7 +118,7 @@ void monitor_check_remote(void)
 {
     if (monitor_network_data_available())
     {
-        monitor_remote_startup_trap();
+        monitor_startup_trap();
     }
 }
 
