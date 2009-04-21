@@ -120,7 +120,7 @@ int mon_out(const char *format, ...)
     buffer = lib_mvsprintf(format, ap);
 
 #ifdef HAVE_NETWORK
-    if (monitor_is_remote) {
+    if (monitor_is_remote()) {
         rc = monitor_network_transmit(buffer, strlen(buffer));
     }
     else {
@@ -193,7 +193,7 @@ char *uimon_in(const char *prompt)
         /* as long as we don't have any return value... */
 
 #ifdef HAVE_NETWORK
-        if (monitor_is_remote) {
+        if (monitor_is_remote()) {
             monitor_network_transmit(prompt, strlen(prompt));
 
             p = monitor_network_get_command_line();

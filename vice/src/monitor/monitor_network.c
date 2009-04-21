@@ -44,8 +44,6 @@
 #include "uiapi.h"
 #include "util.h"
 
-int monitor_is_remote = 0;
-
 #ifdef HAVE_NETWORK
 
 static vice_network_socket_t * listen_socket = NULL;
@@ -352,6 +350,11 @@ int monitor_network_cmdline_options_init(void)
     return cmdline_register_options(cmdline_options);
 }
 
+int monitor_is_remote(void)
+{
+    return connected_socket != NULL;
+}
+
 #else
 
 int monitor_network_resources_init(void)
@@ -378,6 +381,11 @@ int monitor_network_transmit(const char * buffer, size_t buffer_length)
 }
 
 char * monitor_network_get_command_line(void)
+{
+    return 0;
+}
+
+int monitor_is_remote(void)
 {
     return 0;
 }

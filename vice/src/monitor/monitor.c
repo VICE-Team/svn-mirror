@@ -1996,20 +1996,16 @@ void monitor_abort(void)
     mon_stop_output = 1;
 }
 
-static void monitor_open(int is_remote)
+static void monitor_open()
 {
     unsigned int dnr;
 
-#ifdef HAVE_NETWORK
-    monitor_is_remote = is_remote;
-
-    if (monitor_is_remote) {
+    if (monitor_is_remote()) {
         static console_t console_log_remote = { 80, 25, 1, 0 };
 
         console_log = & console_log_remote;
     }
     else {
-#endif
         if (mon_console_close_on_leaving) {
             console_log = uimon_window_open();
             uimon_set_interface(mon_interfaces, NUM_MEMSPACES);
@@ -2017,9 +2013,7 @@ static void monitor_open(int is_remote)
             console_log = uimon_window_resume();
             mon_console_close_on_leaving = 1;
         }
-#ifdef HAVE_NETWORK
     }
-#endif
 
     signals_abort_set();
 
@@ -2113,7 +2107,7 @@ static int monitor_process(char *cmd)
     return exit_mon;
 }
 
-static void monitor_close(int check, int is_remote)
+static void monitor_close(int check)
 {
     inside_monitor = FALSE;
     vsync_suspend_speed_eval();
@@ -2130,7 +2124,7 @@ static void monitor_close(int check, int is_remote)
     if (console_log->console_can_stay_open == 0)
                 mon_console_close_on_leaving = 1;
 
-    if ( ! is_remote ) {
+    if ( ! monitor_is_remote() ) {
         if (mon_console_close_on_leaving) {
             uimon_window_close();
         } else {
@@ -2140,34 +2134,28 @@ static void monitor_close(int check, int is_remote)
 }
 
 
-static void monitor_startup_internal(int is_remote)
+void monitor_startup(void)
 {
     char prompt[40];
 
-    monitor_open(is_remote);
+    monitor_open();
     while (!exit_mon) {
         make_prompt(prompt);
         monitor_process(uimon_in(prompt));
     }
-    monitor_close(1, is_remote);
-}
-
-void monitor_startup(void)
-{
-    monitor_startup_internal(monitor_is_remote);
+    monitor_close(1);
 }
 
 static void monitor_trap(WORD addr, void *unused_data)
 {
-    int is_remote = unused_data ? 1 : 0;
-    monitor_startup_internal(is_remote);
+    monitor_startup();
 }
 
 void monitor_startup_trap(void)
 {
     if ( ! monitor_trap_triggered && ! inside_monitor ) {
         monitor_trap_triggered = TRUE;
-        interrupt_maincpu_trigger_trap(monitor_trap, (void *)0);
+        interrupt_maincpu_trigger_trap(monitor_trap, 0);
     }
 }
 

@@ -42,6 +42,6 @@ extern int monitor_network_receive(char * buffer, size_t buffer_length);
 extern int monitor_network_transmit(const char * buffer, size_t buffer_length);
 extern char * monitor_network_get_command_line(void);
 
-extern int monitor_is_remote;
+extern int monitor_is_remote(void);
 
 #endif
