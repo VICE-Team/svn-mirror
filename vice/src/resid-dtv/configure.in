@@ -77,6 +77,18 @@ fi
 
 AC_SUBST(RESID_HAVE_BOOL)
 
+AC_MSG_CHECKING([if the mmintrin.h include can be used])
+AC_TRY_COMPILE([#include <mmintrin.h>],
+               [int test;],
+               [ AC_MSG_RESULT(yes)
+                 HAVE_MMINTRIN_H=1
+                 ],
+               [ AC_MSG_RESULT(no)
+                 HAVE_MMINTRIN_H=0
+                 ])
+
+AC_SUBST(HAVE_MMINTRIN_H)
+
 dnl Checks for library functions.
 
 AC_OUTPUT(Makefile siddefs.h)
