@@ -386,8 +386,8 @@ static void check_rom_area(void)
         /* special case for auto-starters: ROM left */
         if(reg_pc < 0xe000) {
             log_message(autostart_log, "Left ROM for $%04x", reg_pc);
-            autostartmode = AUTOSTART_DONE;
             disable_warp_if_was_requested();
+            autostartmode = AUTOSTART_DONE;
         }
     }
 }
@@ -457,8 +457,6 @@ void autostart_disable(void)
    is reached.  */
 static void disk_eof_callback(void)
 {
-    disable_warp_if_was_requested();
-    
     if (handle_drive_true_emulation_overridden) {
         BYTE id[2], *buffer;
         unsigned int track, sector;
@@ -482,9 +480,10 @@ static void disk_eof_callback(void)
             log_message(autostart_log, "Program loaded.");
     }
 
-    autostartmode = AUTOSTART_DONE;
-
     machine_bus_eof_callback_set(NULL);
+
+    disable_warp_if_was_requested();
+    autostartmode = AUTOSTART_DONE;
 }
 
 /* This function is called by the `serialattention()' trap before
@@ -523,10 +522,10 @@ static void advance_hastape(void)
             autostartmode = AUTOSTART_LOADINGTAPE;
         }
         entered_rom = 0;
-        enable_warp_if_requested();
         deallocate_program_name();
         break;
       case NO:
+        disable_warp_if_was_requested();
         autostart_disable();
         break;
       case NOT_YET:
@@ -555,11 +554,12 @@ static void advance_loadingtape(void)
     switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
       case YES:
         disable_warp_if_was_requested();
+        autostartmode = AUTOSTART_DONE;
+
         if (autostart_run_mode == AUTOSTART_MODE_RUN) {
             log_message(autostart_log, "Starting program.");
             kbdbuf_feed(AutostartRunCommand);
         }
-        autostartmode = AUTOSTART_DONE;
         break;
       case NO:
         disable_warp_if_was_requested();
@@ -625,12 +625,11 @@ static void advance_hasdisk(void)
             machine_bus_attention_callback_set(disk_attention_callback);
         }
 
-        enable_warp_if_requested();
-
         deallocate_program_name();
         break;
       case NO:
         orig_drive_true_emulation_state = get_true_drive_emulation_state();
+        disable_warp_if_was_requested();
         autostart_disable();
         break;
       case NOT_YET:
@@ -642,9 +641,10 @@ static void advance_hassnapshot(void)
 {
     switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
       case YES:
+        autostartmode = AUTOSTART_DONE;
+
         log_message(autostart_log, "Restoring snapshot.");
         interrupt_maincpu_trigger_trap(load_snapshot_trap, 0);
-        autostartmode = AUTOSTART_DONE;
         break;
       case NO:
         autostart_disable();
@@ -701,8 +701,8 @@ static void advance_waitloadready(void)
     switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
       case YES:
         log_message(autostart_log, "Ready");
-        autostartmode = AUTOSTART_DONE;
         disable_warp_if_was_requested();
+        autostartmode = AUTOSTART_DONE;
 
         if (autostart_run_mode == AUTOSTART_MODE_RUN) {
             kbdbuf_feed(AutostartRunCommand);
@@ -789,18 +789,27 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
 
     log_message(autostart_log, "Resetting the machine to autostart '%s'",
                 program_name ? program_name : "*");
+    
     mem_powerup();
+    
     autostart_ignore_reset = 1;
     deallocate_program_name();
     if (program_name && program_name[0]) {
         autostart_program_name = lib_stralloc(program_name);
     }
+    
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+    
     /* The autostartmode must be set AFTER the shutdown to make the autostart
        threadsafe for OS/2 */
     autostartmode = mode;
     autostart_run_mode = runmode;
     autostart_wait_for_reset = 1;
+    
+    /* enable warp before reset */
+    if(mode != AUTOSTART_HASSNAPSHOT) {
+        enable_warp_if_requested();
+    }
 }
 
 /* ------------------------------------------------------------------------- */
