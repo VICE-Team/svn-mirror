@@ -205,7 +205,7 @@ friend class SIDFP;
 // ----------------------------------------------------------------------------
 
 const float sidcaps_6581 = 470e-12f;
-const float outputleveldifference = 1.2f;
+const float outputleveldifference = 1.22f;
 
 RESID_INLINE
 static float fastexp(float val) {
@@ -353,7 +353,7 @@ float FilterFP::clock(float voice1,
         Vbp += (lpleak - Vbp) * distortion_cf_threshold * _1_div_Q;
         Vhp += (lpleak - Vhp) * distortion_cf_threshold;
 
-	Vlp -= Vbp * type3_w0(Vbp - lpleak * 0.2f - type3_fc_distortion_offset) * outputleveldifference;
+	Vlp -= Vbp * type3_w0(Vbp - lpleak * 0.19f - type3_fc_distortion_offset) * outputleveldifference;
 	Vbp -= Vhp * type3_w0(Vhp - type3_fc_distortion_offset) * outputleveldifference;
 	Vhp = Vbp * _1_div_Q * (1.f/outputleveldifference)
             - Vlp * (1.f/outputleveldifference/outputleveldifference)
