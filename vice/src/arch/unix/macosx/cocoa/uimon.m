@@ -33,26 +33,30 @@
 
 #import "vicemachine.h"
 
-void uimon_window_close( void )
-{
-    [[theVICEMachine app] closeMonitor];
-}
+static console_t dummy = { 80,25,1,0,NULL };
 
 console_t *uimon_window_open( void )
 {
-    static console_t dummy = { 80,25,1,0,NULL };    
+    // open monitor window
     [[theVICEMachine app] openMonitor];
     return &dummy;
 }
 
+void uimon_window_close( void )
+{
+    // close monitor window
+    [[theVICEMachine app] closeMonitor];
+}
+
 void uimon_window_suspend( void )
 {
-    uimon_window_close();
+    // monitor is temporarly suspended. disable UI of monitor
 }
 
 console_t *uimon_window_resume( void )
 {
-    return uimon_window_open();
+    // monitor is activated after suspend. reenabled UI of monitor.
+    return &dummy;
 }
 
 int uimon_out(const char *buffer)

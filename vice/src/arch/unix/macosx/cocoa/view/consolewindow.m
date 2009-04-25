@@ -92,6 +92,18 @@
         [self flushBuffer];
 }
 
+- (void)appendPrompt:(NSString*)prompt
+{
+    NSRange end = [log_view rangeForUserTextChange];
+    [log_view replaceCharactersInRange:end withString:prompt];
+    
+    NSRange new = NSMakeRange(end.location, [prompt length]-1);
+    [log_view setTextColor:[NSColor blueColor] range:new];
+
+    NSRange newEnd = [log_view rangeForUserTextChange];
+    [log_view scrollRangeToVisible:newEnd];    
+}
+
 - (void)flushBuffer
 {
     if(buffer==nil)
@@ -99,8 +111,6 @@
     
     NSRange end = [log_view rangeForUserTextChange];
     [log_view replaceCharactersInRange:end withString:buffer];
-    NSRange newEnd = [log_view rangeForUserTextChange];
-    [log_view scrollRangeToVisible:newEnd];
     
     [buffer release];
     buffer = nil;
@@ -139,9 +149,9 @@
 {
     [self makeKeyAndOrderFront:nil];
 
-    [self appendText:prompt];
     if(buffer!=nil)
         [self flushBuffer];
+    [self appendPrompt:prompt];
 
     [log_view setTarget:self];
     [log_view setAction:@selector(endConsoleInput:)];
