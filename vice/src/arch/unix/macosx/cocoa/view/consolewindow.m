@@ -111,6 +111,8 @@
     
     NSRange end = [log_view rangeForUserTextChange];
     [log_view replaceCharactersInRange:end withString:buffer];
+    NSRange newEnd = [log_view rangeForUserTextChange];
+    [log_view scrollRangeToVisible:newEnd];    
     
     [buffer release];
     buffer = nil;
