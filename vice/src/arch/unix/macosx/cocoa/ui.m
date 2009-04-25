@@ -205,15 +205,7 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
 
     int result = [[theVICEMachine app] runCPUJamDialog:string];
     [string release];
-
-    switch (result) {
-    case 0:
-        return UI_JAM_MONITOR;
-    case 1:
-        return UI_JAM_RESET;
-    default:
-        return UI_JAM_HARD_RESET;
-    }
+    return result;
 }
 
 int ui_extend_image_dialog(void)
