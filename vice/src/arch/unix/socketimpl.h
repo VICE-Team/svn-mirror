@@ -81,6 +81,10 @@ typedef struct timeval TIMEVAL;
 
 #define SOCKET_IS_INVALID(_x) ((_x) < 0)
 
+#ifndef INADDR_NONE
+#define INADDR_NONE ((unsigned long)-1)
+#endif
+
 #endif /* #ifdef HAVE_NETWORK */
 
 #endif /* #ifndef VICE_SOCKETIMPL_H */
