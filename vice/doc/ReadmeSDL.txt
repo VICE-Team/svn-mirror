@@ -57,7 +57,7 @@ The SDL port has been tested to work on:
  - Openserver / x86
  - QNX 6.x / armle, mipsle, ppcbe, shle, x86
  - SkyOS / x86
- - Solaris / sparc, sparc64, x86
+ - Solaris / amd64/x86_64, sparc, sparc64, x86
  - Syllable / x86
  - Tru64 4.x / alpha
  - Unixware / x86
