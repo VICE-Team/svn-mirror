@@ -83,6 +83,7 @@ fi
 
 if test x"$SYSTEM" = "xsol"; then
   PLATFORM="SOLARIS"
+  checkmake
 fi
 
 if test x"$CROSS" = "xtrue"; then
@@ -125,10 +126,22 @@ if test x"$ZIPKIND" = "xzip"; then
   if test x"$SYSTEM" = "xsol"; then
     arch_cpu=`uname -m`
 
+    file bin/x64 >file.tmp
+    cpu_is_64bit=`sed -n -e "s/.*\(64-bit\).*/\1/p" file.tmp`
+    rm -f file.tmp
+
     if test x"$arch_cpu" = "xi86pc"; then
-      arch_cpu=x86
+      if test x"$cpu_is_64bit" = "x64-bit"; then
+        arch_cpu=amd64
+      else
+        arch_cpu=x86
+    fi
     else
-      arch_cpu=sparc
+      if test x"$cpu_is_64bit" = "x64-bit"; then
+        arch_cpu=sparc64
+      else
+        arch_cpu=sparc
+      fi
     fi
 
     arch_version=`uname -r`
