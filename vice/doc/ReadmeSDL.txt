@@ -50,7 +50,7 @@ The SDL port has been tested to work on:
  - BeOS / ppc, x86
  - FreeBSD / alpha, amd64/x86_64
  - GP2X / arm (needs fixing)
- - Linux / amd64/x86_64, alpha, ppc, x86
+ - Linux / amd64/x86_64, alpha, arm, ppc, x86
  - Morphos / ppc
  - NetBSD / alpha, amd64/x86_64
  - OpenBSD / alpha, amd64/x86_64
