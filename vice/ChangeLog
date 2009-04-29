@@ -1,3 +1,940 @@
+2009-04-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added arm-openbsd to the sdl supported
+	  platforms list.
+
+2009-04-29  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/uimon.c: Removed double typedef of
+	  window_data_t.
+
+2009-04-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added arm-linux to the sdl supported
+	  platforms list.
+
+2009-04-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added amd64-solaris to the sdl supported
+	  platforms list.
+
+	* src/arch/sdl/make-bindist_scosol.sh,
+	  src/arch/unix/sco_sol/make-bindist.sh: Added support for
+	  amd64/sparc64 solaris binary distrib generation.
+
+	* src/arch/unix/socketimpl.h: Added INADDR_NONE define for
+	  platforms that don't define it (like solaris).
+
+2009-04-25  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/view/consolewindow.m: restore auto
+	  scroll in cocoa console window
+
+	* src/arch/unix/macosx/cocoa/uimon.m,
+	  src/arch/unix/macosx/cocoa/view/consolewindow.m: fixed
+	  suspend/resume in cocoa monitor and added colored prompt
+
+	* src/arch/unix/macosx/cocoa/ui.m: fixed regression in CPU JAM
+	  dialog in cocoa
+
+2009-04-24  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.h: Sync to V35.
+
+2009-04-21  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/autostart.c: enable warp autostart already before reset
+
+	* configure.in: fixed configure check for socklen_t
+
+2009-04-21  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/monitor.h, src/monitor/monitor.c,
+	  src/monitor/monitor_network.c: Small fixes as suggested by
+	  Hannu.
+
+	* src/monitor/mon_util.c, src/monitor/monitor.c,
+	  src/monitor/monitor_network.c, src/monitor/monitor_network.h:
+	  Rework determing the 'remoteness' of a monitor connection.
+
+	* src/arch/win32/uimon.c: Small restructure of CreateAToolbar():
+	  fixed a memory leak in case of an error.
+
+	* src/arch/win32/msvc/config.h, src/lib.c: If
+	  HAVE_WORKING_VSNPRINTF is defined, use vsnprintf() instead of
+	  own implementation of printf().
+
+	* src/arch/win32/montb.bmp, src/arch/win32/res.rc: Enable drive
+	  10 and drive 11 selection in the monitor's toolbar.
+
+	* src/arch/sdl/win32-msvc/monitor.dsp: Make sure MSVC does not
+	  compile about inconsistent linkages for malloc() and free() on
+	  SDL compilation.
+
+	* src/monitor/monitor_network.c, src/network.c, src/socket.c:
+	  Make sure VICE compiles without HAVE_NETWORK;
+	  archdep_network_init() is called before generating a socket
+	  now; this ensures early socket functions do not fail.
+
+	* src/monitor/monitor.c: On breakpoint (or other automatic start
+	  ups), start up monitor in the mode (remote/non-remote) it was
+	  last used.
+
+2009-04-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added amd64-openbsd to the sdl supported
+	  platforms list.
+
+	* src/resid-dtv/configure.in, src/resid-dtv/sid.cc,
+	  src/resid-dtv/siddefs.h.in: Added a check for the mmintrin.h
+	  include to resid-dtv as well.
+
+	* src/resid/configure.in, src/resid/sid.cc,
+	  src/resid/siddefs.h.in: Added a check for the mmintrin.h
+	  include.
+
+2009-04-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added amd64-netbsd to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Updated the sdl readme a little bit more
+	  concerning missing features.
+
+2009-04-20  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* doc/ReadmeSDL.txt, src/arch/sdl/joy.c, src/arch/sdl/kbd.c,
+	  src/arch/sdl/menu_c64dtvhw.c, src/arch/sdl/menu_joystick.c,
+	  src/arch/sdl/menu_video.c, src/arch/sdl/ui.c,
+	  src/arch/sdl/uimenu.c: Support multiple modifiers in hotkeys,
+	  add VICII new luminance menu items, some menu reordering and
+	  documentation updates
+
+2009-04-20  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-dtv/ChangeLog: Revise ChangeLog, which acts like the
+	  technical document of the DTVSID for now.
+
+	* src/resid-fp/wave.cc: Improve playback of Laxity/String.sid:
+	  it provides strong evidence of near-perfect muting of the
+	  pulse-based combined waves when the pulse turns off.
+
+2009-04-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added amd64-freebsd to the sdl supported
+	  platforms list.
+
+2009-04-19  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/res.rc, src/arch/win32/resmenu.txt,
+	  src/arch/win32/uimon.c, src/monitor/mon_ui.c,
+	  src/monitor/mon_ui.h: Some improvements. Selecting computer,
+	  drive 8 or drive 9 via symbol bar works now.
+
+2009-04-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Fixed the HAVE_SOCKLEN_T issue in configure.in
+
+2009-04-19  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/autostart.c: added autostart warp for tape images, too
+
+	* src/arch/unix/macosx/Resources/English.lproj/x128-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv-ResourceTree.plist:
+	  added cocoa AutostartWarp resources
+
+	* src/autostart.c: improved warp autostart to check load stages
+	  and ROM area starting at 0xe000 only.
+
+2009-04-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added tru64 4.x to the sdl supported
+	  platforms list.
+
+2009-04-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/win32/socketimpl.h, src/socket.c: Added
+	  a check for socklen_t in configure and added a typedef in
+	  socket.c when not present.
+
+2009-04-18  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/autostart.c: improved compatiblity of autostart warp
+
+2009-04-18  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_drive.c: Add AutostartWarp menu item
+
+2009-04-18  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/autostart.c: correctly disable warp if reset was issued
+	  during warp autostart
+
+	* src/autostart.c: added experimental warp mode support during
+	  tde image loading. added AutostartWarp resource and
+	  autostart-warp command line switch.
+
+2009-04-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/maincpu.c, src/monitor/mon_file.c, src/monitor/mon_lex.c:
+	  Added fixes for the problems the tru64 compiler has with
+	  '#define' lines not having the '#' at the beginning of the
+	  line.
+
+	* configure.in: Added checks for non-gcc compilers, and added
+	  cflags for those compilers.
+
+	* configure.in: Added a check for alloca.h
+
+2009-04-18  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* build/macosx/build-vice-dist.sh: parallel build patch for mac
+	  by Per Olofsson
+
+2009-04-17  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/video.c: Call vsync_suspend_speed_eval before
+	  resize to avoid sound buffer overflows
+
+	* src/raster/raster-canvas.c: Disable a GP2X specific hack for
+	  GP2X_SDL
+
+2009-04-17  Antti S. Lankila <alankila@bel.fi>
+
+	* src/sound.c, src/sounddrv/soundsdl.c: Double the target
+	  fragment size to cater to some hardware which finds the 5 ms
+	  typical target frequency overly problematic such as GP2X,
+	  Win32.
+
+2009-04-17  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/gfxoutputdrv/ffmpeglib.c, src/opencbmlib.c,
+	  src/sounddrv/lamelib.c: Fixed (reverted) expected return value
+	  of vice_dynlib_close().
+
+2009-04-17  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* configure.in, src/sounddrv/Makefile.am,
+	  src/sounddrv/lamelib.c, src/sounddrv/lamelib.h,
+	  src/sounddrv/soundmp3.c: added dynlib support for lame. you
+	  can force static linking with --enable-static-lame. you can
+	  disable lame with --disable-lame.
+
+2009-04-17  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/kbd.c, src/arch/sdl/uipoll.c: Treat L/RMETA as
+	  modifier in key polling
+
+2009-04-17  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/x128-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv-ResourceTree.plist:
+	  cocoa: added autostart handle tde resources
+
+	* src/autostart.c: fixed autostart when tde is on but handle tde
+	  is off
+
+2009-04-17  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* configure.in, doc/GP2X-Howto.txt: Add support for Open2x
+	  toolchain
+
+	* src/arch/sdl/video.c: Don't attempt to do OpenGL before the
+	  context is initialized, fixes crash on OSX.
+
+2009-04-17  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.h, src/resid-fp/wave.cc: Tweak waveforms
+	  after running the optimizer for a few hours again. Tweak
+	  filter.
+
+2009-04-17  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/gfxoutputdrv/quicktimedrv.c: fixed memmap in quicktime
+	  driver
+
+	* src/arch/unix/macosx/cocoa/viceapplication.m: fixed CPU JAM
+	  dialog in cocoa
+
+2009-04-16  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/zfile.c: Check if nameoffset is larger than the buffer.
+	  Fixes .zip autostarting, but could use some cleanup.
+
+2009-04-16  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/view/logview.m: ignore reception of
+	  auto-repeated newlines after finished editing
+
+	* src/arch/unix/macosx/cocoa/view/logview.m: return nil strings
+	  if nothing was entered
+
+	* configure.in, src/arch/unix/macosx/cocoa/uimon.m,
+	  src/arch/unix/macosx/cocoa/view/consolewindow.h,
+	  src/arch/unix/macosx/cocoa/view/consolewindow.m,
+	  src/arch/unix/macosx/cocoa/view/logview.h,
+	  src/arch/unix/macosx/cocoa/view/logview.m: added support for
+	  editline history in cocoa's console input
+
+	* data/C64/osx_sym_us.vkm: updated osx sym us keymap for x64.
+	  patch provided by Andy Balholm.
+
+	* src/arch/unix/macosx/cocoa/view/Makefile.am,
+	  src/arch/unix/macosx/cocoa/view/controlwindow.h,
+	  src/arch/unix/macosx/cocoa/view/controlwindow.m,
+	  src/arch/unix/macosx/cocoa/view/statusview.h,
+	  src/arch/unix/macosx/cocoa/view/statusview.m,
+	  src/arch/unix/macosx/cocoa/view/vicewindow.h,
+	  src/arch/unix/macosx/cocoa/view/vicewindow.m: cleaned up
+	  status bar in cocoa port and moved it into control window
+
+2009-04-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added alpha-openbsd to the sdl supported
+	  platforms list.
+
+2009-04-15  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/datasette.c, src/plus4/plus4mem.c: xplus4 datasette record
+	  fix by Ingo Korb
+
+2009-04-15  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.cc, src/resid-fp/filter.h,
+	  src/resid-fp/sid.cc, src/resid-fp/wave.cc: Add filter DAC
+	  nonlinearity control from the same source as the others.
+	  Perform some small touchups in the filter code to mitigate
+	  some bad behaviour.
+
+2009-04-14  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/ui.c, src/arch/sdl/video.c,
+	  src/arch/sdl/videoarch.h: Change sdl_video_resize to use
+	  unsigned width and height
+
+	* src/video/video-viewport.c: Limit viewport->last_line to
+	  geometry->last_displayed_line. Fixes attempts to draw outside
+	  canvas on (xaw, SDL) x64 -ntsc when the window is larger than
+	  the screen.
+
+	* src/arch/sdl/menu_c64dtvhw.c: Add a missing NULL
+
+2009-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/win64-msvc,
+	  src/arch/sdl/win64-msvc/_vice.vcproj,
+	  src/arch/sdl/win64-msvc/arch.vcproj,
+	  src/arch/sdl/win64-msvc/base.vcproj,
+	  src/arch/sdl/win64-msvc/c128.vcproj,
+	  src/arch/sdl/win64-msvc/c1541.vcproj,
+	  src/arch/sdl/win64-msvc/c64.vcproj,
+	  src/arch/sdl/win64-msvc/c64c128.vcproj,
+	  src/arch/sdl/win64-msvc/c64c64dtv.vcproj,
+	  src/arch/sdl/win64-msvc/c64cart.vcproj,
+	  src/arch/sdl/win64-msvc/c64dtv.vcproj,
+	  src/arch/sdl/win64-msvc/c64dtvstubs.vcproj,
+	  src/arch/sdl/win64-msvc/c64exp.vcproj,
+	  src/arch/sdl/win64-msvc/cartconv.vcproj,
+	  src/arch/sdl/win64-msvc/cbm2.vcproj,
+	  src/arch/sdl/win64-msvc/config.h,
+	  src/arch/sdl/win64-msvc/core.vcproj,
+	  src/arch/sdl/win64-msvc/crtc.vcproj,
+	  src/arch/sdl/win64-msvc/dirent.h,
+	  src/arch/sdl/win64-msvc/diskimage.vcproj,
+	  src/arch/sdl/win64-msvc/drive.vcproj,
+	  src/arch/sdl/win64-msvc/fileio.vcproj,
+	  src/arch/sdl/win64-msvc/fsdevice.vcproj,
+	  src/arch/sdl/win64-msvc/gentranslate.vcproj,
+	  src/arch/sdl/win64-msvc/gfxoutputdrv.vcproj,
+	  src/arch/sdl/win64-msvc/iec.vcproj,
+	  src/arch/sdl/win64-msvc/iec128dcr.vcproj,
+	  src/arch/sdl/win64-msvc/iecbus.vcproj,
+	  src/arch/sdl/win64-msvc/iecieee.vcproj,
+	  src/arch/sdl/win64-msvc/ieee.vcproj,
+	  src/arch/sdl/win64-msvc/imagecontents.vcproj,
+	  src/arch/sdl/win64-msvc/make-bindist.bat,
+	  src/arch/sdl/win64-msvc/monitor.vcproj,
+	  src/arch/sdl/win64-msvc/parallel.vcproj,
+	  src/arch/sdl/win64-msvc/pet.vcproj,
+	  src/arch/sdl/win64-msvc/petcat.vcproj,
+	  src/arch/sdl/win64-msvc/plus4.vcproj,
+	  src/arch/sdl/win64-msvc/plus4exp.vcproj,
+	  src/arch/sdl/win64-msvc/png.vcproj,
+	  src/arch/sdl/win64-msvc/printerdrv.vcproj,
+	  src/arch/sdl/win64-msvc/raster.vcproj,
+	  src/arch/sdl/win64-msvc/resid.vcproj,
+	  src/arch/sdl/win64-msvc/residdtv.vcproj,
+	  src/arch/sdl/win64-msvc/residfp.vcproj,
+	  src/arch/sdl/win64-msvc/rs232drv.vcproj,
+	  src/arch/sdl/win64-msvc/serial.vcproj,
+	  src/arch/sdl/win64-msvc/sid.vcproj,
+	  src/arch/sdl/win64-msvc/siddefs-fp.h,
+	  src/arch/sdl/win64-msvc/siddefs.h,
+	  src/arch/sdl/win64-msvc/sounddrv.vcproj,
+	  src/arch/sdl/win64-msvc/tape.vcproj,
+	  src/arch/sdl/win64-msvc/tcbm.vcproj,
+	  src/arch/sdl/win64-msvc/vdc.vcproj,
+	  src/arch/sdl/win64-msvc/vdrive.vcproj,
+	  src/arch/sdl/win64-msvc/vic20.vcproj,
+	  src/arch/sdl/win64-msvc/vice.manifest,
+	  src/arch/sdl/win64-msvc/vice.sln,
+	  src/arch/sdl/win64-msvc/vicii.vcproj,
+	  src/arch/sdl/win64-msvc/viciidtv.vcproj,
+	  src/arch/sdl/win64-msvc/video.vcproj,
+	  src/arch/sdl/win64-msvc/x128.vcproj,
+	  src/arch/sdl/win64-msvc/x64.vcproj,
+	  src/arch/sdl/win64-msvc/x64dtv.vcproj,
+	  src/arch/sdl/win64-msvc/xcbm2.vcproj,
+	  src/arch/sdl/win64-msvc/xpet.vcproj,
+	  src/arch/sdl/win64-msvc/xplus4.vcproj,
+	  src/arch/sdl/win64-msvc/xvic.vcproj,
+	  src/arch/sdl/win64-msvc/zlib.vcproj: Added sdl win64 msvc
+	  project files for x64 and ia64.
+
+2009-04-14  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/gfxoutputdrv/ffmpegdrv.c: Fixed a typo in a comment.
+
+	* src/arch/win32/msvc/config.h: Define
+	  HAVE_FFMPEG_HEADER_SUBDIRS for MSVC build.
+
+	* src/gfxoutputdrv/ffmpegdrv.c: Added and fixed commentary for
+	  ffmpeg_avcodec_encode_video().
+
+	* src/6510core.c, src/debug.h: Moved
+	  debug_perform_break_into_monitor into
+	  debug.perform_break_into_monitor.
+
+2009-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added alpha-freebsd to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Added ia64 win64 to the sdl supported
+	  platforms list.
+
+2009-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added alpha-netbsd to the sdl supported
+	  platforms list.
+
+2009-04-13  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* configure.in: enable OpenGL in Mac SDL
+
+	* configure.in, src/gfxoutputdrv/ffmpeglib.h: added support for
+	  ffmpeg distributions that have no header subdirs
+
+2009-04-13  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/uimon.c: Fixed compilation without defined
+	  OPEN_DISASSEMBLY_AS_POPUP.
+
+2009-04-13  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* build/macosx/build-vice-dist.sh,
+	  build/macosx/build-vice-release.sh,
+	  src/arch/unix/macosx/make-bindist.sh: added sdl to mac release
+	  builds
+
+2009-04-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_drive.c, src/arch/sdl/menu_tape.c: Fixed the
+	  tape/disk creation code of the sdl ui.
+
+	* src/arch/sdl/uistatusbar.c: Fixed the statusbar of the sdl ui.
+
+	* src/arch/sdl/uistatusbar.c: Added statusbar track indicators
+	  to the sdl ui.
+
+2009-04-12  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* Makefile.am, build/macosx/build-sdlmain.sh, configure.in,
+	  src/arch/sdl/archdep_unix.c: fixed SDL port on Mac OS X
+
+	* build/macosx/build-pcaplibnet.sh: update mac libnet and
+	  libpcap to current version
+
+2009-04-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Fixed a typo.
+
+	* doc/ReadmeSDL.txt: Put the sdl supported platforms and cpus in
+	  alphabetical order.
+
+2009-04-12  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_video.c, src/arch/sdl/video.c,
+	  src/arch/sdl/videoarch.h: Remove real size updates on double
+	  size toggling and screen switching, limit -> custom renaming
+
+	* doc/ReadmeSDL.txt, src/arch/sdl/joy.c,
+	  src/arch/sdl/menu_help.c, src/arch/sdl/uimenu.c,
+	  src/arch/sdl/vkbd.c: Text input dialog virtual keyboard for
+	  SDL UI
+
+2009-04-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added alpha-linux to the sdl readme file.
+
+2009-04-11  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_sound.c, src/arch/sdl/menu_sound.h,
+	  src/arch/sdl/x128_ui.c, src/arch/sdl/x64_ui.c,
+	  src/arch/sdl/x64dtv_ui.c, src/arch/sdl/xcbm2_ui.c,
+	  src/arch/sdl/xpet_ui.c, src/arch/sdl/xplus4_ui.c,
+	  src/arch/sdl/xvic_ui.c: Move sound recording menu under sound
+	  settings menu, fix some sound driver names
+
+	* src/arch/sdl/menu_video.c: Video settings menu reorganisation
+
+2009-04-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Fixed the autoheader problem.
+
+	* configure.in, src/arch/win32/Makefile.am,
+	  src/arch/win32/msvc/config.h, src/arch/win32/res.rc,
+	  src/arch/win32/uihelp.c, src/arch/win32/watcom/config.h: Added
+	  platform, cpu and compiler info to the win32 about dialog.
+
+	* src/arch/win32/watcom/arch.tgt,
+	  src/arch/win32/watcom/base.tgt,
+	  src/arch/win32/watcom/dirent.h,
+	  src/arch/win32/watcom/gfxoutputdrv.tgt,
+	  src/arch/win32/watcom/vice.wpj: Added dynlib fixes to the
+	  win32 watcom project files.
+
+2009-04-10  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64dtv/c64dtv.c, src/monitor.h,
+	  src/monitor/mon_assemble6502.c, src/monitor/mon_assemblez80.c,
+	  src/monitor/mon_breakpoint.c, src/monitor/mon_disassemble.c,
+	  src/monitor/mon_parse.c, src/monitor/mon_parse.h,
+	  src/monitor/mon_parse.y, src/monitor/mon_register6502dtv.c,
+	  src/monitor/mon_ui.c, src/monitor/monitor.c,
+	  src/monitor/montypes.h: Monitor CPU type handling rewrite by
+	  Mikkel Holm Olsen
+
+2009-04-10  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/menu_network.c,
+	  src/arch/sdl/menu_network.h, src/arch/sdl/win32-msvc/arch.dsp,
+	  src/arch/sdl/x128_ui.c, src/arch/sdl/x64_ui.c,
+	  src/arch/sdl/x64dtv_ui.c, src/arch/sdl/xcbm2_ui.c,
+	  src/arch/sdl/xpet_ui.c, src/arch/sdl/xplus4_ui.c,
+	  src/arch/sdl/xvic_ui.c: Network menu for SDL UI
+
+2009-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sound.c: Changed the order of sound device inits to make
+	  the sdl sound driver the default device for the sdl ui.
+
+	* src/arch/sdl/menu_sound.c: Fixed the dx sound driver ui item
+	  in the sdl ui.
+
+	* configure.in: Changed an 'or'(-o) to 'and' (-a) in
+	  configure.in to make ffmpeg support disabled by default for
+	  the sdl ui again.
+
+2009-04-08  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/gfxoutputdrv/ffmpegdrv.c: Fixed a typo in the source
+	  format of the scaler context that mixed up the RGB colors.
+
+2009-04-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/config.h: Use the ffmpeg asm hack only for
+	  win32, not win64.
+
+2009-04-05  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/msvc/config.h: Added defines for FFMPEG.
+
+	* src/gfxoutputdrv/ffmpegdrv.c: Changed order of used and
+	  desired format in the call of sws_getContext (this fixes the
+	  crash when calling sws_scale). Added alignment hack in call
+	  of avcodec_encode_video (Thanks Spiro!).
+
+	* src/gfxoutputdrv/ffmpeglib.h: Unified includes.
+
+	* src/arch/win32/arch.dsp, src/arch/win32/base.dsp,
+	  src/arch/win32/dynlib.c, src/arch/win32/gfxoutputdrv.dsp:
+	  Fixed MSVC project files and call of FreeLibrary.
+
+	* src/lib/Makefile.am: Updated list of ffmpeg headers.
+
+	* src/lib/libffmpeg/ffmpeg, src/lib/libffmpeg/libavcodec,
+	  src/lib/libffmpeg/libavcodec/avcodec.h,
+	  src/lib/libffmpeg/libavcodec/opt.h,
+	  src/lib/libffmpeg/libavcodec/vdpau.h,
+	  src/lib/libffmpeg/libavcodec/xvmc.h,
+	  src/lib/libffmpeg/libavdevice,
+	  src/lib/libffmpeg/libavdevice/avdevice.h,
+	  src/lib/libffmpeg/libavformat,
+	  src/lib/libffmpeg/libavformat/avformat.h,
+	  src/lib/libffmpeg/libavformat/avio.h,
+	  src/lib/libffmpeg/libavutil,
+	  src/lib/libffmpeg/libavutil/adler32.h,
+	  src/lib/libffmpeg/libavutil/avstring.h,
+	  src/lib/libffmpeg/libavutil/avutil.h,
+	  src/lib/libffmpeg/libavutil/base64.h,
+	  src/lib/libffmpeg/libavutil/common.h,
+	  src/lib/libffmpeg/libavutil/crc.h,
+	  src/lib/libffmpeg/libavutil/fifo.h,
+	  src/lib/libffmpeg/libavutil/intfloat_readwrite.h,
+	  src/lib/libffmpeg/libavutil/log.h,
+	  src/lib/libffmpeg/libavutil/lzo.h,
+	  src/lib/libffmpeg/libavutil/mathematics.h,
+	  src/lib/libffmpeg/libavutil/md5.h,
+	  src/lib/libffmpeg/libavutil/mem.h,
+	  src/lib/libffmpeg/libavutil/pixfmt.h,
+	  src/lib/libffmpeg/libavutil/random.h,
+	  src/lib/libffmpeg/libavutil/rational.h,
+	  src/lib/libffmpeg/libavutil/sha1.h,
+	  src/lib/libffmpeg/libswscale,
+	  src/lib/libffmpeg/libswscale/swscale.h: Replaced old ffmpeg
+	  headers with headers coming with ffmpeg-0.5.
+
+2009-04-05  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/gfxoutputdrv/ffmpeglib.c: added fallbacks for pre 0.5
+	  ffmpeg version
+
+	* src/Makefile.am: fixed realdevice_lib to use unified
+	  opencbmlib
+
+	* src/Makefile.am, src/arch/unix/Makefile.am,
+	  src/arch/unix/opencbmlib.c, src/arch/win32/Makefile.am,
+	  src/arch/win32/opencbmlib.c, src/opencbmlib.c: unified
+	  opencbmlib by using the dynlib interface
+
+	* src/arch/sdl/Makefile.am, src/arch/unix/Makefile.am,
+	  src/arch/unix/gui/Makefile.am,
+	  src/arch/unix/macosx/Makefile.am,
+	  src/arch/unix/macosx/cocoa/Makefile.am,
+	  src/arch/unix/macosx/cocoa/dialog/Makefile.am,
+	  src/arch/unix/macosx/cocoa/menu/Makefile.am,
+	  src/arch/unix/macosx/cocoa/view/Makefile.am,
+	  src/arch/win32/Makefile.am, src/gfxoutputdrv/Makefile.am,
+	  src/gfxoutputdrv/gfxoutput.c: removed obsolete references to
+	  ffmpeg includes and ensured that vice headers come first.
+
+	* configure.in, src/gfxoutputdrv/ffmpegdrv.c,
+	  src/gfxoutputdrv/ffmpeglib.c, src/gfxoutputdrv/ffmpeglib.h:
+	  ffmpeg libswscale is now optional. if its not available then
+	  the old API with img_convert is used. Useful if ffmpeg is
+	  compiled with -no_gpl.
+
+2009-04-05  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/gfxoutputdrv/ffmpeglib.c: improved version check for
+	  ffmpeg libs
+
+	* configure.in, src/gfxoutputdrv/ffmpeglib.c,
+	  src/gfxoutputdrv/ffmpeglib.h: reworked ffmpeg configure: if
+	  ffmpeg is not disabled then win32 always uses internal headers
+	  and unix requires pkg-config with valid libs
+
+2009-04-04  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/ffmpeglib.c,
+	  src/gfxoutputdrv/ffmpeglib.h: adapted ffmpeg driver to version
+	  0.5: each lib now does a version check. depecrated img_convert
+	  replaced with swscale library.
+
+	* configure.in, src/Makefile.am, src/arch/unix/Makefile.am,
+	  src/arch/unix/dynlib.c, src/arch/unix/ffmpeglib.c,
+	  src/arch/win32/Makefile.am, src/arch/win32/dynlib.c,
+	  src/arch/win32/ffmpeglib.c, src/dynlib.h,
+	  src/gfxoutputdrv/Makefile.am, src/gfxoutputdrv/ffmpeglib.c,
+	  src/gfxoutputdrv/ffmpeglib.h: introduced new dynlib interface
+	  for generic handling of dynamic linking. replaced arch
+	  dependent ffmpeg implementations with a single one that uses
+	  new dynlib interface.
+
+2009-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/amigaos/archdep.c,
+	  src/arch/amigaos/socketimpl.h, src/arch/beos/archdep.c,
+	  src/arch/msdos/archdep.c, src/arch/sdl/Makefile.am,
+	  src/arch/sdl/archdep_amiga.c, src/arch/sdl/archdep_beos.c,
+	  src/arch/sdl/archdep_unix.c, src/arch/sdl/archdep_win32.c,
+	  src/arch/sdl/socketimpl.h, src/arch/sdl/win32-msvc/config.h,
+	  src/arch/unix/archdep.c, src/arch/win32/archdep.c,
+	  src/network.c, src/socket.c, src/socket.h: Moved the arch
+	  dependent network functions to the archdep.c files and enabled
+	  network support for the sdl ui.
+
+	* src/arch/sdl/ui.c: Fixed a typo.
+
+	* src/arch/sdl/ui.c, src/arch/sdl/ui.h: Added
+	  ui_dispatch_next_event() function.
+
+	* src/arch/amigaos/ui.c, src/arch/beos/ui.cc,
+	  src/arch/msdos/ui.c: Added dummy ui_dispatch_next_event()
+	  functions to make networking work again for the amiga, beos
+	  and msdos ports.
+
+	* src/arch/win32/console.c, src/monitor/monitor_network.c:
+	  Changed the ui.h include to uiapi.h
+
+	* src/arch/unix/gui/ui.c, src/arch/unix/ui.h,
+	  src/arch/unix/x11/gnome/x11ui.c,
+	  src/arch/unix/x11/xaw/about.c, src/arch/win32/ui.c,
+	  src/arch/win32/ui.h, src/arch/win32/uimon.c, src/archapi.h,
+	  src/uiapi.h: Moved the ui_dispatch_next_event() prototype to
+	  uiapi.h
+
+2009-04-10  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/uimenu.c: Fix scrolling bug on readline, restrict
+	  max readline input size to screen size
+
+	* doc/ReadmeSDL.txt: Fix broken English
+
+2009-04-09  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/fullscreen.c, src/arch/sdl/fullscreenarch.h,
+	  src/arch/sdl/menu_video.c, src/arch/sdl/video.c,
+	  src/arch/sdl/videoarch.h: Fullscreen resolution selection and
+	  OpenGL fullscreen stretching implementation for SDL port
+
+2009-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/config.h,
+	  src/arch/sdl/win32-msvc/x128.dsp,
+	  src/arch/sdl/win32-msvc/x64.dsp,
+	  src/arch/sdl/win32-msvc/x64dtv.dsp,
+	  src/arch/sdl/win32-msvc/xcbm2.dsp,
+	  src/arch/sdl/win32-msvc/xpet.dsp,
+	  src/arch/sdl/win32-msvc/xplus4.dsp,
+	  src/arch/sdl/win32-msvc/xvic.dsp: Enabled opengl32 support by
+	  default for the win32 sdl msvc project files.
+
+	* src/arch/sdl/win32-msvc/c1541.dsp,
+	  src/arch/sdl/win32-msvc/cartconv.dsp,
+	  src/arch/sdl/win32-msvc/petcat.dsp: Added some msvc project
+	  file fixes.
+
+2009-04-09  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* doc/ReadmeSDL.txt: Small SDL documentation fixes
+
+2009-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/ui.h: Removed obsolete indicator.
+
+	* src/arch/sdl/menu_help.c, src/arch/sdl/ui.c,
+	  src/arch/sdl/ui.h, src/arch/sdl/uifilereq.c,
+	  src/arch/sdl/uimsgbox.c: Fixed some sdl port related bugs.
+
+2009-04-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/ioutil.c: Fixed for directories other than the current
+	  dir.
+
+	* src/arch/sdl/win32-msvc/residfp.dsp,
+	  src/arch/sdl/win32-msvc/x128.dsp,
+	  src/arch/sdl/win32-msvc/x64.dsp,
+	  src/arch/sdl/win32-msvc/x64dtv.dsp,
+	  src/arch/sdl/win32-msvc/xcbm2.dsp,
+	  src/arch/sdl/win32-msvc/xpet.dsp,
+	  src/arch/sdl/win32-msvc/xplus4.dsp,
+	  src/arch/sdl/win32-msvc/xvic.dsp: SDL win32 msvc project files
+	  fixes.
+
+2009-04-07  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/video.c: Yet more MSVC warning fixes
+
+2009-04-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_help.c, src/arch/sdl/uifilereq.c,
+	  src/arch/sdl/uimsgbox.c: Even more MSVC warning fixes.
+
+2009-04-07  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/uimenu.c, src/arch/sdl/uistatusbar.c: More MSVC
+	  warning fixes
+
+	* src/arch/sdl/joy.c, src/arch/sdl/menu_common.c,
+	  src/arch/sdl/videoarch.h, src/mouse.c: MSVC warning fixes
+
+2009-04-07  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/Makefile.am,
+	  src/arch/unix/macosx/Resources/English.lproj/x128-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x128.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x128.nib/classes.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x128.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x128.nib/keyedobjects.nib:
+	  cocoa: added initial support for x128
+
+2009-04-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Updated.
+
+	* doc/ReadmeSDL.txt: Updated to point out the msvc build
+	  instructions.
+
+2009-04-07  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/x64-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/classes.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/keyedobjects.nib:
+	  cocoa: fixed menu entry in x64dtv. fixed SidStereoAddress
+	  resource. added MonitorServer resources.
+
+2009-04-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/win32-msvc/Readme.txt:
+	  Added a readme file which describes how to add the path to the
+	  SDL VC headers/libs to the VC configuration.
+
+	* src/arch/sdl/win32-msvc: Added some svn ignores.
+
+2009-04-07  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.cc, src/resid-fp/filter.h: Forgot a factor
+	  in filter.cc that moved into filter.h. Apply slightly less
+	  bp-related distortion.
+
+2009-04-07  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_video.c, src/arch/sdl/video.c: Fixed OpenGL
+	  disabling fullscreen on aspect ratio changes, expanded
+	  possible aspect ratio range, removed obsolete refresh calls on
+	  OpenGL resize
+
+2009-04-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/archdep_win32.c,
+	  src/arch/sdl/win32-msvc, src/arch/sdl/win32-msvc/_vice.dsp,
+	  src/arch/sdl/win32-msvc/arch.dsp,
+	  src/arch/sdl/win32-msvc/base.dsp,
+	  src/arch/sdl/win32-msvc/c128.dsp,
+	  src/arch/sdl/win32-msvc/c1541.dsp,
+	  src/arch/sdl/win32-msvc/c64.dsp,
+	  src/arch/sdl/win32-msvc/c64c128.dsp,
+	  src/arch/sdl/win32-msvc/c64c64dtv.dsp,
+	  src/arch/sdl/win32-msvc/c64cart.dsp,
+	  src/arch/sdl/win32-msvc/c64dtv.dsp,
+	  src/arch/sdl/win32-msvc/c64dtvstubs.dsp,
+	  src/arch/sdl/win32-msvc/c64exp.dsp,
+	  src/arch/sdl/win32-msvc/cartconv.dsp,
+	  src/arch/sdl/win32-msvc/cbm2.dsp,
+	  src/arch/sdl/win32-msvc/config.h,
+	  src/arch/sdl/win32-msvc/core.dsp,
+	  src/arch/sdl/win32-msvc/crtc.dsp,
+	  src/arch/sdl/win32-msvc/dirent.h,
+	  src/arch/sdl/win32-msvc/diskimage.dsp,
+	  src/arch/sdl/win32-msvc/drive.dsp,
+	  src/arch/sdl/win32-msvc/fileio.dsp,
+	  src/arch/sdl/win32-msvc/fsdevice.dsp,
+	  src/arch/sdl/win32-msvc/gentranslate.dsp,
+	  src/arch/sdl/win32-msvc/gfxoutputdrv.dsp,
+	  src/arch/sdl/win32-msvc/iec.dsp,
+	  src/arch/sdl/win32-msvc/iec128dcr.dsp,
+	  src/arch/sdl/win32-msvc/iecbus.dsp,
+	  src/arch/sdl/win32-msvc/iecieee.dsp,
+	  src/arch/sdl/win32-msvc/ieee.dsp,
+	  src/arch/sdl/win32-msvc/imagecontents.dsp,
+	  src/arch/sdl/win32-msvc/make-bindist.bat,
+	  src/arch/sdl/win32-msvc/monitor.dsp,
+	  src/arch/sdl/win32-msvc/parallel.dsp,
+	  src/arch/sdl/win32-msvc/pet.dsp,
+	  src/arch/sdl/win32-msvc/petcat.dsp,
+	  src/arch/sdl/win32-msvc/plus4.dsp,
+	  src/arch/sdl/win32-msvc/plus4exp.dsp,
+	  src/arch/sdl/win32-msvc/png.dsp,
+	  src/arch/sdl/win32-msvc/printerdrv.dsp,
+	  src/arch/sdl/win32-msvc/raster.dsp,
+	  src/arch/sdl/win32-msvc/resid.dsp,
+	  src/arch/sdl/win32-msvc/residdtv.dsp,
+	  src/arch/sdl/win32-msvc/residfp.dsp,
+	  src/arch/sdl/win32-msvc/rs232drv.dsp,
+	  src/arch/sdl/win32-msvc/serial.dsp,
+	  src/arch/sdl/win32-msvc/sid.dsp,
+	  src/arch/sdl/win32-msvc/siddefs-fp.h,
+	  src/arch/sdl/win32-msvc/siddefs.h,
+	  src/arch/sdl/win32-msvc/sounddrv.dsp,
+	  src/arch/sdl/win32-msvc/tape.dsp,
+	  src/arch/sdl/win32-msvc/tcbm.dsp,
+	  src/arch/sdl/win32-msvc/vdc.dsp,
+	  src/arch/sdl/win32-msvc/vdrive.dsp,
+	  src/arch/sdl/win32-msvc/vic20.dsp,
+	  src/arch/sdl/win32-msvc/vice.dsw,
+	  src/arch/sdl/win32-msvc/vicii.dsp,
+	  src/arch/sdl/win32-msvc/viciidtv.dsp,
+	  src/arch/sdl/win32-msvc/video.dsp,
+	  src/arch/sdl/win32-msvc/x128.dsp,
+	  src/arch/sdl/win32-msvc/x64.dsp,
+	  src/arch/sdl/win32-msvc/x64dtv.dsp,
+	  src/arch/sdl/win32-msvc/xcbm2.dsp,
+	  src/arch/sdl/win32-msvc/xpet.dsp,
+	  src/arch/sdl/win32-msvc/xplus4.dsp,
+	  src/arch/sdl/win32-msvc/xvic.dsp,
+	  src/arch/sdl/win32-msvc/zlib.dsp: Added preliminary win32 sdl
+	  msvc support, project files still need some fixing.
+
+2009-04-06  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_video.c, src/arch/sdl/video.c: Switchable
+	  fixed aspect ratio implementation for SDL port
+
+	* src/arch/sdl/video.c: Allow resizing of non-OpenGL window,
+	  bugfixes in limit implementation
+
+2009-04-05  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_video.c, src/arch/sdl/video.c: Initial
+	  resolution limit implementation for SDL port
+
+2009-04-05  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/keyedobjects.nib:
+	  removed emu id from cocoa x64dtv ui
+
+2009-04-05  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.h, src/resid-fp/wave.cc: Improve fits for
+	  6581 ST, 6581 PS and 8580 PST waveforms. Remove a problematic
+	  feedback effect of the lpleak parameter. (This may regress
+	  some songs, but makes the behaviour more tractable for me.)
+
+2009-04-05  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* ChangeLog: Fixed ChangeLog for GTKFILEFILTERS branch of Fabbo.
+
+	* ChangeLog: More verbose ChangeLog for v2.1.8 SDL due to the
+	  demand of one person. ;)
+
+	* src/arch/win32/msvc/inttypes.h, src/arch/win32/msvc/stdint.h:
+	  Added C99 style inttypes.h and stdint.h for MSVC.
+
+2009-04-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c64dtvui.c, src/arch/amigaos/c64dtvuires.h,
+	  src/arch/beos/vicemenu.cc, src/arch/msdos/c64dtvui.c,
+	  src/arch/os2/dialogs/menubar.c,
+	  src/arch/os2/dialogs/menubar.rc, src/arch/unix/gui/c64dtvui.c:
+	  Removed the emuid ui item for x64dtv from the amigaos, beos,
+	  msdos, os/2 and *nix ui's.
+
+	* configure.in: Disabled nls by default for the sdl ui.
+
+2009-04-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/make-bindist_win32.sh: Added a command to delete
+	  the win32 shortcut files from the win32 sdl bin dist.
+
+	* data/C64/Makefile.am: Removed duplicated sdl keymap entry.
+
 2009-04-04  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.1.9
