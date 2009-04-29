@@ -122,14 +122,13 @@ struct window_data_extra_s {
     MEMSPACE memspace;
 } window_data_extra_t;
 
-typedef
 struct window_data_s {
     WNDPROC default_window_procedure;
     internal_window_procedure_t * window_procedure;
     window_data_extra_t * extra;
     void * private_data;
     /* DO NOT ADD ANYTHING HERE! It is already very large. Use window_data_extra_t instead! */
-} window_data_t;
+};
 
 static /* volatile */ window_data_t * window_data_create = NULL;
 
