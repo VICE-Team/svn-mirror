@@ -52,7 +52,7 @@ The SDL port has been tested to work on:
  - GP2X / arm (needs fixing)
  - Linux / amd64/x86_64, alpha, arm, ppc, x86
  - Morphos / ppc
- - NetBSD / alpha, amd64/x86_64
+ - NetBSD / alpha, amd64/x86_64, arm
  - OpenBSD / alpha, amd64/x86_64, arm
  - Openserver / x86
  - QNX 6.x / armle, mipsle, ppcbe, shle, x86
