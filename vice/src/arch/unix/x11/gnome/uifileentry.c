@@ -127,7 +127,6 @@ vice_file_entry(const char *title,
                 ui_filechooser_t action)
 {
     GtkWidget *fb;
-    GtkFileFilter *ff = NULL, *allf;
     int i;
     GtkFileChooserAction a;
     const gchar* accept_button;

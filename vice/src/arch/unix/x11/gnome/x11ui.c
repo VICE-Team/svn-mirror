@@ -77,6 +77,7 @@
 #include "mouse.h"
 #include "mousedrv.h"
 #include "resources.h"
+#include "types.h"
 #include "uiapi.h"
 #include "uicolor.h"
 #include "uimenu.h"
@@ -419,7 +420,7 @@ void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
 
 static gboolean fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
-    int d = (int) data;
+    int d = vice_ptr_to_int(data);
     if (event->type == GDK_BUTTON_PRESS) {
         GdkEventButton *bevent = (GdkEventButton*) event;
 	if (bevent->button == 1)
@@ -804,7 +805,7 @@ ui_create_status_bar(GtkWidget *pane)
 	                      GDK_ENTER_NOTIFY_MASK);
 	g_signal_connect(G_OBJECT(as->drive_status[i].event_box),
 			 "button-press-event",
-			 G_CALLBACK(fliplist_popup_cb), (gpointer) i);
+			 G_CALLBACK(fliplist_popup_cb), (gpointer)(int_to_void_ptr(i)));
 	gtk_widget_show(as->drive_status[i].event_box);
     }
     gtk_widget_show(drive_box);
@@ -1901,8 +1902,8 @@ int ui_extend_image_dialog(void)
 
 UI_CALLBACK(ui_popup_selected_file)
 {
-    int unit = ((int) UI_MENU_CB_PARAM) >> 24;
-    int selected = ((int) UI_MENU_CB_PARAM) & 0x00ffffff;
+    int unit = (vice_ptr_to_int(UI_MENU_CB_PARAM)) >> 24;
+    int selected = (vice_ptr_to_int(UI_MENU_CB_PARAM)) & 0x00ffffff;
     char *tmp;
     
     if (unit > 8)
@@ -1997,7 +1998,7 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
 	*tmp = toupper(*tmp);
     menu[fno].string = lib_stralloc(title);
     menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
-    menu[fno].callback_data = (ui_callback_data_t) (fno | mask);
+    menu[fno].callback_data = (ui_callback_data_t)int_to_void_ptr(fno | mask);
     menu[fno].sub_menu = NULL;
     menu[fno].hotkey_keysym = 0;
     menu[fno].hotkey_modifier = 0;
@@ -2007,7 +2008,7 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
     tmp1 = image_contents_to_string(s, !have_cbm_font);
     menu[fno].string = (char *)convert_utf8((unsigned char *)tmp1);
     menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
-    menu[fno].callback_data = (ui_callback_data_t) ((fno - 2) | mask);
+    menu[fno].callback_data = (ui_callback_data_t)int_to_void_ptr((fno - 2) | mask);
     menu[fno].sub_menu = NULL;
     menu[fno].hotkey_keysym = 0;
     menu[fno].hotkey_modifier = 0;
@@ -2028,7 +2029,7 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
 	    tmp1[0] = ' ';	    /* Arg, this is the line magic */ 
         menu[fno].string = (char *)convert_utf8((unsigned char *)tmp1);
         menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
-        menu[fno].callback_data = (ui_callback_data_t) ((fno - 2) | mask);
+        menu[fno].callback_data = (ui_callback_data_t)int_to_void_ptr((fno - 2) | mask);
         menu[fno].sub_menu = NULL;
         menu[fno].hotkey_keysym = 0;
         menu[fno].hotkey_modifier = 0;
@@ -2038,7 +2039,7 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
     if (s->blocks_free >= 0) {
 	menu[fno].string = lib_msprintf("%d BLOCKS FREE.", s->blocks_free);
 	menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
-	menu[fno].callback_data = (ui_callback_data_t) ((fno - 1) | mask);
+	menu[fno].callback_data = (ui_callback_data_t)int_to_void_ptr((fno - 1) | mask);
 	menu[fno].sub_menu = NULL;
 	menu[fno].hotkey_keysym = 0;
 	menu[fno].hotkey_modifier = 0;

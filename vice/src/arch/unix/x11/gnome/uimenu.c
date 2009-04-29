@@ -329,12 +329,12 @@ void _ui_menu_radio_helper(GtkWidget *w,
     resources_get_int(resource_name, &current_value);
 
     if (!CHECK_MENUS) {
-        if (current_value != (int)UI_MENU_CB_PARAM) {
-            resources_set_int(resource_name, (int)UI_MENU_CB_PARAM);
+        if (current_value != vice_ptr_to_int(UI_MENU_CB_PARAM)) {
+            resources_set_int(resource_name, vice_ptr_to_int(UI_MENU_CB_PARAM));
             ui_update_menus();
         }
     } else {
-	ui_menu_set_tick(w, current_value == (int)UI_MENU_CB_PARAM);
+        ui_menu_set_tick(w, current_value == vice_ptr_to_int(UI_MENU_CB_PARAM));
     }  
 }
 

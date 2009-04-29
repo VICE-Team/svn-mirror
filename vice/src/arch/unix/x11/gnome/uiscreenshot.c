@@ -52,7 +52,7 @@ static GtkWidget *drv_menu;
 #ifdef HAVE_FFMPEG
 static GtkWidget *ffmpg_opts, *ffmpg_audio, *ffmpg_video;
 static GtkWidget *ffmpeg_omenu, *acmenu, *vcmenu;
-static char *selected_driver;
+static const char *selected_driver;
 static int selected_driver_allocated;
 static int selected_ac, selected_vc;
 static void ffmpeg_details (GtkWidget *w, gpointer data);
