@@ -540,9 +540,16 @@ static int acia_get_status(void) {
 
     acia.status &= ~ (ACIA_SR_BITS_DCD | ACIA_SR_BITS_DSR);
 
+#if 0
+    /*
+     * CTS is very different from DCD. 
+     * In the 6551, CTS is handled completely autonomously.
+     * It is not possible to determine its state from Software.
+     */
     if ( modem_status & RS232_HSI_CTS ) {
         acia.status |= ACIA_SR_BITS_DCD; /* we treat CTS like DCD */
     }
+#endif
 
     if ( modem_status & RS232_HSI_DSR ) {
         acia.status |= ACIA_SR_BITS_DSR;
@@ -788,10 +795,11 @@ int myacia_snapshot_read_module(snapshot_t *p)
     if ((acia.cmd & ACIA_CMD_BITS_DTR_ENABLE_RECV_AND_IRQ) && (acia.fd < 0)) {
         acia.fd = rs232drv_open(acia.device);
         acia_set_handshake_lines();
-    } else
-        if ((acia.fd >= 0) && !(acia.cmd & ACIA_CMD_BITS_DTR_ENABLE_RECV_AND_IRQ)) {
-        rs232drv_close(acia.fd);
-        acia.fd = -1;
+    } else {
+            if ((acia.fd >= 0) && !(acia.cmd & ACIA_CMD_BITS_DTR_ENABLE_RECV_AND_IRQ)) {
+            rs232drv_close(acia.fd);
+            acia.fd = -1;
+        }
     }
 
     SMR_B(m, &acia.ctrl);
@@ -884,9 +892,12 @@ void REGPARM2 myacia_store(WORD addr, BYTE byte)
         }
         break;
       case ACIA_SR:
+        /* According the CSG and WDC data sheets, this is a programmed reset! */
+
         if (acia.fd >= 0)
             rs232drv_close(acia.fd);
         acia.fd = -1;
+
         acia.status &= ~ ACIA_SR_BITS_OVERRUN_ERROR;
         acia.cmd &= ACIA_CMD_BITS_PARITY_TYPE_MASK | ACIA_CMD_BITS_PARITY_ENABLED;
         acia.in_tx = ACIA_TX_STATE_NO_TRANSMIT;
@@ -894,6 +905,7 @@ void REGPARM2 myacia_store(WORD addr, BYTE byte)
         acia.irq = 0;
         alarm_unset(acia.alarm_tx);
         acia.alarm_active_tx = 0;
+        acia_set_handshake_lines();
         break;
       case ACIA_CTRL:
         acia.ctrl = byte;
