@@ -2001,7 +2001,7 @@ static void monitor_open(void)
     unsigned int dnr;
 
     if (monitor_is_remote()) {
-        static console_t console_log_remote = { 80, 25, 1, 0 };
+        static console_t console_log_remote = { 80, 25, 0, 0 };
 
         console_log = & console_log_remote;
     }
