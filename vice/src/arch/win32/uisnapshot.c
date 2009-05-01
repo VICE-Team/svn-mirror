@@ -47,15 +47,10 @@
 #include "ui.h"
 #include "uiapi.h"
 #include "uilib.h"
+#include "winlong.h"
 #include "winmain.h"
 #include "util.h"
 #include "vsync.h"
-
-
-/* Mingw & pre VC 6 headers doesn't have this definition */
-#ifndef OFN_ENABLESIZING
-#define OFN_ENABLESIZING    0x00800000
-#endif
 
 static int save_roms = 0;
 static int save_disks = 0;

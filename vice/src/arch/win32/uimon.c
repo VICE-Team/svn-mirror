@@ -52,14 +52,6 @@
 #include "winlong.h"
 #include "winmain.h"
 
-
-/*
- TODO: @SRT - This is just a quick hack since the MINGW headers don't define this...
-*/
-#ifndef SIF_TRACKPOS
-#define SIF_TRACKPOS        0x0010
-#endif
-
 // #define DEBUG_UIMON
 
 /* Debugging stuff.  */
@@ -131,12 +123,6 @@ struct window_data_s {
 };
 
 static /* volatile */ window_data_t * window_data_create = NULL;
-
-#if defined _MSC_VER && _MSC_VER < 1300 
-# ifndef InterlockedExchangePointer
-#  define InterlockedExchangePointer(_address, _what) ((void*)InterlockedExchange((LPLONG) _address, (LONG) _what))
-# endif
-#endif
 
 typedef
 struct reg_private_s

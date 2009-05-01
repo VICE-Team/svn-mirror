@@ -1,8 +1,9 @@
 /*
- * winlong.h - GetWindowLongPtr/SetWindowLongPtr definitions.
+ * winlong.h - GetWindowLongPtr/SetWindowLongPtr and other definitions which are not available on all windows.h headers
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Spiro Trikaliotis
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -52,5 +53,48 @@
 #ifndef GWLP_WNDPROC
 #define GWLP_WNDPROC GWL_WNDPROC
 #endif
+
+#ifndef SIF_TRACKPOS
+#define SIF_TRACKPOS        0x0010
+#endif
+
+#if defined _MSC_VER && _MSC_VER < 1300 
+# ifndef InterlockedExchangePointer
+#  define InterlockedExchangePointer(_address, _what) ((void*)InterlockedExchange((LPLONG) _address, (LONG) _what))
+# endif
+#endif
+
+#if defined _MSC_VER && _MSC_VER < 1300 
+# ifndef InterlockedCompareExchangePointer
+#  define InterlockedCompareExchangePointer(_address, _exchange, _comp) (InterlockedCompareExchange(_address, _exchange, _comp))
+# endif
+#endif
+
+
+#ifndef PBT_APMSUSPEND
+# define PBT_APMSUSPEND        4
+#endif
+
+#ifndef PBT_APMRESUMECRITICAL
+# define PBT_APMRESUMECRITICAL 6
+#endif
+
+#ifndef PBT_APMRESUMESUSPEND
+# define PBT_APMRESUMESUSPEND  7
+#endif
+
+#ifndef VK_OEM_PLUS
+#define VK_OEM_PLUS 0xbb
+#endif
+
+/* Mingw & pre VC 6 headers doesn't have this definition */
+#ifndef OFN_ENABLESIZING
+#define OFN_ENABLESIZING    0x00800000
+#endif
+
+#if !defined(_WIN64) && defined _MSC_VER && _MSC_VER < 1300
+typedef __int32 LONG_PTR;
+#endif
+
 
 #endif

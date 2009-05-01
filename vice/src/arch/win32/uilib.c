@@ -57,13 +57,8 @@
 #include "util.h"
 #include "vdrive-internal.h"
 #include "vsync.h"
+#include "winlong.h"
 #include "winmain.h"
-
-
-/* Mingw & pre VC 6 headers doesn't have this definition */
-#ifndef OFN_ENABLESIZING
-#define OFN_ENABLESIZING    0x00800000
-#endif
 
 static int *autostart_result;
 static char* fontfile;
