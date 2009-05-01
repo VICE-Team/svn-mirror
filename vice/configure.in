@@ -1421,6 +1421,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
         AC_CHECK_TOOLS(sdl_config, sdl-config, no)
 
         old_cflags=$CFLAGS
+        old_cxxflags=$CXXFLAGS
         old_libs=$LIBS
 
         dnl if no sdl-config was found we assume that there are no extra CFLAGS
@@ -1429,6 +1430,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
             LIBS="-lSDL"
         else
             CFLAGS="$CFLAGS `$sdl_config --cflags`"
+            CXXFLAGS="$CXXFLAGS `$sdl_config --cflags`"
             LIBS="$LIBS `$sdl_config --libs`"
         fi
 
@@ -1437,8 +1439,8 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
         AC_CHECK_HEADERS(SDL/SDL_audio.h,[AC_CHECK_LIB(SDL, SDL_OpenAudio,
                          [SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o";
                           AC_DEFINE(USE_SDL_AUDIO,,[Enable sdl sound support.])],
-                         [CFLAGS=$old_cflags; LIBS=$old_libs; break],$SOUND_LIBS $EXTRA_SDL_LIBS)],
-                         [CFLAGS=$old_cflags; LIBS=$old_libs; break])
+                         [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$SOUND_LIBS $EXTRA_SDL_LIBS)],
+                         [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break])
 
         if test x"$ac_cv_lib_SDL_SDL_OpenAudio" != "xyes"; then
             with_sdlsound=no
@@ -1449,8 +1451,8 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
         if test x"$enable_sdlui" = "xyes"; then
             AC_CHECK_HEADERS(SDL/SDL.h,[AC_CHECK_LIB(SDL, SDL_SetVideoMode,
                              [AC_DEFINE(USE_SDLUI,,[Enable sdl ui support.])],
-                             [CFLAGS=$old_cflags; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
-                             [CFLAGS=$old_cflags; LIBS=$old_libs; break])
+                             [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
+                             [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break])
 
             if test x"$ac_cv_lib_SDL_SDL_SetVideoMode" != "xyes"; then
                 AC_MSG_ERROR([SDL headers and/or libraries missing])
