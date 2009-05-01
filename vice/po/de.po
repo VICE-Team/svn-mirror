@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-04-29 19:34+0200\n"
-"PO-Revision-Date: 2009-03-30 22:13+0200\n"
+"PO-Revision-Date: 2009-05-01 09:50+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5064,14 +5064,14 @@ msgid "Select end snapshot for event history"
 msgstr "Startsnapshot für Ereignishistory festlegen"
 
 #: src/arch/win32/res.rc.po.c:6045
-#, fuzzy, c-format
+#, c-format
 msgid "Version %s *UNSTABLE* (%s)"
-msgstr "Version %s *INSTABIL*"
+msgstr "Version %s *INSTABIL* (%s)"
 
 #: src/arch/win32/res.rc.po.c:6047
-#, fuzzy, c-format
+#, c-format
 msgid "Version %s (%s)"
-msgstr "Version %s"
+msgstr "Version %s (%s)"
 
 #: src/arch/win32/res.rc.po.c:6049 src/arch/amigaos/intl.c.po.c:2472
 msgid "VICE contributors"
