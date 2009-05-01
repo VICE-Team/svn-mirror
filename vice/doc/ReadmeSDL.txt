@@ -63,6 +63,7 @@ The SDL port has been tested to work on:
  - Unixware / x86
  - Win32 / x86
  - Win64 / ia64, x64
+ - Zaurus (qt) / arm
  - ...
 
 
