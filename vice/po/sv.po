@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-29 19:34+0200\n"
+"POT-Creation-Date: 2009-05-02 21:16+0200\n"
 "PO-Revision-Date: 2009-03-17 15:05+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -1168,7 +1168,7 @@ msgstr "Om VICE..."
 
 #: src/arch/unix/gui/uicommands.c:573 src/arch/unix/gui/uidatasette.c:99
 #: src/arch/unix/x11/gnome/uipalcontrol.c:153
-#: src/arch/unix/x11/gnome/x11ui.c:1847 src/arch/amigaos/intl.c.po.c:369
+#: src/arch/unix/x11/gnome/x11ui.c:1848 src/arch/amigaos/intl.c.po.c:369
 msgid "Reset"
 msgstr "Återställ"
 
@@ -1660,8 +1660,8 @@ msgid "Next: "
 msgstr "Nästa: "
 
 #: src/arch/unix/gui/uifliplist.c:249 src/arch/unix/gui/uifliplist.c:264
-#: src/arch/unix/x11/gnome/x11ui.c:731 src/arch/unix/x11/gnome/x11ui.c:734
-#: src/arch/unix/x11/gnome/x11ui.c:745 src/arch/unix/x11/gnome/x11ui.c:1426
+#: src/arch/unix/x11/gnome/x11ui.c:732 src/arch/unix/x11/gnome/x11ui.c:735
+#: src/arch/unix/x11/gnome/x11ui.c:746 src/arch/unix/x11/gnome/x11ui.c:1427
 msgid "<empty>"
 msgstr "<tom>"
 
@@ -2679,7 +2679,7 @@ msgid "Invalid speed value"
 msgstr "Ogiltigt hastighetsvärde"
 
 #: src/arch/unix/gui/uisettings.c:219 src/arch/unix/gui/uisettings.c:281
-#: src/arch/unix/x11/gnome/x11ui.c:1237 src/arch/unix/x11/xaw/x11ui.c:1154
+#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1154
 #: src/arch/win32/res.rc.po.c:5940 src/arch/amigaos/intl.c.po.c:2516
 msgid "Cannot save settings."
 msgstr "Kan inte spara inställningar."
@@ -3587,129 +3587,129 @@ msgstr ""
 "Modell: %s\n"
 "IRQ: %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:640
+#: src/arch/unix/x11/gnome/x11ui.c:641
 msgid "PAL Controls"
 msgstr "PAL-styrning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:655
+#: src/arch/unix/x11/gnome/x11ui.c:656
 msgid "audio/video recording"
 msgstr "ljud-/bild-inspelning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:667 src/arch/unix/x11/gnome/x11ui.c:685
+#: src/arch/unix/x11/gnome/x11ui.c:668 src/arch/unix/x11/gnome/x11ui.c:686
 msgid "click to stop recording"
 msgstr "avbryt inspelningen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:673
+#: src/arch/unix/x11/gnome/x11ui.c:674
 msgid "event recording"
 msgstr "händelseinspelning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:692
+#: src/arch/unix/x11/gnome/x11ui.c:693
 msgid "event playback"
 msgstr "händelseåterspelning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:704
+#: src/arch/unix/x11/gnome/x11ui.c:705
 msgid "click to stop playback"
 msgstr "avbryt återspelningen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:716
+#: src/arch/unix/x11/gnome/x11ui.c:717
 #, c-format
 msgid "Drive %d: "
 msgstr "Enhet %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:831
+#: src/arch/unix/x11/gnome/x11ui.c:832
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1220 src/arch/unix/x11/xaw/x11ui.c:1140
+#: src/arch/unix/x11/gnome/x11ui.c:1221 src/arch/unix/x11/xaw/x11ui.c:1140
 msgid " emulator"
 msgstr "-emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1227 src/arch/unix/x11/xaw/x11ui.c:1144
+#: src/arch/unix/x11/gnome/x11ui.c:1228 src/arch/unix/x11/xaw/x11ui.c:1144
 msgid "Do you really want to exit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1234 src/arch/unix/x11/xaw/x11ui.c:1151
+#: src/arch/unix/x11/gnome/x11ui.c:1235 src/arch/unix/x11/xaw/x11ui.c:1151
 msgid "Save the current settings?"
 msgstr "Spara nuvarande inställningar?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1270 src/arch/unix/x11/gnome/x11ui.c:1273
+#: src/arch/unix/x11/gnome/x11ui.c:1271 src/arch/unix/x11/gnome/x11ui.c:1274
 #: src/arch/unix/x11/xaw/x11ui.c:1220 src/arch/unix/x11/xaw/x11ui.c:1225
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1573
+#: src/arch/unix/x11/gnome/x11ui.c:1574
 #, c-format
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1625 src/arch/unix/x11/xaw/x11ui.c:1467
+#: src/arch/unix/x11/gnome/x11ui.c:1626 src/arch/unix/x11/xaw/x11ui.c:1467
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausad)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1806 src/arch/amigaos/intl.c.po.c:2450
+#: src/arch/unix/x11/gnome/x11ui.c:1807 src/arch/amigaos/intl.c.po.c:2450
 msgid "VICE Message"
 msgstr "VICE-meddelande"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1817 src/arch/amigaos/intl.c.po.c:2538
+#: src/arch/unix/x11/gnome/x11ui.c:1818 src/arch/amigaos/intl.c.po.c:2538
 msgid "VICE Error"
 msgstr "VICE-fel"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1848
+#: src/arch/unix/x11/gnome/x11ui.c:1849
 msgid "Hard Reset"
 msgstr "Hård nollställning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1849 src/arch/amigaos/intl.c.po.c:798
+#: src/arch/unix/x11/gnome/x11ui.c:1850 src/arch/amigaos/intl.c.po.c:798
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1850
+#: src/arch/unix/x11/gnome/x11ui.c:1851
 msgid "Continue"
 msgstr "Fortsätt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1896 src/arch/unix/x11/xaw/x11ui.c:1790
+#: src/arch/unix/x11/gnome/x11ui.c:1897 src/arch/unix/x11/xaw/x11ui.c:1790
 msgid "Extend disk image"
 msgstr "Utöka diskettavbildningsfil"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1897
+#: src/arch/unix/x11/gnome/x11ui.c:1898
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vill du utöka diskettavbildningsfilen till 40 spår?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1910
+#: src/arch/unix/x11/gnome/x11ui.c:1911
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Kan inte starta automatiskt från enhet %d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1918 src/arch/unix/x11/gnome/x11ui.c:1927
+#: src/arch/unix/x11/gnome/x11ui.c:1919 src/arch/unix/x11/gnome/x11ui.c:1928
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Kan inte starta valet %d i avbildningsfilen %s automatiskt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2102
+#: src/arch/unix/x11/gnome/x11ui.c:2103
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "INNEH]LLSF\\RTECKNING SAKNAS"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2476
+#: src/arch/unix/x11/gnome/x11ui.c:2477
 msgid "Contents"
 msgstr "Innehåll"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2525
+#: src/arch/unix/x11/gnome/x11ui.c:2526
 msgid "Attach write protected"
 msgstr "Anslut skrivskyddat"
 
 #. show hidden files
-#: src/arch/unix/x11/gnome/x11ui.c:2531
+#: src/arch/unix/x11/gnome/x11ui.c:2532
 msgid "Show hidden files"
 msgstr "Visa dolda filer"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2543
+#: src/arch/unix/x11/gnome/x11ui.c:2544
 msgid "Autostart"
 msgstr "Starta automatiskt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2560
+#: src/arch/unix/x11/gnome/x11ui.c:2561
 msgid "Text cannot be displayed.\n"
 msgstr "Texten kan inte visas.\n"
 

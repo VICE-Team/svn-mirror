@@ -1,3 +1,94 @@
+2009-05-02  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.1.11
+
+2009-05-02  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/sounddrv/soundsdl.c: Removed misleading #warning
+
+2009-05-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added x86-freebsd to the sdl supported
+	  platforms list.
+
+2009-05-02  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/uimon.c: Local (static) declared console_log
+	  are now renamed to console_log_local, so the name does not
+	  clash with console_log defined as extern in
+	  src/monitor/montypes.h
+
+	* src/arch/amigaos/uimon.c, src/arch/beos/uimon.c,
+	  src/arch/msdos/uimon.c, src/arch/riscos/uimon.c,
+	  src/arch/unix/gp2x/uimon.c, src/arch/unix/gui/uimon.c: Local
+	  (static) declared console_log are now renamed to
+	  console_log_local, so the name does not clash with console_log
+	  defined as extern in src/monitor/montypes.h
+
+2009-05-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added hppa-openbsd to the sdl supported
+	  platforms list.
+
+2009-05-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added hppa-netbsd to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Added hppa-linux to the sdl supported
+	  platforms list.
+
+	* configure.in: Extended the sdl-config cflags to be used as
+	  well for CXXFLAGS.
+
+2009-05-01  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/ui.c, src/arch/win32/uiconsole.c,
+	  src/arch/win32/uilib.c, src/arch/win32/uimediafile.c,
+	  src/arch/win32/uimon.c, src/arch/win32/uisnapshot.c,
+	  src/arch/win32/winlong.h: Moved definitions which are not
+	  known to all Windows SDK versions (SIF_TRACKPOS,
+	  PBT_APMSUSPEND, PBT_APMRESUMECRITICAL, PBT_APMRESUMESUSPEND,
+	  VK_OEM_PLUS, OFN_ENABLESIZING, LONG_PTR,
+	  InterlockedExchangePointer(),
+	  InterlockedCompareExchangePointer()) into winlong.h and
+	  removed them from the individual files.
+
+	* src/monitor/monitor.c: Disable console_can_stay_open for the
+	  remote console.
+
+	* src/aciacore.c: An external CTS was handled as DCD internally.
+	  This broke Novaterm, which does not wait for the transmitter
+	  data register being empty when DCD is inactive. I consider
+	  this a bug of Novaterm, but the behaviour of VICE was not
+	  correct, either, thus, removed this code for now. Also, added
+	  a small comment.
+
+2009-05-01  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2009-05-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added zaurus (qt based linux) to the sdl
+	  supported platforms list.
+
+2009-04-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added armeb-linux to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Added arm-netbsd to the sdl supported
+	  platforms list.
+
+2009-04-29  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/x11/gnome/uifileentry.c,
+	  src/arch/unix/x11/gnome/uimenu.c,
+	  src/arch/unix/x11/gnome/uiscreenshot.c,
+	  src/arch/unix/x11/gnome/x11ui.c: gnomeui 64b & unused variable
+	  warning fixes
+
 2009-04-29  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.1.10

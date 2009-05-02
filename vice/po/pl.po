@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-29 19:34+0200\n"
+"POT-Creation-Date: 2009-05-02 21:16+0200\n"
 "PO-Revision-Date: 2007-07-26 11:55+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -1216,7 +1216,7 @@ msgstr "O VICE..."
 
 #: src/arch/unix/gui/uicommands.c:573 src/arch/unix/gui/uidatasette.c:99
 #: src/arch/unix/x11/gnome/uipalcontrol.c:153
-#: src/arch/unix/x11/gnome/x11ui.c:1847 src/arch/amigaos/intl.c.po.c:369
+#: src/arch/unix/x11/gnome/x11ui.c:1848 src/arch/amigaos/intl.c.po.c:369
 msgid "Reset"
 msgstr "Reset"
 
@@ -1743,8 +1743,8 @@ msgid "Next: "
 msgstr "Nastêpny: "
 
 #: src/arch/unix/gui/uifliplist.c:249 src/arch/unix/gui/uifliplist.c:264
-#: src/arch/unix/x11/gnome/x11ui.c:731 src/arch/unix/x11/gnome/x11ui.c:734
-#: src/arch/unix/x11/gnome/x11ui.c:745 src/arch/unix/x11/gnome/x11ui.c:1426
+#: src/arch/unix/x11/gnome/x11ui.c:732 src/arch/unix/x11/gnome/x11ui.c:735
+#: src/arch/unix/x11/gnome/x11ui.c:746 src/arch/unix/x11/gnome/x11ui.c:1427
 msgid "<empty>"
 msgstr "<pusty>"
 
@@ -2850,7 +2850,7 @@ msgid "Invalid speed value"
 msgstr "Nieprawid³owa warto¶æ prêdko¶ci"
 
 #: src/arch/unix/gui/uisettings.c:219 src/arch/unix/gui/uisettings.c:281
-#: src/arch/unix/x11/gnome/x11ui.c:1237 src/arch/unix/x11/xaw/x11ui.c:1154
+#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1154
 #: src/arch/win32/res.rc.po.c:5940 src/arch/amigaos/intl.c.po.c:2516
 msgid "Cannot save settings."
 msgstr "Nie mo¿na zapisaæ ustawieñ."
@@ -3800,133 +3800,133 @@ msgstr ""
 "Model: %s\n"
 "IRQ: %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:640
+#: src/arch/unix/x11/gnome/x11ui.c:641
 msgid "PAL Controls"
 msgstr "Kontrola PAL"
 
-#: src/arch/unix/x11/gnome/x11ui.c:655
+#: src/arch/unix/x11/gnome/x11ui.c:656
 #, fuzzy
 msgid "audio/video recording"
 msgstr "Rejestruj"
 
-#: src/arch/unix/x11/gnome/x11ui.c:667 src/arch/unix/x11/gnome/x11ui.c:685
+#: src/arch/unix/x11/gnome/x11ui.c:668 src/arch/unix/x11/gnome/x11ui.c:686
 msgid "click to stop recording"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:673
+#: src/arch/unix/x11/gnome/x11ui.c:674
 #, fuzzy
 msgid "event recording"
 msgstr "Rejestruj"
 
-#: src/arch/unix/x11/gnome/x11ui.c:692
+#: src/arch/unix/x11/gnome/x11ui.c:693
 #, fuzzy
 msgid "event playback"
 msgstr "*W³±cz d¼wiêk"
 
-#: src/arch/unix/x11/gnome/x11ui.c:704
+#: src/arch/unix/x11/gnome/x11ui.c:705
 msgid "click to stop playback"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:716
+#: src/arch/unix/x11/gnome/x11ui.c:717
 #, c-format
 msgid "Drive %d: "
 msgstr "Napêd %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:831
+#: src/arch/unix/x11/gnome/x11ui.c:832
 msgid "Tape 000"
 msgstr "Kaseta 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1220 src/arch/unix/x11/xaw/x11ui.c:1140
+#: src/arch/unix/x11/gnome/x11ui.c:1221 src/arch/unix/x11/xaw/x11ui.c:1140
 msgid " emulator"
 msgstr " emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1227 src/arch/unix/x11/xaw/x11ui.c:1144
+#: src/arch/unix/x11/gnome/x11ui.c:1228 src/arch/unix/x11/xaw/x11ui.c:1144
 msgid "Do you really want to exit?"
 msgstr "Czy naprawdê chcesz wyj¶æ"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1234 src/arch/unix/x11/xaw/x11ui.c:1151
+#: src/arch/unix/x11/gnome/x11ui.c:1235 src/arch/unix/x11/xaw/x11ui.c:1151
 msgid "Save the current settings?"
 msgstr "Czy zapisaæ obecne ustawienia?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1270 src/arch/unix/x11/gnome/x11ui.c:1273
+#: src/arch/unix/x11/gnome/x11ui.c:1271 src/arch/unix/x11/gnome/x11ui.c:1274
 #: src/arch/unix/x11/xaw/x11ui.c:1220 src/arch/unix/x11/xaw/x11ui.c:1225
 msgid "(warp)"
 msgstr "(przyspieszony)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1573
+#: src/arch/unix/x11/gnome/x11ui.c:1574
 #, c-format
 msgid "Tape %03d"
 msgstr "Ta¶ma %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1625 src/arch/unix/x11/xaw/x11ui.c:1467
+#: src/arch/unix/x11/gnome/x11ui.c:1626 src/arch/unix/x11/xaw/x11ui.c:1467
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pauza)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1806 src/arch/amigaos/intl.c.po.c:2450
+#: src/arch/unix/x11/gnome/x11ui.c:1807 src/arch/amigaos/intl.c.po.c:2450
 msgid "VICE Message"
 msgstr "Wiadomo¶æ VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1817 src/arch/amigaos/intl.c.po.c:2538
+#: src/arch/unix/x11/gnome/x11ui.c:1818 src/arch/amigaos/intl.c.po.c:2538
 msgid "VICE Error"
 msgstr "B³±d VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1848
+#: src/arch/unix/x11/gnome/x11ui.c:1849
 msgid "Hard Reset"
 msgstr "Zimny reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1849 src/arch/amigaos/intl.c.po.c:798
+#: src/arch/unix/x11/gnome/x11ui.c:1850 src/arch/amigaos/intl.c.po.c:798
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1850
+#: src/arch/unix/x11/gnome/x11ui.c:1851
 #, fuzzy
 msgid "Continue"
 msgstr "Zawarto¶æ"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1896 src/arch/unix/x11/xaw/x11ui.c:1790
+#: src/arch/unix/x11/gnome/x11ui.c:1897 src/arch/unix/x11/xaw/x11ui.c:1790
 msgid "Extend disk image"
 msgstr "Rozszerzenie obrazu dyskietki"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1897
+#: src/arch/unix/x11/gnome/x11ui.c:1898
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Czy chcesz rozszerzyæ obraz dysku do 40 ¶cie¿ek?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1910
+#: src/arch/unix/x11/gnome/x11ui.c:1911
 #, fuzzy, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Autostart nie mo¿liwy w jednostce 9"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1918 src/arch/unix/x11/gnome/x11ui.c:1927
+#: src/arch/unix/x11/gnome/x11ui.c:1919 src/arch/unix/x11/gnome/x11ui.c:1928
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Nie mo¿na automatycznie wystartowaæ zaznaczonego %d w obrazie %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2102
+#: src/arch/unix/x11/gnome/x11ui.c:2103
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "Nie ma dostêpnej zawarto¶ci obrazu"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2476
+#: src/arch/unix/x11/gnome/x11ui.c:2477
 msgid "Contents"
 msgstr "Zawarto¶æ"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2525
+#: src/arch/unix/x11/gnome/x11ui.c:2526
 msgid "Attach write protected"
 msgstr "W³ó¿ zabezpieczone przed zapisem"
 
 #. show hidden files
-#: src/arch/unix/x11/gnome/x11ui.c:2531
+#: src/arch/unix/x11/gnome/x11ui.c:2532
 msgid "Show hidden files"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2543
+#: src/arch/unix/x11/gnome/x11ui.c:2544
 msgid "Autostart"
 msgstr "Autostart"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2560
+#: src/arch/unix/x11/gnome/x11ui.c:2561
 msgid "Text cannot be displayed.\n"
 msgstr ""
 
