@@ -80,7 +80,7 @@ static void uimon_debug(const char *format, ...)
 
 #define UIMON_EXPERIMENTAL 1
 
-static console_t *console_log = NULL;
+static console_t *console_log_local = NULL;
 
 #ifdef UIMON_EXPERIMENTAL
 
@@ -453,7 +453,7 @@ HWND iOpenConsole( HWND hwnd, BOOLEAN bOpen, DWORD dwStyle, int x, int y, int dx
 
     if (bOpen)
     {
-        console_log = uimon_console_open_mdi("Monitor",
+        console_log_local = uimon_console_open_mdi("Monitor",
             &hwndConsole,&hwndParent,&hwndMdiClient,dwStyle,x,y,dx,dy);
     }
     else
@@ -1042,7 +1042,7 @@ void uimon_after_set_command(void)
 }
 
 #define SET_COMMAND( _cmd ) \
-    mon_set_command(console_log,_cmd,uimon_after_set_command)
+    mon_set_command(console_log_local,_cmd,uimon_after_set_command)
 
 static
 void ResizeMdiClient(HWND hwnd)
@@ -1116,8 +1116,8 @@ void MinsizeMdiClient(HWND hwnd, POINT *pMin)
 static
 void OnConsoleResize(void)
 {
-    if (console_log)
-        memcpy( &console_log_for_mon, console_log, sizeof( struct console_s ) );
+    if (console_log_local)
+        memcpy( &console_log_for_mon, console_log_local, sizeof( struct console_s ) );
 }
 
 static
@@ -1237,7 +1237,7 @@ static LRESULT CALLBACK mon_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
         return 0;
 
     case WM_CONSOLE_CLOSED:
-        console_log = NULL;
+        console_log_local = NULL;
         hwndConsole = NULL;
         EnableCommands(GetMenu(hwnd),hwndToolbar);
         return 0;
@@ -2428,11 +2428,11 @@ void uimon_window_close( void )
     ResumeFullscreenMode( hwndParent );
 
 #else // #ifdef UIMON_EXPERIMENTAL
-    console_close(console_log);
+    console_close(console_log_local);
 
 #endif // #ifdef UIMON_EXPERIMENTAL
 
-    console_log = NULL;
+    console_log_local = NULL;
 }
 
 
@@ -2475,9 +2475,9 @@ console_t *uimon_window_open( void )
         OpenFromWindowDimensions(hwndMonitor,wd);
     }
 
-    if (console_log)
+    if (console_log_local)
     {
-        memcpy( &console_log_for_mon, console_log, sizeof( struct console_s ) );
+        memcpy( &console_log_for_mon, console_log_local, sizeof( struct console_s ) );
     }
     else
     {
@@ -2499,8 +2499,8 @@ console_t *uimon_window_open( void )
 
 #else // #ifdef UIMON_EXPERIMENTAL
 
-    console_log = console_open("Monitor");
-    return console_log;
+    console_log_local = console_open("Monitor");
+    return console_log_local;
 
 #endif // #ifdef UIMON_EXPERIMENTAL
 }
@@ -2541,9 +2541,9 @@ int uimon_out(const char *buffer)
 {
     int   rc = 0;
 
-    if (console_log)
+    if (console_log_local)
     {
-        rc = console_out(console_log, "%s", buffer);
+        rc = console_out(console_log_local, "%s", buffer);
     }
     return rc;
 }
@@ -2553,23 +2553,23 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
 #ifdef UIMON_EXPERIMENTAL
     char *p = NULL;
 
-    if (console_log)
+    if (console_log_local)
     {
         /* we have a console, so try to input data from there... */
-        p = console_in(console_log, prompt);
+        p = console_in(console_log_local, prompt);
     }
     else
     {
         /* we don't have a console, make sure we can do something useful
            by dispatching the events
         */
-        while (!*ppchCommandLine && !console_log)
+        while (!*ppchCommandLine && !console_log_local)
         {
             ui_dispatch_next_event();
         }
     }
     return p;
 #else // #ifdef UIMON_EXPERIMENTAL
-    return console_in(console_log, prompt);
+    return console_in(console_log_local, prompt);
 #endif // #ifdef UIMON_EXPERIMENTAL
 }
