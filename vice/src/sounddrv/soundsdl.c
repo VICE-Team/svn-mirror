@@ -35,7 +35,6 @@
 #include "sound.h"
 
 
-#warning using ints for pointers, might not be compatible
 static SWORD *sdl_buf = NULL;
 static SDL_AudioSpec sdl_spec;
 static volatile int sdl_inptr = 0;
