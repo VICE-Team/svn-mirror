@@ -152,26 +152,27 @@ static void init_mediafile_dialog(HWND hwnd)
         driver = gfxoutput_drivers_iter_next();
     }
 
-    resources_get_string("FFMPEGFormat", &ffmpeg_format);
-    combo = GetDlgItem(hwnd, IDC_SCREENSHOT_FFMPEGFORMAT);
-    for (i = 0; ffmpegdrv_formatlist[i].name != NULL; i++) {
-        SendMessage(combo,CB_ADDSTRING, 0,
-                    (LPARAM)ffmpegdrv_formatlist[i].name);
-        if (strcmp(ffmpeg_format, ffmpegdrv_formatlist[i].name) == 0)
-            SendMessage(combo, CB_SETCURSEL, (WPARAM)i, 0);
+    if (enable_ffmpeg == 1)
+    {
+        resources_get_string("FFMPEGFormat", &ffmpeg_format);
+        combo = GetDlgItem(hwnd, IDC_SCREENSHOT_FFMPEGFORMAT);
+        for (i = 0; ffmpegdrv_formatlist[i].name != NULL; i++) {
+            SendMessage(combo,CB_ADDSTRING, 0,
+                (LPARAM)ffmpegdrv_formatlist[i].name);
+            if (strcmp(ffmpeg_format, ffmpegdrv_formatlist[i].name) == 0)
+                SendMessage(combo, CB_SETCURSEL, (WPARAM)i, 0);
+        }
+
+        resources_get_int("FFMPEGAudioBitrate", &bitrate);
+        _stprintf(st, TEXT("%d"), bitrate);
+        SetDlgItemText(hwnd, IDC_SCREENSHOT_FFMPEGAUDIOBITRATE, st);
+
+        resources_get_int("FFMPEGVideoBitrate", &bitrate);
+        _stprintf(st, TEXT("%d"), bitrate);
+        SetDlgItemText(hwnd, IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, st);
     }
-
-    resources_get_int("FFMPEGAudioBitrate", &bitrate);
-    _stprintf(st, TEXT("%d"), bitrate);
-    SetDlgItemText(hwnd, IDC_SCREENSHOT_FFMPEGAUDIOBITRATE, st);
-
-    resources_get_int("FFMPEGVideoBitrate", &bitrate);
-    _stprintf(st, TEXT("%d"), bitrate);
-    SetDlgItemText(hwnd, IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, st);
-
     enable_ffmpeg_settings(hwnd, enable_ffmpeg);
 }
-
 
 static UINT_PTR APIENTRY hook_save_mediafile(HWND hwnd, UINT uimsg,
                                              WPARAM wparam, LPARAM lparam)
