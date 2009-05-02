@@ -1250,6 +1250,15 @@ IDCLS_EXECUTE_MONITOR_FROM_FILE
 /* monitor.c */
 IDCLS_SET_INITIAL_BREAKPOINT
 
+/* monitor_network.c */
+IDCLS_ENABLE_REMOTE_MONITOR
+
+/* monitor_network.c */
+IDCLS_DISABLE_REMOTE_MONITOR
+
+/* monitor_network.c */
+IDCLS_REMOTE_MONITOR_ADDRESS
+
 /* fliplist.c */
 IDCLS_SPECIFY_FLIP_LIST_NAME
 

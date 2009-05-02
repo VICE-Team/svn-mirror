@@ -9210,6 +9210,48 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_INITIAL_BREAKPOINT_TR, "Monitör için dahili bir kesme noktasý ayarla"},
 #endif
 
+/* monitor_network.c */
+/* en */ {IDCLS_ENABLE_REMOTE_MONITOR,     N_("Enable remote monitor")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_REMOTE_MONITOR_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_REMOTE_MONITOR_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_REMOTE_MONITOR_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_REMOTE_MONITOR_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_REMOTE_MONITOR_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_REMOTE_MONITOR_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_REMOTE_MONITOR_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_REMOTE_MONITOR_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_REMOTE_MONITOR_TR, ""},  /* fuzzy */
+#endif
+
+/* monitor_network.c */
+/* en */ {IDCLS_DISABLE_REMOTE_MONITOR,     N_("Disable remote monitor")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_REMOTE_MONITOR_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_REMOTE_MONITOR_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_REMOTE_MONITOR_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_REMOTE_MONITOR_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_REMOTE_MONITOR_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_REMOTE_MONITOR_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_REMOTE_MONITOR_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_REMOTE_MONITOR_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_REMOTE_MONITOR_TR, ""},  /* fuzzy */
+#endif
+
+/* monitor_network.c */
+/* en */ {IDCLS_REMOTE_MONITOR_ADDRESS,     N_("The local address the remote monitor should bind to")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_REMOTE_MONITOR_ADDRESS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_REMOTE_MONITOR_ADDRESS_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_REMOTE_MONITOR_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_REMOTE_MONITOR_ADDRESS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_REMOTE_MONITOR_ADDRESS_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_REMOTE_MONITOR_ADDRESS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_REMOTE_MONITOR_ADDRESS_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_REMOTE_MONITOR_ADDRESS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_REMOTE_MONITOR_ADDRESS_TR, ""},  /* fuzzy */
+#endif
+
 /* fliplist.c */
 /* en */ {IDCLS_SPECIFY_FLIP_LIST_NAME,    N_("Specify name of the flip list file image")},
 #ifdef HAS_TRANSLATION
