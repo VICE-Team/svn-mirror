@@ -6,7 +6,9 @@
 #define FEATURE_CPUMEMHISTORY 1
 #define HAVE_WORKING_VSNPRINTF
 
-#define vsnprintf _vsnprintf
+#if defined _MSC_VER && _MSC_VER < 1300 
+# define vsnprintf _vsnprintf
+#endif
 
 #pragma warning(disable:4996)
 
