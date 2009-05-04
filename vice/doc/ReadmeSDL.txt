@@ -48,12 +48,12 @@ The SDL port has been tested to work on:
  - Amiga OS 4.x / ppc
  - AROS / amd64/x86_64, ppc, x86
  - BeOS / ppc, x86
- - FreeBSD / alpha, amd64/x86_64, ia64, x86
+ - FreeBSD / alpha, amd64/x86_64, ia64, sparc64, x86
  - GP2X / arm (needs fixing)
  - Linux / amd64/x86_64, alpha, arm, armeb, hppa, ia64, m68k, mips, mipsel,
            ppc, ppc64, s390, s390x, sh3, sh4, x86
  - Morphos / ppc
- - NetBSD / alpha, amd64/x86_64, arm, hppa, m68010 (libaa only), m68k
+ - NetBSD / alpha, amd64/x86_64, arm, hppa, m68010 (libaa only), m68k, mipseb
  - OpenBSD / alpha, amd64/x86_64, arm, hppa
  - Openserver / x86
  - QNX 6.x / armle, mipsle, ppcbe, shle, x86
