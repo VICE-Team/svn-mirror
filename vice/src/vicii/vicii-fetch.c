@@ -67,6 +67,7 @@ void vicii_fetch_matrix(int offs, int num, int num_0xff, int cycle)
     /*log_debug("OFF %02i NUM %02i NFF %02i",offs,num,num_0xff);*/
 
     if (vicii.viciidtv) {
+        num_0xff = 0;
         colorram = vicii.color_ram_ptr;
     } else {
         colorram = mem_color_ram_vicii;
@@ -75,17 +76,12 @@ void vicii_fetch_matrix(int offs, int num, int num_0xff, int cycle)
     if (num_0xff > 0) {
         if (num <= num_0xff) {
             memset(vicii.vbuf + offs, 0xff, num);
-
-            if (!vicii.colorfetch_disable)
-                memset(vicii.cbuf + offs, vicii.ram_base_phi2[reg_pc] & 0xf, num);
+            memset(vicii.cbuf + offs, vicii.ram_base_phi2[reg_pc] & 0xf, num);
             /* FIXME: Crunch table in Multiplexer part of Krestage */
             vicii.background_color_source = 0xff;
         } else {
             memset(vicii.vbuf + offs, 0xff, num_0xff);
-
-            if (!vicii.colorfetch_disable)
-                memset(vicii.cbuf + offs, vicii.ram_base_phi2[reg_pc] & 0xf,
-                       num_0xff);
+            memset(vicii.cbuf + offs, vicii.ram_base_phi2[reg_pc] & 0xf, num_0xff);
         }
     }
 
