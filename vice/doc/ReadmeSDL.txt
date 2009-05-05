@@ -54,7 +54,7 @@ The SDL port has been tested to work on:
            ppc, ppc64, s390, s390x, sh3, sh4, sparc, sparc64, x86
  - Morphos / ppc
  - NetBSD / alpha, amd64/x86_64, arm, hppa, m68010 (libaa only), m68k, mipseb,
-            mipsel, ns32k
+            mipsel, ns32k, ppc
  - OpenBSD / alpha, amd64/x86_64, arm, hppa
  - Openserver / x86
  - QNX 6.x / armle, mipsle, ppcbe, shle, x86
