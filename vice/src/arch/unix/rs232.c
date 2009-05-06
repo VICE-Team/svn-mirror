@@ -394,8 +394,10 @@ int rs232_putc(int fd, BYTE b)
 
     do {
         n = write(fds[fd].fd_w, &b, 1);
-        if (n < 0)
+        if (n < 0) {
             log_error(rs232_log, "Error writing: %s.", strerror(errno));
+            return -1;
+        }
     } while (n != 1);
 
     return 0;
