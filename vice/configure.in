@@ -1464,6 +1464,8 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
                 LIBS="$LIBS $EXTRA_SDL_LIBS"
             fi
 
+            AC_CHECK_FUNCS(SDL_NumJoysticks)
+
             dnl check for opengl libs.
             AC_MSG_CHECKING(whether we can use the GL library)
 
