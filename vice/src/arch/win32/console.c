@@ -49,7 +49,6 @@
  MAX_WIDTH is not allowed to be bigger than (MIN_XSIZE * MIN_YSIZE) !
 */
 
-#define MAX_OUTPUT_LENGTH 2000 /* max. length of an output string after expansion with vsprintf() */
 #define MAX_WIDTH          256 /* max. char count for an input line  */
 #define MAX_HISTORY         20 /* maximum history entrys per console */
 
