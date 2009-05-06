@@ -46,7 +46,7 @@ int joystick_inited = 0;
 /* Joystick devices. */
 static int joystick_device[2];
 
-int joystick_port_map[2];
+int joystick_port_map[4];
 
 int joy_arch_init(void)
 {

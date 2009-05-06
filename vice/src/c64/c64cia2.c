@@ -41,6 +41,7 @@
 #include "digimax.h"
 #include "iecbus.h"
 #include "interrupt.h"
+#include "joystick.h"
 #include "lib.h"
 #include "log.h"
 #include "maincpu.h"
@@ -168,6 +169,9 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)byte);
 #endif
+    if (ptv4p_enable) {
+        ptv4p_store(byte);
+    }
 }
 
 static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
@@ -185,6 +189,9 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk,
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)byte);
 #endif
+    if (ptv4p_enable) {
+        ptv4p_store(byte);
+    }
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */
@@ -203,7 +210,11 @@ static BYTE read_ciapb(cia_context_t *cia_context)
         byte = rsuser_read_ctrl();
     else
 #endif
-    byte = parallel_cable_cpu_read();
+    if (ptv4p_enable) {
+        byte = ptv4p_read();
+    } else {
+        byte = parallel_cable_cpu_read();
+    }
 
     byte = (byte & ~(cia_context->c_cia[CIA_DDRB]))
            | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]);

@@ -38,7 +38,7 @@
 int ajoyfd[2] = {-1, -1};
 int djoyfd[2] = {-1, -1};
 
-int joystick_port_map[2];
+int joystick_port_map[4];
 static BYTE old_joy[2];
 
 

@@ -32,6 +32,7 @@
 #include "uimenu.h"
 
 extern const ui_menu_entry_t joystick_menu[];
+extern const ui_menu_entry_t joystick_four_menu[];
 extern const ui_menu_entry_t joystick_single_menu[];
 
 #endif

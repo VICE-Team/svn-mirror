@@ -352,17 +352,14 @@ void keyboard_key_pressed(signed long key)
         return;
     }
 
-    if (joystick_port_map[0] == JOYDEV_NUMPAD
-     || joystick_port_map[0] == JOYDEV_KEYSET1
-     || joystick_port_map[0] == JOYDEV_KEYSET2) {
-        if (joystick_check_set(key, joystick_port_map[0] - JOYDEV_NUMPAD, 1))
-            return;
-    }
-    if (joystick_port_map[1] == JOYDEV_NUMPAD
-     || joystick_port_map[1] == JOYDEV_KEYSET1
-     || joystick_port_map[1] == JOYDEV_KEYSET2) {
-        if (joystick_check_set(key, joystick_port_map[1] - JOYDEV_NUMPAD, 2))
-            return;
+    for (i = 0; i < 4; ++i) {
+        if (joystick_port_map[i] == JOYDEV_NUMPAD
+         || joystick_port_map[i] == JOYDEV_KEYSET1
+         || joystick_port_map[i] == JOYDEV_KEYSET2) {
+            if (joystick_check_set(key, joystick_port_map[i] - JOYDEV_NUMPAD, 1+i)) {
+                return;
+            }
+        }
     }
 
     if (keyconvmap == NULL)
@@ -460,17 +457,14 @@ void keyboard_key_released(signed long key)
         return;
     }
 
-    if (joystick_port_map[0] == JOYDEV_NUMPAD
-     || joystick_port_map[0] == JOYDEV_KEYSET1
-     || joystick_port_map[0] == JOYDEV_KEYSET2) {
-        if (joystick_check_clr(key, joystick_port_map[0] - JOYDEV_NUMPAD, 1))
-            return;
-    }
-    if (joystick_port_map[1] == JOYDEV_NUMPAD
-     || joystick_port_map[1] == JOYDEV_KEYSET1
-     || joystick_port_map[1] == JOYDEV_KEYSET2) {
-        if (joystick_check_clr(key, joystick_port_map[1] - JOYDEV_NUMPAD, 2))
-            return;
+    for (i = 0; i < 4; ++i) {
+        if (joystick_port_map[i] == JOYDEV_NUMPAD
+         || joystick_port_map[i] == JOYDEV_KEYSET1
+         || joystick_port_map[i] == JOYDEV_KEYSET2) {
+            if (joystick_check_clr(key, joystick_port_map[i] - JOYDEV_NUMPAD, 1+i)) {
+                return;
+            }
+        }
     }
 
     if (keyconvmap == NULL)

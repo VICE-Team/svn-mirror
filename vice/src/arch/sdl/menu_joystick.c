@@ -38,60 +38,39 @@
 #include "uipoll.h"
 
 UI_MENU_DEFINE_RADIO(JoyDevice1)
-
-static const ui_menu_entry_t joystick_port1_device_menu[] = {
-    { "None",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_JoyDevice1_callback,
-      (ui_callback_data_t)JOYDEV_NONE },
-    { "Numpad",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_JoyDevice1_callback,
-      (ui_callback_data_t)JOYDEV_NUMPAD },
-    { "Keyset 1",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_JoyDevice1_callback,
-      (ui_callback_data_t)JOYDEV_KEYSET1 },
-    { "Keyset 2",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_JoyDevice1_callback,
-      (ui_callback_data_t)JOYDEV_KEYSET2 },
-#ifdef HAVE_SDL_NUMJOYSTICKS
-    { "Joystick",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_JoyDevice1_callback,
-      (ui_callback_data_t)JOYDEV_JOYSTICK },
-#endif
-    { NULL }
-};
-
 UI_MENU_DEFINE_RADIO(JoyDevice2)
+UI_MENU_DEFINE_RADIO(JoyDevice3)
+UI_MENU_DEFINE_RADIO(JoyDevice4)
 
-static const ui_menu_entry_t joystick_port2_device_menu[] = {
-    { "None",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_JoyDevice2_callback,
-      (ui_callback_data_t)JOYDEV_NONE },
-    { "Numpad",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_JoyDevice2_callback,
-      (ui_callback_data_t)JOYDEV_NUMPAD },
-    { "Keyset 1",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_JoyDevice2_callback,
-      (ui_callback_data_t)JOYDEV_KEYSET1 },
-    { "Keyset 2",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_JoyDevice2_callback,
-      (ui_callback_data_t)JOYDEV_KEYSET2 },
-#ifdef HAVE_SDL_NUMJOYSTICKS
-    { "Joystick",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_JoyDevice2_callback,
-      (ui_callback_data_t)JOYDEV_JOYSTICK },
-#endif
-    { NULL }
+#define VICE_SDL_JOYSTICK_DEVICE_MENU(port) \
+static const ui_menu_entry_t joystick_port##port##_device_menu[] = { \
+    { "None", \
+      MENU_ENTRY_RESOURCE_RADIO, \
+      radio_JoyDevice##port##_callback, \
+      (ui_callback_data_t)JOYDEV_NONE }, \
+    { "Numpad", \
+      MENU_ENTRY_RESOURCE_RADIO, \
+      radio_JoyDevice##port##_callback, \
+      (ui_callback_data_t)JOYDEV_NUMPAD }, \
+    { "Keyset 1", \
+      MENU_ENTRY_RESOURCE_RADIO, \
+      radio_JoyDevice##port##_callback, \
+      (ui_callback_data_t)JOYDEV_KEYSET1 }, \
+    { "Keyset 2", \
+      MENU_ENTRY_RESOURCE_RADIO, \
+      radio_JoyDevice##port##_callback, \
+      (ui_callback_data_t)JOYDEV_KEYSET2 }, \
+    { "Joystick", \
+      MENU_ENTRY_RESOURCE_RADIO, \
+      radio_JoyDevice##port##_callback, \
+      (ui_callback_data_t)JOYDEV_JOYSTICK }, \
+    { NULL } \
 };
+
+VICE_SDL_JOYSTICK_DEVICE_MENU(1)
+VICE_SDL_JOYSTICK_DEVICE_MENU(2)
+VICE_SDL_JOYSTICK_DEVICE_MENU(3)
+VICE_SDL_JOYSTICK_DEVICE_MENU(4)
 
 UI_MENU_DEFINE_TOGGLE(KeySetEnable)
 
@@ -206,53 +185,35 @@ static UI_MENU_CALLBACK(custom_joymap_callback)
     return NULL;
 }
 
-static const ui_menu_entry_t define_joy1_menu[] = {
-    { "Joystick 1 Up",
-      MENU_ENTRY_DIALOG,
-      custom_joymap_callback,
-      (ui_callback_data_t)0 },
-    { "Joystick 1 Down",
-      MENU_ENTRY_DIALOG,
-      custom_joymap_callback,
-      (ui_callback_data_t)1 },
-    { "Joystick 1 Left",
-      MENU_ENTRY_DIALOG,
-      custom_joymap_callback,
-      (ui_callback_data_t)2 },
-    { "Joystick 1 Right",
-      MENU_ENTRY_DIALOG,
-      custom_joymap_callback,
-      (ui_callback_data_t)3 },
-    { "Joystick 1 Fire",
-      MENU_ENTRY_DIALOG,
-      custom_joymap_callback,
-      (ui_callback_data_t)4 },
-    { NULL }
+#define VICE_SDL_JOYSTICK_MAPPING_MENU(port) \
+static const ui_menu_entry_t define_joy##port##_menu[] = { \
+    { "Up", \
+      MENU_ENTRY_DIALOG, \
+      custom_joymap_callback, \
+      (ui_callback_data_t)(0 | ((port - 1)<<4)) }, \
+    { "Down", \
+      MENU_ENTRY_DIALOG, \
+      custom_joymap_callback, \
+      (ui_callback_data_t)(1 | ((port - 1)<<4)) }, \
+    { "Left", \
+      MENU_ENTRY_DIALOG, \
+      custom_joymap_callback, \
+      (ui_callback_data_t)(2 | ((port - 1)<<4)) }, \
+    { "Right", \
+      MENU_ENTRY_DIALOG, \
+      custom_joymap_callback, \
+      (ui_callback_data_t)(3 | ((port - 1)<<4)) }, \
+    { "Fire", \
+      MENU_ENTRY_DIALOG, \
+      custom_joymap_callback, \
+      (ui_callback_data_t)(4 | ((port - 1)<<4)) }, \
+    { NULL } \
 };
 
-static const ui_menu_entry_t define_joy2_menu[] = {
-    { "Joystick 2 Up",
-      MENU_ENTRY_DIALOG,
-      custom_joymap_callback,
-      (ui_callback_data_t)0x10 },
-    { "Joystick 2 Down",
-      MENU_ENTRY_DIALOG,
-      custom_joymap_callback,
-      (ui_callback_data_t)0x11 },
-    { "Joystick 2 Left",
-      MENU_ENTRY_DIALOG,
-      custom_joymap_callback,
-      (ui_callback_data_t)0x12 },
-    { "Joystick 2 Right",
-      MENU_ENTRY_DIALOG,
-      custom_joymap_callback,
-      (ui_callback_data_t)0x13 },
-    { "Joystick 2 Fire",
-      MENU_ENTRY_DIALOG,
-      custom_joymap_callback,
-      (ui_callback_data_t)0x14 },
-    { NULL }
-};
+VICE_SDL_JOYSTICK_MAPPING_MENU(1)
+VICE_SDL_JOYSTICK_MAPPING_MENU(2)
+VICE_SDL_JOYSTICK_MAPPING_MENU(3)
+VICE_SDL_JOYSTICK_MAPPING_MENU(4)
 
 static UI_MENU_CALLBACK(custom_joy_misc_callback)
 {
@@ -334,6 +295,69 @@ const ui_menu_entry_t joystick_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy2_menu },
+    { "Joystick extra options", /* TODO better name */
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_joy_misc_menu },
+#endif
+    { NULL }
+};
+
+UI_MENU_DEFINE_TOGGLE(PTV4Player)
+
+const ui_menu_entry_t joystick_four_menu[] = {
+    { "Joystick device in port 1",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)joystick_port1_device_menu },
+    { "Joystick device in port 2",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)joystick_port2_device_menu },
+    { "Joystick device in port 3",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)joystick_port3_device_menu },
+    { "Joystick device in port 4",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)joystick_port4_device_menu },
+    { "Swap joystick ports",
+      MENU_ENTRY_OTHER,
+      custom_swap_ports_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Allow keyset joystick",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_KeySetEnable_callback,
+      NULL },
+    { "Define keysets",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_keyset_menu },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Protovision 4 Player Interface",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_PTV4Player_callback,
+      NULL },
+#ifdef HAVE_SDL_NUMJOYSTICKS
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Joystick 1 mapping", /* TODO better name */
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_joy1_menu },
+    { "Joystick 2 mapping", /* TODO better name */
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_joy2_menu },
+    { "Joystick 3 mapping", /* TODO better name */
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_joy3_menu },
+    { "Joystick 4 mapping", /* TODO better name */
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_joy4_menu },
     { "Joystick extra options", /* TODO better name */
       MENU_ENTRY_SUBMENU,
       submenu_callback,

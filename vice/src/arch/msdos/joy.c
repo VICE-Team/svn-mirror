@@ -42,7 +42,7 @@
 
 
 #ifdef COMMON_KBD
-int joystick_port_map[2];
+int joystick_port_map[4];
 #endif
 
 /* ------------------------------------------------------------------------- */

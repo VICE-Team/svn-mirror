@@ -36,7 +36,6 @@
 #include "uimenu.h"
 
 UI_MENU_DEFINE_RADIO(HummerUserportDevice)
-UI_MENU_DEFINE_RADIO(HummerUserportJoyPort)
 #ifdef HAVE_MOUSE
 UI_MENU_DEFINE_TOGGLE(ps2mouse)
 UI_MENU_DEFINE_TOGGLE(Mouse)
@@ -56,16 +55,6 @@ static const ui_menu_entry_t c64dtv_userport_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_HummerUserportDevice_callback,
       (ui_callback_data_t)HUMMER_USERPORT_JOY },
-    SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("Hummer joystick port mapped to userport"),
-    { "Joy1",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_HummerUserportJoyPort_callback,
-      (ui_callback_data_t)1 },
-    { "Joy2",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_HummerUserportJoyPort_callback,
-      (ui_callback_data_t)2 },
 #ifdef HAVE_MOUSE
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("PS/2 mouse on userport"),
@@ -90,7 +79,7 @@ const ui_menu_entry_t c64dtv_hardware_menu[] = {
     { "Joystick settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)joystick_menu },
+      (ui_callback_data_t)joystick_four_menu },
     { "SID settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

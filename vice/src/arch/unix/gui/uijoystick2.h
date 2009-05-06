@@ -31,6 +31,7 @@
 
 extern struct ui_menu_entry_s joystick_settings_submenu[];
 extern struct ui_menu_entry_s joystick_settings_menu[];
+extern struct ui_menu_entry_s joystick_4_settings_menu[];
 extern struct ui_menu_entry_s joystick_options_submenu[];
 
 #endif

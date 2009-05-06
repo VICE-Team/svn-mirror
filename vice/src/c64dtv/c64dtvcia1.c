@@ -58,8 +58,11 @@ void REGPARM2 cia1_store(WORD addr, BYTE data)
 
 BYTE REGPARM1 cia1_read(WORD addr)
 {
-    if(((addr&0xf)>=8)&&((addr&0xf)<=0xc)) /* disable TOD & serial */
+    /* disable TOD & serial */
+    if (((addr&0xf)>=8)&&((addr&0xf)<=0xc)) {
         return 0xff;
+    }
+
     return ciacore_read(machine_context.cia1, addr);
 }
 
@@ -146,23 +149,14 @@ static BYTE read_ciapa(cia_context_t *cia_context)
     BYTE m;
     int i;
 
-    if ((c64dtv_hummer_userport_device == HUMMER_USERPORT_JOY || c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC)
-       && c64dtv_hummer_userport_joy_port==1)
-        msk = cia_context->old_pb & (BYTE)~0;
-    else
-        msk = cia_context->old_pb & ~joystick_value[1];
+    msk = cia_context->old_pb & ~joystick_value[1];
 
     for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
         if (!(msk & m))
             val &= ~rev_keyarr[i];
 
-    if ((c64dtv_hummer_userport_device == HUMMER_USERPORT_JOY || c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC)
-       && c64dtv_hummer_userport_joy_port==2)
-        byte = (val & (cia_context->c_cia[CIA_PRA]
-               | ~(cia_context->c_cia[CIA_DDRA]))) & (BYTE)~0;
-    else
-        byte = (val & (cia_context->c_cia[CIA_PRA]
-               | ~(cia_context->c_cia[CIA_DDRA]))) & ~joystick_value[2];
+    byte = (val & (cia_context->c_cia[CIA_PRA]
+           | ~(cia_context->c_cia[CIA_DDRA]))) & ~joystick_value[2];
 
     return byte;
 }
@@ -175,26 +169,18 @@ static BYTE read_ciapb(cia_context_t *cia_context)
     BYTE m;
     int i;
 
-    if ((c64dtv_hummer_userport_device == HUMMER_USERPORT_JOY || c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC)
-       && c64dtv_hummer_userport_joy_port==2)
-        msk = cia_context->old_pa & (BYTE)~0;
-    else
-        msk = cia_context->old_pa & ~joystick_value[2];
+    msk = cia_context->old_pa & ~joystick_value[2];
 
     for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
         if (!(msk & m))
             val &= ~keyarr[i];
 
-    if (c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC && (!(msk & 1)))
-        val &= ~(joystick_value[c64dtv_hummer_userport_joy_port] & 3);
+    if (c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC && (!(msk & 1))) {
+        val &= ~(joystick_value[3] & 3);
+    }
 
-    if ((c64dtv_hummer_userport_device == HUMMER_USERPORT_JOY || c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC)
-       && c64dtv_hummer_userport_joy_port==1)
-        byte = (val & (cia_context->c_cia[CIA_PRB]
-               | ~(cia_context->c_cia[CIA_DDRB]))) & (BYTE)~0;
-    else
-        byte = (val & (cia_context->c_cia[CIA_PRB]
-               | ~(cia_context->c_cia[CIA_DDRB]))) & ~joystick_value[1];
+    byte = (val & (cia_context->c_cia[CIA_PRB]
+           | ~(cia_context->c_cia[CIA_DDRB]))) & ~joystick_value[1];
 
     return byte;
 }

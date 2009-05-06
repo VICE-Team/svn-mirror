@@ -41,6 +41,7 @@
 #include "joy.h"
 #include "joystick.h"
 #include "kbd.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "network.h"
 #include "snapshot.h"
@@ -51,14 +52,14 @@
 
 #define JOYSTICK_RAND() (rand() & 0x3fff)
 
-#define JOYSTICK_NUM 3
+#define JOYSTICK_NUM 5
 
 /* Global joystick value.  */
-BYTE joystick_value[JOYSTICK_NUM] = { 0, 0, 0 };
+BYTE joystick_value[JOYSTICK_NUM] = { 0, 0, 0, 0, 0 };
 
 /* Latched joystick status.  */
-static BYTE latch_joystick_value[JOYSTICK_NUM] = { 0, 0, 0 };
-static BYTE network_joystick_value[JOYSTICK_NUM] = { 0, 0, 0 };
+static BYTE latch_joystick_value[JOYSTICK_NUM] = { 0, 0, 0, 0, 0 };
+static BYTE network_joystick_value[JOYSTICK_NUM] = { 0, 0, 0, 0, 0 };
 
 /* to prevent illegal direction combinations */
 static const BYTE joystick_opposite_direction[] = 
@@ -187,6 +188,26 @@ void joystick_clear_all(void)
 
 /*-----------------------------------------------------------------------*/
 
+/* Protovision 4 player interface emulation */
+
+int ptv4p_enable;
+
+static int ptv4p_select = 0;
+
+BYTE ptv4p_read(void)
+{
+    return (BYTE)~((joystick_value[3] & 0x10)
+           | ((joystick_value[4] & 0x10) << 1)
+           | (joystick_value[ptv4p_select + 3] & 0xf));
+}
+
+void ptv4p_store(BYTE value)
+{
+    ptv4p_select = (value & 0x80) ? 0 : 1;
+}
+
+/*-----------------------------------------------------------------------*/
+
 #ifdef COMMON_KBD
 /* the order of values in joypad_bits is the same as in joystick_direction_t */
 static int joypad_bits[9] = {
@@ -241,8 +262,8 @@ static int joykeys_enable = 0;
 
 static int set_joykeys_enable(int val, void *param)
 {
-  joykeys_enable = val;
-  return 0;
+    joykeys_enable = val;
+    return 0;
 }
 
 #define DEFINE_SET_KEYSET(num)                       \
@@ -298,13 +319,26 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
+static int set_ptv4p_enable(int val, void *param)
+{
+    ptv4p_enable = val;
+    return 0;
+}
+
+static const resource_int_t extra_resources_int[] = {
+    { "PTV4Player", 0, RES_EVENT_NO, NULL,
+      &ptv4p_enable, set_ptv4p_enable, NULL },
+    { NULL }
+};
+
 int joystick_check_set(signed long key, int keysetnum, unsigned int joyport)
 {
     int column;
 
     /* if joykeys are disabled then ignore key sets */
-    if(!joykeys_enable)
-      return 0;
+    if(!joykeys_enable) {
+        return 0;
+    }
 
     for (column = 0; column < 9; column++) {
         if (key == joykeys[keysetnum][column]) {
@@ -328,8 +362,9 @@ int joystick_check_clr(signed long key, int keysetnum, unsigned int joyport)
     int column;
 
     /* if joykeys are disabled then ignore key sets */
-    if(!joykeys_enable)
-      return 0;
+    if(!joykeys_enable) {
+        return 0;
+    }
 
     for (column = 0; column < 9; column++) {
         if (key == joykeys[keysetnum][column]) {
@@ -354,6 +389,11 @@ void joystick_joypad_clear(void)
 int joystick_init_resources(void)
 {
     resources_register_int(resources_int);
+
+    if ((machine_class == VICE_MACHINE_C64) 
+      ||(machine_class == VICE_MACHINE_C64DTV)) {
+        resources_register_int(extra_resources_int);
+    }
 
     return joystick_arch_init_resources();
 }
@@ -380,8 +420,9 @@ int joystick_snapshot_write_module(snapshot_t *s)
     if (m == NULL)
        return -1;
 
+    /* FIXME "- 2" is to keep compatible with old snapshots */
     if (0
-        || SMW_BA(m, joystick_value, JOYSTICK_NUM) < 0)
+        || SMW_BA(m, joystick_value, JOYSTICK_NUM - 2) < 0)
     {
         snapshot_module_close(m);
         return -1;
@@ -404,8 +445,9 @@ int joystick_snapshot_read_module(snapshot_t *s)
         return 0;
     }
 
+    /* FIXME "- 2" is to keep compatible with old snapshots */
     if (0
-        || SMR_BA(m, joystick_value, JOYSTICK_NUM) < 0)
+        || SMR_BA(m, joystick_value, JOYSTICK_NUM - 2) < 0)
     {
         snapshot_module_close(m);
         return -1;

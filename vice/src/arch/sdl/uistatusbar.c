@@ -306,7 +306,7 @@ fprintf(stderr,"%s: %i, %i\n",__func__,current,total);
 void ui_display_joyport(BYTE *joyport)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: %02x\n",__func__, *joyport);
+fprintf(stderr,"%s: %02x %02x %02x %02x %02x\n",__func__, joyport[0], joyport[1], joyport[2],  joyport[3], joyport[4]);
 #endif
 }
 

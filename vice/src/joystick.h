@@ -51,5 +51,9 @@ extern void joystick_register_delay(unsigned int delay);
 extern int joystick_snapshot_write_module(struct snapshot_s *s);
 extern int joystick_snapshot_read_module(struct snapshot_s *s);
 
+extern int ptv4p_enable;
+extern BYTE ptv4p_read(void);
+extern void ptv4p_store(BYTE value);
+
 #endif
 

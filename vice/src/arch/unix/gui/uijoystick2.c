@@ -63,6 +63,32 @@ static UI_CALLBACK(set_joystick_device_2)
     }
 }
 
+static UI_CALLBACK(set_joystick_device_3)
+{
+    int tmp;
+
+    if (!CHECK_MENUS) {
+        resources_set_int("JoyDevice3", vice_ptr_to_int(UI_MENU_CB_PARAM));
+        ui_update_menus();
+    } else {
+        resources_get_int("JoyDevice3", &tmp);
+        ui_menu_set_tick(w, tmp == vice_ptr_to_int(UI_MENU_CB_PARAM));
+    }
+}
+
+static UI_CALLBACK(set_joystick_device_4)
+{
+    int tmp;
+
+    if (!CHECK_MENUS) {
+        resources_set_int("JoyDevice4", vice_ptr_to_int(UI_MENU_CB_PARAM));
+        ui_update_menus();
+    } else {
+        resources_get_int("JoyDevice4", &tmp);
+        ui_menu_set_tick(w, tmp == vice_ptr_to_int(UI_MENU_CB_PARAM));
+    }
+}
+
 static UI_CALLBACK(swap_joystick_ports)
 {
     int tmp1, tmp2;
@@ -77,6 +103,7 @@ static UI_CALLBACK(swap_joystick_ports)
 }
 
 UI_MENU_DEFINE_TOGGLE(KeySetEnable)
+UI_MENU_DEFINE_TOGGLE(PTV4Player)
 
 static ui_menu_entry_t set_joystick_device_1_submenu[] = {
     { N_("*None"),
@@ -182,6 +209,110 @@ static ui_menu_entry_t set_joystick_device_2_submenu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t set_joystick_device_3_submenu[] = {
+    { N_("*None"),
+      (ui_callback_t)set_joystick_device_3,
+      (ui_callback_data_t)JOYDEV_NONE, NULL },
+    { N_("*Numpad"),
+      (ui_callback_t)set_joystick_device_3,
+      (ui_callback_data_t)JOYDEV_NUMPAD, NULL },
+    { N_("*Keyset 1"),
+      (ui_callback_t)set_joystick_device_3,
+      (ui_callback_data_t)JOYDEV_KEYSET1, NULL },
+    { N_("*Keyset 2"),
+      (ui_callback_t)set_joystick_device_3,
+      (ui_callback_data_t)JOYDEV_KEYSET2, NULL },
+#ifdef HAS_JOYSTICK
+    { N_("*Analog Joystick 0"),
+      (ui_callback_t)set_joystick_device_3,
+      (ui_callback_data_t)JOYDEV_ANALOG_0, NULL },
+    { N_("*Analog Joystick 1"),
+      (ui_callback_t)set_joystick_device_3,
+      (ui_callback_data_t)JOYDEV_ANALOG_1, NULL },
+    { N_("*Analog Joystick 2"),
+      (ui_callback_t)set_joystick_device_3,
+      (ui_callback_data_t)JOYDEV_ANALOG_2, NULL },
+    { N_("*Analog Joystick 3"),
+      (ui_callback_t)set_joystick_device_3,
+      (ui_callback_data_t)JOYDEV_ANALOG_3, NULL },
+    { N_("*Analog Joystick 4"),
+      (ui_callback_t)set_joystick_device_3,
+      (ui_callback_data_t)JOYDEV_ANALOG_4, NULL },
+    { N_("*Analog Joystick 5"),
+      (ui_callback_t)set_joystick_device_3,
+      (ui_callback_data_t)JOYDEV_ANALOG_5, NULL },
+#ifdef HAS_DIGITAL_JOYSTICK
+    { N_("*Digital Joystick 0"),
+      (ui_callback_t)set_joystick_device_3,
+      (ui_callback_data_t)JOYDEV_DIGITAL_0, NULL },
+    { N_("*Digital Joystick 1"),
+      (ui_callback_t)set_joystick_device_3,
+      (ui_callback_data_t)JOYDEV_DIGITAL_1, NULL },
+#endif
+#ifdef HAS_USB_JOYSTICK
+    { N_("*USB Joystick 0"),
+      (ui_callback_t)set_joystick_device_3,
+      (ui_callback_data_t)JOYDEV_USB_0, NULL },
+    { N_("*USB Joystick 1"),
+      (ui_callback_t)set_joystick_device_3,
+      (ui_callback_data_t)JOYDEV_USB_1, NULL },
+#endif
+#endif
+    { NULL }
+};
+
+static ui_menu_entry_t set_joystick_device_4_submenu[] = {
+    { N_("*None"),
+      (ui_callback_t)set_joystick_device_4,
+      (ui_callback_data_t)JOYDEV_NONE, NULL },
+    { N_("*Numpad"),
+      (ui_callback_t)set_joystick_device_4,
+      (ui_callback_data_t)JOYDEV_NUMPAD, NULL },
+    { N_("*Keyset 1"),
+      (ui_callback_t)set_joystick_device_4,
+      (ui_callback_data_t)JOYDEV_KEYSET1, NULL },
+    { N_("*Keyset 2"),
+      (ui_callback_t)set_joystick_device_4,
+      (ui_callback_data_t)JOYDEV_KEYSET2, NULL },
+#ifdef HAS_JOYSTICK
+    { N_("*Analog Joystick 0"),
+      (ui_callback_t)set_joystick_device_4,
+      (ui_callback_data_t)JOYDEV_ANALOG_0, NULL },
+    { N_("*Analog Joystick 1"),
+      (ui_callback_t)set_joystick_device_4,
+      (ui_callback_data_t)JOYDEV_ANALOG_1, NULL },
+    { N_("*Analog Joystick 2"),
+      (ui_callback_t)set_joystick_device_4,
+      (ui_callback_data_t)JOYDEV_ANALOG_2, NULL },
+    { N_("*Analog Joystick 3"),
+      (ui_callback_t)set_joystick_device_4,
+      (ui_callback_data_t)JOYDEV_ANALOG_3, NULL },
+    { N_("*Analog Joystick 4"),
+      (ui_callback_t)set_joystick_device_4,
+      (ui_callback_data_t)JOYDEV_ANALOG_4, NULL },
+    { N_("*Analog Joystick 5"),
+      (ui_callback_t)set_joystick_device_4,
+      (ui_callback_data_t)JOYDEV_ANALOG_5, NULL },
+#ifdef HAS_DIGITAL_JOYSTICK
+    { N_("*Digital Joystick 0"),
+      (ui_callback_t)set_joystick_device_4,
+      (ui_callback_data_t)JOYDEV_DIGITAL_0, NULL },
+    { N_("*Digital Joystick 1"),
+      (ui_callback_t)set_joystick_device_4,
+      (ui_callback_data_t)JOYDEV_DIGITAL_1, NULL },
+#endif
+#ifdef HAS_USB_JOYSTICK
+    { N_("*USB Joystick 0"),
+      (ui_callback_t)set_joystick_device_4,
+      (ui_callback_data_t)JOYDEV_USB_0, NULL },
+    { N_("*USB Joystick 1"),
+      (ui_callback_t)set_joystick_device_4,
+      (ui_callback_data_t)JOYDEV_USB_1, NULL },
+#endif
+#endif /* HAS_JOYSTICK */
+    { NULL }
+};
+
 
 ui_menu_entry_t joystick_settings_submenu[] = {
     { N_("Joystick device in port 1"),
@@ -201,6 +332,30 @@ ui_menu_entry_t joystick_settings_submenu[] = {
     { NULL }
 };
 
+ui_menu_entry_t joystick_4_settings_submenu[] = {
+    { N_("Joystick device in port 1"),
+      NULL, NULL, set_joystick_device_1_submenu },
+    { N_("Joystick device in port 2"),
+      NULL, NULL, set_joystick_device_2_submenu },
+    { N_("Joystick device in port 3"),
+      NULL, NULL, set_joystick_device_3_submenu },
+    { N_("Joystick device in port 4"),
+      NULL, NULL, set_joystick_device_4_submenu },
+    { "--" },
+#ifdef USE_GNOMEUI
+    { N_("Define keysets"),
+      (ui_callback_t)ui_keyset_dialog },
+    { "--" },
+#endif
+    { N_("*Allow keyset joystick"),
+      (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META },
+    { N_("Swap joystick ports"),
+      (ui_callback_t)swap_joystick_ports, NULL, NULL, KEYSYM_j, UI_HOTMOD_META },
+    { N_("*Protovision 4 Player Interface"),
+      (ui_callback_t)toggle_PTV4Player, NULL, NULL },
+    { NULL }
+};
+
 ui_menu_entry_t joystick_options_submenu[] = {
     { N_("Swap joystick ports"),
       (ui_callback_t)swap_joystick_ports, NULL, NULL, KEYSYM_j, UI_HOTMOD_META },
@@ -210,6 +365,12 @@ ui_menu_entry_t joystick_options_submenu[] = {
 ui_menu_entry_t joystick_settings_menu[] = {
     { N_("Joystick settings"),
       NULL, NULL, joystick_settings_submenu },
+    { NULL }
+};
+
+ui_menu_entry_t joystick_4_settings_menu[] = {
+    { N_("Joystick settings"),
+      NULL, NULL, joystick_4_settings_submenu },
     { NULL }
 };
 

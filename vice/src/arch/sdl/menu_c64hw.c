@@ -48,7 +48,7 @@ const ui_menu_entry_t c64_hardware_menu[] = {
     { "Joystick settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)joystick_menu },
+      (ui_callback_data_t)joystick_four_menu },
     { "SID settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

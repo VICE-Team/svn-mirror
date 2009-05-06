@@ -204,6 +204,7 @@ static const resource_int_t resources_int[] = {
 #endif
     { "HummerUserportDevice", 0, RES_EVENT_SAME, NULL,
       (int *)&c64dtv_hummer_userport_device, c64dtv_hummer_userport_set, NULL },
+    /* FIXME: using joystick port 3, remove this when the UIs are fixed */
     { "HummerUserportJoyPort", 2, RES_EVENT_SAME, NULL,
       (int *)&c64dtv_hummer_userport_joy_port, c64dtv_set_hummer_joyport, NULL },
     { NULL }

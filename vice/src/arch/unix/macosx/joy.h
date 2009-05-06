@@ -54,7 +54,7 @@
 #define HID_NUM_BUTTONS 6
 
 /* virtual joystick mapping */ 
-extern int joystick_port_map[2];
+extern int joystick_port_map[4];
 
 #ifdef HAS_JOYSTICK
 

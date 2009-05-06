@@ -78,7 +78,7 @@ extern void keyboard_alternative_set(int alternative);
 /* This ugly externs will go away sooner or later.  */
 extern int keyarr[KBD_ROWS];
 extern int rev_keyarr[KBD_COLS];
-extern BYTE joystick_value[3];
+extern BYTE joystick_value[5];
 
 extern int c64_kbd_init(void);
 extern int c128_kbd_init(void);

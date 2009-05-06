@@ -46,7 +46,7 @@ extern void new_joystick(void);
 extern int joystick_arch_init_resources(void);
 extern int joystick_init_cmdline_options(void);
 
-extern int joystick_port_map[2];
+extern int joystick_port_map[4];
 
 #ifdef HAS_USB_JOYSTICK
 extern int usb_joystick_init(void);

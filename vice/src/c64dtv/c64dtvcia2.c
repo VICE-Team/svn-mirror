@@ -39,14 +39,15 @@
 #include "c64dtv-resources.h"
 #include "cia.h"
 #include "hummeradc.h"
-#include "ps2mouse.h"
 #include "iecbus.h"
 #include "interrupt.h"
+#include "joystick.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "log.h"
 #include "maincpu.h"
 #include "printer.h"
+#include "ps2mouse.h"
 #include "types.h"
 #include "vicii.h"
 
@@ -57,10 +58,17 @@
 
 void REGPARM2 cia2_store(WORD addr, BYTE data)
 {
-    if ((addr&0x1f) == 1 && c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC)
-        hummeradc_store(data);
-    if ((addr&0x1f) == 1 && ps2mouse_enabled)
-        ps2mouse_store(data);
+    if ((addr&0x1f) == 1) {
+        if (ptv4p_enable) {
+            ptv4p_store(data);
+        }
+        if (c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC) {
+            hummeradc_store(data);
+        }
+        if (ps2mouse_enabled) {
+            ps2mouse_store(data);
+        }
+    }
 
     ciacore_store(machine_context.cia2, addr, data);
 }
@@ -69,17 +77,25 @@ BYTE REGPARM1 cia2_read(WORD addr)
 {
     BYTE retval = 0xff;
     if ((addr&0x1f) == 1) {
-        if (ps2mouse_enabled)
+        if (ptv4p_enable) {
+            retval &= ptv4p_read();
+        }
+        if (ps2mouse_enabled) {
             retval &= (ps2mouse_read() | 0x3f);
-        if (c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC)
+        }
+        if (c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC) {
             retval &= (hummeradc_read() | 0xf8);
-        if (c64dtv_hummer_userport_device == HUMMER_USERPORT_JOY)
-            retval &= (~(joystick_value[c64dtv_hummer_userport_joy_port]) | 0xe0);
+        }
+        if (c64dtv_hummer_userport_device == HUMMER_USERPORT_JOY) {
+            retval &= (~(joystick_value[3]) | 0xe0);
+        }
         return retval;
     }
 
-    if(((addr&0xf)>=8)&&((addr&0xf)<=0xc)) /* disable TOD & serial */
+    /* disable TOD & serial */
+    if (((addr&0xf)>=8)&&((addr&0xf)<=0xc)) {
         return 0xff;
+    }
 
     return ciacore_read(machine_context.cia2, addr);
 }
@@ -196,6 +212,9 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk,
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)byte);
 #endif
+    if (ptv4p_enable) {
+        ptv4p_store(byte);
+    }
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */
@@ -210,9 +229,9 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 {
     BYTE byte;
 #ifdef HAVE_RS232
-    if (rsuser_enabled)
+    if (rsuser_enabled) {
         byte = rsuser_read_ctrl();
-    else
+    } else 
 #endif
     byte = parallel_cable_cpu_read();
 

@@ -53,7 +53,7 @@
 #include "vkbd.h"
 
 /* (Used by `keyboard.c').  */
-int joystick_port_map[2];
+int joystick_port_map[4];
 
 #define DEFAULT_JOYSTICK_THRESHOLD 10000
 #define DEFAULT_JOYSTICK_FUZZ 1000
@@ -155,6 +155,18 @@ static int joyport2select(int val, void *param)
     return 0;
 }
 
+static int joyport3select(int val, void *param)
+{
+    joystick_port_map[2] = val;
+    return 0;
+}
+
+static int joyport4select(int val, void *param)
+{
+    joystick_port_map[3] = val;
+    return 0;
+}
+
 #ifdef HAVE_SDL_NUMJOYSTICKS
 static int set_joystick_threshold(int val, void *param)
 {
@@ -188,6 +200,10 @@ static const resource_int_t resources_int[] = {
       &joystick_port_map[0], joyport1select, NULL },
     { "JoyDevice2", 0, RES_EVENT_NO, NULL,
       &joystick_port_map[1], joyport2select, NULL },
+    { "JoyDevice3", 0, RES_EVENT_NO, NULL,
+      &joystick_port_map[2], joyport3select, NULL },
+    { "JoyDevice4", 0, RES_EVENT_NO, NULL,
+      &joystick_port_map[3], joyport4select, NULL },
 #ifdef HAVE_SDL_NUMJOYSTICKS
     { "JoyThreshold", DEFAULT_JOYSTICK_THRESHOLD, RES_EVENT_NO, NULL,
       &joystick_threshold, set_joystick_threshold, NULL },
@@ -204,6 +220,12 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-4>", "Set device for joystick port 1" },
     { "-joydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice2", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      "<0-4>", "Set device for joystick port 2" },
+    { "-joydev3", SET_RESOURCE, 1, NULL, NULL, "JoyDevice3", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      "<0-4>", "Set device for joystick port 1" },
+    { "-joydev4", SET_RESOURCE, 1, NULL, NULL, "JoyDevice4", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-4>", "Set device for joystick port 2" },
 #ifdef HAVE_SDL_NUMJOYSTICKS

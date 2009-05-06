@@ -53,8 +53,8 @@
 
 #ifndef MAC_JOYSTICK
 
-/* (Used by `kbd.c').  */
-int joystick_port_map[2];
+/* (Used by `keyboard.c').  */
+int joystick_port_map[4];
 
 /* Resources.  */
 
@@ -70,11 +70,27 @@ static int joyport2select(int val, void *param)
     return 0;
 }
 
+static int joyport3select(int val, void *param)
+{
+    joystick_port_map[2] = val;
+    return 0;
+}
+
+static int joyport4select(int val, void *param)
+{
+    joystick_port_map[3] = val;
+    return 0;
+}
+
 static const resource_int_t resources_int[] = {
     { "JoyDevice1", 0, RES_EVENT_NO, NULL,
       &joystick_port_map[0], joyport1select, NULL },
     { "JoyDevice2", 0, RES_EVENT_NO, NULL,
       &joystick_port_map[1], joyport2select, NULL },
+    { "JoyDevice3", 0, RES_EVENT_NO, NULL,
+      &joystick_port_map[2], joyport3select, NULL },
+    { "JoyDevice4", 0, RES_EVENT_NO, NULL,
+      &joystick_port_map[3], joyport4select, NULL },
     { NULL },
 };
 
@@ -91,6 +107,16 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-8>", N_("Set device for joystick port 2") },
+    { "-joydev3", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice3", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<0-8>", N_("Set device for joystick port 3") },
+    { "-joydev4", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice4", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<0-8>", N_("Set device for joystick port 4") },
     { NULL },
 };
 
@@ -444,7 +470,7 @@ void new_joystick(void)
     struct js_event e;
     int ajoyport;
 
-    for (i = 1; i <= 2; i++) {
+    for (i = 1; i <= 4; i++) {
         int joyport = joystick_port_map[i - 1];
 
         if ((joyport < JOYDEV_ANALOG_0) || (joyport > JOYDEV_ANALOG_5))
@@ -457,33 +483,36 @@ void new_joystick(void)
 
 	/* Read all queued events. */
         while (read(ajoyfd[ajoyport], &e, sizeof(struct js_event))
-	       == sizeof(struct js_event))
-	{
+               == sizeof(struct js_event))
+        {
             switch (e.type & ~JS_EVENT_INIT) {
             case JS_EVENT_BUTTON:
                 joystick_set_value_and(i, ~16); /* reset fire bit */
-                if (e.value)
-		    joystick_set_value_or(i, 16);
-		break;
+                if (e.value) {
+                    joystick_set_value_or(i, 16);
+                }
+                break;
 
-	    case JS_EVENT_AXIS:
+            case JS_EVENT_AXIS:
                 if (e.number == 0) {
-		    joystick_set_value_and(i, 19); /* reset 2 bit */
-		    if (e.value > 16384)
-		        joystick_set_value_or(i, 8);
-		    else if (e.value < -16384)
-		        joystick_set_value_or(i, 4);
-		}
-		if (e.number == 1) {
-		    joystick_set_value_and(i, 28); /* reset 2 bit */
-		    if (e.value > 16384)
-		        joystick_set_value_or(i, 2);
-		    else if (e.value < -16384)
-		        joystick_set_value_or(i, 1);
-		}
-		break;
-	    }
-	}
+                    joystick_set_value_and(i, 19); /* reset 2 bit */
+                    if (e.value > 16384) {
+                        joystick_set_value_or(i, 8);
+                    } else if (e.value < -16384) {
+                        joystick_set_value_or(i, 4);
+                    }
+                }
+                if (e.number == 1) {
+                    joystick_set_value_and(i, 28); /* reset 2 bit */
+                    if (e.value > 16384) {
+                        joystick_set_value_or(i, 2);
+                    } else if (e.value < -16384) {
+                        joystick_set_value_or(i, 1);
+                    }
+                }
+                break;
+            }
+        }
     }
 }
 #endif  /* NEW_JOYSTICK */

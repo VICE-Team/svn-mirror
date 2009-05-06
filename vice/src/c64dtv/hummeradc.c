@@ -226,7 +226,7 @@ log_message(hummeradc_log, "BUG: Unknown command %i.",hummeradc_command);
                 /* TODO:
                     - ADC works only on channel 0
                     - "inertia" (hold down left/right for value++/--), handled elsewhere */
-                switch (joystick_value[c64dtv_hummer_userport_joy_port] & 0x0c) {
+                switch (joystick_value[3] & 0x0c) {
                     case 4:
                         hummeradc_value = 0x00;
                         break;
