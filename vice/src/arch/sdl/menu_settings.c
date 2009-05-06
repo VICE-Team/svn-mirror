@@ -161,6 +161,7 @@ static UI_MENU_CALLBACK(load_hotkeys_callback)
     return NULL;
 }
 
+#ifdef HAVE_SDL_NUMJOYSTICKS
 static UI_MENU_CALLBACK(save_joymap_callback)
 {
     const char *file = NULL;
@@ -196,6 +197,7 @@ static UI_MENU_CALLBACK(load_joymap_callback)
     }
     return NULL;
 }
+#endif
 
 UI_MENU_DEFINE_TOGGLE(SaveResourcesOnExit)
 UI_MENU_DEFINE_TOGGLE(ConfirmOnExit)
@@ -300,6 +302,7 @@ const ui_menu_entry_t settings_manager_menu[] = {
       MENU_ENTRY_OTHER,
       load_hotkeys_callback,
       NULL },
+#ifdef HAVE_SDL_NUMJOYSTICKS
     SDL_MENU_ITEM_SEPARATOR,
     { "Save joystick map",
       MENU_ENTRY_OTHER,
@@ -309,6 +312,7 @@ const ui_menu_entry_t settings_manager_menu[] = {
       MENU_ENTRY_OTHER,
       load_joymap_callback,
       NULL },
+#endif
     SDL_MENU_ITEM_SEPARATOR,
     { "Define UI keys",
       MENU_ENTRY_SUBMENU,

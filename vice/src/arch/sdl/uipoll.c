@@ -74,8 +74,10 @@ SDL_Event sdl_ui_poll_event(const char *what, const char *target, int options, i
     int i;
 
     int allow_keyboard = options & SDL_POLL_KEYBOARD;
-    int allow_joystick = options & SDL_POLL_JOYSTICK;
     int allow_modifier = options & SDL_POLL_MODIFIER;
+#ifdef HAVE_SDL_NUMJOYSTICKS
+    int allow_joystick = options & SDL_POLL_JOYSTICK;
+#endif
 
     sdl_ui_clear();
     i = sdl_ui_print("Polling ", 0, 0);
@@ -96,6 +98,7 @@ SDL_Event sdl_ui_poll_event(const char *what, const char *target, int options, i
                         polling = 0;
                     }
                     break;
+#ifdef HAVE_SDL_NUMJOYSTICKS
                 case SDL_JOYBUTTONDOWN:
                 case SDL_JOYHATMOTION:
                     if (allow_joystick) {
@@ -107,6 +110,7 @@ SDL_Event sdl_ui_poll_event(const char *what, const char *target, int options, i
                         polling = 0;
                     }
                     break;
+#endif
                 default:
                     ui_handle_misc_sdl_event(e);
                     break;

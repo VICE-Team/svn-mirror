@@ -211,6 +211,7 @@ static void sdl_vkbd_key_map(void)
                 keyboard_set_unmap_any((signed long)e.key.keysym.sym);
             }
             break;
+#ifdef HAVE_SDL_NUMJOYSTICKS
         case SDL_JOYAXISMOTION:
         case SDL_JOYBUTTONDOWN:
         case SDL_JOYHATMOTION:
@@ -220,6 +221,7 @@ static void sdl_vkbd_key_map(void)
                 sdljoy_set_keypress(e, mr, mc);
             }
             break;
+#endif
         default:
             break;
     }

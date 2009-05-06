@@ -83,7 +83,9 @@ void vsyncarch_presync(void)
 {
     if (sdl_vkbd_state & SDL_VKBD_ACTIVE) {
         while (sdl_vkbd_process(ui_dispatch_events()));
+#ifdef HAVE_SDL_NUMJOYSTICKS
         sdl_vkbd_process(sdljoy_autorepeat());
+#endif
     } else {
         ui_dispatch_events();
     }

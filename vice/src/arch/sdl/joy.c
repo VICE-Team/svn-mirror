@@ -52,9 +52,13 @@
 #include "uimenu.h"
 #include "vkbd.h"
 
+/* (Used by `keyboard.c').  */
+int joystick_port_map[2];
+
 #define DEFAULT_JOYSTICK_THRESHOLD 10000
 #define DEFAULT_JOYSTICK_FUZZ 1000
 
+#ifdef HAVE_SDL_NUMJOYSTICKS
 static log_t sdljoy_log = LOG_ERR;
 
 /* Autorepeat in menu & vkbd */
@@ -63,9 +67,6 @@ static int autorepeat_delay;
 
 /* Joystick mapping filename */
 static char *joymap_file = NULL;
-
-/* (Used by `keyboard.c').  */
-int joystick_port_map[2];
 
 /* Total number of joysticks */
 static int num_joysticks;
@@ -136,17 +137,11 @@ typedef struct sdljoystick_s sdljoystick_t;
 
 static sdljoystick_t *sdljoystick = NULL;
 
+#endif /* HAVE_SDL_NUMJOYSTICKS */
+
 /* ------------------------------------------------------------------------- */
 
 /* Resources.  */
-
-static int joymap_file_set(const char *val, void *param)
-{
-    if (util_string_set(&joymap_file, val))
-        return 0;
-
-    return joy_arch_mapping_load(joymap_file);
-}
 
 static int joyport1select(int val, void *param)
 {
@@ -160,6 +155,7 @@ static int joyport2select(int val, void *param)
     return 0;
 }
 
+#ifdef HAVE_SDL_NUMJOYSTICKS
 static int set_joystick_threshold(int val, void *param)
 {
     joystick_threshold = val;
@@ -172,21 +168,32 @@ static int set_joystick_fuzz(int val, void *param)
     return 0;
 }
 
+static int joymap_file_set(const char *val, void *param)
+{
+    if (util_string_set(&joymap_file, val))
+        return 0;
+
+    return joy_arch_mapping_load(joymap_file);
+}
+
 static resource_string_t resources_string[] = {
     { "JoyMapFile", NULL, RES_EVENT_NO, NULL,
       &joymap_file, joymap_file_set, (void *)0 },
     { NULL },
 };
+#endif /* HAVE_SDL_NUMJOYSTICKS */
 
 static const resource_int_t resources_int[] = {
     { "JoyDevice1", 0, RES_EVENT_NO, NULL,
       &joystick_port_map[0], joyport1select, NULL },
     { "JoyDevice2", 0, RES_EVENT_NO, NULL,
       &joystick_port_map[1], joyport2select, NULL },
+#ifdef HAVE_SDL_NUMJOYSTICKS
     { "JoyThreshold", DEFAULT_JOYSTICK_THRESHOLD, RES_EVENT_NO, NULL,
       &joystick_threshold, set_joystick_threshold, NULL },
     { "JoyFuzz", DEFAULT_JOYSTICK_FUZZ, RES_EVENT_NO, NULL,
       &joystick_fuzz, set_joystick_fuzz, NULL },
+#endif
     { NULL },
 };
 
@@ -199,6 +206,7 @@ static const cmdline_option_t cmdline_options[] = {
     { "-joydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice2", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-4>", "Set device for joystick port 2" },
+#ifdef HAVE_SDL_NUMJOYSTICKS
     { "-joymap", SET_RESOURCE, 1, NULL, NULL, "JoyMapFile", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       N_("<name>"), "Specify name of joystick map file" },
@@ -208,6 +216,7 @@ static const cmdline_option_t cmdline_options[] = {
     { "-joyfuzz", SET_RESOURCE, 1, NULL, NULL, "JoyFuzz", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-32767>", "Set joystick fuzz" },
+#endif
     { NULL },
 };
 
@@ -217,11 +226,13 @@ int joystick_arch_init_resources(void)
 fprintf(stderr,"%s\n",__func__);
 #endif
 
+#ifdef HAVE_SDL_NUMJOYSTICKS
     resources_string[0].factory_value = archdep_default_joymap_file_name();
 
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
-
+    }
+#endif
     return resources_register_int(resources_int);
 }
 
@@ -235,6 +246,8 @@ fprintf(stderr,"%s\n",__func__);
 }
 
 /* ------------------------------------------------------------------------- */
+
+#ifdef HAVE_SDL_NUMJOYSTICKS
 
 /**********************************************************
  * Generic high level joy routine                         *
@@ -996,3 +1009,27 @@ void sdljoy_swap_ports(void)
     }
 }
 
+/* ------------------------------------------------------------------------- */
+
+#else
+/* !HAVE_SDL_NUMJOYSTICKS */
+
+void sdljoy_swap_ports(void)
+{
+    int i, k;
+
+    resources_get_int("JoyDevice1", &i);
+    resources_get_int("JoyDevice2", &k);
+    resources_set_int("JoyDevice1", k);
+    resources_set_int("JoyDevice2", i);
+}
+
+void joystick_close(void)
+{
+}
+
+int joy_arch_init(void)
+{
+    return 0;
+}
+#endif

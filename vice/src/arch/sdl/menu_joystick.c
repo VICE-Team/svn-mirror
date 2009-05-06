@@ -56,10 +56,12 @@ static const ui_menu_entry_t joystick_port1_device_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_JoyDevice1_callback,
       (ui_callback_data_t)JOYDEV_KEYSET2 },
+#ifdef HAVE_SDL_NUMJOYSTICKS
     { "Joystick",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_JoyDevice1_callback,
       (ui_callback_data_t)JOYDEV_JOYSTICK },
+#endif
     { NULL }
 };
 
@@ -82,10 +84,12 @@ static const ui_menu_entry_t joystick_port2_device_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_JoyDevice2_callback,
       (ui_callback_data_t)JOYDEV_KEYSET2 },
+#ifdef HAVE_SDL_NUMJOYSTICKS
     { "Joystick",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_JoyDevice2_callback,
       (ui_callback_data_t)JOYDEV_JOYSTICK },
+#endif
     { NULL }
 };
 
@@ -165,6 +169,7 @@ static const ui_menu_entry_t define_keyset_menu[] = {
     { NULL }
 };
 
+#ifdef HAVE_SDL_NUMJOYSTICKS
 static const char *joy_pin[] = {
     "Up",
     "Down",
@@ -295,6 +300,7 @@ static const ui_menu_entry_t define_joy_misc_menu[] = {
       (ui_callback_data_t)"Set joystick fuzz (0 - 32767)" },
     { NULL }
 };
+#endif
 
 const ui_menu_entry_t joystick_menu[] = {
     { "Joystick device in port 1",
@@ -318,6 +324,7 @@ const ui_menu_entry_t joystick_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_keyset_menu },
+#ifdef HAVE_SDL_NUMJOYSTICKS
     SDL_MENU_ITEM_SEPARATOR,
     { "Joystick 1 mapping", /* TODO better name */
       MENU_ENTRY_SUBMENU,
@@ -331,6 +338,7 @@ const ui_menu_entry_t joystick_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy_misc_menu },
+#endif
     { NULL }
 };
 
@@ -348,6 +356,7 @@ const ui_menu_entry_t joystick_single_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_keyset_menu },
+#ifdef HAVE_SDL_NUMJOYSTICKS
     SDL_MENU_ITEM_SEPARATOR,
     { "Joystick mapping", /* TODO better name */
       MENU_ENTRY_SUBMENU,
@@ -357,5 +366,6 @@ const ui_menu_entry_t joystick_single_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy_misc_menu },
+#endif
     { NULL }
 };

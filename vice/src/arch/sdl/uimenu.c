@@ -514,6 +514,7 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
                 *c_uni = e.key.keysym.unicode;
                 got_key = 1;
                 break;
+#ifdef HAVE_SDL_NUMJOYSTICKS
             case SDL_JOYAXISMOTION:
                 action = sdljoy_axis_event(e.jaxis.which, e.jaxis.axis, e.jaxis.value);
                 break;
@@ -523,6 +524,7 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
             case SDL_JOYHATMOTION:
                 action = sdljoy_hat_event(e.jhat.which, e.jhat.hat, e.jhat.value);
                 break;
+#endif
             default:
                 ui_handle_misc_sdl_event(e);
                 break;
@@ -645,9 +647,11 @@ ui_menu_action_t sdl_ui_menu_poll_input(void)
     do {
         SDL_Delay(20);
         retval = ui_dispatch_events();
+#ifdef HAVE_SDL_NUMJOYSTICKS
         if (retval == MENU_ACTION_NONE || retval == MENU_ACTION_NONE_RELEASE) {
             retval = sdljoy_autorepeat();
         }
+#endif
     } while (retval == MENU_ACTION_NONE || retval == MENU_ACTION_NONE_RELEASE);
     return retval;
 }

@@ -101,6 +101,7 @@ ui_menu_action_t ui_dispatch_events(void)
             case SDL_KEYUP:
                 retval = sdlkbd_release(e.key.keysym.sym, e.key.keysym.mod);
                 break;
+#ifdef HAVE_SDL_NUMJOYSTICKS
             case SDL_JOYAXISMOTION:
                 retval = sdljoy_axis_event(e.jaxis.which, e.jaxis.axis, e.jaxis.value);
                 break;
@@ -113,6 +114,7 @@ ui_menu_action_t ui_dispatch_events(void)
             case SDL_JOYHATMOTION:
                 retval = sdljoy_hat_event(e.jhat.which, e.jhat.hat, e.jhat.value);
                 break;
+#endif
             case SDL_MOUSEMOTION:
                 if (_mouse_enabled) {
                     mouse_move((int)(e.motion.xrel), (int)(e.motion.yrel));
