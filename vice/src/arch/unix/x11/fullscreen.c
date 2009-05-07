@@ -76,12 +76,18 @@ void fullscreen_suspend(int level)
 #ifdef USE_XF86_VIDMODE_EXT
     vidmode_suspend(level);
 #endif
+#ifdef HAVE_XRANDR
+    xrandr_suspend(level);
+#endif
 }
 
 void fullscreen_resume(void)
 {
 #ifdef USE_XF86_VIDMODE_EXT
     vidmode_resume();
+#endif
+#ifdef HAVE_XRANDR
+    xrandr_resume();
 #endif
 }
 

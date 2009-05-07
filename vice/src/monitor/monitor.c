@@ -2149,6 +2149,11 @@ void monitor_startup(void)
 static void monitor_trap(WORD addr, void *unused_data)
 {
     monitor_startup();
+#ifdef HAVE_FULLSCREEN
+    extern void fullscreen_resume(void);
+    fullscreen_resume();
+#endif
+
 }
 
 void monitor_startup_trap(void)

@@ -36,5 +36,7 @@ int xrandr_mode(struct video_canvas_s *canvase, int mode);
 void xrandr_menu_shutdown(struct ui_menu_entry_s *menu);
 void xrandr_mode_callback(ui_callback_t cb);
 void xrandr_shutdown(void);
+void xrandr_suspend(int level);
+void xrandr_resume(void);
 
 #endif /* __xrandr_h__ */

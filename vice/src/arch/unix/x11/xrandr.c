@@ -53,6 +53,7 @@ static log_t xrandr_log = LOG_ERR;
 static int no_xrandr = 1;
 static int xrandr_active = 0;
 static int xrandr_selected_mode = 0;
+static int xrandr_is_suspended = 0;
 static ui_callback_t menu_callback;
 static ui_menu_entry_t *resolutions_submenu;
 static struct video_canvas_s *current_canvas;
@@ -113,6 +114,32 @@ xrandr_enable(struct video_canvas_s *canvas, int activate)
     ret = set_xrandr(activate);
     x11ui_fullscreen(activate);
     return ret;
+}
+
+void
+xrandr_suspend(int level)
+{
+    if (!xrandr_active)
+	return;
+    if (level > 0)
+        return;
+    if (xrandr_is_suspended > 0)
+        return;
+    xrandr_is_suspended=1;
+    (void) set_xrandr(0);
+    x11ui_fullscreen(0);
+}
+
+void
+xrandr_resume(void)
+{
+    if (xrandr_active)
+	return;
+    if (!xrandr_is_suspended)
+	return;
+    xrandr_is_suspended = 0;
+    (void) set_xrandr(1);
+    x11ui_fullscreen(1);
 }
 
 int
@@ -300,6 +327,7 @@ set_xrandr(int val)
     log_message(xrandr_log, "%s XRandR", 
 		xrandr_active ? "enabling" : "disabling");
     vsync_suspend_speed_eval();
+    
     if (xrandr_active)
     {
 	status = 
