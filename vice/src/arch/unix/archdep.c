@@ -560,8 +560,11 @@ int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
 {
     struct stat statbuf;
 
-    if (stat(file_name, &statbuf) < 0)
+    if (stat(file_name, &statbuf) < 0) {
+        *len = 0;
+        *isdir = 0;
         return -1;
+    }
 
     *len = statbuf.st_size;
     *isdir = S_ISDIR(statbuf.st_mode);
