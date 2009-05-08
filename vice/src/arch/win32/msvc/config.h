@@ -6,7 +6,7 @@
 #define FEATURE_CPUMEMHISTORY 1
 #define HAVE_WORKING_VSNPRINTF
 
-#if defined _MSC_VER && _MSC_VER < 1300 
+#if defined _MSC_VER && _MSC_VER < 1500 
 # define vsnprintf _vsnprintf
 #endif
 
