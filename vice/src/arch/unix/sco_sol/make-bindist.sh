@@ -137,10 +137,14 @@ if test x"$ZIPKIND" = "xzip"; then
         arch_cpu=x86
     fi
     else
-      if test x"$cpu_is_64bit" = "x64-bit"; then
-        arch_cpu=sparc64
+      if test x"$arch_cpu" = "xs390"; then
+        arch_cpu=s390
       else
-        arch_cpu=sparc
+        if test x"$cpu_is_64bit" = "x64-bit"; then
+          arch_cpu=sparc64
+        else
+          arch_cpu=sparc
+        fi
       fi
     fi
 
