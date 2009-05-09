@@ -139,7 +139,7 @@ UI_CALLBACK(ui_keyset_dialog) {
         gtk_widget_show(button[i]);
         gtk_widget_show(label[i]);
         g_signal_connect(G_OBJECT(button[i]), "pressed",
-			 GTK_SIGNAL_FUNC(ui_keybutton_pressed),
+			 G_CALLBACK(ui_keybutton_pressed),
 			 (gpointer) button);
     }
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(keyset_dialog)->vbox), keyset1, FALSE, FALSE, 0);
@@ -169,7 +169,7 @@ UI_CALLBACK(ui_keyset_dialog) {
     gtk_widget_show(titlelabel2);
     gtk_widget_show(ruler);
     g_signal_connect(G_OBJECT(keyset_dialog), "key-press-event",
-		     GTK_SIGNAL_FUNC(ui_change_key),
+		     G_CALLBACK(ui_change_key),
 		     (gpointer) &k);
     res = gtk_dialog_run(GTK_DIALOG(keyset_dialog));
     if (res == GTK_RESPONSE_OK) {

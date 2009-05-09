@@ -120,17 +120,17 @@ void ui_about(gpointer data)
 	button = gtk_dialog_add_button(GTK_DIALOG(about), _("License"), 
 				       GTK_RESPONSE_OK);
 	g_signal_connect(GTK_OBJECT(button), "clicked",
-			   GTK_SIGNAL_FUNC(license_cb), NULL);
+			   G_CALLBACK(license_cb), NULL);
 	button = gtk_dialog_add_button(GTK_DIALOG(about), _("Warranty"),
 				       GTK_RESPONSE_OK);
 	g_signal_connect(GTK_OBJECT(button), "clicked",
-			 GTK_SIGNAL_FUNC(warranty_cb), NULL);
+			 G_CALLBACK(warranty_cb), NULL);
 	button = gtk_dialog_add_button(GTK_DIALOG(about),_("Contributors"),
 				       GTK_RESPONSE_OK);
 	g_signal_connect(GTK_OBJECT(button), "clicked",
-			 GTK_SIGNAL_FUNC(contrib_cb), NULL);
+			 G_CALLBACK(contrib_cb), NULL);
  	g_signal_connect(G_OBJECT(about), "response",
-			 GTK_SIGNAL_FUNC(response_cb), about);
+			 G_CALLBACK(response_cb), about);
     }
     else
     {

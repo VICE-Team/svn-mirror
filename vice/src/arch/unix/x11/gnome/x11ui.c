@@ -323,8 +323,8 @@ void initBlankCursor() {
     GdkBitmap *source = gdk_bitmap_create_from_data (NULL, cursor, 1, 1);
     GdkBitmap *mask = gdk_bitmap_create_from_data (NULL, cursor, 1, 1);
     blankCursor = gdk_cursor_new_from_pixmap (source, mask, &fg, &bg, 1, 1);
-    gdk_pixmap_unref (source);
-    gdk_pixmap_unref (mask);
+    g_object_unref (source);
+    g_object_unref (mask);
 }
 
 /* ------------------------------------------------------------------------- */
