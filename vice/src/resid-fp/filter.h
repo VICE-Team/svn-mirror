@@ -205,7 +205,7 @@ friend class SIDFP;
 // ----------------------------------------------------------------------------
 
 const float sidcaps_6581 = 470e-12f;
-const float outputleveldifference = 1.22f;
+const float outputleveldifference = 1.5f;
 
 RESID_INLINE
 static float fastexp(float val) {
@@ -323,7 +323,6 @@ float FilterFP::clock(float voice1,
     if (model == MOS6581FP) {
         /* output strip mixing to filter state */
         float lpleak = Vi * distortion_rate + Vhp + Vlp - Vbp * _1_div_Q;
-        lpleak *= 0.7f;
         if (hp_bp_lp & 2) {
             Vbp += (Vf - Vbp) * distortion_cf_threshold;
             Vf -= lpleak;
@@ -353,10 +352,10 @@ float FilterFP::clock(float voice1,
         Vbp += (lpleak - Vbp) * distortion_cf_threshold * _1_div_Q;
         Vhp += (lpleak - Vhp) * distortion_cf_threshold;
 
-	Vlp -= Vbp * type3_w0(Vbp - lpleak * 0.19f - type3_fc_distortion_offset) * outputleveldifference;
-	Vbp -= Vhp * type3_w0(Vhp - type3_fc_distortion_offset) * outputleveldifference;
-	Vhp = Vbp * _1_div_Q * (1.f/outputleveldifference)
-            - Vlp * (1.f/outputleveldifference/outputleveldifference)
+	Vlp -= Vbp * type3_w0(Vbp - type3_fc_distortion_offset) * outputleveldifference;
+	Vbp -= Vhp * type3_w0(Vhp - type3_fc_distortion_offset);
+	Vhp = Vbp * _1_div_Q
+            - Vlp * (1.f/outputleveldifference)
         /* the loss of level by about half is likely due to feedback
          * between Vhp amp input and output. */
             - Vi * distortion_rate;
