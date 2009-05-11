@@ -157,7 +157,7 @@ static int     use_old_api=1;
 #define JS_DATA_TYPE joystick
 #define JS_RETURN    sizeof(struct joystick)
 int     use_old_api=1;
-#elif
+#else
 #error Unknown Joystick
 #endif
 
