@@ -339,19 +339,6 @@ float FilterFP::clock(float voice1,
             Vf -= (Vf - 3.2e6f) / 2.f;
         }
 
-        /* The resonance control somehow also forms a circuit that causes
-         * partial lack of compensation for the lowpass signal in the bp.
-         * output. It doesn't occur during res=0, but seems to increase
-         * steadily until res=0xF is reached. This might indicate that the
-         * distortion term is proportional to the bandpass contribution, as
-         * for ideal filter Vi + Vhp + Vlp - Vbp = 0 when Q = sqrt(2)/2.
-         * The lpleak approximates the level in the vertical strip of n-well
-         * layer above the bp FET block between lp and bp amplifiers.
-         */
-        Vlp += (lpleak - Vlp) * distortion_cf_threshold;
-        Vbp += (lpleak - Vbp) * distortion_cf_threshold * _1_div_Q;
-        Vhp += (lpleak - Vhp) * distortion_cf_threshold;
-
 	Vlp -= Vbp * type3_w0(Vbp - type3_fc_distortion_offset) * outputleveldifference;
 	Vbp -= Vhp * type3_w0(Vhp - type3_fc_distortion_offset);
 	Vhp = Vbp * _1_div_Q
