@@ -36,8 +36,8 @@ Some missing features that are available in (some of) the native versions:
  - TFE/RRnet support
  - shared lib support
  - block device support
- - opencbm support
- - catweasel SID support
+ - OpenCBM support
+ - Catweasel SID support
  - HardSID support
  - ParSID support
  
@@ -53,18 +53,18 @@ The SDL port has been tested to work on:
  - GP2X / arm (needs fixing)
  - Linux / alpha, amd64/x86_64, arm, armeb, avr32, hppa, ia64, m68k, mips,
            mipsel, ppc, ppc64, s390, s390x, sh3, sh4, sparc, sparc64, x86
- - Morphos / ppc
+ - MorphOS / ppc
  - NetBSD / alpha, amd64/x86_64, arm, hppa, m68010 (libaa only), m68k, mipseb,
             mipsel, ns32k, ppc, sh3eb, sh3le, sparc, sparc64, vax, x86
  - OpenBSD / alpha, amd64/x86_64, arm, hppa, ppc, sh4, sparc64, x86
- - Openserver / x86
+ - OpenServer / x86
  - QNX 6.x / armle, mipsle, ppcbe, shle, x86
  - SkyOS / x86
  - Solaris / amd64/x86_64, sparc, sparc64, x86
  - Syllable / x86
  - Tru64 4.x / alpha
  - uClinux / m68000
- - Unixware / x86
+ - UnixWare / x86
  - Win32 / x86
  - Win64 / ia64, x64
  - Zaurus (qt) / arm
