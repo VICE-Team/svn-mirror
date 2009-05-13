@@ -660,7 +660,7 @@ static int ffmpegdrv_save(screenshot_t *screenshot, const char *filename)
 
 static int ffmpegdrv_close(screenshot_t *screenshot)
 {
-    int i;
+    unsigned int i;
 
     soundmovie_stop();
 

@@ -38,8 +38,8 @@
 #include "types.h"
 #include "uimon.h"
 
-const char *mon_disassemble_to_string_internal(MEMSPACE memspace, WORD addr,
-                                               BYTE x, BYTE p1, BYTE p2, BYTE p3,
+const char *mon_disassemble_to_string_internal(MEMSPACE memspace, unsigned int addr,
+                                               unsigned int x, unsigned int p1, unsigned int p2, unsigned int p3,
                                                int hex_mode, unsigned *opc_size_p, monitor_cpu_type_t *mon_cpu_type)
 {
     static char buff[256];
@@ -333,16 +333,16 @@ const char *mon_disassemble_to_string_internal(MEMSPACE memspace, WORD addr,
     return buff;
 }
 
-const char *mon_disassemble_to_string(MEMSPACE memspace, WORD addr,
-                                      BYTE x, BYTE p1, BYTE p2, BYTE p3,
+const char *mon_disassemble_to_string(MEMSPACE memspace, unsigned int addr,
+                                      unsigned int x, unsigned int p1, unsigned int p2, unsigned int p3,
                                       int hex_mode, const char *cpu_type)
 {
     return mon_disassemble_to_string_internal(memspace, addr, x, p1, p2, p3, 
         hex_mode, NULL, monitor_find_cpu_type_from_string(cpu_type));
 }
 
-const char *mon_disassemble_to_string_ex(MEMSPACE memspace, WORD addr,
-                                         BYTE x, BYTE p1, BYTE p2, BYTE p3,
+const char *mon_disassemble_to_string_ex(MEMSPACE memspace, unsigned int addr,
+                                         unsigned int x, unsigned int p1, unsigned int p2, unsigned int p3,
                                          int hex_mode, unsigned *opc_size_p)
 {
     return mon_disassemble_to_string_internal(memspace, addr, x, p1, p2, p3, 

@@ -1372,20 +1372,20 @@ static const asm_opcode_info_t opcode_list_fd[] = {
     /* ff */ { "RST 38",     ASM_ADDR_MODE_IMPLIED }
 };
 
-static const asm_opcode_info_t *asm_opcode_info_get(BYTE p0, BYTE p1, BYTE p2)
+static const asm_opcode_info_t *asm_opcode_info_get(unsigned int p0, unsigned int p1, unsigned int p2)
 {
     if (p0 == 0xcb)
-        return opcode_list_cb + (unsigned int)p1;
+        return opcode_list_cb + p1;
     if (p0 == 0xdd)
-        return opcode_list_dd + (unsigned int)p1;
+        return opcode_list_dd + p1;
     if (p0 == 0xed)
-        return opcode_list_ed + (unsigned int)p1;
+        return opcode_list_ed + p1;
     if (p0 == 0xfd)
-        return opcode_list_fd + (unsigned int)p1;
-    return opcode_list + (unsigned int)p0;
+        return opcode_list_fd + p1;
+    return opcode_list + p0;
 }
 
-static unsigned int asm_addr_mode_get_size(unsigned int mode, BYTE p0, BYTE p1)
+static unsigned int asm_addr_mode_get_size(unsigned int mode, unsigned int p0, unsigned int p1)
 {
     if (p0 == 0xcb)
         return addr_mode_size[mode] + 1;

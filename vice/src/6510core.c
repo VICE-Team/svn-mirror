@@ -1911,9 +1911,9 @@ static const BYTE rewind_fetch_tab[] = {
         }
 #endif
         if(p0 == 0x20) {
-            monitor_cpuhistory_store(reg_pc, (BYTE)(p0), (BYTE)(p1), (BYTE)(LOAD(reg_pc+2)));
+            monitor_cpuhistory_store(reg_pc, p0, p1, LOAD(reg_pc+2));
         } else {
-            monitor_cpuhistory_store(reg_pc, (BYTE)(p0), (BYTE)(p1), (BYTE)(p2 >> 8));
+            monitor_cpuhistory_store(reg_pc, p0, p1, p2 >> 8);
         }
         memmap_state &= ~(MEMMAP_STATE_INSTR | MEMMAP_STATE_OPCODE);
 #endif
@@ -1928,7 +1928,7 @@ static const BYTE rewind_fetch_tab[] = {
 
             debug_drive((DWORD)(reg_pc), debug_clk,
                         mon_disassemble_to_string(e_disk8_space,
-                                                  (WORD) reg_pc, op,
+                                                  reg_pc, op,
                                                   lo, hi, 0, 1, "6502"), 
                         reg_a_read, reg_x, reg_y, reg_sp);
         }
@@ -1940,7 +1940,7 @@ static const BYTE rewind_fetch_tab[] = {
 
             debug_maincpu((DWORD)(reg_pc), debug_clk,
                           mon_disassemble_to_string(e_comp_space,
-                                                    (WORD) reg_pc, op,
+                                                    reg_pc, op,
                                                     lo, hi, 0, 1, "6502"),
                           reg_a_read, reg_x, reg_y, reg_sp);
         }

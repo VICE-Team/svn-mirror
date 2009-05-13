@@ -279,7 +279,7 @@ static int pcxdrv_close_memmap(BYTE *palette)
 static int pcxdrv_write_memmap(int line, int x_size, BYTE *gfx)
 {
   BYTE color,amount;
-  unsigned int i,j=0;
+  int i,j=0;
 
   color=gfx[(line*x_size)];
   amount=1;

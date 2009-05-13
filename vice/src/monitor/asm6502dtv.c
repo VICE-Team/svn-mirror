@@ -328,13 +328,13 @@ static const asm_opcode_info_t opcode_list[] = {
     /* ff */ { "ISB",   ASM_ADDR_MODE_ABSOLUTE_X }
 };
 
-static const asm_opcode_info_t *asm_opcode_info_get(BYTE p0, BYTE p1, BYTE p2)
+static const asm_opcode_info_t *asm_opcode_info_get(unsigned int p0, unsigned int p1, unsigned int p2)
 {
-    return opcode_list + (unsigned int)p0;
+    return opcode_list + p0;
 }
 
-static unsigned int asm_addr_mode_get_size(unsigned int mode, BYTE p0,
-                                                 BYTE p1)
+static unsigned int asm_addr_mode_get_size(unsigned int mode, unsigned int p0,
+                                                 unsigned int p1)
 {
     return addr_mode_size[mode];
 }

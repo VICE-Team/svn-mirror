@@ -345,13 +345,13 @@ static const char *extensions[] = {
     NULL
 };
 
-static int is_valid_extension(char *end, int l, int nameoffset)
+static int is_valid_extension(char *end, size_t l, int nameoffset)
 {
     int i;
     size_t len;
 
     /* zipcode testing is a special case */
-    if (l > nameoffset + 2 && is_zipcode_name(end + nameoffset))
+    if (l > nameoffset + 2u && is_zipcode_name(end + nameoffset))
         return 1;
     /* others */
     for (i = 0; extensions[i]; i++) {

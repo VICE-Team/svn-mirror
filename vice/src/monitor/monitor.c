@@ -655,7 +655,7 @@ void mon_backtrace(void)
 cpuhistory_t cpuhistory[CPUHISTORY_SIZE];
 int cpuhistory_i;
 
-void monitor_cpuhistory_store(WORD addr, BYTE op, BYTE p1, BYTE p2)
+void monitor_cpuhistory_store(unsigned int addr, unsigned int op, unsigned int p1, unsigned int p2)
 {
     ++cpuhistory_i;
     cpuhistory_i &= (CPUHISTORY_SIZE-1);
@@ -743,7 +743,7 @@ void mon_memmap_zap(void)
 void mon_memmap_show(int mask, MON_ADDR start_addr, MON_ADDR end_addr)
 {
 #ifdef FEATURE_CPUMEMHISTORY
-    int i;
+    unsigned int i;
     BYTE b;
 
     if(machine_class == VICE_MACHINE_C64DTV) {
@@ -787,7 +787,7 @@ void mon_memmap_show(int mask, MON_ADDR start_addr, MON_ADDR end_addr)
 #endif
 }
 
-void monitor_memmap_store(unsigned int addr, BYTE type)
+void monitor_memmap_store(unsigned int addr, unsigned int type)
 {
     BYTE op = cpuhistory[cpuhistory_i].op;
 

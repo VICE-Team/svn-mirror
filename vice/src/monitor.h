@@ -66,10 +66,10 @@ struct interrupt_cpu_status_s;
 
 struct monitor_cpu_type_s {
     CPU_TYPE_t cpu_type;
-    unsigned int (*asm_addr_mode_get_size)(unsigned int mode, BYTE p0,
-                                           BYTE p1);
-    const struct asm_opcode_info_s *(*asm_opcode_info_get)(BYTE p0, BYTE p1,
-                                                           BYTE p2);
+    unsigned int (*asm_addr_mode_get_size)(unsigned int mode, unsigned int p0,
+                                           unsigned int p1);
+    const struct asm_opcode_info_s *(*asm_opcode_info_get)(unsigned int p0, unsigned int p1,
+                                                           unsigned int p2);
     int (*mon_assemble_instr)(const char *opcode_name, unsigned int operand);
     unsigned int (*mon_register_get_val)(int mem, int reg_id);
     void (*mon_register_set_val)(int mem, int reg_id, WORD val);
@@ -169,8 +169,8 @@ extern int monitor_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr,
 
 /** Disassemble interace */
 /* Prototypes */
-extern const char *mon_disassemble_to_string(MEMSPACE, WORD addr, BYTE x,
-                                             BYTE p1, BYTE p2, BYTE p3,
+extern const char *mon_disassemble_to_string(MEMSPACE, unsigned int addr, unsigned int x,
+                                             unsigned int p1, unsigned int p2, unsigned int p3,
                                              int hex_mode,
                                              const char *cpu_type);
 
@@ -195,8 +195,8 @@ typedef struct monitor_cartridge_commands_s monitor_cartridge_commands_t;
 extern monitor_cartridge_commands_t mon_cart_cmd;
 
 /* CPU history/memmap prototypes */
-extern void monitor_cpuhistory_store(WORD addr, BYTE op, BYTE p1, BYTE p2);
-extern void monitor_memmap_store(unsigned int addr, BYTE type);
+extern void monitor_cpuhistory_store(unsigned int addr, unsigned int op, unsigned int p1, unsigned int p2);
+extern void monitor_memmap_store(unsigned int addr, unsigned int type);
 
 /* memmap defines */
 #define MEMMAP_I_O_R 0x80

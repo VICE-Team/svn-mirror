@@ -165,7 +165,7 @@ static int ppmdrv_close_memmap(void)
 
 static int ppmdrv_write_memmap(int line, int x_size, BYTE *gfx, BYTE *palette)
 {
-  unsigned int i;
+  int i;
   BYTE pixval;
 
   for (i = 0; i<x_size; i++)
