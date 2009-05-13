@@ -386,6 +386,12 @@ HWND iOpenGeneric(HWND hwnd, DWORD dwStyleMDI, DWORD dwStylePopup,
     else {
         MDICREATESTRUCT mcs = { 0 };
 
+        if (x == CW_USEDEFAULT)
+            x = 0;
+
+        if (y == CW_USEDEFAULT)
+            y = 0;
+
         mcs.szTitle = WindowName;
         mcs.szClass = CONTENTS_CLASS;
         mcs.style   = dwStyleMDI;
@@ -422,7 +428,7 @@ static
 HWND OpenDisassembly( HWND hwnd )
 {
     // @SRT: TODO: Adjust parameter!
-    return iOpenDisassembly( hwnd, 0, 0, 0, 300, 300 );
+    return iOpenDisassembly( hwnd, 0, CW_USEDEFAULT, CW_USEDEFAULT, 300, 300 );
 }
 
 static
@@ -437,7 +443,7 @@ static
 HWND OpenMemory( HWND hwnd )
 {
     // @SRT: TODO: Adjust parameter!
-    return iOpenMemory( hwnd, 0, 0, 0, 300, 300 );
+    return iOpenMemory( hwnd, 0, CW_USEDEFAULT, CW_USEDEFAULT, 300, 300 );
 }
 
 static
@@ -2441,8 +2447,8 @@ console_t *uimon_window_open( void )
 #ifdef UIMON_EXPERIMENTAL
 
     WindowDimensions *wd;
-    int x  = 0;
-    int y  = 0;
+    int x  = CW_USEDEFAULT;
+    int y  = CW_USEDEFAULT;
     int dx = 472;
     int dy = (dx * 3) / 4;
 
