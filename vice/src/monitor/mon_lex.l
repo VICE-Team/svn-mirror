@@ -81,6 +81,7 @@ HDIGIT  [0-9a-fA-F]
 %}
 
 <CMD>{
+        ";"             { BEGIN(ROL);           return CMD_COMMENT; }
         ~               { BEGIN(INITIAL);       return CONVERT_OP; }
         >               { BEGIN(INITIAL);       return CMD_ENTER_DATA; }
         @               { BEGIN(ROL);           return CMD_DISK; }
