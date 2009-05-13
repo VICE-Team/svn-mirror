@@ -52,7 +52,7 @@ The SDL port has been tested to work on:
  - FreeBSD / alpha, amd64/x86_64, ia64, ppc, sparc64, x86
  - GP2X / arm (needs fixing)
  - Linux / alpha, amd64/x86_64, arm, armeb, avr32, hppa, ia64, m68k, mips,
-           mipsel, mips64el, ppc, ppc64, s390, s390x, sh3, sh4, sparc,
+           mipsel, mips64, mips64el, ppc, ppc64, s390, s390x, sh3, sh4, sparc,
            sparc64, x86
  - MorphOS / ppc
  - NetBSD / alpha, amd64/x86_64, arm, hppa, m68010 (libaa only), m68k, mipseb,
