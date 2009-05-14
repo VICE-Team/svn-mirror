@@ -82,6 +82,7 @@
 #include "types.h"
 #include "uiapi.h"
 #include "uimon.h"
+#include "util.h"
 #include "vsync.h"
 
 
@@ -883,6 +884,7 @@ void mon_show_dir(const char *path)
     struct ioutil_dir_s *dir;
     char *name;
     char *mpath;
+    char *fullname;
 
     if (path) {
         mpath=(char *)path;
@@ -900,7 +902,13 @@ void mon_show_dir(const char *path)
     while ( (name = ioutil_readdir(dir)) ) {
         unsigned int len, isdir;
         int ret;
-        ret = ioutil_stat(name, &len, &isdir);
+        if (path) {
+            fullname = util_concat(path, FSDEV_DIR_SEP_STR, name, NULL);
+            ret = ioutil_stat(fullname, &len, &isdir);
+            lib_free(fullname);
+        } else {
+            ret = ioutil_stat(name, &len, &isdir);
+        }
         if (!ret) {
             if (isdir)
                 mon_out("     <dir> %s\n", name);
