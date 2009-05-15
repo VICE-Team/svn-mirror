@@ -1124,6 +1124,7 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     mon_ioreg_add_list(&mem_ioreg_list, "VIC-IIe", 0xd000, 0xd030);
     mon_ioreg_add_list(&mem_ioreg_list, "SID", 0xd400, 0xd41f);
     mon_ioreg_add_list(&mem_ioreg_list, "MMU", 0xd500, 0xd50b);
+    mon_ioreg_add_list(&mem_ioreg_list, "VDC", 0xd600, 0xd601);
     mon_ioreg_add_list(&mem_ioreg_list, "CIA1", 0xdc00, 0xdc0f);
     mon_ioreg_add_list(&mem_ioreg_list, "CIA2", 0xdd00, 0xdd0f);
 
