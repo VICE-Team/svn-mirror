@@ -91,30 +91,65 @@ static void init_drawing_tables(void)
 inline static BYTE get_attr_char_data(BYTE c, BYTE a, int l, BYTE *char_mem,
                                       int bytes_per_char, int blink,
                                       int revers, int curpos, int index)
+                                      /* c = character, a = attributes, l = line of char required , char_mem = pointer to character memory
+                                      bytes_per_char = number of bytes per char definition
+                                      blink / revers - these don't seem to be used
+                                      curpos = where in the screen memory the cursor is
+                                      index = where in the screen memory we are, to check against the cursor */
 {
     BYTE data;
-	static BYTE mask[16] = { 0x80, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC, 0xFE, 0x00,
-		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
-	static BYTE crsrblink[4] = { 0x01, 0x00, 0x08, 0x10 };
+    /* bit mask used for register 22, to determine the number of pixels in a char actually displayed */
+    /* The 8th value is 0x00 (no pixels) instead of 0xFF (all pixels) as might be expected as this results in blank chars on real VDC */
+    static const BYTE mask[16] = { 0x80, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC, 0xFE, 0x00,
+                             0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+    static const BYTE semigfxtest[16] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01,
+                                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+    static const BYTE semigfxmask[16] = { 0x7F, 0x3F, 0x1F, 0x0F, 0x07, 0x03, 0x01, 0x00,
+                                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+    static const BYTE crsrblink[4] = { 0x01, 0x00, 0x08, 0x10 }; /* solid cursor (no blink), no cursor, 1/16 refresh blink, 1/32 refresh blink */
 
-    if (a & VDC_ALTCHARSET_ATTR)
+    if (a & VDC_ALTCHARSET_ATTR) { /* swich to alternate charset if appropriate attribute bit set */
         char_mem += 0x1000;
+    }
 
-	if (l > vdc.regs[23]) data = 0x00;
-	else data = char_mem[(c * bytes_per_char) + l] & mask[vdc.regs[22] & 0x0F];
-	if ((l == vdc.regs[29]) && (a & VDC_UNDERLINE_ATTR)) data = 0xFF;
-	if ((a & VDC_FLASH_ATTR) && (vdc.attribute_blink)) data = 0x00; /* underline byte also blinks! */
-	if (a & VDC_REVERSE_ATTR) data ^= 0xFF;
-	if (vdc.regs[24] & 0x40) data ^= 0xFF;
+    if (l > vdc.regs[23]) {
+        data = 0x00; /* Return nothing if > Vertical Character Pxl Spc (?) */
+    } else {
+        data = char_mem[(c * bytes_per_char) + l] & mask[vdc.regs[22] & 0x0F]; /* pixels per char mask */
+    }
 
-	/* on a 80x25 text screen (2000 characters) this is only true for 1 character. */
-	if (curpos == index) {
-		/* invert anything at all? */
-		if ((vdc.frame_counter | 1) & crsrblink[(vdc.regs[10] >> 5) & 3]) {
-			/* invert current byte of the character? */
-			if ((l >= (vdc.regs[10] & 0x1F)) && (l < (vdc.regs[11] & 0x1F))) data ^= 0xFF;
-		}
-	}
+    if ((l == vdc.regs[29]) && (a & VDC_UNDERLINE_ATTR)) {
+        data = 0xFF; /* TODO - figure out if the pixels per char applies to the underline */
+    }
+
+    if ((a & VDC_FLASH_ATTR) && (vdc.attribute_blink)) {
+        data = 0x00; /* underline byte also blinks! */
+    }
+
+    if (vdc.regs[25] & 0x20) { /* Semi-graphics mode */
+        if (data & semigfxtest[ vdc.regs[22] & 0x0F ]) { /* if the far right pixel is on.. */
+            data |= semigfxmask[ vdc.regs[22] & 0x0F ]; /* mask the rest of the right hand side on */
+        }
+    }
+
+    if (a & VDC_REVERSE_ATTR) {
+        data ^= 0xFF; /* reverse attribute set */
+    }
+
+    if (vdc.regs[24] & 0x40) {
+        data ^= 0xFF; /* Reverse screen bit */
+    }
+
+    /* on a 80x25 text screen (2000 characters) this is only true for 1 character. */
+    if (curpos == index) {
+        /* invert anything at all? */
+        if ((vdc.frame_counter | 1) & crsrblink[(vdc.regs[10] >> 5) & 3]) {
+            /* invert current byte of the character? */
+            if ((l >= (vdc.regs[10] & 0x1F)) && (l < (vdc.regs[11] & 0x1F))) {
+                data ^= 0xFF; /* The VDC cursor reverses the char */
+            }
+        }
+    }
 
     return data;
 }
@@ -274,9 +309,9 @@ static int get_std_text(raster_cache_t *cache, unsigned int *xs,
      */
     int r, cursor_pos = -1;
 
-	cursor_pos = vdc.crsrpos - vdc.mem_counter;
+    cursor_pos = vdc.crsrpos - vdc.mem_counter;
 
-    if (vdc.regs[25] & 0x40) {
+    if (vdc.regs[25] & 0x40) { /* attribute mode */
         r = cache_data_fill_attr_text(cache->foreground_data,
                                 vdc.ram + vdc.screen_adr + vdc.mem_counter,
                                 vdc.ram + vdc.attribute_adr + vdc.mem_counter,
@@ -295,7 +330,7 @@ static int get_std_text(raster_cache_t *cache, unsigned int *xs,
                                 1,
                                 xs, xe,
                                 rr);
-    } else {
+    } else { /* monochrome mode - attributes from register 26 */
         r = cache_data_fill_attr_text_const(cache->foreground_data,
                                 vdc.ram + vdc.screen_adr + vdc.mem_counter,
                                 (BYTE)(vdc.regs[26] & 0x0f),
@@ -385,14 +420,6 @@ static void draw_std_text(void)
 static int get_std_bitmap(raster_cache_t *cache, unsigned int *xs,
                           unsigned int *xe, int rr)
 {
-    /* fill the line cache in text mode.
-       The VDC combines text mode from
-       a) the video RAM
-          in conjunction with
-       b) the character RAM
-
-       c) the attribute RAM
-     */
     int r;      /* return value */
 
     r = cache_data_fill(cache->foreground_data,
@@ -403,7 +430,7 @@ static int get_std_bitmap(raster_cache_t *cache, unsigned int *xs,
                         rr,
                         (vdc.regs[24] & VDC_REVERSE_ATTR) ? 0xff : 0x0);
 
-    if (vdc.regs[25] & 0x40)
+    if (vdc.regs[25] & 0x40) { /* attribute mode */
         r |= raster_cache_data_fill(cache->color_data_1,
                                     vdc.ram + vdc.attribute_adr
                                     + vdc.mem_counter,
@@ -411,12 +438,13 @@ static int get_std_bitmap(raster_cache_t *cache, unsigned int *xs,
                                     1,
                                     xs, xe,
                                     rr);
-    else
+    } else { /* monochrome mode - attributes from register 26 */
         r |= raster_cache_data_fill_const(cache->color_data_1,
                                           (BYTE)(vdc.regs[26] >> 4),
                                           (int)vdc.screen_text_cols,
                                           xs, xe,
                                           rr);
+    }
     return r;
 }
 
@@ -431,7 +459,7 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, unsigned int xs,
     p = vdc.raster.draw_buffer_ptr + vdc.border_width
         + vdc.raster.xsmooth + xs * 8;
 
-    if (vdc.regs[25] & 0x40) {
+    if (vdc.regs[25] & 0x40) { /* attribute mode */
         for (i = xs; i <= (unsigned int)xe; i++, p += 8) {
             int d = cache->foreground_data[i];
 
@@ -441,7 +469,7 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, unsigned int xs,
             *((DWORD *)p) = *(ptr + (d >> 4));
             *((DWORD *)p + 1) = *(ptr + (d & 0x0f));
         }
-    } else {
+    } else { /* monochrome mode - attributes from register 26 */
         table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
 
         for (i = xs; i <= (unsigned int)xe; i++, p += 8) {
@@ -473,18 +501,19 @@ static void draw_std_bitmap(void)
         DWORD *ptr;
         int d;
 
-        if (vdc.regs[25] & 0x40) {
+        if (vdc.regs[25] & 0x40) { /* attribute mode */
             table_ptr = hr_table + (*(attr_ptr + i) & 0xf0);
             ptr = table_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
-        } else {
+        } else { /* monochrome mode - attributes from register 26 */
             table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
             ptr = table_ptr + ((vdc.regs[26] & 0xf0) << 4);
         }
 
         d = *(bitmap_ptr + i);
 
-        if (vdc.regs[24] & VDC_REVERSE_ATTR)
+        if (vdc.regs[24] & VDC_REVERSE_ATTR) { /* reverse screen bit */
             d ^= 0xff;
+        }
 
         *((DWORD *)p) = *(ptr + (d >> 4));
         *((DWORD *)p + 1) = *(ptr + (d & 0x0f));

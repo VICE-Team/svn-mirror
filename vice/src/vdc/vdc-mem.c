@@ -82,7 +82,7 @@ static void vdc_perform_fillcopy(void)
         vdc.regs[31] = vdc.ram[(ptr2 - 1) & vdc.vdc_address_mask];
         vdc.regs[32] = (ptr2 >> 8) & 0xff;
         vdc.regs[33] = ptr2 & 0xff;
-    } else {
+    } else { /* FILL */
 #ifdef REG_DEBUG
         log_message(vdc.log, "Fill mem %04x, len %03x, data %02x",
                     ptr, blklen, vdc.regs[31]);
@@ -108,7 +108,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
     machine_handle_pending_alarms(maincpu_rmw_flag + 1);
 
     /* $d600 sets the internal vdc address pointer */
-    if ((addr & 1) == 0) {
+    if ((addr & 1) == 0) {  /* writing to $d600   */
 #ifdef REG_DEBUG
         /*log_message(vdc.log, "STORE $D600 %02x", value);*/
 #endif
@@ -116,6 +116,8 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         return;
     }
 
+    /* otherwise we are writing to $d601
+    save the old register value in case we need it for reference */
     oldval = vdc.regs[vdc.update_reg];
 
     /* $d601 sets the vdc register indexed by the update register pointer */
@@ -260,8 +262,11 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 24:
-		if (vdc.regs[24] & 0x20) vdc.attribute_blink = vdc.frame_counter & 16;
-		else vdc.attribute_blink = vdc.frame_counter & 8;
+        if (vdc.regs[24] & 0x20) {
+            vdc.attribute_blink = vdc.frame_counter & 16;
+        } else {
+            vdc.attribute_blink = vdc.frame_counter & 8;
+        }
 
         if ((vdc.regs[24] & 0x1f) != (oldval & 0x1f))
             vdc.update_geometry = 1;
@@ -291,7 +296,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         log_message(vdc.log, "Color source: %s.",
                     (vdc.regs[25] & 0x40) ? "attribute space" : "register 26");
         if (vdc.regs[25] & 0x20)
-            log_message(vdc.log, "Semi-Graphics Mode unsupported!");
+            log_message(vdc.log, "Semi-Graphics Mode");
         if (vdc.regs[25] & 0x10)
             log_message(vdc.log, "Double-Pixel Mode unsupported!");
 #endif
@@ -379,10 +384,30 @@ BYTE REGPARM1 vdc_read(WORD addr)
                 return vdc.regs[28] | 0x0f;
         }
 
-        if (vdc.update_reg < 37)
-            return vdc.regs[vdc.update_reg];
+        if (vdc.update_reg < 37) {
+            switch (vdc.update_reg) { /* set the unused bits in the returned register value like a real VDC */
+                case 10:
+                    return (vdc.regs[vdc.update_reg] | 0x80); /* top bit set */
 
-        return 0xff;
+                case 5:
+                case 9:
+                case 11:
+                case 23:
+                case 29:
+                    return (vdc.regs[vdc.update_reg] | 0xE0); /* top 3 bits set */
+
+                case 36:
+                    return (vdc.regs[vdc.update_reg] | 0xF0); /* top 4 bits set */
+
+                case 8:
+                    return (vdc.regs[vdc.update_reg] | 0xFC); /* top 6 bits set */
+
+                default:
+                return vdc.regs[vdc.update_reg]; /* no unused bits in what's left */
+            }
+        }
+
+        return 0xff; /* return 0xFF for invalid register numbers */
     } else {
         /* Emulate vblank bit.  */
         if ((vdc.raster.current_line < vdc.first_displayed_line) ||
