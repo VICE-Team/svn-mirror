@@ -197,12 +197,12 @@ static void residfp_close(sound_t *psid)
 
 static BYTE residfp_read(sound_t *psid, WORD addr)
 {
-    return psid->sid->read(addr);
+    return psid->sid->read(addr & 0xffu);
 }
 
 static void residfp_store(sound_t *psid, WORD addr, BYTE byte)
 {
-    psid->sid->write(addr, byte);
+    psid->sid->write(addr & 0xffu, byte);
 }
 
 static void residfp_reset(sound_t *psid, CLOCK cpu_clk)
