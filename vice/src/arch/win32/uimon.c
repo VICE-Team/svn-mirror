@@ -155,6 +155,9 @@ struct mem_private_s
 } mem_private_t;
 
 
+static unsigned int new_format_with_extra_data;
+
+
 
 typedef
 struct uimon_client_windows_s
@@ -229,10 +232,12 @@ void uimon_set_interface(monitor_interface_t **monitor_interface_init,
 
 
 #define WM_OWNCOMMAND (WM_USER+0x100)
-#define WM_CHANGECOMPUTERDRIVE (WM_OWNCOMMAND+1)
-#define WM_GETWINDOWTYPE       (WM_OWNCOMMAND+2)
-#define WM_UPDATEVAL           (WM_OWNCOMMAND+3)
-#define WM_UPDATE              (WM_OWNCOMMAND+4)
+#define WM_CHANGECOMPUTERDRIVE (WM_OWNCOMMAND + 1)
+#define WM_GETWINDOWTYPE       (WM_OWNCOMMAND + 2)
+#define WM_UPDATEVAL           (WM_OWNCOMMAND + 3)
+#define WM_UPDATE              (WM_OWNCOMMAND + 4)
+#define WM_SAVE_PARAMETERS     (WM_OWNCOMMAND + 5)
+#define WM_RESTORE_PARAMETERS  (WM_OWNCOMMAND + 6)
 
 /*
  The following definitions (RT_TOOLBAR, CToolBarData) are from the MFC sources
@@ -670,15 +675,17 @@ struct WindowDimensions
 {
     BYTE *pMonitorDimensionsBuffer;
     BYTE *pMonitorDimensions;
-    int   MonitorLen;
+    size_t MonitorLen;
 
     WINDOWPLACEMENT wpPlacement;
+
+    BYTE *extra;
 };
 typedef struct WindowDimensions WindowDimensions;
 typedef WindowDimensions *PWindowDimensions;
 
 static
-WORD GetByte(BYTE **p, int* len)
+BYTE GetByte(BYTE **p, size_t * len)
 {
     --(*len);
     return *(*p)++;
@@ -694,20 +701,49 @@ WORD GetWord(BYTE **p, int* len)
 */
 
 static
-BOOLEAN GetPlacement( BYTE **p, int* len, WINDOWPLACEMENT *pwp )
+BOOLEAN GetPlacement( BYTE **p, size_t * len, WINDOWPLACEMENT *pwp )
 {
     UINT i;
 
     PBYTE pNext = (PBYTE) pwp;
-    for (i=sizeof(WINDOWPLACEMENT);(i>0) && (*len>0);i--)
-        *pNext++ = (BYTE) GetByte(p,len);
+    for (i = sizeof(WINDOWPLACEMENT);(i>0) && (*len>0);i--)
+        *pNext++ = GetByte(p, len);
 
     return (i==0) ? FALSE : TRUE;
 }
- 
 
 static
-BYTE **WriteByte(BYTE **p, BYTE a)
+BYTE * GetExtraData( BYTE **p, size_t * len )
+{
+    BYTE * extra = NULL;
+    size_t extra_length = 0;
+    size_t i;
+    
+    do {
+        if ( *len == 0) {
+            break;
+        }
+
+        extra_length = GetByte(p, len);
+
+        if (extra_length > *len) {
+            break;
+        }
+
+        extra = lib_malloc(extra_length + 1);
+
+        extra[0] = extra_length;
+
+        for (i = 0; i < extra_length; i++) {
+            extra[i] = GetByte(p, len);
+        }
+    } while (0);
+
+    return extra;
+}
+
+static
+BYTE **WriteByte(BYTE **p, unsigned int a)
 {
     *(*p)++ = a;
     return p;
@@ -733,6 +769,18 @@ BYTE **WritePlacement( BYTE **p, WINDOWPLACEMENT *pwp )
 
     return p;
 }
+
+static
+void WriteExtraData( BYTE ** p, BYTE * buffer, BYTE len )
+{
+    size_t i;
+    WriteByte(p, len);
+
+    for (i = 0; i < len; i++) {
+        WriteByte(p, buffer[i]);
+    }
+}
+
  
 static
 window_type_t GetNextMonitorDimensions( PWindowDimensions pwd )
@@ -756,7 +804,13 @@ window_type_t GetNextMonitorDimensions( PWindowDimensions pwd )
         }
         else
         {
-            GetPlacement(&(pwd->pMonitorDimensions),&pwd->MonitorLen,&(pwd->wpPlacement));
+            GetPlacement(&(pwd->pMonitorDimensions),&pwd->MonitorLen, &(pwd->wpPlacement));
+
+            assert(pwd->extra == NULL);
+
+            if (ret != WT_CONSOLE && new_format_with_extra_data ) {
+                pwd->extra = GetExtraData(&(pwd->pMonitorDimensions),&pwd->MonitorLen);
+            }
         }
     }
     return ret;
@@ -805,6 +859,12 @@ void OpenFromWindowDimensions(HWND hwnd,PWindowDimensions wd)
         };
 
         SetWindowPlacement( hwndOpened, &(wd->wpPlacement) );
+
+        if (wd->extra != NULL) {
+            SendMessage(hwndOpened, WM_RESTORE_PARAMETERS, (WPARAM) wd->extra, 0);
+            lib_free(wd->extra);
+            wd->extra = NULL;
+        }
     };
 
     lib_free(wd->pMonitorDimensionsBuffer);
@@ -818,34 +878,58 @@ PWindowDimensions LoadMonitorDimensions(HWND hwnd)
 
     const char *dimensions;
     BYTE *buffer;
-    int len;
-    size_t len_temp;
-    BOOLEAN bError = FALSE;
+    size_t len;
+    BOOLEAN bError = TRUE;
 
     resources_get_string("MonitorDimensions", &dimensions);
-    buffer = decode(dimensions,&len_temp);
+    buffer = decode(dimensions,&len);
 
-    len = (int)len_temp;
-    if (len!=0)
-    {
+    do {
         char *p = buffer;
 
-        if (len<8)
-            bError = TRUE;
-        else
-        {
-            ret    = lib_malloc( sizeof(*ret) );
-            bError = GetPlacement((BYTE **)(&p), &len, &(ret->wpPlacement));
-            SetWindowPlacement( hwnd, &(ret->wpPlacement) );
-
-            ret->pMonitorDimensionsBuffer = buffer;
-            ret->pMonitorDimensions       = p;
-            ret->MonitorLen               = len;
+        if (len <=0 ) {
+            break;
         }
-    }
 
-    if (bError)
+        if (len < 8) {
+            break;
+        }
+
+        if (*p == 0x0) {
+            new_format_with_extra_data = 1;
+            ++p;
+        }
+        else {
+            new_format_with_extra_data = 0;
+        }
+
+        ret    = lib_malloc( sizeof(*ret) );
+        bError = GetPlacement((BYTE **)(&p), &len, &(ret->wpPlacement));
+
+        if (bError) {
+            break;
+        }
+
+        SetWindowPlacement( hwnd, &(ret->wpPlacement) );
+
+        if (new_format_with_extra_data) {
+            /*
+             * read some additional data that might be available.
+             * not used now, but might be in the future.
+             */
+            char * extra_data = GetExtraData(&p, &len);
+            lib_free(extra_data);
+        }
+
+        ret->pMonitorDimensionsBuffer = buffer;
+        ret->pMonitorDimensions       = p;
+        ret->MonitorLen               = len;
+
+    } while (0);
+
+    if (bError) {
         lib_free(buffer);
+    }
 
     return ret;
 }
@@ -858,6 +942,11 @@ VOID iWindowStore( HWND hwnd, BYTE **p )
     SendMessage( hwnd, WM_GETWINDOWTYPE, 0, (LPARAM) &WindowType );
 
     SetNextMonitorDimensions( hwnd, WindowType, p );
+
+    if (WindowType != WT_CONSOLE) {
+        /* allow every Window to add its own local parameters */
+        SendMessage(hwnd, WM_SAVE_PARAMETERS, (WPARAM) p, 0);
+    }
 }
 
 static int  nHwndStack = 0;
@@ -866,10 +955,15 @@ static HWND hwndStack[256]; // @SRT
 static
 VOID WindowStore( BYTE **p )
 {
-    while (nHwndStack--)
+    int HwndStackIterator;
+
+    /* store the dimensions of every Window */
+    for (HwndStackIterator = nHwndStack - 1; HwndStackIterator >= 0; --HwndStackIterator)
     {
-        iWindowStore(hwndStack[nHwndStack], p);
+        iWindowStore(hwndStack[HwndStackIterator], p);
     }
+
+
     nHwndStack = 0;
 }
 
@@ -884,7 +978,7 @@ static
 void StoreMonitorDimensions(HWND hwnd)
 {
     char *dimensions;
-    BYTE  buffer[1024]; // @SRT
+    static BYTE buffer[1024]; // @SRT
     BYTE *p = buffer;
     uimon_client_windows_t *clients;
 
@@ -893,7 +987,12 @@ void StoreMonitorDimensions(HWND hwnd)
 
     GetWindowPlacement( hwnd, &wpPlacement );
 
+    /* set marker: this is the new format, with extra data for the Windows! */
+    WriteByte( &p, 0);
+
     WritePlacement( &p, &wpPlacement );
+
+    WriteExtraData(&p, NULL, 0);
 
     if (hwndConsole) {
         WindowStoreProc(hwndConsole, 0);
@@ -904,7 +1003,7 @@ void StoreMonitorDimensions(HWND hwnd)
 
     WindowStore(&p);
 
-    dimensions = encode(buffer,(int)(p-buffer)); // @SRT
+    dimensions = encode(buffer, p-buffer);
     resources_set_string("MonitorDimensions", dimensions);
     lib_free(dimensions);
 }
@@ -947,11 +1046,19 @@ static
 WORD SwitchOffUnavailableDrives(WORD ulMask)
 {
     int drive_type;
+    int drive_true_emulation;
 
-    resources_get_int("Drive8Type",  &drive_type); if (drive_type == 0) ulMask &= ~ MDDPC_SET_DRIVE8;
-    resources_get_int("Drive9Type",  &drive_type); if (drive_type == 0) ulMask &= ~ MDDPC_SET_DRIVE9;
-    resources_get_int("Drive10Type", &drive_type); if (drive_type == 0) ulMask &= ~ MDDPC_SET_DRIVE10;
-    resources_get_int("Drive11Type", &drive_type); if (drive_type == 0) ulMask &= ~ MDDPC_SET_DRIVE11;
+    resources_get_int("DriveTrueEmulation", &drive_true_emulation);
+
+    if ( ! drive_true_emulation ) {
+        ulMask = 0;
+    }
+    else {
+        resources_get_int("Drive8Type",  &drive_type); if (drive_type == 0) ulMask &= ~ MDDPC_SET_DRIVE8;
+        resources_get_int("Drive9Type",  &drive_type); if (drive_type == 0) ulMask &= ~ MDDPC_SET_DRIVE9;
+        resources_get_int("Drive10Type", &drive_type); if (drive_type == 0) ulMask &= ~ MDDPC_SET_DRIVE10;
+        resources_get_int("Drive11Type", &drive_type); if (drive_type == 0) ulMask &= ~ MDDPC_SET_DRIVE11;
+    }
 
     return ulMask;
 }
@@ -1580,6 +1687,28 @@ static LRESULT CALLBACK reg_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
             break;
         }
 
+    case WM_SAVE_PARAMETERS:
+        {
+            BYTE **p = (BYTE **) wParam;
+
+            BYTE buffer[] = { prp->memspace };
+
+            WriteExtraData(p, buffer, sizeof buffer);
+        }
+        return 0;
+
+    case WM_RESTORE_PARAMETERS:
+        if (wParam)
+        {
+            BYTE *p = (BYTE *) wParam;
+            if (*p > 0) {
+                prp->memspace = p[0];
+            }
+            SetMemspace( hwnd, window_data, prp->memspace );
+            InvalidateRect(hwnd,NULL,FALSE);
+        }
+        return 0;
+
     case WM_CHANGECOMPUTERDRIVE:
         /* FALL THROUGH */
 
@@ -1798,6 +1927,28 @@ static LRESULT CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
 
     switch (msg)
     {
+    case WM_SAVE_PARAMETERS:
+        {
+            BYTE **p = (BYTE **) wParam;
+
+            BYTE buffer[] = { mon_disassembly_get_memspace(&pdp->mdp) };
+
+            WriteExtraData(p, buffer, sizeof buffer);
+        }
+        return 0;
+
+    case WM_RESTORE_PARAMETERS:
+        if (wParam)
+        {
+            BYTE *p = (BYTE *) wParam;
+            if (*p > 0) {
+                mon_disassembly_set_memspace(&pdp->mdp, p[0]);
+            }
+            SetMemspace( hwnd, window_data, mon_disassembly_get_memspace(&pdp->mdp) );
+            InvalidateRect(hwnd,NULL,FALSE);
+        }
+        return 0;
+
     case WM_CHANGECOMPUTERDRIVE:
         switch (wParam)
         {
@@ -2117,6 +2268,28 @@ static LRESULT CALLBACK mem_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
 
     switch (msg)
     {
+    case WM_SAVE_PARAMETERS:
+        {
+            BYTE **p = (BYTE **) wParam;
+
+            BYTE buffer[] = { pmp->mmp.memspace };
+
+            WriteExtraData(p, buffer, sizeof buffer);
+        }
+        return 0;
+
+    case WM_RESTORE_PARAMETERS:
+        if (wParam)
+        {
+            BYTE *p = (BYTE *) wParam;
+            if (*p > 0) {
+                pmp->mmp.memspace = p[0];
+            }
+            SetMemspace( hwnd, window_data, pmp->mmp.memspace );
+            InvalidateRect(hwnd,NULL,FALSE);
+        }
+        return 0;
+
     case WM_CHANGECOMPUTERDRIVE:
         switch (wParam)
         {
