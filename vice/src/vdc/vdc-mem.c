@@ -361,7 +361,7 @@ BYTE REGPARM1 vdc_read(WORD addr)
 {
     machine_handle_pending_alarms(0);
 
-    if (addr & 1) {
+    if (addr & 1) { /* read $d601 (and mirrors $d603/5/7....$d6ff)  */
         /*log_message(vdc.log, "read: addr = %x", addr);*/
 
         if (vdc.update_reg == 31) {
@@ -378,43 +378,43 @@ BYTE REGPARM1 vdc_read(WORD addr)
         }
 
         if (vdc.update_reg == 28) {
-            if (vdc.vdc_address_mask == 0xffff)
+            if (vdc.vdc_address_mask == 0xffff) {
                 return vdc.regs[28] | 0x1f;
-            else
+            } else {
                 return vdc.regs[28] | 0x0f;
+            }
         }
 
         if (vdc.update_reg < 37) {
             switch (vdc.update_reg) { /* set the unused bits in the returned register value like a real VDC */
                 case 10:
                     return (vdc.regs[vdc.update_reg] | 0x80); /* top bit set */
-
                 case 5:
                 case 9:
                 case 11:
                 case 23:
                 case 29:
                     return (vdc.regs[vdc.update_reg] | 0xE0); /* top 3 bits set */
-
                 case 36:
                     return (vdc.regs[vdc.update_reg] | 0xF0); /* top 4 bits set */
-
                 case 8:
                     return (vdc.regs[vdc.update_reg] | 0xFC); /* top 6 bits set */
-
                 default:
                 return vdc.regs[vdc.update_reg]; /* no unused bits in what's left */
             }
         }
 
         return 0xff; /* return 0xFF for invalid register numbers */
-    } else {
-        /* Emulate vblank bit.  */
-        if ((vdc.raster.current_line < vdc.first_displayed_line) ||
-           (vdc.raster.current_line > vdc.last_displayed_line))
-            return 0xb8 | vdc.revision;
 
-        return 0x98 | vdc.revision;
+    } else { /* read $d600 (and mirrors $d602/4/6....$d6fe) */
+        /* NOTE - Status ($80) and LightPen ($40) bits are currently unsupported
+        Status always returns 1 (ready) while LightPen always returns 0 (invalid pen address) */
+        
+        /* Emulate vblank bit.  */
+        if ((vdc.raster.current_line < vdc.first_displayed_line) || (vdc.raster.current_line > vdc.last_displayed_line)) {
+            return 0xA0 | vdc.revision;
+        }
+        return 0x80 | vdc.revision;
     }
 }
 
