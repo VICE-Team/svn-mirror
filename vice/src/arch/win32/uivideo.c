@@ -91,6 +91,7 @@ static const char *crtc_palettes[] =
 static const char *vdc_palettes[] =
 {
     "vdc_deft",
+    "vdc_comp",
     NULL
 };
 

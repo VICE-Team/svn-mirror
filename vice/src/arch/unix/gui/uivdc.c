@@ -41,6 +41,8 @@ UI_MENU_DEFINE_STRING_RADIO(VDCPaletteFile)
 static ui_menu_entry_t vdc_palette_submenu[] = {
     { N_("*Default"), (ui_callback_t)radio_VDCPaletteFile,
       (ui_callback_data_t)"vdc_deft", NULL },
+    { N_("*Composite"), (ui_callback_t)radio_VDCPaletteFile,
+      (ui_callback_data_t)"vdc_comp", NULL },
     { "--" },
     { N_("Load custom"), (ui_callback_t)ui_load_palette,
       (ui_callback_data_t)"VDCPaletteFile", NULL },
