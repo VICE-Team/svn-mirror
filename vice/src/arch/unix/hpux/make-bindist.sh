@@ -150,6 +150,7 @@ installfile data/C128/kernalno vice/vice-RUN runtmp /usr/local/lib/vice/C128/ker
 installfile data/C128/kernalse vice/vice-RUN runtmp /usr/local/lib/vice/C128/kernalse run 0644
 installfile data/C128/pc64.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C128/pc64.vpl run 0644
 installfile data/C128/vdc_deft.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C128/vdc_deft.vpl run 0644
+installfile data/C128/vdc_comp.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C128/vdc_comp.vpl run 0644
 installfile data/C128/vice.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C128/vice.vpl run 0644
 installfile data/C128/x11_pos.vkm vice/vice-RUN runtmp /usr/local/lib/vice/C128/x11_pos.vkm run 0644
 installfile data/C128/x11_sym.vkm vice/vice-RUN runtmp /usr/local/lib/vice/C128/x11_sym.vkm run 0644

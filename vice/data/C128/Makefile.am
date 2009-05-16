@@ -29,6 +29,7 @@ palettes = \
 	godot.vpl \
 	pc64.vpl \
 	vdc_deft.vpl \
+	vdc_comp.vpl \
 	vice.vpl
 
 x11_keymaps = \

@@ -83,6 +83,7 @@ copy ..\..\..\data\C128\kernalse     Vice2\C128
 copy ..\..\..\data\C128\os2.vkm      Vice2\C128
 copy ..\..\..\data\C128\pc64.vpl     Vice2\C128
 copy ..\..\..\data\C128\vdc_deft.vpl Vice2\C128
+copy ..\..\..\data\C128\vdc_comp.vpl Vice2\C128
 copy ..\..\..\data\C128\vice.vpl     Vice2\C128
 
 md Vice2\PET

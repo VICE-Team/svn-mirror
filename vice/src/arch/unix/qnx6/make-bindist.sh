@@ -350,6 +350,7 @@ _END
                            <QPM:File>kernalse</QPM:File>
                            <QPM:File>pc64.vpl</QPM:File>
                            <QPM:File>vdc_deft.vpl</QPM:File>
+                           <QPM:File>vdc_comp.vpl</QPM:File>
                            <QPM:File>vice.vpl</QPM:File>
                            <QPM:File>x11_pos.vkm</QPM:File>
                            <QPM:File>x11_sym.vkm</QPM:File>
