@@ -205,7 +205,7 @@ friend class SIDFP;
 // ----------------------------------------------------------------------------
 
 const float sidcaps_6581 = 470e-12f;
-const float outputleveldifference = 1.5f;
+const float outputleveldifference = 1.6f;
 
 RESID_INLINE
 static float fastexp(float val) {
