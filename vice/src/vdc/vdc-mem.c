@@ -250,7 +250,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
 
       case 22:                  /* R22 Character Horizontal Size Control */
 #ifdef REG_DEBUG
-        log_message(vdc.log, "REG 22 unsupported!");
+        log_message(vdc.log, "REG 22 only partially supported!");
 #endif
         break;
 
@@ -359,6 +359,12 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 vdc_read(WORD addr)
 {
+    /* bitmask to set the unused bits in returned register values */
+    static const BYTE regmask[37] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x00,
+                                      0xFC, 0xE0, 0x80, 0xE0, 0x00, 0x00, 0x00, 0x00,
+                                      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xE0,
+                                      0x00, 0x00, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x00,
+                                      0x00, 0x00, 0x00, 0x00, 0xF0 };
     machine_handle_pending_alarms(0);
 
     if (addr & 1) { /* read $d601 (and mirrors $d603/5/7....$d6ff)  */
@@ -386,22 +392,7 @@ BYTE REGPARM1 vdc_read(WORD addr)
         }
 
         if (vdc.update_reg < 37) {
-            switch (vdc.update_reg) { /* set the unused bits in the returned register value like a real VDC */
-                case 10:
-                    return (vdc.regs[vdc.update_reg] | 0x80); /* top bit set */
-                case 5:
-                case 9:
-                case 11:
-                case 23:
-                case 29:
-                    return (vdc.regs[vdc.update_reg] | 0xE0); /* top 3 bits set */
-                case 36:
-                    return (vdc.regs[vdc.update_reg] | 0xF0); /* top 4 bits set */
-                case 8:
-                    return (vdc.regs[vdc.update_reg] | 0xFC); /* top 6 bits set */
-                default:
-                return vdc.regs[vdc.update_reg]; /* no unused bits in what's left */
-            }
+            return (vdc.regs[vdc.update_reg] | regmask[vdc.update_reg]);
         }
 
         return 0xff; /* return 0xFF for invalid register numbers */
