@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-05-02 21:16+0200\n"
+"POT-Creation-Date: 2009-05-16 10:36+0200\n"
 "PO-Revision-Date: 2007-07-26 11:55+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -14,13 +14,23 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-2\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: src/arch/unix/joy.c:88 src/arch/unix/macosx/joy.c:226
+#: src/arch/unix/joy.c:104 src/arch/unix/macosx/joy.c:226
 msgid "Set device for joystick port 1"
 msgstr "Ustaw joystick w porcie 1"
 
-#: src/arch/unix/joy.c:93 src/arch/unix/macosx/joy.c:231
+#: src/arch/unix/joy.c:109 src/arch/unix/macosx/joy.c:231
 msgid "Set device for joystick port 2"
 msgstr "Ustaw joystick w porcie 2"
+
+#: src/arch/unix/joy.c:114
+#, fuzzy
+msgid "Set device for joystick port 3"
+msgstr "Ustaw joystick w porcie 1"
+
+#: src/arch/unix/joy.c:119
+#, fuzzy
+msgid "Set device for joystick port 4"
+msgstr "Ustaw joystick w porcie 1"
 
 #: src/arch/unix/mididrv.c:659 src/arch/unix/mididrv.c:664
 #: src/translate.c.po.c:3636
@@ -799,19 +809,19 @@ msgstr "Napêd #10..."
 msgid "Unit #11..."
 msgstr "Napêd #11..."
 
-#: src/arch/unix/gui/uiattach.c:168 src/arch/unix/gui/uicommands.c:458
+#: src/arch/unix/gui/uiattach.c:168 src/arch/unix/gui/uicommands.c:463
 msgid "Unit #8"
 msgstr "Napêd #8"
 
-#: src/arch/unix/gui/uiattach.c:170 src/arch/unix/gui/uicommands.c:460
+#: src/arch/unix/gui/uiattach.c:170 src/arch/unix/gui/uicommands.c:465
 msgid "Unit #9"
 msgstr "Napêd #9"
 
-#: src/arch/unix/gui/uiattach.c:172 src/arch/unix/gui/uicommands.c:462
+#: src/arch/unix/gui/uiattach.c:172 src/arch/unix/gui/uicommands.c:467
 msgid "Unit #10"
 msgstr "Napêd #10"
 
-#: src/arch/unix/gui/uiattach.c:174 src/arch/unix/gui/uicommands.c:464
+#: src/arch/unix/gui/uiattach.c:174 src/arch/unix/gui/uicommands.c:469
 msgid "Unit #11"
 msgstr "Napêd #11"
 
@@ -1006,7 +1016,7 @@ msgstr ""
 "\n"
 
 #: src/arch/unix/gui/uicommands.c:70 src/arch/unix/gui/uicommands.c:77
-#: src/arch/unix/gui/uicommands.c:351 src/arch/unix/gui/uikeyboard.c:116
+#: src/arch/unix/gui/uicommands.c:356 src/arch/unix/gui/uikeyboard.c:116
 msgid "VICE setting"
 msgstr "Ustawienia VICE"
 
@@ -1015,40 +1025,40 @@ msgid "Change current working directory"
 msgstr "Zmieñ aktualny katalog roboczy"
 
 #: src/arch/unix/gui/uicommands.c:74 src/arch/unix/gui/uicommands.c:81
-#: src/arch/unix/gui/uicommands.c:356
+#: src/arch/unix/gui/uicommands.c:361
 msgid "Directory not found"
 msgstr "Katalog nie znaleziony"
 
-#: src/arch/unix/gui/uicommands.c:114
+#: src/arch/unix/gui/uicommands.c:119
 msgid "Couldn't run /bin/sh???"
 msgstr "Nie mo¿na uruchomiæ /bin/sh???"
 
-#: src/arch/unix/gui/uicommands.c:117
+#: src/arch/unix/gui/uicommands.c:122
 msgid "Couldn't run xterm"
 msgstr "Nie mo¿na uruchomiæ xterm"
 
-#: src/arch/unix/gui/uicommands.c:122
+#: src/arch/unix/gui/uicommands.c:127
 msgid "Unknown error while running c1541"
 msgstr "Nieznany b³±d przy uruchamianiu c1541"
 
-#: src/arch/unix/gui/uicommands.c:152
+#: src/arch/unix/gui/uicommands.c:157
 msgid "No HTML browser is defined."
 msgstr "Brak zdefiniowanej przegl±darki HTML."
 
-#: src/arch/unix/gui/uicommands.c:181 src/arch/unix/gui/uicommands.c:195
-#: src/arch/unix/gui/uicommands.c:208
+#: src/arch/unix/gui/uicommands.c:186 src/arch/unix/gui/uicommands.c:200
+#: src/arch/unix/gui/uicommands.c:213
 msgid "Browser command too long."
 msgstr "Komenda przegl±darki jest zbyt d³uga."
 
-#: src/arch/unix/gui/uicommands.c:223
+#: src/arch/unix/gui/uicommands.c:228
 msgid "Cannot run HTML browser."
 msgstr "Nie mo¿na uruchomiæ przegl±darki HTML"
 
-#: src/arch/unix/gui/uicommands.c:270
+#: src/arch/unix/gui/uicommands.c:275
 msgid "Load snapshot"
 msgstr "Za³aduj zrzut"
 
-#: src/arch/unix/gui/uicommands.c:285
+#: src/arch/unix/gui/uicommands.c:290
 #, c-format
 msgid ""
 "Cannot load snapshot file\n"
@@ -1057,7 +1067,7 @@ msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/arch/unix/gui/uicommands.c:317 src/arch/unix/x11/gnome/uisnapshot.c:118
+#: src/arch/unix/gui/uicommands.c:322 src/arch/unix/x11/gnome/uisnapshot.c:118
 #: src/arch/unix/x11/xaw/uisnapshot.c:119
 #, c-format
 msgid ""
@@ -1067,98 +1077,98 @@ msgstr ""
 "Nie mo¿na zapisaæ pliku migawki\n"
 "`%s'\n"
 
-#: src/arch/unix/gui/uicommands.c:352 src/arch/unix/gui/uicommands.c:504
+#: src/arch/unix/gui/uicommands.c:357 src/arch/unix/gui/uicommands.c:509
 #, fuzzy
 msgid "Select history directory"
 msgstr "Katalog systemu plików..."
 
-#: src/arch/unix/gui/uicommands.c:397 src/arch/win32/res.rc.po.c:6125
+#: src/arch/unix/gui/uicommands.c:402 src/arch/win32/res.rc.po.c:6125
 #: src/arch/amigaos/intl.c.po.c:6002
 #, fuzzy
 msgid "Sound Recording stopped..."
 msgstr "Zatrzymaj zapisywanie wydarzen "
 
-#: src/arch/unix/gui/uicommands.c:408
+#: src/arch/unix/gui/uicommands.c:413
 msgid "Record sound to file"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:417 src/arch/win32/res.rc.po.c:6124
+#: src/arch/unix/gui/uicommands.c:422 src/arch/win32/res.rc.po.c:6124
 #: src/arch/amigaos/intl.c.po.c:6013
 #, fuzzy
 msgid "Sound Recording started..."
 msgstr "Rozpocznij tryb zapisu"
 
-#: src/arch/unix/gui/uicommands.c:451 src/arch/amigaos/intl.c.po.c:820
+#: src/arch/unix/gui/uicommands.c:456 src/arch/amigaos/intl.c.po.c:820
 msgid "Soft"
 msgstr "Miêkki"
 
-#: src/arch/unix/gui/uicommands.c:454 src/arch/amigaos/intl.c.po.c:809
+#: src/arch/unix/gui/uicommands.c:459 src/arch/amigaos/intl.c.po.c:809
 msgid "Hard"
 msgstr "Twardy"
 
-#: src/arch/unix/gui/uicommands.c:470
+#: src/arch/unix/gui/uicommands.c:475
 msgid "Change working directory..."
 msgstr "Zmieñ katalog roboczy..."
 
-#: src/arch/unix/gui/uicommands.c:478
+#: src/arch/unix/gui/uicommands.c:483
 msgid "*Save new snapshot"
 msgstr "Zapisz obraz"
 
-#: src/arch/unix/gui/uicommands.c:480
+#: src/arch/unix/gui/uicommands.c:485
 #, fuzzy
 msgid "*Load existing snapshot"
 msgstr "Za³aduj zrzut"
 
-#: src/arch/unix/gui/uicommands.c:482
+#: src/arch/unix/gui/uicommands.c:487
 msgid "*Start with reset"
 msgstr "*Rozpocznij z restartem"
 
-#: src/arch/unix/gui/uicommands.c:484
+#: src/arch/unix/gui/uicommands.c:489
 msgid "*Overwrite running playback"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:490
+#: src/arch/unix/gui/uicommands.c:495
 msgid "Load snapshot..."
 msgstr "Za³aduj zrzut..."
 
-#: src/arch/unix/gui/uicommands.c:493
+#: src/arch/unix/gui/uicommands.c:498
 msgid "Save snapshot..."
 msgstr "Zapisz zrzut..."
 
-#: src/arch/unix/gui/uicommands.c:497
+#: src/arch/unix/gui/uicommands.c:502
 msgid "Quickload snapshot"
 msgstr "Szybkie za³adowanie zrzutu"
 
-#: src/arch/unix/gui/uicommands.c:500
+#: src/arch/unix/gui/uicommands.c:505
 msgid "Quicksave snapshot"
 msgstr "Szybki zapis zrzutu"
 
-#: src/arch/unix/gui/uicommands.c:506
+#: src/arch/unix/gui/uicommands.c:511
 msgid "Start recording events"
 msgstr "Rozpocznij zapisywanie wydarzen"
 
-#: src/arch/unix/gui/uicommands.c:508
+#: src/arch/unix/gui/uicommands.c:513
 msgid "Stop recording events"
 msgstr "Zatrzymaj zapisywanie wydarzen "
 
-#: src/arch/unix/gui/uicommands.c:510
+#: src/arch/unix/gui/uicommands.c:515
 msgid "Start playing back events"
 msgstr "Rozpocznij odtwarzanie wydarzen"
 
-#: src/arch/unix/gui/uicommands.c:512
+#: src/arch/unix/gui/uicommands.c:517
 msgid "Stop playing back events"
 msgstr "Zatrzymaj odtwarzanie wydarzen"
 
-#: src/arch/unix/gui/uicommands.c:514
+#: src/arch/unix/gui/uicommands.c:519
 #, fuzzy
 msgid "Set recording milestone"
 msgstr "Zatrzymaj zapisywanie wydarzen "
 
-#: src/arch/unix/gui/uicommands.c:516
+#: src/arch/unix/gui/uicommands.c:521
 msgid "Return to milestone"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:519 src/arch/win32/res.rc.po.c:6146
+#: src/arch/unix/gui/uicommands.c:524 src/arch/win32/res.rc.po.c:6146
 #: src/arch/win32/resc128.rc.po.c:139 src/arch/win32/resc64.rc.po.c:139
 #: src/arch/win32/resc64dtv.rc.po.c:99 src/arch/win32/rescbm2.rc.po.c:105
 #: src/arch/win32/respet.rc.po.c:105 src/arch/win32/resplus4.rc.po.c:117
@@ -1166,65 +1176,65 @@ msgstr ""
 msgid "Recording start mode"
 msgstr "Rozpocznij tryb zapisu"
 
-#: src/arch/unix/gui/uicommands.c:523 src/arch/unix/gui/uinetplay.c:108
+#: src/arch/unix/gui/uicommands.c:528 src/arch/unix/gui/uinetplay.c:108
 msgid "Netplay (experimental)"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:530
+#: src/arch/unix/gui/uicommands.c:535
 msgid "Snapshot commands"
 msgstr "Komendy zapisywania zrzutu"
 
-#: src/arch/unix/gui/uicommands.c:536
+#: src/arch/unix/gui/uicommands.c:541
 msgid "Sound record WAV..."
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:538
+#: src/arch/unix/gui/uicommands.c:543
 msgid "Sound record AIFF..."
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:540
+#: src/arch/unix/gui/uicommands.c:545
 msgid "Sound record VOC..."
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:542
+#: src/arch/unix/gui/uicommands.c:547
 msgid "Sound record IFF..."
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:545
+#: src/arch/unix/gui/uicommands.c:550
 msgid "Sound record MP3..."
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:548
+#: src/arch/unix/gui/uicommands.c:553
 msgid "Stop Sound record"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:554
+#: src/arch/unix/gui/uicommands.c:559
 msgid "Activate monitor"
 msgstr "Aktywacja monitora"
 
-#: src/arch/unix/gui/uicommands.c:557
+#: src/arch/unix/gui/uicommands.c:562
 msgid "Run C1541"
 msgstr "Uruchom C1541"
 
-#: src/arch/unix/gui/uicommands.c:565
+#: src/arch/unix/gui/uicommands.c:570
 msgid "Browse manuals"
 msgstr "Przegl±daj podrêcznik"
 
-#: src/arch/unix/gui/uicommands.c:567
+#: src/arch/unix/gui/uicommands.c:572
 msgid "About VICE..."
 msgstr "O VICE..."
 
-#: src/arch/unix/gui/uicommands.c:573 src/arch/unix/gui/uidatasette.c:99
+#: src/arch/unix/gui/uicommands.c:578 src/arch/unix/gui/uidatasette.c:99
 #: src/arch/unix/x11/gnome/uipalcontrol.c:153
 #: src/arch/unix/x11/gnome/x11ui.c:1848 src/arch/amigaos/intl.c.po.c:369
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/gui/uicommands.c:575
+#: src/arch/unix/gui/uicommands.c:580
 msgid "*Pause"
 msgstr "*Pauza"
 
-#: src/arch/unix/gui/uicommands.c:582
+#: src/arch/unix/gui/uicommands.c:587
 msgid "Exit emulator"
 msgstr "Wyjd¼ z emulatora"
 
@@ -1383,7 +1393,8 @@ msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 #: src/arch/unix/gui/uidriveplus4.c:83 src/arch/unix/gui/uidriveplus4.c:91
 #: src/arch/unix/gui/uidriveplus4.c:139 src/arch/unix/gui/uidriveplus4.c:157
 #: src/arch/unix/gui/uidriveplus4.c:175 src/arch/unix/gui/uidriveplus4.c:193
-#: src/arch/unix/gui/uijoystick2.c:82 src/arch/unix/gui/uijoystick2.c:134
+#: src/arch/unix/gui/uijoystick2.c:109 src/arch/unix/gui/uijoystick2.c:161
+#: src/arch/unix/gui/uijoystick2.c:213 src/arch/unix/gui/uijoystick2.c:265
 #: src/arch/unix/gui/uiperipheral.c:60 src/arch/unix/gui/uiperipheral.c:74
 #: src/arch/unix/gui/uiperipheral.c:88 src/arch/unix/gui/uiperipheral.c:102
 #: src/arch/unix/gui/uiprinter.c:158 src/arch/unix/gui/uiprinter.c:170
@@ -1853,99 +1864,127 @@ msgstr ""
 msgid "*Sectors..."
 msgstr ""
 
-#: src/arch/unix/gui/uijoystick2.c:85 src/arch/unix/gui/uijoystick2.c:137
+#: src/arch/unix/gui/uijoystick2.c:112 src/arch/unix/gui/uijoystick2.c:164
+#: src/arch/unix/gui/uijoystick2.c:216 src/arch/unix/gui/uijoystick2.c:268
 #: src/arch/unix/gui/vic20ui.c:352
 msgid "*Numpad"
 msgstr "*Klawiatura numeryczna"
 
-#: src/arch/unix/gui/uijoystick2.c:88 src/arch/unix/gui/uijoystick2.c:140
+#: src/arch/unix/gui/uijoystick2.c:115 src/arch/unix/gui/uijoystick2.c:167
+#: src/arch/unix/gui/uijoystick2.c:219 src/arch/unix/gui/uijoystick2.c:271
 #: src/arch/unix/gui/vic20ui.c:355
 #, fuzzy
 msgid "*Keyset 1"
 msgstr "Reset"
 
-#: src/arch/unix/gui/uijoystick2.c:91 src/arch/unix/gui/uijoystick2.c:143
+#: src/arch/unix/gui/uijoystick2.c:118 src/arch/unix/gui/uijoystick2.c:170
+#: src/arch/unix/gui/uijoystick2.c:222 src/arch/unix/gui/uijoystick2.c:274
 #: src/arch/unix/gui/vic20ui.c:358
 #, fuzzy
 msgid "*Keyset 2"
 msgstr "Reset"
 
-#: src/arch/unix/gui/uijoystick2.c:95 src/arch/unix/gui/uijoystick2.c:147
+#: src/arch/unix/gui/uijoystick2.c:122 src/arch/unix/gui/uijoystick2.c:174
+#: src/arch/unix/gui/uijoystick2.c:226 src/arch/unix/gui/uijoystick2.c:278
 #: src/arch/unix/gui/vic20ui.c:362
 msgid "*Analog Joystick 0"
 msgstr "*Analogowy joystick 0"
 
-#: src/arch/unix/gui/uijoystick2.c:98 src/arch/unix/gui/uijoystick2.c:150
+#: src/arch/unix/gui/uijoystick2.c:125 src/arch/unix/gui/uijoystick2.c:177
+#: src/arch/unix/gui/uijoystick2.c:229 src/arch/unix/gui/uijoystick2.c:281
 #: src/arch/unix/gui/vic20ui.c:365
 msgid "*Analog Joystick 1"
 msgstr "*Analogowy joystick 1"
 
-#: src/arch/unix/gui/uijoystick2.c:101 src/arch/unix/gui/uijoystick2.c:153
+#: src/arch/unix/gui/uijoystick2.c:128 src/arch/unix/gui/uijoystick2.c:180
+#: src/arch/unix/gui/uijoystick2.c:232 src/arch/unix/gui/uijoystick2.c:284
 #, fuzzy
 msgid "*Analog Joystick 2"
 msgstr "*Analogowy joystick 1"
 
-#: src/arch/unix/gui/uijoystick2.c:104 src/arch/unix/gui/uijoystick2.c:156
+#: src/arch/unix/gui/uijoystick2.c:131 src/arch/unix/gui/uijoystick2.c:183
+#: src/arch/unix/gui/uijoystick2.c:235 src/arch/unix/gui/uijoystick2.c:287
 #, fuzzy
 msgid "*Analog Joystick 3"
 msgstr "*Analogowy joystick 1"
 
-#: src/arch/unix/gui/uijoystick2.c:107 src/arch/unix/gui/uijoystick2.c:159
+#: src/arch/unix/gui/uijoystick2.c:134 src/arch/unix/gui/uijoystick2.c:186
+#: src/arch/unix/gui/uijoystick2.c:238 src/arch/unix/gui/uijoystick2.c:290
 #, fuzzy
 msgid "*Analog Joystick 4"
 msgstr "*Analogowy joystick 1"
 
-#: src/arch/unix/gui/uijoystick2.c:110 src/arch/unix/gui/uijoystick2.c:162
+#: src/arch/unix/gui/uijoystick2.c:137 src/arch/unix/gui/uijoystick2.c:189
+#: src/arch/unix/gui/uijoystick2.c:241 src/arch/unix/gui/uijoystick2.c:293
 #, fuzzy
 msgid "*Analog Joystick 5"
 msgstr "*Analogowy joystick 1"
 
-#: src/arch/unix/gui/uijoystick2.c:114 src/arch/unix/gui/uijoystick2.c:166
+#: src/arch/unix/gui/uijoystick2.c:141 src/arch/unix/gui/uijoystick2.c:193
+#: src/arch/unix/gui/uijoystick2.c:245 src/arch/unix/gui/uijoystick2.c:297
 #: src/arch/unix/gui/vic20ui.c:369
 msgid "*Digital Joystick 0"
 msgstr "*Cyfrowy joystick 0"
 
-#: src/arch/unix/gui/uijoystick2.c:117 src/arch/unix/gui/uijoystick2.c:169
+#: src/arch/unix/gui/uijoystick2.c:144 src/arch/unix/gui/uijoystick2.c:196
+#: src/arch/unix/gui/uijoystick2.c:248 src/arch/unix/gui/uijoystick2.c:300
 #: src/arch/unix/gui/vic20ui.c:372
 msgid "*Digital Joystick 1"
 msgstr "*Cyfrowy joystick 1"
 
-#: src/arch/unix/gui/uijoystick2.c:122 src/arch/unix/gui/uijoystick2.c:174
+#: src/arch/unix/gui/uijoystick2.c:149 src/arch/unix/gui/uijoystick2.c:201
+#: src/arch/unix/gui/uijoystick2.c:253 src/arch/unix/gui/uijoystick2.c:305
 #: src/arch/unix/gui/vic20ui.c:377
 #, fuzzy
 msgid "*USB Joystick 0"
 msgstr "*Analogowy joystick 0"
 
-#: src/arch/unix/gui/uijoystick2.c:125 src/arch/unix/gui/uijoystick2.c:177
+#: src/arch/unix/gui/uijoystick2.c:152 src/arch/unix/gui/uijoystick2.c:204
+#: src/arch/unix/gui/uijoystick2.c:256 src/arch/unix/gui/uijoystick2.c:308
 #: src/arch/unix/gui/vic20ui.c:380
 #, fuzzy
 msgid "*USB Joystick 1"
 msgstr "*Analogowy joystick 1"
 
-#: src/arch/unix/gui/uijoystick2.c:187
+#: src/arch/unix/gui/uijoystick2.c:318 src/arch/unix/gui/uijoystick2.c:336
 msgid "Joystick device in port 1"
 msgstr "Joystick w porcie 1"
 
-#: src/arch/unix/gui/uijoystick2.c:189
+#: src/arch/unix/gui/uijoystick2.c:320 src/arch/unix/gui/uijoystick2.c:338
 msgid "Joystick device in port 2"
 msgstr "Joystick w porcie 2"
 
-#: src/arch/unix/gui/uijoystick2.c:193
+#: src/arch/unix/gui/uijoystick2.c:324 src/arch/unix/gui/uijoystick2.c:346
 #, fuzzy
 msgid "Define keysets"
 msgstr "Zapisz mapowanie klawiszy do pliku"
 
-#: src/arch/unix/gui/uijoystick2.c:197
+#: src/arch/unix/gui/uijoystick2.c:328 src/arch/unix/gui/uijoystick2.c:350
 #, fuzzy
 msgid "*Allow keyset joystick"
 msgstr "*Analogowy joystick 0"
 
-#: src/arch/unix/gui/uijoystick2.c:199 src/arch/unix/gui/uijoystick2.c:205
+#: src/arch/unix/gui/uijoystick2.c:330 src/arch/unix/gui/uijoystick2.c:352
+#: src/arch/unix/gui/uijoystick2.c:360
 msgid "Swap joystick ports"
 msgstr "Zamieñ porty (1/2)"
 
-#: src/arch/unix/gui/uijoystick2.c:211 src/arch/unix/gui/vic20ui.c:389
-#: src/arch/win32/res.rc.po.c:815
+#: src/arch/unix/gui/uijoystick2.c:340
+#, fuzzy
+msgid "Joystick device in port 3"
+msgstr "Joystick w porcie 1"
+
+#: src/arch/unix/gui/uijoystick2.c:342
+#, fuzzy
+msgid "Joystick device in port 4"
+msgstr "Joystick w porcie 1"
+
+#: src/arch/unix/gui/uijoystick2.c:354
+msgid "*Protovision 4 Player Interface"
+msgstr ""
+
+#: src/arch/unix/gui/uijoystick2.c:366 src/arch/unix/gui/uijoystick2.c:372
+#: src/arch/unix/gui/vic20ui.c:389 src/arch/win32/res.rc.po.c:815
 msgid "Joystick settings"
 msgstr "Ustawienia joystcka"
 
@@ -3989,7 +4028,7 @@ msgstr ""
 msgid "Specify X display depth (1..32)"
 msgstr "POdaj g³êbiê ekranu Xów (1..32)"
 
-#: src/arch/unix/x11/xrandr.c:262
+#: src/arch/unix/x11/xrandr.c:289
 msgid "*Desktop"
 msgstr ""
 
@@ -11202,7 +11241,7 @@ msgstr ""
 msgid "\"<string>\""
 msgstr ""
 
-#: src/translate.c.po.c:3309 src/translate.c.po.c:9407
+#: src/translate.c.po.c:3309 src/translate.c.po.c:9449
 msgid "Put the specified string into the keyboard buffer."
 msgstr ""
 
@@ -12959,387 +12998,401 @@ msgstr ""
 
 #: src/translate.c.po.c:9153
 #, fuzzy
+msgid "Enable remote monitor"
+msgstr "*W³±cz tryb przy¶pieszony (Turbo)"
+
+#: src/translate.c.po.c:9167
+#, fuzzy
+msgid "Disable remote monitor"
+msgstr "*Podwójne scanlines "
+
+#: src/translate.c.po.c:9181
+msgid "The local address the remote monitor should bind to"
+msgstr ""
+
+#: src/translate.c.po.c:9195
+#, fuzzy
 msgid "Specify name of the flip list file image"
 msgstr "Okre¶l nazwê pliku pozycyjnej mapy klawiatury"
 
-#: src/translate.c.po.c:9167
+#: src/translate.c.po.c:9209
 msgid "Show a list of the available options and exit normally"
 msgstr ""
 
-#: src/translate.c.po.c:9182
+#: src/translate.c.po.c:9224
 msgid "Console mode (for music playback)"
 msgstr ""
 
-#: src/translate.c.po.c:9196
+#: src/translate.c.po.c:9238
 msgid "Allow production of core dumps"
 msgstr ""
 
-#: src/translate.c.po.c:9210
+#: src/translate.c.po.c:9252
 msgid "Do not produce core dumps"
 msgstr ""
 
-#: src/translate.c.po.c:9224
+#: src/translate.c.po.c:9266
 msgid "Don't call exception handler"
 msgstr ""
 
-#: src/translate.c.po.c:9238
+#: src/translate.c.po.c:9280
 msgid "Call exception handler (default)"
 msgstr ""
 
-#: src/translate.c.po.c:9253
+#: src/translate.c.po.c:9295
 #, fuzzy
 msgid "Restore default (factory) settings"
 msgstr "Przywróæ domy¶lne ustawienia"
 
-#: src/translate.c.po.c:9267
+#: src/translate.c.po.c:9309
 #, fuzzy
 msgid "<filename>"
 msgstr "Nazwa pliku:"
 
-#: src/translate.c.po.c:9281
+#: src/translate.c.po.c:9323
 #, fuzzy
 msgid "Specify config file"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/translate.c.po.c:9295
+#: src/translate.c.po.c:9337
 #, fuzzy
 msgid "Attach and autostart tape/disk image <name>"
 msgstr "W³ó¿ obraz dyskietki"
 
-#: src/translate.c.po.c:9309
+#: src/translate.c.po.c:9351
 #, fuzzy
 msgid "Attach and autoload tape/disk image <name>"
 msgstr "W³ó¿ obraz dyskietki"
 
-#: src/translate.c.po.c:9323
+#: src/translate.c.po.c:9365
 #, fuzzy
 msgid "Attach <name> as a tape image"
 msgstr "W³ó¿ obraz kasety"
 
-#: src/translate.c.po.c:9337
+#: src/translate.c.po.c:9379
 #, fuzzy
 msgid "Attach <name> as a disk image in drive #8"
 msgstr "W³ó¿ obraz dyskietki"
 
-#: src/translate.c.po.c:9351
+#: src/translate.c.po.c:9393
 #, fuzzy
 msgid "Attach <name> as a disk image in drive #9"
 msgstr "W³ó¿ obraz dyskietki"
 
-#: src/translate.c.po.c:9365
+#: src/translate.c.po.c:9407
 #, fuzzy
 msgid "Attach <name> as a disk image in drive #10"
 msgstr "W³ó¿ obraz dyskietki"
 
-#: src/translate.c.po.c:9379
+#: src/translate.c.po.c:9421
 #, fuzzy
 msgid "Attach <name> as a disk image in drive #11"
 msgstr "W³ó¿ obraz dyskietki"
 
-#: src/translate.c.po.c:9393
+#: src/translate.c.po.c:9435
 msgid "<string>"
 msgstr ""
 
-#: src/translate.c.po.c:9421
+#: src/translate.c.po.c:9463
 msgid "Specify log file name"
 msgstr ""
 
-#: src/translate.c.po.c:9435
+#: src/translate.c.po.c:9477
 #, fuzzy
 msgid "Enable mouse grab"
 msgstr "*W³±cz tryb przy¶pieszony (Turbo)"
 
-#: src/translate.c.po.c:9449
+#: src/translate.c.po.c:9491
 #, fuzzy
 msgid "Disable mouse grab"
 msgstr "*Podwójne scanlines "
 
-#: src/translate.c.po.c:9463
+#: src/translate.c.po.c:9505
 msgid "Select the joystick port the mouse is attached to"
 msgstr ""
 
-#: src/translate.c.po.c:9477
+#: src/translate.c.po.c:9519
 msgid "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles)"
 msgstr ""
 
-#: src/translate.c.po.c:9491
+#: src/translate.c.po.c:9533
 #, fuzzy
 msgid "Enable PS/2 mouse on userport"
 msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 
-#: src/translate.c.po.c:9505
+#: src/translate.c.po.c:9547
 #, fuzzy
 msgid "Disable PS/2 mouse on userport"
 msgstr "*Podwójne scanlines "
 
-#: src/translate.c.po.c:9519
+#: src/translate.c.po.c:9561
 msgid "Set the value for the very first RAM address after powerup"
 msgstr ""
 
-#: src/translate.c.po.c:9534
+#: src/translate.c.po.c:9576
 msgid "<num of bytes>"
 msgstr ""
 
-#: src/translate.c.po.c:9548
+#: src/translate.c.po.c:9590
 msgid "Length of memory block initialized with the same value"
 msgstr ""
 
-#: src/translate.c.po.c:9562
+#: src/translate.c.po.c:9604
 msgid "Length of memory block initialized with the same pattern"
 msgstr ""
 
-#: src/translate.c.po.c:9576
+#: src/translate.c.po.c:9618
 #, fuzzy
 msgid "Enable sound playback"
 msgstr "*W³±cz d¼wiêk"
 
-#: src/translate.c.po.c:9590
+#: src/translate.c.po.c:9632
 #, fuzzy
 msgid "Disable sound playback"
 msgstr "*W³±cz d¼wiêk"
 
-#: src/translate.c.po.c:9604
+#: src/translate.c.po.c:9646
 msgid "Set sound sample rate to <value> Hz"
 msgstr ""
 
-#: src/translate.c.po.c:9618
+#: src/translate.c.po.c:9660
 msgid "Set sound buffer size to <value> msec"
 msgstr ""
 
-#: src/translate.c.po.c:9632
+#: src/translate.c.po.c:9674
 msgid "Specify sound driver"
 msgstr ""
 
-#: src/translate.c.po.c:9646
+#: src/translate.c.po.c:9688
 msgid "<args>"
 msgstr ""
 
-#: src/translate.c.po.c:9660
+#: src/translate.c.po.c:9702
 msgid "Specify initialization parameters for sound driver"
 msgstr ""
 
-#: src/translate.c.po.c:9674
+#: src/translate.c.po.c:9716
 #, fuzzy
 msgid "Specify recording sound driver"
 msgstr "Zatrzymaj zapisywanie wydarzen "
 
-#: src/translate.c.po.c:9688
+#: src/translate.c.po.c:9730
 msgid "Specify initialization parameters for recording sound driver"
 msgstr ""
 
-#: src/translate.c.po.c:9705
+#: src/translate.c.po.c:9747
 msgid "<sync>"
 msgstr ""
 
-#: src/translate.c.po.c:9719
+#: src/translate.c.po.c:9761
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 
-#: src/translate.c.po.c:9734
+#: src/translate.c.po.c:9776
 #, fuzzy
 msgid "<path>"
 msgstr "<pusty>"
 
-#: src/translate.c.po.c:9748
+#: src/translate.c.po.c:9790
 msgid "Define search path to locate system files"
 msgstr ""
 
-#: src/translate.c.po.c:9762
+#: src/translate.c.po.c:9804
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr ""
 
-#: src/translate.c.po.c:9777
+#: src/translate.c.po.c:9819
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr ""
 
-#: src/translate.c.po.c:9793
+#: src/translate.c.po.c:9835
 msgid "Limit emulation speed to specified value"
 msgstr "Ograniczaj prêdko¶æ emulacji do podanej warto¶ci"
 
-#: src/translate.c.po.c:9807
+#: src/translate.c.po.c:9849
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Aktualizuj co <warto¶æ> klatek (`0' - automatycznie)"
 
-#: src/translate.c.po.c:9821
+#: src/translate.c.po.c:9863
 msgid "Enable warp mode"
 msgstr "W³±cz tryb przy¶pieszony (Turbo)"
 
-#: src/translate.c.po.c:9835
+#: src/translate.c.po.c:9877
 msgid "Disable warp mode"
 msgstr "Wy³±cz tryb przy¶pieszony (Turbo)"
 
-#: src/translate.c.po.c:9849
+#: src/translate.c.po.c:9891
 msgid "<iso language code>"
 msgstr ""
 
-#: src/translate.c.po.c:9863
+#: src/translate.c.po.c:9905
 msgid "Specify the iso code of the language"
 msgstr ""
 
-#: src/translate.c.po.c:9877
+#: src/translate.c.po.c:9919
 #, fuzzy
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/translate.c.po.c:9891
+#: src/translate.c.po.c:9933
 #, fuzzy
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "Rozszerzenie RAM napêdu #8 "
 
-#: src/translate.c.po.c:9905
+#: src/translate.c.po.c:9947
 #, fuzzy
 msgid "Specify name of PLUS256K image"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/translate.c.po.c:9919
+#: src/translate.c.po.c:9961
 #, fuzzy
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/translate.c.po.c:9933
+#: src/translate.c.po.c:9975
 #, fuzzy
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "Rozszerzenie RAM napêdu #8 "
 
-#: src/translate.c.po.c:9947
+#: src/translate.c.po.c:9989
 #, fuzzy
 msgid "Specify name of PLUS60K image"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/translate.c.po.c:9961
+#: src/translate.c.po.c:10003
 #, fuzzy
 msgid "Base address of the PLUS60K expansion"
 msgstr "Rozszerzenie RAM napêdu #8 "
 
-#: src/translate.c.po.c:9975
+#: src/translate.c.po.c:10017
 #, fuzzy
 msgid "Enable the 256K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/translate.c.po.c:9989
+#: src/translate.c.po.c:10031
 #, fuzzy
 msgid "Disable the 256K RAM expansion"
 msgstr "Rozszerzenie RAM napêdu #8 "
 
-#: src/translate.c.po.c:10003
+#: src/translate.c.po.c:10045
 #, fuzzy
 msgid "Specify name of 256K image"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/translate.c.po.c:10017
+#: src/translate.c.po.c:10059
 #, fuzzy
 msgid "Base address of the 256K expansion"
 msgstr "Rozszerzenie RAM napêdu #8 "
 
-#: src/translate.c.po.c:10031
+#: src/translate.c.po.c:10073
 #, fuzzy
 msgid "Attach raw Structured Basic cartridge image"
 msgstr "W³ó¿ obraz kartrid¿a"
 
-#: src/translate.c.po.c:10045
+#: src/translate.c.po.c:10087
 #, fuzzy
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/translate.c.po.c:10059
+#: src/translate.c.po.c:10101
 #, fuzzy
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/translate.c.po.c:10073
+#: src/translate.c.po.c:10115
 #, fuzzy
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/translate.c.po.c:10087
+#: src/translate.c.po.c:10129
 #, fuzzy
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/translate.c.po.c:10101
+#: src/translate.c.po.c:10143
 msgid "Specify DTV Revision (2: DTV2, 3: DTV3)"
 msgstr ""
 
-#: src/translate.c.po.c:10115
+#: src/translate.c.po.c:10157
 msgid "Enable DTV blitter logs."
 msgstr ""
 
-#: src/translate.c.po.c:10129
+#: src/translate.c.po.c:10171
 msgid "Disable DTV blitter logs."
 msgstr ""
 
-#: src/translate.c.po.c:10143
+#: src/translate.c.po.c:10185
 #, fuzzy
 msgid "Enable DTV DMA logs."
 msgstr "*W³±cz tryb przy¶pieszony (Turbo)"
 
-#: src/translate.c.po.c:10157
+#: src/translate.c.po.c:10199
 #, fuzzy
 msgid "Disable DTV DMA logs."
 msgstr "*Podwójny rozmiar"
 
-#: src/translate.c.po.c:10171
+#: src/translate.c.po.c:10213
 #, fuzzy
 msgid "Specify name of C64DTV ROM image"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/translate.c.po.c:10185
+#: src/translate.c.po.c:10227
 msgid "Enable writing to C64DTV ROM image"
 msgstr ""
 
-#: src/translate.c.po.c:10199
+#: src/translate.c.po.c:10241
 msgid "Disable writing to C64DTV ROM image"
 msgstr ""
 
-#: src/translate.c.po.c:10213
+#: src/translate.c.po.c:10255
 msgid "Enable DTV flash chip logs."
 msgstr ""
 
-#: src/translate.c.po.c:10227
+#: src/translate.c.po.c:10269
 msgid "Disable DTV flash chip logs."
 msgstr ""
 
-#: src/translate.c.po.c:10241
+#: src/translate.c.po.c:10283
 msgid "Use <name> as directory for flash file system device"
 msgstr ""
 
-#: src/translate.c.po.c:10255
+#: src/translate.c.po.c:10297
 msgid "Enable true hardware flash file system"
 msgstr ""
 
-#: src/translate.c.po.c:10269
+#: src/translate.c.po.c:10311
 #, fuzzy
 msgid "Disable true hardware flash file system"
 msgstr "U¿yj rozszerzenia XVideo(skalowanie sprzêtowe)"
 
-#: src/translate.c.po.c:10284
+#: src/translate.c.po.c:10326
 #, fuzzy
 msgid "Enable MIDI emulation"
 msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 
 # src/arch/unix/uisettings.c:614 src/arch/unix/vic20ui.c:317 
-#: src/translate.c.po.c:10298
+#: src/translate.c.po.c:10340
 #, fuzzy
 msgid "Disable MIDI emulation"
 msgstr "*Brak emulacji portu RS232"
 
-#: src/translate.c.po.c:10312
+#: src/translate.c.po.c:10354
 msgid ""
 "MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
 msgstr ""
 
-#: src/translate.c.po.c:10334
+#: src/translate.c.po.c:10376
 #, fuzzy
 msgid "Enable the digimax cartridge"
 msgstr "W³±cz Expert Cartridge..."
 
-#: src/translate.c.po.c:10348
+#: src/translate.c.po.c:10390
 #, fuzzy
 msgid "Disable the digimax cartridge"
 msgstr "W³±cz Expert Cartridge..."
 
-#: src/translate.c.po.c:10362
+#: src/translate.c.po.c:10404
 #, fuzzy
 msgid "Base address of the digimax cartridge"
 msgstr "Rozszerzenie RAM napêdu #8 "
