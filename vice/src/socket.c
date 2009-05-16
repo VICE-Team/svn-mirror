@@ -643,7 +643,10 @@ static int vice_network_address_generate_ipv6(vice_network_socket_address_t * so
 
     do {
         struct hostent * host_entry = NULL;
+#ifdef HAVE_GETHOSTBYNAME2
+#else
         int err6;
+#endif
 
         /* preset the socket address */
 
