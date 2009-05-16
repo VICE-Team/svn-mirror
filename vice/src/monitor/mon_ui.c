@@ -387,9 +387,8 @@ void mon_memory_update(mon_memory_private_t * pmmp)
 mon_memory_t *mon_memory_get_lines(mon_memory_private_t * pmmp, int lines_visible, int lines_full_visible)
 {
     WORD loc;
-    unsigned int size;
+    unsigned int size = 0;
     int  i;
-    unsigned int  have_label = pmmp->have_label;
     mon_memory_t *contents = NULL;
     mon_memory_t *ret;
 
