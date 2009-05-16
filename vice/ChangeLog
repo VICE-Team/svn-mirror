@@ -1,3 +1,339 @@
+2009-05-16  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.1.12
+
+2009-05-16  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/nl.po,
+	  po/pl.po, po/sv.po, po/tr.po: Updated.
+
+	* src/socket.c: Conditionally removed variable err6 which is
+	  only needed if IPv6 is available, eliminating a warning.
+
+	* src/monitor/mon_ui.c: Removed warnings in (currently unused)
+	  code.
+
+2009-05-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added bsdi to the sdl supported platforms
+	  list.
+
+2009-05-15  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vdc/vdc-draw.c, src/vdc/vdc-mem.c: VDC improvements by
+	  Errol Smith (with minor style guideline edits)
+
+2009-05-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128mem.c: Added VDC external registers to the
+	  monitor I/O as provided in a patch by Errol Smith.
+
+2009-05-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/monitor.c: Fixed monitor ls command for
+	  directories other than current.
+
+2009-05-14  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_snapshot.c: Added quickload/save snapshot to
+	  SDL UI, set save disks default to on
+
+2009-05-13  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/monitor/mon_lex.l, src/monitor/mon_parse.y: Use ; as a
+	  monitor comment command
+
+2009-05-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added mips64-linux to the sdl supported
+	  platforms list.
+
+2009-05-13  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* configure.in: configure --help cosmetic fixes
+
+2009-05-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added mips64el-linux to the sdl supported
+	  platforms list.
+
+2009-05-13  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/6510core.c, src/gfxoutputdrv/ffmpegdrv.c,
+	  src/gfxoutputdrv/pcxdrv.c, src/gfxoutputdrv/ppmdrv.c,
+	  src/maincpu.c, src/monitor.h, src/monitor/asm6502.c,
+	  src/monitor/asm6502dtv.c, src/monitor/asmz80.c,
+	  src/monitor/mon_disassemble.c, src/monitor/mon_disassemble.h,
+	  src/monitor/monitor.c, src/zfile.c: Removed 2466 warnigs on
+	  MSVC6 compiles by changing function prototypes and variable
+	  declarations. Also, removed some casts that were or are now
+	  superfluous.
+
+	* src/lib/libffmpeg/libavutil/rational.h: Removed a warning by
+	  adding a cast.
+
+	* src/arch/win32/uimon.c: Changes the monitor window position so
+	  it is not hard coded to the top/left of the physical screen,
+	  which does not play nice when your taskbar is at the top or
+	  left of the screen. Patch by Errol Smith (#2790715). Also,
+	  change the default behaviour of the other monitor windows in a
+	  similar vain.
+
+2009-05-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Corrected some text.
+
+	* doc/ReadmeSDL.txt: Changed Uclinux to uClinux.
+
+	* doc/ReadmeSDL.txt: Added m68k-uclinux to the sdl supported
+	  platforms list.
+
+2009-05-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added x86-openbsd to the sdl supported
+	  platforms list.
+
+2009-05-11  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.h, src/sid/resid-fp.cc: Remove more code
+	  that seems to do no good. Update parameters again.
+
+	* src/resid-fp/filter.h, src/sid/resid-fp.cc: Equalize bp-hp
+	  level again, update parameters to match.
+
+2009-05-11  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/unix/joy.c: Fixed empty "#elif" to "#else" as it is
+	  correctly (and needed for gcc 4.4). Fix provided by Samuli
+	  Suominen, written by Martin Väth.
+
+2009-05-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added x86-netbsd to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Added Dragonfly BSD to the sdl supported
+	  platforms list.
+
+2009-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added sparc64-openbsd to the sdl supported
+	  platforms list.
+
+	* src/arch/sdl/make-bindist_scosol.sh,
+	  src/arch/unix/sco_sol/make-bindist.sh: Added prelimenary make
+	  bindist support for the s390 opensolaris port (sirius).
+
+2009-05-09  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/about.c,
+	  src/arch/unix/x11/gnome/uijoystickkeys.c,
+	  src/arch/unix/x11/gnome/x11ui.c: Cleaned from deprecated gnome
+	  API.
+
+2009-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added ppc-openbsd to the sdl supported
+	  platforms list.
+
+2009-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added ppc-freebsd to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Added sh4-openbsd to the sdl supported
+	  platforms list.
+
+2009-05-08  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/msvc/config.h: As the bug report was against
+	  MSVC 7.1, the last fix did not help. Corrected it.
+
+	* src/arch/win32/msvc/config.h: Uses _vsnprintf() only for
+	  compilers older than MSVC 2008.
+
+
+2009-05-07  pottendo <pottendo@aon.at>
+	  
+	  * src/arch/unix/gui/uicommands.c (UI_CALLBACK_activate_monitor):
+	  allow resuming to fullscreen via `fullscreen_resume() in case
+	  monitor was entered in paused mode.
+	  
+	  * src/arch/unix/x11/xrandr.h, src/arch/unix/x11/xrandr.c
+	  (xrandr_resume): New function. (xrandr_suspend): Likewise.
+	  Resolves:
+	  http://sourceforge.net/tracker/?func=detail&aid=2772753&group_id=223021&atid=1057617
+	  
+	  * src/arch/unix/x11/fullscreen.c (fullscreen_suspend): added
+	  xrandr_*(). (fullscreen_resume): Likewise.
+	  
+	  * src/monitor/monitor.c (monitor_trap): allow resuming to
+	  fullscreen via `fullscreen_resume()'.
+
+2009-05-07  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/archdep_unix.c, src/arch/unix/archdep.c: Set len
+	  and isdir to zero on stat error
+
+2009-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added vax-netbsd to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Added sparc64-netbsd to the sdl supported
+	  platforms list.
+
+2009-05-06  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/rs232.c: On errors, exit the rs232_putc write
+	  loop instead of trying again infinitely
+
+	* src/arch/amigaos/joy.c, src/arch/amigaos/joy.h,
+	  src/arch/beos/joy.cc, src/arch/beos/joy.h,
+	  src/arch/msdos/joy.c, src/arch/msdos/joy.h,
+	  src/arch/riscos/joy.c, src/arch/riscos/joy.h,
+	  src/arch/sdl/joy.c, src/arch/sdl/joy.h,
+	  src/arch/sdl/menu_c64dtvhw.c, src/arch/sdl/menu_c64hw.c,
+	  src/arch/sdl/menu_joystick.c, src/arch/sdl/menu_joystick.h,
+	  src/arch/sdl/uistatusbar.c, src/arch/unix/gui/c64dtvui.c,
+	  src/arch/unix/gui/c64ui.c, src/arch/unix/gui/uic64dtv.c,
+	  src/arch/unix/gui/uijoystick2.c,
+	  src/arch/unix/gui/uijoystick2.h, src/arch/unix/joy.c,
+	  src/arch/unix/joy.h, src/arch/unix/macosx/joy.c,
+	  src/arch/unix/macosx/joy.h, src/arch/win32/joy.c,
+	  src/arch/win32/joy.h, src/c64/c64cia2.c,
+	  src/c64dtv/c64dtv-resources.c, src/c64dtv/c64dtvcia1.c,
+	  src/c64dtv/c64dtvcia2.c, src/c64dtv/hummeradc.c,
+	  src/joystick.c, src/joystick.h, src/keyboard.c,
+	  src/keyboard.h: Added two more virtual joysticks and
+	  Protovision 4 Player Interface emulation for x64 and x64dtv,
+	  set Hummer userport device to use joystick 3, updated SDL and
+	  Unix joystick code/UIs
+
+2009-05-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added sparc-netbsd to the sdl supported
+	  platforms list.
+
+2009-05-06  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/console.c: Define MAX_OUTPUT_LENGTH was not
+	  used, removed it.
+
+	* src/arch/win32/winlong.h: Define LONG_PTR only if not using a
+	  modern SDK which already includes it.
+
+2009-05-06  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/joy.c, src/arch/sdl/joy.h,
+	  src/arch/sdl/menu_joystick.c, src/arch/sdl/menu_settings.c,
+	  src/arch/sdl/ui.c, src/arch/sdl/uihotkey.c,
+	  src/arch/sdl/uimenu.c, src/arch/sdl/uipoll.c,
+	  src/arch/sdl/vkbd.c, src/arch/sdl/vsyncarch.c: Disable SDL
+	  joystick if it's not available
+
+2009-05-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Added a check for the SDL_NumJoysticks() and
+	  when found HAVE_SDL_NUMJOYSTICKS will be defined, this will be
+	  used for the joystick code in the sdl ui.
+
+	* config.sub: Added sh5le to config.sub
+
+	* doc/ReadmeSDL.txt: Added sh3le-netbsd to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Added sh3eb-netbsd to the sdl supported
+	  platforms list.
+
+2009-05-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added avr32-linux to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Added ppc-netbsd to the sdl supported
+	  platforms list.
+
+2009-05-05  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vicii/vicii-fetch.c: Disable 0xff fetches for x64dtv,
+	  fixes FLI
+
+2009-05-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added ns32k-pc532-netbsd to the sdl
+	  supported platforms list.
+
+	* doc/ReadmeSDL.txt: Added mipsel-netbsd to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Added sparc64-linux to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Added sparc-linux to the sdl supported
+	  platforms list.
+
+2009-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added armeb-netbsd and sparc64-freebsd to
+	  the sdl supported platforms list.
+
+	* doc/ReadmeSDL.txt: Added sh4-linux to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Added sh3-linux to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Added s390x-linux to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Added s390-linux to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Added ppc64-linux to the sdl supported
+	  platforms list.
+
+2009-05-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added mips-linux to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Added m68k-netbsd to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Added mipsel-linux to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Added (libaa only) m68010-netbsd (sun2 with
+	  its own custom mmu) to the sdl supported platforms list.
+
+	* doc/ReadmeSDL.txt: Added m68k-linux to the sdl supported
+	  platforms list.
+
+2009-05-03  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/msvc/config.h: For MSVC compilers, use
+	  _vsnprintf() for vsnprintf() only if we have MSVC6 or older.
+
+2009-05-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added ia64-linux to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Added ia64-freebsd to the sdl supported
+	  platforms list.
+
+2009-05-02  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/uimediafile.c: Don't fill ffmpeg related
+	  controls if the ffmpeg driver isn't enabled.
+
+2009-05-02  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/monitor/monitor_network.c, src/translate.c,
+	  src/translate.txt: Translation items for remote monitor
+	  cmdline switches
+
 2009-05-02  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.1.11
