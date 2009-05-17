@@ -3,10 +3,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 2.1\n"
+"Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-05-16 10:45+0200\n"
-"PO-Revision-Date: 2009-05-01 09:50+0200\n"
+"PO-Revision-Date: 2009-05-17 19:28+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -22,14 +22,12 @@ msgid "Set device for joystick port 2"
 msgstr "Gerät für Port 2 definieren"
 
 #: src/arch/unix/joy.c:114
-#, fuzzy
 msgid "Set device for joystick port 3"
-msgstr "Gerät für Port 1 definieren"
+msgstr "Gerät für Port 3 definieren"
 
 #: src/arch/unix/joy.c:119
-#, fuzzy
 msgid "Set device for joystick port 4"
-msgstr "Gerät für Port 1 definieren"
+msgstr "Gerät für Port 4 definieren"
 
 #: src/arch/unix/mididrv.c:659 src/arch/unix/mididrv.c:664
 #: src/translate.c.po.c:3636
@@ -1871,18 +1869,16 @@ msgid "Swap joystick ports"
 msgstr "Joystick ports austauschen"
 
 #: src/arch/unix/gui/uijoystick2.c:340
-#, fuzzy
 msgid "Joystick device in port 3"
-msgstr "Joystick in port 1"
+msgstr "Joystick in port 3"
 
 #: src/arch/unix/gui/uijoystick2.c:342
-#, fuzzy
 msgid "Joystick device in port 4"
-msgstr "Joystick in port 1"
+msgstr "Joystick in port 4"
 
 #: src/arch/unix/gui/uijoystick2.c:354
 msgid "*Protovision 4 Player Interface"
-msgstr ""
+msgstr "*Protovision 4 Spieler Schnittstelle"
 
 #: src/arch/unix/gui/uijoystick2.c:366 src/arch/unix/gui/uijoystick2.c:372
 #: src/arch/unix/gui/vic20ui.c:389 src/arch/win32/res.rc.po.c:815
@@ -11831,18 +11827,16 @@ msgid "Set an initial breakpoint for the monitor"
 msgstr "Setze initialen Breakpoint für Monitor"
 
 #: src/translate.c.po.c:9153
-#, fuzzy
 msgid "Enable remote monitor"
-msgstr "Maus aktivieren"
+msgstr "Monitor Fernsteuerung aktivieren"
 
 #: src/translate.c.po.c:9167
-#, fuzzy
 msgid "Disable remote monitor"
-msgstr "Maus deaktivieren"
+msgstr "Monitor Fernsteuerung deaktivieren"
 
 #: src/translate.c.po.c:9181
 msgid "The local address the remote monitor should bind to"
-msgstr ""
+msgstr "Lokale Adresse für die Monitorfernsteuerung"
 
 #: src/translate.c.po.c:9195
 msgid "Specify name of the flip list file image"
