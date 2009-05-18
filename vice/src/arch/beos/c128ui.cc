@@ -136,6 +136,13 @@ ui_res_possible_values c128viciiBorders[] = {
         {-1, 0}
 };
 
+ui_res_possible_values c128VDCrev[] = {
+        {0, MENU_VDC_REV_0},
+        {1, MENU_VDC_REV_1},
+        {2, MENU_VDC_REV_2},
+        {-1, 0}
+};
+
 ui_res_possible_values c128mousetypes[] = {
         {MOUSE_TYPE_1351, MENU_MOUSE_TYPE_1351},
         {MOUSE_TYPE_NEOS, MENU_MOUSE_TYPE_NEOS},
@@ -156,6 +163,7 @@ ui_res_value_list c128_ui_res_values[] = {
     {"RAMCARTsize", c128RamCartSize},
     {"DIGIMAXbase", c128DigimaxBase},
     {"VICIIBorderMode", c128viciiBorders},
+    {"VDCRevision", c128VDCrev},
     {"Mousetype", c128mousetypes},
     {"Mouseport", c128mouseports},
     {NULL,NULL}

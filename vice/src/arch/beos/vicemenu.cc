@@ -349,6 +349,14 @@ BMenuBar *menu_create(int machine_class) {
 			submenu->AddSeparatorItem();
 			submenu->AddItem(new BMenuItem("64KB video memory",
 				new BMessage(MENU_TOGGLE_VDC64KB)));
+			menu->AddItem(submenu = new BMenu("VDC revision"));
+			submenu->SetRadioMode(true);
+			submenu->AddItem(new BMenuItem("Rev 0",
+				new BMessage(MENU_VDC_REV_0)));
+			submenu->AddItem(new BMenuItem("Rev 1",
+				new BMessage(MENU_VDC_REV_1)));
+			submenu->AddItem(new BMenuItem("Rev 2",
+				new BMessage(MENU_VDC_REV_2)));
 		}
 		menu->AddSeparatorItem();
 
