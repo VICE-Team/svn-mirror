@@ -198,6 +198,13 @@ BEGIN
             MENUITEM "", IDM_TOGGLE_VDC_DOUBLESCAN
             MENUITEM SEPARATOR
             MENUITEM "", IDM_TOGGLE_VDC64KB
+            MENUITEM SEPARATOR
+            POPUP "VDC revision"
+            BEGIN
+                MENUITEM "Rev 0", IDM_VDC_REV_0
+                MENUITEM "Rev 1", IDM_VDC_REV_1
+                MENUITEM "Rev 2", IDM_VDC_REV_2
+            END
         END
         MENUITEM SEPARATOR
         MENUITEM "", IDM_SWAP_JOYSTICK
@@ -3247,6 +3254,7 @@ BEGIN
   IDS_FUNCTION_ROM              "Function ROM"
   IDS_C128_SETTINGS             "C128 settings"
   IDS_MP_VDC_SETTINGS           "VDC settin&gs"
+  IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB video &memory"
   IDS_MI_IEEE488                "IEEE&488 Interface emulation"
   IDS_MI_C128_SETTINGS          "C&128 settings..."
@@ -3264,6 +3272,7 @@ BEGIN
   IDS_FUNCTION_ROM              "Funktions-ROM"
   IDS_C128_SETTINGS             "C128-indstillinger"
   IDS_MP_VDC_SETTINGS           "&VDC-indstillinger"
+  IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB grafikhuko&mmelse"
   IDS_MI_IEEE488                "Emulering af IEEE&488-interface"
   IDS_MI_C128_SETTINGS          "C&128-indstillinger..."
@@ -3281,6 +3290,7 @@ BEGIN
   IDS_FUNCTION_ROM              "Function ROM"
   IDS_C128_SETTINGS             "C128 Einstellungen"
   IDS_MP_VDC_SETTINGS           "VDC Einstellun&gen"
+  IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB Bildschirm Speicher"
   IDS_MI_IEEE488                "IEEE&488 Schnittstellen-Emulation"
   IDS_MI_C128_SETTINGS          "C&128 Einstellungen..."
@@ -3298,6 +3308,7 @@ BEGIN
   IDS_FUNCTION_ROM              "ROM Fonction"
   IDS_C128_SETTINGS             "Paramètres C128"
   IDS_MP_VDC_SETTINGS           "Para&mètres VDC"
+  IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "Mémoire d'affichage de 64Ko"
   IDS_MI_IEEE488                "Interface d'émulation &IEEE488"
   IDS_MI_C128_SETTINGS          "Paramètres C&128..."
@@ -3316,6 +3327,7 @@ BEGIN
   IDS_FUNCTION_ROM              "Function ROM"
   IDS_C128_SETTINGS             "C128 beállításai"
   IDS_MP_VDC_SETTINGS           "VDC beállításai"
+  IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB képernyõ &memória"
   IDS_MI_IEEE488                "IEEE&488 interfész emuláció"
   IDS_MI_C128_SETTINGS          "C&128 beállításai..."
@@ -3334,6 +3346,7 @@ BEGIN
   IDS_FUNCTION_ROM              "Function ROM"
   IDS_C128_SETTINGS             "Impostazioni C128"
   IDS_MP_VDC_SETTINGS           "Impostazio&ni del VDC"
+  IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB di &memoria video"
   IDS_MI_IEEE488                "Emulazione dell'interfaccia IEEE&488"
   IDS_MI_C128_SETTINGS          "Impostazioni C&128..."
@@ -3351,6 +3364,7 @@ BEGIN
   IDS_FUNCTION_ROM              "Functie-ROM"
   IDS_C128_SETTINGS             "C128-instellingen"
   IDS_MP_VDC_SETTINGS           "VDC-instellin&gen"
+  IDS_MP_VDC_REVISION           "VDC-revisie"
   IDS_MI_TOGGLE_VDC64KB         "64KB video&geheugen"
   IDS_MI_IEEE488                "IEEE&488 Interface emulatie"
   IDS_MI_C128_SETTINGS          "C&128-instellingen..."
@@ -3369,6 +3383,7 @@ BEGIN
   IDS_FUNCTION_ROM              "Function ROM"
   IDS_C128_SETTINGS             "C128 settings"
   IDS_MP_VDC_SETTINGS           "Us&tawienia VDC"
+  IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "Wy¶wietl pa&miêæ 64KB"
   IDS_MI_IEEE488                "Emulacja interfejsu IEEE&488"
   IDS_MI_C128_SETTINGS          "Ustawienia C&128..."
@@ -3387,6 +3402,7 @@ BEGIN
   IDS_FUNCTION_ROM              "Funktions-ROM"
   IDS_C128_SETTINGS             "C128-inställningar"
   IDS_MP_VDC_SETTINGS           "&VDC-inställningar"
+  IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB grafik&minne"
   IDS_MI_IEEE488                "Emulering av IEEE&488-gränssnitt"
   IDS_MI_C128_SETTINGS          "C&128-inställningar..."
@@ -3405,6 +3421,7 @@ BEGIN
   IDS_FUNCTION_ROM              "Function ROM"
   IDS_C128_SETTINGS             "C128 ayarlarý"
   IDS_MP_VDC_SETTINGS           "VDC ayarlarý"
+  IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB görüntü &belleði"
   IDS_MI_IEEE488                "IEEE&488 Arabirimi emülasyonu"
   IDS_MI_C128_SETTINGS          "C&128 ayarlarý..."

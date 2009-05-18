@@ -59,11 +59,22 @@
 #include "uilib.h"
 
 
+static const ui_res_possible_values_t VDCrev[] = {
+    { 0, IDM_VDC_REV_0 },
+    { 1, IDM_VDC_REV_1 },
+    { 2, IDM_VDC_REV_2 },
+    { -1, 0 }
+};
+
+static const ui_res_value_list_t c128_ui_res_values[] = {
+    { "VDCRevision", VDCrev, 0 },
+    { NULL, NULL, 0 }
+};
+
 static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
     IDD_C128ROM_RESOURCE_DIALOG,
     IDD_C128ROMDRIVE_RESOURCE_DIALOG,
     0 };
-
 
 static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
     { "EmuID", IDM_TOGGLE_EMUID },
@@ -357,6 +368,7 @@ ui_popup_translation_table_t c128ui_popup_translation_table[] = {
     { 2, IDS_MP_REFRESH_RATE },
     { 2, IDS_MP_MAXIMUM_SPEED },
     { 2, IDS_MP_VDC_SETTINGS },
+    { 3, IDS_MP_VDC_REVISION },
     { 2, IDS_MP_VIDEO_STANDARD },
     { 1, IDS_MP_SETTINGS },
     { 2, IDS_MP_CARTRIDGE_IO_SETTINGS },
@@ -438,6 +450,7 @@ int c128ui_init(void)
     ui_register_machine_specific(c128_ui_specific);
     ui_register_menu_toggles(c128_ui_menu_toggles);
     ui_register_translation_tables(c128ui_menu_translation_table, c128ui_popup_translation_table);
+    ui_register_res_values(c128_ui_res_values);
 
     return 0;
 }
@@ -445,4 +458,3 @@ int c128ui_init(void)
 void c128ui_shutdown(void)
 {
 }
-
