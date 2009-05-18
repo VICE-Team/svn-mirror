@@ -112,6 +112,27 @@ static tui_menu_item_def_t vicii_menu_items[] = {
 TUI_MENU_DEFINE_TOGGLE(VDCDoubleSize)
 TUI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
 TUI_MENU_DEFINE_TOGGLE(VDC64KB)
+TUI_MENU_DEFINE_RADIO(VDCRevision)
+
+static TUI_MENU_CALLBACK(vdc_revision_submenu_callback)
+{
+    int value;
+    static char s[100];
+
+    resources_get_int("VDCRevision", &value);
+    sprintf(s, "Rev %d",value);
+    return s;
+}
+
+static tui_menu_item_def_t vdc_revision_submenu[] = {
+    { "Rev _0", NULL, radio_VDCRevision_callback,
+      (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Rev _1", NULL, radio_VDCRevision_callback,
+      (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Rev _2", NULL, radio_VDCRevision_callback,
+      (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
 
 static tui_menu_item_def_t vcd_menu_items[] = {
     { "--" },
@@ -127,6 +148,10 @@ static tui_menu_item_def_t vcd_menu_items[] = {
       "Emulate a VDC with 64KB video RAM",
       toggle_VDC64KB_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "VDC _revision:", "Select the revision of the VDC",
+      vdc_revision_submenu_callback, NULL, 7,
+      TUI_MENU_BEH_CONTINUE, vdc_revision_submenu,
+      "VDC revision" },
     { NULL }
 };
 
