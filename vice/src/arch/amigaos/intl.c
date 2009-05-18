@@ -1405,6 +1405,50 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_64KB_VIDEO_MEMORY_SV, "64KB grafikminne"},
 /* tr */ {IDMS_64KB_VIDEO_MEMORY_TR, "64KB görüntü belleði"},
 
+/* en */ {IDMS_VDC_REVISION,    "VDC revision"},
+/* da */ {IDMS_VDC_REVISION_PL, ""},  /* fuzzy */
+/* de */ {IDMS_VDC_REVISION_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_VDC_REVISION_FR, ""},  /* fuzzy */
+/* it */ {IDMS_VDC_REVISION_IT, ""},  /* fuzzy */
+/* hu */ {IDMS_VDC_REVISION_HU, ""},  /* fuzzy */
+/* nl */ {IDMS_VDC_REVISION_NL, "VDC-revisie"},
+/* pl */ {IDMS_VDC_REVISION_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_VDC_REVISION_SV, ""},  /* fuzzy */
+/* tr */ {IDMS_VDC_REVISION_TR, ""},  /* fuzzy */
+
+/* en */ {IDMS_VDC_REV_0,    "Rev 0"},
+/* da */ {IDMS_VDC_REV_0_PL, ""},  /* fuzzy */
+/* de */ {IDMS_VDC_REV_0_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_VDC_REV_0_FR, ""},  /* fuzzy */
+/* it */ {IDMS_VDC_REV_0_IT, ""},  /* fuzzy */
+/* hu */ {IDMS_VDC_REV_0_HU, ""},  /* fuzzy */
+/* nl */ {IDMS_VDC_REV_0_NL, "Rev 0"},
+/* pl */ {IDMS_VDC_REV_0_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_VDC_REV_0_SV, ""},  /* fuzzy */
+/* tr */ {IDMS_VDC_REV_0_TR, ""},  /* fuzzy */
+
+/* en */ {IDMS_VDC_REV_1,    "Rev 1"},
+/* da */ {IDMS_VDC_REV_1_PL, ""},  /* fuzzy */
+/* de */ {IDMS_VDC_REV_1_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_VDC_REV_1_FR, ""},  /* fuzzy */
+/* it */ {IDMS_VDC_REV_1_IT, ""},  /* fuzzy */
+/* hu */ {IDMS_VDC_REV_1_HU, ""},  /* fuzzy */
+/* nl */ {IDMS_VDC_REV_1_NL, "Rev 1"},
+/* pl */ {IDMS_VDC_REV_1_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_VDC_REV_1_SV, ""},  /* fuzzy */
+/* tr */ {IDMS_VDC_REV_1_TR, ""},  /* fuzzy */
+
+/* en */ {IDMS_VDC_REV_2,    "Rev 2"},
+/* da */ {IDMS_VDC_REV_2_PL, ""},  /* fuzzy */
+/* de */ {IDMS_VDC_REV_2_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_VDC_REV_2_FR, ""},  /* fuzzy */
+/* it */ {IDMS_VDC_REV_2_IT, ""},  /* fuzzy */
+/* hu */ {IDMS_VDC_REV_2_HU, ""},  /* fuzzy */
+/* nl */ {IDMS_VDC_REV_2_NL, "Rev 2"},
+/* pl */ {IDMS_VDC_REV_2_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_VDC_REV_2_SV, ""},  /* fuzzy */
+/* tr */ {IDMS_VDC_REV_2_TR, ""},  /* fuzzy */
+
 /* en */ {IDMS_SWAP_JOYSTICKS,    "Swap Joysticks"},
 /* da */ {IDMS_SWAP_JOYSTICKS_DA, "Byt om på joystickportene"},
 /* de */ {IDMS_SWAP_JOYSTICKS_DE, "Joystick ports austauschen"},

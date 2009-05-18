@@ -51,6 +51,18 @@
 #include "mui/uivicii.h"
 #include "mui/uivideoc128.h"
 
+static const ui_res_possible_values_t VDCrev[] = {
+    { 0, IDM_VDC_REV_0 },
+    { 1, IDM_VDC_REV_1 },
+    { 2, IDM_VDC_REV_2 },
+    { -1, 0 }
+};
+
+static const ui_res_value_list_t c128_ui_res_values[] = {
+    { "VDCRevision", VDCrev, 0 },
+    { NULL, NULL, 0 }
+};
+
 static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
@@ -138,7 +150,7 @@ int c128ui_init(void)
   ui_register_menu_layout(c128_ui_menu);
   ui_register_machine_specific(c128_ui_specific);
   ui_register_menu_toggles(c128_ui_menu_toggles);
-//  ui_register_res_values(const ui_res_value_list_t *valuelist);
+  ui_register_res_values(c128_ui_res_values);
 
   return 0;
 }

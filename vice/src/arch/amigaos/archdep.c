@@ -56,13 +56,13 @@
 static char *boot_path = NULL;
 static int run_from_wb = 0;
 
-#ifndef(AMIGA_OS4)
+#ifndef AMIGA_OS4
 struct Library *SocketBase;
 #endif
 
 int archdep_network_init(void)
 {
-#ifndef(AMIGA_OS4)
+#ifndef AMIGA_OS4
     if (SocketBase == NULL) {
         SocketBase = OpenLibrary("bsdsocket.library", 3);
         if (SocketBase == NULL) {
@@ -76,7 +76,7 @@ int archdep_network_init(void)
 
 void archdep_network_shutdown(void)
 {
-#ifndef(AMIGA_OS4)
+#ifndef AMIGA_OS4
     if (SocketBase != NULL) {
         CloseLibrary(SocketBase);
         SocketBase = NULL;
