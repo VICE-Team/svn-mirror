@@ -1371,7 +1371,7 @@ void mon_end_recording(void)
 static int set_playback_name(const char *param, void *extra_param)
 {
     if (!playback_name) {
-        playback_name = strdup(param);
+        playback_name = lib_stralloc(param);
         playback = 1;
     }
     return 0;
@@ -1390,13 +1390,13 @@ static void playback_commands(int current_playback)
 
     if (fp == NULL) {
         mon_out("Playback for `%s' failed.\n", filename);
-        free(playback_name);
+        lib_free(playback_name);
         playback_name = NULL;
         --playback;
         return;
     }
 
-    free(playback_name);
+    lib_free(playback_name);
     playback_name = NULL;
 
     while (fgets(string, 255, fp) != NULL) {
@@ -1418,7 +1418,7 @@ static void playback_commands(int current_playback)
 void mon_playback_init(const char *filename)
 {
     if (playback < MAX_PLAYBACK) {
-        playback_name = strdup(filename);
+        playback_name = lib_stralloc(filename);
         ++playback;
     } else {
         mon_out("Playback for `%s' failed (recursion > %i).\n", filename, MAX_PLAYBACK);
