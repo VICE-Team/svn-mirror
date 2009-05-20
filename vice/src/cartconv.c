@@ -155,6 +155,19 @@ static const cart_t cart_info[] = {
   {0, 1, SIZE_16KB, 0x2000, 0, 0, "StarDOS"}
 };
 
+#ifndef HAVE_STRDUP
+char *strdup(const char *string)
+{
+    char *new;
+
+    new = malloc(strlen(string) + 1);
+    if (new != NULL) {
+        strcpy(new, string);
+    }
+    return new;
+}
+#endif
+
 #if !defined(HAVE_STRNCASECMP) && !defined(GP2X_SDL)
 static const unsigned char charmap[] = {
 	'\000', '\001', '\002', '\003', '\004', '\005', '\006', '\007',

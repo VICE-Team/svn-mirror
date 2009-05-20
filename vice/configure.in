@@ -1833,7 +1833,7 @@ AC_CHECK_TYPES(u_short)
 dnl some platforms have some of the functions in libbsd,
 dnl so we check it out first.
 AC_CHECK_LIB(bsd,gettimeofday,,,$LIBS)
-AC_CHECK_FUNCS(gettimeofday memmove atexit strerror strcasecmp strncasecmp telldir seekdir rewinddir dirname mkstemp swab getcwd)
+AC_CHECK_FUNCS(gettimeofday memmove atexit strdup strerror strcasecmp strncasecmp telldir seekdir rewinddir dirname mkstemp swab getcwd)
 
 AC_SUBST(LIBS)
 
