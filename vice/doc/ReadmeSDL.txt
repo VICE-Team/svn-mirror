@@ -66,6 +66,7 @@ The SDL port has been tested to work on:
  - Syllable / x86
  - Tru64 4.x / alpha
  - uClinux / m68000
+ - Ultrix / vax
  - UnixWare / x86
  - Win32 / x86
  - Win64 / ia64, x64
