@@ -22,6 +22,7 @@ libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
 	blockdev.c \
+	catweaselmkiii.c \
 	console.c \
 	fullscreen.c \
 	fullscreenarch.h \

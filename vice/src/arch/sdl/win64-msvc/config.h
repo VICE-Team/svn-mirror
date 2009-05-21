@@ -17,7 +17,6 @@
 #define HAVE_NETWORK            1
 
 #if 0
-#define HAVE_CATWEASELMKIII     1
 #define HAVE_HARDSID            1
 #define HAVE_RS232              1
 #ifndef WINIA64
@@ -35,6 +34,7 @@
 #define WIN32_COMPILE           1
 #define HAVE_SDLMAIN            1
 #define HAVE_HWSCALE            1
+#define HAVE_CATWEASELMKIII     1
 
 #define HAS_LONGLONG_INTEGER    1
 #define HAS_UNLOCKRESOURCE      1

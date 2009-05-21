@@ -271,9 +271,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
 
   if test x"$is_amigaos4" = "xyes"; then
     AC_DEFINE(AMIGA_OS4,,[Should we enable AmigaOS4 support.])
-    if test x"$enable_sdlui" != "xyes"; then
-        AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
-    fi
+    AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
     with_picasso96=yes
   fi
 
@@ -300,11 +298,11 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
   AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
   AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+  AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
 
   if test x"$enable_sdlui" != "xyes"; then
     AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
     AM_CONDITIONAL(HAVE_RS232, true)
-    AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
     AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
     AC_DEFINE(HAVE_TFE,,[Support for The final Ethernet.])
     AC_DEFINE(HAVE_MIDI,,[Enable support for midi.])
