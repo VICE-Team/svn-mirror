@@ -303,8 +303,17 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 26:
-        if ((vdc.regs[26] != oldval) && ((vdc.regs[25] & 0xC0) != 0xC0))
+        if ((vdc.regs[26] != oldval) && ((vdc.regs[25] & 0xC0) != 0xC0)) { /* repaint if something changes and we are not in graphics attribute mode */
             vdc.force_repaint = 1;
+        }
+        if ((vdc.regs[26] & 0x0F) != (oldval & 0x0F)) { /* Background colour changes */
+            /* TODO - calculate a real current horizontal raster position for this call (2nd value) */
+            raster_changes_border_add_int(&vdc.raster,
+            0,
+            (int*)&vdc.raster.border_color,
+            (vdc.regs[26] & 0x0F));
+            vdc.raster.xsmooth_color = vdc.regs[26] & 0x0F; /* Set the xsmooth area too for the 0-7pixel gap between border & foreground */
+        }
 #ifdef REG_DEBUG
         log_message(vdc.log, "Color register %x.", vdc.regs[26]);
 #endif
