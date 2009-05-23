@@ -36,7 +36,6 @@ Some missing features that are available in (some of) the native versions:
  - TFE/RRnet support
  - shared lib support
  - OpenCBM support
- - HardSID support
  - ParSID support
  
 
