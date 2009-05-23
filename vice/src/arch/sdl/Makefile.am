@@ -103,6 +103,7 @@ libarch_a_SOURCES = \
 	menu_video.h \
 	mousedrv.c \
 	mousedrv.h \
+	parsid.c \
 	sdlmain.c \
 	signals.c \
 	socketimpl.h \
