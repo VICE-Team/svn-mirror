@@ -35,9 +35,7 @@ Some missing features that are available in (some of) the native versions:
  - MIDI support
  - TFE/RRnet support
  - shared lib support
- - block device support
  - OpenCBM support
- - Catweasel SID support
  - HardSID support
  - ParSID support
  
