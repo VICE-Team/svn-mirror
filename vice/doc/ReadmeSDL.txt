@@ -34,9 +34,7 @@ Some missing features that are available in (some of) the native versions:
  - RS-232 support
  - MIDI support
  - TFE/RRnet support
- - shared lib support
- - OpenCBM support
- 
+
 
 1.3 Ports
 

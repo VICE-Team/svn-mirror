@@ -24,6 +24,7 @@ libarch_a_SOURCES = \
 	blockdev.c \
 	catweaselmkiii.c \
 	console.c \
+	dynlib.c \
 	fullscreen.c \
 	fullscreenarch.h \
 	hardsid.c \
