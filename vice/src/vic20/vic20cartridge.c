@@ -37,6 +37,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <unistd.h>
 
 #ifdef AMIGA_AROS
 #define __AROS_OFF_T_DECLARED

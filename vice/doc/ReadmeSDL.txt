@@ -34,6 +34,7 @@ Some missing features that are available in (some of) the native versions:
  - RS-232 support
  - MIDI support
  - TFE/RRnet support
+ - vsid support
 
 
 1.3 Ports
@@ -57,6 +58,7 @@ The SDL port has been tested to work on:
  - QNX 6.x / armle, mipsle, ppcbe, shle, x86
  - SkyOS / x86
  - Solaris / amd64/x86_64, sparc, sparc64, x86
+ - SunOS / m68k
  - Syllable / x86
  - Tru64 4.x / alpha
  - uClinux / m68000

@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <unistd.h>
 
 #include "sound.h"
 #include "types.h"

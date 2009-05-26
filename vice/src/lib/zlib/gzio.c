@@ -600,6 +600,10 @@ int ZEXPORT gzwrite (file, buf, len)
 #ifdef STDC
 #include <stdarg.h>
 
+#if defined(__sun__) && defined(mc68020)
+#define NO_vsnprintf
+#endif
+
 int ZEXPORTVA gzprintf (gzFile file, const char *format, /* args */ ...)
 {
     char buf[Z_PRINTF_BUFSIZE];

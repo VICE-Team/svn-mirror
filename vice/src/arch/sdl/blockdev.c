@@ -29,6 +29,7 @@
 
 #include "vice.h"
 
+#include <unistd.h>
 #include <SDL/SDL.h>
 
 #include "blockdev.h"

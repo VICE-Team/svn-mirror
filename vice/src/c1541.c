@@ -59,6 +59,8 @@
 #include <strings.h>
 #endif
 
+#include <unistd.h>
+
 #include "archdep.h"
 #include "cbmdos.h"
 #include "cbmimage.h"
