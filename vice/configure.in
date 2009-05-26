@@ -302,12 +302,12 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   if test x"$enable_parsid" = "xyes"; then
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
   fi
+  AC_DEFINE(HAVE_MIDI,,[Enable support for midi.])
 
   if test x"$enable_sdlui" != "xyes"; then
     AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
     AM_CONDITIONAL(HAVE_RS232, true)
     AC_DEFINE(HAVE_TFE,,[Support for The final Ethernet.])
-    AC_DEFINE(HAVE_MIDI,,[Enable support for midi.])
     AC_TRY_LINK([#include <windows.h>],
                 [LARGE_INTEGER li; return (int) li.QuadPart],
                 AC_DEFINE(HAS_LONGLONG_INTEGER,,
@@ -542,11 +542,11 @@ dnl All other UN*X systems
 
   if test x"$enable_sdlui" != "xyes"; then
     AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
-    AC_DEFINE(HAVE_MIDI,,[Enable support for midi.])
   fi
 
   AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  AC_DEFINE(HAVE_MIDI,,[Enable support for midi.])
 
   AC_CHECK_HEADER(linux/hardsid.h,
       [ AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.]) ],)
