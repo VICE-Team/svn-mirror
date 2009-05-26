@@ -111,6 +111,7 @@ libarch_a_SOURCES = \
 	sdlmain.c \
 	signals.c \
 	socketimpl.h \
+	tfearch.c \
 	types.h \
 	ui.c \
 	ui.h \

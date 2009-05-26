@@ -303,11 +303,11 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
   fi
   AC_DEFINE(HAVE_MIDI,,[Enable support for midi.])
+  AC_DEFINE(HAVE_TFE,,[Support for The final Ethernet.])
 
   if test x"$enable_sdlui" != "xyes"; then
     AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
     AM_CONDITIONAL(HAVE_RS232, true)
-    AC_DEFINE(HAVE_TFE,,[Support for The final Ethernet.])
     AC_TRY_LINK([#include <windows.h>],
                 [LARGE_INTEGER li; return (int) li.QuadPart],
                 AC_DEFINE(HAS_LONGLONG_INTEGER,,
@@ -2310,7 +2310,11 @@ if test x"$enable_sdlui" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/sdl"
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/sdl"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
-  ARCH_INCLUDES="-I$ARCH_SRC_DIR"
+  if test x"$is_win32" = "xyes"; then
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I$(top_srcdir)/src/arch/win32/msvc/wpcap"
+  else
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR"
+  fi
   AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
   AM_CONDITIONAL(SDL_COMPILE, true)

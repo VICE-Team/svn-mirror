@@ -32,7 +32,7 @@ Some new features that are missing from (some of) the native versions:
 
 Some missing features that are available in (some of) the native versions:
  - RS-232 support
- - TFE/RRnet support
+ - TFE/RRnet UI
  - vsid support
 
 
