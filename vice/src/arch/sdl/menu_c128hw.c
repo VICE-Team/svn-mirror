@@ -42,6 +42,9 @@
 #include "menu_ram.h"
 #include "menu_rom.h"
 #include "menu_sid.h"
+#ifdef HAVE_TFE
+#include "menu_tfe.h"
+#endif
 #include "uimenu.h"
 
 UI_MENU_DEFINE_RADIO(VDC64KB)
@@ -151,6 +154,8 @@ const ui_menu_entry_t c128_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)rs232user_menu },
+#endif
+#ifdef HAVE_TFE
     { "The Final Ethernet settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
