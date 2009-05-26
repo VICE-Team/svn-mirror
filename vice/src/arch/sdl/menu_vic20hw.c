@@ -32,6 +32,9 @@
 
 #include "menu_common.h"
 #include "menu_joystick.h"
+#ifdef HAVE_MIDI
+#include "menu_midi.h"
+#endif
 #include "menu_ram.h"
 #include "menu_rom.h"
 #include "menu_sid.h"
@@ -134,6 +137,12 @@ const ui_menu_entry_t vic20_hardware_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IEEE488_callback,
       NULL },
+#ifdef HAVE_MIDI
+    { "MIDI settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)midi_vic20_menu },
+#endif
     { "Emulator ID",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_EmuID_callback,

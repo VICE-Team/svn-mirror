@@ -34,6 +34,9 @@
 #include "menu_c64_expansions.h"
 #include "menu_common.h"
 #include "menu_joystick.h"
+#ifdef HAVE_MIDI
+#include "menu_midi.h"
+#endif
 #ifdef HAVE_MOUSE
 #include "menu_mouse.h"
 #endif
@@ -99,11 +102,11 @@ const ui_menu_entry_t c64_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)isepic_menu },
-#if 0 /* TODO */
+#ifdef HAVE_MIDI
     { "MIDI settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)c64_midi_menu },
+      (ui_callback_data_t)midi_c64_menu },
 #endif
     { "MMC64 settings",
       MENU_ENTRY_SUBMENU,

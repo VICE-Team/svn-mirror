@@ -170,6 +170,10 @@ SOURCE=..\menu_joystick.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\menu_midi.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\menu_mouse.c
 # End Source File
 # Begin Source File

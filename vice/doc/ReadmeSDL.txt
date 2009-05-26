@@ -32,7 +32,6 @@ Some new features that are missing from (some of) the native versions:
 
 Some missing features that are available in (some of) the native versions:
  - RS-232 support
- - MIDI UI
  - TFE/RRnet support
  - vsid support
 
@@ -46,7 +45,7 @@ The SDL port has been tested to work on:
  - BSDi / x86
  - DragonflyBSD / x86
  - FreeBSD / alpha, amd64/x86_64, ia64, ppc, sparc64, x86
- - GP2X / arm (needs fixing)
+ - GP2X / arm (joystick unusable)
  - Linux / alpha, amd64/x86_64, arm, armeb, avr32, hppa, ia64, m68k, mips,
            mipsel, mips64, mips64el, ppc, ppc64, s390, s390x, sh3, sh4, sparc,
            sparc64, x86
