@@ -28,10 +28,6 @@
 
 #include <stdio.h>
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
 #include "sound.h"
 #include "types.h"
 #include "archdep.h"

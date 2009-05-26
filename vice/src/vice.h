@@ -94,6 +94,11 @@
 #include "ROlib.h"
 #endif
 
+/* m68k SunOS 4.x specific stuff */
+#if defined(__sun__) && defined(mc68020)
+#include <unistd.h>
+#endif
+
 /* ------------------------------------------------------------------------- */
 /* Which OS is using the common keyboard routines?  */
 #if (!defined(__riscos) && !defined(__OS2__)) || defined(USE_SDLUI)

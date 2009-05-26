@@ -31,10 +31,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
 #include "archdep.h"
 #include "lib.h"
 #include "log.h"

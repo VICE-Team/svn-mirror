@@ -38,10 +38,6 @@
 #include <ctype.h>
 #include <string.h>
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
 #ifdef AMIGA_AROS
 #define __AROS_OFF_T_DECLARED
 #define __AROS_PID_T_DECLARED
