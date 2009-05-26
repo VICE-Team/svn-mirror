@@ -28,7 +28,10 @@
 
 #include <stdio.h>
 #include <string.h>
+
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 #include "diskconstants.h"
 #include "diskimage.h"

@@ -29,7 +29,10 @@
 #include "vice.h"
 
 #include <SDL/SDL.h>
+
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 #include "lib.h"
 #include "sound.h"

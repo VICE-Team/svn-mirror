@@ -35,7 +35,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/uio.h>
+
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>

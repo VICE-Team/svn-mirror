@@ -33,7 +33,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 #include "archdep.h"
 #include "c64cart.h"
