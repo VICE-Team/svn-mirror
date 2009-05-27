@@ -41,7 +41,7 @@
 #include "archdep_riscos.c"
 #endif
 
-#ifdef UNIX_COMPILE
+#if defined(UNIX_COMPILE) && !defined(CEGCC_COMPILE)
 #include "archdep_unix.c"
 #endif
 
@@ -51,6 +51,10 @@
 
 #ifdef __XBOX__
 #include "archdep_xbox.c"
+#endif
+
+#ifdef CEGCC_COMPILE
+#include "archdep_cegcc.c"
 #endif
 
 int archdep_init(int *argc, char **argv)

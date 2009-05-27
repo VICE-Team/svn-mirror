@@ -1412,6 +1412,12 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
         AC_DEFINE(USE_SDL_AUDIO,,[Enable sdl sound support.])
         AC_DEFINE(USE_SDLUI,,[Enable sdl ui support.])
         AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
+    elif test x"$host_os" = "xmingw32ce" -o x"$host_os" = "xcegcc"; then
+        LIBS="$LIBS -lSDL -lwinsock"
+        SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
+        AC_DEFINE(USE_SDL_AUDIO,,[Enable sdl sound support.])
+        AC_DEFINE(USE_SDLUI,,[Enable sdl ui support.])
+        AC_DEFINE(CEGCC_COMPILE,,[Enable cegcc support.])
     else
 
         dnl check for sdl-config

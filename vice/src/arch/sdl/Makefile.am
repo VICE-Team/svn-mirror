@@ -284,6 +284,8 @@ EXTRA_DIST = \
 	archdep_amiga.h \
 	archdep_beos.c \
 	archdep_beos.h \
+	archdep_cegcc.c \
+	archdep_cegcc.h \
 	archdep_riscos.c \
 	archdep_riscos.h \
 	archdep_unix.c \

@@ -74,7 +74,7 @@ extern char *archdep_default_joymap_file_name(void);
 #include "archdep_riscos.h"
 #endif
 
-#ifdef UNIX_COMPILE
+#if defined(UNIX_COMPILE) && !defined(CEGCC_COMPILE)
 #include "archdep_unix.h"
 #endif
 
@@ -84,6 +84,10 @@ extern char *archdep_default_joymap_file_name(void);
 
 #ifdef __XBOX__
 #include "archdep_xbox.h"
+#endif
+
+#ifdef CEGCC_COMPILE
+#include "archdep_cegcc.h"
 #endif
 
 #endif
