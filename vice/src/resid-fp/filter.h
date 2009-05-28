@@ -339,7 +339,7 @@ float FilterFP::clock(float voice1,
             Vf -= (Vf - 3.2e6f) / 2.f;
         }
 
-	Vlp -= Vbp * type3_w0(Vbp - 1.5f * type3_fc_distortion_offset) * outputleveldifference;
+	Vlp -= Vbp * type3_w0(Vbp - 2.0f * type3_fc_distortion_offset) * outputleveldifference;
 	Vbp -= Vhp * type3_w0(Vhp - type3_fc_distortion_offset);
 	Vhp = Vbp * _1_div_Q
             - Vlp * (1.f/outputleveldifference)
