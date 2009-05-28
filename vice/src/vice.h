@@ -94,9 +94,12 @@
 #include "ROlib.h"
 #endif
 
-/* m68k SunOS 4.x specific stuff */
-#if defined(__sun__) && defined(mc68020)
-#include <unistd.h>
+/* SunOS 4.x specific stuff */
+#if defined(sun) || defined(__sun)
+#  if !defined(__SVR4) && !defined(__svr4__)
+#    include <unistd.h>
+     typedef int ssize_t;
+#  endif
 #endif
 
 /* ------------------------------------------------------------------------- */

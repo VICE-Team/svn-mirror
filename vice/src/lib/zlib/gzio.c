@@ -600,8 +600,11 @@ int ZEXPORT gzwrite (file, buf, len)
 #ifdef STDC
 #include <stdarg.h>
 
-#if defined(__sun__) && defined(mc68020)
-#define NO_vsnprintf
+/* SunOS 4.x specific stuff */
+#if defined(sun) || defined(__sun)
+#  if !defined(__SVR4) && !defined(__svr4__)
+#    define NO_vsnprintf
+#  endif
 #endif
 
 int ZEXPORTVA gzprintf (gzFile file, const char *format, /* args */ ...)

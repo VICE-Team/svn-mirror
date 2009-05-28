@@ -215,8 +215,10 @@ extern BYTE memmap_state;
 #define MEMMAP_STATE_OPCODE 0x01
 
 /* strtoul replacement for sunos4 */
-#if defined(__sunos__) && defined(mc68020)
-#define strtoul(a, b, c) (unsigned long)strtol(a, b, c)
+#if defined(sun) || defined(__sun)
+#  if !defined(__SVR4) && !defined(__svr4__)
+#    define strtoul(a, b, c) (unsigned long)strtol(a, b, c)
+#  endif
 #endif
 
 #endif
