@@ -49,6 +49,8 @@
 #define HAVE_DINPUT             1
 #define HAVE_DINPUT_LIB         1
 
+#define USE_DXSOUND             1
+
 #define __i386__                1
 
 #define inline
