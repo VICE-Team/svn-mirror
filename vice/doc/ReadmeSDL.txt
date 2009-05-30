@@ -38,6 +38,7 @@ Some missing features that are available in (some of) the native versions:
 1.3 Ports
 
 The SDL port has been tested to work on:
+ - AIX / rs6000
  - Amiga OS 4.x / ppc
  - AROS / amd64/x86_64, ppc, x86
  - BeOS / ppc, x86
