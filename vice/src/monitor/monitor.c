@@ -49,6 +49,11 @@
 #include "datasette.h"
 #include "drive.h"
 #include "drivecpu.h"
+
+#ifdef HAVE_FULLSCREEN
+#include "fullscreenarch.h"
+#endif
+
 #include "interrupt.h"
 #include "ioutil.h"
 #include "kbdbuf.h"
@@ -2158,7 +2163,6 @@ static void monitor_trap(WORD addr, void *unused_data)
 {
     monitor_startup();
 #ifdef HAVE_FULLSCREEN
-    extern void fullscreen_resume(void);
     fullscreen_resume();
 #endif
 
