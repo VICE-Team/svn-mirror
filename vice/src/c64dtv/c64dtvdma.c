@@ -52,7 +52,8 @@ BYTE c64dtvmem_dma[0x20];
 
 int dma_active;
 int dma_on_irq;
-int dma_busy;
+
+static int dma_busy;
 
 static int dma_source_off;
 static int dma_dest_off;
@@ -325,7 +326,17 @@ static inline void c64dtv_dma_done(void)
     dma_active = 0;
 }
 
-void c64dtv_dma_store(WORD addr, BYTE value)
+BYTE REGPARM1 c64dtv_dma_read(WORD addr)
+{
+    if(addr==0x1f) {
+        return dma_busy;
+    /* the default return value is 0x00 too but I have seen some strangeness
+       here.  I've seen something that looks like DMAed data. - tlr */
+    }
+    return 0x00;
+}
+
+void REGPARM2 c64dtv_dma_store(WORD addr, BYTE value)
 {
     /* Store first, then check whether DMA access has been
        requested, perform if necessary. */

@@ -882,6 +882,44 @@ void REGPARM2 c64dtv_palette_store(WORD addr, BYTE value)
   return;
 }
 
+
+/* ------------------------------------------------------------------------- */
+
+/* These are the $D300 DMA and blitter register handlers */
+
+BYTE REGPARM1 c64dtv_dmablit_read(WORD addr)
+{
+    if (!vicii_extended_regs())
+        return vicii_read(addr);
+
+    addr &= 0x3f;
+
+    if (addr & 0x20) {
+        return c64dtv_blitter_read((WORD)(addr & 0x1f));
+    } else {
+        return c64dtv_dma_read(addr);
+    }
+}
+
+
+void REGPARM2 c64dtv_dmablit_store(WORD addr, BYTE value)
+{
+    if (!vicii_extended_regs()) {
+        vicii_store(addr, value);
+        return;
+    }
+
+    addr &= 0x3f;
+  
+    if (addr & 0x20) {
+        c64dtv_blitter_store((WORD)(addr & 0x1f), value);
+    } else {
+        c64dtv_dma_store(addr, value);
+    }
+}
+
+
+
 /* ------------------------------------------------------------------------- */
 
 /* Exported banked memory access functions for the monitor.  */
