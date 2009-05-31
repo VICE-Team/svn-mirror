@@ -48,6 +48,7 @@ The SDL port has been tested to work on:
  - GP2X / arm (joystick unusable)
  - Hurd / x86
  - Interix 3.5 (aka SFU) / x86
+ - Interix 5.2 (aka win2003 ASU) / x86
  - Linux / alpha, amd64/x86_64, arm, armeb, avr32, hppa, ia64, m68k, mips,
            mipsel, mips64, mips64el, ppc, ppc64, s390, s390x, sh3, sh4, sparc,
            sparc64, x86
