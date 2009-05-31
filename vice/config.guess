@@ -789,7 +789,7 @@ EOF
     i*:PW*:*)
 	echo ${UNAME_MACHINE}-pc-pw32
 	exit ;;
-    x86:Interix*:[34]*)
+    x86:Interix*:[3456]*)
 	echo i586-pc-interix${UNAME_RELEASE}|sed -e 's/\..*//'
 	exit ;;
     [345]86:Windows_95:* | [345]86:Windows_98:* | [345]86:Windows_NT:*)
