@@ -1,8 +1,260 @@
+2009-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* config.guess: Changed config.guess to recognize interix 5.x
+	  and 6.x
+
+2009-05-05  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64dtv/c64dtvblitter.c: Rewrite blitter register values on
+	  snapshot load
+
+2009-03-20  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/c64dtv/c64dtvblitter.c, src/c64dtv/c64dtvblitter.h,
+	  src/c64dtv/c64dtvdma.c, src/c64dtv/c64dtvdma.h,
+	  src/c64dtv/c64dtvmem.c, src/c64dtv/c64dtvmem.h: Properly
+	  separated DMA and blitter read and store functions with a
+	  central D300 dispatcher in c64dtvmem.c.
+
+	* src/c64dtv/c64dtvblitter.c: Made the blitter shadow registers
+	  static. Minor optimization of transparency logic.
+
+	* src/c64dtv/c64dtvblitter.c: Blitter uses shadow registers in
+	  most places instead of masking out fields every machine cycle.
+
+2009-03-16  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* branches/tlr/v2.1.5-x64dtv_blit_speed: Branch for x64dtv
+	  blitter (and DMA) speed improvements.
+
+2009-05-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added interix 3.5 to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Added rs6000-aix to the sdl supported
+	  platforms list.
+
+	* src/monitor/monitor.c: Fixed an issue in the monitor.c file.
+
+2009-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added x86-hurd to the sdl supported
+	  platforms list.
+
+2009-05-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/config.h, src/arch/win32/watcom/config.h:
+	  Added a USE_DXSOUND define to the win32 msvc and watcom
+	  config.h
+
+2009-05-28  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.cc, src/resid-fp/filter.h,
+	  src/sid/resid-fp.cc: Tweak the bp-hp difference back to 2x.
+
+2009-05-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added sparc-sunos4.x to the sdl supported
+	  platforms list.
+
+	* src/lib/zlib/gzio.c, src/monitor.h, src/monitor/mon_parse.y,
+	  src/vice.h: Added fixes for sparc-sunos4.x
+
+2009-05-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* config.sub, configure.in, src/arch/sdl/Makefile.am,
+	  src/arch/sdl/archdep.c, src/arch/sdl/archdep.h,
+	  src/arch/sdl/archdep_cegcc.c, src/arch/sdl/archdep_cegcc.h:
+	  Added experimental (and not yet working) cegcc (gcc targeting
+	  arm windows ce) support.
+
+2009-05-26  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* doc/ReadmeSDL.txt, src/arch/sdl/Makefile.am,
+	  src/arch/sdl/menu_c128hw.c, src/arch/sdl/menu_c64hw.c,
+	  src/arch/sdl/menu_tfe.c, src/arch/sdl/menu_tfe.h: TFE menu for
+	  SDL
+
+2009-05-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Enabled ffmpeg support for the sdl port in
+	  configure.in
+
+	* src/arch/sdl/blockdev.c, src/c1541.c, src/c64/cart/ide64.c,
+	  src/c64/mmc64.c, src/datasette.c, src/diskimage/fsimage-gcr.c,
+	  src/diskimage/fsimage-probe.c, src/diskimage/fsimage.c,
+	  src/drive/drive-snapshot.c, src/rawfile.c, src/snapshot.c,
+	  src/sounddrv/soundaiff.c, src/sounddrv/soundiff.c,
+	  src/sounddrv/soundvoc.c, src/sounddrv/soundwav.c,
+	  src/tape/t64.c, src/tape/tap.c, src/tape/tape-snapshot.c,
+	  src/util.c, src/vic20/vic20cartridge.c, src/vice.h: Moved
+	  sunos4.x specific unistd.h include to vice.h
+
+	* configure.in, doc/ReadmeSDL.txt, src/arch/sdl/Makefile.am,
+	  src/arch/sdl/tfearch.c: Added a tfe wrapper for the sdl ui and
+	  enabled tfe support for the sdl port in configure.in
+
+2009-05-26  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* doc/ReadmeSDL.txt, src/arch/sdl/Makefile.am,
+	  src/arch/sdl/menu_c128hw.c, src/arch/sdl/menu_c64hw.c,
+	  src/arch/sdl/menu_midi.c, src/arch/sdl/menu_midi.h,
+	  src/arch/sdl/menu_vic20hw.c, src/arch/sdl/win32-msvc/arch.dsp:
+	  MIDI menu for SDL
+
+2009-05-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c1541.c, src/c64/cart/ide64.c, src/c64/mmc64.c,
+	  src/datasette.c, src/diskimage/fsimage-gcr.c,
+	  src/diskimage/fsimage-probe.c, src/diskimage/fsimage.c,
+	  src/drive/drive-snapshot.c, src/rawfile.c, src/snapshot.c,
+	  src/sounddrv/soundaiff.c, src/sounddrv/soundiff.c,
+	  src/sounddrv/soundsdl.c, src/sounddrv/soundsun.c,
+	  src/sounddrv/soundvoc.c, src/sounddrv/soundwav.c,
+	  src/tape/t64.c, src/tape/tap.c, src/tape/tape-snapshot.c,
+	  src/usleep.c, src/util.c, src/vic20/vic20cartridge.c: Added
+	  ifdefs for the recently added unistd.h includes for platforms
+	  that don't have unistd.h
+
+	* configure.in, doc/ReadmeSDL.txt, src/arch/sdl/Makefile.am,
+	  src/arch/sdl/mididrv.c: Added mididrv.c wrapper file for the
+	  sdl ui and enabled midi support for the sdl port in
+	  configure.in
+
+	* doc/ReadmeSDL.txt, src/arch/sdl/blockdev.c, src/c1541.c,
+	  src/c64/cart/ide64.c, src/c64/mmc64.c, src/datasette.c,
+	  src/diskimage/fsimage-gcr.c, src/diskimage/fsimage-probe.c,
+	  src/diskimage/fsimage.c, src/drive/drive-snapshot.c,
+	  src/lib.h, src/lib/zlib/gzio.c, src/monitor.h, src/rawfile.c,
+	  src/snapshot.c, src/sounddrv/soundaiff.c,
+	  src/sounddrv/soundiff.c, src/sounddrv/soundvoc.c,
+	  src/sounddrv/soundwav.c, src/tape/t64.c, src/tape/tap.c,
+	  src/tape/tape-snapshot.c, src/util.c, src/util.h,
+	  src/vic20/vic20cartridge.c: Added m68k sunos 4.x fixes and
+	  added m68k-sunos to the sdl supported platforms list.
+
+2009-05-25  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.h, src/sid/resid-fp.cc: Approximate HP
+	  control biasing BP, which reduces distortion at BP.
+
+2009-05-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, doc/ReadmeSDL.txt, src/arch/sdl/Makefile.am,
+	  src/arch/sdl/dynlib.c, src/arch/sdl/win32-msvc/config.h: Added
+	  a dynlib.c wrapper file to the sdl port and enabled dynlib
+	  support for the sdl port in configure.in
+
+2009-05-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, doc/ReadmeSDL.txt, src/arch/sdl/Makefile.am,
+	  src/arch/sdl/parsid.c: Added a parsid.c wrapper file to the
+	  sdl port and enabled parsid support for the sdl port in
+	  configure.in
+
+	* configure.in, doc/ReadmeSDL.txt, src/arch/sdl/Makefile.am,
+	  src/arch/sdl/hardsid.c: Added a hardsid.c wrapper file to the
+	  sdl port and enabled hardsid support for the sdl port in
+	  configure.in
+
+	* doc/ReadmeSDL.txt: Removed block device and catweasel items
+	  from the sdl unsupported features list.
+
+	* doc/ReadmeSDL.txt: Added mipsel-ultrix to the sdl supported
+	  platforms list.
+
+2009-05-22  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vdc/vdc-mem.c: VDC border color fix as provided by Errol
+	  Smith
+
+2009-05-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/sdl/Makefile.am,
+	  src/arch/sdl/catweaselmkiii.c,
+	  src/arch/sdl/win32-msvc/config.h,
+	  src/arch/sdl/win64-msvc/config.h: Added catweaselmkiii.c
+	  wrappers for the sdl ui and activated cw3 support for the sdl
+	  ui.
+
+	* src/arch/sdl/archdep_amiga.c: Fixed some #ifndef's.
+
+2009-05-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added vax-ultrix to the sdl supported
+	  platforms list.
+
+	* configure.in, src/cartconv.c: Added a check for strdup() to
+	  configure.in and added a strdup() replacement function to
+	  cartconv.c
+
+	* src/monitor/monitor.c: Replaced strdup() with str_alloc() and
+	  changed the appropriate free() calls to lib_free() calls.
+
+2009-05-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data/C128/win_shortcuts.vsc: Changed the default hard reset
+	  keyboard shurtcut for x128, because the previous shortcut made
+	  x128 start up in c64 mode.
+
+	* src/arch/msdos/c128ui.c: Added the vdc revision selection to
+	  the msdos vdc settings menu.
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/constants.h,
+	  src/arch/beos/vicemenu.cc: Added the vdc revision selection to
+	  the beos vdc settings menu.
+
+	* src/arch/amigaos/archdep.c, src/arch/amigaos/c128ui.c,
+	  src/arch/amigaos/c128uires.h, src/arch/amigaos/intl.c,
+	  src/arch/amigaos/intl.txt, src/arch/amigaos/uires.h: Added the
+	  vdc revision selection to the amiga vdc settings menu.
+
+	* src/arch/win32/c128ui.c, src/arch/win32/resc128.rc,
+	  src/arch/win32/resmenu.txt, src/arch/win32/resstrings.txt:
+	  Added the vdc revision selection to the win32 vdc settings
+	  menu.
+
+2009-05-17  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2009-05-16  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/sid/resid-fp.cc: Removed warnings about possible loss of
+	  data.
+
+2009-05-16  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.h, src/sid/resid-fp.cc: Tweak parameters
+	  for small improvement.
+
+2009-05-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vdc/vdc-mem.c: Changed vdc return values to use a table,
+	  patch provided by Errol Smith.
+
+	* src/arch/unix/gui/uivdc.c, src/arch/win32/uivideo.c: Added the
+	  new composite vdc palette item to the platforms that support
+	  the selection.
+
+	* data/C128/Makefile.am, data/C128/vdc_comp.vpl,
+	  src/arch/os2/makedist.cmd, src/arch/sdl/make-bindist_qnx6.sh,
+	  src/arch/unix/hpux/make-bindist.sh,
+	  src/arch/unix/qnx6/make-bindist.sh: Added a composite vdc
+	  palette file as provided by Errol Smith.
+
+	* src/vdc/vdc-mem.c: Another minor patch by Errol Smith, fixed
+	  return values, more code guideline formatting & comments.
+
+2009-05-16  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/uimon.c: Remember monitor window settings
+	  (computer/drive 8..11) across restarts.
+
 2009-05-16  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.1.12
-
-2009-05-16  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
 	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/nl.po,
 	  po/pl.po, po/sv.po, po/tr.po: Updated.
