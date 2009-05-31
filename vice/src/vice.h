@@ -59,6 +59,7 @@
  * ppc            slower           faster        __powerpc__ || __ppc__
  * x86            slower           faster        __i386__
  * m68020+        slower           faster        __m680[2346]0__
+ * x86_64         slower           faster        __x86_64__ || __amd64__
  *
  * arm           untested         untested       __arm__ && !GP2X
  * bfin          untested         untested       BFIN
@@ -71,11 +72,15 @@
  * sparc         untested         untested       sparc
  * sparc64       untested         untested       ???
  * vax           untested         untested       __vax__
- * x86_64        untested         untested       ???
  */
 
 /* Allow unaligned access for i386+ based platforms */
 #ifdef __i386__
+#define ALLOW_UNALIGNED_ACCESS
+#endif
+
+/* Allow unaligned access for amd64/x86_64 based platforms */
+#if defined(__x86_64__) || defined(__amd64__)
 #define ALLOW_UNALIGNED_ACCESS
 #endif
 
