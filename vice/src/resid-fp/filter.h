@@ -322,10 +322,9 @@ float FilterFP::clock(float voice1,
     
     if (model == MOS6581FP) {
         /* output strip mixing to filter state */
-        float lpleak = Vi * distortion_rate + Vhp + Vlp - Vbp * _1_div_Q;
         if (hp_bp_lp & 2) {
             Vbp += (Vf - Vbp) * distortion_cf_threshold;
-            Vf -= lpleak;
+            Vf -= (Vi * distortion_rate + Vhp + Vlp - Vbp * _1_div_Q) * 0.5f;
         }
         if (hp_bp_lp & 1) {
             Vlp += (Vf - Vlp) * distortion_cf_threshold;
@@ -336,11 +335,11 @@ float FilterFP::clock(float voice1,
         
         /* saturate. This is likely the output inverter saturation. */
         if (Vf > 3.2e6f) {
-            Vf -= (Vf - 3.2e6f) / 2.f;
+            Vf -= (Vf - 3.2e6f) * 0.4f;
         }
 
-	Vlp -= Vbp * type3_w0(Vbp - 2.0f * type3_fc_distortion_offset) * outputleveldifference;
-	Vbp -= Vhp * type3_w0(Vhp - type3_fc_distortion_offset);
+	Vlp -= Vbp * type3_w0(Vbp - type3_fc_distortion_offset) * outputleveldifference;
+	Vbp -= Vhp * type3_w0(Vhp - 0.5f * type3_fc_distortion_offset);
 	Vhp = Vbp * _1_div_Q
             - Vlp * (1.f/outputleveldifference)
         /* the loss of level by about half is likely due to feedback
