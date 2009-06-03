@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-05-31 21:00+0200\n"
-"PO-Revision-Date: 2009-05-17 19:28+0200\n"
+"PO-Revision-Date: 2009-06-03 21:56+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3076,9 +3076,8 @@ msgid "*Default"
 msgstr "*Default"
 
 #: src/arch/unix/gui/uivdc.c:44
-#, fuzzy
 msgid "*Composite"
-msgstr "Computer"
+msgstr "*Composite"
 
 #: src/arch/unix/gui/uivdc.c:55
 msgid "*Revison 0"
@@ -6293,24 +6292,20 @@ msgstr "VDC Einstellun&gen"
 
 #: src/arch/win32/resc128.rc.po.c:195 src/arch/win32/resc128.rc.po.c:3156
 #: src/arch/amigaos/intl.c.po.c:1381
-#, fuzzy
 msgid "VDC revision"
-msgstr "DTV Revision"
+msgstr "VDC Revision"
 
 #: src/arch/win32/resc128.rc.po.c:197 src/arch/amigaos/intl.c.po.c:1392
-#, fuzzy
 msgid "Rev 0"
-msgstr "*Revision 0"
+msgstr "Rev 0"
 
 #: src/arch/win32/resc128.rc.po.c:198 src/arch/amigaos/intl.c.po.c:1403
-#, fuzzy
 msgid "Rev 1"
-msgstr "*Revision 1"
+msgstr "Rev 1"
 
 #: src/arch/win32/resc128.rc.po.c:199 src/arch/amigaos/intl.c.po.c:1414
-#, fuzzy
 msgid "Rev 2"
-msgstr "*Revision 2"
+msgstr "Rev 2"
 
 #: src/arch/win32/resc128.rc.po.c:214 src/arch/win32/resc64.rc.po.c:204
 #: src/arch/win32/resc64dtv.rc.po.c:163 src/arch/win32/resplus4.rc.po.c:180
