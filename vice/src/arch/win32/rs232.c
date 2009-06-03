@@ -47,7 +47,8 @@
 
 #include "log.h"
 #include "rs232.h"
-#include "rs232win.h"
+#include "rs232dev.h"
+#include "rs232net.h"
 #include "types.h"
 #include "util.h"
 

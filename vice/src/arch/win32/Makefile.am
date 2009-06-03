@@ -98,8 +98,9 @@ libarch_a_SOURCES = \
 	resvicii.rc \
 	rs232.c \
 	rs232dev.c \
+	rs232dev.h \
 	rs232net.c \
-	rs232win.h \
+	rs232net.h \
 	signals.c \
 	socketimpl.h \
 	statusbar.c \
