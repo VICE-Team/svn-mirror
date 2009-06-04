@@ -189,7 +189,6 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
       echo "using Allegro sound driver"
   fi
 
-  AM_CONDITIONAL(HAVE_RS232, false)
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
 
   dnl We always have a joystick and mouse on MSDOS.
@@ -202,7 +201,6 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
   fi
 
 elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" = "xamithlon" -o x"$host_os" = "xaros" -o x"$host_os" = "xmorphos" -o x"$host_os" = "xwarpos" -o x"$host_os" = "xpowerup"; then
-  AM_CONDITIONAL(HAVE_RS232, true)
   AM_CONDITIONAL(HAVE_RAWDRIVE, true)
 
   if test x"$enable_sdlui" != "xyes"; then
@@ -304,10 +302,9 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   fi
   AC_DEFINE(HAVE_MIDI,,[Enable support for midi.])
   AC_DEFINE(HAVE_TFE,,[Support for The final Ethernet.])
+  AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
 
   if test x"$enable_sdlui" != "xyes"; then
-    AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
-    AM_CONDITIONAL(HAVE_RS232, true)
     AC_TRY_LINK([#include <windows.h>],
                 [LARGE_INTEGER li; return (int) li.QuadPart],
                 AC_DEFINE(HAS_LONGLONG_INTEGER,,
@@ -315,8 +312,6 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
     AC_TRY_LINK([#include <windows.h>],
                 [HGLOBAL hGlobal; UnlockResource(hGlobal); return 0],
                 AC_DEFINE(HAS_UNLOCKRESOURCE,,[Do we have UnlockResource()?]),)
-  else
-    AM_CONDITIONAL(HAVE_RS232, false)
   fi
 
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
@@ -346,7 +341,6 @@ elif test x"$host_os" = "xbeos"; then
     AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
     AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
   fi
-  AM_CONDITIONAL(HAVE_RS232, false)
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
 
 elif test x"$host_os" = "xriscos"; then
@@ -361,7 +355,6 @@ elif test x"$host_os" = "xriscos"; then
   if test x"$enable_sdlui" != "xyes"; then
     AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
   fi
-  AM_CONDITIONAL(HAVE_RS232, false)
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
 
 elif test x"$host_os" = "xgp2x" -o x"$host_os" = "xlinux-gp2x" -o x"$host_vendor" = "xgp2x" -o "$host_os" = "xopen2x" -o x"$host_os" = "xlinux-open2x" -o x"$host_vendor" = "xopen2x"; then
@@ -382,7 +375,6 @@ elif test x"$host_os" = "xgp2x" -o x"$host_os" = "xlinux-gp2x" -o x"$host_vendor
   else
     AC_DEFINE(GP2X_SDL,,[Enable SDL GP2X compilation])
   fi
-  AM_CONDITIONAL(HAVE_RS232, false)
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
 else
 
@@ -417,12 +409,8 @@ darwin*)
     fi
   fi
 
-  AM_CONDITIONAL(HAVE_RS232, true)
   AM_CONDITIONAL(HAVE_RAWDRIVE, true)
-
-  if test x"$enable_sdlui" != "xyes"; then
-    AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
-  fi
+  AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
 
   AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
@@ -535,14 +523,9 @@ dnl All other UN*X systems
 
   fi
 
-  AM_CONDITIONAL(HAVE_RS232, true)
   AM_CONDITIONAL(HAVE_RAWDRIVE, true)
 
-  dnl for the time being disabled for SDL UI
-
-  if test x"$enable_sdlui" != "xyes"; then
-    AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
-  fi
+  AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
 
   AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])

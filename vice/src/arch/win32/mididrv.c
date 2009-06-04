@@ -37,7 +37,11 @@
 #include "cmdline.h"
 #include "log.h"
 #include "mididrv.h"
+
+#ifndef USE_SDLUI
 #include "res.h"
+#endif
+
 #include "resources.h"
 #include "translate.h"
 #include "types.h"
@@ -97,14 +101,24 @@ void mididrv_resources_shutdown(void)
 static const cmdline_option_t cmdline_options[] = {
     { "-midiin", SET_RESOURCE, 1,
       NULL, NULL, "MIDIInDev", NULL,
+#ifndef USE_SDLUI
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDS_P_NUMBER, IDS_SPECIFY_MIDI_IN,
-      NULL, NULL },
+#else
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      0, 0,
+#endif
+      "<number>", "Specify MIDI-In device" },
     { "-midiout", SET_RESOURCE, 1,
       NULL, NULL, "MIDIOutDev", NULL,
+#ifndef USE_SDLUI
       USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDS_P_NUMBER, IDS_SPECIFY_MIDI_OUT,
-      NULL, NULL },
+      IDS_P_NUMBER, ISD_SPECIFY_MIDI_OUT,
+#else
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      0, 0,
+#endif
+      "<number>", "Specify MIDI-Out device" },
     { NULL }
 };
 

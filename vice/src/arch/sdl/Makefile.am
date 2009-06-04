@@ -1,7 +1,14 @@
 # Makefile.am for the SDL version of `libarch.a'.
 
+if WIN32_COMPILE
+extra_includes = -I$(top_srcdir)/src/arch/win32/msvc/wpcap
+else
+extra_includes =
+endif
+
 INCLUDES = \
 	@ARCH_INCLUDES@ \
+	$(extra_includes) \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/c64 \
@@ -12,6 +19,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/cbm2 \
 	-I$(top_srcdir)/src/plus4 \
 	-I$(top_srcdir)/src/raster \
+	-I$(top_srcdir)/src/rs232drv \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src
@@ -110,6 +118,11 @@ libarch_a_SOURCES = \
 	mousedrv.c \
 	mousedrv.h \
 	parsid.c \
+	rs232.c \
+	rs232dev.c \
+	rs232dev.h \
+	rs232net.c \
+	rs232net.h \
 	sdlmain.c \
 	signals.c \
 	socketimpl.h \
