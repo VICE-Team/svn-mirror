@@ -111,11 +111,11 @@ UI_MENU_DEFINE_INT(MIDIOutDev)
     SDL_MENU_ITEM_SEPARATOR, \
     { "MIDI-In", \
       MENU_ENTRY_RESOURCE_STRING, \
-      string_MIDIInDev_callback, \
+      int_MIDIInDev_callback, \
       (ui_callback_data_t)"MIDI-In device" }, \
     { "MIDI-Out", \
       MENU_ENTRY_RESOURCE_STRING, \
-      string_MIDIOutDev_callback, \
+      int_MIDIOutDev_callback, \
       (ui_callback_data_t)"MIDI-Out device" },
 
 #endif /* defined(WIN32_COMPILE) && !defined(__XBOX__) */
