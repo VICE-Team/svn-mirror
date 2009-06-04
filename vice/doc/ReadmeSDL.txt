@@ -31,7 +31,7 @@ Some new features that are missing from (some of) the native versions:
  - No mouse or keyboard required, but both are supported
 
 Some missing features that are available in (some of) the native versions:
- - RS-232 support
+ - RS-232 UI
  - vsid support
 
 
