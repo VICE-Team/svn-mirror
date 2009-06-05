@@ -113,7 +113,7 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "MIDIOutDev", NULL,
 #ifndef USE_SDLUI
       USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDS_P_NUMBER, ISD_SPECIFY_MIDI_OUT,
+      IDS_P_NUMBER, IDS_SPECIFY_MIDI_OUT,
 #else
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       0, 0,
