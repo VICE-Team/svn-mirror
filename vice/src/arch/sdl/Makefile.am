@@ -32,6 +32,8 @@ libarch_a_SOURCES = \
 	blockdev.c \
 	catweaselmkiii.c \
 	console.c \
+	coproc.c \
+	coproc.h \
 	dynlib.c \
 	fullscreen.c \
 	fullscreenarch.h \
