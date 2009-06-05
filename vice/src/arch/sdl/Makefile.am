@@ -94,6 +94,8 @@ libarch_a_SOURCES = \
 	menu_reset.h \
 	menu_rom.c \
 	menu_rom.h \
+	menu_rs232.c \
+	menu_rs232.h \
 	menu_screenshot.c \
 	menu_screenshot.h \
 	menu_settings.c \

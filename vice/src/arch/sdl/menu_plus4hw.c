@@ -34,6 +34,9 @@
 #include "menu_joystick.h"
 #include "menu_ram.h"
 #include "menu_rom.h"
+#ifdef HAVE_RS232
+#include "menu_rs232.h"
+#endif
 #include "menu_sid.h"
 #include "uimenu.h"
 
@@ -58,6 +61,12 @@ const ui_menu_entry_t plus4_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)plus4_rom_menu },
+#ifdef HAVE_RS232 
+    { "RS232 settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)rs232_nouser_menu },
+#endif 
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Memory"),
     { "16kB",

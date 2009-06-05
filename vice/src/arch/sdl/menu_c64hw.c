@@ -42,6 +42,9 @@
 #endif
 #include "menu_ram.h"
 #include "menu_rom.h"
+#ifdef HAVE_RS232
+#include "menu_rs232.h"
+#endif
 #include "menu_sid.h"
 #ifdef HAVE_TFE
 #include "menu_tfe.h"
@@ -79,11 +82,11 @@ const ui_menu_entry_t c64_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)c64_256k_menu },
-#if 0 /* TODO */
-    { "ACIA settings",
+#ifdef HAVE_RS232
+    { "RS232 settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)c64_acia_menu },
+      (ui_callback_data_t)rs232_menu },
 #endif
     { "Digimax settings",
       MENU_ENTRY_SUBMENU,
@@ -131,12 +134,6 @@ const ui_menu_entry_t c64_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)reu_menu },
-#if 0 /* TODO */
-    { "RS232 userport settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)rs232user_menu },
-#endif
 #ifdef HAVE_TFE
     { "The Final Ethernet settings",
       MENU_ENTRY_SUBMENU,

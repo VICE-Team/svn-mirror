@@ -36,6 +36,9 @@
 #include "menu_joystick.h"
 #include "menu_ram.h"
 #include "menu_rom.h"
+#ifdef HAVE_RS232
+#include "menu_rs232.h"
+#endif
 #include "menu_sid.h"
 #include "uimenu.h"
 
@@ -187,6 +190,12 @@ const ui_menu_entry_t cbm5x0_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)cbm2_memory_menu },
+#ifdef HAVE_RS232
+    { "RS232 settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)rs232_nouser_menu },
+#endif
     { "Emulator ID",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_EmuID_callback,
@@ -220,6 +229,12 @@ const ui_menu_entry_t cbm6x0_7x0_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)cbm2_memory_menu },
+#ifdef HAVE_RS232
+    { "RS232 settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)rs232_nouser_menu },
+#endif
     { "Emulator ID",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_EmuID_callback,

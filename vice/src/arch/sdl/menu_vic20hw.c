@@ -37,6 +37,9 @@
 #endif
 #include "menu_ram.h"
 #include "menu_rom.h"
+#ifdef HAVE_RS232
+#include "menu_rs232.h"
+#endif
 #include "menu_sid.h"
 #include "resources.h"
 #include "uimenu.h"
@@ -137,6 +140,12 @@ const ui_menu_entry_t vic20_hardware_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IEEE488_callback,
       NULL },
+#ifdef HAVE_RS232 
+    { "RS232 settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)rs232_noacia_menu },
+#endif 
 #ifdef HAVE_MIDI
     { "MIDI settings",
       MENU_ENTRY_SUBMENU,
