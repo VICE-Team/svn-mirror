@@ -85,6 +85,10 @@ typedef struct timeval TIMEVAL;
 #define INADDR_NONE ((unsigned long)-1)
 #endif
 
+#ifdef _UWIN
+typedef unsigned long in_addr_t;
+#endif
+
 #endif /* #ifdef HAVE_NETWORK */
 
 #endif /* #ifndef VICE_SOCKETIMPL_H */

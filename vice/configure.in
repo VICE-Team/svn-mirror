@@ -1567,7 +1567,7 @@ if test x"$is_unix" = "xyes"; then
                  [AC_DEFINE(HAVE_SND_PCM_AVAIL,,[Use more accurate buffer fill reporting])])
   fi
 
-  if test x"$with_oss" != "xno"; then
+  if test x"$with_oss" != "xno" -a x"$host_os" != "uwin"; then
     AC_CHECK_HEADERS(linux/soundcard.h machine/soundcard.h sys/soundcard.h soundcard.h,
                      [SOUND_DRIVERS="$SOUND_DRIVERS sounduss.o";
                       AC_DEFINE(USE_OSS,,[Enable oss support.])])

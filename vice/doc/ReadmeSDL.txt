@@ -66,6 +66,7 @@ The SDL port has been tested to work on:
  - uClinux / m68000
  - Ultrix / mipsel, vax
  - UnixWare / x86
+ - Uwin / x86
  - Win32 / x86
  - Win64 / ia64, x64
  - Zaurus (qt) / arm
