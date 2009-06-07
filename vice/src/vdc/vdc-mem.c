@@ -31,12 +31,17 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <stdio.h>
+
 #include "machine.h"
 #include "maincpu.h"
 #include "types.h"
 #include "vdc-mem.h"
 #include "vdc.h"
 #include "vdctypes.h"
+
+
+#include "vdc-draw.h"
 
 /*#define REG_DEBUG*/
 
@@ -113,6 +118,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         /*log_message(vdc.log, "STORE $D600 %02x", value);*/
 #endif
         vdc.update_reg = value & 0x3f;
+        /* VDC ignores values of top 2 bits */
         return;
     }
 
@@ -153,14 +159,19 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 2:                   /* R02  Horizontal Sync Position */
+        if (vdc.regs[2] != oldval) {
+            vdc.update_geometry = 1;
+        }
 #ifdef REG_DEBUG
         log_message(vdc.log, "REG 2 unsupported!");
 #endif
         break;
 
       case 3:                   /* R03  Horizontal/Vertical Sync widths */
+          if ((vdc.regs[3] & 0xF0) != (oldval & 0xF0))
+            vdc.update_geometry = 1;
 #ifdef REG_DEBUG
-        log_message(vdc.log, "REG 3 unsupported!");
+        log_message(vdc.log, "REG 3 only partially supported!");
 #endif
         break;
 
@@ -173,8 +184,9 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 5:                   /* R05  Vertical total line adjust */
-        if (vdc.regs[5] != oldval)
+        if ((vdc.regs[5] & 0x1f) != (oldval & 0x1f)) {
             vdc.update_geometry = 1;
+        }
 #ifdef REG_DEBUG
         log_message(vdc.log, "Vertical Total Fine Adjust %i.", vdc.regs[5]);
 #endif
@@ -197,14 +209,16 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 8:                   /* R08  unused: Interlace and Skew */
+        vdc.update_geometry = 1;
 #ifdef REG_DEBUG
         log_message(vdc.log, "REG 8 unsupported!");
 #endif
         break;
 
       case 9:                   /* R09  Rasters between two display lines */
-        if (vdc.regs[9] != oldval)
+        if ((vdc.regs[9] & 0x1f) != (oldval & 0x1f)) {
             vdc.update_geometry = 1;
+        }
 #ifdef REG_DEBUG
         log_message(vdc.log, "Character Total Vertical %i", vdc.regs[9]);
 #endif
@@ -267,7 +281,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         } else {
             vdc.attribute_blink = vdc.frame_counter & 8;
         }
-
+        /* vertical smooth scroll bits 0-4  */
         if ((vdc.regs[24] & 0x1f) != (oldval & 0x1f))
             vdc.update_geometry = 1;
 
@@ -281,14 +295,29 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 25:
-        if (7 - (vdc.regs[25] & 7) != vdc.xsmooth) {
+        if ((vdc.regs[25] & 0x0F) != (oldval & 0x0F)) {
+            /* Horizontal smooth scroll */
 #ifdef ALLOW_UNALIGNED_ACCESS
-            vdc.xsmooth = 7 - (vdc.regs[25] & 7);
-            vdc.raster.xsmooth = vdc.xsmooth;
+            /* Smooth scroll behaviour differs between VDC versions */
+            if (vdc.revision == 0) {
+                /* v0 VDC, incrementing HSS moves screen to the left, so xsmooth should decrease */
+                vdc.xsmooth = ((vdc.regs[22] >> 4) - (vdc.regs[25] & 0x0F)) & 0x0F;
+            } else {
+                /* v1/2 VDC, incrementing HSS moves screen to the right */
+                vdc.xsmooth = (vdc.regs[25] & 0x0F);
+            }
+            vdc.raster.xsmooth = 0;
+            /* Hack to get the line redrawn because we are not actually using the xsmooth in raster
+            (so the xsmooth color is irrelevant, but changing it still forces a repaint of the line) */
+            vdc.raster.xsmooth_color ^= 0x0f;
 #else
             vdc.xsmooth = 0;
             vdc.raster.xsmooth = 0;
 #endif
+        }
+        if ((vdc.regs[25] & 0x10) != (oldval & 0x10)) {
+            /* Double-Pixel Mode */
+            vdc.update_geometry = 1;
         }
 #ifdef REG_DEBUG
         log_message(vdc.log, "Video mode: %s.",
@@ -306,13 +335,25 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         if ((vdc.regs[26] != oldval) && ((vdc.regs[25] & 0xC0) != 0xC0)) { /* repaint if something changes and we are not in graphics attribute mode */
             vdc.force_repaint = 1;
         }
-        if ((vdc.regs[26] & 0x0F) != (oldval & 0x0F)) { /* Background colour changes */
+        if ((vdc.regs[26] & 0x0F) != (oldval & 0x0F)) {
+            /* Background colour changes */
             /* TODO - calculate a real current horizontal raster position for this call (2nd value) */
+            /* based on blacky_stardust calculations, calculating current_x_pixel should be like:
+            current_x_pixel = pixels_per_line / (vdc.xsync_increment >> 16) * (current_cycle - vdc_line_start) */
+            int current_x_pixel = 0;
+    /*        if (((vdc.xsync_increment * (maincpu_clk - vdc.vdc_line_start)) >> 16) != 0) {            
+                current_x_pixel = (long long) (vdc.regs[0] + 1) * ((vdc.regs[22] >> 4) + 1) / ((vdc.xsync_increment * (maincpu_clk - vdc.vdc_line_start)) >> 16);
+            }
+*/
+            /* TODO get rid of this when it works properly */
+       /*     fprintf(stderr, "current_x_pixel=%1i\n", current_x_pixel);
             raster_changes_border_add_int(&vdc.raster,
-            0,
+            current_x_pixel,
             (int*)&vdc.raster.border_color,
             (vdc.regs[26] & 0x0F));
             vdc.raster.xsmooth_color = vdc.regs[26] & 0x0F; /* Set the xsmooth area too for the 0-7pixel gap between border & foreground */
+        
+            vdc.raster.border_color = (vdc.regs[26] & 0x0F);
         }
 #ifdef REG_DEBUG
         log_message(vdc.log, "Color register %x.", vdc.regs[26]);
@@ -362,6 +403,12 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         log_message(vdc.log, "REG 36 unsupported!");
 #endif
         break;
+
+        case 37:                /* R37  Vertical/Horizontal Sync Polarity on 8568 (128DCR) only */
+#ifdef REG_DEBUG
+        log_message(vdc.log, "REG 37 unsupported!");
+#endif
+        break;
     }
 }
 
@@ -369,11 +416,11 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
 BYTE REGPARM1 vdc_read(WORD addr)
 {
     /* bitmask to set the unused bits in returned register values */
-    static const BYTE regmask[37] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x00,
+    static const BYTE regmask[38] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x00,
                                       0xFC, 0xE0, 0x80, 0xE0, 0x00, 0x00, 0x00, 0x00,
                                       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xE0,
                                       0x00, 0x00, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x00,
-                                      0x00, 0x00, 0x00, 0x00, 0xF0 };
+                                      0x00, 0x00, 0x00, 0x00, 0xF0, 0x3F };
     machine_handle_pending_alarms(0);
 
     if (addr & 1) { /* read $d601 (and mirrors $d603/5/7....$d6ff)  */
@@ -392,6 +439,7 @@ BYTE REGPARM1 vdc_read(WORD addr)
             return retval;
         }
 
+        /* reg28 bit 4 is how much ram is installed. Technically this is only half-right as this bit is not set for 16k setups upgraded to 64k */
         if (vdc.update_reg == 28) {
             if (vdc.vdc_address_mask == 0xffff) {
                 return vdc.regs[28] | 0x1f;
@@ -400,7 +448,7 @@ BYTE REGPARM1 vdc_read(WORD addr)
             }
         }
 
-        if (vdc.update_reg < 37) {
+        if (vdc.update_reg < 38) {
             return (vdc.regs[vdc.update_reg] | regmask[vdc.update_reg]);
         }
 
@@ -411,7 +459,7 @@ BYTE REGPARM1 vdc_read(WORD addr)
         Status always returns 1 (ready) while LightPen always returns 0 (invalid pen address) */
         
         /* Emulate vblank bit.  */
-        if ((vdc.raster.current_line < vdc.first_displayed_line) || (vdc.raster.current_line > vdc.last_displayed_line)) {
+        if ((vdc.raster.current_line <= vdc.border_height) || (vdc.raster.current_line > (vdc.border_height + vdc.screen_ypix))) {
             return 0xA0 | vdc.revision;
         }
         return 0x80 | vdc.revision;
