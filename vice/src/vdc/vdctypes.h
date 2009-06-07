@@ -47,10 +47,10 @@
 #define VDC_SCREEN_YPIX               200
 #define VDC_SCREEN_MAX_TEXTCOLS       100
 #define VDC_SCREEN_BORDERWIDTH        8
-#define VDC_SCREEN_BORDERHEIGHT       32
+#define VDC_SCREEN_BORDERHEIGHT       0
 
-#define VDC_FIRST_DISPLAYED_LINE      (16+16)
-#define VDC_LAST_DISPLAYED_LINE       (247+32)
+#define VDC_FIRST_DISPLAYED_LINE      21
+#define VDC_LAST_DISPLAYED_LINE       308
 #define VDC_80COL_START_PIXEL         16
 
 #define VDC_NUM_SPRITES               0

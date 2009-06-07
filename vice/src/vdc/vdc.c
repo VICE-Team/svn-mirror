@@ -230,14 +230,35 @@ static void vdc_set_next_alarm(CLOCK offset)
 
 static void vdc_update_geometry(void)
 {
-    vdc.screen_height = (vdc.regs[4] + 1) * ((vdc.regs[9] & 0x1f) + 1)
-                        + (vdc.regs[5] & 0x1f);
+    static int calculated_border_height;
+
+    /* Leave this fixed so the window isn't getting constantly resized */
+    vdc.screen_height = VDC_SCREEN_HEIGHT;
 
     vdc.last_displayed_line = MIN(VDC_LAST_DISPLAYED_LINE,
                               vdc.screen_height - 1);
 
-    vdc.border_height = VDC_SCREEN_BORDERHEIGHT + (vdc.regs[7] & 0x7f) / 2
-                        - (vdc.regs[24] & 0x1f);
+    /* Yes, it really is this complicated to figure out the first raster line of the visible display! */
+    calculated_border_height = VDC_SCREEN_BORDERHEIGHT  /* see vdctypes.h */
+                            - (vdc.regs[3] >> 4)            /* vertical sync pulse */
+                            + (vdc.regs[4] + 1) * ((vdc.regs[9] & 0x1f) + 1)    /* calculated total height of visible screen - R4 = total rows * height of char (R9) */
+                            - vdc.regs[7] * ((vdc.regs[9] & 0x1f) + 1)          /* - calculated height of vertical sync (R7) */
+                            + (((vdc.regs[9] & 0x1f) - (vdc.regs[24] & 0x1f)) & 0x1f);  /* - R24 is vertical sync, which interacts with the screen & R9 like this based on experimentation. */
+
+    if ( calculated_border_height >= 0 ) {
+        vdc.border_height = calculated_border_height;
+    } else {
+        vdc.border_height = 0;
+    }
+    /* TODO - remove me when interlace mode works */
+    if (vdc.regs[8] & 0x01) {
+        vdc.border_height = 0;   /* set the border height to 0 if interlace mode gets enabled or things go a bit haywire */
+    }
+
+    /* TODO get rid of this if/when it we don't need it anymore..  */
+    /* printf("CH:%1i BH:%1i 0:%02X 1:%02X 2:%02X 3:%02X 4:%02X 5:%02X 6:%02X 7:%02X 9:%02X 22:%02X 24:%02X 25:%02X 26:%02X\n",
+        calculated_border_height, vdc.border_height, vdc.regs[0], vdc.regs[1], vdc.regs[2], vdc.regs[3], vdc.regs[4], (vdc.regs[5] & 0x1f), vdc.regs[6], vdc.regs[7], vdc.regs[9] & 0x1f, vdc.regs[22], vdc.regs[24], vdc.regs[25], vdc.regs[26] );
+    */
 
     vdc.screen_textlines = vdc.regs[6];
 
@@ -250,8 +271,13 @@ static void vdc_update_geometry(void)
     else
         vdc.bytes_per_char = 32;
 
-    if (vdc.regs[1] >= 8 && vdc.regs[1] <= VDC_SCREEN_MAX_TEXTCOLS)
+    if (vdc.regs[1] >= 6 && vdc.regs[1] <= VDC_SCREEN_MAX_TEXTCOLS) {
         vdc.screen_text_cols = vdc.regs[1];
+    } else if (vdc.regs[1] < 6) {
+        vdc.screen_text_cols = 6;
+    } else {
+        vdc.screen_text_cols = VDC_SCREEN_MAX_TEXTCOLS;
+    }
 
     vdc.hsync_shift = 80 + (102 - vdc.regs[2]) * 8;
 
