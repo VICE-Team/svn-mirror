@@ -148,7 +148,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
       case 1:                   /* R01  Horizontal characters displayed */
         if (vdc.regs[1] != oldval) {
             if (vdc.regs[1] >= 8 && vdc.regs[1] <= VDC_SCREEN_MAX_TEXTCOLS) {
-                if ((int)vdc.screen_text_cols != vdc.regs[1]) {
+                if (vdc.screen_text_cols != vdc.regs[1]) {
                     vdc.update_geometry = 1;
                 }
             }
@@ -168,7 +168,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 3:                   /* R03  Horizontal/Vertical Sync widths */
-          if ((vdc.regs[3] & 0xF0) != (oldval & 0xF0))
+          if ((vdc.regs[3] & 0xF0) != (unsigned)(oldval & 0xF0))
             vdc.update_geometry = 1;
 #ifdef REG_DEBUG
         log_message(vdc.log, "REG 3 only partially supported!");
@@ -184,7 +184,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 5:                   /* R05  Vertical total line adjust */
-        if ((vdc.regs[5] & 0x1f) != (oldval & 0x1f)) {
+        if ((vdc.regs[5] & 0x1f) != (unsigned)(oldval & 0x1f)) {
             vdc.update_geometry = 1;
         }
 #ifdef REG_DEBUG
@@ -216,7 +216,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 9:                   /* R09  Rasters between two display lines */
-        if ((vdc.regs[9] & 0x1f) != (oldval & 0x1f)) {
+        if ((vdc.regs[9] & 0x1f) != (unsigned)(oldval & 0x1f)) {
             vdc.update_geometry = 1;
         }
 #ifdef REG_DEBUG
@@ -282,7 +282,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
             vdc.attribute_blink = vdc.frame_counter & 8;
         }
         /* vertical smooth scroll bits 0-4  */
-        if ((vdc.regs[24] & 0x1f) != (oldval & 0x1f))
+        if ((vdc.regs[24] & 0x1f) != (unsigned)(oldval & 0x1f))
             vdc.update_geometry = 1;
 
 #ifdef REG_DEBUG
@@ -295,7 +295,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 25:
-        if ((vdc.regs[25] & 0x0F) != (oldval & 0x0F)) {
+        if ((vdc.regs[25] & 0x0F) != (unsigned)(oldval & 0x0F)) {
             /* Horizontal smooth scroll */
 #ifdef ALLOW_UNALIGNED_ACCESS
             /* Smooth scroll behaviour differs between VDC versions */
@@ -315,7 +315,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
             vdc.raster.xsmooth = 0;
 #endif
         }
-        if ((vdc.regs[25] & 0x10) != (oldval & 0x10)) {
+        if ((vdc.regs[25] & 0x10) != (unsigned)(oldval & 0x10)) {
             /* Double-Pixel Mode */
             vdc.update_geometry = 1;
         }
@@ -335,12 +335,12 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         if ((vdc.regs[26] != oldval) && ((vdc.regs[25] & 0xC0) != 0xC0)) { /* repaint if something changes and we are not in graphics attribute mode */
             vdc.force_repaint = 1;
         }
-        if ((vdc.regs[26] & 0x0F) != (oldval & 0x0F)) {
+        if ((vdc.regs[26] & 0x0F) != (unsigned)(oldval & 0x0F)) {
             /* Background colour changes */
             /* TODO - calculate a real current horizontal raster position for this call (2nd value) */
             /* based on blacky_stardust calculations, calculating current_x_pixel should be like:
             current_x_pixel = pixels_per_line / (vdc.xsync_increment >> 16) * (current_cycle - vdc_line_start) */
-            int current_x_pixel = 0;
+            /* int current_x_pixel = 0; */
     /*        if (((vdc.xsync_increment * (maincpu_clk - vdc.vdc_line_start)) >> 16) != 0) {            
                 current_x_pixel = (long long) (vdc.regs[0] + 1) * ((vdc.regs[22] >> 4) + 1) / ((vdc.xsync_increment * (maincpu_clk - vdc.vdc_line_start)) >> 16);
             }
@@ -351,7 +351,8 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
             current_x_pixel,
             (int*)&vdc.raster.border_color,
             (vdc.regs[26] & 0x0F));
-            vdc.raster.xsmooth_color = vdc.regs[26] & 0x0F; /* Set the xsmooth area too for the 0-7pixel gap between border & foreground */
+            vdc.raster.xsmooth_color = vdc.regs[26] & 0x0F; */
+            /* Set the xsmooth area too for the 0-7pixel gap between border & foreground */
         
             vdc.raster.border_color = (vdc.regs[26] & 0x0F);
         }

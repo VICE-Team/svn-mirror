@@ -114,7 +114,7 @@ inline static BYTE get_attr_char_data(BYTE c, BYTE a, int l, BYTE *char_mem,
         char_mem += 0x1000;
     }
 
-    if (l > vdc.regs[23]) {
+    if (l > (signed)vdc.regs[23]) {
         /* Return nothing if > Vertical Character Pxl Spc (?) */
         data = 0x00;
     } else {
@@ -122,7 +122,7 @@ inline static BYTE get_attr_char_data(BYTE c, BYTE a, int l, BYTE *char_mem,
         data = char_mem[(c * bytes_per_char) + l] & mask[vdc.regs[22] & 0x0F];
     }
 
-    if ((l == vdc.regs[29]) && (a & VDC_UNDERLINE_ATTR)) {
+    if ((l == (signed)vdc.regs[29]) && (a & VDC_UNDERLINE_ATTR)) {
         /* TODO - figure out if the pixels per char applies to the underline */
         data = 0xFF;
     }
@@ -156,7 +156,7 @@ inline static BYTE get_attr_char_data(BYTE c, BYTE a, int l, BYTE *char_mem,
         /* invert anything at all? */
         if ((vdc.frame_counter | 1) & crsrblink[(vdc.regs[10] >> 5) & 3]) {
             /* invert current byte of the character? */
-            if ((l >= (vdc.regs[10] & 0x1F)) && (l < (vdc.regs[11] & 0x1F))) {
+            if ((l >= (signed)(vdc.regs[10] & 0x1F)) && (l < (signed)(vdc.regs[11] & 0x1F))) {
                 /* The VDC cursor reverses the char */
                 data ^= 0xFF;
             }
@@ -584,8 +584,9 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, unsigned int xs,
     }
 }
 
-/* static void draw_std_bitmap(void)   /* raster_modes_draw_line() in raster */
+
 void draw_std_bitmap(void)
+/* raster_modes_draw_line() in raster */
 {
     BYTE *p;
     DWORD *table_ptr;
