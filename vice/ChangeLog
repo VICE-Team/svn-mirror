@@ -1,3 +1,78 @@
+2009-06-07  Errol Smith <strobe@kludgesoft.com>
+
+	* src/vdc/vdc-draw.c, src/vdc/vdc-mem.c: Fix xsmooth
+	  implementation, add preliminary register 37 support and fix
+	  the vblank bit in $d600 to work correctly.
+
+2009-06-05  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* doc/ReadmeSDL.txt, src/arch/sdl/Makefile.am,
+	  src/arch/sdl/menu_c128hw.c, src/arch/sdl/menu_c64hw.c,
+	  src/arch/sdl/menu_cbm2hw.c, src/arch/sdl/menu_pethw.c,
+	  src/arch/sdl/menu_plus4hw.c, src/arch/sdl/menu_rs232.c,
+	  src/arch/sdl/menu_rs232.h, src/arch/sdl/menu_vic20hw.c: RS232
+	  menus for SDL UI
+
+2009-06-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/mididrv.c: Fixed a typo.
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/coproc.c,
+	  src/arch/sdl/coproc.h: Added a coproc wrapper to the sdl port
+	  for unix rs232 support.
+
+2009-06-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: added x86-interix6.0 to the sdl supported
+	  platforms list.
+
+	* doc/ReadmeSDL.txt: Changed the rs232 text in the sdl readme.
+
+	* configure.in, src/arch/sdl/Makefile.am, src/arch/sdl/rs232.c,
+	  src/arch/sdl/rs232dev.c, src/arch/sdl/rs232dev.h,
+	  src/arch/sdl/rs232net.c, src/arch/sdl/rs232net.h,
+	  src/arch/win32/mididrv.c: Fixed win32 sdl tfe and midi support
+	  and enabled rs232 support for the sdl port.
+
+	* src/arch/sdl/menu_midi.c: Changed the callback type of the
+	  midi in and out selection to int instead of string.
+
+2009-06-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/rs232.c,
+	  src/arch/win32/rs232dev.h, src/arch/win32/rs232net.h,
+	  src/arch/win32/rs232win.h: Split the win32 rs232win.h into
+	  rs232net.h and rs232dev.h for easier future implementation of
+	  the same functionality in other ports.
+
+2009-06-03  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2009-06-03  Antti S. Lankila <alankila@bel.fi>
+
+	* src/autostart.c: Consider BASIC ROM area to be ROM for
+	  determining when autostart should give up.
+
+2009-06-02  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.cc, src/resid-fp/filter.h,
+	  src/sid/resid-fp.cc: Fix ancient mistake and sync FC and OSC
+	  levels. Tweak it until it sounds good.
+
+2009-06-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt, src/vice.h: Added a workaround for interix
+	  c89 compiler not being able to compile empty files.
+
+2009-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/ReadmeSDL.txt: Added x86-interix 5.2 (aka ASU for windows
+	  server 2003) to the sdl supported platforms list.
+
+	* src/vice.h: Changed vice.h to allow unaligned access for
+	  amd64/x86_64 based platforms.
+
 2009-05-31  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.1.13
