@@ -40,7 +40,8 @@
 
 #define VDC_DOT_CLOCK 16000000.0
 
-#define VDC_SCREEN_WIDTH              832
+#define VDC_SCREEN_WIDTH              848 /* Approx resolution based on experiment - real vdc has ~106 columns * 8 = 848 */
+#define VDC_SCREEN_HEIGHT             320 /* Vertical resolution according to mapping the c128 */
 
 #define VDC_SCREEN_XPIX               800
 #define VDC_SCREEN_YPIX               200
@@ -169,7 +170,7 @@ struct vdc_s {
     int update_geometry;
 
     /* 0..7 pixel x shift.  */
-    int xsmooth;
+    unsigned int xsmooth;
 
     /* VDC Revision.  */
     unsigned int revision;
@@ -182,6 +183,15 @@ struct vdc_s {
 
     /* Internal VDC video memory */
     BYTE ram[0x10000];
+
+    /* used to record the value of the cpu clock at the start of a raster line */
+    CLOCK vdc_line_start;
+    /* based on blacky_stardust calculations, calculating current_x_pixel should be like:
+    current_x_pixel = pixels_per_line / (vdc.xsync_increment >> 16) * (current_cycle - vdc_line_start) */
+
+    /* record register 27 in case of a change between raster updates */
+    int old_reg27;
+
 };
 typedef struct vdc_s vdc_t;
 
