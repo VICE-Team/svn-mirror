@@ -32,10 +32,12 @@
 
 #include "vice.h"
 
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "alarm.h"
+#include "clkguard.h"
 #include "event.h"
 #include "keyboard.h"
 #include "joy.h"
@@ -72,6 +74,29 @@ static CLOCK joystick_delay;
 #ifdef COMMON_KBD
 static int joykeys[3][9];
 #endif
+
+/*! \internal \brief Prevent clock overflow by adjusting clock value
+
+ \param sub
+   The number of clock ticks to adjust the clock by subtracting
+   from the current value
+
+ \param var
+   The data as has been given to clk_guard_add_callback() as
+   3rd parameter. For this implementation, always NULL.
+
+ \remark
+   In order to prevent a clock overflow, the system is able
+   to subtract a given amount from the clock values. When this
+   happens, this function is called in order for the module to
+   adjust its own values.
+*/
+static void clk_overflow_callback(CLOCK sub, void *var)
+{
+    assert(var == NULL);
+
+    joystick_alarm -= sub;
+}
 
 static void joystick_latch_matrix(CLOCK offset)
 {
@@ -407,6 +432,8 @@ int joystick_init(void)
 #ifdef COMMON_KBD
     kbd_initialize_numpad_joykeys(joykeys[0]);
 #endif
+
+    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
     return joy_arch_init();
 }
