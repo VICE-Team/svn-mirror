@@ -352,7 +352,7 @@ void keyboard_key_pressed(signed long key)
         return;
     }
 
-    for (i = 0; i < 4; ++i) {
+    for (i = 0; i < JOYSTICK_NUM; ++i) {
         if (joystick_port_map[i] == JOYDEV_NUMPAD
          || joystick_port_map[i] == JOYDEV_KEYSET1
          || joystick_port_map[i] == JOYDEV_KEYSET2) {
@@ -457,7 +457,7 @@ void keyboard_key_released(signed long key)
         return;
     }
 
-    for (i = 0; i < 4; ++i) {
+    for (i = 0; i < JOYSTICK_NUM; ++i) {
         if (joystick_port_map[i] == JOYDEV_NUMPAD
          || joystick_port_map[i] == JOYDEV_KEYSET1
          || joystick_port_map[i] == JOYDEV_KEYSET2) {
