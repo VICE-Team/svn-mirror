@@ -7,7 +7,8 @@ SDL port of VICE
 
     1. General info
     2. Usage
-    3. Building
+    3. Video output
+    4. Building
 
 
 1. General info
@@ -205,10 +206,49 @@ The settings are saved separately into 4 files:
 Remember to save the relevant settings file.
 
 
-3. Building
+3. Video output
+===============
+
+3.1 Bit depth
+
+By default, the bit depth for the video output is determined automatically;
+in most cases, this means the current desktop bit depth. The detected value
+is saved to the main settings file (resource "SDLBitdepth").
+
+There is no menu item for bit depth selection, as runtime switching is not
+implemented. To use a specific bit depth, use the command line parameter
+"-sdlbitdepth <bpp>". Supported bpp values are 0, 8, 15, 16, 24 and 32.
+The value 0 forces autodetection.
+
+
+3.2 Fullscreen
+
+There are two fullscreen modes: "Automatic" asks SDL for a fullscreen mode
+with the resolution of the current window size. "Custom" uses the custom
+width/height settings.
+
+
+3.3 Resolution limit
+
+The resolution limit modes are meant for devices with restricted screen sizes,
+f.ex handhelds with 320x240. For most cases, the mode should be set to "Off"
+at all times.
+
+"Max" mode caps and "Fixed" forces the window size to the custom width/height.
+
+
+3.4 OpenGL
+
+OpenGL free scaling works only with bit depths 24 and 32. For fullscreen with
+OpenGL, using "Custom" mode is strongly advised. The pixel aspect ratio can be
+(optionally) fixed to a settable constant. Resolution limiting is disabled
+when free scaling is enabled.
+
+
+4. Building
 ===========
 
-3.1 Building in *nix compile enviroments
+4.1 Building in *nix compile enviroments
 
 ./configure --enable-sdlui
 make
@@ -218,6 +258,6 @@ You'll need the SDL libs and headers. For free scaling, the OpenGL is
 also needed (libGL, opengl32.dll, ...)
 
 
-3.2 Building in Visual Studio
+4.2 Building in Visual Studio
 
 For MSVC building instructions see src/arch/sdl/win32-msvc/Readme.txt

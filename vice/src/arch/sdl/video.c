@@ -411,6 +411,7 @@ fprintf(stderr,"%s: init real size to %i,%i (%i)\n",__func__,*width,*height,canv
 #ifdef HAVE_HWSCALE
     if ((canvas == sdl_active_canvas) && (canvas->videoconfig->hwscale)) {
         hwscale = 1;
+        limit = SDL_LIMIT_MODE_OFF;
     }
 #endif
 
