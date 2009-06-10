@@ -356,6 +356,7 @@ static void vdc_set_video_mode(void)
 static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
 {
     int in_visible_area, in_idle_state;
+    static int old_screen_adr, old_attribute_adr;
 
     in_visible_area = (vdc.raster.current_line
                       >= vdc.first_displayed_line
@@ -371,6 +372,12 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
                          & vdc.vdc_address_mask;
         vdc.attribute_adr = ((vdc.regs[20] << 8) | vdc.regs[21])
                             & vdc.vdc_address_mask;
+        if (old_screen_adr != vdc.screen_adr || old_attribute_adr != vdc.attribute_adr) {
+            /* the cache can't cleanly handle these changing */
+            vdc.force_repaint = 1;
+            old_screen_adr = vdc.screen_adr;
+            old_attribute_adr = vdc.attribute_adr;
+        }
     }
 
     if (vdc.raster.current_line == 0) {
