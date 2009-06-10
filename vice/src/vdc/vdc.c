@@ -243,7 +243,7 @@ static void vdc_update_geometry(void)
                             - (vdc.regs[3] >> 4)            /* vertical sync pulse */
                             + (vdc.regs[4] + 1) * ((vdc.regs[9] & 0x1f) + 1)    /* calculated total height of visible screen - R4 = total rows * height of char (R9) */
                             - vdc.regs[7] * ((vdc.regs[9] & 0x1f) + 1)          /* - calculated height of vertical sync (R7) */
-                            + (((vdc.regs[9] & 0x1f) - (vdc.regs[24] & 0x1f)) & 0x1f);  /* - R24 is vertical sync, which interacts with the screen & R9 like this based on experimentation. */
+                            + (((vdc.regs[9] & 0x1f) - (vdc.regs[24] & 0x1f)) & 0x1f);  /* - R24 is vertical smooth scroll, which interacts with the screen & R9 like this based on experimentation. */
 
     if ( calculated_border_height >= 0 ) {
         vdc.border_height = calculated_border_height;
@@ -365,7 +365,8 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
                     || (vdc.raster.current_line >
                     (vdc.border_height + vdc.screen_ypix));
 
-    if (vdc.raster.current_line == vdc.first_displayed_line * 2 + 1) {
+    /* VDC locks in the screen/attr start addresses after the last raster line of foreground */
+    if (vdc.raster.current_line == vdc.border_height + vdc.screen_ypix + 1) {
         vdc.screen_adr = ((vdc.regs[12] << 8) | vdc.regs[13])
                          & vdc.vdc_address_mask;
         vdc.attribute_adr = ((vdc.regs[20] << 8) | vdc.regs[21])
