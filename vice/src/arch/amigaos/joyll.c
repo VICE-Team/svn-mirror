@@ -49,8 +49,6 @@ int joystick_inited = 0;
 static int joystick_device[2];
 static int joystick_fire[2];
 
-int joystick_port_map[2];
-
 int joy_arch_init(void)
 {
   if (joystick_inited == 0)

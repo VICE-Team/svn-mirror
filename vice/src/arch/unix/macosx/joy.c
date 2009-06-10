@@ -38,9 +38,6 @@
 #include "types.h"
 #include "util.h"
 
-/* (Used by `keyboardbd.c').  */
-int joystick_port_map[4] = { JOYDEV_NONE,JOYDEV_NONE,JOYDEV_NONE,JOYDEV_NONE };
-
 #ifdef HAS_JOYSTICK
 
 /* ----- Static Data ------------------------------------------------------ */

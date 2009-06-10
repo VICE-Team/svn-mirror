@@ -41,10 +41,6 @@
 #include "types.h"
 
 
-#ifdef COMMON_KBD
-int joystick_port_map[4];
-#endif
-
 /* ------------------------------------------------------------------------- */
 
 /* Joystick devices.  */

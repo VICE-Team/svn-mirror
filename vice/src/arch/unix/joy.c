@@ -53,9 +53,6 @@
 
 #ifndef MAC_JOYSTICK
 
-/* (Used by `keyboard.c').  */
-int joystick_port_map[4];
-
 /* Resources.  */
 
 static int joyport1select(int val, void *param)

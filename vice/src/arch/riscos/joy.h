@@ -34,8 +34,6 @@
 #define JOYDEV_JOY1	3
 #define JOYDEV_JOY2	4
 
-extern int joystick_port_map[4];
-
 extern int joy_arch_init(void);
 extern void joystick_close(void);
 extern void joystick(void);

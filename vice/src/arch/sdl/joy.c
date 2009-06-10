@@ -52,9 +52,6 @@
 #include "uimenu.h"
 #include "vkbd.h"
 
-/* (Used by `keyboard.c').  */
-int joystick_port_map[4];
-
 #define DEFAULT_JOYSTICK_THRESHOLD 10000
 #define DEFAULT_JOYSTICK_FUZZ 1000
 

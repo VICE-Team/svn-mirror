@@ -54,11 +54,14 @@
 
 /* Global joystick value.  */
 /*! \todo SRT: document: what are these values joystick_value[0, 1, 2, ..., 5] used for? */
-BYTE joystick_value[JOYSTICK_NUM] = { 0, 0, 0, 0, 0 };
+BYTE joystick_value[JOYSTICK_NUM + 1] = { 0 };
 
 /* Latched joystick status.  */
-static BYTE latch_joystick_value[JOYSTICK_NUM] = { 0, 0, 0, 0, 0 };
-static BYTE network_joystick_value[JOYSTICK_NUM] = { 0, 0, 0, 0, 0 };
+static BYTE latch_joystick_value[JOYSTICK_NUM + 1] = { 0 };
+static BYTE network_joystick_value[JOYSTICK_NUM + 1] = { 0 };
+
+/* mapping of the joystick ports */
+int joystick_port_map[JOYSTICK_NUM] = { 0 };
 
 /* to prevent illegal direction combinations */
 static const BYTE joystick_opposite_direction[] = 
@@ -187,7 +190,7 @@ void joystick_clear(unsigned int joyport)
 
 void joystick_clear_all(void)
 {
-    memset(latch_joystick_value, 0, JOYSTICK_NUM);
+    memset(latch_joystick_value, 0, sizeof latch_joystick_value);
     joystick_latch_matrix(0);
 }
 
@@ -428,7 +431,7 @@ int joystick_snapshot_write_module(snapshot_t *s)
 
     /* FIXME "- 2" is to keep compatible with old snapshots */
     if (0
-        || SMW_BA(m, joystick_value, JOYSTICK_NUM - 2) < 0)
+        || SMW_BA(m, joystick_value, (JOYSTICK_NUM + 1) - 2) < 0)
     {
         snapshot_module_close(m);
         return -1;
@@ -453,7 +456,7 @@ int joystick_snapshot_read_module(snapshot_t *s)
 
     /* FIXME "- 2" is to keep compatible with old snapshots */
     if (0
-        || SMR_BA(m, joystick_value, JOYSTICK_NUM - 2) < 0)
+        || SMR_BA(m, joystick_value, (JOYSTICK_NUM + 1) - 2) < 0)
     {
         snapshot_module_close(m);
         return -1;

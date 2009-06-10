@@ -31,6 +31,8 @@
 
 #include "types.h"
 
+#include "joystick.h"
+
 /* Maximum of keyboard array (CBM-II values
  * (8 for C64/VIC20, 10 for PET, 11 for C128; we need max).  */
 #define KBD_ROWS    16
@@ -75,12 +77,11 @@ extern void keyboard_register_machine(keyboard_machine_func_t func);
 
 extern void keyboard_alternative_set(int alternative);
 
-/* This ugly externs will go away sooner or later.  */
+/* These ugly externs will go away sooner or later.  */
 extern int keyarr[KBD_ROWS];
 extern int rev_keyarr[KBD_COLS];
 
-#define JOYSTICK_NUM 5
-extern BYTE joystick_value[JOYSTICK_NUM];
+extern BYTE joystick_value[JOYSTICK_NUM + 1];
 
 extern int c64_kbd_init(void);
 extern int c128_kbd_init(void);

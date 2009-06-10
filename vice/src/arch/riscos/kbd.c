@@ -35,6 +35,7 @@
 #include "kbd.h"
 #include "vsyncarch.h"
 #include "joy.h"
+#include "joystick.h"
 #include "keyboard.h"
 #include "log.h"
 #include "machine.h"

@@ -32,8 +32,6 @@
 #define JOYDEV_KEYSET1  2
 #define JOYDEV_KEYSET2  3
 
-extern int joystick_port_map[4];
-
 extern int joy_arch_init(void);
 extern int joystick_arch_init_resources(void);
 extern int joystick_init_cmdline_options(void);

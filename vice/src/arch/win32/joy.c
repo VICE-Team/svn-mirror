@@ -61,10 +61,6 @@ static int joystick_autofire_button[2];
 
 static int joystick_fire_button[2];
 
-#ifdef COMMON_KBD
-int joystick_port_map[4];
-#endif
-
 /* ------------------------------------------------------------------------ */
 
 #ifdef HAVE_DINPUT
