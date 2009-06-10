@@ -52,9 +52,8 @@
 
 #define JOYSTICK_RAND() (rand() & 0x3fff)
 
-#define JOYSTICK_NUM 5
-
 /* Global joystick value.  */
+/*! \todo SRT: document: what are these values joystick_value[0, 1, 2, ..., 5] used for? */
 BYTE joystick_value[JOYSTICK_NUM] = { 0, 0, 0, 0, 0 };
 
 /* Latched joystick status.  */
@@ -72,6 +71,8 @@ static CLOCK joystick_delay;
 #ifdef COMMON_KBD
 static int joykeys[3][9];
 #endif
+
+/*! \todo @@@SRT offset is unused! */
 
 static void joystick_latch_matrix(CLOCK offset)
 {
@@ -116,6 +117,10 @@ static void joystick_latch_handler(CLOCK offset, void *data)
 
 void joystick_event_delayed_playback(void *data)
 {
+    /*! \todo @@@SRT: why network_joystick_value?
+     * and why sizeof latch_joystick_value, 
+     * if the target is network_joystick_value?
+     */
     memcpy(network_joystick_value, data, sizeof(latch_joystick_value));
     alarm_set(joystick_alarm, maincpu_clk + joystick_delay);
 }

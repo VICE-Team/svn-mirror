@@ -32,7 +32,13 @@
 #include "cmdline.h"    // cmdline_register_options
 #include "resources.h"  // resources_register
 #include "translate.h"
+#include "keyboard.h"
 
+/*!
+ * \todo SRT: this conflicts with what is declared in keyboard.h!
+ * additionally, joystick.c already defines a global joystick_value[].
+ * Should this be removed from here?
+ */
 BYTE joystick_value[3];
 
 static char *keymapfile;
