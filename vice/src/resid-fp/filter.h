@@ -205,7 +205,7 @@ friend class SIDFP;
 // ----------------------------------------------------------------------------
 
 const float sidcaps_6581 = 470e-12f;
-const float outputleveldifference = 1.5f;
+const float outputleveldifference = 1.2f;
 
 RESID_INLINE
 static float fastexp(float val) {
@@ -334,25 +334,32 @@ float FilterFP::clock(float voice1,
         }
         
         /* saturate. This is likely the output inverter saturation. */
-        if (Vf > 3.2e6f) {
-            Vf -= (Vf - 3.2e6f) * 0.4f;
+        if (Vf > 3.3e6f) {
+            Vf -= (Vf - 3.3e6f) * 0.5f;
         }
 
 	Vlp -= Vbp * type3_w0(Vbp - type3_fc_distortion_offset) * outputleveldifference;
-	Vbp -= Vhp * type3_w0(Vhp - type3_fc_distortion_offset);
-	Vhp = Vbp * _1_div_Q
-            - Vlp * (1.f/outputleveldifference)
+	Vbp -= Vhp * type3_w0(Vhp - type3_fc_distortion_offset) * outputleveldifference;
+	Vhp = Vbp * _1_div_Q * (1.f/outputleveldifference)
+            - Vlp * (1.f/outputleveldifference/outputleveldifference)
         /* the loss of level by about half is likely due to feedback
          * between Vhp amp input and output. */
             - Vi * distortion_rate;
+
+        Vf *= volf;
+
+        if (Vf > 3.3e6f) {
+            Vf -= (Vf - 3.3e6f) * 0.5f;
+        }
     } else {
         /* On the 8580, BP appears mixed in phase with the rest. */
         Vlp += Vbp * type4_w0_cache;
         Vbp += Vhp * type4_w0_cache;
         Vhp = -Vbp * _1_div_Q - Vlp - Vi;
+        Vf *= volf;
     }
     
-    return Vf * volf;
+    return Vf;
 }
 
 RESID_INLINE
