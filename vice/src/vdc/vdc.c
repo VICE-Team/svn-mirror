@@ -229,31 +229,20 @@ static void vdc_set_next_alarm(CLOCK offset)
 }
 
 static void vdc_update_geometry(void)
-{
-    static int calculated_border_height;
+{   /* This sets things based on registers:  2, 6, 9
+    it sets vdc.screenheight
+                last_displayed_line
+                screen_textlines
+                screen_ypix
+                screen_text_cols
+                hsync_shift
+                border_width    */    
 
     /* Leave this fixed so the window isn't getting constantly resized */
     vdc.screen_height = VDC_SCREEN_HEIGHT;
 
     vdc.last_displayed_line = MIN(VDC_LAST_DISPLAYED_LINE,
                               vdc.screen_height - 1);
-
-    /* Yes, it really is this complicated to figure out the first raster line of the visible display! */
-    calculated_border_height = VDC_SCREEN_BORDERHEIGHT  /* see vdctypes.h */
-                            - (vdc.regs[3] >> 4)            /* vertical sync pulse */
-                            + (vdc.regs[4] + 1) * ((vdc.regs[9] & 0x1f) + 1)    /* calculated total height of visible screen - R4 = total rows * height of char (R9) */
-                            - vdc.regs[7] * ((vdc.regs[9] & 0x1f) + 1)          /* - calculated height of vertical sync (R7) */
-                            + (((vdc.regs[9] & 0x1f) - (vdc.regs[24] & 0x1f)) & 0x1f);  /* - R24 is vertical smooth scroll, which interacts with the screen & R9 like this based on experimentation. */
-
-    if ( calculated_border_height >= 0 ) {
-        vdc.border_height = calculated_border_height;
-    } else {
-        vdc.border_height = 0;
-    }
-    /* TODO - remove me when interlace mode works */
-    if (vdc.regs[8] & 0x01) {
-        vdc.border_height = 0;   /* set the border height to 0 if interlace mode gets enabled or things go a bit haywire */
-    }
 
     /* TODO get rid of this if/when it we don't need it anymore..  */
     /* printf("CH:%1i BH:%1i 0:%02X 1:%02X 2:%02X 3:%02X 4:%02X 5:%02X 6:%02X 7:%02X 9:%02X 22:%02X 24:%02X 25:%02X 26:%02X\n",
@@ -263,13 +252,6 @@ static void vdc_update_geometry(void)
     vdc.screen_textlines = vdc.regs[6];
 
     vdc.screen_ypix = vdc.regs[6] * ((vdc.regs[9] & 0x1f) + 1);
-
-    vdc.raster_ycounter_max = vdc.regs[9] & 0x1f;
-
-    if (vdc.raster_ycounter_max < 16)
-        vdc.bytes_per_char = 16;
-    else
-        vdc.bytes_per_char = 32;
 
     if (vdc.regs[1] >= 6 && vdc.regs[1] <= VDC_SCREEN_MAX_TEXTCOLS) {
         vdc.screen_text_cols = vdc.regs[1];
@@ -306,7 +288,9 @@ void vdc_reset(void)
     vdc.regs[4] = 39;
     vdc.regs[5] = 0;
     vdc.regs[6] = 25;
-    vdc.regs[9] = 7;
+    vdc.regs[9] = vdc.raster_ycounter_max = 7;
+    vdc.border_height = 59;
+    vdc.bytes_per_char = 16;
     vdc_update_geometry();
     vdc_set_next_alarm((CLOCK)0);
 }
@@ -355,7 +339,7 @@ static void vdc_set_video_mode(void)
 /* Redraw the current raster line. */
 static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
 {
-    int in_visible_area, in_idle_state;
+    int in_visible_area, in_idle_state, calculated_border_height;
     static int old_screen_adr, old_attribute_adr;
 
     in_visible_area = (vdc.raster.current_line
@@ -381,6 +365,22 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
     }
 
     if (vdc.raster.current_line == 0) {
+        /* Yes, it really is this complicated to figure out the first raster line of the visible display! */
+        calculated_border_height = VDC_SCREEN_BORDERHEIGHT  /* see vdctypes.h */
+                            - (vdc.regs[3] >> 4)            /* vertical sync pulse */
+                            + (vdc.regs[4] + 1) * ((vdc.regs[9] & 0x1f) + 1)    /* calculated total height of visible screen - R4 = total rows * height of char (R9) */
+                            - vdc.regs[7] * ((vdc.regs[9] & 0x1f) + 1)          /* - calculated height of vertical sync (R7) */
+                            + (((vdc.regs[9] & 0x1f) - (vdc.regs[24] & 0x1f)) & 0x1f);  /* - R24 is vertical smooth scroll, which interacts with the screen & R9 like this based on experimentation. */
+        if ( calculated_border_height >= 0 ) {
+            vdc.border_height = calculated_border_height;
+        } else {
+            vdc.border_height = 0;
+        }
+         /* TODO - remove me when interlace mode works */
+        if (vdc.regs[8] & 0x01) {
+            vdc.border_height = 0;   /* set the border height to 0 if interlace mode gets enabled or things go a bit haywire */
+        }
+
         vdc.mem_counter = 0;
         vdc.bitmap_counter = 0;
         vdc.raster.ycounter = 0;

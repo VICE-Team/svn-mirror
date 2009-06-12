@@ -130,6 +130,40 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
     vdc.regs[vdc.update_reg] = value;
 
 #ifdef REG_DEBUG
+    switch (vdc.update_reg) {
+      case 10:
+      case 11:
+      case 14:
+      case 15:
+      case 16:
+      case 17:
+      case 18:
+      case 19:
+      case 28:
+      case 29:
+      case 30:
+      case 31:
+      case 32:
+      case 33:
+      case 36:
+      case 37:
+          break;
+      default:
+        log_message(vdc.log, "REG %02i VAL %02x CRL:%03i BH:%03i 0:%02X 1:%02X 2:%02X 3:%02X 4:%02X 5:%02X 6:%02X 7:%02X 8:%01X 9:%02X 12:%02X 13:%02X 20:%02X 21:%02X 22:%02X 23:%02X 24:%02X 25:%02X 26:%02X 27:%02X 34:%02X 35:%02X",
+        vdc.update_reg, value,
+        vdc.raster.current_line, vdc.border_height,
+        vdc.regs[0], vdc.regs[1], vdc.regs[2], vdc.regs[3],
+        vdc.regs[4], (vdc.regs[5] & 0x1f), vdc.regs[6], vdc.regs[7],
+        vdc.regs[8] & 0x03, vdc.regs[9] & 0x1f, /* vdc.regs[10] & 0x7f, vdc.regs[11] & 0x1f,  */
+        vdc.regs[12], vdc.regs[13], /* vdc.regs[14], vdc.regs[15], */
+        /* 16, 17, 18, 19 */
+        vdc.regs[20], vdc.regs[21], vdc.regs[22], vdc.regs[23] & 0x1f,
+        vdc.regs[24], vdc.regs[25], vdc.regs[26], vdc.regs[27],
+        vdc.regs[34], vdc.regs[35]
+        );
+        break;
+    }
+
     log_message(vdc.log, "REG %02i VAL %02x", vdc.update_reg, value);
 #endif
 
@@ -142,7 +176,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
             }
         }
 #ifdef REG_DEBUG
-        log_message(vdc.log, "Horizontal Total %i", vdc.xchars_total);
+        log_message(vdc.log, "REG 0 Horizontal Total:%02x", vdc.xchars_total);
 #endif
         break;
       case 1:                   /* R01  Horizontal characters displayed */
@@ -154,7 +188,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
             }
         }
 #ifdef REG_DEBUG
-        log_message(vdc.log, "Horizontal Displayed %i", vdc.regs[1]);
+        log_message(vdc.log, "REG 1 Horizontal Displayed:%02x", vdc.regs[1]);
 #endif
         break;
 
@@ -163,32 +197,27 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
             vdc.update_geometry = 1;
         }
 #ifdef REG_DEBUG
-        log_message(vdc.log, "REG 2 unsupported!");
+        log_message(vdc.log, "REG 2 Horizontal Sync Pos:%02x", vdc.regs[2]);
 #endif
         break;
 
       case 3:                   /* R03  Horizontal/Vertical Sync widths */
-          if ((vdc.regs[3] & 0xF0) != (unsigned)(oldval & 0xF0))
+          if ((vdc.regs[3] & 0xF0) != (oldval & 0xF0u))
             vdc.update_geometry = 1;
 #ifdef REG_DEBUG
-        log_message(vdc.log, "REG 3 only partially supported!");
+        log_message(vdc.log, "REG 3 Hor/Ver Sync Width:%02x", vdc.regs[3]);
 #endif
         break;
 
       case 4:                   /* R04  Vertical total (character) rows */
-        if (vdc.regs[4] != oldval)
-            vdc.update_geometry = 1;
 #ifdef REG_DEBUG
-        log_message(vdc.log, "Vertical Total %i.", vdc.regs[4]);
+        log_message(vdc.log, "REG 4 Vertical Total :%02x", vdc.regs[4]);
 #endif
         break;
 
       case 5:                   /* R05  Vertical total line adjust */
-        if ((vdc.regs[5] & 0x1f) != (unsigned)(oldval & 0x1f)) {
-            vdc.update_geometry = 1;
-        }
 #ifdef REG_DEBUG
-        log_message(vdc.log, "Vertical Total Fine Adjust %i.", vdc.regs[5]);
+        log_message(vdc.log, "REG 5 Vertical Total Fine Adjust :%02x", vdc.regs[5]);
 #endif
         break;
 
@@ -196,28 +225,31 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         if (vdc.regs[6] != oldval)
             vdc.update_geometry = 1;
 #ifdef REG_DEBUG
-        log_message(vdc.log, "Vertical Displayed %i.", vdc.regs[6]);
+        log_message(vdc.log, "REG 6 Vertical Displayed :%02x", vdc.regs[6]);
 #endif
         break;
 
       case 7:                   /* R07  Vertical sync position */
-        if (vdc.regs[7] != oldval)
-            vdc.update_geometry = 1;
 #ifdef REG_DEBUG
-        log_message(vdc.log, "Vertical Sync Position %i.", vdc.regs[7]);
+        log_message(vdc.log, "REG 7 Vertical Sync Position :%02x", vdc.regs[7]);
 #endif
         break;
 
       case 8:                   /* R08  unused: Interlace and Skew */
         vdc.update_geometry = 1;
 #ifdef REG_DEBUG
-        log_message(vdc.log, "REG 8 unsupported!");
+        log_message(vdc.log, "REG 8 Interlace:%02x");
 #endif
         break;
 
       case 9:                   /* R09  Rasters between two display lines */
-        if ((vdc.regs[9] & 0x1f) != (unsigned)(oldval & 0x1f)) {
-            vdc.update_geometry = 1;
+        if ((vdc.regs[9] & 0x1f) != (oldval & 0x1fu)) {
+            vdc.raster_ycounter_max = vdc.regs[9] & 0x1f;
+            if (vdc.raster_ycounter_max < 16) {
+                vdc.bytes_per_char = 16;
+            } else {
+                vdc.bytes_per_char = 32;
+            }
         }
 #ifdef REG_DEBUG
         log_message(vdc.log, "Character Total Vertical %i", vdc.regs[9]);
@@ -232,7 +264,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
 
       case 12:                  /* R12  Display Start Address hi */
       case 13:                  /* R13  Display Start Address lo */
-        /* Screen address will be taken at first displayed line.  */
+        /* Screen address will be taken after last displayed line.  */
 #ifdef REG_DEBUG
         log_message(vdc.log, "Update screen_adr: %x.", vdc.screen_adr);
 #endif
@@ -256,13 +288,14 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
 
       case 20:                  /* R20/21 Attribute Start Address hi/lo */
       case 21:
-        /* Attribute address will be taken at first displayed line.  */
+        /* Attribute address will be taken after last displayed line.  */
 #ifdef REG_DEBUG
         log_message(vdc.log, "Update attribute_adr: %x.", vdc.attribute_adr);
 #endif
         break;
 
       case 22:                  /* R22 Character Horizontal Size Control */
+        /* TODO - changes to this register are real time, so need raster_changes() type call, but why bother... */
 #ifdef REG_DEBUG
         log_message(vdc.log, "REG 22 only partially supported!");
 #endif
@@ -281,10 +314,6 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         } else {
             vdc.attribute_blink = vdc.frame_counter & 8;
         }
-        /* vertical smooth scroll bits 0-4  */
-        if ((vdc.regs[24] & 0x1f) != (unsigned)(oldval & 0x1f))
-            vdc.update_geometry = 1;
-
 #ifdef REG_DEBUG
         log_message(vdc.log, "Vertical Smooth Scroll %i.", vdc.regs[24] & 0x1f);
         log_message(vdc.log, "Blink frequency: %s.",
@@ -295,7 +324,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 25:
-        if ((vdc.regs[25] & 0x0F) != (unsigned)(oldval & 0x0F)) {
+        if ((vdc.regs[25] & 0x0F) != (oldval & 0x0Fu)) {
             /* Horizontal smooth scroll */
 #ifdef ALLOW_UNALIGNED_ACCESS
             /* Smooth scroll behaviour differs between VDC versions */
@@ -315,7 +344,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
             vdc.raster.xsmooth = 0;
 #endif
         }
-        if ((vdc.regs[25] & 0x10) != (unsigned)(oldval & 0x10)) {
+        if ((vdc.regs[25] & 0x10) != (oldval & 0x10u)) {
             /* Double-Pixel Mode */
             vdc.update_geometry = 1;
         }
@@ -332,10 +361,12 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 26:
-        if ((vdc.regs[26] != oldval) && ((vdc.regs[25] & 0xC0) != 0xC0)) { /* repaint if something changes and we are not in graphics attribute mode */
+        /* TODO - figure out if this was really needed. Doesn't seem to make a difference.
+            Original Comment: repaint if something changes and we are not in graphics attribute mode */
+        /* if ((vdc.regs[26] != oldval) && ((vdc.regs[25] & 0xC0) != 0xC0)) { 
             vdc.force_repaint = 1;
-        }
-        if ((vdc.regs[26] & 0x0F) != (unsigned)(oldval & 0x0F)) {
+        }   */
+        if ((vdc.regs[26] & 0x0F) != (oldval & 0x0Fu)) {
             /* Background colour changes */
             /* TODO - calculate a real current horizontal raster position for this call (2nd value) */
             /* based on blacky_stardust calculations, calculating current_x_pixel should be like:
