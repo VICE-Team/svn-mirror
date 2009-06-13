@@ -41,7 +41,7 @@
 /* *nix TFE settings */
 #if defined(UNIX_COMPILE)
 
-void ethernet_interface_free(void)
+void sdl_menu_ethernet_interface_free(void)
 {
 }
 
@@ -64,7 +64,7 @@ UI_MENU_DEFINE_RADIO(ETHERNET_INTERFACE)
 static ui_menu_entry_t ethernet_interface_dyn_menu[21];
 static int ethernet_interface_dyn_menu_init = 0;
 
-void ethernet_interface_free(void)
+void sdl_menu_ethernet_interface_free(void)
 {
     int i;
 
@@ -83,7 +83,7 @@ UI_MENU_CALLBACK(ETHERNET_INTERFACE_dynmenu_callback)
     int i;
 
     if (ethernet_interface_dyn_menu_init != 0) {
-        ethernet_interface_free();
+        sdl_menu_ethernet_interface_free();
     } else {
         ethernet_interface_dyn_menu_init = 1;
     }

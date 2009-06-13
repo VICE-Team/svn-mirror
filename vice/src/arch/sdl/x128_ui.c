@@ -168,7 +168,12 @@ fprintf(stderr,"%s\n",__func__);
 
 void c128ui_shutdown(void)
 {
-    midi_in_free();
-    midi_out_free();
-    ethernet_interface_free();
+#ifdef HAVE_MIDI
+    sdl_menu_midi_in_free();
+    sdl_menu_midi_out_free();
+#endif
+
+#ifdef HAVE_TFE
+    sdl_menu_ethernet_interface_free();
+#endif
 }

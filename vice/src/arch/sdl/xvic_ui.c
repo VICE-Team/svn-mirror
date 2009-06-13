@@ -185,7 +185,10 @@ fprintf(stderr,"%s\n",__func__);
 
 void vic20ui_shutdown(void)
 {
-    midi_in_free();
-    midi_out_free();
+#ifdef HAVE_MIDI
+    sdl_menu_midi_in_free();
+    sdl_menu_midi_out_free();
+#endif
+
     lib_free(vic20_font);
 }
