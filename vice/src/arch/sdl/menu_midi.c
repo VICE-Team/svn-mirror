@@ -43,6 +43,14 @@ UI_MENU_DEFINE_STRING(MIDIInDev)
 UI_MENU_DEFINE_STRING(MIDIOutDev)
 UI_MENU_DEFINE_RADIO(MIDIDriver)
 
+void midi_in_free(void)
+{
+}
+
+void midi_out_free(void)
+{
+}
+
 static const ui_menu_entry_t midi_driver_menu[] = {
     { "OSS",
       MENU_ENTRY_RESOURCE_RADIO,
@@ -83,6 +91,14 @@ UI_MENU_DEFINE_STRING(MIDIName)
 UI_MENU_DEFINE_STRING(MIDIInName)
 UI_MENU_DEFINE_STRING(MIDIOutName)
 
+void midi_in_free(void)
+{
+}
+
+void midi_out_free(void)
+{
+}
+
 #define VICE_SDL_MIDI_ARCHDEP_ITEMS \
     SDL_MENU_ITEM_SEPARATOR, \
     { "Client name", \
@@ -116,6 +132,24 @@ static ui_menu_entry_t midi_out_dyn_menu[21];
 static int midi_in_dyn_menu_init = 0;
 static int midi_out_dyn_menu_init = 0;
 
+void midi_in_free(void)
+{
+    int i;
+
+    for (i = 0; midi_in_dyn_menu[i].string != NULL; i++) {
+        lib_free(midi_in_dyn_menu[i].string);
+    }
+}
+
+void midi_out_free(void)
+{
+    int i;
+
+    for (i = 0; midi_out_dyn_menu[i].string != NULL; i++) {
+        lib_free(midi_out_dyn_menu[i].string);
+    }
+}
+
 UI_MENU_CALLBACK(MIDIInDev_dynmenu_callback)
 {
     MMRESULT ret;
@@ -125,9 +159,7 @@ UI_MENU_CALLBACK(MIDIInDev_dynmenu_callback)
 
     /* rebuild menu if it already exists. */
     if (midi_in_dyn_menu_init != 0) {
-        for (i = 0; midi_in_dyn_menu[i].string != NULL; i++) {
-            lib_free(midi_in_dyn_menu[i].string);
-        }
+        midi_in_free();
     } else {
         midi_in_dyn_menu_init = 1;
     }
@@ -170,9 +202,7 @@ UI_MENU_CALLBACK(MIDIOutDev_dynmenu_callback)
 
     /* rebuild menu if it already exists. */
     if (midi_out_dyn_menu_init != 0) {
-        for (i = 0; midi_out_dyn_menu[i].string != NULL; i++) {
-            lib_free(midi_out_dyn_menu[i].string);
-        }
+        midi_out_free();
     } else {
         midi_out_dyn_menu_init = 1;
     }

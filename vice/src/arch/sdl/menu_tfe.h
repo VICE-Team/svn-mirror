@@ -33,4 +33,6 @@
 
 extern const ui_menu_entry_t tfe_menu[];
 
+extern void ethernet_interface_free(void);
+
 #endif

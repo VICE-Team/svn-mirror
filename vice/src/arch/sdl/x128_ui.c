@@ -38,6 +38,7 @@
 #include "menu_debug.h"
 #include "menu_drive.h"
 #include "menu_help.h"
+#include "menu_midi.h"
 #include "menu_network.h"
 #include "menu_reset.h"
 #include "menu_screenshot.h"
@@ -46,6 +47,7 @@
 #include "menu_sound.h"
 #include "menu_speed.h"
 #include "menu_tape.h"
+#include "menu_tfe.h"
 #include "menu_video.h"
 #include "ui.h"
 #include "uimenu.h"
@@ -166,7 +168,7 @@ fprintf(stderr,"%s\n",__func__);
 
 void c128ui_shutdown(void)
 {
-#ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
-#endif
+    midi_in_free();
+    midi_out_free();
+    ethernet_interface_free();
 }

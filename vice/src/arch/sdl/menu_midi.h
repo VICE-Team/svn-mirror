@@ -34,4 +34,7 @@
 extern const ui_menu_entry_t midi_c64_menu[];
 extern const ui_menu_entry_t midi_vic20_menu[];
 
+extern void midi_in_free(void);
+extern void midi_out_free(void);
+
 #endif

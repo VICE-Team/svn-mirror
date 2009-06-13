@@ -37,6 +37,7 @@
 #include "menu_debug.h"
 #include "menu_drive.h"
 #include "menu_help.h"
+#include "menu_midi.h"
 #include "menu_network.h"
 #include "menu_reset.h"
 #include "menu_screenshot.h"
@@ -184,9 +185,7 @@ fprintf(stderr,"%s\n",__func__);
 
 void vic20ui_shutdown(void)
 {
-#ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
-#endif
-
+    midi_in_free();
+    midi_out_free();
     lib_free(vic20_font);
 }
