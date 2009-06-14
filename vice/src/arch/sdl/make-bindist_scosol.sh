@@ -128,23 +128,30 @@ if test x"$ZIPKIND" = "xzip"; then
   rm -f file.tmp
 
   if test x"$SYSTEM" = "xsol"; then
-    arch_cpu=`uname -m`
+    arch_cpu_name=`uname -m`
+    arch_cpu=unknown
 
-    if test x"$arch_cpu" = "xi86pc"; then
+    if test x"$arch_cpu_name" = "xi86pc"; then
       if test x"$cpu_is_64bit" = "x64-bit"; then
         arch_cpu=amd64
       else
         arch_cpu=x86
       fi
-    else
-      if test x"$arch_cpu" = "xs390"; then
-        arch_cpu=s390
+    fi
+
+    if test x"$arch_cpu_name" = "xs390"; then
+      arch_cpu=s390
+    fi
+
+    if test x"$arch_cpu_name" = "xarm"; then
+      arch_cpu=arm
+    fi
+
+    if test x"$arch_cpu" = "xunknown"; then
+      if test x"$cpu_is_64bit" = "x64-bit"; then
+        arch_cpu=sparc64
       else
-        if test x"$cpu_is_64bit" = "x64-bit"; then
-          arch_cpu=sparc64
-        else
-          arch_cpu=sparc
-        fi
+        arch_cpu=sparc
       fi
     fi
 
