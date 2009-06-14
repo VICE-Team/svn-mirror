@@ -79,6 +79,7 @@ libarch_a_SOURCES = \
 	screen-shot.c \
 	screen-shot.h \
 	signals.c \
+	socketimpl.c \
 	socketimpl.h \
 	statusbar.c \
 	statusbar.h \
