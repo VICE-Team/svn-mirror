@@ -155,7 +155,7 @@ static const cart_t cart_info[] = {
   {0, 1, SIZE_16KB, 0x2000, 0, 0, "StarDOS"}
 };
 
-#ifndef HAVE_STRDUP
+#if !defined(HAVE_STRDUP) && !defined(strdup)
 char *strdup(const char *string)
 {
     char *new;
