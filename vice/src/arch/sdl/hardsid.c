@@ -38,4 +38,8 @@
 #include "../win32/hardsid.c"
 #endif
 
+#ifdef AMIGA_SUPPORT
+#include "../amigaos/hardsid.c"
+#endif
+
 #endif

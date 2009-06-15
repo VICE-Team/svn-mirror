@@ -223,6 +223,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
     AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
     AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+    AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
     AC_CHECK_HEADERS(proto/openpci.h)
     if test x"$enable_sdlui" != "xyes"; then
         AC_DEFINE(HAVE_XVIDEO,,[Enable XVideo (overlay) support.])
@@ -233,6 +234,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
   if test x"$host_os" = "xamithlon" -o x"$host_cpu" = "xi686be"; then
     AC_DEFINE(AMIGA_AMITHLON,,[Should we enable Amiga Amithlon support.])
     AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+    AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
     AC_CHECK_HEADERS(proto/openpci.h)
     is_amigaos4=no
   fi
@@ -255,6 +257,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
     AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
     AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+    AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
     AC_CHECK_HEADERS(proto/openpci.h)
     with_png=no
     with_zlib=no
@@ -275,6 +278,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
   if test x"$is_amigaos4" = "xyes"; then
     AC_DEFINE(AMIGA_OS4,,[Should we enable AmigaOS4 support.])
     AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+    AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
     with_picasso96=yes
   fi
 

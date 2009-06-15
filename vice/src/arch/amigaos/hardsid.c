@@ -2,8 +2,7 @@
  * hardsid.c
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
- *  HardSID Support <support@hardsid.com>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,122 +26,389 @@
 
 #include "vice.h"
 
-#include <stdio.h>
+#if defined(HAVE_PROTO_OPENPCI_H) && defined(HAVE_HARDSID)
+
+#include <stdlib.h>
+#include <string.h>
 
 #include "hardsid.h"
 #include "log.h"
-//#include "sid-resources.h"
 #include "types.h"
 
-#if 0
-typedef BYTE (CALLBACK* GetHardSIDCount_t)    (void);
-typedef void (CALLBACK* InitHardSID_Mapper_t) (void);
-typedef void (CALLBACK* MuteHardSID_Line_t)   (BOOL);
-typedef BYTE (CALLBACK* ReadFromHardSID_t)    (BYTE, BYTE);
-typedef void (CALLBACK* SetDebug_t)           (BOOL);
-typedef void (CALLBACK* WriteToHardSID_t)     (BYTE, BYTE, BYTE);
+#define MAXSID 1
 
+static unsigned char read_sid( unsigned char reg ); // Read a SID register
+static void write_sid( unsigned char reg, unsigned char data ); // Write a SID register
 
-static GetHardSIDCount_t       GetHardSIDCount;
-static InitHardSID_Mapper_t    InitHardSID_Mapper;
-static MuteHardSID_Line_t      MuteHardSID_Line;
-static ReadFromHardSID_t       ReadFromHardSID;
-static SetDebug_t              SetDebug;
-static WriteToHardSID_t        WriteToHardSID;
+static struct Library *OpenPciBase = NULL;
 
-static HINSTANCE dll = NULL;
-static unsigned int device_map[2] = { 0, 0 };
+static int sidfh = 0;
 
+/* buffer containing current register state of SIDs */
+static BYTE sidbuf[0x20 * MAXSID];
 
-static int init_interface(void)
+typedef void (*voidfunc_t)(void);
+
+static unsigned long HSbase;
+
+/* read value from SIDs */
+int hardsid_read(WORD addr, int chipno)
 {
-    if (dll == NULL) {
-        dll = LoadLibrary("HARDSID.DLL");
-        if (dll != NULL) {
-            GetHardSIDCount = (GetHardSIDCount_t)
-                              GetProcAddress(dll, "GetHardSIDCount");
-            InitHardSID_Mapper = (InitHardSID_Mapper_t)
-                                 GetProcAddress(dll, "InitHardSID_Mapper");
-            MuteHardSID_Line = (MuteHardSID_Line_t)
-                               GetProcAddress(dll, "MuteHardSID_Line");
-            ReadFromHardSID = (ReadFromHardSID_t)
-                              GetProcAddress(dll, "ReadFromHardSID");
-            SetDebug = (SetDebug_t)
-                       GetProcAddress(dll, "SetDebug");
-            WriteToHardSID = (WriteToHardSID_t)
-                             GetProcAddress(dll, "WriteToHardSID");
-        } else {
-            return -1;
-        }
+  /* check if chipno and addr is valid */
+    if (chipno < MAXSID && addr < 0x20) {
+      /* if addr is from read-only register, perform a read read */
+        if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
+            addr += chipno*0x20;
+            sidbuf[addr] = read_sid(addr);
+        } 
+	/* else correct addr, so it becomes an index into sidbuf[] */
+	else
+          addr += chipno*0x20;
+
+	/* take value from sidbuf[] */
+        return sidbuf[addr];
     }
 
     return 0;
 }
-#endif
+
+/* write value into SID */
+void hardsid_store(WORD addr, BYTE val, int chipno)
+{
+  /* check if chipno and addr is valid */
+    if (chipno < MAXSID && addr <= 0x18) {
+      /* correct addr, so it becomes an index into sidbuf[] and the unix device */
+        addr += chipno * 0x20;
+	/* write into sidbuf[] */
+        sidbuf[addr] = val;
+	/* if the device is opened, write to device */
+        if (sidfh >= 0) {
+            write_sid(addr, val);
+        }
+    }
+}
+
+#undef BYTE
+#undef WORD
+#include <exec/types.h>
+#include <proto/exec.h>
+#include <proto/openpci.h>
+#include <libraries/openpci.h>
+
+// Set as appropriate
+static int sid_NTSC = FALSE; // TRUE for 60Hz oscillator, FALSE for 50
+
+static int HSLock = FALSE;
+static struct pci_dev *dev = NULL;
 
 int hardsid_open(void)
 {
-#if 0
-    return init_interface();
-#endif
+  static int atexitinitialized = 0;
+  unsigned int i;
+  unsigned char bus=0;
+
+  if (atexitinitialized) {
+    hardsid_close();
+  }
+
+  if ((OpenPciBase = (struct Library *)OpenLibrary("openpci.library", 0)) == NULL)
+  {
+    log_message(LOG_DEFAULT, "Error opening openpci.library\n");
     return -1;
+  }
+
+  log_message(LOG_DEFAULT, "openpci.library v%ld.%ld opened\n",(long)OpenPciBase->lib_Version,(long)OpenPciBase->lib_Revision);
+
+  bus=pci_bus();
+
+  if (!bus)
+  {
+    log_message(LOG_DEFAULT, "No PCI bus found\n");
+    return -1;
+  }
+
+  dev = pci_find_device(0x6581, 0x8580, NULL);
+
+  if (dev == NULL)
+  {
+    log_message( LOG_DEFAULT, "Unable to find a HardSID PCI card\n" );
+    return -1;
+  }
+
+  // Lock the device, since we're a driver
+  HSLock = pci_obtain_card(dev);
+  if(!HSLock)
+  {
+    log_message(LOG_DEFAULT, "Unable to lock the hardsid. Another driver may have an exclusive lock\n" );
+    return -1;
+  }
+
+  HSbase = dev->base_address[0];
+
+  // Reset the hardsid PCI interface (as per hardsid linux driver)
+  pci_outb(0xff, HSbase + 0x00);
+  pci_outb(0x00, HSbase + 0x02);
+  usleep(100);
+  pci_outb(0x24, HSbase + 0x02);
+
+  /* mute all sids */
+  memset(sidbuf, 0, sizeof(sidbuf));
+  for (i=0; i<sizeof(sidbuf); i++) {
+    write_sid(i, 0);
+  }
+
+  log_message(LOG_DEFAULT, "HardSID PCI: opened");
+
+  /* install exit handler, so device is closed on exit */
+  if (!atexitinitialized) {
+      atexitinitialized = 1;
+      atexit((voidfunc_t)hardsid_close);
+  }
+
+  sidfh = 1; /* ok */
+
+  return 0;
+}
+
+static unsigned char read_sid( unsigned char reg )
+{
+  unsigned char  ret;
+
+  pci_outb((reg & 0x1f) | 0x20, HSbase + 4);
+  usleep(2);
+  pci_outb(0x20, HSbase);
+  ret = pci_inb(HSbase);
+  pci_outb(0x80, HSbase);
+  return ret;
+}
+
+static void write_sid(unsigned char reg, unsigned char data)
+{
+  pci_outw(((reg * 0x1f) << 8) | data, HSbase + 3);
 }
 
 int hardsid_close(void)
 {
-#if 0
-    if (dll != NULL) {
-       int chipno;
-       WORD addr;
+  unsigned int i;
 
-       for (chipno = 0; chipno < 2; chipno++) {
-           for (addr = 0; addr < 24; addr++)
-               hardsid_store(addr, 0, chipno);
-       }
-    }
-#endif
+  /* mute all sids */
+  memset(sidbuf, 0, sizeof(sidbuf));
+  for (i=0; i<sizeof(sidbuf); i++) {
+    write_sid(i, 0);
+  }
 
-    return 0;
+  if (HSLock)
+    pci_release_card(dev);
+
+  if (OpenPciBase)
+    CloseLibrary((struct Library*)OpenPciBase);
+
+  log_message(LOG_DEFAULT, "HardSID PCI: closed");
+
+  return 0;
 }
 
-int hardsid_read(WORD addr, int chipno)
-{
-#if 0
-    if (dll != NULL)
-        return ReadFromHardSID((BYTE)device_map[chipno], (UCHAR)(addr & 0x1f));
-#endif
-
-    return 0;
-}
-
-void hardsid_store(WORD addr, BYTE val, int chipno)
-{
-#if 0
-    if (dll != NULL)
-        WriteToHardSID((BYTE)device_map[chipno], (UCHAR)(addr & 0x1f), val);
-#endif
-}
-
+/* set current main clock frequency, which gives us the possibilty to
+   choose between pal and ntsc frequencies */
 void hardsid_set_machine_parameter(long cycles_per_sec)
 {
 }
 
-unsigned int hardsid_available(void)
-{
-#if 0
-    if (init_interface() < 0)
-        return 0;
-
-    return (unsigned int)GetHardSIDCount();
 #endif
+
+
+#if defined(HAVE_HARDSID) && defined(AMIGA_OS4)
+
+#include <stdlib.h>
+#include <string.h>
+
+#include "hardsid.h"
+#include "log.h"
+#include "types.h"
+
+static unsigned char read_sid( unsigned char reg ); // Read a SID register
+static void write_sid( unsigned char reg, unsigned char data ); // Write a SID register
+
+typedef void (*voidfunc_t)(void);
+
+#define MAXSID 1
+
+/* buffer containing current register state of SIDs */
+static BYTE sidbuf[0x20 * MAXSID];
+
+static int sidfh = 0;
+
+/* read value from SIDs */
+int hardsid_read(WORD addr, int chipno)
+{
+  /* check if chipno and addr is valid */
+    if (chipno < MAXSID && addr < 0x20) {
+      /* if addr is from read-only register, perform a read read */
+        if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
+            addr += chipno*0x20;
+            sidbuf[addr] = read_sid(addr);
+        } 
+	/* else correct addr, so it becomes an index into sidbuf[] */
+	else
+          addr += chipno*0x20;
+
+	/* take value from sidbuf[] */
+        return sidbuf[addr];
+    }
 
     return 0;
 }
 
-void hardsid_set_device(unsigned int chipno, unsigned int device)
+/* write value into SID */
+void hardsid_store(WORD addr, BYTE val, int chipno)
 {
-#if 0
-    device_map[chipno] = device;
-#endif
+  /* check if chipno and addr is valid */
+    if (chipno < MAXSID && addr <= 0x18) {
+      /* correct addr, so it becomes an index into sidbuf[] and the unix device */
+        addr += chipno * 0x20;
+	/* write into sidbuf[] */
+        sidbuf[addr] = val;
+	/* if the device is opened, write to device */
+        if (sidfh >= 0) {
+            write_sid(addr, val);
+        }
+    }
 }
 
+#undef BYTE
+#undef WORD
+#include <exec/types.h>
+#include <proto/expansion.h>
+#include <proto/exec.h>
+
+struct Library          *ExpansionBase = NULL;
+struct ExpansionIFace   *IExpansion    = NULL;
+struct PCIIFace         *IPCI          = NULL;
+
+struct PCIDevice        *HSDevPCI      = NULL;
+struct PCIResourceRange *HSDevBAR      = NULL;
+int                     HSLock        = FALSE;
+
+int hardsid_open(void)
+{
+  static int atexitinitialized = 0;
+  unsigned int i;
+
+  if (atexitinitialized) {
+    hardsid_close();
+  }
+
+  ExpansionBase = IExec->OpenLibrary( "expansion.library", 50 );
+  if( !ExpansionBase )
+  {
+    log_message( LOG_DEFAULT, "Unable to open expansion.library\n" );
+    return -1;
+  }
+
+  IPCI = (struct PCIIFace *)IExec->GetInterface( ExpansionBase, "pci", 1, NULL );
+  if( !IPCI )
+  {
+    log_message( LOG_DEFAULT, "Unable to obtain PCI expansion interface\n" );
+    return -1;
+  }
+
+  // Try and find a HS on the PCI bus
+  HSDevPCI = IPCI->FindDeviceTags( FDT_VendorID, 0x6581,
+                                   FDT_DeviceID, 0x8580,
+                                   FDT_Index,    0,
+                                   TAG_DONE );
+  if( !HSDevPCI )
+  {
+    log_message( LOG_DEFAULT, "Unable to find a HardSID PCI card\n" );
+    return -1;
+  }
+
+  // Lock the device, since we're a driver
+  HSLock = HSDevPCI->Lock( PCI_LOCK_SHARED );
+  if( !HSLock )
+  {
+    log_message(LOG_DEFAULT, "Unable to lock the hardsid. Another driver may have an exclusive lock\n" );
+    return -1;
+  }
+
+  // Get the resource range
+  HSDevBAR = HSDevPCI->GetResourceRange( 0 );
+  if( !HSDevBAR )
+  {
+    log_message(LOG_DEFAULT, "Unable to get resource range 0\n" );
+    return -1;
+  }
+
+  // Reset the hardsid PCI interface (as per hardsid linux driver)
+  HSDevPCI->OutByte( HSDevBAR->BaseAddress + 0x00, 0xff );
+  HSDevPCI->OutByte( HSDevBAR->BaseAddress + 0x02, 0xff );
+  usleep(100);
+  HSDevPCI->OutByte( HSDevBAR->BaseAddress + 0x02, 0x24 );
+
+  /* mute all sids */
+  memset(sidbuf, 0, sizeof(sidbuf));
+  for (i=0; i<sizeof(sidbuf); i++) {
+    write_sid(i, 0);
+  }
+
+  log_message(LOG_DEFAULT, "HardSID PCI: opened");
+
+  /* install exit handler, so device is closed on exit */
+  if (!atexitinitialized) {
+      atexitinitialized = 1;
+      atexit((voidfunc_t)hardsid_close);
+  }
+
+  sidfh = 1; /* ok */
+
+  return 0;
+}
+
+int hardsid_close(void)
+{
+  unsigned int i;
+
+  /* mute all sids */
+  memset(sidbuf, 0, sizeof(sidbuf));
+  for (i=0; i<sizeof(sidbuf); i++) {
+    write_sid(i, 0);
+  }
+
+  if( HSDevBAR )      HSDevPCI->FreeResourceRange( HSDevBAR );
+  if( HSLock )        HSDevPCI->Unlock();
+  if( IPCI )          IExec->DropInterface( (struct Interface *)IPCI );
+  if( ExpansionBase ) IExec->CloseLibrary( ExpansionBase );
+
+  log_message(LOG_DEFAULT, "HardSID PCI: closed");
+
+  return 0;
+}
+
+static unsigned char read_sid( unsigned char reg )
+{
+  unsigned char ret;
+  HSDevPCI->OutByte(HSDevBAR->BaseAddress + 4, ((reg & 0x1f) | 0x20));
+  usleep(2);
+  HSDevPCI->OutByte(HSDevBAR->BaseAddress, 0x20));
+  ret = HSDevPCI->InByte(HSDevBAR->BaseAddress);
+  HSDevPCI->OutByte(HSDevBAR->BaseAddress, 0x80));
+
+  return ret;
+}
+
+static void write_sid( unsigned char reg, unsigned char data )
+{
+  CWDevPCI->OutWord CWDevBAR->BaseAddress + 3, ((reg * 0x1f) << 8) | data );
+}
+
+/* set current main clock frequency, which gives us the possibilty to
+   choose between pal and ntsc frequencies */
+void hardsid_set_machine_parameter(long cycles_per_sec)
+{
+}
+
+#endif
+
+void hardsid_set_device(unsigned int chipno, unsigned int device)
+{
+}

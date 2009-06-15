@@ -40,7 +40,7 @@
 static unsigned char read_sid( unsigned char reg ); // Read a SID register
 static void write_sid( unsigned char reg, unsigned char data ); // Write a SID register
 
-struct Library *OpenPciBase = NULL;
+static struct Library *OpenPciBase = NULL;
 
 static int sidfh = 0;
 
