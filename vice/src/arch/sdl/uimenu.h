@@ -58,6 +58,9 @@ typedef enum {
     /* Submenu: needs UI, data points to the submenu */
     MENU_ENTRY_SUBMENU,
 
+    /* Dynamic submenu: needs UI, data points to the submenu, hotkeys disabled */
+    MENU_ENTRY_DYNAMIC_SUBMENU,
+
     /* Custom dialog: needs UI */
     MENU_ENTRY_DIALOG,
 

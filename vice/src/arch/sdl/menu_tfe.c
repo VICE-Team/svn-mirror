@@ -114,7 +114,7 @@ UI_MENU_CALLBACK(ETHERNET_INTERFACE_dynmenu_callback)
 
 #define VICE_SDL_TFE_ARCHDEP_ITEMS \
     { "Interface", \
-      MENU_ENTRY_SUBMENU, \
+      MENU_ENTRY_DYNAMIC_SUBMENU, \
       ETHERNET_INTERFACE_dynmenu_callback, \
       (ui_callback_data_t)ethernet_interface_dyn_menu },
 

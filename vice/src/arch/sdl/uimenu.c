@@ -142,6 +142,7 @@ static int *sdl_ui_menu_get_offsets(ui_menu_entry_t *menu, int num_items)
 
         switch (block_type) {
             case MENU_ENTRY_SUBMENU:
+            case MENU_ENTRY_DYNAMIC_SUBMENU:
             case MENU_ENTRY_TEXT:
                 offsets[i] = 1;
                 break;
@@ -207,7 +208,7 @@ static void sdl_ui_menu_redraw(ui_menu_entry_t *menu, const char *title, int off
     }
 }
 
-static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *title)
+static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *title, int allow_mapping)
 {
     int num_items = 0, cur = 0, cur_old = -1, cur_offset = 0, in_menu = 1, redraw = 1;
     int *value_offsets = NULL;
@@ -265,7 +266,8 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
                 }
                 break;
             case MENU_ACTION_RIGHT:
-                if (menu[cur + cur_offset].type != MENU_ENTRY_SUBMENU) {
+                if ((menu[cur + cur_offset].type != MENU_ENTRY_SUBMENU)
+                 && (menu[cur + cur_offset].type != MENU_ENTRY_DYNAMIC_SUBMENU)) {
                     break;
                 }
                 /* fall through */
@@ -285,7 +287,7 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
                 in_menu = 0;
                 break;
             case MENU_ACTION_MAP:
-                if (sdl_ui_hotkey_map(&(menu[cur + cur_offset]))) {
+                if (allow_mapping && sdl_ui_hotkey_map(&(menu[cur + cur_offset]))) {
                     sdl_ui_menu_redraw(menu, title, cur_offset, value_offsets);
                 }
                 break;
@@ -316,7 +318,10 @@ static ui_menu_retval_t sdl_ui_menu_item_activate(ui_menu_entry_t *item)
             }
             break;
         case MENU_ENTRY_SUBMENU:
-            return sdl_ui_menu_display((ui_menu_entry_t *)item->data, item->string);
+            return sdl_ui_menu_display((ui_menu_entry_t *)item->data, item->string, 1);
+            break;
+        case MENU_ENTRY_DYNAMIC_SUBMENU:
+            return sdl_ui_menu_display((ui_menu_entry_t *)item->data, item->string, 0);
             break;
         default:
             break;
@@ -337,7 +342,7 @@ static void sdl_ui_trap(WORD addr, void *data)
     sdl_ui_activate_pre_action();
 
     if (data == NULL) {
-        sdl_ui_menu_display(main_menu, "VICE main menu");
+        sdl_ui_menu_display(main_menu, "VICE main menu", 1);
     } else {
         sdl_ui_init_draw_params();
         sdl_ui_menu_item_activate((ui_menu_entry_t *)data);
@@ -565,8 +570,8 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
 
 ui_menu_retval_t sdl_ui_external_menu_activate(ui_menu_entry_t *item)
 {
-    if (item && (item->type == MENU_ENTRY_SUBMENU)) {
-        return sdl_ui_menu_display((ui_menu_entry_t *)item->data, item->string);
+    if (item && ((item->type == MENU_ENTRY_SUBMENU) || (item->type == MENU_ENTRY_DYNAMIC_SUBMENU))) {
+        return sdl_ui_menu_display((ui_menu_entry_t *)item->data, item->string, 0);
     }
 
     return MENU_RETVAL_DEFAULT;
@@ -794,6 +799,7 @@ int sdl_ui_hotkey(ui_menu_entry_t *item)
         case MENU_ENTRY_RESOURCE_STRING:
         case MENU_ENTRY_DIALOG:
         case MENU_ENTRY_SUBMENU:
+        case MENU_ENTRY_DYNAMIC_SUBMENU:
             interrupt_maincpu_trigger_trap(sdl_ui_trap, (void *)item);
         default:
             break;

@@ -237,11 +237,11 @@ UI_MENU_CALLBACK(MIDIOutDev_dynmenu_callback)
 #define VICE_SDL_MIDI_ARCHDEP_ITEMS \
     SDL_MENU_ITEM_SEPARATOR, \
     { "MIDI-In", \
-      MENU_ENTRY_SUBMENU, \
+      MENU_ENTRY_DYNAMIC_SUBMENU, \
       MIDIInDev_dynmenu_callback, \
       (ui_callback_data_t)midi_in_dyn_menu }, \
     { "MIDI-Out", \
-      MENU_ENTRY_SUBMENU, \
+      MENU_ENTRY_DYNAMIC_SUBMENU, \
       MIDIOutDev_dynmenu_callback, \
       (ui_callback_data_t)midi_out_dyn_menu },
 
