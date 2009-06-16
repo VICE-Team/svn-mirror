@@ -792,6 +792,11 @@ BMenuBar *menu_create(int machine_class) {
 	}
 	menu->AddItem(new BMenuItem("RAM ...", 
 		new BMessage(MENU_RAM_SETTINGS)));
+
+	if (machine_class == VICE_MACHINE_C128) {
+		menu->AddItem(new BMenuItem("RAM banks 2 & 3", 
+			new BMessage(MENU_TOGGLE_C128FULLBANKS)));
+	}
 		
 	if (!vsid_mode) {
 		menu->AddSeparatorItem();

@@ -419,6 +419,9 @@ BEGIN
 #if !defined(__XPLUS4__) && !defined(__X64DTV__)
       MENUITEM "Emulator ~Identification",      IDM_EMUID,     MIS_TEXT
 #endif
+#ifdef __X128
+      MENUITEM "RAM banks 2 & 3", IDM_C128FULLBANKS, MIS_TEXT
+#endif
 #ifdef __XPET__
       MENUITEM "PET R~EU - Memory and Extension Unit", IDM_PETREU,       MIS_TEXT
       SUBMENU  "PET REU Memory ~Size",        IDM_PETREUSIZE,   MIS_TEXT

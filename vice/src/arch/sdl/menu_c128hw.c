@@ -82,6 +82,7 @@ static const ui_menu_entry_t vdc_menu[] = {
 
 UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(IEEE488)
+UI_MENU_DEFINE_TOGGLE(C128FullBanks)
 
 const ui_menu_entry_t c128_hardware_menu[] = {
     { "Joystick settings",
@@ -106,6 +107,10 @@ const ui_menu_entry_t c128_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ram_menu },
+    { "RAM banks 2 & 3",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_C128FullBanks_callback,
+      NULL },
     { "ROM settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

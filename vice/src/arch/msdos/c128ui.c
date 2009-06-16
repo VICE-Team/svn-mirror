@@ -159,6 +159,7 @@ static tui_menu_item_def_t vcd_menu_items[] = {
 
 TUI_MENU_DEFINE_TOGGLE(Mouse)
 TUI_MENU_DEFINE_TOGGLE(EmuID)
+TUI_MENU_DEFINE_TOGGLE(C128FullBanks)
 
 static TUI_MENU_CALLBACK(toggle_MouseType_callback)
 {
@@ -220,6 +221,10 @@ static tui_menu_item_def_t ioextenstions_menu_items[] = {
     { "Grab mouse events:",
       "Emulate a mouse",
       toggle_Mouse_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_RAM banks 2 & 3:",
+      "Enable RAM banks 2 & 3",
+      toggle_C128FullBanks_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Emulator Identification:",
       "Allow programs to identify the emulator they are running on",

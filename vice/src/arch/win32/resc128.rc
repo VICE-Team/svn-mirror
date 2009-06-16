@@ -3030,6 +3030,143 @@ END
 
 // original and default ENGLISH version of dialog
 
+IDD_C128_RAM_BANKS_DIALOG DIALOG DISCARDABLE  0, 0, 240, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RAM banks"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Enable RAM banks 2 and 3",
+                    IDC_C128_FULL_BANKS, 15,15,120,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_C128_RAM_BANKS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 240, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RAM banks"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Enable RAM banks 2 and 3",
+                    IDC_C128_FULL_BANKS, 15,15,120,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+
+// GERMAN version of dialog
+
+IDD_C128_RAM_BANKS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 240, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RAM banks"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Enable RAM banks 2 and 3",
+                    IDC_C128_FULL_BANKS, 15,15,120,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+
+// FRENCH version of dialog
+
+IDD_C128_RAM_BANKS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 240, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RAM banks"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Enable RAM banks 2 and 3",
+                    IDC_C128_FULL_BANKS, 15,15,120,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_C128_RAM_BANKS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 240, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RAM banks"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Enable RAM banks 2 and 3",
+                    IDC_C128_FULL_BANKS, 15,15,120,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+END
+#pragma code_page(28591)
+
+
+// ITALIAN version of dialog
+
+IDD_C128_RAM_BANKS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RAM banks"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Enable RAM banks 2 and 3",
+                    IDC_C128_FULL_BANKS, 15,15,120,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+
+// DUTCH version of dialog
+
+IDD_C128_RAM_BANKS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 240, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RAM banken"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Aktiveer RAM bank 2 en 3",
+                    IDC_C128_FULL_BANKS, 15,15,120,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+
+// POLISH version of dialog
+
+#pragma code_page(28592)
+IDD_C128_RAM_BANKS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 240, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RAM banks"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Enable RAM banks 2 and 3",
+                    IDC_C128_FULL_BANKS, 15,15,120,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+END
+#pragma code_page(28591)
+
+
+// SWEDISH version of dialog
+
+IDD_C128_RAM_BANKS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 240, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RAM banks"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Enable RAM banks 2 and 3",
+                    IDC_C128_FULL_BANKS, 15,15,120,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_C128_RAM_BANKS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 240, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RAM banks"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Enable RAM banks 2 and 3",
+                    IDC_C128_FULL_BANKS, 15,15,120,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+END
+#pragma code_page(28591)
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
+
 IDD_C128KBD_MAPPING_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 240, 120
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -3252,6 +3389,7 @@ BEGIN
   IDS_SELECT_EXT_FUNCTION_ROM   "Select external function ROM image"
   IDS_MACHINE_TYPE              "Machine type"
   IDS_FUNCTION_ROM              "Function ROM"
+  IDS_RAM_BANKS                 "RAM banks"
   IDS_C128_SETTINGS             "C128 settings"
   IDS_MP_VDC_SETTINGS           "VDC settin&gs"
   IDS_MP_VDC_REVISION           "VDC revision"
@@ -3270,6 +3408,7 @@ BEGIN
   IDS_SELECT_EXT_FUNCTION_ROM   "Vælg image for extern funktions-ROM"
   IDS_MACHINE_TYPE              "Maskintype"
   IDS_FUNCTION_ROM              "Funktions-ROM"
+  IDS_RAM_BANKS                 "RAM banks"
   IDS_C128_SETTINGS             "C128-indstillinger"
   IDS_MP_VDC_SETTINGS           "&VDC-indstillinger"
   IDS_MP_VDC_REVISION           "VDC revision"
@@ -3288,6 +3427,7 @@ BEGIN
   IDS_SELECT_EXT_FUNCTION_ROM   "Externes Funktions ROM Image Datei selektieren"
   IDS_MACHINE_TYPE              "Maschinen Typ"
   IDS_FUNCTION_ROM              "Function ROM"
+  IDS_RAM_BANKS                 "RAM banks"
   IDS_C128_SETTINGS             "C128 Einstellungen"
   IDS_MP_VDC_SETTINGS           "VDC Einstellun&gen"
   IDS_MP_VDC_REVISION           "VDC revision"
@@ -3306,6 +3446,7 @@ BEGIN
   IDS_SELECT_EXT_FUNCTION_ROM   "Sélectionner l'image ROM Fonction externe"
   IDS_MACHINE_TYPE              "Type de machine"
   IDS_FUNCTION_ROM              "ROM Fonction"
+  IDS_RAM_BANKS                 "RAM banks"
   IDS_C128_SETTINGS             "Paramètres C128"
   IDS_MP_VDC_SETTINGS           "Para&mètres VDC"
   IDS_MP_VDC_REVISION           "VDC revision"
@@ -3325,6 +3466,7 @@ BEGIN
   IDS_SELECT_EXT_FUNCTION_ROM   "Adja meg a külsõ Function ROM képmás nevét"
   IDS_MACHINE_TYPE              "Gép típus"
   IDS_FUNCTION_ROM              "Function ROM"
+  IDS_RAM_BANKS                 "RAM banks"
   IDS_C128_SETTINGS             "C128 beállításai"
   IDS_MP_VDC_SETTINGS           "VDC beállításai"
   IDS_MP_VDC_REVISION           "VDC revision"
@@ -3344,6 +3486,7 @@ BEGIN
   IDS_SELECT_EXT_FUNCTION_ROM   "Seleziona l'immagine della Function ROM esterna"
   IDS_MACHINE_TYPE              "Tipo di macchina"
   IDS_FUNCTION_ROM              "Function ROM"
+  IDS_RAM_BANKS                 "RAM banks"
   IDS_C128_SETTINGS             "Impostazioni C128"
   IDS_MP_VDC_SETTINGS           "Impostazio&ni del VDC"
   IDS_MP_VDC_REVISION           "VDC revision"
@@ -3362,6 +3505,7 @@ BEGIN
   IDS_SELECT_EXT_FUNCTION_ROM   "Selecteer extern functie-ROM-bestand"
   IDS_MACHINE_TYPE              "Machinesoort"
   IDS_FUNCTION_ROM              "Functie-ROM"
+  IDS_RAM_BANKS                 "RAM banken"
   IDS_C128_SETTINGS             "C128-instellingen"
   IDS_MP_VDC_SETTINGS           "VDC-instellin&gen"
   IDS_MP_VDC_REVISION           "VDC-revisie"
@@ -3381,6 +3525,7 @@ BEGIN
   IDS_SELECT_EXT_FUNCTION_ROM   "Select external function ROM image"
   IDS_MACHINE_TYPE              "Machine type"
   IDS_FUNCTION_ROM              "Function ROM"
+  IDS_RAM_BANKS                 "RAM banks"
   IDS_C128_SETTINGS             "C128 settings"
   IDS_MP_VDC_SETTINGS           "Us&tawienia VDC"
   IDS_MP_VDC_REVISION           "VDC revision"
@@ -3400,6 +3545,7 @@ BEGIN
   IDS_SELECT_EXT_FUNCTION_ROM   "Välj avbildning för externt funktions-ROM"
   IDS_MACHINE_TYPE              "Maskintyp"
   IDS_FUNCTION_ROM              "Funktions-ROM"
+  IDS_RAM_BANKS                 "RAM banks"
   IDS_C128_SETTINGS             "C128-inställningar"
   IDS_MP_VDC_SETTINGS           "&VDC-inställningar"
   IDS_MP_VDC_REVISION           "VDC revision"
@@ -3419,6 +3565,7 @@ BEGIN
   IDS_SELECT_EXT_FUNCTION_ROM   "Harici function ROM imajýný seç"
   IDS_MACHINE_TYPE              "Makine tipi"
   IDS_FUNCTION_ROM              "Function ROM"
+  IDS_RAM_BANKS                 "RAM banks"
   IDS_C128_SETTINGS             "C128 ayarlarý"
   IDS_MP_VDC_SETTINGS           "VDC ayarlarý"
   IDS_MP_VDC_REVISION           "VDC revision"

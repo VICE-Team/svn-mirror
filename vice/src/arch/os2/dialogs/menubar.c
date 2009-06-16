@@ -812,6 +812,11 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         toggle("EmuID");
         return;
 #endif
+#ifdef __X128__
+    case IDM_C128FULLBANKS:
+        toggle("C128FullBanks");
+        return;
+#endif
 
     case IDM_REFRATEAUTO:
     case IDM_REFRATE1:
@@ -1360,6 +1365,9 @@ void menu_select(HWND hwnd, USHORT item)
         //WinCheckRes(hwnd, IDM_PRTUPORT,  "PrUser");
 #if !defined(__XPLUS4__) && !defined(__X64DTV__)
         WinCheckRes(hwnd, IDM_EMUID,     "EmuID");
+#endif
+#ifdef __X128__
+        WinCheckRes(hwnd, IDM_C128FULLBANKS, "C128FullBanks");
 #endif
         WinCheckMenuItem(hwnd, IDM_PAUSE, isEmulatorPaused());
         WinCheckRes(hwnd, IDM_MENUBAR,   "Menubar");

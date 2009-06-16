@@ -35,6 +35,6 @@ extern int ieee488_enabled;
 extern int reu_enabled;
 extern int acia_de_enabled;
 extern int acia_d7_enabled;
+extern int c128_full_banks;
 
 #endif
-

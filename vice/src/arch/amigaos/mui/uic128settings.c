@@ -80,6 +80,7 @@ static ui_to_from_t ui_to_from[] = {
   { NULL, MUI_TYPE_FILENAME, "InternalFunctionName", NULL, NULL },
   { NULL, MUI_TYPE_CYCLE, "ExternalFunctionROM", ui_c128_enable, ui_c128_enable_values },
   { NULL, MUI_TYPE_FILENAME, "ExternalFunctionName", NULL, NULL },
+  { NULL, MUI_TYPE_CYCLE, "C128FullBanks", ui_c128_enable, ui_c128_enable_values },
   UI_END /* mandatory */
 };
 
@@ -127,6 +128,7 @@ static APTR build_gui(void)
     FILENAME(ui_to_from[2].object, translate_text(IDS_INTERNAL_FUNCTION_ROM_FILENAME), browse_button1)
     CYCLE(ui_to_from[3].object, translate_text(IDS_EXTERNAL_FUNCTION_ROM), ui_c128_enable)
     FILENAME(ui_to_from[4].object, translate_text(IDS_EXTERNAL_FUNCTION_ROM_FILENAME), browse_button2)
+    CYCLE(ui_to_from[5].object, translate_text(IDS_RAM_BANKS_2_AND_3), ui_c128_enable)
     OK_CANCEL_BUTTON
   End;
 

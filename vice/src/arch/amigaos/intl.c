@@ -5993,6 +5993,17 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_EXTERNAL_FUNCTION_ROM_FILENAME_SV, "Externt funktions-ROM"},
 /* tr */ {IDS_EXTERNAL_FUNCTION_ROM_FILENAME_TR, "Harici Function ROM dosyasý"},
 
+/* en */ {IDS_RAM_BANKS_2_AND_3,    "RAM banks 2 & 3"},
+/* da */ {IDS_RAM_BANKS_2_AND_3_DA, ""},  /* fuzzy */
+/* de */ {IDS_RAM_BANKS_2_AND_3_DE, ""},  /* fuzzy */
+/* fr */ {IDS_RAM_BANKS_2_AND_3_FR, ""},  /* fuzzy */
+/* hu */ {IDS_RAM_BANKS_2_AND_3_HU, ""},  /* fuzzy */
+/* it */ {IDS_RAM_BANKS_2_AND_3_IT, ""},  /* fuzzy */
+/* nl */ {IDS_RAM_BANKS_2_AND_3_NL, "RAM bank 2 & 3"},
+/* pl */ {IDS_RAM_BANKS_2_AND_3_PL, ""},  /* fuzzy */
+/* sv */ {IDS_RAM_BANKS_2_AND_3_SV, ""},  /* fuzzy */
+/* tr */ {IDS_RAM_BANKS_2_AND_3_TR, ""},  /* fuzzy */
+
 /* en */ {IDS_C128_SETTINGS,    "C128 settings"},
 /* da */ {IDS_C128_SETTINGS_DA, "C128-indstillinger"},
 /* de */ {IDS_C128_SETTINGS_DE, "C128 Einstellungen"},

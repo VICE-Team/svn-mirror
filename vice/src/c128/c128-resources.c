@@ -111,6 +111,9 @@ int emu_id_enabled;
 /* Flag: Do we enable the IEEE488 interface emulation?  */
 int ieee488_enabled;
 
+/* Flag: Do we enable the emulation of banks 2 and 3 of ram? */
+int c128_full_banks;
+
 #ifdef HAVE_RS232
 /* Flag: Do we enable the $DE** ACIA RS232 interface emulation?  */
 int acia_de_enabled;
@@ -120,6 +123,13 @@ int acia_de_enabled;
 int acia_d7_enabled;
 #endif
 #endif
+
+static int set_c128_full_banks(int val, void *param)
+{
+    c128_full_banks = val;
+
+    return 0;
+}
 
 static int set_machine_type(int val, void *param)
 {
@@ -504,6 +514,8 @@ static const resource_int_t resources_int[] =
 #endif
     { "SidStereoAddressStart", 0xde00, RES_EVENT_SAME, NULL,
       (int *)&sid_stereo_address_start, sid_set_sid_stereo_address, NULL },
+    { "C128FullBanks", 0, RES_EVENT_NO, NULL,
+      (int *)&c128_full_banks, set_c128_full_banks, NULL },
     { NULL }
 };
 
@@ -535,4 +547,3 @@ void c128_resources_shutdown(void)
     lib_free(machine_keymap_file_list[0]);
     lib_free(machine_keymap_file_list[1]);
 }
-

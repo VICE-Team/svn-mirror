@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "c128.h"
+#include "c128-resources.h"
 #include "c128fastiec.h"
 #include "c128mem.h"
 #include "c128memrom.h"
@@ -156,10 +157,17 @@ static void mmu_switch_cpu(int value)
 
 static void mmu_set_ram_bank(BYTE value)
 {
-    /* (We handle only 128K here.)  */
-    ram_bank = mem_ram + (((long)value & 0x40) << 10);
+    if (c128_full_banks) {
+        ram_bank = mem_ram +(((long)value & 0xc0) << 10);
+    } else {
+        ram_bank = mem_ram + (((long)value & 0x40) << 10);
+    }
 #ifdef MMU_DEBUG
-    log_message(mmu_log, "Set RAM bank %i.", (value & 0x40) ? 1 : 0);
+    if (c128_full_banks) {
+        log_message(mmu_log, "Set RAM bank %i.", (value & 0xc0) >> 6);
+    } else {
+        log_message(mmu_log, "Set RAM bank %i.", (value & 0x40) >> 6);
+    }
 #endif
 }
 
@@ -283,10 +291,13 @@ void REGPARM2 mmu_store(WORD address, BYTE value)
           case 8:
           case 9:
           case 10:
-            mem_page_zero = (mem_ram + (mmu[0x8] & 0x1 ? 0x10000 : 0x00000)
-                            + (mmu[0x7] << 8));
-            mem_page_one = (mem_ram + (mmu[0xa] & 0x1 ? 0x10000 : 0x00000)
-                           + (mmu[0x9] << 8));
+            if (c128_full_banks) {
+                mem_page_zero = mem_ram + ((mmu[0x8] & 0x3) * 0x10000) + (mmu[0x7] << 8);
+                mem_page_one = mem_ram + ((mmu[0xa] & 0x3) * 0x10000) + (mmu[0x9] << 8);
+            } else {
+                mem_page_zero = mem_ram + ((mmu[0x8] & 0x1) * 0x10000) + (mmu[0x7] << 8);
+                mem_page_one = mem_ram + ((mmu[0xa] & 0x1) * 0x10000) + (mmu[0x9] << 8);
+            }
 #ifdef MMU_DEBUG
             log_message(mmu_log, "PAGE ZERO %05x PAGE ONE %05x",
                 (mmu[0x8] & 0x1 ? 0x10000 : 0x00000) + (mmu[0x7] << 8),

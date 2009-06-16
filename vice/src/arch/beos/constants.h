@@ -152,6 +152,8 @@ const uint32 MENU_VDC_REV_0					= 'M172';
 const uint32 MENU_VDC_REV_1					= 'M173';
 const uint32 MENU_VDC_REV_2					= 'M174';
 
+const uint32 MENU_TOGGLE_C128FULLBANKS			= 'M175';
+
 const uint32 MENU_TOGGLE_SAVE_SETTINGS_ON_EXIT		= 'M116';
 const uint32 MENU_TOGGLE_CONFIRM_ON_EXIT			= 'M117';
 const uint32 MENU_TOGGLE_FASTPAL				= 'M118';

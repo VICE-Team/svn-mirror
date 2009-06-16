@@ -135,6 +135,15 @@ static void init_functionrom_dialog(HWND hwnd)
     enable_functionrom_controls(hwnd);
 }
 
+static void init_rambanks_dialog(HWND hwnd)
+{
+    int res_value;
+
+    resources_get_int("C128FullBanks", &res_value);
+    CheckDlgButton(hwnd, IDC_C128_FULL_BANKS, res_value
+                   ? BST_CHECKED : BST_UNCHECKED);
+}
+
 static void end_machine_dialog(HWND hwnd)
 {
     resources_set_int("MachineType", (int)SendMessage(GetDlgItem(hwnd,
@@ -233,9 +242,43 @@ static INT_PTR CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wpar
     return FALSE;
 }
 
+static void end_rambanks_dialog(HWND hwnd)
+{
+    resources_set_int("C128FullBanks", (IsDlgButtonChecked(hwnd,
+                      IDC_C128_FULL_BANKS) == BST_CHECKED ? 1 : 0 ));
+}
+
+static INT_PTR CALLBACK rambanks_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                             LPARAM lparam)
+{
+    int command;
+
+    switch (msg) {
+      case WM_COMMAND:
+        command = LOWORD(wparam);
+        return FALSE;
+      case WM_NOTIFY:
+        switch (((NMHDR FAR *)lparam)->code) {
+          case PSN_KILLACTIVE:
+            end_rambanks_dialog(hwnd);
+            return TRUE;
+        }
+        return FALSE;
+      case WM_CLOSE:
+        EndDialog(hwnd, 0);
+        return TRUE;
+      case WM_INITDIALOG:
+        system_init_dialog(hwnd);
+        init_rambanks_dialog(hwnd);
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
 void ui_c128_dialog(HWND hwnd)
 {
-    PROPSHEETPAGE psp[2];
+    PROPSHEETPAGE psp[3];
     PROPSHEETHEADER psh;
 
     psp[0].dwSize = sizeof(PROPSHEETPAGE);
@@ -266,17 +309,33 @@ void ui_c128_dialog(HWND hwnd)
     psp[1].lParam = 0;
     psp[1].pfnCallback = NULL;
 
+    psp[2].dwSize = sizeof(PROPSHEETPAGE);
+    psp[2].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
+    psp[2].hInstance = winmain_instance;
+#ifdef _ANONYMOUS_UNION
+    psp[2].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_C128_RAM_BANKS_DIALOG));
+    psp[2].pszIcon = NULL;
+#else
+    psp[2].DUMMYUNIONNAME.pszTemplate
+        = MAKEINTRESOURCE(translate_res(IDD_C128_RAM_BANKS_DIALOG));
+    psp[2].u2.pszIcon = NULL;
+#endif
+    psp[2].lParam = 0;
+    psp[2].pfnCallback = NULL;
+
     psp[0].pfnDlgProc = machine_dialog_proc;
     psp[0].pszTitle = translate_text(IDS_MACHINE_TYPE);
     psp[1].pfnDlgProc = functionrom_dialog_proc;
     psp[1].pszTitle = translate_text(IDS_FUNCTION_ROM);
+    psp[2].pfnDlgProc = rambanks_dialog_proc;
+    psp[2].pszTitle = translate_text(IDS_RAM_BANKS);
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
     psh.pszCaption = translate_text(IDS_C128_SETTINGS);
-    psh.nPages = 2;
+    psh.nPages = 3;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
     psh.nStartPage = 0;
@@ -290,4 +349,3 @@ void ui_c128_dialog(HWND hwnd)
 
     PropertySheet(&psh);
 }
-

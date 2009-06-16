@@ -76,6 +76,7 @@ ui_menu_toggle  c128_ui_menu_toggles[]={
     { "VDC64KB", MENU_TOGGLE_VDC64KB },
     { "PALEmulation", MENU_TOGGLE_FASTPAL },
     { "VICIIScale2x", MENU_TOGGLE_SCALE2X },
+    { "C128FullBanks", MENU_TOGGLE_C128FULLBANKS },
     { NULL, 0 }
 };
 
