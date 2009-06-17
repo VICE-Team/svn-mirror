@@ -178,6 +178,12 @@ static const ui_menu_entry_t sid_engine_menu[] = {
       radio_SidEngine_callback,
       (ui_callback_data_t)SID_ENGINE_CATWEASELMKIII },
 #endif
+#ifdef HAVE_HARDSID
+    { "HardSID",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SidEngine_callback,
+      (ui_callback_data_t)SID_ENGINE_HARDSID },
+#endif
 #ifdef HAVE_PARSID
     { "ParSID Port 1",
       MENU_ENTRY_RESOURCE_RADIO,
@@ -218,6 +224,12 @@ static const ui_menu_entry_t sid_dtv_engine_menu[] = {
       radio_SidEngine_callback,
       (ui_callback_data_t)SID_ENGINE_CATWEASELMKIII },
 #endif
+#ifdef HAVE_HARDSID
+    { "HardSID",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SidEngine_callback,
+      (ui_callback_data_t)SID_ENGINE_HARDSID },
+#endif
 #ifdef HAVE_PARSID
     { "ParSID Port 1",
       MENU_ENTRY_RESOURCE_RADIO,
@@ -245,6 +257,12 @@ static const ui_menu_entry_t sid_noresid_engine_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidEngine_callback,
       (ui_callback_data_t)SID_ENGINE_CATWEASELMKIII },
+#endif
+#ifdef HAVE_HARDSID
+    { "HardSID",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SidEngine_callback,
+      (ui_callback_data_t)SID_ENGINE_HARDSID },
 #endif
 #ifdef HAVE_PARSID
     { "ParSID Port 1",
