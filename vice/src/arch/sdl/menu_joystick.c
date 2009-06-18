@@ -366,6 +366,61 @@ const ui_menu_entry_t joystick_four_menu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_TOGGLE(SIDCartJoy)
+
+const ui_menu_entry_t joystick_plus4_menu[] = {
+    { "Joystick device in port 1",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)joystick_port1_device_menu },
+    { "Joystick device in port 2",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)joystick_port2_device_menu },
+    { "Joystick device in port 3",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)joystick_port3_device_menu },
+    { "Swap joystick ports",
+      MENU_ENTRY_OTHER,
+      custom_swap_ports_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Allow keyset joystick",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_KeySetEnable_callback,
+      NULL },
+    { "Define keysets",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_keyset_menu },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "SID Cart Joystick",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SIDCartJoy_callback,
+      NULL },
+#ifdef HAVE_SDL_NUMJOYSTICKS
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Joystick 1 mapping", /* TODO better name */
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_joy1_menu },
+    { "Joystick 2 mapping", /* TODO better name */
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_joy2_menu },
+    { "Joystick 3 mapping", /* TODO better name */
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_joy3_menu },
+    { "Joystick extra options", /* TODO better name */
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_joy_misc_menu },
+#endif
+    { NULL }
+};
+
 const ui_menu_entry_t joystick_single_menu[] = {
     { "Joystick device",
       MENU_ENTRY_SUBMENU,

@@ -874,6 +874,8 @@ const ui_menu_entry_t sid_pet_menu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_TOGGLE(DIGIBLASTER)
+
 const ui_menu_entry_t sid_plus4_menu[] = {
     { "Enable SID cart emulation",
       MENU_ENTRY_RESOURCE_TOGGLE,
@@ -919,5 +921,10 @@ const ui_menu_entry_t sid_plus4_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidClock_callback,
       (ui_callback_data_t)1 },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Enable SID cart digiblaster add-on",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_DIGIBLASTER_callback,
+      NULL },
     { NULL }
 };

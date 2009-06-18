@@ -31,6 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "digiblaster.h"
 #include "lib.h"
 #include "maincpu.h"
 #include "plus4.h"
@@ -184,7 +185,7 @@ static int ted_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
 
 static int ted_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
-BYTE val;
+    BYTE val;
 
     snd.speed = speed;
     snd.sample_length_integer = cycles_per_sec / speed;
@@ -302,6 +303,7 @@ sound_t *sound_machine_open(int chipno)
 int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     ted_sound_machine_init(psid, speed, cycles_per_sec);
+    digiblaster_sound_machine_init(psid, speed, cycles_per_sec);
 
     if (!sidcart_clock)
     {
@@ -327,24 +329,35 @@ void sound_machine_close(sound_t *psid)
 
 /* for read/store 0x00 <= addr <= 0x1f is the sid
  *                0x20 <= addr <= 0x3f is the ted
+ *                0x40 <= addr <= 0x40 is the digiblaster
  *
- * future sound devices will be able to use 0x40 and up
+ * future sound devices will be able to use 0x60 and up
  */
 
 BYTE sound_machine_read(sound_t *psid, WORD addr)
 {
-    if (addr>=0x20 && addr<=0x3f)
+    if (addr>=0x20 && addr<=0x3f) {
         return ted_sound_machine_read(psid, (WORD)(addr-0x20));
-    else
-        return sid_sound_machine_read(psid, addr);
+    }
+
+    if (addr>=0x40 && addr<=0x5f) {
+        return digiblaster_sound_machine_read(psid, (WORD)(addr-0x40));
+    }
+
+    return sid_sound_machine_read(psid, addr);
 }
 
 void sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
 {
-    if (addr>=0x20 && addr<=0x3f)
+    if (addr>=0x20 && addr<=0x3f) {
         ted_sound_machine_store(psid, (WORD)(addr-0x20), byte);
-    else
-        sid_sound_machine_store(psid, addr, byte);
+    }
+
+    if (addr>=0x40 && addr<=0x5f) {
+        digiblaster_sound_machine_store(psid, (WORD)(addr-0x40), byte);
+    }
+
+    sid_sound_machine_store(psid, addr, byte);
 }
 
 void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
@@ -359,6 +372,7 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
 
     temp=sid_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
     ted_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
+    digiblaster_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
     return temp;
 }
 

@@ -1,5 +1,5 @@
 /*
- * menu_joystick.h - Joystick menu for SDL UI.
+ * digiblaster.h
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,16 +24,23 @@
  *
  */
 
-#ifndef VICE_MENU_JOYSTICK_H
-#define VICE_MENU_JOYSTICK_H
+#ifndef VICE_DIGIBLASTER_H
+#define VICE_DIGIBLASTER_H
 
-#include "vice.h"
 #include "types.h"
-#include "uimenu.h"
+#include "sound.h"
 
-extern const ui_menu_entry_t joystick_menu[];
-extern const ui_menu_entry_t joystick_four_menu[];
-extern const ui_menu_entry_t joystick_plus4_menu[];
-extern const ui_menu_entry_t joystick_single_menu[];
+extern int digiblaster_enabled;
+
+extern int digiblaster_resources_init(void);
+extern int digiblaster_cmdline_options_init(void);
+
+extern int digiblaster_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
+extern int digiblaster_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
+extern void digiblaster_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
+extern BYTE digiblaster_sound_machine_read(sound_t *psid, WORD addr);
+extern void digiblaster_sound_reset(void);
+extern void REGPARM2 digiblaster_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 digiblaster_read(WORD addr);
 
 #endif

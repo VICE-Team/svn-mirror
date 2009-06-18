@@ -124,6 +124,8 @@ static ui_to_from_t ui_to_from[] = {
   { NULL, MUI_TYPE_CYCLE, "SidFilters", ui_sidcart_enable, ui_sidcart_enable_values },
   { NULL, MUI_TYPE_CYCLE, "SidAddress", ui_sidcart_address, ui_sidcart_address_values },
   { NULL, MUI_TYPE_CYCLE, "SidClock", ui_sidcart_clock, ui_sidcart_clock_values },
+  { NULL, MUI_TYPE_CYCLE, "SIDCartJoy", ui_sidcart_enable, ui_sidcart_enable_values },
+  { NULL, MUI_TYPE_CYCLE, "DIGIBLASTER", ui_sidcart_enable, ui_sidcart_enable_values },
   UI_END /* mandatory */
 };
 
@@ -139,6 +141,20 @@ static APTR build_gui(void)
   End;
 }
 
+static APTR build_gui_plus4(void)
+{
+  return GroupObject,
+    CYCLE(ui_to_from[0].object, translate_text(IDS_SID_CART), ui_sidcart_enable)
+    CYCLE(ui_to_from[1].object, translate_text(IDS_SID_ENGINE), ui_sidcart_engine)
+    CYCLE(ui_to_from[2].object, translate_text(IDS_SID_MODEL), ui_sidcart_model)
+    CYCLE(ui_to_from[3].object, translate_text(IDS_SID_FILTERS), ui_sidcart_enable)
+    CYCLE(ui_to_from[4].object, translate_text(IDS_SID_ADDRESS), ui_sidcart_address)
+    CYCLE(ui_to_from[5].object, translate_text(IDS_SID_CLOCK), ui_sidcart_clock)
+    CYCLE(ui_to_from[6].object, translate_text(IDS_SID_JOY), ui_sidcart_enanle)
+    CYCLE(ui_to_from[7].object, translate_text(IDS_SID_DIGIBLASTER), ui_sidcart_enable)
+  End;
+}
+
 void ui_sidcart_settings_dialog(char *addr1, char *addr2, char *clock)
 {
   intl_convert_mui_table(ui_sidcart_enable_translate, ui_sidcart_enable);
@@ -147,4 +163,14 @@ void ui_sidcart_settings_dialog(char *addr1, char *addr2, char *clock)
   ui_sidcart_address[1]=addr2;
   ui_sidcart_clock[1]=clock;
   mui_show_dialog(build_gui(), translate_text(IDS_SIDCART_SETTINGS), ui_to_from);
+}
+
+void ui_sidcart_plus4_settings_dialog(char *addr1, char *addr2, char *clock)
+{
+  intl_convert_mui_table(ui_sidcart_enable_translate, ui_sidcart_enable);
+  intl_convert_mui_table(ui_sidcart_model_translate, ui_sidcart_model);
+  ui_sidcart_address[0]=addr1;
+  ui_sidcart_address[1]=addr2;
+  ui_sidcart_clock[1]=clock;
+  mui_show_dialog(build_gui_plus4(), translate_text(IDS_SIDCART_SETTINGS), ui_to_from);
 }

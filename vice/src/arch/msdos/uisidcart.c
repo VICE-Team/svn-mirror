@@ -205,6 +205,45 @@ tui_menu_item_def_t sidcart_ui_menu_items[] = {
     { NULL }
 };
 
+TUI_MENU_DEFINE_TOGGLE(DIGIBLASTER)
+TUI_MENU_DEFINE_TOGGLE(SIDCartJoy)
+
+tui_menu_item_def_t sidcart_plus4_ui_menu_items[] = {
+    { "_Enable SID cart:",
+      "Enable/disable emulation of the SID cartridge",
+      toggle_SidCart_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "SID _Engine:",
+      "Select the SID engine",
+      sid_engine_submenu_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, sid_engine_submenu, "SID engine" },
+    { "SID _Model:",
+      "Select the SID model to emulate",
+      sid_model_submenu_callback, NULL, 16,
+      TUI_MENU_BEH_CONTINUE, sid_model_submenu, "SID model" },
+    { "SID _Filters:",
+      "Enable/disable emulation of the SID built-in programmable filters",
+      toggle_SidFilters_callback, NULL, 4,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "SID _Address:",
+      "Select the address of the SID",
+      sid_address_submenu_callback, NULL, 5,
+      TUI_MENU_BEH_CONTINUE, sid_address_submenu, "SID address" },
+    { "SID _Clock:",
+      "Select the clock used for the SID",
+      sid_clock_submenu_callback, NULL, 7,
+      TUI_MENU_BEH_CONTINUE, sid_clock_submenu, "SID clock" },
+    { "Enable SID cart joystick:",
+      "Enable/disable emulation of the SID cartridge joystick",
+      toggle_SIDCartJoy_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Enable digiblaster add-on:",
+      "Enable/disable emulation of the digiblaster add-on",
+      toggle_DIGIBLASTER_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
 void uisidcart_init(struct tui_menu *parent_submenu, char *addr1, char *addr2, char *clock)
 {
     tui_menu_t ui_sidcart_submenu;
@@ -223,5 +262,26 @@ void uisidcart_init(struct tui_menu *parent_submenu, char *addr1, char *addr2, c
     tui_menu_add_submenu(parent_submenu, "_SID cart settings...",
                          "SID cart settings",
                          ui_sidcart_submenu, NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
+}
+
+void uisidcart_plus4_init(struct tui_menu *parent_submenu, char *addr1, char *addr2, char *clock)
+{
+    tui_menu_t ui_sidcart_plus4_submenu;
+
+    sidcart_primary_address=addr1;
+    sid_address_submenu[0].label=addr1;
+    sidcart_secondary_address=addr2;
+    sid_address_submenu[1].label=addr2;
+    sidcart_clock=clock;
+    sid_clock_submenu[1].label=clock;
+
+    ui_sidcart_submenu = tui_menu_create("SID cart settings", 1);
+
+    tui_menu_add(ui_sidcart_plus4_submenu, sidcart_plus4_ui_menu_items);
+
+    tui_menu_add_submenu(parent_submenu, "_SID cart settings...",
+                         "SID cart settings",
+                         ui_sidcart_plus4_submenu, NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 }

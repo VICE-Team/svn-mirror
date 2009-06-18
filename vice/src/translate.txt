@@ -1480,6 +1480,18 @@ IDCLS_ENABLE_H1024K_EXPANSION
 /* plus4/plus4memhannes256k.c */
 IDCLS_ENABLE_H4096K_EXPANSION
 
+/* plus4/digiblaster.c */
+IDCLS_ENABLE_DIGIBLASTER
+
+/* plus4/digiblaster.c */
+IDCLS_DISABLE_DIGIBLASTER
+
+/* plus4/sidcartjoy.c */
+IDCLS_ENABLE_SIDCARTJOY
+
+/* plus4/sidcartjoy.c */
+IDCLS_DISABLE_SIDCARTJOY
+
 /* c64/digimax.c */
 IDCLS_ENABLE_DIGIMAX
 

@@ -1,5 +1,5 @@
 /*
- * menu_joystick.h - Joystick menu for SDL UI.
+ * sidcartjoy.h - SIDCART joystick port emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,16 +24,17 @@
  *
  */
 
-#ifndef VICE_MENU_JOYSTICK_H
-#define VICE_MENU_JOYSTICK_H
+#ifndef VICE_SIDCARTJOY_H
+#define VICE_SIDCARTJOY_H
 
-#include "vice.h"
 #include "types.h"
-#include "uimenu.h"
 
-extern const ui_menu_entry_t joystick_menu[];
-extern const ui_menu_entry_t joystick_four_menu[];
-extern const ui_menu_entry_t joystick_plus4_menu[];
-extern const ui_menu_entry_t joystick_single_menu[];
+extern int sidcartjoy_enabled;
+
+extern int sidcartjoy_resources_init(void);
+extern int sidcartjoy_cmdline_options_init(void);
+
+extern void REGPARM2 sidcartjoy_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 sidcartjoy_read(WORD addr);
 
 #endif

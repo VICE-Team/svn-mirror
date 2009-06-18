@@ -10,6 +10,8 @@ INCLUDES = \
 noinst_LIBRARIES = libplus4.a
 
 libplus4_a_SOURCES = \
+	digiblaster.c \
+	digiblaster.h \
 	plus4-cmdline-options.c \
 	plus4-cmdline-options.h \
 	plus4-resources.c \
@@ -53,6 +55,8 @@ libplus4_a_SOURCES = \
 	plus4tcbm.c \
 	plus4tcbm.h \
 	plus4video.c \
+	sidcartjoy.c \
+	sidcartjoy.h \
 	ted-badline.c \
 	ted-badline.h \
 	ted-cmdline-options.c \

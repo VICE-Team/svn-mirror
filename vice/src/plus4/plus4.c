@@ -33,6 +33,7 @@
 #include "clkguard.h"
 #include "datasette.h"
 #include "debug.h"
+#include "digiblaster.h"
 #include "drive-cmdline-options.h"
 #include "drive-resources.h"
 #include "drive.h"
@@ -67,6 +68,7 @@
 #include "sid.h"
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
+#include "sidcartjoy.h"
 #include "sound.h"
 #include "tape.h"
 #include "ted-cmdline-options.h"
@@ -243,6 +245,8 @@ int machine_resources_init(void)
         || machine_video_resources_init() < 0
         || plus4_resources_init() < 0
         || ted_resources_init() < 0
+        || digiblaster_resources_init() < 0
+        || sidcartjoy_resources_init() < 0
         || sound_resources_init() < 0
         || sidcart_resources_init() < 0
         || acia_resources_init() < 0
@@ -279,6 +283,8 @@ int machine_cmdline_options_init(void)
         || video_init_cmdline_options() < 0
         || plus4_cmdline_options_init() < 0
         || ted_cmdline_options_init() < 0
+        || digiblaster_cmdline_options_init() < 0
+        || sidcartjoy_cmdline_options_init() < 0
         || sound_cmdline_options_init() < 0
         || sidcart_cmdline_options_init() < 0
         || acia_cmdline_options_init() < 0
@@ -420,6 +426,8 @@ void machine_specific_reset(void)
     plus4tcbm2_reset();
 
     ted_reset();
+
+    digiblaster_sound_reset();
 
     sid_reset();
 

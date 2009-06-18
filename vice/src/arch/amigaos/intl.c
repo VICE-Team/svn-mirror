@@ -5322,6 +5322,28 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_SID_CLOCK_SV, "SID-klocka"},
 /* tr */ {IDS_SID_CLOCK_TR, "SID Saati"},
 
+/* en */ {IDS_SID_JOY,    "SID Cart joystick"},
+/* da */ {IDS_SID_JOY_DA, ""},  /* fuzzy */
+/* de */ {IDS_SID_JOY_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SID_JOY_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SID_JOY_HU, ""},  /* fuzzy */
+/* it */ {IDS_SID_JOY_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SID_JOY_NL, "SID-cart joystick"},
+/* pl */ {IDS_SID_JOY_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SID_JOY_SV, ""},  /* fuzzy */
+/* tr */ {IDS_SID_JOY_TR, ""},  /* fuzzy */
+
+/* en */ {IDS_SID_DIGIBLASTER,    "Digiblaster add-on"},
+/* da */ {IDS_SID_DIGIBLASTER_DA, ""},  /* fuzzy */
+/* de */ {IDS_SID_DIGIBLASTER_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SID_DIGIBLASTER_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SID_DIGIBLASTER_HU, ""},  /* fuzzy */
+/* it */ {IDS_SID_DIGIBLASTER_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SID_DIGIBLASTER_NL, "Digiblaster add-on"},
+/* pl */ {IDS_SID_DIGIBLASTER_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SID_DIGIBLASTER_SV, ""},  /* fuzzy */
+/* tr */ {IDS_SID_DIGIBLASTER_TR, ""},  /* fuzzy */
+
 /* en */ {IDS_SIDCART_SETTINGS,    "SID cart settings"},
 /* da */ {IDS_SIDCART_SETTINGS_DA, "SID-cartridgeindstillinger"},
 /* de */ {IDS_SIDCART_SETTINGS_DE, "SID Modul Einstellungen"},

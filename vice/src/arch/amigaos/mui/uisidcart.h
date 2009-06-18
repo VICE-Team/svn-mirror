@@ -28,5 +28,6 @@
 #define VICE_UISIDCART_H
 
 extern void ui_sidcart_settings_dialog(char *adr1, char *adr2, char *clock);
+extern void ui_sidcart_plus4_settings_dialog(char *adr1, char *adr2, char *clock);
 
 #endif

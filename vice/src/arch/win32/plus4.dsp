@@ -82,6 +82,10 @@ LIB32=link.exe -lib
 # Name "plus4 - Win32 Debug"
 # Begin Source File
 
+SOURCE="..\..\plus4\digiblaster.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\plus4\plus4-cmdline-options.c"
 # End Source File
 # Begin Source File
@@ -189,6 +193,10 @@ SOURCE=..\..\plus4\plus4tcbm.c
 # Begin Source File
 
 SOURCE=..\..\plus4\plus4video.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\plus4\sidcartjoy.c
 # End Source File
 # Begin Source File
 

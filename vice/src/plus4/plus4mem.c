@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "datasette.h"
+#include "digiblaster.h"
 #include "iecbus.h"
 #include "maincpu.h"
 
@@ -55,6 +56,7 @@
 #include "resources.h"
 #include "sid-resources.h"
 #include "sid.h"
+#include "sidcartjoy.h"
 #include "ted.h"
 #include "ted-mem.h"
 #include "types.h"
@@ -383,27 +385,38 @@ BYTE REGPARM1 mem_read(WORD addr)
 static BYTE REGPARM1 fdxx_read(WORD addr)
 {
 #ifdef HAVE_RS232
-    if (addr >= 0xfd00 && addr <= 0xfd0f)
+    if (addr >= 0xfd00 && addr <= 0xfd0f) {
         return acia_read(addr);
+    }
 #endif
 
-    if (addr == 0xfd16 && h256k_enabled)
+    if (addr == 0xfd16 && h256k_enabled) {
         return h256k_reg_read(addr);
+    }
 
-    if (addr == 0xfd15 && cs256k_enabled)
+    if (addr == 0xfd15 && cs256k_enabled) {
         return cs256k_reg_read(addr);
+    }
 
-    if (addr == 0xfd10)
+    if (addr == 0xfd10) {
         return pio1_read(addr);
+    }
 
-    if (addr >= 0xfd11 && addr <= 0xfd1f && !cs256k_enabled && !h256k_enabled)
+    if (addr >= 0xfd11 && addr <= 0xfd1f && !cs256k_enabled && !h256k_enabled) {
         return pio1_read(addr);
+    }
 
-    if (addr >= 0xfd30 && addr <= 0xfd3f)
+    if (addr >= 0xfd30 && addr <= 0xfd3f) {
         return pio2_read(addr);
+    }
 
-    if (sidcart_enabled && sidcart_address==0 && addr >= 0xfd40 && addr <= 0xfd5f)
+    if (sidcart_enabled && sidcart_address == 0 && addr >= 0xfd40 && addr <= 0xfd5f) {
         return sid_read(addr);
+    }
+
+    if (sidcart_enabled && sidcartjoy_enabled && addr >= 0xfd80 && addr <= 0xfd8f) {
+        return sidcartjoy_read(addr);
+    }
 
     return 0;
 }
@@ -436,8 +449,16 @@ static void REGPARM2 fdxx_store(WORD addr, BYTE value)
         pio2_store(addr, value);
         return;
     }
-    if (sidcart_enabled && sidcart_address==0 && addr >= 0xfd40 && addr <= 0xfd5f) {
+    if (sidcart_enabled && sidcart_address==0 && addr >= 0xfd40 && addr <= 0xfd5d) {
         sid_store(addr, value);
+        return;
+    }
+    if (sidcart_enabled && digiblaster_enabled && sidcart_address==0 && addr == 0xfd5e) {
+        digiblaster_store(addr, value);
+        return;
+    }
+    if (sidcart_enabled && sidcartjoy_enabled && addr >= 0xfd80 && addr <= 0xfd8f) {
+        sidcartjoy_store(addr, value);
         return;
     }
     if (addr >= 0xfdd0 && addr <= 0xfddf) {
@@ -448,14 +469,17 @@ static void REGPARM2 fdxx_store(WORD addr, BYTE value)
 
 static BYTE REGPARM1 fexx_read(WORD addr)
 {
-    if (addr >= 0xfec0 && addr <= 0xfedf)
+    if (addr >= 0xfec0 && addr <= 0xfedf) {
         return plus4tcbm2_read(addr);
+    }
 
-    if (addr >= 0xfee0 && addr <= 0xfeff)
+    if (addr >= 0xfee0 && addr <= 0xfeff) {
         return plus4tcbm1_read(addr);
+    }
 
-    if (sidcart_enabled && sidcart_address==1 && addr >= 0xfe80 && addr <= 0xfe9f)
+    if (sidcart_enabled && sidcart_address==1 && addr >= 0xfe80 && addr <= 0xfe9f) {
         return sid_read(addr);
+    }
 
     return 0;
 }
@@ -470,8 +494,12 @@ static void REGPARM2 fexx_store(WORD addr, BYTE value)
         plus4tcbm1_store(addr, value);
         return;
     }
-    if (sidcart_enabled && sidcart_address==1 && addr >= 0xfe80 && addr <= 0xfe9f) {
+    if (sidcart_enabled && sidcart_address==1 && addr >= 0xfe80 && addr <= 0xfe9d) {
         sid_store(addr, value);
+        return;
+    }
+    if (sidcart_enabled && digiblaster_enabled && sidcart_address==1 && addr == 0xfe9e) {
+        digiblaster_store(addr, value);
         return;
     }
 }

@@ -1037,6 +1037,18 @@ static int intl_table[][countof(language_table)] = {
 /* sv */  IDD_SIDCART_SETTINGS_DIALOG_SV,    /* size */
 /* tr */  IDD_SIDCART_SETTINGS_DIALOG_TR},   /* fuzzy, size */
 
+/* ressidcart.rc */
+/* en */ {IDD_SIDCARTPLUS4_SETTINGS_DIALOG,
+/* da */  IDD_SIDCARTPLUS4_SETTINGS_DIALOG_DA,    /* fuzzy, size */
+/* de */  IDD_SIDCARTPLUS4_SETTINGS_DIALOG_DE,    /* fuzzy, size */
+/* fr */  IDD_SIDCARTPLUS4_SETTINGS_DIALOG_FR,    /* fuzzy, size */
+/* hu */  IDD_SIDCARTPLUS4_SETTINGS_DIALOG_HU,    /* fuzzy, size */
+/* it */  IDD_SIDCARTPLUS4_SETTINGS_DIALOG_IT,    /* fuzzy, size */
+/* nl */  IDD_SIDCARTPLUS4_SETTINGS_DIALOG_NL,    /* fuzzy, size */
+/* pl */  IDD_SIDCARTPLUS4_SETTINGS_DIALOG_PL,    /* fuzzy, size */
+/* sv */  IDD_SIDCARTPLUS4_SETTINGS_DIALOG_SV,    /* fuzzy, size */
+/* tr */  IDD_SIDCARTPLUS4_SETTINGS_DIALOG_TR},   /* fuzzy, size */
+
 /* res.rc */
 /* en */ {IDD_SOUND_RECORD_SETTINGS_DIALOG,
 /* da */  IDD_SOUND_RECORD_SETTINGS_DIALOG_DA,    /* fuzzy, size */

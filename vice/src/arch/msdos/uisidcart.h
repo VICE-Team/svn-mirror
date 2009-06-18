@@ -30,5 +30,6 @@
 struct tui_menu;
 
 extern void uisidcart_init(struct tui_menu *parent_submenu, char *addr1, char *addr2, char *clock);
+extern void uisidcart_plus4_init(struct tui_menu *parent_submenu, char *addr1, char *addr2, char *clock);
 
 #endif

@@ -10433,6 +10433,62 @@ translate_t string_table[] = {
 #endif
 #endif
 
+/* plus4/digiblaster.c */
+/* en */ {IDCLS_ENABLE_DIGIBLASTER,    N_("Enable the digiblaster add-on")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_DIGIBLASTER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_DIGIBLASTER_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_DIGIBLASTER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_DIGIBLASTER_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_DIGIBLASTER_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DIGIBLASTER_NL, "Activeer de digiblaster add-on"},
+/* pl */ {IDCLS_ENABLE_DIGIBLASTER_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DIGIBLASTER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_DIGIBLASTER_TR, ""},  /* fuzzy */
+#endif
+
+/* plus4/digiblaster.c */
+/* en */ {IDCLS_DISABLE_DIGIBLASTER,    N_("Disable the digiblaster add-on")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_DIGIBLASTER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_DIGIBLASTER_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_DIGIBLASTER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_DIGIBLASTER_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_DIGIBLASTER_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DIGIBLASTER_NL, "De digiblaster add-on uitschakelen"},
+/* pl */ {IDCLS_DISABLE_DIGIBLASTER_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DIGIBLASTER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_DIGIBLASTER_TR, ""},  /* fuzzy */
+#endif
+
+/* plus4/sidcartjoy.c */
+/* en */ {IDCLS_ENABLE_SIDCARTJOY,    N_("Enable SID cartridge joystick")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_SIDCARTJOY_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_SIDCARTJOY_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_SIDCARTJOY_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_SIDCARTJOY_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_SIDCARTJOY_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_SIDCARTJOY_NL, "Activeer SID cartridge joystick"},
+/* pl */ {IDCLS_ENABLE_SIDCARTJOY_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SIDCARTJOY_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_SIDCARTJOY_TR, ""},  /* fuzzy */
+#endif
+
+/* plus4/sidcartjoy.c */
+/* en */ {IDCLS_DISABLE_SIDCARTJOY,    N_("Disable SID cartridge joystick")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_SIDCARTJOY_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_SIDCARTJOY_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_SIDCARTJOY_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_SIDCARTJOY_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_SIDCARTJOY_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_SIDCARTJOY_NL, "De SID cartridge joystick uitschakelen"},
+/* pl */ {IDCLS_DISABLE_SIDCARTJOY_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SIDCARTJOY_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_SIDCARTJOY_TR, ""},  /* fuzzy */
+#endif
+
 /* c64/digimax.c */
 /* en */ {IDCLS_ENABLE_DIGIMAX,    N_("Enable the digimax cartridge")},
 #ifdef HAS_TRANSLATION
