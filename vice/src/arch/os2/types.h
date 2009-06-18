@@ -93,7 +93,7 @@ typedef DWORD CLOCK;
 
 #define vice_ptr_to_int(x) ((int)(long)(x))
 #define vice_ptr_to_uint(x) ((unsigned int)(unsigned long)(x))
-#define int_to_void_ptr(x) ((void *)(long)(x))
-#define uint_to_void_ptr(x) (void *)(unsigned long)(x))
+#define int_to_void_ptr(x) (x)
+#define uint_to_void_ptr(x) (x)
 
 #endif  /* _VICE_TYPES_H */
