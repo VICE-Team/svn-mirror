@@ -92,7 +92,7 @@
 #define OFN_ENABLESIZING    0x00800000
 #endif
 
-#if !defined(_WIN64) && defined _MSC_VER && _MSC_VER < 1500 && defined WINVER && WINVER < 0x0500
+#if !defined(_WIN64) && defined _MSC_VER && _MSC_VER < 1500 && defined WINVER && WINVER < 0x0500 && !defined(WATCOM_COMPILE)
 typedef __int32 LONG_PTR;
 #endif
 
