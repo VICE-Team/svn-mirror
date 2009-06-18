@@ -1631,7 +1631,6 @@ void menu_select(HWND hwnd, USHORT item)
         resources_get_int("SidEngine", &val);
         WinCheckMenuItem (hwnd, IDM_RESID,         val);
         WinEnableMenuItem(hwnd, IDM_RESIDMETHOD,   val);
-        WinEnableMenuItem(hwnd, IDM_OVERSAMPLING, !val);
         WinEnableMenuItem(hwnd, IDM_SOUNDSYNC,    !val);
 #endif // HAVE_RESID
 #if defined __X64__ || defined __X128__ || defined __XCBM__ || defined __X64DTV__
