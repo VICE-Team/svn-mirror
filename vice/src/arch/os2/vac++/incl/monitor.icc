@@ -12,7 +12,8 @@ source type(c)
     "mon_register6502.c",
     "mon_register6502dtv.c",
     "mon_ui.c",
-    "mon_util.c"
+    "mon_util.c",
+    "monitor_network.c"
 
 option Monitor = define("__GNUC__", ), define("__TURBOC__",)
 {

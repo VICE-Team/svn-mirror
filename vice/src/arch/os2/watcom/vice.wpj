@@ -1012,7 +1012,7 @@ WRect
 480
 5700
 4280
-1
+0
 0
 211
 WFileName
@@ -1264,8 +1264,8 @@ petcat.tgt
 VComponent
 258
 WRect
-0
-0
+710
+1160
 5700
 4280
 1
@@ -1290,7 +1290,7 @@ WRect
 WFileName
 7
 x64.tgt
-10
+0
 0
 263
 VComponent
@@ -1500,4 +1500,4 @@ WFileName
 gentr.tgt
 0
 1
-221
+209
