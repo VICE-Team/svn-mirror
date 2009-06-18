@@ -1829,7 +1829,20 @@ AC_CHECK_TYPES(u_short)
 dnl some platforms have some of the functions in libbsd,
 dnl so we check it out first.
 AC_CHECK_LIB(bsd,gettimeofday,,,$LIBS)
-AC_CHECK_FUNCS(gettimeofday memmove atexit strdup strerror strcasecmp strncasecmp telldir seekdir rewinddir dirname mkstemp swab getcwd)
+AC_CHECK_FUNCS(gettimeofday memmove atexit strerror strcasecmp strncasecmp telldir seekdir rewinddir dirname mkstemp swab getcwd)
+AC_CHECK_FUNCS(strdup, [have_strdup_func=yes], [have strdup_func=no])
+
+if test x"$have_strdup_func" = "xno"; then
+  AC_MSG_CHECKING(whether strdup is defined as a macro)
+  AC_TRY_LINK([#include <string.h>],
+               [char *something = strdup("something")],
+               [AC_MSG_RESULT(yes); have_strdup_func=yes],
+               [AC_MSG_RESULT(no); have_strdup_func=no])
+fi
+
+if test x"$have_strdup_func" = "xyes"; then
+  AC_DEFINE(HAVE_STRDUP,,[Define to 1 if you have the `strdup' function.])
+fi
 
 AC_SUBST(LIBS)
 
