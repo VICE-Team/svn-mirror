@@ -1,4 +1,5 @@
 source type(c)
+    "digiblaster.c",
     "plus4-cmdline-options.c",
     "plus4-resources.c",
     "plus4-snapshot.c",
@@ -24,6 +25,7 @@ source type(c)
     "plus4romset.c",
     "plus4tcbm.c",
     "plus4video.c",
+    "sidcartjoy.c",
     "ted-badline.c",
     "ted-cmdline-options.c",
     "ted-color.c",
