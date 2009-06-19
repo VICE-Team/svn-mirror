@@ -503,7 +503,7 @@ static int get_std_bitmap(raster_cache_t *cache, unsigned int *xs,
         /* attribute mode */
         r |= raster_cache_data_fill(cache->color_data_1,
                                     vdc.ram + vdc.attribute_adr
-                                    + vdc.mem_counter,
+                                    + vdc.mem_counter + vdc.attribute_offset,
                                     vdc.screen_text_cols+1,
                                     1,
                                     xs, xe,
@@ -599,7 +599,7 @@ void draw_std_bitmap(void)
         - (vdc.regs[22] >> 4)
         + vdc.xsmooth;
 
-    attr_ptr = vdc.ram + vdc.attribute_adr + vdc.mem_counter;
+    attr_ptr = vdc.ram + vdc.attribute_adr + vdc.mem_counter + vdc.attribute_offset;
     bitmap_ptr = vdc.ram + vdc.screen_adr + vdc.bitmap_counter;
 
     for (i = 0; i < vdc.mem_counter_inc; i++, p+= 8) {

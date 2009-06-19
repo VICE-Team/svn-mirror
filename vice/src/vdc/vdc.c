@@ -289,6 +289,7 @@ void vdc_reset(void)
     vdc.regs[5] = 0;
     vdc.regs[6] = 25;
     vdc.regs[9] = vdc.raster_ycounter_max = 7;
+    vdc.attribute_offset = 0;
     vdc.border_height = 59;
     vdc.bytes_per_char = 16;
     vdc_update_geometry();

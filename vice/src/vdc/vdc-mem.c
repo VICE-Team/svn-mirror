@@ -251,6 +251,13 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
                 vdc.bytes_per_char = 32;
             }
         }
+        /* set the attribute offset to 3 if reg[9] = 0 to correctly (?)
+           emulate the 8x1 colour cell VDC trick (RFO FLI picture) */
+        if (vdc.regs[9] & 0x1f) {
+            vdc.attribute_offset = 0;
+        } else {
+            vdc.attribute_offset = 3;
+        }
 #ifdef REG_DEBUG
         log_message(vdc.log, "Character Total Vertical %i", vdc.regs[9]);
 #endif

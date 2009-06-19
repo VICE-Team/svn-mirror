@@ -194,6 +194,9 @@ struct vdc_s {
 
     /* Row counter (required for comparison with reg[6] - number of visible screen rows - to know if we are at the end of the visible data) */
 	unsigned int row_counter;
+    
+    /* offset into the attribute memory - used for emulating the 8x1 attribute VDC quirk */
+    unsigned int attribute_offset;
 
 
 };
