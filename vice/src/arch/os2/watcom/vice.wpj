@@ -635,7 +635,7 @@ WFileName
 11
 c128c64.tgt
 0
-9
+0
 140
 VComponent
 141
@@ -1012,7 +1012,7 @@ WRect
 480
 5700
 4280
-0
+1
 0
 211
 WFileName
@@ -1500,4 +1500,4 @@ WFileName
 gentr.tgt
 0
 1
-209
+134

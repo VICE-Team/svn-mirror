@@ -175,6 +175,8 @@
 #define IDM_DIGIMAXDFC0  0x95e
 #define IDM_DIGIMAXDFE0  0x95f
 
+#define IDM_SFX_SS       0x112
+
 #define IDM_PLUS60K      0x17c
 #define IDM_PLUS60KBASE  0x17d
 #define IDM_PLUS60KD040  0x17e

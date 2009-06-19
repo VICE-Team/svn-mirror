@@ -52,6 +52,7 @@
 #include "uimenu.h"
 
 UI_MENU_DEFINE_TOGGLE(EmuID)
+UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
 
 const ui_menu_entry_t c64_hardware_menu[] = {
     { "Joystick settings",
@@ -140,6 +141,10 @@ const ui_menu_entry_t c64_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)tfe_menu },
 #endif
+    { "SFX soundsampler",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SFXSoundSampler_callback,
+      NULL },
     { "Emulator ID",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_EmuID_callback,

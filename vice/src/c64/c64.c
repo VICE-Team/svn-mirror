@@ -89,6 +89,7 @@
 #include "rsuser.h"
 #include "screenshot.h"
 #include "serial.h"
+#include "sfx_soundsampler.h"
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
 #include "sid.h"
@@ -261,6 +262,7 @@ int machine_resources_init(void)
         || c64_256k_resources_init() < 0
         || mmc64_resources_init() < 0
         || digimax_resources_init() < 0
+        || sfx_soundsampler_resources_init() < 0
 #ifdef HAVE_TFE
         || tfe_resources_init() < 0
 #endif
@@ -343,6 +345,7 @@ int machine_cmdline_options_init(void)
         || c64_256k_cmdline_options_init() < 0
         || mmc64_cmdline_options_init() < 0
         || digimax_cmdline_options_init() < 0
+        || sfx_soundsampler_cmdline_options_init() < 0
 #ifdef HAVE_TFE
         || tfe_cmdline_options_init() < 0
 #endif

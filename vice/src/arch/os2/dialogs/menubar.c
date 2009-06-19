@@ -516,6 +516,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_RAMCART:
         toggle("RAMCART");
         return;
+    case IDM_SFX_SS:
+        toggle("SFXSoundSampler");
+        return;
     case IDM_DQBB:
         toggle("DQBB");
         return;

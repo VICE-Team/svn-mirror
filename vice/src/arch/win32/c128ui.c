@@ -91,6 +91,7 @@ static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
     { "VDC64KB", IDM_TOGGLE_VDC64KB },
     { "InternalFunctionROM", IDM_TOGGLE_IFUNCTIONROM },
     { "ExternalFunctionROM", IDM_TOGGLE_EFUNCTIONROM },
+    { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
     { NULL, 0 }
 };
 
@@ -324,6 +325,7 @@ ui_menu_translation_table_t c128ui_menu_translation_table[] = {
 #endif
     { IDM_ACIA_SETTINGS, IDS_MI_ACIA_SETTINGS },
     { IDM_RS232USER_SETTINGS, IDS_MI_RS232USER_SETTINGS },
+    { IDM_TOGGLE_SFX_SS, IDS_MI_TOGGLE_SFX_SS },
     { IDM_SETTINGS_SAVE_FILE, IDS_MI_SETTINGS_SAVE_FILE },
     { IDM_SETTINGS_LOAD_FILE, IDS_MI_SETTINGS_LOAD_FILE },
     { IDM_SETTINGS_SAVE, IDS_MI_SETTINGS_SAVE },

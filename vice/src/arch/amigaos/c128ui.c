@@ -76,6 +76,7 @@ static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
     { "VDCDoubleScan", IDM_TOGGLE_VDC_DOUBLESCAN },
     { "VDC64KB", IDM_TOGGLE_VDC64KB },
     { "EmuID", IDM_TOGGLE_EMUID },   
+    { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },   
 //    { "InternalFunctionROM", IDM_TOGGLE_IFUNCTIONROM },
 //    { "ExternalFunctionROM", IDM_TOGGLE_EFUNCTIONROM },
     { NULL, 0 }

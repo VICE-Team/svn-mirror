@@ -47,6 +47,7 @@
 #include "isepic.h"
 #include "ramcart.h"
 #include "resources.h"
+#include "sfx_soundsampler.h"
 #include "sid-resources.h"
 #include "sid.h"
 #include "translate.h"
@@ -348,6 +349,9 @@ void REGPARM2 c64io1_store(WORD addr, BYTE value)
     if (digimax_enabled && addr >= digimax_address
         && addr <= digimax_address + 3) {
         digimax_sound_store((WORD)(addr&3), value);
+    }
+    if (sfx_soundsampler_enabled) {
+        sfx_soundsampler_sound_store(addr, value);
     }
     if (georam_enabled) {
         georam_window_store((WORD)(addr & 0xff), value);

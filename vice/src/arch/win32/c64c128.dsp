@@ -186,6 +186,10 @@ SOURCE=..\..\c64\reu.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c64\sfx_soundsampler.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c64\tfe.c
 # End Source File
 # End Target

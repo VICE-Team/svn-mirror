@@ -160,6 +160,9 @@ IDGS_ALL_DEVICES_DETACHED
 /* c64/digimax.c */
 IDGS_DIGIMAX_NOT_WITH_RESID
 
+/* c64/sfx_soundsampler.c */
+IDGS_SFX_SS_NOT_WITH_RESID
+
 /* c64dtv/c64dtvflash.c */
 IDGS_NO_FILENAME
 
@@ -1500,6 +1503,12 @@ IDCLS_DISABLE_DIGIMAX
 
 /* c64/digimax.c */
 IDCLS_DIGIMAX_BASE
+
+/* c64/sfx_soundsampler.c */
+IDCLS_ENABLE_SFX_SS
+
+/* c64/sfx_soundsampler.c */
+IDCLS_DISABLE_SFX_SS
 
 /* c64dtv/c64dtv-cmdline-options.c */
 IDCLS_SELECT_HUMMER_USERPORT_DEVICE

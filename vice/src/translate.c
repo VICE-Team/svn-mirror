@@ -883,6 +883,21 @@ translate_t string_table[] = {
 /* tr */ {IDGS_DIGIMAX_NOT_WITH_RESID_TR, "Digimax ReSID ile birlikte kullanýlamaz\nLütfen SID Motorunu FastSID'e çevirin"},
 #endif
 
+/* c64/sfx_soundsampler.c */
+/* en */ {IDGS_SFX_SS_NOT_WITH_RESID,    N_("SFX soundsampler cannot be used with ReSID\nPlease switch SID Engine to FastSID")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_DIGIMAX_NOT_WITH_RESID_DA, ""},  /* fuzzy */
+/* de */ {IDGS_DIGIMAX_NOT_WITH_RESID_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_DIGIMAX_NOT_WITH_RESID_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_DIGIMAX_NOT_WITH_RESID_HU, ""},  /* fuzzy */
+/* it */ {IDGS_DIGIMAX_NOT_WITH_RESID_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_DIGIMAX_NOT_WITH_RESID_NL, "SFX soundsampler kan niet gebruikt worden met ReSID\nschakel de SID-kern over "
+                                          "naar FastSID"},
+/* pl */ {IDGS_DIGIMAX_NOT_WITH_RESID_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_DIGIMAX_NOT_WITH_RESID_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_DIGIMAX_NOT_WITH_RESID_TR, ""},  /* fuzzy */
+#endif
+
 /* c64dtv/c64dtvflash.c */
 /* en */ {IDGS_NO_FILENAME,    N_("No filename!")},
 #ifdef HAS_TRANSLATION
@@ -10487,6 +10502,34 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_DISABLE_SIDCARTJOY_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_SIDCARTJOY_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_SIDCARTJOY_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/sfx_soundsampler.c */
+/* en */ {IDCLS_ENABLE_SFX_SS,    N_("Enable the SFX soundsampler cartridge")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_SFX_SS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_SFX_SS_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_SFX_SS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_SFX_SS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_SFX_SS_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_SFX_SS_NL, "Activeer de SFX soundsampler cartridge"},
+/* pl */ {IDCLS_ENABLE_SFX_SS_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SFX_SS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_SFX_SS_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/sfx_soundsampler.c */
+/* en */ {IDCLS_DISABLE_SFX_SS,    N_("Disable the SFX soundsampler cartridge")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_SFX_SS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_SFX_SS_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_SFX_SS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_SFX_SS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_SFX_SS_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_SFX_SS_NL, "De SFX soundsampler cartridge uitschakelen"},
+/* pl */ {IDCLS_DISABLE_SFX_SS_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SFX_SS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_SFX_SS_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/digimax.c */

@@ -92,6 +92,8 @@ libc64_a_SOURCES = \
 	reloc65.c \
 	reu.c \
 	reu.h \
+	sfx_soundsampler.c \
+	sfx_soundsampler.h \
 	tfe.c \
 	tfe.h \
 	tfearch.h
@@ -163,6 +165,8 @@ libc64c128_a_SOURCES = \
 	ramcart.h \
 	reu.c \
 	reu.h \
+	sfx_soundsampler.c \
+	sfx_soundsampler.h \
 	tfe.c \
 	tfe.h \
 	tfearch.h
