@@ -41,7 +41,7 @@
 #define VDC_DOT_CLOCK 16000000.0
 
 #define VDC_SCREEN_WIDTH              848 /* Approx resolution based on experiment - real vdc has ~106 columns * 8 = 848 */
-#define VDC_SCREEN_HEIGHT             320 /* Vertical resolution according to mapping the c128 */
+#define VDC_SCREEN_HEIGHT             320 /* Vertical resolution (PAL) according to mapping the c128 */
 
 #define VDC_SCREEN_XPIX               800
 #define VDC_SCREEN_YPIX               200
@@ -191,6 +191,10 @@ struct vdc_s {
 
     /* record register 27 in case of a change between raster updates */
     int old_reg27;
+
+    /* Row counter (required for comparison with reg[6] - number of visible screen rows - to know if we are at the end of the visible data) */
+	unsigned int row_counter;
+
 
 };
 typedef struct vdc_s vdc_t;

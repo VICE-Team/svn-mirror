@@ -322,7 +322,15 @@ static void vdc_increment_memory_pointer(void)
 
     vdc.raster.ycounter = (vdc.raster.ycounter + 1)
                           % (vdc.raster_ycounter_max + 1);
-
+    /* update the row counter if we are starting a new line */
+    if (vdc.raster.ycounter == 0) {
+        /* check if we are at the end of the display */
+        if (vdc.row_counter == vdc.regs[6]) {
+            /* FIXME - this is really a hack to lock in the screen/attr addresses at the next raster alarm handler */
+            vdc.screen_ypix = vdc.raster.current_line - vdc.border_height;
+        }
+        vdc.row_counter++;
+    }
     vdc.bitmap_counter += vdc.mem_counter_inc + vdc.regs[27];
 }
 
@@ -375,8 +383,13 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         /* screen_ystart is the raster line the foreground data actually starts on, which may be above or below the border */
         screen_ystart = vdc.border_height + (((vdc.regs[9] & 0x1f) - (vdc.regs[24] & 0x1f)) & 0x1f);  /* - R24 is vertical smooth scroll, which interacts with the screen & R9 like this based on experimentation. */
         vdc.border_height = vdc.border_height + (vdc.regs[9] & 0x1f);
+        /* fix to catch the end of the display for the bitmap/character memory pointers */
+        if ((vdc.border_height + vdc.screen_ypix + 1) > vdc.last_displayed_line ) {
+            vdc.screen_ypix = vdc.last_displayed_line - vdc.border_height - 1;
+        }
         vdc.raster.display_ystart = vdc.border_height;
         vdc.raster.display_ystop = vdc.border_height + vdc.screen_ypix;
+        vdc.row_counter = 0;
         vdc.raster.video_mode = VDC_IDLE_MODE;
         vdc.mem_counter = 0;
         vdc.bitmap_counter = 0;
