@@ -1720,7 +1720,8 @@ static LRESULT CALLBACK reg_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
         {
             BYTE **p = (BYTE **) wParam;
 
-            BYTE buffer[] = { prp->memspace };
+            BYTE buffer[1];
+            buffer[0] = prp->memspace;
 
             WriteExtraData(p, buffer, sizeof buffer);
         }
@@ -1960,7 +1961,8 @@ static LRESULT CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
         {
             BYTE **p = (BYTE **) wParam;
 
-            BYTE buffer[] = { mon_disassembly_get_memspace(&pdp->mdp) };
+            BYTE buffer[1];
+            buffer[0] = mon_disassembly_get_memspace(&pdp->mdp);
 
             WriteExtraData(p, buffer, sizeof buffer);
         }
@@ -2301,7 +2303,8 @@ static LRESULT CALLBACK mem_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
         {
             BYTE **p = (BYTE **) wParam;
 
-            BYTE buffer[] = { pmp->mmp.memspace };
+            BYTE buffer[1];
+            buffer[0] = pmp->mmp.memspace;
 
             WriteExtraData(p, buffer, sizeof buffer);
         }
