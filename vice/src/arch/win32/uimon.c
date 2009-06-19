@@ -1579,6 +1579,35 @@ BOOLEAN output_register(HDC hdc, reg_private_t *prp, RECT *clientrect)
     return changed_dimensions;
 }
 
+/*! \brief Determine cursor position at the time when the message was generated.
+ 
+ This function is a replacement for the asynchronous WIN32 API GetCursorPos().
+ GetCursorPos() determines the current cursor position. In contrast, this
+ function here determines the cursor position at the time the last message was
+ removed from the message queue with a call to GetMessage(). This way, we can
+ ensure that the position has not changed since the current message was generated.
+
+ \param point
+    pointer to a POINT structure that will contain the cursor position
+
+ \remark
+    Calling this function from anywhere but the Window function (or the message
+    loop itself) results in unpredicted behaviour.
+
+ \remark
+    Cf. http://blogs.msdn.com/oldnewthing/archive/2009/06/18/9771135.aspx 
+    for a motivation of this function.
+*/
+static VOID
+GetCursorPosAtMessageTime(LPPOINT point)
+{
+    DWORD pos = GetMessagePos();
+
+    POINTS tmp_points = MAKEPOINTS(pos);
+
+    POINTSTOPOINT(*point, tmp_points);
+}
+
 static
 int ExecuteRegistryPopup( HWND hwnd, reg_private_t *prp, LPARAM lParam, BOOL bExecuteDefault )
 {
@@ -1628,7 +1657,7 @@ int ExecuteRegistryPopup( HWND hwnd, reg_private_t *prp, LPARAM lParam, BOOL bEx
 #undef IMAKE_ENTRY
 #undef MAKE_ENDISABLE_ENTRY
 
-        GetCursorPos(&curpos);
+        GetCursorPosAtMessageTime(&curpos);
 
         if (bExecuteDefault)
         {
@@ -1871,7 +1900,7 @@ int ExecuteDisassemblyPopup( HWND hwnd, dis_private_t *pdp, LPARAM lParam, BOOL 
 #undef MAKE_SEPARATOR
 #undef MAKE_ENDISABLE_ENTRY
 
-        GetCursorPos(&curpos);
+        GetCursorPosAtMessageTime(&curpos);
 
         if (bExecuteDefault)
         {
