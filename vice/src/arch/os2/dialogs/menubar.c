@@ -486,27 +486,21 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 #endif //  __X64__ || __X128__ || __XVIC__
 
 #if defined __X64__ || defined __X128__ || defined __X64DTV__
-        /*
-    case IDM_KERNALREV0:
-        resources_set_string("KernalRev", "0");
-        return;
-    case IDM_KERNALREV3:
-        resources_set_string("KernalRev", "3");
-        return;
-    case IDM_KERNALREVSX:
-        resources_set_string("KernalRev", "SX");   // "67"
-        return;
-    case IDM_KERNALREV4064:
-        resources_set_string("KernalRev", "4064"); // "100"
-        return;
-          */
     case IDM_SBCOLL:
         toggle("VICIICheckSbColl");
         return;
     case IDM_SSCOLL:
         toggle("VICIICheckSsColl");
         return;
+#endif
 
+#if defined __XVIC__
+    case IDM_OEM_JOY:
+        toggle("OEMJoy");
+        return;
+#endif
+
+#if defined __X64__ || defined __X128__
     case IDM_REU:
         toggle("REU");
         return;

@@ -280,6 +280,12 @@ IDCLS_ENABLE_EMULATOR_ID
    vic20/vic20-cmdline-options.c */
 IDCLS_DISABLE_EMULATOR_ID
 
+/* vic20/vic20-cmdline-options.c */
+IDCLS_ENABLE_OEM_JOY
+
+/* vic20/vic20-cmdline-options.c */
+IDCLS_DISABLE_OEM_JOY
+
 /* c128/c128-cmdline-options.c */
 IDCLS_ENABLE_IEE488
 

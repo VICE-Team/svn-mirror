@@ -148,6 +148,7 @@ const uint32 MENU_TOGGLE_VDC64KB				= 'M113';
 const uint32 MENU_TOGGLE_VDC_DOUBLESIZE			= 'M114';
 const uint32 MENU_TOGGLE_VDC_DOUBLESCAN			= 'M115';
 const uint32 MENU_TOGGLE_SFX_SS					= 'M176';
+const uint32 MENU_TOGGLE_OEM_JOY					= 'M177';
 
 const uint32 MENU_VDC_REV_0					= 'M172';
 const uint32 MENU_VDC_REV_1					= 'M173';

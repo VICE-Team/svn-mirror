@@ -300,6 +300,7 @@ TUI_MENU_DEFINE_TOGGLE(RAMBlock5)
 
 TUI_MENU_DEFINE_TOGGLE(EmuID)
 TUI_MENU_DEFINE_TOGGLE(Mouse)
+TUI_MENU_DEFINE_TOGGLE(OEMJoy)
 
 static tui_menu_item_def_t special_menu_items[] = {
     { "_Emulator Identification:",
@@ -309,6 +310,10 @@ static tui_menu_item_def_t special_menu_items[] = {
     { "Enable _Paddles:",
       "Enable paddles emulation",
       toggle_Mouse_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Enable _OEM userport joystick:",
+      "Enable OEM userport joystick emulation",
+      toggle_OEMJoy_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "--" },
     { "Choose Common _Memory Configuration...",

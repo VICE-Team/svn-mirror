@@ -516,6 +516,9 @@ BEGIN
       END
       MENUITEM "256K Filename",            IDM_C64_256KFILE,   MIS_TEXT
 #endif
+#ifdef __XVIC__
+      MENUITEM "OEM userport joystick", IDM_OEM_JOY, MIS_TEXT
+#endif
 #ifdef __X128__
       SUBMENU "Machine Type",          IDM_C128TYPE,     MIS_TEXT
       BEGIN

@@ -64,6 +64,7 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "VICVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "IEEE488", IDM_IEEE488 },
     { "Mouse", IDM_PADDLES },
+    { "OEMJoy", IDM_TOGGLE_OEM_JOY },
     { NULL, 0 }
 };
 
@@ -279,6 +280,7 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_TOGGLE_FULLSCREEN, IDS_MI_TOGGLE_FULLSCREEN },
     { IDM_SIDCART_SETTINGS, IDS_MI_SIDCART_SETTINGS },
     { IDM_MIDI_SETTINGS, IDS_MI_MIDI_SETTINGS },
+    { IDM_TOGGLE_OEM_JOY, IDS_MI_TOGGLE_OEM_JOY },
     { IDM_CART_VIC20_8KB_2000, IDS_MI_CART_VIC20_8KB_2000 },
     { IDM_CART_VIC20_16KB_4000, IDS_MI_CART_VIC20_16KB_4000 },
     { IDM_CART_VIC20_8KB_6000, IDS_MI_CART_VIC20_8KB_6000 },

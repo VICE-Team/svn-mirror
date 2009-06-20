@@ -673,6 +673,10 @@ BMenuBar *menu_create(int machine_class) {
 			menu->AddItem(new BMenuItem("IEEE488 Interface",
 				new BMessage(MENU_TOGGLE_IEEE488)));
 		}
+		if (machine_class == VICE_MACHINE_VIC20) {
+			menu->AddItem(new BMenuItem("OEM userport joystick",
+				new BMessage(MENU_TOGGLE_OEM_JOY)));
+		}
 	}		
 	
 	/* create the SETTINGS menu */

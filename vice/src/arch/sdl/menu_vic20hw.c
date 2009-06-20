@@ -123,7 +123,7 @@ const ui_menu_entry_t vic20_hardware_menu[] = {
     { "Joystick settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)joystick_single_menu },
+      (ui_callback_data_t)joystick_vic20_menu },
     { "SID cart settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

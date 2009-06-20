@@ -3950,6 +3950,34 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_EMULATOR_ID_TR, "Emülatör tespitini pasifleþtir"},
 #endif
 
+/* vic20/vic20-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_OEM_JOY,    N_("Enable the OEM userport joystick adapter")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_OEM_JOY_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_OEM_JOY_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_OEM_JOY_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_OEM_JOY_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_OEM_JOY_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_OEM_JOY_NL, "Activeer de OEM userport joystick adapter"},
+/* pl */ {IDCLS_ENABLE_OEM_JOY_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_OEM_JOY_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_OEM_JOY_TR, ""},  /* fuzzy */
+#endif
+
+/* vic20/vic20-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_OEM_JOY,    N_("Disable the OEM userport joystick adapter")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_OEM_JOY_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_OEM_JOY_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_OEM_JOY_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_OEM_JOY_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_OEM_JOY_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_OEM_JOY_NL, "De OEM userport joystick adapter uitschakelen"},
+/* pl */ {IDCLS_DISABLE_OEM_JOY_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_OEM_JOY_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_OEM_JOY_TR, ""},  /* fuzzy */
+#endif
+
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_IEE488,    N_("Enable the IEEE488 interface emulation")},
 #ifdef HAS_TRANSLATION

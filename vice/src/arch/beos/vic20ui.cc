@@ -70,6 +70,7 @@ ui_menu_toggle  vic20_ui_menu_toggles[]={
     { "SidCart", MENU_TOGGLE_SIDCART },
     { "SidFilters", MENU_TOGGLE_SIDCART_FILTERS },
     { "Mouse", MENU_TOGGLE_MOUSE },
+    { "OEMJoy", MENU_TOGGLE_OEM_JOY },
     { NULL, 0 }
 };
 

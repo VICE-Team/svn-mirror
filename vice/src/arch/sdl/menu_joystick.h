@@ -34,6 +34,6 @@
 extern const ui_menu_entry_t joystick_menu[];
 extern const ui_menu_entry_t joystick_four_menu[];
 extern const ui_menu_entry_t joystick_plus4_menu[];
-extern const ui_menu_entry_t joystick_single_menu[];
+extern const ui_menu_entry_t joystick_vic20_menu[];
 
 #endif

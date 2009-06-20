@@ -2109,6 +2109,17 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_SIDCART_SETTINGS_SV, "SID-modulinställningar..."},
 /* tr */ {IDMS_SIDCART_SETTINGS_TR, "SID katuþ ayarlarý..."},
 
+/* en */ {IDMS_ENABLE_OEM_JOY,    "Enable OEM userport joystick"},
+/* da */ {IDMS_ENABLE_OEM_JOY_DA, ""},  /* fuzzy */
+/* de */ {IDMS_ENABLE_OEM_JOY_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_ENABLE_OEM_JOY_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_ENABLE_OEM_JOY_HU, ""},  /* fuzzy */
+/* it */ {IDMS_ENABLE_OEM_JOY_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_ENABLE_OEM_JOY_NL, "Activeer OEM userport joystick"},
+/* pl */ {IDMS_ENABLE_OEM_JOY_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_ENABLE_OEM_JOY_SV, ""},  /* fuzzy */
+/* tr */ {IDMS_ENABLE_OEM_JOY_TR, ""},  /* fuzzy */
+
 /* en */ {IDMS_C64DTV_SETTINGS,    "C64DTV settings..."},
 /* da */ {IDMS_C64DTV_SETTINGS_DA, "C64DTV-indstillinger..."},
 /* de */ {IDMS_C64DTV_SETTINGS_DE, "C64DTV Einstellungen..."},

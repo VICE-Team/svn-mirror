@@ -377,7 +377,7 @@ const ui_menu_entry_t joystick_plus4_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port2_device_menu },
-    { "Joystick device in port 3",
+    { "Joystick device in SIDcart joytick port",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port3_device_menu },
@@ -421,11 +421,17 @@ const ui_menu_entry_t joystick_plus4_menu[] = {
     { NULL }
 };
 
-const ui_menu_entry_t joystick_single_menu[] = {
-    { "Joystick device",
+UI_MENU_DEFINE_TOGGLE(OEMJoy)
+
+const ui_menu_entry_t joystick_vic20_menu[] = {
+    { "Joystick device in port 1",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port1_device_menu },
+    { "Joystick device in OEM joystick port",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)joystick_port3_device_menu },
     SDL_MENU_ITEM_SEPARATOR,
     { "Allow keyset joystick",
       MENU_ENTRY_RESOURCE_TOGGLE,
@@ -435,12 +441,21 @@ const ui_menu_entry_t joystick_single_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_keyset_menu },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "OEM userport joystick",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_OEMJoy_callback,
+      NULL },
 #ifdef HAVE_SDL_NUMJOYSTICKS
     SDL_MENU_ITEM_SEPARATOR,
-    { "Joystick mapping", /* TODO better name */
+    { "Joystick 1 mapping", /* TODO better name */
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_joy1_menu },
+    { "OEM userport joystick mapping", /* TODO better name */
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_joy3_menu },
     { "Joystick extra options", /* TODO better name */
       MENU_ENTRY_SUBMENU,
       submenu_callback,

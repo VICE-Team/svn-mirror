@@ -40,6 +40,7 @@
 #include "via.h"
 #include "vic.h"
 #include "vic20.h"
+#include "vic20-resources.h"
 #include "vic20iec.h"
 #include "vic20via.h"
 
@@ -212,11 +213,22 @@ inline static BYTE read_prb(via_context_t *via_context)
 {
     BYTE byte;
     byte = via_context->via[VIA_PRB] | ~(via_context->via[VIA_DDRB]);
+
+    if (OEM_joy_enabled) {
+        byte = ~(((joystick_value[3] &  1) << 7) |
+                 ((joystick_value[3] &  2) << 5) |
+                 ((joystick_value[3] &  4) << 3) |
+                 ((joystick_value[3] &  8) << 1) |
+                 ((joystick_value[3] & 16) >> 1)) &
+                ~(via_context->via[VIA_DDRB]);
+    } else {
 #ifdef HAVE_RS232
-    byte = rsuser_read_ctrl();
+        byte = rsuser_read_ctrl();
 #else
-    byte = 0xff;
+        byte = 0xff;
 #endif
+    }
+
     return byte;
 }
 
