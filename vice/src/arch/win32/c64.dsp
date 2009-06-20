@@ -214,6 +214,10 @@ SOURCE=..\..\c64\dqbb.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c64\fmopl.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c64\georam.c
 # End Source File
 # Begin Source File
@@ -251,6 +255,10 @@ SOURCE=..\..\c64\reloc65.c
 # Begin Source File
 
 SOURCE=..\..\c64\reu.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\c64\sfx_soundexpander.c
 # End Source File
 # Begin Source File
 

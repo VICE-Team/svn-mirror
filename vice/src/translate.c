@@ -883,19 +883,34 @@ translate_t string_table[] = {
 /* tr */ {IDGS_DIGIMAX_NOT_WITH_RESID_TR, "Digimax ReSID ile birlikte kullanýlamaz\nLütfen SID Motorunu FastSID'e çevirin"},
 #endif
 
-/* c64/sfx_soundsampler.c */
-/* en */ {IDGS_SFX_SS_NOT_WITH_RESID,    N_("SFX soundsampler cannot be used with ReSID\nPlease switch SID Engine to FastSID")},
+/* c64/sfx_soundexpander.c */
+/* en */ {IDGS_SFX_SE_NOT_WITH_RESID,    N_("SFX Sound Expander cannot be used with ReSID\nPlease switch SID Engine to FastSID")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_DIGIMAX_NOT_WITH_RESID_DA, ""},  /* fuzzy */
-/* de */ {IDGS_DIGIMAX_NOT_WITH_RESID_DE, ""},  /* fuzzy */
-/* fr */ {IDGS_DIGIMAX_NOT_WITH_RESID_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_DIGIMAX_NOT_WITH_RESID_HU, ""},  /* fuzzy */
-/* it */ {IDGS_DIGIMAX_NOT_WITH_RESID_IT, ""},  /* fuzzy */
-/* nl */ {IDGS_DIGIMAX_NOT_WITH_RESID_NL, "SFX soundsampler kan niet gebruikt worden met ReSID\nschakel de SID-kern over "
+/* da */ {IDGS_SFX_SE_NOT_WITH_RESID_DA, ""},  /* fuzzy */
+/* de */ {IDGS_SFX_SE_NOT_WITH_RESID_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_SFX_SE_NOT_WITH_RESID_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SFX_SE_NOT_WITH_RESID_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SFX_SE_NOT_WITH_RESID_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_SFX_SE_NOT_WITH_RESID_NL, "SFX Sound Expander kan niet gebruikt worden met ReSID\nschakel de SID-kern over "
                                           "naar FastSID"},
-/* pl */ {IDGS_DIGIMAX_NOT_WITH_RESID_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_DIGIMAX_NOT_WITH_RESID_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_DIGIMAX_NOT_WITH_RESID_TR, ""},  /* fuzzy */
+/* pl */ {IDGS_SFX_SE_NOT_WITH_RESID_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_SFX_SE_NOT_WITH_RESID_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_SFX_SE_NOT_WITH_RESID_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/sfx_soundsampler.c */
+/* en */ {IDGS_SFX_SS_NOT_WITH_RESID,    N_("SFX Sound Sampler cannot be used with ReSID\nPlease switch SID Engine to FastSID")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_SFX_SS_NOT_WITH_RESID_DA, ""},  /* fuzzy */
+/* de */ {IDGS_SFX_SS_NOT_WITH_RESID_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_SFX_SS_NOT_WITH_RESID_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SFX_SS_NOT_WITH_RESID_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SFX_SS_NOT_WITH_RESID_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_SFX_SS_NOT_WITH_RESID_NL, "SFX Sound Sampler kan niet gebruikt worden met ReSID\nschakel de SID-kern over "
+                                          "naar FastSID"},
+/* pl */ {IDGS_SFX_SS_NOT_WITH_RESID_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_SFX_SS_NOT_WITH_RESID_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_SFX_SS_NOT_WITH_RESID_TR, ""},  /* fuzzy */
 #endif
 
 /* c64dtv/c64dtvflash.c */
@@ -10532,29 +10547,57 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_SIDCARTJOY_TR, ""},  /* fuzzy */
 #endif
 
+/* c64/sfx_soundexpander.c */
+/* en */ {IDCLS_ENABLE_SFX_SE,    N_("Enable the SFX soundexpander cartridge")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_SFX_SE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_SFX_SE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_SFX_SE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_SFX_SE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_SFX_SE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_SFX_SE_NL, "Activeer de SFX soundexpander cartridge"},
+/* pl */ {IDCLS_ENABLE_SFX_SE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SFX_SE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_SFX_SE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/sfx_soundexpander.c */
+/* en */ {IDCLS_DISABLE_SFX_SE,    N_("Disable the SFX soundexpander cartridge")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_SFX_SE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_SFX_SE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_SFX_SE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_SFX_SE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_SFX_SE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_SFX_SE_NL, "De SFX soundexpander cartridge uitschakelen"},
+/* pl */ {IDCLS_DISABLE_SFX_SE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SFX_SE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_SFX_SE_TR, ""},  /* fuzzy */
+#endif
+
 /* c64/sfx_soundsampler.c */
-/* en */ {IDCLS_ENABLE_SFX_SS,    N_("Enable the SFX soundsampler cartridge")},
+/* en */ {IDCLS_ENABLE_SFX_SS,    N_("Enable the SFX Sound Sampler cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_SFX_SS_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_SFX_SS_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_SFX_SS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_SFX_SS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_SFX_SS_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_SFX_SS_NL, "Activeer de SFX soundsampler cartridge"},
+/* nl */ {IDCLS_ENABLE_SFX_SS_NL, "Activeer de SFX Sound Sampler cartridge"},
 /* pl */ {IDCLS_ENABLE_SFX_SS_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_SFX_SS_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_ENABLE_SFX_SS_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/sfx_soundsampler.c */
-/* en */ {IDCLS_DISABLE_SFX_SS,    N_("Disable the SFX soundsampler cartridge")},
+/* en */ {IDCLS_DISABLE_SFX_SS,    N_("Disable the SFX Sound Sampler cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_SFX_SS_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_SFX_SS_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_SFX_SS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_SFX_SS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_SFX_SS_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_SFX_SS_NL, "De SFX soundsampler cartridge uitschakelen"},
+/* nl */ {IDCLS_DISABLE_SFX_SS_NL, "De SFX Sound Sampler cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_SFX_SS_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_SFX_SS_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_SFX_SS_TR, ""},  /* fuzzy */

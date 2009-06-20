@@ -78,6 +78,7 @@ static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
     { "Mouse", IDM_MOUSE },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "IsepicSwitch", IDM_ISEPIC_SWITCH },
+    { "SFXSoundExpander", IDM_TOGGLE_SFX_SE },
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
     { NULL, 0 }
 };
@@ -271,6 +272,7 @@ ui_menu_translation_table_t c64ui_menu_translation_table[] = {
 #endif
     { IDM_ACIA_SETTINGS, IDS_MI_ACIA_SETTINGS },
     { IDM_RS232USER_SETTINGS, IDS_MI_RS232USER_SETTINGS },
+    { IDM_TOGGLE_SFX_SE, IDS_MI_TOGGLE_SFX_SE },
     { IDM_TOGGLE_SFX_SS, IDS_MI_TOGGLE_SFX_SS },
     { IDM_SETTINGS_SAVE_FILE, IDS_MI_SETTINGS_SAVE_FILE },
     { IDM_SETTINGS_LOAD_FILE, IDS_MI_SETTINGS_LOAD_FILE },

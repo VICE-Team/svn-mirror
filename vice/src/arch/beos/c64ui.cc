@@ -84,6 +84,7 @@ ui_menu_toggle  c64_ui_menu_toggles[]={
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "PALEmulation", MENU_TOGGLE_FASTPAL },
     { "VICIIScale2x", MENU_TOGGLE_SCALE2X },
+    { "SFXSoundExpander", MENU_TOGGLE_SFX_SE },
     { "SFXSoundSampler", MENU_TOGGLE_SFX_SS },
     { NULL, 0 }
 };

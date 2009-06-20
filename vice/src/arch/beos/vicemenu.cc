@@ -595,7 +595,9 @@ BMenuBar *menu_create(int machine_class) {
 			extsubmenu->AddItem(new BMenuItem("$DFE0",
 				new BMessage(MENU_DIGIMAX_BASE_DFE0)));
 
-			menu->AddItem(new BMenuItem("SFX soundsampler emulation",
+			menu->AddItem(new BMenuItem("SFX Sound Expander emulation",
+				new BMessage(MENU_TOGGLE_SFX_SE)));
+			menu->AddItem(new BMenuItem("SFX Sound Sampler emulation",
 				new BMessage(MENU_TOGGLE_SFX_SS)));
 
 			if (machine_class == VICE_MACHINE_C64) {

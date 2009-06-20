@@ -58,6 +58,7 @@
 #define IO_SOURCE_STARDOS            26
 #define IO_SOURCE_MIDI               27
 #define IO_SOURCE_ISEPIC             28
+#define IO_SOURCE_SFX_SE             29
 
 #define IO_DETACH_CART       0
 #define IO_DETACH_RESOURCE   1

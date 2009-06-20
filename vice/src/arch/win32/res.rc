@@ -6679,7 +6679,8 @@ BEGIN
 #endif
   IDS_MI_ACIA_SETTINGS            "&ACIA settings..."
   IDS_MI_RS232USER_SETTINGS       "RS&232 userport settings..."
-  IDS_MI_TOGGLE_SFX_SS            "Enable SFX soundsampler"
+  IDS_MI_TOGGLE_SFX_SE            "Enable SFX Sound Expander"
+  IDS_MI_TOGGLE_SFX_SS            "Enable SFX Sound Sampler"
   IDS_MI_SETTINGS_SAVE_FILE       "Save current settings to specified file"
   IDS_MI_SETTINGS_LOAD_FILE       "Load settings from specified file"
   IDS_MI_SETTINGS_SAVE            "&Save current settings"
@@ -7079,7 +7080,8 @@ BEGIN
 #endif
   IDS_MI_ACIA_SETTINGS            "&ACIA-indstillinger..."
   IDS_MI_RS232USER_SETTINGS       "RS&232-brugerportsindstillinger..."
-  IDS_MI_TOGGLE_SFX_SS            "Enable SFX soundsampler"
+  IDS_MI_TOGGLE_SFX_SE            "Enable SFX Sound Expander"
+  IDS_MI_TOGGLE_SFX_SS            "Enable SFX Sound Sampler"
   IDS_MI_SETTINGS_SAVE_FILE       "Gem indstillinger som"
   IDS_MI_SETTINGS_LOAD_FILE       "Indlæs indstillinger fra"
   IDS_MI_SETTINGS_SAVE            "Gem nuværende ind&stillinger"
@@ -7479,7 +7481,8 @@ BEGIN
 #endif
   IDS_MI_ACIA_SETTINGS            "&ACIA Einstellungen..."
   IDS_MI_RS232USER_SETTINGS       "RS&232 Userport Einstellungen..."
-  IDS_MI_TOGGLE_SFX_SS            "Enable SFX soundsampler"
+  IDS_MI_TOGGLE_SFX_SE            "Enable SFX Sound Expander"
+  IDS_MI_TOGGLE_SFX_SS            "Enable SFX Sound Sampler"
   IDS_MI_SETTINGS_SAVE_FILE       "Speichere Einstellungen in angegebene Datei"
   IDS_MI_SETTINGS_LOAD_FILE       "Lade Einstellungen von Datei"
   IDS_MI_SETTINGS_SAVE            "Einstellungen &speichern"
@@ -7879,7 +7882,8 @@ BEGIN
 #endif
   IDS_MI_ACIA_SETTINGS            "Paramètres &ACIA..."
   IDS_MI_RS232USER_SETTINGS       "Paramètres RS&232 userport..."
-  IDS_MI_TOGGLE_SFX_SS            "Enable SFX soundsampler"
+  IDS_MI_TOGGLE_SFX_SE            "Enable SFX Sound Expander"
+  IDS_MI_TOGGLE_SFX_SS            "Enable SFX Sound Sampler"
   IDS_MI_SETTINGS_SAVE_FILE       "Save current settings to specified file"
   IDS_MI_SETTINGS_LOAD_FILE       "Load settings from specified file"
   IDS_MI_SETTINGS_SAVE            "&Enregistrer les paramètres courants"
@@ -8280,7 +8284,8 @@ BEGIN
 #endif
   IDS_MI_ACIA_SETTINGS            "&ACIA beállításai..."
   IDS_MI_RS232USER_SETTINGS       "RS&232 userport beállításai..."
-  IDS_MI_TOGGLE_SFX_SS            "Enable SFX soundsampler"
+  IDS_MI_TOGGLE_SFX_SE            "Enable SFX Sound Expander"
+  IDS_MI_TOGGLE_SFX_SS            "Enable SFX Sound Sampler"
   IDS_MI_SETTINGS_SAVE_FILE       "Jelenlegi beállítások mentése adott fájlba"
   IDS_MI_SETTINGS_LOAD_FILE       "Beállítások betöltése a megadott fájlból"
   IDS_MI_SETTINGS_SAVE            "Jelenlegi beállítások &mentése"
@@ -8681,7 +8686,8 @@ BEGIN
 #endif
   IDS_MI_ACIA_SETTINGS            "Impostazioni &ACIA..."
   IDS_MI_RS232USER_SETTINGS       "Impostazioni RS&232 su userport..."
-  IDS_MI_TOGGLE_SFX_SS            "Enable SFX soundsampler"
+  IDS_MI_TOGGLE_SFX_SE            "Enable SFX Sound Expander"
+  IDS_MI_TOGGLE_SFX_SS            "Enable SFX Sound Sampler"
   IDS_MI_SETTINGS_SAVE_FILE       "Salva le impostazioni attuali sul file specificato"
   IDS_MI_SETTINGS_LOAD_FILE       "Carica le impostazioni dal file specificato"
   IDS_MI_SETTINGS_SAVE            "&Salva le impostazioni attuali"
@@ -9081,7 +9087,8 @@ BEGIN
 #endif
   IDS_MI_ACIA_SETTINGS            "&ACIA-instellingen..."
   IDS_MI_RS232USER_SETTINGS       "RS&232-userportinstellingen..."
-  IDS_MI_TOGGLE_SFX_SS            "Activeer SFX soundsampler"
+  IDS_MI_TOGGLE_SFX_SE            "Activeer SFX Sound Expander"
+  IDS_MI_TOGGLE_SFX_SS            "Activeer SFX Sound Sampler"
   IDS_MI_SETTINGS_SAVE_FILE       "Huidige instellingen opslaan naar opgegeven bestand"
   IDS_MI_SETTINGS_LOAD_FILE       "Instellingen laden van opgegeven bestand"
   IDS_MI_SETTINGS_SAVE            "Huidige instellingen op&slaan"
@@ -9482,7 +9489,8 @@ BEGIN
 #endif
   IDS_MI_ACIA_SETTINGS            "Ustawienia &ACIA..."
   IDS_MI_RS232USER_SETTINGS       "Ustawienia RS&232 userport..."
-  IDS_MI_TOGGLE_SFX_SS            "Enable SFX soundsampler"
+  IDS_MI_TOGGLE_SFX_SE            "Enable SFX Sound Expander"
+  IDS_MI_TOGGLE_SFX_SS            "Enable SFX Sound Sampler"
   IDS_MI_SETTINGS_SAVE_FILE       "Save current settings to specified file"
   IDS_MI_SETTINGS_LOAD_FILE       "Load settings from specified file"
   IDS_MI_SETTINGS_SAVE            "Zapi&sz ustawienia"
@@ -9883,7 +9891,8 @@ BEGIN
 #endif
   IDS_MI_ACIA_SETTINGS            "&ACIA-inställningar..."
   IDS_MI_RS232USER_SETTINGS       "RS&232-användarportinställningar..."
-  IDS_MI_TOGGLE_SFX_SS            "Enable SFX soundsampler"
+  IDS_MI_TOGGLE_SFX_SE            "Enable SFX Sound Expander"
+  IDS_MI_TOGGLE_SFX_SS            "Enable SFX Sound Sampler"
   IDS_MI_SETTINGS_SAVE_FILE       "Spara nuvarande inställningar till den angivna filen"
   IDS_MI_SETTINGS_LOAD_FILE       "Läs inställningar från den angivna filen"
   IDS_MI_SETTINGS_SAVE            "&Spara nuvarande inställningar"
@@ -10284,7 +10293,8 @@ BEGIN
 #endif
   IDS_MI_ACIA_SETTINGS            "&ACIA ayarlarý..."
   IDS_MI_RS232USER_SETTINGS       "RS&232 userport ayarlarý..."
-  IDS_MI_TOGGLE_SFX_SS            "Enable SFX soundsampler"
+  IDS_MI_TOGGLE_SFX_SE            "Enable SFX Sound Expander"
+  IDS_MI_TOGGLE_SFX_SS            "Enable SFX Sound Sampler"
   IDS_MI_SETTINGS_SAVE_FILE       "Belirtilen dosyaya geçerli ayarlarý kaydet"
   IDS_MI_SETTINGS_LOAD_FILE       "Belirtilen dosyadan ayarlarý yükle"
   IDS_MI_SETTINGS_SAVE            "Geçerli ayarlarý &kaydet"

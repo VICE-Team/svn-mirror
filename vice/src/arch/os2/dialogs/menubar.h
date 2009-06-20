@@ -175,6 +175,7 @@
 #define IDM_DIGIMAXDFC0  0x95e
 #define IDM_DIGIMAXDFE0  0x95f
 
+#define IDM_SFX_SE       0x192
 #define IDM_SFX_SS       0x112
 
 #define IDM_OEM_JOY      0x191

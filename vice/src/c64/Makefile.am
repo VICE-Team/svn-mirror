@@ -71,6 +71,8 @@ libc64_a_SOURCES = \
 	digimax.h \
 	dqbb.c \
 	dqbb.h \
+	fmopl.c \
+	fmopl.h \
 	georam.c \
 	georam.h \
 	isepic.c \
@@ -92,6 +94,8 @@ libc64_a_SOURCES = \
 	reloc65.c \
 	reu.c \
 	reu.h \
+	sfx_soundexpander.c \
+	sfx_soundexpander.h \
 	sfx_soundsampler.c \
 	sfx_soundsampler.h \
 	tfe.c \
@@ -153,6 +157,8 @@ libc64c128_a_SOURCES = \
 	digimax.h \
 	dqbb.c \
 	dqbb.h \
+	fmopl.c \
+	fmopl.h \
 	georam.c \
 	georam.h \
 	isepic.c \
@@ -165,6 +171,8 @@ libc64c128_a_SOURCES = \
 	ramcart.h \
 	reu.c \
 	reu.h \
+	sfx_soundexpander.c \
+	sfx_soundexpander.h \
 	sfx_soundsampler.c \
 	sfx_soundsampler.h \
 	tfe.c \

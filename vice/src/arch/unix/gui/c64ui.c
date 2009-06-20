@@ -269,6 +269,7 @@ static ui_menu_entry_t sid_options_submenu[] = {
 /* ------------------------------------------------------------------------- */
 
 UI_MENU_DEFINE_TOGGLE(EmuID)
+UI_MENU_DEFINE_TOGGLE(SFXSoundExpander)
 UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
 
 static ui_menu_entry_t io_extensions_submenu[] = {
@@ -308,7 +309,9 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("MIDI Emulation"),
       NULL, NULL, midi_c64_submenu },
 #endif
-    { N_("*SFX soundsampler emulation"),
+    { N_("*SFX Sound Expander emulation"),
+      (ui_callback_t)toggle_SFXSoundExpander, NULL, NULL },
+    { N_("*SFX Sound Sampler emulation"),
       (ui_callback_t)toggle_SFXSoundSampler, NULL, NULL },
     { NULL }
 };

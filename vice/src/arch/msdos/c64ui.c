@@ -350,6 +350,7 @@ static tui_menu_item_def_t rom_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
+TUI_MENU_DEFINE_TOGGLE(SFXSoundExpander)
 TUI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
 
 int c64ui_init(void)
@@ -401,8 +402,14 @@ int c64ui_init(void)
 #endif
 
     tui_menu_add_item(ui_ioextensions_submenu,
-                      "Enable SFX soundsampler",
-                      "Enable SFX soundsampler",
+                      "Enable SFX Sound Expander",
+                      "Enable SFX Sound Expander",
+                      toggle_SFXSoundExpander_callback,
+                      NULL, 3,
+                      TUI_MENU_BEH_CONTINUE);
+    tui_menu_add_item(ui_ioextensions_submenu,
+                      "Enable SFX Sound Sampler",
+                      "Enable SFX Sound Sampler",
                       toggle_SFXSoundSampler_callback,
                       NULL, 3,
                       TUI_MENU_BEH_CONTINUE);

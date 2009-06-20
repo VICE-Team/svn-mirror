@@ -160,6 +160,9 @@ IDGS_ALL_DEVICES_DETACHED
 /* c64/digimax.c */
 IDGS_DIGIMAX_NOT_WITH_RESID
 
+/* c64/sfx_soundexpander.c */
+IDGS_SFX_SE_NOT_WITH_RESID
+
 /* c64/sfx_soundsampler.c */
 IDGS_SFX_SS_NOT_WITH_RESID
 
@@ -1509,6 +1512,12 @@ IDCLS_DISABLE_DIGIMAX
 
 /* c64/digimax.c */
 IDCLS_DIGIMAX_BASE
+
+/* c64/sfx_soundexpander.c */
+IDCLS_ENABLE_SFX_SE
+
+/* c64/sfx_soundexpander.c */
+IDCLS_DISABLE_SFX_SE
 
 /* c64/sfx_soundsampler.c */
 IDCLS_ENABLE_SFX_SS

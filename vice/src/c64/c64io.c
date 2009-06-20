@@ -48,6 +48,7 @@
 #include "ramcart.h"
 #include "resources.h"
 #include "sfx_soundsampler.h"
+#include "sfx_soundexpander.h"
 #include "sid-resources.h"
 #include "sid.h"
 #include "translate.h"
@@ -114,6 +115,7 @@ static io_source_t io_source_table[] = {
     {IO_SOURCE_STARDOS, "STARDOS", IO_DETACH_CART, NULL},
     {IO_SOURCE_MIDI, "MIDI", IO_DETACH_RESOURCE, "MIDIEnable"},
     {IO_SOURCE_ISEPIC, "ISEPIC", IO_DETACH_RESOURCE, "Isepic"},
+    {IO_SOURCE_SFX_SE, "SFX SOUND EXPANDER", IO_DETACH_RESOURCE, "SFXSoundExpander"},
     {-1,NULL,0,NULL}
 };
 
@@ -146,7 +148,7 @@ static int get_io_source_index(int id)
 }
 
 #define MAX_IO1_RETURNS 10
-#define MAX_IO2_RETURNS 12
+#define MAX_IO2_RETURNS 13
 
 #if MAX_IO1_RETURNS>MAX_IO2_RETURNS
 static int io_source_return[MAX_IO1_RETURNS];
@@ -453,7 +455,17 @@ BYTE REGPARM1 c64io2_read(WORD addr)
         io_source_counter++;
     }
     if (mmc64_enabled && addr >= 0xdf10 && addr <= 0xdf13) {
-        return_value = mmc64_io2_read((WORD)(addr));
+        return_value = mmc64_io2_read(addr);
+        io_source_check(io_source_counter);
+        io_source_counter++;
+    }
+    if (sfx_soundexpander_enabled && (addr == 0xdf60 || addr == 0xdfe0)) {
+        return_value = sfx_soundexpander_sound_read(addr);
+        io_source_check(io_source_counter);
+        io_source_counter++;
+    }
+    if (sfx_soundexpander_enabled && (addr & 16) == 0 && (addr & 8) == 8) {
+        return_value = sfx_soundexpander_piano_read(addr);
         io_source_check(io_source_counter);
         io_source_counter++;
     }
@@ -540,6 +552,12 @@ void REGPARM2 c64io2_store(WORD addr, BYTE value)
     if (mmc64_enabled && mmc64_hw_clockport==0xdf22 && addr==0xdf21) {
         mmc64_clockport_enable_store(value);
     }
+    if (sfx_soundexpander_enabled && (addr == 0xdf40 || addr == 0xdfc0)) {
+        sfx_soundexpander_sound_address_store(addr, value);
+    }
+    if (sfx_soundexpander_enabled && (addr == 0xdf50 || addr == 0xdfd0)) {
+        sfx_soundexpander_sound_register_store(addr, value);
+    }
 #ifdef HAVE_TFE
     if (tfe_enabled && mmc64_enabled && tfe_as_rr_net
         && mmc64_hw_clockport==0xdf22 && mmc64_clockport_enabled
@@ -586,4 +604,3 @@ void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
         mon_ioreg_add_list(mem_ioreg_list, "TFE", 0xde00, 0xde0f);
 #endif
 }
-

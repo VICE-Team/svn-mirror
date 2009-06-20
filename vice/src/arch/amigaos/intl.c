@@ -2142,13 +2142,24 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_RS232_USERPORT_SETTINGS_SV, "RS232-användarportinställningar..."},
 /* tr */ {IDMS_RS232_USERPORT_SETTINGS_TR, "RS232 userport ayarlarý..."},
 
-/* en */ {IDMS_ENABLE_SFX_SS,    "Enable SFX soundsampler"},
+/* en */ {IDMS_ENABLE_SFX_SE,    "Enable SFX Sound Expander"},
+/* da */ {IDMS_ENABLE_SFX_SE_DA, ""},  /* fuzzy */
+/* de */ {IDMS_ENABLE_SFX_SE_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_ENABLE_SFX_SE_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_ENABLE_SFX_SE_HU, ""},  /* fuzzy */
+/* it */ {IDMS_ENABLE_SFX_SE_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_ENABLE_SFX_SE_NL, "Activeer SFX Sound Expander"},
+/* pl */ {IDMS_ENABLE_SFX_SE_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_ENABLE_SFX_SE_SV, ""},  /* fuzzy */
+/* tr */ {IDMS_ENABLE_SFX_SE_TR, ""},  /* fuzzy */
+
+/* en */ {IDMS_ENABLE_SFX_SS,    "Enable SFX Sound Sampler"},
 /* da */ {IDMS_ENABLE_SFX_SS_DA, ""},  /* fuzzy */
 /* de */ {IDMS_ENABLE_SFX_SS_DE, ""},  /* fuzzy */
 /* fr */ {IDMS_ENABLE_SFX_SS_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_ENABLE_SFX_SS_HU, ""},  /* fuzzy */
 /* it */ {IDMS_ENABLE_SFX_SS_IT, ""},  /* fuzzy */
-/* nl */ {IDMS_ENABLE_SFX_SS_NL, "Activeer SFX soundsampler"},
+/* nl */ {IDMS_ENABLE_SFX_SS_NL, "Activeer SFX Sound Sampler"},
 /* pl */ {IDMS_ENABLE_SFX_SS_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_ENABLE_SFX_SS_SV, ""},  /* fuzzy */
 /* tr */ {IDMS_ENABLE_SFX_SS_TR, ""},  /* fuzzy */

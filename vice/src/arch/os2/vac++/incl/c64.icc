@@ -29,6 +29,7 @@ source type(c)
     "c64video.c",
     "digimax.c",
     "dqbb.c",
+    "fmopl.c",
     "georam.c",
     "isepic.c",
     "mmc64.c",
@@ -37,6 +38,7 @@ source type(c)
     "plus60k.c",
     "ramcart.c",
     "reu.c",
+    "sfx_soundexpander.c",
     "sfx_soundsampler.c",
     "tfe.c",
     "tfearch.c"

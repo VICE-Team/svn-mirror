@@ -52,6 +52,7 @@
 #include "uimenu.h"
 
 UI_MENU_DEFINE_TOGGLE(EmuID)
+UI_MENU_DEFINE_TOGGLE(SFXSoundExpander)
 UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
 
 const ui_menu_entry_t c64_hardware_menu[] = {
@@ -141,7 +142,11 @@ const ui_menu_entry_t c64_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)tfe_menu },
 #endif
-    { "SFX soundsampler",
+    { "SFX Sound Expander",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SFXSoundExpander_callback,
+      NULL },
+    { "SFX Sound Sampler",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SFXSoundSampler_callback,
       NULL },

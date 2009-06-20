@@ -77,6 +77,7 @@ ui_menu_toggle  c128_ui_menu_toggles[]={
     { "PALEmulation", MENU_TOGGLE_FASTPAL },
     { "VICIIScale2x", MENU_TOGGLE_SCALE2X },
     { "C128FullBanks", MENU_TOGGLE_C128FULLBANKS },
+    { "SFXSoundExpander", MENU_TOGGLE_SFX_SE },
     { "SFXSoundSampler", MENU_TOGGLE_SFX_SS },
     { NULL, 0 }
 };
