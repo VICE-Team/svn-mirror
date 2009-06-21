@@ -77,7 +77,6 @@ Revision History:
 #include <string.h>
 
 #include "fmopl.h"
-
 #include "lib.h"
 
 #ifndef M_PI
@@ -144,7 +143,7 @@ static const int slot_array[32]=
 /* table is 3dB/octave , DV converts this into 6dB/octave */
 /* 0.1875 is bit 0 weight of the envelope counter (volume) expressed in the 'decibel' scale */
 #define DV (0.1875/2.0)
-static const UINT32 ksl_tab[8*16]=
+static const double ksl_tab[8*16]=
 {
 	/* OCT 0 */
 	 0.000/DV, 0.000/DV, 0.000/DV, 0.000/DV,
@@ -308,7 +307,7 @@ O( 0),O( 0),O( 0),O( 0),O( 0),O( 0),O( 0),O( 0),
 
 /* multiple table */
 #define ML 2
-static const UINT8 mul_tab[16]= {
+static const double mul_tab[16]= {
 /* 1/2, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,10,12,12,15,15 */
    0.50*ML, 1.00*ML, 2.00*ML, 3.00*ML, 4.00*ML, 5.00*ML, 6.00*ML, 7.00*ML,
    8.00*ML, 9.00*ML,10.00*ML,10.00*ML,12.00*ML,12.00*ML,15.00*ML,15.00*ML
@@ -563,7 +562,7 @@ inline void advance(FM_OPL *OPL)
 				{
 					op->volume += eg_inc[op->eg_sel_dr + ((OPL->eg_cnt>>op->eg_sh_dr)&7)];
 
-					if ( op->volume >= op->sl )
+					if ( (UINT32)(op->volume) >= op->sl )
 						op->state = EG_SUS;
 
 				}
@@ -1049,15 +1048,15 @@ static void OPL_initalize(FM_OPL *OPL)
 
 	/* Amplitude modulation: 27 output levels (triangle waveform); 1 level takes one of: 192, 256 or 448 samples */
 	/* One entry from LFO_AM_TABLE lasts for 64 samples */
-	OPL->lfo_am_inc = (1.0 / 64.0 ) * (1<<LFO_SH) * OPL->freqbase;
+	OPL->lfo_am_inc = (UINT32)((1.0 / 64.0 ) * (1<<LFO_SH) * OPL->freqbase);
 
 	/* Vibrato: 8 output levels (triangle waveform); 1 level takes 1024 samples */
-	OPL->lfo_pm_inc = (1.0 / 1024.0) * (1<<LFO_SH) * OPL->freqbase;
+	OPL->lfo_pm_inc = (UINT32)((1.0 / 1024.0) * (1<<LFO_SH) * OPL->freqbase);
 
 	/* Noise generator: a step takes 1 sample */
-	OPL->noise_f = (1.0 / 1.0) * (1<<FREQ_SH) * OPL->freqbase;
+	OPL->noise_f = (UINT32)((1.0 / 1.0) * (1<<FREQ_SH) * OPL->freqbase);
 
-	OPL->eg_timer_add  = (1<<EG_SH)  * OPL->freqbase;
+	OPL->eg_timer_add  = (UINT32)((1<<EG_SH)  * OPL->freqbase);
 	OPL->eg_timer_overflow = ( 1 ) * (1<<EG_SH);
 }
 
@@ -1125,7 +1124,7 @@ inline void set_mul(FM_OPL *OPL,int slot,int v)
 	OPL_CH   *CH   = &OPL->P_CH[slot/2];
 	OPL_SLOT *SLOT = &CH->SLOT[slot&1];
 
-	SLOT->mul     = mul_tab[v&0x0f];
+	SLOT->mul     = (UINT8)(mul_tab[v&0x0f]);
 	SLOT->KSR     = (v&0x10) ? 0 : 2;
 	SLOT->eg_type = (v&0x20);
 	SLOT->vib     = (v&0x40);
@@ -1340,13 +1339,13 @@ static void OPLWriteReg(FM_OPL *OPL, int r, int v)
 			}
 		}
 		/* update */
-		if(CH->block_fnum != block_fnum)
+		if(CH->block_fnum != (UINT32)block_fnum)
 		{
 			UINT8 block  = block_fnum >> 10;
 
-			CH->block_fnum = block_fnum;
+			CH->block_fnum = (UINT32)block_fnum;
 
-			CH->ksl_base = ksl_tab[block_fnum>>6];
+			CH->ksl_base = (UINT32)(ksl_tab[block_fnum>>6]);
 			CH->fc       = OPL->fn_tab[block_fnum&0x03ff] >> (7-block);
 
 			/* BLK 2,1,0 bits -> bits 3,2,1 of kcode */
@@ -1385,7 +1384,7 @@ static void OPLWriteReg(FM_OPL *OPL, int r, int v)
 			if(slot < 0) return;
 			CH = &OPL->P_CH[slot/2];
 
-			CH->SLOT[slot&1].wavetable = (v&0x03)*SIN_LEN;
+			CH->SLOT[slot&1].wavetable = (UINT16)((v&0x03)*SIN_LEN);
 		}
 		break;
 	}
