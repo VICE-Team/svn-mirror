@@ -1,3 +1,330 @@
+2009-06-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/fmopl.c: Warning fixes.
+
+2009-06-21  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/c64/fmopl.c: Fixed 2 out of more than 150 warnings.
+
+2009-06-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128ui.c, src/arch/amigaos/c128uires.h,
+	  src/arch/amigaos/c64ui.c, src/arch/amigaos/c64uires.h,
+	  src/arch/amigaos/intl.c, src/arch/amigaos/intl.txt,
+	  src/arch/amigaos/uires.h, src/arch/beos/c128ui.cc,
+	  src/arch/beos/c64ui.cc, src/arch/beos/constants.h,
+	  src/arch/beos/vicemenu.cc, src/arch/msdos/c128ui.c,
+	  src/arch/msdos/c64ui.c, src/arch/os2/dialogs/menubar.c,
+	  src/arch/os2/dialogs/menubar.h,
+	  src/arch/os2/dialogs/menubar.rc,
+	  src/arch/os2/vac++/incl/c64.icc,
+	  src/arch/os2/vac++/x128/X128.ICC,
+	  src/arch/os2/watcom/c128c64.tgt, src/arch/sdl/menu_c128hw.c,
+	  src/arch/sdl/menu_c64hw.c, src/arch/unix/gui/c128ui.c,
+	  src/arch/unix/gui/c64ui.c, src/arch/win32/c128ui.c,
+	  src/arch/win32/c64.dsp, src/arch/win32/c64c128.dsp,
+	  src/arch/win32/c64ui.c, src/arch/win32/res.rc,
+	  src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	  src/arch/win32/resmenu.txt, src/arch/win32/resstrings.txt,
+	  src/arch/win32/watcom/c64commonc128.tgt,
+	  src/arch/win32/watcom/vice.wpj, src/arch/win64/c64.vcproj,
+	  src/arch/win64/c64c128.vcproj, src/c64/Makefile.am,
+	  src/c64/c64.c, src/c64/c64io.c, src/c64/c64io.h,
+	  src/c64/c64sound.c, src/c64/fmopl.c, src/c64/fmopl.h,
+	  src/c64/sfx_soundexpander.c, src/c64/sfx_soundexpander.h,
+	  src/translate.c, src/translate.txt: Added c128/c64 sound
+	  expander support, added ui elements for the amiga, beos,
+	  msdos, os/2, sdl, *nix, win32 ports, updated the win32/64 msvc
+	  project files, updated the win32 watcom project files, updated
+	  the os/2 vac and watcom project files.
+
+	* src/arch/amigaos/intl.c, src/arch/amigaos/intl.txt,
+	  src/arch/amigaos/uires.h, src/arch/amigaos/vic20ui.c,
+	  src/arch/amigaos/vic20uires.h, src/arch/beos/constants.h,
+	  src/arch/beos/vic20ui.cc, src/arch/beos/vicemenu.cc,
+	  src/arch/msdos/vic20ui.c, src/arch/os2/dialogs/menubar.c,
+	  src/arch/os2/dialogs/menubar.h,
+	  src/arch/os2/dialogs/menubar.rc, src/arch/sdl/menu_joystick.c,
+	  src/arch/sdl/menu_joystick.h, src/arch/sdl/menu_vic20hw.c,
+	  src/arch/unix/gui/vic20ui.c, src/arch/win32/resmenu.txt,
+	  src/arch/win32/resstrings.txt, src/arch/win32/resvic20.rc,
+	  src/arch/win32/vic20ui.c, src/translate.c, src/translate.txt,
+	  src/vic20/vic20-cmdline-options.c,
+	  src/vic20/vic20-resources.c, src/vic20/vic20-resources.h,
+	  src/vic20/vic20via2.c: Added OEM userport joystick support to
+	  xvic, added ui elements for the amiga, beos, msdos, os/2, *nix
+	  and win32 ports.
+
+2009-06-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/c64commonc128.tgt,
+	  src/arch/win32/watcom/config.h,
+	  src/arch/win32/watcom/plus4.tgt,
+	  src/arch/win32/watcom/vice.wpj: Updated the win32 watcom
+	  project files to make it compile again.
+
+2009-06-19  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/uimon.c: Fix compilation problem for Watcom
+	  compiler.
+
+	* src/arch/win32/uimon.c: Replace (asynchronous) GetCursorPos()
+	  with (synchronous) GetMessagePos() (encapsulated in new
+	  function GetCursorPosAtMessageTime()).
+
+2009-06-19  Errol Smith <strobe@kludgesoft.com>
+
+	* src/vdc/vdc-draw.c, src/vdc/vdc-mem.c, src/vdc/vdc.c,
+	  src/vdc/vdctypes.h: Add an attribute memory offset to handle
+	  the strange attribute memory pointer behaviour with the 8x1
+	  colour cell VDC trick. RFO "FLI" picture now 100%.
+
+	* src/vdc/vdc.c, src/vdc/vdctypes.h: Make the handling of
+	  register 6 (visible screen rows) real-time as a comparison
+	  reference to an internal counter like the VDC does. (less RFO
+	  FLI picture breakage)
+
+2009-06-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128ui.c, src/arch/amigaos/c128uires.h,
+	  src/arch/amigaos/c64ui.c, src/arch/amigaos/c64uires.h,
+	  src/arch/amigaos/intl.c, src/arch/amigaos/intl.txt,
+	  src/arch/amigaos/uires.h, src/arch/beos/c128ui.cc,
+	  src/arch/beos/c64ui.cc, src/arch/beos/constants.h,
+	  src/arch/beos/vicemenu.cc, src/arch/msdos/c128ui.c,
+	  src/arch/msdos/c64ui.c, src/arch/os2/dialogs/menubar.c,
+	  src/arch/os2/dialogs/menubar.h,
+	  src/arch/os2/dialogs/menubar.rc,
+	  src/arch/os2/vac++/incl/c64.icc,
+	  src/arch/os2/vac++/x128/X128.ICC,
+	  src/arch/os2/watcom/c128c64.tgt, src/arch/os2/watcom/vice.wpj,
+	  src/arch/sdl/menu_c128hw.c, src/arch/sdl/menu_c64hw.c,
+	  src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64ui.c,
+	  src/arch/win32/c128ui.c, src/arch/win32/c64.dsp,
+	  src/arch/win32/c64c128.dsp, src/arch/win32/c64ui.c,
+	  src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	  src/arch/win32/resc64.rc, src/arch/win32/resmenu.txt,
+	  src/arch/win32/resstrings.txt, src/arch/win64/c64.vcproj,
+	  src/arch/win64/c64c128.vcproj, src/c128/c128.c,
+	  src/c64/Makefile.am, src/c64/c64.c, src/c64/c64io.c,
+	  src/c64/c64sound.c, src/c64/sfx_soundsampler.c,
+	  src/c64/sfx_soundsampler.h, src/translate.c,
+	  src/translate.txt: Added SFX soundsampler (output only)
+	  support to x64/x128, added ui elements for the amiga, beos,
+	  msdos, os/2, *nix and win32 ports, updated win32/64 msvc
+	  project files and updated the os/2 watcom and vac project
+	  files.
+
+2009-06-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/incl/monitor.icc,
+	  src/arch/os2/watcom/mainsrc.tgt,
+	  src/arch/os2/watcom/monitor.tgt,
+	  src/arch/os2/watcom/plus4.tgt, src/arch/os2/watcom/vice.wpj,
+	  src/arch/os2/watcom/x1541.tgt: Updated the os/2 watcom and vac
+	  project files to make vice compile again for os/2.
+
+	* src/arch/os2/types.h: Changed the int_to_void_ptr(x) and
+	  uint_to_void_ptr(x) definitions for os/2.
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/kbd.c: Removed
+	  obsolete variables/items.
+
+	* src/arch/win32/winlong.h: Fixed the winlong.h defines for
+	  watcom.
+
+	* src/arch/os2/vac++/incl/plus4.icc: Added digiblaster.c and
+	  sidcartjoy.c to the os/2 vac++ project files.
+
+	* configure.in, src/cartconv.c: Added a check for the strdup
+	  macro to configure.in
+
+	* src/arch/amigaos/intl.c, src/arch/amigaos/intl.txt,
+	  src/arch/amigaos/mui/uisidcart.c,
+	  src/arch/amigaos/mui/uisidcart.h, src/arch/amigaos/plus4ui.c,
+	  src/arch/msdos/plus4ui.c, src/arch/msdos/uisidcart.c,
+	  src/arch/msdos/uisidcart.h, src/arch/sdl/menu_joystick.c,
+	  src/arch/sdl/menu_joystick.h, src/arch/sdl/menu_plus4hw.c,
+	  src/arch/sdl/menu_sid.c, src/arch/sdl/win32-msvc/plus4.dsp,
+	  src/arch/sdl/win64-msvc/plus4.vcproj,
+	  src/arch/unix/gui/plus4ui.c, src/arch/win32/intl.c,
+	  src/arch/win32/plus4.dsp, src/arch/win32/resdialogs.txt,
+	  src/arch/win32/ressidcart.rc, src/arch/win32/uisidcart.c,
+	  src/arch/win64/plus4.vcproj, src/plus4/Makefile.am,
+	  src/plus4/digiblaster.c, src/plus4/digiblaster.h,
+	  src/plus4/plus4.c, src/plus4/plus4mem.c,
+	  src/plus4/sidcartjoy.c, src/plus4/sidcartjoy.h,
+	  src/plus4/ted-sound.c, src/translate.c, src/translate.txt:
+	  Added plus4 sidcart joystick support, plus4 digiblaster
+	  (digital output only) support, added ui elements to the amiga,
+	  msdos, sdl, *nix and win32 ports, and adapted the win32/64
+	  msvc project files.
+
+2009-06-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_sid.c: Added HardSID to the SID engine
+	  selection.
+
+2009-06-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.c, src/arch/amigaos/intl.txt,
+	  src/arch/amigaos/mui/uic128settings.c,
+	  src/arch/beos/c128ui.cc, src/arch/beos/constants.h,
+	  src/arch/beos/vicemenu.cc, src/arch/msdos/c128ui.c,
+	  src/arch/os2/dialogs/menubar.c,
+	  src/arch/os2/dialogs/menubar.h,
+	  src/arch/os2/dialogs/menubar.rc, src/arch/sdl/menu_c128hw.c,
+	  src/arch/unix/gui/c128ui.c, src/arch/win32/intl.c,
+	  src/arch/win32/resc128.rc, src/arch/win32/resdialogs.txt,
+	  src/arch/win32/resstrings.txt, src/arch/win32/uic128.c,
+	  src/c128/c128-resources.c, src/c128/c128-resources.h,
+	  src/c128/c128mem.h, src/c128/c128mmu.c: Added C128 RAM banks 2
+	  & 3 support and added UI elements to the amiga, beos, msdos,
+	  os/2, sdl, *nix and win32 ports.
+
+2009-06-15  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_midi.c, src/arch/sdl/menu_tfe.c,
+	  src/arch/sdl/uimenu.c, src/arch/sdl/uimenu.h: Disable hotkey
+	  mapping in dynamic submenus
+
+2009-06-15  Errol Smith <strobe@kludgesoft.com>
+
+	* src/vdc/vdc.c: Separate Y border position from Y screen
+	  position, allowing screen to start above (or below) top
+	  border. Fix idle handling (fixes repeated lines from top
+	  border down to text). RFO credits upscroller now 100%
+
+2009-06-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/amigaos/catweaselmkiii.c,
+	  src/arch/amigaos/hardsid.c, src/arch/sdl/hardsid.c: Added
+	  hardsid support to the amiga os3, os4, morphos and amithlon
+	  ports.
+
+2009-06-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cartconv.c: Fixed cartconv for when strdup is defined as a
+	  macro.
+
+	* configure.in, src/arch/amigaos/catweaselmkiii.c: Added
+	  catweasel sid support for amiga os3, morphos and amithlon.
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/archdep.c,
+	  src/arch/amigaos/socketimpl.c: Fixed network support for amiga
+	  os3.
+
+	* src/arch/sdl/make-bindist_scosol.sh,
+	  src/arch/unix/sco_sol/make-bindist.sh: Added arm solaris 11
+	  bindist support.
+
+2009-06-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_midi.c, src/arch/sdl/menu_midi.h,
+	  src/arch/sdl/menu_tfe.c, src/arch/sdl/menu_tfe.h,
+	  src/arch/sdl/x128_ui.c, src/arch/sdl/x64_ui.c,
+	  src/arch/sdl/xvic_ui.c: Made some improvements to the midi and
+	  tfe win32 sdl ui code.
+
+	* src/arch/sdl/menu_midi.c, src/arch/sdl/menu_midi.h,
+	  src/arch/sdl/menu_tfe.c, src/arch/sdl/menu_tfe.h,
+	  src/arch/sdl/x128_ui.c, src/arch/sdl/x64_ui.c,
+	  src/arch/sdl/xvic_ui.c: Added better tfe nicr selection
+	  support to the win32 sdl midi ui.
+
+	* src/arch/sdl/menu_midi.c: Added better midi driver selection
+	  support to the win32 sdl midi ui.
+
+2009-06-12  Errol Smith <strobe@kludgesoft.com>
+
+	* src/vdc/vdc-mem.c, src/vdc/vdc.c: Move the vertical screen
+	  position handling that didn't need to be there out of
+	  vdc_update_geometry(), which was wrecking performance. Also
+	  remove some unnecessary casts and change some debugging bits.
+
+2009-06-11  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.h: Cycle back to earlier way to achieve lp
+	  > bp > hp level differences.
+
+2009-06-10  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/keyboard.c: Replaced hard-coded values "four" with
+	  JOYSTICK_NUM, as intended.
+
+	* src/arch/amigaos/joy.c, src/arch/amigaos/joy.h,
+	  src/arch/amigaos/joyll.c, src/arch/amigaos/joyll.h,
+	  src/arch/beos/joy.h, src/arch/msdos/joy.c,
+	  src/arch/msdos/joy.h, src/arch/riscos/joy.c,
+	  src/arch/riscos/joy.h, src/arch/riscos/kbd.c,
+	  src/arch/sdl/joy.c, src/arch/sdl/joy.h, src/arch/unix/joy.c,
+	  src/arch/unix/joy.h, src/arch/unix/macosx/joy.c,
+	  src/arch/unix/macosx/joy.h, src/arch/win32/joy.c,
+	  src/arch/win32/joy.h, src/joystick.c, src/joystick.h,
+	  src/keyboard.h: Declaration and definition of
+	  joystick_port_map[] and joystick_value[] moved to common code.
+
+	* src/arch/os2/kbd.c, src/joystick.c, src/keyboard.h: Added some
+	  todo, define JOYSTICK_NUM in a header and base the other
+	  definitions on it.
+
+	* src/joystick.c: Removed clk_overflow_callback() function
+	  again: It was completely stupid.
+
+2009-06-10  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* doc/ReadmeSDL.txt, src/arch/sdl/video.c: Disable resolution
+	  limit during hwscale (fixes infinite loop), add some
+	  documentation
+
+2009-06-10  Errol Smith <strobe@kludgesoft.com>
+
+	* src/vdc/vdc.c: Don't cache if the character or attribute
+	  memory pointers change, as the cache can't handle this.
+
+	* src/vdc/vdc.c: Set the character & attribute memory pointers
+	  at the correct raster position. (just after the displayed
+	  foreground)
+
+2009-06-10  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_c128hw.c, src/joystick.c: Add 4 player
+	  interface support to x128 and related UI changes for SDL
+
+	* src/arch/sdl/vkbd.c: Add ALT to SDL x128 vkbd
+
+2009-06-09  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/joystick.c: Add clockguard function
+	  clk_overflow_callback().
+
+2009-06-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, doc/ReadmeSDL.txt, src/arch/unix/socketimpl.h,
+	  src/libm_math.c: Add uwin fixes and added uwin to the sdl
+	  supported platforms list.
+
+2009-06-07  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.cc, src/resid-fp/filter.h,
+	  src/sid/resid-fp.cc: Sync to V36: use 256 consistently for the
+	  scaler between FC and oscillators*env. Tune parameters to
+	  match. Remove experimental tweaks.
+
+2009-06-07  Errol Smith <strobe@kludgesoft.com>
+
+	* src/vdc/vdc.c, src/vdc/vdctypes.h: Improve calculation of
+	  vertical screen position, and make the visible window big
+	  enough to see everything. Fixes many vertical position issues
+	  in RFO demo and reported issues e.g. (SF) bug 2797577.
+
+	* src/vdc/vdc-draw.c, src/vdc/vdc-mem.c, src/vdc/vdctypes.h: Fix
+	  more compiler warnings. (including making the VDC registers
+	  unsigned like they should be)
+
+	* src/vdc/vdctypes.h: Fix compiler warnings (?), update some
+	  constants and add 2 more variables to vdc_s structure.
+
 2009-06-07  Errol Smith <strobe@kludgesoft.com>
 
 	* src/vdc/vdc-draw.c, src/vdc/vdc-mem.c: Fix xsmooth
