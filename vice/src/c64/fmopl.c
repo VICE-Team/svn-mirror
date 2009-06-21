@@ -74,8 +74,11 @@ Revision History:
 
 #include <math.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "fmopl.h"
+
+#include "lib.h"
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -1466,7 +1469,7 @@ static FM_OPL *OPLCreate(UINT32 clock, UINT32 rate, int type)
 	state_size  = sizeof(FM_OPL);
 
 	/* allocate memory block */
-	ptr = (char *)malloc(state_size);
+	ptr = lib_malloc(state_size);
 
 	if (ptr==NULL)
 		return NULL;
@@ -1492,7 +1495,7 @@ static FM_OPL *OPLCreate(UINT32 clock, UINT32 rate, int type)
 static void OPLDestroy(FM_OPL *OPL)
 {
 	OPL_UnLockTable();
-	free(OPL);
+	lib_free(OPL);
 }
 
 static int OPLWrite(FM_OPL *OPL,int a,int v)
