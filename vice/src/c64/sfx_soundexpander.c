@@ -92,8 +92,6 @@ int sfx_soundexpander_cmdline_options_init(void)
 
 /* ---------------------------------------------------------------------*/
 
-static BYTE sfx_soundexpander_sound_data;
-
 struct sfx_soundexpander_sound_s
 {
     BYTE command;

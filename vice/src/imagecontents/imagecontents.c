@@ -161,7 +161,7 @@ char *image_contents_to_string(image_contents_t * contents,
 {
     char *string = lib_msprintf("0 \"%s\" %s", contents->name, contents->id);
     if (convert_to_ascii)
-        charset_petconvstring(string, 1);
+        charset_petconvstring((unsigned char *)string, 1);
 
     return string;
 }
@@ -185,7 +185,7 @@ char *image_contents_file_to_string(image_contents_file_list_t * p,
     string = lib_msprintf("%-5d \"%s\" %s", p->size, print_name, p->type);
 
     if (convert_to_ascii)
-        charset_petconvstring(string, 1);
+        charset_petconvstring((unsigned char *)string, 1);
 
     return string;
 }
