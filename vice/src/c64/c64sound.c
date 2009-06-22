@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "digimax.h"
+#include "machine.h"
 #include "sfx_soundexpander.h"
 #include "sfx_soundsampler.h"
 #include "sid.h"
@@ -38,11 +39,23 @@
 
 int machine_sid2_check_range(unsigned int sid2_adr)
 {
-    if (sid2_adr >= 0xd420 && sid2_adr <= 0xd7e0)
-        return 0;
+    if (machine_class == VICE_MACHINE_C128) {
+        if (sid2_adr >= 0xd420 && sid2_adr <= 0xd4e0) {
+            return 0;
+        }
 
-    if (sid2_adr >= 0xde00 && sid2_adr <= 0xdfe0)
+        if (sid2_adr >= 0xd700 && sid2_adr <= 0xd7e0) {
+            return 0;
+        }
+    } else {
+        if (sid2_adr >= 0xd420 && sid2_adr <= 0xd7e0) {
+            return 0;
+        }
+    }
+
+    if (sid2_adr >= 0xde00 && sid2_adr <= 0xdfe0) {
         return 0;
+    }
 
     return -1;
 }

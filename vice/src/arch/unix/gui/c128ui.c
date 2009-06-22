@@ -100,6 +100,26 @@ static ui_menu_entry_t set_sid_stereo_address_d4xx_submenu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t set_sid_stereo_address_d7xx_submenu[] = {
+    { "*$D700", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd700, NULL },
+    { "*$D720", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd720, NULL },
+    { "*$D740", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd740, NULL },
+    { "*$D760", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd760, NULL },
+    { "*$D780", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd780, NULL },
+    { "*$D7A0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd7a0, NULL },
+    { "*$D7C0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd7c0, NULL },
+    { "*$D7E0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd7e0, NULL },
+    { NULL }
+};
+
 static ui_menu_entry_t set_sid_stereo_address_dexx_submenu[] = {
     { "*$DE00", (ui_callback_t)radio_SidStereoAddressStart,
       (ui_callback_data_t)0xde00, NULL },
@@ -143,6 +163,8 @@ static ui_menu_entry_t set_sid_stereo_address_dfxx_submenu[] = {
 static ui_menu_entry_t set_sid_stereo_address_submenu[] = {
     { "$D4xx",
       NULL, NULL, set_sid_stereo_address_d4xx_submenu },
+    { "$D7xx",
+      NULL, NULL, set_sid_stereo_address_d7xx_submenu },
     { "$DExx",
       NULL, NULL, set_sid_stereo_address_dexx_submenu },
     { "$DFxx",

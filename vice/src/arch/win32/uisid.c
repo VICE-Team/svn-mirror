@@ -149,7 +149,7 @@ static const int ui_sid_c64baseaddress[] =
     { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
 
 static const int ui_sid_c128baseaddress[] =
-    { 0xd4, 0xde, 0xdf, -1 };
+    { 0xd4, 0xd7, 0xde, 0xdf, -1 };
 
 static const int ui_sid_cbm2baseaddress[] =
     { 0xda, -1 };

@@ -625,47 +625,4 @@ void ui_joystick_swap_joystick(void)
     resources_get_int("JoyAutofire2Button", &device2);
     resources_set_int("JoyAutofire1Button", device2);
     resources_set_int("JoyAutofire2Button", device1);
-
-/* swapping the keyset definitions when swapping the joysticks is
-   improper bahaviour in my opinion, if needed a swap keyset can be
-   made later, for now the keyset swapping is commented out. */
-
-#if 0
-    resources_get_int("KeySet1NorthWest", &device1);
-    resources_get_int("KeySet2NorthWest", &device2);
-    resources_set_int("KeySet1NorthWest", device2);
-    resources_set_int("KeySet2NorthWest", device1);
-    resources_get_int("KeySet1North", &device1);
-    resources_get_int("KeySet2North", &device2);
-    resources_set_int("KeySet1North", device2);
-    resources_set_int("KeySet2North", device1);
-    resources_get_int("KeySet1NorthEast", device1);
-    resources_get_int("KeySet2NorthEast", device2);
-    resources_set_int("KeySet1NorthEast", device2);
-    resources_set_int("KeySet2NorthEast", device1);
-    resources_get_int("KeySet1East", &device1);
-    resources_get_int("KeySet2East", &device2);
-    resources_set_int("KeySet1East", device2);
-    resources_set_int("KeySet2East", device1);
-    resources_get_int("KeySet1SouthEast", &device1);
-    resources_get_int("KeySet2SouthEast", &device2);
-    resources_set_int("KeySet1SouthEast", device2);
-    resources_set_int("KeySet2SouthEast", device1);
-    resources_get_int("KeySet1South", &device1);
-    resources_get_int("KeySet2South", &device2);
-    resources_set_int("KeySet1South", device2);
-    resources_set_int("KeySet2South", device1);
-    resources_get_int("KeySet1SouthWest", &device1);
-    resources_get_int("KeySet2SouthWest", &device2);
-    resources_set_int("KeySet1SouthWest", device2);
-    resources_set_int("KeySet2SouthWest", device1);
-    resources_get_int("KeySet1West", &device1);
-    resources_get_int("KeySet2West", &device2);
-    resources_set_int("KeySet1West", device2);
-    resources_set_int("KeySet2West", device1);
-    resources_get_int("KeySet1Fire", &device1);
-    resources_get_int("KeySet2Fire", &device2);
-    resources_set_int("KeySet1Fire", device2);
-    resources_set_int("KeySet2Fire", device1);
-#endif
 }

@@ -58,6 +58,7 @@
 #include "reu.h"
 #include "georam.h"
 #include "sid.h"
+#include "sid-resources.h"
 #include "types.h"
 #include "vdc-mem.h"
 #include "vdc.h"
@@ -559,11 +560,21 @@ static void REGPARM2 d5xx_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 d7xx_read(WORD addr)
 {
+    if (sid_stereo
+        && addr >= sid_stereo_address_start
+        && addr < sid_stereo_address_end) {
+        return sid2_read(addr);
+    }
     return vicii_read_phi1();
 }
 
 void REGPARM2 d7xx_store(WORD addr, BYTE value)
 {
+    if (sid_stereo
+        && addr >= sid_stereo_address_start
+        && addr < sid_stereo_address_end) {
+        sid2_store(addr, value);
+    }
 }
 
 /* $E000 - $FFFF: RAM or Kernal.  */
