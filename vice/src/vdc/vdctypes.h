@@ -198,6 +198,8 @@ struct vdc_s {
     /* offset into the attribute memory - used for emulating the 8x1 attribute VDC quirk */
     unsigned int attribute_offset;
 
+    /* Light pen. */
+    vdc_light_pen_t light_pen;
 
 };
 typedef struct vdc_s vdc_t;

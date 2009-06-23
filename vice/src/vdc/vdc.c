@@ -294,6 +294,7 @@ void vdc_reset(void)
     vdc.bytes_per_char = 16;
     vdc_update_geometry();
     vdc_set_next_alarm((CLOCK)0);
+    vdc.light_pen.x = vdc.light_pen.y = vdc.light_pen.triggered = 0;
 }
 
 /* This _should_ put the VDC in the same state as powerup */
@@ -375,10 +376,6 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
             vdc.border_height = calculated_border_height;
         } else {
             vdc.border_height = 0;
-        }
-         /* TODO - remove me when interlace mode works */
-        if (vdc.regs[8] & 0x01) {
-            vdc.border_height = 0;   /* set the border height to 0 if interlace mode gets enabled or things go a bit haywire */
         }
         vdc.screen_ypix = vdc.regs[6] * ((vdc.regs[9] & 0x1f) + 1);
         /* screen_ystart is the raster line the foreground data actually starts on, which may be above or below the border */

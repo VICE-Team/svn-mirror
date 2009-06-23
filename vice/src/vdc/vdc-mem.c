@@ -285,6 +285,8 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
 
       case 16:                  /* R16/17 Light Pen hi/lo */
       case 17:
+        /* lightpen registers are read-only, so put the old value back */
+        vdc.regs[vdc.update_reg] = oldval;
         break;
 
       case 18:                  /* R18/19 Update Address hi/lo */
@@ -460,15 +462,15 @@ BYTE REGPARM1 vdc_read(WORD addr)
                                       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xE0,
                                       0x00, 0x00, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x00,
                                       0x00, 0x00, 0x00, 0x00, 0xF0, 0x3F };
+    BYTE retval;
+    int ptr;
+    
     machine_handle_pending_alarms(0);
 
     if (addr & 1) { /* read $d601 (and mirrors $d603/5/7....$d6ff)  */
         /*log_message(vdc.log, "read: addr = %x", addr);*/
 
         if (vdc.update_reg == 31) {
-            BYTE retval;
-            int ptr;
-
             retval = vdc.ram[((vdc.regs[18] << 8) + vdc.regs[19])
                      & vdc.vdc_address_mask];
             ptr = (1 + vdc.regs[19] + (vdc.regs[18] << 8))
@@ -487,6 +489,11 @@ BYTE REGPARM1 vdc_read(WORD addr)
             }
         }
 
+        /* reset light pen flag if either light pen position register is read */
+        if (vdc.update_reg == 16 || vdc.update_reg == 17) {
+            vdc.light_pen.triggered = 0;
+        }
+
         if (vdc.update_reg < 38) {
             return (vdc.regs[vdc.update_reg] | regmask[vdc.update_reg]);
         }
@@ -494,14 +501,22 @@ BYTE REGPARM1 vdc_read(WORD addr)
         return 0xff; /* return 0xFF for invalid register numbers */
 
     } else { /* read $d600 (and mirrors $d602/4/6....$d6fe) */
-        /* NOTE - Status ($80) and LightPen ($40) bits are currently unsupported
-        Status always returns 1 (ready) while LightPen always returns 0 (invalid pen address) */
         
+        /* NOTE - Status ($80) is currently unsupported and always returns 1 (ready) */
+        retval = 0x80 | vdc.revision;        
+        
+        /* NOTE - nothing sets the lightpen triggered flag yet, so this should always return 0 (invalid pen address) */
+        /* Emulate lightpen flag. */
+        if (vdc.light_pen.triggered) {
+            retval |= 0x40;
+        }
+
         /* Emulate vblank bit.  */
         if ((vdc.raster.current_line <= vdc.border_height) || (vdc.raster.current_line > (vdc.border_height + vdc.screen_ypix))) {
-            return 0xA0 | vdc.revision;
+            retval |= 0x20;
         }
-        return 0x80 | vdc.revision;
+
+        return retval;
     }
 }
 
