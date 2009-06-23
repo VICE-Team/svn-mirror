@@ -350,7 +350,14 @@ static void vdc_set_video_mode(void)
 static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
 {
     int in_visible_area, in_idle_state, calculated_border_height;
-    static unsigned int old_screen_adr, old_attribute_adr, screen_ystart;
+    static unsigned int old_screen_adr, old_attribute_adr, screen_ystart, need_increment_memory_pointer;
+
+    /* Update the memory pointers just before we draw the next line (vs after last line),
+       in case relevent registers changed since last call. */
+    if (need_increment_memory_pointer) {
+        vdc_increment_memory_pointer();
+        need_increment_memory_pointer = 0;
+    }
 
     /* VDC locks in the screen/attr start addresses after the last raster line of foreground */
     if (vdc.raster.current_line == vdc.border_height + vdc.screen_ypix + 1) {
@@ -390,6 +397,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         vdc.row_counter = 0;
         vdc.raster.video_mode = VDC_IDLE_MODE;
         vdc.mem_counter = 0;
+        need_increment_memory_pointer = 0;
         vdc.bitmap_counter = 0;
         vdc.raster.ycounter = 0;
         vdc.frame_counter++;
@@ -448,7 +456,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
 #endif
 
     if (!in_idle_state) {
-        vdc_increment_memory_pointer();
+        need_increment_memory_pointer = 1;
         vdc_set_video_mode();
     } else {
         vdc.raster.video_mode = VDC_IDLE_MODE;

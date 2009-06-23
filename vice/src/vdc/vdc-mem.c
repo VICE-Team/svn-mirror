@@ -347,7 +347,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
             vdc.raster.xsmooth = 0;
             /* Hack to get the line redrawn because we are not actually using the xsmooth in raster
             (so the xsmooth color is irrelevant, but changing it still forces a repaint of the line) */
-            vdc.raster.xsmooth_color ^= 0x0f;
+            vdc.raster.xsmooth_color++;
 #else
             vdc.xsmooth = 0;
             vdc.raster.xsmooth = 0;
@@ -402,6 +402,9 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 27:                  /* R27  Row/Adrs. Increment */
+        /* We need to redraw the current line if this changes,
+        as cache will be wrong. Uses xsmooth_color hack (see reg 25) */
+        vdc.raster.xsmooth_color++;
 #ifdef REG_DEBUG
         log_message(vdc.log, "Row/Adrs. Increment %i.", vdc.regs[27]);
 #endif
