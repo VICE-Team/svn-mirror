@@ -61,16 +61,7 @@
 #include "log.h"
 #include "machine.h"
 #include "machine-video.h"
-#include "monitor_network.h"
-#include "translate.h"
-
-#ifdef WATCOM_COMPILE
-#include "../mem.h"
-#else
 #include "mem.h"
-#endif
-
-#include "console.h"
 #include "mon_breakpoint.h"
 #include "mon_disassemble.h"
 #include "mon_memory.h"
@@ -79,11 +70,13 @@
 #include "mon_ui.h"
 #include "mon_util.h"
 #include "monitor.h"
+#include "monitor_network.h"
 #include "montypes.h"
 #include "resources.h"
 #include "screenshot.h"
 #include "signals.h"
 #include "sysfile.h"
+#include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 #include "uimon.h"

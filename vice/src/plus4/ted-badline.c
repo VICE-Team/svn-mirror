@@ -30,18 +30,11 @@
 
 #include "dma.h"
 #include "maincpu.h"
-
-#ifdef WATCOM_COMPILE
-#include "../mem.h"
-#else
 #include "mem.h"
-#endif
-
 #include "ted-badline.h"
 #include "ted-fetch.h"
 #include "tedtypes.h"
 #include "types.h"
-
 
 inline static void line_becomes_good(int cycle)
 {

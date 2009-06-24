@@ -39,14 +39,8 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
-#include "midi.h"
-
-#ifdef WATCOM_COMPILE
-#include "../mem.h"
-#else
 #include "mem.h"
-#endif
-
+#include "midi.h"
 #include "monitor.h"
 #include "ram.h"
 #include "resources.h"

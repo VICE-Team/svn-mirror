@@ -28,13 +28,8 @@
 #ifndef VICE_C64MEM_H
 #define VICE_C64MEM_H
 
-#include "types.h"
-
-#ifdef WATCOM_COMPILE
-#include "../mem.h"
-#else
 #include "mem.h"
-#endif
+#include "types.h"
 
 #ifndef C64_RAM_SIZE
 #define C64_RAM_SIZE                    0x10000

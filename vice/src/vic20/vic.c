@@ -40,15 +40,9 @@
 #include "clkguard.h"
 #include "lib.h"
 #include "log.h"
-
-#ifdef WATCOM_COMPILE
-#include "../mem.h"
-#else
-#include "mem.h"
-#endif
-
 #include "machine.h"
 #include "maincpu.h"
+#include "mem.h"
 #include "raster-line.h"
 #include "raster-modes.h"
 #include "resources.h"

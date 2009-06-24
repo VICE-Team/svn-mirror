@@ -31,12 +31,7 @@
 #ifndef VICE_C128MEM_H
 #define VICE_C128MEM_H
 
-#ifdef WATCOM_COMPILE
-#include "../mem.h"
-#else
 #include "mem.h"
-#endif
-
 #include "types.h"
 
 #define C128_RAM_SIZE                   0x40000

@@ -32,13 +32,7 @@
 #include "alarm.h"
 #include "log.h"
 #include "maincpu.h"
-
-#ifdef WATCOM_COMPILE
-#include "../mem.h"
-#else
 #include "mem.h"
-#endif
-
 #include "snapshot.h"
 #include "sound.h"
 #include "types.h"

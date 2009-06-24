@@ -38,13 +38,7 @@
 #include "autostart.h"
 #include "kbdbuf.h"
 #include "log.h"
-
-#ifdef WATCOM_COMPILE
-#include "../mem.h"
-#else
 #include "mem.h"
-#endif
-
 #include "pet.h"
 #include "petmem.h"
 #include "petmemsnapshot.h"

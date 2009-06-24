@@ -27,12 +27,7 @@
 #ifndef VICE_Z80MEM_H
 #define VICE_Z80MEM_H
 
-#ifdef WATCOM_COMPILE
-#include "../mem.h"
-#else
 #include "mem.h"
-#endif
-
 #include "types.h"
 
 extern int z80mem_resources_init(void);

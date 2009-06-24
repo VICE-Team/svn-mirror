@@ -60,13 +60,7 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
-
-#ifdef WATCOM_COMPILE
-#include "../mem.h"
-#else
 #include "mem.h"
-#endif
-
 #include "raster-line.h"
 #include "raster-modes.h"
 #include "raster-sprite-status.h"

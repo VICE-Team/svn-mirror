@@ -68,7 +68,7 @@ n????Include directories:
 17
 WString
 58
-$(%watcom)\h;$(%watcom)\h\nt;.;..;..\..\..;..\..\..\vdrive
+.;..;..\..\..;..\..\..\vdrive;$(%watcom)\h;$(%watcom)\h\nt
 0
 18
 MRState
