@@ -38,6 +38,7 @@ struct video_canvas_s;
   NSAutoreleasePool *pool;
   BOOL shallIDie;
   BOOL isPaused;
+  BOOL isSleepPaused;
   VICEMachineController *machineController;
   VICEMachineNotifier *machineNotifier;
 

@@ -37,6 +37,24 @@ VICEMachine *theVICEMachine = nil;
 
 @implementation VICEMachine
 
+- (void) receiveSleepNote: (NSNotification*) note
+{
+    // if not paused already then pause while system sleeps
+    if(!isPaused) {
+        isSleepPaused = YES;
+        isPaused = YES;
+    }
+}
+
+- (void) receiveWakeNote: (NSNotification*) note
+{
+    // wake up if the emulator was sleeping due to system sleep
+    if(isSleepPaused) {
+        isSleepPaused = NO;
+        isPaused = NO;
+    }
+}
+
 // initial start up of machine thread and setup of DO connection
 +(void)startConnected:(NSArray *)portArray
 {
@@ -86,8 +104,15 @@ VICEMachine *theVICEMachine = nil;
     theVICEMachine = self;
     shallIDie = NO;
     isPaused = NO;
+    isSleepPaused = NO;
     machineController = nil;
     machineNotifier = [[VICEMachineNotifier alloc] init];
+
+    // register sleep and wake up notifiers
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self 
+            selector: @selector(receiveSleepNote:) name: NSWorkspaceWillSleepNotification object: NULL];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self 
+            selector: @selector(receiveWakeNote:) name: NSWorkspaceDidWakeNotification object: NULL];
     
     // enter VICE main program and main loop
     main_program(argc,argv);
