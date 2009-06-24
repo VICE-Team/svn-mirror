@@ -3661,6 +3661,34 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_AUTOSTART_HANDLE_TDE_TR, ""},  /* fuzzy */
 #endif
 
+/* autostart.c */
+/* en */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART,    N_("Enable warp mode during autostart")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_NL, "Activeer warp modus tijdens autostarten"},
+/* pl */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_TR, ""},  /* fuzzy */
+#endif
+
+/* autostart.c */
+/* en */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART,    N_("Disable warp mode during autostart")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_NL, "Warp modus tijdens autostarten uitschakelen"},
+/* pl */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_TR, ""},  /* fuzzy */
+#endif
+
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, plus4/plus4-cmdline-options.c,
    vic20/vic20-cmdline-options.c */
@@ -9272,11 +9300,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_REMOTE_MONITOR,     N_("Enable remote monitor")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_REMOTE_MONITOR_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_REMOTE_MONITOR_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_REMOTE_MONITOR_DE, "Monitor Fernsteuerung aktivieren"},
 /* fr */ {IDCLS_ENABLE_REMOTE_MONITOR_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_REMOTE_MONITOR_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_REMOTE_MONITOR_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_REMOTE_MONITOR_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_REMOTE_MONITOR_NL, "Activeer monitor afstandbediening"},
 /* pl */ {IDCLS_ENABLE_REMOTE_MONITOR_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_REMOTE_MONITOR_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_ENABLE_REMOTE_MONITOR_TR, ""},  /* fuzzy */
@@ -9286,11 +9314,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_REMOTE_MONITOR,     N_("Disable remote monitor")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_REMOTE_MONITOR_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_REMOTE_MONITOR_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_REMOTE_MONITOR_DE, "Monitor Fernsteuerung deaktivieren"},
 /* fr */ {IDCLS_DISABLE_REMOTE_MONITOR_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_REMOTE_MONITOR_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_REMOTE_MONITOR_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_REMOTE_MONITOR_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_REMOTE_MONITOR_NL, "afstandbediening monitor uitschakelen"},
 /* pl */ {IDCLS_DISABLE_REMOTE_MONITOR_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_REMOTE_MONITOR_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_REMOTE_MONITOR_TR, ""},  /* fuzzy */
@@ -9300,11 +9328,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_REMOTE_MONITOR_ADDRESS,     N_("The local address the remote monitor should bind to")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_REMOTE_MONITOR_ADDRESS_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_REMOTE_MONITOR_ADDRESS_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_REMOTE_MONITOR_ADDRESS_DE, "Lokale Adresse für die Monitorfernsteuerung"},
 /* fr */ {IDCLS_REMOTE_MONITOR_ADDRESS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_REMOTE_MONITOR_ADDRESS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_REMOTE_MONITOR_ADDRESS_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_REMOTE_MONITOR_ADDRESS_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_REMOTE_MONITOR_ADDRESS_NL, "Lokaal adres waar de afstanbediening voor de monitor aan gebonden moet worden"},
 /* pl */ {IDCLS_REMOTE_MONITOR_ADDRESS_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_REMOTE_MONITOR_ADDRESS_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_REMOTE_MONITOR_ADDRESS_TR, ""},  /* fuzzy */

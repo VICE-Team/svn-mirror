@@ -3432,7 +3432,7 @@ BEGIN
   IDS_RAM_BANKS                 "RAM banks"
   IDS_C128_SETTINGS             "C128 Einstellungen"
   IDS_MP_VDC_SETTINGS           "VDC Einstellun&gen"
-  IDS_MP_VDC_REVISION           "VDC revision"
+  IDS_MP_VDC_REVISION           "VDC Revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB Bildschirm Speicher"
   IDS_MI_IEEE488                "IEEE&488 Schnittstellen-Emulation"
   IDS_MI_C128_SETTINGS          "C&128 Einstellungen..."

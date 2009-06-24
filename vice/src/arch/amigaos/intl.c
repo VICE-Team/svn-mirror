@@ -1407,7 +1407,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDMS_VDC_REVISION,    "VDC revision"},
 /* da */ {IDMS_VDC_REVISION_PL, ""},  /* fuzzy */
-/* de */ {IDMS_VDC_REVISION_DE, ""},  /* fuzzy */
+/* de */ {IDMS_VDC_REVISION_DE, "VDC Revision"},
 /* fr */ {IDMS_VDC_REVISION_FR, ""},  /* fuzzy */
 /* it */ {IDMS_VDC_REVISION_IT, ""},  /* fuzzy */
 /* hu */ {IDMS_VDC_REVISION_HU, ""},  /* fuzzy */
@@ -1418,7 +1418,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDMS_VDC_REV_0,    "Rev 0"},
 /* da */ {IDMS_VDC_REV_0_PL, ""},  /* fuzzy */
-/* de */ {IDMS_VDC_REV_0_DE, ""},  /* fuzzy */
+/* de */ {IDMS_VDC_REV_0_DE, "Rev 0"},
 /* fr */ {IDMS_VDC_REV_0_FR, ""},  /* fuzzy */
 /* it */ {IDMS_VDC_REV_0_IT, ""},  /* fuzzy */
 /* hu */ {IDMS_VDC_REV_0_HU, ""},  /* fuzzy */
@@ -1429,7 +1429,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDMS_VDC_REV_1,    "Rev 1"},
 /* da */ {IDMS_VDC_REV_1_PL, ""},  /* fuzzy */
-/* de */ {IDMS_VDC_REV_1_DE, ""},  /* fuzzy */
+/* de */ {IDMS_VDC_REV_1_DE, "Rev 1"},
 /* fr */ {IDMS_VDC_REV_1_FR, ""},  /* fuzzy */
 /* it */ {IDMS_VDC_REV_1_IT, ""},  /* fuzzy */
 /* hu */ {IDMS_VDC_REV_1_HU, ""},  /* fuzzy */
@@ -1440,7 +1440,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDMS_VDC_REV_2,    "Rev 2"},
 /* da */ {IDMS_VDC_REV_2_PL, ""},  /* fuzzy */
-/* de */ {IDMS_VDC_REV_2_DE, ""},  /* fuzzy */
+/* de */ {IDMS_VDC_REV_2_DE, "Rev 2"},
 /* fr */ {IDMS_VDC_REV_2_FR, ""},  /* fuzzy */
 /* it */ {IDMS_VDC_REV_2_IT, ""},  /* fuzzy */
 /* hu */ {IDMS_VDC_REV_2_HU, ""},  /* fuzzy */
