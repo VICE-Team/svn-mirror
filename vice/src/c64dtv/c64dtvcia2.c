@@ -59,8 +59,8 @@
 void REGPARM2 cia2_store(WORD addr, BYTE data)
 {
     if ((addr&0x1f) == 1) {
-        if (ptv4p_enable) {
-            ptv4p_store(data);
+        if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_CGA) {
+            extra_joystick_cga_store(data);
         }
         if (c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC) {
             hummeradc_store(data);
@@ -77,8 +77,8 @@ BYTE REGPARM1 cia2_read(WORD addr)
 {
     BYTE retval = 0xff;
     if ((addr&0x1f) == 1) {
-        if (ptv4p_enable) {
-            retval &= ptv4p_read();
+        if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_CGA) {
+            retval &= extra_joystick_cga_read();
         }
         if (ps2mouse_enabled) {
             retval &= (ps2mouse_read() | 0x3f);
@@ -212,8 +212,8 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk,
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)byte);
 #endif
-    if (ptv4p_enable) {
-        ptv4p_store(byte);
+    if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_CGA) {
+        extra_joystick_cga_store(byte);
     }
 }
 

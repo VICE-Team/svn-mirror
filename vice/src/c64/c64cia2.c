@@ -42,6 +42,7 @@
 #include "iecbus.h"
 #include "interrupt.h"
 #include "joystick.h"
+#include "keyboard.h"
 #include "lib.h"
 #include "log.h"
 #include "maincpu.h"
@@ -169,8 +170,8 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)byte);
 #endif
-    if (ptv4p_enable) {
-        ptv4p_store(byte);
+    if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_CGA) {
+        extra_joystick_cga_store(byte);
     }
 }
 
@@ -189,16 +190,24 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk,
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)byte);
 #endif
-    if (ptv4p_enable) {
-        ptv4p_store(byte);
+    if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_CGA) {
+        extra_joystick_cga_store(byte);
     }
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */
 static BYTE read_ciapa(cia_context_t *cia_context)
 {
-    return ((cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA]))
-           & 0x3f) | (*iecbus_callback_read)(maincpu_clk);
+    BYTE value;
+
+    value = ((cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA]))
+            & 0x3f) | (*iecbus_callback_read)(maincpu_clk);
+
+    if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_HIT) {
+        value &= 0xfb;
+        value |= (joystick_value[3] & 0x10) ? 0 : 4;
+    }
+    return value;
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */
@@ -210,8 +219,12 @@ static BYTE read_ciapb(cia_context_t *cia_context)
         byte = rsuser_read_ctrl();
     else
 #endif
-    if (ptv4p_enable) {
-        byte = ptv4p_read();
+    if (extra_joystick_enable) {
+        if (extra_joystick_type == EXTRA_JOYSTICK_CGA) {
+            byte = extra_joystick_cga_read();
+        } else {
+            byte = ~((joystick_value[3] & 0xf) | ((joystick_value[4] & 0xf) << 4));
+        }
     } else {
         byte = parallel_cable_cpu_read();
     }
@@ -228,6 +241,9 @@ static void read_ciaicr(cia_context_t *cia_context)
 
 static void read_sdr(cia_context_t *cia_context)
 {
+    if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_HIT) {
+        cia_context->c_cia[CIA_SDR] = extra_joystick_hit_read();
+    }
 }
 
 static void store_sdr(cia_context_t *cia_context, BYTE byte)

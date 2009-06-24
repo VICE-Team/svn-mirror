@@ -30,6 +30,7 @@
 #include <SDL/SDL.h>
 
 #include "joy.h"
+#include "joystick.h"
 #include "lib.h"
 #include "menu_common.h"
 #include "menu_joystick.h"
@@ -303,7 +304,20 @@ const ui_menu_entry_t joystick_menu[] = {
     { NULL }
 };
 
-UI_MENU_DEFINE_TOGGLE(PTV4Player)
+UI_MENU_DEFINE_TOGGLE(ExtraJoy)
+UI_MENU_DEFINE_RADIO(ExtraJoyType)
+
+static const ui_menu_entry_t joystick_extra_joy_type_menu[] = {
+    { "CGA/Protovision userport adapter",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_ExtraJoyType_callback,
+      (ui_callback_data_t)EXTRA_JOYSTICK_CGA },
+    { "DXS/HIT userport adapter",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_ExtraJoyType_callback,
+      (ui_callback_data_t)EXTRA_JOYSTICK_HIT },
+    { NULL }
+};
 
 const ui_menu_entry_t joystick_four_menu[] = {
     { "Joystick device in port 1",
@@ -336,10 +350,14 @@ const ui_menu_entry_t joystick_four_menu[] = {
       submenu_callback,
       (ui_callback_data_t)define_keyset_menu },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Protovision 4 Player Interface",
+    { "Extra Joystick Adapter",
       MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_PTV4Player_callback,
+      toggle_ExtraJoy_callback,
       NULL },
+    { "Extra Joystick Adapter type",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)joystick_extra_joy_type_menu },
 #ifdef HAVE_SDL_NUMJOYSTICKS
     SDL_MENU_ITEM_SEPARATOR,
     { "Joystick 1 mapping", /* TODO better name */

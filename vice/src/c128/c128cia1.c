@@ -37,6 +37,7 @@
 #include "clkguard.h"
 #include "drivecpu.h"
 #include "interrupt.h"
+#include "joystick.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "log.h"
@@ -228,6 +229,9 @@ static void store_sdr(cia_context_t *cia_context, BYTE byte)
         rsuser_tx_byte((BYTE)byte);
     }
 #endif
+    if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_HIT) {
+        extra_joystick_hit_store(byte);
+    }
 }
 
 void cia1_init(cia_context_t *cia_context)

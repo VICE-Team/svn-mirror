@@ -196,22 +196,34 @@ void joystick_clear_all(void)
 
 /*-----------------------------------------------------------------------*/
 
-/* Protovision 4 player interface emulation */
+/* CGA and HIT 4 player interface emulation */
 
-int ptv4p_enable;
+int extra_joystick_enable;
+int extra_joystick_type;
 
-static int ptv4p_select = 0;
+static int extra_joystick_cga_select = 0;
+static BYTE extra_joystick_hit_sp2_button = 0xff;
 
-BYTE ptv4p_read(void)
+BYTE extra_joystick_cga_read(void)
 {
     return (BYTE)~((joystick_value[3] & 0x10)
            | ((joystick_value[4] & 0x10) << 1)
-           | (joystick_value[ptv4p_select + 3] & 0xf));
+           | (joystick_value[extra_joystick_cga_select + 3] & 0xf));
 }
 
-void ptv4p_store(BYTE value)
+void extra_joystick_cga_store(BYTE value)
 {
-    ptv4p_select = (value & 0x80) ? 0 : 1;
+    extra_joystick_cga_select = (value & 0x80) ? 0 : 1;
+}
+
+BYTE extra_joystick_hit_read(void)
+{
+    return extra_joystick_hit_sp2_button;
+}
+
+void extra_joystick_hit_store(BYTE value)
+{
+    extra_joystick_hit_sp2_button = (joystick_value[4] & 0x10) ? 0 : 0xff;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -327,15 +339,23 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
-static int set_ptv4p_enable(int val, void *param)
+static int set_extra_joystick_enable(int val, void *param)
 {
-    ptv4p_enable = val;
+    extra_joystick_enable = val;
+    return 0;
+}
+
+static int set_extra_joystick_type(int val, void *param)
+{
+    extra_joystick_type = val;
     return 0;
 }
 
 static const resource_int_t extra_resources_int[] = {
-    { "PTV4Player", 0, RES_EVENT_NO, NULL,
-      &ptv4p_enable, set_ptv4p_enable, NULL },
+    { "ExtraJoy", 0, RES_EVENT_NO, NULL,
+      &extra_joystick_enable, set_extra_joystick_enable, NULL },
+    { "ExtraJoyType", 0, RES_EVENT_NO, NULL,
+      &extra_joystick_type, set_extra_joystick_type, NULL },
     { NULL }
 };
 

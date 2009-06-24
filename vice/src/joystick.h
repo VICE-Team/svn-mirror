@@ -29,6 +29,9 @@
 
 #include "types.h"
 
+#define EXTRA_JOYSTICK_CGA 0
+#define EXTRA_JOYSTICK_HIT 1
+
 struct snapshot_s;
 
 extern int joystick_init(void);
@@ -51,15 +54,17 @@ extern void joystick_register_delay(unsigned int delay);
 extern int joystick_snapshot_write_module(struct snapshot_s *s);
 extern int joystick_snapshot_read_module(struct snapshot_s *s);
 
-extern int ptv4p_enable;
-extern BYTE ptv4p_read(void);
-extern void ptv4p_store(BYTE value);
+extern int extra_joystick_enable;
+extern int extra_joystick_type;
+extern BYTE extra_joystick_cga_read(void);
+extern void extra_joystick_cga_store(BYTE value);
+extern BYTE extra_joystick_hit_read(void);
+extern void extra_joystick_hit_store(BYTE value);
 
 /*! the number of joysticks that can be attached to the emu */
 #define JOYSTICK_NUM 4
 
 /* virtual joystick mapping */ 
 extern int joystick_port_map[JOYSTICK_NUM];
-
 
 #endif
