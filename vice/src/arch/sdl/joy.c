@@ -219,10 +219,10 @@ static const cmdline_option_t cmdline_options[] = {
     { "-joydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice2", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-4>", "Set device for joystick port 2" },
-    { "-joydev3", SET_RESOURCE, 1, NULL, NULL, "JoyDevice3", NULL,
+    { "-extrajoydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice3", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-4>", "Set device for joystick port 1" },
-    { "-joydev4", SET_RESOURCE, 1, NULL, NULL, "JoyDevice4", NULL,
+    { "-extrajoydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice4", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-4>", "Set device for joystick port 2" },
 #ifdef HAVE_SDL_NUMJOYSTICKS
