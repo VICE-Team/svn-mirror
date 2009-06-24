@@ -249,7 +249,7 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "AutostartWarp", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_ENABLE_WARP_MODE_AUTOSTART,
-      NULL, NULL,
+      NULL, NULL },
     { "+autostart-warp", SET_RESOURCE, 0,
       NULL, NULL, "AutostartWarp", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
