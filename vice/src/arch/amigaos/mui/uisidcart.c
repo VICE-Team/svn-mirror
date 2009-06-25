@@ -150,7 +150,7 @@ static APTR build_gui_plus4(void)
     CYCLE(ui_to_from[3].object, translate_text(IDS_SID_FILTERS), ui_sidcart_enable)
     CYCLE(ui_to_from[4].object, translate_text(IDS_SID_ADDRESS), ui_sidcart_address)
     CYCLE(ui_to_from[5].object, translate_text(IDS_SID_CLOCK), ui_sidcart_clock)
-    CYCLE(ui_to_from[6].object, translate_text(IDS_SID_JOY), ui_sidcart_enanle)
+    CYCLE(ui_to_from[6].object, translate_text(IDS_SID_JOY), ui_sidcart_enable)
     CYCLE(ui_to_from[7].object, translate_text(IDS_SID_DIGIBLASTER), ui_sidcart_enable)
   End;
 }

@@ -315,10 +315,10 @@ void catweaselmkiii_store(WORD addr, BYTE val, int chipno)
 
 struct Library          *ExpansionBase = NULL;
 struct ExpansionIFace   *IExpansion    = NULL;
-struct PCIIFace         *IPCI          = NULL;
+static struct PCIIFace         *IPCI          = NULL;
 
-struct PCIDevice        *CWDevPCI      = NULL;
-struct PCIResourceRange *CWDevBAR      = NULL;
+static struct PCIDevice        *CWDevPCI      = NULL;
+static struct PCIResourceRange *CWDevBAR      = NULL;
 int                     CWLock        = FALSE;
 
 // Set as appropriate

@@ -281,12 +281,12 @@ void hardsid_store(WORD addr, BYTE val, int chipno)
 #include <proto/expansion.h>
 #include <proto/exec.h>
 
-struct Library          *ExpansionBase = NULL;
-struct ExpansionIFace   *IExpansion    = NULL;
-struct PCIIFace         *IPCI          = NULL;
+#include "expansionbase.h"
 
-struct PCIDevice        *HSDevPCI      = NULL;
-struct PCIResourceRange *HSDevBAR      = NULL;
+static struct PCIIFace         *IPCI          = NULL;
+
+static struct PCIDevice        *HSDevPCI      = NULL;
+static struct PCIResourceRange *HSDevBAR      = NULL;
 int                     HSLock        = FALSE;
 
 int hardsid_open(void)
@@ -389,16 +389,16 @@ static unsigned char read_sid( unsigned char reg )
   unsigned char ret;
   HSDevPCI->OutByte(HSDevBAR->BaseAddress + 4, ((reg & 0x1f) | 0x20));
   usleep(2);
-  HSDevPCI->OutByte(HSDevBAR->BaseAddress, 0x20));
+  HSDevPCI->OutByte(HSDevBAR->BaseAddress, 0x20);
   ret = HSDevPCI->InByte(HSDevBAR->BaseAddress);
-  HSDevPCI->OutByte(HSDevBAR->BaseAddress, 0x80));
+  HSDevPCI->OutByte(HSDevBAR->BaseAddress, 0x80);
 
   return ret;
 }
 
 static void write_sid( unsigned char reg, unsigned char data )
 {
-  CWDevPCI->OutWord CWDevBAR->BaseAddress + 3, ((reg * 0x1f) << 8) | data );
+  HSDevPCI->OutWord(HSDevBAR->BaseAddress + 3, ((reg * 0x1f) << 8) | data );
 }
 
 /* set current main clock frequency, which gives us the possibilty to
