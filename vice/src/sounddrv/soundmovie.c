@@ -49,7 +49,7 @@ int soundmovie_start(soundmovie_funcs_t *f)
     return 0;
 }
 
-extern int soundmovie_stop()
+int soundmovie_stop(void)
 {
     resources_set_string("SoundRecordDeviceName", "");
     return 0;

@@ -40,5 +40,7 @@ void cartridge_romlbank_set(unsigned int bank);
 
 extern BYTE export_ram0[];
 
+extern int cartmode;
+
 #endif
 

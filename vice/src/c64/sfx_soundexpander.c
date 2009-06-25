@@ -156,8 +156,6 @@ void sfx_soundexpander_sound_reset(void)
 
 /* ---------------------------------------------------------------------*/
 
-extern void REGPARM2 sfx_soundexpander_sound_address_store(WORD addr, BYTE value);
-
 void REGPARM2 sfx_soundexpander_sound_address_store(WORD addr, BYTE value)
 {
     ym3526_write(YM3526_chip, 0, value);

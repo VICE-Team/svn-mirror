@@ -61,9 +61,6 @@ static const c64export_resource_t export_res = {
     "Expert", 1, 1
 };
 
-/* Cartridge mode.  */
-extern int cartmode;
-
 static int ack_reset = 0;
 
 
