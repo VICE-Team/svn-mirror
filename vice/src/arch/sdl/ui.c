@@ -327,7 +327,7 @@ void ui_error(const char *format,...)
 
 
 /* Let the user browse for a filename; display format as a titel */
-extern char* ui_get_file(const char *format,...)
+char* ui_get_file(const char *format,...)
 {
     return NULL;
 }
