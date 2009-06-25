@@ -85,14 +85,7 @@ int console_out(console_t *log, const char *format, ...)
 }
 
 #ifdef HAVE_READLINE
-
-#if 0 /*! \todo SRT: use header instead of direct extern declarations */
 # include "editline.h"
-#else
-extern char *readline ( const char *prompt );
-extern void add_history ( const char *str );
-#endif
-
 #else
 char *readline(const char *prompt)
 {
