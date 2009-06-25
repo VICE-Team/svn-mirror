@@ -138,26 +138,6 @@ static tui_menu_item_def_t sound_buffer_size_submenu[] = {
     { NULL }
 };
 
-static tui_menu_item_def_t sound_oversample_submenu[] = {
-    { "_None",
-      "Disable oversampling",
-      radio_SoundOversample_callback, (void *)0, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_2x",
-      "Enable 2x oversampling",
-      radio_SoundOversample_callback, (void *)1, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_4x",
-      "Enable 4x oversampling",
-      radio_SoundOversample_callback, (void *)2, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_8x",
-      "Enable 8x oversampling",
-      radio_SoundOversample_callback, (void *)3, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
-};
-
 static tui_menu_item_def_t sound_synchronization_submenu[] = {
     { "_Flexible",
       "Slightly adapt sound playback speed to the speed of the emulator",

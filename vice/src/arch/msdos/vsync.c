@@ -373,7 +373,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 	} else {
 	    skip_counter = elapsed_frames = 0;
 	}
-        sound_flush(0);
+        sound_flush();
     } else if (refresh_rate != 0) { /* Fixed refresh rate.  */
 	if (timer_speed != 0)
 	    while (skip_counter >= elapsed_frames)
@@ -384,7 +384,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 	} else {
 	    skip_counter = elapsed_frames = 0;
 	}
-        patch_timer(sound_flush(relative_speed));
+        patch_timer(sound_flush());
     } else {                    /* Automatic refresh rate adjustment.  */
 	if (timer_speed && skip_counter >= elapsed_frames) {
 	    while (skip_counter >= elapsed_frames)
@@ -402,7 +402,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 		elapsed_frames = 0;
 	    }
 	}
-        patch_timer(sound_flush(relative_speed));
+        patch_timer(sound_flush());
     }
 
     if (frame_counter >= refresh_frequency * 2) {

@@ -42,8 +42,6 @@
 #include "util.h"
 #include "videoarch.h"
 
-extern video_canvas_t *last_canvas;
-
 static TUI_MENU_CALLBACK(bmp_file_name_callback);
 static TUI_MENU_CALLBACK(write_bmp_screenshot_callback);
 

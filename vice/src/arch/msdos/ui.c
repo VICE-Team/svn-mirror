@@ -69,9 +69,6 @@ static int kbd_led_status;
 #define DRIVE1_LED_MSK 4
 #define WARP_LED_MSK 1
 
-/* not very nice but okay for now */
-extern BITMAP *status_bitmap;
-
 /* ------------------------------------------------------------------------- */
 
 /* UI-related resources and command-line options.  */
@@ -205,9 +202,6 @@ int ui_init_finalize(void)
 {
     return 0;
 }
-
-extern double vsync_get_avg_frame_rate(void);
-extern double vsync_get_avg_speed_index(void);
 
 void ui_main(char hotkey)
 {

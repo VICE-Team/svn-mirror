@@ -276,7 +276,7 @@ void uisidcart_plus4_init(struct tui_menu *parent_submenu, char *addr1, char *ad
     sidcart_clock=clock;
     sid_clock_submenu[1].label=clock;
 
-    ui_sidcart_submenu = tui_menu_create("SID cart settings", 1);
+    ui_sidcart_plus4_submenu = tui_menu_create("SID cart settings", 1);
 
     tui_menu_add(ui_sidcart_plus4_submenu, sidcart_plus4_ui_menu_items);
 

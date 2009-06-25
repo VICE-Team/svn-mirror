@@ -123,6 +123,9 @@ extern int video_in_gfx_mode(void);
 
 extern void canvas_set_border_color(struct video_canvas_s *canvas, BYTE color);
 
+extern double vsync_get_avg_frame_rate(void);
+extern double vsync_get_avg_speed_index(void);
+
+extern video_canvas_t *last_canvas;
 
 #endif
-

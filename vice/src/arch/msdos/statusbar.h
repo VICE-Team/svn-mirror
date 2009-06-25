@@ -74,6 +74,6 @@ extern void statusbar_set_height(int h);
 extern void statusbar_prepare(void);
 extern void statusbar_register_colors(int next_avail, RGB *colors);
 extern int statusbar_get_color(int num);
+extern BITMAP *status_bitmap;
 
 #endif
-
