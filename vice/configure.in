@@ -2353,6 +2353,9 @@ if test x"$is_unix" = "xyes"; then
       fi
     
       AC_DEFINE(HAVE_READLINE,,[Are we using the readline library replacement?])
+      
+      AC_CHECK_HEADERS(stdlib.h,AC_DEFINE(HAVE_STDLIB,,[We are using stdlib.h]))
+
       if test x"$READLINE" != x ; then
         ARCH_EXTRA_SUBDIR="$ARCH_EXTRA_SUBDIR readline"
       fi
