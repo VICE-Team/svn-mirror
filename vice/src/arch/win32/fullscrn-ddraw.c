@@ -42,17 +42,16 @@
 #include "palette.h"
 #include "res.h"
 #include "resources.h"
+#include "statusbar.h"
 #include "translate.h"
 #include "ui.h"
+#include "video-ddraw.h"
 #include "videoarch.h"
 #include "winmain.h"
-#include "statusbar.h"
 
 #ifdef _WIN64
 #define _ANONYMOUS_UNION
 #endif
-
-extern void init_palette(const palette_t *p, PALETTEENTRY *ape);
 
 // ----------------------------------------------
 

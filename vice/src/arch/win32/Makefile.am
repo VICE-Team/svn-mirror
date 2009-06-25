@@ -226,6 +226,7 @@ libarch_a_SOURCES = \
 	vic20ui.c \
 	video.c \
 	video-ddraw.c \
+	video-ddraw.h \
 	video-dx9.c \
 	videoarch.h \
 	vsidui.c \

@@ -32,13 +32,13 @@
 
 #include "hardsid.h"
 #include "log.h"
+#include "maincpu.h"
 #include "sid-resources.h"
 #include "types.h"
 
 #define HARDSID_FLUSH_CYCLES 1000
 #define HARDSID_FLUSH_MS 50
 
-extern CLOCK maincpu_clk;
 static CLOCK lastaccess_clk;
 static UINT_PTR ftimer;
 static DWORD lastaccess_ms;
