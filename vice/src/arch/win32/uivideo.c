@@ -47,6 +47,7 @@
 #include "resources.h"
 #include "system.h"
 #include "translate.h"
+#include "ui.h"
 #include "uiapi.h"
 #include "uilib.h"
 #include "uivideo.h"
@@ -282,7 +283,6 @@ static INT_PTR CALLBACK dialog_color_proc(HWND hwnd, UINT msg,
     int type, ival;
     float tf;
     TCHAR s[100];
-    extern int querynewpalette;
 
     switch (msg) {
       case WM_NOTIFY:
@@ -326,7 +326,6 @@ static INT_PTR CALLBACK dialog_new_pal_proc(HWND hwnd, UINT msg,
     int type, ival;
     float tf;
     TCHAR s[100];
-    extern int querynewpalette;
 
     switch (msg) {
       case WM_NOTIFY:
@@ -370,7 +369,6 @@ static INT_PTR CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
     int type, ival;
     float tf;
     TCHAR s[100];
-    extern int querynewpalette;
 
     switch (msg) {
       case WM_NOTIFY:
@@ -471,7 +469,6 @@ static INT_PTR CALLBACK dialog_palette_proc(HWND hwnd, UINT msg,
                                             WPARAM wparam, LPARAM lparam)
 {
     int type;
-    extern int querynewpalette;
 
     switch (msg) {
       case WM_NOTIFY:

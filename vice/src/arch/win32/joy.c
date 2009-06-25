@@ -44,6 +44,7 @@
 #include "translate.h"
 #include "types.h"
 #include "ui.h"
+#include "winjoy.h"
 #include "winmain.h"
 
 static enum {

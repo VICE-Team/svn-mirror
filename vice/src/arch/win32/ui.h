@@ -123,4 +123,12 @@ typedef struct ui_popup_translation_table_s ui_popup_translation_table_t;
 extern void ui_register_translation_tables(ui_menu_translation_table_t *menu_table, ui_popup_translation_table_t *popup_table);
 extern void ui_translate_monitor_menu(HMENU menu);
 
+extern HWND window_handles[2];
+extern int number_of_windows;
+extern int window_canvas_xsize[2];
+extern int window_canvas_ysize[2];
+
+extern int querynewpalette;
+extern int syscolorchanged, displaychanged, querynewpalette, palettechanged;
+
 #endif

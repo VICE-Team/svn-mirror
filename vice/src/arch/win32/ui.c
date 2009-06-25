@@ -96,8 +96,6 @@
 #include "winmain.h"
 #include "statusbar.h"
 
-extern int _mouse_enabled;
-
 #define countof(array) (sizeof(array) / sizeof((array)[0]))
 
 static TCHAR *hwnd_titles[2];
@@ -1665,8 +1663,6 @@ static LRESULT CALLBACK dummywindowproc(HWND window, UINT msg,
     }
     return DefWindowProc(window, msg, wparam, lparam);
 }
-
-extern int fullscreen_transition;
 
 static void ui_wm_move(HWND window, int window_index)
 {

@@ -27,6 +27,7 @@
 
 #include "vice.h"
 
+#include "cbm2.h"
 #include "mem.h"
 #include "types.h"
 
@@ -46,9 +47,6 @@
 */
 
 /* ------------------------------------------------------------------------- */
-
-extern read_func_ptr_t *_mem_read_ind_tab_ptr;
-extern store_func_ptr_t *_mem_write_ind_tab_ptr;
 
 #define PAGE_ZERO mem_page_zero
 #define PAGE_ONE  mem_page_one

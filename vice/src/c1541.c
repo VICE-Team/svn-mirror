@@ -353,8 +353,7 @@ static char *read_line(const char *prompt)
 
 #else
 
-extern char *readline(const char *);    /* FIXME: This sucks.  */
-extern void add_history(const char *);  /* FIXME: This stinks.  */
+#include "editline.h"
 
 static char *read_line(const char *prompt)
 {

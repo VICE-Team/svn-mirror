@@ -48,8 +48,9 @@ int console_out(console_t *log, const char *format, ...)
 }
 
 #ifdef HAVE_READLINE
-extern char *readline ( const char *prompt );
-extern void add_history ( const char *str );
+
+# include "editline.h"
+
 #else
 char *readline(const char *prompt)
 {

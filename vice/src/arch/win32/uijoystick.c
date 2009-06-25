@@ -33,16 +33,11 @@
 #include "res.h"
 #include "resources.h"
 #include "translate.h"
+#include "winjoy.h"
+#include "winkbd.h"
 #include "winlong.h"
 #include "winmain.h"
 
-/*  These are in joystick.c . */
-extern void joystick_calibrate(HWND hwnd);
-extern void joystick_ui_get_device_list(HWND joy_hwnd);
-extern void joystick_ui_get_autofire_axes(HWND joy_hwnd, int device);
-extern void joystick_ui_get_autofire_buttons(HWND joy_hwnd, int device);
-
-extern const TCHAR *kbd_code_to_string(kbd_code_t kcode);
 
 static int joy1;
 static int joy2;

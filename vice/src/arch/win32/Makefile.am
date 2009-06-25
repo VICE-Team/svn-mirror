@@ -231,6 +231,8 @@ libarch_a_SOURCES = \
 	videoarch.h \
 	vsidui.c \
 	vsyncarch.c \
+	winjoy.h \
+	winkbd.h \
 	winlong.h \
 	winmain.c \
 	winmain.h

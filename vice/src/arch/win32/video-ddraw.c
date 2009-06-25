@@ -60,7 +60,7 @@
 void video_resize(void);
 
 #ifndef HAVE_GUIDLIB
-extern const GUID IID_IDirectDraw2;
+//! \todo extern const GUID IID_IDirectDraw2;
 #endif
 
 #define EXIT_REASON(reason) {log_debug("Error %08x",reason);return -1;}
@@ -851,11 +851,6 @@ static void real_refresh(video_canvas_t *c,
                          unsigned int xi, unsigned int yi,
                          unsigned int w, unsigned int h);
 
-extern HWND window_handles[2];
-extern int number_of_windows;
-extern int window_canvas_xsize[2];
-extern int window_canvas_ysize[2];
-
 void video_canvas_update_ddraw(HWND hwnd, HDC hdc, int xclient, int yclient,
                                int w, int h)
 {
@@ -1046,9 +1041,6 @@ static void real_refresh(video_canvas_t *c,
     bytesmoved = 0;
 
     {
-        extern int syscolorchanged, displaychanged, querynewpalette,
-                   palettechanged;
-
         if (syscolorchanged) {
             ui_error("System colors changed!\n(not implemented yet)");
             syscolorchanged = 0;

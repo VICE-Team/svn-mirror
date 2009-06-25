@@ -39,6 +39,7 @@
 #include "c64cia.h"
 #include "debug.h"
 #include "maincpu.h"
+#include "mem.h"
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "types.h"
@@ -927,8 +928,6 @@ inline static void d030_store(BYTE value)
         VICII_DEBUG_REGISTER(("(unused)"));
     }
 }
-
-extern BYTE mem_ram[];
 
 void viciidtv_update_colorram()
 {

@@ -28,6 +28,8 @@
 #ifndef VICE_CBM2_H
 #define VICE_CBM2_H
 
+#include "mem.h"
+
 /* except for the exact CYCLES_PER_SEC those values are reasonable default
    values. they get overwritten when writing to the CRTC */
 
@@ -79,6 +81,9 @@ typedef struct machine_context_s {
 } machine_context_t;
 
 extern machine_context_t machine_context;
+
+extern read_func_ptr_t *_mem_read_ind_tab_ptr;
+extern store_func_ptr_t *_mem_write_ind_tab_ptr;
 
 #endif
 

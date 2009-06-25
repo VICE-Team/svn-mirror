@@ -34,6 +34,7 @@
 
 #include "c64dtvmem.h"
 #include "c64dtvblitter.h"
+#include "c64dtvcpu.h"
 #include "c64dtvdma.h"
 #include "c64dtvflash.h"
 #include "cmdline.h"
@@ -564,8 +565,6 @@ static log_t c64dtvmem_log = LOG_ERR;
 
 /* I/O of the memory mapper ($D100/$D101) */
 BYTE c64dtvmem_memmapper[0x2];
-
-extern BYTE dtv_registers[]; /* TODO */
 
 /* The memory banking mechanism/virtual memory is visible to the CPU only. */
 /* VICII, DMA Engine, Blitter have access to physical memory. */

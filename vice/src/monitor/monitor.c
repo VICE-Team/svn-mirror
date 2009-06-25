@@ -112,10 +112,10 @@ static int monitor_trap_triggered = 0;
 
 /* External functions */
 #ifdef HAVE_READLINE
-extern void add_history(const char *str);
-#endif
 
-extern void parse_and_execute_line(char *input);
+# include "editline.h"
+
+#endif
 
 monitor_cartridge_commands_t mon_cart_cmd;
 

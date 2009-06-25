@@ -31,6 +31,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "vicii.h"
+#include "viciitypes.h"
 #include "z80.h"
 
 /* ------------------------------------------------------------------------- */
@@ -60,9 +61,6 @@
 #define HAVE_Z80_REGS
 
 /* ------------------------------------------------------------------------- */
-
-extern read_func_ptr_t _mem_read_tab[];
-extern store_func_ptr_t _mem_write_tab[];
 
 static int opcode_cycle[2];
 
@@ -107,7 +105,6 @@ static void clk_overflow_callback(CLOCK sub, void *unused_data)
 
 #define REWIND_FETCH_OPCODE(clock) vicii_clock_add(clock, -(2+opcode_cycle[0]+opcode_cycle[1]))
 
-extern void vicii_delay_clk(void);
 
 #define CPU_DELAY_CLK vicii_delay_clk();
 

@@ -33,6 +33,7 @@
 
 #include <string.h>
 
+#include "mem.h"
 #include "raster-cache-fill.h"
 #include "raster-cache-fill-1fff.h"
 #include "raster-cache-fill-39ff.h"
@@ -1496,8 +1497,6 @@ static int get_8bpp_chunky_bitmap(raster_cache_t *cache, unsigned int *xs,
 */
     return 0;
 }
-
-extern BYTE mem_ram[]; /* TODO HACK */
 
 inline static void _draw_8bpp_chunky_bitmap(BYTE *p, unsigned int xs,
                                             unsigned int xe, BYTE *gfx_msk_ptr)

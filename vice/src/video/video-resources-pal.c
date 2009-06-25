@@ -31,10 +31,9 @@
 
 #include "resources.h"
 #include "ui.h"
-#include "video-resources.h"
 #include "video.h"
-
-extern struct video_canvas_s *video_current_canvas;
+#include "video-canvas.h"
+#include "video-resources.h"
 
 static int set_color_saturation(int val, void *param)
 {

@@ -1,8 +1,8 @@
 /*
- * plus4cpu.c - Emulation of the main 6510 processor.
+ * winjoy.h - Joystick support for Windows.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Spiro Trikaliotis
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,13 +24,15 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_WINJOY_H
+#define VICE_WINJOY_H
 
-#include "mem.h"
-#include "tedtypes.h"
-#include "types.h"
+#include <windows.h>
 
-#define CPU_DELAY_CLK ted_delay_clk();
+/*  These are in joystick.c . */
+extern void joystick_calibrate(HWND hwnd);
+extern void joystick_ui_get_device_list(HWND joy_hwnd);
+extern void joystick_ui_get_autofire_axes(HWND joy_hwnd, int device);
+extern void joystick_ui_get_autofire_buttons(HWND joy_hwnd, int device);
 
-#include "../maincpu.c"
-
+#endif

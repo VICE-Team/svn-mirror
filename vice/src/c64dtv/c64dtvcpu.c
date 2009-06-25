@@ -32,6 +32,7 @@
 #include "alarm.h"
 #include "c64mem.h"
 #include "c64dtvblitter.h"
+#include "c64dtvcpu.h"
 #include "c64dtvdma.h"
 #include "monitor.h"
 

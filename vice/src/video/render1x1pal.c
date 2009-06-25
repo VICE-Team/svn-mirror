@@ -30,9 +30,9 @@
 #include "types.h"
 #include "video-resources.h"
 
-extern DWORD gamma_red[256 * 3];
-extern DWORD gamma_grn[256 * 3];
-extern DWORD gamma_blu[256 * 3];
+static DWORD gamma_red[256 * 3];
+static DWORD gamma_grn[256 * 3];
+static DWORD gamma_blu[256 * 3];
 
 static inline
 void rgb_to_yuv(SDWORD y, SDWORD u, SDWORD v,

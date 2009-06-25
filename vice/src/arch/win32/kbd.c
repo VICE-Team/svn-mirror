@@ -37,6 +37,7 @@
 #include "kbd.h"
 #include "keyboard.h"
 #include "types.h"
+#include "winkbd.h"
 
 
 BYTE _kbd_extended_key_tab[256] = {

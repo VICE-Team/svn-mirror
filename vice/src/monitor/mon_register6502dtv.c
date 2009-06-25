@@ -41,8 +41,6 @@
 #include "mos6510dtv.h"
 #include "uimon.h"
 
-extern BYTE dtv_registers[];
-
 #define TEST(x) ((x)!=0)
 
 static unsigned int mon_register_get_val(int mem, int reg_id)

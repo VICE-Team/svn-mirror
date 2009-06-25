@@ -69,8 +69,6 @@ typedef struct break_list_s break_list_t;
 static int breakpoint_count;
 break_list_t *breakpoints[NUM_MEMSPACES];
 
-extern void parse_and_execute_line(char *input);
-
 void mon_breakpoint_init(void)
 {
     breakpoint_count = 1;

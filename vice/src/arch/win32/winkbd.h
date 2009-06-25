@@ -1,8 +1,8 @@
 /*
- * plus4cpu.c - Emulation of the main 6510 processor.
+ * winkbd.h - Joystick support for Windows.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Spiro Trikaliotis
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,13 +24,11 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_WINKBD_H
+#define VICE_WINKBD_H
 
-#include "mem.h"
-#include "tedtypes.h"
-#include "types.h"
+#include <windows.h>
 
-#define CPU_DELAY_CLK ted_delay_clk();
+extern const TCHAR *kbd_code_to_string(kbd_code_t kcode);
 
-#include "../maincpu.c"
-
+#endif
