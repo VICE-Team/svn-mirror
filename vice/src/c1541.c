@@ -353,7 +353,12 @@ static char *read_line(const char *prompt)
 
 #else
 
+#if 0 /*! \todo SRT: use header instead of direct extern declarations */
 #include "editline.h"
+#else
+extern char *readline ( const char *prompt );
+extern void add_history ( const char *str );
+#endif
 
 static char *read_line(const char *prompt)
 {
