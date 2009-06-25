@@ -59,6 +59,7 @@
 #include "util.h"
 
 #include "mui/filereq.h"
+#include "mui/mui.h"
 #include "mui/uidatasette.h"
 #include "mui/uifliplist.h"
 #ifdef AMIGA_OS4
@@ -74,8 +75,6 @@
 #if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
 #include <proto/cybergraphics.h>
 #endif
-
-extern char *BrowseFile(char *select_text, char *pattern, video_canvas_t *canvas);
 
 static int do_quit_vice = 0;
 
@@ -415,8 +414,6 @@ int ui_menu_create(video_canvas_t *canvas)
   return 0;
 }
 
-void ui_event_handle(void); /* FIXME */
-
 void ui_display_paused(int paused)
 {
   video_canvas_t *canvas;
@@ -737,7 +734,6 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
       break;
 
     case IDM_ABOUT: {
-      extern void ui_about(void);
       ui_about();
       } break;
     case IDM_CONTRIBUTORS:

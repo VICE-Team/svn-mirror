@@ -58,8 +58,7 @@
 #endif
 
 #include "private.h"
-
-extern void ui_event_handle(void); /* FIXME */
+#include "ui.h"
 
 /* number of timer units per second - used to calc speed and fps */
 signed long vsyncarch_frequency(void)

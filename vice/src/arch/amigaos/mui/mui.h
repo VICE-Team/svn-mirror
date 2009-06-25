@@ -239,5 +239,6 @@ extern void mui_rem_window(APTR window);
 extern int mui_run(void);
 extern void mui_exit(void);
 extern char *BrowseFile(char *select_text, char *pattern, video_canvas_t *canvas);
+extern void ui_about(void);
 
 #endif

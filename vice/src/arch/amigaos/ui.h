@@ -49,5 +49,6 @@ typedef struct ui_resources_s {
 extern ui_resources_t ui_resources;
 extern int ui_requester(char *title, char *msg, char *buttons, int defval);
 extern void ui_message(const char *format,...);
+extern void ui_event_handle(void);
 
 #endif
