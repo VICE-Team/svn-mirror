@@ -47,6 +47,8 @@
 /* foreground(4) | background(4) | nibble(4) -> 4 pixels.  */
 static DWORD hr_table[16 * 16 * 16];
 
+/* solid cursor (no blink), no cursor, 1/16 refresh blink, 1/32 refresh blink */
+static const BYTE crsrblink[4] = { 0x01, 0x00, 0x08, 0x10 };
 
 /* These functions draw the background from `start_pixel' to `end_pixel'.  */
 /*
@@ -106,9 +108,6 @@ inline static BYTE get_attr_char_data(BYTE c, BYTE a, int l, BYTE *char_mem,
                                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
     static const BYTE semigfxmask[16] = { 0x7F, 0x3F, 0x1F, 0x0F, 0x07, 0x03, 0x01, 0x00,
                                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-    static const BYTE crsrblink[4] = { 0x01, 0x00, 0x08, 0x10 };
-    /* solid cursor (no blink), no cursor, 1/16 refresh blink, 1/32 refresh blink */
-
     if (a & VDC_ALTCHARSET_ATTR) {
         /* swich to alternate charset if appropriate attribute bit set */
         char_mem += 0x1000;
@@ -440,7 +439,7 @@ static void draw_std_text(void)
     DWORD *table_ptr;
     BYTE *attr_ptr, *screen_ptr, *char_ptr;
 
-    unsigned int i;
+    unsigned int i, d;
     unsigned int cpos = 0xffff;
 
 	cpos = vdc.crsrpos - vdc.mem_counter;
@@ -450,32 +449,67 @@ static void draw_std_text(void)
         - (vdc.regs[22] >> 4)
         + vdc.xsmooth;
     
-    /* regs[26] & 0xf is the background colour */
-    table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
-
     attr_ptr = vdc.ram + vdc.attribute_adr + vdc.mem_counter;
     screen_ptr = vdc.ram + vdc.screen_adr + vdc.mem_counter;
     char_ptr = vdc.ram + vdc.chargen_adr + vdc.raster.ycounter;
 
-    for (i = 0; i < vdc.screen_text_cols; i++, p += 8) {
-        DWORD *ptr = table_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
+    if (vdc.regs[25] & 0x40) {
+        /* attribute mode */
+        /* regs[26] & 0xf is the background colour */
+        table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
+        for (i = 0; i < vdc.screen_text_cols; i++, p += 8) {
+            DWORD *ptr = table_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
 
-        int d = *(char_ptr
-            + ((*(attr_ptr + i) & VDC_ALTCHARSET_ATTR) ? 0x1000 : 0)
-            + (*(screen_ptr + i) * vdc.bytes_per_char));
+            d = *(char_ptr
+                + ((*(attr_ptr + i) & VDC_ALTCHARSET_ATTR) ? 0x1000 : 0)
+                + (*(screen_ptr + i) * vdc.bytes_per_char));
 
-        if (*(attr_ptr + i) & VDC_REVERSE_ATTR
-            || (vdc.attribute_blink && (*(attr_ptr + i) & VDC_FLASH_ATTR)))
-            d ^= 0xff;
-
-        if (cpos == i)
-            d ^= 0xff;
-
-        if (vdc.regs[24] & VDC_REVERSE_ATTR)
-            d ^= 0xff;
-
-        *((DWORD *)p) = *(ptr + (d >> 4));
-        *((DWORD *)p + 1) = *(ptr + (d & 0x0f));
+            if ((vdc.raster.ycounter == vdc.regs[29]) && (*(attr_ptr + i) & VDC_UNDERLINE_ATTR)) {
+                    /* TODO - figure out if the pixels per char applies to the underline */
+                    d = 0xFF;
+            }
+            if (vdc.attribute_blink && (*(attr_ptr + i) & VDC_FLASH_ATTR)) {
+                d = 0x00;
+            }
+            if (*(attr_ptr + i) & VDC_REVERSE_ATTR) {
+                d ^= 0xff;
+            }
+            if (cpos == i) {
+                if ((vdc.frame_counter | 1) & crsrblink[(vdc.regs[10] >> 5) & 3]) {
+                    /* invert current byte of the character? */
+                    if ((vdc.raster.ycounter >= (vdc.regs[10] & 0x1F)) && (vdc.raster.ycounter < (vdc.regs[11] & 0x1F))) {
+                        /* The VDC cursor reverses the char */
+                        d ^= 0xFF;
+                    }
+                }
+            }
+            if (vdc.regs[24] & VDC_REVERSE_ATTR) {
+                d ^= 0xff;
+            }
+            *((DWORD *)p) = *(ptr + (d >> 4));
+            *((DWORD *)p + 1) = *(ptr + (d & 0x0f));
+        }
+    } else {
+        /* monochrome mode - attributes from register 26 */
+        DWORD *ptr = hr_table + (vdc.regs[26] << 4);
+        for (i = 0; i < vdc.screen_text_cols; i++, p += 8) {
+            d = *(char_ptr
+                + (*(screen_ptr + i) * vdc.bytes_per_char));
+            if (cpos == i) {
+                if ((vdc.frame_counter | 1) & crsrblink[(vdc.regs[10] >> 5) & 3]) {
+                    /* invert current byte of the character? */
+                    if ((vdc.raster.ycounter >= (vdc.regs[10] & 0x1F)) && (vdc.raster.ycounter < (vdc.regs[11] & 0x1F))) {
+                        /* The VDC cursor reverses the char */
+                        d ^= 0xFF;
+                    }
+                }
+            }
+            if (vdc.regs[24] & VDC_REVERSE_ATTR) {
+                d ^= 0xff;
+            }
+            *((DWORD *)p) = *(ptr + (d >> 4));
+            *((DWORD *)p + 1) = *(ptr + (d & 0x0f));
+        }
     }
     /* fill the last few pixels of the display with bg colour if smooth scroll != 0 */
     for (i = vdc.xsmooth; i < (vdc.regs[22] >> 4) ; i++, p++) {
