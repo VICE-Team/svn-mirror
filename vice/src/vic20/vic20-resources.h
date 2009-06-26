@@ -39,7 +39,5 @@ extern int ram_block_2_enabled;
 extern int ram_block_3_enabled;
 extern int ram_block_5_enabled;
 
-extern int OEM_joy_enabled;
-
 #endif
 

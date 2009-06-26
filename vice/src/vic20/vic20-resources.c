@@ -79,9 +79,6 @@ int ram_block_2_enabled;
 int ram_block_3_enabled;
 int ram_block_5_enabled;
 
-/* Flag: Do we enable the OEM userport joystick? */
-int OEM_joy_enabled = 0;
-
 /* ------------------------------------------------------------------------- */
 
 static int set_chargen_rom_name(const char *val, void *param)
@@ -125,12 +122,6 @@ DEFINE_SET_BLOCK_FUNC(1)
 DEFINE_SET_BLOCK_FUNC(2)
 DEFINE_SET_BLOCK_FUNC(3)
 DEFINE_SET_BLOCK_FUNC(5)
-
-static int set_OEM_joy_enabled(int val, void *param)
-{
-    OEM_joy_enabled = val;
-    return 0;
-}
 
 static int set_emu_id_enabled(int val, void *param)
 {
@@ -227,8 +218,6 @@ static const resource_int_t resources_int[] =
       &ram_block_5_enabled, set_ram_block_5_enabled, NULL },
     { "EmuID", 0, RES_EVENT_SAME, NULL,
       &emu_id_enabled, set_emu_id_enabled, NULL },
-    { "OEMJoy", 0, RES_EVENT_SAME, NULL,
-      &OEM_joy_enabled, set_OEM_joy_enabled, NULL },
     { "IEEE488", 0, RES_EVENT_SAME, NULL,
       &ieee488_enabled, set_ieee488_enabled, NULL },
 #ifdef COMMON_KBD

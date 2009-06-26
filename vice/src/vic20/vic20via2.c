@@ -32,6 +32,7 @@
 
 #include "datasette.h"
 #include "interrupt.h"
+#include "joystick.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "maincpu.h"
@@ -113,6 +114,9 @@ static void undump_prb(via_context_t *via_context, BYTE byte)
 static void store_prb(via_context_t *via_context, BYTE byte, BYTE myoldpb,
                       WORD addr)
 {
+    if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_CGA) {
+        extra_joystick_cga_store(byte);
+    }
     printer_userport_write_data(byte);
 #ifdef HAVE_RS232
     rsuser_write_ctrl(byte);
@@ -214,13 +218,22 @@ inline static BYTE read_prb(via_context_t *via_context)
     BYTE byte;
     byte = via_context->via[VIA_PRB] | ~(via_context->via[VIA_DDRB]);
 
-    if (OEM_joy_enabled) {
-        byte = ~(((joystick_value[3] &  1) << 7) |
-                 ((joystick_value[3] &  2) << 5) |
-                 ((joystick_value[3] &  4) << 3) |
-                 ((joystick_value[3] &  8) << 1) |
-                 ((joystick_value[3] & 16) >> 1)) &
-                ~(via_context->via[VIA_DDRB]);
+    if (extra_joystick_enable) {
+        switch (extra_joystick_type) {
+            case EXTRA_JOYSTICK_CGA:
+                byte = extra_joystick_cga_read();
+                break;
+            case EXTRA_JOYSTICK_PET:
+                byte = extra_joystick_pet_read();
+                break;
+            case EXTRA_JOYSTICK_HUMMER:
+                byte = extra_joystick_hummer_read();
+                break;
+            case EXTRA_JOYSTICK_OEM:
+                byte = extra_joystick_oem_read();
+                break;
+        }
+        byte = byte & ~(via_context->via[VIA_DDRB]);
     } else {
 #ifdef HAVE_RS232
         byte = rsuser_read_ctrl();

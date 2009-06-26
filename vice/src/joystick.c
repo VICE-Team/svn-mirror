@@ -455,9 +455,9 @@ int joystick_init_resources(void)
 {
     resources_register_int(resources_int);
 
-    if ((machine_class == VICE_MACHINE_C64)
-      ||(machine_class == VICE_MACHINE_C64DTV)
-      ||(machine_class == VICE_MACHINE_C128)) {
+    if ((machine_class != VICE_MACHINE_CBM2)
+      && (machine_class != VICE_MACHINE_PET)
+      && (machine_class != VICE_MACHINE_PLUS4)) {
         resources_register_int(extra_resources_int);
     }
 
