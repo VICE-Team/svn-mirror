@@ -32,6 +32,7 @@
 #define EXTRA_JOYSTICK_CGA 0
 #define EXTRA_JOYSTICK_HIT 1
 #define EXTRA_JOYSTICK_PET 2
+#define EXTRA_JOYSTICK_OEM 3
 
 struct snapshot_s;
 

@@ -320,6 +320,10 @@ static const ui_menu_entry_t joystick_extra_joy_type_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_ExtraJoyType_callback,
       (ui_callback_data_t)EXTRA_JOYSTICK_PET },
+    { "OEM userport adapter",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_ExtraJoyType_callback,
+      (ui_callback_data_t)EXTRA_JOYSTICK_OEM },
     { NULL }
 };
 

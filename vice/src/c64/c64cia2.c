@@ -232,6 +232,9 @@ static BYTE read_ciapb(cia_context_t *cia_context)
                 byte |= (joystick_value[4] & 0x10) ? 0x30 : 0;
                 byte = ~(byte);
                 break;
+            case EXTRA_JOYSTICK_OEM:
+                byte = ~(joystick_value[3] & 0x1f);
+                break;
         }
     } else {
         byte = parallel_cable_cpu_read();
