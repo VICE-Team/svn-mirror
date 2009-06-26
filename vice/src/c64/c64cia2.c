@@ -220,10 +220,18 @@ static BYTE read_ciapb(cia_context_t *cia_context)
     else
 #endif
     if (extra_joystick_enable) {
-        if (extra_joystick_type == EXTRA_JOYSTICK_CGA) {
-            byte = extra_joystick_cga_read();
-        } else {
-            byte = ~((joystick_value[3] & 0xf) | ((joystick_value[4] & 0xf) << 4));
+        switch (extra_joystick_type) {
+            case EXTRA_JOYSTICK_HIT:
+                byte = ~((joystick_value[3] & 0xf) | ((joystick_value[4] & 0xf) << 4));
+            case EXTRA_JOYSTICK_CGA:
+                byte = extra_joystick_cga_read();
+                break;
+            case EXTRA_JOYSTICK_PET:
+                byte = ((joystick_value[3] & 0xf) | (joystick_value[4] & 0xf) << 4);
+                byte |= (joystick_value[3] & 0x10) ? 3 : 0;
+                byte |= (joystick_value[4] & 0x10) ? 0x30 : 0;
+                byte = ~(byte);
+                break;
         }
     } else {
         byte = parallel_cable_cpu_read();

@@ -31,6 +31,7 @@
 
 #define EXTRA_JOYSTICK_CGA 0
 #define EXTRA_JOYSTICK_HIT 1
+#define EXTRA_JOYSTICK_PET 2
 
 struct snapshot_s;
 
