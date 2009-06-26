@@ -205,7 +205,7 @@ static BYTE read_ciapa(cia_context_t *cia_context)
 
     if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_HIT) {
         value &= 0xfb;
-        value |= (joystick_value[3] & 0x10) ? 0 : 4;
+        value |= extra_joystick_hit_read_button1();
     }
     return value;
 }
@@ -222,18 +222,19 @@ static BYTE read_ciapb(cia_context_t *cia_context)
     if (extra_joystick_enable) {
         switch (extra_joystick_type) {
             case EXTRA_JOYSTICK_HIT:
-                byte = ~((joystick_value[3] & 0xf) | ((joystick_value[4] & 0xf) << 4));
+                byte = extra_joystick_hit_read();
+                break;
             case EXTRA_JOYSTICK_CGA:
                 byte = extra_joystick_cga_read();
                 break;
             case EXTRA_JOYSTICK_PET:
-                byte = ((joystick_value[3] & 0xf) | (joystick_value[4] & 0xf) << 4);
-                byte |= (joystick_value[3] & 0x10) ? 3 : 0;
-                byte |= (joystick_value[4] & 0x10) ? 0x30 : 0;
-                byte = ~(byte);
+                byte = extra_joystick_pet_read();
+                break;
+            case EXTRA_JOYSTICK_HUMMER:
+                byte = extra_joystick_hummer_read();
                 break;
             case EXTRA_JOYSTICK_OEM:
-                byte = ~(joystick_value[3] & 0x1f);
+                byte = extra_joystick_oem_read();
                 break;
         }
     } else {
@@ -253,7 +254,7 @@ static void read_ciaicr(cia_context_t *cia_context)
 static void read_sdr(cia_context_t *cia_context)
 {
     if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_HIT) {
-        cia_context->c_cia[CIA_SDR] = extra_joystick_hit_read();
+        cia_context->c_cia[CIA_SDR] = extra_joystick_hit_read_button2();
     }
 }
 

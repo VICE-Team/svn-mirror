@@ -29,10 +29,11 @@
 
 #include "types.h"
 
-#define EXTRA_JOYSTICK_CGA 0
-#define EXTRA_JOYSTICK_HIT 1
-#define EXTRA_JOYSTICK_PET 2
-#define EXTRA_JOYSTICK_OEM 3
+#define EXTRA_JOYSTICK_CGA    0
+#define EXTRA_JOYSTICK_HIT    1
+#define EXTRA_JOYSTICK_PET    2
+#define EXTRA_JOYSTICK_HUMMER 3
+#define EXTRA_JOYSTICK_OEM    4
 
 struct snapshot_s;
 
@@ -58,10 +59,20 @@ extern int joystick_snapshot_read_module(struct snapshot_s *s);
 
 extern int extra_joystick_enable;
 extern int extra_joystick_type;
+
 extern BYTE extra_joystick_cga_read(void);
 extern void extra_joystick_cga_store(BYTE value);
+
+extern BYTE extra_joystick_hit_read_button2(void);
+extern BYTE extra_joystick_hit_read_button1(void);
 extern BYTE extra_joystick_hit_read(void);
 extern void extra_joystick_hit_store(BYTE value);
+
+extern BYTE extra_joystick_pet_read(void);
+
+extern BYTE extra_joystick_hummer_read(void);
+
+extern BYTE extra_joystick_oem_read(void);
 
 /*! the number of joysticks that can be attached to the emu */
 #define JOYSTICK_NUM 4

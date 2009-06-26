@@ -196,7 +196,7 @@ void joystick_clear_all(void)
 
 /*-----------------------------------------------------------------------*/
 
-/* CGA and HIT 4 player interface emulation */
+/* Userport joystick interface emulation */
 
 int extra_joystick_enable;
 int extra_joystick_type;
@@ -216,14 +216,51 @@ void extra_joystick_cga_store(BYTE value)
     extra_joystick_cga_select = (value & 0x80) ? 0 : 1;
 }
 
-BYTE extra_joystick_hit_read(void)
+BYTE extra_joystick_hit_read_button2(void)
 {
     return extra_joystick_hit_sp2_button;
+}
+
+BYTE extra_joystick_hit_read_button1(void)
+{
+    return (BYTE)((joystick_value[3] & 0x10) ? 0 : 4);
+}
+
+BYTE extra_joystick_hit_read(void)
+{
+    return (BYTE)~((joystick_value[3] & 0xf) | ((joystick_value[4] & 0xf) << 4));
 }
 
 void extra_joystick_hit_store(BYTE value)
 {
     extra_joystick_hit_sp2_button = (joystick_value[4] & 0x10) ? 0 : 0xff;
+}
+
+BYTE extra_joystick_pet_read(void)
+{
+    BYTE retval;
+
+    retval = ((joystick_value[3] & 0xf) | (joystick_value[4] & 0xf) << 4);
+    retval |= (joystick_value[3] & 0x10) ? 3 : 0;
+    retval |= (joystick_value[4] & 0x10) ? 0x30 : 0;
+    return (BYTE)~(retval);
+}
+
+BYTE extra_joystick_hummer_read(void)
+{
+    return (BYTE)~(joystick_value[3] & 0x1f);
+}
+
+BYTE extra_joystick_oem_read(void)
+{
+    BYTE retval;
+
+    retval = ((joystick_value[3] & 1) << 7);
+    retval |= ((joystick_value[3] & 2) << 5);
+    retval |= ((joystick_value[3] & 4) << 3);
+    retval |= ((joystick_value[3] & 8) << 1);
+    retval |= ((joystick_value[3] & 16) >> 1);
+    return (BYTE)~(retval);
 }
 
 /*-----------------------------------------------------------------------*/
