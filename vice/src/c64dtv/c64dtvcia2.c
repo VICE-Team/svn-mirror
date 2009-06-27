@@ -77,17 +77,27 @@ BYTE REGPARM1 cia2_read(WORD addr)
 {
     BYTE retval = 0xff;
     if ((addr&0x1f) == 1) {
-        if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_CGA) {
-            retval &= extra_joystick_cga_read();
+        if (extra_joystick_enable) {
+            switch (extra_joystick_type) {
+                case EXTRA_JOYSTICK_CGA:
+                    retval &= extra_joystick_cga_read();
+                    break;
+                case EXTRA_JOYSTICK_PET:
+                    retval &= extra_joystick_pet_read();
+                    break;
+                case EXTRA_JOYSTICK_HUMMER:
+                    retval &= extra_joystick_hummer_read();
+                    break;
+                case EXTRA_JOYSTICK_OEM:
+                    retval &= extra_joystick_oem_read();
+                    break;
+            }
         }
         if (ps2mouse_enabled) {
             retval &= (ps2mouse_read() | 0x3f);
         }
         if (c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC) {
             retval &= (hummeradc_read() | 0xf8);
-        }
-        if (c64dtv_hummer_userport_device == HUMMER_USERPORT_JOY) {
-            retval &= (~(joystick_value[3]) | 0xe0);
         }
         return retval;
     }

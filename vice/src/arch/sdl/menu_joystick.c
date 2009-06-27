@@ -351,7 +351,7 @@ static const ui_menu_entry_t joystick_extra_joy_type_no_hit_menu[] = {
     { NULL }
 };
 
-const ui_menu_entry_t joystick_four_menu[] = {
+const ui_menu_entry_t joystick_c64_menu[] = {
     { "Joystick device in port 1",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
@@ -390,6 +390,71 @@ const ui_menu_entry_t joystick_four_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_extra_joy_type_menu },
+#ifdef HAVE_SDL_NUMJOYSTICKS
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Joystick 1 mapping", /* TODO better name */
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_joy1_menu },
+    { "Joystick 2 mapping", /* TODO better name */
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_joy2_menu },
+    { "Extra joystick 1 mapping",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_joy3_menu },
+    { "Extra joystick 2 mapping",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_joy4_menu },
+    { "Joystick extra options", /* TODO better name */
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_joy_misc_menu },
+#endif
+    { NULL }
+};
+
+const ui_menu_entry_t joystick_c64dtv_menu[] = {
+    { "Joystick device in port 1",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)joystick_port1_device_menu },
+    { "Joystick device in port 2",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)joystick_port2_device_menu },
+    { "Extra joystick device port 1",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)joystick_port3_device_menu },
+    { "Extra joystick device port 2",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)joystick_port4_device_menu },
+    { "Swap joystick ports",
+      MENU_ENTRY_OTHER,
+      custom_swap_ports_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Allow keyset joystick",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_KeySetEnable_callback,
+      NULL },
+    { "Define keysets",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_keyset_menu },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Extra Joystick Adapter",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_ExtraJoy_callback,
+      NULL },
+    { "Extra Joystick Adapter type",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)joystick_extra_joy_type_no_hit_menu },
 #ifdef HAVE_SDL_NUMJOYSTICKS
     SDL_MENU_ITEM_SEPARATOR,
     { "Joystick 1 mapping", /* TODO better name */
