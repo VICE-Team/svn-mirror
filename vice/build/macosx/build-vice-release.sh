@@ -16,6 +16,8 @@ EXTLIB="extlib"
 BUILD_DIR=""
 ARCH="ub"
 UI="sdl x11 gtk cocoa+10.4 cocoa+10.5"
+DEBUG=0
+DIR_DIST=0
 
 usage() {
   cat <<EOF
@@ -32,12 +34,15 @@ usage() {
     -o <target dir>          set target directory                          [BUILD-snapshot/release]
     -a <arch>                set arch type, e.g. i386 ppc ub               [$ARCH]
     -u <uis>                 set uis <ui>[+<sdk>]                          [$UI]
+    -d                       build debug version                           [release]
+    -i                       create distribution in directory              [create DMG]
+    -D                       quick debug preset: -slbfdi -a i386 -u cocoa+10.5
 EOF
   exit 2
 }
 
 # parse arguments
-while getopts "slbfe:o:a:u:" i ; do
+while getopts "slbfe:o:a:u:diD" i ; do
   case "$i" in
     s) SNAPSHOT=1;;
     l) LINK_SRC=1;;
@@ -47,6 +52,16 @@ while getopts "slbfe:o:a:u:" i ; do
     o) BUILD_DIR="$OPTARG";;
     a) ARCH="$OPTARG";;
     u) UI="$OPTARG";;
+    d) DEBUG=1;;
+    i) DIR_DIST=1;;
+    D) DEBUG=1
+       SNAPSHOT=1
+       LINK_SRC=1
+       ONLY_BIN=1
+       DEL_TARGET=1
+       DIR_DIST=1
+       UI="cocoa+10.5"
+       ARCH="i386";;
     ?) usage;;
   esac
 done
@@ -54,9 +69,14 @@ shift $(($OPTIND-1))
 
 # mode
 if [ $SNAPSHOT = 1 ]; then
-  echo "mode:           snapshot"
+  echo -n "mode:           snapshot"
 else
-  echo "mode:           RELASE"
+  echo -n "mode:           RELASE"
+fi
+if [ $DEBUG = 1 ]; then
+  echo " (DEBUG)"
+else
+  echo
 fi
 
 # check repository directory
@@ -161,25 +181,48 @@ fi
 if [ "$UI" != "none" ]; then
   echo "--- binaries for $UI ---"
   for dist in $UI ; do
+    
+    # extract ui and sdk
     UI_TYPE="${dist%+*}"
     if [ "$UI_TYPE" != "$dist" ]; then
       SDK="${dist#*+}"
     else
       SDK="10.4"
     fi
-    echo "-- building binaries for $UI_TYPE $ARCH $SDK --"
+        
+    # set output log
     LOG="$BUILD_DIR/build-$dist.log"
-    (cd "$SRC_DIR" && $BASH build/macosx/build-vice-dist.sh $ARCH "$UI_TYPE" dmg "$EXTLIB" "$BUILD_DIR" "$SDK") >"$LOG" 2>&1 
-    FILES="$(ls $BUILD_DIR/$UI_TYPE-$SDK/$ARCH/*.dmg 2>/dev/null)"
-    echo "generated files: $FILES"
+    
+    # set dist type
+    if [ $DIR_DIST = 1 ]; then
+      DIST_TYPE="dir"
+    else
+      DIST_TYPE="dmg"
+    fi
+    
+    # do build
+    echo "-- building binaries for $UI_TYPE $ARCH $SDK --"
+    (cd "$SRC_DIR" && $BASH build/macosx/build-vice-dist.sh $ARCH "$UI_TYPE" "$DIST_TYPE" "$EXTLIB" "$BUILD_DIR" "$SDK" $DEBUG) >"$LOG" 2>&1 
+
+    # check generated files
+    if [ $DIR_DIST = 1 ]; then
+      FILES="$(ls -d $BUILD_DIR/$UI_TYPE-$SDK/$ARCH/vice-macosx-* 2>/dev/null)"
+    else
+      FILES="$(ls $BUILD_DIR/$UI_TYPE-$SDK/$ARCH/vice-macosx-*.dmg 2>/dev/null)"
+    fi
+    echo "generated output: $FILES"
     if [ "x$FILES" = "x" ]; then
       echo "no file found!"
       exit 1
     fi
+
+    # show warnings
     fgrep +++ "$LOG"
     echo " -warnings begin-"
     fgrep warning: "$LOG" | sort | uniq
     echo " -warnings end-"
+
+    # size and move files
     du -sh "$FILES"
     mv "$FILES" "$BUILD_DIR"
   done

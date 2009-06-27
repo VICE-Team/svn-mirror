@@ -33,6 +33,7 @@ if [ "x$1" = "x" ]; then
   echo "   extlib-dir  External Libraries"
   echo "   build-dir   Where VICE is built"
   echo "   sdk-ver     Select SDK version       10.5"
+  echo "   debug       Build debug version      0"
   exit 1
 fi
 ARCH="$1"
@@ -64,12 +65,17 @@ SDK_VERSION="$6"
 if [ "x$SDK_VERSION" = "x" ]; then
   SDK_VERSION="10.4"
 fi
+DEBUG="$7"
+if [ "x$DEBUG" = "x" ]; then
+  DEBUG=1
+fi
 echo "  architecture: $ARCH"
 echo "  ui type:      $UI_TYPE"
 echo "  dist type:    $DIST_TYPE"
 echo "  ext lib dir:  $EXTLIB_DIR"
 echo "  build dir:    $BUILD_DIR"
 echo "  sdk version:  $SDK_VERSION"
+echo "  debug:        $DEBUG"
 
 # ----- determine number of CPUs -----
 NUM_CPUS=`hostinfo | grep 'processors are logically available' | awk '{print $1}'`
@@ -196,7 +202,11 @@ fi
 
 # ----- Compile VICE -----
 export PATH=/usr/X11R6/bin:$PATH
-COMMON_CFLAGS="-O3"
+if [ $DEBUG = 1 ]; then
+  COMMON_CFLAGS="-O3 -g"
+else
+  COMMON_CFLAGS="-O3"
+fi
 
 # extra flags
 if [ "$UI_TYPE" != "cocoa" ]; then
@@ -431,8 +441,13 @@ ZIP="zip"
 if [ "$DIST_TYPE" = "dir" ]; then
   ZIP="nozip"
 fi
+if [ $DEBUG = 1 ]; then
+  STRIP="nostrip"
+else
+  STRIP="strip"
+fi
 (cd "$BUILD_DIR/$ARCH" && \
-$SHELL $VICE_SRC/src/arch/unix/macosx/make-bindist.sh $VICE_SRC strip $VICE_VERSION $ZIP $UI_TYPE $SDK_VERSION)
+$SHELL $VICE_SRC/src/arch/unix/macosx/make-bindist.sh $VICE_SRC $STRIP $VICE_VERSION $ZIP $UI_TYPE $SDK_VERSION)
 
 echo "----- Ready: architecture: $ARCH, ui-type: $UI_TYPE, dist-type: $DIST_TYPE -----"
 echo "VICE was configured with: $CONFIGURE_OPTS"
