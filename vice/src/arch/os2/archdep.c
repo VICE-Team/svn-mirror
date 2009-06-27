@@ -215,6 +215,14 @@ char *archdep_default_fliplist_file_name(void)
     return util_concat(archdep_boot_path(), "\\vice2-", machine_name, ".vfl", NULL);
 }
 
+char *archdep_default_autstart_disk_image_file_name(void)
+{
+  const char *home;
+
+  home = archdep_boot_path();
+  return util_concat(home, "\\autostart-", machine_name, ".d64", NULL);
+}
+
 FILE *fLog=NULL;
 
 int archdep_default_logger(const char *lvl, const char *txt)

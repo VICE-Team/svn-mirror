@@ -265,6 +265,18 @@ char *archdep_default_fliplist_file_name(void)
     }
 }
 
+char *archdep_default_autstart_disk_image_file_name(void)
+{
+    if(archdep_pref_path==NULL) {
+      const char *home;
+
+      home = archdep_home_path();
+      return util_concat(home, "/.vice/autostart-", machine_name, ".d64", NULL);
+    } else {
+      return util_concat(archdep_pref_path, "/autostart-", machine_name, ".d64", NULL);
+    }
+}
+
 char *archdep_default_save_resource_file_name(void)
 { 
     char *fname;

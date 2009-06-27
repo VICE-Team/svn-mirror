@@ -77,5 +77,7 @@ extern unsigned int fileio_rename(const char *src_name, const char *dest_name,
                                   const char *path, unsigned int format);
 extern unsigned int fileio_scratch(const char *file_name, const char *path,
                                    unsigned int format);
+extern unsigned int fileio_get_bytes_left(fileio_info_t *info);
+
 #endif
 

@@ -113,6 +113,18 @@ unsigned int fileio_write(fileio_info_t *info, BYTE *buf, unsigned int len)
     return 0;
 }
 
+unsigned int fileio_get_bytes_left(fileio_info_t *info)
+{
+    switch (info->format) {
+      case FILEIO_FORMAT_RAW:
+        return cbmfile_get_bytes_left(info);
+      case FILEIO_FORMAT_P00:
+        return p00_get_bytes_left(info);
+    }
+
+    return 0;    
+}
+
 unsigned int fileio_ferror(fileio_info_t *info)
 {
     switch (info->format) {

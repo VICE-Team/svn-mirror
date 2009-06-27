@@ -49,6 +49,7 @@ extern unsigned int p00_ferror(struct fileio_info_s *info);
 extern unsigned int p00_rename(const char *src_name, const char *dest_name,
                                const char *path);
 extern unsigned int p00_scratch(const char *file_name, const char *path);
+extern unsigned int p00_get_bytes_left(struct fileio_info_s *info);
 
 #endif
 

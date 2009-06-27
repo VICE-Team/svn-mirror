@@ -34,8 +34,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archapi.h"
 #include "archdep.h"
 #include "autostart.h"
+#include "autostart-prg.h"
 #include "attach.h"
 #include "cmdline.h"
 #include "datasette.h"
@@ -85,6 +87,7 @@ static enum {
     AUTOSTART_WAITLOADREADY,
     AUTOSTART_WAITLOADING,
     AUTOSTART_WAITSEARCHINGFOR,
+    AUTOSTART_INJECT,
     AUTOSTART_DONE
 } autostartmode = AUTOSTART_NONE;
 
@@ -136,6 +139,10 @@ static int AutostartRunWithColon = 0;
 static int AutostartHandleTrueDriveEmulation = 0;
 
 static int AutostartWarp = 0;
+
+static int AutostartPrgMode = AUTOSTART_PRG_MODE_VFS;
+
+static char *AutostartPrgDiskImage = NULL;
 
 static const char * const AutostartRunCommandsAvailable[] = { "RUN\r", "RUN:\r" };
 
@@ -198,7 +205,35 @@ static int set_autostart_warp(int val, void *param)
     return 0;
 }
 
-/*! \brief integer resources used by the REU module */
+/*! \internal \brief set autostart prg mode */
+static int set_autostart_prg_mode(int val, void *param)
+{
+    AutostartPrgMode = val;
+    if((val < 0) || (val > AUTOSTART_PRG_MODE_LAST)) {
+        val = 0;
+    }
+    
+    return 0;
+}
+
+/*! \internal \brief set disk image name of autostart prg mode */
+
+static int set_autostart_prg_disk_image(const char *val, void *param)
+{
+    if (util_string_set(&AutostartPrgDiskImage, val))
+        return 0;
+
+    return 0;
+}
+
+/*! \brief string resources used by autostart */
+static resource_string_t resources_string[] = {
+    { "AutostartPrgDiskImage", NULL, RES_EVENT_NO, NULL,
+      &AutostartPrgDiskImage, set_autostart_prg_disk_image, NULL },
+    { NULL }
+};
+
+/*! \brief integer resources used by autostart */
 static const resource_int_t resources_int[] = {
     { "AutostartRunWithColon", 0, RES_EVENT_NO, (resource_value_t)0,
       &AutostartRunWithColon, set_autostart_run_with_colon, NULL },
@@ -206,6 +241,8 @@ static const resource_int_t resources_int[] = {
       &AutostartHandleTrueDriveEmulation, set_autostart_handle_tde, NULL },
     { "AutostartWarp", 1, RES_EVENT_NO, (resource_value_t)0,
       &AutostartWarp, set_autostart_warp, NULL },
+    { "AutostartPrgMode", 0, RES_EVENT_NO, (resource_value_t)0,
+      &AutostartPrgMode, set_autostart_prg_mode, NULL },
     { NULL }
 };
 
@@ -218,7 +255,18 @@ static const resource_int_t resources_int[] = {
 */
 int autostart_resources_init(void)
 {
+    resources_string[0].factory_value = archdep_default_autstart_disk_image_file_name();
+
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
     return resources_register_int(resources_int);
+}
+
+void autostart_resources_shutdown(void)
+{
+    lib_free(AutostartPrgDiskImage);
+    lib_free(resources_string[0].factory_value);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -255,6 +303,16 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_WARP_MODE_AUTOSTART,
       NULL, NULL },
+    { "-autostartprgmode", SET_RESOURCE, 1,
+      NULL, NULL, "AutostartPrgMode", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Set autostart mode for PRG files") },
+    { "-autostartprgdiskimage", SET_RESOURCE, 1,
+      NULL, NULL, "AutostartPrgDiskImage", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Set disk image for autostart of PRG files") },
     { NULL }
 };
 
@@ -431,6 +489,8 @@ void autostart_reinit(CLOCK _min_cycles, int _handle_drive_true_emulation,
 int autostart_init(CLOCK min_cycles, int handle_drive_true_emulation,
                    int blnsw, int pnt, int pntr, int lnmx)
 {
+    autostart_prg_init();
+    
     autostart_reinit(min_cycles, handle_drive_true_emulation, blnsw, pnt,
                      pntr, lnmx);
 
@@ -723,6 +783,18 @@ static void advance_waitloadready(void)
     }
 }
 
+/* After a reset a PRG file has to be injected into RAM */
+static void advance_inject(void)
+{
+    if(autostart_prg_perform_injection(autostart_log) < 0) {
+        disable_warp_if_was_requested();
+        autostart_disable();        
+    } else {
+        /* wait for ready cursor and type RUN */
+        autostartmode = AUTOSTART_WAITLOADREADY;
+    }
+}
+
 /* Execute the actions for the current `autostartmode', advancing to the next
    mode if necessary.  */
 void autostart_advance(void)
@@ -768,6 +840,9 @@ void autostart_advance(void)
         break;
       case AUTOSTART_WAITSEARCHINGFOR:
         advance_waitsearchingfor();
+        break;
+      case AUTOSTART_INJECT:
+        advance_inject();
         break;
       default:
         return;
@@ -947,60 +1022,64 @@ int autostart_disk(const char *file_name, const char *program_name,
 }
 
 /* Autostart PRG file `file_name'.  The PRG file can either be a raw CBM file
-   or a P00 file, and the FS-based drive emulation is set up so that its
-   directory becomes the current one on unit #8.  */
+   or a P00 file */
 int autostart_prg(const char *file_name, unsigned int runmode)
 {
-    char *directory;
-    char *file;
     fileio_info_t *finfo;
-
+    int result;
+    const char *boot_file_name;
+    int mode;
+    
     if (network_connected())
         return -1;
     
+    /* open prg file */
     finfo = fileio_open(file_name, NULL, FILEIO_FORMAT_RAW | FILEIO_FORMAT_P00,
                         FILEIO_COMMAND_READ | FILEIO_COMMAND_FSNAME,
                         FILEIO_TYPE_PRG);
 
+    /* can't open file */
     if (finfo == NULL) {
         log_error(autostart_log, "Cannot open `%s'.", file_name);
         return -1;
     }
 
-    /* Extract the directory path to allow FS-based drive emulation to
-       work.  */
-    util_fname_split(file_name, &directory, &file);
-
-    if (archdep_path_is_relative(directory)) {
-        char *tmp;
-        archdep_expand_path(&tmp, directory);
-        lib_free(directory);
-        directory = tmp;
-
-        /* FIXME: We should actually eat `.'s and `..'s from `directory'
-           instead.  */
+    /* determine how to load file */
+    switch(AutostartPrgMode) {
+    case AUTOSTART_PRG_MODE_VFS:
+        log_message(autostart_log, "Loading PRG file `%s' with virtual FS on unit #8.", file_name);
+        result = autostart_prg_with_virtual_fs(file_name, finfo, autostart_log);
+        mode = AUTOSTART_HASDISK;
+        boot_file_name = (const char *)finfo->name;
+        break;
+    case AUTOSTART_PRG_MODE_INJECT:
+        log_message(autostart_log, "Loading PRG file `%s' with direct RAM injection.", file_name);
+        result = autostart_prg_with_ram_injection(file_name, finfo, autostart_log);
+        mode = AUTOSTART_INJECT;
+        boot_file_name = NULL;
+        break;
+    case AUTOSTART_PRG_MODE_DISK:
+        log_message(autostart_log, "Loading PRG file `%s' with autostart disk image.", file_name);
+        result = autostart_prg_with_disk_image(file_name, finfo, autostart_log, AutostartPrgDiskImage);
+        mode = AUTOSTART_HASDISK;
+        boot_file_name = "*";
+        break;
+    default:
+        log_error(autostart_log, "Invalid PRG autostart mode: %d", AutostartPrgMode);
+        result = -1;
+        break;
     }
 
-    /* Setup FS-based drive emulation.  */
-    fsdevice_set_directory(directory ? directory : ".", 8);
-    set_true_drive_emulation_mode(0);
-    orig_drive_true_emulation_state =0;
-    resources_set_int("VirtualDevices", 1);
-    resources_set_int("FSDevice8ConvertP00", 1);
-    file_system_detach_disk(8);
-    ui_update_menus();
+    /* Now either proceed with disk image booting or prg injection after reset */
+    if(result >= 0) {
+        ui_update_menus();
+        reboot_for_autostart(boot_file_name, mode, runmode);
+    }
 
-    /* Now it's the same as autostarting a disk image.  */
-    reboot_for_autostart((char *)(finfo->name), AUTOSTART_HASDISK, runmode);
-
-    lib_free(directory);
-    lib_free(file);
+    /* close prg file */
     fileio_close(finfo);
 
-    log_message(autostart_log, "Preparing to load PRG file `%s'.",
-                file_name);
-
-    return 0;
+    return result;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1091,5 +1170,7 @@ void autostart_reset(void)
 void autostart_shutdown(void)
 {
     deallocate_program_name();
+
+    autostart_prg_shutdown();
 }
 

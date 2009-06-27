@@ -94,6 +94,10 @@ SOURCE="..\..\autostart.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\autostart-prg.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\cbmdos.c"
 # End Source File
 # Begin Source File

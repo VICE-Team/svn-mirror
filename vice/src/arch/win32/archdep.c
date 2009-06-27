@@ -385,6 +385,14 @@ char *archdep_default_fliplist_file_name(void)
 		       machine_name, ".vfl", NULL);
 }
 
+char *archdep_default_autstart_disk_image_file_name(void)
+{
+  const char *home;
+
+  home = archdep_boot_path();
+  return util_concat(home, "\\autostart-", machine_name, ".d64", NULL);
+}
+
 FILE *archdep_open_default_log_file(void)
 {
     char *fname;
