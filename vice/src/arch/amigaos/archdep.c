@@ -157,7 +157,7 @@ char *archdep_default_fliplist_file_name(void)
   return util_concat(home, "fliplist-", machine_name, ".vfl", NULL);
 }
 
-char *archdep_default_autstart_disk_image_file_name(void)
+char *archdep_default_autostart_disk_image_file_name(void)
 {
   const char *home;
 

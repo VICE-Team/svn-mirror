@@ -56,7 +56,7 @@ extern char *archdep_default_save_resource_file_name(void);
 extern char *archdep_default_fliplist_file_name(void);
 
 /* Autostart-PRG */
-extern char *archdep_default_autstart_disk_image_file_name(void);
+extern char *archdep_default_autostart_disk_image_file_name(void);
 
 /* Logfile stuff.  */
 extern FILE *archdep_open_default_log_file(void);

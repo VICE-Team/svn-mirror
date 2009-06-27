@@ -255,7 +255,7 @@ static const resource_int_t resources_int[] = {
 */
 int autostart_resources_init(void)
 {
-    resources_string[0].factory_value = archdep_default_autstart_disk_image_file_name();
+    resources_string[0].factory_value = archdep_default_autostart_disk_image_file_name();
 
     if (resources_register_string(resources_string) < 0)
         return -1;
