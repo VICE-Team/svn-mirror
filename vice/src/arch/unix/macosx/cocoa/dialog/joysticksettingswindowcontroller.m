@@ -58,17 +58,18 @@ static char *keyNames[KEYSET_SIZE] = {
 
 -(void)setupHidAxis
 {
+    int i;
+    
     [hidXAxis removeAllItems];
     [hidYAxis removeAllItems];
 
 #ifdef HAS_JOYSTICK
     // fetch axis map from joy driver
-    axis_map_t *am = joy_axis_map;
-    while(am->name!=NULL) {
+    for(i=0; i < JOYSTICK_DESCRIPTOR_MAX_AXIS; i++) {
+        axis_map_t *am = &joy_axis_map[i];
         NSString *name = [NSString stringWithCString:am->name encoding:NSUTF8StringEncoding];
         [hidXAxis addItemWithTitle:name];
         [hidYAxis addItemWithTitle:name];
-        am++;
     }
 #endif
 
