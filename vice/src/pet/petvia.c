@@ -33,6 +33,7 @@
 #include "datasette.h"
 #include "drivecpu.h"
 #include "interrupt.h"
+#include "joystick.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "log.h"
@@ -88,6 +89,9 @@ static void restore_int(via_context_t *via_context, unsigned int int_num,
 static void undump_pra(via_context_t *via_context, BYTE byte)
 {
     printer_userport_write_data(byte);
+    if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_CGA) {
+        extra_joystick_cga_store(byte);
+    }
 }
 
 static void store_pra(via_context_t *via_context, BYTE byte, BYTE myoldpa,
@@ -100,6 +104,9 @@ static void undump_prb(via_context_t *via_context, BYTE byte)
 {
     parallel_cpu_set_nrfd((BYTE)(!(byte & 0x02)));
     parallel_cpu_restore_atn((BYTE)(!(byte & 0x04)));
+    if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_CGA) {
+        extra_joystick_cga_store(byte);
+    }
 }
 
 static void store_prb(via_context_t *via_context, BYTE byte, BYTE myoldpb,
@@ -190,19 +197,24 @@ static void reset(via_context_t *via_context)
 
 inline static BYTE read_pra(via_context_t *via_context, WORD addr)
 {
-    BYTE byte;
-    byte = 255;
-    /* VIA PA is connected to the userport pins C-L */
-    byte &= (joystick_value[1] & 1) ? ~0x80 : 0xff;
-    byte &= (joystick_value[1] & 2) ? ~0x40 : 0xff;
-    byte &= (joystick_value[1] & 4) ? ~0x20 : 0xff;
-    byte &= (joystick_value[1] & 8) ? ~0x10 : 0xff;
-    byte &= (joystick_value[1] & 16)? ~0xc0 : 0xff;
-    byte &= (joystick_value[2] & 1) ? ~0x08 : 0xff;
-    byte &= (joystick_value[2] & 2) ? ~0x04 : 0xff;
-    byte &= (joystick_value[2] & 4) ? ~0x02 : 0xff;
-    byte &= (joystick_value[2] & 8) ? ~0x01 : 0xff;
-    byte &= (joystick_value[2] & 16)? ~0x0c : 0xff;
+    BYTE byte = 0xff;
+
+    if (extra_joystick_enable) {
+        switch (extra_joystick_type) {
+            case EXTRA_JOYSTICK_CGA:
+                byte = extra_joystick_cga_read();
+                break;
+            case EXTRA_JOYSTICK_PET:
+                byte = extra_joystick_pet_read();
+                break;
+            case EXTRA_JOYSTICK_HUMMER:
+                byte = extra_joystick_hummer_read();
+                break;
+            case EXTRA_JOYSTICK_OEM:
+                byte = extra_joystick_oem_read();
+                break;
+        }
+    }
 
     /* joystick always pulls low, even if high output, so no
        masking with DDRA */
