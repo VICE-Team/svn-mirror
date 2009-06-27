@@ -24,6 +24,8 @@ COMPILE_IN_SOURCE=1
 configure_make_install libpcap-1.0.0.tar.gz libpcap-1.0.0 lib/libpcap.a install \
                        "http://www.tcpdump.org/"
 
+PATCH="mv src/libnet_init.c src/libnet_init.c.org ; \
+sed -e 's/getuid() && geteuid()/0/' < src/libnet_init.c.org > src/libnet_init.c"
 configure_make_install libnet-1.1.2.1.tar.gz libnet lib/libnet.a install \
                        "http://ftp.debian.org/debian/pool/main/libn/libnet0/libnet0_1.0.2a.orig.tar.gz"
 
