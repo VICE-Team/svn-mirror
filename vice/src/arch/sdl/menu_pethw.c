@@ -296,7 +296,7 @@ const ui_menu_entry_t pet_hardware_menu[] = {
     { "Joystick settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)joystick_pet_menu },
+      (ui_callback_data_t)joystick_userport_only_menu },
     { "SID cart settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

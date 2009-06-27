@@ -520,7 +520,7 @@ const ui_menu_entry_t joystick_vic20_menu[] = {
     { NULL }
 };
 
-const ui_menu_entry_t joystick_pet_menu[] = {
+const ui_menu_entry_t joystick_userport_only_menu[] = {
     { "Extra joystick device port 1",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
