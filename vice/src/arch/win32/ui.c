@@ -299,7 +299,8 @@ int ui_init(int *argc, char **argv)
       case VICE_MACHINE_PLUS4:
         emu_menu = IDR_MENUPLUS4;
         break;
-      case VICE_MACHINE_CBM2:
+      case VICE_MACHINE_CBM5x0:
+      case VICE_MACHINE_CBM6x0:
         emu_menu = IDR_MENUCBM2;
         break;
       default:

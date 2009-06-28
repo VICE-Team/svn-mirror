@@ -136,7 +136,8 @@ void CreateAndGetAddressList(BListView *addresslistview, int mode)
 		case VICE_MACHINE_C128:
 			hadr = c128sidaddressbase;
 			break;
-		case VICE_MACHINE_CBM2:
+		case VICE_MACHINE_CBM5x0:
+		case VICE_MACHINE_CBM6x0:
 			hadr = cbm2sidaddressbase;
 			break;
 		default:

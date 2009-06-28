@@ -76,6 +76,18 @@ static int joyport2select(int val, void *param)
   return 0;
 }
 
+static int joyport3select(int val, void *param)
+{
+  joystick_port_map[2] = val;
+  return 0;
+}
+
+static int joyport4select(int val, void *param)
+{
+  joystick_port_map[3] = val;
+  return 0;
+}
+
 static int set_joy_a_device_name(const char *val,void *param)
 {
   util_string_set(&joy_a.device_name,val);
@@ -199,6 +211,10 @@ static const resource_int_t resources_int[] = {
     &joystick_port_map[0], joyport1select, NULL },
   { "JoyDevice2", 0, RES_EVENT_NO, NULL,
     &joystick_port_map[1], joyport2select, NULL },
+  { "JoyDevice3", 0, RES_EVENT_NO, NULL,
+    &joystick_port_map[2], joyport3select, NULL },
+  { "JoyDevice4", 0, RES_EVENT_NO, NULL,
+    &joystick_port_map[3], joyport4select, NULL },
 
   { "JoyAXThreshold", 50, RES_EVENT_NO, NULL,
     &joy_a.x_threshold, set_joy_a_x_threshold, NULL },
@@ -216,16 +232,6 @@ static const resource_int_t resources_int[] = {
 /* ----- VICE Command-line options ----- */
 
 static const cmdline_option_t cmdline_options[] = {
-  { "-joydev1", SET_RESOURCE, 1,
-    NULL, NULL, "JoyDevice1", NULL,
-    USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-    IDCLS_UNUSED, IDCLS_UNUSED,
-    "<0-5>", N_("Set device for joystick port 1") },
-  { "-joydev2", SET_RESOURCE, 1,
-    NULL, NULL, "JoyDevice2", NULL,
-    USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-    IDCLS_UNUSED, IDCLS_UNUSED,
-    "<0-5>", N_("Set device for joystick port 2") },
   { "-joyAdevice", SET_RESOURCE, 1,
     NULL, NULL, "JoyADevice", NULL,
     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
@@ -289,6 +295,42 @@ static const cmdline_option_t cmdline_options[] = {
   { NULL },
 };
 
+static const cmdline_option_t joydev1cmdline_options[] = {
+  { "-joydev1", SET_RESOURCE, 1,
+    NULL, NULL, "JoyDevice1", NULL,
+    USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+    IDCLS_UNUSED, IDCLS_UNUSED,
+    "<0-5>", N_("Set device for joystick port 1") },
+  { NULL },
+};
+
+static const cmdline_option_t joydev2cmdline_options[] = {
+  { "-joydev2", SET_RESOURCE, 1,
+    NULL, NULL, "JoyDevice2", NULL,
+    USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+    IDCLS_UNUSED, IDCLS_UNUSED,
+    "<0-5>", N_("Set device for joystick port 2") },
+  { NULL },
+};
+
+static const cmdline_option_t joydev3cmdline_options[] = {
+  { "-extrajoydev1", SET_RESOURCE, 1,
+    NULL, NULL, "JoyDevice3", NULL,
+    USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+    IDCLS_UNUSED, IDCLS_UNUSED,
+    "<0-5>", N_("Set device for extra joystick port 1") },
+  { NULL },
+};
+
+static const cmdline_option_t joydev4cmdline_options[] = {
+  { "-extrajoydev2", SET_RESOURCE, 1,
+    NULL, NULL, "JoyDevice4", NULL,
+    USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+    IDCLS_UNUSED, IDCLS_UNUSED,
+    "<0-5>", N_("Set device for extra joystick port 2") },
+  { NULL },
+};
+
 int joystick_arch_init_resources(void)
 {
   int ok = resources_register_string(resources_string);
@@ -299,6 +341,63 @@ int joystick_arch_init_resources(void)
 
 int joystick_init_cmdline_options(void)
 {
+  switch (machine_class) {
+    case VICE_MACHINE_C64:
+    case VICE_MACHINE_C128:
+    case VICE_MACHINE_C64DTV:
+      if (cmdline_register_options(joydev1cmdline_options) < 0) {
+        return -1;
+      }
+      if (cmdline_register_options(joydev2cmdline_options) < 0) {
+        return -1;
+      }
+      if (cmdline_register_options(joydev3cmdline_options) < 0) {
+        return -1;
+      }
+      if (cmdline_register_options(joydev4cmdline_options) < 0) {
+        return -1;
+      }
+      break;
+    case VICE_MACHINE_PET:
+    case VICE_MACHINE_CBM6x0:
+      if (cmdline_register_options(joydev3cmdline_options) < 0) {
+        return -1;
+      }
+      if (cmdline_register_options(joydev4cmdline_options) < 0) {
+        return -1;
+      }
+      break;
+    case VICE_MACHINE_CBM5x0:
+      if (cmdline_register_options(joydev1cmdline_options) < 0) {
+        return -1;
+      }
+      if (cmdline_register_options(joydev2cmdline_options) < 0) {
+        return -1;
+      }
+      break;
+    case VICE_MACHINE_PLUS4:
+      if (cmdline_register_options(joydev1cmdline_options) < 0) {
+        return -1;
+      }
+      if (cmdline_register_options(joydev2cmdline_options) < 0) {
+        return -1;
+      }
+      if (cmdline_register_options(joydev3cmdline_options) < 0) {
+        return -1;
+      }
+      break;
+    case VICE_MACHINE_VIC20:
+      if (cmdline_register_options(joydev1cmdline_options) < 0) {
+        return -1;
+      }
+      if (cmdline_register_options(joydev3cmdline_options) < 0) {
+        return -1;
+      }
+      if (cmdline_register_options(joydev4cmdline_options) < 0) {
+        return -1;
+      }
+      break;
+  }
   return cmdline_register_options(cmdline_options);
 }
 
@@ -730,7 +829,7 @@ void joystick(void)
   int i;
   
   /* handle both virtual cbm joystick ports */
-  for(i=0;i<2;i++) {
+  for (i = 0; i < 4; i++) {
     /* what kind of device is connected to the virtual port? */ 
     int joy_port = joystick_port_map[i];
     

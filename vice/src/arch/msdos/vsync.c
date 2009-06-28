@@ -456,7 +456,7 @@ void vsync_init(void (*hook)(void))
 int vsync_disable_timer(void)
 {
     /* FIXME: Find a more generic solution.  */
-    if (machine_class == VICE_MACHINE_CBM2)
+    if (machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0)
         timer_speed = 0;
     return 0;
 }

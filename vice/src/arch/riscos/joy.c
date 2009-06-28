@@ -30,18 +30,17 @@
 #include "joystick.h"
 #include "kbd.h"
 #include "keyboard.h"
+#include "machine.h"
 #include "types.h"
 #include "resources.h"
 #include "vsyncarch.h"
 
 
 
-int ajoyfd[2] = {-1, -1};
-int djoyfd[2] = {-1, -1};
+int ajoyfd[4] = {-1, -1, -1, -1};
+int djoyfd[4] = {-1, -1, -1, -1};
 
-static BYTE old_joy[2];
-
-
+static BYTE old_joy[4];
 
 static int set_joystick_port1(int val, void *param)
 {
@@ -55,19 +54,37 @@ static int set_joystick_port2(int val, void *param)
   return 0;
 }
 
+static int set_joystick_port3(int val, void *param)
+{
+  joystick_port_map[2] = val;
+  return 0;
+}
+
+static int set_joystick_port4(int val, void *param)
+{
+  joystick_port_map[3] = val;
+  return 0;
+}
 
 static const resource_int_t resources_int[] = {
   {"JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
     &joystick_port_map[0], set_joystick_port1, NULL },
   {"JoyDevice2", JOYDEV_KBD1, RES_EVENT_NO, NULL,
     &joystick_port_map[1], set_joystick_port2, NULL },
+  {"JoyDevice3", JOYDEV_KBD1, RES_EVENT_NO, NULL,
+    &joystick_port_map[2], set_joystick_port3, NULL },
+  {"JoyDevice4", JOYDEV_KBD1, RES_EVENT_NO, NULL,
+    &joystick_port_map[3], set_joystick_port4, NULL },
   {NULL}
 };
 
-
 int joy_arch_init(void)
 {
-  old_joy[0] = 0; old_joy[1] = 0;
+  old_joy[0] = 0;
+  old_joy[1] = 0;
+  old_joy[2] = 0;
+  old_joy[3] = 0;
+
   return 0;
 }
 
@@ -84,7 +101,7 @@ void joystick(void)
 
   if (EmuWindowHasInputFocus == 0) return;
 
-  for (port=0; port<2; port++)
+  for (port=0; port < 4; port++)
   {
     state = -1;
     if (joystick_port_map[port] == JOYDEV_JOY1) state = 0;

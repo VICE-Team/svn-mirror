@@ -208,7 +208,8 @@ static void CreateAndGetSidAddress(HWND hwnd, int mode)
       case VICE_MACHINE_C128:
         hadr = ui_sid_c128baseaddress;
         break;
-      case VICE_MACHINE_CBM2:
+      case VICE_MACHINE_CBM5x0:
+      case VICE_MACHINE_CBM6x0:
         hadr = ui_sid_cbm2baseaddress;
         break;
       default:

@@ -2650,39 +2650,6 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMES_VICE_ERROR_SV, "VICE-fel"},
 /* tr */ {IDMES_VICE_ERROR_TR, "VICE Hatasý"},
 
-/* en */ {IDMES_NO_JOY_ON_PORT_D,    "No joystick or joypad found on port %d"},
-/* da */ {IDMES_NO_JOY_ON_PORT_D_DA, "Fandt intet joystick eller joypad på port %d"},
-/* de */ {IDMES_NO_JOY_ON_PORT_D_DE, "Kein Joystick oder Joypad am Port %d gefunden"},
-/* fr */ {IDMES_NO_JOY_ON_PORT_D_FR, "Aucun joystick ou manette trouvée sur le port %d"},
-/* hu */ {IDMES_NO_JOY_ON_PORT_D_HU, "Nem találtam botkormányt a %d porton"},
-/* it */ {IDMES_NO_JOY_ON_PORT_D_IT, "Non è stato trovato alcun joystick o joypad sulla porta %d"},
-/* nl */ {IDMES_NO_JOY_ON_PORT_D_NL, "Geen joystick of joypad gevonden op poort %d"},
-/* pl */ {IDMES_NO_JOY_ON_PORT_D_PL, ""},  /* fuzzy */
-/* sv */ {IDMES_NO_JOY_ON_PORT_D_SV, "Ingen joystick eller joypad hittades på port %d"},
-/* tr */ {IDMES_NO_JOY_ON_PORT_D_TR, "Port %d üzerinde joystick veya joypad bulunamadý"},
-
-/* en */ {IDMES_MOUSE_ON_PORT_D,    "A mouse was found on port %d"},
-/* da */ {IDMES_MOUSE_ON_PORT_D_DA, "Mus fundet på port %d"},
-/* de */ {IDMES_MOUSE_ON_PORT_D_DE, "Eine Maus wurde in Port %d gefunden"},
-/* fr */ {IDMES_MOUSE_ON_PORT_D_FR, "Une souris à été trouvée sur le port %d"},
-/* hu */ {IDMES_MOUSE_ON_PORT_D_HU, "Nem találtam egeret a %d porton"},
-/* it */ {IDMES_MOUSE_ON_PORT_D_IT, "E' stato trovato un mouse sulla porta %d"},
-/* nl */ {IDMES_MOUSE_ON_PORT_D_NL, "Een muis was gevonden op poort %d"},
-/* pl */ {IDMES_MOUSE_ON_PORT_D_PL, ""},  /* fuzzy */
-/* sv */ {IDMES_MOUSE_ON_PORT_D_SV, "En mus hittades på port %d"},
-/* tr */ {IDMES_MOUSE_ON_PORT_D_TR, "Port %d üzerinde bir mouse bulundu"},
-
-/* en */ {IDMES_UNKNOWN_DEVICE_ON_PORT_D,    "Unknown device found on port %d"},
-/* da */ {IDMES_UNKNOWN_DEVICE_ON_PORT_D_DA, "Ukendt enhed fundet på port %d"},
-/* de */ {IDMES_UNKNOWN_DEVICE_ON_PORT_D_DE, "Unbekanntes Gerät im Port %d gefunden"},
-/* fr */ {IDMES_UNKNOWN_DEVICE_ON_PORT_D_FR, ""},  /* fuzzy */
-/* hu */ {IDMES_UNKNOWN_DEVICE_ON_PORT_D_HU, "%d porton ismeretlen eszközt találtam"},
-/* it */ {IDMES_UNKNOWN_DEVICE_ON_PORT_D_IT, "Dispositivo sconosciuto trovato sulla porta %d"},
-/* nl */ {IDMES_UNKNOWN_DEVICE_ON_PORT_D_NL, "Onbekend apparaat gevonden op poort %d"},
-/* pl */ {IDMES_UNKNOWN_DEVICE_ON_PORT_D_PL, ""},  /* fuzzy */
-/* sv */ {IDMES_UNKNOWN_DEVICE_ON_PORT_D_SV, "En okänd enhet hittades på port %d"},
-/* tr */ {IDMES_UNKNOWN_DEVICE_ON_PORT_D_TR, "Port %d üzeride bilinmeyen bir aygýt bulundu"},
-
 /* en */ {IDMES_DEVICE_NOT_GAMEPAD,    "The device on this port is not a gamepad"},
 /* da */ {IDMES_DEVICE_NOT_GAMEPAD_DA, "Enheden på denne port er ikke en joypad"},
 /* de */ {IDMES_DEVICE_NOT_GAMEPAD_DE, "Das Gerät in diesem Port ist kein Gamepad"},
@@ -4427,7 +4394,7 @@ intl_translate_t intl_string_table[] = {
 /* nl */ {IDS_SET_INPUT_JOYSTICK_1_NL, "Emulatie joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"},
 /* pl */ {IDS_SET_INPUT_JOYSTICK_1_PL, ""},  /* fuzzy */
 /* sv */ {IDS_SET_INPUT_JOYSTICK_1_SV, "Joystick #1 emulation: (0:Ingen, 1: Numeriskt tangentbord, 2: Teckenuppsättning "
-                                       "A/AI, 3: Teckenuppsättning B/AI)" },
+                                       "A/AI, 3: Teckenuppsättning B/AI)"},
 /* tr */ {IDS_SET_INPUT_JOYSTICK_1_TR, "Joystick #1 emülasyonu: (0:Yok, 1: Numpad, 2: Tuþ Seti A/AI, 3: Tuþ Seti B/AI)"},
 
 /* en */ {IDS_SET_INPUT_JOYSTICK_2,    "Joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"},
@@ -4439,8 +4406,34 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SET_INPUT_JOYSTICK_2_IT, "Emulazione Joystick #2: (0: Nessuna, 1: Tastierino numerico, 2: Keyset A/AI, 3: Keyset B/AI)"},
 /* nl */ {IDS_SET_INPUT_JOYSTICK_2_NL, "Emulatie joystick #2: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"},
 /* pl */ {IDS_SET_INPUT_JOYSTICK_2_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SET_INPUT_JOYSTICK_2_SV, "Joystick #2 emulation: (0:Ingen, 1: Numeriskt tangentbord, 2: Teckenuppsättning A/AI, 3: Teckenuppsättning B/AI)" },
+/* sv */ {IDS_SET_INPUT_JOYSTICK_2_SV, "Joystick #2 emulation: (0:Ingen, 1: Numeriskt tangentbord, 2: Teckenuppsättning A/AI, 3: Teckenuppsättning B/AI)"},
 /* tr */ {IDS_SET_INPUT_JOYSTICK_2_TR, "Joystick #2 emülasyonu: (0:Yok, 1: Numpad, 2: Tuþ Seti A/AI, 3: Tuþ Seti B/AI)"},
+
+/* en */ {IDS_SET_INPUT_EXTRA_JOYSTICK_1,    "Extra joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
+                                             "B/AI)"},
+/* da */ {IDS_SET_INPUT_EXTRA_JOYSTICK_1_DA, ""},  /* fuzzy */
+/* de */ {IDS_SET_INPUT_EXTRA_JOYSTICK_1_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SET_INPUT_EXTRA_JOYSTICK_1_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SET_INPUT_EXTRA_JOYSTICK_1_HU, ""},  /* fuzzy */
+/* it */ {IDS_SET_INPUT_EXTRA_JOYSTICK_1_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SET_INPUT_EXTRA_JOYSTICK_1_NL, "Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
+                                             "B/AI)"},
+/* pl */ {IDS_SET_INPUT_EXTRA_JOYSTICK_1_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SET_INPUT_EXTRA_JOYSTICK_1_SV, ""},  /* fuzzy */
+/* tr */ {IDS_SET_INPUT_EXTRA_JOYSTICK_1_TR, ""},  /* fuzzy */
+
+/* en */ {IDS_SET_INPUT_EXTRA_JOYSTICK_2,    "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
+                                             "B/AI)"},
+/* da */ {IDS_SET_INPUT_EXTRA_JOYSTICK_2_DA, ""},  /* fuzzy */
+/* de */ {IDS_SET_INPUT_EXTRA_JOYSTICK_2_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SET_INPUT_EXTRA_JOYSTICK_2_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SET_INPUT_EXTRA_JOYSTICK_2_HU, ""},  /* fuzzy */
+/* it */ {IDS_SET_INPUT_EXTRA_JOYSTICK_2_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SET_INPUT_EXTRA_JOYSTICK_2_NL, "Emulatie extra joystick #2: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
+                                             "B/AI)"},
+/* pl */ {IDS_SET_INPUT_EXTRA_JOYSTICK_2_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SET_INPUT_EXTRA_JOYSTICK_2_SV, ""},  /* fuzzy */
+/* tr */ {IDS_SET_INPUT_EXTRA_JOYSTICK_2_TR, ""},  /* fuzzy */
 
 /* en */ {IDS_SET_INPUT_JOYLL_1,    "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"},
 /* da */ {IDS_SET_INPUT_JOYLL_1_DA, "Joystick 1 emularing: (0: ingen, 1: numerisk, 2-5: Amigajoystick 0-3)"},
@@ -4463,6 +4456,28 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDS_SET_INPUT_JOYLL_2_PL, ""},  /* fuzzy */
 /* sv */ {IDS_SET_INPUT_JOYLL_2_SV, "Joystick #2 emulation: (0:Ingen, 1: Numeriskt tangentbord, 2-5: Amiga Joy 0-3)"},
 /* tr */ {IDS_SET_INPUT_JOYLL_2_TR, "Joystick #2 emülasyonu: (0: Yok, 1: Numpad, 2-5: Amiga Joy 0-3)"},
+
+/* en */ {IDS_SET_INPUT_EXTRA_JOYLL_1,    "Extra joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"},
+/* da */ {IDS_SET_INPUT_EXTRA_JOYLL_1_DA, ""},  /* fuzzy */
+/* de */ {IDS_SET_INPUT_EXTRA_JOYLL_1_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SET_INPUT_EXTRA_JOYLL_1_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SET_INPUT_EXTRA_JOYLL_1_HU, ""},  /* fuzzy */
+/* it */ {IDS_SET_INPUT_EXTRA_JOYLL_1_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SET_INPUT_EXTRA_JOYLL_1_NL, "Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3)"},
+/* pl */ {IDS_SET_INPUT_EXTRA_JOYLL_1_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SET_INPUT_EXTRA_JOYLL_1_SV, ""},  /* fuzzy */
+/* tr */ {IDS_SET_INPUT_EXTRA_JOYLL_1_TR, ""},  /* fuzzy */
+
+/* en */ {IDS_SET_INPUT_EXTRA_JOYLL_2,    "Extra joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"},
+/* da */ {IDS_SET_INPUT_EXTRA_JOYLL_2_DA, ""},  /* fuzzy */
+/* de */ {IDS_SET_INPUT_EXTRA_JOYLL_2_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SET_INPUT_EXTRA_JOYLL_2_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SET_INPUT_EXTRA_JOYLL_2_HU, ""},  /* fuzzy */
+/* it */ {IDS_SET_INPUT_EXTRA_JOYLL_2_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SET_INPUT_EXTRA_JOYLL_2_NL, "Emulatie extra joystick #2: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3)"},
+/* pl */ {IDS_SET_INPUT_EXTRA_JOYLL_2_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SET_INPUT_EXTRA_JOYLL_2_SV, ""},  /* fuzzy */
+/* tr */ {IDS_SET_INPUT_EXTRA_JOYLL_2_TR, ""},  /* fuzzy */
 
 /* en */ {IDS_SAVE_SETTINGS_ON_EXIT,    "Save settings (resources) on exit"},
 /* da */ {IDS_SAVE_SETTINGS_ON_EXIT_DA, "Gem indstillinger når programmet afsluttes"},

@@ -139,6 +139,8 @@ static int set_use_vicii(int val, void *param)
     if (cbm2_isC500 < 1)
         cbm2_isC500 = use_vicii;
 
+    machine_class = (cbm2_isC500) ? VICE_MACHINE_CBM5x0 : VICE_MACHINE_CBM6x0;
+
     return 0;
 }
 

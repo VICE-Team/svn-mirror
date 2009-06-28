@@ -139,8 +139,11 @@ VideoWindow::VideoWindow()
 		case VICE_MACHINE_C64:
 			chip[0] = 0;
 			break;
-		case VICE_MACHINE_CBM2:
+		case VICE_MACHINE_CBM6x0:
 			chip[0] = 2;
+			break;
+		case  VICE_MACHINE_CBM5x0:
+			chip[0] = 0;
 			break;
 		case VICE_MACHINE_PET:
 			chip[0] = 2;

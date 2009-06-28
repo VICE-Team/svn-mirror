@@ -1064,7 +1064,8 @@ static void ui_display_sound_enable(int state)
   wimp_window_set_icon_state(ConfWindows[CONF_WIN_SOUND], Icon_ConfSnd_SoundOn, (state == 0) ? 0 : IFlg_Slct, IFlg_Slct);
 
   ui_set_icons_grey(NULL, SoundDependentIcons, state);
-  if ((machine_class == VICE_MACHINE_C64) || (machine_class == VICE_MACHINE_C128) || (machine_class == VICE_MACHINE_CBM2))
+  if ((machine_class == VICE_MACHINE_C64) || (machine_class == VICE_MACHINE_C128) ||
+      (machine_class == VICE_MACHINE_CBM5x0) || (machine_class == VICE_MACHINE_CBM6x0)
   {
     ui_set_icons_grey(NULL, SidDependentIcons, state);
   }
@@ -2394,7 +2395,9 @@ int ui_init_finish(void)
 
   CMOS_DragType = ReadDragType();
 
-  if ((machine_class != VICE_MACHINE_PET) && (machine_class != VICE_MACHINE_VIC20) && (machine_class != VICE_MACHINE_CBM2) && (machine_class != VICE_MACHINE_C128))
+  if ((machine_class != VICE_MACHINE_PET) && (machine_class != VICE_MACHINE_VIC20) &&
+      (machine_class != VICE_MACHINE_CBM5x0) && (machine_class != VICE_MACHINE_CBM6x0) &&
+      (machine_class != VICE_MACHINE_C128))
   {
     wimp_menu_set_grey_item((RO_MenuHead*)&MenuConfigure, Menu_Config_Machine, 1);
   }
@@ -4215,7 +4218,7 @@ static void ui_menu_selection(int *b)
             confWindow = CONF_WIN_PET;
           else if (machine_class == VICE_MACHINE_VIC20)
             confWindow = CONF_WIN_VIC;
-          else if (machine_class == VICE_MACHINE_CBM2)
+          else if (machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0)
             confWindow = CONF_WIN_CBM2;
           else if (machine_class == VICE_MACHINE_C128)
             confWindow = CONF_WIN_C128;

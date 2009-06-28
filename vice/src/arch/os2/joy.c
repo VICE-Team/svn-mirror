@@ -37,6 +37,7 @@
 #include "joystick.h"
 #include "keyboard.h"
 #include "log.h"
+#include "machine.h"
 #include "resources.h"
 #include "translate.h"
 
@@ -69,7 +70,7 @@ const int cbm_set[9] =
 static int keyset[2][9];
 
 // This variables describes which PC devices are conneted to the CBM Port?
-static joystick_device_t cbm_joystick[2];
+static joystick_device_t cbm_joystick[4];
 
 static int set_cbm_joystick(int val, void *param)
 {
@@ -153,6 +154,10 @@ static const resource_int_t resources_int[] = {
       &cbm_joystick[0], set_cbm_joystick, (void *)0},
     { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &cbm_joystick[1], set_cbm_joystick, (void *)1},
+    { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &cbm_joystick[2], set_cbm_joystick, (void *)2},
+    { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &cbm_joystick[3], set_cbm_joystick, (void *)3},
 
     DEFINE_RES_SET_CALDATA("JoyAup",    0, KEYSET_N, 200),
     DEFINE_RES_SET_CALDATA("JoyAdown",  0, KEYSET_S, 600),
@@ -194,16 +199,6 @@ int joystick_init_resources(void)
 /* ------------------------------------------------------------------------- */
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-joydev1", SET_RESOURCE, 1,
-      NULL, NULL, "JoyDevice1", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      "<number>", "Set input device for CBM joystick port #1" },
-    { "-joydev2", SET_RESOURCE, 1,
-      NULL, NULL, "JoyDevice2", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      "<number>", "Set input device for CBM joystick port #2" },
     { "-joy1cal", CALL_FUNCTION, 0,
       &set_joyA_autoCal, (void *) TRUE, NULL, 0,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
@@ -217,8 +212,101 @@ static const cmdline_option_t cmdline_options[] = {
     NULL
 };
 
+static const cmdline_option_t joydev1cmdline_options[] = {
+    { "-joydev1", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice1", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<number>", "Set input device for CBM joystick port #1" },
+    NULL
+};
+
+static const cmdline_option_t joydev2cmdline_options[] = {
+    { "-joydev2", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice2", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<number>", "Set input device for CBM joystick port #2" },
+    NULL
+};
+
+static const cmdline_option_t joydev3cmdline_options[] = {
+    { "-extrajoydev1", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice3", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<number>", "Set input device for extra CBM joystick port #1" },
+    NULL
+};
+
+static const cmdline_option_t joydev4cmdline_options[] = {
+    { "-extrajoydev2", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice4", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<number>", "Set input device for extra CBM joystick port #2" },
+    NULL
+};
+
 int joystick_init_cmdline_options(void)
 {
+    switch (machine_class) {
+        case VICE_MACHINE_C64:
+        case VICE_MACHINE_C128:
+        case VICE_MACHINE_C64DTV:
+            if (cmdline_register_options(joydev1cmdline_options) < 0) {
+                return -1;
+            }
+            if (cmdline_register_options(joydev2cmdline_options) < 0) {
+                return -1;
+            }
+            if (cmdline_register_options(joydev3cmdline_options) < 0) {
+                return -1;
+            }
+            if (cmdline_register_options(joydev4cmdline_options) < 0) {
+                return -1;
+            }
+            break;
+        case VICE_MACHINE_PET:
+        case VICE_MACHINE_CBM6x0:
+            if (cmdline_register_options(joydev3cmdline_options) < 0) {
+                return -1;
+            }
+            if (cmdline_register_options(joydev4cmdline_options) < 0) {
+                return -1;
+            }
+            break;
+        case VICE_MACHINE_CBM5x0:
+            if (cmdline_register_options(joydev1cmdline_options) < 0) {
+                return -1;
+            }
+            if (cmdline_register_options(joydev2cmdline_options) < 0) {
+                return -1;
+            }
+            break;
+        case VICE_MACHINE_PLUS4:
+            if (cmdline_register_options(joydev1cmdline_options) < 0) {
+                return -1;
+            }
+            if (cmdline_register_options(joydev2cmdline_options) < 0) {
+                return -1;
+            }
+            if (cmdline_register_options(joydev3cmdline_options) < 0) {
+                return -1;
+            }
+            break;
+        case VICE_MACHINE_VIC20:
+            if (cmdline_register_options(joydev1cmdline_options) < 0) {
+                return -1;
+            }
+            if (cmdline_register_options(joydev3cmdline_options) < 0) {
+                return -1;
+            }
+            if (cmdline_register_options(joydev4cmdline_options) < 0) {
+                return -1;
+            }
+            break;
+    }
     return cmdline_register_options(cmdline_options);
 }
 
@@ -310,7 +398,10 @@ static void handle_joystick_movement(const GAME_2DPOS_STRUCT *joy,
 {
     int value = buttons ? CBM_FIRE : 0;
 
-    if (!(number_joysticks & pc_device & (cbm_joystick[0] | cbm_joystick[1])))
+    if (!(number_joysticks & pc_device & (cbm_joystick[0] |
+                                          cbm_joystick[1] |
+                                          cbm_joystick[2] |
+                                          cbm_joystick[3])))
         return;
 
     if (cal->start)
@@ -368,7 +459,21 @@ static void handle_joystick_movement(const GAME_2DPOS_STRUCT *joy,
         }
     }
 
-    joystick_set_value_absolute(cbm_joystick[0] & pc_device?1:2, value);
+    if (cbm_joystick[0] & pc_device) {
+        joystick_set_value_absolute(1, value);
+    }
+
+    if (cbm_joystick[1] & pc_device) {
+        joystick_set_value_absolute(2, value);
+    }
+
+    if (cbm_joystick[2] & pc_device) {
+        joystick_set_value_absolute(3, value);
+    }
+
+    if (cbm_joystick[3] & pc_device) {
+        joystick_set_value_absolute(4, value);
+    }
 }
 
 
@@ -410,7 +515,13 @@ static int handle_keyset_mapping(joystick_device_t pc_device, const int *set,
         if (cbm_joystick[1] & pc_device)
             nr = 2;
         else
-            return 0;
+            if (cbm_joystick[2] & pc_device)
+                nr = 3;
+            else
+                if (cbm_joystick[3] & pc_device)
+                    nr = 4;
+                else
+                    return 0;
 
     for (i=0; i<9; i++)
     {

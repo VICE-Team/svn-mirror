@@ -279,7 +279,7 @@ void usb_joystick(void)
     int i, jp, val, ret;
     struct usb_joy_item *it;
 
-    for (i=0; i<2; i++) {
+    for (i=0; i<4; i++) {
 	jp = joystick_port_map[i];
 	if (jp != JOYDEV_USB_0 && jp != JOYDEV_USB_1)
 	    continue;

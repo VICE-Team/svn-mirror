@@ -39,6 +39,7 @@
 #include "joy.h"
 #include "joystick.h"
 #include "keyboard.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "res.h"
 #include "translate.h"
@@ -56,18 +57,18 @@ static enum {
 } joystick_inited = WIN_JOY_UNINIT;
 
 /* Notice that this has to be `int' to make resources work.  */
-static int joystick_fire_speed[2];
-static int joystick_fire_axis[2];
-static int joystick_autofire_button[2];
+static int joystick_fire_speed[4];
+static int joystick_fire_axis[4];
+static int joystick_autofire_button[4];
 
-static int joystick_fire_button[2];
+static int joystick_fire_button[4];
 
 /* ------------------------------------------------------------------------ */
 
 #ifdef HAVE_DINPUT
 /* Joystick devices.  */
-static LPDIRECTINPUTDEVICE  joystick_di_devices[2] = {NULL, NULL};
-static LPDIRECTINPUTDEVICE2  joystick_di_devices2[2] = {NULL, NULL};
+static LPDIRECTINPUTDEVICE  joystick_di_devices[4] = {NULL, NULL};
+static LPDIRECTINPUTDEVICE2  joystick_di_devices2[4] = {NULL, NULL};
 
 typedef struct _JoyAxis {
     struct _JoyAxis *next;
@@ -355,6 +356,54 @@ static int set_joystick_device_2(int val, void *param)
     return 0;
 }
 
+static int set_joystick_device_3(int val, void *param)
+{
+    joystick_device_t dev = (joystick_device_t)val;
+
+    if (joystick_inited == WIN_JOY_UNINIT) joy_arch_init();
+
+#ifdef HAVE_DINPUT
+    if ((joystick_inited == WIN_JOY_DINPUT) && (joystick_port_map[2] >= JOYDEV_HW1)) {
+        joystick_di_close(2);
+    }
+
+    if ((joystick_inited == WIN_JOY_DINPUT) && (dev >= JOYDEV_HW1)) {
+        if (joystick_di_open(2, dev)) {
+            joystick_port_map[2] = dev;
+        }
+    } else
+#endif
+    {
+        joystick_port_map[2] = dev;
+    }
+
+    return 0;
+}
+
+static int set_joystick_device_4(int val, void *param)
+{
+    joystick_device_t dev = (joystick_device_t)val;
+
+    if (joystick_inited == WIN_JOY_UNINIT) joy_arch_init();
+
+#ifdef HAVE_DINPUT
+    if ((joystick_inited == WIN_JOY_DINPUT) && (joystick_port_map[3] >= JOYDEV_HW1)) {
+        joystick_di_close(3);
+    }
+
+    if ((joystick_inited == WIN_JOY_DINPUT) && (dev >= JOYDEV_HW1)) {
+        if (joystick_di_open(3, dev)) {
+            joystick_port_map[3] = dev;
+        }
+    } else
+#endif
+    {
+        joystick_port_map[3] = dev;
+    }
+
+    return 0;
+}
+
 static int set_joystick_fire1_speed(int speed, void *param)
 {
     if (speed < 1)
@@ -379,6 +428,30 @@ static int set_joystick_fire2_speed(int speed, void *param)
     return 0;
 }
 
+static int set_joystick_fire3_speed(int speed, void *param)
+{
+    if (speed < 1)
+        speed = 1;
+    if (speed > 32)
+        speed = 32;
+
+    joystick_fire_speed[2] = speed;
+
+    return 0;
+}
+
+static int set_joystick_fire4_speed(int speed, void *param)
+{
+    if (speed < 1)
+        speed = 1;
+    if (speed > 32)
+        speed = 32;
+
+    joystick_fire_speed[3] = speed;
+
+    return 0;
+}
+
 static int set_joystick_fire1_axis(int axis, void *param)
 {
     if (axis < 0)
@@ -395,6 +468,26 @@ static int set_joystick_fire2_axis(int axis, void *param)
         axis = 0;
 
     joystick_fire_axis[1] = axis;
+
+    return 0;
+}
+
+static int set_joystick_fire3_axis(int axis, void *param)
+{
+    if (axis < 0)
+        axis = 0;
+
+    joystick_fire_axis[2] = axis;
+
+    return 0;
+}
+
+static int set_joystick_fire4_axis(int axis, void *param)
+{
+    if (axis < 0)
+        axis = 0;
+
+    joystick_fire_axis[3] = axis;
 
     return 0;
 }
@@ -419,6 +512,26 @@ static int set_joystick_autofire2_button(int button, void *param)
     return 0;
 }
 
+static int set_joystick_autofire3_button(int button, void *param)
+{
+    if (button < 0)
+        button = 0;
+
+    joystick_autofire_button[2] = button;
+
+    return 0;
+}
+
+static int set_joystick_autofire4_button(int button, void *param)
+{
+    if (button < 0)
+        button = 0;
+
+    joystick_autofire_button[3] = button;
+
+    return 0;
+}
+
 static int set_joystick_fire1_button(int button, void *param)
 {
     if (button < 0)
@@ -439,13 +552,35 @@ static int set_joystick_fire2_button(int button, void *param)
     return 0;
 }
 
+static int set_joystick_fire3_button(int button, void *param)
+{
+    if (button < 0)
+        button = 0;
 
+    joystick_fire_button[2] = button;
+
+    return 0;
+}
+
+static int set_joystick_fire4_button(int button, void *param)
+{
+    if (button < 0)
+        button = 0;
+
+    joystick_fire_button[3] = button;
+
+    return 0;
+}
 
 static const resource_int_t resources_int[] = {
     { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[0], set_joystick_device_1, NULL },
     { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[1], set_joystick_device_2, NULL },
+    { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &joystick_port_map[2], set_joystick_device_3, NULL },
+    { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &joystick_port_map[3], set_joystick_device_4, NULL },
     { "JoyAutofire1Speed", 16, RES_EVENT_NO, NULL,
       &joystick_fire_speed[0], set_joystick_fire1_speed, NULL },
     { "JoyAutofire1Axis", 0, RES_EVENT_NO, NULL,
@@ -458,10 +593,26 @@ static const resource_int_t resources_int[] = {
       &joystick_fire_axis[1], set_joystick_fire2_axis, NULL },
     { "JoyAutofire2Button", 0, RES_EVENT_NO, NULL,
       &joystick_autofire_button[1], set_joystick_autofire2_button, NULL },
+    { "JoyAutofire3Speed", 16, RES_EVENT_NO, NULL,
+      &joystick_fire_speed[2], set_joystick_fire3_speed, NULL },
+    { "JoyAutofire3Axis", 0, RES_EVENT_NO, NULL,
+      &joystick_fire_axis[2], set_joystick_fire3_axis, NULL },
+    { "JoyAutofire3Button", 0, RES_EVENT_NO, NULL,
+      &joystick_autofire_button[2], set_joystick_autofire3_button, NULL },
+    { "JoyAutofire4Speed", 16, RES_EVENT_NO, NULL,
+      &joystick_fire_speed[3], set_joystick_fire4_speed, NULL },
+    { "JoyAutofire4Axis", 0, RES_EVENT_NO, NULL,
+      &joystick_fire_axis[3], set_joystick_fire4_axis, NULL },
+    { "JoyAutofire4Button", 0, RES_EVENT_NO, NULL,
+      &joystick_autofire_button[3], set_joystick_autofire4_button, NULL },
     { "JoyFire1Button", 0, RES_EVENT_NO, NULL,
       &joystick_fire_button[0], set_joystick_fire1_button, NULL },
     { "JoyFire2Button", 0, RES_EVENT_NO, NULL,
       &joystick_fire_button[1], set_joystick_fire2_button, NULL },
+    { "JoyFire3Button", 0, RES_EVENT_NO, NULL,
+      &joystick_fire_button[2], set_joystick_fire3_button, NULL },
+    { "JoyFire4Button", 0, RES_EVENT_NO, NULL,
+      &joystick_fire_button[3], set_joystick_fire4_button, NULL },
     { NULL }
 };
 
@@ -472,12 +623,16 @@ int joystick_arch_init_resources(void)
 
 /* ------------------------------------------------------------------------- */
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t joydev1cmdline_options[] = {
     { "-joydev1", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice1", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDS_P_NUMBER, IDS_SET_INPUT_JOYSTICK_1,
       NULL, NULL },
+    { NULL }
+};
+
+static const cmdline_option_t joydev2cmdline_options[] = {
     { "-joydev2", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice2", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -486,9 +641,70 @@ static const cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
+static const cmdline_option_t joydev3cmdline_options[] = {
+    { "-extrajoydev1", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice3", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDS_P_NUMBER, IDS_SET_INPUT_EXTRA_JOYSTICK_1,
+      NULL, NULL },
+    { NULL }
+};
+
+static const cmdline_option_t joydev4cmdline_options[] = {
+    { "-extrajoydev2", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice4", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDS_P_NUMBER, IDS_SET_INPUT_EXTRA_JOYSTICK_2,
+      NULL, NULL },
+    { NULL }
+};
+
 int joystick_init_cmdline_options(void)
 {
-    return cmdline_register_options(cmdline_options);
+    switch (machine_class) {
+        case VICE_MACHINE_C64:
+        case VICE_MACHINE_C128:
+        case VICE_MACHINE_C64DTV:
+            if (cmdline_register_options(joydev1cmdline_options) < 0) {
+                return -1;
+            }
+            if (cmdline_register_options(joydev2cmdline_options) < 0) {
+                return -1;
+            }
+            if (cmdline_register_options(joydev3cmdline_options) < 0) {
+                return -1;
+            }
+            return cmdline_register_options(joydev4cmdline_options);
+            break;
+        case VICE_MACHINE_PET:
+        case VICE_MACHINE_CBM6x0:
+            if (cmdline_register_options(joydev3cmdline_options) < 0) {
+                return -1;
+            }
+            return cmdline_register_options(joydev4cmdline_options);
+            break;
+        case VICE_MACHINE_CBM5x0:
+            if (cmdline_register_options(joydev1cmdline_options) < 0) {
+                return -1;
+            }
+            return cmdline_register_options(joydev2cmdline_options);
+            break;
+        case VICE_MACHINE_PLUS4:
+            if (cmdline_register_options(joydev1cmdline_options) < 0) {
+                return -1;
+            }
+            if (cmdline_register_options(joydev2cmdline_options) < 0) {
+                return -1;
+            }
+            return cmdline_register_options(joydev3cmdline_options);
+            break;
+        case VICE_MACHINE_VIC20:
+            if (cmdline_register_options(joydev1cmdline_options) < 0) {
+                return -1;
+            }
+            return cmdline_register_options(joydev3cmdline_options);
+            break;
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -580,6 +796,12 @@ int joystick_close(void)
     }
     if ((joystick_inited == WIN_JOY_DINPUT) && (joystick_port_map[1] >= JOYDEV_HW1)) {
         joystick_di_close(1);
+    }
+    if ((joystick_inited == WIN_JOY_DINPUT) && (joystick_port_map[2] >= JOYDEV_HW1)) {
+        joystick_di_close(2);
+    }
+    if ((joystick_inited == WIN_JOY_DINPUT) && (joystick_port_map[3] >= JOYDEV_HW1)) {
+        joystick_di_close(3);
     }
     joystick_release_joysticks();
 #endif
@@ -734,7 +956,7 @@ void joystick_update(void)
 #ifdef HAVE_DINPUT
     if (joystick_inited == WIN_JOY_DINPUT) {
         int i;
-        for (i = 0; i < 2; i++) {
+        for (i = 0; i < 4; i++) {
             if (joystick_port_map[i] >= JOYDEV_HW1) {
                 joystick_set_value_absolute(i + 1, joystick_di5_update(i));
             }
@@ -746,9 +968,20 @@ void joystick_update(void)
         int index = JOYDEV_HW1;
         
         while (current_joy) {
-            if ((idx = (joystick_port_map[0] == index)
-                ? 0 : ((joystick_port_map[1] == index) ? 1 : -1)) != -1) {
-                
+            idx = -1;
+            if (joystick_port_map[0] == index && idx == -1) {
+                idx = 0;
+            }
+            if (joystick_port_map[1] == index && idx == -1) {
+                idx = 1;
+            }
+            if (joystick_port_map[2] == index && idx == -1) {
+                idx = 2;
+            }
+            if (joystick_port_map[3] == index && idx == -1) {
+                idx = 3;
+            }
+            if (idx != -1) {
                 switch (joystick_fire_axis[idx]) {
                 case 1:
                     addflag = JOY_RETURNZ;

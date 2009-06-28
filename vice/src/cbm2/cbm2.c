@@ -98,7 +98,7 @@ char *machine_keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
 };
 
 const char machine_name[] = "CBM-II";
-int machine_class = VICE_MACHINE_CBM2;
+int machine_class = VICE_MACHINE_CBM6x0;
 
 static void machine_vsync_hook(void);
 

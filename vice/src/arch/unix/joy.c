@@ -47,6 +47,7 @@
 #include "joystick.h"
 #include "keyboard.h"
 #include "log.h"
+#include "machine.h"
 #include "resources.h"
 #include "translate.h"
 #include "types.h"
@@ -93,29 +94,42 @@ static const resource_int_t resources_int[] = {
 
 /* Command-line options.  */
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t joydev1cmdline_options[] = {
     { "-joydev1", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice1", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-8>", N_("Set device for joystick port 1") },
+    { NULL },
+};
+
+static const cmdline_option_t joydev2cmdline_options[] = {
     { "-joydev2", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice2", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-8>", N_("Set device for joystick port 2") },
-    { "-joydev3", SET_RESOURCE, 1,
+    { NULL },
+};
+
+static const cmdline_option_t joydev3cmdline_options[] = {
+    { "-extrajoydev1", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice3", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      "<0-8>", N_("Set device for joystick port 3") },
-    { "-joydev4", SET_RESOURCE, 1,
+      "<0-8>", N_("Set device for extra joystick port 1") },
+    { NULL },
+};
+
+static const cmdline_option_t joydev4cmdline_options[] = {
+    { "-extrajoydev2", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice4", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      "<0-8>", N_("Set device for joystick port 4") },
+      "<0-8>", N_("Set device for extra joystick port 2") },
     { NULL },
 };
+
 
 int joystick_arch_init_resources(void)
 {
@@ -124,7 +138,53 @@ int joystick_arch_init_resources(void)
 
 int joystick_init_cmdline_options(void)
 {
-    return cmdline_register_options(cmdline_options);
+    switch (machine_class) {
+        case VICE_MACHINE_C64:
+        case VICE_MACHINE_C128:
+        case VICE_MACHINE_C64DTV:
+            if (cmdline_register_options(joydev1cmdline_options) < 0) {
+                return -1;
+            }
+            if (cmdline_register_options(joydev2cmdline_options) < 0) {
+                return -1;
+            }
+            if (cmdline_register_options(joydev3cmdline_options) < 0) {
+                return -1;
+            }
+            return cmdline_register_options(joydev4cmdline_options);
+            break;
+        case VICE_MACHINE_PET:
+        case VICE_MACHINE_CBM6x0:
+            if (cmdline_register_options(joydev3cmdline_options) < 0) {
+                return -1;
+            }
+            return cmdline_register_options(joydev4cmdline_options);
+            break;
+        case VICE_MACHINE_CBM5x0:
+            if (cmdline_register_options(joydev1cmdline_options) < 0) {
+                return -1;
+            }
+            return cmdline_register_options(joydev2cmdline_options);
+            break;
+        case VICE_MACHINE_PLUS4:
+            if (cmdline_register_options(joydev1cmdline_options) < 0) {
+                return -1;
+            }
+            if (cmdline_register_options(joydev2cmdline_options) < 0) {
+                return -1;
+            }
+            return cmdline_register_options(joydev3cmdline_options);
+            break;
+        case VICE_MACHINE_VIC20:
+            if (cmdline_register_options(joydev1cmdline_options) < 0) {
+                return -1;
+            }
+            if (cmdline_register_options(joydev3cmdline_options) < 0) {
+                return -1;
+            }
+            return cmdline_register_options(joydev4cmdline_options);
+            break;
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -313,7 +373,7 @@ void old_joystick(void)
 {
     int i;
 
-    for (i = 1; i <= 2; i++) {
+    for (i = 1; i <= 4; i++) {
         int joyport = joystick_port_map[i - 1];
 
 #ifdef HAS_DIGITAL_JOYSTICK

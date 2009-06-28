@@ -686,7 +686,7 @@ BMenuBar *menu_create(int machine_class) {
 	menubar->AddItem(menu);
 
 	if (!vsid_mode) {
-		if (machine_class == VICE_MACHINE_CBM2) {
+		if (machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0) {
 			menu->AddItem(new BMenuItem("CBM 2 ...", 
 				new BMessage(MENU_CBM2_SETTINGS)));
 		}
@@ -791,7 +791,8 @@ BMenuBar *menu_create(int machine_class) {
 		new BMessage(MENU_SOUND_SETTINGS)));
 	if (machine_class == VICE_MACHINE_C64
 		|| machine_class == VICE_MACHINE_C128
-		|| machine_class == VICE_MACHINE_CBM2) {
+		|| machine_class == VICE_MACHINE_CBM5x0
+		|| machine_class == VICE_MACHINE_CBM6x0) {
 		menu->AddItem(new BMenuItem("SID ...", 
 			new BMessage(MENU_SID_SETTINGS)));
 	}
