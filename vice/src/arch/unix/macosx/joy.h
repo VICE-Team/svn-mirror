@@ -126,6 +126,10 @@ typedef struct joystick_descriptor joystick_descriptor_t;
 extern joystick_descriptor_t joy_a;
 extern joystick_descriptor_t joy_b;
 
+/* access number of joyports and extra joyports for machine */
+extern int joy_num_ports;
+extern int joy_num_extra_ports;
+
 /* functions */
 extern int joy_arch_init(void);
 extern void joystick_close(void);

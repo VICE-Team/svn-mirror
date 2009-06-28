@@ -119,6 +119,12 @@ static char *keyNames[KEYSET_SIZE] = {
     hidButtons[HID_UP]       = hidNorth;
     hidButtons[HID_DOWN]     = hidSouth;
 
+    // enable joy ports
+    [joystick1Mode setEnabled:(joy_num_ports > 0)];
+    [joystick2Mode setEnabled:(joy_num_ports > 1)];
+    [joystickExtra1Mode setEnabled:(joy_num_extra_ports > 0)];
+    [joystickExtra2Mode setEnabled:(joy_num_extra_ports > 1)];
+
     [self setupHidAxis];
     [self setupHidDeviceList];
 
@@ -259,6 +265,18 @@ static char *keyNames[KEYSET_SIZE] = {
 {
     int joy2Mode = [joystick2Mode indexOfSelectedItem];
     [self setIntResource:@"JoyDevice2" toValue:joy2Mode];
+}
+
+-(IBAction)changeJoystickExtra1Mode:(id)sender
+{
+    int joy3Mode = [joystickExtra1Mode indexOfSelectedItem];
+    [self setIntResource:@"JoyDevice3" toValue:joy3Mode];
+}
+
+-(IBAction)changeJoystickExtra2Mode:(id)sender
+{
+    int joy4Mode = [joystickExtra2Mode indexOfSelectedItem];
+    [self setIntResource:@"JoyDevice4" toValue:joy4Mode];
 }
 
 -(IBAction)toggleKeyset:(id)sender

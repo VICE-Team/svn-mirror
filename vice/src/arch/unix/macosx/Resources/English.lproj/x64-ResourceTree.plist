@@ -165,6 +165,13 @@
 		<key>Zero Gap Delay</key>
 		<string>DatasetteZeroGapDelay,E,1000,2000,5000,10000,20000,50000,100000</string>
 	</dict>
+	<key>Joystick</key>
+	<dict>
+		<key>Extra Joystick Enable</key>
+		<string>ExtraJoy,b</string>
+		<key>Extra Joystick Hardware</key>
+		<string>ExtraJoyType,e,CGA/Protovision Userport,DXS/HIT Userport,PET Userport,HUMMER Userport,OEM Userport</string>
+	</dict>
 	<key>Mouse</key>
 	<dict>
 		<key>Port</key>

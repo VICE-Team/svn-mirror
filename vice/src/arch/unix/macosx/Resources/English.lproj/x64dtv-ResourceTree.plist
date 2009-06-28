@@ -35,6 +35,13 @@
 		<key>True Flash Filesystem</key>
 		<string>FlashTrueFS,b</string>
 	</dict>
+	<key>Joystick</key>
+	<dict>
+		<key>Extra Joystick Enable</key>
+		<string>ExtraJoy,b</string>
+		<key>Extra Joystick Hardware</key>
+		<string>ExtraJoyType,e,CGA/Protovision Userport,DXS/HIT Userport,PET Userport,HUMMER Userport,OEM Userport</string>
+	</dict>
 	<key>Mouse</key>
 	<dict>
 		<key>PS2 Mouse on Userport</key>

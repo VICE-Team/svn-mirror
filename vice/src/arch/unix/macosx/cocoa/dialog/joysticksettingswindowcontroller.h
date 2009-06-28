@@ -50,6 +50,8 @@ enum {
 {
     IBOutlet NSPopUpButton *joystick1Mode;
     IBOutlet NSPopUpButton *joystick2Mode;
+    IBOutlet NSPopUpButton *joystickExtra1Mode;
+    IBOutlet NSPopUpButton *joystickExtra2Mode;
 
     // Keyset Definition
     IBOutlet NSPopUpButton *keySetSelect;
@@ -93,6 +95,8 @@ enum {
 
 -(IBAction)changeJoystick1Mode:(id)sender;
 -(IBAction)changeJoystick2Mode:(id)sender;
+-(IBAction)changeJoystickExtra1Mode:(id)sender;
+-(IBAction)changeJoystickExtra2Mode:(id)sender;
 
 // Keyset Actions
 // for all buttons:

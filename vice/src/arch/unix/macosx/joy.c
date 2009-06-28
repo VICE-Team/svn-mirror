@@ -55,6 +55,10 @@ axis_map_t joy_axis_map[] = {
   { "Rz",kHIDUsage_GD_Rz },
 };
 
+/* number of joyports and extra joyports */
+int joy_num_ports;
+int joy_num_extra_ports;
+
 /* the driver holds up to two USB joystick definitions */
 joystick_descriptor_t joy_a = { NULL,NULL,NULL,NULL,0,0 };
 joystick_descriptor_t joy_b = { NULL,NULL,NULL,NULL,0,0 };
@@ -358,6 +362,8 @@ int joystick_init_cmdline_options(void)
       if (cmdline_register_options(joydev4cmdline_options) < 0) {
         return -1;
       }
+      joy_num_ports = 2;
+      joy_num_extra_ports = 2;
       break;
     case VICE_MACHINE_PET:
     case VICE_MACHINE_CBM6x0:
@@ -367,6 +373,8 @@ int joystick_init_cmdline_options(void)
       if (cmdline_register_options(joydev4cmdline_options) < 0) {
         return -1;
       }
+      joy_num_ports = 0;
+      joy_num_extra_ports = 2;
       break;
     case VICE_MACHINE_CBM5x0:
       if (cmdline_register_options(joydev1cmdline_options) < 0) {
@@ -375,6 +383,8 @@ int joystick_init_cmdline_options(void)
       if (cmdline_register_options(joydev2cmdline_options) < 0) {
         return -1;
       }
+      joy_num_ports = 2;
+      joy_num_extra_ports = 0;
       break;
     case VICE_MACHINE_PLUS4:
       if (cmdline_register_options(joydev1cmdline_options) < 0) {
@@ -386,6 +396,8 @@ int joystick_init_cmdline_options(void)
       if (cmdline_register_options(joydev3cmdline_options) < 0) {
         return -1;
       }
+      joy_num_ports = 2;
+      joy_num_extra_ports = 1;
       break;
     case VICE_MACHINE_VIC20:
       if (cmdline_register_options(joydev1cmdline_options) < 0) {
@@ -397,6 +409,8 @@ int joystick_init_cmdline_options(void)
       if (cmdline_register_options(joydev4cmdline_options) < 0) {
         return -1;
       }
+      joy_num_ports = 1;
+      joy_num_extra_ports = 2;
       break;
   }
   return cmdline_register_options(cmdline_options);

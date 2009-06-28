@@ -35,6 +35,10 @@
 				<string>id</string>
 				<key>changeJoystick2Mode</key>
 				<string>id</string>
+				<key>changeJoystickExtra1Mode</key>
+				<string>id</string>
+				<key>changeJoystickExtra2Mode</key>
+				<string>id</string>
 				<key>defineHidButton</key>
 				<string>id</string>
 				<key>defineKeysetButton</key>
@@ -99,6 +103,10 @@
 				<key>joystick1Mode</key>
 				<string>NSPopUpButton</string>
 				<key>joystick2Mode</key>
+				<string>NSPopUpButton</string>
+				<key>joystickExtra1Mode</key>
+				<string>NSPopUpButton</string>
+				<key>joystickExtra2Mode</key>
 				<string>NSPopUpButton</string>
 				<key>keyPressView</key>
 				<string>KeyPressView</string>
