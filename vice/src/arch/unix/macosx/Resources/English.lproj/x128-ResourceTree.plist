@@ -170,7 +170,7 @@
 		<key>Extra Joystick Enable</key>
 		<string>ExtraJoy,b</string>
 		<key>Extra Joystick Hardware</key>
-		<string>ExtraJoyType,e,CGA/Protovision Userport,DXS/HIT Userport,PET Userport,HUMMER Userport,OEM Userport</string>
+		<string>ExtraJoyType,e,CGA/Protovision Userport,PET Userport,HUMMER Userport,OEM Userport,DXS/HIT Userport</string>
 	</dict>
 	<key>Mouse</key>
 	<dict>
