@@ -222,6 +222,12 @@ char *archdep_default_fliplist_file_name(void)
 		       machine_name, ".vfl", NULL);
 }
 
+char *archdep_default_autostart_disk_image_file_name(void)
+{
+    return util_concat(archdep_boot_path(), "\\autostart-", 
+		       machine_name, ".d64", NULL);
+}
+
 char *archdep_default_hotkey_file_name(void)
 {
     return util_concat(archdep_boot_path(), "\\sdl-hotkey-", 

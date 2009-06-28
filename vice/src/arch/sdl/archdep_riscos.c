@@ -132,6 +132,11 @@ char *archdep_default_fliplist_file_name(void)
     return lib_msprintf("Vice:%s.fliplist", machine_name);
 }
 
+char *archdep_default_autostart_disk_image_file_name(void)
+{
+    return lib_msprintf("Vice:autostart-%s.d64", machine_name);
+}
+
 char *archdep_default_hotkey_file_name(void)
 {
     return lib_msprintf("Vice:%s.sdlhotkey", machine_name);
