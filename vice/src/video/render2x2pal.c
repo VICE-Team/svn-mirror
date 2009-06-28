@@ -32,14 +32,7 @@
 #include "render2x2pal.h"
 #include "types.h"
 #include "video-resources.h"
-
-static DWORD gamma_red[256 * 3];
-static DWORD gamma_grn[256 * 3];
-static DWORD gamma_blu[256 * 3];
-
-static DWORD gamma_red_fac[256 * 3 * 2];
-static DWORD gamma_grn_fac[256 * 3 * 2];
-static DWORD gamma_blu_fac[256 * 3 * 2];
+#include "video-color.h"
 
 static inline
 void convert_yuv_to_rgb(SDWORD y, SDWORD u, SDWORD v, SWORD *red, SWORD *grn, SWORD *blu)

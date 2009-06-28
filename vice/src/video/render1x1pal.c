@@ -29,10 +29,7 @@
 #include "render1x1pal.h"
 #include "types.h"
 #include "video-resources.h"
-
-static DWORD gamma_red[256 * 3];
-static DWORD gamma_grn[256 * 3];
-static DWORD gamma_blu[256 * 3];
+#include "video-color.h"
 
 static inline
 void rgb_to_yuv(SDWORD y, SDWORD u, SDWORD v,
