@@ -35,6 +35,8 @@
 #endif
 #include <windows.h>
 
+#include <assert.h>
+
 #include "lib.h"
 #include "joy.h"
 #include "joystick.h"
@@ -704,6 +706,9 @@ int joystick_init_cmdline_options(void)
             }
             return cmdline_register_options(joydev3cmdline_options);
             break;
+        default:
+            assert("Unknown machine_class in joystick_init_cmdline_options" == NULL);
+            return -1;
     }
 }
 
