@@ -240,6 +240,13 @@
 {
     int curDrive = [driveChooser selectedSegment] + driveOffset;
     
+    // get directory
+    NSString *dir = [[VICEApplication theAppController] pickDirectoryWithTitle:@"Pick Directory to Mount"];
+    if(dir == nil) {
+        return;
+    }
+    [self setStringResource:@"FSDevice%dDir" withNumber:curDrive toValue:dir];
+    
     // remove mounted image otherwise dir wont work
     NSString *diskName = [[VICEApplication theMachineController] getDiskName:curDrive];
     if(diskName!=nil) {
