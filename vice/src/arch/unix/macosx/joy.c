@@ -33,6 +33,7 @@
 #include "joystick.h"
 #include "keyboard.h"
 #include "log.h"
+#include "machine.h"
 #include "resources.h"
 #include "translate.h"
 #include "types.h"
