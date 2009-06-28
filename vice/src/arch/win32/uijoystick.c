@@ -30,6 +30,7 @@
 #include "intl.h"
 #include "joy.h"
 #include "kbd.h"
+#include "machine.h"
 #include "res.h"
 #include "resources.h"
 #include "translate.h"
@@ -352,15 +353,23 @@ static void init_joystick_dialog(HWND hwnd)
     joystick_ui_get_autofire_buttons(joy_hwnd, device);
     resources_get_int("JoyAutofire2Button", &res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
-    EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_BUTTON),
-                            (device >= JOYDEV_HW1));
-    EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_SPEED),
-                            (device >= JOYDEV_HW1) && (res_value == 0));
-    EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS),
-                            (device >= JOYDEV_HW1));
-    EnableWindow(GetDlgItem(hwnd, IDC_JOY_AUTOFIRE2_BUTTON),
-                            (device >= JOYDEV_HW1));
 
+    if (machine_class == VICE_MACHINE_VIC20) {
+      EnableWindow(GetDlgItem(hwnd, IDC_JOY_DEV2), 0);
+      EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_BUTTON), 0);
+      EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_SPEED), 0);
+      EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS), 0);
+      EnableWindow(GetDlgItem(hwnd, IDC_JOY_AUTOFIRE2_BUTTON), 0);
+    } else {
+      EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_BUTTON),
+                              (device >= JOYDEV_HW1));
+      EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_SPEED),
+                              (device >= JOYDEV_HW1) && (res_value == 0));
+      EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS),
+                              (device >= JOYDEV_HW1));
+      EnableWindow(GetDlgItem(hwnd, IDC_JOY_AUTOFIRE2_BUTTON),
+                              (device >= JOYDEV_HW1));
+    }
     EnableWindow(GetDlgItem(hwnd, IDC_JOY_CALIBRATE), joystick_uses_direct_input());
 }
 
