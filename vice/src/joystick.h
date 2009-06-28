@@ -30,10 +30,10 @@
 #include "types.h"
 
 #define EXTRA_JOYSTICK_CGA    0
-#define EXTRA_JOYSTICK_HIT    1
-#define EXTRA_JOYSTICK_PET    2
-#define EXTRA_JOYSTICK_HUMMER 3
-#define EXTRA_JOYSTICK_OEM    4
+#define EXTRA_JOYSTICK_PET    1
+#define EXTRA_JOYSTICK_HUMMER 2
+#define EXTRA_JOYSTICK_OEM    3
+#define EXTRA_JOYSTICK_HIT    4
 
 struct snapshot_s;
 
