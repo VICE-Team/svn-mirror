@@ -75,10 +75,6 @@ BYTE mem_cartrom[0x10000];
 BYTE vic20_cpu_last_data;
 
 /* Memory read and write tables.  */
-/*
-static read_func_ptr_t _mem_read_tab[0x101];
-static store_func_ptr_t _mem_write_tab[0x101];
-*/
 static BYTE *_mem_read_base_tab[0x101];
 static int mem_read_limit_tab[0x101];
 
@@ -150,20 +146,25 @@ static void REGPARM2 colorram_store(WORD addr, BYTE value)
 static void REGPARM2 via_store(WORD addr, BYTE value)
 {
     vic20_cpu_last_data = value;
-    if (addr & 0x10)            /* $911x (VIA2) */
+
+    if (addr & 0x10) {          /* $911x (VIA2) */
         via2_store(addr, value);
-    if (addr & 0x20)            /* $912x (VIA1) */
+    }
+    if (addr & 0x20) {          /* $912x (VIA1) */
         via1_store(addr, value);
+    }
 }
 
 static BYTE REGPARM1 via_read(WORD addr)
 {
     vic20_cpu_last_data = 0xff;
 
-    if (addr & 0x10)            /* $911x (VIA2) */
+    if (addr & 0x10) {          /* $911x (VIA2) */
         vic20_cpu_last_data &= via2_read(addr);
-    if (addr & 0x20)            /* $912x (VIA1) */
+    }
+    if (addr & 0x20) {          /* $912x (VIA1) */
         vic20_cpu_last_data &= via1_read(addr);
+    }
 
     return vic20_cpu_last_data;
 }
@@ -193,21 +194,18 @@ static void REGPARM2 store_emuid(WORD addr, BYTE value)
 
 static BYTE REGPARM1 io3_read(WORD addr)
 {
-    if (sidcart_enabled && sidcart_address==1 && addr>=0x9c00 && addr<=0x9c1f)
-    {
+    if (sidcart_enabled && sidcart_address==1 && addr>=0x9c00 && addr<=0x9c1f) {
         vic20_cpu_last_data = sid_read(addr);
         return vic20_cpu_last_data;
     }
 
-    if (emu_id_enabled && (addr & 0xff00) == 0x9f00)
-    {
+    if (emu_id_enabled && (addr & 0xff00) == 0x9f00) {
         vic20_cpu_last_data = read_emuid(addr);
         return vic20_cpu_last_data;
     }
 
 #ifdef HAVE_MIDI
-    if (midi_enabled && (addr & 0xff00) == 0x9c00)
-    {
+    if (midi_enabled && (addr & 0xff00) == 0x9c00) {
         if(midi_test_read((WORD)(addr & 0xff))) {
             vic20_cpu_last_data = midi_read((WORD)(addr & 0xff));
             return vic20_cpu_last_data;
@@ -228,12 +226,14 @@ static void REGPARM2 io3_store(WORD addr, BYTE value)
         return;
     }
 
-    if (emu_id_enabled && (addr & 0xff00) == 0x9f00)
+    if (emu_id_enabled && (addr & 0xff00) == 0x9f00) {
         store_emuid(addr, value);
+    }
 
 #ifdef HAVE_MIDI
-    if (midi_enabled && (addr & 0xff00) == 0x9c00)
+    if (midi_enabled && (addr & 0xff00) == 0x9c00) {
         midi_store((WORD)(addr & 0xff), value);
+    }
 #endif
 
     return;
@@ -241,21 +241,16 @@ static void REGPARM2 io3_store(WORD addr, BYTE value)
 
 static BYTE REGPARM1 io2_read(WORD addr)
 {
-    if (sidcart_enabled && sidcart_address==0 && addr>=0x9800 && addr<=0x981f)
-    {
+    if (sidcart_enabled && sidcart_address==0 && addr>=0x9800 && addr<=0x981f) {
         vic20_cpu_last_data = sid_read(addr);
         return vic20_cpu_last_data;
     }
 
-    if (ieee488_enabled)
-    {
-        if (addr & 0x10)
-        {
+    if (ieee488_enabled) {
+        if (addr & 0x10) {
             vic20_cpu_last_data = ieeevia2_read(addr);
             return vic20_cpu_last_data;
-        }
-        else
-        {
+        } else {
             vic20_cpu_last_data = ieeevia1_read(addr);
             return vic20_cpu_last_data;
         }
@@ -363,70 +358,49 @@ void mem_set_bank_pointer(BYTE **base, int *limit)
 static int vic20_mem_enable_rom_block(int num)
 {
     if (num == 1 || num == 2 || num == 3 || num == 5) {
-#if 0  /* changed to have the vic20 cpu always use the function */
-        set_mem(num * 0x20, num * 0x20 + 0x1f,
-                read_cartrom, store_dummy,
-                mem_cartrom, 0xffff);
-#endif
         set_mem(num * 0x20, num * 0x20 + 0x1f,
                 read_cartrom, store_dummy,
                 NULL, 0);
 
         return 0;
-    } else
-        return -1;
+    }
+    return -1;
 }
 
 int vic20_mem_enable_ram_block(int num)
 {
     if (num == 0) {
-#if 0  /* changed to have the vic20 cpu always use the function */
-        set_mem(0x04, 0x0f,
-                ram_read, ram_store,
-                mem_ram, 0xffff);
-#endif
         set_mem(0x04, 0x0f,
                 ram_read, ram_store,
                 NULL, 0);
         return 0;
-    } else if (num > 0 && num != 4 && num <= 5) {
-#if 0  /* changed to have the vic20 cpu always use the function */
-        set_mem(num * 0x20, num * 0x20 + 0x1f,
-                ram_read, ram_store,
-                mem_ram, 0xffff);
-#endif
-        set_mem(num * 0x20, num * 0x20 + 0x1f,
-                ram_read, ram_store,
-                NULL, 0);
-        return 0;
-    } else
-        return -1;
+    } else {
+        if (num > 0 && num != 4 && num <= 5) {
+            set_mem(num * 0x20, num * 0x20 + 0x1f,
+                    ram_read, ram_store,
+                    NULL, 0);
+            return 0;
+        }
+    }
+    return -1;
 }
 
 int vic20_mem_disable_ram_block(int num)
 {
     if (num == 0) {
-#if 0  /* changed to have the vic20 cpu always use the function */
-        set_mem(0x04, 0x0f,
-                read_dummy, store_dummy,
-                mem_ram, 0xffff);
-#endif
         set_mem(0x04, 0x0f,
                 read_dummy, store_dummy,
                 NULL, 0);
         return 0;
-    } else if (num > 0 && num != 4 && num <= 5) {
-#if 0  /* changed to have the vic20 cpu always use the function */
-        set_mem(num * 0x20, num * 0x20 + 0x1f,
-                read_dummy, store_dummy,
-                mem_ram, 0xffff);
-#endif
-        set_mem(num * 0x20, num * 0x20 + 0x1f,
-                read_unconnected_c_bus, store_dummy,
-                NULL, 0);
-        return 0;
-    } else
-        return -1;
+    } else {
+        if (num > 0 && num != 4 && num <= 5) {
+            set_mem(num * 0x20, num * 0x20 + 0x1f,
+                    read_unconnected_c_bus, store_dummy,
+                    NULL, 0);
+            return 0;
+        }
+    }
+    return -1;
 }
 
 void mem_initialize_memory(void)
@@ -434,24 +408,11 @@ void mem_initialize_memory(void)
     int i;
 
     /* Setup low standard RAM at $0000-$03FF. */
-#if 0  /* changed to have the vic20 cpu always use the function */
-    set_mem(0x00, 0x03,
-            ram_read, ram_store,
-            mem_ram, 0xffff);
-#endif
     set_mem(0x00, 0x03,
             ram_read, ram_store,
             NULL, 0);
 
     /* Setup more low RAM at $1000-$1FFF.  */
-#if 0  /* changed to have the vic20 cpu always use the function */
-    set_mem(0x10, 0x1b,
-            ram_read, ram_store,
-            mem_ram, 0xffff);
-    set_mem(0x1c, 0x1f,
-            ram_read, store_wrap,
-            mem_ram, 0xffff);
-#endif
     set_mem(0x10, 0x1b,
             ram_read, ram_store,
             NULL, 0);
@@ -460,57 +421,57 @@ void mem_initialize_memory(void)
             NULL, 0);
 
     /* Setup RAM at $0400-$0FFF.  */
-    if (ram_block_0_enabled)
+    if (ram_block_0_enabled) {
         vic20_mem_enable_ram_block(0);
-    else
+    } else {
         vic20_mem_disable_ram_block(0);
+    }
 
     /* Setup RAM or cartridge ROM at $2000-$3FFF.  */
     if (mem_rom_blocks & (VIC_ROM_BLK1A | VIC_ROM_BLK1B)) {
         vic20_mem_enable_rom_block(1);
-    } else
-    if (ram_block_1_enabled) {
-        vic20_mem_enable_ram_block(1);
     } else {
-        vic20_mem_disable_ram_block(1);
+        if (ram_block_1_enabled) {
+            vic20_mem_enable_ram_block(1);
+        } else {
+            vic20_mem_disable_ram_block(1);
+        }
     }
 
     /* Setup RAM or cartridge ROM at $4000-$5FFF.  */
     if (mem_rom_blocks & (VIC_ROM_BLK2A | VIC_ROM_BLK2B)) {
         vic20_mem_enable_rom_block(2);
-    } else
-    if (ram_block_2_enabled) {
-        vic20_mem_enable_ram_block(2);
     } else {
-        vic20_mem_disable_ram_block(2);
+        if (ram_block_2_enabled) {
+            vic20_mem_enable_ram_block(2);
+        } else {
+            vic20_mem_disable_ram_block(2);
+        }
     }
 
     /* Setup RAM or cartridge ROM at $6000-$7FFF.  */
     if (mem_rom_blocks & (VIC_ROM_BLK3A | VIC_ROM_BLK3B)) {
         vic20_mem_enable_rom_block(3);
-    } else
-    if (ram_block_3_enabled) {
-        vic20_mem_enable_ram_block(3);
     } else {
-        vic20_mem_disable_ram_block(3);
+        if (ram_block_3_enabled) {
+            vic20_mem_enable_ram_block(3);
+        } else {
+            vic20_mem_disable_ram_block(3);
+        }
     }
 
     /* Setup RAM or cartridge ROM at $A000-$BFFF.  */
     if (mem_rom_blocks & (VIC_ROM_BLK5A | VIC_ROM_BLK5B)) {
         vic20_mem_enable_rom_block(5);
-    } else
-    if (ram_block_5_enabled) {
-        vic20_mem_enable_ram_block(5);
     } else {
-        vic20_mem_disable_ram_block(5);
+        if (ram_block_5_enabled) {
+            vic20_mem_enable_ram_block(5);
+        } else {
+            vic20_mem_disable_ram_block(5);
+        }
     }
 
     /* Setup character generator ROM at $8000-$8FFF. */
-#if 0  /* changed to have the vic20 cpu always use the function */
-    set_mem(0x80, 0x8f,
-            vic20memrom_chargen_read, store_dummy,
-            vic20memrom_chargen_rom + 0x400, 0x0fff);
-#endif
     set_mem(0x80, 0x8f,
             vic20memrom_chargen_read, store_dummy,
             NULL, 0);
@@ -529,11 +490,6 @@ void mem_initialize_memory(void)
        Warning: we use a kludge here.  Instead of mapping the color memory
        separately, we map it directly in the corresponding RAM address
        space. */
-#if 0  /* changed to have the vic20 cpu always use the function */
-    set_mem(0x94, 0x97,
-            colorram_read, colorram_store,
-            mem_ram, 0xffff);
-#endif
     set_mem(0x94, 0x97,
             colorram_read, colorram_store,
             NULL, 0);
@@ -549,11 +505,6 @@ void mem_initialize_memory(void)
             NULL, 0);
 
     /* Setup BASIC ROM at $C000-$DFFF. */
-#if 0  /* changed to have the vic20 cpu always use the function */
-    set_mem(0xc0, 0xdf,
-            vic20memrom_basic_read, store_dummy,
-            vic20memrom_basic_rom, 0x1fff);
-#endif
     set_mem(0xc0, 0xdf,
             vic20memrom_basic_read, store_dummy,
             NULL, 0);
@@ -738,10 +689,12 @@ void mem_detach_cartridge(int type)
 
 void mem_get_basic_text(WORD *start, WORD *end)
 {
-    if (start != NULL)
+    if (start != NULL) {
         *start = mem_ram[0x2b] | (mem_ram[0x2c] << 8);
-    if (end != NULL)
+    }
+    if (end != NULL) {
         *end = mem_ram[0x2d] | (mem_ram[0x2e] << 8);
+    }
 }
 
 void mem_set_basic_text(WORD start, WORD end)
