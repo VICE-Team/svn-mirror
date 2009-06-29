@@ -1073,7 +1073,7 @@ void ui_joystick_swap_joystick(void)
     resources_set_int("JoyAutofire2Button", device1);
 }
 
-void ui_extra_joystick_swap_joystick(void)
+void ui_joystick_swap_extra_joystick(void)
 {
     int device3;
     int device4;

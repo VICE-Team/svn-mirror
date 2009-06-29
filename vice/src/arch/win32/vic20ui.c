@@ -39,6 +39,7 @@
 #include "ui.h"
 #include "uicart.h"
 #include "uidrivevic20.h"
+#include "uijoystick.h"
 #include "uikeyboard.h"
 #include "uilib.h"
 #include "uimidi.h"
@@ -240,7 +241,7 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_TOGGLE_ALWAYSONTOP, IDS_MI_TOGGLE_ALWAYSONTOP },
     { IDM_TOGGLE_FASTPAL, IDS_MI_TOGGLE_FASTPAL },
     { IDM_TOGGLE_SCALE2X, IDS_MI_TOGGLE_SCALE2X },
-    { IDM_SWAP_JOYSTICK, IDS_MI_SWAP_JOYSTICK },
+    { IDM_SWAP_EXTRA_JOYSTICK, IDS_MI_SWAP_EXTRA_JOYSTICK },
     { IDM_JOYKEYS_TOGGLE, IDS_MI_JOYKEYS_TOGGLE },
     { IDM_TOGGLE_VIRTUAL_DEVICES, IDS_MI_TOGGLE_VIRTUAL_DEVICES },
     { IDM_TOGGLE_EMUID, IDS_MI_TOGGLE_EMUID },

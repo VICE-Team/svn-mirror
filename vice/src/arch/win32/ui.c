@@ -1518,7 +1518,14 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         ui_speed_settings_dialog(hwnd);
         break;
       case IDM_SWAP_JOYSTICK:
-        ui_joystick_swap_joystick();
+        if (machine_class == VICE_MACHINE_CBM6x0) {
+            ui_joystick_swap_extra_joystick();
+        } else {
+            ui_joystick_swap_joystick();
+        }
+        break;
+      case IDM_SWAP_EXTRA_JOYSTICK:
+        ui_joystick_swap_extra_joystick();
         break;
       case IDM_SOUND_SETTINGS:
         ui_sound_settings_dialog(hwnd);

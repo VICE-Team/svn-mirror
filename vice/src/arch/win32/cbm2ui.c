@@ -316,6 +316,9 @@ int cbm2ui_init(void)
         if (cbm2ui_menu_translation_table[i].idm == IDM_JOY_SETTINGS) {
             cbm2ui_menu_translation_table[i].ids = (machine_class == VICE_MACHINE_CBM5x0) ? IDS_MI_JOY_SETTINGS : IDS_MI_USERPORT_JOY_SETTINGS;
         }
+        if (cbm2ui_menu_translation_table[i].idm == IDM_SWAP_JOYSTICK) {
+            cbm2ui_menu_translation_table[i].ids = (machine_class == VICE_MACHINE_CBM5x0) ? IDS_MI_SWAP_JOYSTICK : IDS_MI_SWAP_EXTRA_JOYSTICK;
+        }
     }
     ui_register_translation_tables(cbm2ui_menu_translation_table, cbm2ui_popup_translation_table);
     return 0;

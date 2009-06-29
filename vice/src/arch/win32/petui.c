@@ -37,6 +37,7 @@
 #include "ui.h"
 #include "uiacia.h"
 #include "uidrivepetcbm2.h"
+#include "uijoystick.h"
 #include "uikeyboard.h"
 #include "uipetreu.h"
 #include "uipetset.h"
@@ -196,7 +197,7 @@ ui_menu_translation_table_t petui_menu_translation_table[] = {
     { IDM_MAXIMUM_SPEED_CUSTOM, IDS_MI_MAXIMUM_SPEED_CUSTOM },
     { IDM_TOGGLE_WARP_MODE, IDS_MI_TOGGLE_WARP_MODE },
     { IDM_TOGGLE_ALWAYSONTOP, IDS_MI_TOGGLE_ALWAYSONTOP },
-    { IDM_SWAP_JOYSTICK, IDS_MI_SWAP_JOYSTICK },
+    { IDM_SWAP_EXTRA_JOYSTICK, IDS_MI_SWAP_EXTRA_JOYSTICK },
     { IDM_JOYKEYS_TOGGLE, IDS_MI_JOYKEYS_TOGGLE },
     { IDM_TOGGLE_VIRTUAL_DEVICES, IDS_MI_TOGGLE_VIRTUAL_DEVICES },
     { IDM_TOGGLE_EMUID, IDS_MI_TOGGLE_EMUID },
