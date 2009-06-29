@@ -33,10 +33,13 @@
 #include "private.h"
 #include "cbm2ui.h"
 #include "cbm2uires.h"
+#include "machine.h"
 
 #include "mui/uiacia.h"
 #include "mui/uicbm2settings.h"
 #include "mui/uidrivepetcbm2.h"
+#include "mui/uijoystick.h"
+#include "mui/uijoystickll.h"
 #include "mui/uiromcbm2settings.h"
 #include "mui/uisid.h"
 #include "mui/uivideocbm2pet.h"
@@ -73,6 +76,27 @@ static int cbm2_ui_specific(video_canvas_t *canvas, int idm)
       case IDM_ACIA_SETTINGS:
         ui_acia_settings_dialog();
         break;
+#ifdef AMIGA_OS4
+    case IDM_JOY_SETTINGS:
+      if (machine_class == VICE_MACHINE_CBM5x0)
+          ui_joystick_settings_cbm5x0_dialog();
+      else
+          ui_joystick_settings_pet_dialog();
+      break;
+#else
+    case IDM_JOY_DEVICE_SELECTION:
+      if (machine_class == VICE_MACHINE_CBM5x0)
+          ui_joystick_device_cbm5x0_dialog();
+      else
+          ui_joystick_device_pet_dialog();
+      break;
+    case IDM_JOY_FIRE_SELECTION:
+      if (machine_class == VICE_MACHINE_CBM5x0)
+          ui_joystick_fire_cbm5x0_dialog();
+      else
+          ui_joystick_fire_pet_dialog();
+      break;
+#endif
       case IDM_KEYBOARD_SETTINGS:
 //        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
         break;

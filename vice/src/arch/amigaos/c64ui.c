@@ -41,6 +41,8 @@
 #include "mui/uidrivec64vic20.h"
 #include "mui/uigeoram.h"
 #include "mui/uiide64.h"
+#include "mui/uijoystick.h"
+#include "mui/uijoystickll.h"
 #include "mui/uimmc64.h"
 #include "mui/uimouse.h"
 #include "mui/uiplus256k.h"
@@ -137,6 +139,18 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
       case IDM_KEYBOARD_SETTINGS:
 //        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
         break;
+#ifdef AMIGA_OS4
+    case IDM_JOY_SETTINGS:
+      ui_joystick_settings_c64_dialog();
+      break;
+#else
+    case IDM_JOY_DEVICE_SELECTION:
+      ui_joystick_device_c64_dialog();
+      break;
+    case IDM_JOY_FIRE_SELECTION:
+      ui_joystick_fire_c64_dialog();
+      break;
+#endif
       case IDM_MOUSE_SETTINGS:
         ui_mouse_settings_dialog();
         break;

@@ -32,11 +32,12 @@
 #endif
 #include "mui.h"
 
-#include "resources.h"
-#include "joyll.h"
-#include "uijoystickll.h"
 #include "intl.h"
+#include "joyll.h"
+#include "joystick.h"
+#include "resources.h"
 #include "translate.h"
+#include "uijoystickll.h"
 
 #include <proto/lowlevel.h>
 
@@ -86,19 +87,106 @@ static const int ui_joystick_fire_values[] = {
   -1
 };
 
+static int ui_joystick_enable_translate[] = {
+  IDMS_DISABLED,
+  IDS_ENABLED,
+  0
+};
+
+static char *ui_joystick_enable[countof(ui_joystick_enable_translate)];
+
+static const int ui_joystick_enable_values[] = {
+  0,
+  1,
+  -1
+};
+
+static char *ui_userport_c64_joystick[] = {
+  "CGA userport joy adapter",
+  "PET userport joy adapter",
+  "HUMMER userport joy adapter",
+  "OEM userport joy adapter",
+  "HIT userport joy adapter",
+  NULL
+};
+
+static const int ui_userport_c64_joystick_values[] = {
+  EXTRA_JOYSTICK_CGA,
+  EXTRA_JOYSTICK_PET,
+  EXTRA_JOYSTICK_HUMMER,
+  EXTRA_JOYSTICK_OEM,
+  EXTRA_JOYSTICK_HIT,
+  -1
+};
+
+static char *ui_userport_joystick[] = {
+  "CGA userport joy adapter",
+  "PET userport joy adapter",
+  "HUMMER userport joy adapter",
+  "OEM userport joy adapter",
+  NULL
+};
+
+static const int ui_userport_joystick_values[] = {
+  EXTRA_JOYSTICK_CGA,
+  EXTRA_JOYSTICK_PET,
+  EXTRA_JOYSTICK_HUMMER,
+  EXTRA_JOYSTICK_OEM,
+  -1
+};
+
 static ui_to_from_t ui_to_from_device[] = {
   { NULL, MUI_TYPE_CYCLE, "JoyDevice1", ui_joystick_device, ui_joystick_device_values },
   { NULL, MUI_TYPE_CYCLE, "JoyDevice2", ui_joystick_device, ui_joystick_device_values },
+  { NULL, MUI_TYPE_CYCLE, "JoyDevice3", ui_joystick_device, ui_joystick_device_values },
+  { NULL, MUI_TYPE_CYCLE, "JoyDevice4", ui_joystick_device, ui_joystick_device_values },
+  { NULL, MUI_TYPE_CYCLE, "ExtraJoy", ui_joystick_enable, ui_joystick_enable_values },
+  { NULL, MUI_TYPE_CYCLE, "ExtraJoyType", ui_userport_c64_joystick, ui_userport_c64_joystick_values },
+  { NULL, MUI_TYPE_CYCLE, "ExtraJoyType", ui_userport_joystick, ui_userport_joystick_values },
+  UI_END /* mandatory */
+};
+
+static ui_to_from_t ui_to_from_device_plus4[] = {
+  { NULL, MUI_TYPE_CYCLE, "JoyDevice1", ui_joystick_device, ui_joystick_device_values },
+  { NULL, MUI_TYPE_CYCLE, "JoyDevice2", ui_joystick_device, ui_joystick_device_values },
+  { NULL, MUI_TYPE_CYCLE, "JoyDevice3", ui_joystick_device, ui_joystick_device_values },
+  { NULL, MUI_TYPE_CYCLE, "SIDCartJoy", ui_joystick_enable, ui_joystick_enable_values },
   UI_END /* mandatory */
 };
 
 static ui_to_from_t ui_to_from_fire[] = {
   { NULL, MUI_TYPE_CYCLE, "JoyFire1", ui_joystick_fire, ui_joystick_fire_values },
   { NULL, MUI_TYPE_CYCLE, "JoyFire2", ui_joystick_fire, ui_joystick_fire_values },
+  { NULL, MUI_TYPE_CYCLE, "JoyFire3", ui_joystick_fire, ui_joystick_fire_values },
+  { NULL, MUI_TYPE_CYCLE, "JoyFire4", ui_joystick_fire, ui_joystick_fire_values },
   UI_END /* mandatory */
 };
 
-static APTR build_gui_device(void)
+static APTR build_gui_device_c64(void)
+{
+  return GroupObject,
+    CYCLE(ui_to_from_device[0].object, translate_text(IDS_JOY_1_DEVICE), ui_joystick_device)
+    CYCLE(ui_to_from_device[1].object, translate_text(IDS_JOY_2_DEVICE), ui_joystick_device)
+    CYCLE(ui_to_from_device[4].object, translate_text(IDS_USERPORT_ADAPTER), ui_joystick_enable)
+    CYCLE(ui_to_from_device[3].object, translate_text(IDS_USERPORT_ADAPTER_TYPE), ui_userport_c64_joystick)
+    CYCLE(ui_to_from_device[2].object, translate_text(IDS_USERPORT_JOY_1_DEVICE), ui_joystick_device)
+    CYCLE(ui_to_from_device[3].object, translate_text(IDS_USERPORT_JOY_2_DEVICE), ui_joystick_device)
+  End;
+}
+
+static APTR build_gui_device_c64dtv(void)
+{
+  return GroupObject,
+    CYCLE(ui_to_from_device[0].object, translate_text(IDS_JOY_1_DEVICE), ui_joystick_device)
+    CYCLE(ui_to_from_device[1].object, translate_text(IDS_JOY_2_DEVICE), ui_joystick_device)
+    CYCLE(ui_to_from_device[4].object, translate_text(IDS_USERPORT_ADAPTER), ui_joystick_enable)
+    CYCLE(ui_to_from_device[3].object, translate_text(IDS_USERPORT_ADAPTER_TYPE), ui_userport_joystick)
+    CYCLE(ui_to_from_device[2].object, translate_text(IDS_USERPORT_JOY_1_DEVICE), ui_joystick_device)
+    CYCLE(ui_to_from_device[3].object, translate_text(IDS_USERPORT_JOY_2_DEVICE), ui_joystick_device)
+  End;
+}
+
+static APTR build_gui_device_cbm5x0(void)
 {
   return GroupObject,
     CYCLE(ui_to_from_device[0].object, translate_text(IDS_JOY_1_DEVICE), ui_joystick_device)
@@ -106,7 +194,48 @@ static APTR build_gui_device(void)
   End;
 }
 
-static APTR build_gui_fire(void)
+static APTR build_gui_device_pet(void)
+{
+  return GroupObject,
+    CYCLE(ui_to_from_device[4].object, translate_text(IDS_USERPORT_ADAPTER), ui_joystick_enable)
+    CYCLE(ui_to_from_device[3].object, translate_text(IDS_USERPORT_ADAPTER_TYPE), ui_userport_joystick)
+    CYCLE(ui_to_from_device[2].object, translate_text(IDS_USERPORT_JOY_1_DEVICE), ui_joystick_device)
+    CYCLE(ui_to_from_device[3].object, translate_text(IDS_USERPORT_JOY_2_DEVICE), ui_joystick_device)
+  End;
+}
+
+static APTR build_gui_device_vic20(void)
+{
+  return GroupObject,
+    CYCLE(ui_to_from_device[0].object, translate_text(IDS_JOY_1_DEVICE), ui_joystick_device)
+    CYCLE(ui_to_from_device[4].object, translate_text(IDS_USERPORT_ADAPTER), ui_joystick_enable)
+    CYCLE(ui_to_from_device[3].object, translate_text(IDS_USERPORT_ADAPTER_TYPE), ui_userport_joystick)
+    CYCLE(ui_to_from_device[2].object, translate_text(IDS_USERPORT_JOY_1_DEVICE), ui_joystick_device)
+    CYCLE(ui_to_from_device[3].object, translate_text(IDS_USERPORT_JOY_2_DEVICE), ui_joystick_device)
+  End;
+}
+
+static APTR build_gui_device_plus4(void)
+{
+  return GroupObject,
+    CYCLE(ui_to_from_device_plus4[0].object, translate_text(IDS_JOY_1_DEVICE), ui_joystick_device)
+    CYCLE(ui_to_from_device_plus4[1].object, translate_text(IDS_JOY_2_DEVICE), ui_joystick_device)
+    CYCLE(ui_to_from_device_plus4[3].object, translate_text(IDS_SIDCART_JOY), ui_joystick_enable)
+    CYCLE(ui_to_from_device_plus4[2].object, translate_text(IDS_SIDCART_JOY_DEVICE), ui_joystick_device)
+  End;
+}
+
+static APTR build_gui_fire_c64(void)
+{
+  return GroupObject,
+    CYCLE(ui_to_from_fire[0].object, translate_text(IDS_JOY_1_FIRE), ui_joystick_fire)
+    CYCLE(ui_to_from_fire[1].object, translate_text(IDS_JOY_2_FIRE), ui_joystick_fire)
+    CYCLE(ui_to_from_fire[2].object, translate_text(IDS_USERPORT_JOY_1_FIRE), ui_joystick_fire)
+    CYCLE(ui_to_from_fire[3].object, translate_text(IDS_USERPORT_JOY_2_FIRE), ui_joystick_fire)
+  End;
+}
+
+static APTR build_gui_fire_cbm5x0(void)
 {
   return GroupObject,
     CYCLE(ui_to_from_fire[0].object, translate_text(IDS_JOY_1_FIRE), ui_joystick_fire)
@@ -114,16 +243,102 @@ static APTR build_gui_fire(void)
   End;
 }
 
-void ui_joystick_device_dialog(void)
+static APTR build_gui_fire_pet(void)
 {
-  intl_convert_mui_table(ui_joystick_device_translate, ui_joystick_device);
-  mui_show_dialog(build_gui_device(), translate_text(IDMS_JOYSTICK_DEVICE_SELECT), ui_to_from_device);
+  return GroupObject,
+    CYCLE(ui_to_from_fire[2].object, translate_text(IDS_USERPORT_JOY_1_FIRE), ui_joystick_fire)
+    CYCLE(ui_to_from_fire[3].object, translate_text(IDS_USERPORT_JOY_2_FIRE), ui_joystick_fire)
+  End;
 }
 
-void ui_joystick_fire_dialog(void)
+static APTR build_gui_fire_vic20(void)
+{
+  return GroupObject,
+    CYCLE(ui_to_from_fire[0].object, translate_text(IDS_JOY_1_FIRE), ui_joystick_fire)
+    CYCLE(ui_to_from_fire[2].object, translate_text(IDS_USERPORT_JOY_1_FIRE), ui_joystick_fire)
+    CYCLE(ui_to_from_fire[3].object, translate_text(IDS_USERPORT_JOY_2_FIRE), ui_joystick_fire)
+  End;
+}
+
+static APTR build_gui_fire_plus4(void)
+{
+  return GroupObject,
+    CYCLE(ui_to_from_fire[0].object, translate_text(IDS_JOY_1_FIRE), ui_joystick_fire)
+    CYCLE(ui_to_from_fire[1].object, translate_text(IDS_JOY_2_FIRE), ui_joystick_fire)
+    CYCLE(ui_to_from_fire[2].object, translate_text(IDS_SIDCART_JOY_FIRE), ui_joystick_fire)
+  End;
+}
+
+void ui_joystick_device_c64_dialog(void)
+{
+  intl_convert_mui_table(ui_joystick_device_translate, ui_joystick_device);
+  intl_convert_mui_table(ui_joystick_enable_translate, ui_joystick_enable);
+  mui_show_dialog(build_gui_device_c64(), translate_text(IDMS_JOYSTICK_DEVICE_SELECT), ui_to_from_device);
+}
+
+void ui_joystick_device_c64dtv_dialog(void)
+{
+  intl_convert_mui_table(ui_joystick_device_translate, ui_joystick_device);
+  intl_convert_mui_table(ui_joystick_enable_translate, ui_joystick_enable);
+  mui_show_dialog(build_gui_device_c64dtv(), translate_text(IDMS_JOYSTICK_DEVICE_SELECT), ui_to_from_device);
+}
+
+void ui_joystick_device_cbm5x0_dialog(void)
+{
+  intl_convert_mui_table(ui_joystick_device_translate, ui_joystick_device);
+  intl_convert_mui_table(ui_joystick_enable_translate, ui_joystick_enable);
+  mui_show_dialog(build_gui_device_cbm5x0(), translate_text(IDMS_JOYSTICK_DEVICE_SELECT), ui_to_from_device);
+}
+
+void ui_joystick_device_pet_dialog(void)
+{
+  intl_convert_mui_table(ui_joystick_device_translate, ui_joystick_device);
+  intl_convert_mui_table(ui_joystick_enable_translate, ui_joystick_enable);
+  mui_show_dialog(build_gui_device_pet(), translate_text(IDMS_JOYSTICK_DEVICE_SELECT), ui_to_from_device);
+}
+
+void ui_joystick_device_vic20_dialog(void)
+{
+  intl_convert_mui_table(ui_joystick_device_translate, ui_joystick_device);
+  intl_convert_mui_table(ui_joystick_enable_translate, ui_joystick_enable);
+  mui_show_dialog(build_gui_device_vic20(), translate_text(IDMS_JOYSTICK_DEVICE_SELECT), ui_to_from_device);
+}
+
+void ui_joystick_device_plus4_dialog(void)
+{
+  intl_convert_mui_table(ui_joystick_device_translate, ui_joystick_device);
+  intl_convert_mui_table(ui_joystick_enable_translate, ui_joystick_enable);
+  mui_show_dialog(build_gui_device_plus4(), translate_text(IDMS_JOYSTICK_DEVICE_SELECT), ui_to_from_device_plus4);
+}
+
+void ui_joystick_fire_c64_dialog(void)
 {
   intl_convert_mui_table(ui_joystick_fire_translate, ui_joystick_fire);
-  mui_show_dialog(build_gui_fire(), translate_text(IDMS_JOYSTICK_FIRE_SELECT), ui_to_from_fire);
+  mui_show_dialog(build_gui_fire_c64(), translate_text(IDMS_JOYSTICK_FIRE_SELECT), ui_to_from_fire);
+}
+
+void ui_joystick_fire_cbm5x0_dialog(void)
+{
+  intl_convert_mui_table(ui_joystick_fire_translate, ui_joystick_fire);
+  mui_show_dialog(build_gui_fire_cbm5x0(), translate_text(IDMS_JOYSTICK_FIRE_SELECT), ui_to_from_fire);
+}
+
+void ui_joystick_fire_pet_dialog(void)
+{
+  intl_convert_mui_table(ui_joystick_fire_translate, ui_joystick_fire);
+  mui_show_dialog(build_gui_fire_pet(), translate_text(IDMS_JOYSTICK_FIRE_SELECT), ui_to_from_fire);
+}
+
+void ui_joystick_fire_vic20_dialog(void)
+{
+  intl_convert_mui_table(ui_joystick_fire_translate, ui_joystick_fire);
+  mui_show_dialog(build_gui_fire_vic20(), translate_text(IDMS_JOYSTICK_FIRE_SELECT), ui_to_from_fire);
+}
+
+void ui_joystick_fire_plus4_dialog(void)
+{
+  intl_convert_mui_table(ui_joystick_fire_translate, ui_joystick_fire);
+  mui_show_dialog(build_gui_fire_plus4(), translate_text(IDMS_JOYSTICK_FIRE_SELECT), ui_to_from_fire);
 }
 
 void ui_joystick_swap_joystick(void)
@@ -135,5 +350,16 @@ void ui_joystick_swap_joystick(void)
     resources_get_value("JoyDevice2",(void *)&device2);
     resources_set_value("JoyDevice1",(resource_value_t)device2);
     resources_set_value("JoyDevice2",(resource_value_t)device1);
+}
+
+void ui_joystick_swap_extra_joystick(void)
+{
+    int device3;
+    int device4;
+
+    resources_get_value("JoyDevice3",(void *)&device3);
+    resources_get_value("JoyDevice4",(void *)&device4);
+    resources_set_value("JoyDevice3",(resource_value_t)device4);
+    resources_set_value("JoyDevice4",(resource_value_t)device3);
 }
 #endif

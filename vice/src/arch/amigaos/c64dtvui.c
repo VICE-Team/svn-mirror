@@ -36,6 +36,8 @@
 
 #include "mui/uic64dtv.h"
 #include "mui/uidrivec64vic20.h"
+#include "mui/uijoystick.h"
+#include "mui/uijoystickll.h"
 #include "mui/uiromc64vic20settings.h"
 #include "mui/uisiddtv.h"
 #include "mui/uivicii.h"
@@ -76,6 +78,18 @@ static int c64dtv_ui_specific(video_canvas_t *canvas, int idm)
       case IDM_DRIVE_SETTINGS:
         uidrivec64vic20_settings_dialog();
         break;
+#ifdef AMIGA_OS4
+    case IDM_JOY_SETTINGS:
+      ui_joystick_settings_c64dtv_dialog();
+      break;
+#else
+    case IDM_JOY_DEVICE_SELECTION:
+      ui_joystick_device_c64dtv_dialog();
+      break;
+    case IDM_JOY_FIRE_SELECTION:
+      ui_joystick_fire_c64_dialog();
+      break;
+#endif
       case IDM_KEYBOARD_SETTINGS:
 //        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
         break;

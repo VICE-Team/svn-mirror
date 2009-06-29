@@ -27,8 +27,20 @@
 #ifndef VICE_UIJOYSTICKLL_H_
 #define VICE_UIJOYSTICKLL_H_
 
-extern void ui_joystick_device_dialog(void);
-extern void ui_joystick_fire_dialog(void);
+extern void ui_joystick_device_c64_dialog(void);
+extern void ui_joystick_device_c64dtv_dialog(void);
+extern void ui_joystick_device_cbm5x0_dialog(void);
+extern void ui_joystick_device_pet_dialog(void);
+extern void ui_joystick_device_vic20_dialog(void);
+extern void ui_joystick_device_plus4_dialog(void);
+
+extern void ui_joystick_fire_c64_dialog(void);
+extern void ui_joystick_fire_cbm5x0_dialog(void);
+extern void ui_joystick_fire_pet_dialog(void);
+extern void ui_joystick_fire_vic20_dialog(void);
+extern void ui_joystick_fire_plus4_dialog(void);
+
 extern void ui_joystick_swap_joystick(void);
+extern void ui_joystick_swap_extra_joystick(void);
 
 #endif

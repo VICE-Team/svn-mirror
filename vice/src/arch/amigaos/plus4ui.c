@@ -41,6 +41,8 @@
 
 #include "mui/uiacia.h"
 #include "mui/uidriveplus4.h"
+#include "mui/uijoystick.h"
+#include "mui/uijoystickll.h"
 #include "mui/uiplus4settings.h"
 #include "mui/uiromplus4settings.h"
 #include "mui/uisidcart.h"
@@ -182,6 +184,18 @@ static int plus4_ui_specific(video_canvas_t *canvas, int idm)
       case IDM_SIDCART_SETTINGS:
         ui_sidcart_plus4_settings_dialog("$FD40", "$FE80", "PLUS4");
         break;
+#ifdef AMIGA_OS4
+    case IDM_JOY_SETTINGS:
+      ui_joystick_settings_plus4_dialog();
+      break;
+#else
+    case IDM_JOY_DEVICE_SELECTION:
+      ui_joystick_device_plus4_dialog();
+      break;
+    case IDM_JOY_FIRE_SELECTION:
+      ui_joystick_fire_plus4_dialog();
+      break;
+#endif
       case IDM_KEYBOARD_SETTINGS:
 //        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
         break;

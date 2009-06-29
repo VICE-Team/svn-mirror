@@ -612,20 +612,11 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
     case IDM_PASTE:
       ui_paste_clipboard_text();
       break;
-#ifdef AMIGA_OS4
-    case IDM_JOY_SETTINGS:
-      ui_joystick_settings_dialog();
-      break;
-#else
-    case IDM_JOY_DEVICE_SELECTION:
-      ui_joystick_device_dialog();
-      break;
-    case IDM_JOY_FIRE_SELECTION:
-      ui_joystick_fire_dialog();
-      break;
-#endif
     case IDM_SWAP_JOYSTICK:
       ui_joystick_swap_joystick();
+      break;
+    case IDM_SWAP_USERPORT_JOYSTICK:
+      ui_joystick_swap_extra_joystick();
       break;
     case IDM_PAUSE:
       ui_pause_emulation();

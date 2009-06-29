@@ -27,7 +27,13 @@
 #ifndef VICE_UIJOYSTICK_H_
 #define VICE_UIJOYSTICK_H_
 
-extern void ui_joystick_settings_dialog(void);
+extern void ui_joystick_settings_c64_dialog(void);
+extern void ui_joystick_settings_c64dtv_dialog(void);
+extern void ui_joystick_settings_cbm5x0_dialog(void);
+extern void ui_joystick_settings_pet_dialog(void);
+extern void ui_joystick_settings_plus4_dialog(void);
+extern void ui_joystick_settings_vic20_dialog(void);
 extern void ui_joystick_swap_joystick(void);
+extern void ui_joystick_swap_extra_joystick(void);
 
 #endif

@@ -1460,16 +1460,27 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_SWAP_JOYSTICKS_SV, "Växla spelportarna"},
 /* tr */ {IDMS_SWAP_JOYSTICKS_TR, "Joysticklerin Yerlerini Deðiþtir"},
 
+/* en */ {IDMS_SWAP_USERPORT_JOYSTICKS,    "Swap Userport Joysticks"},
+/* da */ {IDMS_SWAP_USERPORT_JOYSTICKS_DA, ""},  /* fuzzy */
+/* de */ {IDMS_SWAP_USERPORT_JOYSTICKS_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_SWAP_USERPORT_JOYSTICKS_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_SWAP_USERPORT_JOYSTICKS_HU, ""},  /* fuzzy */
+/* it */ {IDMS_SWAP_USERPORT_JOYSTICKS_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_SWAP_USERPORT_JOYSTICKS_NL, "Verwissel userport joysticks"},
+/* pl */ {IDMS_SWAP_USERPORT_JOYSTICKS_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_SWAP_USERPORT_JOYSTICKS_SV, ""},  /* fuzzy */
+/* tr */ {IDMS_SWAP_USERPORT_JOYSTICKS_TR, ""},  /* fuzzy */
+
 /* en */ {IDMS_ENABLE_JOY_KEYS,   "Enable Joy Keys"},
-/* da */ {IDMS_SWAP_JOYSTICKS_DA, "Aktivér joystick via keyboard"},
-/* de */ {IDMS_SWAP_JOYSTICKS_DE, "Joystick Tasten aktivieren"},
-/* fr */ {IDMS_SWAP_JOYSTICKS_FR, ""},  /* fuzzy */
-/* hu */ {IDMS_SWAP_JOYSTICKS_HU, "Botkormány gombok engedélyezése"},
-/* it */ {IDMS_SWAP_JOYSTICKS_IT, "Attiva tasti joystick"},
-/* nl */ {IDMS_SWAP_JOYSTICKS_NL, "Activeer Joy Keys"},
-/* pl */ {IDMS_SWAP_JOYSTICKS_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_SWAP_JOYSTICKS_SV, "Aktivera styrspak via tangenter"},
-/* tr */ {IDMS_SWAP_JOYSTICKS_TR, "Joy Tuþlarýný Aktif Et"},
+/* da */ {IDMS_ENABLE_JOY_KEYS_DA, "Aktivér joystick via keyboard"},
+/* de */ {IDMS_ENABLE_JOY_KEYS_DE, "Joystick Tasten aktivieren"},
+/* fr */ {IDMS_ENABLE_JOY_KEYS_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_ENABLE_JOY_KEYS_HU, "Botkormány gombok engedélyezése"},
+/* it */ {IDMS_ENABLE_JOY_KEYS_IT, "Attiva tasti joystick"},
+/* nl */ {IDMS_ENABLE_JOY_KEYS_NL, "Activeer Joy Keys"},
+/* pl */ {IDMS_ENABLE_JOY_KEYS_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_ENABLE_JOY_KEYS_SV, "Aktivera styrspak via tangenter"},
+/* tr */ {IDMS_ENABLE_JOY_KEYS_TR, "Joy Tuþlarýný Aktif Et"},
 
 /* en */ {IDMS_SOUND_PLAYBACK,    "Sound playback"},
 /* da */ {IDMS_SOUND_PLAYBACK_DA, "Slå lydemulering til"},
@@ -2108,17 +2119,6 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDMS_SIDCART_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_SIDCART_SETTINGS_SV, "SID-modulinställningar..."},
 /* tr */ {IDMS_SIDCART_SETTINGS_TR, "SID katuþ ayarlarý..."},
-
-/* en */ {IDMS_ENABLE_OEM_JOY,    "Enable OEM userport joystick"},
-/* da */ {IDMS_ENABLE_OEM_JOY_DA, ""},  /* fuzzy */
-/* de */ {IDMS_ENABLE_OEM_JOY_DE, ""},  /* fuzzy */
-/* fr */ {IDMS_ENABLE_OEM_JOY_FR, ""},  /* fuzzy */
-/* hu */ {IDMS_ENABLE_OEM_JOY_HU, ""},  /* fuzzy */
-/* it */ {IDMS_ENABLE_OEM_JOY_IT, ""},  /* fuzzy */
-/* nl */ {IDMS_ENABLE_OEM_JOY_NL, "Activeer OEM userport joystick"},
-/* pl */ {IDMS_ENABLE_OEM_JOY_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_ENABLE_OEM_JOY_SV, ""},  /* fuzzy */
-/* tr */ {IDMS_ENABLE_OEM_JOY_TR, ""},  /* fuzzy */
 
 /* en */ {IDMS_C64DTV_SETTINGS,    "C64DTV settings..."},
 /* da */ {IDMS_C64DTV_SETTINGS_DA, "C64DTV-indstillinger..."},
@@ -4195,6 +4195,72 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_JOYSTICK_IN_PORT_2_SV, "Joystick i spelport 2"},
 /* tr */ {IDS_JOYSTICK_IN_PORT_2_TR, "Joystick port #2'de"},
 
+/* en */ {IDS_USERPORT_ADAPTER,    "Userport joystick adapter"},
+/* da */ {IDS_USERPORT_ADAPTER_DA, ""},  /* fuzzy */
+/* de */ {IDS_USERPORT_ADAPTER_DE, ""},  /* fuzzy */
+/* fr */ {IDS_USERPORT_ADAPTER_FR, ""},  /* fuzzy */
+/* hu */ {IDS_USERPORT_ADAPTER_HU, ""},  /* fuzzy */
+/* it */ {IDS_USERPORT_ADAPTER_IT, ""},  /* fuzzy */
+/* nl */ {IDS_USERPORT_ADAPTER_NL, "Userport joystick adapter"},
+/* pl */ {IDS_USERPORT_ADAPTER_PL, ""},  /* fuzzy */
+/* sv */ {IDS_USERPORT_ADAPTER_SV, ""},  /* fuzzy */
+/* tr */ {IDS_USERPORT_ADAPTER_TR, ""},  /* fuzzy */
+
+/* en */ {IDS_USERPORT_ADAPTER_TYPE,    "Userport joystick adapter type"},
+/* da */ {IDS_USERPORT_ADAPTER_TYPE_DA, ""},  /* fuzzy */
+/* de */ {IDS_USERPORT_ADAPTER_TYPE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_USERPORT_ADAPTER_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_USERPORT_ADAPTER_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDS_USERPORT_ADAPTER_TYPE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_USERPORT_ADAPTER_TYPE_NL, "Userport joystick adapter model"},
+/* pl */ {IDS_USERPORT_ADAPTER_TYPE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_USERPORT_ADAPTER_TYPE_SV, ""},  /* fuzzy */
+/* tr */ {IDS_USERPORT_ADAPTER_TYPE_TR, ""},  /* fuzzy */
+
+/* en */ {IDS_JOYSTICK_IN_USERPORT_PORT_1,    "Joystick in userport adapter port #1"},
+/* da */ {IDS_JOYSTICK_IN_USERPORT_PORT_1_DA, ""},  /* fuzzy */
+/* de */ {IDS_JOYSTICK_IN_USERPORT_PORT_1_DE, ""},  /* fuzzy */
+/* fr */ {IDS_JOYSTICK_IN_USERPORT_PORT_1_FR, ""},  /* fuzzy */
+/* hu */ {IDS_JOYSTICK_IN_USERPORT_PORT_1_HU, ""},  /* fuzzy */
+/* it */ {IDS_JOYSTICK_IN_USERPORT_PORT_1_IT, ""},  /* fuzzy */
+/* nl */ {IDS_JOYSTICK_IN_USERPORT_PORT_1_NL, "Joystick in userport adapter poort #1"},
+/* pl */ {IDS_JOYSTICK_IN_USERPORT_PORT_1_PL, ""},  /* fuzzy */
+/* sv */ {IDS_JOYSTICK_IN_USERPORT_PORT_1_SV, ""},  /* fuzzy */
+/* tr */ {IDS_JOYSTICK_IN_USERPORT_PORT_1_TR, ""},  /* fuzzy */
+
+/* en */ {IDS_JOYSTICK_IN_USERPORT_PORT_2,    "Joystick in userport adapter port #2"},
+/* da */ {IDS_JOYSTICK_IN_USERPORT_PORT_2_DA, ""},  /* fuzzy */
+/* de */ {IDS_JOYSTICK_IN_USERPORT_PORT_2_DE, ""},  /* fuzzy */
+/* fr */ {IDS_JOYSTICK_IN_USERPORT_PORT_2_FR, ""},  /* fuzzy */
+/* hu */ {IDS_JOYSTICK_IN_USERPORT_PORT_2_HU, ""},  /* fuzzy */
+/* it */ {IDS_JOYSTICK_IN_USERPORT_PORT_2_IT, ""},  /* fuzzy */
+/* nl */ {IDS_JOYSTICK_IN_USERPORT_PORT_2_NL, "Joystick in userport adapter poort #2"},
+/* pl */ {IDS_JOYSTICK_IN_USERPORT_PORT_2_PL, ""},  /* fuzzy */
+/* sv */ {IDS_JOYSTICK_IN_USERPORT_PORT_2_SV, ""},  /* fuzzy */
+/* tr */ {IDS_JOYSTICK_IN_USERPORT_PORT_2_TR, ""},  /* fuzzy */
+
+/* en */ {IDS_SIDCART_JOY,    "SIDcart joystick"},
+/* da */ {IDS_SIDCART_JOY_DA, ""},  /* fuzzy */
+/* de */ {IDS_SIDCART_JOY_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SIDCART_JOY_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SIDCART_JOY_HU, ""},  /* fuzzy */
+/* it */ {IDS_SIDCART_JOY_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SIDCART_JOY_NL, "SIDcart joystick"},
+/* pl */ {IDS_SIDCART_JOY_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SIDCART_JOY_SV, ""},  /* fuzzy */
+/* tr */ {IDS_SIDCART_JOY_TR, ""},  /* fuzzy */
+
+/* en */ {IDS_JOYSTICK_IN_SIDCART_PORT,    "Joystick in SIDcart joystick port"},
+/* da */ {IDS_JOYSTICK_IN_SIDCART_PORT_DA, ""},  /* fuzzy */
+/* de */ {IDS_JOYSTICK_IN_SIDCART_PORT_DE, ""},  /* fuzzy */
+/* fr */ {IDS_JOYSTICK_IN_SIDCART_PORT_FR, ""},  /* fuzzy */
+/* hu */ {IDS_JOYSTICK_IN_SIDCART_PORT_HU, ""},  /* fuzzy */
+/* it */ {IDS_JOYSTICK_IN_SIDCART_PORT_IT, ""},  /* fuzzy */
+/* nl */ {IDS_JOYSTICK_IN_SIDCART_PORT_NL, "Joystick in SIDcart joystick poort"},
+/* pl */ {IDS_JOYSTICK_IN_SIDCART_PORT_PL, ""},  /* fuzzy */
+/* sv */ {IDS_JOYSTICK_IN_SIDCART_PORT_SV, ""},  /* fuzzy */
+/* tr */ {IDS_JOYSTICK_IN_SIDCART_PORT_TR, ""},  /* fuzzy */
+
 /* en */ {IDS_JOYSTICK_SETTINGS,    "Joystick Settings"},
 /* da */ {IDS_JOYSTICK_SETTINGS_DA, "Joystickindstillinger"},
 /* de */ {IDS_JOYSTICK_SETTINGS_DE, "Joystick Einstellungen"},
@@ -4360,6 +4426,39 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_JOY_2_DEVICE_SV, "Joy 2-enhet"},
 /* tr */ {IDS_JOY_2_DEVICE_TR, "Joy 2 Aygýtý"},
 
+/* en */ {IDS_USERPORT_JOY_1_DEVICE,    "Userport Joy 1 Device"},
+/* da */ {IDS_USERPORT_JOY_1_DEVICE_DA, ""},  /* fuzzy */
+/* de */ {IDS_USERPORT_JOY_1_DEVICE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_USERPORT_JOY_1_DEVICE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_USERPORT_JOY_1_DEVICE_HU, ""},  /* fuzzy */
+/* it */ {IDS_USERPORT_JOY_1_DEVICE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_USERPORT_JOY_1_DEVICE_NL, "Userport Joy 1-apparaat"},
+/* pl */ {IDS_USERPORT_JOY_1_DEVICE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_USERPORT_JOY_1_DEVICE_SV, ""},  /* fuzzy */
+/* tr */ {IDS_USERPORT_JOY_1_DEVICE_TR, ""},  /* fuzzy */
+
+/* en */ {IDS_USERPORT_JOY_2_DEVICE,    "Userport Joy 2 Device"},
+/* da */ {IDS_USERPORT_JOY_2_DEVICE_DA, ""},  /* fuzzy */
+/* de */ {IDS_USERPORT_JOY_2_DEVICE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_USERPORT_JOY_2_DEVICE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_USERPORT_JOY_2_DEVICE_HU, ""},  /* fuzzy */
+/* it */ {IDS_USERPORT_JOY_2_DEVICE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_USERPORT_JOY_2_DEVICE_NL, "Userport Joy 2-apparaat"},
+/* pl */ {IDS_USERPORT_JOY_2_DEVICE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_USERPORT_JOY_2_DEVICE_SV, ""},  /* fuzzy */
+/* tr */ {IDS_USERPORT_JOY_2_DEVICE_TR, ""},  /* fuzzy */
+
+/* en */ {IDS_SIDCART_JOY_DEVICE,    "SIDcart Joy Device"},
+/* da */ {IDS_SIDCART_JOY_DEVICE_DA, ""},  /* fuzzy */
+/* de */ {IDS_SIDCART_JOY_DEVICE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SIDCART_JOY_DEVICE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SIDCART_JOY_DEVICE_HU, ""},  /* fuzzy */
+/* it */ {IDS_SIDCART_JOY_DEVICE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SIDCART_JOY_DEVICE_NL, "SIDcart Joy apparaat"},
+/* pl */ {IDS_SIDCART_JOY_DEVICE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SIDCART_JOY_DEVICE_SV, ""},  /* fuzzy */
+/* tr */ {IDS_SIDCART_JOY_DEVICE_TR, ""},  /* fuzzy */
+
 /* en */ {IDS_JOY_1_FIRE,    "Joy 1 Fire"},
 /* da */ {IDS_JOY_1_FIRE_DA, "Joystick 1 skydeknap"},
 /* de */ {IDS_JOY_1_FIRE_DE, "Joystick 1 Feuer"},
@@ -4381,6 +4480,39 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDS_JOY_2_FIRE_PL, ""},  /* fuzzy */
 /* sv */ {IDS_JOY_2_FIRE_SV, "Joy 2 Fire"},
 /* tr */ {IDS_JOY_2_FIRE_TR, "Joy 2 Ateþ"},
+
+/* en */ {IDS_USERPORT_JOY_1_FIRE,    "Userport Joy 1 Fire"},
+/* da */ {IDS_USERPORT_JOY_1_FIRE_DA, ""},  /* fuzzy */
+/* de */ {IDS_USERPORT_JOY_1_FIRE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_USERPORT_JOY_1_FIRE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_USERPORT_JOY_1_FIRE_HU, ""},  /* fuzzy */
+/* it */ {IDS_USERPORT_JOY_1_FIRE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_USERPORT_JOY_1_FIRE_NL, "Userport Joy 1 Vuur"},
+/* pl */ {IDS_USERPORT_JOY_1_FIRE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_USERPORT_JOY_1_FIRE_SV, ""},  /* fuzzy */
+/* tr */ {IDS_USERPORT_JOY_1_FIRE_TR, ""},  /* fuzzy */
+
+/* en */ {IDS_USERPORT_JOY_2_FIRE,    "Userport Joy 2 Fire"},
+/* da */ {IDS_USERPORT_JOY_2_FIRE_DA, ""},  /* fuzzy */
+/* de */ {IDS_USERPORT_JOY_2_FIRE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_USERPORT_JOY_2_FIRE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_USERPORT_JOY_2_FIRE_HU, ""},  /* fuzzy */
+/* it */ {IDS_USERPORT_JOY_2_FIRE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_USERPORT_JOY_2_FIRE_NL, "Userport Joy 2 Vuur"},
+/* pl */ {IDS_USERPORT_JOY_2_FIRE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_USERPORT_JOY_2_FIRE_SV, ""},  /* fuzzy */
+/* tr */ {IDS_USERPORT_JOY_2_FIRE_TR, ""},  /* fuzzy */
+
+/* en */ {IDS_SIDCART_JOY_FIRE,    "SIDcart Joy Fire"},
+/* da */ {IDS_SIDCART_JOY_FIRE_DA, ""},  /* fuzzy */
+/* de */ {IDS_SIDCART_JOY_FIRE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SIDCART_JOY_FIRE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SIDCART_JOY_FIRE_HU, ""},  /* fuzzy */
+/* it */ {IDS_SIDCART_JOY_FIRE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SIDCART_JOY_FIRE_NL, "SIDcart Joy Vuur"},
+/* pl */ {IDS_SIDCART_JOY_FIRE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SIDCART_JOY_FIRE_SV, ""},  /* fuzzy */
+/* tr */ {IDS_SIDCART_JOY_FIRE_TR, ""},  /* fuzzy */
 
 /* en */ {IDS_SET_INPUT_JOYSTICK_1,    "Joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"},
 /* da */ {IDS_SET_INPUT_JOYSTICK_1_DA, "Emulering af Joystick 1: (0: ingen, 1: numerisk, 2: tastesæt A/AI, 3: tastesæt "

@@ -124,7 +124,6 @@ static ui_to_from_t ui_to_from[] = {
   { NULL, MUI_TYPE_CYCLE, "SidFilters", ui_sidcart_enable, ui_sidcart_enable_values },
   { NULL, MUI_TYPE_CYCLE, "SidAddress", ui_sidcart_address, ui_sidcart_address_values },
   { NULL, MUI_TYPE_CYCLE, "SidClock", ui_sidcart_clock, ui_sidcart_clock_values },
-  { NULL, MUI_TYPE_CYCLE, "SIDCartJoy", ui_sidcart_enable, ui_sidcart_enable_values },
   { NULL, MUI_TYPE_CYCLE, "DIGIBLASTER", ui_sidcart_enable, ui_sidcart_enable_values },
   UI_END /* mandatory */
 };
@@ -150,8 +149,7 @@ static APTR build_gui_plus4(void)
     CYCLE(ui_to_from[3].object, translate_text(IDS_SID_FILTERS), ui_sidcart_enable)
     CYCLE(ui_to_from[4].object, translate_text(IDS_SID_ADDRESS), ui_sidcart_address)
     CYCLE(ui_to_from[5].object, translate_text(IDS_SID_CLOCK), ui_sidcart_clock)
-    CYCLE(ui_to_from[6].object, translate_text(IDS_SID_JOY), ui_sidcart_enable)
-    CYCLE(ui_to_from[7].object, translate_text(IDS_SID_DIGIBLASTER), ui_sidcart_enable)
+    CYCLE(ui_to_from[6].object, translate_text(IDS_SID_DIGIBLASTER), ui_sidcart_enable)
   End;
 }
 

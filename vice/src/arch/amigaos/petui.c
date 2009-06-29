@@ -36,6 +36,8 @@
 
 #include "mui/uiacia.h"
 #include "mui/uidrivepetcbm2.h"
+#include "mui/uijoystick.h"
+#include "mui/uijoystickll.h"
 #include "mui/uipetreu.h"
 #include "mui/uipetsettings.h"
 #include "mui/uirompetsettings.h"
@@ -80,6 +82,18 @@ static int pet_ui_specific(video_canvas_t *canvas, int idm)
       case IDM_SIDCART_SETTINGS:
         ui_sidcart_settings_dialog("$8F00", "$E900", "PET");
         break;
+#ifdef AMIGA_OS4
+    case IDM_JOY_SETTINGS:
+      ui_joystick_settings_pet_dialog();
+      break;
+#else
+    case IDM_JOY_DEVICE_SELECTION:
+      ui_joystick_device_pet_dialog();
+      break;
+    case IDM_JOY_FIRE_SELECTION:
+      ui_joystick_fire_pet_dialog();
+      break;
+#endif
       case IDM_KEYBOARD_SETTINGS:
 //        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
         break;

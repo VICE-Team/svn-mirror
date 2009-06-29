@@ -36,6 +36,8 @@
 #include "vic20uires.h"
 
 #include "mui/uidrivec64vic20.h"
+#include "mui/uijoystick.h"
+#include "mui/uijoystickll.h"
 #include "mui/uiromc64vic20settings.h"
 #include "mui/uirs232user.h"
 #include "mui/uisidcart.h"
@@ -49,8 +51,7 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { "VICVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "IEEE488", IDM_IEEE488 },
-    { "EmuID", IDM_TOGGLE_EMUID },   
-    { "OEMJoy", IDM_TOGGLE_OEM_JOY },   
+    { "EmuID", IDM_TOGGLE_EMUID },
     { NULL, 0 }
 };
 
@@ -128,6 +129,18 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
       case IDM_SIDCART_SETTINGS:
         ui_sidcart_settings_dialog("$9800", "$9C00", "VIC20");
         break;
+#ifdef AMIGA_OS4
+    case IDM_JOY_SETTINGS:
+      ui_joystick_settings_vic20_dialog();
+      break;
+#else
+    case IDM_JOY_DEVICE_SELECTION:
+      ui_joystick_device_vic20_dialog();
+      break;
+    case IDM_JOY_FIRE_SELECTION:
+      ui_joystick_fire_vic20_dialog();
+      break;
+#endif
       case IDM_KEYBOARD_SETTINGS:
 //        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
         break;
