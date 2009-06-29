@@ -33,7 +33,7 @@
 struct raster_s;
 
 /* This should be a lot more than what is actually needed.  */
-#define RASTER_CHANGES_MAX 512
+#define RASTER_CHANGES_MAX 1024
 
 enum raster_changes_type_s
 {
