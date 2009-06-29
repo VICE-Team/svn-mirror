@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include "attach.h"
+#include "autostart-prg.h"
 #include "drive.h"
 #include "diskimage.h"
 #include "fliplist.h"
@@ -194,8 +195,6 @@ static char *get_drive_type_string(int drive)
 }
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
-UI_MENU_DEFINE_TOGGLE(AutostartHandleTrueDriveEmulation)
-UI_MENU_DEFINE_TOGGLE(AutostartWarp)
 UI_MENU_DEFINE_TOGGLE(VirtualDevices)
 
 static UI_MENU_CALLBACK(set_hide_p00_files_callback)
@@ -1597,6 +1596,47 @@ static const ui_menu_entry_t fliplist_menu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_TOGGLE(AutostartHandleTrueDriveEmulation)
+UI_MENU_DEFINE_TOGGLE(AutostartWarp)
+UI_MENU_DEFINE_TOGGLE(AutostartRunWithColon)
+UI_MENU_DEFINE_RADIO(AutostartPrgMode)
+UI_MENU_DEFINE_STRING(AutostartPrgDiskImage)
+
+static const ui_menu_entry_t autostart_settings_menu[] = {
+    { "Handle TDE on autostart",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_AutostartHandleTrueDriveEmulation_callback,
+      NULL },
+    { "Autostart warp",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_AutostartWarp_callback,
+      NULL },
+    { "Use ':' with RUN",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_AutostartRunWithColon_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Autostart PRG mode"),
+    { "VirtualFS",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_AutostartPrgMode_callback,
+      (ui_callback_data_t)AUTOSTART_PRG_MODE_VFS },
+    { "Inject",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_AutostartPrgMode_callback,
+      (ui_callback_data_t)AUTOSTART_PRG_MODE_INJECT },
+    { "Disk image",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_AutostartPrgMode_callback,
+      (ui_callback_data_t)AUTOSTART_PRG_MODE_DISK },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Autostart disk image",
+      MENU_ENTRY_RESOURCE_STRING,
+      string_AutostartPrgDiskImage_callback,
+      (ui_callback_data_t)"Disk image for autostarting PRG files" },
+    { NULL }
+};
+
 const ui_menu_entry_t drive_menu[] = {
     { "Attach disk image to drive 8",
       MENU_ENTRY_DIALOG,
@@ -1660,18 +1700,14 @@ const ui_menu_entry_t drive_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_DriveTrueEmulation_callback,
       NULL },
-    { "Handle TDE on autostart",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_AutostartHandleTrueDriveEmulation_callback,
-      NULL },
-    { "Autostart warp",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_AutostartWarp_callback,
-      NULL },
     { "Virtual device traps",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VirtualDevices_callback,
       NULL },
+   { "Autostart settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)autostart_settings_menu },
    { "Fliplist settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
