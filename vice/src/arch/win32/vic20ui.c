@@ -65,7 +65,6 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "VICVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "IEEE488", IDM_IEEE488 },
     { "Mouse", IDM_PADDLES },
-    { "OEMJoy", IDM_TOGGLE_OEM_JOY },
     { NULL, 0 }
 };
 
