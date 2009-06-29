@@ -774,6 +774,18 @@ static int intl_table[][countof(language_table)] = {
 /* tr */  IDD_JOY_SETTINGS_DIALOG_TR},   /* fuzzy, size */
 
 /* res.rc */
+/* en */ {IDD_EXTRA_JOY_SETTINGS_DIALOG,
+/* da */  IDD_EXTRA_JOY_SETTINGS_DIALOG_DA,    /* fuzzy, size */
+/* de */  IDD_EXTRA_JOY_SETTINGS_DIALOG_DE,    /* size */
+/* fr */  IDD_EXTRA_JOY_SETTINGS_DIALOG_FR,    /* fuzzy, size */
+/* hu */  IDD_EXTRA_JOY_SETTINGS_DIALOG_HU,    /* size */
+/* it */  IDD_EXTRA_JOY_SETTINGS_DIALOG_IT,    /* size */
+/* nl */  IDD_EXTRA_JOY_SETTINGS_DIALOG_NL,
+/* pl */  IDD_EXTRA_JOY_SETTINGS_DIALOG_PL,    /* fuzzy, size */
+/* sv */  IDD_EXTRA_JOY_SETTINGS_DIALOG_SV,    /* size */
+/* tr */  IDD_EXTRA_JOY_SETTINGS_DIALOG_TR},   /* fuzzy, size */
+
+/* res.rc */
 /* en */ {IDD_CONFIG_KEYSET_DIALOG,
 /* da */  IDD_CONFIG_KEYSET_DIALOG_DA,    /* fuzzy, size */
 /* de */  IDD_CONFIG_KEYSET_DIALOG_DE,    /* size */

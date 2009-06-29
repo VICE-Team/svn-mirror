@@ -29,6 +29,7 @@
 
 #include "intl.h"
 #include "joy.h"
+#include "joystick.h"
 #include "kbd.h"
 #include "machine.h"
 #include "res.h"
@@ -42,6 +43,8 @@
 
 static int joy1;
 static int joy2;
+static int joy3;
+static int joy4;
 static int current_keyset_index;
 static int current_key_index;
 
@@ -373,6 +376,177 @@ static void init_joystick_dialog(HWND hwnd)
     EnableWindow(GetDlgItem(hwnd, IDC_JOY_CALIBRATE), joystick_uses_direct_input());
 }
 
+static void enable_userport_joystick_controls(HWND hwnd, int joyamount)
+{
+    int device;
+    int res_value;
+
+    resources_get_int("JoyDevice3", &device);
+    resources_get_int("JoyAutofire3Button", &res_value);
+
+    if (joyamount == 0) {
+        EnableWindow(GetDlgItem(hwnd, IDC_JOY_DEV1), 0);
+        EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_BUTTON), 0);
+        EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_SPEED), 0);
+        EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_AXIS), 0);
+        EnableWindow(GetDlgItem(hwnd, IDC_JOY_AUTOFIRE1_BUTTON), 0);
+    } else {
+        EnableWindow(GetDlgItem(hwnd, IDC_JOY_DEV1), 1);
+        EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_BUTTON),
+                                (device >= JOYDEV_HW1));
+        EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_SPEED),
+                                (device >= JOYDEV_HW1) && (res_value == 0));
+        EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_AXIS),
+                                (device >= JOYDEV_HW1));
+        EnableWindow(GetDlgItem(hwnd, IDC_JOY_AUTOFIRE1_BUTTON),
+                                (device >= JOYDEV_HW1));
+    }
+
+    resources_get_int("JoyDevice4", &device);
+    resources_get_int("JoyAutofire4Button", &res_value);
+
+    if (joyamount < 2) {
+      EnableWindow(GetDlgItem(hwnd, IDC_JOY_DEV2), 0);
+      EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_BUTTON), 0);
+      EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_SPEED), 0);
+      EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS), 0);
+      EnableWindow(GetDlgItem(hwnd, IDC_JOY_AUTOFIRE2_BUTTON), 0);
+    } else {
+      EnableWindow(GetDlgItem(hwnd, IDC_JOY_DEV2), 1);
+      EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_BUTTON),
+                              (device >= JOYDEV_HW1));
+      EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_SPEED),
+                              (device >= JOYDEV_HW1) && (res_value == 0));
+      EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS),
+                              (device >= JOYDEV_HW1));
+      EnableWindow(GetDlgItem(hwnd, IDC_JOY_AUTOFIRE2_BUTTON),
+                              (device >= JOYDEV_HW1));
+    }
+}
+
+static void init_extra_joystick_dialog(HWND hwnd)
+{
+    HWND joy_hwnd;
+    int res_value;
+    int device;
+    int joyamount;
+
+    joy_hwnd = GetDlgItem(hwnd, IDC_EXTRA_JOY_ADAPTER);
+    if (machine_class == VICE_MACHINE_PLUS4) {
+        SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                    (LPARAM)translate_text(IDS_NO_SIDCART_JOY));
+        SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                    (LPARAM)translate_text(IDS_SIDCART_JOY));
+        resources_get_int("SIDCartJoy", &res_value);
+        SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+        joyamount = res_value;
+    } else {
+        SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                    (LPARAM)translate_text(IDS_NO_USERPORT_ADAPTER));
+        SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                    (LPARAM)translate_text(IDS_CGA_USERPORT_ADAPTER));
+        SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                    (LPARAM)translate_text(IDS_PET_USERPORT_ADAPTER));
+        SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                    (LPARAM)translate_text(IDS_HUMMER_USERPORT_ADAPTER));
+        SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                    (LPARAM)translate_text(IDS_OEM_USERPORT_ADAPTER));
+        if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C128) {
+            SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                       (LPARAM)translate_text(IDS_HIT_USERPORT_ADAPTER));
+        }
+        resources_get_int("ExtraJoy", &res_value);
+        if (res_value == 0) {
+            SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+            joyamount = 0;
+        } else {
+            resources_get_int("ExtraJoyType", &res_value);
+            if (res_value == EXTRA_JOYSTICK_HUMMER || res_value == EXTRA_JOYSTICK_OEM) {
+                joyamount = 1;
+            } else {
+                joyamount = 2;
+            }
+            res_value++;
+            SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+        }
+    }
+
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_DEV1);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NONE));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NUMPAD_AND_RCTRL));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_KEYSET_A));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_KEYSET_B));
+    joystick_ui_get_device_list(joy_hwnd);
+    resources_get_int("JoyDevice3", &res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+    joy3 = device = res_value;
+
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE1_BUTTON);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_ALL_BUTTONS_AS_FIRE));
+    joystick_ui_get_autofire_buttons(joy_hwnd, device);
+    resources_get_int("JoyFire3Button", &res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+
+    resources_get_int("JoyAutofire3Speed", &res_value);
+    SetDlgItemInt(hwnd, IDC_JOY_FIRE1_SPEED, res_value, FALSE);
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE1_AXIS);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NUMERIC_SEE_ABOVE));
+    joystick_ui_get_autofire_axes(joy_hwnd, device);
+    resources_get_int("JoyAutofire3Axis", &res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_AUTOFIRE1_BUTTON);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NO_BUTTON_NO_AUTOFIRE));
+    joystick_ui_get_autofire_buttons(joy_hwnd, device);
+    resources_get_int("JoyAutofire3Button", &res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+
+    joy_hwnd = GetDlgItem(hwnd,IDC_JOY_DEV2);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NONE));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NUMPAD_AND_RCTRL));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_KEYSET_A));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_KEYSET_B));
+    joystick_ui_get_device_list(joy_hwnd);
+    resources_get_int("JoyDevice4", &res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value,0);
+    joy4 = device = res_value;
+
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE2_BUTTON);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_ALL_BUTTONS_AS_FIRE));
+    joystick_ui_get_autofire_buttons(joy_hwnd, device);
+    resources_get_int("JoyFire4Button", &res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+
+    resources_get_int("JoyAutofire4Speed", &res_value);
+    SetDlgItemInt(hwnd, IDC_JOY_FIRE2_SPEED, res_value, FALSE);
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NUMERIC_SEE_ABOVE));
+    joystick_ui_get_autofire_axes(joy_hwnd, device);
+    resources_get_int("JoyAutofire4Axis", &res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_AUTOFIRE2_BUTTON);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NO_BUTTON_NO_AUTOFIRE));
+    joystick_ui_get_autofire_buttons(joy_hwnd, device);
+    resources_get_int("JoyAutofire4Button", &res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+
+    enable_userport_joystick_controls(hwnd, joyamount);
+    EnableWindow(GetDlgItem(hwnd, IDC_JOY_CALIBRATE), joystick_uses_direct_input());
+}
+
 static void rebuild_axis_list_1(HWND hwnd, int device)
 {
     HWND joy_hwnd;
@@ -398,6 +572,34 @@ static void rebuild_axis_list_2(HWND hwnd, int device)
                 (LPARAM)translate_text(IDS_NUMERIC_SEE_ABOVE));
     joystick_ui_get_autofire_axes(joy_hwnd, device);
     resources_get_int("JoyAutofire2Axis", &res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+}
+
+static void rebuild_axis_list_3(HWND hwnd, int device)
+{
+    HWND joy_hwnd;
+    int res_value;
+
+    SendDlgItemMessage(hwnd, IDC_JOY_FIRE1_AXIS, CB_RESETCONTENT, 0, 0);
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE1_AXIS);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NUMERIC_SEE_ABOVE));
+    joystick_ui_get_autofire_axes(joy_hwnd, device);
+    resources_get_int("JoyAutofire3Axis", &res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+}
+
+static void rebuild_axis_list_4(HWND hwnd, int device)
+{
+    HWND joy_hwnd;
+    int res_value;
+
+    SendDlgItemMessage(hwnd, IDC_JOY_FIRE2_AXIS, CB_RESETCONTENT, 0, 0);
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NUMERIC_SEE_ABOVE));
+    joystick_ui_get_autofire_axes(joy_hwnd, device);
+    resources_get_int("JoyAutofire4Axis", &res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 }
 
@@ -442,6 +644,50 @@ static void rebuild_button_list_2(HWND hwnd, int device)
                 (LPARAM)translate_text(IDS_NO_BUTTON_NO_AUTOFIRE));
     joystick_ui_get_autofire_buttons(joy_hwnd, device);
     resources_get_int("JoyAutofire2Button", &res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+}
+
+static void rebuild_button_list_3(HWND hwnd, int device)
+{
+    HWND joy_hwnd;
+    int res_value;
+
+    SendDlgItemMessage(hwnd, IDC_JOY_FIRE1_BUTTON, CB_RESETCONTENT, 0, 0);
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE1_BUTTON);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_ALL_BUTTONS_AS_FIRE));
+    joystick_ui_get_autofire_buttons(joy_hwnd, device);
+    resources_get_int("JoyFire3Button", &res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+
+    SendDlgItemMessage(hwnd, IDC_JOY_AUTOFIRE1_BUTTON, CB_RESETCONTENT, 0, 0);
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_AUTOFIRE1_BUTTON);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NO_BUTTON_NO_AUTOFIRE));
+    joystick_ui_get_autofire_buttons(joy_hwnd, device);
+    resources_get_int("JoyAutofire3Button", &res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+}
+
+static void rebuild_button_list_4(HWND hwnd, int device)
+{
+    HWND joy_hwnd;
+    int res_value;
+
+    SendDlgItemMessage(hwnd, IDC_JOY_FIRE2_BUTTON, CB_RESETCONTENT, 0, 0);
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE2_BUTTON);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_ALL_BUTTONS_AS_FIRE));
+    joystick_ui_get_autofire_buttons(joy_hwnd, device);
+    resources_get_int("JoyFire4Button", &res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+
+    SendDlgItemMessage(hwnd, IDC_JOY_AUTOFIRE2_BUTTON, CB_RESETCONTENT, 0, 0);
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_AUTOFIRE2_BUTTON);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NO_BUTTON_NO_AUTOFIRE));
+    joystick_ui_get_autofire_buttons(joy_hwnd, device);
+    resources_get_int("JoyAutofire4Button", &res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 }
 
@@ -598,10 +844,206 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
     return FALSE;
 }
 
+static INT_PTR CALLBACK dialog_proc_2(HWND hwnd, UINT msg, WPARAM wparam,
+                                      LPARAM lparam)
+{
+    int command;
+    int res_value;
+    int axis;
+    int joyamount;
+
+     switch (msg) {
+      case WM_INITDIALOG:
+        init_extra_joystick_dialog(hwnd);
+        return TRUE;
+      case WM_COMMAND:
+        command = LOWORD(wparam);
+        switch (command) {
+#ifdef HAVE_DINPUT
+          case IDC_JOY_CALIBRATE:
+            joystick_calibrate(hwnd);
+            return TRUE;
+#endif
+          case IDC_JOY_CONFIG_A:
+            current_keyset_index = 0;
+            DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_CONFIG_KEYSET_DIALOG),
+                      hwnd, keyset_dialog);
+            return TRUE;
+          case IDC_JOY_CONFIG_B:
+            current_keyset_index = 1;
+            DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_CONFIG_KEYSET_DIALOG),
+                      hwnd, keyset_dialog);
+            return TRUE;
+          case IDC_EXTRA_JOY_ADAPTER:
+            if (HIWORD(wparam) == CBN_SELCHANGE) {
+                switch ((int)SendMessage(GetDlgItem(hwnd, IDC_EXTRA_JOY_ADAPTER), CB_GETCURSEL, 0, 0)) {
+                    case 0:
+                    default:
+                        joyamount = 0;
+                        break;
+                    case EXTRA_JOYSTICK_CGA+1:
+                    case EXTRA_JOYSTICK_PET+1:
+                    case EXTRA_JOYSTICK_HIT+1:
+                        if (machine_class == VICE_MACHINE_PLUS4) {
+                            joyamount = 1;
+                        } else {
+                            joyamount = 2;
+                        }
+                        break;
+                    case EXTRA_JOYSTICK_HUMMER+1:
+                    case EXTRA_JOYSTICK_OEM+1:
+                        joyamount = 1;
+                        break;
+                }
+                enable_userport_joystick_controls(hwnd, joyamount);
+            }
+            break;
+          case IDC_JOY_DEV1:
+            if (HIWORD(wparam) == CBN_SELCHANGE) {
+                resources_set_int("JoyDevice3",
+                                  (int)SendMessage(GetDlgItem(hwnd,
+                                  IDC_JOY_DEV1), CB_GETCURSEL, 0, 0));
+                res_value = (int)SendDlgItemMessage(hwnd, IDC_JOY_DEV1,
+                                                    CB_GETCURSEL, 0, 0);
+                if (res_value >= JOYDEV_HW1) {
+                    rebuild_axis_list_3(hwnd, res_value);
+                    rebuild_button_list_3(hwnd, res_value);
+                }
+                axis = (int)SendDlgItemMessage(hwnd,IDC_JOY_FIRE1_AXIS,CB_GETCURSEL,0,0);
+                EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_BUTTON),
+                             (res_value >= JOYDEV_HW1));
+                EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_SPEED),
+                             (res_value >= JOYDEV_HW1) && (axis == 0));
+                EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_AXIS),
+                             (res_value >= JOYDEV_HW1));
+                EnableWindow(GetDlgItem(hwnd, IDC_JOY_AUTOFIRE1_BUTTON),
+                             (res_value >= JOYDEV_HW1));
+            }
+            return TRUE;
+          case IDC_JOY_DEV2:
+            if (HIWORD(wparam) == CBN_SELCHANGE) {
+                resources_set_int("JoyDevice4",
+                                  (int)SendMessage(GetDlgItem(hwnd,
+                                  IDC_JOY_DEV2), CB_GETCURSEL, 0, 0));
+                res_value = (int)SendDlgItemMessage(hwnd, IDC_JOY_DEV2,
+                                                    CB_GETCURSEL, 0, 0);
+                if (res_value >= JOYDEV_HW1) {
+                    rebuild_axis_list_4(hwnd, res_value);
+                    rebuild_button_list_4(hwnd, res_value);
+                }
+                axis = (int)SendDlgItemMessage(hwnd, IDC_JOY_FIRE2_AXIS, CB_GETCURSEL, 0, 0);
+                EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_BUTTON),
+                             (res_value >= JOYDEV_HW1));
+                EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_SPEED),
+                             (res_value >= JOYDEV_HW1) && (axis == 0));
+                EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS),
+                             (res_value >= JOYDEV_HW1));
+                EnableWindow(GetDlgItem(hwnd, IDC_JOY_AUTOFIRE2_BUTTON),
+                             (res_value >= JOYDEV_HW1));
+            }
+            return TRUE;
+          case IDC_JOY_FIRE1_AXIS:
+            if (HIWORD(wparam) == CBN_SELCHANGE) {
+                res_value = (int)SendDlgItemMessage(hwnd, IDC_JOY_FIRE1_AXIS,
+                                                    CB_GETCURSEL, 0, 0);
+                EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_SPEED),
+                             (res_value == 0));
+            }
+            return TRUE;
+          case IDC_JOY_FIRE1_SPEED:
+            if (HIWORD(wparam) == EN_KILLFOCUS) {
+                res_value = (int)GetDlgItemInt(hwnd, IDC_JOY_FIRE1_SPEED,NULL,
+                                               FALSE);
+                if (res_value > 32)
+                    SetDlgItemInt(hwnd, IDC_JOY_FIRE1_SPEED, 32, FALSE);
+                if (res_value < 1)
+                    SetDlgItemInt(hwnd, IDC_JOY_FIRE1_SPEED, 1, FALSE);
+            }
+            return TRUE;
+          case IDC_JOY_FIRE2_AXIS:
+            if (HIWORD(wparam) == CBN_SELCHANGE) {
+                res_value = (int)SendDlgItemMessage(hwnd, IDC_JOY_FIRE2_AXIS,
+                                                    CB_GETCURSEL, 0, 0);
+                EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_SPEED),
+                             (res_value == 0));
+            }
+            return TRUE;
+          case IDC_JOY_FIRE2_SPEED:
+            if (HIWORD(wparam) == EN_KILLFOCUS) {
+                res_value = GetDlgItemInt(hwnd, IDC_JOY_FIRE2_SPEED, NULL,
+                                          FALSE);
+                if (res_value > 32)
+                    SetDlgItemInt(hwnd, IDC_JOY_FIRE2_SPEED, 32, FALSE);
+                if (res_value < 1)
+                    SetDlgItemInt(hwnd, IDC_JOY_FIRE2_SPEED, 1, FALSE);
+            }
+            return TRUE;
+          case IDOK:
+            res_value = (int)SendMessage(GetDlgItem(hwnd, IDC_EXTRA_JOY_ADAPTER), CB_GETCURSEL, 0, 0);
+            if (machine_class == VICE_MACHINE_PLUS4) {
+                resources_set_int("SIDCartJoy", res_value);
+            } else {
+                if (res_value == 0) {
+                    resources_set_int("ExtraJoy", 0);
+                } else {
+                    res_value--;
+                    resources_set_int("ExtraJoy", 1);
+                    resources_set_int("ExtraJoyType", res_value);
+                }
+            }
+            resources_set_int("JoyDevice3",
+                              (int)SendMessage(GetDlgItem(hwnd,
+                              IDC_JOY_DEV1), CB_GETCURSEL, 0, 0));
+            resources_set_int("JoyDevice4",
+                              (int)SendMessage(GetDlgItem(hwnd,
+                              IDC_JOY_DEV2), CB_GETCURSEL, 0, 0));
+            resources_set_int("JoyFire3Button",
+                              (int)SendMessage(GetDlgItem(hwnd,
+                              IDC_JOY_FIRE1_BUTTON), CB_GETCURSEL, 0, 0));
+            resources_set_int("JoyAutofire3Speed",
+                              (int)GetDlgItemInt(hwnd,
+                              IDC_JOY_FIRE1_SPEED, NULL, FALSE));
+            resources_set_int("JoyAutofire3Axis",
+                              (int)SendMessage(GetDlgItem(hwnd,
+                              IDC_JOY_FIRE1_AXIS), CB_GETCURSEL, 0, 0));
+            resources_set_int("JoyAutofire3Button",
+                              (int)SendMessage(GetDlgItem(hwnd,
+                              IDC_JOY_AUTOFIRE1_BUTTON), CB_GETCURSEL, 0, 0));
+            resources_set_int("JoyFire4Button",
+                              (int)SendMessage(GetDlgItem(hwnd,
+                              IDC_JOY_FIRE2_BUTTON), CB_GETCURSEL, 0, 0));
+            resources_set_int("JoyAutofire4Speed",
+                              (int)GetDlgItemInt(hwnd,
+                              IDC_JOY_FIRE2_SPEED, NULL, FALSE));
+            resources_set_int("JoyAutofire4Axis",
+                              (int)SendMessage(GetDlgItem(hwnd,
+                              IDC_JOY_FIRE2_AXIS), CB_GETCURSEL, 0, 0));
+            resources_set_int("JoyAutofire4Button",
+                              (int)SendMessage(GetDlgItem(hwnd,
+                              IDC_JOY_AUTOFIRE2_BUTTON), CB_GETCURSEL, 0, 0));
+            EndDialog(hwnd,0);
+            return TRUE;
+          case IDCANCEL:
+            resources_set_int("JoyDevice3", joy3);
+            resources_set_int("JoyDevice4", joy4);
+            EndDialog(hwnd,0);
+            return TRUE;
+        }
+        break;
+    }
+    return FALSE;
+}
+
 void ui_joystick_settings_dialog(HWND hwnd)
 {
     DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_JOY_SETTINGS_DIALOG),
               hwnd,dialog_proc);
+}
+
+void ui_extra_joystick_settings_dialog(HWND hwnd)
+{
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_EXTRA_JOY_SETTINGS_DIALOG),
+              hwnd,dialog_proc_2);
 }
 
 void ui_joystick_swap_joystick(void)
@@ -629,4 +1071,31 @@ void ui_joystick_swap_joystick(void)
     resources_get_int("JoyAutofire2Button", &device2);
     resources_set_int("JoyAutofire1Button", device2);
     resources_set_int("JoyAutofire2Button", device1);
+}
+
+void ui_extra_joystick_swap_joystick(void)
+{
+    int device3;
+    int device4;
+
+    resources_get_int("JoyDevice3", &device3);
+    resources_get_int("JoyDevice4", &device4);
+    resources_set_int("JoyDevice3", device4);
+    resources_set_int("JoyDevice4", device3);
+    resources_get_int("JoyFire3Button", &device3);
+    resources_get_int("JoyFire4Button", &device4);
+    resources_set_int("JoyFire3Button", device4);
+    resources_set_int("JoyFire4Button", device3);
+    resources_get_int("JoyAutofire3Speed", &device3);
+    resources_get_int("JoyAutofire4Speed", &device4);
+    resources_set_int("JoyAutofire3Speed", device4);
+    resources_set_int("JoyAutofire4Speed", device3);
+    resources_get_int("JoyAutofire3Axis", &device3);
+    resources_get_int("JoyAutofire4Axis", &device4);
+    resources_set_int("JoyAutofire3Axis", device4);
+    resources_set_int("JoyAutofire4Axis", device3);
+    resources_get_int("JoyAutofire3Button", &device3);
+    resources_get_int("JoyAutofire4Button", &device4);
+    resources_set_int("JoyAutofire3Button", device4);
+    resources_set_int("JoyAutofire4Button", device3);
 }

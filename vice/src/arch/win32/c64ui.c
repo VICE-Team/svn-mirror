@@ -46,6 +46,7 @@
 #include "uigeoram.h"
 #include "uiide64.h"
 #include "uiisepic.h"
+#include "uijoystick.h"
 #include "uikeyboard.h"
 #include "uimidi.h"
 #include "uimmc64.h"
@@ -249,6 +250,7 @@ ui_menu_translation_table_t c64ui_menu_translation_table[] = {
     { IDM_VIDEO_SETTINGS, IDS_MI_VIDEO_SETTINGS },
     { IDM_DEVICEMANAGER, IDS_MI_DEVICEMANAGER },
     { IDM_JOY_SETTINGS, IDS_MI_JOY_SETTINGS },
+    { IDM_EXTRA_JOY_SETTINGS, IDS_MI_USERPORT_JOY_SETTINGS },
     { IDM_KEYBOARD_SETTINGS, IDS_MI_KEYBOARD_SETTINGS },
     { IDM_SOUND_SETTINGS, IDS_MI_SOUND_SETTINGS },
     { IDM_ROM_SETTINGS, IDS_MI_ROM_SETTINGS },
@@ -376,6 +378,12 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_IDE64_SETTINGS:
         uiide64_settings_dialog(hwnd);
+        break;
+      case IDM_JOY_SETTINGS:
+        ui_joystick_settings_dialog(hwnd);
+        break;
+      case IDM_EXTRA_JOY_SETTINGS:
+        ui_extra_joystick_settings_dialog(hwnd);
         break;
       case IDM_ROM_SETTINGS:
         uirom_settings_dialog(hwnd, translate_res(IDD_C64ROM_SETTINGS_DIALOG),

@@ -918,7 +918,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Joystick in port #&1",IDC_STATIC,7,5,102,113
     COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Select fire button",IDC_STATIC,12,34,70,8
     COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -931,7 +931,7 @@ BEGIN
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     GROUPBOX        "Joystick in port #&2",IDC_STATIC,117,5,102,113
     COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Select fire button",IDC_STATIC,122,34,70,8
     COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -962,7 +962,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Joystick i port &1",IDC_STATIC,7,5,102,113
     COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Vælg skydeknap",IDC_STATIC,12,34,70,8
     COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -975,7 +975,7 @@ BEGIN
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     GROUPBOX        "Joystick i port &2",IDC_STATIC,117,5,102,113
     COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Vælg skydeknap",IDC_STATIC,122,34,70,8
     COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -1006,7 +1006,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Joystick in Port #&1",IDC_STATIC,7,5,102,113
     COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Feuerknopf selektieren",IDC_STATIC,12,34,70,8
     COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -1019,7 +1019,7 @@ BEGIN
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     GROUPBOX        "Joystick in Port #&2",IDC_STATIC,117,5,102,113
     COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Feuerknopf selektieren",IDC_STATIC,122,34,70,8
     COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -1050,7 +1050,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Joystick dans le port #1",IDC_STATIC,7,5,102,113
     COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Sélectionner le bouton de feu",IDC_STATIC,12,34,70,8
     COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -1063,7 +1063,7 @@ BEGIN
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     GROUPBOX        "Joystick dans le port #2",IDC_STATIC,117,5,102,113
     COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Sélectionner le bouton de feu",IDC_STATIC,122,34,70,8
     COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -1095,7 +1095,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Botkormány az &1-es porton",IDC_STATIC,7,5,102,113
     COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Válasszon tûz gombot",IDC_STATIC,12,34,70,8
     COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -1108,7 +1108,7 @@ BEGIN
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     GROUPBOX        "Botkormány a &2-es porton",IDC_STATIC,117,5,102,113
     COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Válasszon tûz gombot",IDC_STATIC,122,34,70,8
     COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -1140,7 +1140,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Joystick nella porta #&1",IDC_STATIC,7,5,102,113
     COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Seleziona pulsante di fuoco",IDC_STATIC,12,34,70,8
     COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -1153,7 +1153,7 @@ BEGIN
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     GROUPBOX        "Joystick nella porta #&2",IDC_STATIC,117,5,102,113
     COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Seleziona pulsante di fuoco",IDC_STATIC,122,34,70,8
     COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -1184,7 +1184,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Joystick in poort #&1",IDC_STATIC,7,5,102,113
     COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Selecteer vuur knop",IDC_STATIC,12,34,70,8
     COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -1197,7 +1197,7 @@ BEGIN
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     GROUPBOX        "Joystick in poort #&2",IDC_STATIC,117,5,102,113
     COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Selecteer vuur knop",IDC_STATIC,122,34,70,8
     COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -1229,7 +1229,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Joystick w porcie #&1",IDC_STATIC,7,5,102,113
     COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Select fire button",IDC_STATIC,12,34,70,8
     COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -1242,7 +1242,7 @@ BEGIN
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     GROUPBOX        "Joystick w porcie #&2",IDC_STATIC,117,5,102,113
     COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Select fire button",IDC_STATIC,122,34,70,8
     COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -1274,7 +1274,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Styrspak i spelport &1",IDC_STATIC,7,5,102,113
     COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Välj avtryckarknapp",IDC_STATIC,12,34,70,8
     COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -1287,7 +1287,7 @@ BEGIN
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     GROUPBOX        "Styrspak i spelport &2",IDC_STATIC,117,5,102,113
     COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Välj avtryckarknapp",IDC_STATIC,122,34,70,8
     COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -1319,7 +1319,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Joystick port #&1'de",IDC_STATIC,7,5,102,113
     COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Ateþ düðmesini seç",IDC_STATIC,12,34,70,8
     COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -1332,7 +1332,456 @@ BEGIN
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     GROUPBOX        "Joystick port #&2'de",IDC_STATIC,117,5,102,113
     COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Ateþ düðmesini seç",IDC_STATIC,122,34,70,8
+    COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Otomatik ateþ düðmesi ayarlarý",IDC_STATIC,122,61,93,8
+    LTEXT           "Otomatik ateþ &hýzý (1..32)",IDC_STATIC,122,74,70,8
+    EDITTEXT        IDC_JOY_FIRE2_SPEED, 197,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE2_AXIS, 122,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE2_BUTTON, 122,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Tuþ Seti &A'yý konfigüre et", IDC_JOY_CONFIG_A,
+                    8,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "Tuþ Seti &B'yý konfigüre et", IDC_JOY_CONFIG_B,
+                    159,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "Joysti&ck(ler)i kalibre et", IDC_JOY_CALIBRATE,
+                    78,120,70,14, WS_TABSTOP
+    DEFPUSHBUTTON   "Tamam", IDOK, 48,141,50,14, WS_TABSTOP
+    PUSHBUTTON      "Ýptal", IDCANCEL, 129,141,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
+
+IDD_EXTRA_JOY_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 226, 181
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Extra joystick adapter settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_EXTRA_JOY_ADAPTER,9,9,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Joystick in port #&1",IDC_STATIC,7,25,102,113
+    COMBOBOX        IDC_JOY_DEV1,12,36,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Select fire button",IDC_STATIC,12,54,70,8
+    COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,67,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Auto fire button settings",IDC_STATIC,12,81,93,8
+    LTEXT           "Autofire &speed (1..32)",IDC_STATIC,12,94,70,8
+    EDITTEXT        IDC_JOY_FIRE1_SPEED, 87,92,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE1_AXIS, 12,107,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE1_BUTTON, 12,122,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    GROUPBOX        "Joystick in port #&2",IDC_STATIC,117,25,102,113
+    COMBOBOX        IDC_JOY_DEV2,122,36,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Select fire button",IDC_STATIC,122,54,70,8
+    COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,67,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Auto fire button settings",IDC_STATIC,122,81,93,8
+    LTEXT           "Autofire &speed (1..32)",IDC_STATIC,122,94,70,8
+    EDITTEXT        IDC_JOY_FIRE2_SPEED, 197,92,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE2_AXIS, 122,107,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE2_BUTTON, 122,122,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Config Keyset &A", IDC_JOY_CONFIG_A,
+                    8,140,60,14, WS_TABSTOP
+    PUSHBUTTON      "Config Keyset &B", IDC_JOY_CONFIG_B,
+                    159,140,60,14, WS_TABSTOP
+    PUSHBUTTON      "&Calibrate Joystick(s)", IDC_JOY_CALIBRATE,
+                    78,140,70,14, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 48,161,50,14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 129,161,50,14, WS_TABSTOP
+END
+
+
+// DANISH version of dialog
+
+IDD_EXTRA_JOY_SETTINGS_DIALOG_DA DIALOG DISCARDABLE 0, 0, 226, 161
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Joystickindstillinger"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Joystick i port &1",IDC_STATIC,7,5,102,113
+    COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_VSCROLL |WS_TABSTOP
+    LTEXT           "Vælg skydeknap",IDC_STATIC,12,34,70,8
+    COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Autofireindstillinger",IDC_STATIC,12,61,93,8
+    LTEXT           "Autofire&hastighed (1..32)",IDC_STATIC,12,74,70,8
+    EDITTEXT        IDC_JOY_FIRE1_SPEED, 87,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE1_AXIS, 12,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE1_BUTTON, 12,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    GROUPBOX        "Joystick i port &2",IDC_STATIC,117,5,102,113
+    COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Vælg skydeknap",IDC_STATIC,122,34,70,8
+    COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Autofireindstillinger",IDC_STATIC,122,61,93,8
+    LTEXT           "Autofire&hastighed (1..32)",IDC_STATIC,122,74,70,8
+    EDITTEXT        IDC_JOY_FIRE2_SPEED, 197,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE2_AXIS, 122,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE2_BUTTON, 122,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Tastesæt &A", IDC_JOY_CONFIG_A,
+                    8,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "Tastesæt &B", IDC_JOY_CONFIG_B,
+                    159,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "&Kalibrér Joystick(s)", IDC_JOY_CALIBRATE,
+                    78,120,70,14, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 48,141,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annullér", IDCANCEL, 129,141,50,14, WS_TABSTOP
+END
+
+
+// GERMAN version of dialog
+
+IDD_EXTRA_JOY_SETTINGS_DIALOG_DE DIALOG DISCARDABLE 0, 0, 226, 161
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Joystick Einstellungen"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Joystick in Port #&1",IDC_STATIC,7,5,102,113
+    COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Feuerknopf selektieren",IDC_STATIC,12,34,70,8
+    COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Automatische Feuerknopf Einstellungen",IDC_STATIC,12,61,93,8
+    LTEXT           "Autofeuer Ge&schwindigkeit (1..32)",IDC_STATIC,12,74,70,8
+    EDITTEXT        IDC_JOY_FIRE1_SPEED, 87,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE1_AXIS, 12,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE1_BUTTON, 12,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    GROUPBOX        "Joystick in Port #&2",IDC_STATIC,117,5,102,113
+    COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Feuerknopf selektieren",IDC_STATIC,122,34,70,8
+    COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Automatische Feuerknopf Einstellungen",IDC_STATIC,122,61,93,8
+    LTEXT           "Autofeuer Ge&schwindigkeit (1..32)",IDC_STATIC,122,74,70,8
+    EDITTEXT        IDC_JOY_FIRE2_SPEED, 197,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE2_AXIS, 122,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE2_BUTTON, 122,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Tastaturbelegung &A konfigurieren", IDC_JOY_CONFIG_A,
+                    8,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "Tastaturbelegung &B konfigurieren", IDC_JOY_CONFIG_B,
+                    159,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "Joysticks &kalibrieren", IDC_JOY_CALIBRATE,
+                    78,120,70,14, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 48,141,50,14, WS_TABSTOP
+    PUSHBUTTON      "Abbruch", IDCANCEL, 129,141,50,14, WS_TABSTOP
+END
+
+
+// FRENCH version of dialog
+
+IDD_EXTRA_JOY_SETTINGS_DIALOG_FR DIALOG DISCARDABLE 0, 0, 226, 161
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Paramètres des joysticks"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Joystick dans le port #1",IDC_STATIC,7,5,102,113
+    COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Sélectionner le bouton de feu",IDC_STATIC,12,34,70,8
+    COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Auto fire button settings",IDC_STATIC,12,61,93,8
+    LTEXT           "Vitesse tir automatique (1..32)",IDC_STATIC,12,74,70,8
+    EDITTEXT        IDC_JOY_FIRE1_SPEED, 87,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE1_AXIS, 12,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE1_BUTTON, 12,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    GROUPBOX        "Joystick dans le port #2",IDC_STATIC,117,5,102,113
+    COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Sélectionner le bouton de feu",IDC_STATIC,122,34,70,8
+    COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Auto fire button settings",IDC_STATIC,122,61,93,8
+    LTEXT           "Vitesse tir automatique (1..32)",IDC_STATIC,122,74,70,8
+    EDITTEXT        IDC_JOY_FIRE2_SPEED, 197,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE2_AXIS, 122,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE2_BUTTON, 122,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Configurer &A", IDC_JOY_CONFIG_A,
+                    8,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "Configurer &B", IDC_JOY_CONFIG_B,
+                    159,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "&Calibration des joystick(s)", IDC_JOY_CALIBRATE,
+                    78,120,70,14, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 48,141,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annuler", IDCANCEL, 129,141,50,14, WS_TABSTOP
+END
+
+
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_EXTRA_JOY_SETTINGS_DIALOG_HU DIALOG DISCARDABLE 0, 0, 226, 161
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Botkormány beállítása"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Botkormány az &1-es porton",IDC_STATIC,7,5,102,113
+    COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Válasszon tûz gombot",IDC_STATIC,12,34,70,8
+    COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Automatikus tûz beállításai",IDC_STATIC,12,61,93,8
+    LTEXT           "Automatikus tûz &sebessége (1..32)",IDC_STATIC,12,74,70,8
+    EDITTEXT        IDC_JOY_FIRE1_SPEED, 87,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE1_AXIS, 12,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE1_BUTTON, 12,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    GROUPBOX        "Botkormány a &2-es porton",IDC_STATIC,117,5,102,113
+    COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Válasszon tûz gombot",IDC_STATIC,122,34,70,8
+    COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Automatikus tûz beállításai",IDC_STATIC,122,61,93,8
+    LTEXT           "Automatikus tûz &sebessége (1..32)",IDC_STATIC,122,74,70,8
+    EDITTEXT        IDC_JOY_FIRE2_SPEED, 197,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE2_AXIS, 122,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE2_BUTTON, 122,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "'&A' gombkészlet beállítása", IDC_JOY_CONFIG_A,
+                    8,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "'&B' gombkészlet beállítása", IDC_JOY_CONFIG_B,
+                    159,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "Botkormány(ok) &kalibrálása", IDC_JOY_CALIBRATE,
+                    78,120,70,14, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 48,141,50,14, WS_TABSTOP
+    PUSHBUTTON      "Mégsem", IDCANCEL, 129,141,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
+
+// ITALIAN version of dialog
+
+IDD_EXTRA_JOY_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 226, 161
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Impostazioni joystick"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Joystick nella porta #&1",IDC_STATIC,7,5,102,113
+    COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Seleziona pulsante di fuoco",IDC_STATIC,12,34,70,8
+    COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Impostazioni fuoco automatico",IDC_STATIC,12,61,93,8
+    LTEXT           "&Velocità autofire (1..32)",IDC_STATIC,12,74,70,8
+    EDITTEXT        IDC_JOY_FIRE1_SPEED, 87,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE1_AXIS, 12,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE1_BUTTON, 12,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    GROUPBOX        "Joystick nella porta #&2",IDC_STATIC,117,5,102,113
+    COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Seleziona pulsante di fuoco",IDC_STATIC,122,34,70,8
+    COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Impostazioni fuoco automatico",IDC_STATIC,122,61,93,8
+    LTEXT           "&Velocità autofire (1..32)",IDC_STATIC,122,74,70,8
+    EDITTEXT        IDC_JOY_FIRE2_SPEED, 197,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE2_AXIS, 122,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE2_BUTTON, 122,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Configura il keyset &A", IDC_JOY_CONFIG_A,
+                    8,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "Configura il keyset &B", IDC_JOY_CONFIG_B,
+                    159,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "&Calibra Joystick", IDC_JOY_CALIBRATE,
+                    78,120,70,14, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 48,141,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annulla", IDCANCEL, 129,141,50,14, WS_TABSTOP
+END
+
+
+// DUTCH version of dialog
+
+IDD_EXTRA_JOY_SETTINGS_DIALOG_NL DIALOG DISCARDABLE 0, 0, 226, 161
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Joystickinstellingen"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Joystick in poort #&1",IDC_STATIC,7,5,102,113
+    COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Selecteer vuur knop",IDC_STATIC,12,34,70,8
+    COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Autofire knop instellingen",IDC_STATIC,12,61,93,8
+    LTEXT           "Autofire &snelheid (1..32)",IDC_STATIC,12,74,70,8
+    EDITTEXT        IDC_JOY_FIRE1_SPEED, 87,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE1_AXIS, 12,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE1_BUTTON, 12,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    GROUPBOX        "Joystick in poort #&2",IDC_STATIC,117,5,102,113
+    COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Selecteer vuur knop",IDC_STATIC,122,34,70,8
+    COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Autofire knop instellingen",IDC_STATIC,122,61,93,8
+    LTEXT           "Autofire &snelheid (1..32)",IDC_STATIC,122,74,70,8
+    EDITTEXT        IDC_JOY_FIRE2_SPEED, 197,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE2_AXIS, 122,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE2_BUTTON, 122,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Configureer Keyset &A", IDC_JOY_CONFIG_A,
+                    1,120,74,14, WS_TABSTOP
+    PUSHBUTTON      "Configureer Keyset &B", IDC_JOY_CONFIG_B,
+                    149,120,75,14, WS_TABSTOP
+    PUSHBUTTON      "&Kalibreer Joystick(s)", IDC_JOY_CALIBRATE,
+                    78,120,70,14, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 48,141,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annuleren", IDCANCEL, 129,141,50,14, WS_TABSTOP
+END
+
+
+// POLISH version of dialog
+
+#pragma code_page(28592)
+IDD_EXTRA_JOY_SETTINGS_DIALOG_PL DIALOG DISCARDABLE 0, 0, 226, 161
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Ustawienia Joystick"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Joystick w porcie #&1",IDC_STATIC,7,5,102,113
+    COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Select fire button",IDC_STATIC,12,34,70,8
+    COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Auto fire button settings",IDC_STATIC,12,61,93,8
+    LTEXT           "Autofire &speed (1..32)",IDC_STATIC,12,74,70,8
+    EDITTEXT        IDC_JOY_FIRE1_SPEED, 87,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE1_AXIS, 12,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE1_BUTTON, 12,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    GROUPBOX        "Joystick w porcie #&2",IDC_STATIC,117,5,102,113
+    COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Select fire button",IDC_STATIC,122,34,70,8
+    COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Auto fire button settings",IDC_STATIC,122,61,93,8
+    LTEXT           "Autofire &speed (1..32)",IDC_STATIC,122,74,70,8
+    EDITTEXT        IDC_JOY_FIRE2_SPEED, 197,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE2_AXIS, 122,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE2_BUTTON, 122,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Config Keyset &A", IDC_JOY_CONFIG_A,
+                    8,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "Config Keyset &B", IDC_JOY_CONFIG_B,
+                    159,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "&Calibrate Joystick(s)", IDC_JOY_CALIBRATE,
+                    78,120,70,14, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 48,141,50,14, WS_TABSTOP
+    PUSHBUTTON      "Anuluj", IDCANCEL, 129,141,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
+
+// SWEDISH version of dialog
+
+IDD_EXTRA_JOY_SETTINGS_DIALOG_SV DIALOG DISCARDABLE 0, 0, 226, 161
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Inställningar för styrspak"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Styrspak i spelport &1",IDC_STATIC,7,5,102,113
+    COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Välj avtryckarknapp",IDC_STATIC,12,34,70,8
+    COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Inställningar för autofire",IDC_STATIC,12,61,93,8
+    LTEXT           "&Hastighet för autofire (1..32)",IDC_STATIC,12,74,70,8
+    EDITTEXT        IDC_JOY_FIRE1_SPEED, 87,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE1_AXIS, 12,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE1_BUTTON, 12,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    GROUPBOX        "Styrspak i spelport &2",IDC_STATIC,117,5,102,113
+    COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Välj avtryckarknapp",IDC_STATIC,122,34,70,8
+    COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Inställningar för autofire",IDC_STATIC,122,61,93,8
+    LTEXT           "&Hastighet för autofire (1..32)",IDC_STATIC,122,74,70,8
+    EDITTEXT        IDC_JOY_FIRE2_SPEED, 197,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE2_AXIS, 122,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE2_BUTTON, 122,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Tangentuppsättning &A", IDC_JOY_CONFIG_A,
+                    8,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "Tangentuppsättning &B", IDC_JOY_CONFIG_B,
+                    159,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "&Kalibrera styrspak(ar)", IDC_JOY_CALIBRATE,
+                    78,120,70,14, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 48,141,50,14, WS_TABSTOP
+    PUSHBUTTON      "Avbryt", IDCANCEL, 129,141,50,14, WS_TABSTOP
+END
+
+
+// TURKISH version of dialog
+
+#pragma code_page(28599)
+IDD_EXTRA_JOY_SETTINGS_DIALOG_TR DIALOG DISCARDABLE 0, 0, 226, 161
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Joystick Ayarlarý"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Joystick port #&1'de",IDC_STATIC,7,5,102,113
+    COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Ateþ düðmesini seç",IDC_STATIC,12,34,70,8
+    COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Otomatik ateþ düðmesi ayarlarý",IDC_STATIC,12,61,93,8
+    LTEXT           "Otomatik ateþ &hýzý (1..32)",IDC_STATIC,12,74,70,8
+    EDITTEXT        IDC_JOY_FIRE1_SPEED, 87,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE1_AXIS, 12,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE1_BUTTON, 12,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    GROUPBOX        "Joystick port #&2'de",IDC_STATIC,117,5,102,113
+    COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Ateþ düðmesini seç",IDC_STATIC,122,34,70,8
     COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -6463,6 +6912,14 @@ BEGIN
   IDS_PRESS_KEY_SOUTHWEST         "Press key for SouthWest"
   IDS_PRESS_KEY_WEST              "Press key for West"
   IDS_PRESS_KEY_FIRE              "Press key for Fire"
+  IDS_NO_USERPORT_ADAPTER         "No userport joy adapter"
+  IDS_CGA_USERPORT_ADAPTER        "CGA userport joy adapter"
+  IDS_PET_USERPORT_ADAPTER        "PET userport joy adapter"
+  IDS_HUMMER_USERPORT_ADAPTER     "HUMMER userport joy adapter"
+  IDS_OEM_USERPORT_ADAPTER        "OEM userport joy adapter"
+  IDS_HIT_USERPORT_ADAPTER        "HIT userport joy adapter"
+  IDS_NO_SIDCART_JOY              "Disable SIDcart joy"
+  IDS_SIDCART_JOY                 "Enable SIDcart joy"
   IDS_NUMPAD_AND_RCTRL            "Numpad + RCtrl"
   IDS_KEYSET_A                    "Keyset A"
   IDS_KEYSET_B                    "Keyset B"
@@ -6658,6 +7115,8 @@ BEGIN
   IDS_MI_VIDEO_SETTINGS           "&Video settings..."
   IDS_MI_DEVICEMANAGER            "&Peripheral settings..."
   IDS_MI_JOY_SETTINGS             "&Joystick settings..."
+  IDS_MI_USERPORT_JOY_SETTINGS    "&Userport joystick settings..."
+  IDS_MI_SIDCART_JOY_SETTINGS     "&Sidcart joystick settings..."
   IDS_MI_KEYBOARD_SETTINGS        "&Keyboard settings..."
   IDS_MI_SOUND_SETTINGS           "S&ound settings..."
   IDS_MI_ROM_SETTINGS             "&ROM settings..."
@@ -6866,6 +7325,14 @@ BEGIN
   IDS_PRESS_KEY_SOUTHWEST         "Tryk tast for sydvest"
   IDS_PRESS_KEY_WEST              "Tryk tast for vest"
   IDS_PRESS_KEY_FIRE              "Tryk tast for skyd"
+  IDS_NO_USERPORT_ADAPTER         "No userport joy adapter"
+  IDS_CGA_USERPORT_ADAPTER        "CGA userport joy adapter"
+  IDS_PET_USERPORT_ADAPTER        "PET userport joy adapter"
+  IDS_HUMMER_USERPORT_ADAPTER     "HUMMER userport joy adapter"
+  IDS_OEM_USERPORT_ADAPTER        "OEM userport joy adapter"
+  IDS_HIT_USERPORT_ADAPTER        "HIT userport joy adapter"
+  IDS_NO_SIDCART_JOY              "Disable SIDcart joy"
+  IDS_SIDCART_JOY                 "Enable SIDcart joy"
   IDS_NUMPAD_AND_RCTRL            "Numerisk tastatur + højre Ctrl"
   IDS_KEYSET_A                    "Tastesæt A"
   IDS_KEYSET_B                    "Tastesæt B"
@@ -7061,6 +7528,8 @@ BEGIN
   IDS_MI_VIDEO_SETTINGS           "&Grafikindstillinger..."
   IDS_MI_DEVICEMANAGER            "&Ekstern-enhedsindstillinger..."
   IDS_MI_JOY_SETTINGS             "&Joystick indstillinger..."
+  IDS_MI_USERPORT_JOY_SETTINGS    "&Userport joystick settings..."
+  IDS_MI_SIDCART_JOY_SETTINGS     "&Sidcart joystick settings..."
   IDS_MI_KEYBOARD_SETTINGS        "&Tastaturindstillinger..."
   IDS_MI_SOUND_SETTINGS           "L&ydindstillinger..."
   IDS_MI_ROM_SETTINGS             "&ROM-indstillinger..."
@@ -7269,6 +7738,14 @@ BEGIN
   IDS_PRESS_KEY_SOUTHWEST         "Drücke Taste für SüdWest"
   IDS_PRESS_KEY_WEST              "Drücke Taste für West"
   IDS_PRESS_KEY_FIRE              "Drücke Taste für Feuer"
+  IDS_NO_USERPORT_ADAPTER         "No userport joy adapter"
+  IDS_CGA_USERPORT_ADAPTER        "CGA userport joy adapter"
+  IDS_PET_USERPORT_ADAPTER        "PET userport joy adapter"
+  IDS_HUMMER_USERPORT_ADAPTER     "HUMMER userport joy adapter"
+  IDS_OEM_USERPORT_ADAPTER        "OEM userport joy adapter"
+  IDS_HIT_USERPORT_ADAPTER        "HIT userport joy adapter"
+  IDS_NO_SIDCART_JOY              "Disable SIDcart joy"
+  IDS_SIDCART_JOY                 "Enable SIDcart joy"
   IDS_NUMPAD_AND_RCTRL            "Numpad + RCtrl"
   IDS_KEYSET_A                    "Tastaturbelegung A"
   IDS_KEYSET_B                    "Tastaturbelegung B"
@@ -7464,6 +7941,8 @@ BEGIN
   IDS_MI_VIDEO_SETTINGS           "&Video Einstellungen..."
   IDS_MI_DEVICEMANAGER            "&Peripherie Einstellungen..."
   IDS_MI_JOY_SETTINGS             "&Joystick Einstellungen..."
+  IDS_MI_USERPORT_JOY_SETTINGS    "&Userport joystick settings..."
+  IDS_MI_SIDCART_JOY_SETTINGS     "&Sidcart joystick settings..."
   IDS_MI_KEYBOARD_SETTINGS        "&Tastatur Einstellungen..."
   IDS_MI_SOUND_SETTINGS           "S&ound Einstellungen..."
   IDS_MI_ROM_SETTINGS             "&ROM Einstellungen..."
@@ -7672,6 +8151,14 @@ BEGIN
   IDS_PRESS_KEY_SOUTHWEST         "Appuyer sur la touche pour Sud Ouest"
   IDS_PRESS_KEY_WEST              "Appuyer sur la touche pour Ouest"
   IDS_PRESS_KEY_FIRE              "Appuyer sur la touche pour Bouton de tir"
+  IDS_NO_USERPORT_ADAPTER         "No userport joy adapter"
+  IDS_CGA_USERPORT_ADAPTER        "CGA userport joy adapter"
+  IDS_PET_USERPORT_ADAPTER        "PET userport joy adapter"
+  IDS_HUMMER_USERPORT_ADAPTER     "HUMMER userport joy adapter"
+  IDS_OEM_USERPORT_ADAPTER        "OEM userport joy adapter"
+  IDS_HIT_USERPORT_ADAPTER        "HIT userport joy adapter"
+  IDS_NO_SIDCART_JOY              "Disable SIDcart joy"
+  IDS_SIDCART_JOY                 "Enable SIDcart joy"
   IDS_NUMPAD_AND_RCTRL            "Clavier numérique + Ctrl Droite"
   IDS_KEYSET_A                    "Touches A"
   IDS_KEYSET_B                    "Touches B"
@@ -7867,6 +8354,8 @@ BEGIN
   IDS_MI_VIDEO_SETTINGS           "Paramètres vidéo..."
   IDS_MI_DEVICEMANAGER            "Paramètres des périphériques..."
   IDS_MI_JOY_SETTINGS             "Paramètres des joysticks..."
+  IDS_MI_USERPORT_JOY_SETTINGS    "&Userport joystick settings..."
+  IDS_MI_SIDCART_JOY_SETTINGS     "&Sidcart joystick settings..."
   IDS_MI_KEYBOARD_SETTINGS        "Paramètres du clavier..."
   IDS_MI_SOUND_SETTINGS           "Paramètres son..."
   IDS_MI_ROM_SETTINGS             "Paramètres ROM..."
@@ -8076,6 +8565,14 @@ BEGIN
   IDS_PRESS_KEY_SOUTHWEST         "Nyomjon egy billentyût délnyugathoz"
   IDS_PRESS_KEY_WEST              "Nyomjon egy billentyût nyugathoz"
   IDS_PRESS_KEY_FIRE              "Nyomjon egy billentyût a tûzgombhoz"
+  IDS_NO_USERPORT_ADAPTER         "No userport joy adapter"
+  IDS_CGA_USERPORT_ADAPTER        "CGA userport joy adapter"
+  IDS_PET_USERPORT_ADAPTER        "PET userport joy adapter"
+  IDS_HUMMER_USERPORT_ADAPTER     "HUMMER userport joy adapter"
+  IDS_OEM_USERPORT_ADAPTER        "OEM userport joy adapter"
+  IDS_HIT_USERPORT_ADAPTER        "HIT userport joy adapter"
+  IDS_NO_SIDCART_JOY              "Disable SIDcart joy"
+  IDS_SIDCART_JOY                 "Enable SIDcart joy"
   IDS_NUMPAD_AND_RCTRL            "Numerikus + Jobb Ctrl"
   IDS_KEYSET_A                    "'A' gombkészlet"
   IDS_KEYSET_B                    "'B' gombkészlet"
@@ -8271,6 +8768,8 @@ BEGIN
   IDS_MI_VIDEO_SETTINGS           "&Videó beállításai..."
   IDS_MI_DEVICEMANAGER            "&Perifériák beállításai..."
   IDS_MI_JOY_SETTINGS             "B&otkormány beállításai..."
+  IDS_MI_USERPORT_JOY_SETTINGS    "&Userport joystick settings..."
+  IDS_MI_SIDCART_JOY_SETTINGS     "&Sidcart joystick settings..."
   IDS_MI_KEYBOARD_SETTINGS        "&Billentyûzet beállításai..."
   IDS_MI_SOUND_SETTINGS           "Hang beállítások..."
   IDS_MI_ROM_SETTINGS             "&ROM-ok beállításai..."
@@ -8480,6 +8979,14 @@ BEGIN
   IDS_PRESS_KEY_SOUTHWEST         "Premi il tasto per sud ovest"
   IDS_PRESS_KEY_WEST              "Premi il tasto per ovest"
   IDS_PRESS_KEY_FIRE              "Premi il tasto per il fuoco"
+  IDS_NO_USERPORT_ADAPTER         "No userport joy adapter"
+  IDS_CGA_USERPORT_ADAPTER        "CGA userport joy adapter"
+  IDS_PET_USERPORT_ADAPTER        "PET userport joy adapter"
+  IDS_HUMMER_USERPORT_ADAPTER     "HUMMER userport joy adapter"
+  IDS_OEM_USERPORT_ADAPTER        "OEM userport joy adapter"
+  IDS_HIT_USERPORT_ADAPTER        "HIT userport joy adapter"
+  IDS_NO_SIDCART_JOY              "Disable SIDcart joy"
+  IDS_SIDCART_JOY                 "Enable SIDcart joy"
   IDS_NUMPAD_AND_RCTRL            "Tastierino numerico + Ctrl destro"
   IDS_KEYSET_A                    "Keyset A"
   IDS_KEYSET_B                    "Keyset B"
@@ -8675,6 +9182,8 @@ BEGIN
   IDS_MI_VIDEO_SETTINGS           "Impostazioni &video..."
   IDS_MI_DEVICEMANAGER            "Impostazioni &periferiche..."
   IDS_MI_JOY_SETTINGS             "Impostazioni &joystick..."
+  IDS_MI_USERPORT_JOY_SETTINGS    "&Userport joystick settings..."
+  IDS_MI_SIDCART_JOY_SETTINGS     "&Sidcart joystick settings..."
   IDS_MI_KEYBOARD_SETTINGS        "Impostazioni &tastiera..."
   IDS_MI_SOUND_SETTINGS           "Impostazioni a&udio..."
   IDS_MI_ROM_SETTINGS             "Impostazioni &ROM..."
@@ -8883,6 +9392,14 @@ BEGIN
   IDS_PRESS_KEY_SOUTHWEST         "Druk toets voor ZuidWest"
   IDS_PRESS_KEY_WEST              "Druk toets voor West"
   IDS_PRESS_KEY_FIRE              "Druk toets voor Vuur"
+  IDS_NO_USERPORT_ADAPTER         "Geen userport joy adapter"
+  IDS_CGA_USERPORT_ADAPTER        "CGA userport joy adapter"
+  IDS_PET_USERPORT_ADAPTER        "PET userport joy adapter"
+  IDS_HUMMER_USERPORT_ADAPTER     "HUMMER userport joy adapter"
+  IDS_OEM_USERPORT_ADAPTER        "OEM userport joy adapter"
+  IDS_HIT_USERPORT_ADAPTER        "HIT userport joy adapter"
+  IDS_NO_SIDCART_JOY              "SIDcart joy uitschakelen"
+  IDS_SIDCART_JOY                 "Activeer SIDcart joy"
   IDS_NUMPAD_AND_RCTRL            "Numpad + RCtrl"
   IDS_KEYSET_A                    "Keyset A"
   IDS_KEYSET_B                    "Keyset B"
@@ -9078,6 +9595,8 @@ BEGIN
   IDS_MI_VIDEO_SETTINGS           "&Videoinstellingen..."
   IDS_MI_DEVICEMANAGER            "Randa&pparateninstellingen..."
   IDS_MI_JOY_SETTINGS             "&Joystick-instellingen..."
+  IDS_MI_USERPORT_JOY_SETTINGS    "&Userport joystick instellingen..."
+  IDS_MI_SIDCART_JOY_SETTINGS     "&Sidcart joystick instellingen..."
   IDS_MI_KEYBOARD_SETTINGS        "&Toetsenbordinstellingen..."
   IDS_MI_SOUND_SETTINGS           "G&eluidsinstellingen..."
   IDS_MI_ROM_SETTINGS             "&ROM-instellingen..."
@@ -9287,6 +9806,14 @@ BEGIN
   IDS_PRESS_KEY_SOUTHWEST         "Press key for SouthWest"
   IDS_PRESS_KEY_WEST              "Press key for West"
   IDS_PRESS_KEY_FIRE              "Press key for Fire"
+  IDS_NO_USERPORT_ADAPTER         "No userport joy adapter"
+  IDS_CGA_USERPORT_ADAPTER        "CGA userport joy adapter"
+  IDS_PET_USERPORT_ADAPTER        "PET userport joy adapter"
+  IDS_HUMMER_USERPORT_ADAPTER     "HUMMER userport joy adapter"
+  IDS_OEM_USERPORT_ADAPTER        "OEM userport joy adapter"
+  IDS_HIT_USERPORT_ADAPTER        "HIT userport joy adapter"
+  IDS_NO_SIDCART_JOY              "Disable SIDcart joy"
+  IDS_SIDCART_JOY                 "Enable SIDcart joy"
   IDS_NUMPAD_AND_RCTRL            "Numpad + RCtrl"
   IDS_KEYSET_A                    "Keyset A"
   IDS_KEYSET_B                    "Keyset B"
@@ -9482,6 +10009,8 @@ BEGIN
   IDS_MI_VIDEO_SETTINGS           "Ustawienia &video..."
   IDS_MI_DEVICEMANAGER            "Ustawienia &zewnêtrzne..."
   IDS_MI_JOY_SETTINGS             "Ustawienia &joystcka..."
+  IDS_MI_USERPORT_JOY_SETTINGS    "&Userport joystick settings..."
+  IDS_MI_SIDCART_JOY_SETTINGS     "&Sidcart joystick settings..."
   IDS_MI_KEYBOARD_SETTINGS        "Ustawienia &klawiatury..."
   IDS_MI_SOUND_SETTINGS           "Usta&wienia d¼wiêku..."
   IDS_MI_ROM_SETTINGS             "Ustawienia &ROM..."
@@ -9691,6 +10220,14 @@ BEGIN
   IDS_PRESS_KEY_SOUTHWEST         "Tryck tangent för sydväst"
   IDS_PRESS_KEY_WEST              "Tryck tangent för väst"
   IDS_PRESS_KEY_FIRE              "Tryck tangent för avtryckare"
+  IDS_NO_USERPORT_ADAPTER         "No userport joy adapter"
+  IDS_CGA_USERPORT_ADAPTER        "CGA userport joy adapter"
+  IDS_PET_USERPORT_ADAPTER        "PET userport joy adapter"
+  IDS_HUMMER_USERPORT_ADAPTER     "HUMMER userport joy adapter"
+  IDS_OEM_USERPORT_ADAPTER        "OEM userport joy adapter"
+  IDS_HIT_USERPORT_ADAPTER        "HIT userport joy adapter"
+  IDS_NO_SIDCART_JOY              "Disable SIDcart joy"
+  IDS_SIDCART_JOY                 "Enable SIDcart joy"
   IDS_NUMPAD_AND_RCTRL            "Numerisk knappsats + höger Ctrl"
   IDS_KEYSET_A                    "Uppsättning A"
   IDS_KEYSET_B                    "Uppsättning B"
@@ -9886,6 +10423,8 @@ BEGIN
   IDS_MI_VIDEO_SETTINGS           "&Grafikinställningar..."
   IDS_MI_DEVICEMANAGER            "Inställningar för &kringutrustning..."
   IDS_MI_JOY_SETTINGS             "Inställningar för &styrspak..."
+  IDS_MI_USERPORT_JOY_SETTINGS    "&Userport joystick settings..."
+  IDS_MI_SIDCART_JOY_SETTINGS     "&Sidcart joystick settings..."
   IDS_MI_KEYBOARD_SETTINGS        "&Tangentbordsinställningar..."
   IDS_MI_SOUND_SETTINGS           "L&judinställningar..."
   IDS_MI_ROM_SETTINGS             "&ROM-inställningar..."
@@ -10095,6 +10634,14 @@ BEGIN
   IDS_PRESS_KEY_SOUTHWEST         "GüneyBatý için bir tuþa basýn"
   IDS_PRESS_KEY_WEST              "Batý için bir tuþa basýn"
   IDS_PRESS_KEY_FIRE              "Ateþ için bir tuþa basýn"
+  IDS_NO_USERPORT_ADAPTER         "No userport joy adapter"
+  IDS_CGA_USERPORT_ADAPTER        "CGA userport joy adapter"
+  IDS_PET_USERPORT_ADAPTER        "PET userport joy adapter"
+  IDS_HUMMER_USERPORT_ADAPTER     "HUMMER userport joy adapter"
+  IDS_OEM_USERPORT_ADAPTER        "OEM userport joy adapter"
+  IDS_HIT_USERPORT_ADAPTER        "HIT userport joy adapter"
+  IDS_NO_SIDCART_JOY              "Disable SIDcart joy"
+  IDS_SIDCART_JOY                 "Enable SIDcart joy"
   IDS_NUMPAD_AND_RCTRL            "Numpad + Sað Ctrl"
   IDS_KEYSET_A                    "Tuþ Seti A"
   IDS_KEYSET_B                    "Tuþ Seti B"
@@ -10290,6 +10837,8 @@ BEGIN
   IDS_MI_VIDEO_SETTINGS           "&Görüntü ayalarlarý..."
   IDS_MI_DEVICEMANAGER            "Çe&vresel ayarlar..."
   IDS_MI_JOY_SETTINGS             "&Joystick ayarlarý..."
+  IDS_MI_USERPORT_JOY_SETTINGS    "&Userport joystick settings..."
+  IDS_MI_SIDCART_JOY_SETTINGS     "&Sidcart joystick settings..."
   IDS_MI_KEYBOARD_SETTINGS        "&Klavye ayarlarý..."
   IDS_MI_SOUND_SETTINGS           "&Ses ayarlarý..."
   IDS_MI_ROM_SETTINGS             "&ROM ayarlarý..."

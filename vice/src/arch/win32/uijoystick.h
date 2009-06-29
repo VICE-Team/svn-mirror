@@ -27,7 +27,9 @@
 #ifndef VICE_UIJOYSTICK_H_
 #define VICE_UIJOYSTICK_H_
 
-void ui_joystick_settings_dialog(HWND hwnd);
-void ui_joystick_swap_joystick(void);
+extern void ui_joystick_settings_dialog(HWND hwnd);
+extern void ui_extra_joystick_settings_dialog(HWND hwnd);
+extern void ui_joystick_swap_joystick(void);
+extern void ui_extra_joystick_swap_joystick(void);
 
 #endif

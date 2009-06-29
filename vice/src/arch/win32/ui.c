@@ -1517,9 +1517,6 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_MAXIMUM_SPEED_CUSTOM:
         ui_speed_settings_dialog(hwnd);
         break;
-      case IDM_JOY_SETTINGS:
-        ui_joystick_settings_dialog(hwnd);
-        break;
       case IDM_SWAP_JOYSTICK:
         ui_joystick_swap_joystick();
         break;

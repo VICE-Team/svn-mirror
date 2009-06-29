@@ -31,6 +31,7 @@
 #include <windows.h>
 
 #include "debug.h"
+#include "machine.h"
 #include "petui.h"
 #include "res.h"
 #include "resources.h"
@@ -39,6 +40,7 @@
 #include "uiacia.h"
 #include "uicbm2set.h"
 #include "uidrivepetcbm2.h"
+#include "uijoystick.h"
 #include "uikeyboard.h"
 #include "uirom.h"
 #include "uisid.h"
@@ -273,6 +275,13 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
       case IDM_CBM2_SETTINGS:
         ui_cbm2_settings_dialog(hwnd);
         break;
+      case IDM_JOY_SETTINGS:
+        if (machine_class == VICE_MACHINE_CBM5x0) {
+            ui_joystick_settings_dialog(hwnd);
+        } else {
+            ui_extra_joystick_settings_dialog(hwnd);
+        }
+        break;
       case IDM_SID_SETTINGS:
         ui_sid_settings_dialog(hwnd);
         break;
@@ -298,9 +307,16 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
 
 int cbm2ui_init(void)
 {
+    int i;
     ui_register_machine_specific(cbm2_ui_specific);
     ui_register_menu_toggles(cbm2_ui_menu_toggles);
     ui_register_res_values(cbm2_ui_res_values);
+
+    for (i = 0; cbm2ui_menu_translation_table[i].idm != 0; i++) {
+        if (cbm2ui_menu_translation_table[i].idm == IDM_JOY_SETTINGS) {
+            cbm2ui_menu_translation_table[i].ids = (machine_class == VICE_MACHINE_CBM5x0) ? IDS_MI_JOY_SETTINGS : IDS_MI_USERPORT_JOY_SETTINGS;
+        }
+    }
     ui_register_translation_tables(cbm2ui_menu_translation_table, cbm2ui_popup_translation_table);
     return 0;
 }
@@ -308,4 +324,3 @@ int cbm2ui_init(void)
 void cbm2ui_shutdown(void)
 {
 }
-
