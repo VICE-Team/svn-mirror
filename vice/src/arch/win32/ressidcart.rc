@@ -428,8 +428,6 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     AUTOCHECKBOX    "Enable digiblaster add-on", IDC_DIGIBLASTER,
                     7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "Enable joystick", IDC_SIDCART_JOYSTICK,
-                    7, 149, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 30, 174, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDCANCEL, 90, 174, 50, 14, WS_TABSTOP
@@ -470,8 +468,6 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     AUTOCHECKBOX    "Enable digiblaster add-on", IDC_DIGIBLASTER,
                     7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "Enable joystick", IDC_SIDCART_JOYSTICK,
-                    7, 149, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 30, 174, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Annullér", IDCANCEL, 90, 174, 50, 14, WS_TABSTOP
@@ -512,8 +508,6 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     AUTOCHECKBOX    "Enable digiblaster add-on", IDC_DIGIBLASTER,
                     7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "Enable joystick", IDC_SIDCART_JOYSTICK,
-                    7, 149, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 30, 174, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Abbruch", IDCANCEL, 90, 174, 50, 14, WS_TABSTOP
@@ -554,8 +548,6 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     AUTOCHECKBOX    "Enable digiblaster add-on", IDC_DIGIBLASTER,
                     7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "Enable joystick", IDC_SIDCART_JOYSTICK,
-                    7, 149, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 30, 174, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Annuler", IDCANCEL, 90, 174, 50, 14, WS_TABSTOP
@@ -597,8 +589,6 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     AUTOCHECKBOX    "Enable digiblaster add-on", IDC_DIGIBLASTER,
                     7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "Enable joystick", IDC_SIDCART_JOYSTICK,
-                    7, 149, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 30, 174, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Mégsem", IDCANCEL, 90, 174, 50, 14, WS_TABSTOP
@@ -640,8 +630,6 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     AUTOCHECKBOX    "Enable digiblaster add-on", IDC_DIGIBLASTER,
                     7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "Enable joystick", IDC_SIDCART_JOYSTICK,
-                    7, 149, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 30, 174, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 90, 174, 50, 14, WS_TABSTOP
@@ -682,8 +670,6 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     AUTOCHECKBOX    "Enable digiblaster add-on", IDC_DIGIBLASTER,
                     7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "Enable joystick", IDC_SIDCART_JOYSTICK,
-                    7, 149, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 30, 174, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Annuleren", IDCANCEL, 90, 174, 50, 14, WS_TABSTOP
@@ -725,8 +711,6 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     AUTOCHECKBOX    "Enable digiblaster add-on", IDC_DIGIBLASTER,
                     7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "Enable joystick", IDC_SIDCART_JOYSTICK,
-                    7, 149, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 30, 174, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDCANCEL, 90, 174, 50, 14, WS_TABSTOP
@@ -768,8 +752,6 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     AUTOCHECKBOX    "Enable digiblaster add-on", IDC_DIGIBLASTER,
                     7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "Enable joystick", IDC_SIDCART_JOYSTICK,
-                    7, 149, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 30, 174, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Avbryt", IDCANCEL, 90, 174, 50, 14, WS_TABSTOP
@@ -811,8 +793,6 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     AUTOCHECKBOX    "Enable digiblaster add-on", IDC_DIGIBLASTER,
                     7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "Enable joystick", IDC_SIDCART_JOYSTICK,
-                    7, 149, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 
     DEFPUSHBUTTON   "Tamam", IDOK, 30, 174, 50, 14, WS_TABSTOP
     PUSHBUTTON      "Ýptal", IDCANCEL, 90, 174, 50, 14, WS_TABSTOP

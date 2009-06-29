@@ -87,7 +87,6 @@ static void enable_sidcart_controls(HWND hwnd)
   EnableWindow(GetDlgItem(hwnd, IDC_SIDCART_CLOCK), is_enabled);
   if (machine_class == VICE_MACHINE_PLUS4) {
     EnableWindow(GetDlgItem(hwnd, IDC_DIGIBLASTER), is_enabled);
-    EnableWindow(GetDlgItem(hwnd, IDC_SIDCART_JOYSTICK), is_enabled);
   }
   enable_sidcart_hardsid_controls(hwnd);
 }
@@ -154,8 +153,6 @@ static void init_sidcart_dialog(HWND hwnd)
   if (machine_class == VICE_MACHINE_PLUS4) {
     resources_get_int("DIGIBLASTER", &res_value);
     CheckDlgButton(hwnd, IDC_DIGIBLASTER, res_value ? BST_CHECKED : BST_UNCHECKED);
-    resources_get_int("SIDCartJoy", &res_value);
-    CheckDlgButton(hwnd, IDC_SIDCART_JOYSTICK, res_value ? BST_CHECKED : BST_UNCHECKED);
   }
 
   available = hardsid_available();
@@ -208,8 +205,6 @@ static void end_sidcart_dialog(HWND hwnd)
   if (machine_class == VICE_MACHINE_PLUS4) {
     resources_set_int("DIGIBLASTER", (IsDlgButtonChecked(hwnd,
                       IDC_DIGIBLASTER) == BST_CHECKED ? 1 : 0 ));
-    resources_set_int("SIDCartJoy", (IsDlgButtonChecked(hwnd,
-                      IDC_SIDCART_JOYSTICK) == BST_CHECKED ? 1 : 0 ));
   }
 }
 
