@@ -224,6 +224,11 @@ static int coreaudio_suspend(void)
 
 static int coreaudio_resume(void)
 {
+    // reset buffers before resume
+    read_position = 0;
+    write_position = 0;
+    fragments_in_queue = 0;
+    
     OSStatus err = AudioDeviceStart(device, coreaudio_ioproc);
     if (err != kAudioHardwareNoError)
     {
