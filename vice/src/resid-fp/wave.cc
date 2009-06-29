@@ -227,12 +227,12 @@ void WaveformGeneratorFP::set_chip_model(chip_model model)
 // ----------------------------------------------------------------------------
 void WaveformGeneratorFP::writeFREQ_LO(reg8 freq_lo)
 {
-  freq = (freq & 0xff0000) | ((freq_lo << 8) & 0xff00);
+  freq = (freq & 0xff00) | (freq_lo & 0xff);
 }
 
 void WaveformGeneratorFP::writeFREQ_HI(reg8 freq_hi)
 {
-  freq = ((freq_hi << 16) & 0xff0000) | (freq & 0xff00);
+  freq = ((freq_hi << 8) & 0xff00) | (freq & 0xff);
 }
 
 void WaveformGeneratorFP::writePW_LO(reg8 pw_lo)

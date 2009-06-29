@@ -20,6 +20,7 @@
 #include "sid.h"
 
 #include <math.h>
+#include <stdio.h>
 
 extern float convolve(const float *a, const float *b, int n);
 extern float convolve_sse(const float *a, const float *b, int n);

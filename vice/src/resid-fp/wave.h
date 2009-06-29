@@ -65,14 +65,14 @@ protected:
   // Tell whether the accumulator MSB was set high on this cycle.
   bool msb_rising;
 
-  reg32 accumulator; /* shifted left by 8 for optimization */
+  reg24 accumulator; /* shifted left by 8 for optimization */
   reg24 shift_register;
   reg12 noise_output_cached;
   reg8 previous;
   int noise_overwrite_delay;
 
   // Fout  = (Fn*Fclk/16777216)Hz
-  reg24 freq; /* shifted left by 8 for optimization */
+  reg16 freq; /* shifted left by 8 for optimization */
   // PWout = (PWn/40.95)%
   reg12 pw;
 
@@ -109,16 +109,17 @@ void WaveformGeneratorFP::clock()
     return;
   }
 
-  reg32 accumulator_prev = accumulator;
+  reg24 accumulator_prev = accumulator;
 
   // Calculate new accumulator value;
   accumulator += freq;
+  accumulator &= 0xffffff;
 
   // Check whether the MSB became set high. This is used for synchronization.
-  msb_rising = static_cast<int>(~accumulator_prev & accumulator) < 0;
+  msb_rising = !(accumulator_prev & 0x800000) && (accumulator & 0x800000);
 
   // Shift noise register once for each time accumulator bit 19 is set high.
-  if ((~accumulator_prev & accumulator) & 0x08000000) {
+  if (!(accumulator_prev & 0x080000) && (accumulator & 0x080000)) {
     clock_noise(true);
   }
 }
@@ -159,14 +160,14 @@ float WaveformGeneratorFP::output(WaveformGeneratorFP& sync_source)
   /* waveforms 1 .. 7 left */
 
   /* Phase for all waveforms */
-  reg12 phase = accumulator >> 20;
+  reg12 phase = accumulator >> 12;
   /* pulse on/off generates 4 more variants after the main pulse types */
-  int variant = waveform < 4 || phase < pw ? -1 : 3;
+  int variant = waveform >= 4 && (test || phase >= pw) ? 3 : -1;
 
   /* triangle waveform XOR circuit. Since the table already makes a triangle
    * wave internally, we only need to account for the sync source here.
    * Flipping the top bit suffices to reproduce the original SID ringmod */
-  phase ^= ring_mod && (waveform & 3) == 1 && (static_cast<int>(sync_source.accumulator) < 0) ? 0x800 : 0x000;
+  phase ^= ((waveform & 3) == 1 && ring_mod && (sync_source.accumulator & 0x800000)) ? 0x800 : 0x00;
 
   return wftable[waveform + variant][phase];
 }
