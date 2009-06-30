@@ -2862,6 +2862,8 @@ AC_OUTPUT([Makefile
            src/arch/os2/vac++/Makefile
            src/arch/riscos/Makefile
            src/arch/sdl/Makefile
+           src/arch/sdl/win32-msvc/Makefile
+           src/arch/sdl/win64-msvc/Makefile
            src/arch/unix/Makefile
            src/arch/unix/gp2x/Makefile
            src/arch/unix/gui/Makefile
