@@ -206,7 +206,6 @@ tui_menu_item_def_t sidcart_ui_menu_items[] = {
 };
 
 TUI_MENU_DEFINE_TOGGLE(DIGIBLASTER)
-TUI_MENU_DEFINE_TOGGLE(SIDCartJoy)
 
 tui_menu_item_def_t sidcart_plus4_ui_menu_items[] = {
     { "_Enable SID cart:",
@@ -233,10 +232,6 @@ tui_menu_item_def_t sidcart_plus4_ui_menu_items[] = {
       "Select the clock used for the SID",
       sid_clock_submenu_callback, NULL, 7,
       TUI_MENU_BEH_CONTINUE, sid_clock_submenu, "SID clock" },
-    { "Enable SID cart joystick:",
-      "Enable/disable emulation of the SID cartridge joystick",
-      toggle_SIDCartJoy_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Enable digiblaster add-on:",
       "Enable/disable emulation of the digiblaster add-on",
       toggle_DIGIBLASTER_callback, NULL, 3,
