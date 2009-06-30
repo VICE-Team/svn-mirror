@@ -29,8 +29,7 @@
 
 struct tui_menu;
 
-extern void uijoystick_init(struct tui_menu *parent_submenu,
-                            unsigned int number_joysticks);
+extern void uijoystick_init(struct tui_menu *parent_submenu);
 
 #endif
 

@@ -1005,7 +1005,7 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
 
     uisound_init(ui_main_menu);
 
-    uijoystick_init(ui_main_menu, number_joysticks);
+    uijoystick_init(ui_main_menu);
 #if 0
     if (number_joysticks > 0) {
         ui_joystick_settings_submenu = tui_menu_create("Joystick Settings", 1);
