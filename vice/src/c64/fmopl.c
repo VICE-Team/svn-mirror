@@ -449,7 +449,7 @@ static signed int output[1];
 static UINT32	LFO_AM;
 static INT32	LFO_PM;
 
-inline int limit( int val, int max, int min ) {
+inline static int limit( int val, int max, int min ) {
 	if ( val > max )
 		val = max;
 	else if ( val < min )
@@ -460,7 +460,7 @@ inline int limit( int val, int max, int min ) {
 
 
 /* status set and IRQ handling */
-inline void OPL_STATUS_SET(FM_OPL *OPL,int flag)
+inline static void OPL_STATUS_SET(FM_OPL *OPL,int flag)
 {
 	/* set status flag */
 	OPL->status |= flag;
@@ -474,7 +474,7 @@ inline void OPL_STATUS_SET(FM_OPL *OPL,int flag)
 }
 
 /* status reset and IRQ handling */
-inline void OPL_STATUS_RESET(FM_OPL *OPL,int flag)
+inline static void OPL_STATUS_RESET(FM_OPL *OPL,int flag)
 {
 	/* reset status flag */
 	OPL->status &=~flag;
@@ -488,7 +488,7 @@ inline void OPL_STATUS_RESET(FM_OPL *OPL,int flag)
 }
 
 /* IRQ mask set */
-inline void OPL_STATUSMASK_SET(FM_OPL *OPL,int flag)
+inline static void OPL_STATUSMASK_SET(FM_OPL *OPL,int flag)
 {
 	OPL->statusmask = flag;
 	/* IRQ handling check */
@@ -498,7 +498,7 @@ inline void OPL_STATUSMASK_SET(FM_OPL *OPL,int flag)
 
 
 /* advance LFO to next sample */
-inline void advance_lfo(FM_OPL *OPL)
+inline static void advance_lfo(FM_OPL *OPL)
 {
 	UINT8 tmp;
 
@@ -519,7 +519,7 @@ inline void advance_lfo(FM_OPL *OPL)
 }
 
 /* advance to next sample */
-inline void advance(FM_OPL *OPL)
+inline static void advance(FM_OPL *OPL)
 {
 	OPL_CH *CH;
 	OPL_SLOT *op;
@@ -682,7 +682,7 @@ inline void advance(FM_OPL *OPL)
 }
 
 
-inline signed int op_calc(UINT32 phase, unsigned int env, signed int pm, unsigned int wave_tab)
+inline static signed int op_calc(UINT32 phase, unsigned int env, signed int pm, unsigned int wave_tab)
 {
 	UINT32 p;
 
@@ -693,7 +693,7 @@ inline signed int op_calc(UINT32 phase, unsigned int env, signed int pm, unsigne
 	return tl_tab[p];
 }
 
-inline signed int op_calc1(UINT32 phase, unsigned int env, signed int pm, unsigned int wave_tab)
+inline static signed int op_calc1(UINT32 phase, unsigned int env, signed int pm, unsigned int wave_tab)
 {
 	UINT32 p;
 
@@ -708,7 +708,7 @@ inline signed int op_calc1(UINT32 phase, unsigned int env, signed int pm, unsign
 #define volume_calc(OP) ((OP)->TLL + ((UINT32)(OP)->volume) + (LFO_AM & (OP)->AMmask))
 
 /* calculate output */
-inline void OPL_CALC_CH( OPL_CH *CH )
+inline static void OPL_CALC_CH( OPL_CH *CH )
 {
 	OPL_SLOT *SLOT;
 	unsigned int env;
@@ -774,7 +774,7 @@ number   number    BLK/FNUM2 FNUM    Drum  Hat   Drum  Tom  Cymbal
 
 /* calculate rhythm */
 
-inline void OPL_CALC_RH( OPL_CH *CH, unsigned int noise )
+inline static void OPL_CALC_RH( OPL_CH *CH, unsigned int noise )
 {
 	OPL_SLOT *SLOT;
 	signed int out;
@@ -1060,7 +1060,7 @@ static void OPL_initalize(FM_OPL *OPL)
 	OPL->eg_timer_overflow = ( 1 ) * (1<<EG_SH);
 }
 
-inline void FM_KEYON(OPL_SLOT *SLOT, UINT32 key_set)
+inline static void FM_KEYON(OPL_SLOT *SLOT, UINT32 key_set)
 {
 	if( !SLOT->key )
 	{
@@ -1072,7 +1072,7 @@ inline void FM_KEYON(OPL_SLOT *SLOT, UINT32 key_set)
 	SLOT->key |= key_set;
 }
 
-inline void FM_KEYOFF(OPL_SLOT *SLOT, UINT32 key_clr)
+inline static void FM_KEYOFF(OPL_SLOT *SLOT, UINT32 key_clr)
 {
 	if( SLOT->key )
 	{
@@ -1088,7 +1088,7 @@ inline void FM_KEYOFF(OPL_SLOT *SLOT, UINT32 key_clr)
 }
 
 /* update phase increment counter of operator (also update the EG rates if necessary) */
-inline void CALC_FCSLOT(OPL_CH *CH,OPL_SLOT *SLOT)
+inline static void CALC_FCSLOT(OPL_CH *CH,OPL_SLOT *SLOT)
 {
 	int ksr;
 
@@ -1119,7 +1119,7 @@ inline void CALC_FCSLOT(OPL_CH *CH,OPL_SLOT *SLOT)
 }
 
 /* set multi,am,vib,EG-TYP,KSR,mul */
-inline void set_mul(FM_OPL *OPL,int slot,int v)
+inline static void set_mul(FM_OPL *OPL,int slot,int v)
 {
 	OPL_CH   *CH   = &OPL->P_CH[slot/2];
 	OPL_SLOT *SLOT = &CH->SLOT[slot&1];
@@ -1133,7 +1133,7 @@ inline void set_mul(FM_OPL *OPL,int slot,int v)
 }
 
 /* set ksl & tl */
-inline void set_ksl_tl(FM_OPL *OPL,int slot,int v)
+inline static void set_ksl_tl(FM_OPL *OPL,int slot,int v)
 {
 	OPL_CH   *CH   = &OPL->P_CH[slot/2];
 	OPL_SLOT *SLOT = &CH->SLOT[slot&1];
@@ -1146,7 +1146,7 @@ inline void set_ksl_tl(FM_OPL *OPL,int slot,int v)
 }
 
 /* set attack rate & decay rate  */
-inline void set_ar_dr(FM_OPL *OPL,int slot,int v)
+inline static void set_ar_dr(FM_OPL *OPL,int slot,int v)
 {
 	OPL_CH   *CH   = &OPL->P_CH[slot/2];
 	OPL_SLOT *SLOT = &CH->SLOT[slot&1];
@@ -1170,7 +1170,7 @@ inline void set_ar_dr(FM_OPL *OPL,int slot,int v)
 }
 
 /* set sustain level & release rate */
-inline void set_sl_rr(FM_OPL *OPL,int slot,int v)
+inline static void set_sl_rr(FM_OPL *OPL,int slot,int v)
 {
 	OPL_CH   *CH   = &OPL->P_CH[slot/2];
 	OPL_SLOT *SLOT = &CH->SLOT[slot&1];
@@ -1522,7 +1522,7 @@ static unsigned char OPLRead(FM_OPL *OPL,int a)
 }
 
 /* CSM Key Controll */
-inline void CSMKeyControll(OPL_CH *CH)
+inline static void CSMKeyControll(OPL_CH *CH)
 {
 	FM_KEYON (&CH->SLOT[SLOT1], 4);
 	FM_KEYON (&CH->SLOT[SLOT2], 4);
