@@ -29,9 +29,12 @@
 
 #include "uimenu.h"
 
-extern struct ui_menu_entry_s joystick_settings_submenu[];
-extern struct ui_menu_entry_s joystick_settings_menu[];
-extern struct ui_menu_entry_s joystick_4_settings_menu[];
+extern struct ui_menu_entry_s joystick_settings_c64_menu[];
+extern struct ui_menu_entry_s joystick_settings_c64dtv_menu[];
+extern struct ui_menu_entry_s joystick_settings_cbm5x0_menu[];
+extern struct ui_menu_entry_s joystick_settings_pet_menu[];
+extern struct ui_menu_entry_s joystick_settings_vic20_menu[];
+extern struct ui_menu_entry_s joystick_settings_plus4_menu[];
 extern struct ui_menu_entry_s joystick_options_submenu[];
 
 #endif

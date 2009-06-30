@@ -102,7 +102,6 @@ static ui_menu_entry_t sidcart_clock_submenu[] = {
 };
 
 UI_MENU_DEFINE_TOGGLE(DIGIBLASTER)
-UI_MENU_DEFINE_TOGGLE(SIDCartJoy)
 
 static ui_menu_entry_t sidcart_submenu[] = {
     { N_("*Enable SID cart"),
@@ -118,8 +117,6 @@ static ui_menu_entry_t sidcart_submenu[] = {
     { N_("SID clock"),
       NULL, NULL, sidcart_clock_submenu },
     { "--" },
-    { N_("*Enable SID cart joystick"),
-      (ui_callback_t)toggle_SIDCartJoy, NULL, NULL },
     { N_("*Enable digiblaster add-on"),
       (ui_callback_t)toggle_DIGIBLASTER, NULL, NULL },
     { NULL }
@@ -241,7 +238,7 @@ static ui_menu_entry_t plus4_right_menu[] = {
     { "",
       NULL, NULL, ui_peripheraliec_plus4_settings_menu },
     { "",
-      NULL, NULL, joystick_settings_menu },
+      NULL, NULL, joystick_settings_plus4_menu },
     { "--",
       NULL, NULL, plus4_menu },
     { "--",
@@ -311,7 +308,7 @@ static ui_menu_entry_t plus4_settings_menu[] = {
     { "",
       NULL, NULL, ui_peripheraliec_plus4_settings_menu },
     { "",
-      NULL, NULL, joystick_settings_menu },
+      NULL, NULL, joystick_settings_plus4_menu },
     { "--",
       NULL, NULL, plus4_menu },
     { "--",

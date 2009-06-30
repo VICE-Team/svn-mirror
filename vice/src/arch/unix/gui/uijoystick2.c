@@ -30,6 +30,7 @@
 #include <stdio.h>
 
 #include "joy.h"
+#include "joystick.h"
 #include "resources.h"
 #include "uiapi.h"
 #include "uimenu.h"
@@ -102,8 +103,49 @@ static UI_CALLBACK(swap_joystick_ports)
     ui_update_menus();
 }
 
+static UI_CALLBACK(swap_userport_joystick_ports)
+{
+    int tmp3, tmp4;
+
+    if (w != NULL)
+        vsync_suspend_speed_eval();
+    resources_get_int("JoyDevice3", &tmp3);
+    resources_get_int("JoyDevice4", &tmp4);
+    resources_set_int("JoyDevice3", tmp4);
+    resources_set_int("JoyDevice4", tmp3);
+    ui_update_menus();
+}
+
 UI_MENU_DEFINE_TOGGLE(KeySetEnable)
-UI_MENU_DEFINE_TOGGLE(PTV4Player)
+UI_MENU_DEFINE_TOGGLE(ExtraJoy)
+UI_MENU_DEFINE_TOGGLE(SIDCartJoy)
+UI_MENU_DEFINE_RADIO(ExtraJoyType)
+
+static ui_menu_entry_t userport_joystick_type_c64_submenu[] = {
+    { "*CGA userport joystick adapter", (ui_callback_t)radio_ExtraJoyType,
+      (ui_callback_data_t)EXTRA_JOYSTICK_CGA, NULL },
+    { "*PET userport joystick adapter", (ui_callback_t)radio_ExtraJoyType,
+      (ui_callback_data_t)EXTRA_JOYSTICK_PET, NULL },
+    { "*Hummer userport joystick adapter", (ui_callback_t)radio_ExtraJoyType,
+      (ui_callback_data_t)EXTRA_JOYSTICK_HUMMER, NULL },
+    { "*OEM userport joystick adapter", (ui_callback_t)radio_ExtraJoyType,
+      (ui_callback_data_t)EXTRA_JOYSTICK_OEM, NULL },
+    { "*HIT userport joystick adapter", (ui_callback_t)radio_ExtraJoyType,
+      (ui_callback_data_t)EXTRA_JOYSTICK_HIT, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t userport_joystick_type_submenu[] = {
+    { "*CGA userport joystick adapter", (ui_callback_t)radio_ExtraJoyType,
+      (ui_callback_data_t)EXTRA_JOYSTICK_CGA, NULL },
+    { "*PET userport joystick adapter", (ui_callback_t)radio_ExtraJoyType,
+      (ui_callback_data_t)EXTRA_JOYSTICK_PET, NULL },
+    { "*Hummer userport joystick adapter", (ui_callback_t)radio_ExtraJoyType,
+      (ui_callback_data_t)EXTRA_JOYSTICK_HUMMER, NULL },
+    { "*OEM userport joystick adapter", (ui_callback_t)radio_ExtraJoyType,
+      (ui_callback_data_t)EXTRA_JOYSTICK_OEM, NULL },
+    { NULL }
+};
 
 static ui_menu_entry_t set_joystick_device_1_submenu[] = {
     { N_("*None"),
@@ -313,8 +355,65 @@ static ui_menu_entry_t set_joystick_device_4_submenu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t joystick_settings_c64_submenu[] = {
+    { N_("Joystick device in port 1"),
+      NULL, NULL, set_joystick_device_1_submenu },
+    { N_("Joystick device in port 2"),
+      NULL, NULL, set_joystick_device_2_submenu },
+    { "--" },
+#ifdef USE_GNOMEUI
+    { N_("Define keysets"),
+      (ui_callback_t)ui_keyset_dialog },
+    { "--" },
+#endif
+    { N_("*Allow keyset joystick"),
+      (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META },
+    { N_("Swap joystick ports"),
+      (ui_callback_t)swap_joystick_ports, NULL, NULL, KEYSYM_j, UI_HOTMOD_META },
+    { "--" },
+    { N_("*Userport Joystick Interface"),
+      (ui_callback_t)toggle_ExtraJoy, NULL, NULL },
+    { N_("*Userport Joystick Interface Type"),
+      NULL, NULL, userport_joystick_type_c64_submenu },
+    { N_("Joystick device in extra port 1"),
+      NULL, NULL, set_joystick_device_3_submenu },
+    { N_("Joystick device in extra port 2"),
+      NULL, NULL, set_joystick_device_4_submenu },
+    { N_("Swap userport joystick ports"),
+      (ui_callback_t)swap_userport_joystick_ports, NULL, NULL, KEYSYM_u, UI_HOTMOD_META },
+    { NULL }
+};
 
-ui_menu_entry_t joystick_settings_submenu[] = {
+static ui_menu_entry_t joystick_settings_c64dtv_submenu[] = {
+    { N_("Joystick device in port 1"),
+      NULL, NULL, set_joystick_device_1_submenu },
+    { N_("Joystick device in port 2"),
+      NULL, NULL, set_joystick_device_2_submenu },
+    { "--" },
+#ifdef USE_GNOMEUI
+    { N_("Define keysets"),
+      (ui_callback_t)ui_keyset_dialog },
+    { "--" },
+#endif
+    { N_("*Allow keyset joystick"),
+      (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META },
+    { N_("Swap joystick ports"),
+      (ui_callback_t)swap_joystick_ports, NULL, NULL, KEYSYM_j, UI_HOTMOD_META },
+    { "--" },
+    { N_("*Userport Joystick Interface"),
+      (ui_callback_t)toggle_ExtraJoy, NULL, NULL },
+    { N_("*Userport Joystick Interface Type"),
+      NULL, NULL, userport_joystick_type_submenu },
+    { N_("Joystick device in extra port 1"),
+      NULL, NULL, set_joystick_device_3_submenu },
+    { N_("Joystick device in extra port 2"),
+      NULL, NULL, set_joystick_device_4_submenu },
+    { N_("Swap userport joystick ports"),
+      (ui_callback_t)swap_userport_joystick_ports, NULL, NULL, KEYSYM_u, UI_HOTMOD_META },
+    { NULL }
+};
+
+static ui_menu_entry_t joystick_settings_cbm5x0_submenu[] = {
     { N_("Joystick device in port 1"),
       NULL, NULL, set_joystick_device_1_submenu },
     { N_("Joystick device in port 2"),
@@ -332,15 +431,58 @@ ui_menu_entry_t joystick_settings_submenu[] = {
     { NULL }
 };
 
-ui_menu_entry_t joystick_4_settings_submenu[] = {
+static ui_menu_entry_t joystick_settings_pet_submenu[] = {
+#ifdef USE_GNOMEUI
+    { N_("Define keysets"),
+      (ui_callback_t)ui_keyset_dialog },
+    { "--" },
+#endif
+    { N_("*Allow keyset joystick"),
+      (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META },
+    { "--" },
+    { N_("*Userport Joystick Interface"),
+      (ui_callback_t)toggle_ExtraJoy, NULL, NULL },
+    { N_("*Userport Joystick Interface Type"),
+      NULL, NULL, userport_joystick_type_submenu },
+    { N_("Joystick device in extra port 1"),
+      NULL, NULL, set_joystick_device_3_submenu },
+    { N_("Joystick device in extra port 2"),
+      NULL, NULL, set_joystick_device_4_submenu },
+    { N_("Swap userport joystick ports"),
+      (ui_callback_t)swap_userport_joystick_ports, NULL, NULL, KEYSYM_u, UI_HOTMOD_META },
+    { NULL }
+};
+
+static ui_menu_entry_t joystick_settings_vic20_submenu[] = {
+    { N_("Joystick device in port 1"),
+      NULL, NULL, set_joystick_device_1_submenu },
+    { "--" },
+#ifdef USE_GNOMEUI
+    { N_("Define keysets"),
+      (ui_callback_t)ui_keyset_dialog },
+    { "--" },
+#endif
+    { N_("*Allow keyset joystick"),
+      (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META },
+    { "--" },
+    { N_("*Userport Joystick Interface"),
+      (ui_callback_t)toggle_ExtraJoy, NULL, NULL },
+    { N_("*Userport Joystick Interface Type"),
+      NULL, NULL, userport_joystick_type_submenu },
+    { N_("Joystick device in extra port 1"),
+      NULL, NULL, set_joystick_device_3_submenu },
+    { N_("Joystick device in extra port 2"),
+      NULL, NULL, set_joystick_device_4_submenu },
+    { N_("Swap userport joystick ports"),
+      (ui_callback_t)swap_userport_joystick_ports, NULL, NULL, KEYSYM_u, UI_HOTMOD_META },
+    { NULL }
+};
+
+static ui_menu_entry_t joystick_settings_plus4_submenu[] = {
     { N_("Joystick device in port 1"),
       NULL, NULL, set_joystick_device_1_submenu },
     { N_("Joystick device in port 2"),
       NULL, NULL, set_joystick_device_2_submenu },
-    { N_("Joystick device in port 3"),
-      NULL, NULL, set_joystick_device_3_submenu },
-    { N_("Joystick device in port 4"),
-      NULL, NULL, set_joystick_device_4_submenu },
     { "--" },
 #ifdef USE_GNOMEUI
     { N_("Define keysets"),
@@ -351,8 +493,11 @@ ui_menu_entry_t joystick_4_settings_submenu[] = {
       (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META },
     { N_("Swap joystick ports"),
       (ui_callback_t)swap_joystick_ports, NULL, NULL, KEYSYM_j, UI_HOTMOD_META },
-    { N_("*Protovision 4 Player Interface"),
-      (ui_callback_t)toggle_PTV4Player, NULL, NULL },
+    { "--" },
+    { N_("*SIDcart Joystick"),
+      (ui_callback_t)toggle_SIDCartJoy, NULL, NULL },
+    { N_("Joystick device in extra port 1"),
+      NULL, NULL, set_joystick_device_3_submenu },
     { NULL }
 };
 
@@ -362,15 +507,38 @@ ui_menu_entry_t joystick_options_submenu[] = {
     { NULL }
 };
 
-ui_menu_entry_t joystick_settings_menu[] = {
+ui_menu_entry_t joystick_settings_c64_menu[] = {
     { N_("Joystick settings"),
-      NULL, NULL, joystick_settings_submenu },
+      NULL, NULL, joystick_settings_c64_submenu },
     { NULL }
 };
 
-ui_menu_entry_t joystick_4_settings_menu[] = {
+ui_menu_entry_t joystick_settings_c64dtv_menu[] = {
     { N_("Joystick settings"),
-      NULL, NULL, joystick_4_settings_submenu },
+      NULL, NULL, joystick_settings_c64dtv_submenu },
     { NULL }
 };
 
+ui_menu_entry_t joystick_settings_cbm5x0_menu[] = {
+    { N_("Joystick settings"),
+      NULL, NULL, joystick_settings_cbm5x0_submenu },
+    { NULL }
+};
+
+ui_menu_entry_t joystick_settings_pet_menu[] = {
+    { N_("Joystick settings"),
+      NULL, NULL, joystick_settings_pet_submenu },
+    { NULL }
+};
+
+ui_menu_entry_t joystick_settings_vic20_menu[] = {
+    { N_("Joystick settings"),
+      NULL, NULL, joystick_settings_vic20_submenu },
+    { NULL }
+};
+
+ui_menu_entry_t joystick_settings_plus4_menu[] = {
+    { N_("Joystick settings"),
+      NULL, NULL, joystick_settings_plus4_submenu },
+    { NULL }
+};

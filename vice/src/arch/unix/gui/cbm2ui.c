@@ -410,7 +410,7 @@ static ui_menu_entry_t cbm2_left_menu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t cbm2_right_menu[] = {
+static ui_menu_entry_t cbm5x0_right_menu[] = {
     { "",
       NULL, NULL,  ui_performance_settings_menu },
     { "--",
@@ -422,7 +422,31 @@ static ui_menu_entry_t cbm2_right_menu[] = {
     { "",
       NULL, NULL,  ui_peripheralieee_settings_menu },
     { "",
-      NULL, NULL,  joystick_settings_menu },
+      NULL, NULL,  joystick_settings_cbm5x0_menu },
+    { "--",
+      NULL, NULL, cbm2_menu },
+    { "--",
+      NULL, NULL, ui_settings_settings_menu },
+#ifdef DEBUG
+    { "--",
+      NULL, NULL, ui_debug_settings_menu },
+#endif
+    { NULL }
+};
+
+static ui_menu_entry_t cbm6x0_right_menu[] = {
+    { "",
+      NULL, NULL,  ui_performance_settings_menu },
+    { "--",
+      NULL, NULL, uikeyboard_settings_menu },
+    { "",
+      NULL, NULL,  ui_sound_settings_menu },
+    { "",
+      NULL, NULL,  ui_drivepetcbm2_settings_menu },
+    { "",
+      NULL, NULL,  ui_peripheralieee_settings_menu },
+    { "",
+      NULL, NULL,  joystick_settings_pet_menu },
     { "--",
       NULL, NULL, cbm2_menu },
     { "--",
@@ -484,7 +508,7 @@ static ui_menu_entry_t cbm2_options_menu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t cbm2_settings_menu[] = {
+static ui_menu_entry_t cbm5x0_settings_menu[] = {
     { "",
       NULL, NULL,  uikeyboard_settings_menu },
     { "",
@@ -494,7 +518,7 @@ static ui_menu_entry_t cbm2_settings_menu[] = {
     { "",
       NULL, NULL, ui_peripheralieee_settings_menu },
     { "",
-      NULL, NULL, joystick_settings_menu },
+      NULL, NULL, joystick_settings_cbm5x0_menu },
     { "--",
       NULL, NULL, cbm2_menu },
     { "--",
@@ -502,7 +526,25 @@ static ui_menu_entry_t cbm2_settings_menu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t cbm2_top_menu[] = {
+static ui_menu_entry_t cbm6x0_settings_menu[] = {
+    { "",
+      NULL, NULL,  uikeyboard_settings_menu },
+    { "",
+      NULL, NULL, ui_sound_settings_menu },
+    { "",
+      NULL, NULL, ui_drivepetcbm2_settings_menu },
+    { "",
+      NULL, NULL, ui_peripheralieee_settings_menu },
+    { "",
+      NULL, NULL, joystick_settings_pet_menu },
+    { "--",
+      NULL, NULL, cbm2_menu },
+    { "--",
+      NULL, NULL, ui_settings_settings_menu },
+    { NULL }
+};
+
+static ui_menu_entry_t cbm5x0_top_menu[] = {
     { N_("File"),
       NULL, NULL, cbm2_file_menu },
     { N_("Snapshot"),
@@ -510,7 +552,23 @@ static ui_menu_entry_t cbm2_top_menu[] = {
     { N_("Options"),
       NULL, NULL, cbm2_options_menu },
     { N_("Settings"),
-      NULL, NULL, cbm2_settings_menu },
+      NULL, NULL, cbm5x0_settings_menu },
+                   /* Translators: RJ means right justify and should be
+                      saved in your tranlation! e.g. german "RJHilfe" */
+    { N_("RJHelp"),
+      NULL, NULL, ui_help_commands_menu },
+    { NULL }
+};
+
+static ui_menu_entry_t cbm6x0_top_menu[] = {
+    { N_("File"),
+      NULL, NULL, cbm2_file_menu },
+    { N_("Snapshot"),
+      NULL, NULL, cbm2_snapshot_menu },
+    { N_("Options"),
+      NULL, NULL, cbm2_options_menu },
+    { N_("Settings"),
+      NULL, NULL, cbm6x0_settings_menu },
                    /* Translators: RJ means right justify and should be
                       saved in your tranlation! e.g. german "RJHilfe" */
     { N_("RJHelp"),
@@ -545,10 +603,15 @@ int cbm2ui_init(void)
     ui_set_left_menu(cbm2_left_menu);
 
 
-    ui_set_right_menu(cbm2_right_menu);
+    if (machine_class == VICE_MACHINE_CBM5x0) {
+        ui_set_right_menu(cbm5x0_right_menu);
+        ui_set_topmenu(cbm5x0_top_menu);
+    } else {
+        ui_set_right_menu(cbm6x0_right_menu);
+        ui_set_topmenu(cbm6x0_top_menu);
+    }
 
     ui_set_tape_menu(cbm2_tape_menu);
-    ui_set_topmenu(cbm2_top_menu);
     ui_set_speedmenu(ui_performance_settings_menu);
     ui_update_menus();
 

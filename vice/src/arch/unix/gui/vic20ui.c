@@ -219,7 +219,6 @@ UI_MENU_DEFINE_TOGGLE(RAMBlock3)
 UI_MENU_DEFINE_TOGGLE(RAMBlock5)
 
 UI_MENU_DEFINE_TOGGLE(EmuID)
-UI_MENU_DEFINE_TOGGLE(OEMJoy)
 
 static ui_menu_entry_t memory_settings_submenu[] = {
     { N_("Common configurations"),
@@ -241,8 +240,6 @@ static ui_menu_entry_t memory_settings_submenu[] = {
     { "--" },
     { N_("*Emulator identification"),
       (ui_callback_t)toggle_EmuID, NULL, NULL },
-    { N_("*OEM userport joystick"),
-      (ui_callback_t)toggle_OEMJoy, NULL, NULL },
     { NULL }
 };
 
