@@ -34,6 +34,7 @@
 
 extern "C" { 
 #include "joy.h"
+#include "machine.h"
 #include "resources.h"
 #include "ui.h"
 #include "ui_joystick.h"
@@ -146,22 +147,75 @@ JoystickWindow::JoystickWindow()
 	BView *background;
 	BCheckBox *checkbox;
 	int res_value;
+	int port1_present = 0;
+	int port2_present = 0;
+	int port3_present = 0;
+	int port4_present = 0;
 	
 	r = Bounds();
 	background = new BView(r, "backview", B_FOLLOW_NONE, B_WILL_DRAW);
 	background->SetViewColor(220,220,220,0);
 	AddChild(background);
 
-	r = Bounds();
-	r.right -= r.Width()/2;
-	r.bottom -= 70;
-	background->AddChild(new JoyView(r,1));
+	switch (machine_class) {
+		case VICE_MACHINE_C128:
+		case VICE_MACHINE_C64:
+		case VICE_MACHINE_C64DTV:
+		default:
+			port1_present = 1;
+			port2_present = 1;
+			port3_present = 1;
+			port4_present = 1;
+			break;
+		case VICE_MACHINE_CBM5x0:
+			port1_present = 1;
+			port2_present = 1;
+			break;
+		case VICE_MACHINE_CBM6x0:
+		case VICE_MACHINE_PET:
+			port3_present = 1;
+			port4_present = 1;
+			break;
+		case VICE_MACHINE_VIC20:
+			port1_present = 1;
+			port3_present = 1;
+			port4_present = 1;
+			break;
+		case VICE_MACHINE_PLUS4:
+			port1_present = 1;
+			port2_present = 1;
+			port3_present = 1;
+			break;
+	}
+
+	if (port1_present) {
+		r = Bounds();
+		r.right -= r.Width()/2;
+		r.bottom -= 70;
+		background->AddChild(new JoyView(r,1));
+	}
 	
-	r = Bounds();
-	r.left += r.Width()/2;
-	r.bottom -= 70;
-	background->AddChild(new JoyView(r,2));
-	
+	if (port_2_present) {
+		r = Bounds();
+		r.left += r.Width()/2;
+		r.bottom -= 70;
+		background->AddChild(new JoyView(r,2));
+	}
+
+	if (port_3_present) {
+		r = Bounds();
+		r.left += r.Width()/2;
+		r.bottom -= 70;
+		background->AddChild(new JoyView(r,3));
+	}
+
+	if (port_4_present) {
+		r = Bounds();
+		r.left += r.Width()/2;
+		r.bottom -= 70;
+		background->AddChild(new JoyView(r,4));
+	}
+
 	r = Bounds();
 	r.top = r.bottom - 70;
 	r.bottom -= 30;

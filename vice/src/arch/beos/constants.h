@@ -149,7 +149,6 @@ const uint32 MENU_TOGGLE_VDC_DOUBLESIZE			= 'M114';
 const uint32 MENU_TOGGLE_VDC_DOUBLESCAN			= 'M115';
 const uint32 MENU_TOGGLE_SFX_SE					= 'M178';
 const uint32 MENU_TOGGLE_SFX_SS					= 'M176';
-const uint32 MENU_TOGGLE_OEM_JOY					= 'M177';
 
 const uint32 MENU_VDC_REV_0					= 'M172';
 const uint32 MENU_VDC_REV_1					= 'M173';
@@ -188,6 +187,17 @@ const uint32 MENU_DRIVE_SETTINGS				= 'M200';
 const uint32 MENU_DEVICE_SETTINGS				= 'M201';
 const uint32 MENU_SOUND_SETTINGS				= 'M202';
 const uint32 MENU_JOYSTICK_SETTINGS				= 'M203';
+
+const uint32 MENU_TOGGLE_USERPORT_JOY			= 'M177';
+
+const uint32 MENU_TOGGLE_SIDCART_JOY			= 'M179';
+
+const uint32 MENU_USERPORT_JOY_CGA				= 'M180';
+const uint32 MENU_USERPORT_JOY_PET				= 'M181';
+const uint32 MENU_USERPORT_JOY_HUMMER			= 'M182';
+const uint32 MENU_USERPORT_JOY_OEM				= 'M183';
+const uint32 MENU_USERPORT_JOY_HIT				= 'M184';
+
 const uint32 MENU_DATASETTE_SETTINGS			= 'M204';
 const uint32 MENU_CBM2_SETTINGS					= 'M205';
 const uint32 MENU_PET_SETTINGS					= 'M206';

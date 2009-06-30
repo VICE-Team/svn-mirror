@@ -42,6 +42,7 @@ ui_menu_toggle  plus4_ui_menu_toggles[] = {
     { "TEDScale2x", MENU_TOGGLE_SCALE2X },
     { "SidCart", MENU_TOGGLE_SIDCART },
     { "SidFilters", MENU_TOGGLE_SIDCART_FILTERS },
+    { "SIDCartJoy", MENU_TOGGLE_SIDCART_JOY },
     { NULL, 0 }
 };
 

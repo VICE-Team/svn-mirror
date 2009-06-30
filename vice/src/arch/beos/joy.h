@@ -36,7 +36,7 @@
 #define JOYBORDER_MAXY	16384
 
 /* devices without the hardware sticks */
-#define NUM_OF_SOFTDEVICES	4
+#define NUM_OF_SOFTDEVICES	2
 #define MAX_HARDWARE_JOYSTICK 16
 
 typedef enum {

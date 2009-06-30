@@ -675,10 +675,6 @@ BMenuBar *menu_create(int machine_class) {
 			menu->AddItem(new BMenuItem("IEEE488 Interface",
 				new BMessage(MENU_TOGGLE_IEEE488)));
 		}
-		if (machine_class == VICE_MACHINE_VIC20) {
-			menu->AddItem(new BMenuItem("OEM userport joystick",
-				new BMessage(MENU_TOGGLE_OEM_JOY)));
-		}
 	}		
 	
 	/* create the SETTINGS menu */
@@ -783,8 +779,31 @@ BMenuBar *menu_create(int machine_class) {
 			menu->AddItem(new BMenuItem("VIC-II ...", 
 				new BMessage(MENU_VICII_SETTINGS)));
 		}
-		menu->AddItem(new BMenuItem("Joystick ...", 
+		menu->AddItem(submenu = new BMenu("Joystick..."));
+		submenu->AddItem(new BMenuItem("Joystick/Keyset settings...", 
 			new BMessage(MENU_JOYSTICK_SETTINGS)));
+            if (machine_class == VICE_MACHINE_PLUS4) {
+			submenu->AddItem(new BMenuItem("SIDcart joystick emulation",
+				new BMessage(MENU_TOGGLE_USERPORT_JOY)));
+		} else {
+			if (machine_class != VICE_MACHINE_CBM5x0) {
+				submenu->AddItem(new BMenuItem("Userport joystick emulation",
+					new BMessage(MENU_TOGGLE_USERPORT_JOY)));
+				submenu->AddItem(extsubmenu = new BMenu("Userport joystick type"));
+				extsubmenu->AddItem(new BMenuItem("CGA",
+					new BMessage(MENU_USERPORT_JOY_CGA)));
+				extsubmenu->AddItem(new BMenuItem("PET",
+					new BMessage(MENU_USERPORT_JOY_PET)));
+				extsubmenu->AddItem(new BMenuItem("Hummer",
+					new BMessage(MENU_USERPORT_JOY_HUMMER)));
+				extsubmenu->AddItem(new BMenuItem("OEM",
+					new BMessage(MENU_USERPORT_JOY_OEM)));
+            	      if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C128) {
+					extsubmenu->AddItem(new BMenuItem("HIT",
+						new BMessage(MENU_USERPORT_JOY_HIT)));
+				}
+			}
+		}
 	}
 	
 	menu->AddItem(new BMenuItem("Sound ...", 

@@ -116,6 +116,7 @@ ui_menu_toggle  toggle_list[] = {
     { "VirtualDevices", MENU_TOGGLE_VIRTUAL_DEVICES },
     { "SaveResourcesOnExit", MENU_TOGGLE_SAVE_SETTINGS_ON_EXIT },
     { "ConfirmOnExit", MENU_TOGGLE_CONFIRM_ON_EXIT },
+    { "ExtraJoy", MENU_TOGGLE_USERPORT_JOY },
     { NULL, 0 }
 };
 
@@ -160,14 +161,23 @@ ui_res_possible_values SyncFactor[] = {
         {-1, 0}
 };
 
+ui_res_possible_values UserportJoyType[] = {
+        {EXTRA_JOYSTICK_CGA, MENU_USERPORT_JOY_CGA},
+        {EXTRA_JOYSTICK_PET, MENU_USERPORT_JOY_PET},
+        {EXTRA_JOYSTICK_HUMMER, MENU_USERPORT_JOY_HUMMER},
+        {EXTRA_JOYSTICK_OEM, MENU_USERPORT_JOY_OEM},
+        {EXTRA_JOYSTICK_HIT, MENU_USERPORT_JOY_HIT},
+        {-1, 0}
+};
+
 ui_res_value_list value_list[] = {
     {"RefreshRate", RefreshRateValues},
     {"Speed", SpeedValues},
     {"MachineVideoStandard", SyncFactor},
     {"EventStartMode", RecordingOptions},
+    {"ExtraJoyType", UserportJoyType},
     {NULL,NULL}
 };
-
 
 ui_menu_toggle      *machine_specific_toggles=NULL;
 ui_res_value_list   *machine_specific_values=NULL;
