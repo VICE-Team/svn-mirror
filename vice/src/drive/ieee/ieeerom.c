@@ -41,11 +41,19 @@
 /* Logging goes here.  */
 static log_t ieeerom_log;
 
+#ifdef USE_EMBEDDED
+#include "drivedos2031.h"
+#include "drivedos1001.h"
+#include "drivedos2040.h"
+#include "drivedos3040.h"
+#include "drivedos4040.h"
+#else
 static BYTE drive_rom2031[DRIVE_ROM2031_SIZE];
 static BYTE drive_rom1001[DRIVE_ROM1001_SIZE];
 static BYTE drive_rom2040[DRIVE_ROM2040_SIZE];
 static BYTE drive_rom3040[DRIVE_ROM3040_SIZE];
 static BYTE drive_rom4040[DRIVE_ROM4040_SIZE];
+#endif
 
 /* If nonzero, the ROM image has been loaded.  */
 static unsigned int rom2031_loaded = 0;

@@ -105,7 +105,12 @@ static palette_t *palette = NULL;
 /* Logging goes here.  */
 static log_t drvnl10_log = LOG_ERR;
 
+#ifdef USE_EMBEDDED
+#include "printernl10cbm.h"
+#else
 static BYTE  drv_nl10_rom[NL10_ROM_SIZE];
+#endif
+
 static BYTE *drv_nl10_charset = drv_nl10_rom;
 static BYTE  drv_nl10_charset_nlq[CHARSET_SIZE * 47];
 static BYTE  drv_nl10_charset_nlq_italic[CHARSET_SIZE * 47];

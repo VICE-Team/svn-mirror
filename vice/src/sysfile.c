@@ -255,7 +255,7 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
        default system file is loaded, when USE_EMBEDDED
        is not defined the function is just 0 and will
        be optimized away. */
-    if (embedded_check_file(name, minsize, maxsize)) {
+    if (embedded_check_file(name, dest, minsize, maxsize)) {
         return minsize;
     }
 

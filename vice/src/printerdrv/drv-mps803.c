@@ -66,8 +66,12 @@ struct mps_s
 };
 typedef struct mps_s mps_t;
 
-/* We will make this dynamic later.  */
+#ifdef USE_EMBEDDED
+#include "printermps803.h"
+#else
 static BYTE charset[512][7];
+#endif
+
 static mps_t drv_mps803[3];
 static palette_t *palette = NULL;
 

@@ -29,10 +29,12 @@
 
 #include "vice.h"
 
+#include "types.h"
+
 #ifdef USE_EMBEDDED
-extern int embedded_check_file(const char *name, int minsize, int maxsize);
+extern int embedded_check_file(const char *name, BYTE *dest, int minsize, int maxsize);
 #else
-#define embedded_check_file(x, y, z) (0)
+#define embedded_check_file(w, x, y, z) (0)
 #endif
 
 #endif

@@ -304,7 +304,19 @@ if EMBEDDED
 EMBEDDED_H_FILES = \
 	c64basic.h \
 	c64kernal.h \
-	c64chargen.h
+	c64chargen.h \
+	drived1541ii.h \
+	drivedos1001.h \
+	drivedos1541.h \
+	drivedos1570.h \
+	drivedos1571.h \
+	drivedos1581.h \
+	drivedos2031.h \
+	drivedos2040.h \
+	drivedos3040.h \
+	drivedos4040.h \
+	printermps803.h \
+	printernl10cbm.h
 
 if !CROSS
 EMBEDDED_DEPENDS = bin2c bin2c.sh
@@ -346,6 +358,42 @@ c64kernal.h: $(EMBEDDED_DEPENDS)
 
 c64chargen.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C64/chargen c64chargen.h "BYTE mem_chargen_rom[C64_CHARGEN_ROM_SIZE]" $(CROSS) $(SHELL)
+
+drived1541ii.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/d1541ii drived1541ii.h "static BYTE drive_rom1541ii_embedded[DRIVE_ROM1541II_SIZE]" $(CROSS) $(SHELL)
+
+drivedos1001.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1001 drivedos1001.h "static BYTE drive_rom1001[DRIVE_ROM1001_SIZE]" $(CROSS) $(SHELL)
+
+drivedos1541.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1541 drivedos1541.h "static BYTE drive_rom1541_embedded[DRIVE_ROM1541_SIZE]" $(CROSS) $(SHELL)
+
+drivedos1570.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1570 drivedos1570.h "static BYTE drive_rom1570[DRIVE_ROM1571_SIZE]" $(CROSS) $(SHELL)
+
+drivedos1571.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1571 drivedos1571.h "static BYTE drive_rom1571[DRIVE_ROM1571_SIZE]" $(CROSS) $(SHELL)
+
+drivedos1581.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1581 drivedos1581.h "static BYTE drive_rom1581[DRIVE_ROM1581_SIZE]" $(CROSS) $(SHELL)
+
+drivedos2031.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos2031 drivedos2031.h "static BYTE drive_rom2031[DRIVE_ROM2031_SIZE]" $(CROSS) $(SHELL)
+
+drivedos2040.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos2040 drivedos2040.h "static BYTE drive_rom2040[DRIVE_ROM2040_SIZE]" $(CROSS) $(SHELL)
+
+drivedos3040.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos3040 drivedos3040.h "static BYTE drive_rom3040[DRIVE_ROM3040_SIZE]" $(CROSS) $(SHELL)
+
+drivedos4040.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos4040 drivedos4040.h "static BYTE drive_rom4040[DRIVE_ROM4040_SIZE]" $(CROSS) $(SHELL)
+
+printermps803.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PRINTER/mps803 printermps803.h "static BYTE charset[512][7]" $(CROSS) $(SHELL)
+
+printernl10cbm.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PRINTER/nl10-cbm printernl10cbm.h "static BYTE  drv_nl10_rom[NL10_ROM_SIZE]" $(CROSS) $(SHELL)
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
