@@ -315,6 +315,10 @@ EMBEDDED_H_FILES = \
 	drivedos2040.h \
 	drivedos3040.h \
 	drivedos4040.h \
+	petbasic4.h \
+	petchargen.h \
+	petedit4b80.h \
+	petkernal4.h \
 	printermps803.h \
 	printernl10cbm.h
 
@@ -388,6 +392,18 @@ drivedos3040.h: $(EMBEDDED_DEPENDS)
 
 drivedos4040.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos4040 drivedos4040.h "static BYTE drive_rom4040[DRIVE_ROM4040_SIZE]" $(CROSS) $(SHELL)
+
+petbasic4.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/basic4 petbasic4.h "BYTE petbasic4_embedded[0x3000]" $(CROSS) $(SHELL)
+
+petchargen.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/chargen petchargen.h "BYTE petchargen_embedded[0x800]" $(CROSS) $(SHELL)
+
+petedit4b80.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/edit4b80 petedit4b80.h "BYTE petedit4b80_embedded[0x800]" $(CROSS) $(SHELL)
+
+petkernal4.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/kernal4 petkernal4.h "BYTE petkernal4_embedded[0x1000]" $(CROSS) $(SHELL)
 
 printermps803.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PRINTER/mps803 printermps803.h "static BYTE charset[512][7]" $(CROSS) $(SHELL)
