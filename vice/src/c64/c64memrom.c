@@ -30,11 +30,15 @@
 #include "c64memrom.h"
 #include "types.h"
 
-
+#ifdef USE_EMBEDDED
+#include "c64basic.h"
+#include "c64kernal.h"
+#else
 BYTE c64memrom_basic64_rom[C64_BASIC_ROM_SIZE];
 BYTE c64memrom_kernal64_rom[C64_KERNAL_ROM_SIZE];
-BYTE c64memrom_kernal64_trap_rom[C64_KERNAL_ROM_SIZE];
+#endif
 
+BYTE c64memrom_kernal64_trap_rom[C64_KERNAL_ROM_SIZE];
 
 BYTE REGPARM1 c64memrom_kernal64_read(WORD addr)
 {

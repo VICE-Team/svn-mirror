@@ -32,6 +32,7 @@
 
 #include "archdep.h"
 #include "cmdline.h"
+#include "embedded.h"
 #include "findpath.h"
 #include "ioutil.h"
 #include "lib.h"
@@ -249,6 +250,14 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
     FILE *fp = NULL;
     size_t rsize = 0;
     char *complete_path = NULL;
+
+    /* when USE_EMBEDDED is defined this will check if a
+       default system file is loaded, when USE_EMBEDDED
+       is not defined the function is just 0 and will
+       be optimized away. */
+    if (embedded_check_file(name, minsize, maxsize)) {
+        return minsize;
+    }
 
     fp = sysfile_open(name, &complete_path, MODE_READ);
     if (fp == NULL)

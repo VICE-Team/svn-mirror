@@ -84,6 +84,7 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/arch/unix/readline \
+	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/vdrive \
@@ -120,6 +121,7 @@ noinst_HEADERS = \
 	diskimage.h \
 	dma.h \
 	dynlib.h \
+	embedded.h \
 	emuid.h \
 	event.h \
 	fileio.h \
@@ -225,6 +227,7 @@ base_sources = \
 	datasette.c \
 	debug.c \
 	dma.c \
+	embedded.c \
 	emuid.c \
 	event.c \
 	findpath.c \
@@ -288,20 +291,39 @@ EXTRA_DIST = \
 	ChangeLog.5 \
 	ChangeLog.6 \
 	aciacore.c \
+	bin2c.c \
+	bin2c.sh \
 	fixpoint.c \
 	gentranslate_h.sh \
 	gentranslatetable.sh \
+	od2c.sh \
 	piacore.c \
 	translate.txt
 
+if EMBEDDED
+EMBEDDED_H_FILES = \
+	c64basic.h \
+	c64kernal.h \
+	c64chargen.h
+
+if !CROSS
+EMBEDDED_DEPENDS = bin2c bin2c.sh
+else
+EMBEDDED_DEPENDS = bin2c.sh
+endif
+
+else
+EMBEDDED_H_FILES =
+endif
+
 if HAVE_TRANSLATION
-BUILT_SOURCES = translate.h translate_table.h
+BUILT_SOURCES = translate.h translate_table.h $(EMBEDDED_H_FILES)
 
 translate_table.h:	$(srcdir)/translate.txt
 	echo "generating translate_table.h..."
 	$(SHELL) $(srcdir)/gentranslatetable.sh <$(srcdir)/translate.txt >translate_table.h
 else
-BUILT_SOURCES = translate.h
+BUILT_SOURCES = translate.h $(EMBEDDED_H_FILES)
 endif
 
 translate.h:	$(srcdir)/translate.txt
@@ -312,6 +334,18 @@ if MINIX_SUPPORT
 else
 	$(SHELL) $(srcdir)/gentranslate_h.sh <$(srcdir)/translate.txt >translate.h
 endif
+
+bin2c: bin2c.c
+	$(CC) $(INCLUDES) $(CFLAGS) $(srcdir)/bin2c.c -o bin2c
+
+c64basic.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C64/basic c64basic.h "BYTE c64memrom_basic64_rom[C64_BASIC_ROM_SIZE]" $(CROSS) $(SHELL)
+
+c64kernal.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C64/kernal c64kernal.h "BYTE c64memrom_kernal64_rom[C64_KERNAL_ROM_SIZE]" $(CROSS) $(SHELL)
+
+c64chargen.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C64/chargen c64chargen.h "BYTE mem_chargen_rom[C64_CHARGEN_ROM_SIZE]" $(CROSS) $(SHELL)
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
@@ -377,10 +411,12 @@ realdevice_lib =
 endif
 
 if SUPPORT_X64DTV
-bin_PROGRAMS = x64 x128 x64dtv xvic xpet xplus4 xcbm2 c1541 petcat cartconv
+x64dtv_bin = x64dtv
 else
-bin_PROGRAMS = x64 x128 xvic xpet xplus4 xcbm2 c1541 petcat cartconv
+c64dtv_bin =
 endif
+
+bin_PROGRAMS = x64 x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 c1541 petcat cartconv
 
 EXTRA_PROGRAMS =
 

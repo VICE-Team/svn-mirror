@@ -83,7 +83,12 @@ unsigned int mem_old_reg_pc;
 
 /* The C64 memory.  */
 BYTE mem_ram[C64_RAM_SIZE];
+
+#ifdef USE_EMBEDDED
+#include "c64chargen.h"
+#else
 BYTE mem_chargen_rom[C64_CHARGEN_ROM_SIZE];
+#endif
 
 /* Internal color memory.  */
 static BYTE mem_color_ram[0x400];
