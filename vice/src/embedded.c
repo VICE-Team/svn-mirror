@@ -86,6 +86,7 @@ int embedded_check_file(const char *name, BYTE *dest, int minsize, int maxsize)
     i = 0;
     switch (machine_class) {
         case VICE_MACHINE_C64:
+        case VICE_MACHINE_C64DTV:
         default:
             while (c64files[i].name != NULL) {
                 if (!strcmp(name, c64files[i].name) && minsize == c64files[i].minsize && maxsize == c64files[i].maxsize) {
