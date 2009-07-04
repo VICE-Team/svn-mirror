@@ -263,7 +263,7 @@ int machine_resources_init(void)
         || c64_256k_resources_init() < 0
         || mmc64_resources_init() < 0
         || digimax_resources_init() < 0
-	|| sfx_soundexpander_resources_init() < 0
+        || sfx_soundexpander_resources_init() < 0
         || sfx_soundsampler_resources_init() < 0
 #ifdef HAVE_TFE
         || tfe_resources_init() < 0
