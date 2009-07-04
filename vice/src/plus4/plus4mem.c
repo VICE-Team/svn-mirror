@@ -69,10 +69,17 @@ unsigned int mem_old_reg_pc;
 
 /* The Plus4 memory.  */
 BYTE mem_ram[PLUS4_RAM_SIZE];
+
+#ifdef USE_EMBEDDED
+#include "plus43plus1lo.h"
+#include "plus43plus1hi.h"
+#else
 BYTE extromlo1[PLUS4_BASIC_ROM_SIZE];
+BYTE extromhi1[PLUS4_KERNAL_ROM_SIZE];
+#endif
+
 BYTE extromlo2[PLUS4_BASIC_ROM_SIZE];
 BYTE extromlo3[PLUS4_BASIC_ROM_SIZE];
-BYTE extromhi1[PLUS4_KERNAL_ROM_SIZE];
 BYTE extromhi2[PLUS4_KERNAL_ROM_SIZE];
 BYTE extromhi3[PLUS4_KERNAL_ROM_SIZE];
 

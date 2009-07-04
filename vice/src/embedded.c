@@ -33,6 +33,7 @@
 #include "c64mem.h"
 #include "driverom.h"
 #include "machine.h"
+#include "plus4mem.h"
 
 #include "drivedos1541.h"
 #include "drived1541ii.h"
@@ -73,6 +74,7 @@ static embedded_t commonfiles[] = {
   { "dos2040", DRIVE_ROM2040_SIZE, DRIVE_ROM2040_SIZE, DRIVE_ROM2040_SIZE, NULL },
   { "dos3040", DRIVE_ROM3040_SIZE, DRIVE_ROM3040_SIZE, DRIVE_ROM3040_SIZE, NULL },
   { "dos4040", DRIVE_ROM4040_SIZE, DRIVE_ROM4040_SIZE, DRIVE_ROM4040_SIZE, NULL },
+  { "dos1551", DRIVE_ROM1551_SIZE, DRIVE_ROM1551_SIZE, DRIVE_ROM1551_SIZE, NULL },
   { NULL }
 };
 
@@ -87,9 +89,7 @@ static embedded_t petfiles[] = {
   { "chargen", 0x800, 0x800, 0x800, petchargen_embedded },
   { "basic4", 0x2000, 0x3000, 0x3000, petbasic4_embedded },
   { "kernal4", 0x1000, 0x1000, 0x1000, petkernal4_embedded },
-
   { "edit4b80", 0x800, 0x1000, 0x800, petedit4b80_embedded },
-
   { "kernal1", 0x1000, 0x1000, 0x1000, petkernal1_embedded },
   { "basic1", 0x2000, 0x3000, 0x2000, petbasic1_embedded },
   { "basic2", 0x2000, 0x3000, 0x2000, petbasic2_embedded },
@@ -99,6 +99,14 @@ static embedded_t petfiles[] = {
   { "edit2g", 0x800, 0x1000, 0x800, petedit2g_embedded },
   { "edit4b40", 0x800, 0x1000, 0x800, petedit4b40_embedded },
   { "edit4g40", 0x800, 0x1000, 0x800, petedit4g40_embedded },
+  { NULL }
+};
+
+static embedded_t plus4files[] = {
+  { "basic", PLUS4_BASIC_ROM_SIZE, PLUS4_BASIC_ROM_SIZE, PLUS4_BASIC_ROM_SIZE, NULL },
+  { "kernal", PLUS4_KERNAL_ROM_SIZE, PLUS4_KERNAL_ROM_SIZE, PLUS4_KERNAL_ROM_SIZE, NULL },
+  { "3plus1lo", PLUS4_BASIC_ROM_SIZE, PLUS4_BASIC_ROM_SIZE, PLUS4_BASIC_ROM_SIZE, NULL },
+  { "3plus1hi", PLUS4_KERNAL_ROM_SIZE, PLUS4_KERNAL_ROM_SIZE, PLUS4_KERNAL_ROM_SIZE, NULL },
   { NULL }
 };
 
@@ -141,6 +149,11 @@ size_t embedded_check_file(const char *name, BYTE *dest, int minsize, int maxsiz
             break;
         case VICE_MACHINE_PET:
             if ((retval = embedded_match_file(name, dest, minsize, maxsize, petfiles)) != 0) {
+                return retval;
+            }
+            break;
+        case VICE_MACHINE_PLUS4:
+            if ((retval = embedded_match_file(name, dest, minsize,maxsize, plus4files)) != 0) {
                 return retval;
             }
             break;

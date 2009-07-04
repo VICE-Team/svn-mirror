@@ -87,6 +87,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/monitor \
+	-I$(top_srcdir)/src/plus4 \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/imagecontents
 
@@ -308,6 +309,7 @@ EMBEDDED_H_FILES = \
 	drived1541ii.h \
 	drivedos1001.h \
 	drivedos1541.h \
+	drivedos1551.h \
 	drivedos1570.h \
 	drivedos1571.h \
 	drivedos1581.h \
@@ -328,6 +330,10 @@ EMBEDDED_H_FILES = \
 	petkernal1.h \
 	petkernal2.h \
 	petkernal4.h \
+	plus43plus1hi.h \
+	plus43plus1lo.h \
+	plus4basic.h \
+	plus4kernal.h \
 	printermps803.h \
 	printernl10cbm.h
 
@@ -380,6 +386,9 @@ drivedos1001.h: $(EMBEDDED_DEPENDS)
 
 drivedos1541.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1541 drivedos1541.h "static BYTE drive_rom1541_embedded[DRIVE_ROM1541_SIZE]" $(CROSS) $(SHELL)
+
+drivedos1551.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1551 drivedos1551.h "static BYTE drive_rom1551[DRIVE_ROM1551_SIZE]" $(CROSS) $(SHELL)
 
 drivedos1570.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1570 drivedos1570.h "static BYTE drive_rom1570[DRIVE_ROM1571_SIZE]" $(CROSS) $(SHELL)
@@ -440,6 +449,18 @@ petkernal2.h: $(EMBEDDED_DEPENDS)
 
 petkernal4.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/kernal4 petkernal4.h "BYTE petkernal4_embedded[0x1000]" $(CROSS) $(SHELL)
+
+plus43plus1hi.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PLUS4/3plus1hi plus43plus1hi.h "BYTE extromhi1[PLUS4_KERNAL_ROM_SIZE]" $(CROSS) $(SHELL)
+
+plus43plus1lo.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PLUS4/3plus1lo plus43plus1lo.h "BYTE extromlo1[PLUS4_BASIC_ROM_SIZE]" $(CROSS) $(SHELL)
+
+plus4basic.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PLUS4/basic plus4basic.h "BYTE plus4memrom_basic_rom[PLUS4_BASIC_ROM_SIZE]" $(CROSS) $(SHELL)
+
+plus4kernal.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PLUS4/kernal plus4kernal.h "BYTE plus4memrom_kernal_rom[PLUS4_KERNAL_ROM_SIZE]" $(CROSS) $(SHELL)
 
 printermps803.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PRINTER/mps803 printermps803.h "static BYTE charset[512][7]" $(CROSS) $(SHELL)

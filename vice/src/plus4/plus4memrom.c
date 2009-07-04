@@ -30,9 +30,14 @@
 #include "plus4memrom.h"
 #include "types.h"
 
-
+#ifdef USE_EMBEDDED
+#include "plus4basic.h"
+#include "plus4kernal.h"
+#else
 BYTE plus4memrom_basic_rom[PLUS4_BASIC_ROM_SIZE];
 BYTE plus4memrom_kernal_rom[PLUS4_KERNAL_ROM_SIZE];
+#endif
+
 BYTE plus4memrom_kernal_trap_rom[PLUS4_KERNAL_ROM_SIZE];
 
 
