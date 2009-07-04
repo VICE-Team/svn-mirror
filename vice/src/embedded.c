@@ -36,6 +36,25 @@
 #include "plus4mem.h"
 #include "vic20mem.h"
 
+#define NL10_ROM_SIZE      0x8000
+
+#define C128_KERNAL_ROM_SIZE            0x2000
+#define C128_BASIC_ROM_SIZE             0x8000
+#define C128_EDITOR_ROM_SIZE            0x1000
+#define C128_Z80BIOS_ROM_SIZE           0x1000
+#define C128_CHARGEN_ROM_SIZE           0x2000
+
+#define C128_BASIC_ROM_IMAGELO_SIZE     0x4000
+#define C128_BASIC_ROM_IMAGEHI_SIZE     0x4000
+#define C128_KERNAL_ROM_IMAGE_SIZE      0x4000
+
+#define C128_KERNAL64_ROM_SIZE          0x2000
+#define C128_BASIC64_ROM_SIZE           0x2000
+
+#include "c128basic64.h"
+#include "c128basichi.h"
+#include "c128basiclo.h"
+#include "c128kernal64.h"
 #include "drivedos1541.h"
 #include "drived1541ii.h"
 #include "petbasic1.h"
@@ -52,8 +71,6 @@
 #include "petkernal2.h"
 #include "petkernal4.h"
 #include "vic20chargen.h"
-
-#define NL10_ROM_SIZE      0x8000
 
 typedef struct embedded_s {
     char *name;
@@ -77,6 +94,7 @@ static embedded_t commonfiles[] = {
   { "dos3040", DRIVE_ROM3040_SIZE, DRIVE_ROM3040_SIZE, DRIVE_ROM3040_SIZE, NULL },
   { "dos4040", DRIVE_ROM4040_SIZE, DRIVE_ROM4040_SIZE, DRIVE_ROM4040_SIZE, NULL },
   { "dos1551", DRIVE_ROM1551_SIZE, DRIVE_ROM1551_SIZE, DRIVE_ROM1551_SIZE, NULL },
+  { "d1571cr", DRIVE_ROM1571_SIZE, DRIVE_ROM1571_SIZE, DRIVE_ROM1571_SIZE, NULL },
   { NULL }
 };
 
@@ -116,6 +134,25 @@ static embedded_t vic20files[] = {
   { "basic", VIC20_BASIC_ROM_SIZE, VIC20_BASIC_ROM_SIZE, VIC20_BASIC_ROM_SIZE, NULL },
   { "kernal", VIC20_KERNAL_ROM_SIZE, VIC20_KERNAL_ROM_SIZE, VIC20_KERNAL_ROM_SIZE, NULL },
   { "chargen", VIC20_CHARGEN_ROM_SIZE, VIC20_CHARGEN_ROM_SIZE, VIC20_CHARGEN_ROM_SIZE, vic20chargen_embedded },
+  { NULL }
+};
+
+static embedded_t c128files[] = {
+  { "kernal", C128_KERNAL_ROM_IMAGE_SIZE, C128_KERNAL_ROM_IMAGE_SIZE, C128_KERNAL_ROM_IMAGE_SIZE, NULL },
+  { "kernalde", C128_KERNAL_ROM_IMAGE_SIZE, C128_KERNAL_ROM_IMAGE_SIZE, C128_KERNAL_ROM_IMAGE_SIZE, NULL },
+  { "kernalfi", C128_KERNAL_ROM_IMAGE_SIZE, C128_KERNAL_ROM_IMAGE_SIZE, C128_KERNAL_ROM_IMAGE_SIZE, NULL },
+  { "kernalfr", C128_KERNAL_ROM_IMAGE_SIZE, C128_KERNAL_ROM_IMAGE_SIZE, C128_KERNAL_ROM_IMAGE_SIZE, NULL },
+  { "kernalit", C128_KERNAL_ROM_IMAGE_SIZE, C128_KERNAL_ROM_IMAGE_SIZE, C128_KERNAL_ROM_IMAGE_SIZE, NULL },
+  { "kernalno", C128_KERNAL_ROM_IMAGE_SIZE, C128_KERNAL_ROM_IMAGE_SIZE, C128_KERNAL_ROM_IMAGE_SIZE, NULL },
+  { "kernalse", C128_KERNAL_ROM_IMAGE_SIZE, C128_KERNAL_ROM_IMAGE_SIZE, C128_KERNAL_ROM_IMAGE_SIZE, NULL },
+  { "chargen", C128_CHARGEN_ROM_SIZE, C128_CHARGEN_ROM_SIZE, C128_CHARGEN_ROM_SIZE, NULL },
+  { "chargde", C128_CHARGEN_ROM_SIZE, C128_CHARGEN_ROM_SIZE, C128_CHARGEN_ROM_SIZE, NULL },
+  { "chargfr", C128_CHARGEN_ROM_SIZE, C128_CHARGEN_ROM_SIZE, C128_CHARGEN_ROM_SIZE, NULL },
+  { "chargse", C128_CHARGEN_ROM_SIZE, C128_CHARGEN_ROM_SIZE, C128_CHARGEN_ROM_SIZE, NULL },
+  { "basiclo", C128_BASIC_ROM_IMAGELO_SIZE, C128_BASIC_ROM_IMAGELO_SIZE, C128_BASIC_ROM_IMAGELO_SIZE, c128basiclo_embedded },
+  { "basichi", C128_BASIC_ROM_IMAGEHI_SIZE, C128_BASIC_ROM_IMAGEHI_SIZE, C128_BASIC_ROM_IMAGEHI_SIZE, c128basichi_embedded },
+  { "basic64", C64_BASIC_ROM_SIZE, C64_BASIC_ROM_SIZE, C64_BASIC_ROM_SIZE, c128basic64_embedded },
+  { "kernal64", C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE, c128kernal64_embedded },
   { NULL }
 };
 
@@ -168,6 +205,11 @@ size_t embedded_check_file(const char *name, BYTE *dest, int minsize, int maxsiz
             break;
         case VICE_MACHINE_VIC20:
             if ((retval = embedded_match_file(name, dest, minsize,maxsize, vic20files)) != 0) {
+                return retval;
+            }
+            break;
+        case VICE_MACHINE_C128:
+            if ((retval = embedded_match_file(name, dest, minsize,maxsize, c128files)) != 0) {
                 return retval;
             }
             break;

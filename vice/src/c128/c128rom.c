@@ -49,6 +49,20 @@ static log_t c128rom_log = LOG_ERR;
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
 static int rom_loaded = 0;
 
+#ifdef USE_EMBEDDED
+#include "c128kernal.h"
+#include "c128kernalde.h"
+#include "c128kernalfi.h"
+#include "c128kernalfr.h"
+#include "c128kernalit.h"
+#include "c128kernalno.h"
+#include "c128kernalse.h"
+
+#include "c128chargde.h"
+#include "c128chargen.h"
+#include "c128chargfr.h"
+#include "c128chargse.h"
+#else
 /* National Kernal ROM images. */
 static BYTE kernal_int[C128_KERNAL_ROM_IMAGE_SIZE];
 static BYTE kernal_de[C128_KERNAL_ROM_IMAGE_SIZE];
@@ -63,7 +77,7 @@ static BYTE chargen_int[C128_CHARGEN_ROM_SIZE];
 static BYTE chargen_de[C128_CHARGEN_ROM_SIZE];
 static BYTE chargen_fr[C128_CHARGEN_ROM_SIZE];
 static BYTE chargen_se[C128_CHARGEN_ROM_SIZE];
-
+#endif
 
 int c128rom_kernal_checksum(void)
 {
