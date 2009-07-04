@@ -251,10 +251,19 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
     size_t rsize = 0;
     char *complete_path = NULL;
 
-    /* when USE_EMBEDDED is defined this will check if a
-       default system file is loaded, when USE_EMBEDDED
-       is not defined the function is just 0 and will
-       be optimized away. */
+
+/*
+ * This feature is only active when --enable-embedded is given to the
+ * configure script, its main use is to make developing new ports easier
+ * and to allow ports for platforms which don't have a filesystem, or a
+ * filesystem which is hard/impossible to load data files from.
+ *
+ * when USE_EMBEDDED is defined this will check if a
+ * default system file is loaded, when USE_EMBEDDED
+ * is not defined the function is just 0 and will
+ * be optimized away.
+ */
+
     if ((rsize = embedded_check_file(name, dest, minsize, maxsize)) != 0) {
         return rsize;
     }

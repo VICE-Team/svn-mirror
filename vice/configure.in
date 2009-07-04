@@ -87,6 +87,9 @@ if test x"$enable_memmap" = "xyes"; then
   AC_DEFINE(FEATURE_CPUMEMHISTORY,,[Use the memmap feature.])
 fi
 
+dnl This enables the embedded data files feature, which should
+dnl only be used for developing new ports or for ports for which
+dnl the loading of the datafiles is hard/impossible.
 if test x"$enable_embedded" = "xyes"; then
   AC_DEFINE(USE_EMBEDDED,,[Use embedded data files.])
   AM_CONDITIONAL(EMBEDDED, true)

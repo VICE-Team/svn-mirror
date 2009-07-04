@@ -1,6 +1,11 @@
 /*
  * vic20embedded.c - Code for embedding data files.
  *
+ * This feature is only active when --enable-embedded is given to the
+ * configure script, its main use is to make developing new ports easier
+ * and to allow ports for platforms which don't have a filesystem, or a
+ * filesystem which is hard/impossible to load data files from.
+ *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
