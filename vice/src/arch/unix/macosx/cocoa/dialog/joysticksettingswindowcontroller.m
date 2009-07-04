@@ -119,11 +119,13 @@ static char *keyNames[KEYSET_SIZE] = {
     hidButtons[HID_UP]       = hidNorth;
     hidButtons[HID_DOWN]     = hidSouth;
 
+#ifdef HAS_JOYSTICK    
     // enable joy ports
     [joystick1Mode setEnabled:(joy_num_ports > 0)];
     [joystick2Mode setEnabled:(joy_num_ports > 1)];
     [joystickExtra1Mode setEnabled:(joy_num_extra_ports > 0)];
     [joystickExtra2Mode setEnabled:(joy_num_extra_ports > 1)];
+#endif
 
     [self setupHidAxis];
     [self setupHidDeviceList];
