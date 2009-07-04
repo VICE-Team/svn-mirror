@@ -36,9 +36,18 @@
 
 #include "drivedos1541.h"
 #include "drived1541ii.h"
+#include "petbasic1.h"
+#include "petbasic2.h"
 #include "petbasic4.h"
 #include "petchargen.h"
+#include "petedit1g.h"
+#include "petedit2b.h"
+#include "petedit2g.h"
+#include "petedit4b40.h"
 #include "petedit4b80.h"
+#include "petedit4g40.h"
+#include "petkernal1.h"
+#include "petkernal2.h"
 #include "petkernal4.h"
 
 #define NL10_ROM_SIZE      0x8000
@@ -78,7 +87,18 @@ static embedded_t petfiles[] = {
   { "chargen", 0x800, 0x800, 0x800, petchargen_embedded },
   { "basic4", 0x2000, 0x3000, 0x3000, petbasic4_embedded },
   { "kernal4", 0x1000, 0x1000, 0x1000, petkernal4_embedded },
+
   { "edit4b80", 0x800, 0x1000, 0x800, petedit4b80_embedded },
+
+  { "kernal1", 0x1000, 0x1000, 0x1000, petkernal1_embedded },
+  { "basic1", 0x2000, 0x3000, 0x2000, petbasic1_embedded },
+  { "basic2", 0x2000, 0x3000, 0x2000, petbasic2_embedded },
+  { "kernal2", 0x1000, 0x1000, 0x1000, petkernal2_embedded },
+  { "edit1g", 0x800, 0x1000, 0x800, petedit1g_embedded },
+  { "edit2b", 0x800, 0x1000, 0x800, petedit2b_embedded },
+  { "edit2g", 0x800, 0x1000, 0x800, petedit2g_embedded },
+  { "edit4b40", 0x800, 0x1000, 0x800, petedit4b40_embedded },
+  { "edit4g40", 0x800, 0x1000, 0x800, petedit4g40_embedded },
   { NULL }
 };
 

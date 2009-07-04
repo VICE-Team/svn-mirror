@@ -315,9 +315,18 @@ EMBEDDED_H_FILES = \
 	drivedos2040.h \
 	drivedos3040.h \
 	drivedos4040.h \
+	petbasic1.h \
+	petbasic2.h \
 	petbasic4.h \
 	petchargen.h \
+	petedit1g.h \
+	petedit2b.h \
+	petedit2g.h \
+	petedit4b40.h \
 	petedit4b80.h \
+	petedit4g40.h \
+	petkernal1.h \
+	petkernal2.h \
 	petkernal4.h \
 	printermps803.h \
 	printernl10cbm.h
@@ -393,14 +402,41 @@ drivedos3040.h: $(EMBEDDED_DEPENDS)
 drivedos4040.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos4040 drivedos4040.h "static BYTE drive_rom4040[DRIVE_ROM4040_SIZE]" $(CROSS) $(SHELL)
 
+petbasic1.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/basic1 petbasic1.h "BYTE petbasic1_embedded[0x2000]" $(CROSS) $(SHELL)
+
+petbasic2.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/basic2 petbasic2.h "BYTE petbasic2_embedded[0x2000]" $(CROSS) $(SHELL)
+
 petbasic4.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/basic4 petbasic4.h "BYTE petbasic4_embedded[0x3000]" $(CROSS) $(SHELL)
 
 petchargen.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/chargen petchargen.h "BYTE petchargen_embedded[0x800]" $(CROSS) $(SHELL)
 
+petedit1g.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/edit1g petedit1g.h "BYTE petedit1g_embedded[0x800]" $(CROSS) $(SHELL)
+
+petedit2b.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/edit2b petedit2b.h "BYTE petedit2b_embedded[0x800]" $(CROSS) $(SHELL)
+
+petedit2g.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/edit2g petedit2g.h "BYTE petedit2g_embedded[0x800]" $(CROSS) $(SHELL)
+
+petedit4b40.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/edit4b40 petedit4b40.h "BYTE petedit4b40_embedded[0x800]" $(CROSS) $(SHELL)
+
 petedit4b80.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/edit4b80 petedit4b80.h "BYTE petedit4b80_embedded[0x800]" $(CROSS) $(SHELL)
+
+petedit4g40.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/edit4g40 petedit4g40.h "BYTE petedit4g40_embedded[0x800]" $(CROSS) $(SHELL)
+
+petkernal1.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/kernal1 petkernal1.h "BYTE petkernal1_embedded[0x1000]" $(CROSS) $(SHELL)
+
+petkernal2.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/kernal2 petkernal2.h "BYTE petkernal2_embedded[0x1000]" $(CROSS) $(SHELL)
 
 petkernal4.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/kernal4 petkernal4.h "BYTE petkernal4_embedded[0x1000]" $(CROSS) $(SHELL)
