@@ -88,6 +88,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/plus4 \
+	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/imagecontents
 
@@ -335,7 +336,10 @@ EMBEDDED_H_FILES = \
 	plus4basic.h \
 	plus4kernal.h \
 	printermps803.h \
-	printernl10cbm.h
+	printernl10cbm.h \
+	vic20basic.h \
+	vic20chargen.h \
+	vic20kernal.h
 
 if !CROSS
 EMBEDDED_DEPENDS = bin2c bin2c.sh
@@ -467,6 +471,15 @@ printermps803.h: $(EMBEDDED_DEPENDS)
 
 printernl10cbm.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PRINTER/nl10-cbm printernl10cbm.h "static BYTE  drv_nl10_rom[NL10_ROM_SIZE]" $(CROSS) $(SHELL)
+
+vic20basic.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/VIC20/basic vic20basic.h "BYTE vic20memrom_basic_rom[VIC20_BASIC_ROM_SIZE]" $(CROSS) $(SHELL)
+
+vic20chargen.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/VIC20/chargen vic20chargen.h "BYTE vic20chargen_embedded[VIC20_CHARGEN_ROM_SIZE]" $(CROSS) $(SHELL)
+
+vic20kernal.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/VIC20/kernal vic20kernal.h "BYTE vic20memrom_kernal_rom[VIC20_KERNAL_ROM_SIZE]" $(CROSS) $(SHELL)
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a

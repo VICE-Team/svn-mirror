@@ -30,10 +30,16 @@
 #include "vic20memrom.h"
 #include "types.h"
 
-
-BYTE vic20memrom_kernal_rom[VIC20_KERNAL_ROM_SIZE];
-BYTE vic20memrom_kernal_trap_rom[VIC20_KERNAL_ROM_SIZE];
+#ifdef USE_EMBEDDED
+#include "vic20basic.h"
+#include "vic20kernal.h"
+#else
 BYTE vic20memrom_basic_rom[VIC20_BASIC_ROM_SIZE];
+BYTE vic20memrom_kernal_rom[VIC20_KERNAL_ROM_SIZE];
+#endif
+
+BYTE vic20memrom_kernal_trap_rom[VIC20_KERNAL_ROM_SIZE];
+
 /* The second 0x400 handles a possible segfault by a wraparound of the
    chargen by setting it to $8c00.  FIXME: This does not cause the exact
    behavior to be emulated though!  */

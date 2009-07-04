@@ -34,6 +34,7 @@
 #include "driverom.h"
 #include "machine.h"
 #include "plus4mem.h"
+#include "vic20mem.h"
 
 #include "drivedos1541.h"
 #include "drived1541ii.h"
@@ -50,6 +51,7 @@
 #include "petkernal1.h"
 #include "petkernal2.h"
 #include "petkernal4.h"
+#include "vic20chargen.h"
 
 #define NL10_ROM_SIZE      0x8000
 
@@ -110,6 +112,13 @@ static embedded_t plus4files[] = {
   { NULL }
 };
 
+static embedded_t vic20files[] = {
+  { "basic", VIC20_BASIC_ROM_SIZE, VIC20_BASIC_ROM_SIZE, VIC20_BASIC_ROM_SIZE, NULL },
+  { "kernal", VIC20_KERNAL_ROM_SIZE, VIC20_KERNAL_ROM_SIZE, VIC20_KERNAL_ROM_SIZE, NULL },
+  { "chargen", VIC20_CHARGEN_ROM_SIZE, VIC20_CHARGEN_ROM_SIZE, VIC20_CHARGEN_ROM_SIZE, vic20chargen_embedded },
+  { NULL }
+};
+
 static size_t embedded_match_file(const char *name, BYTE *dest, int minsize, int maxsize, embedded_t *emb)
 {
     int i = 0;
@@ -154,6 +163,11 @@ size_t embedded_check_file(const char *name, BYTE *dest, int minsize, int maxsiz
             break;
         case VICE_MACHINE_PLUS4:
             if ((retval = embedded_match_file(name, dest, minsize,maxsize, plus4files)) != 0) {
+                return retval;
+            }
+            break;
+        case VICE_MACHINE_VIC20:
+            if ((retval = embedded_match_file(name, dest, minsize,maxsize, vic20files)) != 0) {
                 return retval;
             }
             break;
