@@ -1,5 +1,5 @@
 /*
- * embedded.c - Code for embedding data files.
+ * cbm2embedded.c - Code for embedding cbm2 data files.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -30,29 +30,27 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "driverom.h"
 #include "embedded.h"
+#include "machine.h"
 
-#define NL10_ROM_SIZE      0x8000
+#include "cbm2basic128.h"
+#include "cbm2basic256.h"
+#include "cbm2basic500.h"
+#include "cbm2chargen500.h"
+#include "cbm2chargen600.h"
+#include "cbm2chargen700.h"
+#include "cbm2kernal.h"
+#include "cbm2kernal500.h"
 
-#include "drivedos1541.h"
-#include "drived1541ii.h"
-
-static embedded_t commonfiles[] = {
-  { "mps803", 512 * 7, 512 * 7, 512 * 7, NULL },
-  { "nl10-cbm", NL10_ROM_SIZE, NL10_ROM_SIZE, NL10_ROM_SIZE, NULL },
-  { "dos1541", DRIVE_ROM1541_SIZE, DRIVE_ROM1541_SIZE_EXPANDED, DRIVE_ROM1541_SIZE, drive_rom1541_embedded },
-  { "d1541II", DRIVE_ROM1541II_SIZE, DRIVE_ROM1541II_SIZE_EXPANDED, DRIVE_ROM1541II_SIZE, drive_rom1541ii_embedded },
-  { "dos1001", DRIVE_ROM1001_SIZE, DRIVE_ROM1001_SIZE, DRIVE_ROM1001_SIZE, NULL },
-  { "dos1570", DRIVE_ROM1571_SIZE, DRIVE_ROM1571_SIZE, DRIVE_ROM1571_SIZE, NULL },
-  { "dos1571", DRIVE_ROM1571_SIZE, DRIVE_ROM1571_SIZE, DRIVE_ROM1571_SIZE, NULL },
-  { "dos1581", DRIVE_ROM1581_SIZE, DRIVE_ROM1581_SIZE, DRIVE_ROM1581_SIZE, NULL },
-  { "dos2031", DRIVE_ROM2031_SIZE, DRIVE_ROM2031_SIZE, DRIVE_ROM2031_SIZE, NULL },
-  { "dos2040", DRIVE_ROM2040_SIZE, DRIVE_ROM2040_SIZE, DRIVE_ROM2040_SIZE, NULL },
-  { "dos3040", DRIVE_ROM3040_SIZE, DRIVE_ROM3040_SIZE, DRIVE_ROM3040_SIZE, NULL },
-  { "dos4040", DRIVE_ROM4040_SIZE, DRIVE_ROM4040_SIZE, DRIVE_ROM4040_SIZE, NULL },
-  { "dos1551", DRIVE_ROM1551_SIZE, DRIVE_ROM1551_SIZE, DRIVE_ROM1551_SIZE, NULL },
-  { "d1571cr", DRIVE_ROM1571_SIZE, DRIVE_ROM1571_SIZE, DRIVE_ROM1571_SIZE, NULL },
+static embedded_t cbm2files[] = {
+  { "basic.128", 0x4000, 0x4000, 0x4000, cbm2basic128_embedded },
+  { "basic.256", 0x4000, 0x4000, 0x4000, cbm2basic256_embedded },
+  { "basic.500", 0x4000, 0x4000, 0x4000, cbm2basic500_embedded },
+  { "chargen.500", 0x1000, 0x1000, 0x1000, cbm2chargen500_embedded },
+  { "chargen.600", 0x1000, 0x1000, 0x1000, cbm2chargen600_embedded },
+  { "chargen.700", 0x1000, 0x1000, 0x1000, cbm2chargen700_embedded },
+  { "kernal", 0x2000, 0x2000, 0x2000, cbm2kernal_embedded },
+  { "kernal.500", 0x2000, 0x2000, 0x2000, cbm2kernal500_embedded },
   { NULL }
 };
 
@@ -76,11 +74,15 @@ static size_t embedded_match_file(const char *name, BYTE *dest, int minsize, int
     return 0;
 }
 
-size_t embedded_check_extra(const char *name, BYTE *dest, int minsize, int maxsize)
+size_t embedded_check_file(const char *name, BYTE *dest, int minsize, int maxsize)
 {
     size_t retval;
 
-    if ((retval = embedded_match_file(name, dest, minsize, maxsize, commonfiles)) != 0) {
+    if ((retval = embedded_check_extra(name, dest, minsize, maxsize)) != 0) {
+        return retval;
+    }
+
+    if ((retval = embedded_match_file(name, dest, minsize,maxsize, cbm2files)) != 0) {
         return retval;
     }
     return 0;

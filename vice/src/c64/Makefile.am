@@ -33,6 +33,7 @@ libc64_a_SOURCES = \
 	c64cia2.c \
 	c64datasette.c \
 	c64drive.c \
+	c64embedded.c \
 	c64export.c \
 	c64export.h \
 	c64fastiec.c \

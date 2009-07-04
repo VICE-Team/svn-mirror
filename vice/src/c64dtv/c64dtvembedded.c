@@ -1,5 +1,5 @@
 /*
- * embedded.c - Code for embedding data files.
+ * c64dtvembedded.c - Code for embedding c64dtv data files.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -30,29 +30,14 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "driverom.h"
+#include "c64mem.h"
 #include "embedded.h"
+#include "machine.h"
 
-#define NL10_ROM_SIZE      0x8000
-
-#include "drivedos1541.h"
-#include "drived1541ii.h"
-
-static embedded_t commonfiles[] = {
-  { "mps803", 512 * 7, 512 * 7, 512 * 7, NULL },
-  { "nl10-cbm", NL10_ROM_SIZE, NL10_ROM_SIZE, NL10_ROM_SIZE, NULL },
-  { "dos1541", DRIVE_ROM1541_SIZE, DRIVE_ROM1541_SIZE_EXPANDED, DRIVE_ROM1541_SIZE, drive_rom1541_embedded },
-  { "d1541II", DRIVE_ROM1541II_SIZE, DRIVE_ROM1541II_SIZE_EXPANDED, DRIVE_ROM1541II_SIZE, drive_rom1541ii_embedded },
-  { "dos1001", DRIVE_ROM1001_SIZE, DRIVE_ROM1001_SIZE, DRIVE_ROM1001_SIZE, NULL },
-  { "dos1570", DRIVE_ROM1571_SIZE, DRIVE_ROM1571_SIZE, DRIVE_ROM1571_SIZE, NULL },
-  { "dos1571", DRIVE_ROM1571_SIZE, DRIVE_ROM1571_SIZE, DRIVE_ROM1571_SIZE, NULL },
-  { "dos1581", DRIVE_ROM1581_SIZE, DRIVE_ROM1581_SIZE, DRIVE_ROM1581_SIZE, NULL },
-  { "dos2031", DRIVE_ROM2031_SIZE, DRIVE_ROM2031_SIZE, DRIVE_ROM2031_SIZE, NULL },
-  { "dos2040", DRIVE_ROM2040_SIZE, DRIVE_ROM2040_SIZE, DRIVE_ROM2040_SIZE, NULL },
-  { "dos3040", DRIVE_ROM3040_SIZE, DRIVE_ROM3040_SIZE, DRIVE_ROM3040_SIZE, NULL },
-  { "dos4040", DRIVE_ROM4040_SIZE, DRIVE_ROM4040_SIZE, DRIVE_ROM4040_SIZE, NULL },
-  { "dos1551", DRIVE_ROM1551_SIZE, DRIVE_ROM1551_SIZE, DRIVE_ROM1551_SIZE, NULL },
-  { "d1571cr", DRIVE_ROM1571_SIZE, DRIVE_ROM1571_SIZE, DRIVE_ROM1571_SIZE, NULL },
+static embedded_t c64dtvfiles[] = {
+  { "basic", C64_BASIC_ROM_SIZE, C64_BASIC_ROM_SIZE, C64_BASIC_ROM_SIZE, NULL },
+  { "kernal", C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE, NULL },
+  { "chargen", C64_CHARGEN_ROM_SIZE, C64_CHARGEN_ROM_SIZE, C64_CHARGEN_ROM_SIZE, NULL },
   { NULL }
 };
 
@@ -76,11 +61,15 @@ static size_t embedded_match_file(const char *name, BYTE *dest, int minsize, int
     return 0;
 }
 
-size_t embedded_check_extra(const char *name, BYTE *dest, int minsize, int maxsize)
+size_t embedded_check_file(const char *name, BYTE *dest, int minsize, int maxsize)
 {
     size_t retval;
 
-    if ((retval = embedded_match_file(name, dest, minsize, maxsize, commonfiles)) != 0) {
+    if ((retval = embedded_check_extra(name, dest, minsize, maxsize)) != 0) {
+        return retval;
+    }
+
+    if ((retval = embedded_match_file(name, dest, minsize, maxsize, c64dtvfiles)) != 0) {
         return retval;
     }
     return 0;

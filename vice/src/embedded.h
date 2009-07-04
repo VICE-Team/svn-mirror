@@ -32,9 +32,18 @@
 #include "types.h"
 
 #ifdef USE_EMBEDDED
-extern int embedded_check_file(const char *name, BYTE *dest, int minsize, int maxsize);
+extern size_t embedded_check_file(const char *name, BYTE *dest, int minsize, int maxsize);
+extern size_t embedded_check_extra(const char *name, BYTE *dest, int minsize, int maxsize);
 #else
 #define embedded_check_file(w, x, y, z) (0)
 #endif
+
+typedef struct embedded_s {
+    char *name;
+    int minsize;
+    int maxsize;
+    size_t size;
+    BYTE *esrc;
+} embedded_t;
 
 #endif

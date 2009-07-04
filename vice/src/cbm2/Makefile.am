@@ -27,6 +27,7 @@ libcbm2_a_SOURCES = \
 	cbm2cpu.c \
 	cbm2datasette.c \
 	cbm2drive.c \
+	cbm2embedded.c \
 	cbm2iec.c \
 	cbm2iec.h \
 	cbm2mem.c \
