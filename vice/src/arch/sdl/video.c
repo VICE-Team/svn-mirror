@@ -43,6 +43,7 @@
 #include "fullscreen.h"
 #include "fullscreenarch.h"
 #include "lib.h"
+#include "lightpendrv.h"
 #include "log.h"
 #include "palette.h"
 #include "raster.h"
@@ -331,21 +332,28 @@ static void sdl_gl_set_viewport(unsigned int src_w, unsigned int src_h, unsigned
 {
     int dest_x = 0, dest_y = 0;
 
-    if (sdl_gl_aspect_mode == 0) {
-        glViewport(0, 0, dest_w, dest_h);
-        return;
+    if (sdl_gl_aspect_mode != 0) {
+        /* Keep aspect ratio of src image. */
+        if (dest_w*src_h < src_w*aspect_ratio*dest_h) {
+            dest_y = dest_h;
+            dest_h = dest_w*src_h/(src_w*aspect_ratio);
+            dest_y = (dest_y - dest_h)/2;
+        } else {
+            dest_x = dest_w;
+            dest_w = dest_h*src_w*aspect_ratio/src_h;
+            dest_x = (dest_x - dest_w)/2;
+        }
     }
 
-    /* Keep aspect ratio of src image. */
-    if (dest_w*src_h < src_w*aspect_ratio*dest_h) {
-        dest_y = dest_h;
-        dest_h = dest_w*src_h/(src_w*aspect_ratio);
-        dest_y = (dest_y - dest_h)/2;
-    } else {
-        dest_x = dest_w;
-        dest_w = dest_h*src_w*aspect_ratio/src_h;
-        dest_x = (dest_x - dest_w)/2;
-    }
+    /* Update lightpen adjustment parameters */
+    sdl_lightpen_adjust.offset_x = dest_x;
+    sdl_lightpen_adjust.offset_y = dest_y;
+
+    sdl_lightpen_adjust.max_x = dest_w;
+    sdl_lightpen_adjust.max_y = dest_h;
+
+    sdl_lightpen_adjust.scale_x = (double)(sdl_active_canvas->real_width) / (double)(dest_w);
+    sdl_lightpen_adjust.scale_y = (double)(sdl_active_canvas->real_height) / (double)(dest_h);
 
     glViewport(dest_x, dest_y, dest_w, dest_h);
 }
@@ -366,6 +374,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
     int fullscreen = 0;
     int limit = sdl_limit_mode;
     int hwscale = 0;
+    int lightpen_updated = 0;
 #ifdef HAVE_HWSCALE
     int rbits, gbits, bbits;
     const Uint32
@@ -516,6 +525,7 @@ fprintf(stderr,"%s: setting real size to %i,%i (%i)\n",__func__,*width,*height,c
             canvas->hwscale_screen = new_screen;
             new_screen = SDL_CreateRGBSurface(SDL_SWSURFACE, new_width, new_height, sdl_bitdepth, rmask, gmask, bmask, amask);
             sdl_gl_set_viewport(new_width, new_height, actual_width, actual_height);
+            lightpen_updated = 1;
         } else {
             new_screen = SDL_SetVideoMode(new_width, new_height, sdl_bitdepth, flags);
 
@@ -553,6 +563,22 @@ fprintf(stderr,"%s: setting real size to %i,%i (%i)\n",__func__,*width,*height,c
 #ifdef SDL_DEBUG
     log_message(sdlvideo_log, "Canvas %ix%i, real %ix%i", new_width, new_height, canvas->real_width, canvas->real_height);
 #endif
+
+    /* Update lightpen adjustment parameters */
+    if (canvas == sdl_active_canvas && !lightpen_updated) {
+        int scaled_width = canvas->real_width * ((canvas->dsizex) ? 2 : 1);
+        int scaled_height = canvas->real_height * ((canvas->dsizey) ? 2 : 1);
+
+        sdl_lightpen_adjust.offset_x = (new_width - scaled_width) / 2;
+        sdl_lightpen_adjust.offset_y = (new_height - scaled_height) / 2;
+
+        sdl_lightpen_adjust.max_x = scaled_width;
+        sdl_lightpen_adjust.max_y = scaled_height;
+
+        sdl_lightpen_adjust.scale_x = (canvas->dsizex) ? 0.5f : 1.0f;
+        sdl_lightpen_adjust.scale_y = (canvas->dsizey) ? 0.5f : 1.0f;
+
+    }
 
     video_canvas_set_palette(canvas, canvas->palette);
 

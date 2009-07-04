@@ -483,3 +483,23 @@ void vic_trigger_light_pen(CLOCK mclk)
     }
 }
 
+/* Calculate lightpen pulse time based on x/y */
+CLOCK vic_lightpen_timing(int x, int y)
+{
+    CLOCK pulse_time = maincpu_clk;
+
+    x += 0x70 - vic.cycle_offset;
+    y += vic.first_displayed_line;
+
+    /* Check if x would wrap to previous line */
+    if (x < 0 /*TODO*/) {
+        /* lightpen is off screen */
+        pulse_time = 0;
+    } else {
+        pulse_time += (x / 8) + (y * vic.cycles_per_line);
+        /* Remove frame alarm jitter */
+        pulse_time -= maincpu_clk - VIC_LINE_START_CLK(maincpu_clk);
+    }
+
+    return pulse_time;
+}

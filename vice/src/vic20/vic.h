@@ -80,6 +80,10 @@ typedef BYTE VIC_PIXEL;
 /* Cycle # within the current line.  */
 #define VIC_RASTER_CYCLE(clk) ((unsigned int)((clk) % vic.cycles_per_line))
 
+/* `clk' value for the beginning of the current line.  */
+#define VIC_LINE_START_CLK(clk)  (((clk) / vic.cycles_per_line) \
+                                 * vic.cycles_per_line)
+
 /* Current vertical position of the raster.  Unlike `rasterline', which is
    only accurate if a pending `A_RASTERDRAW' event has been served, this is
    guarranteed to be always correct.  It is a bit slow, though.  */
@@ -208,6 +212,7 @@ extern void vic_screenshot(struct screenshot_s *screenshot);
 extern void vic_async_refresh(struct canvas_refresh_s *refresh);
 extern void vic_shutdown(void);
 extern void vic_trigger_light_pen(CLOCK mclk);
+extern CLOCK vic_lightpen_timing(int x, int y);
 extern void vic_change_timing(void);
 
 /* Private function calls, used by the other VIC modules.  FIXME:

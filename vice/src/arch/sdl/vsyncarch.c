@@ -32,6 +32,7 @@
 
 #include "joy.h"
 #include "kbdbuf.h"
+#include "lightpendrv.h"
 #include "raster.h"
 #include "ui.h"
 #include "uistatusbar.h"
@@ -96,6 +97,7 @@ void vsyncarch_presync(void)
         uistatusbar_state &= ~UISTATUSBAR_REPAINT;
     }
 
+    sdl_lightpen_update();
     kbdbuf_flush();
 }
 

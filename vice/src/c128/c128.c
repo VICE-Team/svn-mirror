@@ -104,6 +104,7 @@
 #include "z80mem.h"
 
 #ifdef HAVE_MOUSE
+#include "lightpen.h"
 #include "mouse.h"
 #endif
 
@@ -168,6 +169,13 @@ BYTE REGPARM1 plus256k_ram_high_read(WORD addr)
 void REGPARM2 plus256k_ram_high_store(WORD addr, BYTE byte)
 {
   mem_ram[addr]=byte;
+}
+
+/* Lightpen trigger function; needs to trigger both VICII and VDC */
+void c128_trigger_light_pen(CLOCK mclk)
+{
+    vicii_trigger_light_pen(mclk);
+    /* TODO: vdc_trigger_light_pen(mclk); */
 }
 
 machine_context_t machine_context;
@@ -402,6 +410,7 @@ int machine_resources_init(void)
         || serial_resources_init() < 0
         || printer_resources_init() < 0
 #ifdef HAVE_MOUSE
+        || lightpen_resources_init() < 0
         || mouse_resources_init() < 0
 #endif
 #ifndef COMMON_KBD
@@ -468,6 +477,7 @@ int machine_cmdline_options_init(void)
         || serial_cmdline_options_init() < 0
         || printer_cmdline_options_init() < 0
 #ifdef HAVE_MOUSE
+        || lightpen_cmdline_options_init() < 0
         || mouse_cmdline_options_init() < 0
 #endif
 #ifndef COMMON_KBD
@@ -618,6 +628,12 @@ int machine_specific_init(void)
 #ifdef HAVE_MOUSE
     /* Initialize mouse support (if present).  */
     mouse_init();
+
+    /* Initialize lightpen support and register VICII/VDC callbacks */
+    lightpen_init();
+    lightpen_register_timing_callback(vicii_lightpen_timing, 0);
+    /* TODO: lightpen_register_timing_callback(vdc_lightpen_timing, 1);*/
+    lightpen_register_trigger_callback(c128_trigger_light_pen);
 #endif
 
     c64iec_init();

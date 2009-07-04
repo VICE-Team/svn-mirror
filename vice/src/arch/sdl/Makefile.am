@@ -44,6 +44,8 @@ libarch_a_SOURCES = \
 	joy.h \
 	kbd.c \
 	kbd.h \
+	lightpendrv.c \
+	lightpendrv.h \
 	menu_c128cart.c \
 	menu_c128cart.h \
 	menu_c128hw.c \
@@ -76,6 +78,8 @@ libarch_a_SOURCES = \
 	menu_help.h \
 	menu_joystick.c \
 	menu_joystick.h \
+	menu_lightpen.c \
+	menu_lightpen.h \
 	menu_midi.c \
 	menu_midi.h \
 	menu_mouse.c \

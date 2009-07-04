@@ -42,6 +42,7 @@
 #include "viewport.h"
 
 #ifdef HAVE_MOUSE
+#include "lightpen.h"
 #include "mouse.h"
 #endif
 
@@ -390,6 +391,8 @@ BYTE REGPARM1 vic_read(WORD addr)
       case 8:
         if (_mouse_enabled) {
             return mouse_get_x();
+        } else if (lightpen_enabled) {
+            return lightpen_read_button_x();
         } else {
             return vic.regs[addr];
         }
@@ -397,6 +400,8 @@ BYTE REGPARM1 vic_read(WORD addr)
       case 9:
         if (_mouse_enabled) {
             return mouse_get_y();
+        } else if (lightpen_enabled) {
+            return lightpen_read_button_x();
         } else {
             return vic.regs[addr];
         }

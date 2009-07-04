@@ -50,6 +50,7 @@
 
 #ifdef HAVE_MOUSE
 #include "mouse.h"
+#include "lightpen.h"
 #endif
 
 #ifdef HAVE_RESID
@@ -113,11 +114,15 @@ static BYTE REGPARM2 sid_read_chip(WORD addr, int chipno)
     machine_handle_pending_alarms(0);
 
 #ifdef HAVE_MOUSE
-    if (addr == 0x19 && _mouse_enabled && chipno == 0)
+    if (addr == 0x19 && _mouse_enabled && chipno == 0) {
         val = mouse_get_x();
-    else if (addr == 0x1a && _mouse_enabled && chipno == 0)
+    } else if (addr == 0x1a && _mouse_enabled && chipno == 0) {
         val = mouse_get_y();
-    else
+    } else if (addr == 0x19 && lightpen_enabled && chipno == 0) {
+        val = lightpen_read_button_x();
+    } else if (addr == 0x1a && lightpen_enabled && chipno == 0) {
+        val = lightpen_read_button_y();
+    } else
 #endif
     {
         /* Account for that read functions in VICE are called _before_

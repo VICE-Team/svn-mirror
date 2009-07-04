@@ -84,6 +84,7 @@
 #include "vsync.h"
 
 #ifdef HAVE_MOUSE
+#include "lightpen.h"
 #include "mouse.h"
 #endif
 
@@ -236,6 +237,7 @@ int machine_resources_init(void)
         || serial_resources_init() < 0
         || printer_resources_init() < 0
 #ifdef HAVE_MOUSE
+        || lightpen_resources_init() < 0
         || mouse_resources_init() < 0
 #endif
 #ifndef COMMON_KBD
@@ -283,6 +285,7 @@ int machine_cmdline_options_init(void)
         || serial_cmdline_options_init() < 0
         || printer_cmdline_options_init() < 0
 #ifdef HAVE_MOUSE
+        || lightpen_cmdline_options_init() < 0
         || mouse_cmdline_options_init() < 0
 #endif
 #ifndef COMMON_KBD
@@ -411,6 +414,11 @@ int machine_specific_init(void)
 
 #ifdef HAVE_MOUSE
     mouse_init();
+
+    /* Initialize lightpen support and register VICII callbacks */
+    lightpen_init();
+    lightpen_register_timing_callback(vic_lightpen_timing, 0);
+    lightpen_register_trigger_callback(vic_trigger_light_pen);
 #endif
 #ifdef HAVE_MIDI
     midi_init();

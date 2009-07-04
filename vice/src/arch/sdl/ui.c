@@ -37,6 +37,7 @@
 #include "joy.h"
 #include "kbd.h"
 #include "lib.h"
+#include "lightpen.h"
 #include "mouse.h"
 #include "mousedrv.h"
 #include "resources.h"
@@ -140,11 +141,11 @@ ui_menu_action_t ui_dispatch_events(void)
 
 void ui_check_mouse_cursor(void)
 {
-    if(_mouse_enabled && !sdl_menu_state) {
+    if(_mouse_enabled && !lightpen_enabled && !sdl_menu_state) {
         SDL_ShowCursor(SDL_DISABLE);
         SDL_WM_GrabInput(SDL_GRAB_ON);
     } else {
-        SDL_ShowCursor(sdl_active_canvas->fullscreenconfig->enable?SDL_DISABLE:SDL_ENABLE);
+        SDL_ShowCursor((sdl_active_canvas->fullscreenconfig->enable && !lightpen_enabled)?SDL_DISABLE:SDL_ENABLE);
         SDL_WM_GrabInput(SDL_GRAB_OFF);
     }
 }

@@ -90,11 +90,23 @@ SOURCE=..\blockdev.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\catweaselmkiii.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\console.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\dynlib.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\fullscreen.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\hardsid.c
 # End Source File
 # Begin Source File
 
@@ -103,6 +115,10 @@ SOURCE=..\joy.c
 # Begin Source File
 
 SOURCE=..\kbd.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lightpendrv.c
 # End Source File
 # Begin Source File
 
@@ -167,6 +183,10 @@ SOURCE=..\menu_help.c
 # Begin Source File
 
 SOURCE=..\menu_joystick.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\menu_lightpen.c
 # End Source File
 # Begin Source File
 

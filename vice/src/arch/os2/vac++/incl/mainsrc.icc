@@ -25,6 +25,7 @@ source type(c)
     "kbdbuf.c",
     "keyboard.c",
     "lib.c",
+    "lightpen.c",
     "log.c",
     "main.c",
     "machine.c",

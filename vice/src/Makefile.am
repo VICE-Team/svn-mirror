@@ -148,6 +148,7 @@ noinst_HEADERS = \
 	keyboard.h \
 	lib.h \
 	libm_math.h \
+	lightpen.h \
 	log.h \
 	machine-bus.h \
 	machine-drive.h \
@@ -245,6 +246,7 @@ base_sources = \
 	keyboard.c \
 	lib.c \
 	libm_math.c \
+	lightpen.c \
 	log.c \
 	machine-bus.c \
 	machine.c \

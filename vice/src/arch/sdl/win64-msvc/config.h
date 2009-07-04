@@ -35,6 +35,7 @@
 #define HAVE_SDLMAIN            1
 #define HAVE_HWSCALE            1
 #define HAVE_CATWEASELMKIII     1
+#define HAVE_DYNLIB_SUPPORT     1
 
 #define HAS_LONGLONG_INTEGER    1
 #define HAS_UNLOCKRESOURCE      1

@@ -194,6 +194,10 @@ SOURCE="..\..\..\lib.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\lightpen.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\log.c"
 # End Source File
 # Begin Source File
@@ -215,6 +219,10 @@ SOURCE="..\..\..\mouse.c"
 # Begin Source File
 
 SOURCE="..\..\..\network.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\..\opencbmlib.c"
 # End Source File
 # Begin Source File
 
