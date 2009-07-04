@@ -55,6 +55,14 @@
 #include "c128basichi.h"
 #include "c128basiclo.h"
 #include "c128kernal64.h"
+#include "cbm2basic128.h"
+#include "cbm2basic256.h"
+#include "cbm2basic500.h"
+#include "cbm2chargen500.h"
+#include "cbm2chargen600.h"
+#include "cbm2chargen700.h"
+#include "cbm2kernal.h"
+#include "cbm2kernal500.h"
 #include "drivedos1541.h"
 #include "drived1541ii.h"
 #include "petbasic1.h"
@@ -156,6 +164,18 @@ static embedded_t c128files[] = {
   { NULL }
 };
 
+static embedded_t cbm2files[] = {
+  { "basic.128", 0x4000, 0x4000, 0x4000, cbm2basic128_embedded },
+  { "basic.256", 0x4000, 0x4000, 0x4000, cbm2basic256_embedded },
+  { "basic.500", 0x4000, 0x4000, 0x4000, cbm2basic500_embedded },
+  { "chargen.500", 0x1000, 0x1000, 0x1000, cbm2chargen500_embedded },
+  { "chargen.600", 0x1000, 0x1000, 0x1000, cbm2chargen600_embedded },
+  { "chargen.700", 0x1000, 0x1000, 0x1000, cbm2chargen700_embedded },
+  { "kernal", 0x2000, 0x2000, 0x2000, cbm2kernal_embedded },
+  { "kernal.500", 0x2000, 0x2000, 0x2000, cbm2kernal500_embedded },
+  { NULL }
+};
+
 static size_t embedded_match_file(const char *name, BYTE *dest, int minsize, int maxsize, embedded_t *emb)
 {
     int i = 0;
@@ -210,6 +230,12 @@ size_t embedded_check_file(const char *name, BYTE *dest, int minsize, int maxsiz
             break;
         case VICE_MACHINE_C128:
             if ((retval = embedded_match_file(name, dest, minsize,maxsize, c128files)) != 0) {
+                return retval;
+            }
+            break;
+        case VICE_MACHINE_CBM5x0:
+        case VICE_MACHINE_CBM6x0:
+            if ((retval = embedded_match_file(name, dest, minsize,maxsize, cbm2files)) != 0) {
                 return retval;
             }
             break;

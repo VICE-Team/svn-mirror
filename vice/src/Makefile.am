@@ -322,6 +322,14 @@ EMBEDDED_H_FILES = \
 	c64basic.h \
 	c64kernal.h \
 	c64chargen.h \
+	cbm2basic128.h \
+	cbm2basic256.h \
+	cbm2basic500.h \
+	cbm2chargen500.h \
+	cbm2chargen600.h \
+	cbm2chargen700.h \
+	cbm2kernal.h \
+	cbm2kernal500.h \
 	drived1541ii.h \
 	drived1571cr.h \
 	drivedos1001.h \
@@ -442,6 +450,30 @@ c64kernal.h: $(EMBEDDED_DEPENDS)
 
 c64chargen.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C64/chargen c64chargen.h "BYTE mem_chargen_rom[C64_CHARGEN_ROM_SIZE]" $(CROSS) $(SHELL)
+
+cbm2basic128.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/basic.128 cbm2basic128.h "static BYTE cbm2basic128_embedded[0x4000]" $(CROSS) $(SHELL)
+
+cbm2basic256.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/basic.256 cbm2basic256.h "static BYTE cbm2basic256_embedded[0x4000]" $(CROSS) $(SHELL)
+
+cbm2basic500.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/basic.500 cbm2basic500.h "static BYTE cbm2basic500_embedded[0x4000]" $(CROSS) $(SHELL)
+
+cbm2chargen500.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/chargen.500 cbm2chargen500.h "static BYTE cbm2chargen500_embedded[0x1000]" $(CROSS) $(SHELL)
+
+cbm2chargen600.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/chargen.600 cbm2chargen600.h "static BYTE cbm2chargen600_embedded[0x1000]" $(CROSS) $(SHELL)
+
+cbm2chargen700.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/chargen.700 cbm2chargen700.h "static BYTE cbm2chargen700_embedded[0x1000]" $(CROSS) $(SHELL)
+
+cbm2kernal.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/kernal cbm2kernal.h "static BYTE cbm2kernal_embedded[0x2000]" $(CROSS) $(SHELL)
+
+cbm2kernal500.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/kernal.500 cbm2kernal500.h "static BYTE cbm2kernal500_embedded[0x2000]" $(CROSS) $(SHELL)
 
 drived1541ii.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/d1541ii drived1541ii.h "static BYTE drive_rom1541ii_embedded[DRIVE_ROM1541II_SIZE]" $(CROSS) $(SHELL)
