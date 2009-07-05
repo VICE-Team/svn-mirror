@@ -110,6 +110,10 @@ SOURCE=..\..\c128\c128drive.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c128\c128embedded.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c128\c128fastiec.c
 # End Source File
 # Begin Source File

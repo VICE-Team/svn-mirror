@@ -114,6 +114,10 @@ SOURCE=..\..\pet\petdrive.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\pet\petembedded.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\pet\petiec.c
 # End Source File
 # Begin Source File

@@ -118,6 +118,10 @@ SOURCE=..\..\c64dtv\c64dtvdma.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c64dtv\c64dtvembedded.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c64dtv\c64dtvflash.c
 # End Source File
 # Begin Source File
