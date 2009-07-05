@@ -57,16 +57,16 @@
 #include "c128basiclo.h"
 #include "c128kernal64.h"
 
-#include "c128_c64hq_vpl.h"
-#include "c128_c64s_vpl.h"
-#include "c128_ccs64_vpl.h"
-#include "c128_default_vpl.h"
-#include "c128_frodo_vpl.h"
-#include "c128_godot_vpl.h"
-#include "c128_pc64_vpl.h"
+#include "c64_c64hq_vpl.h"
+#include "c64_c64s_vpl.h"
+#include "c64_ccs64_vpl.h"
+#include "c64_default_vpl.h"
+#include "c64_frodo_vpl.h"
+#include "c64_godot_vpl.h"
+#include "c64_pc64_vpl.h"
 #include "c128_vdc_comp_vpl.h"
 #include "c128_vdc_deft_vpl.h"
-#include "c128_vice_vpl.h"
+#include "c64_vice_vpl.h"
 
 static embedded_t c128files[] = {
   { "kernal", C128_KERNAL_ROM_IMAGE_SIZE, C128_KERNAL_ROM_IMAGE_SIZE, C128_KERNAL_ROM_IMAGE_SIZE, NULL },
@@ -88,16 +88,16 @@ static embedded_t c128files[] = {
 };
 
 static embedded_palette_t palette_files[] = {
-  { "c64hq",    "c64hq.vpl",    16, c128_c64hq_vpl    },
-  { "c64s",     "c64s.vpl",     16, c128_c64s_vpl     },
-  { "ccs64",    "ccs64.vpl",    16, c128_ccs64_vpl    },
-  { "default",  "default.vpl",  16, c128_default_vpl  },
-  { "frodo",    "frodo.vpl",    16, c128_frodo_vpl    },
-  { "godot",    "godot.vpl",    16, c128_godot_vpl    },
-  { "pc64",     "pc64.vpl",     16, c128_pc64_vpl     },
+  { "c64hq",    "c64hq.vpl",    16, c64_c64hq_vpl    },
+  { "c64s",     "c64s.vpl",     16, c64_c64s_vpl     },
+  { "ccs64",    "ccs64.vpl",    16, c64_ccs64_vpl    },
+  { "default",  "default.vpl",  16, c64_default_vpl  },
+  { "frodo",    "frodo.vpl",    16, c64_frodo_vpl    },
+  { "godot",    "godot.vpl",    16, c64_godot_vpl    },
+  { "pc64",     "pc64.vpl",     16, c64_pc64_vpl     },
   { "vdc_comp", "vdc_comp.vpl", 16, c128_vdc_comp_vpl },
   { "vdc_deft", "vdc_deft.vpl", 16, c128_vdc_deft_vpl },
-  { "vice",     "vice.vpl",     16, c128_vice_vpl     },
+  { "vice",     "vice.vpl",     16, c64_vice_vpl     },
   { NULL }
 };
 

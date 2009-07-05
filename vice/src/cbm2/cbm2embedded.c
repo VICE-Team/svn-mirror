@@ -47,6 +47,17 @@
 #include "cbm2kernal.h"
 #include "cbm2kernal500.h"
 
+#include "pet_amber_vpl.h"
+#include "c64_c64hq_vpl.h"
+#include "c64_c64s_vpl.h"
+#include "c64_ccs64_vpl.h"
+#include "c64_default_vpl.h"
+#include "c64_frodo_vpl.h"
+#include "c64_godot_vpl.h"
+#include "pet_green_vpl.h"
+#include "c64_pc64_vpl.h"
+#include "pet_white_vpl.h"
+
 static embedded_t cbm2files[] = {
   { "basic.128", 0x4000, 0x4000, 0x4000, cbm2basic128_embedded },
   { "basic.256", 0x4000, 0x4000, 0x4000, cbm2basic256_embedded },
@@ -60,6 +71,16 @@ static embedded_t cbm2files[] = {
 };
 
 static embedded_palette_t palette_files[] = {
+  { "amber",   "amber.vpl",    2, pet_amber_vpl   },
+  { "c64hq",   "c64hq.vpl",   16, c64_c64hq_vpl   },
+  { "c64s",    "c64s.vpl",    16, c64_c64s_vpl    },
+  { "ccs64",   "ccs64.vpl",   16, c64_ccs64_vpl   },
+  { "default", "default.vpl", 16, c64_default_vpl },
+  { "frodo",   "frodo.vpl",   16, c64_frodo_vpl   },
+  { "godot",   "godot.vpl",   16, c64_godot_vpl   },
+  { "green",   "green.vpl",    2, pet_green_vpl   },
+  { "pc64",    "pc64.vpl",    16, c64_pc64_vpl    },
+  { "white",   "white.vpl",    2, pet_white_vpl   },
   { NULL }
 };
 

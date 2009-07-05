@@ -367,16 +367,8 @@ EMBEDDED_H_FILES = \
 	vic20basic.h \
 	vic20chargen.h \
 	vic20kernal.h \
-	c128_c64hq_vpl.h \
-	c128_c64s_vpl.h \
-	c128_ccs64_vpl.h \
-	c128_default_vpl.h \
-	c128_frodo_vpl.h \
-	c128_godot_vpl.h \
-	c128_pc64_vpl.h \
 	c128_vdc_comp_vpl.h \
 	c128_vdc_deft_vpl.h \
-	c128_vice_vpl.h \
 	c64_c64hq_vpl.h \
 	c64_c64s_vpl.h \
 	c64_ccs64_vpl.h \
@@ -384,7 +376,10 @@ EMBEDDED_H_FILES = \
 	c64_frodo_vpl.h \
 	c64_godot_vpl.h \
 	c64_pc64_vpl.h \
-	c64_vice_vpl.h
+	c64_vice_vpl.h \
+	pet_amber_vpl.h \
+	pet_green_vpl.h \
+	pet_white_vpl.h
 
 if !CROSS
 EMBEDDED_DEPENDS = bin2c bin2c.sh
@@ -598,35 +593,11 @@ vic20chargen.h: $(EMBEDDED_DEPENDS)
 vic20kernal.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/VIC20/kernal vic20kernal.h "BYTE vic20memrom_kernal_rom[VIC20_KERNAL_ROM_SIZE]" $(CROSS) $(SHELL)
 
-c128_c64hq_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C128/c64hq.vpl c128_c64hq_vpl.h "unsigned char c128_c64hq_vpl[]"
-
-c128_c64s_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C128/c64s.vpl c128_c64s_vpl.h "unsigned char c128_c64s_vpl[]"
-
-c128_ccs64_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C128/ccs64.vpl c128_ccs64_vpl.h "unsigned char c128_ccs64_vpl[]"
-
-c128_default_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C128/default.vpl c128_default_vpl.h "unsigned char c128_default_vpl[]"
-
-c128_frodo_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C128/frodo.vpl c128_frodo_vpl.h "unsigned char c128_frodo_vpl[]"
-
-c128_godot_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C128/godot.vpl c128_godot_vpl.h "unsigned char c128_godot_vpl[]"
-
-c128_pc64_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C128/pc64.vpl c128_pc64_vpl.h "unsigned char c128_pc64_vpl[]"
-
 c128_vdc_comp_vpl.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C128/vdc_comp.vpl c128_vdc_comp_vpl.h "unsigned char c128_vdc_comp_vpl[]"
 
 c128_vdc_deft_vpl.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C128/vdc_deft.vpl c128_vdc_deft_vpl.h "unsigned char c128_vdc_deft_vpl[]"
-
-c128_vice_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C128/vice.vpl c128_vice_vpl.h "unsigned char c128_vice_vpl[]"
 
 c64_c64hq_vpl.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/c64hq.vpl c64_c64hq_vpl.h "unsigned char c64_c64hq_vpl[]"
@@ -651,6 +622,15 @@ c64_pc64_vpl.h: $(EMBEDDED_DEPENDS)
 
 c64_vice_vpl.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/vice.vpl c64_vice_vpl.h "unsigned char c64_vice_vpl[]"
+
+pet_amber_vpl.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/PET/amber.vpl pet_amber_vpl.h "unsigned char pet_amber_vpl[]"
+
+pet_green_vpl.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/PET/green.vpl pet_green_vpl.h "unsigned char pet_green_vpl[]"
+
+pet_white_vpl.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/PET/white.vpl pet_white_vpl.h "unsigned char pet_white_vpl[]"
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
