@@ -39,6 +39,9 @@
 #include "machine.h"
 #include "plus4mem.h"
 
+#include "plus4_default_vpl.h"
+#include "c64_vice_vpl.h"
+
 static embedded_t plus4files[] = {
   { "basic", PLUS4_BASIC_ROM_SIZE, PLUS4_BASIC_ROM_SIZE, PLUS4_BASIC_ROM_SIZE, NULL },
   { "kernal", PLUS4_KERNAL_ROM_SIZE, PLUS4_KERNAL_ROM_SIZE, PLUS4_KERNAL_ROM_SIZE, NULL },
@@ -48,6 +51,8 @@ static embedded_t plus4files[] = {
 };
 
 static embedded_palette_t palette_files[] = {
+  { "default", "default.vpl", 128, plus4_default_vpl },
+  { "vice",    "vice.vpl",     16, c64_vice_vpl      },
   { NULL }
 };
 
@@ -94,12 +99,13 @@ int embedded_palette_load(const char *fname, palette_t *p)
     while (palette_files[i].name1 != NULL) {
         if (!strcmp(palette_files[i].name1, fname) || !strcmp(palette_files[i].name2, fname)) {
             entries = palette_files[i].palette;
-            for (j == 0; j < palette_files[i].num_entries; j++) {
+            for (j = 0; j < palette_files[i].num_entries; j++) {
                 p->entries[j].red    = entries[(j * 4) + 0];
                 p->entries[j].green  = entries[(j * 4) + 1];
                 p->entries[j].blue   = entries[(j * 4) + 2];
                 p->entries[j].dither = entries[(j * 4) + 3];
             }
+            return 0;
         }
         i++;
     }

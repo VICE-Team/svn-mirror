@@ -379,7 +379,9 @@ EMBEDDED_H_FILES = \
 	c64_vice_vpl.h \
 	pet_amber_vpl.h \
 	pet_green_vpl.h \
-	pet_white_vpl.h
+	pet_white_vpl.h \
+	plus4_default_vpl.h \
+	vic20_default_vpl.h
 
 if !CROSS
 EMBEDDED_DEPENDS = bin2c bin2c.sh
@@ -631,6 +633,12 @@ pet_green_vpl.h: $(EMBEDDED_DEPENDS)
 
 pet_white_vpl.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/PET/white.vpl pet_white_vpl.h "unsigned char pet_white_vpl[]"
+
+plus4_default_vpl.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/PLUS4/default.vpl plus4_default_vpl.h "unsigned char plus4_default_vpl[]"
+
+vic20_default_vpl.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/VIC20/default.vpl vic20_default_vpl.h "unsigned char vic20_default_vpl[]"
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
