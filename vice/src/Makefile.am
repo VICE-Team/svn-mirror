@@ -376,7 +376,15 @@ EMBEDDED_H_FILES = \
 	c128_pc64_vpl.h \
 	c128_vdc_comp_vpl.h \
 	c128_vdc_deft_vpl.h \
-	c128_vice_vpl.h
+	c128_vice_vpl.h \
+	c64_c64hq_vpl.h \
+	c64_c64s_vpl.h \
+	c64_ccs64_vpl.h \
+	c64_default_vpl.h \
+	c64_frodo_vpl.h \
+	c64_godot_vpl.h \
+	c64_pc64_vpl.h \
+	c64_vice_vpl.h
 
 if !CROSS
 EMBEDDED_DEPENDS = bin2c bin2c.sh
@@ -619,6 +627,30 @@ c128_vdc_deft_vpl.h: $(EMBEDDED_DEPENDS)
 
 c128_vice_vpl.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C128/vice.vpl c128_vice_vpl.h "unsigned char c128_vice_vpl[]"
+
+c64_c64hq_vpl.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/c64hq.vpl c64_c64hq_vpl.h "unsigned char c64_c64hq_vpl[]"
+
+c64_c64s_vpl.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/c64s.vpl c64_c64s_vpl.h "unsigned char c64_c64s_vpl[]"
+
+c64_ccs64_vpl.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/ccs64.vpl c64_ccs64_vpl.h "unsigned char c64_ccs64_vpl[]"
+
+c64_default_vpl.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/default.vpl c64_default_vpl.h "unsigned char c64_default_vpl[]"
+
+c64_frodo_vpl.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/frodo.vpl c64_frodo_vpl.h "unsigned char c64_frodo_vpl[]"
+
+c64_godot_vpl.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/godot.vpl c64_godot_vpl.h "unsigned char c64_godot_vpl[]"
+
+c64_pc64_vpl.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/pc64.vpl c64_pc64_vpl.h "unsigned char c64_pc64_vpl[]"
+
+c64_vice_vpl.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/vice.vpl c64_vice_vpl.h "unsigned char c64_vice_vpl[]"
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
