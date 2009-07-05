@@ -28,6 +28,8 @@ libarchgui_a_SOURCES = \
 	uiacia1.h \
 	uiattach.h \
 	uiattach.c \
+	uiautostart.h \
+	uiautostart.c \
 	uic64_256k.c \
 	uic64_256k.h \
 	uic64cart.c \

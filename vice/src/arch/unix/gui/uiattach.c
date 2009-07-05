@@ -40,6 +40,7 @@
 #include "tape.h"
 #include "uiapi.h"
 #include "uiattach.h"
+#include "uiautostart.h"
 #include "uiedisk.h"
 #include "uifliplist.h"
 #include "uilib.h"
@@ -312,6 +313,8 @@ ui_menu_entry_t uiattach_smart_attach_menu[] = {
     { N_("Smart-attach disk/tape..."),
       (ui_callback_t)smart_attach, NULL, NULL,
       KEYSYM_a, UI_HOTMOD_META },
+    { N_("Autostart settings"),
+      NULL, NULL, uiautostart_settings_submenu },
     { NULL }
 };
 
