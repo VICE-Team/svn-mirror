@@ -646,7 +646,7 @@ CLOCK vicii_lightpen_timing(int x, int y)
 {
     CLOCK pulse_time = maincpu_clk;
 
-    x += 0x98 - vicii.screen_leftborderwidth;
+    x += 0x80 - vicii.screen_leftborderwidth;
     y += vicii.first_displayed_line;
 
     /* Check if x would wrap to previous line */
