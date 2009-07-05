@@ -35,12 +35,15 @@
 #include "vice.h"
 
 #include "types.h"
+#include "palette.h"
 
 #ifdef USE_EMBEDDED
 extern size_t embedded_check_file(const char *name, BYTE *dest, int minsize, int maxsize);
 extern size_t embedded_check_extra(const char *name, BYTE *dest, int minsize, int maxsize);
+extern int embedded_palette_load(const char *file_name, palette_t *palette_return);
 #else
 #define embedded_check_file(w, x, y, z) (0)
+#define embedded_palette_load(x, y) (-1)
 #endif
 
 typedef struct embedded_s {
@@ -50,5 +53,12 @@ typedef struct embedded_s {
     size_t size;
     BYTE *esrc;
 } embedded_t;
+
+typedef struct embedded_palette_s {
+    char *name1;
+    char *name2;
+    int num_entries;
+    unsigned char *palette;
+} embedded_palette_t;
 
 #endif

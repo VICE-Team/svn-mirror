@@ -57,6 +57,17 @@
 #include "c128basiclo.h"
 #include "c128kernal64.h"
 
+#include "c128_c64hq_vpl.h"
+#include "c128_c64s_vpl.h"
+#include "c128_ccs64_vpl.h"
+#include "c128_default_vpl.h"
+#include "c128_frodo_vpl.h"
+#include "c128_godot_vpl.h"
+#include "c128_pc64_vpl.h"
+#include "c128_vdc_comp_vpl.h"
+#include "c128_vdc_deft_vpl.h"
+#include "c128_vice_vpl.h"
+
 static embedded_t c128files[] = {
   { "kernal", C128_KERNAL_ROM_IMAGE_SIZE, C128_KERNAL_ROM_IMAGE_SIZE, C128_KERNAL_ROM_IMAGE_SIZE, NULL },
   { "kernalde", C128_KERNAL_ROM_IMAGE_SIZE, C128_KERNAL_ROM_IMAGE_SIZE, C128_KERNAL_ROM_IMAGE_SIZE, NULL },
@@ -73,6 +84,20 @@ static embedded_t c128files[] = {
   { "basichi", C128_BASIC_ROM_IMAGEHI_SIZE, C128_BASIC_ROM_IMAGEHI_SIZE, C128_BASIC_ROM_IMAGEHI_SIZE, c128basichi_embedded },
   { "basic64", C64_BASIC_ROM_SIZE, C64_BASIC_ROM_SIZE, C64_BASIC_ROM_SIZE, c128basic64_embedded },
   { "kernal64", C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE, c128kernal64_embedded },
+  { NULL }
+};
+
+static embedded_palette_t palette_files[] = {
+  { "c64hq",    "c64hq.vpl",    16, c128_c64hq_vpl    },
+  { "c64s",     "c64s.vpl",     16, c128_c64s_vpl     },
+  { "ccs64",    "ccs64.vpl",    16, c128_ccs64_vpl    },
+  { "default",  "default.vpl",  16, c128_default_vpl  },
+  { "frodo",    "frodo.vpl",    16, c128_frodo_vpl    },
+  { "godot",    "godot.vpl",    16, c128_godot_vpl    },
+  { "pc64",     "pc64.vpl",     16, c128_pc64_vpl     },
+  { "vdc_comp", "vdc_comp.vpl", 16, c128_vdc_comp_vpl },
+  { "vdc_deft", "vdc_deft.vpl", 16, c128_vdc_deft_vpl },
+  { "vice",     "vice.vpl",     16, c128_vice_vpl     },
   { NULL }
 };
 
@@ -109,5 +134,27 @@ size_t embedded_check_file(const char *name, BYTE *dest, int minsize, int maxsiz
     }
 
     return 0;
+}
+
+int embedded_palette_load(const char *fname, palette_t *p)
+{
+    int i = 0;
+    int j;
+    unsigned char *entries;
+
+    while (palette_files[i].name1 != NULL) {
+        if (!strcmp(palette_files[i].name1, fname) || !strcmp(palette_files[i].name2, fname)) {
+            entries = palette_files[i].palette;
+            for (j = 0; j < palette_files[i].num_entries; j++) {
+                p->entries[j].red    = entries[(j * 4) + 0];
+                p->entries[j].green  = entries[(j * 4) + 1];
+                p->entries[j].blue   = entries[(j * 4) + 2];
+                p->entries[j].dither = entries[(j * 4) + 3];
+            }
+            return 0;
+        }
+        i++;
+    }
+    return -1;
 }
 #endif

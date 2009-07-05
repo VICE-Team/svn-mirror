@@ -212,6 +212,10 @@ int palette_load(const char *file_name, palette_t *palette_return)
     FILE *f;
     int rc;
 
+    if (embedded_palette_load(file_name, palette_return) == 0) {
+        return 0;
+    }
+
     f = sysfile_open(file_name, &complete_path, MODE_READ_TEXT);
 
     if (f == NULL) {

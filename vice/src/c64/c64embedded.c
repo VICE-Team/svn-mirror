@@ -46,6 +46,10 @@ static embedded_t c64files[] = {
   { NULL }
 };
 
+static embedded_palette_t palette_files[] = {
+  { NULL }
+};
+
 static size_t embedded_match_file(const char *name, BYTE *dest, int minsize, int maxsize, embedded_t *emb)
 {
     int i = 0;
@@ -78,5 +82,26 @@ size_t embedded_check_file(const char *name, BYTE *dest, int minsize, int maxsiz
         return retval;
     }
     return 0;
+}
+
+int embedded_palette_load(const char *fname, palette_t *p)
+{
+    int i = 0;
+    int j;
+    unsigned char *entries;
+
+    while (palette_files[i].name1 != NULL) {
+        if (!strcmp(palette_files[i].name1, fname) || !strcmp(palette_files[i].name2, fname)) {
+            entries = palette_files[i].palette;
+            for (j == 0; j < palette_files[i].num_entries; j++) {
+                p->entries[j].red    = entries[(j * 4) + 0];
+                p->entries[j].green  = entries[(j * 4) + 1];
+                p->entries[j].blue   = entries[(j * 4) + 2];
+                p->entries[j].dither = entries[(j * 4) + 3];
+            }
+        }
+        i++;
+    }
+    return -1;
 }
 #endif
