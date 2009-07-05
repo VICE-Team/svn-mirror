@@ -55,9 +55,11 @@ cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README $TOPSRCDIR/doc/cartconv.txt $WINVICE
 rm `find $WINVICE -name "Makefile*"`
 rm `find $WINVICE -name "amiga_*.vkm"`
 rm `find $WINVICE -name "dos_*.vkm"`
+rm `find $WINVICE -name "gp2x*.vkm"`
 rm `find $WINVICE -name "os2*.vkm"`
 rm `find $WINVICE -name "osx*.vkm"`
 rm `find $WINVICE -name "beos_*.vkm"`
+rm `find $WINVICE -name "sdl*.vkm"`
 rm `find $WINVICE -name "x11_*.vkm"`
 rm `find $WINVICE -name "RO*.vkm"`
 rm $WINVICE/html/texi2html
