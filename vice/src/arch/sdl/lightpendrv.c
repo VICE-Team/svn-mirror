@@ -67,8 +67,8 @@ fprintf(stderr,"%s pre : x = %i, y = %i, buttons = %02x, on_screen = %i\n",__fun
         if ((x < 0) || (y < 0) || (x >= sdl_lightpen_adjust.max_x) || (y >= sdl_lightpen_adjust.max_y)) {
             on_screen = 0;
         } else {
-            x *= (int)(sdl_lightpen_adjust.scale_x);
-            y *= (int)(sdl_lightpen_adjust.scale_y);
+            x = (int)(x * sdl_lightpen_adjust.scale_x);
+            y = (int)(y * sdl_lightpen_adjust.scale_y);
         }
     }
 
