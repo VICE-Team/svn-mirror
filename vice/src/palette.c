@@ -33,6 +33,7 @@
 #include <string.h>
 
 #include "archdep.h"
+#include "embedded.h"
 #include "lib.h"
 #include "log.h"
 #include "palette.h"
