@@ -7135,6 +7135,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS           "&MMC64 settings..."
   IDS_MI_MIDI_SETTINGS            "M&IDI settings..."
   IDS_MI_DIGIMAX_SETTINGS         "&DIGIMAX settings..."
+  IDS_MI_LIGHTPEN_SETTINGS        "&Lightpen settings..."
   IDS_MI_IDE64_SETTINGS           "&IDE64 settings..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS             "&Ethernet settings..."
@@ -7549,6 +7550,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS           "&MMC64-indstillinger..."
   IDS_MI_MIDI_SETTINGS            "M&IDI-indstillinger..."
   IDS_MI_DIGIMAX_SETTINGS         "&DIGIMAX-indstillinger..."
+  IDS_MI_LIGHTPEN_SETTINGS        "&Lightpen settings..."
   IDS_MI_IDE64_SETTINGS           "&IDE64-indstillinger..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS             "&Ethernetindstillinger..."
@@ -7963,6 +7965,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS           "&MMC64 Einstellungen..."
   IDS_MI_MIDI_SETTINGS            "M&IDI settings..."
   IDS_MI_DIGIMAX_SETTINGS         "&Digimax Einstellungen..."
+  IDS_MI_LIGHTPEN_SETTINGS        "&Lightpen settings..."
   IDS_MI_IDE64_SETTINGS           "&IDE64 Einstellungen..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS             "&Ethernet Einstellungen..."
@@ -8377,6 +8380,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS           "&MMC64 settings..."
   IDS_MI_MIDI_SETTINGS            "M&IDI settings..."
   IDS_MI_DIGIMAX_SETTINGS         "&DIGIMAX settings..."
+  IDS_MI_LIGHTPEN_SETTINGS        "&Lightpen settings..."
   IDS_MI_IDE64_SETTINGS           "Paramètres &IDE64..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS             "Émulation &Ethernet..."
@@ -8792,6 +8796,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS           "&MMC64 beállításai..."
   IDS_MI_MIDI_SETTINGS            "M&IDI beállításai..."
   IDS_MI_DIGIMAX_SETTINGS         "&DIGIMAX beállításai..."
+  IDS_MI_LIGHTPEN_SETTINGS        "&Lightpen settings..."
   IDS_MI_IDE64_SETTINGS           "&IDE64 beállításai..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS             "&Ethernet beállításai..."
@@ -9207,6 +9212,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS           "Impostazioni &MMC64..."
   IDS_MI_MIDI_SETTINGS            "Impostazioni M&IDI..."
   IDS_MI_DIGIMAX_SETTINGS         "Impostazioni &DIGIMAX..."
+  IDS_MI_LIGHTPEN_SETTINGS        "&Lightpen settings..."
   IDS_MI_IDE64_SETTINGS           "Impostazioni &IDE64..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS             "Impostazioni &Ethernet..."
@@ -9621,6 +9627,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS           "&MMC64-instellingen..."
   IDS_MI_MIDI_SETTINGS            "M&IDI-instellingen..."
   IDS_MI_DIGIMAX_SETTINGS         "&DIGIMAX-instellingen..."
+  IDS_MI_LIGHTPEN_SETTINGS        "&Lichtpen instellingen..."
   IDS_MI_IDE64_SETTINGS           "&IDE64-instellingen..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS             "&Ethernetinstellingen..."
@@ -10036,6 +10043,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS           "&MMC64 settings..."
   IDS_MI_MIDI_SETTINGS            "M&IDI settings..."
   IDS_MI_DIGIMAX_SETTINGS         "&DIGIMAX settings..."
+  IDS_MI_LIGHTPEN_SETTINGS        "&Lightpen settings..."
   IDS_MI_IDE64_SETTINGS           "Ustawienia &IDE64..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS             "Ustawienia &Ethernet..."
@@ -10451,6 +10459,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS           "&MMC64-inställningar..."
   IDS_MI_MIDI_SETTINGS            "M&IDI-inställningar..."
   IDS_MI_DIGIMAX_SETTINGS         "&DIGIMAX-inställningar..."
+  IDS_MI_LIGHTPEN_SETTINGS        "&Lightpen settings..."
   IDS_MI_IDE64_SETTINGS           "&IDE64-inställningar..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS             "&Ethernetinställningar..."
@@ -10866,6 +10875,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS           "&MMC64 ayarlarý..."
   IDS_MI_MIDI_SETTINGS            "M&IDI ayarlarý..."
   IDS_MI_DIGIMAX_SETTINGS         "&DIGIMAX ayarlarý..."
+  IDS_MI_LIGHTPEN_SETTINGS        "&Lightpen settings..."
   IDS_MI_IDE64_SETTINGS           "&IDE64 ayarlarý..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS             "&Ethernet ayarlarý..."

@@ -48,6 +48,7 @@
 #include "uiisepic.h"
 #include "uijoystick.h"
 #include "uikeyboard.h"
+#include "uilightpen.h"
 #include "uimidi.h"
 #include "uimmc64.h"
 #include "uimouse.h"
@@ -259,6 +260,7 @@ ui_menu_translation_table_t c64ui_menu_translation_table[] = {
     { IDM_DATASETTE_SETTINGS, IDS_MI_DATASETTE_SETTINGS },
     { IDM_VICII_SETTINGS, IDS_MI_VICII_SETTINGS },
     { IDM_MOUSE_SETTINGS, IDS_MI_MOUSE_SETTINGS },
+    { IDM_LIGHTPEN_SETTINGS, IDS_MI_LIGHTPEN_SETTINGS },
     { IDM_SID_SETTINGS, IDS_MI_SID_SETTINGS },
     { IDM_RS232_SETTINGS, IDS_MI_RS232_SETTINGS },
     { IDM_REU_SETTINGS, IDS_MI_REU_SETTINGS },
@@ -377,7 +379,10 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
       case IDM_DIGIMAX_SETTINGS:
         ui_digimax_settings_dialog(hwnd);
         break;
-      case IDM_IDE64_SETTINGS:
+       case IDM_LIGHTPEN_SETTINGS:
+        ui_lightpen_settings_dialog(hwnd);
+        break;
+     case IDM_IDE64_SETTINGS:
         uiide64_settings_dialog(hwnd);
         break;
       case IDM_JOY_SETTINGS:

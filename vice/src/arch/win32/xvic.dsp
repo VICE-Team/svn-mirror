@@ -112,26 +112,26 @@ SOURCE=.\resvic20.rc
 !IF  "$(CFG)" == "xvic - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESVI="..\..\debug.h"	"resvic20.rc"	"res.rc"	"resdrivevic20.rc"	"resrs232user.rc"	"ressidcart.rc"	"resmidi.rc"
+USERDEP__RESVI="..\..\debug.h"	"resvic20.rc"	"res.rc"	"resdrivevic20.rc"	"resrs232user.rc"	"ressidcart.rc"	"reslightpen.rc"	"resmidi.rc"
 
 # Begin Custom Build
 InputPath=.\resvic20.rc
 
 "resvic20cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b resvic20.rc + res.rc + resdrivevic20.rc + resrs232user.rc + resmidi.rc + ressidcart.rc resvic20cat.rc /b
+	copy /b resvic20.rc + res.rc + resdrivevic20.rc + resrs232user.rc + resmidi.rc + reslightpen.rc + ressidcart.rc resvic20cat.rc /b
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "xvic - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESVI="..\..\debug.h"	"resvic20.rc"	"res.rc"	"resdrivevic20.rc"	"resrs232user.rc"	"ressidcart.rc"	"resmidi.rc"
+USERDEP__RESVI="..\..\debug.h"	"resvic20.rc"	"res.rc"	"resdrivevic20.rc"	"resrs232user.rc"	"ressidcart.rc"	"reslightpen.rc"	"resmidi.rc"
 
 # Begin Custom Build
 InputPath=.\resvic20.rc
 
 "resvic20cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b resvic20.rc + res.rc + resdrivevic20.rc + resrs232user.rc + resmidi.rc + ressidcart.rc resvic20cat.rc /b
+	copy /b resvic20.rc + res.rc + resdrivevic20.rc + resrs232user.rc + resmidi.rc + reslightpen.rc + ressidcart.rc resvic20cat.rc /b
 
 # End Custom Build
 

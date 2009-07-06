@@ -158,6 +158,10 @@ SOURCE=.\kbd.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\lightpendrv.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\mididrv.c
 # End Source File
 # Begin Source File
@@ -352,6 +356,10 @@ SOURCE=.\uikeyboard.c
 # Begin Source File
 
 SOURCE=.\uilib.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\uilightpen.c
 # End Source File
 # Begin Source File
 

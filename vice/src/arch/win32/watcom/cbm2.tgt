@@ -68,7 +68,7 @@ n????Include directories:
 17
 WString
 113
-$(%watcom)\h;$(%watcom)\h\nt;.;..;..\..\..;..\..\..\crtc;..\..\..\sid;..\..\..\vicii;..\..\..\drive;..\..\..\tape
+.;..;..\..\..;..\..\..\crtc;..\..\..\sid;..\..\..\vicii;..\..\..\drive;..\..\..\tape;$(%watcom)\h;$(%watcom)\h\nt
 0
 18
 MRState

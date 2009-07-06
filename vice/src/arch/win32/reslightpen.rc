@@ -1,0 +1,136 @@
+// Lightpen specific resources.
+//
+
+// template of dialog for all languages
+
+IDD_LIGHTPEN_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "", IDC_LIGHTPEN_ENABLE,
+                    7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "",
+                    IDC_LIGHTPEN_TYPE_LABEL, 9, 24, 30, 8
+    COMBOBOX        IDC_LIGHTPEN_TYPE, 45, 22, 100, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK, 30, 90, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL, 90, 90, 50, 14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH text
+
+STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_LIGHTPEN_CAPTION             "lightpen Settings"
+    IDS_LIGHTPEN_ENABLE              "&Enable lightpen"
+    IDS_LIGHTPEN_TYPE                "Lightpen type"
+END
+
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_LIGHTPEN_CAPTION             "lightpen Settings"
+    IDS_LIGHTPEN_ENABLE              "&Enable lightpen"
+    IDS_LIGHTPEN_TYPE                "Lightpen type"
+END
+
+
+// GERMAN text
+
+STRINGTABLE
+LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_LIGHTPEN_CAPTION             "lightpen Settings"
+    IDS_LIGHTPEN_ENABLE              "&Enable lightpen"
+    IDS_LIGHTPEN_TYPE                "Lightpen type"
+END
+
+
+// FRENCH text
+
+STRINGTABLE
+LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_LIGHTPEN_CAPTION             "lightpen Settings"
+    IDS_LIGHTPEN_ENABLE              "&Enable lightpen"
+    IDS_LIGHTPEN_TYPE                "Lightpen type"
+END
+
+
+// HUNGARIAN text
+
+#pragma code_page(28592)
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_LIGHTPEN_CAPTION             "lightpen Settings"
+    IDS_LIGHTPEN_ENABLE              "&Enable lightpen"
+    IDS_LIGHTPEN_TYPE                "Lightpen type"
+END
+#pragma code_page(28591)
+
+
+// ITALIAN text
+
+STRINGTABLE
+LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_LIGHTPEN_CAPTION             "lightpen Settings"
+    IDS_LIGHTPEN_ENABLE              "&Enable lightpen"
+    IDS_LIGHTPEN_TYPE                "Lightpen type"
+END
+
+
+// DUTCH text
+
+STRINGTABLE
+LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_LIGHTPEN_CAPTION             "lichtpen instellingen"
+    IDS_LIGHTPEN_ENABLE              "&Activeer lichtpen"
+    IDS_LIGHTPEN_TYPE                "Lichtpen model"
+END
+
+
+// POLISH text
+
+#pragma code_page(28592)
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_LIGHTPEN_CAPTION             "lightpen Settings"
+    IDS_LIGHTPEN_ENABLE              "&Enable lightpen"
+    IDS_LIGHTPEN_TYPE                "Lightpen type"
+END
+#pragma code_page(28591)
+
+
+// SWEDISH text
+
+STRINGTABLE
+LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_LIGHTPEN_CAPTION             "lightpen Settings"
+    IDS_LIGHTPEN_ENABLE              "&Enable lightpen"
+    IDS_LIGHTPEN_TYPE                "Lightpen type"
+END
+
+
+// TURKISH text
+
+#pragma code_page(28599)
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_LIGHTPEN_CAPTION             "lightpen Settings"
+    IDS_LIGHTPEN_ENABLE              "&Enable lightpen"
+    IDS_LIGHTPEN_TYPE                "Lightpen type"
+END
+#pragma code_page(28591)

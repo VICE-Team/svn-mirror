@@ -31,6 +31,7 @@
 
 #include "vsync.h"
 #include "kbdbuf.h"
+#include "lightpendrv.h"
 #include "machine.h"
 #include "ui.h"
 #include "uiapi.h"
@@ -166,6 +167,9 @@ void vsyncarch_presync(void)
 {
     /* Update mouse */
     mouse_update_mouse();
+
+    /* Update lightpen */
+    win32_lightpen_update();
 
     /* Flush keypresses emulated through the keyboard buffer.  */
     kbdbuf_flush();
