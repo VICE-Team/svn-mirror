@@ -180,7 +180,7 @@ int video_canvas_nr_for_hwnd(HWND hwnd)
         }
     }
 
-    return NULL;
+    return 0;
 }
 
 void video_canvas_add(video_canvas_t *canvas)
