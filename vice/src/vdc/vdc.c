@@ -311,6 +311,41 @@ void vdc_powerup(void)
     vdc_reset();
 }
 
+
+
+/* ---------------------------------------------------------------------*/
+
+/* Trigger the light pen.  */
+void vdc_trigger_light_pen(CLOCK mclk)
+{
+    vdc.light_pen.triggered = 1;
+    vdc.regs[16] = vdc.light_pen.y;
+    vdc.regs[17] = vdc.light_pen.x;
+}
+
+/* Calculate lightpen pulse time based on x/y */
+CLOCK vdc_lightpen_timing(int x, int y)
+{
+    double vdc_cycles_per_line, host_cycles_per_second;
+    host_cycles_per_second = (double)machine_get_cycles_per_second();
+    vdc_cycles_per_line = (double)(vdc.xchars_total) * 8.0
+                          * host_cycles_per_second / VDC_DOT_CLOCK;
+    
+    /* FIXME - this doesn't work properly.. */
+    CLOCK pulse_time = maincpu_clk;
+    pulse_time += (x / 8) + (y * vdc_cycles_per_line);
+        
+    /* Figure out what values should go into the registers when triggered */
+    vdc.light_pen.y = (y - (int)vdc.first_displayed_line - 1) / ((int)(vdc.regs[9] & 0x1f) + 1);
+    if (vdc.light_pen.y < 0) {
+        vdc.light_pen.y += vdc.regs[4] + 1;
+    }
+    vdc.light_pen.x = (x - vdc.border_width) / ((vdc.regs[22] >> 4) + 1) + 22;
+    return pulse_time;
+}
+
+/* ---------------------------------------------------------------------*/
+
 /* Set the memory pointers according to the values in the registers. */
 void vdc_update_memory_ptrs(unsigned int cycle)
 {

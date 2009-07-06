@@ -175,7 +175,7 @@ void REGPARM2 plus256k_ram_high_store(WORD addr, BYTE byte)
 void c128_trigger_light_pen(CLOCK mclk)
 {
     vicii_trigger_light_pen(mclk);
-    /* TODO: vdc_trigger_light_pen(mclk); */
+    vdc_trigger_light_pen(mclk);
 }
 
 machine_context_t machine_context;
@@ -632,7 +632,7 @@ int machine_specific_init(void)
     /* Initialize lightpen support and register VICII/VDC callbacks */
     lightpen_init();
     lightpen_register_timing_callback(vicii_lightpen_timing, 0);
-    /* TODO: lightpen_register_timing_callback(vdc_lightpen_timing, 1);*/
+    lightpen_register_timing_callback(vdc_lightpen_timing, 1);
     lightpen_register_trigger_callback(c128_trigger_light_pen);
 #endif
 
