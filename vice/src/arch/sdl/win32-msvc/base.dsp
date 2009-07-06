@@ -90,6 +90,10 @@ SOURCE="..\..\..\attach.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\autostart-prg.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\autostart.c"
 # End Source File
 # Begin Source File
@@ -278,7 +282,7 @@ SOURCE="..\..\..\translate.txt"
 USERDEP__TRANS="..\..\..\translate.txt"	
 # Begin Custom Build - Generating translate.h and translate_table.h
 InputDir=\cygwin\home\tri\cbm\vice.svn\src
-InputPath=..\..\..\translate.txt
+InputPath="..\..\..\translate.txt"
 
 "$(InputDir)\translate.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	..\..\..\..\data\gentranslate ..\..\..\translate.txt ..\..\..\translate.h ..\..\..\translate_table.h
@@ -291,7 +295,7 @@ InputPath=..\..\..\translate.txt
 USERDEP__TRANS="..\..\..\translate.txt"	
 # Begin Custom Build - Generating translate.h and translate_table.h
 InputDir=\cygwin\home\tri\cbm\vice.svn\src
-InputPath=..\..\..\translate.txt
+InputPath="..\..\..\translate.txt"
 
 "$(InputDir)\translate.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	..\..\..\..\data\gentranslate ..\..\..\translate.txt ..\..\..\translate.h ..\..\..\translate_table.h
