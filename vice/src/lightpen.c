@@ -203,7 +203,7 @@ int lightpen_register_trigger_callback(lightpen_trigger_callback_ptr_t trigger_c
 }
 
 /* Update lightpen coordinates and button status. Called at the end of each frame.
-   For x128, window 0 is VICII, window 1 is VDC. Others always use window 0.
+   For x128, window 1 is VICII, window 0 is VDC. Others always use window 0.
    x and y are the canvas coordinates; double size, hwscale and offsets are removed in the arch side.
    Negative values of x and/or y can be used to indicate that the pointer is off the (emulated) screen. */
 void lightpen_update(int window, int x, int y, int buttons)

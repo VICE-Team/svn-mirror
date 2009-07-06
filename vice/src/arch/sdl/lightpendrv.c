@@ -29,6 +29,7 @@
 
 #include <SDL/SDL.h>
 
+#include "machine.h"
 #include "lightpen.h"
 #include "lightpendrv.h"
 #include "videoarch.h"
@@ -40,7 +41,7 @@ sdl_lightpen_adjust_t sdl_lightpen_adjust;
 
 void sdl_lightpen_update(void)
 {
-    int x, y, on_screen;
+    int x, y, on_screen, screen_num;
     Uint8 buttons;
 
     if (!lightpen_enabled) {
@@ -80,5 +81,13 @@ fprintf(stderr,"%s pre : x = %i, y = %i, buttons = %02x, on_screen = %i\n",__fun
 fprintf(stderr,"%s post: x = %i, y = %i\n",__func__, x, y);
 #endif
 
-    lightpen_update(sdl_active_canvas_num, x, y, (int)buttons);
+    screen_num = sdl_active_canvas_num;
+
+    /* HACK: In x128, the VDC window is 0, but sdl/video.c uses the canvas
+       init order (which for some reason is the reverse) for enumeration. */
+    if (machine_class == VICE_MACHINE_C128) {
+        screen_num ^= 1;
+    }
+
+    lightpen_update(screen_num, x, y, (int)buttons);
 }
