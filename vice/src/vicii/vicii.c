@@ -429,7 +429,7 @@ void vicii_reset(void)
     vicii.force_display_state = 0;
 
     vicii.light_pen.triggered = 0;
-    vicii.light_pen.x = vicii.light_pen.y = 0;
+    vicii.light_pen.x = vicii.light_pen.y = vicii.light_pen.x_extra_bits = 0;
 
     /* Remove all the IRQ sources.  */
     vicii.regs[0x1a] = 0;
@@ -566,7 +566,7 @@ void vicii_powerup(void)
     vicii.bad_line = 0;
     vicii.ycounter_reset_checked = 0;
     vicii.force_black_overscan_background_color = 0;
-    vicii.light_pen.x = vicii.light_pen.y = vicii.light_pen.triggered = 0;
+    vicii.light_pen.x = vicii.light_pen.y = vicii.light_pen.x_extra_bits = vicii.light_pen.triggered = 0;
     vicii.vbank_phi1 = 0;
     vicii.vbank_phi2 = 0;
     /* vicii.vbank_ptr = ram; */
@@ -634,7 +634,8 @@ void vicii_trigger_light_pen(CLOCK mclk)
             vicii.light_pen.x = vicii.sprite_wrap_x + vicii.light_pen.x;
 
         /* FIXME: why `+2'? */
-        vicii.light_pen.x = vicii.light_pen.x / 2 + 2;
+        vicii.light_pen.x = vicii.light_pen.x / 2 + 2 + vicii.light_pen.x_extra_bits;
+        vicii.light_pen.x_extra_bits = 0;
         vicii.light_pen.y = VICII_RASTER_Y(mclk);
 
         vicii_irq_lightpen_set(mclk);
@@ -657,6 +658,9 @@ CLOCK vicii_lightpen_timing(int x, int y)
         pulse_time += (x / 8) + (y * vicii.cycles_per_line);
         /* Remove frame alarm jitter */
         pulse_time -= maincpu_clk - VICII_LINE_START_CLK(maincpu_clk);
+
+        /* Store x extra bits for sub CLK precision */
+        vicii.light_pen.x_extra_bits = (x >> 1) & 0x3;
     }
 
     return pulse_time;
