@@ -43,6 +43,7 @@
 #include "resources.h"
 #include "screenshot.h"
 #include "snapshot.h"
+#include "types.h"
 #include "vdc-cmdline-options.h"
 #include "vdc-draw.h"
 #include "vdc-resources.h"
@@ -326,13 +327,15 @@ void vdc_trigger_light_pen(CLOCK mclk)
 /* Calculate lightpen pulse time based on x/y */
 CLOCK vdc_lightpen_timing(int x, int y)
 {
+    CLOCK pulse_time;
+
     double vdc_cycles_per_line, host_cycles_per_second;
     host_cycles_per_second = (double)machine_get_cycles_per_second();
     vdc_cycles_per_line = (double)(vdc.xchars_total) * 8.0
                           * host_cycles_per_second / VDC_DOT_CLOCK;
     
     /* FIXME - this doesn't work properly.. */
-    CLOCK pulse_time = maincpu_clk;
+    pulse_time = maincpu_clk;
     pulse_time += (x / 8) + (y * vdc_cycles_per_line);
         
     /* Figure out what values should go into the registers when triggered */
