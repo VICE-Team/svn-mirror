@@ -37,8 +37,6 @@
 #include "translate.h"
 
 
-#define MAX_WINDOW_NUM 1
-
 /* --------------------------------------------------------- */
 /* extern variables */
 
@@ -49,25 +47,43 @@ int lightpen_type;
 /* --------------------------------------------------------- */
 /* static variables/functions */
 
+#define MAX_WINDOW_NUM 1
+
 static int lightpen_buttons;
 static int lightpen_button_y;
 static int lightpen_button_x;
 
+/* Video chip timing callbacks for each window.
+   Returns the CLOCK value of the triggering time (or 0 if off screen).
+   For x128, window 0 is VICII, window 1 is VDC. Others always use window 0. */
 static lightpen_timing_callback_ptr_t chip_timing_callback[MAX_WINDOW_NUM + 1];
+
+/* Machine dependant callback for triggering the lightpen at the given CLOCK.
+   x128 needs to trigger both VICII and VDC, others point this to the video chip function itself. */
 static lightpen_trigger_callback_ptr_t chip_trigger_callback;
 
+/* Lightpen/gun type */
 struct lp_type_s {
+    /* PEN needs button to be pressed to register, GUN doesn't */
     enum { PEN, GUN } type;
+    /* Buttons: bitmask for joyport 1 pins, with 0x20 for potY and 0x40 for potX */
     BYTE button1;
     BYTE button2;
+    /* x/y offsets to add before timing callback */
+    int x_offset;
+    int y_offset;
 };
 typedef struct lp_type_s lp_type_t;
 
 static const lp_type_t lp_type[LIGHTPEN_TYPE_NUM] = {
-    { PEN, 0x00, 0x01 },
-    { PEN, 0x00, 0x04 },
-    { GUN, 0x20, 0x00 },
-    { GUN, 0x04, 0x00 }
+    /* Pen with button Up */
+    { PEN, 0x00, 0x01, 0, 0 },
+    /* Pen with button Left */
+    { PEN, 0x00, 0x04, 0, 0 },
+    /* Magnum Light Phaser */
+    { GUN, 0x20, 0x00, 20, -10 },
+    /* Stack Light Rifle */
+    { GUN, 0x04, 0x00, 20, 0 }
 };
 
 static inline void lightpen_check_button_mask(BYTE mask, int pressed)
@@ -87,16 +103,16 @@ static inline void lightpen_update_buttons(int buttons)
 {
     lightpen_buttons = buttons;
 
-    lightpen_button_y = ((((lp_type[lightpen_type].button1 & 0x20) == 0x20) && (buttons & 1))
-                      || (((lp_type[lightpen_type].button2 & 0x20) == 0x20) && (buttons & 2)))
+    lightpen_button_y = ((((lp_type[lightpen_type].button1 & 0x20) == 0x20) && (buttons & LP_HOST_BUTTON_1))
+                      || (((lp_type[lightpen_type].button2 & 0x20) == 0x20) && (buttons & LP_HOST_BUTTON_2)))
                       ? 1 : 0;
 
-    lightpen_button_x = ((((lp_type[lightpen_type].button1 & 0x40) == 0x40) && (buttons & 1))
-                      || (((lp_type[lightpen_type].button2 & 0x40) == 0x40) && (buttons & 2)))
+    lightpen_button_x = ((((lp_type[lightpen_type].button1 & 0x40) == 0x40) && (buttons & LP_HOST_BUTTON_1))
+                      || (((lp_type[lightpen_type].button2 & 0x40) == 0x40) && (buttons & LP_HOST_BUTTON_2)))
                       ? 1 : 0;
 
-    lightpen_check_button_mask((BYTE)(lp_type[lightpen_type].button1 & 0xf), buttons & 1);
-    lightpen_check_button_mask((BYTE)(lp_type[lightpen_type].button2 & 0xf), buttons & 4);
+    lightpen_check_button_mask((BYTE)(lp_type[lightpen_type].button1 & 0xf), buttons & LP_HOST_BUTTON_1);
+    lightpen_check_button_mask((BYTE)(lp_type[lightpen_type].button2 & 0xf), buttons & LP_HOST_BUTTON_2);
 }
 
 /* --------------------------------------------------------- */
@@ -166,6 +182,8 @@ void lightpen_init(void)
     for (i = 0; i < (MAX_WINDOW_NUM + 1); ++i) {
         chip_timing_callback[i] = NULL;
     }
+
+    chip_trigger_callback = NULL;
 }
 
 int lightpen_register_timing_callback(lightpen_timing_callback_ptr_t timing_callback, int window)
@@ -184,6 +202,10 @@ int lightpen_register_trigger_callback(lightpen_trigger_callback_ptr_t trigger_c
     return 0;
 }
 
+/* Update lightpen coordinates and button status. Called at the end of each frame.
+   For x128, window 0 is VICII, window 1 is VDC. Others always use window 0.
+   x and y are the canvas coordinates; double size, hwscale and offsets are removed in the arch side.
+   Negative values of x and/or y can be used to indicate that the pointer is off the (emulated) screen. */
 void lightpen_update(int window, int x, int y, int buttons)
 {
     CLOCK pulse_time;
@@ -198,11 +220,14 @@ void lightpen_update(int window, int x, int y, int buttons)
 
     lightpen_update_buttons(buttons);
 
+    x += lp_type[lightpen_type].x_offset;
+    y += lp_type[lightpen_type].y_offset;
+
     if ((x < 0) || (y < 0)) {
         return;
     }
 
-    if ((lp_type[lightpen_type].type == PEN) && !(buttons & 1)) {
+    if ((lp_type[lightpen_type].type == PEN) && !(buttons & LP_HOST_BUTTON_1)) {
         return;
     }
 

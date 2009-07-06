@@ -50,6 +50,10 @@ typedef lightpen_trigger_callback_t *lightpen_trigger_callback_ptr_t;
 extern int lightpen_register_trigger_callback(lightpen_trigger_callback_ptr_t trigger_callback);
 
 extern void lightpen_update(int window, int x, int y, int buttons);
+/* Host mouse button bitmasks. (the value 4 for the right mouse button comes from SDL) */
+#define LP_HOST_BUTTON_1    1
+#define LP_HOST_BUTTON_2    4
+
 extern BYTE lightpen_read_button_y(void);
 extern BYTE lightpen_read_button_x(void);
 
