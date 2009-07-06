@@ -730,7 +730,7 @@ static void draw_idle(void)
     p = vdc.raster.draw_buffer_ptr + vdc.border_width
         + vdc.raster.xsmooth;
 
-    idleval = *(hr_table + ((vdc.regs[26] & 0xf0) << 4));
+    idleval = *(hr_table + ((vdc.regs[26] & 0x0f) << 4));
 
     for (i = 0; i < vdc.mem_counter_inc; i++, p+= 8) {
         *((DWORD *)p) = idleval;
