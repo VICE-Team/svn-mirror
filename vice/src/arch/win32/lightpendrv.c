@@ -77,6 +77,5 @@ fprintf(stderr,"%s pre : x = %i, y = %i, buttons = %02x, on_screen = %i\n",__fun
 fprintf(stderr,"%s post: x = %i, y = %i\n",__func__, x, y);
 #endif
 
-    /* canvas 0 only for now */
-    lightpen_update(0, x, y, (int)buttons);
+    lightpen_update(video_canvas_nr_for_hwnd(ui_active_window), x, y, (int)buttons);
 }

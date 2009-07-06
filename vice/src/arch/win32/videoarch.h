@@ -105,6 +105,7 @@ extern int video_create_single_surface(struct video_canvas_s *canvas,
                                        int width, int height);
 
 extern video_canvas_t *video_canvas_for_hwnd(HWND hwnd);
+extern int video_canvas_nr_for_hwnd(HWND hwnd);
 extern void video_canvas_add(video_canvas_t *canvas);
 
 extern void video_canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient,

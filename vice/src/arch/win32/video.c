@@ -170,6 +170,18 @@ video_canvas_t *video_canvas_for_hwnd(HWND hwnd)
     return NULL;
 }
 
+int video_canvas_nr_for_hwnd(HWND hwnd)
+{
+    int i;
+
+    for (i = 0; i < video_number_of_canvases; i++) {
+        if (video_canvases[i]->hwnd == hwnd) {
+            return i;
+        }
+    }
+
+    return NULL;
+}
 
 void video_canvas_add(video_canvas_t *canvas)
 {
