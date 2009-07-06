@@ -231,9 +231,6 @@ void lightpen_update(int window, int x, int y, int buttons)
         return;
     }
 
-    if (window == 1) {
-        chip_timing_callback[0](x, y);
-    }
     pulse_time = chip_timing_callback[window](x, y);
 
     if (pulse_time > 0) {
