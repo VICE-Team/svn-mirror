@@ -42,6 +42,10 @@ void win32_lightpen_update(void)
     POINT mouse_pos;
     int x, y, on_screen;
     int buttons;
+    RECT rcClient;
+    video_canvas_t *lp_canvas;
+    int dx, dy, cx, cy, dx9;
+
 
     if (!lightpen_enabled) {
         return;
@@ -60,13 +64,40 @@ void win32_lightpen_update(void)
         buttons = 0;
     }
 
+    lp_canvas = video_canvas_for_hwnd(ui_active_window);
+    GetClientRect(ui_active_window, &rcClient);
+    dx = lp_canvas->width;
+    dy = lp_canvas->height;
+    cx = rcClient.right;
+    cy = rcClient.bottom;
+    dx9 = video_dx9_enabled();
+
 #ifdef LP_DEBUG
 fprintf(stderr,"%s pre : x = %i, y = %i, buttons = %02x, on_screen = %i\n",__func__, x, y, buttons, on_screen);
 #endif
 
     if (on_screen) {
-        x /= video_canvas_for_hwnd(ui_active_window)->videoconfig->doublesizex ? 2 : 1;
-        y /= video_canvas_for_hwnd(ui_active_window)->videoconfig->doublesizey ? 2 : 1;
+        /* no dx9 */
+        if (!dx9) {
+            x -= (int)((cx - dx) / 2);
+            y -= (int)((cy - (dy + 42)) / 2);
+        }
+
+        /* dx9 */
+        if (dx9) {
+            x = (int)(x * dx / cx);
+            y = (int)(y * dy / (cy - 42));
+        }
+
+        /* double x size */
+        if (lp_canvas->videoconfig->doublesizex) {
+            x /= 2;
+        }
+
+        /* double y size */
+        if (lp_canvas->videoconfig->doublesizey) {
+            y /= 2;
+        }
     }
 
     if (!on_screen) {
