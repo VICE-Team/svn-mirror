@@ -166,7 +166,8 @@ void ui_display_volume(int vol)
 
 void ui_update_menus()
 {
-    // nothing to do...
+    // post a resource update
+    [[theVICEMachine machineNotifier] postChangedResourcesNotification];
 }
 
 // ----- Alerts & Dialogs -----
