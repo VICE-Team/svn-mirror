@@ -31,6 +31,7 @@
 
 #include "lightpen.h"
 #include "lightpendrv.h"
+#include "statusbar.h"
 #include "ui.h"
 #include "videoarch.h"
 
@@ -80,13 +81,13 @@ fprintf(stderr,"%s pre : x = %i, y = %i, buttons = %02x, on_screen = %i\n",__fun
         /* no dx9 */
         if (!dx9) {
             x -= (int)((cx - dx) / 2);
-            y -= (int)((cy - (dy + 42)) / 2);
+            y -= (int)((cy - (dy + statusbar_get_status_height())) / 2);
         }
 
         /* dx9 */
         if (dx9) {
             x = (int)(x * dx / cx);
-            y = (int)(y * dy / (cy - 42));
+            y = (int)(y * dy / (cy - statusbar_get_status_height()));
         }
 
         /* double x size */
