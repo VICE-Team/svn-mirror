@@ -89,6 +89,7 @@ static void init_lightpen_dialog(HWND hwnd)
 
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Pen with button Up");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Pen with button Left");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Datel Pen");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Magnum Light Phaser");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Stack Light Rifle");
     resources_get_int("LightpenType", &res_value);

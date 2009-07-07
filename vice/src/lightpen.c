@@ -80,6 +80,8 @@ static const lp_type_t lp_type[LIGHTPEN_TYPE_NUM] = {
     { PEN, 0x00, 0x01, 0, 0 },
     /* Pen with button Left */
     { PEN, 0x00, 0x04, 0, 0 },
+    /* Datel Pen */
+    { PEN, 0x00, 0x04, 20, -5 },
     /* Magnum Light Phaser */
     { GUN, 0x20, 0x00, 20, -10 },
     /* Stack Light Rifle */
