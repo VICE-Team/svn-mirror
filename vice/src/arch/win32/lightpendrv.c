@@ -56,8 +56,8 @@ void win32_lightpen_update(void)
     on_screen = ScreenToClient(ui_active_window, &mouse_pos);
 
     if (on_screen) {
-        buttons = (GetAsyncKeyState(VK_LBUTTON) & 0x8000) ? 1 : 0;
-        buttons |= (GetAsyncKeyState(VK_RBUTTON) & 0x8000) ? 4 : 0;
+        buttons = (GetAsyncKeyState(VK_LBUTTON) & 0x8000) ? LP_HOST_BUTTON_1 : 0;
+        buttons |= (GetAsyncKeyState(VK_RBUTTON) & 0x8000) ? LP_HOST_BUTTON_2 : 0;
         x = mouse_pos.x;
         y = mouse_pos.y;
     } else {
@@ -72,6 +72,11 @@ void win32_lightpen_update(void)
     cx = rcClient.right;
     cy = rcClient.bottom;
     dx9 = video_dx9_enabled();
+
+    /* check if coordinates are off-window/screen */
+    if (x > cx || y > (cy - statusbar_get_status_height())) {
+        on_screen = 0;
+    }
 
 #ifdef LP_DEBUG
 fprintf(stderr,"%s pre : x = %i, y = %i, buttons = %02x, on_screen = %i\n",__func__, x, y, buttons, on_screen);
