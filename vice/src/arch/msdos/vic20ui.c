@@ -42,6 +42,7 @@
 #include "tuifs.h"
 #include "types.h"
 #include "ui.h"
+#include "uilightpen.h"
 #include "uisidcart.h"
 #include "util.h"
 #include "vic20ui.h"
@@ -409,6 +410,7 @@ int vic20ui_init(void)
     tui_menu_add(ui_detach_submenu, detach_cartridge_menu_items);
     tui_menu_add(ui_special_submenu, special_menu_items);
 
+    uilightpen_init(ui_special_submenu);
     uisidcart_init(ui_special_submenu, "$9800", "$9C00", "VIC20");
 
     tui_menu_add(ui_rom_submenu, rom_menu_items);

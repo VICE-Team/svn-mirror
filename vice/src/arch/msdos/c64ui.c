@@ -48,6 +48,7 @@
 #include "uidqbb.h"
 #include "uigeoram.h"
 #include "uiisepic.h"
+#include "uilightpen.h"
 #include "uimmc64.h"
 #include "uiplus256k.h"
 #include "uiplus60k.h"
@@ -376,6 +377,8 @@ int c64ui_init(void)
     tui_menu_add(ui_video_submenu, vicii_menu_items);
     tui_menu_add(ui_sound_submenu, sid_ui_menu_items);
     tui_menu_add(ui_rom_submenu, rom_menu_items);
+
+    uilightpen_init(ui_ioextensions_submenu);
 
     uireu_init(ui_ioextensions_submenu);
 

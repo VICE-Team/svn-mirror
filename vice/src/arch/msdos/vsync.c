@@ -45,6 +45,7 @@
 #include "joy.h"
 #include "kbd.h"
 #include "kbdbuf.h"
+#include "lightpendrv.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
@@ -418,6 +419,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     kbd_flush_commands();
     kbdbuf_flush();
     joystick_update();
+    msdos_lightpen_update();
 
     ui_set_warp_status(warp_mode_enabled);
     ui_dispatch_events();

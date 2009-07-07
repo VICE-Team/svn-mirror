@@ -42,6 +42,8 @@ libarch_a_SOURCES = \
 	joy.h \
 	kbd.c \
 	kbd.h \
+	lightpendrv.c \
+	lightpendrv.h \
 	menudefs.c \
 	menudefs.h \
 	mousedrv.c \
@@ -93,6 +95,8 @@ libarch_a_SOURCES = \
 	uiisepic.h \
 	uijoystick.c \
 	uijoystick.h \
+	uilightpen.c \
+	uilightpen.h \
 	uimon.c \
 	uimmc64.c \
 	uimmc64.h \
