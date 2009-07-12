@@ -128,6 +128,8 @@ libarch_a_SOURCES = \
 	uisnapshot.h \
 	uisound.c \
 	uisound.h \
+	uisoundexpander.c \
+	uisoundexpander.h \
 	uitfe.c \
 	uitfe.h \
 	vic20ui.c \
