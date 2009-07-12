@@ -1,9 +1,8 @@
 /*
- * controlwindow.h - Control Window
+ * soundview.h - SoundView
  *
  * Written by
  *  Christian Vogelgsang <chris@vogelgsang.org>
- *  Michael Klein <michael.klein@puffin.lb.shuttle.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,28 +24,16 @@
  *
  */
 
-#include "drive.h"
+#import <Cocoa/Cocoa.h>
 
-#import "driveview.h"
-#import "tapeview.h"
-#import "statusview.h"
-#import "soundview.h"
-
-@interface FlippedView : NSView
-@end
-
-@interface ControlWindow : NSPanel
+@interface SoundView : NSView
 {
-    FlippedView *main_view;
-    TapeView *   tape_view;
-    DriveView *  drive_view[DRIVE_NUM];
-    StatusView * status_view;
-    SoundView *  sound_view;
-
-    NSColor * led_color[2];
+    NSTextField * minVolume;
+    NSTextField * maxVolume;
+    NSSlider    * volumeSlider;
 }
 
-- (id)initWithContentRect:(NSRect)rect title:(NSString *)title;
+- (id)initWithFrame:(NSRect)frame;
 
 @end
 

@@ -98,6 +98,9 @@
 // post a toggle mouse notification
 - (void)postToggleMouseNotification:(BOOL)on;
 
+// post a volume change
+- (void)postVolumeChangeNotification:(int)volume;
+
 // post a remote notification
 - (void)postNotificationName:(NSString *)notificationName 
                     userInfo:(NSDictionary *)userInfo;

@@ -235,6 +235,18 @@
                       userInfo:dict];
 }
 
+// ----- Sound -----
+
+- (void)postVolumeChangeNotification:(int)volume
+{
+    NSDictionary * dict =
+        [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:volume]
+                                    forKey: @"volume"];
+
+    [self postNotificationName:VICEChangeVolumeNotification
+                      userInfo:dict];
+}
+
 // ----- Resources -----
 
 - (void)postChangedResourcesNotification

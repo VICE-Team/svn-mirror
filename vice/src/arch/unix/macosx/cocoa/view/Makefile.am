@@ -24,6 +24,7 @@ noinst_HEADERS = \
 	joystickview.h \
 	keypressview.h \
 	logview.h \
+	soundview.h \
 	statusview.h \
 	tapeview.h \
 	viceglview.h \
@@ -37,6 +38,7 @@ libarchmacosxcocoaview_a_SOURCES = \
 	joystickview.m \
 	logview.m \
 	keypressview.m \
+	soundview.m \
 	statusview.m \
 	tapeview.m \
 	viceglview.m \

@@ -54,3 +54,7 @@
 // Resource Updates
 #define VICEChangedResourcesNotification          @"VICEResourcesChanged"
 
+// Volume Change
+#define VICEChangeVolumeNotification              @"VICEChangeVolumeNotification"
+
+

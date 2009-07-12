@@ -161,7 +161,7 @@ void ui_display_joyport(BYTE *joyport)
 
 void ui_display_volume(int vol)
 {
-    // TODO
+    [[theVICEMachine machineNotifier] postVolumeChangeNotification:vol];
 }
 
 void ui_update_menus()

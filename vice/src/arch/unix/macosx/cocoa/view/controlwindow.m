@@ -92,6 +92,11 @@
     [tape_view setAutoresizingMask: NSViewWidthSizable];
     [main_view addSubview:tape_view];
 
+    // sound
+    sound_view = [[SoundView alloc] initWithFrame:NSMakeRect(0, 0, PERIPH_WIDTH, PERIPH_HEIGHT)];
+    [sound_view setAutoresizingMask: NSViewWidthSizable];
+    [main_view addSubview:sound_view];
+
     // status view
     status_view = [[StatusView alloc] initWithFrame:NSMakeRect(0, 0, PERIPH_WIDTH, PERIPH_HEIGHT)];
     [status_view setAutoresizingMask: NSViewWidthSizable];
@@ -169,10 +174,12 @@
     // reposition tape display and rec/play field
     [tape_view setFrame:NSMakeRect(x, y, w, PERIPH_HEIGHT*3)];
     y += PERIPH_HEIGHT * 3;
+    [sound_view setFrame:NSMakeRect(x, y, w, PERIPH_HEIGHT)];
+    y += PERIPH_HEIGHT;
     [status_view setFrame:NSMakeRect(x, y, w, PERIPH_HEIGHT)];
     
     [[self contentView] setNeedsDisplay:YES];
-    total_height += PERIPH_HEIGHT*4;
+    total_height += PERIPH_HEIGHT*5;
     total_height += 2;
     
     // adjust window frame to stay on same top
