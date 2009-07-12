@@ -50,6 +50,7 @@
 #include "mui/uiromc128settings.h"
 #include "mui/uirs232user.h"
 #include "mui/uisid.h"
+#include "mui/uisoundexpander.h"
 #include "mui/uivicii.h"
 #include "mui/uivideoc128.h"
 
@@ -78,7 +79,6 @@ static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
     { "VDCDoubleScan", IDM_TOGGLE_VDC_DOUBLESCAN },
     { "VDC64KB", IDM_TOGGLE_VDC64KB },
     { "EmuID", IDM_TOGGLE_EMUID },
-    { "SFXSoundExpander", IDM_TOGGLE_SFX_SE },   
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },   
 //    { "InternalFunctionROM", IDM_TOGGLE_IFUNCTIONROM },
 //    { "ExternalFunctionROM", IDM_TOGGLE_EFUNCTIONROM },
@@ -110,6 +110,9 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
         break;
       case IDM_IDE64_SETTINGS:
         ui_ide64_settings_dialog(canvas);
+        break;
+      case IDM_SFX_SE_SETTINGS:
+        ui_soundexpander_settings_dialog(canvas);
         break;
       case IDM_COMPUTER_ROM_SETTINGS:
         ui_c128_computer_rom_settings_dialog(canvas);

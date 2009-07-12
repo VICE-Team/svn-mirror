@@ -52,6 +52,7 @@
 #include "mui/uiromc64vic20settings.h"
 #include "mui/uirs232user.h"
 #include "mui/uisid.h"
+#include "mui/uisoundexpander.h"
 #include "mui/uivicii.h"
 #include "mui/uivideoc64plus4vic20.h"
 
@@ -64,7 +65,6 @@ static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
     { "Mouse", IDM_MOUSE },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "EmuID", IDM_TOGGLE_EMUID },
-    { "SFXSoundExpander", IDM_TOGGLE_SFX_SE },
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
     { NULL, 0 }
 };
@@ -109,6 +109,9 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
         break;
       case IDM_DIGIMAX_SETTINGS:
         ui_digimax_settings_dialog(canvas);
+        break;
+      case IDM_SFX_SE_SETTINGS:
+        ui_soundexpander_settings_dialog(canvas);
         break;
       case IDM_IDE64_SETTINGS:
         ui_ide64_settings_dialog(canvas);

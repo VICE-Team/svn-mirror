@@ -193,6 +193,8 @@ libarch_a_SOURCES = \
 	mui/uisnapshot.h \
 	mui/uisound.c \
 	mui/uisound.h \
+	mui/uisoundexpander.c \
+	mui/uisoundexpander.h \
 	mui/uivic20mem.c \
 	mui/uivic20mem.h \
 	mui/uivicii.c \
