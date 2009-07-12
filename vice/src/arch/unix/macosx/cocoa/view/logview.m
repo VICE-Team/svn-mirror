@@ -121,7 +121,15 @@
     {
         HistEvent ev;
         NSRange sel = NSMakeRange(input_pos, [[self textStorage] length] - input_pos);
-        unichar key = [[event charactersIgnoringModifiers] characterAtIndex:0];
+        NSString *keyString = [event charactersIgnoringModifiers];
+
+        /* no character assigned to key */
+        if((keyString == nil) || ([keyString length] == 0)) {
+            [super keyDown:event];
+            return;
+        }
+
+        unichar key = [keyString characterAtIndex:0];
         switch (key)
         {
             case NSUpArrowFunctionKey:
