@@ -1,5 +1,5 @@
 /*
- * menu_c64_common_expansions.h - C64/C128 expansions menu for SDL UI.
+ * uisoundexpander.h
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,19 +24,9 @@
  *
  */
 
-#ifndef VICE_MENU_C64_COMMON_EXPANSIONS_H
-#define VICE_MENU_C64_COMMON_EXPANSIONS_H
+#ifndef VICE_UI_SOUNDEXPANDER_H
+#define VICE_UI_SOUNDEXPANDER_H
 
-#include "vice.h"
-#include "types.h"
-#include "uimenu.h"
-
-extern const ui_menu_entry_t soundexpander_menu[];
-extern const ui_menu_entry_t digimax_menu[];
-extern const ui_menu_entry_t georam_menu[];
-extern const ui_menu_entry_t ide64_menu[];
-extern const ui_menu_entry_t mmc64_menu[];
-extern const ui_menu_entry_t ramcart_menu[];
-extern const ui_menu_entry_t reu_menu[];
+extern struct ui_menu_entry_s soundexpander_submenu[];
 
 #endif

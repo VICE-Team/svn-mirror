@@ -153,6 +153,12 @@ ui_res_possible_values DigimaxBase[] = {
         {-1, 0}
 };
 
+ui_res_possible_values SFXSoundExpanderChip[] = {
+        {3526, MENU_SFX_SE_3526},
+        {3812, MENU_SFX_SE_3812},
+        {-1, 0}
+};
+
 ui_res_possible_values MMC64Revision[] = {
         {0, MENU_MMC64_REVISION_A},
         {1, MENU_MMC64_REVISION_B},
@@ -187,6 +193,7 @@ ui_res_value_list c64_ui_res_values[] = {
     {"PLUS60Kbase", Plus60kBase},
     {"C64_256Kbase", C64_256KBase},
     {"DIGIMAXbase", DigimaxBase},
+    {"SFXSoundExpanderChip", SFXSoundExpanderChip},
     {"MMC64_revision", MMC64Revision},
     {"VICIIBorderMode", c64viciiBorders},
     {"Mousetype", c64mousetypes},

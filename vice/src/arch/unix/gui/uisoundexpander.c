@@ -1,5 +1,5 @@
 /*
- * menu_c64_common_expansions.h - C64/C128 expansions menu for SDL UI.
+ * uisoundexpander.c
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,19 +24,29 @@
  *
  */
 
-#ifndef VICE_MENU_C64_COMMON_EXPANSIONS_H
-#define VICE_MENU_C64_COMMON_EXPANSIONS_H
-
 #include "vice.h"
-#include "types.h"
+
+#include <stdio.h>
+
+#include "uilib.h"
 #include "uimenu.h"
+#include "uisoundexpander.h"
 
-extern const ui_menu_entry_t soundexpander_menu[];
-extern const ui_menu_entry_t digimax_menu[];
-extern const ui_menu_entry_t georam_menu[];
-extern const ui_menu_entry_t ide64_menu[];
-extern const ui_menu_entry_t mmc64_menu[];
-extern const ui_menu_entry_t ramcart_menu[];
-extern const ui_menu_entry_t reu_menu[];
+UI_MENU_DEFINE_TOGGLE(SFXSoundExpander)
+UI_MENU_DEFINE_RADIO(SFXSoundExpanderChip)
 
-#endif
+static ui_menu_entry_t soundexpander_chip_submenu[] = {
+    { "*3526", (ui_callback_t)radio_SFXSoundExpanderChip,
+      (ui_callback_data_t)3526, NULL },
+    { "*3812", (ui_callback_t)radio_SFXSoundExpanderChip,
+      (ui_callback_data_t)3812, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t soundexpander_submenu[] = {
+    { N_("*Enable SFX Sound Expander"),
+      (ui_callback_t)toggle_SFXSoundExpander, NULL, NULL },
+    { N_("YM chip type"),
+      NULL, NULL, soundexpander_chip_submenu },
+    { NULL }
+};

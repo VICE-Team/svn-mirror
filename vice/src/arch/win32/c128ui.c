@@ -55,6 +55,7 @@
 #include "uirom.h"
 #include "uirs232user.h"
 #include "uisid.h"
+#include "uisoundexpander.h"
 #include "uitfe.h"
 #include "uivicii.h"
 #include "uivideo.h"
@@ -94,7 +95,6 @@ static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
     { "InternalFunctionROM", IDM_TOGGLE_IFUNCTIONROM },
     { "ExternalFunctionROM", IDM_TOGGLE_EFUNCTIONROM },
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
-    { "SFXSoundExpander", IDM_TOGGLE_SFX_SE },
     { NULL, 0 }
 };
 
@@ -331,7 +331,7 @@ ui_menu_translation_table_t c128ui_menu_translation_table[] = {
 #endif
     { IDM_ACIA_SETTINGS, IDS_MI_ACIA_SETTINGS },
     { IDM_RS232USER_SETTINGS, IDS_MI_RS232USER_SETTINGS },
-    { IDM_TOGGLE_SFX_SE, IDS_MI_TOGGLE_SFX_SE },
+    { IDM_SFX_SE_SETTINGS, IDS_MI_SFX_SE_SETTINGS },
     { IDM_TOGGLE_SFX_SS, IDS_MI_TOGGLE_SFX_SS },
     { IDM_SETTINGS_SAVE_FILE, IDS_MI_SETTINGS_SAVE_FILE },
     { IDM_SETTINGS_LOAD_FILE, IDS_MI_SETTINGS_LOAD_FILE },
@@ -411,6 +411,9 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_LIGHTPEN_SETTINGS:
         ui_lightpen_settings_dialog(hwnd);
+        break;
+      case IDM_SFX_SE_SETTINGS:
+        ui_soundexpander_settings_dialog(hwnd);
         break;
       case IDM_GEORAM_SETTINGS:
         ui_georam_settings_dialog(hwnd);

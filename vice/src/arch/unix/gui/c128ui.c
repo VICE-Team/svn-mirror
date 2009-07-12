@@ -44,24 +44,25 @@
 #include "uidigimax.h"
 #include "uidrive.h"
 #include "uidrivec128.h"
+#include "uigeoram.h"
 #include "uiide64.h"
 #include "uijoystick2.h"
 #include "uikeyboard.h"
 #include "uilib.h"
 #include "uimenu.h"
 #include "uimidi.h"
+#include "uimmc64.h"
 #include "uimouse.h"
 #include "uiperipheraliec.h"
-#include "uiscreenshot.h"
-#include "uisettings.h"
-#include "uireu.h"
-#include "uigeoram.h"
-#include "uimmc64.h"
 #include "uiramcart.h"
+#include "uireu.h"
 #include "uiromset.h"
 #include "uirs232c64c128.h"
+#include "uiscreenshot.h"
+#include "uisettings.h"
 #include "uisid.h"
 #include "uisound.h"
+#include "uisoundexpander.h"
 #include "uitfe.h"
 #include "uivdc.h"
 #include "uivicii.h"
@@ -293,7 +294,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, midi_c64_submenu },
 #endif
     { N_("*SFX Sound Expander emulation"),
-      (ui_callback_t)toggle_SFXSoundExpander, NULL, NULL },
+      NULL, NULL, soundexpander_submenu },
     { N_("*SFX Sound Sampler emulation"),
       (ui_callback_t)toggle_SFXSoundSampler, NULL, NULL },
     { N_("*Banks 2 & 3"),

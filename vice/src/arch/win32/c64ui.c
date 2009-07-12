@@ -59,6 +59,7 @@
 #include "uirom.h"
 #include "uirs232user.h"
 #include "uisid.h"
+#include "uisoundexpander.h"
 #include "uitfe.h"
 #include "uivicii.h"
 #include "uivideo.h"
@@ -80,7 +81,6 @@ static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
     { "Mouse", IDM_MOUSE },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "IsepicSwitch", IDM_ISEPIC_SWITCH },
-    { "SFXSoundExpander", IDM_TOGGLE_SFX_SE },
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
     { NULL, 0 }
 };
@@ -277,7 +277,7 @@ ui_menu_translation_table_t c64ui_menu_translation_table[] = {
 #endif
     { IDM_ACIA_SETTINGS, IDS_MI_ACIA_SETTINGS },
     { IDM_RS232USER_SETTINGS, IDS_MI_RS232USER_SETTINGS },
-    { IDM_TOGGLE_SFX_SE, IDS_MI_TOGGLE_SFX_SE },
+    { IDM_SFX_SE_SETTINGS, IDS_MI_SFX_SE_SETTINGS },
     { IDM_TOGGLE_SFX_SS, IDS_MI_TOGGLE_SFX_SS },
     { IDM_SETTINGS_SAVE_FILE, IDS_MI_SETTINGS_SAVE_FILE },
     { IDM_SETTINGS_LOAD_FILE, IDS_MI_SETTINGS_LOAD_FILE },
@@ -379,8 +379,11 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
       case IDM_DIGIMAX_SETTINGS:
         ui_digimax_settings_dialog(hwnd);
         break;
-       case IDM_LIGHTPEN_SETTINGS:
+      case IDM_LIGHTPEN_SETTINGS:
         ui_lightpen_settings_dialog(hwnd);
+        break;
+      case IDM_SFX_SE_SETTINGS:
+        ui_soundexpander_settings_dialog(hwnd);
         break;
      case IDM_IDE64_SETTINGS:
         uiide64_settings_dialog(hwnd);

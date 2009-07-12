@@ -283,6 +283,9 @@ const uint32 MENU_DIGIMAX_BASE_DFA0					= 'M481';
 const uint32 MENU_DIGIMAX_BASE_DFC0					= 'M482';
 const uint32 MENU_DIGIMAX_BASE_DFE0					= 'M483';
 
+const uint32 MENU_SFX_SE_3526						= 'M185';
+const uint32 MENU_SFX_SE_3812						= 'M186';
+
 const uint32 MENU_MMC64_REVISION_A					= 'M066';
 const uint32 MENU_MMC64_REVISION_B					= 'M067';
 

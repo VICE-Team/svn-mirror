@@ -586,6 +586,14 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         resources_set_string("DQBBfilename", ViceFileSelect(hwnd, 1));
         return;
 
+    case IDM_SFX_SE_3526:
+        resources_set_int("SFXSoundExpanderChip", 3526);
+        return;
+
+    case IDM_SFX_SE_3812:
+        resources_set_int("SFXSoundExpanderChip", 3812);
+        return;
+
     case IDM_DIGIMAXDD00:
         resources_set_int("DIGIMAXbase", 0xdd00);
         return;
@@ -1549,6 +1557,12 @@ void menu_select(HWND hwnd, USHORT item)
         resources_get_int("RAMCARTSize", &val);
         WinCheckMenuItem(hwnd, IDM_RAMCART64,   val==64);
         WinCheckMenuItem(hwnd, IDM_RAMCART128,   val==128);
+        return;
+
+    case IDM_SFX_SE_TYPE:
+        resources_get_int("SFXSoundExpanderChip", &val);
+        WinCheckMenuItem(hwnd, IDM_SFX_SE_3526,   val==3526);
+        WinCheckMenuItem(hwnd, IDM_SFX_SE_3812,   val==3812);
         return;
 
     case IDM_DIGIMAXBASE:

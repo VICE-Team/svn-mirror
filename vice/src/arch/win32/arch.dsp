@@ -463,6 +463,10 @@ SOURCE=.\uisound.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uisoundexpander.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uispeed.c
 # End Source File
 # Begin Source File

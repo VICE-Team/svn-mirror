@@ -96,6 +96,7 @@ libarch_a_SOURCES = \
 	ressid.rc \
 	ressidcart.rc \
 	ressiddtv.rc \
+	ressoundexpander.rc \
 	restfe.rc \
 	resvic20.rc \
 	resvicii.rc \
@@ -218,6 +219,8 @@ libarch_a_SOURCES = \
 	uisnapshot.c \
 	uisound.c \
 	uisound.h \
+	uisoundexpander.c \
+	uisoundexpander.h \
 	uispeed.c \
 	uispeed.h \
 	uitfe.c \
@@ -423,14 +426,15 @@ resc128.o : $(srcdir)/resc128.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc \
 	$(srcdir)/resmmc64.rc $(srcdir)/reside64.rc $(srcdir)/resdrivec128.rc \
 	$(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc $(srcdir)/restfe.rc \
-	$(srcdir)/resmidi.rc $(srcdir)/reslightpen.rc $(top_srcdir)/src/debug.h
+	$(srcdir)/resmidi.rc $(srcdir)/reslightpen.rc $(srcdir)/ressoundexpander.rc \
+	$(top_srcdir)/src/debug.h
 	cat >resc128cat.rc $(srcdir)/resc128.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/reside64.rc $(srcdir)/resreu.rc \
 	$(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc $(srcdir)/resmmc64.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
 	$(srcdir)/resdrivec128.rc $(srcdir)/resdigimax.rc \
 	$(srcdir)/resmouse.rc $(srcdir)/restfe.rc $(srcdir)/reslightpen.rc \
-	$(srcdir)/resmidi.rc
+	$(srcdir)/ressoundexpander.rc $(srcdir)/resmidi.rc
 	$(WRC) -i resc128cat.rc -o resc128.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32 \
@@ -445,7 +449,8 @@ resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resc64_256k.rc $(srcdir)/reside64.rc \
 	$(srcdir)/resdrivec64.rc $(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc \
 	$(srcdir)/restfe.rc $(srcdir)/resmidi.rc $(srcdir)/resdqbb.rc \
-	$(srcdir)/resisepic.rc $(srcdir)/reslightpen.rc $(top_srcdir)/src/debug.h
+	$(srcdir)/resisepic.rc $(srcdir)/reslightpen.rc $(srcdir)/ressoundexpander.rc \
+	$(top_srcdir)/src/debug.h
 	cat >resc64cat.rc $(srcdir)/resc64.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivec64.rc \
 	$(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc \
@@ -454,7 +459,7 @@ resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
 	$(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc $(srcdir)/restfe.rc \
 	$(srcdir)/resmidi.rc $(srcdir)/resdqbb.rc $(srcdir)/resisepic.rc \
-	$(srcdir)/reslightpen.rc
+	$(srcdir)/reslightpen.rc $(srcdir)/ressoundexpander.rc
 	$(WRC) -i resc64cat.rc -o resc64.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32  \

@@ -67,6 +67,7 @@
 #include "uisettings.h"
 #include "uisid.h"
 #include "uisound.h"
+#include "uisoundexpander.h"
 #include "uitfe.h"
 #include "uivicii.h"
 #include "vsync.h"
@@ -310,7 +311,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, midi_c64_submenu },
 #endif
     { N_("*SFX Sound Expander emulation"),
-      (ui_callback_t)toggle_SFXSoundExpander, NULL, NULL },
+      NULL, NULL, soundexpander_submenu },
     { N_("*SFX Sound Sampler emulation"),
       (ui_callback_t)toggle_SFXSoundSampler, NULL, NULL },
     { NULL }

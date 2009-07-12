@@ -145,6 +145,8 @@ libarchgui_a_SOURCES = \
 	uisnapshot.h \
 	uisound.c \
 	uisound.h \
+	uisoundexpander.c \
+	uisoundexpander.h \
 	uited.c \
 	uited.h \
 	uitfe.c \
