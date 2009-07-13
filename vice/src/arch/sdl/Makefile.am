@@ -6,7 +6,7 @@ else
 extra_includes =
 endif
 
-SUBDIRS = win32-msvc win64-msvc
+SUBDIRS = win32-msvc win64-msvc win32-watcom
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \

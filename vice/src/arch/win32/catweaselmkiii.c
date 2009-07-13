@@ -168,7 +168,9 @@ int catweaselmkiii_read(WORD addr, int chipno)
 	{
 	  /* do read read */
 	  DWORD w;
-	  BYTE buf[2] = { SID_CMD_READ, addr&0xff };
+	  BYTE buf[2];
+          buf[0] = SID_CMD_READ;
+          buf[1] = (BYTE)(addr & 0xff);
 	  DeviceIoControl(sidhandle[chipno],SID_SID_PEEK_POKE,buf,2,buf,1,&w,0L);
 	  return buf[0];
 	}
@@ -196,7 +198,9 @@ void catweaselmkiii_store(WORD addr, BYTE val, int chipno)
 	    {
 	      /* perform real write */
 	      DWORD w;
-	      BYTE buf[2] = { addr&0xff, val };
+	      BYTE buf[2];
+              buf[0] = (BYTE)(addr & 0xff);
+              buf[1] = val;
 	      DeviceIoControl(sidhandle[chipno],SID_SID_PEEK_POKE,buf,sizeof(buf),0L,0UL,&w,0L);
 	    }
 	  return;

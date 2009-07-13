@@ -350,6 +350,7 @@ int archdep_path_is_relative(const char *path)
 int archdep_spawn(const char *name, char **argv,
                   char **pstdout_redir, const char *stderr_redir)
 {
+#ifndef WATCOM_COMPILE
 #ifndef _S_IREAD
 #define _S_IREAD S_IREAD
 #endif
@@ -424,6 +425,9 @@ cleanup:
         _close(new_stderr);
 
     return retval;
+#else
+    return -1;
+#endif
 }
 
 /* return malloc´d version of full pathname of orig_name */
