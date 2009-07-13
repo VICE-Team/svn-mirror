@@ -28,4 +28,8 @@ EXTRA_DIST = \
 	maincpu.tgt \
 	monitor.tgt \
 	parallel.tgt \
+	pet.tgt \
+	plus4.tgt \
+	plus4exp.tgt \
+	printerdrv.tgt \
 	vice.wpj
