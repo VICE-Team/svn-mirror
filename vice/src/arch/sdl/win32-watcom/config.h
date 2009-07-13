@@ -72,6 +72,7 @@
 #define _ANONYMOUS_UNION
 
 #define MSVC_RC                 1
+#define _MSC_VER                1
 
 #define strcasecmp(s1, s2)      _stricmp(s1, s2)
 #define HAVE_STRCASECMP         1

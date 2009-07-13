@@ -13,5 +13,19 @@ EXTRA_DIST = \
 	cbm2.tgt \
 	core.tgt \
 	crtc.tgt \
+	diskimage.tgt \
+	drive.tgt \
+	fileio.tgt \
+	fsdevice.tgt \
 	gentr.tgt \
+	gfxoutputdrv.tgt \
+	iec.tgt \
+	iec128dcr.tgt \
+	iecbus.tgt \
+	iecieee.tgt \
+	ieee.tgt \
+	imagecontents.tgt \
+	maincpu.tgt \
+	monitor.tgt \
+	parallel.tgt \
 	vice.wpj
