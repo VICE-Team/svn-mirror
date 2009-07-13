@@ -2772,6 +2772,9 @@ if false ; then
     mkdir -p arch/os2/vac++
     mkdir -p arch/riscos
     mkdir -p arch/sdl
+    mkdir -p arch/sdl/win32-msvc
+    mkdir -p arch/sdl/win32-watcom
+    mkdir -p arch/sdl/win64-msvc
     mkdir -p arch/unix
     mkdir -p arch/unix/gp2x
     mkdir -p arch/unix/gui
@@ -2873,6 +2876,7 @@ AC_OUTPUT([Makefile
            src/arch/riscos/Makefile
            src/arch/sdl/Makefile
            src/arch/sdl/win32-msvc/Makefile
+           src/arch/sdl/win32-watcom/Makefile
            src/arch/sdl/win64-msvc/Makefile
            src/arch/unix/Makefile
            src/arch/unix/gp2x/Makefile
