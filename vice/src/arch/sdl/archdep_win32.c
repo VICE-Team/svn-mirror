@@ -559,7 +559,7 @@ void archdep_workaround_nop(const char *otto)
 {
 }
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) && !defined(WATCOM_COMPILE)
 #include "dirent.h"
 
 struct _vice_dir {

@@ -32,4 +32,20 @@ EXTRA_DIST = \
 	plus4.tgt \
 	plus4exp.tgt \
 	printerdrv.tgt \
-	vice.wpj
+	raster.tgt \
+	rs232drv.tgt \
+	serial.tgt \
+	sid.tgt \
+	sounddrv.tgt \
+	tape.tgt \
+	tcbm.tgt \
+	vdc.tgt \
+	vdrive.tgt \
+	vic20.tgt \
+	vice.wpj \
+	vicii.tgt \
+	viciicommon.tgt \
+	viciidtv.tgt \
+	video.tgt \
+	x128.tgt \
+	x128main.c

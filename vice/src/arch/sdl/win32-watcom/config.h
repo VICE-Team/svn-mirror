@@ -7,10 +7,6 @@
 
 #define HAVE_ALLOCA             1
 #define RETSIGTYPE              void
-#define HAVE_RESID              1
-#define HAVE_RESID_FP           1
-#define HAVE_RESID_DTV          1
-#define HAVE_PNG                1
 #define HAS_JOYSTICK            1
 #define HAVE_MOUSE              1
 #define HAVE_NETWORK            1
@@ -65,7 +61,7 @@
 
 #define __i386__                1
 
-#define inline                  _inline
+#define inline
 
 #define WATCOM_COMPILE		1
 
