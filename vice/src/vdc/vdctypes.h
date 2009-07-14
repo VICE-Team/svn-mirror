@@ -194,7 +194,10 @@ struct vdc_s {
 
     /* Row counter (required for comparison with reg[6] - number of visible screen rows - to know if we are at the end of the visible data) */
 	unsigned int row_counter;
-    
+
+    /* Row counter_y counts individual raster lines of the current row to know if we are at the end of the current row. */
+    int row_counter_y;
+
     /* offset into the attribute memory - used for emulating the 8x1 attribute VDC quirk */
     unsigned int attribute_offset;
 
