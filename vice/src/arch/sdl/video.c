@@ -197,8 +197,13 @@ static const resource_string_t resources_string[] = {
 };
 
 static const resource_int_t resources_int[] = {
+#ifdef WATCOM_COMPILE
+    { "SDLBitdepth", 32, RES_EVENT_NO, NULL,
+      &sdl_bitdepth, set_sdl_bitdepth, NULL },
+#else
     { "SDLBitdepth", 0, RES_EVENT_NO, NULL,
       &sdl_bitdepth, set_sdl_bitdepth, NULL },
+#endif
     { "SDLLimitMode", SDL_LIMIT_MODE_OFF, RES_EVENT_NO, NULL,
       &sdl_limit_mode, set_sdl_limit_mode, NULL },
     { "SDLCustomWidth", 800, RES_EVENT_NO, NULL,
