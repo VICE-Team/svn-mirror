@@ -48,4 +48,10 @@ EXTRA_DIST = \
 	viciidtv.tgt \
 	video.tgt \
 	x128.tgt \
-	x128main.c
+	x128main.c \
+	x64.tgt \
+	x64main.c \
+	x64dtv.tgt \
+	x64dtvmain.c \
+	xcbm2.tgt \
+	xcbm2main.c
