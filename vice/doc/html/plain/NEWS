@@ -19,6 +19,8 @@ list of all the changes in the code.
   attach a .D81, you must have the drive type set to 1581, or the
   autostart will fail.
 
+- (TODO: Autostart PRG modes here...)
+
 - Improved PAL emulation is now available for Unix/Xaw XVideo mode, and
   AmigaOS. Only the YUV packed modes work, the planar modes still use the
   old code paths, though.
@@ -26,6 +28,18 @@ list of all the changes in the code.
 - Sound core has been reworked to enable lower latency of operation.
   Approximately 50 ms latency values are now routinely reached, and some
   people have reported that as low as 30 ms still works for them.
+
+- New SDL port. See ReadmeSDL.txt for details.
+
+- Added paddle emulation. (x64/x128/xvic)
+
+- Added lightpen/lightgun emulation. (x64/x128/xvic)
+
+- Added support for various extra joystick adapters.
+
+- Remote monitor (in other words: TCP/IP interface to VICE monitor) added.
+
+- Fixed non-6502/6510 CPU handling in monitor.
 
 ** C64/C128 changes
 -------------------
@@ -36,20 +50,44 @@ list of all the changes in the code.
 - ReSID-FP has been optimized, too. It clocks the analog parts at half the
   rate now, which saves CPU during filter emulation especially for 6581 modes.
 
+- Added SFX Sound Sampler and SFX Sound Expander emulation.
+
 ** C64 changes
 --------------
 
 -
 
+** C128 changes
+---------------
+
+- Added RAM banks 2 and 3 support.
+
+- Improved the VDC emulation.
+
+- Stereo SID $D7xx range support.
+
 ** VIC20 changes
 ----------------
 
-- 
+- Cartridge handling rewritten.
+
+- Added Mega-Cart emulation.
+
+** PLUS4 changes
+----------------
+
+- Added Digibooster SID Cart add-on emulation.
+
+- Added SID Cart joystick port emulation.
+
+- Fixed bug in tape recording.
 
 ** C64DTV changes
 -----------------
 
-- ReSID-DTV's resampler has been optimized with MMX assembly.
+- Replaced old DTVSID emulation with ReSID-DTV.
+
+- Minor bug fixes and emulation improvements.
 
 ** Unix changes
 ---------------
@@ -75,6 +113,7 @@ list of all the changes in the code.
 -------------------
 
 - 
+
 
 * Changes in VICE 2.1
 ======================
