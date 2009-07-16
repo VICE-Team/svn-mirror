@@ -98,20 +98,37 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_MODE_PRG                      1
 #define CARTRIDGE_MODE_ON                       2
 
-/* VIC20: &1 -> 0=4k, 1=8k; &16 -> 0= < 16k, 1= 16k 2nd half at $a000 */
-#define CARTRIDGE_VIC20_DETECT          0
-#define CARTRIDGE_VIC20_4KB_2000        2
-#define CARTRIDGE_VIC20_8KB_2000        3
-#define CARTRIDGE_VIC20_4KB_6000        4
-#define CARTRIDGE_VIC20_8KB_6000        5
-#define CARTRIDGE_VIC20_4KB_A000        6
-#define CARTRIDGE_VIC20_8KB_A000        7
-#define CARTRIDGE_VIC20_4KB_B000        8
-#define CARTRIDGE_VIC20_8KB_4000        9
-#define CARTRIDGE_VIC20_4KB_4000        10
+/* 
+ * VIC20 cartridge system
+ */
+/* #define CARTRIDGE_NONE               -1 */
+#define CARTRIDGE_VIC20_GENERIC      1
+#define CARTRIDGE_VIC20_MEGACART     2
 
-#define CARTRIDGE_VIC20_16KB_2000       19
-#define CARTRIDGE_VIC20_16KB_4000       25
-#define CARTRIDGE_VIC20_16KB_6000       21
+/* 
+ * VIC20 Generic cartridges
+ *
+ * The cartridge types below are only used during attach requests.
+ * They will always be converted to CARTRIDGE_VIC20_GENERIC when
+ * attached.  This also means they can be remapped at will.
+ *
+ * VIC20: &1 -> 0=4k, 1=8k; &16 -> 0= < 16k, 1= 16k 2nd half at $a000
+ * (this logic is not used AFAIK /tlr)
+ */
+#define CARTRIDGE_VIC20_DETECT       0x8000
+#define CARTRIDGE_VIC20_4KB_2000     0x8002
+#define CARTRIDGE_VIC20_8KB_2000     0x8003
+#define CARTRIDGE_VIC20_4KB_6000     0x8004
+#define CARTRIDGE_VIC20_8KB_6000     0x8005
+#define CARTRIDGE_VIC20_4KB_A000     0x8006
+#define CARTRIDGE_VIC20_8KB_A000     0x8007
+#define CARTRIDGE_VIC20_4KB_B000     0x8008
+#define CARTRIDGE_VIC20_8KB_4000     0x8009
+#define CARTRIDGE_VIC20_4KB_4000     0x800a
+
+#define CARTRIDGE_VIC20_16KB_2000    0x8013
+#define CARTRIDGE_VIC20_16KB_4000    0x8019
+#define CARTRIDGE_VIC20_16KB_6000    0x8015
+
 
 #endif

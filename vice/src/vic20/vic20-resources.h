@@ -32,7 +32,6 @@ extern void vic20_resources_shutdown(void);
 
 extern int emu_id_enabled;
 extern int ieee488_enabled;
-extern int mem_rom_blocks;
 extern int ram_block_0_enabled;
 extern int ram_block_1_enabled;
 extern int ram_block_2_enabled;

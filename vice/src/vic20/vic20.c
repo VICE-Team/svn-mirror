@@ -31,6 +31,7 @@
 
 #include "autostart.h"
 #include "cartridge.h"
+#include "cart/vic20cartmem.h"
 #include "clkguard.h"
 #include "cmdline.h"
 #include "datasette.h"
@@ -412,6 +413,8 @@ int machine_specific_init(void)
 
     vic20iec_init();
 
+    cartridge_init();
+
 #ifdef HAVE_MOUSE
     mouse_init();
 
@@ -461,6 +464,8 @@ void machine_specific_reset(void)
 #endif
 
     printer_reset();
+
+    cartridge_reset();
     drive_reset();
     datasette_reset();
 }

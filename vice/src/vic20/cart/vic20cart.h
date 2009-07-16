@@ -1,8 +1,8 @@
 /*
- * uicart.h
+ * vic20cart.h - VIC20 Cartridge emulation.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Daniel Kahlin <daniel@kahlin.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,23 +24,14 @@
  *
  */
 
-#ifndef VICE_UICART_H
-#define VICE_UICART_H
+#ifndef VICE_VIC20CART_H
+#define VICE_VIC20CART_H
 
-#include <windows.h>
-#include <tchar.h>
+extern void reset_try_flags(void);
+extern int try_cartridge_attach(int c);
 
-struct uicart_params_s {
-    WPARAM wparam;
-    int type;
-    int title;
-    DWORD filter;
-};
-typedef struct uicart_params_s uicart_params_t;
+#define TRY_RESOURCE_CARTTYPE (1<<0)
+#define TRY_RESOURCE_CARTNAME (1<<1)
+#define TRY_RESOURCE_CARTRESET (1<<2)
 
-extern void uicart_attach(WPARAM wparam, HWND hwnd,
-                          const uicart_params_t *cartridges);
-
-extern void uicart_attach_special(HWND hwnd, const TCHAR *title,
-                                  DWORD filterlist, unsigned int type);
 #endif

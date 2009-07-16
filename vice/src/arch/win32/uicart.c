@@ -69,4 +69,18 @@ void uicart_attach(WPARAM wparam, HWND hwnd,
     }
 }
 
+void uicart_attach_special(HWND hwnd, const TCHAR *title, DWORD filterlist, unsigned int type)
+{
+    TCHAR *st_name = NULL;
+    char *name;
 
+    st_name = uilib_select_file(hwnd, title, filterlist, UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_DEFAULT);
+    if (st_name != NULL) {
+        name = system_wcstombs_alloc(st_name);
+        if (cartridge_attach_image(type, name) < 0) {
+            ui_error(translate_text(IDS_INVALID_CARTRIDGE_IMAGE));
+        }
+        system_wcstombs_free(name);
+        lib_free(st_name);
+    }
+}

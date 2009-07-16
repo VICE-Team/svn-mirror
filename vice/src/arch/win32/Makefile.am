@@ -390,6 +390,7 @@ EXTRA_DIST = \
 	vdc.dsp \
 	vdrive.dsp \
 	vic20.dsp \
+	vic20cart.dsp \
 	vicii.dsp \
 	viciidtv.dsp \
 	video.dsp \

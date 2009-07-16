@@ -2830,6 +2830,7 @@ if false ; then
     mkdir -p vdc
     mkdir -p vdrive
     mkdir -p vic20
+    mkdir -p vic20/cart
     mkdir -p vicii
     mkdir -p video 
 
@@ -2935,6 +2936,7 @@ AC_OUTPUT([Makefile
            src/vdc/Makefile
            src/vdrive/Makefile
            src/vic20/Makefile
+           src/vic20/cart/Makefile
            src/vicii/Makefile
            src/video/Makefile
            src/version.h

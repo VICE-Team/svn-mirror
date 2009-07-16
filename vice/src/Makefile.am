@@ -677,6 +677,7 @@ tape_lib = $(top_builddir)/src/tape/libtape.a
 vdc_lib = $(top_builddir)/src/vdc/libvdc.a
 vdrive_lib = $(top_builddir)/src/vdrive/libvdrive.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
+vic20cart_lib = $(top_builddir)/src/vic20/cart/libvic20cart.a
 vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 viciidtv_lib = $(top_builddir)/src/vicii/libviciidtv.a
 video_lib = $(top_builddir)/src/video/libvideo.a
@@ -914,6 +915,7 @@ x128-all: \
 xvic_libs =  \
 	@XVIC_WINRES@ \
 	$(vic20_lib) \
+	$(vic20cart_lib) \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
@@ -949,6 +951,7 @@ xvic-all: \
 	libprinterdrv \
 	librs232drv \
 	libvic20 \
+	libvic20cart \
 	libvideo \
 	libarch \
 	libmonitor \
@@ -1283,6 +1286,8 @@ libvdrive:
 	(cd vdrive && $(MAKE))
 libvic20:
 	(cd vic20 && $(MAKE))
+libvic20cart:
+	(cd vic20 && $(MAKE) libvic20cart)
 libvicii:
 	(cd vicii && $(MAKE) libvicii.a)
 libviciidtv:

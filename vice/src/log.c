@@ -126,8 +126,17 @@ int log_init_with_fd(FILE *f)
 
 int log_init(void)
 {
+#if 0
+    /*
+     * The current calling order in main.c (log_init() after processing
+     * resources) makes this break if anything in the resource set_*
+     * functions does a log_open().  On platforms that have no regular
+     * stdout (e.g win32) no logging will be seen.  On win32 startup will
+     * also be preceeded by a modal error requester.  / tlr
+     */
     if (logs != NULL)
         return -1;
+#endif
 
     log_file_open();
 

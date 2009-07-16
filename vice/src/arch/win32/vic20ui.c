@@ -66,7 +66,8 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "VICVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "IEEE488", IDM_IEEE488 },
     { "Mouse", IDM_PADDLES },
-    { NULL, 0 }
+    { "CartridgeReset", IDM_TOGGLE_CART_RESET },
+     { NULL, 0 }
 };
 
 static const uirom_settings_t uirom_settings[] = {
@@ -283,11 +284,15 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_TOGGLE_FULLSCREEN, IDS_MI_TOGGLE_FULLSCREEN },
     { IDM_SIDCART_SETTINGS, IDS_MI_SIDCART_SETTINGS },
     { IDM_MIDI_SETTINGS, IDS_MI_MIDI_SETTINGS },
+    { IDM_CART_VIC20_GENERIC, IDS_MI_CART_VIC20_GENERIC },
+    { IDM_CART_VIC20_MEGACART, IDS_MI_CART_VIC20_MEGACART },
+    { IDM_CART_VIC20_SMART_ATTACH, IDS_MI_CART_VIC20_SMART_ATTACH },
     { IDM_CART_VIC20_8KB_2000, IDS_MI_CART_VIC20_8KB_2000 },
     { IDM_CART_VIC20_16KB_4000, IDS_MI_CART_VIC20_16KB_4000 },
     { IDM_CART_VIC20_8KB_6000, IDS_MI_CART_VIC20_8KB_6000 },
     { IDM_CART_VIC20_8KB_A000, IDS_MI_CART_VIC20_8KB_A000 },
     { IDM_CART_VIC20_4KB_B000, IDS_MI_CART_VIC20_4KB_B000 },
+    { IDM_TOGGLE_CART_RESET, IDS_MI_TOGGLE_CART_RESET },
     { IDM_VIC_SETTINGS, IDS_MI_VIC_SETTINGS },
     { 0, 0 }
 };
@@ -322,6 +327,18 @@ ui_popup_translation_table_t vic20ui_popup_translation_table[] = {
 static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
+      case IDM_CART_VIC20_GENERIC:
+        uicart_attach_special(hwnd, translate_text(IDS_SELECT_GENERIC),
+                              UILIB_FILTER_ALL, CARTRIDGE_VIC20_GENERIC);
+        break;
+      case IDM_CART_VIC20_MEGACART:
+        uicart_attach_special(hwnd, translate_text(IDS_SELECT_MEGACART),
+                              UILIB_FILTER_ALL, CARTRIDGE_VIC20_MEGACART);
+        break;
+      case IDM_CART_VIC20_SMART_ATTACH:
+        uicart_attach_special(hwnd, translate_text(IDS_SELECT_CARTRIDGE_IMAGE),
+                              UILIB_FILTER_ALL, CARTRIDGE_VIC20_DETECT);
+        break;
       case IDM_CART_VIC20_8KB_2000:
       case IDM_CART_VIC20_16KB_4000:
       case IDM_CART_VIC20_8KB_6000:
