@@ -34,6 +34,7 @@
 #include "keyboard.h"
 #include "lib.h"
 #include "machine.h"
+#include "mem.h"
 #include "resources.h"
 #include "uiapi.h"
 #include "util.h"
@@ -106,30 +107,35 @@ static int set_ram_block_0_enabled(int value, void *param)
 {
     ram_block_0_enabled = value;
     mem_initialize_memory();
+    return 0;
 }
 
 static int set_ram_block_1_enabled(int value, void *param)
 {
     ram_block_1_enabled = value;
     mem_initialize_memory();
+    return 0;
 }
 
 static int set_ram_block_2_enabled(int value, void *param)
 {
     ram_block_2_enabled = value;
     mem_initialize_memory();
+    return 0;
 }
 
 static int set_ram_block_3_enabled(int value, void *param)
 {
     ram_block_3_enabled = value;
     mem_initialize_memory();
+    return 0;
 }
 
 static int set_ram_block_5_enabled(int value, void *param)
 {
     ram_block_5_enabled = value;
     mem_initialize_memory();
+    return 0;
 }
 
 static int set_emu_id_enabled(int val, void *param)
