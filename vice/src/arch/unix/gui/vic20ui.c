@@ -294,11 +294,14 @@ static UI_CALLBACK(default_cartridge)
 }
 
 static ui_menu_entry_t attach_cartridge_image_submenu[] = {
+    { N_("Attach generic image..."),
+      (ui_callback_t)attach_cartridge,
+      (ui_callback_data_t)CARTRIDGE_VIC20_GENERIC, NULL },
+    { "--" },
     { N_("Smart-attach cartridge image..."),
       (ui_callback_t)attach_cartridge,
       (ui_callback_data_t)CARTRIDGE_VIC20_DETECT, NULL,
       KEYSYM_c, UI_HOTMOD_META },
-    { "--" },
     { N_("Attach 4/8/16KB image at $2000..."),
       (ui_callback_t)attach_cartridge,
       (ui_callback_data_t)CARTRIDGE_VIC20_16KB_2000, NULL },
@@ -315,16 +318,24 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
       (ui_callback_t)attach_cartridge,
       (ui_callback_data_t)CARTRIDGE_VIC20_4KB_B000, NULL },
     { "--" },
+    { N_("Attach Mega-Cart image..."),
+      (ui_callback_t)attach_cartridge,
+      (ui_callback_data_t)CARTRIDGE_VIC20_MEGACART, NULL },
+    { "--" },
     { N_("Set cartridge as default"),
       (ui_callback_t)default_cartridge, NULL, NULL },
     { NULL }
 };
+
+UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 
 static ui_menu_entry_t vic20_cartridge_commands_menu[] = {
     { N_("Attach a cartridge image"),
       NULL, NULL, attach_cartridge_image_submenu },
     { N_("Detach cartridge image(s)"),
       (ui_callback_t)detach_cartridge, NULL, NULL },
+    { N_("*Reset on cartridge change"),
+      (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
     { NULL }
 };
 
