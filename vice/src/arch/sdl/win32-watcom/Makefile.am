@@ -3,6 +3,7 @@ EXTRA_DIST = \
 	arch.tgt \
 	base.tgt \
 	c128.tgt \
+	c1541.tgt \
 	c64.tgt \
 	c64cart.tgt \
 	c64commonc128.tgt \
@@ -10,6 +11,7 @@ EXTRA_DIST = \
 	c64commonc64dtv.tgt \
 	c64dtv.tgt \
 	c64exp.tgt \
+	cartconv.tgt \
 	cbm2.tgt \
 	core.tgt \
 	crtc.tgt \
@@ -29,6 +31,7 @@ EXTRA_DIST = \
 	monitor.tgt \
 	parallel.tgt \
 	pet.tgt \
+	petcat.tgt \
 	plus4.tgt \
 	plus4exp.tgt \
 	printerdrv.tgt \
@@ -54,4 +57,10 @@ EXTRA_DIST = \
 	x64dtv.tgt \
 	x64dtvmain.c \
 	xcbm2.tgt \
-	xcbm2main.c
+	xcbm2main.c \
+	xpet.tgt \
+	xpetmain.c \
+	xplus4.tgt \
+	xplus4main.c \
+	xvic.tgt \
+	xvicmain.c

@@ -64,6 +64,7 @@
 #define inline
 
 #define WATCOM_COMPILE		1
+#define HAVE_STRNCASECMP      1
 
 #define _ANONYMOUS_UNION
 
