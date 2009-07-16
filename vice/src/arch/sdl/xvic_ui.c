@@ -53,6 +53,7 @@
 #include "ui.h"
 #include "uimenu.h"
 #include "vic20memrom.h"
+#include "videoarch.h"
 #include "vkbd.h"
 
 static const ui_menu_entry_t xvic_main_menu[] = {
@@ -151,14 +152,19 @@ void vic20ui_set_menu_params(int index, menu_draw_t *menu_draw)
 
     resources_get_int("MachineVideoStandard", &videostandard);
 
-    menu_draw->max_text_x = 44;
-    menu_draw->max_text_y = 23;
-    menu_draw->extra_y = (videostandard == MACHINE_SYNC_PAL) ? 28 : 8;
+    menu_draw->max_text_x = 48;
+    menu_draw->max_text_y = 26;
+
+    menu_draw->extra_x = sdl_active_canvas->viewport->first_x - sdl_active_canvas->geometry->gfx_position.x;
+    menu_draw->extra_y = sdl_active_canvas->geometry->first_displayed_line - sdl_active_canvas->geometry->gfx_position.y;
+
+    menu_draw->extra_x += (videostandard == MACHINE_SYNC_PAL) ? 36 : 8;
+    menu_draw->extra_y += (videostandard == MACHINE_SYNC_PAL) ? 40 : 24;
 }
 
 int vic20ui_init(void)
 {
-    int i, j, videostandard;
+    int i, j;
 
 #ifdef SDL_DEBUG
 fprintf(stderr,"%s\n",__func__);
@@ -167,8 +173,6 @@ fprintf(stderr,"%s\n",__func__);
     sdl_ui_set_menu_params = vic20ui_set_menu_params;
 
     sdl_ui_set_main_menu(xvic_main_menu);
-
-    resources_get_int("MachineVideoStandard", &videostandard);
 
     vic20_font=lib_malloc(8*256);
     for (i=0; i<128; i++) {
