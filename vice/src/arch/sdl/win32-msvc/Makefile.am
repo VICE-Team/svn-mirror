@@ -54,6 +54,7 @@ EXTRA_DIST = \
 	vdc.dsp \
 	vdrive.dsp \
 	vic20.dsp \
+	vic20cart.dsp \
 	vice.dsw \
 	vicii.dsp \
 	viciidtv.dsp \
