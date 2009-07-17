@@ -37,7 +37,6 @@ EXTRA_DIST = \
 	plus4exp.tgt \
 	printerdrv.tgt \
 	raster.tgt \
-	rs232drv.tgt \
 	serial.tgt \
 	sid.tgt \
 	sounddrv.tgt \
