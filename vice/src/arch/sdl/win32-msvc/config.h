@@ -65,6 +65,13 @@
 #define HAVE_HTONS              1
 #define HAVE_GETCWD             1
 
+#define HAVE_STRDUP             1
+#define HAVE_WORKING_VSNPRINTF  1
+
+#if defined _MSC_VER && _MSC_VER < 1400 
+# define vsnprintf _vsnprintf
+#endif
+
 #define __i386__                1
 
 #define inline                  _inline
