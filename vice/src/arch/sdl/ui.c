@@ -88,118 +88,6 @@ void ui_dispatch_next_event(void)
     }
 }
 
-#ifdef WATCOM_COMPILE
-typedef struct watcom_scancode_s {
-    Uint8 code;
-    SDLKey key;
-} watcom_scancode_t;
-
-static watcom_scancode_t watcom_scancode_table[] = {
-    {  1, SDLK_ESCAPE },
-    {  2, SDLK_1 },
-    {  3, SDLK_2 },
-    {  4, SDLK_3 },
-    {  5, SDLK_4 },
-    {  6, SDLK_5 },
-    {  7, SDLK_6 },
-    {  8, SDLK_7 },
-    {  9, SDLK_8 },
-    { 10, SDLK_9 },
-    { 11, SDLK_0 },
-    { 12, SDLK_MINUS },
-    { 13, SDLK_EQUALS },
-    { 14, SDLK_BACKSPACE },
-    { 15, SDLK_TAB },
-    { 16, SDLK_q },
-    { 17, SDLK_w },
-    { 18, SDLK_e },
-    { 19, SDLK_r },
-    { 20, SDLK_t },
-    { 21, SDLK_y },
-    { 22, SDLK_u },
-    { 23, SDLK_i },
-    { 24, SDLK_o },
-    { 25, SDLK_p },
-    { 26, SDLK_LEFTBRACKET },
-    { 27, SDLK_RIGHTBRACKET },
-    { 28, SDLK_RETURN },
-    { 29, SDLK_LCTRL },
-    { 30, SDLK_a },
-    { 31, SDLK_s },
-    { 32, SDLK_d },
-    { 33, SDLK_f },
-    { 34, SDLK_g },
-    { 35, SDLK_h },
-    { 36, SDLK_j },
-    { 37, SDLK_k },
-    { 38, SDLK_l },
-    { 39, SDLK_SEMICOLON },
-    { 40, SDLK_QUOTE },
-    { 41, SDLK_BACKQUOTE },
-    { 42, SDLK_LSHIFT },
-    { 43, SDLK_BACKSLASH },
-    { 44, SDLK_z },
-    { 45, SDLK_x },
-    { 46, SDLK_c },
-    { 47, SDLK_v },
-    { 48, SDLK_b },
-    { 49, SDLK_n },
-    { 50, SDLK_m },
-    { 51, SDLK_COMMA },
-    { 52, SDLK_PERIOD },
-    { 53, SDLK_SLASH },
-    { 54, SDLK_RSHIFT },
-    { 55, SDLK_PRINT },
-    { 56, SDLK_LALT },
-    { 57, SDLK_SPACE },
-    { 58, SDLK_CAPSLOCK },
-    { 59, SDLK_F1 },
-    { 60, SDLK_F2 },
-    { 61, SDLK_F3 },
-    { 62, SDLK_F4 },
-    { 63, SDLK_F5 },
-    { 64, SDLK_F6 },
-    { 65, SDLK_F7 },
-    { 66, SDLK_F8 },
-    { 67, SDLK_F9 },
-    { 68, SDLK_F10 },
-    { 69, SDLK_PAUSE },
-    { 71, SDLK_HOME },
-    { 71, SDLK_KP7 },
-    { 72, SDLK_UP },
-    { 73, SDLK_PAGEUP },
-    { 74, SDLK_KP_MINUS },
-    { 75, SDLK_LEFT },
-    { 76, SDLK_KP5 },
-    { 77, SDLK_RIGHT },
-    { 78, SDLK_KP_PLUS },
-    { 79, SDLK_END },
-    { 80, SDLK_DOWN },
-    { 81, SDLK_PAGEDOWN },
-    { 82, SDLK_INSERT },
-    { 83, SDLK_DELETE },
-    { 87, SDLK_F11 },
-    { 88, SDLK_F12 },
-    { 91, SDLK_LSUPER },
-    { 92, SDLK_RSUPER },
-    { 93, SDLK_MENU },
-    {  0, SDLK_UNKNOWN }
-};
-
-static SDLKey watcom_scancode_translate(Uint8 scancode)
-{
-    int i = 0;
-    SDLKey retval = 0;
-
-    for (i = 0; watcom_scancode_table[i].code != 0 && retval == 0; i++) {
-        if (watcom_scancode_table[i].code == scancode) {
-            retval = watcom_scancode_table[i].key;
-        }
-    }
-    return retval;
-}
-#endif
-
 /* Main event handler */
 ui_menu_action_t ui_dispatch_events(void)
 {
@@ -209,18 +97,10 @@ ui_menu_action_t ui_dispatch_events(void)
     while (SDL_PollEvent(&e)) {
         switch (e.type) {
             case SDL_KEYDOWN:
-#ifdef WATCOM_COMPILE
-                retval = sdlkbd_press(watcom_scancode_translate(e.key.keysym.scancode), e.key.keysym.mod);
-#else
                 retval = sdlkbd_press(e.key.keysym.sym, e.key.keysym.mod);
-#endif
                 break;
             case SDL_KEYUP:
-#ifdef WATCOM_COMPILE
-                retval = sdlkbd_release(watcom_scancode_translate(e.key.keysym.scancode), e.key.keysym.mod);
-#else
                 retval = sdlkbd_release(e.key.keysym.sym, e.key.keysym.mod);
-#endif
                 break;
 #ifdef HAVE_SDL_NUMJOYSTICKS
             case SDL_JOYAXISMOTION:

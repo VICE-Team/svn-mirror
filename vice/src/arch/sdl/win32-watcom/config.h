@@ -4,6 +4,7 @@
 #define UNSTABLE
 
 #pragma warning(disable:4996)
+#pragma enum int
 
 #define HAVE_ALLOCA             1
 #define RETSIGTYPE              void

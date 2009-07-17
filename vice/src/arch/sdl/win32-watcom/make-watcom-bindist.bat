@@ -1,29 +1,29 @@
 @echo off
 call ..\..\win32\vice-version.bat
 set VICEDIR=SDLVICE-%VICEVERSION%-win32
-if not exist ..\..\..\..\data\x64.exe goto missingmsvc
-if not exist ..\..\..\..\data\x64dtv.exe goto missingmsvc
-if not exist ..\..\..\..\data\x128.exe goto missingmsvc
-if not exist ..\..\..\..\data\xcbm2.exe goto missingmsvc
-if not exist ..\..\..\..\data\xpet.exe goto missingmsvc
-if not exist ..\..\..\..\data\xplus4.exe goto missingmsvc
-if not exist ..\..\..\..\data\xvic.exe goto missingmsvc
-if not exist ..\..\..\..\data\c1541.exe goto missingmsvc
-if not exist ..\..\..\..\data\cartconv.exe goto missingmsvc
-if not exist ..\..\..\..\data\petcat.exe goto missingmsvc
-echo generating MSVC SDL WIN32 binary port distribution
+if not exist x64.exe goto missingwatcom
+if not exist x64dtv.exe goto missingwatcom
+if not exist x128.exe goto missingwatcom
+if not exist xcbm2.exe goto missingwatcom
+if not exist xpet.exe goto missingwatcom
+if not exist xplus4.exe goto missingwatcom
+if not exist xvic.exe goto missingwatcom
+if not exist c1541.exe goto missingwatcom
+if not exist cartconv.exe goto missingwatcom
+if not exist petcat.exe goto missingwatcom
+echo generating OPENWATCOM SDL WIN32 binary port distribution
 if exist %VICEDIR% goto removedir
 mkdir %VICEDIR%
-copy ..\..\..\..\data\x64.exe %VICEDIR%
-copy ..\..\..\..\data\x64dtv.exe %VICEDIR%
-copy ..\..\..\..\data\x128.exe %VICEDIR%
-copy ..\..\..\..\data\xvic.exe %VICEDIR%
-copy ..\..\..\..\data\xpet.exe %VICEDIR%
-copy ..\..\..\..\data\xplus4.exe %VICEDIR%
-copy ..\..\..\..\data\xcbm2.exe %VICEDIR%
-copy ..\..\..\..\data\c1541.exe %VICEDIR%
-copy ..\..\..\..\data\petcat.exe %VICEDIR%
-copy ..\..\..\..\data\cartconv.exe %VICEDIR%
+copy x64.exe %VICEDIR%
+copy x64dtv.exe %VICEDIR%
+copy x128.exe %VICEDIR%
+copy xvic.exe %VICEDIR%
+copy xpet.exe %VICEDIR%
+copy xplus4.exe %VICEDIR%
+copy xcbm2.exe %VICEDIR%
+copy c1541.exe %VICEDIR%
+copy petcat.exe %VICEDIR%
+copy cartconv.exe %VICEDIR%
 mkdir %VICEDIR%\C128
 copy ..\..\..\..\data\C128\basic* %VICEDIR%\C128
 copy ..\..\..\..\data\C128\*.vpl %VICEDIR%\C128
@@ -84,6 +84,8 @@ copy ..\..\..\..\data\VIC20\*.vpl %VICEDIR%\VIC20
 copy ..\..\..\..\data\VIC20\*.vrs %VICEDIR%\VIC20
 copy ..\..\..\..\data\VIC20\kernal %VICEDIR%\VIC20
 copy ..\..\..\..\data\VIC20\sdl*.* %VICEDIR%\VIC20
+mkdir %VICEDIR%\fonts
+copy ..\..\..\..\data\fonts\*.fon %VICEDIR%\fonts
 mkdir %VICEDIR%\html
 copy ..\..\..\..\doc\html\*.html %VICEDIR%\html
 mkdir %VICEDIR%\html\images
@@ -93,10 +95,9 @@ copy ..\..\..\..\doc\html\plain\* %VICEDIR%\html\plain
 copy ..\..\..\..\FEEDBACK %VICEDIR%
 copy ..\..\..\..\README %VICEDIR%
 copy ..\..\..\..\doc\cartconv.txt %VICEDIR%
-copy ..\..\..\..\ReadmeSDL.txt %VICEDIR%
-echo MSVC SDL WIN32 port binary distribution directory generated as %VICEDIR%
+echo OPENWATCOM SDL WIN32 port binary distribution directory generated as %VICEDIR%
 goto end
-:missingmsvc
+:missingwatcom
 echo executables are missing, please build the project first.
 goto end
 :removedir

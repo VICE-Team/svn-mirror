@@ -21,7 +21,13 @@ MCommand
 0
 5
 MCommand
-0
+188
+copy ..\..\..\translate.txt trans.txt
+gentr trans.txt trans.h transtab.h
+copy trans.h ..\..\..\translate.h
+copy transtab.h ..\..\..\translate_table.h
+del trans.txt trans.h transtab.h
+
 6
 MItem
 9

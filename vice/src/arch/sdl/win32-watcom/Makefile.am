@@ -28,6 +28,7 @@ EXTRA_DIST = \
 	ieee.tgt \
 	imagecontents.tgt \
 	maincpu.tgt \
+	make-watcom-bindist.bat \
 	monitor.tgt \
 	parallel.tgt \
 	pet.tgt \
@@ -45,6 +46,8 @@ EXTRA_DIST = \
 	vdc.tgt \
 	vdrive.tgt \
 	vic20.tgt \
+	vic20cart.tgt \
+	vic20cart-generic.c \
 	vice.wpj \
 	vicii.tgt \
 	viciicommon.tgt \
