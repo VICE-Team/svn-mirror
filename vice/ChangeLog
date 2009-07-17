@@ -1,3 +1,973 @@
+2009-07-17  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.1.15
+
+2009-07-17  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/sdl/win32-msvc/config.h: Use vsnprintf() of MSVC.
+
+	* src/arch/sdl/win32-watcom/Makefile.am: Removed rs232drv.tgt
+	  which is not available.
+
+2009-07-17  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/video.c: Added casts to keep MSVC happy
+
+2009-07-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/Makefile.am,
+	  src/arch/sdl/win32-msvc/vic20.dsp,
+	  src/arch/sdl/win32-msvc/vic20cart.dsp,
+	  src/arch/sdl/win32-msvc/vice.dsw: Updated the sdl win32 msvc
+	  project files.
+
+	* src/arch/sdl/ui.c, src/arch/sdl/win32-msvc/make-bindist.bat,
+	  src/arch/sdl/win32-watcom/Makefile.am,
+	  src/arch/sdl/win32-watcom/arch.tgt,
+	  src/arch/sdl/win32-watcom/base.tgt,
+	  src/arch/sdl/win32-watcom/config.h,
+	  src/arch/sdl/win32-watcom/gentr.tgt,
+	  src/arch/sdl/win32-watcom/make-watcom-bindist.bat,
+	  src/arch/sdl/win32-watcom/vic20.tgt,
+	  src/arch/sdl/win32-watcom/vic20cart-generic.c,
+	  src/arch/sdl/win32-watcom/vic20cart.tgt,
+	  src/arch/sdl/win32-watcom/vice.wpj,
+	  src/arch/sdl/win32-watcom/xvic.tgt: Fixed and updated the
+	  watcom win32 sdl compile.
+
+2009-07-16  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/uistatusbar.c: Fix statusbar location
+
+	* doc/html/plain/NEWS: Updated.
+
+	* src/arch/unix/gui/vic20ui.c: Add CartridgeReset and Attach
+	  generic/Mega-Cart items to *nix xvic UI
+
+	* src/arch/sdl/xvic_ui.c: Enlarge xvic SDL UI area, fix
+	  positioning to remove offscreen UI problems
+
+	* src/vic20/vic20-resources.c: Add missing include, return 0 on
+	  RAM block resource handlers
+
+2009-07-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/Makefile.am, src/arch/sdl/menu_vic20cart.c,
+	  src/arch/win32/Makefile.am, src/arch/win32/resmenu.txt,
+	  src/arch/win32/resstrings.txt, src/arch/win32/resvic20.rc,
+	  src/arch/win32/uicart.c, src/arch/win32/uicart.h,
+	  src/arch/win32/vic20.dsp, src/arch/win32/vic20cart.dsp,
+	  src/arch/win32/vic20ui.c, src/arch/win32/vice.dsw,
+	  src/cartridge.h, src/log.c, src/translate.c,
+	  src/translate.txt, src/vic20/Makefile.am, src/vic20/cart,
+	  src/vic20/cart/Makefile.am, src/vic20/cart/generic.c,
+	  src/vic20/cart/generic.h, src/vic20/cart/megacart.c,
+	  src/vic20/cart/megacart.h, src/vic20/cart/vic20cart.c,
+	  src/vic20/cart/vic20cart.h, src/vic20/cart/vic20cartmem.c,
+	  src/vic20/cart/vic20cartmem.h, src/vic20/vic20-resources.c,
+	  src/vic20/vic20-resources.h, src/vic20/vic20.c,
+	  src/vic20/vic20cartridge.c, src/vic20/vic20mem.c,
+	  src/vic20/vic20mem.h, src/vic20/vic20memsnapshot.c: Merged the
+	  xvic cart branch (svn merge
+	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v2.1/v2.1.14
+	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/tlr/v2.1.14-xvic-cartridge)
+	  and fixed conflicts and updated win32 msvc project files.
+
+	* src/arch/sdl/win32-watcom/Makefile.am,
+	  src/arch/sdl/win32-watcom/c1541.tgt,
+	  src/arch/sdl/win32-watcom/cartconv.tgt,
+	  src/arch/sdl/win32-watcom/config.h,
+	  src/arch/sdl/win32-watcom/petcat.tgt,
+	  src/arch/sdl/win32-watcom/vice.wpj,
+	  src/arch/sdl/win32-watcom/xplus4.tgt,
+	  src/arch/sdl/win32-watcom/xplus4main.c,
+	  src/arch/sdl/win32-watcom/xvic.tgt,
+	  src/arch/sdl/win32-watcom/xvicmain.c: Added the last win32 sdl
+	  watcom project files.
+
+2009-07-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/Makefile.am,
+	  src/arch/sdl/win32-watcom/vice.wpj,
+	  src/arch/sdl/win32-watcom/x64.tgt,
+	  src/arch/sdl/win32-watcom/x64dtv.tgt,
+	  src/arch/sdl/win32-watcom/x64dtvmain.c,
+	  src/arch/sdl/win32-watcom/x64main.c,
+	  src/arch/sdl/win32-watcom/xcbm2.tgt,
+	  src/arch/sdl/win32-watcom/xcbm2main.c,
+	  src/arch/sdl/win32-watcom/xpet.tgt,
+	  src/arch/sdl/win32-watcom/xpetmain.c: Added more win32 sdl
+	  watcom project files.
+
+	* src/arch/sdl/ui.c: Added watcom scancode to sdl keysym
+	  conversion routine.
+
+	* src/arch/sdl/video.c: Set the default sdl bitdepth for the
+	  watcom compile to 32.
+
+2009-07-14  Errol Smith <strobe@kludgesoft.com>
+
+	* src/vdc/vdc.c, src/vdc/vdctypes.h: Re-write handling of
+	  vertical positioning and active/idle raster drawing. Fixes
+	  minor overdraw on RFOv2 FLI part and eliminates active drawing
+	  behind borders (perf).
+
+2009-07-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_win32.c,
+	  src/arch/sdl/win32-watcom/Makefile.am,
+	  src/arch/sdl/win32-watcom/c128.tgt,
+	  src/arch/sdl/win32-watcom/config.h,
+	  src/arch/sdl/win32-watcom/printerdrv.tgt,
+	  src/arch/sdl/win32-watcom/raster.tgt,
+	  src/arch/sdl/win32-watcom/rs232dtv.tgt,
+	  src/arch/sdl/win32-watcom/serial.tgt,
+	  src/arch/sdl/win32-watcom/sid.tgt,
+	  src/arch/sdl/win32-watcom/sounddrv.tgt,
+	  src/arch/sdl/win32-watcom/tape.tgt,
+	  src/arch/sdl/win32-watcom/tcbm.tgt,
+	  src/arch/sdl/win32-watcom/vdc.tgt,
+	  src/arch/sdl/win32-watcom/vdrive.tgt,
+	  src/arch/sdl/win32-watcom/vic20.tgt,
+	  src/arch/sdl/win32-watcom/vice.wpj,
+	  src/arch/sdl/win32-watcom/vicii.tgt,
+	  src/arch/sdl/win32-watcom/viciicommon.tgt,
+	  src/arch/sdl/win32-watcom/viciidtv.tgt,
+	  src/arch/sdl/win32-watcom/video.tgt,
+	  src/arch/sdl/win32-watcom/x128.tgt,
+	  src/arch/sdl/win32-watcom/x128main.c: Added more win32 sdl
+	  watcom project files.
+
+2009-07-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/Makefile.am,
+	  src/arch/sdl/win32-watcom/pet.tgt,
+	  src/arch/sdl/win32-watcom/plus4.tgt,
+	  src/arch/sdl/win32-watcom/plus4exp.tgt,
+	  src/arch/sdl/win32-watcom/printerdrv.tgt,
+	  src/arch/sdl/win32-watcom/vice.wpj: Added more win32 sdl
+	  watcom project files.
+
+	* configure.in: Added the win32-watcom directory to configure.in
+	  in order to make the makefiles.
+
+	* src/arch/sdl/win32-watcom/Makefile.am,
+	  src/arch/sdl/win32-watcom/config.h,
+	  src/arch/sdl/win32-watcom/diskimage.tgt,
+	  src/arch/sdl/win32-watcom/drive.tgt,
+	  src/arch/sdl/win32-watcom/fileio.tgt,
+	  src/arch/sdl/win32-watcom/fsdevice.tgt,
+	  src/arch/sdl/win32-watcom/gfxoutputdrv.tgt,
+	  src/arch/sdl/win32-watcom/iec.tgt,
+	  src/arch/sdl/win32-watcom/iec128dcr.tgt,
+	  src/arch/sdl/win32-watcom/iecbus.tgt,
+	  src/arch/sdl/win32-watcom/iecieee.tgt,
+	  src/arch/sdl/win32-watcom/ieee.tgt,
+	  src/arch/sdl/win32-watcom/imagecontents.tgt,
+	  src/arch/sdl/win32-watcom/maincpu.tgt,
+	  src/arch/sdl/win32-watcom/monitor.tgt,
+	  src/arch/sdl/win32-watcom/parallel.tgt,
+	  src/arch/sdl/win32-watcom/vice.wpj: Added more win32 sdl
+	  watcom project files.
+
+	* src/arch/sdl/win32-watcom/Makefile.am,
+	  src/arch/sdl/win32-watcom/c64exp.tgt,
+	  src/arch/sdl/win32-watcom/cbm2.tgt,
+	  src/arch/sdl/win32-watcom/core.tgt,
+	  src/arch/sdl/win32-watcom/crtc.tgt,
+	  src/arch/sdl/win32-watcom/vice.wpj: Added more win32 sdl
+	  watcom project files.
+
+	* src/arch/sdl/win32-watcom/Makefile.am,
+	  src/arch/sdl/win32-watcom/c64dtv.tgt,
+	  src/arch/sdl/win32-watcom/vice.wpj: Added more win32 sdl
+	  watcom project files.
+
+	* src/arch/sdl/win32-watcom/Makefile.am,
+	  src/arch/sdl/win32-watcom/c64.tgt,
+	  src/arch/sdl/win32-watcom/c64cart.tgt,
+	  src/arch/sdl/win32-watcom/c64commonc128.tgt,
+	  src/arch/sdl/win32-watcom/c64commonc128c64dtv.tgt,
+	  src/arch/sdl/win32-watcom/c64commonc64dtv.tgt,
+	  src/arch/sdl/win32-watcom/vice.wpj: Added more win32 sdl
+	  watcom project files.
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/archdep_win32.c,
+	  src/arch/sdl/win32-watcom,
+	  src/arch/sdl/win32-watcom/Makefile.am,
+	  src/arch/sdl/win32-watcom/arch.tgt,
+	  src/arch/sdl/win32-watcom/base.tgt,
+	  src/arch/sdl/win32-watcom/c128.tgt,
+	  src/arch/sdl/win32-watcom/config.h,
+	  src/arch/sdl/win32-watcom/gentr.tgt,
+	  src/arch/sdl/win32-watcom/vice.wpj,
+	  src/arch/win32/catweaselmkiii.c: Added some watcom win32 sdl
+	  project files, more will be added later, should not interfere
+	  with any of the already existing ports.
+
+2009-07-12  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/view/logview.m: cocoa: fixed key
+	  input in monitor for keys without direct character
+	  representation
+
+	* src/arch/unix/macosx/cocoa/ui.m,
+	  src/arch/unix/macosx/cocoa/vicemachinenotifier.h,
+	  src/arch/unix/macosx/cocoa/vicemachinenotifier.m,
+	  src/arch/unix/macosx/cocoa/vicenotifications.h,
+	  src/arch/unix/macosx/cocoa/view/Makefile.am,
+	  src/arch/unix/macosx/cocoa/view/controlwindow.h,
+	  src/arch/unix/macosx/cocoa/view/controlwindow.m,
+	  src/arch/unix/macosx/cocoa/view/soundview.h,
+	  src/arch/unix/macosx/cocoa/view/soundview.m: cocoa: added
+	  slider for sound volume in control window
+
+2009-07-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/c128ui.c,
+	  src/arch/amigaos/c128uires.h, src/arch/amigaos/c64ui.c,
+	  src/arch/amigaos/c64uires.h, src/arch/amigaos/intl.c,
+	  src/arch/amigaos/intl.txt,
+	  src/arch/amigaos/mui/uisoundexpander.c,
+	  src/arch/amigaos/mui/uisoundexpander.h,
+	  src/arch/amigaos/uires.h: Added sfx sound expander chip
+	  selection ui elements to the amiga ports.
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c128ui.c,
+	  src/arch/msdos/c64ui.c, src/arch/msdos/uisoundexpander.c,
+	  src/arch/msdos/uisoundexpander.h: Added sfx sound expander
+	  chip selection ui elements to the msdos port.
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	  src/arch/beos/constants.h, src/arch/os2/dialogs/menubar.c,
+	  src/arch/os2/dialogs/menubar.h,
+	  src/arch/os2/dialogs/menubar.rc, src/arch/sdl/menu_c128hw.c,
+	  src/arch/sdl/menu_c64_common_expansions.c,
+	  src/arch/sdl/menu_c64_common_expansions.h,
+	  src/arch/sdl/menu_c64hw.c, src/arch/unix/gui/Makefile.am,
+	  src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64ui.c,
+	  src/arch/unix/gui/uisoundexpander.c,
+	  src/arch/unix/gui/uisoundexpander.h,
+	  src/arch/win32/Makefile.am, src/arch/win32/arch.dsp,
+	  src/arch/win32/c128ui.c, src/arch/win32/c64ui.c,
+	  src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	  src/arch/win32/resc64.rc, src/arch/win32/resdialogs.txt,
+	  src/arch/win32/resmenu.txt,
+	  src/arch/win32/ressoundexpander.rc,
+	  src/arch/win32/resstrings.txt,
+	  src/arch/win32/uisoundexpander.c,
+	  src/arch/win32/uisoundexpander.h,
+	  src/arch/win32/watcom/arch.tgt, src/arch/win32/x128.dsp,
+	  src/arch/win32/x64.dsp, src/arch/win64/arch.vcproj,
+	  src/arch/win64/x128.vcproj, src/c64/sfx_soundexpander.c: Added
+	  ym3812 support to the sfx sound expander emulation, and added
+	  beos, os/2, sdl, unix and win32 ui elements, updated the
+	  win32/64 msvc project files and updated the win32 watcom
+	  project files.
+
+2009-07-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c128ui.c,
+	  src/arch/msdos/c64ui.c, src/arch/msdos/lightpendrv.c,
+	  src/arch/msdos/lightpendrv.h, src/arch/msdos/uilightpen.c,
+	  src/arch/msdos/uilightpen.h, src/arch/msdos/vic20ui.c,
+	  src/arch/msdos/vsync.c: Added lightpen support to the msdos
+	  port.
+
+2009-07-07  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/ui.m: cocoa: react on
+	  ui_update_menus() for external resource changes, e.g. warp
+	  change for autoload
+
+2009-07-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/lightpendrv.c: Added better off-window/screen
+	  check to the win32 lightpen driver.
+
+	* src/arch/win32/lightpendrv.c: Replaced the magic '42' with a
+	  call to get the height of the statusbar.
+
+	* src/arch/sdl/menu_lightpen.c, src/arch/win32/uilightpen.c,
+	  src/lightpen.c, src/lightpen.h: Added datel light pen support.
+
+2009-07-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/lightpendrv.c: Added scaled window support to
+	  the win32 lightpen driver.
+
+	* src/arch/win32/video.c: Changed NULL to 0 to return the
+	  correct type.
+
+	* src/lightpen.c: Reverted the vdc 'fix' in lightpen.c
+
+	* src/lightpen.c, src/vdc/vdc.c: Fixed to have the vdc lightpen
+	  x and y also be updated when vicii window is active and fixed
+	  an error.
+
+	* src/arch/sdl/win64-msvc/base.vcproj: Added autostart-prg.c to
+	  win64 msvc project files.
+
+2009-07-06  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/sdl/win32-msvc/base.dsp: Add autostart-prg.c to base
+	  files, so SDL compiles with MSVC again.
+
+2009-07-06  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/lightpendrv.c, src/c128/c128.c, src/lightpen.c:
+	  For x128 use window 0 for VDC and 1 for VICII in lightpen code
+	  too
+
+2009-07-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/lightpendrv.c, src/arch/win32/video.c,
+	  src/arch/win32/videoarch.h: Added multiple canvas support to
+	  the win32 lightpen driver.
+
+2009-07-06  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/lightpen.c, src/lightpen.h: Lightpen type based x/y offset
+	  support, some comments added
+
+	* src/vicii/vicii.c, src/vicii/viciitypes.h: Improve lightpen
+	  precision for vicii by storing extra bits for x coordinate
+
+2009-07-06  Errol Smith <strobe@kludgesoft.com>
+
+	* src/c128/c128.c, src/vdc/vdc.c, src/vdc/vdc.h: Initial VDC
+	  lightpen support.
+
+2009-07-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/arch.dsp,
+	  src/arch/win32/c128ui.c, src/arch/win32/c64ui.c,
+	  src/arch/win32/lightpendrv.c, src/arch/win32/lightpendrv.h,
+	  src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	  src/arch/win32/resc64.rc, src/arch/win32/resdialogs.txt,
+	  src/arch/win32/reslightpen.rc, src/arch/win32/resmenu.txt,
+	  src/arch/win32/resstrings.txt, src/arch/win32/resvic20.rc,
+	  src/arch/win32/uilightpen.c, src/arch/win32/uilightpen.h,
+	  src/arch/win32/vic20ui.c, src/arch/win32/vsyncarch.c,
+	  src/arch/win32/watcom/arch.tgt,
+	  src/arch/win32/watcom/base.tgt,
+	  src/arch/win32/watcom/c128.tgt,
+	  src/arch/win32/watcom/cbm2.tgt,
+	  src/arch/win32/watcom/vice.wpj, src/arch/win32/x128.dsp,
+	  src/arch/win32/x64.dsp, src/arch/win32/xvic.dsp,
+	  src/arch/win64/arch.vcproj, src/arch/win64/x128.vcproj,
+	  src/arch/win64/x64.vcproj, src/arch/win64/xvic.vcproj: Added
+	  lightpen support to the win32/64 ports.
+
+2009-07-06  Errol Smith <strobe@kludgesoft.com>
+
+	* src/vdc/vdc-draw.c: draw_idle should actually draw the
+	  background colour.
+
+2009-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vicii/vicii.c: Corrected the lightpen x-value for vicii.
+
+2009-07-05  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/c128.dsp, src/arch/win32/c64.dsp,
+	  src/arch/win32/c64dtv.dsp, src/arch/win32/cbm2.dsp,
+	  src/arch/win32/pet.dsp, src/arch/win32/plus4.dsp,
+	  src/arch/win32/vic20.dsp: Added plus4embedded.c,
+	  petembedded.c, cbm2embedded.c, c64embedded.c,
+	  c64dtvembedded.c, c128embedded.c, vic20embedded.c files for
+	  MSVC compilation.
+
+2009-07-05  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/gui/Makefile.am, src/arch/unix/gui/uiattach.c,
+	  src/arch/unix/gui/uiautostart.c,
+	  src/arch/unix/gui/uiautostart.h,
+	  src/arch/unix/gui/uidrivec128.c,
+	  src/arch/unix/gui/uidrivec64.c,
+	  src/arch/unix/gui/uidrivec64dtv.c,
+	  src/arch/unix/gui/uidrivepetcbm2.c,
+	  src/arch/unix/gui/uidriveplus4.c,
+	  src/arch/unix/gui/uidrivevic20.c: Add new autostart *nix menu
+	  items, group autostart items as a submenu below Smart attach
+
+2009-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc, src/arch/sdl/win64-msvc: Added svn
+	  ignores.
+
+	* data/CBM-II/ccs64.vpl, data/CBM-II/default.vpl,
+	  data/CBM-II/frodo.vpl, data/CBM-II/godot.vpl,
+	  data/PLUS4/default.vpl, data/PLUS4/vice.vpl,
+	  data/VIC20/default.vpl, src/Makefile.am,
+	  src/pet/petembedded.c, src/plus4/plus4embedded.c,
+	  src/vic20/vic20embedded.c: Added embedded palette support to
+	  xpet, xplus4 and xvic.
+
+	* src/Makefile.am, src/c128/c128embedded.c,
+	  src/cbm2/cbm2embedded.c: Added embedded palette file support
+	  to xcbm2.
+
+	* src/palette.c: Added previously missing embedded.h include.
+
+2009-07-05  Errol Smith <strobe@kludgesoft.com>
+
+	* src/arch/sdl/lightpendrv.c: Fix double size handling after
+	  blacky broke it fixing a warning.
+
+2009-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64dtv/c64dtvembedded.c: Fixed embedded palette files
+	  support for x64dtv to always return -1.
+
+	* src/arch/win32/make-bindist.sh: Updated.
+
+	* data/C64/ccs64.vpl, data/C64/default.vpl, data/C64/frodo.vpl,
+	  data/C64/godot.vpl, data/C64/vice.vpl, src/Makefile.am,
+	  src/c64/c64embedded.c: Added embedded palette files support to
+	  x64.
+
+	* data/C128/default.vpl, data/C128/frodo.vpl,
+	  data/C128/godot.vpl, data/C128/vice.vpl, src/Makefile.am,
+	  src/c128/c128embedded.c, src/c64/c64embedded.c,
+	  src/c64dtv/c64dtvembedded.c, src/cbm2/cbm2embedded.c,
+	  src/embedded.h, src/palette.c, src/palette2c.sh,
+	  src/pet/petembedded.c, src/plus4/plus4embedded.c,
+	  src/vic20/vic20embedded.c: Added embedded palette files
+	  support to x128.
+
+2009-07-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/arch/os2/vac++/incl/mainsrc.icc,
+	  src/arch/os2/watcom/mainsrc.tgt, src/arch/os2/watcom/vice.wpj,
+	  src/arch/sdl/Makefile.am, src/arch/sdl/lightpendrv.c,
+	  src/arch/sdl/lightpendrv.h, src/arch/sdl/menu_c128hw.c,
+	  src/arch/sdl/menu_c64hw.c, src/arch/sdl/menu_lightpen.c,
+	  src/arch/sdl/menu_lightpen.h, src/arch/sdl/menu_vic20hw.c,
+	  src/arch/sdl/ui.c, src/arch/sdl/video.c,
+	  src/arch/sdl/vsyncarch.c, src/arch/sdl/win32-msvc/arch.dsp,
+	  src/arch/sdl/win32-msvc/base.dsp,
+	  src/arch/sdl/win32-msvc/c64.dsp,
+	  src/arch/sdl/win32-msvc/c64c128.dsp,
+	  src/arch/sdl/win32-msvc/config.h,
+	  src/arch/sdl/win64-msvc/arch.vcproj,
+	  src/arch/sdl/win64-msvc/base.vcproj,
+	  src/arch/sdl/win64-msvc/c64.vcproj,
+	  src/arch/sdl/win64-msvc/c64c128.vcproj,
+	  src/arch/sdl/win64-msvc/config.h, src/arch/win32/base.dsp,
+	  src/arch/win32/watcom/base.tgt, src/arch/win64/base.vcproj,
+	  src/c128/c128.c, src/c64/c64.c, src/lightpen.c,
+	  src/lightpen.h, src/sid/sid.c, src/vic20/vic-mem.c,
+	  src/vic20/vic.c, src/vic20/vic.h, src/vic20/vic20.c,
+	  src/vicii.h, src/vicii/vicii.c: Merged the lightpen branch
+	  (svn merge
+	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v2.1/v2.1.14
+	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/viceplus/v2.1.14-lightpen)
+
+2009-07-04  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/dialog/joysticksettingswindowcontroller.m:
+	  cocoa: fix to allow compilation without joystick support
+
+2009-07-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/c128/c128embedded.c, src/c64/c64embedded.c,
+	  src/c64dtv/c64dtvembedded.c, src/cbm2/cbm2embedded.c,
+	  src/embedded.c, src/embedded.h, src/pet/petembedded.c,
+	  src/plus4/plus4embedded.c, src/sysfile.c,
+	  src/vic20/vic20embedded.c: Added text explaining what the new
+	  'embedded data files' feature is to be used for.
+
+	* src/c128/c128.c, src/c64/c64.c: Fixed the previously missing
+	  SFXSoundExpander resource/cmdline-init for x128.
+
+	* src/c128/Makefile.am, src/c128/c128embedded.c,
+	  src/c64/Makefile.am, src/c64/c64embedded.c,
+	  src/c64dtv/Makefile.am, src/c64dtv/c64dtvembedded.c,
+	  src/cbm2/Makefile.am, src/cbm2/cbm2embedded.c, src/embedded.c,
+	  src/embedded.h, src/pet/Makefile.am, src/pet/petembedded.c,
+	  src/plus4/Makefile.am, src/plus4/plus4embedded.c,
+	  src/vic20/Makefile.am, src/vic20/vic20embedded.c: split the
+	  embedded data file support into common (src/embedded.c) and
+	  machine specific (src/<machine>/<machine>embedded.c).
+
+	* src/Makefile.am, src/embedded.c: Added embedded data file
+	  support to xcbm2.
+
+	* src/Makefile.am, src/c128/c128rom.c,
+	  src/drive/iec128dcr/iec128dcrrom.c, src/embedded.c: Added
+	  embedded data file support to x128.
+
+	* src/Makefile.am, src/embedded.c, src/vic20/vic20memrom.c:
+	  Added embedded data file support to xvic.
+
+	* src/Makefile.am, src/drive/tcbm/tcbmrom.c, src/embedded.c,
+	  src/plus4/plus4mem.c, src/plus4/plus4memrom.c: Added embedded
+	  data file support to xplus4.
+
+	* src/Makefile.am, src/embedded.c: Added alternate models
+	  embedded data file support to xpet.
+
+2009-07-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/embedded.c, src/sysfile.c: Added embedded
+	  data file support to xpet.
+
+	* src/c64dtv/c64dtvmem.c, src/c64dtv/c64dtvmemrom.c,
+	  src/embedded.c: Added embedded data files support to x64dtv.
+
+	* src/Makefile.am, src/drive/iec/iecrom.c,
+	  src/drive/ieee/ieeerom.c, src/embedded.c, src/embedded.h,
+	  src/printerdrv/drv-mps803.c, src/printerdrv/drv-nl10.c,
+	  src/sysfile.c: Added more embedded data files support.
+
+	* configure.in, src/Makefile.am, src/bin2c.c, src/bin2c.sh,
+	  src/c64/c64mem.c, src/c64/c64memrom.c, src/embedded.c,
+	  src/embedded.h, src/od2c.sh, src/sysfile.c: Added embedding of
+	  system files for x64, added --enable-embedded configure
+	  option, note that this option and the embedding is only to be
+	  used for use on platforms that don't support loading of extra
+	  files, or have not yet supported filesystems, or for testing
+	  purposes for new platforms.
+
+2009-06-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.h, src/arch/beos/joy.h,
+	  src/arch/beos/plus4ui.cc, src/arch/beos/ui.cc,
+	  src/arch/beos/ui_joystick.cc, src/arch/beos/vic20ui.cc,
+	  src/arch/beos/vicemenu.cc: Updated the beos ui for the
+	  userport joystick adapters.
+
+	* src/c64/fmopl.c: Added 'static' keyword to the inline
+	  functions.
+
+	* data/C64/win_sym_us.vkm: Added x64 win32 symbolic keymap file,
+
+	* configure.in, src/arch/sdl/Makefile.am,
+	  src/arch/sdl/win32-msvc/Makefile.am,
+	  src/arch/sdl/win64-msvc/Makefile.am: sdl makefile cleanup.
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	  src/arch/unix/gui/c64ui.c, src/arch/unix/gui/cbm2ui.c,
+	  src/arch/unix/gui/petui.c, src/arch/unix/gui/plus4ui.c,
+	  src/arch/unix/gui/uijoystick2.c,
+	  src/arch/unix/gui/uijoystick2.h, src/arch/unix/gui/vic20ui.c:
+	  Updated the *nix ui for the userport joystick adapters.
+
+	* src/arch/msdos/uijoystick.c: Added swapping of the userport
+	  adapter joystick ports to the msdos ui.
+
+	* src/arch/msdos/uisidcart.c, src/arch/msdos/vic20ui.c: Removed
+	  obsolete msdos ui elements.
+
+	* src/arch/msdos/menudefs.c, src/arch/msdos/uijoystick.c,
+	  src/arch/msdos/uijoystick.h: Updated the msdos ui for the
+	  userport joystick adapters.
+
+2009-06-29  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/raster/raster-changes.h: Increase RASTER_CHANGES_MAX from
+	  512 to 1024 since a DTV program could break the old limit
+
+2009-06-29  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/vic20/vic20mem.c: Removed commented out code. Adapted to
+	  conform to braces rules.
+
+2009-06-29  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/sid.cc: Revert debuggive sid.cc change.
+
+	* src/resid-fp/filter.cc, src/resid-fp/filter.h,
+	  src/resid-fp/sid.cc, src/resid-fp/wave.cc,
+	  src/resid-fp/wave.h: Fix problem that plagued digis on Jump
+	  Jet, Last V8. Update distortion code with lp/bp/hp
+	  nonlinearity component corresponding to hypothetised imperfect
+	  amps within SID.
+
+2009-06-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128ui.c, src/arch/amigaos/c128uires.h,
+	  src/arch/amigaos/c64dtvui.c, src/arch/amigaos/c64dtvuires.h,
+	  src/arch/amigaos/c64ui.c, src/arch/amigaos/c64uires.h,
+	  src/arch/amigaos/cbm2ui.c, src/arch/amigaos/cbm2uires.h,
+	  src/arch/amigaos/intl.c, src/arch/amigaos/intl.txt,
+	  src/arch/amigaos/mui/uijoystick.c,
+	  src/arch/amigaos/mui/uijoystick.h,
+	  src/arch/amigaos/mui/uijoystickll.c,
+	  src/arch/amigaos/mui/uijoystickll.h,
+	  src/arch/amigaos/mui/uisid.c,
+	  src/arch/amigaos/mui/uisidcart.c, src/arch/amigaos/petui.c,
+	  src/arch/amigaos/petuires.h, src/arch/amigaos/plus4ui.c,
+	  src/arch/amigaos/ui.c, src/arch/amigaos/uires.h,
+	  src/arch/amigaos/vic20ui.c, src/arch/amigaos/vic20uires.h:
+	  Updated the amiga ui for the userport joystick adapters.
+
+	* src/arch/win32/resstrings.txt, src/arch/win32/resvic20.rc,
+	  src/arch/win32/vic20ui.c: Removed obsolete left over vic20
+	  win32 oem userport joystick ui elements.
+
+2009-06-29  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_drive.c: Added new autostart items to SDL UI
+
+2009-06-29  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/sounddrv/soundcoreaudio.c: core audio: fixed sound resume
+
+2009-06-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resmenu.txt, src/arch/win32/resvic20.rc,
+	  src/arch/win32/vic20ui.c: Removed obsolete vic20 win32 oem joy
+	  ui toggle.
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	  src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	  src/arch/win32/petui.c, src/arch/win32/res.rc,
+	  src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	  src/arch/win32/resc64dtv.rc, src/arch/win32/resmenu.txt,
+	  src/arch/win32/respet.rc, src/arch/win32/resstrings.txt,
+	  src/arch/win32/resvic20.rc, src/arch/win32/ui.c,
+	  src/arch/win32/uijoystick.c, src/arch/win32/uijoystick.h,
+	  src/arch/win32/vic20ui.c: Fixed the win32 swap joystick ui
+	  items and added win32 swap userport joystick ui items.
+
+	* src/arch/win32/resdialogs.txt, src/arch/win32/ressidcart.rc,
+	  src/arch/win32/uisidcart.c: Removed obsolete sidcart joystick
+	  item from the win32 sidcart dialog.
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	  src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	  src/arch/win32/intl.c, src/arch/win32/petui.c,
+	  src/arch/win32/plus4ui.c, src/arch/win32/res.rc,
+	  src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	  src/arch/win32/resc64dtv.rc, src/arch/win32/resdialogs.txt,
+	  src/arch/win32/resmenu.txt, src/arch/win32/respet.rc,
+	  src/arch/win32/resplus4.rc, src/arch/win32/resstrings.txt,
+	  src/arch/win32/resvic20.rc, src/arch/win32/ui.c,
+	  src/arch/win32/uijoystick.c, src/arch/win32/uijoystick.h,
+	  src/arch/win32/vic20ui.c: Fixed the win32 ui for native
+	  joysticks and added win32 ui elements for userport and plus4
+	  sidcart joysticks.
+
+2009-06-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uijoystick.c: Restricted the joystick settings
+	  dialog to 1 joystick for vic20.
+
+2009-06-28  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/dialog/iecdrivesettingswindowcontroller.m:
+	  cocoa: fixed mounting of virtual fs directory
+
+	* src/arch/unix/macosx/Resources/English.lproj/x128-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv-ResourceTree.plist:
+	  cocoa: adjusted extra joy type resource values
+
+	* src/video/render1x1pal.c, src/video/render2x2pal.c,
+	  src/video/video-color.h: fixed PAL emulation by re-enabling
+	  sharing of gamma tables
+
+2009-06-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joystick.h: Changed the order of the extra joystick
+	  defines in joystick.h so that the dxs/hit is at the bottom of
+	  the list.
+
+2009-06-28  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/joy.c: Add default switch case which results in
+	  a failing assert().
+
+2009-06-28  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/classes.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x128-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv-ResourceTree.plist,
+	  src/arch/unix/macosx/cocoa/dialog/joysticksettingswindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/joysticksettingswindowcontroller.m,
+	  src/arch/unix/macosx/joy.c, src/arch/unix/macosx/joy.h: cocoa:
+	  added UI support for extra/userport joysticks
+
+	* src/arch/sdl/archdep_amiga.c, src/arch/sdl/archdep_beos.c,
+	  src/arch/sdl/archdep_cegcc.c, src/arch/sdl/archdep_riscos.c,
+	  src/arch/sdl/archdep_unix.c, src/arch/sdl/archdep_win32.c,
+	  src/arch/sdl/archdep_xbox.c: added missing SDL
+	  archdep_default_autostart_disk_image_file_name
+
+	* src/arch/unix/macosx/joy.c: added missing header
+
+	* src/arch/unix/macosx/Resources/English.lproj/x128-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv-ResourceTree.plist:
+	  cocoa: added autostart prg to resource inspector
+
+2009-06-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.c, src/arch/amigaos/intl.txt,
+	  src/arch/amigaos/joy.c, src/arch/amigaos/joyll.c,
+	  src/arch/amigaos/mui/uisid.c, src/arch/beos/joy.cc,
+	  src/arch/beos/ui_sid.cc, src/arch/beos/ui_video.cc,
+	  src/arch/beos/vicemenu.cc, src/arch/msdos/joy.c,
+	  src/arch/msdos/vsync.c, src/arch/os2/joy.c,
+	  src/arch/riscos/joy.c, src/arch/riscos/ui.c,
+	  src/arch/sdl/joy.c, src/arch/sdl/menu_drive.c,
+	  src/arch/unix/joy.c, src/arch/unix/joy_usb.c,
+	  src/arch/unix/macosx/joy.c, src/arch/win32/joy.c,
+	  src/arch/win32/res.rc, src/arch/win32/resstrings.txt,
+	  src/arch/win32/ui.c, src/arch/win32/uihelp.c,
+	  src/arch/win32/uisid.c, src/cbm2/cbm2-resources.c,
+	  src/cbm2/cbm2.c, src/machine.h, src/main.c: Added proper
+	  cbm510/cbm610 early startup seperation so that elements for
+	  the machines can be seperated at any time (cmdline, resources,
+	  ui) and added 4 joystick support to the amiga, beos, msdos,
+	  os/2, osx, *nix amd win32 ports with proper command-line
+	  options and resources, no ui elements for any of the ports
+	  (besides sdl) yet.
+
+2009-06-27  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/amigaos/archdep.c, src/arch/beos/archdep.c,
+	  src/arch/msdos/archdep.c, src/arch/os2/archdep.c,
+	  src/arch/riscos/archdep.c, src/arch/unix/archdep.c,
+	  src/arch/win32/archdep.c, src/archapi.h, src/autostart.c:
+	  Renamed archdep_default_autstart_disk_image_file_name() to
+	  archdep_default_autostart_disk_image_file_name(), fixing the
+	  typo.
+
+	* ., src/Makefile.am, src/arch/amigaos/archdep.c,
+	  src/arch/beos/archdep.c, src/arch/msdos/archdep.c,
+	  src/arch/os2/archdep.c, src/arch/riscos/archdep.c,
+	  src/arch/sdl/menu_midi.c, src/arch/sdl/menu_midi.h,
+	  src/arch/sdl/menu_network.c, src/arch/sdl/menu_network.h,
+	  src/arch/sdl/menu_tfe.c, src/arch/sdl/menu_tfe.h,
+	  src/arch/sdl/uipause.c, src/arch/unix/archdep.c,
+	  src/arch/win32/archdep.c, src/arch/win32/base.dsp,
+	  src/arch/win32/rs232dev.c, src/arch/win32/rs232net.c,
+	  src/archapi.h, src/autostart-prg.c, src/autostart-prg.h,
+	  src/autostart.c, src/autostart.h, src/fileio.h,
+	  src/fileio/cbmfile.c, src/fileio/cbmfile.h,
+	  src/fileio/fileio.c, src/fileio/p00.c, src/fileio/p00.h,
+	  src/machine.c, src/rawfile.c, src/rawfile.h, src/resid-dtv:
+	  svn commit tags/v2.1/v2.1.13/vice
+	  tags/chris/v2.1.13-autostart-prg/vice .
+	  
+	  src/autostart-prg.c, autostart_prg_perform_injection():
+	  Changed C99 definition of end to C89 style definition at the
+	  beginning of the block.
+	  
+	  src/arch/*/archdep.c:
+	  archdep_default_autstart_disk_image_file_name() had a
+	  semicolon at the end, preventing compilation. Fixed.
+	  
+	  src/arch/win32/base.dsp: Added autostart-prg.c.
+
+2009-06-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_c128hw.c, src/arch/sdl/menu_c64dtvhw.c,
+	  src/arch/sdl/menu_c64hw.c, src/arch/sdl/menu_joystick.c,
+	  src/arch/sdl/menu_joystick.h, src/c64dtv/c64dtvcia2.c: Added
+	  userport joystick system support to x64dtv.
+
+2009-06-27  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* build/macosx/build-pcaplibnet.sh: macosx: patch libnet to
+	  allow non-root admin users
+
+	* build/macosx/build-vice-dist.sh,
+	  build/macosx/build-vice-release.sh: mac build: added support
+	  for debug snapshots
+
+	* src/arch/unix/macosx/cocoa/dialog/joysticksettingswindowcontroller.m:
+	  fixed crash in cocoa joystick dialog
+
+2009-06-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_cbm2hw.c, src/arch/sdl/menu_joystick.c,
+	  src/arch/sdl/menu_joystick.h, src/arch/sdl/menu_pethw.c,
+	  src/cbm2/cbm2cia1.c, src/joystick.c: Added userport joystick
+	  system support to xcbm2.
+
+	* src/arch/sdl/menu_joystick.c, src/arch/sdl/menu_joystick.h,
+	  src/arch/sdl/menu_pethw.c, src/joystick.c, src/pet/petvia.c:
+	  Added userport joystick system support to xpet.
+
+2009-06-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_joystick.c, src/joystick.c,
+	  src/vic20/vic20-resources.c, src/vic20/vic20-resources.h,
+	  src/vic20/vic20via2.c: Added userport joystick system support
+	  to xvic.
+
+2009-06-26  Errol Smith <strobe@kludgesoft.com>
+
+	* src/vdc/vdc-draw.c: When the cache is disabled, actually draw
+	  the text & cursor correctly...
+
+2009-06-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_joystick.c, src/c64/c64cia2.c,
+	  src/joystick.c, src/joystick.h: More userport joystick related
+	  updates.
+
+	* src/arch/sdl/menu_joystick.c, src/c64/c64cia2.c,
+	  src/joystick.h: Added vic20 OEM type userport joystick support
+	  to x64/x128 and added ui element to the sdl ui.
+
+	* src/arch/sdl/menu_joystick.c, src/c64/c64cia2.c,
+	  src/joystick.h: Added PET type userport joystick support to
+	  x64/x128 and added ui element to the sdl ui.
+
+2009-06-25  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/nl.po,
+	  po/pl.po, po/sv.po, po/tr.po: Updated.
+
+	* configure.in: Test for stdlib.h and define HAVE_STDLIB (needed
+	  by editline.h of readline).
+
+	* src/Makefile.am, src/arch/beos/console.c,
+	  src/arch/unix/Makefile.am, src/arch/unix/console.c,
+	  src/c1541.c, src/monitor/Makefile.am, src/monitor/monitor.c:
+	  Use editline.h again if HAVE_READLINE is defined. For this,
+	  added the include directory for src/arch/unix/readline, where
+	  necessary. Still ugly in some places, as generic code includes
+	  arch-specific code, but this will be fixed later.
+
+	* src/c128/Makefile.am: Added src/raster as include directory.
+
+	* src/arch/beos/console.c, src/arch/unix/console.c, src/c1541.c,
+	  src/monitor/monitor.c: Reverted readline extern declarations
+	  for now, as the replacement did not work as expected.
+	  (postponing the solution until I have more time.)
+
+	* src/arch/beos/console.c, src/arch/unix/console.c,
+	  src/arch/win32/Makefile.am, src/arch/win32/joy.c,
+	  src/arch/win32/kbd.c, src/arch/win32/ui.c,
+	  src/arch/win32/ui.h, src/arch/win32/uijoystick.c,
+	  src/arch/win32/uivideo.c, src/arch/win32/video-ddraw.c,
+	  src/arch/win32/winjoy.h, src/arch/win32/winkbd.h,
+	  src/arch/win32/winmain.c, src/c128/c128cpu.c, src/c1541.c,
+	  src/c64dtv/c64dtvcpu.c, src/c64dtv/c64dtvcpu.h,
+	  src/c64dtv/c64dtvmem.c, src/cbm2/cbm2.h, src/cbm2/cbm2cpu.c,
+	  src/monitor/mon_breakpoint.c, src/monitor/mon_breakpoint.h,
+	  src/monitor/mon_register6502dtv.c, src/monitor/monitor.c,
+	  src/plus4/plus4cpu.c, src/vicii/vicii-mem.c,
+	  src/vicii/viciidtv-draw.c, src/video/render1x1pal.c,
+	  src/video/render2x2pal.c, src/video/video-canvas.h,
+	  src/video/video-resources-pal.c: Moved stray "extern"
+	  declarations from .c files into .h files and include the
+	  necessary .h files, if needed.
+
+2009-06-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/c64cartmem.h, src/c64/cart/expert.c,
+	  src/c64/sfx_soundexpander.c, src/sounddrv/soundmovie.c: some
+	  more 'extern' cleanups.
+
+	* src/arch/win32/Makefile.am, src/arch/win32/fullscrn-ddraw.c,
+	  src/arch/win32/hardsid.c, src/arch/win32/ui.c,
+	  src/arch/win32/video-ddraw.h: some win32 arch dir 'extern'
+	  cleanups.
+
+	* src/arch/sdl/ui.c: Removed obsolete 'extern'.
+
+	* src/arch/msdos/statusbar.h, src/arch/msdos/ui.c,
+	  src/arch/msdos/uiscreenshot.c, src/arch/msdos/uisidcart.c,
+	  src/arch/msdos/uisound.c, src/arch/msdos/videoarch.h,
+	  src/arch/msdos/vsync.c: msdos arch dir 'extern' cleanup and
+	  msdos fixes.
+
+	* src/arch/amigaos/mui/mui.h, src/arch/amigaos/ui.c,
+	  src/arch/amigaos/ui.h, src/arch/amigaos/vsyncapi.c: amigaos
+	  arch dir 'extern' cleanup.
+
+	* src/arch/amigaos/Makefile.am,
+	  src/arch/amigaos/catweaselmkiii.c,
+	  src/arch/amigaos/expansionbase.h, src/arch/amigaos/hardsid.c,
+	  src/arch/amigaos/mui/uisidcart.c: Added some amiga os4
+	  catweasel and hardsid fixes.
+
+2009-06-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/c128.tgt,
+	  src/arch/win32/watcom/c64cart.tgt,
+	  src/arch/win32/watcom/drive.tgt,
+	  src/arch/win32/watcom/pet.tgt, src/arch/win32/watcom/vice.wpj,
+	  src/arch/win32/watcom/vicii.tgt,
+	  src/arch/win32/watcom/viciicommon.tgt,
+	  src/arch/win32/watcom/viciidtv.tgt, src/c128/c128cpu.c,
+	  src/c128/c128mem.h, src/c128/z80mem.h, src/c64/c64mem.h,
+	  src/cbm2/cbm2cpu.c, src/cbm2/cbm2mem.c,
+	  src/cbm2/cbm2memsnapshot.c, src/drive/drivemem.c,
+	  src/monitor/monitor.c, src/pet/petmem.c,
+	  src/pet/petmemsnapshot.c, src/plus4/plus4mem.c,
+	  src/plus4/plus4memcsory256k.c, src/plus4/plus4memhannes256k.c,
+	  src/plus4/ted-badline.c, src/plus4/ted-mem.c, src/plus4/ted.c,
+	  src/vic20/vic-snapshot.c, src/vic20/vic.c,
+	  src/vic20/vic20mem.c, src/vic20/vic20memsnapshot.c,
+	  src/vicii/vicii-fetch.c, src/vicii/vicii-snapshot.c,
+	  src/vicii/vicii.c, src/vicii/viciidtv-snapshot.c: Fixed some
+	  watcom header inclusion ordering and removed the #include
+	  ../mem.h construction.
+
+	* src/arch/sdl/menu_joystick.c, src/c128/c128cia1.c,
+	  src/c64/c64cia1.c, src/c64/c64cia2.c, src/c64dtv/c64dtvcia2.c,
+	  src/joystick.c, src/joystick.h: Added hit userport joystick
+	  adapter support to x64/x128.
+
+2009-06-24  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/vicemachine.h,
+	  src/arch/unix/macosx/cocoa/vicemachine.m: cocoa: emulation is
+	  now paused when system goes to sleep
+
+2009-06-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_joystick.c: Changed some of the joystick
+	  naming.
+
+2009-06-24  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/autostart.c: Added missing brace
+
+2009-06-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/joy.c: Renamed command line options for joydev3/4
+	  to extrajoydev1/2.
+
+	* src/arch/amigaos/intl.c, src/arch/win32/resc128.rc,
+	  src/autostart.c, src/translate.c, src/translate.txt: Updated
+	  translations.
+
+2009-06-23  Errol Smith <strobe@kludgesoft.com>
+
+	* src/vdc/vdc-mem.c, src/vdc/vdc.c, src/vdc/vdctypes.h: Change
+	  the way the memory pointers are updated, improve cache
+	  handling when registers 25/27 change and fix the screen height
+	  default. Fixes multiple timing issues. RFO tech-tech now 100%!
+	  All major RFO bugs now fixed - phew!
+
+	* src/vdc/vdc-mem.c, src/vdc/vdc.c, src/vdc/vdctypes.h: Some
+	  preliminary work for future light pen/light gun support.
+
+2009-06-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uisid.c, src/arch/beos/ui_sid.cc,
+	  src/arch/sdl/menu_sid.c, src/arch/unix/gui/c128ui.c,
+	  src/arch/win32/uijoystick.c, src/arch/win32/uisid.c,
+	  src/c128/c128mem.c, src/c64/c64sound.c: Added as stereo sid
+	  range for x128.
+
+2009-06-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/sfx_soundexpander.c,
+	  src/imagecontents/imagecontents.c: Some more warning fixes.
+
 2009-06-21  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.1.14
