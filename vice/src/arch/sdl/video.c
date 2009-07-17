@@ -341,11 +341,11 @@ static void sdl_gl_set_viewport(unsigned int src_w, unsigned int src_h, unsigned
         /* Keep aspect ratio of src image. */
         if (dest_w*src_h < src_w*aspect_ratio*dest_h) {
             dest_y = dest_h;
-            dest_h = dest_w*src_h/(src_w*aspect_ratio);
+            dest_h = (unsigned int)(dest_w*src_h/(src_w*aspect_ratio));
             dest_y = (dest_y - dest_h)/2;
         } else {
             dest_x = dest_w;
-            dest_w = dest_h*src_w*aspect_ratio/src_h;
+            dest_w = (unsigned int)(dest_h*src_w*aspect_ratio/src_h);
             dest_x = (dest_x - dest_w)/2;
         }
     }
@@ -677,15 +677,15 @@ fprintf(stderr,"%s: hwscale refresh without hwscale screen, ignoring\n",__func__
         glVertex2f(-1.0f, 1.0f);
 
         /* Upper Right Of Texture */
-        glTexCoord2f(0.0f, canvas->height);
+        glTexCoord2f(0.0f, (float)(canvas->height));
         glVertex2f(-1.0f, -1.0f);
 
         /* Upper Left Of Texture */
-        glTexCoord2f(canvas->width, canvas->height);
+        glTexCoord2f((float)(canvas->width), (float)(canvas->height));
         glVertex2f(1.0f, -1.0f);
 
         /* Lower Left Of Texture */
-        glTexCoord2f(canvas->width, 0.0f);
+        glTexCoord2f((float)(canvas->width), 0.0f);
         glVertex2f(1.0f, 1.0f);
 
         glEnd();
@@ -743,7 +743,7 @@ fprintf(stderr,"%s: hwscale resize\n",__func__);
     }
 #endif
     /* Resize when toggling double size */
-    if ((canvas->videoconfig->doublesizex != canvas->dsizex) || (canvas->videoconfig->doublesizey != canvas->dsizey)) {
+    if ((canvas->videoconfig->doublesizex != (int)canvas->dsizex) || (canvas->videoconfig->doublesizey != (int)canvas->dsizey)) {
 #ifdef SDL_DEBUG
 fprintf(stderr,"%s: dsize resize (x:%i->%i, y:%i->%i)\n",__func__,canvas->videoconfig->doublesizex,canvas->dsizex,canvas->videoconfig->doublesizey,canvas->dsizey);
 #endif
