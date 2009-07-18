@@ -184,7 +184,13 @@ int joystick_init_cmdline_options(void)
             }
             return cmdline_register_options(joydev4cmdline_options);
             break;
+        case VICE_MACHINE_NONE:
+            return 0;
+            break;
     }
+
+    /* Unknown machine, indicate an error */
+    return -1;
 }
 
 /* ------------------------------------------------------------------------- */
