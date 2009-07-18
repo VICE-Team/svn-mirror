@@ -270,7 +270,6 @@ static ui_menu_entry_t sid_options_submenu[] = {
 /* ------------------------------------------------------------------------- */
 
 UI_MENU_DEFINE_TOGGLE(EmuID)
-UI_MENU_DEFINE_TOGGLE(SFXSoundExpander)
 UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
 
 static ui_menu_entry_t io_extensions_submenu[] = {

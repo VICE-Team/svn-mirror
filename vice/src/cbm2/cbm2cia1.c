@@ -156,7 +156,7 @@ static BYTE read_ciapa(cia_context_t *cia_context)
 /* read_* functions must return 0xff if nothing to read!!! */
 static BYTE read_ciapb(cia_context_t *cia_context)
 {
-    BYTE byte;
+    BYTE byte = 0xff;
 
     if (cbm2_is_c500()) {
         byte = ((0xff & ~(cia_context->c_cia[CIA_DDRB]))
@@ -177,6 +177,9 @@ static BYTE read_ciapb(cia_context_t *cia_context)
                     break;
                 case EXTRA_JOYSTICK_OEM:
                     byte = extra_joystick_oem_read();
+                    break;
+                default:
+                    byte = 0xff;
                     break;
             }
         }

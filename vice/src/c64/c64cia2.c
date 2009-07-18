@@ -236,6 +236,9 @@ static BYTE read_ciapb(cia_context_t *cia_context)
             case EXTRA_JOYSTICK_OEM:
                 byte = extra_joystick_oem_read();
                 break;
+            default:
+                byte = 0xff;
+                break;
         }
     } else {
         byte = parallel_cable_cpu_read();
