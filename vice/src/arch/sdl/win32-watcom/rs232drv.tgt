@@ -25,7 +25,7 @@ MCommand
 6
 MItem
 12
-rs232dtv.lib
+rs232drv.lib
 7
 WString
 3

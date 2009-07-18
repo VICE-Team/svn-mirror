@@ -580,7 +580,7 @@ WVList
 131
 MItem
 12
-rs232dtv.lib
+rs232drv.lib
 132
 WString
 3

@@ -152,7 +152,7 @@ raster.tgt
 38
 WFileName
 12
-rs232dtv.tgt
+rs232drv.tgt
 39
 WFileName
 10
@@ -789,7 +789,7 @@ WRect
 164
 WFileName
 12
-rs232dtv.tgt
+rs232drv.tgt
 0
 0
 165
@@ -999,7 +999,7 @@ WFileName
 8
 x128.tgt
 0
-0
+2
 204
 VComponent
 205
@@ -1015,7 +1015,7 @@ WFileName
 7
 x64.tgt
 0
-0
+2
 207
 VComponent
 208
@@ -1031,7 +1031,7 @@ WFileName
 10
 x64dtv.tgt
 0
-0
+3
 210
 VComponent
 211
@@ -1047,7 +1047,7 @@ WFileName
 9
 xcbm2.tgt
 0
-0
+2
 213
 VComponent
 214
@@ -1063,7 +1063,7 @@ WFileName
 8
 xpet.tgt
 0
-0
+2
 216
 VComponent
 217
@@ -1079,7 +1079,7 @@ WFileName
 10
 xplus4.tgt
 0
-0
+2
 219
 VComponent
 220
@@ -1101,7 +1101,7 @@ VComponent
 223
 WRect
 750
-733
+720
 5700
 4280
 1
@@ -1151,7 +1151,7 @@ WRect
 250
 240
 5700
-4293
+4280
 1
 0
 233
@@ -1160,4 +1160,4 @@ WFileName
 vic20cart.tgt
 0
 0
-219
+228
