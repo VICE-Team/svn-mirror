@@ -28,6 +28,9 @@
 #import <Cocoa/Cocoa.h>
 
 @interface VICEResourceWindowController : NSWindowController
+{
+    BOOL shownBeforeMonitor;
+}
 
 -(void)registerForResourceUpdate:(SEL)selector;
 -(void)triggerResourceUpdate:(id)sender;

@@ -30,6 +30,38 @@
 
 @implementation VICEResourceWindowController
 
+-(void)windowDidLoad
+{
+    [super windowDidLoad];
+    
+    // register for monitor state updates
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(monitorStateChanged:)
+                                                 name:VICEMonitorStateNotification
+                                               object:nil];
+}
+
+-(void)monitorStateChanged:(NSNotification *)notification
+{
+    NSWindow *window = [self window];
+    int state = [[[notification userInfo] objectForKey:@"state"] intValue];
+    switch(state) {
+        case VICEMonitorStateOn:
+            shownBeforeMonitor = [window isVisible];
+            if(shownBeforeMonitor) {
+                [window orderOut:self];
+            }
+            break;
+        case VICEMonitorStateOff:
+            if(shownBeforeMonitor) {
+                [window orderFront:self];
+            }
+            break;
+        default:
+            break;
+    }
+}
+
 -(void)registerForResourceUpdate:(SEL)selector
 {
     // register resource updates
