@@ -83,12 +83,8 @@ int console_out(console_t *log, const char *format, ...)
 
 char *console_in(console_t * log, const char * prompt)
 {
-    if(log && (log->private!=nil)) {
-        NSString * s = [(ConsoleWindow*)log->private 
-                            readline:[NSString stringWithCString:prompt encoding:NSUTF8StringEncoding]];
-        return s ? lib_stralloc([s cStringUsingEncoding:NSUTF8StringEncoding]) : NULL;
-    } else
-        return NULL;
+    // NOT USED
+    return NULL;
 }
 
 int console_close_all(void)

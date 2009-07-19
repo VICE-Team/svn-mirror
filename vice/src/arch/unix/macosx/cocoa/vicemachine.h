@@ -45,6 +45,9 @@ struct video_canvas_s;
   #define MAX_CANVAS 2
   int canvasNum;
   struct video_canvas_s *canvasArray[MAX_CANVAS];
+
+  BOOL isWaitingForLineInput;
+  NSString *submittedLineInput;
 }
 
 // start the machine thread and establish connection
@@ -57,6 +60,9 @@ struct video_canvas_s;
 
 // trigger the machine thread's run loop and terminate thread if shallIDie is set
 -(void)triggerRunLoop;
+
+// trigger runloop and wait for input submission from UI thread
+-(NSString *)lineInputWithPrompt:(NSString *)prompt timeout:(double)seconds;
 
 // return the application
 -(id<VICEApplicationProtocol>)app;

@@ -227,7 +227,7 @@ const float control_win_width = 200;
     // machine thread is dead so we can actuall die
     if(canTerminate)
         return NSTerminateNow;
-    
+
     // machine thread is not dead now so terminate it...
     VICEMachineController *controller = [machine getMachineController];
 
@@ -254,6 +254,12 @@ const float control_win_width = 200;
     [self storeWindowVisibilityToUserDefaults:monitorWindow];
     [self storeWindowVisibilityToUserDefaults:controlWindow];
 
+    // is monitor still running?
+    if([machine isWaitingForLineInput]) {
+        // exit monitor first
+        [machine submitLineInput:@"x"];
+    }
+    
     // tell machine thread to shutdown and exit
     [machine stopMachine];
 
@@ -404,6 +410,7 @@ const float control_win_width = 200;
 
 // ----- Monitor -----
 
+// machine thread entered monitor mode and tells to open monitor window:
 -(void)openMonitor
 {
     // check if window is already open
@@ -412,6 +419,7 @@ const float control_win_width = 200;
     [monitorWindow makeKeyAndOrderFront:self];
 }
 
+// machine thread leaves monitor mode:
 -(void)closeMonitor
 {
     if(closeMonitor) {
@@ -420,14 +428,47 @@ const float control_win_width = 200;
     [oldKeyWindow makeKeyAndOrderFront:self];
 }
 
+// machine thread suspends monitor UI inputs (e.g. before a single step)
+-(void)suspendMonitor
+{
+    
+}
+
+// machine thread resumes monitor UI inputs (e.g. after a single step)
+-(void)resumeMonitor
+{
+    
+}
+
+// some monitor values have changed. update views (e.g. mem window)
+-(void)updateMonitor
+{
+    
+}
+
+// print something in the monitor view
 -(void)printMonitorMessage:(NSString *)msg
 {
     [monitorWindow appendText:msg];
 }
 
--(NSString *)readMonitorLine:(NSString *)prompt
+// maching thread wants some input:
+-(void)beginLineInputWithPrompt:(NSString *)prompt
 {
-    return [monitorWindow readline:prompt];
+    [monitorWindow setLineInputTarget:self];
+    [monitorWindow beginLineInputWithPrompt:prompt];
+}
+
+// called from the console window and forwarded to machine thread:
+-(void)submitLineInput:(NSString *)result
+{
+    [machine submitLineInput:result];    
+}
+
+// machine thread tells to end input processing:
+-(void)endLineInput
+{
+    [monitorWindow endLineInput];
 }
 
 // ----- Notifications -----

@@ -32,7 +32,7 @@
 
 @class VICEAppController;
 
-@interface VICEApplication : NSApplication <VICEApplicationProtocol>
+@interface VICEApplication : NSApplication <VICEApplicationProtocol, LineInputSubmitter>
 {
     NSMutableArray *argsArray;
     BOOL postponeAutostart;

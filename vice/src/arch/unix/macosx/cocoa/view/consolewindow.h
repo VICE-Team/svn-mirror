@@ -28,6 +28,10 @@
 #import <Cocoa/Cocoa.h>
 #import "logview.h"
 
+@protocol LineInputSubmitter 
+-(void)submitLineInput:(NSString *)input;
+@end
+
 @interface ConsoleWindow : NSPanel
 {
     LogView * log_view;
@@ -37,11 +41,18 @@
     FILE *log_file;
     
     NSMutableString *buffer;
+    
+    id<LineInputSubmitter> lineInputTarget;
 }
 - (id)initWithContentRect:(NSRect)rect title:(NSString *)title;
 - (void)appendText:(NSString*)text;
-- (NSString *)readline:(NSString *)prompt;
 - (int)fdForWriting;
 - (void)flushBuffer;
+
+// asynchronous input:
+- (void)setLineInputTarget:(id<LineInputSubmitter>)target;
+- (void)beginLineInputWithPrompt:(NSString *)prompt;
+- (void)endLineInput;
+
 @end
 

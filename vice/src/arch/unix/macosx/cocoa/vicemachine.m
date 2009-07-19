@@ -105,6 +105,7 @@ VICEMachine *theVICEMachine = nil;
     shallIDie = NO;
     isPaused = NO;
     isSleepPaused = NO;
+    isWaitingForLineInput = NO;
     machineController = nil;
     machineNotifier = [[VICEMachineNotifier alloc] init];
 
@@ -183,6 +184,58 @@ VICEMachine *theVICEMachine = nil;
         // release pool for machine thread
         [pool release];
     }    
+}
+
+/* 
+   the machine thread needs some input (e.g. in the monitor) and waits
+   until either a time out occured or the UI submitted the requested
+   input line.
+   
+   this is done asynchronously by enabling the input in the UI thread,
+   running a local run loop in the machine thread until the time out
+   occured or the UI submitted the string.
+*/
+-(NSString *)lineInputWithPrompt:(NSString *)prompt timeout:(double)seconds
+{
+    isWaitingForLineInput = YES;
+    submittedLineInput = nil;
+    
+    // notify app to begin input with prompt
+    [app beginLineInputWithPrompt:(NSString *)prompt];
+    
+    NSDate *finishedDate;
+    if(seconds == 0)
+        finishedDate = [NSDate distantFuture];
+    else
+        finishedDate = [NSDate dateWithTimeIntervalSinceNow:seconds];
+    
+    // run loop until time out or line input was submitted
+    while(isWaitingForLineInput && 
+            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                     beforeDate:finishedDate] )
+    {}
+    
+    // end input in app
+    [app endLineInput];
+    
+    NSString *result = submittedLineInput;
+    submittedLineInput = nil;
+    
+    return result;
+}
+
+-(BOOL)isWaitingForLineInput
+{
+    return isWaitingForLineInput;
+}
+
+/* this is called by the UI thread to submit a line input */
+-(void)submitLineInput:(NSString *)line
+{
+    if(isWaitingForLineInput) {
+        submittedLineInput = [line retain];
+        isWaitingForLineInput = NO;
+    }
 }
 
 // ----- Canvas Management -----

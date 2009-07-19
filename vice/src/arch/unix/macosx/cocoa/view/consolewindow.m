@@ -129,41 +129,6 @@
     [super dealloc];
 }
 
-- (void)orderOut:(id)sender
-{
-    if ([log_view isEditable])
-        [NSApp stopModal];
-
-    [super orderOut:sender];
-}
-
-- (BOOL)canBecomeMainWindow
-{
-    return NO;
-}
-
-- (void)endConsoleInput:(id)v
-{
-    [NSApp stopModal];
-}
-
-- (NSString*)readline:(NSString *)prompt
-{
-    [self makeKeyAndOrderFront:nil];
-
-    if(buffer!=nil)
-        [self flushBuffer];
-    [self appendPrompt:prompt];
-
-    [log_view setTarget:self];
-    [log_view setAction:@selector(endConsoleInput:)];
-    [log_view setEditable:YES];
-    [NSApp runModalForWindow:self];
-    [log_view setEditable:NO];
-
-    return [(LogView*)log_view lastInput];
-}
-
 - (void)handleAsyncRead:(NSNotification*)notification
 {
     NSData * data = [[notification userInfo]
@@ -188,6 +153,46 @@
 
     // return file descriptor for console writing 
     return [[log_pipe fileHandleForWriting] fileDescriptor];
+}
+
+// ----- input -----
+
+- (BOOL)canBecomeMainWindow
+{
+    return NO;
+}
+
+- (void)setLineInputTarget:(id<LineInputSubmitter>)target
+{
+    lineInputTarget = target;
+}
+
+- (void)endConsoleInput:(id)sender
+{
+    NSString *lineInput = [sender lastInput];
+    // no input means an empty string
+    if(lineInput == nil)
+        [lineInputTarget submitLineInput:@""];
+    else
+        [lineInputTarget submitLineInput:lineInput];
+}
+
+- (void)beginLineInputWithPrompt:(NSString *)prompt
+{
+    [self makeKeyAndOrderFront:nil];
+
+    if(buffer!=nil)
+        [self flushBuffer];
+    [self appendPrompt:prompt];
+
+    [log_view setTarget:self];
+    [log_view setAction:@selector(endConsoleInput:)];
+    [log_view setEditable:YES];
+}
+
+- (void)endLineInput
+{
+    [log_view setEditable:NO];    
 }
 
 @end

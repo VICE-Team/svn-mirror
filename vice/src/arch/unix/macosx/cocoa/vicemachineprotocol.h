@@ -43,6 +43,12 @@
 // toggle pause
 -(BOOL)togglePause;
 
+// ----- Monitor Input -----
+// does the machine wait for a monitor input?
+-(BOOL)isWaitingForLineInput;
+// submit an line input from the UI while the machine is waiting for input
+-(void)submitLineInput:(NSString *)line;
+
 // ----- Controller Invocation -----
 // access the controller of the machine
 -(VICEMachineController *)getMachineController;

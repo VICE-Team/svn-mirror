@@ -51,37 +51,46 @@ void uimon_window_close( void )
 void uimon_window_suspend( void )
 {
     // monitor is temporarly suspended. disable UI of monitor
+    [[theVICEMachine app] suspendMonitor];
 }
 
 console_t *uimon_window_resume( void )
 {
     // monitor is activated after suspend. reenabled UI of monitor.
+    [[theVICEMachine app] resumeMonitor];
     return &dummy;
 }
 
 int uimon_out(const char *buffer)
 {
-    [[theVICEMachine app] printMonitorMessage:[NSString stringWithCString:buffer encoding:NSUTF8StringEncoding]];
+    NSString *msg = [NSString stringWithCString:buffer encoding:NSUTF8StringEncoding];
+    [[theVICEMachine app] printMonitorMessage:msg];
     return 0;
 }
 
 char *uimon_get_in(char **ppchCommandLine, const char *prompt)
 {
-    NSString *line = [[theVICEMachine app] readMonitorLine:[NSString stringWithCString:prompt encoding:NSUTF8StringEncoding]];
     char *ret;
-    if(line==nil)
-        ret = lib_stralloc("");
-    else
-        ret = lib_stralloc([line cStringUsingEncoding:NSUTF8StringEncoding]);
+    NSString *promptString = [NSString stringWithCString:prompt encoding:NSUTF8StringEncoding];
+    NSString *lineInput = [theVICEMachine lineInputWithPrompt:promptString timeout:0];
+    if(lineInput == nil)
+        ret = NULL;
+    else {
+        ret = lib_stralloc([lineInput cStringUsingEncoding:NSUTF8StringEncoding]);
+        [lineInput release];
+    }
     return ret;
 }
 
 void uimon_notify_change( void )
 {
+    // report changes of the monitor state to the UI
+    [[theVICEMachine app] updateMonitor];
 }
 
 void uimon_set_interface(monitor_interface_t **monitor_interface_init,
                          int count )
 {
+    //TODO
 }
 
