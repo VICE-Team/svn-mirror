@@ -48,6 +48,7 @@
     ConsoleWindow *monitorWindow;
     NSWindow *oldKeyWindow;
     BOOL closeMonitor;
+    BOOL inMonitor;
     
     ControlWindow *controlWindow;
     

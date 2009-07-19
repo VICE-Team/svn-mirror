@@ -29,6 +29,7 @@
 #include "uiapi.h"
 
 #import "viceapplication.h"
+#import "vicenotifications.h"
 #import "vicemachine.h"
 #import "vicewindow.h"
 #import "consolewindow.h"
@@ -92,6 +93,7 @@ const float control_win_width = 200;
     }
 
     postponeAutostart = YES;
+    inMonitor = FALSE;
 
     // enter run loop here
     [super run];
@@ -410,6 +412,37 @@ const float control_win_width = 200;
 
 // ----- Monitor -----
 
+// post a notification if the state of the monitor has changed
+- (void)postMonitorStateNotification:(int)state
+{
+    NSDictionary * dict =
+        [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:state]
+                                    forKey:@"state"];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:VICEMonitorStateNotification
+                                                        object:self
+                                                      userInfo:dict];
+}
+
+// filter all actions if monitor is enabled
+- (id)targetForAction:(SEL)anAction to:(id)aTarget from:(id)sender
+{
+    id result = [super targetForAction:anAction to:aTarget from:sender];
+
+    // normal operation
+    if(!inMonitor)
+        return result;
+        
+    // if monitor is enabled then disable VICE Controller actions
+    if(result == appController) {
+        return nil;
+    } else {
+        return result;
+    }
+    
+    return result;
+}
+
 // machine thread entered monitor mode and tells to open monitor window:
 -(void)openMonitor
 {
@@ -417,11 +450,17 @@ const float control_win_width = 200;
     closeMonitor = ![monitorWindow isVisible];
     oldKeyWindow = [self keyWindow];
     [monitorWindow makeKeyAndOrderFront:self];
+    
+    inMonitor = YES;
+    [self postMonitorStateNotification:VICEMonitorStateOn];
 }
 
 // machine thread leaves monitor mode:
 -(void)closeMonitor
 {
+    inMonitor = NO;
+    [self postMonitorStateNotification:VICEMonitorStateOff];
+    
     if(closeMonitor) {
         [monitorWindow orderOut:self];
     }
@@ -431,13 +470,13 @@ const float control_win_width = 200;
 // machine thread suspends monitor UI inputs (e.g. before a single step)
 -(void)suspendMonitor
 {
-    
+    [self postMonitorStateNotification:VICEMonitorStateSuspend];    
 }
 
 // machine thread resumes monitor UI inputs (e.g. after a single step)
 -(void)resumeMonitor
 {
-    
+    [self postMonitorStateNotification:VICEMonitorStateResume];
 }
 
 // some monitor values have changed. update views (e.g. mem window)

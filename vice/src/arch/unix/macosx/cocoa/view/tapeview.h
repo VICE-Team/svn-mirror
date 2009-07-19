@@ -38,7 +38,8 @@
     int tape_motor_status;
     int tape_control_status;
     int counter;
-    int enabled;
+    BOOL tapeControlEnabled;
+    BOOL tapeEjectEnabled;
 }
 
 - (id)initWithFrame:(NSRect)frame;
@@ -52,7 +53,8 @@
 - (void)updateTapeStatus;
 - (void)updateCounter;
 
-- (void)setEnabled:(BOOL)flag;
+- (void)setEnabled:(BOOL)on;
+- (void)setTapeControlEnabled:(BOOL)do_enable;
 
 @end
 

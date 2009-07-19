@@ -84,6 +84,10 @@
                                                  name:VICEDisplayJoystickNotification
                                                object:nil];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displayMonitor:)
+                                                 name:VICEMonitorStateNotification
+                                               object:nil];
     return self;
 }
 
@@ -120,7 +124,22 @@
     if (pauseFlag)
         [speedView setStringValue:@"PAUSE"];
     else
-        [speedView setStringValue:@""];
+        [speedView setStringValue:@"RESUME"];
+}
+
+- (void)displayMonitor:(NSNotification *)notification
+{
+    int state = [[[notification userInfo] objectForKey:@"state"] intValue];
+    switch(state) {
+        case VICEMonitorStateOn:
+            [speedView setStringValue:@"MONITOR"];
+            break;
+        case VICEMonitorStateOff:
+            [speedView setStringValue:@"RESUME"];
+            break;
+        default:
+            break;
+    }
 }
 
 - (void)displayJoystick:(NSNotification *)notification

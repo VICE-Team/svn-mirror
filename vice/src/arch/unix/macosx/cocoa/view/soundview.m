@@ -111,4 +111,9 @@ static const char *maxVolStr = "{\\rtf1\\ansi\\ansicpg1252\\cocoartf949\\cocoasu
     [volumeSlider setIntValue:volume];
 }
 
+- (void)setEnabled:(BOOL)on
+{
+    [volumeSlider setEnabled:on];
+}
+
 @end

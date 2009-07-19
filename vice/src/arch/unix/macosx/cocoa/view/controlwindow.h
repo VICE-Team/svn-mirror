@@ -48,5 +48,7 @@
 
 - (id)initWithContentRect:(NSRect)rect title:(NSString *)title;
 
+- (void)setEnabled:(BOOL)on;
+
 @end
 

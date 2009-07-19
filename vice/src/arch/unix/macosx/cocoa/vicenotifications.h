@@ -57,4 +57,10 @@
 // Volume Change
 #define VICEChangeVolumeNotification              @"VICEChangeVolumeNotification"
 
+// Monitor notification from Application
+#define VICEMonitorStateNotification              @"VICEMonitorStateNotification"
+#define VICEMonitorStateOff             0
+#define VICEMonitorStateOn              1
+#define VICEMonitorStateSuspend         2
+#define VICEMonitorStateResume          3
 

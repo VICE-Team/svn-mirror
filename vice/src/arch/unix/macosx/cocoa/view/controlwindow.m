@@ -113,6 +113,10 @@
                                              selector:@selector(enableTapeStatus:)
                                                  name:VICEEnableTapeStatusNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(monitorStateChanged:)
+                                                 name:VICEMonitorStateNotification
+                                               object:nil];
     return self;
 }
 
@@ -215,6 +219,33 @@
     if(width < min_width)
         width = min_width;
     return NSMakeSize(width,height);
+}
+
+// monitor state changed
+- (void)monitorStateChanged:(NSNotification *)notification
+{
+    int state = [[[notification userInfo] objectForKey:@"state"] intValue];
+    switch(state) {
+        case VICEMonitorStateOn:
+            [self setEnabled:NO];
+            break;
+        case VICEMonitorStateOff:
+            [self setEnabled:YES];
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)setEnabled:(BOOL)on
+{
+    int i;
+    
+    [tape_view setEnabled:on];
+    for(i=0;i<DRIVE_NUM;i++) {
+        [drive_view[i] setEnabled:on];
+    }
+    [sound_view setEnabled:on];
 }
 
 @end

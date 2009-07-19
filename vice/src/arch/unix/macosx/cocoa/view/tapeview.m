@@ -145,10 +145,12 @@ static NSString *help_texts[] = {
     // preset value
     tape_control_status = 0;
     tape_motor_status = 0;
+    tapeControlEnabled = NO;
+    tapeEjectEnabled = NO;
     [self updateImage:@""];
     [self updateCounter];
     [self updateTapeStatus];
-    [self setEnabled:false];
+    [self setTapeControlEnabled:false];
         
     // allow drop of images
     [self registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
@@ -190,10 +192,16 @@ static NSString *help_texts[] = {
         [tape_image setStringValue:@"<no tape image>"];
         // toggle eject button
         [buttons[7] setEnabled:NO];
+        tapeEjectEnabled = NO;
+        [self setTapeControlEnabled:NO];
     } else {
         [tape_image setStringValue:image];
         // toggle eject button
         [buttons[7] setEnabled:YES];
+        tapeEjectEnabled = YES;
+        
+        // TODO: enable controls only for TAP
+        [self setTapeControlEnabled:YES];
     }
 }
 
@@ -234,9 +242,9 @@ static NSString *help_texts[] = {
     [self updateTapeStatus];
 }
 
-- (void)setEnabled:(BOOL)do_enable
+- (void)setTapeControlEnabled:(BOOL)do_enable
 {
-    enabled = do_enable;
+    tapeControlEnabled = do_enable;
     
     [self updateCounter];
     [self updateTapeStatus];
@@ -244,7 +252,24 @@ static NSString *help_texts[] = {
     // toggle button
     int i;
     for(i=0;i<7;i++) {
-        [buttons[i] setEnabled:enabled];
+        [buttons[i] setEnabled:do_enable];
+    }
+}
+
+- (void)setEnabled:(BOOL)on
+{
+    int i;
+    
+    if(on==NO) {
+        for(i=0;i<9;i++) {
+            [buttons[i] setEnabled:NO];
+        }
+    } else {
+        for(i=0;i<7;i++) {
+            [buttons[i] setEnabled:tapeControlEnabled];
+        }
+        [buttons[7] setEnabled:tapeEjectEnabled];
+        [buttons[8] setEnabled:YES];
     }
 }
 

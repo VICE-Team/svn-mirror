@@ -37,12 +37,15 @@
     NSColorWell *driveLed;
     NSTextField *imageText;
     NSButton *buttons[2];
+    BOOL ejectEnabled;
 }
 
 - (id)initWithFrame:(NSRect)frame driveNumber:(int)drive;
 - (void)initLedColor:(NSColor*)color;
 
 - (void)updateImage:(NSString *)image;
+
+- (void)setEnabled:(BOOL)on;
 
 @end
 

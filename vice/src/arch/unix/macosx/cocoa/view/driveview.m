@@ -52,7 +52,8 @@ static NSString *help_texts[] = {
     activeLedColor = nil;
     inactiveLedColor = [NSColor blackColor];
     [inactiveLedColor retain];
-
+    ejectEnabled = NO;
+    
     // calc layout
     float fw = NSWidth(frame);
     float fh = NSHeight(frame);
@@ -176,10 +177,12 @@ static NSString *help_texts[] = {
         [imageText setStringValue:@"<no disk image>"];
         // toggle eject button
         [buttons[0] setEnabled:NO];
+        ejectEnabled = NO;
     } else {
         [imageText setStringValue:image];
         // toggle eject button
         [buttons[0] setEnabled:YES];
+        ejectEnabled = YES;
     }    
 }
 
@@ -227,6 +230,17 @@ static NSString *help_texts[] = {
 {
     // callback from button pressed
     return driveNumber + driveBase;
+}
+
+- (void)setEnabled:(BOOL)on
+{
+    if(on == NO) {
+        [buttons[0] setEnabled:NO];
+        [buttons[1] setEnabled:NO];
+    } else {
+        [buttons[0] setEnabled:ejectEnabled];
+        [buttons[1] setEnabled:YES];
+    }
 }
 
 // ----- Drag & Drop -----

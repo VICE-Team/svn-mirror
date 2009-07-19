@@ -34,6 +34,7 @@
 }
 
 - (id)initWithFrame:(NSRect)frame;
+- (void)setEnabled:(BOOL)on;
 
 @end
 
