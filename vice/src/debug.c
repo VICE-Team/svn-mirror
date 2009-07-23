@@ -243,8 +243,8 @@ void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a,
         break;
       }
       case DEBUG_NORMAL:
-        log_debug(".%04X %03i %03i %10ld  %-20s "
-                  "A=$%02X X=$%02X Y=$%02X SP=$%02X", (unsigned int)reg_pc,
+        log_debug(".%04X %03i %03i %10ld  %-22s "
+                  "%02x%02x%02x%02x", (unsigned int)reg_pc,
                   RLINE(mclk), RCYCLE(mclk), (long)mclk, dis,
                   reg_a, reg_x, reg_y, reg_sp);
         break;
@@ -255,11 +255,13 @@ void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a,
 }
 
 void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis,
-                 BYTE reg_a, BYTE reg_x, BYTE reg_y, BYTE reg_sp)
+                 BYTE reg_a, BYTE reg_x, BYTE reg_y, BYTE reg_sp,
+                 unsigned int driveno)
 {
     char st[DEBUG_MAXLINELEN];
 
-    sprintf(st, "Drive: .%04X %10ld %-20s %02x%02x%02x%02x",
+    sprintf(st, "Drive %2u:.%04X %10ld %-22s %02x%02x%02x%02x",
+            driveno,
             (unsigned int)reg_pc, (long)mclk, dis, reg_a, reg_x, reg_y, reg_sp);
     if (debug.trace_mode == DEBUG_HISTORY || debug.trace_mode == DEBUG_AUTOPLAY)
         debug_history_step(st);
