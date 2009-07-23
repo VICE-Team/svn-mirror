@@ -34,6 +34,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\sounddrv"),
     incl(searchpath, "..\\..\\..\\..\\tape"),
     incl(searchpath, "..\\..\\..\\..\\vic20"),
+    incl(searchpath, "..\\..\\..\\..\\vic20\\cart"),
     incl(searchpath, "..\\..\\..\\..\\vdrive"),
     incl(searchpath, "..\\..\\..\\..\\video"),
     incl(searchpathfirst, "yes"),
@@ -82,8 +83,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/tape.icc"
         include "../incl/vdrive.icc"
         include "../incl/vic20.icc"
+        include "../incl/vic20cart.icc"
         include "../incl/video.icc"
     }
 }
-
-

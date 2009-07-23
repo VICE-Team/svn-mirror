@@ -61,6 +61,7 @@ EXTRA_DIST = \
 	incl/vdc.icc \
 	incl/vdrive.icc \
 	incl/vic20.icc \
+	incl/vic20cart.icc \
 	incl/vicii.icc \
 	incl/viciidtv.icc \
 	incl/video.icc \

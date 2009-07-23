@@ -1,0 +1,5 @@
+source type(c)
+	"generic.c",
+	"megacart.c",
+	"vic20cart.c",
+	"vic20cartmem.c"
