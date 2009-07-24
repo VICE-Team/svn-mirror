@@ -608,8 +608,8 @@ archdep.tgt
 VComponent
 135
 WRect
-250
-240
+2160
+3560
 5700
 4280
 1
@@ -1500,4 +1500,4 @@ WFileName
 gentr.tgt
 0
 1
-83
+197
