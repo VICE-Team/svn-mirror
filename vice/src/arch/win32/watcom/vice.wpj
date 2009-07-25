@@ -838,8 +838,8 @@ WRect
 WFileName
 9
 vic20.tgt
-0
-0
+5
+16
 174
 VComponent
 175
@@ -1160,4 +1160,4 @@ WFileName
 gentr.tgt
 0
 0
-69
+171
