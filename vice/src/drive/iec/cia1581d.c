@@ -31,6 +31,7 @@
 
 #include "cia.h"
 #include "ciad.h"
+#include "debug.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivetypes.h"

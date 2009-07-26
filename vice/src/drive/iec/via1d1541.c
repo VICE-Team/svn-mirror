@@ -31,6 +31,7 @@
 
 #include <stdio.h>
 
+#include "debug.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivesync.h"
@@ -176,6 +177,7 @@ static void undump_prb(via_context_t *via_context, BYTE byte)
         iecbus->drv_port = (((iecbus->cpu_port >> 4) & 0x4)
                            | (iecbus->cpu_port >> 7)
                            | ((iecbus->cpu_bus << 3) & 0x80));
+
     } else {
         iec_drive_write((BYTE)(~byte), via1p->number);
     }
@@ -208,8 +210,10 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE p_oldpb,
             iecbus->drv_port = (((iecbus->cpu_port >> 4) & 0x4)
                                | (iecbus->cpu_port >> 7)
                                | ((iecbus->cpu_bus << 3) & 0x80));
+        DEBUG_IEC_DRV_WRITE(iecbus->drv_port);
         } else {
             iec_drive_write((BYTE)(~byte), via1p->number);
+        DEBUG_IEC_DRV_WRITE(~byte);
         }
     }
 }
@@ -301,6 +305,8 @@ static BYTE read_prb(via_context_t *via_context)
         byte = (((via_context->via[VIA_PRB] & 0x1a)
                | iec_drive_read(via1p->number)) ^ 0x85) | orval;
     }
+
+    DEBUG_IEC_DRV_READ(byte);
 
     return byte;
 }

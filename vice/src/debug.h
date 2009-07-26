@@ -51,6 +51,9 @@ typedef struct debug_s {
       * next statement. This is often handy for debugging.
       */
     int perform_break_into_monitor;
+
+    /*! If this is set, inputs and outputs to the IEC bus are output. */
+    int iec;
 #endif
     int do_core_dumps;
 } debug_t;
@@ -80,6 +83,22 @@ extern void debug_stop_playback(void);
 extern void debug_set_milestone(void);
 extern void debug_reset_milestone(void);
 extern void debug_check_autoplay_mode(void);
+
+
+#ifdef DEBUG
+
+extern void debug_iec_drv_write(BYTE data);
+extern void debug_iec_drv_read(BYTE data);
+
+# define DEBUG_IEC_DRV_WRITE(_data) debug_iec_drv_write(_data)
+# define DEBUG_IEC_DRV_READ(_data) debug_iec_drv_read(_data)
+
+#else
+
+# define DEBUG_IEC_DRV_WRITE(_data)
+# define DEBUG_IEC_DRV_READ(_data)
+
+#endif
 
 #endif
 

@@ -57,10 +57,85 @@ static unsigned int iecbus_device[IECBUS_NUM];
 static BYTE iec_old_atn = 0x10;
 
 
+#include "debug.h"
+
+#ifdef DEBUG
+
+#include "log.h"
+
+static void debug_iec_cpu_write(BYTE data)
+{
+    if (debug.iec) {
+        BYTE value = ~ data;
+
+        log_debug("$DD00 store: %s %s %s",
+            value & 0x20 ? "DATA OUT" : "        ",
+            value & 0x10 ? "CLK OUT"  : "       ",
+            value & 0x08 ? "ATN OUT"  : "       "
+            );
+    }
+}
+# define DEBUG_IEC_CPU_WRITE(_data) debug_iec_cpu_write(_data)
+
+static void debug_iec_cpu_read(BYTE data)
+{
+    if (debug.iec) {
+        BYTE value = data;
+
+        log_debug("$DD00 read:  %s %s %s %s %s",
+            value & 0x20 ? "DATA OUT" : "        ",
+            value & 0x10 ? "CLK OUT"  : "       ",
+            value & 0x08 ? "ATN OUT"  : "       ",
+            value & 0x80 ? "       "  : "DATA IN",
+            value & 0x40 ? "      "   : "CLK IN"
+            );
+    }
+}
+# define DEBUG_IEC_CPU_READ(_data) debug_iec_cpu_read(_data)
+
+void debug_iec_drv_write(BYTE data)
+{
+    if (debug.iec) {
+        BYTE value = data;
+
+        log_debug("$1800 store: %s %s %s",
+            value & 0x02 ? "DATA OUT" : "        ",
+            value & 0x08 ? "CLK OUT"  : "       ",
+            value & 0x10 ? "ATNA   "  : "       "
+            );
+    }
+}
+
+void debug_iec_drv_read(BYTE data)
+{
+    if (debug.iec) {
+        BYTE value = data;
+
+        log_debug("$1800 read: %s %s %s %s %s %s",
+            value & 0x02 ? "DATA OUT" : "        ",
+            value & 0x08 ? "CLK OUT"  : "       ",
+            value & 0x10 ? "ATNA   "  : "       ",
+
+            value & 0x01 ? "DATA IN"  : "       ",
+            value & 0x04 ? "CLK IN"   : "       ",
+            value & 0x80 ? "ATN"      : "   "
+            );
+    }
+}
+
+#else
+
+# define DEBUG_IEC_CPU_WRITE(_data)
+# define DEBUG_IEC_CPU_READ(_data)
+
+#endif
+
 void iecbus_init(void)
 {
     memset(&iecbus, 0xff, sizeof(iecbus_t));
-    iecbus.drv_port = 0x85;
+    iecbus.drv_port = IECBUS_DEVICE_READ_DATA
+                      | IECBUS_DEVICE_READ_CLK
+                      | IECBUS_DEVICE_READ_ATN;
 }
 
 void iecbus_cpu_undump(BYTE data)
@@ -72,11 +147,15 @@ void iecbus_cpu_undump(BYTE data)
 /* No drive is enabled.  */
 static BYTE iecbus_cpu_read_conf0(CLOCK clock)
 {
-    return (iecbus.iec_fast_1541 & 0x30) << 2;
+    DEBUG_IEC_CPU_READ((iecbus.iec_fast_1541 & 0x30u) << 2);
+
+    return (iecbus.iec_fast_1541 & 0x30u) << 2;
 }
 
 static void iecbus_cpu_write_conf0(BYTE data, CLOCK clock)
 {
+    DEBUG_IEC_CPU_WRITE(data);
+
     iecbus.iec_fast_1541 = data;
 }
 
@@ -84,6 +163,8 @@ static void iecbus_cpu_write_conf0(BYTE data, CLOCK clock)
 static BYTE iecbus_cpu_read_conf1(CLOCK clock)
 {
     drivecpu_execute_all(clock);
+
+    DEBUG_IEC_CPU_READ(iecbus.cpu_port);
 
     return iecbus.cpu_port;
 }
@@ -94,6 +175,8 @@ static void iecbus_cpu_write_conf1(BYTE data, CLOCK clock)
 
     drive = drive_context[0]->drive;
     drivecpu_execute(drive_context[0], clock);
+
+    DEBUG_IEC_CPU_WRITE(data);
 
     iec_update_cpu_bus(data);
 
@@ -126,6 +209,8 @@ static BYTE iecbus_cpu_read_conf2(CLOCK clock)
 {
     drivecpu_execute_all(clock);
 
+    DEBUG_IEC_CPU_READ(iecbus.cpu_port);
+
     return iecbus.cpu_port;
 }
 
@@ -135,6 +220,8 @@ static void iecbus_cpu_write_conf2(BYTE data, CLOCK clock)
 
     drive = drive_context[1]->drive;
     drivecpu_execute(drive_context[1], clock);
+
+    DEBUG_IEC_CPU_WRITE(data);
 
     iec_update_cpu_bus(data);
 
@@ -167,6 +254,8 @@ static BYTE iecbus_cpu_read_conf3(CLOCK clock)
     drivecpu_execute_all(clock);
     serial_iec_device_exec(clock);
 
+    DEBUG_IEC_CPU_READ(iecbus.cpu_port);
+
     return iecbus.cpu_port;
 }
 
@@ -176,6 +265,8 @@ static void iecbus_cpu_write_conf3(BYTE data, CLOCK clock)
 
     drivecpu_execute_all(clock);
     serial_iec_device_exec(clock);
+
+    DEBUG_IEC_CPU_WRITE(data);
 
     iec_update_cpu_bus(data);
 
