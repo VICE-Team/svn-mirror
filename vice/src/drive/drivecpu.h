@@ -47,9 +47,6 @@ extern void drivecpu_shutdown(struct drive_context_s *drv);
 extern void drivecpu_reset_clk(struct drive_context_s *drv);
 extern void drivecpu_trigger_reset(unsigned int dnr);
 
-extern void REGPARM3 drive_store(struct drive_context_s *drv, WORD addr,
-                                 BYTE value);
-extern BYTE REGPARM2 drive_read(struct drive_context_s *drv, WORD addr);
 extern void drivecpu_execute(struct drive_context_s *drv, CLOCK clk_value);
 extern void drivecpu_execute_all(CLOCK clk_value);
 extern int drivecpu_snapshot_write_module(struct drive_context_s *drv,
