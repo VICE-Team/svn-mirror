@@ -40,10 +40,7 @@ BYTE vic20memrom_kernal_rom[VIC20_KERNAL_ROM_SIZE];
 
 BYTE vic20memrom_kernal_trap_rom[VIC20_KERNAL_ROM_SIZE];
 
-/* The second 0x400 handles a possible segfault by a wraparound of the
-   chargen by setting it to $8c00.  FIXME: This does not cause the exact
-   behavior to be emulated though!  */
-BYTE vic20memrom_chargen_rom[0x400 + VIC20_CHARGEN_ROM_SIZE + 0x400];
+BYTE vic20memrom_chargen_rom[VIC20_CHARGEN_ROM_SIZE];
 
 
 BYTE REGPARM1 vic20memrom_kernal_read(WORD addr)
@@ -58,7 +55,7 @@ BYTE REGPARM1 vic20memrom_basic_read(WORD addr)
 
 BYTE REGPARM1 vic20memrom_chargen_read(WORD addr)
 {
-    return vic20memrom_chargen_rom[0x400 + (addr & 0xfff)];
+    return vic20memrom_chargen_rom[addr & 0xfff];
 }
 
 BYTE REGPARM1 vic20memrom_trap_read(WORD addr)
@@ -102,7 +99,7 @@ void REGPARM2 rom_store(WORD addr, BYTE value)
 {
     switch (addr & 0xf000) {
       case 0x8000:
-        vic20memrom_chargen_rom[0x400 + (addr & 0x0fff)] = value;
+        vic20memrom_chargen_rom[addr & 0x0fff] = value;
         break;
       case 0xc000:
       case 0xd000:

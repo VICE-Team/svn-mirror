@@ -29,7 +29,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "alarm.h"
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -127,9 +126,6 @@ int vic_snapshot_read_module(snapshot_t *s)
     if (SMR_BA(m, mem_ram + 0x9400, 0x800) < 0)
         goto fail;
 
-    vic.last_emulate_line_clk = maincpu_clk - VIC_RASTER_CYCLE(maincpu_clk);
-    vic.draw_clk = vic.last_emulate_line_clk + vic.cycles_per_line;
-
     for (i = 0; i < 0x10; i++) {
         if (SMR_B(m, &b) < 0)
             goto fail;
@@ -137,8 +133,6 @@ int vic_snapshot_read_module(snapshot_t *s)
         /* XXX: This assumes that there are no side effects.  */
         vic_store(i, b);
     }
-
-    alarm_set(vic.raster_draw_alarm, vic.draw_clk);
 
     raster_force_repaint(&vic.raster);
     return snapshot_module_close(m);

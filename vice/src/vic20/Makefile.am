@@ -16,6 +16,8 @@ libvic20_a_SOURCES = \
 	vic-cmdline-options.h \
 	vic-color.c \
 	vic-color.h \
+	vic-cycle.c \
+	vic-cycle.h \
 	vic-draw.c \
 	vic-draw.h \
 	vic-mem.c \
@@ -37,6 +39,7 @@ libvic20_a_SOURCES = \
 	vic20.c \
 	vic20.h \
 	vic20bus.c \
+	vic20cpu.c \
 	vic20datasette.c \
 	vic20drive.c \
 	vic20embedded.c \

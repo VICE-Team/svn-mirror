@@ -93,20 +93,6 @@ SOURCE=..\..\main.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\maincpu.c
-
-!IF  "$(CFG)" == "xvic - Win32 Release"
-
-# ADD CPP /Ot /Oa /Ow /Oi /Op /Oy
-# SUBTRACT CPP /Os
-
-!ELSEIF  "$(CFG)" == "xvic - Win32 Debug"
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
 SOURCE=.\resvic20.rc
 
 !IF  "$(CFG)" == "xvic - Win32 Release"

@@ -135,7 +135,7 @@ int vic20rom_load_chargen(const char *rom_name)
     if (!util_check_null_string(rom_name)) {
         /* Load chargen ROM. */
         if (sysfile_load(rom_name,
-            vic20memrom_chargen_rom + 0x400, VIC20_CHARGEN_ROM_SIZE,
+            vic20memrom_chargen_rom, VIC20_CHARGEN_ROM_SIZE,
             VIC20_CHARGEN_ROM_SIZE) < 0) {
             log_error(vic20rom_log, "Couldn't load character ROM.");
             return -1;

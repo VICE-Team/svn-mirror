@@ -43,10 +43,6 @@
 static WORD drawing_table[256][256][8]; /* [byte][color][position] */
 
 
-/* FIXME: Here, we are really wasting resources.  When using the
-   cache, we store the foreground data in the cache, but then we fetch
-   it again when drawing.  */
-
 static void init_drawing_tables(void)
 {
     unsigned int byte, color, pos;
@@ -86,18 +82,15 @@ static int fill_cache(raster_cache_t *cache, unsigned int *xs,
         rr = 1;
     }
 
-    r = raster_cache_data_fill_text(cache->foreground_data,
-                                    vic.screen_ptr + vic.memptr,
-                                    vic.chargen_ptr,
-                                    vic.char_height,
-                                    vic.text_cols,
-                                    vic.raster.ycounter
-                                    & ((vic.char_height >> 1) | 7),
-                                    xs, xe,
-                                    rr);
+    r = raster_cache_data_fill(cache->foreground_data,
+                               vic.gbuf,
+                               vic.text_cols,
+                               1,
+                               xs, xe,
+                               rr);
 
     r |= raster_cache_data_fill(cache->color_data_1,
-                                vic.color_ptr + vic.memptr,
+                                vic.cbuf,
                                 vic.text_cols,
                                 1,
                                 xs, xe,
@@ -116,12 +109,8 @@ static int fill_cache(raster_cache_t *cache, unsigned int *xs,
         *((VIC_PIXEL *)(p) + (x)) = (c)[drawing_table[(d)][(b)][(x)]];  \
     }
 
-#define GET_CHAR_DATA(code, row) \
-    *(vic.chargen_ptr + ((code) * vic.char_height) \
-    + (row & ((vic.char_height >> 1) | 7)))
-
 inline static void draw(BYTE *p, unsigned int xs, unsigned int xe,
-                        int transparent)
+                        int transparent, BYTE *cbuf, BYTE *gbuf)
 /* transparent>0: don't overwrite background */
 {
     VIC_PIXEL c[4];
@@ -140,9 +129,9 @@ inline static void draw(BYTE *p, unsigned int xs, unsigned int xe,
         vic.auxiliary_color != vic.old_auxiliary_color ||
         vic.reverse != vic.old_reverse) {
 
-        b = *(vic.color_ptr + vic.memptr + xs);
-        d = GET_CHAR_DATA(*(vic.screen_ptr + vic.memptr + xs),
-                          vic.raster.ycounter);
+        b = cbuf[xs];
+        d = gbuf[xs];
+
         c[2] = VIC_PIXEL(b & 0x7);
 
         /* put the first pixel to handle border or auxiliary color
@@ -173,10 +162,9 @@ inline static void draw(BYTE *p, unsigned int xs, unsigned int xe,
     c[1] = VIC_PIXEL(vic.mc_border_color);
     c[3] = VIC_PIXEL(vic.auxiliary_color);
     for (i = xs; (int)i <= (int)xe; i++, p += 8 * VIC_PIXEL_WIDTH) {
-        b = *(vic.color_ptr + vic.memptr + i);
+        b = cbuf[i];
         c[2] = VIC_PIXEL(b & 0x7);
-        d = GET_CHAR_DATA(*(vic.screen_ptr + vic.memptr + i),
-                          vic.raster.ycounter);
+        d = gbuf[i];
         dr = (vic.reverse & !(b & 0x8)) ? ~d : d;
         for (x = 0; x < 8; x++) {
             PUT_PIXEL(p, dr, c, b, x, transparent);
@@ -191,7 +179,7 @@ static void draw_line(void)
     p = (vic.raster.draw_buffer_ptr
         + vic.raster.display_xstart);
 
-    draw(p, 0, vic.text_cols - 1, 0);
+    draw(p, 0, vic.text_cols - 1, 0, vic.cbuf, vic.gbuf);
 }
 
 static void draw_line_cached(raster_cache_t *cache, unsigned int xs,
@@ -204,7 +192,8 @@ static void draw_line_cached(raster_cache_t *cache, unsigned int xs,
 
     /* Scale back xs and xe from 8 pixel units to text_cols.  */
     draw(p, xs >> VIC_PIXEL_WIDTH_SHIFT,
-         ((xe + 1) >> VIC_PIXEL_WIDTH_SHIFT) - 1, 0);
+         ((xe + 1) >> VIC_PIXEL_WIDTH_SHIFT) - 1, 0,
+         cache->color_data_1, cache->foreground_data);
 }
 
 static void draw_std_background(unsigned int start_pixel,
@@ -223,7 +212,7 @@ static void draw_std_foreground(unsigned int start_char,
     p = (vic.raster.draw_buffer_ptr
         + vic.raster.display_xstart);
 
-    draw(p, start_char, end_char, 1);
+    draw(p, start_char, end_char, 1, vic.cbuf, vic.gbuf);
 }
 
 static void setup_modes(void)

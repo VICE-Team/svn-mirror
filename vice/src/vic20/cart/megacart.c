@@ -104,7 +104,7 @@ BYTE REGPARM1 megacart_io2_read(WORD addr)
     if (nvram_en_flop) {
         value = cart_nvram[addr & 0x0fff];
     } else {
-        value = addr >> 8;
+        value = vic20_v_bus_last_data;
     }
     return value;
 }
@@ -123,7 +123,7 @@ BYTE REGPARM1 megacart_io3_read(WORD addr)
     if (nvram_en_flop) {
         value = cart_nvram[addr & 0x0fff];
     } else {
-        value = addr >> 8;
+        value = vic20_v_bus_last_data;
     }
     return value;
 }
@@ -168,7 +168,7 @@ BYTE REGPARM1 megacart_ram123_read(WORD addr)
     if (nvram_en_flop) {
         return cart_nvram[addr & 0x0fff];
     } else {
-        return addr >> 8;
+        return vic20_v_bus_last_data;
     }
 }
 
@@ -227,7 +227,7 @@ BYTE REGPARM1 megacart_mem_read(WORD addr)
             if (ram_high_en) {
                 return cart_ram[addr];
             } else {
-                return addr >> 8;
+                return vic20_cpu_last_data;
             }
         }
     }

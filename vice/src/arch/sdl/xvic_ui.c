@@ -177,8 +177,8 @@ fprintf(stderr,"%s\n",__func__);
     vic20_font=lib_malloc(8*256);
     for (i=0; i<128; i++) {
         for (j=0; j<8; j++) {
-            vic20_font[(i*8)+j]=vic20memrom_chargen_rom[(i*8)+(128*8)+j+0x800];
-            vic20_font[(i*8)+(128*8)+j]=vic20memrom_chargen_rom[(i*8)+j+0x800];
+            vic20_font[(i*8)+j] = vic20memrom_chargen_rom[(i*8)+(128*8)+j+0x400];
+            vic20_font[(i*8)+(128*8)+j] = vic20memrom_chargen_rom[(i*8)+j+0x400];
         }
     }
 

@@ -199,6 +199,8 @@ void vic20via1_setup_context(machine_context_t *machine_context)
 
     viacore_setup_context(via);
 
+    via->write_offset = 0;
+
     via->irq_line = IK_IRQ;
 
     via->undump_pra = undump_pra;

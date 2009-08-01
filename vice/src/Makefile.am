@@ -282,11 +282,15 @@ midi_sources = \
 cpucore_sources = \
 	6510core.c
 
+cpudtvcore_sources = \
+	6510dtvcore.c
+
 maincpu_sources = \
 	maincpu.c
 
 EXTRA_DIST = \
 	6510core.c \
+	6510dtvcore.c \
 	ChangeLog \
 	ChangeLog.1 \
 	ChangeLog.2 \
@@ -931,7 +935,7 @@ xvic_libs =  \
 	$(common_libs) \
 	$(resid_libs)
 
-xvic_SOURCES = $(base_sources) $(maincpu_sources) $(mouse_sources) $(midi_sources)
+xvic_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
 xvic_LDADD = $(xvic_libs) $(emu_extlibs) @NETPLAY_LIBS@
 xvic_DEPENDENCIES = $(xvic_libs)
 xvic_LDFLAGS = @xvic_LDFLAGS@

@@ -340,7 +340,8 @@ void REGPARM3 viacore_store(via_context_t *via_context, WORD addr, BYTE byte)
         (*(via_context->clk_ptr))++;
     }
 
-    rclk = *(via_context->clk_ptr) - 1; /* stores have a one-cylce offset */
+    /* stores have a one-cycle offset if CLK++ happens before store */
+    rclk = *(via_context->clk_ptr) - via_context->write_offset;
 
     addr &= 0xf;
 
@@ -866,6 +867,8 @@ void viacore_setup_context(via_context_t *via_context)
 
     via_context->my_module_name_alt1 = NULL;
     via_context->my_module_name_alt2 = NULL;
+
+    via_context->write_offset = 1;
  }
 
 void viacore_init(via_context_t *via_context, alarm_context_t *alarm_context,

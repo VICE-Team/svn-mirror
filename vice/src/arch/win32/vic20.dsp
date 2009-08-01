@@ -90,6 +90,10 @@ SOURCE="..\..\vic20\vic-color.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\vic20\vic-cycle.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\vic20\vic-draw.c"
 # End Source File
 # Begin Source File
@@ -131,6 +135,10 @@ SOURCE=..\..\vic20\vic20.c
 # Begin Source File
 
 SOURCE=..\..\vic20\vic20bus.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\vic20\vic20cpu.c
 # End Source File
 # Begin Source File
 
