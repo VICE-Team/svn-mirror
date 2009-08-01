@@ -336,7 +336,7 @@ CLOCK vdc_lightpen_timing(int x, int y)
     
     /* FIXME - this doesn't work properly.. */
     pulse_time = maincpu_clk;
-    pulse_time += (x / 8) + (y * vdc_cycles_per_line);
+    pulse_time += (CLOCK)((x / 8) + (y * vdc_cycles_per_line));
         
     /* Figure out what values should go into the registers when triggered */
     vdc.light_pen.y = (y - (int)vdc.first_displayed_line - 1) / ((int)(vdc.regs[9] & 0x1f) + 1);
