@@ -360,7 +360,7 @@
     dest = new_value;
 
 #define GET_IMM(dest) \
-    dest = (p1);
+    dest = (BYTE)(p1);
 
 #define GET_ABS(dest)        \
     dest = (BYTE)(LOAD(p2)); \
@@ -641,11 +641,11 @@
       INC_PC(pc_inc);                           \
   } while (0)
 
-#define ANE()                                           \
-  do {                                                  \
-      reg_a_write = ((reg_a_read | 0xee) & reg_x & p1); \
-      LOCAL_SET_NZ(reg_a_read);                         \
-      INC_PC(2);                                        \
+#define ANE()                                                 \
+  do {                                                        \
+      reg_a_write = (BYTE)((reg_a_read | 0xee) & reg_x & p1); \
+      LOCAL_SET_NZ(reg_a_read);                               \
+      INC_PC(2);                                              \
   } while (0)
 
 /* The fanciest opcode ever... ARR! */

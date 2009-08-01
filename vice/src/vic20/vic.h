@@ -185,7 +185,7 @@ struct vic_s
     unsigned int memptr_inc;
 
     /* counting the text lines in the current frame */
-    int row_counter;
+    unsigned int row_counter;
 
     /* area in the frame */
     vic_area_state_t area;
@@ -197,7 +197,7 @@ struct vic_s
     BYTE vbuf;
 
     /* Offset to the cbuf/gbuf buffers */
-    int buf_offset;
+    unsigned int buf_offset;
 
     /* Color memory buffer */
     BYTE cbuf[VIC_MAX_TEXT_COLS];
