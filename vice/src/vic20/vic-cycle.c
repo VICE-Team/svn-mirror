@@ -326,7 +326,7 @@ void vic_cycle(void)
 
     if ((vic.area == VIC_AREA_DISPLAY) || (vic.area == VIC_AREA_PENDING)) {
         /* Check for horizontal flipflop */
-        if ((vic.fetch_state == VIC_FETCH_IDLE) && (vic.regs[0] & 0x7f) == vic.raster_cycle) {
+        if ((vic.fetch_state == VIC_FETCH_IDLE) && (vic.regs[0] & 0x7fu) == vic.raster_cycle) {
             vic_cycle_open_h();
         }
 
