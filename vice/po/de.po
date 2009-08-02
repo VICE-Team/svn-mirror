@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-07-17 19:06+0200\n"
-"PO-Revision-Date: 2009-06-03 21:56+0200\n"
+"PO-Revision-Date: 2009-08-02 11:15+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15,21 +15,19 @@ msgstr ""
 
 #: src/arch/unix/joy.c:102 src/arch/unix/macosx/joy.c:308
 msgid "Set device for joystick port 1"
-msgstr "Gerät für Port 1 definieren"
+msgstr "Gerät für Joystick Port 1 definieren"
 
 #: src/arch/unix/joy.c:111 src/arch/unix/macosx/joy.c:317
 msgid "Set device for joystick port 2"
-msgstr "Gerät für Port 2 definieren"
+msgstr "Gerät für Joystick Port 2 definieren"
 
 #: src/arch/unix/joy.c:120 src/arch/unix/macosx/joy.c:326
-#, fuzzy
 msgid "Set device for extra joystick port 1"
-msgstr "Gerät für Port 1 definieren"
+msgstr "Gerät für extra Joystick Port 1 definieren"
 
 #: src/arch/unix/joy.c:129 src/arch/unix/macosx/joy.c:335
-#, fuzzy
 msgid "Set device for extra joystick port 2"
-msgstr "Gerät für Port 2 definieren"
+msgstr "Gerät für extra Joystick Port 2 definieren"
 
 #: src/arch/unix/mididrv.c:659 src/arch/unix/mididrv.c:664
 #: src/translate.c.po.c:3694
@@ -219,18 +217,16 @@ msgid "MIDI Emulation"
 msgstr "MIDI Emulation"
 
 #: src/arch/unix/gui/c128ui.c:296 src/arch/unix/gui/c64ui.c:313
-#, fuzzy
 msgid "*SFX Sound Expander emulation"
-msgstr "PS/2 Mausemulation"
+msgstr "*SFX Sound Expander Emulation"
 
 #: src/arch/unix/gui/c128ui.c:298 src/arch/unix/gui/c64ui.c:315
-#, fuzzy
 msgid "*SFX Sound Sampler emulation"
-msgstr "PS/2 Mausemulation"
+msgstr "*SFX Sound Sampler Emulation"
 
 #: src/arch/unix/gui/c128ui.c:300
 msgid "*Banks 2 & 3"
-msgstr ""
+msgstr "*Bänke 2 & 3"
 
 #: src/arch/unix/gui/c128ui.c:308
 msgid "Load new Int. Kernal ROM"
@@ -698,9 +694,8 @@ msgid "*PET userport diagnostic pin"
 msgstr "*PET Userport Diagnose Pin"
 
 #: src/arch/unix/gui/plus4ui.c:120
-#, fuzzy
 msgid "*Enable digiblaster add-on"
-msgstr "Doppelt Scan aktivieren"
+msgstr "*Digiblaster add-on aktivieren"
 
 #: src/arch/unix/gui/plus4ui.c:132
 msgid "Load new 3 plus 1 LO ROM"
@@ -861,9 +856,8 @@ msgid "Smart-attach disk/tape..."
 msgstr "Smart-Einlegen von Disk/Tape Image..."
 
 #: src/arch/unix/gui/uiattach.c:316
-#, fuzzy
 msgid "Autostart settings"
-msgstr "Crtc Einstellungen"
+msgstr "Autostart Einstellungen"
 
 #: src/arch/unix/gui/uic64_256k.c:40
 msgid "256K image name"
@@ -1901,38 +1895,33 @@ msgstr "Joystick ports austauschen"
 
 #: src/arch/unix/gui/uijoystick2.c:374 src/arch/unix/gui/uijoystick2.c:403
 #: src/arch/unix/gui/uijoystick2.c:443 src/arch/unix/gui/uijoystick2.c:468
-#, fuzzy
 msgid "*Userport Joystick Interface"
-msgstr "*PET Userport Diagnose Pin"
+msgstr "*Userport Joystick Schnittstelle"
 
 #: src/arch/unix/gui/uijoystick2.c:376 src/arch/unix/gui/uijoystick2.c:405
 #: src/arch/unix/gui/uijoystick2.c:445 src/arch/unix/gui/uijoystick2.c:470
 msgid "*Userport Joystick Interface Type"
-msgstr ""
+msgstr "*Userport Joystick Schnittstellentyp"
 
 #: src/arch/unix/gui/uijoystick2.c:378 src/arch/unix/gui/uijoystick2.c:407
 #: src/arch/unix/gui/uijoystick2.c:447 src/arch/unix/gui/uijoystick2.c:472
 #: src/arch/unix/gui/uijoystick2.c:499
-#, fuzzy
 msgid "Joystick device in extra port 1"
-msgstr "Joystick in port 1"
+msgstr "Joystick Gerät in extra Port 1"
 
 #: src/arch/unix/gui/uijoystick2.c:380 src/arch/unix/gui/uijoystick2.c:409
 #: src/arch/unix/gui/uijoystick2.c:449 src/arch/unix/gui/uijoystick2.c:474
-#, fuzzy
 msgid "Joystick device in extra port 2"
-msgstr "Joystick in port 2"
+msgstr "Joystick Gerät in extra Port 2"
 
 #: src/arch/unix/gui/uijoystick2.c:382 src/arch/unix/gui/uijoystick2.c:411
 #: src/arch/unix/gui/uijoystick2.c:451 src/arch/unix/gui/uijoystick2.c:476
-#, fuzzy
 msgid "Swap userport joystick ports"
-msgstr "Joystick ports austauschen"
+msgstr "Userport Joystick ports austauschen"
 
 #: src/arch/unix/gui/uijoystick2.c:497
-#, fuzzy
 msgid "*SIDcart Joystick"
-msgstr "SID Modul Einstellungen"
+msgstr "*SIDcart Joystick"
 
 #: src/arch/unix/gui/uijoystick2.c:511 src/arch/unix/gui/uijoystick2.c:517
 #: src/arch/unix/gui/uijoystick2.c:523 src/arch/unix/gui/uijoystick2.c:529
@@ -3287,9 +3276,8 @@ msgid "Invalid cartridge image"
 msgstr "Ungültiges Erweiterungsmodul Image"
 
 #: src/arch/unix/gui/vic20ui.c:297
-#, fuzzy
 msgid "Attach generic image..."
-msgstr "Universal 8Kb Image einlegen..."
+msgstr "Universal Image einlegen..."
 
 #: src/arch/unix/gui/vic20ui.c:301
 msgid "Smart-attach cartridge image..."
@@ -3316,18 +3304,16 @@ msgid "Attach 4KB image at $B000..."
 msgstr "4KB Modul Image bei $B000..."
 
 #: src/arch/unix/gui/vic20ui.c:321
-#, fuzzy
 msgid "Attach Mega-Cart image..."
-msgstr "Band Image einlegen..."
+msgstr "Mega Cart Image einlegen..."
 
 #: src/arch/unix/gui/vic20ui.c:335
 msgid "Detach cartridge image(s)"
 msgstr "Erweiterungsmodul Image(s) entfernen"
 
 #: src/arch/unix/gui/vic20ui.c:337
-#, fuzzy
 msgid "*Reset on cartridge change"
-msgstr "Reset bei Wechsel von Erweiterungsmodulen"
+msgstr "*Reset bei Wechsel von Erweiterungsmodulen"
 
 #: src/arch/unix/gui/vic20ui.c:483
 msgid "VIC settings"
@@ -4387,9 +4373,8 @@ msgid "&Calibrate Joystick(s)"
 msgstr "Joysticks &kalibrieren"
 
 #: src/arch/win32/res.rc.po.c:1249
-#, fuzzy
 msgid "Extra joystick adapter settings"
-msgstr "Joystick Einstellungen"
+msgstr "Extra Joystick Adapter Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:1686
 msgid "S&outh West"
@@ -5242,44 +5227,36 @@ msgid "Press key for Fire"
 msgstr "Drücke Taste für Feuer"
 
 #: src/arch/win32/res.rc.po.c:6499
-#, fuzzy
 msgid "No userport joy adapter"
-msgstr "Userport Diagnose Pin aktivieren"
+msgstr "Kein Userport Joystick Adapter"
 
 #: src/arch/win32/res.rc.po.c:6500
-#, fuzzy
 msgid "CGA userport joy adapter"
-msgstr "Userport Diagnose Pin aktivieren"
+msgstr "CGA Userport Joystick Adapter"
 
 #: src/arch/win32/res.rc.po.c:6501
-#, fuzzy
 msgid "PET userport joy adapter"
-msgstr "Userport Diagnose Pin aktivieren"
+msgstr "PET Userport Joystick Adapter"
 
 #: src/arch/win32/res.rc.po.c:6502
-#, fuzzy
 msgid "HUMMER userport joy adapter"
-msgstr "Userport Diagnose Pin aktivieren"
+msgstr "HUMMER Userport Joystock Adapter"
 
 #: src/arch/win32/res.rc.po.c:6503
-#, fuzzy
 msgid "OEM userport joy adapter"
-msgstr "Userport Diagnose Pin aktivieren"
+msgstr "OEM Userport Joystick Adapter"
 
 #: src/arch/win32/res.rc.po.c:6504
-#, fuzzy
 msgid "HIT userport joy adapter"
-msgstr "Userport Diagnose Pin aktivieren"
+msgstr "HIT Userport Joystick Adapter"
 
 #: src/arch/win32/res.rc.po.c:6505
-#, fuzzy
 msgid "Disable SIDcart joy"
-msgstr "SID Modul deaktivieren"
+msgstr "SIDcart Joystick deaktivieren"
 
 #: src/arch/win32/res.rc.po.c:6506
-#, fuzzy
 msgid "Enable SIDcart joy"
-msgstr "*SID Modul aktivieren"
+msgstr "SIDcart Joystick aktivieren"
 
 #: src/arch/win32/res.rc.po.c:6507
 msgid "Numpad + RCtrl"
@@ -5458,14 +5435,12 @@ msgid "Set input device for joystick #2"
 msgstr "Input Gerät für Joystick #2 definieren"
 
 #: src/arch/win32/res.rc.po.c:6546
-#, fuzzy
 msgid "Set input device for extra joystick #1"
-msgstr "Input Gerät für Joystick #1 definieren"
+msgstr "Input Gerät für extra Joystick #1 definieren"
 
 #: src/arch/win32/res.rc.po.c:6547
-#, fuzzy
 msgid "Set input device for extra joystick #2"
-msgstr "Input Gerät für Joystick #2 definieren"
+msgstr "Input Gerät für extra Joystick #2 definieren"
 
 #: src/arch/win32/res.rc.po.c:6552
 msgid "Use all CPU on SMP systems"
@@ -5976,14 +5951,12 @@ msgid "Scale2x"
 msgstr "Scale2x"
 
 #: src/arch/win32/res.rc.po.c:6694
-#, fuzzy
 msgid "Swap &Joysticks"
 msgstr "&Joystick ports austauschen"
 
 #: src/arch/win32/res.rc.po.c:6695
-#, fuzzy
 msgid "Swap &Userport joysticks"
-msgstr "*PET Userport Diagnose Pin"
+msgstr "&Userport Joystick ports austauschen"
 
 #: src/arch/win32/res.rc.po.c:6696 src/arch/amigaos/intl.c.po.c:1447
 msgid "Enable Joy Keys"
@@ -6014,14 +5987,12 @@ msgid "&Joystick settings..."
 msgstr "&Joystick Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:6703
-#, fuzzy
 msgid "&Userport joystick settings..."
-msgstr "&Joystick Einstellungen..."
+msgstr "&Userport Joystick Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:6704
-#, fuzzy
 msgid "&Sidcart joystick settings..."
-msgstr "&Joystick Einstellungen..."
+msgstr "&Sidcart Joystick Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:6705
 msgid "&Keyboard settings..."
@@ -6092,9 +6063,8 @@ msgid "&DIGIMAX settings..."
 msgstr "&Digimax Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:6722
-#, fuzzy
 msgid "&Lightpen settings..."
-msgstr "&Floppy Einstellungen..."
+msgstr "&Lichtgriffel Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:6723
 msgid "&IDE64 settings..."
@@ -6113,14 +6083,12 @@ msgid "RS&232 userport settings..."
 msgstr "RS&232 Userport Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:6729 src/arch/amigaos/intl.c.po.c:2052
-#, fuzzy
 msgid "SFX Sound Expander settings..."
-msgstr "PS/2 Mausemulation"
+msgstr "SFX Sound Expander Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:6730 src/arch/amigaos/intl.c.po.c:2063
-#, fuzzy
 msgid "Enable SFX Sound Sampler"
-msgstr "Sound Wiedergaben einschalten"
+msgstr "SFX Sound Sampler aktivieren"
 
 #: src/arch/win32/res.rc.po.c:6731 src/arch/amigaos/intl.c.po.c:2140
 msgid "Save current settings to specified file"
@@ -6734,14 +6702,12 @@ msgid "Enable external Function ROM"
 msgstr "Externes Funktions ROM aktivieren"
 
 #: src/arch/win32/resc128.rc.po.c:2952 src/arch/win32/resc128.rc.po.c:3283
-#, fuzzy
 msgid "RAM banks"
-msgstr "&Ram Bänke"
+msgstr "RAM Bänke"
 
 #: src/arch/win32/resc128.rc.po.c:2954
-#, fuzzy
 msgid "Enable RAM banks 2 and 3"
-msgstr "RAM Speichererweiterung aktivieren"
+msgstr "RAM Bänke 2 und 3  aktivieren"
 
 #: src/arch/win32/resc128.rc.po.c:3077 src/arch/win32/resplus4.rc.po.c:1666
 #: src/arch/win32/resvic20.rc.po.c:1635
@@ -7943,9 +7909,8 @@ msgid "Main device"
 msgstr "Haupt Gerät"
 
 #: src/arch/win32/ressidcart.rc.po.c:411
-#, fuzzy
 msgid "Enable digiblaster add-on"
-msgstr "Doppelt Scan aktivieren"
+msgstr "Digiblaster add-on aktivieren"
 
 #: src/arch/win32/restfe.rc.po.c:31
 msgid "Ethernet Settings"
@@ -8012,19 +7977,16 @@ msgid "Block &5"
 msgstr "Block &5"
 
 #: src/arch/win32/resvic20.rc.po.c:1857
-#, fuzzy
 msgid "Select Generic image"
-msgstr "HD Image Datei selektieren"
+msgstr "Universelle Image Datei wählen"
 
 #: src/arch/win32/resvic20.rc.po.c:1858
-#, fuzzy
 msgid "Select Mega-Cart image"
-msgstr "MMC/SD Image Date wählen"
+msgstr "Mega-Cart Image Date wählen"
 
 #: src/arch/win32/resvic20.rc.po.c:1859
-#, fuzzy
 msgid "Select cartridge image"
-msgstr "Erweiterungsmodul speichern"
+msgstr "Erweiterungsmodul Image Datei wählen"
 
 #: src/arch/win32/resvic20.rc.po.c:1860 src/arch/amigaos/intl.c.po.c:3269
 msgid "Attach 4/8/16KB cartridge image at $2000"
@@ -8055,19 +8017,16 @@ msgid "Enable Paddles"
 msgstr "Paddles aktivieren"
 
 #: src/arch/win32/resvic20.rc.po.c:1867
-#, fuzzy
 msgid "Generic image..."
-msgstr "Generisches 8kB Image..."
+msgstr "Generisches Image..."
 
 #: src/arch/win32/resvic20.rc.po.c:1868
-#, fuzzy
 msgid "Mega-Cart image..."
-msgstr "CRT Image..."
+msgstr "Mega-Cart Image..."
 
 #: src/arch/win32/resvic20.rc.po.c:1869
-#, fuzzy
 msgid "Smart-attach image..."
-msgstr "Smart-Einlegen von CRT Image..."
+msgstr "Smart-Einlegen Image Date..."
 
 #: src/arch/win32/resvic20.rc.po.c:1870
 msgid "4/8/16KB image at $&2000..."
@@ -8410,9 +8369,8 @@ msgid "Swap Joysticks"
 msgstr "Joystick ports austauschen"
 
 #: src/arch/amigaos/intl.c.po.c:1436
-#, fuzzy
 msgid "Swap Userport Joysticks"
-msgstr "Joystick ports austauschen"
+msgstr "Userport Joystick Ports austauschen"
 
 #: src/arch/amigaos/intl.c.po.c:1458
 msgid "Sound playback"
@@ -8974,34 +8932,28 @@ msgid "Joystick in port #2"
 msgstr "Joystick in Port #2"
 
 #: src/arch/amigaos/intl.c.po.c:4171
-#, fuzzy
 msgid "Userport joystick adapter"
-msgstr "Userport Diagnose Pin aktivieren"
+msgstr "Userport Joystick Adapter"
 
 #: src/arch/amigaos/intl.c.po.c:4182
-#, fuzzy
 msgid "Userport joystick adapter type"
-msgstr "Userport Diagnose Pin aktivieren"
+msgstr "Userport Joystick Adadptertype"
 
 #: src/arch/amigaos/intl.c.po.c:4193
-#, fuzzy
 msgid "Joystick in userport adapter port #1"
-msgstr "Joystick in Port #1"
+msgstr "Joystick in Userport Adapter Port #1"
 
 #: src/arch/amigaos/intl.c.po.c:4204
-#, fuzzy
 msgid "Joystick in userport adapter port #2"
-msgstr "Joystick in Port #2"
+msgstr "Joystick in Userport Adapter Port #2"
 
 #: src/arch/amigaos/intl.c.po.c:4215
-#, fuzzy
 msgid "SIDcart joystick"
-msgstr "SID Modul Einstellungen"
+msgstr "SIDcart Joystick"
 
 #: src/arch/amigaos/intl.c.po.c:4226
-#, fuzzy
 msgid "Joystick in SIDcart joystick port"
-msgstr "*SID Modul aktivieren"
+msgstr "Joystick in SIDcart Joystick Port"
 
 #: src/arch/amigaos/intl.c.po.c:4237
 msgid "Joystick Settings"
@@ -9064,19 +9016,16 @@ msgid "Joy 2 Device"
 msgstr "Joystick 2 Gerät"
 
 #: src/arch/amigaos/intl.c.po.c:4402
-#, fuzzy
 msgid "Userport Joy 1 Device"
-msgstr "Userport Gerät"
+msgstr "Userport Jouystick 1 Gerät"
 
 #: src/arch/amigaos/intl.c.po.c:4413
-#, fuzzy
 msgid "Userport Joy 2 Device"
-msgstr "Userport RS232 Gerät"
+msgstr "Userport Joystick 2 Gerät"
 
 #: src/arch/amigaos/intl.c.po.c:4424
-#, fuzzy
 msgid "SIDcart Joy Device"
-msgstr "Joystick 1 Gerät"
+msgstr "SIDcart Joystick Gerät"
 
 #: src/arch/amigaos/intl.c.po.c:4435
 msgid "Joy 1 Fire"
@@ -9087,19 +9036,16 @@ msgid "Joy 2 Fire"
 msgstr "Joystick 2 Feuer"
 
 #: src/arch/amigaos/intl.c.po.c:4457
-#, fuzzy
 msgid "Userport Joy 1 Fire"
-msgstr "Joystick 1 Feuer"
+msgstr "Userport Joystick 1 Feuer"
 
 #: src/arch/amigaos/intl.c.po.c:4468
-#, fuzzy
 msgid "Userport Joy 2 Fire"
-msgstr "Joystick 2 Feuer"
+msgstr "Userport Joystick 2 Feuer"
 
 #: src/arch/amigaos/intl.c.po.c:4479
-#, fuzzy
 msgid "SIDcart Joy Fire"
-msgstr "SID Modul"
+msgstr "SIDcart Joystick Feuer"
 
 #: src/arch/amigaos/intl.c.po.c:4490
 msgid ""
@@ -9115,19 +9061,14 @@ msgstr ""
 "AI)"
 
 #: src/arch/amigaos/intl.c.po.c:4517
-#, fuzzy
 msgid ""
 "Extra joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
-msgstr ""
-"Joystick #1 Emulation: (0:Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)"
+msgstr "Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz "
 
 #: src/arch/amigaos/intl.c.po.c:4530
-#, fuzzy
 msgid ""
 "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
-msgstr ""
-"Joystick #2 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/"
-"AI)"
+msgstr "Extra Joystick #2 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz "
 
 #: src/arch/amigaos/intl.c.po.c:4543
 msgid "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
@@ -9138,14 +9079,12 @@ msgid "Joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 msgstr "Joystick #2 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3)"
 
 #: src/arch/amigaos/intl.c.po.c:4565
-#, fuzzy
 msgid "Extra joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-msgstr "Joystick #1 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3)"
+msgstr "Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3)"
 
 #: src/arch/amigaos/intl.c.po.c:4576
-#, fuzzy
 msgid "Extra joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-msgstr "Joystick #2 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3)"
+msgstr "Extra Joystick #2 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3)"
 
 #: src/arch/amigaos/intl.c.po.c:4686
 msgid "PLUS60K Base"
@@ -9272,14 +9211,12 @@ msgid "SID Cart"
 msgstr "SID Modul"
 
 #: src/arch/amigaos/intl.c.po.c:5478
-#, fuzzy
 msgid "SID Cart joystick"
-msgstr "SID Modul Einstellungen"
+msgstr "SIDcart Joystick Einstellungen"
 
 #: src/arch/amigaos/intl.c.po.c:5489
-#, fuzzy
 msgid "Digiblaster add-on"
-msgstr "Digimax Basis Adresse"
+msgstr "Digiblaster add-on"
 
 #: src/arch/amigaos/intl.c.po.c:5500
 msgid "SID cart settings"
@@ -9435,7 +9372,7 @@ msgstr "Externe Funktions ROM Datei"
 
 #: src/arch/amigaos/intl.c.po.c:6171
 msgid "RAM banks 2 & 3"
-msgstr ""
+msgstr "RAM Bänkte 2 & 3"
 
 #: src/arch/amigaos/intl.c.po.c:6193
 msgid "Select ROM file"
@@ -9458,19 +9395,16 @@ msgid "Digimax Base"
 msgstr "Digimax Basis"
 
 #: src/arch/amigaos/intl.c.po.c:6259
-#, fuzzy
 msgid "SFX Sound Expander Enabled"
-msgstr "PS/2 Mausemulation"
+msgstr "SFX Sound Expander aktiviert"
 
 #: src/arch/amigaos/intl.c.po.c:6270
-#, fuzzy
 msgid "SFX Sound Expander Chip"
-msgstr "PS/2 Mausemulation"
+msgstr "SFX Sound Expander Chip"
 
 #: src/arch/amigaos/intl.c.po.c:6281
-#, fuzzy
 msgid "SFX Sound Expander Settings"
-msgstr "PS/2 Mausemulation"
+msgstr "SFX Sound Expander Einstellungen"
 
 #: src/arch/amigaos/intl.c.po.c:6314
 msgid "Select Sound Record File"
@@ -9761,21 +9695,19 @@ msgstr ""
 "Bitte SID Engine auf FastSID setzen"
 
 #: src/translate.c.po.c:860
-#, fuzzy
 msgid ""
 "SFX Sound Expander cannot be used with ReSID\n"
 "Please switch SID Engine to FastSID"
 msgstr ""
-"Digimax kann mit ReSID nicht benutzt werden\n"
+"SFX Sound Expander kann mit ReSID nicht benutzt werden\n"
 "Bitte SID Engine auf FastSID setzen"
 
 #: src/translate.c.po.c:875
-#, fuzzy
 msgid ""
 "SFX Sound Sampler cannot be used with ReSID\n"
 "Please switch SID Engine to FastSID"
 msgstr ""
-"Digimax kann mit ReSID nicht benutzt werden\n"
+"SFX Sound Sampler kann mit ReSID nicht benutzt werden\n"
 "Bitte SID Engine auf FastSID setzen"
 
 #: src/translate.c.po.c:890
@@ -10643,14 +10575,12 @@ msgid "Do not handle True Drive Emulation on autostart"
 msgstr "Präzise Floppy Emulation bei Autostart nicht beachten"
 
 #: src/translate.c.po.c:3638
-#, fuzzy
 msgid "Enable warp mode during autostart"
-msgstr "Warp Mode aktivieren"
+msgstr "Warp Mode während Autostart aktivieren"
 
 #: src/translate.c.po.c:3652
-#, fuzzy
 msgid "Disable warp mode during autostart"
-msgstr "Warp Mode deaktivieren"
+msgstr "Warp Mode währen Autostart deaktivieren"
 
 #: src/translate.c.po.c:3666
 msgid "Use PAL sync factor"
@@ -10729,14 +10659,12 @@ msgid "Disable emulator identification"
 msgstr "Emulator Identifikation deaktivieren"
 
 #: src/translate.c.po.c:3950
-#, fuzzy
 msgid "Enable the OEM userport joystick adapter"
-msgstr "Userport Diagnose Pin aktivieren"
+msgstr "OEM Userport Joystick Adapter aktivieren"
 
 #: src/translate.c.po.c:3964
-#, fuzzy
 msgid "Disable the OEM userport joystick adapter"
-msgstr "Userport Diagnose Pin deaktivieren"
+msgstr "OEM Userport Joystick Adapter deaktivieren"
 
 #: src/translate.c.po.c:3978
 msgid "Enable the IEEE488 interface emulation"
@@ -11950,14 +11878,12 @@ msgid "Specify 4K extension ROM name at $B000"
 msgstr "4/8/16K Erweiterungs ROM Datei Name für $B000 definieren"
 
 #: src/translate.c.po.c:8377
-#, fuzzy
 msgid "Specify generic extension ROM name"
-msgstr "4K Erweiterungs ROM Datei Name bei $9*** definieren"
+msgstr "Generisches Erweiterungs ROM definieren"
 
 #: src/translate.c.po.c:8391
-#, fuzzy
 msgid "Specify Mega-Cart extension ROM name"
-msgstr "4K Erweiterungs ROM Datei Name bei $9*** definieren"
+msgstr "Mega-Cart Erweiterungs ROM definieren"
 
 #: src/translate.c.po.c:8405
 msgid "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"
@@ -12555,44 +12481,36 @@ msgstr ""
 "Maplin)"
 
 #: src/translate.c.po.c:10490
-#, fuzzy
 msgid "Enable the digiblaster add-on"
-msgstr "Digimax Cartridge aktivieren"
+msgstr "Digiblaster add-on aktivieren"
 
 #: src/translate.c.po.c:10504
-#, fuzzy
 msgid "Disable the digiblaster add-on"
-msgstr "Digimax Cartridge deaktivieren"
+msgstr "Digiblaster add-on deaktivieren"
 
 #: src/translate.c.po.c:10518
-#, fuzzy
 msgid "Enable SID cartridge joystick"
-msgstr "SID Modul aktivieren"
+msgstr "SIDcart Modul aktivieren"
 
 #: src/translate.c.po.c:10532
-#, fuzzy
 msgid "Disable SID cartridge joystick"
-msgstr "SID Modul deaktivieren"
+msgstr "SIDcart Modul deaktivieren"
 
 #: src/translate.c.po.c:10546
-#, fuzzy
 msgid "Enable the SFX soundexpander cartridge"
-msgstr "Expert Cartridge aktivieren"
+msgstr "SFX Soundexpander Modul aktivieren"
 
 #: src/translate.c.po.c:10560
-#, fuzzy
 msgid "Disable the SFX soundexpander cartridge"
-msgstr "Digimax Cartridge deaktivieren"
+msgstr "SFX Soundexpander Modul deaktivieren"
 
 #: src/translate.c.po.c:10574
-#, fuzzy
 msgid "Enable the SFX Sound Sampler cartridge"
-msgstr "Digimax Cartridge aktivieren"
+msgstr "SFX Sound Sampler Modul aktivieren"
 
 #: src/translate.c.po.c:10588
-#, fuzzy
 msgid "Disable the SFX Sound Sampler cartridge"
-msgstr "Digimax Cartridge deaktivieren"
+msgstr "SFX Sound Sampler Modul  deaktivieren"
 
 #: src/translate.c.po.c:10602
 msgid "Enable the digimax cartridge"
