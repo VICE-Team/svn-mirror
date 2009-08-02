@@ -87,18 +87,26 @@ extern void debug_check_autoplay_mode(void);
 
 #ifdef DEBUG
 
-extern void debug_iec_drv_write(BYTE data);
-extern void debug_iec_drv_read(BYTE data);
+extern void debug_iec_drv_write(unsigned int data);
+extern void debug_iec_drv_read(unsigned int data);
+
+extern void debug_iec_bus_write(unsigned int data);
+extern void debug_iec_bus_read(unsigned int data);
 
 # define DEBUG_IEC_DRV_WRITE(_data) debug_iec_drv_write(_data)
 # define DEBUG_IEC_DRV_READ(_data) debug_iec_drv_read(_data)
+
+# define DEBUG_IEC_BUS_WRITE(_data) debug_iec_bus_write(_data)
+# define DEBUG_IEC_BUS_READ(_data) debug_iec_bus_read(_data)
 
 #else
 
 # define DEBUG_IEC_DRV_WRITE(_data)
 # define DEBUG_IEC_DRV_READ(_data)
 
-#endif
+# define DEBUG_IEC_BUS_WRITE(_data)
+# define DEBUG_IEC_BUS_READ(_data)
 
 #endif
 
+#endif

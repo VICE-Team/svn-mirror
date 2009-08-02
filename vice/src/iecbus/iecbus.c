@@ -63,7 +63,7 @@ static BYTE iec_old_atn = 0x10;
 
 #include "log.h"
 
-static void debug_iec_cpu_write(BYTE data)
+static void debug_iec_cpu_write(unsigned int data)
 {
     if (debug.iec) {
         BYTE value = ~ data;
@@ -77,7 +77,7 @@ static void debug_iec_cpu_write(BYTE data)
 }
 # define DEBUG_IEC_CPU_WRITE(_data) debug_iec_cpu_write(_data)
 
-static void debug_iec_cpu_read(BYTE data)
+static void debug_iec_cpu_read(unsigned int data)
 {
     if (debug.iec) {
         BYTE value = data;
@@ -93,25 +93,80 @@ static void debug_iec_cpu_read(BYTE data)
 }
 # define DEBUG_IEC_CPU_READ(_data) debug_iec_cpu_read(_data)
 
-void debug_iec_drv_write(BYTE data)
+void debug_iec_drv_write(unsigned int data)
 {
     if (debug.iec) {
         BYTE value = data;
+        static BYTE oldvalue = 0;
+
+        if (value != oldvalue) {
+            oldvalue = value;
 
         log_debug("$1800 store: %s %s %s",
             value & 0x02 ? "DATA OUT" : "        ",
             value & 0x08 ? "CLK OUT"  : "       ",
             value & 0x10 ? "ATNA   "  : "       "
             );
+        }
     }
 }
 
-void debug_iec_drv_read(BYTE data)
+void debug_iec_drv_read(unsigned int data)
 {
     if (debug.iec) {
         BYTE value = data;
+        static BYTE oldvalue = { 0 };
+        const char * data_correct = "";
 
-        log_debug("$1800 read: %s %s %s %s %s %s",
+        if (value != oldvalue) {
+        unsigned int atn  = value & 0x80 ? 1 : 0; 
+        unsigned int atna = value & 0x10 ? 1 : 0;
+        unsigned int data = value & 0x01 ? 1 : 0;
+
+            oldvalue = value;
+
+        if (atn ^ atna) {
+            if ( ! data ) {
+                data_correct = " ***** ERROR: ATN, ATNA & DATA! *****";
+            }
+        }
+
+        log_debug("$1800 read:  %s %s %s %s %s %s%s",
+            value & 0x02 ? "DATA OUT" : "        ",
+            value & 0x08 ? "CLK OUT"  : "       ",
+            value & 0x10 ? "ATNA   "  : "       ",
+
+            value & 0x01 ? "DATA IN"  : "       ",
+            value & 0x04 ? "CLK IN"   : "       ",
+            value & 0x80 ? "ATN"      : "   ",
+            data_correct
+            );
+        }
+    }
+}
+
+void debug_iec_bus_write(unsigned int data)
+{
+#if 0
+    if (debug.iec) {
+        BYTE value = data;
+
+        log_debug("  BUS store: %s %s %s",
+            value & 0x02 ? "DATA OUT" : "        ",
+            value & 0x08 ? "CLK OUT"  : "       ",
+            value & 0x10 ? "ATNA   "  : "       "
+            );
+    }
+#endif
+}
+
+void debug_iec_bus_read(unsigned int data)
+{
+#if 0
+    if (debug.iec) {
+        BYTE value = data;
+
+        log_debug("  BUS read:  %s %s %s %s %s %s",
             value & 0x02 ? "DATA OUT" : "        ",
             value & 0x08 ? "CLK OUT"  : "       ",
             value & 0x10 ? "ATNA   "  : "       ",
@@ -121,6 +176,7 @@ void debug_iec_drv_read(BYTE data)
             value & 0x80 ? "ATN"      : "   "
             );
     }
+#endif
 }
 
 #else
