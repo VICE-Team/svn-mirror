@@ -4,6 +4,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  Ingo Korb <ingo@akana.de>  
  *
  * Based on old code by
  *  Teemu Rantanen <tvr@cs.hut.fi>
@@ -58,6 +59,26 @@ void vdrive_dir_init(void)
     vdrive_dir_log = log_open("VDriveDIR");
 }
 
+/* Returns the interleave for directory sectors of a given image type */
+static int vdrive_dir_get_interleave(unsigned int type)
+{
+    /* Note: Values for all drives determined empirically */
+    switch (type) {
+    case VDRIVE_IMAGE_FORMAT_1541:
+    case VDRIVE_IMAGE_FORMAT_2040:
+    case VDRIVE_IMAGE_FORMAT_1571:
+    case VDRIVE_IMAGE_FORMAT_8050:
+    case VDRIVE_IMAGE_FORMAT_8250:
+        return 3;
+    case VDRIVE_IMAGE_FORMAT_1581:
+        return 1;
+    default:
+        log_error(LOG_ERR,
+                  "Unknown disk type %i.  Using interleave 3.", type);
+        return 3;
+    }
+}
+
 static unsigned int vdrive_dir_name_match(BYTE *slot, BYTE *nslot, int length,
                                           int type)
 {
@@ -98,6 +119,9 @@ void vdrive_dir_free_chain(vdrive_t *vdrive, int t, int s)
     }
 }
 
+/* Tries to allocate the given track/sector and link it */
+/* to the current directory sector of vdrive.           */
+/* Returns NULL if the allocation failed.               */
 static BYTE *find_next_directory_sector(vdrive_t *vdrive, unsigned int track,
                                         unsigned int sector)
 {
@@ -256,69 +280,30 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
      */
 
     if (vdrive->find_length < 0) {
-        unsigned int sector;
-        switch (vdrive->image_format) {
-          case VDRIVE_IMAGE_FORMAT_2040:
-          case VDRIVE_IMAGE_FORMAT_1541:
-            for (sector = 1;
-                sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64,
-                DIR_TRACK_1541); sector++) {
-                BYTE *dirbuf;
-                dirbuf = find_next_directory_sector(vdrive, DIR_TRACK_1541,
-                                                    sector);
-                if (dirbuf != NULL)
-                    return dirbuf;
+        unsigned int i, sector;
+        BYTE *dirbuf;
+
+        sector = vdrive->Curr_sector +
+            vdrive_dir_get_interleave(vdrive->image_format);
+
+        for (i = 0;
+             i < vdrive_get_max_sectors(vdrive->image_format,
+                                        vdrive->Curr_track);
+             i++) {
+            dirbuf = find_next_directory_sector(vdrive,
+                                                vdrive->Curr_track,
+                                                sector);
+            if (dirbuf != NULL) {
+                return dirbuf;
             }
-            break;
-          case VDRIVE_IMAGE_FORMAT_1571:
-            for (sector = 1;
-                sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D71,
-                DIR_TRACK_1571); sector++) {
-                BYTE *dirbuf;
-                dirbuf = find_next_directory_sector(vdrive, DIR_TRACK_1571,
-                                                    sector);
-                if (dirbuf != NULL)
-                    return dirbuf;
+
+            sector++;
+            if (sector >= vdrive_get_max_sectors(vdrive->image_format,
+                                                 vdrive->Curr_track)) {
+                sector = 0;
             }
-            for (sector = 0;
-                sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D71,
-                DIR_TRACK_1571 + 35); sector++) {
-                BYTE *dirbuf;
-                dirbuf = find_next_directory_sector(vdrive,
-                                                    DIR_TRACK_1571 + 35,
-                                                    sector);
-                if (dirbuf != NULL)
-                    return dirbuf;
-            }
-            break;
-          case VDRIVE_IMAGE_FORMAT_1581:
-            for (sector = 3; sector < NUM_SECTORS_1581; sector++) {
-                BYTE *dirbuf;
-                dirbuf = find_next_directory_sector(vdrive, DIR_TRACK_1581,
-                                                    sector);
-                if (dirbuf != NULL)
-                    return dirbuf;
-            }
-            break;
-          case VDRIVE_IMAGE_FORMAT_8050:
-          case VDRIVE_IMAGE_FORMAT_8250:
-            for (sector = 1;
-                sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D80,
-                DIR_TRACK_8050); sector++) {
-                BYTE *dirbuf;
-                dirbuf = find_next_directory_sector(vdrive, DIR_TRACK_8050,
-                                                    sector);
-                if (dirbuf != NULL)
-                    return dirbuf;
-            }
-            break;
-          default:
-            log_error(vdrive_dir_log,
-                      "Unknown disk type %i.  Cannot find directory slot.",
-                      vdrive->image_format);
-            break;
         }
-    } /* length */
+    }
     return NULL;
 }
 
