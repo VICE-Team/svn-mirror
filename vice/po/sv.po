@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 2.0\n"
+"Project-Id-Version: VICE 2.1.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-07-17 19:06+0200\n"
-"PO-Revision-Date: 2009-03-17 15:05+0100\n"
+"PO-Revision-Date: 2009-08-03 18:20+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -23,14 +23,12 @@ msgid "Set device for joystick port 2"
 msgstr "Välj enhet för spelport 2"
 
 #: src/arch/unix/joy.c:120 src/arch/unix/macosx/joy.c:326
-#, fuzzy
 msgid "Set device for extra joystick port 1"
-msgstr "Välj enhet för spelport 1"
+msgstr "Välj enhet för extra spelport 1"
 
 #: src/arch/unix/joy.c:129 src/arch/unix/macosx/joy.c:335
-#, fuzzy
 msgid "Set device for extra joystick port 2"
-msgstr "Välj enhet för spelport 2"
+msgstr "Välj enhet för extra spelport 2"
 
 #: src/arch/unix/mididrv.c:659 src/arch/unix/mididrv.c:664
 #: src/translate.c.po.c:3694
@@ -220,18 +218,16 @@ msgid "MIDI Emulation"
 msgstr "MIDI-emulering"
 
 #: src/arch/unix/gui/c128ui.c:296 src/arch/unix/gui/c64ui.c:313
-#, fuzzy
 msgid "*SFX Sound Expander emulation"
-msgstr "PS/2-musemulering"
+msgstr "*SFX Sound Expander-emulering"
 
 #: src/arch/unix/gui/c128ui.c:298 src/arch/unix/gui/c64ui.c:315
-#, fuzzy
 msgid "*SFX Sound Sampler emulation"
-msgstr "PS/2-musemulering"
+msgstr "*SFX Sound Sampler-emulering"
 
 #: src/arch/unix/gui/c128ui.c:300
 msgid "*Banks 2 & 3"
-msgstr ""
+msgstr "*Bank 2 & 3"
 
 #: src/arch/unix/gui/c128ui.c:308
 msgid "Load new Int. Kernal ROM"
@@ -699,9 +695,8 @@ msgid "*PET userport diagnostic pin"
 msgstr "*PET-diagnostik på användarporten"
 
 #: src/arch/unix/gui/plus4ui.c:120
-#, fuzzy
 msgid "*Enable digiblaster add-on"
-msgstr "Aktivera dubbelskanning"
+msgstr "*Aktivera digiblaster-tillägg"
 
 #: src/arch/unix/gui/plus4ui.c:132
 msgid "Load new 3 plus 1 LO ROM"
@@ -862,9 +857,8 @@ msgid "Smart-attach disk/tape..."
 msgstr "Smartanslut diskett/band..."
 
 #: src/arch/unix/gui/uiattach.c:316
-#, fuzzy
 msgid "Autostart settings"
-msgstr "Crtc-inställningar"
+msgstr "Autostartinställningar"
 
 #: src/arch/unix/gui/uic64_256k.c:40
 msgid "256K image name"
@@ -1906,38 +1900,33 @@ msgstr "Växla spelportarna"
 
 #: src/arch/unix/gui/uijoystick2.c:374 src/arch/unix/gui/uijoystick2.c:403
 #: src/arch/unix/gui/uijoystick2.c:443 src/arch/unix/gui/uijoystick2.c:468
-#, fuzzy
 msgid "*Userport Joystick Interface"
-msgstr "*PET-diagnostik på användarporten"
+msgstr "*Styrspaksgränssnitt för användarporten"
 
 #: src/arch/unix/gui/uijoystick2.c:376 src/arch/unix/gui/uijoystick2.c:405
 #: src/arch/unix/gui/uijoystick2.c:445 src/arch/unix/gui/uijoystick2.c:470
 msgid "*Userport Joystick Interface Type"
-msgstr ""
+msgstr "*Gränssnittstyp för styrspak på användarport"
 
 #: src/arch/unix/gui/uijoystick2.c:378 src/arch/unix/gui/uijoystick2.c:407
 #: src/arch/unix/gui/uijoystick2.c:447 src/arch/unix/gui/uijoystick2.c:472
 #: src/arch/unix/gui/uijoystick2.c:499
-#, fuzzy
 msgid "Joystick device in extra port 1"
-msgstr "Styrspak i spelport 1"
+msgstr "Styrspak i extraport 1"
 
 #: src/arch/unix/gui/uijoystick2.c:380 src/arch/unix/gui/uijoystick2.c:409
 #: src/arch/unix/gui/uijoystick2.c:449 src/arch/unix/gui/uijoystick2.c:474
-#, fuzzy
 msgid "Joystick device in extra port 2"
-msgstr "Styrspak i spelport 2"
+msgstr "Styrspak i extraport 2"
 
 #: src/arch/unix/gui/uijoystick2.c:382 src/arch/unix/gui/uijoystick2.c:411
 #: src/arch/unix/gui/uijoystick2.c:451 src/arch/unix/gui/uijoystick2.c:476
-#, fuzzy
 msgid "Swap userport joystick ports"
-msgstr "Växla spelportarna"
+msgstr "Växla användarportsspelportarna"
 
 #: src/arch/unix/gui/uijoystick2.c:497
-#, fuzzy
 msgid "*SIDcart Joystick"
-msgstr "SID-modulinställningarg"
+msgstr "*SIDcart-styrspak"
 
 #: src/arch/unix/gui/uijoystick2.c:511 src/arch/unix/gui/uijoystick2.c:517
 #: src/arch/unix/gui/uijoystick2.c:523 src/arch/unix/gui/uijoystick2.c:529
@@ -3009,34 +2998,28 @@ msgid "*0.10 sec"
 msgstr "*0,10 s"
 
 #: src/arch/unix/gui/uisound.c:75
-#, fuzzy
 msgid "*0.075 sec"
-msgstr "*0,75 s"
+msgstr "*0,075 s"
 
 #: src/arch/unix/gui/uisound.c:77
-#, fuzzy
 msgid "*0.05 sec"
-msgstr "*0,75 s"
+msgstr "*0,05 s"
 
 #: src/arch/unix/gui/uisound.c:79
-#, fuzzy
 msgid "*0.04 sec"
-msgstr "*0,50 s"
+msgstr "*0,04 s"
 
 #: src/arch/unix/gui/uisound.c:81
-#, fuzzy
 msgid "*0.03 sec"
-msgstr "*0,50 s"
+msgstr "*0,03 s"
 
 #: src/arch/unix/gui/uisound.c:83
-#, fuzzy
 msgid "*0.025 sec"
-msgstr "*0,25 s"
+msgstr "*0,025 s"
 
 #: src/arch/unix/gui/uisound.c:85
-#, fuzzy
 msgid "*0.02 sec"
-msgstr "*0,50 s"
+msgstr "*0,02 s"
 
 #: src/arch/unix/gui/uisound.c:91
 msgid "*Keep going"
@@ -3151,9 +3134,8 @@ msgid "*Default"
 msgstr "*Förval"
 
 #: src/arch/unix/gui/uivdc.c:44
-#, fuzzy
 msgid "*Composite"
-msgstr "Dator"
+msgstr "*Komposit"
 
 #: src/arch/unix/gui/uivdc.c:55
 msgid "*Revison 0"
@@ -3307,9 +3289,8 @@ msgid "Invalid cartridge image"
 msgstr "Ogiltig insticksmodulfil"
 
 #: src/arch/unix/gui/vic20ui.c:297
-#, fuzzy
 msgid "Attach generic image..."
-msgstr "Anslut vanlig 8KB-fil..."
+msgstr "Anslut generisk avbild..."
 
 #: src/arch/unix/gui/vic20ui.c:301
 msgid "Smart-attach cartridge image..."
@@ -3336,18 +3317,16 @@ msgid "Attach 4KB image at $B000..."
 msgstr "Anslut 4KB-fil vid $B000..."
 
 #: src/arch/unix/gui/vic20ui.c:321
-#, fuzzy
 msgid "Attach Mega-Cart image..."
-msgstr "Anslut en bandavbildningsfil..."
+msgstr "Anslut Mega-Cart-avbildningsfil..."
 
 #: src/arch/unix/gui/vic20ui.c:335
 msgid "Detach cartridge image(s)"
 msgstr "Koppla från insticksmodulfil(er)"
 
 #: src/arch/unix/gui/vic20ui.c:337
-#, fuzzy
 msgid "*Reset on cartridge change"
-msgstr "Nollställ vid modulbyte"
+msgstr "*Nollställ vid modulbyte"
 
 #: src/arch/unix/gui/vic20ui.c:483
 msgid "VIC settings"
@@ -4408,9 +4387,8 @@ msgid "&Calibrate Joystick(s)"
 msgstr "&Kalibrera styrspak(ar)"
 
 #: src/arch/win32/res.rc.po.c:1249
-#, fuzzy
 msgid "Extra joystick adapter settings"
-msgstr "Inställningar för styrspak"
+msgstr "Inställningar för extra styrspaksadapter"
 
 #: src/arch/win32/res.rc.po.c:1686
 msgid "S&outh West"
@@ -5206,14 +5184,14 @@ msgid "Select end snapshot for event history"
 msgstr "Välj slutögonblicksbild för händelsehistorik"
 
 #: src/arch/win32/res.rc.po.c:6481
-#, fuzzy, c-format
+#, c-format
 msgid "Version %s *UNSTABLE* (%s)"
-msgstr "Version %s *INSTABIL*"
+msgstr "Version %s *INSTABIL* (%s)"
 
 #: src/arch/win32/res.rc.po.c:6483
-#, fuzzy, c-format
+#, c-format
 msgid "Version %s (%s)"
-msgstr "Version %s"
+msgstr "Version %s (%s)"
 
 #: src/arch/win32/res.rc.po.c:6485 src/arch/amigaos/intl.c.po.c:2549
 msgid "VICE contributors"
@@ -5264,44 +5242,36 @@ msgid "Press key for Fire"
 msgstr "Tryck tangent för avtryckare"
 
 #: src/arch/win32/res.rc.po.c:6499
-#, fuzzy
 msgid "No userport joy adapter"
-msgstr "Aktivera diagnostik på användarporten"
+msgstr "Ingen användarportsspakadapter"
 
 #: src/arch/win32/res.rc.po.c:6500
-#, fuzzy
 msgid "CGA userport joy adapter"
-msgstr "Aktivera diagnostik på användarporten"
+msgstr "CGA-användarportsspakadapter"
 
 #: src/arch/win32/res.rc.po.c:6501
-#, fuzzy
 msgid "PET userport joy adapter"
-msgstr "Aktivera diagnostik på användarporten"
+msgstr "PET-användarportsspakadapter"
 
 #: src/arch/win32/res.rc.po.c:6502
-#, fuzzy
 msgid "HUMMER userport joy adapter"
-msgstr "Aktivera diagnostik på användarporten"
+msgstr "HUMMER-användarportsspakadapter"
 
 #: src/arch/win32/res.rc.po.c:6503
-#, fuzzy
 msgid "OEM userport joy adapter"
-msgstr "Aktivera diagnostik på användarporten"
+msgstr "OEM-användarportsspakadapter"
 
 #: src/arch/win32/res.rc.po.c:6504
-#, fuzzy
 msgid "HIT userport joy adapter"
-msgstr "Aktivera diagnostik på användarporten"
+msgstr "HIT-användarportsspakadapter"
 
 #: src/arch/win32/res.rc.po.c:6505
-#, fuzzy
 msgid "Disable SIDcart joy"
-msgstr "Inaktivera SID-instickskort"
+msgstr "Inaktivera SIDcart-spak"
 
 #: src/arch/win32/res.rc.po.c:6506
-#, fuzzy
 msgid "Enable SIDcart joy"
-msgstr "*Aktivera SID-modul"
+msgstr "Aktivera SIDcart-spak"
 
 #: src/arch/win32/res.rc.po.c:6507
 msgid "Numpad + RCtrl"
@@ -5479,14 +5449,12 @@ msgid "Set input device for joystick #2"
 msgstr "Välj indataenhet för spelport 2"
 
 #: src/arch/win32/res.rc.po.c:6546
-#, fuzzy
 msgid "Set input device for extra joystick #1"
-msgstr "Välj indataenhet för spelport 1"
+msgstr "Välj indataenhet för extra spelport 1"
 
 #: src/arch/win32/res.rc.po.c:6547
-#, fuzzy
 msgid "Set input device for extra joystick #2"
-msgstr "Välj indataenhet för spelport 2"
+msgstr "Välj indataenhet för extra spelport 2"
 
 #: src/arch/win32/res.rc.po.c:6552
 msgid "Use all CPU on SMP systems"
@@ -5997,14 +5965,12 @@ msgid "Scale2x"
 msgstr "Scale2x"
 
 #: src/arch/win32/res.rc.po.c:6694
-#, fuzzy
 msgid "Swap &Joysticks"
 msgstr "Växla &spelportarna"
 
 #: src/arch/win32/res.rc.po.c:6695
-#, fuzzy
 msgid "Swap &Userport joysticks"
-msgstr "*PET-diagnostik på användarporten"
+msgstr "Växla &användarportstyrspakar"
 
 #: src/arch/win32/res.rc.po.c:6696 src/arch/amigaos/intl.c.po.c:1447
 msgid "Enable Joy Keys"
@@ -6035,14 +6001,12 @@ msgid "&Joystick settings..."
 msgstr "Inställningar för &styrspak..."
 
 #: src/arch/win32/res.rc.po.c:6703
-#, fuzzy
 msgid "&Userport joystick settings..."
-msgstr "Inställningar för &styrspak..."
+msgstr "Inställningar för &användarportsstyrspak..."
 
 #: src/arch/win32/res.rc.po.c:6704
-#, fuzzy
 msgid "&Sidcart joystick settings..."
-msgstr "Inställningar för &styrspak..."
+msgstr "Inställningar för &Sidcart-styrspak..."
 
 #: src/arch/win32/res.rc.po.c:6705
 msgid "&Keyboard settings..."
@@ -6113,9 +6077,8 @@ msgid "&DIGIMAX settings..."
 msgstr "&DIGIMAX-inställningar..."
 
 #: src/arch/win32/res.rc.po.c:6722
-#, fuzzy
 msgid "&Lightpen settings..."
-msgstr "&Diskettenhetsinställningar..."
+msgstr "Inställningar för &ljuspenna..."
 
 #: src/arch/win32/res.rc.po.c:6723
 msgid "&IDE64 settings..."
@@ -6134,14 +6097,12 @@ msgid "RS&232 userport settings..."
 msgstr "RS&232-användarportinställningar..."
 
 #: src/arch/win32/res.rc.po.c:6729 src/arch/amigaos/intl.c.po.c:2052
-#, fuzzy
 msgid "SFX Sound Expander settings..."
-msgstr "PS/2-musemulering"
+msgstr "Inställningar för SFX Sound Expander..."
 
 #: src/arch/win32/res.rc.po.c:6730 src/arch/amigaos/intl.c.po.c:2063
-#, fuzzy
 msgid "Enable SFX Sound Sampler"
-msgstr "Aktivera ljudåtergivning"
+msgstr "Aktivera SFX Sound Sampler"
 
 #: src/arch/win32/res.rc.po.c:6731 src/arch/amigaos/intl.c.po.c:2140
 msgid "Save current settings to specified file"
@@ -6475,24 +6436,20 @@ msgstr "&VDC-inställningar"
 
 #: src/arch/win32/resc128.rc.po.c:195 src/arch/win32/resc128.rc.po.c:3286
 #: src/arch/amigaos/intl.c.po.c:1381
-#, fuzzy
 msgid "VDC revision"
-msgstr "DTV-utgåva"
+msgstr "VDC-revision"
 
 #: src/arch/win32/resc128.rc.po.c:197 src/arch/amigaos/intl.c.po.c:1392
-#, fuzzy
 msgid "Rev 0"
-msgstr "*Utgåva 0"
+msgstr "Utgåva 0"
 
 #: src/arch/win32/resc128.rc.po.c:198 src/arch/amigaos/intl.c.po.c:1403
-#, fuzzy
 msgid "Rev 1"
-msgstr "*Utgåva 1"
+msgstr "Utgåva 1"
 
 #: src/arch/win32/resc128.rc.po.c:199 src/arch/amigaos/intl.c.po.c:1414
-#, fuzzy
 msgid "Rev 2"
-msgstr "*Utgåva 2"
+msgstr "Utgåva 2"
 
 #: src/arch/win32/resc128.rc.po.c:215 src/arch/win32/resc64.rc.po.c:205
 #: src/arch/win32/resc64dtv.rc.po.c:164 src/arch/win32/resplus4.rc.po.c:180
@@ -6759,14 +6716,12 @@ msgid "Enable external Function ROM"
 msgstr "Aktivera externt funktions-ROM"
 
 #: src/arch/win32/resc128.rc.po.c:2952 src/arch/win32/resc128.rc.po.c:3283
-#, fuzzy
 msgid "RAM banks"
-msgstr "&Ram-bankar"
+msgstr "RAM-bankar"
 
 #: src/arch/win32/resc128.rc.po.c:2954
-#, fuzzy
 msgid "Enable RAM banks 2 and 3"
-msgstr "Aktivera RAM-expansionsenhet"
+msgstr "Aktivera RAM-bank 2 och 3"
 
 #: src/arch/win32/resc128.rc.po.c:3077 src/arch/win32/resplus4.rc.po.c:1666
 #: src/arch/win32/resvic20.rc.po.c:1635
@@ -7968,9 +7923,8 @@ msgid "Main device"
 msgstr "Huvudenhet"
 
 #: src/arch/win32/ressidcart.rc.po.c:411
-#, fuzzy
 msgid "Enable digiblaster add-on"
-msgstr "Aktivera dubbelskanning"
+msgstr "Aktivera digiblaster-tillägg"
 
 #: src/arch/win32/restfe.rc.po.c:31
 msgid "Ethernet Settings"
@@ -8037,19 +7991,16 @@ msgid "Block &5"
 msgstr "Block &5"
 
 #: src/arch/win32/resvic20.rc.po.c:1857
-#, fuzzy
 msgid "Select Generic image"
-msgstr "Ange HD-avbildningsfil"
+msgstr "Välj generisk avbild"
 
 #: src/arch/win32/resvic20.rc.po.c:1858
-#, fuzzy
 msgid "Select Mega-Cart image"
-msgstr "Ange MMC/SD-avbildningsfil"
+msgstr "Välj Mega-Cart-modulfil"
 
 #: src/arch/win32/resvic20.rc.po.c:1859
-#, fuzzy
 msgid "Select cartridge image"
-msgstr "Spara insticksmodulfil"
+msgstr "Välj insticksmodulfil"
 
 #: src/arch/win32/resvic20.rc.po.c:1860 src/arch/amigaos/intl.c.po.c:3269
 msgid "Attach 4/8/16KB cartridge image at $2000"
@@ -8080,19 +8031,16 @@ msgid "Enable Paddles"
 msgstr "Aktivera paddlar"
 
 #: src/arch/win32/resvic20.rc.po.c:1867
-#, fuzzy
 msgid "Generic image..."
-msgstr "Vanlig 8KB-fil..."
+msgstr "Generisk avbild..."
 
 #: src/arch/win32/resvic20.rc.po.c:1868
-#, fuzzy
 msgid "Mega-Cart image..."
-msgstr "CRT-fil..."
+msgstr "Mega-Cart-avbildning..."
 
 #: src/arch/win32/resvic20.rc.po.c:1869
-#, fuzzy
 msgid "Smart-attach image..."
-msgstr "Smartanslut CRT-fil..."
+msgstr "Smartanslut avbildning..."
 
 #: src/arch/win32/resvic20.rc.po.c:1870
 msgid "4/8/16KB image at $&2000..."
@@ -8435,9 +8383,8 @@ msgid "Swap Joysticks"
 msgstr "Växla spelportarna"
 
 #: src/arch/amigaos/intl.c.po.c:1436
-#, fuzzy
 msgid "Swap Userport Joysticks"
-msgstr "Växla spelportarna"
+msgstr "Växla användarportspelportarna"
 
 #: src/arch/amigaos/intl.c.po.c:1458
 msgid "Sound playback"
@@ -8999,34 +8946,28 @@ msgid "Joystick in port #2"
 msgstr "Styrspak i spelport 2"
 
 #: src/arch/amigaos/intl.c.po.c:4171
-#, fuzzy
 msgid "Userport joystick adapter"
-msgstr "Aktivera diagnostik på användarporten"
+msgstr "Adapter för användarportstyrspakar"
 
 #: src/arch/amigaos/intl.c.po.c:4182
-#, fuzzy
 msgid "Userport joystick adapter type"
-msgstr "Aktivera diagnostik på användarporten"
+msgstr "Typ av adapter för användarportstyrspakar"
 
 #: src/arch/amigaos/intl.c.po.c:4193
-#, fuzzy
 msgid "Joystick in userport adapter port #1"
-msgstr "Styrspak i spelport 1"
+msgstr "Styrspak i användarportsadapterport 1"
 
 #: src/arch/amigaos/intl.c.po.c:4204
-#, fuzzy
 msgid "Joystick in userport adapter port #2"
-msgstr "Styrspak i spelport 2"
+msgstr "Styrspak i användarportsadapterport 2"
 
 #: src/arch/amigaos/intl.c.po.c:4215
-#, fuzzy
 msgid "SIDcart joystick"
-msgstr "SID-modulinställningarg"
+msgstr "SIDcart-styrspak"
 
 #: src/arch/amigaos/intl.c.po.c:4226
-#, fuzzy
 msgid "Joystick in SIDcart joystick port"
-msgstr "*Aktivera SID-modul"
+msgstr "Styrspak i SIDcart-spelport"
 
 #: src/arch/amigaos/intl.c.po.c:4237
 msgid "Joystick Settings"
@@ -9089,19 +9030,16 @@ msgid "Joy 2 Device"
 msgstr "Enhet för styrspak 2"
 
 #: src/arch/amigaos/intl.c.po.c:4402
-#, fuzzy
 msgid "Userport Joy 1 Device"
-msgstr "Användarportensenhet"
+msgstr "Användarportspak 1 enhet"
 
 #: src/arch/amigaos/intl.c.po.c:4413
-#, fuzzy
 msgid "Userport Joy 2 Device"
-msgstr "Användarportens RS232-enhet"
+msgstr "Användarportspak 2 enhet"
 
 #: src/arch/amigaos/intl.c.po.c:4424
-#, fuzzy
 msgid "SIDcart Joy Device"
-msgstr "Enhet för styrspak 1"
+msgstr "SIDcart-spakenhet"
 
 #: src/arch/amigaos/intl.c.po.c:4435
 msgid "Joy 1 Fire"
@@ -9112,19 +9050,16 @@ msgid "Joy 2 Fire"
 msgstr "Fire för styrspak 2"
 
 #: src/arch/amigaos/intl.c.po.c:4457
-#, fuzzy
 msgid "Userport Joy 1 Fire"
-msgstr "Fire för styrspak 1"
+msgstr "Användarportspak 1 fire"
 
 #: src/arch/amigaos/intl.c.po.c:4468
-#, fuzzy
 msgid "Userport Joy 2 Fire"
-msgstr "Fire för styrspak 2"
+msgstr "Användarportspak 2 fire"
 
 #: src/arch/amigaos/intl.c.po.c:4479
-#, fuzzy
 msgid "SIDcart Joy Fire"
-msgstr "SID-insticksmodul"
+msgstr "SIDcart-spak fire"
 
 #: src/arch/amigaos/intl.c.po.c:4490
 msgid ""
@@ -9141,19 +9076,17 @@ msgstr ""
 "AI, 3: tangentuppsättning B/AI)"
 
 #: src/arch/amigaos/intl.c.po.c:4517
-#, fuzzy
 msgid ""
 "Extra joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
 msgstr ""
-"Emulering för styrspak 1: (0: ingen, 1: numerisk, 2: tangentuppsättning A/"
+"Emulering för extra styrspak 1: (0: ingen, 1: numerisk, 2: tangentuppsättning A/"
 "AI, 3: tangentuppsättning B/AI)"
 
 #: src/arch/amigaos/intl.c.po.c:4530
-#, fuzzy
 msgid ""
 "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
 msgstr ""
-"Emulering för styrspak 2: (0: ingen, 1: numerisk, 2: tangentuppsättning A/"
+"Emulering för extra styrspak 2: (0: ingen, 1: numerisk, 2: tangentuppsättning A/"
 "AI, 3: tangentuppsättning B/AI)"
 
 #: src/arch/amigaos/intl.c.po.c:4543
@@ -9167,16 +9100,14 @@ msgstr ""
 "Emulering för styrspak 2: (0: ingen, 1: numerisk, 2-5: Amigastyrspak 0-3)"
 
 #: src/arch/amigaos/intl.c.po.c:4565
-#, fuzzy
 msgid "Extra joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 msgstr ""
-"Emulering för styrspak 1: (0: ingen, 1: numerisk, 2-5: Amigastyrspak 0-3)"
+"Emulering för extra styrspak 1: (0: ingen, 1: numerisk, 2-5: Amigastyrspak 0-3)"
 
 #: src/arch/amigaos/intl.c.po.c:4576
-#, fuzzy
 msgid "Extra joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 msgstr ""
-"Emulering för styrspak 2: (0: ingen, 1: numerisk, 2-5: Amigastyrspak 0-3)"
+"Emulering för extra styrspak 2: (0: ingen, 1: numerisk, 2-5: Amigastyrspak 0-3)"
 
 #: src/arch/amigaos/intl.c.po.c:4686
 msgid "PLUS60K Base"
@@ -9303,14 +9234,12 @@ msgid "SID Cart"
 msgstr "SID-modul"
 
 #: src/arch/amigaos/intl.c.po.c:5478
-#, fuzzy
 msgid "SID Cart joystick"
-msgstr "SID-modulinställningarg"
+msgstr "SIDcart-styrspak"
 
 #: src/arch/amigaos/intl.c.po.c:5489
-#, fuzzy
 msgid "Digiblaster add-on"
-msgstr "Basadress för Digimax"
+msgstr "Digiblaster-tillägg"
 
 #: src/arch/amigaos/intl.c.po.c:5500
 msgid "SID cart settings"
@@ -9466,7 +9395,7 @@ msgstr "Externt funktions-ROM"
 
 #: src/arch/amigaos/intl.c.po.c:6171
 msgid "RAM banks 2 & 3"
-msgstr ""
+msgstr "RAM-bank 2 & 3"
 
 #: src/arch/amigaos/intl.c.po.c:6193
 msgid "Select ROM file"
@@ -9489,19 +9418,16 @@ msgid "Digimax Base"
 msgstr "Digimaxbas"
 
 #: src/arch/amigaos/intl.c.po.c:6259
-#, fuzzy
 msgid "SFX Sound Expander Enabled"
-msgstr "PS/2-musemulering"
+msgstr "SFX Sound Expander aktiverad"
 
 #: src/arch/amigaos/intl.c.po.c:6270
-#, fuzzy
 msgid "SFX Sound Expander Chip"
-msgstr "PS/2-musemulering"
+msgstr "SFX Sound Expander-krets"
 
 #: src/arch/amigaos/intl.c.po.c:6281
-#, fuzzy
 msgid "SFX Sound Expander Settings"
-msgstr "PS/2-musemulering"
+msgstr "Inställningar för SFX Sound Expander"
 
 #: src/arch/amigaos/intl.c.po.c:6314
 msgid "Select Sound Record File"
@@ -9788,21 +9714,19 @@ msgstr ""
 "Byt SID-motor till FastSID"
 
 #: src/translate.c.po.c:860
-#, fuzzy
 msgid ""
 "SFX Sound Expander cannot be used with ReSID\n"
 "Please switch SID Engine to FastSID"
 msgstr ""
-"Digimax kan inte användas med ReSID\n"
+"SFX Sound Expander kan inte användas med ReSID\n"
 "Byt SID-motor till FastSID"
 
 #: src/translate.c.po.c:875
-#, fuzzy
 msgid ""
 "SFX Sound Sampler cannot be used with ReSID\n"
 "Please switch SID Engine to FastSID"
 msgstr ""
-"Digimax kan inte användas med ReSID\n"
+"SFX Sound Sampler kan inte användas med ReSID\n"
 "Byt SID-motor till FastSID"
 
 #: src/translate.c.po.c:890
@@ -10654,14 +10578,12 @@ msgid "Do not handle True Drive Emulation on autostart"
 msgstr "Hantera inte äkta diskettenhetsemulering vid autostart"
 
 #: src/translate.c.po.c:3638
-#, fuzzy
 msgid "Enable warp mode during autostart"
-msgstr "Aktivera warpläge"
+msgstr "Aktivera warpläge för autostart"
 
 #: src/translate.c.po.c:3652
-#, fuzzy
 msgid "Disable warp mode during autostart"
-msgstr "Inaktivera warpläge"
+msgstr "Inaktivera warpläge för autostart"
 
 #: src/translate.c.po.c:3666
 msgid "Use PAL sync factor"
@@ -10740,14 +10662,12 @@ msgid "Disable emulator identification"
 msgstr "Inaktivera emulatoridentifiering"
 
 #: src/translate.c.po.c:3950
-#, fuzzy
 msgid "Enable the OEM userport joystick adapter"
-msgstr "Aktivera diagnostik på användarporten"
+msgstr "Aktivera OEM-användarportspelportsadapter"
 
 #: src/translate.c.po.c:3964
-#, fuzzy
 msgid "Disable the OEM userport joystick adapter"
-msgstr "Inaktivera diagnostik på användarporten"
+msgstr "Inaktivera OEM-användarportspelportsadapter"
 
 #: src/translate.c.po.c:3978
 msgid "Enable the IEEE488 interface emulation"
@@ -11968,14 +11888,12 @@ msgid "Specify 4K extension ROM name at $B000"
 msgstr "Ange namn för 4K-utöknings-ROM på $B000"
 
 #: src/translate.c.po.c:8377
-#, fuzzy
 msgid "Specify generic extension ROM name"
-msgstr "Ange namn på 4K-utöknings-ROM på $9***"
+msgstr "Ange namn på generiskt utöknings-ROM"
 
 #: src/translate.c.po.c:8391
-#, fuzzy
 msgid "Specify Mega-Cart extension ROM name"
-msgstr "Ange namn på 4K-utöknings-ROM på $9***"
+msgstr "Ange namn på Mega-Cart-utöknings-ROM"
 
 #: src/translate.c.po.c:8405
 msgid "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"
@@ -12230,18 +12148,16 @@ msgid "Set an initial breakpoint for the monitor"
 msgstr "Sätt en ursprunglig brytpunkt för monitorn"
 
 #: src/translate.c.po.c:9267
-#, fuzzy
 msgid "Enable remote monitor"
-msgstr "Aktivera fångande av mus"
+msgstr "Aktivera fjärrmonitor"
 
 #: src/translate.c.po.c:9281
-#, fuzzy
 msgid "Disable remote monitor"
-msgstr "Inaktivera fångande av mus"
+msgstr "Inaktivera fjärrmonitor"
 
 #: src/translate.c.po.c:9295
 msgid "The local address the remote monitor should bind to"
-msgstr ""
+msgstr "Lokal adress för fjärrmonitor att ansluta till"
 
 #: src/translate.c.po.c:9309
 msgid "Specify name of the flip list file image"
@@ -12577,44 +12493,36 @@ msgstr ""
 "4: Maplin)"
 
 #: src/translate.c.po.c:10490
-#, fuzzy
 msgid "Enable the digiblaster add-on"
-msgstr "Aktivera Digimax-cartridge"
+msgstr "Aktivera digiblaster-tillägg"
 
 #: src/translate.c.po.c:10504
-#, fuzzy
 msgid "Disable the digiblaster add-on"
-msgstr "Inaktivera Digimax Cartridge"
+msgstr "Inaktivera digiblaster-tillägg"
 
 #: src/translate.c.po.c:10518
-#, fuzzy
 msgid "Enable SID cartridge joystick"
-msgstr "Aktivera SID-instickskort"
+msgstr "Aktivera SID-insticksmodul-styrspak"
 
 #: src/translate.c.po.c:10532
-#, fuzzy
 msgid "Disable SID cartridge joystick"
-msgstr "Inaktivera SID-instickskort"
+msgstr "Inaktivera SID-insticksmodul-styrspak"
 
 #: src/translate.c.po.c:10546
-#, fuzzy
 msgid "Enable the SFX soundexpander cartridge"
-msgstr "Aktivera Expert Cartridge"
+msgstr "Aktivera SFX soundexpander-insticksmodul"
 
 #: src/translate.c.po.c:10560
-#, fuzzy
 msgid "Disable the SFX soundexpander cartridge"
-msgstr "Inaktivera Digimax Cartridge"
+msgstr "Inaktivera SFX soundexpander-insticksmodul"
 
 #: src/translate.c.po.c:10574
-#, fuzzy
 msgid "Enable the SFX Sound Sampler cartridge"
-msgstr "Aktivera Digimax-cartridge"
+msgstr "Aktivera SFX Sound Sampler-insticksmodul"
 
 #: src/translate.c.po.c:10588
-#, fuzzy
 msgid "Disable the SFX Sound Sampler cartridge"
-msgstr "Inaktivera Digimax Cartridge"
+msgstr "Inaktivera SFX Sound Sampler-insticksmodul"
 
 #: src/translate.c.po.c:10602
 msgid "Enable the digimax cartridge"
@@ -12630,14 +12538,14 @@ msgstr "Basadress för Digimax-cartridge"
 
 #, fuzzy
 #~ msgid "Set device for joystick port 3"
-#~ msgstr "Välj enhet för spelport 1"
+#~ msgstr "VÃ¤lj enhet fÃ¶r spelport 1"
 
 #, fuzzy
 #~ msgid "Set device for joystick port 4"
-#~ msgstr "Välj enhet för spelport 1"
+#~ msgstr "VÃ¤lj enhet fÃ¶r spelport 1"
 
 #~ msgid "*Handle True Drive Emulation on autostart"
-#~ msgstr "*Hantera äkta diskettenhetsemulering vid autostart"
+#~ msgstr "*Hantera Ã¤kta diskettenhetsemulering vid autostart"
 
 #, fuzzy
 #~ msgid "Joystick device in port 3"
@@ -12649,7 +12557,7 @@ msgstr "Basadress för Digimax-cartridge"
 
 #, fuzzy
 #~ msgid "Enable SFX Sound Expander"
-#~ msgstr "Aktivera ljudåtergivning"
+#~ msgstr "Aktivera ljudÃ¥tergivning"
 
 #, fuzzy
 #~ msgid "Enable joystick"
@@ -12657,16 +12565,16 @@ msgstr "Basadress för Digimax-cartridge"
 
 #, fuzzy
 #~ msgid "Enable OEM userport joystick"
-#~ msgstr "Aktivera diagnostik på användarporten"
+#~ msgstr "Aktivera diagnostik pÃ¥ anvÃ¤ndarporten"
 
 #~ msgid "No joystick or joypad found on port %d"
-#~ msgstr "Hittar ingen styrspak eller styrplatta på port %d"
+#~ msgstr "Hittar ingen styrspak eller styrplatta pÃ¥ port %d"
 
 #~ msgid "A mouse was found on port %d"
-#~ msgstr "En mus upptäcktes på port %d"
+#~ msgstr "En mus upptÃ¤cktes pÃ¥ port %d"
 
 #~ msgid "Unknown device found on port %d"
-#~ msgstr "Okänd enhet upptäcktes på port %d"
+#~ msgstr "OkÃ¤nd enhet upptÃ¤cktes pÃ¥ port %d"
 
 #~ msgid "*1.00 sec"
 #~ msgstr "*1,00 s"
@@ -12675,7 +12583,7 @@ msgstr "Basadress för Digimax-cartridge"
 #~ msgstr "*0,15 s"
 
 #~ msgid "&Oversampling Factor :"
-#~ msgstr "&Översamplingsfaktor:"
+#~ msgstr "&Ã–versamplingsfaktor:"
 
 #~ msgid "*Enable IPV6"
 #~ msgstr "*Aktivera IPV6"
