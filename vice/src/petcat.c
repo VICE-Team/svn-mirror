@@ -1611,7 +1611,8 @@ static int p_expand(int version, int addr, int ctrls)
             /* basic 2.0, 7.0 & 10.0 and extensions */
 
             if (!quote && c > 0x7f) {
-                if (c <= MAX_COMM) {
+                /* check for keywords common to all versions, include pi */
+                if (c <= MAX_COMM || c == 0xff) {
                     fprintf(dest, "%s", keyword[c & 0x7f]);
 
                     if (c == 0x9E) {
