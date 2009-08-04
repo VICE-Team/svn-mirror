@@ -104,7 +104,7 @@ BYTE REGPARM1 megacart_io2_read(WORD addr)
     if (nvram_en_flop) {
         value = cart_nvram[addr & 0x0fff];
     } else {
-        value = vic20_v_bus_last_data;
+        value = vic20_cpu_last_data;
     }
     return value;
 }
@@ -123,7 +123,7 @@ BYTE REGPARM1 megacart_io3_read(WORD addr)
     if (nvram_en_flop) {
         value = cart_nvram[addr & 0x0fff];
     } else {
-        value = vic20_v_bus_last_data;
+        value = vic20_cpu_last_data;
     }
     return value;
 }

@@ -52,7 +52,6 @@ BYTE REGPARM1 cartridge_read_io2(WORD addr)
         vic20_cpu_last_data = megacart_io2_read(addr);
         break;
     default:
-        vic20_cpu_last_data = 0xff;
         break;
     }
     vic20_mem_v_bus_read(addr);
@@ -77,7 +76,6 @@ BYTE REGPARM1 cartridge_read_io3(WORD addr)
         vic20_cpu_last_data = megacart_io3_read(addr);
         break;
     default:
-        vic20_cpu_last_data = 0xff;
         break;
     }
     vic20_mem_v_bus_read(addr);

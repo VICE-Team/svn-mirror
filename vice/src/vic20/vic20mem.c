@@ -226,9 +226,8 @@ static BYTE REGPARM1 io3_read(WORD addr)
         return vic20_cpu_last_data;
     }
 
-    vic20_cpu_last_data = 0xff;
     vic20_mem_v_bus_read(addr);
-    return 0xff;
+    return vic20_cpu_last_data;
 }
 
 static void REGPARM2 io3_store(WORD addr, BYTE value)
@@ -283,9 +282,8 @@ static BYTE REGPARM1 io2_read(WORD addr)
         return vic20_cpu_last_data;
     }
 
-    vic20_cpu_last_data = 0xff;
     vic20_mem_v_bus_read(addr);
-    return 0xff;
+    return vic20_cpu_last_data;
 }
 
 static void REGPARM2 io2_store(WORD addr, BYTE value)
