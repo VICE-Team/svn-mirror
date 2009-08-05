@@ -31,12 +31,14 @@
 #include <windows.h>
 #include <tchar.h>
 
+#include "cart/easyflash.h"
 #include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
 #include "translate.h"
 #include "types.h"
+#include "uiapi.h"
 #include "uieasyflash.h"
 #include "uilib.h"
 #include "winmain.h"
