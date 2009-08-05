@@ -52,6 +52,8 @@ list of all the changes in the code.
 
 - Added SFX Sound Sampler and SFX Sound Expander emulation.
 
+- Added EasyFlash cartridge emulation.
+
 ** C64 changes
 --------------
 
@@ -69,9 +71,13 @@ list of all the changes in the code.
 ** VIC20 changes
 ----------------
 
+- 
+
 - Cartridge handling rewritten.
 
 - Added Mega-Cart emulation.
+
+- Added Final Expansion cartridge emulation.
 
 ** PLUS4 changes
 ----------------
