@@ -262,7 +262,7 @@ WRect
 WFileName
 8
 arch.tgt
-65
+0
 0
 66
 VComponent
@@ -310,8 +310,8 @@ WRect
 WFileName
 8
 c128.tgt
-5
-22
+0
+0
 75
 VComponent
 76
@@ -1160,4 +1160,4 @@ WFileName
 vic20cart.tgt
 0
 0
-228
+231
