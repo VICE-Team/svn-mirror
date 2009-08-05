@@ -283,21 +283,7 @@ static UI_CALLBACK(attach_cartridge)
         lib_free(filename);
 }
 
-static UI_CALLBACK(detach_cartridge)
-{
-    cartridge_detach_image();
-}
-
-static UI_CALLBACK(default_cartridge)
-{
-    cartridge_set_default();
-}
-
-static ui_menu_entry_t attach_cartridge_image_submenu[] = {
-    { N_("Attach generic image..."),
-      (ui_callback_t)attach_cartridge,
-      (ui_callback_data_t)CARTRIDGE_VIC20_GENERIC, NULL },
-    { "--" },
+static ui_menu_entry_t add_to_generic_cart_submenu[] = {
     { N_("Smart-attach cartridge image..."),
       (ui_callback_t)attach_cartridge,
       (ui_callback_data_t)CARTRIDGE_VIC20_DETECT, NULL,
@@ -317,10 +303,32 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { N_("Attach 4KB image at $B000..."),
       (ui_callback_t)attach_cartridge,
       (ui_callback_data_t)CARTRIDGE_VIC20_4KB_B000, NULL },
-    { "--" },
+    { NULL }
+};
+
+static UI_CALLBACK(detach_cartridge)
+{
+    cartridge_detach_image();
+}
+
+static UI_CALLBACK(default_cartridge)
+{
+    cartridge_set_default();
+}
+
+static ui_menu_entry_t attach_cartridge_image_submenu[] = {
+    { N_("Attach generic image..."),
+      (ui_callback_t)attach_cartridge,
+      (ui_callback_data_t)CARTRIDGE_VIC20_GENERIC, NULL },
     { N_("Attach Mega-Cart image..."),
       (ui_callback_t)attach_cartridge,
       (ui_callback_data_t)CARTRIDGE_VIC20_MEGACART, NULL },
+    { N_("Attach Final Expansion image..."),
+      (ui_callback_t)attach_cartridge,
+      (ui_callback_data_t)CARTRIDGE_VIC20_FINAL_EXPANSION, NULL },
+    { "--" },
+    { N_("Add to generic cartridge"),
+      NULL, NULL, add_to_generic_cart_submenu },
     { "--" },
     { N_("Set cartridge as default"),
       (ui_callback_t)default_cartridge, NULL, NULL },

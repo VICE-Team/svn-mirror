@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "cartridge.h"
+#include "easyflash.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "menu_common.h"
@@ -161,5 +162,34 @@ const ui_menu_entry_t expert_cart_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_CartridgeMode_callback,
       (ui_callback_data_t)CARTRIDGE_MODE_ON },
+    { NULL }
+};
+
+UI_MENU_DEFINE_TOGGLE(EasyFlashJumper)
+UI_MENU_DEFINE_TOGGLE(EasyFlashWriteCRT)
+
+static UI_MENU_CALLBACK(easyflash_save_callback)
+{
+    if (activated) {
+        if(easyflash_save_crt() < 0) {
+            ui_error("Cannot save cartridge image.");
+        }
+    }
+    return NULL;
+}
+
+const ui_menu_entry_t easyflash_cart_menu[] = {
+    { "Jumper",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_EasyFlashJumper_callback,
+      NULL },
+    { "Save CRT on detach",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_EasyFlashWriteCRT_callback,
+      NULL },
+    { "Save CRT now",
+      MENU_ENTRY_OTHER,
+      easyflash_save_callback,
+      NULL },
     { NULL }
 };

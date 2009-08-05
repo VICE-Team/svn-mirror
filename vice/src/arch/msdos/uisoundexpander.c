@@ -60,7 +60,7 @@ static tui_menu_item_def_t soundexpander_menu_items[] = {
       toggle_SFXSoundExpander_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "SFX Sound Expander _chip:", "Select the YM chip model used in the SFX Sound Expander Cartridge",
-      soundexpanser_chip_submenu_callback, NULL, 11,
+      soundexpander_chip_submenu_callback, NULL, 11,
       TUI_MENU_BEH_CONTINUE, soundexpander_chip_submenu,
       "SFX Sound Expander chip" },
     { NULL }

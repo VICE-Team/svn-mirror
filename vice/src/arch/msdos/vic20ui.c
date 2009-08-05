@@ -159,7 +159,23 @@ static TUI_MENU_CALLBACK(attach_cartridge_callback)
 }
 
 static tui_menu_item_def_t attach_cartridge_menu_items[] = {
+    { "Generic cartridge:",
+      "Attach a generic cartridge image",
+      attach_cartridge_callback, (void *)CARTRIDGE_VIC20_GENERIC, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Mega-Cart cartridge:",
+      "Attach a Mega-Cart cartridge image",
+      attach_cartridge_callback, (void *)CARTRIDGE_VIC20_MEGACART, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Final Expansion cartridge:",
+      "Attach a Final Expansion cartridge image",
+      attach_cartridge_callback, (void *)CARTRIDGE_VIC20_FINAL_EXPANSION, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "--" },
+    { "Smart attach:",
+      "Smart attach a cartridge image",
+      attach_cartridge_callback, (void *)CARTRIDGE_VIC20_DETECT, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Cartridge at $_2000:",
       "Attach a cartridge image at address $2000",
       attach_cartridge_callback, (void *)CARTRIDGE_VIC20_16KB_2000, 30,

@@ -46,6 +46,7 @@
 
 #include "cartridge.h"
 #include "cmdline.h"
+#include "finalexpansion.h"
 #include "generic.h"
 #include "lib.h"
 #include "log.h"
@@ -207,6 +208,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_SPECIFY_MEGA_CART_ROM_NAME,
       NULL, NULL },
+    { "-cartfe", CALL_FUNCTION, 1,
+      attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_FINAL_EXPANSION, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME,
+      NULL, NULL },
     { "+cart", CALL_FUNCTION, 0,
       detach_cartridge_cmdline, NULL, NULL, NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -290,6 +296,9 @@ int cartridge_attach_image(int type, const char *filename)
         break;
     case CARTRIDGE_VIC20_MEGACART:
         ret = megacart_bin_attach(filename);
+        break;
+    case CARTRIDGE_VIC20_FINAL_EXPANSION:
+        ret = finalexpansion_bin_attach(filename);
         break;
     }
 

@@ -42,6 +42,7 @@
 #include "uic64cart.h"
 #include "uidigimax.h"
 #include "uidrivec128.h"
+#include "uieasyflash.h"
 #include "uiide64.h"
 #include "uijoystick.h"
 #include "uikeyboard.h"
@@ -331,6 +332,7 @@ ui_menu_translation_table_t c128ui_menu_translation_table[] = {
 #endif
     { IDM_ACIA_SETTINGS, IDS_MI_ACIA_SETTINGS },
     { IDM_RS232USER_SETTINGS, IDS_MI_RS232USER_SETTINGS },
+    { IDM_EASYFLASH_SETTINGS, IDS_MI_EASYFLASH_SETTINGS },
     { IDM_SFX_SE_SETTINGS, IDS_MI_SFX_SE_SETTINGS },
     { IDM_TOGGLE_SFX_SS, IDS_MI_TOGGLE_SFX_SS },
     { IDM_SETTINGS_SAVE_FILE, IDS_MI_SETTINGS_SAVE_FILE },
@@ -411,6 +413,9 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_LIGHTPEN_SETTINGS:
         ui_lightpen_settings_dialog(hwnd);
+        break;
+      case IDM_EASYFLASH_SETTINGS:
+        ui_easyflash_settings_dialog(hwnd);
         break;
       case IDM_SFX_SE_SETTINGS:
         ui_soundexpander_settings_dialog(hwnd);

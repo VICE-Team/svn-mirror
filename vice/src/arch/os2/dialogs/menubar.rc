@@ -490,6 +490,9 @@ BEGIN
         MENUITEM "$DFC0",                IDM_DIGIMAXDFC0,    MIS_TEXT
         MENUITEM "$DFE0",                IDM_DIGIMAXDFE0,    MIS_TEXT
       END
+      MENUITEM "EasyFlash Jumper", IDM_EASYFLASH_JUMPER, MIS_TEXT
+      MENUITEM "Save to EasyFlash .crt file on detach", IDM_EASYFLASH_AUTOSAVE, MIS_TEXT
+      MENUITEM "Save to EasyFlash .crt file now", IDM_EASYFLASH_SAVE_NOW, MIS_TEXT
       MENUITEM "SFX Sound Expander cartridge", IDM_SFX_SE, MIS_TEXT
       SUBMENU  "SFX Sound Expander YM chip type", IDM_SFX_SE_TYPE,   MIS_TEXT
       BEGIN

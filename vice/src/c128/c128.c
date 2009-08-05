@@ -62,6 +62,7 @@
 #include "drive-resources.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "easyflash.h"
 #include "functionrom.h"
 #include "imagecontents.h"
 #include "kbdbuf.h"
@@ -397,6 +398,7 @@ int machine_resources_init(void)
         || digimax_resources_init() < 0
         || sfx_soundexpander_resources_init() < 0
         || sfx_soundsampler_resources_init() < 0
+        || easyflash_resources_init() < 0
 #ifdef HAVE_TFE
         || tfe_resources_init() < 0
 #endif
@@ -464,6 +466,7 @@ int machine_cmdline_options_init(void)
         || digimax_cmdline_options_init() < 0
         || sfx_soundexpander_cmdline_options_init() < 0
         || sfx_soundsampler_cmdline_options_init() < 0
+        || easyflash_cmdline_options_init() < 0
 #ifdef HAVE_TFE
         || tfe_cmdline_options_init() < 0
 #endif

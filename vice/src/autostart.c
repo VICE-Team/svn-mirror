@@ -306,13 +306,13 @@ static const cmdline_option_t cmdline_options[] =
     { "-autostartprgmode", SET_RESOURCE, 1,
       NULL, NULL, "AutostartPrgMode", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Set autostart mode for PRG files") },
+      IDCLS_UNUSED, IDCLS_SET_AUTOSTART_MODE_FOR_PRG,
+      NULL, NULL },
     { "-autostartprgdiskimage", SET_RESOURCE, 1,
       NULL, NULL, "AutostartPrgDiskImage", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Set disk image for autostart of PRG files") },
+      IDCLS_UNUSED, IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG,
+      NULL, NULL },
     { NULL }
 };
 

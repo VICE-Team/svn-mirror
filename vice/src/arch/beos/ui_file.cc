@@ -335,6 +335,14 @@ void ui_select_file(ViceFilePanel *filepanel,
 		sprintf(title,"Select VOC Sound Recording file");
 	if (filetype == WAV_FILE)
 		sprintf(title,"Select WAV Sound Recording file");
+	if (filetype == VIC20_GENERIC_CART_FILE)
+		sprintf(title,"Select generic cartridge file");
+	if (filetype == VIC20_MEGACART_FILE)
+		sprintf(title,"Select Mega-Cart file");
+	if (filetype == VIC20_FINAL_EXPANSION_FILE)
+		sprintf(title,"Select Final Expansion file");
+	if (filetype == VIC20_SMART_CART_ATTACH_FILE)
+		sprintf(title,"Select cartridge file");
 
 	filepanel->Window()->SetTitle(title);
 
@@ -485,6 +493,24 @@ void ui_select_file_action(BMessage *msg) {
 			ui_sound_record_action(fullpath, "voc");
       } else if (last_filetype[1] == WAV_FILE) {
 			ui_sound_record_action(fullpath, "wav");
+      } else if (last_filetype[1] == WAV_FILE) {
+			ui_sound_record_action(fullpath, "wav");
+      } else if (last_filetype[1] == VIC20_GENERIC_CART_FILE) {
+			if (cartridge_attach_image(CARTRIDGE_VIC20_GENERIC, fullpath) < 0) {
+				ui_error("Invalid cartridge image");
+			}
+      } else if (last_filetype[1] == VIC20_MEGACART_FILE) {
+			if (cartridge_attach_image(CARTRIDGE_VIC20_MEGACART, fullpath) < 0) {
+				ui_error("Invalid cartridge image");
+			}
+      } else if (last_filetype[1] == VIC20_FINAL_EXPANSION_FILE) {
+			if (cartridge_attach_image(CARTRIDGE_VIC20_FINAL_EXPANSION, fullpath) < 0) {
+				ui_error("Invalid cartridge image");
+			}
+      } else if (last_filetype[1] == VIC20_SMART_CART_ATTACH_FILE) {
+			if (cartridge_attach_image(CARTRIDGE_VIC20_DETECT, fullpath) < 0) {
+				ui_error("Invalid cartridge image");
+			}
       }
 		delete path;
 		delete fullpath;

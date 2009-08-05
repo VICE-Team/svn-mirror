@@ -47,6 +47,7 @@
 #include "uidrive.h"
 #include "uidrivec64.h"
 #include "uidrivec64vic20.h"
+#include "uieasyflash.h"
 #include "uigeoram.h"
 #include "uiide64.h"
 #include "uiisepic.h"
@@ -283,6 +284,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, dqbb_submenu },
     { N_("Isepic cartridge"),
       NULL, NULL, isepic_submenu },
+    { N_("EasyFlash cartridge"),
+      NULL, NULL, easyflash_submenu },
     { N_("PLUS60K RAM Expansion"),
       NULL, NULL, plus60k_submenu },
     { N_("PLUS256K RAM Expansion"),

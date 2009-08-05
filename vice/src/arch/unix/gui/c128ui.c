@@ -44,6 +44,7 @@
 #include "uidigimax.h"
 #include "uidrive.h"
 #include "uidrivec128.h"
+#include "uieasyflash.h"
 #include "uigeoram.h"
 #include "uiide64.h"
 #include "uijoystick2.h"
@@ -270,6 +271,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, georam_submenu },
     { N_("RAM Expansion Cart"),
       NULL, NULL, ramcart_submenu },
+    { N_("EasyFlash cartridge"),
+      NULL, NULL, easyflash_submenu },
     { N_("MMC64 emulation"),
       NULL, NULL, mmc64_submenu },
     { N_("Digimax Cart"),

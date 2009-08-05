@@ -41,6 +41,7 @@
 #include "delaep256.h"
 #include "delaep64.h"
 #include "delaep7x8.h"
+#include "easyflash.h"
 #include "epyxfastload.h"
 #include "expert.h"
 #include "final.h"
@@ -188,6 +189,13 @@ int crt_attach(const char *filename, BYTE *rawcart)
                 fclose(fd);
                 return -1;
             }
+        }
+        break;
+      case CARTRIDGE_EASYFLASH:
+        rc = easyflash_crt_attach(fd, rawcart, header, filename);
+        fclose(fd);
+        if (rc < 0) {
+            return -1;
         }
         break;
       case CARTRIDGE_FUNPLAY:

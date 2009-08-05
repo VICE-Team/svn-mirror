@@ -38,5 +38,6 @@ extern UI_MENU_CALLBACK(set_c64_cart_default_callback);
 extern UI_MENU_CALLBACK(enable_expert_callback);
 
 extern const ui_menu_entry_t expert_cart_menu[];
+extern const ui_menu_entry_t easyflash_cart_menu[];
 
 #endif

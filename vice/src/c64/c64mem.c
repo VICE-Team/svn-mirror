@@ -717,7 +717,7 @@ void mem_initialize_memory(void)
     /*
      * Change address decoding.
      */
-    if (mem_cartridge_type == CARTRIDGE_EXPERT) {
+    if (mem_cartridge_type == CARTRIDGE_EXPERT || mem_cartridge_type == CARTRIDGE_EASYFLASH) {
         /* Allow writing at ROML at $8000-$9FFF.  */
         for (j = 0; j < NUM_CONFIGS; j++) {
             if (roml_config[j]) {

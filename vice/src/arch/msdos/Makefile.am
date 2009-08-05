@@ -12,6 +12,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/c64 \
+	-I$(top_srcdir)/src/c64/cart \
 	-I$(top_srcdir)/src/c64dtv \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
@@ -89,6 +90,8 @@ libarch_a_SOURCES = \
 	uidqbb.h \
 	uidrive.c \
 	uidrive.h \
+	uieasyflash.c \
+	uieasyflash.h \
 	uigeoram.c \
 	uigeoram.h \
 	uiisepic.c \

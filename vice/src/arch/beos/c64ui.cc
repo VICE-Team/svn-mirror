@@ -48,6 +48,7 @@ extern "C" {
 #include "archdep.h"
 #include "cartridge.h"
 #include "constants.h"
+#include "easyflash.h"
 #include "keyboard.h"
 #include "mouse.h"
 #include "resources.h"
@@ -86,6 +87,8 @@ ui_menu_toggle  c64_ui_menu_toggles[]={
     { "VICIIScale2x", MENU_TOGGLE_SCALE2X },
     { "SFXSoundExpander", MENU_TOGGLE_SFX_SE },
     { "SFXSoundSampler", MENU_TOGGLE_SFX_SS },
+    { "EasyFlashJumper", MENU_TOGGLE_EASYFLASH_JUMPER },
+    { "EasyFlashWriteCRT", MENU_TOGGLE_EASYFLASH_AUTOSAVE },
     { NULL, 0 }
 };
 
@@ -358,6 +361,11 @@ void c64_ui_specific(void *msg, void *window)
             break;
         case MENU_MMC64_IMAGE_FILE:
             ui_select_file(windowlist[0]->filepanel,MMC64_IMAGE_FILE,(void*)0);
+            break;
+        case MENU_EASYFLASH_SAVE_NOW:
+            if (easyflash_save_crt() < 0) {
+                ui_error("Error saving EasyFlash .crt file");
+            }
             break;
 
     	default: ;

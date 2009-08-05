@@ -116,6 +116,7 @@ static io_source_t io_source_table[] = {
     {IO_SOURCE_MIDI, "MIDI", IO_DETACH_RESOURCE, "MIDIEnable"},
     {IO_SOURCE_ISEPIC, "ISEPIC", IO_DETACH_RESOURCE, "Isepic"},
     {IO_SOURCE_SFX_SE, "SFX SOUND EXPANDER", IO_DETACH_RESOURCE, "SFXSoundExpander"},
+    {IO_SOURCE_EASYFLASH, "EASYFLASH", IO_DETACH_CART, NULL},
     {-1,NULL,0,NULL}
 };
 

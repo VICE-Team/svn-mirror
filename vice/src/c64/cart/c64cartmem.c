@@ -46,6 +46,7 @@
 #include "delaep64.h"
 #include "delaep7x8.h"
 #include "dqbb.h"
+#include "easyflash.h"
 #include "epyxfastload.h"
 #include "expert.h"
 #include "final.h"
@@ -274,6 +275,9 @@ void REGPARM2 cartridge_store_io1(WORD addr, BYTE value)
       case CARTRIDGE_DELA_EP256:
         delaep256_io1_store(addr, value);
         break;
+      case CARTRIDGE_EASYFLASH:
+        easyflash_io1_store(addr, value);
+        break;
     }
     return;
 }
@@ -328,6 +332,8 @@ BYTE REGPARM1 cartridge_read_io2(WORD addr)
         return ross_io2_read(addr);
       case CARTRIDGE_REX_EP256:
         return rexep256_io2_read(addr);
+      case CARTRIDGE_EASYFLASH:
+        return easyflash_io2_read(addr);
     }
     return vicii_read_phi1();
 }
@@ -374,6 +380,9 @@ void REGPARM2 cartridge_store_io2(WORD addr, BYTE value)
       case CARTRIDGE_REX_EP256:
         rexep256_io2_store(addr, value);
         break;
+      case CARTRIDGE_EASYFLASH:
+        easyflash_io2_store(addr, value);
+        break;
     }
 }
 
@@ -412,6 +421,8 @@ BYTE REGPARM1 roml_read(WORD addr)
         return final_v3_roml_read(addr);
       case CARTRIDGE_MAGIC_FORMEL:
         return magicformel_roml_read(addr);
+      case CARTRIDGE_EASYFLASH:
+        return easyflash_roml_read(addr);
     }
     if (dqbb_enabled)
     {
@@ -460,6 +471,9 @@ void REGPARM2 roml_store(WORD addr, BYTE value)
       case CARTRIDGE_MAGIC_FORMEL:
         magicformel_roml_store(addr, value);
         return;
+      case CARTRIDGE_EASYFLASH:
+        easyflash_roml_store(addr, value);
+        return;
     }
 
     if (export_ram)
@@ -478,6 +492,8 @@ BYTE REGPARM1 romh_read(WORD addr)
         return roml_banks[(addr & 0x1fff) + (romh_bank << 13)];
       case CARTRIDGE_IDE64:
         return romh_banks[(addr & 0x3fff) | (romh_bank << 14)];
+      case CARTRIDGE_EASYFLASH:
+        return easyflash_romh_read(addr);
     }
     if (isepic_enabled && isepic_switch)
     {
@@ -493,19 +509,25 @@ BYTE REGPARM1 romh_read(WORD addr)
 void REGPARM2 romh_store(WORD addr, BYTE value)
 {
     switch (mem_cartridge_type) {
+      case CARTRIDGE_EASYFLASH:
+        easyflash_romh_store(addr, value);
+        break;
       case CARTRIDGE_MAGIC_FORMEL:
         magicformel_romh_store(addr, value);
-        return;
+        break;
     }
-    if (isepic_enabled && isepic_switch)
-    {
+    if (isepic_enabled && isepic_switch) {
         isepic_romh_store(addr, value);
-        return;
     }
 }
 
 void REGPARM2 romh_no_ultimax_store(WORD addr, BYTE value)
 {
+    switch (mem_cartridge_type) {
+      case CARTRIDGE_EASYFLASH:
+        easyflash_romh_store(addr, value);
+        break;
+    }
     if (dqbb_enabled)
     {
         dqbb_romh_store(addr, value);
@@ -716,6 +738,9 @@ void cartridge_init_config(void)
         cartridge_config_changed(1, 1, CMODE_READ);
         cartridge_store_io1((WORD)0xde00, 0);
         break;
+      case CARTRIDGE_EASYFLASH:
+        easyflash_config_init();
+        break;
       case CARTRIDGE_GS:
         cartridge_config_changed(0, 0, CMODE_READ);
         cartridge_store_io1((WORD)0xde00, 0);
@@ -849,6 +874,9 @@ void cartridge_attach(int type, BYTE *rawcart)
         /* Hack: using 16kB configuration, but some carts are 8kB only */
         cartridge_config_changed(1, 1, CMODE_READ);
         break;
+      case CARTRIDGE_EASYFLASH:
+        easyflash_config_setup(rawcart);
+        break;
       case CARTRIDGE_ULTIMAX:
         generic_ultimax_config_setup(rawcart);
         break;
@@ -937,6 +965,9 @@ void cartridge_detach(int type)
         break;
       case CARTRIDGE_FINAL_I:
         final_v1_detach();
+        break;
+      case CARTRIDGE_EASYFLASH:
+        easyflash_detach();
         break;
       case CARTRIDGE_WESTERMANN:
         westermann_detach();
@@ -1078,4 +1109,3 @@ void cartridge_romlbank_set(unsigned int bank)
 {
     roml_bank = (int)bank;
 }
-

@@ -52,6 +52,7 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "VICVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "IEEE488", IDM_IEEE488 },
     { "EmuID", IDM_TOGGLE_EMUID },
+    { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { NULL, 0 }
 };
 
@@ -101,6 +102,22 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
       case IDM_CART_VIC20_8KB_A000:
       case IDM_CART_VIC20_4KB_B000:
         uicart_attach(canvas, idm, vic20_ui_cartridges);
+        break;
+      case IDM_CART_VIC20_GENERIC:
+        uicart_attach_special(canvas, translate_text(IDS_SELECT_GENERIC),
+                              UILIB_FILTER_ALL, CARTRIDGE_VIC20_GENERIC);
+        break;
+      case IDM_CART_VIC20_MEGACART:
+        uicart_attach_special(canvas, translate_text(IDS_SELECT_MEGACART),
+                              UILIB_FILTER_ALL, CARTRIDGE_VIC20_MEGACART);
+        break;
+      case IDM_CART_VIC20_FINAL_EXPANSION:
+        uicart_attach_special(canvas, translate_text(IDS_SELECT_FINAL_EXPANSION),
+                              UILIB_FILTER_ALL, CARTRIDGE_VIC20_FINAL_EXPANSION);
+        break;
+      case IDM_CART_VIC20_SMART_ATTACH:
+        uicart_attach_special(canvas, translate_text(IDS_SELECT_CARTRIDGE_IMAGE),
+                              UILIB_FILTER_ALL, CARTRIDGE_VIC20_DETECT);
         break;
       case IDM_CART_SET_DEFAULT:
         cartridge_set_default();

@@ -46,6 +46,7 @@
 #include "uic64cart.h"
 #include "uidigimax.h"
 #include "uidqbb.h"
+#include "uieasyflash.h"
 #include "uigeoram.h"
 #include "uiisepic.h"
 #include "uilightpen.h"
@@ -403,6 +404,8 @@ int c64ui_init(void)
 #ifdef HAVE_TFE
     uitfe_init(ui_ioextensions_submenu);
 #endif
+
+    uieasyflash_init(ui_ioextensions_submenu);
 
     uisoundexpander_init(ui_ioextensions_submenu);
 

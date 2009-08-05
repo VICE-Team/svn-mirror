@@ -208,6 +208,12 @@ IDCLS_ENABLE_WARP_MODE_AUTOSTART
 /* autostart.c */
 IDCLS_DISABLE_WARP_MODE_AUTOSTART
 
+/* autostart.c */
+IDCLS_SET_AUTOSTART_MODE_FOR_PRG
+
+/* autostart.c */
+IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG
+
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, plus4/plus4-cmdline-options.c,
    vic20/vic20-cmdline-options.c */
@@ -1091,6 +1097,9 @@ IDCLS_SPECIFY_GENERIC_ROM_NAME
 /* vic20/cart/vic20cart.c */
 IDCLS_SPECIFY_MEGA_CART_ROM_NAME
 
+/* vic20/cart/vic20cart.c */
+IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME
+
 /* vicii/vicii-cmdline-options.c */
 IDCLS_SET_BORDER_MODE
 
@@ -1530,6 +1539,9 @@ IDCLS_ENABLE_SFX_SE
 
 /* c64/sfx_soundexpander.c */
 IDCLS_DISABLE_SFX_SE
+
+/* c64/sfx_soundexpander.c */
+IDCLS_SET_YM_CHIP_TYPE
 
 /* c64/sfx_soundsampler.c */
 IDCLS_ENABLE_SFX_SS
@@ -1973,3 +1985,24 @@ IDGS_P_COMMAND
 
 /* monitor/mon_command.c */
 IDGS_MON_TAPECTRL_DESCRIPTION
+
+/* lightpen.c */
+IDCLS_ENABLE_LIGHTPEN_EMULATION
+
+/* lightpen.c */
+IDCLS_DISABLE_LIGHTPEN_EMULATION
+
+/* lightpen.c */
+IDCLS_SET_LIGHTPEN_TYPE
+
+/* c64/cart/easyflash.c */
+IDCLS_ENABLE_EASYFLASH_JUMPER
+
+/* c64/cart/easyflash.c */
+IDCLS_DISABLE_EASYFLASH_JUMPER
+
+/* c64/cart/easyflash.c */
+IDCLS_ENABLE_EASYFLASH_CRT_WRITING
+
+/* c64/cart/lash.c */
+IDCLS_DISABLE_EASYFLASH_CRT_WRITING

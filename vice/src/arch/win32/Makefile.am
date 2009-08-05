@@ -17,6 +17,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/rs232drv \
 	-I$(top_srcdir)/src/c64 \
+	-I$(top_srcdir)/src/c64/cart \
 	-I$(top_srcdir)/src/c64dtv \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
@@ -78,6 +79,7 @@ libarch_a_SOURCES = \
 	resdrivepetcbm2.rc \
 	resdriveplus4.rc \
 	resdrivevic20.rc \
+	reseasyflash.rc \
 	resgeoram.rc \
 	reside64.rc \
 	resisepic.rc \
@@ -149,6 +151,8 @@ libarch_a_SOURCES = \
 	uidriveplus4.h \
 	uidrivevic20.c \
 	uidrivevic20.h \
+	uieasyflash.c \
+	uieasyflash.h \
 	uievent.c \
 	uievent.h \
 	uifliplist.c \
@@ -428,7 +432,8 @@ resc128.o : $(srcdir)/resc128.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc \
 	$(srcdir)/resmmc64.rc $(srcdir)/reside64.rc $(srcdir)/resdrivec128.rc \
 	$(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc $(srcdir)/restfe.rc \
-	$(srcdir)/resmidi.rc $(srcdir)/reslightpen.rc $(srcdir)/ressoundexpander.rc \
+	$(srcdir)/resmidi.rc $(srcdir)/reslightpen.rc \
+	$(srcdir)/ressoundexpander.rc $(srcdir)/reseasyflash.rc \
 	$(top_srcdir)/src/debug.h
 	cat >resc128cat.rc $(srcdir)/resc128.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/reside64.rc $(srcdir)/resreu.rc \
@@ -436,7 +441,8 @@ resc128.o : $(srcdir)/resc128.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
 	$(srcdir)/resdrivec128.rc $(srcdir)/resdigimax.rc \
 	$(srcdir)/resmouse.rc $(srcdir)/restfe.rc $(srcdir)/reslightpen.rc \
-	$(srcdir)/ressoundexpander.rc $(srcdir)/resmidi.rc
+	$(srcdir)/ressoundexpander.rc $(srcdir)/reseasyflash.rc \
+	$(srcdir)/resmidi.rc
 	$(WRC) -i resc128cat.rc -o resc128.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32 \
@@ -451,7 +457,8 @@ resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resc64_256k.rc $(srcdir)/reside64.rc \
 	$(srcdir)/resdrivec64.rc $(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc \
 	$(srcdir)/restfe.rc $(srcdir)/resmidi.rc $(srcdir)/resdqbb.rc \
-	$(srcdir)/resisepic.rc $(srcdir)/reslightpen.rc $(srcdir)/ressoundexpander.rc \
+	$(srcdir)/resisepic.rc $(srcdir)/reslightpen.rc \
+	$(srcdir)/ressoundexpander.rc $(srcdir)/reseasyflash.rc \
 	$(top_srcdir)/src/debug.h
 	cat >resc64cat.rc $(srcdir)/resc64.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivec64.rc \
@@ -461,7 +468,8 @@ resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
 	$(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc $(srcdir)/restfe.rc \
 	$(srcdir)/resmidi.rc $(srcdir)/resdqbb.rc $(srcdir)/resisepic.rc \
-	$(srcdir)/reslightpen.rc $(srcdir)/ressoundexpander.rc
+	$(srcdir)/reslightpen.rc $(srcdir)/reseasyflash.rc \
+	$(srcdir)/ressoundexpander.rc
 	$(WRC) -i resc64cat.rc -o resc64.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32  \

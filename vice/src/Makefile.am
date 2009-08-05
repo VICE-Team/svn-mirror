@@ -130,6 +130,7 @@ noinst_HEADERS = \
 	findpath.h \
 	fixpoint.h \
 	fsdevice.h \
+	flash040.h \
 	fliplist.h \
 	fullscreen.h \
 	gcr.h \

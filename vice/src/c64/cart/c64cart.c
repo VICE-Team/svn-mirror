@@ -309,7 +309,7 @@ int cartridge_attach_image(int type, const char *filename)
     }
 
     /* allocate temporary array */
-    rawcart = lib_malloc(0x88000);
+    rawcart = lib_malloc(0x100000);
 
 /*  cart should always be detached. there is no reason for doing fancy checks
     here, and it will cause problems incase a cart MUST be detached before

@@ -60,6 +60,7 @@
 #include "screenshot.h"      // screenshot_save
 #include "dlg-fileio.h"      // ViceFileDialog
 #include "video-resources.h" // VIDEO_RESOURCE_PAL_*
+#include "easyflash.h"
 
 #ifdef HAVE_MOUSE
 #include "mouse.h"
@@ -515,6 +516,17 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         return;
     case IDM_SFX_SS:
         toggle("SFXSoundSampler");
+        return;
+    case IDM_EASYFLASH_JUMPER:
+        toggle("EasyFlashJumper");
+        return;
+    case IDM_EASYFLASH_AUTOSAVE:
+        toggle("EasyFlashWriteCRT");
+        return;
+    case IDM_EASYFLASH_SAVE_NOW:
+        if (easyflash_save_crt() < 0) {
+            ui_error("Can not save to EasyFlash .crt file");
+        }
         return;
     case IDM_DQBB:
         toggle("DQBB");

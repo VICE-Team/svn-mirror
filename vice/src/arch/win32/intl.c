@@ -305,6 +305,18 @@ static int intl_table[][countof(language_table)] = {
 /* sv */  IDD_GEORAM_SETTINGS_DIALOG_SV,    /* size */
 /* tr */  IDD_GEORAM_SETTINGS_DIALOG_TR},   /* fuzzy, size */
 
+/* reseasyflash.rc */
+/* en */ {IDD_EASYFLASH_SETTINGS_DIALOG,
+/* da */  IDD_EASYFLASH_SETTINGS_DIALOG_DA,    /* fuzzy, size */
+/* de */  IDD_EASYFLASH_SETTINGS_DIALOG_DE,    /* size */
+/* fr */  IDD_EASYFLASH_SETTINGS_DIALOG_FR,    /* size */
+/* hu */  IDD_EASYFLASH_SETTINGS_DIALOG_HU,    /* size */
+/* it */  IDD_EASYFLASH_SETTINGS_DIALOG_IT,    /* size */
+/* nl */  IDD_EASYFLASH_SETTINGS_DIALOG_NL,
+/* pl */  IDD_EASYFLASH_SETTINGS_DIALOG_PL,    /* fuzzy, size */
+/* sv */  IDD_EASYFLASH_SETTINGS_DIALOG_SV,    /* size */
+/* tr */  IDD_EASYFLASH_SETTINGS_DIALOG_TR},   /* fuzzy, size */
+
 /* resisepic.rc */
 /* en */ {IDD_ISEPIC_SETTINGS_DIALOG,
 /* da */  IDD_ISEPIC_SETTINGS_DIALOG_DA,    /* fuzzy, size */

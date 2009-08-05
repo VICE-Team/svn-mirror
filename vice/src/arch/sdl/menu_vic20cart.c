@@ -50,6 +50,9 @@ static UI_MENU_CALLBACK(attach_cart_callback)
             case CARTRIDGE_VIC20_MEGACART:
                 title = "Select Mega-Cart image";
                 break;
+            case CARTRIDGE_VIC20_FINAL_EXPANSION:
+                title = "Select Final Expansion image";
+                break;
             case CARTRIDGE_VIC20_DETECT:
             case CARTRIDGE_VIC20_GENERIC:
                 title = "Select cartridge image";
@@ -78,29 +81,7 @@ static UI_MENU_CALLBACK(attach_cart_callback)
     return NULL;
 }
 
-static UI_MENU_CALLBACK(detach_cart_callback)
-{
-    if (activated) {
-        cartridge_detach_image();
-    }
-    return NULL;
-}
-
-static UI_MENU_CALLBACK(set_cart_default_callback)
-{
-    if (activated) {
-        cartridge_set_default();
-    }
-    return NULL;
-}
-
-UI_MENU_DEFINE_TOGGLE(CartridgeReset)
-
-const ui_menu_entry_t vic20cart_menu[] = {
-    { "Attach generic cartridge image",
-      MENU_ENTRY_DIALOG,
-      attach_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_VIC20_GENERIC },
+static const ui_menu_entry_t add_to_generic_cart_submenu[] = {
     { "Smart-attach cartridge image",
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
@@ -125,10 +106,45 @@ const ui_menu_entry_t vic20cart_menu[] = {
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
       (ui_callback_data_t)CARTRIDGE_VIC20_4KB_B000 },
+    { NULL }
+};
+
+static UI_MENU_CALLBACK(detach_cart_callback)
+{
+    if (activated) {
+        cartridge_detach_image();
+    }
+    return NULL;
+}
+
+static UI_MENU_CALLBACK(set_cart_default_callback)
+{
+    if (activated) {
+        cartridge_set_default();
+    }
+    return NULL;
+}
+
+UI_MENU_DEFINE_TOGGLE(CartridgeReset)
+
+const ui_menu_entry_t vic20cart_menu[] = {
+    { "Attach generic cartridge image",
+      MENU_ENTRY_DIALOG,
+      attach_cart_callback,
+      (ui_callback_data_t)CARTRIDGE_VIC20_GENERIC },
     { "Attach Mega-Cart image",
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
       (ui_callback_data_t)CARTRIDGE_VIC20_MEGACART },
+    { "Attach Final Expansion image",
+      MENU_ENTRY_DIALOG,
+      attach_cart_callback,
+      (ui_callback_data_t)CARTRIDGE_VIC20_FINAL_EXPANSION },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Add to generic cartridge",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)add_to_generic_cart_submenu },
     SDL_MENU_ITEM_SEPARATOR,
     { "Detach cartridge image",
       MENU_ENTRY_OTHER,

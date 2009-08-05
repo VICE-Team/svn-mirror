@@ -122,5 +122,9 @@ const ui_menu_entry_t c64cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)expert_cart_menu },
+    { "EasyFlash cartridge settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)easyflash_cart_menu },
     { NULL }
 };

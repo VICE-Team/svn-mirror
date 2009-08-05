@@ -106,10 +106,10 @@ static const cmdline_option_t cmdline_options[] =
       IDCLS_UNUSED, IDCLS_DISABLE_SFX_SE,
       NULL, NULL },
     { "-sfxsetype", SET_RESOURCE, 1,
-      NULL, NULL, "LightpenType", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      T_("<type>"), T_("Set YM chip type (3526 / 3812)") },
+      NULL, NULL, "SFXSoundExpanderChip", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_TYPE, IDCLS_SET_YM_CHIP_TYPE,
+      NULL, NULL },
     { NULL }
 };
 

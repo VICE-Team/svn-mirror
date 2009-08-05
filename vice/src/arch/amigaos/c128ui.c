@@ -40,6 +40,7 @@
 #include "mui/uic128settings.h"
 #include "mui/uidigimax.h"
 #include "mui/uidrivec128.h"
+#include "mui/uieasyflash.h"
 #include "mui/uigeoram.h"
 #include "mui/uiide64.h"
 #include "mui/uijoystick.h"
@@ -113,6 +114,9 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
         break;
       case IDM_SFX_SE_SETTINGS:
         ui_soundexpander_settings_dialog(canvas);
+        break;
+      case IDM_EASYFLASH_SETTINGS:
+        ui_easyflash_settings_dialog();
         break;
       case IDM_COMPUTER_ROM_SETTINGS:
         ui_c128_computer_rom_settings_dialog(canvas);

@@ -182,6 +182,10 @@
 
 #define IDM_SFX_SS       0x112
 
+#define IDM_EASYFLASH_JUMPER    0x1c2
+#define IDM_EASYFLASH_AUTOSAVE  0x1c3
+#define IDM_EASYFLASH_SAVE_NOW  0x1c4
+
 #define IDM_OEM_JOY      0x191
 
 #define IDM_PLUS60K      0x17c

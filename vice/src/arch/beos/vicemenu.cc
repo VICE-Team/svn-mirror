@@ -181,16 +181,25 @@ BMenuBar *menu_create(int machine_class) {
 		}
 		if (machine_class == VICE_MACHINE_VIC20) {
 			menu->AddItem(submenu = new BMenu("Attach cartridge image"));
-			submenu->AddItem(new BMenuItem("4/8/16KB image at $2000",
-				new BMessage(MENU_CART_VIC20_16KB_2000)));
-			submenu->AddItem(new BMenuItem("4/8/16KB image at $4000",
-				new BMessage(MENU_CART_VIC20_16KB_4000)));
-			submenu->AddItem(new BMenuItem("4/8/16KB image at $6000",
-				new BMessage(MENU_CART_VIC20_16KB_6000)));
-			submenu->AddItem(new BMenuItem("4/8KB image at $A000",
-				new BMessage(MENU_CART_VIC20_8KB_A000)));
-			submenu->AddItem(new BMenuItem("4KB image at $B000",
-				new BMessage(MENU_CART_VIC20_4KB_B000)));
+			submenu->AddItem(new BMenuItem("Generic cartridge image",
+				new BMessage(MENU_CART_VIC20_GENERIC)));
+			submenu->AddItem(new BMenuItem("Mega-Cart image",
+				new BMessage(MENU_CART_VIC20_MEGACART)));
+			submenu->AddItem(new BMenuItem("Final Expansion image",
+				new BMessage(MENU_CART_VIC20_FINAL_EXPANSION)));
+			submenu->AddItem(extsubmenu = new BMenu("Add to generic"));
+				extsubmenu->AddItem(new BMenuItem("Smart Attach",
+					new BMessage(MENU_CART_VIC20_SMART_ATTACH)));
+				extsubmenu->AddItem(new BMenuItem("4/8/16KB image at $2000",
+					new BMessage(MENU_CART_VIC20_16KB_2000)));
+				extsubmenu->AddItem(new BMenuItem("4/8/16KB image at $4000",
+					new BMessage(MENU_CART_VIC20_16KB_4000)));
+				extsubmenu->AddItem(new BMenuItem("4/8/16KB image at $6000",
+					new BMessage(MENU_CART_VIC20_16KB_6000)));
+				extsubmenu->AddItem(new BMenuItem("4/8KB image at $A000",
+					new BMessage(MENU_CART_VIC20_8KB_A000)));
+				extsubmenu->AddItem(new BMenuItem("4KB image at $B000",
+					new BMessage(MENU_CART_VIC20_4KB_B000)));
 			menu->AddItem(new BMenuItem("Detach cartridge image", 
 				new BMessage(MENU_CART_DETACH)));
 			menu->AddSeparatorItem();
@@ -595,10 +604,26 @@ BMenuBar *menu_create(int machine_class) {
 			extsubmenu->AddItem(new BMenuItem("$DFE0",
 				new BMessage(MENU_DIGIMAX_BASE_DFE0)));
 
-			menu->AddItem(new BMenuItem("SFX Sound Expander emulation",
+			menu->AddItem(submenu = new BMenu("SFX Sound Expander Options"));
+			submenu->AddItem(new BMenuItem("SFX Sound Expander emulation",
 				new BMessage(MENU_TOGGLE_SFX_SE)));
+			submenu->AddItem(extsubmenu = new BMenu("SFX Sound Expander YM chip"));
+			extsubmenu->SetRadioMode(true);
+			extsubmenu->AddItem(new BMenuItem("3526",
+				new BMessage(MENU_SFX_SE_3526)));
+			extsubmenu->AddItem(new BMenuItem("3812",
+				new BMessage(MENU_SFX_SE_3526)));
+
 			menu->AddItem(new BMenuItem("SFX Sound Sampler emulation",
 				new BMessage(MENU_TOGGLE_SFX_SS)));
+
+			menu->AddItem(submenu = new BMenu("EasyFlash Options"));
+			submenu->AddItem(new BMenuItem("Jumper",
+				new BMessage(MENU_TOGGLE_EASYFLASH_JUMPER)));
+			submenu->AddItem(new BMenuItem("Save to .crt file on detach",
+				new BMessage(MENU_TOGGLE_EASYFLASH_AUTOSAVE)));
+			submenu->AddItem(new BMenuItem("Save .crt file now",
+				new BMessage(MENU_EASYFLASH_SAVE_NOW)));
 
 			if (machine_class == VICE_MACHINE_C64) {
 				menu->AddItem(submenu = new BMenu("Double Quick Brown Box Options"));

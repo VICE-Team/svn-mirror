@@ -29,6 +29,8 @@ libc64cart_a_SOURCES = \
 	delaep64.h \
 	delaep7x8.c \
 	delaep7x8.h \
+	easyflash.c \
+	easyflash.h \
 	epyxfastload.c \
 	epyxfastload.h \
 	expert.c \

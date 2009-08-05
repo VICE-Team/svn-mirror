@@ -38,4 +38,7 @@ typedef struct uicart_params_s uicart_params_t;
 extern void uicart_attach(video_canvas_t *canvas, int idm,
                           const uicart_params_t *cartridges);
 
+extern void uicart_attach_special(video_canvas_t *canvas, char *title,
+                                  DWORD filterlist, unsigned int type);
+
 #endif

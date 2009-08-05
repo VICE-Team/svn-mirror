@@ -39,6 +39,7 @@
 #include "mui/uic64_256k.h"
 #include "mui/uidigimax.h"
 #include "mui/uidrivec64vic20.h"
+#include "mui/uieasyflash.h"
 #include "mui/uigeoram.h"
 #include "mui/uiide64.h"
 #include "mui/uijoystick.h"
@@ -112,6 +113,9 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
         break;
       case IDM_SFX_SE_SETTINGS:
         ui_soundexpander_settings_dialog(canvas);
+        break;
+      case IDM_EASYFLASH_SETTINGS:
+        ui_easyflash_settings_dialog();
         break;
       case IDM_IDE64_SETTINGS:
         ui_ide64_settings_dialog(canvas);

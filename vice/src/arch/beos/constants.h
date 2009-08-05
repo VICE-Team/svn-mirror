@@ -108,6 +108,11 @@ const uint32 MENU_CART_VIC20_16KB_6000			= 'M062';
 const uint32 MENU_CART_VIC20_8KB_A000			= 'M063';
 const uint32 MENU_CART_VIC20_4KB_B000			= 'M064';
 
+const uint32 MENU_CART_VIC20_GENERIC			= 'M190';
+const uint32 MENU_CART_VIC20_MEGACART			= 'M191';
+const uint32 MENU_CART_VIC20_FINAL_EXPANSION		= 'M192';
+const uint32 MENU_CART_VIC20_SMART_ATTACH			= 'M193';
+
 const uint32 ATTACH_C64_CART					= 'MA01';
 const uint32 ATTACH_VIC20_CART					= 'MA02';
 
@@ -149,6 +154,10 @@ const uint32 MENU_TOGGLE_VDC_DOUBLESIZE			= 'M114';
 const uint32 MENU_TOGGLE_VDC_DOUBLESCAN			= 'M115';
 const uint32 MENU_TOGGLE_SFX_SE					= 'M178';
 const uint32 MENU_TOGGLE_SFX_SS					= 'M176';
+const uint32 MENU_TOGGLE_EASYFLASH_JUMPER				= 'M187';
+const uint32 MENU_TOGGLE_EASYFLASH_AUTOSAVE			= 'M188';
+
+const uint32 MENU_EASYFLASH_SAVE_NOW			= 'M189';
 
 const uint32 MENU_VDC_REV_0					= 'M172';
 const uint32 MENU_VDC_REV_1					= 'M173';

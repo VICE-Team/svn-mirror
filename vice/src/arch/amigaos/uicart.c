@@ -59,3 +59,14 @@ void uicart_attach(video_canvas_t *canvas, int idm,
         lib_free(name);
     }
 }
+
+void uicart_attach_special(video_canvas_t *canvas, char *title, DWORD filterlist, unsigned int type)
+{
+    char *name;
+
+    if ((name = uilib_select_file(title, filterlist, UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_CART)) != NULL) {
+        if (cartridge_attach_image(type, name) < 0)
+            ui_error(translate_text(IDMES_INVALID_CART_IMAGE));
+        lib_free(name);
+    }
+}

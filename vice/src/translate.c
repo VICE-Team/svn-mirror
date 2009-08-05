@@ -3689,6 +3689,34 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_TR, ""},  /* fuzzy */
 #endif
 
+/* autostart.c */
+/* en */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG,    N_("Set autostart mode for PRG files")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_NL, "Zet autostart modus voor PRG bestanden"},
+/* pl */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_TR, ""},  /* fuzzy */
+#endif
+
+/* autostart.c */
+/* en */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG,    N_("Set disk image for autostart of PRG files")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_NL, "Zet disk bestand voor het autostarten van PRG bestanden"},
+/* pl */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_TR, ""},  /* fuzzy */
+#endif
+
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, plus4/plus4-cmdline-options.c,
    vic20/vic20-cmdline-options.c */
@@ -8462,6 +8490,20 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME_TR, ""},  /* fuzzy */
 #endif
 
+/* vic20/cart/vic20cart.c */
+/* en */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME,    N_("Specify Final Expansion extension ROM name")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_SV, "Ange namn för Final Expansion-utöknings-ROM"},
+/* tr */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_TR, ""},  /* fuzzy */
+#endif
+
 /* vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_BORDER_MODE,    N_("Set VIC-II border display mode (0: normal, 1: full, 2: debug)")},
 #ifdef HAS_TRANSLATION
@@ -10631,6 +10673,20 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_SFX_SE_TR, ""},  /* fuzzy */
 #endif
 
+/* c64/sfx_soundexpander.c */
+/* en */ {IDCLS_SET_YM_CHIP_TYPE,    N_("Set YM chip type (3526 / 3812)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_YM_CHIP_TYPE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_YM_CHIP_TYPE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_YM_CHIP_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_YM_CHIP_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_YM_CHIP_TYPE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_YM_CHIP_TYPE_NL, "Kies de YM chip soort (3526 / 3812)"},
+/* pl */ {IDCLS_SET_YM_CHIP_TYPE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_YM_CHIP_TYPE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_YM_CHIP_TYPE_TR, ""},  /* fuzzy */
+#endif
+
 /* c64/sfx_soundsampler.c */
 /* en */ {IDCLS_ENABLE_SFX_SS,    N_("Enable the SFX Sound Sampler cartridge")},
 #ifdef HAS_TRANSLATION
@@ -10657,6 +10713,104 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_DISABLE_SFX_SS_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_SFX_SS_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_SFX_SS_TR, ""},  /* fuzzy */
+#endif
+
+/* lightpen.c */
+/* en */ {IDCLS_ENABLE_LIGHTPEN_EMULATION,    N_("Enable lightpen emulation")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_NL, "Activeer de lichtpen emulatie"},
+/* pl */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_TR, ""},  /* fuzzy */
+#endif
+
+/* lightpen.c */
+/* en */ {IDCLS_DISABLE_LIGHTPEN_EMULATION,    N_("Disable lightpen emulation")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_NL, "De lichtpen emulatie uitschakelen"},
+/* pl */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_TR, ""},  /* fuzzy */
+#endif
+
+/* lightpen.c */
+/* en */ {IDCLS_SET_LIGHTPEN_TYPE,    N_("Set lightpen type")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_LIGHTPEN_TYPE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_LIGHTPEN_TYPE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_LIGHTPEN_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_LIGHTPEN_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_LIGHTPEN_TYPE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_LIGHTPEN_TYPE_NL, "Geef de lichtpen soort op"},
+/* pl */ {IDCLS_SET_LIGHTPEN_TYPE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_LIGHTPEN_TYPE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_LIGHTPEN_TYPE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/easyflash.c */
+/* en */ {IDCLS_ENABLE_EASYFLASH_JUMPER,    N_("Enable EasyFlash jumper")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_EASYFLASH_JUMPER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_EASYFLASH_JUMPER_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_EASYFLASH_JUMPER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_EASYFLASH_JUMPER_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_EASYFLASH_JUMPER_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_EASYFLASH_JUMPER_NL, "Activeer de EasyFlash jumper"},
+/* pl */ {IDCLS_ENABLE_EASYFLASH_JUMPER_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_EASYFLASH_JUMPER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_EASYFLASH_JUMPER_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/easyflash.c */
+/* en */ {IDCLS_DISABLE_EASYFLASH_JUMPER,    N_("Disable EasyFlash jumper")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_EASYFLASH_JUMPER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_EASYFLASH_JUMPER_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_EASYFLASH_JUMPER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_EASYFLASH_JUMPER_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_EASYFLASH_JUMPER_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_EASYFLASH_JUMPER_NL, "De EasyFlash jumper uitschakelen"},
+/* pl */ {IDCLS_DISABLE_EASYFLASH_JUMPER_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_EASYFLASH_JUMPER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_EASYFLASH_JUMPER_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/easyflash.c */
+/* en */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING,    N_("Enable writing to EasyFlash .crt image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_NL, "Activeer schrijven naar het EasyFlash .crt bestand"},
+/* pl */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/easyflash.c */
+/* en */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING,    N_("Disable writing to EasyFlash .crt image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_NL, "Schrijven naar het EasyFlash .crt bestand uitschakelen"},
+/* pl */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/digimax.c */

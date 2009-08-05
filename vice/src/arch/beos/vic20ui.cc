@@ -135,6 +135,18 @@ void vic20_ui_specific(void *msg, void *window)
         case MENU_CART_VIC20_4KB_B000:
             vic20_ui_attach_cartridge(msg, window);
             break;
+        case MENU_CART_VIC20_GENERIC:
+            ui_select_file(windowlist[0]->savepanel,VIC20_GENERIC_CART_FILE,(void*)0);
+            break;
+        case MENU_CART_VIC20_MEGACART:
+            ui_select_file(windowlist[0]->savepanel,VIC20_MEGACART_FILE,(void*)0);
+            break;
+        case MENU_CART_VIC20_FINAL_EXPANSION:
+            ui_select_file(windowlist[0]->savepanel,VIC20_FINAL_EXPANSION_FILE,(void*)0);
+            break;
+        case MENU_CART_VIC20_SMART_ATTACH:
+            ui_select_file(windowlist[0]->savepanel,VIC20_SMART_CART_ATTACH_FILE,(void*)0);
+            break;
         case MENU_CART_SET_DEFAULT:
             cartridge_set_default();
             break;
