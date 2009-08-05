@@ -280,7 +280,7 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
      */
 
     if (vdrive->find_length < 0) {
-        unsigned int i, sector;
+        int i, sector;
         BYTE *dirbuf;
 
         sector = vdrive->Curr_sector +
