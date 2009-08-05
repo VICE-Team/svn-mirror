@@ -1,4 +1,5 @@
 source type(c)
+	"finalexpansion.c",
 	"generic.c",
 	"megacart.c",
 	"vic20cart.c",

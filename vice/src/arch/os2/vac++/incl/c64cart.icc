@@ -10,6 +10,7 @@ source type(c)
     "cart\\delaep256.c",
     "cart\\delaep64.c",
     "cart\\delaep7x8.c",
+    "cart\\easyflash.c",
     "cart\\epyxfastload.c",
     "cart\\expert.c",
     "cart\\final.c",
