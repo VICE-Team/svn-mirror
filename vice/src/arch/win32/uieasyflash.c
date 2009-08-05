@@ -31,7 +31,7 @@
 #include <windows.h>
 #include <tchar.h>
 
-#include "cart/easyflash.h"
+#include "easyflash.h"
 #include "intl.h"
 #include "res.h"
 #include "resources.h"
