@@ -60,7 +60,10 @@
 #include "screenshot.h"      // screenshot_save
 #include "dlg-fileio.h"      // ViceFileDialog
 #include "video-resources.h" // VIDEO_RESOURCE_PAL_*
+
+#if defined(__X128__) || defined(__X64__)
 #include "easyflash.h"
+#endif
 
 #ifdef HAVE_MOUSE
 #include "mouse.h"
