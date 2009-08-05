@@ -446,8 +446,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\resc128.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\reside64.rc + ..\win32\resreu.rc + ..\win32\resgeoram.rc + ..\win32\resramcart.rc + ..\win32\resmmc64.rc + ..\win32\resrs232user.rc + ..\win32\ressid.rc + ..\win32\resvicii.rc + ..\win32\resdrivec128.rc + ..\win32\resdigimax.rc + ..\win32\resmouse.rc + ..\win32\resmidi.rc + ..\win32\reslightpen.rc + ..\win32\ressoundexpander.rc + ..\win32\restfe.rc ..\win32\resc128cat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\resc128.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\reside64.rc;..\win32\resreu.rc;..\win32\resgeoram.rc;..\win32\resramcart.rc;..\win32\resmmc64.rc;..\win32\resrs232user.rc;..\win32\ressid.rc;..\win32\resvicii.rc;..\win32\resdrivec128.rc;..\win32\resdigimax.rc;..\win32\resmouse.rc;..\win32\resmidi.rc;..\win32\reslightpen.rc;..\win32\ressoundexpander.rc;..\win32\restfe.rc;"
+					CommandLine="copy /b ..\win32\resc128.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\reside64.rc + ..\win32\resreu.rc + ..\win32\resgeoram.rc + ..\win32\resramcart.rc + ..\win32\resmmc64.rc + ..\win32\resrs232user.rc + ..\win32\ressid.rc + ..\win32\resvicii.rc + ..\win32\resdrivec128.rc + ..\win32\resdigimax.rc + ..\win32\resmouse.rc + ..\win32\resmidi.rc + ..\win32\reslightpen.rc + ..\win32\reseasyflash.rc + ..\win32\ressoundexpander.rc + ..\win32\restfe.rc ..\win32\resc128cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\resc128.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\reside64.rc;..\win32\resreu.rc;..\win32\resgeoram.rc;..\win32\resramcart.rc;..\win32\resmmc64.rc;..\win32\resrs232user.rc;..\win32\ressid.rc;..\win32\resvicii.rc;..\win32\resdrivec128.rc;..\win32\resdigimax.rc;..\win32\resmouse.rc;..\win32\resmidi.rc;..\win32\reslightpen.rc;..\win32\reseasyflash.rc;..\win32\ressoundexpander.rc;..\win32\restfe.rc;"
 					Outputs="..\win32\resc128cat.rc"
 				/>
 			</FileConfiguration>
@@ -456,7 +456,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\resc128.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\reside64.rc + ..\win32\resreu.rc + ..\win32\resgeoram.rc + ..\win32\resramcart.rc + ..\win32\resmmc64.rc + ..\win32\resrs232user.rc + ..\win32\ressid.rc + ..\win32\resvicii.rc + ..\win32\resdrivec128.rc + ..\win32\resdigimax.rc + ..\win32\resmouse.rc + ..\win32\resmidi.rc + ..\win32\reslightpen.rc + ..\win32\ressoundexpander.rc + ..\win32\restfe.rc ..\win32\resc128cat.rc /b&#x0D;&#x0A;"
+					CommandLine="copy /b ..\win32\resc128.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\reside64.rc + ..\win32\resreu.rc + ..\win32\resgeoram.rc + ..\win32\resramcart.rc + ..\win32\resmmc64.rc + ..\win32\resrs232user.rc + ..\win32\ressid.rc + ..\win32\resvicii.rc + ..\win32\resdrivec128.rc + ..\win32\resdigimax.rc + ..\win32\resmouse.rc + ..\win32\resmidi.rc + ..\win32\reslightpen.rc + ..\win32\reseasyflash.rc + ..\win32\ressoundexpander.rc + ..\win32\restfe.rc ..\win32\resc128cat.rc /b&#x0D;&#x0A;"
 					AdditionalDependencies="..\..\debug.h;..\win32\resc128.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\reside64.rc;..\win32\resreu.rc;..\win32\resgeoram.rc;..\win32\resramcart.rc;..\win32\resmmc64.rc;..\win32\resrs232user.rc;..\win32\ressid.rc;..\win32\resvicii.rc;..\win32\resdrivec128.rc;..\win32\resdigimax.rc;..\win32\resmouse.rc;..\win32\resmidi.rc;..\win32\reslightpen.rc;..\win32\ressoundexpander.rc;..\win32\restfe.rc;"
 					Outputs="..\win32\resc128cat.rc"
 				/>
@@ -466,8 +466,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\resc128.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\reside64.rc + ..\win32\resreu.rc + ..\win32\resgeoram.rc + ..\win32\resramcart.rc + ..\win32\resmmc64.rc + ..\win32\resrs232user.rc + ..\win32\ressid.rc + ..\win32\resvicii.rc + ..\win32\resdrivec128.rc + ..\win32\resdigimax.rc + ..\win32\resmouse.rc + ..\win32\resmidi.rc + ..\win32\reslightpen.rc + ..\win32\ressoundexpander.rc + ..\win32\restfe.rc ..\win32\resc128cat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\resc128.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\reside64.rc;..\win32\resreu.rc;..\win32\resgeoram.rc;..\win32\resramcart.rc;..\win32\resmmc64.rc;..\win32\resrs232user.rc;..\win32\ressid.rc;..\win32\resvicii.rc;..\win32\resdrivec128.rc;..\win32\resdigimax.rc;..\win32\resmouse.rc;..\win32\resmidi.rc;..\win32\reslightpen.rc;..\win32\ressoundexpander.rc;..\win32\restfe.rc;"
+					CommandLine="copy /b ..\win32\resc128.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\reside64.rc + ..\win32\resreu.rc + ..\win32\resgeoram.rc + ..\win32\resramcart.rc + ..\win32\resmmc64.rc + ..\win32\resrs232user.rc + ..\win32\ressid.rc + ..\win32\resvicii.rc + ..\win32\resdrivec128.rc + ..\win32\resdigimax.rc + ..\win32\resmouse.rc + ..\win32\resmidi.rc + ..\win32\reslightpen.rc + ..\win32\reseasyflash.rc + ..\win32\ressoundexpander.rc + ..\win32\restfe.rc ..\win32\resc128cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\resc128.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\reside64.rc;..\win32\resreu.rc;..\win32\resgeoram.rc;..\win32\resramcart.rc;..\win32\resmmc64.rc;..\win32\resrs232user.rc;..\win32\ressid.rc;..\win32\resvicii.rc;..\win32\resdrivec128.rc;..\win32\resdigimax.rc;..\win32\resmouse.rc;..\win32\resmidi.rc;..\win32\reslightpen.rc;..\win32\reseasyflash.rc;..\win32\ressoundexpander.rc;..\win32\restfe.rc;"
 					Outputs="..\win32\resc128cat.rc"
 				/>
 			</FileConfiguration>
@@ -476,8 +476,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\resc128.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\reside64.rc + ..\win32\resreu.rc + ..\win32\resgeoram.rc + ..\win32\resramcart.rc + ..\win32\resmmc64.rc + ..\win32\resrs232user.rc + ..\win32\ressid.rc + ..\win32\resvicii.rc + ..\win32\resdrivec128.rc + ..\win32\resdigimax.rc + ..\win32\resmouse.rc + ..\win32\resmidi.rc + ..\win32\reslightpen.rc + ..\win32\ressoundexpander.rc + ..\win32\restfe.rc ..\win32\resc128cat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\resc128.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\reside64.rc;..\win32\resreu.rc;..\win32\resgeoram.rc;..\win32\resramcart.rc;..\win32\resmmc64.rc;..\win32\resrs232user.rc;..\win32\ressid.rc;..\win32\resvicii.rc;..\win32\resdrivec128.rc;..\win32\resdigimax.rc;..\win32\resmouse.rc;..\win32\resmidi.rc;..\win32\reslightpen.rc;..\win32\ressoundexpander.rc;..\win32\restfe.rc;"
+					CommandLine="copy /b ..\win32\resc128.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\reside64.rc + ..\win32\resreu.rc + ..\win32\resgeoram.rc + ..\win32\resramcart.rc + ..\win32\resmmc64.rc + ..\win32\resrs232user.rc + ..\win32\ressid.rc + ..\win32\resvicii.rc + ..\win32\resdrivec128.rc + ..\win32\resdigimax.rc + ..\win32\resmouse.rc + ..\win32\resmidi.rc + ..\win32\reslightpen.rc + ..\win32\reseasyflash.rc + ..\win32\ressoundexpander.rc + ..\win32\restfe.rc ..\win32\resc128cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\resc128.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\reside64.rc;..\win32\resreu.rc;..\win32\resgeoram.rc;..\win32\resramcart.rc;..\win32\resmmc64.rc;..\win32\resrs232user.rc;..\win32\ressid.rc;..\win32\resvicii.rc;..\win32\resdrivec128.rc;..\win32\resdigimax.rc;..\win32\resmouse.rc;..\win32\resmidi.rc;..\win32\reslightpen.rc;..\win32\reseasyflash.rc;..\win32\ressoundexpander.rc;..\win32\restfe.rc;"
 					Outputs="..\win32\resc128cat.rc"
 				/>
 			</FileConfiguration>
