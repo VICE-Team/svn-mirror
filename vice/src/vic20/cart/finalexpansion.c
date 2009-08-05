@@ -170,11 +170,11 @@ BYTE REGPARM1 finalexpansion_io3_read(WORD addr)
             value = register_b;
             break;
         default:
-            value = addr >> 8;
+            value = vic20_cpu_last_data;
             break;
         }
     } else {
-        value = addr >> 8;
+        value = vic20_cpu_last_data;
     }
     return value;
 }
@@ -282,7 +282,7 @@ static BYTE internal_read(WORD addr, int blk, WORD base)
         if (blk == 5) {
             value = flash040core_read(&flash_state, faddr);
         } else {
-            value = addr >> 8;
+            value = vic20_cpu_last_data;
         }
         break;
     case MODE_FLASH_READ:
@@ -294,7 +294,7 @@ static BYTE internal_read(WORD addr, int blk, WORD base)
         value = cart_ram[faddr];
         break;
     default:
-        value = addr >> 8;
+        value = vic20_cpu_last_data;
         break;
     }
     return value;
@@ -318,7 +318,7 @@ BYTE REGPARM1 finalexpansion_ram123_read(WORD addr)
     if ( !(register_b & REGB_BLK0_OFF) ) {
         value = internal_read(addr, 0, BLK0_BASE);
     } else {
-        value = addr >> 8;
+        value = vic20_v_bus_last_data;
     }
     return value;
 }
@@ -339,7 +339,7 @@ BYTE REGPARM1 finalexpansion_blk1_read(WORD addr)
     if ( !(register_b & REGB_BLK1_OFF) ) {
         value = internal_read(addr, 1, BLK1_BASE);
     } else {
-        value = addr >> 8;
+        value = vic20_cpu_last_data;
     }
     return value;
 }
@@ -360,7 +360,7 @@ BYTE REGPARM1 finalexpansion_blk2_read(WORD addr)
     if ( !(register_b & REGB_BLK2_OFF) ) {
         value = internal_read(addr, 2, BLK2_BASE);
     } else {
-        value = addr >> 8;
+        value = vic20_cpu_last_data;
     }
     return value;
 }
@@ -381,7 +381,7 @@ BYTE REGPARM1 finalexpansion_blk3_read(WORD addr)
     if ( !(register_b & REGB_BLK3_OFF) ) {
         value = internal_read(addr, 3, BLK3_BASE);
     } else {
-        value = addr >> 8;
+        value = vic20_cpu_last_data;
     }
     return value;
 }
@@ -407,7 +407,7 @@ BYTE REGPARM1 finalexpansion_blk5_read(WORD addr)
     if ( !(register_b & REGB_BLK5_OFF) ) {
         value = internal_read(addr, 5, BLK5_BASE);
     } else {
-        value = addr >> 8;
+        value = vic20_cpu_last_data;
     }
     return value;
 }
