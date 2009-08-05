@@ -581,7 +581,7 @@ char *lib_mvsprintf(const char *fmt, va_list args)
         }
 
         if ((np = lib_realloc (p, size)) == NULL) {
-            free(p);
+            lib_free(p);
             return NULL;
         }
         else {
