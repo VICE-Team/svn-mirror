@@ -63,7 +63,7 @@ static BYTE *cart_ram = NULL;
  * Mapping
  *      NvRAM                 VIC20
  *   0x0400 - 0x0fff  ->  0x0400 - 0x0fff
- *   0x1000 - 0x17ff  ->  0x9800 - 0x9fff
+ *   0x1800 - 0x1fff  ->  0x9800 - 0x9fff
  *
  * (by reasoning around minimal decoding, may be different on actual HW)
  */
@@ -102,7 +102,7 @@ BYTE REGPARM1 megacart_io2_read(WORD addr)
 {
     BYTE value;
     if (nvram_en_flop) {
-        value = cart_nvram[addr & 0x0fff];
+        value = cart_nvram[addr & 0x1fff];
     } else {
         value = vic20_cpu_last_data;
     }
@@ -112,7 +112,7 @@ BYTE REGPARM1 megacart_io2_read(WORD addr)
 void REGPARM2 megacart_io2_store(WORD addr, BYTE value)
 {
     if (nvram_en_flop) {
-        cart_nvram[addr & 0x0fff] = value;
+        cart_nvram[addr & 0x1fff] = value;
     }
 }
 
@@ -121,7 +121,7 @@ BYTE REGPARM1 megacart_io3_read(WORD addr)
 {
     BYTE value;
     if (nvram_en_flop) {
-        value = cart_nvram[addr & 0x0fff];
+        value = cart_nvram[addr & 0x1fff];
     } else {
         value = vic20_cpu_last_data;
     }
@@ -131,7 +131,7 @@ BYTE REGPARM1 megacart_io3_read(WORD addr)
 void REGPARM2 megacart_io3_store(WORD addr, BYTE value)
 {
     if (nvram_en_flop) {
-        cart_nvram[addr & 0x0fff] = value;
+        cart_nvram[addr & 0x1fff] = value;
     }
 
     if ((addr & 0x180) == 0x080) { /* $9c80 */
@@ -155,18 +155,18 @@ void REGPARM2 megacart_io3_store(WORD addr, BYTE value)
     }
 }
 
-
+/* 0x0400-0x0fff */
 void REGPARM2 megacart_ram123_store(WORD addr, BYTE value)
 {
     if (nvram_en_flop) {
-        cart_nvram[addr & 0x0fff] = value;
+        cart_nvram[addr & 0x1fff] = value;
     }
 }
 
 BYTE REGPARM1 megacart_ram123_read(WORD addr)
 {
     if (nvram_en_flop) {
-        return cart_nvram[addr & 0x0fff];
+        return cart_nvram[addr & 0x1fff];
     } else {
         return vic20_v_bus_last_data;
     }
