@@ -161,15 +161,19 @@ static void REGPARM2 via_store(WORD addr, BYTE value)
 
 static BYTE REGPARM1 via_read(WORD addr)
 {
-    vic20_cpu_last_data = 0xff;
+    if ( (addr & 0x30) == 0x00 ) {  /* $910x (unconnected V-bus) */
+        vic20_cpu_last_data = vic20_v_bus_last_data;
+    } else {
+        BYTE temp_bus = 0xff;
 
-    if (addr & 0x10) {          /* $911x (VIA2) */
-        vic20_cpu_last_data &= via2_read(addr);
+        if (addr & 0x10) {          /* $911x (VIA2) */
+            temp_bus &= via2_read(addr);
+        }
+        if (addr & 0x20) {          /* $912x (VIA1) */
+            temp_bus &= via1_read(addr);
+        }
+        vic20_cpu_last_data = temp_bus;
     }
-    if (addr & 0x20) {          /* $912x (VIA1) */
-        vic20_cpu_last_data &= via1_read(addr);
-    }
-
     vic20_mem_v_bus_read(addr);
     return vic20_cpu_last_data;
 }
