@@ -323,6 +323,10 @@ SOURCE=.\uidrivevic20.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uieasyflash.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uievent.c
 # End Source File
 # Begin Source File

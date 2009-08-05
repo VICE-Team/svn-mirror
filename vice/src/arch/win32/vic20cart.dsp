@@ -83,6 +83,10 @@ LIB32=link.exe -lib
 
 # Begin Source File
 
+SOURCE="..\..\vic20\cart\finalexpansion.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\vic20\cart\generic.c"
 # End Source File
 # Begin Source File
