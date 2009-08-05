@@ -98,7 +98,7 @@ static char *contrib_convert(char *text)
     unsigned int i=0;
     unsigned int j=0;
     int single=0;
-    int size;
+    size_t size;
 
     size = strlen(text);
     new_text = (char *)lib_malloc(size);

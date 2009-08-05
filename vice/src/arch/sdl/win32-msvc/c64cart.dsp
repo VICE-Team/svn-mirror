@@ -126,6 +126,10 @@ SOURCE="..\..\..\c64\cart\delaep7x8.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\c64\cart\easyflash.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\c64\cart\epyxfastload.c"
 # End Source File
 # Begin Source File

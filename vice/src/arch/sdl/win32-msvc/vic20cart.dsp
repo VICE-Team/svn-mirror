@@ -82,6 +82,10 @@ LIB32=link.exe -lib
 # Name "vic20cart - Win32 Debug"
 # Begin Source File
 
+SOURCE="..\..\..\vic20\cart\finalexpansion.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\vic20\cart\generic.c"
 # End Source File
 # Begin Source File
