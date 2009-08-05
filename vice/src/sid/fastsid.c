@@ -637,7 +637,7 @@ inline static void setup_voice(voice_t *pv)
     pv->gateflip = 0;
 }
 
-static SDWORD fastsid_calculate_single_sample(sound_t *psid, int i)
+static SWORD fastsid_calculate_single_sample(sound_t *psid, int i)
 {
     DWORD o0, o1, o2;
     int dosync1, dosync2;
@@ -737,7 +737,7 @@ int fastsid_calculate_samples_mix(sound_t *psid, SWORD *pbuf, int nr,
     int i;
 
     for (i = 0; i< nr; i++) {
-        pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], (SWORD)fastsid_calculate_single_sample(psid, i));
+        pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], fastsid_calculate_single_sample(psid, i));
     }
 
     return nr;
