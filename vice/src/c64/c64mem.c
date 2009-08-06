@@ -726,7 +726,9 @@ void mem_initialize_memory(void)
                 }
             }
         }
+    }
 
+    if (mem_cartridge_type == CARTRIDGE_EXPERT) {
         /* Allow ROML being visible independent of charen, hiram & loram */
         for (j = 8; j < 16; j++) {
             for (i = 0x80; i <= 0x9f; i++) {
