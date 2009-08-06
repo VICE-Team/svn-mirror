@@ -90,16 +90,14 @@ UI_CALLBACK(attach_disk)
       case UI_BUTTON_OK:
         if (file_system_attach_disk(unit, filename) < 0)
             ui_error(_("Invalid Disk Image"));
-        if (attach_disk_last_dir)
-            lib_free(attach_disk_last_dir);
+        lib_free(attach_disk_last_dir);
         util_fname_split(filename, &attach_disk_last_dir, NULL);
         break;
       case UI_BUTTON_AUTOSTART:
         if (autostart_disk(filename, NULL, selection_from_image,
             AUTOSTART_MODE_RUN) < 0)
             ui_error(_("Invalid Disk Image or Filename"));
-        if (attach_disk_last_dir)
-            lib_free(attach_disk_last_dir);
+        lib_free(attach_disk_last_dir);
         util_fname_split(filename, &attach_disk_last_dir, NULL);
         break;
       default:
@@ -107,8 +105,7 @@ UI_CALLBACK(attach_disk)
         break;
     }
 
-    if (filename != NULL)
-        lib_free(filename);
+    lib_free(filename);
 }
 
 static ui_menu_entry_t attach_disk_image_submenu[] = {
@@ -211,24 +208,21 @@ static UI_CALLBACK(attach_tape)
       case UI_BUTTON_OK:
         if (tape_image_attach(1, filename) < 0)
             ui_error(_("Invalid Tape Image"));
-        if (attach_tape_last_dir)
-            lib_free(attach_tape_last_dir);
+        lib_free(attach_tape_last_dir);
         util_fname_split(filename, &attach_tape_last_dir, NULL);
         break;
       case UI_BUTTON_AUTOSTART:
         if (autostart_tape(filename, NULL, selection_from_image,
             AUTOSTART_MODE_RUN) < 0)
             ui_error(_("Invalid Tape Image"));
-        if (attach_tape_last_dir)
-            lib_free(attach_tape_last_dir);
+        lib_free(attach_tape_last_dir);
         util_fname_split(filename, &attach_tape_last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
         break;
     }
-    if (filename != NULL)
-        lib_free(filename);
+    lib_free(filename);
 }
 
 static UI_CALLBACK(detach_tape)
@@ -289,24 +283,21 @@ static UI_CALLBACK(smart_attach)
             && autostart_prg(filename, AUTOSTART_MODE_LOAD) < 0) {
             ui_error(_("Unknown image type"));
         }
-        if (smart_attach_last_dir)
-            lib_free(smart_attach_last_dir);
+        lib_free(smart_attach_last_dir);
         util_fname_split(filename, &smart_attach_last_dir, NULL);
         break;
       case UI_BUTTON_AUTOSTART:
         if (autostart_autodetect(filename, NULL, selection_from_image,
             AUTOSTART_MODE_RUN) < 0)
             ui_error(_("Unknown image type"));
-        if (smart_attach_last_dir)
-            lib_free(smart_attach_last_dir);
+        lib_free(smart_attach_last_dir);
         util_fname_split(filename, &smart_attach_last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
         break;
     }
-    if (filename != NULL)
-        lib_free(filename);
+    lib_free(filename);
 }
 
 ui_menu_entry_t uiattach_smart_attach_menu[] = {

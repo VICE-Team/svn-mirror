@@ -214,15 +214,13 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
             tui_error("Invalid disk image.");
         }
 
-        if (file != NULL)
-            lib_free(file);
+        lib_free(file);
 
         ui_update_menus();
 
         lib_free(directory);
         lib_free(default_item);
-        if (name != NULL)
-            lib_free(name);
+        lib_free(name);
     }
 
     s = file_system_get_disk_name((unsigned int)param);
@@ -335,8 +333,7 @@ static TUI_MENU_CALLBACK(create_format_name_callback)
         memset(new_format_name, 0, 20);
         tui_input_string("Format disk image", "Name and ID:",
                          new_format_name, 19);
-        if (format_name)
-            lib_free(format_name);
+        lib_free(format_name);
         format_name = lib_stralloc(new_format_name);
     }
 

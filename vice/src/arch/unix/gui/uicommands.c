@@ -277,21 +277,18 @@ static void load_snapshot_trap(WORD unused_addr, void *data)
                                   filter, sizeof(filter) / sizeof(*filter),
                                   &button, 0, NULL, UI_FC_LOAD);
         if (button != UI_BUTTON_OK) {
-            if (filename)
-                lib_free(filename);
+            lib_free(filename);
             return;
         }
     }
-    if (load_snapshot_last_dir)
-        lib_free(load_snapshot_last_dir);
+    lib_free(load_snapshot_last_dir);
     util_fname_split(filename, &load_snapshot_last_dir, NULL);
 
     if (machine_read_snapshot(filename, 0) < 0)
         ui_error(_("Cannot load snapshot file\n`%s'"), filename);
     ui_update_menus();
 
-    if (filename != NULL)
-        lib_free(filename);
+    lib_free(filename);
 }
 
 static UI_CALLBACK(load_snapshot)

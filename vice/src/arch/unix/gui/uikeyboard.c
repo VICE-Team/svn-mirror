@@ -91,16 +91,14 @@ static UI_CALLBACK(select_user_keymap)
     switch (button) {
       case UI_BUTTON_OK:
         resources_set_string(resname, filename);
-        if (last_dir)
-            lib_free(last_dir);
+        lib_free(last_dir);
         util_fname_split(filename, &last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
         break;
     }
-    if (filename != NULL)
-        lib_free(filename);
+    lib_free(filename);
 }
 
 static UI_CALLBACK(dump_keymap)

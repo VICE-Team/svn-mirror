@@ -65,8 +65,7 @@ UI_CALLBACK(ui_load_rom_file)
       case UI_BUTTON_OK:
         if (resources_set_string(UI_MENU_CB_PARAM, filename) < 0)
             ui_error(_("Could not load ROM file\n'%s'"), filename);
-        if (last_dir)
-            lib_free(last_dir);
+        lib_free(last_dir);
         util_fname_split(filename, &last_dir, NULL);
         break;
       default:
@@ -74,8 +73,7 @@ UI_CALLBACK(ui_load_rom_file)
         break;
     }
     ui_update_menus();
-    if (filename != NULL)
-        lib_free(filename);
+    lib_free(filename);
 }
 
 UI_CALLBACK(ui_unload_rom_file)
@@ -111,8 +109,7 @@ static UI_CALLBACK(uiromset_archive_load)
       case UI_BUTTON_OK:
         if (romset_archive_load(filename, 0) < 0)
             ui_error(_("Could not load ROM set archive\n'%s'"), filename);
-        if (last_dir)
-            lib_free(last_dir);
+        lib_free(last_dir);
         util_fname_split(filename, &last_dir, NULL);
         break;
       default:
@@ -122,8 +119,7 @@ static UI_CALLBACK(uiromset_archive_load)
 
     ui_update_menus();
 
-    if (filename != NULL)
-        lib_free(filename);
+    lib_free(filename);
 }
 
 static UI_CALLBACK(uiromset_archive_save)
@@ -255,8 +251,7 @@ static UI_CALLBACK(uiromset_file_load)
       case UI_BUTTON_OK:
         if (machine_romset_file_load(filename) < 0)
             ui_error(_("Could not load ROM set file\n'%s'"), filename);
-        if (last_dir)
-            lib_free(last_dir);
+        lib_free(last_dir);
         util_fname_split(filename, &last_dir, NULL);
         break;
       default:
@@ -266,8 +261,7 @@ static UI_CALLBACK(uiromset_file_load)
 
     ui_update_menus();
 
-    if (filename != NULL)
-        lib_free(filename);
+    lib_free(filename);
 }
 
 static UI_CALLBACK(uiromset_file_save)

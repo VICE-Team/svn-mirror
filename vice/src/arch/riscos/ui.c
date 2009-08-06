@@ -1299,7 +1299,7 @@ void ui_setup_menu_display(const disp_desc_t *dd)
 int set_romset_by_name(const char *name, const char *val)
 {
   if (val == NULL) return -1;
-  if (ROMSetName != NULL) lib_free(ROMSetName);
+  lib_free(ROMSetName);
   ROMSetName = lib_stralloc(val);
   return romset_archive_item_select(val);
 }
@@ -1922,9 +1922,10 @@ static int ui_build_romset_menu(void)
 {
   int number;
 
-  if (MenuROMSet != NULL) lib_free(MenuROMSet);
-  if (MenuDisplayROMSet != NULL) lib_free(MenuDisplayROMSet);
-  MenuROMSet = NULL; MenuDisplayROMSet = NULL;
+  lib_free(MenuROMSet);
+  lib_free(MenuDisplayROMSet);
+  MenuROMSet = NULL;
+  MenuDisplayROMSet = NULL;
   ConfigMenus[CONF_MENU_ROMSET].menu = (RO_MenuHead*)&MenuROMSetTmpl;
 
   number = romset_archive_get_number();
@@ -1975,9 +1976,10 @@ static int ui_build_fliplist_menu(int doread)
   FlipListNumber = 0;
   if (doread)
   {
-    if (MenuFlipImages != NULL) lib_free(MenuFlipImages);
-    if (MenuFlipImgNames != NULL) lib_free(MenuFlipImgNames);
-    MenuFlipImages = NULL; MenuFlipImgNames = NULL;
+    lib_free(MenuFlipImages);
+    lib_free(MenuFlipImgNames);
+    MenuFlipImages = NULL;
+    MenuFlipImgNames = NULL;
     iter = fliplist_init_iterate(FlipListDrive + 8);
     while (iter != NULL)
     {

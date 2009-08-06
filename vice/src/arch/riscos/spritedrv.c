@@ -208,9 +208,7 @@ static int sprite_close(screenshot_t *screenshot)
     if ((god->ldbpp != 3) && (god->linedata != NULL))
       lib_free(god->linedata);
 
-    if (god->data != NULL)
-      lib_free(god->data);
-
+    lib_free(god->data);
     lib_free(god);
 
     return 0;

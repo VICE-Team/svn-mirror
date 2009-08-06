@@ -154,9 +154,7 @@ static void sdl_ui_display_path(const char *current_dir)
 #endif
     }
 
-    if (text != NULL) {
-        lib_free(text);
-    }
+    lib_free(text);
 }
 
 static void sdl_ui_file_selector_redraw(ioutil_dir_t *directory, const char *title, const char *current_dir, int offset, int num_items, int more)

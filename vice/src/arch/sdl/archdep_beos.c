@@ -172,9 +172,7 @@ char *archdep_default_fliplist_file_name(void)
 {
     static char *fname;
 
-    if (fname != NULL)
-        lib_free(fname);
-
+    lib_free(fname);
     fname = util_concat(archdep_boot_path(), "/fliplist-", 
                         machine_name, ".vfl", NULL);
     return fname;
@@ -192,9 +190,7 @@ char *archdep_default_hotkey_file_name(void)
 {
     static char *fname;
 
-    if (fname != NULL)
-        lib_free(fname);
-
+    lib_free(fname);
     fname = util_concat(archdep_boot_path(), "/sdl-hotkey-", 
                         machine_name, ".vkm", NULL);
     return fname;
@@ -204,9 +200,7 @@ char *archdep_default_joymap_file_name(void)
 {
     static char *fname;
 
-    if (fname != NULL)
-        lib_free(fname);
-
+    lib_free(fname);
     fname = util_concat(archdep_boot_path(), "/sdl-joymap-", 
                         machine_name, ".vjm", NULL);
     return fname;

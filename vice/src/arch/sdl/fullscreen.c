@@ -187,10 +187,7 @@ fprintf(stderr,"%s: %s\n",__func__,device);
     if (strcmp("SDL", device) != 0)
         return -1;
 
-    if (canvas->fullscreenconfig->device) {
-        lib_free(canvas->fullscreenconfig->device);
-    }
-
+    lib_free(canvas->fullscreenconfig->device);
     canvas->fullscreenconfig->device = lib_stralloc(device);
 
     return 0;

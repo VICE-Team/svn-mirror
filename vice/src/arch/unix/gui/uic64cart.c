@@ -75,16 +75,14 @@ static UI_CALLBACK(attach_cartridge)
               case UI_BUTTON_OK:
                 if (cartridge_attach_image(type, filename) < 0)
                     ui_error(_("Cannot attach cartridge"));
-                if (last_dir)
-                    lib_free(last_dir);
+                lib_free(last_dir);
                 util_fname_split(filename, &last_dir, NULL);
                 break;
               default:
                 /* Do nothing special. */
                 break;
             }
-            if (filename != NULL)
-                lib_free(filename);
+            lib_free(filename);
         }
     }
     ui_update_menus();

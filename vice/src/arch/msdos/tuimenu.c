@@ -125,8 +125,7 @@ static void tui_menu_call_callback(tui_menu_item_t *item, int param,
     const char *new_par_string;
 
     if (callback == NULL) {
-        if (item->par_string != NULL)
-            lib_free(item->par_string);
+        lib_free(item->par_string);
         item->par_string = NULL;
         return;
     }
@@ -135,8 +134,7 @@ static void tui_menu_call_callback(tui_menu_item_t *item, int param,
                                  behavior == NULL ? &dummy : behavior);
 
     if (new_par_string == NULL) {
-        if (item->par_string != NULL)
-            lib_free(item->par_string);
+        lib_free(item->par_string);
         item->par_string = NULL;
     } else {
         if (item->par_string != NULL) {
@@ -176,12 +174,12 @@ void tui_menu_update(tui_menu_t menu)
 
 static void tui_menu_item_free(tui_menu_item_t *item)
 {
-    if (item->label != NULL)
-        lib_free(item->label);
-    if (item->help_string != NULL)
-        lib_free(item->help_string);
-    if (item->par_string != NULL)
-        lib_free(item->par_string);
+    lib_free(item->label);
+    item->label = NULL;
+    lib_free(item->help_string);
+    item->help_string = NULL;
+    lib_free(item->par_string);
+    item->par_string = NULL;
 }
 
 tui_menu_t tui_menu_create(const char *title, int spacing)
@@ -212,8 +210,8 @@ void tui_menu_free(tui_menu_t menu)
 {
     tui_menu_item_t *p, *pnext;
 
-    if (menu->title != NULL)
-        lib_free(menu->title);
+    lib_free(menu->title);
+    menu->title = NULL;
     for (p = menu->item_list; p != NULL; p = pnext) {
         pnext = p->next;
         tui_menu_item_free(p);

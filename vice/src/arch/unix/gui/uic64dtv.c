@@ -56,18 +56,14 @@ UI_CALLBACK(set_c64dtv_rom_name)
     switch (button) {
         case UI_BUTTON_OK:
             resources_set_string("c64dtvromfilename", filename);
-            if (last_dir) {
-                lib_free(last_dir);
-            }
+            lib_free(last_dir);
             util_fname_split(filename, &last_dir, NULL);
             break;
         default:
             /* Do nothing special. */
         break;
     }
-    if (filename != NULL) {
-        lib_free(filename);
-    }
+    lib_free(filename);
 }
 
 static ui_menu_entry_t c64dtv_revision_submenu[] = {

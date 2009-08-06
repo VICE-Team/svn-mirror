@@ -544,11 +544,8 @@ static void video_frame_buffer_free(video_canvas_t *canvas, BYTE *draw_buffer)
 
   video_frame_buffer_flush_pal(canvas);
 
-  if (fb->bplot_trans != NULL)
-  {
-    lib_free(fb->bplot_trans);
-    fb->bplot_trans = NULL;
-  }
+  lib_free(fb->bplot_trans);
+  fb->bplot_trans = NULL;
 }
 
 
@@ -1084,10 +1081,7 @@ int video_canvas_set_palette(video_canvas_t *canvas, palette_t *palette)
 
   if (palette == NULL) return 0;
 
-  if (canvas->current_palette != NULL)
-  {
-    lib_free(canvas->current_palette);
-  }
+  lib_free(canvas->current_palette);
   canvas->num_colours = palette->num_entries;
   if (canvas->num_colours > (unsigned int)maxVideoCanvasColours)
     canvas->num_colours = maxVideoCanvasColours;
@@ -1267,16 +1261,11 @@ void video_canvas_destroy(video_canvas_t *s)
   lib_free(s->name);
   s->name = NULL;
 
-  if (s->video_draw_buffer_callback != NULL)
-  {
-    lib_free(s->video_draw_buffer_callback);
-    s->video_draw_buffer_callback = NULL;
-  }
-  if (s->current_palette != NULL)
-  {
-    lib_free(s->current_palette);
-    s->current_palette = NULL;
-  }
+  lib_free(s->video_draw_buffer_callback);
+  s->video_draw_buffer_callback = NULL;
+
+  lib_free(s->current_palette);
+  s->current_palette = NULL;
 
   video_frame_buffer_free(s, NULL);
 

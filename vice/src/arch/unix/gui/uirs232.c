@@ -130,8 +130,7 @@ UI_CALLBACK(set_rs232_device_file)
         /* Do nothing special.  */
         break;
     }
-    if (filename != NULL)
-        lib_free(filename);
+    lib_free(filename);
 }
 
 UI_CALLBACK(set_rs232_exec_file)

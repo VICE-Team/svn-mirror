@@ -109,8 +109,7 @@ static char *system_mbstowcs_alloc(const char *mbs)
 
 static void system_mbstowcs_free(char *wcs)
 {
-    if (wcs != NULL)
-        lib_free(wcs);
+    lib_free(wcs);
 }
 
 static char *system_wcstombs_alloc(const char *wcs)
@@ -128,8 +127,7 @@ static char *system_wcstombs_alloc(const char *wcs)
 
 static void system_wcstombs_free(char *mbs)
 {
-    if (mbs != NULL)
-        lib_free(mbs);
+    lib_free(mbs);
 }
 
 int archdep_network_init(void)

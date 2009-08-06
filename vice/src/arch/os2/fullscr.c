@@ -566,8 +566,7 @@ int FullscreenQueryCurrentMode(GDDMODEINFO *mode)
 
 void UninitModeInfo(void)
 {
-    if (ModeInfo)
-        lib_free(ModeInfo);
+    lib_free(ModeInfo);
     ModeInfo = NULL;
     NumVideoModes = 0;
 }

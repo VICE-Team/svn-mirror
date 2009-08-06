@@ -284,9 +284,7 @@ static UI_CALLBACK(save_resources_file)
                 ui_message(_("Settings saved successfully."));
             }
         }
-	if (resources_last_dir) {
-	    lib_free(resources_last_dir);
-	}
+      lib_free(resources_last_dir);
 	resources_last_dir = lib_stralloc(filename);
 #ifdef HAVE_DIRNAME
 	resources_last_dir = dirname(resources_last_dir);
@@ -328,9 +326,7 @@ static UI_CALLBACK(load_resources_file)
         }
     }
 
-    if (filename != NULL) {
-        lib_free(filename);
-    }
+    lib_free(filename);
     ui_update_menus();
 }
 

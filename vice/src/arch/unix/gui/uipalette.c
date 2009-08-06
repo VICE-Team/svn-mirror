@@ -57,8 +57,7 @@ UI_CALLBACK(ui_load_palette)
       case UI_BUTTON_OK:
         if (resources_set_string(UI_MENU_CB_PARAM, filename) < 0)
             ui_error(_("Could not load palette file\n'%s'"), filename);
-        if (last_dir)
-            lib_free(last_dir);
+        lib_free(last_dir);
         util_fname_split(filename, &last_dir, NULL);
         break;
       default:
@@ -66,7 +65,5 @@ UI_CALLBACK(ui_load_palette)
         break;
     }
     ui_update_menus();
-    if (filename != NULL)
-        lib_free(filename);
+    lib_free(filename);
 }
-
