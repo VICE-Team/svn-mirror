@@ -52,7 +52,7 @@ cp -a $TOPSRCDIR/data/CBM-II $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET $WINVICE
 cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER $WINVICE
 cp -a $TOPSRCDIR/data/VIC20 $TOPSRCDIR/data/fonts $TOPSRCDIR/doc/html $WINVICE
 cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README $TOPSRCDIR/doc/cartconv.txt $WINVICE
-rm `find $WINVICE -name "Makefile*"`
+rm -f `find $WINVICE -name "Makefile*"`
 rm `find $WINVICE -name "amiga_*.vkm"`
 rm `find $WINVICE -name "dos_*.vkm"`
 rm `find $WINVICE -name "gp2x*.vkm"`
