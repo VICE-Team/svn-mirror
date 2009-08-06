@@ -543,7 +543,7 @@ char *lib_stralloc(const char *str)
         exit(-1);
 
     size = strlen(str) + 1;
-    ptr = (char *)lib_malloc(size);
+    ptr = lib_malloc(size);
 
     memcpy(ptr, str, size);
     return ptr;

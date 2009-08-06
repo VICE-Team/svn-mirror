@@ -82,7 +82,7 @@ rawfile_info_t *rawfile_open(const char *file_name, const char *path,
         return NULL;
     }
 
-    info = (rawfile_info_t *)lib_malloc(sizeof(rawfile_info_t));
+    info = lib_malloc(sizeof(rawfile_info_t));
 
     info->fd = fd;
     util_fname_split(complete, &(info->path), &(info->name));

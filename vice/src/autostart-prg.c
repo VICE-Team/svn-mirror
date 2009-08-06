@@ -55,7 +55,7 @@ static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, l
     int  i;
     autostart_prg_t *prg;
     
-    prg = (autostart_prg_t *)lib_malloc(sizeof(autostart_prg_t));
+    prg = lib_malloc(sizeof(autostart_prg_t));
     if(prg == NULL) {
         return NULL;
     }
@@ -81,7 +81,7 @@ static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, l
     }
 
     /* load to memory */
-    prg->data = (BYTE *)lib_malloc(prg->size);
+    prg->data = lib_malloc(prg->size);
     if(prg->data == NULL) {
         log_error(log, "No memory for '%s'", file_name);
         return NULL;        

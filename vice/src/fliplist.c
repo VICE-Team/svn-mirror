@@ -177,7 +177,7 @@ void fliplist_add_image(unsigned int unit)
     if (strcmp(current_image, "") == 0)
         return;
 
-    n = (fliplist_t)lib_malloc(sizeof(struct fliplist_s));
+    n = lib_malloc(sizeof(struct fliplist_s));
     n->image = lib_stralloc(current_image);
     unit = n->unit = current_drive;
 
@@ -404,7 +404,7 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
                 unit = 8;
             }
 
-            tmp = (fliplist_t)lib_malloc(sizeof(struct fliplist_s));
+            tmp = lib_malloc(sizeof(struct fliplist_s));
             tmp->image = lib_stralloc(buffer);
             tmp->unit = unit;
 

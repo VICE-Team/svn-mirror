@@ -139,7 +139,7 @@ static void zfile_list_add(const char *tmp_name,
                            int write_mode,
                            FILE *stream, FILE *fd)
 {
-    zfile_t *new_zfile = (zfile_t *)lib_malloc(sizeof(zfile_t));
+    zfile_t *new_zfile = lib_malloc(sizeof(zfile_t));
 
     /* Make sure we have the complete path of the file.  */
     archdep_expand_path(&new_zfile->orig_name, orig_name);

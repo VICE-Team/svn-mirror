@@ -495,7 +495,7 @@ void event_init_image_list(void)
 
 static void create_list(void)
 {
-    event_list = (event_list_state_t *)lib_malloc(sizeof(event_list_state_t));
+    event_list = lib_malloc(sizeof(event_list_state_t));
     event_register_event_list(event_list);
     event_init_image_list();
 }

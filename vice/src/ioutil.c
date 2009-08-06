@@ -202,7 +202,7 @@ char *ioutil_current_dir(void)
     return GetCurrentDirectory();
 #else
     static size_t len = 128;
-    char *p = (char *)lib_malloc(len);
+    char *p = lib_malloc(len);
 
     while (getcwd(p, len) == NULL) {
         if (errno == ERANGE) {
@@ -303,10 +303,10 @@ ioutil_dir_t *ioutil_opendir(const char *path)
         return NULL;
     }
 
-    ioutil_dir = (ioutil_dir_t *)lib_malloc(sizeof(ioutil_dir_t));
+    ioutil_dir = lib_malloc(sizeof(ioutil_dir_t));
 
-    ioutil_dir->dirs = (ioutil_name_table_t *)lib_malloc(sizeof(ioutil_name_table_t)*dirs_amount);
-    ioutil_dir->files = (ioutil_name_table_t *)lib_malloc(sizeof(ioutil_name_table_t)*files_amount);
+    ioutil_dir->dirs = lib_malloc(sizeof(ioutil_name_table_t)*dirs_amount);
+    ioutil_dir->files = lib_malloc(sizeof(ioutil_name_table_t)*files_amount);
 
     ioutil_filldir(path, ioutil_dir->dirs, ioutil_dir->files);
     qsort(ioutil_dir->dirs, dirs_amount, sizeof(ioutil_name_table_t), ioutil_compare_names);

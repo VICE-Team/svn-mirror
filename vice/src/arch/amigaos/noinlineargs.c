@@ -129,7 +129,7 @@ ULONG BestCModeIDTags(Tag tag, ...)
 
   TAGAMOUNT(tag, ULONG);
 
-  tags=(struct TagItem *)lib_malloc(sizeof(struct TagItem)*(amount+1));
+  tags=lib_malloc(sizeof(struct TagItem)*(amount+1));
 
   MAKETAGS(tag, ULONG);
 
@@ -149,7 +149,7 @@ APTR LockBitMapTags(APTR bitmap, Tag tag, ...)
 
   TAGAMOUNT(tag, ULONG);
 
-  tags=(struct TagItem *)lib_malloc(sizeof(struct TagItem)*(amount+1));
+  tags=lib_malloc(sizeof(struct TagItem)*(amount+1));
 
   MAKETAGS(tag, ULONG);
 
@@ -169,7 +169,7 @@ struct Screen *OpenScreenTags(CONST struct NewScreen *screen, ULONG tag, ...)
 
   TAGAMOUNT(tag, ULONG);
 
-  tags=(struct TagItem *)lib_malloc(sizeof(struct TagItem)*(amount+1));
+  tags=lib_malloc(sizeof(struct TagItem)*(amount+1));
 
   MAKETAGS(tag, ULONG);
 
@@ -189,7 +189,7 @@ struct Window *OpenWindowTags(CONST struct NewWindow *window, ULONG tag, ...)
 
   TAGAMOUNT(tag, ULONG);
 
-  tags=(struct TagItem *)lib_malloc(sizeof(struct TagItem)*(amount+1));
+  tags=lib_malloc(sizeof(struct TagItem)*(amount+1));
 
   MAKETAGS(tag, ULONG);
 
@@ -209,7 +209,7 @@ LONG ObtainBestPen(struct ColorMap *cm, ULONG r, ULONG g, ULONG b, ULONG tag, ..
 
   TAGAMOUNT(tag, ULONG);
 
-  tags=(struct TagItem *)lib_malloc(sizeof(struct TagItem)*(amount+1));
+  tags=lib_malloc(sizeof(struct TagItem)*(amount+1));
 
   MAKETAGS(tag, ULONG);
 
@@ -229,7 +229,7 @@ APTR GetVisualInfo(struct Screen *screen, Tag tag, ...)
 
   TAGAMOUNT(tag, ULONG);
 
-  tags=(struct TagItem *)lib_malloc(sizeof(struct TagItem)*(amount+1));
+  tags=lib_malloc(sizeof(struct TagItem)*(amount+1));
 
   MAKETAGS(tag, ULONG);
 
@@ -249,7 +249,7 @@ struct Menu *CreateMenus(CONST struct NewMenu *newmenu, Tag tag, ...)
 
   TAGAMOUNT(tag, ULONG);
 
-  tags=(struct TagItem *)lib_malloc(sizeof(struct TagItem)*(amount+1));
+  tags=lib_malloc(sizeof(struct TagItem)*(amount+1));
 
   MAKETAGS(tag, ULONG);
 
@@ -269,7 +269,7 @@ BOOL LayoutMenus(struct Menu *menu, APTR vi, Tag tag, ...)
 
   TAGAMOUNT(tag, ULONG);
 
-  tags=(struct TagItem *)lib_malloc(sizeof(struct TagItem)*(amount+1));
+  tags=lib_malloc(sizeof(struct TagItem)*(amount+1));
 
   MAKETAGS(tag, ULONG);
 
@@ -289,7 +289,7 @@ BOOL AslRequestTags(APTR requester, Tag tag, ...)
 
   TAGAMOUNT(tag, ULONG);
 
-  tags=(struct TagItem *)lib_malloc(sizeof(struct TagItem)*(amount+1));
+  tags=lib_malloc(sizeof(struct TagItem)*(amount+1));
 
   MAKETAGS(tag, ULONG);
 
@@ -309,7 +309,7 @@ APTR AllocAslRequestTags(ULONG reqType, Tag tag, ...)
 
   TAGAMOUNT(tag, ULONG);
 
-  tags=(struct TagItem *)lib_malloc(sizeof(struct TagItem)*(amount+1));
+  tags=lib_malloc(sizeof(struct TagItem)*(amount+1));
 
   MAKETAGS(tag, ULONG);
 

@@ -39,7 +39,7 @@ clk_guard_t *clk_guard_new(CLOCK *init_clk_ptr, CLOCK init_clk_max_value)
 {
     clk_guard_t *new_guard;
 
-    new_guard = (clk_guard_t *)lib_malloc(sizeof(clk_guard_t));
+    new_guard = lib_malloc(sizeof(clk_guard_t));
 
     if (clk_guard_init(new_guard, init_clk_ptr, init_clk_max_value) < 0)
         return NULL;
@@ -77,8 +77,7 @@ void clk_guard_add_callback(clk_guard_t *guard, clk_guard_callback_t function,
 {
     clk_guard_callback_list_t *new_callback;
 
-    new_callback = (clk_guard_callback_list_t *)lib_malloc(
-                   sizeof(clk_guard_callback_list_t));
+    new_callback = lib_malloc(sizeof(clk_guard_callback_list_t));
     new_callback->function = function;
     new_callback->data = data;
 

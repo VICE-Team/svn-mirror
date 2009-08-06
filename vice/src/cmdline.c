@@ -51,8 +51,7 @@ int cmdline_init(void)
 
     num_allocated_options = 100;
     num_options = 0;
-    options = (cmdline_option_ram_t *)lib_malloc(sizeof(cmdline_option_ram_t)
-              * num_allocated_options);
+    options = lib_malloc(sizeof(cmdline_option_ram_t) * num_allocated_options);
 
     return 0;
 }

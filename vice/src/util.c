@@ -71,7 +71,7 @@ char *util_concat(const char *s, ...)
     }
     num_args = i;
 
-    newp = (char *)lib_malloc(tot_len + 1);
+    newp = lib_malloc(tot_len + 1);
 
     if (arg_len[0] > 0)
         memcpy(newp, s, arg_len[0]);
@@ -297,7 +297,7 @@ char *util_subst(const char *s, const char *string, const char *replacement)
 
     total_size = (int)(s_len - (string_len - replacement_len) * num_occurrences + 1);
 
-    result = (char *)lib_malloc(total_size);
+    result = lib_malloc(total_size);
 
     sp = s;
     dp = result;
@@ -485,7 +485,7 @@ void util_fname_split(const char *path, char **directory_return,
     }
 
     if (directory_return != NULL) {
-        *directory_return = (char *)lib_malloc((size_t)(p - path + 1));
+        *directory_return = lib_malloc((size_t)(p - path + 1));
         memcpy(*directory_return, path, p - path);
         (*directory_return)[p - path] = '\0';
     }

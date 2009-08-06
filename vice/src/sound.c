@@ -447,7 +447,7 @@ static void fill_buffer(int size, int rise)
     int c, i;
     SWORD *p;
 
-    p = (SWORD *)lib_malloc(size * sizeof(SWORD) * snddata.channels);
+    p = lib_malloc(size * sizeof(SWORD) * snddata.channels);
 
     if (!p)
         return;

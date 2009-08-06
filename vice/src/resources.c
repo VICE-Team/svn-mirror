@@ -148,8 +148,7 @@ static void resources_add_callback(resource_callback_desc_t **where,
     if (callback != NULL) {
         resource_callback_desc_t *cbd;
 
-        cbd = (resource_callback_desc_t *)lib_malloc(
-              sizeof(resource_callback_desc_t));
+        cbd = lib_malloc(sizeof(resource_callback_desc_t));
         cbd->func = callback;
         cbd->param = param;
         cbd->next = *where;
@@ -413,12 +412,11 @@ int resources_init(const char *machine)
     machine_id = lib_stralloc(machine);
     num_allocated_resources = 100;
     num_resources = 0;
-    resources = (resource_ram_t *)lib_malloc(num_allocated_resources
-                                             * sizeof(resource_ram_t));
+    resources = lib_malloc(num_allocated_resources * sizeof(resource_ram_t));
 
     /* hash table maps hash keys to index in resources array rather than
        pointers into the array because the array may be reallocated. */
-    hashTable = (int *)lib_malloc((1 << logHashSize) * sizeof(int));
+    hashTable = lib_malloc((1 << logHashSize) * sizeof(int));
 
     for (i = 0; i < (unsigned int)(1 << logHashSize); i++)
         hashTable[i] = -1;

@@ -167,7 +167,7 @@ int traps_add(const trap_t *trap)
 {
     traplist_t *p;
 
-    p = (traplist_t *)lib_malloc(sizeof(traplist_t));
+    p = lib_malloc(sizeof(traplist_t));
     p->next = traplist;
     p->trap = trap;
     traplist = p;

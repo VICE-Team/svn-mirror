@@ -296,7 +296,7 @@ int romset_archive_load(const char *filename, int autostart)
                 lib_free(last);
             }
         } else {
-            anchor->name = (char*)lib_malloc(length);
+            anchor->name = lib_malloc(length);
             strncpy(anchor->name, b, length - 1);
             anchor->name[length - 1] = '\0';
         }
@@ -322,8 +322,8 @@ int romset_archive_load(const char *filename, int autostart)
             if (*b == '}')
                 break;
             length = strlen(b);
-            item = (string_link_t *)lib_malloc(sizeof(string_link_t));
-            item->name = (char *)lib_malloc(length);
+            item = lib_malloc(sizeof(string_link_t));
+            item->name = lib_malloc(length);
             strncpy(item->name, b, length - 1);
             item->name[length - 1] = '\0';
             item->next = NULL;
@@ -529,7 +529,7 @@ int romset_archive_item_create(const char *romset_name,
             lib_free(last);
         }
     } else {
-        anchor->name = (char *)lib_malloc(strlen(romset_name) + 1);
+        anchor->name = lib_malloc(strlen(romset_name) + 1);
         strcpy(anchor->name, romset_name);
     }
     anchor->next = NULL;
@@ -537,7 +537,7 @@ int romset_archive_item_create(const char *romset_name,
     last = anchor;
     res = resource_list;
     while (*res != NULL) {
-        item = (string_link_t *)lib_malloc(sizeof(string_link_t));
+        item = lib_malloc(sizeof(string_link_t));
         item->name = resources_write_item_to_string(*res, "");
         item->next = NULL;
         last->next = item;

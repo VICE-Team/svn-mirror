@@ -85,7 +85,7 @@ int console_out(console_t *log, const char *format, ...)
 
 char *readline(const char *prompt)
 {
-  char *p = (char*)lib_malloc(1024);
+  char *p = lib_malloc(1024);
 
   console_out(NULL, "%s", prompt);
 

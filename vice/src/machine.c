@@ -167,8 +167,7 @@ static void machine_maincpu_clk_overflow_callback(CLOCK sub, void *data)
 void machine_maincpu_init(void)
 {
     maincpu_init();
-    maincpu_monitor_interface = (monitor_interface_t *)lib_malloc(
-                                sizeof(monitor_interface_t));
+    maincpu_monitor_interface = lib_malloc(sizeof(monitor_interface_t));
 }
 
 void machine_early_init(void)

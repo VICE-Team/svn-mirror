@@ -137,7 +137,7 @@ void charset_petcii_to_screencode_line(const BYTE *line, BYTE **buf,
     size_t linelen, i;
 
     linelen = strlen((const char *)line);
-    *buf = (BYTE *)lib_malloc(linelen);
+    *buf = lib_malloc(linelen);
 
     for (i = 0; i < linelen; i++) {
         (*buf)[i] = charset_petcii_to_screencode(line[i], 0);

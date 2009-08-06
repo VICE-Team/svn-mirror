@@ -247,7 +247,7 @@ static int snapshot_read_string(FILE *f, char **s)
     len = (int)w;
 
     if (len) {
-        p = (char *)lib_malloc(len);
+        p = lib_malloc(len);
         *s = p;
 
         for (i = 0; i < len; i++) {

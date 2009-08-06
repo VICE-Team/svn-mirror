@@ -40,7 +40,7 @@ alarm_context_t *alarm_context_new(const char *name)
 {
     alarm_context_t *new_alarm_context;
 
-    new_alarm_context = (alarm_context_t *)lib_malloc(sizeof(alarm_context_t));
+    new_alarm_context = lib_malloc(sizeof(alarm_context_t));
     alarm_context_init(new_alarm_context, name);
 
     return new_alarm_context;
@@ -126,7 +126,7 @@ alarm_t *alarm_new(alarm_context_t *context, const char *name,
 {
     alarm_t *new_alarm;
 
-    new_alarm = (alarm_t *)lib_malloc(sizeof(alarm_t));
+    new_alarm = lib_malloc(sizeof(alarm_t));
 
     alarm_init(new_alarm, context, name, callback, data);
 

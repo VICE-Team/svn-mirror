@@ -50,7 +50,7 @@ palette_t *palette_create(unsigned int num_entries, const char *entry_names[])
     palette_t *p;
     unsigned int i;
 
-    p = (palette_t *)lib_malloc(sizeof(palette_t));
+    p = lib_malloc(sizeof(palette_t));
 
     p->num_entries = num_entries;
     p->entries = lib_calloc(num_entries, sizeof(palette_entry_t));
