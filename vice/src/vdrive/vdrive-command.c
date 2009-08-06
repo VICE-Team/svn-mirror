@@ -98,7 +98,7 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
         return CBMDOS_IPE_LONG_LINE;
     }
 
-    p = (BYTE *)lib_malloc(length + 1);
+    p = lib_malloc(length + 1);
     memcpy(p, buf, length);
 
     if (p[length - 1] == 0x0d)

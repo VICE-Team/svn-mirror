@@ -102,7 +102,7 @@ static int aix_init(const char *param, int *speed,
     /* set buffer size */
     tmp = (*fragsize) * (*fragnr) * sizeof(SWORD);
     buffer._maximum = tmp;
-    buffer._buffer  = (char *)lib_malloc(tmp);
+    buffer._buffer  = lib_malloc(tmp);
     buffer._length = 0;
 
 

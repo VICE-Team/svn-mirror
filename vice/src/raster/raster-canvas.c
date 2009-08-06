@@ -123,8 +123,7 @@ void raster_canvas_handle_end_of_frame(raster_t *raster)
 
 void raster_canvas_init(raster_t *raster)
 {
-    raster->update_area = (raster_canvas_area_t *)lib_malloc(
-                          sizeof(raster_canvas_area_t));
+    raster->update_area = lib_malloc(sizeof(raster_canvas_area_t));
 
     raster->update_area->is_null = 1;
 }

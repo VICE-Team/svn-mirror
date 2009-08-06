@@ -70,8 +70,7 @@ static int raster_draw_buffer_alloc(video_canvas_t *canvas,
 
     /* FIXME: Allocate one more line to prevent access violations by the
        scale2x render.  */
-    canvas->draw_buffer->draw_buffer = (BYTE *)lib_malloc(fb_width
-                                                          * (fb_height + 1));
+    canvas->draw_buffer->draw_buffer = lib_malloc(fb_width * (fb_height + 1));
     *fb_pitch = fb_width;
     return 0;
 }
@@ -232,7 +231,7 @@ int raster_init(raster_t *raster,
 {
     raster->intialized = 0;
 
-    raster->modes = (raster_modes_t *)lib_malloc(sizeof(raster_modes_t));
+    raster->modes = lib_malloc(sizeof(raster_modes_t));
     raster_modes_init(raster->modes, num_modes);
     raster_canvas_init(raster);
     raster_changes_init(raster);
@@ -421,7 +420,7 @@ int raster_realize(raster_t *raster)
 
     video_canvas_refresh_all(raster->canvas);
 
-    rlist = (raster_list_t *)lib_malloc(sizeof(raster_list_t));
+    rlist = lib_malloc(sizeof(raster_list_t));
     rlist->raster = raster;
     rlist->next = NULL;
     if (ActiveRasters == NULL) {

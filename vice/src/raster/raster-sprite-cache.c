@@ -46,8 +46,7 @@ raster_sprite_cache_t *raster_sprite_cache_new(void)
 {
     raster_sprite_cache_t *new_cache;
 
-    new_cache = (raster_sprite_cache_t *)lib_malloc(
-                sizeof(raster_sprite_cache_t));
+    new_cache = lib_malloc(sizeof(raster_sprite_cache_t));
     raster_sprite_cache_init(new_cache);
 
     return new_cache;

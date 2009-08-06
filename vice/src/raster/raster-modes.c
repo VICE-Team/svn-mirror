@@ -63,7 +63,7 @@ raster_modes_t *raster_modes_new(unsigned int num_modes)
 {
     raster_modes_t *new_mode;
 
-    new_mode = (raster_modes_t *)lib_malloc(sizeof(raster_modes_t));
+    new_mode = lib_malloc(sizeof(raster_modes_t));
 
     raster_modes_init(new_mode, num_modes);
 

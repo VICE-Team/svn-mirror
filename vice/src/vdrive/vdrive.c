@@ -92,7 +92,7 @@ int vdrive_device_setup(vdrive_t *vdrive, unsigned int unit)
     vdrive->buffers[15].mode = BUFFER_COMMAND_CHANNEL;
 
     if (vdrive->buffers[15].buffer == NULL)
-        vdrive->buffers[15].buffer = (BYTE *)lib_malloc(256);
+        vdrive->buffers[15].buffer = lib_malloc(256);
     memset(vdrive->buffers[15].buffer, 0, 256);
 
     vdrive_command_set_error(vdrive, CBMDOS_IPE_DOS_VERSION, 0, 0);

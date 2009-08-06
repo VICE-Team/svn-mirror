@@ -480,7 +480,7 @@ static int dx_write(SWORD *pbuf, size_t nr)
 static int dx_suspend(void)
 {
     int i;
-    SWORD *p = (SWORD *)lib_malloc(stream_buffer_size * sizeof(SWORD));
+    SWORD *p = lib_malloc(stream_buffer_size * sizeof(SWORD));
 
     if (!p)
         return 0;

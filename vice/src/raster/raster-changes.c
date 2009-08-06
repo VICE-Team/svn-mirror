@@ -67,7 +67,7 @@ raster_changes_t *raster_changes_new(void)
 {
     raster_changes_t *new_changes;
 
-    new_changes = (raster_changes_t *)lib_malloc(sizeof(raster_changes_t));
+    new_changes = lib_malloc(sizeof(raster_changes_t));
     raster_changes_init(new_changes);
 
     return new_changes;

@@ -629,7 +629,7 @@ static int vdrive_rel_open_existing(vdrive_t *vdrive, unsigned int secondary)
     sector = p->slot[SLOT_SIDE_SECTOR];
 
     /* Allocate memory for super side sector */
-    p->super_side_sector = (BYTE *)lib_malloc(256);
+    p->super_side_sector = lib_malloc(256);
 
     if (disk_image_read_sector(vdrive->image,
         p->super_side_sector, track, sector) != 0) {
@@ -665,14 +665,14 @@ static int vdrive_rel_open_existing(vdrive_t *vdrive, unsigned int secondary)
     for (side = 0; p->super_side_sector[OFFSET_SUPER_POINTER + side * 2] != 0 ; side++ );
 
     /* allocate memory for side sectors */
-    p->side_sector = (BYTE *)lib_malloc(side * SIDE_SECTORS_MAX * 256);
+    p->side_sector = lib_malloc(side * SIDE_SECTORS_MAX * 256);
     memset(p->side_sector, 0, side * SIDE_SECTORS_MAX * 256);
 
     /* Also clear out track and sectors locations and dirty flag of
         each side sector */
-    p->side_sector_track = (BYTE *)lib_malloc(side * SIDE_SECTORS_MAX);
-    p->side_sector_sector = (BYTE *)lib_malloc(side * SIDE_SECTORS_MAX);
-    p->side_sector_needsupdate = (BYTE *)lib_malloc(side * SIDE_SECTORS_MAX);
+    p->side_sector_track = lib_malloc(side * SIDE_SECTORS_MAX);
+    p->side_sector_sector = lib_malloc(side * SIDE_SECTORS_MAX);
+    p->side_sector_needsupdate = lib_malloc(side * SIDE_SECTORS_MAX);
     memset(p->side_sector_track, 0, side * SIDE_SECTORS_MAX);
     memset(p->side_sector_sector, 0, side * SIDE_SECTORS_MAX);
     memset(p->side_sector_needsupdate, 0, side * SIDE_SECTORS_MAX);
@@ -759,7 +759,7 @@ static int vdrive_rel_open_new(vdrive_t *vdrive, unsigned int secondary,
                             vdrive->Curr_track, vdrive->Curr_sector);
 
     /* Allocate memory for super side sector */
-    p->super_side_sector = (BYTE *)lib_malloc(256);
+    p->super_side_sector = lib_malloc(256);
 
     /* clear out block */
     memset(p->super_side_sector, 0, 256);
@@ -771,14 +771,14 @@ static int vdrive_rel_open_new(vdrive_t *vdrive, unsigned int secondary,
     p->super_side_sector_needsupdate = 0;
 
      /* allocate memory for side sectors */
-    p->side_sector = (BYTE *)lib_malloc(SIDE_SECTORS_MAX * 256);
+    p->side_sector = lib_malloc(SIDE_SECTORS_MAX * 256);
     memset(p->side_sector, 0, SIDE_SECTORS_MAX * 256);
 
     /* Also clear out track and sectors locations and dirty flag of
         each side sector */
-    p->side_sector_track = (BYTE *)lib_malloc(SIDE_SECTORS_MAX);
-    p->side_sector_sector = (BYTE *)lib_malloc(SIDE_SECTORS_MAX);
-    p->side_sector_needsupdate = (BYTE *)lib_malloc(SIDE_SECTORS_MAX);
+    p->side_sector_track = lib_malloc(SIDE_SECTORS_MAX);
+    p->side_sector_sector = lib_malloc(SIDE_SECTORS_MAX);
+    p->side_sector_needsupdate = lib_malloc(SIDE_SECTORS_MAX);
     memset(p->side_sector_track, 0, SIDE_SECTORS_MAX);
     memset(p->side_sector_sector, 0, SIDE_SECTORS_MAX);
     memset(p->side_sector_needsupdate, 0, SIDE_SECTORS_MAX);
@@ -826,11 +826,11 @@ int vdrive_rel_open(vdrive_t *vdrive, unsigned int secondary,
     /* Allocate dual buffers to improve performance */
     p->mode = BUFFER_RELATIVE;
     p->bufptr = 0;
-    p->buffer = (BYTE *)lib_malloc(256);
+    p->buffer = lib_malloc(256);
     p->record = 0;
     p->track = 0;
     p->sector = 0;
-    p->buffer_next = (BYTE *)lib_malloc(256);
+    p->buffer_next = lib_malloc(256);
     p->track_next = 0;
     p->sector_next = 0;
 

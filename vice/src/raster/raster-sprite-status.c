@@ -73,8 +73,7 @@ static void raster_sprite_status_shutdown(raster_sprite_status_t *status,
 
 void raster_sprite_status_new(raster_t *raster, unsigned int num_sprites, int sprite_offset)
 {
-    raster->sprite_status = (raster_sprite_status_t *)lib_malloc(
-                            sizeof(raster_sprite_status_t));
+    raster->sprite_status = lib_malloc(sizeof(raster_sprite_status_t));
     raster_sprite_status_init(raster->sprite_status, num_sprites, sprite_offset);
 }
 

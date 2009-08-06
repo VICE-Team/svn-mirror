@@ -484,7 +484,7 @@ static int wmm_suspend(void)
     int c, i;
     SWORD *p;
 
-    p = (SWORD *)lib_malloc(fragment_size * num_of_channels * sizeof(SWORD));
+    p = lib_malloc(fragment_size * num_of_channels * sizeof(SWORD));
 
     if (!p)
         return 0;
