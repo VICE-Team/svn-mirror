@@ -464,13 +464,13 @@ void vicii_reset(void)
     vicii.dtvpalette[14]=0x9a;
     vicii.dtvpalette[15]=0x0a;
 
-    /* clear colors so that standard colors can be written without
+    /* clear the high nibble from colors so that standard colors can be written without
        having extended_enable=1 */
-    vicii.regs[0x20] = 0;
-    vicii.regs[0x21] = 0;
-    vicii.regs[0x22] = 0;
-    vicii.regs[0x23] = 0;
-    vicii.regs[0x24] = 0;
+    vicii.regs[0x20] &= 0xf;
+    vicii.regs[0x21] &= 0xf;
+    vicii.regs[0x22] &= 0xf;
+    vicii.regs[0x23] &= 0xf;
+    vicii.regs[0x24] &= 0xf;
 
     vicii.regs[0x3c] = 0;
 
