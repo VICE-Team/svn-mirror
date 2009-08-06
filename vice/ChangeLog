@@ -1,3 +1,457 @@
+2009-08-06  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.1.16
+
+2009-08-06  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/make-bindist.sh: Command "rm `find $WINVICE
+	  -name "Makefile*"`" is forced (-f) now, so that WinVICE can be
+	  built automatically without manual user intervention.
+
+2009-08-06  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/monitor/mon_lex.l: Enable case insensitive commands and
+	  operands on monitor, some tab cleanup
+
+	* src/vicii/vicii.c: On VICII reset, instead of zeroing the
+	  color registers, mask out the high nibble; fixes bug shown by
+	  EasyFlash cart init
+
+	* src/c64/c64mem.c: Don't enable all Expert cartridge hacks for
+	  EasyFlash
+
+2009-08-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/de.po, src/arch/amigaos/intl.c, src/arch/win32/res.rc,
+	  src/arch/win32/resc128.rc, src/arch/win32/ressidcart.rc,
+	  src/arch/win32/resvic20.rc, src/translate.c: Updated the
+	  german and swedish translations.
+
+	* src/c64/cart/c64cartmem.c, src/c64/cart/easyflash.c,
+	  src/core/flash040core.c, src/flash040.h,
+	  src/vic20/cart/finalexpansion.c: Change the way the flash040
+	  core works to where the calling routine allocates and passes a
+	  pointer to the data array to be used, this fixes the eastflash
+	  ultimax graphics issues.
+
+2009-08-05  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/vic20/cart/megacart.c: Corrected an error with Mega-Cart
+	  NvRAM mapping. 0x0800-0x0fff was incorrectly mapped to the
+	  same contents as 0x9800-0x9fff.
+
+2009-08-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/arch.dsp, src/arch/win32/uieasyflash.c: Added
+	  src/c64/cart include dir to arch.dsp and changed the
+	  'cart/easyflash.h' include in src/arch/win32/uieasyflash.c to
+	  an 'easyflash.h' include.
+
+	* src/arch/sdl/win32-watcom/arch.tgt,
+	  src/arch/sdl/win32-watcom/c128.tgt,
+	  src/arch/sdl/win32-watcom/c64.tgt,
+	  src/arch/sdl/win32-watcom/c64cart.tgt,
+	  src/arch/sdl/win32-watcom/core.tgt,
+	  src/arch/sdl/win32-watcom/vic20cart.tgt,
+	  src/arch/sdl/win32-watcom/vice.wpj: Updated the sdl win32
+	  watcom project files.
+
+2009-08-05  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/lib.c: Changed free() to lib_free().
+
+	* src/video/render1x1pal.c: Remove warnings by adding
+	  intermediate variables.
+
+	* src/sid/fastsid.c: Changed return type of
+	  fastsid_calculate_single_sample() from SDWORD to SWORD, as all
+	  uses of it only require an SWORD and generate warning without
+	  a cast.
+
+	* src/arch/win32/uieasyflash.c: Add missing includes.
+
+	* src/vdrive/vdrive-dir.c: Fix warning for comparison of signed
+	  and unsigned integers.
+
+2009-08-05  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/vic20/vic20mem.c: Corrected read of unconnected address
+	  space at 0x910x.
+
+	* doc/html/plain/NEWS: Added a missing line about cycle exact
+	  xvic in the last commit.
+
+	* doc/html/plain/NEWS: Added features coming from the
+	  v2.1.15-xvic and v2.1.15-fe-easyflash branches.
+
+2009-08-05  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vic20/cart/finalexpansion.c: Handle unconnected bus
+	  properly
+
+2009-08-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win64-msvc/arch.vcproj,
+	  src/arch/sdl/win64-msvc/c128.vcproj,
+	  src/arch/sdl/win64-msvc/c64.vcproj,
+	  src/arch/sdl/win64-msvc/c64cart.vcproj,
+	  src/arch/sdl/win64-msvc/core.vcproj,
+	  src/arch/sdl/win64-msvc/vic20.vcproj: Updated the sdl win64
+	  msvc project files.
+
+	* src/arch/sdl/menu_help.c, src/arch/sdl/win32-msvc/arch.dsp,
+	  src/arch/sdl/win32-msvc/c128.dsp,
+	  src/arch/sdl/win32-msvc/c64.dsp,
+	  src/arch/sdl/win32-msvc/c64cart.dsp,
+	  src/arch/sdl/win32-msvc/core.dsp,
+	  src/arch/sdl/win32-msvc/vic20cart.dsp: Updated the sdl win32
+	  msvc project files.
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/watcom/c128.tgt,
+	  src/arch/os2/watcom/c64.tgt, src/arch/os2/watcom/c64cart.tgt,
+	  src/arch/os2/watcom/core.tgt, src/arch/os2/watcom/vic20.tgt,
+	  src/arch/os2/watcom/vice.wpj,
+	  src/arch/os2/watcom/x128-specific.tgt,
+	  src/arch/os2/watcom/x64-specific.tgt: Updated the os/2 watcom
+	  project files.
+
+	* src/arch/os2/vac++/incl/c64cart.icc,
+	  src/arch/os2/vac++/incl/core.icc,
+	  src/arch/os2/vac++/incl/vic20cart.icc,
+	  src/arch/os2/vac++/x128/X128.ICC,
+	  src/arch/os2/vac++/x64/X64.ICC: Updated the os/2 vac++ project
+	  files.
+
+	* src/arch/win32/watcom/arch.tgt,
+	  src/arch/win32/watcom/c128.tgt, src/arch/win32/watcom/c64.tgt,
+	  src/arch/win32/watcom/c64cart.tgt,
+	  src/arch/win32/watcom/core.tgt,
+	  src/arch/win32/watcom/vic20.tgt,
+	  src/arch/win32/watcom/vice.wpj: Updated the win32 watcom
+	  project files.
+
+	* src/arch/win64/arch.vcproj, src/arch/win64/c128.vcproj,
+	  src/arch/win64/c64.vcproj, src/arch/win64/c64cart.vcproj,
+	  src/arch/win64/core.vcproj, src/arch/win64/vic20.vcproj,
+	  src/arch/win64/x128.vcproj, src/arch/win64/x64.vcproj: Updated
+	  the win64 project files.
+
+	* src/arch/win32/arch.dsp, src/arch/win32/c128.dsp,
+	  src/arch/win32/c64.dsp, src/arch/win32/c64cart.dsp,
+	  src/arch/win32/core.dsp, src/arch/win32/vic20cart.dsp,
+	  src/arch/win32/x128.dsp, src/arch/win32/x64.dsp: Updated the
+	  win32 project files.
+
+@@@ merge @@@
+
+	* src/Makefile.am, src/arch/amigaos/Makefile.am,
+	  src/arch/amigaos/c128ui.c, src/arch/amigaos/c128uires.h,
+	  src/arch/amigaos/c64ui.c, src/arch/amigaos/c64uires.h,
+	  src/arch/amigaos/intl.c, src/arch/amigaos/intl.txt,
+	  src/arch/amigaos/mui/uieasyflash.c,
+	  src/arch/amigaos/mui/uieasyflash.h, src/arch/amigaos/uicart.c,
+	  src/arch/amigaos/uicart.h, src/arch/amigaos/uires.h,
+	  src/arch/amigaos/vic20ui.c, src/arch/amigaos/vic20uires.h,
+	  src/arch/beos/Makefile.am, src/arch/beos/c128ui.cc,
+	  src/arch/beos/c64ui.cc, src/arch/beos/constants.h,
+	  src/arch/beos/ui_file.cc, src/arch/beos/ui_file.h,
+	  src/arch/beos/vic20ui.cc, src/arch/beos/vicemenu.cc,
+	  src/arch/msdos/Makefile.am, src/arch/msdos/c128ui.c,
+	  src/arch/msdos/c64ui.c, src/arch/msdos/uieasyflash.c,
+	  src/arch/msdos/uieasyflash.h,
+	  src/arch/msdos/uisoundexpander.c, src/arch/msdos/vic20ui.c,
+	  src/arch/os2/dialogs/menubar.c,
+	  src/arch/os2/dialogs/menubar.h,
+	  src/arch/os2/dialogs/menubar.rc, src/arch/sdl/Makefile.am,
+	  src/arch/sdl/menu_c128cart.c, src/arch/sdl/menu_c64cart.c,
+	  src/arch/sdl/menu_c64cart_common.c,
+	  src/arch/sdl/menu_c64cart_common.h,
+	  src/arch/sdl/menu_vic20cart.c, src/arch/unix/gui/Makefile.am,
+	  src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64ui.c,
+	  src/arch/unix/gui/uieasyflash.c,
+	  src/arch/unix/gui/uieasyflash.h, src/arch/unix/gui/vic20ui.c,
+	  src/arch/win32/Makefile.am, src/arch/win32/c128ui.c,
+	  src/arch/win32/c64ui.c, src/arch/win32/intl.c,
+	  src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	  src/arch/win32/resc64.rc, src/arch/win32/resdialogs.txt,
+	  src/arch/win32/reseasyflash.rc, src/arch/win32/resmenu.txt,
+	  src/arch/win32/resstrings.txt, src/arch/win32/resvic20.rc,
+	  src/arch/win32/uieasyflash.c, src/arch/win32/uieasyflash.h,
+	  src/arch/win32/vic20ui.c, src/autostart.c,
+	  src/c128/Makefile.am, src/c128/c128.c, src/c64/Makefile.am,
+	  src/c64/c64.c, src/c64/c64io.c, src/c64/c64io.h,
+	  src/c64/c64mem.c, src/c64/cart/Makefile.am,
+	  src/c64/cart/c64cart.c, src/c64/cart/c64cartmem.c,
+	  src/c64/cart/crt.c, src/c64/cart/easyflash.c,
+	  src/c64/cart/easyflash.h, src/c64/sfx_soundexpander.c,
+	  src/cartridge.h, src/core/Makefile.am,
+	  src/core/flash040core.c, src/flash040.h, src/lightpen.c,
+	  src/translate.c, src/translate.txt,
+	  src/vic20/cart/Makefile.am, src/vic20/cart/finalexpansion.c,
+	  src/vic20/cart/finalexpansion.h, src/vic20/cart/vic20cart.c,
+	  src/vic20/cart/vic20cartmem.c: Merged the fe-ef branch (svn
+	  merge
+	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v2.1/v2.1.15
+	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/viceplus/v2.1.15-fe-easyflash).
+
+2009-08-04  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* data/DRIVES/dos1541: Replaced 1541 ROM which consisted of
+	  325302-01 + 901229-02 ROMS (which are *really* ancient) with
+	  1541 ROM which consists of 325302-01 + 901229-05. This fixes
+	  #2824736. The relevant patch is at $FF20, and the JMP to it at
+	  $E9DC.
+
+2009-08-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Added 'pi' fix to petcat as provided by Ingo
+	  Korb.
+
+2009-08-04  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vic20/cart/megacart.c, src/vic20/cart/vic20cartmem.c,
+	  src/vic20/vic20mem.c: Return last read (by CPU) value on
+	  unconnected I/O 2/3 areas
+
+2009-08-03  Peter Krefting <peter@softwolves.pp.se>
+
+	* po/sv.po: Update Swedish translation to 2.1.15 (2783t0f0u).
+
+2009-08-03  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/vdrive/vdrive-dir.c: Fix directory sector interleave in
+	  vdrive
+	  
+	  This patch simplifies the directory sector allocation in
+	  vdrive and changes the interleave of the allocated sectors
+	  from 1 to the correct value for the disk image type.
+
+2009-08-02  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2009-08-02  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/debug.h, src/drive/iec/via1d1541.c, src/iecbus/iecbus.c:
+	  Fixed and extended debugging output for 1541 IEC accesses.
+
+	* src/vic20/vic-cycle.c: Changed constant 0x7f to 0x7fu in order
+	  to prevent integer promotion, resulting in a warning.
+
+2009-08-01  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/6510dtvcore.c, src/vic20/vic.h: Use unsigned type for
+	  VIC-I counters, fix MSVC warnings
+
+2009-08-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/autostart-prg.c, src/vdc/vdc.c: Fixed some warnings.
+
+@@@ merge @@@
+
+	* ., src/6510dtvcore.c, src/Makefile.am,
+	  src/arch/sdl/menu_midi.c, src/arch/sdl/menu_midi.h,
+	  src/arch/sdl/menu_network.c, src/arch/sdl/menu_network.h,
+	  src/arch/sdl/menu_tfe.c, src/arch/sdl/menu_tfe.h,
+	  src/arch/sdl/uipause.c, src/arch/sdl/xvic_ui.c,
+	  src/arch/win32/rs232dev.c, src/arch/win32/rs232net.c,
+	  src/arch/win32/vic20.dsp, src/arch/win32/xvic.dsp,
+	  src/core/viacore.c, src/mainviccpu.c, src/mainviccpu.h,
+	  src/resid-dtv, src/via.h, src/vic20/Makefile.am,
+	  src/vic20/cart/megacart.c, src/vic20/cart/vic20cartmem.c,
+	  src/vic20/vic-cycle.c, src/vic20/vic-cycle.h,
+	  src/vic20/vic-draw.c, src/vic20/vic-mem.c,
+	  src/vic20/vic-snapshot.c, src/vic20/vic.c, src/vic20/vic.h,
+	  src/vic20/vic20cpu.c, src/vic20/vic20ieeevia1.c,
+	  src/vic20/vic20ieeevia2.c, src/vic20/vic20mem.c,
+	  src/vic20/vic20mem.h, src/vic20/vic20memrom.c,
+	  src/vic20/vic20rom.c, src/vic20/vic20via1.c,
+	  src/vic20/vic20via2.c: Merged the xvic rewrite branch (svn
+	  merge
+	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v2.1/v2.1.15
+	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/viceplus/v2.1.15-xvic).
+
+2009-07-26  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/debug.h, src/drive/iec/cia1581d.c,
+	  src/drive/iec/via1d1541.c, src/iecbus.h, src/iecbus/iecbus.c:
+	  Add debugging facilities for the IEC bus.
+
+	* src/drive/drivecpu.c, src/drive/drivecpu.h: Remove unused
+	  functions drive_read() and drive_store().
+
+2009-07-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/watcom/vic20.tgt,
+	  src/arch/win32/watcom/vic20cart-generic.c,
+	  src/arch/win32/watcom/vice.wpj: Updated the win32 watcom
+	  project files.
+
+2009-07-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/Makefile.am, src/arch/os2/watcom/c128.tgt,
+	  src/arch/os2/watcom/mainsrc.tgt,
+	  src/arch/os2/watcom/vic20.tgt,
+	  src/arch/os2/watcom/vic20cart-generic.c,
+	  src/arch/os2/watcom/vice.wpj: Updated the os/2 watcom project
+	  files.
+
+2009-07-23  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/initcmdline.c: Reworked replace_hexcodes(). This closes
+	  #2823929.
+
+	* src/6510core.c, src/debug.c, src/debug.h: Trace output now
+	  outputs the drive number; unified CPU and drive outputs, thus
+	  that the opcodes are underneath each other, and the registers
+	  are output in the same way; operands with ,x or ,y now do not
+	  break the output.
+
+2009-07-23  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/win32-watcom/arch.tgt,
+	  src/arch/sdl/win32-watcom/base.tgt,
+	  src/arch/sdl/win32-watcom/c128.tgt,
+	  src/arch/sdl/win32-watcom/c1541.tgt,
+	  src/arch/sdl/win32-watcom/c64.tgt,
+	  src/arch/sdl/win32-watcom/c64cart.tgt,
+	  src/arch/sdl/win32-watcom/c64commonc128.tgt,
+	  src/arch/sdl/win32-watcom/c64commonc128c64dtv.tgt,
+	  src/arch/sdl/win32-watcom/c64commonc64dtv.tgt,
+	  src/arch/sdl/win32-watcom/c64dtv.tgt,
+	  src/arch/sdl/win32-watcom/c64exp.tgt,
+	  src/arch/sdl/win32-watcom/cartconv.tgt,
+	  src/arch/sdl/win32-watcom/cbm2.tgt,
+	  src/arch/sdl/win32-watcom/core.tgt,
+	  src/arch/sdl/win32-watcom/crtc.tgt,
+	  src/arch/sdl/win32-watcom/diskimage.tgt,
+	  src/arch/sdl/win32-watcom/drive.tgt,
+	  src/arch/sdl/win32-watcom/fileio.tgt,
+	  src/arch/sdl/win32-watcom/fsdevice.tgt,
+	  src/arch/sdl/win32-watcom/gentr.tgt,
+	  src/arch/sdl/win32-watcom/gfxoutputdrv.tgt,
+	  src/arch/sdl/win32-watcom/iec.tgt,
+	  src/arch/sdl/win32-watcom/iec128dcr.tgt,
+	  src/arch/sdl/win32-watcom/iecbus.tgt,
+	  src/arch/sdl/win32-watcom/iecieee.tgt,
+	  src/arch/sdl/win32-watcom/ieee.tgt,
+	  src/arch/sdl/win32-watcom/imagecontents.tgt,
+	  src/arch/sdl/win32-watcom/maincpu.tgt,
+	  src/arch/sdl/win32-watcom/monitor.tgt,
+	  src/arch/sdl/win32-watcom/parallel.tgt,
+	  src/arch/sdl/win32-watcom/pet.tgt,
+	  src/arch/sdl/win32-watcom/petcat.tgt,
+	  src/arch/sdl/win32-watcom/plus4.tgt,
+	  src/arch/sdl/win32-watcom/plus4exp.tgt,
+	  src/arch/sdl/win32-watcom/printerdrv.tgt,
+	  src/arch/sdl/win32-watcom/raster.tgt,
+	  src/arch/sdl/win32-watcom/rs232drv.tgt,
+	  src/arch/sdl/win32-watcom/serial.tgt,
+	  src/arch/sdl/win32-watcom/sid.tgt,
+	  src/arch/sdl/win32-watcom/sounddrv.tgt,
+	  src/arch/sdl/win32-watcom/tape.tgt,
+	  src/arch/sdl/win32-watcom/tcbm.tgt,
+	  src/arch/sdl/win32-watcom/vdc.tgt,
+	  src/arch/sdl/win32-watcom/vdrive.tgt,
+	  src/arch/sdl/win32-watcom/vic20.tgt,
+	  src/arch/sdl/win32-watcom/vic20cart.tgt,
+	  src/arch/sdl/win32-watcom/vice.wpj,
+	  src/arch/sdl/win32-watcom/vicii.tgt,
+	  src/arch/sdl/win32-watcom/viciicommon.tgt,
+	  src/arch/sdl/win32-watcom/viciidtv.tgt,
+	  src/arch/sdl/win32-watcom/video.tgt,
+	  src/arch/sdl/win32-watcom/x128.tgt,
+	  src/arch/sdl/win32-watcom/x64.tgt,
+	  src/arch/sdl/win32-watcom/x64dtv.tgt,
+	  src/arch/sdl/win32-watcom/xcbm2.tgt,
+	  src/arch/sdl/win32-watcom/xpet.tgt,
+	  src/arch/sdl/win32-watcom/xplus4.tgt,
+	  src/arch/sdl/win32-watcom/xvic.tgt: svn property fixes
+
+2009-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/Makefile.am,
+	  src/arch/os2/vac++/incl/vic20.icc,
+	  src/arch/os2/vac++/incl/vic20cart.icc,
+	  src/arch/os2/vac++/xvic/Xvic.ICC: Updated the vac++ project
+	  files.
+
+2009-07-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win64-msvc/vic20.vcproj,
+	  src/arch/win64/vic20.vcproj: Added the vic20 cart files to the
+	  win64 and sdl win64 msvc project files.
+
+2009-07-19  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/dialog/viceresourcewindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/viceresourcewindowcontroller.m:
+	  coca: hide settings windows on entering the monitor, reshow
+	  them on leaving
+
+	* src/arch/unix/macosx/cocoa/viceapplication.h,
+	  src/arch/unix/macosx/cocoa/viceapplication.m,
+	  src/arch/unix/macosx/cocoa/vicenotifications.h,
+	  src/arch/unix/macosx/cocoa/view/controlwindow.h,
+	  src/arch/unix/macosx/cocoa/view/controlwindow.m,
+	  src/arch/unix/macosx/cocoa/view/driveview.h,
+	  src/arch/unix/macosx/cocoa/view/driveview.m,
+	  src/arch/unix/macosx/cocoa/view/soundview.h,
+	  src/arch/unix/macosx/cocoa/view/soundview.m,
+	  src/arch/unix/macosx/cocoa/view/statusview.m,
+	  src/arch/unix/macosx/cocoa/view/tapeview.h,
+	  src/arch/unix/macosx/cocoa/view/tapeview.m: cocoa: correctly
+	  disable menu entries and control window if monitor is enabled
+
+	* src/arch/unix/macosx/cocoa/console.m,
+	  src/arch/unix/macosx/cocoa/uimon.m,
+	  src/arch/unix/macosx/cocoa/viceapplication.h,
+	  src/arch/unix/macosx/cocoa/viceapplication.m,
+	  src/arch/unix/macosx/cocoa/viceapplicationprotocol.h,
+	  src/arch/unix/macosx/cocoa/vicemachine.h,
+	  src/arch/unix/macosx/cocoa/vicemachine.m,
+	  src/arch/unix/macosx/cocoa/vicemachineprotocol.h,
+	  src/arch/unix/macosx/cocoa/view/consolewindow.h,
+	  src/arch/unix/macosx/cocoa/view/consolewindow.m: cocoa:
+	  console/monitor input is now done asynchronously in the UI.
+	  this removes the modal window for the monitor while entering a
+	  line.
+
+2009-07-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_help.c: Fixed sdl ui help related issues.
+
+2009-07-18  Antti S. Lankila <alankila@bel.fi>
+
+	* src/arch/unix/readline/editline.h: FTBFS @ gcc 4.4: Fix test
+	  to check for HAVE_STDLIB_H.
+
+2009-07-18  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/joy.c: Fix warning on *nix joystick cmdline init
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64ui.c,
+	  src/c64/c64cia2.c, src/cbm2/cbm2cia1.c, src/vic20/vic20mem.c:
+	  Remove unused callbacks/variables, revert obsolete WATCOM
+	  ifdef, add default case to extra joystick switches
+
+2009-07-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/Makefile.am,
+	  src/arch/sdl/win32-watcom/rs232drv.tgt,
+	  src/arch/sdl/win32-watcom/rs232dtv.tgt,
+	  src/arch/sdl/win32-watcom/vice.wpj,
+	  src/arch/sdl/win32-watcom/x128.tgt,
+	  src/arch/sdl/win32-watcom/x64.tgt,
+	  src/arch/sdl/win32-watcom/x64dtv.tgt,
+	  src/arch/sdl/win32-watcom/xcbm2.tgt,
+	  src/arch/sdl/win32-watcom/xpet.tgt,
+	  src/arch/sdl/win32-watcom/xplus4.tgt,
+	  src/arch/sdl/win32-watcom/xvic.tgt: Fixed the misnamed
+	  rs232drv.tgt issue for the win32 sdl watcom project files.
+
+@@@ merge @@@
+
 2009-07-17  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.1.15
@@ -51,6 +505,8 @@
 	  RAM block resource handlers
 
 2009-07-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+@@@ merge @@@
 
 	* configure.in, src/Makefile.am, src/arch/sdl/menu_vic20cart.c,
 	  src/arch/win32/Makefile.am, src/arch/win32/resmenu.txt,
@@ -437,6 +893,8 @@
 	  support to x128.
 
 2009-07-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+@@@ merge @@@
 
 	* src/Makefile.am, src/arch/os2/vac++/incl/mainsrc.icc,
 	  src/arch/os2/watcom/mainsrc.tgt, src/arch/os2/watcom/vice.wpj,
