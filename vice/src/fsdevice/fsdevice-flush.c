@@ -230,7 +230,7 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
     if (secondary != 15 || !(fsdevice_dev[dnr].cptr))
         return;
 
-    cbmcmd = (char *)lib_malloc(ioutil_maxpathlen());
+    cbmcmd = lib_malloc(ioutil_maxpathlen());
 
     /* FIXME: Use `vdrive_command_parse()'! */
     /* remove trailing cr */

@@ -179,8 +179,7 @@ static int state_line_end(BYTE *buf, int length, int *index)
 {
     image_contents_file_list_t *new_list;
 
-    new_list = (image_contents_file_list_t *)lib_malloc(
-                sizeof(image_contents_file_list_t));
+    new_list = lib_malloc(sizeof(image_contents_file_list_t));
 
     memcpy(new_list, &currfl, sizeof(image_contents_file_list_t));
 

@@ -299,7 +299,7 @@ int fsdevice_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
 
     bufinfo[secondary].type = cmd_parse.filetype;
 
-    rname = (char *)lib_malloc(ioutil_maxpathlen());
+    rname = lib_malloc(ioutil_maxpathlen());
 
     cmd_parse.parsecmd[cmd_parse.parselength] = 0;
     strncpy(rname, cmd_parse.parsecmd, cmd_parse.parselength + 1);

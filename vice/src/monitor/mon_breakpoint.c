@@ -398,7 +398,7 @@ static void add_to_checkpoint_list(break_list_t **head, breakpoint_t *bp)
 {
     break_list_t *new_entry, *cur_entry, *prev_entry;
 
-    new_entry = (break_list_t *)lib_malloc(sizeof(break_list_t));
+    new_entry = lib_malloc(sizeof(break_list_t));
     new_entry->brkpt = bp;
 
     cur_entry = *head;
@@ -435,7 +435,7 @@ int breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
     long len;
 
     len = mon_evaluate_address_range(&start_addr, &end_addr, FALSE, 0);
-    new_bp = (breakpoint_t *)lib_malloc(sizeof(breakpoint_t));
+    new_bp = lib_malloc(sizeof(breakpoint_t));
 
     new_bp->brknum = breakpoint_count++;
     new_bp->start_addr = start_addr;

@@ -65,7 +65,7 @@ static int jpegdrv_open(screenshot_t *screenshot, const char *filename)
 
   cinfo.err = jpeg_std_error(&jerr);
   jpeg_create_compress(&cinfo);
-  sdata = (gfxoutputdrv_data_t *)lib_malloc(sizeof(gfxoutputdrv_data_t));
+  sdata = lib_malloc(sizeof(gfxoutputdrv_data_t));
   screenshot->gfxoutputdrv_data = sdata;
   sdata->line = 0;
   sdata->ext_filename=util_add_extension_const(filename, jpeg_drv.default_extension);
@@ -78,7 +78,7 @@ static int jpegdrv_open(screenshot_t *screenshot, const char *filename)
     return -1;
   }
   jpeg_stdio_dest(&cinfo, sdata->fd);
-  sdata->data = (BYTE *)lib_malloc(screenshot->width*3);
+  sdata->data = lib_malloc(screenshot->width*3);
   cinfo.image_width = screenshot->width;
   cinfo.image_height = screenshot->height;
   cinfo.input_components = 3;
@@ -183,7 +183,7 @@ static int jpegdrv_open_memmap(const char *filename, int x_size, int y_size)
     return -1;
   }
   jpeg_stdio_dest(&cinfo, jpegdrv_memmap_fd);
-  jpegdrv_memmap_data = (BYTE *)lib_malloc(x_size*3);
+  jpegdrv_memmap_data = lib_malloc(x_size*3);
   cinfo.image_width = x_size;
   cinfo.image_height = y_size;
   cinfo.input_components = 3;

@@ -77,7 +77,7 @@ static int ppmdrv_open(screenshot_t *screenshot, const char *filename)
 {
   gfxoutputdrv_data_t *sdata;
 
-  sdata = (gfxoutputdrv_data_t *)lib_malloc(sizeof(gfxoutputdrv_data_t));
+  sdata = lib_malloc(sizeof(gfxoutputdrv_data_t));
   screenshot->gfxoutputdrv_data = sdata;
   sdata->line = 0;
   sdata->ext_filename=util_add_extension_const(filename, ppm_drv.default_extension);
@@ -98,7 +98,7 @@ static int ppmdrv_open(screenshot_t *screenshot, const char *filename)
     return -1;
   }
 
-  sdata->data = (BYTE *)lib_malloc(screenshot->width*3);
+  sdata->data = lib_malloc(screenshot->width*3);
 
   return 0;
 }

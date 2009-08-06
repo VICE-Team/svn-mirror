@@ -1000,7 +1000,7 @@ static void add_monitor_cpu_type_supported(supported_cpu_type_list_t **list_ptr,
 {
     supported_cpu_type_list_t *element_ptr;
     if (mon_cpu_type) {
-        element_ptr=(supported_cpu_type_list_t*)lib_malloc(sizeof(supported_cpu_type_list_t));
+        element_ptr=lib_malloc(sizeof(supported_cpu_type_list_t));
         element_ptr->next=*list_ptr;
         element_ptr->monitor_cpu_type_p=mon_cpu_type;
         *list_ptr=element_ptr;
@@ -1527,7 +1527,7 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
     }
 
     /* Add name to name list */
-    sym_ptr = (symbol_entry_t *)lib_malloc(sizeof(symbol_entry_t));
+    sym_ptr = lib_malloc(sizeof(symbol_entry_t));
     sym_ptr->name = name;
     sym_ptr->addr = loc;
 
@@ -1535,7 +1535,7 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
     monitor_labels[mem].name_list = sym_ptr;
 
     /* Add address to hash table */
-    sym_ptr = (symbol_entry_t *)lib_malloc(sizeof(symbol_entry_t));
+    sym_ptr = lib_malloc(sizeof(symbol_entry_t));
     sym_ptr->name = name;
     sym_ptr->addr = addr;
 

@@ -92,7 +92,7 @@ static int pcxdrv_open(screenshot_t *screenshot, const char *filename)
     return -1;
   }
 
-  sdata = (gfxoutputdrv_data_t *)lib_malloc(sizeof(gfxoutputdrv_data_t));
+  sdata = lib_malloc(sizeof(gfxoutputdrv_data_t));
   screenshot->gfxoutputdrv_data = sdata;
   sdata->line = 0;
   sdata->ext_filename=util_add_extension_const(filename, pcx_drv.default_extension);
@@ -113,8 +113,8 @@ static int pcxdrv_open(screenshot_t *screenshot, const char *filename)
     return -1;
   }
 
-  sdata->data = (BYTE *)lib_malloc(screenshot->width);
-  sdata->pcx_data = (BYTE *)lib_malloc(screenshot->width*2);
+  sdata->data = lib_malloc(screenshot->width);
+  sdata->pcx_data = lib_malloc(screenshot->width*2);
 
   return 0;
 }
@@ -406,7 +406,7 @@ static int pcxdrv_open_memmap(const char *filename, int x_size, int y_size)
     return -1;
   }
 
-  pcxdrv_memmap_pcx_data = (BYTE *)lib_malloc(x_size*2);
+  pcxdrv_memmap_pcx_data = lib_malloc(x_size*2);
 
   return 0;
 }

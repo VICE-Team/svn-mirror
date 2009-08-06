@@ -152,7 +152,7 @@ static int bmpdrv_write_bitmap_info(screenshot_t *screenshot)
 
     if (screenshot->gfxoutputdrv_data->bpp != 24)
     {
-        bcolor = (BYTE *)lib_malloc(screenshot->palette->num_entries * 4);
+        bcolor = lib_malloc(screenshot->palette->num_entries * 4);
 
         for (i = 0; i < screenshot->palette->num_entries; i++) {
             bcolor[i * 4] = screenshot->palette->entries[i].blue;
@@ -177,7 +177,7 @@ static int bmpdrv_open(screenshot_t *screenshot, const char *filename)
 {
     gfxoutputdrv_data_t *sdata;
 
-    sdata = (gfxoutputdrv_data_t *)lib_malloc(sizeof(gfxoutputdrv_data_t));
+    sdata = lib_malloc(sizeof(gfxoutputdrv_data_t));
 
     screenshot->gfxoutputdrv_data = sdata;
 
@@ -218,26 +218,26 @@ static int bmpdrv_open(screenshot_t *screenshot, const char *filename)
     }
 
     if (sdata->bpp == 24)
-        sdata->data = (BYTE *)lib_malloc(screenshot->width * 3);
+        sdata->data = lib_malloc(screenshot->width * 3);
     else
-        sdata->data = (BYTE *)lib_malloc(screenshot->width);
+        sdata->data = lib_malloc(screenshot->width);
 
     switch (sdata->bpp)
     {
         case 1:
-          sdata->bmp_data = (BYTE *)lib_malloc(screenshot->height
+          sdata->bmp_data = lib_malloc(screenshot->height
                                                * screenshot->width / 8);
           break;
         case 4:
-          sdata->bmp_data = (BYTE *)lib_malloc(screenshot->height
+          sdata->bmp_data = lib_malloc(screenshot->height
                                                * screenshot->width / 2);
           break;
         case 8:
-          sdata->bmp_data = (BYTE *)lib_malloc(screenshot->height
+          sdata->bmp_data = lib_malloc(screenshot->height
                                                * screenshot->width);
           break;
         default:
-          sdata->bmp_data = (BYTE *)lib_malloc(screenshot->height
+          sdata->bmp_data = lib_malloc(screenshot->height
                                                * screenshot->width * 3);
           break;
     }
@@ -402,7 +402,7 @@ static int bmpdrv_memmap_write_bitmap_info(int x_size, int y_size, BYTE *palette
     if (fwrite(binfo, sizeof(binfo), 1, bmpdrv_memmap_fd) < 1)
         return -1;
 
-    bcolor = (BYTE *)lib_malloc(256 * 4);
+    bcolor = lib_malloc(256 * 4);
 
     for (i = 0; i < 256; i++)
     {
@@ -467,7 +467,7 @@ static int bmpdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE
         return -1;
     }
 
-    bmpdrv_memmap_bmp_data = (BYTE *)lib_malloc(x_size*y_size);
+    bmpdrv_memmap_bmp_data = lib_malloc(x_size*y_size);
 
     return 0;
 }

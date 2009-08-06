@@ -235,7 +235,7 @@ static int ffmpegdrv_open_audio(AVFormatContext *oc, AVStream *st)
     
     audio_is_open = 1;
     audio_outbuf_size = 10000;
-    audio_outbuf = (unsigned char*)lib_malloc(audio_outbuf_size);
+    audio_outbuf = lib_malloc(audio_outbuf_size);
 
     /* ugly hack for PCM codecs (will be removed ASAP with new PCM
        support to compute the input frame size in samples */
@@ -255,7 +255,7 @@ static int ffmpegdrv_open_audio(AVFormatContext *oc, AVStream *st)
         audio_inbuf_samples = c->frame_size * c->channels;
     }
     ffmpegdrv_audio_in.size = audio_inbuf_samples;
-    ffmpegdrv_audio_in.buffer = (SWORD*)lib_malloc(audio_inbuf_samples
+    ffmpegdrv_audio_in.buffer = lib_malloc(audio_inbuf_samples
                                                     * sizeof(SWORD));
 
     return 0;
@@ -393,13 +393,13 @@ static AVFrame* ffmpegdrv_alloc_picture(int pix_fmt, int width, int height)
     unsigned char *picture_buf;
     int size;
     
-    picture = (AVFrame*)lib_malloc(sizeof(AVFrame));
+    picture = lib_malloc(sizeof(AVFrame));
     memset(picture, 0, sizeof(AVFrame));
 
     picture->pts = AV_NOPTS_VALUE;
 
     size = (*ffmpeglib.p_avpicture_get_size)(pix_fmt, width, height);
-    picture_buf = (unsigned char *)lib_malloc(size);
+    picture_buf = lib_malloc(size);
     memset(picture_buf, 0, size);
     if (!picture_buf) {
         lib_free(picture);
@@ -438,7 +438,7 @@ static int ffmpegdrv_open_video(AVFormatContext *oc, AVStream *st)
         /* allocate output buffer */
         /* XXX: API change will be done */
         video_outbuf_size = 200000;
-        video_outbuf = (unsigned char*)lib_malloc(video_outbuf_size);
+        video_outbuf = lib_malloc(video_outbuf_size);
     }
 
     /* allocate the encoded raw picture */
@@ -632,7 +632,7 @@ static int ffmpegdrv_save(screenshot_t *screenshot, const char *filename)
         }
     }
 
-    ffmpegdrv_oc = (AVFormatContext*)lib_malloc(sizeof(AVFormatContext));
+    ffmpegdrv_oc = lib_malloc(sizeof(AVFormatContext));
     memset(ffmpegdrv_oc, 0, sizeof(AVFormatContext));
 
     if (!ffmpegdrv_oc) {

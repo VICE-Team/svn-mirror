@@ -43,7 +43,7 @@ static int cmdline_fsdirectory(const char *param, void *extra_param)
     char *directory;
 
     unit = vice_ptr_to_uint(extra_param);
-    directory = (char *)lib_malloc(ioutil_maxpathlen());
+    directory = lib_malloc(ioutil_maxpathlen());
 
     strcpy(directory, param);
     strcat(directory, FSDEV_DIR_SEP_STR);

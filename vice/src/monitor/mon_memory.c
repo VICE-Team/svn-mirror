@@ -69,7 +69,7 @@ void mon_memory_move(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
     dst = addr_location(dest);
     dest_mem = addr_memspace(dest);
 
-    buf = (BYTE *)lib_malloc(sizeof(BYTE) * len);
+    buf = lib_malloc(sizeof(BYTE) * len);
 
     for (i = 0; (int)i < len; i++)
         buf[i] = mon_get_mem_val(src_mem, (WORD)ADDR_LIMIT(start + i));
@@ -163,7 +163,7 @@ void mon_memory_hunt(MON_ADDR start_addr, MON_ADDR end_addr,
     mem = addr_memspace(start_addr);
     start = addr_location(start_addr);
 
-    buf = (BYTE *)lib_malloc(sizeof(BYTE) * data_buf_len);
+    buf = lib_malloc(sizeof(BYTE) * data_buf_len);
 
     /* Fill buffer */
     for (i = 0; i < data_buf_len; i++)

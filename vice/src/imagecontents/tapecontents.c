@@ -53,8 +53,7 @@ static void tape_read_contents(tape_image_t *tape_image, image_contents_t *new)
         if (rec->type) {
             image_contents_file_list_t *new_list;
 
-            new_list = (image_contents_file_list_t *)lib_malloc(
-                       sizeof(image_contents_file_list_t));
+            new_list = lib_malloc(sizeof(image_contents_file_list_t));
             memcpy(new_list->name, rec->name, 16);
             new_list->name[IMAGE_CONTENTS_FILE_NAME_LEN] = 0;
 

@@ -145,8 +145,7 @@ image_contents_t *diskcontents_block_read(vdrive_t *vdrive)
                 image_contents_file_list_t *new_list;
                 int i;
 
-                new_list = (image_contents_file_list_t *)lib_malloc(
-                           sizeof(image_contents_file_list_t));
+                new_list = lib_malloc(sizeof(image_contents_file_list_t));
                 new_list->size = ((int)p[SLOT_NR_BLOCKS]
                                   + ((int)p[SLOT_NR_BLOCKS + 1] << 8));
 

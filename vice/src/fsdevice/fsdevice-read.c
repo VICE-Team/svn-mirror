@@ -162,7 +162,7 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
     unsigned int format = 0;
     char *buf;
 
-    buf = (char *)lib_malloc(ioutil_maxpathlen());
+    buf = lib_malloc(ioutil_maxpathlen());
 
     bufinfo->bufp = bufinfo->name;
 

@@ -56,7 +56,7 @@ static int pngdrv_open(screenshot_t *screenshot, const char *filename)
 {
     gfxoutputdrv_data_t *sdata;
 
-    sdata = (gfxoutputdrv_data_t *)lib_malloc(sizeof(gfxoutputdrv_data_t));
+    sdata = lib_malloc(sizeof(gfxoutputdrv_data_t));
 
     screenshot->gfxoutputdrv_data = sdata;
 
@@ -94,7 +94,7 @@ static int pngdrv_open(screenshot_t *screenshot, const char *filename)
         return -1;
     }
 
-    sdata->data = (BYTE *)lib_malloc(screenshot->width * 4);
+    sdata->data = lib_malloc(screenshot->width * 4);
 
     png_init_io(sdata->png_ptr, sdata->fd);
     png_set_compression_level(sdata->png_ptr, Z_BEST_COMPRESSION);
@@ -231,7 +231,7 @@ static int pngdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE
         return -1;
     }
 
-    pngdrv_memmap_png_data = (BYTE *)lib_malloc(x_size * 4);
+    pngdrv_memmap_png_data = lib_malloc(x_size * 4);
 
     png_init_io(pngdrv_memmap_png_ptr, pngdrv_memmap_fd);
     png_set_compression_level(pngdrv_memmap_png_ptr, Z_BEST_COMPRESSION);

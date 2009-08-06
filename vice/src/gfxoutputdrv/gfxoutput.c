@@ -91,8 +91,7 @@ gfxoutputdrv_t *gfxoutput_drivers_iter_next(void)
 int gfxoutput_early_init(void)
 {
     /* Initialize graphics output driver list.  */
-    gfxoutputdrv_list
-        = (gfxoutputdrv_list_t *)lib_malloc(sizeof(gfxoutputdrv_list_t));
+    gfxoutputdrv_list = lib_malloc(sizeof(gfxoutputdrv_list_t));
     gfxoutputdrv_list->drv = NULL;
     gfxoutputdrv_list->next = NULL;
 
@@ -162,8 +161,7 @@ int gfxoutput_register(gfxoutputdrv_t *drv)
 
     /* Fill in entry.  */
     current->drv = drv;
-    current->next = (gfxoutputdrv_list_t *)lib_malloc(
-                    sizeof(gfxoutputdrv_list_t));
+    current->next = lib_malloc(sizeof(gfxoutputdrv_list_t));
     current->next->drv = NULL;
     current->next->next = NULL;
 

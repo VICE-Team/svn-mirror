@@ -3911,7 +3911,7 @@ void parse_and_execute_line(char *input)
    char *temp_buf;
    int i, rc;
 
-   temp_buf = (char *)lib_malloc(strlen(input) + 3);
+   temp_buf = lib_malloc(strlen(input) + 3);
    strcpy(temp_buf,input);
    i = (int)strlen(input);
    temp_buf[i++] = '\n';
