@@ -78,9 +78,7 @@
 
 - (void)dealloc
 {
-    if(textureData!=NULL) {
-        lib_free(textureData);
-    }
+    lib_free(textureData);
     [super dealloc];
 }
 

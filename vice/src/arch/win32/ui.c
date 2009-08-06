@@ -1258,9 +1258,7 @@ static void ui_copy_clipboard(HWND window)
         GlobalUnlock(globaltext);
     }
 
-    if (text) {
-        lib_free(text);
-    }
+    lib_free(text);
 
     if (clipboard_is_open) {
         CloseClipboard();
@@ -1321,9 +1319,7 @@ static void ui_paste_clipboard_text(HWND window)
 
     } while (0);
 
-    if (text_in_petscii) {
-        lib_free(text_in_petscii);
-    }
+    lib_free(text_in_petscii);
 
     if (text) {
         GlobalUnlock(text);

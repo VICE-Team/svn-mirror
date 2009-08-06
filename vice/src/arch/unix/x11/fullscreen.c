@@ -208,9 +208,7 @@ static int fullscreen_device(struct video_canvas_s *canvas, const char *device)
         return -1;
     }
 
-    if (canvas->fullscreenconfig->device)
-	lib_free(canvas->fullscreenconfig->device);
-    
+    lib_free(canvas->fullscreenconfig->device);
     canvas->fullscreenconfig->device = lib_stralloc(device);
 
     return 0;

@@ -270,8 +270,7 @@ static UI_CALLBACK(attach_cartridge)
       case UI_BUTTON_OK:
         if (cartridge_attach_image(type, filename) < 0)
             ui_error(_("Invalid cartridge image"));
-        if (last_dir)
-            lib_free(last_dir);
+        lib_free(last_dir);
         util_fname_split(filename, &last_dir, NULL);
         ui_update_menus();
         break;
@@ -279,8 +278,7 @@ static UI_CALLBACK(attach_cartridge)
         /* Do nothing special.  */
         break;
     }
-    if (filename != NULL)
-        lib_free(filename);
+    lib_free(filename);
 }
 
 static ui_menu_entry_t add_to_generic_cart_submenu[] = {

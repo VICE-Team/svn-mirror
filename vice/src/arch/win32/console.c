@@ -179,12 +179,8 @@ static void add_to_history( console_private_t *pcp, const char *entry )
 {
     if (entry[0])
     {
-        if (pcp->history[pcp->nHistory] != NULL)
-        {
-            /* delete old history entry */
-            lib_free( pcp->history[pcp->nHistory] );
-        };
-
+        /* delete old history entry */
+        lib_free( pcp->history[pcp->nHistory] );
         pcp->history[pcp->nHistory] = lib_stralloc( entry );
 
         pcp->nHistory = (pcp->nHistory+1) % MAX_HISTORY;
@@ -536,23 +532,15 @@ static console_private_t *reallocate_window_memory( console_private_t* pcp, unsi
 
 static void free_window_memory( console_private_t *pcp )
 {
-    if (pcp->pchWindowBuffer)
-    {
-        lib_free( pcp->pchWindowBuffer);
-        pcp->pchWindowBuffer = NULL;
-    }
+    lib_free( pcp->pchWindowBuffer);
+    pcp->pchWindowBuffer = NULL;
 
     if (pcp->fileOutput)
         FileClose( pcp );
 
-    if (pcp->pchName)
-        lib_free( pcp->pchName );
-
-    if (pcp->pchOnClose)
-        lib_free( pcp->pchOnClose );
-
-    if (pcp->pConsole)
-        lib_free( pcp->pConsole );
+    lib_free( pcp->pchName );
+    lib_free( pcp->pchOnClose );
+    lib_free( pcp->pConsole );
 
     if (pcp->history[0])
     {
@@ -1055,8 +1043,7 @@ static void external_resize_window( console_private_t *pcp, int nWidth, int nHei
     /* now, restore the current input */
     replace_current_input(pcp, currentInput);
 
-    if (currentInput)
-        lib_free(currentInput);
+    lib_free(currentInput);
 
     cursor(pcp, CS_RESUME);
 }

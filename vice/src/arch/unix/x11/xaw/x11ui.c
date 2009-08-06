@@ -1932,9 +1932,7 @@ char *ui_select_file(const char *title,
     /* On Alpha, XtDestroyWidget segfaults, don't know why...  */
     XtDestroyWidget(XtParent(file_selector));
 #endif
-    if (filesel_dir != NULL) {
-        lib_free(filesel_dir);
-    }
+    lib_free(filesel_dir);
     filesel_dir = ioutil_current_dir();
     if (current_dir != NULL) {
         ioutil_chdir(current_dir);

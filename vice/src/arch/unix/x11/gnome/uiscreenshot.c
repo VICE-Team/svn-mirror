@@ -499,11 +499,11 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
 
 void uiscreenshot_shutdown(void)
 {
-    if (buttons)
-	lib_free(buttons);
+    lib_free(buttons);
+    buttons = NULL;
 #ifdef HAVE_FFMPEG
-    if (selected_driver_allocated)
-	lib_free(selected_driver);
+    lib_free(selected_driver);
+    selected_driver = NULL;
 #endif
     if (screenshot_dialog && GTK_IS_WIDGET(screenshot_dialog))
 	gtk_widget_destroy(screenshot_dialog);

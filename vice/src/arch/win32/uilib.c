@@ -767,8 +767,7 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
     if (result) {
         char *tmpdir, *tmpfile;
 
-        if (ui_file_selector_initialfile[style] != NULL)
-            lib_free(ui_file_selector_initialfile[style]);
+        lib_free(ui_file_selector_initialfile[style]);
         system_wcstombs(name, st_name, MAX_PATH);
         util_fname_split(name, &tmpdir, &tmpfile);
         if (styles[style].file_resource != NULL)
@@ -966,8 +965,7 @@ void uilib_shutdown(void)
     filter_per_list_t *f1, *f2;
 
     for (i = 0; i < UILIB_SELECTOR_STYLES_NUM; i++)
-        if (ui_file_selector_initialfile[i] != NULL)
-            lib_free(ui_file_selector_initialfile[i]);
+        lib_free(ui_file_selector_initialfile[i]);
 
     lib_free(fontfile);
 

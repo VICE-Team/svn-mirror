@@ -441,8 +441,7 @@ static gboolean fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 	    {
 		if (last_drive_menus[d])
 		    gtk_widget_destroy(last_drive_menus[d]);
-		if (last_menus[d])
-		    lib_free(last_menus[d]);
+            lib_free(last_menus[d]);
 		last_menus[d] = NULL;
 		return 0;
 	    }
@@ -452,8 +451,7 @@ static gboolean fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 	    {
 		if (last_drive_menus[d])
 		    gtk_widget_destroy(last_drive_menus[d]);
-		if (last_menus[d])
-		    lib_free(last_menus[d]);
+            lib_free(last_menus[d]);
 		last_menus[d] = lib_stralloc(last_attached_images[d]);
 		last_drive_menus[d] = 
 		    rebuild_contents_menu(d+8, last_menus[d]);
@@ -487,8 +485,7 @@ static gboolean tape_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 	    {
 		if (ltapemenu)
 		    gtk_widget_destroy(ltapemenu);
-		if (lasttapemenu)
-		    lib_free(lasttapemenu);
+            lib_free(lasttapemenu);
 		lasttapemenu = NULL;
 		return 0;
 	    }
@@ -498,8 +495,7 @@ static gboolean tape_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 	    {
 		if (ltapemenu)
 		    gtk_widget_destroy(ltapemenu);
-		if (lasttapemenu)
-		    lib_free(lasttapemenu);
+            lib_free(lasttapemenu);
 		lasttapemenu = lib_stralloc(last_attached_tape);
 		ltapemenu = rebuild_contents_menu(1, lasttapemenu);
 	    }
@@ -1437,8 +1433,7 @@ void ui_display_drive_current_image(unsigned int drive_number,
 	    GTK_WIDGET(app_shells[i].drive_status[drive_number].box->parent->parent), name);
 	
     }
-    if (name)
-	lib_free(name);
+    lib_free(name);
     
     ui_enable_drive_status(enabled_drives, drive_active_led);
 }
@@ -1582,8 +1577,7 @@ void ui_display_tape_current_image(const char *image)
     char *name;
     int i;
     
-    if (last_attached_tape)
-	lib_free(last_attached_tape);
+    lib_free(last_attached_tape);
     last_attached_tape = lib_stralloc(image);
     util_fname_split(image, NULL, &name);
 
@@ -1593,8 +1587,7 @@ void ui_display_tape_current_image(const char *image)
 	    GTK_WIDGET(app_shells[i].tape_status.box->parent->parent), name);
 	
     }
-    if (name)
-	lib_free(name);
+    lib_free(name);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -2220,9 +2213,7 @@ char *ui_select_file(const char *title,
     else
 	ret = lib_stralloc("");
 
-    if (filesel_dir != NULL) {
-        lib_free(filesel_dir);
-    }
+    lib_free(filesel_dir);
     filesel_dir = ioutil_current_dir();
     if (current_dir != NULL) {
         ioutil_chdir(current_dir);
@@ -2359,8 +2350,7 @@ ui_change_dir(const char *title, const char *prompt, char *buf,
     else
 	r = UI_BUTTON_CANCEL;
     
-    if (fname)
-	lib_free(fname);
+    lib_free(fname);
     return r;
 }
 

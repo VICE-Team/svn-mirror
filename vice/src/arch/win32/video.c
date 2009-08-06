@@ -233,9 +233,8 @@ void video_canvas_destroy(video_canvas_t *canvas)
         if (canvas->hwnd !=0) {
             DestroyWindow(canvas->hwnd);
         }
-        if (canvas->title != NULL) {
-            lib_free(canvas->title);
-        }
+        lib_free(canvas->title);
+        canvas->title = NULL;
         video_canvas_shutdown(canvas);
     }
 }

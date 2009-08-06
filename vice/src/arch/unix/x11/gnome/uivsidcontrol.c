@@ -41,8 +41,7 @@ static char *line;
 
 static void update_line(void)
 {
-    if (line)
-        lib_free(line);
+    lib_free(line);
     line = lib_msprintf(_("Name: %s\nTune: %d\nAuthor: %s\nCopyright: %s\n"
                        "%s\nModel: %s\nIRQ: %s") ,
                      name, tune,
@@ -70,8 +69,7 @@ ui_window_t build_vsid_ctrl_widget(void)
 
 void ui_vsid_setpsid(const char *psid)
 {
-    if (name)
-        lib_free(name);
+    lib_free(name);
     name = lib_stralloc(psid);
     update_line();
 }
@@ -84,40 +82,34 @@ void ui_vsid_settune(const int t)
 
 void ui_vsid_setauthor(const char *a)
 {
-    if (author)
-        lib_free(author);
+    lib_free(author);
     author = lib_stralloc(a);
     update_line();
 }
 void ui_vsid_setcopyright(const char *c)
 {
-    if (copyright)
-        lib_free(copyright);
+    lib_free(copyright);
     copyright = lib_stralloc(c);
     update_line();
 }
 
 void ui_vsid_setmodel(const char *c)
 {
-    if (model)
-        lib_free(model);
+    lib_free(model);
     model = lib_stralloc(c);
     update_line();
 }
 
 void ui_vsid_setsync(const char *c)
 {
-    if (vsidsync)
-        lib_free(vsidsync);
+    lib_free(vsidsync);
     vsidsync = lib_stralloc(c);
     update_line();
 }
 
 void ui_vsid_setirq(const char *c)
 {
-    if (irq)
-        lib_free(irq);
+    lib_free(irq);
     irq = lib_stralloc(c);
     update_line();
 }
-

@@ -1326,10 +1326,7 @@ static void intl_text_free(void)
   {
     for (j = 0; j < countof(intl_text_table); j++)
     {
-      if (intl_text_table[j][i] != NULL)
-      {
-        lib_free(intl_text_table[j][i]);
-      }
+      lib_free(intl_text_table[j][i]);
     }
   }
 }

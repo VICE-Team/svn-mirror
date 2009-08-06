@@ -337,9 +337,7 @@ HWND CreateAToolbar( HWND hwnd )
         FreeResource(hGlobal);
     }
 
-    if (ptbb) {
-        lib_free(ptbb);
-    }
+    lib_free(ptbb);
 
     return hToolbar;
 }

@@ -264,8 +264,7 @@ static UI_CALLBACK(psid_load)
         /* Do nothing special.  */
         break;
     }
-    if (filename != NULL)
-       lib_free(filename);
+    lib_free(filename);
 }
 
 #if 0

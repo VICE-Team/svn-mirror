@@ -84,8 +84,7 @@ static UI_CALLBACK(browse_callback)
     if (button == UI_BUTTON_OK)
         XtVaSetValues(file_name_field, XtNstring, filename, NULL);
 
-    if (filename != NULL)
-        lib_free(filename);
+    lib_free(filename);
 }
 
 static UI_CALLBACK(cancel_callback)

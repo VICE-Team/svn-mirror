@@ -189,10 +189,8 @@ DirectoryMgr *dm;
 	DirectoryMgrTotalCount(dm) = 0;
 	DirectoryMgrFilteredCount(dm) = 0;
 	DirectoryRestart(DirectoryMgrDir(dm));
-	if (DirectoryMgrData(dm))
-            lib_free(DirectoryMgrData(dm));
-	if (DirectoryMgrSortedPtrs(dm))
-            lib_free(DirectoryMgrSortedPtrs(dm));
+      lib_free(DirectoryMgrData(dm));
+      lib_free(DirectoryMgrSortedPtrs(dm));
 	head = NULL;
 	f_func = DirectoryMgrFilterFunc(dm);
 	f_data = &DirectoryMgrFilterData(dm);
