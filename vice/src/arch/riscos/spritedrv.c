@@ -54,7 +54,7 @@ static int sprite_open(screenshot_t *screenshot, const char *filename)
 {
   gfxoutputdrv_data_t *god;
 
-  god = (gfxoutputdrv_data_t*)lib_malloc(sizeof(gfxoutputdrv_data_t));
+  god = lib_malloc(sizeof(gfxoutputdrv_data_t));
   screenshot->gfxoutputdrv_data = god;
 
   god->data = NULL;
@@ -87,7 +87,7 @@ static int sprite_open(screenshot_t *screenshot, const char *filename)
     }
 
     bpp = (1 << god->ldbpp); pal_size = (1 << bpp); pal_bytes = 2*pal_size*sizeof(unsigned int);
-    if ((sprpalette = (unsigned int*)lib_malloc(pal_bytes)) == NULL)
+    if ((sprpalette = lib_malloc(pal_bytes)) == NULL)
     {
       fclose(god->fp);
       god->fp = NULL;
@@ -106,7 +106,7 @@ static int sprite_open(screenshot_t *screenshot, const char *filename)
     }
 
     header_size = sizeof(sprite_area_t) + sizeof(sprite_desc_t) + pal_bytes;
-    if ((sarea = (sprite_area_t*)lib_malloc(header_size)) != NULL)
+    if ((sarea = lib_malloc(header_size)) != NULL)
     {
       sprite_desc_t *sprite;
 
@@ -122,10 +122,10 @@ static int sprite_open(screenshot_t *screenshot, const char *filename)
       god->pitch = (sprite->wwidth + 1) << 2;
       fwrite(&(sarea->numsprites), 1, header_size-4, god->fp);
 
-      god->data = (BYTE *)lib_malloc((screenshot->width + 3) & ~3);
+      god->data = lib_malloc((screenshot->width + 3) & ~3);
 
       if (god->ldbpp != 3)
-        god->linedata = (BYTE *)lib_malloc(god->pitch);
+        god->linedata = lib_malloc(god->pitch);
       else
         god->linedata = god->data;
 

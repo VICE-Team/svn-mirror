@@ -453,7 +453,7 @@ char *archdep_tmpnam(void)
     int fd;
     char* tmp;
 
-    tmpName = (char *)lib_malloc(ioutil_maxpathlen());
+    tmpName = lib_malloc(ioutil_maxpathlen());
     if ((tmp = getenv("TMPDIR")) != NULL ) {
         strncpy(tmpName, tmp, ioutil_maxpathlen());
         tmpName[ioutil_maxpathlen() - sizeof(mkstempTemplate)] = '\0';

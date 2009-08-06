@@ -57,7 +57,7 @@ char *readline(const char *prompt)
     console_out(NULL, "%s", prompt);
     fflush(stdout);
 
-    p = (char*)lib_malloc(1024);
+    p = lib_malloc(1024);
     rv = fgets(p, 1024, stdin);
     /*
        fgets returns p on success, or null on EOF.

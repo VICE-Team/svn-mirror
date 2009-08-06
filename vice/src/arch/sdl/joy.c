@@ -359,7 +359,7 @@ int joy_arch_init(void)
 
     log_message(sdljoy_log,"%i joysticks found",num_joysticks);
 
-    sdljoystick = (sdljoystick_t *)lib_malloc(sizeof(sdljoystick_t) * num_joysticks);
+    sdljoystick = lib_malloc(sizeof(sdljoystick_t) * num_joysticks);
 
     for (i=0; i<num_joysticks; ++i) {
         joy = sdljoystick[i].joyptr = SDL_JoystickOpen(i);
@@ -372,7 +372,7 @@ int joy_arch_init(void)
 
             for (j=AXIS; j<NUM_INPUT_TYPES; ++j) {
                 if (sdljoystick[i].input_max[j] > 0) {
-                    sdljoystick[i].input[j] = (sdljoystick_mapping_t *)lib_malloc(sizeof(sdljoystick_mapping_t) * sdljoystick[i].input_max[j] * input_mult[j]);
+                    sdljoystick[i].input[j] = lib_malloc(sizeof(sdljoystick_mapping_t) * sdljoystick[i].input_max[j] * input_mult[j]);
                 } else {
                     sdljoystick[i].input[j] = NULL;
                 }

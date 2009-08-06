@@ -328,8 +328,7 @@ void ViceWindow::DirectConnected(direct_buffer_info *info)
 			lib_free(fclip_list);
 			fclip_list = NULL;
 			fcliplist_count = info->clip_list_count;
-			fclip_list = (clipping_rect *)
-				lib_malloc(fcliplist_count * sizeof(clipping_rect));
+			fclip_list = lib_malloc(fcliplist_count * sizeof(clipping_rect));
 			if (fclip_list)
 				memcpy(fclip_list, info->clip_list,
 					fcliplist_count * sizeof(clipping_rect));

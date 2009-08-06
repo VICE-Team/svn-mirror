@@ -135,7 +135,7 @@ static int *sdl_ui_menu_get_offsets(ui_menu_entry_t *menu, int num_items)
     ui_menu_entry_type_t block_type;
     int *offsets = NULL;
 
-    offsets = (int *)lib_malloc(num_items * sizeof(int));
+    offsets = lib_malloc(num_items * sizeof(int));
 
     for (i = 0; i < num_items; ++i) {
         block_type = menu[i].type;
@@ -336,7 +336,7 @@ static void sdl_ui_trap(WORD addr, void *data)
 
     width = sdl_active_canvas->draw_buffer->draw_buffer_width;
     height = sdl_active_canvas->draw_buffer->draw_buffer_height;
-    draw_buffer_backup = (BYTE *)lib_malloc(width * height);
+    draw_buffer_backup = lib_malloc(width * height);
     memcpy(draw_buffer_backup, sdl_active_canvas->draw_buffer->draw_buffer, width * height);
 
     sdl_ui_activate_pre_action();

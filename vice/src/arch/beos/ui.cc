@@ -471,7 +471,7 @@ static void ui_paste_clipboard_text(void)
 
             if (textlen != 0)
             {
-                text_in_petscii = (char *)lib_malloc(textlen + 1);
+                text_in_petscii = lib_malloc(textlen + 1);
                 memcpy(text_in_petscii, text, textlen);
                 text_in_petscii[textlen] = 0;
                 charset_petconvstring((unsigned char *)text_in_petscii, 0);

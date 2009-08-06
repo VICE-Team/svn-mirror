@@ -1930,8 +1930,8 @@ static int ui_build_romset_menu(void)
 
   number = romset_archive_get_number();
   if (number <= 0) return -1;
-  MenuROMSet = (RO_MenuHead*)lib_malloc(sizeof(RO_MenuHead) + number * sizeof(RO_MenuItem));
-  MenuDisplayROMSet = (disp_desc_t*)lib_malloc(sizeof(disp_desc_t) + number * sizeof(int));
+  MenuROMSet = lib_malloc(sizeof(RO_MenuHead) + number * sizeof(RO_MenuItem));
+  MenuDisplayROMSet = lib_malloc(sizeof(disp_desc_t) + number * sizeof(int));
 
   if ((MenuROMSet != NULL) && (MenuDisplayROMSet != NULL))
   {
@@ -1994,8 +1994,8 @@ static int ui_build_fliplist_menu(int doread)
     MenuFliplist.item[Menu_Fliplist_Images].submenu = (RO_MenuHead*)&MenuFlipImageTmpl;
     return 0;
   }
-  MenuFlipImages = (RO_MenuHead*)lib_malloc(sizeof(RO_MenuHead) + (FlipListNumber+1) * sizeof(RO_MenuHead));
-  MenuFlipImgNames = (char*)lib_malloc(textsize);
+  MenuFlipImages = lib_malloc(sizeof(RO_MenuHead) + (FlipListNumber+1) * sizeof(RO_MenuHead));
+  MenuFlipImgNames = lib_malloc(textsize);
   if ((MenuFlipImages != NULL) && (MenuFlipImgNames != NULL))
   {
     RO_MenuItem *firstitem, *item;

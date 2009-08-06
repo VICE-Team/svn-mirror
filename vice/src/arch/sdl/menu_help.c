@@ -48,7 +48,7 @@ static char *convert_cmdline_to_40_cols(char *text)
     int i, j, k, index;
 
     num_options = cmdline_get_num_options();
-    new_text = (char *)lib_malloc(strlen(text) + num_options);
+    new_text = lib_malloc(strlen(text) + num_options);
 
     new_text[0] = '\n';
     index = 1;
@@ -101,7 +101,7 @@ static char *contrib_convert(char *text)
     size_t size;
 
     size = strlen(text);
-    new_text = (char *)lib_malloc(size);
+    new_text = lib_malloc(size);
     while (i < size) {
         if (text[i] == ' ' && text[i + 1] == ' ' && text[i - 1] == '\n') {
             i += 2;

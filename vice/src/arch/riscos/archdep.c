@@ -74,7 +74,7 @@ char *archdep_program_name(void)
 
   if (machine_name != NULL)
   {
-    if ((name = (char*)lib_malloc(strlen("Vice") + strlen(machine_name) + 1)) != NULL)
+    if ((name = lib_malloc(strlen("Vice") + strlen(machine_name) + 1)) != NULL)
       sprintf(name, "Vice%s", machine_name);
   }
 
@@ -86,7 +86,7 @@ FILE *archdep_open_default_log_file(void)
 {
   const char *name = tmpnam(NULL);
 
-  if ((defaultLogName = (char*)lib_malloc(strlen(name)+1)) != NULL)
+  if ((defaultLogName = lib_malloc(strlen(name)+1)) != NULL)
   {
     strcpy(defaultLogName, name);
     if ((defaultLogFile = fopen(defaultLogName, "w+")) != NULL)
@@ -121,7 +121,7 @@ char *archdep_default_resource_file_name(void)
   char *name;
   const char *basename = archdep_rsrc_machine_name;
 
-  if ((name = (char*)lib_malloc(strlen("Vice:.vicerc") + strlen(basename) + 1)) != NULL)
+  if ((name = lib_malloc(strlen("Vice:.vicerc") + strlen(basename) + 1)) != NULL)
      sprintf(name, "Vice:%s.vicerc", basename);
 
   return name;
@@ -195,7 +195,7 @@ char *readline(const char *prompt)
   if ((len <= 0) || (readbuffer[0] < 32)) return NULL;
   readbuffer[len] = '\0';
 
-  retbuf = (char*)lib_malloc(strlen(readbuffer) + 1);
+  retbuf = lib_malloc(strlen(readbuffer) + 1);
   strcpy(retbuf, readbuffer);
 
   return retbuf;
@@ -237,7 +237,7 @@ int archdep_spawn(const char *name, char **argv,
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
     /* Always treat it as the full pathname... */
-    *return_path = (char*)lib_malloc(strlen(orig_name) + 1);
+    *return_path = lib_malloc(strlen(orig_name) + 1);
     strcpy(*return_path, orig_name);
     return 0;
 }

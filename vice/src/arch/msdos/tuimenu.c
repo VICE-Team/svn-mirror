@@ -186,7 +186,7 @@ tui_menu_t tui_menu_create(const char *title, int spacing)
 {
     tui_menu_t new;
 
-    new = (tui_menu_t)lib_malloc(sizeof(struct tui_menu));
+    new = lib_malloc(sizeof(struct tui_menu));
 
     if (title != NULL) {
         new->title = lib_stralloc(title);
@@ -238,11 +238,10 @@ static tui_menu_item_t *tui_menu_add_generic(tui_menu_t menu)
 
     p = tui_menu_find_last_item(menu);
     if (p == NULL) {
-        p = menu->item_list = (tui_menu_item_t *)lib_malloc(
-                              sizeof(tui_menu_item_t));
+        p = menu->item_list = lib_malloc(sizeof(tui_menu_item_t));
         memset(p, 0, sizeof(*p));
     } else {
-        p->next = (tui_menu_item_t *)lib_malloc(sizeof(tui_menu_item_t));
+        p->next = lib_malloc(sizeof(tui_menu_item_t));
         memset(p->next, 0, sizeof(*p));
         p->next->prev = p;
         p = p->next;
@@ -266,7 +265,7 @@ static int set_label(tui_menu_item_t *item, const char *label)
     } else {
         item->hot_key_offset = p - label;
         item->hot_key = toupper(*(p + 1));
-        item->label = (char *)lib_malloc(strlen(label));
+        item->label = lib_malloc(strlen(label));
         if (item->hot_key_offset != 0)
             memcpy(item->label, label, item->hot_key_offset);
         strcpy(item->label + item->hot_key_offset, p + 1);

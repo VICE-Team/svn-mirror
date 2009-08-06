@@ -387,7 +387,7 @@ void ui_translate_icon_help_msgs(const wimp_msg_desc *msg, help_icon_t *hi)
     if (hi[i].sym != NULL)
     {
       wimp_message_translate_string(msg, hi[i].sym, buffer, HELPBUFFSIZE);
-      if ((hi[i].msg = (char*)lib_malloc(strlen(buffer)+1)) != NULL)
+      if ((hi[i].msg = lib_malloc(strlen(buffer)+1)) != NULL)
       {
         strcpy(hi[i].msg, buffer);
         /*log_message(LOG_DEFAULT, "%s = %s\n", hi[i].sym, hi[i].msg);*/

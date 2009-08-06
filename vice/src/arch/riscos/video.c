@@ -1192,7 +1192,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
   video_canvas_set_palette(canvas, canvas->palette);
 
-  if ((newCanvas = (canvas_list_t*)lib_malloc(sizeof(canvas_list_t))) == NULL)
+  if ((newCanvas = lib_malloc(sizeof(canvas_list_t))) == NULL)
   {
     lib_free(canvas);
     return NULL;
@@ -1625,7 +1625,7 @@ static void video_full_screen_colours(void)
 
         if (ct != NULL)
         {
-          unsigned char *entries = (unsigned char*)lib_malloc(3*num_colours);
+          unsigned char *entries = lib_malloc(3*num_colours);
           if (entries != NULL)
           {
             unsigned int i;

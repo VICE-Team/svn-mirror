@@ -203,7 +203,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
 
     maxpathlen = ioutil_maxpathlen();
 
-    current_dir = (char *)lib_malloc(maxpathlen);
+    current_dir = lib_malloc(maxpathlen);
 
     ioutil_getcwd(current_dir, maxpathlen);
     backup_dir = lib_stralloc(current_dir);

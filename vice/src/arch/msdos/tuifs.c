@@ -74,7 +74,7 @@ static struct file_list *file_list_create(void)
 {
     struct file_list *new_list;
 
-    new_list = (struct file_list *)lib_malloc(sizeof(struct file_list));
+    new_list = lib_malloc(sizeof(struct file_list));
     new_list->num_items = new_list->num_used_items = 0;
     new_list->items = NULL;
 
@@ -106,7 +106,7 @@ static void file_list_add_item(struct file_list *fl, const char *name,
                                                         fl->num_items
                                                         * sizeof(*fl->items));
         else
-            fl->items = (struct file_item *)lib_malloc(fl->num_items
+            fl->items = lib_malloc(fl->num_items
                                                        * sizeof(*fl->items));
     }
 

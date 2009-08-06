@@ -110,7 +110,7 @@ static image_contents_t *ui_image_contents_read_dir(const char *dir_name)
     
     image_contents_file_list_t *new_list;
 
-    new_list = (image_contents_file_list_t*)lib_malloc(sizeof(image_contents_file_list_t));
+    new_list = lib_malloc(sizeof(image_contents_file_list_t));
     strncpy(new_list->name, de->d_name, maxlen);
     (new_list->name)[maxlen] = '\0';
     strcpy(new_list->type, "PRG");

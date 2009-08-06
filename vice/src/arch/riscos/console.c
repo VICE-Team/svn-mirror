@@ -145,7 +145,7 @@ char *console_in(console_t *log, const char *prompt)
     {
       int len;
 
-      p = (char*)lib_malloc(1024);
+      p = lib_malloc(1024);
 
       fflush(mon_output);
       fgets(p, 1024, mon_input);
@@ -167,7 +167,7 @@ char *console_in(console_t *log, const char *prompt)
         cmd = ui_message_window_get_last_command(msg_win_monitor);
       }
       while (cmd == NULL);
-      p = (char*)lib_malloc(wimp_strlen(cmd) + 1);
+      p = lib_malloc(wimp_strlen(cmd) + 1);
       wimp_strcpy(p, cmd);
       ui_message_window_busy(msg_win_monitor, 1);
     }
