@@ -62,7 +62,7 @@ typedef struct flash040_context_s {
 } flash040_context_t;
 
 extern void flash040core_init(struct flash040_context_s *flash040_context,
-                              flash040_type_t type);
+                              flash040_type_t type, BYTE *data);
 extern void flash040core_shutdown(struct flash040_context_s *flash040_context);
 extern void flash040core_reset(struct flash040_context_s *flash040_context);
 

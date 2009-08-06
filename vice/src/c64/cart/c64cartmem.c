@@ -80,7 +80,7 @@
 export_t export;
 
 /* Expansion port ROML/ROMH images.  */
-BYTE roml_banks[0x80000], romh_banks[0x20000];
+BYTE roml_banks[0x80000], romh_banks[0x80000];
 
 /* Expansion port RAM images.  */
 BYTE export_ram0[C64CART_RAM_LIMIT];

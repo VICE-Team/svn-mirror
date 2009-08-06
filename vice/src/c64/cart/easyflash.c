@@ -188,6 +188,9 @@ void REGPARM2 easyflash_io1_store(WORD addr, BYTE value)
             /* TODO: change led */
             /* (value & 0x80) -> led on if true, led off if false */
     }
+    cartridge_romhbank_set(easyflash_register_00);
+    cartridge_romlbank_set(easyflash_register_00);
+    mem_pla_config_changed();
 }
 
 BYTE REGPARM1 easyflash_io2_read(WORD addr)
@@ -208,8 +211,8 @@ BYTE REGPARM1 easyflash_roml_read(WORD addr)
 
 void REGPARM2 easyflash_roml_store(WORD addr, BYTE value)
 {
+    mem_store_without_romlh(addr, value);
     flash040core_store(easyflash_state_low, (easyflash_register_00 * 0x2000) + (addr & 0x1fff), value);
-    ram_store(addr, value);
 }
 
 BYTE REGPARM1 easyflash_romh_read(WORD addr)
@@ -219,6 +222,7 @@ BYTE REGPARM1 easyflash_romh_read(WORD addr)
 
 void REGPARM2 easyflash_romh_store(WORD addr, BYTE value)
 {
+    mem_store_without_romlh(addr, value);
     flash040core_store(easyflash_state_high, (easyflash_register_00 * 0x2000) + (addr & 0x1fff), value);
 }
 
@@ -233,10 +237,10 @@ void easyflash_config_setup(BYTE *rawcart)
     easyflash_state_low = lib_malloc(sizeof(flash040_context_t));
     easyflash_state_high = lib_malloc(sizeof(flash040_context_t));
 
-    flash040core_init(easyflash_state_low, FLASH040_TYPE_B);
+    flash040core_init(easyflash_state_low, FLASH040_TYPE_B, roml_banks);
     memcpy(easyflash_state_low->flash_data, rawcart, 0x80000);
 
-    flash040core_init(easyflash_state_high, FLASH040_TYPE_B);
+    flash040core_init(easyflash_state_high, FLASH040_TYPE_B, romh_banks);
     memcpy(easyflash_state_high->flash_data, rawcart + 0x80000, 0x80000);
 }
 

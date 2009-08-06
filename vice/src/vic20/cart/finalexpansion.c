@@ -457,11 +457,19 @@ static int zfile_load(const char *filename, BYTE *dest, size_t size)
 
 int finalexpansion_bin_attach(const char *filename)
 {
+    BYTE *cart_flash;
+
     if (!cart_ram) {
         cart_ram = lib_malloc(CART_RAM_SIZE);
     }
+
+    cart_flash = lib_malloc(CART_ROM_SIZE);
+    if (cart_flash == NULL) {
+        return -1;
+    }
+
     /* should probably guard this */
-    flash040core_init(&flash_state, FLASH040_TYPE_B);
+    flash040core_init(&flash_state, FLASH040_TYPE_B, cart_flash);
 
     if ( zfile_load(filename, flash_state.flash_data, (size_t)CART_ROM_SIZE) < 0 ) {
         finalexpansion_detach();
@@ -479,6 +487,7 @@ void finalexpansion_detach(void)
 {
     mem_cart_blocks = 0;
     mem_initialize_memory();
+    lib_free(flash_state.flash_data);
     flash040core_shutdown(&flash_state);
     lib_free(cart_ram);
     cart_ram = NULL;
