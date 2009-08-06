@@ -163,7 +163,7 @@
     unsigned int dataSize = size.width * size.height * 4;
 
     if(textureData==NULL)
-        textureData = (BYTE *)lib_malloc(dataSize*sizeof(BYTE));
+        textureData = lib_malloc(dataSize*sizeof(BYTE));
     else
         textureData = (BYTE *)lib_realloc(textureData,dataSize*sizeof(BYTE));
     

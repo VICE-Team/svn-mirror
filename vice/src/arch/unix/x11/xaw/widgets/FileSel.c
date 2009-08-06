@@ -1627,8 +1627,7 @@ XfwfFileSelectorWidget fsw;
 		if (*dir == '/') ++ FSPathListCount(fsw);
 	}
 
-	FSFileList(fsw) = (char **)lib_malloc(sizeof(char *) *
-					   (FSFileListCount(fsw) + 1));
+	FSFileList(fsw) = lib_malloc(sizeof(char *) * (FSFileListCount(fsw) + 1));
 
 /*printf("FLC MALLOC CNT %i\n",FSFileListCount(fsw));*/
 	for (i = 0; i < FSFileListCount(fsw); i++)
@@ -1650,8 +1649,7 @@ XfwfFileSelectorWidget fsw;
 	}
 	FSFileList(fsw)[i] = NULL;
 
-	FSPathList(fsw) = (char **)lib_malloc(sizeof(char *) *
-					   (FSPathListCount(fsw) + 1));
+	FSPathList(fsw) = lib_malloc(sizeof(char *) * (FSPathListCount(fsw) + 1));
 /*printf("PLC MALLOC CNT %i\n",FSPathListCount(fsw));*/
 	start = FSCurrentDirectory(fsw);
 	FSPathList(fsw)[0] = lib_stralloc("/");

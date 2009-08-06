@@ -1071,8 +1071,8 @@ void ciacore_init(cia_context_t *cia_context, alarm_context_t *alarm_context,
 {
     char *buffer;
 
-    cia_context->ta = (ciat_t *)lib_malloc(sizeof(ciat_t));
-    cia_context->tb = (ciat_t *)lib_malloc(sizeof(ciat_t));
+    cia_context->ta = lib_malloc(sizeof(ciat_t));
+    cia_context->tb = lib_malloc(sizeof(ciat_t));
 
     ciat_init_table();
 

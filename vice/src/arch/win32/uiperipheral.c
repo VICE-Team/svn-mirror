@@ -678,7 +678,7 @@ static void uiperipheral_dialog(HWND hwnd)
     int i, no_of_drives, no_of_printers;
 
     for (i = 0; i < 3; i++ ) {
-        printertextdevice[i] = (char *)lib_malloc(MAX_PATH);
+        printertextdevice[i] = lib_malloc(MAX_PATH);
         strcpy(printertextdevice[i], "");
     }
 

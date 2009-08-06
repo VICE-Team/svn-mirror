@@ -109,7 +109,7 @@ static int set_isepic_enabled(int val, void *param)
 
     if (!isepic_enabled && val)
     {
-        isepic_ram = (BYTE *)lib_malloc(2048);
+        isepic_ram = lib_malloc(2048);
         isepic_enabled = 1;
         if (isepic_switch)
         {

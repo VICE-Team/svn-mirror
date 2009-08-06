@@ -135,7 +135,7 @@ int sfx_soundexpander_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf
 
     if (sid_sound_machine_cycle_based() == 0 && sfx_soundexpander_enabled)
     {
-        buffer = (SWORD *)lib_malloc(nr * 2);
+        buffer = lib_malloc(nr * 2);
         if (sfx_soundexpander_chip == 3812) {
             ym3812_update_one(YM3812_chip, buffer, nr);
         } else {

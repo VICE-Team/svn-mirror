@@ -249,7 +249,7 @@ void dqbb_init_config(void)
 static int dqbb_activate(void)
 {
     lib_free(dqbb_ram);
-    dqbb_ram = (BYTE *)lib_malloc(0x4000);
+    dqbb_ram = lib_malloc(0x4000);
 
     if (!util_check_null_string(dqbb_filename))
     {

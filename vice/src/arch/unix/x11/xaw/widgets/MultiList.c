@@ -95,7 +95,7 @@
 
 #define XtStrlen(s)		((s) ? strlen(s) : 0)
 
-#define	TypeAlloc(t,n)		(t *)lib_malloc(sizeof(t) * n)
+#define	TypeAlloc(t,n)		lib_malloc(sizeof(t) * n)
 #define	StrCopy(s)		strcpy(TypeAlloc(char,strlen(s)+1),s)
 #define	StrCopyRetLength(s,lp)	strcpy(TypeAlloc(char,(*lp=(strlen(s)+1))),s)
 
@@ -1518,7 +1518,7 @@ Cardinal *num_params;
 				item_index));
 			byte_count = byte_count + strlen(string) + 1;
 		}
-		buffer = (char *)lib_malloc(byte_count);
+		buffer = lib_malloc(byte_count);
 		buffer[0] = '\0';
 		for (i = 0; i < MultiListNumSelected(mlw); i++)
 		{

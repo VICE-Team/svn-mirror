@@ -197,7 +197,7 @@ static int gifdrv_open(screenshot_t *screenshot, const char *filename)
     return -1;
   }
 
-  sdata = (gfxoutputdrv_data_t *)lib_malloc(sizeof(gfxoutputdrv_data_t));
+  sdata = lib_malloc(sizeof(gfxoutputdrv_data_t));
 
   screenshot->gfxoutputdrv_data = sdata;
 
@@ -214,7 +214,7 @@ static int gifdrv_open(screenshot_t *screenshot, const char *filename)
     return -1;
   }
 
-  sdata->data = (BYTE *)lib_malloc(screenshot->width);
+  sdata->data = lib_malloc(screenshot->width);
 
   gif_colors=MakeMapObject(screenshot->palette->num_entries, ColorMap256);
 

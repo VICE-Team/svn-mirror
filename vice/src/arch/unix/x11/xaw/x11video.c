@@ -619,7 +619,7 @@ tryagain:
     {                           /* !i->using_mitshm */
         char *data;
 
-        data = (char *)lib_malloc(width * height * sizeofpixel);
+        data = lib_malloc(width * height * sizeofpixel);
 
         if (data == NULL)
             return -1;

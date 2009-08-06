@@ -116,7 +116,7 @@ fileio_info_t *cbmfile_open(const char *file_name, const char *path,
     if (command & FILEIO_COMMAND_FSNAME)
         charset_petconvstring(cbm_name, 0);
 
-    info = (fileio_info_t *)lib_malloc(sizeof(fileio_info_t));
+    info = lib_malloc(sizeof(fileio_info_t));
     info->name = cbm_name;
     info->length = (unsigned int)strlen((char *)cbm_name);
     info->type = type;

@@ -52,7 +52,7 @@ extern Pixel drive_led_off_pixel;
 
 static int uicolor_alloc_system_colors(void)
 {
-    palette_t *p = (palette_t *)lib_malloc(sizeof(palette_t));
+    palette_t *p = lib_malloc(sizeof(palette_t));
     unsigned long color_return[NUM_ENTRIES];
 
     p->num_entries = NUM_ENTRIES;

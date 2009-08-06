@@ -400,7 +400,7 @@ fileio_info_t *p00_open(const char *file_name, const char *path,
         break;
     }
 
-    info = (fileio_info_t *)lib_malloc(sizeof(fileio_info_t));
+    info = lib_malloc(sizeof(fileio_info_t));
     info->name = (BYTE *)lib_stralloc(rname);
     info->length = (unsigned int)strlen((char *)(info->name));
     info->type = (unsigned int)type;

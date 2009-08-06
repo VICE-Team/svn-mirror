@@ -159,8 +159,8 @@ int fsimage_create(const char *name, unsigned int type)
         return -1;
     }
 
-    image = (disk_image_t *)lib_malloc(sizeof(disk_image_t));
-    fsimage = (fsimage_t *)lib_malloc(sizeof(fsimage_t));
+    image = lib_malloc(sizeof(disk_image_t));
+    fsimage = lib_malloc(sizeof(fsimage_t));
 
     image->media.fsimage = fsimage;
     image->device = DISK_IMAGE_DEVICE_FS;

@@ -1888,7 +1888,7 @@ char *ui_select_file(const char *title,
                 size_t max_buf_size;
 
                 max_buf_size = 4096;
-                buf = (BYTE *)lib_malloc(max_buf_size);
+                buf = lib_malloc(max_buf_size);
                 buf_size = 0;
 
                 tmp = image_contents_to_string(contents, 1);

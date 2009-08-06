@@ -220,7 +220,7 @@ static void build_screenshot_dialog(struct video_canvas_s *canvas)
          NULL);
 
     num_buttons = gfxoutput_num_drivers();
-    driver_buttons = (Widget *)lib_malloc(sizeof(Widget) * num_buttons);
+    driver_buttons = lib_malloc(sizeof(Widget) * num_buttons);
     driver = gfxoutput_drivers_iter_init();
 
     driver_buttons[0] = XtVaCreateManagedWidget

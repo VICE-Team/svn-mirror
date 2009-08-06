@@ -1938,7 +1938,7 @@ convert_utf8(unsigned char *s)
 {
     unsigned char *d, *r;
     
-    r = d = (unsigned char *)lib_malloc((size_t) (strlen((char *)s) * 2 + 1));
+    r = d = lib_malloc((size_t) (strlen((char *)s) * 2 + 1));
     while (*s)
     {
 	if (*s < 0x80)

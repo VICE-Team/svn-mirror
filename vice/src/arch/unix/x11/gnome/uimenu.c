@@ -160,7 +160,7 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
 		    checkmark_t *cmt;
 		    new_item = gtk_check_menu_item_new_with_label(label + 1);
 		    
-		    cmt = (checkmark_t *)lib_malloc(sizeof(checkmark_t));
+		    cmt = lib_malloc(sizeof(checkmark_t));
 		    cmt->name = lib_stralloc(list[i].string+1);
 		    cmt->w = new_item;
 		    cmt->cb = list[i].callback;
@@ -197,7 +197,7 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
 
 		new_item = gtk_menu_item_new_with_label(item);
 		if (list[i].callback) {
-		    obj = (ui_menu_cb_obj*)lib_malloc(sizeof(ui_menu_cb_obj));
+		    obj = lib_malloc(sizeof(ui_menu_cb_obj));
 		    obj->value = (void*) list[i].callback_data;
 		    
 		    g_signal_connect(G_OBJECT(new_item),"activate",

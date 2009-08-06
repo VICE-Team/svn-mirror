@@ -127,7 +127,7 @@ int free_data;
 {
 	DirectoryMgr *dm;
 
-	dm = (DirectoryMgr *)lib_malloc(sizeof(DirectoryMgr));
+	dm = lib_malloc(sizeof(DirectoryMgr));
 	memset(dm, 0, sizeof(DirectoryMgr));
 
 	if (DirectoryOpen(path,DirectoryMgrDir(dm)) == FALSE)
@@ -196,7 +196,7 @@ DirectoryMgr *dm;
 	f_data = &DirectoryMgrFilterData(dm);
 	while (1)
 	{
-		cons = (DirEntryCons *)lib_malloc(sizeof(DirEntryCons));
+		cons = lib_malloc(sizeof(DirEntryCons));
                 memset(cons, 0, sizeof(DirEntryCons));
 
 		err = DirectoryReadNextEntry(DirectoryMgrDir(dm),
@@ -229,8 +229,8 @@ DirectoryMgr *dm;
 
 	data_size = sizeof(DirEntry) * DirectoryMgrFilteredCount(dm);
 	ptrs_size = sizeof(DirEntry *) * DirectoryMgrFilteredCount(dm);
-	dm_data = (DirEntry *)lib_malloc(data_size);
-	dm_ptrs = (DirEntry **)lib_malloc(ptrs_size);
+	dm_data = lib_malloc(data_size);
+	dm_ptrs = lib_malloc(ptrs_size);
 
 	DirectoryMgrData(dm) = dm_data;
 	DirectoryMgrSortedPtrs(dm) = dm_ptrs;
