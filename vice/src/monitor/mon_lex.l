@@ -60,7 +60,9 @@ YY_BUFFER_STATE my_state;
 
 %}
 
-HDIGIT  [0-9a-fA-F]
+%option case-insensitive
+
+HDIGIT  [0-9a-f]
 
 %x FNAME CMD STR ROL ASM_MODE COND_MODE REG_ASGN LABEL_ASGN BNAME CTYPE
 
@@ -230,27 +232,27 @@ O|o		{ yylval.i = e_octal; return RADIX_TYPE; }
 <ROL>[^ \t\n][^\n]*          { yylval.str = lib_stralloc(yytext); return R_O_L; }
 
 <REG_ASGN>{
-	A|a 		{ yylval.i = e_A; return MON_REGISTER; }
-	X|x 		{ yylval.i = e_X; return MON_REGISTER; }
-	Y|y 		{ yylval.i = e_Y; return MON_REGISTER; }
-	[Pp][Cc]	{ yylval.i = e_PC; return MON_REGISTER; }
-	[Ss][Pp]	{ yylval.i = e_SP; return MON_REGISTER; }
-	[Ff][Ll]	{ yylval.i = e_FLAGS; return MON_REGISTER; }
-        [Rr]3           { yylval.i = e_R3; return MON_REGISTER; }
-        [Rr]4           { yylval.i = e_R4; return MON_REGISTER; }
-        [Rr]5           { yylval.i = e_R5; return MON_REGISTER; }
-        [Rr]6           { yylval.i = e_R6; return MON_REGISTER; }
-        [Rr]7           { yylval.i = e_R7; return MON_REGISTER; }
-        [Rr]8           { yylval.i = e_R8; return MON_REGISTER; }
-        [Rr]9           { yylval.i = e_R9; return MON_REGISTER; }
-        [Rr]10          { yylval.i = e_R10; return MON_REGISTER; }
-        [Rr]11          { yylval.i = e_R11; return MON_REGISTER; }
-        [Rr]12          { yylval.i = e_R12; return MON_REGISTER; }
-        [Rr]13          { yylval.i = e_R13; return MON_REGISTER; }
-        [Rr]14          { yylval.i = e_R14; return MON_REGISTER; }
-        [Rr]15          { yylval.i = e_R15; return MON_REGISTER; }
-        [Aa][Cc][Mm]    { yylval.i = e_ACM; return MON_REGISTER; }
-        [Yy][Xx][Mm]    { yylval.i = e_YXM; return MON_REGISTER; }
+        a   { yylval.i = e_A; return MON_REGISTER; }
+        x   { yylval.i = e_X; return MON_REGISTER; }
+        y   { yylval.i = e_Y; return MON_REGISTER; }
+        pc  { yylval.i = e_PC; return MON_REGISTER; }
+        sp  { yylval.i = e_SP; return MON_REGISTER; }
+        fl  { yylval.i = e_FLAGS; return MON_REGISTER; }
+        r3  { yylval.i = e_R3; return MON_REGISTER; }
+        r4  { yylval.i = e_R4; return MON_REGISTER; }
+        r5  { yylval.i = e_R5; return MON_REGISTER; }
+        r6  { yylval.i = e_R6; return MON_REGISTER; }
+        r7  { yylval.i = e_R7; return MON_REGISTER; }
+        r8  { yylval.i = e_R8; return MON_REGISTER; }
+        r9  { yylval.i = e_R9; return MON_REGISTER; }
+        r10 { yylval.i = e_R10; return MON_REGISTER; }
+        r11 { yylval.i = e_R11; return MON_REGISTER; }
+        r12 { yylval.i = e_R12; return MON_REGISTER; }
+        r13 { yylval.i = e_R13; return MON_REGISTER; }
+        r14 { yylval.i = e_R14; return MON_REGISTER; }
+        r15 { yylval.i = e_R15; return MON_REGISTER; }
+        acm { yylval.i = e_ACM; return MON_REGISTER; }
+        yxm { yylval.i = e_YXM; return MON_REGISTER; }
 }
 
 <COND_MODE>{
@@ -335,16 +337,16 @@ O|o		{ yylval.i = e_octal; return RADIX_TYPE; }
 <ASM_MODE>:             { dont_match_reg_a = 0; return INST_SEP; }
 
 <ASM_MODE,INITIAL,COND_MODE,REG_ASGN,LABEL_ASGN>{
-	{HDIGIT}{8}             { yylval.str = lib_stralloc(yytext); return H_RANGE_GUESS; }
-	1[01]*                  { yylval.str = lib_stralloc(yytext); return B_NUMBER_GUESS; }
-	%[01]+                  { yylval.i = strtol(yytext+1, NULL, 2); return B_NUMBER; }
-	&[0-7]+                 { yylval.i = strtol(yytext+1, NULL, 8); return O_NUMBER; }
-	[0-7]*                  { yylval.str = lib_stralloc(yytext); return O_NUMBER_GUESS; }
-	\+[0-9]+                { yylval.i = strtol(yytext+1, NULL, 10); return D_NUMBER; }
-	[0-9]+                  { yylval.str = lib_stralloc(yytext); return D_NUMBER_GUESS; }
-        xx|XX                   { yylval.i = 0x00; return MASK; }
-	\${HDIGIT}+             { yylval.i = strtol(yytext+1, NULL, 16); return H_NUMBER; }
-	{HDIGIT}+               { yylval.i = strtol(yytext, NULL, 16); return H_NUMBER; }
+    {HDIGIT}{8}             { yylval.str = lib_stralloc(yytext); return H_RANGE_GUESS; }
+    1[01]*                  { yylval.str = lib_stralloc(yytext); return B_NUMBER_GUESS; }
+    %[01]+                  { yylval.i = strtol(yytext+1, NULL, 2); return B_NUMBER; }
+    &[0-7]+                 { yylval.i = strtol(yytext+1, NULL, 8); return O_NUMBER; }
+    [0-7]*                  { yylval.str = lib_stralloc(yytext); return O_NUMBER_GUESS; }
+    \+[0-9]+                { yylval.i = strtol(yytext+1, NULL, 10); return D_NUMBER; }
+    [0-9]+                  { yylval.str = lib_stralloc(yytext); return D_NUMBER_GUESS; }
+    xx                      { yylval.i = 0x00; return MASK; }
+    \${HDIGIT}+             { yylval.i = strtol(yytext+1, NULL, 16); return H_NUMBER; }
+    {HDIGIT}+               { yylval.i = strtol(yytext, NULL, 16); return H_NUMBER; }
 }
 
 <*>=	{ return EQUALS; }
