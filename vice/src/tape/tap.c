@@ -174,12 +174,9 @@ int tap_close(tap_t *tap)
         retval = 0;
     }
 
-    if (tap->current_file_data != NULL)
-        lib_free(tap->current_file_data);
-    if (tap->file_name != NULL)
-        lib_free(tap->file_name);
-    if (tap->tap_file_record)
-        lib_free(tap->tap_file_record);
+    lib_free(tap->current_file_data);
+    lib_free(tap->file_name);
+    lib_free(tap->tap_file_record);
     lib_free(tap);
 
     return retval;
@@ -1254,11 +1251,8 @@ static int tap_read_file(tap_t *tap)
 
   /* clear old file data */
   tap->current_file_size = 0;
-  if( tap->current_file_data != NULL )
-    {
-      lib_free(tap->current_file_data);
-      tap->current_file_data = NULL;
-    }
+  lib_free(tap->current_file_data);
+  tap->current_file_data = NULL;
 
   ret = tap_determine_pilot_type(tap);
   if( ret<0 ) 
@@ -1275,11 +1269,8 @@ static int tap_read_file(tap_t *tap)
       /* we failed to read the file.  Set size=1 and data=NULL to 
          permanently indicate error condition */
       tap->current_file_size = 1;
-      if( tap->current_file_data != NULL )
-        {
-          lib_free(tap->current_file_data);
-          tap->current_file_data = NULL;
-        }
+      lib_free(tap->current_file_data);
+      tap->current_file_data = NULL;
     }
 
   /* go back to previous position in TAP file */
@@ -1304,11 +1295,8 @@ static int tap_skip_file(tap_t *tap)
 
   /* clear old file data */
   tap->current_file_size = 0;
-  if( tap->current_file_data != NULL )
-    {
-      lib_free(tap->current_file_data);
-      tap->current_file_data = NULL;
-    }
+  lib_free(tap->current_file_data);
+  tap->current_file_data = NULL;
 
   ret = tap_determine_pilot_type(tap);
   if( ret<0 ) 
@@ -1338,11 +1326,8 @@ int tap_seek_start(tap_t *tap)
 {
   /* clear old file data */
   tap->current_file_size = 0;
-  if( tap->current_file_data != NULL )
-    {
-      lib_free(tap->current_file_data);
-      tap->current_file_data = NULL;
-    }
+  lib_free(tap->current_file_data);
+  tap->current_file_data = NULL;
   
   tap->current_file_number = -1;
   tap->current_file_seek_position = 0;
@@ -1369,11 +1354,8 @@ int tap_seek_to_next_file(tap_t *tap, unsigned int allow_rewind)
 
   /* clear old file content buffer */
   tap->current_file_size = 0;
-  if( tap->current_file_data != NULL )
-    {
-      lib_free(tap->current_file_data);
-      tap->current_file_data = NULL;
-    }
+  lib_free(tap->current_file_data);
+  tap->current_file_data = NULL;
 
   /* skip over current and find NEXT pilot 
      (only if not at beginning of tape) */

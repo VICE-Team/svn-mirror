@@ -2101,8 +2101,7 @@ static int monitor_process(char *cmd)
             }
         }
     }
-    if (last_cmd)
-        lib_free(last_cmd);
+    lib_free(last_cmd);
 
     last_cmd = cmd;
 

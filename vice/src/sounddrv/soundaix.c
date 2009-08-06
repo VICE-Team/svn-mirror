@@ -78,8 +78,9 @@ static int aix_init(const char *param, int *speed,
 
     rc = UMSAudioDevice_set_time_format(audio_device, ev, UMSAudioTypes_Msecs);
 
-    if (obyte_order)
-        lib_free(obyte_order);
+    lib_free(obyte_order);
+    obyte_order = NULL;
+
     rc = UMSAudioDevice_set_byte_order(audio_device, ev, "LSB");
 
     /* set 16bit */

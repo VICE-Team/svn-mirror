@@ -206,11 +206,8 @@ static void output_graphics_close(unsigned int prnr)
     }
 
   /* free filename */
-  if( o->filename != NULL )
-    {
-      lib_free(o->filename);
-      o->filename = NULL;
-    }
+  lib_free(o->filename);
+  o->filename = NULL;
 }
 
 static int output_graphics_putc(unsigned int prnr, BYTE b)

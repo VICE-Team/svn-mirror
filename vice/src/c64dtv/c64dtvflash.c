@@ -415,8 +415,7 @@ static int set_c64dtvflash_filename(const char *name, void *param)
     util_string_set(&c64dtvflash_filename, name);
 
 #ifndef AMIGA_SUPPORT
-    if(complete_path!=NULL)
-      lib_free(complete_path);
+    lib_free(complete_path);
 #endif
 
     if (c64dtvflash_filename != NULL && *c64dtvflash_filename != '\0')

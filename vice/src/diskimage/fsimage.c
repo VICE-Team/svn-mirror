@@ -82,10 +82,8 @@ void fsimage_error_info_create(fsimage_t *fsimage)
 
 void fsimage_error_info_destroy(fsimage_t *fsimage)
 {
-    if (fsimage->error_info != NULL) {
-        lib_free(fsimage->error_info);
-        fsimage->error_info = NULL;
-    }
+    lib_free(fsimage->error_info);
+    fsimage->error_info = NULL;
 }
 
 /*-----------------------------------------------------------------------*/

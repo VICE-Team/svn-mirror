@@ -252,10 +252,10 @@ static void vidc_close(void)
   {
     log_error(vidc_log, err->errmess);
   }
-  if (VIDCSampleBuffer != NULL)
-  {
-    lib_free(VIDCSampleBuffer); VIDCSampleBuffer = NULL;
-  }
+
+  lib_free(VIDCSampleBuffer);
+  VIDCSampleBuffer = NULL;
+
   /* Use this to mark device inactive */
   SoundThreadActive = 0;
 

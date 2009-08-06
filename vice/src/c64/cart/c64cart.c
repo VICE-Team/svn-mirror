@@ -419,8 +419,8 @@ void cartridge_detach_image(void)
         c64cart_type = CARTRIDGE_NONE;
         crttype = CARTRIDGE_NONE;
         cartridge_type = CARTRIDGE_NONE;        /* Resource value updated! */
-        if (cartfile != NULL)
-            lib_free(cartfile), cartfile = NULL;
+        lib_free(cartfile);
+        cartfile = NULL;
     }
 }
 

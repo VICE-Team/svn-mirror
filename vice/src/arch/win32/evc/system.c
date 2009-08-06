@@ -71,8 +71,7 @@ wchar_t *system_mbstowcs_alloc(const char *mbs)
 
 void system_mbstowcs_free(wchar_t *wcs)
 {
-    if (wcs != NULL)
-        lib_free(wcs);
+    lib_free(wcs);
 }
 
 char *system_wcstombs_alloc(const wchar_t *wcs)
@@ -90,7 +89,5 @@ char *system_wcstombs_alloc(const wchar_t *wcs)
 
 void system_wcstombs_free(char *mbs)
 {
-    if (mbs != NULL)
-        lib_free(mbs);
+    lib_free(mbs);
 }
-

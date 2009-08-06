@@ -274,10 +274,8 @@ static void ffmpegdrv_close_audio(void)
     lib_free(ffmpegdrv_audio_in.buffer);
     ffmpegdrv_audio_in.buffer = NULL;
     ffmpegdrv_audio_in.size = 0;
-    if (audio_outbuf) {
-        lib_free(audio_outbuf);
-        audio_outbuf = NULL;
-    }
+    lib_free(audio_outbuf);
+    audio_outbuf = NULL;
 }
 
 
@@ -475,18 +473,14 @@ static void ffmpegdrv_close_video(void)
         (*ffmpeglib.p_avcodec_close)(video_st->codec);
 
     video_is_open = 0;
-    if (video_outbuf != NULL)
-        lib_free(video_outbuf);
-    if (picture) {
-        lib_free(picture->data[0]);
-        lib_free(picture);
-        picture = NULL;
-    }
-    if (tmp_picture) {
-        lib_free(tmp_picture->data[0]);
-        lib_free(tmp_picture);
-        tmp_picture = NULL;
-    }
+    lib_free(video_outbuf);
+    video_outbug = NULL;
+    lib_free(picture->data[0]);
+    lib_free(picture);
+    picture = NULL;
+    lib_free(tmp_picture->data[0]);
+    lib_free(tmp_picture);
+    tmp_picture = NULL;
 
 #ifdef HAVE_FFMPEG_SWSCALE
     if(sws_ctx != NULL) {

@@ -607,8 +607,7 @@ void tfe_shutdown(void)
     if (tfe)
         tfe_deactivate();
 
-    if (tfe_interface != NULL)
-        lib_free(tfe_interface);
+    lib_free(tfe_interface);
 }
 
 

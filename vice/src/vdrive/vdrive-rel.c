@@ -1422,30 +1422,24 @@ int vdrive_rel_close(vdrive_t *vdrive, unsigned int secondary)
     lib_free((char *)p->buffer_next);
     p->buffer_next = NULL;
 
-    if (p->side_sector) {
-        /* remove side sectors */
-        lib_free(p->side_sector);
-    }
+    /* remove side sectors */
+    lib_free(p->side_sector);
     p->side_sector = NULL;
-    if (p->side_sector_track) {
-        /* remove side sector tracks */
-        lib_free(p->side_sector_track);
-    }
+
+    /* remove side sector tracks */
+    lib_free(p->side_sector_track);
     p->side_sector_track = NULL;
-    if (p->side_sector_sector) {
-        /* remove side sector sectors */
-        lib_free(p->side_sector_sector);
-    }
+
+    /* remove side sector sectors */
+    lib_free(p->side_sector_sector);
     p->side_sector_sector = NULL;
-    if (p->super_side_sector) {
-        /* remove super side sector too */
-        lib_free(p->super_side_sector);
-    }
+
+    /* remove super side sector too */
+    lib_free(p->super_side_sector);
     p->super_side_sector = NULL;
-    if (p->side_sector_needsupdate) {
-        /* remove dirty flags */
-        lib_free(p->side_sector_needsupdate);
-    }
+
+    /* remove dirty flags */
+    lib_free(p->side_sector_needsupdate);
     p->side_sector_needsupdate = NULL;
 
     /* Free the slot */

@@ -165,10 +165,8 @@ void t64_destroy(t64_t *t64)
 {
     if (t64->fd != NULL)
         zfile_fclose(t64->fd);
-    if (t64->file_name != NULL)
-        lib_free(t64->file_name);
-    if (t64->file_records != NULL)
-        lib_free(t64->file_records);
+    lib_free(t64->file_name);
+    lib_free(t64->file_records);
     lib_free(t64);
 }
 

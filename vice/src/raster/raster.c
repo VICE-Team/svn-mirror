@@ -84,8 +84,8 @@ static void raster_draw_buffer_free(video_canvas_t *canvas)
 	return;
     }
 
-    if (canvas->draw_buffer->draw_buffer != NULL)
-        lib_free(canvas->draw_buffer->draw_buffer);
+    lib_free(canvas->draw_buffer->draw_buffer);
+    canvas->draw_buffer->draw_buffer = NULL;
 }
 
 static void raster_draw_buffer_clear(video_canvas_t *canvas, BYTE value,

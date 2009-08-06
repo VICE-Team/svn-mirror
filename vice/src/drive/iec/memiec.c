@@ -133,8 +133,7 @@ static void REGPARM3 drive_store_rama(drive_context_t *drv, WORD address,
 
 static void realloc_expram(BYTE **expram, int size)
 {
-    if (*expram != NULL)
-        lib_free(*expram);
+    lib_free(*expram);
     *expram = lib_calloc(1, size);
 }
 

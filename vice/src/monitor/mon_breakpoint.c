@@ -255,8 +255,8 @@ void mon_breakpoint_delete_checkpoint(int brknum)
     }
     if (bp != NULL) {
         mon_delete_conditional(bp->condition);
-        if (bp->command)
-            lib_free(bp->command);
+        lib_free(bp->command);
+        bp->command = NULL;
     }
 }
 
