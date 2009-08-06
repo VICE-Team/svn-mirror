@@ -6707,7 +6707,7 @@ msgstr "RAM Bänke"
 
 #: src/arch/win32/resc128.rc.po.c:2954
 msgid "Enable RAM banks 2 and 3"
-msgstr "RAM Bänke 2 und 3  aktivieren"
+msgstr "RAM Bänke 2 und 3 aktivieren"
 
 #: src/arch/win32/resc128.rc.po.c:3077 src/arch/win32/resplus4.rc.po.c:1666
 #: src/arch/win32/resvic20.rc.po.c:1635
@@ -9017,7 +9017,7 @@ msgstr "Joystick 2 Gerät"
 
 #: src/arch/amigaos/intl.c.po.c:4402
 msgid "Userport Joy 1 Device"
-msgstr "Userport Jouystick 1 Gerät"
+msgstr "Userport Joystick 1 Gerät"
 
 #: src/arch/amigaos/intl.c.po.c:4413
 msgid "Userport Joy 2 Device"
@@ -9212,7 +9212,7 @@ msgstr "SID Modul"
 
 #: src/arch/amigaos/intl.c.po.c:5478
 msgid "SID Cart joystick"
-msgstr "SIDcart Joystick Einstellungen"
+msgstr "SIDcart Joystick"
 
 #: src/arch/amigaos/intl.c.po.c:5489
 msgid "Digiblaster add-on"

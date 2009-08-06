@@ -3064,10 +3064,10 @@ END
 
 IDD_C128_RAM_BANKS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 240, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "RAM banks"
+CAPTION "RAM Bänke"
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "Enable RAM banks 2 and 3",
+    AUTOCHECKBOX    "RAM Bänke 2 und 3 aktivieren",
                     IDC_C128_FULL_BANKS, 15,15,120,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
 END
@@ -3146,10 +3146,10 @@ END
 
 IDD_C128_RAM_BANKS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 240, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "RAM banks"
+CAPTION "RAM-bankar"
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "Enable RAM banks 2 and 3",
+    AUTOCHECKBOX    "Aktivera RAM-bank 2 och 3",
                     IDC_C128_FULL_BANKS, 15,15,120,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
 END
@@ -3433,7 +3433,7 @@ BEGIN
   IDS_SELECT_EXT_FUNCTION_ROM   "Externes Funktions ROM Image Datei selektieren"
   IDS_MACHINE_TYPE              "Maschinen Typ"
   IDS_FUNCTION_ROM              "Function ROM"
-  IDS_RAM_BANKS                 "RAM banks"
+  IDS_RAM_BANKS                 "RAM Bänke"
   IDS_C128_SETTINGS             "C128 Einstellungen"
   IDS_MP_VDC_SETTINGS           "VDC Einstellun&gen"
   IDS_MP_VDC_REVISION           "VDC Revision"
@@ -3551,10 +3551,10 @@ BEGIN
   IDS_SELECT_EXT_FUNCTION_ROM   "Välj avbildning för externt funktions-ROM"
   IDS_MACHINE_TYPE              "Maskintyp"
   IDS_FUNCTION_ROM              "Funktions-ROM"
-  IDS_RAM_BANKS                 "RAM banks"
+  IDS_RAM_BANKS                 "RAM-bankar"
   IDS_C128_SETTINGS             "C128-inställningar"
   IDS_MP_VDC_SETTINGS           "&VDC-inställningar"
-  IDS_MP_VDC_REVISION           "VDC revision"
+  IDS_MP_VDC_REVISION           "VDC-revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB grafik&minne"
   IDS_MI_IEEE488                "Emulering av IEEE&488-gränssnitt"
   IDS_MI_C128_SETTINGS          "C&128-inställningar..."

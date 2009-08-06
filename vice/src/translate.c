@@ -887,14 +887,14 @@ translate_t string_table[] = {
 /* en */ {IDGS_SFX_SE_NOT_WITH_RESID,    N_("SFX Sound Expander cannot be used with ReSID\nPlease switch SID Engine to FastSID")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SFX_SE_NOT_WITH_RESID_DA, ""},  /* fuzzy */
-/* de */ {IDGS_SFX_SE_NOT_WITH_RESID_DE, ""},  /* fuzzy */
+/* de */ {IDGS_SFX_SE_NOT_WITH_RESID_DE, "SFX Sound Expander kann mit ReSID nicht benutzt werden\nBitte SID Engine auf FastSID setzen"},
 /* fr */ {IDGS_SFX_SE_NOT_WITH_RESID_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_SFX_SE_NOT_WITH_RESID_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SFX_SE_NOT_WITH_RESID_IT, ""},  /* fuzzy */
 /* nl */ {IDGS_SFX_SE_NOT_WITH_RESID_NL, "SFX Sound Expander kan niet gebruikt worden met ReSID\nschakel de SID-kern over "
                                           "naar FastSID"},
 /* pl */ {IDGS_SFX_SE_NOT_WITH_RESID_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_SFX_SE_NOT_WITH_RESID_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_SFX_SE_NOT_WITH_RESID_SV, "SFX Sound Expander kan inte användas med ReSID\nByt SID-motor till FastSID"},
 /* tr */ {IDGS_SFX_SE_NOT_WITH_RESID_TR, ""},  /* fuzzy */
 #endif
 
@@ -902,14 +902,14 @@ translate_t string_table[] = {
 /* en */ {IDGS_SFX_SS_NOT_WITH_RESID,    N_("SFX Sound Sampler cannot be used with ReSID\nPlease switch SID Engine to FastSID")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SFX_SS_NOT_WITH_RESID_DA, ""},  /* fuzzy */
-/* de */ {IDGS_SFX_SS_NOT_WITH_RESID_DE, ""},  /* fuzzy */
+/* de */ {IDGS_SFX_SS_NOT_WITH_RESID_DE, "SFX Sound Sampler kann mit ReSID nicht benutzt werden\nBitte SID Engine auf FastSID setzen"},
 /* fr */ {IDGS_SFX_SS_NOT_WITH_RESID_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_SFX_SS_NOT_WITH_RESID_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SFX_SS_NOT_WITH_RESID_IT, ""},  /* fuzzy */
 /* nl */ {IDGS_SFX_SS_NOT_WITH_RESID_NL, "SFX Sound Sampler kan niet gebruikt worden met ReSID\nschakel de SID-kern over "
                                           "naar FastSID"},
 /* pl */ {IDGS_SFX_SS_NOT_WITH_RESID_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_SFX_SS_NOT_WITH_RESID_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_SFX_SS_NOT_WITH_RESID_SV, "SFX Sound Sampler kan inte användas med ReSID\nByt SID-motor till FastSID"},
 /* tr */ {IDGS_SFX_SS_NOT_WITH_RESID_TR, ""},  /* fuzzy */
 #endif
 
@@ -3665,13 +3665,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART,    N_("Enable warp mode during autostart")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_DE, "Warp Mode w\xE4hrend Autostart aktivieren"},
 /* fr */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_NL, "Activeer warp modus tijdens autostarten"},
 /* pl */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_SV, "Aktivera warpläge för autostart"},
 /* tr */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_TR, ""},  /* fuzzy */
 #endif
 
@@ -3679,13 +3679,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART,    N_("Disable warp mode during autostart")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_DE, "Warp Mode währen Autostart deaktivieren"},
 /* fr */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_NL, "Warp modus tijdens autostarten uitschakelen"},
 /* pl */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_SV, "Inaktivera warpläge för autostart"},
 /* tr */ {IDCLS_DISABLE_WARP_MODE_AUTOSTART_TR, ""},  /* fuzzy */
 #endif
 
@@ -4025,13 +4025,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_OEM_JOY,    N_("Enable the OEM userport joystick adapter")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_OEM_JOY_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_OEM_JOY_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_OEM_JOY_DE, "OEM Userport Joystick Adapter aktivieren"},
 /* fr */ {IDCLS_ENABLE_OEM_JOY_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_OEM_JOY_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_OEM_JOY_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_OEM_JOY_NL, "Activeer de OEM userport joystick adapter"},
 /* pl */ {IDCLS_ENABLE_OEM_JOY_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_OEM_JOY_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_OEM_JOY_SV, "Aktivera OEM-användarportspelportsadapter"},
 /* tr */ {IDCLS_ENABLE_OEM_JOY_TR, ""},  /* fuzzy */
 #endif
 
@@ -4039,13 +4039,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_OEM_JOY,    N_("Disable the OEM userport joystick adapter")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_OEM_JOY_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_OEM_JOY_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_OEM_JOY_DE, "OEM Userport Joystick Adapter deaktivieren"},
 /* fr */ {IDCLS_DISABLE_OEM_JOY_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_OEM_JOY_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_OEM_JOY_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_OEM_JOY_NL, "De OEM userport joystick adapter uitschakelen"},
 /* pl */ {IDCLS_DISABLE_OEM_JOY_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_OEM_JOY_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_OEM_JOY_SV, "Inaktivera OEM-användarportspelportsadapter"},
 /* tr */ {IDCLS_DISABLE_OEM_JOY_TR, ""},  /* fuzzy */
 #endif
 
@@ -8466,7 +8466,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_GENERIC_ROM_NAME,    N_("Specify generic extension ROM name")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_GENERIC_ROM_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_GENERIC_ROM_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_GENERIC_ROM_NAME_DE, "Generisches Erweiterungs ROM definieren"},
 /* fr */ {IDCLS_SPECIFY_GENERIC_ROM_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_GENERIC_ROM_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_GENERIC_ROM_NAME_IT, ""},  /* fuzzy */
@@ -8480,7 +8480,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME,    N_("Specify Mega-Cart extension ROM name")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME_DE, "Mega-Cart Erweiterungs ROM definieren"},
 /* fr */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME_IT, ""},  /* fuzzy */
@@ -9376,7 +9376,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_REMOTE_MONITOR_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_REMOTE_MONITOR_NL, "Activeer monitor afstandbediening"},
 /* pl */ {IDCLS_ENABLE_REMOTE_MONITOR_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_REMOTE_MONITOR_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_REMOTE_MONITOR_SV, "Aktivera fjärrmonitor"},
 /* tr */ {IDCLS_ENABLE_REMOTE_MONITOR_TR, ""},  /* fuzzy */
 #endif
 
@@ -9390,7 +9390,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_REMOTE_MONITOR_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_REMOTE_MONITOR_NL, "afstandbediening monitor uitschakelen"},
 /* pl */ {IDCLS_DISABLE_REMOTE_MONITOR_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_REMOTE_MONITOR_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_REMOTE_MONITOR_SV, "Inaktivera fjärrmonitor"},
 /* tr */ {IDCLS_DISABLE_REMOTE_MONITOR_TR, ""},  /* fuzzy */
 #endif
 
@@ -9404,7 +9404,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_REMOTE_MONITOR_ADDRESS_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_REMOTE_MONITOR_ADDRESS_NL, "Lokaal adres waar de afstanbediening voor de monitor aan gebonden moet worden"},
 /* pl */ {IDCLS_REMOTE_MONITOR_ADDRESS_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_REMOTE_MONITOR_ADDRESS_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_REMOTE_MONITOR_ADDRESS_SV, "Lokal adress för fjärrmonitor att ansluta till"},
 /* tr */ {IDCLS_REMOTE_MONITOR_ADDRESS_TR, ""},  /* fuzzy */
 #endif
 
@@ -10593,13 +10593,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_DIGIBLASTER,    N_("Enable the digiblaster add-on")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_DIGIBLASTER_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_DIGIBLASTER_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_DIGIBLASTER_DE, "Digiblaster add-on aktivieren"},
 /* fr */ {IDCLS_ENABLE_DIGIBLASTER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_DIGIBLASTER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_DIGIBLASTER_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_DIGIBLASTER_NL, "Activeer de digiblaster add-on"},
 /* pl */ {IDCLS_ENABLE_DIGIBLASTER_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_DIGIBLASTER_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DIGIBLASTER_SV, "Aktivera digiblaster-tillägg"},
 /* tr */ {IDCLS_ENABLE_DIGIBLASTER_TR, ""},  /* fuzzy */
 #endif
 
@@ -10607,13 +10607,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_DIGIBLASTER,    N_("Disable the digiblaster add-on")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_DIGIBLASTER_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_DIGIBLASTER_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_DIGIBLASTER_DE, "Digiblaster add-on deaktivieren"},
 /* fr */ {IDCLS_DISABLE_DIGIBLASTER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_DIGIBLASTER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_DIGIBLASTER_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_DIGIBLASTER_NL, "De digiblaster add-on uitschakelen"},
 /* pl */ {IDCLS_DISABLE_DIGIBLASTER_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_DIGIBLASTER_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DIGIBLASTER_SV, "Inaktivera digiblaster-tillägg"},
 /* tr */ {IDCLS_DISABLE_DIGIBLASTER_TR, ""},  /* fuzzy */
 #endif
 
@@ -10621,13 +10621,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_SIDCARTJOY,    N_("Enable SID cartridge joystick")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_SIDCARTJOY_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_SIDCARTJOY_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_SIDCARTJOY_DE, "SIDcart Modul aktivieren"},
 /* fr */ {IDCLS_ENABLE_SIDCARTJOY_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_SIDCARTJOY_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_SIDCARTJOY_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_SIDCARTJOY_NL, "Activeer SID cartridge joystick"},
 /* pl */ {IDCLS_ENABLE_SIDCARTJOY_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_SIDCARTJOY_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SIDCARTJOY_SV, "Aktivera SID-insticksmodul-styrspak"},
 /* tr */ {IDCLS_ENABLE_SIDCARTJOY_TR, ""},  /* fuzzy */
 #endif
 
@@ -10635,13 +10635,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_SIDCARTJOY,    N_("Disable SID cartridge joystick")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_SIDCARTJOY_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_SIDCARTJOY_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_SIDCARTJOY_DE, "SIDcart Modul deaktivieren"},
 /* fr */ {IDCLS_DISABLE_SIDCARTJOY_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_SIDCARTJOY_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_SIDCARTJOY_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_SIDCARTJOY_NL, "De SID cartridge joystick uitschakelen"},
 /* pl */ {IDCLS_DISABLE_SIDCARTJOY_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_SIDCARTJOY_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SIDCARTJOY_SV, "Inaktivera SID-insticksmodul-styrspak"},
 /* tr */ {IDCLS_DISABLE_SIDCARTJOY_TR, ""},  /* fuzzy */
 #endif
 
@@ -10649,13 +10649,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_SFX_SE,    N_("Enable the SFX soundexpander cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_SFX_SE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_SFX_SE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_SFX_SE_DE, "SFX Soundexpander Modul aktivieren"},
 /* fr */ {IDCLS_ENABLE_SFX_SE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_SFX_SE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_SFX_SE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_SFX_SE_NL, "Activeer de SFX soundexpander cartridge"},
 /* pl */ {IDCLS_ENABLE_SFX_SE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_SFX_SE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SFX_SE_SV, "Aktivera SFX soundexpander-insticksmodul"},
 /* tr */ {IDCLS_ENABLE_SFX_SE_TR, ""},  /* fuzzy */
 #endif
 
@@ -10663,13 +10663,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_SFX_SE,    N_("Disable the SFX soundexpander cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_SFX_SE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_SFX_SE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_SFX_SE_DE, "SFX Soundexpander Modul deaktivieren"},
 /* fr */ {IDCLS_DISABLE_SFX_SE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_SFX_SE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_SFX_SE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_SFX_SE_NL, "De SFX soundexpander cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_SFX_SE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_SFX_SE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SFX_SE_SV, "Inaktivera SFX soundexpander-insticksmodul"},
 /* tr */ {IDCLS_DISABLE_SFX_SE_TR, ""},  /* fuzzy */
 #endif
 
@@ -10691,13 +10691,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_SFX_SS,    N_("Enable the SFX Sound Sampler cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_SFX_SS_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_SFX_SS_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_SFX_SS_DE, "SFX Sound Sampler Modul aktivieren"},
 /* fr */ {IDCLS_ENABLE_SFX_SS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_SFX_SS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_SFX_SS_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_SFX_SS_NL, "Activeer de SFX Sound Sampler cartridge"},
 /* pl */ {IDCLS_ENABLE_SFX_SS_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_SFX_SS_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SFX_SS_SV, "Aktivera SFX Sound Sampler-insticksmodul"},
 /* tr */ {IDCLS_ENABLE_SFX_SS_TR, ""},  /* fuzzy */
 #endif
 
@@ -10705,13 +10705,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_SFX_SS,    N_("Disable the SFX Sound Sampler cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_SFX_SS_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_SFX_SS_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_SFX_SS_DE, "SFX Sound Sampler Modul  deaktivieren"},
 /* fr */ {IDCLS_DISABLE_SFX_SS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_SFX_SS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_SFX_SS_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_SFX_SS_NL, "De SFX Sound Sampler cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_SFX_SS_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_SFX_SS_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SFX_SS_SV, "Inaktivera SFX Sound Sampler-insticksmodul"},
 /* tr */ {IDCLS_DISABLE_SFX_SS_TR, ""},  /* fuzzy */
 #endif
 

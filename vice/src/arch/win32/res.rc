@@ -1406,7 +1406,7 @@ END
 
 IDD_EXTRA_JOY_SETTINGS_DIALOG_DA DIALOG DISCARDABLE 0, 0, 226, 161
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Joystickindstillinger"
+CAPTION "Extra joystick adapter settings"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Joystick i port &1",IDC_STATIC,7,5,102,113
@@ -1450,7 +1450,7 @@ END
 
 IDD_EXTRA_JOY_SETTINGS_DIALOG_DE DIALOG DISCARDABLE 0, 0, 226, 161
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Joystick Einstellungen"
+CAPTION "Extra Joystick Adapter Einstellungen"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Joystick in Port #&1",IDC_STATIC,7,5,102,113
@@ -1494,7 +1494,7 @@ END
 
 IDD_EXTRA_JOY_SETTINGS_DIALOG_FR DIALOG DISCARDABLE 0, 0, 226, 161
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Paramètres des joysticks"
+CAPTION "Extra joystick adapter settings"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Joystick dans le port #1",IDC_STATIC,7,5,102,113
@@ -1539,7 +1539,7 @@ END
 #pragma code_page(28592)
 IDD_EXTRA_JOY_SETTINGS_DIALOG_HU DIALOG DISCARDABLE 0, 0, 226, 161
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Botkormány beállítása"
+CAPTION "Extra joystick adapter settings"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Botkormány az &1-es porton",IDC_STATIC,7,5,102,113
@@ -1584,7 +1584,7 @@ END
 
 IDD_EXTRA_JOY_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 226, 161
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni joystick"
+CAPTION "Extra joystick adapter settings"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Joystick nella porta #&1",IDC_STATIC,7,5,102,113
@@ -1628,7 +1628,7 @@ END
 
 IDD_EXTRA_JOY_SETTINGS_DIALOG_NL DIALOG DISCARDABLE 0, 0, 226, 161
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Joystickinstellingen"
+CAPTION "Extra joystick adapter instellingen"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Joystick in poort #&1",IDC_STATIC,7,5,102,113
@@ -1673,7 +1673,7 @@ END
 #pragma code_page(28592)
 IDD_EXTRA_JOY_SETTINGS_DIALOG_PL DIALOG DISCARDABLE 0, 0, 226, 161
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Ustawienia Joystick"
+CAPTION "Extra joystick adapter settings"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Joystick w porcie #&1",IDC_STATIC,7,5,102,113
@@ -1718,7 +1718,7 @@ END
 
 IDD_EXTRA_JOY_SETTINGS_DIALOG_SV DIALOG DISCARDABLE 0, 0, 226, 161
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Inställningar för styrspak"
+CAPTION "Inställningar för extra styrspaksadapter"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Styrspak i spelport &1",IDC_STATIC,7,5,102,113
@@ -1763,7 +1763,7 @@ END
 #pragma code_page(28599)
 IDD_EXTRA_JOY_SETTINGS_DIALOG_TR DIALOG DISCARDABLE 0, 0, 226, 161
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Joystick Ayarlarý"
+CAPTION "Extra joystick adapter settings"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Joystick port #&1'de",IDC_STATIC,7,5,102,113
@@ -7746,14 +7746,14 @@ BEGIN
   IDS_PRESS_KEY_SOUTHWEST         "Drücke Taste für SüdWest"
   IDS_PRESS_KEY_WEST              "Drücke Taste für West"
   IDS_PRESS_KEY_FIRE              "Drücke Taste für Feuer"
-  IDS_NO_USERPORT_ADAPTER         "No userport joy adapter"
-  IDS_CGA_USERPORT_ADAPTER        "CGA userport joy adapter"
-  IDS_PET_USERPORT_ADAPTER        "PET userport joy adapter"
-  IDS_HUMMER_USERPORT_ADAPTER     "HUMMER userport joy adapter"
-  IDS_OEM_USERPORT_ADAPTER        "OEM userport joy adapter"
-  IDS_HIT_USERPORT_ADAPTER        "HIT userport joy adapter"
-  IDS_NO_SIDCART_JOY              "Disable SIDcart joy"
-  IDS_SIDCART_JOY                 "Enable SIDcart joy"
+  IDS_NO_USERPORT_ADAPTER         "Kein Userport Joystick Adapter"
+  IDS_CGA_USERPORT_ADAPTER        "CGA Userport Joystick Adapter"
+  IDS_PET_USERPORT_ADAPTER        "PET Userport Joystick Adapter"
+  IDS_HUMMER_USERPORT_ADAPTER     "HUMMER Userport Joystock Adapter"
+  IDS_OEM_USERPORT_ADAPTER        "OEM Userport Joystick Adapter"
+  IDS_HIT_USERPORT_ADAPTER        "HIT Userport Joystick Adapter"
+  IDS_NO_SIDCART_JOY              "SIDcart Joystick deaktivieren"
+  IDS_SIDCART_JOY                 "SIDcart Joystick aktivieren"
   IDS_NUMPAD_AND_RCTRL            "Numpad + RCtrl"
   IDS_KEYSET_A                    "Tastaturbelegung A"
   IDS_KEYSET_B                    "Tastaturbelegung B"
@@ -7793,8 +7793,8 @@ BEGIN
   IDS_P_NUMBER                    "<Nummer>"
   IDS_SET_INPUT_JOYSTICK_1        "Input Gerät für Joystick #1 definieren"
   IDS_SET_INPUT_JOYSTICK_2        "Input Gerät für Joystick #2 definieren"
-  IDS_SET_INPUT_EXTRA_JOYSTICK_1  "Set input device for extra joystick #1"
-  IDS_SET_INPUT_EXTRA_JOYSTICK_2  "Set input device for extra joystick #2"
+  IDS_SET_INPUT_EXTRA_JOYSTICK_1  "Input Gerät für extra Joystick #1 definieren"
+  IDS_SET_INPUT_EXTRA_JOYSTICK_2  "Input Gerät für extra Joystick #2 definieren"
   IDS_SAVE_SETTINGS_ON_EXIT       "Einstellungen (Ressourcen) beim Beenden speichern"
   IDS_NO_SAVE_SETTINGS_ON_EXIT    "Einstellungen beim Beenden nie speichern"
   IDS_CONFIRM_QUIT_VICE           "Bestätige beenden von VICE"
@@ -7943,7 +7943,7 @@ BEGIN
   IDS_MI_TOGGLE_FASTPAL           "PAL Emulation"
   IDS_MI_TOGGLE_SCALE2X           "Scale2x"
   IDS_MI_SWAP_JOYSTICK            "&Joystick ports austauschen"
-  IDS_MI_SWAP_EXTRA_JOYSTICK      "Swap &Userport joysticks"
+  IDS_MI_SWAP_EXTRA_JOYSTICK      "&Userport Joystick ports austauschen"
   IDS_MI_JOYKEYS_TOGGLE           "Joystick Tasten aktivieren"
   IDS_MI_TOGGLE_VIRTUAL_DEVICES   "&Virtuelle Geräte Traps"
   IDS_MI_TOGGLE_EMUID             "Emulator &Identifikation"
@@ -7951,8 +7951,8 @@ BEGIN
   IDS_MI_VIDEO_SETTINGS           "&Video Einstellungen..."
   IDS_MI_DEVICEMANAGER            "&Peripherie Einstellungen..."
   IDS_MI_JOY_SETTINGS             "&Joystick Einstellungen..."
-  IDS_MI_USERPORT_JOY_SETTINGS    "&Userport joystick settings..."
-  IDS_MI_SIDCART_JOY_SETTINGS     "&Sidcart joystick settings..."
+  IDS_MI_USERPORT_JOY_SETTINGS    "&Userport Joystick Einstellungen..."
+  IDS_MI_SIDCART_JOY_SETTINGS     "&Sidcart Joystick Einstellungen..."
   IDS_MI_KEYBOARD_SETTINGS        "&Tastatur Einstellungen..."
   IDS_MI_SOUND_SETTINGS           "S&ound Einstellungen..."
   IDS_MI_ROM_SETTINGS             "&ROM Einstellungen..."
@@ -7968,9 +7968,9 @@ BEGIN
   IDS_MI_DQBB_SETTINGS            "&Double Quick Brown Box Einstellungen..."
   IDS_MI_ISEPIC_SETTINGS          "I&sepic Einstellungen..."
   IDS_MI_MMC64_SETTINGS           "&MMC64 Einstellungen..."
-  IDS_MI_MIDI_SETTINGS            "M&IDI settings..."
+  IDS_MI_MIDI_SETTINGS            "M&IDI Einstellungen..."
   IDS_MI_DIGIMAX_SETTINGS         "&Digimax Einstellungen..."
-  IDS_MI_LIGHTPEN_SETTINGS        "&Lightpen settings..."
+  IDS_MI_LIGHTPEN_SETTINGS        "&Lichtgriffel Einstellungen..."
   IDS_MI_IDE64_SETTINGS           "&IDE64 Einstellungen..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS             "&Ethernet Einstellungen..."
@@ -7978,8 +7978,8 @@ BEGIN
   IDS_MI_ACIA_SETTINGS            "&ACIA Einstellungen..."
   IDS_MI_RS232USER_SETTINGS       "RS&232 Userport Einstellungen..."
   IDS_MI_EASYFLASH_SETTINGS       "EasyFlash settings..."
-  IDS_MI_SFX_SE_SETTINGS          "SFX Sound Expander settings..."
-  IDS_MI_TOGGLE_SFX_SS            "Enable SFX Sound Sampler"
+  IDS_MI_SFX_SE_SETTINGS          "SFX Sound Expander Einstellungen..."
+  IDS_MI_TOGGLE_SFX_SS            "SFX Sound Sampler aktivieren"
   IDS_MI_SETTINGS_SAVE_FILE       "Speichere Einstellungen in angegebene Datei"
   IDS_MI_SETTINGS_LOAD_FILE       "Lade Einstellungen von Datei"
   IDS_MI_SETTINGS_SAVE            "Einstellungen &speichern"
@@ -10252,14 +10252,14 @@ BEGIN
   IDS_PRESS_KEY_SOUTHWEST         "Tryck tangent för sydväst"
   IDS_PRESS_KEY_WEST              "Tryck tangent för väst"
   IDS_PRESS_KEY_FIRE              "Tryck tangent för avtryckare"
-  IDS_NO_USERPORT_ADAPTER         "No userport joy adapter"
-  IDS_CGA_USERPORT_ADAPTER        "CGA userport joy adapter"
-  IDS_PET_USERPORT_ADAPTER        "PET userport joy adapter"
-  IDS_HUMMER_USERPORT_ADAPTER     "HUMMER userport joy adapter"
-  IDS_OEM_USERPORT_ADAPTER        "OEM userport joy adapter"
-  IDS_HIT_USERPORT_ADAPTER        "HIT userport joy adapter"
-  IDS_NO_SIDCART_JOY              "Disable SIDcart joy"
-  IDS_SIDCART_JOY                 "Enable SIDcart joy"
+  IDS_NO_USERPORT_ADAPTER         "Ingen användarportsspakadapter"
+  IDS_CGA_USERPORT_ADAPTER        "CGA-användarportsspakadapter"
+  IDS_PET_USERPORT_ADAPTER        "PET-anv\xE4ndarportsspakadapter"
+  IDS_HUMMER_USERPORT_ADAPTER     "HUMMER-användarportsspakadapter"
+  IDS_OEM_USERPORT_ADAPTER        "OEM-användarportsspakadapter"
+  IDS_HIT_USERPORT_ADAPTER        "HIT-användarportsspakadapter"
+  IDS_NO_SIDCART_JOY              "Inaktivera SIDcart-spak"
+  IDS_SIDCART_JOY                 "Aktivera SIDcart-spak"
   IDS_NUMPAD_AND_RCTRL            "Numerisk knappsats + höger Ctrl"
   IDS_KEYSET_A                    "Uppsättning A"
   IDS_KEYSET_B                    "Uppsättning B"
@@ -10299,8 +10299,8 @@ BEGIN
   IDS_P_NUMBER                    "<nummer>"
   IDS_SET_INPUT_JOYSTICK_1        "Välj indataenhet för spelport 1"
   IDS_SET_INPUT_JOYSTICK_2        "Välj indataenhet för spelport 2"
-  IDS_SET_INPUT_EXTRA_JOYSTICK_1  "Set input device for extra joystick #1"
-  IDS_SET_INPUT_EXTRA_JOYSTICK_2  "Set input device for extra joystick #2"
+  IDS_SET_INPUT_EXTRA_JOYSTICK_1  "Välj indataenhet för extra spelport 1"
+  IDS_SET_INPUT_EXTRA_JOYSTICK_2  "Välj indataenhet för extra spelport 2"
   IDS_SAVE_SETTINGS_ON_EXIT       "Spara inställningar (resurser) vid avslut"
   IDS_NO_SAVE_SETTINGS_ON_EXIT    "Spara aldrig inställningar (resurser) vid avslut"
   IDS_CONFIRM_QUIT_VICE           "Bekräfta för att avsluta VICE"
@@ -10450,15 +10450,15 @@ BEGIN
   IDS_MI_TOGGLE_SCALE2X           "Scale2x"
   IDS_MI_JOYKEYS_TOGGLE           "Aktivera styrspak via tangenter"
   IDS_MI_SWAP_JOYSTICK            "Växla &spelportarna"
-  IDS_MI_SWAP_EXTRA_JOYSTICK      "Swap &Userport joysticks"
+  IDS_MI_SWAP_EXTRA_JOYSTICK      "Växla &användarportstyrspakar"
   IDS_MI_TOGGLE_VIRTUAL_DEVICES   "&Virtuella enhetstrap:ar"
   IDS_MI_TOGGLE_EMUID             "Emulator&identifiering"
   IDS_MI_MOUSE                    "&Fånga mushändelser"
   IDS_MI_VIDEO_SETTINGS           "&Grafikinställningar..."
   IDS_MI_DEVICEMANAGER            "Inställningar för &kringutrustning..."
   IDS_MI_JOY_SETTINGS             "Inställningar för &styrspak..."
-  IDS_MI_USERPORT_JOY_SETTINGS    "&Userport joystick settings..."
-  IDS_MI_SIDCART_JOY_SETTINGS     "&Sidcart joystick settings..."
+  IDS_MI_USERPORT_JOY_SETTINGS    "Inställningar för &användarportsstyrspak..."
+  IDS_MI_SIDCART_JOY_SETTINGS     "Inställningar för &Sidcart-styrspak..."
   IDS_MI_KEYBOARD_SETTINGS        "&Tangentbordsinställningar..."
   IDS_MI_SOUND_SETTINGS           "L&judinställningar..."
   IDS_MI_ROM_SETTINGS             "&ROM-inställningar..."
@@ -10476,7 +10476,7 @@ BEGIN
   IDS_MI_MMC64_SETTINGS           "&MMC64-inställningar..."
   IDS_MI_MIDI_SETTINGS            "M&IDI-inställningar..."
   IDS_MI_DIGIMAX_SETTINGS         "&DIGIMAX-inställningar..."
-  IDS_MI_LIGHTPEN_SETTINGS        "&Lightpen settings..."
+  IDS_MI_LIGHTPEN_SETTINGS        "Inställningar för &ljuspenna..."
   IDS_MI_IDE64_SETTINGS           "&IDE64-inställningar..."
 #ifdef HAVE_TFE
   IDS_MI_TFE_SETTINGS             "&Ethernetinställningar..."
@@ -10484,8 +10484,8 @@ BEGIN
   IDS_MI_ACIA_SETTINGS            "&ACIA-inställningar..."
   IDS_MI_RS232USER_SETTINGS       "RS&232-användarportinställningar..."
   IDS_MI_EASYFLASH_SETTINGS       "EasyFlash settings..."
-  IDS_MI_SFX_SE_SETTINGS          "SFX Sound Expander settings..."
-  IDS_MI_TOGGLE_SFX_SS            "Enable SFX Sound Sampler"
+  IDS_MI_SFX_SE_SETTINGS          "Inställningar för SFX Sound Expander..."
+  IDS_MI_TOGGLE_SFX_SS            "Aktivera SFX Sound Sampler"
   IDS_MI_SETTINGS_SAVE_FILE       "Spara nuvarande inställningar till den angivna filen"
   IDS_MI_SETTINGS_LOAD_FILE       "Läs inställningar från den angivna filen"
   IDS_MI_SETTINGS_SAVE            "&Spara nuvarande inställningar"
