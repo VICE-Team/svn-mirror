@@ -69,10 +69,9 @@ void palette_free(palette_t *p)
     if (p == NULL)
         return;
 
-    for (i = 0; i < p->num_entries; i++)
-        if (p->entries[i].name != NULL)
-            lib_free(p->entries[i].name);
-
+    for (i = 0; i < p->num_entries; i++) {
+        lib_free(p->entries[i].name);
+    }
     lib_free(p->entries);
     lib_free(p);
 }

@@ -2386,8 +2386,7 @@ char *system_mbstowcs_alloc(const char *mbs)
 
 void system_mbstowcs_free(char *wcs)
 {
-    if (wcs != NULL)
-        lib_free(wcs);
+    lib_free(wcs);
 }
 #endif
 

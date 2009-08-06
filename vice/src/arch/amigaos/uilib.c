@@ -232,8 +232,7 @@ char *uilib_select_file_autostart(const char *title,
         memcpy(newdir, name, (int)(ptr - name));
         newdir[(int)(ptr - name)] = '\0';
 
-        if (ui_file_selector_initialfile[style] != NULL)
-            lib_free(ui_file_selector_initialfile[style]);
+        lib_free(ui_file_selector_initialfile[style]);
         if (styles[style].file_resource != NULL)
             resources_set_value(styles[style].file_resource, FilePart(name));
         ui_file_selector_initialfile[style] = lib_stralloc(FilePart(name));
@@ -241,8 +240,6 @@ char *uilib_select_file_autostart(const char *title,
         resources_set_value(styles[style].initialdir_resource, newdir);
         ret = lib_stralloc(name);
     }
-
-//    lib_free(filter);
 
     return ret;
 }

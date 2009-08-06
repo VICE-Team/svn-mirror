@@ -129,8 +129,7 @@ static TUI_MENU_CALLBACK(attach_tape_callback)
         ui_update_menus();
         lib_free(directory);
         lib_free(default_item);
-        if (name != NULL)
-            lib_free(name);
+        lib_free(name);
     }
 
     s = tape_get_file_name();

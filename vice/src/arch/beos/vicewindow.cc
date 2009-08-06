@@ -245,8 +245,8 @@ ViceWindow::~ViceWindow() {
 	delete filepanel;
 	delete savepanel;
 	delete locker;
-	if (fclip_list != NULL)
-		lib_free(fclip_list);
+	lib_free(fclip_list);
+	fclip_list = NULL;
 }
 
 
@@ -325,10 +325,8 @@ void ViceWindow::DirectConnected(direct_buffer_info *info)
 		case B_DIRECT_START:
 			fconnected = true;
 		case B_DIRECT_MODIFY:
-			if (fclip_list) {
-				lib_free(fclip_list);
-				fclip_list = NULL;
-			}
+			lib_free(fclip_list);
+			fclip_list = NULL;
 			fcliplist_count = info->clip_list_count;
 			fclip_list = (clipping_rect *)
 				lib_malloc(fcliplist_count * sizeof(clipping_rect));

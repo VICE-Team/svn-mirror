@@ -55,8 +55,7 @@ static unsigned int autostart_mode;
 
 static void cmdline_free_autostart_string(void)
 {
-    if (autostart_string != NULL)
-        lib_free(autostart_string);
+    lib_free(autostart_string);
     autostart_string = NULL;
 }
 
@@ -112,16 +111,14 @@ static int cmdline_attach(const char *param, void *extra_param)
 
     switch (unit) {
       case 1:
-        if (startup_tape_image != NULL)
-            lib_free(startup_tape_image);
+        lib_free(startup_tape_image);
         startup_tape_image = lib_stralloc(param);
         break;
       case 8:
       case 9:
       case 10:
       case 11:
-        if (startup_disk_images[unit - 8] != NULL)
-            lib_free(startup_disk_images[unit - 8]);
+        lib_free(startup_disk_images[unit - 8]);
         startup_disk_images[unit - 8] = lib_stralloc(param);
         break;
       default:

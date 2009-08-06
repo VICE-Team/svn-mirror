@@ -557,9 +557,7 @@ static void update_inputs(ULONG ID)
   int num, offset;
 
   for (i=0; i<inputs.count; i++) {
-    if (inputs.names[i] != NULL) {
-      lib_free(inputs.names[i]);
-    }
+    lib_free(inputs.names[i]);
   }
   memset(&inputs, 0, sizeof(inputs));
 

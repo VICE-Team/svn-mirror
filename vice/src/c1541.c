@@ -359,8 +359,7 @@ static char *read_line(const char *prompt)
 {
     static char *line;
 
-    if (line != NULL)
-        lib_free(line);
+    lib_free(line);
     line = readline(prompt);
     if (line != 0 && *line != 0)
         add_history(line);
@@ -2951,8 +2950,7 @@ int main(int argc, char **argv)
            " for details.\n");
 
         while (1) {
-            if (buf != NULL)
-                lib_free(buf);
+            lib_free(buf);
             buf = lib_msprintf("c1541 #%d> ", drive_number | 8);
             line = read_line(buf);
 
@@ -3144,8 +3142,6 @@ char *system_mbstowcs_alloc(const char *mbs)
 
 void system_mbstowcs_free(char *wcs)
 {
-    if (wcs != NULL)
-        lib_free(wcs);
+    lib_free(wcs);
 }
 #endif
-

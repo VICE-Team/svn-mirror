@@ -83,9 +83,7 @@ static struct file_list *file_list_create(void)
 
 static void file_list_clear(struct file_list *fl)
 {
-    if (fl->items != NULL)
-        lib_free(fl->items);
-
+    lib_free(fl->items);
     fl->items = NULL;
     fl->num_used_items = fl->num_items = 0;
 }

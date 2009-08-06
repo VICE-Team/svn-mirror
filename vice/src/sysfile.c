@@ -54,10 +54,7 @@ static int set_system_path(const char *val, void *param)
 
     util_string_set(&system_path, val);
 
-    if (expanded_system_path != NULL) {
-        lib_free(expanded_system_path);
-    }
-
+    lib_free(expanded_system_path);
     expanded_system_path = NULL; /* will subsequently be replaced */
 
     tmp_path_save = util_subst(system_path, "$$", default_path); /* malloc'd */

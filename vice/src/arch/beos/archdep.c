@@ -162,9 +162,7 @@ char *archdep_default_fliplist_file_name(void)
 {
     static char *fname;
 
-    if (fname != NULL)
-        lib_free(fname);
-
+    lib_free(fname);
     fname = util_concat(archdep_boot_path(), "/fliplist-", 
                         machine_name, ".vfl", NULL);
     return fname;

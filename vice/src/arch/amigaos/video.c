@@ -386,11 +386,8 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
   }
 
 #ifdef AMIGA_AROS
-  if (unlockable_buffer!=NULL)
-  {
-    lib_free(unlockable_buffer);
-    unlockable_buffer=NULL;
-  }
+  lib_free(unlockable_buffer);
+  unlockable_buffer=NULL;
 
   if (renderRPort!=NULL)
   {
@@ -1180,11 +1177,8 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
     }
 
 #ifdef AMIGA_AROS
-    if (unlockable_buffer!=NULL)
-    {
-      lib_free(unlockable_buffer);
-      unlockable_buffer=NULL;
-    }
+    lib_free(unlockable_buffer);
+    unlockable_buffer=NULL;
 
     if (renderRPort!=NULL)
     {

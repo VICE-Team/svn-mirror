@@ -282,8 +282,7 @@ static void ui_copy_clipboard(void)
     if (IFFParseBase)
         CloseLibrary(IFFParseBase);
 
-    if (text)
-        lib_free(text);
+    lib_free(text);
 }
 
 static void ui_paste_clipboard_text(void)
@@ -356,9 +355,7 @@ static void ui_paste_clipboard_text(void)
     if (IFFParseBase)
         CloseLibrary(IFFParseBase);
 
-    if (text_in_petscii) {
-        lib_free(text_in_petscii);
-    }
+    lib_free(text_in_petscii);
 }
 
 int ui_menu_create(video_canvas_t *canvas)

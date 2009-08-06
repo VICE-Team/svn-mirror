@@ -124,14 +124,13 @@ int fliplist_cmdline_options_init(void)
 
 void fliplist_shutdown(void)
 {
-    if (current_image != NULL)
-        lib_free(current_image);
+    lib_free(current_image);
+    current_image = NULL;
 }
 
 void fliplist_set_current(unsigned int unit, const char *filename)
 {
-    if (current_image != NULL)
-        lib_free(current_image);
+    lib_free(current_image);
     current_image = lib_stralloc(filename);
     current_drive = unit;
 }

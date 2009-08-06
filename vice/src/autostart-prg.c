@@ -105,9 +105,7 @@ static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, l
 
 static void free_prg(autostart_prg_t *prg)
 {
-    if(prg->data != NULL) {
-        lib_free(prg->data);
-    }
+    lib_free(prg->data);
     lib_free(prg);
 }
 

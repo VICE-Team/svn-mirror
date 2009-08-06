@@ -46,8 +46,8 @@ static cmdline_option_ram_t *options;
 
 int cmdline_init(void)
 {
-    if (options != NULL)
-        lib_free(options);
+    lib_free(options);
+    options = NULL;
 
     num_allocated_options = 100;
     num_options = 0;

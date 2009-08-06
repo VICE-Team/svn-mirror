@@ -200,12 +200,10 @@ void ui_resources_shutdown(void)
 
     translate_resources_shutdown();
 
-    if (ui_resources.monitor_dimensions != NULL)
-        lib_free(ui_resources.monitor_dimensions);
+    lib_free(ui_resources.monitor_dimensions);
 
     for (i = 0; i < UILIB_SELECTOR_STYLES_NUM; i++)
-        if (ui_resources.initialdir[i] != NULL)
-            lib_free(ui_resources.initialdir[i]);
+        lib_free(ui_resources.initialdir[i]);
 }
 
 /* ------------------------------------------------------------------------ */

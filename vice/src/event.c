@@ -97,9 +97,7 @@ static int event_image_include;
 
 static char *event_snapshot_path(const char *snapshot_file)
 {
-    if (event_snapshot_path_str != NULL)
-        lib_free(event_snapshot_path_str);
-
+    lib_free(event_snapshot_path_str);
     event_snapshot_path_str = 
         util_concat(event_snapshot_dir, snapshot_file, NULL);
 
@@ -526,8 +524,7 @@ void event_destroy_image_list(void)
     while (d1 != NULL) {
         d2 = d1->next;
         lib_free(d1->orig_filename);
-        if (d1->mapped_filename != NULL)
-            lib_free(d1->mapped_filename);
+        lib_free(d1->mapped_filename);
         lib_free(d1);
         d1 = d2;
     }
@@ -1126,8 +1123,7 @@ static int set_event_snapshot_dir(const char *val, void *param)
     if (s[strlen(s) - 1] == FSDEV_DIR_SEP_CHR) {
         util_string_set(&event_snapshot_dir, s);
     } else {
-        if (event_snapshot_dir != NULL)
-            lib_free(event_snapshot_dir);
+        lib_free(event_snapshot_dir);
         event_snapshot_dir = util_concat(s, FSDEV_DIR_SEP_STR, NULL);
     }
 
@@ -1201,8 +1197,8 @@ void event_shutdown(void)
     lib_free(event_start_snapshot);
     lib_free(event_end_snapshot);
     lib_free(event_snapshot_dir);
-    if (event_snapshot_path_str != NULL)
-        lib_free(event_snapshot_path_str);
+    lib_free(event_snapshot_path_str);
+    event_snapshot_path_str = NULL;
     destroy_list();
 }
 

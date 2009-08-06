@@ -238,10 +238,8 @@ static int snapshot_read_string(FILE *f, char **s)
     char *p = NULL;
 
     /* first free the previous string */
-    if (*s) {
-        lib_free(*s);
-        *s = NULL;      /* don't leave a bogus pointer */
-    }
+    lib_free(*s);
+    *s = NULL;      /* don't leave a bogus pointer */
 
     if (snapshot_read_word(f, &w) < 0)
         return -1;

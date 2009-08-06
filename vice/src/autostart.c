@@ -334,10 +334,8 @@ int autostart_cmdline_options_init(void)
 /* Deallocate program name if we have one */
 static void deallocate_program_name(void)
 {
-    if (autostart_program_name) {
-        lib_free(autostart_program_name);
-        autostart_program_name = NULL;
-    }
+    lib_free(autostart_program_name);
+    autostart_program_name = NULL;
 }
 
 static enum { YES, NO, NOT_YET } check(const char *s, unsigned int blink_mode)
@@ -957,8 +955,7 @@ int autostart_tape(const char *file_name, const char *program_name,
     autostartmode = AUTOSTART_ERROR;
     deallocate_program_name();
 
-    if (name)
-        lib_free(name);
+    lib_free(name);
 
     return -1;
 }
@@ -1015,8 +1012,7 @@ int autostart_disk(const char *file_name, const char *program_name,
 
     autostartmode = AUTOSTART_ERROR;
     deallocate_program_name();
-    if (name)
-        lib_free(name);
+    lib_free(name);
 
     return -1;
 }

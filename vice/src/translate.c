@@ -10993,8 +10993,7 @@ void translate_resources_shutdown(void)
   {
     for (j = 0; j < countof(translate_text_table); j++)
     {
-      if (text_table[j][i]!=NULL)
-        lib_free(text_table[j][i]);
+      lib_free(text_table[j][i]);
     }
   }
   intl_shutdown();
