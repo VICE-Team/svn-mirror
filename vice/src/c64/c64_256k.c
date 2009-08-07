@@ -255,7 +255,7 @@ void pia_set_vbank(void)
 
 static int c64_256k_activate(void)
 {
-  c64_256k_ram = (BYTE *)lib_realloc((void *)c64_256k_ram, (size_t)0x40000);
+  c64_256k_ram = lib_realloc((void *)c64_256k_ram, (size_t)0x40000);
 
   log_message(c64_256k_log, "256K hack installed.");
 

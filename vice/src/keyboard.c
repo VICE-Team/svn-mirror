@@ -585,8 +585,7 @@ static void keyboard_keyconvmap_free(void)
 static void keyboard_keyconvmap_realloc(void)
 {
     keyc_mem += keyc_mem / 2;
-    keyconvmap = (keyboard_conv_t *)lib_realloc(keyconvmap, (keyc_mem + 1)
-                                                * sizeof(keyboard_conv_t));
+    keyconvmap = lib_realloc(keyconvmap, (keyc_mem + 1) * sizeof(keyboard_conv_t));
 }
 
 /*-----------------------------------------------------------------------*/

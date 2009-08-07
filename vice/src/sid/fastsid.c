@@ -814,7 +814,7 @@ static sound_t *fastsid_open(BYTE *sidstate)
 {
     sound_t *psid;
 
-    psid = (sound_t*)lib_calloc(1, sizeof(sound_t));
+    psid = lib_calloc(1, sizeof(sound_t));
 
     memcpy(psid->d, sidstate, 32);
 

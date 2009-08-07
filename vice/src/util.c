@@ -135,7 +135,7 @@ BYTE *util_bufcat(BYTE *buf, int *buf_size, size_t *max_buf_size,
 
         *max_buf_size = (((*buf_size + src_size) / BUFCAT_GRANULARITY + 1)
                         * BUFCAT_GRANULARITY);
-        new_buf = (BYTE *)lib_realloc(buf, *max_buf_size);
+        new_buf = lib_realloc(buf, *max_buf_size);
         buf = new_buf;
     }
 
@@ -180,7 +180,7 @@ int util_string_set(char **str, const char *new_value)
             if (strcmp(*str, new_value) == 0)
                 return -1;
 
-            *str = (char *)lib_realloc(*str, strlen(new_value) + 1);
+            *str = lib_realloc(*str, strlen(new_value) + 1);
             strcpy(*str, new_value);
         }
     }

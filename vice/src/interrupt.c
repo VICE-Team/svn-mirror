@@ -81,12 +81,10 @@ unsigned int interrupt_cpu_status_int_new(interrupt_cpu_status_t *cs,
 {
     cs->num_ints += 1;
 
-    cs->pending_int = (unsigned int *)lib_realloc(cs->pending_int, cs->num_ints
-                                                  * sizeof(*(cs->pending_int)));
+    cs->pending_int = lib_realloc(cs->pending_int, cs->num_ints * sizeof(*(cs->pending_int)));
     cs->pending_int[cs->num_ints - 1] = 0;
 
-    cs->int_name = (char **)lib_realloc(cs->int_name, cs->num_ints
-                                        * sizeof(char *));
+    cs->int_name = lib_realloc(cs->int_name, cs->num_ints * sizeof(char *));
     cs->int_name[cs->num_ints - 1] = lib_stralloc(name);
 
     return cs->num_ints - 1;

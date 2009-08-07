@@ -68,7 +68,7 @@ vdrive_t *vdrive_internal_open_fsimage(const char *name, unsigned int read_only)
         return NULL;
     }
 
-    vdrive = (vdrive_t *)lib_calloc(1, sizeof(vdrive_t));
+    vdrive = lib_calloc(1, sizeof(vdrive_t));
 
     vdrive_device_setup(vdrive, 100);
     vdrive->image = image;

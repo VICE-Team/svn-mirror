@@ -148,7 +148,7 @@ static BYTE *find_next_directory_sector(vdrive_t *vdrive, unsigned int track,
 void vdrive_dir_create_slot(bufferinfo_t *p, char *realname,
                             int reallength, int filetype)
 {
-    p->slot = (BYTE *)lib_calloc(1, 32);
+    p->slot = lib_calloc(1, 32);
     memset(p->slot + SLOT_NAME_OFFSET, 0xa0, 16);
     memcpy(p->slot + SLOT_NAME_OFFSET, realname, reallength);
 #ifdef DEBUG_DRIVE
@@ -156,7 +156,7 @@ void vdrive_dir_create_slot(bufferinfo_t *p, char *realname,
 #endif
     p->slot[SLOT_TYPE_OFFSET] = filetype;       /* unclosed */
 
-    p->buffer = (BYTE *)lib_calloc(1, 256);
+    p->buffer = lib_calloc(1, 256);
     p->mode = BUFFER_SEQUENTIAL;
     p->bufptr = 2;
     return;

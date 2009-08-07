@@ -323,8 +323,8 @@ static int coreaudio_init(const char *param, int *speed,
     fragment_byte_size  = fragment_sword_size * sizeof(SWORD);
 
     /* allocate sound buffers */
-    soundbuffer = (SWORD*)lib_calloc(fragment_count, fragment_byte_size);
-    silence = (SWORD*)lib_calloc(1, fragment_byte_size);
+    soundbuffer = lib_calloc(fragment_count, fragment_byte_size);
+    silence = lib_calloc(1, fragment_byte_size);
 
     read_position = 0;
     write_position = 0;

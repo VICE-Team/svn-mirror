@@ -618,7 +618,7 @@ static int vdrive_rel_open_existing(vdrive_t *vdrive, unsigned int secondary)
     slot = p->slot;
 
     /* Create our own slot, since the one passed is static */
-    p->slot = (BYTE *)lib_calloc(1, 32);
+    p->slot = lib_calloc(1, 32);
 
     /* Copy the static on to the new one. */
     memcpy(p->slot, slot, 32);
@@ -733,7 +733,7 @@ static int vdrive_rel_open_new(vdrive_t *vdrive, unsigned int secondary,
     }
 
     /* Create our own slot */
-    p->slot = (BYTE *)lib_calloc(1, 32);
+    p->slot = lib_calloc(1, 32);
 
     /* Populate it */
     memset(p->slot + SLOT_NAME_OFFSET, 0xa0, 16);

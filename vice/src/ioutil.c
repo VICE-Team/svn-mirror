@@ -207,7 +207,7 @@ char *ioutil_current_dir(void)
     while (getcwd(p, len) == NULL) {
         if (errno == ERANGE) {
             len *= 2;
-            p = (char *)lib_realloc(p, len);
+            p = lib_realloc(p, len);
         } else
             return NULL;
     }

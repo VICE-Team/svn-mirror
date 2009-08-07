@@ -156,7 +156,7 @@ log_t log_open(const char *id)
     }
     if (i == num_logs) {
         new_log = num_logs++;
-        logs = (char **)lib_realloc(logs, sizeof(*logs) * num_logs);
+        logs = lib_realloc(logs, sizeof(*logs) * num_logs);
     }
 
     logs[new_log] = lib_stralloc(id);

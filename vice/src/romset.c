@@ -284,8 +284,7 @@ int romset_archive_load(const char *filename, int autostart)
         }
         if (entry >= array_size) {
             array_size += 4;
-            romsets = (string_link_t *)lib_realloc(romsets, array_size
-                                                   * sizeof(string_link_t));
+            romsets = lib_realloc(romsets, array_size * sizeof(string_link_t));
         }
         anchor = romsets + entry;
         if (entry < num_romsets) {
@@ -516,8 +515,7 @@ int romset_archive_item_create(const char *romset_name,
     }
     if (entry >= array_size) {
         array_size += 4;
-        romsets = (string_link_t *)lib_realloc(romsets, array_size
-                                               * sizeof(string_link_t));
+        romsets = lib_realloc(romsets, array_size * sizeof(string_link_t));
     }
     anchor = romsets + entry;
     if (entry < num_romsets) {

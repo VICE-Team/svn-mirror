@@ -102,12 +102,9 @@ static void file_list_add_item(struct file_list *fl, const char *name,
     if (fl->num_items == fl->num_used_items) {
         fl->num_items += 100;
         if (fl->items != NULL)
-            fl->items = (struct file_item *)lib_realloc(fl->items,
-                                                        fl->num_items
-                                                        * sizeof(*fl->items));
+            fl->items = lib_realloc(fl->items, fl->num_items * sizeof(*fl->items));
         else
-            fl->items = lib_malloc(fl->num_items
-                                                       * sizeof(*fl->items));
+            fl->items = lib_malloc(fl->num_items * sizeof(*fl->items));
     }
 
     strcpy(fl->items[fl->num_used_items].name, name);

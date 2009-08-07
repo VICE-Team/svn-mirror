@@ -165,7 +165,7 @@
     if(textureData==NULL)
         textureData = lib_malloc(dataSize*sizeof(BYTE));
     else
-        textureData = (BYTE *)lib_realloc(textureData,dataSize*sizeof(BYTE));
+        textureData = lib_realloc(textureData,dataSize*sizeof(BYTE));
     
     // clear new texture
     memset(textureData,0,dataSize*sizeof(BYTE));

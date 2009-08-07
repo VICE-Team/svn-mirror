@@ -176,12 +176,12 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
             /* replace mode: we don't want the dirent updated at all until
                 close */
             /* allocate buffers */
-            p->buffer = (BYTE *)lib_calloc(1, 256);
+            p->buffer = lib_calloc(1, 256);
             p->mode = BUFFER_SEQUENTIAL;
             p->bufptr = 2;
 
             /* Create our own slot, since the one passed is static */
-            p->slot = (BYTE *)lib_calloc(1, 32);
+            p->slot = lib_calloc(1, 32);
 
             /* Copy the static on to the new one. */
             memcpy(p->slot, slot, 32);
@@ -201,7 +201,7 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
                 p->mode = BUFFER_SEQUENTIAL;
 
                 /* Create our own slot, since the one passed is static */
-                p->slot = (BYTE *)lib_calloc(1, 32);
+                p->slot = lib_calloc(1, 32);
 
                 /* Copy the static on to the new one. */
                 memcpy(p->slot, slot, 32);

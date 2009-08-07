@@ -172,9 +172,7 @@ static void ui_hotkey_register(ui_hotkey_modifier_t modifier, signed long keysym
         num_registered_hotkeys = 0;
     } else if (num_registered_hotkeys == num_allocated_hotkeys) {
         num_allocated_hotkeys *= 2;
-        registered_hotkeys = lib_realloc(registered_hotkeys,
-                                         (num_allocated_hotkeys
-                                         * sizeof(registered_hotkey_t)));
+        registered_hotkeys = lib_realloc(registered_hotkeys, (num_allocated_hotkeys * sizeof(registered_hotkey_t)));
     }
 
     p = registered_hotkeys + num_registered_hotkeys;
@@ -405,10 +403,7 @@ Widget ui_menu_create(const char *menu_name, ...)
                         if (num_checkmark_menu_items >=
                             num_checkmark_menu_items_max) {
                             num_checkmark_menu_items_max += 100;
-                            checkmark_menu_items = lib_realloc(
-                                checkmark_menu_items,
-                                num_checkmark_menu_items_max
-                                * sizeof(Widget));
+                            checkmark_menu_items = lib_realloc(checkmark_menu_items, num_checkmark_menu_items_max * sizeof(Widget));
                         }
                         checkmark_menu_items[num_checkmark_menu_items++]
                             = new_item;

@@ -88,9 +88,7 @@ int raster_resources_chip_init(const char *chipname, raster_t *raster,
     unsigned int i;
     raster_resource_chip_t *raster_resource_chip;
 
-    raster_resource_chip
-        = (raster_resource_chip_t *)lib_calloc(
-        1, sizeof(raster_resource_chip_t));
+    raster_resource_chip = lib_calloc(1, sizeof(raster_resource_chip_t));
 
     raster->raster_resource_chip = raster_resource_chip;
     raster_resource_chip->raster = raster;

@@ -282,7 +282,7 @@ static int georam_activate(void)
     if (!georam_size)
         return 0;
 
-    georam_ram = (BYTE *)lib_realloc((void *)georam_ram, (size_t)georam_size);
+    georam_ram = lib_realloc((void *)georam_ram, (size_t)georam_size);
 
     /* Clear newly allocated RAM.  */
     if (georam_size > old_georam_ram_size)

@@ -64,8 +64,7 @@ int cmdline_register_options(const cmdline_option_t *c)
     for (; c->name != NULL; c++, p++) {
         if (num_allocated_options <= num_options) {
             num_allocated_options *= 2;
-            options = (cmdline_option_ram_t *)lib_realloc(options,
-                      (sizeof(cmdline_option_ram_t) * num_allocated_options));
+            options = lib_realloc(options, (sizeof(cmdline_option_ram_t) * num_allocated_options));
             p = options + num_options;
         }
 
