@@ -263,7 +263,7 @@ void plus60k_reset(void)
 
 static int plus60k_activate(void)
 {
-    plus60k_ram = (BYTE *)lib_realloc((void *)plus60k_ram, (size_t)0xf000);
+    plus60k_ram = lib_realloc((void *)plus60k_ram, (size_t)0xf000);
 
     log_message(plus60k_log, "PLUS60K expansion installed.");
 

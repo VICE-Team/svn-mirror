@@ -152,17 +152,17 @@ static int h256k_activate(int type)
 {
   if (type==1)
   {
-    h256k_ram = (BYTE *)lib_realloc((void *)h256k_ram, (size_t)0x30000);
+    h256k_ram = lib_realloc((void *)h256k_ram, (size_t)0x30000);
     log_message(h256k_log, "HANNES 256K expansion installed.");
   }
   if (type==2)
   {
-    h256k_ram = (BYTE *)lib_realloc((void *)h256k_ram, (size_t)0xf0000);
+    h256k_ram = lib_realloc((void *)h256k_ram, (size_t)0xf0000);
     log_message(h256k_log, "HANNES 1024K expansion installed.");
   }
   if (type==3)
   {
-    h256k_ram = (BYTE *)lib_realloc((void *)h256k_ram, (size_t)0x3f0000);
+    h256k_ram = lib_realloc((void *)h256k_ram, (size_t)0x3f0000);
     log_message(h256k_log, "HANNES 4096K expansion installed.");
   }
   h256k_reset();

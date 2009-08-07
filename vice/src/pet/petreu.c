@@ -236,7 +236,7 @@ static int petreu_activate(void)
     if (!petreu_size)
         return 0;
 
-    petreu_ram = (BYTE *)lib_realloc((void *)petreu_ram, (size_t)petreu_size);
+    petreu_ram = lib_realloc((void *)petreu_ram, (size_t)petreu_size);
 
     /* Clear newly allocated RAM.  */
     if (petreu_size > old_petreu_ram_size)

@@ -193,7 +193,7 @@ void dotimer(ULONG unit,ULONG timercmd,struct timeval *t)
     struct MsgPort port;
   } *portio;
 
-  if ((portio=(struct PortIO *)lib_AllocMem(sizeof(*portio),MEMF_CLEAR|MEMF_PUBLIC))) {
+  if ((portio=lib_AllocMem(sizeof(*portio),MEMF_CLEAR|MEMF_PUBLIC))) {
     portio->port.mp_Node.ln_Type=NT_MSGPORT;
     if ((BYTE)(portio->port.mp_SigBit=AllocSignal(-1))>=0) {
       portio->port.mp_SigTask=FindTask(NULL);

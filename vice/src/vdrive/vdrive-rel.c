@@ -389,16 +389,16 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
 
             /* reallocate memory for another side sector group */
             o = SIDE_SECTORS_MAX * 256;
-            p->side_sector = (BYTE *)lib_realloc(p->side_sector, ( side + 1 ) * o );
+            p->side_sector = lib_realloc(p->side_sector, ( side + 1 ) * o );
             /* clear out new portion, the function may not do this */
             memset(&(p->side_sector[side * o]), 0, o);
 
             /* Also reallocate and clear out new sections of track and
                 sectors locations and dirty flag of    each side sector */
             o = ( side + 1 ) * SIDE_SECTORS_MAX;
-            p->side_sector_track = (BYTE *)lib_realloc(p->side_sector_track, o);
-            p->side_sector_sector = (BYTE *)lib_realloc(p->side_sector_sector, o);
-            p->side_sector_needsupdate = (BYTE *)lib_realloc(p->side_sector_needsupdate, o);
+            p->side_sector_track = lib_realloc(p->side_sector_track, o);
+            p->side_sector_sector = lib_realloc(p->side_sector_sector, o);
+            p->side_sector_needsupdate = lib_realloc(p->side_sector_needsupdate, o);
             o = side * SIDE_SECTORS_MAX;
             memset(&(p->side_sector_track[o]), 0, SIDE_SECTORS_MAX);
             memset(&(p->side_sector_sector[o]), 0, SIDE_SECTORS_MAX);

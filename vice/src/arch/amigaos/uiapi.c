@@ -266,7 +266,7 @@ int ui_requester(char *title, char *msg, char *buttons, int defval)
   struct EasyStruct *uiRequester = NULL;
   int retval;
 
-  uiRequester = (struct EasyStruct *)lib_AllocMem(sizeof(struct EasyStruct), MEMF_ANY);
+  uiRequester = lib_AllocMem(sizeof(struct EasyStruct), MEMF_ANY);
   if (uiRequester)
   {
     uiRequester->es_StructSize = sizeof(struct EasyStruct);

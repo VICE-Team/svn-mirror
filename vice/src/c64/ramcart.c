@@ -306,7 +306,7 @@ static int ramcart_activate(void)
     if (!ramcart_size)
         return 0;
 
-    ramcart_ram = (BYTE *)lib_realloc((void *)ramcart_ram, (size_t)ramcart_size);
+    ramcart_ram = lib_realloc((void *)ramcart_ram, (size_t)ramcart_size);
 
     /* Clear newly allocated RAM.  */
     if (ramcart_size > old_ramcart_ram_size)

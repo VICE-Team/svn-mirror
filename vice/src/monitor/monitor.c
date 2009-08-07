@@ -1277,7 +1277,7 @@ void mon_ioreg_add_list(mem_ioreg_list_t **list, const char *name,
             break;
     }
 
-    base = (mem_ioreg_list_t *)lib_realloc(base, sizeof(mem_ioreg_list_t)
+    base = lib_realloc(base, sizeof(mem_ioreg_list_t)
            * (n + 1));
 
     if (n > 0)

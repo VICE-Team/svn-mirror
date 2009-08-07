@@ -194,7 +194,7 @@ void plus256k_reset(void)
 
 static int plus256k_activate(void)
 {
-  plus256k_ram = (BYTE *)lib_realloc((void *)plus256k_ram, (size_t)0x40000);
+  plus256k_ram = lib_realloc((void *)plus256k_ram, (size_t)0x40000);
 
   log_message(plus256k_log, "PLUS256K hack installed.");
 

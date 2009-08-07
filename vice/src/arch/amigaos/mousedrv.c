@@ -160,7 +160,7 @@ void rem_inputhandler(void)
 int add_inputhandler(void)
 {
   if ((inputPort = CreateMsgPort())) {
-    if ((inputHandler = (struct Interrupt *)lib_AllocMem(sizeof(struct Interrupt), MEMF_PUBLIC|MEMF_CLEAR))) {
+    if ((inputHandler = lib_AllocMem(sizeof(struct Interrupt), MEMF_PUBLIC|MEMF_CLEAR))) {
       if ((inputReqBlk = (struct IOStdReq *)CreateIORequest(inputPort, sizeof(struct IOStdReq)))) {
         if (!(input_error = OpenDevice("input.device", 0, (struct IORequest *)inputReqBlk, 0))) {
           inputHandler->is_Code         = (void *)MyInputHandler;

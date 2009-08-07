@@ -128,7 +128,7 @@ void cs256k_reset(void)
 
 static int cs256k_activate(void)
 {
-  cs256k_ram = (BYTE *)lib_realloc((void *)cs256k_ram, (size_t)0x40000);
+  cs256k_ram = lib_realloc((void *)cs256k_ram, (size_t)0x40000);
 
   log_message(cs256k_log, "CSORY 256K expansion installed.");
 

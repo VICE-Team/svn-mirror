@@ -139,7 +139,7 @@ struct Library *P96Base = NULL;
 #ifndef AMIGA_AROS
 struct RastPort *CreateRastPort(void)
 {
-  return lib_AllocVec(sizeof(struct RastPort),MEMF_ANY|MEMF_PUBLIC);
+  return (struct RastPort *)lib_AllocVec(sizeof(struct RastPort),MEMF_ANY|MEMF_PUBLIC);
 }
 
 struct RastPort *CloneRastPort(struct RastPort *friend_rastport)

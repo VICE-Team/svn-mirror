@@ -375,7 +375,7 @@ s32 ahi_open(s32 frequency, u32 mode, s32 fragsize, s32 frags, void (*callback)(
   SetSignal(0, SIGBREAKF_CTRL_D | SIGBREAKF_CTRL_E);
 
   /* allocate semaphore */
-  audio.semaphore = (struct SignalSemaphore *)lib_AllocVec(sizeof(struct SignalSemaphore), MEMF_PUBLIC | MEMF_CLEAR);
+  audio.semaphore = lib_AllocVec(sizeof(struct SignalSemaphore), MEMF_PUBLIC | MEMF_CLEAR);
   if (audio.semaphore == NULL) {
     goto fail;
   }
