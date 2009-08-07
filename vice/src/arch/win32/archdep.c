@@ -494,7 +494,7 @@ int archdep_spawn(const char *name, char **argv,
     }
 
     /* Spawn the child process.  */
-    retval = (int)_spawnvp(_P_WAIT, name, argv);
+    retval = (int)_spawnvp(_P_WAIT, name, (const char * const *)argv);
 
 cleanup:
     if (old_stdout >= 0) {
