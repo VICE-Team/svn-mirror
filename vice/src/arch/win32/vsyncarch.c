@@ -117,7 +117,7 @@ void vsyncarch_init(void)
             return;
         }
 #ifdef HAS_LONGLONG_INTEGER
-        while (li.QuadPart & (unsigned long long)0xffffffffe0000000) {
+        while (li.QuadPart & (ULONGLONG)0xffffffffe0000000) {
             li.QuadPart >>= 1;
             perf_rotate++;
         }
