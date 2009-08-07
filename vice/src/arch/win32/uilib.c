@@ -498,8 +498,6 @@ static UINT_PTR APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
     char filename[256];
     TCHAR st_filename[256];
     int msg_type;
-    int append_extension = 0;
-    int is_it_standard_extension = 0;
     int index;
 
     preview = GetDlgItem(hwnd, IDC_PREVIEW);

@@ -45,7 +45,10 @@ static LPDIRECTINPUT di = NULL;
 
 LPDIRECTINPUT get_directinput_handle()
 {
+#ifndef HAVE_DINPUT_LIB
     HRESULT res;
+#endif
+
     if (di == NULL)
     {
 #ifdef HAVE_DINPUT_LIB

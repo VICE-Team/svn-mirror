@@ -38,6 +38,8 @@ enum host_cpu_feature {
 #  endif
 #endif
 
+#if (RESID_USE_SSE==1)
+
 /* This code is appropriate for 32-bit and 64-bit x86 CPUs. */
 #ifdef USE_ASM
 
@@ -127,7 +129,7 @@ static int host_cpu_features(void)
       "=r" (temp2)
       :
       : "eax");
-#endif
+#    endif
 #if defined(__i386__) || (defined(_MSC_VER) && defined(_WIN32))
   temp1 &= 0x200000;
   temp2 &= 0x200000;
@@ -152,7 +154,8 @@ static int host_cpu_features(void)
 {
   return 0;
 }
-#endif
+#endif /* USE_ASM */
+#endif /* RESID_USE_SSE */
 
 /* tables used by voice/wavegen/envgen */
 float dac[12];

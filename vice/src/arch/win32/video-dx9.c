@@ -166,7 +166,6 @@ void video_device_release_dx9(video_canvas_t *canvas)
 
 HRESULT video_canvas_reset_dx9(video_canvas_t *canvas)
 {
-    LPDIRECT3DSURFACE9 d3dbackbuffer = NULL;
     LPDIRECT3DSWAPCHAIN9 d3dsc;
     D3DPRESENT_PARAMETERS d3dpp;
     HRESULT ddresult;

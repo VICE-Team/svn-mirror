@@ -43,11 +43,7 @@
 static HMENU   old_menu;
 static RECT    old_rect;
 static DWORD   old_style;
-static int     old_width;
-static int     old_height;
-static int     old_bitdepth;
 static float   old_refreshrate;
-
 
 void fullscreen_getmodes_dx9(void)
 {

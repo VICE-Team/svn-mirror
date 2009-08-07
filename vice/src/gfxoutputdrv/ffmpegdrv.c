@@ -474,7 +474,7 @@ static void ffmpegdrv_close_video(void)
 
     video_is_open = 0;
     lib_free(video_outbuf);
-    video_outbug = NULL;
+    video_outbuf = NULL;
     lib_free(picture->data[0]);
     lib_free(picture);
     picture = NULL;
