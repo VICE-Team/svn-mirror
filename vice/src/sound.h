@@ -107,6 +107,11 @@ static inline SWORD sound_audio_mix(int ch1, int ch2)
 #define SOUND_ADJUST_ADJUSTING  1
 #define SOUND_ADJUST_EXACT      2
 
+/* Fragment sizes */
+#define SOUND_FRAGMENT_SMALL    0
+#define SOUND_FRAGMENT_MEDIUM   1
+#define SOUND_FRAGMENT_LARGE    2
+
 /* external functions for vice */
 extern void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame);
 extern void sound_reset(void);

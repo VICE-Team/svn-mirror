@@ -79,6 +79,9 @@
 /* Ethernet default device */
 #define ARCHDEP_ETHERNET_DEFAULT_DEVICE ""
 
+/* Default sound fragment size */
+#define ARCHDEP_SOUND_FRAGMENT_SIZE 1
+
 /* Line editing */
 extern char *readline(const char *prompt);
 extern void add_history(const char *p);

@@ -41,6 +41,7 @@ UI_MENU_DEFINE_STRING_RADIO(SoundDeviceName)
 UI_MENU_DEFINE_RADIO(SoundSpeedAdjustment)
 UI_MENU_DEFINE_RADIO(SoundSampleRate)
 UI_MENU_DEFINE_RADIO(SoundBufferSize)
+UI_MENU_DEFINE_RADIO(SoundFragmentSize)
 UI_MENU_DEFINE_RADIO(SoundSuspendTime)
 
 UI_CALLBACK(set_sound_device_arg)
@@ -84,6 +85,16 @@ static ui_menu_entry_t set_sound_buffer_size_submenu[] = {
       (ui_callback_data_t)25, NULL },
     { N_("*0.02 sec"), (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)20, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_sound_fragment_size_submenu[] = {
+    { N_("*Small"), (ui_callback_t)radio_SoundFragmentSize,
+      (ui_callback_data_t)SOUND_FRAGMENT_SMALL, NULL },
+    { N_("*Medium"), (ui_callback_t)radio_SoundFragmentSize,
+      (ui_callback_data_t)SOUND_FRAGMENT_MEDIUM, NULL },
+    { N_("*Large"), (ui_callback_t)radio_SoundFragmentSize,
+      (ui_callback_data_t)SOUND_FRAGMENT_LARGE, NULL },
     { NULL }
 };
 
@@ -132,6 +143,8 @@ ui_menu_entry_t sound_settings_submenu[] = {
       NULL, NULL, set_sound_sample_rate_submenu },
     { N_("Buffer size"),
       NULL, NULL, set_sound_buffer_size_submenu },
+    { N_("Fragment size"),
+      NULL, NULL, set_sound_fragment_size_submenu },
     { N_("Suspend time"),
       NULL, NULL, set_sound_suspend_time_submenu },
     { NULL },

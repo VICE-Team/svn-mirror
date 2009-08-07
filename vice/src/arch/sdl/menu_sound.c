@@ -41,6 +41,7 @@
 
 UI_MENU_DEFINE_TOGGLE(Sound)
 UI_MENU_DEFINE_RADIO(SoundSampleRate)
+UI_MENU_DEFINE_RADIO(SoundFragmentSize)
 UI_MENU_DEFINE_RADIO(SoundSpeedAdjustment)
 UI_MENU_DEFINE_RADIO(SoundDeviceName)
 
@@ -273,6 +274,22 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t fragment_size_menu[] = {
+    { "Small",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SoundFragmentSize_callback,
+      (ui_callback_data_t)SOUND_FRAGMENT_SMALL },
+    { "Medium",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SoundFragmentSize_callback,
+      (ui_callback_data_t)SOUND_FRAGMENT_MEDIUM },
+    { "Large",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SoundFragmentSize_callback,
+      (ui_callback_data_t)SOUND_FRAGMENT_LARGE },
+    { NULL }
+};
+
 static const ui_menu_entry_t sound_record_menu[] = {
     { "Start recording AIFF audio file",
       MENU_ENTRY_DIALOG,
@@ -332,6 +349,10 @@ const ui_menu_entry_t sound_output_menu[] = {
       MENU_ENTRY_DIALOG,
       custom_buffer_size_callback,
       NULL },
+    { "Fragment size",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)fragment_size_menu },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Frequency"),
     { "22050 Hz",

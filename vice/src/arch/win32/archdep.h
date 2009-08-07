@@ -102,6 +102,9 @@
 /* No key symcode.  */
 #define ARCHDEP_KEYBOARD_SYM_NONE 0
 
+/* Default sound fragment size */
+#define ARCHDEP_SOUND_FRAGMENT_SIZE 2
+
 extern void archdep_workaround_nop(const char *otto);
  
 #endif

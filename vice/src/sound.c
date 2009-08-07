@@ -85,6 +85,14 @@ static int buffer_size;               /* app_resources.soundBufferSize */
 static int suspend_time;              /* app_resources.soundSuspendTime */
 static int speed_adjustment_setting;  /* app_resources.soundSpeedAdjustment */
 static int volume;
+static int fragment_size;
+
+/* divisors for fragment size calculation */
+static int fragment_divisor[] = {
+    4, /* 5ms */
+    2, /* 10 ms */
+    1  /* 20 ms */
+};
 
 /* I need this to serialize close_sound and enablesound/sound_open in
    the OS/2 Multithreaded environment                              */
@@ -150,6 +158,13 @@ static int set_buffer_size(int val, void *param)
     return 0;
 }
 
+static int set_fragment_size(int val, void *param)
+{
+    fragment_size = val;
+    sound_state_changed = TRUE;
+    return 0;
+}
+
 static int set_suspend_time(int val, void *param)
 {
     suspend_time = val;
@@ -201,6 +216,8 @@ static const resource_int_t resources_int[] = {
       (void *)&sample_rate, set_sample_rate, NULL },
     { "SoundBufferSize", SOUND_SAMPLE_BUFFER_SIZE, RES_EVENT_NO, NULL,
       (void *)&buffer_size, set_buffer_size, NULL },
+    { "SoundFragmentSize", ARCHDEP_SOUND_FRAGMENT_SIZE, RES_EVENT_NO, NULL,
+      (void *)&fragment_size, set_fragment_size, NULL },
     { "SoundSuspendTime", 0, RES_EVENT_NO, NULL,
       (void *)&suspend_time, set_suspend_time, NULL },
     { "SoundSpeedAdjustment", SOUND_ADJUST_FLEXIBLE, RES_EVENT_NO, NULL,
@@ -249,6 +266,11 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_VALUE, IDCLS_SET_SOUND_BUFFER_SIZE_MSEC,
       NULL, NULL },
+    { "-soundfragsize", SET_RESOURCE, 1,
+      NULL, NULL, "SoundFragmentSize", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_P_VALUE, IDCLS_SET_SOUND_BUFFER_SIZE_MSEC,
+      T_("value"), T_("Set sound fragment size (0 = small, 1 = medium, 2 = large)") },
     { "-sounddev", SET_RESOURCE, 1,
       NULL, NULL, "SoundDeviceName", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -589,7 +611,9 @@ int sound_open(void)
      * audio is generated. It also improves the estimate of optimal frame
      * length for vsync, which is closely tied to audio and uses the fragment
      * information to calculate it. */
-    fragsize = speed / ((rfsh_per_sec < 1.0) ? 1 : ((int)rfsh_per_sec)) / 2;
+    fragsize = speed / ((rfsh_per_sec < 1.0) ? 1 : ((int)rfsh_per_sec))
+               / fragment_divisor[fragment_size];
+
     for (i = 1; 1 << i < fragsize; i++);
     fragsize = 1 << i;
     fragnr = (int)((speed * bufsize + fragsize - 1) / fragsize);

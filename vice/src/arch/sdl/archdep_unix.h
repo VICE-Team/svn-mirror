@@ -76,6 +76,9 @@
 /* Ethernet default device */
 #define ARCHDEP_ETHERNET_DEFAULT_DEVICE "eth0"
 
+/* Default sound fragment size */
+#define ARCHDEP_SOUND_FRAGMENT_SIZE 1
+
 extern const char *archdep_home_path(void);
 
 /* set this path to customize the preference storage */ 
