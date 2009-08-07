@@ -100,7 +100,7 @@ void mousedrv_init(void)
 {
 #ifdef HAVE_DINPUT
 #ifdef HAVE_DINPUT_LIB
-    LPDIDATAFORMAT mouse_data_format_ptr = &c_dfDIMouse;
+    LPCDIDATAFORMAT mouse_data_format_ptr = &c_dfDIMouse;
 #else
     DIOBJECTDATAFORMAT mouse_objects[] = {
         { &GUID_XAxis, 0, DIDFT_OPTIONAL | DIDFT_AXIS | DIDFT_ANYINSTANCE, 0 },
@@ -112,7 +112,7 @@ void mousedrv_init(void)
         { &GUID_Button, 15, DIDFT_OPTIONAL | DIDFT_BUTTON | DIDFT_ANYINSTANCE, 0 }
     };
 
-    DIDATAFORMAT mouse_data_format = {
+    const DIDATAFORMAT mouse_data_format = {
         sizeof(DIDATAFORMAT),
         sizeof(DIOBJECTDATAFORMAT),
         DIDF_RELAXIS,
@@ -120,7 +120,7 @@ void mousedrv_init(void)
         sizeof(mouse_objects) / sizeof(*mouse_objects),
         mouse_objects
     };
-    LPDIDATAFORMAT mouse_data_format_ptr = &mouse_data_format;
+    LPCDIDATAFORMAT mouse_data_format_ptr = &mouse_data_format;
 #endif
 
     LPDIRECTINPUT di = get_directinput_handle();
