@@ -2918,8 +2918,8 @@ int main(int argc, char **argv)
         args[i] = NULL;
     nargs = 0;
 
-    drives[0] = (vdrive_t *)lib_calloc(1, sizeof(vdrive_t));
-    drives[1] = (vdrive_t *)lib_calloc(1, sizeof(vdrive_t));
+    drives[0] = lib_calloc(1, sizeof(vdrive_t));
+    drives[1] = lib_calloc(1, sizeof(vdrive_t));
 
     retval = 0;
 

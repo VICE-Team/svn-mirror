@@ -522,8 +522,7 @@ int video_resources_chip_init(const char *chipname,
         lib_free((char *)(resources_chip_fullscreen_string[0].name));
 
         for (i = 0; i < video_chip_cap->fullscreen.device_num; i++) {
-            resource_chip_mode = (video_resource_chip_mode_t *)lib_malloc(
-                                 sizeof(video_resource_chip_mode_t));
+            resource_chip_mode = lib_malloc(sizeof(video_resource_chip_mode_t));
             resource_chip_mode->resource_chip = *canvas;
             resource_chip_mode->device = i;
 

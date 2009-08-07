@@ -82,8 +82,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
     canvas->video_draw_buffer_callback = NULL;
 
 #ifdef HAVE_FULLSCREEN
-    canvas->fullscreenconfig
-        = (fullscreenconfig_t *)lib_calloc(1, sizeof(fullscreenconfig_t));
+    canvas->fullscreenconfig = lib_calloc(1, sizeof(fullscreenconfig_t));
     fullscreen_init_alloc_hooks(canvas);
 #endif
 }

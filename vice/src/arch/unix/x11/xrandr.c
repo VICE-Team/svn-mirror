@@ -173,9 +173,7 @@ xrandr_menu_create(struct ui_menu_entry_s *menu)
     
     if (!resolutions_submenu) 
     {
-	resolutions_submenu = 
-	    (ui_menu_entry_t *)lib_calloc((size_t)(screen_info.n_all_modes+1),
-					  sizeof(ui_menu_entry_t));
+	resolutions_submenu = lib_calloc((size_t)(screen_info.n_all_modes+1), sizeof(ui_menu_entry_t));
 	
 	for (i = 0; i < screen_info.n_all_modes; i++)
 	{
@@ -278,9 +276,7 @@ init_XRandR(Display *dpy)
     {
 	int current = 0;
 	
-	screen_info.all_modes = 
-	    (XRRMode_t *) lib_calloc((size_t) screen_info.n_all_modes,
-				     sizeof(XRRMode_t));
+	screen_info.all_modes = lib_calloc((size_t) screen_info.n_all_modes, sizeof(XRRMode_t));
     
 	/* remember Desktop resolution in index 0 */
 	screen_info.all_modes[current].rate = screen_info.current_rate;

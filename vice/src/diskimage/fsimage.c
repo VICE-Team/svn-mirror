@@ -77,7 +77,7 @@ void *fsimage_fd_get(disk_image_t *image)
 
 void fsimage_error_info_create(fsimage_t *fsimage)
 {
-    fsimage->error_info = (BYTE *)lib_calloc(1, MAX_BLOCKS_ANY);
+    fsimage->error_info = lib_calloc(1, MAX_BLOCKS_ANY);
 }
 
 void fsimage_error_info_destroy(fsimage_t *fsimage)
@@ -92,7 +92,7 @@ void fsimage_media_create(disk_image_t *image)
 {
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)lib_calloc(1, sizeof(fsimage_t));
+    fsimage = lib_calloc(1, sizeof(fsimage_t));
 
     image->media.fsimage = fsimage;
 }

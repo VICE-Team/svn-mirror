@@ -264,7 +264,7 @@ void vidmode_menu_create(struct ui_menu_entry_s *menu)
 
     amodes = vidmode_available_modes();
 
-    resolutions_submenu = (ui_menu_entry_t *)lib_calloc((size_t)(amodes + 1),
+    resolutions_submenu = lib_calloc((size_t)(amodes + 1),
                           sizeof(ui_menu_entry_t));
 
     for (i = 0; i < amodes ; i++) {

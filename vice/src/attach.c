@@ -217,7 +217,7 @@ void file_system_init(void)
     
     for (i = 0; i < 4; i++) {
         file_system[i].serial = serial_device_get(i + 8);;
-        file_system[i].vdrive = (vdrive_t *)lib_calloc(1, sizeof(vdrive_t));
+        file_system[i].vdrive = lib_calloc(1, sizeof(vdrive_t));
         switch (file_system_device_enabled[i]) {
           case ATTACH_DEVICE_NONE:
             vdrive_device_setup(file_system[i].vdrive, i + 8);

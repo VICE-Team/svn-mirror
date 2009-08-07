@@ -94,8 +94,7 @@ unsigned int interrupt_cpu_status_int_new(interrupt_cpu_status_t *cs,
 
 interrupt_cpu_status_t *interrupt_cpu_status_new(void)
 {
-    return (interrupt_cpu_status_t *)lib_calloc(
-        1, sizeof(interrupt_cpu_status_t));
+    return (interrupt_cpu_status_t *)lib_calloc(1, sizeof(interrupt_cpu_status_t));
 }
 
 void interrupt_cpu_status_destroy(interrupt_cpu_status_t *cs)

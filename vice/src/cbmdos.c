@@ -188,7 +188,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
     cmd_parse->parselength = 0;
 
     /* Temporary hack.  */
-    cmd_parse->parsecmd = (char *)lib_calloc(1, cmdlen + 2);
+    cmd_parse->parsecmd = lib_calloc(1, cmdlen + 2);
 
     parsecmd = cmd_parse->parsecmd;
 

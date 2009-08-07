@@ -74,7 +74,7 @@ void rawimage_media_create(disk_image_t *image)
 {
     rawimage_t *rawimage;
 
-    rawimage = (rawimage_t *)lib_calloc(1, sizeof(rawimage_t));
+    rawimage = lib_calloc(1, sizeof(rawimage_t));
 
     image->media.rawimage = rawimage;
 }

@@ -884,8 +884,7 @@ fprintf(stderr,"%s: (%08x, %i)\n",__func__,(unsigned int)canvas, sdl_num_screens
 
     canvas->video_draw_buffer_callback = NULL;
 
-    canvas->fullscreenconfig
-        = (fullscreenconfig_t *)lib_calloc(1, sizeof(fullscreenconfig_t));
+    canvas->fullscreenconfig = lib_calloc(1, sizeof(fullscreenconfig_t));
     fullscreen_init_alloc_hooks(canvas);
 
     if (sdl_active_canvas_num == sdl_num_screens) {

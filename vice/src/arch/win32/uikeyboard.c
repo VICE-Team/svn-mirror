@@ -360,7 +360,7 @@ HACCEL uikeyboard_create_accelerator_table(void)
         if (idmlist[i].cmd >= menuitemmodifier_len)
             menuitemmodifier_len = idmlist[i].cmd + 1;
 
-    menuitemmodifier = (char**) lib_calloc(menuitemmodifier_len, sizeof(char*));
+    menuitemmodifier = lib_calloc(menuitemmodifier_len, sizeof(char*));
     memset(menuitemmodifier, 0, menuitemmodifier_len * sizeof(char*));
 
     fshortcuts = sysfile_open("win_shortcuts.vsc", &complete_path, MODE_READ_TEXT);

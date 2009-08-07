@@ -124,7 +124,7 @@ static int screenshot_save_core(screenshot_t *screenshot, gfxoutputdrv_t *drv,
                        - screenshot->first_displayed_line + 1;
     screenshot->y_offset = screenshot->first_displayed_line;
 
-    screenshot->color_map = (BYTE *)lib_calloc(1, 256);
+    screenshot->color_map = lib_calloc(1, 256);
 
     for (i = 0; i < screenshot->palette->num_entries; i++)
         screenshot->color_map[i] = i;

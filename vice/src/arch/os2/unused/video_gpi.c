@@ -298,7 +298,7 @@ void PM_mainloop(VOID *arg)
                               hdc, &sizelHps,
                               PU_PELS|GPIF_DEFAULT|GPIT_MICRO|GPIA_ASSOC); // GPIT_NORMAL does also work with vac++
 
-    (*ptr)->pbmi = (PBITMAPINFO2)lib_calloc(1, 16+sizeof(RGB2)*256);
+    (*ptr)->pbmi = lib_calloc(1, 16+sizeof(RGB2)*256);
     (*ptr)->pbmi->cbFix      = 16; // Size of cbFix, cPlanes, cBitCount = Begin of RGB2
     (*ptr)->pbmi->cPlanes    =  1;
     (*ptr)->pbmi->cBitCount  =  8; // Using 8-bit color mode
@@ -348,7 +348,7 @@ video_canvas_t video_canvas_create(const char *title, UINT *width,
     }
 
     vidlog("canvas alloc",1);
-    canvas_new = (video_canvas_t)lib_calloc(1,sizeof(struct _canvas));
+    canvas_new = lib_calloc(1,sizeof(struct _canvas));
     if (!canvas_new) return (video_canvas_t) NULL;
 
     canvas_new->init_ready       =  FALSE;  // canvas_new not yet initialized

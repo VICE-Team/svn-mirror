@@ -380,8 +380,8 @@ raster_t *vicii_init(unsigned int flag)
 
     vicii.num_idle_3fff = 0;
     vicii.num_idle_3fff_old = 0;
-    vicii.idle_3fff = (idle_3fff_t *)lib_malloc(sizeof(idle_3fff_t) * 64);
-    vicii.idle_3fff_old = (idle_3fff_t *)lib_malloc(sizeof(idle_3fff_t) * 64);
+    vicii.idle_3fff = lib_malloc(sizeof(idle_3fff_t) * 64);
+    vicii.idle_3fff_old = lib_malloc(sizeof(idle_3fff_t) * 64);
 
     vicii.buf_offset = 0;
 

@@ -153,8 +153,7 @@ void uisound_menu_create(void)
     if (num == 0)
         return;
 
-    devices_submenu = (ui_menu_entry_t *)lib_calloc((size_t)(num + 1),
-                      sizeof(ui_menu_entry_t));
+    devices_submenu = lib_calloc((size_t)(num + 1), sizeof(ui_menu_entry_t));
 
     for (i = 0; i < num ; i++) {
         devices_submenu[i].string =

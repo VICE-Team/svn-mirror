@@ -103,7 +103,7 @@ static video_ycbcr_palette_t *video_ycbcr_palette_create(unsigned int num_entrie
 {
     video_ycbcr_palette_t *p;
 
-    p = (video_ycbcr_palette_t *)lib_malloc(sizeof(video_ycbcr_palette_t));
+    p = lib_malloc(sizeof(video_ycbcr_palette_t));
 
     p->num_entries = num_entries;
     p->entries = lib_calloc(num_entries, sizeof(video_ycbcr_color_t));

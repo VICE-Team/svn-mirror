@@ -34,19 +34,13 @@
 
 void raster_changes_init(raster_t *raster)
 {
-    raster->changes = (raster_changes_all_t *)lib_calloc(1,
-                      sizeof(raster_changes_all_t));    
+    raster->changes = lib_calloc(1, sizeof(raster_changes_all_t));    
 
-    raster->changes->background = (raster_changes_t *)lib_calloc(1,
-                                  sizeof(raster_changes_t)); 
-    raster->changes->foreground = (raster_changes_t *)lib_calloc(1,
-                                  sizeof(raster_changes_t));
-    raster->changes->border = (raster_changes_t *)lib_calloc(1,
-                              sizeof(raster_changes_t));
-    raster->changes->sprites = (raster_changes_t *)lib_calloc(1,
-                               sizeof(raster_changes_t));
-    raster->changes->next_line = (raster_changes_t *)lib_calloc(1,
-                                 sizeof(raster_changes_t));
+    raster->changes->background = lib_calloc(1, sizeof(raster_changes_t)); 
+    raster->changes->foreground = lib_calloc(1, sizeof(raster_changes_t));
+    raster->changes->border = lib_calloc(1, sizeof(raster_changes_t));
+    raster->changes->sprites = lib_calloc(1, sizeof(raster_changes_t));
+    raster->changes->next_line = lib_calloc(1, sizeof(raster_changes_t));
 }
 
 void raster_changes_shutdown(raster_t *raster)

@@ -163,8 +163,8 @@ void ui_cmdline_window(int optlen, int txtlen)
     HWND hwndFrame, hwndClient;
     QMSG qmsg;
 
-    ui_cmdline_textopt=(char*)lib_calloc(1,optlen+1);
-    ui_cmdline_text   =(char*)lib_calloc(1,txtlen+1);
+    ui_cmdline_textopt=lib_calloc(1,optlen+1);
+    ui_cmdline_text   =lib_calloc(1,txtlen+1);
 
     WinRegisterClass(habMain, szCmdClientClass, PM_scrollProc,
                      CS_SIZEREDRAW, 0);
