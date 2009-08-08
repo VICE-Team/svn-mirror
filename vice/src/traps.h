@@ -32,6 +32,11 @@
 #include "mem.h"
 #include "types.h"
 
+/* JAM (0x02) is the trap-opcode.               */
+/* Note: If you change this, you need to change */
+/*       6510core.c and 6510dtvcore.c too!      */
+#define TRAP_OPCODE 0x02
+
 typedef struct trap_s
 {
     const char *name;

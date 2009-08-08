@@ -776,26 +776,36 @@
 
 #define BRK()                                                    \
   do {                                                           \
+      WORD addr;                                                 \
+      EXPORT_REGISTERS();                                        \
+      TRACE_BRK();                                               \
+      INC_PC(2);                                                 \
+      LOCAL_SET_BREAK(1);                                        \
+      PUSH(reg_pc >> 8);                                         \
+      CLK_INC();                                                 \
+      PUSH(reg_pc & 0xff);                                       \
+      CLK_INC();                                                 \
+      PUSH(LOCAL_STATUS());                                      \
+      CLK_INC();                                                 \
+      LOCAL_SET_INTERRUPT(1);                                    \
+      addr = LOAD(0xfffe);                                       \
+      CLK_INC();                                                 \
+      addr |= (LOAD(0xffff) << 8);                               \
+      CLK_INC();                                                 \
+      JUMP(addr);                                                \
+  } while (0)
+
+/* The JAM (0x02) opcode is also used to patch the ROM.  The function trap_handler()
+   returns nonzero if this is not a patch, but a `real' JAM instruction. */
+
+#define JAM_02()                                                 \
+  do {                                                           \
       DWORD trap_result;                                         \
       EXPORT_REGISTERS();                                        \
       if (!ROM_TRAP_ALLOWED()                                    \
           || (trap_result = ROM_TRAP_HANDLER()) == (DWORD)-1) {  \
-          WORD addr;                                             \
-          TRACE_BRK();                                           \
-          INC_PC(2);                                             \
-          LOCAL_SET_BREAK(1);                                    \
-          PUSH(reg_pc >> 8);                                     \
-          CLK_INC();                                        \
-          PUSH(reg_pc & 0xff);                                   \
-          CLK_INC();                                        \
-          PUSH(LOCAL_STATUS());                                  \
-          CLK_INC();                                        \
-          LOCAL_SET_INTERRUPT(1);                                \
-          addr = LOAD(0xfffe);                                   \
-          CLK_INC();                                        \
-          addr |= (LOAD(0xffff) << 8);                           \
-          CLK_INC();                                        \
-          JUMP(addr);                                            \
+          REWIND_FETCH_OPCODE(CLK);                              \
+          JAM();                                                 \
       } else {                                                   \
           if (trap_result) {                                     \
              REWIND_FETCH_OPCODE(CLK);                           \
@@ -1452,7 +1462,10 @@ trap_skipped:
             ORA(GET_IND_X, 2);
             break;
 
-          case 0x02:            /* JAM */
+          case 0x02:            /* JAM - also used for traps */
+            JAM_02();
+            break;
+
           case 0x22:            /* JAM */
           case 0x52:            /* JAM */
           case 0x62:            /* JAM */

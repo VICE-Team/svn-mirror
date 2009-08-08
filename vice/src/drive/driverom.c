@@ -35,6 +35,7 @@
 #include "machine-drive.h"
 #include "resources.h"
 #include "sysfile.h"
+#include "traps.h"
 #include "types.h"
 
 /* patch for 1541 driverom at $EAAF */
@@ -98,7 +99,7 @@ void driverom_initialize_traps(drive_t *drive)
             drive->rom[0xeae5 - 0x8000] = 0xea;
             drive->rom[0xeae8 - 0x8000] = 0xea;
             drive->rom[0xeae9 - 0x8000] = 0xea;
-            drive->rom[0xec9b - 0x8000] = 0x00;
+            drive->rom[0xec9b - 0x8000] = TRAP_OPCODE;
         }
 
         /* patch ROM for fast drive reset */
@@ -124,15 +125,18 @@ void driverom_initialize_traps(drive_t *drive)
             drive->rom[0xeabf - 0x8000] = 0xea;
             drive->rom[0xeac0 - 0x8000] = 0xea;
             drive->rom[0xead0 - 0x8000] = 0x08;
-            drive->rom[0xead9 - 0x8000] = 0x00;
+            drive->rom[0xead9 - 0x8000] = TRAP_OPCODE;
         }
     }
 
     if (drive->type == DRIVE_TYPE_1581) {
+        /* Skip rom/ram checks (JMP $afca) */
         drive->rom[0xaf6f - 0x8000] = 0x4c;
         drive->rom[0xaf70 - 0x8000] = 0xca;
         drive->rom[0xaf71 - 0x8000] = 0xaf;
-        drive->rom[0xdaee - 0x8000] = 0x00;
+        /* Trap handler changes PC to 0xdaf6 */
+        /* Skips comparison after CRC calculation */
+        drive->rom[0xdaee - 0x8000] = TRAP_OPCODE;
     }
 }
 

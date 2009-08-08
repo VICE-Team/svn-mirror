@@ -157,8 +157,7 @@ static int install_trap(const trap_t *t)
         }
     }
 
-    /* BRK (0x00) is trap-opcode.  */
-    (t->storefunc)(t->address, 0x00);
+    (t->storefunc)(t->address, TRAP_OPCODE);
 
     return 0;
 }
@@ -180,7 +179,7 @@ int traps_add(const trap_t *trap)
 
 static int remove_trap(const trap_t *trap)
 {
-    if ((trap->readfunc)(trap->address) != 0x00) {
+    if ((trap->readfunc)(trap->address) != TRAP_OPCODE) {
         log_error(traps_log, "No trap `%s' installed?", trap->name);
         return -1;
     }
