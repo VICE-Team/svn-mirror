@@ -109,4 +109,19 @@ extern void debug_iec_bus_read(unsigned int data);
 
 #endif
 
+
+#ifdef NDEBUG
+
+# define STATIC_ASSERT(_x)
+
+#else
+
+# define STATIC_ASSERT(_x) \
+    { \
+        BYTE dummy[1 - 2 * ((_x) == 0)]; \
+        dummy[0] = dummy[0] - dummy[0]; /* prevent "unused variable" warning */ \
+    }
+
+#endif
+
 #endif

@@ -37,6 +37,8 @@
 
 #define CPU_STR "Main CPU"
 
+#include "traps.h"
+
 #ifndef C64DTV
 /* The C64DTV can use different shadow registers for accu read/write. */
 /* For standard 6510, this is not the case. */
@@ -1463,6 +1465,7 @@ trap_skipped:
             break;
 
           case 0x02:            /* JAM - also used for traps */
+            STATIC_ASSERT(TRAP_OPCODE == 0x02);
             JAM_02();
             break;
 
