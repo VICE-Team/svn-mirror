@@ -33,7 +33,7 @@
 #include "debug.h"
 #include "c128mem.h"
 #include "menu_c128hw.h"
-#include "menu_c128cart.h"
+#include "menu_c64cart.h"
 #include "menu_common.h"
 #include "menu_debug.h"
 #include "menu_drive.h"
@@ -69,7 +69,7 @@ static const ui_menu_entry_t x128_main_menu[] = {
     { "Cartridge",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)c128cart_menu },
+      (ui_callback_data_t)c64cart_menu },
     { "Machine settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

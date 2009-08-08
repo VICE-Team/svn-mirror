@@ -35,6 +35,31 @@
 #include "menu_rom.h"
 #include "uimenu.h"
 
+UI_MENU_DEFINE_TOGGLE(InternalFunctionROM)
+UI_MENU_DEFINE_TOGGLE(ExternalFunctionROM)
+UI_MENU_DEFINE_FILE_STRING(InternalFunctionName)
+UI_MENU_DEFINE_FILE_STRING(ExternalFunctionName)
+
+static const ui_menu_entry_t c128_function_rom_menu[] = {
+    { "Enable internal function ROM",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_InternalFunctionROM_callback,
+      NULL },
+    { "Internal function ROM file",
+      MENU_ENTRY_DIALOG,
+      file_string_InternalFunctionName_callback,
+      (ui_callback_data_t)"Select internal function ROM image" },
+    { "Enable external function ROM",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_ExternalFunctionROM_callback,
+      NULL },
+    { "External function ROM file",
+      MENU_ENTRY_DIALOG,
+      file_string_ExternalFunctionName_callback,
+      (ui_callback_data_t)"Select external function ROM image" },
+    { NULL }
+};
+
 UI_MENU_DEFINE_FILE_STRING(KernalIntName)
 UI_MENU_DEFINE_FILE_STRING(KernalDEName)
 UI_MENU_DEFINE_FILE_STRING(KernalFIName)
@@ -55,16 +80,15 @@ UI_MENU_DEFINE_FILE_STRING(KernalName)
 UI_MENU_DEFINE_FILE_STRING(BasicName)
 UI_MENU_DEFINE_FILE_STRING(ChargenName)
 
-UI_MENU_DEFINE_FILE_STRING(EditorName)
-
-UI_MENU_DEFINE_FILE_STRING(3plus1loName)
-UI_MENU_DEFINE_FILE_STRING(3plus1hiName)
-
 const ui_menu_entry_t c128_rom_menu[] = {
     { "Drive ROMs",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)c128_drive_rom_menu },
+    { "Function ROMs",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)c128_function_rom_menu },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Computer ROMs"),
     { "International kernal",
@@ -196,6 +220,8 @@ const ui_menu_entry_t cbm2_rom_menu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_FILE_STRING(EditorName)
+
 const ui_menu_entry_t pet_rom_menu[] = {
     { "Drive ROMs",
       MENU_ENTRY_SUBMENU,
@@ -221,6 +247,9 @@ const ui_menu_entry_t pet_rom_menu[] = {
       (ui_callback_data_t)"Select editor ROM image" },
     { NULL }
 };
+
+UI_MENU_DEFINE_FILE_STRING(3plus1loName)
+UI_MENU_DEFINE_FILE_STRING(3plus1hiName)
 
 const ui_menu_entry_t plus4_rom_menu[] = {
     { "Drive ROMs",
