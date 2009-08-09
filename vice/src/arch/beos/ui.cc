@@ -785,6 +785,7 @@ void ui_dispatch_events(void)
 					"(c) 2007-2009 M. Kiesel\n",
 					"(c) 2007-2009 Hannu Nuotio\n",
 					"(c) 2007-2009 Daniel Kahlin\n",
+					"(c) 2008-2009 Antti S. Lankila\n",
 					"(c) 1999-2007 Andreas Dehmel\n",
 					"(c) 1999-2005 Thomas Bretz\n",
 					"(c) 2003-2005 David Hansel\n",

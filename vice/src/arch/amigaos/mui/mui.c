@@ -316,6 +316,7 @@ void ui_about(void)
     "Copyright @ 2007-2009 M. Kiesel",
     "Copyright @ 2007-2009 Hannu Nuotio",
     "Copyright @ 2007-2009 Daniel Kahlin",
+    "Copyright @ 2008-2009 Antti S. Lankila",
     "Copyright @ 2003-2005 David Hansel",
     "Copyright @ 1999-2004 Thomas Bretz",
     "Copyright @ 2000-2004 Markus Brenner",

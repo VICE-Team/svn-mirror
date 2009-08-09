@@ -578,6 +578,7 @@ static TUI_MENU_CALLBACK(show_copyright_callback)
             "Copyright (c) 2007-2009 M. Kiesel",
             "Copyright (c) 2007-2009 Hannu Nuotio",
             "Copyright (c) 2007-2009 Daniel Kahlin",
+            "Copyright (c) 2008-2009 Antti S. Lankila",
             "Copyright (c) 1999-2007 Andreas Dehmel",
             "Copyright (c) 1999-2005 Thomas Bretz",
             "Copyright (c) 2003-2005 David Hansel",
