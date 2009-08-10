@@ -147,53 +147,53 @@ static APTR build_gui_c64(void)
     APTR BT0, BT1;
 
     APTR gui = GroupObject,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
                  Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_1),
-                   CYCLE(ui_to_from[0].object, "", ui_joystick)
+                   MUIA_Group_Horiz, TRUE,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_1),
+                     CYCLE(ui_to_from[0].object, "", ui_joystick)
+                   End,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_2),
+                     CYCLE(ui_to_from[1].object, "", ui_joystick)
+                   End,
                  End,
                  Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_2),
-                   CYCLE(ui_to_from[1].object, "", ui_joystick)
-                 End,
-               End,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
-                 Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_USERPORT_ADAPTER),
-                   CYCLE(ui_to_from[4].object, "", ui_joystick_enable)
-                 End,
-               End,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
-                 Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_USERPORT_ADAPTER_TYPE),
-                   CYCLE(ui_to_from[5].object, "", ui_userport_c64_joystick)
-                 End,
-               End,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
-                 Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_USERPORT_PORT_1),
-                   CYCLE(ui_to_from[2].object, "", ui_joystick)
+                   MUIA_Group_Horiz, TRUE,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_USERPORT_ADAPTER),
+                     CYCLE(ui_to_from[4].object, "", ui_joystick_enable)
+                   End,
                  End,
                  Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_USERPORT_PORT_2),
-                   CYCLE(ui_to_from[3].object, "", ui_joystick)
+                   MUIA_Group_Horiz, TRUE,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_USERPORT_ADAPTER_TYPE),
+                     CYCLE(ui_to_from[5].object, "", ui_userport_c64_joystick)
+                   End,
                  End,
-               End,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
-                 Child, BT0 = SimpleButton("Config AI/Keyset A"),
-                 Child, BT1 = SimpleButton("Config AI/Keyset B"),
-               End,
+                 Child, GroupObject,
+                   MUIA_Group_Horiz, TRUE,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_USERPORT_PORT_1),
+                     CYCLE(ui_to_from[2].object, "", ui_joystick)
+                   End,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_USERPORT_PORT_2),
+                     CYCLE(ui_to_from[3].object, "", ui_joystick)
+                   End,
+                 End,
+                 Child, GroupObject,
+                   MUIA_Group_Horiz, TRUE,
+                   Child, BT0 = SimpleButton("Config AI/Keyset A"),
+                   Child, BT1 = SimpleButton("Config AI/Keyset B"),
+                 End,
                End;
 
     if (gui != NULL) {
@@ -214,53 +214,53 @@ static APTR build_gui_c64dtv(void)
     APTR BT0, BT1;
 
     APTR gui = GroupObject,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
                  Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_1),
-                   CYCLE(ui_to_from[0].object, "", ui_joystick)
+                   MUIA_Group_Horiz, TRUE,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_1),
+                     CYCLE(ui_to_from[0].object, "", ui_joystick)
+                   End,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_2),
+                     CYCLE(ui_to_from[1].object, "", ui_joystick)
+                   End,
                  End,
                  Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_2),
-                   CYCLE(ui_to_from[1].object, "", ui_joystick)
-                 End,
-               End,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
-                 Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_USERPORT_ADAPTER),
-                   CYCLE(ui_to_from[4].object, "", ui_joystick_enable)
-                 End,
-               End,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
-                 Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_USERPORT_ADAPTER_TYPE),
-                   CYCLE(ui_to_from[6].object, "", ui_userport_joystick)
-                 End,
-               End,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
-                 Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_USERPORT_PORT_1),
-                   CYCLE(ui_to_from[2].object, "", ui_joystick)
+                   MUIA_Group_Horiz, TRUE,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_USERPORT_ADAPTER),
+                     CYCLE(ui_to_from[4].object, "", ui_joystick_enable)
+                   End,
                  End,
                  Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_USERPORT_PORT_2),
-                   CYCLE(ui_to_from[3].object, "", ui_joystick)
+                   MUIA_Group_Horiz, TRUE,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_USERPORT_ADAPTER_TYPE),
+                     CYCLE(ui_to_from[6].object, "", ui_userport_joystick)
+                   End,
                  End,
-               End,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
-                 Child, BT0 = SimpleButton("Config AI/Keyset A"),
-                 Child, BT1 = SimpleButton("Config AI/Keyset B"),
-               End,
+                 Child, GroupObject,
+                   MUIA_Group_Horiz, TRUE,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_USERPORT_PORT_1),
+                     CYCLE(ui_to_from[2].object, "", ui_joystick)
+                   End,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_USERPORT_PORT_2),
+                     CYCLE(ui_to_from[3].object, "", ui_joystick)
+                   End,
+                 End,
+                 Child, GroupObject,
+                   MUIA_Group_Horiz, TRUE,
+                   Child, BT0 = SimpleButton("Config AI/Keyset A"),
+                   Child, BT1 = SimpleButton("Config AI/Keyset B"),
+                 End,
                End;
 
     if (gui != NULL) {
@@ -281,24 +281,24 @@ static APTR build_gui_cbm5x0(void)
     APTR BT0, BT1;
 
     APTR gui = GroupObject,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
                  Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_1),
-                   CYCLE(ui_to_from[0].object, "", ui_joystick)
+                   MUIA_Group_Horiz, TRUE,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_1),
+                     CYCLE(ui_to_from[0].object, "", ui_joystick)
+                   End,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_2),
+                     CYCLE(ui_to_from[1].object, "", ui_joystick)
+                   End,
                  End,
                  Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_2),
-                   CYCLE(ui_to_from[1].object, "", ui_joystick)
+                   MUIA_Group_Horiz, TRUE,
+                   Child, BT0 = SimpleButton("Config AI/Keyset A"),
+                   Child, BT1 = SimpleButton("Config AI/Keyset B"),
                  End,
-               End,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
-                 Child, BT0 = SimpleButton("Config AI/Keyset A"),
-                 Child, BT1 = SimpleButton("Config AI/Keyset B"),
-               End,
                End;
 
     if (gui != NULL) {
@@ -319,41 +319,41 @@ static APTR build_gui_pet(void)
     APTR BT0, BT1;
 
     APTR gui = GroupObject,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
                  Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_USERPORT_ADAPTER),
-                   CYCLE(ui_to_from[4].object, "", ui_joystick_enable)
-                 End,
-               End,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
-                 Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_USERPORT_ADAPTER_TYPE),
-                   CYCLE(ui_to_from[6].object, "", ui_userport_joystick)
-                 End,
-               End,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
-                 Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_USERPORT_PORT_1),
-                   CYCLE(ui_to_from[2].object, "", ui_joystick)
+                   MUIA_Group_Horiz, TRUE,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_USERPORT_ADAPTER),
+                     CYCLE(ui_to_from[4].object, "", ui_joystick_enable)
+                   End,
                  End,
                  Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_USERPORT_PORT_2),
-                   CYCLE(ui_to_from[3].object, "", ui_joystick)
+                   MUIA_Group_Horiz, TRUE,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_USERPORT_ADAPTER_TYPE),
+                     CYCLE(ui_to_from[6].object, "", ui_userport_joystick)
+                   End,
                  End,
-               End,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
-                 Child, BT0 = SimpleButton("Config AI/Keyset A"),
-                 Child, BT1 = SimpleButton("Config AI/Keyset B"),
-               End,
-             End;
+                 Child, GroupObject,
+                   MUIA_Group_Horiz, TRUE,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_USERPORT_PORT_1),
+                     CYCLE(ui_to_from[2].object, "", ui_joystick)
+                   End,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_USERPORT_PORT_2),
+                     CYCLE(ui_to_from[3].object, "", ui_joystick)
+                   End,
+                 End,
+                 Child, GroupObject,
+                   MUIA_Group_Horiz, TRUE,
+                   Child, BT0 = SimpleButton("Config AI/Keyset A"),
+                   Child, BT1 = SimpleButton("Config AI/Keyset B"),
+                 End,
+               End;
 
     if (gui != NULL) {
         DoMethod(BT0, MUIM_Notify, MUIA_Pressed, FALSE,
@@ -373,48 +373,48 @@ static APTR build_gui_vic20(void)
     APTR BT0, BT1;
 
     APTR gui = GroupObject,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
                  Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_1),
-                   CYCLE(ui_to_from[0].object, "", ui_joystick)
-                 End,
-               End,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
-                 Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_USERPORT_ADAPTER),
-                   CYCLE(ui_to_from[4].object, "", ui_joystick_enable)
-                 End,
-               End,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
-                 Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_USERPORT_ADAPTER_TYPE),
-                   CYCLE(ui_to_from[6].object, "", ui_userport_joystick)
-                 End,
-               End,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
-                 Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_USERPORT_PORT_1),
-                   CYCLE(ui_to_from[2].object, "", ui_joystick)
+                   MUIA_Group_Horiz, TRUE,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_1),
+                     CYCLE(ui_to_from[0].object, "", ui_joystick)
+                   End,
                  End,
                  Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_USERPORT_PORT_2),
-                   CYCLE(ui_to_from[3].object, "", ui_joystick)
+                   MUIA_Group_Horiz, TRUE,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_USERPORT_ADAPTER),
+                     CYCLE(ui_to_from[4].object, "", ui_joystick_enable)
+                   End,
                  End,
-               End,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
-                 Child, BT0 = SimpleButton("Config AI/Keyset A"),
-                 Child, BT1 = SimpleButton("Config AI/Keyset B"),
-               End,
+                 Child, GroupObject,
+                   MUIA_Group_Horiz, TRUE,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_USERPORT_ADAPTER_TYPE),
+                     CYCLE(ui_to_from[6].object, "", ui_userport_joystick)
+                   End,
+                 End,
+                 Child, GroupObject,
+                   MUIA_Group_Horiz, TRUE,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_USERPORT_PORT_1),
+                     CYCLE(ui_to_from[2].object, "", ui_joystick)
+                   End,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_USERPORT_PORT_2),
+                     CYCLE(ui_to_from[3].object, "", ui_joystick)
+                   End,
+                 End,
+                 Child, GroupObject,
+                   MUIA_Group_Horiz, TRUE,
+                   Child, BT0 = SimpleButton("Config AI/Keyset A"),
+                   Child, BT1 = SimpleButton("Config AI/Keyset B"),
+                 End,
                End;
 
     if (gui != NULL) {
@@ -435,40 +435,40 @@ static APTR build_gui_plus4(void)
     APTR BT0, BT1;
 
     APTR gui = GroupObject,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
                  Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_1),
-                   CYCLE(ui_to_from_plus4[0].object, "", ui_joystick)
+                   MUIA_Group_Horiz, TRUE,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_1),
+                     CYCLE(ui_to_from_plus4[0].object, "", ui_joystick)
+                   End,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_2),
+                     CYCLE(ui_to_from_plus4[1].object, "", ui_joystick)
+                   End,
                  End,
                  Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_2),
-                   CYCLE(ui_to_from_plus4[1].object, "", ui_joystick)
+                   MUIA_Group_Horiz, TRUE,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_SIDCART_JOY),
+                     CYCLE(ui_to_from_plus4[3].object, "", ui_joystick_enable)
+                   End,
                  End,
-               End,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
                  Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_SIDCART_JOY),
-                   CYCLE(ui_to_from_plus4[3].object, "", ui_joystick_enable)
+                   MUIA_Group_Horiz, TRUE,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_SIDCART_PORT),
+                     CYCLE(ui_to_from_plus4[2].object, "", ui_joystick)
+                   End,
                  End,
-               End,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
                  Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_SIDCART_PORT),
-                   CYCLE(ui_to_from_plus4[2].object, "", ui_joystick)
+                   MUIA_Group_Horiz, TRUE,
+                   Child, BT0 = SimpleButton("Config AI/Keyset A"),
+                   Child, BT1 = SimpleButton("Config AI/Keyset B"),
                  End,
-               End,
-               Child, GroupObject,
-                 MUIA_Group_Horiz, TRUE,
-                 Child, BT0 = SimpleButton("Config AI/Keyset A"),
-                 Child, BT1 = SimpleButton("Config AI/Keyset B"),
-               End,
                End;
 
     if (gui != NULL) {

@@ -290,8 +290,8 @@ int mui_show_dialog(APTR gui, char *title, ui_to_from_t *data)
 void ui_show_text(const char *title, const char *description, const char *text)
 {
     APTR gui = GroupObject,
-               Child, LLabel(description),
-               Child, List(text),
+                 Child, LLabel(description),
+                 Child, List(text),
                End;
 
     mui_show_dialog(gui, (char *)title, NULL);
@@ -350,12 +350,12 @@ static APTR app = NULL;
 int mui_init(void)
 {
     app = ApplicationObject,
-          MUIA_Application_Author, "The VICE Team",
-          MUIA_Application_Base, "VICE",
-          MUIA_Application_Title, "VICE",
-          MUIA_Application_Version, "$VER: VICE " VERSION,
-          MUIA_Application_Copyright, "The VICE Team",
-          MUIA_Application_Description, "VICE",
+            MUIA_Application_Author, "The VICE Team",
+            MUIA_Application_Base, "VICE",
+            MUIA_Application_Title, "VICE",
+            MUIA_Application_Version, "$VER: VICE " VERSION,
+            MUIA_Application_Copyright, "The VICE Team",
+            MUIA_Application_Description, "VICE",
           End;
 
     return ((app == NULL) ? -1 : 0);
@@ -375,10 +375,10 @@ APTR mui_make_simple_window(APTR gui, char *title)
     }
 
     window = WindowObject,
-             MUIA_Window_Title, title,
-             MUIA_Window_ID, MAKE_ID(title[0], title[1], title[2], title[3]),
-             MUIA_Window_Screen, canvaslist->os->screen,
-             WindowContents, VGroup,
+               MUIA_Window_Title, title,
+               MUIA_Window_ID, MAKE_ID(title[0], title[1], title[2], title[3]),
+               MUIA_Window_Screen, canvaslist->os->screen,
+               WindowContents, VGroup,
                Child, VGroup,
                  Child, gui,
                  End,
@@ -402,10 +402,10 @@ APTR mui_make_ok_cancel_window(APTR gui, char *title)
     }
 
     window = WindowObject,
-             MUIA_Window_Title, title,
-             MUIA_Window_ID, MAKE_ID(title[0], title[1], title[2], title[3]),
-             MUIA_Window_Screen, canvaslist->os->screen,
-             WindowContents, VGroup,
+               MUIA_Window_Title, title,
+               MUIA_Window_ID, MAKE_ID(title[0], title[1], title[2], title[3]),
+               MUIA_Window_Screen, canvaslist->os->screen,
+               WindowContents, VGroup,
                Child, VGroup,
                  Child, gui,
                  End,

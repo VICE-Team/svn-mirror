@@ -115,46 +115,46 @@ static struct ObjApp * CreateApp(const char *title, int template, char *resource
     Object_ok->PA_FILEREQ = PopButton(MUII_PopFile);
 
     Object_ok->PA_FILEREQ = PopaslObject,
-                            MUIA_HelpNode, "PA_FILEREQ",
-                            MUIA_Popasl_Type, 0,
-                            MUIA_Popstring_String, Object_ok->STR_PA_FILEREQ,
-                            MUIA_Popstring_Button, Object_ok->PA_FILEREQ,
+                              MUIA_HelpNode, "PA_FILEREQ",
+                              MUIA_Popasl_Type, 0,
+                              MUIA_Popstring_String, Object_ok->STR_PA_FILEREQ,
+                              MUIA_Popstring_Button, Object_ok->PA_FILEREQ,
                             End;
 
     GR_FILEREQ = GroupObject,
-                 MUIA_HelpNode, "GR_FILEREQ",
-                 MUIA_Group_Horiz, TRUE,
-		     Child, LA_FILEREQ,
-                 Child, Object_ok->PA_FILEREQ,
+                   MUIA_HelpNode, "GR_FILEREQ",
+                   MUIA_Group_Horiz, TRUE,
+		       Child, LA_FILEREQ,
+                   Child, Object_ok->PA_FILEREQ,
                  End;
 
     Object_ok->LV_FILELIST = DirlistObject,
-                             MUIA_Background, MUII_ListBack,
-                             MUIA_Frame, MUIV_Frame_InputList,
-                             MUIA_Dirlist_Directory, initialdir,
+                               MUIA_Background, MUII_ListBack,
+                               MUIA_Frame, MUIV_Frame_InputList,
+                               MUIA_Dirlist_Directory, initialdir,
                              End;
 
     Object_ok->LV_FILELIST = ListviewObject,
-                             MUIA_HelpNode, "LV_FILELIST",
-                             MUIA_Listview_List, Object_ok->LV_FILELIST,
+                               MUIA_HelpNode, "LV_FILELIST",
+                               MUIA_Listview_List, Object_ok->LV_FILELIST,
                              End;
 
     Object_ok->LV_VOLUMELIST = VolumelistObject,
-                               MUIA_Frame, MUIV_Frame_InputList,
+                                 MUIA_Frame, MUIV_Frame_InputList,
                                End;
 
     Object_ok->LV_VOLUMELIST = ListviewObject,
-                               MUIA_HelpNode, "LV_VOLUMELIST",
-                               MUIA_Weight, 30,
-                               MUIA_Listview_MultiSelect, MUIV_Listview_MultiSelect_None,
-                               MUIA_Listview_List, Object_ok->LV_VOLUMELIST,
+                                 MUIA_HelpNode, "LV_VOLUMELIST",
+                                 MUIA_Weight, 30,
+                                 MUIA_Listview_MultiSelect, MUIV_Listview_MultiSelect_None,
+                                 MUIA_Listview_List, Object_ok->LV_VOLUMELIST,
                                End;
 
     GR_FILEBROWSE = GroupObject,
-                    MUIA_HelpNode, "GR_FILEBROWSE",
-                    MUIA_Group_Horiz, TRUE,
-                    Child, Object_ok->LV_FILELIST,
-                    Child, Object_ok->LV_VOLUMELIST,
+                      MUIA_HelpNode, "GR_FILEBROWSE",
+                      MUIA_Group_Horiz, TRUE,
+                      Child, Object_ok->LV_FILELIST,
+                      Child, Object_ok->LV_VOLUMELIST,
                     End;
 
     Object_ok->BT_ATTACH = SimpleButton(translate_text(IDS_ATTACH));
@@ -164,32 +164,32 @@ static struct ObjApp * CreateApp(const char *title, int template, char *resource
     Object_ok->BT_CANCEL = SimpleButton(translate_text(IDS_CANCEL));
 
     GR_BUTTONS = GroupObject,
-                 MUIA_HelpNode, "GR_BUTTONS",
-                 MUIA_Group_Horiz, TRUE,
-                 Child, Object_ok->BT_ATTACH,
-                 Child, Object_ok->BT_PARENT,
-                 Child, Object_ok->BT_CANCEL,
+                   MUIA_HelpNode, "GR_BUTTONS",
+                   MUIA_Group_Horiz, TRUE,
+                   Child, Object_ok->BT_ATTACH,
+                   Child, Object_ok->BT_PARENT,
+                   Child, Object_ok->BT_CANCEL,
                  End;
 
     Object_ok->LV_CONTENTS = ListObject,
-                             MUIA_Frame, MUIV_Frame_InputList,
-                             MUIA_List_ConstructHook, MUIV_List_ConstructHook_String,
-                             MUIA_List_DestructHook, MUIV_List_DestructHook_String,
+                               MUIA_Frame, MUIV_Frame_InputList,
+                               MUIA_List_ConstructHook, MUIV_List_ConstructHook_String,
+                               MUIA_List_DestructHook, MUIV_List_DestructHook_String,
                              End;
 
     Object_ok->LV_CONTENTS = ListviewObject,
-                             MUIA_HelpNode, "LV_CONTENTS",
-                             MUIA_Listview_MultiSelect, MUIV_Listview_MultiSelect_None,
-                             MUIA_Listview_List, Object_ok->LV_CONTENTS,
+                               MUIA_HelpNode, "LV_CONTENTS",
+                               MUIA_Listview_MultiSelect, MUIV_Listview_MultiSelect_None,
+                               MUIA_Listview_List, Object_ok->LV_CONTENTS,
                              End;
 
     image_contents_text = translate_text(IDS_IMAGE_CONTENTS);
 
     GR_CONTENTS = GroupObject,
-                  MUIA_HelpNode, "GR_CONTENTS",
-                  MUIA_Frame, MUIV_Frame_Group,
-                  MUIA_FrameTitle, image_contents_text,
-                  Child, Object_ok->LV_CONTENTS,
+                    MUIA_HelpNode, "GR_CONTENTS",
+                    MUIA_Frame, MUIV_Frame_Group,
+                    MUIA_FrameTitle, image_contents_text,
+                    Child, Object_ok->LV_CONTENTS,
                   End;
 
     Object_ok->CH_READONLY = CheckMark(FALSE);
@@ -197,36 +197,36 @@ static struct ObjApp * CreateApp(const char *title, int template, char *resource
     LA_READONLY = Label(translate_text(IDS_ATTACH_READ_ONLY));
 
     GR_READONLY = GroupObject,
-                  MUIA_HelpNode, "GR_READONLY",
-                  MUIA_Group_Horiz, TRUE,
-                  Child, Object_ok->CH_READONLY,
-                  Child, LA_READONLY,
+                    MUIA_HelpNode, "GR_READONLY",
+                    MUIA_Group_Horiz, TRUE,
+                    Child, Object_ok->CH_READONLY,
+                    Child, LA_READONLY,
                   End;
 
     Object_ok->STR_IMAGENAME = StringObject,
-                               MUIA_Frame, MUIV_Frame_String,
-                               MUIA_FrameTitle, translate_text(IDS_NAME),
-                               MUIA_HelpNode, "STR_IMAGENAME",
-                               MUIA_String_MaxLen, 17,
+                                 MUIA_Frame, MUIV_Frame_String,
+                                 MUIA_FrameTitle, translate_text(IDS_NAME),
+                                 MUIA_HelpNode, "STR_IMAGENAME",
+                                 MUIA_String_MaxLen, 17,
                                End;
 
     Object_ok->STR_IMAGEID = StringObject,
-                             MUIA_Frame, MUIV_Frame_String,
-                             MUIA_FrameTitle, "ID",
-                             MUIA_HelpNode, "STR_IMAGEID",
-                             MUIA_String_MaxLen, 5,
+                               MUIA_Frame, MUIV_Frame_String,
+                               MUIA_FrameTitle, "ID",
+                               MUIA_HelpNode, "STR_IMAGEID",
+                               MUIA_String_MaxLen, 5,
                              End;
 
     Object_ok->CY_IMAGETYPE = CycleObject,
-                              MUIA_HelpNode, "CY_IMAGETYPE",
-                              MUIA_Cycle_Entries, image_type_name,
+                                MUIA_HelpNode, "CY_IMAGETYPE",
+                                MUIA_Cycle_Entries, image_type_name,
                               End;
 
     GR_MISC_3 = GroupObject,
-                MUIA_HelpNode, "GR_MISC_3",
-                MUIA_Group_Horiz, TRUE,
-                Child, Object_ok->STR_IMAGEID,
-                Child, Object_ok->CY_IMAGETYPE,
+                  MUIA_HelpNode, "GR_MISC_3",
+                  MUIA_Group_Horiz, TRUE,
+                  Child, Object_ok->STR_IMAGEID,
+                  Child, Object_ok->CY_IMAGETYPE,
                 End;
 
     Object_ok->BT_CREATEIMAGE = SimpleButton(translate_text(IDS_CREATE_IMAGE));
@@ -234,12 +234,12 @@ static struct ObjApp * CreateApp(const char *title, int template, char *resource
     new_image_text = translate_text(IDS_NEW_IMAGE);
 
     GR_NEWIMAGE = GroupObject,
-                  MUIA_HelpNode, "GR_NEWIMAGE",
-                  MUIA_Frame, MUIV_Frame_Group,
-                  MUIA_FrameTitle, new_image_text,
-                  Child, Object_ok->STR_IMAGENAME,
-                  Child, GR_MISC_3,
-                  Child, Object_ok->BT_CREATEIMAGE,
+                    MUIA_HelpNode, "GR_NEWIMAGE",
+                    MUIA_Frame, MUIV_Frame_Group,
+                    MUIA_FrameTitle, new_image_text,
+                    Child, Object_ok->STR_IMAGENAME,
+                    Child, GR_MISC_3,
+                    Child, Object_ok->BT_CREATEIMAGE,
                   End;
 
     Object_ok->BT_CREATETAPIMAGE = SimpleButton(translate_text(IDS_CREATE_IMAGE));
@@ -247,48 +247,48 @@ static struct ObjApp * CreateApp(const char *title, int template, char *resource
     new_tap_image_text = translate_text(IDS_NEW_TAP_IMAGE);
 
     GR_NEWTAPIMAGE = GroupObject,
-                     MUIA_HelpNode, "GR_NEWTAPIMAGE",
-                     MUIA_Frame, MUIV_Frame_Group,
-                     MUIA_FrameTitle, new_tap_image_text,
-                     Child, Object_ok->BT_CREATETAPIMAGE,
+                       MUIA_HelpNode, "GR_NEWTAPIMAGE",
+                       MUIA_Frame, MUIV_Frame_Group,
+                       MUIA_FrameTitle, new_tap_image_text,
+                       Child, Object_ok->BT_CREATETAPIMAGE,
                      End;
 
     GR_MISC_2 = GroupObject,
-                MUIA_HelpNode, "GR_MISC_2",
-                Child, GR_READONLY,
-                Child, GR_NEWIMAGE,
-                Child, GR_NEWTAPIMAGE,
+                  MUIA_HelpNode, "GR_MISC_2",
+                  Child, GR_READONLY,
+                  Child, GR_NEWIMAGE,
+                  Child, GR_NEWTAPIMAGE,
                 End;
 
     GR_MISC_1 = GroupObject,
-                MUIA_HelpNode, "GR_MISC_1",
-                MUIA_Group_Horiz, TRUE,
-                Child, GR_CONTENTS,
-                Child, GR_MISC_2,
+                  MUIA_HelpNode, "GR_MISC_1",
+                  MUIA_Group_Horiz, TRUE,
+                  Child, GR_CONTENTS,
+                  Child, GR_MISC_2,
                 End;
 
     GROUP_ROOT = GroupObject,
-                 Child, GR_FILEREQ,
-                 Child, GR_FILEBROWSE,
-                 Child, GR_BUTTONS,
-                 Child, GR_MISC_1,
+                   Child, GR_FILEREQ,
+                   Child, GR_FILEBROWSE,
+                   Child, GR_BUTTONS,
+                   Child, GR_MISC_1,
                  End;
 
     Object_ok->FILEREQ = WindowObject,
-                         MUIA_Window_Title, title,
-                         MUIA_Window_ID, MAKE_ID('F', 'R', 'E', 'Q'),
-                         MUIA_Window_Screen, canvaslist->os->screen,
-                         WindowContents, GROUP_ROOT,
+                           MUIA_Window_Title, title,
+                           MUIA_Window_ID, MAKE_ID('F', 'R', 'E', 'Q'),
+                           MUIA_Window_Screen, canvaslist->os->screen,
+                           WindowContents, GROUP_ROOT,
                          End;
 
     Object_ok->App = ApplicationObject,
-                     MUIA_Application_Author, "NONE",
-                     MUIA_Application_Base, "NONE",
-                     MUIA_Application_Title, "NONE",
-                     MUIA_Application_Version, "_VER: NONE XX.XX (XX.XX.XX)",
-                     MUIA_Application_Copyright, "NOBODY",
-                     MUIA_Application_Description, "NONE",
-                     SubWindow, Object_ok->FILEREQ,
+                       MUIA_Application_Author, "NONE",
+                       MUIA_Application_Base, "NONE",
+                       MUIA_Application_Title, "NONE",
+                       MUIA_Application_Version, "_VER: NONE XX.XX (XX.XX.XX)",
+                       MUIA_Application_Copyright, "NOBODY",
+                       MUIA_Application_Description, "NONE",
+                       SubWindow, Object_ok->FILEREQ,
                      End;
 
     if (!Object_ok->App) {

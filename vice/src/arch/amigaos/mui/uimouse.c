@@ -36,54 +36,54 @@
 #include "translate.h"
 
 static int ui_mouse_type_translate[] = {
-  IDS_MOUSE_1351,
-  IDS_MOUSE_NEOS,
-  IDS_MOUSE_AMIGA,
-  IDS_MOUSE_PADDLES,
-  0
+    IDS_MOUSE_1351,
+    IDS_MOUSE_NEOS,
+    IDS_MOUSE_AMIGA,
+    IDS_MOUSE_PADDLES,
+    0
 };
 
 static char *ui_mouse_type[countof(ui_mouse_type_translate)];
 
 static const int ui_mouse_type_values[] = {
-  MOUSE_TYPE_1351,
-  MOUSE_TYPE_NEOS,
-  MOUSE_TYPE_AMIGA,
-  MOUSE_TYPE_PADDLE,
-  -1
+    MOUSE_TYPE_1351,
+    MOUSE_TYPE_NEOS,
+    MOUSE_TYPE_AMIGA,
+    MOUSE_TYPE_PADDLE,
+    -1
 };
 
 static int ui_mouse_port_translate[] = {
-  IDS_JOY_PORT_1,
-  IDS_JOY_PORT_2,
-  0
+    IDS_JOY_PORT_1,
+    IDS_JOY_PORT_2,
+    0
 };
 
 static char *ui_mouse_port[countof(ui_mouse_port_translate)];
 
 static const int ui_mouse_port_values[] = {
-  1,
-  2,
-  -1
+    1,
+    2,
+    -1
 };
 
 static ui_to_from_t ui_to_from[] = {
-  { NULL, MUI_TYPE_CYCLE, "Mousetype", ui_mouse_type, ui_mouse_type_values },
-  { NULL, MUI_TYPE_CYCLE, "Mouseport", ui_mouse_port, ui_mouse_port_values },
-  UI_END /* mandatory */
+    {NULL, MUI_TYPE_CYCLE, "Mousetype", ui_mouse_type, ui_mouse_type_values},
+    {NULL, MUI_TYPE_CYCLE, "Mouseport", ui_mouse_port, ui_mouse_port_values},
+    UI_END /* mandatory */
 };
 
 static APTR build_gui(void)
 {
-  return GroupObject,
-    CYCLE(ui_to_from[0].object, translate_text(IDS_MOUSE_TYPE), ui_mouse_type)
-    CYCLE(ui_to_from[1].object, translate_text(IDS_MOUSE_PORT), ui_mouse_port)
-  End;
+    return GroupObject,
+      CYCLE(ui_to_from[0].object, translate_text(IDS_MOUSE_TYPE), ui_mouse_type)
+      CYCLE(ui_to_from[1].object, translate_text(IDS_MOUSE_PORT), ui_mouse_port)
+    End;
 }
 
 void ui_mouse_settings_dialog(void)
 {
-  intl_convert_mui_table(ui_mouse_type_translate, ui_mouse_type);
-  intl_convert_mui_table(ui_mouse_port_translate, ui_mouse_port);
-  mui_show_dialog(build_gui(), translate_text(IDS_MOUSE_SETTINGS), ui_to_from);
+    intl_convert_mui_table(ui_mouse_type_translate, ui_mouse_type);
+    intl_convert_mui_table(ui_mouse_port_translate, ui_mouse_port);
+    mui_show_dialog(build_gui(), translate_text(IDS_MOUSE_SETTINGS), ui_to_from);
 }

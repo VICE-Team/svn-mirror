@@ -93,14 +93,14 @@ static ui_to_from_t ui_to_from[] = {
 static APTR build_gui(void)
 {
     return GroupObject,
-           CYCLE(ui_to_from[0].object, translate_text(IDS_MODEL_LINE), ui_cbm2_model)
-           CYCLE(ui_to_from[1].object, translate_text(IDS_RAM_SIZE), ui_cbm2_memsize)
-           CYCLE(ui_to_from[2].object, translate_text(IDS_RAM_BLOCK_0800_0FFF), ui_cbm2mem_enable)
-           CYCLE(ui_to_from[3].object, translate_text(IDS_RAM_BLOCK_1000_1FFF), ui_cbm2mem_enable)
-           CYCLE(ui_to_from[4].object, translate_text(IDS_RAM_BLOCK_2000_3FFF), ui_cbm2mem_enable)
-           CYCLE(ui_to_from[5].object, translate_text(IDS_RAM_BLOCK_4000_5FFF), ui_cbm2mem_enable)
-           CYCLE(ui_to_from[6].object, translate_text(IDS_RAM_BLOCK_6000_7FFF), ui_cbm2mem_enable)
-           CYCLE(ui_to_from[7].object, translate_text(IDS_RAM_BLOCK_C000_CFFF), ui_cbm2mem_enable)
+             CYCLE(ui_to_from[0].object, translate_text(IDS_MODEL_LINE), ui_cbm2_model)
+             CYCLE(ui_to_from[1].object, translate_text(IDS_RAM_SIZE), ui_cbm2_memsize)
+             CYCLE(ui_to_from[2].object, translate_text(IDS_RAM_BLOCK_0800_0FFF), ui_cbm2mem_enable)
+             CYCLE(ui_to_from[3].object, translate_text(IDS_RAM_BLOCK_1000_1FFF), ui_cbm2mem_enable)
+             CYCLE(ui_to_from[4].object, translate_text(IDS_RAM_BLOCK_2000_3FFF), ui_cbm2mem_enable)
+             CYCLE(ui_to_from[5].object, translate_text(IDS_RAM_BLOCK_4000_5FFF), ui_cbm2mem_enable)
+             CYCLE(ui_to_from[6].object, translate_text(IDS_RAM_BLOCK_6000_7FFF), ui_cbm2mem_enable)
+             CYCLE(ui_to_from[7].object, translate_text(IDS_RAM_BLOCK_C000_CFFF), ui_cbm2mem_enable)
            End;
 }
 

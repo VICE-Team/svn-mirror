@@ -61,9 +61,9 @@ static APTR build_gui(void)
     app = mui_get_app();
 
     ui = GroupObject,
-         CYCLE(ui_to_from[0].object, "Isepic", ui_isepic_enable)
-         CYCLE(ui_to_from[1].object, translate_text(IDS_ISEPIC_SWITCH), ui_isepic_enable)
-         OK_CANCEL_BUTTON
+           CYCLE(ui_to_from[0].object, "Isepic", ui_isepic_enable)
+           CYCLE(ui_to_from[1].object, translate_text(IDS_ISEPIC_SWITCH), ui_isepic_enable)
+           OK_CANCEL_BUTTON
          End;
 
     if (ui != NULL) {

@@ -77,10 +77,10 @@ static APTR build_gui(void)
     app = mui_get_app();
 
     ui = GroupObject,
-         CYCLE(ui_to_from[0].object, translate_text(IDS_EASYFLASH_JUMPER), ui_easyflash_enable)
-         CYCLE(ui_to_from[1].object, translate_text(IDS_SAVE_EASYFLASH_CRT_ON_DETACH), ui_easyflash_enable)
-         BUTTON(action_button, translate_text(IDS_SAVE_EASYFLASH_CRT_NOW))
-         OK_CANCEL_BUTTON
+           CYCLE(ui_to_from[0].object, translate_text(IDS_EASYFLASH_JUMPER), ui_easyflash_enable)
+           CYCLE(ui_to_from[1].object, translate_text(IDS_SAVE_EASYFLASH_CRT_ON_DETACH), ui_easyflash_enable)
+           BUTTON(action_button, translate_text(IDS_SAVE_EASYFLASH_CRT_NOW))
+           OK_CANCEL_BUTTON
          End;
 
     if (ui != NULL) {

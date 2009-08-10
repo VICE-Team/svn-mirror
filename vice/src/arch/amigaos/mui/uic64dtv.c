@@ -126,12 +126,12 @@ static APTR build_gui(void)
     app = mui_get_app();
 
     ui = GroupObject,
-         FILENAME(ui_to_from[0].object, translate_text(IDS_C64DTV_ROM_FILENAME), browse_button)
-         CYCLE(ui_to_from[1].object, translate_text(IDS_C64DTV_REVISION), ui_c64dtv_revision)
-         CYCLE(ui_to_from[2].object, translate_text(IDS_C64DTV_WRITE_ENABLE), ui_c64dtv_enable)
-         CYCLE(ui_to_from[3].object, translate_text(IDS_C64DTV_HUMMER_USERPORT_DEVICE), ui_c64dtv_userport_device)
-         CYCLE(ui_to_from[4].object, translate_text(IDS_C64DTV_HUMMER_JOY_PORT), ui_c64dtv_hummer_joy_port)
-         OK_CANCEL_BUTTON
+           FILENAME(ui_to_from[0].object, translate_text(IDS_C64DTV_ROM_FILENAME), browse_button)
+           CYCLE(ui_to_from[1].object, translate_text(IDS_C64DTV_REVISION), ui_c64dtv_revision)
+           CYCLE(ui_to_from[2].object, translate_text(IDS_C64DTV_WRITE_ENABLE), ui_c64dtv_enable)
+           CYCLE(ui_to_from[3].object, translate_text(IDS_C64DTV_HUMMER_USERPORT_DEVICE), ui_c64dtv_userport_device)
+           CYCLE(ui_to_from[4].object, translate_text(IDS_C64DTV_HUMMER_JOY_PORT), ui_c64dtv_hummer_joy_port)
+           OK_CANCEL_BUTTON
          End;
 
     if (ui != NULL) {

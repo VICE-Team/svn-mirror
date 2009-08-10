@@ -222,42 +222,42 @@ static APTR build_gui(void)
     int num;
 
     window = RegisterObject,
-             MUIA_Register_Titles, drive_number_strings,
+               MUIA_Register_Titles, drive_number_strings,
              End;
 
     for (num = 0; num < 4; num++) {
         data = &ui_to_from[DECL_NUM * num];
         page = GroupObject,
-               MUIA_Group_Horiz, TRUE,
-               Child, data[0].object = RadioObject,
-                 MUIA_Frame, MUIV_Frame_Group,
-                 MUIA_FrameTitle, translate_text(IDS_DRIVE_TYPE),
-                 MUIA_Radio_Entries, drive_type_strings[num],
-               End,
-               Child, GroupObject,
-                 Child, data[1].object = RadioObject,
+                 MUIA_Group_Horiz, TRUE,
+                 Child, data[0].object = RadioObject,
                    MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_40_TRACK_HANDLING),
-                   MUIA_Radio_Entries, drive_extend_strings,
+                   MUIA_FrameTitle, translate_text(IDS_DRIVE_TYPE),
+                   MUIA_Radio_Entries, drive_type_strings[num],
                  End,
                  Child, GroupObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_DRIVE_EXPANSION),
-                   CHECK(data[3].object, "$2000-$3FFF RAM")
-                   CHECK(data[4].object, "$4000-$5FFF RAM")
-                   CHECK(data[5].object, "$6000-$7FFF RAM")
-                   CHECK(data[6].object, "$8000-$9FFF RAM")
-                   CHECK(data[7].object, "$A000-$BFFF RAM")
+                   Child, data[1].object = RadioObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_40_TRACK_HANDLING),
+                     MUIA_Radio_Entries, drive_extend_strings,
+                   End,
+                   Child, GroupObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_DRIVE_EXPANSION),
+                     CHECK(data[3].object, "$2000-$3FFF RAM")
+                     CHECK(data[4].object, "$4000-$5FFF RAM")
+                     CHECK(data[5].object, "$6000-$7FFF RAM")
+                     CHECK(data[6].object, "$8000-$9FFF RAM")
+                     CHECK(data[7].object, "$A000-$BFFF RAM")
+                   End,
                  End,
-               End,
-               Child, GroupObject,
-                 Child, data[2].object = RadioObject,
-                   MUIA_Frame, MUIV_Frame_Group,
-                   MUIA_FrameTitle, translate_text(IDS_IDLE_METHOD),
-                   MUIA_Radio_Entries, drive_idle_strings,
+                 Child, GroupObject,
+                   Child, data[2].object = RadioObject,
+                     MUIA_Frame, MUIV_Frame_Group,
+                     MUIA_FrameTitle, translate_text(IDS_IDLE_METHOD),
+                     MUIA_Radio_Entries, drive_idle_strings,
+                   End,
+                   CHECK(data[8].object, translate_text(IDS_PARALLEL_CABLE))
                  End,
-                 CHECK(data[8].object, translate_text(IDS_PARALLEL_CABLE))
-               End,
                End;
 
         DoMethod(window, OM_ADDMEMBER, page);

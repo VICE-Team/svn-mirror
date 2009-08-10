@@ -112,17 +112,17 @@ static ui_to_from_t ui_to_from[] = {
 static APTR build_gui64128(void)
 {
     return GroupObject,
-           CYCLE(ui_to_from64128[0].object, "ACIA", ui_acia_enable)
-           CYCLE(ui_to_from64128[1].object, translate_text(IDS_ACIA_DEVICE), ui_acia_device)
-           CYCLE(ui_to_from64128[2].object, translate_text(IDS_ACIA_INTERRUPT), ui_acia_interrupt)
-           CYCLE(ui_to_from64128[3].object, translate_text(IDS_ACIA_MODE), ui_acia_mode)
+             CYCLE(ui_to_from64128[0].object, "ACIA", ui_acia_enable)
+             CYCLE(ui_to_from64128[1].object, translate_text(IDS_ACIA_DEVICE), ui_acia_device)
+             CYCLE(ui_to_from64128[2].object, translate_text(IDS_ACIA_INTERRUPT), ui_acia_interrupt)
+             CYCLE(ui_to_from64128[3].object, translate_text(IDS_ACIA_MODE), ui_acia_mode)
            End;
 }
 
 static APTR build_gui(void)
 {
     return GroupObject,
-           CYCLE(ui_to_from[1].object, translate_text(IDS_ACIA_DEVICE), ui_acia_device)
+             CYCLE(ui_to_from[1].object, translate_text(IDS_ACIA_DEVICE), ui_acia_device)
            End;
 }
 

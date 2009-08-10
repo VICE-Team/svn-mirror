@@ -85,28 +85,28 @@ static APTR build_gui(void)
     app = mui_get_app();
 
     ui = GroupObject,
-         FILENAME(ui_to_from[0].object, translate_text(IDS_IDE64_FILENAME), browse_button)
-         CYCLE(ui_to_from[1].object, translate_text(IDS_AUTODETECT), ui_ide64_autodetect)
-         Child, ui_to_from[2].object = StringObject,
-           MUIA_Frame, MUIV_Frame_String,
-           MUIA_FrameTitle, translate_text(IDS_CYLINDERS),
-           MUIA_String_Accept, "0123456789",
-           MUIA_String_MaxLen, 4+1,
-         End,
-         Child, ui_to_from[3].object = StringObject,
-           MUIA_Frame, MUIV_Frame_String,
-           MUIA_FrameTitle, translate_text(IDS_HEADS),
-           MUIA_String_Accept, "0123456789",
-           MUIA_String_MaxLen, 2+1,
-         End,
-        Child, ui_to_from[4].object = StringObject,
-          MUIA_Frame, MUIV_Frame_String,
-          MUIA_FrameTitle, translate_text(IDS_SECTORS),
-          MUIA_String_Accept, "0123456789",
-          MUIA_String_MaxLen, 2+1,
-        End,
-        OK_CANCEL_BUTTON
-        End;
+           FILENAME(ui_to_from[0].object, translate_text(IDS_IDE64_FILENAME), browse_button)
+           CYCLE(ui_to_from[1].object, translate_text(IDS_AUTODETECT), ui_ide64_autodetect)
+           Child, ui_to_from[2].object = StringObject,
+             MUIA_Frame, MUIV_Frame_String,
+             MUIA_FrameTitle, translate_text(IDS_CYLINDERS),
+             MUIA_String_Accept, "0123456789",
+             MUIA_String_MaxLen, 4+1,
+           End,
+           Child, ui_to_from[3].object = StringObject,
+             MUIA_Frame, MUIV_Frame_String,
+             MUIA_FrameTitle, translate_text(IDS_HEADS),
+             MUIA_String_Accept, "0123456789",
+             MUIA_String_MaxLen, 2+1,
+           End,
+           Child, ui_to_from[4].object = StringObject,
+             MUIA_Frame, MUIV_Frame_String,
+             MUIA_FrameTitle, translate_text(IDS_SECTORS),
+             MUIA_String_Accept, "0123456789",
+             MUIA_String_MaxLen, 2+1,
+           End,
+           OK_CANCEL_BUTTON
+         End;
 
     if (ui != NULL) {
         DoMethod(cancel, MUIM_Notify, MUIA_Pressed, FALSE,

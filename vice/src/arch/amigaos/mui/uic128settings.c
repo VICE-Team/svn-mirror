@@ -125,13 +125,13 @@ static APTR build_gui(void)
     app = mui_get_app();
 
     ui = GroupObject,
-         CYCLE(ui_to_from[0].object, translate_text(IDS_MACHINE_TYPE), ui_c128_machine_type)
-         CYCLE(ui_to_from[1].object, translate_text(IDS_INTERNAL_FUNCTION_ROM), ui_c128_enable)
-         FILENAME(ui_to_from[2].object, translate_text(IDS_INTERNAL_FUNCTION_ROM_FILENAME), browse_button1)
-         CYCLE(ui_to_from[3].object, translate_text(IDS_EXTERNAL_FUNCTION_ROM), ui_c128_enable)
-         FILENAME(ui_to_from[4].object, translate_text(IDS_EXTERNAL_FUNCTION_ROM_FILENAME), browse_button2)
-         CYCLE(ui_to_from[5].object, translate_text(IDS_RAM_BANKS_2_AND_3), ui_c128_enable)
-         OK_CANCEL_BUTTON
+           CYCLE(ui_to_from[0].object, translate_text(IDS_MACHINE_TYPE), ui_c128_machine_type)
+           CYCLE(ui_to_from[1].object, translate_text(IDS_INTERNAL_FUNCTION_ROM), ui_c128_enable)
+           FILENAME(ui_to_from[2].object, translate_text(IDS_INTERNAL_FUNCTION_ROM_FILENAME), browse_button1)
+           CYCLE(ui_to_from[3].object, translate_text(IDS_EXTERNAL_FUNCTION_ROM), ui_c128_enable)
+           FILENAME(ui_to_from[4].object, translate_text(IDS_EXTERNAL_FUNCTION_ROM_FILENAME), browse_button2)
+           CYCLE(ui_to_from[5].object, translate_text(IDS_RAM_BANKS_2_AND_3), ui_c128_enable)
+           OK_CANCEL_BUTTON
          End;
 
     if (ui != NULL) {

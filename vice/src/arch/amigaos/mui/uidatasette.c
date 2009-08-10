@@ -104,9 +104,9 @@ static ui_to_from_t ui_to_from[] = {
 static APTR build_gui(void)
 {
     return GroupObject,
-           CYCLE(ui_to_from[0].object, translate_text(IDS_RESET_DATASETTE_WITH_CPU), ui_datasette_reset_with_cpu)
-           CYCLE(ui_to_from[1].object, translate_text(IDS_ADDITIONAL_DELAY), ui_datasette_additional_delay)
-           CYCLE(ui_to_from[2].object, translate_text(IDS_DELAY_AT_ZERO_VALUES), ui_datasette_delay_at_zero)
+             CYCLE(ui_to_from[0].object, translate_text(IDS_RESET_DATASETTE_WITH_CPU), ui_datasette_reset_with_cpu)
+             CYCLE(ui_to_from[1].object, translate_text(IDS_ADDITIONAL_DELAY), ui_datasette_additional_delay)
+             CYCLE(ui_to_from[2].object, translate_text(IDS_DELAY_AT_ZERO_VALUES), ui_datasette_delay_at_zero)
            End;
 }
 
