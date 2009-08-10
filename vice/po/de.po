@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-08-06 19:35+0200\n"
-"PO-Revision-Date: 2009-08-02 11:15+0200\n"
+"PO-Revision-Date: 2009-08-10 20:06+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -184,9 +184,8 @@ msgid "RAM Expansion Cart"
 msgstr "RAM Speichererweiterungsmodul"
 
 #: src/arch/unix/gui/c128ui.c:274 src/arch/unix/gui/c64ui.c:287
-#, fuzzy
 msgid "EasyFlash cartridge"
-msgstr "Ungültiges Erweiterungsmodul"
+msgstr "EasyFlash Erweiterungsmodul"
 
 #: src/arch/unix/gui/c128ui.c:276 src/arch/unix/gui/c64ui.c:295
 msgid "MMC64 emulation"
@@ -2604,7 +2603,7 @@ msgstr "*115200 (nur Turbo232)"
 
 #: src/arch/unix/gui/uirs232.c:122
 msgid "Select RS232 device file"
-msgstr "RS232 Gerät Datei selektieren"
+msgstr "RS232 Gerät Datei auswählen"
 
 #: src/arch/unix/gui/uirs232.c:140
 msgid "Command to execute for RS232 (preceed with '|')"
@@ -3313,14 +3312,12 @@ msgid "Attach Mega-Cart image..."
 msgstr "Mega Cart Image einlegen..."
 
 #: src/arch/unix/gui/vic20ui.c:326
-#, fuzzy
 msgid "Attach Final Expansion image..."
-msgstr "Band Image einlegen..."
+msgstr "Final Expansion Imagedatei einlegen..."
 
 #: src/arch/unix/gui/vic20ui.c:330
-#, fuzzy
 msgid "Add to generic cartridge"
-msgstr "Generisches 8K Erweiterungsmodul Image einlegen"
+msgstr "Zu univesellem Erweiterungsmodul hinzufügen"
 
 #: src/arch/unix/gui/vic20ui.c:343
 msgid "Detach cartridge image(s)"
@@ -4359,7 +4356,7 @@ msgstr "Joystick in Port #&1"
 #: src/arch/win32/res.rc.po.c:820 src/arch/win32/res.rc.po.c:833
 #: src/arch/win32/res.rc.po.c:1256 src/arch/win32/res.rc.po.c:1269
 msgid "Select fire button"
-msgstr "Feuerknopf selektieren"
+msgstr "Feuerknopf auswählen"
 
 #: src/arch/win32/res.rc.po.c:823 src/arch/win32/res.rc.po.c:836
 #: src/arch/win32/res.rc.po.c:1259 src/arch/win32/res.rc.po.c:1272
@@ -4491,7 +4488,7 @@ msgstr "Aktuelle ROMs speichern"
 
 #: src/arch/win32/res.rc.po.c:2857
 msgid "Select Driver:"
-msgstr "Treiber selektieren:"
+msgstr "Treiber auswählen:"
 
 #: src/arch/win32/res.rc.po.c:2860
 msgid "FFMPEG settings"
@@ -5507,9 +5504,8 @@ msgid "None"
 msgstr "Kein"
 
 #: src/arch/win32/res.rc.po.c:6578 src/arch/amigaos/intl.c.po.c:6607
-#, fuzzy
 msgid "Error saving EasyFlash crt file"
-msgstr "Fehler beim Lesen der Start Snapshot Datei."
+msgstr "Fehler beim Speichern der EasyFlash CRT Datei"
 
 #: src/arch/win32/res.rc.po.c:6580 src/arch/win32/resc128.rc.po.c:20
 #: src/arch/win32/resc64.rc.po.c:20 src/arch/win32/resc64dtv.rc.po.c:20
@@ -6103,9 +6099,8 @@ msgid "RS&232 userport settings..."
 msgstr "RS&232 Userport Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:6730 src/arch/amigaos/intl.c.po.c:2118
-#, fuzzy
 msgid "EasyFlash settings..."
-msgstr "Plus4 Einstellungen..."
+msgstr "EasyFlash Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:6731 src/arch/amigaos/intl.c.po.c:2107
 msgid "SFX Sound Expander settings..."
@@ -6760,11 +6755,11 @@ msgstr "Aktuelle Tastenkürzel auf Datei speichern"
 
 #: src/arch/win32/resc128.rc.po.c:3280
 msgid "Select internal function ROM image"
-msgstr "Internes Funktions ROM Image Datei selektieren"
+msgstr "Internes Funktions ROM Image Datei auswählen"
 
 #: src/arch/win32/resc128.rc.po.c:3281
 msgid "Select external function ROM image"
-msgstr "Externes Funktions ROM Image Datei selektieren"
+msgstr "Externes Funktions ROM Image Datei auswählen"
 
 #: src/arch/win32/resc128.rc.po.c:3285 src/arch/amigaos/intl.c.po.c:6299
 msgid "C128 settings"
@@ -6857,7 +6852,7 @@ msgstr "256K Datei"
 
 #: src/arch/win32/resc64_256k.rc.po.c:28 src/arch/amigaos/intl.c.po.c:3709
 msgid "Select file for 256K"
-msgstr "Datei für 256K selektieren"
+msgstr "Datei für 256K auswählen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:36 src/arch/win32/resc64dtv.rc.po.c:2118
 msgid "DTV flash &rom image"
@@ -7132,7 +7127,7 @@ msgstr "DQBB Datei"
 
 #: src/arch/win32/resdqbb.rc.po.c:195 src/arch/amigaos/intl.c.po.c:4160
 msgid "Select file for DQBB"
-msgstr "Datei für DQBB selektieren"
+msgstr "Datei für DQBB auswählen"
 
 #: src/arch/win32/resdrivec128.rc.po.c:11
 #: src/arch/win32/resdrivec64.rc.po.c:11
@@ -7354,7 +7349,7 @@ msgstr "GEORAM Datei"
 
 #: src/arch/win32/resgeoram.rc.po.c:235 src/arch/amigaos/intl.c.po.c:4127
 msgid "Select file for GEORAM"
-msgstr "Datei für GEORAM selektieren"
+msgstr "Datei für GEORAM auswählen"
 
 #: src/arch/win32/reside64.rc.po.c:37
 msgid "IDE64 Settings"
@@ -7391,7 +7386,7 @@ msgstr "Gesamtgröße: %iKB"
 
 #: src/arch/win32/reside64.rc.po.c:45 src/arch/amigaos/intl.c.po.c:5342
 msgid "Select HD image file"
-msgstr "HD Image Datei selektieren"
+msgstr "HD Image Datei auswählen"
 
 #: src/arch/win32/resisepic.rc.po.c:10 src/arch/amigaos/intl.c.po.c:4182
 msgid "Isepic Settings"
@@ -7655,7 +7650,7 @@ msgstr "PET REU Datei"
 
 #: src/arch/win32/respetreu.rc.po.c:34 src/arch/amigaos/intl.c.po.c:4726
 msgid "Select file for PET REU"
-msgstr "Datei für PET REU selektieren"
+msgstr "Datei für PET REU auswählen"
 
 #: src/arch/win32/resplus256k.rc.po.c:20 src/arch/amigaos/intl.c.po.c:4748
 msgid "PLUS256K Settings"
@@ -7671,7 +7666,7 @@ msgstr "PLUS256K Image Name"
 
 #: src/arch/win32/resplus256k.rc.po.c:23 src/arch/amigaos/intl.c.po.c:2041
 msgid "Select file for PLUS256K"
-msgstr "Datei für PLUS256K selektieren"
+msgstr "Datei für PLUS256K auswählen"
 
 #: src/arch/win32/resplus4.rc.po.c:256
 msgid "3+1 Lo"
@@ -7791,7 +7786,7 @@ msgstr "PLUS60K Datei"
 
 #: src/arch/win32/resplus60k.rc.po.c:28 src/arch/amigaos/intl.c.po.c:4781
 msgid "Select file for PLUS60K"
-msgstr "Datei für PLUS60K selektieren"
+msgstr "Datei für PLUS60K auswählen"
 
 #: src/arch/win32/resramcart.rc.po.c:32 src/arch/amigaos/intl.c.po.c:4913
 msgid "RAMCART Settings"
@@ -7811,7 +7806,7 @@ msgstr "RAMCART Datei"
 
 #: src/arch/win32/resramcart.rc.po.c:37 src/arch/amigaos/intl.c.po.c:4902
 msgid "Select file for RAMCART"
-msgstr "Datei für RAMCART selektieren"
+msgstr "Datei für RAMCART auswählen"
 
 #: src/arch/win32/resreu.rc.po.c:30 src/arch/amigaos/intl.c.po.c:4957
 msgid "REU Settings"
@@ -7827,7 +7822,7 @@ msgstr "REU Datei"
 
 #: src/arch/win32/resreu.rc.po.c:34 src/arch/amigaos/intl.c.po.c:4946
 msgid "Select file for REU"
-msgstr "Datei für REU selektieren"
+msgstr "Datei für REU auswählen"
 
 #: src/arch/win32/resrs232user.rc.po.c:27 src/arch/amigaos/intl.c.po.c:5001
 msgid "RS232 Userport Settings"
@@ -7951,9 +7946,8 @@ msgstr "Schn&ittstelle"
 
 #: src/arch/win32/resvic20.rc.po.c:65 src/arch/win32/resvic20.rc.po.c:1875
 #: src/arch/amigaos/intl.c.po.c:435
-#, fuzzy
 msgid "Add to generic..."
-msgstr "Universal Image einlegen..."
+msgstr "Zu Universal Image hinzufügen..."
 
 #: src/arch/win32/resvic20.rc.po.c:1847 src/arch/amigaos/intl.c.po.c:5254
 msgid "VIC Settings"
@@ -8016,9 +8010,8 @@ msgid "Select Mega-Cart image"
 msgstr "Mega-Cart Image Date wählen"
 
 #: src/arch/win32/resvic20.rc.po.c:1863
-#, fuzzy
 msgid "Select Final Expansion image"
-msgstr "Internes Funktions ROM Image Datei selektieren"
+msgstr "Final Expansion Image Datei auswählen"
 
 #: src/arch/win32/resvic20.rc.po.c:1864
 msgid "Select cartridge image"
@@ -8061,9 +8054,8 @@ msgid "Mega-Cart image..."
 msgstr "Mega-Cart Image..."
 
 #: src/arch/win32/resvic20.rc.po.c:1874 src/arch/amigaos/intl.c.po.c:424
-#, fuzzy
 msgid "Final Expansion image..."
-msgstr "Action Replay Image..."
+msgstr "Final Expansion Image..."
 
 #: src/arch/win32/resvic20.rc.po.c:1876 src/arch/amigaos/intl.c.po.c:446
 msgid "Smart-attach image..."
@@ -8854,7 +8846,7 @@ msgstr "256K Basis"
 
 #: src/arch/amigaos/intl.c.po.c:3731
 msgid "Select file for C64DTV ROM"
-msgstr "Datei für C64DTV ROM selektieren"
+msgstr "Datei für C64DTV ROM auswählen"
 
 #: src/arch/amigaos/intl.c.po.c:3742
 msgid "C64DTV ROM file"
@@ -8961,9 +8953,8 @@ msgid "Isepic Switch"
 msgstr "Isepic Schalter"
 
 #: src/arch/amigaos/intl.c.po.c:4204
-#, fuzzy
 msgid "EasyFlash Settings"
-msgstr "Datasette Einstellungen"
+msgstr "EasyFlash Einstellungen"
 
 #: src/arch/amigaos/intl.c.po.c:4215
 msgid "Select config file"
@@ -9107,22 +9098,16 @@ msgstr ""
 "AI)"
 
 #: src/arch/amigaos/intl.c.po.c:4594
-#, fuzzy
 msgid ""
 "Extra joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
 "AI)"
-msgstr ""
-"Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz "
+msgstr "Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)"
 
 #: src/arch/amigaos/intl.c.po.c:4605
-#, fuzzy
 msgid ""
 "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
 "B/AI)"
-msgstr ""
-"Extra Joystick #2 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz "
+msgstr "Extra Joystick #2 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)"
 
 #: src/arch/amigaos/intl.c.po.c:4616
 msgid "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
@@ -9263,22 +9248,18 @@ msgid "MMC64 settings"
 msgstr "MMC64 Einstellungen"
 
 #: src/arch/amigaos/intl.c.po.c:5507
-#, fuzzy
 msgid "Select generic cartridge file"
-msgstr "Erweiterungsmodul Image Datei wählen"
+msgstr "Unverselles Erweiterungsmodul Image Datei wählen"
 
 #: src/arch/amigaos/intl.c.po.c:5518
-#, fuzzy
 msgid "Select Mega-Cart file"
-msgstr "Mega-Cart Image Date wählen"
+msgstr "Mega-Cart Image Datei wählen"
 
 #: src/arch/amigaos/intl.c.po.c:5529
-#, fuzzy
 msgid "Select Final Expansion file"
-msgstr "Snapshot Datei wählen"
+msgstr "Final Expansion Datei wählen"
 
 #: src/arch/amigaos/intl.c.po.c:5540
-#, fuzzy
 msgid "Select cartridge file"
 msgstr "Erweiterungsmodul Image Datei wählen"
 
@@ -9432,11 +9413,11 @@ msgstr "PLUS4 Einstellungen"
 
 #: src/arch/amigaos/intl.c.po.c:6211
 msgid "Select Internal Function ROM file"
-msgstr "Internes Funktions ROM Image Datei selektieren"
+msgstr "Internes Funktions ROM Image Datei auswählen"
 
 #: src/arch/amigaos/intl.c.po.c:6222
 msgid "Select External Function ROM file"
-msgstr "Externes Funktions ROM Image Datei selektieren"
+msgstr "Externes Funktions ROM Image Datei auswählen"
 
 #: src/arch/amigaos/intl.c.po.c:6255
 msgid "Internal Function ROM file"
@@ -9531,17 +9512,16 @@ msgid "Paddle"
 msgstr "Paddle"
 
 #: src/arch/amigaos/intl.c.po.c:6618
-#, fuzzy
 msgid "EasyFlash jumper"
-msgstr "BIOS Flashjumper"
+msgstr "EasyFlash Jumper"
 
 #: src/arch/amigaos/intl.c.po.c:6629
 msgid "Save to EasyFlash CRT file on detach"
-msgstr ""
+msgstr "EasyFlash CRT Imagedatei beim entfernen speichern"
 
 #: src/arch/amigaos/intl.c.po.c:6640
 msgid "Save to EasyFlash CRT now"
-msgstr ""
+msgstr "EasyFlash CRT Imagedatei jetzt speichern"
 
 #: src/translate.c.po.c:112
 msgid "Cannot load snapshot file."
@@ -10673,12 +10653,11 @@ msgstr "Warp Mode währen Autostart deaktivieren"
 
 #: src/translate.c.po.c:3666
 msgid "Set autostart mode for PRG files"
-msgstr ""
+msgstr "Autstart Modus für PRG Dateien definieren"
 
 #: src/translate.c.po.c:3680
-#, fuzzy
 msgid "Set disk image for autostart of PRG files"
-msgstr "Bitrate für Audio Stream für Media Datei setzen"
+msgstr "Disk Imagedatei für Autstart definieren"
 
 #: src/translate.c.po.c:3694
 msgid "Use PAL sync factor"
@@ -11984,9 +11963,8 @@ msgid "Specify Mega-Cart extension ROM name"
 msgstr "Mega-Cart Erweiterungs ROM definieren"
 
 #: src/translate.c.po.c:8433
-#, fuzzy
 msgid "Specify Final Expansion extension ROM name"
-msgstr "Generisches Erweiterungs ROM definieren"
+msgstr "Name für Final Expansion Erweiterungs ROM definieren"
 
 #: src/translate.c.po.c:8447
 msgid "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"
@@ -12074,7 +12052,7 @@ msgstr "<Gerät>"
 
 #: src/translate.c.po.c:8742
 msgid "Select fullscreen device"
-msgstr "Vollbild Gerät selektieren"
+msgstr "Vollbild Gerät auswählen"
 
 #: src/translate.c.po.c:8756
 msgid "Enable double size in fullscreen mode"
@@ -12609,7 +12587,7 @@ msgstr "SFX Soundexpander Modul deaktivieren"
 
 #: src/translate.c.po.c:10616
 msgid "Set YM chip type (3526 / 3812)"
-msgstr ""
+msgstr "YM Chip Typ (3526 / 3812) bestimmen"
 
 #: src/translate.c.po.c:10630
 msgid "Enable the SFX Sound Sampler cartridge"
@@ -12620,38 +12598,32 @@ msgid "Disable the SFX Sound Sampler cartridge"
 msgstr "SFX Sound Sampler Modul  deaktivieren"
 
 #: src/translate.c.po.c:10658
-#, fuzzy
 msgid "Enable lightpen emulation"
-msgstr "MIDI Emulation aktivieren"
+msgstr "Lichtgriffel Emulation aktivieren"
 
 #: src/translate.c.po.c:10672
-#, fuzzy
 msgid "Disable lightpen emulation"
-msgstr "MIDI Emulation deaktivieren"
+msgstr "Lichtgriffel Emulation deaktivieren"
 
 #: src/translate.c.po.c:10686
 msgid "Set lightpen type"
-msgstr ""
+msgstr "Lichtgriffel Type bestimmen"
 
 #: src/translate.c.po.c:10700
-#, fuzzy
 msgid "Enable EasyFlash jumper"
-msgstr "BIOS &Flashjumper aktivieren"
+msgstr "EasyFlash Jumper aktivieren"
 
 #: src/translate.c.po.c:10714
-#, fuzzy
 msgid "Disable EasyFlash jumper"
-msgstr "BIOS &Flashjumper aktivieren"
+msgstr "EasyFlash Jumer deaktivieren"
 
 #: src/translate.c.po.c:10728
-#, fuzzy
 msgid "Enable writing to EasyFlash .crt image"
-msgstr "Schreibzugriff auf C64DTV ROM Image erlauben"
+msgstr "Schreibzugriff auf EasyFlash CRT Image erlauben"
 
 #: src/translate.c.po.c:10742
-#, fuzzy
 msgid "Disable writing to EasyFlash .crt image"
-msgstr "Schreibzugriff auf C64DTV ROM Image verhindern"
+msgstr "Schreibzugriff auf EasyFlash ROM Image verhindern"
 
 #: src/translate.c.po.c:10756
 msgid "Enable the digimax cartridge"
