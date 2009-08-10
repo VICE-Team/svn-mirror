@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 2.1.15\n"
+"Project-Id-Version: VICE 2.1.16\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-08-06 19:35+0200\n"
-"PO-Revision-Date: 2009-08-03 18:20+0100\n"
+"PO-Revision-Date: 2009-08-10 19:57+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -185,9 +185,8 @@ msgid "RAM Expansion Cart"
 msgstr "RAM-expansionsmodul"
 
 #: src/arch/unix/gui/c128ui.c:274 src/arch/unix/gui/c64ui.c:287
-#, fuzzy
 msgid "EasyFlash cartridge"
-msgstr "Ogiltig insticksmodul"
+msgstr "EasyFlash-insticksmodul"
 
 #: src/arch/unix/gui/c128ui.c:276 src/arch/unix/gui/c64ui.c:295
 msgid "MMC64 emulation"
@@ -3326,14 +3325,12 @@ msgid "Attach Mega-Cart image..."
 msgstr "Anslut Mega-Cart-avbildningsfil..."
 
 #: src/arch/unix/gui/vic20ui.c:326
-#, fuzzy
 msgid "Attach Final Expansion image..."
-msgstr "Anslut en bandavbildningsfil..."
+msgstr "Anslut Final Expansion-savbildning..."
 
 #: src/arch/unix/gui/vic20ui.c:330
-#, fuzzy
 msgid "Add to generic cartridge"
-msgstr "Anslut vanlig 8KB-insticksmodulfil"
+msgstr "Lägg till generisk insticksmodul"
 
 #: src/arch/unix/gui/vic20ui.c:343
 msgid "Detach cartridge image(s)"
@@ -5521,9 +5518,8 @@ msgid "None"
 msgstr "Ingen"
 
 #: src/arch/win32/res.rc.po.c:6578 src/arch/amigaos/intl.c.po.c:6607
-#, fuzzy
 msgid "Error saving EasyFlash crt file"
-msgstr "Fel vid läsning av startögonblicksbildfil."
+msgstr "Fel vid skrivning av EasyFlash-crt-fil."
 
 #: src/arch/win32/res.rc.po.c:6580 src/arch/win32/resc128.rc.po.c:20
 #: src/arch/win32/resc64.rc.po.c:20 src/arch/win32/resc64dtv.rc.po.c:20
@@ -6117,9 +6113,8 @@ msgid "RS&232 userport settings..."
 msgstr "RS&232-användarportinställningar..."
 
 #: src/arch/win32/res.rc.po.c:6730 src/arch/amigaos/intl.c.po.c:2118
-#, fuzzy
 msgid "EasyFlash settings..."
-msgstr "Plus4-inställningar..."
+msgstr "EasyFlash-inställningar..."
 
 #: src/arch/win32/res.rc.po.c:6731 src/arch/amigaos/intl.c.po.c:2107
 msgid "SFX Sound Expander settings..."
@@ -7965,9 +7960,8 @@ msgstr "&Gränssnitt"
 
 #: src/arch/win32/resvic20.rc.po.c:65 src/arch/win32/resvic20.rc.po.c:1875
 #: src/arch/amigaos/intl.c.po.c:435
-#, fuzzy
 msgid "Add to generic..."
-msgstr "Anslut generisk avbild..."
+msgstr "Lägg till generisk.."
 
 #: src/arch/win32/resvic20.rc.po.c:1847 src/arch/amigaos/intl.c.po.c:5254
 msgid "VIC Settings"
@@ -8030,9 +8024,8 @@ msgid "Select Mega-Cart image"
 msgstr "Välj Mega-Cart-modulfil"
 
 #: src/arch/win32/resvic20.rc.po.c:1863
-#, fuzzy
 msgid "Select Final Expansion image"
-msgstr "Välj avbildning för internt funktions-ROM"
+msgstr "Välj avbildning för Final Expansion"
 
 #: src/arch/win32/resvic20.rc.po.c:1864
 msgid "Select cartridge image"
@@ -8075,9 +8068,8 @@ msgid "Mega-Cart image..."
 msgstr "Mega-Cart-avbildning..."
 
 #: src/arch/win32/resvic20.rc.po.c:1874 src/arch/amigaos/intl.c.po.c:424
-#, fuzzy
 msgid "Final Expansion image..."
-msgstr "Action Replay-fil..."
+msgstr "Final Expansion-fil..."
 
 #: src/arch/win32/resvic20.rc.po.c:1876 src/arch/amigaos/intl.c.po.c:446
 msgid "Smart-attach image..."
@@ -8975,9 +8967,8 @@ msgid "Isepic Switch"
 msgstr "Isepic-omkopplare"
 
 #: src/arch/amigaos/intl.c.po.c:4204
-#, fuzzy
 msgid "EasyFlash Settings"
-msgstr "Datasetteinställningar"
+msgstr "EasyFlash-inställningar"
 
 #: src/arch/amigaos/intl.c.po.c:4215
 msgid "Select config file"
@@ -9122,7 +9113,6 @@ msgstr ""
 "AI, 3: tangentuppsättning B/AI)"
 
 #: src/arch/amigaos/intl.c.po.c:4594
-#, fuzzy
 msgid ""
 "Extra joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
 "AI)"
@@ -9131,7 +9121,6 @@ msgstr ""
 "tangentuppsättning A/AI, 3: tangentuppsättning B/AI)"
 
 #: src/arch/amigaos/intl.c.po.c:4605
-#, fuzzy
 msgid ""
 "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
 "B/AI)"
@@ -9282,22 +9271,18 @@ msgid "MMC64 settings"
 msgstr "MMC64-inställningar..."
 
 #: src/arch/amigaos/intl.c.po.c:5507
-#, fuzzy
 msgid "Select generic cartridge file"
-msgstr "Välj insticksmodulfil"
+msgstr "Välj generisk insticksmodulfil"
 
 #: src/arch/amigaos/intl.c.po.c:5518
-#, fuzzy
 msgid "Select Mega-Cart file"
-msgstr "Välj Mega-Cart-modulfil"
+msgstr "Välj Mega-Cart-fil"
 
 #: src/arch/amigaos/intl.c.po.c:5529
-#, fuzzy
 msgid "Select Final Expansion file"
-msgstr "Välj ögonblicksbildfil"
+msgstr "Välj Final Expansion-fil"
 
 #: src/arch/amigaos/intl.c.po.c:5540
-#, fuzzy
 msgid "Select cartridge file"
 msgstr "Välj insticksmodulfil"
 
@@ -9550,17 +9535,16 @@ msgid "Paddle"
 msgstr "Paddel"
 
 #: src/arch/amigaos/intl.c.po.c:6618
-#, fuzzy
 msgid "EasyFlash jumper"
-msgstr "BIOS-flashbygel"
+msgstr "EasyFlash-bygel"
 
 #: src/arch/amigaos/intl.c.po.c:6629
 msgid "Save to EasyFlash CRT file on detach"
-msgstr ""
+msgstr "Spara till EasyFlash-CRT-fil vid frånkoppling"
 
 #: src/arch/amigaos/intl.c.po.c:6640
 msgid "Save to EasyFlash CRT now"
-msgstr ""
+msgstr "Spara till EasyFlash-CRT nu"
 
 #: src/translate.c.po.c:112
 msgid "Cannot load snapshot file."
@@ -10672,12 +10656,11 @@ msgstr "Inaktivera warpläge för autostart"
 
 #: src/translate.c.po.c:3666
 msgid "Set autostart mode for PRG files"
-msgstr ""
+msgstr "Välj autostartläge för PRG-filer"
 
 #: src/translate.c.po.c:3680
-#, fuzzy
 msgid "Set disk image for autostart of PRG files"
-msgstr "Ange bithastighet för ljudström i mediafil"
+msgstr "Ange diskavbildning för autostart av PRG-filer"
 
 #: src/translate.c.po.c:3694
 msgid "Use PAL sync factor"
@@ -11990,9 +11973,8 @@ msgid "Specify Mega-Cart extension ROM name"
 msgstr "Ange namn på Mega-Cart-utöknings-ROM"
 
 #: src/translate.c.po.c:8433
-#, fuzzy
 msgid "Specify Final Expansion extension ROM name"
-msgstr "Ange namn på generiskt utöknings-ROM"
+msgstr "Ange namn på Final Expansion utöknings-ROM"
 
 #: src/translate.c.po.c:8447
 msgid "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"
@@ -12617,7 +12599,7 @@ msgstr "Inaktivera SFX soundexpander-insticksmodul"
 
 #: src/translate.c.po.c:10616
 msgid "Set YM chip type (3526 / 3812)"
-msgstr ""
+msgstr "Välj YM-kretstyp (3526 / 3812)"
 
 #: src/translate.c.po.c:10630
 msgid "Enable the SFX Sound Sampler cartridge"
@@ -12628,38 +12610,32 @@ msgid "Disable the SFX Sound Sampler cartridge"
 msgstr "Inaktivera SFX Sound Sampler-insticksmodul"
 
 #: src/translate.c.po.c:10658
-#, fuzzy
 msgid "Enable lightpen emulation"
-msgstr "Aktivera MIDI-emulering"
+msgstr "Aktivera emulering av ljuspenna"
 
 #: src/translate.c.po.c:10672
-#, fuzzy
 msgid "Disable lightpen emulation"
-msgstr "Inaktivera MIDI-emulering"
+msgstr "Inaktivera emulering ljuspenna"
 
 #: src/translate.c.po.c:10686
 msgid "Set lightpen type"
-msgstr ""
+msgstr "Välj typ av ljuspenna"
 
 #: src/translate.c.po.c:10700
-#, fuzzy
 msgid "Enable EasyFlash jumper"
-msgstr "Aktivera BIOS-&flashbygel"
+msgstr "Aktivera EasyFlash-bygel"
 
 #: src/translate.c.po.c:10714
-#, fuzzy
 msgid "Disable EasyFlash jumper"
-msgstr "Aktivera BIOS-&flashbygel"
+msgstr "Inaktivera EasyFlash-bygel"
 
 #: src/translate.c.po.c:10728
-#, fuzzy
 msgid "Enable writing to EasyFlash .crt image"
-msgstr "Aktivera skrivning till C64DTV-ROM-avbildning."
+msgstr "Aktivera skrivning till EasyFlash-.crt-avbildning."
 
 #: src/translate.c.po.c:10742
-#, fuzzy
 msgid "Disable writing to EasyFlash .crt image"
-msgstr "Inaktivera skrivning till C64DTV-ROM-avbildning."
+msgstr "Inaktivera skrivning till EasyFlash-.crt-avbildning."
 
 #: src/translate.c.po.c:10756
 msgid "Enable the digimax cartridge"
@@ -12675,14 +12651,14 @@ msgstr "Basadress för Digimax-cartridge"
 
 #, fuzzy
 #~ msgid "Set device for joystick port 3"
-#~ msgstr "VÃ¤lj enhet fÃ¶r spelport 1"
+#~ msgstr "VÃƒÂ¤lj enhet fÃƒÂ¶r spelport 1"
 
 #, fuzzy
 #~ msgid "Set device for joystick port 4"
-#~ msgstr "VÃ¤lj enhet fÃ¶r spelport 1"
+#~ msgstr "VÃƒÂ¤lj enhet fÃƒÂ¶r spelport 1"
 
 #~ msgid "*Handle True Drive Emulation on autostart"
-#~ msgstr "*Hantera Ã¤kta diskettenhetsemulering vid autostart"
+#~ msgstr "*Hantera ÃƒÂ¤kta diskettenhetsemulering vid autostart"
 
 #, fuzzy
 #~ msgid "Joystick device in port 3"
@@ -12694,7 +12670,7 @@ msgstr "Basadress för Digimax-cartridge"
 
 #, fuzzy
 #~ msgid "Enable SFX Sound Expander"
-#~ msgstr "Aktivera ljudÃ¥tergivning"
+#~ msgstr "Aktivera ljudÃƒÂ¥tergivning"
 
 #, fuzzy
 #~ msgid "Enable joystick"
@@ -12702,16 +12678,16 @@ msgstr "Basadress för Digimax-cartridge"
 
 #, fuzzy
 #~ msgid "Enable OEM userport joystick"
-#~ msgstr "Aktivera diagnostik pÃ¥ anvÃ¤ndarporten"
+#~ msgstr "Aktivera diagnostik pÃƒÂ¥ anvÃƒÂ¤ndarporten"
 
 #~ msgid "No joystick or joypad found on port %d"
-#~ msgstr "Hittar ingen styrspak eller styrplatta pÃ¥ port %d"
+#~ msgstr "Hittar ingen styrspak eller styrplatta pÃƒÂ¥ port %d"
 
 #~ msgid "A mouse was found on port %d"
-#~ msgstr "En mus upptÃ¤cktes pÃ¥ port %d"
+#~ msgstr "En mus upptÃƒÂ¤cktes pÃƒÂ¥ port %d"
 
 #~ msgid "Unknown device found on port %d"
-#~ msgstr "OkÃ¤nd enhet upptÃ¤cktes pÃ¥ port %d"
+#~ msgstr "OkÃƒÂ¤nd enhet upptÃƒÂ¤cktes pÃƒÂ¥ port %d"
 
 #~ msgid "*1.00 sec"
 #~ msgstr "*1,00 s"
@@ -12720,7 +12696,7 @@ msgstr "Basadress för Digimax-cartridge"
 #~ msgstr "*0,15 s"
 
 #~ msgid "&Oversampling Factor :"
-#~ msgstr "&Ã–versamplingsfaktor:"
+#~ msgstr "&ÃƒÂ–versamplingsfaktor:"
 
 #~ msgid "*Enable IPV6"
 #~ msgstr "*Aktivera IPV6"
