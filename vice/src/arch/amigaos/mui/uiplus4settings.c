@@ -37,108 +37,98 @@
 static APTR plus4_ram_size;
 
 static char *ui_plus4_ram_size[] = {
-  "16K",
-  "32K",
-  "64K",
-  "256K (CSORY)",
-  "256K (HANNES)",
-  "1024K (HANNES)",
-  "4096K (HANNES)",
-  NULL
+    "16K",
+    "32K",
+    "64K",
+    "256K (CSORY)",
+    "256K (HANNES)",
+    "1024K (HANNES)",
+    "4096K (HANNES)",
+    NULL
 };
 
 static APTR build_gui(void)
 {
-  APTR app, ui, ok, cancel;
+    APTR app, ui, ok, cancel;
 
-  app = mui_get_app();
+    app = mui_get_app();
 
-  ui = GroupObject,
-    CYCLE(plus4_ram_size, translate_text(IDS_MEMORY), ui_plus4_ram_size)
-    OK_CANCEL_BUTTON
-  End;
+    ui = GroupObject,
+           CYCLE(plus4_ram_size, translate_text(IDS_MEMORY), ui_plus4_ram_size)
+           OK_CANCEL_BUTTON
+         End;
 
-  if (ui != NULL) {
-    DoMethod(cancel,
-      MUIM_Notify, MUIA_Pressed, FALSE,
-      app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+    if (ui != NULL) {
+        DoMethod(cancel, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
 
-    DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
-      app, 2, MUIM_Application_ReturnID, BTN_OK);
-  }
+        DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, BTN_OK);
+    }
 
-  return ui;
+    return ui;
 }
 
 void ui_plus4_settings_dialog(void)
 {
-  APTR window;
-  int h256k, cs256k, ramsize, val;
+    APTR window;
+    int h256k, cs256k, ramsize, val;
 
-  window = mui_make_simple_window(build_gui(), translate_text(IDS_PLUS4_SETTINGS));
+    window = mui_make_simple_window(build_gui(), translate_text(IDS_PLUS4_SETTINGS));
 
-  if (window != NULL) {
-    mui_add_window(window);
-    resources_get_value("H256K", (void *)&h256k);
-    resources_get_value("CS256K", (void *)&cs256k);
-    resources_get_value("RamSize", (void *)&ramsize);
-    if (cs256k!=0 || h256k!=0)
-    {
-      if (cs256k==1)
-      {
-        set(plus4_ram_size, MUIA_Cycle_Active, 3);
-      }
-      else
-      {
-        set(plus4_ram_size, MUIA_Cycle_Active, h256k+3);
-      }
+    if (window != NULL) {
+        mui_add_window(window);
+        resources_get_value("H256K", (void *)&h256k);
+        resources_get_value("CS256K", (void *)&cs256k);
+        resources_get_value("RamSize", (void *)&ramsize);
+        if (cs256k != 0 || h256k != 0) {
+            if (cs256k == 1) {
+                set(plus4_ram_size, MUIA_Cycle_Active, 3);
+            } else {
+                set(plus4_ram_size, MUIA_Cycle_Active, h256k+3);
+            }
+        } else {
+            switch(ramsize) {
+                case 16:
+                    set(plus4_ram_size, MUIA_Cycle_Active, 0);
+                    break;
+                case 32:
+                    set(plus4_ram_size, MUIA_Cycle_Active, 1);
+                    break;
+                case 64:
+                    set(plus4_ram_size, MUIA_Cycle_Active, 2);
+                    break;
+            }
+        }
+        set(window, MUIA_Window_Open, TRUE);
+        if (mui_run() == BTN_OK) {
+            get(plus4_ram_size, MUIA_Cycle_Active, (APTR)&val);
+            switch (val) {
+                case 0:
+                    resources_set_int("RamSize", 16);
+                    break;
+                case 1:
+                    resources_set_int("RamSize", 32);
+                    break;
+                case 2:
+                    resources_set_int("RamSize", 64);
+                    break;
+                case 3:
+                    resources_set_int("CS256K", 1);
+                    break;
+                case 4:
+                    resources_set_int("H256K", 1);
+                    break;
+                case 5:
+                    resources_set_int("H256K", 2);
+                    break;
+                case 6:
+                    resources_set_int("H256K", 3);
+                    break;
+            }
+        }
+        set(window, MUIA_Window_Open, FALSE);
+        mui_rem_window(window);
+        MUI_DisposeObject(window);
     }
-    else
-    {
-      switch(ramsize)
-      {
-        case 16:
-          set(plus4_ram_size, MUIA_Cycle_Active, 0);
-          break;
-        case 32:
-          set(plus4_ram_size, MUIA_Cycle_Active, 1);
-          break;
-        case 64:
-          set(plus4_ram_size, MUIA_Cycle_Active, 2);
-          break;
-      }
-    }
-    set(window, MUIA_Window_Open, TRUE);
-    if (mui_run() == BTN_OK)
-    {
-      get(plus4_ram_size, MUIA_Cycle_Active, (APTR)&val);
-      switch (val)
-      {
-        case 0:
-          resources_set_int("RamSize", 16);
-          break;
-        case 1:
-          resources_set_int("RamSize", 32);
-          break;
-        case 2:
-          resources_set_int("RamSize", 64);
-          break;
-        case 3:
-          resources_set_int("CS256K", 1);
-          break;
-        case 4:
-          resources_set_int("H256K", 1);
-          break;
-        case 5:
-          resources_set_int("H256K", 2);
-          break;
-        case 6:
-          resources_set_int("H256K", 3);
-          break;
-      }
-    }
-    set(window, MUIA_Window_Open, FALSE);
-    mui_rem_window(window);
-    MUI_DisposeObject(window);
-  }
 }
