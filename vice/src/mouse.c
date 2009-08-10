@@ -365,7 +365,7 @@ static BYTE mouse_get_paddle_y(void)
         paddle_val[i] = mouse_paddle_update(paddle_val[i], &(paddle_old[i]), mousedrv_get_y());
     }
 
-    return paddle_val[i];
+    return 0xff-paddle_val[i];
 }
 
 void mouse_set_paddle_port(int port)
