@@ -35,83 +35,83 @@
 #include "translate.h"
 
 static int ui_datasette_reset_with_cpu_translate[] = {
-  IDMS_DISABLED,
-  IDS_ENABLED,
-  0
+    IDMS_DISABLED,
+    IDS_ENABLED,
+    0
 };
 
 static char *ui_datasette_reset_with_cpu[countof(ui_datasette_reset_with_cpu_translate)];
 
 static const int ui_datasette_reset_with_cpu_values[] = {
-  0,
-  1,
-  -1
+    0,
+    1,
+    -1
 };
 
 static char *ui_datasette_additional_delay[] = {
-  "0 cycles",
-  "1 cycle",
-  "2 cycles",
-  "3 cycles",
-  "4 cycles",
-  "5 cycles",
-  "6 cycles",
-  "7 cycles",
-  NULL
+    "0 cycles",
+    "1 cycle",
+    "2 cycles",
+    "3 cycles",
+    "4 cycles",
+    "5 cycles",
+    "6 cycles",
+    "7 cycles",
+    NULL
 };
 
 static const int ui_datasette_additional_delay_values[] = {
-  0,
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  -1
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    -1
 };
 
 static char *ui_datasette_delay_at_zero[] = {
-  "1000 cycles",
-  "2000 cycles",
-  "5000 cycles",
-  "10000 cycles",
-  "20000 cycles",
-  "50000 cycles",
-  "100000 cycles",
-  NULL
+    "1000 cycles",
+    "2000 cycles",
+    "5000 cycles",
+    "10000 cycles",
+    "20000 cycles",
+    "50000 cycles",
+    "100000 cycles",
+    NULL
 };
 
 static const int ui_datasette_delay_at_zero_values[] = {
-  1000,
-  2000,
-  5000,
-  10000,
-  20000,
-  50000,
-  100000,
-  -1
+    1000,
+    2000,
+    5000,
+    10000,
+    20000,
+    50000,
+    100000,
+    -1
 };
 
 static ui_to_from_t ui_to_from[] = {
-  { NULL, MUI_TYPE_CYCLE, "DatasetteResetWithCPU", ui_datasette_reset_with_cpu, ui_datasette_reset_with_cpu_values },
-  { NULL, MUI_TYPE_CYCLE, "DatasetteSpeedTuning", ui_datasette_additional_delay, ui_datasette_additional_delay_values },
-  { NULL, MUI_TYPE_CYCLE, "DatasetteZeroGapDelay", ui_datasette_delay_at_zero, ui_datasette_delay_at_zero_values },
-  UI_END /* mandatory */
+    {NULL, MUI_TYPE_CYCLE, "DatasetteResetWithCPU", ui_datasette_reset_with_cpu, ui_datasette_reset_with_cpu_values},
+    {NULL, MUI_TYPE_CYCLE, "DatasetteSpeedTuning", ui_datasette_additional_delay, ui_datasette_additional_delay_values},
+    {NULL, MUI_TYPE_CYCLE, "DatasetteZeroGapDelay", ui_datasette_delay_at_zero, ui_datasette_delay_at_zero_values},
+    UI_END /* mandatory */
 };
 
 static APTR build_gui(void)
 {
-  return GroupObject,
-    CYCLE(ui_to_from[0].object, translate_text(IDS_RESET_DATASETTE_WITH_CPU), ui_datasette_reset_with_cpu)
-    CYCLE(ui_to_from[1].object, translate_text(IDS_ADDITIONAL_DELAY), ui_datasette_additional_delay)
-    CYCLE(ui_to_from[2].object, translate_text(IDS_DELAY_AT_ZERO_VALUES), ui_datasette_delay_at_zero)
-  End;
+    return GroupObject,
+           CYCLE(ui_to_from[0].object, translate_text(IDS_RESET_DATASETTE_WITH_CPU), ui_datasette_reset_with_cpu)
+           CYCLE(ui_to_from[1].object, translate_text(IDS_ADDITIONAL_DELAY), ui_datasette_additional_delay)
+           CYCLE(ui_to_from[2].object, translate_text(IDS_DELAY_AT_ZERO_VALUES), ui_datasette_delay_at_zero)
+           End;
 }
 
 void ui_datasette_settings_dialog(void)
 {
-  intl_convert_mui_table(ui_datasette_reset_with_cpu_translate, ui_datasette_reset_with_cpu);
-  mui_show_dialog(build_gui(), translate_text(IDS_DATASETTE_SETTINGS), ui_to_from);
+    intl_convert_mui_table(ui_datasette_reset_with_cpu_translate, ui_datasette_reset_with_cpu);
+    mui_show_dialog(build_gui(), translate_text(IDS_DATASETTE_SETTINGS), ui_to_from);
 }

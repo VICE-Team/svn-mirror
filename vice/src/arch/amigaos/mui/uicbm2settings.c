@@ -35,77 +35,77 @@
 #include "translate.h"
 
 static char *ui_cbm2_model[] = {
-  "7x0 (50 Hz)",
-  "6x0 (60 Hz)",
-  "6x0 (50 Hz)",
-  NULL
+    "7x0 (50 Hz)",
+    "6x0 (60 Hz)",
+    "6x0 (50 Hz)",
+    NULL
 };
 
 static const int ui_cbm2_model_values[] = {
-  0,
-  1,
-  2,
-  -1
+    0,
+    1,
+    2,
+    -1
 };
 
 static char *ui_cbm2_memsize[] = {
-  "128K",
-  "256K",
-  "512K",
-  "1024K",
-  NULL
+    "128K",
+    "256K",
+    "512K",
+    "1024K",
+    NULL
 };
 
 static const int ui_cbm2_memsize_values[] = {
-  128,
-  256,
-  512,
-  1024,
-  -1
+    128,
+    256,
+    512,
+    1024,
+    -1
 };
 
 static int ui_cbm2mem_enable_translate[] = {
-  IDMS_DISABLED,
-  IDS_ENABLED,
-  0
+    IDMS_DISABLED,
+    IDS_ENABLED,
+    0
 };
 
 static char *ui_cbm2mem_enable[countof(ui_cbm2mem_enable_translate)];
 
 static const int ui_cbm2mem_enable_values[] = {
-  0,
-  1,
-  -1
+    0,
+    1,
+    -1
 };
 
 static ui_to_from_t ui_to_from[] = {
-  { NULL, MUI_TYPE_CYCLE, "ModelLine", ui_cbm2_model, ui_cbm2_model_values },
-  { NULL, MUI_TYPE_CYCLE, "RamSize", ui_cbm2_memsize, ui_cbm2_memsize_values },
-  { NULL, MUI_TYPE_CYCLE, "Ram08", ui_cbm2mem_enable, ui_cbm2mem_enable_values },
-  { NULL, MUI_TYPE_CYCLE, "Ram1", ui_cbm2mem_enable, ui_cbm2mem_enable_values },
-  { NULL, MUI_TYPE_CYCLE, "Ram2", ui_cbm2mem_enable, ui_cbm2mem_enable_values },
-  { NULL, MUI_TYPE_CYCLE, "Ram4", ui_cbm2mem_enable, ui_cbm2mem_enable_values },
-  { NULL, MUI_TYPE_CYCLE, "Ram6", ui_cbm2mem_enable, ui_cbm2mem_enable_values },
-  { NULL, MUI_TYPE_CYCLE, "RamC", ui_cbm2mem_enable, ui_cbm2mem_enable_values },
-  UI_END /* mandatory */
+    {NULL, MUI_TYPE_CYCLE, "ModelLine", ui_cbm2_model, ui_cbm2_model_values},
+    {NULL, MUI_TYPE_CYCLE, "RamSize", ui_cbm2_memsize, ui_cbm2_memsize_values},
+    {NULL, MUI_TYPE_CYCLE, "Ram08", ui_cbm2mem_enable, ui_cbm2mem_enable_values},
+    {NULL, MUI_TYPE_CYCLE, "Ram1", ui_cbm2mem_enable, ui_cbm2mem_enable_values},
+    {NULL, MUI_TYPE_CYCLE, "Ram2", ui_cbm2mem_enable, ui_cbm2mem_enable_values},
+    {NULL, MUI_TYPE_CYCLE, "Ram4", ui_cbm2mem_enable, ui_cbm2mem_enable_values},
+    {NULL, MUI_TYPE_CYCLE, "Ram6", ui_cbm2mem_enable, ui_cbm2mem_enable_values},
+    {NULL, MUI_TYPE_CYCLE, "RamC", ui_cbm2mem_enable, ui_cbm2mem_enable_values},
+    UI_END /* mandatory */
 };
 
 static APTR build_gui(void)
 {
-  return GroupObject,
-    CYCLE(ui_to_from[0].object, translate_text(IDS_MODEL_LINE), ui_cbm2_model)
-    CYCLE(ui_to_from[1].object, translate_text(IDS_RAM_SIZE), ui_cbm2_memsize)
-    CYCLE(ui_to_from[2].object, translate_text(IDS_RAM_BLOCK_0800_0FFF), ui_cbm2mem_enable)
-    CYCLE(ui_to_from[3].object, translate_text(IDS_RAM_BLOCK_1000_1FFF), ui_cbm2mem_enable)
-    CYCLE(ui_to_from[4].object, translate_text(IDS_RAM_BLOCK_2000_3FFF), ui_cbm2mem_enable)
-    CYCLE(ui_to_from[5].object, translate_text(IDS_RAM_BLOCK_4000_5FFF), ui_cbm2mem_enable)
-    CYCLE(ui_to_from[6].object, translate_text(IDS_RAM_BLOCK_6000_7FFF), ui_cbm2mem_enable)
-    CYCLE(ui_to_from[7].object, translate_text(IDS_RAM_BLOCK_C000_CFFF), ui_cbm2mem_enable)
-  End;
+    return GroupObject,
+           CYCLE(ui_to_from[0].object, translate_text(IDS_MODEL_LINE), ui_cbm2_model)
+           CYCLE(ui_to_from[1].object, translate_text(IDS_RAM_SIZE), ui_cbm2_memsize)
+           CYCLE(ui_to_from[2].object, translate_text(IDS_RAM_BLOCK_0800_0FFF), ui_cbm2mem_enable)
+           CYCLE(ui_to_from[3].object, translate_text(IDS_RAM_BLOCK_1000_1FFF), ui_cbm2mem_enable)
+           CYCLE(ui_to_from[4].object, translate_text(IDS_RAM_BLOCK_2000_3FFF), ui_cbm2mem_enable)
+           CYCLE(ui_to_from[5].object, translate_text(IDS_RAM_BLOCK_4000_5FFF), ui_cbm2mem_enable)
+           CYCLE(ui_to_from[6].object, translate_text(IDS_RAM_BLOCK_6000_7FFF), ui_cbm2mem_enable)
+           CYCLE(ui_to_from[7].object, translate_text(IDS_RAM_BLOCK_C000_CFFF), ui_cbm2mem_enable)
+           End;
 }
 
 void ui_cbm2_settings_dialog(void)
 {
-  intl_convert_mui_table(ui_cbm2mem_enable_translate, ui_cbm2mem_enable);
-  mui_show_dialog(build_gui(), translate_text(IDS_CBM2_SETTINGS), ui_to_from);
+    intl_convert_mui_table(ui_cbm2mem_enable_translate, ui_cbm2mem_enable);
+    mui_show_dialog(build_gui(), translate_text(IDS_CBM2_SETTINGS), ui_to_from);
 }

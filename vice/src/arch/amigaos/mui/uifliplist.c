@@ -37,30 +37,29 @@
 
 void uifliplist_load_dialog(video_canvas_t *canvas)
 {
-  char *fname=NULL;
+    char *fname = NULL;
 
-  fname=BrowseFile(translate_text(IDS_LOAD_FLIP_LIST_FILE), "#?.vfl", canvas);
+    fname = BrowseFile(translate_text(IDS_LOAD_FLIP_LIST_FILE), "#?.vfl", canvas);
 
-  if (fname!=NULL && *fname!='\0')
-  {
-    if (fliplist_load_list((unsigned int)-1, fname, 0) != 0)
-      ui_error(translate_text(IDS_CANNOT_READ_FLIP_LIST));
-  }
+    if (fname != NULL && *fname != '\0') {
+        if (fliplist_load_list((unsigned int)-1, fname, 0) != 0) {
+            ui_error(translate_text(IDS_CANNOT_READ_FLIP_LIST));
+        }
+    }
 }
 
 void uifliplist_save_dialog(video_canvas_t *canvas)
 {
-  char *fname=NULL;
+    char *fname = NULL;
 
-  fname=BrowseFile(translate_text(IDS_SAVE_FLIP_LIST_FILE), "#?.vfl", canvas);
+    fname = BrowseFile(translate_text(IDS_SAVE_FLIP_LIST_FILE), "#?.vfl", canvas);
 
-  if (fname!=NULL && *fname!='\0')
-  {
-    if (strcasecmp(fname+(strlen(fname)-4),".vfl"))
-    {
-      strcat(fname, ".vfl");
+    if (fname != NULL && *fname != '\0') {
+        if (strcasecmp(fname+(strlen(fname)-4),".vfl")) {
+            strcat(fname, ".vfl");
+        }
+        if (fliplist_save_list((unsigned int)-1, fname) != 0) {
+            ui_error(translate_text(IDS_CANNOT_WRITE_FLIP_LIST));
+        }
     }
-    if (fliplist_save_list((unsigned int)-1, fname) != 0)
-      ui_error(translate_text(IDS_CANNOT_WRITE_FLIP_LIST));
-  }
 }

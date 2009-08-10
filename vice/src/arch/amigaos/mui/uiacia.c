@@ -35,107 +35,107 @@
 #include "translate.h"
 
 static int ui_acia_enable_translate[] = {
-  IDMS_DISABLED,
-  IDS_ENABLED,
-  0
+    IDMS_DISABLED,
+    IDS_ENABLED,
+    0
 };
 
 static char *ui_acia_enable[countof(ui_acia_enable_translate)];
 
 static const int ui_acia_enable_values[] = {
-  0,
-  1,
-  -1
+    0,
+    1,
+    -1
 };
 
 static int ui_acia_device_translate[] = {
-  IDS_RS232_DEVICE_1,
-  IDS_RS232_DEVICE_2,
-  IDS_RS232_DEVICE_3,
-  IDS_RS232_DEVICE_4,
-  0
+    IDS_RS232_DEVICE_1,
+    IDS_RS232_DEVICE_2,
+    IDS_RS232_DEVICE_3,
+    IDS_RS232_DEVICE_4,
+    0
 };
 
 static char *ui_acia_device[countof(ui_acia_device_translate)];
 
 static const int ui_acia_device_values[] = {
-  0,
-  1,
-  2,
-  3,
-  -1
+    0,
+    1,
+    2,
+    3,
+    -1
 };
 
 static int ui_acia_interrupt_translate[] = {
-  IDS_NONE,
-  IDS_IRQ,
-  IDS_NMI,
-  0
+    IDS_NONE,
+    IDS_IRQ,
+    IDS_NMI,
+    0
 };
 
 static char *ui_acia_interrupt[countof(ui_acia_interrupt_translate)];
 
 static const int ui_acia_interrupt_values[] = {
-  0,
-  1,
-  2,
-  -1
+    0,
+    1,
+    2,
+    -1
 };
 
 static char *ui_acia_mode[] = {
-  "Normal",
-  "Swiftlink",
-  "Turbo232",
-  NULL
+    "Normal",
+    "Swiftlink",
+    "Turbo232",
+    NULL
 };
 
 static const int ui_acia_mode_values[] = {
-  0,
-  1,
-  2,
-  -1
+    0,
+    1,
+    2,
+    -1
 };
 
 static ui_to_from_t ui_to_from64128[] = {
-  { NULL, MUI_TYPE_CYCLE, "Acia1Enable", ui_acia_enable, ui_acia_enable_values },
-  { NULL, MUI_TYPE_CYCLE, "Acia1Dev", ui_acia_device, ui_acia_device_values },
-  { NULL, MUI_TYPE_CYCLE, "Acia1Irq", ui_acia_interrupt, ui_acia_interrupt_values },
-  { NULL, MUI_TYPE_CYCLE, "Acia1Mode", ui_acia_mode, ui_acia_mode_values },
-  UI_END /* mandatory */
+    {NULL, MUI_TYPE_CYCLE, "Acia1Enable", ui_acia_enable, ui_acia_enable_values},
+    {NULL, MUI_TYPE_CYCLE, "Acia1Dev", ui_acia_device, ui_acia_device_values},
+    {NULL, MUI_TYPE_CYCLE, "Acia1Irq", ui_acia_interrupt, ui_acia_interrupt_values},
+    {NULL, MUI_TYPE_CYCLE, "Acia1Mode", ui_acia_mode, ui_acia_mode_values},
+    UI_END /* mandatory */
 };
 
 static ui_to_from_t ui_to_from[] = {
-  { NULL, MUI_TYPE_CYCLE, "Acia1Dev", ui_acia_device, ui_acia_device_values },
-  UI_END /* mandatory */
+    {NULL, MUI_TYPE_CYCLE, "Acia1Dev", ui_acia_device, ui_acia_device_values},
+    UI_END /* mandatory */
 };
 
 static APTR build_gui64128(void)
 {
-  return GroupObject,
-    CYCLE(ui_to_from64128[0].object, "ACIA", ui_acia_enable)
-    CYCLE(ui_to_from64128[1].object, translate_text(IDS_ACIA_DEVICE), ui_acia_device)
-    CYCLE(ui_to_from64128[2].object, translate_text(IDS_ACIA_INTERRUPT), ui_acia_interrupt)
-    CYCLE(ui_to_from64128[3].object, translate_text(IDS_ACIA_MODE), ui_acia_mode)
-  End;
+    return GroupObject,
+           CYCLE(ui_to_from64128[0].object, "ACIA", ui_acia_enable)
+           CYCLE(ui_to_from64128[1].object, translate_text(IDS_ACIA_DEVICE), ui_acia_device)
+           CYCLE(ui_to_from64128[2].object, translate_text(IDS_ACIA_INTERRUPT), ui_acia_interrupt)
+           CYCLE(ui_to_from64128[3].object, translate_text(IDS_ACIA_MODE), ui_acia_mode)
+           End;
 }
 
 static APTR build_gui(void)
 {
-  return GroupObject,
-    CYCLE(ui_to_from[1].object, translate_text(IDS_ACIA_DEVICE), ui_acia_device)
-  End;
+    return GroupObject,
+           CYCLE(ui_to_from[1].object, translate_text(IDS_ACIA_DEVICE), ui_acia_device)
+           End;
 }
 
 void ui_acia_settings_dialog(void)
 {
-  intl_convert_mui_table(ui_acia_device_translate, ui_acia_device);
-  mui_show_dialog(build_gui(), translate_text(IDS_ACIA_SETTINGS), ui_to_from);
+    intl_convert_mui_table(ui_acia_device_translate, ui_acia_device);
+    mui_show_dialog(build_gui(), translate_text(IDS_ACIA_SETTINGS), ui_to_from);
 }
 
 void ui_acia64128_settings_dialog(void)
 {
-  intl_convert_mui_table(ui_acia_enable_translate, ui_acia_enable);
-  intl_convert_mui_table(ui_acia_device_translate, ui_acia_device);
-  intl_convert_mui_table(ui_acia_interrupt_translate, ui_acia_interrupt);
-  mui_show_dialog(build_gui64128(), translate_text(IDS_ACIA_SETTINGS), ui_to_from64128);
+    intl_convert_mui_table(ui_acia_enable_translate, ui_acia_enable);
+    intl_convert_mui_table(ui_acia_device_translate, ui_acia_device);
+    intl_convert_mui_table(ui_acia_interrupt_translate, ui_acia_interrupt);
+    mui_show_dialog(build_gui64128(), translate_text(IDS_ACIA_SETTINGS), ui_to_from64128);
 }

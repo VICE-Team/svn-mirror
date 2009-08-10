@@ -38,137 +38,135 @@
 static video_canvas_t *c64dtv_canvas;
 
 static int ui_c64dtv_enable_translate[] = {
-  IDMS_DISABLED,
-  IDS_ENABLED,
-  0
+    IDMS_DISABLED,
+    IDS_ENABLED,
+    0
 };
 
 static char *ui_c64dtv_enable[countof(ui_c64dtv_enable_translate)];
 
-
 static const int ui_c64dtv_enable_values[] = {
-  0,
-  1,
-  -1
+    0,
+    1,
+    -1
 };
 
 static int ui_c64dtv_userport_device_translate[] = {
-  IDS_NONE,
-  IDS_ADC,
-  IDS_JOYSTICK,
-  0
+    IDS_NONE,
+    IDS_ADC,
+    IDS_JOYSTICK,
+    0
 };
 
 static char *ui_c64dtv_userport_device[countof(ui_c64dtv_userport_device_translate)];
 
 static const int ui_c64dtv_userport_device_values[] = {
-  HUMMER_USERPORT_NONE,
-  HUMMER_USERPORT_ADC,
-  HUMMER_USERPORT_JOY,
-  -1
+    HUMMER_USERPORT_NONE,
+    HUMMER_USERPORT_ADC,
+    HUMMER_USERPORT_JOY,
+    -1
 };
 
 static char *ui_c64dtv_revision[] = {
-  "DTV2",
-  "DTV3",
-  NULL
+    "DTV2",
+    "DTV3",
+    NULL
 };
 
 static const int ui_c64dtv_revision_values[] = {
-  2,
-  3,
-  -1
+    2,
+    3,
+    -1
 };
 
 static char *ui_c64dtv_hummer_joy_port[] = {
-  "Joy1",
-  "Joy2",
-  NULL
+    "Joy1",
+    "Joy2",
+    NULL
 };
 
 static const int ui_c64dtv_hummer_joy_port_values[] = {
-  1,
-  2,
-  -1
+    1,
+    2,
+    -1
 };
 
 static ui_to_from_t ui_to_from[] = {
-  { NULL, MUI_TYPE_FILENAME, "c64dtvromfilename", NULL, NULL },
-  { NULL, MUI_TYPE_CYCLE, "DtvRevision", ui_c64dtv_revision, ui_c64dtv_revision_values },
-  { NULL, MUI_TYPE_CYCLE, "c64dtvromrw", ui_c64dtv_enable, ui_c64dtv_enable_values },
-  { NULL, MUI_TYPE_CYCLE, "HummerUserportDevice", ui_c64dtv_userport_device, ui_c64dtv_userport_device_values },
-  { NULL, MUI_TYPE_CYCLE, "HummerUserportJoyPort", ui_c64dtv_hummer_joy_port, ui_c64dtv_hummer_joy_port_values },
-  UI_END /* mandatory */
+    {NULL, MUI_TYPE_FILENAME, "c64dtvromfilename", NULL, NULL},
+    {NULL, MUI_TYPE_CYCLE, "DtvRevision", ui_c64dtv_revision, ui_c64dtv_revision_values},
+    {NULL, MUI_TYPE_CYCLE, "c64dtvromrw", ui_c64dtv_enable, ui_c64dtv_enable_values},
+    {NULL, MUI_TYPE_CYCLE, "HummerUserportDevice", ui_c64dtv_userport_device, ui_c64dtv_userport_device_values},
+    {NULL, MUI_TYPE_CYCLE, "HummerUserportJoyPort", ui_c64dtv_hummer_joy_port, ui_c64dtv_hummer_joy_port_values},
+    UI_END /* mandatory */
 };
 
-static ULONG Browse( struct Hook *hook, Object *obj, APTR arg )
+static ULONG Browse(struct Hook *hook, Object *obj, APTR arg)
 {
-  char *fname=NULL;
+    char *fname = NULL;
 
-  fname=BrowseFile(translate_text(IDS_C64DTV_ROM_FILENAME_SELECT), "#?", c64dtv_canvas);
+    fname = BrowseFile(translate_text(IDS_C64DTV_ROM_FILENAME_SELECT), "#?", c64dtv_canvas);
 
-  if (fname!=NULL)
-    set(ui_to_from[0].object, MUIA_String_Contents, fname);
+    if (fname != NULL) {
+        set(ui_to_from[0].object, MUIA_String_Contents, fname);
+    }
 
-  return 0;
+    return 0;
 }
 
 static APTR build_gui(void)
 {
-  APTR app, ui, ok, browse_button, cancel;
+    APTR app, ui, ok, browse_button, cancel;
 
 #ifdef AMIGA_MORPHOS
-  static const struct Hook BrowseFileHook = { { NULL,NULL },(VOID *)HookEntry,(VOID *)Browse, NULL};
+    static const struct Hook BrowseFileHook = {{NULL, NULL}, (VOID *)HookEntry, (VOID *)Browse, NULL};
 #else
-  static const struct Hook BrowseFileHook = { { NULL,NULL },(VOID *)Browse,NULL,NULL };
+    static const struct Hook BrowseFileHook = {{NULL, NULL}, (VOID *)Browse, NULL, NULL };
 #endif
 
-  app = mui_get_app();
+    app = mui_get_app();
 
-  ui = GroupObject,
-    FILENAME(ui_to_from[0].object, translate_text(IDS_C64DTV_ROM_FILENAME), browse_button)
-    CYCLE(ui_to_from[1].object, translate_text(IDS_C64DTV_REVISION), ui_c64dtv_revision)
-    CYCLE(ui_to_from[2].object, translate_text(IDS_C64DTV_WRITE_ENABLE), ui_c64dtv_enable)
-    CYCLE(ui_to_from[3].object, translate_text(IDS_C64DTV_HUMMER_USERPORT_DEVICE), ui_c64dtv_userport_device)
-    CYCLE(ui_to_from[4].object, translate_text(IDS_C64DTV_HUMMER_JOY_PORT), ui_c64dtv_hummer_joy_port)
+    ui = GroupObject,
+         FILENAME(ui_to_from[0].object, translate_text(IDS_C64DTV_ROM_FILENAME), browse_button)
+         CYCLE(ui_to_from[1].object, translate_text(IDS_C64DTV_REVISION), ui_c64dtv_revision)
+         CYCLE(ui_to_from[2].object, translate_text(IDS_C64DTV_WRITE_ENABLE), ui_c64dtv_enable)
+         CYCLE(ui_to_from[3].object, translate_text(IDS_C64DTV_HUMMER_USERPORT_DEVICE), ui_c64dtv_userport_device)
+         CYCLE(ui_to_from[4].object, translate_text(IDS_C64DTV_HUMMER_JOY_PORT), ui_c64dtv_hummer_joy_port)
+         OK_CANCEL_BUTTON
+         End;
 
-    OK_CANCEL_BUTTON
-  End;
+    if (ui != NULL) {
+        DoMethod(cancel, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
 
-  if (ui != NULL) {
-    DoMethod(cancel,
-      MUIM_Notify, MUIA_Pressed, FALSE,
-      app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+        DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, BTN_OK);
 
-    DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
-      app, 2, MUIM_Application_ReturnID, BTN_OK);
+        DoMethod(browse_button, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_CallHook, &BrowseFileHook);
+    }
 
-    DoMethod(browse_button, MUIM_Notify, MUIA_Pressed, FALSE,
-      app, 2, MUIM_CallHook, &BrowseFileHook);
-  }
-
-  return ui;
+    return ui;
 }
 
 void ui_c64dtv_settings_dialog(video_canvas_t *canvas)
 {
-  APTR window;
+    APTR window;
 
-  c64dtv_canvas=canvas;
-  intl_convert_mui_table(ui_c64dtv_enable_translate, ui_c64dtv_enable);
-  intl_convert_mui_table(ui_c64dtv_userport_device_translate, ui_c64dtv_userport_device);
+    c64dtv_canvas = canvas;
+    intl_convert_mui_table(ui_c64dtv_enable_translate, ui_c64dtv_enable);
+    intl_convert_mui_table(ui_c64dtv_userport_device_translate, ui_c64dtv_userport_device);
 
-  window = mui_make_simple_window(build_gui(), translate_text(IDS_C64DTV_SETTINGS));
+    window = mui_make_simple_window(build_gui(), translate_text(IDS_C64DTV_SETTINGS));
 
-  if (window != NULL) {
-    mui_add_window(window);
-    ui_get_to(ui_to_from);
-    set(window, MUIA_Window_Open, TRUE);
-    if (mui_run() == BTN_OK) {
-      ui_get_from(ui_to_from);
+    if (window != NULL) {
+        mui_add_window(window);
+        ui_get_to(ui_to_from);
+        set(window, MUIA_Window_Open, TRUE);
+        if (mui_run() == BTN_OK) {
+            ui_get_from(ui_to_from);
+        }
+        set(window, MUIA_Window_Open, FALSE);
+        mui_rem_window(window);
+        MUI_DisposeObject(window);
     }
-    set(window, MUIA_Window_Open, FALSE);
-    mui_rem_window(window);
-    MUI_DisposeObject(window);
-  }
 }

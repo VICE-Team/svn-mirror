@@ -30,14 +30,12 @@
 #include "imagecontents.h"
 
 enum {
-  IDD_NONE = 0,
-  IDD_OPENTAPE_TEMPLATE,
-  IDD_OPEN_TEMPLATE
+    IDD_NONE = 0,
+    IDD_OPENTAPE_TEMPLATE,
+    IDD_OPEN_TEMPLATE
 };
 
-extern char *ui_filereq(const char *title, int template,
-                        char *initialdir, char *initialfile,
-                        image_contents_t *(*read_content)(const char *),
-                        int *autostart, char *resource_readonly);
+extern char *ui_filereq(const char *title, int template, char *initialdir, char *initialfile,
+                        image_contents_t *(*read_content)(const char *), int *autostart, char *resource_readonly);
 
 #endif
