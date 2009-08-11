@@ -88,6 +88,26 @@ inline static void flash_erase_chip(flash040_context_t *flash040_context)
     memset(flash040_context->flash_data, 0xff, flash_types[flash040_context->flash_type].size);
 }
 
+inline static int flash_program_byte(flash040_context_t *flash040_context, unsigned int addr, BYTE byte)
+{
+    BYTE old_data = flash040_context->flash_data[addr];
+    BYTE new_data = old_data & byte;
+
+    FLASH_DEBUG(("Programming 0x%05x with 0x%02x (%02x->%02x)", addr, byte, old_data, old_data & byte));
+    flash040_context->program_byte = byte;
+    flash040_context->flash_data[addr] = new_data;
+
+    return (new_data == byte) ? 1 : 0;
+}
+
+inline static int flash_write_operation_status(flash040_context_t *flash040_context)
+{
+    return ((flash040_context->program_byte ^ 0x80) & 0x80)   /* DQ7 = inverse of programmed data */
+         | ((maincpu_clk & 2) << 5)                           /* DQ6 = toggle bit (2 us) */
+         | (1 << 5)                                           /* DQ5 = timeout */
+         ;
+}
+
 static void REGPARM3 flash040core_store_internal(flash040_context_t *flash040_context,
                                                  unsigned int addr, BYTE byte)
 {
@@ -133,9 +153,11 @@ static void REGPARM3 flash040core_store_internal(flash040_context_t *flash040_co
 
         case FLASH040_STATE_BYTE_PROGRAM:
             /* TODO setup alarm to not have the operation complete instantly */
-            FLASH_DEBUG(("Programming 0x%05x with 0x%02x (%02x->%02x)", addr, byte, flash040_context->flash_data[addr], flash040_context->flash_data[addr] & byte));
-            flash040_context->flash_data[addr] &= byte;
-            flash040_context->flash_state = FLASH040_STATE_BYTE_PROGRAM_HAPPENING;
+            if (flash_program_byte(flash040_context, addr, byte)) {
+                flash040_context->flash_state = FLASH040_STATE_BYTE_PROGRAM_HAPPENING;
+            } else {
+                flash040_context->flash_state = FLASH040_STATE_BYTE_PROGRAM_ERROR;
+            }
             break;
 
         case FLASH040_STATE_ERASE_MAGIC_1:
@@ -180,6 +202,7 @@ static void REGPARM3 flash040core_store_internal(flash040_context_t *flash040_co
             }
             break;
 
+        case FLASH040_STATE_BYTE_PROGRAM_ERROR:
         case FLASH040_STATE_AUTOSELECT:
             if (byte == 0xf0) {
                 flash040_context->flash_state = FLASH040_STATE_READ;
@@ -232,6 +255,10 @@ BYTE REGPARM2 flash040core_read(flash040_context_t *flash040_context, unsigned i
                     value = flash040_context->flash_data[addr];
                     break;
             }
+            break;
+
+        case FLASH040_STATE_BYTE_PROGRAM_ERROR:
+            value = flash_write_operation_status(flash040_context);
             break;
 
         case FLASH040_STATE_SECTOR_ERASE_SUSPEND:

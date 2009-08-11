@@ -43,6 +43,7 @@ enum flash040_state_s {
     FLASH040_STATE_AUTOSELECT,
     FLASH040_STATE_BYTE_PROGRAM,
     FLASH040_STATE_BYTE_PROGRAM_HAPPENING,
+    FLASH040_STATE_BYTE_PROGRAM_ERROR,
     FLASH040_STATE_ERASE_MAGIC_1,
     FLASH040_STATE_ERASE_MAGIC_2,
     FLASH040_STATE_ERASE_SELECT,
@@ -55,6 +56,7 @@ typedef enum flash040_state_s flash040_state_t;
 typedef struct flash040_context_s {
     BYTE *flash_data;
     flash040_state_t flash_state;
+    BYTE program_byte;
 
     flash040_type_t flash_type;
 
