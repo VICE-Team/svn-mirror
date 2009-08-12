@@ -101,7 +101,7 @@ unsigned char input_filenames=0;
 char loadfile_is_crt=0;
 char loadfile_is_ultimax=0;
 unsigned char loadfile_cart_type=0;
-unsigned char filebuffer[(512*1024)+2];
+unsigned char filebuffer[(512*1024)+2+16];
 unsigned char extra_buffer_32kb[0x8000];
 unsigned char chipbuffer[16];
 
