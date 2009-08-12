@@ -26,6 +26,7 @@
 
 #include "vice.h"
 #include <windows.h>
+#include <windowsx.h>
 #include <tchar.h>
 #ifdef HAVE_COMMCTRL_H
 #include <commctrl.h>
@@ -497,25 +498,26 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
                 led.bottom = led.top + 12;
                 led.left = part_left + 47;
                 led.right = part_left + 47 + 16;
-                {
-                    HBRUSH brush_led_shade;
-                    int col;
 
-                    switch (status_led[status_map[index]]) {
-                        case 0:
-                            FillRect(hDC, &led, b_black);
-                            break;
-                        case MAX_PWM:
-                            FillRect(hDC, &led, (drive_active_led[status_map[index]]) ? b_green : b_red);
-                            break;
-                        default:
-                            col = drive_active_led[status_map[index]] ? COLOR_SHADE_GREEN : COLOR_SHADE_RED;
-                            col *= status_led[status_map[index]] * MAX_COLOR / MAX_PWM;
+                switch (status_led[status_map[index]]) {
+                    case 0:
+                        FillRect(hDC, &led, b_black);
+                        break;
+                    case MAX_PWM:
+                        FillRect(hDC, &led, (drive_active_led[status_map[index]]) ? b_green : b_red);
+                        break;
+                    default:
+                        {
+                            HBRUSH brush_led_shade;
+                            int col;
+
+                            col = ( drive_active_led[status_map[index]] ? COLOR_SHADE_GREEN : COLOR_SHADE_RED )
+                                  * status_led[status_map[index]] * MAX_COLOR / MAX_PWM;
                             brush_led_shade = CreateSolidBrush(col);
                             FillRect(hDC, &led, brush_led_shade);
-                            DeleteObject(brush_led_shade);
-                            break;
-                    }
+                            DeleteBrush(brush_led_shade);
+                        }
+                        break;
                 }
             }
             return;
