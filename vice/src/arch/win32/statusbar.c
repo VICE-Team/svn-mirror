@@ -77,8 +77,9 @@ static HBRUSH b_green;
 static HBRUSH b_black;
 static HBRUSH b_yellow;
 static HBRUSH b_grey;
+#if 0
 static HBRUSH b_led_shades[2][256];
-
+#endif
 
 static void SetStatusWindowParts(HWND hwnd)
 {
@@ -209,50 +210,20 @@ void statusbar_destroy(HWND hwnd)
 
 void statusbar_create_brushes(void)
 {
-    int i;
-    int j;
-    int col;
-    int coladd = 0;
-
     b_green = CreateSolidBrush(0xff00);
     b_red = CreateSolidBrush(0xff);
     b_black = CreateSolidBrush(0x00);
     b_yellow = CreateSolidBrush(0xffff);
     b_grey = CreateSolidBrush(0x808080);
-
-    for (i = 0; i < 2; i++) {
-        col = 0;
-        switch (i) {
-          case 0:
-            coladd = 0x01; /* red */
-            break;
-          case 1:
-            coladd = 0x0100; /* green */
-            break;
-        }
-        for (j = 0; j < 256; j++) {
-            b_led_shades[i][j] = CreateSolidBrush(col);
-            col += coladd;
-        }
-    }
 }
 
 void statusbar_delete_brushes(void)
 {
-    int i;
-    int j;
-
     DeleteObject(b_green);
     DeleteObject(b_red);
     DeleteObject(b_black);
     DeleteObject(b_yellow);
     DeleteObject(b_grey);
-
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < 256; j++) {
-            DeleteObject(b_led_shades[i][j]);
-        }
-    }
 }
 
 int statusbar_get_status_height(void)
@@ -529,7 +500,26 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
                 led.bottom = led.top + 12;
                 led.left = part_left + 47;
                 led.right = part_left + 47 + 16;
-                FillRect(hDC, &led, b_led_shades[drive_active_led[status_map[index]]][status_led[status_map[index]] * 255 / 1000]);
+                {
+                    HBRUSH brush_led_shade;
+                    int col;
+
+                    switch (status_led[status_map[index]]) {
+                        case 0:
+                            FillRect(hDC, &led, b_black);
+                            break;
+                        case MAX_PWM:
+                            FillRect(hDC, &led, (drive_active_led[status_map[index]]) ? b_green : b_red);
+                            break;
+                        default:
+                            col = drive_active_led[status_map[index]] ? COLOR_SHADE_GREEN : COLOR_SHADE_RED;
+                            col *= status_led[status_map[index]] * MAX_COLOR / MAX_PWM;
+                            brush_led_shade = CreateSolidBrush(col);
+                            FillRect(hDC, &led, brush_led_shade);
+                            DeleteObject(brush_led_shade);
+                            break;
+                    }
+                }
             }
             return;
         }
