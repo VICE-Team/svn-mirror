@@ -77,9 +77,6 @@ static HBRUSH b_green;
 static HBRUSH b_black;
 static HBRUSH b_yellow;
 static HBRUSH b_grey;
-#if 0
-static HBRUSH b_led_shades[2][256];
-#endif
 
 static void SetStatusWindowParts(HWND hwnd)
 {
