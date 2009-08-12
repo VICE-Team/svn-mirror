@@ -70,7 +70,8 @@ static const resource_int_t resources_int[] =
       &vdc_resources.vdc_64kb_expansion, set_64kb_expansion, NULL },
     { "VDCRevision", 2, RES_EVENT_SAME, NULL,
       (int *)&vdc.revision, set_vdc_revision, NULL },
-    { NULL }
+    { NULL, 0, 0, NULL,
+      NULL, NULL, NULL }
 };
 
 int vdc_resources_init(void)

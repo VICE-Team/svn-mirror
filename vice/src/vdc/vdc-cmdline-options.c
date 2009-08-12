@@ -54,7 +54,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NUMBER, IDCLS_SET_VDC_REVISION,
       NULL, NULL },
-    { NULL }
+    { NULL, 0, 0,
+      NULL, NULL, NULL, NULL,
+      0, 0,
+      0, 0,
+      NULL, NULL }
 };
 
 int vdc_cmdline_options_init(void)
