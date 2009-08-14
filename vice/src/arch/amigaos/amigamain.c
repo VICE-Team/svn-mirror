@@ -40,11 +40,7 @@
 
 #include "timer.h"
 
-#ifndef __VBCC__
 #include <dos/dos.h>
-#else
-#include <proto/dos.h>
-#endif
 
 #ifdef AMIGA_OS4
 timer_t *timer = NULL;
@@ -56,28 +52,24 @@ void *timer = NULL;
 const unsigned long __stack = 512 * 1024;
 #endif
 
-#ifdef __VBCC__
-size_t __stack = 512 * 1024;
-#endif
-
 int main(int argc, char **argv)
 {
-  timer = timer_init();
-  if (timer == NULL) {
-    return RETURN_FAIL;
-  }
-  return main_program(argc, argv);
+    timer = timer_init();
+    if (timer == NULL) {
+        return RETURN_FAIL;
+    }
+    return main_program(argc, argv);
 }
 
 void main_exit(void)
 {
-  /* Disable SIGINT.  This is done to prevent the user from keeping C-c
-     pressed and thus breaking the cleanup process, which might be
-     dangerous.  */
-  signal(SIGINT, (void (*)(int))SIG_IGN);
+    /* Disable SIGINT.  This is done to prevent the user from keeping C-c
+       pressed and thus breaking the cleanup process, which might be
+       dangerous.  */
+    signal(SIGINT, (void (*)(int))SIG_IGN);
 
-  log_message(LOG_DEFAULT, "\nExiting...");
+    log_message(LOG_DEFAULT, "\nExiting...");
 
-  machine_shutdown();
-  timer_exit(timer);
+    machine_shutdown();
+    timer_exit(timer);
 }

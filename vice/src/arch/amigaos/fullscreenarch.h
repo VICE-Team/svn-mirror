@@ -30,4 +30,4 @@
 extern void video_arch_fullscreen_update(void);
 extern void video_arch_fullscreen_toggle(void);
 
-#endif /* _FULLSCREENARCH_H_ */
+#endif /* VICE_FULLSCREENARCH_H_ */

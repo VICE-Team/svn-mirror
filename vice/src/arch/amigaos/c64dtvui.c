@@ -44,55 +44,55 @@
 #include "mui/uivideoc64plus4vic20.h"
 
 static const ui_menu_toggle_t c64dtv_ui_menu_toggles[] = {
-    { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
-    { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
-    { "VICIIScale2x", IDM_TOGGLE_SCALE2X },
-    { "PALEmulation", IDM_TOGGLE_FASTPAL },
-    { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
-    { "Mouse", IDM_MOUSE },
-    { "ps2mouse", IDM_PS2_MOUSE },
-    { NULL, 0 }
+    {"VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE},
+    {"VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN},
+    {"VICIIScale2x", IDM_TOGGLE_SCALE2X},
+    {"PALEmulation", IDM_TOGGLE_FASTPAL},
+    {"VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE},
+    {"Mouse", IDM_MOUSE},
+    {"ps2mouse", IDM_PS2_MOUSE},
+    {NULL, 0}
 };
 
 static int c64dtv_ui_specific(video_canvas_t *canvas, int idm)
 {
     switch (idm) {
-      case IDM_C64DTV_SETTINGS:
-        ui_c64dtv_settings_dialog(canvas);
-        break;
-      case IDM_VICII_SETTINGS:
-        ui_vicii_settings_dialog();
-        break;
-      case IDM_SID_SETTINGS:
-        ui_siddtv_settings_dialog();
-        break;
-      case IDM_COMPUTER_ROM_SETTINGS:
-        ui_c64vic20_computer_rom_settings_dialog(canvas);
-        break;
-      case IDM_DRIVE_ROM_SETTINGS:
-        ui_c64vic20_drive_rom_settings_dialog(canvas);
-        break;
-      case IDM_VIDEO_SETTINGS:
-        ui_video_c64plus4vic20_settings_dialog(canvas, "VICIIExternalPalette", "VICIIPaletteFile");
-        break;
-      case IDM_DRIVE_SETTINGS:
-        uidrivec64vic20_settings_dialog();
-        break;
+        case IDM_C64DTV_SETTINGS:
+            ui_c64dtv_settings_dialog(canvas);
+            break;
+        case IDM_VICII_SETTINGS:
+            ui_vicii_settings_dialog();
+            break;
+        case IDM_SID_SETTINGS:
+            ui_siddtv_settings_dialog();
+            break;
+        case IDM_COMPUTER_ROM_SETTINGS:
+            ui_c64vic20_computer_rom_settings_dialog(canvas);
+            break;
+        case IDM_DRIVE_ROM_SETTINGS:
+            ui_c64vic20_drive_rom_settings_dialog(canvas);
+            break;
+        case IDM_VIDEO_SETTINGS:
+            ui_video_c64plus4vic20_settings_dialog(canvas, "VICIIExternalPalette", "VICIIPaletteFile");
+            break;
+        case IDM_DRIVE_SETTINGS:
+            uidrivec64vic20_settings_dialog();
+            break;
 #ifdef AMIGA_OS4
-    case IDM_JOY_SETTINGS:
-      ui_joystick_settings_c64dtv_dialog();
-      break;
+        case IDM_JOY_SETTINGS:
+            ui_joystick_settings_c64dtv_dialog();
+            break;
 #else
-    case IDM_JOY_DEVICE_SELECTION:
-      ui_joystick_device_c64dtv_dialog();
-      break;
-    case IDM_JOY_FIRE_SELECTION:
-      ui_joystick_fire_c64_dialog();
-      break;
+        case IDM_JOY_DEVICE_SELECTION:
+            ui_joystick_device_c64dtv_dialog();
+            break;
+        case IDM_JOY_FIRE_SELECTION:
+            ui_joystick_fire_c64_dialog();
+            break;
 #endif
-      case IDM_KEYBOARD_SETTINGS:
-//        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
-        break;
+        case IDM_KEYBOARD_SETTINGS:
+//          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            break;
     }
 
     return 0;
@@ -100,13 +100,12 @@ static int c64dtv_ui_specific(video_canvas_t *canvas, int idm)
 
 int c64dtvui_init(void)
 {
-  ui_register_menu_translation_layout(c64dtv_ui_translation_menu);
-  ui_register_menu_layout(c64dtv_ui_menu);
-  ui_register_machine_specific(c64dtv_ui_specific);
-  ui_register_menu_toggles(c64dtv_ui_menu_toggles);
-//  ui_register_res_values(const ui_res_value_list_t *valuelist);
+    ui_register_menu_translation_layout(c64dtv_ui_translation_menu);
+    ui_register_menu_layout(c64dtv_ui_menu);
+    ui_register_machine_specific(c64dtv_ui_specific);
+    ui_register_menu_toggles(c64dtv_ui_menu_toggles);
 
-  return 0;
+    return 0;
 }
 
 void c64dtvui_shutdown(void)

@@ -56,34 +56,34 @@
 #include "mui/uivideoc128.h"
 
 static const ui_res_possible_values_t VDCrev[] = {
-    { 0, IDM_VDC_REV_0 },
-    { 1, IDM_VDC_REV_1 },
-    { 2, IDM_VDC_REV_2 },
-    { -1, 0 }
+    {0, IDM_VDC_REV_0},
+    {1, IDM_VDC_REV_1},
+    {2, IDM_VDC_REV_2},
+    {-1, 0}
 };
 
 static const ui_res_value_list_t c128_ui_res_values[] = {
-    { "VDCRevision", VDCrev, 0 },
-    { NULL, NULL, 0 }
+    {"VDCRevision", VDCrev, 0},
+    {NULL, NULL, 0}
 };
 
 static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
-    { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
-    { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
-    { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
-    { "VICIIScale2x", IDM_TOGGLE_SCALE2X },
-    { "PALEmulation", IDM_TOGGLE_FASTPAL },
-    { "IEEE488", IDM_IEEE488 },
-    { "Mouse", IDM_MOUSE },
-    { "CartridgeReset", IDM_TOGGLE_CART_RESET },
-    { "VDCDoubleSize", IDM_TOGGLE_VDC_DOUBLESIZE },
-    { "VDCDoubleScan", IDM_TOGGLE_VDC_DOUBLESCAN },
-    { "VDC64KB", IDM_TOGGLE_VDC64KB },
-    { "EmuID", IDM_TOGGLE_EMUID },
-    { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },   
-//    { "InternalFunctionROM", IDM_TOGGLE_IFUNCTIONROM },
-//    { "ExternalFunctionROM", IDM_TOGGLE_EFUNCTIONROM },
-    { NULL, 0 }
+    {"VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE},
+    {"VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN},
+    {"VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE},
+    {"VICIIScale2x", IDM_TOGGLE_SCALE2X},
+    {"PALEmulation", IDM_TOGGLE_FASTPAL},
+    {"IEEE488", IDM_IEEE488},
+    {"Mouse", IDM_MOUSE},
+    {"CartridgeReset", IDM_TOGGLE_CART_RESET},
+    {"VDCDoubleSize", IDM_TOGGLE_VDC_DOUBLESIZE},
+    {"VDCDoubleScan", IDM_TOGGLE_VDC_DOUBLESCAN},
+    {"VDC64KB", IDM_TOGGLE_VDC64KB},
+    {"EmuID", IDM_TOGGLE_EMUID},
+    {"SFXSoundSampler", IDM_TOGGLE_SFX_SS},
+//  {"InternalFunctionROM", IDM_TOGGLE_IFUNCTIONROM},
+//  {"ExternalFunctionROM", IDM_TOGGLE_EFUNCTIONROM},
+    {NULL, 0}
 };
 
 static int c128_ui_specific(video_canvas_t *canvas, int idm)
@@ -91,77 +91,77 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
     uic64cart_proc(canvas, idm);
 
     switch (idm) {
-      case IDM_VICII_SETTINGS:
-        ui_vicii_settings_dialog();
-        break;
-      case IDM_SID_SETTINGS:
-        ui_sid_settings_dialog();
-        break;
-      case IDM_REU_SETTINGS:
-        ui_reu_settings_dialog(canvas);
-        break;
-      case IDM_GEORAM_SETTINGS:
-        ui_georam_settings_dialog(canvas);
-        break;
-      case IDM_RAMCART_SETTINGS:
-        ui_ramcart_settings_dialog(canvas);
-        break;
-      case IDM_DIGIMAX_SETTINGS:
-        ui_digimax_settings_dialog(canvas);
-        break;
-      case IDM_IDE64_SETTINGS:
-        ui_ide64_settings_dialog(canvas);
-        break;
-      case IDM_SFX_SE_SETTINGS:
-        ui_soundexpander_settings_dialog(canvas);
-        break;
-      case IDM_EASYFLASH_SETTINGS:
-        ui_easyflash_settings_dialog();
-        break;
-      case IDM_COMPUTER_ROM_SETTINGS:
-        ui_c128_computer_rom_settings_dialog(canvas);
-        break;
-      case IDM_DRIVE_ROM_SETTINGS:
-        ui_c128_drive_rom_settings_dialog(canvas);
-        break;
+        case IDM_VICII_SETTINGS:
+            ui_vicii_settings_dialog();
+            break;
+        case IDM_SID_SETTINGS:
+            ui_sid_settings_dialog();
+            break;
+        case IDM_REU_SETTINGS:
+            ui_reu_settings_dialog(canvas);
+            break;
+        case IDM_GEORAM_SETTINGS:
+            ui_georam_settings_dialog(canvas);
+            break;
+        case IDM_RAMCART_SETTINGS:
+            ui_ramcart_settings_dialog(canvas);
+            break;
+        case IDM_DIGIMAX_SETTINGS:
+            ui_digimax_settings_dialog(canvas);
+            break;
+        case IDM_IDE64_SETTINGS:
+            ui_ide64_settings_dialog(canvas);
+            break;
+        case IDM_SFX_SE_SETTINGS:
+            ui_soundexpander_settings_dialog(canvas);
+            break;
+        case IDM_EASYFLASH_SETTINGS:
+            ui_easyflash_settings_dialog();
+            break;
+        case IDM_COMPUTER_ROM_SETTINGS:
+            ui_c128_computer_rom_settings_dialog(canvas);
+            break;
+        case IDM_DRIVE_ROM_SETTINGS:
+            ui_c128_drive_rom_settings_dialog(canvas);
+            break;
 #ifdef HAVE_TFE
-      case IDM_TFE_SETTINGS:
-//        ui_tfe_settings_dialog(hwnd);
-        break;
+        case IDM_TFE_SETTINGS:
+//          ui_tfe_settings_dialog(hwnd);
+            break;
 #endif
-      case IDM_C128_SETTINGS:
-        ui_c128_settings_dialog(canvas);
-        break;
-      case IDM_VIDEO_SETTINGS:
-        ui_video_c128_settings_dialog(canvas);
-        break;
-      case IDM_DRIVE_SETTINGS:
-        uidrivec128_settings_dialog();
-        break;
-      case IDM_ACIA_SETTINGS:
-        ui_acia64128_settings_dialog();
-        break;
-      case IDM_RS232USER_SETTINGS:
-        ui_rs232user_settings_dialog();
-        break;
-      case IDM_KEYBOARD_SETTINGS:
-//        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
-        break;
+        case IDM_C128_SETTINGS:
+            ui_c128_settings_dialog(canvas);
+            break;
+        case IDM_VIDEO_SETTINGS:
+            ui_video_c128_settings_dialog(canvas);
+            break;
+        case IDM_DRIVE_SETTINGS:
+            uidrivec128_settings_dialog();
+            break;
+        case IDM_ACIA_SETTINGS:
+            ui_acia64128_settings_dialog();
+            break;
+        case IDM_RS232USER_SETTINGS:
+            ui_rs232user_settings_dialog();
+            break;
+        case IDM_KEYBOARD_SETTINGS:
+//          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            break;
 #ifdef AMIGA_OS4
-    case IDM_JOY_SETTINGS:
-      ui_joystick_settings_c64_dialog();
-      break;
+        case IDM_JOY_SETTINGS:
+            ui_joystick_settings_c64_dialog();
+            break;
 #else
-    case IDM_JOY_DEVICE_SELECTION:
-      ui_joystick_device_c64_dialog();
-      break;
-    case IDM_JOY_FIRE_SELECTION:
-      ui_joystick_fire_c64_dialog();
-      break;
+        case IDM_JOY_DEVICE_SELECTION:
+            ui_joystick_device_c64_dialog();
+            break;
+        case IDM_JOY_FIRE_SELECTION:
+            ui_joystick_fire_c64_dialog();
+            break;
 #endif
-      case IDM_MOUSE_SETTINGS:
-        ui_mouse_settings_dialog();
-        break;
+        case IDM_MOUSE_SETTINGS:
+            ui_mouse_settings_dialog();
+            break;
     }
 
     return 0;
@@ -169,13 +169,13 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
 
 int c128ui_init(void)
 {
-  ui_register_menu_translation_layout(c128_ui_translation_menu);
-  ui_register_menu_layout(c128_ui_menu);
-  ui_register_machine_specific(c128_ui_specific);
-  ui_register_menu_toggles(c128_ui_menu_toggles);
-  ui_register_res_values(c128_ui_res_values);
+    ui_register_menu_translation_layout(c128_ui_translation_menu);
+    ui_register_menu_layout(c128_ui_menu);
+    ui_register_machine_specific(c128_ui_specific);
+    ui_register_menu_toggles(c128_ui_menu_toggles);
+    ui_register_res_values(c128_ui_res_values);
 
-  return 0;
+    return 0;
 }
 
 void c128ui_shutdown(void)

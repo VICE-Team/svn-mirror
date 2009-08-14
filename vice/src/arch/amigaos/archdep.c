@@ -26,12 +26,9 @@
 
 #include "vice.h"
 
-#ifndef __VBCC__
 #define __USE_INLINE__
-#endif
 
 #include <proto/dos.h>
-
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -61,210 +58,209 @@ static int run_from_wb = 0;
 
 int archdep_init(int *argc, char **argv)
 {
-  if (*argc == 0) { /* run from WB */
-    run_from_wb = 1;
-  } else { /* run from CLI */
-    run_from_wb = 0;
-  }
+    if (*argc == 0) { /* run from WB */
+        run_from_wb = 1;
+    } else { /* run from CLI */
+        run_from_wb = 0;
+    }
 
-  return 0;
+    return 0;
 }
 
 char *archdep_program_name(void)
 {
-  static char *program_name = NULL;
+    static char *program_name = NULL;
 
-  if (program_name == NULL) {
-    char *p, name[1024];
+    if (program_name == NULL) {
+        char *p, name[1024];
 
-    GetProgramName(name, 1024);
-    p = FilePart(name);
+        GetProgramName(name, 1024);
+        p = FilePart(name);
 
-    if (p != NULL) {
-      program_name = lib_stralloc(p);
+        if (p != NULL) {
+            program_name = lib_stralloc(p);
+        }
     }
-  }
 
-  return program_name;
+    return program_name;
 }
 
 const char *archdep_boot_path(void)
 {
-  if (boot_path == NULL) {
-    char cwd[1024];
-    BPTR lock;
+    if (boot_path == NULL) {
+        char cwd[1024];
+        BPTR lock;
 
-    lock = GetProgramDir();
-    if (NameFromLock(lock, cwd, 1024)) {
-      if (cwd[strlen(cwd) - 1] != ':') {
-        strcat(cwd, "/");
-      }
-      boot_path = lib_stralloc(cwd);
+        lock = GetProgramDir();
+        if (NameFromLock(lock, cwd, 1024)) {
+            if (cwd[strlen(cwd) - 1] != ':') {
+                strcat(cwd, "/");
+            }
+            boot_path = lib_stralloc(cwd);
+        }
     }
-  }
 
-  return boot_path;
+    return boot_path;
 }
 
 char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
-  static char *default_path;
+    static char *default_path;
 
-  if (default_path == NULL) {
-    const char *boot_path;
+    if (default_path == NULL) {
+      const char *boot_path;
 
-    boot_path = archdep_boot_path();
+      boot_path = archdep_boot_path();
 
-    default_path = util_concat(
-                               emu_id,
-                               ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                               boot_path, emu_id,
-                               ARCHDEP_FINDPATH_SEPARATOR_STRING,
+      default_path = util_concat(emu_id,
+                                 ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                 boot_path, emu_id,
+                                 ARCHDEP_FINDPATH_SEPARATOR_STRING,
 
-                               "DRIVES",
-                               ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                               boot_path, "DRIVES",
-                               ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                 "DRIVES",
+                                 ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                 boot_path, "DRIVES",
+                                 ARCHDEP_FINDPATH_SEPARATOR_STRING,
 
-                               "PRINTER",
-                               ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                               boot_path, "PRINTER",
-                               NULL);
-  }
+                                 "PRINTER",
+                                 ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                 boot_path, "PRINTER",
+                                 NULL);
+    }
 
-  return default_path;
+    return default_path;
 }
 
 /* Return a malloc'ed backup file name for file `fname'.  */
 char *archdep_make_backup_filename(const char *fname)
 {
-  return util_concat(fname, "~", NULL);
+    return util_concat(fname, "~", NULL);
 }
 
 char *archdep_default_resource_file_name(void)
 {
-  const char *home;
+    const char *home;
 
-  home = archdep_boot_path();
-  return util_concat(home, "vice.ini", NULL);
+    home = archdep_boot_path();
+    return util_concat(home, "vice.ini", NULL);
 }
 
 char *archdep_default_fliplist_file_name(void)
 {
-  const char *home;
+    const char *home;
 
-  home = archdep_boot_path();
-  return util_concat(home, "fliplist-", machine_name, ".vfl", NULL);
+    home = archdep_boot_path();
+    return util_concat(home, "fliplist-", machine_name, ".vfl", NULL);
 }
 
 char *archdep_default_autostart_disk_image_file_name(void)
 {
-  const char *home;
+    const char *home;
 
-  home = archdep_boot_path();
-  return util_concat(home, "autostart-", machine_name, ".d64", NULL);
+    home = archdep_boot_path();
+    return util_concat(home, "autostart-", machine_name, ".d64", NULL);
 }
 
 char *archdep_default_save_resource_file_name(void)
 {
-  return archdep_default_resource_file_name();
+    return archdep_default_resource_file_name();
 }
 
 FILE *archdep_open_default_log_file(void)
 {
-  if (run_from_wb) {
-    char *fname;
-    FILE *f;
+    if (run_from_wb) {
+        char *fname;
+        FILE *f;
 
-    fname = util_concat(archdep_boot_path(), "vice.log", NULL);
-    f = fopen(fname, MODE_WRITE_TEXT);
-    lib_free(fname);
+        fname = util_concat(archdep_boot_path(), "vice.log", NULL);
+        f = fopen(fname, MODE_WRITE_TEXT);
+        lib_free(fname);
 
-    return f;
-  } else {
-    return stdout;
-  }
+        return f;
+    } else {
+        return stdout;
+    }
 }
 
 int archdep_num_text_lines(void)
 {
-  return 25;
+    return 25;
 }
 
 int archdep_num_text_columns(void)
 {
-  return 80;
+    return 80;
 }
 
 int archdep_default_logger(const char *level_string, const char *txt)
 {
-  if (run_from_wb) {
+    if (run_from_wb) {
+        return 0;
+    }
+
+    if (fputs(level_string, stdout) == EOF || fprintf(stdout, txt) < 0 || fputc ('\n', stdout) == EOF) {
+        return -1;
+    }
+
     return 0;
-  }
-
-  if (fputs(level_string, stdout) == EOF
-      || fprintf(stdout, txt) < 0
-      || fputc ('\n', stdout) == EOF)
-      return -1;
-
-  return 0;
 }
 
 int archdep_path_is_relative(const char *path)
 {
-  if (path == NULL)
-    return 0;
+    if (path == NULL) {
+        return 0;
+    }
 
-  return (strchr(path, ':') == NULL);
+    return (strchr(path, ':') == NULL);
 }
 
-int archdep_spawn(const char *name, char **argv,
-                  char **stdout_redir, const char *stderr_redir)
+int archdep_spawn(const char *name, char **argv, char **stdout_redir, const char *stderr_redir)
 {
-  return -1;
+    return -1;
 }
 
 /* return malloc'd version of full pathname of orig_name */
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
-  BPTR lock;
+    BPTR lock;
 
-  lock = Lock(orig_name, ACCESS_READ);
-  if (lock) {
-    char name[1024];
-    LONG rc;
-    rc = NameFromLock(lock, name, 1024);
-    UnLock(lock);
-    if (rc) {
-      *return_path = lib_stralloc(name);
-      return 0;
+    lock = Lock(orig_name, ACCESS_READ);
+    if (lock) {
+        char name[1024];
+        LONG rc;
+
+        rc = NameFromLock(lock, name, 1024);
+        UnLock(lock);
+        if (rc) {
+            *return_path = lib_stralloc(name);
+            return 0;
+        }
     }
-  }
-  *return_path = lib_stralloc(orig_name);
-  return 0;
+    *return_path = lib_stralloc(orig_name);
+    return 0;
 }
 
 void archdep_startup_log_error(const char *format, ...)
 {
-  va_list ap;
-  va_start(ap, format);
-  vfprintf(stderr, format, ap);
-  va_end(ap);
+    va_list ap;
+    va_start(ap, format);
+    vfprintf(stderr, format, ap);
+    va_end(ap);
 }
 
 char *archdep_filename_parameter(const char *name)
 {
-  return lib_stralloc(name);
+    return lib_stralloc(name);
 }
 
 char *archdep_quote_parameter(const char *name)
 {
-  return lib_stralloc(name);
+    return lib_stralloc(name);
 }
 
 char *archdep_tmpnam(void)
 {
-  return lib_stralloc(tmpnam(NULL));
+    return lib_stralloc(tmpnam(NULL));
 }
 
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
@@ -276,8 +272,9 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 
     fd = fopen(tmp, mode);
 
-    if (fd == NULL)
+    if (fd == NULL) {
         return NULL;
+    }
 
     *filename = tmp;
 
@@ -286,50 +283,52 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 
 int archdep_file_is_gzip(const char *name)
 {
-  size_t l = strlen(name);
+    size_t l = strlen(name);
 
-  if ((l < 4 || strcasecmp(name + l - 3, ".gz"))
-      && (l < 3 || strcasecmp(name + l - 2, ".z"))
-      && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.'))
-      return 0;
+    if ((l < 4 || strcasecmp(name + l - 3, ".gz"))
+        && (l < 3 || strcasecmp(name + l - 2, ".z"))
+        && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.')) {
+          return 0;
+    }
 
-  return 1;
+    return 1;
 }
 
 int archdep_file_set_gzip(const char *name)
 {
-  return 0;
+    return 0;
 }
 
 int archdep_mkdir(const char *pathname, int mode)
 {
-  return mkdir(pathname, (mode_t)mode);
+    return mkdir(pathname, (mode_t)mode);
 }
 
 int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
 {
-  struct stat statbuf;
+    struct stat statbuf;
 
-  if (stat(file_name, &statbuf) < 0)
-    return -1;
+    if (stat(file_name, &statbuf) < 0) {
+        return -1;
+    }
 
-  *len = statbuf.st_size;
-  *isdir = S_ISDIR(statbuf.st_mode);
+    *len = statbuf.st_size;
+    *isdir = S_ISDIR(statbuf.st_mode);
 
-  return 0;
+    return 0;
 }
 
 int archdep_file_is_blockdev(const char *name)
 {
-  return 0;
+    return 0;
 }
 
 int archdep_file_is_chardev(const char *name)
 {
-  return 0;
+    return 0;
 }
 
 void archdep_shutdown(void)
 {
-  lib_free(boot_path);
+    lib_free(boot_path);
 }

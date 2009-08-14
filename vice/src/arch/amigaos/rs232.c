@@ -51,7 +51,7 @@ void rs232_reset(void)
 /* Opens a rs232 window, returns handle to give to functions below. */
 int rs232_open(int device)
 {
-  return -1;
+    return -1;
 }
 
 /* Closes the rs232 window again */
@@ -62,13 +62,13 @@ void rs232_close(int fd)
 /* Sends a byte to the RS232 line */
 int rs232_putc(int fd, BYTE b)
 {
-  return 0;
+    return 0;
 }
 
 /* Gets a byte to the RS232 line, returns !=1 if byte received, byte in *b. */
 int rs232_getc(int fd, BYTE *b)
 {
-  return 0;
+    return 0;
 }
 
 /* set the status lines of the RS232 device */
@@ -91,7 +91,7 @@ void rs232_set_bps(int fd, unsigned int bps)
 
 int rs232_resources_init(void)
 {
-  return 0;
+    return 0;
 }
 
 void rs232_resources_shutdown(void)
@@ -100,6 +100,5 @@ void rs232_resources_shutdown(void)
 
 int rs232_cmdline_options_init(void)
 {
-  return 0;
+    return 0;
 }
-

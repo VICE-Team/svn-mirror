@@ -29,10 +29,8 @@
 
 /* This is just a temporary place for some stuff */
 
-#ifndef __VBCC__
 #ifndef __USE_INLINE__
 #define __USE_INLINE__
-#endif
 #endif
 
 #include <stdio.h>
@@ -53,13 +51,10 @@
 
 #include "timer.h"
 
-#ifndef __VBCC__
 #include <exec/types.h>
 #include <exec/nodes.h>
 #include <exec/lists.h>
 #include <exec/memory.h>
-#endif
-
 #include <proto/exec.h>
 #include <proto/gadtools.h>
 #include <proto/intuition.h>
@@ -69,23 +64,24 @@
 #include <proto/iffparse.h>
 
 struct os_s {
-  struct Screen *screen;
-  struct Window *window;
-  int visible_width, visible_height;
-  struct BitMap *window_bitmap;
-  unsigned long pixfmt;
-  unsigned int bpr, bpp;
-  char *window_name;
-  APTR VisualInfo;
-  struct Menu *menu;
-  char window_title[1024];
-  int has_statusbar;
-  int pens[16];
-  struct TextFont *font;
-  int disk_width, tape_width;
+    struct Screen *screen;
+    struct Window *window;
+    int visible_width;
+    int visible_height;
+    struct BitMap *window_bitmap;
+    unsigned long pixfmt;
+    unsigned int bpr, bpp;
+    char *window_name;
+    APTR VisualInfo;
+    struct Menu *menu;
+    char window_title[1024];
+    int has_statusbar;
+    int pens[16];
+    struct TextFont *font;
+    int disk_width, tape_width;
 #if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
-  APTR vlayer_handle;
-  ULONG vlayer_colorkey;
+    APTR vlayer_handle;
+    ULONG vlayer_colorkey;
 #endif
 };
 
@@ -127,5 +123,4 @@ extern int ui_menu_update(video_canvas_t *canvas);
 extern int ui_menu_handle(video_canvas_t *canvas, int idm);
 extern int ui_menu_destroy(video_canvas_t *canvas);
 
-#endif /* _PRIVATE_H_ */
-
+#endif /* VICE_PRIVATE_H_ */

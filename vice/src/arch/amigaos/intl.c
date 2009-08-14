@@ -32,9 +32,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#ifndef __VBCC__
 #define __USE_INLINE__
-#endif
 
 #include <proto/locale.h>
 
@@ -55,28 +53,26 @@ typedef struct amiga_iso_s {
 } amiga_iso_t;
 
 
-/* this table holds only the currently present translation
-   languages */
-
+/* this table holds only the currently present translation languages */
 static amiga_iso_t amiga_to_iso[]={
-  {"english.language", "en"},
-  {"german.language", "de"},
-  {"deutsch.language", "de"},
-  {"danish.language", "da"},
-  {"dansk.language", "da"},
-  {"french.language", "fr"},
-  {"français.language", "fr"},
-  {"hungarian.language", "hu"},
-  {"italian.language", "it"},
-  {"italiano.language", "it"},
-  {"dutch.language", "nl"},
-  {"nederlands.language", "nl"},
-  {"polish.language", "pl"},
-  {"polski.language", "pl"},
-  {"swedish.language", "sv"},
-  {"svenska.language", "sv"},
-  {"turkish.language", "tr"},
-  {NULL, NULL}
+    {"english.language", "en"},
+    {"german.language", "de"},
+    {"deutsch.language", "de"},
+    {"danish.language", "da"},
+    {"dansk.language", "da"},
+    {"french.language", "fr"},
+    {"français.language", "fr"},
+    {"hungarian.language", "hu"},
+    {"italian.language", "it"},
+    {"italiano.language", "it"},
+    {"dutch.language", "nl"},
+    {"nederlands.language", "nl"},
+    {"polish.language", "pl"},
+    {"polski.language", "pl"},
+    {"swedish.language", "sv"},
+    {"svenska.language", "sv"},
+    {"turkish.language", "tr"},
+    {NULL, NULL}
 };
 
 /* The language table is duplicated in
@@ -86,34 +82,34 @@ static amiga_iso_t amiga_to_iso[]={
 static char *language_table[] = {
 
 /* english */
-  "en",
+    "en",
 
 /* danish */
-  "da",
+    "da",
 
 /* german */
-  "de",
+    "de",
 
 /* french */
-  "fr",
+    "fr",
 
 /* hungarian */
-  "hu",
+    "hu",
 
 /* italian */
-  "it",
+    "it",
 
 /* dutch */
-  "nl",
+    "nl",
 
 /* polish */
-  "pl",
+    "pl",
 
 /* swedish */
-  "sv",
+    "sv",
 
 /* turkish */
-  "tr"
+    "tr"
 };
 
 /* --------------------------------------------------------------------- */
@@ -122,7 +118,6 @@ typedef struct intl_translate_s {
     int resource_id;
     char *text;
 } intl_translate_t;
-
 
 
 intl_translate_t intl_string_table[] = {
@@ -6685,65 +6680,66 @@ static char *intl_text_table[countof(intl_translate_text_table)][countof(languag
 
 void intl_convert_mui_table(int text_id[], char *text[])
 {
-  int i;
+    int i;
 
-  for (i=0; text_id[i]>0; i++)
-  {
-    text[i]=intl_translate_text(text_id[i]);
-  }
-  if (text_id[i]==0)
-    text[i]=NULL;
+    for (i = 0; text_id[i] > 0; i++) {
+        text[i] = intl_translate_text(text_id[i]);
+    }
+    if (text_id[i] == 0) {
+        text[i] = NULL;
+    }
 }
 
 /* codepage conversion is not yet present */
 
 char *intl_convert_cp(char *text, int cp)
 {
-  int len;
-  char *buffer;
+    int len;
+    char *buffer;
 
-  if (text==NULL)
-    return NULL;
+    if (text == NULL) {
+        return NULL;
+    }
 
-  len=strlen(text);
+    len = strlen(text);
 
-  if (len==0)
-    return NULL;
+    if (len == 0) {
+        return NULL;
+    }
 
-  buffer=lib_stralloc(text);
+    buffer = lib_stralloc(text);
 
-  return buffer;
+    return buffer;
 }
 
 static char *intl_get_string_by_id(int id)
 {
-  unsigned int k;
+    unsigned int k;
 
-  for (k = 0; k < countof(intl_string_table); k++)
-  {
-    if (intl_string_table[k].resource_id==id)
-      return intl_string_table[k].text;
-  }
-  return NULL;
+    for (k = 0; k < countof(intl_string_table); k++) {
+        if (intl_string_table[k].resource_id==id) {
+            return intl_string_table[k].text;
+        }
+    }
+    return NULL;
 }
 
 char *intl_translate_text(int en_resource)
 {
-  unsigned int i;
+    unsigned int i;
 
-  for (i = 0; i < countof(intl_translate_text_table); i++)
-  {
-    if (intl_translate_text_table[i][0]==en_resource)
-    {
-      if (intl_translate_text_table[i][current_language_index]!=0 &&
-          intl_text_table[i][current_language_index]!=NULL &&
-          strlen(intl_text_table[i][current_language_index])!=0)
-        return intl_text_table[i][current_language_index];
-      else
-        return intl_text_table[i][0];
+    for (i = 0; i < countof(intl_translate_text_table); i++) {
+        if (intl_translate_text_table[i][0] == en_resource) {
+            if (intl_translate_text_table[i][current_language_index] != 0 &&
+                intl_text_table[i][current_language_index] != NULL &&
+                strlen(intl_text_table[i][current_language_index]) != 0) {
+                return intl_text_table[i][current_language_index];
+            } else {
+                return intl_text_table[i][0];
+            }
+        }
     }
-  }
-  return "";
+    return "";
 }
 
 /* pre-translated main window caption text so the emulation won't
@@ -6755,23 +6751,22 @@ char *intl_speed_at_text;
 
 void intl_init(void)
 {
-  unsigned int i,j;
+    unsigned int i,j;
 
-  for (i = 0; i < countof(language_table); i++)
-  {
-    for (j = 0; j < countof(intl_translate_text_table); j++)
-    {
-      if (intl_translate_text_table[j][i]==0)
-        intl_text_table[j][i]=NULL;
-      else
-        intl_text_table[j][i]=(char *)intl_get_string_by_id(intl_translate_text_table[j][i]);
+    for (i = 0; i < countof(language_table); i++) {
+        for (j = 0; j < countof(intl_translate_text_table); j++) {
+            if (intl_translate_text_table[j][i] == 0) {
+                intl_text_table[j][i] = NULL;
+            } else {
+                intl_text_table[j][i] = (char *)intl_get_string_by_id(intl_translate_text_table[j][i]);
+            }
+        }
     }
-  }
 }
 
 int intl_translate_res(int resource)
 {
-  return resource;
+    return resource;
 }
 
 void intl_shutdown(void)
@@ -6783,26 +6778,26 @@ void intl_shutdown(void)
 
 static void intl_update_pre_translated_text(void)
 {
-  intl_speed_at_text=intl_translate_text(IDS_S_AT_D_SPEED);
+    intl_speed_at_text = intl_translate_text(IDS_S_AT_D_SPEED);
 }
 
 char *intl_arch_language_init(void)
 {
-  int i;
-  struct Locale *amigalang;
+    int i;
+    struct Locale *amigalang;
 
-  amigalang=OpenLocale(NULL);
-  CloseLocale(amigalang);
-  for (i = 0; amiga_to_iso[i].iso_language_code != NULL; i++)
-  {
-    if (!strcasecmp(amiga_to_iso[i].amiga_locale_language, amigalang->loc_LanguageName))
-      return amiga_to_iso[i].iso_language_code;
-  }
-  return "en";
+    amigalang = OpenLocale(NULL);
+    CloseLocale(amigalang);
+    for (i = 0; amiga_to_iso[i].iso_language_code != NULL; i++) {
+        if (!strcasecmp(amiga_to_iso[i].amiga_locale_language, amigalang->loc_LanguageName)) {
+            return amiga_to_iso[i].iso_language_code;
+        }
+    }
+    return "en";
 }
 
 void intl_update_ui(void)
 {
-  intl_update_pre_translated_text();
-  ui_update_menus();
+    intl_update_pre_translated_text();
+    ui_update_menus();
 }

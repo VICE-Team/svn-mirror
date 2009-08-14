@@ -55,108 +55,101 @@ static int fullscreenwasenabled=0;
 #ifdef AMIGA_MORPHOS
 static APTR fh_putchproc(APTR putchdata, UBYTE ch)
 {
-  FPutC((BPTR) putchdata, ch);
-  return putchdata;
+    FPutC((BPTR)putchdata, ch);
+    return putchdata;
 }
 #endif
 
 int console_out(console_t *log, const char *format, ...)
 {
-  va_list ap;
+    va_list ap;
 
-  va_start(ap, format);
+    va_start(ap, format);
 #ifndef AMIGA_MORPHOS
 #ifdef AMIGA_AROS
-  VFPrintf(console_handle, format, (IPTR *)ap);
+    VFPrintf(console_handle, format, (IPTR *)ap);
 #else
 #ifdef POWERUP_VBCC
-  FPrintf(console_handle, format, ap);
+    FPrintf(console_handle, format, ap);
 #else
-  VFPrintf(console_handle, format, (CONST APTR)ap);
+    VFPrintf(console_handle, format, (CONST APTR)ap);
 #endif
 #endif
 #else
-  VNewRawDoFmt(format, fh_putchproc, (STRPTR)console_handle, ap);
+    VNewRawDoFmt(format, fh_putchproc, (STRPTR)console_handle, ap);
 #endif
-  va_end(ap);
+    va_end(ap);
 
-  return 0;
+    return 0;
 }
 
 char *readline(const char *prompt)
 {
-  char *p = lib_malloc(1024);
-
-  console_out(NULL, "%s", prompt);
-
-  Flush(console_handle);
-  FGets(console_handle, p, 1024);
-
-  /* Remove trailing newlines.  */
-  {
+    char *p = lib_malloc(1024);
     int len;
 
-    for (len = strlen(p);
-         len > 0 && (p[len - 1] == '\r'
-                     || p[len - 1] == '\n');
-         len--)
-        p[len - 1] = '\0';
-  }
+    console_out(NULL, "%s", prompt);
 
-  return p;
+    Flush(console_handle);
+    FGets(console_handle, p, 1024);
+
+    /* Remove trailing newlines.  */
+    for (len = strlen(p); len > 0 && (p[len - 1] == '\r' || p[len - 1] == '\n'); len--) {
+        p[len - 1] = '\0';
+    }
+
+    return p;
 }
 
 char *console_in(console_t *log, const char *prompt)
 {
-  char *p;
+    char *p;
 
-  p = readline(prompt);
+    p = readline(prompt);
 
-  return p;
+    return p;
 }
 
 console_t *console_open(const char *id)
 {
-  console_t *console;
+    console_t *console;
 
-  console = lib_malloc(sizeof(console_t));
+    console = lib_malloc(sizeof(console_t));
 
-  console->console_xres = 80;
-  console->console_yres = 25;
-  console->console_can_stay_open = 0;
+    console->console_xres = 80;
+    console->console_yres = 25;
+    console->console_can_stay_open = 0;
 
-  if (ui_resources.fullscreenenabled)
-  {
-    fullscreenwasenabled=1;
-    resources_set_value("FullscreenEnabled", (resource_value_t)0);
-    video_arch_fullscreen_update();
-  }
+    if (ui_resources.fullscreenenabled) {
+        fullscreenwasenabled=1;
+        resources_set_value("FullscreenEnabled", (resource_value_t)0);
+        video_arch_fullscreen_update();
+    }
 
-  console_handle=Open("CON:0/0/700/480/VICE Monitor/Auto",MODE_READWRITE);
+    console_handle = Open("CON:0/0/700/480/VICE Monitor/Auto", MODE_READWRITE);
 
-  return console;
+    return console;
 }
 
 int console_close(console_t *log)
 {
-  Close(console_handle);
-  if (fullscreenwasenabled==1)
-  {
-    resources_set_value("FullscreenEnabled", (resource_value_t)1);
-    video_arch_fullscreen_update();
-  }
+    Close(console_handle);
+    if (fullscreenwasenabled == 1) {
+        resources_set_value("FullscreenEnabled", (resource_value_t)1);
+        video_arch_fullscreen_update();
+    }
 
-  lib_free(log);
+    lib_free(log);
 
-  return 0;
+    return 0;
 }
 
-int console_init( void )
+int console_init(void)
 {
-  return 0;
+    return 0;
 }
 
-int console_close_all( void )
+int console_close_all(void)
 {
-  return 0;
+    return 0;
 }

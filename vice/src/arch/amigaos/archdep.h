@@ -110,4 +110,3 @@
 #define ARCHDEP_KEYBOARD_SYM_NONE -1
 
 #endif
-

@@ -33,30 +33,30 @@ void blockdev_init(void)
 
 int blockdev_resources_init(void)
 {
-  return 0;
+    return 0;
 }
 
 int blockdev_cmdline_options_init(void)
 {
-  return 0;
+    return 0;
 }
 
 int blockdev_open(const char *name, unsigned int *read_only)
 {
-  return -1;
+    return -1;
 }
 
 int blockdev_close(void)
 {
-  return -1;
+    return -1;
 }
 
 int blockdev_read_sector(BYTE *buf, unsigned int track, unsigned int sector)
 {
-  return -1;
+    return -1;
 }
 
 int blockdev_write_sector(BYTE *buf, unsigned int track, unsigned int sector)
 {
-  return -1;
+    return -1;
 }

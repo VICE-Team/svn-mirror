@@ -45,58 +45,58 @@
 #include "mui/uivideocbm2pet.h"
 
 static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
-    { "CrtcDoubleSize", IDM_TOGGLE_DOUBLESIZE },
-    { "CrtcDoubleScan", IDM_TOGGLE_DOUBLESCAN },
-    { "CrtcVideoCache", IDM_TOGGLE_VIDEOCACHE },
-    { "EmuID", IDM_TOGGLE_EMUID },   
-    { NULL, 0 }
+    {"CrtcDoubleSize", IDM_TOGGLE_DOUBLESIZE},
+    {"CrtcDoubleScan", IDM_TOGGLE_DOUBLESCAN},
+    {"CrtcVideoCache", IDM_TOGGLE_VIDEOCACHE},
+    {"EmuID", IDM_TOGGLE_EMUID},   
+    {NULL, 0}
 };
 
 static int pet_ui_specific(video_canvas_t *canvas, int idm)
 {
     switch (idm) {
-      case IDM_PETREU_SETTINGS:
-        ui_petreu_settings_dialog(canvas);
-        break;
-      case IDM_PET_SETTINGS:
-        ui_pet_settings_dialog();
-        break;
-      case IDM_PET_MODEL:
-        ui_pet_model_dialog();
-        break;
-      case IDM_COMPUTER_ROM_SETTINGS:
-        ui_pet_computer_rom_settings_dialog(canvas);
-        break;
-      case IDM_DRIVE_ROM_SETTINGS:
-        ui_pet_drive_rom_settings_dialog(canvas);
-        break;
-      case IDM_VIDEO_SETTINGS:
-        ui_video_cbm2pet_settings_dialog(canvas);
-        break;
-      case IDM_DRIVE_SETTINGS:
-        uidrivepetcbm2_settings_dialog();
-        break;
-      case IDM_ACIA_SETTINGS:
-        ui_acia_settings_dialog();
-        break;
-      case IDM_SIDCART_SETTINGS:
-        ui_sidcart_settings_dialog("$8F00", "$E900", "PET");
-        break;
+        case IDM_PETREU_SETTINGS:
+            ui_petreu_settings_dialog(canvas);
+            break;
+        case IDM_PET_SETTINGS:
+            ui_pet_settings_dialog();
+            break;
+        case IDM_PET_MODEL:
+            ui_pet_model_dialog();
+            break;
+        case IDM_COMPUTER_ROM_SETTINGS:
+            ui_pet_computer_rom_settings_dialog(canvas);
+            break;
+        case IDM_DRIVE_ROM_SETTINGS:
+            ui_pet_drive_rom_settings_dialog(canvas);
+            break;
+        case IDM_VIDEO_SETTINGS:
+            ui_video_cbm2pet_settings_dialog(canvas);
+            break;
+        case IDM_DRIVE_SETTINGS:
+            uidrivepetcbm2_settings_dialog();
+            break;
+        case IDM_ACIA_SETTINGS:
+            ui_acia_settings_dialog();
+            break;
+        case IDM_SIDCART_SETTINGS:
+            ui_sidcart_settings_dialog("$8F00", "$E900", "PET");
+            break;
 #ifdef AMIGA_OS4
-    case IDM_JOY_SETTINGS:
-      ui_joystick_settings_pet_dialog();
-      break;
+        case IDM_JOY_SETTINGS:
+            ui_joystick_settings_pet_dialog();
+            break;
 #else
-    case IDM_JOY_DEVICE_SELECTION:
-      ui_joystick_device_pet_dialog();
-      break;
-    case IDM_JOY_FIRE_SELECTION:
-      ui_joystick_fire_pet_dialog();
-      break;
+        case IDM_JOY_DEVICE_SELECTION:
+            ui_joystick_device_pet_dialog();
+            break;
+        case IDM_JOY_FIRE_SELECTION:
+            ui_joystick_fire_pet_dialog();
+            break;
 #endif
-      case IDM_KEYBOARD_SETTINGS:
-//        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
-        break;
+        case IDM_KEYBOARD_SETTINGS:
+//          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            break;
     }
 
     return 0;
@@ -104,16 +104,14 @@ static int pet_ui_specific(video_canvas_t *canvas, int idm)
 
 int petui_init(void)
 {
-  ui_register_menu_translation_layout(pet_ui_translation_menu);
-  ui_register_menu_layout(pet_ui_menu);
-  ui_register_machine_specific(pet_ui_specific);
-  ui_register_menu_toggles(pet_ui_menu_toggles);
-//  ui_register_res_values(const ui_res_value_list_t *valuelist);
+    ui_register_menu_translation_layout(pet_ui_translation_menu);
+    ui_register_menu_layout(pet_ui_menu);
+    ui_register_machine_specific(pet_ui_specific);
+    ui_register_menu_toggles(pet_ui_menu_toggles);
 
-  return 0;
+    return 0;
 }
 
 void petui_shutdown(void)
 {
 }
-

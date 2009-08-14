@@ -49,12 +49,12 @@
 #include "mui/uivideoc64plus4vic20.h"
 
 static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
-    { "TEDDoubleSize", IDM_TOGGLE_DOUBLESIZE },
-    { "TEDDoubleScan", IDM_TOGGLE_DOUBLESCAN },
-    { "TEDVideoCache", IDM_TOGGLE_VIDEOCACHE },
-    { "TEDScale2x", IDM_TOGGLE_SCALE2X },
-    { "PALEmulation", IDM_TOGGLE_FASTPAL },
-    { NULL, 0 }
+    {"TEDDoubleSize", IDM_TOGGLE_DOUBLESIZE},
+    {"TEDDoubleScan", IDM_TOGGLE_DOUBLESCAN},
+    {"TEDVideoCache", IDM_TOGGLE_VIDEOCACHE},
+    {"TEDScale2x", IDM_TOGGLE_SCALE2X},
+    {"PALEmulation", IDM_TOGGLE_FASTPAL},
+    {NULL, 0}
 };
 
 static const uicart_params_t plus4_ui_cartridges[] = {
@@ -102,38 +102,38 @@ static const uicart_params_t plus4_ui_cartridges[] = {
 static int uiplus4cart_attach_image(int type, char *s)
 {
     switch (type) {
-      case IDM_CART_ATTACH_FUNCLO:
-        resources_set_string("FunctionLowName", s);
-        return plus4cart_load_func_lo(s);
-      case IDM_CART_ATTACH_FUNCHI:
-        resources_set_string("FunctionHighName", s);
-        return plus4cart_load_func_lo(s);
-      case IDM_CART_ATTACH_C1LO:
-        resources_set_string("c1loName", s);
-        return plus4cart_load_c1lo(s);
-      case IDM_CART_ATTACH_C1HI:
-        resources_set_string("c1hiName", s);
-        return plus4cart_load_c1hi(s);
-      case IDM_CART_ATTACH_C2LO:
-        resources_set_string("c2loName", s);
-        return plus4cart_load_c2lo(s);
-      case IDM_CART_ATTACH_C2HI:
-        resources_set_string("c2hiName", s);
-        return plus4cart_load_c2hi(s);
+        case IDM_CART_ATTACH_FUNCLO:
+            resources_set_string("FunctionLowName", s);
+            return plus4cart_load_func_lo(s);
+        case IDM_CART_ATTACH_FUNCHI:
+            resources_set_string("FunctionHighName", s);
+            return plus4cart_load_func_lo(s);
+        case IDM_CART_ATTACH_C1LO:
+            resources_set_string("c1loName", s);
+            return plus4cart_load_c1lo(s);
+        case IDM_CART_ATTACH_C1HI:
+            resources_set_string("c1hiName", s);
+            return plus4cart_load_c1hi(s);
+        case IDM_CART_ATTACH_C2LO:
+            resources_set_string("c2loName", s);
+            return plus4cart_load_c2lo(s);
+        case IDM_CART_ATTACH_C2HI:
+            resources_set_string("c2hiName", s);
+            return plus4cart_load_c2hi(s);
     }
     return -1;
 }
 
-static void uiplus4cart_attach(video_canvas_t *canvas, int idm,
-                                const uicart_params_t *cartridges)
+static void uiplus4cart_attach(video_canvas_t *canvas, int idm, const uicart_params_t *cartridges)
 {
     int i;
     char *name;
 
     i = 0;
 
-    while ((cartridges[i].idm != idm) && (cartridges[i].idm != 0))
+    while ((cartridges[i].idm != idm) && (cartridges[i].idm != 0)) {
         i++;
+    }
 
     if (cartridges[i].idm == 0) {
         ui_error(translate_text(IDMES_BAD_CART_CONFIG_IN_UI));
@@ -144,8 +144,9 @@ static void uiplus4cart_attach(video_canvas_t *canvas, int idm,
         cartridges[i].filter, UILIB_SELECTOR_TYPE_FILE_LOAD,
         UILIB_SELECTOR_STYLE_CART)) != NULL) {
 
-        if (uiplus4cart_attach_image(cartridges[i].idm, name) < 0)
+        if (uiplus4cart_attach_image(cartridges[i].idm, name) < 0) {
             ui_error(translate_text(IDMES_INVALID_CART_IMAGE));
+        }
         lib_free(name);
     }
 }
@@ -153,52 +154,53 @@ static void uiplus4cart_attach(video_canvas_t *canvas, int idm,
 static int plus4_ui_specific(video_canvas_t *canvas, int idm)
 {
     switch (idm) {
-      case IDM_CART_ATTACH_FUNCLO:
-      case IDM_CART_ATTACH_FUNCHI:
-      case IDM_CART_ATTACH_C1LO:
-      case IDM_CART_ATTACH_C1HI:
-      case IDM_CART_ATTACH_C2LO:
-      case IDM_CART_ATTACH_C2HI:
-        uiplus4cart_attach(canvas, idm, plus4_ui_cartridges);
-        break;
-      case IDM_CART_DETACH:
-        plus4cart_detach_cartridges();
-      case IDM_PLUS4_SETTINGS:
-        ui_plus4_settings_dialog();
-        break;
-      case IDM_COMPUTER_ROM_SETTINGS:
-        ui_plus4_computer_rom_settings_dialog(canvas);
-        break;
-      case IDM_DRIVE_ROM_SETTINGS:
-        ui_plus4_drive_rom_settings_dialog(canvas);
-        break;
-      case IDM_VIDEO_SETTINGS:
-        ui_video_c64plus4vic20_settings_dialog(canvas, "TEDExternalPalette", "TEDPaletteFile");
-        break;
-      case IDM_DRIVE_SETTINGS:
-        uidriveplus4_settings_dialog();
-        break;
-      case IDM_ACIA_SETTINGS:
-        ui_acia_settings_dialog();
-        break;
-      case IDM_SIDCART_SETTINGS:
-        ui_sidcart_plus4_settings_dialog("$FD40", "$FE80", "PLUS4");
-        break;
+        case IDM_CART_ATTACH_FUNCLO:
+        case IDM_CART_ATTACH_FUNCHI:
+        case IDM_CART_ATTACH_C1LO:
+        case IDM_CART_ATTACH_C1HI:
+        case IDM_CART_ATTACH_C2LO:
+        case IDM_CART_ATTACH_C2HI:
+            uiplus4cart_attach(canvas, idm, plus4_ui_cartridges);
+            break;
+        case IDM_CART_DETACH:
+            plus4cart_detach_cartridges();
+            break;
+        case IDM_PLUS4_SETTINGS:
+            ui_plus4_settings_dialog();
+            break;
+        case IDM_COMPUTER_ROM_SETTINGS:
+            ui_plus4_computer_rom_settings_dialog(canvas);
+            break;
+        case IDM_DRIVE_ROM_SETTINGS:
+            ui_plus4_drive_rom_settings_dialog(canvas);
+            break;
+        case IDM_VIDEO_SETTINGS:
+            ui_video_c64plus4vic20_settings_dialog(canvas, "TEDExternalPalette", "TEDPaletteFile");
+            break;
+        case IDM_DRIVE_SETTINGS:
+            uidriveplus4_settings_dialog();
+            break;
+        case IDM_ACIA_SETTINGS:
+            ui_acia_settings_dialog();
+            break;
+        case IDM_SIDCART_SETTINGS:
+            ui_sidcart_plus4_settings_dialog("$FD40", "$FE80", "PLUS4");
+            break;
 #ifdef AMIGA_OS4
-    case IDM_JOY_SETTINGS:
-      ui_joystick_settings_plus4_dialog();
-      break;
+        case IDM_JOY_SETTINGS:
+            ui_joystick_settings_plus4_dialog();
+            break;
 #else
-    case IDM_JOY_DEVICE_SELECTION:
-      ui_joystick_device_plus4_dialog();
-      break;
-    case IDM_JOY_FIRE_SELECTION:
-      ui_joystick_fire_plus4_dialog();
-      break;
+        case IDM_JOY_DEVICE_SELECTION:
+            ui_joystick_device_plus4_dialog();
+            break;
+        case IDM_JOY_FIRE_SELECTION:
+            ui_joystick_fire_plus4_dialog();
+            break;
 #endif
-      case IDM_KEYBOARD_SETTINGS:
-//        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
-        break;
+        case IDM_KEYBOARD_SETTINGS:
+//          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            break;
     }
 
     return 0;
@@ -206,13 +208,12 @@ static int plus4_ui_specific(video_canvas_t *canvas, int idm)
 
 int plus4ui_init(void)
 {
-  ui_register_menu_translation_layout(plus4_ui_translation_menu);
-  ui_register_menu_layout(plus4_ui_menu);
-  ui_register_machine_specific(plus4_ui_specific);
-  ui_register_menu_toggles(plus4_ui_menu_toggles);
-//  ui_register_res_values(const ui_res_value_list_t *valuelist);
+    ui_register_menu_translation_layout(plus4_ui_translation_menu);
+    ui_register_menu_layout(plus4_ui_menu);
+    ui_register_machine_specific(plus4_ui_specific);
+    ui_register_menu_toggles(plus4_ui_menu_toggles);
 
-  return 0;
+    return 0;
 }
 
 void plus4ui_shutdown(void)

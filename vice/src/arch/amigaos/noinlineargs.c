@@ -93,235 +93,231 @@
 #include "video/video-resources.h"
 #endif
 
-#define TAGAMOUNT(start_var, type) \
-  va_start(ap, start_var); \
-  temp=start_var; \
-  while (temp!=TAG_DONE) \
-  { \
-    temp=va_arg(ap, type); \
-    temp=va_arg(ap, type); \
-    amount++; \
-  } \
-  va_end(ap)
+#define TAGAMOUNT(start_var, type) va_start(ap, start_var);     \
+                                   temp = start_var;            \
+                                   while (temp!=TAG_DONE) {     \
+                                       temp = va_arg(ap, type); \
+                                       temp = va_arg(ap, type); \
+                                       amount++;                \
+                                   }                            \
+                                   va_end(ap)
 
-#define MAKETAGS(start_var, type) \
-  tags[0].ti_Tag=start_var; \
-  va_start(ap, start_var); \
-  while (i<amount) \
-  { \
-    temp=va_arg(ap, type); \
-    tags[i].ti_Data=temp; \
-    i++; \
-    temp=va_arg(ap, type); \
-    tags[i].ti_Tag=temp; \
-  } \
-  tags[i].ti_Data=TAG_DONE; \
-  va_end(ap)
+#define MAKETAGS(start_var, type) tags[0].ti_Tag=start_var;    \
+                                  va_start(ap, start_var);     \
+                                  while ( i < amount) {        \
+                                      temp = va_arg(ap, type); \
+                                      tags[i].ti_Data = temp;  \
+                                      i++;                     \
+                                      temp = va_arg(ap, type); \
+                                      tags[i].ti_Tag = temp;   \
+                                  }                            \
+                                  tags[i].ti_Data = TAG_DONE;  \
+                                  va_end(ap)
 
 ULONG BestCModeIDTags(Tag tag, ...)
 {
-  va_list ap;
-  int amount=0;
-  int i=0;
-  ULONG temp;
-  ULONG ret;
-  struct TagItem *tags;
+    va_list ap;
+    int amount = 0;
+    int i = 0;
+    ULONG temp;
+    ULONG ret;
+    struct TagItem *tags;
 
-  TAGAMOUNT(tag, ULONG);
+    TAGAMOUNT(tag, ULONG);
 
-  tags=lib_malloc(sizeof(struct TagItem)*(amount+1));
+    tags = lib_malloc(sizeof(struct TagItem)*(amount + 1));
 
-  MAKETAGS(tag, ULONG);
+    MAKETAGS(tag, ULONG);
 
-  ret=BestCModeIDTagList(tags);
-  lib_free(tags);
-  return ret;
+    ret = BestCModeIDTagList(tags);
+    lib_free(tags);
+    return ret;
 }
 
 APTR LockBitMapTags(APTR bitmap, Tag tag, ...)
 {
-  va_list ap;
-  int amount=0;
-  int i=0;
-  ULONG temp;
-  APTR ret;
-  struct TagItem *tags;
+    va_list ap;
+    int amount = 0;
+    int i = 0;
+    ULONG temp;
+    APTR ret;
+    struct TagItem *tags;
 
-  TAGAMOUNT(tag, ULONG);
+    TAGAMOUNT(tag, ULONG);
 
-  tags=lib_malloc(sizeof(struct TagItem)*(amount+1));
+    tags = lib_malloc(sizeof(struct TagItem)*(amount + 1));
 
-  MAKETAGS(tag, ULONG);
+    MAKETAGS(tag, ULONG);
 
-  ret=LockBitMapTagList(bitmap, tags);
-  lib_free(tags);
-  return ret;
+    ret = LockBitMapTagList(bitmap, tags);
+    lib_free(tags);
+    return ret;
 }
 
 struct Screen *OpenScreenTags(CONST struct NewScreen *screen, ULONG tag, ...)
 {
-  va_list ap;
-  int amount=0;
-  int i=0;
-  ULONG temp;
-  struct Screen *ret;
-  struct TagItem *tags;
+    va_list ap;
+    int amount = 0;
+    int i = 0;
+    ULONG temp;
+    struct Screen *ret;
+    struct TagItem *tags;
 
-  TAGAMOUNT(tag, ULONG);
+    TAGAMOUNT(tag, ULONG);
 
-  tags=lib_malloc(sizeof(struct TagItem)*(amount+1));
+    tags = lib_malloc(sizeof(struct TagItem)*(amount + 1));
 
-  MAKETAGS(tag, ULONG);
+    MAKETAGS(tag, ULONG);
 
-  ret=OpenScreenTagList(screen, tags);
-  lib_free(tags);
-  return ret;
+    ret = OpenScreenTagList(screen, tags);
+    lib_free(tags);
+    return ret;
 }
 
 struct Window *OpenWindowTags(CONST struct NewWindow *window, ULONG tag, ...)
 {
-  va_list ap;
-  int amount=0;
-  int i=0;
-  ULONG temp;
-  struct Window *ret;
-  struct TagItem *tags;
+    va_list ap;
+    int amount = 0;
+    int i = 0;
+    ULONG temp;
+    struct Window *ret;
+    struct TagItem *tags;
 
-  TAGAMOUNT(tag, ULONG);
+    TAGAMOUNT(tag, ULONG);
 
-  tags=lib_malloc(sizeof(struct TagItem)*(amount+1));
+    tags = lib_malloc(sizeof(struct TagItem)*(amount + 1));
 
-  MAKETAGS(tag, ULONG);
+    MAKETAGS(tag, ULONG);
 
-  ret=OpenWindowTagList(window, tags);
-  lib_free(tags);
-  return ret;
+    ret = OpenWindowTagList(window, tags);
+    lib_free(tags);
+    return ret;
 }
 
 LONG ObtainBestPen(struct ColorMap *cm, ULONG r, ULONG g, ULONG b, ULONG tag, ...)
 {
-  va_list ap;
-  int amount=0;
-  int i=0;
-  ULONG temp;
-  LONG ret;
-  struct TagItem *tags;
+    va_list ap;
+    int amount = 0;
+    int i = 0;
+    ULONG temp;
+    LONG ret;
+    struct TagItem *tags;
 
-  TAGAMOUNT(tag, ULONG);
+    TAGAMOUNT(tag, ULONG);
 
-  tags=lib_malloc(sizeof(struct TagItem)*(amount+1));
+    tags = lib_malloc(sizeof(struct TagItem)*(amount + 1));
 
-  MAKETAGS(tag, ULONG);
+    MAKETAGS(tag, ULONG);
 
-  ret=ObtainBestPenA(cm, r, g, b, tags);
-  lib_free(tags);
-  return ret;
+    ret = ObtainBestPenA(cm, r, g, b, tags);
+    lib_free(tags);
+    return ret;
 }
 
 APTR GetVisualInfo(struct Screen *screen, Tag tag, ...)
 {
-  va_list ap;
-  int amount=0;
-  int i=0;
-  ULONG temp;
-  APTR ret;
-  struct TagItem *tags;
+    va_list ap;
+    int amount = 0;
+    int i = 0;
+    ULONG temp;
+    APTR ret;
+    struct TagItem *tags;
 
-  TAGAMOUNT(tag, ULONG);
+    TAGAMOUNT(tag, ULONG);
 
-  tags=lib_malloc(sizeof(struct TagItem)*(amount+1));
+    tags = lib_malloc(sizeof(struct TagItem)*(amount + 1));
 
-  MAKETAGS(tag, ULONG);
+    MAKETAGS(tag, ULONG);
 
-  ret=GetVisualInfoA(screen, tags);
-  lib_free(tags);
-  return ret;
+    ret = GetVisualInfoA(screen, tags);
+    lib_free(tags);
+    return ret;
 }
 
 struct Menu *CreateMenus(CONST struct NewMenu *newmenu, Tag tag, ...)
 {
-  va_list ap;
-  int amount=0;
-  int i=0;
-  ULONG temp;
-  struct Menu *ret;
-  struct TagItem *tags;
+    va_list ap;
+    int amount = 0;
+    int i = 0;
+    ULONG temp;
+    struct Menu *ret;
+    struct TagItem *tags;
 
-  TAGAMOUNT(tag, ULONG);
+    TAGAMOUNT(tag, ULONG);
 
-  tags=lib_malloc(sizeof(struct TagItem)*(amount+1));
+    tags = lib_malloc(sizeof(struct TagItem)*(amount + 1));
 
-  MAKETAGS(tag, ULONG);
+    MAKETAGS(tag, ULONG);
 
-  ret=CreateMenusA(newmenu, tags);
-  lib_free(tags);
-  return ret;
+    ret = CreateMenusA(newmenu, tags);
+    lib_free(tags);
+    return ret;
 }
 
 BOOL LayoutMenus(struct Menu *menu, APTR vi, Tag tag, ...)
 {
-  va_list ap;
-  int amount=0;
-  int i=0;
-  ULONG temp;
-  BOOL ret;
-  struct TagItem *tags;
+    va_list ap;
+    int amount = 0;
+    int i = 0;
+    ULONG temp;
+    BOOL ret;
+    struct TagItem *tags;
 
-  TAGAMOUNT(tag, ULONG);
+    TAGAMOUNT(tag, ULONG);
 
-  tags=lib_malloc(sizeof(struct TagItem)*(amount+1));
+    tags = lib_malloc(sizeof(struct TagItem)*(amount + 1));
 
-  MAKETAGS(tag, ULONG);
+    MAKETAGS(tag, ULONG);
 
-  ret=LayoutMenusA(menu, vi, tags);
-  lib_free(tags);
-  return ret;
+    ret = LayoutMenusA(menu, vi, tags);
+    lib_free(tags);
+    return ret;
 }
 
 BOOL AslRequestTags(APTR requester, Tag tag, ...)
 {
-  va_list ap;
-  int amount=0;
-  int i=0;
-  ULONG temp;
-  BOOL ret;
-  struct TagItem *tags;
+    va_list ap;
+    int amount = 0;
+    int i = 0;
+    ULONG temp;
+    BOOL ret;
+    struct TagItem *tags;
 
-  TAGAMOUNT(tag, ULONG);
+    TAGAMOUNT(tag, ULONG);
 
-  tags=lib_malloc(sizeof(struct TagItem)*(amount+1));
+    tags = lib_malloc(sizeof(struct TagItem)*(amount + 1));
 
-  MAKETAGS(tag, ULONG);
+    MAKETAGS(tag, ULONG);
 
-  ret=AslRequest(requester, tags);
-  lib_free(tags);
-  return ret;
+    ret = AslRequest(requester, tags);
+    lib_free(tags);
+    return ret;
 }
 
 APTR AllocAslRequestTags(ULONG reqType, Tag tag, ...)
 {
-  va_list ap;
-  int amount=0;
-  int i=0;
-  ULONG temp;
-  APTR ret;
-  struct TagItem *tags;
+    va_list ap;
+    int amount = 0;
+    int i = 0;
+    ULONG temp;
+    APTR ret;
+    struct TagItem *tags;
 
-  TAGAMOUNT(tag, ULONG);
+    TAGAMOUNT(tag, ULONG);
 
-  tags=lib_malloc(sizeof(struct TagItem)*(amount+1));
+    tags = lib_malloc(sizeof(struct TagItem)*(amount + 1));
 
-  MAKETAGS(tag, ULONG);
+    MAKETAGS(tag, ULONG);
 
-  ret=AllocAslRequest(reqType, tags);
-  lib_free(tags);
-  return ret;
+    ret = AllocAslRequest(reqType, tags);
+    lib_free(tags);
+    return ret;
 }
 
 #if 0 /* this one I have to figure out how to handle */
 Object *MUI_MakeObject(LONG type, ...)
 {
-  return(MUI_MakeObjectA(type, (ULONG *)(((ULONG)&type)+4)));
+    return(MUI_MakeObjectA(type, (ULONG *)(((ULONG)&type)+4)));
 }
 #endif
 

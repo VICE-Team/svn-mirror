@@ -28,22 +28,22 @@
 #define VICE_AHI_H_
 
 /* 8bit */
-typedef   signed char s8;
+typedef signed char s8;
 typedef unsigned char u8;
 
 /* 16bit */
-typedef   signed short s16;
+typedef signed short s16;
 typedef unsigned short u16;
 
 /* 32bit */
-typedef   signed long s32;
+typedef signed long s32;
 typedef unsigned long u32;
-typedef         float f32;
+typedef float f32;
 
 /* 64bit */
-typedef   signed long long s64;
+typedef signed long long s64;
 typedef unsigned long long u64;
-typedef             double f64;
+typedef double f64;
 
 /* format */
 #define AUDIO_MODE_8BIT   (0x00) /*  8 bit */
@@ -67,13 +67,7 @@ typedef             double f64;
 extern s32 ahi_open(s32 frequency, u32 mode, s32 fragsize, s32 frags, void (*callback)(s64 time));
 extern s32 ahi_samples_to_bytes(s32 samples);
 extern s32 ahi_bytes_to_samples(s32 bytes);
-
-#ifdef __VBCC__
-extern void ahi_play_samples(SWORD *data, s32 samples, s64 time, s32 wait);
-#else
 extern void ahi_play_samples(void *data, s32 samples, s64 time, s32 wait);
-#endif
-
 extern s32 ahi_samples_buffered(void);
 extern s32 ahi_samples_free(void);
 extern void ahi_pause(void);

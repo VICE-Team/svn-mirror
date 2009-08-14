@@ -38,13 +38,10 @@
 static int g_mx = 0, g_my = 0, g_mb = 0;
 
 #include <devices/input.h>
-
-#ifndef __VBCC__
 #include <devices/inputevent.h>
 #include <proto/exec.h>
-#endif
 
-#if defined(AMIGA_MORPHOS) || defined(__VBCC__) || defined(AMIGA_WARPOS)
+#if defined(AMIGA_MORPHOS) || defined(AMIGA_WARPOS)
 #include <exec/interrupts.h>
 #endif
 
@@ -54,75 +51,68 @@ static int g_mx = 0, g_my = 0, g_mb = 0;
 #ifdef AMIGA_MORPHOS
 static struct InputEvent *_MyInputHandler(void);
 static const struct EmulLibEntry gate_MyInputHandler = {
-  TRAP_LIB,
-  0,
-  (void (*)(void))_MyInputHandler}, *MyInputHandler = &gate_MyInputHandler;
+    TRAP_LIB,
+    0,
+    (void (*)(void))_MyInputHandler}, *MyInputHandler = &gate_MyInputHandler;
 
 static struct InputEvent *_MyInputHandler(void)
 {
-  struct InputEvent *event_list = (APTR) REG_A0;
+    struct InputEvent *event_list = (APTR)REG_A0;
 #else
 static struct InputEvent *MyInputHandler(struct InputEvent *event_list)
 {
 #endif
-  struct InputEvent *event;
+    struct InputEvent *event;
 
-  for (event = event_list;
-       event;
-       event = event->ie_NextEvent) {
-    if (event->ie_Class == IECLASS_RAWMOUSE) {
-      switch(event->ie_Code) {
-        case (IECODE_LBUTTON):
-          Forbid();
-          g_mb |= MB_LEFT;
-          g_mx += event->ie_position.ie_xy.ie_x;
-          g_my += event->ie_position.ie_xy.ie_y;
-          Permit();
-          event->ie_Class = IECLASS_NULL; /* remove event */
-          break;
-
-        case (IECODE_LBUTTON | IECODE_UP_PREFIX):
-          Forbid();
-          g_mb &= ~MB_LEFT;
-          g_mx += event->ie_position.ie_xy.ie_x;
-          g_my += event->ie_position.ie_xy.ie_y;
-          Permit();
-          event->ie_Class = IECLASS_NULL; /* remove event */
-          break;
-
-        case (IECODE_RBUTTON):
-          Forbid();
-          g_mb |= MB_RIGHT;
-          g_mx += event->ie_position.ie_xy.ie_x;
-          g_my += event->ie_position.ie_xy.ie_y;
-          Permit();
-          event->ie_Class = IECLASS_NULL; /* remove event */
-          break;
-
-        case (IECODE_RBUTTON | IECODE_UP_PREFIX):
-          Forbid();
-          g_mb &= ~MB_RIGHT;
-          g_mx += event->ie_position.ie_xy.ie_x;
-          g_my += event->ie_position.ie_xy.ie_y;
-          Permit();
-          event->ie_Class = IECLASS_NULL; /* remove event */
-          break;
-
-        case (IECODE_NOBUTTON):
-          Forbid();
-          g_mx += event->ie_position.ie_xy.ie_x;
-          g_my += event->ie_position.ie_xy.ie_y;
-          Permit();
-          event->ie_Class = IECLASS_NULL; /* remove event */
-          break;
-
-        default:
-          break;
-      }
+    for (event = event_list; event; event = event->ie_NextEvent) {
+        if (event->ie_Class == IECLASS_RAWMOUSE) {
+            switch(event->ie_Code) {
+                case (IECODE_LBUTTON):
+                    Forbid();
+                    g_mb |= MB_LEFT;
+                    g_mx += event->ie_position.ie_xy.ie_x;
+                    g_my += event->ie_position.ie_xy.ie_y;
+                    Permit();
+                    event->ie_Class = IECLASS_NULL; /* remove event */
+                    break;
+                case (IECODE_LBUTTON | IECODE_UP_PREFIX):
+                    Forbid();
+                    g_mb &= ~MB_LEFT;
+                    g_mx += event->ie_position.ie_xy.ie_x;
+                    g_my += event->ie_position.ie_xy.ie_y;
+                    Permit();
+                    event->ie_Class = IECLASS_NULL; /* remove event */
+                    break;
+                case (IECODE_RBUTTON):
+                    Forbid();
+                    g_mb |= MB_RIGHT;
+                    g_mx += event->ie_position.ie_xy.ie_x;
+                    g_my += event->ie_position.ie_xy.ie_y;
+                    Permit();
+                    event->ie_Class = IECLASS_NULL; /* remove event */
+                    break;
+                case (IECODE_RBUTTON | IECODE_UP_PREFIX):
+                    Forbid();
+                    g_mb &= ~MB_RIGHT;
+                    g_mx += event->ie_position.ie_xy.ie_x;
+                    g_my += event->ie_position.ie_xy.ie_y;
+                    Permit();
+                    event->ie_Class = IECLASS_NULL; /* remove event */
+                    break;
+                case (IECODE_NOBUTTON):
+                    Forbid();
+                    g_mx += event->ie_position.ie_xy.ie_x;
+                    g_my += event->ie_position.ie_xy.ie_y;
+                    Permit();
+                    event->ie_Class = IECLASS_NULL; /* remove event */
+                    break;
+                default:
+                    break;
+            }
+        }
     }
-  }
 
-  return event_list; /* let someone else process the events */
+    return event_list; /* let someone else process the events */
 }
 
 static struct IOStdReq *inputReqBlk = NULL;
@@ -133,66 +123,66 @@ static int input_error = -1;
 
 void rem_inputhandler(void)
 {
-  if (!input_error) {
-    inputReqBlk->io_Data=(APTR)inputHandler;
-    inputReqBlk->io_Command=IND_REMHANDLER;
-    DoIO((struct IORequest *)inputReqBlk);
-    CloseDevice((struct IORequest *)inputReqBlk);
-    input_error = -1;
-  }
+    if (!input_error) {
+        inputReqBlk->io_Data = (APTR)inputHandler;
+        inputReqBlk->io_Command = IND_REMHANDLER;
+        DoIO((struct IORequest *)inputReqBlk);
+        CloseDevice((struct IORequest *)inputReqBlk);
+        input_error = -1;
+    }
 
-  if (inputReqBlk) {
-    DeleteIORequest((struct IORequest *)inputReqBlk);
-    inputReqBlk = NULL;
-  }
+    if (inputReqBlk) {
+        DeleteIORequest((struct IORequest *)inputReqBlk);
+        inputReqBlk = NULL;
+    }
 
-  if (inputHandler) {
-    lib_FreeMem(inputHandler, sizeof(struct Interrupt));
-    inputHandler = NULL;
-  }
+    if (inputHandler) {
+        lib_FreeMem(inputHandler, sizeof(struct Interrupt));
+        inputHandler = NULL;
+    }
 
-  if (inputPort) {
-    DeleteMsgPort(inputPort);
-    inputPort = NULL;
-  }
+    if (inputPort) {
+        DeleteMsgPort(inputPort);
+        inputPort = NULL;
+    }
 }
 
 int add_inputhandler(void)
 {
-  if ((inputPort = CreateMsgPort())) {
-    if ((inputHandler = lib_AllocMem(sizeof(struct Interrupt), MEMF_PUBLIC|MEMF_CLEAR))) {
-      if ((inputReqBlk = (struct IOStdReq *)CreateIORequest(inputPort, sizeof(struct IOStdReq)))) {
-        if (!(input_error = OpenDevice("input.device", 0, (struct IORequest *)inputReqBlk, 0))) {
-          inputHandler->is_Code         = (void *)MyInputHandler;
-          inputHandler->is_Data         = NULL;
-          inputHandler->is_Node.ln_Pri  = 100;
-          inputHandler->is_Node.ln_Name = (STRPTR)HandlerName;
-          inputReqBlk->io_Data    = (APTR)inputHandler;
-          inputReqBlk->io_Command = IND_ADDHANDLER;
-          DoIO((struct IORequest *)inputReqBlk);
+    if ((inputPort = CreateMsgPort())) {
+        if ((inputHandler = lib_AllocMem(sizeof(struct Interrupt), MEMF_PUBLIC|MEMF_CLEAR))) {
+            if ((inputReqBlk = (struct IOStdReq *)CreateIORequest(inputPort, sizeof(struct IOStdReq)))) {
+                if (!(input_error = OpenDevice("input.device", 0, (struct IORequest *)inputReqBlk, 0))) {
+                    inputHandler->is_Code = (void *)MyInputHandler;
+                    inputHandler->is_Data = NULL;
+                    inputHandler->is_Node.ln_Pri = 100;
+                    inputHandler->is_Node.ln_Name = (STRPTR)HandlerName;
+                    inputReqBlk->io_Data = (APTR)inputHandler;
+                    inputReqBlk->io_Command = IND_ADDHANDLER;
+                    DoIO((struct IORequest *)inputReqBlk);
+                }
+            }
         }
-      }
     }
-  }
 
-  if (!input_error) {
-    return 0;
-  } else {
-    rem_inputhandler();
-    return -1;
-  }
+    if (!input_error) {
+      return 0;
+    } else {
+      rem_inputhandler();
+      return -1;
+    }
 }
 
 static int mouse_acquired = 0;
 
 int mousedrv_resources_init(void)
 {
-  return 0;
+    return 0;
 }
 
 int mousedrv_cmdline_options_init(void)
 {
-  return 0;
+    return 0;
 }
 
 void mousedrv_init(void)
@@ -201,54 +191,55 @@ void mousedrv_init(void)
 
 void mousedrv_mouse_changed(void)
 {
-  if (_mouse_enabled) {
-    if (add_inputhandler() == 0) {
-      pointer_hide();
-      mouse_acquired = 1;
+    if (_mouse_enabled) {
+        if (add_inputhandler() == 0) {
+            pointer_hide();
+            mouse_acquired = 1;
+        }
+    } else {
+        if (mouse_acquired) {
+            pointer_to_default();
+            mouse_acquired = 0;
+            rem_inputhandler();
+        }
     }
-  } else {
-    if (mouse_acquired) {
-      pointer_to_default();
-      mouse_acquired = 0;
-      rem_inputhandler();
-    }
-  }
 }
 
 BYTE mousedrv_get_x(void)
 {
-  int mx;
+    int mx;
 
-  if (!_mouse_enabled)
-    return 0xff;
-  Forbid();
-  mx = g_mx;
-  Permit();
-  return (BYTE)(mx >> 1) & 0x7e;
+    if (!_mouse_enabled) {
+        return 0xff;
+    }
+    Forbid();
+    mx = g_mx;
+    Permit();
+    return (BYTE)(mx >> 1) & 0x7e;
 }
 
 BYTE mousedrv_get_y(void)
 {
-  int my;
+    int my;
 
-  if (!_mouse_enabled)
-    return 0xff;
-  Forbid();
-  my = g_my;
-  Permit();
-  return (BYTE)(~my >> 1) & 0x7e;
+    if (!_mouse_enabled) {
+        return 0xff;
+    }
+    Forbid();
+    my = g_my;
+    Permit();
+    return (BYTE)(~my >> 1) & 0x7e;
 }
 
 void mousedrv_sync(void)
 {
-  if (mouse_acquired) {
-    int mb;
+    if (mouse_acquired) {
+        int mb;
 
-    Forbid();
-    mb = g_mb;
-    Permit();
-    mouse_button_left(mb & MB_LEFT);
-    mouse_button_right(mb & MB_RIGHT);
-  }
+        Forbid();
+        mb = g_mb;
+        Permit();
+        mouse_button_left(mb & MB_LEFT);
+        mouse_button_right(mb & MB_RIGHT);
+    }
 }
-

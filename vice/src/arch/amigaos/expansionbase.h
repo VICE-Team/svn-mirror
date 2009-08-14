@@ -27,8 +27,8 @@
 #ifndef VICE_EXPANSIONBASE_H
 #define VICE_EXPANSIONBASE_H
 
-extern struct Library          *ExpansionBase;
-extern struct ExpansionIFace   *IExpansion;
+extern struct Library *ExpansionBase;
+extern struct ExpansionIFace *IExpansion;
 
 #endif
 
