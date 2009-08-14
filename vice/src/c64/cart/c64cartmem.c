@@ -523,11 +523,6 @@ void REGPARM2 romh_store(WORD addr, BYTE value)
 
 void REGPARM2 romh_no_ultimax_store(WORD addr, BYTE value)
 {
-    switch (mem_cartridge_type) {
-      case CARTRIDGE_EASYFLASH:
-        easyflash_romh_store(addr, value);
-        break;
-    }
     if (dqbb_enabled)
     {
         dqbb_romh_store(addr, value);
