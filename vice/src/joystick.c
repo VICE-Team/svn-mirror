@@ -64,6 +64,7 @@ static BYTE network_joystick_value[JOYSTICK_NUM + 1] = { 0 };
 int joystick_port_map[JOYSTICK_NUM] = { 0 };
 
 /* to prevent illegal direction combinations */
+static int joystick_opposite_enable = 0;
 static const BYTE joystick_opposite_direction[] = 
     { 0, 2, 1, 3, 8, 10, 9, 11, 4, 6, 5, 7, 12, 14, 13, 15 };
 
@@ -166,7 +167,11 @@ void joystick_set_value_or(unsigned int joyport, BYTE value)
         return;
 
     latch_joystick_value[joyport] |= value;
-    latch_joystick_value[joyport] &= ~joystick_opposite_direction[value & 0xf];
+
+    if (!joystick_opposite_enable) {
+        latch_joystick_value[joyport] &= ~joystick_opposite_direction[value & 0xf];
+    }
+
     latch_joystick_value[0] = (BYTE)joyport;
     joystick_process_latch();
 }
@@ -323,6 +328,12 @@ static int set_joykeys_enable(int val, void *param)
     return 0;
 }
 
+static int set_joystick_opposite_enable(int val, void *param)
+{
+    joystick_opposite_enable = val;
+    return 0;
+}
+
 #define DEFINE_SET_KEYSET(num)                       \
     static int set_keyset##num(int val, void *param) \
     {                                                \
@@ -373,6 +384,8 @@ static const resource_int_t resources_int[] = {
       &joykeys[2][KEYSET_FIRE], set_keyset2, (void *)KEYSET_FIRE },
     { "KeySetEnable", 1, RES_EVENT_NO, NULL,
       &joykeys_enable, set_joykeys_enable, NULL },
+    { "JoyOpposite", 0, RES_EVENT_NO, NULL,
+      &joystick_opposite_enable, set_joystick_opposite_enable, NULL },
     { NULL }
 };
 

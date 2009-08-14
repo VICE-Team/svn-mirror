@@ -74,6 +74,7 @@ VICE_SDL_JOYSTICK_DEVICE_MENU(3)
 VICE_SDL_JOYSTICK_DEVICE_MENU(4)
 
 UI_MENU_DEFINE_TOGGLE(KeySetEnable)
+UI_MENU_DEFINE_TOGGLE(JoyOpposite)
 
 static UI_MENU_CALLBACK(custom_swap_ports_callback)
 {
@@ -320,7 +321,7 @@ static const ui_menu_entry_t joystick_extra_joy_type_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_ExtraJoyType_callback,
       (ui_callback_data_t)EXTRA_JOYSTICK_PET },
-    { "HUMMER userport adapter",
+    { "Hummer userport adapter",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_ExtraJoyType_callback,
       (ui_callback_data_t)EXTRA_JOYSTICK_HUMMER },
@@ -373,6 +374,10 @@ const ui_menu_entry_t joystick_c64_menu[] = {
       custom_swap_ports_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
+    { "Allow opposite directions",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_JoyOpposite_callback,
+      NULL },
     { "Allow keyset joystick",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_KeySetEnable_callback,
@@ -438,6 +443,10 @@ const ui_menu_entry_t joystick_c64dtv_menu[] = {
       custom_swap_ports_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
+    { "Allow opposite directions",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_JoyOpposite_callback,
+      NULL },
     { "Allow keyset joystick",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_KeySetEnable_callback,
@@ -501,6 +510,10 @@ const ui_menu_entry_t joystick_plus4_menu[] = {
       custom_swap_ports_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
+    { "Allow opposite directions",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_JoyOpposite_callback,
+      NULL },
     { "Allow keyset joystick",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_KeySetEnable_callback,
@@ -550,6 +563,10 @@ const ui_menu_entry_t joystick_vic20_menu[] = {
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port4_device_menu },
     SDL_MENU_ITEM_SEPARATOR,
+    { "Allow opposite directions",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_JoyOpposite_callback,
+      NULL },
     { "Allow keyset joystick",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_KeySetEnable_callback,
@@ -595,6 +612,10 @@ const ui_menu_entry_t joystick_userport_only_menu[] = {
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port4_device_menu },
     SDL_MENU_ITEM_SEPARATOR,
+    { "Allow opposite directions",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_JoyOpposite_callback,
+      NULL },
     { "Allow keyset joystick",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_KeySetEnable_callback,

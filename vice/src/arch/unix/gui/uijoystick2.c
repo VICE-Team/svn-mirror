@@ -117,6 +117,7 @@ static UI_CALLBACK(swap_userport_joystick_ports)
 }
 
 UI_MENU_DEFINE_TOGGLE(KeySetEnable)
+UI_MENU_DEFINE_TOGGLE(JoyOpposite)
 UI_MENU_DEFINE_TOGGLE(ExtraJoy)
 UI_MENU_DEFINE_TOGGLE(SIDCartJoy)
 UI_MENU_DEFINE_RADIO(ExtraJoyType)
@@ -366,6 +367,8 @@ static ui_menu_entry_t joystick_settings_c64_submenu[] = {
       (ui_callback_t)ui_keyset_dialog },
     { "--" },
 #endif
+    { N_("*Allow opposite directions"),
+      (ui_callback_t)toggle_JoyOpposite, NULL, NULL },
     { N_("*Allow keyset joystick"),
       (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META },
     { N_("Swap joystick ports"),
@@ -395,6 +398,8 @@ static ui_menu_entry_t joystick_settings_c64dtv_submenu[] = {
       (ui_callback_t)ui_keyset_dialog },
     { "--" },
 #endif
+    { N_("*Allow opposite directions"),
+      (ui_callback_t)toggle_JoyOpposite, NULL, NULL },
     { N_("*Allow keyset joystick"),
       (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META },
     { N_("Swap joystick ports"),
@@ -424,6 +429,8 @@ static ui_menu_entry_t joystick_settings_cbm5x0_submenu[] = {
       (ui_callback_t)ui_keyset_dialog },
     { "--" },
 #endif
+    { N_("*Allow opposite directions"),
+      (ui_callback_t)toggle_JoyOpposite, NULL, NULL },
     { N_("*Allow keyset joystick"),
       (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META },
     { N_("Swap joystick ports"),
@@ -437,6 +444,8 @@ static ui_menu_entry_t joystick_settings_pet_submenu[] = {
       (ui_callback_t)ui_keyset_dialog },
     { "--" },
 #endif
+    { N_("*Allow opposite directions"),
+      (ui_callback_t)toggle_JoyOpposite, NULL, NULL },
     { N_("*Allow keyset joystick"),
       (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META },
     { "--" },
@@ -462,6 +471,8 @@ static ui_menu_entry_t joystick_settings_vic20_submenu[] = {
       (ui_callback_t)ui_keyset_dialog },
     { "--" },
 #endif
+    { N_("*Allow opposite directions"),
+      (ui_callback_t)toggle_JoyOpposite, NULL, NULL },
     { N_("*Allow keyset joystick"),
       (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META },
     { "--" },
@@ -489,6 +500,8 @@ static ui_menu_entry_t joystick_settings_plus4_submenu[] = {
       (ui_callback_t)ui_keyset_dialog },
     { "--" },
 #endif
+    { N_("*Allow opposite directions"),
+      (ui_callback_t)toggle_JoyOpposite, NULL, NULL },
     { N_("*Allow keyset joystick"),
       (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META },
     { N_("Swap joystick ports"),
