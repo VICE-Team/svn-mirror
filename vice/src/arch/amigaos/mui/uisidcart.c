@@ -36,139 +36,139 @@
 #include "translate.h"
 
 static int ui_sidcart_enable_translate[] = {
-  IDMS_DISABLED,
-  IDS_ENABLED,
-  0
+    IDMS_DISABLED,
+    IDS_ENABLED,
+    0
 };
 
 static char *ui_sidcart_enable[countof(ui_sidcart_enable_translate)];
 
 static const int ui_sidcart_enable_values[] = {
-  0,
-  1,
-  -1
+    0,
+    1,
+    -1
 };
 
 static char *ui_sidcart_engine[] =
 {
-  "Fast SID",
+    "Fast SID",
 #ifdef HAVE_CATWEASELMKIII
-  "Catweasel MK3",
+    "Catweasel MK3",
 #endif
 #ifdef HAVE_HARDSID
-  "HardSID",
+    "HardSID",
 #endif
-  NULL
+    NULL
 };
 
 static const int ui_sidcart_engine_values[] =
 {
-  SID_ENGINE_FASTSID,
+    SID_ENGINE_FASTSID,
 #ifdef HAVE_CATWEASELMKIII
-  SID_ENGINE_CATWEASELMKIII,
+    SID_ENGINE_CATWEASELMKIII,
 #endif
 #ifdef HAVE_HARDSID
-  SID_ENGINE_HARDSID,
+    SID_ENGINE_HARDSID,
 #endif
-  -1
+    -1
 };
 
 static int ui_sidcart_model_translate[] =
 {
-  IDS_6581_OLD,
-  IDS_8580_NEW,
-  0
+    IDS_6581_OLD,
+    IDS_8580_NEW,
+    0
 };
 
 static char *ui_sidcart_model[countof(ui_sidcart_model_translate)];
 
 static const int ui_sidcart_model_values[] =
 {
-  0,
-  1,
-  -1
+    0,
+    1,
+    -1
 };
 
 static char *ui_sidcart_address[] =
 {
-  NULL, /* placeholder for primary address */
-  NULL, /* placeholder for secondary address */
-  NULL
+    NULL, /* placeholder for primary address */
+    NULL, /* placeholder for secondary address */
+    NULL
 };
 
 static const int ui_sidcart_address_values[] =
 {
-  0,
-  1,
-  -1
+    0,
+    1,
+    -1
 };
 
 static char *ui_sidcart_clock[] =
 {
-  "C64",
-  NULL, /* placeholder for native clock */
-  NULL
+    "C64",
+    NULL, /* placeholder for native clock */
+    NULL
 };
 
 static const int ui_sidcart_clock_values[] =
 {
-  0,
-  1,
-  -1
+    0,
+    1,
+    -1
 };
 
 static ui_to_from_t ui_to_from[] = {
-  { NULL, MUI_TYPE_CYCLE, "SidCart", ui_sidcart_enable, ui_sidcart_enable_values },
-  { NULL, MUI_TYPE_CYCLE, "SidEngine", ui_sidcart_engine, ui_sidcart_engine_values },
-  { NULL, MUI_TYPE_CYCLE, "SidModel", ui_sidcart_model, ui_sidcart_model_values },
-  { NULL, MUI_TYPE_CYCLE, "SidFilters", ui_sidcart_enable, ui_sidcart_enable_values },
-  { NULL, MUI_TYPE_CYCLE, "SidAddress", ui_sidcart_address, ui_sidcart_address_values },
-  { NULL, MUI_TYPE_CYCLE, "SidClock", ui_sidcart_clock, ui_sidcart_clock_values },
-  { NULL, MUI_TYPE_CYCLE, "DIGIBLASTER", ui_sidcart_enable, ui_sidcart_enable_values },
-  UI_END /* mandatory */
+    {NULL, MUI_TYPE_CYCLE, "SidCart", ui_sidcart_enable, ui_sidcart_enable_values},
+    {NULL, MUI_TYPE_CYCLE, "SidEngine", ui_sidcart_engine, ui_sidcart_engine_values},
+    {NULL, MUI_TYPE_CYCLE, "SidModel", ui_sidcart_model, ui_sidcart_model_values},
+    {NULL, MUI_TYPE_CYCLE, "SidFilters", ui_sidcart_enable, ui_sidcart_enable_values},
+    {NULL, MUI_TYPE_CYCLE, "SidAddress", ui_sidcart_address, ui_sidcart_address_values},
+    {NULL, MUI_TYPE_CYCLE, "SidClock", ui_sidcart_clock, ui_sidcart_clock_values},
+    {NULL, MUI_TYPE_CYCLE, "DIGIBLASTER", ui_sidcart_enable, ui_sidcart_enable_values},
+    UI_END /* mandatory */
 };
 
 static APTR build_gui(void)
 {
-  return GroupObject,
-    CYCLE(ui_to_from[0].object, translate_text(IDS_SID_CART), ui_sidcart_enable)
-    CYCLE(ui_to_from[1].object, translate_text(IDS_SID_ENGINE), ui_sidcart_engine)
-    CYCLE(ui_to_from[2].object, translate_text(IDS_SID_MODEL), ui_sidcart_model)
-    CYCLE(ui_to_from[3].object, translate_text(IDS_SID_FILTERS), ui_sidcart_enable)
-    CYCLE(ui_to_from[4].object, translate_text(IDS_SID_ADDRESS), ui_sidcart_address)
-    CYCLE(ui_to_from[5].object, translate_text(IDS_SID_CLOCK), ui_sidcart_clock)
-  End;
+    return GroupObject,
+             CYCLE(ui_to_from[0].object, translate_text(IDS_SID_CART), ui_sidcart_enable)
+             CYCLE(ui_to_from[1].object, translate_text(IDS_SID_ENGINE), ui_sidcart_engine)
+             CYCLE(ui_to_from[2].object, translate_text(IDS_SID_MODEL), ui_sidcart_model)
+             CYCLE(ui_to_from[3].object, translate_text(IDS_SID_FILTERS), ui_sidcart_enable)
+             CYCLE(ui_to_from[4].object, translate_text(IDS_SID_ADDRESS), ui_sidcart_address)
+             CYCLE(ui_to_from[5].object, translate_text(IDS_SID_CLOCK), ui_sidcart_clock)
+           End;
 }
 
 static APTR build_gui_plus4(void)
 {
   return GroupObject,
-    CYCLE(ui_to_from[0].object, translate_text(IDS_SID_CART), ui_sidcart_enable)
-    CYCLE(ui_to_from[1].object, translate_text(IDS_SID_ENGINE), ui_sidcart_engine)
-    CYCLE(ui_to_from[2].object, translate_text(IDS_SID_MODEL), ui_sidcart_model)
-    CYCLE(ui_to_from[3].object, translate_text(IDS_SID_FILTERS), ui_sidcart_enable)
-    CYCLE(ui_to_from[4].object, translate_text(IDS_SID_ADDRESS), ui_sidcart_address)
-    CYCLE(ui_to_from[5].object, translate_text(IDS_SID_CLOCK), ui_sidcart_clock)
-    CYCLE(ui_to_from[6].object, translate_text(IDS_SID_DIGIBLASTER), ui_sidcart_enable)
-  End;
+           CYCLE(ui_to_from[0].object, translate_text(IDS_SID_CART), ui_sidcart_enable)
+           CYCLE(ui_to_from[1].object, translate_text(IDS_SID_ENGINE), ui_sidcart_engine)
+           CYCLE(ui_to_from[2].object, translate_text(IDS_SID_MODEL), ui_sidcart_model)
+           CYCLE(ui_to_from[3].object, translate_text(IDS_SID_FILTERS), ui_sidcart_enable)
+           CYCLE(ui_to_from[4].object, translate_text(IDS_SID_ADDRESS), ui_sidcart_address)
+           CYCLE(ui_to_from[5].object, translate_text(IDS_SID_CLOCK), ui_sidcart_clock)
+           CYCLE(ui_to_from[6].object, translate_text(IDS_SID_DIGIBLASTER), ui_sidcart_enable)
+         End;
 }
 
 void ui_sidcart_settings_dialog(char *addr1, char *addr2, char *clock)
 {
-  intl_convert_mui_table(ui_sidcart_enable_translate, ui_sidcart_enable);
-  intl_convert_mui_table(ui_sidcart_model_translate, ui_sidcart_model);
-  ui_sidcart_address[0]=addr1;
-  ui_sidcart_address[1]=addr2;
-  ui_sidcart_clock[1]=clock;
-  mui_show_dialog(build_gui(), translate_text(IDS_SIDCART_SETTINGS), ui_to_from);
+    intl_convert_mui_table(ui_sidcart_enable_translate, ui_sidcart_enable);
+    intl_convert_mui_table(ui_sidcart_model_translate, ui_sidcart_model);
+    ui_sidcart_address[0] = addr1;
+    ui_sidcart_address[1] = addr2;
+    ui_sidcart_clock[1] = clock;
+    mui_show_dialog(build_gui(), translate_text(IDS_SIDCART_SETTINGS), ui_to_from);
 }
 
 void ui_sidcart_plus4_settings_dialog(char *addr1, char *addr2, char *clock)
 {
-  intl_convert_mui_table(ui_sidcart_enable_translate, ui_sidcart_enable);
-  intl_convert_mui_table(ui_sidcart_model_translate, ui_sidcart_model);
-  ui_sidcart_address[0]=addr1;
-  ui_sidcart_address[1]=addr2;
-  ui_sidcart_clock[1]=clock;
-  mui_show_dialog(build_gui_plus4(), translate_text(IDS_SIDCART_SETTINGS), ui_to_from);
+    intl_convert_mui_table(ui_sidcart_enable_translate, ui_sidcart_enable);
+    intl_convert_mui_table(ui_sidcart_model_translate, ui_sidcart_model);
+    ui_sidcart_address[0] = addr1;
+    ui_sidcart_address[1] = addr2;
+    ui_sidcart_clock[1] = clock;
+    mui_show_dialog(build_gui_plus4(), translate_text(IDS_SIDCART_SETTINGS), ui_to_from);
 }

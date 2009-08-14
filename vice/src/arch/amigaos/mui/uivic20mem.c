@@ -35,41 +35,41 @@
 #include "translate.h"
 
 static int ui_vic20mem_enable_translate[] = {
-  IDMS_DISABLED,
-  IDS_ENABLED,
-  0
+    IDMS_DISABLED,
+    IDS_ENABLED,
+    0
 };
 
 static char *ui_vic20mem_enable[countof(ui_vic20mem_enable_translate)];
 
 static const int ui_vic20mem_enable_values[] = {
-  0,
-  1,
-  -1
+    0,
+    1,
+    -1
 };
 
 static ui_to_from_t ui_to_from[] = {
-  { NULL, MUI_TYPE_CYCLE, "RAMBlock0", ui_vic20mem_enable, ui_vic20mem_enable_values },
-  { NULL, MUI_TYPE_CYCLE, "RAMBlock1", ui_vic20mem_enable, ui_vic20mem_enable_values },
-  { NULL, MUI_TYPE_CYCLE, "RAMBlock2", ui_vic20mem_enable, ui_vic20mem_enable_values },
-  { NULL, MUI_TYPE_CYCLE, "RAMBlock3", ui_vic20mem_enable, ui_vic20mem_enable_values },
-  { NULL, MUI_TYPE_CYCLE, "RAMBlock5", ui_vic20mem_enable, ui_vic20mem_enable_values },
-  UI_END /* mandatory */
+    {NULL, MUI_TYPE_CYCLE, "RAMBlock0", ui_vic20mem_enable, ui_vic20mem_enable_values},
+    {NULL, MUI_TYPE_CYCLE, "RAMBlock1", ui_vic20mem_enable, ui_vic20mem_enable_values},
+    {NULL, MUI_TYPE_CYCLE, "RAMBlock2", ui_vic20mem_enable, ui_vic20mem_enable_values},
+    {NULL, MUI_TYPE_CYCLE, "RAMBlock3", ui_vic20mem_enable, ui_vic20mem_enable_values},
+    {NULL, MUI_TYPE_CYCLE, "RAMBlock5", ui_vic20mem_enable, ui_vic20mem_enable_values},
+    UI_END /* mandatory */
 };
 
 static APTR build_gui(void)
 {
-  return GroupObject,
-    CYCLE(ui_to_from[0].object, translate_text(IDS_RAM_BLOCK_0400_0FFF), ui_vic20mem_enable)
-    CYCLE(ui_to_from[1].object, translate_text(IDS_RAM_BLOCK_2000_3FFF), ui_vic20mem_enable)
-    CYCLE(ui_to_from[2].object, translate_text(IDS_RAM_BLOCK_4000_5FFF), ui_vic20mem_enable)
-    CYCLE(ui_to_from[3].object, translate_text(IDS_RAM_BLOCK_6000_7FFF), ui_vic20mem_enable)
-    CYCLE(ui_to_from[4].object, translate_text(IDS_RAM_BLOCK_A000_BFFF), ui_vic20mem_enable)
-  End;
+    return GroupObject,
+             CYCLE(ui_to_from[0].object, translate_text(IDS_RAM_BLOCK_0400_0FFF), ui_vic20mem_enable)
+             CYCLE(ui_to_from[1].object, translate_text(IDS_RAM_BLOCK_2000_3FFF), ui_vic20mem_enable)
+             CYCLE(ui_to_from[2].object, translate_text(IDS_RAM_BLOCK_4000_5FFF), ui_vic20mem_enable)
+             CYCLE(ui_to_from[3].object, translate_text(IDS_RAM_BLOCK_6000_7FFF), ui_vic20mem_enable)
+             CYCLE(ui_to_from[4].object, translate_text(IDS_RAM_BLOCK_A000_BFFF), ui_vic20mem_enable)
+           End;
 }
 
 void ui_vic_settings_dialog(void)
 {
-  intl_convert_mui_table(ui_vic20mem_enable_translate, ui_vic20mem_enable);
-  mui_show_dialog(build_gui(), translate_text(IDS_VIC_SETTINGS), ui_to_from);
+    intl_convert_mui_table(ui_vic20mem_enable_translate, ui_vic20mem_enable);
+    mui_show_dialog(build_gui(), translate_text(IDS_VIC_SETTINGS), ui_to_from);
 }
