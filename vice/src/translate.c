@@ -3699,7 +3699,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_NL, "Zet autostart modus voor PRG bestanden"},
 /* pl */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_SV, "Välj autostartläge för PRG-filer"},
 /* tr */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_TR, ""},  /* fuzzy */
 #endif
 
@@ -3713,7 +3713,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_NL, "Zet disk bestand voor het autostarten van PRG bestanden"},
 /* pl */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_SV, "Ange diskavbildning för autostart av PRG-filer"},
 /* tr */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_TR, ""},  /* fuzzy */
 #endif
 
@@ -8500,7 +8500,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_NL, ""},  /* fuzzy */
 /* pl */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_SV, "Ange namn för Final Expansion-utöknings-ROM"},
+/* sv */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_SV, "Ange namn på Final Expansion utöknings-ROM"},
 /* tr */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_TR, ""},  /* fuzzy */
 #endif
 
@@ -10683,7 +10683,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SET_YM_CHIP_TYPE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_YM_CHIP_TYPE_NL, "Kies de YM chip soort (3526 / 3812)"},
 /* pl */ {IDCLS_SET_YM_CHIP_TYPE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_YM_CHIP_TYPE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_YM_CHIP_TYPE_SV, "Välj YM-kretstyp (3526 / 3812)"},
 /* tr */ {IDCLS_SET_YM_CHIP_TYPE_TR, ""},  /* fuzzy */
 #endif
 
@@ -10725,7 +10725,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_NL, "Activeer de lichtpen emulatie"},
 /* pl */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_SV, "Aktivera emulering av ljuspenna"},
 /* tr */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_TR, ""},  /* fuzzy */
 #endif
 
@@ -10739,7 +10739,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_NL, "De lichtpen emulatie uitschakelen"},
 /* pl */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_SV, "Inaktivera emulering ljuspenna"},
 /* tr */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_TR, ""},  /* fuzzy */
 #endif
 
@@ -10753,7 +10753,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SET_LIGHTPEN_TYPE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_LIGHTPEN_TYPE_NL, "Geef de lichtpen soort op"},
 /* pl */ {IDCLS_SET_LIGHTPEN_TYPE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_LIGHTPEN_TYPE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_LIGHTPEN_TYPE_SV, "Välj typ av ljuspenna"},
 /* tr */ {IDCLS_SET_LIGHTPEN_TYPE_TR, ""},  /* fuzzy */
 #endif
 
@@ -10767,7 +10767,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_EASYFLASH_JUMPER_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_EASYFLASH_JUMPER_NL, "Activeer de EasyFlash jumper"},
 /* pl */ {IDCLS_ENABLE_EASYFLASH_JUMPER_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_EASYFLASH_JUMPER_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_EASYFLASH_JUMPER_SV, "Aktivera EasyFlash-bygel"},
 /* tr */ {IDCLS_ENABLE_EASYFLASH_JUMPER_TR, ""},  /* fuzzy */
 #endif
 
@@ -10781,7 +10781,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_EASYFLASH_JUMPER_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_EASYFLASH_JUMPER_NL, "De EasyFlash jumper uitschakelen"},
 /* pl */ {IDCLS_DISABLE_EASYFLASH_JUMPER_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_EASYFLASH_JUMPER_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_EASYFLASH_JUMPER_SV, "Inaktivera EasyFlash-bygel"},
 /* tr */ {IDCLS_DISABLE_EASYFLASH_JUMPER_TR, ""},  /* fuzzy */
 #endif
 
@@ -10795,7 +10795,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_NL, "Activeer schrijven naar het EasyFlash .crt bestand"},
 /* pl */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_SV, "Aktivera skrivning till EasyFlash-.crt-avbildning."},
 /* tr */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_TR, ""},  /* fuzzy */
 #endif
 
@@ -10809,7 +10809,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_NL, "Schrijven naar het EasyFlash .crt bestand uitschakelen"},
 /* pl */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_SV, "Inaktivera skrivning till EasyFlash-.crt-avbildning."},
 /* tr */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_TR, ""},  /* fuzzy */
 #endif
 

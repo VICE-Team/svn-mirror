@@ -451,7 +451,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_FINAL_EXPANSION_IMAGE_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_FINAL_EXPANSION_IMAGE_NL, "Final Expansion bestand..."},
 /* pl */ {IDMS_FINAL_EXPANSION_IMAGE_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_FINAL_EXPANSION_IMAGE_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_FINAL_EXPANSION_IMAGE_SV, "Final Expansion-fil..."},
 /* tr */ {IDMS_FINAL_EXPANSION_IMAGE_TR, ""},  /* fuzzy */
 
 /* en */ {IDMS_ADD_TO_GENERIC,    "Add to generic..."},
@@ -462,7 +462,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_ADD_TO_GENERIC_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_ADD_TO_GENERIC_NL, "Voeg toe aan algemeen..."},
 /* pl */ {IDMS_ADD_TO_GENERIC_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_ADD_TO_GENERIC_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_ADD_TO_GENERIC_SV, "Lägg till generisk.."},
 /* tr */ {IDMS_ADD_TO_GENERIC_TR, ""},  /* fuzzy */
 
 /* en */ {IDMS_SMART_ATTACH_IMAGE,    "Smart-attach image..."},
@@ -2145,7 +2145,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_EASYFLASH_SETTINGS_IT, ""},  /* fuzzy */
 /* nl */ {IDMS_EASYFLASH_SETTINGS_NL, "EasyFlash instellingen..."},
 /* pl */ {IDMS_EASYFLASH_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_EASYFLASH_SETTINGS_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_EASYFLASH_SETTINGS_SV, "EasyFlash-inställningar..."},
 /* tr */ {IDMS_EASYFLASH_SETTINGS_TR, ""},  /* fuzzy */
 
 /* en */ {IDMS_ENABLE_SFX_SS,    "Enable SFX Sound Sampler"},
@@ -4231,7 +4231,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_EASYFLASH_SETTINGS_IT, ""},  /* fuzzy */
 /* nl */ {IDS_EASYFLASH_SETTINGS_NL, "EasyFlash instellingen"},
 /* pl */ {IDS_EASYFLASH_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDS_EASYFLASH_SETTINGS_SV, ""},  /* fuzzy */
+/* sv */ {IDS_EASYFLASH_SETTINGS_SV, "EasyFlash-inställningar"},
 /* tr */ {IDS_EASYFLASH_SETTINGS_TR, ""},  /* fuzzy */
 
 /* en */ {IDS_CONFIG_FILENAME_SELECT,    "Select config file"},
@@ -5534,7 +5534,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SELECT_GENERIC_IT, ""},  /* fuzzy */
 /* nl */ {IDS_SELECT_GENERIC_NL, "Selecteer algemeen cartridge bestand"},
 /* pl */ {IDS_SELECT_GENERIC_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SELECT_GENERIC_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SELECT_GENERIC_SV, "Välj generisk insticksmodulfil"},
 /* tr */ {IDS_SELECT_GENERIC_TR, ""},  /* fuzzy */
 
 /* en */ {IDS_SELECT_MEGACART,    "Select Mega-Cart file"},
@@ -5545,7 +5545,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SELECT_MEGACART_IT, ""},  /* fuzzy */
 /* nl */ {IDS_SELECT_MEGACART_NL, "Selecteer Mega-Cart bestand"},
 /* pl */ {IDS_SELECT_MEGACART_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SELECT_MEGACART_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SELECT_MEGACART_SV, "Välj Mega-Cart-fil"},
 /* tr */ {IDS_SELECT_MEGACART_TR, ""},  /* fuzzy */
 
 /* en */ {IDS_SELECT_FINAL_EXPANSION,    "Select Final Expansion file"},
@@ -5556,7 +5556,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SELECT_FINAL_EXPANSION_IT, ""},  /* fuzzy */
 /* nl */ {IDS_SELECT_FINAL_EXPANSION_NL, "Selecteer Final Expansion bestand"},
 /* pl */ {IDS_SELECT_FINAL_EXPANSION_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SELECT_FINAL_EXPANSION_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SELECT_FINAL_EXPANSION_SV, "Välj Final Expansion-fil"},
 /* tr */ {IDS_SELECT_FINAL_EXPANSION_TR, ""},  /* fuzzy */
 
 /* en */ {IDS_SELECT_CARTRIDGE_IMAGE,    "Select cartridge file"},
@@ -5567,7 +5567,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SELECT_CARTRIDGE_IMAGE_IT, ""},  /* fuzzy */
 /* nl */ {IDS_SELECT_CARTRIDGE_IMAGE_NL, "Selecteer cartridge bestand"},
 /* pl */ {IDS_SELECT_CARTRIDGE_IMAGE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SELECT_CARTRIDGE_IMAGE_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SELECT_CARTRIDGE_IMAGE_SV, "Välj insticksmodulfil"},
 /* tr */ {IDS_SELECT_CARTRIDGE_IMAGE_TR, ""},  /* fuzzy */
 
 /* en */ {IDS_SID_CART,    "SID Cart"},
@@ -6645,7 +6645,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_EASYFLASH_JUMPER_IT, ""},  /* fuzzy */
 /* nl */ {IDS_EASYFLASH_JUMPER_NL, "EasyFlash jumper"},
 /* pl */ {IDS_EASYFLASH_JUMPER_PL, ""},  /* fuzzy */
-/* sv */ {IDS_EASYFLASH_JUMPER_SV, ""},  /* fuzzy */
+/* sv */ {IDS_EASYFLASH_JUMPER_SV, "EasyFlash-bygel"},
 /* tr */ {IDS_EASYFLASH_JUMPER_TR, ""},  /* fuzzy */
 
 /* en */ {IDS_SAVE_EASYFLASH_CRT_ON_DETACH,    "Save to EasyFlash CRT file on detach"},
@@ -6656,7 +6656,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SAVE_EASYFLASH_CRT_ON_DETACH_IT, ""},  /* fuzzy */
 /* nl */ {IDS_SAVE_EASYFLASH_CRT_ON_DETACH_NL, "Sla op naar het EasyFlash CRT bestand bij ontkoppelen"},
 /* pl */ {IDS_SAVE_EASYFLASH_CRT_ON_DETACH_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SAVE_EASYFLASH_CRT_ON_DETACH_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SAVE_EASYFLASH_CRT_ON_DETACH_SV, "Spara till EasyFlash-CRT-fil vid frånkoppling"},
 /* tr */ {IDS_SAVE_EASYFLASH_CRT_ON_DETACH_TR, ""},  /* fuzzy */
 
 /* en */ {IDS_SAVE_EASYFLASH_CRT_NOW,    "Save to EasyFlash CRT now"},
@@ -6667,7 +6667,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SAVE_EASYFLASH_CRT_NOW_IT, ""},  /* fuzzy */
 /* nl */ {IDS_SAVE_EASYFLASH_CRT_NOW_NL, "Sla nu op naar het EasyFlash CRT bestand"},
 /* pl */ {IDS_SAVE_EASYFLASH_CRT_NOW_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SAVE_EASYFLASH_CRT_NOW_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SAVE_EASYFLASH_CRT_NOW_SV, "Spara till EasyFlash-CRT nu"}
 /* tr */ {IDS_SAVE_EASYFLASH_CRT_NOW_TR, ""},  /* fuzzy */
 
 };
