@@ -80,12 +80,14 @@ inline static void flash_erase_sector(flash040_context_t *flash040_context, unsi
 
     FLASH_DEBUG(("Erasing 0x%xXXXX", sector_addr >> 16));
     memset(&(flash040_context->flash_data[sector_addr]), 0xff, 0x10000);
+    flash040_context->flash_dirty = 1;
 }
 
 inline static void flash_erase_chip(flash040_context_t *flash040_context)
 {
     FLASH_DEBUG(("Erasing chip"));
     memset(flash040_context->flash_data, 0xff, flash_types[flash040_context->flash_type].size);
+    flash040_context->flash_dirty = 1;
 }
 
 inline static int flash_program_byte(flash040_context_t *flash040_context, unsigned int addr, BYTE byte)
@@ -96,6 +98,7 @@ inline static int flash_program_byte(flash040_context_t *flash040_context, unsig
     FLASH_DEBUG(("Programming 0x%05x with 0x%02x (%02x->%02x)", addr, byte, old_data, old_data & byte));
     flash040_context->program_byte = byte;
     flash040_context->flash_data[addr] = new_data;
+    flash040_context->flash_dirty = 1;
 
     return (new_data == byte) ? 1 : 0;
 }
@@ -303,7 +306,8 @@ void flash040core_init(struct flash040_context_s *flash040_context,
     FLASH_DEBUG(("Init"));
     flash040_context->flash_data = data;
     flash040_context->flash_type = type;
-     flash040_context->flash_state = FLASH040_STATE_READ;
+    flash040_context->flash_state = FLASH040_STATE_READ;
+    flash040_context->flash_dirty = 0;
 }
 
 void flash040core_shutdown(flash040_context_t *flash040_context)

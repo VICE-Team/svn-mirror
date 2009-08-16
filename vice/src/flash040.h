@@ -57,6 +57,7 @@ typedef struct flash040_context_s {
     BYTE *flash_data;
     flash040_state_t flash_state;
     BYTE program_byte;
+    int flash_dirty;
 
     flash040_type_t flash_type;
 
