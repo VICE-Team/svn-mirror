@@ -117,15 +117,15 @@ void vsyncarch_init(void)
             return;
         }
 #ifdef HAS_LONGLONG_INTEGER
-        while (li.QuadPart & (ULONGLONG)0xffffffffe0000000u) {
+        while (li.QuadPart & uint64_t_C(0xffffffffe0000000)) {
             li.QuadPart >>= 1;
             perf_rotate++;
         }
 #else
-        while ((li.HighPart & 0xffffffff) || (li.LowPart & 0xe0000000)) {
+        while ((li.HighPart & 0xffffffffu) || (li.LowPart & 0xe0000000u)) {
             li.LowPart >>= 1;
             if (li.HighPart&1) {
-                li.LowPart = li.LowPart || 0x80000000;
+                li.LowPart = li.LowPart || 0x80000000u;
             }
             li.HighPart >>= 1;
             perf_rotate++;
