@@ -204,18 +204,12 @@ static UI_MENU_CALLBACK(set_hide_p00_files_callback)
 
     drive = vice_ptr_to_int(param);
     if (activated) {
-        if (check_current_drive_type(ATTACH_DEVICE_FS, drive)) {
-            resources_get_int_sprintf("FSDevice%iHideCBMFiles", &hide_p00, drive);
-            resources_set_int_sprintf("FSDevice%iHideCBMFiles", !hide_p00, drive);
-        }
+        resources_get_int_sprintf("FSDevice%iHideCBMFiles", &hide_p00, drive);
+        resources_set_int_sprintf("FSDevice%iHideCBMFiles", !hide_p00, drive);
     } else {
-        if (!check_current_drive_type(ATTACH_DEVICE_FS, drive)) {
-            return "(N/A)";
-        } else {
-            resources_get_int_sprintf("FSDevice%iHideCBMFiles", &hide_p00, drive);
-            if (hide_p00) {
-                return sdl_menu_text_tick;
-            }
+        resources_get_int_sprintf("FSDevice%iHideCBMFiles", &hide_p00, drive);
+        if (hide_p00) {
+            return sdl_menu_text_tick;
         }
     }
     return NULL;
@@ -228,18 +222,12 @@ static UI_MENU_CALLBACK(set_write_p00_files_callback)
 
     drive = vice_ptr_to_int(param);
     if (activated) {
-        if (check_current_drive_type(ATTACH_DEVICE_FS, drive)) {
-            resources_get_int_sprintf("FSDevice%iSaveP00", &write_p00, drive);
-            resources_set_int_sprintf("FSDevice%iSaveP00", !write_p00, drive);
-        }
+        resources_get_int_sprintf("FSDevice%iSaveP00", &write_p00, drive);
+        resources_set_int_sprintf("FSDevice%iSaveP00", !write_p00, drive);
     } else {
-        if (!check_current_drive_type(ATTACH_DEVICE_FS, drive)) {
-            return "(N/A)";
-        } else {
-            resources_get_int_sprintf("FSDevice%iSaveP00", &write_p00, drive);
-            if (write_p00) {
-                return sdl_menu_text_tick;
-            }
+        resources_get_int_sprintf("FSDevice%iSaveP00", &write_p00, drive);
+        if (write_p00) {
+            return sdl_menu_text_tick;
         }
     }
     return NULL;
@@ -252,18 +240,12 @@ static UI_MENU_CALLBACK(set_read_p00_files_callback)
 
     drive = vice_ptr_to_int(param);
     if (activated) {
-        if (check_current_drive_type(ATTACH_DEVICE_FS, drive)) {
-            resources_get_int_sprintf("FSDevice%iConvertP00", &read_p00, drive);
-            resources_set_int_sprintf("FSDevice%iConvertP00", !read_p00, drive);
-        }
+        resources_get_int_sprintf("FSDevice%iConvertP00", &read_p00, drive);
+        resources_set_int_sprintf("FSDevice%iConvertP00", !read_p00, drive);
     } else {
-        if (!check_current_drive_type(ATTACH_DEVICE_FS, drive)) {
-            return "(N/A)";
-        } else {
-            resources_get_int_sprintf("FSDevice%iConvertP00", &read_p00, drive);
-            if (read_p00) {
-                return sdl_menu_text_tick;
-            }
+        resources_get_int_sprintf("FSDevice%iConvertP00", &read_p00, drive);
+        if (read_p00) {
+            return sdl_menu_text_tick;
         }
     }
     return NULL;
@@ -366,38 +348,6 @@ static UI_MENU_CALLBACK(fliplist_callback)
         }
     }
     return NULL;
-}
-
-static UI_MENU_CALLBACK(drive_8_show_dir_callback)
-{
-    if (!check_current_drive_type(ATTACH_DEVICE_FS, 8)) {
-        return "(N/A)";
-    }
-    return "->";
-}
-
-static UI_MENU_CALLBACK(drive_9_show_dir_callback)
-{
-    if (!check_current_drive_type(ATTACH_DEVICE_FS, 9)) {
-        return "(N/A)";
-    }
-    return "->";
-}
-
-static UI_MENU_CALLBACK(drive_10_show_dir_callback)
-{
-    if (!check_current_drive_type(ATTACH_DEVICE_FS, 10)) {
-        return "(N/A)";
-    }
-    return "->";
-}
-
-static UI_MENU_CALLBACK(drive_11_show_dir_callback)
-{
-    if (!check_current_drive_type(ATTACH_DEVICE_FS, 11)) {
-        return "(N/A)";
-    }
-    return "->";
 }
 
 static UI_MENU_CALLBACK(drive_8_show_idle_callback)
@@ -1439,7 +1389,7 @@ static const ui_menu_entry_t drive_8_menu[] = {
       (ui_callback_data_t)drive_8_type_menu },
    { "Drive 8 dir settings",
       MENU_ENTRY_SUBMENU,
-      drive_8_show_dir_callback,
+      submenu_callback,
       (ui_callback_data_t)drive_8_fsdir_menu },
    { "Drive 8 40 track handling",
       MENU_ENTRY_SUBMENU,
@@ -1473,7 +1423,7 @@ static const ui_menu_entry_t drive_9_menu[] = {
       (ui_callback_data_t)drive_9_type_menu },
    { "Drive 9 dir settings",
       MENU_ENTRY_SUBMENU,
-      drive_9_show_dir_callback,
+      submenu_callback,
       (ui_callback_data_t)drive_9_fsdir_menu },
    { "Drive 9 40 track handling",
       MENU_ENTRY_SUBMENU,
@@ -1507,7 +1457,7 @@ static const ui_menu_entry_t drive_10_menu[] = {
       (ui_callback_data_t)drive_10_type_menu },
    { "Drive 10 dir settings",
       MENU_ENTRY_SUBMENU,
-      drive_10_show_dir_callback,
+      submenu_callback,
       (ui_callback_data_t)drive_10_fsdir_menu },
    { "Drive 10 40 track handling",
       MENU_ENTRY_SUBMENU,
@@ -1541,7 +1491,7 @@ static const ui_menu_entry_t drive_11_menu[] = {
       (ui_callback_data_t)drive_11_type_menu },
    { "Drive 11 dir settings",
       MENU_ENTRY_SUBMENU,
-      drive_11_show_dir_callback,
+      submenu_callback,
       (ui_callback_data_t)drive_11_fsdir_menu },
    { "Drive 11 40 track handling",
       MENU_ENTRY_SUBMENU,
