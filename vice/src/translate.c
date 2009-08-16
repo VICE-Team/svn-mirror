@@ -3693,7 +3693,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG,    N_("Set autostart mode for PRG files")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_DE, "Autstart Modus für PRG Dateien definieren"},
 /* fr */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_IT, ""},  /* fuzzy */
@@ -3707,7 +3707,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG,    N_("Set disk image for autostart of PRG files")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_DE, "Disk Imagedatei für Autstart definieren"},
 /* fr */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_IT, ""},  /* fuzzy */
@@ -8494,7 +8494,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME,    N_("Specify Final Expansion extension ROM name")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_DE, "Name für Final Expansion Erweiterungs ROM definieren"},
 /* fr */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_IT, ""},  /* fuzzy */
@@ -8803,7 +8803,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SELECT_FULLSCREEN_DEVICE,    N_("Select fullscreen device")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SELECT_FULLSCREEN_DEVICE_DA, "Angiv fuldskærmsenhed"},
-/* de */ {IDCLS_SELECT_FULLSCREEN_DEVICE_DE, "Vollbild Gerät selektieren"},
+/* de */ {IDCLS_SELECT_FULLSCREEN_DEVICE_DE, "Vollbild Gerät auswählen"},
 /* fr */ {IDCLS_SELECT_FULLSCREEN_DEVICE_FR, "Sélectionner le périphérique plein écran"},
 /* hu */ {IDCLS_SELECT_FULLSCREEN_DEVICE_HU, "Teljesképernyõs eszköz kiválasztása"},
 /* it */ {IDCLS_SELECT_FULLSCREEN_DEVICE_IT, "Seleziona il dispositivo per la visualizzazione a tutto schermo"},
@@ -10677,7 +10677,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_YM_CHIP_TYPE,    N_("Set YM chip type (3526 / 3812)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_YM_CHIP_TYPE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_YM_CHIP_TYPE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_YM_CHIP_TYPE_DE, "YM Chip Typ (3526 / 3812) bestimmen"},
 /* fr */ {IDCLS_SET_YM_CHIP_TYPE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_YM_CHIP_TYPE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_YM_CHIP_TYPE_IT, ""},  /* fuzzy */
@@ -10719,7 +10719,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_LIGHTPEN_EMULATION,    N_("Enable lightpen emulation")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_DE, "Lichtgriffel Emulation aktivieren"},
 /* fr */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_LIGHTPEN_EMULATION_IT, ""},  /* fuzzy */
@@ -10733,7 +10733,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_LIGHTPEN_EMULATION,    N_("Disable lightpen emulation")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_DE, "Lichtgriffel Emulation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_LIGHTPEN_EMULATION_IT, ""},  /* fuzzy */
@@ -10747,7 +10747,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_LIGHTPEN_TYPE,    N_("Set lightpen type")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_LIGHTPEN_TYPE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_LIGHTPEN_TYPE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_LIGHTPEN_TYPE_DE, "Lichtgriffel Type bestimmen"},
 /* fr */ {IDCLS_SET_LIGHTPEN_TYPE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_LIGHTPEN_TYPE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_LIGHTPEN_TYPE_IT, ""},  /* fuzzy */
@@ -10761,7 +10761,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_EASYFLASH_JUMPER,    N_("Enable EasyFlash jumper")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_EASYFLASH_JUMPER_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_EASYFLASH_JUMPER_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_EASYFLASH_JUMPER_DE, "EasyFlash Jumper aktivieren"},
 /* fr */ {IDCLS_ENABLE_EASYFLASH_JUMPER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_EASYFLASH_JUMPER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_EASYFLASH_JUMPER_IT, ""},  /* fuzzy */
@@ -10775,7 +10775,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_EASYFLASH_JUMPER,    N_("Disable EasyFlash jumper")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_EASYFLASH_JUMPER_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_EASYFLASH_JUMPER_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_EASYFLASH_JUMPER_DE, "EasyFlash Jumer deaktivieren"},
 /* fr */ {IDCLS_DISABLE_EASYFLASH_JUMPER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_EASYFLASH_JUMPER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_EASYFLASH_JUMPER_IT, ""},  /* fuzzy */
@@ -10789,7 +10789,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING,    N_("Enable writing to EasyFlash .crt image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_DE, "Schreibzugriff auf EasyFlash CRT Image erlauben"},
 /* fr */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_EASYFLASH_CRT_WRITING_IT, ""},  /* fuzzy */
@@ -10803,7 +10803,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING,    N_("Disable writing to EasyFlash .crt image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_DE, "Schreibzugriff auf EasyFlash ROM Image verhindern"},
 /* fr */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_IT, ""},  /* fuzzy */

@@ -84,7 +84,7 @@ BEGIN
     IDS_IDE64_HEADS             "Köpfe"
     IDS_IDE64_SECTORS           "Sektoren"
     IDS_IDE64_TOTAL_SIZE        "Gesamtgröße: %iKB"
-    IDS_IDE64_SELECT_IMAGE      "HD Image Datei selektieren"
+    IDS_IDE64_SELECT_IMAGE      "HD Image Datei auswählen"
 END
 
 

@@ -1008,7 +1008,7 @@ BEGIN
     GROUPBOX        "Joystick in Port #&1",IDC_STATIC,7,5,102,113
     COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "Feuerknopf selektieren",IDC_STATIC,12,34,70,8
+    LTEXT           "Feuerknopf auswählen",IDC_STATIC,12,34,70,8
     COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Automatische Feuerknopf Einstellungen",IDC_STATIC,12,61,93,8
@@ -1021,7 +1021,7 @@ BEGIN
     GROUPBOX        "Joystick in Port #&2",IDC_STATIC,117,5,102,113
     COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "Feuerknopf selektieren",IDC_STATIC,122,34,70,8
+    LTEXT           "Feuerknopf auswählen",IDC_STATIC,122,34,70,8
     COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Automatische Feuerknopf Einstellungen",IDC_STATIC,122,61,93,8
@@ -1457,7 +1457,7 @@ BEGIN
     GROUPBOX        "Joystick in Port #&1",IDC_STATIC,7,5,102,113
     COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "Feuerknopf selektieren",IDC_STATIC,12,34,70,8
+    LTEXT           "Feuerknopf auswählen",IDC_STATIC,12,34,70,8
     COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Automatische Feuerknopf Einstellungen",IDC_STATIC,12,61,93,8
@@ -1470,7 +1470,7 @@ BEGIN
     GROUPBOX        "Joystick in Port #&2",IDC_STATIC,117,5,102,113
     COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "Feuerknopf selektieren",IDC_STATIC,122,34,70,8
+    LTEXT           "Feuerknopf auswählen",IDC_STATIC,122,34,70,8
     COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Automatische Feuerknopf Einstellungen",IDC_STATIC,122,61,93,8
@@ -3120,7 +3120,7 @@ IDD_MEDIAFILE_DIALOG_DE DIALOG DISCARDABLE 0,0, 300, 100
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Treiber selektieren:",IDC_STATIC,5,0,45,20
+    LTEXT           "Treiber auswählen:",IDC_STATIC,5,0,45,20
     COMBOBOX        IDC_SCREENSHOT_DRIVER, 55,0,155,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     GROUPBOX        "FFMPEG Einstellungen",IDC_STATIC,5,20,250,75
@@ -7826,7 +7826,7 @@ BEGIN
   IDS_BROWSE                      "&Stöbern..."
   IDS_SPECIFY_MIDI_IN             "MIDI-In Gerät spezifieren"
   IDS_SPECIFY_MIDI_OUT            "MIDI-Out Gerät spezifieren"
-  IDS_ERROR_SAVING_EASYFLASH_CRT  "Error saving EasyFlash crt file"
+  IDS_ERROR_SAVING_EASYFLASH_CRT  "Fehler beim Speichern der EasyFlash CRT Datei"
   IDS_MP_FILE                     "&Datei"
   IDS_MP_ATTACH_DISK_IMAGE        "&Disk Image einlegen"
   IDS_MP_DETACH_DISK_IMAGE        "Disk Image &entfernen"
@@ -7978,7 +7978,7 @@ BEGIN
 #endif
   IDS_MI_ACIA_SETTINGS            "&ACIA Einstellungen..."
   IDS_MI_RS232USER_SETTINGS       "RS&232 Userport Einstellungen..."
-  IDS_MI_EASYFLASH_SETTINGS       "EasyFlash settings..."
+  IDS_MI_EASYFLASH_SETTINGS       "EasyFlash Einstellungen..."
   IDS_MI_SFX_SE_SETTINGS          "SFX Sound Expander Einstellungen..."
   IDS_MI_TOGGLE_SFX_SS            "SFX Sound Sampler aktivieren"
   IDS_MI_SETTINGS_SAVE_FILE       "Speichere Einstellungen in angegebene Datei"
@@ -10332,7 +10332,7 @@ BEGIN
   IDS_BROWSE                      "&Bläddra..."
   IDS_SPECIFY_MIDI_IN             "Ange enhet för MIDI-in"
   IDS_SPECIFY_MIDI_OUT            "Ange enhet för MIDI-ut"
-  IDS_ERROR_SAVING_EASYFLASH_CRT  "Error saving EasyFlash crt file"
+  IDS_ERROR_SAVING_EASYFLASH_CRT  "Fel vid skrivning av EasyFlash-crt-fil."
   IDS_MP_FILE                     "&Arkiv"
   IDS_MP_ATTACH_DISK_IMAGE        "Anslut &diskettavbildningsfil"
   IDS_MP_DETACH_DISK_IMAGE        "Koppla &från diskettavbildningsfil"

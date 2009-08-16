@@ -65,7 +65,7 @@ BEGIN
     IDS_PETREU_ENABLE              "PET REU aktivi&eren"
     IDS_PETREU_SIZE                "PET REU Größe"
     IDS_PETREU_FILE                "PET REU Datei"
-    IDS_PETREU_SELECT_FILE         "Datei für PET REU selektieren"
+    IDS_PETREU_SELECT_FILE         "Datei für PET REU auswählen"
 END
 
 

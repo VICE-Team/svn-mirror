@@ -3429,8 +3429,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_INT_FUNCTION_ROM   "Internes Funktions ROM Image Datei selektieren"
-  IDS_SELECT_EXT_FUNCTION_ROM   "Externes Funktions ROM Image Datei selektieren"
+  IDS_SELECT_INT_FUNCTION_ROM   "Internes Funktions ROM Image Datei auswählen"
+  IDS_SELECT_EXT_FUNCTION_ROM   "Externes Funktions ROM Image Datei auswählen"
   IDS_MACHINE_TYPE              "Maschinen Typ"
   IDS_FUNCTION_ROM              "Function ROM"
   IDS_RAM_BANKS                 "RAM Bänke"

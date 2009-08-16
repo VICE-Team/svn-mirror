@@ -70,7 +70,7 @@ BEGIN
     IDS_RAMCART_READONLY        "Sch&reibgschutz"
     IDS_RAMCART_SIZE            "RAMCART Größe"
     IDS_RAMCART_FILE            "RAMCART Datei"
-    IDS_RAMCART_SELECT_FILE     "Datei für RAMCART selektieren"
+    IDS_RAMCART_SELECT_FILE     "Datei für RAMCART auswählen"
 END
 
 

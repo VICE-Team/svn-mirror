@@ -65,7 +65,7 @@ BEGIN
     IDS_REU_ENABLE              "REU aktivi&eren"
     IDS_REU_SIZE                "REU Größe"
     IDS_REU_FILE                "REU Datei"
-    IDS_REU_SELECT_FILE         "Datei für REU selektieren"
+    IDS_REU_SELECT_FILE         "Datei für REU auswählen"
 END
 
 

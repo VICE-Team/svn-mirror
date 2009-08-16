@@ -52,7 +52,7 @@ BEGIN
     IDS_PLUS256K_CAPTION             "PLUS256K Einstellungen"
     IDS_PLUS256K_ENABLE              "PLUS256K aktivi&eren"
     IDS_PLUS256K_FILE                "PLUS256K Datei"
-    IDS_PLUS256K_SELECT_FILE         "Datei für PLUS256K selektieren"
+    IDS_PLUS256K_SELECT_FILE         "Datei für PLUS256K auswählen"
 END
 
 

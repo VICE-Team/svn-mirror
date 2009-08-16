@@ -445,7 +445,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDMS_FINAL_EXPANSION_IMAGE,    "Final Expansion image..."},
 /* da */ {IDMS_FINAL_EXPANSION_IMAGE_DA, ""},  /* fuzzy */
-/* de */ {IDMS_FINAL_EXPANSION_IMAGE_DE, ""},  /* fuzzy */
+/* de */ {IDMS_FINAL_EXPANSION_IMAGE_DE, "Final Expansion Image..."},
 /* fr */ {IDMS_FINAL_EXPANSION_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_FINAL_EXPANSION_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDMS_FINAL_EXPANSION_IMAGE_IT, ""},  /* fuzzy */
@@ -456,7 +456,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDMS_ADD_TO_GENERIC,    "Add to generic..."},
 /* da */ {IDMS_ADD_TO_GENERIC_DA, ""},  /* fuzzy */
-/* de */ {IDMS_ADD_TO_GENERIC_DE, ""},  /* fuzzy */
+/* de */ {IDMS_ADD_TO_GENERIC_DE, "Zu Universal Image hinzufügen..."},
 /* fr */ {IDMS_ADD_TO_GENERIC_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_ADD_TO_GENERIC_HU, ""},  /* fuzzy */
 /* it */ {IDMS_ADD_TO_GENERIC_IT, ""},  /* fuzzy */
@@ -2062,7 +2062,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_PLUS256K_FILENAME_SELECT,    "Select file for PLUS256K"},
 /* da */ {IDS_PLUS256K_FILENAME_SELECT_DA, "Vælg fil for PLUS256K"},
-/* de */ {IDS_PLUS256K_FILENAME_SELECT_DE, "Datei für PLUS256K selektieren"},
+/* de */ {IDS_PLUS256K_FILENAME_SELECT_DE, "Datei für PLUS256K auswählen"},
 /* fr */ {IDS_PLUS256K_FILENAME_SELECT_FR, "Sélectionner fichier pour PLUS256K"},
 /* hu */ {IDS_PLUS256K_FILENAME_SELECT_HU, "Válasszon fájlt a PLUS256K-hoz"},
 /* it */ {IDS_PLUS256K_FILENAME_SELECT_IT, "Seleziona file per PLUS256K"},
@@ -2139,7 +2139,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDMS_EASYFLASH_SETTINGS,    "EasyFlash settings..."},
 /* da */ {IDMS_EASYFLASH_SETTINGS_DA, ""},  /* fuzzy */
-/* de */ {IDMS_EASYFLASH_SETTINGS_DE, ""},  /* fuzzy */
+/* de */ {IDMS_EASYFLASH_SETTINGS_DE, "EasyFlash Einstellungen..."},
 /* fr */ {IDMS_EASYFLASH_SETTINGS_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_EASYFLASH_SETTINGS_HU, ""},  /* fuzzy */
 /* it */ {IDMS_EASYFLASH_SETTINGS_IT, ""},  /* fuzzy */
@@ -3730,7 +3730,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_256K_FILENAME_SELECT,    "Select file for 256K"},
 /* da */ {IDS_256K_FILENAME_SELECT_DA, "Angiv fil for 256K"},
-/* de */ {IDS_256K_FILENAME_SELECT_DE, "Datei für 256K selektieren"},
+/* de */ {IDS_256K_FILENAME_SELECT_DE, "Datei für 256K auswählen"},
 /* fr */ {IDS_256K_FILENAME_SELECT_FR, "Sélectionner fichier pour 256K"},
 /* hu */ {IDS_256K_FILENAME_SELECT_HU, "Válasszon fájlt a 256K-hoz"},
 /* it */ {IDS_256K_FILENAME_SELECT_IT, "Seleziona il file per il 256K"},
@@ -3752,7 +3752,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_C64DTV_ROM_FILENAME_SELECT,    "Select file for C64DTV ROM"},
 /* da */ {IDS_C64DTV_ROM_FILENAME_SELECT_DA, "Vælg fil for C64DTV-ROM"},
-/* de */ {IDS_C64DTV_ROM_FILENAME_SELECT_DE, "Datei für C64DTV ROM selektieren"},
+/* de */ {IDS_C64DTV_ROM_FILENAME_SELECT_DE, "Datei für C64DTV ROM auswählen"},
 /* fr */ {IDS_C64DTV_ROM_FILENAME_SELECT_FR, ""},  /* fuzzy */
 /* hu */ {IDS_C64DTV_ROM_FILENAME_SELECT_HU, "Válasszon fájlt a C64DTV ROM-hoz"},
 /* it */ {IDS_C64DTV_ROM_FILENAME_SELECT_IT, "Seleziona il file per la ROM C64DTV"},
@@ -4148,7 +4148,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_GEORAM_FILENAME_SELECT,    "Select file for GEORAM"},
 /* da */ {IDS_GEORAM_FILENAME_SELECT_DA, "Vælg fil for GEORAM"},
-/* de */ {IDS_GEORAM_FILENAME_SELECT_DE, "Datei für GEORAM selektieren"},
+/* de */ {IDS_GEORAM_FILENAME_SELECT_DE, "Datei für GEORAM auswählen"},
 /* fr */ {IDS_GEORAM_FILENAME_SELECT_FR, "Sélectionner fichier pour GEORAM"},
 /* hu */ {IDS_GEORAM_FILENAME_SELECT_HU, "Válasszon fájlt a GEORAM-hoz"},
 /* it */ {IDS_GEORAM_FILENAME_SELECT_IT, "Seleziona il file per il GEORAM"},
@@ -4181,7 +4181,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_DQBB_FILENAME_SELECT,    "Select file for DQBB"},
 /* da */ {IDS_DQBB_FILENAME_SELECT_DA, "Vælg fil for DQBB"},
-/* de */ {IDS_DQBB_FILENAME_SELECT_DE, "Datei für DQBB selektieren"},
+/* de */ {IDS_DQBB_FILENAME_SELECT_DE, "Datei für DQBB auswählen"},
 /* fr */ {IDS_DQBB_FILENAME_SELECT_FR, ""},  /* fuzzy */
 /* hu */ {IDS_DQBB_FILENAME_SELECT_HU, "Válasszon fájlt a DQBB-hez"},
 /* it */ {IDS_DQBB_FILENAME_SELECT_IT, "Seleziona il file per DQBB"},
@@ -4225,7 +4225,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_EASYFLASH_SETTINGS,    "EasyFlash Settings"},
 /* da */ {IDS_EASYFLASH_SETTINGS_DA, ""},  /* fuzzy */
-/* de */ {IDS_EASYFLASH_SETTINGS_DE, ""},  /* fuzzy */
+/* de */ {IDS_EASYFLASH_SETTINGS_DE, "EasyFlash Einstellungen"},
 /* fr */ {IDS_EASYFLASH_SETTINGS_FR, ""},  /* fuzzy */
 /* hu */ {IDS_EASYFLASH_SETTINGS_HU, ""},  /* fuzzy */
 /* it */ {IDS_EASYFLASH_SETTINGS_IT, ""},  /* fuzzy */
@@ -4615,7 +4615,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SET_INPUT_EXTRA_JOYSTICK_1,    "Extra joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"},
 /* da */ {IDS_SET_INPUT_EXTRA_JOYSTICK_1_DA, ""},  /* fuzzy */
-/* de */ {IDS_SET_INPUT_EXTRA_JOYSTICK_1_DE, ""},  /* fuzzy */
+/* de */ {IDS_SET_INPUT_EXTRA_JOYSTICK_1_DE, "Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)"},
 /* fr */ {IDS_SET_INPUT_EXTRA_JOYSTICK_1_FR, ""},  /* fuzzy */
 /* hu */ {IDS_SET_INPUT_EXTRA_JOYSTICK_1_HU, ""},  /* fuzzy */
 /* it */ {IDS_SET_INPUT_EXTRA_JOYSTICK_1_IT, ""},  /* fuzzy */
@@ -4626,7 +4626,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SET_INPUT_EXTRA_JOYSTICK_2,    "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"},
 /* da */ {IDS_SET_INPUT_EXTRA_JOYSTICK_2_DA, ""},  /* fuzzy */
-/* de */ {IDS_SET_INPUT_EXTRA_JOYSTICK_2_DE, ""},  /* fuzzy */
+/* de */ {IDS_SET_INPUT_EXTRA_JOYSTICK_2_DE, "Extra Joystick #2 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)"},
 /* fr */ {IDS_SET_INPUT_EXTRA_JOYSTICK_2_FR, ""},  /* fuzzy */
 /* hu */ {IDS_SET_INPUT_EXTRA_JOYSTICK_2_HU, ""},  /* fuzzy */
 /* it */ {IDS_SET_INPUT_EXTRA_JOYSTICK_2_IT, ""},  /* fuzzy */
@@ -4747,7 +4747,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_PET_REU_FILENAME_SELECT,    "Select file for PET REU"},
 /* da */ {IDS_PET_REU_FILENAME_SELECT_DA, "Vælg fil for PET REU"},
-/* de */ {IDS_PET_REU_FILENAME_SELECT_DE, "Datei für PET REU selektieren"},
+/* de */ {IDS_PET_REU_FILENAME_SELECT_DE, "Datei für PET REU auswählen"},
 /* fr */ {IDS_PET_REU_FILENAME_SELECT_FR, "Sélectionner fichier pour PET REU"},
 /* hu */ {IDS_PET_REU_FILENAME_SELECT_HU, "Válasszon fájlt a PET REU-hoz"},
 /* it */ {IDS_PET_REU_FILENAME_SELECT_IT, "Seleziona il file per il PET REU"},
@@ -4802,7 +4802,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_PLUS60K_FILENAME_SELECT,    "Select file for PLUS60K"},
 /* da */ {IDS_PLUS60K_FILENAME_SELECT_DA, "Vælg fil for PLUS60K"},
-/* de */ {IDS_PLUS60K_FILENAME_SELECT_DE, "Datei für PLUS60K selektieren"},
+/* de */ {IDS_PLUS60K_FILENAME_SELECT_DE, "Datei für PLUS60K auswählen"},
 /* fr */ {IDS_PLUS60K_FILENAME_SELECT_FR, "Sélectionner fichier pour PLUS60K"},
 /* hu */ {IDS_PLUS60K_FILENAME_SELECT_HU, "Válasszon fájlt a PLUS60K-hoz"},
 /* it */ {IDS_PLUS60K_FILENAME_SELECT_IT, "Seleziona file per PLUS60K"},
@@ -4923,7 +4923,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_RAMCART_FILENAME_SELECT,    "Select file for RAMCART"},
 /* da */ {IDS_RAMCART_FILENAME_SELECT_DA, "Vælg fil for RAMCART"},
-/* de */ {IDS_RAMCART_FILENAME_SELECT_DE, "Datei für RAMCART selektieren"},
+/* de */ {IDS_RAMCART_FILENAME_SELECT_DE, "Datei für RAMCART auswählen"},
 /* fr */ {IDS_RAMCART_FILENAME_SELECT_FR, "Sélectionner fichier pour RAMCART"},
 /* hu */ {IDS_RAMCART_FILENAME_SELECT_HU, "Válasszon fájlt a RAMCART-hoz"},
 /* it */ {IDS_RAMCART_FILENAME_SELECT_IT, "Seleziona il file per il RAMCART"},
@@ -4967,7 +4967,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_REU_FILENAME_SELECT,    "Select file for REU"},
 /* da */ {IDS_REU_FILENAME_SELECT_DA, "Vælg fil for REU"},
-/* de */ {IDS_REU_FILENAME_SELECT_DE, "Datei für REU selektieren"},
+/* de */ {IDS_REU_FILENAME_SELECT_DE, "Datei für REU auswählen"},
 /* fr */ {IDS_REU_FILENAME_SELECT_FR, "Sélectionner fichier pour REU"},
 /* hu */ {IDS_REU_FILENAME_SELECT_HU, "Válasszon fájlt a REU-hoz"},
 /* it */ {IDS_REU_FILENAME_SELECT_IT, "Seleziona il file per il REU"},
@@ -5363,7 +5363,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_IDE64_FILENAME_SELECT,    "Select HD image file"},
 /* da */ {IDS_IDE64_FILENAME_SELECT_DA, "Angiv HD-imagefil"},
-/* de */ {IDS_IDE64_FILENAME_SELECT_DE, "HD Image Datei selektieren"},
+/* de */ {IDS_IDE64_FILENAME_SELECT_DE, "HD Image Datei auswählen"},
 /* fr */ {IDS_IDE64_FILENAME_SELECT_FR, "Sélectionnez le fichier image du D.D."},
 /* hu */ {IDS_IDE64_FILENAME_SELECT_HU, "Válassza ki a merevlemez képmás fájlt"},
 /* it */ {IDS_IDE64_FILENAME_SELECT_IT, "Seleziona il file immagine dell'HD"},
@@ -5528,7 +5528,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SELECT_GENERIC,    "Select generic cartridge file"},
 /* da */ {IDS_SELECT_GENERIC_DA, ""},  /* fuzzy */
-/* de */ {IDS_SELECT_GENERIC_DE, ""},  /* fuzzy */
+/* de */ {IDS_SELECT_GENERIC_DE, "Unverselles Erweiterungsmodul Image Datei wählen"},
 /* fr */ {IDS_SELECT_GENERIC_FR, ""},  /* fuzzy */
 /* hu */ {IDS_SELECT_GENERIC_HU, ""},  /* fuzzy */
 /* it */ {IDS_SELECT_GENERIC_IT, ""},  /* fuzzy */
@@ -5539,7 +5539,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SELECT_MEGACART,    "Select Mega-Cart file"},
 /* da */ {IDS_SELECT_MEGACART_DA, ""},  /* fuzzy */
-/* de */ {IDS_SELECT_MEGACART_DE, ""},  /* fuzzy */
+/* de */ {IDS_SELECT_MEGACART_DE, "Mega-Cart Image Datei wählen"},
 /* fr */ {IDS_SELECT_MEGACART_FR, ""},  /* fuzzy */
 /* hu */ {IDS_SELECT_MEGACART_HU, ""},  /* fuzzy */
 /* it */ {IDS_SELECT_MEGACART_IT, ""},  /* fuzzy */
@@ -5550,7 +5550,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SELECT_FINAL_EXPANSION,    "Select Final Expansion file"},
 /* da */ {IDS_SELECT_FINAL_EXPANSION_DA, ""},  /* fuzzy */
-/* de */ {IDS_SELECT_FINAL_EXPANSION_DE, ""},  /* fuzzy */
+/* de */ {IDS_SELECT_FINAL_EXPANSION_DE, "Final Expansion Datei wählen"},
 /* fr */ {IDS_SELECT_FINAL_EXPANSION_FR, ""},  /* fuzzy */
 /* hu */ {IDS_SELECT_FINAL_EXPANSION_HU, ""},  /* fuzzy */
 /* it */ {IDS_SELECT_FINAL_EXPANSION_IT, ""},  /* fuzzy */
@@ -5561,7 +5561,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SELECT_CARTRIDGE_IMAGE,    "Select cartridge file"},
 /* da */ {IDS_SELECT_CARTRIDGE_IMAGE_DA, ""},  /* fuzzy */
-/* de */ {IDS_SELECT_CARTRIDGE_IMAGE_DE, ""},  /* fuzzy */
+/* de */ {IDS_SELECT_CARTRIDGE_IMAGE_DE, "Erweiterungsmodul Image Datei wählen"},
 /* fr */ {IDS_SELECT_CARTRIDGE_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDS_SELECT_CARTRIDGE_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDS_SELECT_CARTRIDGE_IMAGE_IT, ""},  /* fuzzy */
@@ -6232,7 +6232,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME,    "Select Internal Function ROM file"},
 /* da */ {IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_DA, "Vælg image for intern funktions-ROM"},
-/* de */ {IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_DE, "Internes Funktions ROM Image Datei selektieren"},
+/* de */ {IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_DE, "Internes Funktions ROM Image Datei auswählen"},
 /* fr */ {IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_FR, ""},  /* fuzzy */
 /* hu */ {IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_HU, "Adja meg a belsõ Function ROM képmás nevét"},
 /* it */ {IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_IT, "Seleziona il file della function ROM interna"},
@@ -6243,7 +6243,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME,    "Select External Function ROM file"},
 /* da */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_DA, "Vælg image for ekstern funktions-ROM"},
-/* de */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_DE, "Externes Funktions ROM Image Datei selektieren"},
+/* de */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_DE, "Externes Funktions ROM Image Datei auswählen"},
 /* fr */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_FR, ""},  /* fuzzy */
 /* hu */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_HU, "Adja meg a külsõ Function ROM képmás nevét"},
 /* it */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_IT, "Seleziona il file della function ROM esterna"},
@@ -6419,7 +6419,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SFX_SE_SETTINGS,    "SFX Sound Expander Settings"},
 /* da */ {IDS_SFX_SE_SETTINGS_DA, ""},  /* fuzzy */
-/* de */ {IDS_SFX_SE_SETTINGS_DE, "SFX Sound Expander Einstellungen},
+/* de */ {IDS_SFX_SE_SETTINGS_DE, "SFX Sound Expander Einstellungen"},
 /* fr */ {IDS_SFX_SE_SETTINGS_FR, ""},  /* fuzzy */
 /* hu */ {IDS_SFX_SE_SETTINGS_HU, ""},  /* fuzzy */
 /* it */ {IDS_SFX_SE_SETTINGS_IT, ""},  /* fuzzy */
@@ -6628,18 +6628,18 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_ERROR_SAVING_EASYFLASH_CRT,    "Error saving EasyFlash crt file"},
 /* da */ {IDS_ERROR_SAVING_EASYFLASH_CRT_DA, ""},  /* fuzzy */
-/* de */ {IDS_ERROR_SAVING_EASYFLASH_CRT_DE, ""},  /* fuzzy */
+/* de */ {IDS_ERROR_SAVING_EASYFLASH_CRT_DE, "Fehler beim Speichern der EasyFlash CRT Datei"},
 /* fr */ {IDS_ERROR_SAVING_EASYFLASH_CRT_FR, ""},  /* fuzzy */
 /* hu */ {IDS_ERROR_SAVING_EASYFLASH_CRT_HU, ""},  /* fuzzy */
 /* it */ {IDS_ERROR_SAVING_EASYFLASH_CRT_IT, ""},  /* fuzzy */
 /* nl */ {IDS_ERROR_SAVING_EASYFLASH_CRT_NL, "Kan het EasyFlash crt bestand niet opslaan"},
 /* pl */ {IDS_ERROR_SAVING_EASYFLASH_CRT_PL, ""},  /* fuzzy */
-/* sv */ {IDS_ERROR_SAVING_EASYFLASH_CRT_SV, ""},  /* fuzzy */
+/* sv */ {IDS_ERROR_SAVING_EASYFLASH_CRT_SV, "Fel vid skrivning av EasyFlash-crt-fil."},
 /* tr */ {IDS_ERROR_SAVING_EASYFLASH_CRT_TR, ""},  /* fuzzy */
 
 /* en */ {IDS_EASYFLASH_JUMPER,    "EasyFlash jumper"},
 /* da */ {IDS_EASYFLASH_JUMPER_DA, ""},  /* fuzzy */
-/* de */ {IDS_EASYFLASH_JUMPER_DE, ""},  /* fuzzy */
+/* de */ {IDS_EASYFLASH_JUMPER_DE, "EasyFlash Jumper"},
 /* fr */ {IDS_EASYFLASH_JUMPER_FR, ""},  /* fuzzy */
 /* hu */ {IDS_EASYFLASH_JUMPER_HU, ""},  /* fuzzy */
 /* it */ {IDS_EASYFLASH_JUMPER_IT, ""},  /* fuzzy */
@@ -6650,7 +6650,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SAVE_EASYFLASH_CRT_ON_DETACH,    "Save to EasyFlash CRT file on detach"},
 /* da */ {IDS_SAVE_EASYFLASH_CRT_ON_DETACH_DA, ""},  /* fuzzy */
-/* de */ {IDS_SAVE_EASYFLASH_CRT_ON_DETACH_DE, ""},  /* fuzzy */
+/* de */ {IDS_SAVE_EASYFLASH_CRT_ON_DETACH_DE, "EasyFlash CRT Imagedatei beim entfernen speichern"},
 /* fr */ {IDS_SAVE_EASYFLASH_CRT_ON_DETACH_FR, ""},  /* fuzzy */
 /* hu */ {IDS_SAVE_EASYFLASH_CRT_ON_DETACH_HU, ""},  /* fuzzy */
 /* it */ {IDS_SAVE_EASYFLASH_CRT_ON_DETACH_IT, ""},  /* fuzzy */
@@ -6661,7 +6661,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ {IDS_SAVE_EASYFLASH_CRT_NOW,    "Save to EasyFlash CRT now"},
 /* da */ {IDS_SAVE_EASYFLASH_CRT_NOW_DA, ""},  /* fuzzy */
-/* de */ {IDS_SAVE_EASYFLASH_CRT_NOW_DE, ""},  /* fuzzy */
+/* de */ {IDS_SAVE_EASYFLASH_CRT_NOW_DE, "EasyFlash CRT Imagedatei jetzt speichern"},
 /* fr */ {IDS_SAVE_EASYFLASH_CRT_NOW_FR, ""},  /* fuzzy */
 /* hu */ {IDS_SAVE_EASYFLASH_CRT_NOW_HU, ""},  /* fuzzy */
 /* it */ {IDS_SAVE_EASYFLASH_CRT_NOW_IT, ""},  /* fuzzy */
