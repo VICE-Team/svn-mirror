@@ -122,10 +122,6 @@ SOURCE=..\lightpendrv.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\menu_c128cart.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\menu_c128hw.c
 # End Source File
 # Begin Source File
@@ -139,10 +135,6 @@ SOURCE=..\menu_c64_expansions.c
 # Begin Source File
 
 SOURCE=..\menu_c64cart.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\menu_c64cart_common.c
 # End Source File
 # Begin Source File
 
