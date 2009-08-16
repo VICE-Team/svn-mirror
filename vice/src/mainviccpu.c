@@ -74,16 +74,6 @@
 
 /* ------------------------------------------------------------------------- */
 
-#ifndef STORE_ZERO
-#define STORE_ZERO(addr, value) \
-    zero_store((WORD)(addr), (BYTE)(value))
-#endif
-
-#ifndef LOAD_ZERO
-#define LOAD_ZERO(addr) \
-    zero_read((WORD)(addr))
-#endif
-
 #ifdef FEATURE_CPUMEMHISTORY
 
 void REGPARM2 memmap_mem_store(unsigned int addr, unsigned int value)
@@ -121,6 +111,16 @@ BYTE REGPARM1 memmap_mem_read(unsigned int addr)
     memmap_mem_read(addr)
 #endif
 
+#ifndef STORE_ZERO
+#define STORE_ZERO(addr, value) \
+    memmap_mem_store((WORD)(addr), (BYTE)(value))
+#endif
+
+#ifndef LOAD_ZERO
+#define LOAD_ZERO(addr) \
+    memmap_mem_read((WORD)(addr))
+#endif
+
 #endif /* FEATURE_CPUMEMHISTORY */
 
 #ifndef STORE
@@ -131,6 +131,16 @@ BYTE REGPARM1 memmap_mem_read(unsigned int addr)
 #ifndef LOAD
 #define LOAD(addr) \
     (*_mem_read_tab_ptr[(addr) >> 8])((WORD)(addr))
+#endif
+
+#ifndef STORE_ZERO
+#define STORE_ZERO(addr, value) \
+    (*_mem_write_tab_ptr[0])((WORD)(addr), (BYTE)(value))
+#endif
+
+#ifndef LOAD_ZERO
+#define LOAD_ZERO(addr) \
+    (*_mem_read_tab_ptr[0])((WORD)(addr))
 #endif
 
 #define LOAD_ADDR(addr) \

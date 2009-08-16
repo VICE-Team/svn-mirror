@@ -446,8 +446,13 @@ void mem_initialize_memory(void)
 {
     int i;
 
-    /* Setup low standard RAM at $0000-$03FF. */
-    set_mem(0x00, 0x03,
+    /* Setup zero page at $0000-$00FF. */
+    set_mem(0x00, 0x00,
+            zero_read, zero_store,
+            NULL, 0);
+
+    /* Setup low standard RAM at $0100-$03FF. */
+    set_mem(0x01, 0x03,
             ram_read_v_bus, ram_store_v_bus,
             NULL, 0);
 
