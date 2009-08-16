@@ -29,5 +29,5 @@
 
 int main(void)
 {
-  return system("x64dtv.exe -sounddev dummy");
+    return system("x64dtv.exe -sounddev dummy");
 }

@@ -42,108 +42,104 @@
 #include <proto/timer.h>
 
 #include "timer.h"
-
 #include "lib.h"
 
 struct timer_s {
-  struct MsgPort     TimerMP;
-  struct timerequest TimerIO;
-  struct Library    *TimerBase;
+    struct MsgPort  TimerMP;
+    struct timerequest TimerIO;
+    struct Library *TimerBase;
 };
 
 void *timer_init(void)
 {
-  struct timer_s *timer;
+    struct timer_s *timer;
 
-  timer = lib_AllocMem(sizeof(*timer), MEMF_PUBLIC);
-  if (timer) {
-    timer->TimerBase         = NULL;
-    timer->TimerMP.mp_SigBit = AllocSignal(-1);
-    if ((BYTE)timer->TimerMP.mp_SigBit != -1) {
-      timer->TimerMP.mp_Node.ln_Type = NT_MSGPORT;
-      timer->TimerMP.mp_Flags        = PA_SIGNAL;
-      timer->TimerMP.mp_SigTask      = FindTask(NULL);
-      NEWLIST(&timer->TimerMP.mp_MsgList);
-      timer->TimerIO.tr_node.io_Message.mn_Node.ln_Type = NT_REPLYMSG;
-      timer->TimerIO.tr_node.io_Message.mn_ReplyPort    = &timer->TimerMP;
-      timer->TimerIO.tr_node.io_Message.mn_Length       = sizeof(timer->TimerIO);
-      if (OpenDevice(TIMERNAME, UNIT_MICROHZ, (struct IORequest *)&timer->TimerIO, 0) == 0) {
-        timer->TimerBase = &timer->TimerIO.tr_node.io_Device->dd_Library;
-        return timer;
-      }
+    timer = lib_AllocMem(sizeof(*timer), MEMF_PUBLIC);
+    if (timer) {
+        timer->TimerBase = NULL;
+        timer->TimerMP.mp_SigBit = AllocSignal(-1);
+        if ((BYTE)timer->TimerMP.mp_SigBit != -1) {
+            timer->TimerMP.mp_Node.ln_Type = NT_MSGPORT;
+            timer->TimerMP.mp_Flags = PA_SIGNAL;
+            timer->TimerMP.mp_SigTask = FindTask(NULL);
+            NEWLIST(&timer->TimerMP.mp_MsgList);
+            timer->TimerIO.tr_node.io_Message.mn_Node.ln_Type = NT_REPLYMSG;
+            timer->TimerIO.tr_node.io_Message.mn_ReplyPort = &timer->TimerMP;
+            timer->TimerIO.tr_node.io_Message.mn_Length = sizeof(timer->TimerIO);
+            if (OpenDevice(TIMERNAME, UNIT_MICROHZ, (struct IORequest *)&timer->TimerIO, 0) == 0) {
+                timer->TimerBase = &timer->TimerIO.tr_node.io_Device->dd_Library;
+                return timer;
+            }
+        }
+
+        timer_exit(timer);
     }
 
-    timer_exit(timer);
-  }
-
-  return NULL;
+    return NULL;
 }
 
 void timer_exit(void *t)
 {
-  struct timer_s *timer = t;
+    struct timer_s *timer = t;
 
-  if (timer != NULL) {
-    if ((BYTE)timer->TimerMP.mp_SigBit != -1) {
-      if (timer->TimerBase != NULL) {
-        CloseDevice((struct IORequest *)&timer->TimerIO);
-      }
-      FreeSignal(timer->TimerMP.mp_SigBit);
+    if (timer != NULL) {
+        if ((BYTE)timer->TimerMP.mp_SigBit != -1) {
+            if (timer->TimerBase != NULL) {
+                CloseDevice((struct IORequest *)&timer->TimerIO);
+            }
+            FreeSignal(timer->TimerMP.mp_SigBit);
+        }
+        lib_FreeMem(timer, sizeof(*timer));
     }
-    lib_FreeMem(timer, sizeof(*timer));
-  }
 }
 
 void timer_gettime(void *t, struct timeval *tv)
 {
-  struct timer_s *timer = t;
+    struct timer_s *timer = t;
 
-  if (timer != NULL) {
-    UQUAD ticks;
-    ULONG base;
+    if (timer != NULL) {
+        UQUAD ticks;
+        ULONG base;
 
 #define TimerBase timer->TimerBase
-    base = ReadCPUClock(&ticks);
+        base = ReadCPUClock(&ticks);
 #undef TimerBase
-    tv->tv_secs  = ticks / base;
-    tv->tv_micro = 1000000 * (ticks % base) / base;
-  }
+        tv->tv_secs  = ticks / base;
+        tv->tv_micro = 1000000 * (ticks % base) / base;
+    }
 }
 
 void timer_subtime(void *t, struct timeval *dt, struct timeval *st)
 {
-  struct timer_s *timer = t;
+    struct timer_s *timer = t;
 
-  if (timer != NULL) {
+    if (timer != NULL) {
 #define TimerBase timer->TimerBase
-    SubTime(dt, st);
+        SubTime(dt, st);
 #undef TimerBase
-  }
+    }
 }
 
 void timer_usleep(void *t, int us)
 {
-  struct timer_s *timer = t;
+    struct timer_s *timer = t;
 
-  if (timer != NULL) {
-    /* setup */
-    timer->TimerIO.tr_node.io_Command = TR_ADDREQUEST;
-    timer->TimerIO.tr_time.tv_secs    = us / 1000000;
-    timer->TimerIO.tr_time.tv_micro   = us % 1000000;
+    if (timer != NULL) {
+        /* setup */
+        timer->TimerIO.tr_node.io_Command = TR_ADDREQUEST;
+        timer->TimerIO.tr_time.tv_secs = us / 1000000;
+        timer->TimerIO.tr_time.tv_micro = us % 1000000;
 
-    /* send & wait request */
-    DoIO((struct IORequest *)&timer->TimerIO);
-  }
+        /* send & wait request */
+        DoIO((struct IORequest *)&timer->TimerIO);
+    }
 }
 
 #else
 
-#ifndef __VBCC__
 #include <devices/timer.h>
 #include <dos/dos.h>
 #include <exec/memory.h>
-#endif
-
 #include <proto/dos.h>
 #include <sys/time.h>
 #include <proto/exec.h>
@@ -157,7 +153,7 @@ void timer_usleep(void *t, int us)
 
 void *timer_init(void)
 {
-  return (void *)1;
+    return (void *)1;
 }
 
 void timer_exit(void *t)
@@ -166,64 +162,64 @@ void timer_exit(void *t)
 
 void timer_gettime(void *t, struct timeval *tv)
 {
-  if (tv) {
-    struct DateStamp t;
-    DateStamp(&t);
-    tv->tv_sec=((t.ds_Days+2922)*1440+t.ds_Minute)*60+
-               t.ds_Tick/TICKS_PER_SECOND;
-    tv->tv_usec=(t.ds_Tick%TICKS_PER_SECOND)*1000000/TICKS_PER_SECOND;
-  }
+    if (tv) {
+        struct DateStamp t;
+
+        DateStamp(&t);
+        tv->tv_sec = ((t.ds_Days + 2922) * 1440 + t.ds_Minute) * 60 + t.ds_Tick / TICKS_PER_SECOND;
+        tv->tv_usec = (t.ds_Tick % TICKS_PER_SECOND) * 1000000 / TICKS_PER_SECOND;
+    }
 }
 
 void timer_subtime(void *t, struct timeval *dt, struct timeval *st)
 {
-  int extrasub=0;
+    int extrasub = 0;
 
-  if(dt->tv_usec<st->tv_usec)
-    extrasub=1;
-
-  dt->tv_usec=(dt->tv_usec*(extrasub==1) ? 10 : 1)-st->tv_usec;
-  dt->tv_sec=dt->tv_sec-(st->tv_sec+extrasub);
+    if (dt->tv_usec < st->tv_usec) {
+        extrasub=1;
+    }
+    dt->tv_usec = (dt->tv_usec * (extrasub ==1 ) ? 10 : 1) - st->tv_usec;
+    dt->tv_sec=dt->tv_sec - (st->tv_sec + extrasub);
 }
 
 void dotimer(ULONG unit,ULONG timercmd,struct timeval *t)
 {
-  struct PortIO {
-    struct timerequest treq;
-    struct MsgPort port;
-  } *portio;
+    struct PortIO {
+        struct timerequest treq;
+        struct MsgPort port;
+    } *portio;
 
-  if ((portio=lib_AllocMem(sizeof(*portio),MEMF_CLEAR|MEMF_PUBLIC))) {
-    portio->port.mp_Node.ln_Type=NT_MSGPORT;
-    if ((BYTE)(portio->port.mp_SigBit=AllocSignal(-1))>=0) {
-      portio->port.mp_SigTask=FindTask(NULL);
-      NEWLIST(&portio->port.mp_MsgList);
-      portio->treq.tr_node.io_Message.mn_Node.ln_Type=NT_REPLYMSG;
-      portio->treq.tr_node.io_Message.mn_ReplyPort=&portio->port;
-      if (!(OpenDevice(TIMERNAME,unit,&portio->treq.tr_node,0))) {
-        portio->treq.tr_node.io_Command=timercmd;
-        portio->treq.tr_time.tv_secs =t->tv_secs;
-        portio->treq.tr_time.tv_micro=t->tv_micro;
-        if (!DoIO(&portio->treq.tr_node)) {
-          t->tv_secs =portio->treq.tr_time.tv_secs;
-          t->tv_micro=portio->treq.tr_time.tv_micro;
+    if ((portio = lib_AllocMem(sizeof(*portio), MEMF_CLEAR | MEMF_PUBLIC))) {
+        portio->port.mp_Node.ln_Type = NT_MSGPORT;
+        if ((BYTE)(portio->port.mp_SigBit = AllocSignal(-1)) >= 0) {
+            portio->port.mp_SigTask = FindTask(NULL);
+            NEWLIST(&portio->port.mp_MsgList);
+            portio->treq.tr_node.io_Message.mn_Node.ln_Type = NT_REPLYMSG;
+            portio->treq.tr_node.io_Message.mn_ReplyPort = &portio->port;
+            if (!(OpenDevice(TIMERNAME, unit, &portio->treq.tr_node, 0))) {
+                portio->treq.tr_node.io_Command = timercmd;
+                portio->treq.tr_time.tv_secs = t->tv_secs;
+                portio->treq.tr_time.tv_micro = t->tv_micro;
+                if (!DoIO(&portio->treq.tr_node)) {
+                    t->tv_secs = portio->treq.tr_time.tv_secs;
+                    t->tv_micro = portio->treq.tr_time.tv_micro;
+                }
+                CloseDevice(&portio->treq.tr_node);
+            }
+            FreeSignal(portio->port.mp_SigBit);
         }
-        CloseDevice(&portio->treq.tr_node);
-      }
-      FreeSignal(portio->port.mp_SigBit);
+        lib_FreeMem(portio,sizeof(struct PortIO));
     }
-    lib_FreeMem(portio,sizeof(struct PortIO));
-  }
 }
 
 void timer_usleep(void *t, int us)
 {
-  struct timeval tv;
+    struct timeval tv;
 
-  tv.tv_secs = us / 1000000;
-  tv.tv_micro = us % 1000000;
+    tv.tv_secs = us / 1000000;
+    tv.tv_micro = us % 1000000;
 
-  dotimer(UNIT_VBLANK,TR_ADDREQUEST,&tv);
+    dotimer(UNIT_VBLANK, TR_ADDREQUEST, &tv);
 }
 #endif
 #else
@@ -238,109 +234,108 @@ void timer_usleep(void *t, int us)
 #include "timer.h"
 
 struct timer_s {
-  struct MsgPort *TimerMP;
+    struct MsgPort *TimerMP;
 #ifdef AMIGA_OS4_ALT
-  struct TimeRequest *TimerIO;
+    struct TimeRequest *TimerIO;
 #else
-  struct timerequest *TimerIO;
+    struct timerequest *TimerIO;
 #endif
-  struct Device *TimerBase;
-  struct TimerIFace *ITimer;
+    struct Device *TimerBase;
+    struct TimerIFace *ITimer;
 };
 
 timer_t *timer_init(void)
 {
-  timer_t *timer = IExec->AllocVec(sizeof(timer_t), MEMF_PUBLIC | MEMF_CLEAR);
-  if (timer == NULL) {
-    return NULL;
-  }
-
-  if ((timer->TimerMP = IExec->AllocSysObject(ASOT_PORT, NULL))) {
-#ifdef AMIGA_OS4_ALT
-    id ((timer->TimerIO = IExec->AllocSysObjectTags(ASOT_IOREQUEST, ASOIOR_Size, sizeof(struct TimeRequest), ASOIOR_ReplyPort,timer->TimerMP, TAG_DONE))) {
-#else
-    if ((timer->TimerIO = IExec->AllocSysObjectTags(ASOT_IOREQUEST, ASOIOR_Size, sizeof(struct timerequest), ASOIOR_ReplyPort, timer->TimerMP, TAG_DONE))) {
-#endif
-      if (IExec->OpenDevice(TIMERNAME, UNIT_MICROHZ, (struct IORequest *)timer->TimerIO, 0) == 0) {
-#ifdef AMIGA_OS4_ALT
-        timer->TimerBase = timer->TimerIO->Request.io_Device;
-#else
-        timer->TimerBase = timer->TimerIO->tr_node.io_Device;
-#endif
-        timer->ITimer = (struct TimerIFace *)IExec->GetInterface((struct Library *)timer->TimerBase, "main", 1, NULL);
-        if (timer->ITimer != NULL) {
-          return timer;
-        }
-      }
+    timer_t *timer = IExec->AllocVec(sizeof(timer_t), MEMF_PUBLIC | MEMF_CLEAR);
+    if (timer == NULL) {
+        return NULL;
     }
-  }
 
-  timer_exit(timer);
+    if ((timer->TimerMP = IExec->AllocSysObject(ASOT_PORT, NULL))) {
+#ifdef AMIGA_OS4_ALT
+        if ((timer->TimerIO = IExec->AllocSysObjectTags(ASOT_IOREQUEST, ASOIOR_Size, sizeof(struct TimeRequest), ASOIOR_ReplyPort,timer->TimerMP, TAG_DONE))) {
+#else
+        if ((timer->TimerIO = IExec->AllocSysObjectTags(ASOT_IOREQUEST, ASOIOR_Size, sizeof(struct timerequest), ASOIOR_ReplyPort, timer->TimerMP, TAG_DONE))) {
+#endif
+            if (IExec->OpenDevice(TIMERNAME, UNIT_MICROHZ, (struct IORequest *)timer->TimerIO, 0) == 0) {
+#ifdef AMIGA_OS4_ALT
+                timer->TimerBase = timer->TimerIO->Request.io_Device;
+#else
+                timer->TimerBase = timer->TimerIO->tr_node.io_Device;
+#endif
+                timer->ITimer = (struct TimerIFace *)IExec->GetInterface((struct Library *)timer->TimerBase, "main", 1, NULL);
+                if (timer->ITimer != NULL) {
+                    return timer;
+                }
+            }
+        }
+    }
 
-  return NULL;
+    timer_exit(timer);
+
+    return NULL;
 }
 
 void timer_exit(timer_t *timer)
 {
-  if (timer != NULL) {
-    if (timer->ITimer != NULL) {
-      IExec->DropInterface((struct Interface *)timer->ITimer);
+    if (timer != NULL) {
+        if (timer->ITimer != NULL) {
+            IExec->DropInterface((struct Interface *)timer->ITimer);
+        }
+        if (timer->TimerBase != NULL) {
+            IExec->CloseDevice((struct IORequest *)timer->TimerIO);
+        }
+        if (timer->TimerIO != NULL) {
+            IExec->FreeSysObject(ASOT_IOREQUEST, timer->TimerIO);
+        }
+        if (timer->TimerMP != NULL) {
+          IExec->FreeSysObject(ASOT_PORT, timer->TimerMP);
+        }
+        IExec->FreeVec(timer);
     }
-    if (timer->TimerBase != NULL) {
-      IExec->CloseDevice((struct IORequest *)timer->TimerIO);
-    }
-    if (timer->TimerIO != NULL) {
-      IExec->FreeSysObject(ASOT_IOREQUEST, timer->TimerIO);
-    }
-    if (timer->TimerMP != NULL) {
-      IExec->FreeSysObject(ASOT_PORT, timer->TimerMP);
-    }
-    IExec->FreeVec(timer);
-  }
 }
 
 void timer_gettime(timer_t *timer, struct timeval *tv)
 {
-  if (timer != NULL) {
+    if (timer != NULL) {
 #ifdef AMIGA_OS4_ALT
-    timer->ITimer->GetUpTime((struct TimeVal *)tv);
+        timer->ITimer->GetUpTime((struct TimeVal *)tv);
 #else
-    timer->ITimer->GetUpTime(tv);
+        timer->ITimer->GetUpTime(tv);
 #endif
-  }
+    }
 }
 
 void timer_subtime(timer_t *timer, struct timeval *dt, struct timeval *st)
 {
-  if (timer != NULL) {
+    if (timer != NULL) {
 #ifdef AMIGA_OS4_ALT
-    timer->ITimer->SubTime((struct TimeVal *)dt, (struct TimeVal *)st);
+        timer->ITimer->SubTime((struct TimeVal *)dt, (struct TimeVal *)st);
 #else
-    timer->ITimer->SubTime(dt, st);
+        timer->ITimer->SubTime(dt, st);
 #endif
-  }
+    }
 }
 
 void timer_usleep(timer_t *timer, int us)
 {
-  if (timer != NULL) {
-    /* setup */
+    if (timer != NULL) {
+        /* setup */
 #ifdef AMIGA_OS4_ALT
-    timer->TimerIO->Request.io_Command = TR_ADDREQUEST;
-    timer->TimerIO->Time.Seconds = us / 1000000;
-    timer->TimerIO->Time.Microseconds = us % 1000000;
+        timer->TimerIO->Request.io_Command = TR_ADDREQUEST;
+        timer->TimerIO->Time.Seconds = us / 1000000;
+        timer->TimerIO->Time.Microseconds = us % 1000000;
 #else
-    timer->TimerIO->tr_node.io_Command = TR_ADDREQUEST;
-    timer->TimerIO->tr_time.tv_secs = us / 1000000;
-    timer->TimerIO->tr_time.tv_micro = us % 1000000;
+        timer->TimerIO->tr_node.io_Command = TR_ADDREQUEST;
+        timer->TimerIO->tr_time.tv_secs = us / 1000000;
+        timer->TimerIO->tr_time.tv_micro = us % 1000000;
 #endif
 
-    /* send request */
-    IExec->SetSignal(0, (1L << timer->TimerMP->mp_SigBit));
-    IExec->SendIO((struct IORequest *)timer->TimerIO);
-    IExec->Wait((1L << timer->TimerMP->mp_SigBit));
-    IExec->WaitIO((struct IORequest *)timer->TimerIO);
-  }
+        /* send request */
+        IExec->SetSignal(0, (1L << timer->TimerMP->mp_SigBit));
+        IExec->SendIO((struct IORequest *)timer->TimerIO);
+        IExec->Wait((1L << timer->TimerMP->mp_SigBit));
+        IExec->WaitIO((struct IORequest *)timer->TimerIO);
+    }
 }
 #endif
-

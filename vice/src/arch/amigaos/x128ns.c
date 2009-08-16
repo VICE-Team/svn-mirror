@@ -29,5 +29,5 @@
 
 int main(void)
 {
-  return system("x128.exe -sounddev dummy");
+    return system("x128.exe -sounddev dummy");
 }

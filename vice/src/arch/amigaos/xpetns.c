@@ -29,5 +29,5 @@
 
 int main(void)
 {
-  return system("xpet.exe -sounddev dummy");
+    return system("xpet.exe -sounddev dummy");
 }

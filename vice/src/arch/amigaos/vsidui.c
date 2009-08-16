@@ -29,7 +29,7 @@
 
 int vsid_ui_init(void)
 {
-  return 0;
+    return 0;
 }
 
 void vsid_ui_close(void)

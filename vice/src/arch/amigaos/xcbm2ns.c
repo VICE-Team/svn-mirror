@@ -29,5 +29,5 @@
 
 int main(void)
 {
-  return system("xcbm2.exe -sounddev dummy");
+    return system("xcbm2.exe -sounddev dummy");
 }

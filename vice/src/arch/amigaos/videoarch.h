@@ -67,4 +67,3 @@ typedef struct video_canvas_s video_canvas_t;
 #define CANVAS_USES_TRIPLE_BUFFERING(c) (c->use_triple_buffering)
 
 #endif
-

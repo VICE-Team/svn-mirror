@@ -45,15 +45,15 @@
 #include "mui/uivideoc64plus4vic20.h"
 
 static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
-    { "VICDoubleSize", IDM_TOGGLE_DOUBLESIZE },
-    { "VICDoubleScan", IDM_TOGGLE_DOUBLESCAN },
-    { "VICScale2x", IDM_TOGGLE_SCALE2X },
-    { "PALEmulation", IDM_TOGGLE_FASTPAL },
-    { "VICVideoCache", IDM_TOGGLE_VIDEOCACHE },
-    { "IEEE488", IDM_IEEE488 },
-    { "EmuID", IDM_TOGGLE_EMUID },
-    { "CartridgeReset", IDM_TOGGLE_CART_RESET },
-    { NULL, 0 }
+    {"VICDoubleSize", IDM_TOGGLE_DOUBLESIZE},
+    {"VICDoubleScan", IDM_TOGGLE_DOUBLESCAN},
+    {"VICScale2x", IDM_TOGGLE_SCALE2X},
+    {"PALEmulation", IDM_TOGGLE_FASTPAL},
+    {"VICVideoCache", IDM_TOGGLE_VIDEOCACHE},
+    {"IEEE488", IDM_IEEE488},
+    {"EmuID", IDM_TOGGLE_EMUID},
+    {"CartridgeReset", IDM_TOGGLE_CART_RESET},
+    {NULL, 0}
 };
 
 static const uicart_params_t vic20_ui_cartridges[] = {
@@ -96,71 +96,67 @@ static const uicart_params_t vic20_ui_cartridges[] = {
 static int vic20_ui_specific(video_canvas_t *canvas, int idm)
 {
     switch (idm) {
-      case IDM_CART_VIC20_8KB_2000:
-      case IDM_CART_VIC20_16KB_4000:
-      case IDM_CART_VIC20_8KB_6000:
-      case IDM_CART_VIC20_8KB_A000:
-      case IDM_CART_VIC20_4KB_B000:
-        uicart_attach(canvas, idm, vic20_ui_cartridges);
-        break;
-      case IDM_CART_VIC20_GENERIC:
-        uicart_attach_special(canvas, translate_text(IDS_SELECT_GENERIC),
-                              UILIB_FILTER_ALL, CARTRIDGE_VIC20_GENERIC);
-        break;
-      case IDM_CART_VIC20_MEGACART:
-        uicart_attach_special(canvas, translate_text(IDS_SELECT_MEGACART),
-                              UILIB_FILTER_ALL, CARTRIDGE_VIC20_MEGACART);
-        break;
-      case IDM_CART_VIC20_FINAL_EXPANSION:
-        uicart_attach_special(canvas, translate_text(IDS_SELECT_FINAL_EXPANSION),
-                              UILIB_FILTER_ALL, CARTRIDGE_VIC20_FINAL_EXPANSION);
-        break;
-      case IDM_CART_VIC20_SMART_ATTACH:
-        uicart_attach_special(canvas, translate_text(IDS_SELECT_CARTRIDGE_IMAGE),
-                              UILIB_FILTER_ALL, CARTRIDGE_VIC20_DETECT);
-        break;
-      case IDM_CART_SET_DEFAULT:
-        cartridge_set_default();
-        break;
-      case IDM_CART_DETACH:
-        cartridge_detach_image();
-        break;
-      case IDM_VIC_SETTINGS:
-        ui_vic_settings_dialog();
-        break;
-      case IDM_COMPUTER_ROM_SETTINGS:
-        ui_c64vic20_computer_rom_settings_dialog(canvas);
-        break;
-      case IDM_DRIVE_ROM_SETTINGS:
-        ui_c64vic20_drive_rom_settings_dialog(canvas);
-        break;
-      case IDM_VIDEO_SETTINGS:
-        ui_video_c64plus4vic20_settings_dialog(canvas, "VICExternalPalette", "VICPaletteFile");
-        break;
-      case IDM_DRIVE_SETTINGS:
-        uidrivec64vic20_settings_dialog();
-        break;
-      case IDM_RS232USER_SETTINGS:
-        ui_rs232user_settings_dialog();
-        break;
-      case IDM_SIDCART_SETTINGS:
-        ui_sidcart_settings_dialog("$9800", "$9C00", "VIC20");
-        break;
+        case IDM_CART_VIC20_8KB_2000:
+        case IDM_CART_VIC20_16KB_4000:
+        case IDM_CART_VIC20_8KB_6000:
+        case IDM_CART_VIC20_8KB_A000:
+        case IDM_CART_VIC20_4KB_B000:
+            uicart_attach(canvas, idm, vic20_ui_cartridges);
+            break;
+        case IDM_CART_VIC20_GENERIC:
+            uicart_attach_special(canvas, translate_text(IDS_SELECT_GENERIC), UILIB_FILTER_ALL, CARTRIDGE_VIC20_GENERIC);
+            break;
+        case IDM_CART_VIC20_MEGACART:
+            uicart_attach_special(canvas, translate_text(IDS_SELECT_MEGACART), UILIB_FILTER_ALL, CARTRIDGE_VIC20_MEGACART);
+            break;
+        case IDM_CART_VIC20_FINAL_EXPANSION:
+            uicart_attach_special(canvas, translate_text(IDS_SELECT_FINAL_EXPANSION), UILIB_FILTER_ALL, CARTRIDGE_VIC20_FINAL_EXPANSION);
+            break;
+        case IDM_CART_VIC20_SMART_ATTACH:
+            uicart_attach_special(canvas, translate_text(IDS_SELECT_CARTRIDGE_IMAGE), UILIB_FILTER_ALL, CARTRIDGE_VIC20_DETECT);
+            break;
+        case IDM_CART_SET_DEFAULT:
+            cartridge_set_default();
+            break;
+        case IDM_CART_DETACH:
+            cartridge_detach_image();
+            break;
+        case IDM_VIC_SETTINGS:
+            ui_vic_settings_dialog();
+            break;
+        case IDM_COMPUTER_ROM_SETTINGS:
+            ui_c64vic20_computer_rom_settings_dialog(canvas);
+            break;
+        case IDM_DRIVE_ROM_SETTINGS:
+            ui_c64vic20_drive_rom_settings_dialog(canvas);
+            break;
+        case IDM_VIDEO_SETTINGS:
+            ui_video_c64plus4vic20_settings_dialog(canvas, "VICExternalPalette", "VICPaletteFile");
+            break;
+        case IDM_DRIVE_SETTINGS:
+            uidrivec64vic20_settings_dialog();
+            break;
+        case IDM_RS232USER_SETTINGS:
+            ui_rs232user_settings_dialog();
+            break;
+        case IDM_SIDCART_SETTINGS:
+            ui_sidcart_settings_dialog("$9800", "$9C00", "VIC20");
+            break;
 #ifdef AMIGA_OS4
-    case IDM_JOY_SETTINGS:
-      ui_joystick_settings_vic20_dialog();
-      break;
+        case IDM_JOY_SETTINGS:
+            ui_joystick_settings_vic20_dialog();
+            break;
 #else
-    case IDM_JOY_DEVICE_SELECTION:
-      ui_joystick_device_vic20_dialog();
-      break;
-    case IDM_JOY_FIRE_SELECTION:
-      ui_joystick_fire_vic20_dialog();
-      break;
+        case IDM_JOY_DEVICE_SELECTION:
+            ui_joystick_device_vic20_dialog();
+            break;
+        case IDM_JOY_FIRE_SELECTION:
+            ui_joystick_fire_vic20_dialog();
+            break;
 #endif
-      case IDM_KEYBOARD_SETTINGS:
-//        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
-        break;
+        case IDM_KEYBOARD_SETTINGS:
+//          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            break;
     }
 
     return 0;
@@ -168,13 +164,12 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
 
 int vic20ui_init(void)
 {
-  ui_register_menu_translation_layout(vic20_ui_translation_menu);
-  ui_register_menu_layout(vic20_ui_menu);
-  ui_register_machine_specific(vic20_ui_specific);
-  ui_register_menu_toggles(vic20_ui_menu_toggles);
-//  ui_register_res_values(const ui_res_value_list_t *valuelist);
+    ui_register_menu_translation_layout(vic20_ui_translation_menu);
+    ui_register_menu_layout(vic20_ui_menu);
+    ui_register_machine_specific(vic20_ui_specific);
+    ui_register_menu_toggles(vic20_ui_menu_toggles);
 
-  return 0;
+    return 0;
 }
 
 void vic20ui_shutdown(void)

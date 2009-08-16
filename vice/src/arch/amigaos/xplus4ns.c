@@ -29,5 +29,5 @@
 
 int main(void)
 {
-  return system("xplus4.exe -sounddev dummy");
+    return system("xplus4.exe -sounddev dummy");
 }

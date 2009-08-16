@@ -29,5 +29,5 @@
 
 int main(void)
 {
-  return system("xvic.exe -sounddev dummy");
+    return system("xvic.exe -sounddev dummy");
 }

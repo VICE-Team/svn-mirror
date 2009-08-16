@@ -34,16 +34,16 @@
 #include "uicart.h"
 #include "uilib.h"
 
-void uicart_attach(video_canvas_t *canvas, int idm,
-                   const uicart_params_t *cartridges)
+void uicart_attach(video_canvas_t *canvas, int idm, const uicart_params_t *cartridges)
 {
     int i;
     char *name;
 
     i = 0;
 
-    while ((cartridges[i].idm != idm) && (cartridges[i].idm != 0))
+    while ((cartridges[i].idm != idm) && (cartridges[i].idm != 0)) {
         i++;
+    }
 
     if (cartridges[i].idm == 0) {
         ui_error(translate_text(IDMES_BAD_CART_CONFIG_IN_UI));
@@ -51,11 +51,11 @@ void uicart_attach(video_canvas_t *canvas, int idm,
     }
 
     if ((name = uilib_select_file(translate_text(cartridges[i].title),
-        cartridges[i].filter, UILIB_SELECTOR_TYPE_FILE_LOAD,
-        UILIB_SELECTOR_STYLE_CART)) != NULL) {
-
-        if (cartridge_attach_image(cartridges[i].type, name) < 0)
+                                  cartridges[i].filter, UILIB_SELECTOR_TYPE_FILE_LOAD,
+                                  UILIB_SELECTOR_STYLE_CART)) != NULL) {
+        if (cartridge_attach_image(cartridges[i].type, name) < 0) {
             ui_error(translate_text(IDMES_INVALID_CART_IMAGE));
+        }
         lib_free(name);
     }
 }
@@ -65,8 +65,9 @@ void uicart_attach_special(video_canvas_t *canvas, char *title, DWORD filterlist
     char *name;
 
     if ((name = uilib_select_file(title, filterlist, UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_CART)) != NULL) {
-        if (cartridge_attach_image(type, name) < 0)
+        if (cartridge_attach_image(type, name) < 0) {
             ui_error(translate_text(IDMES_INVALID_CART_IMAGE));
+        }
         lib_free(name);
     }
 }

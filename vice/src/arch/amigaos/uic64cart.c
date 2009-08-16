@@ -37,15 +37,15 @@
 #include "uires.h"
 
 static const ui_res_possible_values_t CartMode[] = {
-    { CARTRIDGE_MODE_OFF, IDM_CART_MODE_OFF },
-    { CARTRIDGE_MODE_PRG, IDM_CART_MODE_PRG },
-    { CARTRIDGE_MODE_ON, IDM_CART_MODE_ON },
-    { -1, 0 }
+    {CARTRIDGE_MODE_OFF, IDM_CART_MODE_OFF},
+    {CARTRIDGE_MODE_PRG, IDM_CART_MODE_PRG},
+    {CARTRIDGE_MODE_ON, IDM_CART_MODE_ON},
+    {-1, 0}
 };
 
 static const ui_res_value_list_t c64_ui_res_values[] = {
-    { "CartridgeMode", CartMode, 0 },
-    { NULL, NULL, 0 }
+    {"CartridgeMode", CartMode, 0},
+    {NULL, NULL, 0}
 };
 
 static const uicart_params_t c64_ui_cartridges[] = {
@@ -144,49 +144,48 @@ static const uicart_params_t c64_ui_cartridges[] = {
     }
 };
 
-static void uic64cart_attach(video_canvas_t *canvas, int idm,
-                             const uicart_params_t *cartridges)
+static void uic64cart_attach(video_canvas_t *canvas, int idm, const uicart_params_t *cartridges)
 {
     if (idm == IDM_CART_ENABLE_EXPERT) {
-        if (cartridge_attach_image(CARTRIDGE_EXPERT, NULL) < 0)
+        if (cartridge_attach_image(CARTRIDGE_EXPERT, NULL) < 0) {
             ui_error(translate_text(IDMES_INVALID_CART));
+        }
         return;
     }
-
     uicart_attach(canvas, idm, cartridges);
 }
 
 void uic64cart_proc(video_canvas_t *canvas, int idm)
 {
     switch (idm) {
-      case IDM_CART_ATTACH_CRT:
-      case IDM_CART_ATTACH_8KB:
-      case IDM_CART_ATTACH_16KB:
-      case IDM_CART_ATTACH_AR:
-      case IDM_CART_ATTACH_AR3:
-      case IDM_CART_ATTACH_AR4:
-      case IDM_CART_ATTACH_STARDOS:
-      case IDM_CART_ATTACH_AT:
-      case IDM_CART_ATTACH_EPYX:
-      case IDM_CART_ATTACH_IEEE488:
-      case IDM_CART_ATTACH_RR:
-      case IDM_CART_ATTACH_IDE64:
-      case IDM_CART_ATTACH_SS4:
-      case IDM_CART_ATTACH_SS5:
-      case IDM_CART_ATTACH_STB:
-      case IDM_CART_ENABLE_EXPERT:
-        uic64cart_attach(canvas, idm, c64_ui_cartridges);
-        break;
-      case IDM_CART_SET_DEFAULT:
-        cartridge_set_default();
-        break;
-      case IDM_CART_DETACH:
-        cartridge_detach_image();
-        break;
-      case IDM_CART_FREEZE:
-        keyboard_clear_keymatrix();
-        cartridge_trigger_freeze();
-        break;
+        case IDM_CART_ATTACH_CRT:
+        case IDM_CART_ATTACH_8KB:
+        case IDM_CART_ATTACH_16KB:
+        case IDM_CART_ATTACH_AR:
+        case IDM_CART_ATTACH_AR3:
+        case IDM_CART_ATTACH_AR4:
+        case IDM_CART_ATTACH_STARDOS:
+        case IDM_CART_ATTACH_AT:
+        case IDM_CART_ATTACH_EPYX:
+        case IDM_CART_ATTACH_IEEE488:
+        case IDM_CART_ATTACH_RR:
+        case IDM_CART_ATTACH_IDE64:
+        case IDM_CART_ATTACH_SS4:
+        case IDM_CART_ATTACH_SS5:
+        case IDM_CART_ATTACH_STB:
+        case IDM_CART_ENABLE_EXPERT:
+            uic64cart_attach(canvas, idm, c64_ui_cartridges);
+            break;
+        case IDM_CART_SET_DEFAULT:
+            cartridge_set_default();
+            break;
+        case IDM_CART_DETACH:
+            cartridge_detach_image();
+            break;
+        case IDM_CART_FREEZE:
+            keyboard_clear_keymatrix();
+            cartridge_trigger_freeze();
+            break;
     }
 }
 

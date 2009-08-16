@@ -32,10 +32,8 @@
 #include "private.h"
 #include "statusbar.h"
 
-#ifndef __VBCC__
 #undef BYTE
 #undef WORD
-#endif
 
 #include "timer.h"
 #include "mousedrv.h"
@@ -43,19 +41,16 @@
 #include "intl.h"
 #include "translate.h"
 
-#ifndef __VBCC__
 #define __USE_INLINE__
 
 #include <exec/types.h>
 #include <exec/nodes.h>
 #include <exec/lists.h>
 #include <exec/memory.h>
-
 #include <proto/exec.h>
 #include <proto/intuition.h>
 #include <proto/graphics.h>
 #include <proto/gadtools.h>
-#endif
 
 #include "private.h"
 #include "ui.h"
@@ -63,15 +58,16 @@
 /* number of timer units per second - used to calc speed and fps */
 signed long vsyncarch_frequency(void)
 {
-  return 1000000;
+    return 1000000;
 }
 
 /* provide the actual time in timer units */
 unsigned long vsyncarch_gettime(void)
 {
-  struct timeval tv;
-  timer_gettime(timer, &tv);
-  return (tv.tv_secs * 1000000) + tv.tv_micro;
+    struct timeval tv;
+
+    timer_gettime(timer, &tv);
+    return (tv.tv_secs * 1000000) + tv.tv_micro;
 }
 
 /* call when vsync_init is called */
@@ -82,21 +78,22 @@ void vsyncarch_init(void)
 /* display speed(%) and framerate(fps) */
 void vsyncarch_display_speed(double speed, double fps, int warp_enabled)
 {
-  video_canvas_t *canvas;
-  for (canvas = canvaslist; canvas; canvas = canvas->next) {
-    struct Window *window = canvas->os->window;
+    video_canvas_t *canvas;
 
-    sprintf(canvas->os->window_title, intl_speed_at_text, canvas->os->window_name, (int)(speed + .5), (int)(fps + .5), warp_enabled ? " (warp)" : "");
+    for (canvas = canvaslist; canvas; canvas = canvas->next) {
+        struct Window *window = canvas->os->window;
 
-    SetWindowTitles(window, canvas->os->window_title, (void *)-1);
-  }
-  statusbar_statustext_update();
+        sprintf(canvas->os->window_title, intl_speed_at_text, canvas->os->window_name, (int)(speed + .5), (int)(fps + .5), warp_enabled ? " (warp)" : "");
+
+        SetWindowTitles(window, canvas->os->window_title, (void *)-1);
+    }
+    statusbar_statustext_update();
 }
 
 /* sleep the given amount of timer units */
 void vsyncarch_sleep(signed long delay)
 {
-  timer_usleep(timer, delay);
+    timer_usleep(timer, delay);
 }
 
 /* synchronize with vertical blanks */
@@ -112,10 +109,10 @@ void vsyncarch_prepare_vbl(void)
 /* this is called before vsync_do_vsync does the synchroniation */
 void vsyncarch_presync(void)
 {
-  ui_event_handle();
-  mousedrv_sync();
-  kbdbuf_flush();
-  joystick_update();
+    ui_event_handle();
+    mousedrv_sync();
+    kbdbuf_flush();
+    joystick_update();
 }
 
 /* this is called after vsync_do_vsync did the synchroniation */
@@ -126,10 +123,10 @@ void vsyncarch_postsync(void)
 /* set ui dispatcher function */
 void_hook_t vsync_set_event_dispatcher(void_hook_t hook)
 {
-  return hook;
+    return hook;
 }
 
 int vsyncarch_vbl_sync_enabled(void)
 {
-  return 0;
+    return 0;
 }

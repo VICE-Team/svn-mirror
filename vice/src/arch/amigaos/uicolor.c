@@ -28,35 +28,31 @@
 #include "uicolor.h"
 
 int uicolor_alloc_color(unsigned int red, unsigned int green,
-                               unsigned int blue, unsigned long *color_pixel,
-                               BYTE *pixel_return)
+                        unsigned int blue, unsigned long *color_pixel,
+                        BYTE *pixel_return)
 {
-  return 0;
+    return 0;
 }
 
-void uicolor_free_color(unsigned int red, unsigned int green,
-                               unsigned int blue, unsigned long color_pixel)
-{
-}
-
-void uicolor_convert_color_table(unsigned int colnr, BYTE *data,
-                                        long color_pixel, void *c)
+void uicolor_free_color(unsigned int red, unsigned int green, unsigned int blue, unsigned long color_pixel)
 {
 }
 
-int uicolor_set_palette(struct video_canvas_s *c,
-                               const struct palette_s *palette)
+void uicolor_convert_color_table(unsigned int colnr, BYTE *data, long color_pixel, void *c)
 {
-  return 0;
+}
+
+int uicolor_set_palette(struct video_canvas_s *c, const struct palette_s *palette)
+{
+    return 0;
 }
 
 /* Temporary! */
 int uicolor_alloc_colors(struct video_canvas_s *c)
 {
-  return 0;
+    return 0;
 }
 
 void uicolor_init_video_colors(void)
 {
 }
-
