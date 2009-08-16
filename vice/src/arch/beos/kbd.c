@@ -83,24 +83,25 @@ int kbd_init(int num, ...)
     va_list p;
     int i;
 
-    keyconvmaps=lib_malloc(num*sizeof(struct _convmap));
-    num_keyconvmaps=num;
+    keyconvmaps = lib_malloc(num * sizeof(struct _convmap));
+    num_keyconvmaps = num;
 
     va_start(p,num);
     for (i =0; i<num_keyconvmaps; i++) {
         keyconv *map;
         unsigned int sizeof_map;
         int shift_row,shift_column;
-        shift_row=va_arg(p,int);
-        shift_column=va_arg(p,int);
-        map=va_arg(p,keyconv*);
-        sizeof_map=va_arg(p,unsigned int);
+
+        shift_row = va_arg(p,int);
+        shift_column = va_arg(p,int);
+        map = va_arg(p,keyconv*);
+        sizeof_map = va_arg(p,unsigned int);
 
         keyconvmaps[i].map = map;
         keyconvmaps[i].virtual_shift_row = shift_row;
         keyconvmaps[i].virtual_shift_column = shift_column;
     }
-    keyconv_base=&keyconvmaps[keymap_index>>1];
+    keyconv_base = &keyconvmaps[keymap_index >> 1];
 
     return 0;
 }
@@ -109,17 +110,17 @@ static int set_keymap_index(int val, void *param)
 {
     int real_index;
 
-    keymap_index=val;
-    real_index=keymap_index>>1;
-    keyconv_base=&keyconvmaps[real_index];
+    keymap_index = val;
+    real_index = keymap_index >> 1;
+    keyconv_base = &keyconvmaps[real_index];
 
     return 0;
 }
 
 static const resource_int_t resources_int[] = {
-    { "KeymapIndex", 0, RES_EVENT_NO, NULL,
-      &keymap_index, set_keymap_index, NULL },
-    { NULL }
+    {"KeymapIndex", 0, RES_EVENT_NO, NULL,
+     &keymap_index, set_keymap_index, NULL},
+    {NULL}
 };
 
 int kbd_resources_init(void)
@@ -128,12 +129,12 @@ int kbd_resources_init(void)
 }
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-keymap", SET_RESOURCE, 1,
-      NULL, NULL, "KeymapIndex", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      "<number>", "Specify index of used keymap" },
-    { NULL },
+    {"-keymap", SET_RESOURCE, 1,
+     NULL, NULL, "KeymapIndex", NULL,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+     IDCLS_UNUSED, IDCLS_UNUSED,
+     "<number>", "Specify index of used keymap"},
+    {NULL},
 };
 
 int kbd_cmdline_options_init(void)
@@ -163,15 +164,15 @@ int kbd_handle_keydown(int kcode)
     }
 
     if (!joystick_handle_key(kcode, 1)) {
-        keyboard_set_keyarr(keyconv_base->map[kcode].row,
-                   keyconv_base->map[kcode].column, 1);
-        if (keyconv_base->map[kcode].vshift)
-            keyboard_set_keyarr(keyconv_base->virtual_shift_row,
-                                keyconv_base->virtual_shift_column, 1);
+        keyboard_set_keyarr(keyconv_base->map[kcode].row, keyconv_base->map[kcode].column, 1);
+        if (keyconv_base->map[kcode].vshift) {
+            keyboard_set_keyarr(keyconv_base->virtual_shift_row, keyconv_base->virtual_shift_column, 1);
+        }
     }
 #else
-    if (!joystick_handle_key(kcode, 1))
+    if (!joystick_handle_key(kcode, 1)) {
         keyboard_key_pressed((signed long)kcode);
+    }
 #endif
 
     return 0;
@@ -185,15 +186,15 @@ int kbd_handle_keyup(int kcode)
     }
 
     if (!joystick_handle_key(kcode, 0)) {
-        keyboard_set_keyarr(keyconv_base->map[kcode].row,
-                            keyconv_base->map[kcode].column, 0);
-        if (keyconv_base->map[kcode].vshift)
-            keyboard_set_keyarr(keyconv_base->virtual_shift_row,
-                                keyconv_base->virtual_shift_column, 0);
+        keyboard_set_keyarr(keyconv_base->map[kcode].row, keyconv_base->map[kcode].column, 0);
+        if (keyconv_base->map[kcode].vshift) {
+            keyboard_set_keyarr(keyconv_base->virtual_shift_row, keyconv_base->virtual_shift_column, 0);
+        }
     }
 #else
-    if (!joystick_handle_key(kcode, 0))
+    if (!joystick_handle_key(kcode, 0)) {
         keyboard_key_released((signed long)kcode);
+    }
 #endif
 
     return 0;
@@ -215,7 +216,7 @@ const char *kbd_code_to_string(int kcode)
         "Left Win95", "Right Win95", "Break"
     };
 
-    return tab[(int) kcode];
+    return tab[(int)kcode];
 }
 
 /* ------------------------------------------------------------------------ */
@@ -265,5 +266,3 @@ const char *kbd_arch_keynum_to_keyname(signed long keynum)
     return keyname;
 }
 #endif
-
-

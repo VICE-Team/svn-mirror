@@ -39,7 +39,7 @@ extern "C" {
 #include "ui.h"
 }
 
-int                 _mouse_x, _mouse_y;
+int _mouse_x, _mouse_y;
 /* ------------------------------------------------------------------------- */
 
 void mousedrv_mouse_changed(void)
@@ -64,40 +64,38 @@ void mouse_set_format(void)
 {
 }
 
-extern ViceWindow 			*windowlist[];
-extern int 					window_count;
+extern ViceWindow *windowlist[];
+extern int window_count;
 
 void mouse_update_mouse(void)
 {
-	/* this implementation is realy ugly, but the MouseMoved event
-	   doesn't work as expected
-	*/
-	static BPoint last_point;
+    /* this implementation is realy ugly, but the MouseMoved event
+       doesn't work as expected
+     */
+    static BPoint last_point;
 
-	BPoint point;
-	BRect bounds;
-	uint32 buttons;
+    BPoint point;
+    BRect bounds;
+    uint32 buttons;
 
-	if (!_mouse_enabled)
-		return;
-		
-	windowlist[0]->Lock();
-	windowlist[0]->view->GetMouse(&point, &buttons);
-	bounds = windowlist[0]->view->Bounds();
-	windowlist[0]->Unlock();
+    if (!_mouse_enabled) {
+        return;
+    }
 
-	if (buttons & B_SECONDARY_MOUSE_BUTTON) {
-		last_point = point;
-		return;
-	}
+    windowlist[0]->Lock();
+    windowlist[0]->view->GetMouse(&point, &buttons);
+    bounds = windowlist[0]->view->Bounds();
+    windowlist[0]->Unlock();
 
-	_mouse_x += (int) ((point.x - last_point.x) 
-		/ bounds.Width() * 1024) % 1024;
-	_mouse_y += (int) ((point.y - last_point.y) 
-		/ bounds.Height() * 1024) % 1024;
-	
-	last_point = point;
-	
+    if (buttons & B_SECONDARY_MOUSE_BUTTON) {
+        last_point = point;
+        return;
+    }
+
+    _mouse_x += (int)((point.x - last_point.x) / bounds.Width() * 1024) % 1024;
+    _mouse_y += (int)((point.y - last_point.y) / bounds.Height() * 1024) % 1024;
+
+    last_point = point;
 }
 
 void mousedrv_init(void)
@@ -106,17 +104,18 @@ void mousedrv_init(void)
 
 BYTE mousedrv_get_x(void)
 {
-    if (!_mouse_enabled)
+    if (!_mouse_enabled) {
         return 0xff;
-        mouse_update_mouse();
-    return (BYTE) _mouse_x;
+    }
+    mouse_update_mouse();
+    return (BYTE)_mouse_x;
 }
 
 BYTE mousedrv_get_y(void)
 {
-    if (!_mouse_enabled)
+    if (!_mouse_enabled) {
         return 0xff;
+    }
     mouse_update_mouse();
-    return (BYTE) ~_mouse_y;
+    return (BYTE)~_mouse_y;
 }
-

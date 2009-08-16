@@ -65,18 +65,15 @@ char *readline(const char *prompt)
        always get an EOF from stdin.
     */
 
-    if (!rv)
+    if (!rv) {
         lib_free(p);
-    else
-    {
+    } else {
         /* Remove trailing newlines. */
         int len;
 
-        for (len = strlen(p);
-             len > 0 && (p[len - 1] == '\r'
-                         || p[len - 1] == '\n');
-             len--)
+        for (len = strlen(p); len > 0 && (p[len - 1] == '\r' || p[len - 1] == '\n'); len--) {
             p[len - 1] = '\0';
+        }
     }
 
     return rv;
@@ -85,11 +82,11 @@ char *readline(const char *prompt)
 
 char *console_in(console_t *log, const char *prompt)
 {
-	char *p;
+    char *p;
 
     p = readline(prompt);
 
-	return p;
+    return p;
 }
 
 
@@ -117,11 +114,11 @@ int console_close(console_t *log)
 
 int console_init( void )
 {
-	return 0;
+    return 0;
 }
 
 
 int console_close_all( void )
 {
-	return 0;
+    return 0;
 }

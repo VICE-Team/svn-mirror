@@ -34,20 +34,19 @@
 
 
 class ViceStatusbar : public BView {
-	public:
-		ViceStatusbar(BRect r);
-		~ViceStatusbar();
-		void Draw(BRect rect);
-		void DisplaySpeed(float percent, float framerate, int warp_flag);
-		void DisplayDriveStatus(int drive_num,int drive_led_color,double drive_track);
-		void DisplayTapeStatus(int enabled, int counter, int motor, int control);
-		void DisplayImage(int drive_num, const char *image);
-		void EnableJoyport(int onvoid);
-		void DisplayJoyport(int port_num, int status);
-		void DisplayMessage(const char *text);
-	private:
-		BBitmap *statusbitmap;
-		BView *drawview;
+    public:
+        ViceStatusbar(BRect r);
+        ~ViceStatusbar();
+        void Draw(BRect rect);
+        void DisplaySpeed(float percent, float framerate, int warp_flag);
+        void DisplayDriveStatus(int drive_num,int drive_led_color,double drive_track);
+        void DisplayTapeStatus(int enabled, int counter, int motor, int control);
+        void DisplayImage(int drive_num, const char *image);
+        void EnableJoyport(int onvoid);
+        void DisplayJoyport(int port_num, int status);
+        void DisplayMessage(const char *text);
+    private:
+        BBitmap *statusbitmap;
+        BView *drawview;
 };
-
 #endif

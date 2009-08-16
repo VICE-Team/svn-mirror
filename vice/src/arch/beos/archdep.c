@@ -37,18 +37,23 @@
 #ifdef HAVE_DIR_H
 #include <dir.h>
 #endif
+
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
 #endif
+
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif
+
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif
+
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
+
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -59,10 +64,8 @@
 #include "machine.h"
 #include "util.h"
 
-
 static char *orig_workdir;
 static char *argv0 = NULL;
-
 
 int archdep_network_init(void)
 {
@@ -81,7 +84,7 @@ int archdep_init(int *argc, char **argv)
     return 0;
 }
 
-static char *program_name=NULL;
+static char *program_name = NULL;
 
 char *archdep_program_name(void)
 {
@@ -90,13 +93,15 @@ char *archdep_program_name(void)
         int len;
 
         s = strrchr(argv0, '/');
-        if (s == NULL)
+        if (s == NULL) {
             s = argv0;
-        else
+        } else {
             s++;
+        }
         e = strchr(s, '.');
-        if (e == NULL)
+        if (e == NULL) {
             e = argv0 + strlen(argv0);
+        }
 
         len = e - s + 1;
         program_name = lib_malloc(len);
@@ -115,8 +120,9 @@ const char *archdep_boot_path(void)
         util_fname_split(argv0, &boot_path, NULL);
 
         /* This should not happen, but you never know...  */
-        if (boot_path == NULL)
+        if (boot_path == NULL) {
             boot_path = lib_stralloc("./xxx");
+        }
     }
 
     return boot_path;
@@ -142,14 +148,15 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 /* Return a malloc'ed backup file name for file `fname'.  */
 char *archdep_make_backup_filename(const char *fname)
 {
-char    *tmp;
+    char *tmp;
 
     tmp = util_concat(fname, NULL);
     tmp[strlen(tmp) - 1] = '~';
     return tmp;
 }
 
-char *archdep_default_save_resource_file_name(void) {
+char *archdep_default_save_resource_file_name(void)
+{
     return archdep_default_resource_file_name();
 }
 
@@ -200,34 +207,33 @@ int archdep_num_text_columns(void)
 
 int archdep_default_logger(const char *level_string, const char *txt)
 {
-    if (fputs(level_string, stdout) == EOF
-        || fprintf(stdout, txt) < 0
-        || fputc ('\n', stdout) == EOF)
+    if (fputs(level_string, stdout) == EOF || fprintf(stdout, txt) < 0 || fputc ('\n', stdout) == EOF) {
         return -1;
+    }
     return 0;
 }
 
 int archdep_path_is_relative(const char *path)
 {
-    if (path == NULL)
+    if (path == NULL) {
         return 0;
+    }
 
     /* `c:\foo', `c:/foo', `c:foo', `\foo' and `/foo' are absolute.  */
 
-    return !((isalpha(path[0]) && path[1] == ':')
-            || path[0] == '/' || path[0] == '\\');
+    return !((isalpha(path[0]) && path[1] == ':') || path[0] == '/' || path[0] == '\\');
 }
 
-int archdep_spawn(const char *name, char **argv,
-                  char **pstdout_redir, const char *stderr_redir)
+int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const char *stderr_redir)
 {
     pid_t child_pid;
     int child_status;
     char *stdout_redir = NULL;
 
     if (pstdout_redir != NULL) {
-        if (*pstdout_redir == NULL)
+        if (*pstdout_redir == NULL) {
             *pstdout_redir = archdep_tmpnam();
+        }
         stdout_redir = *pstdout_redir;
     }
 
@@ -262,10 +268,11 @@ int archdep_spawn(const char *name, char **argv,
         return -1;
     }
 
-    if (WIFEXITED(child_status))
+    if (WIFEXITED(child_status)) {
         return WEXITSTATUS(child_status);
-    else
+    } else {
         return -1;
+    }
 }
 
 
@@ -285,7 +292,7 @@ void archdep_startup_log_error(const char *format, ...)
     va_start(args, format);
     tmp = lib_mvsprintf(format, args);
     va_end(args);
-	printf(tmp);
+    printf(tmp);
 	
     lib_free(tmp);
 }
@@ -320,8 +327,9 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 
     fd = fopen(tmp, mode);
 
-    if (fd == NULL)
+    if (fd == NULL) {
         return NULL;
+    }
 
     *filename = tmp;
 
@@ -332,10 +340,10 @@ int archdep_file_is_gzip(const char *name)
 {
     size_t l = strlen(name);
 
-    if ((l < 4 || strcasecmp(name + l - 3, ".gz"))
-        && (l < 3 || strcasecmp(name + l - 2, ".z"))
-        && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.'))
+    if ((l < 4 || strcasecmp(name + l - 3, ".gz")) && (l < 3 || strcasecmp(name + l - 2, ".z")) &&
+        (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.')) {
         return 0;
+    }
     return 1;
 }
 
@@ -353,8 +361,9 @@ int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
 {
     struct stat statbuf;
 
-    if (stat(file_name, &statbuf) < 0)
+    if (stat(file_name, &statbuf) < 0) {
         return -1;
+    }
 
     *len = statbuf.st_size;
     *isdir = S_ISDIR(statbuf.st_mode);
@@ -376,4 +385,3 @@ void archdep_shutdown(void)
 {
     lib_free(argv0);
 }
-

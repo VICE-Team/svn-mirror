@@ -60,40 +60,40 @@ extern "C" {
 
 extern ViceWindow *windowlist[];
 
-ui_menu_toggle  pet_ui_menu_toggles[]={
-    { "CrtcDoubleSize", MENU_TOGGLE_DOUBLESIZE },
-    { "CrtcDoubleScan", MENU_TOGGLE_DOUBLESCAN },
-    { "CrtcVideoCache", MENU_TOGGLE_VIDEOCACHE },
-    { "PETREU", MENU_TOGGLE_PETREU },
-    { "SidCart", MENU_TOGGLE_SIDCART },
-    { "SidFilters", MENU_TOGGLE_SIDCART_FILTERS },
-    { NULL, 0 }
+ui_menu_toggle  pet_ui_menu_toggles[] = {
+    {"CrtcDoubleSize", MENU_TOGGLE_DOUBLESIZE},
+    {"CrtcDoubleScan", MENU_TOGGLE_DOUBLESCAN},
+    {"CrtcVideoCache", MENU_TOGGLE_VIDEOCACHE},
+    {"PETREU", MENU_TOGGLE_PETREU},
+    {"SidCart", MENU_TOGGLE_SIDCART},
+    {"SidFilters", MENU_TOGGLE_SIDCART_FILTERS},
+    {NULL, 0}
 };
 
 ui_res_possible_values PETREUSize[] = {
-        {128, MENU_PETREU_SIZE_128},
-        {512, MENU_PETREU_SIZE_512},
-        {1024, MENU_PETREU_SIZE_1024},
-        {2048, MENU_PETREU_SIZE_2048},
-        {-1, 0}
+    {128, MENU_PETREU_SIZE_128},
+    {512, MENU_PETREU_SIZE_512},
+    {1024, MENU_PETREU_SIZE_1024},
+    {2048, MENU_PETREU_SIZE_2048},
+    {-1, 0}
 };
 
 ui_res_possible_values pet_SIDCARTModel[] = {
-        {0, MENU_SIDCART_MODEL_6581},
-        {1, MENU_SIDCART_MODEL_8580},
-        {-1, 0}
+    {0, MENU_SIDCART_MODEL_6581},
+    {1, MENU_SIDCART_MODEL_8580},
+    {-1, 0}
 };
 
 ui_res_possible_values pet_SIDCARTAddress[] = {
-        {0, MENU_SIDCART_ADDRESS_1},
-        {1, MENU_SIDCART_ADDRESS_2},
-        {-1, 0}
+    {0, MENU_SIDCART_ADDRESS_1},
+    {1, MENU_SIDCART_ADDRESS_2},
+    {-1, 0}
 };
 
 ui_res_possible_values pet_SIDCARTClock[] = {
-        {0, MENU_SIDCART_CLOCK_C64},
-        {1, MENU_SIDCART_CLOCK_NATIVE},
-        {-1, 0}
+    {0, MENU_SIDCART_CLOCK_C64},
+    {1, MENU_SIDCART_CLOCK_NATIVE},
+    {-1, 0}
 };
 
 void pet_ui_specific(void *msg, void *window)
@@ -103,19 +103,19 @@ void pet_ui_specific(void *msg, void *window)
             ui_pet();
             break;
         case MENU_PETREU_FILE:
-            ui_select_file(windowlist[0]->savepanel,PETREU_FILE,(void*)0);
+            ui_select_file(windowlist[0]->savepanel,PETREU_FILE, (void*)0);
             break;
-
-        default: ;
+        default:
+            break;
     }
 }
 
-ui_res_value_list pet_ui_res_values[] = {
+ ui_res_value_list pet_ui_res_values[] = {
     {"PETREUsize", PETREUSize},
     {"SidModel", pet_SIDCARTModel},
     {"SidAddress", pet_SIDCARTAddress},
     {"SidClock", pet_SIDCARTClock},
-    {NULL,NULL}
+    {NULL, NULL}
 };
 
 extern "C" {
@@ -133,4 +133,3 @@ void petui_shutdown(void)
 }
 
 }
-

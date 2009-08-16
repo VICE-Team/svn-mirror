@@ -36,20 +36,20 @@ extern "C" {
 #include "ui_cbm2.h"
 }
 
-ui_menu_toggle  cbm2_ui_menu_toggles[]={
-    { "CrtcDoubleSize", MENU_TOGGLE_DOUBLESIZE },
-    { "CrtcDoubleScan", MENU_TOGGLE_DOUBLESCAN },
-    { "CrtcVideoCache", MENU_TOGGLE_VIDEOCACHE },
-    { NULL, 0 }
+ui_menu_toggle  cbm2_ui_menu_toggles[] = {
+    {"CrtcDoubleSize", MENU_TOGGLE_DOUBLESIZE},
+    {"CrtcDoubleScan", MENU_TOGGLE_DOUBLESCAN},
+    {"CrtcVideoCache", MENU_TOGGLE_VIDEOCACHE},
+    {NULL, 0}
 };
 
 void cbm2_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
-      case MENU_CBM2_SETTINGS:
-        ui_cbm2();
-        break;
-      default: ;
+        case MENU_CBM2_SETTINGS:
+            ui_cbm2();
+            break;
+        default: ;
     }
 }
 
@@ -64,4 +64,3 @@ int cbm2ui_init(void)
 void cbm2ui_shutdown(void)
 {
 }
-

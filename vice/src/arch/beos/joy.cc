@@ -90,85 +90,82 @@ int hardware_joystick_count = 0;
 
 static void joystick_close_device(int dev_index)
 {
-	int device_num;
-	int used_by;
-	int joy_dev = joystick_port_map[dev_index];
+    int device_num;
+    int used_by;
+    int joy_dev = joystick_port_map[dev_index];
 	
-	if (joy_dev >= NUM_OF_SOFTDEVICES && joy_dev < NUM_OF_SOFTDEVICES+hardware_joystick_count) {
-		/* it's a hardware-stick; close the device if necessary */
-		device_num = hardware_joystick[joy_dev-NUM_OF_SOFTDEVICES].device_num;
-		used_by = device_used_by[device_num];
-		device_used_by[device_num] &= ~(1<<dev_index);
-		if (!device_used_by[device_num] && used_by) {
-			bjoystick[used_by-1]->Close();
-			delete bjoystick[used_by-1];
-			free (axes[used_by-1]);
-			log_message(LOG_DEFAULT, "Joystick: Closed hardware %s as device %d",
-					hardware_joystick[joy_dev-NUM_OF_SOFTDEVICES].device_name, dev_index+1);
-		}
-	}
+    if (joy_dev >= NUM_OF_SOFTDEVICES && joy_dev < NUM_OF_SOFTDEVICES+hardware_joystick_count) {
+        /* it's a hardware-stick; close the device if necessary */
+        device_num = hardware_joystick[joy_dev - NUM_OF_SOFTDEVICES].device_num;
+        used_by = device_used_by[device_num];
+        device_used_by[device_num] &= ~(1 << dev_index);
+        if (!device_used_by[device_num] && used_by) {
+            bjoystick[used_by - 1]->Close();
+            delete bjoystick[used_by - 1];
+            free (axes[used_by - 1]);
+            log_message(LOG_DEFAULT, "Joystick: Closed hardware %s as device %d",
+            hardware_joystick[joy_dev - NUM_OF_SOFTDEVICES].device_name, dev_index + 1);
+        }
+    }
 }
 	
 
 static void joystick_open_device(int dev_index)
 {
-	int used_by;
-	int joy_dev = joystick_port_map[dev_index];
+    int used_by;
+    int joy_dev = joystick_port_map[dev_index];
 
-	if (joy_dev >= NUM_OF_SOFTDEVICES && joy_dev < NUM_OF_SOFTDEVICES+hardware_joystick_count) {
-		/* is the needed device already open? */
-		int device_num = hardware_joystick[joy_dev-NUM_OF_SOFTDEVICES].device_num;
-		if (used_by = device_used_by[device_num]) {
-			bjoystick[dev_index] = bjoystick[used_by-1];
-			axes[dev_index] = axes[used_by-1];
-			log_message(LOG_DEFAULT, "Joystick: Device %d uses hardware port already opened by device %d", 
-				dev_index+1, used_by);
-		} else {
-			bjoystick[dev_index] = new BJoystick();			
-			if (bjoystick[dev_index]->Open(hardware_joystick[joy_dev-NUM_OF_SOFTDEVICES].device_name, true)
-				== B_ERROR)
-			{
-				log_message(LOG_DEFAULT, "Joystick: Warning, couldn't open hardware device %d",
-					dev_index+1);
-				return;
-			} else {
-				log_message(LOG_DEFAULT, "Joystick: Opened hardware %s as device %d",
-					hardware_joystick[joy_dev-NUM_OF_SOFTDEVICES].device_name, dev_index+1);
-			}
-			axes[dev_index] = (int16*) malloc(sizeof(int16) * bjoystick[dev_index]->CountAxes());		
-		}
-		device_used_by[device_num] |= (1<<dev_index);
-		
-		stick_nr[dev_index] = hardware_joystick[joy_dev-NUM_OF_SOFTDEVICES].stick; 
-		axes_nr[dev_index] = hardware_joystick[joy_dev-NUM_OF_SOFTDEVICES].axes; 
-	}
+    if (joy_dev >= NUM_OF_SOFTDEVICES && joy_dev < NUM_OF_SOFTDEVICES+hardware_joystick_count) {
+        /* is the needed device already open? */
+        int device_num = hardware_joystick[joy_dev-NUM_OF_SOFTDEVICES].device_num;
+            if (used_by = device_used_by[device_num]) {
+                bjoystick[dev_index] = bjoystick[used_by - 1];
+                axes[dev_index] = axes[used_by - 1];
+                log_message(LOG_DEFAULT, "Joystick: Device %d uses hardware port already opened by device %d", dev_index + 1, used_by);
+            } else {
+                bjoystick[dev_index] = new BJoystick();
+                if (bjoystick[dev_index]->Open(hardware_joystick[joy_dev - NUM_OF_SOFTDEVICES].device_name, true) == B_ERROR) {
+                    log_message(LOG_DEFAULT, "Joystick: Warning, couldn't open hardware device %d", dev_index + 1);
+                    return;
+                } else {
+                    log_message(LOG_DEFAULT, "Joystick: Opened hardware %s as device %d", hardware_joystick[joy_dev - NUM_OF_SOFTDEVICES].device_name, dev_index + 1);
+            }
+            axes[dev_index] = (int16*) malloc(sizeof(int16) * bjoystick[dev_index]->CountAxes());
+        }
+        device_used_by[device_num] |= (1 < <dev_index);
+
+        stick_nr[dev_index] = hardware_joystick[joy_dev - NUM_OF_SOFTDEVICES].stick; 
+        axes_nr[dev_index] = hardware_joystick[joy_dev - NUM_OF_SOFTDEVICES].axes;
+    }
 }
 
 
 static int set_joystick_device(int val, void *param)
 {
-	if (joystick_initialized)
-		joystick_close_device((int) param);
+    if (joystick_initialized) {
+        joystick_close_device((int)param);
+    }
 
-    joystick_port_map[(int) param] = (joystick_device_t)val;
+    joystick_port_map[(int)param] = (joystick_device_t)val;
 	
-	if (joystick_initialized)
-		joystick_open_device((int) param);
+    if (joystick_initialized) {
+        joystick_open_device((int)param);
+    }
 
     return 0;
 }
 
 
 static const resource_int_t resources_int[] = {
-    { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      (int *)&joystick_port_map[0], set_joystick_device, (void *) 0 },
-    { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      (int *)&joystick_port_map[1], set_joystick_device, (void *) 1 },
-    { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      (int *)&joystick_port_map[2], set_joystick_device, (void *) 2 },
-    { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      (int *)&joystick_port_map[3], set_joystick_device, (void *) 3 },
-    { NULL }
+    {"JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
+     (int *)&joystick_port_map[0], set_joystick_device, (void *)0},
+    {"JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
+     (int *)&joystick_port_map[1], set_joystick_device, (void *)1},
+    {"JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
+     (int *)&joystick_port_map[2], set_joystick_device, (void *)2},
+    {"JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
+     (int *)&joystick_port_map[3], set_joystick_device, (void *)3},
+    {NULL}
 };
 
 
@@ -180,39 +177,39 @@ int joystick_arch_init_resources(void)
 /* ------------------------------------------------------------------------- */
 
 static const cmdline_option_t joydev1cmdline_options[] = {
-    { "-joydev1", SET_RESOURCE, 1,
-      NULL, NULL, "JoyDevice1", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      "<number>", "Set input device for joystick #1" },
-    { NULL }
+    {"-joydev1", SET_RESOURCE, 1,
+     NULL, NULL, "JoyDevice1", NULL,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+     IDCLS_UNUSED, IDCLS_UNUSED,
+     "<number>", "Set input device for joystick #1"},
+    {NULL}
 };
 
 static const cmdline_option_t joydev2cmdline_options[] = {
-    { "-joydev2", SET_RESOURCE, 1,
-      NULL, NULL, "JoyDevice2", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      "<number>", "Set input device for joystick #2" },
-    { NULL }
+    {"-joydev2", SET_RESOURCE, 1,
+     NULL, NULL, "JoyDevice2", NULL,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+     IDCLS_UNUSED, IDCLS_UNUSED,
+     "<number>", "Set input device for joystick #2"},
+    {NULL}
 };
 
 static const cmdline_option_t joydev3cmdline_options[] = {
-    { "-extrajoydev1", SET_RESOURCE, 1,
-      NULL, NULL, "JoyDevice3", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      "<number>", "Set input device for extra joystick #1" },
-    { NULL }
+    {"-extrajoydev1", SET_RESOURCE, 1,
+     NULL, NULL, "JoyDevice3", NULL,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+     IDCLS_UNUSED, IDCLS_UNUSED,
+     "<number>", "Set input device for extra joystick #1"},
+    {NULL}
 };
 
 static const cmdline_option_t joydev4cmdline_options[] = {
-    { "-extrajoydev2", SET_RESOURCE, 1,
-      NULL, NULL, "JoyDevice4", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      "<number>", "Set input device for extra joystick #2" },
-    { NULL }
+    {"-extrajoydev2", SET_RESOURCE, 1,
+     NULL, NULL, "JoyDevice4", NULL,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+     IDCLS_UNUSED, IDCLS_UNUSED,
+     "<number>", "Set input device for extra joystick #2"},
+    {NULL}
 };
 
 int joystick_init_cmdline_options(void)
@@ -271,156 +268,159 @@ int joystick_init_cmdline_options(void)
 
 int joy_arch_init(void)
 {
-	BJoystick testbjoystick;
-	char current_devicename[B_OS_NAME_LENGTH];
-	int device_iter, stick_iter, axes_iter;
-	int device_count;
+    BJoystick testbjoystick;
+    char current_devicename[B_OS_NAME_LENGTH];
+    int device_iter, stick_iter, axes_iter;
+    int device_count;
 
-	if (joystick_initialized)
-		return 0;
+    if (joystick_initialized) {
+        return 0;
+    }
 
-	device_count = testbjoystick.CountDevices();
-	for (device_iter=0; device_iter<device_count; device_iter++) {
-		device_used_by[device_iter] = 0;
-		testbjoystick.GetDeviceName(device_iter, current_devicename);
+    device_count = testbjoystick.CountDevices();
+    for (device_iter = 0; device_iter < device_count; device_iter++) {
+        device_used_by[device_iter] = 0;
+        testbjoystick.GetDeviceName(device_iter, current_devicename);
 
-		if (testbjoystick.Open(current_devicename, true) != B_ERROR)
-		{
-			for (stick_iter=0; stick_iter<testbjoystick.CountSticks(); stick_iter++) {
-				for (axes_iter=0; axes_iter*2<testbjoystick.CountAxes(); axes_iter++) {
-					strcpy(hardware_joystick[hardware_joystick_count].device_name, current_devicename);
-					hardware_joystick[hardware_joystick_count].device_num = device_iter;
-					hardware_joystick[hardware_joystick_count].stick = stick_iter;
-					hardware_joystick[hardware_joystick_count++].axes = axes_iter;
+        if (testbjoystick.Open(current_devicename, true) != B_ERROR) {
+            for (stick_iter = 0; stick_iter < testbjoystick.CountSticks(); stick_iter++) {
+                for (axes_iter = 0; axes_iter * 2 < testbjoystick.CountAxes(); axes_iter++) {
+                    strcpy(hardware_joystick[hardware_joystick_count].device_name, current_devicename);
+                    hardware_joystick[hardware_joystick_count].device_num = device_iter;
+                    hardware_joystick[hardware_joystick_count].stick = stick_iter;
+                    hardware_joystick[hardware_joystick_count++].axes = axes_iter;
 
-					if (hardware_joystick_count >= MAX_HARDWARE_JOYSTICK)
-					return 0;
-				}
-			}			
-			testbjoystick.Close();
-		}		
-	}
-	joystick_initialized = 1;
-	joystick_open_device(0);
-	joystick_open_device(1);
-	joystick_open_device(2);
-	joystick_open_device(3);
+                    if (hardware_joystick_count >= MAX_HARDWARE_JOYSTICK) {
+                        return 0;
+                    }
+                }
+            }			
+            testbjoystick.Close();
+        }		
+    }
+    joystick_initialized = 1;
+    joystick_open_device(0);
+    joystick_open_device(1);
+    joystick_open_device(2);
+    joystick_open_device(3);
 
-	return 0;
+    return 0;
 }
 
 int joystick_close(void)
 {
-	int i;
+    int i;
 	
-	for (i=0; i<4; i++) {
-		if (device_used_by[i]) {
-			delete bjoystick[device_used_by[i]>>1];
-			free(axes[device_used_by[i]>>1]);
-		}
-	}
+    for (i = 0; i < 4; i++) {
+        if (device_used_by[i]) {
+            delete bjoystick[device_used_by[i] >> 1];
+            free(axes[device_used_by[i]>>1]);
+        }
+    }
 }
 
 
 void joystick_update(void)
 {
-	int value;
-	int dev_index;
-	int joy_dev;
-	uint32 buttons;
-	BJoystick *last_joy = NULL;
+    int value;
+    int dev_index;
+    int joy_dev;
+    uint32 buttons;
+    BJoystick *last_joy = NULL;
 	
     for (dev_index = 0; dev_index < 4; dev_index++) {
-    	value = 0;
-    	joy_dev = joystick_port_map[dev_index];
+    	  value = 0;
+    	  joy_dev = joystick_port_map[dev_index];
  
-     	if (joy_dev >= NUM_OF_SOFTDEVICES 
-     		&& joy_dev < NUM_OF_SOFTDEVICES+hardware_joystick_count) {	
-    		if (!last_joy)
-    		{
-				if (bjoystick[dev_index]->Update() == B_ERROR) {
-					log_error(LOG_DEFAULT,"Joystick: Warning. Couldn't get Joystick value for device %d",
-						dev_index+1);
-					break;
-				} else {
-					bjoystick[dev_index]->GetAxisValues(axes[dev_index], stick_nr[dev_index]);
-					buttons = bjoystick[dev_index]->ButtonValues(stick_nr[dev_index]);
-				}
-				last_joy = bjoystick[dev_index];
-			}  
+        if (joy_dev >= NUM_OF_SOFTDEVICES && joy_dev < NUM_OF_SOFTDEVICES+hardware_joystick_count) {	
+    		if (!last_joy) {
+                if (bjoystick[dev_index]->Update() == B_ERROR) {
+                    log_error(LOG_DEFAULT,"Joystick: Warning. Couldn't get Joystick value for device %d", dev_index + 1);
+                    break;
+                } else {
+                    bjoystick[dev_index]->GetAxisValues(axes[dev_index], stick_nr[dev_index]);
+                    buttons = bjoystick[dev_index]->ButtonValues(stick_nr[dev_index]);
+                }
+                last_joy = bjoystick[dev_index];
+            }
 
-			value = 0;
-			if (axes[dev_index][2*axes_nr[dev_index]] < JOYBORDER_MINX)
-				value |= 4;
-			if (axes[dev_index][2*axes_nr[dev_index]] > JOYBORDER_MAXX)
-				value |= 8;
-			if (axes[dev_index][2*axes_nr[dev_index]+1] < JOYBORDER_MINY)
-				value |= 1;
-			if (axes[dev_index][2*axes_nr[dev_index]+1] > JOYBORDER_MAXY)
-				value |= 2;
-			if (buttons & (1 << axes_nr[dev_index]*2) || buttons & (1 << axes_nr[dev_index]*2+1) )
-				value |= 16;
-			joystick_set_value_absolute(dev_index+1, value);
-		}
-	}
+            value = 0;
+            if (axes[dev_index][2 * axes_nr[dev_index]] < JOYBORDER_MINX) {
+                value |= 4;
+            }
+            if (axes[dev_index][2 * axes_nr[dev_index]] > JOYBORDER_MAXX) {
+                value |= 8;
+            }
+            if (axes[dev_index][2 * axes_nr[dev_index] + 1] < JOYBORDER_MINY) {
+                value |= 1;
+            }
+            if (axes[dev_index][2 * axes_nr[dev_index] + 1] > JOYBORDER_MAXY) {
+                value |= 2;
+            }
+            if (buttons & (1 << axes_nr[dev_index] * 2) || buttons & (1 << axes_nr[dev_index]* 2 + 1)) {
+                value |= 16;
+            }
+            joystick_set_value_absolute(dev_index+1, value);
+        }
+    }
 }
 
 /* Joystick-through-keyboard.  */
 int handle_keyset_mapping(joystick_device_t device, int *set,
                           kbd_code_t kcode, int pressed)
 {
-    if (joystick_port_map[0] == device ||
-        joystick_port_map[1] == device ||
-        joystick_port_map[2] == device ||
-        joystick_port_map[3] == device) {
+    if (joystick_port_map[0] == device || joystick_port_map[1] == device ||
+        joystick_port_map[2] == device || joystick_port_map[3] == device) {
         BYTE value = 0;
-        if (kcode == set[KEYSET_NW])    /* North-West */
+
+        if (kcode == set[KEYSET_NW]) {    /* North-West */
             value = 5;
-        else if (kcode == set[KEYSET_N]) /* North */
+        } else if (kcode == set[KEYSET_N]) { /* North */
             value = 1;
-        else if (kcode == set[KEYSET_NE]) /* North-East */
+        } else if (kcode == set[KEYSET_NE]) { /* North-East */
             value = 9;
-        else if (kcode == set[KEYSET_E]) /* East */
+        } else if (kcode == set[KEYSET_E]) { /* East */
             value = 8;
-        else if (kcode == set[KEYSET_SE]) /* South-East */
+        } else if (kcode == set[KEYSET_SE]) { /* South-East */
             value = 10;
-        else if (kcode == set[KEYSET_S]) /* South */
+        } else if (kcode == set[KEYSET_S]) { /* South */
             value = 2;
-        else if (kcode == set[KEYSET_SW]) /* South-West */
+        } else if (kcode == set[KEYSET_SW]) { /* South-West */
             value = 6;
-        else if (kcode == set[KEYSET_W]) /* West */
+        } else if (kcode == set[KEYSET_W]) { /* West */
             value = 4;
-        else if (kcode == set[KEYSET_FIRE]) /* Fire */
+        } else if (kcode == set[KEYSET_FIRE]) { /* Fire */
             value = 16;
-        else
+        } else {
             return 0;
+        }
 
         if (pressed) {
             if (joystick_port_map[0] == device) {
                 joystick_set_value_or(1, value);
-			}
+            }
             if (joystick_port_map[1] == device) {
                 joystick_set_value_or(2, value);
-			}
+            }
             if (joystick_port_map[2] == device) {
                 joystick_set_value_or(3, value);
-			}
+            }
             if (joystick_port_map[3] == device) {
                 joystick_set_value_or(4, value);
-			}
+            }
         } else {
             if (joystick_port_map[0] == device) {
                 joystick_set_value_and(1, ~value);
-			}
+            }
             if (joystick_port_map[1] == device) {
                 joystick_set_value_and(2, ~value);
-			}
+            }
             if (joystick_port_map[2] == device) {
                 joystick_set_value_and(3, ~value);
-			}
+            }
             if (joystick_port_map[3] == device) {
                 joystick_set_value_and(4, ~value);
-			}
+            }
         }
         return 1;
     }
@@ -433,79 +433,75 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
 
     /* The numpad case is handled specially because it allows users to use
        both `5' and `2' for "down".  */
-    if (joystick_port_map[0] == JOYDEV_NUMPAD ||
-        joystick_port_map[1] == JOYDEV_NUMPAD ||
-        joystick_port_map[2] == JOYDEV_NUMPAD ||
-        joystick_port_map[3] == JOYDEV_NUMPAD) {
+    if (joystick_port_map[0] == JOYDEV_NUMPAD || joystick_port_map[1] == JOYDEV_NUMPAD ||
+        joystick_port_map[2] == JOYDEV_NUMPAD || joystick_port_map[3] == JOYDEV_NUMPAD) {
 
         switch (kcode) {
-          case K_KP7:               /* North-West */
-            value = 5;
-            break;
-          case K_KP8:               /* North */
-            value = 1;
-            break;
-          case K_KP9:               /* North-East */
-            value = 9;
-            break;
-          case K_KP6:               /* East */
-            value = 8;
-            break;
-          case K_KP3:               /* South-East */
-            value = 10;
-            break;
-          case K_KP2:               /* South */
-          case K_KP5:
-            value = 2;
-            break;
-          case K_KP1:               /* South-West */
-            value = 6;
-            break;
-          case K_KP4:                  /* West */
-            value = 4;
-            break;
-          case K_KP0:
-          case K_RIGHTCTRL:
-            value = 16;
-            break;
-          default:
-            /* (make compiler happy) */
-            ;
+            case K_KP7:               /* North-West */
+                value = 5;
+                break;
+            case K_KP8:               /* North */
+                value = 1;
+                break;
+            case K_KP9:               /* North-East */
+                value = 9;
+                break;
+            case K_KP6:               /* East */
+                value = 8;
+                break;
+            case K_KP3:               /* South-East */
+                value = 10;
+                break;
+            case K_KP2:               /* South */
+            case K_KP5:
+                value = 2;
+                break;
+            case K_KP1:               /* South-West */
+                value = 6;
+                break;
+            case K_KP4:                  /* West */
+                value = 4;
+                break;
+            case K_KP0:
+            case K_RIGHTCTRL:
+                value = 16;
+                break;
+            default:
+                /* (make compiler happy) */
+                break;
         }
 
         if (pressed) {
             if (joystick_port_map[0] == JOYDEV_NUMPAD) {
                 joystick_set_value_or(1, value);
-			}
+            }
             if (joystick_port_map[1] == JOYDEV_NUMPAD) {
                 joystick_set_value_or(2, value);
-			}
+            }
             if (joystick_port_map[2] == JOYDEV_NUMPAD) {
                 joystick_set_value_or(3, value);
-			}
+            }
             if (joystick_port_map[3] == JOYDEV_NUMPAD) {
                 joystick_set_value_or(4, value);
-			}
+            }
         } else {
             if (joystick_port_map[0] == JOYDEV_NUMPAD) {
                 joystick_set_value_and(1, ~value);
-			}
+            }
             if (joystick_port_map[1] == JOYDEV_NUMPAD) {
                 joystick_set_value_and(2, ~value);
-			}
+            }
             if (joystick_port_map[2] == JOYDEV_NUMPAD) {
                 joystick_set_value_and(3, ~value);
-			}
+            }
             if (joystick_port_map[3] == JOYDEV_NUMPAD) {
                 joystick_set_value_and(4, ~value);
-			}
+            }
         }
     }
 
     /* (Notice we have to handle all the keysets even when one key is used
        more than once (the most intuitive behavior), so we use `|' instead of
        `||'.)  */
-    return (value
-            | handle_keyset_mapping(JOYDEV_KEYSET1, keyset1, kcode, pressed)
-            | handle_keyset_mapping(JOYDEV_KEYSET2, keyset2, kcode, pressed));
+    return (value | handle_keyset_mapping(JOYDEV_KEYSET1, keyset1, kcode, pressed) | handle_keyset_mapping(JOYDEV_KEYSET2, keyset2, kcode, pressed));
 }

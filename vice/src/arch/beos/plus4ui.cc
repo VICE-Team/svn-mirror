@@ -36,39 +36,39 @@ extern "C" {
 }
 
 ui_menu_toggle  plus4_ui_menu_toggles[] = {
-    { "TEDDoubleSize", MENU_TOGGLE_DOUBLESIZE },
-    { "TEDDoubleScan", MENU_TOGGLE_DOUBLESCAN },
-    { "TEDVideoCache", MENU_TOGGLE_VIDEOCACHE },
-    { "TEDScale2x", MENU_TOGGLE_SCALE2X },
-    { "SidCart", MENU_TOGGLE_SIDCART },
-    { "SidFilters", MENU_TOGGLE_SIDCART_FILTERS },
-    { "SIDCartJoy", MENU_TOGGLE_SIDCART_JOY },
-    { NULL, 0 }
+    {"TEDDoubleSize", MENU_TOGGLE_DOUBLESIZE},
+    {"TEDDoubleScan", MENU_TOGGLE_DOUBLESCAN},
+    {"TEDVideoCache", MENU_TOGGLE_VIDEOCACHE},
+    {"TEDScale2x", MENU_TOGGLE_SCALE2X},
+    {"SidCart", MENU_TOGGLE_SIDCART},
+    {"SidFilters", MENU_TOGGLE_SIDCART_FILTERS},
+    {"SIDCartJoy", MENU_TOGGLE_SIDCART_JOY},
+    {NULL, 0}
 };
 
 ui_res_possible_values plus4_SIDCARTModel[] = {
-        {0, MENU_SIDCART_MODEL_6581},
-        {1, MENU_SIDCART_MODEL_8580},
-        {-1, 0}
+    {0, MENU_SIDCART_MODEL_6581},
+    {1, MENU_SIDCART_MODEL_8580},
+    {-1, 0}
 };
 
 ui_res_possible_values plus4_SIDCARTAddress[] = {
-        {0, MENU_SIDCART_ADDRESS_1},
-        {1, MENU_SIDCART_ADDRESS_2},
-        {-1, 0}
+    {0, MENU_SIDCART_ADDRESS_1},
+    {1, MENU_SIDCART_ADDRESS_2},
+    {-1, 0}
 };
 
 ui_res_possible_values plus4_SIDCARTClock[] = {
-        {0, MENU_SIDCART_CLOCK_C64},
-        {1, MENU_SIDCART_CLOCK_NATIVE},
-        {-1, 0}
+    {0, MENU_SIDCART_CLOCK_C64},
+    {1, MENU_SIDCART_CLOCK_NATIVE},
+    {-1, 0}
 };
 
 ui_res_value_list plus4_ui_res_values[] = {
     {"SidModel", plus4_SIDCARTModel},
     {"SidAddress", plus4_SIDCARTAddress},
     {"SidClock", plus4_SIDCARTClock},
-    { NULL, NULL }
+    {NULL, NULL}
 };
 
 static void plus4_ui_specific(void *msg, void *window)
@@ -86,4 +86,3 @@ int plus4ui_init(void)
 void plus4ui_shutdown(void)
 {
 }
-
