@@ -71,7 +71,7 @@
 #include <exec/execbase.h>
 #endif
 
-#if !defined(AMIGA_MORPHOS) && !defined(AMIGA_AROS) && !defined(__VBCC__)
+#if !defined(AMIGA_MORPHOS) && !defined(AMIGA_AROS)
 #include <inline/cybergraphics.h>
 #endif
 

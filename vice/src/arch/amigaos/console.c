@@ -69,11 +69,7 @@ int console_out(console_t *log, const char *format, ...)
 #ifdef AMIGA_AROS
     VFPrintf(console_handle, format, (IPTR *)ap);
 #else
-#ifdef POWERUP_VBCC
-    FPrintf(console_handle, format, ap);
-#else
     VFPrintf(console_handle, format, (CONST APTR)ap);
-#endif
 #endif
 #else
     VNewRawDoFmt(format, fh_putchproc, (STRPTR)console_handle, ap);

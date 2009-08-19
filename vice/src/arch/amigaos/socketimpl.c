@@ -26,9 +26,7 @@
 
 #include "vice.h"
 
-#ifndef __VBCC__
 #define __USE_INLINE__
-#endif
 
 #include "socketimpl.h"
 

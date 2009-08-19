@@ -1,6 +1,5 @@
 EXTRA_DIST = \
 	amigaos/build-os4-native.sh \
-	amigaos/build-vbcc.sh \
 	beos/ppc-build.sh \
 	beos/ppc-build-sdl.sh \
 	mingw32/build-cross.sh \

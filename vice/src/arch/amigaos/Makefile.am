@@ -224,7 +224,6 @@ EXTRA_DIST = \
 	info-files/morphos/xpet.info \
 	info-files/morphos/xplus4.info \
 	info-files/morphos/xvic.info \
-	config.h.vbcc \
 	fixdeps.c \
 	genintl_h.sh \
 	genintltable.sh \

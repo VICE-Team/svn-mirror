@@ -26,9 +26,7 @@
 
 #include "vice.h"
 
-#ifndef __VBCC__
 #define __USE_INLINE__
-#endif
 
 #ifdef AMIGA_OS4
 #define ASL_PRE_V38_NAMES
