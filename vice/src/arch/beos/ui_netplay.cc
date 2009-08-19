@@ -38,97 +38,88 @@ extern "C" {
 #include "vsync.h"
 }
 
-
 class NetplayWindow : public BWindow {
-	public:
-		NetplayWindow();
-		~NetplayWindow();
-		virtual void MessageReceived(BMessage *msg);
-	private:
-		BTextControl *servertextcontrol;
-		BTextControl *porttextcontrol;
-};	
-
+    public:
+        NetplayWindow();
+        ~NetplayWindow();
+        virtual void MessageReceived(BMessage *msg);
+    private:
+        BTextControl *servertextcontrol;
+        BTextControl *porttextcontrol;
+};
 
 static NetplayWindow *netplaywindow = NULL;
 
-
 NetplayWindow::NetplayWindow() 
-	: BWindow(BRect(50,50,200,150),"Netplay settings",
-		B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
-		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+    : BWindow(BRect(50, 50, 200, 150), "Netplay settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
-	int port;
-	char str[256];
-	const char *server;
-	BView *background;
-	BRect r;
+    int port;
+    char str[256];
+    const char *server;
+    BView *background;
+    BRect r;
 
-	r = Bounds();
-	background = new BView(r, "backview", B_FOLLOW_NONE, B_WILL_DRAW);
-	background->SetViewColor(220,220,220,0);
-	AddChild(background);
+    r = Bounds();
+    background = new BView(r, "backview", B_FOLLOW_NONE, B_WILL_DRAW);
+    background->SetViewColor(220, 220, 220, 0);
+    AddChild(background);
 
     resources_get_string("NetworkServerName", &server);
     resources_get_int("NetworkServerPort", &port);
     sprintf(str, "%d", port);
-    
+
     r.bottom -= r.Height() * 2 / 3;
     r.InsetBy(5, 5);
-    
-	servertextcontrol = new BTextControl(r,
-		"server", "Server", server, NULL);
-	servertextcontrol->SetDivider(50);
-	background->AddChild(servertextcontrol);
-	
-	r.OffsetBy(0, r.Height() + 5);
-				
-	porttextcontrol = new BTextControl(r,
-		"port", "Port", str, NULL);
-	porttextcontrol->SetDivider(50);
-	background->AddChild(porttextcontrol);
 
-	r.OffsetBy(0, r.Height() + 5);
+    servertextcontrol = new BTextControl(r, "server", "Server", server, NULL);
+    servertextcontrol->SetDivider(50);
+    background->AddChild(servertextcontrol);
 
-	background->AddChild(new BButton(r, "apply", "Apply settings",
-		new BMessage(MESSAGE_NETPLAY_APPLY)));
-	
-	Show();
+    r.OffsetBy(0, r.Height() + 5);
+
+    porttextcontrol = new BTextControl(r, "port", "Port", str, NULL);
+    porttextcontrol->SetDivider(50);
+    background->AddChild(porttextcontrol);
+
+    r.OffsetBy(0, r.Height() + 5);
+
+    background->AddChild(new BButton(r, "apply", "Apply settings", new BMessage(MESSAGE_NETPLAY_APPLY)));
+
+    Show();
 }
 
 NetplayWindow::~NetplayWindow() 
 {
-	netplaywindow = NULL;	
+    netplaywindow = NULL;	
 }
 
-
-void NetplayWindow::MessageReceived(BMessage *msg) {
-	
-	switch (msg->what) {
-		case MESSAGE_NETPLAY_APPLY:
-		    resources_set_string("NetworkServerName",
-		  		servertextcontrol->Text());
-		    resources_set_int("NetworkServerPort",
-		  		atoi(porttextcontrol->Text()));
-		  	BWindow::Quit();
-		  	break;
-		default:
-			BWindow::MessageReceived(msg);
-	}
+void NetplayWindow::MessageReceived(BMessage *msg)
+{
+    switch (msg->what) {
+        case MESSAGE_NETPLAY_APPLY:
+            resources_set_string("NetworkServerName", servertextcontrol->Text());
+            resources_set_int("NetworkServerPort", atoi(porttextcontrol->Text()));
+            BWindow::Quit();
+            break;
+        default:
+            BWindow::MessageReceived(msg);
+    }
 }
 
-void ui_netplay() {
-	thread_id netplaythread;
-	status_t exit_value;
-	
-	if (netplaywindow != NULL)
-		return;
+void ui_netplay()
+{
+    thread_id netplaythread;
+    status_t exit_value;
 
-	netplaywindow = new NetplayWindow;
+    if (netplaywindow != NULL) {
+        return;
+    }
 
-	vsync_suspend_speed_eval();
+    netplaywindow = new NetplayWindow;
 
-	/* wait until window closed */
-	netplaythread=netplaywindow->Thread();
-	wait_for_thread(netplaythread, &exit_value);
+    vsync_suspend_speed_eval();
+
+    /* wait until window closed */
+    netplaythread=netplaywindow->Thread();
+    wait_for_thread(netplaythread, &exit_value);
 }

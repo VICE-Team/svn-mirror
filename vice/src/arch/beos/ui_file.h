@@ -33,62 +33,59 @@
 const uint32 AUTOSTART_MESSAGE = 'AS01';
 
 enum filetype_t {
-	AUTOSTART_FILE,
-	DISK_FILE,
-	TAPE_FILE,
-	SNAPSHOTSAVE_FILE,
-	SNAPSHOTLOAD_FILE,
-	SNAPSHOT_HISTORY_START,
-	SNAPSHOT_HISTORY_END,
-	C64_CARTRIDGE_FILE,
-	VIC20_CARTRIDGE_FILE,
-	VSID_FILE,
-	REU_FILE,
-	GEORAM_FILE,
-	RAMCART_FILE,
-	DQBB_FILE,
-	PLUS60K_FILE,
-	PLUS256K_FILE,
-	C64_256K_FILE,
-	PETREU_FILE,
-	MMC64_BIOS_FILE,
-	MMC64_IMAGE_FILE,
-	C64DTV_ROM_FILE,
-	AIFF_FILE,
-	IFF_FILE,
-	MP3_FILE,
-	VOC_FILE,
-	WAV_FILE,
-	VIC20_GENERIC_CART_FILE,
-	VIC20_MEGACART_FILE,
-	VIC20_FINAL_EXPANSION_FILE,
-	VIC20_SMART_CART_ATTACH_FILE
+    AUTOSTART_FILE,
+    DISK_FILE,
+    TAPE_FILE,
+    SNAPSHOTSAVE_FILE,
+    SNAPSHOTLOAD_FILE,
+    SNAPSHOT_HISTORY_START,
+    SNAPSHOT_HISTORY_END,
+    C64_CARTRIDGE_FILE,
+    VIC20_CARTRIDGE_FILE,
+    VSID_FILE,
+    REU_FILE,
+    GEORAM_FILE,
+    RAMCART_FILE,
+    DQBB_FILE,
+    PLUS60K_FILE,
+    PLUS256K_FILE,
+    C64_256K_FILE,
+    PETREU_FILE,
+    MMC64_BIOS_FILE,
+    MMC64_IMAGE_FILE,
+    C64DTV_ROM_FILE,
+    AIFF_FILE,
+    IFF_FILE,
+    MP3_FILE,
+    VOC_FILE,
+    WAV_FILE,
+    VIC20_GENERIC_CART_FILE,
+    VIC20_MEGACART_FILE,
+    VIC20_FINAL_EXPANSION_FILE,
+    VIC20_SMART_CART_ATTACH_FILE
 };
 
 class ViceFilePanel;
 
 class VicePreview : public BWindow {
-	public :
-		VicePreview(BPoint origin, ViceFilePanel *f);
-		void DisplayContent(char *content);
-		void MessageReceived(BMessage *msg);
-		BListView *contentlist;
-		char image_name[256];
-		ViceFilePanel *father;
+    public :
+        VicePreview(BPoint origin, ViceFilePanel *f);
+        void DisplayContent(char *content);
+        void MessageReceived(BMessage *msg);
+        BListView *contentlist;
+        char image_name[256];
+        ViceFilePanel *father;
 };
 
 class ViceFilePanel : public BFilePanel {
-	public : 
-		ViceFilePanel(file_panel_mode, BMessenger*, entry_ref*, uint32, bool);
-		void SelectionChanged(void);
-		void WasHidden(void);
-		VicePreview *previewwindow;
+    public : 
+        ViceFilePanel(file_panel_mode, BMessenger*, entry_ref*, uint32, bool);
+        void SelectionChanged(void);
+        void WasHidden(void);
+        VicePreview *previewwindow;
 };
 
-extern void ui_select_file(ViceFilePanel *filepanel, 
-					filetype_t filetype, 
-					void *fileparam);
-
+extern void ui_select_file(ViceFilePanel *filepanel, filetype_t filetype, void *fileparam);
 extern void ui_select_file_action(BMessage *msg);
 
 #endif

@@ -27,9 +27,9 @@
 #ifndef VICE__UI_DATASETTE_H__
 #define VICE__UI_DATASETTE_H__
 
-const uint32 MESSAGE_DATASETTE_RESET		= 'MDA1';
-const uint32 MESSAGE_DATASETTE_SPEED		= 'MDA2';
-const uint32 MESSAGE_DATASETTE_ZEROGAP		= 'MDA3';
+const uint32 MESSAGE_DATASETTE_RESET   = 'MDA1';
+const uint32 MESSAGE_DATASETTE_SPEED   = 'MDA2';
+const uint32 MESSAGE_DATASETTE_ZEROGAP = 'MDA3';
 
 extern void ui_datasette(void);
 

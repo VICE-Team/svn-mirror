@@ -27,12 +27,12 @@
 #ifndef VICE__UI_DEVICE_H__
 #define VICE__UI_DEVICE_H__
 
-const uint32 MESSAGE_DEVICE_P00				= 'MDV1';
-const uint32 MESSAGE_DEVICE_BROWSE			= 'MDV2';
-const uint32 MESSAGE_DEVICE_BROWSE_END		= 'MDV3';
-const uint32 MESSAGE_DEVICE_DIRECTORY		= 'MDV4';
-const uint32 MESSAGE_DEVICE_PRINTER4		= 'MDV5';
-const uint32 MESSAGE_DEVICE_PRINTERFILE		= 'MDV6';
+const uint32 MESSAGE_DEVICE_P00         = 'MDV1';
+const uint32 MESSAGE_DEVICE_BROWSE      = 'MDV2';
+const uint32 MESSAGE_DEVICE_BROWSE_END  = 'MDV3';
+const uint32 MESSAGE_DEVICE_DIRECTORY   = 'MDV4';
+const uint32 MESSAGE_DEVICE_PRINTER4    = 'MDV5';
+const uint32 MESSAGE_DEVICE_PRINTERFILE = 'MDV6';
 
 extern void ui_device(void);
 
