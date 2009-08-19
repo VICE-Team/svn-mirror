@@ -27,15 +27,15 @@
 #ifndef VICE__UI_PET_H__
 #define VICE__UI_PET_H__
 
-const uint32 MESSAGE_PET_MODEL		= 'MP01';
-const uint32 MESSAGE_PET_MEMORY		= 'MP02';
-const uint32 MESSAGE_PET_VIDEO 		= 'MP03';
-const uint32 MESSAGE_PET_IOSIZE		= 'MP04';
-const uint32 MESSAGE_PET_KEYBOARD	= 'MP05';
-const uint32 MESSAGE_PET_CRTC		= 'MP06';
-const uint32 MESSAGE_PET_SUPERPET	= 'MP07';
-const uint32 MESSAGE_PET_RAM9		= 'MP08';
-const uint32 MESSAGE_PET_RAMA		= 'MP09';
+const uint32 MESSAGE_PET_MODEL    = 'MP01';
+const uint32 MESSAGE_PET_MEMORY   = 'MP02';
+const uint32 MESSAGE_PET_VIDEO    = 'MP03';
+const uint32 MESSAGE_PET_IOSIZE   = 'MP04';
+const uint32 MESSAGE_PET_KEYBOARD = 'MP05';
+const uint32 MESSAGE_PET_CRTC     = 'MP06';
+const uint32 MESSAGE_PET_SUPERPET = 'MP07';
+const uint32 MESSAGE_PET_RAM9     = 'MP08';
+const uint32 MESSAGE_PET_RAMA     = 'MP09';
 
 extern void ui_pet(void);
 
