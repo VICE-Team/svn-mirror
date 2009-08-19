@@ -41,7 +41,7 @@ static int g_mx = 0, g_my = 0, g_mb = 0;
 #include <devices/inputevent.h>
 #include <proto/exec.h>
 
-#if defined(AMIGA_MORPHOS) || defined(AMIGA_WARPOS)
+#ifdef AMIGA_MORPHOS
 #include <exec/interrupts.h>
 #endif
 

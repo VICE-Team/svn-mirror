@@ -241,14 +241,6 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     is_amigaos4=no
   fi
 
-  if test x"$host_os" = "xamithlon" -o x"$host_cpu" = "xi686be"; then
-    AC_DEFINE(AMIGA_AMITHLON,,[Should we enable Amiga Amithlon support.])
-    AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
-    AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
-    AC_CHECK_HEADERS(proto/openpci.h)
-    is_amigaos4=no
-  fi
-
   if test x"$host_os" = "xaros"; then
     AC_DEFINE(AMIGA_AROS,,[Should we enable AROS support.])
     AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
@@ -273,16 +265,6 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     with_zlib=no
     is_amigaos4=no
     is_amigaos3=yes
-  fi
-
-  if test x"$host_os" = "xwarpos"; then
-    AC_DEFINE(AMIGA_WARPOS,,[Should we enable PPC Amiga WarpOS support.])
-    is_amigaos4=no
-  fi
-
-  if test x"$host_os" = "xpowerup"; then
-    AC_DEFINE(AMIGA_POWERUP,,[Should we enable PPC Amiga PowerUP support.])
-    is_amigaos4=no
   fi
 
   if test x"$is_amigaos4" = "xyes"; then
