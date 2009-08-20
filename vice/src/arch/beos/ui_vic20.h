@@ -27,8 +27,8 @@
 #ifndef VICE__UI_VIC20_H__
 #define VICE__UI_VIC20_H__
 
-const uint32 MESSAGE_VIC20_MEMCONFIG	= 'MV20';
-const uint32 MESSAGE_VIC20_MEMBLOCK		= 'MV21';
+const uint32 MESSAGE_VIC20_MEMCONFIG = 'MV20';
+const uint32 MESSAGE_VIC20_MEMBLOCK  = 'MV21';
 
 extern void ui_vic20(void);
 

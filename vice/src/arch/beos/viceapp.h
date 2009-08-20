@@ -30,12 +30,12 @@
 extern char APP_SIGNATURE[256];
 
 class ViceApp : public BApplication {
-	public:
-						ViceApp();
-		void	ReadyToRun();
-		void	MessageReceived(BMessage *message);
-	private:
-		thread_id		vicethread;
+    public:
+        ViceApp();
+        void ReadyToRun();
+        void MessageReceived(BMessage *message);
+    private:
+        thread_id vicethread;
 };
 
 #endif

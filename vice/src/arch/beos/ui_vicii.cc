@@ -38,106 +38,93 @@ extern "C" {
 }
 
 class ViciiWindow : public BWindow {
-	public:
-		ViciiWindow();
-		~ViciiWindow();
-		virtual void MessageReceived(BMessage *msg);
-};	
-
+    public:
+        ViciiWindow();
+        ~ViciiWindow();
+        virtual void MessageReceived(BMessage *msg);
+};
 
 static ViciiWindow *viciiwindow = NULL;
 
 
 ViciiWindow::ViciiWindow() 
-	: BWindow(BRect(50,50,210,155),"VIC-II settings",
-		B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
-		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+    : BWindow(BRect(50, 50, 210, 155), "VIC-II settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
-	BCheckBox *checkbox;
-	BRect r;
-	BBox *box;
-	BView *background;
-	int res_val;
-	
-	r = Bounds();
-	background = new BView(r, NULL,  B_FOLLOW_NONE, B_WILL_DRAW);
-	background->SetViewColor(220,220,220,0);
-	AddChild(background);
-	
-	/* sprite collisions */
-	r = Bounds();
-	r.InsetBy(10,10);
-	r.bottom -= 20;
-	box = new BBox(r);
-	box->SetLabel("Sprite Collision");
-	background->AddChild(box);
-	
-	checkbox = new BCheckBox(
-		BRect(10, 20, 120, 35),
-		NULL,
-		"Sprite-Sprite",
-		new BMessage(MESSAGE_VICII_SSCOLL));
-	resources_get_int("VICIICheckSsColl", &res_val);
-	checkbox->SetValue(res_val);
-	box->AddChild(checkbox);	
-	
-	checkbox = new BCheckBox(
-		BRect(10, 40, 120, 55),
-		NULL,
-		"Sprite-Background",
-		new BMessage(MESSAGE_VICII_SBCOLL));
-	resources_get_int("VICIICheckSbColl", &res_val);
-	checkbox->SetValue(res_val);
-	box->AddChild(checkbox);	
-	
-	/* new colors */
-	checkbox = new BCheckBox(
-		BRect(20, 80, 120, 95),
-		NULL,
-		"New Colors",
-		new BMessage(MESSAGE_VICII_NEWLUMINANCE));
-	resources_get_int("VICIINewLuminances", &res_val);
-	checkbox->SetValue(res_val);
-	background->AddChild(checkbox);	
-	
-	Show();
+    BCheckBox *checkbox;
+    BRect r;
+    BBox *box;
+    BView *background;
+    int res_val;
+
+    r = Bounds();
+    background = new BView(r, NULL,  B_FOLLOW_NONE, B_WILL_DRAW);
+    background->SetViewColor(220, 220, 220, 0);
+    AddChild(background);
+
+    /* sprite collisions */
+    r = Bounds();
+    r.InsetBy(10, 10);
+    r.bottom -= 20;
+    box = new BBox(r);
+    box->SetLabel("Sprite Collision");
+    background->AddChild(box);
+
+    checkbox = new BCheckBox(BRect(10, 20, 120, 35), NULL, "Sprite-Sprite", new BMessage(MESSAGE_VICII_SSCOLL));
+    resources_get_int("VICIICheckSsColl", &res_val);
+    checkbox->SetValue(res_val);
+    box->AddChild(checkbox);	
+
+    checkbox = new BCheckBox(BRect(10, 40, 120, 55), NULL, "Sprite-Background", new BMessage(MESSAGE_VICII_SBCOLL));
+    resources_get_int("VICIICheckSbColl", &res_val);
+    checkbox->SetValue(res_val);
+    box->AddChild(checkbox);	
+
+    /* new colors */
+    checkbox = new BCheckBox(BRect(20, 80, 120, 95), NULL, "New Colors", new BMessage(MESSAGE_VICII_NEWLUMINANCE));
+    resources_get_int("VICIINewLuminances", &res_val);
+    checkbox->SetValue(res_val);
+    background->AddChild(checkbox);	
+
+    Show();
 }
 
 ViciiWindow::~ViciiWindow() 
 {
-	viciiwindow = NULL;	
+    viciiwindow = NULL;	
 }
 
 void ViciiWindow::MessageReceived(BMessage *msg) {
-	resource_value_t dummy;
-	
-	switch (msg->what) {
-		case MESSAGE_VICII_SSCOLL:
-			resources_toggle("VICIICheckSsColl", (int *)&dummy);
-			break;
-		case MESSAGE_VICII_SBCOLL:
-			resources_toggle("VICIICheckSbColl", (int *)&dummy);
-			break;
-		case MESSAGE_VICII_NEWLUMINANCE:
-			resources_toggle("VICIINewLuminances", (int *)&dummy);
-			break;
-		default:
-			BWindow::MessageReceived(msg);
-	}
+    resource_value_t dummy;
+
+    switch (msg->what) {
+        case MESSAGE_VICII_SSCOLL:
+            resources_toggle("VICIICheckSsColl", (int *)&dummy);
+            break;
+        case MESSAGE_VICII_SBCOLL:
+            resources_toggle("VICIICheckSbColl", (int *)&dummy);
+            break;
+        case MESSAGE_VICII_NEWLUMINANCE:
+            resources_toggle("VICIINewLuminances", (int *)&dummy);
+            break;
+        default:
+            BWindow::MessageReceived(msg);
+    }
 }
 
-void ui_vicii() {
-	thread_id viciithread;
-	status_t exit_value;
-	
-	if (viciiwindow != NULL)
-		return;
+void ui_vicii()
+{
+    thread_id viciithread;
+    status_t exit_value;
 
-	viciiwindow = new ViciiWindow;
+    if (viciiwindow != NULL) {
+        return;
+    }
 
-	vsync_suspend_speed_eval();
+    viciiwindow = new ViciiWindow;
 
-	/* wait until window closed */
-	viciithread=viciiwindow->Thread();
-	wait_for_thread(viciithread, &exit_value);
+    vsync_suspend_speed_eval();
+
+    /* wait until window closed */
+    viciithread = viciiwindow->Thread();
+    wait_for_thread(viciithread, &exit_value);
 }

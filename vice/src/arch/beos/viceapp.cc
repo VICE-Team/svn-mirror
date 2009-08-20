@@ -42,51 +42,53 @@ static char** viceargv;
 
 char APP_SIGNATURE[256];
 
-ViceApp::ViceApp()
-			: BApplication(APP_SIGNATURE) {
+ViceApp::ViceApp() : BApplication(APP_SIGNATURE)
+{
 }
 
-int32 vice_start_main(void* data) {
-	main_program(viceargc,viceargv);
+int32 vice_start_main(void* data)
+{
+    main_program(viceargc,viceargv);
 	
-	/* if vice thread returns, it's time to close the application */
-	BMessenger messenger(APP_SIGNATURE);
-	BMessage message(WINDOW_CLOSED);
-	messenger.SendMessage(&message, be_app);
+    /* if vice thread returns, it's time to close the application */
+    BMessenger messenger(APP_SIGNATURE);
+    BMessage message(WINDOW_CLOSED);
+    messenger.SendMessage(&message, be_app);
 }
 
-void ViceApp::ReadyToRun() {
-	vicethread = spawn_thread(vice_start_main,"vicethread",B_NORMAL_PRIORITY,NULL);
-	resume_thread(vicethread);
+void ViceApp::ReadyToRun()
+{
+    vicethread = spawn_thread(vice_start_main,"vicethread",B_NORMAL_PRIORITY,NULL);
+    resume_thread(vicethread);
 }
 
-void ViceApp::MessageReceived(BMessage *message) {
-status_t exit_value;
+void ViceApp::MessageReceived(BMessage *message)
+{
+    status_t exit_value;
 
-	switch(message->what) {
-		case WINDOW_CLOSED:
-			/* Finish the Application after emulation thread has finished */
-			wait_for_thread(vicethread, &exit_value);
-			Quit();
-			break;
-		default:
-			BApplication::MessageReceived(message);
-			break;
-	}
+    switch (message->what) {
+        case WINDOW_CLOSED:
+            /* Finish the Application after emulation thread has finished */
+            wait_for_thread(vicethread, &exit_value);
+            Quit();
+            break;
+        default:
+            BApplication::MessageReceived(message);
+            break;
+    }
 }
 
-
-int main(int argc, char **argv) {
- 	strcpy(APP_SIGNATURE,"application/x-vnd.Be");
-	strcat(APP_SIGNATURE,machine_name);
-	viceargc = argc;
-	viceargv = argv;
-	ViceApp theApp;		// The application object
-	theApp.Run();
-	return 0;
+int main(int argc, char **argv)
+{
+    strcpy(APP_SIGNATURE, "application/x-vnd.Be");
+    strcat(APP_SIGNATURE, machine_name);
+    viceargc = argc;
+    viceargv = argv;
+    ViceApp theApp;		// The application object
+    theApp.Run();
+    return 0;
 }
 
 void main_exit(void)
 {
 }
-

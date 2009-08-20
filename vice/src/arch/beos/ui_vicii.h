@@ -27,9 +27,9 @@
 #ifndef VICE__UI_VICII_H__
 #define VICE__UI_VICII_H__
 
-const uint32 MESSAGE_VICII_NEWLUMINANCE		= 'MVI1';
-const uint32 MESSAGE_VICII_SSCOLL			= 'MVI2';
-const uint32 MESSAGE_VICII_SBCOLL			= 'MVI3';
+const uint32 MESSAGE_VICII_NEWLUMINANCE = 'MVI1';
+const uint32 MESSAGE_VICII_SSCOLL       = 'MVI2';
+const uint32 MESSAGE_VICII_SBCOLL       = 'MVI3';
 
 extern void ui_vicii(void);
 

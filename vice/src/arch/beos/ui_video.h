@@ -27,11 +27,11 @@
 #ifndef VICE__UI_VIDEO_H__
 #define VICE__UI_VIDEO_H__
 
-const uint32 MESSAGE_VIDEO_COLOR				= 'MVD1';
-const uint32 MESSAGE_VIDEO_PALETTEFILE			= 'MVD2';
-const uint32 MESSAGE_VIDEO_EXTERNALPALETTE		= 'MVD3';
-const uint32 MESSAGE_VIDEO_PALMODE				= 'MVD4';
-const uint32 MESSAGE_VIDEO_PALSHADE				= 'MVD5';
+const uint32 MESSAGE_VIDEO_COLOR           = 'MVD1';
+const uint32 MESSAGE_VIDEO_PALETTEFILE     = 'MVD2';
+const uint32 MESSAGE_VIDEO_EXTERNALPALETTE = 'MVD3';
+const uint32 MESSAGE_VIDEO_PALMODE         = 'MVD4';
+const uint32 MESSAGE_VIDEO_PALSHADE        = 'MVD5';
 
 extern void ui_video(void);
 

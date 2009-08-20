@@ -56,170 +56,151 @@ static int config_number[] = {
 };
 
 static char *config_text[] = {
-	"no expansion",
-	"3K (block 0)",
-	"8K (block 1)",
-	"16K (block 1+2)",
-	"24K (block 1+2+3)",
-	"full (block 0+1+2+3+5)",
-	"custom"
+    "no expansion",
+    "3K (block 0)",
+    "8K (block 1)",
+    "16K (block 1+2)",
+    "24K (block 1+2+3)",
+    "full (block 0+1+2+3+5)",
+    "custom"
 };
 
 static char *block_text[] = {
-	"Block 0",
-	"Block 1",
-	"Block 2",
-	"Block 3",
-	"Block 5"
+    "Block 0",
+    "Block 1",
+    "Block 2",
+    "Block 3",
+    "Block 5"
 };
 
 static char *block_resource[] = {
-	"RAMBlock0",
-	"RAMBlock1",
-	"RAMBlock2",
-	"RAMBlock3",
-	"RAMBlock5"
+    "RAMBlock0",
+    "RAMBlock1",
+    "RAMBlock2",
+    "RAMBlock3",
+    "RAMBlock5"
 };
 
-
 class Vic20Window : public BWindow {
-	public:
-		Vic20Window();
-		~Vic20Window();
-		virtual void MessageReceived(BMessage *msg);
-		void UpdateConfig(void);
-		void UpdateBlocks(int config_nr);
-	private:
-		BCheckBox *CBblock[5];
-		BRadioButton *RBconfig[7];
-};	
+    public:
+        Vic20Window();
+        ~Vic20Window();
+        virtual void MessageReceived(BMessage *msg);
+        void UpdateConfig(void);
+        void UpdateBlocks(int config_nr);
+    private:
+        BCheckBox *CBblock[5];
+        BRadioButton *RBconfig[7];
+};
 
 static int block[5];
 static Vic20Window *vic20window = NULL;
 
-
 Vic20Window::Vic20Window() 
-	: BWindow(BRect(50,50,350,250),"VIC20 settings",
-		B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
-		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+    : BWindow(BRect(50, 50, 350, 250), "VIC20 settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
-	BView *background;
-	BRect r;
-	BBox *box;
-	BMessage *msg;
-	int i;
-	
-	r = Bounds();
-	background = new BView(r, "backview", B_FOLLOW_NONE, B_WILL_DRAW);
-	background->SetViewColor(220,220,220,0);
-	AddChild(background);
+    BView *background;
+    BRect r;
+    BBox *box;
+    BMessage *msg;
+    int i;
 
-	for (i=0; i<5; i++)
-	{
-		resources_get_int(block_resource[i], &block[i]);
-	}
+    r = Bounds();
+    background = new BView(r, "backview", B_FOLLOW_NONE, B_WILL_DRAW);
+    background->SetViewColor(220, 220, 220, 0);
+    AddChild(background);
 
-	r = Bounds();
-	r.InsetBy(10,5);
-	box = new BBox(r, "Memory configuration");
-	box->SetViewColor(220,220,220,0);
-	box->SetLabel("Memory configuration");
+    for (i = 0; i < 5; i++) {
+        resources_get_int(block_resource[i], &block[i]);
+    }
 
-	/* Common memory settings */
-	for (i=0; i<7; i++)
-	{
-		msg = new BMessage(MESSAGE_VIC20_MEMCONFIG);
-		msg->AddInt32("config", config_number[i]);
-		RBconfig[i] = new BRadioButton(
-			BRect(10, 20+i*20, 180, 35+i*20),
-			config_text[i],
-			config_text[i],
-			msg);
-		box->AddChild(RBconfig[i]);
-	}
+    r = Bounds();
+    r.InsetBy(10, 5);
+    box = new BBox(r, "Memory configuration");
+    box->SetViewColor(220, 220, 220, 0);
+    box->SetLabel("Memory configuration");
 
-	/* memory blocks */
-	for (i=0; i<5; i++)
-	{
-		msg = new BMessage(MESSAGE_VIC20_MEMBLOCK);
-		msg->AddInt32("block", i);
-		CBblock[i] = new BCheckBox(
-			BRect(180, 20+i*20, 250, 35+i*20),
-			block_text[i],
-			block_text[i],
-			msg);
-		CBblock[i]->SetValue(block[i]);
-		box->AddChild(CBblock[i]);
-	}
-	
-	background->AddChild(box);				    
-	UpdateConfig();
+    /* Common memory settings */
+    for (i = 0; i < 7; i++) {
+        msg = new BMessage(MESSAGE_VIC20_MEMCONFIG);
+        msg->AddInt32("config", config_number[i]);
+        RBconfig[i] = new BRadioButton(BRect(10, 20 + i * 20, 180, 35 + i * 20), config_text[i], config_text[i], msg);
+        box->AddChild(RBconfig[i]);
+    }
 
-	Show();
+    /* memory blocks */
+    for (i = 0; i < 5; i++) {
+        msg = new BMessage(MESSAGE_VIC20_MEMBLOCK);
+        msg->AddInt32("block", i);
+        CBblock[i] = new BCheckBox(BRect(180, 20 + i * 20, 250, 35 + i * 20), block_text[i], block_text[i], msg);
+        CBblock[i]->SetValue(block[i]);
+        box->AddChild(CBblock[i]);
+    }
+
+    background->AddChild(box);				    
+    UpdateConfig();
+
+    Show();
 }
 
 Vic20Window::~Vic20Window() 
 {
-	vic20window = NULL;	
+    vic20window = NULL;	
 }
 
-void Vic20Window::MessageReceived(BMessage *msg) {
+void Vic20Window::MessageReceived(BMessage *msg)
+{
+    int32 res_value, block_nr;
 
-	int32 res_value, block_nr;
-	
-	switch (msg->what) {
-
-		case MESSAGE_VIC20_MEMCONFIG:
+    switch (msg->what) {
+        case MESSAGE_VIC20_MEMCONFIG:
             msg->FindInt32("config", &res_value);
             UpdateBlocks(res_value);
-			break;
-		case MESSAGE_VIC20_MEMBLOCK:
-			msg->FindInt32("block", &block_nr);
-            resources_toggle(block_resource[block_nr],
-            	(int *) &res_value);
+            break;
+        case MESSAGE_VIC20_MEMBLOCK:
+            msg->FindInt32("block", &block_nr);
+            resources_toggle(block_resource[block_nr], (int *)&res_value);
             UpdateConfig();
-			break;
-		default:
-			BWindow::MessageReceived(msg);
-	}
+            break;
+        default:
+            BWindow::MessageReceived(msg);
+    }
 }
 
 void Vic20Window::UpdateConfig(void)
 {
     int current_config;
-	int config_not_found;
-	int i;
-	
-    current_config = 
-        (CBblock[0]->Value() ? BLOCK_0 : 0) |
-        (CBblock[1]->Value() ? BLOCK_1 : 0) |
-        (CBblock[2]->Value() ? BLOCK_2 : 0) |
-        (CBblock[3]->Value() ? BLOCK_3 : 0) |
-        (CBblock[4]->Value() ? BLOCK_5 : 0);
+    int config_not_found;
+    int i;
+
+    current_config = (CBblock[0]->Value() ? BLOCK_0 : 0) |
+                     (CBblock[1]->Value() ? BLOCK_1 : 0) |
+                     (CBblock[2]->Value() ? BLOCK_2 : 0) |
+                     (CBblock[3]->Value() ? BLOCK_3 : 0) |
+                     (CBblock[4]->Value() ? BLOCK_5 : 0);
     
     config_not_found = 1;
     i = 0;
-    while (config_not_found && i<6)
-    {
-    	if (current_config == config_number[i])
-    	{
-	        RBconfig[i]->SetValue(1);
-	        config_not_found = 0;
-		}
-		i++;
-	}
-	if (config_not_found)		        
-       	RBconfig[6]->SetValue(1);
+    while (config_not_found && i < 6) {
+        if (current_config == config_number[i]) {
+            RBconfig[i]->SetValue(1);
+            config_not_found = 0;
+        }
+        i++;
+    }
+    if (config_not_found) {
+        RBconfig[6]->SetValue(1);
+    }
 }
-
 
 void Vic20Window::UpdateBlocks(int config_nr)
 {
-	int i;
-	
-	if (config_nr < 0)
-		return;
-    
+    int i;
+
+    if (config_nr < 0) {
+        return;
+    }
+
     i = (config_nr & BLOCK_0) ? 1 : 0;
     CBblock[0]->SetValue(i);
     resources_set_int(block_resource[0], i);
@@ -237,20 +218,19 @@ void Vic20Window::UpdateBlocks(int config_nr)
     resources_set_int(block_resource[4], i);
 }
 
+void ui_vic20()
+{
+    thread_id vic20thread;
+    status_t exit_value;
 
+    if (vic20window != NULL) {
+        return;
 
-void ui_vic20() {
-	thread_id vic20thread;
-	status_t exit_value;
-	
-	if (vic20window != NULL)
-		return;
+    vic20window = new Vic20Window;
 
-	vic20window = new Vic20Window;
+    vsync_suspend_speed_eval();
 
-	vsync_suspend_speed_eval();
-
-	/* wait until window closed */
-	vic20thread=vic20window->Thread();
-	wait_for_thread(vic20thread, &exit_value);
+    /* wait until window closed */
+    vic20thread = vic20window->Thread();
+    wait_for_thread(vic20thread, &exit_value);
 }
