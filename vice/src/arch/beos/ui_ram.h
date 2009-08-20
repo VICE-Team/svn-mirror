@@ -27,9 +27,9 @@
 #ifndef VICE__UI_RAM_H__
 #define VICE__UI_RAM_H__
 
-const uint32 MESSAGE_RAM_STARTVALUE		= 'MRA1';
-const uint32 MESSAGE_RAM_VALUEINVERT	= 'MRA2';
-const uint32 MESSAGE_RAM_PATTERNINVERT	= 'MRA3';
+const uint32 MESSAGE_RAM_STARTVALUE    = 'MRA1';
+const uint32 MESSAGE_RAM_VALUEINVERT   = 'MRA2';
+const uint32 MESSAGE_RAM_PATTERNINVERT = 'MRA3';
 
 extern void ui_ram(void);
 

@@ -27,13 +27,13 @@
 #ifndef VICE__UI_SID_H__
 #define VICE__UI_SID_H__
 
-const uint32 MESSAGE_SID_MODEL				= 'MSD1';
-const uint32 MESSAGE_SID_RESID				= 'MSD2';
-const uint32 MESSAGE_SID_STEREO				= 'MSD3';
-const uint32 MESSAGE_SID_ADDRESS			= 'MSD4';
-const uint32 MESSAGE_SID_FILTERS			= 'MSD5';
-const uint32 MESSAGE_SID_RESIDSAMPLING		= 'MSD6';
-const uint32 MESSAGE_SID_RESIDPASSBAND		= 'MSD7';
+const uint32 MESSAGE_SID_MODEL         = 'MSD1';
+const uint32 MESSAGE_SID_RESID         = 'MSD2';
+const uint32 MESSAGE_SID_STEREO        = 'MSD3';
+const uint32 MESSAGE_SID_ADDRESS       = 'MSD4';
+const uint32 MESSAGE_SID_FILTERS       = 'MSD5';
+const uint32 MESSAGE_SID_RESIDSAMPLING = 'MSD6';
+const uint32 MESSAGE_SID_RESIDPASSBAND = 'MSD7';
 
 extern void ui_sid(void);
 

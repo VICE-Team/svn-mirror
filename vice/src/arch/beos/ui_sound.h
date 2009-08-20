@@ -27,9 +27,9 @@
 #ifndef VICE__UI_SOUND_H__
 #define VICE__UI_SOUND_H__
 
-const uint32 MESSAGE_SOUND_FREQ				= 'MS01';
-const uint32 MESSAGE_SOUND_BUFF				= 'MS02';
-const uint32 MESSAGE_SOUND_SYNC				= 'MS04';
+const uint32 MESSAGE_SOUND_FREQ = 'MS01';
+const uint32 MESSAGE_SOUND_BUFF = 'MS02';
+const uint32 MESSAGE_SOUND_SYNC = 'MS04';
 
 extern void ui_sound(void);
 

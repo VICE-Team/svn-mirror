@@ -28,11 +28,11 @@
 #ifndef VICE__UI_SIDDTV_H__
 #define VICE__UI_SIDDTV_H__
 
-const uint32 MESSAGE_SIDDTV_MODEL				= 'MDS1';
-const uint32 MESSAGE_SIDDTV_RESID				= 'MDS2';
-const uint32 MESSAGE_SIDDTV_FILTERS			= 'MDS3';
-const uint32 MESSAGE_SIDDTV_RESIDSAMPLING		= 'MDS4';
-const uint32 MESSAGE_SIDDTV_RESIDPASSBAND		= 'MDS5';
+const uint32 MESSAGE_SIDDTV_MODEL         = 'MDS1';
+const uint32 MESSAGE_SIDDTV_RESID         = 'MDS2';
+const uint32 MESSAGE_SIDDTV_FILTERS       = 'MDS3';
+const uint32 MESSAGE_SIDDTV_RESIDSAMPLING = 'MDS4';
+const uint32 MESSAGE_SIDDTV_RESIDPASSBAND = 'MDS5';
 
 extern void ui_siddtv(void);
 
