@@ -171,6 +171,10 @@ if test x"$enable_sdlui" = "xyes"; then
   enable_nls=no
 fi
 
+if test "x$CC" = "xgcc"; then
+  GCC=yes
+fi
+
 dnl Setup crosscompiling.
 if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" = "xmsdosdjgpp"; then
 
@@ -2679,10 +2683,9 @@ else
   AC_MSG_WARN([No architecture defined!])
 fi
 
-dnl dnl Check wether we have gcc. If so, define macros for constants
+dnl Check wether we have gcc
 if test x"$GCC" = "xyes" ; then
-	AC_DEFINE(int64_t_C(c), [(c ## ll)], [Define 64 bit int constants] )
-	AC_DEFINE(uint64_t_C(c), [(c ## ull)], [Define 64 bit unsigned int constants] )
+  AC_DEFINE(USE_GCC,, [Define when using gcc] )
 fi
 
 dnl Check wether we have gcc and solaris /usr/openwin stuff.

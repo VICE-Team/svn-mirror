@@ -160,4 +160,9 @@ int yyparse (void);
 static int noop;
 #endif
 
+#ifdef USE_GCC
+#define int64_t_C(c) (c ## ll)
+#define uint64_t_C(c) (c ## ull)
+#endif
+
 #endif
