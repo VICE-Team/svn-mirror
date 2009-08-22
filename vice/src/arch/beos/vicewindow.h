@@ -40,42 +40,35 @@ extern "C" {
 }
 
 class ViceWindow : public BDirectWindow {
-	public:
-						ViceWindow(BRect frame, char const *title);
-						~ViceWindow();
-		void 			Resize(unsigned int width, unsigned int height);
-		void			DrawBitmap(BBitmap *framebitmap, 
-				int xs, int ys, int xi, int yi, int w, int h);
-		
-		void			Update_Menus(		
-							ui_menu_toggle *toggle_list,
-							ui_res_value_list *value_list);
-		virtual bool	QuitRequested();
-		virtual void	MessageReceived(BMessage *message);
-		virtual void	DirectConnected(direct_buffer_info *info);
-
-		BMenuBar		*menubar;
-
-		BBitmap			*bitmap;
-		BView			*view;
-		ViceStatusbar	*statusbar;
-		ViceFilePanel	*filepanel;	
-		ViceFilePanel	*savepanel;
-		BYTE			*fbits;
-		int32			fbytes_per_row;
-		uint32			fbits_per_pixel;
-		uint32			fcliplist_count;
-		clipping_rect	*fclip_list;
-		clipping_rect	fbounds;
-		BLocker			*locker;
-		bool			fconnected;
-		bool			fconnectiondisabled;
-		int				menubar_offset;
-		void			*canvas;
-		int 			use_direct_window;
+    public:
+        ViceWindow(BRect frame, char const *title);
+        ~ViceWindow();
+        void Resize(unsigned int width, unsigned int height);
+        void DrawBitmap(BBitmap *framebitmap, int xs, int ys, int xi, int yi, int w, int h);
+        void Update_Menus(ui_menu_toggle *toggle_list, ui_res_value_list *value_list);
+        virtual bool QuitRequested();
+        virtual void MessageReceived(BMessage *message);
+        virtual void DirectConnected(direct_buffer_info *info);
+        BMenuBar *menubar;
+        BBitmap *bitmap;
+        BView *view;
+        ViceStatusbar *statusbar;
+        ViceFilePanel *filepanel;
+        ViceFilePanel *savepanel;
+        BYTE *fbits;
+        int32 fbytes_per_row;
+        uint32 fbits_per_pixel;
+        uint32 fcliplist_count;
+        clipping_rect *fclip_list;
+        clipping_rect fbounds;
+        BLocker *locker;
+        bool fconnected;
+        bool fconnectiondisabled;
+        int menubar_offset;
+        void *canvas;
+        int use_direct_window;
 };
 
 extern void about_vice(void);
-
 
 #endif

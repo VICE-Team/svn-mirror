@@ -52,7 +52,7 @@ unsigned long vsyncarch_gettime(void)
 
     gettimeofday(&now, NULL);
 
-    return 1000000UL*now.tv_sec + now.tv_usec;
+    return 1000000UL * now.tv_sec + now.tv_usec;
 }
 
 void vsyncarch_init(void)
