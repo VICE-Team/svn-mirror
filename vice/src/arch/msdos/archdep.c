@@ -65,8 +65,9 @@ void archdep_network_shutdown(void)
 
 static void restore_workdir(void)
 {
-    if (orig_workdir)
-	chdir(orig_workdir);
+    if (orig_workdir) {
+        chdir(orig_workdir);
+    }
 }
 
 int archdep_init(int *argc, char **argv)
@@ -92,13 +93,15 @@ char *archdep_program_name(void)
         int len;
 
         s = strrchr(argv0, '/');
-        if (s == NULL)
+        if (s == NULL) {
             s = argv0;
-        else
+        } else {
             s++;
+        }
         e = strchr(s, '.');
-        if (e == NULL)
+        if (e == NULL) {
             e = argv0 + strlen(argv0);
+        }
 
         len = e - s + 1;
         program_name = lib_malloc(len);
@@ -117,8 +120,9 @@ const char *archdep_boot_path(void)
         util_fname_split(argv0, &boot_path, NULL);
 
         /* This should not happen, but you never know...  */
-        if (boot_path == NULL)
+        if (boot_path == NULL) {
             boot_path = lib_stralloc("./");
+        }
     }
 
     return boot_path;
@@ -175,10 +179,10 @@ char *archdep_default_fliplist_file_name(void)
 
 char *archdep_default_autostart_disk_image_file_name(void)
 {
-  const char *home;
+    const char *home;
 
-  home = archdep_boot_path();
-  return util_concat(home, "\\auto-", machine_name, ".d64", NULL);
+    home = archdep_boot_path();
+    return util_concat(home, "\\auto-", machine_name, ".d64", NULL);
 }
 
 FILE *archdep_open_default_log_file(void)
@@ -216,17 +220,16 @@ int archdep_default_logger(const char *level_string, const char *txt)
 
 int archdep_path_is_relative(const char *path)
 {
-    if (path == NULL)
+    if (path == NULL) {
         return 0;
+    }
 
     /* `c:\foo', `c:/foo', `c:foo', `\foo' and `/foo' are absolute.  */
 
-    return !((isalpha(path[0]) && path[1] == ':')
-            || path[0] == '/' || path[0] == '\\');
+    return !((isalpha(path[0]) && path[1] == ':') || path[0] == '/' || path[0] == '\\');
 }
 
-int archdep_spawn(const char *name, char **argv,
-                  char **pstdout_redir, const char *stderr_redir)
+int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const char *stderr_redir)
 {
     int new_stdout, new_stderr;
     int old_stdout_mode, old_stderr_mode;
@@ -235,8 +238,9 @@ int archdep_spawn(const char *name, char **argv,
     char *stdout_redir = NULL;
 
     if (pstdout_redir != NULL) {
-        if (*pstdout_redir == NULL)
+        if (*pstdout_redir == NULL) {
             *pstdout_redir = archdep_tmpnam();
+        }
         stdout_redir = *pstdout_redir;
     }
 
@@ -252,8 +256,7 @@ int archdep_spawn(const char *name, char **argv,
         old_stdout = dup(STDOUT_FILENO);
         new_stdout = open(stdout_redir, O_WRONLY | O_TRUNC | O_CREAT, 0666);
         if (new_stdout == -1) {
-            log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.",
-                      stdout_redir, strerror(errno));
+            log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.", stdout_redir, strerror(errno));
             retval = -1;
             goto cleanup;
         }
@@ -263,8 +266,7 @@ int archdep_spawn(const char *name, char **argv,
         old_stderr = dup(STDERR_FILENO);
         new_stderr = open(stderr_redir, O_WRONLY | O_TRUNC | O_CREAT, 0666);
         if (new_stderr == -1) {
-            log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.",
-                      stderr_redir, strerror(errno));
+            log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.", stderr_redir, strerror(errno));
             retval = -1;
             goto cleanup;
         }
@@ -283,14 +285,18 @@ cleanup:
         dup2(old_stderr, STDERR_FILENO);
         close(old_stderr);
     }
-    if (old_stdout_mode >= 0)
+    if (old_stdout_mode >= 0) {
         setmode(STDOUT_FILENO, old_stdout_mode);
-    if (old_stderr_mode >= 0)
+    }
+    if (old_stderr_mode >= 0) {
         setmode(STDERR_FILENO, old_stderr_mode);
-    if (new_stdout >= 0)
+    }
+    if (new_stdout >= 0) {
         close(new_stdout);
-    if (new_stderr >= 0)
+    }
+    if (new_stderr >= 0) {
         close(new_stderr);
+    }
 
     return retval;
 }
@@ -300,10 +306,9 @@ int archdep_expand_path(char **return_path, const char *orig_name)
 {
     /* MS-DOS version.  */
     char *full_path = _truename(orig_name, NULL);
+
     if (full_path == NULL) {
-        log_error(LOG_ERR,
-                  "zfile_list_add: warning, illegal file name `%s'.",
-                  orig_name);
+        log_error(LOG_ERR, "zfile_list_add: warning, illegal file name `%s'.", orig_name);
         *return_path = lib_stralloc(orig_name);
     }
     *return_path = lib_stralloc(full_path);
@@ -333,12 +338,13 @@ char *archdep_quote_parameter(const char *name)
 
 char *archdep_tmpnam(void)
 {
-    if (getenv("temp"))
+    if (getenv("temp")) {
         return util_concat(getenv("temp"), tmpnam(NULL), NULL);
-    else if (getenv("tmp"))
+    } else if (getenv("tmp")) {
         return util_concat(getenv("tmp"), tmpnam(NULL), NULL);
-    else
+    } else {
         return lib_stralloc(tmpnam(NULL));
+    }
 }
 
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
@@ -346,17 +352,19 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
     char *tmp;
     FILE *fd;
 
-    if (getenv("temp"))
+    if (getenv("temp")) {
         tmp = util_concat(getenv("temp"), tmpnam(NULL), NULL);
-    else if (getenv("tmp"))
+    } else if (getenv("tmp")) {
         tmp = util_concat(getenv("tmp"), tmpnam(NULL), NULL);
-    else
+    } else {
         tmp = lib_stralloc(tmpnam(NULL));
+    }
 
     fd = fopen(tmp, mode);
 
-    if (fd == NULL)
+    if (fd == NULL) {
         return NULL;
+    }
 
     *filename = tmp;
 
@@ -367,16 +375,15 @@ int archdep_file_is_gzip(const char *name)
 {
     size_t l = strlen(name);
 
-    if ((l < 4 || strcasecmp(name + l - 3, ".gz"))
-        && (l < 3 || strcasecmp(name + l - 2, ".z"))
-        && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.'))
+    if ((l < 4 || strcasecmp(name + l - 3, ".gz")) && (l < 3 || strcasecmp(name + l - 2, ".z")) && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.')) {
         return 0;
+    }
     return 1;
 }
 
 int archdep_file_set_gzip(const char *name)
 {
-  return 0;
+    return 0;
 }
 
 int archdep_mkdir(const char *pathname, int mode)
@@ -388,8 +395,9 @@ int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
 {
     struct stat statbuf;
 
-    if (stat(file_name, &statbuf) < 0)
+    if (stat(file_name, &statbuf) < 0) {
         return -1;
+    }
 
     *len = statbuf.st_size;
     *isdir = S_ISDIR(statbuf.st_mode);
@@ -409,6 +417,4 @@ int archdep_file_is_chardev(const char *name)
 
 void archdep_shutdown(void)
 {
-
 }
-

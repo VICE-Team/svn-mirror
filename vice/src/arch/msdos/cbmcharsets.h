@@ -41,4 +41,3 @@ extern BYTE cbm_petscii_business_to_ascii[0x100];
 extern BYTE cbm_petscii_graphics_to_ascii[0x100];
 
 #endif
-

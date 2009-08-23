@@ -56,11 +56,11 @@ static void my_kbd_interrupt_handler(void)
         outportb(0x20, 0x20);
         return;
     } else if (kcode == 0xe0) {
-	/* Extended key: at the next interrupt we'll get its extended keycode
-	   or 0xe0 again.  */
-	extended++;
-	outportb(0x20, 0x20);
-	return;
+        /* Extended key: at the next interrupt we'll get its extended keycode
+           or 0xe0 again.  */
+        extended++;
+        outportb(0x20, 0x20);
+        return;
     } else if (kcode == 0xe1) {
         /* Damn Pause key.  It sends 0xe1 0x1d 0x52 0xe1 0x9d 0xd2.  This is
            awesome, but at least we know it's the only sequence starting by
@@ -73,15 +73,17 @@ static void my_kbd_interrupt_handler(void)
     if (!(kcode & 0x80)) {	/* Key pressed.  */
 
         /* Derive the extended keycode.  */
-        if (extended == 1)
+        if (extended == 1) {
             kcode = _kbd_extended_key_tab[kcode];
+        }
 
         /* Grab only one key.  */
         if (tmp_grabbed_key == K_NONE) {
             tmp_grabbed_key = (kbd_code_t) kcode;
-            if (tmp_grabbed_key == K_PAUSE)
+            if (tmp_grabbed_key == K_PAUSE) {
                 /* Pause is never released.  */
                 grabbed_key = K_PAUSE;
+            }
         }
 
     } else {			/* Key released.  */
@@ -90,11 +92,13 @@ static void my_kbd_interrupt_handler(void)
         kcode &= 0x7F;
 
         /* Derive the extended keycode.  */
-        if (extended == 1)
+        if (extended == 1) {
             kcode = _kbd_extended_key_tab[kcode];
+        }
 
-        if (tmp_grabbed_key == (kbd_code_t) kcode)
+        if (tmp_grabbed_key == (kbd_code_t) kcode) {
             grabbed_key =  tmp_grabbed_key;
+        }
     }
 
     extended = 0;
@@ -123,11 +127,13 @@ static int install_kbd_handler(void)
     my_kbd_handler_seginfo.pm_offset = (int) my_kbd_interrupt_handler;
     my_kbd_handler_seginfo.pm_selector = _go32_my_cs();
     r = _go32_dpmi_allocate_iret_wrapper(&my_kbd_handler_seginfo);
-    if (r)
+    if (r) {
         return -1;
+    }
     r = _go32_dpmi_set_protected_mode_interrupt_vector(9, &my_kbd_handler_seginfo);
-    if (r)
+    if (r) {
         return -1;
+    }
 
     return 0;
 }
@@ -137,8 +143,9 @@ static int uninstall_kbd_handler(void)
     int r;
 
     r = _go32_dpmi_set_protected_mode_interrupt_vector(9, &std_kbd_handler_seginfo);
-    if (r)
+    if (r) {
         return -1;
+    }
 
     return 0;
 }
@@ -147,11 +154,12 @@ kbd_code_t grab_key(void)
 {
     grabbed_key = tmp_grabbed_key = K_NONE;
 
-    if (install_kbd_handler() < 0)
+    if (install_kbd_handler() < 0) {
         return K_NONE;
+    }
 
-    while (grabbed_key == K_NONE)
-        ;
+    while (grabbed_key == K_NONE) {
+    }
 
     uninstall_kbd_handler();
     return grabbed_key;

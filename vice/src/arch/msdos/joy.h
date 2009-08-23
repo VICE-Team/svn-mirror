@@ -46,4 +46,3 @@ extern void joystick_update(void);
 extern int joystick_handle_key(kbd_code_t kcode, int pressed);
 
 #endif
-
