@@ -100,4 +100,3 @@ extern void kbd_set_freeze_function(void (*f)(void));
 extern const char *kbd_code_to_string(kbd_code_t kcode);
 
 #endif
-

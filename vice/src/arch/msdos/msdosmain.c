@@ -53,4 +53,3 @@ void main_exit(void)
 
     putchar ('\n');
 }
-

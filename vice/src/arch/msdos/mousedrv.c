@@ -46,10 +46,11 @@ static void my_mouse_callback(int flags);
 
 void mousedrv_mouse_changed(void)
 {
-    if (_mouse_enabled && _mouse_available)
+    if (_mouse_enabled && _mouse_available) {
         mouse_callback = my_mouse_callback;
-    else
+    } else {
         mouse_callback = NULL;
+    }
 }
 
 int mousedrv_resources_init(void)
@@ -68,16 +69,21 @@ int mousedrv_cmdline_options_init(void)
 
 static void my_mouse_callback(int flags)
 {
-    if (flags & MOUSE_FLAG_MOVE)
+    if (flags & MOUSE_FLAG_MOVE) {
         _mouse_coords_dirty = 1;
-    if (flags & MOUSE_FLAG_LEFT_DOWN)
+    }
+    if (flags & MOUSE_FLAG_LEFT_DOWN) {
         mouse_button_left(1);
-    if (flags & MOUSE_FLAG_LEFT_UP)
+    }
+    if (flags & MOUSE_FLAG_LEFT_UP) {
         mouse_button_left(0);
-    if (flags & MOUSE_FLAG_RIGHT_DOWN)
+    }
+    if (flags & MOUSE_FLAG_RIGHT_DOWN) {
         mouse_button_right(1);
-    if (flags & MOUSE_FLAG_RIGHT_UP)
+    }
+    if (flags & MOUSE_FLAG_RIGHT_UP) {
         mouse_button_right(0);
+    }
 }
 
 void mousedrv_init(void)
@@ -86,7 +92,7 @@ void mousedrv_init(void)
 
     if (install_mouse() == -1) {
         log_error(LOG_DEFAULT, "Mouse initialization failed!");
-	_mouse_available = 0;
+        _mouse_available = 0;
         return;
     }
     log_message(LOG_DEFAULT, "Mouse is available.");
@@ -112,17 +118,18 @@ inline static void _update_mouse(void)
 
 BYTE mousedrv_get_x(void)
 {
-    if (!_mouse_available || !_mouse_enabled)
+    if (!_mouse_available || !_mouse_enabled) {
         return 0xff;
+    }
     _update_mouse();
     return (BYTE)(_mouse_x >> 1) & 0x7e;
 }
 
 BYTE mousedrv_get_y(void)
 {
-    if (!_mouse_available || !_mouse_enabled)
+    if (!_mouse_available || !_mouse_enabled) {
         return 0xff;
+    }
     _update_mouse();
     return (BYTE)(~_mouse_y >> 1) & 0x7e;
 }
-

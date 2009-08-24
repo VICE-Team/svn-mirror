@@ -42,4 +42,3 @@ extern int _mouse_x, _mouse_y;
 extern int _mouse_coords_dirty;
 
 #endif
-
