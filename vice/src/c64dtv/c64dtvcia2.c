@@ -62,7 +62,7 @@ void REGPARM2 cia2_store(WORD addr, BYTE data)
         if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_CGA) {
             extra_joystick_cga_store(data);
         }
-        if (c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC) {
+        if (c64dtv_hummer_adc_enabled) {
             hummeradc_store(data);
         }
         if (ps2mouse_enabled) {
@@ -96,7 +96,7 @@ BYTE REGPARM1 cia2_read(WORD addr)
         if (ps2mouse_enabled) {
             retval &= (ps2mouse_read() | 0x3f);
         }
-        if (c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC) {
+        if (c64dtv_hummer_adc_enabled) {
             retval &= (hummeradc_read() | 0xf8);
         }
         return retval;

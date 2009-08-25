@@ -39,7 +39,7 @@
 
 UI_MENU_DEFINE_RADIO(DtvRevision)
 UI_MENU_DEFINE_TOGGLE(c64dtvromrw)
-UI_MENU_DEFINE_RADIO(HummerUserportDevice)
+UI_MENU_DEFINE_TOGGLE(HummerADC)
 
 UI_CALLBACK(set_c64dtv_rom_name)
 {
@@ -74,16 +74,6 @@ static ui_menu_entry_t c64dtv_revision_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t c64dtv_hummer_userport_device_submenu[] = {
-    { N_("*None"), (ui_callback_t)radio_HummerUserportDevice,
-      (ui_callback_data_t)HUMMER_USERPORT_NONE, NULL },
-    { "*ADC", (ui_callback_t)radio_HummerUserportDevice,
-      (ui_callback_data_t)HUMMER_USERPORT_ADC, NULL },
-    { N_("*Joystick"), (ui_callback_t)radio_HummerUserportDevice,
-      (ui_callback_data_t)HUMMER_USERPORT_JOY, NULL },
-    { NULL }
-};
-
 ui_menu_entry_t c64dtv_submenu[] = {
     { N_("C64DTV ROM image name..."),
       (ui_callback_t)set_c64dtv_rom_name,
@@ -94,8 +84,8 @@ ui_menu_entry_t c64dtv_submenu[] = {
     { N_("C64DTV blitter revision"),
       NULL, NULL, c64dtv_revision_submenu },
     { "--" },
-    { N_("*Hummer Userport Device"),
-      NULL, NULL, c64dtv_hummer_userport_device_submenu },
+    { N_("*Enable Hummer ADC"),
+      toggle_HummerADC, NULL, NULL },
     { N_("PS/2 mouse on Userport"),
       NULL, NULL, ps2_mouse_submenu },
     { NULL }

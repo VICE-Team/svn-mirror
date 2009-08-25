@@ -175,7 +175,7 @@ static BYTE read_ciapb(cia_context_t *cia_context)
         if (!(msk & m))
             val &= ~keyarr[i];
 
-    if (c64dtv_hummer_userport_device == HUMMER_USERPORT_ADC && (!(msk & 1))) {
+    if (c64dtv_hummer_adc_enabled && (!(msk & 1))) {
         val &= ~(joystick_value[3] & 3);
     }
 

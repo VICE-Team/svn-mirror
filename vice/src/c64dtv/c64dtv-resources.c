@@ -139,24 +139,11 @@ static int set_romset_firmware(int val, void *param)
     return 0;
 }
 
-int c64dtv_hummer_userport_device = HUMMER_USERPORT_NONE;
-unsigned int c64dtv_hummer_userport_joy_port=2;
+int c64dtv_hummer_adc_enabled = 0;
 
-static int c64dtv_hummer_userport_set(int val, void *param)
+static int c64dtv_hummer_adc_set(int val, void *param)
 {
-    c64dtv_hummer_userport_device = val;
-    return 0;
-}
-
-static int c64dtv_set_hummer_joyport(int val, void *param)
-{
-    unsigned int temp = (unsigned int)val;
-
-    if (temp<1 || temp>2)
-        temp = 2;
-
-    c64dtv_hummer_userport_joy_port = temp;
-
+    c64dtv_hummer_adc_enabled = val;
     return 0;
 }
 
@@ -202,11 +189,8 @@ static const resource_int_t resources_int[] = {
     { "KeymapIndex", KBD_INDEX_C64_DEFAULT, RES_EVENT_NO, NULL,
       &machine_keymap_index, keyboard_set_keymap_index, NULL },
 #endif
-    { "HummerUserportDevice", 0, RES_EVENT_SAME, NULL,
-      (int *)&c64dtv_hummer_userport_device, c64dtv_hummer_userport_set, NULL },
-    /* FIXME: using joystick port 3, remove this when the UIs are fixed */
-    { "HummerUserportJoyPort", 2, RES_EVENT_SAME, NULL,
-      (int *)&c64dtv_hummer_userport_joy_port, c64dtv_set_hummer_joyport, NULL },
+    { "HummerADC", 0, RES_EVENT_SAME, NULL,
+      (int *)&c64dtv_hummer_adc_enabled, c64dtv_hummer_adc_set, NULL },
     { NULL }
 };
 

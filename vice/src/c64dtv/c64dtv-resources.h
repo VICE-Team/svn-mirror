@@ -27,16 +27,11 @@
 #ifndef VICE_C64DTV_RESOURCES_H
 #define VICE_C64DTV_RESOURCES_H
 
-#define HUMMER_USERPORT_NONE  0
-#define HUMMER_USERPORT_ADC   1
-#define HUMMER_USERPORT_JOY   2
-
 extern int c64dtv_resources_init(void);
 extern void c64dtv_resources_shutdown(void);
 
 extern char *kernal_revision;
 
-extern int c64dtv_hummer_userport_device;
-extern unsigned int c64dtv_hummer_userport_joy_port;
+extern int c64dtv_hummer_adc_enabled;
 
 #endif
