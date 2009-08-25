@@ -29,28 +29,28 @@
 
 #include "types.h"
 
-#define BACKCHAR		' '
-#define BACKPATTERN_FORE	LIGHTGRAY
-#define BACKPATTERN_BACK	BLUE
-#define FIRST_LINE_FORE		BLACK
-#define FIRST_LINE_BACK		LIGHTGRAY
-#define MENU_FORE		BLACK
-#define MENU_BACK		LIGHTGRAY
-#define MENU_BORDER		WHITE
-#define MENU_TITLE		RED
-#define MENU_HOTKEY		RED
-#define MENU_HIGHLIGHT		CYAN
-#define ERROR_FORE		YELLOW
-#define ERROR_BACK		RED
-#define ERROR_BORDER		YELLOW
-#define MESSAGE_FORE		BLACK
-#define MESSAGE_BACK		LIGHTGRAY
-#define MESSAGE_BORDER		WHITE
-#define FIELD_BACK		CYAN
-#define FIELD_FORE		BLACK
-#define REQUESTER_FORE		BLACK
-#define REQUESTER_BACK		LIGHTGRAY
-#define REQUESTER_BORDER	WHITE
+#define BACKCHAR         ' '
+#define BACKPATTERN_FORE LIGHTGRAY
+#define BACKPATTERN_BACK BLUE
+#define FIRST_LINE_FORE  BLACK
+#define FIRST_LINE_BACK  LIGHTGRAY
+#define MENU_FORE        BLACK
+#define MENU_BACK        LIGHTGRAY
+#define MENU_BORDER      WHITE
+#define MENU_TITLE       RED
+#define MENU_HOTKEY      RED
+#define MENU_HIGHLIGHT   CYAN
+#define ERROR_FORE       YELLOW
+#define ERROR_BACK       RED
+#define ERROR_BORDER     YELLOW
+#define MESSAGE_FORE     BLACK
+#define MESSAGE_BACK     LIGHTGRAY
+#define MESSAGE_BORDER   WHITE
+#define FIELD_BACK       CYAN
+#define FIELD_FORE       BLACK
+#define REQUESTER_FORE   BLACK
+#define REQUESTER_BACK   LIGHTGRAY
+#define REQUESTER_BORDER WHITE
 
 typedef struct tui_area *tui_area_t;
 
@@ -62,11 +62,8 @@ extern void tui_put_char(int x, int y, BYTE c);
 extern void tui_clear_screen(void);
 extern void tui_hline(int x, int y, BYTE c, int count);
 extern void tui_vline(int x, int y, BYTE c, int count);
-extern void tui_display_window(int x, int y, int width, int height, int fore,
-                               int back, const char *title,
-                               tui_area_t *backing_store);
-extern int tui_input_string(const char *title, const char *prompt, char *buf,
-                            int buflen);
+extern void tui_display_window(int x, int y, int width, int height, int fore, int back, const char *title, tui_area_t *backing_store);
+extern int tui_input_string(const char *title, const char *prompt, char *buf, int buflen);
 extern void tui_beep(void);
 extern void tui_gotoxy(int x, int y);
 extern void tui_flush_keys(void);

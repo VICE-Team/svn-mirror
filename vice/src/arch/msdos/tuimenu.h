@@ -46,10 +46,7 @@ typedef enum tui_menu_item_behavior {
    Likewise, `*behavior' defines the behavior of the item after it has been
    activated; the callback can leave it to the default (specified when the
    menu is created), or change it. */
-typedef const char *(*tui_menu_callback_t)(int been_activated,
-                                           void *callback_param,
-                                           int *become_default,
-                                           tui_menu_item_behavior_t *behavior);
+typedef const char *(*tui_menu_callback_t)(int been_activated, void *callback_param, int *become_default, tui_menu_item_behavior_t *behavior);
 
 /* Menu type. */
 typedef struct tui_menu *tui_menu_t;
@@ -67,44 +64,40 @@ struct tui_menu_item_def_s {
 };
 typedef struct tui_menu_item_def_s tui_menu_item_def_t;
 
-tui_menu_t tui_menu_create(const char *title, int spacing);
-void tui_menu_free(tui_menu_t menu);
-void tui_menu_add_item(tui_menu_t menu, const char *label,
-                       const char *help_string, tui_menu_callback_t callback,
-                       void *callback_param, int par_string_max_len,
-                       tui_menu_item_behavior_t behavior);
-void tui_menu_add_submenu(tui_menu_t menu, const char *label,
-                          const char *help_string, tui_menu_t submenu,
-                          tui_menu_callback_t callback, void *callback_param,
-                          int par_string_max_len);
-void tui_menu_add_separator(tui_menu_t menu);
-void tui_menu_add(tui_menu_t menu, const tui_menu_item_def_t *d);
-int tui_menu_handle(tui_menu_t menu, char hotkey);
-void tui_menu_update(tui_menu_t menu);
+extern tui_menu_t tui_menu_create(const char *title, int spacing);
+extern void tui_menu_free(tui_menu_t menu);
+extern void tui_menu_add_item(tui_menu_t menu, const char *label,
+                              const char *help_string, tui_menu_callback_t callback,
+                              void *callback_param, int par_string_max_len,
+                              tui_menu_item_behavior_t behavior);
+extern void tui_menu_add_submenu(tui_menu_t menu, const char *label,
+                                 const char *help_string,
+                                 tui_menu_t submenu,
+                                 tui_menu_callback_t callback,
+                                 void *callback_param, int par_string_max_len);
+extern void tui_menu_add_separator(tui_menu_t menu);
+extern void tui_menu_add(tui_menu_t menu, const tui_menu_item_def_t *d);
+extern int tui_menu_handle(tui_menu_t menu, char hotkey);
+extern void tui_menu_update(tui_menu_t menu);
 
 /* ------------------------------------------------------------------------- */
 
-#define TUI_MENU_CALLBACK(name)                                            \
-    const char *name(int been_activated, void *param, int *become_default, \
-                     tui_menu_item_behavior_t *behavior)
+#define TUI_MENU_CALLBACK(name) \
+    const char *name(int been_activated, void *param, int *become_default, tui_menu_item_behavior_t *behavior)
 
-#define TUI_MENU_DEFINE_TOGGLE(resource)                                \
-    static TUI_MENU_CALLBACK(toggle_##resource##_callback)              \
-    {                                                                   \
-        return _tui_menu_toggle_helper(been_activated, #resource);      \
+#define TUI_MENU_DEFINE_TOGGLE(resource)                           \
+    static TUI_MENU_CALLBACK(toggle_##resource##_callback)         \
+    {                                                              \
+        return _tui_menu_toggle_helper(been_activated, #resource); \
+    }
+ 
+# define TUI_MENU_DEFINE_RADIO(resource)                                                 \
+    static TUI_MENU_CALLBACK(radio_##resource##_callback)                                \
+    {                                                                                    \
+        return _tui_menu_radio_helper(been_activated, param, become_default, #resource); \
     }
 
-#define TUI_MENU_DEFINE_RADIO(resource)                                 \
-    static TUI_MENU_CALLBACK(radio_##resource##_callback)               \
-    {                                                                   \
-        return _tui_menu_radio_helper(been_activated, param,            \
-                                      become_default,#resource);        \
-    }
+extern const char *_tui_menu_toggle_helper(int been_activated, const char *resource_name);
+extern const char *_tui_menu_radio_helper(int been_activated, void *param, int *become_default, const char *resource_name);
 
-extern const char *_tui_menu_toggle_helper(int been_activated,
-                                           const char *resource_name);
-extern const char *_tui_menu_radio_helper(int been_activated,
-                                          void *param,
-                                          int *become_default,
-                                          const char *resource_name);
 #endif

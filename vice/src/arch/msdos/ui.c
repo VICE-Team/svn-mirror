@@ -60,7 +60,6 @@
 #include "version.h"
 #include "vsync.h"
 
-
 /* Status of keyboard LEDs.  */
 static int real_kbd_led_status = -1;
 static int kbd_led_status;
@@ -97,11 +96,11 @@ static int set_statusbar_enabled(int v, void *param)
 }
 
 static const resource_int_t resources_int[] = {
-    { "UseLeds", 1, RES_EVENT_NO, NULL,
-      &use_leds, set_use_leds, NULL },
-    { "ShowStatusbar", STATUSBAR_MODE_AUTO, RES_EVENT_NO, NULL,
-      &statusbar_is_enabled, set_statusbar_enabled, NULL },
-    { NULL }
+    {"UseLeds", 1, RES_EVENT_NO, NULL,
+     &use_leds, set_use_leds, NULL},
+    {"ShowStatusbar", STATUSBAR_MODE_AUTO, RES_EVENT_NO, NULL,
+     &statusbar_is_enabled, set_statusbar_enabled, NULL},
+    {NULL}
 };
 
 int ui_resources_init(void)
@@ -114,27 +113,27 @@ void ui_resources_shutdown(void)
 }
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-leds", SET_RESOURCE, 0,
-      NULL, NULL, "UseLeds", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, "Enable usage of PC keyboard LEDs" },
-    { "+leds", SET_RESOURCE, 0,
-      NULL, NULL, "UseLeds", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, "Disable usage of PC keyboard LEDs" },
-    { "-statusbar", SET_RESOURCE, 0,
-      NULL, NULL, "ShowStatusbar", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, "Disable the Statusbar" },
-    { "+statusbar", SET_RESOURCE, 0,
-      NULL, NULL, "ShowStatusbar", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, "Enable the Statusbar" },
-    { NULL },
+    {"-leds", SET_RESOURCE, 0,
+     NULL, NULL, "UseLeds", (resource_value_t)1,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+     IDCLS_UNUSED, IDCLS_UNUSED,
+     NULL, "Enable usage of PC keyboard LEDs"},
+    {"+leds", SET_RESOURCE, 0,
+     NULL, NULL, "UseLeds", (resource_value_t)0,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+     IDCLS_UNUSED, IDCLS_UNUSED,
+     NULL, "Disable usage of PC keyboard LEDs"},
+    {"-statusbar", SET_RESOURCE, 0,
+     NULL, NULL, "ShowStatusbar", (resource_value_t)0,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+     IDCLS_UNUSED, IDCLS_UNUSED,
+     NULL, "Disable the Statusbar"},
+    {"+statusbar", SET_RESOURCE, 0,
+     NULL, NULL, "ShowStatusbar", (resource_value_t)1,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+     IDCLS_UNUSED, IDCLS_UNUSED,
+     NULL, "Enable the Statusbar"},
+    {NULL},
 };
 
 int ui_cmdline_options_init(void)
@@ -186,7 +185,6 @@ int ui_init(int *argc, char **argv)
 
 void ui_shutdown(void)
 {
-
 }
 
 int ui_init_finish(void)
@@ -220,12 +218,15 @@ void ui_main(char hotkey)
         int leds = 0;
 
         _dosmemgetb(0x417, 1, &bios_leds);
-        if (bios_leds & 16)
+        if (bios_leds & 16) {
             leds |= 1;          /* Scroll Lock */
-        if (bios_leds & 32)
+        }
+        if (bios_leds & 32) {
             leds |= 2;          /* Num Lock */
-        if (bios_leds & 64)
+        }
+        if (bios_leds & 64) {
             leds |= 4;          /* Caps Lock */
+        }
         set_kbd_leds(leds);
     }
 
@@ -235,12 +236,11 @@ void ui_main(char hotkey)
     tui_clear_screen();
     tui_set_attr(FIRST_LINE_FORE, FIRST_LINE_BACK, 0);
 
-    if (speed_index > 0.0 && frame_rate > 0.0)
-        str = lib_msprintf("%s emulator at %d%% speed, %d fps",
-                           machine_name, (int)floor(speed_index),
-                           (int)floor(frame_rate));
-    else
+    if (speed_index > 0.0 && frame_rate > 0.0) {
+        str = lib_msprintf("%s emulator at %d%% speed, %d fps", machine_name, (int)floor(speed_index), (int)floor(frame_rate));
+    } else {
         str = lib_msprintf("%s emulator", machine_name);
+    }
     tui_display(tui_num_cols() - strlen(str), 0, 0, "%s", str);
 
     /* FIXME: This should not be necessary.  */
@@ -314,50 +314,44 @@ void ui_show_text(const char *title, const char *text)
 
 void ui_update_menus(void)
 {
-    if (ui_main_menu != NULL)
+    if (ui_main_menu != NULL) {
         tui_menu_update(ui_main_menu);
+    }
 }
 
-static ui_drive_enable_t    ui_drive_enabled;
-static int                  ui_status_led[2];
-static double               ui_status_track[2];
-static int                 *ui_drive_active_led;
+static ui_drive_enable_t ui_drive_enabled;
+static int ui_status_led[2];
+static double ui_status_track[2];
+static int *ui_drive_active_led;
 
 static void ui_draw_drive_status(int drive_bar)
 {
     BITMAP *drive_bitmap;
     int current_led_color;
 
-    if (status_bitmap == NULL)
+    if (status_bitmap == NULL) {
         return;
+    }
 
-    drive_bitmap = create_sub_bitmap(status_bitmap,180+drive_bar*70,2,60,8);
+    drive_bitmap = create_sub_bitmap(status_bitmap, 180 + drive_bar * 70, 2, 60, 8);
 
-    if (((drive_bar == 0) && (ui_drive_enabled & UI_DRIVE_ENABLE_0))
-        || ((drive_bar == 1) && (ui_drive_enabled & UI_DRIVE_ENABLE_1)))
-    {
+    if (((drive_bar == 0) && (ui_drive_enabled & UI_DRIVE_ENABLE_0)) || ((drive_bar == 1) && (ui_drive_enabled & UI_DRIVE_ENABLE_1))) {
         int white = statusbar_get_color(STATUSBAR_COLOR_WHITE);
-        textprintf(drive_bitmap,font,2,0,
-            statusbar_get_color(STATUSBAR_COLOR_BLUE),"%d",drive_bar+8);
+
+        textprintf(drive_bitmap, font, 2, 0, statusbar_get_color(STATUSBAR_COLOR_BLUE), "%d", drive_bar + 8);
 
         /* track */
-        textprintf(drive_bitmap,font,14,0,white,"%2d",
-            (int) ui_status_track[drive_bar]);
-        textprintf(drive_bitmap,font,30,0,white,".");
-        textprintf(drive_bitmap,font,36,0,white,"%01d",
-            (int)(ui_status_track[drive_bar] * 10) % 10);
+        textprintf(drive_bitmap, font, 14, 0, white, "%2d", (int)ui_status_track[drive_bar]);
+        textprintf(drive_bitmap, font, 30, 0, white, ".");
+        textprintf(drive_bitmap, font, 36, 0, white, "%01d", (int)(ui_status_track[drive_bar] * 10) % 10);
 
         /* drive-led */
-        if (!ui_status_led[drive_bar])
-        {
+        if (!ui_status_led[drive_bar]) {
             current_led_color = statusbar_get_color(STATUSBAR_COLOR_DARKGREY);
         } else {
-            current_led_color =
-                ui_drive_active_led[drive_bar] ? 
-                    statusbar_get_color(STATUSBAR_COLOR_GREEN) : 
-                    statusbar_get_color(STATUSBAR_COLOR_RED);
+            current_led_color = ui_drive_active_led[drive_bar] ? statusbar_get_color(STATUSBAR_COLOR_GREEN) : statusbar_get_color(STATUSBAR_COLOR_RED);
         }
-        rectfill(drive_bitmap, 48,2, 55,4, current_led_color);
+        rectfill(drive_bitmap, 48, 2, 55, 4, current_led_color);
     } else {
         clear(drive_bitmap);
     }
@@ -368,10 +362,12 @@ static void ui_draw_drive_status(int drive_bar)
 
 void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
-    if (!(state & UI_DRIVE_ENABLE_0))
+    if (!(state & UI_DRIVE_ENABLE_0)) {
         ui_display_drive_led(0, 0, 0);
-    if (!(state & UI_DRIVE_ENABLE_1))
+    }
+    if (!(state & UI_DRIVE_ENABLE_1)) {
         ui_display_drive_led(1, 0, 0);
+    }
     ui_drive_enabled = state;
     ui_drive_active_led = drive_led_color;
     ui_draw_drive_status(0);
@@ -380,45 +376,45 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 
 /* drive_base is either 8 or 0 depending on unit or drive display.
    Dual drives display drive 0: and 1: instead of unit 8: and 9: */
-void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base, 
-                            unsigned int half_track_number)
+void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base, unsigned int half_track_number)
 {
-    double track_number = (double)half_track_number/2.0;
+    double track_number = (double)half_track_number / 2.0;
 
     ui_status_track[drive_number] = track_number;
     ui_draw_drive_status(drive_number);
-
 }
 
-void ui_display_drive_led(int drive_number, unsigned int led_pwm1,
-                          unsigned int led_pwm2)
+void ui_display_drive_led(int drive_number, unsigned int led_pwm1, unsigned int led_pwm2)
 {
     int status = 0;
 
-    if (led_pwm1 > 100)
+    if (led_pwm1 > 100) {
         status |= 1;
-    if (led_pwm2 > 100)
+    }
+    if (led_pwm2 > 100) {
         status |= 2;
+    }
 
     switch (drive_number) {
-      case 0:
-        if (status)
-            kbd_led_status |= DRIVE0_LED_MSK;
-        else
-            kbd_led_status &= ~DRIVE0_LED_MSK;
-        break;
-      case 1:
-        if (status)
-            kbd_led_status |= DRIVE1_LED_MSK;
-        else
-            kbd_led_status &= ~DRIVE1_LED_MSK;
-        break;
-      default:
-        break;
+        case 0:
+            if (status) {
+                kbd_led_status |= DRIVE0_LED_MSK;
+            } else {
+                kbd_led_status &= ~DRIVE0_LED_MSK;
+            }
+            break;
+        case 1:
+            if (status) {
+                kbd_led_status |= DRIVE1_LED_MSK;
+            } else {
+                kbd_led_status &= ~DRIVE1_LED_MSK;
+            }
+            break;
+        default:
+            break;
     }
     ui_status_led[drive_number]=status;
     ui_draw_drive_status(drive_number);
-
 }
 
 /* display current image */
@@ -426,7 +422,6 @@ void ui_display_drive_current_image(unsigned int drivenum, const char *image)
 {
     /* just a dummy so far */
 }
-
 
 /* tape-related ui */
 
@@ -442,58 +437,56 @@ static void ui_draw_tape_status()
     int record_led;
     int black = statusbar_get_color(STATUSBAR_COLOR_BLACK);
 
-    if (status_bitmap == NULL)
+    if (status_bitmap == NULL) {
         return;
+    }
     tape_bitmap = create_sub_bitmap(status_bitmap,112,2,54,8);
     if (ui_tape_enabled == 0) {
         clear(tape_bitmap);
     } else {
-        textprintf(tape_bitmap,font,0,0,
-            statusbar_get_color(STATUSBAR_COLOR_BLUE),"T");
+        textprintf(tape_bitmap, font, 0, 0, statusbar_get_color(STATUSBAR_COLOR_BLUE), "T");
 
         /* motor */
-        if (ui_tape_motor)
+        if (ui_tape_motor) {
             motor_color = statusbar_get_color(STATUSBAR_COLOR_YELLOW);
-        else
+        } else {
             motor_color = statusbar_get_color(STATUSBAR_COLOR_GREY);
+        }
         rectfill(tape_bitmap, 10, 0, 17, 6, motor_color);
 
         /* control */
         record_led = black;
         switch (ui_tape_control) {
-          case DATASETTE_CONTROL_STOP:
-            rectfill(tape_bitmap, 12,2, 15,4,black); 
-            break;
-          case DATASETTE_CONTROL_RECORD:
-            record_led = statusbar_get_color(STATUSBAR_COLOR_RED);
-          case DATASETTE_CONTROL_START:
-            triangle(tape_bitmap, 12,1, 12,5, 14,3,black);
-            line(tape_bitmap, 12,1, 12,5,black);
-            break;
-          case DATASETTE_CONTROL_REWIND:
-            line(tape_bitmap, 13,1, 11,3, black);
-            line(tape_bitmap, 11,3, 13,5, black);
-            line(tape_bitmap, 16,1, 14,3, black);
-            line(tape_bitmap, 14,3, 16,5, black);
-            break;
-          case DATASETTE_CONTROL_FORWARD:
-            line(tape_bitmap, 11,1, 13,3, black);
-            line(tape_bitmap, 13,3, 11,5, black);
-            line(tape_bitmap, 14,1, 16,3, black);
-            line(tape_bitmap, 16,3, 14,5, black);
-            break;
+            case DATASETTE_CONTROL_STOP:
+                rectfill(tape_bitmap, 12, 2, 15, 4, black); 
+                break;
+            case DATASETTE_CONTROL_RECORD:
+                record_led = statusbar_get_color(STATUSBAR_COLOR_RED);
+            case DATASETTE_CONTROL_START:
+                triangle(tape_bitmap, 12, 1, 12, 5, 14, 3, black);
+                line(tape_bitmap, 12, 1, 12, 5, black);
+                break;
+            case DATASETTE_CONTROL_REWIND:
+                line(tape_bitmap, 13, 1, 11, 3, black);
+                line(tape_bitmap, 11, 3, 13, 5, black);
+                line(tape_bitmap, 16, 1, 14, 3, black);
+                line(tape_bitmap, 14, 3, 16, 5, black);
+                break;
+            case DATASETTE_CONTROL_FORWARD:
+                line(tape_bitmap, 11, 1, 13, 3, black);
+                line(tape_bitmap, 13, 3, 11, 5, black);
+                line(tape_bitmap, 14, 1, 16, 3, black);
+                line(tape_bitmap, 16, 3, 14, 5, black);
+                break;
         }
         rectfill(tape_bitmap, 20,2, 22,4, record_led);
 
         /* counter */
-        textprintf(tape_bitmap, font, 26, 0, 
-            statusbar_get_color(STATUSBAR_COLOR_WHITE),
-                   "%03d", ui_tape_counter);
+        textprintf(tape_bitmap, font, 26, 0, statusbar_get_color(STATUSBAR_COLOR_WHITE), "%03d", ui_tape_counter);
     }
     destroy_bitmap(tape_bitmap);
     statusbar_update();
 }
-
 
 void ui_set_tape_status(int tape_status)
 {
@@ -516,8 +509,9 @@ void ui_display_tape_control_status(int control)
 
 void ui_display_tape_counter(int counter)
 {   
-    if (counter == ui_tape_counter)
+    if (counter == ui_tape_counter) {
         return;
+    }
 
     ui_tape_counter = counter;
     ui_draw_tape_status();
@@ -546,10 +540,12 @@ void ui_display_joyport(BYTE *joyport)
 
 void ui_set_warp_status(int status)
 {
-    if (status)
+    if (status) {
         kbd_led_status |= WARP_LED_MSK;
-    else
+    
+    } else {
         kbd_led_status &= ~WARP_LED_MSK;
+    }
 }
 
 int ui_extend_image_dialog(void)
@@ -571,25 +567,22 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     BITMAP *speed_bitmap;
     int white = statusbar_get_color(STATUSBAR_COLOR_WHITE);
 
-    if (status_bitmap == NULL)
+    if (status_bitmap == NULL) {
         return;
-    speed_bitmap = create_sub_bitmap(status_bitmap,2,2,96,8);
+    }
+
+    speed_bitmap = create_sub_bitmap(status_bitmap, 2, 2, 96, 8);
 
     if ((percent < 0) || (framerate < 0)) { 
-        textout(speed_bitmap,font,"suspended",0,0,white);
+        textout(speed_bitmap, font, "suspended", 0, 0, white);
     } else {
-        textprintf(speed_bitmap,font, 0,0, white,
-            "%4d%%", (int)(percent + .5));
-        textprintf(speed_bitmap,font, 44,0, white, 
-            "%2dfps", (int)(framerate + .5));
-        textprintf(speed_bitmap,font, 88,0, white,
-            "%s", warp_flag ? "W " : "  ");
+        textprintf(speed_bitmap, font, 0, 0, white, "%4d%%", (int)(percent + .5));
+        textprintf(speed_bitmap, font, 44, 0, white, "%2dfps", (int)(framerate + .5));
+        textprintf(speed_bitmap, font, 88, 0, white, "%s", warp_flag ? "W " : "  ");
     }
     destroy_bitmap(speed_bitmap);
     statusbar_update();
 }
-
-
 
 /* ------------------------------------------------------------------------- */
 

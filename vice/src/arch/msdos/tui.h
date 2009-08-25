@@ -27,8 +27,8 @@
 #ifndef VICE_TUI_H
 #define VICE_TUI_H
 
-#define CENTER_X(w)      ((tui_num_cols() - (w)) / 2)
-#define CENTER_Y(h)      ((tui_num_lines() - (h)) / 2)
+#define CENTER_X(w) ((tui_num_cols() - (w)) / 2)
+#define CENTER_Y(h) ((tui_num_lines() - (h)) / 2)
 
 #ifdef MIN
 #undef MIN
@@ -37,16 +37,13 @@
 #undef MAX
 #endif
 
-#define MIN(a, b)        ((a) < (b) ? (a) : (b))
-#define MAX(a, b)        ((a) > (b) ? (a) : (b))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
 
 extern void tui_error(const char *format, ...);
 extern void tui_message(const char *format, ...);
 extern int tui_ask_confirmation(const char *format, ...);
-extern int tui_input_string(const char *title, const char *prompt, char *buf,
-                            int buflen);
-extern void tui_display_text(int x, int y, int width, int height,
-                             const char *text);
+extern int tui_input_string(const char *title, const char *prompt, char *buf, int buflen);
+extern void tui_display_text(int x, int y, int width, int height, const char *text);
 
-#endif /* _TUI_H */
-
+#endif /* VICE_TUI_H */

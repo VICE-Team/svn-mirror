@@ -84,20 +84,21 @@ void tui_init(void)
 
 int tui_num_lines(void)
 {
-    if (text_mode_info.screenheight == 0)
+    if (text_mode_info.screenheight == 0) {
         tui_init();
+    }
     return text_mode_info.screenheight;
 }
 
 int tui_num_cols(void)
 {
-    if (text_mode_info.screenwidth == 0)
+    if (text_mode_info.screenwidth == 0) {
         tui_init();
+    }
     return text_mode_info.screenwidth;
 }
 
-void tui_set_attr(int foreground_color, int background_color,
-                  int blink)
+void tui_set_attr(int foreground_color, int background_color, int blink)
 {
     current_attr = make_attr(foreground_color, background_color, blink);
 }
@@ -127,10 +128,11 @@ void tui_put_char(int x, int y, BYTE c)
     BYTE attr_byte = (BYTE)current_attr;
 
     _farsetsel(_dos_ds);
-    if (c>127)
-      _farnspokeb(addr, tui_ascii_conversion_table[c-128]);
-    else
-      _farnspokeb(addr, c);
+    if (c > 127) {
+        _farnspokeb(addr, tui_ascii_conversion_table[c - 128]);
+    } else {
+        _farnspokeb(addr, c);
+    }
     _farnspokeb(addr + 1, attr_byte);
 }
 
@@ -169,8 +171,9 @@ void tui_gotoxy(int x, int y)
 
 void tui_flush_keys(void)
 {
-    while (kbhit())
+    while (kbhit()) {
         getkey();
+    }
 }
 
 void tui_display(int x, int y, int len, const char *format, ...)
@@ -184,10 +187,11 @@ void tui_display(int x, int y, int len, const char *format, ...)
     va_start(vl, format);
     buf = lib_mvsprintf(format, vl);
     buf_len = strlen(buf);
-    if (len == 0)
+    if (len == 0) {
         len = buf_len;
-    else if (buf_len > len)
+    } else if (buf_len > len) {
         buf_len = len;
+    }
 
     _farsetsel(_dos_ds);
     for (i = 0; i < buf_len; i++) {
@@ -206,7 +210,6 @@ void tui_display(int x, int y, int len, const char *format, ...)
 void tui_beep(void)
 {
     sound(2000);
-    /* usleep(40000); */
     nosound();
 }
 
@@ -229,8 +232,9 @@ void tui_area_get(tui_area_t *a, int x, int y, int width, int height)
     for (p = (*a)->mem, i = 0; i < height; i++) {
         int addr = screen_addr(x, y + i);
 
-        for (j = 0; j < 2 * width; j++)
+        for (j = 0; j < 2 * width; j++) {
             *(p++) = _farnspeekb(addr + j);
+        }
     }
 }
 
@@ -244,8 +248,9 @@ void tui_area_put(tui_area_t a, int x, int y)
     for (i = 0; i < a->height; i++) {
         int addr = screen_addr(x, y + i);
 
-        for (j = 0; j < 2 * a->width; j++)
+        for (j = 0; j < 2 * a->width; j++) {
             _farnspokeb(addr + j, *(p++));
+        }
     }
 }
 
@@ -272,8 +277,9 @@ void tui_clear_screen(void)
 #endif
 
     tui_set_attr(BACKPATTERN_FORE, BACKPATTERN_BACK, 0);
-    for (i = 1; i < tui_num_lines() - 1; i++)
+    for (i = 1; i < tui_num_lines() - 1; i++) {
         tui_hline(0, i, BACKCHAR, tui_num_cols());
+    }
 }
 
 void tui_make_shadow(int x, int y, int width, int height)
@@ -290,9 +296,7 @@ void tui_make_shadow(int x, int y, int width, int height)
     }
 }
 
-void tui_display_window(int x, int y, int width, int height,
-                        int foreground_color, int background_color,
-                        const char *title, tui_area_t *backing_store)
+void tui_display_window(int x, int y, int width, int height, int foreground_color, int background_color, const char *title, tui_area_t *backing_store)
 {
     int i;
 
@@ -324,4 +328,3 @@ void tui_display_window(int x, int y, int width, int height,
         tui_display(title_x, y, 0, "\x10 %s \x11", title);
     }
 }
-

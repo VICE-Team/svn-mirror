@@ -96,15 +96,15 @@ static void file_list_free(struct file_list *fl)
     }
 }
 
-static void file_list_add_item(struct file_list *fl, const char *name,
-                               enum file_type type)
+static void file_list_add_item(struct file_list *fl, const char *name, enum file_type type)
 {
     if (fl->num_items == fl->num_used_items) {
         fl->num_items += 100;
-        if (fl->items != NULL)
+        if (fl->items != NULL) {
             fl->items = lib_realloc(fl->items, fl->num_items * sizeof(*fl->items));
-        else
+        } else {
             fl->items = lib_malloc(fl->num_items * sizeof(*fl->items));
+        }
     }
 
     strcpy(fl->items[fl->num_used_items].name, name);
@@ -119,36 +119,38 @@ static int file_list_sort_func(const void *e1, const void *e2)
 
     /* Directories always come first. */
     if (f1->type != f2->type) {
-        if (f1->type == FT_DIR)
+        if (f1->type == FT_DIR) {
             return -1;
-        if (f2->type == FT_DIR)
+        }
+        if (f2->type == FT_DIR) {
             return +1;
+        }
     }
     return strcasecmp(f1->name, f2->name);
 }
 
 static void file_list_sort(struct file_list *fl)
 {
-    qsort(fl->items, fl->num_used_items, sizeof(struct file_item),
-          file_list_sort_func);
+    qsort(fl->items, fl->num_used_items, sizeof(struct file_item), file_list_sort_func);
 }
 
 /* XXX: Assumes `path' ends with a slash.  */
-static struct file_list *file_list_read_lfn(const char *path,
-                                            const char *pattern)
+static struct file_list *file_list_read_lfn(const char *path, const char *pattern)
 {
     struct dirent *d;
     struct file_list *fl;
     DIR *ds;
     int pathlen = strlen(path);
 
-    if (path == NULL || *path == '\0')
+    if (path == NULL || *path == '\0') {
         ds = opendir(".");
-    else
+    } else {
         ds = opendir(path);
+    }
 
-    if (ds == NULL)
+    if (ds == NULL) {
         return NULL;
+    }
 
     fl = file_list_create();
 
@@ -160,12 +162,7 @@ static struct file_list *file_list_read_lfn(const char *path,
 
         /* This makes `stat()' faster.  FIXME: but it's still too slow
            imo...  */
-        _djstat_flags = (_STAT_INODE
-                         | _STAT_EXEC_EXT
-                         | _STAT_EXEC_MAGIC
-                         | _STAT_DIRSIZE
-                         | _STAT_ROOT_TIME
-                         | _STAT_WRITEBIT);
+        _djstat_flags = (_STAT_INODE | _STAT_EXEC_EXT | _STAT_EXEC_MAGIC | _STAT_DIRSIZE | _STAT_ROOT_TIME | _STAT_WRITEBIT);
 
         while((d = readdir(ds)) != NULL) {
             struct stat s;
@@ -188,8 +185,9 @@ static struct file_list *file_list_read_lfn(const char *path,
 
                     element = strtok(p, ";");
                     do {
-                        if (fnmatch(element, d->d_name, FNM_NOCASE) == 0)
+                        if (fnmatch(element, d->d_name, FNM_NOCASE) == 0) {
                             file_list_add_item(fl, d->d_name, type);
+                        }
                         element = strtok(NULL, ";");
                     } while (element != NULL);
                     lib_free(p);
@@ -206,22 +204,23 @@ static struct file_list *file_list_read_lfn(const char *path,
     return fl;
 }
 
-static struct file_list *file_list_read_nolfn(const char *path,
-                                              const char *pattern)
+static struct file_list *file_list_read_nolfn(const char *path, const char *pattern)
 {
     char *cwd = ioutil_current_dir();
     struct file_list *fl = NULL;
     struct find_t f;
 
-    if (cwd == NULL)
+    if (cwd == NULL) {
         return NULL;
+    }
 
-    if (ioutil_chdir(path) < 0)
+    if (ioutil_chdir(path) < 0) {
         goto end;
+    }
 
-    if (_dos_findfirst("*.*", (_A_NORMAL | _A_RDONLY | _A_HIDDEN
-                               | _A_SYSTEM | _A_SUBDIR | _A_ARCH), &f))
+    if (_dos_findfirst("*.*", (_A_NORMAL | _A_RDONLY | _A_HIDDEN | _A_SYSTEM | _A_SUBDIR | _A_ARCH), &f)) {
         goto end;
+    }
 
     fl = file_list_create();
 
@@ -230,8 +229,7 @@ static struct file_list *file_list_read_nolfn(const char *path,
     while (!_dos_findnext(&f)) {
         strlwr(f.name);
         if (pattern == NULL || (f.attrib & _A_SUBDIR)) {
-            file_list_add_item(fl, f.name,
-                               (f.attrib & _A_SUBDIR) ? FT_DIR : FT_NORMAL);
+            file_list_add_item(fl, f.name, (f.attrib & _A_SUBDIR) ? FT_DIR : FT_NORMAL);
             continue;
         }
         {
@@ -240,9 +238,9 @@ static struct file_list *file_list_read_nolfn(const char *path,
 
             element = strtok(p, ";");
             do {
-                if (fnmatch(element, f.name, FNM_NOCASE) == 0)
-                    file_list_add_item(fl, f.name,
-                                  (f.attrib & _A_SUBDIR) ? FT_DIR : FT_NORMAL);
+                if (fnmatch(element, f.name, FNM_NOCASE) == 0) {
+                    file_list_add_item(fl, f.name, (f.attrib & _A_SUBDIR) ? FT_DIR : FT_NORMAL);
+                }
                 element = strtok(NULL, ";");
             } while (element != NULL);
             lib_free(p);
@@ -256,20 +254,20 @@ end:
     return fl;
 }
 
-static struct file_list *file_list_read(const char *path,
-                                        const char *pattern)
+static struct file_list *file_list_read(const char *path, const char *pattern)
 {
     /* XXX: This check is only half-OK.  We actually need Allegro to be up
        and running for this to work properly.  */
 #ifdef HAVE_ALLEGRO_H
     if ((os_type == OSTYPE_WIN95)
 #ifdef OSTYPE_WIN98
-        || (os_type == OSTYPE_WIN98)
+        || (os_type == OSTYPE_WIN98) {
 #endif
-        || (os_type == OSTYPE_WINNT))
+        || (os_type == OSTYPE_WINNT)) {
         return file_list_read_lfn(path, pattern);
-    else
+    } else {
         return file_list_read_nolfn(path, pattern);
+    }
 #else
     return file_list_read_lfn(path, pattern);
 #endif
@@ -279,16 +277,17 @@ static int file_list_find(const struct file_list *fl, const char *str, int len)
 {
     int i;
 
-    for (i = 0; i < fl->num_used_items; i++)
-        if (strncasecmp(fl->items[i].name, str, len) == 0)
+    for (i = 0; i < fl->num_used_items; i++) {
+        if (strncasecmp(fl->items[i].name, str, len) == 0) {
             return i;
+        }
+    }
     return -1;
 }
 
 /* ------------------------------------------------------------------------- */
 
-static void file_selector_display_path(const char *path,
-                                       int x, int y, int width)
+static void file_selector_display_path(const char *path, int x, int y, int width)
 {
     int i, xx;
 
@@ -297,23 +296,20 @@ static void file_selector_display_path(const char *path,
 
     tui_set_attr(MENU_FORE, MENU_BACK, 0);
 
-    for (i = strlen(path) - 1, xx = MIN(x + width - 1, x + i);
-         i >= 0 && xx >= x;
-         i--, xx--) {
+    for (i = strlen(path) - 1, xx = MIN(x + width - 1, x + i); i >= 0 && xx >= x; i--, xx--) {
         char c;
 
         /* Display ellipsis on the left if longer than the line.  */
-        if (xx <= x + 1 && i > 1)
+        if (xx <= x + 1 && i > 1) {
             c = '.';
-        else
+        } else {
             c = path[i] == '/' ? '\\' : path[i];
+        }
         tui_put_char(xx, y, c);
     }
 }
 
-static void file_selector_display_item(struct file_list *fl, int num,
-                                       int first_item_num, int x, int y,
-                                       int width, int height, int num_cols)
+static void file_selector_display_item(struct file_list *fl, int num, int first_item_num, int x, int y, int width, int height, int num_cols)
 {
     y += (num - first_item_num) % height;
     x += ((num - first_item_num) / height) * width;
@@ -338,24 +334,22 @@ static void file_selector_display_item(struct file_list *fl, int num,
             name[width - 2] = '\0';
             tui_display(x, y, width, " %s ", name);
         } else {
-            if (fl->items[num].type == FT_DIR)
-              /* tui_display(x, y, width, " %s\\ ", fl->items[num].name); */
+            if (fl->items[num].type == FT_DIR) {
                 tui_display(x, y, width, " %s/ ", fl->items[num].name);
-            else
+            } else {
               tui_display(x, y, width, " %s ", fl->items[num].name);
+            }
         }
     }
 }
 
-static void file_selector_update(struct file_list *fl,
-                                 int first_item_num, int x, int y,
-                                 int width, int height, int num_cols)
+static void file_selector_update(struct file_list *fl, int first_item_num, int x, int y, int width, int height, int num_cols)
 {
     int i;
 
-    for (i = 0; i < num_cols * height; i++)
-        file_selector_display_item(fl, first_item_num + i, first_item_num,
-                                   x, y, width, height, num_cols);
+    for (i = 0; i < num_cols * height; i++) {
+        file_selector_display_item(fl, first_item_num + i, first_item_num, x, y, width, height, num_cols);
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -379,10 +373,11 @@ static int alt_key_to_drive_num(int keycode)
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     };
 
-    if (keycode < 0x100 || keycode >= 0x200)
+    if (keycode < 0x100 || keycode >= 0x200) {
         return 0;
-    else
+    } else {
         return key_table[keycode - 0x100];
+    }
 }
 
 /* Make sure there is a trailing '/' in `*path'.  */
@@ -397,28 +392,28 @@ static void slashize_path(char **path)
     }
 }
 
-static char *change_path(struct file_list *fl, char *return_path,
-                         int curr_item)
+static char *change_path(struct file_list *fl, char *return_path, int curr_item)
 {
     char *new_path;
 
     if (strcmp(fl->items[curr_item].name, "..") == 0) {
         char *p = return_path + strlen(return_path) - 1;
 
-        if (*p == '/')
+        if (*p == '/') {
             p--;
-        for (; *p != '/' && p > return_path; p--)
-                    ;
-        if (p == return_path)
+        }
+        for (; *p != '/' && p > return_path; p--) {
+        }
+
+        if (p == return_path) {
             new_path = lib_stralloc(return_path);
-        else {
+        } else {
             new_path = lib_malloc(p - return_path + 2);
             memcpy(new_path, return_path, p - return_path + 1);
             new_path[p - return_path + 1] = '\0';
         }
     } else {
-        new_path = util_concat(return_path,
-                               fl->items[curr_item].name, "/", NULL);
+        new_path = util_concat(return_path, fl->items[curr_item].name, "/", NULL);
     }
 
     return new_path;
@@ -440,22 +435,26 @@ char *tui_file_selector(const char *title, const char *directory,
     int str_len = 0;
     tui_area_t backing_store = NULL;
 
-    if (contents_func != NULL)
+    if (contents_func != NULL) {
         *browse_file_return = NULL;
+    }
 
-    if (browse_file_number_return != NULL)
+    if (browse_file_number_return != NULL) {
         *browse_file_number_return = 0;
+    }
 
-    if (directory != NULL)
+    if (directory != NULL) {
         return_path = lib_stralloc(directory);
-    else
+    } else {
         return_path = ioutil_current_dir();
+    }
 
     slashize_path(&return_path);
 
     fl = file_list_read(return_path, pattern);
-    if (fl == NULL)
+    if (fl == NULL) {
         return NULL;
+    }
 
     first_item = curr_item = 0;
     num_cols = 4;
@@ -471,8 +470,9 @@ char *tui_file_selector(const char *title, const char *directory,
         for (i = 0; i < fl->num_items; i++) {
             if (!strcasecmp(default_item, fl->items[i].name)) {
                 curr_item = i;
-                while (curr_item - first_item >= num_files)
+                while (curr_item - first_item >= num_files) {
                     first_item += num_lines;
+                }
                 break;
             }
         }
@@ -485,181 +485,133 @@ char *tui_file_selector(const char *title, const char *directory,
 
     tui_area_get(&backing_store, x, y, width + 2, height + 1);
 
-    tui_display_window(x, y, width, height, MENU_BORDER, MENU_BACK,
-                       title, NULL);
+    tui_display_window(x, y, width, height, MENU_BORDER, MENU_BACK, title, NULL);
 
     while (1) {
         int key;
 
         tui_set_attr(MENU_FORE, MENU_BACK, 0);
         if (need_update) {
-            file_selector_display_path(return_path, x + 1, y + height - 1,
-                                       width - 2);
-            file_selector_update(fl, first_item, x + 2, y + 1,
-                                 field_width, num_lines, num_cols);
+            file_selector_display_path(return_path, x + 1, y + height - 1, width - 2);
+            file_selector_update(fl, first_item, x + 2, y + 1, field_width, num_lines, num_cols);
             tui_set_attr(FIRST_LINE_FORE, FIRST_LINE_BACK, 0);
-            tui_display(0, tui_num_lines() - 1, tui_num_cols(),
-                        "\030\031\033\032: Move  <Enter>: Select  %s<Alt>-<letter>: Change drive",
-                        contents_func != NULL ? "<Space>: Preview  " : "");
+            tui_display(0, tui_num_lines() - 1, tui_num_cols(), "\030\031\033\032: Move  <Enter>: Select  %s<Alt>-<letter>: Change drive", contents_func != NULL ? "<Space>: Preview  " : "");
             need_update = 0;
         }
         tui_set_attr(MENU_FORE, MENU_HIGHLIGHT, 0);
-        file_selector_display_item(fl, curr_item, first_item, x + 2, y + 1,
-                                   field_width, num_lines, num_cols);
+        file_selector_display_item(fl, curr_item, first_item, x + 2, y + 1, field_width, num_lines, num_cols);
         key = getkey();
         tui_set_attr(MENU_FORE, MENU_BACK, 0);
-        file_selector_display_item(fl, curr_item, first_item, x + 2, y + 1,
-                                   field_width, num_lines, num_cols);
+        file_selector_display_item(fl, curr_item, first_item, x + 2, y + 1, field_width, num_lines, num_cols);
 
         switch (key) {
-          case K_Escape:
-            tui_area_put(backing_store, x, y);
-            tui_area_free(backing_store);
-            return NULL;
-          case K_Left:
-            str_len = 0;
-            if (curr_item - num_lines >= 0) {
-                curr_item -= num_lines;
-                if (curr_item < first_item) {
-                    if (first_item >= num_lines) {
-                        first_item -= num_lines;
-                        need_update = 1;
-                    } else
-                        curr_item += num_lines;
-                }
-            }
-            break;
-          case K_Up:
-            str_len = 0;
-            if (curr_item > 0) {
-                curr_item--;
-                if (curr_item < first_item) {
-                    first_item = curr_item;
-                    need_update = 1;
-                }
-            }
-            break;
-          case K_Right:
-            str_len = 0;
-            if (curr_item + num_lines < fl->num_used_items) {
-                curr_item += num_lines;
-                if (curr_item - first_item >= num_files) {
-                    first_item += num_lines;
-                    need_update = 1;
-                }
-            }
-            break;
-          case K_Down:
-            str_len = 0;
-            if (curr_item < fl->num_used_items - 1) {
-                curr_item++;
-                if (curr_item == first_item + num_files) {
-                    first_item++;
-                    need_update = 1;
-                }
-            }
-            break;
-          case K_PageDown:
-            str_len = 0;
-            if (curr_item + num_files < fl->num_used_items) {
-                curr_item += num_files;
-                first_item += num_files;
-            }
-            need_update = 1;
-            break;
-          case K_PageUp:
-            str_len = 0;
-            if (curr_item - num_files >= 0) {
-                curr_item -= num_files;
-                first_item -= num_files;
-                if (first_item < 0)
-                    first_item = 0;
-                need_update = 1;
-            }
-            break;
-          case K_Home:
-            str_len = 0;
-            curr_item = 0;
-            if (first_item != 0) {
-                first_item = 0;
-                need_update = 1;
-            }
-            break;
-          case K_End:
-            str_len = 0;
-            curr_item = fl->num_used_items - 1;
-            first_item = curr_item - num_files + 1;
-            if (first_item < 0)
-                first_item = 0;
-            need_update = 1;
-            break;
-          case K_Return:
-            str_len = 0;
-            if (fl->items[curr_item].type == FT_DIR) {
-                struct file_list *new_fl;
-                char *new_path;
-
-                new_path = change_path(fl, return_path, curr_item);
-
-                new_fl = file_list_read(new_path, pattern);
-
-                if (new_fl != NULL) {
-                    file_list_free(fl);
-                    fl = new_fl;
-                    first_item = curr_item = 0;
-                    lib_free(return_path);
-                    return_path = new_path;
-                    need_update = 1;
-                    ioutil_chdir(return_path);
-                } else {
-                    lib_free(new_path);
-                }
-            } else {
-                char *p = util_concat(return_path, fl->items[curr_item].name,
-                                      NULL);
-
-                lib_free(return_path);
-                return_path = p;
+            case K_Escape:
                 tui_area_put(backing_store, x, y);
                 tui_area_free(backing_store);
-                return return_path;
-            }
-            break;
-          case K_BackSpace:
-            if (str_len > 1) {
-                int n;
-                str_len--;
-                n = file_list_find(fl, str, str_len);
-                if (n >= 0) {
-                    curr_item = n;
+                return NULL;
+            case K_Left:
+                str_len = 0;
+                if (curr_item - num_lines >= 0) {
+                    curr_item -= num_lines;
+                    if (curr_item < first_item) {
+                        if (first_item >= num_lines) {
+                            first_item -= num_lines;
+                            need_update = 1;
+                        } else {
+                            curr_item += num_lines;
+                        }
+                    }
+                }
+                break;
+            case K_Up:
+                str_len = 0;
+                if (curr_item > 0) {
+                    curr_item--;
                     if (curr_item < first_item) {
                         first_item = curr_item;
                         need_update = 1;
-                    } else if (first_item + num_files <= curr_item) {
-                        first_item = curr_item - num_files + 1;
+                    }
+                }
+                break;
+            case K_Right:
+                str_len = 0;
+                if (curr_item + num_lines < fl->num_used_items) {
+                    curr_item += num_lines;
+                    if (curr_item - first_item >= num_files) {
+                        first_item += num_lines;
                         need_update = 1;
                     }
                 }
-            } else {
+                break;
+            case K_Down:
+                str_len = 0;
+                if (curr_item < fl->num_used_items - 1) {
+                    curr_item++;
+                    if (curr_item == first_item + num_files) {
+                        first_item++;
+                        need_update = 1;
+                    }
+                }
+                break;
+            case K_PageDown:
+                str_len = 0;
+                if (curr_item + num_files < fl->num_used_items) {
+                    curr_item += num_files;
+                    first_item += num_files;
+                }
+                need_update = 1;
+                break;
+            case K_PageUp:
+                str_len = 0;
+                if (curr_item - num_files >= 0) {
+                    curr_item -= num_files;
+                    first_item -= num_files;
+                    if (first_item < 0) {
+                        first_item = 0;
+                    }
+                    need_update = 1;
+                }
+                break;
+            case K_Home:
                 str_len = 0;
                 curr_item = 0;
                 if (first_item != 0) {
                     first_item = 0;
                     need_update = 1;
                 }
-            }
-            break;
-          case ' ':
-            if (contents_func != NULL
-                && fl->items[curr_item].type != FT_DIR
-                && browse_file_return != NULL) {
-                tui_display(0, tui_num_lines() - 1, tui_num_cols(), "");
-                *browse_file_return = tui_image_browser(fl->items[curr_item].name,
-                                          contents_func,
-                                          browse_file_number_return);
-                if (*browse_file_return != NULL) {
-                    char *p = util_concat(return_path,
-                                          fl->items[curr_item].name, NULL);
+                break;
+            case K_End:
+                str_len = 0;
+                curr_item = fl->num_used_items - 1;
+                first_item = curr_item - num_files + 1;
+                if (first_item < 0) {
+                    first_item = 0;
+                }
+                need_update = 1;
+                break;
+            case K_Return:
+                str_len = 0;
+                if (fl->items[curr_item].type == FT_DIR) {
+                    struct file_list *new_fl;
+                    char *new_path;
+
+                    new_path = change_path(fl, return_path, curr_item);
+
+                    new_fl = file_list_read(new_path, pattern);
+
+                    if (new_fl != NULL) {
+                        file_list_free(fl);
+                        fl = new_fl;
+                        first_item = curr_item = 0;
+                        lib_free(return_path);
+                        return_path = new_path;
+                        need_update = 1;
+                        ioutil_chdir(return_path);
+                    } else {
+                        lib_free(new_path);
+                    }
+                } else {
+                    char *p = util_concat(return_path, fl->items[curr_item].name, NULL);
 
                     lib_free(return_path);
                     return_path = p;
@@ -667,64 +619,13 @@ char *tui_file_selector(const char *title, const char *directory,
                     tui_area_free(backing_store);
                     return return_path;
                 }
-                need_update = 1;
                 break;
-            } else {
-                tui_beep();
-            }
-          default:
-            {
-                int drive_num;
-
-                drive_num = alt_key_to_drive_num(key);
-
-                if (drive_num > 0) {
-                    /* `A-a' ... `A-z' change the current drive.  */
-                    int num_available_drives;
-                    int current_drive;
-
-                    _dos_getdrive(&current_drive);
-                    _dos_setdrive(current_drive, &num_available_drives);
-                    if (drive_num <= num_available_drives) {
-                        char *new_path;
-
-                        /* FIXME: This is a hack...  Maybe there is a cleaner
-                           way to do it, but for now I just don't know.  */
-                        _dos_setdrive(drive_num, &num_available_drives);
-                        new_path = ioutil_current_dir();
-                        if (new_path != NULL) {
-                            slashize_path(&new_path);
-                            _dos_setdrive(current_drive, &num_available_drives);
-                            if (new_path != NULL) {
-                                struct file_list *new_fl;
-
-                                new_fl = file_list_read(new_path, pattern);
-                                if (new_fl != NULL) {
-                                    file_list_free(fl);
-                                    fl = new_fl;
-                                    first_item = curr_item = 0;
-                                    lib_free(return_path);
-                                    return_path = new_path;
-                                    need_update = 1;
-                                    ioutil_chdir(return_path);
-                                } else {
-                                    lib_free(new_path);
-                                }
-                            }
-                        } else {
-                            _dos_setdrive(current_drive, &num_available_drives);                            tui_beep();
-                        }
-                    } else {
-                        tui_beep();
-                    }
-                } else if (isprint(key) && str_len < 0x100) {
+            case K_BackSpace:
+                if (str_len > 1) {
                     int n;
-                    str[str_len] = key;
-                    n = file_list_find(fl, str, str_len + 1);
-                    if (n < 0) {
-                        tui_beep();
-                    } else {
-                        str_len++;
+                    str_len--;
+                    n = file_list_find(fl, str, str_len);
+                    if (n >= 0) {
                         curr_item = n;
                         if (curr_item < first_item) {
                             first_item = curr_item;
@@ -734,10 +635,100 @@ char *tui_file_selector(const char *title, const char *directory,
                             need_update = 1;
                         }
                     }
+                } else {
+                    str_len = 0;
+                    curr_item = 0;
+                    if (first_item != 0) {
+                        first_item = 0;
+                        need_update = 1;
+                    }
                 }
-            }
-            break;
+                break;
+            case ' ':
+                if (contents_func != NULL && fl->items[curr_item].type != FT_DIR && browse_file_return != NULL) {
+                    tui_display(0, tui_num_lines() - 1, tui_num_cols(), "");
+                    *browse_file_return = tui_image_browser(fl->items[curr_item].name, contents_func, browse_file_number_return);
+                    if (*browse_file_return != NULL) {
+                        char *p = util_concat(return_path, fl->items[curr_item].name, NULL);
+
+                        lib_free(return_path);
+                        return_path = p;
+                        tui_area_put(backing_store, x, y);
+                        tui_area_free(backing_store);
+                        return return_path;
+                    }
+                    need_update = 1;
+                    break;
+                } else {
+                    tui_beep();
+                }
+            default:
+                {
+                    int drive_num;
+
+                    drive_num = alt_key_to_drive_num(key);
+
+                    if (drive_num > 0) {
+                        /* `A-a' ... `A-z' change the current drive.  */
+                        int num_available_drives;
+                        int current_drive;
+
+                        _dos_getdrive(&current_drive);
+                        _dos_setdrive(current_drive, &num_available_drives);
+                        if (drive_num <= num_available_drives) {
+                            char *new_path;
+
+                            /* FIXME: This is a hack...  Maybe there is a cleaner
+                               way to do it, but for now I just don't know.  */
+                            _dos_setdrive(drive_num, &num_available_drives);
+                            new_path = ioutil_current_dir();
+                            if (new_path != NULL) {
+                                slashize_path(&new_path);
+                                _dos_setdrive(current_drive, &num_available_drives);
+                                if (new_path != NULL) {
+                                    struct file_list *new_fl;
+
+                                    new_fl = file_list_read(new_path, pattern);
+                                    if (new_fl != NULL) {
+                                        file_list_free(fl);
+                                        fl = new_fl;
+                                        first_item = curr_item = 0;
+                                        lib_free(return_path);
+                                        return_path = new_path;
+                                        need_update = 1;
+                                        ioutil_chdir(return_path);
+                                    } else {
+                                        lib_free(new_path);
+                                    }
+                                }
+                            } else {
+                                _dos_setdrive(current_drive, &num_available_drives);
+                                tui_beep();
+                            }
+                        } else {
+                            tui_beep();
+                        }
+                    } else if (isprint(key) && str_len < 0x100) {
+                        int n;
+
+                        str[str_len] = key;
+                        n = file_list_find(fl, str, str_len + 1);
+                        if (n < 0) {
+                            tui_beep();
+                        } else {
+                            str_len++;
+                            curr_item = n;
+                            if (curr_item < first_item) {
+                                first_item = curr_item;
+                                need_update = 1;
+                            } else if (first_item + num_files <= curr_item) {
+                                first_item = curr_item - num_files + 1;
+                                need_update = 1;
+                            }
+                        }
+                    }
+                }
+                break;
         }
     }
 }
-

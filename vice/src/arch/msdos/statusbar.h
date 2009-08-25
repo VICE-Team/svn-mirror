@@ -29,8 +29,8 @@
 
 #include <allegro.h>
 
-#define STATUSBAR_HEIGHT    12
-#define STATUSBAR_WIDTH     320
+#define STATUSBAR_HEIGHT 12
+#define STATUSBAR_WIDTH  320
 
 /* current use of the bar:
     speed info:       2 -  98

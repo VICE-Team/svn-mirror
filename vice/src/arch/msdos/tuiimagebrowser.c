@@ -40,7 +40,6 @@
 
 #include "tuiimagebrowser.h"
 
-
 #define WIDTH  35
 #define HEIGHT 17
 
@@ -55,25 +54,24 @@ static int petscii_display(int x, int y, BYTE *data)
     for (i = 0; data[i] != 0; i++, x++) {
         BYTE c;
 
-        c = char_conv_table[(unsigned int) data[i]];
+        c = char_conv_table[(unsigned int)data[i]];
         tui_put_char(x, y, c);
     }
 
     return x;
 }
 
-static void display_item(int x, int y, int width, int offset,
-                         image_contents_file_list_t *element,
-                         int is_selected)
+static void display_item(int x, int y, int width, int offset, image_contents_file_list_t *element, int is_selected)
 {
     int x1, y1;
 
     y1 = y + offset;
 
-    if (is_selected)
+    if (is_selected) {
         tui_set_attr(MENU_FORE, MENU_HIGHLIGHT, 0);
-    else
+    } else {
         tui_set_attr(MENU_FORE, MENU_BACK, 0);
+    }
     tui_display(x, y1, 6, "%-6d", element->size);
 
     x1 = x + 6;
@@ -81,26 +79,28 @@ static void display_item(int x, int y, int width, int offset,
     x1 = petscii_display(x1, y1, element->name);
     tui_put_char(x1++, y1, '\"');
 
-    for (; x1 < x + width - IMAGE_CONTENTS_TYPE_LEN; x1++)
+    for (; x1 < x + width - IMAGE_CONTENTS_TYPE_LEN; x1++) {
         tui_put_char(x1, y1, ' ');
+    }
     x1 = petscii_display(x1, y1, element->type);
-    for (; x1 < x + width; x1++)
+    for (; x1 < x + width; x1++) {
         tui_put_char(x1, y1, ' ');
+    }
 }
 
-static void update(int x, int y, int width, int height,
-                   image_contents_file_list_t *first,
-                   image_contents_file_list_t *selected)
+static void update(int x, int y, int width, int height, image_contents_file_list_t *first, image_contents_file_list_t *selected)
 {
     image_contents_file_list_t *p;
     int i;
 
-    for (p = first, i = 0; p != NULL && i < height; p = p->next, i++)
+    for (p = first, i = 0; p != NULL && i < height; p = p->next, i++) {
         display_item(x, y, width, i, p, p == selected);
+    }
 
     tui_set_attr(MENU_FORE, MENU_BACK, 0);
-    for (; i < height; i++)
+    for (; i < height; i++) {
         tui_hline(x, y + i, ' ', width);
+    }
 }
 
 static void display_title(int x, int y, BYTE *name, BYTE *id)
@@ -116,9 +116,7 @@ static void display_title(int x, int y, BYTE *name, BYTE *id)
     }
 }
 
-char *tui_image_browser(const char *filename,
-                        read_contents_func_type contents_func,
-                        unsigned int *file_number)
+char *tui_image_browser(const char *filename, read_contents_func_type contents_func, unsigned int *file_number)
 {
     image_contents_t *contents;
     tui_area_t backing_store = NULL;
@@ -129,8 +127,9 @@ char *tui_image_browser(const char *filename,
     int real_x, real_y;
     int need_update;
 
-    if (char_conv_table == NULL)
+    if (char_conv_table == NULL) {
         char_conv_table = cbm_petscii_graphics_to_charset;
+    }
 
     contents = contents_func(filename);
     if (contents == NULL) {
@@ -140,10 +139,7 @@ char *tui_image_browser(const char *filename,
 
     x = CENTER_X(WIDTH);
     y = CENTER_Y(HEIGHT);
-    tui_display_window(x, y,
-                       WIDTH, HEIGHT,
-                       MENU_BORDER, MENU_BACK,
-                       NULL, &backing_store);
+    tui_display_window(x, y, WIDTH, HEIGHT, MENU_BORDER, MENU_BACK, NULL, &backing_store);
 
     real_width = WIDTH - 4;
     real_height = HEIGHT - 4;
@@ -157,8 +153,7 @@ char *tui_image_browser(const char *filename,
         real_height -= 2;
 
         tui_set_attr(MENU_FORE, MENU_BACK, 0);
-        tui_display(real_x, y + HEIGHT - 2, real_width,
-                    "%d blocks free.", contents->blocks_free);
+        tui_display(real_x, y + HEIGHT - 2, real_width, "%d blocks free.", contents->blocks_free);
         tui_set_attr(MENU_BORDER, MENU_BACK, 0);
         tui_hline(real_x - 1, y + HEIGHT - 3, 0xc4, real_width + 2);
     }
@@ -174,8 +169,7 @@ char *tui_image_browser(const char *filename,
     }
 
     tui_set_attr(FIRST_LINE_FORE, FIRST_LINE_BACK, 0);
-    tui_display(0, tui_num_lines() - 1, tui_num_cols(),
-                "\030\031: Move  <Enter>: Autostart  <Backspace>: Switch charset");
+    tui_display(0, tui_num_lines() - 1, tui_num_cols(), "\030\031: Move  <Enter>: Autostart  <Backspace>: Switch charset");
 
     while (1) {
         int key;
@@ -185,17 +179,14 @@ char *tui_image_browser(const char *filename,
             update(real_x, real_y, real_width, real_height, first, current);
             need_update = 0;
         } else if (current != NULL) {
-            display_item(real_x, real_y, real_width,
-                         current_number - first_number,
-                         current, 1);
+            display_item(real_x, real_y, real_width, current_number - first_number, current, 1);
         }
 
         key = getkey();
 
-        if (current != NULL)
-            display_item(real_x, real_y, real_width,
-                         current_number - first_number,
-                         current, 0);
+        if (current != NULL) {
+            display_item(real_x, real_y, real_width, current_number - first_number, current, 0);
+        }
 
         if (key == K_Escape || key == K_Left) {
             tui_area_put(backing_store, x, y);
@@ -204,78 +195,64 @@ char *tui_image_browser(const char *filename,
             return NULL;
         } else if (current != NULL) {
             switch (key) {
-
                 /* Backspace switches charset.  */
-              case K_BackSpace:
-                if (char_conv_table == cbm_petscii_business_to_charset)
-                    char_conv_table = cbm_petscii_graphics_to_charset;
-                else
-                    char_conv_table = cbm_petscii_business_to_charset;
-                need_update = 1;
-                break;
-
-                /* Return autostarts the selected file.  */
-              case K_Return:
-              case K_Right:
-                {
-                    char *retval;
-
-                    tui_area_put(backing_store, x, y);
-                    tui_area_free(backing_store);
-                    retval = lib_stralloc(current->name);
-                    image_contents_destroy(contents);
-                    if (file_number != NULL)
-                        *file_number = current_number + 1;
-                    return retval;
-                }
-
-                /* Movement commands.  */
-
-              case K_Up:
-                if (contents->file_list != NULL && current_number > 0) {
-                    current_number--;
-                    current = current->prev;
-                    if (current_number < first_number) {
-                        first_number--;
-                        first = first->prev;
-                        need_update = 1;
+                case K_BackSpace:
+                    if (char_conv_table == cbm_petscii_business_to_charset) {
+                        char_conv_table = cbm_petscii_graphics_to_charset;
+                    } else {
+                        char_conv_table = cbm_petscii_business_to_charset;
                     }
-                }
-                break;
-              case K_Home:
-                if (contents->file_list != NULL) {
-                    first_number = current_number = 0;
-                    first = current = contents->file_list;
                     need_update = 1;
-                }
-                break;
-              case K_PageUp:
-                if (current != NULL) {
-                    int i;
+                    break;
+                /* Return autostarts the selected file.  */
+                case K_Return:
+                case K_Right:
+                    {
+                        char *retval;
 
-                    for (i = 0; i < real_height && first_number > 0; i++) {
-                        first_number--;
-                        first = first->prev;
+                        tui_area_put(backing_store, x, y);
+                        tui_area_free(backing_store);
+                        retval = lib_stralloc(current->name);
+                        image_contents_destroy(contents);
+                        if (file_number != NULL) {
+                            *file_number = current_number + 1;
+                        }
+                        return retval;
+                    }
+                /* Movement commands.  */
+                case K_Up:
+                    if (contents->file_list != NULL && current_number > 0) {
                         current_number--;
                         current = current->prev;
+                        if (current_number < first_number) {
+                            first_number--;
+                            first = first->prev;
+                            need_update = 1;
+                        }
                     }
-                    need_update = 1;
-                }
-                break;
-              case K_Down:
-                if (contents->file_list != NULL && current->next != NULL) {
-                    current_number++;
-                    current = current->next;
-                    if (current_number - first_number >= real_height) {
-                        first_number++;
-                        first = first->next;
+                    break;
+                case K_Home:
+                    if (contents->file_list != NULL) {
+                        first_number = current_number = 0;
+                        first = current = contents->file_list;
                         need_update = 1;
                     }
-                }
-                break;
-              case K_End:
-                if (contents->file_list != NULL) {
-                    while (current->next != NULL) {
+                    break;
+                case K_PageUp:
+                    if (current != NULL) {
+                        int i;
+
+                        for (i = 0; i < real_height && first_number > 0; i++) {
+                            first_number--;
+                            first = first->prev;
+                            current_number--;
+                            current = current->prev;
+                        }
+                        need_update = 1;
+                    }
+                    break;
+                case K_Down:
+                    if (contents->file_list != NULL && current->next != NULL) {
                         current_number++;
                         current = current->next;
                         if (current_number - first_number >= real_height) {
@@ -284,23 +261,34 @@ char *tui_image_browser(const char *filename,
                             need_update = 1;
                         }
                     }
-                }
-                break;
-              case K_PageDown:
-                if (contents->file_list != NULL) {
-                    int i;
-
-                    for (i = 0; i < real_height && current->next != NULL; i++) {
-                        current_number++;
-                        current = current->next;
-                        first_number++;
-                        first = first->next;
+                    break;
+                case K_End:
+                    if (contents->file_list != NULL) {
+                        while (current->next != NULL) {
+                            current_number++;
+                            current = current->next;
+                            if (current_number - first_number >= real_height) {
+                                first_number++;
+                                first = first->next;
+                                need_update = 1;
+                            }
+                        }
                     }
-                    need_update = 1;
-                }
-                break;
+                    break;
+                case K_PageDown:
+                    if (contents->file_list != NULL) {
+                        int i;
+
+                        for (i = 0; i < real_height && current->next != NULL; i++) {
+                            current_number++;
+                            current = current->next;
+                            first_number++;
+                            first = first->next;
+                        }
+                        need_update = 1;
+                    }
+                    break;
             }
         }
     }
 }
-

@@ -29,9 +29,6 @@
 
 struct image_contents_s;
 
-char *tui_image_browser(const char *filename,
-                        read_contents_func_type contents_func,
-                        unsigned int *file_number);
+char *tui_image_browser(const char *filename, read_contents_func_type contents_func, unsigned int *file_number);
 
 #endif
-

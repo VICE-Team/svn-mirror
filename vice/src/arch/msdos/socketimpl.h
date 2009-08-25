@@ -36,7 +36,7 @@
 #ifdef HAVE_NETWORK
  
 #if !defined(HAVE_GETDTABLESIZE) && defined(HAVE_GETRLIMIT)
-# include <sys/resource.h>
+#include <sys/resource.h>
 #endif
 
 #include <sys/types.h>
@@ -49,7 +49,7 @@ typedef unsigned int SOCKET;
 typedef struct timeval TIMEVAL;
 
 #ifndef INVALID_SOCKET
-# define INVALID_SOCKET (SOCKET)(~0)
+#define INVALID_SOCKET (SOCKET)(~0)
 #endif
 
 #define SOCKET_IS_INVALID(_x) ((_x) < 0)

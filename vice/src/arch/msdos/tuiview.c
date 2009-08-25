@@ -46,53 +46,55 @@ void tui_view_text(int width, int height, const char *title, const char *text)
     x = CENTER_X(width);
     y = CENTER_Y(height);
 
-    tui_display_window(x, y, width, height, MESSAGE_BORDER, MESSAGE_BACK,
-		       title, &backing_store);
+    tui_display_window(x, y, width, height, MESSAGE_BORDER, MESSAGE_BACK, title, &backing_store);
     
     tui_set_attr(MESSAGE_BORDER, MESSAGE_BACK, 0);
     tui_put_char(x + width - 1, y + 1, 0x1e); /* Up arrow */
     tui_put_char(x + width - 1, y + height - 2, 0x1f); /* Down arrow */
-    for (i = y + 2; i < y + height - 2; i++)
-	tui_put_char(x + width - 1, i, 0xb1);
+    for (i = y + 2; i < y + height - 2; i++) {
+        tui_put_char(x + width - 1, i, 0xb1);
+    }
 
     tui_set_attr(MESSAGE_FORE, MESSAGE_BACK, 0);
     p = text;
     while (1) {
-	int key;
+        int key;
 
-	if (need_update) {
-	    tui_display_text(x + 2, y + 1, width - 4, height - 2, p);
-	    need_update = 0;
-	}
+        if (need_update) {
+            tui_display_text(x + 2, y + 1, width - 4, height - 2, p);
+            need_update = 0;
+        }
 	
-	key = getkey();
+        key = getkey();
 
-	switch (key) {
-	  case K_Escape:
-	  case K_Return:
-	    tui_area_put(backing_store, x, y);
-	    tui_area_free(backing_store);
-	    return;
-	  case K_Up:
-	  case K_Left:
-	    p = util_find_prev_line(text, p);
-	    need_update = 1;
-	    break;
-	  case K_Down:
-	  case K_Right:
-	    p = util_find_next_line(p);
-	    need_update = 1;
-	    break;
-	  case K_PageDown:
-	    for (i = 0; i < height - 3; i++)
-		p = util_find_next_line(p);
-	    need_update = 1;
-	    break;
-	  case K_PageUp:
-	    for (i = 0; i < height - 3; i++)
-		p = util_find_prev_line(text, p);	
-	    need_update = 1;
-	    break;
-	}
+        switch (key) {
+            case K_Escape:
+            case K_Return:
+                tui_area_put(backing_store, x, y);
+                tui_area_free(backing_store);
+                return;
+            case K_Up:
+            case K_Left:
+                p = util_find_prev_line(text, p);
+                need_update = 1;
+                break;
+            case K_Down:
+            case K_Right:
+                p = util_find_next_line(p);
+                need_update = 1;
+                break;
+            case K_PageDown:
+                for (i = 0; i < height - 3; i++) {
+                    p = util_find_next_line(p);
+                }
+                need_update = 1;
+                break;
+            case K_PageUp:
+                for (i = 0; i < height - 3; i++) {
+                    p = util_find_prev_line(text, p);	
+                }
+                need_update = 1;
+                break;
+        }
     }
 }

@@ -46,16 +46,17 @@ static struct {
     const char *menu_item;
     char *long_description;
 } palette_items[] = {
-    { "default", "Default ", "_Default",
-      "Default VICE PLUS4 palette" },
-    { NULL }
+    {"default", "Default ", "_Default",
+      "Default VICE PLUS4 palette"},
+    {NULL}
 };
 
 static TUI_MENU_CALLBACK(palette_callback)
 {
     if (been_activated) {
-        if (resources_set_string("TEDPaletteFile", (const char *)param) < 0)
+        if (resources_set_string("TEDPaletteFile", (const char *)param) < 0) {
             tui_error("Invalid palette file");
+        }
         ui_update_menus();
     }
 
@@ -67,12 +68,12 @@ static TUI_MENU_CALLBACK(custom_palette_callback)
     if (been_activated) {
         char *name;
 
-        name = tui_file_selector("Load custom palette",
-                                 NULL, "*.vpl", NULL, NULL, NULL, NULL);
+        name = tui_file_selector("Load custom palette", NULL, "*.vpl", NULL, NULL, NULL, NULL);
 
         if (name != NULL) {
-            if (resources_set_string("TEDPaletteFile", name) < 0)
+            if (resources_set_string("TEDPaletteFile", name) < 0) {
                 tui_error("Invalid palette file");
+            }
             ui_update_menus();
             lib_free(name);
         }
@@ -87,8 +88,9 @@ static TUI_MENU_CALLBACK(palette_menu_callback)
 
     resources_get_string("TEDPaletteFile", &s);
     for (i = 0; palette_items[i].name != NULL; i++) {
-        if (strcmp(s, palette_items[i].name) == 0)
+        if (strcmp(s, palette_items[i].name) == 0) {
            return palette_items[i].brief_description;
+        }
     }
 
     return "Custom";
@@ -99,16 +101,15 @@ static void add_palette_submenu(tui_menu_t parent)
     int i;
     tui_menu_t palette_menu = tui_menu_create("Color Set", 1);
 
-    for (i = 0; palette_items[i].name != NULL; i++)
-        tui_menu_add_item(palette_menu,
-                          palette_items[i].menu_item,
+    for (i = 0; palette_items[i].name != NULL; i++) {
+        tui_menu_add_item(palette_menu, palette_items[i].menu_item,
                           palette_items[i].long_description,
                           palette_callback,
-                          (void *) palette_items[i].name, 0,
+                          (void *)palette_items[i].name, 0,
                           TUI_MENU_BEH_RESUME);
+    }
 
-    tui_menu_add_item(palette_menu,
-                      "C_ustom",
+    tui_menu_add_item(palette_menu, "C_ustom",
                       "Load a custom palette",
                       custom_palette_callback,
                       NULL, 0,
@@ -118,8 +119,7 @@ static void add_palette_submenu(tui_menu_t parent)
 			 "Choose color palette",
 			 palette_menu,
 			 palette_menu_callback,
-			 NULL,
-			 15);
+			 NULL, 15);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -127,11 +127,11 @@ static void add_palette_submenu(tui_menu_t parent)
 TUI_MENU_DEFINE_TOGGLE(TEDVideoCache)
 
 static tui_menu_item_def_t video_menu_items[] = {
-    { "Video _Cache:",
+    {"Video _Cache:",
       "Enable screen cache (disabled when using triple buffering)",
       toggle_TEDVideoCache_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+      TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {NULL}
 };
 
 /* ------------------------------------------------------------------------- */
@@ -141,12 +141,12 @@ static TUI_MENU_CALLBACK(load_rom_file_callback)
     if (been_activated) {
         char *name;
 
-        name = tui_file_selector("Load ROM file",
-                                 NULL, "*", NULL, NULL, NULL, NULL);
+        name = tui_file_selector("Load ROM file", NULL, "*", NULL, NULL, NULL, NULL);
 
         if (name != NULL) {
-            if (resources_set_string(param, name) < 0)
+            if (resources_set_string(param, name) < 0) {
                 ui_error("Could not load ROM file '%s'", name);
+            }
             lib_free(name);
         }
     }
@@ -154,44 +154,44 @@ static TUI_MENU_CALLBACK(load_rom_file_callback)
 }
 
 static tui_menu_item_def_t rom_menu_items[] = {
-    { "--" },
-    { "Load new _Kernal ROM...",
-      "Load new Kernal ROM",
-      load_rom_file_callback, "KernalName", 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Load new _BASIC ROM...",
-      "Load new BASIC ROM",
-      load_rom_file_callback, "BasicName", 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Load new _Character ROM...",
-      "Load new Character ROM",
-      load_rom_file_callback, "ChargenName", 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Load new 15_41 ROM...",
-      "Load new 1541 ROM",
-      load_rom_file_callback, "DosName1541", 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Load new 1541-_II ROM...",
-      "Load new 1541-II ROM",
-      load_rom_file_callback, "DosName1541ii", 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Load new 15_71 ROM...",
-      "Load new 1571 ROM",
-      load_rom_file_callback, "DosName1571", 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Load new 15_81 ROM...",
-      "Load new 1581 ROM",
-      load_rom_file_callback, "DosName1581", 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Load new _2031 ROM...",
-      "Load new 2031 ROM",
-      load_rom_file_callback, "DosName2031", 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Load new _1001 ROM...",
-      "Load new 1001 ROM",
-      load_rom_file_callback, "DosName1001", 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    {"--" },
+    {"Load new _Kernal ROM...",
+     "Load new Kernal ROM",
+     load_rom_file_callback, "KernalName", 0,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Load new _BASIC ROM...",
+     "Load new BASIC ROM",
+     load_rom_file_callback, "BasicName", 0,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Load new _Character ROM...",
+     "Load new Character ROM",
+     load_rom_file_callback, "ChargenName", 0,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Load new 15_41 ROM...",
+     "Load new 1541 ROM",
+     load_rom_file_callback, "DosName1541", 0,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Load new 1541-_II ROM...",
+     "Load new 1541-II ROM",
+     load_rom_file_callback, "DosName1541ii", 0,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Load new 15_71 ROM...",
+     "Load new 1571 ROM",
+     load_rom_file_callback, "DosName1571", 0,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Load new 15_81 ROM...",
+     "Load new 1581 ROM",
+     load_rom_file_callback, "DosName1581", 0,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Load new _2031 ROM...",
+     "Load new 2031 ROM",
+     load_rom_file_callback, "DosName2031", 0,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Load new _1001 ROM...",
+     "Load new 1001 ROM",
+     load_rom_file_callback, "DosName1001", 0,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {NULL}
 };
 
 /* ------------------------------------------------------------------------- */
@@ -216,4 +216,3 @@ int plus4ui_init(void)
 void plus4ui_shutdown(void)
 {
 }
-

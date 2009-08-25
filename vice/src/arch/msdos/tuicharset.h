@@ -37,4 +37,3 @@ extern int tui_charset_init(void);
 extern int tui_charset_set(tui_charset_t which);
 
 #endif
-

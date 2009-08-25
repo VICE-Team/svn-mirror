@@ -55,26 +55,23 @@ int statusbar_possible = 0;
 /* colors for the statusbar */
 struct statusbar_color_s statusbar_color[] =
 {
-    { {00, 00, 00}, 0 }, /* STATUSBAR_COLOR_BLACK    */
-    { {55, 55, 55}, 0 }, /* STATUSBAR_COLOR_WHITE    */
-    { {31, 31, 31}, 0 }, /* STATUSBAR_COLOR_GREY     */
-    { {15, 15, 15}, 0 }, /* STATUSBAR_COLOR_DARKGREY */
-    { {10, 10, 50}, 0 }, /* STATUSBAR_COLOR_BLUE     */
-    { {63, 63, 00}, 0 }, /* STATUSBAR_COLOR_YELLOW   */
-    { {63, 00, 00}, 0 }, /* STATUSBAR_COLOR_RED      */
-    { {00, 63, 00}, 0 }, /* STATUSBAR_COLOR_GREEN    */
-    { {00, 00, 00},-1 }
+    {{00, 00, 00}, 0}, /* STATUSBAR_COLOR_BLACK    */
+    {{55, 55, 55}, 0}, /* STATUSBAR_COLOR_WHITE    */
+    {{31, 31, 31}, 0}, /* STATUSBAR_COLOR_GREY     */
+    {{15, 15, 15}, 0}, /* STATUSBAR_COLOR_DARKGREY */
+    {{10, 10, 50}, 0}, /* STATUSBAR_COLOR_BLUE     */
+    {{63, 63, 00}, 0}, /* STATUSBAR_COLOR_YELLOW   */
+    {{63, 00, 00}, 0}, /* STATUSBAR_COLOR_RED      */
+    {{00, 63, 00}, 0}, /* STATUSBAR_COLOR_GREEN    */
+    {{00, 00, 00}, -1 }
 };
-
 
 void statusbar_register_colors(int next_avail, RGB *colors)
 {
     int i;
 
-    for (i=0; statusbar_color[i].index >= 0; i++)
-    {
-        if (next_avail < NUM_AVAILABLE_COLORS)
-        {
+    for (i = 0; statusbar_color[i].index >= 0; i++) {
+        if (next_avail < NUM_AVAILABLE_COLORS) {
             /* there is an entry available in the palette */
             colors[next_avail] = statusbar_color[i].rgb_color;
             set_color(next_avail, &colors[next_avail]);
@@ -82,13 +79,8 @@ void statusbar_register_colors(int next_avail, RGB *colors)
             next_avail++;
         } else {
             /* the palette is full; use the nearest one */
-            statusbar_color[i].index = makecol8(
-                statusbar_color[i].rgb_color.r,
-                statusbar_color[i].rgb_color.g,
-                statusbar_color[i].rgb_color.b);
-
+            statusbar_color[i].index = makecol8(statusbar_color[i].rgb_color.r, statusbar_color[i].rgb_color.g, statusbar_color[i].rgb_color.b);
         }
-
     }
 }
 
@@ -98,36 +90,33 @@ int statusbar_get_color(int num)
     return statusbar_color[num].index;
 }
 
-
-int statusbar_enabled(void) {
+int statusbar_enabled(void)
+{
     int val;
 
     resources_get_int("ShowStatusbar", &val);
 
-    if (val == STATUSBAR_MODE_AUTO)
+    if (val == STATUSBAR_MODE_AUTO) {
         val = statusbar_possible;
+    }
 
     return val;
 }
 
-
 int statusbar_init(void) 
 {
-    status_bitmap = create_bitmap(STATUSBAR_WIDTH,STATUSBAR_HEIGHT);
-    behind_status_bitmap = create_bitmap(STATUSBAR_WIDTH,STATUSBAR_HEIGHT);
+    status_bitmap = create_bitmap(STATUSBAR_WIDTH, STATUSBAR_HEIGHT);
+    behind_status_bitmap = create_bitmap(STATUSBAR_WIDTH, STATUSBAR_HEIGHT);
     if (!status_bitmap || !behind_status_bitmap) {
-        log_error(LOG_ERR,"Cannot allocate statusbar bitmap");
-	    return -1;
+        log_error(LOG_ERR, "Cannot allocate statusbar bitmap");
+        return -1;
     } else {
         clear(behind_status_bitmap);
         clear(status_bitmap);
-        rect(status_bitmap,0,0,STATUSBAR_WIDTH-1,
-            STATUSBAR_HEIGHT-1,statusbar_get_color(STATUSBAR_COLOR_WHITE));
+        rect(status_bitmap, 0, 0, STATUSBAR_WIDTH - 1, STATUSBAR_HEIGHT - 1, statusbar_get_color(STATUSBAR_COLOR_WHITE));
     }
     return 0;
-
 }
-
 
 void statusbar_exit(void) 
 {
@@ -141,65 +130,53 @@ void statusbar_exit(void)
     }
 }
 
-
 void statusbar_reset_bitmaps_to_update(void) 
 {
     nr_of_bitmaps = 0;
 }
-
 
 void statusbar_append_bitmap_to_update(BITMAP *b) 
 {
     bitmaps_to_update[nr_of_bitmaps++] = b;
 }
 
-
 static void statusbar_to_screen(BITMAP *bitmap, int x_offset, int x_width)
 {
     int b;
 
-    if (bitmap == NULL)
+    if (bitmap == NULL) {
         return;
+    }
 
-    for (b = 0; b < nr_of_bitmaps; b++)
-    {
-        blit(bitmap, bitmaps_to_update[b], 0, 0,
-            x_offset, 0,
-            x_width,STATUSBAR_HEIGHT);
+    for (b = 0; b < nr_of_bitmaps; b++) {
+        blit(bitmap, bitmaps_to_update[b], 0, 0, x_offset, 0, x_width, STATUSBAR_HEIGHT);
     }
 }
-
 
 /* print the status_bitmap to screen */
 void statusbar_update() 
 {
-    if (!video_in_gfx_mode() 
-        || !statusbar_enabled()
-        || (status_bitmap == NULL))
+    if (!video_in_gfx_mode() || !statusbar_enabled() || (status_bitmap == NULL)) {
         return;
+    }
 
-    statusbar_to_screen(status_bitmap, 
-        (vga_width-STATUSBAR_WIDTH)/2, STATUSBAR_WIDTH);
+    statusbar_to_screen(status_bitmap, (vga_width - STATUSBAR_WIDTH) / 2, STATUSBAR_WIDTH);
 }
-
 
 void statusbar_disable()
 {
-    if (!video_in_gfx_mode() || (behind_status_bitmap == NULL))
+    if (!video_in_gfx_mode() || (behind_status_bitmap == NULL)) {
         return;
+    }
 
-    statusbar_to_screen(behind_status_bitmap,
-        (vga_width-STATUSBAR_WIDTH)/2, STATUSBAR_WIDTH);
+    statusbar_to_screen(behind_status_bitmap, (vga_width - STATUSBAR_WIDTH) / 2, STATUSBAR_WIDTH);
     raster_mode_change();
-
 }
-
 
 void statusbar_set_width(int w)
 {
     vga_width = w;
 }
-
 
 void statusbar_set_height(int h)
 {
@@ -207,12 +184,12 @@ void statusbar_set_height(int h)
     this currently doesn't set the height in fact but decides 
     whether the sb is visible in auto-mode
     */
-    if (h >= STATUSBAR_HEIGHT)
+    if (h >= STATUSBAR_HEIGHT) {
         statusbar_possible = 1;
-    else
+    } else {
         statusbar_possible = 0;
+    }
 }
-
 
 void statusbar_prepare(void)
 {
@@ -222,14 +199,14 @@ void statusbar_prepare(void)
     */
     BITMAP *bm_clear;
 
-    if (!video_in_gfx_mode())
+    if (!video_in_gfx_mode()) {
         return;
+    }
 
-    bm_clear = create_bitmap(vga_width,STATUSBAR_HEIGHT);
-    if (bm_clear)
-    {
+    bm_clear = create_bitmap(vga_width, STATUSBAR_HEIGHT);
+    if (bm_clear) {
         clear(bm_clear);
-        statusbar_to_screen(bm_clear,0,vga_width);
+        statusbar_to_screen(bm_clear, 0, vga_width);
         destroy_bitmap(bm_clear);
     }
 }

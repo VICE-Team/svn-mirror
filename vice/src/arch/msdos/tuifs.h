@@ -36,4 +36,3 @@ extern char *tui_file_selector(const char *title, const char *directory,
                                unsigned int *browse_file_number_return);
 
 #endif
-
