@@ -42,60 +42,61 @@ static TUI_MENU_CALLBACK(digimax_base_submenu_callback)
     static char s[100];
 
     resources_get_int("DIGIMAXbase", &value);
-    if (value==0xdd00)
-      sprintf(s, "Userport");
-    else
-      sprintf(s, "$%X", value);
+    if (value == 0xdd00) {
+        sprintf(s, "Userport");
+    } else {
+        sprintf(s, "$%X", value);
+    }
     return s;
 }
 
 static tui_menu_item_def_t digimax_base_submenu[] = {
-    { "Userport", NULL, radio_DIGIMAXbase_callback,
-      (void *)0xdd00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "$DE00", NULL, radio_DIGIMAXbase_callback,
-      (void *)0xde00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "$DE20", NULL, radio_DIGIMAXbase_callback,
-      (void *)0xde20, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "$DE40", NULL, radio_DIGIMAXbase_callback,
-      (void *)0xde40, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "$DE60", NULL, radio_DIGIMAXbase_callback,
-      (void *)0xde60, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "$DE80", NULL, radio_DIGIMAXbase_callback,
-      (void *)0xde80, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "$DEA0", NULL, radio_DIGIMAXbase_callback,
-      (void *)0xdea0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "$DEC0", NULL, radio_DIGIMAXbase_callback,
-      (void *)0xdec0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "$DEE0", NULL, radio_DIGIMAXbase_callback,
-      (void *)0xdee0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "$DF00", NULL, radio_DIGIMAXbase_callback,
-      (void *)0xdf00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "$DF20", NULL, radio_DIGIMAXbase_callback,
-      (void *)0xdf20, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "$DF40", NULL, radio_DIGIMAXbase_callback,
-      (void *)0xdf40, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "$DF60", NULL, radio_DIGIMAXbase_callback,
-      (void *)0xdf60, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "$DF80", NULL, radio_DIGIMAXbase_callback,
-      (void *)0xdf80, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "$DFA0", NULL, radio_DIGIMAXbase_callback,
-      (void *)0xdfa0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "$DFC0", NULL, radio_DIGIMAXbase_callback,
-      (void *)0xdfc0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "$DFE0", NULL, radio_DIGIMAXbase_callback,
-      (void *)0xdfe0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    {"Userport", NULL, radio_DIGIMAXbase_callback,
+     (void *)0xdd00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"$DE00", NULL, radio_DIGIMAXbase_callback,
+     (void *)0xde00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"$DE20", NULL, radio_DIGIMAXbase_callback,
+     (void *)0xde20, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"$DE40", NULL, radio_DIGIMAXbase_callback,
+     (void *)0xde40, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"$DE60", NULL, radio_DIGIMAXbase_callback,
+     (void *)0xde60, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"$DE80", NULL, radio_DIGIMAXbase_callback,
+     (void *)0xde80, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"$DEA0", NULL, radio_DIGIMAXbase_callback,
+     (void *)0xdea0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"$DEC0", NULL, radio_DIGIMAXbase_callback,
+     (void *)0xdec0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"$DEE0", NULL, radio_DIGIMAXbase_callback,
+     (void *)0xdee0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"$DF00", NULL, radio_DIGIMAXbase_callback,
+     (void *)0xdf00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"$DF20", NULL, radio_DIGIMAXbase_callback,
+     (void *)0xdf20, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"$DF40", NULL, radio_DIGIMAXbase_callback,
+     (void *)0xdf40, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"$DF60", NULL, radio_DIGIMAXbase_callback,
+     (void *)0xdf60, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"$DF80", NULL, radio_DIGIMAXbase_callback,
+     (void *)0xdf80, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"$DFA0", NULL, radio_DIGIMAXbase_callback,
+     (void *)0xdfa0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"$DFC0", NULL, radio_DIGIMAXbase_callback,
+     (void *)0xdfc0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"$DFE0", NULL, radio_DIGIMAXbase_callback,
+     (void *)0xdfe0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {NULL}
 };
 
 static tui_menu_item_def_t digimax_menu_items[] = {
-    { "_Enable Digimax:", "Emulate Digimax Cartridge",
-      toggle_DIGIMAX_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Digimax _base:", "Select the base of the Digimax Cartridge",
-      digimax_base_submenu_callback, NULL, 11,
-      TUI_MENU_BEH_CONTINUE, digimax_base_submenu,
-      "Digimax base" },
-    { NULL }
+    {"_Enable Digimax:", "Emulate Digimax Cartridge",
+     toggle_DIGIMAX_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Digimax _base:", "Select the base of the Digimax Cartridge",
+     digimax_base_submenu_callback, NULL, 11,
+     TUI_MENU_BEH_CONTINUE, digimax_base_submenu,
+     "Digimax base"},
+    {NULL}
 };
 
 void uidigimax_init(struct tui_menu *parent_submenu)
@@ -108,6 +109,7 @@ void uidigimax_init(struct tui_menu *parent_submenu)
 
     tui_menu_add_submenu(parent_submenu, "_Digimax settings...",
                          "Digimax settings",
-                         ui_digimax_submenu, NULL, 0,
+                         ui_digimax_submenu,
+                         NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 }

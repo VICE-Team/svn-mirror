@@ -33,7 +33,6 @@
 #include "tuimenu.h"
 #include "uimmc64.h"
 
-
 TUI_MENU_DEFINE_TOGGLE(MMC64)
 TUI_MENU_DEFINE_RADIO(MMC64_revision)
 TUI_MENU_DEFINE_TOGGLE(MMC64_flashjumper)
@@ -49,12 +48,13 @@ static TUI_MENU_CALLBACK(mmc64_bios_name_callback)
 
         *s = '\0';
 
-        if (tui_input_string("Change MMC64 BIOS image name",
-                             "New image name:", s, 255) == -1)
+        if (tui_input_string("Change MMC64 BIOS image name", "New image name:", s, 255) == -1) {
             return NULL;
+        }
 
-        if (*s == '\0')
+        if (*s == '\0') {
             return NULL;
+        }
 
         resources_set_string("MMC64BIOSfilename", s);
     }
@@ -72,12 +72,13 @@ static TUI_MENU_CALLBACK(mmc64_image_name_callback)
 
         *s = '\0';
 
-        if (tui_input_string("Change MMC64 MMC/SD image name",
-                             "New image name:", s, 255) == -1)
+        if (tui_input_string("Change MMC64 MMC/SD image name", "New image name:", s, 255) == -1) {
             return NULL;
+        }
 
-        if (*s == '\0')
+        if (*s == '\0') {
             return NULL;
+        }
 
         resources_set_string("MMC64imagefilename", s);
     }
@@ -97,37 +98,37 @@ static TUI_MENU_CALLBACK(mmc64_revision_submenu_callback)
 }
 
 static tui_menu_item_def_t mmc64_revision_submenu[] = {
-    { "Rev _A", NULL, radio_MMC64_revision_callback,
-      (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Rev _B", NULL, radio_MMC64_revision_callback,
-      (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    {"Rev _A", NULL, radio_MMC64_revision_callback,
+     (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"Rev _B", NULL, radio_MMC64_revision_callback,
+     (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {NULL}
 };
 
 static tui_menu_item_def_t mmc64_menu_items[] = {
-    { "_Enable MMC64:", "Emulate MMC64",
-      toggle_MMC64_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "_MMC64 Revision:", "Select the MMC64 Revision",
-      mmc64_revision_submenu_callback, NULL, 7,
-      TUI_MENU_BEH_CONTINUE, mmc64_revision_submenu,
-      "MMC64 Revision" },
-    { "Enable MMC64 _flashjumper:", "Enable MMC64 flashjumper",
-      toggle_MMC64_flashjumper_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Save MMC64 _BIOS when changed:", "Enable MMC64 BIOS save when changed",
-      toggle_MMC64_bios_write_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "MMC64 B_IOS file:", "Select the MMC64 BIOS file",
-      mmc64_bios_name_callback, NULL, 20,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "MMC64 image _read-only:", "Enable MMC64 MMC/SD image read-only",
-      toggle_MMC64_RO_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "MMC64 i_mage file:", "Select the MMC64 MMC/SD image file",
-      mmc64_image_name_callback, NULL, 20,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    {"_Enable MMC64:", "Emulate MMC64",
+     toggle_MMC64_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"_MMC64 Revision:", "Select the MMC64 Revision",
+     mmc64_revision_submenu_callback, NULL, 7,
+     TUI_MENU_BEH_CONTINUE, mmc64_revision_submenu,
+     "MMC64 Revision"},
+    {"Enable MMC64 _flashjumper:", "Enable MMC64 flashjumper",
+     toggle_MMC64_flashjumper_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Save MMC64 _BIOS when changed:", "Enable MMC64 BIOS save when changed",
+     toggle_MMC64_bios_write_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"MMC64 B_IOS file:", "Select the MMC64 BIOS file",
+     mmc64_bios_name_callback, NULL, 20,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"MMC64 image _read-only:", "Enable MMC64 MMC/SD image read-only",
+     toggle_MMC64_RO_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"MMC64 i_mage file:", "Select the MMC64 MMC/SD image file",
+     mmc64_image_name_callback, NULL, 20,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {NULL}
 };
 
 void uimmc64_init(struct tui_menu *parent_submenu)
@@ -140,6 +141,7 @@ void uimmc64_init(struct tui_menu *parent_submenu)
 
     tui_menu_add_submenu(parent_submenu, "_MMC64 settings...",
                          "MMC64 settings",
-                         ui_mmc64_submenu, NULL, 0,
+                         ui_mmc64_submenu,
+                         NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 }

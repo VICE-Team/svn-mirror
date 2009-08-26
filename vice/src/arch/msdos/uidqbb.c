@@ -45,12 +45,13 @@ static TUI_MENU_CALLBACK(dqbb_image_file_callback)
 
         *s = '\0';
 
-        if (tui_input_string("Change DQBB image name",
-                             "New image name:", s, 255) == -1)
+        if (tui_input_string("Change DQBB image name", "New image name:", s, 255) == -1)
             return NULL;
+        }
 
-        if (*s == '\0')
+        if (*s == '\0') {
             return NULL;
+        }
 
         resources_set_string("DQBBfilename", s);
     }
@@ -61,13 +62,13 @@ static TUI_MENU_CALLBACK(dqbb_image_file_callback)
 }
 
 static tui_menu_item_def_t dqbb_menu_items[] = {
-    { "_Enable DQBB:", "Emulate Double Quick Brown Box",
-      toggle_DQBB_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "DQBB _image file:", "Select the DQBB image file",
-      dqbb_image_file_callback, NULL, 20,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    {"_Enable DQBB:", "Emulate Double Quick Brown Box",
+     toggle_DQBB_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"DQBB _image file:", "Select the DQBB image file",
+     dqbb_image_file_callback, NULL, 20,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {NULL}
 };
 
 void uidqbb_init(struct tui_menu *parent_submenu)
@@ -80,6 +81,7 @@ void uidqbb_init(struct tui_menu *parent_submenu)
 
     tui_menu_add_submenu(parent_submenu, "_Double Quick Brown Box settings...",
                          "Double Quick Brown Box settings",
-                         ui_dqbb_submenu, NULL, 0,
+                         ui_dqbb_submenu,
+                         NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 }

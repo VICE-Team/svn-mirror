@@ -54,13 +54,10 @@ static TUI_MENU_CALLBACK(attach_cartridge_callback)
 
         filter = (type == CARTRIDGE_CRT) ? "*.crt" : "*";
 
-        name = tui_file_selector("Attach cartridge image",
-                                 directory, filter, default_item, NULL,
-                                 NULL, NULL);
-        if (name != NULL
-            && (s == NULL || strcasecmp(name, s) != 0)
-            && cartridge_attach_image(type, name) < 0)
+        name = tui_file_selector("Attach cartridge image", directory, filter, default_item, NULL, NULL, NULL);
+        if (name != NULL && (s == NULL || strcasecmp(name, s) != 0) && cartridge_attach_image(type, name) < 0) {
             tui_error("Invalid cartridge image.");
+        }
         ui_update_menus();
         lib_free(name);
     }
@@ -70,8 +67,9 @@ static TUI_MENU_CALLBACK(attach_cartridge_callback)
 
 static TUI_MENU_CALLBACK(cartridge_set_default_callback)
 {
-    if (been_activated)
+    if (been_activated) {
         cartridge_set_default();
+    }
 
     return NULL;
 }
@@ -81,109 +79,112 @@ static TUI_MENU_CALLBACK(cartridge_callback)
 {
     const char *s = cartridge_get_file_name((WORD)0);
 
-    if (s == NULL || *s == '\0')
+    if (s == NULL || *s == '\0') {
         return "(none)";
-    else
+    } else {
         return s;
+    }
 }
 
 static tui_menu_item_def_t attach_cartridge_submenu_items[] = {
-    { "Attach _CRT Image...",
-      "Attach a CRT image, autodetecting its type",
-      attach_cartridge_callback, (void *)CARTRIDGE_CRT, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Attach Generic _8KB Image...",
-      "Attach a generic 8KB cartridge dump",
-      attach_cartridge_callback, (void *)CARTRIDGE_GENERIC_8KB, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Attach Generic _16KB Image...",
-      "Attach a generic 16KB cartridge dump",
-      attach_cartridge_callback, (void *)CARTRIDGE_GENERIC_16KB, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Attach _Action Replay Image...",
-      "Attach an Action Replay cartridge image",
-      attach_cartridge_callback, (void *)CARTRIDGE_ACTION_REPLAY, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Attach _Action Replay 3 Image...",
-      "Attach an Action Replay 3 cartridge image",
-      attach_cartridge_callback, (void *)CARTRIDGE_ACTION_REPLAY3, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Attach _Action Replay 4 Image...",
-      "Attach an Action Replay 4 cartridge image",
-      attach_cartridge_callback, (void *)CARTRIDGE_ACTION_REPLAY4, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Attach _StarDOS Image...",
-      "Attach a StarDOS cartridge image",
-      attach_cartridge_callback, (void *)CARTRIDGE_STARDOS, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Attach Atomic _Power Image...",
-      "Attach an Atomic Power cartridge image",
-      attach_cartridge_callback, (void *)CARTRIDGE_ATOMIC_POWER, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Attach _Epyx fastload Image...",
-      "Attach an Epyx fastload cartridge image",
-      attach_cartridge_callback, (void *)CARTRIDGE_EPYX_FASTLOAD, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Attach _IEEE488 Interface Image...",
-      "Attach an IEEE488 interface cartridge image",
-      attach_cartridge_callback, (void *)CARTRIDGE_IEEE488, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Attach _Retro Replay Image...",
-      "Attach a Retro Replay cartridge image",
-      attach_cartridge_callback, (void *)CARTRIDGE_RETRO_REPLAY, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Attach IDE_64 Interface Image...",
-      "Attach an IDE64 interface cartridge image",
-      attach_cartridge_callback, (void *)CARTRIDGE_IDE64, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Attach Super Snapshot _4 Image...",
-      "Attach an Super Snapshot 4 cartridge image",
-      attach_cartridge_callback, (void *)CARTRIDGE_SUPER_SNAPSHOT, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Attach Super Snapshot _5 Image...",
-      "Attach an Super Snapshot 5 cartridge image",
-      attach_cartridge_callback, (void *)CARTRIDGE_SUPER_SNAPSHOT_V5, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "--" },
-    { "Set cartridge as _default",
-      "Save the current cartridge to the settings",
-      cartridge_set_default_callback, NULL, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    {"Attach _CRT Image...",
+     "Attach a CRT image, autodetecting its type",
+     attach_cartridge_callback, (void *)CARTRIDGE_CRT, 0,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"Attach Generic _8KB Image...",
+     "Attach a generic 8KB cartridge dump",
+     attach_cartridge_callback, (void *)CARTRIDGE_GENERIC_8KB, 0,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"Attach Generic _16KB Image...",
+     "Attach a generic 16KB cartridge dump",
+     attach_cartridge_callback, (void *)CARTRIDGE_GENERIC_16KB, 0,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"Attach _Action Replay Image...",
+     "Attach an Action Replay cartridge image",
+     attach_cartridge_callback, (void *)CARTRIDGE_ACTION_REPLAY, 0,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"Attach _Action Replay 3 Image...",
+     "Attach an Action Replay 3 cartridge image",
+     attach_cartridge_callback, (void *)CARTRIDGE_ACTION_REPLAY3, 0,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"Attach _Action Replay 4 Image...",
+     "Attach an Action Replay 4 cartridge image",
+     attach_cartridge_callback, (void *)CARTRIDGE_ACTION_REPLAY4, 0,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"Attach _StarDOS Image...",
+     "Attach a StarDOS cartridge image",
+     attach_cartridge_callback, (void *)CARTRIDGE_STARDOS, 0,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"Attach Atomic _Power Image...",
+     "Attach an Atomic Power cartridge image",
+     attach_cartridge_callback, (void *)CARTRIDGE_ATOMIC_POWER, 0,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"Attach _Epyx fastload Image...",
+     "Attach an Epyx fastload cartridge image",
+     attach_cartridge_callback, (void *)CARTRIDGE_EPYX_FASTLOAD, 0,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"Attach _IEEE488 Interface Image...",
+     "Attach an IEEE488 interface cartridge image",
+     attach_cartridge_callback, (void *)CARTRIDGE_IEEE488, 0,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"Attach _Retro Replay Image...",
+     "Attach a Retro Replay cartridge image",
+     attach_cartridge_callback, (void *)CARTRIDGE_RETRO_REPLAY, 0,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"Attach IDE_64 Interface Image...",
+     "Attach an IDE64 interface cartridge image",
+     attach_cartridge_callback, (void *)CARTRIDGE_IDE64, 0,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"Attach Super Snapshot _4 Image...",
+     "Attach an Super Snapshot 4 cartridge image",
+     attach_cartridge_callback, (void *)CARTRIDGE_SUPER_SNAPSHOT, 0,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"Attach Super Snapshot _5 Image...",
+     "Attach an Super Snapshot 5 cartridge image",
+     attach_cartridge_callback, (void *)CARTRIDGE_SUPER_SNAPSHOT_V5, 0,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"--"},
+    {"Set cartridge as _default",
+     "Save the current cartridge to the settings",
+     cartridge_set_default_callback, NULL, 0,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {NULL}
 };
 
 static tui_menu_item_def_t attach_cartridge_menu_items[] = {
-    { "--" },
-    { "_Cartridge:",
-      "Attach a cartridge image",
-      cartridge_callback, NULL, 30,
-      TUI_MENU_BEH_CONTINUE, attach_cartridge_submenu_items,
-      "Attach cartridge" },
-    { NULL }
+    {"--"},
+    {"_Cartridge:",
+     "Attach a cartridge image",
+     cartridge_callback, NULL, 30,
+     TUI_MENU_BEH_CONTINUE, attach_cartridge_submenu_items,
+     "Attach cartridge"},
+    {NULL}
 };
 
 static TUI_MENU_CALLBACK(detach_cartridge_callback)
 {
     const char *s;
 
-    if (been_activated)
+    if (been_activated) {
         cartridge_detach_image();
+    }
 
     s = cartridge_get_file_name((WORD)0);
 
-    if (s == NULL || *s == '\0')
+    if (s == NULL || *s == '\0') {
         return "(none)";
-    else
+    } else {
         return s;
+    }
 }
 
 static tui_menu_item_def_t detach_cartridge_menu_items[] = {
-    { "--" },
-    { "_Cartridge:",
-      "Detach attached cartridge image",
-      detach_cartridge_callback, NULL, 30,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    {"--"},
+    {"_Cartridge:",
+     "Detach attached cartridge image",
+     detach_cartridge_callback, NULL, 30,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {NULL}
 };
 
 static TUI_MENU_CALLBACK(freeze_cartridge_callback)
@@ -199,11 +200,11 @@ static TUI_MENU_CALLBACK(freeze_cartridge_callback)
 }
 
 static tui_menu_item_def_t freeze_cartridge_menu_items[] = {
-    { "Cartridge _Freeze",
-      "Activates the cartridge's freeze button",
-      freeze_cartridge_callback, NULL, 0,
-      TUI_MENU_BEH_RESUME, NULL, NULL },
-    { NULL }
+    {"Cartridge _Freeze",
+     "Activates the cartridge's freeze button",
+     freeze_cartridge_callback, NULL, 0,
+     TUI_MENU_BEH_RESUME, NULL, NULL},
+    {NULL}
 };
 
 void uic64cart_init(struct tui_menu *parent_submenu)
@@ -212,4 +213,3 @@ void uic64cart_init(struct tui_menu *parent_submenu)
     tui_menu_add(ui_detach_submenu, detach_cartridge_menu_items);
     tui_menu_add(ui_reset_submenu, freeze_cartridge_menu_items);
 }
-

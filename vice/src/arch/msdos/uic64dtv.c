@@ -64,8 +64,7 @@ static TUI_MENU_CALLBACK(HummerUserportDevice_submenu_callback)
     int value;
 
     resources_get_int("HummerUserportDevice", &value);
-    switch (value)
-    {
+    switch (value) {
         case HUMMER_USERPORT_ADC:
             return "ADC";
             break;
@@ -79,29 +78,29 @@ static TUI_MENU_CALLBACK(HummerUserportDevice_submenu_callback)
 }
 
 static tui_menu_item_def_t DtvRevision_submenu[] = {
-    { "DTV_2", NULL, radio_DtvRevision_callback,
-      (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "DTV_3", NULL, radio_DtvRevision_callback,
-      (void *)3, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    {"DTV_2", NULL, radio_DtvRevision_callback,
+     (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"DTV_3", NULL, radio_DtvRevision_callback,
+     (void *)3, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {NULL}
 };
 
 static tui_menu_item_def_t HummerUserportJoyPort_submenu[] = {
-    { "Joy_1", NULL, radio_HummerUserportJoyPort_callback,
-      (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Joy_2", NULL, radio_HummerUserportJoyPort_callback,
-      (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    {"Joy_1", NULL, radio_HummerUserportJoyPort_callback,
+     (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"Joy_2", NULL, radio_HummerUserportJoyPort_callback,
+     (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {NULL}
 };
 
 static tui_menu_item_def_t HummerUserportDevice_submenu[] = {
-    { "_None", NULL, radio_HummerUserportDevice_callback,
-      (void *)HUMMER_USERPORT_NONE, 10, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_ADC", NULL, radio_HummerUserportDevice_callback,
-      (void *)HUMMER_USERPORT_ADC, 10, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_Joystick", NULL, radio_HummerUserportDevice_callback,
-      (void *)HUMMER_USERPORT_JOY, 10, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    {"_None", NULL, radio_HummerUserportDevice_callback,
+     (void *)HUMMER_USERPORT_NONE, 10, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"_ADC", NULL, radio_HummerUserportDevice_callback,
+     (void *)HUMMER_USERPORT_ADC, 10, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"_Joystick", NULL, radio_HummerUserportDevice_callback,
+     (void *)HUMMER_USERPORT_JOY, 10, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {NULL}
 };
 
 static TUI_MENU_CALLBACK(c64dtvromfilename_callback)
@@ -113,12 +112,13 @@ static TUI_MENU_CALLBACK(c64dtvromfilename_callback)
 
         *s = '\0';
 
-        if (tui_input_string("Change C64DTV ROM image name",
-                             "New image name:", s, 255) == -1)
+        if (tui_input_string("Change C64DTV ROM image name", "New image name:", s, 255) == -1) {
             return NULL;
+        }
 
-        if (*s == '\0')
+        if (*s == '\0') {
             return NULL;
+        }
 
         resources_set_string("c64dtvromfilename", s);
     }
@@ -129,25 +129,25 @@ static TUI_MENU_CALLBACK(c64dtvromfilename_callback)
 }
 
 static tui_menu_item_def_t c64dtv_menu_items[] = {
-    { "C64DTV ROM _image file:", "Select the C64DTV ROM image file",
-      c64dtvromfilename_callback, NULL, 20,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "C64DTV revision:", "Select the revision of the C64DTV",
-      DtvRevision_submenu_callback, NULL, 11,
-      TUI_MENU_BEH_CONTINUE, DtvRevision_submenu,
-      "C64DTV revision" },
-    { "C64DTV ROM _write enabled:", "C64DTV ROM is writable",
-      toggle_c64dtvromrw_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Hummer Userport device:", "Select the userport device",
-      HummerUserportDevice_submenu_callback, NULL, 11,
-      TUI_MENU_BEH_CONTINUE, HummerUserportDevice_submenu,
-      "Hummer Userport device" },
-    { "Joystick mapped to Hummer Userport:", "Select the joystick to be mapped",
-      HummerUserportJoyPort_submenu_callback, NULL, 11,
-      TUI_MENU_BEH_CONTINUE, HummerUserportJoyPort_submenu,
-      "Hummer Userport Joystick Port" },
-    { NULL }
+    {"C64DTV ROM _image file:", "Select the C64DTV ROM image file",
+     c64dtvromfilename_callback, NULL, 20,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"C64DTV revision:", "Select the revision of the C64DTV",
+     DtvRevision_submenu_callback, NULL, 11,
+     TUI_MENU_BEH_CONTINUE, DtvRevision_submenu,
+     "C64DTV revision"},
+    {"C64DTV ROM _write enabled:", "C64DTV ROM is writable",
+     toggle_c64dtvromrw_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Hummer Userport device:", "Select the userport device",
+     HummerUserportDevice_submenu_callback, NULL, 11,
+     TUI_MENU_BEH_CONTINUE, HummerUserportDevice_submenu,
+     "Hummer Userport device"},
+    {"Joystick mapped to Hummer Userport:", "Select the joystick to be mapped",
+     HummerUserportJoyPort_submenu_callback, NULL, 11,
+     TUI_MENU_BEH_CONTINUE, HummerUserportJoyPort_submenu,
+     "Hummer Userport Joystick Port"},
+    {NULL}
 };
 
 void uic64dtv_init(struct tui_menu *parent_submenu)
@@ -160,6 +160,7 @@ void uic64dtv_init(struct tui_menu *parent_submenu)
 
     tui_menu_add_submenu(parent_submenu, "_C64DTV settings...",
                          "C64DTV settings",
-                         ui_c64dtv_submenu, NULL, 0,
+                         ui_c64dtv_submenu,
+                         NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 }

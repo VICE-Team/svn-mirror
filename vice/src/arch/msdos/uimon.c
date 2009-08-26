@@ -35,9 +35,7 @@
 #include "monitor.h"
 #include "uimon.h"
 
-
 static console_t *console_log_local = NULL;
-
 
 void uimon_window_close(void)
 {
@@ -80,8 +78,6 @@ void uimon_notify_change(void)
 {
 }
 
-void uimon_set_interface(monitor_interface_t **monitor_interface_init,
-                         int count)
+void uimon_set_interface(monitor_interface_t **monitor_interface_init, int count)
 {
 }
-

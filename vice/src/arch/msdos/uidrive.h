@@ -32,4 +32,3 @@ struct tui_menu;
 extern void uidrive_init(struct tui_menu *parent_submenu);
 
 #endif
-
