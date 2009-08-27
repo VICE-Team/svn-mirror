@@ -121,7 +121,7 @@ char *archdep_default_resource_file_name(void)
   char *name;
   const char *basename = archdep_rsrc_machine_name;
 
-  if ((name = lib_malloc(strlen("Vice:.vicerc") + strlen(basename) + 1)) != NULL)
+  if ((name = lib_malloc(strlen("Vice:.sdlvicerc") + strlen(basename) + 1)) != NULL)
      sprintf(name, "Vice:%s.sdlvicerc", basename);
 
   return name;
