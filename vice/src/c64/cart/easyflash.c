@@ -81,14 +81,6 @@ static const BYTE easyflash_memconfig[] = {
     0 + 2, 0 + 3, 0 + 0, 0 + 1,
 };
 
-/*
-   info:
-   game=0, exrom=0 -> 16k
-   game=1, exrom=0 -> 8k
-   game=0, exrom=1 -> ultimax
-   game=1, exrom=1 -> off
-*/
-
 /* extra RAM */
 static BYTE easyflash_ram[256];
 
@@ -211,7 +203,6 @@ BYTE REGPARM1 easyflash_roml_read(WORD addr)
 
 void REGPARM2 easyflash_roml_store(WORD addr, BYTE value)
 {
-    mem_store_without_romlh(addr, value);
     flash040core_store(easyflash_state_low, (easyflash_register_00 * 0x2000) + (addr & 0x1fff), value);
 }
 
@@ -222,7 +213,6 @@ BYTE REGPARM1 easyflash_romh_read(WORD addr)
 
 void REGPARM2 easyflash_romh_store(WORD addr, BYTE value)
 {
-    mem_store_without_romlh(addr, value);
     flash040core_store(easyflash_state_high, (easyflash_register_00 * 0x2000) + (addr & 0x1fff), value);
 }
 

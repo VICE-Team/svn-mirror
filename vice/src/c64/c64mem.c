@@ -717,7 +717,16 @@ void mem_initialize_memory(void)
     /*
      * Change address decoding.
      */
-    if (mem_cartridge_type == CARTRIDGE_EXPERT || mem_cartridge_type == CARTRIDGE_EASYFLASH) {
+    if (mem_cartridge_type == CARTRIDGE_EASYFLASH) {
+        /* Allow writing at ROML at $8000-$9FFF in Ultimax mode. */
+        for (j = 16; j < 24; j++) {
+            for (i = 0x80; i <= 0x9f; i++) {
+                mem_set_write_hook(j, i, roml_store);
+            }
+        }
+    }
+
+    if (mem_cartridge_type == CARTRIDGE_EXPERT) {
         /* Allow writing at ROML at $8000-$9FFF.  */
         for (j = 0; j < NUM_CONFIGS; j++) {
             if (roml_config[j]) {
@@ -726,9 +735,7 @@ void mem_initialize_memory(void)
                 }
             }
         }
-    }
 
-    if (mem_cartridge_type == CARTRIDGE_EXPERT) {
         /* Allow ROML being visible independent of charen, hiram & loram */
         for (j = 8; j < 16; j++) {
             for (i = 0x80; i <= 0x9f; i++) {
