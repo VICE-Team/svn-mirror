@@ -571,8 +571,8 @@ static void serial_iec_device_exec_main(unsigned int devnr, CLOCK clk_value)
                     else if (iec->secondary == 0)
                         iec->secondary = iec->byte;
 
-                    if (!(iec->primary & 0x10)
-                        && (((unsigned int)iec->primary & 0x0f) != devnr)) {
+                    if (iec->primary != 0x3f && iec->primary != 0x5f
+                        && (((unsigned int)iec->primary & 0x1f) != devnr)) {
                         /* This is NOT a UNLISTEN (0x3f) or UNTALK (0x5f)
                            command and the primary address is not ours =>
                            Don't acknowledge the frame and stop listening.
