@@ -33,10 +33,8 @@
 #include "tuimenu.h"
 #include "uipetreu.h"
 
-
 TUI_MENU_DEFINE_TOGGLE(PETREU)
 TUI_MENU_DEFINE_RADIO(PETREUsize)
-
 
 static TUI_MENU_CALLBACK(petreu_size_submenu_callback)
 {
@@ -44,20 +42,20 @@ static TUI_MENU_CALLBACK(petreu_size_submenu_callback)
     static char s[100];
 
     resources_get_int("PETREUsize", &value);
-    sprintf(s, "%dKB",value);
+    sprintf(s, "%dKB", value);
     return s;
 }
 
 static tui_menu_item_def_t petreu_size_submenu[] = {
-    { "_128KB", NULL, radio_PETREUsize_callback,
-      (void *)128, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_512KB", NULL, radio_PETREUsize_callback,
-      (void *)512, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "1_024KB", NULL, radio_PETREUsize_callback,
-      (void *)1024, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_2048KB", NULL, radio_PETREUsize_callback,
-      (void *)2048, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    {"_128KB", NULL, radio_PETREUsize_callback,
+     (void *)128, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"_512KB", NULL, radio_PETREUsize_callback,
+     (void *)512, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"1_024KB", NULL, radio_PETREUsize_callback,
+     (void *)1024, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"_2048KB", NULL, radio_PETREUsize_callback,
+     (void *)2048, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {NULL}
 };
 
 static TUI_MENU_CALLBACK(petreu_image_file_callback)
@@ -69,12 +67,13 @@ static TUI_MENU_CALLBACK(petreu_image_file_callback)
 
         *s = '\0';
 
-        if (tui_input_string("Change PET REU image name",
-                             "New image name:", s, 255) == -1)
+        if (tui_input_string("Change PET REU image name", "New image name:", s, 255) == -1) {
             return NULL;
+        }
 
-        if (*s == '\0')
+        if (*s == '\0') {
             return NULL;
+        }
 
         resources_set_string("PETREUfilename", s);
     }
@@ -84,17 +83,17 @@ static TUI_MENU_CALLBACK(petreu_image_file_callback)
 }
 
 static tui_menu_item_def_t petreu_menu_items[] = {
-    { "_Enable PET REU:", "Emulate PET RAM and Expansion Unit",
-      toggle_PETREU_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "PET REU _size:", "Select the size of the PET REU",
-      petreu_size_submenu_callback, NULL, 7,
-      TUI_MENU_BEH_CONTINUE, petreu_size_submenu,
-      "PET REU size" },
-    { "PET REU _image file:", "Select the PET REU image file",
-      petreu_image_file_callback, NULL, 20,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    {"_Enable PET REU:", "Emulate PET RAM and Expansion Unit",
+     toggle_PETREU_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"PET REU _size:", "Select the size of the PET REU",
+     petreu_size_submenu_callback, NULL, 7,
+     TUI_MENU_BEH_CONTINUE, petreu_size_submenu,
+     "PET REU size"},
+    {"PET REU _image file:", "Select the PET REU image file",
+     petreu_image_file_callback, NULL, 20,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {NULL}
 };
 
 void uipetreu_init(struct tui_menu *parent_submenu)
@@ -107,6 +106,7 @@ void uipetreu_init(struct tui_menu *parent_submenu)
 
     tui_menu_add_submenu(parent_submenu, "PET _REU settings...",
                          "PET REU settings",
-                         ui_petreu_submenu, NULL, 0,
+                         ui_petreu_submenu,
+                         NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 }

@@ -38,7 +38,6 @@
 #include "uiperipherial.h"
 #include "util.h"
 
-
 TUI_MENU_DEFINE_TOGGLE(FileSystemDevice8)
 TUI_MENU_DEFINE_TOGGLE(FileSystemDevice9)
 TUI_MENU_DEFINE_TOGGLE(FileSystemDevice10)
@@ -72,12 +71,12 @@ static TUI_MENU_CALLBACK(set_fsdevice_directory_callback)
         unsigned int len = 255;
 
         resources_get_string(rname, &v);
-        if (len < strlen(v) * 2)
+        if (len < strlen(v) * 2) {
             len = strlen(v) * 2;
+        }
         path = alloca(len + 1);
         strcpy(path, v);
-        if (tui_input_string("Insert path",
-                             "Path:", path, len) != -1) {
+        if (tui_input_string("Insert path", "Path:", path, len) != -1) {
             util_remove_spaces(path);
             fsdevice_set_directory(path, unit);
         }
@@ -88,31 +87,31 @@ static TUI_MENU_CALLBACK(set_fsdevice_directory_callback)
     return v;
 }
 
-#define DEFINE_FSDEVICE_SUBMENU(num)                                \
-    static tui_menu_item_def_t fsdevice##num##_submenu[] = {        \
-        { "_Directory:",                                            \
-          "Specify access directory for device" #num,               \
-          set_fsdevice_directory_callback, (void *)(num), 40,       \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                      \
-        { "--" },                                                   \
-        { "_Allow access:",                                         \
-          "Allow device" #num " to access the MS-DOS file system",  \
-          toggle_FileSystemDevice##num##_callback, NULL, 3,         \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                      \
-        { "_Convert P00 names:",                                    \
-          "Handle P00 names on device " #num,                       \
-          toggle_FSDevice##num##ConvertP00_callback, NULL, 3,       \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                      \
-        { "_Save P00 files:",                                       \
-          "Create P00 files on device " #num,                       \
-          toggle_FSDevice##num##SaveP00_callback, NULL, 3,          \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                      \
-        { "_Hide non-P00 files: ",                                  \
-          "Display only P00 files on device " #num,                 \
-          toggle_FSDevice##num##HideCBMFiles_callback, NULL, 3,     \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                      \
-        { NULL }                                                    \
-    };
+#define DEFINE_FSDEVICE_SUBMENU(num)                          \
+static tui_menu_item_def_t fsdevice##num##_submenu[] = {      \
+    {"_Directory:",                                           \
+     "Specify access directory for device" #num,              \
+     set_fsdevice_directory_callback, (void *)(num), 40,      \
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},                      \
+    {"--"},                                                   \
+    {"_Allow access:",                                        \
+     "Allow device" #num " to access the MS-DOS file system", \
+     toggle_FileSystemDevice##num##_callback, NULL, 3,        \
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},                      \
+    {"_Convert P00 names:",                                   \
+     "Handle P00 names on device " #num,                      \
+     toggle_FSDevice##num##ConvertP00_callback, NULL, 3,      \
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},                      \
+    {"_Save P00 files:",                                      \
+     "Create P00 files on device " #num,                      \
+     toggle_FSDevice##num##SaveP00_callback, NULL, 3,         \
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},                      \
+    {"_Hide non-P00 files: ",                                 \
+     "Display only P00 files on device " #num,                \
+     toggle_FSDevice##num##HideCBMFiles_callback, NULL, 3,    \
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},                      \
+    {NULL}                                                    \
+};
 
 DEFINE_FSDEVICE_SUBMENU(8)
 DEFINE_FSDEVICE_SUBMENU(9)
@@ -120,15 +119,15 @@ DEFINE_FSDEVICE_SUBMENU(10)
 DEFINE_FSDEVICE_SUBMENU(11)
 
 static tui_menu_item_def_t peripherial_submenu[] = {
-    { "Drive _8...", "Settings for drive #8", NULL, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, fsdevice8_submenu, "Drive 8 directory access" },
-    { "Drive _9...", "Settings for drive #9", NULL, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, fsdevice9_submenu, "Drive 9 directory access" },
-    { "Drive 1_0...", "Settings for drive #10", NULL, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, fsdevice10_submenu, "Drive 10 directory access" },
-    { "Drive 1_1...", "Settings for drive #11", NULL, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, fsdevice11_submenu, "Drive 11 directory access" },
-    { NULL }
+    {"Drive _8...", "Settings for drive #8", NULL, NULL, 0,
+     TUI_MENU_BEH_CONTINUE, fsdevice8_submenu, "Drive 8 directory access"},
+    {"Drive _9...", "Settings for drive #9", NULL, NULL, 0,
+     TUI_MENU_BEH_CONTINUE, fsdevice9_submenu, "Drive 9 directory access"},
+    {"Drive 1_0...", "Settings for drive #10", NULL, NULL, 0,
+     TUI_MENU_BEH_CONTINUE, fsdevice10_submenu, "Drive 10 directory access"},
+    {"Drive 1_1...", "Settings for drive #11", NULL, NULL, 0,
+     TUI_MENU_BEH_CONTINUE, fsdevice11_submenu, "Drive 11 directory access"},
+    {NULL}
 };
 
 void uiperipherial_init(struct tui_menu *parent_submenu)
@@ -140,6 +139,4 @@ void uiperipherial_init(struct tui_menu *parent_submenu)
                          "_Peripherial settings...",
                          "Options to access MS-DOS directories from within the emulator",
                          tmp, NULL, NULL, 0);
-
 }
-

@@ -33,7 +33,6 @@
 #include "tuimenu.h"
 #include "uiramcart.h"
 
-
 TUI_MENU_DEFINE_TOGGLE(RAMCART)
 TUI_MENU_DEFINE_RADIO(RAMCARTsize)
 TUI_MENU_DEFINE_TOGGLE(RAMCART_RO)
@@ -49,11 +48,11 @@ static TUI_MENU_CALLBACK(ramcart_size_submenu_callback)
 }
 
 static tui_menu_item_def_t ramcart_size_submenu[] = {
-    { "_64KB", NULL, radio_RAMCARTsize_callback,
-      (void *)64, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_128KB", NULL, radio_RAMCARTsize_callback,
-      (void *)128, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    {"_64KB", NULL, radio_RAMCARTsize_callback,
+     (void *)64, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"_128KB", NULL, radio_RAMCARTsize_callback,
+     (void *)128, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {NULL}
 };
 
 static TUI_MENU_CALLBACK(ramcart_image_file_callback)
@@ -65,12 +64,13 @@ static TUI_MENU_CALLBACK(ramcart_image_file_callback)
 
         *s = '\0';
 
-        if (tui_input_string("Change RAMCART image name",
-                             "New image name:", s, 255) == -1)
+        if (tui_input_string("Change RAMCART image name", "New image name:", s, 255) == -1) {
             return NULL;
+        }
 
-        if (*s == '\0')
+        if (*s == '\0') {
             return NULL;
+        }
 
         resources_set_string("RAMCARTfilename", s);
     }
@@ -80,20 +80,20 @@ static TUI_MENU_CALLBACK(ramcart_image_file_callback)
 }
 
 static tui_menu_item_def_t ramcart_menu_items[] = {
-    { "_Enable RAMCART:", "Emulate RAMCART Expansion",
-      toggle_RAMCART_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "_Readonly:", "RAMCART Readonly",
-      toggle_RAMCART_RO_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "RAMCART _size:", "Select the size of the RAMCART",
-      ramcart_size_submenu_callback, NULL, 7,
-      TUI_MENU_BEH_CONTINUE, ramcart_size_submenu,
-      "RAMCART size" },
-    { "RAMCART _image file:", "Select the RAMCART image file",
-      ramcart_image_file_callback, NULL, 20,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    {"_Enable RAMCART:", "Emulate RAMCART Expansion",
+     toggle_RAMCART_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"_Readonly:", "RAMCART Readonly",
+     toggle_RAMCART_RO_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"RAMCART _size:", "Select the size of the RAMCART",
+     ramcart_size_submenu_callback, NULL, 7,
+     TUI_MENU_BEH_CONTINUE, ramcart_size_submenu,
+     "RAMCART size"},
+    {"RAMCART _image file:", "Select the RAMCART image file",
+     ramcart_image_file_callback, NULL, 20,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {NULL}
 };
 
 void uiramcart_init(struct tui_menu *parent_submenu)
@@ -106,7 +106,7 @@ void uiramcart_init(struct tui_menu *parent_submenu)
 
     tui_menu_add_submenu(parent_submenu, "_RAMCART settings...",
                          "RAMCART settings",
-                         ui_ramcart_submenu, NULL, 0,
+                         ui_ramcart_submenu,
+                         NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 }
-

@@ -47,11 +47,11 @@ static TUI_MENU_CALLBACK(plus60k_base_submenu_callback)
 }
 
 static tui_menu_item_def_t plus60k_base_submenu[] = {
-    { "$_D040", NULL, radio_PLUS60Kbase_callback,
-      (void *)0xd040, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "$D_100", NULL, radio_PLUS60Kbase_callback,
-      (void *)0xd100, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    {"$_D040", NULL, radio_PLUS60Kbase_callback,
+     (void *)0xd040, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"$D_100", NULL, radio_PLUS60Kbase_callback,
+     (void *)0xd100, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {NULL}
 };
 
 static TUI_MENU_CALLBACK(plus60k_image_file_callback)
@@ -63,12 +63,13 @@ static TUI_MENU_CALLBACK(plus60k_image_file_callback)
 
         *s = '\0';
 
-        if (tui_input_string("Change PLUS60K image name",
-                             "New image name:", s, 255) == -1)
+        if (tui_input_string("Change PLUS60K image name", "New image name:", s, 255) == -1) {
             return NULL;
+        }
 
-        if (*s == '\0')
+        if (*s == '\0') {
             return NULL;
+        }
 
         resources_set_string("PLUS60Kfilename", s);
     }
@@ -78,17 +79,17 @@ static TUI_MENU_CALLBACK(plus60k_image_file_callback)
 }
 
 static tui_menu_item_def_t plus60k_menu_items[] = {
-    { "_Enable PLUS60K:", "Emulate PLUS60K RAM Expansion",
-      toggle_PLUS60K_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "PLUS60K _base:", "Select the base address of the PLUS60K RAM Expansion",
-      plus60k_base_submenu_callback, NULL, 7,
-      TUI_MENU_BEH_CONTINUE, plus60k_base_submenu,
-      "PLUS60K base" },
-    { "PLUS60K _image file:", "Select the PLUS60K image file",
-      plus60k_image_file_callback, NULL, 20,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    {"_Enable PLUS60K:", "Emulate PLUS60K RAM Expansion",
+     toggle_PLUS60K_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"PLUS60K _base:", "Select the base address of the PLUS60K RAM Expansion",
+     plus60k_base_submenu_callback, NULL, 7,
+     TUI_MENU_BEH_CONTINUE, plus60k_base_submenu,
+     "PLUS60K base"},
+    {"PLUS60K _image file:", "Select the PLUS60K image file",
+     plus60k_image_file_callback, NULL, 20,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {NULL}
 };
 
 void uiplus60k_init(struct tui_menu *parent_submenu)
@@ -101,6 +102,7 @@ void uiplus60k_init(struct tui_menu *parent_submenu)
 
     tui_menu_add_submenu(parent_submenu, "PLUS_60K settings...",
                          "PLUS60K settings",
-                         ui_plus60k_submenu, NULL, 0,
+                         ui_plus60k_submenu,
+                         NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 }

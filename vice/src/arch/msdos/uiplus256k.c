@@ -44,12 +44,13 @@ static TUI_MENU_CALLBACK(plus256k_image_file_callback)
 
         *s = '\0';
 
-        if (tui_input_string("Change PLUS256K image name",
-                             "New image name:", s, 255) == -1)
+        if (tui_input_string("Change PLUS256K image name", "New image name:", s, 255) == -1) {
             return NULL;
+        }
 
-        if (*s == '\0')
+        if (*s == '\0') {
             return NULL;
+        }
 
         resources_set_string("PLUS256Kfilename", s);
     }
@@ -59,13 +60,13 @@ static TUI_MENU_CALLBACK(plus256k_image_file_callback)
 }
 
 static tui_menu_item_def_t plus256k_menu_items[] = {
-    { "_Enable PLUS256K:", "Emulate PLUS256K RAM Expansion",
-      toggle_PLUS256K_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "PLUS256K _image file:", "Select the PLUS256K image file",
-      plus256k_image_file_callback, NULL, 20,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    {"_Enable PLUS256K:", "Emulate PLUS256K RAM Expansion",
+     toggle_PLUS256K_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"PLUS256K _image file:", "Select the PLUS256K image file",
+     plus256k_image_file_callback, NULL, 20,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {NULL}
 };
 
 void uiplus256k_init(struct tui_menu *parent_submenu)
@@ -78,6 +79,7 @@ void uiplus256k_init(struct tui_menu *parent_submenu)
 
     tui_menu_add_submenu(parent_submenu, "PLUS_256K settings...",
                          "PLUS256K settings",
-                         ui_plus256k_submenu, NULL, 0,
+                         ui_plus256k_submenu,
+                         NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 }

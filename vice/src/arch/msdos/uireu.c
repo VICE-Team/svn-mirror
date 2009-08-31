@@ -33,10 +33,8 @@
 #include "tuimenu.h"
 #include "uireu.h"
 
-
 TUI_MENU_DEFINE_TOGGLE(REU)
 TUI_MENU_DEFINE_RADIO(REUsize)
-
 
 static TUI_MENU_CALLBACK(reu_size_submenu_callback)
 {
@@ -44,28 +42,28 @@ static TUI_MENU_CALLBACK(reu_size_submenu_callback)
     static char s[100];
 
     resources_get_int("REUsize", &value);
-    sprintf(s, "%dKB",value);
+    sprintf(s, "%dKB", value);
     return s;
 }
 
 static tui_menu_item_def_t reu_size_submenu[] = {
-    { "_128KB", NULL, radio_REUsize_callback,
-      (void *)128, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_256KB", NULL, radio_REUsize_callback,
-      (void *)256, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_512KB", NULL, radio_REUsize_callback,
-      (void *)512, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "102_4KB", NULL, radio_REUsize_callback,
-      (void *)1024, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "2_048KB", NULL, radio_REUsize_callback,
-      (void *)2048, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "40_96KB", NULL, radio_REUsize_callback,
-      (void *)4096, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_8192KB", NULL, radio_REUsize_callback,
-      (void *)8192, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "1_6384KB", NULL, radio_REUsize_callback,
-      (void *)16384, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    {"_128KB", NULL, radio_REUsize_callback,
+     (void *)128, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"_256KB", NULL, radio_REUsize_callback,
+     (void *)256, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"_512KB", NULL, radio_REUsize_callback,
+     (void *)512, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"102_4KB", NULL, radio_REUsize_callback,
+     (void *)1024, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"2_048KB", NULL, radio_REUsize_callback,
+     (void *)2048, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"40_96KB", NULL, radio_REUsize_callback,
+     (void *)4096, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"_8192KB", NULL, radio_REUsize_callback,
+     (void *)8192, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"1_6384KB", NULL, radio_REUsize_callback,
+     (void *)16384, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {NULL}
 };
 
 static TUI_MENU_CALLBACK(reu_image_file_callback)
@@ -77,12 +75,13 @@ static TUI_MENU_CALLBACK(reu_image_file_callback)
 
         *s = '\0';
 
-        if (tui_input_string("Change REU image name",
-                             "New image name:", s, 255) == -1)
+        if (tui_input_string("Change REU image name", "New image name:", s, 255) == -1) {
             return NULL;
+        }
 
-        if (*s == '\0')
+        if (*s == '\0') {
             return NULL;
+        }
 
         resources_set_string("REUfilename", s);
     }
@@ -92,17 +91,17 @@ static TUI_MENU_CALLBACK(reu_image_file_callback)
 }
 
 static tui_menu_item_def_t reu_menu_items[] = {
-    { "_Enable REU:", "Emulate RAM Expansion Unit",
-      toggle_REU_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "REU _size:", "Select the size of the REU",
-      reu_size_submenu_callback, NULL, 7,
-      TUI_MENU_BEH_CONTINUE, reu_size_submenu,
-      "REU size" },
-    { "REU _image file:", "Select the REU image file",
-      reu_image_file_callback, NULL, 20,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    {"_Enable REU:", "Emulate RAM Expansion Unit",
+     toggle_REU_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"REU _size:", "Select the size of the REU",
+     reu_size_submenu_callback, NULL, 7,
+     TUI_MENU_BEH_CONTINUE, reu_size_submenu,
+     "REU size"},
+    {"REU _image file:", "Select the REU image file",
+     reu_image_file_callback, NULL, 20,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {NULL}
 };
 
 void uireu_init(struct tui_menu *parent_submenu)
@@ -115,7 +114,7 @@ void uireu_init(struct tui_menu *parent_submenu)
 
     tui_menu_add_submenu(parent_submenu, "_REU settings...",
                          "REU settings",
-                         ui_reu_submenu, NULL, 0,
+                         ui_reu_submenu,
+                         NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 }
-
