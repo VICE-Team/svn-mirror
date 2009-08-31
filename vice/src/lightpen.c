@@ -55,7 +55,7 @@ static int lightpen_button_x;
 
 /* Video chip timing callbacks for each window.
    Returns the CLOCK value of the triggering time (or 0 if off screen).
-   For x128, window 0 is VICII, window 1 is VDC. Others always use window 0. */
+   For x128, window 1 is VICII, window 0 is VDC. Others always use window 0. */
 static lightpen_timing_callback_ptr_t chip_timing_callback[MAX_WINDOW_NUM + 1];
 
 /* Machine dependant callback for triggering the lightpen at the given CLOCK.
