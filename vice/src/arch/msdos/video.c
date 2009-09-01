@@ -46,26 +46,25 @@
 #include "video.h"
 #include "videoarch.h"
 
-
 /* #define DEBUG_VIDEO */
 
 vga_mode_t vga_modes[] = {
-    { 320, 200,  8, " 320x200  8Bit" },
-    { 360, 240,  8, " 360x240  8Bit" },
-    { 360, 270,  8, " 360x270  8Bit" },
-    { 376, 282,  8, " 376x282  8Bit" },
-    { 400, 300,  8, " 400x300  8Bit" },
-    { 640, 480,  8, " 640x480  8Bit" },
-    { 800, 600,  8, " 800x600  8Bit" },
-    { 1024,768,  8, "1024x768  8Bit" },
-    { 320, 200, 16, " 320x200 16Bit" },
-    { 400, 300, 16, " 400x300 16Bit" },
-    { 640, 480, 16, " 640x480 16Bit" },
-    { 800, 600, 16, " 800x600 16Bit" },
-    { 1024,768, 16, "1024x768 16Bit" },
-    { 640, 480, 32, " 640x480 32Bit" },
-    { 800, 600, 32, " 800x600 32Bit" },
-    { 1024,768, 32, "1024x768 32Bit" }
+    {320, 200, 8, " 320x200  8Bit"},
+    {360, 240, 8, " 360x240  8Bit"},
+    {360, 270, 8, " 360x270  8Bit"},
+    {376, 282, 8, " 376x282  8Bit"},
+    {400, 300, 8, " 400x300  8Bit"},
+    {640, 480, 8, " 640x480  8Bit"},
+    {800, 600, 8, " 800x600  8Bit"},
+    {1024,768, 8, "1024x768  8Bit"},
+    {320, 200, 16, " 320x200 16Bit"},
+    {400, 300, 16, " 400x300 16Bit"},
+    {640, 480, 16, " 640x480 16Bit"},
+    {800, 600, 16, " 800x600 16Bit"},
+    {1024,768, 16, "1024x768 16Bit"},
+    {640, 480, 32, " 640x480 32Bit"},
+    {800, 600, 32, " 800x600 32Bit"},
+    {1024,768, 32, "1024x768 32Bit"}
 };
 
 video_canvas_t *last_canvas;
@@ -87,6 +86,7 @@ static log_t video_log = LOG_ERR;
 
 /* forward declaration */
 static void canvas_change_palette(video_canvas_t *c);
+
 /* ------------------------------------------------------------------------- */
 
 /* Video-related resources.  */
@@ -121,13 +121,13 @@ static int set_try_triple_buffering(int val, void *param)
 #endif
 
 static const resource_int_t resources_int[] = {
-    { "VGAMode", VGA_320x200x8, RES_EVENT_NO, NULL,
-      &vga_mode, set_vga_mode, NULL },
+    {"VGAMode", VGA_320x200x8, RES_EVENT_NO, NULL,
+     &vga_mode, set_vga_mode, NULL},
 #ifndef USE_MIDAS_SOUND
-    { "TripleBuffering", 0, RES_EVENT_NO, NULL,
-      &try_triple_buffering, set_try_triple_buffering, NULL },
+    {"TripleBuffering", 0, RES_EVENT_NO, NULL,
+     &try_triple_buffering, set_try_triple_buffering, NULL},
 #endif
-    { NULL }
+    {NULL}
 };
 
 int video_arch_resources_init(void)
@@ -144,24 +144,24 @@ void video_arch_resources_shutdown(void)
 /* Video-specific command-line options.  */
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-vgamode", SET_RESOURCE, 1,
-      NULL, NULL, "VGAMode", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      "<mode>", "Set VGA mode to <mode>" },
+    {"-vgamode", SET_RESOURCE, 1,
+     NULL, NULL, "VGAMode", NULL,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+     IDCLS_UNUSED, IDCLS_UNUSED,
+     "<mode>", "Set VGA mode to <mode>"},
 #ifndef USE_MIDAS_SOUND
-    { "-triplebuf", SET_RESOURCE, 0,
-      NULL, NULL, "TripleBuffering", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, "Try to use triple buffering when possible" },
-    { "+triplebuf", SET_RESOURCE, 0,
-      NULL, NULL, "TripleBuffering", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, "Disable usage of triple buffering" },
+    {"-triplebuf", SET_RESOURCE, 0,
+     NULL, NULL, "TripleBuffering", (resource_value_t)1,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+     IDCLS_UNUSED, IDCLS_UNUSED,
+     NULL, "Try to use triple buffering when possible"},
+    {"+triplebuf", SET_RESOURCE, 0,
+     NULL, NULL, "TripleBuffering", (resource_value_t)1,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+     IDCLS_UNUSED, IDCLS_UNUSED,
+     NULL, "Disable usage of triple buffering"},
 #endif
-    { NULL }
+    {NULL}
 };
 
 int video_init_cmdline_options(void)
@@ -181,8 +181,9 @@ int video_init(void)
 
     last_canvas = NULL;
 
-    for (i = 0; i < MAX_CANVAS_NUM; i++)
+    for (i = 0; i < MAX_CANVAS_NUM; i++) {
         canvaslist[i] = NULL;
+    }
 
     return 0;
 }
@@ -208,18 +209,18 @@ static void canvas_free_bitmaps(video_canvas_t *c)
     }
 }
 
-
 static void canvas_update_colors(video_canvas_t *c)
 {
     int i;
 
-    if (c == NULL)
+    if (c == NULL) {
         return;
+    }
 
-    for (i = 0; i < NUM_AVAILABLE_COLORS; i++)
+    for (i = 0; i < NUM_AVAILABLE_COLORS; i++) {
         set_color(i, &c->colors[i]);
+    }
 }
-
 
 static int canvas_set_vga_mode(struct video_canvas_s *c)
 {
@@ -230,36 +231,28 @@ static int canvas_set_vga_mode(struct video_canvas_s *c)
     /* If the user wants triple buffering, try Mode X first of all, as that
        is (currently) the only reliable way to achieve the result.  Virtual
        height is twice visible height to allow smooth page flipping.  */
-    if (try_triple_buffering
-        && (set_gfx_mode(GFX_MODEX, c->width, c->height, 0, c->height * 2)
-            >= 0)) {
-        DEBUG(("GFX_MODEX successful with width=%d height=%d vheight=%d",
-               c->width, c->height, c->height * 2));
+    if (try_triple_buffering && (set_gfx_mode(GFX_MODEX, c->width, c->height, 0, c->height * 2) >= 0)) {
+        DEBUG(("GFX_MODEX successful with width=%d height=%d vheight=%d", c->width, c->height, c->height * 2));
         c->use_triple_buffering = 1;
     } else
 #endif
     /* If we don't want triple buffering, try to get a VESA linear mode
        first, which might not be the default. */
     if (set_gfx_mode(GFX_VESA2L, c->width, c->height, 0, 0) >= 0) {
-        DEBUG(("GFX_VESA2L successful with width=%d height=%d",
-               c->width, c->height));
+        DEBUG(("GFX_VESA2L successful with width=%d height=%d", c->width, c->height));
         c->use_triple_buffering = 0;
         statusbar_append_bitmap_to_update(screen);
     } else if (set_gfx_mode(GFX_AUTODETECT, c->width, c->height, 0, 0) >= 0) {
-        DEBUG(("GFX_AUTODETECT successful with width=%d height=%d",
-               c->width, c->height));
+        DEBUG(("GFX_AUTODETECT successful with width=%d height=%d", c->width, c->height));
         c->use_triple_buffering = 0;
         statusbar_append_bitmap_to_update(screen);
     } else {
-        log_error(video_log, "Cannot enable %dx%d (%dBit) graphics.",
-                  c->width, c->height, c->depth);
+        log_error(video_log, "Cannot enable %dx%d (%dBit) graphics.", c->width, c->height, c->depth);
         return -1;
     }
 
-    log_message(video_log, "Using mode %dx%d (%dBit) (%s)%s.",
-                c->width, c->height, c->depth,
-                is_linear_bitmap(screen) ? "linear" : "planar",
-                c->use_triple_buffering ? "; triple buffering possible" : "");
+    log_message(video_log, "Using mode %dx%d (%dBit) (%s)%s.", c->width, c->height, c->depth,
+                is_linear_bitmap(screen) ? "linear" : "planar", c->use_triple_buffering ? "; triple buffering possible" : "");
     in_gfx_mode = 1;
 
 #ifndef USE_MIDAS_SOUND
@@ -272,10 +265,8 @@ static int canvas_set_vga_mode(struct video_canvas_s *c)
 
     c->render_bitmap = create_bitmap(c->width, c->height);
     if (c->use_triple_buffering) {
-        c->pages[0] = create_sub_bitmap(screen,
-                                        0, 0, c->width, c->height);
-        c->pages[1] = create_sub_bitmap(screen,
-                                        0, c->height, c->width, c->height);
+        c->pages[0] = create_sub_bitmap(screen, 0, 0, c->width, c->height);
+        c->pages[1] = create_sub_bitmap(screen, 0, c->height, c->width, c->height);
         c->back_page = 1;
 
         statusbar_append_bitmap_to_update(c->pages[0]);
@@ -295,8 +286,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 }
 
 /* Note: `mapped' is ignored.  */
-video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
-                                    unsigned int *height, int mapped)
+video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned int *height, int mapped)
 {
     int result = 0;
     int next_canvas = 0;
@@ -321,8 +311,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
             resources_set_int("VGAMode", (int)VGA_640x480x32);
         }
         if (result == -2) {
-            log_error(video_log,
-                      "Even default VGA mode doesn't work. Exiting...");
+            log_error(video_log, "Even default VGA mode doesn't work. Exiting...");
             exit(-1);
         }
     } while (result < 0);
@@ -331,8 +320,9 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
     canvas->back_page = 1;
 
-    while (canvaslist[next_canvas] != NULL && next_canvas < MAX_CANVAS_NUM - 1)
+    while (canvaslist[next_canvas] != NULL && next_canvas < MAX_CANVAS_NUM - 1) {
         next_canvas++;
+    }
     canvaslist[next_canvas] = canvas;
 
     return canvas;
@@ -342,15 +332,18 @@ void video_canvas_destroy(video_canvas_t *canvas)
 {
     int i;
 
-    if (canvas == NULL)
+    if (canvas == NULL) {
         return;
+    }
 
     canvas_free_bitmaps(canvas);
     video_canvas_shutdown(canvas);
 
-    for (i = 0; i < MAX_CANVAS_NUM; i++)
-        if (canvaslist[i] == canvas)
+    for (i = 0; i < MAX_CANVAS_NUM; i++) {
+        if (canvaslist[i] == canvas) {
             canvaslist[i] = NULL;
+        }
+    }
 }
 
 static void canvas_change_palette(video_canvas_t *c)

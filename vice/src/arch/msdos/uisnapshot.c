@@ -40,7 +40,6 @@
 #include "uisnapshot.h"
 #include "util.h"
 
-
 #define SNAPSHOT_EXTENSION      "vsf"
 
 static char *snapshot_selector(const char *title);
@@ -54,43 +53,42 @@ static int save_roms_flag;
 static int save_disks_flag;
 
 static tui_menu_item_def_t write_snapshot_menu_def[] = {
-    { "_File name:",
-      "Specify snapshot file name",
-      file_name_callback, NULL, 30,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "--" },
-    { "Save _Disks:",
-      "Save current disk images in the snapshot file",
-      toggle_callback, (void *) &save_disks_flag, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Save _ROMs:",
-      "Save current ROMs in the snapshot file",
-      toggle_callback, (void *) &save_roms_flag, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "--" },
-    { "_Do it!",
-      "Save snapshot with the specified parameters",
-      write_snapshot_callback, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    {"_File name:",
+     "Specify snapshot file name",
+     file_name_callback, NULL, 30,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"--" },
+    {"Save _Disks:",
+     "Save current disk images in the snapshot file",
+     toggle_callback, (void *) &save_disks_flag, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Save _ROMs:",
+     "Save current ROMs in the snapshot file",
+     toggle_callback, (void *) &save_roms_flag, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"--"},
+    {"_Do it!",
+     "Save snapshot with the specified parameters",
+     write_snapshot_callback, NULL, 0,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {NULL}
 };
 
 tui_menu_item_def_t ui_snapshot_menu_def[] = {
-    { "_Write Snapshot",
-      "Write a snapshot file",
-      NULL, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, write_snapshot_menu_def, NULL },
-    { "_Load Snapshot",
-      "Load a snapshot file",
-      load_snapshot_callback, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    {"_Write Snapshot",
+     "Write a snapshot file",
+     NULL, NULL, 0,
+     TUI_MENU_BEH_CONTINUE, write_snapshot_menu_def, NULL},
+    {"_Load Snapshot",
+     "Load a snapshot file",
+     load_snapshot_callback, NULL, 0,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {NULL}
 };
 
 static char *snapshot_selector(const char *title)
 {
-    return tui_file_selector(title, NULL, "*.vsf", NULL, NULL, NULL,
-                             NULL);
+    return tui_file_selector(title, NULL, "*.vsf", NULL, NULL, NULL, NULL);
 }
 
 static TUI_MENU_CALLBACK(file_name_callback)
@@ -98,13 +96,13 @@ static TUI_MENU_CALLBACK(file_name_callback)
     if (been_activated) {
         char new_file_name[PATH_MAX];
 
-        if (file_name == NULL)
+        if (file_name == NULL) {
             memset(new_file_name, 0, PATH_MAX);
-        else
+        } else {
             strcpy(new_file_name, file_name);
+        }
 
-        while (tui_input_string("Save snapshot", "Enter file name:",
-                                new_file_name, PATH_MAX) != -1) {
+        while (tui_input_string("Save snapshot", "Enter file name:", new_file_name, PATH_MAX) != -1) {
             util_remove_spaces(new_file_name);
             if (*new_file_name == 0) {
                 char *tmp;
@@ -128,25 +126,25 @@ static TUI_MENU_CALLBACK(file_name_callback)
                     last_slash = strrchr(new_file_name, '/');
                     last_backslash = strrchr(new_file_name, '\\');
 
-                    if (last_slash == NULL)
+                    if (last_slash == NULL) {
                         last_path_separator = last_backslash;
-                    else if (last_backslash == NULL)
+                    } else if (last_backslash == NULL) {
                         last_path_separator = last_slash;
-                    else if (last_backslash < last_slash)
+                    } else if (last_backslash < last_slash) {
                         last_path_separator = last_slash;
-                    else
+                    } else {
                         last_path_separator = last_backslash;
+                    }
 
-                    if (last_path_separator == NULL
-                        || last_path_separator < last_dot)
+                    if (last_path_separator == NULL || last_path_separator < last_dot) {
                         extension = "";
-                    else
+                    } else {
                         extension = SNAPSHOT_EXTENSION;
+                    }
                 }
                 
                 if (file_name == NULL) {
-                    file_name = util_concat(new_file_name, ".", extension,
-                                            NULL);
+                    file_name = util_concat(new_file_name, ".", extension, NULL);
                 } else {
                     lib_free(file_name);
                     file_name = lib_stralloc(new_file_name);
@@ -164,8 +162,9 @@ static TUI_MENU_CALLBACK(toggle_callback)
 {
     int *p = (int *) param;
 
-    if (been_activated)
+    if (been_activated) {
         *p = ! *p;
+    }
 
     return *p ? "On" : "Off";
 }
@@ -178,14 +177,12 @@ static TUI_MENU_CALLBACK(write_snapshot_callback)
             return NULL;
         }
 
-        if (!util_file_exists(file_name)
-            || tui_ask_confirmation("The specified file already exists.  "
-                                    "Replace?  (Y/N)")) {
-            if (machine_write_snapshot(file_name,
-                                       save_roms_flag, save_disks_flag, 0) < 0)
+        if (!util_file_exists(file_name) || tui_ask_confirmation("The specified file already exists.  Replace?  (Y/N)")) {
+            if (machine_write_snapshot(file_name, save_roms_flag, save_disks_flag, 0) < 0) {
                 tui_error("Cannot save snapshot.");
-            else
+            } else {
                 tui_message("Snapshot saved successfully.");
+            }
         }
     }
 
@@ -198,14 +195,14 @@ static TUI_MENU_CALLBACK(load_snapshot_callback)
         char *name = snapshot_selector("Load snapshot file");
 
         if (name != NULL) {
-            if (machine_read_snapshot(name, 0) < 0)
+            if (machine_read_snapshot(name, 0) < 0) {
                 tui_error("Cannot load snapshot.");
-            else
+            } else {
                 *behavior = TUI_MENU_BEH_RESUME;
+            }
             lib_free(name);
         }
     }
 
     return NULL;
 }
-

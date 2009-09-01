@@ -32,4 +32,3 @@ struct tui_menu_item_def_s;
 extern struct tui_menu_item_def_s siddtv_ui_menu_items[];
 
 #endif
-

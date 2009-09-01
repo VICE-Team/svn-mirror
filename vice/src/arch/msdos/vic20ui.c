@@ -47,7 +47,6 @@
 #include "util.h"
 #include "vic20ui.h"
 
-
 static TUI_MENU_CALLBACK(toggle_MachineVideoStandard_callback)
 {
     int value;
@@ -55,21 +54,21 @@ static TUI_MENU_CALLBACK(toggle_MachineVideoStandard_callback)
     resources_get_int("MachineVideoStandard", &value);
 
     if (been_activated) {
-	    if (value == MACHINE_SYNC_PAL)
-	        value = MACHINE_SYNC_NTSC;
-        else
-	        value = MACHINE_SYNC_PAL;
-
+        if (value == MACHINE_SYNC_PAL) {
+            value = MACHINE_SYNC_NTSC;
+        } else {
+            value = MACHINE_SYNC_PAL;
+        }
         resources_set_int("MachineVideoStandard", value);
     }
 
     switch (value) {
-      case MACHINE_SYNC_PAL:
-	return "PAL-G";
-      case MACHINE_SYNC_NTSC:
-	return "NTSC-M";
-      default:
-	return "(Custom)";
+        case MACHINE_SYNC_PAL:
+	      return "PAL-G";
+        case MACHINE_SYNC_NTSC:
+	      return "NTSC-M";
+        default:
+	      return "(Custom)";
     }
 }
 
@@ -77,20 +76,20 @@ TUI_MENU_DEFINE_TOGGLE(VICVideoCache)
 TUI_MENU_DEFINE_TOGGLE(PALEmulation)
 
 static tui_menu_item_def_t vic_menu_items[] = {
-    { "Video _Cache:",
-      "Enable screen cache (disabled when using triple buffering)",
-      toggle_VICVideoCache_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "_PAL Emulation:",
-      "Enable PAL emulation",
-      toggle_PALEmulation_callback, NULL, 3,
-      TUI_MENU_BEH_RESUME, NULL, NULL },
-    { "--" },
-    { "V_ideo Standard:",
-      "Select machine clock ratio",
-      toggle_MachineVideoStandard_callback, NULL, 11,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    {"Video _Cache:",
+     "Enable screen cache (disabled when using triple buffering)",
+     toggle_VICVideoCache_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"_PAL Emulation:",
+     "Enable PAL emulation",
+     toggle_PALEmulation_callback, NULL, 3,
+     TUI_MENU_BEH_RESUME, NULL, NULL},
+    {"--"},
+    {"V_ideo Standard:",
+     "Select machine clock ratio",
+     toggle_MachineVideoStandard_callback, NULL, 11,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {NULL}
 };
 
 /* ------------------------------------------------------------------------- */
@@ -100,26 +99,26 @@ static WORD cartridge_type_to_address(int type)
     /* We might use a simple AND here, but it's safer to use `switch()' as
        speed does not matter in this case.  */
     switch (type) {
-      case CARTRIDGE_VIC20_4KB_2000:
-      case CARTRIDGE_VIC20_8KB_2000:
-      case CARTRIDGE_VIC20_16KB_2000:
-        return 0x2000;
-      case CARTRIDGE_VIC20_4KB_4000:
-      case CARTRIDGE_VIC20_8KB_4000:
-      case CARTRIDGE_VIC20_16KB_4000:
-	return 0x4000;
-      case CARTRIDGE_VIC20_4KB_6000:
-      case CARTRIDGE_VIC20_8KB_6000:
-      case CARTRIDGE_VIC20_16KB_6000:
-        return 0x6000;
-      case CARTRIDGE_VIC20_4KB_A000:
-      case CARTRIDGE_VIC20_8KB_A000:
-        return 0xa000;
-      case CARTRIDGE_VIC20_4KB_B000:
-        return 0xb000;
-      case CARTRIDGE_VIC20_DETECT:
-      default:
-        return 0;               /* bogus */
+        case CARTRIDGE_VIC20_4KB_2000:
+        case CARTRIDGE_VIC20_8KB_2000:
+        case CARTRIDGE_VIC20_16KB_2000:
+            return 0x2000;
+        case CARTRIDGE_VIC20_4KB_4000:
+        case CARTRIDGE_VIC20_8KB_4000:
+        case CARTRIDGE_VIC20_16KB_4000:
+	      return 0x4000;
+        case CARTRIDGE_VIC20_4KB_6000:
+        case CARTRIDGE_VIC20_8KB_6000:
+        case CARTRIDGE_VIC20_16KB_6000:
+            return 0x6000;
+        case CARTRIDGE_VIC20_4KB_A000:
+        case CARTRIDGE_VIC20_8KB_A000:
+            return 0xa000;
+        case CARTRIDGE_VIC20_4KB_B000:
+            return 0xb000;
+        case CARTRIDGE_VIC20_DETECT:
+        default:
+            return 0;               /* bogus */
     }
 }
 
@@ -133,18 +132,16 @@ static TUI_MENU_CALLBACK(attach_cartridge_callback)
         char *name;
 
         s = cartridge_get_file_name(cartridge_type_to_address(type));
-        if (s == NULL)
+        if (s == NULL) {
             directory = default_item = NULL;
-        else
+        } else {
             util_fname_split(s, &directory, &default_item);
+        }
 
-        name = tui_file_selector("Attach cartridge image",
-                                 directory, "*", default_item, NULL,
-                                 NULL, NULL);
-        if (name != NULL
-            && (s == NULL || strcasecmp(name, s) != 0)
-            && cartridge_attach_image(type, name) < 0)
+        name = tui_file_selector("Attach cartridge image", directory, "*", default_item, NULL, NULL, NULL);
+        if (name != NULL && (s == NULL || strcasecmp(name, s) != 0) && cartridge_attach_image(type, name) < 0) {
             tui_error("Invalid cartridge image.");
+        }
         ui_update_menus();
         lib_free(name);
     }
@@ -152,68 +149,70 @@ static TUI_MENU_CALLBACK(attach_cartridge_callback)
     /* This is redundant if `been_activated' is nonzero, but let's stay on
        the safe side.  */
     s = cartridge_get_file_name(cartridge_type_to_address(type));
-    if (s == NULL || *s == '\0')
+    if (s == NULL || *s == '\0') {
         return "(none)";
-    else
+    } else {
         return s;
+    }
 }
 
 static tui_menu_item_def_t attach_cartridge_menu_items[] = {
-    { "Generic cartridge:",
-      "Attach a generic cartridge image",
-      attach_cartridge_callback, (void *)CARTRIDGE_VIC20_GENERIC, 30,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Mega-Cart cartridge:",
-      "Attach a Mega-Cart cartridge image",
-      attach_cartridge_callback, (void *)CARTRIDGE_VIC20_MEGACART, 30,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Final Expansion cartridge:",
-      "Attach a Final Expansion cartridge image",
-      attach_cartridge_callback, (void *)CARTRIDGE_VIC20_FINAL_EXPANSION, 30,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "--" },
-    { "Smart attach:",
-      "Smart attach a cartridge image",
-      attach_cartridge_callback, (void *)CARTRIDGE_VIC20_DETECT, 30,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Cartridge at $_2000:",
-      "Attach a cartridge image at address $2000",
-      attach_cartridge_callback, (void *)CARTRIDGE_VIC20_16KB_2000, 30,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Cartridge at $_4000:",
-      "Attach a cartridge image at address $4000",
-      attach_cartridge_callback, (void *)CARTRIDGE_VIC20_16KB_4000, 30,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Cartridge at $_6000:",
-      "Attach a cartridge image at address $6000",
-      attach_cartridge_callback, (void *)CARTRIDGE_VIC20_16KB_6000, 30,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Cartridge at $_A000:",
-      "Attach a cartridge image at address $A000",
-      attach_cartridge_callback, (void *)CARTRIDGE_VIC20_8KB_A000, 30,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Cartridge at $_B000:",
-      "Attach a cartridge image at address $B000",
-      attach_cartridge_callback, (void *)CARTRIDGE_VIC20_4KB_B000, 30,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    {"Generic cartridge:",
+     "Attach a generic cartridge image",
+     attach_cartridge_callback, (void *)CARTRIDGE_VIC20_GENERIC, 30,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Mega-Cart cartridge:",
+     "Attach a Mega-Cart cartridge image",
+     attach_cartridge_callback, (void *)CARTRIDGE_VIC20_MEGACART, 30,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Final Expansion cartridge:",
+     "Attach a Final Expansion cartridge image",
+     attach_cartridge_callback, (void *)CARTRIDGE_VIC20_FINAL_EXPANSION, 30,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"--"},
+    {"Smart attach:",
+     "Smart attach a cartridge image",
+     attach_cartridge_callback, (void *)CARTRIDGE_VIC20_DETECT, 30,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Cartridge at $_2000:",
+     "Attach a cartridge image at address $2000",
+     attach_cartridge_callback, (void *)CARTRIDGE_VIC20_16KB_2000, 30,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Cartridge at $_4000:",
+     "Attach a cartridge image at address $4000",
+     attach_cartridge_callback, (void *)CARTRIDGE_VIC20_16KB_4000, 30,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Cartridge at $_6000:",
+     "Attach a cartridge image at address $6000",
+     attach_cartridge_callback, (void *)CARTRIDGE_VIC20_16KB_6000, 30,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Cartridge at $_A000:",
+     "Attach a cartridge image at address $A000",
+     attach_cartridge_callback, (void *)CARTRIDGE_VIC20_8KB_A000, 30,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Cartridge at $_B000:",
+     "Attach a cartridge image at address $B000",
+     attach_cartridge_callback, (void *)CARTRIDGE_VIC20_4KB_B000, 30,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {NULL}
 };
 
 static TUI_MENU_CALLBACK(detach_cartridge_callback)
 {
-    if (been_activated)
+    if (been_activated) {
         cartridge_detach_image();
+    }
 
     return NULL;
 }
 
 static tui_menu_item_def_t detach_cartridge_menu_items[] = {
-    { "--" },
-    { "_Cartridges",
-      "Detach all attached cartridge images",
-      detach_cartridge_callback, NULL, 30,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    {"--"},
+    {"_Cartridges",
+     "Detach all attached cartridge images",
+     detach_cartridge_callback, NULL, 30,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {NULL}
 };
 
 /* ------------------------------------------------------------------------- */
@@ -241,28 +240,28 @@ static TUI_MENU_CALLBACK(set_common_memory_configuration_callback)
         int blocks;
 
         switch ((int)param) {
-          case MEM_NONE:
-            blocks = 0;
-            break;
-          case MEM_ALL:
-            blocks = BLOCK_0 | BLOCK_1 | BLOCK_2 | BLOCK_3 | BLOCK_5;
-            break;
-          case MEM_3K:
-            blocks = BLOCK_0;
-            break;
-          case MEM_8K:
-            blocks = BLOCK_1;
-            break;
-          case MEM_16K:
-            blocks = BLOCK_1 | BLOCK_2;
-            break;
-          case MEM_24K:
-            blocks = BLOCK_1 | BLOCK_2 | BLOCK_3;
-            break;
-          default:
-            /* Shouldn't happen.  */
-            log_debug("What?!");
-            blocks = 0;         /* Make compiler happy.  */
+            case MEM_NONE:
+                blocks = 0;
+                break;
+            case MEM_ALL:
+                blocks = BLOCK_0 | BLOCK_1 | BLOCK_2 | BLOCK_3 | BLOCK_5;
+                break;
+            case MEM_3K:
+                blocks = BLOCK_0;
+                break;
+            case MEM_8K:
+                blocks = BLOCK_1;
+                break;
+            case MEM_16K:
+                blocks = BLOCK_1 | BLOCK_2;
+                break;
+            case MEM_24K:
+                blocks = BLOCK_1 | BLOCK_2 | BLOCK_3;
+                break;
+            default:
+                /* Shouldn't happen.  */
+                log_debug("What?!");
+                blocks = 0;         /* Make compiler happy.  */
         }
         resources_set_int("RamBlock0", blocks & BLOCK_0 ? 1 : 0);
         resources_set_int("RamBlock1", blocks & BLOCK_1 ? 1 : 0);
@@ -278,35 +277,35 @@ static TUI_MENU_CALLBACK(set_common_memory_configuration_callback)
 }
 
 static tui_menu_item_def_t common_memory_configurations_items[] = {
-    { "_Not Really!",
-      "Keep the current settings",
-      NULL, NULL, 0, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "--" },
-    { "_Unexpanded",
-      "Setup a completely unexpanded VIC20",
-      set_common_memory_configuration_callback, (void *)MEM_NONE, NULL,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_3K (block 0)",
-      "Setup a 3K-expanded VIC20",
-      set_common_memory_configuration_callback, (void *)MEM_3K, NULL,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_8K (block 1)",
-      "Setup an 8K-expanded VIC20",
-      set_common_memory_configuration_callback, (void *)MEM_8K, NULL,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_16K (blocks 1/2)",
-      "Setup an 8K-expanded VIC20",
-      set_common_memory_configuration_callback, (void *)MEM_16K, NULL,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_24K (blocks 1/2/3)",
-      "Setup a 24K-expanded VIC20",
-      set_common_memory_configuration_callback, (void *)MEM_24K, NULL,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_All (blocks 0/1/2/3/5)",
-      "Setup a VIC20 with all the possible RAM stuffed in",
-      set_common_memory_configuration_callback, (void *)MEM_ALL, NULL,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    {"_Not Really!",
+     "Keep the current settings",
+     NULL, NULL, 0, TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"--"},
+    {"_Unexpanded",
+     "Setup a completely unexpanded VIC20",
+     set_common_memory_configuration_callback, (void *)MEM_NONE, NULL,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"_3K (block 0)",
+     "Setup a 3K-expanded VIC20",
+     set_common_memory_configuration_callback, (void *)MEM_3K, NULL,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"_8K (block 1)",
+     "Setup an 8K-expanded VIC20",
+     set_common_memory_configuration_callback, (void *)MEM_8K, NULL,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"_16K (blocks 1/2)",
+     "Setup an 8K-expanded VIC20",
+     set_common_memory_configuration_callback, (void *)MEM_16K, NULL,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"_24K (blocks 1/2/3)",
+     "Setup a 24K-expanded VIC20",
+     set_common_memory_configuration_callback, (void *)MEM_24K, NULL,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {"_All (blocks 0/1/2/3/5)",
+     "Setup a VIC20 with all the possible RAM stuffed in",
+     set_common_memory_configuration_callback, (void *)MEM_ALL, NULL,
+     TUI_MENU_BEH_CLOSE, NULL, NULL},
+    {NULL}
 };
 
 TUI_MENU_DEFINE_TOGGLE(RAMBlock0)
@@ -319,41 +318,41 @@ TUI_MENU_DEFINE_TOGGLE(EmuID)
 TUI_MENU_DEFINE_TOGGLE(Mouse)
 
 static tui_menu_item_def_t special_menu_items[] = {
-    { "_Emulator Identification:",
-      "Allow programs to identify the emulator they are running on",
-      toggle_EmuID_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Enable _Paddles:",
-      "Enable paddles emulation",
-      toggle_Mouse_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "--" },
-    { "Choose Common _Memory Configuration...",
-      "Choose memory configuration from a set of common ones.",
-      NULL, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, common_memory_configurations_items,
-      "Setup Memory Configuration" },
-    { "  RAM Block _0 (3K at $0400-$0F00)",
-      "Enable RAM expansion block at address $0400-$0F00",
-      toggle_RAMBlock0_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "  RAM Block _1 (8K at $2000-$3FFF)",
-      "Enable RAM expansion block at address $2000-$3FFF",
-      toggle_RAMBlock1_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "  RAM Block _2 (8K at $4000-$5FFF)",
-      "Enable RAM expansion block at address $4000-$5FFF",
-      toggle_RAMBlock2_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "  RAM Block _3 (8K at $6000-$7FFF)",
-      "Enable RAM expansion block at address $6000-$7FFF",
-      toggle_RAMBlock3_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "  RAM Block _5 (8K at $A000-$BFFF)",
-      "Enable RAM expansion block at address $A000-$BFFF",
-      toggle_RAMBlock5_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    {"_Emulator Identification:",
+     "Allow programs to identify the emulator they are running on",
+     toggle_EmuID_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Enable _Paddles:",
+     "Enable paddles emulation",
+     toggle_Mouse_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"--"},
+    {"Choose Common _Memory Configuration...",
+     "Choose memory configuration from a set of common ones.",
+     NULL, NULL, 0,
+     TUI_MENU_BEH_CONTINUE, common_memory_configurations_items,
+     "Setup Memory Configuration"},
+    {"  RAM Block _0 (3K at $0400-$0F00)",
+     "Enable RAM expansion block at address $0400-$0F00",
+     toggle_RAMBlock0_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"  RAM Block _1 (8K at $2000-$3FFF)",
+     "Enable RAM expansion block at address $2000-$3FFF",
+     toggle_RAMBlock1_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"  RAM Block _2 (8K at $4000-$5FFF)",
+     "Enable RAM expansion block at address $4000-$5FFF",
+     toggle_RAMBlock2_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"  RAM Block _3 (8K at $6000-$7FFF)",
+     "Enable RAM expansion block at address $6000-$7FFF",
+     toggle_RAMBlock3_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"  RAM Block _5 (8K at $A000-$BFFF)",
+     "Enable RAM expansion block at address $A000-$BFFF",
+     toggle_RAMBlock5_callback, NULL, 3,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {NULL}
 };
 
 /* ------------------------------------------------------------------------- */
@@ -363,12 +362,12 @@ static TUI_MENU_CALLBACK(load_rom_file_callback)
     if (been_activated) {
         char *name;
 
-        name = tui_file_selector("Load ROM file",
-                                 NULL, "*", NULL, NULL, NULL, NULL);
+        name = tui_file_selector("Load ROM file", NULL, "*", NULL, NULL, NULL, NULL);
 
         if (name != NULL) {
-            if (resources_set_string(param, name) < 0)
+            if (resources_set_string(param, name) < 0) {
                 ui_error("Could not load ROM file '%s'", name);
+            }
             lib_free(name);
         }
     }
@@ -376,44 +375,44 @@ static TUI_MENU_CALLBACK(load_rom_file_callback)
 }
 
 static tui_menu_item_def_t rom_menu_items[] = {
-    { "--" },
-    { "Load new _Kernal ROM...",
-      "Load new Kernal ROM",
-      load_rom_file_callback, "KernalName", 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Load new _BASIC ROM...",
-      "Load new BASIC ROM",
-      load_rom_file_callback, "BasicName", 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Load new _Character ROM...",
-      "Load new Character ROM",
-      load_rom_file_callback, "ChargenName", 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Load new 15_41 ROM...",
-      "Load new 1541 ROM",
-      load_rom_file_callback, "DosName1541", 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Load new 1541-_II ROM...",
-      "Load new 1541-II ROM",
-      load_rom_file_callback, "DosName1541ii", 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Load new 15_71 ROM...",
-      "Load new 1571 ROM",
-      load_rom_file_callback, "DosName1571", 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Load new 15_81 ROM...",
-      "Load new 1581 ROM",
-      load_rom_file_callback, "DosName1581", 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Load new _2031 ROM...",
-      "Load new 2031 ROM",
-      load_rom_file_callback, "DosName2031", 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Load new _1001 ROM...",
-      "Load new 1001 ROM",
-      load_rom_file_callback, "DosName1001", 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    {"--"},
+    {"Load new _Kernal ROM...",
+     "Load new Kernal ROM",
+     load_rom_file_callback, "KernalName", 0,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Load new _BASIC ROM...",
+     "Load new BASIC ROM",
+     load_rom_file_callback, "BasicName", 0,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Load new _Character ROM...",
+     "Load new Character ROM",
+     load_rom_file_callback, "ChargenName", 0,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Load new 15_41 ROM...",
+     "Load new 1541 ROM",
+     load_rom_file_callback, "DosName1541", 0,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Load new 1541-_II ROM...",
+     "Load new 1541-II ROM",
+     load_rom_file_callback, "DosName1541ii", 0,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Load new 15_71 ROM...",
+     "Load new 1571 ROM",
+     load_rom_file_callback, "DosName1571", 0,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Load new 15_81 ROM...",
+     "Load new 1581 ROM",
+     load_rom_file_callback, "DosName1581", 0,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Load new _2031 ROM...",
+     "Load new 2031 ROM",
+     load_rom_file_callback, "DosName2031", 0,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {"Load new _1001 ROM...",
+     "Load new 1001 ROM",
+     load_rom_file_callback, "DosName1001", 0,
+     TUI_MENU_BEH_CONTINUE, NULL, NULL},
+    {NULL}
 };
 
 /* ------------------------------------------------------------------------- */
@@ -438,4 +437,3 @@ int vic20ui_init(void)
 void vic20ui_shutdown(void)
 {
 }
-

@@ -30,11 +30,12 @@
 /* This is a dirty kludge to avoid that the `midasdll.h' header redefines
    `DWORD', which we already have. */
 #ifndef TRUE
-#define TRUE	1
+#define TRUE 1
 #endif
 #ifndef FALSE
-#define FALSE	0
+#define FALSE 0
 #endif
+
 typedef int BOOL;
 
 #include "vice.h"
@@ -42,17 +43,14 @@ typedef int BOOL;
 
 #include <midasdll.h>
 
-#define MIDAS_CONFIG_FNAME	"midas.cfg"
+#define MIDAS_CONFIG_FNAME "midas.cfg"
 
 extern int _midas_available;
 
 BOOL vmidas_startup(void);
 BOOL vmidas_init(void);
 BOOL vmidas_remove_timer_callbacks(void);
-BOOL vmidas_set_timer_callbacks(DWORD rate, BOOL displaySync,
-				void (MIDAS_CALL *preVR)(),
-				void (MIDAS_CALL *immVR)(),
-				void (MIDAS_CALL *inVR)());
+BOOL vmidas_set_timer_callbacks(DWORD rate, BOOL displaySync, void (MIDAS_CALL *preVR)(), void (MIDAS_CALL *immVR)(), void (MIDAS_CALL *inVR)());
 BOOL vmidas_config(void);
 
 inline static BOOL vmidas_available(void)
