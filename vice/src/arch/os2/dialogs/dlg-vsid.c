@@ -34,7 +34,6 @@
 #include "vice.h"
 
 #include <os2.h>
-
 #include <stdlib.h>
 
 #include "dialogs.h"
@@ -50,11 +49,10 @@
 
 static MRESULT EXPENTRY pm_vsid_dragndrop(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
-    switch (msg)
-    {
-    case DM_DRAGOVER:
-    case DM_DROP:
-        return DragDrop(hwnd, msg, mp1);
+    switch (msg) {
+        case DM_DRAGOVER:
+        case DM_DROP:
+            return DragDrop(hwnd, msg, mp1);
     }
     return WinDefDlgProc (hwnd, msg, mp1, mp2);
 }
@@ -63,84 +61,77 @@ static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
     extern int trigger_shutdown;
 
-    switch (msg)
-    {
-    case WM_INITDLG:
-        {
-            HWND hmenu;
-
-            HPOINTER hicon=WinLoadPointer(HWND_DESKTOP, NULLHANDLE, DLG_VSID);
-            if (hicon)
-                WinSendMsg(hwnd, WM_SETICON, MPFROMLONG(hicon), MPVOID);
-
-            //
-            // Try to attach the menu and make it visible
-            //
-            hmenu = WinLoadMenu(hwnd, NULLHANDLE, IDM_VICE2);
-            if (hmenu)
+    switch (msg) {
+        case WM_INITDLG:
             {
-                SWP swp;
-                WinQueryWindowPos(hwnd, &swp);
+                HWND hmenu;
+                HPOINTER hicon = WinLoadPointer(HWND_DESKTOP, NULLHANDLE, DLG_VSID);
 
-                WinDelMenuItem(hmenu, IDM_FILE);
-                WinDelMenuItem(hmenu, IDM_VIEW);
-                WinDelMenuItem(hmenu, IDM_SETUP);
-                WinDelMenuItem(hmenu, IDM_MONITOR);
+                if (hicon) {
+                    WinSendMsg(hwnd, WM_SETICON, MPFROMLONG(hicon), MPVOID);
+                }
 
-                swp.cy += WinQuerySysValue(HWND_DESKTOP, SV_CYMENU)+1;
-                WinSetWindowPos(hwnd, 0, 0, 0, swp.cx, swp.cy, SWP_SIZE);
+                //
+                // Try to attach the menu and make it visible
+                //
+                hmenu = WinLoadMenu(hwnd, NULLHANDLE, IDM_VICE2);
+                if (hmenu) {
+                    SWP swp;
+                    WinQueryWindowPos(hwnd, &swp);
 
-                WinSendMsg(hwnd, WM_UPDATEFRAME, MPFROMLONG(FID_MENU), MPVOID);
+                    WinDelMenuItem(hmenu, IDM_FILE);
+                    WinDelMenuItem(hmenu, IDM_VIEW);
+                    WinDelMenuItem(hmenu, IDM_SETUP);
+                    WinDelMenuItem(hmenu, IDM_MONITOR);
+
+                    swp.cy += WinQuerySysValue(HWND_DESKTOP, SV_CYMENU) + 1;
+                    WinSetWindowPos(hwnd, 0, 0, 0, swp.cx, swp.cy, SWP_SIZE);
+
+                    WinSendMsg(hwnd, WM_UPDATEFRAME, MPFROMLONG(FID_MENU), MPVOID);
+                }
+
+                WinSubclassDlg(hwnd, ID_TBOX, pm_vsid_dragndrop);
+                WinSubclassDlg(hwnd, ID_TNAME, pm_vsid_dragndrop);
+                WinSubclassDlg(hwnd, ID_TAUTHOR, pm_vsid_dragndrop);
+                WinSubclassDlg(hwnd, ID_TCOPYRIGHT, pm_vsid_dragndrop);
+                WinSubclassDlg(hwnd, ID_TSYNC, pm_vsid_dragndrop);
+                WinSubclassDlg(hwnd, ID_TIRQ, pm_vsid_dragndrop);
+                WinSubclassDlg(hwnd, ID_TSID, pm_vsid_dragndrop);
             }
-
-            WinSubclassDlg(hwnd, ID_TBOX,       pm_vsid_dragndrop);
-            WinSubclassDlg(hwnd, ID_TNAME,      pm_vsid_dragndrop);
-            WinSubclassDlg(hwnd, ID_TAUTHOR,    pm_vsid_dragndrop);
-            WinSubclassDlg(hwnd, ID_TCOPYRIGHT, pm_vsid_dragndrop);
-            WinSubclassDlg(hwnd, ID_TSYNC,      pm_vsid_dragndrop);
-            WinSubclassDlg(hwnd, ID_TIRQ,       pm_vsid_dragndrop);
-            WinSubclassDlg(hwnd, ID_TSID,       pm_vsid_dragndrop);
-        }
-        return FALSE;
-
-    case WM_MENUSELECT:
-        menu_select(HWNDFROMMP(mp2), SHORT1FROMMP(mp1));
-        break;
-
-    case WM_DESTROY:
-        trigger_shutdown = 1;
-        break;
-
-    case WM_COMMAND:
-        switch (LONGFROMMP(mp1))
-        {
-        case DID_CLOSE:
+            return FALSE;
+        case WM_MENUSELECT:
+            menu_select(HWNDFROMMP(mp2), SHORT1FROMMP(mp1));
+            break;
+        case WM_DESTROY:
             trigger_shutdown = 1;
             break;
+        case WM_COMMAND:
+            switch (LONGFROMMP(mp1)) {
+                case DID_CLOSE:
+                    trigger_shutdown = 1;
+                    break;
+                default:
+                    menu_action(hwnd, SHORT1FROMMP(mp1));
+                    return FALSE;
+            }
+            break;
+        case WM_CONTROL:
+            if (mp1 == MPFROM2SHORT(SPB_SETTUNE, SPBN_ENDSPIN)) {
+                const ULONG val = WinGetSpinVal((HWND)mp2);
 
-        default:
-            menu_action(hwnd, SHORT1FROMMP(mp1)); //, mp2);
+                resources_set_int("PSIDTune", (int)val);
+            }
+            break;
+        case WM_DISPLAY:
+            {
+                char *txt = lib_msprintf("Vice/2 SID Player - %d%%", mp1);
+
+                WinSetDlgItemText(hwnd, FID_TITLEBAR, txt);
+                lib_free(txt);
+            }
             return FALSE;
-        }
-        break;
-
-    case WM_CONTROL:
-        if (mp1==MPFROM2SHORT(SPB_SETTUNE, SPBN_ENDSPIN))
-        {
-            const ULONG val = WinGetSpinVal((HWND)mp2);
-            resources_set_int("PSIDTune", (int)val);
-        }
-        break;
-
-    case WM_DISPLAY:
-        {
-            char *txt=lib_msprintf("Vice/2 SID Player - %d%%", mp1);
-            WinSetDlgItemText(hwnd, FID_TITLEBAR, txt);
-            lib_free(txt);
-        }
-        return FALSE;
     }
-    return WinDefDlgProc (hwnd, msg, mp1, mp2);
+    return WinDefDlgProc(hwnd, msg, mp1, mp2);
 }
 
 HWND vsid_dialog()

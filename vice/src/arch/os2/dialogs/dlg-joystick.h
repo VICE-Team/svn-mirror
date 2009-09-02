@@ -40,8 +40,8 @@
 #define ID_SWAP        0x1402
 #define ID_CALIBRATE   0x1403
 #define ID_KEYSET      0x1404
-#define WM_SETCBS      WM_USER+0x1
-#define WM_SETDLGS     WM_USER+0x2
+#define WM_SETCBS      WM_USER + 0x1
+#define WM_SETDLGS     WM_USER + 0x2
 
 // Calibrate Dialog
 #define RB_JOY1        0x1406
@@ -53,10 +53,10 @@
 #define ID_START       0x140c
 #define ID_STOP        0x140d
 #define ID_RESET       0x140e
-#define WM_SETJOY      WM_USER+0x3
-#define WM_PROCESS     WM_USER+0x4
-#define WM_FILLSPB     WM_USER+0x5
-#define WM_ENABLECTRL  WM_USER+0x6
+#define WM_SETJOY      WM_USER + 0x3
+#define WM_PROCESS     WM_USER + 0x4
+#define WM_FILLSPB     WM_USER + 0x5
+#define WM_ENABLECTRL  WM_USER + 0x6
 
 // Keyset Dialog
 #define RB_SET1        0x1410
@@ -70,10 +70,10 @@
 #define SPB_E          0x1418
 #define SPB_NE         0x1419
 #define SPB_FIRE       0x141a
-#define WM_SETKEY      WM_USER+0x7
-#define WM_KPROCESS    WM_USER+0x8
-#define WM_KFILLSPB    WM_USER+0x9
-#define WM_KENABLECTRL WM_USER+0xa
+#define WM_SETKEY      WM_USER + 0x7
+#define WM_KPROCESS    WM_USER + 0x8
+#define WM_KFILLSPB    WM_USER + 0x9
+#define WM_KENABLECTRL WM_USER + 0xa
 
 extern void joystick_dialog  (HWND hwnd);
 extern void calibrate_dialog (HWND hwnd);

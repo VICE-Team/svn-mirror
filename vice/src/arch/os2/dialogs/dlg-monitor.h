@@ -57,34 +57,33 @@
 #define LB_MONOUT         0x30
 #define EF_MONIN          0x31
 
-// dialogs.h: #define WM_INSERT      WM_USER+0x1
-#define WM_INPUT       WM_USER+0x2
-#define WM_PROMPT      WM_USER+0x3
-#define WM_UPDATE      WM_USER+0x4
-#define WM_CONSOLE     WM_USER+0x5
+#define WM_INPUT          WM_USER + 0x2
+#define WM_PROMPT         WM_USER + 0x3
+#define WM_UPDATE         WM_USER + 0x4
+#define WM_CONSOLE        WM_USER + 0x5
 
-#define kOPEN  ((MPARAM)TRUE)
-#define kCLOSE ((MPARAM)FALSE)
+#define kOPEN             ((MPARAM)TRUE)
+#define kCLOSE            ((MPARAM)FALSE)
 
 // Monitor Registers dialog
-#define ID_REGN        0x11
-#define ID_REGV        0x12
-#define ID_REGM        0x13
-#define ID_REGB        0x14
-#define ID_REGD        0x15
-#define ID_REGI        0x16
-#define ID_REGZ        0x17
-#define ID_REGC        0x18
+#define ID_REGN           0x11
+#define ID_REGV           0x12
+#define ID_REGM           0x13
+#define ID_REGB           0x14
+#define ID_REGD           0x15
+#define ID_REGI           0x16
+#define ID_REGZ           0x17
+#define ID_REGC           0x18
 
-#define ID_REGA        0x19
-#define ID_REGAC       0x1a
-#define ID_REGX        0x1b
-#define ID_REGY        0x1c
-#define ID_REGSP       0x1d
-#define ID_REG01       0x1e
+#define ID_REGA           0x19
+#define ID_REGAC          0x1a
+#define ID_REGX           0x1b
+#define ID_REGY           0x1c
+#define ID_REGSP          0x1d
+#define ID_REG01          0x1e
 
 // Monitor Disassembly
-#define LB_MONDIS      0x10
+#define LB_MONDIS         0x10
 
 //
 // ---------------- dialog definitions ------------------
@@ -93,4 +92,3 @@
 extern HWND hwndMonitor;
 
 extern int console_init(void);
-
