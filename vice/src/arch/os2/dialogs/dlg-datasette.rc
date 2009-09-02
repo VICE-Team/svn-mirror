@@ -34,40 +34,36 @@
 
 DLGTEMPLATE DLG_DATASETTE 850 MOVEABLE DISCARDABLE
 BEGIN
-  DIALOG "Datasette Control", DLG_DATASETTE, 162, 122, 147, 100, STY_DIALOG|FCF_CLOSEBUTTON
-  PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
-  BEGIN
-    CONTROL "Close",          DID_CLOSE,     6,  5,  38, 12, STY_CLOSEBUTTON |
-                                                             WS_GROUP
-    CONTROL "Attach",         PB_TATTACH,   63,  5,  35, 12, STY_PUSHBUTTON
-    CONTROL "Detach",         PB_TDETACH,  102,  5,  35, 12, STY_PUSHBUTTON
-    CONTROL "Datasette",      ID_NONE,       7, 56, 131, 39, STY_GROUPBOX
-    CONTROL "Rec",            PB_RECORD,    15, 73,  22, 12, STY_PUSHBUTTON |
-                              WS_GROUP
-    CONTROL "<<",             PB_REWIND,    38, 73,  22, 12, STY_PUSHBUTTON
-    CONTROL "#",              PB_STOP,      61, 73,  22, 12, STY_PUSHBUTTON
-    CONTROL ">",              PB_START,     84, 73,  22, 12, STY_PUSHBUTTON
-    CONTROL ">>",             PB_FORWARD,  107, 73,  22, 12, STY_PUSHBUTTON
-    CONTROL "Reset",          PB_RESET,     15, 60,  38, 12, STY_PUSHBUTTON
-    CONTROL "",               PB_RESETCNT, 122, 61,   6, 10, STY_PUSHBUTTON
-    CONTROL "",               SPB_COUNT,   105, 62,  17, 12, STY_STATUSDLG
+    DIALOG "Datasette Control", DLG_DATASETTE, 162, 122, 147, 100, STY_DIALOG | FCF_CLOSEBUTTON
+    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
+    BEGIN
+        CONTROL "Close", DID_CLOSE, 6, 5, 38, 12, STY_CLOSEBUTTON | WS_GROUP
+        CONTROL "Attach", PB_TATTACH, 63, 5, 35, 12, STY_PUSHBUTTON
+        CONTROL "Detach", PB_TDETACH, 102, 5, 35, 12, STY_PUSHBUTTON
+        CONTROL "Datasette", ID_NONE, 7, 56, 131, 39, STY_GROUPBOX
+        CONTROL "Rec", PB_RECORD, 15, 73, 22, 12, STY_PUSHBUTTON | WS_GROUP
+        CONTROL "<<", PB_REWIND, 38, 73, 22, 12, STY_PUSHBUTTON
+        CONTROL "#", PB_STOP, 61, 73, 22, 12, STY_PUSHBUTTON
+        CONTROL ">", PB_START, 84, 73, 22, 12, STY_PUSHBUTTON
+        CONTROL ">>", PB_FORWARD, 107, 73, 22, 12, STY_PUSHBUTTON
+        CONTROL "Reset", PB_RESET, 15, 60, 38, 12, STY_PUSHBUTTON
+        CONTROL "", PB_RESETCNT, 122, 61, 6, 10, STY_PUSHBUTTON
+        CONTROL "", SPB_COUNT, 105, 62, 17, 12, STY_STATUSDLG
             CTLDATA 24, 0, 3, 0, 0, 0, 999, 0, 0, 0, 0, 0
-    CONTROL "Motor on",       SS_SPIN,      62, 60,  35, 12, WC_STATIC, 
-                              SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE    
-    CONTROL "",               ID_NONE,       7, 21, 131, 40, STY_GROUPBOX
-    CONTROL "Reset Datasette with CPU", 
-                              CB_RESETWCPU, 14, 44, 118, 10, STY_AUTOCHECKBOX
-    TEXT("0-Delay",     14, 36)
-    TEXT("x100 cycles", 82, 36)
-    // Delay in cyles for a zero in a tape-file
-    CONTROL "",               SPB_DELAY, 52, 35, 28, 12, STY_SPINBUTTON
-            CTLDATA 24, 0, 3, 0, 0, 0, 999, 0, 0, 0, 0, 0
-            // number of cycles added to each gap in file
-    TEXT("Gap offset", 14, 25)
-    TEXT("cycles",    104, 25)
-    CONTROL "",               SPB_GAP, 74, 24, 28, 12, STY_SPINBUTTON
-            CTLDATA 24, 0, 3, 0, 0, 0, 999, 0, 0, 0, 0, 0
-    
-  END
-END
+        CONTROL "Motor on", SS_SPIN, 62, 60, 35, 12, WC_STATIC, SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
+        CONTROL "", ID_NONE, 7, 21, 131, 40, STY_GROUPBOX
+        CONTROL "Reset Datasette with CPU", CB_RESETWCPU, 14, 44, 118, 10, STY_AUTOCHECKBOX
+        TEXT("0-Delay", 14, 36)
+        TEXT("x100 cycles", 82, 36)
 
+        // Delay in cyles for a zero in a tape-file
+        CONTROL "", SPB_DELAY, 52, 35, 28, 12, STY_SPINBUTTON
+            CTLDATA 24, 0, 3, 0, 0, 0, 999, 0, 0, 0, 0, 0
+
+        // number of cycles added to each gap in file
+        TEXT("Gap offset", 14, 25)
+        TEXT("cycles", 104, 25)
+        CONTROL "", SPB_GAP, 74, 24, 28, 12, STY_SPINBUTTON
+            CTLDATA 24, 0, 3, 0, 0, 0, 999, 0, 0, 0, 0, 0
+    END
+END

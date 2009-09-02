@@ -29,6 +29,7 @@
 #define INCL_WINLISTBOXES     // Lbox
 #define INCL_WINWINDOWMGR     // QWL_USER
 #define INCL_WINENTRYFIELDS   // WC_ENTRYFIELD
+
 #include "vice.h"
 
 #include <os2.h>
@@ -66,85 +67,69 @@ const int imgRes[nTYPES]=
     DISK_IMAGE_TYPE_D82
 };
 
-#define CBS_IMGTYPE  0x1001
-#define EF_NAME      0x1002
+#define CBS_IMGTYPE 0x1001
+#define EF_NAME     0x1002
 
 MRESULT EXPENTRY fnwpCreate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
-    switch (msg)
-    {
-    case WM_INITDLG:
-        {
-            int i;
-            SWP swp1, swp2, swp3, swp4, swp5, swp6, swp7;
+    switch (msg) {
+        case WM_INITDLG:
+            {
+                int i;
+                SWP swp1, swp2, swp3, swp4, swp5, swp6, swp7;
 
-            //
-            // create entryfield and corresponding text
-            //
-            WinQueryDlgPos(hwnd, DID_FILTER_TXT, &swp1);
-            WinShowDlg(hwnd, DID_FILTER_TXT, FALSE);
-            WinCreateStdDlg(hwnd, ID_NONE, WC_STATIC, SS_TEXT|WS_VISIBLE,
-                            "Diskette Name (name[,ext]):",
-                            swp1.x, swp1.y, 250, swp1.cy);
+                //
+                // create entryfield and corresponding text
+                //
+                WinQueryDlgPos(hwnd, DID_FILTER_TXT, &swp1);
+                WinShowDlg(hwnd, DID_FILTER_TXT, FALSE);
+                WinCreateStdDlg(hwnd, ID_NONE, WC_STATIC, SS_TEXT | WS_VISIBLE, "Diskette Name (name[,ext]):", swp1.x, swp1.y, 250, swp1.cy);
+                WinQueryDlgPos(hwnd, DID_FILTER_CB, &swp2);
+                WinQueryDlgPos(hwnd, DID_FILENAME_ED, &swp3);
+                WinShowDlg(hwnd, DID_FILTER_CB, FALSE);
+                WinCreateStdDlg(hwnd, EF_NAME, WC_ENTRYFIELD, ES_MARGIN | ES_AUTOSCROLL, "", swp3.x, swp2.y+swp2.cy - swp3.cy, 0, 0);
 
-            WinQueryDlgPos(hwnd, DID_FILTER_CB,    &swp2);
-            WinQueryDlgPos(hwnd, DID_FILENAME_ED,  &swp3);
-            WinShowDlg(hwnd, DID_FILTER_CB,  FALSE);
-            WinCreateStdDlg(hwnd, EF_NAME,
-                            WC_ENTRYFIELD, ES_MARGIN|ES_AUTOSCROLL, "",
-                            swp3.x, swp2.y+swp2.cy-swp3.cy, 0, 0);
+                //
+                // correct for ES_MARGIN
+                //
+                WinQueryDlgPos(hwnd, EF_NAME, &swp4);
+                WinSetDlgPos(hwnd, EF_NAME, 0, swp3.x + swp4.cx / 2, swp2.y + swp2.cy - swp3.cy + swp4.cy / 2, 2 * (swp2.cx - swp4.cx) / 3, swp3.cy - swp4.cy, SWP_SIZE | SWP_MOVE | SWP_SHOW);
 
-            //
-            // correct for ES_MARGIN
-            //
-            WinQueryDlgPos(hwnd, EF_NAME, &swp4);
-            WinSetDlgPos(hwnd, EF_NAME, 0,
-                         swp3.x+swp4.cx/2,
-                         swp2.y+swp2.cy-swp3.cy+swp4.cy/2,
-                         2*(swp2.cx-swp4.cx)/3,
-                         swp3.cy-swp4.cy,
-                         SWP_SIZE|SWP_MOVE|SWP_SHOW);
+                //
+                // create combobox and corresoponding text
+                //
+                WinQueryDlgPos(hwnd, EF_NAME, &swp5);
+                WinQueryDlgPos(hwnd, DID_DIRECTORY_LB, &swp6);
+                WinQueryDlgPos(hwnd, DID_FILES_LB, &swp7);
+                swp5.x += swp5.cx;
+                swp6.x += swp6.cx;
+                WinCreateStdDlg(hwnd, ID_NONE, WC_STATIC, SS_TEXT | WS_VISIBLE, "Type:", swp5.x - swp6.x + swp7.x, swp1.y, 45, swp1.cy);
 
-            //
-            // create combobox and corresoponding text
-            //
-            WinQueryDlgPos(hwnd, EF_NAME,          &swp5);
-            WinQueryDlgPos(hwnd, DID_DIRECTORY_LB, &swp6);
-            WinQueryDlgPos(hwnd, DID_FILES_LB,     &swp7);
-            swp5.x += swp5.cx;
-            swp6.x += swp6.cx;
-            WinCreateStdDlg(hwnd, ID_NONE, WC_STATIC, SS_TEXT|WS_VISIBLE,
-                            "Type:",
-                            swp5.x-swp6.x+swp7.x, swp1.y, 45, swp1.cy);
+                WinCreateStdDlg(hwnd, CBS_IMGTYPE, WC_COMBOBOX, CBS_DROPDOWNLIST | WS_TABSTOP | WS_VISIBLE, "", swp5.x + swp7.x - swp6.x, swp2.y, swp3.cx - swp5.cx - swp7.x + swp6.x, swp2.cy);
 
-            WinCreateStdDlg(hwnd, CBS_IMGTYPE, WC_COMBOBOX,
-                            CBS_DROPDOWNLIST|WS_TABSTOP|WS_VISIBLE, "",
-                            swp5.x+swp7.x-swp6.x,          swp2.y,
-                            swp3.cx-swp5.cx-swp7.x+swp6.x, swp2.cy);                    /* Pres parameters     */
+                //
+                // fill entries in combobox
+                //
+                for (i = 0; i < nTYPES; i++) {
+                    WinDlgLboxInsertItem(hwnd, CBS_IMGTYPE, imgType[i]);
+                }
 
-            //
-            // fill entries in combobox
-            //
-            for (i=0; i<nTYPES; i++)
-                WinDlgLboxInsertItem(hwnd, CBS_IMGTYPE, imgType[i]);
+                //
+                // select first entry
+                //
+                WinDlgLboxSelectItem(hwnd, CBS_IMGTYPE, 0);
+            }
+            break;
+        case WM_DESTROY:
+            {
+                int *type = (int*)((FILEDLG*)WinQueryWindowPtr(hwnd,QWL_USER))->ulUser;
+                char *name = (char*)type + sizeof(int);
 
-            //
-            // select first entry
-            //
-            WinDlgLboxSelectItem(hwnd, CBS_IMGTYPE, 0);
-        }
-        break;
+                *type = WinDlgLboxSelectedItem(hwnd, CBS_IMGTYPE);
 
-    case WM_DESTROY:
-        {
-            int  *type = (int*)((FILEDLG*)WinQueryWindowPtr(hwnd,QWL_USER))->ulUser;
-            char *name = (char*)type+sizeof(int);
-
-            *type = WinDlgLboxSelectedItem(hwnd, CBS_IMGTYPE);
-
-            WinQueryDlgText(hwnd, EF_NAME, name, 20);
-        }
-        break;
+                WinQueryDlgText(hwnd, EF_NAME, name, 20);
+            }
+            break;
     }
     return WinDefFileDlgProc (hwnd, msg, mp1, mp2);
 }
@@ -155,62 +140,64 @@ MRESULT EXPENTRY fnwpCreate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
 void create_dialog(HWND hwnd)
 {
-    static char drive[3]="g:";                        // maybe a resource
-    static char path[CCHMAXPATH-2]="\\c64\\images";   // maybe a resource
-    char   result [24];
-    char   dirname[CCHMAXPATH];
+    static char drive[3] = "g:";
+    static char path[CCHMAXPATH-2] = "\\c64\\images";
+    char result[24];
+    char dirname[CCHMAXPATH];
     FILEDLG filedlg;                     // File dialog info structure
 
     _getcwd(dirname, CCHMAXPATH);        // store working dir
 
     strcat(strcpy(result, drive),path);
-    if (chdir(result))                   // try if actual image dir exist
-    {                                    // if it doesn't exist, set
-        drive[0]=dirname[0];             // imagedir to working dir
-        drive[1]=':';                    // maybe drive is empty at first call
-        strcpy(path, dirname+2);
+    // try if actual image dir exist, if it doesn't exist, set
+    // imagedir to working dir, maybe drive is empty at first call
+    if (chdir(result)) {
+        drive[0] = dirname[0];
+        drive[1] = ':';
+        strcpy(path, dirname + 2);
     }
     chdir(dirname);                      // change back to working dir
 
     memset(&filedlg, 0, sizeof(FILEDLG)); // Initially set all fields to 0
 
     // Initialize used fields in the FILEDLG structure
-    filedlg.cbSize      = sizeof(FILEDLG);                 // Size of structure
-    filedlg.fl          = FDS_CENTER | FDS_SAVEAS_DIALOG;  // FDS_CUSTOM
-    filedlg.pszTitle    = "Create new disk image";
+    filedlg.cbSize = sizeof(FILEDLG);                 // Size of structure
+    filedlg.fl = FDS_CENTER | FDS_SAVEAS_DIALOG;      // FDS_CUSTOM
+    filedlg.pszTitle = "Create new disk image";
     filedlg.pszOKButton = "Create";
-    filedlg.pszIDrive   = drive;
-    filedlg.pfnDlgProc  = fnwpCreate;
-    filedlg.ulUser      = (ULONG)result;
+    filedlg.pszIDrive = drive;
+    filedlg.pfnDlgProc = fnwpCreate;
+    filedlg.ulUser = (ULONG)result;
 
     strcat(strcpy(filedlg.szFullFile, path), "\\");
 
     // Display the dialog and get the file
-    if (!WinFileDlg(HWND_DESKTOP, hwnd, &filedlg))
+    if (!WinFileDlg(HWND_DESKTOP, hwnd, &filedlg)) {
         return;
+    }
 
-    if (filedlg.lReturn!=DID_OK)
+    if (filedlg.lReturn != DID_OK) {
         return;
+    }
 
     {
         int type  = *((int*)filedlg.ulUser);
-        char *ext = filedlg.szFullFile+strlen(filedlg.szFullFile)-4;
-        if (!(ext<filedlg.szFullFile))
-            if (strcmpi(ext, imgType[type]+8))
-                if (strlen(filedlg.szFullFile)<CCHMAXPATH-5)
-                    strcat(filedlg.szFullFile, imgType[type]+8);
+        char *ext = filedlg.szFullFile + strlen(filedlg.szFullFile) - 4;
 
-        if (vdrive_internal_create_format_disk_image(filedlg.szFullFile,
-                                a2p((char*)filedlg.ulUser+sizeof(int)),
-                                imgRes[type]))
-        {
-            ViceErrorDlg(hwnd, PTR_INFO,
-                         " Create Image:\n Cannot create a new disk image.");
+        if (!(ext<filedlg.szFullFile)) {
+            if (strcmpi(ext, imgType[type] + 8)) {
+                if (strlen(filedlg.szFullFile) < CCHMAXPATH - 5) {
+                    strcat(filedlg.szFullFile, imgType[type] + 8);
+                }
+            }
+        }
+
+        if (vdrive_internal_create_format_disk_image(filedlg.szFullFile, a2p((char*)filedlg.ulUser + sizeof(int)), imgRes[type])) {
+            ViceErrorDlg(hwnd, PTR_INFO, " Create Image:\n Cannot create a new disk image.");
             return;
         }
     }
-    drive[0]=filedlg.szFullFile[0];
-    *strrchr(filedlg.szFullFile,'\\')='\0';
-    strcpy(path, filedlg.szFullFile+2);
+    drive[0] = filedlg.szFullFile[0];
+    *strrchr(filedlg.szFullFile,'\\') = '\0';
+    strcpy(path, filedlg.szFullFile + 2);
 }
-

@@ -25,26 +25,26 @@
  */
 
 // Datasette Dialog
-#define PB_STOP        0x10  /* DATASETTE_CONTROL_STOP           0 */
-#define PB_START       0x11  /* DATASETTE_CONTROL_START          1 */
-#define PB_FORWARD     0x12  /* DATASETTE_CONTROL_FORWARD        2 */
-#define PB_REWIND      0x13  /* DATASETTE_CONTROL_REWIND         3 */
-#define PB_RECORD      0x14  /* DATASETTE_CONTROL_RECORD         4 */
-#define PB_RESET       0x15  /* DATASETTE_CONTROL_RESET          5 */
-#define PB_RESETCNT    0x16  /* DATASETTE_CONTROL_RESET_COUNTER  6 */
+#define PB_STOP      0x10  /* DATASETTE_CONTROL_STOP           0 */
+#define PB_START     0x11  /* DATASETTE_CONTROL_START          1 */
+#define PB_FORWARD   0x12  /* DATASETTE_CONTROL_FORWARD        2 */
+#define PB_REWIND    0x13  /* DATASETTE_CONTROL_REWIND         3 */
+#define PB_RECORD    0x14  /* DATASETTE_CONTROL_RECORD         4 */
+#define PB_RESET     0x15  /* DATASETTE_CONTROL_RESET          5 */
+#define PB_RESETCNT  0x16  /* DATASETTE_CONTROL_RESET_COUNTER  6 */
 
-#define SPB_COUNT      0x17
-#define SS_SPIN        0x18
-#define CB_RESETWCPU   0x19
-#define SPB_DELAY      0x1a
-#define SPB_GAP        0x1b
-#define PB_TATTACH     0x1c
-#define PB_TDETACH     0x1d
+#define SPB_COUNT    0x17
+#define SS_SPIN      0x18
+#define CB_RESETWCPU 0x19
+#define SPB_DELAY    0x1a
+#define SPB_GAP      0x1b
+#define PB_TATTACH   0x1c
+#define PB_TDETACH   0x1d
 
 
-#define WM_COUNTER     WM_USER+0x1
-#define WM_TAPESTAT    WM_USER+0x2
-#define WM_SPINNING    WM_USER+0x3
+#define WM_COUNTER   WM_USER+0x1
+#define WM_TAPESTAT  WM_USER+0x2
+#define WM_SPINNING  WM_USER+0x3
 
 extern HWND hwndDatasette;
 

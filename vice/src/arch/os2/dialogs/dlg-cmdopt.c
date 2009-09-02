@@ -31,6 +31,7 @@
 #define INCL_WINFRAMEMGR    // WM_SETICON
 #define INCL_WINLISTBOXES   // WinLbox*
 #define INCL_WINSWITCHLIST  // HSWITCH
+
 #include "vice.h"
 
 #include <os2.h>
@@ -52,49 +53,48 @@
 
 static MRESULT EXPENTRY pm_cmdopt(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
-    switch (msg)
-    {
-    case WM_INITDLG:
-        {
-            HPOINTER hicon=WinLoadPointer(HWND_DESKTOP, NULLHANDLE, IDM_VICE2);
-            if (hicon)
-                WinSendMsg(hwnd, WM_SETICON, MPFROMLONG(hicon), MPVOID);
-        }
-        return FALSE;
-
-    case WM_INSERT:
-        //
-        // insert a new line to the text
-        //
-        if (mp2)
-            WinDlgLboxInsertItem(hwnd, LB_CMDOPT, mp1);
-        else
-        {
-            WinDlgLboxInsertItem(hwnd, LB_CMDOPT, (char*)mp1);
-            WinDlgLboxSettop(hwnd, LB_CMDOPT);
-        }
-        return FALSE;
-
-    case WM_MINMAXFRAME:
-    case WM_ADJUSTWINDOWPOS:
-        {
+    switch (msg) {
+        case WM_INITDLG:
+            {
+                HPOINTER hicon=WinLoadPointer(HWND_DESKTOP, NULLHANDLE, IDM_VICE2);
+                if (hicon) {
+                    WinSendMsg(hwnd, WM_SETICON, MPFROMLONG(hicon), MPVOID);
+                }
+            }
+            return FALSE;
+        case WM_INSERT:
             //
-            // resize dialog
+            // insert a new line to the text
             //
-            SWP *swp=(SWP*)mp1;
+            if (mp2) {
+                WinDlgLboxInsertItem(hwnd, LB_CMDOPT, mp1);
+            } else {
+                WinDlgLboxInsertItem(hwnd, LB_CMDOPT, (char*)mp1);
+                WinDlgLboxSettop(hwnd, LB_CMDOPT);
+            }
+            return FALSE;
+        case WM_MINMAXFRAME:
+        case WM_ADJUSTWINDOWPOS:
+            {
+                //
+                // resize dialog
+                //
+                SWP *swp=(SWP*)mp1;
 
-            if (!(swp->fl&SWP_SIZE))
-                break;
+                if (!(swp->fl & SWP_SIZE)) {
+                    break;
+                }
 
-            if (swp->cx<320) swp->cx=320;
-            if (swp->cy<100) swp->cy=100;
-            WinSetWindowPos(WinWindowFromID(hwnd, LB_CMDOPT), 0, 0, 0,
-                            swp->cx-2*WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME),
-                            swp->cy-2*WinQuerySysValue(HWND_DESKTOP, SV_CYDLGFRAME)
-                            -WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR)-2,
-                            SWP_SIZE);
-        }
-        break;
+                if (swp->cx < 320) {
+                    swp->cx = 320;
+                }
+                if (swp->cy < 100) {
+                    swp->cy = 100;
+                }
+                WinSetWindowPos(WinWindowFromID(hwnd, LB_CMDOPT), 0, 0, 0, swp->cx - 2 * WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME),
+                                swp->cy - 2 * WinQuerySysValue(HWND_DESKTOP, SV_CYDLGFRAME) - WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR) - 2, SWP_SIZE);
+            }
+            break;
     }
     return WinDefDlgProc (hwnd, msg, mp1, mp2);
 }
@@ -105,14 +105,13 @@ HWND cmdopt_dialog(HWND hwnd)
 {
     static HWND hwnd2 = NULLHANDLE;
 
-    if (WinIsWindowVisible(hwnd2))
+    if (WinIsWindowVisible(hwnd2)) {
         return NULLHANDLE;
+    }
 
-    hwnd2 = WinLoadStdDlg(hwnd?hwnd:HWND_DESKTOP,
-                          pm_cmdopt, DLG_CMDOPT, NULL);
+    hwnd2 = WinLoadStdDlg(hwnd?hwnd:HWND_DESKTOP, pm_cmdopt, DLG_CMDOPT, NULL);
 
-    if (hwnd)
-    {
+    if (hwnd) {
         //
         // if the dialog is opened from the menubar while the
         // emulator is still running, remove the entry for
@@ -131,14 +130,13 @@ HWND fsmodes_dialog(HWND hwnd)
 {
     static HWND hwnd3 = NULLHANDLE;
 
-    if (WinIsWindowVisible(hwnd3))
+    if (WinIsWindowVisible(hwnd3)) {
         return NULLHANDLE;
+    }
 
-    hwnd3 = WinLoadStdDlg(hwnd?hwnd:HWND_DESKTOP,
-                          pm_cmdopt, DLG_FSMODES, NULL);
+    hwnd3 = WinLoadStdDlg(hwnd?hwnd:HWND_DESKTOP, pm_cmdopt, DLG_FSMODES, NULL);
 
-    if (hwnd)
-    {
+    if (hwnd) {
         //
         // if the dialog is opened from the menubar while the
         // emulator is still running, remove the entry for
@@ -152,7 +150,8 @@ HWND fsmodes_dialog(HWND hwnd)
 }
 
 // -----------------------------------------------------------------
-HWND hwndLog=NULLHANDLE;
+
+HWND hwndLog = NULLHANDLE;
 
 void LogThread(void *state)
 {
@@ -163,16 +162,18 @@ void LogThread(void *state)
 
     hwndLog = WinLoadStdDlg(HWND_DESKTOP, pm_cmdopt, DLG_LOGGING, NULL);
 
-    if (state)
+    if (state) {
         WinActivateWindow(hwndLog, 1);
+    }
 
     //
     // MAINLOOP
     // (don't use WinProcessDlg it ignores the missing WM_VISIBLE flag)
     // returns when a WM_QUIT Msg goes through the queue
     //
-    while (WinGetMsg(hab, &qmsg, NULLHANDLE, 0, 0))
+    while (WinGetMsg(hab, &qmsg, NULLHANDLE, 0, 0)) {
         WinDispatchMsg(hab, &qmsg);
+    }
 
     WinDestroyMsgQueue(hmq);
     WinTerminate(hab);
@@ -182,7 +183,7 @@ void log_dialog(int state)
 {
     _beginthread(LogThread, NULL, 0x4000, (void*)state);
 
-    while (!hwndLog)
+    while (!hwndLog) {
         DosSleep(1);
+    }
 }
-

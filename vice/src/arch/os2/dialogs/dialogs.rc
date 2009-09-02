@@ -96,81 +96,70 @@ ICON    IDM_VICE2 "..\\..\\icons\\xplus4.ico"
 
 DLGTEMPLATE DLG_ABOUT 850 MOVEABLE DISCARDABLE
 BEGIN
-  DIALOG "About Vice...", DLG_ABOUT, 162, 122, 246, 227, STY_DIALOG|FCF_CLOSEBUTTON
-  PRESPARAMS PP_FONTNAMESIZE, "11.System VIO" //9.Warp Sans Bold"
-  BEGIN
-    CONTROL "OK",  DID_CLOSE, 86,  5,  38,  12, STY_CLOSEBUTTON
-    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"  // ¸
-    CONTROL "",    ID_NONE,     7, 22, 196, 188, STY_GROUPBOX
-    ICON IDM_VICE2, ID_NONE, 27, 184/*231*/, 0, 0
-    TEXT("V I C E",                                         15, 244, 180, 7)
-    TEXT("the Versatile Commodore Emulator",                15, 237, 180, 7)
-    TEXT("Version ",                                        65, 223,  35, 7)
-    TEXT(VERSION,                                          100, 223,  25, 7)
-    TEXT("Copyright (c) 1993-1999 Teemu Rantanen",          15, 209, 180, 7)
-    TEXT("Copyright (c) 1993-1996 Jouko Valta",             15, 202, 180, 7)
-    TEXT("Copyright (c) 1993-1994 Jarkko Sonninen",         15, 195, 180, 7)
-    TEXT("Copyright (c) 1996-1999 Ettore Perazzoli",        15, 188, 180, 7)
-    TEXT("Copyright (c) 1996-1999 Andr‚ Fachat",            15, 181, 180, 7)
-    TEXT("Copyright (c) 1997-2001 Daniel Sladic",           15, 174, 180, 7)
-    TEXT("Copyright (c) 1998-2009 Andreas Boose",           15, 167, 180, 7)
-    TEXT("Copyright (c) 1998-2009 Tibor Biczo",             15, 160, 180, 7)
-    TEXT("Copyright (c) 1999-2007 Andreas Dehmel",          15, 153, 180, 7)
-    TEXT("Copyright (c) 1999-2009 Andreas Matthies",        15, 146, 180, 7)
-    TEXT("Copyright (c) 1999-2009 Martin Pottendorfer",     15, 139, 180, 7)
-    TEXT("Copyright (c) 2000-2009 Spiro Trikaliotis",       15, 132, 180, 7)
-    TEXT("Copyright (c) 2000-2004 Markus Brenner",          15, 125, 180, 7)
-    TEXT("Copyright (c) 2005-2009 Marco van den Heuvel",    15, 118, 180, 7)
-    TEXT("Copyright (c) 2006-2009 Christian Vogelgsang",    15, 111, 180, 7)
-    TEXT("Copyright (c) 2007-2009 Fabrizio Gennari",        15, 104, 180, 7)
-    TEXT("Copyright (c) 2007-2009 M. Kiesel",               15,  97, 180, 7)
-    TEXT("Copyright (c) 2007-2009 Hannu Nuotio",            15,  90, 180, 7)
-    TEXT("Copyright (c) 2007-2009 Daniel Kahlin",           15,  83, 180, 7)
-    TEXT("Copyright (c) 2008-2009 Antti S. Lankila",        15,  75, 180, 7)
-    TEXT("Vice/2 - Vice for OS/2",                          15,  66, 180, 7)
-    TEXT("Copyright (c) 1999-2005 Thomas Bretz",            15,  59, 180, 7)
-    TEXT("Copyright (c) 2006-2009 Marco van den Heuvel",    15,  52, 180, 7)
-    TEXT("reSID engine",                                    15,  42, 180, 7)
-    TEXT("Copyright (c) 1998-2009 Dag Lem",                 15,  35, 180, 7)
-    TEXT("Official VICE homepage:",                         15,  25, 180, 7)
-    TEXT("http://www.viceteam.org/",                        15,  18, 180, 7)
-    //
-    // USING zlib 1.1.4
-    // USING lpng 1.2.5
-    //
-  END
+    DIALOG "About Vice...", DLG_ABOUT, 162, 122, 246, 227, STY_DIALOG | FCF_CLOSEBUTTON
+    PRESPARAMS PP_FONTNAMESIZE, "11.System VIO" //9.Warp Sans Bold"
+    BEGIN
+        CONTROL "OK", DID_CLOSE, 86, 5, 38, 12, STY_CLOSEBUTTON
+        PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
+        CONTROL "", ID_NONE, 7, 22, 196, 188, STY_GROUPBOX
+        ICON IDM_VICE2, ID_NONE, 27, 184, 0, 0
+        TEXT("V I C E", 15, 244, 180, 7)
+        TEXT("the Versatile Commodore Emulator", 15, 237, 180, 7)
+        TEXT("Version ", 65, 223,  35, 7)
+        TEXT(VERSION, 100, 223,  25, 7)
+        TEXT("Copyright (c) 1993-1999 Teemu Rantanen", 15, 209, 180, 7)
+        TEXT("Copyright (c) 1993-1996 Jouko Valta", 15, 202, 180, 7)
+        TEXT("Copyright (c) 1993-1994 Jarkko Sonninen", 15, 195, 180, 7)
+        TEXT("Copyright (c) 1996-1999 Ettore Perazzoli", 15, 188, 180, 7)
+        TEXT("Copyright (c) 1996-1999 Andr‚ Fachat", 15, 181, 180, 7)
+        TEXT("Copyright (c) 1997-2001 Daniel Sladic", 15, 174, 180, 7)
+        TEXT("Copyright (c) 1998-2009 Andreas Boose", 15, 167, 180, 7)
+        TEXT("Copyright (c) 1998-2009 Tibor Biczo", 15, 160, 180, 7)
+        TEXT("Copyright (c) 1999-2007 Andreas Dehmel", 15, 153, 180, 7)
+        TEXT("Copyright (c) 1999-2009 Andreas Matthies", 15, 146, 180, 7)
+        TEXT("Copyright (c) 1999-2009 Martin Pottendorfer", 15, 139, 180, 7)
+        TEXT("Copyright (c) 2000-2009 Spiro Trikaliotis", 15, 132, 180, 7)
+        TEXT("Copyright (c) 2000-2004 Markus Brenner", 15, 125, 180, 7)
+        TEXT("Copyright (c) 2005-2009 Marco van den Heuvel", 15, 118, 180, 7)
+        TEXT("Copyright (c) 2006-2009 Christian Vogelgsang", 15, 111, 180, 7)
+        TEXT("Copyright (c) 2007-2009 Fabrizio Gennari", 15, 104, 180, 7)
+        TEXT("Copyright (c) 2007-2009 M. Kiesel", 15, 97, 180, 7)
+        TEXT("Copyright (c) 2007-2009 Hannu Nuotio", 15, 90, 180, 7)
+        TEXT("Copyright (c) 2007-2009 Daniel Kahlin", 15, 83, 180, 7)
+        TEXT("Copyright (c) 2008-2009 Antti S. Lankila", 15, 75, 180, 7)
+        TEXT("Vice/2 - Vice for OS/2", 15, 66, 180, 7)
+        TEXT("Copyright (c) 1999-2005 Thomas Bretz", 15, 59, 180, 7)
+        TEXT("Copyright (c) 2006-2009 Marco van den Heuvel", 15, 52, 180, 7)
+        TEXT("reSID engine", 15, 42, 180, 7)
+        TEXT("Copyright (c) 1998-2009 Dag Lem", 15, 35, 180, 7)
+        TEXT("Official VICE homepage:", 15, 25, 180, 7)
+        TEXT("http://www.viceteam.org/", 15, 18, 180, 7)
+    END
 END
 
 DLGTEMPLATE DLG_CMDOPT 850 MOVEABLE DISCARDABLE
 BEGIN
-  DIALOG  "Commandline Options", DLG_CMDOPT, 141, 95, 152+150, 88+200, \
-          FS_SIZEBORDER|FS_TASKLIST|STY_DIALOG| \
-          FCF_MAXBUTTON|FCF_CLOSEBUTTON
-  BEGIN
-    LISTBOX  LB_CMDOPT, 0, 0, 152+150, 87+200, LS_NOADJUSTPOS|LS_HORZSCROLL
-    PRESPARAMS PP_FONTNAMESIZE, "11.System VIO"
-  END
+    DIALOG "Commandline Options", DLG_CMDOPT, 141, 95, 152 + 150, 88 + 200, FS_SIZEBORDER | FS_TASKLIST | STY_DIALOG | FCF_MAXBUTTON | FCF_CLOSEBUTTON
+    BEGIN
+        LISTBOX LB_CMDOPT, 0, 0, 152 + 150, 87 + 200, LS_NOADJUSTPOS | LS_HORZSCROLL
+        PRESPARAMS PP_FONTNAMESIZE, "11.System VIO"
+    END
 END
 
 DLGTEMPLATE DLG_FSMODES 850 MOVEABLE DISCARDABLE
 BEGIN
-  DIALOG  "Available Video Modes", DLG_FSMODES, 141, 95, 152+150, 88+200, \
-          FS_SIZEBORDER|FS_TASKLIST|STY_DIALOG| \
-          FCF_MAXBUTTON|FCF_CLOSEBUTTON
-  BEGIN
-    LISTBOX  LB_FSMODES, 0, 0, 152+150, 87+200, LS_NOADJUSTPOS|LS_HORZSCROLL
-    PRESPARAMS PP_FONTNAMESIZE, "11.System VIO"
-  END
+    DIALOG  "Available Video Modes", DLG_FSMODES, 141, 95, 152 + 150, 88 + 200, FS_SIZEBORDER | FS_TASKLIST | STY_DIALOG | FCF_MAXBUTTON | FCF_CLOSEBUTTON
+    BEGIN
+        LISTBOX LB_FSMODES, 0, 0, 152 + 150, 87 + 200, LS_NOADJUSTPOS | LS_HORZSCROLL
+        PRESPARAMS PP_FONTNAMESIZE, "11.System VIO"
+    END
 END
 
 DLGTEMPLATE DLG_LOGGING 850 MOVEABLE DISCARDABLE
 BEGIN
-  DIALOG  "Vice/2 Logging", DLG_LOGGING, 141, 95, 152+150, 48, \
-          FS_SIZEBORDER|FS_NOBYTEALIGN|FS_SCREENALIGN|FS_DLGBORDER | \
-          WS_CLIPSIBLINGS|WS_SAVEBITS|WS_ANIMATE, \
-          FCF_TITLEBAR|FCF_MINMAX //|FCF_HIDEBUTTON
-  BEGIN
-    LISTBOX  LB_LOG, 0, 0, 152+150, 47, LS_NOADJUSTPOS|LS_HORZSCROLL
-    PRESPARAMS PP_FONTNAMESIZE, "11.System VIO"
-  END
+    DIALOG "Vice/2 Logging", DLG_LOGGING, 141, 95, 152 + 150, 48, FS_SIZEBORDER | FS_NOBYTEALIGN | FS_SCREENALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS | WS_ANIMATE, FCF_TITLEBAR | FCF_MINMAX
+    BEGIN
+        LISTBOX LB_LOG, 0, 0, 152 + 150, 47, LS_NOADJUSTPOS | LS_HORZSCROLL
+        PRESPARAMS PP_FONTNAMESIZE, "11.System VIO"
+    END
 END

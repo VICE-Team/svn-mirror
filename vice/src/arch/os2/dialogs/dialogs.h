@@ -37,7 +37,7 @@
 #else
 #define IDM_VICE2      0x0001
 #endif
-//#define PTR_VICE2      0x0002
+//#define PTR_VICE2    0x0002
 #define DLG_DRIVE      0x1019
 #define DLG_ABOUT      0x1050
 #define DLG_COLOR      0x1051
@@ -55,7 +55,6 @@
 #define DLG_CALIBRATE  0x1405
 #define DLG_KEYSET     0x140f
 #define DLG_FILEIO     0x2000
-
 
 #define ID_NONE        -1
 #define DID_CLOSE      DID_OK
@@ -83,56 +82,38 @@
 //
 //  ------------- My Styles -------------
 //
-#define STY_STD               WS_TABSTOP | WS_VISIBLE
+#define STY_STD             WS_TABSTOP | WS_VISIBLE
 
-#define STY_CLOSEBUTTON       WC_BUTTON, BS_PUSHBUTTON      | STY_STD | BS_DEFAULT
-#define STY_GROUPBOX          WC_STATIC, SS_GROUPBOX        | WS_GROUP | WS_VISIBLE
-#define STY_PUSHBUTTON        WC_BUTTON, BS_PUSHBUTTON      | STY_STD
-#define STY_AUTORADIOBUTTON   WC_BUTTON, BS_AUTORADIOBUTTON | STY_STD
-#define STY_AUTOCHECKBOX      WC_BUTTON, BS_AUTOCHECKBOX    | STY_STD
-#define STY_SPINBUTTON        WC_SPINBUTTON, SPBS_MASTER | SPBS_JUSTRIGHT | \
-                              SPBS_NUMERICONLY | SPBS_FASTSPIN | \
-                              SPBS_PADWITHZEROS | STY_STD
-#define STY_DIALOG            FS_NOBYTEALIGN | FS_SCREENALIGN | FS_DLGBORDER | \
-                              WS_CLIPSIBLINGS | WS_SAVEBITS | WS_ANIMATE | WS_VISIBLE, \
-                              FCF_TITLEBAR | FCF_SYSMENU
-#define STY_STATUSDLG         WC_SPINBUTTON, SPBS_JUSTCENTER  | SPBS_NOBORDER | \
-                              SPBS_NUMERICONLY | SPBS_READONLY | \
-                              SPBS_PADWITHZEROS  | WS_VISIBLE
-#define STY_DISPVAL           WC_SPINBUTTON, SPBS_JUSTCENTER  | \
-                              SPBS_PADWITHZEROS  | WS_VISIBLE
-#define STY_TEXT              WC_STATIC, SS_TEXT | SS_AUTOSIZE | DT_LEFT | DT_TOP | WS_VISIBLE
-#define TEXT(txt,x,y,w,h) CONTROL txt, ID_NONE, x, y, 0xFFFF, 0xFFFF, STY_TEXT
-                                       // DT_LEFT?0, specify DT_RIGHT, DT_CENTER
+#define STY_CLOSEBUTTON     WC_BUTTON, BS_PUSHBUTTON | STY_STD | BS_DEFAULT
+#define STY_GROUPBOX        WC_STATIC, SS_GROUPBOX  | WS_GROUP | WS_VISIBLE
+#define STY_PUSHBUTTON      WC_BUTTON, BS_PUSHBUTTON | STY_STD
+#define STY_AUTORADIOBUTTON WC_BUTTON, BS_AUTORADIOBUTTON | STY_STD
+#define STY_AUTOCHECKBOX    WC_BUTTON, BS_AUTOCHECKBOX | STY_STD
+#define STY_SPINBUTTON      WC_SPINBUTTON, SPBS_MASTER | SPBS_JUSTRIGHT | SPBS_NUMERICONLY | SPBS_FASTSPIN | SPBS_PADWITHZEROS | STY_STD
+#define STY_DIALOG          FS_NOBYTEALIGN | FS_SCREENALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS | WS_ANIMATE | WS_VISIBLE, FCF_TITLEBAR | FCF_SYSMENU
+#define STY_STATUSDLG       WC_SPINBUTTON, SPBS_JUSTCENTER  | SPBS_NOBORDER | SPBS_NUMERICONLY | SPBS_READONLY | SPBS_PADWITHZEROS  | WS_VISIBLE
+#define STY_DISPVAL         WC_SPINBUTTON, SPBS_JUSTCENTER  | SPBS_PADWITHZEROS  | WS_VISIBLE
+#define STY_TEXT            WC_STATIC, SS_TEXT | SS_AUTOSIZE | DT_LEFT | DT_TOP | WS_VISIBLE
+#define TEXT(txt,x,y,w,h)   CONTROL txt, ID_NONE, x, y, 0xFFFF, 0xFFFF, STY_TEXT
 
 //
 // ----------------- Win*-Macros -----------------------                                                    */
 //
 
-#define WinIsDlgEnabled(hwnd, id) \
-    WinIsWindowEnabled(WinWindowFromID(hwnd, id))
-#define WinSendDlgMsg(hwnd, id, msg, mp1, mp2) \
-    WinSendMsg(WinWindowFromID(hwnd, id), msg, (MPARAM)(mp1), (MPARAM)(mp2))
-#define WinSetDlgPos(hwnd, id, d, x, y, cx, cy, swp) \
-    WinSetWindowPos(WinWindowFromID(hwnd, id), d, x, y, cx, cy, swp)
-#define WinCreateStdDlg(hwnd, id, d0, d1, d2, x, y, cx, cy) \
-    WinCreateWindow(hwnd, d0, d2, d1, x, y, cx, cy, NULLHANDLE, HWND_TOP, id, NULL, NULL)
+#define WinIsDlgEnabled(hwnd, id)                           WinIsWindowEnabled(WinWindowFromID(hwnd, id))
+#define WinSendDlgMsg(hwnd, id, msg, mp1, mp2)              WinSendMsg(WinWindowFromID(hwnd, id), msg, (MPARAM)(mp1), (MPARAM)(mp2))
+#define WinSetDlgPos(hwnd, id, d, x, y, cx, cy, swp)        WinSetWindowPos(WinWindowFromID(hwnd, id), d, x, y, cx, cy, swp)
+#define WinCreateStdDlg(hwnd, id, d0, d1, d2, x, y, cx, cy) WinCreateWindow(hwnd, d0, d2, d1, x, y, cx, cy, NULLHANDLE, HWND_TOP, id, NULL, NULL)
 
 //
 // ---------------- List Box Macros ------------------
 //
-#define WinSetDlgLboxItemText(hwnd, id, index, psz) \
-    WinSendDlgMsg(hwnd, id, LM_SETITEMTEXT, MPFROMLONG(index), MPFROMP(psz))
-#define WinLboxDeselectItem(hwnd, id, index) \
-    WinSendDlgMsg(hwnd, id, LM_SELECTITEM, index, FALSE);
-#define WinLboxInsertItemAt(hwnd, id, psz, pos) \
-    WinInsertLboxItem(WinWindowFromID(hwnd, id), pos, psz)
-#define WinLboxQueryItem(hwnd, id, pos, psz, max) \
-    WinQueryLboxItemText(WinWindowFromID(hwnd, id), pos, psz, max)
-#define WinLboxQuerySelectedItemText(hwnd, id, psz, max) \
-    WinLboxQueryItem(hwnd, id, WinQueryLboxSelectedItem(WinWindowFromID(hwnd, id)), psz, max)
-#define WinQueryDlgText(hwnd, id, psz, max) \
-    WinQueryWindowText(WinWindowFromID(hwnd, id), max, psz)
+#define WinSetDlgLboxItemText(hwnd, id, index, psz)      WinSendDlgMsg(hwnd, id, LM_SETITEMTEXT, MPFROMLONG(index), MPFROMP(psz))
+#define WinLboxDeselectItem(hwnd, id, index)             WinSendDlgMsg(hwnd, id, LM_SELECTITEM, index, FALSE);
+#define WinLboxInsertItemAt(hwnd, id, psz, pos)          WinInsertLboxItem(WinWindowFromID(hwnd, id), pos, psz)
+#define WinLboxQueryItem(hwnd, id, pos, psz, max)        WinQueryLboxItemText(WinWindowFromID(hwnd, id), pos, psz, max)
+#define WinLboxQuerySelectedItemText(hwnd, id, psz, max) WinLboxQueryItem(hwnd, id, WinQueryLboxSelectedItem(WinWindowFromID(hwnd, id)), psz, max)
+#define WinQueryDlgText(hwnd, id, psz, max)              WinQueryWindowText(WinWindowFromID(hwnd, id), max, psz)
 
 //
 // ---------------- Resource funtions ------------------
@@ -146,12 +127,12 @@ extern void ViceErrorDlg(HWND hwnd, int id, char *text);
 //
 // ---------------- dialog definitions ------------------
 //
-extern void about_dialog    (HWND hwnd);
-extern void contents_dialog (HWND hwnd, char *szFullFile);
-extern void create_dialog   (HWND hwnd);
-extern HWND cmdopt_dialog   (HWND hwnd);
-extern HWND fsmodes_dialog  (HWND hwnd);
-extern void log_dialog      (int state);
+extern void about_dialog(HWND hwnd);
+extern void contents_dialog(HWND hwnd, char *szFullFile);
+extern void create_dialog(HWND hwnd);
+extern HWND cmdopt_dialog(HWND hwnd);
+extern HWND fsmodes_dialog(HWND hwnd);
+extern void log_dialog(int state);
 
 extern void hardreset_dialog (HWND hwnd);
 extern void softreset_dialog (HWND hwnd);

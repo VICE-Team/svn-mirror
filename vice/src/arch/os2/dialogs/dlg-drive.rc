@@ -34,83 +34,60 @@
 
 DLGTEMPLATE DLG_DRIVE 850 MOVEABLE DISCARDABLE
 BEGIN
-  DIALOG "Drive Setup", DLG_DRIVE, 106, 46, 263, 188+16, STY_DIALOG|FCF_CLOSEBUTTON
-  PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
-  BEGIN
-    CONTROL "Close",       DID_CLOSE,    5,   4,  40, 12, STY_CLOSEBUTTON |
-                                                          WS_GROUP 
-    CONTROL "Drive",       ID_NONE,      5,  154+16, 251, 31, STY_GROUPBOX
-    CONTROL "True Drive Emulation",
-                           CB_TRUEDRIVE,12, 167+16, 100, 10, STY_AUTOCHECKBOX
-
-    TEXT("Track:", 12, 157+16)
-    CONTROL "",            SPB_TRACK8, 42, 157+16, 15, 12,  STY_STATUSDLG
+    DIALOG "Drive Setup", DLG_DRIVE, 106, 46, 263, 188 + 16, STY_DIALOG | FCF_CLOSEBUTTON
+    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
+    BEGIN
+        CONTROL "Close", DID_CLOSE, 5, 4, 40, 12, STY_CLOSEBUTTON | WS_GROUP 
+        CONTROL "Drive", ID_NONE, 5, 154 + 16, 251, 31, STY_GROUPBOX
+        CONTROL "True Drive Emulation", CB_TRUEDRIVE, 12, 167 + 16, 100, 10, STY_AUTOCHECKBOX
+        TEXT("Track:", 12, 157 + 16)
+        CONTROL "", SPB_TRACK8, 42, 157 + 16, 15, 12, STY_STATUSDLG
             CTLDATA 24, 0, 2, 0, 0, 0, 50, 0, 0, 0, 0, 0
-    CONTROL "+",           SS_HALFTRACK8, 58, 157+16,  5, 8, WC_STATIC, 
-                           SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
-
-    CONTROL "",            SPB_TRACK9, 66, 157+16, 15, 12,  STY_STATUSDLG
+        CONTROL "+", SS_HALFTRACK8, 58, 157 + 16, 5, 8, WC_STATIC, SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
+        CONTROL "", SPB_TRACK9, 66, 157 + 16, 15, 12,  STY_STATUSDLG
             CTLDATA 24, 0, 2, 0, 0, 0, 50, 0, 0, 0, 0, 0
-    CONTROL "+",           SS_HALFTRACK9, 82, 157+16,  5, 8, WC_STATIC, 
-                           SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
-    CONTROL "LED8",        SS_LED8,  89, 157+16,  22, 8, WC_STATIC, 
-                           SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
-    CONTROL "LED9",        SS_LED9, 115, 157+16,  22, 8, WC_STATIC, 
-                           SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
-
-    TEXT("Drive:", 130, 168+16)
-    CONTROL "8",           RB_DRIVE8,   160, 167+16,  16, 10, STY_AUTORADIOBUTTON |
-                                                          WS_GROUP
-    CONTROL "9",           RB_DRIVE9,   182, 167+16,  16, 10, STY_AUTORADIOBUTTON
-    CONTROL "10",          RB_DRIVE10,  204, 167+16,  21, 10, STY_AUTORADIOBUTTON
-    CONTROL "11",          RB_DRIVE11,  227, 167+16,  21, 10, STY_AUTORADIOBUTTON
-
-    CONTROL "",            ID_NONE,      5,  20+16, 251,139, STY_GROUPBOX
-    CONTROL "",            CBS_IMAGE, 14, 48+16, 216/*234*/, 89, WC_COMBOBOX, 
-                           CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | 
-                           WS_VISIBLE
-    CONTROL "...",         PB_ATTACH, 232,126+16, 16, 11, STY_PUSHBUTTON
-    CONTROL "",            CBS_PATH, 14,140+16, 216, 10, WC_SPINBUTTON, 
-                           SPBS_JUSTLEFT | STY_STD
+        CONTROL "+", SS_HALFTRACK9, 82, 157 + 16,  5, 8, WC_STATIC, SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
+        CONTROL "LED8", SS_LED8, 89, 157 + 16, 22, 8, WC_STATIC, SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
+        CONTROL "LED9", SS_LED9, 115, 157 + 16, 22, 8, WC_STATIC, SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
+        TEXT("Drive:", 130, 168 + 16)
+        CONTROL "8", RB_DRIVE8, 160, 167 + 16, 16, 10, STY_AUTORADIOBUTTON | WS_GROUP
+        CONTROL "9", RB_DRIVE9, 182, 167 + 16, 16, 10, STY_AUTORADIOBUTTON
+        CONTROL "10", RB_DRIVE10, 204, 167 + 16, 21, 10, STY_AUTORADIOBUTTON
+        CONTROL "11", RB_DRIVE11, 227, 167 + 16, 21, 10, STY_AUTORADIOBUTTON
+        CONTROL "", ID_NONE, 5, 20 + 16, 251, 139, STY_GROUPBOX
+        CONTROL "", CBS_IMAGE, 14, 48 + 16, 216, 89, WC_COMBOBOX, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        CONTROL "...", PB_ATTACH, 232, 126 + 16, 16, 11, STY_PUSHBUTTON
+        CONTROL "", CBS_PATH, 14, 140 + 16, 216, 10, WC_SPINBUTTON, SPBS_JUSTLEFT | STY_STD
             CTLDATA 24, 0, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0
-    TEXT("Drive Type:", 133, 115+16)
-    CONTROL "",            CBS_TYPE,   133, 71+16, 115, 42, WC_COMBOBOX, 
-                           CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | 
-                           WS_VISIBLE
-    CONTROL "Readonly",    CB_READONLY, 14,113+16, 50, 10, STY_AUTOCHECKBOX
-    CONTROL "Parallel Cable",
-                           CB_PARALLEL, 14,102+16, 69, 10, STY_AUTOCHECKBOX
-    TEXT("Idle Method:", 13, 90+16)
-    CONTROL "None",        RB_NONE,    111, 89+16, 39, 10, STY_AUTORADIOBUTTON |
-                                                        WS_GROUP
-    CONTROL "Skip Cycles", RB_SKIP,    196, 89+16, 58, 10, STY_AUTORADIOBUTTON
-    CONTROL "Trap Idle",   RB_TRAP,    146, 89+16, 48, 10, STY_AUTORADIOBUTTON
-    TEXT("Extend 40 Track Image:",  13, 80+16)
-    CONTROL "Never",       RB_NEVER,   111, 79+16, 39, 10, STY_AUTORADIOBUTTON |
-                                                        WS_GROUP
-    CONTROL "Always",      RB_ALWAYS,  196, 79+16, 45, 10, STY_AUTORADIOBUTTON
-    CONTROL "Ask",         RB_ASK,     146, 79+16, 30, 10, STY_AUTORADIOBUTTON 
-    CONTROL "Allow filesystem access",
-                           CB_ALLOWACCESS, 13, 64+16, 119, 10, STY_AUTOCHECKBOX
-    CONTROL "Allow use of p00-files",
-                           CB_CONVERTP00, 140, 64+16, 114, 10, STY_AUTOCHECKBOX
-    CONTROL "Save p00-type-files",
-                           CB_SAVEP00,    140, 54+16,  98, 10, STY_AUTOCHECKBOX
-    CONTROL "Hide non-p00-files",
-    		       CB_HIDENONP00,  13, 54+16,  95, 10, STY_AUTOCHECKBOX
-    TEXT("Enable 8kB Memory Extension:",  13, 42+16)
-    CONTROL "$2000-$3FFF", CB_MEM2000,  13, 32+16,  75, 10, STY_AUTOCHECKBOX
-    CONTROL "$4000-$5FFF", CB_MEM4000,  93, 32+16,  75, 10, STY_AUTOCHECKBOX
-    CONTROL "$6000-$7FFF", CB_MEM6000, 173, 32+16,  75, 10, STY_AUTOCHECKBOX
-    CONTROL "$8000-$9FFF", CB_MEM8000,  13, 22+16,  75, 10, STY_AUTOCHECKBOX
-    CONTROL "$A000-$BFFF", CB_MEMA000,  93, 22+16,  75, 10, STY_AUTOCHECKBOX
-    TEXT("Fliplist:", 98, 20)
-    CONTROL "Add",         PB_FLIPADD,    129, 18, 40, 12, STY_PUSHBUTTON
-    CONTROL "Remove",      PB_FLIPREMOVE, 173, 18, 40, 12, STY_PUSHBUTTON
-    CONTROL "Flip",        PB_FLIP,       217, 18, 40, 12, STY_PUSHBUTTON
-    TEXT("Image:", 98, 6)
-    CONTROL "Create",      PB_CREATE, 129, 4, 40, 12, STY_PUSHBUTTON
-    CONTROL "Attach",      PB_ATTACH, 173, 4, 40, 12, STY_PUSHBUTTON
-    CONTROL "Detach",      PB_DETACH, 217, 4, 40, 12, STY_PUSHBUTTON
-  END
+        TEXT("Drive Type:", 133, 115 + 16)
+        CONTROL "", CBS_TYPE, 133, 71 + 16, 115, 42, WC_COMBOBOX, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        CONTROL "Readonly", CB_READONLY, 14, 113 + 16, 50, 10, STY_AUTOCHECKBOX
+        CONTROL "Parallel Cable", CB_PARALLEL, 14, 102 + 16, 69, 10, STY_AUTOCHECKBOX
+        TEXT("Idle Method:", 13, 90 + 16)
+        CONTROL "None", RB_NONE, 111, 89 + 16, 39, 10, STY_AUTORADIOBUTTON | WS_GROUP
+        CONTROL "Skip Cycles", RB_SKIP, 196, 89 + 16, 58, 10, STY_AUTORADIOBUTTON
+        CONTROL "Trap Idle", RB_TRAP, 146, 89 + 16, 48, 10, STY_AUTORADIOBUTTON
+        TEXT("Extend 40 Track Image:", 13, 80 + 16)
+        CONTROL "Never", RB_NEVER, 111, 79 + 16, 39, 10, STY_AUTORADIOBUTTON | WS_GROUP
+        CONTROL "Always", RB_ALWAYS, 196, 79 + 16, 45, 10, STY_AUTORADIOBUTTON
+        CONTROL "Ask", RB_ASK, 146, 79 + 16, 30, 10, STY_AUTORADIOBUTTON
+        CONTROL "Allow filesystem access", CB_ALLOWACCESS, 13, 64 + 16, 119, 10, STY_AUTOCHECKBOX
+        CONTROL "Allow use of p00-files", CB_CONVERTP00, 140, 64 + 16, 114, 10, STY_AUTOCHECKBOX
+        CONTROL "Save p00-type-files", CB_SAVEP00, 140, 54 + 16, 98, 10, STY_AUTOCHECKBOX
+        CONTROL "Hide non-p00-files", CB_HIDENONP00, 13, 54 + 16, 95, 10, STY_AUTOCHECKBOX
+        TEXT("Enable 8kB Memory Extension:", 13, 42 + 16)
+        CONTROL "$2000-$3FFF", CB_MEM2000, 13, 32 + 16, 75, 10, STY_AUTOCHECKBOX
+        CONTROL "$4000-$5FFF", CB_MEM4000, 93, 32 + 16, 75, 10, STY_AUTOCHECKBOX
+        CONTROL "$6000-$7FFF", CB_MEM6000, 173, 32 + 16, 75, 10, STY_AUTOCHECKBOX
+        CONTROL "$8000-$9FFF", CB_MEM8000, 13, 22 + 16, 75, 10, STY_AUTOCHECKBOX
+        CONTROL "$A000-$BFFF", CB_MEMA000, 93, 22 + 16, 75, 10, STY_AUTOCHECKBOX
+        TEXT("Fliplist:", 98, 20)
+        CONTROL "Add", PB_FLIPADD, 129, 18, 40, 12, STY_PUSHBUTTON
+        CONTROL "Remove", PB_FLIPREMOVE, 173, 18, 40, 12, STY_PUSHBUTTON
+        CONTROL "Flip", PB_FLIP, 217, 18, 40, 12, STY_PUSHBUTTON
+        TEXT("Image:", 98, 6)
+        CONTROL "Create", PB_CREATE, 129, 4, 40, 12, STY_PUSHBUTTON
+        CONTROL "Attach", PB_ATTACH, 173, 4, 40, 12, STY_PUSHBUTTON
+        CONTROL "Detach", PB_DETACH, 217, 4, 40, 12, STY_PUSHBUTTON
+    END
 END

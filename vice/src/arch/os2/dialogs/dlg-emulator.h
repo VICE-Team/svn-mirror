@@ -25,18 +25,18 @@
  */
 
 // Emulator Dialog
-#define SPB_SPEED        0x1091
-#define PB_SPEED100      0x1092
-#define CBS_REFRATE      0x1093
-#define ID_SPEEDDISP     0x1099
-#define ID_REFRATEDISP   0x109a
-#define CBS_SSNAME       0x109d
-#define PB_SSCHANGE      0x109e
-#define CBS_SPSNAME      0x109f
-#define PB_SPSCHANGE     0x10a0
-#define RB_BMP           0x10a1
-#define RB_PNG           0x10a2
-#define WM_DISPLAY       WM_USER+1
+#define SPB_SPEED      0x1091
+#define PB_SPEED100    0x1092
+#define CBS_REFRATE    0x1093
+#define ID_SPEEDDISP   0x1099
+#define ID_REFRATEDISP 0x109a
+#define CBS_SSNAME     0x109d
+#define PB_SSCHANGE    0x109e
+#define CBS_SPSNAME    0x109f
+#define PB_SPSCHANGE   0x10a0
+#define RB_BMP         0x10a1
+#define RB_PNG         0x10a2
+#define WM_DISPLAY     WM_USER + 1
 
 extern HWND hwndEmulator;
 
