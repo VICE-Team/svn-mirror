@@ -545,7 +545,6 @@ static void too_many_inputs(void)
    the buffer for easy binary saving */
 static int load_easyflash_crt(void)
 {
-    unsigned int length;
     unsigned int load_position;
 
     memset(filebuffer, 0xff, 0x100000);
