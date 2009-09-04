@@ -77,8 +77,8 @@
 #define WATCOM_COMPILE          1
 #define _MSC_VER                1
 
-#define int64_t_C(c)     (c ## i64)
-#define uint64_t_C(c)    (c ## u64)
+#define int64_t_C(c)     (LONGLONG)(c)
+#define uint64_t_C(c)    (ULONGLONG)(c)
 /* end: for FFMPEG: common.h */
 
 #define PLATFORM "win32 x86 watcom"
