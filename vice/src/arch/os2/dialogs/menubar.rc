@@ -34,694 +34,712 @@
 
 MENU IDM_VICE2 MOVEABLE DISCARDABLE
 BEGIN
-   SUBMENU "~File",                       IDM_FILE,        MIS_TEXT
-   BEGIN
-      MENUITEM "~Open...\tAlt-F3",        IDM_FILEOPEN,    MIS_TEXT
-      MENUITEM "~Save as...\tAlt-F2",     IDM_FILESAVE,    MIS_TEXT
-#if defined __X64__ || defined __X128__
-      MENUITEM SEPARATOR
-      SUBMENU "~Attach Cartridge",        IDM_CARTRIDGE,    MIS_TEXT
-      BEGIN
-         MENUITEM "Generic ~Image",       IDM_CRTGEN,       MIS_TEXT
-         MENUITEM "Generic ~8kB Image",   IDM_CRTGEN8KB,    MIS_TEXT
-         MENUITEM "Generic ~16kB Image",  IDM_CRTGEN16KB,   MIS_TEXT
-         MENUITEM "32kB Action ~Replay",  IDM_CRTACTREPL,   MIS_TEXT
-         MENUITEM "32kB Atomic ~Power",   IDM_CRTATOMPOW,   MIS_TEXT
-         MENUITEM "8kB Epyx ~Fastloader", IDM_CRTEPYX,      MIS_TEXT
-         MENUITEM "~32kB Super Snapshot", IDM_CRTSSSHOT,    MIS_TEXT
-         MENUITEM "~64kB Super Snapshot", IDM_CRTSSSHOT5,   MIS_TEXT
-         MENUITEM "16kB ~Westermann learning", IDM_CRTWEST, MIS_TEXT
-         MENUITEM "~CBM IEEE488",         IDM_CRTIEEE,      MIS_TEXT
-         MENUITEM "I~DE64",               IDM_CRTIDE64,     MIS_TEXT
-      END
-      MENUITEM "~Expert Cartridge",       IDM_CRTEXPERT,    MIS_TEXT
-      MENUITEM "Press Free~ze Button",    IDM_CRTFREEZE,    MIS_TEXT
-      MENUITEM "Save Cartridge ~Image",   IDM_CRTSAVEIMG,   MIS_TEXT
+    SUBMENU "~File",                                      IDM_FILE,                     MIS_TEXT
+    BEGIN
+        MENUITEM "~Open...\tAlt-F3",                      IDM_FILEOPEN,                 MIS_TEXT
+        MENUITEM "~Save as...\tAlt-F2",                   IDM_FILESAVE,                 MIS_TEXT
+
+#if defined(__X64__) || defined(__X128__)
+        MENUITEM SEPARATOR
+        SUBMENU "~Attach Cartridge",                      IDM_CARTRIDGE,                MIS_TEXT
+        BEGIN
+            MENUITEM "Generic ~Image",                    IDM_CRTGEN,                   MIS_TEXT
+            MENUITEM "Generic ~8kB Image",                IDM_CRTGEN8KB,                MIS_TEXT
+            MENUITEM "Generic ~16kB Image",               IDM_CRTGEN16KB,               MIS_TEXT
+            MENUITEM "32kB Action ~Replay",               IDM_CRTACTREPL,               MIS_TEXT
+            MENUITEM "32kB Atomic ~Power",                IDM_CRTATOMPOW,               MIS_TEXT
+            MENUITEM "8kB Epyx ~Fastloader",              IDM_CRTEPYX,                  MIS_TEXT
+            MENUITEM "~32kB Super Snapshot",              IDM_CRTSSSHOT,                MIS_TEXT
+            MENUITEM "~64kB Super Snapshot",              IDM_CRTSSSHOT5,               MIS_TEXT
+            MENUITEM "16kB ~Westermann learning",         IDM_CRTWEST,                  MIS_TEXT
+            MENUITEM "~CBM IEEE488",                      IDM_CRTIEEE,                  MIS_TEXT
+            MENUITEM "I~DE64",                            IDM_CRTIDE64,                 MIS_TEXT
+        END
+        MENUITEM "~Expert Cartridge",                     IDM_CRTEXPERT,                MIS_TEXT
+        MENUITEM "Press Free~ze Button",                  IDM_CRTFREEZE,                MIS_TEXT
+        MENUITEM "Save Cartridge ~Image",                 IDM_CRTSAVEIMG,               MIS_TEXT
 #endif
-      MENUITEM SEPARATOR
-/*
-      SUBMENU "~Attach Image to...",   IDM_ATTACH,       MIS_TEXT
-      BEGIN
-         MENUITEM "~Tape\tAlt-0",      IDM_ATTACHTAPE,   MIS_TEXT
-         MENUITEM SEPARATOR
-         MENUITEM "Disk ~8\tAlt-8",    IDM_ATTACH8,      MIS_TEXT
-         MENUITEM "Disk ~9\tAlt-9",    IDM_ATTACH9,      MIS_TEXT
-         MENUITEM "Disk 1~0",          IDM_ATTACH10,     MIS_TEXT
-         MENUITEM "Disk 1~1",          IDM_ATTACH11,     MIS_TEXT
-      END
-*/
-      SUBMENU "~Detach Image from...", IDM_DETACH,       MIS_TEXT
-      BEGIN
+
+        MENUITEM SEPARATOR
+        SUBMENU "~Detach Image from...",                  IDM_DETACH,                   MIS_TEXT
+        BEGIN
+
 #if defined __X64__ || defined __X128__
- 	 MENUITEM "~Cartridge",        IDM_CARTRIDGEDET, MIS_TEXT
-         MENUITEM SEPARATOR
+            MENUITEM "~Cartridge",                        IDM_CARTRIDGEDET,             MIS_TEXT
+            MENUITEM SEPARATOR
 #endif
+
 #if !defined __X64DTV__
-         MENUITEM "~Tape",             IDM_DETACHTAPE,   MIS_TEXT
-         MENUITEM SEPARATOR
+            MENUITEM "~Tape",                             IDM_DETACHTAPE,               MIS_TEXT
+            MENUITEM SEPARATOR
 #endif
-         MENUITEM "Disk ~8",           IDM_DETACH8,      MIS_TEXT
-         MENUITEM "Disk ~9",           IDM_DETACH9,      MIS_TEXT
-         MENUITEM "Disk 1~0",          IDM_DETACH10,     MIS_TEXT
-         MENUITEM "Disk 1~1",          IDM_DETACH11,     MIS_TEXT
-         MENUITEM SEPARATOR
-         MENUITEM "~All Disks",        IDM_DETACHALL,    MIS_TEXT
-      END
+
+            MENUITEM "Disk ~8",                           IDM_DETACH8,                  MIS_TEXT
+            MENUITEM "Disk ~9",                           IDM_DETACH9,                  MIS_TEXT
+            MENUITEM "Disk 1~0",                          IDM_DETACH10,                 MIS_TEXT
+            MENUITEM "Disk 1~1",                          IDM_DETACH11,                 MIS_TEXT
+            MENUITEM SEPARATOR
+            MENUITEM "~All Disks",                        IDM_DETACHALL,                MIS_TEXT
+        END
+
 #if defined __X64DTV__
-      MENUITEM "~Attach DTV flash ROM image",        IDM_C64DTV_FLASHROM_ATTACH, MIS_TEXT
-      MENUITEM "~Detach DTV flash ROM image",        IDM_C64DTV_FLASHROM_DETACH, MIS_TEXT
-      MENUITEM "DTV flash ROM image write enabled",  IDM_C64DTV_FLASHROM_RW,     MIS_TEXT
-      SUBMENU  "DTV revision",                       IDM_C64DTV_REVISION,        MIS_TEXT
-      BEGIN
-        MENUITEM "DTV~2",   IDM_DTV2,    MIS_TEXT
-        MENUITEM "DTV~3",   IDM_DTV3,    MIS_TEXT
-      END
-      SUBMENU  "Hummer Userport device", IDM_HUMMER_USERPORT_DEVICE, MIS_TEXT
-      BEGIN
-        MENUITEM "~None",     IDM_HUMMER_USERPORT_NONE, MIS_TEXT
-        MENUITEM "~ADC",      IDM_HUMMER_USERPORT_ADC,  MIS_TEXT
-        MENUITEM "~Joystick", IDM_HUMMER_USERPORT_JOY,  MIS_TEXT
-      END
-      SUBMENU  "Joyport mapped to userport",       IDM_C64DTV_HUMMER_MAPPED_JOY,   MIS_TEXT
-      BEGIN
-        MENUITEM "Joy~1",   IDM_HUMMER_JOY1,    MIS_TEXT
-        MENUITEM "Joy~2",   IDM_HUMMER_JOY2,    MIS_TEXT
-      END
+        MENUITEM "~Attach DTV flash ROM image",           IDM_C64DTV_FLASHROM_ATTACH,   MIS_TEXT
+        MENUITEM "~Detach DTV flash ROM image",           IDM_C64DTV_FLASHROM_DETACH,   MIS_TEXT
+        MENUITEM "DTV flash ROM image write enabled",     IDM_C64DTV_FLASHROM_RW,       MIS_TEXT
+        SUBMENU "DTV revision",                           IDM_C64DTV_REVISION,          MIS_TEXT
+        BEGIN
+            MENUITEM "DTV~2",                             IDM_DTV2,                     MIS_TEXT
+            MENUITEM "DTV~3",                             IDM_DTV3,                     MIS_TEXT
+        END
+        SUBMENU "Hummer Userport device",                 IDM_HUMMER_USERPORT_DEVICE,   MIS_TEXT
+        BEGIN
+            MENUITEM "~None",                             IDM_HUMMER_USERPORT_NONE,     MIS_TEXT
+            MENUITEM "~ADC",                              IDM_HUMMER_USERPORT_ADC,      MIS_TEXT
+            MENUITEM "~Joystick",                         IDM_HUMMER_USERPORT_JOY,      MIS_TEXT
+        END
+        SUBMENU "Joyport mapped to userport",             IDM_C64DTV_HUMMER_MAPPED_JOY, MIS_TEXT
+        BEGIN
+            MENUITEM "Joy~1",                             IDM_HUMMER_JOY1,              MIS_TEXT
+            MENUITEM "Joy~2",                             IDM_HUMMER_JOY2,              MIS_TEXT
+        END
 #endif
-      SUBMENU "~Fliplist",                  IDM_FLIPLIST,  MIS_TEXT
-      BEGIN
-         MENUITEM "Drive #8 ~Next\tAlt-F",  IDM_FLIPNEXT8, MIS_TEXT
-         MENUITEM "Drive #8 ~Prev",         IDM_FLIPPREV8, MIS_TEXT
-         MENUITEM SEPARATOR
-         MENUITEM "Drive #9 Nex~t",         IDM_FLIPNEXT9, MIS_TEXT
-         MENUITEM "Drive #9 Pre~v",         IDM_FLIPPREV9, MIS_TEXT
-      END
-      MENUITEM SEPARATOR
-      SUBMENU "S~napshot",                  IDM_SNAPSHOT,     MIS_TEXT
-      BEGIN
-         MENUITEM "~Load vice2.vsf",        IDM_SNAPLOAD,     MIS_TEXT
-         MENUITEM "~Save vice2.vsf",        IDM_SNAPSAVE,     MIS_TEXT
-/*
-         MENUITEM SEPARATOR
-         MENUITEM "With ROMs",       IDM_WITHROMS,    MIS_TEXT
-         MENUITEM "With Disks",      IDM_WITHDISKS,   MIS_TEXT
-*/
-      END
-      SUBMENU "~Configuration",             IDM_CONFIG,        MIS_TEXT
-      BEGIN                                  
-        MENUITEM "~Load vice2.cfg",         IDM_READCONFIG,    MIS_TEXT
-        MENUITEM "~Write vice2.cfg\tAlt-W", IDM_WRITECONFIG,   MIS_TEXT
+
+        SUBMENU "~Fliplist",                              IDM_FLIPLIST,                 MIS_TEXT
+        BEGIN
+            MENUITEM "Drive #8 ~Next\tAlt-F",             IDM_FLIPNEXT8,                MIS_TEXT
+            MENUITEM "Drive #8 ~Prev",                    IDM_FLIPPREV8,                MIS_TEXT
+            MENUITEM SEPARATOR
+            MENUITEM "Drive #9 Nex~t",                    IDM_FLIPNEXT9,                MIS_TEXT
+            MENUITEM "Drive #9 Pre~v",                    IDM_FLIPPREV9,                MIS_TEXT
+        END
         MENUITEM SEPARATOR
-        MENUITEM "Set to ~Defaults",        IDM_DEFAULTCONFIG, MIS_TEXT
-      END
-      MENUITEM "Screenshot vice2.~png",     IDM_PRINTSCRN,     MIS_TEXT
-      MENUITEM SEPARATOR
-      SUBMENU "~Reset",                     IDM_RESET,         MIS_TEXT
-      BEGIN
-         MENUITEM "~Soft Reset\tAlt-R",     IDM_SOFTRESET,     MIS_TEXT
-         MENUITEM "~Hard Reset\tAlt-Q",     IDM_HARDRESET,     MIS_TEXT
-      END
-      MENUITEM SEPARATOR
-      MENUITEM "E~xit\tAlt-F4",             IDM_EXIT,          MIS_TEXT
-   END
-   SUBMENU "~View",                    IDM_VIEW,         MIS_TEXT
-   BEGIN
-//      MENUITEM "~Emulator Setup\tAlt-E",    IDM_EMULATOR,  MIS_TEXT
-      MENUITEM "~Drive Setup\tAlt-D",           IDM_DRIVE,     MIS_TEXT
+        SUBMENU "S~napshot",                              IDM_SNAPSHOT,                 MIS_TEXT
+        BEGIN
+            MENUITEM "~Load vice2.vsf",                   IDM_SNAPLOAD,                 MIS_TEXT
+            MENUITEM "~Save vice2.vsf",                   IDM_SNAPSAVE,                 MIS_TEXT
+        END
+        SUBMENU "~Configuration",                         IDM_CONFIG,                   MIS_TEXT
+        BEGIN
+            MENUITEM "~Load vice2.cfg",                   IDM_READCONFIG,               MIS_TEXT
+            MENUITEM "~Write vice2.cfg\tAlt-W",           IDM_WRITECONFIG,              MIS_TEXT
+            MENUITEM SEPARATOR
+            MENUITEM "Set to ~Defaults",                  IDM_DEFAULTCONFIG,            MIS_TEXT
+        END
+        MENUITEM "Screenshot vice2.~png",                 IDM_PRINTSCRN,                MIS_TEXT
+        MENUITEM SEPARATOR
+        SUBMENU "~Reset",                                 IDM_RESET,                    MIS_TEXT
+        BEGIN
+            MENUITEM "~Soft Reset\tAlt-R",                IDM_SOFTRESET,                MIS_TEXT
+            MENUITEM "~Hard Reset\tAlt-Q",                IDM_HARDRESET,                MIS_TEXT
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "E~xit\tAlt-F4",                         IDM_EXIT,                     MIS_TEXT
+    END
+    SUBMENU "~View",                                      IDM_VIEW,                     MIS_TEXT
+    BEGIN
+        MENUITEM "~Drive Setup\tAlt-D",                   IDM_DRIVE,                    MIS_TEXT
+
 #if defined HAVE_PAL
-      MENUITEM "~Video Color Settings\tAlt-I",  IDM_COLOR,     MIS_TEXT
+        MENUITEM "~Video Color Settings\tAlt-I",          IDM_COLOR,                    MIS_TEXT
 #endif
-      MENUITEM "~Joystick Setup\tAlt-J",        IDM_JOYSTICK,  MIS_TEXT
+
+        MENUITEM "~Joystick Setup\tAlt-J",                IDM_JOYSTICK,                 MIS_TEXT
+
 #if !defined __X64DTV__
-      MENUITEM "Datasette ~Control\tAlt-C",     IDM_DATASETTE, MIS_TEXT
+        MENUITEM "Datasette ~Control\tAlt-C",             IDM_DATASETTE,                MIS_TEXT
 #endif
-      MENUITEM "~Logging Window\tAlt-L",        IDM_LOGWIN,    MIS_TEXT
-      MENUITEM "Buildin ~Monitor\tAlt-M",       IDM_MONITOR,   MIS_TEXT
-   END
-   SUBMENU "Set~up",                   IDM_SETUP,        MIS_TEXT
-   BEGIN
-      MENUITEM "Video ~Cache",         IDM_VCACHE,       MIS_TEXT
+
+        MENUITEM "~Logging Window\tAlt-L",                IDM_LOGWIN,                   MIS_TEXT
+        MENUITEM "Buildin ~Monitor\tAlt-M",               IDM_MONITOR,                  MIS_TEXT
+    END
+    SUBMENU "Set~up",                                     IDM_SETUP,                    MIS_TEXT
+    BEGIN
+        MENUITEM "Video ~Cache",                          IDM_VCACHE,                   MIS_TEXT
+
 #ifdef HAVE_PAL
-      MENUITEM "Double Size\tAlt-2",   IDM_DSIZE,        MIS_TEXT
-      MENUITEM "Double Scan",          IDM_DSCAN,        MIS_TEXT
-      MENUITEM "Scale 2x",             IDM_SCALE2X,      MIS_TEXT
+        MENUITEM "Double Size\tAlt-2",                    IDM_DSIZE,                    MIS_TEXT
+        MENUITEM "Double Scan",                           IDM_DSCAN,                    MIS_TEXT
+        MENUITEM "Scale 2x",                              IDM_SCALE2X,                  MIS_TEXT
 #endif
+
 #ifdef HAVE_CRTC
-      MENUITEM "Crtc Double Size",     IDM_CRTCDSIZE,    MIS_TEXT
-      MENUITEM "Crtc Double Scan",     IDM_CRTCDSCAN,    MIS_TEXT
+        MENUITEM "Crtc Double Size",                      IDM_CRTCDSIZE,                MIS_TEXT
+        MENUITEM "Crtc Double Scan",                      IDM_CRTCDSCAN,                MIS_TEXT
 #endif
+
 #ifdef HAVE_VDC
-      MENUITEM "VDC Video Cache",      IDM_VDCVCACHE,    MIS_TEXT
-      MENUITEM "VDC Double Size",      IDM_VDCDSIZE,     MIS_TEXT
-      MENUITEM "VDC Double Scan",      IDM_VDCDSCAN,     MIS_TEXT
+        MENUITEM "VDC Video Cache",                       IDM_VDCVCACHE,                MIS_TEXT
+        MENUITEM "VDC Double Size",                       IDM_VDCDSIZE,                 MIS_TEXT
+        MENUITEM "VDC Double Scan",                       IDM_VDCDSCAN,                 MIS_TEXT
 #endif
+
 #ifdef HAVE_PAL
-      SUBMENU "PAL Control",           IDM_PALCONTROL,   MIS_TEXT
-      BEGIN
-        SUBMENU "PAL Emulation",       IDM_PALEMU,       MIS_TEXT
+        SUBMENU "PAL Control",                            IDM_PALCONTROL,               MIS_TEXT
         BEGIN
- 	   MENUITEM "Off",             IDM_PALOFF,       MIS_TEXT
-        END
-        MENUITEM "Internal Palette",   IDM_INTERNALPAL,  MIS_TEXT
+            SUBMENU "PAL Emulation",                      IDM_PALEMU,                   MIS_TEXT
+            BEGIN
+                MENUITEM "Off",                           IDM_PALOFF,                   MIS_TEXT
+            END
+            MENUITEM "Internal Palette",                  IDM_INTERNALPAL,              MIS_TEXT
+
 #ifdef HAVE_VIC_II
-        MENUITEM "New Luminances",     IDM_LUMINANCES,   MIS_TEXT
+            MENUITEM "New Luminances",                    IDM_LUMINANCES,               MIS_TEXT
 #endif
-      END
-#endif
-      SUBMENU "~Refresh Rate Ratio",   IDM_REFRATE,      MIS_TEXT
-      BEGIN
-         MENUITEM "1/~1",              IDM_REFRATE1,     MIS_TEXT
-         MENUITEM "1/~2",              IDM_REFRATE2,     MIS_TEXT
-         MENUITEM "1/~3",              IDM_REFRATE3,     MIS_TEXT
-         MENUITEM "1/~4",              IDM_REFRATE4,     MIS_TEXT
-         MENUITEM "1/~5",              IDM_REFRATE5,     MIS_TEXT
-         MENUITEM "1/~6",              IDM_REFRATE6,     MIS_TEXT
-         MENUITEM "1/~7",              IDM_REFRATE7,     MIS_TEXT
-         MENUITEM "1/~8",              IDM_REFRATE8,     MIS_TEXT
-         MENUITEM "1/~9",              IDM_REFRATE9,     MIS_TEXT
-         MENUITEM "1/1~0",             IDM_REFRATE10,    MIS_TEXT
-         MENUITEM SEPARATOR
-         MENUITEM "~Auto",             IDM_REFRATEAUTO,  MIS_TEXT
-      END
-      SUBMENU "DIVE Stretch ~Factor",  IDM_STRETCH,      MIS_TEXT
-      BEGIN
-         MENUITEM "~1:1",              IDM_STRETCH1,     MIS_TEXT
-         MENUITEM "~2:1",              IDM_STRETCH2,     MIS_TEXT
-         MENUITEM "~3:1",              IDM_STRETCH3,     MIS_TEXT
-      END
-#ifdef __X128__
-      SUBMENU "V~DC Memory Size",      IDM_VDCMEMORY,    MIS_TEXT
-      BEGIN
-         MENUITEM "~16kB",             IDM_VDC16K,       MIS_TEXT
-         MENUITEM "~64kB",             IDM_VDC64K,       MIS_TEXT
-      END
-#endif      
-#if defined __X64__ || defined __X64DTV__ || defined __X128__ || defined __XVIC__
-      SUBMENU "~Video Frequency Standard", IDM_VIDEOSTD, MIS_TEXT
-      BEGIN
-         MENUITEM "~PAL-G",                IDM_PAL,      MIS_TEXT
-         MENUITEM "~NTSC-M",               IDM_NTSC,     MIS_TEXT
-#ifdef __X64__
-         MENUITEM "~old NTSC-M",           IDM_NTSCOLD,  MIS_TEXT
-#endif // __X64__
-      END
-#endif
-#if defined __X64__ || defined __X64DTV__ || defined __X128__
-      SUBMENU "Sprite Collision ~Detection",  IDM_COLLISION,   MIS_TEXT
-      BEGIN
-        MENUITEM "Sprite-~Sprite",            IDM_SSCOLL,      MIS_TEXT
-        MENUITEM "Sprite-~Background",        IDM_SBCOLL,      MIS_TEXT
-      END
-/*
-      SUBMENU "Kernal Revision",  IDM_KERNALREV, MIS_TEXT
-      BEGIN
-        MENUITEM "Kernal ROM Rev.~0",          IDM_KERNALREV0,    MIS_TEXT
-        MENUITEM "Kernal ROM Rev.~3",          IDM_KERNALREV3,    MIS_TEXT
-        MENUITEM "S~X-64, DX-64",              IDM_KERNALREVSX,   MIS_TEXT
-        MENUITEM "PET 64, ~4064, Educator 64", IDM_KERNALREV4064, MIS_TEXT
-      END
-      */
-#endif // __X64__ || __X128__
-      MENUITEM SEPARATOR
-      SUBMENU  "Printer ~Emulation",   IDM_PRINTER,     MIS_TEXT
-      BEGIN
-        SUBMENU  "IEC Device #~4",     IDM_PRINTER4,    MIS_TEXT
-        BEGIN
-          MENUITEM "~Enabled",         IDM_PRT4IEC,     MIS_TEXT
-          SUBMENU  "~Printer Driver",  IDM_PRT4DRV,     MIS_TEXT
-          BEGIN
-            MENUITEM "~Ascii",         IDM_PRT4ASCII,   MIS_TEXT
-            MENUITEM "~MPS-803",       IDM_PRT4MPS803,  MIS_TEXT
-            MENUITEM "~NL-10",         IDM_PRT4NL10,    MIS_TEXT
-          END                   
-          SUBMENU "~Output Driver",    IDM_PRT4OUT,     MIS_TEXT
-          BEGIN
-            MENUITEM "~Text",          IDM_PRT4TXT,     MIS_TEXT
-            MENUITEM "~Graphics",      IDM_PRT4GFX,     MIS_TEXT
-          END
-        END  
-        SUBMENU  "IEC Device #~5",     IDM_PRINTER5,    MIS_TEXT
-        BEGIN
-          MENUITEM "~Enabled",         IDM_PRT5IEC,     MIS_TEXT
-          SUBMENU  "~Printer Driver",  IDM_PRT5DRV,     MIS_TEXT
-          BEGIN
-            MENUITEM "~Ascii",         IDM_PRT5ASCII,   MIS_TEXT
-            MENUITEM "~MPS-803",       IDM_PRT5MPS803,  MIS_TEXT
-            MENUITEM "~NL-10",         IDM_PRT5NL10,    MIS_TEXT
-          END
-          SUBMENU "~Output Driver",    IDM_PRT5OUT,     MIS_TEXT
-          BEGIN
-            MENUITEM "~Text",          IDM_PRT5TXT,     MIS_TEXT
-            MENUITEM "~Graphics",      IDM_PRT5GFX,     MIS_TEXT
-          END
-        END  
-        SUBMENU  "~User Port",         IDM_PRINTERUP,   MIS_TEXT
-        BEGIN
-          MENUITEM "~Enabled",         IDM_PRTUP,       MIS_TEXT
-          SUBMENU  "~Printer Driver",  IDM_PRTUPDRV,    MIS_TEXT
-          BEGIN
-            MENUITEM "~Ascii",         IDM_PRTUPASCII,  MIS_TEXT
-            MENUITEM "~MPS-803",       IDM_PRTUPMPS803, MIS_TEXT
-            MENUITEM "~NL-10",         IDM_PRTUPNL10,   MIS_TEXT
-          END
-          SUBMENU "~Output Driver",    IDM_PRTUPOUT,    MIS_TEXT
-          BEGIN
-            MENUITEM "~Text",          IDM_PRTUPTXT,    MIS_TEXT
-            MENUITEM "~Graphics",      IDM_PRTUPGFX,    MIS_TEXT
-          END
-        END  
-/*
-        SUBMENU "Pixels per Bit",      IDM_PPB,         MIS_TEXT
-        BEGIN
-           MENUITEM "~0",              IDM_PPB0,        MIS_TEXT
-           MENUITEM "~1",              IDM_PPB0,        MIS_TEXT
-           MENUITEM "~2",              IDM_PPB0,        MIS_TEXT
-           MENUITEM "~3",              IDM_PPB0,        MIS_TEXT
+
         END
-*/
-      END  
-#if defined(HAVE_MOUSE) && (defined(__X128__) || defined(__X64__))
-      SUBMENU "Mouse Type", IDM_MOUSE_TYPE, MIS_TEXT
-      BEGIN
-         MENUITEM "~1351",    IDM_MOUSE_TYPE_1351,    MIS_TEXT
-         MENUITEM "~NEOS",    IDM_MOUSE_TYPE_NEOS,    MIS_TEXT
-         MENUITEM "~AMIGA",   IDM_MOUSE_TYPE_AMIGA,   MIS_TEXT
-         MENUITEM "~PADDLE",  IDM_MOUSE_TYPE_PADDLE,  MIS_TEXT
-      END
-      SUBMENU "Mouse port", IDM_MOUSE_TYPE, MIS_TEXT
-      BEGIN
-         MENUITEM "Port ~1",    IDM_MOUSE_PORT_1,    MIS_TEXT
-         MENUITEM "Port ~2",    IDM_MOUSE_PORT_2,    MIS_TEXT
-      END
-      MENUITEM "~Grab Mouse Events", IDM_MOUSE,      MIS_TEXT
-      MENUITEM "~Hide Mouse Pointer",   IDM_HIDEMOUSE,  MIS_TEXT
 #endif
-#if defined(HAVE_MOUSE) && defined(__XVIC__)
-      MENUITEM "~Enable Paddles", IDM_MOUSE,      MIS_TEXT
-      MENUITEM "~Hide Mouse Pointer",   IDM_HIDEMOUSE,  MIS_TEXT
-#endif
-      MENUITEM SEPARATOR
-#if defined __XVIC__ || defined __X128__
-      MENUITEM "VIC-1112 IEEE~488 Interface",      IDM_IEEE,       MIS_TEXT
-#endif // __XVIC__ || __X128__
+
+        SUBMENU "~Refresh Rate Ratio",                    IDM_REFRATE,                  MIS_TEXT
+        BEGIN
+            MENUITEM "1/~1",                              IDM_REFRATE1,                 MIS_TEXT
+            MENUITEM "1/~2",                              IDM_REFRATE2,                 MIS_TEXT
+            MENUITEM "1/~3",                              IDM_REFRATE3,                 MIS_TEXT
+            MENUITEM "1/~4",                              IDM_REFRATE4,                 MIS_TEXT
+            MENUITEM "1/~5",                              IDM_REFRATE5,                 MIS_TEXT
+            MENUITEM "1/~6",                              IDM_REFRATE6,                 MIS_TEXT
+            MENUITEM "1/~7",                              IDM_REFRATE7,                 MIS_TEXT
+            MENUITEM "1/~8",                              IDM_REFRATE8,                 MIS_TEXT
+            MENUITEM "1/~9",                              IDM_REFRATE9,                 MIS_TEXT
+            MENUITEM "1/1~0",                             IDM_REFRATE10,                MIS_TEXT
+            MENUITEM SEPARATOR
+            MENUITEM "~Auto",                             IDM_REFRATEAUTO,              MIS_TEXT
+        END
+        SUBMENU "DIVE Stretch ~Factor",                   IDM_STRETCH,                  MIS_TEXT
+        BEGIN
+            MENUITEM "~1:1",                              IDM_STRETCH1,                 MIS_TEXT
+            MENUITEM "~2:1",                              IDM_STRETCH2,                 MIS_TEXT
+            MENUITEM "~3:1",                              IDM_STRETCH3,                 MIS_TEXT
+        END
+
 #ifdef __X128__
-      SUBMENU "Enable F~unction ROM",              IDM_FUNCROM,    MIS_TEXT
-      BEGIN                                                       
-         MENUITEM "~Internal",                     IDM_INTFUNCROM, MIS_TEXT
-         MENUITEM "~External",                     IDM_EXTFUNCROM, MIS_TEXT
-      END
-      MENUITEM "I~EEE488 Interface",               IDM_IEEE,       MIS_TEXT
-#endif // __X128__
-#ifdef __XCBM__
-      SUBMENU "Model",           IDM_MODEL,      MIS_TEXT
-      BEGIN
-// FIXME        MENUITEM "CBM 510",      IDM_CBM510,     MIS_TEXT
-        MENUITEM "CBM 610",      IDM_CBM610,     MIS_TEXT
-        MENUITEM "CBM 620",      IDM_CBM620,     MIS_TEXT
-        MENUITEM "CBM 620+",     IDM_CBM620P,    MIS_TEXT
-        MENUITEM "CBM 710",      IDM_CBM710,     MIS_TEXT
-        MENUITEM "CBM 720",      IDM_CBM720,     MIS_TEXT
-        MENUITEM "CBM 720+",     IDM_CBM720P,    MIS_TEXT
-      END
-      SUBMENU "Model ~Line",     IDM_MODELLINE,  MIS_TEXT
-      BEGIN
-        MENUITEM "~7x0 (50Hz)",  IDM_MODEL750,   MIS_TEXT
-        MENUITEM "6x0 (~50Hz)",  IDM_MODEL650,   MIS_TEXT
-        MENUITEM "~6x0 (60Hz)",  IDM_MODEL660,   MIS_TEXT
-      END
-      SUBMENU "RAM Si~ze",       IDM_RAMSIZE,    MIS_TEXT
-      BEGIN
-        MENUITEM "~64kB",        IDM_RAM64,      MIS_TEXT
-        MENUITEM "~128kB",       IDM_RAM128,     MIS_TEXT
-        MENUITEM "~256kB",       IDM_RAM256,     MIS_TEXT
-        MENUITEM "~512kB",       IDM_RAM512,     MIS_TEXT
-        MENUITEM "1~024kB",      IDM_RAM1024,    MIS_TEXT
-      END
-      SUBMENU "RAM M~apping",    IDM_RAMMAPPING, MIS_TEXT
-      BEGIN
-        MENUITEM "$0~800-$0FFF", IDM_RAM08,      MIS_TEXT
-        MENUITEM "$~1000-$1FFF", IDM_RAM10,      MIS_TEXT
-        MENUITEM "$~2000-$3FFF", IDM_RAM20,      MIS_TEXT
-        MENUITEM "$~4000-$5FFF", IDM_RAM40,      MIS_TEXT
-        MENUITEM "$~6000-$7FFF", IDM_RAM60,      MIS_TEXT
-        MENUITEM "$~C000-$CFFF", IDM_RAMC0,      MIS_TEXT
-      END
-#endif //__XCBM__
-#ifdef __XPET__
-      SUBMENU "PE~T Model",  IDM_PETMODEL, MIS_TEXT
-      BEGIN
-        MENUITEM "2001-8N",  IDM_PET2001,  MIS_TEXT
-        MENUITEM "3008",     IDM_PET3008,  MIS_TEXT
-        MENUITEM "3016",     IDM_PET3016,  MIS_TEXT
-        MENUITEM "3032",     IDM_PET3032,  MIS_TEXT
-        MENUITEM "3032B",    IDM_PET3032B, MIS_TEXT
-        MENUITEM "4016",     IDM_PET4016,  MIS_TEXT
-        MENUITEM "4032",     IDM_PET4032,  MIS_TEXT
-        MENUITEM "4032B",    IDM_PET4032B, MIS_TEXT
-        MENUITEM "8032",     IDM_PET8032,  MIS_TEXT
-        MENUITEM "8096",     IDM_PET8096,  MIS_TEXT
-        MENUITEM "8296",     IDM_PET8296,  MIS_TEXT
-        MENUITEM "SuperPET", IDM_PETSUPER, MIS_TEXT
-      END
-      SUBMENU "RAM Si~ze",                         IDM_RAMSIZE,    MIS_TEXT
-      BEGIN
-        MENUITEM "~4kB",                           IDM_PETRAM4,    MIS_TEXT
-        MENUITEM "~8kB",                           IDM_PETRAM8,    MIS_TEXT
-        MENUITEM "1~6kB",                          IDM_PETRAM16,   MIS_TEXT
-        MENUITEM "~32kB",                          IDM_PETRAM32,   MIS_TEXT
-        MENUITEM "~96kB",                          IDM_PETRAM96,   MIS_TEXT
-        MENUITEM "~128kB",                         IDM_PETRAM128,  MIS_TEXT
-      END
-      SUBMENU "PET8296 ~4kB RAM Mapping",          IDM_RAMMAPPING, MIS_TEXT
-      BEGIN
-        MENUITEM "$~9000-$9FFF",                   IDM_MAP9,       MIS_TEXT
-        MENUITEM "$~A000-$AFFF",                   IDM_MAPA,       MIS_TEXT
-      END
-      SUBMENU "I/O Memory ~Area Size",             IDM_IOMEM,      MIS_TEXT
-      BEGIN
-        MENUITEM "25~6 Bytes",                     IDM_IOMEM256,   MIS_TEXT
-        MENUITEM "204~8 Bytes",                    IDM_IOMEM2K,    MIS_TEXT
-      END
-      SUBMENU "Video Size",                        IDM_VIDEOSIZE,  MIS_TEXT
-      BEGIN
-        MENUITEM "~40 col",                        IDM_VS40,       MIS_TEXT
-        MENUITEM "~80 col",                        IDM_VS80,       MIS_TEXT
-        MENUITEM SEPARATOR
-        MENUITEM "~Autodetect",                    IDM_VSDETECT,   MIS_TEXT
-      END
-      MENUITEM "S~uper PET I/O",                   IDM_SUPERPET,   MIS_TEXT
-      MENUITEM "E~OI blanks screen",               IDM_EOI,        MIS_TEXT
-      MENUITEM "Use C~rtc Video Chip",             IDM_CRTC,       MIS_TEXT
-      MENUITEM "ROM ~1 Kernal Patch",              IDM_ROMPATCH,   MIS_TEXT
-      MENUITEM "~Userport diagnostic pin",         IDM_DIAGPIN,    MIS_TEXT
-      MENUITEM "S~witch upper/lower case charset", IDM_CHARSET,    MIS_TEXT
-#endif
-#if !defined(__XPLUS4__) && !defined(__X64DTV__)
-      MENUITEM "Emulator ~Identification",      IDM_EMUID,     MIS_TEXT
-#endif
-#ifdef __X128
-      MENUITEM "RAM banks 2 & 3", IDM_C128FULLBANKS, MIS_TEXT
-#endif
-#ifdef __XPET__
-      MENUITEM "PET R~EU - Memory and Extension Unit", IDM_PETREU,       MIS_TEXT
-      SUBMENU  "PET REU Memory ~Size",        IDM_PETREUSIZE,   MIS_TEXT
-      BEGIN
-        MENUITEM "~128kB",                IDM_PETREU128,    MIS_TEXT
-        MENUITEM "~512kB",                IDM_PETREU512,    MIS_TEXT
-        MENUITEM "1~024kB",                IDM_PETREU1024,    MIS_TEXT
-        MENUITEM "~2048kB",                IDM_PETREU2048,    MIS_TEXT
-      END
-      MENUITEM "PET REU Filename",            IDM_PETREUFILE,   MIS_TEXT
-#endif
-#if defined __X64__ || defined __X128__
-#ifdef HAVE_TFE
-      MENUITEM "TFE - Cartridge",         IDM_TFE,       MIS_TEXT
-#endif 
-      MENUITEM "R~EU - Memory Extension", IDM_REU,       MIS_TEXT
-      SUBMENU  "REU Memory ~Size",        IDM_REUSIZE,   MIS_TEXT
-      BEGIN
-        MENUITEM "~128kB",                IDM_REU128,    MIS_TEXT
-        MENUITEM "~256kB",                IDM_REU256,    MIS_TEXT
-        MENUITEM "~512kB",                IDM_REU512,    MIS_TEXT
-        MENUITEM "102~4kB",               IDM_REU1024,   MIS_TEXT
-        MENUITEM "204~8kB",               IDM_REU2048,   MIS_TEXT
-        MENUITEM "409~6kB",               IDM_REU4096,   MIS_TEXT
-        MENUITEM "81~92kB",               IDM_REU8192,   MIS_TEXT
-        MENUITEM "16~384kB",              IDM_REU16384,  MIS_TEXT
-      END
-      MENUITEM "REU Filename",            IDM_REUFILE,   MIS_TEXT
-      MENUITEM "G~EORAM - Memory Extension", IDM_GEORAM,       MIS_TEXT
-      SUBMENU  "GEORAM Memory ~Size",        IDM_GEORAMSIZE,   MIS_TEXT
-      BEGIN
-        MENUITEM "~64kB",                 IDM_GEORAM64,    MIS_TEXT
-        MENUITEM "~128kB",                IDM_GEORAM128,    MIS_TEXT
-        MENUITEM "~256kB",                IDM_GEORAM256,    MIS_TEXT
-        MENUITEM "~512kB",                IDM_GEORAM512,    MIS_TEXT
-        MENUITEM "102~4kB",               IDM_GEORAM1024,   MIS_TEXT
-        MENUITEM "204~8kB",               IDM_GEORAM2048,   MIS_TEXT
-        MENUITEM "409~6kB",               IDM_GEORAM4096,   MIS_TEXT
-      END
-      MENUITEM "GEORAM Filename",            IDM_GEORAMFILE,   MIS_TEXT
-      MENUITEM "R~AMCART - Memory Expansion", IDM_RAMCART,       MIS_TEXT
-      SUBMENU  "RAMCART Memory ~Size",        IDM_RAMCARTSIZE,   MIS_TEXT
-      BEGIN
-        MENUITEM "~64kB",                IDM_RAMCART64,    MIS_TEXT
-        MENUITEM "~128kB",                IDM_RAMCART128,    MIS_TEXT
-      END
-      MENUITEM "RAMCART Filename",            IDM_RAMCARTFILE,   MIS_TEXT
-      MENUITEM "~DIGIMAX - Cartridge", IDM_DIGIMAX,       MIS_TEXT
-      SUBMENU  "DIGIMAX ~Base",        IDM_DIGIMAXBASE,   MIS_TEXT
-      BEGIN
-        MENUITEM "Userport",                IDM_DIGIMAXDD00,    MIS_TEXT
-        MENUITEM "$DE00",                IDM_DIGIMAXDE00,    MIS_TEXT
-        MENUITEM "$DE20",                IDM_DIGIMAXDE20,    MIS_TEXT
-        MENUITEM "$DE40",                IDM_DIGIMAXDE40,    MIS_TEXT
-        MENUITEM "$DE60",                IDM_DIGIMAXDE60,    MIS_TEXT
-        MENUITEM "$DE80",                IDM_DIGIMAXDE80,    MIS_TEXT
-        MENUITEM "$DEA0",                IDM_DIGIMAXDEA0,    MIS_TEXT
-        MENUITEM "$DEC0",                IDM_DIGIMAXDEC0,    MIS_TEXT
-        MENUITEM "$DEE0",                IDM_DIGIMAXDEE0,    MIS_TEXT
-        MENUITEM "$DF00",                IDM_DIGIMAXDF00,    MIS_TEXT
-        MENUITEM "$DF20",                IDM_DIGIMAXDF20,    MIS_TEXT
-        MENUITEM "$DF40",                IDM_DIGIMAXDF40,    MIS_TEXT
-        MENUITEM "$DF60",                IDM_DIGIMAXDF60,    MIS_TEXT
-        MENUITEM "$DF80",                IDM_DIGIMAXDF80,    MIS_TEXT
-        MENUITEM "$DFA0",                IDM_DIGIMAXDFA0,    MIS_TEXT
-        MENUITEM "$DFC0",                IDM_DIGIMAXDFC0,    MIS_TEXT
-        MENUITEM "$DFE0",                IDM_DIGIMAXDFE0,    MIS_TEXT
-      END
-      MENUITEM "EasyFlash Jumper", IDM_EASYFLASH_JUMPER, MIS_TEXT
-      MENUITEM "Save to EasyFlash .crt file on detach", IDM_EASYFLASH_AUTOSAVE, MIS_TEXT
-      MENUITEM "Save to EasyFlash .crt file now", IDM_EASYFLASH_SAVE_NOW, MIS_TEXT
-      MENUITEM "SFX Sound Expander cartridge", IDM_SFX_SE, MIS_TEXT
-      SUBMENU  "SFX Sound Expander YM chip type", IDM_SFX_SE_TYPE,   MIS_TEXT
-      BEGIN
-        MENUITEM "3526",                IDM_SFX_SE_3526,    MIS_TEXT
-        MENUITEM "3812",                IDM_SFX_SE_3812,    MIS_TEXT
-      END
-      MENUITEM "SFX Sound Sampler cartridge", IDM_SFX_SS, MIS_TEXT
-#endif // __X64__ || __X128__
+        SUBMENU "V~DC Memory Size",                       IDM_VDCMEMORY,                MIS_TEXT
+        BEGIN
+            MENUITEM "~16kB",                             IDM_VDC16K,                   MIS_TEXT
+            MENUITEM "~64kB",                             IDM_VDC64K,                   MIS_TEXT
+        END
+#endif      
+
+#if defined(__X64__) || defined(__X64DTV__) || defined(__X128__) || defined(__XVIC__)
+        SUBMENU "~Video Frequency Standard",              IDM_VIDEOSTD,                 MIS_TEXT
+        BEGIN
+            MENUITEM "~PAL-G",                            IDM_PAL,                      MIS_TEXT
+            MENUITEM "~NTSC-M",                           IDM_NTSC,                     MIS_TEXT
+
 #ifdef __X64__
-      MENUITEM "~Double Quick Brown Box", IDM_DQBB,       MIS_TEXT
-      MENUITEM "DQBB Filename",           IDM_DQBBFILE,   MIS_TEXT
-      MENUITEM "~Isepic cartridge", IDM_ISEPIC,       MIS_TEXT
-      MENUITEM "Isepic ~Switch",    IDM_ISEPIC_SWITCH,   MIS_TEXT
-      MENUITEM "PLUS~60K - Memory Expansion", IDM_PLUS60K,       MIS_TEXT
-      SUBMENU  "PLUS60K Base ~Address",        IDM_PLUS60KBASE,   MIS_TEXT
-      BEGIN
-        MENUITEM "$~D040",                IDM_PLUS60KD040,    MIS_TEXT
-        MENUITEM "$D~100",                IDM_PLUS60KD100,    MIS_TEXT
-      END
-      MENUITEM "PLUS60K Filename",            IDM_PLUS60KFILE,   MIS_TEXT
-      MENUITEM "PLUS2~56K - Memory Expansion", IDM_PLUS60K,       MIS_TEXT
-      MENUITEM "PLUS256K Filename",            IDM_PLUS256KFILE,   MIS_TEXT
-      MENUITEM "~256K - Memory Expansion", IDM_C64_256K,       MIS_TEXT
-      SUBMENU  "256K ~Base",        IDM_C64_256K_BASE,   MIS_TEXT
-      BEGIN
-        MENUITEM "$~DE00-$DE7F",                IDM_C64_256K_BASEDE00,    MIS_TEXT
-        MENUITEM "$D~E80-$DEFF",                IDM_C64_256K_BASEDE80,    MIS_TEXT
-        MENUITEM "$DF~00-$DF7F",                IDM_C64_256K_BASEDF00,    MIS_TEXT
-        MENUITEM "$D~F80-$DFFF",                IDM_C64_256K_BASEDF80,   MIS_TEXT
-      END
-      MENUITEM "256K Filename",            IDM_C64_256KFILE,   MIS_TEXT
+            MENUITEM "~old NTSC-M",                       IDM_NTSCOLD,                  MIS_TEXT
+#endif // __X64__
+
+        END
 #endif
-#ifdef __XVIC__
-      MENUITEM "OEM userport joystick", IDM_OEM_JOY, MIS_TEXT
+
+#if defined(__X64__) || defined(__X64DTV__) || defined(__X128__)
+        SUBMENU "Sprite Collision ~Detection",            IDM_COLLISION,                MIS_TEXT
+        BEGIN
+            MENUITEM "Sprite-~Sprite",                    IDM_SSCOLL,                   MIS_TEXT
+            MENUITEM "Sprite-~Background",                IDM_SBCOLL,                   MIS_TEXT
+        END
+#endif // __X64__ || __X128__
+
+        MENUITEM SEPARATOR
+        SUBMENU "Printer ~Emulation",                     IDM_PRINTER,                  MIS_TEXT
+        BEGIN
+            SUBMENU "IEC Device #~4",                     IDM_PRINTER4,                 MIS_TEXT
+            BEGIN
+                MENUITEM "~Enabled",                      IDM_PRT4IEC,                  MIS_TEXT
+                SUBMENU "~Printer Driver",                IDM_PRT4DRV,                  MIS_TEXT
+                BEGIN
+                    MENUITEM "~Ascii",                    IDM_PRT4ASCII,                MIS_TEXT
+                    MENUITEM "~MPS-803",                  IDM_PRT4MPS803,               MIS_TEXT
+                    MENUITEM "~NL-10",                    IDM_PRT4NL10,                 MIS_TEXT
+                END
+                SUBMENU "~Output Driver",                 IDM_PRT4OUT,                  MIS_TEXT
+                BEGIN
+                    MENUITEM "~Text",                     IDM_PRT4TXT,                  MIS_TEXT
+                    MENUITEM "~Graphics",                 IDM_PRT4GFX,                  MIS_TEXT
+                END
+            END  
+            SUBMENU "IEC Device #~5",                     IDM_PRINTER5,                 MIS_TEXT
+            BEGIN
+                MENUITEM "~Enabled",                      IDM_PRT5IEC,                  MIS_TEXT
+                SUBMENU  "~Printer Driver",               IDM_PRT5DRV,                  MIS_TEXT
+                BEGIN
+                    MENUITEM "~Ascii",                    IDM_PRT5ASCII,                MIS_TEXT
+                    MENUITEM "~MPS-803",                  IDM_PRT5MPS803,               MIS_TEXT
+                    MENUITEM "~NL-10",                    IDM_PRT5NL10,                 MIS_TEXT
+                END
+                SUBMENU "~Output Driver",                 IDM_PRT5OUT,                  MIS_TEXT
+                BEGIN
+                    MENUITEM "~Text",                     IDM_PRT5TXT,                  MIS_TEXT
+                    MENUITEM "~Graphics",                 IDM_PRT5GFX,                  MIS_TEXT
+                END
+            END
+            SUBMENU "~User Port",                         IDM_PRINTERUP,                MIS_TEXT
+            BEGIN
+                MENUITEM "~Enabled",                      IDM_PRTUP,                    MIS_TEXT
+                SUBMENU  "~Printer Driver",               IDM_PRTUPDRV,                 MIS_TEXT
+                BEGIN
+                    MENUITEM "~Ascii",                    IDM_PRTUPASCII,               MIS_TEXT
+                    MENUITEM "~MPS-803",                  IDM_PRTUPMPS803,              MIS_TEXT
+                    MENUITEM "~NL-10",                    IDM_PRTUPNL10,                MIS_TEXT
+                END
+                SUBMENU "~Output Driver",                 IDM_PRTUPOUT,                 MIS_TEXT
+                BEGIN
+                    MENUITEM "~Text",                     IDM_PRTUPTXT,                 MIS_TEXT
+                    MENUITEM "~Graphics",                 IDM_PRTUPGFX,                 MIS_TEXT
+                END
+            END  
+        END
+
+#if defined(HAVE_MOUSE) && (defined(__X128__) || defined(__X64__))
+        SUBMENU "Mouse Type",                             IDM_MOUSE_TYPE,               MIS_TEXT
+        BEGIN
+            MENUITEM "~1351",                             IDM_MOUSE_TYPE_1351,          MIS_TEXT
+            MENUITEM "~NEOS",                             IDM_MOUSE_TYPE_NEOS,          MIS_TEXT
+            MENUITEM "~AMIGA",                            IDM_MOUSE_TYPE_AMIGA,         MIS_TEXT
+            MENUITEM "~PADDLE",                           IDM_MOUSE_TYPE_PADDLE,        MIS_TEXT
+        END
+        SUBMENU "Mouse port",                             IDM_MOUSE_TYPE,               MIS_TEXT
+        BEGIN
+            MENUITEM "Port ~1",                           IDM_MOUSE_PORT_1,             MIS_TEXT
+            MENUITEM "Port ~2",                           IDM_MOUSE_PORT_2,             MIS_TEXT
+        END
+        MENUITEM "~Grab Mouse Events",                    IDM_MOUSE,                    MIS_TEXT
+        MENUITEM "~Hide Mouse Pointer",                   IDM_HIDEMOUSE,                MIS_TEXT
 #endif
+
+#if defined(HAVE_MOUSE) && defined(__XVIC__)
+        MENUITEM "~Enable Paddles",                       IDM_MOUSE,                    MIS_TEXT
+        MENUITEM "~Hide Mouse Pointer",                   IDM_HIDEMOUSE,                MIS_TEXT
+#endif
+
+        MENUITEM SEPARATOR
+
+#if defined(__XVIC__) || defined(__X128__)
+        MENUITEM "VIC-1112 IEEE~488 Interface",           IDM_IEEE,                     MIS_TEXT
+#endif // __XVIC__ || __X128__
+
 #ifdef __X128__
-      SUBMENU "Machine Type",          IDM_C128TYPE,     MIS_TEXT
-      BEGIN
-         MENUITEM "German",            IDM_C128GE,       MIS_TEXT
-         MENUITEM "French",            IDM_C128FR,       MIS_TEXT
-         MENUITEM "Finnish",           IDM_C128FI,       MIS_TEXT
-         MENUITEM "Italian",           IDM_C128IT,       MIS_TEXT
-         MENUITEM "Norwegian",         IDM_C128NO,       MIS_TEXT
-         MENUITEM "Swedish",           IDM_C128SW,       MIS_TEXT
-         MENUITEM SEPARATOR
-         MENUITEM "International",     IDM_C128INT,      MIS_TEXT
-      END
+        SUBMENU "Enable F~unction ROM",                   IDM_FUNCROM,                  MIS_TEXT
+        BEGIN
+            MENUITEM "~Internal",                         IDM_INTFUNCROM,               MIS_TEXT
+            MENUITEM "~External",                         IDM_EXTFUNCROM,               MIS_TEXT
+        END
+        MENUITEM "I~EEE488 Interface",                    IDM_IEEE,                     MIS_TEXT
+#endif // __X128__
+
+#ifdef __XCBM__
+        SUBMENU "Model",                                  IDM_MODEL,                    MIS_TEXT
+        BEGIN
+            MENUITEM "CBM 610",                           IDM_CBM610,                   MIS_TEXT
+            MENUITEM "CBM 620",                           IDM_CBM620,                   MIS_TEXT
+            MENUITEM "CBM 620+",                          IDM_CBM620P,                  MIS_TEXT
+            MENUITEM "CBM 710",                           IDM_CBM710,                   MIS_TEXT
+            MENUITEM "CBM 720",                           IDM_CBM720,                   MIS_TEXT
+            MENUITEM "CBM 720+",                          IDM_CBM720P,                  MIS_TEXT
+        END
+        SUBMENU "Model ~Line",                            IDM_MODELLINE,                MIS_TEXT
+        BEGIN
+            MENUITEM "~7x0 (50Hz)",                       IDM_MODEL750,                 MIS_TEXT
+            MENUITEM "6x0 (~50Hz)",                       IDM_MODEL650,                 MIS_TEXT
+            MENUITEM "~6x0 (60Hz)",                       IDM_MODEL660,                 MIS_TEXT
+        END
+        SUBMENU "RAM Si~ze",                              IDM_RAMSIZE,                  MIS_TEXT
+        BEGIN
+            MENUITEM "~64kB",                             IDM_RAM64,                    MIS_TEXT
+            MENUITEM "~128kB",                            IDM_RAM128,                   MIS_TEXT
+            MENUITEM "~256kB",                            IDM_RAM256,                   MIS_TEXT
+            MENUITEM "~512kB",                            IDM_RAM512,                   MIS_TEXT
+            MENUITEM "1~024kB",                           IDM_RAM1024,                  MIS_TEXT
+        END
+        SUBMENU "RAM M~apping",                           IDM_RAMMAPPING,               MIS_TEXT
+        BEGIN
+            MENUITEM "$0~800-$0FFF",                      IDM_RAM08,                    MIS_TEXT
+            MENUITEM "$~1000-$1FFF",                      IDM_RAM10,                    MIS_TEXT
+            MENUITEM "$~2000-$3FFF",                      IDM_RAM20,                    MIS_TEXT
+            MENUITEM "$~4000-$5FFF",                      IDM_RAM40,                    MIS_TEXT
+            MENUITEM "$~6000-$7FFF",                      IDM_RAM60,                    MIS_TEXT
+            MENUITEM "$~C000-$CFFF",                      IDM_RAMC0,                    MIS_TEXT
+        END
+#endif //__XCBM__
+
+#ifdef __XPET__
+        SUBMENU "PE~T Model",                             IDM_PETMODEL,                 MIS_TEXT
+        BEGIN
+            MENUITEM "2001-8N",                           IDM_PET2001,                  MIS_TEXT
+            MENUITEM "3008",                              IDM_PET3008,                  MIS_TEXT
+            MENUITEM "3016",                              IDM_PET3016,                  MIS_TEXT
+            MENUITEM "3032",                              IDM_PET3032,                  MIS_TEXT
+            MENUITEM "3032B",                             IDM_PET3032B,                 MIS_TEXT
+            MENUITEM "4016",                              IDM_PET4016,                  MIS_TEXT
+            MENUITEM "4032",                              IDM_PET4032,                  MIS_TEXT
+            MENUITEM "4032B",                             IDM_PET4032B,                 MIS_TEXT
+            MENUITEM "8032",                              IDM_PET8032,                  MIS_TEXT
+            MENUITEM "8096",                              IDM_PET8096,                  MIS_TEXT
+            MENUITEM "8296",                              IDM_PET8296,                  MIS_TEXT
+            MENUITEM "SuperPET",                          IDM_PETSUPER,                 MIS_TEXT
+        END
+        SUBMENU "RAM Si~ze",                              IDM_RAMSIZE,                  MIS_TEXT
+        BEGIN
+            MENUITEM "~4kB",                              IDM_PETRAM4,                  MIS_TEXT
+            MENUITEM "~8kB",                              IDM_PETRAM8,                  MIS_TEXT
+            MENUITEM "1~6kB",                             IDM_PETRAM16,                 MIS_TEXT
+            MENUITEM "~32kB",                             IDM_PETRAM32,                 MIS_TEXT
+            MENUITEM "~96kB",                             IDM_PETRAM96,                 MIS_TEXT
+            MENUITEM "~128kB",                            IDM_PETRAM128,                MIS_TEXT
+        END
+        SUBMENU "PET8296 ~4kB RAM Mapping",               IDM_RAMMAPPING,               MIS_TEXT
+        BEGIN
+            MENUITEM "$~9000-$9FFF",                      IDM_MAP9,                     MIS_TEXT
+            MENUITEM "$~A000-$AFFF",                      IDM_MAPA,                     MIS_TEXT
+        END
+        SUBMENU "I/O Memory ~Area Size",                  IDM_IOMEM,                    MIS_TEXT
+        BEGIN
+            MENUITEM "25~6 Bytes",                        IDM_IOMEM256,                 MIS_TEXT
+            MENUITEM "204~8 Bytes",                       IDM_IOMEM2K,                  MIS_TEXT
+        END
+        SUBMENU "Video Size",                             IDM_VIDEOSIZE,                MIS_TEXT
+        BEGIN
+            MENUITEM "~40 col",                           IDM_VS40,                     MIS_TEXT
+            MENUITEM "~80 col",                           IDM_VS80,                     MIS_TEXT
+            MENUITEM SEPARATOR
+            MENUITEM "~Autodetect",                       IDM_VSDETECT,                 MIS_TEXT
+        END
+        MENUITEM "S~uper PET I/O",                        IDM_SUPERPET,                 MIS_TEXT
+        MENUITEM "E~OI blanks screen",                    IDM_EOI,                      MIS_TEXT
+        MENUITEM "Use C~rtc Video Chip",                  IDM_CRTC,                     MIS_TEXT
+        MENUITEM "ROM ~1 Kernal Patch",                   IDM_ROMPATCH,                 MIS_TEXT
+        MENUITEM "~Userport diagnostic pin",              IDM_DIAGPIN,                  MIS_TEXT
+        MENUITEM "S~witch upper/lower case charset",      IDM_CHARSET,                  MIS_TEXT
+#endif
+
+#if !defined(__XPLUS4__) && !defined(__X64DTV__)
+        MENUITEM "Emulator ~Identification",              IDM_EMUID,                    MIS_TEXT
+#endif
+
+#ifdef __X128
+        MENUITEM "RAM banks 2 & 3",                       IDM_C128FULLBANKS,            MIS_TEXT
+#endif
+
+#ifdef __XPET__
+        MENUITEM "PET R~EU - Memory and Extension Unit",  IDM_PETREU,                   MIS_TEXT
+        SUBMENU "PET REU Memory ~Size",                   IDM_PETREUSIZE,               MIS_TEXT
+        BEGIN
+            MENUITEM "~128kB",                            IDM_PETREU128,                MIS_TEXT
+            MENUITEM "~512kB",                            IDM_PETREU512,                MIS_TEXT
+            MENUITEM "1~024kB",                           IDM_PETREU1024,               MIS_TEXT
+            MENUITEM "~2048kB",                           IDM_PETREU2048,               MIS_TEXT
+        END
+        MENUITEM "PET REU Filename",                      IDM_PETREUFILE,               MIS_TEXT
+#endif
+
+#if defined(__X64__) || defined(__X128__)
+
+#ifdef HAVE_TFE
+        MENUITEM "TFE - Cartridge",                       IDM_TFE,                      MIS_TEXT
+#endif 
+
+        MENUITEM "R~EU - Memory Extension",               IDM_REU,                      MIS_TEXT
+        SUBMENU "REU Memory ~Size",                       IDM_REUSIZE,                  MIS_TEXT
+        BEGIN
+            MENUITEM "~128kB",                            IDM_REU128,                   MIS_TEXT
+            MENUITEM "~256kB",                            IDM_REU256,                   MIS_TEXT
+            MENUITEM "~512kB",                            IDM_REU512,                   MIS_TEXT
+            MENUITEM "102~4kB",                           IDM_REU1024,                  MIS_TEXT
+            MENUITEM "204~8kB",                           IDM_REU2048,                  MIS_TEXT
+            MENUITEM "409~6kB",                           IDM_REU4096,                  MIS_TEXT
+            MENUITEM "81~92kB",                           IDM_REU8192,                  MIS_TEXT
+            MENUITEM "16~384kB",                          IDM_REU16384,                 MIS_TEXT
+        END
+        MENUITEM "REU Filename",                          IDM_REUFILE,                  MIS_TEXT
+        MENUITEM "G~EORAM - Memory Extension",            IDM_GEORAM,                   MIS_TEXT
+        SUBMENU "GEORAM Memory ~Size",                    IDM_GEORAMSIZE,               MIS_TEXT
+        BEGIN
+            MENUITEM "~64kB",                             IDM_GEORAM64,                 MIS_TEXT
+            MENUITEM "~128kB",                            IDM_GEORAM128,                MIS_TEXT
+            MENUITEM "~256kB",                            IDM_GEORAM256,                MIS_TEXT
+            MENUITEM "~512kB",                            IDM_GEORAM512,                MIS_TEXT
+            MENUITEM "102~4kB",                           IDM_GEORAM1024,               MIS_TEXT
+            MENUITEM "204~8kB",                           IDM_GEORAM2048,               MIS_TEXT
+            MENUITEM "409~6kB",                           IDM_GEORAM4096,               MIS_TEXT
+        END
+        MENUITEM "GEORAM Filename",                       IDM_GEORAMFILE,               MIS_TEXT
+        MENUITEM "R~AMCART - Memory Expansion",           IDM_RAMCART,                  MIS_TEXT
+        SUBMENU "RAMCART Memory ~Size",                   IDM_RAMCARTSIZE,              MIS_TEXT
+        BEGIN
+            MENUITEM "~64kB",                             IDM_RAMCART64,                MIS_TEXT
+            MENUITEM "~128kB",                            IDM_RAMCART128,               MIS_TEXT
+        END
+        MENUITEM "RAMCART Filename",                      IDM_RAMCARTFILE,              MIS_TEXT
+        MENUITEM "~DIGIMAX - Cartridge",                  IDM_DIGIMAX,                  MIS_TEXT
+        SUBMENU  "DIGIMAX ~Base",                         IDM_DIGIMAXBASE,              MIS_TEXT
+        BEGIN
+            MENUITEM "Userport",                          IDM_DIGIMAXDD00,              MIS_TEXT
+            MENUITEM "$DE00",                             IDM_DIGIMAXDE00,              MIS_TEXT
+            MENUITEM "$DE20",                             IDM_DIGIMAXDE20,              MIS_TEXT
+            MENUITEM "$DE40",                             IDM_DIGIMAXDE40,              MIS_TEXT
+            MENUITEM "$DE60",                             IDM_DIGIMAXDE60,              MIS_TEXT
+            MENUITEM "$DE80",                             IDM_DIGIMAXDE80,              MIS_TEXT
+            MENUITEM "$DEA0",                             IDM_DIGIMAXDEA0,              MIS_TEXT
+            MENUITEM "$DEC0",                             IDM_DIGIMAXDEC0,              MIS_TEXT
+            MENUITEM "$DEE0",                             IDM_DIGIMAXDEE0,              MIS_TEXT
+            MENUITEM "$DF00",                             IDM_DIGIMAXDF00,              MIS_TEXT
+            MENUITEM "$DF20",                             IDM_DIGIMAXDF20,              MIS_TEXT
+            MENUITEM "$DF40",                             IDM_DIGIMAXDF40,              MIS_TEXT
+            MENUITEM "$DF60",                             IDM_DIGIMAXDF60,              MIS_TEXT
+            MENUITEM "$DF80",                             IDM_DIGIMAXDF80,              MIS_TEXT
+            MENUITEM "$DFA0",                             IDM_DIGIMAXDFA0,              MIS_TEXT
+            MENUITEM "$DFC0",                             IDM_DIGIMAXDFC0,              MIS_TEXT
+            MENUITEM "$DFE0",                             IDM_DIGIMAXDFE0,              MIS_TEXT
+        END
+        MENUITEM "EasyFlash Jumper",                      IDM_EASYFLASH_JUMPER,         MIS_TEXT
+        MENUITEM "Save to EasyFlash .crt file on detach", IDM_EASYFLASH_AUTOSAVE,       MIS_TEXT
+        MENUITEM "Save to EasyFlash .crt file now",       IDM_EASYFLASH_SAVE_NOW,       MIS_TEXT
+        MENUITEM "SFX Sound Expander cartridge",          IDM_SFX_SE,                   MIS_TEXT
+        SUBMENU "SFX Sound Expander YM chip type",        IDM_SFX_SE_TYPE,              MIS_TEXT
+        BEGIN
+            MENUITEM "3526",                              IDM_SFX_SE_3526,              MIS_TEXT
+            MENUITEM "3812",                              IDM_SFX_SE_3812,              MIS_TEXT
+        END
+        MENUITEM "SFX Sound Sampler cartridge",           IDM_SFX_SS,                   MIS_TEXT
+#endif // __X64__ || __X128__
+
+#ifdef __X64__
+        MENUITEM "~Double Quick Brown Box",               IDM_DQBB,                     MIS_TEXT
+        MENUITEM "DQBB Filename",                         IDM_DQBBFILE,                 MIS_TEXT
+        MENUITEM "~Isepic cartridge",                     IDM_ISEPIC,                   MIS_TEXT
+        MENUITEM "Isepic ~Switch",                        IDM_ISEPIC_SWITCH,            MIS_TEXT
+        MENUITEM "PLUS~60K - Memory Expansion",           IDM_PLUS60K,                  MIS_TEXT
+        SUBMENU "PLUS60K Base ~Address",                  IDM_PLUS60KBASE,              MIS_TEXT
+        BEGIN
+            MENUITEM "$~D040",                            IDM_PLUS60KD040,              MIS_TEXT
+            MENUITEM "$D~100",                            IDM_PLUS60KD100,              MIS_TEXT
+        END
+        MENUITEM "PLUS60K Filename",                      IDM_PLUS60KFILE,              MIS_TEXT
+        MENUITEM "PLUS2~56K - Memory Expansion",          IDM_PLUS256K,                 MIS_TEXT
+        MENUITEM "PLUS256K Filename",                     IDM_PLUS256KFILE,             MIS_TEXT
+        MENUITEM "~256K - Memory Expansion",              IDM_C64_256K,                 MIS_TEXT
+        SUBMENU "256K ~Base",                             IDM_C64_256K_BASE,            MIS_TEXT
+        BEGIN
+            MENUITEM "$~DE00-$DE7F",                      IDM_C64_256K_BASEDE00,        MIS_TEXT
+            MENUITEM "$D~E80-$DEFF",                      IDM_C64_256K_BASEDE80,        MIS_TEXT
+            MENUITEM "$DF~00-$DF7F",                      IDM_C64_256K_BASEDF00,        MIS_TEXT
+            MENUITEM "$D~F80-$DFFF",                      IDM_C64_256K_BASEDF80,        MIS_TEXT
+        END
+        MENUITEM "256K Filename",                         IDM_C64_256KFILE,             MIS_TEXT
+#endif
+
+#ifdef __XVIC__
+        MENUITEM "OEM userport joystick",                 IDM_OEM_JOY,                  MIS_TEXT
+#endif
+
+#ifdef __X128__
+        SUBMENU "Machine Type",                           IDM_C128TYPE,                 MIS_TEXT
+        BEGIN
+            MENUITEM "German",                            IDM_C128GE,                   MIS_TEXT
+            MENUITEM "French",                            IDM_C128FR,                   MIS_TEXT
+            MENUITEM "Finnish",                           IDM_C128FI,                   MIS_TEXT
+            MENUITEM "Italian",                           IDM_C128IT,                   MIS_TEXT
+            MENUITEM "Norwegian",                         IDM_C128NO,                   MIS_TEXT
+            MENUITEM "Swedish",                           IDM_C128SW,                   MIS_TEXT
+            MENUITEM SEPARATOR
+            MENUITEM "International",                     IDM_C128INT,                  MIS_TEXT
+        END
 #endif
 
 #ifndef __XPLUS4__
-      MENUITEM SEPARATOR
+        MENUITEM SEPARATOR
 #endif
-      MENUITEM "Show Menu ~Bar\tAlt-B",    IDM_MENUBAR,   MIS_TEXT
-//      MENUITEM "Show Status ~Line\tAlt-L", IDM_STATUSBAR, MIS_TEXT
-      MENUITEM "~Pause Emulation\tAlt-P", IDM_PAUSE,   MIS_TEXT
-   END
-   SUBMENU "~Sound",                    IDM_SOUND,        MIS_TEXT
-   BEGIN
-   	MENUITEM "~Enabled",            IDM_SOUNDON,      MIS_TEXT
-     SUBMENU "~Volume",                 IDM_VOLUME,       MIS_TEXT
-     BEGIN
-       MENUITEM "10~0%",                IDM_VOL100,       MIS_TEXT
-       MENUITEM "~90%",                 IDM_VOL90,        MIS_TEXT
-       MENUITEM "~80%",                 IDM_VOL80,        MIS_TEXT
-       MENUITEM "~70%",                 IDM_VOL70,        MIS_TEXT
-       MENUITEM "~60%",                 IDM_VOL60,        MIS_TEXT
-       MENUITEM "~50%",                 IDM_VOL50,        MIS_TEXT
-       MENUITEM "~40%",                 IDM_VOL40,        MIS_TEXT
-       MENUITEM "~30%",                 IDM_VOL30,        MIS_TEXT
-       MENUITEM "~20%",                 IDM_VOL20,        MIS_TEXT
-       MENUITEM "~10%",                 IDM_VOL10,        MIS_TEXT
-     END
-     MENUITEM SEPARATOR
-#if defined __X64__ || defined __X128__ || defined __XCBM__ || defined __X64DTV__
-     SUBMENU "SID ~Chip",                      IDM_SIDCHIP,         MIS_TEXT
-     BEGIN
-       MENUITEM "~6581",                       IDM_SC6581,          MIS_TEXT
-       MENUITEM "~8580",                       IDM_SC8580,          MIS_TEXT
+
+        MENUITEM "Show Menu ~Bar\tAlt-B",                 IDM_MENUBAR,                  MIS_TEXT
+        MENUITEM "~Pause Emulation\tAlt-P",               IDM_PAUSE,                    MIS_TEXT
+    END
+    SUBMENU "~Sound",                                     IDM_SOUND,                    MIS_TEXT
+    BEGIN
+        MENUITEM "~Enabled",                              IDM_SOUNDON,                  MIS_TEXT
+        SUBMENU "~Volume",                                IDM_VOLUME,                   MIS_TEXT
+        BEGIN
+            MENUITEM "10~0%",                             IDM_VOL100,                   MIS_TEXT
+            MENUITEM "~90%",                              IDM_VOL90,                    MIS_TEXT
+            MENUITEM "~80%",                              IDM_VOL80,                    MIS_TEXT
+            MENUITEM "~70%",                              IDM_VOL70,                    MIS_TEXT
+            MENUITEM "~60%",                              IDM_VOL60,                    MIS_TEXT
+            MENUITEM "~50%",                              IDM_VOL50,                    MIS_TEXT
+            MENUITEM "~40%",                              IDM_VOL40,                    MIS_TEXT
+            MENUITEM "~30%",                              IDM_VOL30,                    MIS_TEXT
+            MENUITEM "~20%",                              IDM_VOL20,                    MIS_TEXT
+            MENUITEM "~10%",                              IDM_VOL10,                    MIS_TEXT
+        END
+        MENUITEM SEPARATOR
+
+#if defined(__X64__) || defined(__X128__) || defined(__XCBM__) || defined(__X64DTV__)
+        SUBMENU "SID ~Chip",                              IDM_SIDCHIP,                  MIS_TEXT
+        BEGIN
+            MENUITEM "~6581",                             IDM_SC6581,                   MIS_TEXT
+            MENUITEM "~8580",                             IDM_SC8580,                   MIS_TEXT
+
 #ifndef __X64DTV__
-       MENUITEM "~8580 + digi boost",          IDM_SC8580DB,        MIS_TEXT
+            MENUITEM "~8580 + digi boost",                IDM_SC8580DB,                 MIS_TEXT
 #else
-       MENUITEM "~DTV SID",                    IDM_SCDTV,           MIS_TEXT
+            MENUITEM "~DTV SID",                          IDM_SCDTV,                    MIS_TEXT
 #endif
+
 #ifdef HAVE_RESID_FP
-       MENUITEM "~6581R3 (4885)",              IDM_SC6581R3_4885,   MIS_TEXT
-       MENUITEM "~6581R3 (0486S)",             IDM_SC6581R3_0486S,  MIS_TEXT
-       MENUITEM "~6581R3 (3984)",              IDM_SC6581R3_3984,   MIS_TEXT
-       MENUITEM "~6581R4AR (3789)",            IDM_SC6581R4AR_3789, MIS_TEXT
-       MENUITEM "~6581R3 (4485)",              IDM_SC6581R3_4485,   MIS_TEXT
-       MENUITEM "~6581R4 (1986S)",             IDM_SC6581R4_1986S,  MIS_TEXT
-       MENUITEM "~8580R5 (3691)",              IDM_SC8580R5_3691,   MIS_TEXT
-       MENUITEM "~8580R5 (3691) + digi boost", IDM_SC8580R5_3691DB, MIS_TEXT
-       MENUITEM "~8580R5 (1489)",              IDM_SC8580R5_1489,   MIS_TEXT
-       MENUITEM "~8580R5 (1489) + digi boost", IDM_SC8580R5_1489DB, MIS_TEXT
+            MENUITEM "~6581R3 (4885)",                    IDM_SC6581R3_4885,            MIS_TEXT
+            MENUITEM "~6581R3 (0486S)",                   IDM_SC6581R3_0486S,           MIS_TEXT
+            MENUITEM "~6581R3 (3984)",                    IDM_SC6581R3_3984,            MIS_TEXT
+            MENUITEM "~6581R4AR (3789)",                  IDM_SC6581R4AR_3789,          MIS_TEXT
+            MENUITEM "~6581R3 (4485)",                    IDM_SC6581R3_4485,            MIS_TEXT
+            MENUITEM "~6581R4 (1986S)",                   IDM_SC6581R4_1986S,           MIS_TEXT
+            MENUITEM "~8580R5 (3691)",                    IDM_SC8580R5_3691,            MIS_TEXT
+            MENUITEM "~8580R5 (3691) + digi boost",       IDM_SC8580R5_3691DB,          MIS_TEXT
+            MENUITEM "~8580R5 (1489)",                    IDM_SC8580R5_1489,            MIS_TEXT
+            MENUITEM "~8580R5 (1489) + digi boost",       IDM_SC8580R5_1489DB,          MIS_TEXT
 #endif
-     END
-     MENUITEM "SID ~Filter",            IDM_SIDFILTER,    MIS_TEXT
+
+        END
+        MENUITEM "SID ~Filter",                           IDM_SIDFILTER,                MIS_TEXT
+
 #ifndef __X64DTV__
-     MENUITEM "2nd SID (stereo)",       IDM_STEREO,       MIS_TEXT
+        MENUITEM "2nd SID (stereo)",                      IDM_STEREO,                   MIS_TEXT
 #endif
-     MENUITEM SEPARATOR
+
+        MENUITEM SEPARATOR
 #endif // __X64__ || __X128__ || __XCBM__
-     SUBMENU "~Sampling Rate",          IDM_SAMPLINGRATE, MIS_TEXT
-     BEGIN
-       MENUITEM "~8000 Hz",             IDM_SR8000,       MIS_TEXT
-       MENUITEM "~11025 Hz",            IDM_SR11025,      MIS_TEXT
-       MENUITEM "~22050 Hz",            IDM_SR22050,      MIS_TEXT
-       MENUITEM "~44100 Hz",            IDM_SR44100,      MIS_TEXT
-     END
-     SUBMENU "~Buffer Length",          IDM_BUFFER,       MIS_TEXT
-     BEGIN
-       MENUITEM "0.~10s",               IDM_BUF010,       MIS_TEXT
-       MENUITEM "0.~25s",               IDM_BUF025,       MIS_TEXT
-       MENUITEM "0.~40s",               IDM_BUF040,       MIS_TEXT
-       MENUITEM "0.~55s",               IDM_BUF055,       MIS_TEXT
-       MENUITEM "0.~70s",               IDM_BUF070,       MIS_TEXT
-       MENUITEM "0.~85s",               IDM_BUF085,       MIS_TEXT
-       MENUITEM "1.~00s",               IDM_BUF100,       MIS_TEXT
-     END
-     SUBMENU "S~yncronization",         IDM_SOUNDSYNC,    MIS_TEXT
-     BEGIN
-       MENUITEM "~Flexible",            IDM_SYNCFLEX,     MIS_TEXT
-       MENUITEM "~Adjusting",           IDM_SYNCADJUST,   MIS_TEXT
-       MENUITEM "~Exact",               IDM_SYNCEXACT,    MIS_TEXT
-     END
-     SUBMENU "Output ~Device",          IDM_SOUNDDEV,     MIS_TEXT
-     BEGIN
-       MENUITEM "~DART - Speaker",      IDM_DEVDART,      MIS_TEXT
-       MENUITEM "~SID - File",          IDM_DEVSID,       MIS_TEXT
-       MENUITEM "~WAV - File",          IDM_DEVWAV,       MIS_TEXT
-       MENUITEM "~RAW - File",          IDM_DEVRAW,       MIS_TEXT
-       MENUITEM "Dumm~y Driver - NUL",  IDM_DEVDUMMY,     MIS_TEXT
-     END
+
+        SUBMENU "~Sampling Rate",                         IDM_SAMPLINGRATE,             MIS_TEXT
+        BEGIN
+            MENUITEM "~8000 Hz",                          IDM_SR8000,                   MIS_TEXT
+            MENUITEM "~11025 Hz",                         IDM_SR11025,                  MIS_TEXT
+            MENUITEM "~22050 Hz",                         IDM_SR22050,                  MIS_TEXT
+            MENUITEM "~44100 Hz",                         IDM_SR44100,                  MIS_TEXT
+        END
+        SUBMENU "~Buffer Length",                         IDM_BUFFER,                   MIS_TEXT
+        BEGIN
+            MENUITEM "0.~10s",                            IDM_BUF010,                   MIS_TEXT
+            MENUITEM "0.~25s",                            IDM_BUF025,                   MIS_TEXT
+            MENUITEM "0.~40s",                            IDM_BUF040,                   MIS_TEXT
+            MENUITEM "0.~55s",                            IDM_BUF055,                   MIS_TEXT
+            MENUITEM "0.~70s",                            IDM_BUF070,                   MIS_TEXT
+            MENUITEM "0.~85s",                            IDM_BUF085,                   MIS_TEXT
+            MENUITEM "1.~00s",                            IDM_BUF100,                   MIS_TEXT
+        END
+        SUBMENU "S~yncronization",                        IDM_SOUNDSYNC,                MIS_TEXT
+        BEGIN
+            MENUITEM "~Flexible",                         IDM_SYNCFLEX,                 MIS_TEXT
+            MENUITEM "~Adjusting",                        IDM_SYNCADJUST,               MIS_TEXT
+            MENUITEM "~Exact",                            IDM_SYNCEXACT,                MIS_TEXT
+        END
+        SUBMENU "Output ~Device",                         IDM_SOUNDDEV,                 MIS_TEXT
+        BEGIN
+            MENUITEM "~DART - Speaker",                   IDM_DEVDART,                  MIS_TEXT
+            MENUITEM "~SID - File",                       IDM_DEVSID,                   MIS_TEXT
+            MENUITEM "~WAV - File",                       IDM_DEVWAV,                   MIS_TEXT
+            MENUITEM "~RAW - File",                       IDM_DEVRAW,                   MIS_TEXT
+            MENUITEM "Dumm~y Driver - NUL",               IDM_DEVDUMMY,                 MIS_TEXT
+        END
+
 #ifdef HAVE_RESID
-     MENUITEM SEPARATOR
+        MENUITEM SEPARATOR
+
 #ifndef __X64DTV__
-     MENUITEM "~reSID (HiFi)",          IDM_RESID,         MIS_TEXT
+        MENUITEM "~reSID (HiFi)",                         IDM_RESID,                    MIS_TEXT
 #else
-     MENUITEM "~reSID-DTV (HiFi)",          IDM_RESID,         MIS_TEXT
+        MENUITEM "~reSID-DTV (HiFi)",                     IDM_RESID,                    MIS_TEXT
 #endif
-     SUBMENU "Sampling ~Method",        IDM_RESIDMETHOD,   MIS_TEXT
-     BEGIN
-       SUBMENU "Resampling ~Bandwidth", IDM_RESIDBAND,     MIS_TEXT
-       BEGIN
-         MENUITEM "~0%",                IDM_RESIDPASS0,    MIS_TEXT
-         MENUITEM "~10%",               IDM_RESIDPASS10,   MIS_TEXT
-         MENUITEM "~20%",               IDM_RESIDPASS20,   MIS_TEXT
-         MENUITEM "~30%",               IDM_RESIDPASS30,   MIS_TEXT
-         MENUITEM "~40%",               IDM_RESIDPASS40,   MIS_TEXT
-         MENUITEM "~50%",               IDM_RESIDPASS50,   MIS_TEXT
-         MENUITEM "~60%",               IDM_RESIDPASS60,   MIS_TEXT
-         MENUITEM "~70%",               IDM_RESIDPASS70,   MIS_TEXT
-         MENUITEM "~80%",               IDM_RESIDPASS80,   MIS_TEXT
-         MENUITEM "~90%",               IDM_RESIDPASS90,   MIS_TEXT
-       END
-       MENUITEM SEPARATOR
-       MENUITEM "~Fast",                IDM_RESIDFAST,     MIS_TEXT
-       MENUITEM "~Interpolation",       IDM_RESIDINTERPOL, MIS_TEXT
-       MENUITEM "~Resampling",          IDM_RESIDRESAMPLE, MIS_TEXT
-       MENUITEM "Fast Re~sampling",     IDM_RESIDFASTRES,  MIS_TEXT
-     END
+
+        SUBMENU "Sampling ~Method",                       IDM_RESIDMETHOD,              MIS_TEXT
+        BEGIN
+            SUBMENU "Resampling ~Bandwidth",              IDM_RESIDBAND,                MIS_TEXT
+            BEGIN
+                MENUITEM "~0%",                           IDM_RESIDPASS0,               MIS_TEXT
+                MENUITEM "~10%",                          IDM_RESIDPASS10,              MIS_TEXT
+                MENUITEM "~20%",                          IDM_RESIDPASS20,              MIS_TEXT
+                MENUITEM "~30%",                          IDM_RESIDPASS30,              MIS_TEXT
+                MENUITEM "~40%",                          IDM_RESIDPASS40,              MIS_TEXT
+                MENUITEM "~50%",                          IDM_RESIDPASS50,              MIS_TEXT
+                MENUITEM "~60%",                          IDM_RESIDPASS60,              MIS_TEXT
+                MENUITEM "~70%",                          IDM_RESIDPASS70,              MIS_TEXT
+                MENUITEM "~80%",                          IDM_RESIDPASS80,              MIS_TEXT
+                MENUITEM "~90%",                          IDM_RESIDPASS90,              MIS_TEXT
+            END
+            MENUITEM SEPARATOR
+            MENUITEM "~Fast",                             IDM_RESIDFAST,                MIS_TEXT
+            MENUITEM "~Interpolation",                    IDM_RESIDINTERPOL,            MIS_TEXT
+            MENUITEM "~Resampling",                       IDM_RESIDRESAMPLE,            MIS_TEXT
+            MENUITEM "Fast Re~sampling",                  IDM_RESIDFASTRES,             MIS_TEXT
+        END
 #endif
-   END
-   SUBMENU "~Help",                    IDM_HELP,       MIS_TEXT|MIS_BUTTONSEPARATOR
-   BEGIN
-      MENUITEM "Help ~index",          IDM_HLPINDEX,   MIS_TEXT
-      MENUITEM "~General help",        IDM_HLPGENERAL, MIS_TEXT
-      // MENUITEM "~Using help",          IDM_HLPUSINGHLP, MIS_TEXT
-      // MENUITEM "~Keyboard",            IDM_HLPKEYBOARD, MIS_TEXT
-      MENUITEM SEPARATOR
-      MENUITEM "~Commandline Options",   IDM_CMDLINE,  MIS_TEXT
-      MENUITEM "Available ~Video Modes", IDM_FSMODES,  MIS_TEXT
-      MENUITEM SEPARATOR
-      MENUITEM "~About Vice/2...",       IDM_ABOUT,    MIS_TEXT
-   END
+
+    END
+    SUBMENU "~Help",                                      IDM_HELP,                     MIS_TEXT | MIS_BUTTONSEPARATOR
+    BEGIN
+        MENUITEM "Help ~index",                           IDM_HLPINDEX,                 MIS_TEXT
+        MENUITEM "~General help",                         IDM_HLPGENERAL,               MIS_TEXT
+        MENUITEM SEPARATOR
+        MENUITEM "~Commandline Options",                  IDM_CMDLINE,                  MIS_TEXT
+        MENUITEM "Available ~Video Modes",                IDM_FSMODES,                  MIS_TEXT
+        MENUITEM SEPARATOR
+        MENUITEM "~About Vice/2...",                      IDM_ABOUT,                    MIS_TEXT
+    END
 END
 
 ACCELTABLE IDM_VICE2 MOVEABLE DISCARDABLE
 BEGIN
-   VK_PRINTSCRN, IDM_PRINTSCRN,   ALT, VIRTUALKEY
-   VK_F1,        IDM_MENUBAR,     ALT, VIRTUALKEY
-   VK_F1,        IDM_MENUBAR,     ALT, SHIFT, VIRTUALKEY
-   VK_F2,        IDM_FILESAVE,    ALT, VIRTUALKEY
-   VK_F2,        IDM_FILESAVE,    ALT, SHIFT, VIRTUALKEY
-   VK_F3,        IDM_FILEOPEN,    ALT, VIRTUALKEY
-   VK_F3,        IDM_FILEOPEN,    ALT, SHIFT, VIRTUALKEY
-   "0",          IDM_ATTACHTAPE,  ALT
-   "2",          IDM_DSIZE,       ALT
+    VK_PRINTSCRN, IDM_PRINTSCRN,   ALT, VIRTUALKEY
+    VK_F1,        IDM_MENUBAR,     ALT, VIRTUALKEY
+    VK_F1,        IDM_MENUBAR,     ALT, SHIFT, VIRTUALKEY
+    VK_F2,        IDM_FILESAVE,    ALT, VIRTUALKEY
+    VK_F2,        IDM_FILESAVE,    ALT, SHIFT, VIRTUALKEY
+    VK_F3,        IDM_FILEOPEN,    ALT, VIRTUALKEY
+    VK_F3,        IDM_FILEOPEN,    ALT, SHIFT, VIRTUALKEY
+    "0",          IDM_ATTACHTAPE,  ALT
+    "2",          IDM_DSIZE,       ALT
+
 #ifdef HAVE_PAL
-   "3",          IDM_TOGGLEPAL,   ALT
+    "3",          IDM_TOGGLEPAL,   ALT
 #endif
-   "4",          IDM_PRT4IEC,     ALT
-   "5",          IDM_PRT5IEC,     ALT
-   "8",          IDM_ATTACH8,     ALT
-   "9",          IDM_ATTACH9,     ALT
-   "a",          IDM_ABOUT,       ALT
-   "A",          IDM_ABOUT,       ALT, SHIFT
-   "b",          IDM_MENUBAR,     ALT
-   "B",          IDM_MENUBAR,     ALT, SHIFT
-   "c",          IDM_DATASETTE,   ALT
-   "C",          IDM_DATASETTE,   ALT, SHIFT
-   "d",          IDM_DRIVE,       ALT
-   "D",          IDM_DRIVE,       ALT, SHIFT
-#if defined __X64__ || defined __X128__ || defined __XCBM__ || defined __X64DTV__
-   "i",          IDM_COLOR,       ALT
-   "I",          IDM_COLOR,       ALT, SHIFT
+
+    "4",          IDM_PRT4IEC,     ALT
+    "5",          IDM_PRT5IEC,     ALT
+    "8",          IDM_ATTACH8,     ALT
+    "9",          IDM_ATTACH9,     ALT
+    "a",          IDM_ABOUT,       ALT
+    "A",          IDM_ABOUT,       ALT, SHIFT
+    "b",          IDM_MENUBAR,     ALT
+    "B",          IDM_MENUBAR,     ALT, SHIFT
+    "c",          IDM_DATASETTE,   ALT
+    "C",          IDM_DATASETTE,   ALT, SHIFT
+    "d",          IDM_DRIVE,       ALT
+    "D",          IDM_DRIVE,       ALT, SHIFT
+
+#if defined(__X64__) || defined(__X128__) || defined(__XCBM__) || defined(__X64DTV__)
+    "i",          IDM_COLOR,       ALT
+    "I",          IDM_COLOR,       ALT, SHIFT
 #endif
+
 #ifdef HAS_JOYSTICK
-   "j",          IDM_JOYSTICK,    ALT
-   "J",          IDM_JOYSTICK,    ALT, SHIFT
+    "j",          IDM_JOYSTICK,    ALT
+    "J",          IDM_JOYSTICK,    ALT, SHIFT
 #endif
-   "l",          IDM_LOGWIN,      ALT
-   "L",          IDM_LOGWIN,      ALT, SHIFT
-   "m",          IDM_MONITOR,     ALT
-   "M",          IDM_MONITOR,     ALT, SHIFT
-   "n",          IDM_FLIPNEXT8,   ALT
-   "N",          IDM_FLIPNEXT8,   ALT, SHIFT
-   "p",          IDM_PAUSE,       ALT
-   "P",          IDM_PAUSE,       ALT, SHIFT
-   "q",          IDM_HARDRESET,   ALT
-   "Q",          IDM_HARDRESET,   ALT, SHIFT
-   "r",          IDM_SOFTRESET,   ALT
-   "R",          IDM_SOFTRESET,   ALT, SHIFT
-   "t",          IDM_TRUEDRIVE,   ALT
-   "T",          IDM_TRUEDRIVE,   ALT, SHIFT
-   "w",          IDM_WRITECONFIG, ALT
-   "W",          IDM_WRITECONFIG, ALT, SHIFT
-   "+",          IDM_PLUS,        ALT
-   "-",          IDM_MINUS,       ALT
+
+    "l",          IDM_LOGWIN,      ALT
+    "L",          IDM_LOGWIN,      ALT, SHIFT
+    "m",          IDM_MONITOR,     ALT
+    "M",          IDM_MONITOR,     ALT, SHIFT
+    "n",          IDM_FLIPNEXT8,   ALT
+    "N",          IDM_FLIPNEXT8,   ALT, SHIFT
+    "p",          IDM_PAUSE,       ALT
+    "P",          IDM_PAUSE,       ALT, SHIFT
+    "q",          IDM_HARDRESET,   ALT
+    "Q",          IDM_HARDRESET,   ALT, SHIFT
+    "r",          IDM_SOFTRESET,   ALT
+    "R",          IDM_SOFTRESET,   ALT, SHIFT
+    "t",          IDM_TRUEDRIVE,   ALT
+    "T",          IDM_TRUEDRIVE,   ALT, SHIFT
+    "w",          IDM_WRITECONFIG, ALT
+    "W",          IDM_WRITECONFIG, ALT, SHIFT
+    "+",          IDM_PLUS,        ALT
+    "-",          IDM_MINUS,       ALT
 END
 
 #ifndef WATCOM_COMPILE
@@ -749,71 +767,3 @@ BEGIN
     HELPSUBITEM IDM_EXIT,        IDM_EXIT
 END
 #endif
-
-   /*** Virtual key values *************************************************
-   #define VK_BUTTON1                 0x01
-   #define VK_BUTTON2                 0x02
-   #define VK_BUTTON3                 0x03
-   #define VK_BREAK                   0x04
-   #define VK_BACKSPACE               0x05
-   #define VK_TAB                     0x06
-   #define VK_BACKTAB                 0x07
-   #define VK_NEWLINE                 0x08
-   #define VK_SHIFT                   0x09
-   #define VK_CTRL                    0x0A
-   #define VK_ALT                     0x0B
-   #define VK_ALTGRAF                 0x0C
-   #define VK_PAUSE                   0x0D
-   #define VK_CAPSLOCK                0x0E
-   #define VK_ESC                     0x0F
-   #define VK_SPACE                   0x10
-   #define VK_PAGEUP                  0x11
-   #define VK_PAGEDOWN                0x12
-   #define VK_END                     0x13
-   #define VK_HOME                    0x14
-   #define VK_LEFT                    0x15
-   #define VK_UP                      0x16
-   #define VK_RIGHT                   0x17
-   #define VK_DOWN                    0x18
-   #define VK_PRINTSCRN               0x19
-   #define VK_INSERT                  0x1A
-   #define VK_DELETE                  0x1B
-   #define VK_SCRLLOCK                0x1C
-   #define VK_NUMLOCK                 0x1D
-   #define VK_ENTER                   0x1E
-   #define VK_SYSRQ                   0x1F
-   #define VK_F1                      0x20
-   #define VK_F2                      0x21
-   #define VK_F3                      0x22
-   #define VK_F4                      0x23
-   #define VK_F5                      0x24
-   #define VK_F6                      0x25
-   #define VK_F7                      0x26
-   #define VK_F8                      0x27
-   #define VK_F9                      0x28
-   #define VK_F10                     0x29
-   #define VK_F11                     0x2A
-   #define VK_F12                     0x2B
-   #define VK_F13                     0x2C
-   #define VK_F14                     0x2D
-   #define VK_F15                     0x2E
-   #define VK_F16                     0x2F
-   #define VK_F17                     0x30
-   #define VK_F18                     0x31
-   #define VK_F19                     0x32
-   #define VK_F20                     0x33
-   #define VK_F21                     0x34
-   #define VK_F22                     0x35
-   #define VK_F23                     0x36
-   #define VK_F24                     0x37
-   #define VK_ENDDRAG                 0x38
-   #define VK_CLEAR                   0x39
-   #define VK_EREOF                   0x3A
-   #define VK_PA1                     0x3B
-   #define VK_ATTN                    0x3C
-   #define VK_CRSEL                   0x3D
-   #define VK_EXSEL                   0x3E
-   #define VK_COPY                    0x3F
-   #define VK_BLK1                    0x40
-   #define VK_BLK2                    0x41
-*/

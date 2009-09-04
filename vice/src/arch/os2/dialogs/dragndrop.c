@@ -26,8 +26,8 @@
 
 #define INCL_WINSTDDRAG      // Drg*
 #define INCL_WINPOINTERS     // WinLoadPointer
-#include <os2.h>
 
+#include <os2.h>
 #include <stdio.h>      // FILE
 #include <string.h>     // strlen, strcat
 
@@ -35,47 +35,48 @@
 #include "machine.h"    // vsid_mode
 #include "resources.h"
 #include "autostart.h"  // autostart_autodetect
-#if defined __X64__
+
+#ifdef __X64__
 #include "psid.h"       // psid_init_driver
 #endif
 
-
 MRESULT DragOver(PDRAGINFO pDraginfo)
 {
-    FILE     *f;
-    char      dir[CCHMAXPATH];
-    char      nam[CCHMAXPATH];
+    FILE *f;
+    char dir[CCHMAXPATH];
+    char nam[CCHMAXPATH];
     HPOINTER  hpt;
     DRAGITEM *pditem;
 
     /*
      * Determine if a drop can be accepted.
      */
-    if (pDraginfo->usOperation != DO_MOVE &&
-        pDraginfo->usOperation != DO_COPY &&
-        pDraginfo->usOperation != DO_LINK &&
-        pDraginfo->usOperation != DO_UNKNOWN &&
-        pDraginfo->usOperation != DO_DEFAULT)
+    if (pDraginfo->usOperation != DO_MOVE && pDraginfo->usOperation != DO_COPY && pDraginfo->usOperation != DO_LINK &&
+        pDraginfo->usOperation != DO_UNKNOWN && pDraginfo->usOperation != DO_DEFAULT) {
         return MRFROM2SHORT(DOR_NODROPOP, 0);
+    }
 
     pditem = DrgQueryDragitemPtr(pDraginfo, 0);
 
     /*
      * check if it is an OS/2 File
      */
-    if (!DrgVerifyRMF(pditem, "DRM_OS2FILE", NULL))
+    if (!DrgVerifyRMF(pditem, "DRM_OS2FILE", NULL)) {
         return MRFROM2SHORT(DOR_NEVERDROP, 0);
+    }
 
     DrgQueryStrName(pditem->hstrContainerName, CCHMAXPATH, dir);
-    DrgQueryStrName(pditem->hstrSourceName, CCHMAXPATH-strlen(dir)-1, nam);
+    DrgQueryStrName(pditem->hstrSourceName, CCHMAXPATH - strlen(dir) - 1, nam);
 
-    if (!(f = fopen(strcat(dir, nam), "r")))
+    if (!(f = fopen(strcat(dir, nam), "r"))) {
         return MRFROM2SHORT(DOR_NEVERDROP, 0);
+    }
     fclose(f);
 
-    hpt = WinLoadPointer(HWND_DESKTOP, NULLHANDLE, 0x100); //PTR_DRAGOK);
-    if (hpt)
+    hpt = WinLoadPointer(HWND_DESKTOP, NULLHANDLE, 0x100);
+    if (hpt) {
         DrgSetDragPointer(pDraginfo, hpt);
+    }
 
     return MRFROM2SHORT(DOR_DROP, DO_UNKNOWN);
 }
@@ -87,25 +88,21 @@ MRESULT Drop(HWND hwnd, PDRAGINFO pDraginfo)
 
     const DRAGITEM *pditem = DrgQueryDragitemPtr(pDraginfo, 0);
 
-    if (!DrgQueryStrName(pditem->hstrContainerName, sizeof(dir), dir) ||
-        !DrgQueryStrName(pditem->hstrSourceName, CCHMAXPATH-strlen(dir)-1, nam))
+    if (!DrgQueryStrName(pditem->hstrContainerName, sizeof(dir), dir) || !DrgQueryStrName(pditem->hstrSourceName, CCHMAXPATH - strlen(dir) - 1, nam)) {
         return NULL;
+    }
 
     strcat(dir, nam);
 
-
-#if defined __X64__
-    if (!vsid_mode)
-    {
+#ifdef __X64__
+    if (!vsid_mode) {
 #endif
-        if (autostart_autodetect(dir, NULL, 0, AUTOSTART_MODE_RUN) >= 0)
+        if (autostart_autodetect(dir, NULL, 0, AUTOSTART_MODE_RUN) >= 0) {
             return NULL;
-#if defined __X64__
-    }
-    else
-    {
-        if (machine_autodetect_psid(dir) >= 0)
-        {
+        }
+#ifdef __X64__
+    } else {
+        if (machine_autodetect_psid(dir) >= 0) {
             psid_init_driver();
             resources_set_int("PSIDTune", 0);
             return NULL;
@@ -113,7 +110,7 @@ MRESULT Drop(HWND hwnd, PDRAGINFO pDraginfo)
     }
 #endif
 
-    ViceErrorDlg(hwnd, 0x101/*PTR_INFO*/, " Drop File:\n Cannot autostart/play file.");
+    ViceErrorDlg(hwnd, 0x101, " Drop File:\n Cannot autostart/play file.");
     return NULL;
 }
 
@@ -121,20 +118,19 @@ MRESULT DragDrop(HWND hwnd, ULONG msg, DRAGINFO *info)
 {
     MRESULT mr;
 
-    if (!DrgAccessDraginfo(info))
+    if (!DrgAccessDraginfo(info)) {
         return MRFROM2SHORT(DOR_NODROPOP, 0);
+    }
 
-    switch (msg)
-    {
-    case DM_DRAGOVER:
-        mr = DragOver(info);
-        break;
-    case DM_DROP:
-        mr = Drop(hwnd, info);
-        break;
+    switch (msg) {
+        case DM_DRAGOVER:
+            mr = DragOver(info);
+            break;
+        case DM_DROP:
+            mr = Drop(hwnd, info);
+            break;
     }
 
     DrgFreeDraginfo(info);
     return mr;
 }
-

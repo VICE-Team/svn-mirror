@@ -38,9 +38,8 @@
 #define ID_TSID        0x20
 #define ID_TBOX        0x21
 
-#define WM_DISPLAY     WM_USER+1
+#define WM_DISPLAY     WM_USER + 1
 
 extern HWND hwndVsid;
 
 extern HWND vsid_dialog(void);
-
