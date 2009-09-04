@@ -486,8 +486,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\resc64dtv.rc + ..\win32\res.rc + ..\win32\resdrivec64.rc + ..\win32\ressiddtv.rc + ..\win32\resvicii.rc  ..\win32\resc64dtvcat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\resc64dtv.rc;..\win32\res.rc;..\win32\resdrivec64.rc;..\win32\ressiddtv.rc;..\win32\resvicii.rc;"
+					CommandLine="copy /b ..\win32\resc64dtv.rc + ..\win32\res.rc + ..\win32\resdrivec64.rc + ..\win32\ressiddtv.rc + ..\win32\resautostart.rc + ..\win32\resvicii.rc  ..\win32\resc64dtvcat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\resc64dtv.rc;..\win32\res.rc;..\win32\resdrivec64.rc;..\win32\ressiddtv.rc;..\win32\resautostart.rc;..\win32\resvicii.rc;"
 					Outputs="..\win32\resc64dtvcat.rc"
 				/>
 			</FileConfiguration>
@@ -496,8 +496,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\resc64dtv.rc + ..\win32\res.rc + ..\win32\resdrivec64.rc + ..\win32\ressiddtv.rc + ..\win32\resvicii.rc  ..\win32\resc64dtvcat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\resc64dtv.rc;..\win32\res.rc;..\win32\resdrivec64.rc;..\win32\ressiddtv.rc;..\win32\resvicii.rc;"
+					CommandLine="copy /b ..\win32\resc64dtv.rc + ..\win32\res.rc + ..\win32\resdrivec64.rc + ..\win32\ressiddtv.rc + ..\win32\resautostart.rc + ..\win32\resvicii.rc  ..\win32\resc64dtvcat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\resc64dtv.rc;..\win32\res.rc;..\win32\resdrivec64.rc;..\win32\ressiddtv.rc;..\win32\resautostart.rc;..\win32\resvicii.rc;"
 					Outputs="..\win32\resc64dtvcat.rc"
 				/>
 			</FileConfiguration>
@@ -506,8 +506,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\resc64dtv.rc + ..\win32\res.rc + ..\win32\resdrivec64.rc  + ..\win32\ressiddtv.rc + ..\win32\resvicii.rc  ..\win32\resc64dtvcat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\resc64dtv.rc;..\win32\res.rc;..\win32\resdrivec64.rc;..\win32\ressiddtv.rc;..\win32\resvicii.rc;"
+					CommandLine="copy /b ..\win32\resc64dtv.rc + ..\win32\res.rc + ..\win32\resdrivec64.rc + ..\win32\ressiddtv.rc + ..\win32\resautostart.rc + ..\win32\resvicii.rc  ..\win32\resc64dtvcat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\resc64dtv.rc;..\win32\res.rc;..\win32\resdrivec64.rc;..\win32\ressiddtv.rc;..\win32\resautostart.rc;..\win32\resvicii.rc;"
 					Outputs="..\win32\resc64dtvcat.rc"
 				/>
 			</FileConfiguration>
@@ -516,8 +516,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\resc64dtv.rc + ..\win32\res.rc + ..\win32\resdrivec64.rc  + ..\win32\ressiddtv.rc + ..\win32\resvicii.rc  ..\win32\resc64dtvcat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\resc64dtv.rc;..\win32\res.rc;..\win32\resdrivec64.rc;..\win32\ressiddtv.rc;..\win32\resvicii.rc;"
+					CommandLine="copy /b ..\win32\resc64dtv.rc + ..\win32\res.rc + ..\win32\resdrivec64.rc  + ..\win32\ressiddtv.rc + ..\win32\resautostart.rc + ..\win32\resvicii.rc  ..\win32\resc64dtvcat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\resc64dtv.rc;..\win32\res.rc;..\win32\resdrivec64.rc;..\win32\ressiddtv.rc;..\win32\resautostart.rc;..\win32\resvicii.rc;"
 					Outputs="..\win32\resc64dtvcat.rc"
 				/>
 			</FileConfiguration>

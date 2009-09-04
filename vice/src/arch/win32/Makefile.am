@@ -66,6 +66,7 @@ libarch_a_SOURCES = \
 	plus4ui.c \
 	res.rc \
 	resacia.rc \
+	resautostart.rc \
 	resc128.rc \
 	resc64.rc \
 	resc64dtv.rc \
@@ -121,6 +122,8 @@ libarch_a_SOURCES = \
 	uiacia.h \
 	uiattach.c \
 	uiattach.h \
+	uiautostart.c \
+	uiautostart.h \
 	uic128.c \
 	uic128.h \
 	uic64_256k.c \
@@ -434,7 +437,7 @@ resc128.o : $(srcdir)/resc128.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc $(srcdir)/restfe.rc \
 	$(srcdir)/resmidi.rc $(srcdir)/reslightpen.rc \
 	$(srcdir)/ressoundexpander.rc $(srcdir)/reseasyflash.rc \
-	$(top_srcdir)/src/debug.h
+	$(srcdir)/resautostart.rc $(top_srcdir)/src/debug.h
 	cat >resc128cat.rc $(srcdir)/resc128.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/reside64.rc $(srcdir)/resreu.rc \
 	$(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc $(srcdir)/resmmc64.rc \
@@ -442,7 +445,7 @@ resc128.o : $(srcdir)/resc128.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resdrivec128.rc $(srcdir)/resdigimax.rc \
 	$(srcdir)/resmouse.rc $(srcdir)/restfe.rc $(srcdir)/reslightpen.rc \
 	$(srcdir)/ressoundexpander.rc $(srcdir)/reseasyflash.rc \
-	$(srcdir)/resmidi.rc
+	$(srcdir)/resautostart.rc $(srcdir)/resmidi.rc
 	$(WRC) -i resc128cat.rc -o resc128.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32 \
@@ -455,7 +458,8 @@ resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc \
 	$(srcdir)/resmmc64.rc $(srcdir)/resplus256k.rc $(srcdir)/resplus60k.rc \
 	$(srcdir)/resc64_256k.rc $(srcdir)/reside64.rc \
-	$(srcdir)/resdrivec64.rc $(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc \
+	$(srcdir)/resautostart.rc $(srcdir)/resdrivec64.rc \
+	$(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc \
 	$(srcdir)/restfe.rc $(srcdir)/resmidi.rc $(srcdir)/resdqbb.rc \
 	$(srcdir)/resisepic.rc $(srcdir)/reslightpen.rc \
 	$(srcdir)/ressoundexpander.rc $(srcdir)/reseasyflash.rc \
@@ -469,7 +473,7 @@ resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc $(srcdir)/restfe.rc \
 	$(srcdir)/resmidi.rc $(srcdir)/resdqbb.rc $(srcdir)/resisepic.rc \
 	$(srcdir)/reslightpen.rc $(srcdir)/reseasyflash.rc \
-	$(srcdir)/ressoundexpander.rc
+	$(srcdir)/ressoundexpander.rc $(srcdir)/resautostart.rc
 	$(WRC) -i resc64cat.rc -o resc64.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32  \
@@ -477,11 +481,12 @@ resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(WINDRES) -i resc64.res -o $@
 	rm -f resc64.res resc64cat.rc
 
-resc64dtv.o : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h $(srcdir)/ressiddtv.rc \
-	$(srcdir)/resvicii.rc $(srcdir)/resdrivec64.rc \
-	$(top_srcdir)/src/debug.h
+resc64dtv.o : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h \
+	$(srcdir)/ressiddtv.rc $(srcdir)/resvicii.rc $(srcdir)/resdrivec64.rc \
+	$(srcdir)/resautostart.rc $(top_srcdir)/src/debug.h
 	cat >resc64dtvcat.rc $(srcdir)/resc64dtv.rc $(srcdir)/res.rc \
-	$(srcdir)/resdrivec64.rc $(srcdir)/ressiddtv.rc $(srcdir)/resvicii.rc
+	$(srcdir)/resdrivec64.rc $(srcdir)/ressiddtv.rc \
+	$(srcdir)/resautostart.rc $(srcdir)/resvicii.rc
 	$(WRC) -i resc64dtvcat.rc -o resc64dtv.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32  \
@@ -491,10 +496,11 @@ resc64dtv.o : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h $(srcdir)/ressiddtv.
 
 rescbm2.o : $(srcdir)/rescbm2.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/ressid.rc $(srcdir)/resdrivepetcbm2.rc \
-	$(srcdir)/resvicii.rc $(top_srcdir)/src/debug.h
+	$(srcdir)/resautostart.rc $(srcdir)/resvicii.rc \
+	$(top_srcdir)/src/debug.h
 	cat >rescbm2cat.rc $(srcdir)/rescbm2.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc $(srcdir)/ressid.rc \
-	$(srcdir)/resvicii.rc
+	$(srcdir)/resvicii.rc $(srcdir)/resautostart.rc
 	$(WRC) -i rescbm2cat.rc -o rescbm2.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32 \
@@ -504,10 +510,12 @@ rescbm2.o : $(srcdir)/rescbm2.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 
 respet.o : $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc \
-	$(srcdir)/ressidcart.rc $(top_srcdir)/src/debug.h
+	$(srcdir)/resautostart.rc $(srcdir)/ressidcart.rc \
+	$(top_srcdir)/src/debug.h
 	cat >respetcat.rc $(srcdir)/respet.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
-	$(srcdir)/respetreu.rc $(srcdir)/ressidcart.rc
+	$(srcdir)/respetreu.rc $(srcdir)/ressidcart.rc \
+	$(srcdir)/resautostart.rc
 	$(WRC) -i respetcat.rc -o respet.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32 \
@@ -517,10 +525,11 @@ respet.o : $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 
 resplus4.o : $(srcdir)/resplus4.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \
-	$(srcdir)/ressidcart.rc $(top_srcdir)/src/debug.h
+	$(srcdir)/resautostart.rc $(srcdir)/ressidcart.rc \
+	$(top_srcdir)/src/debug.h
 	cat >resplus4cat.rc $(srcdir)/resplus4.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \
-	$(srcdir)/ressidcart.rc
+	$(srcdir)/ressidcart.rc $(srcdir)/resautostart.rc
 	$(WRC) -i resplus4cat.rc -o resplus4.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32 \
@@ -531,11 +540,12 @@ resplus4.o : $(srcdir)/resplus4.rc $(srcdir)/res.rc res.h \
 resvic20.o : $(srcdir)/resvic20.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resrs232user.rc $(srcdir)/resdrivevic20.rc \
 	$(srcdir)/ressidcart.rc $(srcdir)/resmidi.rc \
-	$(srcdir)/reslightpen.rc $(top_srcdir)/src/debug.h
+	$(srcdir)/resautostart.rc $(srcdir)/reslightpen.rc \
+	$(top_srcdir)/src/debug.h
 	cat >resvic20cat.rc $(srcdir)/resvic20.rc $(srcdir)/res.rc \
 	$(srcdir)/resdrivevic20.rc $(srcdir)/resrs232user.rc \
 	$(srcdir)/ressidcart.rc $(srcdir)/resmidi.rc \
-	$(srcdir)/reslightpen.rc
+	$(srcdir)/reslightpen.rc $(srcdir)/resautostart.rc
 	$(WRC) -i resvic20cat.rc -o resvic20.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32 \

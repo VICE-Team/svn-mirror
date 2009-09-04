@@ -71,6 +71,7 @@
 #include "ui.h"
 #include "uiapi.h"
 #include "uiattach.h"
+#include "uiautostart.h"
 #include "uiperipheral.h"
 #include "uicmdline.h"
 #include "uidatasette.h"
@@ -1522,6 +1523,9 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       case IDM_SWAP_EXTRA_JOYSTICK:
         ui_joystick_swap_extra_joystick();
+        break;
+      case IDM_AUTOSTART_SETTINGS:
+        ui_autostart_settings_dialog(hwnd);
         break;
       case IDM_SOUND_SETTINGS:
         ui_sound_settings_dialog(hwnd);

@@ -259,6 +259,10 @@ SOURCE=.\uiattach.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uiautostart.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uic128.c
 # End Source File
 # Begin Source File
