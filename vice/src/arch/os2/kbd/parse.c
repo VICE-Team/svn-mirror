@@ -34,7 +34,6 @@
 #include "log.h"
 #include "util.h"    // util_get_line
 #include "sysfile.h" // sysfile_open
-
 #include "parse.h"
 
 convmap keyconvmap;
@@ -47,8 +46,9 @@ int load_keymap_file(const char *fname)
     int num = 0;
     char *complete_path;
 
-    if (fname == NULL)
+    if (fname == NULL) {
         return -1;
+    }
 
     fp = sysfile_open(fname, &complete_path, "r");
 
@@ -59,154 +59,163 @@ int load_keymap_file(const char *fname)
         lib_free(tmp);
     }
 
-    if (fp == NULL)
+    if (fp == NULL) {
         return -1;
-    else
+    } else {
         log_message(LOG_DEFAULT, "Loading keymap `%s'.", complete_path);
+    }
 
     lib_free(complete_path);
 
-    while (!feof(fp))
-    {
+    while (!feof(fp)) {
         char buffer[81];
-        if (util_get_line(buffer, 80, fp))
-            switch (buffer[0])
-            {
-            case 0:
-            case '/':
-                break;
-            case '#':
-            case 'S':
-            case 'U':
-                // table entry handling
-                {
-                    // FIXME: ERROR LOGGING MISSING
-                    char *p;
-                    char *dummy;
-                    unsigned long code1, code2;
-                    int row, col, shift;
 
-                    if (keyconvmap.symbolic == 1)
+        if (util_get_line(buffer, 80, fp)) {
+            switch (buffer[0]) {
+                case 0:
+                case '/':
+                    break;
+                case '#':
+                case 'S':
+                case 'U':
+                    // table entry handling
                     {
-                        p = strtok(buffer+1, " \t,");
-                        if (!p)
-                            break;
-                        code1 = strtoul(p, &dummy, 10);
-                        if (code1>0xff)
-                            break;
-                        p = strtok(NULL, " \t:");
-                        if (!p)
-                            break;
-                        code2 = strtoul(p, &dummy, 10);
-                        if (code2>0xff)
-                            break;
-                    }
-                    else
-                    {
-                        p = strtok(buffer+1, " \t:");
-                        if (!p)
-                            break;
-                        code1 = strtoul(p, &dummy, 10);
-                        if (code1>0xff)
-                            break;
-                        code2 = 0;
-                    }
-                    p = strtok(NULL, " \t,");
-                    if (!p)
-                        break;
-                    row = atoi(p);
-                    p = strtok(NULL, " \t,");
-                    if (!p)
-                        break;
-                    col = atoi(p);
+                        // FIXME: ERROR LOGGING MISSING
+                        char *p;
+                        char *dummy;
+                        unsigned long code1, code2;
+                        int row, col, shift;
 
-                    p = strtok(NULL, " \t");
-                    if (!(p || row < 0))
-                        break;
-                    if (p)
-                        shift = atoi(p);
-
-                    {
-                        switch (buffer[0])
-                        {
-                        case '#':
-                            keyconvmap.map[0][num].code   = code1 | code2<<8;
-                            keyconvmap.map[0][num].row    = row;
-                            keyconvmap.map[0][num].column = col;
-                            keyconvmap.map[0][num].vshift = shift;
-                            keyconvmap.map[1][num].code   = code1 | code2<<8;
-                            keyconvmap.map[1][num].row    = row;
-                            keyconvmap.map[1][num].column = col;
-                            keyconvmap.map[1][num].vshift = shift;
-                            num++;
-                            break;
-                        case 'S':
-                            keyconvmap.map[1][num].code   = code1 | code2<<8;
-                            keyconvmap.map[1][num].row    = row;
-                            keyconvmap.map[1][num].column = col;
-                            keyconvmap.map[1][num].vshift = shift;
-                            num++;
-                            break;
-                        case 'U':
-                            keyconvmap.map[0][num].code   = code1 | code2<<8;
-                            keyconvmap.map[0][num].row    = row;
-                            keyconvmap.map[0][num].column = col;
-                            keyconvmap.map[0][num].vshift = shift;
-                            num++;
+                        if (keyconvmap.symbolic == 1) {
+                            p = strtok(buffer + 1, " \t,");
+                            if (!p) {
+                                break;
+                            }
+                            code1 = strtoul(p, &dummy, 10);
+                            if (code1 > 0xff) {
+                                break;
+                            }
+                            p = strtok(NULL, " \t:");
+                            if (!p) {
+                                break;
+                            }
+                            code2 = strtoul(p, &dummy, 10);
+                            if (code2 > 0xff) {
+                                break;
+                            }
+                        } else {
+                            p = strtok(buffer+1, " \t:");
+                            if (!p) {
+                                break;
+                            }
+                            code1 = strtoul(p, &dummy, 10);
+                            if (code1 > 0xff) {
+                                break;
+                            }
+                            code2 = 0;
+                        }
+                        p = strtok(NULL, " \t,");
+                        if (!p) {
                             break;
                         }
-                        // log_debug("setting %i (%i) to r%i c%i = %i s%i", num, s, row, col, code1|code2<<8, shift);
-                    }
-                }
-            case '!': // keyword handling
-                {
-                    char *p;
-                    int row, col;
-
-                    p = strtok(buffer+1, " \t:");
-                    if (!p)
-                        break;
-
-                    if (!strcmp(p, "LSHIFT"))
-                    {
-                        p = strtok(NULL, " \t,");
-                        if (!p)
-                            break;
                         row = atoi(p);
                         p = strtok(NULL, " \t,");
-                        if (!p)
+                        if (!p) {
                             break;
+                        }
                         col = atoi(p);
 
-                        keyconvmap.lshift_row = row;
-                        keyconvmap.lshift_col = col;
+                        p = strtok(NULL, " \t");
+                        if (!(p || row < 0)) {
+                            break;
+                        }
+                        if (p) {
+                            shift = atoi(p);
+                        }
+                        {
+                            switch (buffer[0])
+                            {
+                                case '#':
+                                    keyconvmap.map[0][num].code = code1 | code2 << 8;
+                                    keyconvmap.map[0][num].row = row;
+                                    keyconvmap.map[0][num].column = col;
+                                    keyconvmap.map[0][num].vshift = shift;
+                                    keyconvmap.map[1][num].code = code1 | code2 << 8;
+                                    keyconvmap.map[1][num].row = row;
+                                    keyconvmap.map[1][num].column = col;
+                                    keyconvmap.map[1][num].vshift = shift;
+                                    num++;
+                                    break;
+                                case 'S':
+                                    keyconvmap.map[1][num].code = code1 | code2 << 8;
+                                    keyconvmap.map[1][num].row = row;
+                                    keyconvmap.map[1][num].column = col;
+                                    keyconvmap.map[1][num].vshift = shift;
+                                    num++;
+                                    break;
+                                case 'U':
+                                    keyconvmap.map[0][num].code = code1 | code2 << 8;
+                                    keyconvmap.map[0][num].row = row;
+                                    keyconvmap.map[0][num].column = col;
+                                    keyconvmap.map[0][num].vshift = shift;
+                                    num++;
+                                    break;
+                            }
+                        }
                     }
-                    if (!strcmp(p, "RSHIFT"))
+                case '!': // keyword handling
                     {
-                        p = strtok(NULL, " \t,");
-                        if (!p)
-                            break;
-                        row = atoi(p);
-                        p = strtok(NULL, " \t,");
-                        if (!p)
-                            break;
-                        col = atoi(p);
+                        char *p;
+                        int row, col;
 
-                        keyconvmap.rshift_row = row;
-                        keyconvmap.rshift_col = col;
+                        p = strtok(buffer + 1, " \t:");
+                        if (!p) {
+                            break;
+                        }
+
+                        if (!strcmp(p, "LSHIFT")) {
+                            p = strtok(NULL, " \t,");
+                            if (!p) {
+                                break;
+                            }
+                            row = atoi(p);
+                            p = strtok(NULL, " \t,");
+                            if (!p) {
+                                break;
+                            }
+                            col = atoi(p);
+
+                            keyconvmap.lshift_row = row;
+                            keyconvmap.lshift_col = col;
+                        }
+                        if (!strcmp(p, "RSHIFT")) {
+                            p = strtok(NULL, " \t,");
+                            if (!p) {
+                                break;
+                            }
+                            row = atoi(p);
+                            p = strtok(NULL, " \t,");
+                            if (!p) {
+                                break;
+                            }
+                            col = atoi(p);
+
+                            keyconvmap.rshift_row = row;
+                            keyconvmap.rshift_col = col;
+                        }
+                        if (!strcmp(p, "KSCODE")) {
+                            keyconvmap.symbolic = 0;  // FALSE
+                        }
+                        if (!strcmp(p, "KSYM")) {
+                            keyconvmap.symbolic = 1;  // TRUE
+                        }
                     }
-                    if (!strcmp(p, "KSCODE"))
-                        keyconvmap.symbolic = 0;  // FALSE
-                    if (!strcmp(p, "KSYM"))
-                        keyconvmap.symbolic = 1;  // TRUE
-                }
-
-                break;
-            default:
-                break;
+                    break;
+                default:
+                    break;
             }
-        if (num==0x100)
-        {
+        }
+        if (num == 0x100) {
             log_message(LOG_DEFAULT, "parse.c: Warning: keyboard file contains more than 255 entries.");
             break;
         }
@@ -217,4 +226,3 @@ int load_keymap_file(const char *fname)
 
     return 0;
 }
-

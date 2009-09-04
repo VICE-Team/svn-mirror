@@ -31,6 +31,7 @@
 #define INCL_WINSTDSPIN   // SPBM_*
 #define INCL_WINLISTBOXES // LM_*
 #define INCL_WINWINDOWMGR // WinSubclassWindow
+
 #include <os2.h>
 #include <string.h>
 
@@ -44,7 +45,7 @@ void WinLboxInsertMultitems(HWND hwnd, PSZ *txt, ULONG cnt)
     info.reserved = 0;
     info.reserved2 = 0;
 #else
-    LBOXINFO info = { LIT_END, cnt, 0, 0 };
+    LBOXINFO info = {LIT_END, cnt, 0, 0};
 #endif
 
     WinSendMsg(hwnd, LM_INSERTMULTITEMS, &info, txt);
@@ -62,8 +63,7 @@ ULONG WinDlgLboxSelectedItem(HWND hwnd, ULONG id)
 
 BOOL WinQueryFont(HWND hwnd, const char *font, int size)
 {
-    return WinQueryPresParam(hwnd, PP_FONTNAMESIZE, NULLHANDLE,
-                             NULL, size, (MPARAM)font, 0);
+    return WinQueryPresParam(hwnd, PP_FONTNAMESIZE, NULLHANDLE, NULL, size, (MPARAM)font, 0);
 }
 
 BOOL WinQueryDlgFont(HWND hwnd, ULONG id, const char *font, int size)
@@ -73,8 +73,7 @@ BOOL WinQueryDlgFont(HWND hwnd, ULONG id, const char *font, int size)
 
 BOOL WinSetFont(HWND hwnd, const char *font)
 {
-    return WinSetPresParam(hwnd, PP_FONTNAMESIZE,
-                           strlen(font)+1, (void*)font);
+    return WinSetPresParam(hwnd, PP_FONTNAMESIZE, strlen(font) + 1, (void*)font);
 }
 
 BOOL WinSetDlgFont(HWND hwnd, ULONG id, const char *font)
@@ -100,11 +99,6 @@ BOOL WinShowDlg(HWND hwnd, ULONG id, BOOL bool)
 void WinLboxEmpty(HWND hwnd)
 {
     WinSendMsg(hwnd, LM_DELETEALL, 0, 0);
-/*    int nr = (int)WinSendMsg(hwnd, LM_QUERYITEMCOUNT, 0, 0);
-
-    while (nr--)
-    WinSendMsg(hwnd, LM_DELETEITEM, (MPARAM)nr, 0);
-    */
 }
 
 void WinDlgLboxEmpty(HWND hwnd, ULONG id)
@@ -130,6 +124,7 @@ void WinSetDlgSpinVal(HWND hwnd, ULONG id, LONG val)
 ULONG WinGetSpinVal(HWND hwnd)
 {
     ULONG val;
+
     WinSendMsg(hwnd, SPBM_QUERYVALUE, (MPARAM)&val, 0);
     return val;
 }
@@ -146,13 +141,12 @@ BOOL WinIsDlgShowing(HWND hwnd, ULONG id)
 
 HWND WinLoadStdDlg(HWND hwnd, PFNWP pfnwp, USHORT id, VOID *param)
 {
-    return WinLoadDlg(HWND_DESKTOP, hwnd, pfnwp,
-                      NULLHANDLE, id, param);
+    return WinLoadDlg(HWND_DESKTOP, hwnd, pfnwp, NULLHANDLE, id, param);
 }
 
 LONG WinLboxInsertItem(HWND hwnd, const char *psz)
 {
-  return (LONG)WinSendMsg(hwnd, LM_INSERTITEM, (void*)LIT_END, (void*)psz);
+    return (LONG)WinSendMsg(hwnd, LM_INSERTITEM, (void*)LIT_END, (void*)psz);
 }
 
 LONG WinDlgLboxInsertItem(HWND hwnd, USHORT id, const char *psz)
@@ -222,10 +216,7 @@ void WinDlgLboxSetItemHandle(HWND hwnd, USHORT id, UINT idx, LONG hdl)
 
 BOOL WinActivateWindow(HWND hwnd, int state)
 {
-    return WinSetWindowPos(hwnd, 0, 0, 0, 0, 0,
-                           state ?
-                           SWP_SHOW|SWP_RESTORE|SWP_FOCUSACTIVATE :
-                           SWP_DEACTIVATE|SWP_HIDE|SWP_MINIMIZE|SWP_FOCUSDEACTIVATE);
+    return WinSetWindowPos(hwnd, 0, 0, 0, 0, 0, state ? SWP_SHOW | SWP_RESTORE | SWP_FOCUSACTIVATE : SWP_DEACTIVATE | SWP_HIDE | SWP_MINIMIZE | SWP_FOCUSDEACTIVATE);
 }
 
 BOOL WinActivateDlg(HWND hwnd, USHORT id, int state)

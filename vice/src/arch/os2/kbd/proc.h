@@ -26,11 +26,8 @@
 #ifndef VICE_PROC_H
 #define VICE_PROC_H
 
-/* BYTE is already defined in os2def.h    */
-//#undef BYTE
 #include <os2.h>
 
 extern void kbd_proc(HWND hwnd, MPARAM mp1, MPARAM mp2);
 
 #endif
-

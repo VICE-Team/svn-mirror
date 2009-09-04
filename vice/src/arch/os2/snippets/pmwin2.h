@@ -24,47 +24,47 @@
  *
  */
 
-extern void    WinLboxEmpty(HWND hwnd);
+extern void WinLboxEmpty(HWND hwnd);
 extern MRESULT WinLboxSettop(HWND hwnd);
 extern MRESULT WinLboxSettopIdx(HWND hwnd, UINT idx);
-extern UINT    WinLboxQueryTopIdx(HWND hwnd);
-extern BOOL    WinLboxSelectItem(HWND hwnd, UINT idx);
-extern LONG    WinLboxInsertItem(HWND hwnd, const char *psz);
-extern void    WinLboxInsertMultitems(HWND hwnd, PSZ *txt, ULONG cnt);
-extern LONG    WinLboxItemHandle(HWND hwnd, UINT idx);
-extern void    WinLboxSetItemHandle(HWND hwnd, UINT idx, LONG hdl);
+extern UINT WinLboxQueryTopIdx(HWND hwnd);
+extern BOOL WinLboxSelectItem(HWND hwnd, UINT idx);
+extern LONG WinLboxInsertItem(HWND hwnd, const char *psz);
+extern void WinLboxInsertMultitems(HWND hwnd, PSZ *txt, ULONG cnt);
+extern LONG WinLboxItemHandle(HWND hwnd, UINT idx);
+extern void WinLboxSetItemHandle(HWND hwnd, UINT idx, LONG hdl);
 
-extern void    WinDlgLboxEmpty(HWND hwnd, ULONG id);
+extern void WinDlgLboxEmpty(HWND hwnd, ULONG id);
 extern MRESULT WinDlgLboxSettop(HWND hwnd, USHORT id);
 extern MRESULT WinDlgLboxSettopIdx(HWND hwnd, USHORT id, UINT idx);
-extern UINT    WinDlgLboxQueryTopIdx(HWND hwnd, USHORT id);
-extern LONG    WinDlgLboxQueryCount(HWND hwnd, USHORT id);
-extern BOOL    WinDlgLboxSelectItem(HWND hwnd, USHORT id, UINT idx);
-extern LONG    WinDlgLboxInsertItem(HWND hwnd, USHORT id, const char *psz);
-extern void    WinDlgLboxInsertMultitems(HWND hwnd, ULONG id, PSZ *txt, ULONG cnt);
-extern ULONG   WinDlgLboxSelectedItem(HWND hwnd, ULONG id);
-extern LONG    WinDlgLboxDeleteItem(HWND hwnd, USHORT id, UINT idx);
-extern LONG    WinDlgLboxItemHandle(HWND hwnd, USHORT id, UINT idx);
-extern void    WinDlgLboxSetItemHandle(HWND hwnd, USHORT id, UINT idx, LONG hdl);
+extern UINT WinDlgLboxQueryTopIdx(HWND hwnd, USHORT id);
+extern LONG WinDlgLboxQueryCount(HWND hwnd, USHORT id);
+extern BOOL WinDlgLboxSelectItem(HWND hwnd, USHORT id, UINT idx);
+extern LONG WinDlgLboxInsertItem(HWND hwnd, USHORT id, const char *psz);
+extern void WinDlgLboxInsertMultitems(HWND hwnd, ULONG id, PSZ *txt, ULONG cnt);
+extern ULONG WinDlgLboxSelectedItem(HWND hwnd, ULONG id);
+extern LONG WinDlgLboxDeleteItem(HWND hwnd, USHORT id, UINT idx);
+extern LONG WinDlgLboxItemHandle(HWND hwnd, USHORT id, UINT idx);
+extern void WinDlgLboxSetItemHandle(HWND hwnd, USHORT id, UINT idx, LONG hdl);
 
-extern BOOL    WinQueryFont(HWND hwnd, const char *font, int size);
-extern BOOL    WinQueryDlgFont(HWND hwnd, ULONG id, const char *font, int size);
-extern BOOL    WinSetFont(HWND hwnd, const char *font);
-extern BOOL    WinSetDlgFont(HWND hwnd, ULONG id, const char *fnt);
-extern BOOL    WinQueryDlgPos(HWND hwnd, ULONG id, SWP *swp);
-extern BOOL    WinSetDlgFocus(HWND hwnd, ULONG id);
-extern BOOL    WinShowDlg(HWND hwnd, ULONG id, BOOL bool);
-extern BOOL    WinDelMenuItem(HWND hwnd, USHORT id);
-extern BOOL    WinActivateWindow(HWND hwnd, int state);
-extern BOOL    WinActivateDlg(HWND hwnd, USHORT id, int state);
+extern BOOL WinQueryFont(HWND hwnd, const char *font, int size);
+extern BOOL WinQueryDlgFont(HWND hwnd, ULONG id, const char *font, int size);
+extern BOOL WinSetFont(HWND hwnd, const char *font);
+extern BOOL WinSetDlgFont(HWND hwnd, ULONG id, const char *fnt);
+extern BOOL WinQueryDlgPos(HWND hwnd, ULONG id, SWP *swp);
+extern BOOL WinSetDlgFocus(HWND hwnd, ULONG id);
+extern BOOL WinShowDlg(HWND hwnd, ULONG id, BOOL bool);
+extern BOOL WinDelMenuItem(HWND hwnd, USHORT id);
+extern BOOL WinActivateWindow(HWND hwnd, int state);
+extern BOOL WinActivateDlg(HWND hwnd, USHORT id, int state);
 
-extern void    WinSetSpinVal(HWND hwnd, ULONG val);
-extern void    WinSetDlgSpinVal(HWND hwnd, ULONG id, ULONG val);
-extern ULONG   WinGetSpinVal(HWND hwnd);
-extern ULONG   WinGetDlgSpinVal(HWND hwnd, ULONG id);
+extern void WinSetSpinVal(HWND hwnd, ULONG val);
+extern void WinSetDlgSpinVal(HWND hwnd, ULONG id, ULONG val);
+extern ULONG WinGetSpinVal(HWND hwnd);
+extern ULONG WinGetDlgSpinVal(HWND hwnd, ULONG id);
 
-extern BOOL    WinIsDlgShowing(HWND hwnd, ULONG id);
+extern BOOL WinIsDlgShowing(HWND hwnd, ULONG id);
 
-extern HWND    WinLoadStdDlg(HWND hwnd, PFNWP pfnwp, USHORT id, VOID *param);
+extern HWND WinLoadStdDlg(HWND hwnd, PFNWP pfnwp, USHORT id, VOID *param);
 
-extern PFNWP   WinSubclassDlg(HWND hwnd, ULONG id, PFNWP pNew);
+extern PFNWP WinSubclassDlg(HWND hwnd, ULONG id, PFNWP pNew);

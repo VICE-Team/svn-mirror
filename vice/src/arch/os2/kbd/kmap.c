@@ -32,40 +32,40 @@
 #include "translate.h"
 
 #include "kbd/parse.h"
+
 /* ------------------------------------------------------------------------- */
 
 /* keyboard-related resources.  */
 
-#define NUM_KEYBOARD_MAPPINGS   2
+#define NUM_KEYBOARD_MAPPINGS 2
 
 /* array of resource names for keyboard - for kbd.c
  * by convention even indexes are symbol mappings, odd are positional */
-static const char *my_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] =
-{
-	"KeymapSymFile", "KeymapPosFile"
-};
+static const char *my_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {"KeymapSymFile", "KeymapPosFile"};
 
 /* name of keymap file for symbolic and positional mappings */
-static char *keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
-	NULL, NULL
-};
+static char *keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {NULL, NULL};
 
 static int set_keymap_file(int myindex, const char *name)
 {
     int kindex;
 
-    if (myindex >= NUM_KEYBOARD_MAPPINGS)
-	return -1;
+    if (myindex >= NUM_KEYBOARD_MAPPINGS) {
+        return -1;
+    }
 
-    if (resources_get_int("KeymapIndex", &kindex) < 0)
-	return -1;
+    if (resources_get_int("KeymapIndex", &kindex) < 0) {
+        return -1;
+    }
 
-    if (util_string_set(&keymap_file_list[myindex], name))
+    if (util_string_set(&keymap_file_list[myindex], name)) {
         return 0;
+    }
 
     /* reset kindex -> reload keymap file if this keymap is active */
-    if(kindex == myindex)
-      resources_set_int("KeymapIndex", kindex);
+    if (kindex == myindex) {
+        resources_set_int("KeymapIndex", kindex);
+    }
 
     return 0;
 }
@@ -81,10 +81,10 @@ static int set_keymap_pos_file(const char *val, void *param)
 }
 
 static const resource_string_t resources_string[] = {
-    { "KeymapSymFile", "default.vkm", RES_EVENT_NO, NULL,
-      &keymap_file_list[0], set_keymap_sym_file, NULL },
-    { "KeymapPosFile", "position.vkm", RES_EVENT_NO, NULL,
-      &keymap_file_list[1], set_keymap_pos_file, NULL },
+    {"KeymapSymFile", "default.vkm", RES_EVENT_NO, NULL,
+     &keymap_file_list[0], set_keymap_sym_file, NULL},
+    {"KeymapPosFile", "position.vkm", RES_EVENT_NO, NULL,
+     &keymap_file_list[1], set_keymap_pos_file, NULL},
     NULL
 };
 
@@ -92,8 +92,9 @@ int kbd_resources_init(void)
 {
     keymap_res_name_list = my_keymap_res_name_list;
 
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return do_kbd_init_resources();
 }
@@ -103,16 +104,16 @@ int kbd_resources_init(void)
 /* keymap command-line options.  */
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-symkeymap", SET_RESOURCE, 1,
+    {"-symkeymap", SET_RESOURCE, 1,
       NULL, NULL, "KeymapSymFile", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      "<name>", "Specify name of symbolic keymap file" },
-     { "-poskeymap", SET_RESOURCE, 1,
-      NULL, NULL, "KeymapPosFile", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      "<name>", "Specify name of positional keymap file" },
+      "<name>", "Specify name of symbolic keymap file"},
+    {"-poskeymap", SET_RESOURCE, 1,
+     NULL, NULL, "KeymapPosFile", NULL,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+     IDCLS_UNUSED, IDCLS_UNUSED,
+     "<name>", "Specify name of positional keymap file"},
     NULL
 };
 

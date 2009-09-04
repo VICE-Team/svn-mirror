@@ -27,10 +27,8 @@
 #include "vice.h"
 #include "types.h"
 
-
 /* This dummy function is needed for the way that
    VAC++ seems to deal with libs */
 void iec_update_cpu_bus(BYTE data)
 {
 }
-
