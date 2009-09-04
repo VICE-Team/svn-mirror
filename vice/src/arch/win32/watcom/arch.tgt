@@ -18,15 +18,14 @@ n_2sn
 1
 4
 MCommand
-1462
-copy /b ..\resc128.rc + ..\res.rc + ..\resacia.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resmmc64.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdrivec128.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\reslightpen.rc + ..\reseasyflash.rc + ..\ressoundexpander.rc + ..\restfe.rc ..\resc128cat.rc /b
-copy /b ..\resc64.rc + ..\res.rc + ..\resacia.rc + ..\resdrivec64.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resplus256k.rc + ..\resplus60k.rc + ..\resc64_256k.rc + ..\resmmc64.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\resdqbb.rc + ..\resisepic.rc + ..\reslightpen.rc + ..\reseasyflash.rc + ..\ressoundexpander.rc + ..\restfe.rc ..\resc64cat.rc /b
-copy /b ..\resc64dtv.rc + ..\res.rc + ..\resdrivec64.rc  + ..\ressiddtv.rc + ..\resvicii.rc  ..\resc64dtvcat.rc /b
-copy /b ..\rescbm2.rc + ..\res.rc + ..\resacia.rc + ..\resdrivepetcbm2.rc + ..\ressid.rc + ..\resvicii.rc ..\rescbm2cat.rc /b
-copy /b ..\respet.rc + ..\res.rc + ..\resacia.rc + ..\resdrivepetcbm2.rc + ..\respetreu.rc + ..\ressidcart.rc ..\respetcat.rc  /b
-copy /b ..\resplus4.rc + ..\res.rc + ..\resacia.rc + ..\resdriveplus4.rc + ..\ressidcart.rc ..\resplus4cat.rc /b
-copy /b ..\resvic20.rc + ..\res.rc + ..\resdrivevic20.rc + ..\resrs232user.rc + ..\ressidcart.rc + ..\reslightpen.rc + ..\resmidi.rc  ..\resvic20cat.rc /b
-
+1607
+copy /b ..\resc128.rc + ..\res.rc + ..\resacia.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resmmc64.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdrivec128.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\reslightpen.rc + ..\reseasyflash.rc + ..\ressoundexpander.rc + ..\resautostart.rc + ..\restfe.rc ..\resc128cat.rc /b
+copy /b ..\resc64.rc + ..\res.rc + ..\resacia.rc + ..\resdrivec64.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resplus256k.rc + ..\resplus60k.rc + ..\resc64_256k.rc + ..\resmmc64.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\resdqbb.rc + ..\resisepic.rc + ..\reslightpen.rc + ..\reseasyflash.rc + ..\ressoundexpander.rc + ..\resautostart.rc + ..\restfe.rc ..\resc64cat.rc /b
+copy /b ..\resc64dtv.rc + ..\res.rc + ..\resdrivec64.rc  + ..\ressiddtv.rc + ..\resautostart.rc + ..\resvicii.rc  ..\resc64dtvcat.rc /b
+copy /b ..\rescbm2.rc + ..\res.rc + ..\resacia.rc + ..\resdrivepetcbm2.rc + ..\ressid.rc + ..\resautostart.rc + ..\resvicii.rc ..\rescbm2cat.rc /b
+copy /b ..\respet.rc + ..\res.rc + ..\resacia.rc + ..\resdrivepetcbm2.rc + ..\respetreu.rc + ..\resautostart.rc + ..\ressidcart.rc ..\respetcat.rc  /b
+copy /b ..\resplus4.rc + ..\res.rc + ..\resacia.rc + ..\resdriveplus4.rc + ..\resautostart.rc + ..\ressidcart.rc ..\resplus4cat.rc /b
+copy /b ..\resvic20.rc + ..\res.rc + ..\resdrivevic20.rc + ..\resrs232user.rc + ..\ressidcart.rc + ..\reslightpen.rc + ..\resautostart.rc + ..\resmidi.rc  ..\resvic20cat.rc /b
 5
 MCommand
 0
@@ -50,7 +49,7 @@ WVList
 0
 10
 WPickList
-102
+103
 11
 MItem
 3
@@ -783,8 +782,8 @@ WVList
 0
 175
 MItem
-11
-..\uic128.c
+16
+..\uiautostart.c
 176
 WString
 4
@@ -801,8 +800,8 @@ WVList
 0
 179
 MItem
-15
-..\uic64_256k.c
+11
+..\uic128.c
 180
 WString
 4
@@ -819,8 +818,8 @@ WVList
 0
 183
 MItem
-14
-..\uic64cart.c
+15
+..\uic64_256k.c
 184
 WString
 4
@@ -837,8 +836,8 @@ WVList
 0
 187
 MItem
-13
-..\uic64dtv.c
+14
+..\uic64cart.c
 188
 WString
 4
@@ -855,8 +854,8 @@ WVList
 0
 191
 MItem
-11
-..\uicart.c
+13
+..\uic64dtv.c
 192
 WString
 4
@@ -873,8 +872,8 @@ WVList
 0
 195
 MItem
-14
-..\uicbm2set.c
+11
+..\uicart.c
 196
 WString
 4
@@ -892,7 +891,7 @@ WVList
 199
 MItem
 14
-..\uicmdline.c
+..\uicbm2set.c
 200
 WString
 4
@@ -910,7 +909,7 @@ WVList
 203
 MItem
 14
-..\uiconsole.c
+..\uicmdline.c
 204
 WString
 4
@@ -927,8 +926,8 @@ WVList
 0
 207
 MItem
-16
-..\uidatasette.c
+14
+..\uiconsole.c
 208
 WString
 4
@@ -945,8 +944,8 @@ WVList
 0
 211
 MItem
-14
-..\uidigimax.c
+16
+..\uidatasette.c
 212
 WString
 4
@@ -963,8 +962,8 @@ WVList
 0
 215
 MItem
-11
-..\uidqbb.c
+14
+..\uidigimax.c
 216
 WString
 4
@@ -981,8 +980,8 @@ WVList
 0
 219
 MItem
-16
-..\uidrivec128.c
+11
+..\uidqbb.c
 220
 WString
 4
@@ -999,8 +998,8 @@ WVList
 0
 223
 MItem
-15
-..\uidrivec64.c
+16
+..\uidrivec128.c
 224
 WString
 4
@@ -1017,8 +1016,8 @@ WVList
 0
 227
 MItem
-19
-..\uidrivepetcbm2.c
+15
+..\uidrivec64.c
 228
 WString
 4
@@ -1035,8 +1034,8 @@ WVList
 0
 231
 MItem
-17
-..\uidriveplus4.c
+19
+..\uidrivepetcbm2.c
 232
 WString
 4
@@ -1054,7 +1053,7 @@ WVList
 235
 MItem
 17
-..\uidrivevic20.c
+..\uidriveplus4.c
 236
 WString
 4
@@ -1071,8 +1070,8 @@ WVList
 0
 239
 MItem
-16
-..\uieasyflash.c
+17
+..\uidrivevic20.c
 240
 WString
 4
@@ -1089,8 +1088,8 @@ WVList
 0
 243
 MItem
-12
-..\uievent.c
+16
+..\uieasyflash.c
 244
 WString
 4
@@ -1107,8 +1106,8 @@ WVList
 0
 247
 MItem
-15
-..\uifliplist.c
+12
+..\uievent.c
 248
 WString
 4
@@ -1125,8 +1124,8 @@ WVList
 0
 251
 MItem
-13
-..\uigeoram.c
+15
+..\uifliplist.c
 252
 WString
 4
@@ -1143,8 +1142,8 @@ WVList
 0
 255
 MItem
-11
-..\uihelp.c
+13
+..\uigeoram.c
 256
 WString
 4
@@ -1161,8 +1160,8 @@ WVList
 0
 259
 MItem
-12
-..\uiide64.c
+11
+..\uihelp.c
 260
 WString
 4
@@ -1179,8 +1178,8 @@ WVList
 0
 263
 MItem
-13
-..\uiisepic.c
+12
+..\uiide64.c
 264
 WString
 4
@@ -1197,8 +1196,8 @@ WVList
 0
 267
 MItem
-15
-..\uijoystick.c
+13
+..\uiisepic.c
 268
 WString
 4
@@ -1216,7 +1215,7 @@ WVList
 271
 MItem
 15
-..\uikeyboard.c
+..\uijoystick.c
 272
 WString
 4
@@ -1233,8 +1232,8 @@ WVList
 0
 275
 MItem
-10
-..\uilib.c
+15
+..\uikeyboard.c
 276
 WString
 4
@@ -1251,8 +1250,8 @@ WVList
 0
 279
 MItem
-15
-..\uilightpen.c
+10
+..\uilib.c
 280
 WString
 4
@@ -1269,8 +1268,8 @@ WVList
 0
 283
 MItem
-16
-..\uimediafile.c
+15
+..\uilightpen.c
 284
 WString
 4
@@ -1287,8 +1286,8 @@ WVList
 0
 287
 MItem
-11
-..\uimidi.c
+16
+..\uimediafile.c
 288
 WString
 4
@@ -1305,8 +1304,8 @@ WVList
 0
 291
 MItem
-12
-..\uimmc64.c
+11
+..\uimidi.c
 292
 WString
 4
@@ -1323,8 +1322,8 @@ WVList
 0
 295
 MItem
-10
-..\uimon.c
+12
+..\uimmc64.c
 296
 WString
 4
@@ -1341,8 +1340,8 @@ WVList
 0
 299
 MItem
-12
-..\uimouse.c
+10
+..\uimon.c
 300
 WString
 4
@@ -1359,8 +1358,8 @@ WVList
 0
 303
 MItem
-14
-..\uinetwork.c
+12
+..\uimouse.c
 304
 WString
 4
@@ -1377,8 +1376,8 @@ WVList
 0
 307
 MItem
-17
-..\uiperipheral.c
+14
+..\uinetwork.c
 308
 WString
 4
@@ -1395,8 +1394,8 @@ WVList
 0
 311
 MItem
-13
-..\uipetreu.c
+17
+..\uiperipheral.c
 312
 WString
 4
@@ -1414,7 +1413,7 @@ WVList
 315
 MItem
 13
-..\uipetset.c
+..\uipetreu.c
 316
 WString
 4
@@ -1431,8 +1430,8 @@ WVList
 0
 319
 MItem
-15
-..\uiplus256k.c
+13
+..\uipetset.c
 320
 WString
 4
@@ -1449,8 +1448,8 @@ WVList
 0
 323
 MItem
-16
-..\uiplus4cart.c
+15
+..\uiplus256k.c
 324
 WString
 4
@@ -1467,8 +1466,8 @@ WVList
 0
 327
 MItem
-15
-..\uiplus4mem.c
+16
+..\uiplus4cart.c
 328
 WString
 4
@@ -1485,8 +1484,8 @@ WVList
 0
 331
 MItem
-14
-..\uiplus60k.c
+15
+..\uiplus4mem.c
 332
 WString
 4
@@ -1503,8 +1502,8 @@ WVList
 0
 335
 MItem
-20
-..\uiquicksnapshot.c
+14
+..\uiplus60k.c
 336
 WString
 4
@@ -1521,8 +1520,8 @@ WVList
 0
 339
 MItem
-10
-..\uiram.c
+20
+..\uiquicksnapshot.c
 340
 WString
 4
@@ -1539,8 +1538,8 @@ WVList
 0
 343
 MItem
-14
-..\uiramcart.c
+10
+..\uiram.c
 344
 WString
 4
@@ -1557,8 +1556,8 @@ WVList
 0
 347
 MItem
-10
-..\uireu.c
+14
+..\uiramcart.c
 348
 WString
 4
@@ -1576,7 +1575,7 @@ WVList
 351
 MItem
 10
-..\uirom.c
+..\uireu.c
 352
 WString
 4
@@ -1593,8 +1592,8 @@ WVList
 0
 355
 MItem
-12
-..\uirs232.c
+10
+..\uirom.c
 356
 WString
 4
@@ -1611,8 +1610,8 @@ WVList
 0
 359
 MItem
-16
-..\uirs232user.c
+12
+..\uirs232.c
 360
 WString
 4
@@ -1629,8 +1628,8 @@ WVList
 0
 363
 MItem
-10
-..\uisid.c
+16
+..\uirs232user.c
 364
 WString
 4
@@ -1647,8 +1646,8 @@ WVList
 0
 367
 MItem
-14
-..\uisidcart.c
+10
+..\uisid.c
 368
 WString
 4
@@ -1665,8 +1664,8 @@ WVList
 0
 371
 MItem
-13
-..\uisiddtv.c
+14
+..\uisidcart.c
 372
 WString
 4
@@ -1683,8 +1682,8 @@ WVList
 0
 375
 MItem
-15
-..\uisnapshot.c
+13
+..\uisiddtv.c
 376
 WString
 4
@@ -1701,8 +1700,8 @@ WVList
 0
 379
 MItem
-12
-..\uisound.c
+15
+..\uisnapshot.c
 380
 WString
 4
@@ -1719,8 +1718,8 @@ WVList
 0
 383
 MItem
-20
-..\uisoundexpander.c
+12
+..\uisound.c
 384
 WString
 4
@@ -1737,8 +1736,8 @@ WVList
 0
 387
 MItem
-12
-..\uispeed.c
+20
+..\uisoundexpander.c
 388
 WString
 4
@@ -1755,8 +1754,8 @@ WVList
 0
 391
 MItem
-10
-..\uitfe.c
+12
+..\uispeed.c
 392
 WString
 4
@@ -1773,8 +1772,8 @@ WVList
 0
 395
 MItem
-12
-..\uivicii.c
+10
+..\uitfe.c
 396
 WString
 4
@@ -1791,8 +1790,8 @@ WVList
 0
 399
 MItem
-13
-..\uivicset.c
+12
+..\uivicii.c
 400
 WString
 4
@@ -1809,8 +1808,8 @@ WVList
 0
 403
 MItem
-12
-..\uivideo.c
+13
+..\uivicset.c
 404
 WString
 4
@@ -1828,7 +1827,7 @@ WVList
 407
 MItem
 12
-..\vic20ui.c
+..\uivideo.c
 408
 WString
 4
@@ -1845,8 +1844,8 @@ WVList
 0
 411
 MItem
-16
-..\video-ddraw.c
+12
+..\vic20ui.c
 412
 WString
 4
@@ -1863,8 +1862,8 @@ WVList
 0
 415
 MItem
-14
-..\video-dx9.c
+16
+..\video-ddraw.c
 416
 WString
 4
@@ -1881,8 +1880,8 @@ WVList
 0
 419
 MItem
-10
-..\video.c
+14
+..\video-dx9.c
 420
 WString
 4
@@ -1899,8 +1898,8 @@ WVList
 0
 423
 MItem
-11
-..\vsidui.c
+10
+..\video.c
 424
 WString
 4
@@ -1917,8 +1916,8 @@ WVList
 0
 427
 MItem
-14
-..\vsyncarch.c
+11
+..\vsidui.c
 428
 WString
 4
@@ -1935,8 +1934,8 @@ WVList
 0
 431
 MItem
-12
-..\winmain.c
+14
+..\vsyncarch.c
 432
 WString
 4
@@ -1945,6 +1944,24 @@ COBJ
 WVList
 0
 434
+WVList
+0
+11
+1
+1
+0
+435
+MItem
+12
+..\winmain.c
+436
+WString
+4
+COBJ
+437
+WVList
+0
+438
 WVList
 0
 11

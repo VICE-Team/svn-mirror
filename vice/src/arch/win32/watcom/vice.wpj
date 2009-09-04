@@ -263,7 +263,7 @@ WFileName
 11
 maincpu.tgt
 0
-4
+2
 66
 VComponent
 67
@@ -295,7 +295,7 @@ WFileName
 8
 arch.tgt
 0
-0
+10
 72
 VComponent
 73
@@ -1160,4 +1160,4 @@ WFileName
 gentr.tgt
 0
 0
-69
+231
