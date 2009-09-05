@@ -44,12 +44,10 @@ int sound_err(log_t log, ULONG rc, char *s)
     log_error(log, s);
     mciGetErrorString(rc, text, 128);
 
-    if (!isprint(text[0]))
+    if (!isprint(text[0])) {
         return 1;
+    }
 
-    log_error(log, "%s (rc=%li)",text, rc);
-    //WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, text, s, 0, MB_OK);
-    //WORD lo order=unsigned short
+    log_error(log, "%s (rc=%li)", text, rc);
     return 1;
 }
-

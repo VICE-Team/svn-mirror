@@ -24,12 +24,12 @@
  *  02111-1307  USA.
  *
  */
+
 #include "vice.h"
 
 #ifdef HAVE_TFE
 
 #include <os2.h>
-
 #include <string.h>
 
 #include "ipspy.h"
@@ -40,30 +40,45 @@
 /*    variables needed                                                       */
 static log_t tfe_arch_log = LOG_ERR;
 
-static UCHAR  auchInterface[/*IFNAMSIZ*/16+1]="";
-static USHORT usOldMode=0;
-static ULONG  ulHandle =0;
+static UCHAR auchInterface[16 + 1] = "";
+static USHORT usOldMode = 0;
+static ULONG ulHandle = 0;
 
 static const char *IpSpyError(APIRET i)
 {
-    switch (i)
-    {
-    case RC_IPSPY_NOERROR:              return "No Error.";
-    case RC_IPSPY_TCPIP_NOT_FOUND:      return "TCP/IP not found.";
-    case RC_IPSPY_SOCKET_ERROR:         return "Socket error.";
-    case RC_IPSPY_QUEUE_ERROR:          return "Queue error.";
-    case RC_IPSPY_NO_MEMORY:            return "No memory.";
-    case RC_IPSPY_CANNOT_START_THREADS: return "Cannot start threads.";
-    case RC_IPSPY_NOT_INITIALIZED:      return "IpSpy not initialized.";
-    case RC_IPSPY_BUFFER_TOO_SMALL:     return "Buffer too small";
-    case RC_IPSPY_ALREADY_INITIALIZED:  return "Already initialized.";
-    case RC_IPSPY_INVALID_PARAM:        return "Invalid param.";
-    case RC_IPSPY_MUTEX_ERROR:          return "Mutex error.";
-    case RC_IPSPY_TOO_MANY_HANDLES:     return "Too many handles.";
-    case RC_IPSPY_CANNOT_OPEN_DRIVER:   return "Cannot open driver 'ipspy.os2'";
-    case RC_IPSPY_DRIVER_ERROR:         return "Driver error.";
-    case RC_IPSPY_MODE_NOT_SUPPORTED:   return "Mode not supported.";
-    case RC_IPSPY_NOT_YET_SUPPORTED:    return "Not yet supported.";
+    switch (i) {
+        case RC_IPSPY_NOERROR:
+            return "No Error.";
+        case RC_IPSPY_TCPIP_NOT_FOUND:
+            return "TCP/IP not found.";
+        case RC_IPSPY_SOCKET_ERROR:
+            return "Socket error.";
+        case RC_IPSPY_QUEUE_ERROR:
+            return "Queue error.";
+        case RC_IPSPY_NO_MEMORY:
+            return "No memory.";
+        case RC_IPSPY_CANNOT_START_THREADS:
+            return "Cannot start threads.";
+        case RC_IPSPY_NOT_INITIALIZED:
+            return "IpSpy not initialized.";
+        case RC_IPSPY_BUFFER_TOO_SMALL:
+            return "Buffer too small";
+        case RC_IPSPY_ALREADY_INITIALIZED:
+            return "Already initialized.";
+        case RC_IPSPY_INVALID_PARAM:
+            return "Invalid param.";
+        case RC_IPSPY_MUTEX_ERROR:
+            return "Mutex error.";
+        case RC_IPSPY_TOO_MANY_HANDLES:
+            return "Too many handles.";
+        case RC_IPSPY_CANNOT_OPEN_DRIVER:
+            return "Cannot open driver 'ipspy.os2'";
+        case RC_IPSPY_DRIVER_ERROR:
+            return "Driver error.";
+        case RC_IPSPY_MODE_NOT_SUPPORTED:
+            return "Mode not supported.";
+        case RC_IPSPY_NOT_YET_SUPPORTED:
+            return "Not yet supported.";
     }
     return "n/a";
 }
@@ -92,16 +107,15 @@ static void IpSpyInstallDriver(void)
 int tfe_arch_init(void)
 {
     APIRET rc;
-    UCHAR  **pIFs;
+    UCHAR **pIFs;
     int i;
-    UCHAR  *pVersion;
+    UCHAR *pVersion;
 
     tfe_arch_log = log_open("ArchTFE");
 
     // view the version
-    rc=IpSpy_Version(&pVersion);
-    if (rc != RC_IPSPY_NOERROR)
-    {
+    rc = IpSpy_Version(&pVersion);
+    if (rc != RC_IPSPY_NOERROR) {
         log_debug("IpSpyVersion Error [%d]: %s", rc, IpSpyError(rc));
         return 0;
     }
@@ -109,19 +123,20 @@ int tfe_arch_init(void)
     log_debug("Found IpSpy Version: %s", pVersion);
 
     // query all available interfaces
-    rc=IpSpy_QueryInterfaces(&pIFs);
-    if (rc != RC_IPSPY_NOERROR)
-    {
+    rc = IpSpy_QueryInterfaces(&pIFs);
+    if (rc != RC_IPSPY_NOERROR) {
         log_debug("IpSpyQueryIF Error [%d]: %s", rc, IpSpyError(rc));
         return 0;
     }
 
     // show all available interfaces
-    if (!pIFs)
+    if (!pIFs) {
         return 0;
+    }
 
-    for(i=0; pIFs[i]; i++)
+    for(i = 0; pIFs[i]; i++) {
         log_debug(" %s", pIFs[i]);
+    }
 
     return 1;
 }
@@ -139,65 +154,53 @@ void tfe_arch_post_reset(void)
 int tfe_arch_activate(const char *interface_name)
 {
     APIRET rc;
-    UCHAR  *pSocketError;
-    ULONG  ulSocketError;
-
+    UCHAR *pSocketError;
+    ULONG ulSocketError;
     const USHORT usMode = DIRECTED_MODE | BROADCAST_MODE | PROMISCUOUS_MODE;
 
-    log_message( tfe_arch_log, "tfe_arch_activate()" );
+    log_message(tfe_arch_log, "tfe_arch_activate()");
 
     strcpy(auchInterface, "lan0");
 
-    // IpSpy_(Query/Set)ReceiveMode: usMode
-    // #define DIRECTED_MODE         0x0001
-    // #define BROADCAST_MODE        0x0002
-    // #define PROMISCUOUS_MODE      0x0004
-    // #define SOURCE_ROUTING_MODE   0x0008
-
     // save receive mode
-    rc=IpSpy_QueryReceiveMode(&usOldMode, NULL);
-    if  (rc != RC_IPSPY_NOERROR)
-    {
+    rc = IpSpy_QueryReceiveMode(&usOldMode, NULL);
+    if (rc != RC_IPSPY_NOERROR) {
         log_debug("IpSpy_QueryReceiveMode Error [%d]: %s", rc, IpSpyError(rc));
-        if (rc==RC_IPSPY_CANNOT_OPEN_DRIVER)
+        if (rc == RC_IPSPY_CANNOT_OPEN_DRIVER) {
             IpSpyInstallDriver();
+        }
     }
 
     log_debug("IpSpy - Receive Mode %d", usOldMode);
 
     // we want all packets
-    rc=IpSpy_SetReceiveMode(usMode, auchInterface, NULL);
-    if (rc != RC_IPSPY_NOERROR)
-    {
-        if (rc == RC_IPSPY_MODE_NOT_SUPPORTED)
+    rc = IpSpy_SetReceiveMode(usMode, auchInterface, NULL);
+    if (rc != RC_IPSPY_NOERROR) {
+        if (rc == RC_IPSPY_MODE_NOT_SUPPORTED) {
             log_debug("Promiscuous mode not supported");
-        else
-        {
+        } else {
             log_debug("IpSpy_SetReceiveMode Error: %d", rc);
-            if (rc==RC_IPSPY_CANNOT_OPEN_DRIVER)
+            if (rc == RC_IPSPY_CANNOT_OPEN_DRIVER) {
                 IpSpyInstallDriver();
+            }
         }
         return 0;
     }
 
     // init monitor
-    rc=IpSpy_Init(&ulHandle, auchInterface);
-    if (rc != RC_IPSPY_NOERROR)
-    {
-        if (rc == RC_IPSPY_SOCKET_ERROR)
-        {
+    rc = IpSpy_Init(&ulHandle, auchInterface);
+    if (rc != RC_IPSPY_NOERROR) {
+        if (rc == RC_IPSPY_SOCKET_ERROR) {
             IpSpy_GetLastSocketError(&ulSocketError, &pSocketError);
             log_debug("IpSpyInit SocketError: [%d] %s", ulSocketError, pSocketError);
-        }
-        else
+        } else {
             log_debug("IpSpyInit Error: %d\n", rc);
+        }
 
         return 0;
     }
 
-    log_message( tfe_arch_log, "tfe_arch_activated." );
-
-    //resources_set_int("ETHERNET_AS_RR", 1);
+    log_message(tfe_arch_log, "tfe_arch_activated.");
 
     return 1;
 }
@@ -206,89 +209,74 @@ void tfe_arch_deactivate( void )
 {
     APIRET rc;
 
-    log_message( tfe_arch_log, "tfe_arch_deactivate()." );
+    log_message(tfe_arch_log, "tfe_arch_deactivate().");
 
     // end monitor
-    rc=IpSpy_Exit(ulHandle);
-    if (rc != RC_IPSPY_NOERROR)
+    rc = IpSpy_Exit(ulHandle);
+    if (rc != RC_IPSPY_NOERROR) {
         log_debug("IpSpyExit Error: %d", rc);
+    }
 
     // ip stack relexation
-    rc=IpSpy_SetReceiveMode(usOldMode, auchInterface, NULL);
-    if (rc != RC_IPSPY_NOERROR)
+    rc = IpSpy_SetReceiveMode(usOldMode, auchInterface, NULL);
+    if (rc != RC_IPSPY_NOERROR) {
         log_debug("IpSpy_SetReceiveMode Error: %d", rc);
+    }
 
     log_debug("tfe_arch_deactivated");
 }
 
 void tfe_arch_set_mac( const BYTE mac[6] )
 {
-    log_message( tfe_arch_log, "New MAC address set: %02X:%02X:%02X:%02X:%02X:%02X.",
-        mac[0], mac[1], mac[2], mac[3], mac[4], mac[5] );
+    log_message(tfe_arch_log, "New MAC address set: %02X:%02X:%02X:%02X:%02X:%02X.", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
 }
 
 void tfe_arch_set_hashfilter(const DWORD hash_mask[2])
 {
-    log_message( tfe_arch_log, "New hash filter set: %08X:%08X.",
-        hash_mask[1], hash_mask[0]);
+    log_message(tfe_arch_log, "New hash filter set: %08X:%08X.", hash_mask[1], hash_mask[0]);
 }
 
-void tfe_arch_recv_ctl( int bBroadcast,   /* broadcast */
-                        int bIA,          /* individual address (IA) */
-                        int bMulticast,   /* multicast if address passes the hash filter */
-                        int bCorrect,     /* accept correct frames */
-                        int bPromiscuous, /* promiscuous mode */
-                        int bIAHash       /* accept if IA passes the hash filter */
-                      )
+/* int bBroadcast   - broadcast */
+/* int bIA          - individual address (IA) */
+/* int bMulticast   - multicast if address passes the hash filter */
+/* int bCorrect     - accept correct frames */
+/* int bPromiscuous - promiscuous mode */
+/* int bIAHash      - accept if IA passes the hash filter */
+
+void tfe_arch_recv_ctl(int bBroadcast, int bIA, int bMulticast, int bCorrect, int bPromiscuous, int bIAHash)
 {
-    log_message( tfe_arch_log, "tfe_arch_recv_ctl() called with the following parameters:" );
-    log_message( tfe_arch_log, " bBroadcast   = %s", bBroadcast   ? "TRUE" : "FALSE" );
-    log_message( tfe_arch_log, " bIA          = %s", bIA          ? "TRUE" : "FALSE" );
-    log_message( tfe_arch_log, " bMulticast   = %s", bMulticast   ? "TRUE" : "FALSE" );
-    log_message( tfe_arch_log, " bCorrect     = %s", bCorrect     ? "TRUE" : "FALSE" );
-    log_message( tfe_arch_log, " bPromiscuous = %s", bPromiscuous ? "TRUE" : "FALSE" );
-    log_message( tfe_arch_log, " bIAHash      = %s", bIAHash      ? "TRUE" : "FALSE" );
-    //ArchTFE:  bBroadcast   = FALSE
-    //ArchTFE:  bIA          = FALSE
-    //ArchTFE:  bMulticast   = FALSE
-    //ArchTFE:  bCorrect     = FALSE
-    //ArchTFE:  bPromiscuous = FALSE
-    //ArchTFE:  bIAHash      = FALSE
+    log_message(tfe_arch_log, "tfe_arch_recv_ctl() called with the following parameters:");
+    log_message(tfe_arch_log, " bBroadcast   = %s", bBroadcast ? "TRUE" : "FALSE");
+    log_message(tfe_arch_log, " bIA          = %s", bIA ? "TRUE" : "FALSE");
+    log_message(tfe_arch_log, " bMulticast   = %s", bMulticast ? "TRUE" : "FALSE");
+    log_message(tfe_arch_log, " bCorrect     = %s", bCorrect ? "TRUE" : "FALSE");
+    log_message(tfe_arch_log, " bPromiscuous = %s", bPromiscuous ? "TRUE" : "FALSE");
+    log_message(tfe_arch_log, " bIAHash      = %s", bIAHash ? "TRUE" : "FALSE");
 }
 
 void tfe_arch_line_ctl(int bEnableTransmitter, int bEnableReceiver )
 {
-    log_message( tfe_arch_log, "tfe_arch_line_ctl() called with the following parameters:" );
-    log_message( tfe_arch_log, " bEnableTransmitter = %s", bEnableTransmitter ? "TRUE" : "FALSE" );
-    log_message( tfe_arch_log, " bEnableReceiver    = %s", bEnableReceiver    ? "TRUE" : "FALSE" );
-    //ArchTFE: tfe_arch_line_ctl() called with the following parameters:
-    //ArchTFE:  bEnableTransmitter = TRUE
-    //ArchTFE:  bEnableReceiver    = TRUE
+    log_message(tfe_arch_log, "tfe_arch_line_ctl() called with the following parameters:");
+    log_message(tfe_arch_log, " bEnableTransmitter = %s", bEnableTransmitter ? "TRUE" : "FALSE");
+    log_message(tfe_arch_log, " bEnableReceiver    = %s", bEnableReceiver ? "TRUE" : "FALSE");
 }
 
-void tfe_arch_transmit(int force,       /* FORCE: Delete waiting frames in transmit buffer */
-                       int onecoll,     /* ONECOLL: Terminate after just one collision */
-                       int inhibit_crc, /* INHIBITCRC: Do not append CRC to the transmission */
-                       int tx_pad_dis,  /* TXPADDIS: Disable padding to 60 Bytes */
-                       int txlength,    /* Frame length */
-                       BYTE *txframe    /* Pointer to the frame to be transmitted */
-                      )
-{
-    // tfe_arch_transmit() called, with: force = FALSE, onecoll = FALSE, inhibit_crc=FALSE, tx_pad_dis=FALSE, txlength=42
+/* int force       - FORCE: Delete waiting frames in transmit buffer */
+/* int onecoll     - ONECOLL: Terminate after just one collision */
+/* int inhibit_crc - INHIBITCRC: Do not append CRC to the transmission */
+/* int tx_pad_dis  - TXPADDIS: Disable padding to 60 Bytes */
+/* int txlength    - Frame length */
+/* BYTE *txframe   - Pointer to the frame to be transmitted */
 
+void tfe_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_dis, int txlength, BYTE *txframe)
+{
     APIRET rc;
     USHORT usType;
     ULONG ulTimeStamp;
     USHORT usUnknown;
 
-    log_message( tfe_arch_log, "tfe_arch_transmit() called, with: "
-        "force = %s, onecoll = %s, inhibit_crc=%s, tx_pad_dis=%s, txlength=%u",
-        force ?       "TRUE" : "FALSE",
-        onecoll ?     "TRUE" : "FALSE",
-        inhibit_crc ? "TRUE" : "FALSE",
-        tx_pad_dis ?  "TRUE" : "FALSE",
-        txlength
-        );
+    log_message(tfe_arch_log, "tfe_arch_transmit() called, with: force = %s, onecoll = %s, inhibit_crc=%s, tx_pad_dis=%s, txlength=%u",
+                force ? "TRUE" : "FALSE", onecoll ? "TRUE" : "FALSE", inhibit_crc ? "TRUE" : "FALSE", tx_pad_dis ? "TRUE" : "FALSE", txlength);
 
     rc = IpSpy_WriteRaw(ulHandle, txframe, txlength, usType, ulTimeStamp, usUnknown);
     log_debug("IpSpy_WriteRaw Error [%d]: %s", rc, IpSpyError(rc));
@@ -319,58 +307,38 @@ void tfe_arch_transmit(int force,       /* FORCE: Delete waiting frames in trans
     *pbroadcast is set, else cleared.
   - if the received frame had a crc error, *pcrc_error is set, else cleared
 */
-int tfe_arch_receive(
-      BYTE *pbuffer  ,    /* where to store a frame */
-      int  *plen,         /* IN: maximum length of frame to copy;
-                             OUT: length of received frame
-                             OUT can be bigger than IN if received frame was
-                             longer than supplied buffer */
-      int  *phashed,      /* set if the dest. address is accepted by the hash filter */
-      int  *phash_index,  /* hash table index if hashed == TRUE */
-      int  *prx_ok,       /* set if good CRC and valid length */
-      int  *pcorrect_mac, /* set if dest. address is exactly our IA */
-      int  *pbroadcast,   /* set if dest. address is a broadcast address */
-      int  *pcrc_error    /* set if received frame had a CRC error */
-                    )
-{
-    /*
-     IpSpy_ReadRaw(ULONG ulHandle, VOID *data, USHORT *usLength, USHORT *usType, ULONG *ulTimeStamp, USHORT *usUnknown);
-     Reads raw packets from the interface.
-     ulHandle    -   monitor handle obtained from IpSpy_Init
-     data        -   address of the buffer to receive the bytes read
-     usLength    -   address of the length, in bytes, of the data area
-     AFTER CALL: contains the length of the packet
-     ulTimeStamp -   address of the timestamp from the packet
-     usUnknown   -   unknown
-     */
 
+/* BYTE *pbuffer     - where to store a frame */
+/* int *plen         - IN: maximum length of frame to copy;
+                       OUT: length of received frame
+                       OUT can be bigger than IN if received frame was
+                           longer than supplied buffer */
+/* int *phashed      - set if the dest. address is accepted by the hash filter */
+/* int *phash_index  - hash table index if hashed == TRUE */
+/* int *prx_ok       - set if good CRC and valid length */
+/* int *pcorrect_mac - set if dest. address is exactly our IA */
+/* int *pbroadcast   - set if dest. address is a broadcast address */
+/* int *pcrc_error   - set if received frame had a CRC error */
+
+int tfe_arch_receive(BYTE *pbuffer, int *plen, int *phashed, int *phash_index, int *prx_ok, int *pcorrect_mac, int *pbroadcast, int *pcrc_error)
+{
     APIRET rc;
     USHORT usType;
-    ULONG  ulTimeStamp;
+    ULONG ulTimeStamp;
     USHORT usUnknown;
 
-    //log_message( tfe_arch_log, "tfe_arch_receive" );
-
-    //rc=IpSpy_ReadRaw(ulHandle, pbuffer, plen, &usType, &ulTimeStamp, &usUnknown);
     rc = RC_IPSPY_NOERROR;
-    *plen=6;
+    *plen = 6;
 
-    //log_message( tfe_arch_log, "tfe_arch_receive %d",rc );
-
-    if (rc!=RC_IPSPY_NOERROR)
-    {
+    if (rc != RC_IPSPY_NOERROR) {
         log_debug("IpSpy_ReadRaw Error [%d]: %s", rc, IpSpyError(rc));
         return 0;
     }
 
     // length has to be even (see tfe.c)
-    if (*plen&1==0)
+    if (*plen & 1 == 0) {
         (*plen)++;
-
-    //if (len&1)
-    //    ++len;
-
-    //*plen = len;
+    }
 
     /*
      * we don't decide if this frame fits the needs;

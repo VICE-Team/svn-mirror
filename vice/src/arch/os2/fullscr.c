@@ -23,6 +23,7 @@
  *  02111-1307  USA.
  *
  */
+
 #include "vice.h"
 
 #define INCL_WININPUT        // WinSetCapture
@@ -30,6 +31,7 @@
 #define INCL_WINPOINTERS     // WinShowPointer
 #define INCL_WINWINDOWMGR    // QWL_USER
 #define INCL_DOSMODULEMGR    // DosLoadModule
+
 #include <os2.h>
 
 #ifdef WATCOM_COMPILE
@@ -37,6 +39,7 @@
 #else
 #define INCL_MMIO
 #endif
+
 #include <os2me.h>
 
 #if defined(__IBMC__) || defined(WATCOM_COMPILE)
@@ -53,23 +56,23 @@
 static log_t fslog = LOG_ERR;
 
 static GDDMODEINFO desktopmode;         // List of all supported video modes
-static BOOL        fInFullScreenNow;    // Flag to show if the Dive and the Desktop is
+static BOOL fInFullScreenNow;           // Flag to show if the Dive and the Desktop is
                                         // in Fullscreen or windowed mode now
-static HMODULE     hmodVMAN=NULLHANDLE; // Handle of loaded VMAN.DLL module
-/*static*/ FNVMIENTRY *pfnVMIEntry;         // The entry of VMAN.DLL
-static int         vmiinit = 0;
+static HMODULE hmodVMAN=NULLHANDLE;     // Handle of loaded VMAN.DLL module
+FNVMIENTRY *pfnVMIEntry;                // The entry of VMAN.DLL
+static int vmiinit = 0;
 
-static long          NumVideoModes;    // Number of supported video modes
-static PGDDMODEINFO  ModeInfo;         // List of all supported video modes
-static PGDDMODEINFO  NewModeInfo;      // New video mode for fullscreen
-static FOURCC        fccColorEncoding; // Mode to be used
-static BOOL          fFullScreenMode;  // Flag to show if the application is running in fullscreen mode or not.
+static long NumVideoModes;             // Number of supported video modes
+static PGDDMODEINFO ModeInfo;          // List of all supported video modes
+static PGDDMODEINFO NewModeInfo;       // New video mode for fullscreen
+static FOURCC fccColorEncoding;        // Mode to be used
+static BOOL fFullScreenMode;           // Flag to show if the application is running in fullscreen mode or not.
                                        // Note, that it doesn't mean that the desktop is in fullscreen mode now,
                                        // because it only shows that when the application gets focus, it should
                                        // run in fullscreen mode (or not).
                                        // To check the actual mode, see fInFullscreenNow!
 
-static int           fRate = 50;
+static int fRate = 50;
 
 ///////////////////////////////////////
 // SetPointerVisibility
@@ -80,8 +83,8 @@ int pfnShowPtr(BOOL fState)
 {
     HWSHOWPTRIN hwspi;
 
-    hwspi.ulLength=sizeof(hwspi);
-    hwspi.fShow   =fState;
+    hwspi.ulLength = sizeof(hwspi);
+    hwspi.fShow = fState;
 
     return pfnVMIEntry(0, VMI_CMD_SHOWPTR, &hwspi, NULL);
 }
@@ -115,15 +118,13 @@ HWND QueryDesktopWindow(void)
     HWND hwnd;
 
     hab = WinQueryAnchorBlock(HWND_DESKTOP);
-    if (hab==NULLHANDLE)
-    {
+    if (hab == NULLHANDLE) {
         log_error(fslog, "WinQueryAnchorBlock failed.");
         return NULLHANDLE;
     }
 
     hwnd = WinQueryDesktopWindow(hab, 0);
-    if (hwnd==NULLHANDLE)
-    {
+    if (hwnd == NULLHANDLE) {
         log_error(fslog, "WinQueryDesktopWindow failed.");
         return NULLHANDLE;
     }
@@ -139,14 +140,13 @@ HWND QueryDesktopWindow(void)
 //
 int RestorePM(void)
 {
-    HDC  hdc;
+    HDC hdc;
     HWND hwnd;
 
     //
     // Show pointer again
     //
     pfnShowPtr(TRUE);
-    //WinShowPointer(hwnd, TRUE);
     WinSetCapture(HWND_DESKTOP, NULLHANDLE);
 
     //
@@ -155,12 +155,12 @@ int RestorePM(void)
     WinLockWindowUpdate(HWND_DESKTOP, 0);
 
     hwnd = QueryDesktopWindow();
-    if (hwnd==NULLHANDLE)
+    if (hwnd == NULLHANDLE) {
         return 0;
+    }
 
     hdc = WinQueryWindowDC(hwnd);
-    if (hwnd==NULLHANDLE)
-    {
+    if (hwnd == NULLHANDLE) {
         log_error(fslog, "WinQueryWindowDC failed.");
         return 0;
     }
@@ -188,8 +188,9 @@ int pfnSetMode(long modeid)
     log_message(fslog, "Switching to Mode #%d", modeid&0xff);
 
     rc = pfnVMIEntry(0, VMI_CMD_SETMODE, &modeid, NULL); // Set old video mode
-    if (rc!=NO_ERROR)
+    if (rc != NO_ERROR) {
         log_error(fslog, "pfnVMIEntry VMI_CMD_SETMODE failed (rc=%d)", rc);
+    }
 
     return rc;
 }
@@ -198,27 +199,12 @@ void PrintModeInfo(GDDMODEINFO *mode)
 {
     const int fcc = mode->fccColorEncoding;
 
-    if (!mode)
+    if (!mode) {
         return;
+    }
 
-    /*
-     ULONG  ulModeId;          // used to make SETMODE request
-     ULONG  ulBpp;             // no of colors (bpp)
-     ULONG  ulHorizResolution; // horizontal pels
-     ULONG  ulVertResolution;  // vertical scan lines
-     ULONG  ulRefreshRate;     // in Hz (0 if not available)
-     PBYTE  pbVR8AMPhys;       // physical address of VRAM
-     ULONG  ulApertureSize;    // Current bank size
-     ULONG  ulScanLineSize;    // size (in bytes) of one scan line
-     ULONG  fccColorEncoding;  // Pel format (defines above
-     ULONG  ulTotalVRAMSize;   // Total size of VRAM in bytes
-     ULONG  cColors;           // Total number of colors
-     */
-
-    log_message(fslog, "Id=%4d, %4dx%4d/%2d (%3d Hz)  FourCC: %c%c%c%c (%d)",
-                mode->ulModeId&0xff, mode->ulHorizResolution, mode->ulVertResolution,
-                mode->ulBpp, mode->ulRefreshRate,
-                fcc, fcc>>8, fcc>>16, fcc>>24, mode->cColors);
+    log_message(fslog, "Id=%4d, %4dx%4d/%2d (%3d Hz)  FourCC: %c%c%c%c (%d)", mode->ulModeId & 0xff, mode->ulHorizResolution,
+                mode->ulVertResolution, mode->ulBpp, mode->ulRefreshRate, fcc, fcc>>8, fcc>>16, fcc>>24, mode->cColors);
 }
 
 ///////////////////////////////////////
@@ -230,52 +216,44 @@ void PrintModeInfo(GDDMODEINFO *mode)
 // sets the NewModeInfo pointer to point
 // to that part of ModeInfo, if found.
 //
-GDDMODEINFO *FindVideoMode(int w, int h, FOURCC fcc, /*int bpp,*/ int r)
+GDDMODEINFO *FindVideoMode(int w, int h, FOURCC fcc, int r)
 {
     long l;
     GDDMODEINFO *mode, *res;
-
     unsigned int maxw = -1;
     unsigned int maxh = -1;
     unsigned int rate = -1;
 
     NewModeInfo = NULL;
 
-    if (!ModeInfo)
+    if (!ModeInfo) {
         return FALSE;
+    }
 
     mode = ModeInfo;
 
-    for (l=0; l<NumVideoModes; mode++,l++)
-    {
-        if (mode->ulHorizResolution>=w && mode->ulHorizResolution<maxw &&
-            mode->ulVertResolution >=h && mode->ulVertResolution <maxh &&
-            mode->ulRefreshRate    >=r && mode->ulRefreshRate    <rate &&
-            /*mode->ulBpp == 16 &&*/ mode->fccColorEncoding == fcc)
-        {
+    for ( l = 0; l < NumVideoModes; mode++, l++) {
+        if (mode->ulHorizResolution >= w && mode->ulHorizResolution < maxw && mode->ulVertResolution >= h && mode->ulVertResolution < maxh &&
+            mode->ulRefreshRate >= r && mode->ulRefreshRate < rate && mode->fccColorEncoding == fcc) {
             maxw = mode->ulHorizResolution;
             maxh = mode->ulVertResolution;
             rate = mode->ulRefreshRate;
             res = mode;
         }
     }
-    if (rate>0)
+    if (rate > 0) {
         return res;
+    }
 
-    rate =  0;
+    rate = 0;
     maxw = -1;
     maxh = -1;
 
     mode = ModeInfo;
 
-    for (l=0; l<NumVideoModes; mode++,l++)
-    {
-        if (mode->ulHorizResolution>=w && mode->ulHorizResolution<maxw &&
-            mode->ulVertResolution >=h && mode->ulVertResolution <maxh &&
-            mode->ulRefreshRate    < r && mode->ulRefreshRate    >rate &&
-            /*mode->ulBpp == 16 &&*/ mode->fccColorEncoding == fcc)
-            // && mode->ulRefreshRate==60)
-        {
+    for (l = 0; l < NumVideoModes; mode++, l++) {
+        if (mode->ulHorizResolution >= w && mode->ulHorizResolution < maxw && mode->ulVertResolution >= h && mode->ulVertResolution < maxh &&
+            mode->ulRefreshRate < r && mode->ulRefreshRate > rate && mode->fccColorEncoding == fcc) {
             maxw = mode->ulHorizResolution;
             maxh = mode->ulVertResolution;
             rate = mode->ulRefreshRate;
@@ -285,11 +263,11 @@ GDDMODEINFO *FindVideoMode(int w, int h, FOURCC fcc, /*int bpp,*/ int r)
 
     log_debug("Found %dx%d / %dHz", maxw, maxh, rate);
 
-    if (rate>0)
+    if (rate > 0) {
         return res;
+    }
 
-    log_message(fslog, "Requested Video Mode not found (%dx%d, %c%c%c%c)", w, h,
-                fcc, fcc>>8, fcc>>16, fcc>>24);
+    log_message(fslog, "Requested Video Mode not found (%dx%d, %c%c%c%c)", w, h, fcc, fcc >> 8, fcc >> 16, fcc >> 24);
 
     return NULL;
 }
@@ -297,15 +275,17 @@ GDDMODEINFO *FindVideoMode(int w, int h, FOURCC fcc, /*int bpp,*/ int r)
 void FullscreenPrintModes(void)
 {
     long l;
-    GDDMODEINFO *mode=ModeInfo;
+    GDDMODEINFO *mode = ModeInfo;
 
     log_message(fslog, "Available GRADD Video Modes: %d", NumVideoModes);
 
-    if (!mode)
+    if (!mode) {
         return;
+    }
 
-    for (l=0; l<NumVideoModes; mode++,l++)
+    for (l = 0; l < NumVideoModes; mode++, l++) {
         PrintModeInfo(mode);
+    }
 }
 
 ///////////////////////////////////////
@@ -320,8 +300,9 @@ int SwitchToFullscreen(HWND hwnd, GDDMODEINFO *mode)
     APERTURE     aperture;
     FBINFO       fbinfo;
 
-    if (!hmodVMAN)
+    if (!hmodVMAN) {
         return -1;
+    }
 
     log_message(fslog, "Switching to fullscreen.");
 
@@ -330,27 +311,26 @@ int SwitchToFullscreen(HWND hwnd, GDDMODEINFO *mode)
     //
     memset(&fbinfo, 0, sizeof(FBINFO));
 
-    fbinfo.ulLength             = sizeof(FBINFO);
-    fbinfo.ulCaps               = 0;
-    fbinfo.ulBPP                = mode->ulBpp;
-    fbinfo.ulXRes               = mode->ulHorizResolution;
-    fbinfo.ulYRes               = mode->ulVertResolution;
-    fbinfo.ulScanLineBytes      = mode->ulScanLineSize;
-    fbinfo.ulNumENDIVEDrivers   = 0; // unknown
-    fbinfo.fccColorEncoding     = mode->fccColorEncoding;
+    fbinfo.ulLength = sizeof(FBINFO);
+    fbinfo.ulCaps = 0;
+    fbinfo.ulBPP = mode->ulBpp;
+    fbinfo.ulXRes = mode->ulHorizResolution;
+    fbinfo.ulYRes = mode->ulVertResolution;
+    fbinfo.ulScanLineBytes = mode->ulScanLineSize;
+    fbinfo.ulNumENDIVEDrivers = 0; // unknown
+    fbinfo.fccColorEncoding = mode->fccColorEncoding;
 
-    aperture.ulPhysAddr         = (long)mode->pbVRAMPhys;
-    aperture.ulApertureSize     = mode->ulApertureSize;
-    aperture.ulScanLineSize     = mode->ulScanLineSize;
-    aperture.rctlScreen.yBottom = mode->ulVertResolution  - 1;
-    aperture.rctlScreen.xRight  = mode->ulHorizResolution - 1;
-    aperture.rctlScreen.yTop    = 0;
-    aperture.rctlScreen.xLeft   = 0;
+    aperture.ulPhysAddr = (long)mode->pbVRAMPhys;
+    aperture.ulApertureSize = mode->ulApertureSize;
+    aperture.ulScanLineSize = mode->ulScanLineSize;
+    aperture.rctlScreen.yBottom = mode->ulVertResolution - 1;
+    aperture.rctlScreen.xRight = mode->ulHorizResolution - 1;
+    aperture.rctlScreen.yTop = 0;
+    aperture.rctlScreen.xLeft = 0;
 
     fInFullScreenNow = TRUE; // in this fullscreen mode now!
 
-    if (!BlockPM(hwnd))
-    {
+    if (!BlockPM(hwnd)) {
         log_error(fslog, "Block PM update failed.");
         return -1;
     }
@@ -359,8 +339,7 @@ int SwitchToFullscreen(HWND hwnd, GDDMODEINFO *mode)
     // Set new video mode
     //
     rc = pfnSetMode(mode->ulModeId);
-    if (rc!=NO_ERROR)
-    {
+    if (rc != NO_ERROR) {
         log_error(fslog, "Switching mode failed!");
         RestorePM();
         return rc;
@@ -375,17 +354,14 @@ int SwitchIntoFullscreen(HWND hwnd)
 {
     SWP swp;
     GDDMODEINFO *mode;
-
     FOURCC fcc = fccColorEncoding;
 
     WinQueryWindowPos(hwnd, &swp);
 
-    log_message(fslog, "Search for best fullscreen mode %dx%dx%d (>=%dHz, %c%c%c%c):",
-                swp.cx, swp.cy, 16, fRate, fcc, fcc>>8, fcc>>16, fcc>>24);
+    log_message(fslog, "Search for best fullscreen mode %dx%dx%d (>=%dHz, %c%c%c%c):", swp.cx, swp.cy, 16, fRate, fcc, fcc >> 8, fcc >> 16, fcc >> 24);
 
     mode = FindVideoMode(swp.cx, swp.cy, fcc, fRate);
-    if (!mode)
-    {
+    if (!mode) {
         log_error(fslog, "No matching video mode found!");
         return FALSE;
     }
@@ -424,8 +400,9 @@ int SwitchBackToDesktop(void)
 
 void FullscreenDisable(void)
 {
-    if (!fFullScreenMode)
+    if (!fFullScreenMode) {
         return;
+    }
 
     SwitchBackToDesktop();
     fFullScreenMode = fInFullScreenNow;
@@ -435,24 +412,22 @@ void FullscreenChangeMode(HWND hwnd)
 {
     int rc;
     SWP swp;
-    APERTURE     aperture;
-    FBINFO       fbinfo;
+    APERTURE aperture;
+    FBINFO fbinfo;
     GDDMODEINFO *mode;
-    FOURCC       fcc = fccColorEncoding;
+    FOURCC fcc = fccColorEncoding;
 
-    if (!hmodVMAN || !fFullScreenMode)
+    if (!hmodVMAN || !fFullScreenMode) {
         return;
+    }
 
     WinQueryWindowPos(hwnd, &swp);
 
-    log_message(fslog, "Search for best fullscreen mode %dx%d (>=%dHz, %c%c%c%c):",
-                swp.cx, swp.cy, fRate, fcc, fcc>>8, fcc>>16, fcc>>24);
+    log_message(fslog, "Search for best fullscreen mode %dx%d (>=%dHz, %c%c%c%c):", swp.cx, swp.cy, fRate, fcc, fcc >> 8, fcc >> 16, fcc >> 24);
 
     mode = FindVideoMode(swp.cx, swp.cy, fccColorEncoding, fRate);
-    if (!mode)
-    {
+    if (!mode) {
         log_error(fslog, "No matching video mode found!");
-        //FullscreenDisable();
         return;
     }
     PrintModeInfo(mode);
@@ -462,22 +437,22 @@ void FullscreenChangeMode(HWND hwnd)
     //
     memset(&fbinfo, 0, sizeof(FBINFO));
 
-    fbinfo.ulLength             = sizeof(FBINFO);
-    fbinfo.ulCaps               = 0;
-    fbinfo.ulBPP                = mode->ulBpp;
-    fbinfo.ulXRes               = mode->ulHorizResolution;
-    fbinfo.ulYRes               = mode->ulVertResolution;
-    fbinfo.ulScanLineBytes      = mode->ulScanLineSize;
-    fbinfo.ulNumENDIVEDrivers   = 0; // unknown
-    fbinfo.fccColorEncoding     = mode->fccColorEncoding;
+    fbinfo.ulLength = sizeof(FBINFO);
+    fbinfo.ulCaps = 0;
+    fbinfo.ulBPP = mode->ulBpp;
+    fbinfo.ulXRes = mode->ulHorizResolution;
+    fbinfo.ulYRes = mode->ulVertResolution;
+    fbinfo.ulScanLineBytes = mode->ulScanLineSize;
+    fbinfo.ulNumENDIVEDrivers = 0; // unknown
+    fbinfo.fccColorEncoding = mode->fccColorEncoding;
 
-    aperture.ulPhysAddr         = (long)mode->pbVRAMPhys;
-    aperture.ulApertureSize     = mode->ulApertureSize;
-    aperture.ulScanLineSize     = mode->ulScanLineSize;
+    aperture.ulPhysAddr = (long)mode->pbVRAMPhys;
+    aperture.ulApertureSize = mode->ulApertureSize;
+    aperture.ulScanLineSize = mode->ulScanLineSize;
     aperture.rctlScreen.yBottom = mode->ulVertResolution  - 1;
-    aperture.rctlScreen.xRight  = mode->ulHorizResolution - 1;
-    aperture.rctlScreen.yTop    = 0;
-    aperture.rctlScreen.xLeft   = 0;
+    aperture.rctlScreen.xRight = mode->ulHorizResolution - 1;
+    aperture.rctlScreen.yTop = 0;
+    aperture.rctlScreen.xLeft = 0;
 
     DiveFullScreenTerm();
 
@@ -485,8 +460,7 @@ void FullscreenChangeMode(HWND hwnd)
     // Set new video mode
     //
     rc = pfnSetMode(mode->ulModeId);
-    if (rc!=NO_ERROR)
-    {
+    if (rc != NO_ERROR) {
         log_error(fslog, "Switching mode failed!");
         pfnSetMode(desktopmode.ulModeId);
         RestorePM();
@@ -503,33 +477,31 @@ void FullscreenChangeRate(HWND hwnd, int state)
     unsigned int rate;
     GDDMODEINFO *mode = ModeInfo;
 
-    if (!hmodVMAN || !fFullScreenMode || !mode)
+    if (!hmodVMAN || !fFullScreenMode || !mode) {
         return;
+    }
 
-    if (state>=0)
-    {
+    if (state >= 0) {
         int l;
-        for (rate=-1, l=0; l<NumVideoModes; mode++,l++)
-        {
-            if (mode->ulRefreshRate>fRate && mode->ulRefreshRate<rate)
+
+        for (rate = -1, l = 0; l < NumVideoModes; mode++, l++) {
+            if (mode->ulRefreshRate > fRate && mode->ulRefreshRate < rate) {
                 rate = mode->ulRefreshRate;
+            }
         }
-        if (rate==0 || rate==-1)
-        {
+        if (rate == 0 || rate == -1) {
             log_message(fslog, "Coudn't find higher refresh rate");
             return;
         }
-    }
-    else
-    {
+    } else {
         int l;
-        for (rate=0, l=0; l<NumVideoModes; mode++,l++)
-        {
-            if (mode->ulRefreshRate<fRate && mode->ulRefreshRate>rate)
+
+        for (rate = 0, l = 0; l < NumVideoModes; mode++, l++) {
+            if (mode->ulRefreshRate < fRate && mode->ulRefreshRate > rate) {
                 rate = mode->ulRefreshRate;
+            }
         }
-        if (rate==0)
-        {
+        if (rate == 0) {
             log_message(fslog, "Coudn't find lower refresh rate");
             return;
         }
@@ -542,8 +514,10 @@ void FullscreenChangeRate(HWND hwnd, int state)
 int pfnQueryModes(long mode, void *data)
 {
     int rc = pfnVMIEntry(0, VMI_CMD_QUERYMODES, &mode, data);
-    if (rc==NO_ERROR)
+
+    if (rc == NO_ERROR) {
         return NO_ERROR;
+    }
 
     log_error(fslog, "pfnVMIEntry(mode=%d) VMI_CMD_QUERYMODES (rc=%d)", mode, rc);
     return rc;
@@ -558,8 +532,10 @@ int pfnQueryModes(long mode, void *data)
 int FullscreenQueryCurrentMode(GDDMODEINFO *mode)
 {
     int rc = pfnVMIEntry(0, VMI_CMD_QUERYCURRENTMODE, NULL, mode);
-    if (rc!=NO_ERROR)
+
+    if (rc != NO_ERROR) {
         log_error(fslog, "pfnVMIEntry VMI_CMD_QUERYCURRENTMODE (rc=%d)", rc);
+    }
 
     return rc;
 }
@@ -584,13 +560,14 @@ int InitModeInfo(void)
 {
     // Query available video modes
     int rc = pfnQueryModes(QUERYMODE_NUM_MODES, &NumVideoModes);
-    if (rc==NO_ERROR)
-    {
+
+    if (rc == NO_ERROR) {
         ModeInfo = (PGDDMODEINFO)calloc(NumVideoModes, sizeof(GDDMODEINFO));
 
         rc = pfnQueryModes(QUERYMODE_MODE_DATA, ModeInfo);
-        if (rc==NO_ERROR)
+        if (rc == NO_ERROR) {
             return NO_ERROR;
+        }
 
         log_error(fslog, "pfnVMIEntry VMI_CMD_QUERYMODES (rc=%d)", rc);
     }
@@ -614,20 +591,19 @@ int FullscreenInit(FOURCC fcc)
     //
     log_message(fslog, "Loading vman.dll.");
     rc = DosLoadModule(NULL, 0, "VMAN", &hmodVMAN);
-    if (rc!=NO_ERROR)
-    {
+    if (rc != NO_ERROR) {
         // No VMAN.DLL... Maybe no GRADD driver installed???
         log_error(fslog, "DosLoadModule vman.dll failed (rc=%d)", rc);
         hmodVMAN = NULLHANDLE;
     }
 
-    if (!hmodVMAN)
+    if (!hmodVMAN) {
         return -1;
+    }
 
     log_message(fslog, "Query ProcAddr for 'VMIEntry'");
     rc = DosQueryProcAddr(hmodVMAN, 0, "VMIEntry", (PFN *)(&pfnVMIEntry)); // Query entry point address
-    if (rc!=NO_ERROR)
-    {
+    if (rc != NO_ERROR) {
         log_error(fslog, "DosQueryProcAddr VMIEntry failed (rc=%d)", rc);
         return -1;
     }
@@ -635,20 +611,21 @@ int FullscreenInit(FOURCC fcc)
     // Send "Hi! New process is here!" info to VMAN
     log_message(fslog, "Connect Vice/2 to VMI");
     rc = pfnVMIEntry(0, VMI_CMD_INITPROC, NULL, (PVOID) &ipo);
-    if (rc!=NO_ERROR)
-    {
+    if (rc != NO_ERROR) {
         log_error(fslog, "pfnVMIEntry VMI_CMD_INITPROC failed (rc=%d)", rc);
         return -1;
     }
-    vmiinit=1;
+    vmiinit = 1;
 
     rc = InitModeInfo();
-    if (rc!=NO_ERROR)
+    if (rc != NO_ERROR) {
         return -1;
+    }
 
     rc = FullscreenQueryCurrentMode(&desktopmode);
-    if (rc!=NO_ERROR)
+    if (rc != NO_ERROR) {
         return -1;
+    }
 
     log_message(fslog, "Fullscreen Initialized.");
     log_message(fslog, "Desktop Video Mode:");
@@ -665,20 +642,20 @@ int FullscreenFree(void)
 
     UninitModeInfo();
 
-    if (vmiinit)
-    {
+    if (vmiinit) {
         log_message(fslog, "Destroy VMI Entry.");
         rc = pfnVMIEntry(0, VMI_CMD_TERMPROC, NULL, NULL);
-        if (rc!=NO_ERROR)
+        if (rc != NO_ERROR) {
             log_error(fslog, "pfnVMIEntry VMI_CMD_TERMPROC failed (rc=%d)", rc);
+        }
         vmiinit = 0;
     }
-    if (hmodVMAN)
-    {
+    if (hmodVMAN) {
         log_message(fslog, "Unload vman.dll.");
         rc = DosFreeModule(hmodVMAN);
-        if (rc!=NO_ERROR)
+        if (rc != NO_ERROR) {
             log_error(fslog, "DosFreeModule vman.dll failed (rc=%d)", rc);
+        }
         hmodVMAN = NULLHANDLE;
     }
     return 1;
@@ -686,16 +663,18 @@ int FullscreenFree(void)
 
 int FullscreenSwitch(HWND hwnd)
 {
-    if (!hmodVMAN)
+    if (!hmodVMAN) {
         return 0;
+    }
 
     WinSetVisibleRegionNotify(hwnd, FALSE);
     WinSendMsg(hwnd, WM_VRNDISABLED, 0, 0);
 
-    if (fFullScreenMode)
+    if (fFullScreenMode) {
         SwitchBackToDesktop();
-    else
+    } else {
         SwitchIntoFullscreen(hwnd);
+    }
 
     fFullScreenMode = fInFullScreenNow;
 
@@ -707,8 +686,9 @@ int FullscreenSwitch(HWND hwnd)
 
 void FullscreenDeactivate(hwnd)
 {
-    if (!fInFullScreenNow || !hmodVMAN)
+    if (!fInFullScreenNow || !hmodVMAN) {
         return;
+    }
 
     WinShowWindow(WinQueryWindow(hwnd, QW_PARENT), FALSE);     // hide window
     WinSendMsg(hwnd, WM_VRNDISABLED, 0, 0);
@@ -718,8 +698,9 @@ void FullscreenDeactivate(hwnd)
 
 int FullscreenActivate(HWND hwnd)
 {
-    if (!fFullScreenMode || !hmodVMAN)
+    if (!fFullScreenMode || !hmodVMAN) {
         return 0;
+    }
 
     SwitchIntoFullscreen(hwnd);         // and do switching!
     WinShowWindow(WinQueryWindow(hwnd, QW_PARENT), TRUE);       // make window visible
@@ -756,18 +737,20 @@ int FullscreenQueryVertRes(void)
 void video_show_modes(HWND hwnd)
 {
     long l;
-    GDDMODEINFO *mode=ModeInfo;
+    GDDMODEINFO *mode = ModeInfo;
 
-    if (!hmodVMAN)
+    if (!hmodVMAN) {
         return;
+    }
 
     //
     // open dialog
     //
     hwnd = fsmodes_dialog(hwnd);
 
-    if (!hwnd)
+    if (!hwnd) {
         return;
+    }
 
     //
     // fill dialog with text
@@ -775,16 +758,15 @@ void video_show_modes(HWND hwnd)
 
     log_message(fslog, "Available GRADD Video Modes: %d", NumVideoModes);
 
-    if (!mode)
+    if (!mode) {
         return;
+    }
 
-    for (l=0; l<NumVideoModes; mode++,l++)
-    {
+    for (l = 0; l < NumVideoModes; mode++, l++) {
         const int fcc = mode->fccColorEncoding;
-        char *txt = lib_msprintf("Id=%4d, %4dx%4d/%2d (%3d Hz)  FourCC: %c%c%c%c (%d)",
-                              mode->ulModeId&0xff, mode->ulHorizResolution, mode->ulVertResolution,
-                              mode->ulBpp, mode->ulRefreshRate,
-                              fcc, fcc>>8, fcc>>16, fcc>>24, mode->cColors);
+        char *txt = lib_msprintf("Id=%4d, %4dx%4d/%2d (%3d Hz)  FourCC: %c%c%c%c (%d)", 
+                                 mode->ulModeId & 0xff, mode->ulHorizResolution, mode->ulVertResolution,
+                                 mode->ulBpp, mode->ulRefreshRate, fcc, fcc >> 8, fcc >> 16, fcc >> 24, mode->cColors);
         WinSendMsg(hwnd, WM_INSERT, txt, (void*)TRUE);
         lib_free(txt);
     }

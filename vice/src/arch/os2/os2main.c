@@ -30,35 +30,10 @@
 #include "log.h"
 #include "main.h"
 
-
 int main(int argc, char **argv)
 {
     return main_program(argc, argv);
 }
-
-/*
-static int    argc;
-static char **argv;
-
-void ViceMain(void *arg)
-{
-    main_program(argc, argv);
-}
-
-int main(int ac, char **av)
-{
-    TID tid;
-
-    argc = ac;
-    argv = av;
-
-    tid = _beginthread(ViceMain, NULL, 0x100000, NULL);
-
-    DosWaitThread(&tid, 0);  // * DCWW_WAIT *
-
-    return 0;
-}
-*/
 
 void main_exit(void)
 {
@@ -68,16 +43,4 @@ void main_exit(void)
     log_message(LOG_DEFAULT, "\nExiting...");
     signal(SIGINT, SIG_IGN);
 
-    //---    resources_set_int("Sound", (int)FALSE);
-    //---    DosSleep(500);
-
-    //---    machine_shutdown();
-    //       video_free();
-    //       sound_close(); // Be sure sound device is closed.
-    // Maybe we need some DosSleep(500)...
-
-    //---#ifdef HAS_JOYSTICK
-    //---    joystick_close();
-    //---#endif
 }
-

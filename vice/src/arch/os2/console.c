@@ -34,4 +34,3 @@ int console_close_all(void)
 {
     return 0;
 }
-

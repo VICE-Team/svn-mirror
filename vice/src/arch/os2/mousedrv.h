@@ -44,4 +44,3 @@ extern BYTE mousedrv_get_y(void);
 void mouse_button(HWND hwnd, ULONG msg, MPARAM mp1);
 
 #endif
-

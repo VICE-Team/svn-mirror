@@ -47,6 +47,7 @@ int kbd_init(void)
     //
 
     const char *name;
+
     resources_get_string("KeymapFile", &name);
     resources_set_string("KeymapFile", name);
 
@@ -55,18 +56,18 @@ int kbd_init(void)
 
 static int set_keymap_file(const char *val, void *param)
 {
-    if (load_keymap_file(val) == -1)
-        log_message(LOG_DEFAULT,
-                    "kbd.c: Error loading keymapfile `%s'.", keymapfile);
-    else
+    if (load_keymap_file(val) == -1) {
+        log_message(LOG_DEFAULT, "kbd.c: Error loading keymapfile `%s'.", keymapfile);
+    } else {
         util_string_set(&keymapfile, val);
+    }
 
     return 0;
 }
 
 static const resource_string_t resources_string[] = {
-    { "KeymapFile", "os2.vkm", RES_EVENT_NO, NULL,
-      &keymapfile, set_keymap_file, NULL },
+    {"KeymapFile", "os2.vkm", RES_EVENT_NO, NULL,
+     &keymapfile, set_keymap_file, NULL},
     NULL
 };
 
@@ -76,16 +77,15 @@ int kbd_resources_init(void)
 }
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-keymap", SET_RESOURCE, 1,
-      NULL, NULL, "KeymapFile", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      "<name>", "Specify name of keymap file" },
-     NULL,
+    {"-keymap", SET_RESOURCE, 1,
+     NULL, NULL, "KeymapFile", NULL,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+     IDCLS_UNUSED, IDCLS_UNUSED,
+     "<name>", "Specify name of keymap file"},
+    NULL,
 };
 
 int kbd_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }
-

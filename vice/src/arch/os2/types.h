@@ -28,68 +28,52 @@
 
 #include <limits.h>
 
-//#undef VERSION
-//#include <os2.h>
-//#include <os2me.h>
-//#undef VERSION
-
 #ifdef __IBMC__
- #define inline _Inline  // This means only a possible inline. See doku.
- #define getcwd _getcwd
- #define F_OK   0
- #define W_OK   2
- #define R_OK   4
- #define X_OK   6
- typedef int pid_t;
- #ifndef __EXTENDED__
- typedef long off_t;
- #endif
- #define STDOUT_FILENO (fileno(stdout) & 0xffff)
- #define STDERR_FILENO (fileno(stderr) & 0xffff)
- #define _O_BINARY O_BINARY
- #define _O_TRUNC  O_TRUNC
- #define _O_WRONLY O_WRONLY
- #define _O_CREAT  O_CREAT
- #define _P_WAIT   P_WAIT
+#define inline _Inline  // This means only a possible inline. See doku.
+#define getcwd _getcwd
+#define F_OK 0
+#define W_OK 2
+#define R_OK 4
+#define X_OK 6
+typedef int pid_t;
+
+#ifndef __EXTENDED__
+typedef long off_t;
+#endif
+
+#define STDOUT_FILENO (fileno(stdout) & 0xffff)
+#define STDERR_FILENO (fileno(stderr) & 0xffff)
+#define _O_BINARY O_BINARY
+#define _O_TRUNC O_TRUNC
+#define _O_WRONLY O_WRONLY
+#define _O_CREAT O_CREAT
+#define _P_WAIT P_WAIT
 #endif
 
 #ifdef __EMX__
-  #define vfork fork
+#define vfork fork
 #endif
-
-/* sizeof(char)  = 1 */
-/* sizeof(short) = 2 */
-/* sizeof(int)   = 4 */
-/* sizeof(long)  = 4 */
 
 typedef signed char SIGNED_CHAR;
 
 /* Definitions see os2mdef.h */
 #ifndef BYTE
-typedef char    BYTE;
+typedef char BYTE;
 #endif
-typedef unsigned short   WORD;
-typedef   signed short  SWORD;
-typedef   signed long  SDWORD;
-typedef unsigned long   DWORD;
-//#define BYTE  unsigned char
-//#define WORD  unsigned short
-//#define DWORD unsigned long
 
+typedef unsigned short WORD;
+typedef signed short SWORD;
+typedef signed long SDWORD;
+typedef unsigned long DWORD;
 
 typedef DWORD CLOCK;
+
 /* Maximum value of a CLOCK.  */
 #define CLOCK_MAX (~((CLOCK)0))
 
-/*#if defined(__GNUC__) && defined(__i386__) && !defined(NO_REGPARM) && !defined(OS2)
-#define REGPARM1 __attribute__((regparm(1)))
-#define REGPARM2 __attribute__((regparm(2)))
-#define REGPARM3 __attribute__((regparm(3)))
-#else*/
 #define REGPARM1
 #define REGPARM2
 #define REGPARM3
-//#endif
 
 #define vice_ptr_to_int(x) ((int)(long)(x))
 #define vice_ptr_to_uint(x) ((unsigned int)(unsigned long)(x))

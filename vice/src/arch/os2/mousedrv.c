@@ -53,19 +53,18 @@ static int set_hide_mouseptr(int val, void *param)
 {
     hide_mouseptr = val;
 
-    if (!hide_mouseptr && !visible && !FullscreenIsNow())
-    { // do we have to show the ptr again?
+    if (!hide_mouseptr && !visible && !FullscreenIsNow()) { // do we have to show the ptr again?
         WinSetCapture(HWND_DESKTOP, NULLHANDLE);
         WinShowPointer(HWND_DESKTOP, TRUE);
-        visible=TRUE;
+        visible = TRUE;
     }
     return 0;
 }
 
 static const resource_int_t resources_int[] = {
-    { "HideMousePtr", 0, RES_EVENT_NO, NULL,
-      &hide_mouseptr, set_hide_mouseptr, NULL },
-    { NULL }
+    {"HideMousePtr", 0, RES_EVENT_NO, NULL,
+     &hide_mouseptr, set_hide_mouseptr, NULL},
+    {NULL}
 };
 
 int mousedrv_resources_init(void)
@@ -76,17 +75,17 @@ int mousedrv_resources_init(void)
 /* ----------------------------------------------------------- */
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-hidemouseptr", SET_RESOURCE, 0,
-      NULL, NULL, "HideMousePtr", (resource_value_t) 1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, "Enable hiding of mouse pointer inside the window" },
-    { "+hidemouseptr", SET_RESOURCE, 0,
-      NULL, NULL, "HideMousePtr", (resource_value_t) 0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, "Disable hiding of mouse pointer inside the window" },
-    { NULL }
+    {"-hidemouseptr", SET_RESOURCE, 0,
+     NULL, NULL, "HideMousePtr", (resource_value_t) 1,
+     USE_PARAM_STRING, USE_DESCRIPTION_ID,
+     IDCLS_UNUSED, IDCLS_UNUSED,
+     NULL, "Enable hiding of mouse pointer inside the window"},
+    {"+hidemouseptr", SET_RESOURCE, 0,
+     NULL, NULL, "HideMousePtr", (resource_value_t) 0,
+     USE_PARAM_STRING, USE_DESCRIPTION_ID,
+     IDCLS_UNUSED, IDCLS_UNUSED,
+     NULL, "Disable hiding of mouse pointer inside the window"},
+    {NULL}
 };
 
 int mousedrv_cmdline_options_init(void)
@@ -105,7 +104,6 @@ extern int stretch;  // video.c
 inline BYTE mousedrv_get_x(void)
 {
     static SHORT last_mouse_x=0;
-
     const SHORT diff = last_mouse_x - _mouse_x;
 
     /*
@@ -118,25 +116,26 @@ inline BYTE mousedrv_get_x(void)
      *
      */
 
-    if (diff > mouse_step)
+    if (diff > mouse_step) {
         last_mouse_x -= mouse_step;
-    else
-        if(diff < -mouse_step)
+    } else {
+        if (diff < -mouse_step) {
             last_mouse_x += mouse_step;
-        else
+        } else {
             last_mouse_x = _mouse_x;
+        }
+    }
 
-    return ((last_mouse_x/stretch)
-#ifndef __XVIC_
-             <<1
+#ifndef __XVIC__
+    return ((last_mouse_x / stretch) << 1) & 0x7e;
+#else
+    return ((last_mouse_x / stretch)) & 0x7e;
 #endif
-            )&0x7e;
 }
 
 inline BYTE mousedrv_get_y(void)
 {
-    static SHORT last_mouse_y=0;
-
+    static SHORT last_mouse_y = 0;
     const SHORT diff = last_mouse_y - _mouse_y;
 
     /*
@@ -149,95 +148,99 @@ inline BYTE mousedrv_get_y(void)
      *
      */
 
-    if (diff > mouse_step)
+    if (diff > mouse_step) {
         last_mouse_y -= mouse_step;
-    else
-        if(diff < -mouse_step)
+    } else {
+        if (diff < -mouse_step) {
             last_mouse_y += mouse_step;
-        else
+        } else {
             last_mouse_y = _mouse_y;
+        }
+    }
 
-    return ((last_mouse_y/stretch)<<1)&0x7e;
+    return ((last_mouse_y / stretch) << 1) & 0x7e;
 }
 
 /* ----------------- OS/2 specific ------------------------- */
 
 void mouse_button(HWND hwnd, ULONG msg, MPARAM mp1)
 {
-    if (!_mouse_enabled)
-        return;
-
-    switch (msg)
-    {
-    case WM_MOUSEMOVE:
-        _mouse_x = SHORT1FROMMP(mp1);
-        _mouse_y = SHORT2FROMMP(mp1);
-        {
-            SWP swp;
-            WinQueryWindowPos(hwnd, &swp);
-            //
-            // check whether the pointer is outside or inside the window
-            //
-
-            if (FullscreenIsNow())
-                visible=TRUE;
-
-            if (_mouse_x>=0 && _mouse_x<swp.cx &&
-                _mouse_y>=0 && _mouse_y<swp.cy)
-            {
-                //
-                // FIXME: Don't capture the mouse pointer if it is in front
-                // of a client dialog!
-                //
-                if (WinQueryCapture(HWND_DESKTOP)!=hwnd && hide_mouseptr && !FullscreenIsNow())
-                    WinSetCapture(HWND_DESKTOP, hwnd);
-
-                if (visible && /*_mouse_enabled &&*/ hide_mouseptr &&
-                    !FullscreenIsNow())
-                {
-                    WinShowPointer(HWND_DESKTOP, FALSE);
-                    visible=FALSE;
-                }
-            }
-            else
-            {
-                if (WinQueryCapture(HWND_DESKTOP)==hwnd && !FullscreenIsNow())
-                    WinSetCapture(HWND_DESKTOP, NULLHANDLE);
-
-                if (!visible && !FullscreenIsNow())
-                {
-                    WinShowPointer(HWND_DESKTOP, TRUE);
-                    visible=TRUE;
-                }
-
-                //
-                // don't use 'outside'-values which appears one times
-                // if the mouse pointer leaves the window
-                //
-                if (_mouse_x<0) _mouse_x=0;
-                else
-                    if (_mouse_x>=swp.cx)
-                        _mouse_x=swp.cx-1;
-
-                if (_mouse_y<0) _mouse_y=0;
-                else
-                    if (_mouse_y>=swp.cy)
-                        _mouse_y=swp.cy-1;
-            }
-        }
-        return;
-    case WM_BUTTON1DOWN:
-        mouse_button_left(1);
-        return;
-    case WM_BUTTON1UP:
-        mouse_button_left(0);
-        return;
-    case WM_BUTTON2DOWN:
-        mouse_button_right(1);
-        return;
-    case WM_BUTTON2UP:
-        mouse_button_right(0);
+    if (!_mouse_enabled) {
         return;
     }
-}
 
+    switch (msg) {
+        case WM_MOUSEMOVE:
+            _mouse_x = SHORT1FROMMP(mp1);
+            _mouse_y = SHORT2FROMMP(mp1);
+            {
+                SWP swp;
+
+                WinQueryWindowPos(hwnd, &swp);
+                //
+                // check whether the pointer is outside or inside the window
+                //
+
+                if (FullscreenIsNow()) {
+                    visible = TRUE;
+                }
+
+                if (_mouse_x >= 0 && _mouse_x < swp.cx && _mouse_y >= 0 && _mouse_y < swp.cy) {
+                    //
+                    // FIXME: Don't capture the mouse pointer if it is in front
+                    // of a client dialog!
+                    //
+                    if (WinQueryCapture(HWND_DESKTOP)!= hwnd && hide_mouseptr && !FullscreenIsNow()) {
+                        WinSetCapture(HWND_DESKTOP, hwnd);
+                    }
+
+                    if (visible && hide_mouseptr && !FullscreenIsNow()) {
+                        WinShowPointer(HWND_DESKTOP, FALSE);
+                        visible = FALSE;
+                    }
+                } else {
+                    if (WinQueryCapture(HWND_DESKTOP) == hwnd && !FullscreenIsNow()) {
+                        WinSetCapture(HWND_DESKTOP, NULLHANDLE);
+                    }
+
+                    if (!visible && !FullscreenIsNow()) {
+                        WinShowPointer(HWND_DESKTOP, TRUE);
+                        visible = TRUE;
+                    }
+
+                    //
+                    // don't use 'outside'-values which appears one times
+                    // if the mouse pointer leaves the window
+                    //
+                    if (_mouse_x < 0) {
+                        _mouse_x = 0;
+                    } else {
+                        if (_mouse_x >= swp.cx) {
+                            _mouse_x = swp.cx - 1;
+                        }
+                    }
+
+                    if (_mouse_y < 0) {
+                       _mouse_y = 0;
+                    } else {
+                        if (_mouse_y >= swp.cy) {
+                            _mouse_y = swp.cy - 1;
+                        }
+                    }
+                }
+            }
+            return;
+        case WM_BUTTON1DOWN:
+            mouse_button_left(1);
+            return;
+        case WM_BUTTON1UP:
+            mouse_button_left(0);
+            return;
+        case WM_BUTTON2DOWN:
+            mouse_button_right(1);
+            return;
+        case WM_BUTTON2UP:
+            mouse_button_right(0);
+            return;
+    }
+}

@@ -30,20 +30,21 @@
 #include "archapi.h"
 
 /* Filesystem dependant operators.  */
-#define FSDEVICE_DEFAULT_DIR   "."
-#define FSDEV_EXT_SEP_STR      "."
-#define FSDEV_EXT_SEP_CHR      '.'
+#define FSDEVICE_DEFAULT_DIR "."
+#define FSDEV_EXT_SEP_STR    "."
+#define FSDEV_EXT_SEP_CHR    '.'
+
 #ifdef __EMX__
-#define FSDEV_DIR_SEP_STR      "/"
-#define FSDEV_DIR_SEP_CHR      '/'
+#define FSDEV_DIR_SEP_STR "/"
+#define FSDEV_DIR_SEP_CHR '/'
 #else
-#define FSDEV_DIR_SEP_STR      "\\"
-#define FSDEV_DIR_SEP_CHR      '\\'
+#define FSDEV_DIR_SEP_STR "\\"
+#define FSDEV_DIR_SEP_CHR '\\'
 #endif
 
 /* Path separator.  */
-#define ARCHDEP_FINDPATH_SEPARATOR_CHAR         ';'
-#define ARCHDEP_FINDPATH_SEPARATOR_STRING       ";"
+#define ARCHDEP_FINDPATH_SEPARATOR_CHAR   ';'
+#define ARCHDEP_FINDPATH_SEPARATOR_STRING ";"
 
 /* Modes for fopen().  */
 #define MODE_READ              "rb"
@@ -105,4 +106,3 @@
 #define ARCHDEP_KEYBOARD_SYM_NONE 0
 
 #endif
-
