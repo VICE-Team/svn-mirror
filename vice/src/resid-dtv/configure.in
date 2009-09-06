@@ -88,7 +88,7 @@ AC_TRY_COMPILE([#include <mmintrin.h>],
                  ])
 
 if test $HAVE_MMINTRIN_H = 0; then
-  old_CXXFLAGS=CXXFLAGS
+  old_CXXFLAGS=$CXXFLAGS
   CXXFLAGS="$CXXFLAGS -mmmx"
   AC_MSG_CHECKING([if -mmmx is needed to activate MMX])
   AC_TRY_COMPILE([#include <mmintrin.h>],
@@ -98,7 +98,7 @@ if test $HAVE_MMINTRIN_H = 0; then
                    ],
                  [ AC_MSG_RESULT(no)
                    HAVE_MMINTRIN_H=0
-                   CXXFLAGS=old_CXXFLAGS
+                   CXXFLAGS=$old_CXXFLAGS
                    ])
 fi
 
