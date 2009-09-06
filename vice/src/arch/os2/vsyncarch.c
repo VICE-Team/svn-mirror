@@ -31,6 +31,7 @@
 #define INCL_DOSDATETIME     /* Timer support    */
 #define INCL_DOSPROFILE
 #define INCL_DOSPROCESS
+
 #include <os2.h>
 
 #include <stdio.h>
@@ -44,7 +45,6 @@
 #include "vsync.h"     // vsync_suspend_speed_eval
 #include "kbdbuf.h"    // kbdbuf_flush
 #include "machine.h"   // machine_shutdown
-//#include "ui_status.h" // ui_display_speed
 
 #ifdef HAS_JOYSTICK
 #include "joy.h"
@@ -59,14 +59,15 @@ extern void video_close(void);
 // -------------------------------------------------------------------------
 
 // 0 if Emulator is paused
-static int emulator_paused=FALSE;
+static int emulator_paused = FALSE;
 
 signed long vsyncarch_frequency()
 {
-    static ULONG ulTmrFreq=0; // Hertz (almost 1.2MHz at my PC)
+    static ULONG ulTmrFreq = 0; // Hertz (almost 1.2MHz at my PC)
 
-    if (!ulTmrFreq)
+    if (!ulTmrFreq) {
         DosTmrQueryFreq(&ulTmrFreq);
+    }
 
     return ulTmrFreq; // 1000;
 }
@@ -74,6 +75,7 @@ signed long vsyncarch_frequency()
 unsigned long vsyncarch_gettime()
 {
     QWORD qwTmrTime;
+
     DosTmrQueryTime(&qwTmrTime);
     return qwTmrTime.ulLo;
 }
@@ -88,14 +90,12 @@ void vsyncarch_init()
     vsynclog = log_open("Vsync");
 
     szSemName = lib_msprintf("%s%x", "\\SEM32\\VICE2\\Vsync", vsyncarch_gettime());
-    rc = DosCreateEventSem(szSemName,      // Name of semaphore to create
-                           &hevTimer,      // Handle of semaphore returned
-                           DC_SEM_SHARED,  // Shared semaphore
-                           FALSE);         // Semaphore is in RESET state
+    rc = DosCreateEventSem(szSemName, &hevTimer, DC_SEM_SHARED, FALSE);
     lib_free(szSemName);
 
-    if (!rc)
+    if (!rc) {
         return;
+    }
 
     log_error(vsynclog, "DosCreateEventSem (rc=%u) - cannot synchronize properly", rc);
 
@@ -121,7 +121,7 @@ void emulator_pause()
 void emulator_resume()
 {
     vsync_suspend_speed_eval();
-    emulator_paused=FALSE;
+    emulator_paused = FALSE;
 }
 
 int isEmulatorPaused()
@@ -134,8 +134,9 @@ void vice_exit(void)
     APIRET rc;
 
     rc = DosCloseEventSem(hevTimer); // Get rid of semaphore
-    if (rc)
+    if (rc) {
         log_error(vsynclog, "DosCloseEventSem (rc=%u)", rc);
+    }
 
     video_close();
 
@@ -155,14 +156,14 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
     //
     // FIXME !!!
     //
-#if defined __X64__
-    if (!vsid_mode)
+#ifdef __X64__
+    if (!vsid_mode) {
 #endif
         CanvasDisplaySpeed(speed+0.5, frame_rate+1, warp_enabled);
-#if defined __X64__
-    else
-        WinSendMsg(hwndVsid, WM_DISPLAY,
-                   (void*)(int)(speed+0.5), (void*)(int)(frame_rate+0.5));
+#ifdef __X64__
+    } else {
+        WinSendMsg(hwndVsid, WM_DISPLAY, (void*)(int)(speed + 0.5), (void*)(int)(frame_rate + 0.5));
+    }
 #endif
 
     // this line calles every 2 seconds makes sure that the system
@@ -179,34 +180,23 @@ void vsyncarch_sleep(signed long delay)
     // 1) counts the system milliseconds
     // 2) counts the CPU time of the thread
 
-    // APIRET rc;
-    ULONG  ret;
+    ULONG ret;
     HTIMER htimer = 0; // Timer handle
 
-    delay *= 1000.0/vsyncarch_frequency();
+    delay *= 1000.0 / vsyncarch_frequency();
 
-    if (delay<1)
+    if (delay < 1) {
         return;
-
-    // Reset Semaphore before using it
-    /*rc =*/ DosResetEventSem(hevTimer, &ret);
-    // if (rc) log_debug("vsync.c: DosResetEventSem (rc=%u)", rc);
-
-    // wait msec, after msec post hevTimer
-    /*rc =*/ DosAsyncTimer(delay, (HSEM) hevTimer, &htimer);
-    // if (rc) log_debug("vsync.c: DosAsyncTimer (rc=%u)", rc);
-
-    // Wait for AsyncTimer event as long as it takes
-    /*rc =*/ DosWaitEventSem(hevTimer, (ULONG) SEM_INDEFINITE_WAIT);
-    // if (rc) log_debug("vsync.c: DosWaitEventSem (rc=%u)", rc);
+    }
 }
 
-int trigger_shutdown=0;
+int trigger_shutdown = 0;
 
 void vsyncarch_presync()
 {
-    if (!trigger_shutdown)
+    if (!trigger_shutdown) {
         return;
+    }
 
     log_message(vsynclog, "Vice shutdown triggered.");
     vice_exit();
@@ -220,6 +210,7 @@ void vsyncarch_postsync()
 
     kbdbuf_flush();
 
-    while (emulator_paused && !trigger_shutdown)
+    while (emulator_paused && !trigger_shutdown) {
         DosSleep(1);
+    }
 }

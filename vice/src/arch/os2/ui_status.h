@@ -27,28 +27,26 @@
 #ifndef VICE_UI_STATUS_H
 #define VICE_UI_STATUS_H
 
-typedef struct _ui_status
-{
-    HPS   hps;
+typedef struct _ui_status {
+    HPS hps;
     RECTL rectl;
-    UINT  step;
-    UINT  width, height; // in steps
-    UINT  xOffset, yOffset;
-    BOOL  init;
+    UINT step;
+    UINT width, height; // in steps
+    UINT xOffset, yOffset;
+    BOOL init;
     float lastSpeed;
     float lastFps;
     float lastTrack[4];
-    CHAR  lastImage[4][CCHMAXPATH];
-    CHAR  imageHist[10][CCHMAXPATH];
-    int   lastTapeMotor;
-    int   lastTapeStatus;
-    int   lastTapeCounter;
-    int   lastTapeCtrlStat;
+    CHAR lastImage[4][CCHMAXPATH];
+    CHAR imageHist[10][CCHMAXPATH];
+    int lastTapeMotor;
+    int lastTapeStatus;
+    int lastTapeCounter;
+    int lastTapeCtrlStat;
     ui_drive_enable_t lastDriveState;
-
 } ui_status_t;
 
 extern ui_status_t ui_status;
-extern int         PM_winActive;
+extern int PM_winActive;
 
 #endif

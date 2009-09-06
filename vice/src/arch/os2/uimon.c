@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #define INCL_DOSPROCESS     // DosSleep
+
 #include <os2.h>
 
 #include <stdarg.h>
@@ -103,31 +104,33 @@ int uimon_out(const char *buffer)
     // a EOL we have to store it until it is flushed (endl, flush)
     //
     static char *out = NULL;
-
     int flag = FALSE;
-
     char *txt, *tmp, *eol;
 
-    if (!hwndMonitor || !console)
+    if (!hwndMonitor || !console) {
         return 0;
+    }
 
-    if (!out) out = lib_calloc(1,1);
+    if (!out) {
+        out = lib_calloc(1, 1);
+    }
 
-    txt=(char *)buffer;
+    txt = (char *)buffer;
 
     eol = strchr(txt, '\n');
-    while (strrchr(txt,'\n') && eol!= txt+strlen(txt))
-    {
-        *eol='\0';
+    while (strrchr(txt,'\n') && eol != txt + strlen(txt)) {
+        *eol = '\0';
 
         tmp = util_concat(out, txt, NULL);
         WinSendMsg(hwndMonitor, WM_INSERT, tmp, NULL);
         lib_free(tmp);
 
-        out[0]='\0';
+        out[0] = '\0';
 
         eol++;
-        while (*eol=='\n') eol++;
+        while (*eol == '\n') {
+            eol++;
+        }
         txt = eol;
 
         eol = strchr(txt, '\n');
@@ -135,8 +138,7 @@ int uimon_out(const char *buffer)
         flag = TRUE;
     }
 
-    if (!flag)
-    {
+    if (!flag) {
         char *line = util_concat(out, txt, NULL);
         lib_free(out);
         out = line;
@@ -147,18 +149,20 @@ int uimon_out(const char *buffer)
 
 char *uimon_in(const char *prompt)
 {
-    char *c=NULL;
+    char *c = NULL;
     int wait_for_input = TRUE;
 
     uimon_out(prompt);
     uimon_out("\n");
     WinSendMsg(hwndMonitor, WM_INPUT, &c, &wait_for_input);
 
-    while (wait_for_input && !trigger_shutdown && !trigger_console_exit)
+    while (wait_for_input && !trigger_shutdown && !trigger_console_exit) {
         DosSleep(1);
+    }
 
-    if (trigger_shutdown || trigger_console_exit)
-        c=lib_stralloc("exit");
+    if (trigger_shutdown || trigger_console_exit) {
+        c = lib_stralloc("exit");
+    }
 
     trigger_console_exit = FALSE;
 
@@ -167,9 +171,7 @@ char *uimon_in(const char *prompt)
     return c;
 }
 
-void uimon_set_interface(struct monitor_interface_s **monitor_interface_init,
-                         int count)
+void uimon_set_interface(struct monitor_interface_s **monitor_interface_init, int count)
 {
     log_debug("Interfaces: %d", count);
 }
-

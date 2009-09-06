@@ -26,10 +26,10 @@
 
 #define INCL_DOSPROCESS // DosSetPriority
 #define INCL_WINDIALOGS // WinSendDlgItemMsg
+
 #include "vice.h"
 
 #include <os2.h>
-
 #include <stdlib.h>
 
 #ifdef WATCOM_COMPILE
@@ -50,7 +50,7 @@ static log_t vsidlog = LOG_ERR;
 
 extern int trigger_shutdown;
 
-HWND hwndVsid=NULLHANDLE;
+HWND hwndVsid = NULLHANDLE;
 
 void vsid_mainloop(VOID *arg)
 {
@@ -67,8 +67,9 @@ void vsid_mainloop(VOID *arg)
     //
     hwndVsid = vsid_dialog();
 
-    if (rc=DosSetPriority(PRTYS_THREAD, PRTYC_REGULAR, +1, 0))
+    if (rc = DosSetPriority(PRTYS_THREAD, PRTYC_REGULAR, 1, 0)) {
         log_error(vsidlog, "DosSetPriority (rc=%li)", rc);
+    }
 
     //
     // MAINLOOP
@@ -88,10 +89,12 @@ void vsid_mainloop(VOID *arg)
     //
     // destroy msg queue, release pm anchor
     //
-    if (!WinDestroyMsgQueue(hmq))
+    if (!WinDestroyMsgQueue(hmq)) {
         log_error(vsidlog, "Destroying Msg Queue.");
-    if (!WinTerminate (hab))
+    }
+    if (!WinTerminate(hab)) {
         log_error(vsidlog, "Releasing PM anchor.");
+    }
 
     log_message(vsidlog, "PM released.");
 
@@ -107,13 +110,13 @@ void vsid_mainloop(VOID *arg)
 
 int vsid_ui_init(void)
 {
-    // resources_set_string("SoundDeviceName", "dart2");
     vsidlog = log_open("Vsidui");
 
     _beginthread(vsid_mainloop, NULL, 0x4000, NULL);
 
-    while (!hwndVsid)
+    while (!hwndVsid) {
         DosSleep(1);
+    }
 
     log_message(LOG_DEFAULT, "--> SID Player mode <--\n");
 
@@ -123,6 +126,7 @@ int vsid_ui_init(void)
 void vsid_ui_display_irqtype(const char *irq)
 {
     char *txt = lib_msprintf("Interrupt: %s", irq);
+
     WinSetDlgItemText(hwndVsid, ID_TIRQ, txt);
     lib_free(txt);
 }
@@ -145,59 +149,58 @@ void vsid_ui_display_copyright(const char *copyright)
 void vsid_ui_display_sync(int sync)
 {
     char *txt;
-    switch (sync)
-    {
-    case MACHINE_SYNC_PAL:
-        txt = "Synchronization: PAL";
-        break;
-    case MACHINE_SYNC_NTSC:
-        txt =  "Synchronization: NTSC";
-        break;
-    case MACHINE_SYNC_NTSCOLD:
-        txt =  "Synchronization: NTSC (old)";
-        break;
+
+    switch (sync) {
+        case MACHINE_SYNC_PAL:
+            txt = "Synchronization: PAL";
+            break;
+        case MACHINE_SYNC_NTSC:
+            txt =  "Synchronization: NTSC";
+            break;
+        case MACHINE_SYNC_NTSCOLD:
+            txt =  "Synchronization: NTSC (old)";
+            break;
     }
     WinSetDlgItemText(hwndVsid, ID_TSYNC, txt);
-    //log_debug(txt);
 }
 
 void vsid_ui_display_sid_model(int model)
 {
-    WinSetDlgItemText(hwndVsid, ID_TSID,
-                      model ? "SID-Chip: MOS8580" : "SID-Chip: MOS6581");
+    WinSetDlgItemText(hwndVsid, ID_TSID, model ? "SID-Chip: MOS8580" : "SID-Chip: MOS6581");
 }
 
 void vsid_ui_set_default_tune(int nr)
 {
-    //log_debug("Default tune is #%d", nr);
 }
 
 void vsid_ui_display_tune_nr(int nr)
 {
-    char txt[3]="-";
-    if (nr<100)
+    char txt[3] = "-";
+
+    if (nr < 100) {
         sprintf(txt, "%d", nr);
+    }
     WinSetDlgItemText(hwndVsid, ID_TUNENO, txt);
     WinSetDlgSpinVal(hwndVsid, SPB_SETTUNE, nr);
-
-    //log_debug("Playing tune no.%d", nr);
 }
 
 void vsid_ui_display_nr_of_tunes(int count)
 {
-    char txt[3]="-";
-    if (count<100)
-        sprintf(txt, "%d", count);
-    WinSetDlgItemText(hwndVsid, ID_TUNES, txt);
+    char txt[3] = "-";
 
-    //log_debug("File contains %d tunes.", count);
+    if (count < 100) {
+        sprintf(txt, "%d", count);
+    }
+    WinSetDlgItemText(hwndVsid, ID_TUNES, txt);
 }
 
 void vsid_ui_display_time(unsigned int sec)
 {
-    char txt[6]="--:--";
-    if (sec<600)
+    char txt[6] = "--:--";
+
+    if (sec < 600) {
         sprintf(txt, "%02d:%02d", (sec/60)%100, sec%60);
+    }
     WinSetDlgItemText(hwndVsid, ID_TIME, txt);
 }
 

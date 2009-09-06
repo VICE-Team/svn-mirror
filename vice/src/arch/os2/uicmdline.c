@@ -26,43 +26,39 @@
 
 #define INCL_DOSPROCESS
 #define INCL_WINDIALOGS // WinProcessDlg
+
 #include "vice.h"
 
 #include <os2.h>
-
 #include <string.h>
 #include <stdlib.h>
 
 #include "cmdline.h"
-
 #include "dialogs.h"
 #include "lib.h"
 
-void ui_cmdline_show_help(unsigned int num_options, cmdline_option_ram_t *opt,
-                          void *arg)
+void ui_cmdline_show_help(unsigned int num_options, cmdline_option_ram_t *opt, void *arg)
 {
     int chars;   // maximum area could be shown
     char format[13];
     unsigned int i;
-
     HWND hwnd;
 
     //
     // calculate maximum width of text
     //
     size_t jmax = 0;
-    for (i=0; i<num_options; i++)
-    {
-        size_t j = strlen(opt[i].name)+1;
 
-        j +=strlen((opt[i].need_arg && cmdline_options_get_param(i) != NULL)?
-                   cmdline_options_get_param(i):"")+1;
+    for (i = 0; i < num_options; i++) {
+        size_t j = strlen(opt[i].name) + 1;
 
-        jmax = j>jmax ? j : jmax;
+        j += strlen((opt[i].need_arg && cmdline_options_get_param(i) != NULL) ? cmdline_options_get_param(i) : "") + 1;
 
-        j += strlen(cmdline_options_get_description(i))+1;
+        jmax = j > jmax ? j : jmax;
 
-        chars = j>chars ? j : chars;
+        j += strlen(cmdline_options_get_description(i)) + 1;
+
+        chars = j > chars ? j : chars;
     }
 
     sprintf(format, "%%-%ds%%s", jmax);
@@ -72,17 +68,15 @@ void ui_cmdline_show_help(unsigned int num_options, cmdline_option_ram_t *opt,
     //
     hwnd = cmdopt_dialog((HWND)arg);
 
-    if (!hwnd)
+    if (!hwnd) {
         return;
+    }
 
     //
     // fill dialog with text
     //
-    for (i=0; i<num_options; i++)
-    {
-        char *textopt = lib_msprintf("%s %s", opt[i].name,
-                                     (opt[i].need_arg && cmdline_options_get_param(i) != NULL)?
-                                     cmdline_options_get_param(i):"");
+    for (i = 0; i < num_options; i++) {
+        char *textopt = lib_msprintf("%s %s", opt[i].name, (opt[i].need_arg && cmdline_options_get_param(i) != NULL) ? cmdline_options_get_param(i) : "");
         char *text = lib_msprintf(format, textopt, cmdline_options_get_description(i));
         lib_free(textopt);
 

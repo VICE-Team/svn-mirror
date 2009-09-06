@@ -34,15 +34,12 @@
 #define INCL_WINPOINTERS   // WinLoadPointer
 #define INCL_DOSDATETIME   // Date and time values
 #define INCL_DOSSEMAPHORES
-#include <os2.h>
 
+#include <os2.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
-//#ifdef __EMX__
-//#include <sys/hw.h>
-//#endif
 
 #include "ui.h"
 #include "ui_status.h"
@@ -52,9 +49,6 @@
 #include "dlg-monitor.h"
 #include "dlg-datasette.h"
 #include "snippets\\pmwin2.h"
-//#ifdef __EMX__
-//#include "dos.h"
-//#endif
 #include "lib.h"
 #include "log.h"
 #include "util.h"
@@ -80,8 +74,8 @@ static int set_use_leds(int val, void *param)
 }
 
 static const resource_int_t resources_int[] = {
-    { "UseLeds", 1, RES_EVENT_NO, NULL,
-      &use_leds, set_use_leds, NULL },
+    {"UseLeds", 1, RES_EVENT_NO, NULL,
+     &use_leds, set_use_leds, NULL},
     NULL
 };
 
@@ -95,16 +89,16 @@ void ui_resources_shutdown(void)
 }
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-leds", SET_RESOURCE, 0,
-      NULL, NULL, "UseLeds", (resource_value_t) 1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, "Enable usage of PC keyboard LEDs" },
-    { "+leds", SET_RESOURCE, 0,
-      NULL, NULL, "UseLeds", (resource_value_t) 0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, "Disable usage of PC keyboard LEDs" },
+    {"-leds", SET_RESOURCE, 0,
+     NULL, NULL, "UseLeds", (resource_value_t) 1,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+     IDCLS_UNUSED, IDCLS_UNUSED,
+     NULL, "Enable usage of PC keyboard LEDs"},
+    {"+leds", SET_RESOURCE, 0,
+     NULL, NULL, "UseLeds", (resource_value_t) 0,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+     IDCLS_UNUSED, IDCLS_UNUSED,
+     NULL, "Disable usage of PC keyboard LEDs"},
     NULL,
 };
 
@@ -160,7 +154,6 @@ int ui_init(int *argc, char **argv)
 
 void ui_shutdown(void)
 {
-
 }
 
 void c64ui_shutdown(void)
@@ -200,10 +193,8 @@ int ui_init_finish(void)
     log_message(LOG_DEFAULT, "VICE/2-Port done by");
     log_message(LOG_DEFAULT, "T. Bretz.\n");
 
-    log_message(LOG_DEFAULT, "Starting Vice/2 at %d.%d.%d %d:%02d:%02d\n",
-                DT.day, DT.month, DT.year, DT.hours, DT.minutes, DT.seconds);
+    log_message(LOG_DEFAULT, "Starting Vice/2 at %d.%d.%d %d:%02d:%02d\n", DT.day, DT.month, DT.year, DT.hours, DT.minutes, DT.seconds);
 
-    // ui_open_status_window();
     return 0;
 }
 
@@ -216,32 +207,37 @@ int ui_init_finalize(void)
 
 void ui_set_tape_status(int tape_status)
 {
-    if (ui_status.lastTapeStatus==tape_status) return;
-    ui_status.lastTapeStatus=tape_status;
-    WinSendMsg(hwndDatasette, WM_TAPESTAT,
-               (void*)ui_status.lastTapeCtrlStat, (void*)tape_status);
+    if (ui_status.lastTapeStatus == tape_status) {
+        return;
+    }
+    ui_status.lastTapeStatus = tape_status;
+    WinSendMsg(hwndDatasette, WM_TAPESTAT, (void*)ui_status.lastTapeCtrlStat, (void*)tape_status);
 }
 
 void ui_display_tape_motor_status(int motor)
 {
-    if (ui_status.lastTapeMotor==motor) return;
-    ui_status.lastTapeMotor=motor;
-    WinSendMsg(hwndDatasette, WM_SPINNING,
-               (void*)motor, (void*)ui_status.lastTapeStatus);
+    if (ui_status.lastTapeMotor == motor) {
+        return;
+    }
+    ui_status.lastTapeMotor = motor;
+    WinSendMsg(hwndDatasette, WM_SPINNING, (void*)motor, (void*)ui_status.lastTapeStatus);
 }
 
 void ui_display_tape_control_status(int control)
 {
-    if (ui_status.lastTapeCtrlStat==control) return;
-    ui_status.lastTapeCtrlStat=control;
-    WinSendMsg(hwndDatasette, WM_TAPESTAT,
-               (void*)control, (void*)ui_status.lastTapeStatus);
+    if (ui_status.lastTapeCtrlStat == control) {
+        return;
+    }
+    ui_status.lastTapeCtrlStat = control;
+    WinSendMsg(hwndDatasette, WM_TAPESTAT, (void*)control, (void*)ui_status.lastTapeStatus);
 }
 
 void ui_display_tape_counter(int counter)
 {
-    if (ui_status.lastTapeCounter==counter) return;
-    ui_status.lastTapeCounter=counter;
+    if (ui_status.lastTapeCounter == counter) {
+        return;
+    }
+    ui_status.lastTapeCounter = counter;
     WinSendMsg(hwndDatasette, WM_COUNTER, (void*)counter, 0);
 }
 
@@ -251,65 +247,68 @@ void ui_display_tape_current_image(const char *image)
 
 /* --------------------------- Drive related UI ------------------------ */
 
-void ui_display_drive_led(int drive_number, unsigned int led_pwm1,
-                          unsigned int led_pwm2)
+void ui_display_drive_led(int drive_number, unsigned int led_pwm1, unsigned int led_pwm2)
 {
     BYTE keyState[256];
     int status = 0;
 
-    if (led_pwm1 > 100)
+    if (led_pwm1 > 100) {
         status |= 1;
-    if (led_pwm2 > 100)
+    }
+    if (led_pwm2 > 100) {
         status |= 2;
+    }
 
     DosRequestMutexSem(hmtxKey, SEM_INDEFINITE_WAIT);
     if (PM_winActive && use_leds) {
         WinSetKeyboardStateTable(HWND_DESKTOP, keyState, FALSE);
-        keyState[VK_CAPSLOCK] = (status!=0);
+        keyState[VK_CAPSLOCK] = (status != 0);
         WinSetKeyboardStateTable(HWND_DESKTOP, keyState, TRUE);
     }
     DosReleaseMutexSem(hmtxKey);
 
-    WinSendMsg(hwndDrive, WM_DRIVELEDS,
-               (void*)drive_number, (void*)status);
+    WinSendMsg(hwndDrive, WM_DRIVELEDS, (void*)drive_number, (void*)status);
 }
 
-void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base,
-                            unsigned int half_track_number)
+void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base, unsigned int half_track_number)
 {
     double track_number = (double)half_track_number / 2.0;
 
-    ui_status.lastTrack[drive_number]=track_number;
-    WinSendMsg(hwndDrive, WM_TRACK,
-                      (void*)drive_number, (void*)(int)(track_number*2));
+    ui_status.lastTrack[drive_number] = track_number;
+    WinSendMsg(hwndDrive, WM_TRACK, (void*)drive_number, (void*)(int)(track_number * 2));
 }
 
 void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
-    ui_status.lastDriveState=state;
+    ui_status.lastDriveState = state;
     WinSendMsg(hwndDrive, WM_DRIVESTATE,(void*)state, NULL);
-    if (state&1) ui_display_drive_led(0, 0, 0);
-    if (state&2) ui_display_drive_led(1, 0, 0);
+    if (state & 1) {
+        ui_display_drive_led(0, 0, 0);
+    }
+    if (state & 2) {
+        ui_display_drive_led(1, 0, 0);
+    }
 }
 
-void ui_display_drive_current_image(unsigned int drive_number,
-                                    const char *image)
+void ui_display_drive_current_image(unsigned int drive_number, const char *image)
 {
-    if (image && *image)
-    {
-        int pos=0, i;
-        while (strcmp(ui_status.imageHist[pos], image) &&
-               ui_status.imageHist[pos][0] && pos<9) pos++;
-        for (i=pos; i>0; i--)
-            strcpy(ui_status.imageHist[i], ui_status.imageHist[i-1]);
+    if (image && *image) {
+        int pos = 0, i;
+
+        while (strcmp(ui_status.imageHist[pos], image) && ui_status.imageHist[pos][0] && pos < 9) {
+            pos++;
+        }
+        for (i = pos; i > 0; i--) {
+            strcpy(ui_status.imageHist[i], ui_status.imageHist[i - 1]);
+        }
         strcpy(ui_status.imageHist[0], image);
     }
 
-    WinSendMsg(hwndDrive, WM_DRIVEIMAGE,
-               (void*)image, (void*)drive_number);
+    WinSendMsg(hwndDrive, WM_DRIVEIMAGE, (void*)image, (void*)drive_number);
 
-    if (image)
+    if (image) {
         strcpy(ui_status.lastImage[drive_number], image);
+    }
 }
 
 
@@ -338,8 +337,8 @@ void ui_display_volume(int vol)
 void ui_error(const char *format,...)
 {
     char *txt, *tmp;
-
     va_list ap;
+
     va_start(ap, format);
     tmp = lib_mvsprintf(format, ap);
     txt = util_concat(" Error in emulation thread:\n ", tmp, NULL);
@@ -354,8 +353,8 @@ void ui_error(const char *format,...)
 void ui_message(const char *format,...)
 {
     char *txt, *tmp;
-
     va_list ap;
+
     va_start(ap, format);
     tmp = lib_mvsprintf(format, ap);
     txt = util_concat(" Message from emulation thread:\n ", tmp, NULL);
@@ -369,18 +368,15 @@ void ui_message(const char *format,...)
 ui_jam_action_t ui_jam_dialog(const char *format,...)
 {
     ULONG rc;
-
     char *txt, *tmp;
-
     va_list ap;
+    const int sz = sizeof(MB2INFO) + 3 * sizeof(MB2D);
+    MB2INFO *mb = malloc(sz);
 
-    const int sz   = sizeof(MB2INFO)+3*sizeof(MB2D);
-
-    MB2INFO *mb    = malloc(sz);
-    mb->cb         = sz;
-    mb->hIcon      = WinLoadPointer(HWND_DESKTOP, NULLHANDLE, PTR_SKULL);
-    mb->cButtons   = 4;
-    mb->flStyle    = MB_CUSTOMICON|WS_VISIBLE;
+    mb->cb = sz;
+    mb->hIcon = WinLoadPointer(HWND_DESKTOP, NULLHANDLE, PTR_SKULL);
+    mb->cButtons = 4;
+    mb->flStyle = MB_CUSTOMICON | WS_VISIBLE;
     mb->hwndNotify = NULLHANDLE;
     strcpy(mb->mb2d[0].achText, "  ~Hard Reset  ");
     strcpy(mb->mb2d[1].achText, "  ~Soft Reset  ");
@@ -390,35 +386,32 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
     mb->mb2d[1].idButton = UI_JAM_RESET;
     mb->mb2d[2].idButton = UI_JAM_MONITOR;
     mb->mb2d[3].idButton = UI_JAM_NONE;
-    mb->mb2d[0].flStyle  = BS_DEFAULT;
-    mb->mb2d[1].flStyle  = 0;
-    mb->mb2d[2].flStyle  = 0;
+    mb->mb2d[0].flStyle = BS_DEFAULT;
+    mb->mb2d[1].flStyle = 0;
+    mb->mb2d[2].flStyle = 0;
 
     va_start(ap, format);
     tmp = lib_mvsprintf(format, ap);
     txt = util_concat("    Chipset reported:\n ", tmp, NULL);
     lib_free(tmp);
 
-    rc = WinMessageBox2(HWND_DESKTOP, HWND_DESKTOP,
-                        txt, "VICE/2 Error", 0, mb);
+    rc = WinMessageBox2(HWND_DESKTOP, HWND_DESKTOP, txt, "VICE/2 Error", 0, mb);
     lib_free(txt);
     lib_free(mb);
 
     //
     // open monitor dialog
     //
-    if (rc==UI_JAM_MONITOR)
+    if (rc == UI_JAM_MONITOR) {
         WinShowWindow(hwndMonitor, 1);
+    }
 
     return rc;
 }
 
 int ui_extend_image_dialog(void)
 {
-    return WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
-                         "Extend disk image in drive to 40 tracks?",
-                         "VICE/2 Extend Disk Image",
-                         0, MB_YESNO)==MBID_YES;
+    return WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, "Extend disk image in drive to 40 tracks?", "VICE/2 Extend Disk Image", 0, MB_YESNO) == MBID_YES;
 }
 
 //------------------------------------------------------------------------
