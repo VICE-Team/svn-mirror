@@ -36,21 +36,21 @@ extern void kbd_arch_init(void);
 extern signed long kbd_arch_keyname_to_keynum(char *keyname);
 extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
 
-#define KBD_C64_SYM_US "ros_sym/vkm"
-#define KBD_C64_SYM_DE "ros_sym/vkm"
-#define KBD_C64_POS    "ros_pos/vkm"
-#define KBD_C128_SYM   "ros_sym/vkm"
-#define KBD_C128_POS   "ros_pos/vkm"
-#define KBD_VIC20_SYM  "ros_sym/vkm"
-#define KBD_VIC20_POS  "ros_pos/vkm"
-#define KBD_PET_SYM_UK "ros_buks/vkm"
-#define KBD_PET_POS_UK "ros_bukp/vkm"
-#define KBD_PET_SYM_DE "ros_bdes/vkm"
-#define KBD_PET_POS_DE "ros_bdep/vkm"
-#define KBD_PET_SYM_GR "ros_bgrs/vkm"
-#define KBD_PET_POS_GR "ros_bgrp/vkm"
-#define KBD_PLUS4_SYM  "ros_sym/vkm"
-#define KBD_PLUS4_POS  "ros_pos/vkm"
+#define KBD_C64_SYM_US   "ros_sym/vkm"
+#define KBD_C64_SYM_DE   "ros_sym/vkm"
+#define KBD_C64_POS      "ros_pos/vkm"
+#define KBD_C128_SYM     "ros_sym/vkm"
+#define KBD_C128_POS     "ros_pos/vkm"
+#define KBD_VIC20_SYM    "ros_sym/vkm"
+#define KBD_VIC20_POS    "ros_pos/vkm"
+#define KBD_PET_SYM_UK   "ros_buks/vkm"
+#define KBD_PET_POS_UK   "ros_bukp/vkm"
+#define KBD_PET_SYM_DE   "ros_bdes/vkm"
+#define KBD_PET_POS_DE   "ros_bdep/vkm"
+#define KBD_PET_SYM_GR   "ros_bgrs/vkm"
+#define KBD_PET_POS_GR   "ros_bgrp/vkm"
+#define KBD_PLUS4_SYM    "ros_sym/vkm"
+#define KBD_PLUS4_POS    "ros_pos/vkm"
 #define KBD_CBM2_SYM_UK  "ros_buks/vkm"
 #define KBD_CBM2_POS_UK  "ros_bukp/vkm"
 #define KBD_CBM2_SYM_DE  "ros_bdes/vkm"
@@ -65,22 +65,22 @@ extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
 #define KBD_INDEX_PLUS4_DEFAULT KBD_INDEX_PLUS4_POS
 #define KBD_INDEX_CBM2_DEFAULT  KBD_INDEX_CBM2_BUKP
 
-#define KEYMAP_ENTRIES	128
+#define KEYMAP_ENTRIES 128
 
 typedef struct kbd_keymap_s {
-  const char *default_file;
-  unsigned char *normal;
-  unsigned char *shifted;
-  unsigned char *norm_sflag;
-  unsigned char *shift_sflag;
+    const char *default_file;
+    unsigned char *normal;
+    unsigned char *shifted;
+    unsigned char *norm_sflag;
+    unsigned char *shift_sflag;
 } kbd_keymap_t;
 
 extern Joy_Keys JoystickKeys[2];
 extern int kbd_update_joykeys(int port);
 
 extern void kbd_init_keymap(int number);
-extern int  kbd_add_keymap(kbd_keymap_t *map, int number);
-extern int  kbd_default_keymap(kbd_keymap_t *map);
+extern int kbd_add_keymap(kbd_keymap_t *map, int number);
+extern int kbd_default_keymap(kbd_keymap_t *map);
 extern int kbd_load_keymap(const char *filename, int number);
 extern int kbd_dump_keymap(const char *filename, int number);
 
@@ -90,4 +90,3 @@ extern const char *kbd_intkey_to_string(int intkey);
 extern void kbd_poll(void);
 
 #endif
-

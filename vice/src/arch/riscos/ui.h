@@ -33,7 +33,6 @@
 #include "types.h"
 #include "uiapi.h"
 
-
 struct conf_iconid_s;
 struct conf_item_s;
 struct wimp_msg_desc_s;
@@ -48,7 +47,7 @@ typedef int (*set_varint_function)(const char *name, int val);
 extern int ui_init_named_app(const char *appname, const char *iconname);
 
 extern void ui_poll(int dopoll);
-extern int  ui_poll_core(int *block);
+extern int ui_poll_core(int *block);
 
 extern void ui_message(const char *format,...);
 extern void ui_show_text(const char *title, const char *text, int width, int height);
@@ -72,20 +71,19 @@ extern void ui_activate_monitor(void);
 
 extern void ui_set_sound_volume(void);
 
-extern int  ui_flip_iterate_and_attach(int dir);
+extern int ui_flip_iterate_and_attach(int dir);
 
-extern int  ui_make_last_screenshot(void);
-extern int  ui_save_last_snapshot(void);
+extern int ui_make_last_screenshot(void);
+extern int ui_save_last_snapshot(void);
 extern void ui_trigger_snapshot_load(void);
 
 extern void ui_set_icons_grey(RO_Window *win, const struct conf_iconid_s *desc, int state);
 
-
 extern struct wimp_msg_desc_s *ui_emulator_init_prologue(const char *icon);
-extern int  ui_emulator_init_epilogue(struct wimp_msg_desc_s *msg);
-extern int  ui_load_template(const char *tempname, RO_Window **wptr, struct wimp_msg_desc_s *msg);
+extern int ui_emulator_init_epilogue(struct wimp_msg_desc_s *msg);
+extern int ui_load_template(const char *tempname, RO_Window **wptr, struct wimp_msg_desc_s *msg);
 extern void ui_create_emulator_menu(int *block);
-extern int  ui_open_centered_or_raise_block(RO_Window *win, int *block);
+extern int ui_open_centered_or_raise_block(RO_Window *win, int *block);
 extern void ui_setup_menu_display(const struct disp_desc_s *dd);
 extern void ui_set_menu_display_core_string(const struct disp_desc_s *dd, set_varstr_function func, int number);
 extern void ui_set_menu_display_core_int(const struct disp_desc_s *dd, set_varint_function func, int number);
@@ -93,7 +91,6 @@ extern void ui_update_menu_disp_strshow(const struct disp_desc_s *dd, const char
 extern void ui_setup_config_item(struct conf_item_s *ci);
 extern void ui_update_rom_names(void);
 extern const char *ui_check_for_syspath(const char *path);
-
 
 extern RO_Screen ScreenMode;
 

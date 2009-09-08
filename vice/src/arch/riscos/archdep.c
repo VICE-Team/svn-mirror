@@ -38,8 +38,6 @@
 #include "machine.h"
 #include "util.h"
 
-
-
 /* File types */
 static const int FileType_GZIP = 0xf89;
 
@@ -48,67 +46,56 @@ static char *defaultLogName = NULL;
 const char *archdep_rsrc_machine_name = "DRIVES";
 void (*archdep_set_leds_callback)(unsigned int, int) = NULL;
 
-
 int archdep_init(int *argc, char **argv)
 {
-  return 0;
+    return 0;
 }
-
 
 void archdep_closedown(void)
 {
-  if (defaultLogFile != NULL)
-  {
-    fclose(defaultLogFile);
-    defaultLogFile = NULL;
-    remove(defaultLogName);
-    lib_free(defaultLogName);
-    defaultLogName = NULL;
-  }
+    if (defaultLogFile != NULL) {
+        fclose(defaultLogFile);
+        defaultLogFile = NULL;
+        remove(defaultLogName);
+        lib_free(defaultLogName);
+        defaultLogName = NULL;
+    }
 }
-
 
 char *archdep_program_name(void)
 {
-  char *name=NULL;
+    char *name = NULL;
 
-  if (machine_name != NULL)
-  {
-    if ((name = lib_malloc(strlen("Vice") + strlen(machine_name) + 1)) != NULL)
-      sprintf(name, "Vice%s", machine_name);
-  }
+    if (machine_name != NULL) {
+        if ((name = lib_malloc(strlen("Vice") + strlen(machine_name) + 1)) != NULL) {
+            sprintf(name, "Vice%s", machine_name);
+        }
+    }
 
-  return name;
+    return name;
 }
-
 
 FILE *archdep_open_default_log_file(void)
 {
-  const char *name = tmpnam(NULL);
+    const char *name = tmpnam(NULL);
 
-  if ((defaultLogName = lib_malloc(strlen(name)+1)) != NULL)
-  {
-    strcpy(defaultLogName, name);
-    if ((defaultLogFile = fopen(defaultLogName, "w+")) != NULL)
-    {
-      return defaultLogFile;
+    if ((defaultLogName = lib_malloc(strlen(name) + 1)) != NULL) {
+        strcpy(defaultLogName, name);
+        if ((defaultLogFile = fopen(defaultLogName, "w+")) != NULL) {
+            return defaultLogFile;
+        } else {
+            lib_free(defaultLogName);
+            defaultLogName = NULL;
+        }
     }
-    else
-    {
-      lib_free(defaultLogName);
-      defaultLogName = NULL;
-    }
-  }
 
-  return fopen("null:", "w");
+    return fopen("null:", "w");
 }
-
 
 FILE *archdep_get_default_log_file(void)
 {
-  return defaultLogFile;
+    return defaultLogFile;
 }
-
 
 /* Return a malloc'ed backup file name for file `fname'.  */
 char *archdep_make_backup_filename(const char *fname)
@@ -118,15 +105,14 @@ char *archdep_make_backup_filename(const char *fname)
 
 char *archdep_default_resource_file_name(void)
 {
-  char *name;
-  const char *basename = archdep_rsrc_machine_name;
+    char *name;
+    const char *basename = archdep_rsrc_machine_name;
 
-  if ((name = lib_malloc(strlen("Vice:.vicerc") + strlen(basename) + 1)) != NULL)
-     sprintf(name, "Vice:%s.vicerc", basename);
-
-  return name;
+    if ((name = lib_malloc(strlen("Vice:.vicerc") + strlen(basename) + 1)) != NULL) {
+       sprintf(name, "Vice:%s.vicerc", basename);
+    }
+    return name;
 }
-
 
 char *archdep_default_fliplist_file_name(void)
 {
@@ -143,83 +129,81 @@ char *archdep_default_save_resource_file_name(void)
   return archdep_default_resource_file_name();
 }
 
-
 char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
-  return lib_msprintf("Vice:%s.", emu_id);
+    return lib_msprintf("Vice:%s.", emu_id);
 }
-
 
 int archdep_num_text_lines(void)
 {
-  return 0;
+    return 0;
 }
 
 int archdep_num_text_columns(void)
 {
-  return 0;
+    return 0;
 }
-
 
 int archdep_path_is_relative(const char *directory)
 {
-  const char *b;
+    const char *b;
 
-  b = directory;
-  while (*b != 0)
-  {
-    if ((*b == '$') || (*b == ':')) return 1;
-    b++;
-  }
-  return 0;
+    b = directory;
+    while (*b != 0) {
+        if ((*b == '$') || (*b == ':')) {
+            return 1;
+        }
+        b++;
+    }
+    return 0;
 }
 
-
-
-
-#define READLINE_BUFFER		512
+#define READLINE_BUFFER 512
 
 static char readbuffer[READLINE_BUFFER];
 
 /* Readline emulation */
 char *readline(const char *prompt)
 {
-  char *retbuf;
-  int len;
+    char *retbuf;
+    int len;
 
-  if (prompt != NULL) printf("%s", prompt);
+    if (prompt != NULL) {
+        printf("%s", prompt);
+    }
 
-  readbuffer[0] = '\0';
-  len = OS_ReadLine(readbuffer, READLINE_BUFFER, 0, 255, 0);
+    readbuffer[0] = '\0';
+    len = OS_ReadLine(readbuffer, READLINE_BUFFER, 0, 255, 0);
 
-  if ((len <= 0) || (readbuffer[0] < 32)) return NULL;
-  readbuffer[len] = '\0';
+    if ((len <= 0) || (readbuffer[0] < 32)) {
+        return NULL;
+    }
+    readbuffer[len] = '\0';
 
-  retbuf = lib_malloc(strlen(readbuffer) + 1);
-  strcpy(retbuf, readbuffer);
+    retbuf = lib_malloc(strlen(readbuffer) + 1);
+    strcpy(retbuf, readbuffer);
 
-  return retbuf;
+    return retbuf;
 }
-
 
 void add_history(const char *p)
 {
 }
 
-
 /* Logfile handling */
 FILE *open_logfile(const char *basename)
 {
-  FILE *fp;
-  char buffer[256];
-  int number;
+    FILE *fp;
+    char buffer[256];
+    int number;
 
-  for (number=0; number<16; number++)
-  {
-    sprintf(buffer, "%s%d", basename, number);
-    if ((fp = fopen(buffer, "w")) != NULL) return fp;
-  }
-  return NULL;
+    for (number = 0; number < 16; number++) {
+        sprintf(buffer, "%s%d", basename, number);
+        if ((fp = fopen(buffer, "w")) != NULL) {
+            return fp;
+        }
+    }
+    return NULL;
 }
 
 int archdep_default_logger(const char *level_string, const char *txt)
@@ -227,8 +211,7 @@ int archdep_default_logger(const char *level_string, const char *txt)
     return 0;
 }
 
-int archdep_spawn(const char *name, char **argv,
-                  char **pstdout_redir, const char *stderr_redir)
+int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const char *stderr_redir)
 {
     return 0;
 }
@@ -276,8 +259,9 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 
     fd = fopen(tmp, mode);
 
-    if (fd == NULL)
+    if (fd == NULL) {
         return NULL;
+    }
 
     *filename = tmp;
 
@@ -286,18 +270,19 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 
 const char *archdep_extract_dir_and_leaf(const char *path)
 {
-  const char *dir, *leaf, *b;
+    const char *dir, *leaf, *b;
 
-  b = path; leaf = b; dir = b;
-  while (*b != '\0')
-  {
-    if ((*b == FSDEV_DIR_SEP_CHR) || (*b == ':'))
-    {
-      dir = leaf; leaf = b + 1;
+    b = path;
+    leaf = b;
+    dir = b;
+    while (*b != '\0') {
+        if ((*b == FSDEV_DIR_SEP_CHR) || (*b == ':')) {
+            dir = leaf;
+            leaf = b + 1;
+        }
+        b++;
     }
-    b++;
-  }
-  return dir;
+    return dir;
 }
 
 int archdep_file_is_gzip(const char *name)
@@ -306,24 +291,25 @@ int archdep_file_is_gzip(const char *name)
 
     type = GetFileType(name);
     /* only look at filename if the filetype differs from 0xF89 */
-    if (type != FileType_GZIP)
-    {
+    if (type != FileType_GZIP) {
         size_t l = strlen(name);
 
-        if ((l < 4 || strcasecmp(name + l - 3, FSDEV_EXT_SEP_STR "gz"))
+        if ((l < 4 || strcasecmp(name + l - 3, FSDEV_EXT_SEP_STR "gz")) 
             && (l < 3 || strcasecmp(name + l - 2, FSDEV_EXT_SEP_STR "z"))
-            && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != FSDEV_EXT_SEP_CHR))
+            && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != FSDEV_EXT_SEP_CHR)) {
             return 0;
+        }
     }
     return 1;
 }
 
 int archdep_file_set_gzip(const char *name)
 {
-  if (SetFileType(name, FileType_GZIP) != NULL)
-    return -1;
+    if (SetFileType(name, FileType_GZIP) != NULL) {
+        return -1;
+    }
 
-  return 0;
+    return 0;
 }
 
 int archdep_mkdir(const char *pathname, int mode)
@@ -336,8 +322,9 @@ int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
     int objType;
     int catInfo[4];
 
-    if ((objType = ReadCatalogueInfo(file_name, catInfo)) == 0)
+    if ((objType = ReadCatalogueInfo(file_name, catInfo)) == 0) {
         return -1;
+    }
 
     *len = catInfo[2];
     *isdir = objType & 2;
@@ -357,11 +344,11 @@ int archdep_file_is_chardev(const char *name)
 
 void archdep_shutdown(void)
 {
-
 }
 
 void archdep_set_drive_leds(unsigned int led, int status)
 {
-  if (archdep_set_leds_callback != NULL)
-    archdep_set_leds_callback(led, status);
+    if (archdep_set_leds_callback != NULL) {
+        archdep_set_leds_callback(led, status);
+    }
 }

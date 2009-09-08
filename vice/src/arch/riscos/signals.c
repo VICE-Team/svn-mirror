@@ -32,7 +32,6 @@
 #include "monitor.h"
 #include "signals.h"
 
-
 void signals_init(int do_core_dumps)
 {
     /* What is a signal?  */
@@ -58,4 +57,3 @@ void signals_abort_unset(void)
 {
     signal(SIGINT, old_handler);
 }
-

@@ -40,4 +40,3 @@ extern BYTE mousedrv_get_y(void);
 extern void mousedrv_sync(void);
 
 #endif
-

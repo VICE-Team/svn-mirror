@@ -24,8 +24,6 @@
  *
  */
 
-
-
 #ifndef VICE_UIHELP_RO_H
 #define VICE_UIHELP_RO_H
 
@@ -34,9 +32,9 @@
 
 /* help structure */
 typedef struct help_icon_s {
-  int icon;
-  const char *sym;
-  char *msg;
+    int icon;
+    const char *sym;
+    char *msg;
 } help_icon_t;
 
 struct wimp_msg_desc_s;

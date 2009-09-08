@@ -35,120 +35,119 @@
 #include "resources.h"
 #include "vsyncarch.h"
 
-
-
 int ajoyfd[4] = {-1, -1, -1, -1};
 int djoyfd[4] = {-1, -1, -1, -1};
-
 static BYTE old_joy[4];
 
 static int set_joystick_port1(int val, void *param)
 {
-  joystick_port_map[0] = val;
-  return 0;
+    joystick_port_map[0] = val;
+    return 0;
 }
 
 static int set_joystick_port2(int val, void *param)
 {
-  joystick_port_map[1] = val;
-  return 0;
+    joystick_port_map[1] = val;
+    return 0;
 }
 
 static int set_joystick_port3(int val, void *param)
 {
-  joystick_port_map[2] = val;
-  return 0;
+    joystick_port_map[2] = val;
+    return 0;
 }
 
 static int set_joystick_port4(int val, void *param)
 {
-  joystick_port_map[3] = val;
-  return 0;
+    joystick_port_map[3] = val;
+    return 0;
 }
 
 static const resource_int_t resources_int[] = {
-  {"JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
-    &joystick_port_map[0], set_joystick_port1, NULL },
-  {"JoyDevice2", JOYDEV_KBD1, RES_EVENT_NO, NULL,
-    &joystick_port_map[1], set_joystick_port2, NULL },
-  {"JoyDevice3", JOYDEV_KBD1, RES_EVENT_NO, NULL,
-    &joystick_port_map[2], set_joystick_port3, NULL },
-  {"JoyDevice4", JOYDEV_KBD1, RES_EVENT_NO, NULL,
-    &joystick_port_map[3], set_joystick_port4, NULL },
-  {NULL}
+    {"JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
+     &joystick_port_map[0], set_joystick_port1, NULL},
+    {"JoyDevice2", JOYDEV_KBD1, RES_EVENT_NO, NULL,
+     &joystick_port_map[1], set_joystick_port2, NULL},
+    {"JoyDevice3", JOYDEV_KBD1, RES_EVENT_NO, NULL,
+     &joystick_port_map[2], set_joystick_port3, NULL},
+    {"JoyDevice4", JOYDEV_KBD1, RES_EVENT_NO, NULL,
+     &joystick_port_map[3], set_joystick_port4, NULL},
+    {NULL}
 };
 
 int joy_arch_init(void)
 {
-  old_joy[0] = 0;
-  old_joy[1] = 0;
-  old_joy[2] = 0;
-  old_joy[3] = 0;
+    old_joy[0] = 0;
+    old_joy[1] = 0;
+    old_joy[2] = 0;
+    old_joy[3] = 0;
 
-  return 0;
+    return 0;
 }
-
 
 void joystick_close(void)
 {
 }
 
-
 void joystick(void)
 {
-  int port, state;
-  BYTE code;
+    int port, state;
+    BYTE code;
 
-  if (EmuWindowHasInputFocus == 0) return;
-
-  for (port=0; port < 4; port++)
-  {
-    state = -1;
-    if (joystick_port_map[port] == JOYDEV_JOY1) state = 0;
-    else if (joystick_port_map[port] == JOYDEV_JOY2) state = 1;
-
-    if (state >= 0)
-    {
-      state = Joystick_Read(state);
-      if (state != -2)
-      {
-        if (state == -1) code = old_joy[port];
-        else
-        {
-          code = 0;
-          if ((state & (JoyButton1 + JoyButton2)) != 0) code |= 0x10;
-          if ((state & 0x80) == 0)
-          {
-            if ((state & 0xff) >= JoyDir_Thresh) code |= 1;
-          }
-          else
-          {
-            if ((256 - (state & 0xff)) >= JoyDir_Thresh) code |= 2;
-          }
-          if ((state & 0x8000) == 0)
-          {
-            if ((state & 0xff00) >= (JoyDir_Thresh << 8)) code |= 8;
-          }
-          else
-          {
-            if ((0x10000 - (state & 0xff00)) >= (JoyDir_Thresh << 8)) code |= 4;
-          }
-          old_joy[port] = code;
-        }
-        joystick_value[port+1] = code;
-      }
+    if (EmuWindowHasInputFocus == 0) {
+        return;
     }
-  }
-}
 
+    for (port = 0; port < 4; port++) {
+        state = -1;
+        if (joystick_port_map[port] == JOYDEV_JOY1) {
+            state = 0;
+        } else if (joystick_port_map[port] == JOYDEV_JOY2) {
+            state = 1;
+        }
+
+        if (state >= 0) {
+            state = Joystick_Read(state);
+            if (state != -2) {
+                if (state == -1) {
+                    code = old_joy[port];
+                } else {
+                    code = 0;
+                    if ((state & (JoyButton1 + JoyButton2)) != 0) {
+                        code |= 0x10;
+                    }
+                    if ((state & 0x80) == 0) {
+                        if ((state & 0xff) >= JoyDir_Thresh) {
+                            code |= 1;
+                        }
+                    } else {
+                        if ((256 - (state & 0xff)) >= JoyDir_Thresh) {
+                            code |= 2;
+                        }
+                    }
+                    if ((state & 0x8000) == 0) {
+                       if ((state & 0xff00) >= (JoyDir_Thresh << 8)) {
+                           code |= 8;
+                       }
+                    } else {
+                        if ((0x10000 - (state & 0xff00)) >= (JoyDir_Thresh << 8)) {
+                            code |= 4;
+                        }
+                    }
+                    old_joy[port] = code;
+                }
+                joystick_value[port + 1] = code;
+            }
+        }
+    }
+}
 
 int joystick_init_resources(void)
 {
-  return resources_register_int(resources_int);
+    return resources_register_int(resources_int);
 }
-
 
 int joystick_init_cmdline_options(void)
 {
-  return 0;
+    return 0;
 }

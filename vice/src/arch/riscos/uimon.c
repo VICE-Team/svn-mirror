@@ -35,16 +35,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 static console_t *console_log_local = NULL;
-
 
 void uimon_window_close( void )
 {
     console_close(console_log_local);
     console_log_local = NULL;
 }
-
 
 console_t *uimon_window_open( void )
 {
@@ -64,10 +61,9 @@ console_t *uimon_window_resume( void )
 
 int uimon_out(const char *buffer)
 {
-    int   rc = 0;
+    int rc = 0;
 
-    if (console_log_local)
-    {
+    if (console_log_local) {
         rc = console_out(console_log_local, "%s", buffer);
     }
     return rc;
@@ -82,8 +78,6 @@ void uimon_notify_change( void )
 {
 }
 
-void uimon_set_interface(monitor_interface_t **monitor_interface_init,
-                         int count )
+void uimon_set_interface(monitor_interface_t **monitor_interface_init, int count )
 {
 }
-

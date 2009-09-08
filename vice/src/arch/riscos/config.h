@@ -1,7 +1,6 @@
 #ifndef VICE_CONFIG_H
 #define VICE_CONFIG_H
 
-
 /* Define as the return type of signal handlers (int or void).  */
 #define RETSIGTYPE void
 

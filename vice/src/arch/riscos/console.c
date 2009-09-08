@@ -39,14 +39,9 @@
 #include "uimsgwin.h"
 #include "videoarch.h"
 
-
 static FILE *mon_input, *mon_output;
-
 static int WimpCmdBlock[64];
-
 static int EscapePending;
-
-
 
 int console_init(void)
 {
@@ -68,14 +63,11 @@ console_t *console_open(const char *id)
     console->console_can_stay_open = 0;
     console->console_cannot_output = 0;
 
-    if (FullScreenMode == 1)
-    {
-      Wimp_CommandWindow((int)"Vice Monitor");
-    }
-    else
-    {
-      ui_message_window_open(msg_win_monitor, "Vice Monitor", "WIMPLIB LINE EDITOR", console->console_xres, console->console_yres);
-      ui_message_window_busy(msg_win_monitor, 1);
+    if (FullScreenMode == 1) {
+        Wimp_CommandWindow((int)"Vice Monitor");
+    } else {
+        ui_message_window_open(msg_win_monitor, "Vice Monitor", "WIMPLIB LINE EDITOR", console->console_xres, console->console_yres);
+        ui_message_window_busy(msg_win_monitor, 1);
     }
 
     return console;
@@ -83,14 +75,11 @@ console_t *console_open(const char *id)
 
 int console_close(console_t *log)
 {
-    if (!ui_message_window_is_open(msg_win_monitor))
-    {
-      Wimp_CommandWindow(-1);
-    }
-    else
-    {
-      ui_message_window_busy(msg_win_monitor, 0);
-      ui_message_window_close(msg_win_monitor);
+    if (!ui_message_window_is_open(msg_win_monitor)) {
+        Wimp_CommandWindow(-1);
+    } else {
+        ui_message_window_busy(msg_win_monitor, 0);
+        ui_message_window_close(msg_win_monitor);
     }
 
     lib_free(log);
@@ -103,32 +92,27 @@ int console_out(console_t *log, const char *format, ...)
     va_list ap;
     int status = 0;
 
-    if (EscapePending != 0)
-    {
-      EscapePending = 0;
-      status = -1;
+    if (EscapePending != 0) {
+        EscapePending = 0;
+        status = -1;
     }
 
     va_start(ap, format);
-    if (!ui_message_window_is_open(msg_win_monitor))
-    {
-      vfprintf(stdout, format, ap);
-    }
-    else
-    {
-      text_window_t *tw = ui_message_get_text_window(msg_win_monitor);
+    if (!ui_message_window_is_open(msg_win_monitor)) {
+        vfprintf(stdout, format, ap);
+    } else {
+        text_window_t *tw = ui_message_get_text_window(msg_win_monitor);
 
-      if (tw != NULL)
-      {
-        static char buffer[1024];
+        if (tw != NULL) {
+            static char buffer[1024];
 
-        vsprintf(buffer, format, ap);
-        if (textwin_add_text(tw, buffer) > 0)
-        {
-          textwin_caret_to_end(tw);
-          while (ui_poll_core(WimpCmdBlock) != 0) ;
+            vsprintf(buffer, format, ap);
+            if (textwin_add_text(tw, buffer) > 0) {
+                textwin_caret_to_end(tw);
+                while (ui_poll_core(WimpCmdBlock) != 0) {
+                }
+            }
         }
-      }
     }
     return status;
 }
@@ -141,35 +125,31 @@ char *console_in(console_t *log, const char *prompt)
 
     console_out(log, "%s", prompt);
 
-    if (!ui_message_window_is_open(msg_win_monitor))
-    {
-      int len;
+    if (!ui_message_window_is_open(msg_win_monitor)) {
+        int len;
 
-      p = lib_malloc(1024);
+        p = lib_malloc(1024);
 
-      fflush(mon_output);
-      fgets(p, 1024, mon_input);
+        fflush(mon_output);
+        fgets(p, 1024, mon_input);
 
-      /* Remove trailing newlines.  */
-      for (len = strlen(p);
-           len > 0 && (p[len - 1] == '\r' || p[len - 1] == '\n');
-           len--)
-          p[len - 1] = '\0';
-    }
-    else
-    {
-      const char *cmd;
+        /* Remove trailing newlines.  */
+        for (len = strlen(p); len > 0 && (p[len - 1] == '\r' || p[len - 1] == '\n'); len--) {
+            p[len - 1] = '\0';
+        }
+    } else {
+        const char *cmd;
 
-      ui_message_window_busy(msg_win_monitor, 0);
-      do
-      {
-        ui_poll_core(WimpCmdBlock);
-        cmd = ui_message_window_get_last_command(msg_win_monitor);
-      }
-      while (cmd == NULL);
-      p = lib_malloc(wimp_strlen(cmd) + 1);
-      wimp_strcpy(p, cmd);
-      ui_message_window_busy(msg_win_monitor, 1);
+        ui_message_window_busy(msg_win_monitor, 0);
+        do {
+            ui_poll_core(WimpCmdBlock);
+            cmd = ui_message_window_get_last_command(msg_win_monitor);
+        }
+        while (cmd == NULL) {
+        }
+        p = lib_malloc(wimp_strlen(cmd) + 1);
+        wimp_strcpy(p, cmd);
+        ui_message_window_busy(msg_win_monitor, 1);
     }
 
     return p;
@@ -184,4 +164,3 @@ int console_close_all(void)
 {
     return 0;
 }
-

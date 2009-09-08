@@ -27,18 +27,17 @@
 #ifndef VICE_JOY_H
 #define VICE_JOY_H
 
-#define JOYDEV_NUMBER	5
-#define JOYDEV_NONE	0
-#define JOYDEV_KBD1	1
-#define JOYDEV_KBD2	2
-#define JOYDEV_JOY1	3
-#define JOYDEV_JOY2	4
+#define JOYDEV_NUMBER 5
+#define JOYDEV_NONE   0
+#define JOYDEV_KBD1   1
+#define JOYDEV_KBD2   2
+#define JOYDEV_JOY1   3
+#define JOYDEV_JOY2   4
 
 extern int joy_arch_init(void);
 extern void joystick_close(void);
 extern void joystick(void);
-extern int  joystick_init_resources(void);
-extern int  joystick_init_cmdline_options(void);
+extern int joystick_init_resources(void);
+extern int joystick_init_cmdline_options(void);
 
 #endif
-
