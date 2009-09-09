@@ -27,20 +27,18 @@
 #ifndef VICE_VSID_ARCH_H_
 #define VICE_VSID_ARCH_H_
 
-
 /* Window icons */
-#define Icon_VSid_Name		1
-#define Icon_VSid_Author	2
-#define Icon_VSid_Copyright	3
-#define Icon_VSid_TotalTunes	7
-#define Icon_VSid_Speed		8
-#define Icon_VSid_Tune		11
-#define Icon_VSid_NextTune	12
-#define Icon_VSid_PrevTune	13
-#define Icon_VSid_StopTune	14
-#define Icon_VSid_Default	15
-#define Icon_VSid_PlayTime	17
-#define Icon_VSid_Pause		19
-
+#define Icon_VSid_Name       1
+#define Icon_VSid_Author     2
+#define Icon_VSid_Copyright  3
+#define Icon_VSid_TotalTunes 7
+#define Icon_VSid_Speed	     8
+#define Icon_VSid_Tune       11
+#define Icon_VSid_NextTune   12
+#define Icon_VSid_PrevTune   13
+#define Icon_VSid_StopTune   14
+#define Icon_VSid_Default    15
+#define Icon_VSid_PlayTime   17
+#define Icon_VSid_Pause      19
 
 #endif

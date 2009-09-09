@@ -27,7 +27,6 @@
 #ifndef VICE_VIDEOARCH_H
 #define VICE_VIDEOARCH_H
 
-
 #include "vice.h"
 
 #include "types.h"
@@ -35,22 +34,20 @@
 
 #include "wlsprite.h"
 
-
 struct video_draw_buffer_callback_s;
 struct video_render_config_s;
 struct draw_buffer_s;
 struct geometry_s;
 struct palette_s;
 
-
 struct video_frame_buffer_s {
-  unsigned int width, height, depth, pitch;
-  int paldirty, transdirty;
-  BYTE *framedata;
-  BYTE *paldata;
-  sprite_plotenv_t normplot;
-  sprite_plotenv_t palplot;
-  unsigned int *bplot_trans;
+    unsigned int width, height, depth, pitch;
+    int paldirty, transdirty;
+    BYTE *framedata;
+    BYTE *paldata;
+    sprite_plotenv_t normplot;
+    sprite_plotenv_t palplot;
+    unsigned int *bplot_trans;
 };
 
 typedef struct video_frame_buffer_s video_frame_buffer_t;
@@ -62,40 +59,38 @@ struct video_redraw_desc_s;
 typedef void video_redraw_core_func(struct video_canvas_s *canvas, struct video_redraw_desc_s *vrd);
 
 struct video_canvas_s {
-  unsigned int initialized;
-  unsigned int created;
-  char *name;
-  unsigned int width, height;
-  unsigned int scale;
-  int shiftx, shifty;
-  RO_Window *window;
-  video_frame_buffer_t fb;
-  unsigned int num_colours;
-  unsigned int *current_palette;
-  int last_video_render_depth;
-  video_redraw_core_func *redraw_wimp;
-  video_redraw_core_func *redraw_full;
-  struct video_render_config_s *videoconfig;
-  struct draw_buffer_s *draw_buffer;
-  struct viewport_s *viewport;
-  struct geometry_s *geometry;
-  struct video_draw_buffer_callback_s *video_draw_buffer_callback;
-  struct palette_s *palette;
+    unsigned int initialized;
+    unsigned int created;
+    char *name;
+    unsigned int width, height;
+    unsigned int scale;
+    int shiftx, shifty;
+    RO_Window *window;
+    video_frame_buffer_t fb;
+    unsigned int num_colours;
+    unsigned int *current_palette;
+    int last_video_render_depth;
+    video_redraw_core_func *redraw_wimp;
+    video_redraw_core_func *redraw_full;
+    struct video_render_config_s *videoconfig;
+    struct draw_buffer_s *draw_buffer;
+    struct viewport_s *viewport;
+    struct geometry_s *geometry;
+    struct video_draw_buffer_callback_s *video_draw_buffer_callback;
+    struct palette_s *palette;
 };
 
 typedef struct video_canvas_s video_canvas_t;
 
 typedef int (*canvas_func_f)(video_canvas_t *canvas, void *context);
 
-
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
 
-#define PAL_EMU_DEPTH_NONE	0
-#define PAL_EMU_DEPTH_AUTO	1
-#define PAL_EMU_DEPTH_8		2
-#define PAL_EMU_DEPTH_16	3
-#define PAL_EMU_DEPTH_32	4
-
+#define PAL_EMU_DEPTH_NONE 0
+#define PAL_EMU_DEPTH_AUTO 1
+#define PAL_EMU_DEPTH_8    2
+#define PAL_EMU_DEPTH_16   3
+#define PAL_EMU_DEPTH_32   4
 
 extern void canvas_mode_change(void);
 extern video_canvas_t *canvas_for_handle(int handle);
@@ -121,7 +116,7 @@ extern void video_full_screen_mousepos(int mx, int my, int *x, int *y);
 
 extern void video_register_callbacks(void);
 extern void video_pos_screen_to_canvas(video_canvas_t *canvas, int *block, int x, int y, int *cx, int *cy);
-extern int  video_canvas_iterate(canvas_func_f func, void *context);
+extern int video_canvas_iterate(canvas_func_f func, void *context);
 
 extern video_canvas_t *ActiveCanvas;
 
