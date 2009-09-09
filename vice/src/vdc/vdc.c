@@ -94,6 +94,19 @@ static void vdc_set_geometry(void)
     displayed_width = VDC_SCREEN_WIDTH;
     displayed_height = last_displayed_line - first_displayed_line + 1;
 
+    /* We handle interlace with a simple kludge - turn off
+       VDCDoubleSize and double the height of the window, most
+       of which is handled in vdc_update_geometry() below */
+    if ((vdc.regs[8] & 0x03) == 3) {
+        /* Compensate for the last-first displayed height calculating above */        
+        displayed_height++;
+        /* Disable VDCDoubleSize to compensate for the twice as high window */
+        resources_set_int("VDCDoubleSize", 0);
+        /* Double the height of the virtual window too,
+           so we have twice as much to draw in */
+        screen_height = screen_height * 2;
+    }
+
 /*
 printf("SH: %03i SW: %03i\n", screen_height, screen_width);
 printf("YP: %03i XP: %03i\n", screen_ypix, screen_xpix);
@@ -103,8 +116,8 @@ printf("SA: %03i SO: %03i\n", vdc_25row_start_line, vdc_25row_stop_line);
 printf("LD: %03i FD: %03i\n", last_displayed_line, first_displayed_line);
 */
 
-    raster->display_ystart = vdc_25row_start_line;
-    raster->display_ystop = vdc_25row_stop_line;
+    raster->display_ystart = vdc_25row_start_line;  /* these are actually set each frame */
+    raster->display_ystop = vdc_25row_stop_line;    /* in the raster alarm handler */
     raster->display_xstart = vdc_80col_start_pixel;
     raster->display_xstop = vdc_80col_stop_pixel;
 
@@ -118,6 +131,12 @@ printf("LD: %03i FD: %03i\n", last_displayed_line, first_displayed_line);
                         first_displayed_line,   /* 1st line of virtual screen physically visible */
                         last_displayed_line,    /* last line physically visible */
                         0, 0); /* extra off screen border left / right */
+
+    /* If interlace is off, we do this after the raster_set_geometry call to avoid a
+       visible artifact with the window going 2x high for a fraction of a second. */
+    if ((vdc.regs[8] & 0x03) != 3) {
+        resources_set_int("VDCDoubleSize", 1);
+    }
 }
 
 static void vdc_invalidate_cache(raster_t *raster, unsigned int screen_height)
@@ -241,10 +260,18 @@ static void vdc_update_geometry(void)
 
     /* Leave this fixed so the window isn't getting constantly resized */
     vdc.screen_height = VDC_SCREEN_HEIGHT;
-
-    vdc.last_displayed_line = MIN(VDC_LAST_DISPLAYED_LINE,
-                              vdc.screen_height - 1);
-
+    vdc.first_displayed_line = VDC_FIRST_DISPLAYED_LINE;
+    vdc.last_displayed_line = VDC_LAST_DISPLAYED_LINE;
+  
+    /* Interlace handling, we need to double everything as we have twice the Y resolution */
+    if ((vdc.regs[8] & 0x03) == 3) {
+        /* double the height of the virtual screen */
+        vdc.screen_height *= 2;
+        /* all lines are now twice as high as they were before */
+        vdc.first_displayed_line *= 2;
+        vdc.last_displayed_line *=2;
+    }
+    
     /* TODO get rid of this if/when it we don't need it anymore..  */
 /*     printf("BH:%1i 0:%02X 1:%02X 2:%02X 3:%02X 4:%02X 5:%02X 6:%02X 7:%02X 9:%02X 22:%02X 24:%02X 25:%02X 26:%02X\n",
         vdc.border_height, vdc.regs[0], vdc.regs[1], vdc.regs[2], vdc.regs[3], vdc.regs[4], (vdc.regs[5] & 0x1f), vdc.regs[6], vdc.regs[7], vdc.regs[9] & 0x1f, vdc.regs[22], vdc.regs[24], vdc.regs[25], vdc.regs[26] );
