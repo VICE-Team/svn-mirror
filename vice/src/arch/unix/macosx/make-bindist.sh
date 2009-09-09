@@ -34,6 +34,8 @@ elif [ x"$BIN_TYPE" = "xfat file" ]; then
   BIN_FORMAT=ub
 elif [ x"$BIN_TYPE" = "xexecutable i386" ]; then
   BIN_FORMAT=i386
+elif [ x"$BIN_TYPE" = "x64-bit executable" ]; then
+  BIN_FORMAT=x86_64
 elif [ x"$BIN_TYPE" = "xexecutable ppc" ]; then
   BIN_FORMAT=ppc
 else

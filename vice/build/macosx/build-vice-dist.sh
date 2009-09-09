@@ -26,7 +26,7 @@ fi
 
 # ----- check args -----
 if [ "x$1" = "x" ]; then
-  echo "Usage: $0 <arch> <ui-type> <dist-type> <extlib-dir> <build-dir> [sdk-ver]"
+  echo "Usage: $0 <arch> <ui-type> <dist-type> <extlib-dir> <build-dir> [sdk-ver] [gcc-version]"
   echo "   arch        Build architecture       ub,i386,ppc"
   echo "   ui-type     User Interface Type      x11,gtk,cocoa"
   echo "   dist-type   Type of Distribution     dmg,dir"
@@ -34,6 +34,7 @@ if [ "x$1" = "x" ]; then
   echo "   build-dir   Where VICE is built"
   echo "   sdk-ver     Select SDK version       10.5"
   echo "   debug       Build debug version      0"
+  echo "   gcc-version Select gcc version       4.0"
   exit 1
 fi
 ARCH="$1"
@@ -69,6 +70,10 @@ DEBUG="$7"
 if [ "x$DEBUG" = "x" ]; then
   DEBUG=1
 fi
+GCC_VERSION="$8"
+if [ "x$GCC_VERSION" = "x" ]; then
+  GCC_VERSION=4.0
+fi
 echo "  architecture: $ARCH"
 echo "  ui type:      $UI_TYPE"
 echo "  dist type:    $DIST_TYPE"
@@ -76,6 +81,7 @@ echo "  ext lib dir:  $EXTLIB_DIR"
 echo "  build dir:    $BUILD_DIR"
 echo "  sdk version:  $SDK_VERSION"
 echo "  debug:        $DEBUG"
+echo "  gcc version:  $GCC_VERSION"
 
 # ----- determine number of CPUs -----
 NUM_CPUS=`hostinfo | grep 'processors are logically available' | awk '{print $1}'`
@@ -241,9 +247,9 @@ build_vice () {
     CFLAGS="$COMMON_CFLAGS" \
     OBJCFLAGS="$COMMON_CFLAGS" \
     LDFLAGS="-L$EXTLIB_DIR/$BUILD_ARCH/lib $LDFLAGS_EXTRA" \
-    CC="gcc -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
-    CXX="g++ -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
-    LD="gcc -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
+    CC="gcc-$GCC_VERSION -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
+    CXX="g++-$GCC_VERSION -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
+    LD="gcc-$GCC_VERSION -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
     $VICE_SRC/configure --host=$BUILD_ARCH2-apple-darwin $CONFIGURE_FLAGS \
       --x-includes=$BUILD_SDK/usr/X11R6/include --x-libraries=$BUILD_SDK/usr/X11R6/lib
   set +x

@@ -15,7 +15,7 @@ DEL_TARGET=0
 EXTLIB="extlib"
 BUILD_DIR=""
 ARCH="ub"
-UI="sdl x11 gtk cocoa+10.4 cocoa+10.5"
+UI="sdl x11 gtk cocoa cocoa+10.5"
 DEBUG=0
 DIR_DIST=0
 
