@@ -21,11 +21,11 @@
 #define VICE__SIDDEFS_FP_H__
 
 #ifndef M_PI
-#define M_PI    3.14159265358979323846
+#define M_PI 3.14159265358979323846
 #endif
 
 #ifndef M_LN2
-#define M_LN2   0.69314718055994530942
+#define M_LN2 0.69314718055994530942
 #endif
 
 typedef unsigned char reg4;
@@ -37,9 +37,9 @@ typedef unsigned int reg32;
 
 typedef int cycle_count;
 
-enum chip_model { MOS6581FP=1, MOS8580FP };
+enum chip_model {MOS6581FP=1, MOS8580FP};
 
-enum sampling_method { SAMPLE_INTERPOLATE=1, SAMPLE_RESAMPLE_INTERPOLATE };
+enum sampling_method {SAMPLE_INTERPOLATE=1, SAMPLE_RESAMPLE_INTERPOLATE};
 
 extern "C"
 {

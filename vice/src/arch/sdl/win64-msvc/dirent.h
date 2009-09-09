@@ -39,4 +39,3 @@ struct dirent *readdir(DIR *dir);
 extern void closedir(DIR *dir);
 
 #endif
-
