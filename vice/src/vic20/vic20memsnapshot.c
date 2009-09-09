@@ -145,9 +145,6 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
 
     SMR_BA(m, mem_ram, 0x0400);
     SMR_BA(m, mem_ram + 0x1000, 0x1000);
-    /* setup wraparound copy of chargen */
-    memcpy(vic20memrom_chargen_rom, mem_ram + 0x1c00, 0x400);
-
     SMR_BA(m, mem_ram + 0x9400, 0x0800);
 
     resources_set_int("RAMBlock0", (config & 1) ? 1 : 0 );
@@ -237,7 +234,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     /* save basic */
     SMW_BA(m, vic20memrom_basic_rom, 0x2000);
 
-    SMW_BA(m, vic20memrom_chargen_rom + 0x400, 0x1000);
+    SMW_BA(m, vic20memrom_chargen_rom, 0x1000);
 
     /* enable traps again when necessary */
     resources_set_int("VirtualDevices", trapfl);
@@ -276,7 +273,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     /* read basic */
     SMR_BA(m, vic20memrom_basic_rom, 0x2000);
 
-    SMR_BA(m, vic20memrom_chargen_rom + 0x400, 0x1000);
+    SMR_BA(m, vic20memrom_chargen_rom, 0x1000);
 
     vic20rom_kernal_checksum();
     vic20rom_basic_checksum();
