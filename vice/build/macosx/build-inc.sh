@@ -153,10 +153,11 @@ make_dirs () {
 
 set_compiler_env () {
   # setup SDK paths
-  local PPC_SDK=/Developer/SDKs/MacOSX10.3.9.sdk
+  local PPC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
   local I386_SDK=/Developer/SDKs/MacOSX10.4u.sdk
-  local PPC_SDK_VERSION=10.3
+  local PPC_SDK_VERSION=10.4
   local I386_SDK_VERSION=10.4
+  GCC_VERSION=4.0
   
   # choose SDK
   if [ "$ARCH" = "ppc" ]; then
@@ -183,7 +184,7 @@ set_compiler_env () {
   fi
   
   export COMPILE_TAG="-arch $ARCH -isysroot $SDK -mmacosx-version-min=$SDK_VERSION"
-  export CC="gcc $COMPILE_TAG"
-  export CXX="g++ $COMPILE_TAG"
-  export LD="gcc $COMPILE_TAG"
+  export CC="gcc-$GCC_VERSION $COMPILE_TAG"
+  export CXX="g++-$GCC_VERSION $COMPILE_TAG"
+  export LD="gcc-$GCC_VERSION $COMPILE_TAG"
 }

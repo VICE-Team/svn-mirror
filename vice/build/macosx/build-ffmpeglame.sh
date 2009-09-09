@@ -29,6 +29,7 @@ configure_make_install "" ffmpeg-svn lib/libavcodec.dylib "install-libs install-
                        "svn checkout svn://svn.mplayerhq.hu/ffmpeg/trunk ffmpeg-svn" \
                        "--disable-ffmpeg --disable-ffserver --disable-ffplay \
                         --disable-static --enable-shared --enable-libmp3lame \
+                        --cc=gcc-$GCC_VERSION \
                         \"--extra-cflags=$CPPFLAGS $COMPILE_TAG\" \"--extra-ldflags=$LDFLAGS $COMPILE_TAG\" \
                         --arch=$ARCH --disable-altivec --disable-mmx"
 

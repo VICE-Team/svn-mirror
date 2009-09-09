@@ -11,8 +11,6 @@
 # get build tools
 SCRIPT_DIR="`dirname \"$0\"`"
 
-# readline only for ppc
-$SHELL "$SCRIPT_DIR/build-readline.sh" "$1" ppc
 # hidutils
 $SHELL "$SCRIPT_DIR/build-hidutils.sh" "$1" ppc
 $SHELL "$SCRIPT_DIR/build-hidutils.sh" "$1" i386
