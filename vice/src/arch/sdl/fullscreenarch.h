@@ -57,4 +57,3 @@ extern void fullscreen_shutdown_alloc_hooks(struct video_canvas_s *canvas);
 #define FULLSCREEN_MODE_CUSTOM 1
 
 #endif
-

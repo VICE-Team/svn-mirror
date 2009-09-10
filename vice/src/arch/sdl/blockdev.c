@@ -32,29 +32,28 @@
 #include <SDL/SDL.h>
 
 #include "blockdev.h"
-#include "log.h"
 #include "types.h"
 
-/*static log_t blockdev_log = LOG_DEFAULT;*/
-
 static SDL_RWops* device = NULL;
-
 
 int blockdev_open(const char *name, unsigned int *read_only)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr, "%s\n", __func__);
 #endif
+
     if (*read_only == 0) {
         device = SDL_RWFromFile(name, "rw");
 
-        if (device == NULL)
+        if (device == NULL) {
             return -1;
+        }
     } else {
         device = SDL_RWFromFile(name, "r");
 
-        if (device == NULL)
+        if (device == NULL) {
             return -1;
+        }
     }
 
     return 0;
@@ -63,8 +62,9 @@ fprintf(stderr,"%s\n",__func__);
 int blockdev_close(void)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr, "%s\n", __func__);
 #endif
+
     if(device && SDL_RWclose(device)) {
         return -1;
     }
@@ -80,15 +80,16 @@ int blockdev_read_sector(BYTE *buf, unsigned int track, unsigned int sector)
     int offset;
 
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr, "%s\n", __func__);
 #endif
 
     offset = ((track - 1) * 40 + sector) * 256;
 
     SDL_RWseek(device, offset, SEEK_SET);
 
-    if (SDL_RWread(device, (void *)buf, 256, 1) != 1)
+    if (SDL_RWread(device, (void *)buf, 256, 1) != 1) {
         return -1;
+    }
 
     return 0;
 }
@@ -98,15 +99,16 @@ int blockdev_write_sector(BYTE *buf, unsigned int track, unsigned int sector)
     int offset;
 
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr, "%s\n", __func__);
 #endif
 
     offset = ((track - 1) * 40 + sector) * 256;
 
     SDL_RWseek(device, offset, SEEK_SET);
 
-    if (SDL_RWwrite(device, (void *)buf, 256, 1) != 1)
+    if (SDL_RWwrite(device, (void *)buf, 256, 1) != 1) {
         return -1;
+    }
 
     return 0;
 }

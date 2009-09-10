@@ -60,11 +60,10 @@ extern void sdljoy_unset(SDL_Event e);
 
 extern void sdljoy_swap_ports(void);
 
-#define JOYDEV_NONE         0
-#define JOYDEV_NUMPAD       1
-#define JOYDEV_KEYSET1      2
-#define JOYDEV_KEYSET2      3
-#define JOYDEV_JOYSTICK     4
+#define JOYDEV_NONE     0
+#define JOYDEV_NUMPAD   1
+#define JOYDEV_KEYSET1  2
+#define JOYDEV_KEYSET2  3
+#define JOYDEV_JOYSTICK 4
 
 #endif
-

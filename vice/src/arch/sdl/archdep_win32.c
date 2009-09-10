@@ -42,27 +42,35 @@
 #ifdef HAVE_DIR_H
 #include <dir.h>
 #endif
+
 #ifdef HAVE_DIRECT_H
 #include <direct.h>
 #endif
+
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
 #endif
+
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif
+
 #ifdef HAVE_IO_H
 #include <io.h>
 #endif
+
 #ifdef HAVE_PROCESS_H
 #include <process.h>
 #endif
+
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif
+
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
+
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -73,11 +81,9 @@
 #include "machine.h"
 #include "util.h"
 
-
-#define STDIN_FILENO        0
-#define STDOUT_FILENO       1
-#define STDERR_FILENO       2
-
+#define STDIN_FILENO  0
+#define STDOUT_FILENO 1
+#define STDERR_FILENO 2
 
 static char *orig_workdir;
 static char *argv0;
@@ -98,8 +104,9 @@ static char *system_mbstowcs_alloc(const char *mbs)
 {
     char *wcs;
 
-    if (mbs == NULL)
+    if (mbs == NULL) {
         return NULL;
+    }
 
     wcs = lib_malloc((strlen(mbs) + 1) * sizeof(char));
     system_mbstowcs(wcs, mbs, strlen(mbs) + 1);
@@ -116,8 +123,9 @@ static char *system_wcstombs_alloc(const char *wcs)
 {
     char *mbs;
 
-    if (wcs == NULL)
+    if (wcs == NULL) {
         return NULL;
+    }
 
     mbs = lib_malloc((strlen(wcs) + 1) * sizeof(char));
     system_wcstombs(mbs, wcs, strlen(wcs) + 1);
@@ -168,14 +176,15 @@ char *archdep_program_name(void)
         int len;
 
         s = strrchr(argv0, '\\');
-        if (s == NULL)
+        if (s == NULL) {
             s = argv0;
-        else
+        } else {
             s++;
+        }
         e = strchr(s, '.');
-        if (e == NULL)
+        if (e == NULL) {
             e = argv0 + strlen(argv0);
-
+        }
         len = e - s + 1;
         program_name = lib_malloc(len);
         memcpy(program_name, s, len - 1);
@@ -227,8 +236,7 @@ const char *archdep_boot_path(void)
 
     checkpath=boot_path+strlen(boot_path);
 
-    while (*checkpath != '\\')
-    {
+    while (*checkpath != '\\') {
         checkpath--;
     }
     *checkpath = 0;
@@ -243,12 +251,9 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     if (default_path == NULL) {
         const char *boot_path = archdep_boot_path();
 
-        default_path = util_concat(boot_path, "\\", emu_id,
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "\\DRIVES",
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "\\PRINTER",
-                                   NULL);
+        default_path = util_concat(boot_path, "\\", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "\\DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "\\PRINTER", NULL);
     }
 
     return default_path;
@@ -282,22 +287,20 @@ char *archdep_default_fliplist_file_name(void)
 
 char *archdep_default_autostart_disk_image_file_name(void)
 {
-  const char *home;
+    const char *home;
 
-  home = archdep_boot_path();
-  return util_concat(home, "\\autostart-", machine_name, ".d64", NULL);
+    home = archdep_boot_path();
+    return util_concat(home, "\\autostart-", machine_name, ".d64", NULL);
 }
 
 char *archdep_default_hotkey_file_name(void)
 {
-    return util_concat(archdep_boot_path(), "\\sdl-hotkey-", 
-		       machine_name, ".vkm", NULL);
+    return util_concat(archdep_boot_path(), "\\sdl-hotkey-", machine_name, ".vkm", NULL);
 }
 
 char *archdep_default_joymap_file_name(void)
 {
-    return util_concat(archdep_boot_path(), "\\sdl-joymap-", 
-		       machine_name, ".vjm", NULL);
+    return util_concat(archdep_boot_path(), "\\sdl-joymap-", machine_name, ".vjm", NULL);
 }
 
 FILE *archdep_open_default_log_file(void)
@@ -325,8 +328,8 @@ int archdep_num_text_columns(void)
 int archdep_default_logger(const char *level_string, const char *txt)
 {
     TCHAR *st_out;
-
     char *out = lib_msprintf("*** %s %s\n", level_string, txt);
+
     st_out = system_mbstowcs_alloc(out);
     OutputDebugString(st_out);
     system_mbstowcs_free(st_out);
@@ -336,18 +339,15 @@ int archdep_default_logger(const char *level_string, const char *txt)
 
 int archdep_path_is_relative(const char *path)
 {
-    if (path == NULL)
+    if (path == NULL) {
         return 0;
+    }
 
     /* `c:\foo', `c:/foo', `c:foo', `\foo' and `/foo' are absolute.  */
 
-    return !((isalpha(path[0]) && path[1] == ':')
-            || path[0] == '/' || path[0] == '\\');
+    return !((isalpha(path[0]) && path[1] == ':') || path[0] == '/' || path[0] == '\\');
 }
 
-int archdep_spawn(const char *name, char **argv,
-                  char **pstdout_redir, const char *stderr_redir)
-{
 #ifndef WATCOM_COMPILE
 #ifndef _S_IREAD
 #define _S_IREAD S_IREAD
@@ -356,6 +356,8 @@ int archdep_spawn(const char *name, char **argv,
 #define _S_IWRITE S_IWRITE
 #endif
 
+int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const char *stderr_redir)
+{
     int new_stdout, new_stderr;
     int old_stdout_mode, old_stderr_mode;
     int old_stdout, old_stderr;
@@ -363,8 +365,9 @@ int archdep_spawn(const char *name, char **argv,
     char *stdout_redir = NULL;
 
     if (pstdout_redir != NULL) {
-        if (*pstdout_redir == NULL)
+        if (*pstdout_redir == NULL) {
             *pstdout_redir = archdep_tmpnam();
+        }
         stdout_redir = *pstdout_redir;
     }
 
@@ -378,11 +381,9 @@ int archdep_spawn(const char *name, char **argv,
        descriptors.  */
     if (stdout_redir != NULL) {
         old_stdout = _dup(STDOUT_FILENO);
-        new_stdout = _open(stdout_redir, _O_WRONLY | _O_TRUNC | _O_CREAT,
-                           _S_IWRITE | _S_IREAD);
+        new_stdout = _open(stdout_redir, _O_WRONLY | _O_TRUNC | _O_CREAT, _S_IWRITE | _S_IREAD);
         if (new_stdout == -1) {
-            log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.",
-                      stdout_redir, strerror(errno));
+            log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.", stdout_redir, strerror(errno));
             retval = -1;
             goto cleanup;
         }
@@ -390,11 +391,9 @@ int archdep_spawn(const char *name, char **argv,
     }
     if (stderr_redir != NULL) {
         old_stderr = _dup(STDERR_FILENO);
-        new_stderr = _open(stderr_redir, _O_WRONLY | _O_TRUNC | _O_CREAT,
-                           _S_IWRITE | _S_IREAD);
+        new_stderr = _open(stderr_redir, _O_WRONLY | _O_TRUNC | _O_CREAT, _S_IWRITE | _S_IREAD);
         if (new_stderr == -1) {
-            log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.",
-                      stderr_redir, strerror(errno));
+            log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.", stderr_redir, strerror(errno));
             retval = -1;
             goto cleanup;
         }
@@ -413,14 +412,18 @@ cleanup:
         _dup2(old_stderr, STDERR_FILENO);
         _close(old_stderr);
     }
-    if (old_stdout_mode >= 0)
+    if (old_stdout_mode >= 0) {
         _setmode(STDOUT_FILENO, old_stdout_mode);
-    if (old_stderr_mode >= 0)
+    }
+    if (old_stderr_mode >= 0) {
         _setmode(STDERR_FILENO, old_stderr_mode);
-    if (new_stdout >= 0)
+    }
+    if (new_stdout >= 0) {
         _close(new_stdout);
-    if (new_stderr >= 0)
+    }
+    if (new_stderr >= 0) {
         _close(new_stderr);
+    }
 
     return retval;
 #else
@@ -449,19 +452,19 @@ void archdep_startup_log_error(const char *format, ...)
     lib_free(tmp);
 }
 
-
 char *archdep_quote_parameter(const char *name)
 {
     char *a;
+
     a = util_concat("\"", name, "\"", NULL);
     return a;
 }
-
 
 char *archdep_filename_parameter(const char *name)
 {
     char *exp;
     char *a;
+
     archdep_expand_path(&exp, name);
     a = archdep_quote_parameter(exp);
     lib_free(exp);
@@ -470,12 +473,13 @@ char *archdep_filename_parameter(const char *name)
 
 char *archdep_tmpnam(void)
 {
-    if (getenv("temp"))
+    if (getenv("temp")) {
         return util_concat(getenv("temp"), tmpnam(NULL), NULL);
-    else if (getenv("tmp"))
+    } else if (getenv("tmp")) {
         return util_concat(getenv("tmp"), tmpnam(NULL), NULL);
-    else
+    } else {
         return lib_stralloc(tmpnam(NULL));
+    }
 }
 
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
@@ -483,17 +487,19 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
     char *tmp;
     FILE *fd;
 
-    if (getenv("temp"))
+    if (getenv("temp")) {
         tmp = util_concat(getenv("temp"), tmpnam(NULL), NULL);
-    else if (getenv("tmp"))
+    } else if (getenv("tmp")) {
         tmp = util_concat(getenv("tmp"), tmpnam(NULL), NULL);
-    else
+    } else {
         tmp = lib_stralloc(tmpnam(NULL));
+    }
 
     fd = fopen(tmp, mode);
 
-    if (fd == NULL)
+    if (fd == NULL) {
         return NULL;
+    }
 
     *filename = tmp;
 
@@ -504,10 +510,9 @@ int archdep_file_is_gzip(const char *name)
 {
     size_t l = strlen(name);
 
-    if ((l < 4 || strcasecmp(name + l - 3, ".gz"))
-        && (l < 3 || strcasecmp(name + l - 2, ".z"))
-        && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.'))
+    if ((l < 4 || strcasecmp(name + l - 3, ".gz")) && (l < 3 || strcasecmp(name + l - 2, ".z")) && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.')) {
         return 0;
+    }
     return 1;
 }
 
@@ -525,8 +530,9 @@ int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
 {
     struct stat statbuf;
 
-    if (stat(file_name, &statbuf) < 0)
+    if (stat(file_name, &statbuf) < 0) {
         return -1;
+    }
 
     *len = statbuf.st_size;
     *isdir = S_ISDIR(statbuf.st_mode);
@@ -541,8 +547,9 @@ int archdep_file_is_blockdev(const char *name)
 
 int archdep_file_is_chardev(const char *name)
 {
-    if (strcmp(name, "/dev/cbm") == 0)
+    if (strcmp(name, "/dev/cbm") == 0) {
         return 1;
+    }
 
     return 0;
 }
@@ -578,8 +585,9 @@ DIR *opendir(const char *path)
     st_filter = system_mbstowcs_alloc(dir->filter);
     dir->handle = FindFirstFile(st_filter, &dir->find_data);
     system_mbstowcs_free(st_filter);
-    if (dir->handle == INVALID_HANDLE_VALUE)
+    if (dir->handle == INVALID_HANDLE_VALUE) {
         return NULL;
+    }
 
     dir->first_passed = 0;
     return dir;
@@ -589,9 +597,11 @@ struct dirent *readdir(DIR *dir)
 {
     static struct dirent ret;
 
-    if (dir->first_passed)
-        if (!FindNextFile(dir->handle, &dir->find_data))
+    if (dir->first_passed) {
+        if (!FindNextFile(dir->handle, &dir->find_data)) {
             return NULL;
+        }
+    }
 
     dir->first_passed = 1;
     ret.d_name = dir->find_data.cFileName;

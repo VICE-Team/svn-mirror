@@ -58,7 +58,7 @@ void sdl_lightpen_update(void)
     }
 
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s pre : x = %i, y = %i, buttons = %02x, on_screen = %i\n",__func__, x, y, buttons, on_screen);
+    fprintf(stderr, "%s pre : x = %i, y = %i, buttons = %02x, on_screen = %i\n", __func__, x, y, buttons, on_screen);
 #endif
 
     if (on_screen) {
@@ -78,7 +78,7 @@ fprintf(stderr,"%s pre : x = %i, y = %i, buttons = %02x, on_screen = %i\n",__fun
     }
 
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s post: x = %i, y = %i\n",__func__, x, y);
+    fprintf(stderr, "%s post: x = %i, y = %i\n", __func__, x, y);
 #endif
 
     screen_num = sdl_active_canvas_num;

@@ -61,7 +61,7 @@ int sdl_ui_menukeys[MENU_ACTION_NUM];
 
 /* UI hotkeys: index is the key(combo), value is a pointer to the menu item.
    4 is the number of the supported modifiers: shift, alt, control, meta. */
-#define SDLKBD_UI_HOTKEYS_MAX (SDLK_LAST * (1<<4))
+#define SDLKBD_UI_HOTKEYS_MAX (SDLK_LAST * (1 << 4))
 ui_menu_entry_t *sdlkbd_ui_hotkeys[SDLKBD_UI_HOTKEYS_MAX];
 
 /* ------------------------------------------------------------------------ */
@@ -71,19 +71,20 @@ ui_menu_entry_t *sdlkbd_ui_hotkeys[SDLKBD_UI_HOTKEYS_MAX];
 static int hotkey_file_set(const char *val, void *param)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: %s\n",__func__,val);
+    fprintf(stderr,"%s: %s\n",__func__,val);
 #endif
 
-    if (util_string_set(&hotkey_file, val))
+    if (util_string_set(&hotkey_file, val)) {
         return 0;
+    }
 
     return sdlkbd_hotkeys_load(hotkey_file);
 }
 
 static resource_string_t resources_string[] = {
-    { "HotkeyFile", NULL, RES_EVENT_NO, NULL,
-      &hotkey_file, hotkey_file_set, (void *)0 },
-    { NULL },
+    {"HotkeyFile", NULL, RES_EVENT_NO, NULL,
+     &hotkey_file, hotkey_file_set, (void *)0},
+    {NULL},
 };
 
 int sdlkbd_init_resources(void)
@@ -255,8 +256,9 @@ int sdlkbd_hotkeys_dump(const char *filename)
 
     fp = fopen(filename, MODE_WRITE_TEXT);
 
-    if (fp == NULL)
+    if (fp == NULL) {
         return -1;
+    }
 
     fprintf(fp, "# VICE hotkey mapping file\n"
             "#\n"
@@ -295,7 +297,7 @@ ui_menu_action_t sdlkbd_press(SDLKey key, SDLMod mod)
     ui_menu_entry_t *hotkey_action = NULL;
 
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: %i (%s),%i\n",__func__,key,SDL_GetKeyName(key),mod);
+    fprintf(stderr, "%s: %i (%s),%i\n",__func__,key,SDL_GetKeyName(key),mod);
 #endif
     if (sdl_menu_state || (sdl_vkbd_state & SDL_VKBD_ACTIVE)) {
         if (key != SDLK_UNKNOWN) {
@@ -331,7 +333,7 @@ ui_menu_action_t sdlkbd_release(SDLKey key, SDLMod mod)
     ui_menu_action_t i, retval = MENU_ACTION_NONE_RELEASE;
 
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: %i (%s),%i\n",__func__,key,SDL_GetKeyName(key),mod);
+    fprintf(stderr, "%s: %i (%s),%i\n", __func__, key, SDL_GetKeyName(key), mod);
 #endif
     if (sdl_vkbd_state & SDL_VKBD_ACTIVE) {
         if (key != SDLK_UNKNOWN) {
@@ -354,7 +356,7 @@ fprintf(stderr,"%s: %i (%s),%i\n",__func__,key,SDL_GetKeyName(key),mod);
 void kbd_arch_init(void)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: hotkey table size %u (%lu bytes)\n",__func__,SDLKBD_UI_HOTKEYS_MAX, SDLKBD_UI_HOTKEYS_MAX * sizeof(ui_menu_entry_t *));
+    fprintf(stderr, "%s: hotkey table size %u (%lu bytes)\n", __func__, SDLKBD_UI_HOTKEYS_MAX, SDLKBD_UI_HOTKEYS_MAX * sizeof(ui_menu_entry_t *));
 #endif
 
     sdlkbd_log = log_open("SDLKeyboard");
@@ -366,7 +368,7 @@ fprintf(stderr,"%s: hotkey table size %u (%lu bytes)\n",__func__,SDLKBD_UI_HOTKE
 void kbd_arch_shutdown(void)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr,"%s\n",__func__);
 #endif
 
     lib_free(hotkey_file);
@@ -400,4 +402,3 @@ void kbd_initialize_numpad_joykeys(int* joykeys)
     joykeys[7] = SDLK_KP8;
     joykeys[8] = SDLK_KP9;
 }
-

@@ -82,4 +82,3 @@ extern void kbd_focus_change(void);
 extern int sdl_ui_menukeys[];
 
 #endif
-

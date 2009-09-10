@@ -41,35 +41,35 @@ UI_MENU_DEFINE_RADIO(C64_256Kbase)
 UI_MENU_DEFINE_FILE_STRING(C64_256Kfilename)
 
 const ui_menu_entry_t c64_256k_menu[] = {
-    { "Enable C64 256K",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_C64_256K_callback,
-      NULL },
+    {"Enable C64 256K",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_C64_256K_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Base address"),
-    { "$DE00",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_C64_256Kbase_callback,
-      (ui_callback_data_t)0xde00 },
-    { "$DE80",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_C64_256Kbase_callback,
-      (ui_callback_data_t)0xde80 },
-    { "$DF00",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_C64_256Kbase_callback,
-      (ui_callback_data_t)0xdf00 },
-    { "$DF80",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_C64_256Kbase_callback,
-      (ui_callback_data_t)0xdf80 },
+    {"$DE00",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_C64_256Kbase_callback,
+     (ui_callback_data_t)0xde00},
+    {"$DE80",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_C64_256Kbase_callback,
+     (ui_callback_data_t)0xde80},
+    {"$DF00",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_C64_256Kbase_callback,
+     (ui_callback_data_t)0xdf00},
+    {"$DF80",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_C64_256Kbase_callback,
+     (ui_callback_data_t)0xdf80},
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("RAM image"),
-    { "C64 256K image file",
-      MENU_ENTRY_DIALOG,
-      file_string_C64_256Kfilename_callback,
-      (ui_callback_data_t)"Select C64 256K image" },
-    { NULL }
+    {"C64 256K image file",
+     MENU_ENTRY_DIALOG,
+     file_string_C64_256Kfilename_callback,
+     (ui_callback_data_t)"Select C64 256K image"},
+    {NULL}
 };
 
 
@@ -79,17 +79,17 @@ UI_MENU_DEFINE_TOGGLE(DQBB)
 UI_MENU_DEFINE_FILE_STRING(DQBBfilename)
 
 const ui_menu_entry_t dqbb_menu[] = {
-    { "Enable DQBB",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_DQBB_callback,
-      NULL },
+    {"Enable DQBB",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_DQBB_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("RAM image"),
-    { "DQBB image file",
-      MENU_ENTRY_DIALOG,
-      file_string_DQBBfilename_callback,
-      (ui_callback_data_t)"Select DQBB image" },
-    { NULL }
+    {"DQBB image file",
+     MENU_ENTRY_DIALOG,
+     file_string_DQBBfilename_callback,
+     (ui_callback_data_t)"Select DQBB image"},
+    {NULL}
 };
 
 
@@ -99,15 +99,15 @@ UI_MENU_DEFINE_TOGGLE(Isepic)
 UI_MENU_DEFINE_TOGGLE(IsepicSwitch)
 
 const ui_menu_entry_t isepic_menu[] = {
-    { "Enable Isepic cart",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Isepic_callback,
-      NULL },
-    { "Enable Isepic switch",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IsepicSwitch_callback,
-      NULL },
-    { NULL }
+    {"Enable Isepic cart",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_Isepic_callback,
+     NULL},
+    {"Enable Isepic switch",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_IsepicSwitch_callback,
+     NULL},
+    {NULL}
 };
 
 
@@ -118,27 +118,27 @@ UI_MENU_DEFINE_RADIO(PLUS60Kbase)
 UI_MENU_DEFINE_FILE_STRING(PLUS60Kfilename)
 
 const ui_menu_entry_t plus60k_menu[] = {
-    { "Enable PLUS60K",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_PLUS60K_callback,
-      NULL },
+    {"Enable PLUS60K",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_PLUS60K_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Base address"),
-    { "$D040",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_PLUS60Kbase_callback,
-      (ui_callback_data_t)0xd040 },
-    { "$D100",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_PLUS60Kbase_callback,
-      (ui_callback_data_t)0xd100 },
+    {"$D040",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_PLUS60Kbase_callback,
+     (ui_callback_data_t)0xd040},
+    {"$D100",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_PLUS60Kbase_callback,
+     (ui_callback_data_t)0xd100},
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("RAM image"),
-    { "PLUS60K image file",
-      MENU_ENTRY_DIALOG,
-      file_string_PLUS60Kfilename_callback,
-      (ui_callback_data_t)"Select PLUS60K image" },
-    { NULL }
+    {"PLUS60K image file",
+     MENU_ENTRY_DIALOG,
+     file_string_PLUS60Kfilename_callback,
+     (ui_callback_data_t)"Select PLUS60K image"},
+    {NULL}
 };
 
 
@@ -148,15 +148,15 @@ UI_MENU_DEFINE_TOGGLE(PLUS256K)
 UI_MENU_DEFINE_FILE_STRING(PLUS256Kfilename)
 
 const ui_menu_entry_t plus256k_menu[] = {
-    { "Enable PLUS256K",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_PLUS256K_callback,
-      NULL },
+    {"Enable PLUS256K",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_PLUS256K_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("RAM image"),
-    { "PLUS256K image file",
-      MENU_ENTRY_DIALOG,
-      file_string_PLUS256Kfilename_callback,
-      (ui_callback_data_t)"Select PLUS256K image" },
-    { NULL }
+    {"PLUS256K image file",
+     MENU_ENTRY_DIALOG,
+     file_string_PLUS256Kfilename_callback,
+     (ui_callback_data_t)"Select PLUS256K image"},
+    {NULL}
 };
