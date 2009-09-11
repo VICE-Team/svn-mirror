@@ -238,9 +238,15 @@ if [ $ONLY_BIN = 0 ]; then
     echo "ERROR: creating dir"
     exit 1
   fi
-  (cd "$DEST_DIR" && $SRC_DIR/configure && make dist) >/dev/null 2>&1
+  LOG="$BUILD_DIR/build-tarball.log"
+  (cd "$DEST_DIR" && $SRC_DIR/configure && make dist) >"$LOG" 2>&1
   # move generated files to top level
   FILES="$(ls $DEST_DIR/*.tar.gz 2>/dev/null)"
+  if [ "x$FILES" = "x" ]; then
+    echo "FAILED!"
+    tail -10 $LOG
+    exit 1
+  fi
   echo "generated: $FILES"
   du -sh "$FILES"
   mv "$FILES" "$BUILD_DIR"

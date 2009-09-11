@@ -8,7 +8,6 @@ EXTRA_DIST = \
 	macosx/build-hidutils.sh \
 	macosx/build-inc.sh \
 	macosx/build-pcaplibnet.sh \
-	macosx/build-readline.sh \
 	macosx/build-vice-dist.sh \
 	macosx/build-ffmpeglame.sh \
 	macosx/build-vice-release.sh \
