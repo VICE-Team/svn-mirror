@@ -68,6 +68,7 @@ AC_ARG_WITH(zlib, [  --without-zlib          do not use the zlib support])
 AC_ARG_ENABLE(fullscreen, [  --enable-fullscreen     enable XFree86 fullscreen detection], [ echo checking for XFree86 fullscreen requested...], [enable_fullscreen="no"; echo no explicit checking for XFree86 fullscreen requested, disabling fullscreen...])
 AC_ARG_ENABLE(gnomeui,[  --enable-gnomeui        enables GNOME UI support])
 AC_ARG_ENABLE(sdlui,[  --enable-sdlui          enables SDL UI support])
+AC_ARG_ENABLE(gp2x,[  --enable-gp2x           enables GP2X support])
 AC_ARG_ENABLE(nls,[  --disable-nls           disables national language support])
 AC_ARG_ENABLE(realdevice,[  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
 AC_ARG_ENABLE(ffmpeg,[  --disable-ffmpeg        disable FFmpeg library support])
@@ -97,6 +98,16 @@ fi
 dnl cocoa ui / sdlui sanity check
 if test x"$with_cocoa" = "xyes" -a x"$enable_sdlui" = "xyes"; then
   AC_MSG_ERROR([you cannot use --with-cocoa and --enable-sdlui together.])
+fi
+
+dnl gp2x / gnomeui sanity check
+if test x"$enable_gp2x" = "xyes" -a x"$enable_gnomeui" = "xyes"; then
+  AC_MSG_ERROR([you cannot use --enable-gp2x and --enable-gnomeui together.])
+fi
+
+dnl gp2x / cocoa ui sanity check
+if test x"$enable_gp2x" = "xyes" -a x"$with_cocoa" = "xyes"; then
+  AC_MSG_ERROR([you cannot use --enable-gp2x and --with-cocoa together.])
 fi
 
 if test x"$enable_memmap" = "xyes"; then
@@ -379,7 +390,7 @@ elif test x"$host_os" = "xriscos"; then
   fi
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
 
-elif test x"$host_os" = "xgp2x" -o x"$host_os" = "xlinux-gp2x" -o x"$host_vendor" = "xgp2x" -o "$host_os" = "xopen2x" -o x"$host_os" = "xlinux-open2x" -o x"$host_vendor" = "xopen2x"; then
+elif test x"$host_os" = "xgp2x" -o x"$host_os" = "xlinux-gp2x" -o x"$host_vendor" = "xgp2x" -o "$host_os" = "xopen2x" -o x"$host_os" = "xlinux-open2x" -o x"$host_vendor" = "xopen2x" -o x"$enable_gp2xui" = "xyes"; then
 
   dnl This is used by subsequent tests.
   ac_cv_prog_gcc=yes
