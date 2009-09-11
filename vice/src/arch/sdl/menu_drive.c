@@ -296,12 +296,12 @@ static UI_MENU_CALLBACK(detach_disk_callback)
     if (activated) {
         parameter = vice_ptr_to_int(param);
         if (parameter == 0) {
-           file_system_detach_disk(8);
-           file_system_detach_disk(9);
-           file_system_detach_disk(10);
-           file_system_detach_disk(11);
+            file_system_detach_disk(8);
+            file_system_detach_disk(9);
+            file_system_detach_disk(10);
+            file_system_detach_disk(11);
         } else {
-           file_system_detach_disk(parameter);
+            file_system_detach_disk(parameter);
         }
     }
     return NULL;
@@ -314,17 +314,17 @@ static UI_MENU_CALLBACK(fliplist_callback)
     if (activated) {
         switch (vice_ptr_to_int(param)) {
             case UI_FLIP_ADD:
-               fliplist_add_image(8);
-               break;
+                fliplist_add_image(8);
+                break;
             case UI_FLIP_REMOVE:
-               fliplist_remove(8, NULL);
-               break;
+                fliplist_remove(8, NULL);
+                break;
             case UI_FLIP_NEXT:
-               fliplist_attach_head(8, 1);
-               break;
+                fliplist_attach_head(8, 1);
+                break;
             case UI_FLIP_PREVIOUS:
-               fliplist_attach_head(8, 0);
-               break;
+                fliplist_attach_head(8, 0);
+                break;
             case UI_FLIP_LOAD:
                 name = sdl_ui_file_selection_dialog("Select fliplist to load", FILEREQ_MODE_CHOOSE_FILE);
                 if (name != NULL) {
@@ -350,169 +350,70 @@ static UI_MENU_CALLBACK(fliplist_callback)
     return NULL;
 }
 
-static UI_MENU_CALLBACK(drive_8_show_idle_callback)
-{
-    int type;
-
-    type = get_drive_type(8);
-
-    if (drive_check_idle_method(type)) {
-        return "->";
+#define DRIVE_SHOW_IDLE_CALLBACK(x)                         \
+    static UI_MENU_CALLBACK(drive_##x##_show_idle_callback) \
+    {                                                       \
+        int type;                                           \
+                                                            \
+        type = get_drive_type(x);                           \
+                                                            \
+        if (drive_check_idle_method(type)) {                \
+            return "->";                                    \
+        }                                                   \
+        return "(N/A)";                                     \
     }
-    return "(N/A)";
-}
 
-static UI_MENU_CALLBACK(drive_9_show_idle_callback)
-{
-    int type;
+DRIVE_SHOW_IDLE_CALLBACK(8)
+DRIVE_SHOW_IDLE_CALLBACK(9)
+DRIVE_SHOW_IDLE_CALLBACK(10)
+DRIVE_SHOW_IDLE_CALLBACK(11)
 
-    type = get_drive_type(9);
-
-    if (drive_check_idle_method(type)) {
-        return "->";
+#define DRIVE_SHOW_EXTEND_CALLBACK(x)                         \
+    static UI_MENU_CALLBACK(drive_##x##_show_extend_callback) \
+    {                                                         \
+        int type;                                             \
+                                                              \
+        type = get_drive_type(x);                             \
+                                                              \
+        if (drive_check_extend_policy(type)) {                \
+            return "->";                                      \
+        }                                                     \
+        return "(N/A)";                                       \
     }
-    return "(N/A)";
-}
 
-static UI_MENU_CALLBACK(drive_10_show_idle_callback)
-{
-    int type;
+DRIVE_SHOW_EXTEND_CALLBACK(8)
+DRIVE_SHOW_EXTEND_CALLBACK(9)
+DRIVE_SHOW_EXTEND_CALLBACK(10)
+DRIVE_SHOW_EXTEND_CALLBACK(11)
 
-    type = get_drive_type(10);
-
-    if (drive_check_idle_method(type)) {
-        return "->";
+#define DRIVE_SHOW_EXPAND_CALLBACK(x)                         \
+    static UI_MENU_CALLBACK(drive_##x##_show_expand_callback) \
+    {                                                         \
+        int type;                                             \
+                                                              \
+        type = get_drive_type(x);                             \
+                                                              \
+        if (drive_check_expansion(type)) {                    \
+            return "->";                                      \
+        }                                                     \
+        return "(N/A)";                                       \
     }
-    return "(N/A)";
-}
 
-static UI_MENU_CALLBACK(drive_11_show_idle_callback)
-{
-    int type;
+DRIVE_SHOW_EXPAND_CALLBACK(8)
+DRIVE_SHOW_EXPAND_CALLBACK(9)
+DRIVE_SHOW_EXPAND_CALLBACK(10)
+DRIVE_SHOW_EXPAND_CALLBACK(11)
 
-    type = get_drive_type(11);
-
-    if (drive_check_idle_method(type)) {
-        return "->";
+#define DRIVE_SHOW_TYPE_CALLBACK(x) \
+    static UI_MENU_CALLBACK(drive_##x##_show_type_callback) \
+    {                                                       \
+        return get_drive_type_string(x);                    \
     }
-    return "(N/A)";
-}
 
-static UI_MENU_CALLBACK(drive_8_show_extend_callback)
-{
-    int type;
-
-    type = get_drive_type(8);
-
-    if (drive_check_extend_policy(type)) {
-        return "->";
-    }
-    return "(N/A)";
-}
-
-static UI_MENU_CALLBACK(drive_9_show_extend_callback)
-{
-    int type;
-
-    type = get_drive_type(9);
-
-    if (drive_check_extend_policy(type)) {
-        return "->";
-    }
-    return "(N/A)";
-}
-
-static UI_MENU_CALLBACK(drive_10_show_extend_callback)
-{
-    int type;
-
-    type = get_drive_type(10);
-
-    if (drive_check_extend_policy(type)) {
-        return "->";
-    }
-    return "(N/A)";
-}
-
-static UI_MENU_CALLBACK(drive_11_show_extend_callback)
-{
-    int type;
-
-    type = get_drive_type(11);
-
-    if (drive_check_extend_policy(type)) {
-        return "->";
-    }
-    return "(N/A)";
-}
-
-static UI_MENU_CALLBACK(drive_8_show_expand_callback)
-{
-    int type;
-
-    type = get_drive_type(8);
-
-    if (drive_check_expansion(type)) {
-        return "->";
-    }
-    return "(N/A)";
-}
-
-static UI_MENU_CALLBACK(drive_9_show_expand_callback)
-{
-    int type;
-
-    type = get_drive_type(9);
-
-    if (drive_check_expansion(type)) {
-        return "->";
-    }
-    return "(N/A)";
-}
-
-static UI_MENU_CALLBACK(drive_10_show_expand_callback)
-{
-    int type;
-
-    type = get_drive_type(10);
-
-    if (drive_check_expansion(type)) {
-        return "->";
-    }
-    return "(N/A)";
-}
-
-static UI_MENU_CALLBACK(drive_11_show_expand_callback)
-{
-    int type;
-
-    type = get_drive_type(11);
-
-    if (drive_check_expansion(type)) {
-        return "->";
-    }
-    return "(N/A)";
-}
-
-static UI_MENU_CALLBACK(drive_8_show_type_callback)
-{
-    return get_drive_type_string(8);
-}
-
-static UI_MENU_CALLBACK(drive_9_show_type_callback)
-{
-    return get_drive_type_string(9);
-}
-
-static UI_MENU_CALLBACK(drive_10_show_type_callback)
-{
-    return get_drive_type_string(10);
-}
-
-static UI_MENU_CALLBACK(drive_11_show_type_callback)
-{
-    return get_drive_type_string(11);
-}
+DRIVE_SHOW_TYPE_CALLBACK(8)
+DRIVE_SHOW_TYPE_CALLBACK(9)
+DRIVE_SHOW_TYPE_CALLBACK(10)
+DRIVE_SHOW_TYPE_CALLBACK(11)
 
 static UI_MENU_CALLBACK(set_idle_callback)
 {
@@ -710,840 +611,270 @@ UI_MENU_CALLBACK(create_disk_image_callback)
 }
 
 static const ui_menu_entry_t create_disk_image_type_menu[] = {
-    { "D64",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_D64},
-    { "D71",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_D71},
-    { "D80",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_D80},
-    { "D81",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_D81},
-    { "D82",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_D82},
-    { "G64",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_G64},
-    { "X64",
-      MENU_ENTRY_RESOURCE_RADIO,
-      set_disk_type_callback,
-      (ui_callback_data_t)DISK_IMAGE_TYPE_X64},
-    { NULL }
+    {"D64",
+     MENU_ENTRY_RESOURCE_RADIO,
+     set_disk_type_callback,
+     (ui_callback_data_t)DISK_IMAGE_TYPE_D64},
+    {"D71",
+     MENU_ENTRY_RESOURCE_RADIO,
+     set_disk_type_callback,
+     (ui_callback_data_t)DISK_IMAGE_TYPE_D71},
+    {"D80",
+     MENU_ENTRY_RESOURCE_RADIO,
+     set_disk_type_callback,
+     (ui_callback_data_t)DISK_IMAGE_TYPE_D80},
+    {"D81",
+     MENU_ENTRY_RESOURCE_RADIO,
+     set_disk_type_callback,
+     (ui_callback_data_t)DISK_IMAGE_TYPE_D81},
+    {"D82",
+     MENU_ENTRY_RESOURCE_RADIO,
+     set_disk_type_callback,
+     (ui_callback_data_t)DISK_IMAGE_TYPE_D82},
+    {"G64",
+     MENU_ENTRY_RESOURCE_RADIO,
+     set_disk_type_callback,
+     (ui_callback_data_t)DISK_IMAGE_TYPE_G64},
+    {"X64",
+     MENU_ENTRY_RESOURCE_RADIO,
+     set_disk_type_callback,
+     (ui_callback_data_t)DISK_IMAGE_TYPE_X64},
+    {NULL}
 };
 
 static const ui_menu_entry_t create_disk_image_menu[] = {
-   { "Image type",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)create_disk_image_type_menu },
-    { "Create",
-      MENU_ENTRY_DIALOG,
-      create_disk_image_callback,
-      NULL },
-    { NULL }
+   {"Image type",
+     MENU_ENTRY_SUBMENU,
+     submenu_radio_callback,
+     (ui_callback_data_t)create_disk_image_type_menu},
+    {"Create",
+     MENU_ENTRY_DIALOG,
+     create_disk_image_callback,
+     NULL},
+    {NULL}
 };
 
-static const ui_menu_entry_t drive_8_type_menu[] = {
-    { "None",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(8 * 0x10000)},
-    { "Directory",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(ATTACH_DEVICE_FS + (8 * 0x10000))},
+#define DRIVE_TYPE_ITEM(text, data) \
+    {text,                          \
+     MENU_ENTRY_OTHER,              \
+     set_drive_type_callback,       \
+     (ui_callback_data_t)(data)},
+
 #ifdef HAVE_OPENCBM
-    { "Real drive",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(ATTACH_DEVICE_REAL + (8 * 0x10000))},
+#define DRIVE_TYPE_ITEM_OPENCBM(text, data) DRIVE_TYPE_ITEM(text, data)
+#else
+#define DRIVE_TYPE_ITEM_OPENCBM(text, data)
 #endif
+
 #ifdef HAVE_RAWDRIVE
-    { "Block device",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(ATTACH_DEVICE_RAW + (8 * 0x10000))},
+#define DRIVE_TYPE_ITEM_RAWDRIVE(text, data) DRIVE_TYPE_ITEM(text, data)
+#else
+#define DRIVE_TYPE_ITEM_RAWDRIVE(text, data)
 #endif
-    { "1541",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1541 + (8 * 0x10000))},
-    { "1541-II",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1541II + (8 * 0x10000))},
-    { "1551",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1551 + (8 * 0x10000))},
-    { "1570",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1570 + (8 * 0x10000))},
-    { "1571",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1571 + (8 * 0x10000))},
-    { "1571CR",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1571CR + (8 * 0x10000))},
-    { "1581",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1581 + (8 * 0x10000))},
-    { "2031",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_2031 + (8 * 0x10000))},
-    { "2040",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_2040 + (8 * 0x10000))},
-    { "3040",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_3040 + (8 * 0x10000))},
-    { "4040",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_4040 + (8 * 0x10000))},
-    { "1001",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1001 + (8 * 0x10000))},
-    { "8050",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_8050 + (8 * 0x10000))},
-    { "8250",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_8250 + (8 * 0x10000))},
-    { NULL }
-};
 
-static const ui_menu_entry_t drive_9_type_menu[] = {
-    { "None",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(9 * 0x10000)},
-    { "Directory",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(ATTACH_DEVICE_FS + (9 * 0x10000))},
-#ifdef HAVE_OPENCBM
-    { "Real drive",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(ATTACH_DEVICE_REAL + (9 * 0x10000))},
-#endif
-#ifdef HAVE_RAWDRIVE
-    { "Block device",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(ATTACH_DEVICE_RAW + (9 * 0x10000))},
-#endif
-    { "1541",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1541 + (9 * 0x10000))},
-    { "1541-II",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1541II + (9 * 0x10000))},
-    { "1551",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1551 + (9 * 0x10000))},
-    { "1570",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1570 + (9 * 0x10000))},
-    { "1571",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1571 + (9 * 0x10000))},
-    { "1571CR",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1571CR + (9 * 0x10000))},
-    { "1581",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1581 + (9 * 0x10000))},
-    { "2031",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_2031 + (9 * 0x10000))},
-    { "2040",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_2040 + (9 * 0x10000))},
-    { "3040",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_3040 + (9 * 0x10000))},
-    { "4040",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_4040 + (9 * 0x10000))},
-    { "1001",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1001 + (9 * 0x10000))},
-    { "8050",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_8050 + (9 * 0x10000))},
-    { "8250",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_8250 + (9 * 0x10000))},
-    { NULL }
-};
+#define DRIVE_TYPE_MENU(x)                                                          \
+    static const ui_menu_entry_t drive_##x##_type_menu[] = {                        \
+        DRIVE_TYPE_ITEM("None", x * 0x10000)                                        \
+        DRIVE_TYPE_ITEM("Directory", ATTACH_DEVICE_FS + (x * 0x10000))              \
+        DRIVE_TYPE_ITEM_OPENCBM("Real drive", ATTACH_DEVICE_REAL + (x * 0x10000))   \
+        DRIVE_TYPE_ITEM_RAWDRIVE("Block device", ATTACH_DEVICE_RAW + (x * 0x10000)) \
+        DRIVE_TYPE_ITEM("1541", DRIVE_TYPE_1541 + (x * 0x10000))                    \
+        DRIVE_TYPE_ITEM("1541-II", DRIVE_TYPE_1541II + (x * 0x10000))               \
+        DRIVE_TYPE_ITEM("1551", DRIVE_TYPE_1551 + (x * 0x10000))                    \
+        DRIVE_TYPE_ITEM("1570", DRIVE_TYPE_1570 + (x * 0x10000))                    \
+        DRIVE_TYPE_ITEM("1571", DRIVE_TYPE_1571 + (x * 0x10000))                    \
+        DRIVE_TYPE_ITEM("1571CR", DRIVE_TYPE_1571CR + (x * 0x10000))                \
+        DRIVE_TYPE_ITEM("1581", DRIVE_TYPE_1581 + (x * 0x10000))                    \
+        DRIVE_TYPE_ITEM("2031", DRIVE_TYPE_2031 + (x * 0x10000))                    \
+        DRIVE_TYPE_ITEM("2040", DRIVE_TYPE_2040 + (x * 0x10000))                    \
+        DRIVE_TYPE_ITEM("3040", DRIVE_TYPE_3040 + (x * 0x10000))                    \
+        DRIVE_TYPE_ITEM("4040", DRIVE_TYPE_4040 + (x * 0x10000))                    \
+        DRIVE_TYPE_ITEM("1001", DRIVE_TYPE_1001 + (x * 0x10000))                    \
+        DRIVE_TYPE_ITEM("8050", DRIVE_TYPE_8050 + (x * 0x10000))                    \
+        DRIVE_TYPE_ITEM("8250", DRIVE_TYPE_8250 + (x * 0x10000))                    \
+        {NULL}                                                                      \
+    };
 
-static const ui_menu_entry_t drive_10_type_menu[] = {
-    { "None",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(10 * 0x10000)},
-    { "Directory",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(ATTACH_DEVICE_FS + (10 * 0x10000))},
-#ifdef HAVE_OPENCBM
-    { "Real drive",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(ATTACH_DEVICE_REAL + (10 * 0x10000))},
-#endif
-#ifdef HAVE_RAWDRIVE
-    { "Block device",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(ATTACH_DEVICE_RAW + (10 * 0x10000))},
-#endif
-    { "1541",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1541 + (10 * 0x10000))},
-    { "1541-II",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1541II + (10 * 0x10000))},
-    { "1551",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1551 + (10 * 0x10000))},
-    { "1570",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1570 + (10 * 0x10000))},
-    { "1571",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1571 + (10 * 0x10000))},
-    { "1571CR",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1571CR + (10 * 0x10000))},
-    { "1581",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1581 + (10 * 0x10000))},
-    { "2031",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_2031 + (10 * 0x10000))},
-    { "2040",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_2040 + (10 * 0x10000))},
-    { "3040",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_3040 + (10 * 0x10000))},
-    { "4040",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_4040 + (10 * 0x10000))},
-    { "1001",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1001 + (10 * 0x10000))},
-    { "8050",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_8050 + (10 * 0x10000))},
-    { "8250",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_8250 + (10 * 0x10000))},
-    { NULL }
-};
+DRIVE_TYPE_MENU(8)
+DRIVE_TYPE_MENU(9)
+DRIVE_TYPE_MENU(10)
+DRIVE_TYPE_MENU(11)
 
-static const ui_menu_entry_t drive_11_type_menu[] = {
-    { "None",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(11 * 0x10000)},
-    { "Directory",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(ATTACH_DEVICE_FS + (11 * 0x10000))},
-#ifdef HAVE_OPENCBM
-    { "Real drive",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(ATTACH_DEVICE_REAL + (11 * 0x10000))},
-#endif
-#ifdef HAVE_RAWDRIVE
-    { "Block device",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(ATTACH_DEVICE_RAW + (11 * 0x10000))},
-#endif
-    { "1541",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1541 + (11 * 0x10000))},
-    { "1541-II",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1541II + (11 * 0x10000))},
-    { "1551",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1551 + (11 * 0x10000))},
-    { "1570",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1570 + (11 * 0x10000))},
-    { "1571",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1571 + (11 * 0x10000))},
-    { "1571CR",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1571CR + (11 * 0x10000))},
-    { "1581",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1581 + (11 * 0x10000))},
-    { "2031",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_2031 + (11 * 0x10000))},
-    { "2040",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_2040 + (11 * 0x10000))},
-    { "3040",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_3040 + (11 * 0x10000))},
-    { "4040",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_4040 + (11 * 0x10000))},
-    { "1001",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_1001 + (11 * 0x10000))},
-    { "8050",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_8050 + (11 * 0x10000))},
-    { "8250",
-      MENU_ENTRY_OTHER,
-      set_drive_type_callback,
-      (ui_callback_data_t)(DRIVE_TYPE_8250 + (11 * 0x10000))},
-    { NULL }
-};
+#define DRIVE_FSDIR_MENU(x)                                   \
+    static const ui_menu_entry_t drive_##x##_fsdir_menu[] = { \
+        {"Choose directory",                                  \
+         MENU_ENTRY_DIALOG,                                   \
+         set_directory_callback,                              \
+         (ui_callback_data_t)x},                              \
+        {"Read P00 files",                                    \
+         MENU_ENTRY_OTHER,                                    \
+         set_read_p00_files_callback,                         \
+         (ui_callback_data_t)x},                              \
+        {"Write P00 files",                                   \
+         MENU_ENTRY_OTHER,                                    \
+         set_write_p00_files_callback,                        \
+         (ui_callback_data_t)x},                              \
+        {"Hide P00 files",                                    \
+         MENU_ENTRY_OTHER,                                    \
+         set_hide_p00_files_callback,                         \
+         (ui_callback_data_t)x},                              \
+        {NULL}                                                \
+    };
 
-static const ui_menu_entry_t drive_8_fsdir_menu[] = {
-    { "Choose directory",
-      MENU_ENTRY_DIALOG,
-      set_directory_callback,
-      (ui_callback_data_t)8},
-    { "Read P00 files",
-      MENU_ENTRY_OTHER,
-      set_read_p00_files_callback,
-      (ui_callback_data_t)8},
-    { "Write P00 files",
-      MENU_ENTRY_OTHER,
-      set_write_p00_files_callback,
-      (ui_callback_data_t)8},
-    { "Hide P00 files",
-      MENU_ENTRY_OTHER,
-      set_hide_p00_files_callback,
-      (ui_callback_data_t)8},
-    { NULL }
-};
+DRIVE_FSDIR_MENU(8)
+DRIVE_FSDIR_MENU(9)
+DRIVE_FSDIR_MENU(10)
+DRIVE_FSDIR_MENU(11)
 
-static const ui_menu_entry_t drive_9_fsdir_menu[] = {
-    { "Choose directory",
-      MENU_ENTRY_DIALOG,
-      set_directory_callback,
-      (ui_callback_data_t)9},
-    { "Read P00 files",
-      MENU_ENTRY_OTHER,
-      set_read_p00_files_callback,
-      (ui_callback_data_t)9},
-    { "Write P00 files",
-      MENU_ENTRY_OTHER,
-      set_write_p00_files_callback,
-      (ui_callback_data_t)9},
-    { "Hide P00 files",
-      MENU_ENTRY_OTHER,
-      set_hide_p00_files_callback,
-      (ui_callback_data_t)9},
-    { NULL }
-};
+#define DRIVE_EXTEND_MENU(x)                                     \
+    static const ui_menu_entry_t drive_##x##_extend_menu[] = {   \
+        {"Never extend",                                         \
+         MENU_ENTRY_OTHER,                                       \
+         set_extend_callback,                                    \
+         (ui_callback_data_t)(DRIVE_EXTEND_NEVER + (x * 256))},  \
+        {"Ask on extend",                                        \
+         MENU_ENTRY_OTHER,                                       \
+         set_extend_callback,                                    \
+         (ui_callback_data_t)(DRIVE_EXTEND_ASK + (x * 256))},    \
+        {"Extend on access",                                     \
+         MENU_ENTRY_OTHER,                                       \
+         set_extend_callback,                                    \
+         (ui_callback_data_t)(DRIVE_EXTEND_ACCESS + (x * 256))}, \
+        {NULL}                                                   \
+    };
 
-static const ui_menu_entry_t drive_10_fsdir_menu[] = {
-    { "Choose directory",
-      MENU_ENTRY_DIALOG,
-      set_directory_callback,
-      (ui_callback_data_t)10},
-    { "Read P00 files",
-      MENU_ENTRY_OTHER,
-      set_read_p00_files_callback,
-      (ui_callback_data_t)10},
-    { "Write P00 files",
-      MENU_ENTRY_OTHER,
-      set_write_p00_files_callback,
-      (ui_callback_data_t)10},
-    { "Hide P00 files",
-      MENU_ENTRY_OTHER,
-      set_hide_p00_files_callback,
-      (ui_callback_data_t)10},
-    { NULL }
-};
+DRIVE_EXTEND_MENU(8)
+DRIVE_EXTEND_MENU(9)
+DRIVE_EXTEND_MENU(10)
+DRIVE_EXTEND_MENU(11)
 
-static const ui_menu_entry_t drive_11_fsdir_menu[] = {
-    { "Choose directory",
-      MENU_ENTRY_DIALOG,
-      set_directory_callback,
-      (ui_callback_data_t)11},
-    { "Read P00 files",
-      MENU_ENTRY_OTHER,
-      set_read_p00_files_callback,
-      (ui_callback_data_t)11},
-    { "Write P00 files",
-      MENU_ENTRY_OTHER,
-      set_write_p00_files_callback,
-      (ui_callback_data_t)11},
-    { "Hide P00 files",
-      MENU_ENTRY_OTHER,
-      set_hide_p00_files_callback,
-      (ui_callback_data_t)11},
-    { NULL }
-};
+#define DRIVE_EXPAND_MENU(x)                                   \
+    static const ui_menu_entry_t drive_##x##_expand_menu[] = { \
+        {"RAM at $2000-$3FFF",                                 \
+         MENU_ENTRY_OTHER,                                     \
+         set_expand_callback,                                  \
+         (ui_callback_data_t)(0x2000 + (x * 0x10000))},        \
+        {"RAM at $4000-$5FFF",                                 \
+         MENU_ENTRY_OTHER,                                     \
+         set_expand_callback,                                  \
+         (ui_callback_data_t)(0x4000 + (x * 0x10000))},        \
+        {"RAM at $6000-$7FFF",                                 \
+         MENU_ENTRY_OTHER,                                     \
+         set_expand_callback,                                  \
+         (ui_callback_data_t)(0x6000 + (x * 0x10000))},        \
+        {"RAM at $8000-$9FFF",                                 \
+         MENU_ENTRY_OTHER,                                     \
+         set_expand_callback,                                  \
+         (ui_callback_data_t)(0x8000 + (x * 0x10000))},        \
+        {"RAM at $A000-$BFFF",                                 \
+         MENU_ENTRY_OTHER,                                     \
+         set_expand_callback,                                  \
+         (ui_callback_data_t)(0xa000 + (x * 0x10000))},        \
+        {NULL}                                                 \
+    };
 
-static const ui_menu_entry_t drive_8_extend_menu[] = {
-    { "Never extend",
-      MENU_ENTRY_OTHER,
-      set_extend_callback,
-      (ui_callback_data_t)(DRIVE_EXTEND_NEVER + (8 * 256))},
-    { "Ask on extend",
-      MENU_ENTRY_OTHER,
-      set_extend_callback,
-      (ui_callback_data_t)(DRIVE_EXTEND_ASK + (8 * 256))},
-    { "Extend on access",
-      MENU_ENTRY_OTHER,
-      set_extend_callback,
-      (ui_callback_data_t)(DRIVE_EXTEND_ACCESS + (8 * 256))},
-    { NULL }
-};
+DRIVE_EXPAND_MENU(8)
+DRIVE_EXPAND_MENU(9)
+DRIVE_EXPAND_MENU(10)
+DRIVE_EXPAND_MENU(11)
 
-static const ui_menu_entry_t drive_9_extend_menu[] = {
-    { "Never extend",
-      MENU_ENTRY_OTHER,
-      set_extend_callback,
-      (ui_callback_data_t)(DRIVE_EXTEND_NEVER + (9 * 256))},
-    { "Ask on extend",
-      MENU_ENTRY_OTHER,
-      set_extend_callback,
-      (ui_callback_data_t)(DRIVE_EXTEND_ASK + (9 * 256))},
-    { "Extend on access",
-      MENU_ENTRY_OTHER,
-      set_extend_callback,
-      (ui_callback_data_t)(DRIVE_EXTEND_ACCESS + (9 * 256))},
-    { NULL }
-};
+#define DRIVE_IDLE_MENU(x)                                          \
+    static const ui_menu_entry_t drive_##x##_idle_menu[] = {        \
+        {"None",                                                    \
+         MENU_ENTRY_OTHER,                                          \
+         set_idle_callback,                                         \
+         (ui_callback_data_t)(DRIVE_IDLE_NO_IDLE + (x * 256))},     \
+        {"Trap idle",                                               \
+         MENU_ENTRY_OTHER,                                          \
+         set_idle_callback,                                         \
+         (ui_callback_data_t)(DRIVE_IDLE_SKIP_CYCLES + (x * 256))}, \
+        {"Skip cycles",                                             \
+         MENU_ENTRY_OTHER,                                          \
+         set_idle_callback,                                         \
+         (ui_callback_data_t)(DRIVE_IDLE_TRAP_IDLE + (x * 256))},   \
+        {NULL}                                                      \
+    };
 
-static const ui_menu_entry_t drive_10_extend_menu[] = {
-    { "Never extend",
-      MENU_ENTRY_OTHER,
-      set_extend_callback,
-      (ui_callback_data_t)(DRIVE_EXTEND_NEVER + (10 * 256))},
-    { "Ask on extend",
-      MENU_ENTRY_OTHER,
-      set_extend_callback,
-      (ui_callback_data_t)(DRIVE_EXTEND_ASK + (10 * 256))},
-    { "Extend on access",
-      MENU_ENTRY_OTHER,
-      set_extend_callback,
-      (ui_callback_data_t)(DRIVE_EXTEND_ACCESS + (10 * 256))},
-    { NULL }
-};
-
-static const ui_menu_entry_t drive_11_extend_menu[] = {
-    { "Never extend",
-      MENU_ENTRY_OTHER,
-      set_extend_callback,
-      (ui_callback_data_t)(DRIVE_EXTEND_NEVER + (11 * 256))},
-    { "Ask on extend",
-      MENU_ENTRY_OTHER,
-      set_extend_callback,
-      (ui_callback_data_t)(DRIVE_EXTEND_ASK + (11 * 256))},
-    { "Extend on access",
-      MENU_ENTRY_OTHER,
-      set_extend_callback,
-      (ui_callback_data_t)(DRIVE_EXTEND_ACCESS + (11 * 256))},
-    { NULL }
-};
-
-static const ui_menu_entry_t drive_8_expand_menu[] = {
-    { "RAM at $2000-$3FFF",
-      MENU_ENTRY_OTHER,
-      set_expand_callback,
-      (ui_callback_data_t)(0x2000 + (8 * 0x10000))},
-    { "RAM at $4000-$5FFF",
-      MENU_ENTRY_OTHER,
-      set_expand_callback,
-      (ui_callback_data_t)(0x4000 + (8 * 0x10000))},
-    { "RAM at $6000-$7FFF",
-      MENU_ENTRY_OTHER,
-      set_expand_callback,
-      (ui_callback_data_t)(0x6000 + (8 * 0x10000))},
-    { "RAM at $8000-$9FFF",
-      MENU_ENTRY_OTHER,
-      set_expand_callback,
-      (ui_callback_data_t)(0x8000 + (8 * 0x10000))},
-    { "RAM at $A000-$BFFF",
-      MENU_ENTRY_OTHER,
-      set_expand_callback,
-      (ui_callback_data_t)(0xa000 + (8 * 0x10000))},
-    { NULL }
-};
-
-static const ui_menu_entry_t drive_9_expand_menu[] = {
-    { "RAM at $2000-$3FFF",
-      MENU_ENTRY_OTHER,
-      set_expand_callback,
-      (ui_callback_data_t)(0x2000 + (9 * 0x10000))},
-    { "RAM at $4000-$5FFF",
-      MENU_ENTRY_OTHER,
-      set_expand_callback,
-      (ui_callback_data_t)(0x4000 + (9 * 0x10000))},
-    { "RAM at $6000-$7FFF",
-      MENU_ENTRY_OTHER,
-      set_expand_callback,
-      (ui_callback_data_t)(0x6000 + (9 * 0x10000))},
-    { "RAM at $8000-$9FFF",
-      MENU_ENTRY_OTHER,
-      set_expand_callback,
-      (ui_callback_data_t)(0x8000 + (9 * 0x10000))},
-    { "RAM at $A000-$BFFF",
-      MENU_ENTRY_OTHER,
-      set_expand_callback,
-      (ui_callback_data_t)(0xa000 + (9 * 0x10000))},
-    { NULL }
-};
-
-static const ui_menu_entry_t drive_10_expand_menu[] = {
-    { "RAM at $2000-$3FFF",
-      MENU_ENTRY_OTHER,
-      set_expand_callback,
-      (ui_callback_data_t)(0x2000 + (10 * 0x10000))},
-    { "RAM at $4000-$5FFF",
-      MENU_ENTRY_OTHER,
-      set_expand_callback,
-      (ui_callback_data_t)(0x4000 + (10 * 0x10000))},
-    { "RAM at $6000-$7FFF",
-      MENU_ENTRY_OTHER,
-      set_expand_callback,
-      (ui_callback_data_t)(0x6000 + (10 * 0x10000))},
-    { "RAM at $8000-$9FFF",
-      MENU_ENTRY_OTHER,
-      set_expand_callback,
-      (ui_callback_data_t)(0x8000 + (10 * 0x10000))},
-    { "RAM at $A000-$BFFF",
-      MENU_ENTRY_OTHER,
-      set_expand_callback,
-      (ui_callback_data_t)(0xa000 + (10 * 0x10000))},
-    { NULL }
-};
-
-static const ui_menu_entry_t drive_11_expand_menu[] = {
-    { "RAM at $2000-$3FFF",
-      MENU_ENTRY_OTHER,
-      set_expand_callback,
-      (ui_callback_data_t)(0x2000 + (11 * 0x10000))},
-    { "RAM at $4000-$5FFF",
-      MENU_ENTRY_OTHER,
-      set_expand_callback,
-      (ui_callback_data_t)(0x4000 + (11 * 0x10000))},
-    { "RAM at $6000-$7FFF",
-      MENU_ENTRY_OTHER,
-      set_expand_callback,
-      (ui_callback_data_t)(0x6000 + (11 * 0x10000))},
-    { "RAM at $8000-$9FFF",
-      MENU_ENTRY_OTHER,
-      set_expand_callback,
-      (ui_callback_data_t)(0x8000 + (11 * 0x10000))},
-    { "RAM at $A000-$BFFF",
-      MENU_ENTRY_OTHER,
-      set_expand_callback,
-      (ui_callback_data_t)(0xa000 + (11 * 0x10000))},
-    { NULL }
-};
-
-static const ui_menu_entry_t drive_8_idle_menu[] = {
-    { "None",
-      MENU_ENTRY_OTHER,
-      set_idle_callback,
-      (ui_callback_data_t)(DRIVE_IDLE_NO_IDLE + (8 * 256))},
-    { "Trap idle",
-      MENU_ENTRY_OTHER,
-      set_idle_callback,
-      (ui_callback_data_t)(DRIVE_IDLE_SKIP_CYCLES + (8 * 256))},
-    { "Skip cycles",
-      MENU_ENTRY_OTHER,
-      set_idle_callback,
-      (ui_callback_data_t)(DRIVE_IDLE_TRAP_IDLE + (8 * 256))},
-    { NULL }
-};
-
-
-static const ui_menu_entry_t drive_9_idle_menu[] = {
-    { "None",
-      MENU_ENTRY_OTHER,
-      set_idle_callback,
-      (ui_callback_data_t)(DRIVE_IDLE_NO_IDLE + (9 * 256))},
-    { "Trap idle",
-      MENU_ENTRY_OTHER,
-      set_idle_callback,
-      (ui_callback_data_t)(DRIVE_IDLE_SKIP_CYCLES + (9 * 256))},
-    { "Skip cycles",
-      MENU_ENTRY_OTHER,
-      set_idle_callback,
-      (ui_callback_data_t)(DRIVE_IDLE_TRAP_IDLE + (9 * 256))},
-    { NULL }
-};
-
-static const ui_menu_entry_t drive_10_idle_menu[] = {
-    { "None",
-      MENU_ENTRY_OTHER,
-      set_idle_callback,
-      (ui_callback_data_t)(DRIVE_IDLE_NO_IDLE + (10 * 256))},
-    { "Trap idle",
-      MENU_ENTRY_OTHER,
-      set_idle_callback,
-      (ui_callback_data_t)(DRIVE_IDLE_SKIP_CYCLES + (10 * 256))},
-    { "Skip cycles",
-      MENU_ENTRY_OTHER,
-      set_idle_callback,
-      (ui_callback_data_t)(DRIVE_IDLE_TRAP_IDLE + (10 * 256))},
-    { NULL }
-};
-
-static const ui_menu_entry_t drive_11_idle_menu[] = {
-    { "None",
-      MENU_ENTRY_OTHER,
-      set_idle_callback,
-      (ui_callback_data_t)(DRIVE_IDLE_NO_IDLE + (11 * 256))},
-    { "Trap idle",
-      MENU_ENTRY_OTHER,
-      set_idle_callback,
-      (ui_callback_data_t)(DRIVE_IDLE_SKIP_CYCLES + (11 * 256))},
-    { "Skip cycles",
-      MENU_ENTRY_OTHER,
-      set_idle_callback,
-      (ui_callback_data_t)(DRIVE_IDLE_TRAP_IDLE + (11 * 256))},
-    { NULL }
-};
+DRIVE_IDLE_MENU(8)
+DRIVE_IDLE_MENU(9)
+DRIVE_IDLE_MENU(10)
+DRIVE_IDLE_MENU(11)
 
 #ifdef HAVE_RAWDRIVE
 UI_MENU_DEFINE_FILE_STRING(RawDriveDriver)
 #endif
 
-static const ui_menu_entry_t drive_8_menu[] = {
-   { "Drive 8 type",
-      MENU_ENTRY_SUBMENU,
-      drive_8_show_type_callback,
-      (ui_callback_data_t)drive_8_type_menu },
-   { "Drive 8 dir settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)drive_8_fsdir_menu },
-   { "Drive 8 40 track handling",
-      MENU_ENTRY_SUBMENU,
-      drive_8_show_extend_callback,
-      (ui_callback_data_t)drive_8_extend_menu },
-   { "Drive 8 expansion memory",
-      MENU_ENTRY_SUBMENU,
-      drive_8_show_expand_callback,
-      (ui_callback_data_t)drive_8_expand_menu },
-   { "Drive 8 idle method",
-      MENU_ENTRY_SUBMENU,
-      drive_8_show_idle_callback,
-      (ui_callback_data_t)drive_8_idle_menu },
-   { "Drive 8 parallel cable",
-      MENU_ENTRY_OTHER,
-      set_par_callback,
-      (ui_callback_data_t)8},
 #ifdef HAVE_RAWDRIVE
-   { "Blockdevice",
-      MENU_ENTRY_DIALOG,
-      file_string_RawDriveDriver_callback,
-      (ui_callback_data_t)"Select device file to use as drive" },
+#define DRIVE_MENU_RAWDRIVE_ITEM                              \
+   {"Blockdevice",                                            \
+    MENU_ENTRY_DIALOG,                                        \
+    file_string_RawDriveDriver_callback,                      \
+    (ui_callback_data_t)"Select device file to use as drive"},
+#else
+#define DRIVE_MENU_RAWDRIVE_ITEM
 #endif
-    { NULL }
-};
 
-static const ui_menu_entry_t drive_9_menu[] = {
-   { "Drive 9 type",
-      MENU_ENTRY_SUBMENU,
-      drive_9_show_type_callback,
-      (ui_callback_data_t)drive_9_type_menu },
-   { "Drive 9 dir settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)drive_9_fsdir_menu },
-   { "Drive 9 40 track handling",
-      MENU_ENTRY_SUBMENU,
-      drive_9_show_extend_callback,
-      (ui_callback_data_t)drive_9_extend_menu },
-   { "Drive 9 expansion memory",
-      MENU_ENTRY_SUBMENU,
-      drive_9_show_expand_callback,
-      (ui_callback_data_t)drive_9_expand_menu },
-   { "Drive 9 idle method",
-      MENU_ENTRY_SUBMENU,
-      drive_9_show_idle_callback,
-      (ui_callback_data_t)drive_9_idle_menu },
-   { "Drive 9 parallel cable",
-      MENU_ENTRY_OTHER,
-      set_par_callback,
-      (ui_callback_data_t)9},
-#ifdef HAVE_RAWDRIVE
-   { "Blockdevice",
-      MENU_ENTRY_DIALOG,
-      file_string_RawDriveDriver_callback,
-      (ui_callback_data_t)"Select device file to use as drive" },
-#endif
-    { NULL }
-};
+#define DRIVE_MENU(x)                                   \
+    static const ui_menu_entry_t drive_##x##_menu[] = { \
+        {"Drive " #x " type",                           \
+         MENU_ENTRY_SUBMENU,                            \
+         drive_##x##_show_type_callback,                \
+         (ui_callback_data_t)drive_##x##_type_menu},    \
+        {"Drive " #x " dir settings",                   \
+         MENU_ENTRY_SUBMENU,                            \
+         submenu_callback,                              \
+         (ui_callback_data_t)drive_##x##_fsdir_menu},   \
+        {"Drive " #x " 40 track handling",              \
+         MENU_ENTRY_SUBMENU,                            \
+         drive_##x##_show_extend_callback,              \
+         (ui_callback_data_t)drive_##x##_extend_menu},  \
+        {"Drive " #x " expansion memory",               \
+         MENU_ENTRY_SUBMENU,                            \
+         drive_##x##_show_expand_callback,              \
+         (ui_callback_data_t)drive_##x##_expand_menu},  \
+        {"Drive " #x " idle method",                    \
+         MENU_ENTRY_SUBMENU,                            \
+         drive_##x##_show_idle_callback,                \
+         (ui_callback_data_t)drive_##x##_idle_menu},    \
+        {"Drive " #x " parallel cable",                 \
+         MENU_ENTRY_OTHER,                              \
+         set_par_callback,                              \
+         (ui_callback_data_t)x},                        \
+        DRIVE_MENU_RAWDRIVE_ITEM                        \
+         {NULL}                                         \
+    };
 
-static const ui_menu_entry_t drive_10_menu[] = {
-   { "Drive 10 type",
-      MENU_ENTRY_SUBMENU,
-      drive_10_show_type_callback,
-      (ui_callback_data_t)drive_10_type_menu },
-   { "Drive 10 dir settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)drive_10_fsdir_menu },
-   { "Drive 10 40 track handling",
-      MENU_ENTRY_SUBMENU,
-      drive_10_show_extend_callback,
-      (ui_callback_data_t)drive_10_extend_menu },
-   { "Drive 10 expansion memory",
-      MENU_ENTRY_SUBMENU,
-      drive_10_show_expand_callback,
-      (ui_callback_data_t)drive_10_expand_menu },
-   { "Drive 10 idle method",
-      MENU_ENTRY_SUBMENU,
-      drive_10_show_idle_callback,
-      (ui_callback_data_t)drive_10_idle_menu },
-   { "Drive 10 parallel cable",
-      MENU_ENTRY_OTHER,
-      set_par_callback,
-      (ui_callback_data_t)10},
-#ifdef HAVE_RAWDRIVE
-   { "Blockdevice",
-      MENU_ENTRY_DIALOG,
-      file_string_RawDriveDriver_callback,
-      (ui_callback_data_t)"Select device file to use as drive" },
-#endif
-    { NULL }
-};
-
-static const ui_menu_entry_t drive_11_menu[] = {
-   { "Drive 11 type",
-      MENU_ENTRY_SUBMENU,
-      drive_11_show_type_callback,
-      (ui_callback_data_t)drive_11_type_menu },
-   { "Drive 11 dir settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)drive_11_fsdir_menu },
-   { "Drive 11 40 track handling",
-      MENU_ENTRY_SUBMENU,
-      drive_11_show_extend_callback,
-      (ui_callback_data_t)drive_11_extend_menu },
-   { "Drive 11 expansion memory",
-      MENU_ENTRY_SUBMENU,
-      drive_11_show_expand_callback,
-      (ui_callback_data_t)drive_11_expand_menu },
-   { "Drive 11 idle method",
-      MENU_ENTRY_SUBMENU,
-      drive_11_show_idle_callback,
-      (ui_callback_data_t)drive_11_idle_menu },
-   { "Drive 11 parallel cable",
-      MENU_ENTRY_OTHER,
-      set_par_callback,
-      (ui_callback_data_t)11},
-#ifdef HAVE_RAWDRIVE
-   { "Blockdevice",
-      MENU_ENTRY_DIALOG,
-      file_string_RawDriveDriver_callback,
-      (ui_callback_data_t)"Select device file to use as drive" },
-#endif
-    { NULL }
-};
+DRIVE_MENU(8)
+DRIVE_MENU(9)
+DRIVE_MENU(10)
+DRIVE_MENU(11)
 
 static const ui_menu_entry_t fliplist_menu[] = {
-    { "Add current image to fliplist",
-      MENU_ENTRY_OTHER,
-      fliplist_callback,
-      (ui_callback_data_t)UI_FLIP_ADD },
-    { "Remove current image from fliplist",
-      MENU_ENTRY_OTHER,
-      fliplist_callback,
-      (ui_callback_data_t)UI_FLIP_REMOVE },
-    { "Attach next image in fliplist",
-      MENU_ENTRY_OTHER,
-      fliplist_callback,
-      (ui_callback_data_t)UI_FLIP_NEXT },
-    { "Attach previous image in fliplist",
-      MENU_ENTRY_OTHER,
-      fliplist_callback,
-      (ui_callback_data_t)UI_FLIP_PREVIOUS },
-    { "Load fliplist",
-      MENU_ENTRY_DIALOG,
-      fliplist_callback,
-      (ui_callback_data_t)UI_FLIP_LOAD },
-    { "Save fliplist",
-      MENU_ENTRY_DIALOG,
-      fliplist_callback,
-      (ui_callback_data_t)UI_FLIP_SAVE },
-    { NULL }
+    {"Add current image to fliplist",
+     MENU_ENTRY_OTHER,
+     fliplist_callback,
+     (ui_callback_data_t)UI_FLIP_ADD},
+    {"Remove current image from fliplist",
+     MENU_ENTRY_OTHER,
+     fliplist_callback,
+     (ui_callback_data_t)UI_FLIP_REMOVE},
+    {"Attach next image in fliplist",
+     MENU_ENTRY_OTHER,
+     fliplist_callback,
+     (ui_callback_data_t)UI_FLIP_NEXT},
+    {"Attach previous image in fliplist",
+     MENU_ENTRY_OTHER,
+     fliplist_callback,
+     (ui_callback_data_t)UI_FLIP_PREVIOUS},
+    {"Load fliplist",
+     MENU_ENTRY_DIALOG,
+     fliplist_callback,
+     (ui_callback_data_t)UI_FLIP_LOAD},
+    {"Save fliplist",
+     MENU_ENTRY_DIALOG,
+     fliplist_callback,
+     (ui_callback_data_t)UI_FLIP_SAVE},
+    {NULL}
 };
 
 UI_MENU_DEFINE_TOGGLE(AutostartHandleTrueDriveEmulation)
@@ -1553,114 +884,114 @@ UI_MENU_DEFINE_RADIO(AutostartPrgMode)
 UI_MENU_DEFINE_STRING(AutostartPrgDiskImage)
 
 static const ui_menu_entry_t autostart_settings_menu[] = {
-    { "Handle TDE on autostart",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_AutostartHandleTrueDriveEmulation_callback,
-      NULL },
-    { "Autostart warp",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_AutostartWarp_callback,
-      NULL },
-    { "Use ':' with RUN",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_AutostartRunWithColon_callback,
-      NULL },
+    {"Handle TDE on autostart",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_AutostartHandleTrueDriveEmulation_callback,
+     NULL},
+    {"Autostart warp",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_AutostartWarp_callback,
+     NULL},
+    {"Use ':' with RUN",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_AutostartRunWithColon_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Autostart PRG mode"),
-    { "VirtualFS",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_AutostartPrgMode_callback,
-      (ui_callback_data_t)AUTOSTART_PRG_MODE_VFS },
-    { "Inject",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_AutostartPrgMode_callback,
-      (ui_callback_data_t)AUTOSTART_PRG_MODE_INJECT },
-    { "Disk image",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_AutostartPrgMode_callback,
-      (ui_callback_data_t)AUTOSTART_PRG_MODE_DISK },
+    {"VirtualFS",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_AutostartPrgMode_callback,
+     (ui_callback_data_t)AUTOSTART_PRG_MODE_VFS},
+    {"Inject",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_AutostartPrgMode_callback,
+     (ui_callback_data_t)AUTOSTART_PRG_MODE_INJECT},
+    {"Disk image",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_AutostartPrgMode_callback,
+     (ui_callback_data_t)AUTOSTART_PRG_MODE_DISK},
     SDL_MENU_ITEM_SEPARATOR,
-    { "Autostart disk image",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_AutostartPrgDiskImage_callback,
-      (ui_callback_data_t)"Disk image for autostarting PRG files" },
-    { NULL }
+    {"Autostart disk image",
+     MENU_ENTRY_RESOURCE_STRING,
+     string_AutostartPrgDiskImage_callback,
+     (ui_callback_data_t)"Disk image for autostarting PRG files"},
+    {NULL}
 };
 
 const ui_menu_entry_t drive_menu[] = {
-    { "Attach disk image to drive 8",
-      MENU_ENTRY_DIALOG,
-      attach_disk_callback,
-      (ui_callback_data_t)8 },
-    { "Attach disk image to drive 9",
-      MENU_ENTRY_DIALOG,
-      attach_disk_callback,
-      (ui_callback_data_t)9 },
-    { "Attach disk image to drive 10",
-      MENU_ENTRY_DIALOG,
-      attach_disk_callback,
-      (ui_callback_data_t)10 },
-    { "Attach disk image to drive 11",
-      MENU_ENTRY_DIALOG,
-      attach_disk_callback,
-      (ui_callback_data_t)11 },
-    { "Detach disk image from drive 8",
-      MENU_ENTRY_OTHER,
-      detach_disk_callback,
-      (ui_callback_data_t)8 },
-    { "Detach disk image from drive 9",
-      MENU_ENTRY_OTHER,
-      detach_disk_callback,
-      (ui_callback_data_t)9 },
-    { "Detach disk image from drive 10",
-      MENU_ENTRY_OTHER,
-      detach_disk_callback,
-      (ui_callback_data_t)10 },
-    { "Detach disk image from drive 11",
-      MENU_ENTRY_OTHER,
-      detach_disk_callback,
-      (ui_callback_data_t)11 },
-    { "Detach all disk images",
-      MENU_ENTRY_OTHER,
-      detach_disk_callback,
-      (ui_callback_data_t)0 },
-   { "Create new disk image",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)create_disk_image_menu },
+    {"Attach disk image to drive 8",
+     MENU_ENTRY_DIALOG,
+     attach_disk_callback,
+     (ui_callback_data_t)8},
+    {"Attach disk image to drive 9",
+     MENU_ENTRY_DIALOG,
+     attach_disk_callback,
+     (ui_callback_data_t)9},
+    {"Attach disk image to drive 10",
+     MENU_ENTRY_DIALOG,
+     attach_disk_callback,
+     (ui_callback_data_t)10},
+    {"Attach disk image to drive 11",
+     MENU_ENTRY_DIALOG,
+     attach_disk_callback,
+     (ui_callback_data_t)11},
+    {"Detach disk image from drive 8",
+     MENU_ENTRY_OTHER,
+     detach_disk_callback,
+     (ui_callback_data_t)8},
+    {"Detach disk image from drive 9",
+     MENU_ENTRY_OTHER,
+     detach_disk_callback,
+     (ui_callback_data_t)9},
+    {"Detach disk image from drive 10",
+     MENU_ENTRY_OTHER,
+     detach_disk_callback,
+     (ui_callback_data_t)10},
+    {"Detach disk image from drive 11",
+     MENU_ENTRY_OTHER,
+     detach_disk_callback,
+     (ui_callback_data_t)11},
+    {"Detach all disk images",
+     MENU_ENTRY_OTHER,
+     detach_disk_callback,
+     (ui_callback_data_t)0},
+    {"Create new disk image",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)create_disk_image_menu},
     SDL_MENU_ITEM_SEPARATOR,
-   { "Drive 8 settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)drive_8_menu },
-   { "Drive 9 settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)drive_9_menu },
-   { "Drive 10 settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)drive_10_menu },
-   { "Drive 11 settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)drive_11_menu },
+    {"Drive 8 settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)drive_8_menu},
+    {"Drive 9 settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)drive_9_menu},
+    {"Drive 10 settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)drive_10_menu},
+    {"Drive 11 settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)drive_11_menu},
     SDL_MENU_ITEM_SEPARATOR,
-    { "True drive emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_DriveTrueEmulation_callback,
-      NULL },
-    { "Virtual device traps",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VirtualDevices_callback,
-      NULL },
-   { "Autostart settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)autostart_settings_menu },
-   { "Fliplist settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)fliplist_menu },
-    { NULL }
+    {"True drive emulation",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_DriveTrueEmulation_callback,
+     NULL},
+    {"Virtual device traps",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_VirtualDevices_callback,
+     NULL},
+    {"Autostart settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)autostart_settings_menu},
+    {"Fliplist settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)fliplist_menu},
+    {NULL}
 };

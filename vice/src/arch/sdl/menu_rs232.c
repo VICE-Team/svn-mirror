@@ -40,178 +40,75 @@
 #define VICE_SDL_RS232_ARCHDEP_ITEMS /**/
 
 /* *nix extra RS232 settings */
-#if defined(UNIX_COMPILE)
+#ifdef UNIX_COMPILE
 
 UI_MENU_DEFINE_RADIO(RsDevice1Baud)
 UI_MENU_DEFINE_RADIO(RsDevice2Baud)
 UI_MENU_DEFINE_RADIO(RsDevice3Baud)
 UI_MENU_DEFINE_RADIO(RsDevice4Baud)
 
-static const ui_menu_entry_t rs1baud_menu[] = {
-    { "300",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice1Baud_callback,
-      (ui_callback_data_t)300 },
-    { "1200",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice1Baud_callback,
-      (ui_callback_data_t)1200 },
-    { "2400",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice1Baud_callback,
-      (ui_callback_data_t)2400 },
-    { "9600",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice1Baud_callback,
-      (ui_callback_data_t)9600 },
-    { "19200",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice1Baud_callback,
-      (ui_callback_data_t)19200 },
-    { "38400 (Swiftlink/Turbo232 only)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice1Baud_callback,
-      (ui_callback_data_t)38400 },
-    { "57600 (Turbo232 only)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice1Baud_callback,
-      (ui_callback_data_t)57600 },
-    { "115200 (Turbo232 only)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice1Baud_callback,
-      (ui_callback_data_t)115200 },
-    { NULL }
-};
+#define RS_BAUD_MENU(x)                                 \
+    static const ui_menu_entry_t rs##x##baud_menu[] = { \
+        {"300",                                         \
+         MENU_ENTRY_RESOURCE_RADIO,                     \
+         radio_RsDevice##x##Baud_callback,              \
+         (ui_callback_data_t)300},                      \
+        {"1200",                                        \
+         MENU_ENTRY_RESOURCE_RADIO,                     \
+         radio_RsDevice##x##Baud_callback,              \
+         (ui_callback_data_t)1200},                     \
+        {"2400",                                        \
+         MENU_ENTRY_RESOURCE_RADIO,                     \
+         radio_RsDevice##x##Baud_callback,              \
+         (ui_callback_data_t)2400},                     \
+        {"9600",                                        \
+         MENU_ENTRY_RESOURCE_RADIO,                     \
+         radio_RsDevice##x##Baud_callback,              \
+         (ui_callback_data_t)9600},                     \
+        {"19200",                                       \
+         MENU_ENTRY_RESOURCE_RADIO,                     \
+         radio_RsDevice##x##Baud_callback,              \
+         (ui_callback_data_t)19200},                    \
+        {"38400 (Swiftlink/Turbo232 only)",             \
+         MENU_ENTRY_RESOURCE_RADIO,                     \
+         radio_RsDevice##x##Baud_callback,              \
+         (ui_callback_data_t)38400},                    \
+        {"57600 (Turbo232 only)",                       \
+         MENU_ENTRY_RESOURCE_RADIO,                     \
+         radio_RsDevice##x##Baud_callback,              \
+         (ui_callback_data_t)57600},                    \
+        {"115200 (Turbo232 only)",                      \
+         MENU_ENTRY_RESOURCE_RADIO,                     \
+         radio_RsDevice##x##Baud_callback,              \
+         (ui_callback_data_t)115200},                   \
+        {NULL}                                          \
+    };
 
-static const ui_menu_entry_t rs2baud_menu[] = {
-    { "300",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice2Baud_callback,
-      (ui_callback_data_t)300 },
-    { "1200",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice2Baud_callback,
-      (ui_callback_data_t)1200 },
-    { "2400",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice2Baud_callback,
-      (ui_callback_data_t)2400 },
-    { "9600",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice2Baud_callback,
-      (ui_callback_data_t)9600 },
-    { "19200",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice2Baud_callback,
-      (ui_callback_data_t)19200 },
-    { "38400 (Swiftlink/Turbo232 only)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice2Baud_callback,
-      (ui_callback_data_t)38400 },
-    { "57600 (Turbo232 only)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice2Baud_callback,
-      (ui_callback_data_t)57600 },
-    { "115200 (Turbo232 only)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice2Baud_callback,
-      (ui_callback_data_t)115200 },
-    { NULL }
-};
-
-static const ui_menu_entry_t rs3baud_menu[] = {
-    { "300",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice3Baud_callback,
-      (ui_callback_data_t)300 },
-    { "1200",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice3Baud_callback,
-      (ui_callback_data_t)1200 },
-    { "2400",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice3Baud_callback,
-      (ui_callback_data_t)2400 },
-    { "9600",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice3Baud_callback,
-      (ui_callback_data_t)9600 },
-    { "19200",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice3Baud_callback,
-      (ui_callback_data_t)19200 },
-    { "38400 (Swiftlink/Turbo232 only)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice3Baud_callback,
-      (ui_callback_data_t)38400 },
-    { "57600 (Turbo232 only)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice3Baud_callback,
-      (ui_callback_data_t)57600 },
-    { "115200 (Turbo232 only)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice3Baud_callback,
-      (ui_callback_data_t)115200 },
-    { NULL }
-};
-
-static const ui_menu_entry_t rs4baud_menu[] = {
-    { "300",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice4Baud_callback,
-      (ui_callback_data_t)300 },
-    { "1200",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice4Baud_callback,
-      (ui_callback_data_t)1200 },
-    { "2400",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice4Baud_callback,
-      (ui_callback_data_t)2400 },
-    { "9600",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice4Baud_callback,
-      (ui_callback_data_t)9600 },
-    { "19200",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice4Baud_callback,
-      (ui_callback_data_t)19200 },
-    { "38400 (Swiftlink/Turbo232 only)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice4Baud_callback,
-      (ui_callback_data_t)38400 },
-    { "57600 (Turbo232 only)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice4Baud_callback,
-      (ui_callback_data_t)57600 },
-    { "115200 (Turbo232 only)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsDevice4Baud_callback,
-      (ui_callback_data_t)115200 },
-    { NULL }
-};
+RS_BAUD_MENU(1)
+RS_BAUD_MENU(2)
+RS_BAUD_MENU(3)
+RS_BAUD_MENU(4)
 
 #undef VICE_SDL_RS232_ARCHDEP_ITEMS
-#define VICE_SDL_RS232_ARCHDEP_ITEMS \
-    { "Device 1 baud rate", \
-      MENU_ENTRY_SUBMENU, \
-      submenu_radio_callback, \
-      (ui_callback_data_t)rs1baud_menu }, \
-    { "Device 2 baud rate", \
-      MENU_ENTRY_SUBMENU, \
-      submenu_radio_callback, \
-      (ui_callback_data_t)rs2baud_menu }, \
-    { "Device 3 baud rate", \
-      MENU_ENTRY_SUBMENU, \
-      submenu_radio_callback, \
-      (ui_callback_data_t)rs3baud_menu }, \
-    { "Device 4 baud rate", \
-      MENU_ENTRY_SUBMENU, \
-      submenu_radio_callback, \
-      (ui_callback_data_t)rs4baud_menu },
+#define VICE_SDL_RS232_ARCHDEP_ITEMS    \
+    {"Device 1 baud rate",              \
+     MENU_ENTRY_SUBMENU,                \
+     submenu_radio_callback,            \
+     (ui_callback_data_t)rs1baud_menu}, \
+    {"Device 2 baud rate",              \
+     MENU_ENTRY_SUBMENU,                \
+     submenu_radio_callback,            \
+     (ui_callback_data_t)rs2baud_menu}, \
+    {"Device 3 baud rate",              \
+     MENU_ENTRY_SUBMENU,                \
+     submenu_radio_callback,            \
+     (ui_callback_data_t)rs3baud_menu}, \
+    {"Device 4 baud rate",              \
+     MENU_ENTRY_SUBMENU,                \
+     submenu_radio_callback,            \
+     (ui_callback_data_t)rs4baud_menu},
 
 #endif /* defined(UNIX_COMPILE) */
-
 
 /* Common menus */
 
@@ -224,228 +121,228 @@ UI_MENU_DEFINE_TOGGLE(Acia1Enable)
 UI_MENU_DEFINE_RADIO(Acia1Dev)
 
 static const ui_menu_entry_t acia1dev_menu[] = {
-    { "1",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Acia1Dev_callback,
-      (ui_callback_data_t)0 },
-    { "2",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Acia1Dev_callback,
-      (ui_callback_data_t)1 },
-    { "3",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Acia1Dev_callback,
-      (ui_callback_data_t)2 },
-    { "4",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Acia1Dev_callback,
-      (ui_callback_data_t)3 },
-    { NULL }
+    {"1",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_Acia1Dev_callback,
+     (ui_callback_data_t)0},
+    {"2",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_Acia1Dev_callback,
+     (ui_callback_data_t)1},
+    {"3",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_Acia1Dev_callback,
+     (ui_callback_data_t)2},
+    {"4",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_Acia1Dev_callback,
+     (ui_callback_data_t)3},
+    {NULL}
 };
 
 UI_MENU_DEFINE_RADIO(Acia1Irq)
 
 static const ui_menu_entry_t acia1irq_menu[] = {
-    { "No IRQ/NMI",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Acia1Irq_callback,
-      (ui_callback_data_t)0 },
-    { "IRQ",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Acia1Irq_callback,
-      (ui_callback_data_t)1 },
-    { "NMI",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Acia1Irq_callback,
-      (ui_callback_data_t)2 },
-    { NULL }
+    {"No IRQ/NMI",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_Acia1Irq_callback,
+     (ui_callback_data_t)0},
+    {"IRQ",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_Acia1Irq_callback,
+     (ui_callback_data_t)1},
+    {"NMI",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_Acia1Irq_callback,
+     (ui_callback_data_t)2},
+    {NULL}
 };
 
 UI_MENU_DEFINE_RADIO(Acia1Mode)
 
 static const ui_menu_entry_t acia1mode_menu[] = {
-    { "Normal",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Acia1Mode_callback,
-      (ui_callback_data_t)0 },
-    { "Swiftlink",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Acia1Mode_callback,
-      (ui_callback_data_t)1 },
-    { "Turbo232",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_Acia1Mode_callback,
-      (ui_callback_data_t)2 },
-    { NULL }
+    {"Normal",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_Acia1Mode_callback,
+     (ui_callback_data_t)0},
+    {"Swiftlink",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_Acia1Mode_callback,
+     (ui_callback_data_t)1},
+    {"Turbo232",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_Acia1Mode_callback,
+     (ui_callback_data_t)2},
+    {NULL}
 };
 
 UI_MENU_DEFINE_TOGGLE(RsUserEnable)
 UI_MENU_DEFINE_RADIO(RsUserBaud)
 
 static const ui_menu_entry_t rsuserbaud_menu[] = {
-    { "300",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsUserBaud_callback,
-      (ui_callback_data_t)300 },
-    { "1200",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsUserBaud_callback,
-      (ui_callback_data_t)1200 },
-    { "2400",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsUserBaud_callback,
-      (ui_callback_data_t)2400 },
-    { "9600",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsUserBaud_callback,
-      (ui_callback_data_t)9600 },
-    { NULL }
+    {"300",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_RsUserBaud_callback,
+     (ui_callback_data_t)300},
+    {"1200",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_RsUserBaud_callback,
+     (ui_callback_data_t)1200},
+    {"2400",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_RsUserBaud_callback,
+     (ui_callback_data_t)2400},
+    {"9600",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_RsUserBaud_callback,
+     (ui_callback_data_t)9600},
+    {NULL}
 };
 
 UI_MENU_DEFINE_RADIO(RsUserDev)
 
 static const ui_menu_entry_t rsuserdev_menu[] = {
-    { "1",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsUserDev_callback,
-      (ui_callback_data_t)0 },
-    { "2",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsUserDev_callback,
-      (ui_callback_data_t)1 },
-    { "3",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsUserDev_callback,
-      (ui_callback_data_t)2 },
-    { "4",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_RsUserDev_callback,
-      (ui_callback_data_t)3 },
-    { NULL }
+    {"1",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_RsUserDev_callback,
+     (ui_callback_data_t)0},
+    {"2",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_RsUserDev_callback,
+     (ui_callback_data_t)1},
+    {"3",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_RsUserDev_callback,
+     (ui_callback_data_t)2},
+    {"4",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_RsUserDev_callback,
+     (ui_callback_data_t)3},
+    {NULL}
 };
 
 const ui_menu_entry_t rs232_noacia_menu[] = {
-    { "Userport RS232 emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_RsUserEnable_callback,
-      NULL },
-    { "Userport RS232 host device",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)rsuserdev_menu },
+    {"Userport RS232 emulation",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_RsUserEnable_callback,
+     NULL},
+    {"Userport RS232 host device",
+     MENU_ENTRY_SUBMENU,
+     submenu_radio_callback,
+     (ui_callback_data_t)rsuserdev_menu},
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Host settings"),
-    { "Device 1",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_RsDevice1_callback,
-      (ui_callback_data_t)"RS232 host device 1" },
-    { "Device 2",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_RsDevice2_callback,
-      (ui_callback_data_t)"RS232 host device 2" },
-    { "Device 3",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_RsDevice3_callback,
-      (ui_callback_data_t)"RS232 host device 3" },
-    { "Device 4",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_RsDevice4_callback,
-      (ui_callback_data_t)"RS232 host device 4" },
+    {"Device 1",
+     MENU_ENTRY_RESOURCE_STRING,
+     string_RsDevice1_callback,
+     (ui_callback_data_t)"RS232 host device 1"},
+    {"Device 2",
+     MENU_ENTRY_RESOURCE_STRING,
+     string_RsDevice2_callback,
+     (ui_callback_data_t)"RS232 host device 2"},
+    {"Device 3",
+     MENU_ENTRY_RESOURCE_STRING,
+     string_RsDevice3_callback,
+     (ui_callback_data_t)"RS232 host device 3"},
+    {"Device 4",
+     MENU_ENTRY_RESOURCE_STRING,
+     string_RsDevice4_callback,
+     (ui_callback_data_t)"RS232 host device 4"},
     VICE_SDL_RS232_ARCHDEP_ITEMS
-    { NULL }
+    {NULL}
 };
 
 const ui_menu_entry_t rs232_nouser_menu[] = {
 /*
-    { "ACIA RS232 interface emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Acia1Enable_callback,
-      NULL },
+    {"ACIA RS232 interface emulation",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_Acia1Enable_callback,
+     NULL},
 */
-    { "ACIA host device",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)acia1dev_menu },
-    { "ACIA interrupt",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)acia1irq_menu },
-    { "ACIA emulation mode",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)acia1mode_menu },
+    {"ACIA host device",
+     MENU_ENTRY_SUBMENU,
+     submenu_radio_callback,
+     (ui_callback_data_t)acia1dev_menu},
+    {"ACIA interrupt",
+     MENU_ENTRY_SUBMENU,
+     submenu_radio_callback,
+     (ui_callback_data_t)acia1irq_menu},
+    {"ACIA emulation mode",
+     MENU_ENTRY_SUBMENU,
+     submenu_radio_callback,
+     (ui_callback_data_t)acia1mode_menu},
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Host settings"),
-    { "Device 1",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_RsDevice1_callback,
-      (ui_callback_data_t)"RS232 host device 1" },
-    { "Device 2",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_RsDevice2_callback,
-      (ui_callback_data_t)"RS232 host device 2" },
-    { "Device 3",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_RsDevice3_callback,
-      (ui_callback_data_t)"RS232 host device 3" },
-    { "Device 4",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_RsDevice4_callback,
-      (ui_callback_data_t)"RS232 host device 4" },
+    {"Device 1",
+     MENU_ENTRY_RESOURCE_STRING,
+     string_RsDevice1_callback,
+     (ui_callback_data_t)"RS232 host device 1"},
+    {"Device 2",
+     MENU_ENTRY_RESOURCE_STRING,
+     string_RsDevice2_callback,
+     (ui_callback_data_t)"RS232 host device 2"},
+    {"Device 3",
+     MENU_ENTRY_RESOURCE_STRING,
+     string_RsDevice3_callback,
+     (ui_callback_data_t)"RS232 host device 3"},
+    {"Device 4",
+     MENU_ENTRY_RESOURCE_STRING,
+     string_RsDevice4_callback,
+     (ui_callback_data_t)"RS232 host device 4"},
     VICE_SDL_RS232_ARCHDEP_ITEMS
-    { NULL }
+    {NULL}
 };
 
 const ui_menu_entry_t rs232_menu[] = {
-    { "ACIA RS232 interface emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Acia1Enable_callback,
-      NULL },
-    { "ACIA host device",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)acia1dev_menu },
-    { "ACIA interrupt",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)acia1irq_menu },
-    { "ACIA emulation mode",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)acia1mode_menu },
+    {"ACIA RS232 interface emulation",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_Acia1Enable_callback,
+     NULL},
+    {"ACIA host device",
+     MENU_ENTRY_SUBMENU,
+     submenu_radio_callback,
+     (ui_callback_data_t)acia1dev_menu},
+    {"ACIA interrupt",
+     MENU_ENTRY_SUBMENU,
+     submenu_radio_callback,
+     (ui_callback_data_t)acia1irq_menu},
+    {"ACIA emulation mode",
+     MENU_ENTRY_SUBMENU,
+     submenu_radio_callback,
+     (ui_callback_data_t)acia1mode_menu},
     SDL_MENU_ITEM_SEPARATOR,
-    { "Userport RS232 emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_RsUserEnable_callback,
-      NULL },
-    { "Userport RS232 host device",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)rsuserdev_menu },
-    { "Userport RS232 baud rate",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)rsuserbaud_menu },
+    {"Userport RS232 emulation",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_RsUserEnable_callback,
+     NULL},
+    {"Userport RS232 host device",
+     MENU_ENTRY_SUBMENU,
+     submenu_radio_callback,
+     (ui_callback_data_t)rsuserdev_menu},
+    {"Userport RS232 baud rate",
+     MENU_ENTRY_SUBMENU,
+     submenu_radio_callback,
+     (ui_callback_data_t)rsuserbaud_menu},
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Host settings"),
-    { "Device 1",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_RsDevice1_callback,
-      (ui_callback_data_t)"RS232 host device 1" },
-    { "Device 2",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_RsDevice2_callback,
-      (ui_callback_data_t)"RS232 host device 2" },
-    { "Device 3",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_RsDevice3_callback,
-      (ui_callback_data_t)"RS232 host device 3" },
-    { "Device 4",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_RsDevice4_callback,
-      (ui_callback_data_t)"RS232 host device 4" },
+    {"Device 1",
+     MENU_ENTRY_RESOURCE_STRING,
+     string_RsDevice1_callback,
+     (ui_callback_data_t)"RS232 host device 1"},
+    {"Device 2",
+     MENU_ENTRY_RESOURCE_STRING,
+     string_RsDevice2_callback,
+     (ui_callback_data_t)"RS232 host device 2"},
+    {"Device 3",
+     MENU_ENTRY_RESOURCE_STRING,
+     string_RsDevice3_callback,
+     (ui_callback_data_t)"RS232 host device 3"},
+    {"Device 4",
+     MENU_ENTRY_RESOURCE_STRING,
+     string_RsDevice4_callback,
+     (ui_callback_data_t)"RS232 host device 4"},
     VICE_SDL_RS232_ARCHDEP_ITEMS
-    { NULL }
+    {NULL}
 };
 
 #endif /* HAVE_RS232 */

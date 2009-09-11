@@ -43,10 +43,9 @@
 #include "uimenu.h"
 #include "uipoll.h"
 
-
 static UI_MENU_CALLBACK(save_settings_callback)
 {
-    if(activated) {
+    if (activated) {
         if (resources_save(NULL) < 0) {
             ui_error("Cannot save current settings.");
         } else {
@@ -63,7 +62,7 @@ static UI_MENU_CALLBACK(save_settings_callback)
 
 static UI_MENU_CALLBACK(load_settings_callback)
 {
-    if(activated) {
+    if (activated) {
         if (resources_load(NULL) < 0) {
             ui_error("Cannot load settings.");
         } else {
@@ -75,7 +74,7 @@ static UI_MENU_CALLBACK(load_settings_callback)
 
 static UI_MENU_CALLBACK(default_settings_callback)
 {
-    if(activated) {
+    if (activated) {
         resources_set_defaults();
         ui_message("Default settings restored.");
     }
@@ -84,7 +83,7 @@ static UI_MENU_CALLBACK(default_settings_callback)
 
 static UI_MENU_CALLBACK(save_keymap_callback)
 {
-    if(activated) {
+    if (activated) {
         char *name = NULL;
 
         name = sdl_ui_file_selection_dialog("Choose file for keymap", FILEREQ_MODE_CHOOSE_FILE);
@@ -101,7 +100,7 @@ static UI_MENU_CALLBACK(save_keymap_callback)
 
 static UI_MENU_CALLBACK(load_keymap_callback)
 {
-    if(activated) {
+    if (activated) {
         int keymap;
         char *name = NULL;
         const char *resname;
@@ -128,13 +127,13 @@ fprintf(stderr,"%s: map %i, \"%s\"\n",__func__,keymap,resname);
 static UI_MENU_CALLBACK(save_hotkeys_callback)
 {
     const char *file = NULL;
-    if(activated) {
-        if(resources_get_string("HotkeyFile", &file)) {
+    if (activated) {
+        if (resources_get_string("HotkeyFile", &file)) {
             ui_error("Cannot find resource.");
             return NULL;
         }
 
-        if(sdlkbd_hotkeys_dump(file)) {
+        if (sdlkbd_hotkeys_dump(file)) {
             ui_error("Cannot save hotkeys.");
         } else {
             ui_message("Hotkeys saved.");
@@ -146,13 +145,13 @@ static UI_MENU_CALLBACK(save_hotkeys_callback)
 static UI_MENU_CALLBACK(load_hotkeys_callback)
 {
     const char *file = NULL;
-    if(activated) {
-        if(resources_get_string("HotkeyFile", &file)) {
+    if (activated) {
+        if (resources_get_string("HotkeyFile", &file)) {
             ui_error("Cannot find resource.");
             return NULL;
         }
 
-        if(sdlkbd_hotkeys_load(file)) {
+        if (sdlkbd_hotkeys_load(file)) {
             ui_error("Cannot load hotkeys.");
         } else {
             ui_message("Hotkeys loaded.");
@@ -165,13 +164,13 @@ static UI_MENU_CALLBACK(load_hotkeys_callback)
 static UI_MENU_CALLBACK(save_joymap_callback)
 {
     const char *file = NULL;
-    if(activated) {
-        if(resources_get_string("JoyMapFile", &file)) {
+    if (activated) {
+        if (resources_get_string("JoyMapFile", &file)) {
             ui_error("Cannot find resource.");
             return NULL;
         }
 
-        if(joy_arch_mapping_dump(file)) {
+        if (joy_arch_mapping_dump(file)) {
             ui_error("Cannot save joymap.");
         } else {
             ui_message("Joymap saved.");
@@ -183,13 +182,13 @@ static UI_MENU_CALLBACK(save_joymap_callback)
 static UI_MENU_CALLBACK(load_joymap_callback)
 {
     const char *file = NULL;
-    if(activated) {
-        if(resources_get_string("JoyMapFile", &file)) {
+    if (activated) {
+        if (resources_get_string("JoyMapFile", &file)) {
             ui_error("Cannot find resource.");
             return NULL;
         }
 
-        if(joy_arch_mapping_load(file)) {
+        if (joy_arch_mapping_load(file)) {
             ui_error("Cannot load joymap.");
         } else {
             ui_message("Joymap loaded.");
@@ -207,14 +206,14 @@ static UI_MENU_CALLBACK(custom_ui_keyset_callback)
     SDL_Event e;
     int previous;
 
-    if(resources_get_int((const char *)param, &previous)) {
+    if (resources_get_int((const char *)param, &previous)) {
         return sdl_menu_text_unknown;
     }
 
     if (activated) {
         e = sdl_ui_poll_event("key", (const char *)param, SDL_POLL_KEYBOARD | SDL_POLL_MODIFIER, 5);
 
-        if(e.type == SDL_KEYDOWN) {
+        if (e.type == SDL_KEYDOWN) {
             resources_set_int((const char *)param, (int)e.key.keysym.sym);
         }
     } else {
@@ -224,99 +223,99 @@ static UI_MENU_CALLBACK(custom_ui_keyset_callback)
 }
 
 static const ui_menu_entry_t define_ui_keyset_menu[] = {
-    { "Activate menu",
-      MENU_ENTRY_DIALOG,
-      custom_ui_keyset_callback,
-      (ui_callback_data_t)"MenuKey" },
-    { "Menu up",
-      MENU_ENTRY_DIALOG,
-      custom_ui_keyset_callback,
-      (ui_callback_data_t)"MenuKeyUp" },
-    { "Menu down",
-      MENU_ENTRY_DIALOG,
-      custom_ui_keyset_callback,
-      (ui_callback_data_t)"MenuKeyDown" },
-    { "Menu left",
-      MENU_ENTRY_DIALOG,
-      custom_ui_keyset_callback,
-      (ui_callback_data_t)"MenuKeyLeft" },
-    { "Menu right",
-      MENU_ENTRY_DIALOG,
-      custom_ui_keyset_callback,
-      (ui_callback_data_t)"MenuKeyRight" },
-    { "Menu select",
-      MENU_ENTRY_DIALOG,
-      custom_ui_keyset_callback,
-      (ui_callback_data_t)"MenuKeySelect" },
-    { "Menu cancel",
-      MENU_ENTRY_DIALOG,
-      custom_ui_keyset_callback,
-      (ui_callback_data_t)"MenuKeyCancel" },
-    { "Menu exit",
-      MENU_ENTRY_DIALOG,
-      custom_ui_keyset_callback,
-      (ui_callback_data_t)"MenuKeyExit" },
-    { "Menu map",
-      MENU_ENTRY_DIALOG,
-      custom_ui_keyset_callback,
-      (ui_callback_data_t)"MenuKeyMap" },
-    { NULL }
+    {"Activate menu",
+     MENU_ENTRY_DIALOG,
+     custom_ui_keyset_callback,
+     (ui_callback_data_t)"MenuKey"},
+    {"Menu up",
+     MENU_ENTRY_DIALOG,
+     custom_ui_keyset_callback,
+     (ui_callback_data_t)"MenuKeyUp"},
+    {"Menu down",
+     MENU_ENTRY_DIALOG,
+     custom_ui_keyset_callback,
+     (ui_callback_data_t)"MenuKeyDown"},
+    {"Menu left",
+     MENU_ENTRY_DIALOG,
+     custom_ui_keyset_callback,
+     (ui_callback_data_t)"MenuKeyLeft"},
+    {"Menu right",
+     MENU_ENTRY_DIALOG,
+     custom_ui_keyset_callback,
+     (ui_callback_data_t)"MenuKeyRight"},
+    {"Menu select",
+     MENU_ENTRY_DIALOG,
+     custom_ui_keyset_callback,
+     (ui_callback_data_t)"MenuKeySelect"},
+    {"Menu cancel",
+     MENU_ENTRY_DIALOG,
+     custom_ui_keyset_callback,
+     (ui_callback_data_t)"MenuKeyCancel"},
+    {"Menu exit",
+     MENU_ENTRY_DIALOG,
+     custom_ui_keyset_callback,
+     (ui_callback_data_t)"MenuKeyExit"},
+    {"Menu map",
+     MENU_ENTRY_DIALOG,
+     custom_ui_keyset_callback,
+     (ui_callback_data_t)"MenuKeyMap"},
+    {NULL}
 };
 
 const ui_menu_entry_t settings_manager_menu[] = {
-    { "Save current settings",
-      MENU_ENTRY_OTHER,
-      save_settings_callback,
-      NULL },
-    { "Load settings",
-      MENU_ENTRY_OTHER,
-      load_settings_callback,
-      NULL },
-    { "Restore default settings",
-      MENU_ENTRY_OTHER,
-      default_settings_callback,
-      NULL },
-    { "Save settings on exit",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_SaveResourcesOnExit_callback,
-      NULL },
+    {"Save current settings",
+     MENU_ENTRY_OTHER,
+     save_settings_callback,
+     NULL},
+    {"Load settings",
+     MENU_ENTRY_OTHER,
+     load_settings_callback,
+     NULL},
+    {"Restore default settings",
+     MENU_ENTRY_OTHER,
+     default_settings_callback,
+     NULL},
+    {"Save settings on exit",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_SaveResourcesOnExit_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "Confirm on exit",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_ConfirmOnExit_callback,
-      NULL },
+    {"Confirm on exit",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_ConfirmOnExit_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "Save keymap",
-      MENU_ENTRY_OTHER,
-      save_keymap_callback,
-      NULL },
-    { "Load keymap",
-      MENU_ENTRY_OTHER,
-      load_keymap_callback,
-      NULL },
-    { "Save hotkeys",
-      MENU_ENTRY_OTHER,
-      save_hotkeys_callback,
-      NULL },
-    { "Load hotkeys",
-      MENU_ENTRY_OTHER,
-      load_hotkeys_callback,
-      NULL },
+    {"Save keymap",
+     MENU_ENTRY_OTHER,
+     save_keymap_callback,
+     NULL},
+    {"Load keymap",
+     MENU_ENTRY_OTHER,
+     load_keymap_callback,
+     NULL},
+    {"Save hotkeys",
+     MENU_ENTRY_OTHER,
+     save_hotkeys_callback,
+     NULL},
+    {"Load hotkeys",
+     MENU_ENTRY_OTHER,
+     load_hotkeys_callback,
+     NULL},
 #ifdef HAVE_SDL_NUMJOYSTICKS
     SDL_MENU_ITEM_SEPARATOR,
-    { "Save joystick map",
-      MENU_ENTRY_OTHER,
-      save_joymap_callback,
-      NULL },
-    { "Load joystick map",
-      MENU_ENTRY_OTHER,
-      load_joymap_callback,
-      NULL },
+    {"Save joystick map",
+     MENU_ENTRY_OTHER,
+     save_joymap_callback,
+     NULL},
+    {"Load joystick map",
+     MENU_ENTRY_OTHER,
+     load_joymap_callback,
+     NULL},
 #endif
     SDL_MENU_ITEM_SEPARATOR,
-    { "Define UI keys",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)define_ui_keyset_menu },
-    { NULL }
+    {"Define UI keys",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)define_ui_keyset_menu},
+    {NULL}
 };

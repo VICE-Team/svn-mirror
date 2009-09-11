@@ -39,27 +39,25 @@
 #include "vicii.h"
 #include "videoarch.h"
 
-
 /* Border mode menu */
 
 UI_MENU_DEFINE_RADIO(VICIIBorderMode)
 
 static const ui_menu_entry_t vicii_border_menu[] = {
-    { "Normal",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICIIBorderMode_callback,
-      (ui_callback_data_t)VICII_NORMAL_BORDERS },
-    { "Full",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICIIBorderMode_callback,
-      (ui_callback_data_t)VICII_FULL_BORDERS },
-    { "Debug",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VICIIBorderMode_callback,
-      (ui_callback_data_t)VICII_DEBUG_BORDERS },
-    { NULL }
+    {"Normal",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_VICIIBorderMode_callback,
+     (ui_callback_data_t)VICII_NORMAL_BORDERS},
+    {"Full",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_VICIIBorderMode_callback,
+     (ui_callback_data_t)VICII_FULL_BORDERS},
+    {"Debug",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_VICIIBorderMode_callback,
+     (ui_callback_data_t)VICII_DEBUG_BORDERS},
+    {NULL}
 };
-
 
 /* PAL emulation menu */
 
@@ -70,31 +68,30 @@ UI_MENU_DEFINE_INT(PALOddLinePhase)
 UI_MENU_DEFINE_INT(PALOddLineOffset)
 
 static const ui_menu_entry_t pal_controls_menu[] = {
-    { "PAL emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_PALEmulation_callback,
-      NULL },
+    {"PAL emulation",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_PALEmulation_callback,
+     NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("PAL controls"),
-    { "Scanline shade",
-      MENU_ENTRY_RESOURCE_INT,
-      int_PALScanLineShade_callback,
-      (ui_callback_data_t)"Set PAL shade (0-1000)"},
-    { "Blur",
-      MENU_ENTRY_RESOURCE_INT,
-      int_PALBlur_callback,
-      (ui_callback_data_t)"Set PAL blur (0-1000)"},
-    { "Oddline phase",
-      MENU_ENTRY_RESOURCE_INT,
-      int_PALOddLinePhase_callback,
-      (ui_callback_data_t)"Set PAL oddline phase (0-2000)"},
-    { "Oddline offset",
-      MENU_ENTRY_RESOURCE_INT,
-      int_PALOddLineOffset_callback,
-      (ui_callback_data_t)"Set PAL oddline offset (0-2000)"},
-    { NULL }
+    {"Scanline shade",
+     MENU_ENTRY_RESOURCE_INT,
+     int_PALScanLineShade_callback,
+     (ui_callback_data_t)"Set PAL shade (0-1000)"},
+    {"Blur",
+     MENU_ENTRY_RESOURCE_INT,
+     int_PALBlur_callback,
+     (ui_callback_data_t)"Set PAL blur (0-1000)"},
+    {"Oddline phase",
+     MENU_ENTRY_RESOURCE_INT,
+     int_PALOddLinePhase_callback,
+     (ui_callback_data_t)"Set PAL oddline phase (0-2000)"},
+    {"Oddline offset",
+     MENU_ENTRY_RESOURCE_INT,
+     int_PALOddLineOffset_callback,
+     (ui_callback_data_t)"Set PAL oddline offset (0-2000)"},
+    {NULL}
 };
-
 
 /* Color menu */
 
@@ -105,29 +102,28 @@ UI_MENU_DEFINE_INT(ColorContrast)
 UI_MENU_DEFINE_INT(ColorBrightness)
 
 static const ui_menu_entry_t color_controls_menu[] = {
-    { "Gamma",
-      MENU_ENTRY_RESOURCE_INT,
-      int_ColorGamma_callback,
-      (ui_callback_data_t)"Set gamma (0-2000)"},
-    { "Tint",
-      MENU_ENTRY_RESOURCE_INT,
-      int_ColorTint_callback,
-      (ui_callback_data_t)"Set tint (0-2000)"},
-    { "Saturation",
-      MENU_ENTRY_RESOURCE_INT,
-      int_ColorSaturation_callback,
-      (ui_callback_data_t)"Set saturation (0-2000)"},
-    { "Contrast",
-      MENU_ENTRY_RESOURCE_INT,
-      int_ColorContrast_callback,
-      (ui_callback_data_t)"Set contrast (0-2000)"},
-    { "Brightness",
-      MENU_ENTRY_RESOURCE_INT,
-      int_ColorBrightness_callback,
-      (ui_callback_data_t)"Set brightness (0-2000)"},
-    { NULL }
+    {"Gamma",
+     MENU_ENTRY_RESOURCE_INT,
+     int_ColorGamma_callback,
+     (ui_callback_data_t)"Set gamma (0-2000)"},
+    {"Tint",
+     MENU_ENTRY_RESOURCE_INT,
+     int_ColorTint_callback,
+     (ui_callback_data_t)"Set tint (0-2000)"},
+    {"Saturation",
+     MENU_ENTRY_RESOURCE_INT,
+     int_ColorSaturation_callback,
+     (ui_callback_data_t)"Set saturation (0-2000)"},
+    {"Contrast",
+     MENU_ENTRY_RESOURCE_INT,
+     int_ColorContrast_callback,
+     (ui_callback_data_t)"Set contrast (0-2000)"},
+    {"Brightness",
+     MENU_ENTRY_RESOURCE_INT,
+     int_ColorBrightness_callback,
+     (ui_callback_data_t)"Set brightness (0-2000)"},
+    {NULL}
 };
-
 
 /* Size menu template */
 
@@ -135,53 +131,53 @@ UI_MENU_DEFINE_INT(SDLCustomWidth)
 UI_MENU_DEFINE_INT(SDLCustomHeight)
 UI_MENU_DEFINE_RADIO(SDLLimitMode)
 
-#define VICE_SDL_SIZE_MENU_ITEMS(chip)  \
-    { "Double size", \
-      MENU_ENTRY_RESOURCE_TOGGLE, \
-      toggle_##chip##DoubleSize_callback, \
-      NULL }, \
-    { "Double scan", \
-      MENU_ENTRY_RESOURCE_TOGGLE, \
-      toggle_##chip##DoubleScan_callback, \
-      NULL }, \
-    { "Fullscreen", \
-      MENU_ENTRY_RESOURCE_TOGGLE, \
-      toggle_##chip##Fullscreen_callback, \
-      NULL }, \
-    SDL_MENU_ITEM_SEPARATOR, \
-    SDL_MENU_ITEM_TITLE("Fullscreen mode"), \
-    { "Automatic", \
-      MENU_ENTRY_RESOURCE_RADIO, \
-      radio_##chip##SDLFullscreenMode_callback, \
-      (ui_callback_data_t)FULLSCREEN_MODE_AUTO }, \
-    { "Custom", \
-      MENU_ENTRY_RESOURCE_RADIO, \
-      radio_##chip##SDLFullscreenMode_callback, \
-      (ui_callback_data_t)FULLSCREEN_MODE_CUSTOM }, \
-    SDL_MENU_ITEM_SEPARATOR, \
-    SDL_MENU_ITEM_TITLE("Custom resolution"), \
-    { "Width", \
-      MENU_ENTRY_RESOURCE_INT, \
-      int_SDLCustomWidth_callback, \
-      (ui_callback_data_t)"Set width" }, \
-    { "Height", \
-      MENU_ENTRY_RESOURCE_INT, \
-      int_SDLCustomHeight_callback, \
-      (ui_callback_data_t)"Set height" }, \
-    SDL_MENU_ITEM_SEPARATOR, \
+#define VICE_SDL_SIZE_MENU_ITEMS(chip)            \
+    {"Double size",                               \
+     MENU_ENTRY_RESOURCE_TOGGLE,                  \
+     toggle_##chip##DoubleSize_callback,          \
+     NULL},                                       \
+    {"Double scan",                               \
+     MENU_ENTRY_RESOURCE_TOGGLE,                  \
+     toggle_##chip##DoubleScan_callback,          \
+     NULL},                                       \
+    {"Fullscreen",                                \
+     MENU_ENTRY_RESOURCE_TOGGLE,                  \
+     toggle_##chip##Fullscreen_callback,          \
+     NULL},                                       \
+    SDL_MENU_ITEM_SEPARATOR,                      \
+    SDL_MENU_ITEM_TITLE("Fullscreen mode"),       \
+    {"Automatic",                                 \
+     MENU_ENTRY_RESOURCE_RADIO,                   \
+     radio_##chip##SDLFullscreenMode_callback,    \
+     (ui_callback_data_t)FULLSCREEN_MODE_AUTO},   \
+    {"Custom",                                    \
+     MENU_ENTRY_RESOURCE_RADIO,                   \
+     radio_##chip##SDLFullscreenMode_callback,    \
+     (ui_callback_data_t)FULLSCREEN_MODE_CUSTOM}, \
+    SDL_MENU_ITEM_SEPARATOR,                      \
+    SDL_MENU_ITEM_TITLE("Custom resolution"),     \
+    {"Width",                                     \
+     MENU_ENTRY_RESOURCE_INT,                     \
+     int_SDLCustomWidth_callback,                 \
+     (ui_callback_data_t)"Set width"},            \
+    {"Height",                                    \
+     MENU_ENTRY_RESOURCE_INT,                     \
+     int_SDLCustomHeight_callback,                \
+     (ui_callback_data_t)"Set height"},           \
+    SDL_MENU_ITEM_SEPARATOR,                      \
     SDL_MENU_ITEM_TITLE("Resolution limit mode"), \
-    { "Off", \
-      MENU_ENTRY_RESOURCE_RADIO, \
-      radio_SDLLimitMode_callback, \
-      (ui_callback_data_t)SDL_LIMIT_MODE_OFF }, \
-    { "Max", \
-      MENU_ENTRY_RESOURCE_RADIO, \
-      radio_SDLLimitMode_callback, \
-      (ui_callback_data_t)SDL_LIMIT_MODE_MAX }, \
-    { "Fixed", \
-      MENU_ENTRY_RESOURCE_RADIO, \
-      radio_SDLLimitMode_callback, \
-      (ui_callback_data_t)SDL_LIMIT_MODE_FIXED },
+    {"Off",                                       \
+     MENU_ENTRY_RESOURCE_RADIO,                   \
+     radio_SDLLimitMode_callback,                 \
+     (ui_callback_data_t)SDL_LIMIT_MODE_OFF},     \
+    {"Max",                                       \
+     MENU_ENTRY_RESOURCE_RADIO,                   \
+     radio_SDLLimitMode_callback,                 \
+     (ui_callback_data_t)SDL_LIMIT_MODE_MAX},     \
+    {"Fixed",                                     \
+     MENU_ENTRY_RESOURCE_RADIO,                   \
+     radio_SDLLimitMode_callback,                 \
+     (ui_callback_data_t)SDL_LIMIT_MODE_FIXED},
 
 #ifdef HAVE_HWSCALE
 UI_MENU_DEFINE_TOGGLE(VICIIHwScale)
@@ -192,23 +188,22 @@ UI_MENU_DEFINE_TOGGLE(VICHwScale)
 UI_MENU_DEFINE_TOGGLE(SDLGLAspectMode)
 UI_MENU_DEFINE_STRING(AspectRatio)
 
-#define VICE_SDL_SIZE_MENU_OPENGL_ITEMS(chip)  \
-    SDL_MENU_ITEM_SEPARATOR, \
-    SDL_MENU_ITEM_TITLE("OpenGL"), \
-    { "OpenGL free scaling", \
-      MENU_ENTRY_RESOURCE_TOGGLE, \
-      toggle_##chip##HwScale_callback, \
-      NULL }, \
-    { "Fixed aspect ratio", \
-      MENU_ENTRY_RESOURCE_TOGGLE, \
-      toggle_SDLGLAspectMode_callback, \
-      NULL }, \
-    { "Aspect ratio", \
-      MENU_ENTRY_RESOURCE_STRING, \
-      string_AspectRatio_callback, \
-      (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" },
+#define VICE_SDL_SIZE_MENU_OPENGL_ITEMS(chip) \
+    SDL_MENU_ITEM_SEPARATOR,                  \
+    SDL_MENU_ITEM_TITLE("OpenGL"),            \
+    {"OpenGL free scaling",                   \
+     MENU_ENTRY_RESOURCE_TOGGLE,              \
+     toggle_##chip##HwScale_callback,         \
+     NULL},                                   \
+    {"Fixed aspect ratio",                    \
+     MENU_ENTRY_RESOURCE_TOGGLE,              \
+     toggle_SDLGLAspectMode_callback,         \
+     NULL},                                   \
+    {"Aspect ratio",                          \
+     MENU_ENTRY_RESOURCE_STRING,              \
+     string_AspectRatio_callback,             \
+     (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)"},
 #endif
-
 
 /* VICII size menu */
 
@@ -222,9 +217,8 @@ static const ui_menu_entry_t vicii_size_menu[] = {
 #ifdef HAVE_HWSCALE
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(VICII)
 #endif
-    { NULL }
+    {NULL}
 };
-
 
 /* VDC size menu */
 
@@ -238,9 +232,8 @@ static const ui_menu_entry_t vdc_size_menu[] = {
 #ifdef HAVE_HWSCALE
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(VDC)
 #endif
-    { NULL }
+    {NULL}
 };
-
 
 /* Crtc size menu */
 
@@ -254,9 +247,8 @@ static const ui_menu_entry_t crtc_size_menu[] = {
 #ifdef HAVE_HWSCALE
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(Crtc)
 #endif
-    { NULL }
+    {NULL}
 };
-
 
 /* TED size menu */
 
@@ -270,9 +262,8 @@ static const ui_menu_entry_t ted_size_menu[] = {
 #ifdef HAVE_HWSCALE
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(TED)
 #endif
-    { NULL }
+    {NULL}
 };
-
 
 /* VIC size menu */
 
@@ -286,9 +277,8 @@ static const ui_menu_entry_t vic_size_menu[] = {
 #ifdef HAVE_HWSCALE
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(VIC)
 #endif
-    { NULL }
+    {NULL}
 };
-
 
 /* Misc. callbacks */
 
@@ -306,7 +296,6 @@ UI_MENU_DEFINE_TOGGLE(VICIIExternalPalette)
 UI_MENU_DEFINE_TOGGLE(TEDExternalPalette)
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
-
 static UI_MENU_CALLBACK(restore_size_callback)
 {
     if (activated) {
@@ -320,7 +309,6 @@ UI_MENU_DEFINE_FILE_STRING(VDCPaletteFile)
 UI_MENU_DEFINE_FILE_STRING(CrtcPaletteFile)
 UI_MENU_DEFINE_FILE_STRING(TEDPaletteFile)
 UI_MENU_DEFINE_FILE_STRING(VICPaletteFile)
-
 
 /* C128 video menu */
 
@@ -340,368 +328,361 @@ static UI_MENU_CALLBACK(radio_VideoOutput_c128_callback)
 
 const ui_menu_entry_t c128_video_menu[] = {
     SDL_MENU_ITEM_TITLE("Video output"),
-    { "VICII (40 cols)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VideoOutput_c128_callback,
-      (ui_callback_data_t)0 },
-    { "VDC (80 cols)",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_VideoOutput_c128_callback,
-      (ui_callback_data_t)1 },
+    {"VICII (40 cols)",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_VideoOutput_c128_callback,
+     (ui_callback_data_t)0},
+    {"VDC (80 cols)",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_VideoOutput_c128_callback,
+     (ui_callback_data_t)1},
     SDL_MENU_ITEM_SEPARATOR,
-    { "VICII size settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_size_menu },
-    { "VDC size settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vdc_size_menu },
-    { "Restore window size",
-      MENU_ENTRY_OTHER,
-      restore_size_callback,
-      NULL },
+    {"VICII size settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)vicii_size_menu},
+    {"VDC size settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)vdc_size_menu},
+    {"Restore window size",
+     MENU_ENTRY_OTHER,
+     restore_size_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "VICII Video cache",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIVideoCache_callback,
-      NULL },
-    { "VICII border mode",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)vicii_border_menu },
-    { "VICII New luminances",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIINewLuminances_callback,
-      NULL },
-    { "VICII Color controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)color_controls_menu },
-    { "PAL emulation controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)pal_controls_menu },
-    { "VICII Scale2x",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIScale2x_callback,
-      NULL },
-    { "External VICII palette",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIExternalPalette_callback,
-      NULL },
-    { "VICII external palette file",
-      MENU_ENTRY_DIALOG,
-      file_string_VICIIPaletteFile_callback,
-      (ui_callback_data_t)"Choose VICII palette file" },
+    {"VICII Video cache",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_VICIIVideoCache_callback,
+     NULL},
+    {"VICII border mode",
+     MENU_ENTRY_SUBMENU,
+     submenu_radio_callback,
+     (ui_callback_data_t)vicii_border_menu},
+    {"VICII New luminances",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_VICIINewLuminances_callback,
+     NULL},
+    {"VICII Color controls",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)color_controls_menu},
+    {"PAL emulation controls",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)pal_controls_menu},
+    {"VICII Scale2x",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_VICIIScale2x_callback,
+     NULL},
+    {"External VICII palette",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_VICIIExternalPalette_callback,
+     NULL},
+    {"VICII external palette file",
+     MENU_ENTRY_DIALOG,
+     file_string_VICIIPaletteFile_callback,
+     (ui_callback_data_t)"Choose VICII palette file"},
     SDL_MENU_ITEM_SEPARATOR,
-    { "VDC Video cache",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VDCVideoCache_callback,
-      NULL },
-    { "VDC external palette file",
-      MENU_ENTRY_DIALOG,
-      file_string_VDCPaletteFile_callback,
-      (ui_callback_data_t)"Choose VDC palette file" },
+    {"VDC Video cache",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_VDCVideoCache_callback,
+     NULL},
+    {"VDC external palette file",
+     MENU_ENTRY_DIALOG,
+     file_string_VDCPaletteFile_callback,
+     (ui_callback_data_t)"Choose VDC palette file"},
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Video Standard"),
-    { "PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_PAL },
-    { "NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_NTSC },
-    { NULL }
+    {"PAL",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_MachineVideoStandard_callback,
+     (ui_callback_data_t)MACHINE_SYNC_PAL},
+    {"NTSC",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_MachineVideoStandard_callback,
+     (ui_callback_data_t)MACHINE_SYNC_NTSC},
+    {NULL}
 };
-
 
 /* C64 video menu */
 
 const ui_menu_entry_t c64_video_menu[] = {
-    { "Size settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_size_menu },
-    { "Restore window size",
-      MENU_ENTRY_OTHER,
-      restore_size_callback,
-      NULL },
+    {"Size settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)vicii_size_menu},
+    {"Restore window size",
+     MENU_ENTRY_OTHER,
+     restore_size_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "Video cache",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIVideoCache_callback,
-      NULL },
+    {"Video cache",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_VICIIVideoCache_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "VICII border mode",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)vicii_border_menu },
+    {"VICII border mode",
+     MENU_ENTRY_SUBMENU,
+     submenu_radio_callback,
+     (ui_callback_data_t)vicii_border_menu},
     SDL_MENU_ITEM_SEPARATOR,
-    { "New luminances",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIINewLuminances_callback,
-      NULL },
-    { "Color controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)color_controls_menu },
-    { "PAL emulation controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)pal_controls_menu },
-    { "Scale2x",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIScale2x_callback,
-      NULL },
+    {"New luminances",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_VICIINewLuminances_callback,
+     NULL},
+    {"Color controls",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)color_controls_menu},
+    {"PAL emulation controls",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)pal_controls_menu},
+    {"Scale2x",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_VICIIScale2x_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "External palette",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIExternalPalette_callback,
-      NULL },
-    { "External palette file",
-      MENU_ENTRY_DIALOG,
-      file_string_VICIIPaletteFile_callback,
-      (ui_callback_data_t)"Choose palette file" },
+    {"External palette",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_VICIIExternalPalette_callback,
+     NULL},
+    {"External palette file",
+     MENU_ENTRY_DIALOG,
+     file_string_VICIIPaletteFile_callback,
+     (ui_callback_data_t)"Choose palette file"},
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Video Standard"),
-    { "PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_PAL },
-    { "NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_NTSC },
-    { "NTSC old",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_NTSCOLD },
-    { NULL }
+    {"PAL",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_MachineVideoStandard_callback,
+     (ui_callback_data_t)MACHINE_SYNC_PAL},
+    {"NTSC",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_MachineVideoStandard_callback,
+     (ui_callback_data_t)MACHINE_SYNC_NTSC},
+    {"NTSC old",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_MachineVideoStandard_callback,
+     (ui_callback_data_t)MACHINE_SYNC_NTSCOLD},
+    {NULL}
 };
-
 
 /* C64DTV video menu */
 
 const ui_menu_entry_t c64dtv_video_menu[] = {
-    { "Size settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_size_menu },
-    { "Restore window size",
-      MENU_ENTRY_OTHER,
-      restore_size_callback,
-      NULL },
+    {"Size settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)vicii_size_menu},
+    {"Restore window size",
+     MENU_ENTRY_OTHER,
+     restore_size_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "Video cache",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIVideoCache_callback,
-      NULL },
+    {"Video cache",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_VICIIVideoCache_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "VICII border mode",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)vicii_border_menu },
+    {"VICII border mode",
+     MENU_ENTRY_SUBMENU,
+     submenu_radio_callback,
+     (ui_callback_data_t)vicii_border_menu},
     SDL_MENU_ITEM_SEPARATOR,
-    { "Colorfix",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIINewLuminances_callback,
-      NULL },
-    { "Color controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)color_controls_menu },
-    { "PAL emulation controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)pal_controls_menu },
-    { "Scale2x",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIScale2x_callback,
-      NULL },
+    {"Colorfix",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_VICIINewLuminances_callback,
+     NULL},
+    {"Color controls",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)color_controls_menu},
+    {"PAL emulation controls",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)pal_controls_menu},
+    {"Scale2x",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_VICIIScale2x_callback,
+     NULL},
 #if 0   /* disabled until there are external DTV palette files available */
-    { "External palette",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIExternalPalette_callback,
-      NULL },
-    { "External palette file",
-      MENU_ENTRY_DIALOG,
-      file_string_VICIIPaletteFile_callback,
-      (ui_callback_data_t)"Choose palette file" },
+    {"External palette",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_VICIIExternalPalette_callback,
+     NULL},
+    {"External palette file",
+     MENU_ENTRY_DIALOG,
+     file_string_VICIIPaletteFile_callback,
+     (ui_callback_data_t)"Choose palette file"},
 #endif
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Video Standard"),
-    { "PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_PAL },
-    { "NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_NTSC },
-    { NULL }
+    {"PAL",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_MachineVideoStandard_callback,
+     (ui_callback_data_t)MACHINE_SYNC_PAL},
+    {"NTSC",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_MachineVideoStandard_callback,
+     (ui_callback_data_t)MACHINE_SYNC_NTSC},
+    {NULL}
 };
-
 
 /* CBM-II 5x0 video menu */
 
 const ui_menu_entry_t cbm5x0_video_menu[] = {
-    { "Size settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vicii_size_menu },
-    { "Restore window size",
-      MENU_ENTRY_OTHER,
-      restore_size_callback,
-      NULL },
+    {"Size settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)vicii_size_menu},
+    {"Restore window size",
+     MENU_ENTRY_OTHER,
+     restore_size_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "Video cache",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIVideoCache_callback,
-      NULL },
+    {"Video cache",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_VICIIVideoCache_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "VICII border mode",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)vicii_border_menu },
+    {"VICII border mode",
+     MENU_ENTRY_SUBMENU,
+     submenu_radio_callback,
+     (ui_callback_data_t)vicii_border_menu},
     SDL_MENU_ITEM_SEPARATOR,
-    { "Color controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)color_controls_menu },
-    { "PAL emulation controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)pal_controls_menu },
-    { "Scale2x",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIScale2x_callback,
-      NULL },
+    {"Color controls",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)color_controls_menu},
+    {"PAL emulation controls",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)pal_controls_menu},
+    {"Scale2x",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_VICIIScale2x_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "External palette",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIExternalPalette_callback,
-      NULL },
-    { "External palette file",
-      MENU_ENTRY_DIALOG,
-      file_string_VICIIPaletteFile_callback,
-      (ui_callback_data_t)"Choose palette file" },
+    {"External palette",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_VICIIExternalPalette_callback,
+     NULL},
+    {"External palette file",
+     MENU_ENTRY_DIALOG,
+     file_string_VICIIPaletteFile_callback,
+     (ui_callback_data_t)"Choose palette file"},
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Video Standard"),
-    { "PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_PAL },
-    { "NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_NTSC },
-    { NULL }
+    {"PAL",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_MachineVideoStandard_callback,
+     (ui_callback_data_t)MACHINE_SYNC_PAL},
+    {"NTSC",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_MachineVideoStandard_callback,
+     (ui_callback_data_t)MACHINE_SYNC_NTSC},
+    {NULL}
 };
-
 
 /* CBM-II 6x0/7x0 video menu */
 
 const ui_menu_entry_t cbm6x0_7x0_video_menu[] = {
-    { "Size settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)crtc_size_menu },
-    { "Restore window size",
-      MENU_ENTRY_OTHER,
-      restore_size_callback,
-      NULL },
+    {"Size settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)crtc_size_menu},
+    {"Restore window size",
+     MENU_ENTRY_OTHER,
+     restore_size_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "Video cache",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CrtcVideoCache_callback,
-      NULL },
+    {"Video cache",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_CrtcVideoCache_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "External palette file",
-      MENU_ENTRY_DIALOG,
-      file_string_CrtcPaletteFile_callback,
-      (ui_callback_data_t)"Choose palette file" },
-    { NULL }
+    {"External palette file",
+     MENU_ENTRY_DIALOG,
+     file_string_CrtcPaletteFile_callback,
+     (ui_callback_data_t)"Choose palette file"},
+    {NULL}
 };
-
 
 /* PET video menu */
 
 const ui_menu_entry_t pet_video_menu[] = {
-    { "Size settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)crtc_size_menu },
-    { "Restore window size",
-      MENU_ENTRY_OTHER,
-      restore_size_callback,
-      NULL },
+    {"Size settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)crtc_size_menu},
+    {"Restore window size",
+     MENU_ENTRY_OTHER,
+     restore_size_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "Video cache",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CrtcVideoCache_callback,
-      NULL },
+    {"Video cache",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_CrtcVideoCache_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "External palette file",
-      MENU_ENTRY_DIALOG,
-      file_string_CrtcPaletteFile_callback,
-      (ui_callback_data_t)"Choose palette file" },
-    { NULL }
+    {"External palette file",
+     MENU_ENTRY_DIALOG,
+     file_string_CrtcPaletteFile_callback,
+     (ui_callback_data_t)"Choose palette file"},
+    {NULL}
 };
-
 
 /* PLUS4 video menu */
 
 const ui_menu_entry_t plus4_video_menu[] = {
-    { "Size settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ted_size_menu },
-    { "Restore window size",
-      MENU_ENTRY_OTHER,
-      restore_size_callback,
-      NULL },
+    {"Size settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)ted_size_menu},
+    {"Restore window size",
+     MENU_ENTRY_OTHER,
+     restore_size_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "Video cache",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_TEDVideoCache_callback,
-      NULL },
+    {"Video cache",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_TEDVideoCache_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "Color controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)color_controls_menu },
-    { "PAL emulation controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)pal_controls_menu },
-    { "Scale2x",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_TEDScale2x_callback,
-      NULL },
+    {"Color controls",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)color_controls_menu},
+    {"PAL emulation controls",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)pal_controls_menu},
+    {"Scale2x",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_TEDScale2x_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "External palette",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_TEDExternalPalette_callback,
-      NULL },
-    { "External palette file",
-      MENU_ENTRY_DIALOG,
-      file_string_TEDPaletteFile_callback,
-      (ui_callback_data_t)"Choose palette file" },
+    {"External palette",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_TEDExternalPalette_callback,
+     NULL},
+    {"External palette file",
+     MENU_ENTRY_DIALOG,
+     file_string_TEDPaletteFile_callback,
+     (ui_callback_data_t)"Choose palette file"},
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Video Standard"),
-    { "PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_PAL },
-    { "NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_callback,
-      (ui_callback_data_t)MACHINE_SYNC_NTSC },
-    { NULL }
+    {"PAL",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_MachineVideoStandard_callback,
+     (ui_callback_data_t)MACHINE_SYNC_PAL},
+    {"NTSC",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_MachineVideoStandard_callback,
+     (ui_callback_data_t)MACHINE_SYNC_NTSC},
+    {NULL}
 };
-
 
 /* VIC-20 video menu */
 
@@ -717,51 +698,50 @@ static UI_MENU_CALLBACK(radio_MachineVideoStandard_vic20_callback)
 }
 
 const ui_menu_entry_t vic20_video_menu[] = {
-    { "Size settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)vic_size_menu },
-    { "Restore window size",
-      MENU_ENTRY_OTHER,
-      restore_size_callback,
-      NULL },
+    {"Size settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)vic_size_menu},
+    {"Restore window size",
+     MENU_ENTRY_OTHER,
+     restore_size_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "Video cache",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICVideoCache_callback,
-      NULL },
+    {"Video cache",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_VICVideoCache_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "Color controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)color_controls_menu },
-    { "PAL emulation controls",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)pal_controls_menu },
-    { "Scale2x",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICScale2x_callback,
-      NULL },
+    {"Color controls",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)color_controls_menu},
+    {"PAL emulation controls",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)pal_controls_menu},
+    {"Scale2x",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_VICScale2x_callback,
+     NULL},
     SDL_MENU_ITEM_SEPARATOR,
-    { "External palette",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICExternalPalette_callback,
-      NULL },
-    { "External palette file",
-      MENU_ENTRY_DIALOG,
-      file_string_VICPaletteFile_callback,
-      (ui_callback_data_t)"Choose palette file" },
+    {"External palette",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_VICExternalPalette_callback,
+     NULL},
+    {"External palette file",
+     MENU_ENTRY_DIALOG,
+     file_string_VICPaletteFile_callback,
+     (ui_callback_data_t)"Choose palette file"},
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Video Standard"),
-    { "PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_vic20_callback,
-      (ui_callback_data_t)MACHINE_SYNC_PAL },
-    { "NTSC",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MachineVideoStandard_vic20_callback,
-      (ui_callback_data_t)MACHINE_SYNC_NTSC },
-    { NULL }
+    {"PAL",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_MachineVideoStandard_vic20_callback,
+     (ui_callback_data_t)MACHINE_SYNC_PAL},
+    {"NTSC",
+     MENU_ENTRY_RESOURCE_RADIO,
+     radio_MachineVideoStandard_vic20_callback,
+     (ui_callback_data_t)MACHINE_SYNC_NTSC},
+    {NULL}
 };
-

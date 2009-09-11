@@ -47,170 +47,131 @@ UI_MENU_DEFINE_FILE_STRING(DosName1001)
 UI_MENU_DEFINE_FILE_STRING(DosName1571cr)
 UI_MENU_DEFINE_FILE_STRING(DosName1551)
 
+#define DRIVE_ROM_1541_ITEM            \
+    {"1541 ROM file",                  \
+     MENU_ENTRY_DIALOG,                \
+     file_string_DosName1541_callback, \
+     (ui_callback_data_t)"Select 1541 ROM image"}
+
+#define DRIVE_ROM_1541II_ITEM            \
+    {"1541-II ROM file",                 \
+     MENU_ENTRY_DIALOG,                  \
+     file_string_DosName1541ii_callback, \
+     (ui_callback_data_t)"Select 1541-II ROM image"}
+
+#define DRIVE_ROM_1551_ITEM            \
+    {"1551 ROM file",                  \
+     MENU_ENTRY_DIALOG,                \
+     file_string_DosName1551_callback, \
+     (ui_callback_data_t)"Select 1551 ROM image"}
+
+#define DRIVE_ROM_1570_ITEM            \
+    {"1570 ROM file",                  \
+     MENU_ENTRY_DIALOG,                \
+     file_string_DosName1570_callback, \
+     (ui_callback_data_t)"Select 1570 ROM image"}
+
+#define DRIVE_ROM_1571_ITEM            \
+    {"1571 ROM file",                  \
+     MENU_ENTRY_DIALOG,                \
+     file_string_DosName1571_callback, \
+     (ui_callback_data_t)"Select 1571 ROM image"}
+
+#define DRIVE_ROM_1571CR_ITEM            \
+    {"1571CR ROM file",                  \
+     MENU_ENTRY_DIALOG,                  \
+     file_string_DosName1571cr_callback, \
+     (ui_callback_data_t)"Select 1571CR ROM image"}
+
+#define DRIVE_ROM_1581_ITEM            \
+    {"1581 ROM file",                  \
+     MENU_ENTRY_DIALOG,                \
+     file_string_DosName1581_callback, \
+     (ui_callback_data_t)"Select 1581 ROM image"}
+
+#define DRIVE_ROM_2031_ITEM            \
+    {"2031 ROM file",                  \
+     MENU_ENTRY_DIALOG,                \
+     file_string_DosName2031_callback, \
+     (ui_callback_data_t)"Select 2031 ROM image"}
+
+#define DRIVE_ROM_2040_ITEM            \
+    {"2040 ROM file",                  \
+     MENU_ENTRY_DIALOG,                \
+     file_string_DosName2040_callback, \
+     (ui_callback_data_t)"Select 2040 ROM image"}
+
+#define DRIVE_ROM_3040_ITEM            \
+    {"3040 ROM file",                  \
+     MENU_ENTRY_DIALOG,                \
+     file_string_DosName3040_callback, \
+     (ui_callback_data_t)"Select 3040 ROM image"}
+
+#define DRIVE_ROM_4040_ITEM            \
+    {"4040 ROM file",                  \
+     MENU_ENTRY_DIALOG,                \
+     file_string_DosName4040_callback, \
+     (ui_callback_data_t)"Select 4040 ROM image"}
+
+#define DRIVE_ROM_1001_ITEM            \
+    {"1001 ROM file",                  \
+     MENU_ENTRY_DIALOG,                \
+     file_string_DosName1001_callback, \
+     (ui_callback_data_t)"Select 1001 ROM image"}
+
 const ui_menu_entry_t c128_drive_rom_menu[] = {
-    { "1541 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1541_callback,
-      (ui_callback_data_t)"Select 1541 ROM image" },
-    { "1541-II ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1541ii_callback,
-      (ui_callback_data_t)"Select 1541-II ROM image" },
-    { "1570 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1570_callback,
-      (ui_callback_data_t)"Select 1570 ROM image" },
-    { "1571 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1571_callback,
-      (ui_callback_data_t)"Select 1571 ROM image" },
-    { "1571CR ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1571cr_callback,
-      (ui_callback_data_t)"Select 1571CR ROM image" },
-    { "1581 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1581_callback,
-      (ui_callback_data_t)"Select 1581 ROM image" },
-    { "2031 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName2031_callback,
-      (ui_callback_data_t)"Select 2031 ROM image" },
-    { "2040 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName2040_callback,
-      (ui_callback_data_t)"Select 2040 ROM image" },
-    { "3040 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName3040_callback,
-      (ui_callback_data_t)"Select 3040 ROM image" },
-    { "4040 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName4040_callback,
-      (ui_callback_data_t)"Select 4040 ROM image" },
-    { "1001 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1001_callback,
-      (ui_callback_data_t)"Select 1001 ROM image" },
-    { NULL }
+    DRIVE_ROM_1541_ITEM,
+    DRIVE_ROM_1541II_ITEM,
+    DRIVE_ROM_1570_ITEM,
+    DRIVE_ROM_1571_ITEM,
+    DRIVE_ROM_1571CR_ITEM,
+    DRIVE_ROM_1581_ITEM,
+    DRIVE_ROM_2031_ITEM,
+    DRIVE_ROM_2040_ITEM,
+    DRIVE_ROM_3040_ITEM,
+    DRIVE_ROM_4040_ITEM,
+    DRIVE_ROM_1001_ITEM,
+    {NULL}
 };
 
 const ui_menu_entry_t plus4_drive_rom_menu[] = {
-    { "1541 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1541_callback,
-      (ui_callback_data_t)"Select 1541 ROM image" },
-    { "1541-II ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1541ii_callback,
-      (ui_callback_data_t)"Select 1541-II ROM image" },
-    { "1551 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1551_callback,
-      (ui_callback_data_t)"Select 1551 ROM image" },
-    { "1570 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1570_callback,
-      (ui_callback_data_t)"Select 1570 ROM image" },
-    { "1571 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1571_callback,
-      (ui_callback_data_t)"Select 1571 ROM image" },
-    { "1581 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1581_callback,
-      (ui_callback_data_t)"Select 1581 ROM image" },
-    { NULL }
+    DRIVE_ROM_1541_ITEM,
+    DRIVE_ROM_1541II_ITEM,
+    DRIVE_ROM_1551_ITEM,
+    DRIVE_ROM_1570_ITEM,
+    DRIVE_ROM_1571_ITEM,
+    DRIVE_ROM_1581_ITEM,
+    {NULL}
 };
 
 const ui_menu_entry_t iec_ieee_drive_rom_menu[] = {
-    { "1541 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1541_callback,
-      (ui_callback_data_t)"Select 1541 ROM image" },
-    { "1541-II ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1541ii_callback,
-      (ui_callback_data_t)"Select 1541-II ROM image" },
-    { "1570 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1570_callback,
-      (ui_callback_data_t)"Select 1570 ROM image" },
-    { "1571 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1571_callback,
-      (ui_callback_data_t)"Select 1571 ROM image" },
-    { "1581 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1581_callback,
-      (ui_callback_data_t)"Select 1581 ROM image" },
-    { "2031 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName2031_callback,
-      (ui_callback_data_t)"Select 2031 ROM image" },
-    { "2040 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName2040_callback,
-      (ui_callback_data_t)"Select 2040 ROM image" },
-    { "3040 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName3040_callback,
-      (ui_callback_data_t)"Select 3040 ROM image" },
-    { "4040 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName4040_callback,
-      (ui_callback_data_t)"Select 4040 ROM image" },
-    { "1001 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1001_callback,
-      (ui_callback_data_t)"Select 1001 ROM image" },
-    { NULL }
+    DRIVE_ROM_1541_ITEM,
+    DRIVE_ROM_1541II_ITEM,
+    DRIVE_ROM_1570_ITEM,
+    DRIVE_ROM_1571_ITEM,
+    DRIVE_ROM_1581_ITEM,
+    DRIVE_ROM_2031_ITEM,
+    DRIVE_ROM_2040_ITEM,
+    DRIVE_ROM_3040_ITEM,
+    DRIVE_ROM_4040_ITEM,
+    DRIVE_ROM_1001_ITEM,
+    {NULL}
 };
 
 const ui_menu_entry_t ieee_drive_rom_menu[] = {
-    { "2031 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName2031_callback,
-      (ui_callback_data_t)"Select 2031 ROM image" },
-    { "2040 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName2040_callback,
-      (ui_callback_data_t)"Select 2040 ROM image" },
-    { "3040 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName3040_callback,
-      (ui_callback_data_t)"Select 3040 ROM image" },
-    { "4040 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName4040_callback,
-      (ui_callback_data_t)"Select 4040 ROM image" },
-    { "1001 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1001_callback,
-      (ui_callback_data_t)"Select 1001 ROM image" },
-    { NULL }
+    DRIVE_ROM_2031_ITEM,
+    DRIVE_ROM_2040_ITEM,
+    DRIVE_ROM_3040_ITEM,
+    DRIVE_ROM_4040_ITEM,
+    DRIVE_ROM_1001_ITEM,
+    {NULL}
 };
 
 const ui_menu_entry_t iec_drive_rom_menu[] = {
-    { "1541 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1541_callback,
-      (ui_callback_data_t)"Select 1541 ROM image" },
-    { "1541-II ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1541ii_callback,
-      (ui_callback_data_t)"Select 1541-II ROM image" },
-    { "1570 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1570_callback,
-      (ui_callback_data_t)"Select 1570 ROM image" },
-    { "1571 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1571_callback,
-      (ui_callback_data_t)"Select 1571 ROM image" },
-    { "1581 ROM file",
-      MENU_ENTRY_DIALOG,
-      file_string_DosName1581_callback,
-      (ui_callback_data_t)"Select 1581 ROM image" },
-    { NULL }
+    DRIVE_ROM_1541_ITEM,
+    DRIVE_ROM_1541II_ITEM,
+    DRIVE_ROM_1570_ITEM,
+    DRIVE_ROM_1571_ITEM,
+    DRIVE_ROM_1581_ITEM,
+    {NULL}
 };

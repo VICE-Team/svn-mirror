@@ -38,7 +38,6 @@
 int mouse_x, mouse_y;
 int mouse_accelx = 2, mouse_accely = 2;
 
-
 void mousedrv_mouse_changed(void)
 {
     ui_check_mouse_cursor();
@@ -93,7 +92,7 @@ BYTE mousedrv_get_x(void)
 
 BYTE mousedrv_get_y(void)
 {
-    static int last_mouse_y=0;
+    static int last_mouse_y = 0;
 
     if (last_mouse_y - mouse_y > 16) {
         last_mouse_y -= 16;
@@ -112,4 +111,3 @@ void mouse_move(int x, int y)
     mouse_x += x;
     mouse_y -= y;
 }
-

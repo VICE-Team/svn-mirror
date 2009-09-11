@@ -54,25 +54,17 @@ typedef enum {
 struct video_canvas_s;
 struct palette_s;
 
-void ui_display_speed(float percent, float framerate, int warp_flag);
-void ui_display_paused(int flag);
+extern void ui_display_speed(float percent, float framerate, int warp_flag);
+extern void ui_display_paused(int flag);
 extern void ui_handle_misc_sdl_event(SDL_Event e);
-ui_menu_action_t ui_dispatch_events(void);
+extern ui_menu_action_t ui_dispatch_events(void);
 extern void ui_exit(void);
 extern void ui_message(const char *format,...);
-extern void ui_show_text(const char *title, const char *text, int width,
-                         int height);
-extern char *ui_select_file(const char *title,
-                            char *(*read_contents_func)(const char *,
-                            unsigned int unit), unsigned int unit,
-                            unsigned int allow_autostart,
-                            const char *default_dir,
-                            const char *default_pattern,
-                            ui_button_t *button_return,
-                            unsigned int show_preview,
-                            int *attach_wp);
-extern ui_button_t ui_input_string(const char *title, const char *prompt,
-                                   char *buf, unsigned int buflen);
+extern void ui_show_text(const char *title, const char *text, int width, int height);
+extern char *ui_select_file(const char *title, char *(*read_contents_func)(const char *, unsigned int unit), unsigned int unit,
+                            unsigned int allow_autostart, const char *default_dir, const char *default_pattern,
+                            ui_button_t *button_return, unsigned int show_preview, int *attach_wp);
+extern ui_button_t ui_input_string(const char *title, const char *prompt, char *buf, unsigned int buflen);
 extern ui_button_t ui_ask_confirmation(const char *title, const char *text);
 extern void ui_autorepeat_on(void);
 extern void ui_autorepeat_off(void);

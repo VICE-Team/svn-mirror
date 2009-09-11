@@ -39,13 +39,13 @@
 #ifdef __XBOX__
 void XBoxStartup(void)
 {
-  int argc = 1;
-  char *argv[2];
+    int argc = 1;
+    char *argv[2];
 
-  argv[0] = "vice";
-  argv[1] = NULL;
+    argv[0] = "vice";
+    argv[1] = NULL;
 
-  main_program(argc, argv);
+    main_program(argc, argv);
 }
 #else
 int main(int argc, char **argv)

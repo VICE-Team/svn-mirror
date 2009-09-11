@@ -95,8 +95,8 @@ static char *contrib_convert(char *text)
 {
     char *new_text;
     char *pos;
-    unsigned int i=0;
-    unsigned int j=0;
+    unsigned int i = 0;
+    unsigned int j = 0;
     int single=0;
     size_t size;
 
@@ -370,10 +370,10 @@ static UI_MENU_CALLBACK(show_font_callback)
         sdl_ui_print_center("0x \xff\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f", 1);
         for (j = 1; j < 16; ++j) {
             for (i = 0; i < 16; ++i) {
-                fontchars[3+i] = (char)(j*16 + i);
+                fontchars[3 + i] = (char)(j * 16 + i);
             }
             fontchars[0] = "0123456789ABCDEF"[j];
-            sdl_ui_print_center(fontchars, 1+j);
+            sdl_ui_print_center(fontchars, 1 + j);
         }
         sdl_ui_refresh();
         while(active) {
@@ -393,31 +393,31 @@ static UI_MENU_CALLBACK(show_font_callback)
 #endif
 
 const ui_menu_entry_t help_menu[] = {
-    { "About",
-      MENU_ENTRY_DIALOG,
-      about_callback,
-      NULL },
-    { "Command-line options",
-      MENU_ENTRY_DIALOG,
-      cmdline_callback,
-      NULL },
-    { "Contributors",
-      MENU_ENTRY_DIALOG,
-      contributors_callback,
-      NULL },
-    { "License",
-      MENU_ENTRY_DIALOG,
-      license_callback,
-      NULL },
-    { "Warranty",
-      MENU_ENTRY_DIALOG,
-      warranty_callback,
-      NULL },
+    {"About",
+     MENU_ENTRY_DIALOG,
+     about_callback,
+     NULL},
+    {"Command-line options",
+     MENU_ENTRY_DIALOG,
+     cmdline_callback,
+     NULL},
+    {"Contributors",
+     MENU_ENTRY_DIALOG,
+     contributors_callback,
+     NULL},
+    {"License",
+     MENU_ENTRY_DIALOG,
+     license_callback,
+     NULL},
+    {"Warranty",
+     MENU_ENTRY_DIALOG,
+     warranty_callback,
+     NULL},
 #ifdef SDL_DEBUG
-    { "Show font",
-      MENU_ENTRY_DIALOG,
-      show_font_callback,
-      NULL },
+    {"Show font",
+     MENU_ENTRY_DIALOG,
+     show_font_callback,
+     NULL},
 #endif
-    { NULL }
+    {NULL}
 };

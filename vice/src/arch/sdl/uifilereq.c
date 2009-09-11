@@ -163,7 +163,7 @@ static void sdl_ui_file_selector_redraw(ioutil_dir_t *directory, const char *tit
     char* title_string;
     char* name;
 
-    title_string = lib_malloc(strlen(title)+8);
+    title_string = lib_malloc(strlen(title) + 8);
     sprintf(title_string, "%s %s", title, (offset) ? ((more) ? "(<- ->)" : "(<-)") : ((more) ? "(->)" : ""));
 
     sdl_ui_clear();
@@ -173,7 +173,7 @@ static void sdl_ui_file_selector_redraw(ioutil_dir_t *directory, const char *tit
 
     for (i = 0; i < num_items; ++i) {
         j = MENU_FIRST_X;
-        name = sdl_ui_get_file_selector_entry(directory, offset+i, &isdir);
+        name = sdl_ui_get_file_selector_entry(directory, offset + i, &isdir);
         if (isdir) {
             j += 1 + sdl_ui_print("(D)", MENU_FIRST_X, i + MENU_FIRST_Y + 2);
         }
@@ -220,15 +220,13 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
 
     while(active) {
         if (redraw) {
-            sdl_ui_file_selector_redraw(directory, title, current_dir, offset,
-                                        (total-offset > menu_max) ? menu_max : total-offset,
-                                        (total-offset > menu_max) ? 1 : 0);
+            sdl_ui_file_selector_redraw(directory, title, current_dir, offset, (total-offset > menu_max) ? menu_max : total-offset, (total - offset > menu_max) ? 1 : 0);
             redraw = 0;
         }
         sdl_ui_display_cursor((cur + 2) , (cur_old == -1) ? -1 : (cur_old + 2));
         sdl_ui_refresh();
 
-        switch(sdl_ui_menu_poll_input()) {
+        switch (sdl_ui_menu_poll_input()) {
             case MENU_ACTION_UP:
                 if (cur > 0) {
                     cur_old = cur;
@@ -251,12 +249,12 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                 break;
             case MENU_ACTION_DOWN:
                 if (cur < (menu_max - 1)) {
-                    if ((cur+offset) < total-1) {
+                    if ((cur+offset) < total - 1) {
                         cur_old = cur;
                         ++cur;
                     }
                 } else {
-                    if (offset < (total-menu_max)) {
+                    if (offset < (total - menu_max)) {
                         offset++;
                         redraw = 1;
                     }
@@ -270,7 +268,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                     cur = 0;
                 } else if ((cur+offset) >= total) {
                     cur_old = -1;
-                    cur = total-offset-1;
+                    cur = total-offset - 1;
                 }
                 redraw = 1;
                 break;
@@ -325,7 +323,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                             total = dirs + files + 2;
                             redraw = 1;
                         } else {
-                            retval = util_concat(current_dir, FSDEV_DIR_SEP_STR, directory->files[offset+cur-dirs-2].name, NULL);
+                            retval = util_concat(current_dir, FSDEV_DIR_SEP_STR, directory->files[offset + cur - dirs - 2].name, NULL);
                             active = 0;
                         }
                         break;

@@ -35,7 +35,6 @@ typedef enum {
     FILEREQ_MODE_CHOOSE_DIR
 } ui_menu_filereq_mode_t;
 
-extern char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mode);
+extern char *sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mode);
 
 #endif
-

@@ -75,7 +75,6 @@ void ui_handle_misc_sdl_event(SDL_Event e)
             video_canvas_refresh_all(sdl_active_canvas);
             break;
         default:
-/*fprintf(stderr,"%s: %i\n",__func__,e.type);*/
             break;
     }
 }
@@ -141,11 +140,11 @@ ui_menu_action_t ui_dispatch_events(void)
 
 void ui_check_mouse_cursor(void)
 {
-    if(_mouse_enabled && !lightpen_enabled && !sdl_menu_state) {
+    if (_mouse_enabled && !lightpen_enabled && !sdl_menu_state) {
         SDL_ShowCursor(SDL_DISABLE);
         SDL_WM_GrabInput(SDL_GRAB_ON);
     } else {
-        SDL_ShowCursor((sdl_active_canvas->fullscreenconfig->enable && !lightpen_enabled)?SDL_DISABLE:SDL_ENABLE);
+        SDL_ShowCursor((sdl_active_canvas->fullscreenconfig->enable && !lightpen_enabled) ? SDL_DISABLE : SDL_ENABLE);
         SDL_WM_GrabInput(SDL_GRAB_OFF);
     }
 }
@@ -153,7 +152,7 @@ void ui_check_mouse_cursor(void)
 void archdep_ui_init(int argc, char *argv[])
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr,"%s\n",__func__);
 #endif
 }
 
@@ -199,35 +198,35 @@ static int set_confirm_on_exit(int val, void *param)
 }
 
 static const resource_int_t resources_int[] = {
-    { "MenuKey", SDLK_F12, RES_EVENT_NO, NULL,
-      &sdl_ui_menukeys[0], set_ui_menukey, (void *)MENU_ACTION_NONE },
-    { "MenuKeyUp", SDLK_UP, RES_EVENT_NO, NULL,
-      &sdl_ui_menukeys[1], set_ui_menukey, (void *)MENU_ACTION_UP },
-    { "MenuKeyDown", SDLK_DOWN, RES_EVENT_NO, NULL,
-      &sdl_ui_menukeys[2], set_ui_menukey, (void *)MENU_ACTION_DOWN },
-    { "MenuKeyLeft", SDLK_LEFT, RES_EVENT_NO, NULL,
-      &sdl_ui_menukeys[3], set_ui_menukey, (void *)MENU_ACTION_LEFT },
-    { "MenuKeyRight", SDLK_RIGHT, RES_EVENT_NO, NULL,
-      &sdl_ui_menukeys[4], set_ui_menukey, (void *)MENU_ACTION_RIGHT },
-    { "MenuKeySelect", SDLK_RETURN, RES_EVENT_NO, NULL,
-      &sdl_ui_menukeys[5], set_ui_menukey, (void *)MENU_ACTION_SELECT },
-    { "MenuKeyCancel", SDLK_BACKSPACE, RES_EVENT_NO, NULL,
-      &sdl_ui_menukeys[6], set_ui_menukey, (void *)MENU_ACTION_CANCEL },
-    { "MenuKeyExit", SDLK_ESCAPE, RES_EVENT_NO, NULL,
-      &sdl_ui_menukeys[7], set_ui_menukey, (void *)MENU_ACTION_EXIT },
-    { "MenuKeyMap", SDLK_m, RES_EVENT_NO, NULL,
-      &sdl_ui_menukeys[8], set_ui_menukey, (void *)MENU_ACTION_MAP },
-    { "SaveResourcesOnExit", 0, RES_EVENT_NO, NULL,
-      &save_resources_on_exit, set_save_resources_on_exit, NULL },
-    { "ConfirmOnExit", 0, RES_EVENT_NO, NULL,
-      &confirm_on_exit, set_confirm_on_exit, NULL },
-    { NULL },
+    {"MenuKey", SDLK_F12, RES_EVENT_NO, NULL,
+     &sdl_ui_menukeys[0], set_ui_menukey, (void *)MENU_ACTION_NONE},
+    {"MenuKeyUp", SDLK_UP, RES_EVENT_NO, NULL,
+     &sdl_ui_menukeys[1], set_ui_menukey, (void *)MENU_ACTION_UP},
+    {"MenuKeyDown", SDLK_DOWN, RES_EVENT_NO, NULL,
+     &sdl_ui_menukeys[2], set_ui_menukey, (void *)MENU_ACTION_DOWN},
+    {"MenuKeyLeft", SDLK_LEFT, RES_EVENT_NO, NULL,
+     &sdl_ui_menukeys[3], set_ui_menukey, (void *)MENU_ACTION_LEFT},
+    {"MenuKeyRight", SDLK_RIGHT, RES_EVENT_NO, NULL,
+     &sdl_ui_menukeys[4], set_ui_menukey, (void *)MENU_ACTION_RIGHT},
+    {"MenuKeySelect", SDLK_RETURN, RES_EVENT_NO, NULL,
+     &sdl_ui_menukeys[5], set_ui_menukey, (void *)MENU_ACTION_SELECT},
+    {"MenuKeyCancel", SDLK_BACKSPACE, RES_EVENT_NO, NULL,
+     &sdl_ui_menukeys[6], set_ui_menukey, (void *)MENU_ACTION_CANCEL},
+    {"MenuKeyExit", SDLK_ESCAPE, RES_EVENT_NO, NULL,
+     &sdl_ui_menukeys[7], set_ui_menukey, (void *)MENU_ACTION_EXIT},
+    {"MenuKeyMap", SDLK_m, RES_EVENT_NO, NULL,
+     &sdl_ui_menukeys[8], set_ui_menukey, (void *)MENU_ACTION_MAP},
+    {"SaveResourcesOnExit", 0, RES_EVENT_NO, NULL,
+     &save_resources_on_exit, set_save_resources_on_exit, NULL},
+    {"ConfirmOnExit", 0, RES_EVENT_NO, NULL,
+     &confirm_on_exit, set_confirm_on_exit, NULL},
+    {NULL},
 };
 
 void ui_sdl_quit(void)
 {
     if (confirm_on_exit) {
-        if (message_box("VICE QUESTION","Do you really want to exit?", MESSAGE_YESNO) == 1) {
+        if (message_box("VICE QUESTION", "Do you really want to exit?", MESSAGE_YESNO) == 1) {
             return;
         }
     }
@@ -244,7 +243,7 @@ void ui_sdl_quit(void)
 int ui_resources_init(void)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr,"%s\n",__func__);
 #endif
 
     return resources_register_int(resources_int);
@@ -253,14 +252,14 @@ fprintf(stderr,"%s\n",__func__);
 void ui_resources_shutdown(void)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr,"%s\n",__func__);
 #endif
 }
 
 int ui_cmdline_options_init(void)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr,"%s\n",__func__);
 #endif
 
     return 0;
@@ -269,7 +268,7 @@ fprintf(stderr,"%s\n",__func__);
 int ui_init(int *argc, char **argv)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr,"%s\n",__func__);
 #endif
     /* TODO move somewhere else */
     sdlkbd_init_resources();
@@ -281,7 +280,7 @@ fprintf(stderr,"%s\n",__func__);
 int ui_init_finish(void)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr,"%s\n",__func__);
 #endif
 
     return 0;
@@ -290,7 +289,7 @@ fprintf(stderr,"%s\n",__func__);
 int ui_init_finalize(void)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr,"%s\n",__func__);
 #endif
 
     SDL_WM_SetCaption(sdl_active_canvas->viewport->title, "VICE");
@@ -301,7 +300,7 @@ fprintf(stderr,"%s\n",__func__);
 void ui_shutdown(void)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr,"%s\n",__func__);
 #endif
 
     /* TODO find a better place */
@@ -325,7 +324,6 @@ void ui_error(const char *format,...)
     }
     lib_free(tmp);
 }
-
 
 /* Let the user browse for a filename; display format as a titel */
 char* ui_get_file(const char *format,...)
@@ -363,38 +361,33 @@ void ui_update_menus(void){}
 /* ----------------------------------------------------------------- */
 /* uicolor.h */
 
-int uicolor_alloc_color(unsigned int red, unsigned int green,
-                        unsigned int blue, unsigned long *color_pixel,
-                        BYTE *pixel_return)
+int uicolor_alloc_color(unsigned int red, unsigned int green, unsigned int blue, unsigned long *color_pixel, BYTE *pixel_return)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr,"%s\n",__func__);
 #endif
 
     return 0;
 }
 
-void uicolor_free_color(unsigned int red, unsigned int green,
-                        unsigned int blue, unsigned long color_pixel)
+void uicolor_free_color(unsigned int red, unsigned int green, unsigned int blue, unsigned long color_pixel)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr,"%s\n",__func__);
 #endif
 }
 
-void uicolor_convert_color_table(unsigned int colnr, BYTE *data,
-                                 long color_pixel, void *c)
+void uicolor_convert_color_table(unsigned int colnr, BYTE *data, long color_pixel, void *c)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr,"%s\n",__func__);
 #endif
 }
 
-int uicolor_set_palette(struct video_canvas_s *c,
-                        const struct palette_s *palette)
+int uicolor_set_palette(struct video_canvas_s *c, const struct palette_s *palette)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr,"%s\n",__func__);
 #endif
 
     return 0;

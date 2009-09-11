@@ -134,4 +134,3 @@ int sdl_ui_hotkey_map(ui_menu_entry_t *item)
     }
     return 1;
 }
-

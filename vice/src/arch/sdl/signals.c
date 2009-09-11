@@ -39,4 +39,3 @@ void signals_abort_set(void)
 void signals_abort_unset(void)
 {
 }
-

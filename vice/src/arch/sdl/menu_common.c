@@ -80,7 +80,8 @@ UI_MENU_CALLBACK(submenu_radio_callback)
         return "-> ???";
     }
 
-    while((*dest++ = *src++));
+    while ((*dest++ = *src++)) {
+    }
 
     return buf;
 }
@@ -209,7 +210,7 @@ const char *sdl_ui_menu_string_helper(int activated, ui_callback_data_t param, c
 
     if (activated) {
         value = sdl_ui_text_input_dialog((const char*)param, previous);
-        if(value) {
+        if (value) {
             resources_set_value_string(resource_name, value);
             lib_free(value);
         }
@@ -225,7 +226,7 @@ const char *sdl_ui_menu_int_helper(int activated, ui_callback_data_t param, cons
     char *value = NULL;
     int previous, new_value;
 
-    if(resources_get_int(resource_name, &previous)) {
+    if (resources_get_int(resource_name, &previous)) {
         return sdl_menu_text_unknown;
     }
 
@@ -233,7 +234,7 @@ const char *sdl_ui_menu_int_helper(int activated, ui_callback_data_t param, cons
 
     if (activated) {
         value = sdl_ui_text_input_dialog((const char*)param, buf);
-        if(value) {
+        if (value) {
             new_value = strtol(value, NULL, 0);
             resources_set_int(resource_name, new_value);
             lib_free(value);
@@ -254,14 +255,14 @@ static char *sdl_ui_menu_file_translate_seperator(const char *text)
 
     len = strlen(text);
 
-    for (i=0; i<len; i++) {
+    for (i = 0; i < len; i++) {
         if (text[i] == '\\') {
             win32_path_buf[i] = '/';
         } else {
             win32_path_buf[i] = text[i];
         }
     }
-    win32_path_buf[i]=0;
+    win32_path_buf[i] = 0;
     return win32_path_buf;
 }
 #endif
@@ -277,7 +278,7 @@ const char *sdl_ui_menu_file_string_helper(int activated, ui_callback_data_t par
 
     if (activated) {
         value = sdl_ui_file_selection_dialog((const char*)param, FILEREQ_MODE_CHOOSE_FILE);
-        if(value) {
+        if (value) {
             resources_set_value_string(resource_name, value);
             lib_free(value);
         }
