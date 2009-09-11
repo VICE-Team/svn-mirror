@@ -126,7 +126,7 @@ static UI_MENU_CALLBACK(start_recording_callback)
 {
     char *parameter = (char *)param;
 
-    if(activated) {
+    if (activated) {
         resources_set_string("SoundRecordDeviceName", "");
         if (parameter != NULL) {
             char *name = NULL;

@@ -222,7 +222,7 @@ int sdlkbd_hotkeys_load(const char *filename)
             buffer[strlen(buffer) - 1] = 0; /* remove newline */
 
             /* remove comments */
-            if((p = strchr(buffer, '#'))) {
+            if ((p = strchr(buffer, '#'))) {
                 *p=0;
             }
 

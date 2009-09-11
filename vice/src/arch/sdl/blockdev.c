@@ -65,7 +65,7 @@ int blockdev_close(void)
     fprintf(stderr, "%s\n", __func__);
 #endif
 
-    if(device && SDL_RWclose(device)) {
+    if (device && SDL_RWclose(device)) {
         return -1;
     }
 

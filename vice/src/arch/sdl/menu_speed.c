@@ -58,7 +58,7 @@ static UI_MENU_CALLBACK(custom_RefreshRate_callback)
             lib_free(value);
         }
     } else {
-        if(previous > 5) {
+        if (previous > 5) {
             sprintf(buf, "1/%i", previous);
             return buf;
         }

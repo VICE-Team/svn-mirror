@@ -52,7 +52,7 @@ static UI_MENU_CALLBACK(attach_cart_callback)
 {
     char *name = NULL;
 
-    if(activated) {
+    if (activated) {
         switch (vice_ptr_to_int(param)) {
             case CART_ATTACH_FUNCLO:
                 name = sdl_ui_file_selection_dialog("Select function low image", FILEREQ_MODE_CHOOSE_FILE);

@@ -356,7 +356,7 @@ int catweaselmkiii_open(void)
 
     // Lock the device, since we're a driver
     CWLock = CWDevPCI->Lock(PCI_LOCK_SHARED);
-    if(!CWLock) {
+    if (!CWLock) {
         log_message(LOG_DEFAULT, "Unable to lock the catweasel. Another driver may have an exclusive lock\n" );
         return -1;
     }

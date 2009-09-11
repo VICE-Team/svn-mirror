@@ -831,9 +831,9 @@ static ui_menu_action_t sdljoy_perform_event(sdljoystick_mapping_t *event, int v
                 default:
                     break;
             }
-        } else if(event->action == UI_ACTIVATE) {
+        } else if (event->action == UI_ACTIVATE) {
             retval = MENU_ACTION_CANCEL;
-        } else if(event->action == MAP) {
+        } else if (event->action == MAP) {
             retval = MENU_ACTION_MAP;
         }
         if (!value) {
@@ -986,7 +986,7 @@ ui_menu_action_t sdljoy_hat_event(Uint8 joynum, Uint8 hat, Uint8 value)
     } else {
         if (prev & SDL_HAT_UP) {
             sdljoy_perform_event(&(sdljoystick[joynum].input[HAT][index]), 0);
-        } else if(prev & SDL_HAT_DOWN) {
+        } else if (prev & SDL_HAT_DOWN) {
             sdljoy_perform_event(&(sdljoystick[joynum].input[HAT][index + 1]), 0);
         }
     }
