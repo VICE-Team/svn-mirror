@@ -83,6 +83,22 @@ AC_ARG_ENABLE(editline, [  --disable-editline      disable history in Cocoa UI's
 AC_ARG_ENABLE(lame, [  --disable-lame          disable MP3 export with LAME])
 AC_ARG_ENABLE(static-lame, [  --enable-static-lame    enable static LAME linking])
 AC_ARG_ENABLE(embedded,    [  --enable-embedded       enable embedding of emulation data files])
+
+dnl gnomeui / sdlui sanity check
+if test x"$enable_gnomeui" = "xyes" -a x"$enable_sdlui" = "xyes"; then
+  AC_MSG_ERROR([you cannot use --enable-gnomeui and --enable-sdlui together.])
+fi
+
+dnl cocoa ui / gnomeui sanity check
+if test x"$with_cocoa" = "xyes" -a x"$enable_gnomeui" = "xyes"; then
+  AC_MSG_ERROR([you cannot use --with-cocoa and --enable-gnomeui together.])
+fi
+
+dnl cocoa ui / sdlui sanity check
+if test x"$with_cocoa" = "xyes" -a x"$enable_sdlui" = "xyes"; then
+  AC_MSG_ERROR([you cannot use --with-cocoa and --enable-sdlui together.])
+fi
+
 if test x"$enable_memmap" = "xyes"; then
   AC_DEFINE(FEATURE_CPUMEMHISTORY,,[Use the memmap feature.])
 fi
