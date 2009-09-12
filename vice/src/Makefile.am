@@ -173,6 +173,7 @@ noinst_HEADERS = \
 	parsid.h \
 	petui.h \
 	piacore.h \
+	platform.h \
 	plus4ui.h \
 	printer.h \
 	ps2mouse.h \
