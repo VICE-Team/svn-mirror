@@ -95,11 +95,12 @@ if [ "$UI_TYPE" = "cocoa" -o "$UI_TYPE" = "sdl" ]; then
 fi
 
 # use platypus or launcher directly
-PLATYPUS_PATH=/usr/local/bin/platypus
+PLATYPUS_PATH="`which platypus`"
 PLATYPUS=0
 if [ $MULTI_APPS -eq 0 ]; then
   if [ -e $PLATYPUS_PATH -a "$NO_PLATYPUS" = "" ]; then
-    echo "  using platypus"
+    PLATYPUS_VERSION=`$PLATYPUS_PATH -v | cut -f 3 -d ' '`
+    echo "  using platypus: $PLATYPUS_PATH version $PLATYPUS_VERSION"
     PLATYPUS=1
   else
     echo "  using launcher only"
@@ -204,7 +205,13 @@ for bundle in $BUNDLES ; do
         -u "The VICE Team" \
         -I "org.viceteam.VICE" \
         -D -X "$DROP_TYPES" \
-        $RUN_PATH/$LAUNCHER $APP_NAME
+        -c $RUN_PATH/$LAUNCHER \
+        $APP_NAME
+    PLATYPUS_STATUS=$?
+    if [ $PLATYPUS_STATUS -ne 0 ]; then
+      echo "ERROR: platypus failed with $PLATYPUS_STATUS"
+      exit $PLATYPUS_STATUS
+    fi
 
     # where is the launcher script
     LAUNCHER_SCRIPT_REL="Resources/script"
