@@ -1916,7 +1916,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 #ifdef DEBUG
 	fprintf(stderr,"controlcode test 2: %c %s %d\n", p[kwlen],p,kwlen);
 #endif
-				if(p[kwlen] == '*')
+				if (p[kwlen] == '*')
 				{
 				    /* repetition count */
 					p+=(kwlen);
@@ -1945,7 +1945,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 	fprintf(stderr,"controlcode test 3: %c %s %d\n", p[0],p,kwlen);
 #endif
 				
-				if(p[kwlen] == CLARIF_RP)
+				if (p[kwlen] == CLARIF_RP)
 				{
 					for (; len-- > 0;)
 					{
@@ -2287,7 +2287,7 @@ static unsigned char sstrcmp_codes(unsigned char *line, const char **wordlist,
     /* search for keyword */
     for (; token < maxitems; token++)
     {
-        if(codesnocase)
+        if (codesnocase)
         {
             for (p = wordlist[token], q = (char *)line, j = 0;
                 *p && *q && tolower(*p) == tolower(*q); p++, q++, j++);

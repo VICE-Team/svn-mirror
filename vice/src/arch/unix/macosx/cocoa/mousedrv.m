@@ -56,9 +56,9 @@ void mousedrv_mouse_changed(void)
 BYTE mousedrv_get_x(void)
 {
     int dx = ptr_x - hw_x;
-    if(dx < -MAX_DELTA)
+    if (dx < -MAX_DELTA)
         dx = -MAX_DELTA;
-    else if(dx > MAX_DELTA)
+    else if (dx > MAX_DELTA)
         dx = MAX_DELTA;
     hw_x += dx;
     return (BYTE)((hw_x&0x3f) << 1);
@@ -67,9 +67,9 @@ BYTE mousedrv_get_x(void)
 BYTE mousedrv_get_y(void)
 {
     int dy = ptr_y - hw_y;
-    if(dy < -MAX_DELTA)
+    if (dy < -MAX_DELTA)
         dy = -MAX_DELTA;
-    else if(dy > MAX_DELTA)
+    else if (dy > MAX_DELTA)
         dy = MAX_DELTA;
     hw_y += dy;
     return (BYTE)((hw_y&0x3f) << 1);

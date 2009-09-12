@@ -164,10 +164,10 @@ char *findpath(const char *cmd, const char *syspath, int mode)
 
             for(c = buf + 1; *c != '\0'; c++)
 #if defined (__MSDOS__) || defined (WIN32) || defined (__OS2__)
-                if(*c == '/')
+                if (*c == '/')
                     *c = '\\';
 #else
-                if(*c == '\\')
+                if (*c == '\\')
                     *c ='/';
 #endif
             if (ioutil_access(buf + 1, mode) == 0) {

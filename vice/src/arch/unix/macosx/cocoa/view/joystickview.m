@@ -30,7 +30,7 @@
 
 - (id)initWithFrame:(NSRect)rect
 {
-    if((self = [super initWithFrame:rect])) {
+    if ((self = [super initWithFrame:rect])) {
         stringAttr = [[NSMutableDictionary alloc] init];
         [stringAttr setObject:[NSFont messageFontOfSize:0.0]
             forKey:NSFontAttributeName];
@@ -67,7 +67,7 @@
         int xp = cw * pos[i][0];
         int yp = ch * pos[i][1];
         NSRect rect = NSMakeRect(xp,yp,cw-1,ch-1);
-        if((mask&joyValue)==mask)
+        if ((mask&joyValue)==mask)
             [[NSColor blackColor] set];
         else
             [[NSColor whiteColor] set];

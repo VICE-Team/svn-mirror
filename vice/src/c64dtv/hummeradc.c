@@ -113,7 +113,7 @@ void hummeradc_store(BYTE value)
 #ifdef HUMMERADC_DEBUG_ENABLED
 HUMMERADC_DEBUG("write: value %02x, state %i",value,hummeradc_state);
 #endif
-    if(value & ADC_START_BIT) hummeradc_state = ADC_START;
+    if (value & ADC_START_BIT) hummeradc_state = ADC_START;
 
     switch(hummeradc_state) {
         case ADC_CONV_PDS:
@@ -124,7 +124,7 @@ HUMMERADC_DEBUG("write: value %02x, state %i",value,hummeradc_state);
             break;
 
         case ADC_START:
-            if(hummeradc_rising_edge(value)) {
+            if (hummeradc_rising_edge(value)) {
                 hummeradc_state = ADC_CMD1;
                 hummeradc_value = 0;
             }
@@ -144,20 +144,20 @@ HUMMERADC_DEBUG("write: value %02x, state %i",value,hummeradc_state);
         case ADC_CHAN3:
         case ADC_CHAN2:
         case ADC_CHAN1:
-            if(hummeradc_falling_edge(value)) {
+            if (hummeradc_falling_edge(value)) {
                 hummeradc_value |= (value & ADC_DIO_BIT);
                 hummeradc_value <<= 1;
             } else
-            if(hummeradc_rising_edge(value)) {
+            if (hummeradc_rising_edge(value)) {
                 hummeradc_state++;
             }
             break;
 
         case ADC_CMD3:
-            if(hummeradc_falling_edge(value)) {
+            if (hummeradc_falling_edge(value)) {
                 hummeradc_value |= (value & ADC_DIO_BIT);
             } else
-            if(hummeradc_rising_edge(value)) {
+            if (hummeradc_rising_edge(value)) {
                 hummeradc_command = hummeradc_value;
                 switch (hummeradc_command) {
                     case ADC_CHAN_ATTR:
@@ -188,41 +188,41 @@ log_message(hummeradc_log, "BUG: Unknown command %i.",hummeradc_command);
             break;
 
         case ADC_CHAN0:
-            if(hummeradc_falling_edge(value)) {
+            if (hummeradc_falling_edge(value)) {
                 hummeradc_value |= (value & ADC_DIO_BIT);
-                if(hummeradc_command == ADC_CHAN_ATTR) {
+                if (hummeradc_command == ADC_CHAN_ATTR) {
                     hummeradc_chanattr = hummeradc_value;
                 } else {
                     hummeradc_chanwakeup = hummeradc_value;
                 }
             } else
-            if(hummeradc_rising_edge(value)) {
+            if (hummeradc_rising_edge(value)) {
                 hummeradc_state = ADC_IDLE;
             }
             break;
 
         case ADC_CONTROL_MB:
-            if(hummeradc_falling_edge(value)) {
+            if (hummeradc_falling_edge(value)) {
                 hummeradc_value |= (value & ADC_DIO_BIT);
                 hummeradc_control = hummeradc_value;
             } else
-            if(hummeradc_rising_edge(value)) {
+            if (hummeradc_rising_edge(value)) {
                 hummeradc_state = ADC_IDLE;
             }
             break;
 
         case ADC_CONV_CHAN3:
-            if(hummeradc_falling_edge(value)) {
+            if (hummeradc_falling_edge(value)) {
                 hummeradc_value |= (value & ADC_DIO_BIT);
                 hummeradc_channel = hummeradc_value;
             } else
-            if(hummeradc_rising_edge(value)) {
+            if (hummeradc_rising_edge(value)) {
                 hummeradc_state++;
             }
             break;
 
         case ADC_CONV_ADC2:
-            if(hummeradc_falling_edge(value)) {
+            if (hummeradc_falling_edge(value)) {
                 /* TODO:
                     - ADC works only on channel 0
                     - "inertia" (hold down left/right for value++/--), handled elsewhere */
@@ -238,13 +238,13 @@ log_message(hummeradc_log, "BUG: Unknown command %i.",hummeradc_command);
                         break;
                 }
             } else
-            if(hummeradc_rising_edge(value)) {
+            if (hummeradc_rising_edge(value)) {
                 hummeradc_state = ADC_CONV_D7;
             }
             break;
 
         default:
-            if(hummeradc_rising_edge(value)) {
+            if (hummeradc_rising_edge(value)) {
                 hummeradc_state++;
             }
             break;
@@ -307,7 +307,7 @@ HUMMERADC_DEBUG(" read: value %02x, state %i",retval,hummeradc_state);
 
 void hummeradc_init(void)
 {
-    if(hummeradc_log == LOG_ERR) {
+    if (hummeradc_log == LOG_ERR) {
       hummeradc_log = log_open("HUMMERADC");
     }
     hummeradc_reset();

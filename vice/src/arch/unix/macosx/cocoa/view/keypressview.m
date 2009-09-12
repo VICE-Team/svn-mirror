@@ -30,7 +30,7 @@
 
 - (id)initWithFrame:(NSRect)rect
 {
-    if((self = [super initWithFrame:rect])) {
+    if ((self = [super initWithFrame:rect])) {
         stringAttr = [[NSMutableDictionary alloc] init];
         [stringAttr setObject:[NSFont messageFontOfSize:0.0]
             forKey:NSFontAttributeName];
@@ -59,7 +59,7 @@
     pos.y = bounds.origin.y + (bounds.size.height - size.height) / 2;
     [codeStr drawAtPoint:pos withAttributes:stringAttr];
     
-    if([[self window] firstResponder] == self) {
+    if ([[self window] firstResponder] == self) {
         [[NSColor keyboardFocusIndicatorColor] set];
         [NSBezierPath setDefaultLineWidth:4.0];
         [NSBezierPath strokeRect:bounds];

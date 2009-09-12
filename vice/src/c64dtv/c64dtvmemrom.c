@@ -49,7 +49,7 @@ BYTE REGPARM1 c64memrom_kernal64_read(WORD addr)
 {
     int mapping = c64dtvmem_memmapper[0];
     int paddr = ((mapping & 0x1f) << 16) + addr;
-    if((mapping >> 6)==0)
+    if ((mapping >> 6)==0)
         return c64dtvflash_read(paddr);
     else
         return mem_ram[paddr];
@@ -59,7 +59,7 @@ static void REGPARM2 c64memrom_kernal64_store(WORD addr, BYTE value)
 {
     int mapping = c64dtvmem_memmapper[0];
     int paddr = ((mapping & 0x1f) << 16) + addr;
-    if((mapping >> 6)==0)
+    if ((mapping >> 6)==0)
         c64dtvflash_store_direct(paddr, value);
     else
         mem_ram[paddr] = value;
@@ -69,7 +69,7 @@ BYTE REGPARM1 c64memrom_basic64_read(WORD addr)
 {
     int mapping = c64dtvmem_memmapper[1];
     int paddr = ((mapping & 0x1f) << 16) + addr;
-    if((mapping >> 6)==0)
+    if ((mapping >> 6)==0)
         return c64dtvflash_read(paddr);
     else
         return mem_ram[paddr];

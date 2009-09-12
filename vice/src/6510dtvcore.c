@@ -1424,7 +1424,7 @@ static const BYTE fetch_tab[] = {
         FETCH_OPCODE(opcode);
 
 #ifdef FEATURE_CPUMEMHISTORY
-        if(p0 == 0x20) {
+        if (p0 == 0x20) {
             monitor_cpuhistory_store(reg_pc, (BYTE)(p0), (BYTE)(p1), (BYTE)(LOAD(reg_pc+2)));
         } else {
             monitor_cpuhistory_store(reg_pc, (BYTE)(p0), (BYTE)(p1), (BYTE)(p2 >> 8));

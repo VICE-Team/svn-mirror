@@ -356,12 +356,12 @@ static void tfe_set_tx_status(int ready,int error)
     
     /* mask out TxBidErr and Rdy4TxNOW */
     WORD new_status = old_status & ~0x180;
-    if(ready)
+    if (ready)
         new_status |= 0x100; /* set Rdy4TxNOW */
-    if(error)
+    if (error)
         new_status |= 0x080; /* set TxBidErr */
     
-    if(new_status!=old_status) {
+    if (new_status!=old_status) {
         SET_PP_16(TFE_PP_ADDR_SE_BUSST,new_status);
 #ifdef TFE_DEBUG_RXTX_STATE
         log_message(tfe_log,"TX: set status Rdy4TxNOW=%d TxBidErr=%d",
@@ -835,7 +835,7 @@ WORD tfe_receive(void)
                 rx_length = len;
                 rx_count  = 0;
 #ifdef TFE_DEBUG_WARN_RXTX
-                if(rx_state!=TFE_RX_IDLE) {
+                if (rx_state!=TFE_RX_IDLE) {
                     log_message(tfe_log,"WARNING! New frame overwrites pending one!");
                 }
 #endif
@@ -862,7 +862,7 @@ WORD tfe_receive(void)
 static void tfe_write_tx_buffer(BYTE value,int odd_address)
 {
     /* write tx data only if valid buffer is ready */
-    if(tx_state != TFE_TX_READ_BUSST) {
+    if (tx_state != TFE_TX_READ_BUSST) {
 #ifdef TFE_DEBUG_WARN_RXTX
         log_message(tfe_log, "WARNING! Ignoring TX Write without correct Transmit Condition! (odd=%d,value=%02x)",
                     odd_address,value);
@@ -871,14 +871,14 @@ static void tfe_write_tx_buffer(BYTE value,int odd_address)
         tfe_set_tx_status(0,0);
     } else {
 #ifdef TFE_DEBUG_RXTX_STATE
-        if(tx_count==0) {
+        if (tx_count==0) {
             log_message(tfe_log,"TX: write frame (length=%04x)",tx_length);
         }
 #endif
 
         /* always write LH, LH... to tx buffer */
         WORD addr = tx_buffer;
-        if(odd_address) {
+        if (odd_address) {
             addr++;
             tx_buffer += 2;
         }
@@ -891,7 +891,7 @@ static void tfe_write_tx_buffer(BYTE value,int odd_address)
 #endif                
 
         /* full frame transmitted? */
-        if(tx_count==tx_length) {
+        if (tx_count==tx_length) {
 #ifdef TFE_DEBUG_FRAMES
             log_message(tfe_log, "tfe_arch_transmit() called with:                 "
                 "length=%4u and buffer %s", tx_length,
@@ -899,7 +899,7 @@ static void tfe_write_tx_buffer(BYTE value,int odd_address)
                 );
 #endif
 
-            if(!tx_enabled) {
+            if (!tx_enabled) {
 #ifdef TFE_DEBUG_WARN_RXTX
                 log_message(tfe_log,"WARNING! Can't transmit frame (Transmitter is not enabled)!");
 #endif
@@ -931,7 +931,7 @@ static void tfe_write_tx_buffer(BYTE value,int odd_address)
 
 static BYTE tfe_read_rx_buffer(int odd_address)
 {
-    if(rx_state != TFE_RX_GOT_FRAME) {
+    if (rx_state != TFE_RX_GOT_FRAME) {
 #ifdef TFE_DEBUG_WARN_RXTX
         log_message(tfe_log, "WARNING! RX Read without frame available! (odd=%d)",
                     odd_address);
@@ -955,19 +955,19 @@ static BYTE tfe_read_rx_buffer(int odd_address)
         WORD addr = odd_address ? 1:0; 
         BYTE value;
         /* read RXSTATUS or RX_LENGTH */
-        if(rx_count<4) {
+        if (rx_count<4) {
             addr  += rx_buffer;
             value  = GET_PP_8(addr);
             rx_count++;
 
             /* incr after RXSTATUS or RX_LENGTH even (L) read */
-            if(!odd_address)
+            if (!odd_address)
                 rx_buffer += 2;
         } 
         /* read frame data */
         else {
             /* incr before frame read (but not in first word) */
-            if((rx_count>=6) && (!odd_address))
+            if ((rx_count>=6) && (!odd_address))
                 rx_buffer += 2;
 
             addr += rx_buffer;
@@ -981,7 +981,7 @@ static BYTE tfe_read_rx_buffer(int odd_address)
 #endif
 
         /* check frame end */
-        if(rx_count>=rx_length+4) {
+        if (rx_count>=rx_length+4) {
             /* reset receiver state to idle */
             rx_state = TFE_RX_IDLE;
 #ifdef TFE_DEBUG_RXTX_STATE
@@ -1016,7 +1016,7 @@ void tfe_sideeffects_write_pp(WORD ppaddress, int odd_address)
 /*          tfe_arch_receive_remove_committed_frame(); */            
             
             /* restore tx state */ 
-            if(tx_state!=TFE_TX_IDLE) {
+            if (tx_state!=TFE_TX_IDLE) {
                 tx_state = TFE_TX_IDLE;
 #ifdef TFE_DEBUG_RXTX_STATE
                 log_message(tfe_log,"TX: skipping current frame");
@@ -1033,7 +1033,7 @@ void tfe_sideeffects_write_pp(WORD ppaddress, int odd_address)
         break;
 
     case TFE_PP_ADDR_CC_RXCTL:
-        if(tfe_recv_control!=content) {
+        if (tfe_recv_control!=content) {
             tfe_recv_broadcast   = content & 0x0800; /* broadcast */
             tfe_recv_mac         = content & 0x0400; /* individual address (IA) */
             tfe_recv_multicast   = content & 0x0200; /* multicast if address passes the hash filter */
@@ -1065,7 +1065,7 @@ void tfe_sideeffects_write_pp(WORD ppaddress, int odd_address)
             int enable_tx = (content & 0x0080) == 0x0080;
             int enable_rx = (content & 0x0040) == 0x0040;
     
-            if((enable_tx!=tx_enabled)||(enable_rx!=rx_enabled)) {
+            if ((enable_tx!=tx_enabled)||(enable_rx!=rx_enabled)) {
                 tfe_arch_line_ctl(enable_tx,enable_rx);
                 tfe_set_transmitter(enable_tx);
                 tfe_set_receiver(enable_rx);
@@ -1080,7 +1080,7 @@ void tfe_sideeffects_write_pp(WORD ppaddress, int odd_address)
     case TFE_PP_ADDR_CC_SELFCTL:
         {
             /* reset chip? */
-            if((content & 0x40)==0x40) {
+            if ((content & 0x40)==0x40) {
                 tfe_reset();
             }
         }
@@ -1088,11 +1088,11 @@ void tfe_sideeffects_write_pp(WORD ppaddress, int odd_address)
         
     case TFE_PP_ADDR_TXCMD:
         {
-            if(odd_address) {
+            if (odd_address) {
                 WORD txcommand = GET_PP_16(TFE_PP_ADDR_TXCMD);
                 
                 /* already transmitting? */
-                if(tx_state == TFE_TX_READ_BUSST) {
+                if (tx_state == TFE_TX_READ_BUSST) {
 #ifdef TFE_DEBUG_WARN_RXTX
                     log_message(tfe_log, "WARNING! Early abort of transmitted frame");
 #endif
@@ -1114,11 +1114,11 @@ void tfe_sideeffects_write_pp(WORD ppaddress, int odd_address)
 
     case TFE_PP_ADDR_TXLENGTH:
         {
-            if(odd_address && (tx_state == TFE_TX_GOT_CMD)) {
+            if (odd_address && (tx_state == TFE_TX_GOT_CMD)) {
                 WORD txlength = GET_PP_16(TFE_PP_ADDR_TXLENGTH);
                 WORD txcommand = GET_PP_16(TFE_PP_ADDR_CC_TXCMD);
                 
-                if(txlength<4) {
+                if (txlength<4) {
                     /* frame to short */
 #ifdef TFE_DEBUG_RXTX_STATE
                     log_message(tfe_log, "TX: LENGTH rejected - too short! (%04x)",txlength);
@@ -1168,7 +1168,7 @@ void tfe_sideeffects_write_pp(WORD ppaddress, int odd_address)
             tfe_arch_set_hashfilter(tfe_hash_mask);
 
 #if 0
-            if(odd_address && (ppaddress == TFE_PP_ADDR_LOG_ADDR_FILTER+6))
+            if (odd_address && (ppaddress == TFE_PP_ADDR_LOG_ADDR_FILTER+6))
                 log_message(tfe_log,"set hash filter: %02x:%02x:%02x:%02x:%02x:%02x",
                             tfe_hash_mask[0],
                             tfe_hash_mask[1],
@@ -1188,7 +1188,7 @@ void tfe_sideeffects_write_pp(WORD ppaddress, int odd_address)
             GET_PP_8(ppaddress+odd_address);
         tfe_arch_set_mac(tfe_ia_mac);
         
-        if(odd_address && (ppaddress == TFE_PP_ADDR_MAC_ADDR+4))
+        if (odd_address && (ppaddress == TFE_PP_ADDR_MAC_ADDR+4))
             log_message(tfe_log,"set MAC address: %02x:%02x:%02x:%02x:%02x:%02x",
                         tfe_ia_mac[0],tfe_ia_mac[1],tfe_ia_mac[2],
                         tfe_ia_mac[3],tfe_ia_mac[4],tfe_ia_mac[5]);
@@ -1215,9 +1215,9 @@ void tfe_sideeffects_read_pp(WORD ppaddress,int odd_address)
                status was read! unfortunately different access patterns are
                possible: either the status is read LH, LH, LH...
                or HL, HL, HL, or even L, L, L or H, H, H */
-            if((access_mask & rxevent_read_mask)!=0) {
+            if ((access_mask & rxevent_read_mask)!=0) {
                 /* receiver is not enabled */
-                if(!rx_enabled) {
+                if (!rx_enabled) {
 #ifdef TFE_DEBUG_WARN_RXTX
                     log_message(tfe_log,"WARNING! Can't receive any frame (Receiver is not enabled)!");
 #endif
@@ -1243,12 +1243,12 @@ void tfe_sideeffects_read_pp(WORD ppaddress,int odd_address)
         break;
 
     case TFE_PP_ADDR_SE_BUSST:
-        if(odd_address) {
+        if (odd_address) {
             /* read busst before transmit condition is fullfilled */
-            if(tx_state == TFE_TX_GOT_LEN) {
+            if (tx_state == TFE_TX_GOT_LEN) {
                 WORD bus_status = GET_PP_16(TFE_PP_ADDR_SE_BUSST);
                 /* check Rdy4TXNow flag */
-                if((bus_status & 0x100) == 0x100) {
+                if ((bus_status & 0x100) == 0x100) {
                     tx_state = TFE_TX_READ_BUSST;
 #ifdef TFE_DEBUG_RXTX_STATE
                     log_message(tfe_log, "TX: Ready4TXNow set! (%04x)",
@@ -1275,15 +1275,15 @@ static WORD tfe_read_register(WORD ppaddress)
   WORD value = GET_PP_16(ppaddress);
   
   /* --- check the register address --- */
-  if(ppaddress<0x100) {
+  if (ppaddress<0x100) {
     /* reserved range reads 0x0300 on real HW */
-    if((ppaddress>=0x0004)&&(ppaddress<0x0020)) {
+    if ((ppaddress>=0x0004)&&(ppaddress<0x0020)) {
       return 0x0300;
     }
   }
   
   /* --- read control register range --- */
-  else if(ppaddress<0x120) {
+  else if (ppaddress<0x120) {
     WORD regNum = ppaddress - 0x100;
     regNum &= ~1;
     regNum ++;
@@ -1294,7 +1294,7 @@ static WORD tfe_read_register(WORD ppaddress)
 #endif
  
     /* reserved register? */
-    if((regNum==0x01)||(regNum==0x11)||(regNum>0x19)) {
+    if ((regNum==0x01)||(regNum==0x11)||(regNum>0x19)) {
 #ifdef TFE_DEBUG_WARN_REG
       log_message(tfe_log,
                   "WARNING! Read reserved Control Register %04x (reg=%02x)",
@@ -1309,12 +1309,12 @@ static WORD tfe_read_register(WORD ppaddress)
   }
   
   /* --- read status register range --- */
-  else if(ppaddress<0x140) {
+  else if (ppaddress<0x140) {
     WORD regNum = ppaddress - 0x120;
     regNum &= ~1;
 #ifdef TFE_DEBUG_REGISTERS
 #ifdef TFE_DEBUG_IGNORE_RXEVENT
-    if(regNum!=4) // do not show RXEVENT
+    if (regNum!=4) // do not show RXEVENT
 #endif
     log_message(tfe_log,
                 "Read  Status  Register %04x: %04x (reg=%02x)",
@@ -1322,7 +1322,7 @@ static WORD tfe_read_register(WORD ppaddress)
 #endif
 
     /* reserved register? */
-    if((regNum==0x02)||(regNum==0x06)||(regNum==0x0a)||
+    if ((regNum==0x02)||(regNum==0x06)||(regNum==0x0a)||
        (regNum==0x0e)||(regNum==0x1a)||(regNum==0x1e)) {
 #ifdef TFE_DEBUG_WARN_REG
       log_message(tfe_log,
@@ -1338,8 +1338,8 @@ static WORD tfe_read_register(WORD ppaddress)
   }
   
   /* --- read transmit register range --- */
-  else if(ppaddress<0x150) {
-    if(ppaddress==0x144) {
+  else if (ppaddress<0x150) {
+    if (ppaddress==0x144) {
       /* make sure interal address is always valid */
       assert((value&0x3f) == 0x09);
 #ifdef TFE_DEBUG_REGISTERS
@@ -1348,7 +1348,7 @@ static WORD tfe_read_register(WORD ppaddress)
                   ppaddress,value);
 #endif
     }
-    else if(ppaddress==0x146) {
+    else if (ppaddress==0x146) {
 #ifdef TFE_DEBUG_REGISTERS
       log_message(tfe_log,
                   "Read  TX Len  Register %04x: %04x",
@@ -1368,9 +1368,9 @@ static WORD tfe_read_register(WORD ppaddress)
   }
   
   /* --- read address filter register range --- */
-  else if(ppaddress<0x160) {
+  else if (ppaddress<0x160) {
     /* reserved range */
-    if(ppaddress>=0x15e) {
+    if (ppaddress>=0x15e) {
 #ifdef TFE_DEBUG_WARN_REG
       log_message(tfe_log,
                   "WARNING! Read reserved Address Filter Register %04x",
@@ -1384,7 +1384,7 @@ static WORD tfe_read_register(WORD ppaddress)
   /* --- reserved range below 0x400 ---
      returns 0x300 on real HW 
   */
-  else if(ppaddress<0x400) {
+  else if (ppaddress<0x400) {
 #ifdef TFE_DEBUG_WARN_REG
     log_message(tfe_log,
                 "WARNING! Read reserved Register %04x",
@@ -1394,7 +1394,7 @@ static WORD tfe_read_register(WORD ppaddress)
   }
   
   /* --- range from 0x400 .. 0x9ff --- RX Frame */
-  else if(ppaddress<0xa00) {
+  else if (ppaddress<0xa00) {
 #ifdef TFE_DEBUG_WARN_REG
     log_message(tfe_log,
                 "WARNING! Read from RX Buffer Range %04x",
@@ -1420,18 +1420,18 @@ static WORD tfe_read_register(WORD ppaddress)
 void tfe_write_register(WORD ppaddress,WORD value)
 {
   /* --- write bus interface register range --- */
-  if(ppaddress<0x100) {
+  if (ppaddress<0x100) {
     int ignore = 0;
-    if(ppaddress<0x20) {
+    if (ppaddress<0x20) {
       ignore = 1;
-    } else if((ppaddress>=0x26)&&(ppaddress<0x2c)) {
+    } else if ((ppaddress>=0x26)&&(ppaddress<0x2c)) {
       ignore = 1;
-    } else if(ppaddress==0x38) {
+    } else if (ppaddress==0x38) {
       ignore = 1;
-    } else if(ppaddress>=0x44) {
+    } else if (ppaddress>=0x44) {
       ignore = 1;
     }
-    if(ignore) {
+    if (ignore) {
 #ifdef TFE_DEBUG_WARN_REG
       log_message(tfe_log,
                   "WARNING! Ignoring write to read only/reserved Bus Interface Register %04x",
@@ -1442,12 +1442,12 @@ void tfe_write_register(WORD ppaddress,WORD value)
   }
   
   /* --- write to control register range --- */
-  else if(ppaddress<0x120) {
+  else if (ppaddress<0x120) {
     WORD regNum = ppaddress - 0x100;
     regNum &= ~1;
     regNum += 1;
     /* validate internal address */
-    if((value&0x3f) != regNum) {
+    if ((value&0x3f) != regNum) {
       /* fix internal address */
       value &= ~0x3f;
       value |= regNum;
@@ -1459,7 +1459,7 @@ void tfe_write_register(WORD ppaddress,WORD value)
 #endif
 
     /* invalid register? -> ignore! */
-    if((regNum==0x01)||(regNum==0x11)||(regNum>0x19)) {
+    if ((regNum==0x01)||(regNum==0x11)||(regNum>0x19)) {
 #ifdef TFE_DEBUG_WARN_REG
       log_message(tfe_log,
                   "WARNING! Ignoring write to reserved Control Register %04x (reg=%02x)",
@@ -1470,7 +1470,7 @@ void tfe_write_register(WORD ppaddress,WORD value)
   }
   
   /* --- write to status register range --- */
-  else if(ppaddress<0x140) {
+  else if (ppaddress<0x140) {
 #ifdef TFE_DEBUG_WARN_REG
     log_message(tfe_log,
                 "WARNING! Ignoring write to read-only Status Register %04x",
@@ -1480,11 +1480,11 @@ void tfe_write_register(WORD ppaddress,WORD value)
   }
 
   /* --- write to initiate transmit register range --- */
-  else if(ppaddress<0x150) {
+  else if (ppaddress<0x150) {
     /* check tx_cmd register */
-    if(ppaddress==0x144) {
+    if (ppaddress==0x144) {
       /* validate internal address */
-      if((value&0x3f) != 0x09) {
+      if ((value&0x3f) != 0x09) {
         /* fix internal address */
         value &= ~0x3f;
         value |= 0x09;
@@ -1498,7 +1498,7 @@ void tfe_write_register(WORD ppaddress,WORD value)
 #endif
     }
     /* check tx_length register */
-    else if(ppaddress==0x146) {
+    else if (ppaddress==0x146) {
       /* HW always masks 0x0fff */
       value &= 0x0fff;
 #ifdef TFE_DEBUG_REGISTERS
@@ -1508,7 +1508,7 @@ void tfe_write_register(WORD ppaddress,WORD value)
 #endif
     }
     /* reserved range */
-    else if((ppaddress<0x144)||(ppaddress>0x147)) {
+    else if ((ppaddress<0x144)||(ppaddress>0x147)) {
 #ifdef TFE_DEBUG_WARN_REG
       log_message(tfe_log,
                   "WARNING! Ignoring write to reserved Initiate Transmit Register %04x",
@@ -1519,9 +1519,9 @@ void tfe_write_register(WORD ppaddress,WORD value)
   }
 
   /* --- write to address filter register range --- */
-  else if(ppaddress<0x160) {
+  else if (ppaddress<0x160) {
     /* reserved range */
-    if(ppaddress>=0x15e) {
+    if (ppaddress>=0x15e) {
 #ifdef TFE_DEBUG_WARN_REG
       log_message(tfe_log,
                   "WARNING! Ingoring write to reserved Address Filter Register %04x",
@@ -1532,7 +1532,7 @@ void tfe_write_register(WORD ppaddress,WORD value)
   }
 
   /* --- ignore write outside --- */
-  else if(ppaddress<0x400) {
+  else if (ppaddress<0x400) {
 #ifdef TFE_DEBUG_WARN_REG
     log_message(tfe_log,
                 "WARNING! Ingoring write to reserved Register %04x",
@@ -1540,7 +1540,7 @@ void tfe_write_register(WORD ppaddress,WORD value)
 #endif
     return;
   }
-  else if(ppaddress<0xa00){
+  else if (ppaddress<0xa00){
 #ifdef TFE_DEBUG_WARN_REG
     log_message(tfe_log,
                 "WARNING! Ignoring write to RX Buffer Range %04x",
@@ -1568,7 +1568,7 @@ void tfe_write_register(WORD ppaddress,WORD value)
 static void tfe_auto_incr_pp_ptr(void)
 {
   /* perform auto increment of packet page pointer */
-  if((tfe_packetpage_ptr & PP_PTR_AUTO_INCR_FLAG)==PP_PTR_AUTO_INCR_FLAG) {
+  if ((tfe_packetpage_ptr & PP_PTR_AUTO_INCR_FLAG)==PP_PTR_AUTO_INCR_FLAG) {
     /* pointer is always increment by one on real HW */
     WORD ptr   = tfe_packetpage_ptr & PP_PTR_ADDR_MASK;
     WORD flags = tfe_packetpage_ptr & PP_PTR_FLAG_MASK;
@@ -1607,13 +1607,13 @@ BYTE REGPARM1 tfe_read(WORD io_address)
     reg_base = io_address & ~1;
 
     /* RX register is special as it reads from RX buffer directly */
-    if((reg_base==TFE_ADDR_RXTXDATA)||(reg_base==TFE_ADDR_RXTXDATA2)) {
+    if ((reg_base==TFE_ADDR_RXTXDATA)||(reg_base==TFE_ADDR_RXTXDATA2)) {
         io_source=IO_SOURCE_TFE_RR_NET;
         return tfe_read_rx_buffer(io_address & 0x01);
     }
     
     /* read packet page pointer */
-    if(reg_base==TFE_ADDR_PP_PTR) {
+    if (reg_base==TFE_ADDR_PP_PTR) {
         word_value = tfe_packetpage_ptr;
     }
     /* read a register from packet page */
@@ -1661,7 +1661,7 @@ BYTE REGPARM1 tfe_read(WORD io_address)
     /* extract return value from word_value */
     lo = LO_BYTE(word_value);
     hi = HI_BYTE(word_value);
-    if((io_address & 1) == 0) {
+    if ((io_address & 1) == 0) {
         /* low byte on even address */
         retval = lo;
     } else {
@@ -1707,13 +1707,13 @@ void REGPARM2 tfe_store(WORD io_address, BYTE byte)
     reg_base = io_address & ~1;
 
     /* TX Register is special as it writes to TX buffer directly */
-    if((reg_base==TFE_ADDR_RXTXDATA)||(reg_base==TFE_ADDR_RXTXDATA2)) {
+    if ((reg_base==TFE_ADDR_RXTXDATA)||(reg_base==TFE_ADDR_RXTXDATA2)) {
         tfe_write_tx_buffer(byte,io_address & 1);
         return;
     }
 
     /* combine stored value with new written byte */
-    if((io_address & 1) == 0) {
+    if ((io_address & 1) == 0) {
         /* overwrite low byte */
         word_value = LOHI_WORD(byte,tfe[reg_base+1]);
     } else {
@@ -1721,7 +1721,7 @@ void REGPARM2 tfe_store(WORD io_address, BYTE byte)
         word_value = LOHI_WORD(tfe[reg_base],byte);
     }
 
-    if(reg_base==TFE_ADDR_PP_PTR) {
+    if (reg_base==TFE_ADDR_PP_PTR) {
         /* cv: we store the full package pointer in tfe_packetpage_ptr variable.
             this includes the mask area (0xf000) and the addr range (0x0fff).
             we ensure that the bits 0x3000 are always set (as in real HW).

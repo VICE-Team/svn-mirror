@@ -48,12 +48,12 @@
     switch(state) {
         case VICEMonitorStateOn:
             shownBeforeMonitor = [window isVisible];
-            if(shownBeforeMonitor) {
+            if (shownBeforeMonitor) {
                 [window orderOut:self];
             }
             break;
         case VICEMonitorStateOff:
-            if(shownBeforeMonitor) {
+            if (shownBeforeMonitor) {
                 [window orderFront:self];
             }
             break;
@@ -84,7 +84,7 @@
 {
     NSNumber *number = [[VICEApplication theMachineController] 
                             getIntResource:name];
-    if(number==nil)
+    if (number==nil)
         return -1;
     int result = [number intValue];
     return result;

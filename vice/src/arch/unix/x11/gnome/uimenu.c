@@ -288,7 +288,7 @@ void ui_menu_update_all(void)
 }
 
 void ui_menu_set_tick(GtkWidget *w, int flag) {
-    if(GTK_IS_CHECK_MENU_ITEM(w))
+    if (GTK_IS_CHECK_MENU_ITEM(w))
       gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(w), flag != 0);
 }
 
@@ -312,7 +312,7 @@ void _ui_menu_toggle_helper(GtkWidget *w,
     if (resources_get_int(resource_name, &current_value) < 0)
         return;
 
-    if(!CHECK_MENUS) {
+    if (!CHECK_MENUS) {
         resources_set_int(resource_name, !current_value);
 	ui_update_menus();
     } else {

@@ -178,7 +178,7 @@ png_default_error(png_structp png_ptr, png_const_charp error_message)
          if (*(error_message+offset) == ' ')
              break;
      }
-     if((offset > 1) && (offset < 15))
+     if ((offset > 1) && (offset < 15))
      {
        error_number[offset-1]='\0';
        fprintf(stderr, "libpng error no. %s: %s\n", error_number,
@@ -234,7 +234,7 @@ png_default_warning(png_structp png_ptr, png_const_charp warning_message)
         if (*(warning_message+offset) == ' ')
             break;
      }
-     if((offset > 1) && (offset < 15))
+     if ((offset > 1) && (offset < 15))
      {
        warning_number[offset-1]='\0';
        fprintf(stderr, "libpng warning no. %s: %s\n", warning_number,
@@ -286,7 +286,7 @@ png_get_error_ptr(png_structp png_ptr)
 void PNGAPI
 png_set_strip_error_numbers(png_structp png_ptr, png_uint_32 strip_mode)
 {
-   if(png_ptr != NULL)
+   if (png_ptr != NULL)
    {
      png_ptr->flags &=
        ((~(PNG_FLAG_STRIP_ERROR_NUMBERS|PNG_FLAG_STRIP_ERROR_TEXT))&strip_mode);

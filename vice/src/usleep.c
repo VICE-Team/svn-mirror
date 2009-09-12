@@ -63,7 +63,7 @@ int usleep(unsigned long int microSeconds)
         nfds = readfds = writefds = exceptfds = 0;
 #endif
 
-        if( (microSeconds == (unsigned long) 0)
+        if ( (microSeconds == (unsigned long) 0)
                 || microSeconds > (unsigned long) 4000000 )
         {
                 errno = ERANGE;         /* value out of range */
@@ -76,7 +76,7 @@ int usleep(unsigned long int microSeconds)
         Timer.tv_sec            = Seconds;
         Timer.tv_usec           = uSec;
 
-        if( select( nfds, &readfds, &writefds, &exceptfds, &Timer ) < 0 )
+        if ( select( nfds, &readfds, &writefds, &exceptfds, &Timer ) < 0 )
                 return -1;
 
         return 0;

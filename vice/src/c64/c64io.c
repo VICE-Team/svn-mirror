@@ -317,7 +317,7 @@ BYTE REGPARM1 c64io1_read(WORD addr)
 #ifdef HAVE_MIDI
     if (midi_enabled && c64_midi_base_de00())
     {
-        if(midi_test_read((WORD)(addr & 0xff))) {
+        if (midi_test_read((WORD)(addr & 0xff))) {
             return_value = midi_read((WORD)(addr & 0xff));
             io_source = IO_SOURCE_MIDI;
             io_source_check(io_source_counter);
@@ -495,7 +495,7 @@ BYTE REGPARM1 c64io2_read(WORD addr)
 #ifdef HAVE_MIDI
     if (midi_enabled && !c64_midi_base_de00())
     {
-        if(midi_test_read((WORD)(addr & 0xff))) {
+        if (midi_test_read((WORD)(addr & 0xff))) {
             return_value = midi_read((WORD)(addr & 0xff));
             io_source = IO_SOURCE_MIDI;
             io_source_check(io_source_counter);

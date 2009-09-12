@@ -95,19 +95,19 @@ BYTE c64dtvflash_read_direct(int addr)
 void c64dtvflash_store(int addr, BYTE value)
 {
     int i,j,k;
-    if(flash_log_enabled) log_message(c64dtvflash_log, "flash_store: addr %x, value %x, mode %i\n",addr,value,c64dtvflash_state);
+    if (flash_log_enabled) log_message(c64dtvflash_log, "flash_store: addr %x, value %x, mode %i\n",addr,value,c64dtvflash_state);
     switch(c64dtvflash_state) {
         case FLASH_IDLE:
-            if(((addr&0xffe)==0xaaa)&&(value==0xaa)) c64dtvflash_state=FLASH_CMD1;
+            if (((addr&0xffe)==0xaaa)&&(value==0xaa)) c64dtvflash_state=FLASH_CMD1;
             return;
         case FLASH_CMD1:
-            if(((addr&0xffe)==0x554)&&(value==0x55))
+            if (((addr&0xffe)==0x554)&&(value==0x55))
                 c64dtvflash_state=FLASH_CMD2;
             else
                 c64dtvflash_state=FLASH_IDLE;
             return;
         case FLASH_CMD2:
-            if((addr&0xffe)==0xaaa) {
+            if ((addr&0xffe)==0xaaa) {
                 switch(value) {
                     case 0x90: c64dtvflash_state=FLASH_PRODUCTID; return; /* Product ID Entry */
                     case 0xf0: c64dtvflash_state=FLASH_IDLE; return; /* Product ID Exit */
@@ -120,16 +120,16 @@ void c64dtvflash_store(int addr, BYTE value)
             } else c64dtvflash_state=FLASH_IDLE;
             return;
         case FLASH_PRODUCTID: /* Product ID Mode */
-            if(value==0xf0) c64dtvflash_state=FLASH_IDLE;        /* Product ID Exit */
+            if (value==0xf0) c64dtvflash_state=FLASH_IDLE;        /* Product ID Exit */
             return;
         case FLASH_CMD3: /* Erase/Single Pulse Program/Lockdown */
-            if(((addr&0xffe)==0xaaa)&&(value==0xaa))
+            if (((addr&0xffe)==0xaaa)&&(value==0xaa))
                 c64dtvflash_state=FLASH_CMD4;
             else
                 c64dtvflash_state=FLASH_IDLE;
             return;
         case FLASH_CMD4: /* Erase/Single Pulse Program/Lockdown */
-            if(((addr&0xffe)==0x554)&&(value==0x55))
+            if (((addr&0xffe)==0x554)&&(value==0x55))
                 c64dtvflash_state=FLASH_CMD5;
             else
                 c64dtvflash_state=FLASH_IDLE;
@@ -137,7 +137,7 @@ void c64dtvflash_store(int addr, BYTE value)
         case FLASH_CMD5: /* Erase/Single Pulse Program/Lockdown */
             switch(value) {
                 case 0x30: /* Sector Erase */
-                    if((addr>>16)==0x1f) {
+                    if ((addr>>16)==0x1f) {
                         j=(addr&0x1fe000);
                         k=j+0x2000;
                     } else {
@@ -145,47 +145,47 @@ void c64dtvflash_store(int addr, BYTE value)
                         k=j+0x10000;
                     }
                     if (c64dtvflash_mem_lock[paddr_to_sector(addr)]) {
-                    if(flash_log_enabled) log_message(c64dtvflash_log, "flash: ignoring erase (locked) %06x-%06x\n",j,k);
+                    if (flash_log_enabled) log_message(c64dtvflash_log, "flash: ignoring erase (locked) %06x-%06x\n",j,k);
                     } else {
                         for(i=j;i<k;i++) c64dtvflash_mem[i]=0xff;
-                        if(flash_log_enabled) log_message(c64dtvflash_log, "flash: erased %06x-%06x\n",j,k);
+                        if (flash_log_enabled) log_message(c64dtvflash_log, "flash: erased %06x-%06x\n",j,k);
                     }
                     break;
                 case 0x10: /* Chip Erase */
                     for(i=0;i<0x200000;i++) {
                         if (!(c64dtvflash_mem_lock[paddr_to_sector(addr)])) c64dtvflash_mem[i]=0xff;
                     }
-                    if(flash_log_enabled) log_message(c64dtvflash_log, "flash: chip erased\n");
+                    if (flash_log_enabled) log_message(c64dtvflash_log, "flash: chip erased\n");
                     break;
                 case 0x60: /* Sector Lockdown */
                     c64dtvflash_mem_lock[paddr_to_sector(addr)]=0xff;
-                    if(flash_log_enabled) log_message(c64dtvflash_log, "flash: sector %i lockdown\n",paddr_to_sector(addr));
+                    if (flash_log_enabled) log_message(c64dtvflash_log, "flash: sector %i lockdown\n",paddr_to_sector(addr));
                     break;
                 case 0xa0: /* Single Pulse Program Mode */
                     c64dtvflash_state=FLASH_SPPROGRAM;
-                    if(flash_log_enabled) log_message(c64dtvflash_log, "flash: entering single pulse program mode\n");
+                    if (flash_log_enabled) log_message(c64dtvflash_log, "flash: entering single pulse program mode\n");
                     return;
             }
             c64dtvflash_state=FLASH_IDLE;
             return;
         case FLASH_PROGRAM: /* Byte/Word Program */
             if (c64dtvflash_mem_lock[paddr_to_sector(addr)]) {
-                if(flash_log_enabled) log_message(c64dtvflash_log, "flash: ignoring byte program (locked) %02x to %06x\n",value,addr);
+                if (flash_log_enabled) log_message(c64dtvflash_log, "flash: ignoring byte program (locked) %02x to %06x\n",value,addr);
             } else {
                 c64dtvflash_mem[addr]&=value;
-                if(flash_log_enabled) log_message(c64dtvflash_log, "flash: written %02x to %06x\n", c64dtvflash_mem[addr], addr); /* DEBUG */
+                if (flash_log_enabled) log_message(c64dtvflash_log, "flash: written %02x to %06x\n", c64dtvflash_mem[addr], addr); /* DEBUG */
             }
             c64dtvflash_state=FLASH_IDLE;
             return;
         case FLASH_SETCONF: /* Set Configuration Register */
             c64dtvflash_state=FLASH_IDLE;
-            if(flash_log_enabled) log_message(c64dtvflash_log, "flash: set configuration register %02x (unimplemented)\n",value);
+            if (flash_log_enabled) log_message(c64dtvflash_log, "flash: set configuration register %02x (unimplemented)\n",value);
             return;
         case FLASH_PROGPROT: /* Program/Lock Protection Register */
-            if((addr==0x100)&&((value&0xf)==0)) {
-                if(flash_log_enabled) log_message(c64dtvflash_log, "flash: lock protection register (unimplemented)\n");
+            if ((addr==0x100)&&((value&0xf)==0)) {
+                if (flash_log_enabled) log_message(c64dtvflash_log, "flash: lock protection register (unimplemented)\n");
             } else {
-                if(flash_log_enabled) log_message(c64dtvflash_log, "flash: program protection register %x = %02x (unimplemented)\n",addr,value);
+                if (flash_log_enabled) log_message(c64dtvflash_log, "flash: program protection register %x = %02x (unimplemented)\n",addr,value);
             }
             c64dtvflash_state=FLASH_IDLE;
             return;
@@ -200,7 +200,7 @@ void c64dtvflash_store(int addr, BYTE value)
 BYTE c64dtvflash_read(int addr)
 {
     if (c64dtvflash_state != FLASH_IDLE) {
-        if(flash_log_enabled) log_message(c64dtvflash_log, "flash_read: addr %x, mode %i\n",addr,c64dtvflash_state);
+        if (flash_log_enabled) log_message(c64dtvflash_log, "flash_read: addr %x, mode %i\n",addr,c64dtvflash_state);
     }
     if (c64dtvflash_state == FLASH_PRODUCTID) { /* Product ID Mode */
         switch (addr) {
@@ -236,7 +236,7 @@ BYTE c64dtvflash_read(int addr)
             case 0x110: return 0xff;
             case 0x111: return 0xff;
             default:
-                if((addr&((addr>>16)==0x1f?0x1fff:0xffff))==4)
+                if ((addr&((addr>>16)==0x1f?0x1fff:0xffff))==4)
                     return c64dtvflash_mem_lock[paddr_to_sector(addr)]; /* Sector Lockdown */
                 else
                     return 0xff;
@@ -310,7 +310,7 @@ unsigned int c64dtvflash_rom_loaded=0;
 static int c64dtvflash_load_rom(void)
 {
   int retval=0;		/* need to change this when ui gets changed for error indication */
-  if(flash_log_enabled) log_message(c64dtvflash_log, "loading ROM");
+  if (flash_log_enabled) log_message(c64dtvflash_log, "loading ROM");
   if (!util_check_null_string(c64dtvflash_filename))
   {
     if ((retval = util_file_load(c64dtvflash_filename, c64dtvflash_mem, (size_t)0x200000, UTIL_FILE_LOAD_RAW)) < 0)
@@ -328,7 +328,7 @@ static int c64dtvflash_load_rom(void)
 
   /* copy ROMs to Flash ROM emulation if no image file specified */
   if (retval) {
-    if(flash_log_enabled) log_message(c64dtvflash_log, "copy ROMs to Flash");
+    if (flash_log_enabled) log_message(c64dtvflash_log, "copy ROMs to Flash");
     memcpy(c64dtvflash_mem + 0xe000, c64memrom_kernal64_rom,
            C64_KERNAL_ROM_SIZE);
     memcpy(c64dtvflash_mem + 0xa000, c64memrom_basic64_rom,
@@ -347,12 +347,12 @@ static int c64dtvflash_load_rom(void)
 
 void c64dtvflash_init(void)
 {
-  if(c64dtvflash_log == LOG_ERR)
+  if (c64dtvflash_log == LOG_ERR)
     c64dtvflash_log = log_open("C64DTVFLASH");
 
   c64dtvflash_load_rom();
 
-  if(flash_log_enabled) log_message(c64dtvflash_log, "END init");
+  if (flash_log_enabled) log_message(c64dtvflash_log, "END init");
 }
 
 void c64dtvflash_shutdown(void)
@@ -366,7 +366,7 @@ void c64dtvflash_shutdown(void)
           log_message(c64dtvflash_log, "Wrote C64DTV ROM image %s.", c64dtvflash_filename);
     }
   }
-  if(flash_log_enabled) log_message(c64dtvflash_log, "END shutdown");
+  if (flash_log_enabled) log_message(c64dtvflash_log, "END shutdown");
   return;
 }
 
@@ -405,9 +405,9 @@ static int set_c64dtvflash_filename(const char *name, void *param)
 
 #ifndef AMIGA_SUPPORT
     /* check if the given rom file can be found in a sys dir and set resource with absolute path */
-    if(name != NULL && *name != '\0' && !util_file_exists(name)) {
+    if (name != NULL && *name != '\0' && !util_file_exists(name)) {
         sysfile_locate(name,&complete_path);
-        if(complete_path!=NULL)
+        if (complete_path!=NULL)
           name = complete_path;
     }
 #endif

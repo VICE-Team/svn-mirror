@@ -468,7 +468,7 @@ static void serial_iec_device_exec_main(unsigned int devnr, CLOCK clk_value)
             /* ignore anything that happens during first 100us after falling
                flank on ATN (other devices may have been sending and need
                some time to set CLK=1) */
-            if( clk_value >= iec->timeout )
+            if ( clk_value >= iec->timeout )
             iec->state = P_PRE1;
             break;
           case P_PRE1: 

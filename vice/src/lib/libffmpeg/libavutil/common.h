@@ -229,12 +229,12 @@ static inline av_const float av_clipf(float a, float amin, float amax)
     val= GET_BYTE;\
     {\
         int ones= 7 - av_log2(val ^ 255);\
-        if(ones==1)\
+        if (ones==1)\
             ERROR\
         val&= 127>>ones;\
         while(--ones > 0){\
             int tmp= GET_BYTE - 128;\
-            if(tmp>>6)\
+            if (tmp>>6)\
                 ERROR\
             val= (val<<6) + tmp;\
         }\

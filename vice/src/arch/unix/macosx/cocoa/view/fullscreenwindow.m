@@ -39,7 +39,7 @@
                               backing:NSBackingStoreBuffered
                                 defer:NO
                                screen:[NSScreen mainScreen]];
-    if(self==nil)
+    if (self==nil)
         return nil;
                                        
     [self setBackgroundColor:[NSColor blackColor]];

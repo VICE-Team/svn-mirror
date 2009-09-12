@@ -602,8 +602,8 @@ void REGPARM2 mem_store(WORD addr, BYTE value)
 #endif
 
     int paddr = addr_to_paddr(addr);
-/* if(addr != paddr) printf("Store to adress %x mapped to %x - %d %d %d %d\n", addr, paddr, dtv_registers[12], dtv_registers[13], dtv_registers[14], dtv_registers[15]); */ /* DEBUG */
-    if(access_rom(addr))
+/* if (addr != paddr) printf("Store to adress %x mapped to %x - %d %d %d %d\n", addr, paddr, dtv_registers[12], dtv_registers[13], dtv_registers[14], dtv_registers[15]); */ /* DEBUG */
+    if (access_rom(addr))
     {
 #ifdef FEATURE_CPUMEMHISTORY
         monitor_memmap_store(paddr, MEMMAP_ROM_W);
@@ -611,7 +611,7 @@ void REGPARM2 mem_store(WORD addr, BYTE value)
         c64dtvflash_store(paddr, value);
         return;
     }
-    if(paddr <= 0xffff) {
+    if (paddr <= 0xffff) {
 #ifdef FEATURE_CPUMEMHISTORY
         rptr = _mem_write_tab_ptr[paddr >> 8];
         if ((rptr == ram_store)
@@ -624,7 +624,7 @@ void REGPARM2 mem_store(WORD addr, BYTE value)
         }
 #endif
         /* disable dummy write if skip cycle */
-        if(dtv_registers[9] & 1) maincpu_rmw_flag = 0;
+        if (dtv_registers[9] & 1) maincpu_rmw_flag = 0;
         _mem_write_tab_ptr[paddr >> 8]((WORD)paddr, value);
     } else {
 #ifdef FEATURE_CPUMEMHISTORY
@@ -641,21 +641,21 @@ BYTE REGPARM1 mem_read(WORD addr)
 #endif
 
     int paddr = addr_to_paddr(addr);
-/* if(addr != paddr) printf("Read from adress %x mapped to %x - %d %d %d %d\n", addr, paddr, dtv_registers[12], dtv_registers[13], dtv_registers[14], dtv_registers[15]); */ /* DEBUG */
-    if(access_rom(addr)) {
+/* if (addr != paddr) printf("Read from adress %x mapped to %x - %d %d %d %d\n", addr, paddr, dtv_registers[12], dtv_registers[13], dtv_registers[14], dtv_registers[15]); */ /* DEBUG */
+    if (access_rom(addr)) {
 #ifdef FEATURE_CPUMEMHISTORY
         monitor_memmap_store(paddr, (memmap_state&MEMMAP_STATE_OPCODE)?MEMMAP_ROM_X:(memmap_state&MEMMAP_STATE_INSTR)?0:MEMMAP_ROM_R);
         memmap_state &= ~(MEMMAP_STATE_OPCODE);
 #endif
         return c64dtvflash_read(paddr);
     }
-    if(paddr <= 0xffff) {
+    if (paddr <= 0xffff) {
 #ifdef FEATURE_CPUMEMHISTORY
         rptr = _mem_read_tab_ptr[paddr >> 8];
         if ((rptr == ram_read)
           ||(rptr == zero_read)) {
             monitor_memmap_store(paddr, (memmap_state&MEMMAP_STATE_OPCODE)?MEMMAP_RAM_X:(memmap_state&MEMMAP_STATE_INSTR)?0:MEMMAP_RAM_R);
-        } else if((rptr == c64memrom_basic64_read)
+        } else if ((rptr == c64memrom_basic64_read)
           ||(rptr == c64memrom_kernal64_read)) {
             monitor_memmap_store(paddr, (memmap_state&MEMMAP_STATE_OPCODE)?MEMMAP_ROM_X:(memmap_state&MEMMAP_STATE_INSTR)?0:MEMMAP_ROM_R);
         } else {
@@ -689,7 +689,7 @@ BYTE REGPARM1 colorram_read(WORD addr)
 void c64dtv_init(void)
 {
   int trapfl;
-  if(c64dtvmem_log == LOG_ERR)
+  if (c64dtvmem_log == LOG_ERR)
     c64dtvmem_log = log_open("C64DTVMEM");
 
   hummeradc_init();
@@ -833,7 +833,7 @@ void REGPARM2 c64dtv_mapper_store(WORD addr, BYTE value)
     resources_set_int("VirtualDevices", 0);
     c64dtvmem_memmapper[0]=value;
     resources_set_int("VirtualDevices", trapfl);
-    if(trapfl)
+    if (trapfl)
       log_message(c64dtvmem_log, "Changed KERNAL segment - disable VirtualDevices if you encounter problems");
     break;
   case 0x01:

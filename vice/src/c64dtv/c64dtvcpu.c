@@ -129,9 +129,9 @@ DWORD mem_burst_read(WORD addr)
     read_func_ptr_t mrtf;
     int paddr = ((((int) dtv_registers[12 + (addr >> 14)]) << 14) + (addr & 0x3fff)) & (C64_RAM_SIZE - 1);
 
-    if(paddr <= 0xffff) {
+    if (paddr <= 0xffff) {
         mrtf = _mem_read_tab_ptr[paddr >> 8];
-        if(mrtf != ram_read) {
+        if (mrtf != ram_read) {
 #ifdef WORDS_BIGENDIAN
             return (((DWORD) mrtf(paddr + 0)) << 24) +
                    (((DWORD) mrtf(paddr + 1)) << 16) +
@@ -333,10 +333,10 @@ static const BYTE burst_status_tab[] = {
 #define FETCH_OPCODE(o) \
     do { \
         dtvrewind = 0; \
-        if((dtv_registers[9]&2)&&(((dtv_registers[8] >> ((reg_pc >> 13)&6)) & 0x03) == 0x01)) { \
+        if ((dtv_registers[9]&2)&&(((dtv_registers[8] >> ((reg_pc >> 13)&6)) & 0x03) == 0x01)) { \
             burst_last_addr = burst_addr; \
             burst_addr = reg_pc & 0xfffc; \
-            if((burst_addr != burst_last_addr)||burst_broken) { \
+            if ((burst_addr != burst_last_addr)||burst_broken) { \
                 *((DWORD *)burst_cache) = mem_burst_read(burst_addr); \
             } \
             burst_idx = reg_pc & 3; \
@@ -344,8 +344,8 @@ static const BYTE burst_status_tab[] = {
             burst_status = burst_status_tab[o]; \
             burst_fetch = burst_status & 7; \
             burst_diff = (burst_status >> 3) & 7; \
-            if(burst_fetch--) { \
-                if(burst_idx>3) { \
+            if (burst_fetch--) { \
+                if (burst_idx>3) { \
                     burst_addr += 4; \
                     burst_addr &= 0xfffc; \
                     burst_last_addr = burst_addr; \
@@ -354,8 +354,8 @@ static const BYTE burst_status_tab[] = {
                     *((DWORD *)burst_cache) = mem_burst_read(burst_addr); \
                 } \
                 o |= (burst_cache[burst_idx++] << 8); \
-                if(burst_fetch--) { \
-                    if(burst_idx>3) { \
+                if (burst_fetch--) { \
+                    if (burst_idx>3) { \
                         burst_addr += 4; \
                         burst_addr &= 0xfffc; \
                         burst_last_addr = burst_addr; \
@@ -398,10 +398,10 @@ static const BYTE burst_status_tab[] = {
 #define FETCH_OPCODE(o) \
     do { \
         dtvrewind = 0; \
-        if((dtv_registers[9]&2)&&(((dtv_registers[8] >> ((reg_pc >> 13)&6)) & 0x03) == 0x01)) { \
+        if ((dtv_registers[9]&2)&&(((dtv_registers[8] >> ((reg_pc >> 13)&6)) & 0x03) == 0x01)) { \
             burst_last_addr = burst_addr; \
             burst_addr = reg_pc & 0xfffc; \
-            if((burst_addr != burst_last_addr)||burst_broken) { \
+            if ((burst_addr != burst_last_addr)||burst_broken) { \
                 burst_cache[0] = LOAD(burst_addr+0); \
                 burst_cache[1] = LOAD(burst_addr+1); \
                 burst_cache[2] = LOAD(burst_addr+2); \
@@ -412,8 +412,8 @@ static const BYTE burst_status_tab[] = {
             burst_status = burst_status_tab[(o).ins]; \
             burst_fetch = burst_status & 7; \
             burst_diff = (burst_status >> 3) & 7; \
-            if(burst_fetch--) { \
-                if(burst_idx>3) { \
+            if (burst_fetch--) { \
+                if (burst_idx>3) { \
                     burst_addr += 4; \
                     burst_addr &= 0xfffc; \
                     burst_last_addr = burst_addr; \
@@ -425,8 +425,8 @@ static const BYTE burst_status_tab[] = {
                     burst_cache[3] = LOAD(burst_addr+3); \
                 } \
                 (o).op.op16 = burst_cache[burst_idx++]; \
-                if(burst_fetch--) { \
-                    if(burst_idx>3) { \
+                if (burst_fetch--) { \
+                    if (burst_idx>3) { \
                         burst_addr += 4; \
                         burst_addr &= 0xfffc; \
                         burst_last_addr = burst_addr; \

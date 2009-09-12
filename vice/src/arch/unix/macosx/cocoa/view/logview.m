@@ -124,7 +124,7 @@
         NSString *keyString = [event charactersIgnoringModifiers];
 
         /* no character assigned to key */
-        if((keyString == nil) || ([keyString length] == 0)) {
+        if ((keyString == nil) || ([keyString length] == 0)) {
             [super keyDown:event];
             return;
         }
@@ -176,7 +176,7 @@
 - (void)insertNewline:(id)sender
 {
     // ignore newlines after editing
-    if(![self isEditable]) {
+    if (![self isEditable]) {
         return;
     }
 

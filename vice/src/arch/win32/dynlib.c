@@ -40,7 +40,7 @@ void *vice_dynlib_symbol(void *handle,const char *name)
 
 int vice_dynlib_close(void *handle)
 {
-    if(FreeLibrary(handle)) {
+    if (FreeLibrary(handle)) {
         return 0;
     } else {
         return -1;

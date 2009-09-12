@@ -77,7 +77,7 @@ int reloc65(char **buf, int *fsize, int addr)
     mode = file.buf[7] * 256 + file.buf[6];
     if (mode & 0x2000) {
         return 0;
-    } else if(mode & 0x4000) {
+    } else if (mode & 0x4000) {
         return 0;
     }
 
@@ -178,7 +178,7 @@ static unsigned char *reloc_seg(unsigned char *buf, int len,
 /*printf("tdiff=%04x, ddiff=%04x, bdiff=%04x, zdiff=%04x\n",
             fp->tdiff, fp->ddiff, fp->bdiff, fp->zdiff);*/
     while(*rtab) {
-        if((*rtab & 255) == 255) {
+        if ((*rtab & 255) == 255) {
             adr += 254;
             rtab++;
         } else {
@@ -208,11 +208,11 @@ static unsigned char *reloc_seg(unsigned char *buf, int len,
                 buf[adr] = new & 255;
                 break;
             }
-            if(seg == 0)
+            if (seg == 0)
                 rtab += 2;
         }
     }
-    if(adr > len) {
+    if (adr > len) {
 /*
         fprintf(stderr,
                 "reloc65: %s: Warning: relocation table entries past segment end!\n",

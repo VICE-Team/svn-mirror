@@ -63,7 +63,7 @@ static void update_preview(HWND hwnd)
     s_win = lib_malloc((2 * strlen(s) + 1) * sizeof(TCHAR));
     i = j =0;
     while (s[i] != '\0') {
-        if(s[i] == '\n')
+        if (s[i] == '\n')
             s_win[j++] = TEXT('\r');
         s_win[j++] = (TCHAR)s[i++];
     }

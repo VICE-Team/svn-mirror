@@ -47,7 +47,7 @@ static const char *maxVolStr = "{\\rtf1\\ansi\\ansicpg1252\\cocoartf949\\cocoasu
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
-    if(self==nil)
+    if (self==nil)
         return nil;
     
     // calculate width

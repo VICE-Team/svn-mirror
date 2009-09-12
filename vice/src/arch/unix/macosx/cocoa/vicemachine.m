@@ -40,7 +40,7 @@ VICEMachine *theVICEMachine = nil;
 - (void) receiveSleepNote: (NSNotification*) note
 {
     // if not paused already then pause while system sleeps
-    if(!isPaused) {
+    if (!isPaused) {
         isSleepPaused = YES;
         isPaused = YES;
     }
@@ -49,7 +49,7 @@ VICEMachine *theVICEMachine = nil;
 - (void) receiveWakeNote: (NSNotification*) note
 {
     // wake up if the emulator was sleeping due to system sleep
-    if(isSleepPaused) {
+    if (isSleepPaused) {
         isSleepPaused = NO;
         isPaused = NO;
     }
@@ -153,14 +153,14 @@ VICEMachine *theVICEMachine = nil;
 -(void)triggerRunLoop
 {    
     // enter a pause loop?
-    if(isPaused) {
+    if (isPaused) {
         // suspend speed evalution
         vsync_suspend_speed_eval();
         
         // enter pause loop and check every 500ms to end it
         while ( [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.5]] ) {
-            if(!isPaused)
+            if (!isPaused)
                 break;
         }
     }
@@ -170,7 +170,7 @@ VICEMachine *theVICEMachine = nil;
                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:0]];
 
     // the stop machine call triggered the die flag
-    if(shallIDie) {
+    if (shallIDie) {
         // shut down VICE
         machine_shutdown();
     
@@ -204,7 +204,7 @@ VICEMachine *theVICEMachine = nil;
     [app beginLineInputWithPrompt:(NSString *)prompt];
     
     NSDate *finishedDate;
-    if(seconds == 0)
+    if (seconds == 0)
         finishedDate = [NSDate distantFuture];
     else
         finishedDate = [NSDate dateWithTimeIntervalSinceNow:seconds];
@@ -232,7 +232,7 @@ VICEMachine *theVICEMachine = nil;
 /* this is called by the UI thread to submit a line input */
 -(void)submitLineInput:(NSString *)line
 {
-    if(isWaitingForLineInput) {
+    if (isWaitingForLineInput) {
         submittedLineInput = [line retain];
         isWaitingForLineInput = NO;
     }
@@ -242,7 +242,7 @@ VICEMachine *theVICEMachine = nil;
 
 -(int)registerCanvas:(struct video_canvas_s *)canvas
 {
-    if(canvasNum==MAX_CANVAS) {
+    if (canvasNum==MAX_CANVAS) {
         NSLog(@"FATAL: too many canvas registered!");
         return -1;
     }
@@ -255,7 +255,7 @@ VICEMachine *theVICEMachine = nil;
 
 -(struct video_canvas_s *)getCanvasForId:(int)canvasId
 {
-    if((canvasId<0)||(canvasId>=canvasNum))
+    if ((canvasId<0)||(canvasId>=canvasNum))
         return NULL;
     return canvasArray[canvasId];
 }

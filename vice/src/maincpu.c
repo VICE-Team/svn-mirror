@@ -95,7 +95,7 @@
 
 void REGPARM2 memmap_mem_store(unsigned int addr, unsigned int value)
 {
-    if((addr >= 0xd000)&&(addr <= 0xdfff)) {
+    if ((addr >= 0xd000)&&(addr <= 0xdfff)) {
         monitor_memmap_store(addr, MEMMAP_I_O_W);
     } else {
         monitor_memmap_store(addr, MEMMAP_RAM_W);
@@ -111,7 +111,7 @@ BYTE REGPARM1 memmap_mem_read(unsigned int addr)
         case 0xe:
         case 0xf:
             memmap_state |= MEMMAP_STATE_IGNORE;
-            if(LOAD_ZERO(1) & (1 << ((addr>>14) & 1))) {
+            if (LOAD_ZERO(1) & (1 << ((addr>>14) & 1))) {
                 monitor_memmap_store(addr, (memmap_state&MEMMAP_STATE_OPCODE)?MEMMAP_ROM_X:(memmap_state&MEMMAP_STATE_INSTR)?0:MEMMAP_ROM_R);
             } else {
                 monitor_memmap_store(addr, (memmap_state&MEMMAP_STATE_OPCODE)?MEMMAP_RAM_X:(memmap_state&MEMMAP_STATE_INSTR)?0:MEMMAP_RAM_R);

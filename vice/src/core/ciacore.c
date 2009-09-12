@@ -874,7 +874,7 @@ static void ciacore_intta(CLOCK offset, void *data)
                 *(cia_context->clk_ptr), rclk));
 
 #if 0
-    if((n = ciat_update(cia_context->ta, rclk))
+    if ((n = ciat_update(cia_context->ta, rclk))
         && (cia_context->rdi != rclk - 1)) {
         cia_context->irqflags |= CIA_IM_TA;
         cia_context->tat = (cia_context->tat + n) & 1;

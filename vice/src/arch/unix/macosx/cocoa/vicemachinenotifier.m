@@ -48,7 +48,7 @@
     // build color mask
     int i;
     for(i=0;i<DRIVE_NUM;i++) {
-        if(color[i])
+        if (color[i])
             driveEnableColorMask |= 1<<i;
     }
 }

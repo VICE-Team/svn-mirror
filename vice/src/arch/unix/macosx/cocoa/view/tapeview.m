@@ -68,7 +68,7 @@ static NSString *help_texts[] = {
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
-    if(self==nil)
+    if (self==nil)
         return nil;
     
     // calculate width
@@ -117,7 +117,7 @@ static NSString *help_texts[] = {
     for(i=0;i<9;i++) {
         float font_size = 14.0;
         // make ff and fr buttons smaller
-        if((i==2)||(i==3)) {
+        if ((i==2)||(i==3)) {
             font_size = 10;
         }
 
@@ -133,7 +133,7 @@ static NSString *help_texts[] = {
         [buttons[i] setAction:@selector(controlDatasette:)];    
         [self addSubview:buttons[i]];
 
-        if(i!=5) {
+        if (i!=5) {
             x += bw;
         } else {
             // reset counter button
@@ -188,7 +188,7 @@ static NSString *help_texts[] = {
 
 - (void)updateImage:(NSString*)image
 {
-    if([image length]==0) {
+    if ([image length]==0) {
         [tape_image setStringValue:@"<no tape image>"];
         // toggle eject button
         [buttons[7] setEnabled:NO];
@@ -260,7 +260,7 @@ static NSString *help_texts[] = {
 {
     int i;
     
-    if(on==NO) {
+    if (on==NO) {
         for(i=0;i<9;i++) {
             [buttons[i] setEnabled:NO];
         }
@@ -278,11 +278,11 @@ static NSString *help_texts[] = {
     int command = [sender tag];
     
     // attach tape image
-    if(command==7) {
+    if (command==7) {
         [[VICEApplication theAppController] detachTapeImage:self];
     } 
     // eject tape image
-    else if(command==8) {
+    else if (command==8) {
         [[VICEApplication theAppController] attachTapeImage:self];
     } 
     // datasette command 0..6

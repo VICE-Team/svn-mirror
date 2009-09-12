@@ -1919,7 +1919,7 @@ static const BYTE rewind_fetch_tab[] = {
             memmap_mem_read(reg_pc);
         }
 #endif
-        if(p0 == 0x20) {
+        if (p0 == 0x20) {
             monitor_cpuhistory_store(reg_pc, p0, p1, LOAD(reg_pc+2));
         } else {
             monitor_cpuhistory_store(reg_pc, p0, p1, p2 >> 8);

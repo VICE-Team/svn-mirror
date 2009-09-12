@@ -1073,10 +1073,10 @@ png_handle_iCCP(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
                   ((*(pC+2))<< 8) |
                   ((*(pC+3))    );
 
-   if(profile_size < profile_length)
+   if (profile_size < profile_length)
       profile_length = profile_size;
 
-   if(profile_size > profile_length)
+   if (profile_size > profile_length)
    {
       png_free(png_ptr, chunkdata);
       png_warning(png_ptr, "Ignoring truncated iCCP profile.\n");
@@ -1377,9 +1377,9 @@ png_handle_bKGD(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    if (png_ptr->color_type == PNG_COLOR_TYPE_PALETTE)
    {
       png_ptr->background.index = buf[0];
-      if(info_ptr->num_palette)
+      if (info_ptr->num_palette)
       {
-          if(buf[0] > info_ptr->num_palette)
+          if (buf[0] > info_ptr->num_palette)
           {
              png_warning(png_ptr, "Incorrect bKGD chunk index value");
              return;
@@ -2159,7 +2159,7 @@ png_handle_unknown(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    if (!(png_ptr->chunk_name[0] & 0x20))
    {
 #if defined(PNG_READ_UNKNOWN_CHUNKS_SUPPORTED)
-      if(png_handle_as_unknown(png_ptr, png_ptr->chunk_name) !=
+      if (png_handle_as_unknown(png_ptr, png_ptr->chunk_name) !=
            PNG_HANDLE_CHUNK_ALWAYS
 #if defined(PNG_READ_USER_CHUNKS_SUPPORTED)
            && png_ptr->read_user_chunk_fn == NULL
@@ -2187,13 +2187,13 @@ png_handle_unknown(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
        chunk.size = (png_size_t)length;
        png_crc_read(png_ptr, (png_bytep)chunk.data, length);
 #if defined(PNG_READ_USER_CHUNKS_SUPPORTED)
-       if(png_ptr->read_user_chunk_fn != NULL)
+       if (png_ptr->read_user_chunk_fn != NULL)
        {
           /* callback to user unknown chunk handler */
           if ((*(png_ptr->read_user_chunk_fn)) (png_ptr, &chunk) <= 0)
           {
              if (!(png_ptr->chunk_name[0] & 0x20))
-                if(png_handle_as_unknown(png_ptr, png_ptr->chunk_name) !=
+                if (png_handle_as_unknown(png_ptr, png_ptr->chunk_name) !=
                      PNG_HANDLE_CHUNK_ALWAYS)
                  {
                    png_free(png_ptr, chunk.data);
@@ -2974,7 +2974,7 @@ png_read_start_row(png_structp png_ptr)
          row_bytes = PNG_ROWBYTES(png_ptr->pixel_depth,png_ptr->iwidth) + 1;
 
          png_ptr->irowbytes = (png_size_t)row_bytes;
-         if((png_uint_32)png_ptr->irowbytes != row_bytes)
+         if ((png_uint_32)png_ptr->irowbytes != row_bytes)
             png_error(png_ptr, "Rowbytes overflow in png_read_start_row");
    }
    else
@@ -3076,11 +3076,11 @@ png_read_start_row(png_structp png_ptr)
 
 #if defined(PNG_READ_USER_TRANSFORM_SUPPORTED) && \
 defined(PNG_USER_TRANSFORM_PTR_SUPPORTED)
-   if(png_ptr->transformations & PNG_USER_TRANSFORM)
+   if (png_ptr->transformations & PNG_USER_TRANSFORM)
      {
        int user_pixel_depth=png_ptr->user_transform_depth*
          png_ptr->user_transform_channels;
-       if(user_pixel_depth > max_pixel_depth)
+       if (user_pixel_depth > max_pixel_depth)
          max_pixel_depth=user_pixel_depth;
      }
 #endif

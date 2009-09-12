@@ -51,7 +51,7 @@ const float control_win_width = 200;
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
 
     BOOL visible;
-    if([def objectForKey:key] == nil) {
+    if ([def objectForKey:key] == nil) {
         visible = show;
     } else {
         visible = [def boolForKey:key];
@@ -70,7 +70,7 @@ const float control_win_width = 200;
 
 - (void)setWindowVisibilityFromUserDefaults:(NSWindow *)window default:(BOOL)show
 {
-    if([self isWindowVisible:window default:show]) {
+    if ([self isWindowVisible:window default:show]) {
         [window orderFront:self];
     }
 }
@@ -108,7 +108,7 @@ const float control_win_width = 200;
     float screenHeight = NSHeight(screenRect);
     float w = screenWidth * 0.5;
     float h = screenHeight * 0.3;
-    if(left)
+    if (left)
         return NSMakeRect(NSMinX(screenRect),NSMinY(screenRect),w,h);
     else
         return NSMakeRect(NSMinX(screenRect)+w,NSMinY(screenRect),w,h);
@@ -227,7 +227,7 @@ const float control_win_width = 200;
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication*)app
 {
     // machine thread is dead so we can actuall die
-    if(canTerminate)
+    if (canTerminate)
         return NSTerminateNow;
 
     // machine thread is not dead now so terminate it...
@@ -235,18 +235,18 @@ const float control_win_width = 200;
 
     // ask only if user query is enabled
     NSNumber *confirmOnExit = [controller getIntResource:@"ConfirmOnExit"];
-    if([confirmOnExit intValue]) {
+    if ([confirmOnExit intValue]) {
         int result = NSRunAlertPanel(@"Quit Application",
                                      @"Do you really want to exit?",
                                      @"Yes",@"No",nil);
-        if(result==NSAlertAlternateReturn)
+        if (result==NSAlertAlternateReturn)
             return NSTerminateCancel;
     }
 
     // save resources?
     NSNumber *saveResourcesOnExit = [controller getIntResource:@"SaveResourcesOnExit"];
-    if([saveResourcesOnExit intValue]) {
-        if(![controller saveResources:nil]) {
+    if ([saveResourcesOnExit intValue]) {
+        if (![controller saveResources:nil]) {
             NSRunAlertPanel(@"Error",@"Error saving resources!",@"Ok",nil,nil);
         }
     }
@@ -257,7 +257,7 @@ const float control_win_width = 200;
     [self storeWindowVisibilityToUserDefaults:controlWindow];
 
     // is monitor still running?
-    if([machine isWaitingForLineInput]) {
+    if ([machine isWaitingForLineInput]) {
         // exit monitor first
         [machine submitLineInput:@"x"];
     }
@@ -289,9 +289,9 @@ const float control_win_width = 200;
 - (BOOL)application:(NSApplication*)app openFile:(NSString*)file
 {
     // if the machine is not ready yet then postpone autostart
-    if(postponeAutostart==YES) {
+    if (postponeAutostart==YES) {
         // add file to args if not already there
-        if([argsArray indexOfObject:file]==NSNotFound) {
+        if ([argsArray indexOfObject:file]==NSNotFound) {
             [argsArray addObject:file];
         }
         return YES;
@@ -305,7 +305,7 @@ const float control_win_width = 200;
 -(NSRect)placeCanvas:(NSSize)size
 {
     NSRect screenRect = [[NSScreen mainScreen] visibleFrame];
-    if(canvasCount==1) {
+    if (canvasCount==1) {
         canvasStartXPos = NSMinX(screenRect) + control_win_width;
     }
     float top_pos = NSMinY(screenRect) + NSHeight(screenRect);
@@ -324,7 +324,7 @@ const float control_win_width = 200;
     
     canvasCount++;
     NSString *title;
-    if(canvasCount==1)
+    if (canvasCount==1)
         title = [NSString stringWithCString:canvas->viewport->title];
     else
         title = [NSString stringWithFormat:@"%s #%d",canvas->viewport->title,canvasCount];
@@ -346,12 +346,12 @@ const float control_win_width = 200;
     // is visible?
     BOOL visible = [self isWindowVisible:window default:TRUE];
     [window makeKeyAndOrderFront:self];
-    if(!visible) {
+    if (!visible) {
         [window miniaturize:self];
     }
 
     // activate app if not already done
-    if(![self isActive])
+    if (![self isActive])
         [self activateIgnoringOtherApps:YES];
 }
 
@@ -361,7 +361,7 @@ const float control_win_width = 200;
     
     // release vice windows
     NSWindow *window = canvas->window;
-    if(window!=nil) {
+    if (window!=nil) {
         // store canvas state
         [self storeWindowVisibility:window visible:[window isVisible]];
         
@@ -430,11 +430,11 @@ const float control_win_width = 200;
     id result = [super targetForAction:anAction to:aTarget from:sender];
 
     // normal operation
-    if(!inMonitor)
+    if (!inMonitor)
         return result;
         
     // if monitor is enabled then disable VICE Controller actions
-    if(result == appController) {
+    if (result == appController) {
         return nil;
     } else {
         return result;
@@ -461,7 +461,7 @@ const float control_win_width = 200;
     inMonitor = NO;
     [self postMonitorStateNotification:VICEMonitorStateOff];
     
-    if(closeMonitor) {
+    if (closeMonitor) {
         [monitorWindow orderOut:self];
     }
     [oldKeyWindow makeKeyAndOrderFront:self];
@@ -527,7 +527,7 @@ const float control_win_width = 200;
 
 - (void)toggleControlWindow:(id)sender
 {
-    if([controlWindow isVisible]) {
+    if ([controlWindow isVisible]) {
         [controlWindow orderOut:sender];
     } else {
         [controlWindow makeKeyAndOrderFront:sender];
@@ -536,7 +536,7 @@ const float control_win_width = 200;
 
 - (void)toggleConsoleWindow:(id)sender
 {
-    if([consoleWindow isVisible]) {
+    if ([consoleWindow isVisible]) {
         [consoleWindow orderOut:sender];
     } else {
         [consoleWindow makeKeyAndOrderFront:sender];
@@ -545,7 +545,7 @@ const float control_win_width = 200;
 
 - (void)toggleMonitorWindow:(id)sender
 {
-    if([monitorWindow isVisible]) {
+    if ([monitorWindow isVisible]) {
         [monitorWindow orderOut:sender];
     } else {
         [monitorWindow makeKeyAndOrderFront:sender];
@@ -554,22 +554,22 @@ const float control_win_width = 200;
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-    if([menuItem action]==@selector(toggleConsoleWindow:)) {
-        if([consoleWindow isVisible]) {
+    if ([menuItem action]==@selector(toggleConsoleWindow:)) {
+        if ([consoleWindow isVisible]) {
             [menuItem setState:NSOnState];
         } else {
             [menuItem setState:NSOffState];
         }
     }
-    else if([menuItem action]==@selector(toggleMonitorWindow:)) {
-        if([monitorWindow isVisible]) {
+    else if ([menuItem action]==@selector(toggleMonitorWindow:)) {
+        if ([monitorWindow isVisible]) {
             [menuItem setState:NSOnState];
         } else {
             [menuItem setState:NSOffState];
         }
     }
-    else if([menuItem action]==@selector(toggleControlWindow:)) {
-        if([controlWindow isVisible]) {
+    else if ([menuItem action]==@selector(toggleControlWindow:)) {
+        if ([controlWindow isVisible]) {
             [menuItem setState:NSOnState];
         } else {
             [menuItem setState:NSOffState];
@@ -624,9 +624,9 @@ const float control_win_width = 200;
     int result = [alert runModal];
     [alert release];
     
-    if(result==NSAlertFirstButtonReturn)
+    if (result==NSAlertFirstButtonReturn)
         return UI_JAM_RESET;
-    else if(result==NSAlertSecondButtonReturn)
+    else if (result==NSAlertSecondButtonReturn)
         return UI_JAM_MONITOR;
     else
         return UI_JAM_HARD_RESET;

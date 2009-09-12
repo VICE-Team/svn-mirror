@@ -174,7 +174,7 @@ static int set_sid_model(int val, void *param)
 
     sid_model = val;
 
-    if(sid_model == SID_MODEL_DEFAULT) {
+    if (sid_model == SID_MODEL_DEFAULT) {
         if (machine_class == VICE_MACHINE_C64DTV) {
             sid_model = SID_MODEL_DTVSID;
         } else {
@@ -188,7 +188,7 @@ static int set_sid_model(int val, void *param)
         return -1;
 
     /* DTVSID is only supported in ReSID-DTV */
-    if((sid_model == SID_MODEL_DTVSID) && (sidengine != SID_ENGINE_RESID)) {
+    if ((sid_model == SID_MODEL_DTVSID) && (sidengine != SID_ENGINE_RESID)) {
         set_sid_engine(SID_ENGINE_RESID, NULL);
         return 0;
     }
@@ -199,12 +199,12 @@ static int set_sid_model(int val, void *param)
         return 0;
     }
 #ifdef HAVE_RESID_FP
-    if((sid_model < SID_MODEL_6581R3_4885) && (sidengine == SID_ENGINE_RESID_FP)) {
+    if ((sid_model < SID_MODEL_6581R3_4885) && (sidengine == SID_ENGINE_RESID_FP)) {
         set_sid_engine(SID_ENGINE_RESID, NULL);
         return 0;
     }
 
-    if((sid_model >= SID_MODEL_6581R3_4885) && (sidengine != SID_ENGINE_RESID_FP)) {
+    if ((sid_model >= SID_MODEL_6581R3_4885) && (sidengine != SID_ENGINE_RESID_FP)) {
         set_sid_engine(SID_ENGINE_RESID_FP, NULL);
         return 0;
     }

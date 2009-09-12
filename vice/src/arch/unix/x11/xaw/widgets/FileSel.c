@@ -1253,8 +1253,8 @@ XtPointer call_data;
 	/* added separation of path and pattern */
 	/* path is allocated once, while FSPattern is handled dynamically...*/
 	util_fname_split(path, &fpath, &fpattern);
-	if(fpath) {
-	  if(strlen(fpath)) {
+	if (fpath) {
+	  if (strlen(fpath)) {
 	    strcpy(FSCurrentDirectory(fsw), fpath);
 	  } else {
 	    strcpy(FSCurrentDirectory(fsw), "/");
@@ -1264,8 +1264,8 @@ XtPointer call_data;
 	  strcpy(FSCurrentDirectory(fsw), "/");
 	}
 	XtFree(FSPattern(fsw));
-	if(fpattern) {
-	  if(strlen(fpattern)) {
+	if (fpattern) {
+	  if (strlen(fpattern)) {
 	    FSPattern(fsw) = StrCopy(fpattern);
 	  } else {
 	    FSPattern(fsw) = StrCopy("*");
@@ -1696,7 +1696,7 @@ XfwfFileSelectorWidget fsw;
 
 #if defined VICE && (defined HAVE_REGEXP_H || defined HAVE_REGEX_H)
 	/* AF 26jun98 - add pattern to be able to edit it */
-	if((!strlen(tmpstr)) || tmpstr[strlen(tmpstr)-1]!='/') {
+	if ((!strlen(tmpstr)) || tmpstr[strlen(tmpstr)-1]!='/') {
 	  strcat(tmpstr, "/");
 	}
 	strcat(tmpstr, FSPattern(fsw));

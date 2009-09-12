@@ -224,7 +224,7 @@ char* ui_get_file(const char *format,...)
     va_end(args);
 
     NSString * path = [[theVICEMachine app] getOpenFileName:string types:nil];
-    if(path != nil) {
+    if (path != nil) {
         return strdup([path cStringUsingEncoding:NSUTF8StringEncoding]);
     } else {
         return NULL;

@@ -414,7 +414,7 @@ int joystick_check_set(signed long key, int keysetnum, unsigned int joyport)
     int column;
 
     /* if joykeys are disabled then ignore key sets */
-    if(!joykeys_enable) {
+    if (!joykeys_enable) {
         return 0;
     }
 
@@ -440,7 +440,7 @@ int joystick_check_clr(signed long key, int keysetnum, unsigned int joyport)
     int column;
 
     /* if joykeys are disabled then ignore key sets */
-    if(!joykeys_enable) {
+    if (!joykeys_enable) {
         return 0;
     }
 

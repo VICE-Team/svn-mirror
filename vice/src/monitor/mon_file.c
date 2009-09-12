@@ -201,7 +201,7 @@ void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
     mon_out("Loading %s", filename);
     mon_out(" from %04X\n", adr);
 
-    if(machine_class == VICE_MACHINE_C64DTV) origbank = curbank;
+    if (machine_class == VICE_MACHINE_C64DTV) origbank = curbank;
 
     do {
         BYTE load_byte;
@@ -213,13 +213,13 @@ void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
         /* Hack to be able to read large .prgs for x64dtv */
         if ((machine_class == VICE_MACHINE_C64DTV) && (ADDR_LIMIT(adr + ch) == 0xffff) && ((curbank >= mem_bank_from_name("ram00")) && (curbank <= mem_bank_from_name("ram1f")))) {
             curbank++;
-            if(curbank > mem_bank_from_name("ram1f")) curbank = mem_bank_from_name("ram00");
+            if (curbank > mem_bank_from_name("ram1f")) curbank = mem_bank_from_name("ram00");
             mon_out("Crossing 64k boundary.\n");
         }
         ch ++;
     } while(1);
 
-    if(machine_class == VICE_MACHINE_C64DTV) curbank = origbank;
+    if (machine_class == VICE_MACHINE_C64DTV) curbank = origbank;
     
     mon_out("to %04X (%x bytes)\n", ADDR_LIMIT(adr + ch), ch);
 
@@ -299,9 +299,9 @@ void mon_attach(const char *filename, int device)
 {
     switch(device) {
         case 1:
-            if(machine_class == VICE_MACHINE_C64DTV) {
+            if (machine_class == VICE_MACHINE_C64DTV) {
                 mon_out("Unimplemented.\n");
-            } else if(tape_image_attach(device,filename)) {
+            } else if (tape_image_attach(device,filename)) {
                 mon_out("Failed.\n");
             }
             break;
@@ -309,13 +309,13 @@ void mon_attach(const char *filename, int device)
         case 9:
         case 10:
         case 11:
-            if(file_system_attach_disk(device,filename)) {
+            if (file_system_attach_disk(device,filename)) {
                 mon_out("Failed.\n");
             }
             break;
         case 32:
-            if(mon_cart_cmd.cartridge_attach_image != NULL) {
-                if((mon_cart_cmd.cartridge_attach_image)(CARTRIDGE_CRT,filename)) {
+            if (mon_cart_cmd.cartridge_attach_image != NULL) {
+                if ((mon_cart_cmd.cartridge_attach_image)(CARTRIDGE_CRT,filename)) {
                     mon_out("Failed.\n");
                 }
             } else {
@@ -332,7 +332,7 @@ void mon_detach(int device)
 {
     switch(device) {
         case 1:
-            if(machine_class == VICE_MACHINE_C64DTV) {
+            if (machine_class == VICE_MACHINE_C64DTV) {
                 mon_out("Unimplemented.\n");
             } else {
                tape_image_detach(device);
@@ -345,7 +345,7 @@ void mon_detach(int device)
             file_system_detach_disk(device);
             break;
         case 32:
-            if(mon_cart_cmd.cartridge_detach_image != NULL) {
+            if (mon_cart_cmd.cartridge_detach_image != NULL) {
                 (mon_cart_cmd.cartridge_detach_image)();
             } else {
                 mon_out("Unsupported.\n");

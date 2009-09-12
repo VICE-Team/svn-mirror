@@ -129,10 +129,10 @@ int midi_mode = 0;
 
 static void midi_set_int(int midiirq, unsigned int int_num, int value)
 {
-    if(midiirq == IK_IRQ) {
+    if (midiirq == IK_IRQ) {
         maincpu_set_irq(int_num, value);
     }
-    if(midiirq == IK_NMI) {
+    if (midiirq == IK_NMI) {
         maincpu_set_nmi(int_num, value);
     }
 }
@@ -148,9 +148,9 @@ static int midi_set_irq(int new_irq_res, void *param)
 
     new_irq = irq_tab[new_irq_res];
 
-    if(midi_irq != new_irq) {
+    if (midi_irq != new_irq) {
         midi_set_int(midi_irq, midi_int_num, IK_NONE);
-        if(irq) {
+        if (irq) {
             midi_set_int(new_irq, midi_int_num, new_irq);
         }
     }
@@ -167,11 +167,11 @@ static int get_midi_ticks(void)
 
 int midi_set_mode(int new_mode, void *param)
 {
-    if(new_mode < 0 || new_mode > 4) {
+    if (new_mode < 0 || new_mode > 4) {
         return -1;
     }
 
-    if(midi_set_irq(midi_interface[new_mode].irq_type, 0)) {
+    if (midi_set_irq(midi_interface[new_mode].irq_type, 0)) {
         return -1;
     }
 
@@ -235,7 +235,7 @@ int midi_cmdline_options_init(void)
 
 static void clk_overflow_callback(CLOCK sub, void *var)
 {
-    if(alarm_active) {
+    if (alarm_active) {
         midi_alarm_clk -= sub;
     }
 }
@@ -248,7 +248,7 @@ void midi_init(void)
 
     clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
-    if(midi_log == LOG_ERR) {
+    if (midi_log == LOG_ERR) {
         midi_log = log_open("MIDI");
     }
     mididrv_init();
@@ -264,12 +264,12 @@ static void midi_suspend(void)
     status = MIDI_STATUS_DEFAULT;
     intx = 0;
 
-    if(fd_in >= 0) {
+    if (fd_in >= 0) {
         mididrv_in_close();
     }
     fd_in = -1;
 
-    if(fd_out >= 0) {
+    if (fd_out >= 0) {
         mididrv_out_close();
     }
     fd_out = -1;
@@ -299,7 +299,7 @@ static void midi_activate(void)
 #endif
     fd_in = mididrv_in_open();
     fd_out = mididrv_out_open();
-    if(!intx) {
+    if (!intx) {
         midi_alarm_clk = maincpu_clk + 1;
         alarm_set(midi_alarm, midi_alarm_clk);
         alarm_active = 1;
@@ -311,7 +311,7 @@ void REGPARM2 midi_store(WORD a, BYTE b)
 #ifdef DEBUG
     log_message(midi_log, "store(%x,%02x)", a, b);
 #endif
-    if(maincpu_rmw_flag) {
+    if (maincpu_rmw_flag) {
         maincpu_clk--;
         maincpu_rmw_flag = 0;
         midi_store(a, midi_last_read);
@@ -320,36 +320,36 @@ void REGPARM2 midi_store(WORD a, BYTE b)
 
     a &= midi_interface[midi_mode].mask;
 
-    if(a == midi_interface[midi_mode].ctrl_addr) {
+    if (a == midi_interface[midi_mode].ctrl_addr) {
 #ifdef DEBUG
         log_message(midi_log, "store ctrl: %02x", b);
 #endif
         ctrl = b;
         midi_ticks = get_midi_ticks();
 
-        if(MIDI_CTRL_CD(ctrl) == midi_interface[midi_mode].midi_cd) {
+        if (MIDI_CTRL_CD(ctrl) == midi_interface[midi_mode].midi_cd) {
             /* TODO check WS */
             midi_activate();
-        } else if(MIDI_CTRL_CD(ctrl) == MIDI_CTRL_RESET) {
+        } else if (MIDI_CTRL_CD(ctrl) == MIDI_CTRL_RESET) {
             midi_reset();
         } else {
             midi_suspend();
         }
-    } else if(a == midi_interface[midi_mode].tx_addr) {
+    } else if (a == midi_interface[midi_mode].tx_addr) {
         status &= ~MIDI_STATUS_IRQ;
 #ifdef DEBUG
         log_message(midi_log, "store tx: %02x", b);
 #endif
-        if((status & MIDI_STATUS_TDRE) && !(MIDI_CTRL_CD(ctrl) == MIDI_CTRL_RESET)) {
+        if ((status & MIDI_STATUS_TDRE) && !(MIDI_CTRL_CD(ctrl) == MIDI_CTRL_RESET)) {
             status &= ~MIDI_STATUS_TDRE;
             txdata = b;
-            if(!intx) {
+            if (!intx) {
                 midi_alarm_clk = maincpu_clk + 1;
                 alarm_set(midi_alarm, midi_alarm_clk);
                 alarm_active = 1;
                 intx = 2;
             } else {
-                if(intx == 1) {
+                if (intx == 1) {
                     intx++;
                 }
             }
@@ -365,22 +365,22 @@ BYTE REGPARM1 midi_read(WORD a)
     midi_last_read = 0xff;
     a &= midi_interface[midi_mode].mask;
 
-    if(a == midi_interface[midi_mode].status_addr) {
+    if (a == midi_interface[midi_mode].status_addr) {
 #ifdef DEBUG
         log_message(midi_log, "read status: %02x", status);
 #endif
         midi_last_read = status;
-    } else if(a == midi_interface[midi_mode].rx_addr) {
+    } else if (a == midi_interface[midi_mode].rx_addr) {
 #ifdef DEBUG
         log_message(midi_log, "read rx: %02x (%02x)", rxdata, status);
 #endif
         status &= ~MIDI_STATUS_OVRN;
-        if(irq) {
+        if (irq) {
             status &= ~MIDI_STATUS_IRQ;
             midi_set_int(midi_irq, midi_int_num, 0);
             irq = 0;
         }
-        if(status & MIDI_STATUS_RDRF) {
+        if (status & MIDI_STATUS_RDRF) {
             status &= ~MIDI_STATUS_RDRF;
             midi_last_read = rxdata;
         }
@@ -404,15 +404,15 @@ static void int_midi(CLOCK offset, void *data)
 #if 0 /*def DEBUG */
     log_message(midi_log, "int_midi(offset=%ld, clk=%d", (long int)offset, (int)maincpu_clk);
 #endif
-    if((intx == 2) && (fd_out >= 0)) {
+    if ((intx == 2) && (fd_out >= 0)) {
         mididrv_out(txdata);
     }
 
-    if(intx) {
+    if (intx) {
         intx--;
     }
 
-    if((fd_in >= 0) && (!(status & MIDI_STATUS_RDRF)) && (mididrv_in(&rxdata) == 1)) {
+    if ((fd_in >= 0) && (!(status & MIDI_STATUS_RDRF)) && (mididrv_in(&rxdata) == 1)) {
         status |= MIDI_STATUS_RDRF;
         rxirq = 1;
 #ifdef DEBUG
@@ -420,7 +420,7 @@ static void int_midi(CLOCK offset, void *data)
 #endif
     }
 
-    if(rxirq && (ctrl & MIDI_CTRL_RIE)) {
+    if (rxirq && (ctrl & MIDI_CTRL_RIE)) {
         midi_set_int(midi_irq, midi_int_num, 1);
         status |= MIDI_STATUS_IRQ;
         irq = 1;
@@ -429,7 +429,7 @@ static void int_midi(CLOCK offset, void *data)
 #endif
     }
 
-    if(!(status & MIDI_STATUS_TDRE)) {
+    if (!(status & MIDI_STATUS_TDRE)) {
         status |= MIDI_STATUS_TDRE;
         /* TODO: TX IRQ */
     }

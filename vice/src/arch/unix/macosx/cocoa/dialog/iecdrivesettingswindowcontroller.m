@@ -137,10 +137,10 @@
 
     int isIecDrive = [self getIntResource:@"IECDevice%d" withNumber:curDrive];
     int state = 0;
-    if(isIecDrive) {
+    if (isIecDrive) {
         state = [self getIntResource:@"FileSystemDevice%d" withNumber:curDrive];
         NSString *diskName = [[VICEApplication theMachineController] getDiskName:curDrive];
-        if(state==1 && (diskName!=nil))
+        if (state==1 && (diskName!=nil))
             state = 4;
     }
     [status setStringValue:[NSString stringWithFormat:@"Type: %s",names[state]]];    
@@ -242,14 +242,14 @@
     
     // get directory
     NSString *dir = [[VICEApplication theAppController] pickDirectoryWithTitle:@"Pick Directory to Mount"];
-    if(dir == nil) {
+    if (dir == nil) {
         return;
     }
     [self setStringResource:@"FSDevice%dDir" withNumber:curDrive toValue:dir];
     
     // remove mounted image otherwise dir wont work
     NSString *diskName = [[VICEApplication theMachineController] getDiskName:curDrive];
-    if(diskName!=nil) {
+    if (diskName!=nil) {
         [[VICEApplication theMachineController] detachDiskImage:curDrive];
     }
     

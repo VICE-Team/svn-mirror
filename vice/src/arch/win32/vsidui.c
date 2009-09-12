@@ -80,7 +80,7 @@ void vsid_disp(int txout_x, int txout_y, const char *str1, const char* str2)
     {
         hDC = GetDC(hwnd);
 
-        if(NULL != str2)
+        if (NULL != str2)
         {
             SelectObject (hDC, GetStockObject (SYSTEM_FIXED_FONT)) ;
             GetTextExtentPoint32( hDC, " ", 1, &size );
@@ -114,7 +114,7 @@ int vsid_ui_init(void)
     wndclass.lpszClassName = szAppName ;
 
     RegisterClass (&wndclass) ;
-    if(!hwnd) /* do not recreate on drag&drop */
+    if (!hwnd) /* do not recreate on drag&drop */
     {
         hwnd = CreateWindow (szAppName,
                              szAppName,
@@ -206,7 +206,7 @@ void vsid_ui_display_time(unsigned int sec)
     sec= sec-(m*60);
     sprintf(vsidstrings[VSID_S_TIMER], dummy,h,m,sec);
     vsid_disp( 0, VSID_S_TIMER, "%s", vsidstrings[VSID_S_TIMER]);
-    if(((h+m)==0) && (s<2))
+    if (((h+m)==0) && (s<2))
     {
         InvalidateRect(hwnd, NULL, FALSE);
     }
@@ -220,7 +220,7 @@ void vsid_ui_display_irqtype(const char *irq)
 
 void vsid_ui_close(void)
 {
-    if(hwnd)
+    if (hwnd)
         while(DestroyWindow(hwnd)==0);
     hwnd=NULL;
 }
@@ -242,7 +242,7 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
         songs = psid_tunes(&default_song);
         current_song = default_song;
 
-        if(songs == 0)
+        if (songs == 0)
         {
             log_message(LOG_DEFAULT, "Vsid: no file specified, quitting");
             return -1;
@@ -259,7 +259,7 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
             break;
         case VK_LEFT:
         case VK_DOWN:
-            if(current_song > 1)
+            if (current_song > 1)
             {
                 current_song--;
                 psid_ui_set_tune(uint_to_void_ptr(current_song),NULL);
@@ -273,7 +273,7 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
         case VK_RIGHT:
         case VK_UP:
 
-            if(current_song < songs)
+            if (current_song < songs)
             {
                 current_song++;
                 psid_ui_set_tune(uint_to_void_ptr(current_song),NULL);
@@ -337,7 +337,7 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
     case WM_PAINT:
         {
             hdc = BeginPaint(window, &ps);
-            if(*vsidstrings[VSID_S_TIMER]) /* start only when timer string has been filled */
+            if (*vsidstrings[VSID_S_TIMER]) /* start only when timer string has been filled */
                 for(i=0;i < VSID_S_LASTLINE;i++)
                     vsid_disp( 0, i, "%s", vsidstrings[i]);
 

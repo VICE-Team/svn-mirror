@@ -1219,7 +1219,7 @@ static void reu_dma_compare(WORD host_addr, unsigned int reu_addr,
              * failed verify operations consume one extra cycle, except if
              * the failed comparison happened on the last byte of the buffer.
              */
-            if( len >= 1 ) {
+            if ( len >= 1 ) {
                 maincpu_clk++;
                 machine_handle_pending_alarms(0);
             }

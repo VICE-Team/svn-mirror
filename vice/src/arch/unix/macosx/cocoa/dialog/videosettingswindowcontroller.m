@@ -69,7 +69,7 @@ static const char *vicii_palettes[]=
     NSString *pal1Name = [self getStringResource:@"VICIIPaletteFile"];
 
     // make sure palette entry is available
-    if([palette1Popup itemWithTitle:pal1Name] == nil) {
+    if ([palette1Popup itemWithTitle:pal1Name] == nil) {
         [palette1Popup addItemWithTitle:pal1Name];
     }
     [palette1Popup selectItemWithTitle:pal1Name];
@@ -239,7 +239,7 @@ static const char *vicii_palettes[]=
     NSArray *types = [NSArray arrayWithObjects:@"vpl", nil];
     VICEAppController *appCtrl = [VICEApplication theAppController];
     NSString *path = [appCtrl pickOpenFileWithTitle:@"Load Palette" types:types];
-    if(path!=nil) {
+    if (path!=nil) {
         [self setStringResource:@"VICIIPaletteFile" toValue:path];
         [self updatePaletteResources];
     }

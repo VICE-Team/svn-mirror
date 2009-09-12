@@ -206,7 +206,7 @@ static int message_len(BYTE msg)
 
 void mididrv_init(void)
 {
-    if(mididrv_log == LOG_ERR) {
+    if (mididrv_log == LOG_ERR) {
         mididrv_log = log_open("MIDIdrv");
     }
 }
@@ -217,12 +217,12 @@ int mididrv_in_open(void)
     MMRESULT ret;
 
     log_message(mididrv_log, "Opening MIDI-In device #%d", midi_in_dev);
-    if(handle_in) {
+    if (handle_in) {
         mididrv_in_close();
     }
 
     ret = midiInOpen(&handle_in, midi_in_dev, (DWORD)midi_callback, 0, CALLBACK_FUNCTION);
-    if(ret != MMSYSERR_NOERROR) {
+    if (ret != MMSYSERR_NOERROR) {
         log_error(mididrv_log, "Cannot open MIDI-In device #%d!",
                   midi_in_dev);
         handle_in = 0;
@@ -244,12 +244,12 @@ int mididrv_out_open(void)
     MMRESULT ret;
 
     log_message(mididrv_log, "Opening MIDI-Out device #%d", midi_out_dev);
-    if(handle_out) {
+    if (handle_out) {
         mididrv_out_close();
     }
 
     ret = midiOutOpen(&handle_out, midi_out_dev, 0, 0, CALLBACK_NULL);
-    if(ret != MMSYSERR_NOERROR) {
+    if (ret != MMSYSERR_NOERROR) {
         log_error(mididrv_log, "Cannot open MIDI-Out device #%d!",
                   midi_out_dev);
         handle_out = 0;
@@ -269,7 +269,7 @@ void mididrv_in_close(void)
 #ifdef DEBUG
     log_message(mididrv_log, "in_close");
 #endif
-    if(!handle_in) {
+    if (!handle_in) {
         log_error(mididrv_log, "Attempt to close MIDI-In device that wasn't open!");
         return;
     }
@@ -290,7 +290,7 @@ void mididrv_out_close(void)
 #ifdef DEBUG
     log_message(mididrv_log, "out_close");
 #endif
-    if(!handle_out) {
+    if (!handle_out) {
         log_error(mididrv_log, "Attempt to close MIDI-Out device that wasn't open!");
         return;
     }
@@ -376,7 +376,7 @@ static void CALLBACK midi_callback(HMIDIIN handle, UINT uMsg, DWORD dwInstance, 
 /* gets a byte from MIDI-In, returns !=0 if byte received, byte in *b. */
 int mididrv_in(BYTE *b)
 {
-    if(!handle_in) {
+    if (!handle_in) {
         log_error(mididrv_log, "Attempt to read from closed MIDI-In port!");
         return -1;
     }

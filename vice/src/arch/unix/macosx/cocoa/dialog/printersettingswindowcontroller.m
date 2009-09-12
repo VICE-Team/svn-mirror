@@ -54,7 +54,7 @@ static const char *tag[3] = { "Userport","4","5" };
 
     // IEC Device
     [useIECDevice setHidden:(printerId==0)];
-    if(printerId>0) {
+    if (printerId>0) {
         int doUse = [self getIntResource:@"IECDevice%d" withNumber:printerId];
         [useIECDevice setState:doUse];
     }

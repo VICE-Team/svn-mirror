@@ -88,7 +88,7 @@ static int uss_init(const char *param, int *speed,
         struct stat buf;
         if (!stat("/dev/dsp", &buf))
             param = "/dev/dsp";
-        else if(!stat("/dev/sound/dsp", &buf))
+        else if (!stat("/dev/sound/dsp", &buf))
             param="/dev/sound/dsp";
     }
 

@@ -951,7 +951,7 @@ static unsigned int vdrive_rel_record_max(vdrive_t *vdrive, unsigned int seconda
     l = OFFSET_POINTER + 2 * j - 1;
 
     /* compare them */
-    if( k!=l ) {
+    if ( k!=l ) {
         /* something is wrong with this rel file, it should be repaired */
         log_error(vdrive_rel_log,
             "Relative file ending sector and side sectors don't match up.");

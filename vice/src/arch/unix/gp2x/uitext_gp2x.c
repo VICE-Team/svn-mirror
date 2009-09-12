@@ -39,7 +39,7 @@ void draw_ascii_string(unsigned char *screen, int screen_width,
 
 	char c;
 	for(i=0; (c=text[i]); i++) {
-		if(c>=97&&c<=122) c+=160;
+		if (c>=97&&c<=122) c+=160;
 		register unsigned char *s=char_rom+(c*8)+0x800;
 		register unsigned char *d=dst;
 		for(j=0; j<8; j++) {

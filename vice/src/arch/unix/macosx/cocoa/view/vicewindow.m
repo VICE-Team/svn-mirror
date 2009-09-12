@@ -50,7 +50,7 @@
                             styleMask:style
                               backing:NSBackingStoreBuffered
                                 defer:NO];
-    if(self==nil)
+    if (self==nil)
         return nil;
 
     // setup window
@@ -87,7 +87,7 @@
 - (void)close
 {
     // disable fullscreen on close
-    if(isFullscreen)
+    if (isFullscreen)
         [self toggleFullscreen:nil];
         
     [super close];
@@ -113,7 +113,7 @@
 - (void)resizeCanvas:(NSSize)size
 {
     // do not resize if same size
-    if((original_canvas_size.width  == size.width) && 
+    if ((original_canvas_size.width  == size.width) && 
        (original_canvas_size.height == size.height)) {
       return;
     }
@@ -128,7 +128,7 @@
 - (void)resizeCanvasToMultipleSize:(id)sender
 {
     int factor = 1;
-    if(sender!=nil)
+    if (sender!=nil)
         factor = [sender tag];
     
     NSRect f = [self frame];
@@ -193,7 +193,7 @@
         );
 
     // reattach canvasView to my canvasContainer or attach to fullscreen window
-    if(isFullscreen) {
+    if (isFullscreen) {
         [canvasContainer setContentView:canvasView];
         [fullscreenWindow close];
         fullscreenWindow = nil;
@@ -225,7 +225,7 @@
 -(IBAction)copy:(id)sender
 {
     NSString *data = [[VICEApplication theMachineController] readScreenOutput];
-    if(data) {
+    if (data) {
         NSPasteboard *pb = [NSPasteboard generalPasteboard];
         [pb declareTypes:[NSArray arrayWithObject:NSStringPboardType]
             owner:self];
@@ -240,7 +240,7 @@
     NSPasteboard *pb = [NSPasteboard generalPasteboard];
     NSString *type = [pb availableTypeFromArray:
                         [NSArray arrayWithObject:NSStringPboardType]];
-    if(type) {
+    if (type) {
         NSString *value = [pb stringForType:NSStringPboardType];
         // type string on keyboard
         [[VICEApplication theMachineController] typeStringOnKeyboard:value toPetscii:YES];

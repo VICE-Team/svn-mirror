@@ -625,7 +625,7 @@ png_set_user_transform_info(png_structp png_ptr, png_voidp
    png_ptr->user_transform_depth = (png_byte)user_transform_depth;
    png_ptr->user_transform_channels = (png_byte)user_transform_channels;
 #else
-   if(user_transform_ptr || user_transform_depth || user_transform_channels)
+   if (user_transform_ptr || user_transform_depth || user_transform_channels)
       png_warning(png_ptr,
         "This version of libpng does not support user transform info");
 #endif
@@ -643,7 +643,7 @@ png_get_user_transform_ptr(png_structp png_ptr)
 #if defined(PNG_USER_TRANSFORM_PTR_SUPPORTED)
    return ((png_voidp)png_ptr->user_transform_ptr);
 #else
-   if(png_ptr)
+   if (png_ptr)
      return (NULL);
    return (NULL);
 #endif

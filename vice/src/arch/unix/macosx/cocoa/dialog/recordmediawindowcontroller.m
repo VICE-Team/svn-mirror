@@ -77,7 +77,7 @@
     NSString *res = [NSString stringWithFormat:@"%@VideoCodec",currentMediaType];
     int codecId = [self getIntResource:res];
     NSString *codecName = (NSString *)[currentVideoFormats objectForKey:[NSNumber numberWithInt:codecId]];
-    if(codecName!=nil) {
+    if (codecName!=nil) {
         [videoFormat selectItemWithTitle:codecName];
     }
 }
@@ -88,7 +88,7 @@
     NSString *res = [NSString stringWithFormat:@"%@AudioCodec",currentMediaType];
     int codecId = [self getIntResource:res];
     NSString *codecName = (NSString *)[currentAudioFormats objectForKey:[NSNumber numberWithInt:codecId]];
-    if(codecName!=nil) {
+    if (codecName!=nil) {
         [audioFormat selectItemWithTitle:codecName];
     }
 }
@@ -99,11 +99,11 @@
 
     // if not forced only replace if there is no extension
     BOOL doit = force;
-    if(!doit) {
+    if (!doit) {
         doit = [[fileName pathExtension] length] == 0;
     }
     
-    if(doit) {
+    if (doit) {
         fileName = [fileName stringByDeletingPathExtension];
         NSString *result = [NSString stringWithFormat:@"%@.%@",fileName,currentDefaultExtension];
         [mediaFileName setStringValue:result];
@@ -123,7 +123,7 @@
 
 -(void)updateMediaFormat
 {
-    if(!currentMediaTypeHasFormats)
+    if (!currentMediaTypeHasFormats)
         return;
     
     // get current format
@@ -144,7 +144,7 @@
         NSString *formatName = (NSString *)[fa objectAtIndex:0];
 
         // set audio and video codecs for current format
-        if([currentMediaFormat compare:formatName]==NSOrderedSame) {
+        if ([currentMediaFormat compare:formatName]==NSOrderedSame) {
             currentVideoFormats = (NSDictionary *)[fa objectAtIndex:1];
             currentAudioFormats = (NSDictionary *)[fa objectAtIndex:2];
 
@@ -191,7 +191,7 @@
     [audioFormat setEnabled:hasFormats];
     [audioBitrate setEnabled:hasFormats];
     
-    if(hasFormats) {
+    if (hasFormats) {
         // fetch all formats and video/audio codecs from machine controller
         [currentMediaFormats release];
         currentMediaFormats = [[VICEApplication theMachineController] enumMediaFormats:currentMediaType];
@@ -237,11 +237,11 @@
     BOOL ok = [[VICEApplication theMachineController] startRecordingMedia:driver
                                                                fromCanvas:canvasId
                                                                    toFile:fileName];
-    if(!ok) {
+    if (!ok) {
         [VICEApplication runErrorMessage:@"Can't start media recording!"];
     } else {
         // still recording? enable stop button
-        if([[VICEApplication theMachineController] isRecordingMedia]) {
+        if ([[VICEApplication theMachineController] isRecordingMedia]) {
             [stopRecord setEnabled:TRUE];
             [startRecord setEnabled:FALSE];
             [mediaFileName setEnabled:FALSE];
@@ -269,7 +269,7 @@
 {
     NSString *title = [NSString stringWithFormat:@"Record %@ Media",currentDefaultExtension];
     NSString *fileName = [self pickSaveFileWithTitle:title types:[NSArray arrayWithObjects:currentDefaultExtension,nil]];
-    if(fileName!=nil) {
+    if (fileName!=nil) {
         [mediaFileName setStringValue:fileName];
     }
 }
@@ -290,7 +290,7 @@
 {
     NSString *curFormat = [audioFormat titleOfSelectedItem];
     NSArray *keys = [currentAudioFormats allKeysForObject:curFormat];
-    if([keys count]==1) {
+    if ([keys count]==1) {
         NSString *res = [NSString stringWithFormat:@"%@AudioCodec",currentMediaType];
         int value = [(NSNumber *)[keys objectAtIndex:0] intValue];
         [self setIntResource:res toValue:value];
@@ -310,7 +310,7 @@
 {
     NSString *curFormat = [videoFormat titleOfSelectedItem];
     NSArray *keys = [currentVideoFormats allKeysForObject:curFormat];
-    if([keys count]==1) {
+    if ([keys count]==1) {
         NSString *res = [NSString stringWithFormat:@"%@VideoCodec",currentMediaType];
         int value = [(NSNumber *)[keys objectAtIndex:0] intValue];
         [self setIntResource:res toValue:value];

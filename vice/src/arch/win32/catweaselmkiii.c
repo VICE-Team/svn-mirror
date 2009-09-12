@@ -72,7 +72,7 @@ static void setfreq(BYTE buf)
 {
   int i;
   for(i=0; i<MAXCARDS; i++)
-    if(sidhandle[i]!=INVALID_HANDLE_VALUE)
+    if (sidhandle[i]!=INVALID_HANDLE_VALUE)
       {
 	DWORD w;
 	DeviceIoControl(sidhandle[i],SID_SET_CLOCK,&buf,sizeof(buf),0L,0UL,&w,0L);
@@ -88,7 +88,7 @@ static void mutethem(void)
   for(i=0; i<=0x18; i++)
     buf[i*2]=i, buf[i*2+1]=0;
   for(i=0; i<MAXCARDS; i++)
-    if(sidhandle[i]!=INVALID_HANDLE_VALUE)
+    if (sidhandle[i]!=INVALID_HANDLE_VALUE)
       DeviceIoControl(sidhandle[i],SID_SID_PEEK_POKE,buf,sizeof(buf),0L,0UL,&w,0L);
   memset(sidbuf, 0, sizeof(sidbuf));
 }
@@ -101,7 +101,7 @@ int catweaselmkiii_open(void)
 
   /* close any open handles */
   for(i=0; i<MAXCARDS; i++)
-    if(sidhandle[i]!=INVALID_HANDLE_VALUE)
+    if (sidhandle[i]!=INVALID_HANDLE_VALUE)
       CloseHandle(sidhandle[i]), sidhandle[i]=INVALID_HANDLE_VALUE;
 
   /* find up to four CatWeasel cards */
@@ -110,7 +110,7 @@ int catweaselmkiii_open(void)
       char buf[32];
       sprintf(buf, "\\\\.\\SID6581_%u", i+1);
       sidhandle[z]=CreateFile(buf,GENERIC_READ,FILE_SHARE_WRITE|FILE_SHARE_READ,0L,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL/*|FILE_FLAG_OVERLAPPED*/,0L);
-      if(sidhandle[z]!=INVALID_HANDLE_VALUE)
+      if (sidhandle[z]!=INVALID_HANDLE_VALUE)
 	{
 	  log_message(LOG_DEFAULT, "Found CatWeasel MK3 PCI #%i", z+1);
 	  z++;
@@ -118,7 +118,7 @@ int catweaselmkiii_open(void)
     }
 
   /* if cards were found */
-  if(z>0)
+  if (z>0)
     {
       log_message(LOG_DEFAULT, "Found and opened a CatWeasel MK3 PCI SID");
 
@@ -128,7 +128,7 @@ int catweaselmkiii_open(void)
       setfreq(ntsc);
 
       /* install exit handler, so devices are closed properly */
-      if(!atexitinitialized)
+      if (!atexitinitialized)
 	{
 	  atexitinitialized=1;
 	  atexit((voidfunc_t)catweaselmkiii_close);
@@ -148,7 +148,7 @@ int catweaselmkiii_close(void)
 
   mutethem();
   for(i=0; i<MAXCARDS; i++)
-    if(sidhandle[i]!=INVALID_HANDLE_VALUE)
+    if (sidhandle[i]!=INVALID_HANDLE_VALUE)
       CloseHandle(sidhandle[i]), sidhandle[i]=INVALID_HANDLE_VALUE;
 
   log_message(LOG_DEFAULT, "Closed CatWeasel MK3 PCI SID");
@@ -161,10 +161,10 @@ int catweaselmkiii_close(void)
 int catweaselmkiii_read(WORD addr, int chipno)
 {
   /* check if chipno is valid */
-  if(chipno<MAXCARDS)
+  if (chipno<MAXCARDS)
     {
       /* check if addr is in read-only range, and that a card was found */
-      if(addr>=0x19 && addr<=0x1C && sidhandle[chipno]!=INVALID_HANDLE_VALUE)
+      if (addr>=0x19 && addr<=0x1C && sidhandle[chipno]!=INVALID_HANDLE_VALUE)
 	{
 	  /* do read read */
 	  DWORD w;
@@ -175,7 +175,7 @@ int catweaselmkiii_read(WORD addr, int chipno)
 	  return buf[0];
 	}
       /* use sidbuf[] for write-only registers */
-      if(addr<=0x18)
+      if (addr<=0x18)
 	return sidbuf[chipno*0x20+addr];
     }
   log_error(LOG_ERR, "CatWeasel MK3 PCI does not support SID #%i", chipno);
@@ -186,15 +186,15 @@ int catweaselmkiii_read(WORD addr, int chipno)
 void catweaselmkiii_store(WORD addr, BYTE val, int chipno)
 {
   /* check if chipno is valid */
-  if(chipno<MAXCARDS)
+  if (chipno<MAXCARDS)
     {
       /* check if addr is valid */
-      if(addr<=0x18)
+      if (addr<=0x18)
 	{
 	  /* write to sidbuf[] */
 	  sidbuf[chipno*0x20+addr]=val;
 	  /* check if device handle is valid */
-	  if(sidhandle[chipno]!=INVALID_HANDLE_VALUE)
+	  if (sidhandle[chipno]!=INVALID_HANDLE_VALUE)
 	    {
 	      /* perform real write */
 	      DWORD w;

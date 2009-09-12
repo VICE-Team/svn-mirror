@@ -1181,7 +1181,7 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
             }
 
             /* HACK to fix greetings in 2008 */
-            if(vicii.video_mode == VICII_8BPP_PIXEL_CELL_MODE) {
+            if (vicii.video_mode == VICII_8BPP_PIXEL_CELL_MODE) {
                 vicii_update_memory_ptrs(VICII_RASTER_CYCLE(maincpu_clk));
             }
         }
@@ -1253,7 +1253,7 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
     	    }
 
             /* HACK to fix greetings in 2008 */
-            if((vicii.video_mode == VICII_8BPP_PIXEL_CELL_MODE)&&(vicii.raster.ycounter == 7))
+            if ((vicii.video_mode == VICII_8BPP_PIXEL_CELL_MODE)&&(vicii.raster.ycounter == 7))
                 vicii.screen_base_phi2 += vicii.counta_mod;
     	}
 

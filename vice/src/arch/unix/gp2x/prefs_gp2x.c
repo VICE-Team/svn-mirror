@@ -121,12 +121,12 @@ char *mapped_right_txt = "none";
 
 
 void display_set() {
-	if(hwscaling) {
+	if (hwscaling) {
 		display_width = 384; // 384*272
 		gp2x_memregs[0x290c>>1] = display_width;		/* screen width */
-		if(tvout) {
+		if (tvout) {
 			gp2x_memregs[0x2906>>1] = 614;			/* scale horizontal */
-			if(tvout_pal) gp2x_memregs[0x2908>>1] = 384;	/* scale vertical PAL */
+			if (tvout_pal) gp2x_memregs[0x2908>>1] = 384;	/* scale vertical PAL */
 			else gp2x_memregs[0x2908>>1] = 460;		/* scale vertical NTSC */
 		} else {
 			gp2x_memregs[0x2906>>1] = 1228;			/* scale horizontal */
@@ -135,7 +135,7 @@ void display_set() {
 	} else {
 		display_width = 320; //320*240
 		gp2x_memregs[0x290c>>1] = display_width;		/* screen width */
-		if(tvout) {
+		if (tvout) {
 			gp2x_memregs[0x2906>>1] = 420;			/* scale horizontal */
 		} else {
 			gp2x_memregs[0x2906>>1] = 1024;			/* scale horizontal */

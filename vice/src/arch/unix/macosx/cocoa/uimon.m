@@ -73,7 +73,7 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
     char *ret;
     NSString *promptString = [NSString stringWithCString:prompt encoding:NSUTF8StringEncoding];
     NSString *lineInput = [theVICEMachine lineInputWithPrompt:promptString timeout:0];
-    if(lineInput == nil)
+    if (lineInput == nil)
         ret = NULL;
     else {
         ret = lib_stralloc([lineInput cStringUsingEncoding:NSUTF8StringEncoding]);

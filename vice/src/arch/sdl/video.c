@@ -839,7 +839,7 @@ void sdl_video_canvas_switch(int index)
 
     canvas = sdl_canvaslist[old_active];
 
-    if(!canvas->initialized) {
+    if (!canvas->initialized) {
         return;
     }
 

@@ -268,7 +268,7 @@ static void mididrv_alsa_out_close(void)
     log_message(mididrv_log, "alsa_out_close");
 #endif
     /* clear output MIDI queue */
-    if(seq) {
+    if (seq) {
         snd_seq_drop_output(seq);
     }
     fd_out = -1;

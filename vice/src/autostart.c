@@ -209,7 +209,7 @@ static int set_autostart_warp(int val, void *param)
 static int set_autostart_prg_mode(int val, void *param)
 {
     AutostartPrgMode = val;
-    if((val < 0) || (val > AUTOSTART_PRG_MODE_LAST)) {
+    if ((val < 0) || (val > AUTOSTART_PRG_MODE_LAST)) {
         val = 0;
     }
     
@@ -410,9 +410,9 @@ static int get_warp_mode(void)
 static void enable_warp_if_requested(void)
 {
     /* enable warp mode? */
-    if(AutostartWarp) {
+    if (AutostartWarp) {
         orig_warp_mode = get_warp_mode();
-        if(!orig_warp_mode) {
+        if (!orig_warp_mode) {
             log_message(autostart_log, "Turning Warp mode on");
             set_warp_mode(1);
         }
@@ -422,8 +422,8 @@ static void enable_warp_if_requested(void)
 static void disable_warp_if_was_requested(void)
 {
     /* disable warp mode */
-    if(AutostartWarp) {
-        if(!orig_warp_mode) {
+    if (AutostartWarp) {
+        if (!orig_warp_mode) {
             log_message(autostart_log, "Turning Warp mode off");
             set_warp_mode(0);
         }
@@ -433,8 +433,8 @@ static void disable_warp_if_was_requested(void)
 static void check_rom_area(void)
 {
     /* enter ROM ? */
-    if(!entered_rom) {
-        if(reg_pc >= 0xe000) {
+    if (!entered_rom) {
+        if (reg_pc >= 0xe000) {
             log_message(autostart_log, "Entered ROM at $%04x", reg_pc);
             entered_rom = 1;
         }
@@ -442,7 +442,7 @@ static void check_rom_area(void)
         /* special case for auto-starters: ROM left. We also consider
          * BASIC area to be ROM, because it's responsible for writing "READY."
          */
-        if(reg_pc < 0xe000 && !(reg_pc >= 0xa000 && reg_pc < 0xc000)) {
+        if (reg_pc < 0xe000 && !(reg_pc >= 0xa000 && reg_pc < 0xc000)) {
             log_message(autostart_log, "Left ROM for $%04x", reg_pc);
             disable_warp_if_was_requested();
             autostartmode = AUTOSTART_DONE;
@@ -659,7 +659,7 @@ static void advance_hasdisk(void)
                 set_true_drive_emulation_mode(1);
             }
         } else {
-            if(!orig_drive_true_emulation_state) {
+            if (!orig_drive_true_emulation_state) {
                 traps = 1;
             } else {
                 traps = 0;
@@ -672,7 +672,7 @@ static void advance_hasdisk(void)
         lib_free(tmp);
 
         if (!traps) {
-            if(AutostartWarp) {
+            if (AutostartWarp) {
                 autostartmode = AUTOSTART_WAITSEARCHINGFOR;
             } else {
                 /* be most compatible if warp is disabled */
@@ -743,7 +743,7 @@ static void advance_waitloading(void)
         break;
       case NO:
         /* still showing SEARCHING FOR ? */
-        if(check("SEARCHING FOR", AUTOSTART_NOWAIT_BLINK)==YES) {
+        if (check("SEARCHING FOR", AUTOSTART_NOWAIT_BLINK)==YES) {
             return;
         }
         /* no something else is shown -> error! */
@@ -784,7 +784,7 @@ static void advance_waitloadready(void)
 /* After a reset a PRG file has to be injected into RAM */
 static void advance_inject(void)
 {
-    if(autostart_prg_perform_injection(autostart_log) < 0) {
+    if (autostart_prg_perform_injection(autostart_log) < 0) {
         disable_warp_if_was_requested();
         autostart_disable();        
     } else {
@@ -800,7 +800,7 @@ void autostart_advance(void)
     if (!autostart_enabled)
         return;
 
-    if( orig_drive_true_emulation_state == -1)
+    if ( orig_drive_true_emulation_state == -1)
     {
         orig_drive_true_emulation_state = get_true_drive_emulation_state();
     }
@@ -882,7 +882,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
     autostart_wait_for_reset = 1;
     
     /* enable warp before reset */
-    if(mode != AUTOSTART_HASSNAPSHOT) {
+    if (mode != AUTOSTART_HASSNAPSHOT) {
         enable_warp_if_requested();
     }
 }
@@ -1067,7 +1067,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     }
 
     /* Now either proceed with disk image booting or prg injection after reset */
-    if(result >= 0) {
+    if (result >= 0) {
         ui_update_menus();
         reboot_for_autostart(boot_file_name, mode, runmode);
     }

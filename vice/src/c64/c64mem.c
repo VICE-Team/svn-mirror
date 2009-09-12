@@ -225,7 +225,7 @@ BYTE REGPARM1 zero_read(WORD addr)
 {
     addr &= 0xff;
 #ifdef FEATURE_CPUMEMHISTORY
-    if(!(memmap_state & MEMMAP_STATE_IGNORE)) {
+    if (!(memmap_state & MEMMAP_STATE_IGNORE)) {
         monitor_memmap_store(addr, (memmap_state&MEMMAP_STATE_OPCODE)?MEMMAP_RAM_X:(memmap_state&MEMMAP_STATE_INSTR)?0:MEMMAP_RAM_R);
         memmap_state &= ~(MEMMAP_STATE_OPCODE);
     }

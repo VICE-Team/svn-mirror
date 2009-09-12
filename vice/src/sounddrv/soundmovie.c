@@ -58,7 +58,7 @@ int soundmovie_stop(void)
 static int soundmovie_init(const char *param, int *speed,
 		   int *fragsize, int *fragnr, int *channels)
 {
-    if((funcs != NULL)&&(funcs->init != NULL)) {
+    if ((funcs != NULL)&&(funcs->init != NULL)) {
         return funcs->init(*speed, *channels, &buffer);
     }
 
@@ -71,10 +71,10 @@ static int soundmovie_write(SWORD *pbuf, size_t nr)
     int samples_to_copy;
     int buffer_size;
 
-    if( (funcs == NULL) || (funcs->encode == NULL) ) {
+    if ( (funcs == NULL) || (funcs->encode == NULL) ) {
         return 0;
     }
-    if( (buffer == NULL) || (buffer->size == 0) ) {
+    if ( (buffer == NULL) || (buffer->size == 0) ) {
         return 0;
     }
 
@@ -99,7 +99,7 @@ static int soundmovie_write(SWORD *pbuf, size_t nr)
 
 static void soundmovie_close(void)
 {
-    if( (funcs != NULL) && (funcs->close != NULL) ) {
+    if ( (funcs != NULL) && (funcs->close != NULL) ) {
         funcs->close();
     }
 }

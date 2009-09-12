@@ -115,7 +115,7 @@ static void gtk_widget_set_tooltip_text(GtkWidget * widget, const char * text)
 {
 	static GtkTooltips * tooltips = NULL;
 
-	if(tooltips == NULL)
+	if (tooltips == NULL)
 	{
 		tooltips = gtk_tooltips_new();
 		gtk_tooltips_enable(tooltips);
@@ -269,7 +269,7 @@ void ui_check_mouse_cursor()
         return;
 #endif
 
-    if(_mouse_enabled) 
+    if (_mouse_enabled) 
     {
 	if (ui_cached_video_canvas->videoconfig->doublesizex)
 	    mouse_accelx = 2;   
@@ -308,7 +308,7 @@ void ui_restore_mouse() {
     if (fullscreen_is_enabled)
         return;
 #endif
-    if(_mouse_enabled && cursor_is_blank) {
+    if (_mouse_enabled && cursor_is_blank) {
 	/*        XUndefineCursor(display,XtWindow(canvas));*/
         gdk_keyboard_ungrab(GDK_CURRENT_TIME);
         gdk_pointer_ungrab(GDK_CURRENT_TIME);
@@ -393,16 +393,16 @@ gboolean delete_event(GtkWidget *w, GdkEvent *e, gpointer data)
 
 void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
 {
-   if(event->type == GDK_BUTTON_PRESS) {
+   if (event->type == GDK_BUTTON_PRESS) {
       GdkEventButton *bevent = (GdkEventButton*) event;
-      if(_mouse_enabled) {
+      if (_mouse_enabled) {
           mouse_button(bevent->button-1,TRUE);
       } else {
-          if(bevent->button == 1) {
+          if (bevent->button == 1) {
               ui_menu_update_all_GTK();
               gtk_menu_popup(GTK_MENU(left_menu),NULL,NULL,NULL,NULL,
                              bevent->button, bevent->time);
-          } else if(bevent->button == 3) {
+          } else if (bevent->button == 3) {
               ui_menu_update_all_GTK();
               gtk_menu_popup(GTK_MENU(right_menu),NULL,NULL,NULL,NULL,
                              bevent->button, bevent->time);
@@ -467,7 +467,7 @@ static gboolean fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 
 static gboolean tape_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
-    if(event->type == GDK_BUTTON_PRESS) {
+    if (event->type == GDK_BUTTON_PRESS) {
         GdkEventButton *bevent = (GdkEventButton*) event;
 	if (bevent->button == 1)
 	{
@@ -515,7 +515,7 @@ static gboolean update_menu_cb(GtkWidget *w, GdkEvent *event,gpointer data)
 
 static gboolean speed_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
-    if(event->type == GDK_BUTTON_PRESS) {
+    if (event->type == GDK_BUTTON_PRESS) {
         GdkEventButton *bevent = (GdkEventButton*) event;
 	
 	if (speed_menu)
@@ -1220,7 +1220,7 @@ void ui_exit(void)
     fullscreen_suspend(1);
 #endif
     resources_get_int("ConfirmOnExit", &value);
-    if( value )
+    if ( value )
 	b = ui_ask_confirmation(s, _("Do you really want to exit?"));
     else
 	b = UI_BUTTON_YES;

@@ -126,7 +126,7 @@ int sound_init_mp3_device(void)
 {
 #ifndef HAVE_STATIC_LAME
   int result = lamelib_open();
-  if(result != 0) {
+  if (result != 0) {
     log_debug("ERROR setting up dynamic lame lib!");
     return result;
   }

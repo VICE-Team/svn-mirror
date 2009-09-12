@@ -186,7 +186,7 @@ static void output_graphics_close(unsigned int prnr)
   output_gfx_t *o = &(output_gfx[prnr]);
 
   /* only do this if something has actually been printed on this page */
-  if( o->isopen )
+  if ( o->isopen )
     {
       unsigned int i;
 
@@ -217,7 +217,7 @@ static int output_graphics_putc(unsigned int prnr, BYTE b)
   if (b == OUTPUT_NEWLINE)
     {
       /* if output is not open yet, open it now */
-      if( !o->isopen )
+      if ( !o->isopen )
         {
           int i;
 
@@ -245,7 +245,7 @@ static int output_graphics_putc(unsigned int prnr, BYTE b)
 
       /* check for bottom of page.  If so, close output file */
       o->line_no++;
-      if( o->line_no == o->screenshot.height )
+      if ( o->line_no == o->screenshot.height )
         {
           o->gfxoutputdrv->close(&o->screenshot);
           o->isopen = 0;

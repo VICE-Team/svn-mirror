@@ -133,7 +133,7 @@ static int set_enable(int newval, void *param)
     }
     if (rsuser_enabled && !newval) {
         if (fd != -1) {
-            /* if(clk_start_tx) rs232drv_putc(fd, rxdata); */
+            /* if (clk_start_tx) rs232drv_putc(fd, rxdata); */
             rs232drv_close(fd);
         }
         if (rsuser_alarm)

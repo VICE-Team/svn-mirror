@@ -116,7 +116,7 @@ BYTE ps2mouse_queue_tail;
 int ps2mouse_queue_put(BYTE value)
 {
     BYTE new_head = (ps2mouse_queue_head + 1) & (PS2_QUEUE_SIZE-1);
-    if(new_head == ps2mouse_queue_tail) {
+    if (new_head == ps2mouse_queue_tail) {
 #ifdef PS2MOUSE_DEBUG_ENABLED
 PS2MOUSE_DEBUG("queue full!");
 #endif
@@ -151,7 +151,7 @@ PS2MOUSE_DEBUG("cmd: got %02x",value);
 #endif
     ps2mouse_xmit_state = PS2_CHECK_SEND;
 
-    if(ps2mouse_parity) {
+    if (ps2mouse_parity) {
 #ifdef PS2MOUSE_DEBUG_ENABLED
 PS2MOUSE_DEBUG("parity error");
 #endif
@@ -178,14 +178,14 @@ PS2MOUSE_DEBUG("parity error");
             new_x = mousedrv_get_x();
             new_y = mousedrv_get_y();
             diff_x = new_x - ps2mouse_lastx;
-            if(new_x < ps2mouse_lastx) {
-                if(ps2mouse_lastx > 0x6f && new_x < 0x10) {
+            if (new_x < ps2mouse_lastx) {
+                if (ps2mouse_lastx > 0x6f && new_x < 0x10) {
                     diff_x += 0x80;
                 } else {
                     new_buttons |= PS2_MDATA_XS;
                 }
-            } else if(new_x > ps2mouse_lastx) {
-                if(ps2mouse_lastx < 0x10 && new_x > 0x6f) {
+            } else if (new_x > ps2mouse_lastx) {
+                if (ps2mouse_lastx < 0x10 && new_x > 0x6f) {
                     new_buttons |= PS2_MDATA_XS;
                     diff_x += 0x80;
                 }
@@ -193,14 +193,14 @@ PS2MOUSE_DEBUG("parity error");
             ps2mouse_lastx = new_x;
 
             diff_y = new_y - ps2mouse_lasty;
-            if(new_y < ps2mouse_lasty) {
-                if(ps2mouse_lasty > 0x6f && new_y < 0x10) {
+            if (new_y < ps2mouse_lasty) {
+                if (ps2mouse_lasty > 0x6f && new_y < 0x10) {
                     diff_y += 0x80;
                 } else {
                     new_buttons |= PS2_MDATA_YS;
                 }
-            } else if(new_y > ps2mouse_lasty) {
-                if(ps2mouse_lasty < 0x10 && new_y > 0x6f) {
+            } else if (new_y > ps2mouse_lasty) {
+                if (ps2mouse_lasty < 0x10 && new_y > 0x6f) {
                     new_buttons |= PS2_MDATA_YS;
                     diff_y += 0x80;
                 }
@@ -250,7 +250,7 @@ void c64dtv_ps2mouse_alarm_handler(CLOCK offset, void *data)
 #ifdef PS2MOUSE_DEBUG_ENABLED
 PS2MOUSE_DEBUG("start: clk/data = %i/%i",(ps2mouse_out>>6)&1,(ps2mouse_out>>7)&1);
 #endif
-            if((ps2mouse_out & PS2_CLK_BIT)==0) ++ps2mouse_xmit_state;
+            if ((ps2mouse_out & PS2_CLK_BIT)==0) ++ps2mouse_xmit_state;
             break;
 
         case PS2_FROM_D0:
@@ -261,7 +261,7 @@ PS2MOUSE_DEBUG("start: clk/data = %i/%i",(ps2mouse_out>>6)&1,(ps2mouse_out>>7)&1
         case PS2_FROM_D5:
         case PS2_FROM_D6:
         case PS2_FROM_D7:
-            if(ps2mouse_out & PS2_CLK_BIT) {
+            if (ps2mouse_out & PS2_CLK_BIT) {
                 ps2mouse_value >>= 1;
                 if (ps2mouse_in & PS2_DATA_BIT) {
                     ps2mouse_value |= 0x80;
@@ -272,11 +272,11 @@ PS2MOUSE_DEBUG("start: clk/data = %i/%i",(ps2mouse_out>>6)&1,(ps2mouse_out>>7)&1
 #ifdef PS2MOUSE_DEBUG_ENABLED
 PS2MOUSE_DEBUG("d%i: clk/data = %i/%i",ps2mouse_xmit_state - PS2_FROM_D0, (ps2mouse_out>>6)&1,(ps2mouse_out>>7)&1);
 #endif
-            if((ps2mouse_out & PS2_CLK_BIT)==0) ++ps2mouse_xmit_state;
+            if ((ps2mouse_out & PS2_CLK_BIT)==0) ++ps2mouse_xmit_state;
             break;
 
         case PS2_FROM_PARITY:
-            if(ps2mouse_out & PS2_CLK_BIT) {
+            if (ps2mouse_out & PS2_CLK_BIT) {
                 if (ps2mouse_in & PS2_DATA_BIT) {
                     ps2mouse_parity ^= PS2_DATA_BIT;
                 }
@@ -285,11 +285,11 @@ PS2MOUSE_DEBUG("d%i: clk/data = %i/%i",ps2mouse_xmit_state - PS2_FROM_D0, (ps2mo
 #ifdef PS2MOUSE_DEBUG_ENABLED
 PS2MOUSE_DEBUG("parity: clk/data = %i/%i", (ps2mouse_out>>6)&1,(ps2mouse_out>>7)&1);
 #endif
-            if((ps2mouse_out & PS2_CLK_BIT)==0) ++ps2mouse_xmit_state;
+            if ((ps2mouse_out & PS2_CLK_BIT)==0) ++ps2mouse_xmit_state;
             break;
 
         case PS2_FROM_STOP:
-            if(ps2mouse_out & PS2_CLK_BIT) {
+            if (ps2mouse_out & PS2_CLK_BIT) {
                 if (ps2mouse_in & PS2_DATA_BIT) {
                     ps2mouse_parity ^= PS2_DATA_BIT;
                 }
@@ -300,7 +300,7 @@ PS2MOUSE_DEBUG("parity: clk/data = %i/%i", (ps2mouse_out>>6)&1,(ps2mouse_out>>7)
 #ifdef PS2MOUSE_DEBUG_ENABLED
 PS2MOUSE_DEBUG("stop: clk/data = %i/%i", (ps2mouse_out>>6)&1,(ps2mouse_out>>7)&1);
 #endif
-            if((ps2mouse_out & PS2_CLK_BIT)==0) ++ps2mouse_xmit_state;
+            if ((ps2mouse_out & PS2_CLK_BIT)==0) ++ps2mouse_xmit_state;
             break;
 
         case PS2_FROM_ACK:
@@ -312,7 +312,7 @@ PS2MOUSE_DEBUG("got %02x, parity: %02x, clk/data = %i/%i",ps2mouse_value,ps2mous
             break;
 
         case PS2_CHECK_SEND:
-            if(ps2mouse_queue_empty()) {
+            if (ps2mouse_queue_empty()) {
                 ps2mouse_out |= (PS2_DATA_BIT | PS2_CLK_BIT);
                 another_alarm = 0;
                 ps2mouse_xmit_state = PS2_FROMTO_IDLE;
@@ -321,7 +321,7 @@ PS2MOUSE_DEBUG("all sent. clk/data = %i/%i",(ps2mouse_out>>6)&1,(ps2mouse_out>>7
 #endif
                 break;
             }
-            if((ps2mouse_in & PS2_CLK_BIT)==0) {
+            if ((ps2mouse_in & PS2_CLK_BIT)==0) {
                 ps2mouse_out &= ~PS2_CLK_BIT;
 #ifdef PS2MOUSE_DEBUG_ENABLED
 PS2MOUSE_DEBUG("hold! clk/data = %i/%i",(ps2mouse_out>>6)&1,(ps2mouse_out>>7)&1);
@@ -329,7 +329,7 @@ PS2MOUSE_DEBUG("hold! clk/data = %i/%i",(ps2mouse_out>>6)&1,(ps2mouse_out>>7)&1)
                 break;
             }
             
-            if((ps2mouse_out & PS2_CLK_BIT)==0) {
+            if ((ps2mouse_out & PS2_CLK_BIT)==0) {
                 ps2mouse_parity = PS2_DATA_BIT;
                 ps2mouse_value = ps2mouse_queue_get();
 #ifdef PS2MOUSE_DEBUG_ENABLED
@@ -347,7 +347,7 @@ PS2MOUSE_DEBUG("sending %02x, clk/data = %i/%i",ps2mouse_value,(ps2mouse_out>>6)
         case PS2_TO_D5:
         case PS2_TO_D6:
         case PS2_TO_D7:
-            if(ps2mouse_out & PS2_CLK_BIT) {
+            if (ps2mouse_out & PS2_CLK_BIT) {
                 ps2mouse_out |= (ps2mouse_value & 1)?PS2_DATA_BIT:0;
                 ps2mouse_prev = ps2mouse_out;
                 ps2mouse_parity ^= (ps2mouse_value & 1)?PS2_DATA_BIT:0;
@@ -358,11 +358,11 @@ PS2MOUSE_DEBUG("sending %02x, clk/data = %i/%i",ps2mouse_value,(ps2mouse_out>>6)
 #ifdef PS2MOUSE_DEBUG_ENABLED
 PS2MOUSE_DEBUG("to_d%i: clk/data = %i/%i",ps2mouse_xmit_state - PS2_TO_D0, (ps2mouse_out>>6)&1,(ps2mouse_out>>7)&1);
 #endif
-            if((ps2mouse_out & PS2_CLK_BIT)==0) ++ps2mouse_xmit_state;
+            if ((ps2mouse_out & PS2_CLK_BIT)==0) ++ps2mouse_xmit_state;
             break;
 
         case PS2_TO_PARITY:
-            if(ps2mouse_out & PS2_CLK_BIT) {
+            if (ps2mouse_out & PS2_CLK_BIT) {
                 ps2mouse_out |= ps2mouse_parity;
                 ps2mouse_prev = ps2mouse_out;
             } else {
@@ -371,7 +371,7 @@ PS2MOUSE_DEBUG("to_d%i: clk/data = %i/%i",ps2mouse_xmit_state - PS2_TO_D0, (ps2m
 #ifdef PS2MOUSE_DEBUG_ENABLED
 PS2MOUSE_DEBUG("to_parity: clk/data = %i/%i", (ps2mouse_out>>6)&1,(ps2mouse_out>>7)&1);
 #endif
-            if((ps2mouse_out & PS2_CLK_BIT)==0) ++ps2mouse_xmit_state;
+            if ((ps2mouse_out & PS2_CLK_BIT)==0) ++ps2mouse_xmit_state;
             break;
 
         case PS2_TO_STOP:
@@ -379,7 +379,7 @@ PS2MOUSE_DEBUG("to_parity: clk/data = %i/%i", (ps2mouse_out>>6)&1,(ps2mouse_out>
 #ifdef PS2MOUSE_DEBUG_ENABLED
 PS2MOUSE_DEBUG("stop: clk/data = %i/%i", (ps2mouse_out>>6)&1,(ps2mouse_out>>7)&1);
 #endif
-            if((ps2mouse_out & PS2_CLK_BIT)==0) ps2mouse_xmit_state = PS2_CHECK_SEND;
+            if ((ps2mouse_out & PS2_CLK_BIT)==0) ps2mouse_xmit_state = PS2_CHECK_SEND;
             break;
 
         default:
@@ -392,7 +392,7 @@ PS2MOUSE_DEBUG("bug! state %i. clk/data = %i/%i",ps2mouse_xmit_state,(ps2mouse_o
             break;
     }
 
-    if(another_alarm) {
+    if (another_alarm) {
         alarm_set(c64dtv_ps2mouse_alarm, maincpu_clk+PS2_BIT_DELAY_CLK);
     }
 }
@@ -501,7 +501,7 @@ int mouse_cmdline_options_init(void)
 
 void mouse_init(void)
 {
-    if(ps2mouse_log == LOG_ERR)
+    if (ps2mouse_log == LOG_ERR)
         ps2mouse_log = log_open("ps2mouse");
 
     c64dtv_ps2mouse_alarm_init();

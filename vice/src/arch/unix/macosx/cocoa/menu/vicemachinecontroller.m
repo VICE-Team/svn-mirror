@@ -64,14 +64,14 @@
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *prefPath = [NSString stringWithCString:archdep_pref_path encoding:NSUTF8StringEncoding];
-    if(![fileManager fileExistsAtPath:prefPath]) {
-        if(![fileManager createDirectoryAtPath:prefPath attributes:nil]) {
+    if (![fileManager fileExistsAtPath:prefPath]) {
+        if (![fileManager createDirectoryAtPath:prefPath attributes:nil]) {
             [[theVICEMachine app] runErrorMessage:@"Error creating Preferences Dir"];
             return nil;
         }
     }
     BOOL isDir;
-    if([fileManager fileExistsAtPath:prefPath isDirectory:&isDir] && isDir) {
+    if ([fileManager fileExistsAtPath:prefPath isDirectory:&isDir] && isDir) {
         return prefPath;
     }
     [[theVICEMachine app] runErrorMessage:@"Invalid Preferences Dir"];
@@ -83,7 +83,7 @@
 -(NSNumber *)getIntResource:(NSString *)name
 {
     int value;
-    if(resources_get_int([name cStringUsingEncoding:NSUTF8StringEncoding],&value)==0) {
+    if (resources_get_int([name cStringUsingEncoding:NSUTF8StringEncoding],&value)==0) {
         return [NSNumber numberWithInt:value];
     }
     return nil;
@@ -92,7 +92,7 @@
 -(NSString *)getStringResource:(NSString *)name
 {
     const char *value;
-    if(resources_get_string([name cStringUsingEncoding:NSUTF8StringEncoding],&value)==0) {
+    if (resources_get_string([name cStringUsingEncoding:NSUTF8StringEncoding],&value)==0) {
         return [NSString stringWithCString:value encoding:NSUTF8StringEncoding];
     }
     return nil;
@@ -113,7 +113,7 @@
 -(BOOL)loadResources:(NSString *)path
 {
     const char *cPath;
-    if(path==nil)
+    if (path==nil)
         cPath = NULL;
     else
         cPath = [path fileSystemRepresentation];
@@ -129,7 +129,7 @@
 -(BOOL)saveResources:(NSString *)path
 {
     const char *cPath;
-    if(path==nil)
+    if (path==nil)
         cPath = NULL;
     else
         cPath = [path fileSystemRepresentation];
@@ -149,7 +149,7 @@
 
 -(void)resetMachine:(BOOL)hardReset
 {
-    if(hardReset)
+    if (hardReset)
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
     else
         machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
@@ -164,7 +164,7 @@
 
 -(void)activateMonitor
 {
-    if([theVICEMachine isPaused])
+    if ([theVICEMachine isPaused])
         monitor_startup();
     else
         monitor_startup_trap();
@@ -188,7 +188,7 @@ static void loadSnapshotTrap(WORD unusedWord, void *unusedData)
 
 static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
 {
-    if(machine_write_snapshot(snapshotName, snapshotSaveRoms, snapshotSaveDisks, 0) < 0) {
+    if (machine_write_snapshot(snapshotName, snapshotSaveRoms, snapshotSaveDisks, 0) < 0) {
         [[theVICEMachine app] runErrorMessage:@"Error saving Snapshot!"];        
     } else {
         log_message(LOG_DEFAULT,"saved snapshot '%s'",snapshotName);
@@ -199,7 +199,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
 -(void)loadSnapshot:(NSString *)path
 {
     snapshotName = strdup([path fileSystemRepresentation]);
-    if([theVICEMachine isPaused])
+    if ([theVICEMachine isPaused])
         loadSnapshotTrap(0,NULL);
     else
         interrupt_maincpu_trigger_trap(loadSnapshotTrap, NULL);
@@ -210,7 +210,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
     snapshotName = strdup([path fileSystemRepresentation]);
     snapshotSaveRoms = saveRoms;
     snapshotSaveDisks = saveDisks;
-    if([theVICEMachine isPaused])
+    if ([theVICEMachine isPaused])
         saveSnapshotTrap(0,NULL);
     else
         interrupt_maincpu_trigger_trap(saveSnapshotTrap, NULL);
@@ -220,7 +220,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *prefPath = [self checkAndGetPrefDir];
-    if(prefPath==nil)
+    if (prefPath==nil)
         return nil;
 
     // find file with highest index
@@ -231,24 +231,24 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
     for(i=0;i<10;i++) {
         lastPath = path;
         path = [NSString stringWithFormat:@"%@/quicksnap%d.vsf",prefPath,i];
-        if(![fileManager fileExistsAtPath:path]) {
+        if (![fileManager fileExistsAtPath:path]) {
             break;
         }
         highestIndex = i;
     }
     
-    if(load) {
-        if(lastPath==nil)
+    if (load) {
+        if (lastPath==nil)
             [[theVICEMachine app] runErrorMessage:@"No Quick Snapshot File found!"];
         
-        if(highestIndex==9)
+        if (highestIndex==9)
             return path;
         else
             return lastPath;
     }
     else {
         // move all files one up to make space for new save
-        if(highestIndex==9) {
+        if (highestIndex==9) {
             NSString *newPath = [NSString stringWithFormat:@"%@/quicksnap0.vsf",prefPath];
             [fileManager removeFileAtPath:newPath handler:nil];
             for(i=1;i<10;i++) {
@@ -265,7 +265,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
 -(void)saveQuickSnapshot
 {
     NSString *path = [self getQuickSnapshotFileName:FALSE];
-    if(path!=nil) {
+    if (path!=nil) {
         [self saveSnapshot:path withROMS:FALSE andDisks:FALSE];
     }
 }
@@ -273,7 +273,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
 -(void)loadQuickSnapshot
 {
     NSString *path = [self getQuickSnapshotFileName:TRUE];
-    if(path!=nil) {
+    if (path!=nil) {
         [self loadSnapshot:path];
     }
 }
@@ -327,7 +327,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
 {
     // fetch real canvas for id
     video_canvas_t *canvas = [theVICEMachine getCanvasForId:canvasId];
-    if(canvas==NULL)
+    if (canvas==NULL)
         return false;
     
     int result = screenshot_save([driver cStringUsingEncoding:NSUTF8StringEncoding],
@@ -367,7 +367,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
     gfxoutputdrv_t *driver = gfxoutput_drivers_iter_init();
     for (i = 0; i < gfxoutput_num_drivers(); i++) {
         NSString *name = [NSString stringWithCString:driver->name encoding:NSUTF8StringEncoding];
-        if([name compare:driverName]==NSOrderedSame) {
+        if ([name compare:driverName]==NSOrderedSame) {
             return driver;
         }
         driver = gfxoutput_drivers_iter_next();        
@@ -378,7 +378,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
 -(BOOL)mediaDriverHasFormats:(NSString *)driverName
 {
     gfxoutputdrv_t *driver = [self findDriverByName:driverName];
-    if(driver == NULL)
+    if (driver == NULL)
         return FALSE;
     
     return (driver->formatlist != NULL);
@@ -388,12 +388,12 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
 {
     // find driver
     gfxoutputdrv_t *driver = [self findDriverByName:driverName];
-    if(driver == NULL)
+    if (driver == NULL)
         return nil;
         
     // get formatlist
     gfxoutputdrv_format_t *formatlist = driver->formatlist;
-    if(formatlist == NULL)
+    if (formatlist == NULL)
         return nil;
 
     // enumerate all formats and codecs
@@ -406,7 +406,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
         int j;
         gfxoutputdrv_codec_t *video_codecs = formatlist[i].video_codecs;
         NSMutableDictionary *video = [[NSMutableDictionary alloc] init];
-        if(video_codecs!=NULL) {
+        if (video_codecs!=NULL) {
             for(j=0;video_codecs->name!=NULL;j++) {
                 NSString *vname = [NSString stringWithCString:video_codecs->name encoding:NSUTF8StringEncoding];
                 [video setObject:vname forKey:[NSNumber numberWithInt:video_codecs->id]];
@@ -417,7 +417,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
         // fetch audio codecs
         gfxoutputdrv_codec_t *audio_codecs = formatlist[i].audio_codecs;
         NSMutableDictionary *audio = [[NSMutableDictionary alloc] init];
-        if(audio_codecs!=NULL) {
+        if (audio_codecs!=NULL) {
             for(j=0;audio_codecs->name!=NULL;j++) {
                 NSString *aname = [NSString stringWithCString:audio_codecs->name encoding:NSUTF8StringEncoding];
                 [audio setObject:aname forKey:[NSNumber numberWithInt:audio_codecs->id]];
@@ -435,22 +435,22 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
 {
     // find driver
     gfxoutputdrv_t *driver = [self findDriverByName:driverName];
-    if(driver == NULL)
+    if (driver == NULL)
         return nil;
 
     // use global extension if available
-    if(driver->default_extension != NULL)
+    if (driver->default_extension != NULL)
         return [NSString stringWithCString:driver->default_extension encoding:NSUTF8StringEncoding];
     
     // search format
     gfxoutputdrv_format_t *formatlist = driver->formatlist;
-    if(formatlist == NULL)
+    if (formatlist == NULL)
         return nil;
 
     int i;
     for (i=0;formatlist[i].name!=NULL;i++) {
         NSString *fname = [NSString stringWithCString:formatlist[i].name encoding:NSUTF8StringEncoding];
-        if([fname compare:formatName]==NSOrderedSame) {
+        if ([fname compare:formatName]==NSOrderedSame) {
             return fname;
         }
     }
@@ -526,7 +526,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
 -(NSString *)getDiskName:(int)unit
 {
     const char *diskName = file_system_get_disk_name(unit);
-    if(diskName==NULL)
+    if (diskName==NULL)
         return nil;
     else
         return [NSString stringWithCString:diskName encoding:NSUTF8StringEncoding];
@@ -572,7 +572,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
 -(void)typeStringOnKeyboard:(NSString *)string toPetscii:(BOOL)convert
 {
     const char *cstr = [string cStringUsingEncoding:NSUTF8StringEncoding];
-    if(convert) {
+    if (convert) {
         int len = [string length];
         char *pstr = lib_malloc(len+1);
         memcpy(pstr,cstr,len);
@@ -608,7 +608,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
 -(void)removeFromFliplist:(int)unit path:(NSString *)path
 {
     const char *cstr = NULL;
-    if(path!=nil) {
+    if (path!=nil) {
         cstr = [path cStringUsingEncoding:NSUTF8StringEncoding];
     }
     fliplist_remove(unit,cstr);

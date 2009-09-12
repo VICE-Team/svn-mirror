@@ -79,7 +79,7 @@
     NSDictionary * dict = [notification userInfo];
     BOOL playback = [[dict objectForKey:@"playback"] boolValue];
     NSString *version = (NSString *)[dict objectForKey:@"version"];
-    if(playback) { 
+    if (playback) { 
         [playbackText setStringValue:[NSString stringWithFormat:@"Playback: %@",version]];
     } else {
         [playbackText setStringValue:@""];
@@ -92,7 +92,7 @@
     NSDictionary * dict = [notification userInfo];
     BOOL recording = [[dict objectForKey:@"recording"] boolValue];
     [recordingText setStringValue:(recording ? @"Recording" : @"")];
-    if(!recording)
+    if (!recording)
         [self setButtonState];
 }
 
@@ -105,7 +105,7 @@
     int curMin = curTime / 60;
     int curSec = curTime % 60;
     NSString *txt;
-    if(totalTime!=0) {
+    if (totalTime!=0) {
         int totalMin = totalTime / 60;
         int totalSec = totalTime % 60;
         txt = [NSString stringWithFormat:@"Time %02d:%02d  Total Time %02d:%02d",
@@ -153,9 +153,9 @@
 -(IBAction)stopRecordOrPlayback:(id)sender
 {
     VICEMachineController *ctrl = [VICEApplication theMachineController];
-    if([ctrl isRecordingHistory]) {
+    if ([ctrl isRecordingHistory]) {
         [ctrl stopRecordHistory];
-    } else if([ctrl isPlayingBackHistory]) {
+    } else if ([ctrl isPlayingBackHistory]) {
         [ctrl stopPlaybackHistory];
     }
     [self setButtonState];
@@ -181,7 +181,7 @@
 {
     VICEAppController *appCtrl = [VICEApplication theAppController];
     NSString *path = [appCtrl pickDirectoryWithTitle:@"Record History"];
-    if(path!=nil) {
+    if (path!=nil) {
         [self setStringResource:@"EventSnapshotDir" toValue:path];
         [self updateResources:nil];
     }

@@ -284,7 +284,7 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, 
                 break;
               case e_hexadecimal:
                 memset(printables, 0, 50);
-                if(!(cnt % 4))
+                if (!(cnt % 4))
                     mon_out(" ");
                 if (cnt < len) {
                     mon_out("%02x ", v);

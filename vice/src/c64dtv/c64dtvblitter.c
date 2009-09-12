@@ -112,7 +112,7 @@ static int reg1e_mintermALU;
 
 void c64dtvblitter_init(void)
 {
-    if(c64dtvblitter_log == LOG_ERR)
+    if (c64dtvblitter_log == LOG_ERR)
         c64dtvblitter_log = log_open("C64DTVBLITTER");
 
     /* init Blitter IRQ */
@@ -127,7 +127,7 @@ void c64dtvblitter_shutdown(void)
 void c64dtvblitter_reset(void)
 {
     int i;
-    if(blitter_log_enabled) log_message(c64dtvblitter_log, "reset");
+    if (blitter_log_enabled) log_message(c64dtvblitter_log, "reset");
 
     /* TODO move register file initialization somewhere else? */
     for (i=0;i<0x20;++i) c64dtvmem_blitter[i] = 0;
@@ -229,13 +229,13 @@ static inline int do_blitter_write(void)
         mem_ram[offs] = dest;
         was_write = 1;
     }
-    if(blitter_log_enabled) log_message(c64dtvblitter_log, "Blitter: %s %x.%x/%x.%x to %x.%x, %d to go, minterm %d", was_write ? "transferred" : "skipped", blit_sourceA_off >> 4, blit_sourceA_off & 15, blit_sourceB_off >> 4, blit_sourceB_off & 15, blit_dest_off >> 4, blit_dest_off & 15, blitter_count - 1, reg1e_mintermALU);
+    if (blitter_log_enabled) log_message(c64dtvblitter_log, "Blitter: %s %x.%x/%x.%x to %x.%x, %d to go, minterm %d", was_write ? "transferred" : "skipped", blit_sourceA_off >> 4, blit_sourceA_off & 15, blit_sourceB_off >> 4, blit_sourceB_off & 15, blit_dest_off >> 4, blit_dest_off & 15, blitter_count - 1, reg1e_mintermALU);
     return was_write;
 }
 
 static inline void update_counters(void)
 {
-    if(sourceA_line_off >= reg05_sourceA_line_length) {
+    if (sourceA_line_off >= reg05_sourceA_line_length) {
         lastA = 0;
         sourceA_line_off = 0;
         blit_sourceA_off = ((blit_sourceA_off >> 4) + reg03_sourceA_modulo * reg1a_sourceA_direction) << 4;
@@ -243,14 +243,14 @@ static inline void update_counters(void)
         sourceA_line_off++;
         blit_sourceA_off += reg07_sourceA_step * reg1a_sourceA_direction;
     }
-    if(sourceB_line_off >= reg0d_sourceB_line_length) {
+    if (sourceB_line_off >= reg0d_sourceB_line_length) {
         sourceB_line_off = 0;
         blit_sourceB_off = ((blit_sourceB_off >> 4) + reg0b_sourceB_modulo * reg1a_sourceB_direction) << 4;
     } else {
         sourceB_line_off++;
         blit_sourceB_off += reg0f_sourceB_step * reg1a_sourceB_direction;
     }
-    if(dest_line_off >= reg15_dest_line_length) {
+    if (dest_line_off >= reg15_dest_line_length) {
         dest_line_off = 0;
         blit_dest_off = ((blit_dest_off >> 4) + reg13_dest_modulo * reg1a_dest_direction) << 4;
     } else {
@@ -313,26 +313,26 @@ static inline void perform_blitter_cycle(void)
 
 void c64dtvblitter_trigger_blitter(void)
 {
-    if(!blitter_active) {
+    if (!blitter_active) {
         int sourceA_continue = GET_REG8(0x1f) & 0x02;
         int sourceB_continue = GET_REG8(0x1f) & 0x04;
         int dest_continue = GET_REG8(0x1f) & 0x08;
 
         /* last four bits of offsets are fractional */
-        if(!sourceA_continue) {
+        if (!sourceA_continue) {
             blit_sourceA_off = GET_REG24(0x00) & 0x3fffff;
             blit_sourceA_off <<= 4;
         }
-        if(!sourceB_continue) {
+        if (!sourceB_continue) {
             blit_sourceB_off = GET_REG24(0x08) & 0x3fffff;
             blit_sourceB_off <<= 4;
         }
-        if(!dest_continue) {
+        if (!dest_continue) {
             blit_dest_off = GET_REG24(0x10) & 0x3fffff;
             blit_dest_off <<= 4;
         }
 
-        if(blitter_log_enabled && (sourceA_continue || sourceB_continue || dest_continue)) {
+        if (blitter_log_enabled && (sourceA_continue || sourceB_continue || dest_continue)) {
             log_message(c64dtvblitter_log, "sourceA cont %s, sourceB cont %s, dest cont %s", sourceA_continue ? "on" : "off", sourceB_continue ? "on" : "off", dest_continue ? "on" : "off");
         }
 
@@ -360,8 +360,8 @@ void c64dtvblitter_trigger_blitter(void)
 
 static inline void c64dtv_blitter_done(void)
 {
-    if(blitter_log_enabled) log_message(c64dtvblitter_log, "IRQ/Done");
-    if(blitter_irq) {
+    if (blitter_log_enabled) log_message(c64dtvblitter_log, "IRQ/Done");
+    if (blitter_irq) {
         maincpu_set_irq(c64dtv_blitter_int_num, 1);
         blitter_busy = 2;
     }
@@ -377,7 +377,7 @@ static inline void c64dtv_blitter_done(void)
 
 BYTE REGPARM1 c64dtv_blitter_read(WORD addr)
 {
-    if(addr==0x1f) {
+    if (addr==0x1f) {
         return blitter_busy;
     /* the default return value is 0x00 too but I have seen some strangeness
        here.  I've seen something that looks like DMAed data. - tlr */
@@ -436,7 +436,7 @@ void REGPARM2 c64dtv_blitter_store(WORD addr, BYTE value)
         reg1b_write_if_sourceA_nonzero = GET_REG8(0x1b) & 0x04;
 
         /* zero and nonzero == 0 seems to do exactly the same as both ==1 */
-        if(!(reg1b_write_if_sourceA_zero || reg1b_write_if_sourceA_nonzero)) {
+        if (!(reg1b_write_if_sourceA_zero || reg1b_write_if_sourceA_nonzero)) {
             reg1b_write_if_sourceA_zero = reg1b_write_if_sourceA_nonzero = 1;
         }
         break;
@@ -452,8 +452,8 @@ void REGPARM2 c64dtv_blitter_store(WORD addr, BYTE value)
     blitter_on_irq = GET_REG8(0x1a)&0x70;
   
     /* Clear Blitter IRQ */
-    if((GET_REG8(0x1f)&0x01) && (blitter_busy==2)){
-        if(blitter_log_enabled) log_message(c64dtvblitter_log, "Clear IRQ (%i)", blitter_busy);
+    if ((GET_REG8(0x1f)&0x01) && (blitter_busy==2)){
+        if (blitter_log_enabled) log_message(c64dtvblitter_log, "Clear IRQ (%i)", blitter_busy);
         blitter_busy &= 0xfd;
         maincpu_set_irq(c64dtv_blitter_int_num, 0);
         blitter_irq = 0;
@@ -461,14 +461,14 @@ void REGPARM2 c64dtv_blitter_store(WORD addr, BYTE value)
         c64dtvmem_blitter[0x1f] &= 0xfe;
     }
   
-    if(blitter_on_irq && (blitter_busy==0)) {
+    if (blitter_on_irq && (blitter_busy==0)) {
         blitter_busy = 1;
-        if(blitter_log_enabled) log_message(c64dtvblitter_log, "Scheduled Blitter (%02x)", blitter_on_irq);
+        if (blitter_log_enabled) log_message(c64dtvblitter_log, "Scheduled Blitter (%02x)", blitter_on_irq);
         return;
     }
 
     /* Force Blitter start */
-    if(GET_REG8(0x1a)&0x01) {
+    if (GET_REG8(0x1a)&0x01) {
         c64dtvblitter_trigger_blitter();
         /* reset force start strobe bit */
         c64dtvmem_blitter[0x1a] &= 0xfe;
@@ -482,7 +482,7 @@ void c64dtvblitter_perform_blitter(void)
 {
     perform_blitter_cycle();
 
-    if(blitter_state == BLITTER_IDLE) {
+    if (blitter_state == BLITTER_IDLE) {
         c64dtv_blitter_done();
     }
 }

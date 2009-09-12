@@ -197,7 +197,7 @@ int TfePcapOpenAdapter(const char *interface_name)
     }
 
 	/* Check the link layer. We support only Ethernet for simplicity. */
-	if(pcap_datalink(TfePcapFP) != DLT_EN10MB)
+	if (pcap_datalink(TfePcapFP) != DLT_EN10MB)
 	{
 		log_message(tfe_arch_log, "ERROR: TFE works only on Ethernet networks.");
         return 0;

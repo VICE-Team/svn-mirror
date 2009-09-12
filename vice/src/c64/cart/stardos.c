@@ -82,10 +82,10 @@ void stardos_remove_kernal(void)
 
 BYTE REGPARM1 stardos_io1_read(WORD addr)
 {
-    if(addr==0xde61)
+    if (addr==0xde61)
     {
 	    ++cnt_de61;
-	    if(cnt_de61>0xff)
+	    if (cnt_de61>0xff)
 	    {
 		    /* enable bank 0 at $8000 */
 		    cartridge_config_changed(0, 0, CMODE_READ);
@@ -98,10 +98,10 @@ BYTE REGPARM1 stardos_io1_read(WORD addr)
 
 BYTE REGPARM1 stardos_io2_read(WORD addr)
 {
-    if(addr==0xdfa1)
+    if (addr==0xdfa1)
     {
 	    ++cnt_dfa1;
-	    if(cnt_dfa1>0xff)
+	    if (cnt_dfa1>0xff)
 	    {
 		    /* disable bank 0 at $8000 */
 		    cartridge_config_changed(2, 2, CMODE_READ);

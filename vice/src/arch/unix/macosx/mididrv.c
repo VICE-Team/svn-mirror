@@ -215,13 +215,13 @@ static int message_len(BYTE msg)
 
 static int create_client(void)
 {
-    if(midi_client==NULL) {
+    if (midi_client==NULL) {
         log_message(mididrv_log, "Opening MIDI client '%s'", midi_name);
         CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault,
             midi_name,kCFStringEncodingUTF8); 
         OSStatus status = MIDIClientCreate(name, NULL, NULL, &midi_client);
         CFRelease(name);
-        if(status!=noErr) {
+        if (status!=noErr) {
             log_error(mididrv_log, "Error creating MIDI client!");
             return -1;
         }
@@ -232,12 +232,12 @@ static int create_client(void)
 
 static void dispose_client(void)
 {
-    if(midi_client!=NULL) {
+    if (midi_client!=NULL) {
         midi_client_usage --;
-        if(midi_client_usage == 0) {
+        if (midi_client_usage == 0) {
             log_message(mididrv_log, "Closing MIDI client");
             OSStatus status = MIDIClientDispose(midi_client);
-            if(status!=noErr) {
+            if (status!=noErr) {
                 log_error(mididrv_log, "Error disposing client!");
             }
             midi_client = NULL;
@@ -252,7 +252,7 @@ static void	midi_read_proc(const MIDIPacketList *pktlist, void *refCon, void *co
     MIDIPacket *packet = pktlist->packet;
 	for (i = 0; i < pktlist->numPackets; ++i) {
         for(j=0;j < packet->length;j++) {
-            if(write_fifo(packet->data[j])) {
+            if (write_fifo(packet->data[j])) {
                 log_error(mididrv_log,"MIDI-In overrun!");
             }
         }
@@ -300,7 +300,7 @@ static void dump_destinations(void)
 
 void mididrv_init(void)
 {
-    if(mididrv_log == LOG_ERR) {
+    if (mididrv_log == LOG_ERR) {
         mididrv_log = log_open("MIDIdrv");
     }
 }
@@ -308,10 +308,10 @@ void mididrv_init(void)
 /* opens a MIDI-In device, returns handle */
 int mididrv_in_open(void)
 {
-    if(create_client()<0)
+    if (create_client()<0)
         return -1;
     
-    if(midi_destination==NULL) {
+    if (midi_destination==NULL) {
         log_message(mididrv_log, "Opening MIDI-In port '%s'", midi_in_name);
 
         CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault,
@@ -319,7 +319,7 @@ int mididrv_in_open(void)
         OSStatus status = MIDIDestinationCreate(midi_client,name,
             midi_read_proc,NULL,&midi_destination);
         CFRelease(name);
-        if(status!=noErr) {
+        if (status!=noErr) {
             log_error(mididrv_log, "Error creating MIDI-In port!");
             return -1;
         }
@@ -335,17 +335,17 @@ int mididrv_in_open(void)
 /* opens a MIDI-Out device, returns handle */
 int mididrv_out_open(void)
 {
-    if(create_client()<0)
+    if (create_client()<0)
         return -1;
     
-    if(midi_source==NULL) {
+    if (midi_source==NULL) {
         log_message(mididrv_log, "Opening MIDI-Out port '%s'", midi_out_name);
 
         CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault,
             midi_out_name,kCFStringEncodingUTF8); 
         OSStatus status = MIDISourceCreate(midi_client,name,&midi_source);
         CFRelease(name);
-        if(status!=noErr) {
+        if (status!=noErr) {
             log_error(mididrv_log, "Error creating MIDI-Out port!");
             return -1;
         }
@@ -361,11 +361,11 @@ int mididrv_out_open(void)
 /* closes the MIDI-In device*/
 void mididrv_in_close(void)
 {
-    if(midi_destination!=NULL) {
+    if (midi_destination!=NULL) {
         log_message(mididrv_log, "Closing MIDI-In port");
 
         OSStatus status = MIDIEndpointDispose(midi_destination);
-        if(status!=noErr) {
+        if (status!=noErr) {
             log_error(mididrv_log, "Error disposing MIDI-In port!");
         }
         midi_destination = NULL;
@@ -377,11 +377,11 @@ void mididrv_in_close(void)
 /* closes the MIDI-Out device*/
 void mididrv_out_close(void)
 {
-    if(midi_source!=NULL) {
+    if (midi_source!=NULL) {
         log_message(mididrv_log, "Closing MIDI-Out port");
 
         OSStatus status = MIDIEndpointDispose(midi_source);
-        if(status!=noErr) {
+        if (status!=noErr) {
             log_error(mididrv_log, "Error disposing MIDI-Out port!");
         }
         midi_source = NULL;
@@ -431,7 +431,7 @@ void mididrv_out(BYTE b)
 
         /* send midi packet */
         OSStatus status = MIDIReceived(midi_source,&pktlist);
-        if(status!=noErr) {
+        if (status!=noErr) {
             log_error(mididrv_log, "Failed to output data on MIDI-Out device.");
         }
     }

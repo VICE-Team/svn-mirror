@@ -201,7 +201,7 @@ static int vic_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
         SWORD vicbuf;
         int samples_to_do = snd.cycles_per_sample;
         
-        if(snd.leftover_cycles)
+        if (snd.leftover_cycles)
         {
           samples_to_do -= snd.leftover_cycles;
           snd.leftover_cycles = 0;
@@ -214,8 +214,8 @@ static int vic_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
         o -= snd.highpassbuf;
         snd.highpassbuf += o * snd.highpassbeta;
 
-        if(o<-32768) vicbuf = -32768; else
-        if(o >32767) vicbuf = 32767; else
+        if (o<-32768) vicbuf = -32768; else
+        if (o >32767) vicbuf = 32767; else
                      vicbuf = (SWORD)o;
         pbuf[s * interleave] = vicbuf;
         s++;
@@ -223,7 +223,7 @@ static int vic_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
         snd.accum_cycles = 0;
         *delta_t -= samples_to_do;
     }
-    if(*delta_t > 0)
+    if (*delta_t > 0)
     {
         snd.leftover_cycles += *delta_t;
         vic_sound_clock(*delta_t);
@@ -252,11 +252,11 @@ void vic_sound_store(WORD addr, BYTE value)
 void vic_sound_clock(int cycles)
 {
   int i,j;
-  if(cycles<=0) return;
+  if (cycles<=0) return;
   for(j=0;j<3;j++)
   {
     int chspeed="\4\3\2"[j];
-    if(snd.ch[j].ctr > cycles)
+    if (snd.ch[j].ctr > cycles)
     {
        snd.accum += snd.ch[j].out * cycles;
        snd.ch[j].ctr -= cycles;
@@ -265,12 +265,12 @@ void vic_sound_clock(int cycles)
     for(i=cycles;i;i--)
     {
       snd.ch[j].ctr--;
-      if(snd.ch[j].ctr<=0)
+      if (snd.ch[j].ctr<=0)
       {
         int a = (~snd.ch[j].reg)&127;
         a=a?a:128;
         snd.ch[j].ctr += a << chspeed;
-        if(snd.ch[j].reg&128)
+        if (snd.ch[j].reg&128)
         {
           unsigned char shift = snd.ch[j].shift;
           shift = ((shift<<1) | ((shift&128)>>7))^1;
@@ -286,7 +286,7 @@ void vic_sound_clock(int cycles)
     }
   }
 
-  if(snd.ch[3].ctr > cycles)
+  if (snd.ch[3].ctr > cycles)
   {
     snd.accum += snd.ch[3].out * cycles;
     snd.ch[3].ctr -= cycles;
@@ -295,12 +295,12 @@ void vic_sound_clock(int cycles)
   for(i=cycles;i;i--)
   {
     snd.ch[3].ctr--;
-    if(snd.ch[3].ctr<=0)
+    if (snd.ch[3].ctr<=0)
     {
         int a = (~snd.ch[3].reg)&127;
         a=a?a:128;
         snd.ch[3].ctr += a << 4;
-        if(snd.ch[3].reg&128)
+        if (snd.ch[3].reg&128)
         {
           snd.ch[3].out =
             (noisepattern[(snd.noisectr>>3)&1023]>>(snd.noisectr&7))&1;

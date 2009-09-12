@@ -821,7 +821,7 @@ HWND GetParentHWND()
 
     EnumWindows(GetParentEnumProc, (LPARAM)&hwndOut);
 
-    if(hwndOut == NULL)
+    if (hwndOut == NULL)
         return NULL;
 
     return GetLastActivePopup(hwndOut);
@@ -849,7 +849,7 @@ void ui_show_text(HWND hWnd,
     szRNText = (char*)HeapAlloc(GetProcessHeap(), 0, 2 * lstrlen(szText) + 1);
     i = j =0;
     while (szText[i] != '\0') {
-        if(szText[i] == '\n')
+        if (szText[i] == '\n')
             szRNText[j++] = '\r';
         szRNText[j++] = szText[i++];
     }
@@ -859,7 +859,7 @@ void ui_show_text(HWND hWnd,
     info.szHeader = (char *)szHeader;
     info.szText = szRNText;
 
-//  if(hWnd == HWND_AUTO)
+//  if (hWnd == HWND_AUTO)
 //      hWnd = GetParentHWND();
     DialogBoxParam(GetModuleHandle(NULL),
 

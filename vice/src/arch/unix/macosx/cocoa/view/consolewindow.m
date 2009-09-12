@@ -38,7 +38,7 @@
                             styleMask:style
                               backing:NSBackingStoreBuffered
                                 defer:NO];
-    if(self==nil)
+    if (self==nil)
         return nil;
 
     [self setReleasedWhenClosed:NO];
@@ -79,16 +79,16 @@
 
 - (void)appendText:(NSString*)text
 {
-    if(text==nil)
+    if (text==nil)
         return;
     
-    if(buffer==nil)
+    if (buffer==nil)
         buffer = [[NSMutableString alloc] initWithCapacity:BUFFER_SIZE];
 
     [buffer appendString:text];
     
     unichar lastChar = [text characterAtIndex:[text length]-1];
-    if(([buffer length] >= BUFFER_SIZE)||(lastChar == '\n'))
+    if (([buffer length] >= BUFFER_SIZE)||(lastChar == '\n'))
         [self flushBuffer];
 }
 
@@ -106,7 +106,7 @@
 
 - (void)flushBuffer
 {
-    if(buffer==nil)
+    if (buffer==nil)
         return;
     
     NSRange end = [log_view rangeForUserTextChange];
@@ -171,7 +171,7 @@
 {
     NSString *lineInput = [sender lastInput];
     // no input means an empty string
-    if(lineInput == nil)
+    if (lineInput == nil)
         [lineInputTarget submitLineInput:@""];
     else
         [lineInputTarget submitLineInput:lineInput];
@@ -181,7 +181,7 @@
 {
     [self makeKeyAndOrderFront:nil];
 
-    if(buffer!=nil)
+    if (buffer!=nil)
         [self flushBuffer];
     [self appendPrompt:prompt];
 

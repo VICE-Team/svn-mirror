@@ -32,7 +32,7 @@
 -(id)initWithTitle:(NSString *)t
 {
     self = [super init];
-    if(self == nil)
+    if (self == nil)
         return nil;
     
     title = [t retain];
@@ -69,7 +69,7 @@
 
 -(int)numChildren
 {
-    if(children==nil)
+    if (children==nil)
         return 0;
     else
         return [children count];
@@ -87,13 +87,13 @@
         id value = [dict objectForKey:key];
         
         // its a dictionary itself
-        if([value isKindOfClass:[NSDictionary class]]) {
-            if(![item addFromDictionary:value])
+        if ([value isKindOfClass:[NSDictionary class]]) {
+            if (![item addFromDictionary:value])
                 return FALSE;
         }
         // its a string
-        else if([value isKindOfClass:[NSString class]]) {
-            if(![item parseResourceString:(NSString *)value])
+        else if ([value isKindOfClass:[NSString class]]) {
+            if (![item parseResourceString:(NSString *)value])
                 return FALSE;
         }
         // unknown
@@ -115,7 +115,7 @@
     args = [string componentsSeparatedByString:@","];
     [args retain];
     numArgs = [args count];
-    if(numArgs < 2) {
+    if (numArgs < 2) {
         NSLog(@"ERROR: resource string invalid: %@",string);
         return FALSE;
     }
@@ -190,12 +190,12 @@
 -(int)parseIntFromString:(NSString *)string
 {
     int len = [string length];
-    if(len==0)
+    if (len==0)
         return 0;
 
     int value = 0;
     const char *str = [string cStringUsingEncoding:NSUTF8StringEncoding];
-    if(*str=='$') {
+    if (*str=='$') {
         sscanf(str+1,"%x",&value);
     } else {
         sscanf(str,"%d",&value);
@@ -206,39 +206,39 @@
 -(id)getValue:(id)ctl
 {
     ResourceEditorController *controller = (ResourceEditorController *)ctl;
-    if([self isLeaf]) {
-        if(cacheValue == nil) {
-            if(type == ResourceTreeItemTypeInteger) {
+    if ([self isLeaf]) {
+        if (cacheValue == nil) {
+            if (type == ResourceTreeItemTypeInteger) {
                 int value = [controller getIntResource:resource];
 //                NSLog(@"read integer: %@ %d",resource,value);
                 
                 // enum
-                if(hint == ResourceTreeItemHintEnum) {
+                if (hint == ResourceTreeItemHintEnum) {
                     cacheValue = [[args objectAtIndex:value+2] retain];
                 } 
                 // direct enum
-                else if(hint == ResourceTreeItemHintEnumDirect) {
+                else if (hint == ResourceTreeItemHintEnumDirect) {
                     int i;
                     for(i=2;i<numArgs;i++) {
                         NSString *argString = (NSString *)[args objectAtIndex:i];
                         int argValue = [self parseIntFromString:argString];
-                        if(argValue == value) {
+                        if (argValue == value) {
                             cacheValue = [argString retain];
                             break;
                         }
                     }
                 }
                 // map string to ineger:   txt=value
-                else if(hint == ResourceTreeItemHintMapInteger) {
+                else if (hint == ResourceTreeItemHintMapInteger) {
                     int i;
                     for(i=2;i<numArgs;i++) {
                         NSString *argString = (NSString *)[args objectAtIndex:i];
                         NSArray *pair = [argString componentsSeparatedByString:@"="];
-                        if([pair count]>=2) {
+                        if ([pair count]>=2) {
                             NSString *keyStr = (NSString *)[pair objectAtIndex:0];
                             NSString *valueStr = (NSString *)[pair objectAtIndex:1]; 
-                            if(keyStr && valueStr) {
-                                if([self parseIntFromString:valueStr]==value) {
+                            if (keyStr && valueStr) {
+                                if ([self parseIntFromString:valueStr]==value) {
                                     cacheValue = [keyStr retain];
                                     break;
                                 }
@@ -284,16 +284,16 @@
 -(void)setValue:(id)ctl toObject:(id)object
 {
     NSString *string = (NSString *)object;
-    if(type == ResourceTreeItemTypeInteger) {
+    if (type == ResourceTreeItemTypeInteger) {
         int value = 0;
         // enum resource
-        if(hint==ResourceTreeItemHintEnum ||
+        if (hint==ResourceTreeItemHintEnum ||
            hint==ResourceTreeItemHintEnumDirect) {
             int i;
             for(i=2;i<numArgs;i++) {
                 NSString *argVal = (NSString *)[args objectAtIndex:i];
-                if([argVal isEqualToString:string]) {
-                    if(hint==ResourceTreeItemHintEnum)
+                if ([argVal isEqualToString:string]) {
+                    if (hint==ResourceTreeItemHintEnum)
                         value = i-2;
                     else 
                         value = [self parseIntFromString:argVal];
@@ -302,16 +302,16 @@
             }
         }
         // map
-        else if(hint==ResourceTreeItemHintMapInteger) {
+        else if (hint==ResourceTreeItemHintMapInteger) {
             int i;
              for(i=2;i<numArgs;i++) {
                  NSString *argString = (NSString *)[args objectAtIndex:i];
                  NSArray *pair = [argString componentsSeparatedByString:@"="];
-                 if([pair count]>=2) {
+                 if ([pair count]>=2) {
                      NSString *keyStr = (NSString *)[pair objectAtIndex:0];
                      NSString *valueStr = (NSString *)[pair objectAtIndex:1]; 
-                     if(keyStr && valueStr) {
-                         if([keyStr isEqualToString:string]) {
+                     if (keyStr && valueStr) {
+                         if ([keyStr isEqualToString:string]) {
                              value = [self parseIntFromString:valueStr];
                              break;
                          }
@@ -320,13 +320,13 @@
              }
         } 
         // range
-        else if(hint==ResourceTreeItemHintRange) {
-            if(numArgs==4) {
+        else if (hint==ResourceTreeItemHintRange) {
+            if (numArgs==4) {
                 int min = [[args objectAtIndex:2] intValue];
                 int max = [[args objectAtIndex:3] intValue];
-                if(value<min)
+                if (value<min)
                     value = min;
-                else if(value>max)
+                else if (value>max)
                     value = max;
             } else {
                 NSLog(@"ERROR: range invalid: %@",args);
@@ -349,21 +349,21 @@
     case ResourceTreeItemHintFileOpen:
         {
             NSString *file = [controller pickOpenFileWithTitle:title types:nil];
-            if(file!=nil)
+            if (file!=nil)
                 [self setStringResourceToValue:file withController:ctl];
             break;
         }
     case ResourceTreeItemHintFileSave:
         {
             NSString *file = [controller pickSaveFileWithTitle:title types:nil];
-            if(file!=nil)
+            if (file!=nil)
                 [self setStringResourceToValue:file withController:ctl];
             break;
         }
     case ResourceTreeItemHintFileDir:
         {
             NSString *file = [controller pickDirectoryWithTitle:title];
-            if(file!=nil)
+            if (file!=nil)
                 [self setStringResourceToValue:file withController:ctl];
             break;
         }
@@ -372,8 +372,8 @@
 
 -(NSCell *)dataCell:(NSCell *)colCell
 {
-    if([self isLeaf]) {
-        if(dataCell!=nil)
+    if ([self isLeaf]) {
+        if (dataCell!=nil)
             return dataCell;
             
         switch(hint) {
@@ -405,7 +405,7 @@
                 for(i=2;i<numArgs;i++) {
                     NSString *argString = (NSString *)[args objectAtIndex:i];
                     NSArray *pair = [argString componentsSeparatedByString:@"="];
-                    if([pair count]>=2) {
+                    if ([pair count]>=2) {
                          NSString *keyStr = (NSString *)[pair objectAtIndex:0];
                          NSString *valueStr = (NSString *)[pair objectAtIndex:1]; 
                          [ccell addItemWithObjectValue:keyStr];
@@ -426,8 +426,8 @@
 
 -(NSCell *)extraCell:(NSCell *)colCell
 {
-    if([self isLeaf]) {
-        if(extraCell!=nil) {
+    if ([self isLeaf]) {
+        if (extraCell!=nil) {
             return extraCell;
         }
         
@@ -459,7 +459,7 @@
 
 -(void)invalidateCache
 {
-    if([self isLeaf]) {
+    if ([self isLeaf]) {
         [cacheValue release];
         cacheValue = nil;
     } else {

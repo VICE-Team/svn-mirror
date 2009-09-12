@@ -1140,7 +1140,7 @@ void ui_exit(void)
     char *s = util_concat("Exit ", machine_name, _(" emulator"), NULL);
 
     resources_get_int("ConfirmOnExit", &value);
-    if( value )
+    if ( value )
       b = ui_ask_confirmation(s, _("Do you really want to exit?"));
     else
       b = UI_BUTTON_YES;

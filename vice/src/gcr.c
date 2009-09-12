@@ -187,7 +187,7 @@ BYTE *gcr_find_sector_header(unsigned int track, unsigned int sector,
                 wrap_over = 1;
             }
             /* Check for killer tracks.  */
-            if((++sync_count) >= gcr_current_track_size)
+            if ((++sync_count) >= gcr_current_track_size)
                 return NULL;
         }
 

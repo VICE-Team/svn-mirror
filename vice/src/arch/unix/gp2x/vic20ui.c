@@ -76,7 +76,7 @@ void vic20ui_draw_memory_string(unsigned char *screen, int menu_x, int menu_y, i
   char *mem_str = NULL;
 
   if (mem==0) mem_str="none";
-  else if(mem==5) mem_str="all";
+  else if (mem==5) mem_str="all";
   draw_ascii_string(screen, display_width, menu_x, menu_y, mem_str, menu_fg, menu_bg);
 }
 

@@ -87,7 +87,7 @@ int vidmode_init(void)
                            (vm_index + 1) * sizeof(vm_bestvideomode_t));
             vm_bestmodes[vm_index].modeindex = i;
 
-            if(vm_modes[i]->vtotal * vm_modes[i]->htotal) {
+            if (vm_modes[i]->vtotal * vm_modes[i]->htotal) {
                 hz = vm_modes[i]->dotclock * 1000
                      / (vm_modes[i]->vtotal * vm_modes[i]->htotal);
             }
@@ -122,7 +122,7 @@ int vidmode_enable(struct video_canvas_s *canvas, int enable)
 {
     Display *vm_display;
 
-    if(vm_available == 0)
+    if (vm_available == 0)
         return 0;
 
     vm_display = x11ui_get_display_ptr();

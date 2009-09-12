@@ -243,7 +243,7 @@ char *archdep_make_backup_filename(const char *fname)
 
 char *archdep_default_resource_file_name(void)
 {
-    if(archdep_pref_path==NULL) {
+    if (archdep_pref_path==NULL) {
       const char *home;
       
       home = archdep_home_path();
@@ -255,7 +255,7 @@ char *archdep_default_resource_file_name(void)
 
 char *archdep_default_fliplist_file_name(void)
 {
-    if(archdep_pref_path==NULL) {
+    if (archdep_pref_path==NULL) {
       const char *home;
 
       home = archdep_home_path();
@@ -267,7 +267,7 @@ char *archdep_default_fliplist_file_name(void)
 
 char *archdep_default_autostart_disk_image_file_name(void)
 {
-    if(archdep_pref_path==NULL) {
+    if (archdep_pref_path==NULL) {
       const char *home;
 
       home = archdep_home_path();
@@ -283,7 +283,7 @@ char *archdep_default_save_resource_file_name(void)
     const char *home;
     const char *viceuserdir;
 
-    if(archdep_pref_path==NULL) {
+    if (archdep_pref_path==NULL) {
       home = archdep_home_path();
       viceuserdir = util_concat(home, "/.vice", NULL);
     } else {
@@ -296,7 +296,7 @@ char *archdep_default_save_resource_file_name(void)
 
     fname = util_concat(viceuserdir, "/vicerc", NULL);
     
-    if(archdep_pref_path==NULL) {
+    if (archdep_pref_path==NULL) {
       lib_free(viceuserdir);
     }
 

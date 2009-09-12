@@ -215,7 +215,7 @@ static void sdl_vkbd_key_map(void)
         case SDL_JOYAXISMOTION:
         case SDL_JOYBUTTONDOWN:
         case SDL_JOYHATMOTION:
-            if(unmap) {
+            if (unmap) {
                 sdljoy_unset(e);
             } else {
                 sdljoy_set_keypress(e, mr, mc);

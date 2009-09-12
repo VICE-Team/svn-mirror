@@ -31,7 +31,7 @@
 -(id)init
 {
     self = [super initWithWindowNibName:@"ResourceEditor"];
-    if(!self)
+    if (!self)
         return self;
 
     [self registerForResourceUpdate:@selector(updateResources:)];
@@ -43,7 +43,7 @@
     // create resource tree items from plist dictionary
     rootItem = [[ResourceTreeItem alloc] initWithTitle:@"Root"];
     BOOL ok = [rootItem addFromDictionary:treeDict];
-    if(!ok)
+    if (!ok)
         NSLog(@"ERROR building ResourceTree!");
     
     [treeDict release];
@@ -65,7 +65,7 @@
 
 -(void)updateResources:(NSNotification *)notification
 {
-    if([notification object] != self) { 
+    if ([notification object] != self) { 
 //        NSLog(@"Invalidate Resources");
         [rootItem invalidateCache];
     }
@@ -76,16 +76,16 @@
             dataCellForTableColumn:(NSTableColumn *)tableColumn
             item:(id)item
 {
-    if(item==nil)
+    if (item==nil)
         return nil;
  
     NSCell *cell = [tableColumn dataCell];
     
     ResourceTreeItem *ritem = (ResourceTreeItem *)item;
     NSString *colId = (NSString *)[tableColumn identifier];
-    if([colId isEqualToString:@"Value"]) {
+    if ([colId isEqualToString:@"Value"]) {
         return [ritem dataCell:cell];
-    } else if([colId isEqualToString:@"Extra"]) {
+    } else if ([colId isEqualToString:@"Extra"]) {
         return [ritem extraCell:cell];
     } else {
         return cell;
@@ -104,7 +104,7 @@
 - (int)outlineView:(NSOutlineView *)outlineView
        numberOfChildrenOfItem:(id)item
 {
-    if(item==nil)
+    if (item==nil)
         return [rootItem numChildren];
     else
         return [(ResourceTreeItem *)item numChildren];
@@ -113,7 +113,7 @@
 - (BOOL)outlineView:(NSOutlineView *)outlineView
         isItemExpandable:(id)item
 {
-    if(item==nil)
+    if (item==nil)
         return TRUE;
     ResourceTreeItem *ritem = (ResourceTreeItem *)item;
     return ![ritem isLeaf];
@@ -124,12 +124,12 @@
       ofItem:(id)item 
 {
     ResourceTreeItem *ritem;
-    if(item==nil)
+    if (item==nil)
         ritem = rootItem;
     else
         ritem = (ResourceTreeItem *)item;
     int max = [ritem numChildren];
-    if(index >= max)
+    if (index >= max)
         return nil;
     return [ritem childAtIndex:index];
 }
@@ -138,14 +138,14 @@
       objectValueForTableColumn:(NSTableColumn *)tableColumn
       byItem:(id)item
 {
-    if(item==nil)
+    if (item==nil)
         return nil;
 
     ResourceTreeItem *ritem = (ResourceTreeItem *)item;
     NSString *colId = (NSString *)[tableColumn identifier];
-    if([colId isEqualToString:@"Resource"]) {
+    if ([colId isEqualToString:@"Resource"]) {
         return [ritem title];
-    } else if([colId isEqualToString:@"Value"]) {
+    } else if ([colId isEqualToString:@"Value"]) {
         return [ritem getValue:self];
     } else {
         return @"";
@@ -157,13 +157,13 @@
         forTableColumn:(NSTableColumn *)tableColumn
         byItem:(id)item
 {
-    if(item==nil)
+    if (item==nil)
         return;
     ResourceTreeItem *ritem = (ResourceTreeItem *)item;
     NSString *colId = (NSString *)[tableColumn identifier];
-    if([colId isEqualToString:@"Value"]) {
+    if ([colId isEqualToString:@"Value"]) {
         [ritem setValue:self toObject:object];
-    } else if([colId isEqualToString:@"Extra"]) {
+    } else if ([colId isEqualToString:@"Extra"]) {
         [ritem setValueExtra:self];
     }
 }

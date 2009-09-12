@@ -331,7 +331,7 @@ static void iecbus_cpu_write_conf3(BYTE data, CLOCK clock)
         iec_old_atn = iecbus.cpu_bus & 0x10;
         
         for (dnr = 0; dnr < DRIVE_NUM; dnr++) 
-          if( iecbus_device[8+dnr] == IECBUS_DEVICE_TRUEDRIVE )
+          if ( iecbus_device[8+dnr] == IECBUS_DEVICE_TRUEDRIVE )
             {
               if (drive_context[dnr]->drive->type != DRIVE_TYPE_1581)
                 viacore_signal(drive_context[dnr]->via1d1541, VIA_SIG_CA1,
@@ -342,7 +342,7 @@ static void iecbus_cpu_write_conf3(BYTE data, CLOCK clock)
       }
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) 
-      if( iecbus_device[8+dnr] == IECBUS_DEVICE_TRUEDRIVE )
+      if ( iecbus_device[8+dnr] == IECBUS_DEVICE_TRUEDRIVE )
         {
           unsigned int unit;
           unit = dnr + 8;
@@ -484,10 +484,10 @@ BYTE iecbus_device_read(void)
 
 int iecbus_device_write(unsigned int unit, BYTE data)
 {
-  if( unit<IECBUS_NUM )
+  if ( unit<IECBUS_NUM )
     {
       iecbus.drv_bus[unit] = data;
-      if( iecbus_update_ports ) {
+      if ( iecbus_update_ports ) {
         (*iecbus_update_ports)();
         return 1;
       }

@@ -251,7 +251,7 @@ static int coreaudio_init(const char *param, int *speed,
     size = sizeof(device);
     err = AudioHardwareGetProperty(kAudioHardwarePropertyDefaultOutputDevice,
                                    &size, (void*)&device);
-    if(err != kAudioHardwareNoError)
+    if (err != kAudioHardwareNoError)
     {
         log_error(LOG_DEFAULT, "sound (coreaudio_init): Failed to get default output device");
         return -1;
@@ -261,7 +261,7 @@ static int coreaudio_init(const char *param, int *speed,
     err = AudioDeviceGetProperty(device, 0, false,
                                  kAudioDevicePropertyStreamFormat,
                                  &size, (void*)&out);
-    if(err != kAudioHardwareNoError)
+    if (err != kAudioHardwareNoError)
     {
         log_error(LOG_DEFAULT, "sound (coreaudio_init): stream format not support");
         return -1;
@@ -290,7 +290,7 @@ static int coreaudio_init(const char *param, int *speed,
     in.mReserved = 0;
 
     err = AudioConverterNew(&in, &out, &converter);
-    if(err != noErr)
+    if (err != noErr)
     {
         log_error(LOG_DEFAULT,
                   "sound (coreaudio_init): could not create AudioConverter: err=%d", (int)err);
@@ -356,7 +356,7 @@ static int coreaudio_write(SWORD *pbuf, size_t nr)
 
     for (i = 0; i < count; i++)
     {
-        if(fragments_in_queue == fragment_count)
+        if (fragments_in_queue == fragment_count)
         {
             log_warning(LOG_DEFAULT, "sound (coreaudio): buffer overrun");
             return -1;

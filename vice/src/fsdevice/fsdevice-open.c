@@ -240,7 +240,7 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
         tape_seek_start(tape);
         tape_seek_to_file(tape, 0);
         r = tape_get_current_file_record(tape);
-        if( (r->type==1) || (r->type==3) )
+        if ( (r->type==1) || (r->type==3) )
           {
             startaddr[0] = r->start_addr & 255;
             startaddr[1] = r->start_addr >> 8;

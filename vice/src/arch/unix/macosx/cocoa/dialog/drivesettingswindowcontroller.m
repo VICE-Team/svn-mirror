@@ -80,7 +80,7 @@
     int driveEnabled = trueEmu && !isIecDrive;
         
     // drive is enabled
-    if(driveEnabled) {
+    if (driveEnabled) {
         // type selector is enabled
         [driveType setEnabled:true];
 
@@ -158,7 +158,7 @@
 
 -(int)mapToDriveType:(int)driveId
 {
-    if((driveId>=0)&&(driveId<numDriveTypes))
+    if ((driveId>=0)&&(driveId<numDriveTypes))
         return driveTypeMap[driveId];
     return DRIVE_TYPE_NONE;
 }
@@ -167,7 +167,7 @@
 {
     int i;
     for(i=0;i<numDriveTypes;i++) {
-        if(driveTypeId == driveTypeMap[i])
+        if (driveTypeId == driveTypeMap[i])
             return i;
     }
     return numDriveTypes;

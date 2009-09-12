@@ -483,7 +483,7 @@ static void ffmpegdrv_close_video(void)
     tmp_picture = NULL;
 
 #ifdef HAVE_FFMPEG_SWSCALE
-    if(sws_ctx != NULL) {
+    if (sws_ctx != NULL) {
         (*ffmpeglib.p_sws_freeContext)(sws_ctx);
     }
 #endif
@@ -532,13 +532,13 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
 
 #ifdef HAVE_FFMPEG_SWSCALE
     /* setup scaler */
-    if(c->pix_fmt != PIX_FMT_RGB24) {
+    if (c->pix_fmt != PIX_FMT_RGB24) {
         sws_ctx = (*ffmpeglib.p_sws_getContext)
             (video_width, video_height, PIX_FMT_RGB24, 
              video_width, video_height, c->pix_fmt, 
              SWS_BICUBIC, 
              NULL, NULL, NULL);
-        if(sws_ctx == NULL) {
+        if (sws_ctx == NULL) {
             log_debug("ffmpegdrv: Can't create Scaler!\n");
         }
     }
@@ -740,7 +740,7 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
     if (c->pix_fmt != PIX_FMT_RGB24) {
         ffmpegdrv_fill_rgb_image(screenshot, tmp_picture);
 #ifdef HAVE_FFMPEG_SWSCALE
-        if(sws_ctx != NULL) {
+        if (sws_ctx != NULL) {
             (*ffmpeglib.p_sws_scale)(sws_ctx, 
                 tmp_picture->data, tmp_picture->linesize, 0, c->height,
                 picture->data, picture->linesize);

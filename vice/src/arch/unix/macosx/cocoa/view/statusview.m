@@ -36,7 +36,7 @@
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
-    if(self==nil)
+    if (self==nil)
         return nil;
 
     [self setContentViewMargins:NSMakeSize(0, 0)];
@@ -111,7 +111,7 @@
     BOOL isWarp = [[dict objectForKey:@"warp_enabled"] boolValue];
 
     [speedView setStringValue:s];
-    if(isWarp) {
+    if (isWarp) {
         [speedView setTextColor: [NSColor redColor]];
     } else {
         [speedView setTextColor: [NSColor blackColor]];

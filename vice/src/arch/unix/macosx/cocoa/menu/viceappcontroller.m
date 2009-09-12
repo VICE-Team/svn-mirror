@@ -90,8 +90,8 @@
 - (IBAction)smartAttachImage:(id)sender
 {
     NSString *path = [self pickOpenFileWithTitle:@"Smart Attach Image" types:nil];
-    if(path!=nil) {
-        if(![[VICEApplication theMachineController] smartAttachImage:path])
+    if (path!=nil) {
+        if (![[VICEApplication theMachineController] smartAttachImage:path])
             [VICEApplication runErrorMessage:@"Error attaching image!"];
     }
 }
@@ -107,8 +107,8 @@
     NSArray *types = [NSArray arrayWithObjects:
       @"d64", @"d67", @"d71", @"d80", @"d81", @"d82", @"g64", @"x64", nil];
     NSString *path = [self pickOpenFileWithTitle:@"Attach Disk Image" types:types];
-    if(path!=nil) {
-        if(![[VICEApplication theMachineController] attachDiskImage:unit 
+    if (path!=nil) {
+        if (![[VICEApplication theMachineController] attachDiskImage:unit 
                                                                path:path]) {
             [VICEApplication runErrorMessage:@"Error attaching image!"];
         }
@@ -163,14 +163,14 @@
         int type = [type_button indexOfSelectedItem];
         NSString * path = [[panel filename] stringByAppendingPathExtension:[extensions objectAtIndex:type]];
 
-        if(![[VICEApplication theMachineController] 
+        if (![[VICEApplication theMachineController] 
                     createDiskImage:type
                                path:path
                                name:[name_entry stringValue]]) {
             [VICEApplication runErrorMessage:@"Error creating image!"];
         } else {
             int unit = [sender tag];
-            if(![[VICEApplication theMachineController] attachDiskImage:unit 
+            if (![[VICEApplication theMachineController] attachDiskImage:unit 
                                                                    path:path]) {
                 [VICEApplication runErrorMessage:@"Error attaching image!"];
             }
@@ -216,8 +216,8 @@
     int unit = [sender tag];
     NSArray *types = [NSArray arrayWithObject:@"vfl"];
     NSString *path = [self pickOpenFileWithTitle:@"Loading Fliplist" types:types];
-    if(path!=nil) {
-        if(![[VICEApplication theMachineController] loadFliplist:unit path:path autoAttach:TRUE])
+    if (path!=nil) {
+        if (![[VICEApplication theMachineController] loadFliplist:unit path:path autoAttach:TRUE])
             [VICEApplication runErrorMessage:@"Error loading fliplist!"];
     }
 }
@@ -227,8 +227,8 @@
     int unit = [sender tag];
     NSArray *types = [NSArray arrayWithObject:@"vfl"];
     NSString *path = [self pickSaveFileWithTitle:@"Saving Fliplist" types:types];
-    if(path!=nil) {
-        if(![[VICEApplication theMachineController] saveFliplist:unit path:path])
+    if (path!=nil) {
+        if (![[VICEApplication theMachineController] saveFliplist:unit path:path])
             [VICEApplication runErrorMessage:@"Error saving fliplist!"];
     }
 }
@@ -239,7 +239,7 @@
 {
     NSArray *types = [NSArray arrayWithObjects:@"t64",@"tap",nil];
     NSString *path = [self pickOpenFileWithTitle:@"Open Tape Image" types:types];
-    if(path!=nil) {
+    if (path!=nil) {
         [[VICEApplication theMachineController] attachTapeImage:path];
     }
 }
@@ -255,7 +255,7 @@
 {
     NSArray *types = [NSArray arrayWithObject:@"vsf"];
     NSString *path = [self pickOpenFileWithTitle:@"Load Snapshot" types:types];
-    if(path!=nil) {
+    if (path!=nil) {
         [[VICEApplication theMachineController] loadSnapshot:path];
     }
 }
@@ -290,7 +290,7 @@
         BOOL saveRoms  = ([saveRomsCheck state] == NSOnState);
         BOOL saveDisks = ([saveDisksCheck state] == NSOnState);
         NSString * path = [panel filename];
-        if(path!=nil) {
+        if (path!=nil) {
             [[VICEApplication theMachineController] saveSnapshot:path withROMS:saveRoms andDisks:saveDisks];
         }
     }
@@ -309,7 +309,7 @@
 
 - (IBAction)showRecordHistory:(id)sender
 {
-    if(!recordHistoryController) {
+    if (!recordHistoryController) {
         recordHistoryController = [[RecordHistoryWindowController alloc] init];
     }
     [recordHistoryController showWindow:self];
@@ -317,7 +317,7 @@
 
 - (IBAction)showRecordMedia:(id)sender
 {
-    if(!recordMediaController) {
+    if (!recordMediaController) {
         recordMediaController = [[RecordMediaWindowController alloc] init];
     }
     [recordMediaController showWindow:self];
@@ -325,7 +325,7 @@
 
 - (IBAction)showNetplay:(id)sender
 {
-    if(!netplayController) {
+    if (!netplayController) {
         netplayController = [[NetplayControlWindowController alloc] init];
     }
     [netplayController showWindow:self];
@@ -410,7 +410,7 @@
 
 - (IBAction)showDriveSettings:(id)sender
 {
-    if(!driveSettingsController) {
+    if (!driveSettingsController) {
         driveSettingsController = [[DriveSettingsWindowController alloc] init];
     }
     [driveSettingsController showWindow:self];
@@ -418,7 +418,7 @@
 
 - (IBAction)showIECDriveSettings:(id)sender
 {
-    if(!iecDriveSettingsController) {
+    if (!iecDriveSettingsController) {
         iecDriveSettingsController = [[IECDriveSettingsWindowController alloc] init];
     }
     [iecDriveSettingsController showWindow:self];
@@ -426,7 +426,7 @@
 
 - (IBAction)showPrinterSettings:(id)sender
 {
-    if(!printerSettingsController) {
+    if (!printerSettingsController) {
         printerSettingsController = [[PrinterSettingsWindowController alloc] init];
     }
     [printerSettingsController showWindow:self];
@@ -434,7 +434,7 @@
 
 - (IBAction)showKeyboardSettings:(id)sender
 {
-    if(!keyboardSettingsController) {
+    if (!keyboardSettingsController) {
         keyboardSettingsController = [[KeyboardSettingsWindowController alloc] init];
     }
     [keyboardSettingsController showWindow:self];
@@ -443,7 +443,7 @@
 - (IBAction)showJoystickSettings:(id)sender
 {
 #ifdef HAS_JOYSTICK
-    if(!joystickSettingsController) {
+    if (!joystickSettingsController) {
         joystickSettingsController = [[JoystickSettingsWindowController alloc] init];
     }
     [joystickSettingsController showWindow:self];
@@ -452,7 +452,7 @@
 
 - (IBAction)showSoundSettings:(id)sender
 {
-    if(!soundSettingsController) {
+    if (!soundSettingsController) {
         soundSettingsController = [[SoundSettingsWindowController alloc] init];
     }
     [soundSettingsController showWindow:self];
@@ -460,7 +460,7 @@
 
 - (IBAction)showVideoSettings:(id)sender
 {
-    if(!videoSettingsController) {
+    if (!videoSettingsController) {
         videoSettingsController = [[VideoSettingsWindowController alloc] init];
     }
     [videoSettingsController showWindow:self];
@@ -470,7 +470,7 @@
 
 - (IBAction)showResourceEditor:(id)sender
 {
-    if(!resourceEditorController) {
+    if (!resourceEditorController) {
         resourceEditorController = [[ResourceEditorController alloc] init];
     }
     [resourceEditorController showWindow:self];
@@ -478,14 +478,14 @@
 
 - (IBAction)saveResources:(id)sender
 {
-    if(![[VICEApplication theMachineController] saveResources:nil]) {
+    if (![[VICEApplication theMachineController] saveResources:nil]) {
         [VICEApplication runErrorMessage:@"Error saving Resources!"];
     }
 }
 
 - (IBAction)loadResources:(id)sender
 {
-    if(![[VICEApplication theMachineController] loadResources:nil]) {
+    if (![[VICEApplication theMachineController] loadResources:nil]) {
         [VICEApplication runErrorMessage:@"Error loading Resources!"];
     };
 }
@@ -518,7 +518,7 @@
     };
     const char *info = tag2text[[sender tag]];
 
-    if(!infoController) {
+    if (!infoController) {
         infoController = [[VICEInformationWindowController alloc] init];
     }
     [infoController showWindow:self];
@@ -547,7 +547,7 @@
         NSMenuItem *item = [menu itemAtIndex:i];
         BOOL check = ([item tag] == tagValue);
         [item setState:check ? NSOnState : NSOffState];
-        if(check)
+        if (check)
             foundTag = YES;
     }
     return foundTag;
@@ -606,7 +606,7 @@
     [panel setTitle:title];    
     
     int result = [panel runModalForDirectory:nil file:nil types:types];
-    if(result==NSOKButton) {
+    if (result==NSOKButton) {
         return [panel filename];
     }    
     return nil;
@@ -619,7 +619,7 @@
     [panel setAllowedFileTypes:types];
     
     int result = [panel runModalForDirectory:nil file:nil];
-    if(result==NSOKButton) {
+    if (result==NSOKButton) {
         return [panel filename];
     }    
     return nil;
@@ -634,7 +634,7 @@
     [panel setTitle:title];    
     
     int result = [panel runModalForDirectory:nil file:nil types:nil];
-    if(result==NSOKButton) {
+    if (result==NSOKButton) {
         return [panel filename];
     }    
     return nil;
@@ -651,7 +651,7 @@
 {
     NSNumber *number = [[VICEApplication theMachineController]
         getIntResource:name];
-    if(number==nil)
+    if (number==nil)
         return 0;
     return [number intValue];
 }

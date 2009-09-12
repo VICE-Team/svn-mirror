@@ -50,7 +50,7 @@ static void contrib_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 
 static void response_cb(GtkWidget *w, gint id, gpointer data)
 {
-    if(id==GTK_RESPONSE_CANCEL)
+    if (id==GTK_RESPONSE_CANCEL)
 	gtk_widget_hide(GTK_WIDGET(data));
 }
 

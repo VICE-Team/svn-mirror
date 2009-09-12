@@ -96,7 +96,7 @@ png_create_read_struct_2(png_const_charp user_png_ver, png_voidp error_ptr,
    i=0;
    do
    {
-     if(user_png_ver[i] != png_libpng_ver[i])
+     if (user_png_ver[i] != png_libpng_ver[i])
         png_ptr->flags |= PNG_FLAG_LIBRARY_MISMATCH;
    } while (png_libpng_ver[i++]);
 
@@ -188,7 +188,7 @@ png_read_init_2(png_structp png_ptr, png_const_charp user_png_ver,
 {
    /* We only come here via pre-1.0.12-compiled applications */
 #if !defined(PNG_NO_STDIO) && !defined(_WIN32_WCE)
-   if(png_sizeof(png_struct) > png_struct_size || 
+   if (png_sizeof(png_struct) > png_struct_size || 
       png_sizeof(png_info) > png_info_size)
    {
       char msg[80];
@@ -204,7 +204,7 @@ png_read_init_2(png_structp png_ptr, png_const_charp user_png_ver,
       png_warning(png_ptr, msg);
    }
 #endif
-   if(png_sizeof(png_struct) > png_struct_size)
+   if (png_sizeof(png_struct) > png_struct_size)
      {
        png_ptr->error_fn=NULL;
 #ifdef PNG_ERROR_NUMBERS_SUPPORTED
@@ -213,7 +213,7 @@ png_read_init_2(png_structp png_ptr, png_const_charp user_png_ver,
        png_error(png_ptr,
        "The png struct allocated by the application for reading is too small.");
      }
-   if(png_sizeof(png_info) > png_info_size)
+   if (png_sizeof(png_info) > png_info_size)
      {
        png_ptr->error_fn=NULL;
 #ifdef PNG_ERROR_NUMBERS_SUPPORTED
@@ -239,7 +239,7 @@ png_read_init_3(png_structpp ptr_ptr, png_const_charp user_png_ver,
 
    do
    {
-     if(user_png_ver[i] != png_libpng_ver[i])
+     if (user_png_ver[i] != png_libpng_ver[i])
      {
 #ifdef PNG_LEGACY_SUPPORTED
        png_ptr->flags |= PNG_FLAG_LIBRARY_MISMATCH;
@@ -259,7 +259,7 @@ png_read_init_3(png_structpp ptr_ptr, png_const_charp user_png_ver,
    png_memcpy(tmp_jmp, png_ptr->jmpbuf, png_sizeof (jmp_buf));
 #endif
 
-   if(png_sizeof(png_struct) > png_struct_size)
+   if (png_sizeof(png_struct) > png_struct_size)
      {
        png_destroy_struct(png_ptr);
        *ptr_ptr = (png_structp)png_create_struct(PNG_STRUCT_PNG);
@@ -729,7 +729,7 @@ png_read_row(png_structp png_ptr, png_bytep row, png_bytep dsp_row)
    png_ptr->row_info.rowbytes = PNG_ROWBYTES(png_ptr->row_info.pixel_depth,
        png_ptr->row_info.width);
 
-   if(png_ptr->row_buf[0])
+   if (png_ptr->row_buf[0])
    png_read_filter_row(png_ptr, &(png_ptr->row_info),
       png_ptr->row_buf + 1, png_ptr->prev_row + 1,
       (int)(png_ptr->row_buf[0]));
@@ -738,7 +738,7 @@ png_read_row(png_structp png_ptr, png_bytep row, png_bytep dsp_row)
       png_ptr->rowbytes + 1);
    
 #if defined(PNG_MNG_FEATURES_SUPPORTED)
-   if((png_ptr->mng_features_permitted & PNG_FLAG_MNG_FILTER_64) &&
+   if ((png_ptr->mng_features_permitted & PNG_FLAG_MNG_FILTER_64) &&
       (png_ptr->filter_type == PNG_INTRAPIXEL_DIFFERENCING))
    {
       /* Intrapixel differencing */
@@ -828,14 +828,14 @@ png_read_rows(png_structp png_ptr, png_bytepp row,
 
          png_read_row(png_ptr, rptr, dptr);
       }
-   else if(rp != NULL)
+   else if (rp != NULL)
       for (i = 0; i < num_rows; i++)
       {
          png_bytep rptr = *rp;
          png_read_row(png_ptr, rptr, png_bytep_NULL);
          rp++;
       }
-   else if(dp != NULL)
+   else if (dp != NULL)
       for (i = 0; i < num_rows; i++)
       {
          png_bytep dptr = *dp;
@@ -1428,7 +1428,7 @@ png_read_png(png_structp png_ptr, png_infop info_ptr,
 #ifdef PNG_FREE_ME_SUPPORTED
    png_free_data(png_ptr, info_ptr, PNG_FREE_ROWS, 0);
 #endif
-   if(info_ptr->row_pointers == NULL)
+   if (info_ptr->row_pointers == NULL)
    {
       info_ptr->row_pointers = (png_bytepp)png_malloc(png_ptr,
          info_ptr->height * png_sizeof(png_bytep));
@@ -1448,7 +1448,7 @@ png_read_png(png_structp png_ptr, png_infop info_ptr,
    /* read rest of file, and get additional chunks in info_ptr - REQUIRED */
    png_read_end(png_ptr, info_ptr);
 
-   if(transforms == 0 || params == NULL)
+   if (transforms == 0 || params == NULL)
       /* quiet compiler warnings */ return;
 
 }

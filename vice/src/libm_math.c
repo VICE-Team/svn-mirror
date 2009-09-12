@@ -186,7 +186,7 @@ double log(double arg)
   double x,z, zsq, temp;
   int exp;
 
-  if(arg <= 0.)
+  if (arg <= 0.)
   {
     errno = EDOM;
     return (-HUGE);
@@ -246,7 +246,7 @@ double sqrt(double arg)
   int exp;
   int i;
 
-  if(arg <= 0.)
+  if (arg <= 0.)
   {
     if (arg < 0.)
     {

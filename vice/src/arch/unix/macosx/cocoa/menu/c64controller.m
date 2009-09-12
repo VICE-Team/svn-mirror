@@ -98,7 +98,7 @@
 
     if ([panel runModalForDirectory:nil file:nil] == NSOKButton) {
         int type = cartTypeIds[[type_button indexOfSelectedItem]];
-        if([(C64MachineController *)[VICEApplication theMachineController] 
+        if ([(C64MachineController *)[VICEApplication theMachineController] 
                                       attachCartridge:type 
                                                 image:[panel filename]]) {
             [(C64MachineController *)[VICEApplication theMachineController] 
@@ -158,10 +158,10 @@
 
 -  (BOOL)validateMenuItem:(NSMenuItem *)item
 {
-    if(item==cartridgeFreezeMenuItem) {
+    if (item==cartridgeFreezeMenuItem) {
         return [self getIntResource:@"CartridgeType"] != CARTRIDGE_NONE;
     }
-    else if([item menu]==expertCartridgeModeMenu) {
+    else if ([item menu]==expertCartridgeModeMenu) {
         return [self getIntResource:@"CartridgeType"] == CARTRIDGE_EXPERT;
     }
     return YES;

@@ -57,7 +57,7 @@ int console_close(console_t *log)
 {
     // close console window
     ConsoleWindow *window = (ConsoleWindow *)log->private;
-    if(window!=nil)
+    if (window!=nil)
         [window release];
 
     // close VICE console structure
@@ -74,7 +74,7 @@ int console_out(console_t *log, const char *format, ...)
     tmp = lib_mvsprintf(format, ap);
     va_end(ap);
 
-    if(log && (log->private!=nil) && tmp)
+    if (log && (log->private!=nil) && tmp)
         [(ConsoleWindow*)log->private appendText:[NSString stringWithCString:tmp encoding:NSUTF8StringEncoding]];
 
     lib_free(tmp);

@@ -313,7 +313,7 @@ static void dump_shortcuts(void)
         else
             fprintf(fp, "0x%02X        %-34s", accel.key, idmlist[j].str);
 
-        if(menuitemmodifier[idmlist[j].cmd] != NULL ) {
+        if (menuitemmodifier[idmlist[j].cmd] != NULL ) {
             p = strrchr(menuitemmodifier[idmlist[j].cmd], '\t');
             if (strrchr(p, '+'))
                 p = strrchr(p, '+');
@@ -380,7 +380,7 @@ HACCEL uikeyboard_create_accelerator_table(void)
 
             buffer[strlen(buffer) - 1] = 0; /* remove newline */
 	        /* remove comments */
-	        if((p = strchr(buffer, '#')))
+	        if ((p = strchr(buffer, '#')))
 	            *p=0;
 
             metastr = strtok(buffer, " \t:");

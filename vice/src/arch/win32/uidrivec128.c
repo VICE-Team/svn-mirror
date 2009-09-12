@@ -212,7 +212,7 @@ static void init_dialog(HWND hwnd, int num)
         break;
     }
 
-    if( !enabled )
+    if ( !enabled )
       n = IDC_SELECT_DRIVE_TYPE_NONE;
 
     CheckRadioButton(hwnd, IDC_SELECT_DRIVE_TYPE_1541,

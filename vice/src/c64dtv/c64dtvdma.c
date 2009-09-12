@@ -77,7 +77,7 @@ static BYTE dest_memtype = 0x00;
 
 void c64dtvdma_init(void)
 {
-    if(c64dtvdma_log == LOG_ERR)
+    if (c64dtvdma_log == LOG_ERR)
         c64dtvdma_log = log_open("C64DTVDMA");
 
     /* init DMA IRQ */
@@ -92,7 +92,7 @@ void c64dtvdma_reset(void)
 {
     int i;
 
-    if(dma_log_enabled) log_message(c64dtvdma_log, "reset");
+    if (dma_log_enabled) log_message(c64dtvdma_log, "reset");
 
     /* TODO move register file initialization somewhere else? */
     for (i=0;i<0x20;++i) {
@@ -214,7 +214,7 @@ static inline void update_counters(void)
     int dest_direction = (GET_REG8(0x1f)&0x08) ? +1 : -1;
 
     /* update offsets */
-    if(source_modulo_enable && (source_line_off >= source_line_length)) {
+    if (source_modulo_enable && (source_line_off >= source_line_length)) {
         source_line_off = 0;
         dma_source_off += source_modulo * source_direction;
     } else {
@@ -222,7 +222,7 @@ static inline void update_counters(void)
         dma_source_off += source_step * source_direction;
     }
 
-    if(dest_modulo_enable && (dest_line_off >= dest_line_length)) {
+    if (dest_modulo_enable && (dest_line_off >= dest_line_length)) {
         dest_line_off = 0;
         dma_dest_off += dest_modulo * dest_direction;
     } else {
@@ -280,15 +280,15 @@ static inline void perform_dma_cycle(void)
 
 void c64dtvdma_trigger_dma(void)
 {
-    if(!dma_active) {
+    if (!dma_active) {
         int source_continue = GET_REG8(0x1d)&0x02;
         int dest_continue = GET_REG8(0x1d)&0x08;
 
-        if(!source_continue) {
+        if (!source_continue) {
             dma_source_off = GET_REG24(0x00)&0x3fffff;
             source_memtype = GET_REG8(0x02)&0xc0;
         }
-        if(!dest_continue) {
+        if (!dest_continue) {
             dma_dest_off = GET_REG24(0x03)&0x3fffff;
             dest_memtype = GET_REG8(0x05)&0xc0;
         }
@@ -299,7 +299,7 @@ void c64dtvdma_trigger_dma(void)
         if (dma_count==0)
             dma_count=0x10000;
 
-        if(dma_log_enabled && (source_continue || dest_continue)) log_message(c64dtvdma_log, "Source continue %s, dest continue %s", source_continue ? "on" : "off", dest_continue ? "on" : "off");
+        if (dma_log_enabled && (source_continue || dest_continue)) log_message(c64dtvdma_log, "Source continue %s, dest continue %s", source_continue ? "on" : "off", dest_continue ? "on" : "off");
 
         /* initialize state variables */
         source_line_off = 0;
@@ -318,7 +318,7 @@ void c64dtvdma_trigger_dma(void)
 
 static inline void c64dtv_dma_done(void)
 {
-    if(dma_irq) {
+    if (dma_irq) {
         maincpu_set_irq(c64dtv_dma_int_num, 1);
         dma_busy = 2;
     }
@@ -328,7 +328,7 @@ static inline void c64dtv_dma_done(void)
 
 BYTE REGPARM1 c64dtv_dma_read(WORD addr)
 {
-    if(addr==0x1f) {
+    if (addr==0x1f) {
         return dma_busy;
     /* the default return value is 0x00 too but I have seen some strangeness
        here.  I've seen something that looks like DMAed data. - tlr */
@@ -345,8 +345,8 @@ void REGPARM2 c64dtv_dma_store(WORD addr, BYTE value)
     dma_on_irq = GET_REG8(0x1f)&0x70;
   
     /* Clear DMA IRQ */
-    if((GET_REG8(0x1d)&0x01) && (dma_busy==2)){
-        if(dma_log_enabled) log_message(c64dtvdma_log,"Clear IRQ");
+    if ((GET_REG8(0x1d)&0x01) && (dma_busy==2)){
+        if (dma_log_enabled) log_message(c64dtvdma_log,"Clear IRQ");
         dma_busy &= 0xfd;
         c64dtvmem_dma[0x1f] = 0;
         maincpu_set_irq(c64dtv_dma_int_num, 0);
@@ -355,14 +355,14 @@ void REGPARM2 c64dtv_dma_store(WORD addr, BYTE value)
         c64dtvmem_dma[0x1d] &= 0xfe;
     }
 
-    if(dma_on_irq && (dma_busy==0)) {
+    if (dma_on_irq && (dma_busy==0)) {
         dma_busy = 1;
-        if(dma_log_enabled) log_message(c64dtvdma_log, "Scheduled DMA (%02x).", dma_on_irq);
+        if (dma_log_enabled) log_message(c64dtvdma_log, "Scheduled DMA (%02x).", dma_on_irq);
         return;
     }
 
     /* Force DMA start */
-    if(GET_REG8(0x1f)&0x01) {
+    if (GET_REG8(0x1f)&0x01) {
         c64dtvdma_trigger_dma();
         /* reset force start strobe bit */
         c64dtvmem_dma[0x1f] &= 0xfe;
@@ -378,9 +378,9 @@ void c64dtvdma_perform_dma(void)
     perform_dma_cycle();
     maincpu_rmw_flag = dma_maincpu_rmw;
 
-    if(dma_log_enabled && (dma_state == DMA_WRITE)) log_message(c64dtvdma_log, "%s from %x (%s) to %x (%s), %d to go", GET_REG8(0x1f)&0x02 ? "Swapped" : "Copied", dma_source_off, source_memtype == 0 ? "Flash" : "RAM", dma_dest_off, dest_memtype == 0 ? "Flash" : "RAM", dma_count - 1);
+    if (dma_log_enabled && (dma_state == DMA_WRITE)) log_message(c64dtvdma_log, "%s from %x (%s) to %x (%s), %d to go", GET_REG8(0x1f)&0x02 ? "Swapped" : "Copied", dma_source_off, source_memtype == 0 ? "Flash" : "RAM", dma_dest_off, dest_memtype == 0 ? "Flash" : "RAM", dma_count - 1);
 
-    if(dma_state == DMA_IDLE) {
+    if (dma_state == DMA_IDLE) {
         c64dtv_dma_done();
     }
 }

@@ -165,7 +165,7 @@ void gp2x_video_flip(void)
 {
   unsigned long address=gp2x_physvram[gp2x_physvram[7]];
 
-  if(gp2x_physvram[7]==0) gp2x_physvram[7]=1;
+  if (gp2x_physvram[7]==0) gp2x_physvram[7]=1;
   else gp2x_physvram[7]=0;
   
   gp2x_screen15=gp2x_logvram15[gp2x_physvram[7]]; 
@@ -195,10 +195,10 @@ void gp2x_blitter_rect15(gp2x_rect *r)
 {
  int x, y; unsigned short *data=r->data15, *offset=&gp2x_screen15[r->x+r->y*320];
 
- y=r->h; if(r->solid)
+ y=r->h; if (r->solid)
          while(y--) { x=r->w; while(x--) *offset++=*data++; offset+=320-x; }
          else
-         while(y--) { x=r->w; while(x--) { if(*data) *offset=*data; offset++, data++; }
+         while(y--) { x=r->w; while(x--) { if (*data) *offset=*data; offset++, data++; }
                       offset+=320-x; }
 }
 
@@ -206,10 +206,10 @@ void gp2x_blitter_rect8(gp2x_rect *r)
 {
  int x, y; unsigned char *data=r->data8,   *offset=&gp2x_screen8[r->x+r->y*320]; 
 
- y=r->h; if(r->solid)
+ y=r->h; if (r->solid)
          while(y--) { x=r->w; while(x--) *offset++=*data++; offset+=320-x; }
          else
-         while(y--) { x=r->w; while(x--) { if(*data) *offset=*data; offset++, data++; }
+         while(y--) { x=r->w; while(x--) { if (*data) *offset=*data; offset++, data++; }
                       offset+=320-x; }
 }
  
@@ -233,7 +233,7 @@ static void gp2x_joystick_init (void)
  char device[32]; int i=-1; gp2x_usbjoys = 0;
 
  while(++i<4) { sprintf (device, "/dev/input/js%d", i); 
-                if((gp2x_usbjoy[i] = open(device, O_RDONLY|O_NONBLOCK, 0)) >0) gp2x_usbjoys++; }
+                if ((gp2x_usbjoy[i] = open(device, O_RDONLY|O_NONBLOCK, 0)) >0) gp2x_usbjoys++; }
 #if 0
 	printf("Joystick(s) found: %d\n",gp2x_usbjoys+1);
  for (i=0;i<gp2x_usbjoys+1;i++) {
@@ -250,7 +250,7 @@ static void gp2x_joystick_init (void)
 
 static void gp2x_joystick_deinit(void)
 {
- int i; for(gp2x_usbjoys=i=0;i<4;i++) if(gp2x_usbjoy[i] > 0) close(gp2x_usbjoy[i]);
+ int i; for(gp2x_usbjoys=i=0;i<4;i++) if (gp2x_usbjoy[i] > 0) close(gp2x_usbjoy[i]);
 }
 
 
@@ -291,9 +291,9 @@ void gp2x_joystick_scan(void)
    Example:
    > unsigned long pad=gp2x_joystick_read(0);
    >
-   > if(pad==GP2X_A) ...               //check that only A is pressed.
-   > if(pad&GP2X_A)  ...               //check that A is pressed, despite the other buttons.
-   > if(pad&GP2X_R) if(pad&GP2X_L) ... //check that both L and R are pressed, despite the other buttons.
+   > if (pad==GP2X_A) ...               //check that only A is pressed.
+   > if (pad&GP2X_A)  ...               //check that A is pressed, despite the other buttons.
+   > if (pad&GP2X_R) if (pad&GP2X_L) ... //check that both L and R are pressed, despite the other buttons.
 
    Credits:
    Puck2099 and GnoStiC (original code)
@@ -303,18 +303,18 @@ unsigned long gp2x_joystick_read(int joystick)
 {
  unsigned long value;
  
- if(!joystick)
+ if (!joystick)
  {
   value=(gp2x_memregs[0x1198>>1] & 0x00FF);
 
-  if(value==0xFD) value=0xFA;
-  if(value==0xF7) value=0xEB;
-  if(value==0xDF) value=0xAF;
-  if(value==0x7F) value=0xBE;
+  if (value==0xFD) value=0xFA;
+  if (value==0xF7) value=0xEB;
+  if (value==0xDF) value=0xAF;
+  if (value==0x7F) value=0xBE;
   
   value = (~((gp2x_memregs[0x1184>>1] & 0xFF00) | value | (gp2x_memregs[0x1186>>1] << 16))) & (~0xc0040000);
   
-//  if(gp2x_f200)
+//  if (gp2x_f200)
 //    value |= ((value & (GP2X_LEFT|GP2X_RIGHT|GP2X_UP|GP2X_DOWN)) == (GP2X_LEFT|GP2X_RIGHT|GP2X_UP|GP2X_DOWN) ? GP2X_PUSH : 0);
   
   return value;
@@ -323,7 +323,7 @@ unsigned long gp2x_joystick_read(int joystick)
  { 
   struct JS_DATA_TYPE js; int i;
 
-  if(read(gp2x_usbjoy[joystick-1], &js, JS_RETURN) != JS_RETURN) return 0;
+  if (read(gp2x_usbjoy[joystick-1], &js, JS_RETURN) != JS_RETURN) return 0;
 
   i = js.buttons;
   value  = ((i &    1)>> 0) * (GP2X_Y); /* these values should be optimized at compilation time */
@@ -339,8 +339,8 @@ unsigned long gp2x_joystick_read(int joystick)
   value |= ((i & 1024)>>10) * (GP2X_PUSH);
   value |= ((i & 2048)>>11) * (GP2X_PUSH);
 
-  if(js.x & 0x7F) value |= (js.x & 0x80 ? GP2X_RIGHT : GP2X_LEFT);
-  if(js.y & 0x7F) value |= (js.y & 0x80 ? GP2X_DOWN  : GP2X_UP);
+  if (js.x & 0x7F) value |= (js.x & 0x80 ? GP2X_RIGHT : GP2X_LEFT);
+  if (js.y & 0x7F) value |= (js.y & 0x80 ? GP2X_DOWN  : GP2X_UP);
  }
  return value;
 } 
@@ -369,7 +369,7 @@ char *gp2x_joystick_name(int joystick)
  static char name[128];
  
  sprintf(name, !joystick ? "GP2X gamepad" : "");
- if(joystick>0) if(gp2x_usbjoy[joystick-1] > 0) ioctl(gp2x_usbjoy[joystick-1], JSIOCGNAME(sizeof(name)), name); 
+ if (joystick>0) if (gp2x_usbjoy[joystick-1] > 0) ioctl(gp2x_usbjoy[joystick-1], JSIOCGNAME(sizeof(name)), name); 
  
  return name;
 }
@@ -419,8 +419,8 @@ static void gp2x_initqueue(gp2x_queue *q, unsigned long queue_items, unsigned lo
 {
   q->head  = q->tail  = q->items = 0;
   q->max_items = queue_items;
-  if(position920t) q->place920t=position920t; else q->place920t=(unsigned long *)malloc(sizeof(unsigned long) * queue_items);
-  if(position940t) q->place940t=position940t;
+  if (position920t) q->place920t=position920t; else q->place920t=(unsigned long *)malloc(sizeof(unsigned long) * queue_items);
+  if (position940t) q->place940t=position940t;
   memset(q->place920t, 0, sizeof(unsigned long) * queue_items);
 }
 
@@ -431,7 +431,7 @@ static void gp2x_enqueue(gp2x_queue *q, unsigned long data)
   q->items++;
 }
 
-       void gp2x_dualcore_pause(int yes) { if(yes) gp2x_memregs[0x0904>>1] &= 0xFFFE; else gp2x_memregs[0x0904>>1] |= 1; }
+       void gp2x_dualcore_pause(int yes) { if (yes) gp2x_memregs[0x0904>>1] &= 0xFFFE; else gp2x_memregs[0x0904>>1] |= 1; }
 static void gp2x_940t_reset(int yes)     { gp2x_memregs[0x3B48>>1] = ((yes&1) << 7) | (0x03); }
 static void gp2x_940t_pause(int yes)     { gp2x_dualcore_pause(yes); }
 
@@ -439,7 +439,7 @@ static void gp2x_dualcore_registers(int save)
 {
  static unsigned short regs[8];
 
- if(save)
+ if (save)
  {
   regs[0]=gp2x_memregs[0x0904>>1];  regs[1]=gp2x_memregs[0x0912>>1];
   regs[2]=gp2x_memregs[0x091c>>1];  regs[3]=gp2x_memregs[0x3b40>>1];
@@ -490,8 +490,8 @@ void gp2x_dualcore_launch_program_from_disk(const char *file, unsigned long offs
 {
  FILE *in; void *data;
 
- if((in=fopen(file, "rb"))==NULL) return;
- if((data=malloc(size))==NULL) { fclose(in); return; }
+ if ((in=fopen(file, "rb"))==NULL) return;
+ if ((data=malloc(size))==NULL) { fclose(in); return; }
  fseek(in, 0L, offset);
  fread(data, 1, size, in);
  gp2x_dualcore_launch_program((unsigned long *)data, size);
@@ -511,11 +511,11 @@ void gp2x_init(int ticks_per_second, int bpp, int rate, int bits, int stereo, in
 
   gp2x_ticks_per_second=7372800/ticks_per_second; 
 
-  if(!gp2x_dev[0])   gp2x_dev[0] = open("/dev/fb0",   O_RDWR);
-  if(!gp2x_dev[1])   gp2x_dev[1] = open("/dev/fb1",   O_RDWR);
-  if(!gp2x_dev[2])   gp2x_dev[2] = open("/dev/mem",   O_RDWR); 
-  if(!gp2x_dev[4])   gp2x_dev[4] = open("/dev/mixer", O_RDWR);
-  if(!gp2x_dev[5])   {
+  if (!gp2x_dev[0])   gp2x_dev[0] = open("/dev/fb0",   O_RDWR);
+  if (!gp2x_dev[1])   gp2x_dev[1] = open("/dev/fb1",   O_RDWR);
+  if (!gp2x_dev[2])   gp2x_dev[2] = open("/dev/mem",   O_RDWR); 
+  if (!gp2x_dev[4])   gp2x_dev[4] = open("/dev/mixer", O_RDWR);
+  if (!gp2x_dev[5])   {
 		     gp2x_dev[5] = -1;
 		     gp2x_dev[5] = open("/dev/tty0",  O_RDWR | O_NDELAY, 0);
 	if (gp2x_dev[5] < 0) {
@@ -540,7 +540,7 @@ void gp2x_init(int ticks_per_second, int bpp, int rate, int bits, int stereo, in
 #if 0
               int data = 0;
               ioctl(gp2x_dev[5], KDGKBTYPE, &data);
-              if(data==KB_84||data==KB_101) printf("!!\n");
+              if (data==KB_84||data==KB_101) printf("!!\n");
               printf("kb %d\n",data);
 #endif
 	}
@@ -551,7 +551,7 @@ void gp2x_init(int ticks_per_second, int bpp, int rate, int bits, int stereo, in
        gp2x_memregl=(unsigned long  *)mmap(0, 0x10000,   PROT_READ|PROT_WRITE, MAP_SHARED, gp2x_dev[2], 0xc0000000);
         gp2x_memregs=(unsigned short *)gp2x_memregl;
 
-  if(first) { printf(MINILIB_VERSION "\n");
+  if (first) { printf(MINILIB_VERSION "\n");
               gp2x_dualcore_registers(1); 
               gp2x_sound_volume(100,100);
               gp2x_memregs[0x0F16>>1] = 0x830a; usleep(100000);
@@ -572,7 +572,7 @@ void gp2x_init(int ticks_per_second, int bpp, int rate, int bits, int stereo, in
   memset(gp2x_screen15, 0, 320*240*2); gp2x_video_flip();
   memset(gp2x_screen15, 0, 320*240*2); gp2x_video_flip();
 
-  if(bpp==8)  gp2x_physvram[2]+=320*240,    gp2x_physvram[3]+=320*240,
+  if (bpp==8)  gp2x_physvram[2]+=320*240,    gp2x_physvram[3]+=320*240,
              gp2x_logvram15[2]+=320*240/2, gp2x_logvram15[3]+=320*240/2; 
 
 }
@@ -590,7 +590,7 @@ void gp2x_deinit(void)
  
   gp2x_joystick_deinit();
 
-  { unsigned int i; for(i=0;i<8;i++) if(gp2x_dev[i]) close(gp2x_dev[i]); }    /* close all devices */
+  { unsigned int i; for(i=0;i<8;i++) if (gp2x_dev[i]) close(gp2x_dev[i]); }    /* close all devices */
 
   fcloseall();                                                   /* close all files */
 

@@ -310,7 +310,7 @@ static int parsid_GetAddressLptPortInTheMemory(int myPort)
 
 static int parsid_GetAddressLptPort(int myPort)
 {
-  if(myPort<1 || myPort>3)
+  if (myPort<1 || myPort>3)
     return -1;
 
   if (!(GetVersion() & 0x80000000))

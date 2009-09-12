@@ -100,11 +100,11 @@ void REGPARM2 supersnapshot_v4_io2_store(WORD addr, BYTE value)
         cartridge_config_changed((BYTE)(romconfig & 3), romconfig, CMODE_WRITE);
     }
     if ((addr & 0xff) == 1) {
-        if(((ramconfig - 1) & 0xff) == value) {
+        if (((ramconfig - 1) & 0xff) == value) {
             ramconfig = value;
             romconfig |= 35;
         }
-        if(((ramconfig + 1) & 0xff) == value) {
+        if (((ramconfig + 1) & 0xff) == value) {
             ramconfig = value;
             romconfig &= 0xdd;
         }

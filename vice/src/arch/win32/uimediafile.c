@@ -119,7 +119,7 @@ static void enable_ffmpeg_settings(HWND hwnd, int enable)
     EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGVIDEOCODEC), enable);
     EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGAUDIOBITRATE), enable);
     EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGVIDEOBITRATE), enable);
-    if( enable )
+    if ( enable )
         update_ffmpeg_codecs(hwnd);
 }
 

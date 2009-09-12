@@ -103,7 +103,7 @@ int lamelib_open(void)
     int result;
     
     result = load_lib();
-    if(result != 0) {
+    if (result != 0) {
         free_lib();
     }
     return result;

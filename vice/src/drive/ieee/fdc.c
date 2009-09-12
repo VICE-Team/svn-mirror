@@ -494,7 +494,7 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
                     base[0], base[1], base[2], base[3]
         );
 #endif
-        if(DOS_IS_40(fdc[fnum].drive_type)
+        if (DOS_IS_40(fdc[fnum].drive_type)
             || DOS_IS_30(fdc[fnum].drive_type)) {
             if (!memcmp(fdc[fnum].iprom + 0x12f8, &fdc[fnum].buffer[0x100],
                 0x100)) {
@@ -502,7 +502,7 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
                 return 0;
             }
         }
-        if(DOS_IS_80(fdc[fnum].drive_type)) {
+        if (DOS_IS_80(fdc[fnum].drive_type)) {
             static const BYTE jumpseq[] = { 0x78, 0x6c, 0xfc, 0xff };
             if (!memcmp(jumpseq, &fdc[fnum].buffer[0x100], 4)) {
                 fdc[fnum].fdc_state = FDC_RESET0;
@@ -516,14 +516,14 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
                              formatted */
         /* we have to check for standard format code that is copied
            to buffers 0-3 */
-        if(DOS_IS_80(fdc[fnum].drive_type)) {
+        if (DOS_IS_80(fdc[fnum].drive_type)) {
             rc = fdc_do_format_D80(fdc, fnum, dnr, track, sector, buf, header);
         } else
-        if(DOS_IS_40(fdc[fnum].drive_type)
+        if (DOS_IS_40(fdc[fnum].drive_type)
             || DOS_IS_30(fdc[fnum].drive_type)) {
             rc = fdc_do_format_D40(fdc, fnum, dnr, track, sector, buf, header);
         } else
-        if(DOS_IS_20(fdc[fnum].drive_type)) {
+        if (DOS_IS_20(fdc[fnum].drive_type)) {
             rc = fdc_do_format_D20(fdc, fnum, dnr, track, sector, buf, header);
         } else {
             rc = FDC_ERR_DRIVE;
@@ -626,7 +626,7 @@ static void int_fdc(CLOCK offset, void *data)
         if (DOS_IS_40(fdc[fnum].drive_type)
             || DOS_IS_30(fdc[fnum].drive_type)
             ) {
-            if(fdc[fnum].buffer[0] == 0) {
+            if (fdc[fnum].buffer[0] == 0) {
                 fdc[fnum].buffer[0] = 0x0f;
                 fdc[fnum].fdc_state = FDC_RUN;
                 fdc[fnum].alarm_clk = rclk + 10000;

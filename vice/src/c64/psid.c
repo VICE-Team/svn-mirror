@@ -454,7 +454,7 @@ void psid_init_tune(void)
                     start_song, psid->songs, psid->start_song);
     }
     else {
-        if(vsid_mode)
+        if (vsid_mode)
         {
             char * driver_info_text;
             driver_info_text =

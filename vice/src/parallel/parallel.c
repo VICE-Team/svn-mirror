@@ -66,7 +66,7 @@ void parallel_bus_enable(int enable)
  * IEEE488 bus lines
  */
 
-/* state of the bus lines -> "if(parallel_eoi) { eoi is active }" */
+/* state of the bus lines -> "if (parallel_eoi) { eoi is active }" */
 BYTE parallel_eoi = 0;
 BYTE parallel_ndac = 0;
 BYTE parallel_nrfd = 0;
@@ -344,7 +344,7 @@ static void Out1_nrfdhi(int tr)
     par_status = parallel_trap_receivebyte(&b, 1);
     parallel_emu_set_bus((BYTE)(b ^ 0xff));
 
-    if(par_status & 0x40) {
+    if (par_status & 0x40) {
         parallel_emu_set_eoi(1);
     } else {
         parallel_emu_set_eoi(0);
@@ -416,7 +416,7 @@ static State_t State[NSTATE] = {
  */
 
 #define PARALLEL_LINE_DEBUG_CLR(line, linecap)                          \
-    if(parallel_debug) {                                                \
+    if (parallel_debug) {                                                \
         if (old && !parallel_##line)                                    \
             log_warning(LOG_DEFAULT,                                    \
                         "clr_" #line "(%02x) -> " #linecap "hi",        \
@@ -429,7 +429,7 @@ static State_t State[NSTATE] = {
     }
 
 #define PARALLEL_LINE_DEBUG_SET(line, linecap)                          \
-    if(parallel_debug) {                                                \
+    if (parallel_debug) {                                                \
         if (!old)                                                       \
             log_warning(LOG_DEFAULT,                                    \
                         "set_" #line "(%02x) -> " #linecap "lo", mask); \

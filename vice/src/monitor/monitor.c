@@ -641,7 +641,7 @@ void mon_backtrace(void)
         addr += ((WORD)mon_get_mem_val(default_memspace, (WORD)(i + 1))) << 8;
         addr -= 2;
         opc = mon_get_mem_val(default_memspace, addr);
-        if(opc == 0x20 /* JSR */) {
+        if (opc == 0x20 /* JSR */) {
             mon_out("(%d) %04x\n", n, addr);
         }
         n++;
@@ -673,7 +673,7 @@ void mon_cpuhistory(int count)
     unsigned opc_size;
     int i, pos;
 
-    if((count<1)||(count>CPUHISTORY_SIZE)) {
+    if ((count<1)||(count>CPUHISTORY_SIZE)) {
         count = CPUHISTORY_SIZE;
     }
 
@@ -743,20 +743,20 @@ void mon_memmap_show(int mask, MON_ADDR start_addr, MON_ADDR end_addr)
     unsigned int i;
     BYTE b;
 
-    if(machine_class == VICE_MACHINE_C64DTV) {
+    if (machine_class == VICE_MACHINE_C64DTV) {
        mon_out("  addr: IO ROM RAM\n");
     } else {
        mon_out("addr: IO ROM RAM\n");
     }
 
-    if(start_addr == BAD_ADDR) start_addr = 0;
-    if(end_addr == BAD_ADDR) end_addr = mon_memmap_size-1;
-    if(start_addr>end_addr) start_addr = end_addr;
+    if (start_addr == BAD_ADDR) start_addr = 0;
+    if (end_addr == BAD_ADDR) end_addr = mon_memmap_size-1;
+    if (start_addr>end_addr) start_addr = end_addr;
 
     for(i = start_addr; i <= end_addr; ++i) {
         b = mon_memmap[i];
         if ((b & mask)!= 0) {
-            if(machine_class == VICE_MACHINE_C64DTV) {
+            if (machine_class == VICE_MACHINE_C64DTV) {
                 mon_out("%06x: %c%c %c%c%c %c%c%c\n",i,
                     (b&MEMMAP_I_O_R)?'r':'-',
                     (b&MEMMAP_I_O_W)?'w':'-',
@@ -792,7 +792,7 @@ void monitor_memmap_store(unsigned int addr, unsigned int type)
 
     /* Ignore reg_pc+2 reads on branches & JSR 
        and return address read on RTS */
-    if(type & (MEMMAP_ROM_R|MEMMAP_RAM_R)
+    if (type & (MEMMAP_ROM_R|MEMMAP_RAM_R)
       &&(((op & 0x1f) == 0x10)||(op == OP_JSR)
       ||((op == OP_RTS) && ((addr>0x1ff)||(addr<0x100)))))
         return;
@@ -836,7 +836,7 @@ void mon_memmap_save(const char* filename, int format)
             drvname = "BMP";
             break;
     }
-    if(memmap_screenshot_save(drvname, filename, mon_memmap_picx, mon_memmap_picy, mon_memmap, mon_memmap_palette)) {
+    if (memmap_screenshot_save(drvname, filename, mon_memmap_picx, mon_memmap_picy, mon_memmap, mon_memmap_palette)) {
         mon_out("Failed.\n");
     }
 #else
@@ -865,7 +865,7 @@ void mon_screenshot_save(const char* filename, int format)
             drvname = "BMP";
             break;
     }
-    if(screenshot_save(drvname, filename, machine_video_canvas_get(0))) {
+    if (screenshot_save(drvname, filename, machine_video_canvas_get(0))) {
         mon_out("Failed.\n");
     }
 }
@@ -934,7 +934,7 @@ void mon_resource_set(const char *name, const char* value)
     switch(resources_query_type(name)) {
         case RES_INTEGER:
         case RES_STRING:
-            if(resources_set_value_string(name,value)) {
+            if (resources_set_value_string(name,value)) {
                 mon_out("Failed.\n");
             }
             ui_update_menus();
@@ -967,7 +967,7 @@ void mon_reset_machine(int type)
 
 void mon_tape_ctrl(int command)
 {
-    if((command<0)||(command>6)) {
+    if ((command<0)||(command>6)) {
         mon_out("Unknown command.\n");
     } else {
         datasette_control(command);
@@ -976,7 +976,7 @@ void mon_tape_ctrl(int command)
 
 void mon_cart_freeze(void)
 {
-    if(mon_cart_cmd.cartridge_trigger_freeze != NULL) {
+    if (mon_cart_cmd.cartridge_trigger_freeze != NULL) {
         (mon_cart_cmd.cartridge_trigger_freeze)();
     } else {
         mon_out("Unsupported.\n");
@@ -1688,7 +1688,7 @@ void mon_print_conditional(cond_node_t *cnode)
         mon_out("( ");
 
     if (cnode->operation != e_INV) {
-        if(!(cnode->child1 && cnode->child2)) {
+        if (!(cnode->child1 && cnode->child2)) {
             log_error(LOG_ERR, "No conditional!");
             return;
         }

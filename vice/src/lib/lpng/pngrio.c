@@ -102,7 +102,7 @@ png_default_read_data(png_structp png_ptr, png_bytep data, png_size_t length)
          err = fread(buf, (png_size_t)1, read, io_ptr);
 #endif
          png_memcpy(data, buf, read); /* copy far buffer to near buffer */
-         if(err != read)
+         if (err != read)
             break;
          else
             check += err;

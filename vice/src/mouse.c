@@ -86,7 +86,7 @@ static void neos_get_new_movement(void)
     }
     else if (new_x > neos_lastx)
     {
-        if(neos_lastx < 0x10 && new_x > 0x6f)
+        if (neos_lastx < 0x10 && new_x > 0x6f)
         {
             neos_x += 0x80;
         }
@@ -330,7 +330,7 @@ static inline BYTE mouse_paddle_update(BYTE paddle_v, BYTE *old_v, BYTE new_v)
             diff += 0x80;
         }
     } else if (new_v > *old_v) {
-        if(*old_v < 0x10 && new_v > 0x6f) {
+        if (*old_v < 0x10 && new_v > 0x6f) {
             diff += 0x80;
         }
     }

@@ -45,7 +45,7 @@ static NSString *help_texts[] = {
 - (id)initWithFrame:(NSRect)frame driveNumber:(int)drive
 {
     self = [super initWithFrame:frame];
-    if(self==nil)
+    if (self==nil)
         return nil;
     
     driveNumber = drive;
@@ -148,7 +148,7 @@ static NSString *help_texts[] = {
 
 - (void)initLedColor:(NSColor*)color
 {
-    if(activeLedColor==nil) {
+    if (activeLedColor==nil) {
         activeLedColor = color;
         [activeLedColor retain];
     }
@@ -162,7 +162,7 @@ static NSString *help_texts[] = {
     if (drive == driveNumber) {
         BOOL active = [[dict objectForKey:@"active"] boolValue];
         NSColor *color;
-        if(active && (activeLedColor!=nil)) {
+        if (active && (activeLedColor!=nil)) {
             color = activeLedColor;
         } else {
             color = inactiveLedColor;
@@ -173,7 +173,7 @@ static NSString *help_texts[] = {
 
 - (void)updateImage:(NSString *)image
 {
-    if([image length]==0) {
+    if ([image length]==0) {
         [imageText setStringValue:@"<no disk image>"];
         // toggle eject button
         [buttons[0] setEnabled:NO];
@@ -217,10 +217,10 @@ static NSString *help_texts[] = {
 - (void)buttonPressed:(id)sender
 {
     int command = [sender tag];
-    if(command==0) {
+    if (command==0) {
         // eject disk image
         [[VICEApplication theAppController] detachDiskImage:self];
-    } else if(command==1) {
+    } else if (command==1) {
         // attach disk image
         [[VICEApplication theAppController] attachDiskImage:self];
     }
@@ -234,7 +234,7 @@ static NSString *help_texts[] = {
 
 - (void)setEnabled:(BOOL)on
 {
-    if(on == NO) {
+    if (on == NO) {
         [buttons[0] setEnabled:NO];
         [buttons[1] setEnabled:NO];
     } else {

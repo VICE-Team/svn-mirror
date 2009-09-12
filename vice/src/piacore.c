@@ -192,7 +192,7 @@ void REGPARM2 mypia_store(WORD addr, BYTE byte)
 
         mypia.ctrl_b = (mypia.ctrl_b & 0xc0) | (byte & 0x3f);
 
-        if(mypia.ctrl_b & 0x20) mypia.ctrl_b &= 0xbf;
+        if (mypia.ctrl_b & 0x20) mypia.ctrl_b &= 0xbf;
 
         mypia_update_irq();
 
@@ -213,7 +213,7 @@ BYTE REGPARM1 mypia_read(WORD addr)
       case P_PORT_A: /* port A */
         if (mypia.ctrl_a & 4) {
 
-            if(!is_peek_access) {
+            if (!is_peek_access) {
                 mypia.ctrl_a &= 0x3f;           /* Clear CA1,CA2 IRQ */
                 mypia_update_irq();
             }

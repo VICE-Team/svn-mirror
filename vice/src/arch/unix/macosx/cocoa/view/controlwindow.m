@@ -60,7 +60,7 @@
                             styleMask:style
                               backing:NSBackingStoreBuffered
                                 defer:NO];
-    if(self==nil)
+    if (self==nil)
         return nil;
 
     [self setReleasedWhenClosed:NO];
@@ -159,7 +159,7 @@
     for(i = 0; i < DRIVE_NUM; i++)
     {
         int flag = 1<<i;
-        if(enable & flag)
+        if (enable & flag)
         {
             int colorIndex = (drive_led_color & flag) != 0 ? 1 : 0; 
             [[self contentView] addSubview:drive_view[i]];
@@ -209,14 +209,14 @@
 // adjust resizing to be fixed
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)proposedFrameSize
 {
-    if(![[self contentView] inLiveResize]) {
+    if (![[self contentView] inLiveResize]) {
         return proposedFrameSize;
     }
     
     float height = NSHeight([self frame]);
     float width  = proposedFrameSize.width;
     float min_width = PERIPH_WIDTH + 2 * PERIPH_OFFSET;
-    if(width < min_width)
+    if (width < min_width)
         width = min_width;
     return NSMakeSize(width,height);
 }

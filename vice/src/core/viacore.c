@@ -353,7 +353,7 @@ void REGPARM3 viacore_store(via_context_t *via_context, WORD addr, BYTE byte)
         if (!IS_CA2_INDINPUT()) {
             via_context->ifr &= ~VIA_IM_CA2;
         }
-        if(IS_CA2_HANDSHAKE()) {
+        if (IS_CA2_HANDSHAKE()) {
             via_context->ca2_state = 0;
             (via_context->set_ca2)(via_context->ca2_state);
             if (IS_CA2_PULSE_MODE()) {
@@ -615,10 +615,10 @@ BYTE REGPARM2 viacore_read_(via_context_t *via_context, WORD addr)
         if ((via_context->via[VIA_PCR] & 0x0a) != 0x02) {
             via_context->ifr &= ~VIA_IM_CA2;
         }
-        if(IS_CA2_HANDSHAKE()) {
+        if (IS_CA2_HANDSHAKE()) {
             via_context->ca2_state = 0;
             (via_context->set_ca2)(via_context->ca2_state);
-            if(IS_CA2_PULSE_MODE()) {
+            if (IS_CA2_PULSE_MODE()) {
                 via_context->ca2_state = 1;
                 (via_context->set_ca2)(via_context->ca2_state);
             }

@@ -54,7 +54,7 @@
     self = [super initWithFrame:frame
                     pixelFormat:pf];
     [pf release];
-    if(self==nil)
+    if (self==nil)
         return nil;
     
     // init texture
@@ -117,11 +117,11 @@
     float ratio = size.width / size.height;
     viewSize    = size;
     viewOrigin  = NSMakePoint(0.0,0.0);
-    if(ratio < (textureRatio-0.01)) {
+    if (ratio < (textureRatio-0.01)) {
         // place along y
         viewSize.height = viewSize.width / textureRatio;
         viewOrigin.y = (size.height - viewSize.height) / 2.0; 
-    } else if(ratio > (textureRatio+0.01)) {
+    } else if (ratio > (textureRatio+0.01)) {
         // place along x
         viewSize.width = viewSize.height * textureRatio;
         viewOrigin.x = (size.width - viewSize.width) / 2.0;
@@ -162,7 +162,7 @@
     textureRatio = size.width / size.height;
     unsigned int dataSize = size.width * size.height * 4;
 
-    if(textureData==NULL)
+    if (textureData==NULL)
         textureData = lib_malloc(dataSize*sizeof(BYTE));
     else
         textureData = lib_realloc(textureData,dataSize*sizeof(BYTE));
@@ -245,15 +245,15 @@
     unsigned int modifierFlags = [theEvent modifierFlags] &
         (NSAlphaShiftKeyMask | NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask);
 
-    if(modifierFlags != lastKeyModifierFlags) {
+    if (modifierFlags != lastKeyModifierFlags) {
         unsigned int code = [theEvent keyCode];
         unsigned int changedFlags = modifierFlags ^ lastKeyModifierFlags;
         int i;
         for(i=0;i<NUM_MODIFIERS;i++) {
             unsigned int flag = 1<<i;
-            if(changedFlags & flag) {
+            if (changedFlags & flag) {
                 modifierKeyCode[i] = code;
-                if(modifierFlags & flag) {
+                if (modifierFlags & flag) {
                     [[VICEApplication theMachineController] keyPressed:code];
                 } else {
                     [[VICEApplication theMachineController] keyReleased:code];
@@ -272,14 +272,14 @@
 
     // modifiers have changed, too!
     /* this happens if e.g. a context menu was activated by Ctrl-click */
-    if(modifierFlags != lastKeyModifierFlags) {
+    if (modifierFlags != lastKeyModifierFlags) {
         unsigned int changedFlags = modifierFlags ^ lastKeyModifierFlags;
         int i;
         for (i=0;i<NUM_MODIFIERS;i++) {
             unsigned int flag = 1<<i;
-            if(changedFlags & flag) {
+            if (changedFlags & flag) {
                 unsigned int code = modifierKeyCode[i];
-                if(modifierFlags & flag) {
+                if (modifierFlags & flag) {
                     [[VICEApplication theMachineController] keyPressed:code];
                 } else {
                     [[VICEApplication theMachineController] keyReleased:code];
@@ -300,7 +300,7 @@
 
 - (void)startHideTimer
 {
-    if(mouseHideTimer==nil) {
+    if (mouseHideTimer==nil) {
         // setup timer for mouse hide
         mouseHideInterval = MOUSE_HIDE_DELAY;
         mouseHideTimer = [NSTimer scheduledTimerWithTimeInterval: 0.5
@@ -315,20 +315,20 @@
 
 - (void)stopHideTimer:(BOOL)shown
 {
-    if(mouseHideTimer!=nil) {
+    if (mouseHideTimer!=nil) {
         // remove timer
         [mouseHideTimer invalidate];
         [mouseHideTimer release];
         mouseHideTimer = nil;
     }
     
-    if(shown) {
-        if(mouseHideInterval != MOUSE_IS_SHOWN) {
+    if (shown) {
+        if (mouseHideInterval != MOUSE_IS_SHOWN) {
             [NSCursor setHiddenUntilMouseMoves:NO];
             mouseHideInterval = MOUSE_IS_SHOWN;
         }
     } else {
-        if(mouseHideInterval != MOUSE_IS_HIDDEN) {
+        if (mouseHideInterval != MOUSE_IS_HIDDEN) {
             [NSCursor setHiddenUntilMouseMoves:YES];
             mouseHideInterval = MOUSE_IS_HIDDEN;
         }
@@ -337,9 +337,9 @@
 
 - (void)hideTimer:(NSTimer *)timer
 {
-    if(mouseHideInterval>0) {
+    if (mouseHideInterval>0) {
         mouseHideInterval--;
-    } else if(mouseHideInterval==0) {
+    } else if (mouseHideInterval==0) {
         [self stopHideTimer:FALSE];
     }
 }
@@ -347,11 +347,11 @@
 - (void)ensureMouseShown
 {
     // in mouse tracking the mouse is always visible
-    if(trackMouse)
+    if (trackMouse)
         return;
     
     // reshow mouse if it was hidden
-    if(mouseHideInterval == MOUSE_IS_HIDDEN) {
+    if (mouseHideInterval == MOUSE_IS_HIDDEN) {
         [NSCursor setHiddenUntilMouseMoves:NO];
     }
     mouseHideInterval = MOUSE_HIDE_DELAY;
@@ -366,7 +366,7 @@
     [VICEApplication setCurrentCanvasId:canvasId];
     
     // start mouse hide timer
-    if(!trackMouse) {
+    if (!trackMouse) {
         [self startHideTimer];
     }
 
@@ -378,7 +378,7 @@
     [[self window] setAcceptsMouseMovedEvents:NO];
     
     // show mouse again
-    if(!trackMouse) {
+    if (!trackMouse) {
         [self stopHideTimer:TRUE];
     }
 
@@ -392,7 +392,7 @@
     
     // check if mouse is in view
     BOOL inView = NSPointInRect(location,[self bounds]);
-    if(inView) {
+    if (inView) {
         [self ensureMouseShown];        
     } else {
         [self stopHideTimer:TRUE];
@@ -407,13 +407,13 @@
 
 - (void)mouseMove:(NSPoint)pos
 {
-    if(trackMouse) {
+    if (trackMouse) {
         int w = (int)textureSize.width;
         int h = (int)textureSize.height;
         int px = (int)((pos.x-viewOrigin.x) * mouseXScale);
         int py = (int)((pos.y-viewOrigin.y) * mouseYScale);
         py = h - 1 - py;
-        if((px>=0)&&(px<w)&&(py>=0)&&(py<h)) {
+        if ((px>=0)&&(px<w)&&(py>=0)&&(py<h)) {
             [[VICEApplication theMachineController] mouseMoveToX:px andY:py];
         }
     }
@@ -421,8 +421,8 @@
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    if([theEvent type]==NSLeftMouseDown) {
-        if(trackMouse) {
+    if ([theEvent type]==NSLeftMouseDown) {
+        if (trackMouse) {
             [[VICEApplication theMachineController] mousePressed];
         } else {
             [self stopHideTimer:TRUE];
@@ -432,8 +432,8 @@
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
-    if([theEvent type]==NSLeftMouseUp) {
-        if(trackMouse) {
+    if ([theEvent type]==NSLeftMouseUp) {
+        if (trackMouse) {
             [[VICEApplication theMachineController] mouseReleased];
         } else {
             [self startHideTimer];
@@ -446,7 +446,7 @@
     NSDictionary *dict = [notification userInfo];
     trackMouse = [[dict objectForKey:@"mouse"] boolValue];
 
-    if(trackMouse) {
+    if (trackMouse) {
         [self stopHideTimer:TRUE];
     } else {
         [self startHideTimer];

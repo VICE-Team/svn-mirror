@@ -216,7 +216,7 @@ static BYTE REGPARM1 io3_read(WORD addr)
 
 #ifdef HAVE_MIDI
     if (midi_enabled && (addr & 0xff00) == 0x9c00) {
-        if(midi_test_read((WORD)(addr & 0xff))) {
+        if (midi_test_read((WORD)(addr & 0xff))) {
             vic20_cpu_last_data = midi_read((WORD)(addr & 0xff));
             vic20_mem_v_bus_read(addr);
             return vic20_cpu_last_data;

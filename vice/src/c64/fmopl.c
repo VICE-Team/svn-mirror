@@ -464,9 +464,9 @@ inline static void OPL_STATUS_SET(FM_OPL *OPL,int flag)
 {
 	/* set status flag */
 	OPL->status |= flag;
-	if(!(OPL->status & 0x80))
+	if (!(OPL->status & 0x80))
 	{
-		if(OPL->status & OPL->statusmask)
+		if (OPL->status & OPL->statusmask)
 		{	/* IRQ on */
 			OPL->status |= 0x80;
 		}
@@ -478,7 +478,7 @@ inline static void OPL_STATUS_RESET(FM_OPL *OPL,int flag)
 {
 	/* reset status flag */
 	OPL->status &=~flag;
-	if((OPL->status & 0x80))
+	if ((OPL->status & 0x80))
 	{
 		if (!(OPL->status & OPL->statusmask) )
 		{
@@ -574,7 +574,7 @@ inline static void advance(FM_OPL *OPL)
                 one can change percusive/non-percussive modes on the fly and
                 the chip will remain in sustain phase - verified on real YM3812 */
 
-				if(op->eg_type)		/* non-percussive mode */
+				if (op->eg_type)		/* non-percussive mode */
 				{
 									/* do nothing */
 				}
@@ -618,7 +618,7 @@ inline static void advance(FM_OPL *OPL)
 		op  = &CH->SLOT[i&1];
 
 		/* Phase Generator */
-		if(op->vib)
+		if (op->vib)
 		{
 			UINT8 block;
 			unsigned int block_fnum = CH->block_fnum;
@@ -723,7 +723,7 @@ inline static void OPL_CALC_CH( OPL_CH *CH )
 	SLOT->op1_out[0] = SLOT->op1_out[1];
 	*SLOT->connect1 += SLOT->op1_out[0];
 	SLOT->op1_out[1] = 0;
-	if( env < ENV_QUIET )
+	if ( env < ENV_QUIET )
 	{
 		if (!SLOT->FB)
 			out = 0;
@@ -733,7 +733,7 @@ inline static void OPL_CALC_CH( OPL_CH *CH )
 	/* SLOT 2 */
 	SLOT++;
 	env = volume_calc(SLOT);
-	if( env < ENV_QUIET )
+	if ( env < ENV_QUIET )
 		output[0] += op_calc(SLOT->Cnt, env, phase_modulation, SLOT->wavetable);
 }
 
@@ -801,7 +801,7 @@ inline static void OPL_CALC_RH( OPL_CH *CH, unsigned int noise )
 	/* else ignore output of operator 1 */
 
 	SLOT->op1_out[1] = 0;
-	if( env < ENV_QUIET )
+	if ( env < ENV_QUIET )
 	{
 		if (!SLOT->FB)
 			out = 0;
@@ -811,7 +811,7 @@ inline static void OPL_CALC_RH( OPL_CH *CH, unsigned int noise )
 	/* SLOT 2 */
 	SLOT++;
 	env = volume_calc(SLOT);
-	if( env < ENV_QUIET )
+	if ( env < ENV_QUIET )
 		output[0] += op_calc(SLOT->Cnt, env, phase_modulation, SLOT->wavetable) * 2;
 
 
@@ -834,7 +834,7 @@ inline static void OPL_CALC_RH( OPL_CH *CH, unsigned int noise )
 
 	/* High Hat (verified on real YM3812) */
 	env = volume_calc(SLOT7_1);
-	if( env < ENV_QUIET )
+	if ( env < ENV_QUIET )
 	{
 
 		/* high hat phase generation:
@@ -885,7 +885,7 @@ inline static void OPL_CALC_RH( OPL_CH *CH, unsigned int noise )
 
 	/* Snare Drum (verified on real YM3812) */
 	env = volume_calc(SLOT7_2);
-	if( env < ENV_QUIET )
+	if ( env < ENV_QUIET )
 	{
 		/* base frequency derived from operator 1 in channel 7 */
 		unsigned char bit8 = ((SLOT7_1->Cnt>>FREQ_SH)>>8)&1;
@@ -906,12 +906,12 @@ inline static void OPL_CALC_RH( OPL_CH *CH, unsigned int noise )
 
 	/* Tom Tom (verified on real YM3812) */
 	env = volume_calc(SLOT8_1);
-	if( env < ENV_QUIET )
+	if ( env < ENV_QUIET )
 		output[0] += op_calc(SLOT8_1->Cnt, env, 0, SLOT8_1->wavetable) * 2;
 
 	/* Top Cymbal (verified on real YM3812) */
 	env = volume_calc(SLOT8_2);
-	if( env < ENV_QUIET )
+	if ( env < ENV_QUIET )
 	{
 		/* base frequency derived from operator 1 in channel 7 */
 		unsigned char bit7 = ((SLOT7_1->Cnt>>FREQ_SH)>>7)&1;
@@ -1062,7 +1062,7 @@ static void OPL_initalize(FM_OPL *OPL)
 
 inline static void FM_KEYON(OPL_SLOT *SLOT, UINT32 key_set)
 {
-	if( !SLOT->key )
+	if ( !SLOT->key )
 	{
 		/* restart Phase Generator */
 		SLOT->Cnt = 0;
@@ -1074,11 +1074,11 @@ inline static void FM_KEYON(OPL_SLOT *SLOT, UINT32 key_set)
 
 inline static void FM_KEYOFF(OPL_SLOT *SLOT, UINT32 key_clr)
 {
-	if( SLOT->key )
+	if ( SLOT->key )
 	{
 		SLOT->key &= key_clr;
 
-		if( !SLOT->key )
+		if ( !SLOT->key )
 		{
 			/* phase -> Release */
 			if (SLOT->state>EG_REL)
@@ -1096,7 +1096,7 @@ inline static void CALC_FCSLOT(OPL_CH *CH,OPL_SLOT *SLOT)
 	SLOT->Incr = CH->fc * SLOT->mul;
 	ksr = CH->kcode >> SLOT->KSR;
 
-	if( SLOT->ksr != ksr )
+	if ( SLOT->ksr != ksr )
 	{
 		SLOT->ksr = ksr;
 
@@ -1201,7 +1201,7 @@ static void OPLWriteReg(FM_OPL *OPL, int r, int v)
 		switch(r&0x1f)
 		{
 		case 0x01:	/* waveform select enable */
-			if(OPL->type&OPL_TYPE_WAVESEL)
+			if (OPL->type&OPL_TYPE_WAVESEL)
 			{
 				OPL->wavesel = v&0x20;
 				/* do not change the waveform previously selected */
@@ -1214,7 +1214,7 @@ static void OPLWriteReg(FM_OPL *OPL, int r, int v)
 			OPL->T[1] = (256-v)*16;
 			break;
 		case 0x04:	/* IRQ clear / mask and Timer enable */
-			if(v&0x80)
+			if (v&0x80)
 			{	/* IRQ flag clear */
 				OPL_STATUS_RESET(OPL,0x7f-0x08); /* don't reset BFRDY flag or we will have to call deltat module to set the flag */
 			}
@@ -1228,12 +1228,12 @@ static void OPLWriteReg(FM_OPL *OPL, int r, int v)
 				OPL_STATUSMASK_SET(OPL, (~v) & 0x78 );
 
 				/* timer 2 */
-				if(OPL->st[1] != st2)
+				if (OPL->st[1] != st2)
 				{
 					OPL->st[1] = st2;
 				}
 				/* timer 1 */
-				if(OPL->st[0] != st1)
+				if (OPL->st[0] != st1)
 				{
 					OPL->st[0] = st1;
 				}
@@ -1248,22 +1248,22 @@ static void OPLWriteReg(FM_OPL *OPL, int r, int v)
 		break;
 	case 0x20:	/* am ON, vib ON, ksr, eg_type, mul */
 		slot = slot_array[r&0x1f];
-		if(slot < 0) return;
+		if (slot < 0) return;
 		set_mul(OPL,slot,v);
 		break;
 	case 0x40:
 		slot = slot_array[r&0x1f];
-		if(slot < 0) return;
+		if (slot < 0) return;
 		set_ksl_tl(OPL,slot,v);
 		break;
 	case 0x60:
 		slot = slot_array[r&0x1f];
-		if(slot < 0) return;
+		if (slot < 0) return;
 		set_ar_dr(OPL,slot,v);
 		break;
 	case 0x80:
 		slot = slot_array[r&0x1f];
-		if(slot < 0) return;
+		if (slot < 0) return;
 		set_sl_rr(OPL,slot,v);
 		break;
 	case 0xa0:
@@ -1274,10 +1274,10 @@ static void OPLWriteReg(FM_OPL *OPL, int r, int v)
 
 			OPL->rhythm  = v&0x3f;
 
-			if(OPL->rhythm&0x20)
+			if (OPL->rhythm&0x20)
 			{
 				/* BD key on/off */
-				if(v&0x10)
+				if (v&0x10)
 				{
 					FM_KEYON (&OPL->P_CH[6].SLOT[SLOT1], 2);
 					FM_KEYON (&OPL->P_CH[6].SLOT[SLOT2], 2);
@@ -1288,16 +1288,16 @@ static void OPLWriteReg(FM_OPL *OPL, int r, int v)
 					FM_KEYOFF(&OPL->P_CH[6].SLOT[SLOT2],~2);
 				}
 				/* HH key on/off */
-				if(v&0x01) FM_KEYON (&OPL->P_CH[7].SLOT[SLOT1], 2);
+				if (v&0x01) FM_KEYON (&OPL->P_CH[7].SLOT[SLOT1], 2);
 				else       FM_KEYOFF(&OPL->P_CH[7].SLOT[SLOT1],~2);
 				/* SD key on/off */
-				if(v&0x08) FM_KEYON (&OPL->P_CH[7].SLOT[SLOT2], 2);
+				if (v&0x08) FM_KEYON (&OPL->P_CH[7].SLOT[SLOT2], 2);
 				else       FM_KEYOFF(&OPL->P_CH[7].SLOT[SLOT2],~2);
 				/* TOM key on/off */
-				if(v&0x04) FM_KEYON (&OPL->P_CH[8].SLOT[SLOT1], 2);
+				if (v&0x04) FM_KEYON (&OPL->P_CH[8].SLOT[SLOT1], 2);
 				else       FM_KEYOFF(&OPL->P_CH[8].SLOT[SLOT1],~2);
 				/* TOP-CY key on/off */
-				if(v&0x02) FM_KEYON (&OPL->P_CH[8].SLOT[SLOT2], 2);
+				if (v&0x02) FM_KEYON (&OPL->P_CH[8].SLOT[SLOT2], 2);
 				else       FM_KEYOFF(&OPL->P_CH[8].SLOT[SLOT2],~2);
 			}
 			else
@@ -1317,9 +1317,9 @@ static void OPLWriteReg(FM_OPL *OPL, int r, int v)
 			return;
 		}
 		/* keyon,block,fnum */
-		if( (r&0x0f) > 8) return;
+		if ( (r&0x0f) > 8) return;
 		CH = &OPL->P_CH[r&0x0f];
-		if(!(r&0x10))
+		if (!(r&0x10))
 		{	/* a0-a8 */
 			block_fnum  = (CH->block_fnum&0x1f00) | v;
 		}
@@ -1327,7 +1327,7 @@ static void OPLWriteReg(FM_OPL *OPL, int r, int v)
 		{	/* b0-b8 */
 			block_fnum = ((v&0x1f)<<8) | (CH->block_fnum&0xff);
 
-			if(v&0x20)
+			if (v&0x20)
 			{
 				FM_KEYON (&CH->SLOT[SLOT1], 1);
 				FM_KEYON (&CH->SLOT[SLOT2], 1);
@@ -1339,7 +1339,7 @@ static void OPLWriteReg(FM_OPL *OPL, int r, int v)
 			}
 		}
 		/* update */
-		if(CH->block_fnum != (UINT32)block_fnum)
+		if (CH->block_fnum != (UINT32)block_fnum)
 		{
 			UINT8 block  = block_fnum >> 10;
 
@@ -1370,7 +1370,7 @@ static void OPLWriteReg(FM_OPL *OPL, int r, int v)
 		break;
 	case 0xc0:
 		/* FB,C */
-		if( (r&0x0f) > 8) return;
+		if ( (r&0x0f) > 8) return;
 		CH = &OPL->P_CH[r&0x0f];
 		CH->SLOT[SLOT1].FB  = (v>>1)&7 ? ((v>>1)&7) + 7 : 0;
 		CH->SLOT[SLOT1].CON = v&1;
@@ -1378,10 +1378,10 @@ static void OPLWriteReg(FM_OPL *OPL, int r, int v)
 		break;
 	case 0xe0: /* waveform select */
 		/* simply ignore write to the waveform select register if selecting not enabled in test register */
-		if(OPL->wavesel)
+		if (OPL->wavesel)
 		{
 			slot = slot_array[r&0x1f];
-			if(slot < 0) return;
+			if (slot < 0) return;
 			CH = &OPL->P_CH[slot/2];
 
 			CH->SLOT[slot&1].wavetable = (UINT16)((v&0x03)*SIN_LEN);
@@ -1394,13 +1394,13 @@ static void OPLWriteReg(FM_OPL *OPL, int r, int v)
 static int OPL_LockTable(void)
 {
 	num_lock++;
-	if(num_lock>1) return 0;
+	if (num_lock>1) return 0;
 
 	/* first time */
 
 	cur_chip = NULL;
 	/* allocate total level table (128kb space) */
-	if( !init_tables() )
+	if ( !init_tables() )
 	{
 		num_lock--;
 		return -1;
@@ -1411,8 +1411,8 @@ static int OPL_LockTable(void)
 
 static void OPL_UnLockTable(void)
 {
-	if(num_lock) num_lock--;
-	if(num_lock) return;
+	if (num_lock) num_lock--;
+	if (num_lock) return;
 
 	/* last time */
 
@@ -1499,7 +1499,7 @@ static void OPLDestroy(FM_OPL *OPL)
 
 static int OPLWrite(FM_OPL *OPL,int a,int v)
 {
-	if( !(a&1) )
+	if ( !(a&1) )
 	{	/* address port */
 		OPL->address = v & 0xff;
 	}
@@ -1512,7 +1512,7 @@ static int OPLWrite(FM_OPL *OPL,int a,int v)
 
 static unsigned char OPLRead(FM_OPL *OPL,int a)
 {
-	if( !(a&1) )
+	if ( !(a&1) )
 	{
 		/* OPL and OPL2 */
 		return OPL->status & (OPL->statusmask|0x80);
@@ -1536,7 +1536,7 @@ inline static void CSMKeyControll(OPL_CH *CH)
 
 static int OPLTimerOver(FM_OPL *OPL,int c)
 {
-	if( c )
+	if ( c )
 	{	/* Timer B */
 		OPL_STATUS_SET(OPL,0x20);
 	}
@@ -1544,7 +1544,7 @@ static int OPLTimerOver(FM_OPL *OPL,int c)
 	{	/* Timer A */
 		OPL_STATUS_SET(OPL,0x40);
 		/* CSM mode key,TL controll */
-		if( OPL->mode & 0x80 )
+		if ( OPL->mode & 0x80 )
 		{	/* CSM mode total level latch and auto key on */
 			int ch;
 			for(ch=0; ch<9; ch++)
@@ -1609,7 +1609,7 @@ void ym3812_update_one(FM_OPL *chip, OPLSAMPLE *buffer, int length)
 	OPLSAMPLE	*buf = buffer;
 	int i;
 
-	if( (void *)OPL != cur_chip ){
+	if ( (void *)OPL != cur_chip ){
 		cur_chip = (void *)OPL;
 		/* rhythm slots */
 		SLOT7_1 = &OPL->P_CH[7].SLOT[SLOT1];
@@ -1633,7 +1633,7 @@ void ym3812_update_one(FM_OPL *chip, OPLSAMPLE *buffer, int length)
 		OPL_CALC_CH(&OPL->P_CH[4]);
 		OPL_CALC_CH(&OPL->P_CH[5]);
 
-		if(!rhythm)
+		if (!rhythm)
 		{
 			OPL_CALC_CH(&OPL->P_CH[6]);
 			OPL_CALC_CH(&OPL->P_CH[7]);
@@ -1710,7 +1710,7 @@ void ym3526_update_one(FM_OPL *chip, OPLSAMPLE *buffer, int length)
 	OPLSAMPLE	*buf = buffer;
 	int i;
 
-	if( (void *)OPL != cur_chip ){
+	if ( (void *)OPL != cur_chip ){
 		cur_chip = (void *)OPL;
 		/* rhythm slots */
 		SLOT7_1 = &OPL->P_CH[7].SLOT[SLOT1];
@@ -1734,7 +1734,7 @@ void ym3526_update_one(FM_OPL *chip, OPLSAMPLE *buffer, int length)
 		OPL_CALC_CH(&OPL->P_CH[4]);
 		OPL_CALC_CH(&OPL->P_CH[5]);
 
-		if(!rhythm)
+		if (!rhythm)
 		{
 			OPL_CALC_CH(&OPL->P_CH[6]);
 			OPL_CALC_CH(&OPL->P_CH[7]);

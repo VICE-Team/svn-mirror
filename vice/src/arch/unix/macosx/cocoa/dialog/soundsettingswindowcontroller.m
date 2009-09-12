@@ -33,7 +33,7 @@
 -(id)init
 {
     self = [super initWithWindowNibName:@"SoundSettings"];
-    if(!self)
+    if (!self)
         return self;
     
     [self registerForResourceUpdate:@selector(updateResources:)];

@@ -56,7 +56,7 @@ static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, l
     autostart_prg_t *prg;
     
     prg = lib_malloc(sizeof(autostart_prg_t));
-    if(prg == NULL) {
+    if (prg == NULL) {
         return NULL;
     }
 
@@ -65,7 +65,7 @@ static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, l
     prg->data = NULL;
 
     /* read start address */
-    if((fileio_read(finfo, &lo, 1) != 1) ||
+    if ((fileio_read(finfo, &lo, 1) != 1) ||
        (fileio_read(finfo, &hi, 1) != 1)) {
         log_error(log, "Cannot read start address from '%s'", file_name);
         return NULL;
@@ -75,14 +75,14 @@ static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, l
 
     /* check range */
     end = prg->start_addr + prg->size - 1;
-    if(end > 0xffff) {
+    if (end > 0xffff) {
         log_error(log, "Invalid size of '%s': %d", file_name, prg->size);
         return NULL;
     }
 
     /* load to memory */
     prg->data = lib_malloc(prg->size);
-    if(prg->data == NULL) {
+    if (prg->data == NULL) {
         log_error(log, "No memory for '%s'", file_name);
         return NULL;        
     }
@@ -91,7 +91,7 @@ static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, l
     ptr = prg->start_addr;
     i = 0;
     while(ptr <= end) {
-        if(fileio_read(finfo, &(prg->data[i]), 1) != 1) {
+        if (fileio_read(finfo, &(prg->data[i]), 1) != 1) {
             log_error(log, "Error loading data from '%s'", file_name);
             lib_free(prg->data);
             return NULL;
@@ -118,7 +118,7 @@ void autostart_prg_init(void)
 
 void autostart_prg_shutdown(void)
 {
-    if(inject_prg != NULL) {
+    if (inject_prg != NULL) {
         free_prg(inject_prg);
     }
 }
@@ -162,7 +162,7 @@ int autostart_prg_with_ram_injection(const char *file_name,
                                      log_t log)
 {
     /* clean up old injection */
-    if(inject_prg != NULL) {
+    if (inject_prg != NULL) {
         free_prg(inject_prg);
     }
     
@@ -187,17 +187,17 @@ int autostart_prg_with_disk_image(const char *file_name,
     
     /* read prg file */ 
     prg = load_prg(file_name, fh, log);
-    if(prg == NULL) {
+    if (prg == NULL) {
         return -1;
     }
 
     /* disable TDE */
     resources_get_int("DriveTrueEmulation", &old_tde_state);
-    if(old_tde_state != 0)
+    if (old_tde_state != 0)
         resources_set_int("DriveTrueEmulation", 0);
 
     /* create empty image */
-    if(vdrive_internal_create_format_disk_image(image_name, 
+    if (vdrive_internal_create_format_disk_image(image_name, 
         (char *)"AUTOSTART", DISK_IMAGE_TYPE_D64) <0 ) {
         log_error(log, "Error creating autostart disk image: %s", image_name);
         free_prg(prg);
@@ -220,7 +220,7 @@ int autostart_prg_with_disk_image(const char *file_name,
     
     /* get file name size */
     file_name_size = strlen((const char *)fh->name);
-    if(file_name_size > 16) {
+    if (file_name_size > 16) {
         file_name_size = 16;
     }
     
@@ -235,7 +235,7 @@ int autostart_prg_with_disk_image(const char *file_name,
     /* write start address to file */
     lo = (BYTE)(prg->start_addr & 0xff);
     hi = (BYTE)((prg->start_addr >> 8) & 0xff);
-    if((vdrive_iec_write(vdrive, lo, secondary) != SERIAL_OK) ||
+    if ((vdrive_iec_write(vdrive, lo, secondary) != SERIAL_OK) ||
        (vdrive_iec_write(vdrive, hi, secondary) != SERIAL_OK)) {
         log_error(log, "Could not write file");
         free_prg(prg);
@@ -244,7 +244,7 @@ int autostart_prg_with_disk_image(const char *file_name,
 
     /* write PRG data to file */
     for(i = 0; i < prg->size; i++) {
-        if(vdrive_iec_write(vdrive, prg->data[i], secondary) != SERIAL_OK) {
+        if (vdrive_iec_write(vdrive, prg->data[i], secondary) != SERIAL_OK) {
             log_error(log, "Could not write file");
             free_prg(prg);
             return -1;
@@ -262,7 +262,7 @@ int autostart_prg_with_disk_image(const char *file_name,
     free_prg(prg);
     
     /* re-enable TDE */
-    if(old_tde_state != 0)
+    if (old_tde_state != 0)
         resources_set_int("DriveTrueEmulation", old_tde_state);
     
     /* ready */
@@ -276,7 +276,7 @@ int autostart_prg_perform_injection(log_t log)
 
     autostart_prg_t *prg = inject_prg;
     
-    if(prg == NULL) {
+    if (prg == NULL) {
         log_error(log, "Nothing to inject!");
         return -1;
     }

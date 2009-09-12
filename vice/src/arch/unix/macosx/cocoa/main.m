@@ -35,7 +35,7 @@
 int main(int argc, char **argv)
 {
     // launched by Finder.app? see SDLmain.m
-    if(argc >= 2 && strncmp(argv[1], "-psn_", 5) == 0)
+    if (argc >= 2 && strncmp(argv[1], "-psn_", 5) == 0)
         argc = 1;
 
     // create pool for app

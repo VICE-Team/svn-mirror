@@ -117,7 +117,7 @@ static int check_version(const char *lib_name, void *handle, const char *symbol,
     enum { FULL_MATCH=0, MAJOR_MINOR_MATCH=1, MAJOR_MATCH=2, NO_MATCH=3 } result;
     
     version_func = (ffmpeg_version_t)vice_dynlib_symbol(handle, symbol);
-    if(version_func == NULL) {
+    if (version_func == NULL) {
         log_debug("ffmpeg %s: version function '%s' not found!",lib_name, symbol);
         return -1;
     }
@@ -125,19 +125,19 @@ static int check_version(const char *lib_name, void *handle, const char *symbol,
     ver_lib = version_func();
     
     /* version matches exactly */
-    if(ver_lib == ver_inc) {
+    if (ver_lib == ver_inc) {
         result = FULL_MATCH;
     } else {
         /* compare major.minor */
         ver_lib >>= 8;
         ver_inc >>= 8;
-        if(ver_lib == ver_inc) {
+        if (ver_lib == ver_inc) {
             result = MAJOR_MINOR_MATCH;
         } else {
             /* compare major */
             ver_lib >>= 8;
             ver_inc >>= 8;
-            if(ver_lib == ver_inc) {
+            if (ver_lib == ver_inc) {
                 result = MAJOR_MATCH;
             } else {
                 result = NO_MATCH;
@@ -149,7 +149,7 @@ static int check_version(const char *lib_name, void *handle, const char *symbol,
               lib_name, ver_lib, ver_inc, result_msgs[result]);
 
     /* now decide what level of matching fails */
-    if(result == NO_MATCH) {
+    if (result == NO_MATCH) {
         return -1;
     }
     return 0;
@@ -326,20 +326,20 @@ int ffmpeglib_open(ffmpeglib_t *lib)
     int result;
     
     result = load_avformat(lib);
-    if(result != 0) {
+    if (result != 0) {
         free_avformat(lib);
         return result;
     }
 
     result = load_avcodec(lib);
-    if(result != 0) {
+    if (result != 0) {
         free_avformat(lib);
         free_avcodec(lib);
         return result;
     }
 
     result = load_avutil(lib);
-    if(result != 0) {
+    if (result != 0) {
         free_avformat(lib);
         free_avcodec(lib);
         free_avutil(lib);
@@ -348,7 +348,7 @@ int ffmpeglib_open(ffmpeglib_t *lib)
 
 #ifdef HAVE_FFMPEG_SWSCALE
     result = load_swscale(lib);
-    if(result != 0) {
+    if (result != 0) {
         free_avformat(lib);
         free_avcodec(lib);
         free_avutil(lib);

@@ -56,7 +56,7 @@ static int set_video_cache_enabled(int val, void *param)
 
     raster_resource_chip = (raster_resource_chip_t *)param;
 
-    if(val == 99) {
+    if (val == 99) {
         if (machine_class == VICE_MACHINE_C64DTV) {
             val = 0;
         } else {

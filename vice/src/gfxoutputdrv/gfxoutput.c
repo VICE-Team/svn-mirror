@@ -135,8 +135,8 @@ void gfxoutput_shutdown(void)
         
         /* call shutdown function of driver */
         gfxoutputdrv_t *driver = list->drv;
-        if(driver != NULL) {
-            if(driver->shutdown != NULL) {
+        if (driver != NULL) {
+            if (driver->shutdown != NULL) {
                 driver->shutdown();
             }
         }
@@ -197,9 +197,9 @@ int gfxoutput_resources_init()
 
     while (current->next != NULL) {
         gfxoutputdrv_t *driver = current->drv;
-        if(driver && (driver->resources_init != NULL)) {
+        if (driver && (driver->resources_init != NULL)) {
             int result = driver->resources_init();
-            if(result!=0) {
+            if (result!=0) {
                 return result;
             }
         }
@@ -215,9 +215,9 @@ int gfxoutput_cmdline_options_init()
 
     while (current->next != NULL) {
         gfxoutputdrv_t *driver = current->drv;
-        if(driver && (driver->cmdline_options_init != NULL)) {
+        if (driver && (driver->cmdline_options_init != NULL)) {
             int result = driver->cmdline_options_init();
-            if(result!=0) {
+            if (result!=0) {
                 return result;
             }
         }

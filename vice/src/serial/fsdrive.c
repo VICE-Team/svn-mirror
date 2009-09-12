@@ -97,7 +97,7 @@ static BYTE serialcommand(unsigned int device, BYTE secondary)
          */
       case 0xF0:
         if (p->isopen[channel]) {
-            if(p->isopen[channel] == 2) {
+            if (p->isopen[channel] == 2) {
                 log_warning(fsdrive_log, "Bogus close?");
                 (*(p->closef))(vdrive, channel);
             }

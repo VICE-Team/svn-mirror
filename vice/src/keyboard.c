@@ -546,7 +546,7 @@ void keyboard_set_keyarr_any(int row, int col, int value)
             return;
         }
 
-        if(value) {
+        if (value) {
             keyboard_key_pressed(sym);
         } else {
             keyboard_key_released(sym);
@@ -814,7 +814,7 @@ static int keyboard_parse_keymap(const char *filename)
 
             buffer[strlen(buffer) - 1] = 0; /* remove newline */
 	    /* remove comments */
-	    if((p = strchr(buffer, '#')))
+	    if ((p = strchr(buffer, '#')))
 	        *p=0;
 
             switch(*buffer) {

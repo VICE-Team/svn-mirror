@@ -440,7 +440,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
 
     if ((vicii.fastmode == 0) && !vicii.badline_disable) {
         dma_maincpu_steal_cycles(vicii.fetch_clk, num_cycles - sub, sub);
-    } else if(vicii.viciidtv) {
+    } else if (vicii.viciidtv) {
         /* Steal cycles from DMA/Blitter */
         dtvclockneg += num_cycles;
     }

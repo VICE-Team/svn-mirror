@@ -60,7 +60,7 @@
 -(void)setButtonState
 {
     int mode = [[VICEApplication theMachineController] getNetplayMode];
-    if(mode==0) {
+    if (mode==0) {
         [startServerButton setEnabled:TRUE];
         [connectToButton setEnabled:TRUE];
         [disconnectButton setEnabled:FALSE];
@@ -162,7 +162,7 @@
     int ctl = 0;
     int i;
     for(i=0;i<10;i++) {
-        if([control[i] state] == NSOnState) {
+        if ([control[i] state] == NSOnState) {
             ctl |= flags[i];
         }
     }

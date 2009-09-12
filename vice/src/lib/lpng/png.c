@@ -234,7 +234,7 @@ png_create_info_struct(png_structp png_ptr)
    png_infop info_ptr;
 
    png_debug(1, "in png_create_info_struct\n");
-   if(png_ptr == NULL) return (NULL);
+   if (png_ptr == NULL) return (NULL);
 #ifdef PNG_USER_MEM_SUPPORTED
    info_ptr = (png_infop)png_create_struct_2(PNG_STRUCT_INFO,
       png_ptr->malloc_fn, png_ptr->mem_ptr);
@@ -296,7 +296,7 @@ png_info_init_3(png_infopp ptr_ptr, png_size_t png_info_struct_size)
 
    png_debug(1, "in png_info_init_3\n");
 
-   if(png_sizeof(png_info) > png_info_struct_size)
+   if (png_sizeof(png_info) > png_info_struct_size)
      {
        png_destroy_struct(info_ptr);
        info_ptr = (png_infop)png_create_struct(PNG_STRUCT_INFO);
@@ -315,9 +315,9 @@ png_data_freer(png_structp png_ptr, png_infop info_ptr,
    png_debug(1, "in png_data_freer\n");
    if (png_ptr == NULL || info_ptr == NULL)
       return;
-   if(freer == PNG_DESTROY_WILL_FREE_DATA)
+   if (freer == PNG_DESTROY_WILL_FREE_DATA)
       info_ptr->free_me |= mask;
-   else if(freer == PNG_USER_WILL_FREE_DATA)
+   else if (freer == PNG_USER_WILL_FREE_DATA)
       info_ptr->free_me &= ~mask;
    else
       png_warning(png_ptr,
@@ -449,7 +449,7 @@ if (mask & PNG_FREE_SPLT)
 {
    if (num != -1)
    {
-      if(info_ptr->splt_palettes)
+      if (info_ptr->splt_palettes)
       {
           png_free(png_ptr, info_ptr->splt_palettes[num].name);
           png_free(png_ptr, info_ptr->splt_palettes[num].entries);
@@ -459,7 +459,7 @@ if (mask & PNG_FREE_SPLT)
    }
    else
    {
-       if(info_ptr->splt_palettes_num)
+       if (info_ptr->splt_palettes_num)
        {
          int i;
          for (i = 0; i < (int)info_ptr->splt_palettes_num; i++)
@@ -483,7 +483,7 @@ if (mask & PNG_FREE_UNKN)
 {
    if (num != -1)
    {
-       if(info_ptr->unknown_chunks)
+       if (info_ptr->unknown_chunks)
        {
           png_free(png_ptr, info_ptr->unknown_chunks[num].data);
           info_ptr->unknown_chunks[num].data = NULL;
@@ -493,7 +493,7 @@ if (mask & PNG_FREE_UNKN)
    {
        int i;
 
-       if(info_ptr->unknown_chunks_num)
+       if (info_ptr->unknown_chunks_num)
        {
          for (i = 0; i < (int)info_ptr->unknown_chunks_num; i++)
             png_free_data(png_ptr, info_ptr, PNG_FREE_UNKN, i);
@@ -547,7 +547,7 @@ if ((mask & PNG_FREE_ROWS) & info_ptr->free_me)
 if (mask & PNG_FREE_ROWS)
 #endif
 {
-    if(info_ptr->row_pointers)
+    if (info_ptr->row_pointers)
     {
        int row;
        for (row = 0; row < (int)info_ptr->height; row++)
@@ -563,7 +563,7 @@ if (mask & PNG_FREE_ROWS)
 #endif
 
 #ifdef PNG_FREE_ME_SUPPORTED
-   if(num == -1)
+   if (num == -1)
      info_ptr->free_me &= ~mask;
    else
      info_ptr->free_me &= ~(mask & ~PNG_FREE_MUL);
@@ -729,7 +729,7 @@ png_handle_as_unknown(png_structp png_ptr, png_bytep chunk_name)
    /* check chunk_name and return "keep" value if it's on the list, else 0 */
    int i;
    png_bytep p;
-   if((png_ptr == NULL && chunk_name == NULL) || png_ptr->num_chunk_list<=0)
+   if ((png_ptr == NULL && chunk_name == NULL) || png_ptr->num_chunk_list<=0)
       return 0;
    p=png_ptr->chunk_list+png_ptr->num_chunk_list*5-5;
    for (i = png_ptr->num_chunk_list; i; i--, p-=5)
