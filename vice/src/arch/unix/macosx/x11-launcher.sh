@@ -96,7 +96,7 @@ fi
 # setup dylib path
 LIB_DIR="$RESOURCES_DIR/lib"
 if [ -d "$LIB_DIR" ]; then
-  export DYLD_LIBRARY_PATH="$LIB_DIR"
+  PROGRAM_PREFIX="env DYLD_LIBRARY_PATH=\"$LIB_DIR\""
 fi
 # setup path
 BIN_DIR="$RESOURCES_DIR/bin"
@@ -157,18 +157,23 @@ dbgecho "PROGRAM_PATH=$PROGRAM_PATH"
 if [ "$LAUNCH" = "cmdline" ]; then
   # launch in cmd line without xterm
   dbgecho "CMDLINE ARGS=""$@"
-  "$PROGRAM_PATH" "$@"
+  $PROGRAM_PREFIX "$PROGRAM_PATH" "$@"
 else
   # use xterm as console
+  XTERM_BIN=`which xterm`
+  if [ "x$XTERM_BIN" != "x" ]; then
+    dbgecho "xterm not found!"
+    exit 1
+  fi
   dbgecho "XTERM LAUNCH_FILE=" "$LAUNCH_FILE"
   if [ "$LAUNCH_FILE" != "" ]; then
-    /usr/X11R6/bin/xterm \
+    "$XTERM_BIN" \
       -sb -title "VICE $PROGRAM Console" \
-      -e "$PROGRAM_PATH" -autostart "$LAUNCH_FILE"
+      -e $PROGRAM_PREFIX "$PROGRAM_PATH" -autostart "$LAUNCH_FILE"
   else
-    /usr/X11R6/bin/xterm \
+    "$XTERM_BIN" \
       -sb -title "VICE $PROGRAM Console" \
-      -e "$PROGRAM_PATH"
+      -e $PROGRAM_PREFIX "$PROGRAM_PATH"
   fi
 fi
 
