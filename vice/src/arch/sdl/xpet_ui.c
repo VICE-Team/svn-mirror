@@ -54,91 +54,91 @@
 #include "vkbd.h"
 
 static const ui_menu_entry_t xpet_main_menu[] = {
-    { "Autostart image",
-      MENU_ENTRY_DIALOG,
-      autostart_callback,
-      NULL },
-    { "Drive",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)drive_menu },
-    { "Tape",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)tape_menu },
-    { "Cartridge",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)petcart_menu },
-    { "Machine settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)pet_hardware_menu },
-    { "Video settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)pet_video_menu },
-    { "Sound settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sound_output_menu },
-    { "Snapshot",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)snapshot_menu },
-    { "Screenshot",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)screenshot_menu },
-    { "Speed settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)speed_menu },
-    { "Reset",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)reset_menu },
+    {"Autostart image",
+     MENU_ENTRY_DIALOG,
+     autostart_callback,
+     NULL},
+    {"Drive",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)drive_menu},
+    {"Tape",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)tape_menu},
+    {"Cartridge",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)petcart_menu},
+    {"Machine settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)pet_hardware_menu},
+    {"Video settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)pet_video_menu},
+    {"Sound settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)sound_output_menu},
+    {"Snapshot",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)snapshot_menu},
+    {"Screenshot",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)screenshot_menu},
+    {"Speed settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)speed_menu},
+    {"Reset",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)reset_menu},
 #ifdef HAVE_NETWORK 
-    { "Network",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)network_menu },
+    {"Network",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)network_menu},
 #endif 
-    { "Pause",
-      MENU_ENTRY_OTHER,
-      pause_callback,
-      NULL },
-    { "Monitor",
-      MENU_ENTRY_OTHER,
-      monitor_callback,
-      NULL },
-    { "Virtual keyboard",
-      MENU_ENTRY_OTHER,
-      vkbd_callback,
-      NULL },
-    { "Statusbar",
-      MENU_ENTRY_OTHER,
-      statusbar_callback,
-      NULL },
+    {"Pause",
+     MENU_ENTRY_OTHER,
+     pause_callback,
+     NULL},
+    {"Monitor",
+     MENU_ENTRY_OTHER,
+     monitor_callback,
+     NULL},
+    {"Virtual keyboard",
+     MENU_ENTRY_OTHER,
+     vkbd_callback,
+     NULL},
+    {"Statusbar",
+     MENU_ENTRY_OTHER,
+     statusbar_callback,
+     NULL},
 #ifdef DEBUG
-    { "Debug",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)debug_menu },
+    {"Debug",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)debug_menu},
 #endif
-    { "Help",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)help_menu },
-    { "Settings management",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)settings_manager_menu },
-    { "Quit emulator",
-      MENU_ENTRY_OTHER,
-      quit_callback,
-      NULL },
-    { NULL }
+    {"Help",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)help_menu},
+    {"Settings management",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)settings_manager_menu},
+    {"Quit emulator",
+     MENU_ENTRY_OTHER,
+     quit_callback,
+     NULL},
+    {NULL}
 };
 
 static BYTE *pet_font;
@@ -172,18 +172,18 @@ int petui_init(void)
     int i, j;
 
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr,"%s\n",__func__);
 #endif
 
     sdl_ui_set_menu_params = petui_set_menu_params;
 
     sdl_ui_set_main_menu(xpet_main_menu);
 
-    pet_font=lib_malloc(8*256);
-    for (i=0; i<128; i++) {
-        for (j=0; j<8; j++) {
-            pet_font[(i*8)+j]=mem_chargen_rom[(i*16)+(256*16)+j];
-            pet_font[(i*8)+(128*8)+j]=mem_chargen_rom[(i*16)+j];
+    pet_font=lib_malloc(8 * 256);
+    for (i = 0; i < 128; i++) {
+        for (j = 0; j < 8; j++) {
+            pet_font[(i * 8) + j] = mem_chargen_rom[(i * 16) + (256 * 16) + j];
+            pet_font[(i * 8) + (128 * 8) + j] = mem_chargen_rom[(i * 16) + j];
         }
     }
     sdl_ui_set_menu_font(pet_font, 8, 8);
@@ -193,7 +193,7 @@ fprintf(stderr,"%s\n",__func__);
 void petui_shutdown(void)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr,"%s\n",__func__);
 #endif
 
     lib_free(pet_font);

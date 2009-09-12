@@ -27,7 +27,6 @@
  *
  */
 
-
 #include "vice.h"
 
 #include "joy.h"
@@ -51,19 +50,19 @@
 signed long vsyncarch_frequency(void)
 {
     /* Milliseconds resolution. */
-    return 1000*VICE_SDL_TICKS_SCALE;
+    return 1000 * VICE_SDL_TICKS_SCALE;
 }
 
 /* Get time in timer units. */
 unsigned long vsyncarch_gettime(void)
 {
-    return SDL_GetTicks()*VICE_SDL_TICKS_SCALE;
+    return SDL_GetTicks() * VICE_SDL_TICKS_SCALE;
 }
 
 void vsyncarch_init(void)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr,"%s\n",__func__);
 #endif
 }
 
@@ -76,7 +75,6 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
 /* Sleep a number of timer units. */
 void vsyncarch_sleep(signed long delay)
 {
-/*fprintf(stderr,"%s: %i\n",__func__,delay);*/
     SDL_Delay(delay/VICE_SDL_TICKS_SCALE);
 }
 
@@ -104,4 +102,3 @@ void vsyncarch_presync(void)
 void vsyncarch_postsync(void)
 {
 }
-

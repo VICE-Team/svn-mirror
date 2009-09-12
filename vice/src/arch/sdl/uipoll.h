@@ -34,9 +34,9 @@
 
 #include "uimenu.h"
 
-#define SDL_POLL_JOYSTICK   (1<<0)
-#define SDL_POLL_KEYBOARD   (1<<1)
-#define SDL_POLL_MODIFIER   (1<<2)
+#define SDL_POLL_JOYSTICK (1 << 0)
+#define SDL_POLL_KEYBOARD (1 << 1)
+#define SDL_POLL_MODIFIER (1 << 2)
 
 extern SDL_Event sdl_ui_poll_event(const char *what, const char *target, int options, int timeout);
 

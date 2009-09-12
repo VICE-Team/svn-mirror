@@ -42,15 +42,15 @@
 /* ----------------------------------------------------------------- */
 /* static functions/variables */
 
-#define MAX_STATUSBAR_LEN 128
-#define STATUSBAR_SPEED_POS 0
-#define STATUSBAR_PAUSE_POS 4
-#define STATUSBAR_DRIVE_POS 12
-#define STATUSBAR_DRIVE8_TRACK_POS 14
-#define STATUSBAR_DRIVE9_TRACK_POS 19
+#define MAX_STATUSBAR_LEN           128
+#define STATUSBAR_SPEED_POS         0
+#define STATUSBAR_PAUSE_POS         4
+#define STATUSBAR_DRIVE_POS         12
+#define STATUSBAR_DRIVE8_TRACK_POS  14
+#define STATUSBAR_DRIVE9_TRACK_POS  19
 #define STATUSBAR_DRIVE10_TRACK_POS 24
 #define STATUSBAR_DRIVE11_TRACK_POS 29
-#define STATUSBAR_TAPE_POS 33
+#define STATUSBAR_TAPE_POS          33
 
 static char statusbar_text[MAX_STATUSBAR_LEN] = "                                       ";
 
@@ -72,14 +72,13 @@ static inline void uistatusbar_putchar(BYTE c, int pos_x, int pos_y, BYTE color_
 
     for (y=0; y < menufont->h; ++y) {
         fontchar = *font_pos;
-        for (x=0; x < menufont->w; ++x) {
-            draw_pos[x] = (fontchar & (0x80 >> x))?color_f:color_b;
+        for (x = 0; x < menufont->w; ++x) {
+            draw_pos[x] = (fontchar & (0x80 >> x)) ? color_f : color_b;
         }
         ++font_pos;
         draw_pos += pitch;
     }
 }
-
 
 static int tape_counter = 0;
 static int tape_enabled = 0;
@@ -91,7 +90,7 @@ static void display_tape(void)
     int len;
 
     if (tape_enabled) {
-        len = sprintf(&(statusbar_text[STATUSBAR_TAPE_POS]), "%c%03d%c", (tape_motor)?'*':' ', tape_counter," >f<R"[tape_control]);
+        len = sprintf(&(statusbar_text[STATUSBAR_TAPE_POS]), "%c%03d%c", (tape_motor) ?'*' : ' ', tape_counter, " >f<R" [tape_control]);
     } else {
         len = sprintf(&(statusbar_text[STATUSBAR_TAPE_POS]), "     ");
     }
@@ -154,13 +153,12 @@ void ui_display_paused(int flag)
 void ui_display_statustext(const char *text, int fade_out)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: \"%s\", %i\n",__func__,text,fade_out);
+    fprintf(stderr, "%s: \"%s\", %i\n", __func__, text, fade_out);
 #endif
 }
 
 /* Drive related UI.  */
-void ui_enable_drive_status(ui_drive_enable_t state,
-                            int *drive_led_color)
+void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
     int drive_number;
     int drive_state = (int)state;
@@ -179,64 +177,61 @@ void ui_enable_drive_status(ui_drive_enable_t state,
     }
 }
 
-void ui_display_drive_track(unsigned int drive_number,
-                            unsigned int drive_base,
-                            unsigned int half_track_number)
+void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base, unsigned int half_track_number)
 {
-  unsigned int track_number = half_track_number / 2;
+    unsigned int track_number = half_track_number / 2;
 
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr, "%s\n", __func__);
 #endif
 
-  switch (drive_number)
-  {
-    case 1:
-        statusbar_text[STATUSBAR_DRIVE9_TRACK_POS] = (track_number / 10) + '0';
-        statusbar_text[STATUSBAR_DRIVE9_TRACK_POS + 1] = (track_number % 10) + '0';
-        break;
-    case 2:
-        statusbar_text[STATUSBAR_DRIVE10_TRACK_POS] = (track_number / 10) + '0';
-        statusbar_text[STATUSBAR_DRIVE10_TRACK_POS + 1] = (track_number % 10) + '0';
-        break;
-    case 3:
-        statusbar_text[STATUSBAR_DRIVE11_TRACK_POS] = (track_number / 10) + '0';
-        statusbar_text[STATUSBAR_DRIVE11_TRACK_POS + 1] = (track_number % 10) + '0';
-        break;
-    default:
-    case 0:
-        statusbar_text[STATUSBAR_DRIVE8_TRACK_POS] = (track_number / 10) + '0';
-        statusbar_text[STATUSBAR_DRIVE8_TRACK_POS + 1] = (track_number % 10) + '0';
-        break;
-  }
-
-  if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
-      uistatusbar_state |= UISTATUSBAR_REPAINT;
-  }
-}
-
-/* The pwm value will vary between 0 and 1000.  */
-void ui_display_drive_led(int drive_number, unsigned int pwm1,
-                          unsigned int led_pwm2)
-{
-    char c;
-#ifdef SDL_DEBUG
-fprintf(stderr,"%s: drive %i, pwm1 = %i, led_pwm2 = %u\n",__func__, drive_number, pwm1, led_pwm2);
-#endif
-    c = "8901"[drive_number] | ((pwm1 > 500)?0x80:0);
-    statusbar_text[STATUSBAR_DRIVE_POS + (drive_number*5)] = c;
-    statusbar_text[STATUSBAR_DRIVE_POS + (drive_number*5) + 1] = 'T';
+    switch (drive_number) {
+        case 1:
+            statusbar_text[STATUSBAR_DRIVE9_TRACK_POS] = (track_number / 10) + '0';
+            statusbar_text[STATUSBAR_DRIVE9_TRACK_POS + 1] = (track_number % 10) + '0';
+            break;
+        case 2:
+            statusbar_text[STATUSBAR_DRIVE10_TRACK_POS] = (track_number / 10) + '0';
+            statusbar_text[STATUSBAR_DRIVE10_TRACK_POS + 1] = (track_number % 10) + '0';
+            break;
+        case 3:
+            statusbar_text[STATUSBAR_DRIVE11_TRACK_POS] = (track_number / 10) + '0';
+            statusbar_text[STATUSBAR_DRIVE11_TRACK_POS + 1] = (track_number % 10) + '0';
+            break;
+        default:
+        case 0:
+            statusbar_text[STATUSBAR_DRIVE8_TRACK_POS] = (track_number / 10) + '0';
+            statusbar_text[STATUSBAR_DRIVE8_TRACK_POS + 1] = (track_number % 10) + '0';
+            break;
+    }
 
     if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
         uistatusbar_state |= UISTATUSBAR_REPAINT;
     }
 }
 
-void ui_display_drive_current_image(unsigned int drive_number,
-                                    const char *image)
+/* The pwm value will vary between 0 and 1000.  */
+void ui_display_drive_led(int drive_number, unsigned int pwm1, unsigned int led_pwm2)
+{
+    char c;
+
+#ifdef SDL_DEBUG
+    fprintf(stderr, "%s: drive %i, pwm1 = %i, led_pwm2 = %u\n", __func__, drive_number, pwm1, led_pwm2);
+#endif
+
+    c = "8901"[drive_number] | ((pwm1 > 500) ? 0x80 : 0);
+    statusbar_text[STATUSBAR_DRIVE_POS + (drive_number * 5)] = c;
+    statusbar_text[STATUSBAR_DRIVE_POS + (drive_number * 5) + 1] = 'T';
+
+    if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
+        uistatusbar_state |= UISTATUSBAR_REPAINT;
+    }
+}
+
+void ui_display_drive_current_image(unsigned int drive_number, const char *image)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr, "%s\n", __func__);
 #endif
 }
 
@@ -275,30 +270,29 @@ void ui_display_tape_counter(int counter)
 void ui_display_tape_current_image(const char *image)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: %s\n",__func__,image);
+    fprintf(stderr, "%s: %s\n", __func__, image);
 #endif
 }
-
 
 /* Recording UI */
 void ui_display_playback(int playback_status, char *version)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: %i, \"%s\"\n",__func__,playback_status, version);
+    fprintf(stderr, "%s: %i, \"%s\"\n", __func__, playback_status, version);
 #endif
 }
 
 void ui_display_recording(int recording_status)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: %i\n",__func__,recording_status);
+    fprintf(stderr, "%s: %i\n", __func__, recording_status);
 #endif
 }
 
 void ui_display_event_time(unsigned int current, unsigned int total)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: %i, %i\n",__func__,current,total);
+    fprintf(stderr, "%s: %i, %i\n", __func__, current,total);
 #endif
 }
 
@@ -306,7 +300,7 @@ fprintf(stderr,"%s: %i, %i\n",__func__,current,total);
 void ui_display_joyport(BYTE *joyport)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: %02x %02x %02x %02x %02x\n",__func__, joyport[0], joyport[1], joyport[2],  joyport[3], joyport[4]);
+    fprintf(stderr, "%s: %02x %02x %02x %02x %02x\n", __func__, joyport[0], joyport[1], joyport[2],  joyport[3], joyport[4]);
 #endif
 }
 
@@ -314,7 +308,7 @@ fprintf(stderr,"%s: %02x %02x %02x %02x %02x\n",__func__, joyport[0], joyport[1]
 void ui_display_volume(int vol)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: %i\n",__func__,vol);
+    fprintf(stderr, "%s: %i\n", __func__, vol);
 #endif
 }
 
@@ -337,15 +331,15 @@ static int set_statusbar(int val, void *param)
 }
 
 static const resource_int_t resources_int[] = {
-    { "SDLStatusbar", 0, RES_EVENT_NO, NULL,
-      &statusbar_enabled, set_statusbar, NULL },
-    { NULL },
+    {"SDLStatusbar", 0, RES_EVENT_NO, NULL,
+     &statusbar_enabled, set_statusbar, NULL},
+    {NULL},
 };
 
 int uistatusbar_init_resources(void)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr, "%s\n", __func__);
 #endif
     return resources_register_int(resources_int);
 }
@@ -399,4 +393,3 @@ void uistatusbar_draw(void)
         }
     }
 }
-

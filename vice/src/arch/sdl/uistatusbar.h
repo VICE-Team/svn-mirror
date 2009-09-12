@@ -29,8 +29,9 @@
 
 #include "vice.h"
 
-#define UISTATUSBAR_ACTIVE  (1<<0)
-#define UISTATUSBAR_REPAINT (1<<1)
+#define UISTATUSBAR_ACTIVE  (1 << 0)
+#define UISTATUSBAR_REPAINT (1 << 1)
+
 extern int uistatusbar_state;
 
 extern void uistatusbar_open(void);

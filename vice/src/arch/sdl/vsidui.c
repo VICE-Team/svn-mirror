@@ -57,14 +57,12 @@ void vsid_ui_display_copyright(const char *copyright)
 
 void vsid_ui_display_sync(int sync)
 {
-    log_message(LOG_DEFAULT, "Using %s sync",
-                sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
+    log_message(LOG_DEFAULT, "Using %s sync", sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
 }
 
 void vsid_ui_display_sid_model(int model)
 {
-    log_message(LOG_DEFAULT, "Using %s emulation",
-		model == 0 ? "MOS6581" : "MOS8580");
+    log_message(LOG_DEFAULT, "Using %s emulation", model == 0 ? "MOS6581" : "MOS8580");
 }
 
 void vsid_ui_set_default_tune(int nr)
@@ -97,4 +95,3 @@ void vsid_ui_setdrv(char* driver_info_text)
 void vsid_ui_close(void)
 {
 }
-

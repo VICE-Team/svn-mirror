@@ -48,8 +48,7 @@ static inline int is_not_modifier(SDLKey k)
             (k != SDLK_RCTRL) &&
             (k != SDLK_LCTRL) &&
             (k != SDLK_RALT) &&
-            (k != SDLK_LALT))
-            ?1:0;
+            (k != SDLK_LALT)) ? 1 : 0;
 }
 
 static void sdl_poll_print_timeout(int x, int y, int time)
@@ -118,7 +117,7 @@ SDL_Event sdl_ui_poll_event(const char *what, const char *target, int options, i
         }
         SDL_Delay(20);
 
-        if ((timeout > 0) && (++count == 1000/20)) {
+        if ((timeout > 0) && (++count == 1000 / 20)) {
             count = 0;
             if (--timeout == 0) {
                 e.type = SDL_USEREVENT;
@@ -135,4 +134,3 @@ SDL_Event sdl_ui_poll_event(const char *what, const char *target, int options, i
 
     return e;
 }
-

@@ -68,4 +68,3 @@ int ui_emulation_is_paused(void)
 {
     return is_paused;
 }
-

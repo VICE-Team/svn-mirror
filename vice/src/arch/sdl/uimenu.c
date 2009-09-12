@@ -62,9 +62,9 @@ static WORD sdl_default_translation[256];
 
 static BYTE *draw_buffer_backup = NULL;
 
-static menufont_t menufont = { NULL, sdl_default_translation, 0, 0 };
+static menufont_t menufont = {NULL, sdl_default_translation, 0, 0};
 
-static menu_draw_t menu_draw = { 0, 0, 40, 25, 0, 0, 1, 0 };
+static menu_draw_t menu_draw = {0, 0, 40, 25, 0, 0, 1, 0};
 
 void (*sdl_ui_set_menu_params)(int index, menu_draw_t *menu_draw);
 
@@ -85,10 +85,10 @@ static void sdl_ui_putchar(BYTE c, int pos_x, int pos_y)
 
     draw_pos += menu_draw.offset;
 
-    for (y=0; y < menufont.h; ++y) {
+    for (y = 0; y < menufont.h; ++y) {
         fontchar = *font_pos;
-        for (x=0; x < menufont.w; ++x) {
-            draw_pos[x] = (fontchar & (0x80 >> x))?menu_draw.color_front:menu_draw.color_back;
+        for (x = 0; x < menufont.w; ++x) {
+            draw_pos[x] = (fontchar & (0x80 >> x)) ? menu_draw.color_front : menu_draw.color_back;
         }
         ++font_pos;
         draw_pos += menu_draw.pitch;
@@ -172,7 +172,6 @@ static int *sdl_ui_menu_get_offsets(ui_menu_entry_t *menu, int num_items)
     return offsets;
 }
 
-
 static void sdl_ui_display_item(ui_menu_entry_t *item, int y_pos, int value_offset)
 {
     int i;
@@ -181,7 +180,7 @@ static void sdl_ui_display_item(ui_menu_entry_t *item, int y_pos, int value_offs
         return;
     }
 
-    if ((item->type == MENU_ENTRY_TEXT)&&(vice_ptr_to_int(item->data) == 1)) {
+    if ((item->type == MENU_ENTRY_TEXT) && (vice_ptr_to_int(item->data) == 1)) {
         sdl_ui_reverse_colors();
     }
 
@@ -191,7 +190,7 @@ static void sdl_ui_display_item(ui_menu_entry_t *item, int y_pos, int value_offs
         sdl_ui_reverse_colors();
     }
 
-    sdl_ui_print(item->callback(0, item->data), MENU_FIRST_X+i+value_offset, y_pos+MENU_FIRST_Y);
+    sdl_ui_print(item->callback(0, item->data), MENU_FIRST_X + i + value_offset, y_pos + MENU_FIRST_Y);
 }
 
 static void sdl_ui_menu_redraw(ui_menu_entry_t *menu, const char *title, int offset, int *value_offsets)
@@ -266,8 +265,7 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
                 }
                 break;
             case MENU_ACTION_RIGHT:
-                if ((menu[cur + cur_offset].type != MENU_ENTRY_SUBMENU)
-                 && (menu[cur + cur_offset].type != MENU_ENTRY_DYNAMIC_SUBMENU)) {
+                if ((menu[cur + cur_offset].type != MENU_ENTRY_SUBMENU) && (menu[cur + cur_offset].type != MENU_ENTRY_DYNAMIC_SUBMENU)) {
                     break;
                 }
                 /* fall through */
@@ -666,15 +664,15 @@ void sdl_ui_display_cursor(int pos, int old_pos)
     const char c_erase = ' ';
     const char c_cursor = '>';
 
-    if(pos == old_pos) {
+    if (pos == old_pos) {
         return;
     }
 
-    if(old_pos >= 0) {
-        sdl_ui_putchar(c_erase, 0, old_pos+MENU_FIRST_Y);
+    if (old_pos >= 0) {
+        sdl_ui_putchar(c_erase, 0, old_pos + MENU_FIRST_Y);
     }
 
-    sdl_ui_putchar(c_cursor, 0, pos+MENU_FIRST_Y);
+    sdl_ui_putchar(c_cursor, 0, pos + MENU_FIRST_Y);
 }
 
 int sdl_ui_print(const char *text, int pos_x, int pos_y)
@@ -686,12 +684,12 @@ int sdl_ui_print(const char *text, int pos_x, int pos_y)
         return 0;
     }
 
-    if ((pos_x >= menu_draw.max_text_x)||(pos_y >= menu_draw.max_text_y)) {
+    if ((pos_x >= menu_draw.max_text_x) || (pos_y >= menu_draw.max_text_y)) {
         return -1;
     }
 
-    while (((c = text[i]) != 0)&&((pos_x + i) < menu_draw.max_text_x)) {
-        sdl_ui_putchar(c, pos_x+i, pos_y);
+    while (((c = text[i]) != 0) && ((pos_x + i) < menu_draw.max_text_x)) {
+        sdl_ui_putchar(c, pos_x + i, pos_y);
         ++i;
     }
 
@@ -723,8 +721,8 @@ int sdl_ui_print_center(const char *text, int pos_y)
         return -1;
     }
 
-    while (((c = text[i]) != 0)&&((pos_x + i) < menu_draw.max_text_x)) {
-        sdl_ui_putchar(c, pos_x+i, pos_y);
+    while (((c = text[i]) != 0) && ((pos_x + i) < menu_draw.max_text_x)) {
+        sdl_ui_putchar(c, pos_x + i, pos_y);
         ++i;
     }
 
@@ -919,10 +917,10 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y, int escaped_is
                 break;
             case SDLK_BACKSPACE:
                 if (i > 0) {
-                    memmove(new_string+i-1, new_string+i, size - i + 1);
+                    memmove(new_string + i - 1, new_string + i, size - i + 1);
                     --size;
                     new_string[size] = ' ';
-                    sdl_ui_print_wrap(new_string+i-1, pos_x+i-1, &pos_y);
+                    sdl_ui_print_wrap(new_string + i - 1, pos_x + i - 1, &pos_y);
                     new_string[size] = 0;
                     --i;
                     if (i != (int)size) {
@@ -949,17 +947,17 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y, int escaped_is
 
         if (!got_key && (size < max) && ((c_uni & 0xff80) == 0) && ((c_uni & 0x7f) != 0)) {
             c = c_uni & 0x7f;
-            memmove(new_string+i+1 , new_string+i, size - i);
+            memmove(new_string + i + 1, new_string + i, size - i);
             new_string[i] = c;
             ++size;
             new_string[size] = 0;
-            sdl_ui_print_wrap(new_string+i, pos_x+i, &pos_y);
+            sdl_ui_print_wrap(new_string + i, pos_x + i, &pos_y);
             ++i;
             prev = -1;
             string_changed = 1;
         }
 
-    } while(!done);
+    } while (!done);
 
     SDL_EnableUNICODE(0);
 
@@ -976,7 +974,7 @@ char* sdl_ui_text_input_dialog(const char* title, const char* previous)
 
     sdl_ui_clear();
     i = sdl_ui_display_title(title) / menu_draw.max_text_x;
-    return sdl_ui_readline(previous, 0, i+MENU_FIRST_Y, 0);
+    return sdl_ui_readline(previous, 0, i + MENU_FIRST_Y, 0);
 }
 
 ui_menu_entry_t *sdl_ui_get_main_menu(void)
@@ -994,9 +992,9 @@ void sdl_ui_scroll_screen_up(void)
     int i, j;
     BYTE *draw_pos = sdl_active_canvas->draw_buffer->draw_buffer + menu_draw.offset;
 
-    for (i = 0; i < menu_draw.max_text_y-1; ++i) {
+    for (i = 0; i < menu_draw.max_text_y - 1; ++i) {
         for (j = 0; j < menufont.h; ++j) {
-            memmove(draw_pos + (i * menufont.h + j) * menu_draw.pitch, draw_pos + (((i+1) * menufont.h) + j) * menu_draw.pitch, menu_draw.max_text_x * menufont.w);
+            memmove(draw_pos + (i * menufont.h + j) * menu_draw.pitch, draw_pos + (((i + 1) * menufont.h) + j) * menu_draw.pitch, menu_draw.max_text_x * menufont.w);
         }
     }
 
@@ -1021,8 +1019,7 @@ void sdl_ui_set_menu_font(BYTE *font, int w, int h)
     menufont.w = w;
     menufont.h = h;
 
-    for (i=0; i<256; ++i) {
-        menufont.translate[i] = h*charset_petcii_to_screencode(charset_p_topetcii((char)i), 0);
+    for (i = 0; i < 256; ++i) {
+        menufont.translate[i] = h * charset_petcii_to_screencode(charset_p_topetcii((char)i), 0);
     }
 }
-

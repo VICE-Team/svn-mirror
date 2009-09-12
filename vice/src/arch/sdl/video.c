@@ -190,37 +190,37 @@ static int set_aspect_ratio(const char *val, void *param)
 
 static const resource_string_t resources_string[] = {
 #ifdef HAVE_HWSCALE
-    { "AspectRatio", "1.0", RES_EVENT_NO, NULL,
-      &aspect_ratio_s, set_aspect_ratio, NULL },
+    {"AspectRatio", "1.0", RES_EVENT_NO, NULL,
+     &aspect_ratio_s, set_aspect_ratio, NULL},
 #endif
-    { NULL }
+    {NULL}
 };
 
 static const resource_int_t resources_int[] = {
 #ifdef WATCOM_COMPILE
-    { "SDLBitdepth", 32, RES_EVENT_NO, NULL,
-      &sdl_bitdepth, set_sdl_bitdepth, NULL },
+    {"SDLBitdepth", 32, RES_EVENT_NO, NULL,
+     &sdl_bitdepth, set_sdl_bitdepth, NULL},
 #else
-    { "SDLBitdepth", 0, RES_EVENT_NO, NULL,
-      &sdl_bitdepth, set_sdl_bitdepth, NULL },
+    {"SDLBitdepth", 0, RES_EVENT_NO, NULL,
+     &sdl_bitdepth, set_sdl_bitdepth, NULL},
 #endif
-    { "SDLLimitMode", SDL_LIMIT_MODE_OFF, RES_EVENT_NO, NULL,
-      &sdl_limit_mode, set_sdl_limit_mode, NULL },
-    { "SDLCustomWidth", 800, RES_EVENT_NO, NULL,
-      &sdl_custom_width, set_sdl_custom_width, NULL },
-    { "SDLCustomHeight", 600, RES_EVENT_NO, NULL,
-      &sdl_custom_height, set_sdl_custom_height, NULL },
+    {"SDLLimitMode", SDL_LIMIT_MODE_OFF, RES_EVENT_NO, NULL,
+     &sdl_limit_mode, set_sdl_limit_mode, NULL},
+    {"SDLCustomWidth", 800, RES_EVENT_NO, NULL,
+     &sdl_custom_width, set_sdl_custom_width, NULL},
+    {"SDLCustomHeight", 600, RES_EVENT_NO, NULL,
+     &sdl_custom_height, set_sdl_custom_height, NULL},
 #ifdef HAVE_HWSCALE
-    { "SDLGLAspectMode", 0, RES_EVENT_NO, NULL,
-      &sdl_gl_aspect_mode, set_sdl_gl_aspect_mode, NULL },
+    {"SDLGLAspectMode", 0, RES_EVENT_NO, NULL,
+     &sdl_gl_aspect_mode, set_sdl_gl_aspect_mode, NULL},
 #endif
-    { NULL }
+    {NULL}
 };
 
 int video_arch_resources_init(void)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr, "%s\n", __func__);
 #endif
     if (resources_register_string(resources_string) < 0)
         return -1;
@@ -231,7 +231,7 @@ fprintf(stderr,"%s\n",__func__);
 void video_arch_resources_shutdown(void)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr, "%s\n", __func__);
 #endif
 #ifdef HAVE_HWSCALE
     lib_free(aspect_ratio_s);
@@ -242,33 +242,33 @@ fprintf(stderr,"%s\n",__func__);
 /* Video-related command-line options.  */
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-sdlbitdepth", SET_RESOURCE, 1, NULL, NULL, "SDLBitdepth", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-      "<bpp>", "Set bitdepth (0 = current, 8, 15, 16, 24, 32)" },
-    { "-sdllimitmode", SET_RESOURCE, 1, NULL, NULL, "SDLLimitMode", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-      "<mode>", "Set resolution limiting mode (0 = off, 1 = max, 2 = fixed)" },
-    { "-sdlcustomw", SET_RESOURCE, 1, NULL, NULL, "SDLCustomWidth", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-      "<width>", "Set custom resolution width" },
-    { "-sdlcustomh", SET_RESOURCE, 1, NULL, NULL, "SDLCustomHeight", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-      "<height>", "Set custom resolution height" },
+    {"-sdlbitdepth", SET_RESOURCE, 1, NULL, NULL, "SDLBitdepth", NULL,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+     "<bpp>", "Set bitdepth (0 = current, 8, 15, 16, 24, 32)"},
+    {"-sdllimitmode", SET_RESOURCE, 1, NULL, NULL, "SDLLimitMode", NULL,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+     "<mode>", "Set resolution limiting mode (0 = off, 1 = max, 2 = fixed)"},
+    {"-sdlcustomw", SET_RESOURCE, 1, NULL, NULL, "SDLCustomWidth", NULL,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+     "<width>", "Set custom resolution width"},
+    {"-sdlcustomh", SET_RESOURCE, 1, NULL, NULL, "SDLCustomHeight", NULL,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+     "<height>", "Set custom resolution height"},
 #ifdef HAVE_HWSCALE
-    { "-sdlaspectmode", SET_RESOURCE, 1, NULL, NULL, "SDLGLAspectMode", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-      "<mode>", "Set aspect ratio mode (0 = any, 1 = fixed)" },
-    { "-aspect", SET_RESOURCE, 1, NULL, NULL, "AspectRatio", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-      "<aspect ratio>", "Set aspect ratio (0.5 - 2.0)" },
+    {"-sdlaspectmode", SET_RESOURCE, 1, NULL, NULL, "SDLGLAspectMode", NULL,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+     "<mode>", "Set aspect ratio mode (0 = any, 1 = fixed)"},
+    {"-aspect", SET_RESOURCE, 1, NULL, NULL, "AspectRatio", NULL,
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+     "<aspect ratio>", "Set aspect ratio (0.5 - 2.0)"},
 #endif
-    { NULL }
+    {NULL}
 };
 
 int video_init_cmdline_options(void)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr, "%s\n", __func__);
 #endif
     return cmdline_register_options(cmdline_options);
 }
@@ -284,7 +284,7 @@ int video_init(void)
 void video_shutdown(void)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr, "%s\n", __func__);
 #endif
     sdl_active_canvas = NULL;
 }
@@ -300,7 +300,7 @@ static int sdl_video_canvas_limit(video_canvas_t *canvas, unsigned int w, unsign
     unsigned int limit_h = (unsigned int)sdl_custom_height;
 
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr,"%s\n",__func__);
 #endif
     switch (mode & 3) {
         case SDL_LIMIT_MODE_MAX:
@@ -339,14 +339,14 @@ static void sdl_gl_set_viewport(unsigned int src_w, unsigned int src_h, unsigned
 
     if (sdl_gl_aspect_mode != 0) {
         /* Keep aspect ratio of src image. */
-        if (dest_w*src_h < src_w*aspect_ratio*dest_h) {
+        if (dest_w*src_h < src_w * aspect_ratio * dest_h) {
             dest_y = dest_h;
-            dest_h = (unsigned int)(dest_w*src_h/(src_w*aspect_ratio));
-            dest_y = (dest_y - dest_h)/2;
+            dest_h = (unsigned int)(dest_w * src_h / (src_w * aspect_ratio));
+            dest_y = (dest_y - dest_h) / 2;
         } else {
             dest_x = dest_w;
-            dest_w = (unsigned int)(dest_h*src_w*aspect_ratio/src_h);
-            dest_x = (dest_x - dest_w)/2;
+            dest_w = (unsigned int)(dest_h * src_w * aspect_ratio / src_h);
+            dest_x = (dest_x - dest_w) / 2;
         }
     }
 
@@ -367,9 +367,7 @@ static void sdl_gl_set_viewport(unsigned int src_w, unsigned int src_h, unsigned
 /* ------------------------------------------------------------------------- */
 /* Main API */
 
-video_canvas_t *video_canvas_create(video_canvas_t *canvas,
-                                    unsigned int *width, unsigned int *height,
-                                    int mapped)
+video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned int *height, int mapped)
 {
     SDL_Surface *new_screen;
     unsigned int new_width, new_height;
@@ -383,15 +381,16 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
 #ifdef HAVE_HWSCALE
     int rbits, gbits, bbits;
     const Uint32
+
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-        rmask = 0xff000000, gmask = 0x00ff0000, bmask = 0x0000ff00, amask = 0x000000ff;
+    rmask = 0xff000000, gmask = 0x00ff0000, bmask = 0x0000ff00, amask = 0x000000ff;
 #else
-        rmask = 0x000000ff, gmask = 0x0000ff00, bmask = 0x00ff0000, amask = 0xff000000;
+    rmask = 0x000000ff, gmask = 0x0000ff00, bmask = 0x00ff0000, amask = 0xff000000;
 #endif
 #endif
 
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: %i,%i (%i)\n",__func__,*width,*height,canvas->index);
+    fprintf(stderr, "%s: %i,%i (%i)\n", __func__, *width, *height, canvas->index);
 #endif
 
     flags = SDL_SWSURFACE | SDL_RESIZABLE;
@@ -403,7 +402,7 @@ fprintf(stderr,"%s: %i,%i (%i)\n",__func__,*width,*height,canvas->index);
         canvas->dsizex = canvas->videoconfig->doublesizex;
         canvas->dsizey = canvas->videoconfig->doublesizey;
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: init real size to %i,%i (%i)\n",__func__,*width,*height,canvas->index);
+        fprintf(stderr, "%s: init real size to %i,%i (%i)\n", __func__, *width, *height, canvas->index);
 #endif
     }
 
@@ -434,7 +433,7 @@ fprintf(stderr,"%s: init real size to %i,%i (%i)\n",__func__,*width,*height,canv
         canvas->real_width = *width;
         canvas->real_height = *height;
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: setting real size to %i,%i (%i)\n",__func__,*width,*height,canvas->index);
+        fprintf(stderr,"%s: setting real size to %i,%i (%i)\n", __func__, *width, *height, canvas->index);
 #endif
     }
 
@@ -535,7 +534,7 @@ fprintf(stderr,"%s: setting real size to %i,%i (%i)\n",__func__,*width,*height,c
             new_screen = SDL_SetVideoMode(new_width, new_height, sdl_bitdepth, flags);
 
             /* free the old rendering surface when leaving hwscale mode */
-            if ((canvas->hwscale_screen)&&(canvas->screen)) {
+            if ((canvas->hwscale_screen) && (canvas->screen)) {
                 SDL_FreeSurface(canvas->screen);
                 SDL_FreeSurface(canvas->hwscale_screen);
                 canvas->hwscale_screen = NULL;
@@ -582,7 +581,6 @@ fprintf(stderr,"%s: setting real size to %i,%i (%i)\n",__func__,*width,*height,c
 
         sdl_lightpen_adjust.scale_x = (canvas->dsizex) ? 0.5f : 1.0f;
         sdl_lightpen_adjust.scale_y = (canvas->dsizey) ? 0.5f : 1.0f;
-
     }
 
     video_canvas_set_palette(canvas, canvas->palette);
@@ -590,10 +588,7 @@ fprintf(stderr,"%s: setting real size to %i,%i (%i)\n",__func__,*width,*height,c
     return canvas;
 }
 
-void video_canvas_refresh(struct video_canvas_s *canvas,
-                          unsigned int xs, unsigned int ys,
-                          unsigned int xi, unsigned int yi,
-                          unsigned int w, unsigned int h)
+void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsigned int ys, unsigned int xi, unsigned int yi, unsigned int w, unsigned int h)
 {
     if (sdl_vkbd_state & SDL_VKBD_ACTIVE) {
         sdl_vkbd_draw();
@@ -627,10 +622,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
         }
     }
 
-    video_canvas_render(canvas, (BYTE *)canvas->screen->pixels,
-                        w, h, xs, ys, xi, yi,
-                        canvas->screen->pitch,
-                        canvas->screen->format->BitsPerPixel);
+    video_canvas_render(canvas, (BYTE *)canvas->screen->pixels, w, h, xs, ys, xi, yi, canvas->screen->pitch, canvas->screen->format->BitsPerPixel);
 
     if (SDL_MUSTLOCK(canvas->screen)) {
         SDL_UnlockSurface(canvas->screen);
@@ -640,7 +632,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
     if (canvas->videoconfig->hwscale) {
         if (!(canvas->hwscale_screen)) {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: hwscale refresh without hwscale screen, ignoring\n",__func__);
+            fprintf(stderr, "%s: hwscale refresh without hwscale screen, ignoring\n", __func__);
 #endif
             return;
         }
@@ -666,9 +658,7 @@ fprintf(stderr,"%s: hwscale refresh without hwscale screen, ignoring\n",__func__
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, screen_texture);
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexImage2D (GL_TEXTURE_RECTANGLE_EXT, 0, sdl_gl_mode,
-            canvas->width, canvas->height,
-            0, sdl_gl_mode, GL_UNSIGNED_BYTE, canvas->screen->pixels);
+        glTexImage2D (GL_TEXTURE_RECTANGLE_EXT, 0, sdl_gl_mode, canvas->width, canvas->height, 0, sdl_gl_mode, GL_UNSIGNED_BYTE, canvas->screen->pixels);
 
         glBegin(GL_QUADS);
 
@@ -696,8 +686,7 @@ fprintf(stderr,"%s: hwscale refresh without hwscale screen, ignoring\n",__func__
     SDL_UpdateRect(canvas->screen, xi, yi, w, h);
 }
 
-int video_canvas_set_palette(struct video_canvas_s *canvas,
-                             struct palette_s *palette)
+int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *palette)
 {
     unsigned int i, col;
     SDL_PixelFormat *fmt;
@@ -737,7 +726,7 @@ static inline int check_resize(struct video_canvas_s *canvas)
     /* Resize when enabling hwscale */
     if ((canvas->videoconfig->hwscale) && !(canvas->hwscale_screen)) {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: hwscale resize\n",__func__);
+        fprintf(stderr, "%s: hwscale resize\n", __func__);
 #endif
         return 1;
     }
@@ -745,18 +734,17 @@ fprintf(stderr,"%s: hwscale resize\n",__func__);
     /* Resize when toggling double size */
     if ((canvas->videoconfig->doublesizex != (int)canvas->dsizex) || (canvas->videoconfig->doublesizey != (int)canvas->dsizey)) {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: dsize resize (x:%i->%i, y:%i->%i)\n",__func__,canvas->videoconfig->doublesizex,canvas->dsizex,canvas->videoconfig->doublesizey,canvas->dsizey);
+        fprintf(stderr, "%s: dsize resize (x:%i->%i, y:%i->%i)\n", __func__, canvas->videoconfig->doublesizex, canvas->dsizex, canvas->videoconfig->doublesizey, canvas->dsizey);
 #endif
         return 1;
     }
     return 0;
 }
 
-void video_canvas_resize(struct video_canvas_s *canvas,
-                         unsigned int width, unsigned int height)
+void video_canvas_resize(struct video_canvas_s *canvas, unsigned int width, unsigned int height)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: %ix%i (%i)\n",__func__,width,height,canvas->index);
+    fprintf(stderr, "%s: %ix%i (%i)\n", __func__, width, height, canvas->index);
 #endif
     /* Check if canvas needs to be resized to real size first */
     if (check_resize(canvas)) {
@@ -770,7 +758,7 @@ fprintf(stderr,"%s: %ix%i (%i)\n",__func__,width,height,canvas->index);
 void sdl_video_resize(unsigned int w, unsigned int h)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: %ix%i\n",__func__,w,h);
+    fprintf(stderr,"%s: %ix%i\n",__func__,w,h);
 #endif
     vsync_suspend_speed_eval();
 
@@ -813,7 +801,7 @@ void sdl_video_canvas_switch(int index)
     struct video_canvas_s *canvas;
 
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: %i->%i\n",__func__,sdl_active_canvas_num, index);
+    fprintf(stderr, "%s: %i->%i\n", __func__, sdl_active_canvas_num, index);
 #endif
 
     if (sdl_active_canvas_num == index) {
@@ -823,7 +811,6 @@ fprintf(stderr,"%s: %i->%i\n",__func__,sdl_active_canvas_num, index);
     if (index >= sdl_num_screens) {
         return;
     }
-
 
     if (sdl_canvaslist[index]->screen != NULL) {
         SDL_FreeSurface(sdl_canvaslist[index]->screen);
@@ -874,7 +861,7 @@ fprintf(stderr,"%s: %i->%i\n",__func__,sdl_active_canvas_num, index);
 void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: (%08x, %i)\n",__func__,(unsigned int)canvas, sdl_num_screens);
+    fprintf(stderr, "%s: (%08x, %i)\n", __func__, (unsigned int)canvas, sdl_num_screens);
 #endif
 
     if (sdl_num_screens == MAX_CANVAS_NUM) {
@@ -908,10 +895,10 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
     int i;
 
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: (%08x, %i)\n",__func__,(unsigned int)canvas, canvas->index);
+    fprintf(stderr, "%s: (%08x, %i)\n", __func__, (unsigned int)canvas, canvas->index);
 #endif
 
-    for (i=0; i<sdl_num_screens; ++i) {
+    for (i = 0; i < sdl_num_screens; ++i) {
         if ((sdl_canvaslist[i] == canvas) && (i != sdl_active_canvas_num)) {
             SDL_FreeSurface(sdl_canvaslist[i]->screen);
             sdl_canvaslist[i]->screen = NULL;
@@ -922,6 +909,6 @@ fprintf(stderr,"%s: (%08x, %i)\n",__func__,(unsigned int)canvas, canvas->index);
 void video_add_handlers(void)
 {
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr, "%s\n", __func__);
 #endif
 }

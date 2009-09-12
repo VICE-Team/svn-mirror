@@ -36,7 +36,6 @@
 #include "ui.h"
 #include "uimenu.h"
 
-
 static console_t mon_console = {
     40,
     25,
@@ -83,8 +82,8 @@ int uimon_out(const char *buffer)
     int i = 0;
     char c;
 
-    while((c = p[i]) != 0) {
-        if(c == '\n') {
+    while ((c = p[i]) != 0) {
+        if (c == '\n') {
             p[i] = 0;
             sdl_ui_print(p, x_pos, y);
             sdl_ui_scroll_screen_up();
@@ -96,7 +95,7 @@ int uimon_out(const char *buffer)
         }
     }
 
-    if(p[0] != 0) {
+    if (p[0] != 0) {
         x_pos += sdl_ui_print(p, x_pos, y);
     }
     return 0;
@@ -126,8 +125,6 @@ void uimon_notify_change(void)
     sdl_ui_refresh();
 }
 
-void uimon_set_interface(monitor_interface_t **monitor_interface_init,
-                         int count)
+void uimon_set_interface(monitor_interface_t **monitor_interface_init, int count)
 {
 }
-

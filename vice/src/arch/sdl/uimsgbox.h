@@ -30,9 +30,9 @@
 #include "vice.h"
 #include "types.h"
 
-#define MESSAGE_OK      0
-#define MESSAGE_YESNO   1
-#define MESSAGE_CPUJAM  2
+#define MESSAGE_OK     0
+#define MESSAGE_YESNO  1
+#define MESSAGE_CPUJAM 2
 
 extern int message_box(const char *title, char *message, int message_mode);
 
