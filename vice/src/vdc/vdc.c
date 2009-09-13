@@ -301,6 +301,13 @@ void vdc_reset(void)
 /* This _should_ put the VDC in the same state as powerup */
 void vdc_powerup(void)
 {
+    /* Setup the VDC's ram with a 0xff00ff00.. pattern */
+    unsigned int i;
+    BYTE v = 0xff;
+    for (i = 0; i < sizeof(vdc.ram); i++) {
+        vdc.ram[i] = v;
+        v ^= 0xff;
+    }
     memset(vdc.regs, 0, sizeof(vdc.regs));
     vdc.mem_counter = 0;
     vdc.mem_counter_inc = 0;
